@@ -1,39 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFED03556E1
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 16:43:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B3335570A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 16:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93039898E8;
-	Tue,  6 Apr 2021 14:43:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 974DD6E187;
+	Tue,  6 Apr 2021 14:54:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74591898E8
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 14:43:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1617720185; bh=yfn/2Ls2uZcier/kQtma6DwvPfmcADTWwB6MXMslfV8=;
- h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
- b=mVp0tVUUyb64KaQajTBwe8gR/Fkxq1TKrg5TXyaXPVxRpMInsYEeoS/orGGE7utkh
- Zz4WmqjDNDzSv2XGqzRTZbf0ohqSKODpJwhsd7xhYeHY/q6JPu5Cv4gGgfL2nfrUbJ
- FwmQDMj6wTQMPLrA9YVmfb0Jc6oWA99Rp8eNLryI=
-Date: Tue, 6 Apr 2021 16:43:04 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Subject: Re: [PATCH v5 1/2] dt-bindings: usb: add analogix,anx7688.yaml
-Message-ID: <20210406144304.u2flatne2bxn5t3g@core>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20210305124351.15079-1-dafna.hirschfeld@collabora.com>
- <20210305124351.15079-2-dafna.hirschfeld@collabora.com>
- <YEJBgEPO4J5+/HhD@pendragon.ideasonboard.com>
- <35f505ee-d939-4b42-490b-321b961bdec3@collabora.com>
- <20210305172437.meu45ol7d4c3w2lr@core.my.home>
- <f90401b1-471b-c936-6661-d3d9c52abb2e@collabora.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22436E187
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 14:54:42 +0000 (UTC)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
+ [91.157.208.71])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B8378D8;
+ Tue,  6 Apr 2021 16:54:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1617720880;
+ bh=jqoL7WKjJ45qOTeebhws9l2DPNRQsxR4rahdVHSzeKM=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=X+lHlA8D1GYN6wgt1AkprOHJPveyMlXfIAofLIEsN9r/f8ASjWLGz+/oLGfNu3MQ2
+ 6E0Gm/5ERNBXko8aazyWCbJl3Ufd3oRdk3LM9j+oTSlAH7rnX1wjgFa6MjCRGXjoxy
+ 55XP06h7eLYv7R6zVuWfGxXOwkfMvzHaSk0ObXzg=
+Subject: Re: [PATCH] drm/panel: panel-dsi-cm: disable TE for now
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <YDnyVV/O78sQjtWb@atomide.com>
+ <20210227214542.99961-1-sebastian.reichel@collabora.com>
+ <c8d624ce-5cc5-ba83-4446-4c7a7903b344@ideasonboard.com>
+ <YGxnXS8hQ5fkTCfe@orome.fritz.box>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <252f3b2e-0358-30f7-ea6b-988fbcff2030@ideasonboard.com>
+Date: Tue, 6 Apr 2021 17:54:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <f90401b1-471b-c936-6661-d3d9c52abb2e@collabora.com>
+In-Reply-To: <YGxnXS8hQ5fkTCfe@orome.fritz.box>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,56 +50,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, drinkcat@chromium.org,
- narmstrong@baylibre.com, airlied@linux.ie, enric.balletbo@collabora.com,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, jonas@kwiboo.se, robh+dt@kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
- chunkuang.hu@kernel.org, kernel@collabora.com, dafna3@gmail.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBNYXIgMzEsIDIwMjEgYXQgMDc6MTY6NDBQTSArMDIwMCwgRGFmbmEgSGlyc2NoZmVs
-ZCB3cm90ZToKPiBIaSwKPiAKPiBPbiAwNS4wMy4yMSAxODoyNCwgT25kxZllaiBKaXJtYW4gd3Jv
-dGU6Cj4gPiBIZWxsbyBEYWZuYSwKPiA+IAoKWy4uLl0KCj4gPiA+ID4gPiArICB2Y29ubi1lbjEt
-Z3Bpb3M6Cj4gPiA+ID4gPiArICAgIGRlc2NyaXB0aW9uOiBDb250cm9scyB0aGUgVkNPTk4gc3dp
-dGNoIG9uIHRoZSBDQzEgcGluLgo+ID4gPiA+ID4gKyAgICBtYXhJdGVtczogMQo+ID4gPiA+ID4g
-Kwo+ID4gPiA+ID4gKyAgdmNvbm4tZW4yLWdwaW9zOgo+ID4gPiA+ID4gKyAgICBkZXNjcmlwdGlv
-bjogQ29udHJvbHMgdGhlIFZDT05OIHN3aXRjaCBvbiB0aGUgQ0MyIHBpbi4KPiA+ID4gPiA+ICsg
-ICAgbWF4SXRlbXM6IDEKPiA+IAo+ID4gVkNPTk4gaXMgYSB2b2x0YWdlIHJlZ3VsYXRvciB0aGF0
-IGNhbiBiZSBlbmFibGVkIGVpdGhlciBvbiBDQzEgb3IgQ0MyCj4gPiBwaW4sIG9yIGRpc2FibGVk
-IGNvbXBsZXRlbHkuIFRoaXMgY29udHJvbCBpcyAqcGFydGlhbGx5KiBwZXJmb3JtZWQgaW4gcmVm
-ZXJlbmNlCj4gPiBkZXNpZ24gZGlyZWN0bHkgYnkgdGhlIE9DTS4gT0NNIG9ubHkgZGVjaWRlcyB3
-aGljaCBDQyBwaW4gdG8gc3dpdGNoCj4gPiB0aGUgVkNPTk4gcmVndWxhdG9yIHRvLCBhbmQgaW5m
-b3JtcyB0aGUgU29DIHdoZW4gdGhlIGJhc2UgVkNPTk4gcmVndWxhdG9yCj4gPiBmb3IgdGhlIHN3
-aXRjaGVzIG5lZWRzIHRvIGJlIGVuYWJsZWQuCj4gPiAKPiA+IFNvIHZjb25uLWVuMS8yIGdwaW9z
-IGFyZSBpcnJlbGV2YW50IHRvIHRoZSBkcml2ZXIsIGJ1dCB0aGUgZHJpdmVyIG5lZWRzCj4gPiB0
-byBjb250cm9sIFZDT05OIHBvd2VyIHN1cHBseSBzb21laG93IGFuZCBkZWZlciBjb250cm9sIG92
-ZXIgaXQgdG8gdGhlIE9DTS4KPiA+IAo+ID4gSSBkb24ndCBrbm93IGhvdyB0byBleHByZXNzIGl0
-IGluIHRoZSBiaW5kaW5ncy4gTWF5YmUgYSB2Y29ubi1zdXBwbHkgaGVyZQo+ID4gb24gdGhlIGFu
-eDc2ODggbm9kZT8KPiA+IAo+ID4gSXQgbWF5IGFsc28gYmUgcGFydCBvZiB0aGUgdXNiLWNvbm5l
-Y3RvciBiaW5kaW5nLCBidXQgdGhpcyBpcyByZWFsbHkgd2hlbiBpdAo+ID4gY29tZXMgdG8gYW54
-NzY4OCBhIHBhcmVudCByZWd1bGF0b3IgZm9yIHRoZSBzd2l0Y2hlcywgYW5kIHN3aXRjaGVzIGFy
-ZSBub3QKPiA+IGNvbnRyb2xsZWQgYnkgdGhpcyBkcml2ZXIsIGp1c3QgdGhlaXIgcGFyZW50IHJl
-Z3VsYXRvciBpcy4KPiA+IAo+ID4gQW55IGlkZWFzPwo+IAo+IExvb2tpbmcgYXQgdGhlIGRpYWdy
-YW0gaW4gdGhlIHNjaGVtYXRpY3MsIEkgc2VlIHRoYXQgYm90aCB2YnVzLXN1cHBseSBhbmQgdmNv
-bm4tc3VwcGx5Cj4gY29tZSBkaXJlY3RseSBmcm9tIHRoZSBQTUlDIHNvIHNpbWlsYXJseSB0byB0
-aGUgdmJ1cy1zdXBwbHksIHRoZSB2Y29ubi1zdXBwbHkKPiBjYW4gYmUgcGFydCBvZiB0aGUgdXNi
-LWNvbm5lY3Rvci4gVGhlbiBhIGRyaXZlciBjYW4gYWNjZXNzIHRoZSB2Y29ubi1zdXBwbHkgZnJv
-bSB0aGUgcmVtb3RlIHVzYgo+IGNvbm5lY3Rvci4gSXMgdGhlcmUgYSBwcm9ibGVtIHdpdGggdGhh
-dD8KCk5vIHByb2JsZW0gd2l0aCB0aGF0LiB1c2ItYy1jb25uZWN0b3IgYmluZGluZyB3b3VsZCBq
-dXN0IGhhdmUgdG8gYmUgZXh0ZW5kZWQuCgpJIGp1c3QgZG9uJ3Qgc2VlIGFueSBuZWVkIGZvciB0
-aGVzZSBgdmNvbm4tZW4qLWdwaW9zYCwgYmVjYXVzZSB0aGUgY29udHJvbAppcyBwZXJmb3JtZWQg
-ZGlyZWN0bHkgYnkgdGhlIE9DTSBmaXJtd2FyZSB2aWEgR1BJT3MgaW4gdGhlIEFOWDc2ODggY2hp
-cCwKb3V0c2lkZSBvZiB0aGUgY29udHJvbCBvZiB0aGUgTGludXggZHJpdmVyLCBhbmQgdGhlIGRy
-aXZlciBkb2Vzbid0IGV2ZW4gY2FyZQphYm91dCB0aGUgc3RhdHVzIG9mIHRoZXNlIHBpbnMuIEFu
-ZCBpZiBpdCB3aWxsIGV2ZXIgY2FyZSwgdGhlIHN0YXR1cyBjYW4gYmUKcmVhZCB2aWEgSTJDIGZy
-b20gdGhlIEFOWDc2ODggY2hpcCBkaXJlY3RseS4KCmtpbmQgcmVnYXJkcywKCW8uCgo+IFRoYW5r
-cyBhIGxvdCBmb3IgdGhlIHJldmlldywgSSBhbSBub3QgdmVyeSBmYW1pbGlhciB3aXRoIHVzYiBh
-bmQgdHlwZS1jLCBzbyB5b3VyIHJldmlldyBoZWxwcyBhIGxvdC4KPiBJIHdpbGwgc2VuZCB2NiBz
-b29uLgo+IAo+IFRoYW5rcywKPiBEYWZuYQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+On 06/04/2021 16:51, Thierry Reding wrote:
+> On Tue, Mar 16, 2021 at 04:11:30PM +0200, Tomi Valkeinen wrote:
+>> Hi Sebastian, Sam, Thierry,
+>>
+>> On 27/02/2021 23:45, Sebastian Reichel wrote:
+>>> From: Sebastian Reichel <sre@kernel.org>
+>>>
+>>> Disable TE for Droid 4 panel, since implementation is currently
+>>> broken. Also disable it for N950 panel, which is untested.
+>>>
+>>> Reported-by: Tony Lindgren <tony@atomide.com>
+>>> Reported-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> Fixes: 4c1b935fea54 ("drm/omap: dsi: move TE GPIO handling into core")
+>>> Signed-off-by: Sebastian Reichel <sre@kernel.org>
+>>> ---
+>>> I suggest to start by fix the regression like this and look into
+>>> proper Droid 4 TE support separatly. Assumption is, that Tomi
+>>> tested taal panel, droid4 panel is 'broken' and N950 (himalaya)
+>>> is untested [*], so choosing safe default. Patch is compile-tested
+>>> only.
+>>>
+>>> [*] N950 display is not yet functional on mainline, since it needs
+>>> the omap3 FIFO workaround:
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-n900.git/commit/?h=n950-display-tony&id=d4cbc226a30b29bf2583ffff97b052c9ec68c8a3
+>>> ---
+>>>    drivers/gpu/drm/panel/panel-dsi-cm.c | 12 +++++++++---
+>>>    1 file changed, 9 insertions(+), 3 deletions(-)
+>>
+>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>
+>> Sam, Thierry, will you pick this up or can I push to drm-misc-fixes?
+> 
+> Sorry, I had missed this. Feel free to take this through drm-misc
+> yourself:
+> 
+> Acked-by: Thierry Reding <treding@nvidia.com>
+
+Thanks! I have pushed this to drm-misc-fixes.
+
+  Tomi
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
