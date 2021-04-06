@@ -1,36 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC8B3552CE
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 13:53:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 469B6355290
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 13:44:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2509C89DA9;
-	Tue,  6 Apr 2021 11:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3FC6E3CE;
+	Tue,  6 Apr 2021 11:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A176E0AB
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 09:07:43 +0000 (UTC)
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FF1p1297Kzrd4Z;
- Tue,  6 Apr 2021 17:05:29 +0800 (CST)
-Received: from huawei.com (10.67.174.96) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.498.0; Tue, 6 Apr 2021
- 17:07:30 +0800
-From: Zhang Jianhua <zhangjianhua18@huawei.com>
-To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>,
- <robert.foss@linaro.org>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@siol.net>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/bridge: lt8912b: DRM_LONTIUM_LT8912B select GPIOLIB
-Date: Tue, 6 Apr 2021 17:07:33 +0800
-Message-ID: <20210406090733.169989-1-zhangjianhua18@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C73416E3CE;
+ Tue,  6 Apr 2021 11:44:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 54559613A3;
+ Tue,  6 Apr 2021 11:44:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617709453;
+ bh=2Vm9ityjyZldn07RFATp/5Z6vJvrtF34+UIuw8/w51g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GReFQWQpMbEkyEVsTKHs7ItqEeoFaP16m5Z3rbHGee/xUg8t97DrCK353XkdbGbf9
+ lao7igukf7FQKFGApt0frZlorzz/1m9K6PSQnaNs8KWGe74p49eVqMnMWSMWr/eWb6
+ h0E6V8WCjhzowkzHQKaBkT6y+Zl0z1OLo0UBhroRVCHDhJe0Nw2db833UnCeJjEsF5
+ vFXsftpWcfKnGw/Wg7KJBeV7IdlAJh6JaV2qku9wWyxeJQCnvfMWFJ4nXmMzAkQKYp
+ MBgfG9A4tCMG1nh+ayjA722WXw/iGJ434k7CUQ3wegQio0D9yZSJwuwQyNNFxp3+dF
+ yc6IGZsD1CfUg==
+Date: Tue, 6 Apr 2021 12:43:57 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] pwm: Rename pwm_get_state() to better reflect its semantic
+Message-ID: <20210406114357.GC6443@sirena.org.uk>
+References: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-X-Originating-IP: [10.67.174.96]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 06 Apr 2021 11:53:50 +0000
+In-Reply-To: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
+X-Cookie: BARBARA STANWYCK makes me nervous!!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,46 +46,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhangjianhua18@huawei.com, johnny.chenyi@huawei.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- heying24@huawei.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-clk@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Lee Jones <lee.jones@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-rockchip@lists.infradead.org,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-input@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-pwm@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Fabrice Gasnier <fabrice.gasnier@st.com>, linux-arm-kernel@lists.infradead.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>
+Content-Type: multipart/mixed; boundary="===============1343311187=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SWYgQ09ORklHX0RSTV9MT05USVVNX0xUODkxMkI9eSwgdGhlIGZvbGxvd2luZyBlcnJvcnMgd2ls
-bCBiZSBzZWVuIHdoaWxlCmNvbXBpbGluZyBsb250aXVtLWx0ODkxMmIuYwoKZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9sb250aXVtLWx0ODkxMmIuYzogSW4gZnVuY3Rpb24K4oCYbHQ4OTEyX2hhcmRf
-cG93ZXJfb27igJk6CmRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9udGl1bS1sdDg5MTJiLmM6MjUy
-OjI6IGVycm9yOiBpbXBsaWNpdApkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiDigJhncGlvZF9zZXRf
-dmFsdWVfY2Fuc2xlZXDigJk7IGRpZCB5b3UgbWVhbgrigJhncGlvX3NldF92YWx1ZV9jYW5zbGVl
-cOKAmT8gWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgZ3Bpb2Rfc2V0
-X3ZhbHVlX2NhbnNsZWVwKGx0LT5ncF9yZXNldCwgMCk7CiAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+CiAgZ3Bpb19zZXRfdmFsdWVfY2Fuc2xlZXAKZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9sb250
-aXVtLWx0ODkxMmIuYzogSW4gZnVuY3Rpb24g4oCYbHQ4OTEyX3BhcnNlX2R04oCZOgpkcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ4OTEyYi5jOjYyODoxMzogZXJyb3I6IGltcGxpY2l0
-CmRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uIOKAmGRldm1fZ3Bpb2RfZ2V0X29wdGlvbmFs4oCZOyBk
-aWQgeW91IG1lYW4K4oCYZGV2bV9ncGlvX3JlcXVlc3Rfb25l4oCZPyBbLVdlcnJvcj1pbXBsaWNp
-dC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0KICBncF9yZXNldCA9IGRldm1fZ3Bpb2RfZ2V0X29wdGlv
-bmFsKGRldiwgInJlc2V0IiwgR1BJT0RfT1VUX0hJR0gpOwogICAgICAgICAgICAgXn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn4KICAgICAgICAgICAgIGRldm1fZ3Bpb19yZXF1ZXN0X29uZQpkcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ4OTEyYi5jOjYyODo1MTogZXJyb3I6IOKAmEdQSU9E
-X09VVF9ISUdI4oCZCnVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKTsgZGlk
-IHlvdSBtZWFuIOKAmEdQSU9GX0lOSVRfSElHSOKAmT8KICBncF9yZXNldCA9IGRldm1fZ3Bpb2Rf
-Z2V0X29wdGlvbmFsKGRldiwgInJlc2V0IiwgR1BJT0RfT1VUX0hJR0gpOwogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fgogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBHUElPRl9JTklU
-X0hJR0gKClNpZ25lZC1vZmYtYnk6IFpoYW5nIEppYW5odWEgPHpoYW5namlhbmh1YTE4QGh1YXdl
-aS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnIHwgMSArCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcKaW5kZXggZGJhNjJm
-OTJkMDUxLi5jYWE5NjU4ZWM5MzMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-S2NvbmZpZworKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcKQEAgLTY3LDYgKzY3
-LDcgQEAgY29uZmlnIERSTV9MT05USVVNX0xUODkxMkIKIAlzZWxlY3QgRFJNX1BBTkVMX0JSSURH
-RQogCXNlbGVjdCBEUk1fS01TX0hFTFBFUgogCXNlbGVjdCBSRUdNQVBfSTJDCisJc2VsZWN0IEdQ
-SU9MSUIKIAloZWxwCiAJICBEcml2ZXIgZm9yIExvbnRpdW0gTFQ4OTEyQiBEU0kgdG8gSERNSSBi
-cmlkZ2UKIAkgIGNoaXAgZHJpdmVyLgotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+--===============1343311187==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="UFHRwCdBEJvubb2X"
+Content-Disposition: inline
+
+
+--UFHRwCdBEJvubb2X
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 06, 2021 at 09:30:36AM +0200, Uwe Kleine-K=F6nig wrote:
+> Given that lowlevel drivers usually cannot implement exactly what a
+> consumer requests with pwm_apply_state() there is some rounding involved.
+
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--UFHRwCdBEJvubb2X
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmBsSXwACgkQJNaLcl1U
+h9CeAAgAg9/Q2RgSOxhbh64cI3whEBi2rDoy4JrnVOIaezDbl1KVpYtyba0y715D
+Y+27eAxh97zRr3AOb8di8IGVTcKZqEJvwbFWeAxIYTqr7yewyfFV2r3+aj1n6uji
+E06xtLVSajGadFJ8cwDdQmB2HGTiOraS8BIQTq8UgV4X6S2LOC6RRZ/BADXxlSXZ
+awgIor1dw+uVGentYfCseXYt3xOeoBGm1kcv2bLWZOf7p34NrBErZxEelYeZycnR
+FVaAHx4aGe2/1xPGOYGRdXxub+JSiKOXp8tFNWDNnrr/343S2A8pBE8u1GWqB2tu
+i/C2E1EQmwot6hIKN5/6hIg/LOb4cA==
+=bscb
+-----END PGP SIGNATURE-----
+
+--UFHRwCdBEJvubb2X--
+
+--===============1343311187==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1343311187==--
