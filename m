@@ -2,48 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86E3354C88
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 08:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2949354D69
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Apr 2021 09:08:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3EA89F71;
-	Tue,  6 Apr 2021 06:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7773889DEC;
+	Tue,  6 Apr 2021 07:08:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15111.mail.126.com (m15111.mail.126.com [220.181.15.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8609D89F71;
- Tue,  6 Apr 2021 06:07:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=5d9PX
- yhrZ8mKUAwXG69hsZg6PNsgSrRZpCj1LPfeiek=; b=LbXNmvzf5fWIxwoD3KhO2
- mBohR3Wg7ntBG/Wpq+teUlP3YYL84EG/WJn26pTBEKpITR1wztMuDPMKN6UPemGr
- lmXiuer26WvHYh7Qs+CgzSXQKakxTnLzX23IxCJboAo19npGzMAGMDKgVP/rVzg8
- vL5p75Dkom/PE2a/F/6AZ0=
-Received: from [172.20.20.195] (unknown [182.150.46.145])
- by smtp1 (Coremail) with SMTP id C8mowAD3_lLh+Wtg14tFQA--.5541S2;
- Tue, 06 Apr 2021 14:04:19 +0800 (CST)
-Subject: Re: [PATCH] drm/amdgpu: Fix a potential sdma invalid access
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- sumit.semwal@linaro.org, airlied@redhat.com, ray.huang@amd.com,
- Mihir.Patel@amd.com, nirmoy.aiemd@gmail.com
-References: <1617333527-89782-1-git-send-email-jinsdb@126.com>
- <9b876791-7fa4-46da-7aec-1d1bfde83f4e@amd.com>
- <84619284-d401-f018-d627-8e5dfef1ff1f@126.com>
- <fc8cf44b-e952-1c48-137a-77c35bbfbb24@amd.com>
-From: Qu Huang <jinsdb@126.com>
-Message-ID: <c057c924-a668-7cff-c75b-844ec1b6cf05@126.com>
-Date: Tue, 6 Apr 2021 14:04:17 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+X-Greylist: delayed 326 seconds by postgrey-1.36 at gabe;
+ Tue, 06 Apr 2021 07:08:47 UTC
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2552D89DEC
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 07:08:47 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 666E580A4;
+ Tue,  6 Apr 2021 07:04:28 +0000 (UTC)
+Date: Tue, 6 Apr 2021 10:03:16 +0300
+From: Tony Lindgren <tony@atomide.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH] drm/panel: panel-dsi-cm: disable TE for now
+Message-ID: <YGwHtGs0bH5z2zx5@atomide.com>
+References: <YDnyVV/O78sQjtWb@atomide.com>
+ <20210227214542.99961-1-sebastian.reichel@collabora.com>
+ <c8d624ce-5cc5-ba83-4446-4c7a7903b344@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <fc8cf44b-e952-1c48-137a-77c35bbfbb24@amd.com>
-X-CM-TRANSID: C8mowAD3_lLh+Wtg14tFQA--.5541S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Xw1kJr1xtF17GFyftFW5Jrb_yoWxAFW3pF
- WrGay29r4Fvr1UJrZFvrs8Xryktr9av3WUWrW5Jr1ag3ZxWrn8tF18JrWj9Fn7Zr409a12
- yrWDK39aqr1jgaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07b138nUUUUU=
-X-Originating-IP: [182.150.46.145]
-X-CM-SenderInfo: pmlq2vbe6rjloofrz/1tbipBZsDlpEDQABEAAAsS
+Content-Disposition: inline
+In-Reply-To: <c8d624ce-5cc5-ba83-4446-4c7a7903b344@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,130 +40,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQ2hyaXN0aWFuLAoKT24gMjAyMS80LzMgMTY6NDksIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6
-Cj4gSGkgUXUsCj4KPiBBbSAwMy4wNC4yMSB1bSAwNzowOCBzY2hyaWViIFF1IEh1YW5nOgo+PiBI
-aSBDaHJpc3RpYW4sCj4+Cj4+IE9uIDIwMjEvNC8zIDA6MjUsIENocmlzdGlhbiBLw7ZuaWcgd3Jv
-dGU6Cj4+PiBIaSBRdSwKPj4+Cj4+PiBBbSAwMi4wNC4yMSB1bSAwNToxOCBzY2hyaWViIFF1IEh1
-YW5nOgo+Pj4+IEJlZm9yZSBkbWFfcmVzdl9sb2NrKGJvLT5iYXNlLnJlc3YsIE5VTEwpIGluCj4+
-Pj4gYW1kZ3B1X2JvX3JlbGVhc2Vfbm90aWZ5KCksCj4+Pj4gdGhlIGJvLT5iYXNlLnJlc3YgbG9j
-ayBtYXkgYmUgaGVsZCBieSB0dG1fbWVtX2V2aWN0X2ZpcnN0KCksCj4+Pgo+Pj4gVGhhdCBjYW4n
-dCBoYXBwZW4gc2luY2Ugd2hlbiBib19yZWxlYXNlX25vdGlmeSBpcyBjYWxsZWQgdGhlIEJPIGhh
-cyBub3QKPj4+IG1vcmUgcmVmZXJlbmNlcyBhbmQgaXMgdGhlcmVmb3JlIGRlbGV0ZWQuCj4+Pgo+
-Pj4gQW5kIHdlIG5ldmVyIGV2aWN0IGEgZGVsZXRlZCBCTywgd2UganVzdCB3YWl0IGZvciBpdCB0
-byBiZWNvbWUgaWRsZS4KPj4+Cj4+IFllcywgdGhlIGJvIHJlZmVyZW5jZSBjb3VudGVyIHJldHVy
-biB0byB6ZXJvIHdpbGwgZW50ZXIKPj4gdHRtX2JvX3JlbGVhc2UoKSxidXQgbm90aWZ5IGJvIHJl
-bGVhc2UgKGNhbGwgYW1kZ3B1X2JvX3JlbGVhc2Vfbm90aWZ5KCkpCj4+IGZpcnN0IGhhcHBlbiwg
-YW5kIHRoZW4gdGVzdCBpZiBhIHJlc2VydmF0aW9uIG9iamVjdCdzIGZlbmNlcyBoYXZlIGJlZW4K
-Pj4gc2lnbmFsZWQsIGFuZCB0aGVuIG1hcmsgYm8gYXMgZGVsZXRlZCBhbmQgcmVtb3ZlIGJvIGZy
-b20gdGhlIExSVSBsaXN0Lgo+Pgo+PiBXaGVuIHR0bV9ib19yZWxlYXNlKCkgYW5kIHR0bV9tZW1f
-ZXZpY3RfZmlyc3QoKSBpcyBjb25jdXJyZW50LAo+PiB0aGUgQm8gaGFzIG5vdCBiZWVuIHJlbW92
-ZWQgZnJvbSB0aGUgTFJVIGxpc3QgYW5kIGlzIG5vdCBtYXJrZWQgYXMKPj4gZGVsZXRlZCwgdGhp
-cyB3aWxsIGhhcHBlbi4KPgo+IE5vdCBzdXJlIG9uIHdoaWNoIGNvZGUgYmFzZSB5b3UgYXJlLCBi
-dXQgSSBkb24ndCBzZWUgaG93IHRoaXMgY2FuIGhhcHBlbi4KPgo+IHR0bV9tZW1fZXZpY3RfZmly
-c3QoKSBjYWxscyB0dG1fYm9fZ2V0X3VubGVzc196ZXJvKCkgYW5kCj4gdHRtX2JvX3JlbGVhc2Uo
-KSBpcyBvbmx5IGNhbGxlZCB3aGVuIHRoZSBCTyByZWZlcmVuY2UgY291bnQgYmVjb21lcyB6ZXJv
-Lgo+Cj4gU28gdHRtX21lbV9ldmljdF9maXJzdCgpIHdpbGwgc2VlIHRoYXQgdGhpcyBCTyBpcyBh
-Ym91dCB0byBiZSBkZXN0cm95ZWQKPiBhbmQgc2tpcHMgaXQuCj4KClllcywgeW91IGFyZSByaWdo
-dC4gTXkgdmVyc2lvbiBvZiBUVE0gaXMgUk9DTSAzLjMsIHNvCnR0bV9tZW1fZXZpY3RfZmlyc3Qo
-KSBkaWQgbm90IGNhbGwgdHRtX2JvX2dldF91bmxlc3NfemVybygpLCBjaGVjayB0aGF0ClJPQ00g
-NC4wIHR0bSBkb2Vzbid0IGhhdmUgdGhpcyBpc3N1ZS4gVGhpcyBpcyBhbiBvdmVyc2lnaHQgb24g
-bXkgcGFydC4KCj4+Cj4+IEFzIGEgdGVzdCwgd2hlbiB3ZSB1c2UgQ1BVIG1lbXNldCBpbnN0ZWFk
-IG9mIFNETUEgZmlsbCBpbgo+PiBhbWRncHVfYm9fcmVsZWFzZV9ub3RpZnkoKSwgdGhlIHJlc3Vs
-dCBpcyBwYWdlIGZhdWx0Ogo+Pgo+PiBQSUQ6IDU0OTDCoMKgIFRBU0s6IGZmZmY4ZTgxMzZlMDQx
-MDDCoCBDUFU6IDTCoMKgIENPTU1BTkQ6ICJnZW1tUGVyZiIKPj4gwqAgIzAgW2ZmZmY4ZTc5ZWFh
-MTc5NzBdIG1hY2hpbmVfa2V4ZWMgYXQgZmZmZmZmZmZiMjg2Mzc4NAo+PiDCoCAjMSBbZmZmZjhl
-NzllYWExNzlkMF0gX19jcmFzaF9rZXhlYyBhdCBmZmZmZmZmZmIyOTFjZTkyCj4+IMKgICMyIFtm
-ZmZmOGU3OWVhYTE3YWEwXSBjcmFzaF9rZXhlYyBhdCBmZmZmZmZmZmIyOTFjZjgwCj4+IMKgICMz
-IFtmZmZmOGU3OWVhYTE3YWI4XSBvb3BzX2VuZCBhdCBmZmZmZmZmZmIyZjZjNzY4Cj4+IMKgICM0
-IFtmZmZmOGU3OWVhYTE3YWUwXSBub19jb250ZXh0IGF0IGZmZmZmZmZmYjJmNWFhYTYKPj4gwqAg
-IzUgW2ZmZmY4ZTc5ZWFhMTdiMzBdIF9fYmFkX2FyZWFfbm9zZW1hcGhvcmUgYXQgZmZmZmZmZmZi
-MmY1YWIzZAo+PiDCoCAjNiBbZmZmZjhlNzllYWExN2I4MF0gYmFkX2FyZWFfbm9zZW1hcGhvcmUg
-YXQgZmZmZmZmZmZiMmY1YWNhZQo+PiDCoCAjNyBbZmZmZjhlNzllYWExN2I5MF0gX19kb19wYWdl
-X2ZhdWx0IGF0IGZmZmZmZmZmYjJmNmY2YzAKPj4gwqAgIzggW2ZmZmY4ZTc5ZWFhMTdjMDBdIGRv
-X3BhZ2VfZmF1bHQgYXQgZmZmZmZmZmZiMmY2ZjkyNQo+PiDCoCAjOSBbZmZmZjhlNzllYWExN2Mz
-MF0gcGFnZV9mYXVsdCBhdCBmZmZmZmZmZmIyZjZiNzU4Cj4+IMKgwqDCoMKgIFtleGNlcHRpb24g
-UklQOiBtZW1zZXQrMzFdCj4+IMKgwqDCoMKgIFJJUDogZmZmZmZmZmZiMmI4NjY4ZsKgIFJTUDog
-ZmZmZjhlNzllYWExN2NlOMKgIFJGTEFHUzogMDAwMTBhMTcKPj4gwqDCoMKgwqAgUkFYOiBiZWJl
-YmViZWJlYmViZWJlwqAgUkJYOiBmZmZmOGU3NDdiZmYxMGMwwqAgUkNYOiAwMDAwMDYwYjAwMjAw
-MDAwCj4+IMKgwqDCoMKgIFJEWDogMDAwMDAwMDAwMDAwMDAwMMKgIFJTSTogMDAwMDAwMDAwMDAw
-MDBiZcKgIFJESTogZmZmZmFiODA3ZjAwMDAwMAo+PiDCoMKgwqDCoCBSQlA6IGZmZmY4ZTc5ZWFh
-MTdkMTDCoMKgIFI4OiBmZmZmOGU3OWVhYTE0MDAwwqDCoCBSOTogZmZmZmFiN2M4MDAwMDAwMAo+
-PiDCoMKgwqDCoCBSMTA6IDAwMDAwMDAwMDAwMGJjYmHCoCBSMTE6IDAwMDAwMDAwMDAwMDAxYmHC
-oCBSMTI6IGZmZmY4ZTc5ZWJhYTQwNTAKPj4gwqDCoMKgwqAgUjEzOiBmZmZmYWI3YzgwMDAwMDAw
-wqAgUjE0OiAwMDAwMDAwMDAwMDIyNjAwwqAgUjE1OiBmZmZmOGU4MTM2ZTA0MTAwCj4+IMKgwqDC
-oMKgIE9SSUdfUkFYOiBmZmZmZmZmZmZmZmZmZmZmwqAgQ1M6IDAwMTDCoCBTUzogMDAxOAo+PiAj
-MTAgW2ZmZmY4ZTc5ZWFhMTdjZThdIGFtZGdwdV9ib19yZWxlYXNlX25vdGlmeSBhdCBmZmZmZmZm
-ZmMwOTJmMmQxCj4+IFthbWRncHVdCj4+ICMxMSBbZmZmZjhlNzllYWExN2QxOF0gdHRtX2JvX3Jl
-bGVhc2UgYXQgZmZmZmZmZmZjMDhmMzlkZCBbYW1kdHRtXQo+PiAjMTIgW2ZmZmY4ZTc5ZWFhMTdk
-NThdIGFtZHR0bV9ib19wdXQgYXQgZmZmZmZmZmZjMDhmM2M4YyBbYW1kdHRtXQo+PiAjMTMgW2Zm
-ZmY4ZTc5ZWFhMTdkNjhdIGFtZHR0bV9ib192bV9jbG9zZSBhdCBmZmZmZmZmZmMwOGY3YWM5IFth
-bWR0dG1dCj4+ICMxNCBbZmZmZjhlNzllYWExN2Q4MF0gcmVtb3ZlX3ZtYSBhdCBmZmZmZmZmZmIy
-OWVmMTE1Cj4+ICMxNSBbZmZmZjhlNzllYWExN2RhMF0gZXhpdF9tbWFwIGF0IGZmZmZmZmZmYjI5
-ZjJjNjQKPj4gIzE2IFtmZmZmOGU3OWVhYTE3ZTU4XSBtbXB1dCBhdCBmZmZmZmZmZmIyODk0MGM3
-Cj4+ICMxNyBbZmZmZjhlNzllYWExN2U3OF0gZG9fZXhpdCBhdCBmZmZmZmZmZmIyODlkYzk1Cj4+
-ICMxOCBbZmZmZjhlNzllYWExN2YxMF0gZG9fZ3JvdXBfZXhpdCBhdCBmZmZmZmZmZmIyODllNGNm
-Cj4+ICMxOSBbZmZmZjhlNzllYWExN2Y0MF0gc3lzX2V4aXRfZ3JvdXAgYXQgZmZmZmZmZmZiMjg5
-ZTU0NAo+PiAjMjAgW2ZmZmY4ZTc5ZWFhMTdmNTBdIHN5c3RlbV9jYWxsX2Zhc3RwYXRoIGF0IGZm
-ZmZmZmZmYjJmNzRkZGIKPgo+IFdlbGwgdGhhdCBtaWdodCBiZSBwZXJmZWN0bHkgZXhwZWN0ZWQu
-IFZSQU0gaXMgbm90IG5lY2Vzc2FyaWx5IENQVQo+IGFjY2Vzc2libGUuCj4KQXMgYSB0ZXN077yM
-dXNlIENQVSBtZW1zZXQgaW5zdGVhZCBvZiBTRE1BIGZpbGwsIFRoaXMgaXMgbXkgY29kZToKdm9p
-ZCBhbWRncHVfYm9fcmVsZWFzZV9ub3RpZnkoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibykK
-ewoJc3RydWN0IGFtZGdwdV9ibyAqYWJvOwoJdWludDY0X3QgbnVtX3BhZ2VzOwoJc3RydWN0IGRy
-bV9tbV9ub2RlICptbV9ub2RlOwoJc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXY7Cgl2b2lkIF9f
-aW9tZW0gKmthZGRyOwoKCWlmICghYW1kZ3B1X2JvX2lzX2FtZGdwdV9ibyhibykpCgkJcmV0dXJu
-OwoKCWFibyA9IHR0bV90b19hbWRncHVfYm8oYm8pOwoJbnVtX3BhZ2VzID0gYWJvLT50Ym8ubnVt
-X3BhZ2VzOwoJbW1fbm9kZSA9IGFiby0+dGJvLm1lbS5tbV9ub2RlOwoJYWRldiA9IGFtZGdwdV90
-dG1fYWRldihhYm8tPnRiby5iZGV2KTsKCWthZGRyID0gYWRldi0+bW1hbi5hcGVyX2Jhc2Vfa2Fk
-ZHI7CgoJaWYgKGFiby0+a2ZkX2JvKQoJCWFtZGdwdV9hbWRrZmRfdW5yZXNlcnZlX21lbW9yeV9s
-aW1pdChhYm8pOwoKCWlmIChiby0+bWVtLm1lbV90eXBlICE9IFRUTV9QTF9WUkFNIHx8ICFiby0+
-bWVtLm1tX25vZGUgfHwKCSAgICAhKGFiby0+ZmxhZ3MgJiBBTURHUFVfR0VNX0NSRUFURV9WUkFN
-X1dJUEVfT05fUkVMRUFTRSkpCgkJcmV0dXJuOwoKCWRtYV9yZXN2X2xvY2soYW1ka2NsX3R0bV9y
-ZXN2cChibyksIE5VTEwpOwoJd2hpbGUgKG51bV9wYWdlcyAmJiBtbV9ub2RlKSB7CgkJdm9pZCAq
-cHRyID0ga2FkZHIgKyAobW1fbm9kZS0+c3RhcnQgPDwgUEFHRV9TSElGVCk7CgkJbWVtc2V0X2lv
-KHB0ciwgQU1ER1BVX1BPSVNPTiAmIDB4ZmYsIG1tX25vZGUtPnNpemUgPDxQQUdFX1NISUZUKTsK
-CQludW1fcGFnZXMgLT0gbW1fbm9kZS0+c2l6ZTsKCQkrK21tX25vZGU7Cgl9CglkbWFfcmVzdl91
-bmxvY2soYW1ka2NsX3R0bV9yZXN2cChibykpOwp9CgoKCgoKSSBoYXZlIHVzZWQgdGhlIG9sZCB2
-ZXJzaW9uIHRocm91Z2ggb3ZlcnNpZ2h0LCBzbyBJIGFtIHNvcnJ5IGZvciB5b3VyCnRyb3VibGUu
-CgoKUmVnYXJkcywKUXUuCgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+Cj4+Cj4+IFJlZ2FyZHMs
-Cj4+IFF1Lgo+Pgo+Pgo+Pj4gUmVnYXJkcywKPj4+IENocmlzdGlhbi4KPj4+Cj4+Pj4gYW5kIHRo
-ZSBWUkFNIG1lbSB3aWxsIGJlIGV2aWN0ZWQsIG1lbSByZWdpb24gd2FzIHJlcGxhY2VkCj4+Pj4g
-YnkgR3R0IG1lbSByZWdpb24uIGFtZGdwdV9ib19yZWxlYXNlX25vdGlmeSgpIHdpbGwgdGhlbgo+
-Pj4+IGhvbGQgdGhlIGJvLT5iYXNlLnJlc3YgbG9jaywgYW5kIFNETUEgd2lsbCBnZXQgYW4gaW52
-YWxpZAo+Pj4+IGFkZHJlc3MgaW4gYW1kZ3B1X2ZpbGxfYnVmZmVyKCksIHJlc3VsdGluZyBpbiBh
-IFZNRkFVTFQKPj4+PiBvciBtZW1vcnkgY29ycnVwdGlvbi4KPj4+Pgo+Pj4+IFRvIGF2b2lkIGl0
-LCB3ZSBoYXZlIHRvIGhvbGQgYm8tPmJhc2UucmVzdiBsb2NrIGZpcnN0LCBhbmQKPj4+PiBjaGVj
-ayB3aGV0aGVyIHRoZSBtZW0ubWVtX3R5cGUgaXMgVFRNX1BMX1ZSQU0uCj4+Pj4KPj4+PiBTaWdu
-ZWQtb2ZmLWJ5OiBRdSBIdWFuZyA8amluc2RiQDEyNi5jb20+Cj4+Pj4gLS0tCj4+Pj4gwqAgZHJp
-dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5jIHwgOCArKysrKystLQo+Pj4+
-IMKgIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4+Pj4K
-Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVj
-dC5jCj4+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmMKPj4+
-PiBpbmRleCA0YjI5YjgyLi44MDE4NTc0IDEwMDY0NAo+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuYwo+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuYwo+Pj4+IEBAIC0xMzAwLDEyICsxMzAwLDE2IEBAIHZv
-aWQgYW1kZ3B1X2JvX3JlbGVhc2Vfbm90aWZ5KHN0cnVjdAo+Pj4+IHR0bV9idWZmZXJfb2JqZWN0
-ICpibykKPj4+PiDCoMKgwqDCoMKgIGlmIChiby0+YmFzZS5yZXN2ID09ICZiby0+YmFzZS5fcmVz
-dikKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgYW1kZ3B1X2FtZGtmZF9yZW1vdmVfZmVuY2Vfb25f
-cHRfcGRfYm9zKGFibyk7Cj4+Pj4KPj4+PiAtwqDCoMKgIGlmIChiby0+bWVtLm1lbV90eXBlICE9
-IFRUTV9QTF9WUkFNIHx8ICFiby0+bWVtLm1tX25vZGUgfHwKPj4+PiAtwqDCoMKgwqDCoMKgwqAg
-IShhYm8tPmZsYWdzICYgQU1ER1BVX0dFTV9DUkVBVEVfVlJBTV9XSVBFX09OX1JFTEVBU0UpKQo+
-Pj4+ICvCoMKgwqAgaWYgKCEoYWJvLT5mbGFncyAmIEFNREdQVV9HRU1fQ1JFQVRFX1ZSQU1fV0lQ
-RV9PTl9SRUxFQVNFKSkKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuOwo+Pj4+Cj4+Pj4g
-wqDCoMKgwqDCoCBkbWFfcmVzdl9sb2NrKGJvLT5iYXNlLnJlc3YsIE5VTEwpOwo+Pj4+Cj4+Pj4g
-K8KgwqDCoCBpZiAoYm8tPm1lbS5tZW1fdHlwZSAhPSBUVE1fUExfVlJBTSB8fCAhYm8tPm1lbS5t
-bV9ub2RlKSB7Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIGRtYV9yZXN2X3VubG9jayhiby0+YmFzZS5y
-ZXN2KTsKPj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuOwo+Pj4+ICvCoMKgwqAgfQo+Pj4+ICsK
-Pj4+PiDCoMKgwqDCoMKgIHIgPSBhbWRncHVfZmlsbF9idWZmZXIoYWJvLCBBTURHUFVfUE9JU09O
-LCBiby0+YmFzZS5yZXN2LAo+Pj4+ICZmZW5jZSk7Cj4+Pj4gwqDCoMKgwqDCoCBpZiAoIVdBUk5f
-T04ocikpIHsKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgYW1kZ3B1X2JvX2ZlbmNlKGFibywgZmVu
-Y2UsIGZhbHNlKTsKPj4+PiAtLQo+Pj4+IDEuOC4zLjEKPj4+Pgo+PgoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi,
+
+* Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> [210316 14:12]:
+> Hi Sebastian, Sam, Thierry,
+> 
+> On 27/02/2021 23:45, Sebastian Reichel wrote:
+> > From: Sebastian Reichel <sre@kernel.org>
+> > 
+> > Disable TE for Droid 4 panel, since implementation is currently
+> > broken. Also disable it for N950 panel, which is untested.
+> > 
+> > Reported-by: Tony Lindgren <tony@atomide.com>
+> > Reported-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > Fixes: 4c1b935fea54 ("drm/omap: dsi: move TE GPIO handling into core")
+> > Signed-off-by: Sebastian Reichel <sre@kernel.org>
+> > ---
+> > I suggest to start by fix the regression like this and look into
+> > proper Droid 4 TE support separatly. Assumption is, that Tomi
+> > tested taal panel, droid4 panel is 'broken' and N950 (himalaya)
+> > is untested [*], so choosing safe default. Patch is compile-tested
+> > only.
+> > 
+> > [*] N950 display is not yet functional on mainline, since it needs
+> > the omap3 FIFO workaround:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-n900.git/commit/?h=n950-display-tony&id=d4cbc226a30b29bf2583ffff97b052c9ec68c8a3
+> > ---
+> >   drivers/gpu/drm/panel/panel-dsi-cm.c | 12 +++++++++---
+> >   1 file changed, 9 insertions(+), 3 deletions(-)
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 
+> Sam, Thierry, will you pick this up or can I push to drm-misc-fixes?
+
+Looks like this regression fix is still pending, can you guys please
+apply?
+
+Regards,
+
+Tony
+
+
+> > diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
+> > index af381d756ac1..5fbfb71ca3d9 100644
+> > --- a/drivers/gpu/drm/panel/panel-dsi-cm.c
+> > +++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
+> > @@ -37,6 +37,7 @@ struct dsic_panel_data {
+> >   	u32 height_mm;
+> >   	u32 max_hs_rate;
+> >   	u32 max_lp_rate;
+> > +	bool te_support;
+> >   };
+> >   struct panel_drv_data {
+> > @@ -334,9 +335,11 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+> >   	if (r)
+> >   		goto err;
+> > -	r = mipi_dsi_dcs_set_tear_on(ddata->dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> > -	if (r)
+> > -		goto err;
+> > +	if (ddata->panel_data->te_support) {
+> > +		r = mipi_dsi_dcs_set_tear_on(ddata->dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> > +		if (r)
+> > +			goto err;
+> > +	}
+> >   	/* possible panel bug */
+> >   	msleep(100);
+> > @@ -619,6 +622,7 @@ static const struct dsic_panel_data taal_data = {
+> >   	.height_mm = 0,
+> >   	.max_hs_rate = 300000000,
+> >   	.max_lp_rate = 10000000,
+> > +	.te_support = true,
+> >   };
+> >   static const struct dsic_panel_data himalaya_data = {
+> > @@ -629,6 +633,7 @@ static const struct dsic_panel_data himalaya_data = {
+> >   	.height_mm = 88,
+> >   	.max_hs_rate = 300000000,
+> >   	.max_lp_rate = 10000000,
+> > +	.te_support = false,
+> >   };
+> >   static const struct dsic_panel_data droid4_data = {
+> > @@ -639,6 +644,7 @@ static const struct dsic_panel_data droid4_data = {
+> >   	.height_mm = 89,
+> >   	.max_hs_rate = 300000000,
+> >   	.max_lp_rate = 10000000,
+> > +	.te_support = false,
+> >   };
+> >   static const struct of_device_id dsicm_of_match[] = {
+> > 
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
