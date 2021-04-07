@@ -2,43 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65DD9357C09
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 07:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0279F357C1F
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 08:04:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 412536EA07;
-	Thu,  8 Apr 2021 05:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC9F46EA0D;
+	Thu,  8 Apr 2021 06:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12-14.163.com (m12-14.163.com [220.181.12.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE6936EA07;
- Thu,  8 Apr 2021 05:57:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=D0/8i
- vkIdl9CSs7eo0BPYXmouHeJyBCfeSBdzmU3usM=; b=IYvLCVnUTf7e+Sjt2ooPq
- /oZW/iGQ/w/HTcQ1z9CwWhY78HUJX/fFH2DUhbWR36vpxqHF7WithIlfHqWaSl6O
- JnGMF+xHgy+6CJceHCsGsvlXcmShe65tDymC8TwPGhIOclsURo4C+oGANdxoeI9A
- rkvfFdK99Fu2IPluVtsrVE=
-Received: from carlis (unknown [119.137.53.45])
- by smtp10 (Coremail) with SMTP id DsCowACXr08km25g2l11CQ--.8298S2;
- Thu, 08 Apr 2021 13:56:53 +0800 (CST)
-Date: Thu, 8 Apr 2021 05:56:52 +0000
-From: Carlis <llyz108@163.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: convert sysfs snprintf to sysfs_emit
-Message-ID: <20210408055652.7e565289@carlis>
-In-Reply-To: <CADnq5_OYk1pBSG4PRqe+RZYtHyy-eYGYBn1=SM_tVLA_4tzK=A@mail.gmail.com>
-References: <20210406141148.64795-1-llyz108@163.com>
- <CADnq5_OYk1pBSG4PRqe+RZYtHyy-eYGYBn1=SM_tVLA_4tzK=A@mail.gmail.com>
-Organization: yulong
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+X-Greylist: delayed 457 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Apr 2021 19:19:36 UTC
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47BD06E976;
+ Wed,  7 Apr 2021 19:19:36 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 5ABA73ED55;
+ Wed,  7 Apr 2021 21:11:54 +0200 (CEST)
+Subject: Re: [Freedreno] [PATCH 1/3] drm/msm/mdp5: Configure PP_SYNC_HEIGHT to
+ double the vtotal
+To: abhinavk@codeaurora.org, Marijn Suijten <marijn.suijten@somainline.org>
+References: <20210406214726.131534-1-marijn.suijten@somainline.org>
+ <20210406214726.131534-2-marijn.suijten@somainline.org>
+ <6413863d04df9743e2d7e81beff5c3e8@codeaurora.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Message-ID: <04860f05-f79f-de0b-13d1-aba85065b4da@somainline.org>
+Date: Wed, 7 Apr 2021 21:11:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-X-CM-TRANSID: DsCowACXr08km25g2l11CQ--.8298S2
-X-Coremail-Antispam: 1Uf129KBjvAXoW3CF1UGrW5WF1xuw17XrWDJwb_yoW8JFWDJo
- Wfur1fXFWxGF1jyrn8Z3y7tasIqa48C3s3Cry5Kr4DGa97t3WFyr43JFs5Za1YgFWrWF48
- Cr13tan5XFW7Wa4rn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUwrcfUUUUU
-X-Originating-IP: [119.137.53.45]
-X-CM-SenderInfo: xoo16iiqy6il2tof0z/xtbBIg1uhV3l-HlsFAAAsB
+In-Reply-To: <6413863d04df9743e2d7e81beff5c3e8@codeaurora.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 08 Apr 2021 06:04:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,379 +48,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiaojian Du <Xiaojian.Du@amd.com>, Dave Airlie <airlied@linux.ie>,
- Kevin Wang <kevin1.wang@amd.com>, Huang Rui <ray.huang@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Nirmoy Das <nirmoy.das@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Xuezhi Zhang <zhangxuezhi1@yulong.com>,
- "Quan, Evan" <evan.quan@amd.com>, Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sean Paul <sean@poorly.run>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-15"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 7 Apr 2021 16:30:01 -0400
-Alex Deucher <alexdeucher@gmail.com> wrote:
+Il 07/04/21 20:19, abhinavk@codeaurora.org ha scritto:
+> Hi Marijn
+> =
 
-> On Tue, Apr 6, 2021 at 10:13 AM Carlis <llyz108@163.com> wrote:
-> >
-> > From: Xuezhi Zhang <zhangxuezhi1@yulong.com>
-> >
-> > Fix the following coccicheck warning:
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:1940:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:1978:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2022:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:294:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:154:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:496:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:512:9-17:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:1740:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:1667:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2074:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2047:9-17:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2768:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2738:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2442:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:3246:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:3253:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2458:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:3047:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:3133:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:3209:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:3216:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2410:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2496:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2470:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2426:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2965:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:2972:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:3006:8-16:
-> > WARNING: use scnprintf or sprintf
-> > drivers/gpu/drm/amd/pm//amdgpu_pm.c:3013:8-16:
-> > WARNING: use scnprintf or sprintf
-> >
-> > Signed-off-by: Xuezhi Zhang <zhangxuezhi1@yulong.com>  
-> 
-> I already applied a similar patch last week.
-> 
-> Thanks,
-> 
-> Alex
-> 
-OK.
-Thanks,
+> On 2021-04-06 14:47, Marijn Suijten wrote:
+>> Leaving this at a close-to-maximum register value 0xFFF0 means it takes
+>> very long for the MDSS to generate a software vsync interrupt when the
+>> hardware TE interrupt doesn't arrive.=A0 Configuring this to double the
+>> vtotal (like some downstream kernels) leads to a frame to take at most
+>> twice before the vsync signal, until hardware TE comes up.
+>>
+>> In this case the hardware interrupt responsible for providing this
+>> signal - "disp-te" gpio - is not hooked up to the mdp5 vsync/pp logic at
+>> all.=A0 This solves severe panel update issues observed on at least the
+>> Xperia Loire and Tone series, until said gpio is properly hooked up to
+>> an irq.
+> =
 
-Xuezhi Zhang
-> 
-> > ---
-> >  drivers/gpu/drm/amd/pm/amdgpu_pm.c | 58
-> > +++++++++++++++--------------- 1 file changed, 29 insertions(+), 29
-> > deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > b/drivers/gpu/drm/amd/pm/amdgpu_pm.c index
-> > 5fa65f191a37..2777966ec1ca 100644 ---
-> > a/drivers/gpu/drm/amd/pm/amdgpu_pm.c +++
-> > b/drivers/gpu/drm/amd/pm/amdgpu_pm.c @@ -151,7 +151,7 @@ static
-> > ssize_t amdgpu_get_power_dpm_state(struct device *dev,
-> > pm_runtime_mark_last_busy(ddev->dev);
-> > pm_runtime_put_autosuspend(ddev->dev);
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%s\n",
-> > +       return sysfs_emit(buf, "%s\n",
-> >                         (pm == POWER_STATE_TYPE_BATTERY) ?
-> > "battery" : (pm == POWER_STATE_TYPE_BALANCED) ? "balanced" :
-> > "performance"); }
-> > @@ -291,7 +291,7 @@ static ssize_t
-> > amdgpu_get_power_dpm_force_performance_level(struct device *dev,
-> > pm_runtime_mark_last_busy(ddev->dev);
-> > pm_runtime_put_autosuspend(ddev->dev);
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%s\n",
-> > +       return sysfs_emit(buf, "%s\n",
-> >                         (level == AMD_DPM_FORCED_LEVEL_AUTO) ?
-> > "auto" : (level == AMD_DPM_FORCED_LEVEL_LOW) ? "low" :
-> >                         (level == AMD_DPM_FORCED_LEVEL_HIGH) ?
-> > "high" : @@ -493,7 +493,7 @@ static ssize_t
-> > amdgpu_get_pp_cur_state(struct device *dev, if (i == data.nums)
-> >                 i = -EINVAL;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", i);
-> > +       return sysfs_emit(buf, "%d\n", i);
-> >  }
-> >
-> >  static ssize_t amdgpu_get_pp_force_state(struct device *dev,
-> > @@ -509,7 +509,7 @@ static ssize_t amdgpu_get_pp_force_state(struct
-> > device *dev, if (adev->pp_force_state_enabled)
-> >                 return amdgpu_get_pp_cur_state(dev, attr, buf);
-> >         else
-> > -               return snprintf(buf, PAGE_SIZE, "\n");
-> > +               return sysfs_emit(buf, "\n");
-> >  }
-> >
-> >  static ssize_t amdgpu_set_pp_force_state(struct device *dev,
-> > @@ -1664,7 +1664,7 @@ static ssize_t amdgpu_get_pp_sclk_od(struct
-> > device *dev, pm_runtime_mark_last_busy(ddev->dev);
-> >         pm_runtime_put_autosuspend(ddev->dev);
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", value);
-> > +       return sysfs_emit(buf, "%d\n", value);
-> >  }
-> >
-> >  static ssize_t amdgpu_set_pp_sclk_od(struct device *dev,
-> > @@ -1737,7 +1737,7 @@ static ssize_t amdgpu_get_pp_mclk_od(struct
-> > device *dev, pm_runtime_mark_last_busy(ddev->dev);
-> >         pm_runtime_put_autosuspend(ddev->dev);
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", value);
-> > +       return sysfs_emit(buf, "%d\n", value);
-> >  }
-> >
-> >  static ssize_t amdgpu_set_pp_mclk_od(struct device *dev,
-> > @@ -1937,7 +1937,7 @@ static ssize_t
-> > amdgpu_get_gpu_busy_percent(struct device *dev, if (r)
-> >                 return r;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", value);
-> > +       return sysfs_emit(buf, "%d\n", value);
-> >  }
-> >
-> >  /**
-> > @@ -1975,7 +1975,7 @@ static ssize_t
-> > amdgpu_get_mem_busy_percent(struct device *dev, if (r)
-> >                 return r;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", value);
-> > +       return sysfs_emit(buf, "%d\n", value);
-> >  }
-> >
-> >  /**
-> > @@ -2019,7 +2019,7 @@ static ssize_t amdgpu_get_pcie_bw(struct
-> > device *dev, pm_runtime_mark_last_busy(ddev->dev);
-> >         pm_runtime_put_autosuspend(ddev->dev);
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%llu %llu %i\n",
-> > +       return sysfs_emit(buf,  "%llu %llu %i\n",
-> >                         count0, count1, pcie_get_mps(adev->pdev));
-> >  }
-> >
-> > @@ -2044,7 +2044,7 @@ static ssize_t amdgpu_get_unique_id(struct
-> > device *dev, return -EPERM;
-> >
-> >         if (adev->unique_id)
-> > -               return snprintf(buf, PAGE_SIZE, "%016llx\n",
-> > adev->unique_id);
-> > +               return sysfs_emit(buf, "%016llx\n",
-> > adev->unique_id);
-> >
-> >         return 0;
-> >  }
-> > @@ -2071,7 +2071,7 @@ static ssize_t
-> > amdgpu_get_thermal_throttling_logging(struct device *dev, struct
-> > drm_device *ddev = dev_get_drvdata(dev); struct amdgpu_device *adev
-> > = drm_to_adev(ddev);
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%s: thermal throttling
-> > logging %s, with interval %d seconds\n",
-> > +       return sysfs_emit(buf, "%s: thermal throttling logging %s,
-> > with interval %d seconds\n", adev_to_drm(adev)->unique,
-> >                         atomic_read(&adev->throttling_logging_enabled)
-> > ? "enabled" : "disabled", adev->throttling_logging_rs.interval / HZ
-> > + 1); @@ -2407,7 +2407,7 @@ static ssize_t
-> > amdgpu_hwmon_show_temp(struct device *dev, if (r)
-> >                 return r;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", temp);
-> > +       return sysfs_emit(buf, "%d\n", temp);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_temp_thresh(struct device *dev,
-> > @@ -2423,7 +2423,7 @@ static ssize_t
-> > amdgpu_hwmon_show_temp_thresh(struct device *dev, else
-> >                 temp = adev->pm.dpm.thermal.max_temp;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", temp);
-> > +       return sysfs_emit(buf, "%d\n", temp);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_hotspot_temp_thresh(struct device
-> > *dev, @@ -2439,7 +2439,7 @@ static ssize_t
-> > amdgpu_hwmon_show_hotspot_temp_thresh(struct device *dev, else
-> >                 temp = adev->pm.dpm.thermal.max_hotspot_crit_temp;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", temp);
-> > +       return sysfs_emit(buf, "%d\n", temp);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_mem_temp_thresh(struct device
-> > *dev, @@ -2455,7 +2455,7 @@ static ssize_t
-> > amdgpu_hwmon_show_mem_temp_thresh(struct device *dev, else
-> >                 temp = adev->pm.dpm.thermal.max_mem_crit_temp;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", temp);
-> > +       return sysfs_emit(buf, "%d\n", temp);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_temp_label(struct device *dev,
-> > @@ -2467,7 +2467,7 @@ static ssize_t
-> > amdgpu_hwmon_show_temp_label(struct device *dev, if (channel >=
-> > PP_TEMP_MAX) return -EINVAL;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%s\n",
-> > temp_label[channel].label);
-> > +       return sysfs_emit(buf, "%s\n", temp_label[channel].label);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_temp_emergency(struct device *dev,
-> > @@ -2493,7 +2493,7 @@ static ssize_t
-> > amdgpu_hwmon_show_temp_emergency(struct device *dev, break;
-> >         }
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", temp);
-> > +       return sysfs_emit(buf, "%d\n", temp);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_get_pwm1_enable(struct device *dev,
-> > @@ -2735,7 +2735,7 @@ static ssize_t
-> > amdgpu_hwmon_get_fan1_min(struct device *dev, if (r)
-> >                 return r;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", min_rpm);
-> > +       return sysfs_emit(buf, "%d\n", min_rpm);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_get_fan1_max(struct device *dev,
-> > @@ -2765,7 +2765,7 @@ static ssize_t
-> > amdgpu_hwmon_get_fan1_max(struct device *dev, if (r)
-> >                 return r;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", max_rpm);
-> > +       return sysfs_emit(buf, "%d\n", max_rpm);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_get_fan1_target(struct device *dev,
-> > @@ -2962,14 +2962,14 @@ static ssize_t
-> > amdgpu_hwmon_show_vddgfx(struct device *dev, if (r)
-> >                 return r;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", vddgfx);
-> > +       return sysfs_emit(buf, "%d\n", vddgfx);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_vddgfx_label(struct device *dev,
-> >                                               struct
-> > device_attribute *attr, char *buf)
-> >  {
-> > -       return snprintf(buf, PAGE_SIZE, "vddgfx\n");
-> > +       return sysfs_emit(buf, "vddgfx\n");
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_vddnb(struct device *dev,
-> > @@ -3003,14 +3003,14 @@ static ssize_t
-> > amdgpu_hwmon_show_vddnb(struct device *dev, if (r)
-> >                 return r;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%d\n", vddnb);
-> > +       return sysfs_emit(buf, "%d\n", vddnb);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_vddnb_label(struct device *dev,
-> >                                               struct
-> > device_attribute *attr, char *buf)
-> >  {
-> > -       return snprintf(buf, PAGE_SIZE, "vddnb\n");
-> > +       return sysfs_emit(buf, "vddnb\n");
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_power_avg(struct device *dev,
-> > @@ -3044,7 +3044,7 @@ static ssize_t
-> > amdgpu_hwmon_show_power_avg(struct device *dev, /* convert to
-> > microwatts */ uw = (query >> 8) * 1000000 + (query & 0xff) * 1000;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%u\n", uw);
-> > +       return sysfs_emit(buf, "%u\n", uw);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_power_cap_min(struct device *dev,
-> > @@ -3130,7 +3130,7 @@ static ssize_t
-> > amdgpu_hwmon_show_power_label(struct device *dev, {
-> >         int limit_type = to_sensor_dev_attr(attr)->index;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%s\n",
-> > +       return sysfs_emit(buf, "%s\n",
-> >                 limit_type == SMU_FAST_PPT_LIMIT ? "fastPPT" :
-> > "slowPPT"); }
-> >
-> > @@ -3206,14 +3206,14 @@ static ssize_t
-> > amdgpu_hwmon_show_sclk(struct device *dev, if (r)
-> >                 return r;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%u\n", sclk * 10 * 1000);
-> > +       return sysfs_emit(buf, "%u\n", sclk * 10 * 1000);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_sclk_label(struct device *dev,
-> >                                             struct device_attribute
-> > *attr, char *buf)
-> >  {
-> > -       return snprintf(buf, PAGE_SIZE, "sclk\n");
-> > +       return sysfs_emit(buf, "sclk\n");
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_mclk(struct device *dev,
-> > @@ -3243,14 +3243,14 @@ static ssize_t
-> > amdgpu_hwmon_show_mclk(struct device *dev, if (r)
-> >                 return r;
-> >
-> > -       return snprintf(buf, PAGE_SIZE, "%u\n", mclk * 10 * 1000);
-> > +       return sysfs_emit(buf, "%u\n", mclk * 10 * 1000);
-> >  }
-> >
-> >  static ssize_t amdgpu_hwmon_show_mclk_label(struct device *dev,
-> >                                             struct device_attribute
-> > *attr, char *buf)
-> >  {
-> > -       return snprintf(buf, PAGE_SIZE, "mclk\n");
-> > +       return sysfs_emit(buf, "mclk\n");
-> >  }
-> >
-> >  /**
-> > --
-> > 2.25.1
-> >
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel  
+> The reason the CONFIG_HEIGHT was at such a high value is to make sure that
+> we always get the TE only from the panel vsync and not false positives =
+
+> coming
+> from the tear check logic itself.
+> =
+
+> When you say that disp-te gpio is not hooked up, is it something =
+
+> incorrect with
+> the schematic OR panel is not generating the TE correctly?
+> =
+
+
+Sometimes, some panels aren't getting correctly configured by the =
+
+OEM/ODM in the first place: especially when porting devices from =
+
+downstream to upstream, developers often get in a situation in which =
+
+their TE line is either misconfigured or the DriverIC is not configured =
+
+to raise V-Sync interrupts.
+Please remember: some DDICs need a "commands sequence" to enable =
+
+generating the TE interrupts, sometimes this is not standard, and =
+
+sometimes OEMs/ODMs are not even doing that in their downstream code =
+
+(but instead they work around it in creative ways "for reasons", even =
+
+though their DDIC supports indeed sending TE events).
+
+This mostly happens when bringing up devices that have autorefresh =
+
+enabled from the bootloader (when the bootloader sets up the splash =
+
+screen) by using simple-panel as a (hopefully) temporary solution to get =
+
+through the initial stages of porting.
+
+We are not trying to cover cases related to incorrect schematics or =
+
+hardware mistakes here, as the fix for that - as you know - is to just =
+
+fix your hardware.
+What we're trying to do here is to stop freezes and, in some cases, =
+
+lockups, other than false positives making the developer go offroad when =
+
+the platform shows that something is wrong during early porting.
+
+Also, sometimes, some DDICs will not generate TE interrupts when =
+
+expected... in these cases we get a PP timeout and a MDP5 recovery: this =
+
+is totally avoidable if we rely on the 2*vtotal, as we wouldn't get =
+
+through the very time consuming task of recovering the entire MDP.
+
+Of course, if something is wrong in the MDP and the block really needs =
+
+recovery, this "trick" won't save anyone and the recovery will anyway be =
+
+triggered, as the PP-done will anyway timeout.
+
+>>
+>> Suggested-by: AngeloGioacchino Del Regno
+>> <angelogioacchino.delregno@somainline.org>
+>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+>> Reviewed-by: AngeloGioacchino Del Regno
+>> <angelogioacchino.delregno@somainline.org>
+>> ---
+>> =A0drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c | 2 +-
+>> =A01 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
+>> b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
+>> index ff2c1d583c79..2d5ac03dbc17 100644
+>> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
+>> @@ -51,7 +51,7 @@ static int pingpong_tearcheck_setup(struct
+>> drm_encoder *encoder,
+>>
+>> =A0=A0=A0=A0 mdp5_write(mdp5_kms, REG_MDP5_PP_SYNC_CONFIG_VSYNC(pp_id), =
+cfg);
+>> =A0=A0=A0=A0 mdp5_write(mdp5_kms,
+>> -=A0=A0=A0=A0=A0=A0=A0 REG_MDP5_PP_SYNC_CONFIG_HEIGHT(pp_id), 0xfff0);
+>> +=A0=A0=A0=A0=A0=A0=A0 REG_MDP5_PP_SYNC_CONFIG_HEIGHT(pp_id), (2 * mode-=
+>vtotal));
+>> =A0=A0=A0=A0 mdp5_write(mdp5_kms,
+>> =A0=A0=A0=A0=A0=A0=A0=A0 REG_MDP5_PP_VSYNC_INIT_VAL(pp_id), mode->vdispl=
+ay);
+>> =A0=A0=A0=A0 mdp5_write(mdp5_kms, REG_MDP5_PP_RD_PTR_IRQ(pp_id), =
+
+>> mode->vdisplay + 1);
 
 _______________________________________________
 dri-devel mailing list
