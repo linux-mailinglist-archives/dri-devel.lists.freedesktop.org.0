@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D490356710
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 10:43:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D05356711
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 10:43:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75DE089D77;
-	Wed,  7 Apr 2021 08:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC7CB6E082;
+	Wed,  7 Apr 2021 08:43:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2048.outbound.protection.outlook.com [40.107.237.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4FFA89CDB;
- Wed,  7 Apr 2021 08:43:05 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2062.outbound.protection.outlook.com [40.107.223.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D6766E082;
+ Wed,  7 Apr 2021 08:43:09 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KSBoqPa9lzqzhfzmxD+sw0gohjmGnnfvTGQLRw4qspaP8/XSMdS+rei/x5KZtZTGjfcZL8I0BQkLVXXzJQOJzi6sztLoBa5X2ZY9FM6Jo3xXew6Vzvo0tcxQqCUeUrZgE2uSRkr55+G3pQpMAG2nC5cMfxHca034jbgh6Qbk4ViJckd4V6bSg1ozoISF45x7pf0R51dJe3GqtYIIkBHWe1to5tyy3xH4FCqGJfL7Nq6oy92ZNTiFN/B+FgHpfyelu79+nRSZX9FoYBD44kRrDnlGLupjNSA52SSBcn1AtdlrinXR/Ngn9diE20eyzEBu9k+3wgx/T5YqEUQzKxbvNw==
+ b=j7DSmJZDRLSS8RIL511pTMI8JsnwrMObBePhaIWjkmSdJbuSs6/xW9NKNS8AfvVnWEduxEx0BzAFr0MsCSN0xNoYqISXzLfM+EOS52yBczSXPYd8JxbFr1js3qXlDXEXPfXgotdnyzvNNAdsZ57DCFd4Oy4TiYwU4/hBNc28uHew6+rzz7HbNue62enr9wCb++LpVq9zuZFRHbComZZ40S2Be52bqNaJiukwJPNe/lEzKpTX+/uVjmFGPgbqWcYZsAPu48omUOAeWb9pndFHJs/umR/wkyAHmebR5/f1YrH5KZogmZJmZeImpNxlQxsjvndq7jr0ZJAXtSUhAK1Cbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3kXiR3VUVkDsntG0bfYhLL4P0lGWZ8p3XL3iW3/CGUQ=;
- b=LQYiOXaVZw2/B2CnsYKYmT2+HKzcGVJ5tWAZqFYEwC1wJgnqElYerGCFy0mahO5UBw/hMaxs5xLoy0s8za4jSnmLbJI3MP9h4kaye65Oj9LiIkmn6oaTbzDMmp5tnINmOYxvIyNy2UYOgQ9Atbl4ZbE6Ik4Z10ZYM3Ntljr1b3pcFrMEJFnAj5Zqw87uJmSWnAw2oBEDzE9HXMsh6ssqP0K3T935ZUaU49HY6CDIN0xn6TuUqAV12rgG5EE+a3+SLWKuY0o1FXynt6MfpQ0e/MMfXMxHHgxE3gc+t7vSfSxrcsTYcx1yyTxc4Eo1IhQYDVYQhzvX+oLDUSd/KKnjww==
+ bh=y5UKUt63GWMG/q0rdwsQSKZzi5XNYK8gxkE0j7W9Ghw=;
+ b=epbPn4asAkCcFZMsK7ld/tqdiUMruXHtTMAGL0Fws7qPJsONWgWNo1lQIy0Ptbwv6vfKN6uDJZ4Auf96z+m34VmGQdct9OZwl5Sa+ckUI6b7O5as4TnGzJSjDspUIrFTxaNZjmn9LVO5PDLFtkpx/D68UBNmPvVs4FfXGV/7MC1SidJq4WaaH0a6+/6ERyN8eAz2TNF3OdSAWj1FkfSijIGLfwRfbzs5SXSjh5rN9mENn+T/Js9xnsNECYFO/utb1xO0jkl9rrt+WLUPk+Nvh/dk9rQ7JNxGZZ9R5Z/VEZx+SzXaCAeb57usnOqwEEcdqW25l5lfLLu4jWA7ymzNlA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.112.34) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
@@ -27,18 +27,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3kXiR3VUVkDsntG0bfYhLL4P0lGWZ8p3XL3iW3/CGUQ=;
- b=l9Zy7V5+QKnK7PVfDpPikuoKEJRTTP3PrIS69n9M0swEE6ZQ503sVMPPjfYi0BIYDh7afvDSKGCspu9/fZO5Qf23+sSWpEaDdNo7l9nLhptA1tpsX6qKHotXHz/l19xa5sckLfamEUSPlKa8Ri5U4kN6UTPWyjZj8bONoCEU9jhwEEOIqAXL1LhAUfZGX/Aj3+R9iSbTnnNlYZWWsVtMZihG5wZ7LbN8n15Y3O5n8ih5JDr3yGKjbV6C+JRsS6favmtj/mG70WFeVP9Bg+RbumjILnHIENZfQp/F9IpgWUKQ8HqdA7rXoR0g+FsYSH1St4u9Xn+hqJn//piCJvDWkA==
-Received: from BN6PR19CA0073.namprd19.prod.outlook.com (2603:10b6:404:133::11)
- by MN2PR12MB3919.namprd12.prod.outlook.com (2603:10b6:208:16a::16)
+ bh=y5UKUt63GWMG/q0rdwsQSKZzi5XNYK8gxkE0j7W9Ghw=;
+ b=kSHk4pWjqh6FFOlPfyJ9hV7mCFkjr7lzzQH/P17ERg6rWh0rOJam6OmvF+W/YgwpvbVXrFP5Qrn9R41GJwmqnBZ/MvlnQYJ2zKLN4QClAvAH2IzGtf2drxRmiKxPNWzwl3oIMwD51ucB51UAD43/JK0TmAGNmREFA5vORQJ4jyJhSyjjEtu4lvSCruASrafLcArLuF9ORG1sY0hOBayZJ67Mwh0pn937irTxs03621Wbjl/Ic2u68UH058e8P/gijU0hdzE2zsaMSo51yQE4C+uaxHKjFqG34nXIqU62a65bbERDK8hsH4m+OBTA9znAa+viWHlDZRBlkcnBB6fFvg==
+Received: from BN6PR13CA0031.namprd13.prod.outlook.com (2603:10b6:404:13e::17)
+ by BN6PR1201MB0131.namprd12.prod.outlook.com (2603:10b6:405:5b::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.29; Wed, 7 Apr
- 2021 08:43:03 +0000
-Received: from BN8NAM11FT014.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:133:cafe::a1) by BN6PR19CA0073.outlook.office365.com
- (2603:10b6:404:133::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16 via Frontend
- Transport; Wed, 7 Apr 2021 08:43:03 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16; Wed, 7 Apr
+ 2021 08:43:06 +0000
+Received: from BN8NAM11FT013.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:13e:cafe::96) by BN6PR13CA0031.outlook.office365.com
+ (2603:10b6:404:13e::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.9 via Frontend
+ Transport; Wed, 7 Apr 2021 08:43:06 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
  smtp.mailfrom=nvidia.com; ffwll.ch; dkim=none (message not signed)
  header.d=none;ffwll.ch; dmarc=pass action=none header.from=nvidia.com;
@@ -46,18 +46,18 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.112.34 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.112.34; helo=mail.nvidia.com;
 Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT014.mail.protection.outlook.com (10.13.177.142) with Microsoft SMTP
+ BN8NAM11FT013.mail.protection.outlook.com (10.13.176.182) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3999.28 via Frontend Transport; Wed, 7 Apr 2021 08:43:02 +0000
+ 15.20.3999.28 via Frontend Transport; Wed, 7 Apr 2021 08:43:05 +0000
 Received: from localhost (172.20.145.6) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 7 Apr
- 2021 08:43:01 +0000
+ 2021 08:43:04 +0000
 From: Alistair Popple <apopple@nvidia.com>
 To: <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
  <bskeggs@redhat.com>, <akpm@linux-foundation.org>
-Subject: [PATCH v8 2/8] mm/swapops: Rework swap entry manipulation code
-Date: Wed, 7 Apr 2021 18:42:32 +1000
-Message-ID: <20210407084238.20443-3-apopple@nvidia.com>
+Subject: [PATCH v8 3/8] mm/rmap: Split try_to_munlock from try_to_unmap
+Date: Wed, 7 Apr 2021 18:42:33 +1000
+Message-ID: <20210407084238.20443-4-apopple@nvidia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210407084238.20443-1-apopple@nvidia.com>
 References: <20210407084238.20443-1-apopple@nvidia.com>
@@ -67,27 +67,27 @@ X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 854e72da-537a-4702-d819-08d8f9a12807
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3919:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB391971917BEDC12352694B45DF759@MN2PR12MB3919.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1265;
+X-MS-Office365-Filtering-Correlation-Id: 4e18c2f3-9582-43fb-dc55-08d8f9a129cd
+X-MS-TrafficTypeDiagnostic: BN6PR1201MB0131:
+X-Microsoft-Antispam-PRVS: <BN6PR1201MB0131479217FACEB3C9B2F6CBDF759@BN6PR1201MB0131.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vGNfbvjBviT6ESshooopmds6mpUhJkaQaBk1WgESAl+5PO2O+UdF/Fl0wPe77P9tM+QTLy5joAHLlZHRRTngJ9Vaz4VJ8qJdlGv8RM2S/UQVIxZrBDeJQVrIie+dzI8ssgNDEmUd30f+pLIol159Culahtbk5JnYAI56Cyckl/37rRcsyRO2jfZdJ7yUmdfb+dDhvXTmA2gAEpyt+HI7UrsHbshFqSzYlvZsrhiE3h50/JLIunZC64PnKz50VZraprH3lW5YGNw0woXPmD20IWbX/wT1aIHJtT2kMpGAYqXjY1wYY4YwyMUXYKSgcXsEsh2w1A36weF7/pRfNJQIo7FiP+/HHe6025HtxtLqf/AkThPW8l6gpaaVyBiV2BbC6GKOgKIjmc7tBFycIsHbe7KFogLcKDw4WBr3dNRxyseJUzfyWHF3OvKgHecLA5VXntM405vDR0TLnjKQWkqNFeMgpbQhwZFofcP1IoVFsV2ukNDh0izUgRAbJLMTKUSH8rxLtHbo1jYiXn5eRSTp+p4PvLSkd2XJDu5lZFZaEGmZku6dNHZl7sGM52SlMddET4pRlkbw8vkIBJVdYPJjsrd9RRpmspFwMrF5hcFqLd2hwEg2+OzI4pPzYNLRH4/SWQGzuA982/rSyzFFitSsGhM21Ap1m4SMBegIW8Knpn4=
+X-Microsoft-Antispam-Message-Info: mu2sQAL702PrFfbqqGuHzlvtaTgZgfJvmdO9TtFm5toMY2UkqMCrQBk0Om96EMl+5813pugJJeSGdLeZPw+qN4y2kyDuYkvGyipXbVpQjfYUjsZsJasWdx07G4PXnCWm/HaloEYik1HDV9s9rHJYnosBGRcEM9qvfXFrijMBJSc1em/zIA+1enlwnnxaHlRrUQYIK/bInfhnXbKaXJ2WeJOLSJ99rIQ0h8Hpr3M0fOphB1EZE93civFfUPD7Z2FXoJO+po04y0nlwnRTodGEaW9XXtAk4/u+JLMxqFRevN2DXrmx3DLFOGpPWTKol/rZ77zi2mpH4AWbIplCu7OVols3Nw+Omtmefyn8Wz3b6bOVoSvw/om5OevTCEIewbn4yhwe1hwM4iD6Patjuyj/M8nX3EqQLgRmj7tBUD3ZhX6R0FNBJ2H3/ZbRHcs1yh0xg9TNZ+vdxJUkxQSqOeuwk1gF+qPVq6UDD3pgZsK8mdqWrWNCsiJgl24rE+bKKGygQqNELjX4KlNS5SA4WQOsg0mHEYJQvbT3LNzSNuHv1Q8cGOBSjtV4LZzo1DjiWZ4lSLXTGbj/XATX1fnNX0H7NLj8ycNnhWDQtJxL1L2E1IB6s30sZjS4ahqG0abJ/+7zf8Pq2vSe8jlBfwtu5AGgRWn0vrf19OFulwUceYPDu8U=
 X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39860400002)(136003)(376002)(46966006)(36840700001)(7636003)(2906002)(2616005)(336012)(8676002)(36860700001)(86362001)(36756003)(478600001)(30864003)(426003)(36906005)(356005)(4326008)(82310400003)(16526019)(1076003)(316002)(82740400003)(7416002)(47076005)(26005)(70206006)(83380400001)(186003)(70586007)(8936002)(5660300002)(54906003)(110136005)(6666004);
+ SFS:(4636009)(39860400002)(136003)(376002)(346002)(396003)(36840700001)(46966006)(1076003)(356005)(186003)(2906002)(36860700001)(83380400001)(86362001)(82310400003)(16526019)(6666004)(478600001)(70586007)(426003)(70206006)(36756003)(7416002)(2616005)(7636003)(8936002)(336012)(8676002)(4326008)(110136005)(30864003)(54906003)(5660300002)(47076005)(26005)(36906005)(316002)(82740400003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2021 08:43:02.7110 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 854e72da-537a-4702-d819-08d8f9a12807
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2021 08:43:05.6075 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e18c2f3-9582-43fb-dc55-08d8f9a129cd
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT014.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT013.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3919
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,467 +110,277 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both migration and device private pages use special swap entries that
-are manipluated by a range of inline functions. The arguments to these
-are somewhat inconsitent so rework them to remove flag type arguments
-and to make the arguments similar for both read and write entry
-creation.
+The behaviour of try_to_unmap_one() is difficult to follow because it
+performs different operations based on a fairly large set of flags used
+in different combinations.
+
+TTU_MUNLOCK is one such flag. However it is exclusively used by
+try_to_munlock() which specifies no other flags. Therefore rather than
+overload try_to_unmap_one() with unrelated behaviour split this out into
+it's own function and remove the flag.
 
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
----
- include/linux/swapops.h | 56 ++++++++++++++++++++++-------------------
- mm/debug_vm_pgtable.c   | 12 ++++-----
- mm/hmm.c                |  2 +-
- mm/huge_memory.c        | 26 +++++++++++++------
- mm/hugetlb.c            | 10 +++++---
- mm/memory.c             | 10 +++++---
- mm/migrate.c            | 26 ++++++++++++++-----
- mm/mprotect.c           | 10 +++++---
- mm/rmap.c               | 10 +++++---
- 9 files changed, 100 insertions(+), 62 deletions(-)
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-diff --git a/include/linux/swapops.h b/include/linux/swapops.h
-index 139be8235ad2..4dfd807ae52a 100644
---- a/include/linux/swapops.h
-+++ b/include/linux/swapops.h
-@@ -100,35 +100,35 @@ static inline void *swp_to_radix_entry(swp_entry_t entry)
- }
+---
+
+v8:
+* Renamed try_to_munlock to page_mlock to better reflect what the
+  function actually does.
+* Removed the TODO from the documentation that this patch addresses.
+
+v7:
+* Added Christoph's Reviewed-by
+
+v4:
+* Removed redundant check for VM_LOCKED
+---
+ Documentation/vm/unevictable-lru.rst | 33 ++++++++-----------
+ include/linux/rmap.h                 |  3 +-
+ mm/mlock.c                           | 10 +++---
+ mm/rmap.c                            | 48 +++++++++++++++++++++-------
+ 4 files changed, 55 insertions(+), 39 deletions(-)
+
+diff --git a/Documentation/vm/unevictable-lru.rst b/Documentation/vm/unevictable-lru.rst
+index 0e1490524f53..eae3af17f2d9 100644
+--- a/Documentation/vm/unevictable-lru.rst
++++ b/Documentation/vm/unevictable-lru.rst
+@@ -389,14 +389,14 @@ mlocked, munlock_vma_page() updates that zone statistics for the number of
+ mlocked pages.  Note, however, that at this point we haven't checked whether
+ the page is mapped by other VM_LOCKED VMAs.
  
- #if IS_ENABLED(CONFIG_DEVICE_PRIVATE)
--static inline swp_entry_t make_device_private_entry(struct page *page, bool write)
-+static inline swp_entry_t make_readable_device_private_entry(pgoff_t offset)
- {
--	return swp_entry(write ? SWP_DEVICE_WRITE : SWP_DEVICE_READ,
--			 page_to_pfn(page));
-+	return swp_entry(SWP_DEVICE_READ, offset);
- }
+-We can't call try_to_munlock(), the function that walks the reverse map to
++We can't call page_mlock(), the function that walks the reverse map to
+ check for other VM_LOCKED VMAs, without first isolating the page from the LRU.
+-try_to_munlock() is a variant of try_to_unmap() and thus requires that the page
++page_mlock() is a variant of try_to_unmap() and thus requires that the page
+ not be on an LRU list [more on these below].  However, the call to
+-isolate_lru_page() could fail, in which case we couldn't try_to_munlock().  So,
++isolate_lru_page() could fail, in which case we can't call page_mlock().  So,
+ we go ahead and clear PG_mlocked up front, as this might be the only chance we
+-have.  If we can successfully isolate the page, we go ahead and
+-try_to_munlock(), which will restore the PG_mlocked flag and update the zone
++have.  If we can successfully isolate the page, we go ahead and call
++page_mlock(), which will restore the PG_mlocked flag and update the zone
+ page statistics if it finds another VMA holding the page mlocked.  If we fail
+ to isolate the page, we'll have left a potentially mlocked page on the LRU.
+ This is fine, because we'll catch it later if and if vmscan tries to reclaim
+@@ -545,31 +545,24 @@ munlock or munmap system calls, mm teardown (munlock_vma_pages_all), reclaim,
+ holepunching, and truncation of file pages and their anonymous COWed pages.
  
--static inline bool is_device_private_entry(swp_entry_t entry)
-+static inline swp_entry_t make_writable_device_private_entry(pgoff_t offset)
- {
--	int type = swp_type(entry);
--	return type == SWP_DEVICE_READ || type == SWP_DEVICE_WRITE;
-+	return swp_entry(SWP_DEVICE_WRITE, offset);
- }
  
--static inline void make_device_private_entry_read(swp_entry_t *entry)
-+static inline bool is_device_private_entry(swp_entry_t entry)
- {
--	*entry = swp_entry(SWP_DEVICE_READ, swp_offset(*entry));
-+	int type = swp_type(entry);
-+	return type == SWP_DEVICE_READ || type == SWP_DEVICE_WRITE;
- }
+-try_to_munlock() Reverse Map Scan
++page_mlock() Reverse Map Scan
+ ---------------------------------
  
--static inline bool is_write_device_private_entry(swp_entry_t entry)
-+static inline bool is_writable_device_private_entry(swp_entry_t entry)
- {
- 	return unlikely(swp_type(entry) == SWP_DEVICE_WRITE);
- }
- #else /* CONFIG_DEVICE_PRIVATE */
--static inline swp_entry_t make_device_private_entry(struct page *page, bool write)
-+static inline swp_entry_t make_readable_device_private_entry(pgoff_t offset)
- {
- 	return swp_entry(0, 0);
- }
- 
--static inline void make_device_private_entry_read(swp_entry_t *entry)
-+static inline swp_entry_t make_writable_device_private_entry(pgoff_t offset)
- {
-+	return swp_entry(0, 0);
- }
- 
- static inline bool is_device_private_entry(swp_entry_t entry)
-@@ -136,35 +136,32 @@ static inline bool is_device_private_entry(swp_entry_t entry)
- 	return false;
- }
- 
--static inline bool is_write_device_private_entry(swp_entry_t entry)
-+static inline bool is_writable_device_private_entry(swp_entry_t entry)
- {
- 	return false;
- }
- #endif /* CONFIG_DEVICE_PRIVATE */
- 
- #ifdef CONFIG_MIGRATION
--static inline swp_entry_t make_migration_entry(struct page *page, int write)
--{
--	BUG_ON(!PageLocked(compound_head(page)));
+-.. warning::
+-   [!] TODO/FIXME: a better name might be page_mlocked() - analogous to the
+-   page_referenced() reverse map walker.
 -
--	return swp_entry(write ? SWP_MIGRATION_WRITE : SWP_MIGRATION_READ,
--			page_to_pfn(page));
--}
--
- static inline int is_migration_entry(swp_entry_t entry)
- {
- 	return unlikely(swp_type(entry) == SWP_MIGRATION_READ ||
- 			swp_type(entry) == SWP_MIGRATION_WRITE);
- }
+ When munlock_vma_page() [see section :ref:`munlock()/munlockall() System Call
+ Handling <munlock_munlockall_handling>` above] tries to munlock a
+ page, it needs to determine whether or not the page is mapped by any
+ VM_LOCKED VMA without actually attempting to unmap all PTEs from the
+ page.  For this purpose, the unevictable/mlock infrastructure
+-introduced a variant of try_to_unmap() called try_to_munlock().
++introduced a variant of try_to_unmap() called page_mlock().
  
--static inline int is_write_migration_entry(swp_entry_t entry)
-+static inline int is_writable_migration_entry(swp_entry_t entry)
- {
- 	return unlikely(swp_type(entry) == SWP_MIGRATION_WRITE);
- }
+-try_to_munlock() calls the same functions as try_to_unmap() for anonymous and
+-mapped file and KSM pages with a flag argument specifying unlock versus unmap
+-processing.  Again, these functions walk the respective reverse maps looking
+-for VM_LOCKED VMAs.  When such a VMA is found, as in the try_to_unmap() case,
+-the functions mlock the page via mlock_vma_page() and return SWAP_MLOCK.  This
+-undoes the pre-clearing of the page's PG_mlocked done by munlock_vma_page.
++page_mlock() walks the respective reverse maps looking for VM_LOCKED VMAs. When
++such a VMA is found the page is mlocked via mlock_vma_page(). This undoes the
++pre-clearing of the page's PG_mlocked done by munlock_vma_page.
  
--static inline void make_migration_entry_read(swp_entry_t *entry)
-+static inline swp_entry_t make_readable_migration_entry(pgoff_t offset)
- {
--	*entry = swp_entry(SWP_MIGRATION_READ, swp_offset(*entry));
-+	return swp_entry(SWP_MIGRATION_READ, offset);
-+}
-+
-+static inline swp_entry_t make_writable_migration_entry(pgoff_t offset)
-+{
-+	return swp_entry(SWP_MIGRATION_WRITE, offset);
- }
+-Note that try_to_munlock()'s reverse map walk must visit every VMA in a page's
++Note that page_mlock()'s reverse map walk must visit every VMA in a page's
+ reverse map to determine that a page is NOT mapped into any VM_LOCKED VMA.
+ However, the scan can terminate when it encounters a VM_LOCKED VMA.
+-Although try_to_munlock() might be called a great many times when munlocking a
++Although page_mlock() might be called a great many times when munlocking a
+ large region or tearing down a large address space that has been mlocked via
+ mlockall(), overall this is a fairly rare event.
  
- extern void __migration_entry_wait(struct mm_struct *mm, pte_t *ptep,
-@@ -174,21 +171,28 @@ extern void migration_entry_wait(struct mm_struct *mm, pmd_t *pmd,
- extern void migration_entry_wait_huge(struct vm_area_struct *vma,
- 		struct mm_struct *mm, pte_t *pte);
- #else
-+static inline swp_entry_t make_readable_migration_entry(pgoff_t offset)
-+{
-+	return swp_entry(0, 0);
-+}
-+
-+static inline swp_entry_t make_writable_migration_entry(pgoff_t offset)
-+{
-+	return swp_entry(0, 0);
-+}
+@@ -602,7 +595,7 @@ inactive lists to the appropriate node's unevictable list.
+ shrink_inactive_list() should only see SHM_LOCK'd pages that became SHM_LOCK'd
+ after shrink_active_list() had moved them to the inactive list, or pages mapped
+ into VM_LOCKED VMAs that munlock_vma_page() couldn't isolate from the LRU to
+-recheck via try_to_munlock().  shrink_inactive_list() won't notice the latter,
++recheck via page_mlock().  shrink_inactive_list() won't notice the latter,
+ but will pass on to shrink_page_list().
  
--#define make_migration_entry(page, write) swp_entry(0, 0)
- static inline int is_migration_entry(swp_entry_t swp)
- {
- 	return 0;
- }
+ shrink_page_list() again culls obviously unevictable pages that it could
+diff --git a/include/linux/rmap.h b/include/linux/rmap.h
+index def5c62c93b3..38a746787c2f 100644
+--- a/include/linux/rmap.h
++++ b/include/linux/rmap.h
+@@ -87,7 +87,6 @@ struct anon_vma_chain {
  
--static inline void make_migration_entry_read(swp_entry_t *entryp) { }
- static inline void __migration_entry_wait(struct mm_struct *mm, pte_t *ptep,
- 					spinlock_t *ptl) { }
- static inline void migration_entry_wait(struct mm_struct *mm, pmd_t *pmd,
- 					 unsigned long address) { }
- static inline void migration_entry_wait_huge(struct vm_area_struct *vma,
- 		struct mm_struct *mm, pte_t *pte) { }
--static inline int is_write_migration_entry(swp_entry_t entry)
-+static inline int is_writable_migration_entry(swp_entry_t entry)
- {
- 	return 0;
- }
-diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
-index a9bd6ce1ba02..3697a80b32f8 100644
---- a/mm/debug_vm_pgtable.c
-+++ b/mm/debug_vm_pgtable.c
-@@ -817,17 +817,17 @@ static void __init swap_migration_tests(void)
- 	 * locked, otherwise it stumbles upon a BUG_ON().
+ enum ttu_flags {
+ 	TTU_MIGRATION		= 0x1,	/* migration mode */
+-	TTU_MUNLOCK		= 0x2,	/* munlock mode */
+ 
+ 	TTU_SPLIT_HUGE_PMD	= 0x4,	/* split huge PMD if any */
+ 	TTU_IGNORE_MLOCK	= 0x8,	/* ignore mlock */
+@@ -239,7 +238,7 @@ int page_mkclean(struct page *);
+  * called in munlock()/munmap() path to check for other vmas holding
+  * the page mlocked.
+  */
+-void try_to_munlock(struct page *);
++void page_mlock(struct page *page);
+ 
+ void remove_migration_ptes(struct page *old, struct page *new, bool locked);
+ 
+diff --git a/mm/mlock.c b/mm/mlock.c
+index f8f8cc32d03d..9b8b82cfbbff 100644
+--- a/mm/mlock.c
++++ b/mm/mlock.c
+@@ -108,7 +108,7 @@ void mlock_vma_page(struct page *page)
+ /*
+  * Finish munlock after successful page isolation
+  *
+- * Page must be locked. This is a wrapper for try_to_munlock()
++ * Page must be locked. This is a wrapper for page_mlock()
+  * and putback_lru_page() with munlock accounting.
+  */
+ static void __munlock_isolated_page(struct page *page)
+@@ -118,7 +118,7 @@ static void __munlock_isolated_page(struct page *page)
+ 	 * and we don't need to check all the other vmas.
  	 */
- 	__SetPageLocked(page);
--	swp = make_migration_entry(page, 1);
-+	swp = make_writable_migration_entry(page_to_pfn(page));
- 	WARN_ON(!is_migration_entry(swp));
--	WARN_ON(!is_write_migration_entry(swp));
-+	WARN_ON(!is_writable_migration_entry(swp));
+ 	if (page_mapcount(page) > 1)
+-		try_to_munlock(page);
++		page_mlock(page);
  
--	make_migration_entry_read(&swp);
-+	swp = make_readable_migration_entry(swp_offset(swp));
- 	WARN_ON(!is_migration_entry(swp));
--	WARN_ON(is_write_migration_entry(swp));
-+	WARN_ON(is_writable_migration_entry(swp));
+ 	/* Did try_to_unlock() succeed or punt? */
+ 	if (!PageMlocked(page))
+@@ -158,7 +158,7 @@ static void __munlock_isolation_failed(struct page *page)
+  * munlock()ed or munmap()ed, we want to check whether other vmas hold the
+  * page locked so that we can leave it on the unevictable lru list and not
+  * bother vmscan with it.  However, to walk the page's rmap list in
+- * try_to_munlock() we must isolate the page from the LRU.  If some other
++ * page_mlock() we must isolate the page from the LRU.  If some other
+  * task has removed the page from the LRU, we won't be able to do that.
+  * So we clear the PageMlocked as we might not get another chance.  If we
+  * can't isolate the page, we leave it for putback_lru_page() and vmscan
+@@ -168,7 +168,7 @@ unsigned int munlock_vma_page(struct page *page)
+ {
+ 	int nr_pages;
  
--	swp = make_migration_entry(page, 0);
-+	swp = make_readable_migration_entry(page_to_pfn(page));
- 	WARN_ON(!is_migration_entry(swp));
--	WARN_ON(is_write_migration_entry(swp));
-+	WARN_ON(is_writable_migration_entry(swp));
- 	__ClearPageLocked(page);
- 	__free_page(page);
- }
-diff --git a/mm/hmm.c b/mm/hmm.c
-index 3b2dda71d0ed..11df3ca30b82 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -255,7 +255,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- 		 */
- 		if (hmm_is_device_private_entry(range, entry)) {
- 			cpu_flags = HMM_PFN_VALID;
--			if (is_write_device_private_entry(entry))
-+			if (is_writable_device_private_entry(entry))
- 				cpu_flags |= HMM_PFN_WRITE;
- 			*hmm_pfn = swp_offset(entry) | cpu_flags;
- 			return 0;
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index a4cda8564bcf..89af065cea5b 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1051,8 +1051,9 @@ int copy_huge_pmd(struct mm_struct *dst_mm, struct mm_struct *src_mm,
- 		swp_entry_t entry = pmd_to_swp_entry(pmd);
+-	/* For try_to_munlock() and to serialize with page migration */
++	/* For page_mlock() and to serialize with page migration */
+ 	BUG_ON(!PageLocked(page));
+ 	VM_BUG_ON_PAGE(PageTail(page), page);
  
- 		VM_BUG_ON(!is_pmd_migration_entry(pmd));
--		if (is_write_migration_entry(entry)) {
--			make_migration_entry_read(&entry);
-+		if (is_writable_migration_entry(entry)) {
-+			entry = make_readable_migration_entry(
-+							swp_offset(entry));
- 			pmd = swp_entry_to_pmd(entry);
- 			if (pmd_swp_soft_dirty(*src_pmd))
- 				pmd = pmd_swp_mksoft_dirty(pmd);
-@@ -1825,13 +1826,14 @@ int change_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
- 		swp_entry_t entry = pmd_to_swp_entry(*pmd);
- 
- 		VM_BUG_ON(!is_pmd_migration_entry(*pmd));
--		if (is_write_migration_entry(entry)) {
-+		if (is_writable_migration_entry(entry)) {
- 			pmd_t newpmd;
- 			/*
- 			 * A protection check is difficult so
- 			 * just be safe and disable write
- 			 */
--			make_migration_entry_read(&entry);
-+			entry = make_readable_migration_entry(
-+							swp_offset(entry));
- 			newpmd = swp_entry_to_pmd(entry);
- 			if (pmd_swp_soft_dirty(*pmd))
- 				newpmd = pmd_swp_mksoft_dirty(newpmd);
-@@ -2109,7 +2111,7 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
- 
- 		entry = pmd_to_swp_entry(old_pmd);
- 		page = pfn_swap_entry_to_page(entry);
--		write = is_write_migration_entry(entry);
-+		write = is_writable_migration_entry(entry);
- 		young = false;
- 		soft_dirty = pmd_swp_soft_dirty(old_pmd);
- 		uffd_wp = pmd_swp_uffd_wp(old_pmd);
-@@ -2141,7 +2143,12 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
- 		 */
- 		if (freeze || pmd_migration) {
- 			swp_entry_t swp_entry;
--			swp_entry = make_migration_entry(page + i, write);
-+			if (write)
-+				swp_entry = make_writable_migration_entry(
-+							page_to_pfn(page + i));
-+			else
-+				swp_entry = make_readable_migration_entry(
-+							page_to_pfn(page + i));
- 			entry = swp_entry_to_pte(swp_entry);
- 			if (soft_dirty)
- 				entry = pte_swp_mksoft_dirty(entry);
-@@ -2998,7 +3005,10 @@ void set_pmd_migration_entry(struct page_vma_mapped_walk *pvmw,
- 	pmdval = pmdp_invalidate(vma, address, pvmw->pmd);
- 	if (pmd_dirty(pmdval))
- 		set_page_dirty(page);
--	entry = make_migration_entry(page, pmd_write(pmdval));
-+	if (pmd_write(pmdval))
-+		entry = make_writable_migration_entry(page_to_pfn(page));
-+	else
-+		entry = make_readable_migration_entry(page_to_pfn(page));
- 	pmdswp = swp_entry_to_pmd(entry);
- 	if (pmd_soft_dirty(pmdval))
- 		pmdswp = pmd_swp_mksoft_dirty(pmdswp);
-@@ -3024,7 +3034,7 @@ void remove_migration_pmd(struct page_vma_mapped_walk *pvmw, struct page *new)
- 	pmde = pmd_mkold(mk_huge_pmd(new, vma->vm_page_prot));
- 	if (pmd_swp_soft_dirty(*pvmw->pmd))
- 		pmde = pmd_mksoft_dirty(pmde);
--	if (is_write_migration_entry(entry))
-+	if (is_writable_migration_entry(entry))
- 		pmde = maybe_pmd_mkwrite(pmde, vma);
- 
- 	flush_cache_range(vma, mmun_start, mmun_start + HPAGE_PMD_SIZE);
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 8fb42c6dd74b..59645169839b 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -3795,12 +3795,13 @@ int copy_hugetlb_page_range(struct mm_struct *dst, struct mm_struct *src,
- 				    is_hugetlb_entry_hwpoisoned(entry))) {
- 			swp_entry_t swp_entry = pte_to_swp_entry(entry);
- 
--			if (is_write_migration_entry(swp_entry) && cow) {
-+			if (is_writable_migration_entry(swp_entry) && cow) {
- 				/*
- 				 * COW mappings require pages in both
- 				 * parent and child to be set to read.
- 				 */
--				make_migration_entry_read(&swp_entry);
-+				swp_entry = make_readable_migration_entry(
-+							swp_offset(swp_entry));
- 				entry = swp_entry_to_pte(swp_entry);
- 				set_huge_swap_pte_at(src, addr, src_pte,
- 						     entry, sz);
-@@ -4970,10 +4971,11 @@ unsigned long hugetlb_change_protection(struct vm_area_struct *vma,
- 		if (unlikely(is_hugetlb_entry_migration(pte))) {
- 			swp_entry_t entry = pte_to_swp_entry(pte);
- 
--			if (is_write_migration_entry(entry)) {
-+			if (is_writable_migration_entry(entry)) {
- 				pte_t newpte;
- 
--				make_migration_entry_read(&entry);
-+				entry = make_readable_migration_entry(
-+							swp_offset(entry));
- 				newpte = swp_entry_to_pte(entry);
- 				set_huge_swap_pte_at(mm, address, ptep,
- 						     newpte, huge_page_size(h));
-diff --git a/mm/memory.c b/mm/memory.c
-index 1c98e3c1c2de..3a5705cfc891 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -734,13 +734,14 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
- 
- 		rss[mm_counter(page)]++;
- 
--		if (is_write_migration_entry(entry) &&
-+		if (is_writable_migration_entry(entry) &&
- 				is_cow_mapping(vm_flags)) {
- 			/*
- 			 * COW mappings require pages in both
- 			 * parent and child to be set to read.
- 			 */
--			make_migration_entry_read(&entry);
-+			entry = make_readable_migration_entry(
-+							swp_offset(entry));
- 			pte = swp_entry_to_pte(entry);
- 			if (pte_swp_soft_dirty(*src_pte))
- 				pte = pte_swp_mksoft_dirty(pte);
-@@ -771,9 +772,10 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
- 		 * when a device driver is involved (you cannot easily
- 		 * save and restore device driver state).
- 		 */
--		if (is_write_device_private_entry(entry) &&
-+		if (is_writable_device_private_entry(entry) &&
- 		    is_cow_mapping(vm_flags)) {
--			make_device_private_entry_read(&entry);
-+			entry = make_readable_device_private_entry(
-+							swp_offset(entry));
- 			pte = swp_entry_to_pte(entry);
- 			if (pte_swp_uffd_wp(*src_pte))
- 				pte = pte_swp_mkuffd_wp(pte);
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 600978d18750..b752543adb64 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -237,13 +237,18 @@ static bool remove_migration_pte(struct page *page, struct vm_area_struct *vma,
- 		 * Recheck VMA as permissions can change since migration started
- 		 */
- 		entry = pte_to_swp_entry(*pvmw.pte);
--		if (is_write_migration_entry(entry))
-+		if (is_writable_migration_entry(entry))
- 			pte = maybe_mkwrite(pte, vma);
- 		else if (pte_swp_uffd_wp(*pvmw.pte))
- 			pte = pte_mkuffd_wp(pte);
- 
- 		if (unlikely(is_device_private_page(new))) {
--			entry = make_device_private_entry(new, pte_write(pte));
-+			if (pte_write(pte))
-+				entry = make_writable_device_private_entry(
-+							page_to_pfn(new));
-+			else
-+				entry = make_readable_device_private_entry(
-+							page_to_pfn(new));
- 			pte = swp_entry_to_pte(entry);
- 			if (pte_swp_soft_dirty(*pvmw.pte))
- 				pte = pte_swp_mksoft_dirty(pte);
-@@ -2451,7 +2456,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
- 
- 			mpfn = migrate_pfn(page_to_pfn(page)) |
- 					MIGRATE_PFN_MIGRATE;
--			if (is_write_device_private_entry(entry))
-+			if (is_writable_device_private_entry(entry))
- 				mpfn |= MIGRATE_PFN_WRITE;
- 		} else {
- 			if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
-@@ -2497,8 +2502,12 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
- 			ptep_get_and_clear(mm, addr, ptep);
- 
- 			/* Setup special migration page table entry */
--			entry = make_migration_entry(page, mpfn &
--						     MIGRATE_PFN_WRITE);
-+			if (mpfn & MIGRATE_PFN_WRITE)
-+				entry = make_writable_migration_entry(
-+							page_to_pfn(page));
-+			else
-+				entry = make_readable_migration_entry(
-+							page_to_pfn(page));
- 			swp_pte = swp_entry_to_pte(entry);
- 			if (pte_present(pte)) {
- 				if (pte_soft_dirty(pte))
-@@ -2971,7 +2980,12 @@ static void migrate_vma_insert_page(struct migrate_vma *migrate,
- 		if (is_device_private_page(page)) {
- 			swp_entry_t swp_entry;
- 
--			swp_entry = make_device_private_entry(page, vma->vm_flags & VM_WRITE);
-+			if (vma->vm_flags & VM_WRITE)
-+				swp_entry = make_writable_device_private_entry(
-+							page_to_pfn(page));
-+			else
-+				swp_entry = make_readable_device_private_entry(
-+							page_to_pfn(page));
- 			entry = swp_entry_to_pte(swp_entry);
- 		}
- 	} else {
-diff --git a/mm/mprotect.c b/mm/mprotect.c
-index 94188df1ee55..f21b760ec809 100644
---- a/mm/mprotect.c
-+++ b/mm/mprotect.c
-@@ -143,23 +143,25 @@ static unsigned long change_pte_range(struct vm_area_struct *vma, pmd_t *pmd,
- 			swp_entry_t entry = pte_to_swp_entry(oldpte);
- 			pte_t newpte;
- 
--			if (is_write_migration_entry(entry)) {
-+			if (is_writable_migration_entry(entry)) {
- 				/*
- 				 * A protection check is difficult so
- 				 * just be safe and disable write
- 				 */
--				make_migration_entry_read(&entry);
-+				entry = make_readable_migration_entry(
-+							swp_offset(entry));
- 				newpte = swp_entry_to_pte(entry);
- 				if (pte_swp_soft_dirty(oldpte))
- 					newpte = pte_swp_mksoft_dirty(newpte);
- 				if (pte_swp_uffd_wp(oldpte))
- 					newpte = pte_swp_mkuffd_wp(newpte);
--			} else if (is_write_device_private_entry(entry)) {
-+			} else if (is_writable_device_private_entry(entry)) {
- 				/*
- 				 * We do not preserve soft-dirtiness. See
- 				 * copy_one_pte() for explanation.
- 				 */
--				make_device_private_entry_read(&entry);
-+				entry = make_readable_device_private_entry(
-+							swp_offset(entry));
- 				newpte = swp_entry_to_pte(entry);
- 				if (pte_swp_uffd_wp(oldpte))
- 					newpte = pte_swp_mkuffd_wp(newpte);
+@@ -205,7 +205,7 @@ static int __mlock_posix_error_return(long retval)
+  *
+  * The fast path is available only for evictable pages with single mapping.
+  * Then we can bypass the per-cpu pvec and get better performance.
+- * when mapcount > 1 we need try_to_munlock() which can fail.
++ * when mapcount > 1 we need page_mlock() which can fail.
+  * when !page_evictable(), we need the full redo logic of putback_lru_page to
+  * avoid leaving evictable page in unevictable list.
+  *
 diff --git a/mm/rmap.c b/mm/rmap.c
-index b0fc27e77d6d..977e70803ed8 100644
+index 977e70803ed8..f09d522725b9 100644
 --- a/mm/rmap.c
 +++ b/mm/rmap.c
-@@ -1526,7 +1526,7 @@ static bool try_to_unmap_one(struct page *page, struct vm_area_struct *vma,
- 			 * pte. do_swap_page() will wait until the migration
- 			 * pte is removed and then restart fault handling.
- 			 */
--			entry = make_migration_entry(page, 0);
-+			entry = make_readable_migration_entry(page_to_pfn(page));
- 			swp_pte = swp_entry_to_pte(entry);
+@@ -1405,10 +1405,6 @@ static bool try_to_unmap_one(struct page *page, struct vm_area_struct *vma,
+ 	struct mmu_notifier_range range;
+ 	enum ttu_flags flags = (enum ttu_flags)(long)arg;
  
- 			/*
-@@ -1622,8 +1622,12 @@ static bool try_to_unmap_one(struct page *page, struct vm_area_struct *vma,
- 			 * pte. do_swap_page() will wait until the migration
- 			 * pte is removed and then restart fault handling.
- 			 */
--			entry = make_migration_entry(subpage,
--					pte_write(pteval));
-+			if (pte_write(pteval))
-+				entry = make_writable_migration_entry(
-+							page_to_pfn(subpage));
-+			else
-+				entry = make_readable_migration_entry(
-+							page_to_pfn(subpage));
- 			swp_pte = swp_entry_to_pte(entry);
- 			if (pte_soft_dirty(pteval))
- 				swp_pte = pte_swp_mksoft_dirty(swp_pte);
+-	/* munlock has nothing to gain from examining un-locked vmas */
+-	if ((flags & TTU_MUNLOCK) && !(vma->vm_flags & VM_LOCKED))
+-		return true;
+-
+ 	if (IS_ENABLED(CONFIG_MIGRATION) && (flags & TTU_MIGRATION) &&
+ 	    is_zone_device_page(page) && !is_device_private_page(page))
+ 		return true;
+@@ -1469,8 +1465,6 @@ static bool try_to_unmap_one(struct page *page, struct vm_area_struct *vma,
+ 				page_vma_mapped_walk_done(&pvmw);
+ 				break;
+ 			}
+-			if (flags & TTU_MUNLOCK)
+-				continue;
+ 		}
+ 
+ 		/* Unexpected PMD-mapped THP? */
+@@ -1784,8 +1778,39 @@ bool try_to_unmap(struct page *page, enum ttu_flags flags)
+ 	return !page_mapcount(page) ? true : false;
+ }
+ 
++static bool page_mlock_one(struct page *page, struct vm_area_struct *vma,
++				 unsigned long address, void *arg)
++{
++	struct page_vma_mapped_walk pvmw = {
++		.page = page,
++		.vma = vma,
++		.address = address,
++	};
++
++	/* munlock has nothing to gain from examining un-locked vmas */
++	if (!(vma->vm_flags & VM_LOCKED))
++		return true;
++
++	while (page_vma_mapped_walk(&pvmw)) {
++		/* PTE-mapped THP are never mlocked */
++		if (!PageTransCompound(page)) {
++			/*
++			 * Holding pte lock, we do *not* need
++			 * mmap_lock here
++			 */
++			mlock_vma_page(page);
++		}
++		page_vma_mapped_walk_done(&pvmw);
++
++		/* found a mlocked page, no point continuing munlock check */
++		return false;
++	}
++
++	return true;
++}
++
+ /**
+- * try_to_munlock - try to munlock a page
++ * page_mlock - try to munlock a page
+  * @page: the page to be munlocked
+  *
+  * Called from munlock code.  Checks all of the VMAs mapping the page
+@@ -1793,11 +1818,10 @@ bool try_to_unmap(struct page *page, enum ttu_flags flags)
+  * returned with PG_mlocked cleared if no other vmas have it mlocked.
+  */
+ 
+-void try_to_munlock(struct page *page)
++void page_mlock(struct page *page)
+ {
+ 	struct rmap_walk_control rwc = {
+-		.rmap_one = try_to_unmap_one,
+-		.arg = (void *)TTU_MUNLOCK,
++		.rmap_one = page_mlock_one,
+ 		.done = page_not_mapped,
+ 		.anon_lock = page_lock_anon_vma_read,
+ 
+@@ -1849,7 +1873,7 @@ static struct anon_vma *rmap_walk_anon_lock(struct page *page,
+  * Find all the mappings of a page using the mapping pointer and the vma chains
+  * contained in the anon_vma struct it points to.
+  *
+- * When called from try_to_munlock(), the mmap_lock of the mm containing the vma
++ * When called from page_mlock(), the mmap_lock of the mm containing the vma
+  * where the page was found will be held for write.  So, we won't recheck
+  * vm_flags for that VMA.  That should be OK, because that vma shouldn't be
+  * LOCKED.
+@@ -1901,7 +1925,7 @@ static void rmap_walk_anon(struct page *page, struct rmap_walk_control *rwc,
+  * Find all the mappings of a page using the mapping pointer and the vma chains
+  * contained in the address_space struct it points to.
+  *
+- * When called from try_to_munlock(), the mmap_lock of the mm containing the vma
++ * When called from page_mlock(), the mmap_lock of the mm containing the vma
+  * where the page was found will be held for write.  So, we won't recheck
+  * vm_flags for that VMA.  That should be OK, because that vma shouldn't be
+  * LOCKED.
 -- 
 2.20.1
 
