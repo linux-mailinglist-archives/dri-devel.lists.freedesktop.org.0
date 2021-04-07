@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F01235671A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 10:43:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD1435671B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 10:43:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC096E8E3;
-	Wed,  7 Apr 2021 08:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8E616E8DC;
+	Wed,  7 Apr 2021 08:43:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-eopbgr750051.outbound.protection.outlook.com [40.107.75.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24F356E8DE;
- Wed,  7 Apr 2021 08:43:20 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2055.outbound.protection.outlook.com [40.107.244.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B530E6E8DC;
+ Wed,  7 Apr 2021 08:43:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YhsOY/VgJps6B0XnkTBfd2iZLsgnycJ5V3kQ5DCaMzy8qIi0TmdP54VNrHZXpCvAdzySIWpa9foV9RL5gl5GcBtOikv7YSnfsA+OS26UxBX+oDRnRnxn125MgnzHGNeW6Bw5qoLBoRIxDb0GYo/nsdtg6OazHZNcIgHhxnJOS6RD3Lbabgdxu/tTWSkKMgP1Dg1fxfEhfMIVS7T3X13C5NwrZG8ekwPtuw1eA5p9zBxVEd4crCNA3qhxc2ovP4y2Ap7vHjrebjDq/j+hvkYUkCRx7Pp1ylTv7hEzCOO0RxV9AjzS6+FVSS4Y7DMWGp1l/Tzt2s288PIee9jAXMapcg==
+ b=aHA60iqxlZMylqNijw8B+qk0TnF1ExVm/lMBjmNhSIh+SbgkszY8hTcpVHEyG48vtuNZczPyGev7z+5meFS8GUHDfcICPLmsrDXFT9Jc8SrKqJu63mw9xBzTgKvrv6P/prTmLIwY7S9mk5NzgivQplCm8s5wMNCvPzOV6qRPwfKLn9Y/9MLLzyYk5Xsq/bKhN7pslhr+3ykUPqHVq3VghSdhDsGBUhvG5ygjSlTc0mbddA337pj0K9Xhm9prggDBf4uZjSKJ1jzkehHy8bhuNgifzMJe8TykJS4WNI8QaKyMbNwivDm16oiHacAMLOmhz3pA+CkA9FeIHhRXXSJgMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4c9870s3/fS3cTF+SLC8wpSfZhem4zErBulvbvUfaA4=;
- b=hqo10jrj0Zw0S0mUMjAOLWc8rqBc/t6NRmPj4G1ambA59KMLE2giX/Zoa1OgZEpp69+nGNb6O+a3IE0U9s8vRKYdyEiJurNgtl1FmOt+VSUF6R+Nyo3Fxz1rEUhcU1oNOUkco07TNfraYYsyOCzlvQ9Hg5YNEIkwP6Oqb9ziyTOAmdKjcepcy+4wZ6S+5vg96L2sjSapp/jTg6jG3C2Dlr5plqrwUFLZLYH+34oDaADTSd5izvK1GNZDyh+SywKoXSe31RKiLkNMCdmKn++zYRbbc9BaPzXm8fcFAwOYisqZVV0BjRHQZ7765ES0bSTQll7qonVMyYHgF8PN+jKMaQ==
+ bh=U+FhVapwSn77mzCPj1dMMC/+xy+lBIzGdijBZNMgWL0=;
+ b=gtSh4w5br1ixWd26VlC02RErpLhuFPco/omxyrtSuxya3qWvRD5BIFT7dyifQ3BqapMSmJ0uzqVd7TGHXOtSRxgyaTWaXkYBOMgbEcKiLaPaeM25PSg1IPXjT7/X6Nmpb0AZbeCeDbqX4zePdMFLPvvvkxZufBkZCnmEm6cHcuaOfp16mXlclJn/KIvraxUU6TIXIdwPQyLmc1R2uvEGmeqgXDzbm9yVnHox9SsW5DALQKQTNaXgBYnFlVnrzGbDkcITxJhGmzro0KX2V4XcJKPUOJ3w6C8NY9qHsxmceAZdjI6mimM/z2qMUf4xGILQG45KRKPsUOMqZN1CSZK0Jg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
@@ -27,18 +27,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4c9870s3/fS3cTF+SLC8wpSfZhem4zErBulvbvUfaA4=;
- b=s0KEG8oer1nBw8RdgbLhKO4zHDmeoe1CRAjn+/v9zZThCLvXgKLx1D0dmz8kLpkIEitEgHf/OFUzzZ9W4i9efIHeM7ZP1u83k7mt+k5d59uY1EHj7PQBKuWSweUf3VlpPRUdTC2lOpK7vMP5u2tOBJEDfB8X/Z9sMsKhiChNimzHdpcyEk0KhKbKAJILQfFh21Ajdt8g6FDEX+iJ2MZYEJ99yqG6RXEiNdRK00AsEry0AKiFnfmUVXHT3uhg9WT1SLuLXYiGUC6fWTzz7d8u42/i9btxT6sAuwUC8AA6OL7E1NBLUFAQpKeZ1GPNWLpFq3og+aAN/dayQtp9Ig85TA==
-Received: from BN6PR13CA0001.namprd13.prod.outlook.com (2603:10b6:404:10a::11)
- by CH0PR12MB5348.namprd12.prod.outlook.com (2603:10b6:610:d7::9) with
+ bh=U+FhVapwSn77mzCPj1dMMC/+xy+lBIzGdijBZNMgWL0=;
+ b=VMzoKt5gbLIalOGPKRxGahjjlSxEmFJFLbOigG6rVITAR4wAB1DGGJ3pBhHJAY4rY1WKiBCvsg0OZLbGY+9H3vvo5SYCFOJBH/xEuIerNeCE+o5/Hfnc9d07jsjegQKFt0h0nOJYCOLYQA4qbU7QaN8EKbVBznSaHjrIlnfgjN5qcwUD6+LUT9Znsv5s9fb0vnzR7c9NXhsgrHn/HPWvbPCSPqlJoUvFh2woTvXm8eJgFLHxy0mClaE847GtFpoC0Oe+x3X1NpUx+gS/G20FA6nHr3aI2XFV4el3vLv2SDcGZ+vGB4L9KKOIdJyTbKO0LwvGKVuUHRQooYfkP4oxOg==
+Received: from BN0PR03CA0003.namprd03.prod.outlook.com (2603:10b6:408:e6::8)
+ by DM6PR12MB3066.namprd12.prod.outlook.com (2603:10b6:5:11a::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Wed, 7 Apr
- 2021 08:43:18 +0000
-Received: from BN8NAM11FT038.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:10a:cafe::30) by BN6PR13CA0001.outlook.office365.com
- (2603:10b6:404:10a::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.8 via Frontend
- Transport; Wed, 7 Apr 2021 08:43:18 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16; Wed, 7 Apr
+ 2021 08:43:21 +0000
+Received: from BN8NAM11FT004.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e6:cafe::7b) by BN0PR03CA0003.outlook.office365.com
+ (2603:10b6:408:e6::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16 via Frontend
+ Transport; Wed, 7 Apr 2021 08:43:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
  smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
  header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
@@ -46,18 +46,18 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.112.34 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.112.34; helo=mail.nvidia.com;
 Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT038.mail.protection.outlook.com (10.13.176.246) with Microsoft SMTP
+ BN8NAM11FT004.mail.protection.outlook.com (10.13.176.164) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4020.17 via Frontend Transport; Wed, 7 Apr 2021 08:43:18 +0000
+ 15.20.4020.17 via Frontend Transport; Wed, 7 Apr 2021 08:43:20 +0000
 Received: from localhost (172.20.145.6) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 7 Apr
- 2021 08:43:16 +0000
+ 2021 08:43:19 +0000
 From: Alistair Popple <apopple@nvidia.com>
 To: <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
  <bskeggs@redhat.com>, <akpm@linux-foundation.org>
-Subject: [PATCH v8 7/8] nouveau/svm: Refactor nouveau_range_fault
-Date: Wed, 7 Apr 2021 18:42:37 +1000
-Message-ID: <20210407084238.20443-8-apopple@nvidia.com>
+Subject: [PATCH v8 8/8] nouveau/svm: Implement atomic SVM access
+Date: Wed, 7 Apr 2021 18:42:38 +1000
+Message-ID: <20210407084238.20443-9-apopple@nvidia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210407084238.20443-1-apopple@nvidia.com>
 References: <20210407084238.20443-1-apopple@nvidia.com>
@@ -67,27 +67,27 @@ X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6f88b71c-c17c-4938-fdde-08d8f9a13144
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5348:
-X-Microsoft-Antispam-PRVS: <CH0PR12MB53481A628DCBC0C8FCD582AEDF759@CH0PR12MB5348.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Office365-Filtering-Correlation-Id: 9995c607-3bb4-4a1c-2521-08d8f9a132dc
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3066:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB306652A7C32C36462C46CFA7DF759@DM6PR12MB3066.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:541;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RBOQSYbWAMzoReHvQuDjPm+di1BBkGYxkS+LbCn8QyL2H0unfUG3KafLPO6vKPichujRsXRned/HSiju5zAceOWbXQIUVXXArmmh6AYtZ1Xzs4C0ulDa8rDe3zFzwHbKVu5y6fEhPbtSnVYlBta64mDfeXr5cXV3B1C6eCmPTQ209eIGouqwcXRMDLTOC6/kxzNSYLpwI0A3jzp9+udAZ35ze0yMrUHaSVTKCfpDUwvDnpiinooH8g4AWYFnoDqsLllLXwwCejDCwOzYOFMaaAth4XfNGhqsRZXA3LAm184SeP7AtMxej96XHem1s1Nz3zq+Gub5//FqlKIQ/wuR24gV0e7pQ4a7W7Is9aJUHv5MEb2cvglBL12wqzkBeeURzQcXFTr51gLKxPYiW1IqtJJvnLsWWAn7Vd3CN5QOFlK3k488O28ix6xV3j2nGRxjcR4pR52hkFFInlVa/kFvFEBE8PvkpdYMf6YHvgcX9z3bgZIdt5ejbcdBps4po3201yMzejwDtEjqbkGSp/C2RjBieMYehOnN7IcSxOQorcRqMGXOD4g9P1DUd6ytgh+mpXEbFv3H558stQhhCTSJouGZuANNbQhvtSrQFndD+QRSw9MDjMLgzgxFtzCIcNNEQeOWqYsOLUDLwl0Uy25yzO04RtWKy3YA29ezPoMhPb8=
+X-Microsoft-Antispam-Message-Info: 7ldtU99J1m+xznj+lctWvdk68Xnrc3rogGiVZnWtRj7GbCw5EiwsHo5ZAQHJIb30lyzNCX/LTmwEaHN8ilI4sCq6ulxOGE3G99iUaxtn8Xq8wLZvvhZ5NFlNxXZsAXIy7p8G/ddif5IPsSKZbQQiOtbeGUelSVSKIkcunrzLV/XyfWDkVf/Ng4wLJk7oOPkKp24A9W5kXrvUkd7LWc9Gx8JqPVyrrSWByd6iH3CLEEkzaeOUcP6Ko5ElL5ndYxi6nxU+Ygq+3T++NHHPH9NJZ2tTi64Xh/OmSdYNQxs54D+nDDQyETealXWAHEFct0W9BF8QwHMj2firtkcF4K3ju1/WKlE0FWZSMtTWDFMIPyeiXOkPrqXwyB+LbiPoPE/wWqpsRtPDDNNg3iuaDZpkN8b3US6swi5cJTZzb1Up9a+bzmB5F8/YpzqUFAFYM6Jxbnsx7pRPLMVYHhRHk1fGWtlBnQ7tOtbzXgszrKyVNB/rSSARTTpfTYSbiNJVAzKgJyB2mt0DDQRFfY+z75X32/9bXm4ti++se2HQIk2YxY6kT5m6quA3KBZ1QieNU26ixyYS0eoygcebkNJtNmrHsWWKxom9r730CPufailkC1HJqs3KcXyP9vA6b+qTCmzaAH8ZU/mjyHkPMeNsPAwHPzmT9Gokxsccx1hTA66Bf7SdrCjis1wHDdgSrkDGVvnp
 X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39860400002)(376002)(136003)(36840700001)(46966006)(2616005)(4326008)(356005)(7636003)(83380400001)(82740400003)(86362001)(36906005)(36756003)(8936002)(110136005)(1076003)(316002)(54906003)(70586007)(478600001)(70206006)(5660300002)(6666004)(8676002)(36860700001)(336012)(186003)(47076005)(7416002)(82310400003)(16526019)(26005)(2906002)(426003);
+ SFS:(4636009)(346002)(376002)(396003)(39860400002)(136003)(36840700001)(46966006)(7416002)(6666004)(2906002)(83380400001)(70206006)(70586007)(110136005)(54906003)(356005)(82740400003)(47076005)(82310400003)(7636003)(86362001)(8936002)(36860700001)(26005)(316002)(16526019)(186003)(36906005)(5660300002)(478600001)(8676002)(1076003)(336012)(426003)(4326008)(2616005)(36756003)(21314003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2021 08:43:18.2912 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f88b71c-c17c-4938-fdde-08d8f9a13144
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2021 08:43:20.8765 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9995c607-3bb4-4a1c-2521-08d8f9a132dc
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT038.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT004.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5348
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3066
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,89 +109,289 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call mmu_interval_notifier_insert() as part of nouveau_range_fault().
-This doesn't introduce any functional change but makes it easier for a
-subsequent patch to alter the behaviour of nouveau_range_fault() to
-support GPU atomic operations.
+Some NVIDIA GPUs do not support direct atomic access to system memory
+via PCIe. Instead this must be emulated by granting the GPU exclusive
+access to the memory. This is achieved by replacing CPU page table
+entries with special swap entries that fault on userspace access.
+
+The driver then grants the GPU permission to update the page undergoing
+atomic access via the GPU page tables. When CPU access to the page is
+required a CPU fault is raised which calls into the device driver via
+MMU notifiers to revoke the atomic access. The original page table
+entries are then restored allowing CPU access to proceed.
 
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
----
- drivers/gpu/drm/nouveau/nouveau_svm.c | 34 ++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 14 deletions(-)
 
+---
+
+v7:
+* Removed magic values for fault access levels
+* Improved readability of fault comparison code
+
+v4:
+* Check that page table entries haven't changed before mapping on the
+  device
+---
+ drivers/gpu/drm/nouveau/include/nvif/if000c.h |   1 +
+ drivers/gpu/drm/nouveau/nouveau_svm.c         | 126 ++++++++++++++++--
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   6 +
+ 4 files changed, 123 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/include/nvif/if000c.h b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
+index d6dd40f21eed..9c7ff56831c5 100644
+--- a/drivers/gpu/drm/nouveau/include/nvif/if000c.h
++++ b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
+@@ -77,6 +77,7 @@ struct nvif_vmm_pfnmap_v0 {
+ #define NVIF_VMM_PFNMAP_V0_APER                           0x00000000000000f0ULL
+ #define NVIF_VMM_PFNMAP_V0_HOST                           0x0000000000000000ULL
+ #define NVIF_VMM_PFNMAP_V0_VRAM                           0x0000000000000010ULL
++#define NVIF_VMM_PFNMAP_V0_A				  0x0000000000000004ULL
+ #define NVIF_VMM_PFNMAP_V0_W                              0x0000000000000002ULL
+ #define NVIF_VMM_PFNMAP_V0_V                              0x0000000000000001ULL
+ #define NVIF_VMM_PFNMAP_V0_NONE                           0x0000000000000000ULL
 diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index 94f841026c3b..a195e48c9aee 100644
+index a195e48c9aee..81526d65b4e2 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -567,18 +567,27 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
- 	unsigned long hmm_pfns[1];
- 	struct hmm_range range = {
- 		.notifier = &notifier->notifier,
--		.start = notifier->notifier.interval_tree.start,
--		.end = notifier->notifier.interval_tree.last + 1,
- 		.default_flags = hmm_flags,
- 		.hmm_pfns = hmm_pfns,
- 		.dev_private_owner = drm->dev,
- 	};
--	struct mm_struct *mm = notifier->notifier.mm;
-+	struct mm_struct *mm = svmm->notifier.mm;
- 	int ret;
+@@ -35,6 +35,7 @@
+ #include <linux/sched/mm.h>
+ #include <linux/sort.h>
+ #include <linux/hmm.h>
++#include <linux/rmap.h>
  
+ struct nouveau_svm {
+ 	struct nouveau_drm *drm;
+@@ -67,6 +68,11 @@ struct nouveau_svm {
+ 	} buffer[1];
+ };
+ 
++#define FAULT_ACCESS_READ 0
++#define FAULT_ACCESS_WRITE 1
++#define FAULT_ACCESS_ATOMIC 2
++#define FAULT_ACCESS_PREFETCH 3
++
+ #define SVM_DBG(s,f,a...) NV_DEBUG((s)->drm, "svm: "f"\n", ##a)
+ #define SVM_ERR(s,f,a...) NV_WARN((s)->drm, "svm: "f"\n", ##a)
+ 
+@@ -411,6 +417,24 @@ nouveau_svm_fault_cancel_fault(struct nouveau_svm *svm,
+ 				      fault->client);
+ }
+ 
++static int
++nouveau_svm_fault_priority(u8 fault)
++{
++	switch (fault) {
++	case FAULT_ACCESS_PREFETCH:
++		return 0;
++	case FAULT_ACCESS_READ:
++		return 1;
++	case FAULT_ACCESS_WRITE:
++		return 2;
++	case FAULT_ACCESS_ATOMIC:
++		return 3;
++	default:
++		WARN_ON_ONCE(1);
++		return -1;
++	}
++}
++
+ static int
+ nouveau_svm_fault_cmp(const void *a, const void *b)
+ {
+@@ -421,9 +445,8 @@ nouveau_svm_fault_cmp(const void *a, const void *b)
+ 		return ret;
+ 	if ((ret = (s64)fa->addr - fb->addr))
+ 		return ret;
+-	/*XXX: atomic? */
+-	return (fa->access == 0 || fa->access == 3) -
+-	       (fb->access == 0 || fb->access == 3);
++	return nouveau_svm_fault_priority(fa->access) -
++		nouveau_svm_fault_priority(fb->access);
+ }
+ 
+ static void
+@@ -487,6 +510,10 @@ static bool nouveau_svm_range_invalidate(struct mmu_interval_notifier *mni,
+ 	struct svm_notifier *sn =
+ 		container_of(mni, struct svm_notifier, notifier);
+ 
++	if (range->event == MMU_NOTIFY_EXCLUSIVE &&
++	    range->owner == sn->svmm->vmm->cli->drm->dev)
++		return true;
++
+ 	/*
+ 	 * serializes the update to mni->invalidate_seq done by caller and
+ 	 * prevents invalidation of the PTE from progressing while HW is being
+@@ -555,6 +582,71 @@ static void nouveau_hmm_convert_pfn(struct nouveau_drm *drm,
+ 		args->p.phys[0] |= NVIF_VMM_PFNMAP_V0_W;
+ }
+ 
++static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
++			       struct nouveau_drm *drm,
++			       struct nouveau_pfnmap_args *args, u32 size,
++			       struct svm_notifier *notifier)
++{
++	unsigned long timeout =
++		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
++	struct mm_struct *mm = svmm->notifier.mm;
++	struct page *page;
++	unsigned long start = args->p.addr;
++	unsigned long notifier_seq;
++	int ret = 0;
++
 +	ret = mmu_interval_notifier_insert(&notifier->notifier, mm,
 +					args->p.addr, args->p.size,
 +					&nouveau_svm_mni_ops);
 +	if (ret)
 +		return ret;
 +
-+	range.start = notifier->notifier.interval_tree.start;
-+	range.end = notifier->notifier.interval_tree.last + 1;
-+
- 	while (true) {
--		if (time_after(jiffies, timeout))
--			return -EBUSY;
++	while (true) {
 +		if (time_after(jiffies, timeout)) {
 +			ret = -EBUSY;
 +			goto out;
 +		}
- 
- 		range.notifier_seq = mmu_interval_read_begin(range.notifier);
- 		mmap_read_lock(mm);
-@@ -587,7 +596,7 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
- 		if (ret) {
- 			if (ret == -EBUSY)
- 				continue;
--			return ret;
++
++		notifier_seq = mmu_interval_read_begin(&notifier->notifier);
++		mmap_read_lock(mm);
++		make_device_exclusive_range(mm, start, start + PAGE_SIZE,
++					    &page, drm->dev);
++		mmap_read_unlock(mm);
++		if (!page) {
++			ret = -EINVAL;
 +			goto out;
- 		}
- 
- 		mutex_lock(&svmm->mutex);
-@@ -606,6 +615,9 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
- 	svmm->vmm->vmm.object.client->super = false;
- 	mutex_unlock(&svmm->mutex);
- 
++		}
++
++		mutex_lock(&svmm->mutex);
++		if (!mmu_interval_read_retry(&notifier->notifier,
++					     notifier_seq))
++			break;
++		mutex_unlock(&svmm->mutex);
++	}
++
++	/* Map the page on the GPU. */
++	args->p.page = 12;
++	args->p.size = PAGE_SIZE;
++	args->p.addr = start;
++	args->p.phys[0] = page_to_phys(page) |
++		NVIF_VMM_PFNMAP_V0_V |
++		NVIF_VMM_PFNMAP_V0_W |
++		NVIF_VMM_PFNMAP_V0_A |
++		NVIF_VMM_PFNMAP_V0_HOST;
++
++	svmm->vmm->vmm.object.client->super = true;
++	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, size, NULL);
++	svmm->vmm->vmm.object.client->super = false;
++	mutex_unlock(&svmm->mutex);
++
++	unlock_page(page);
++	put_page(page);
++
 +out:
 +	mmu_interval_notifier_remove(&notifier->notifier);
++	return ret;
++}
 +
- 	return ret;
- }
+ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 			       struct nouveau_drm *drm,
+ 			       struct nouveau_pfnmap_args *args, u32 size,
+@@ -637,7 +729,7 @@ nouveau_svm_fault(struct nvif_notify *notify)
+ 	unsigned long hmm_flags;
+ 	u64 inst, start, limit;
+ 	int fi, fn;
+-	int replay = 0, ret;
++	int replay = 0, atomic = 0, ret;
  
-@@ -727,14 +739,8 @@ nouveau_svm_fault(struct nvif_notify *notify)
+ 	/* Parse available fault buffer entries into a cache, and update
+ 	 * the GET pointer so HW can reuse the entries.
+@@ -718,12 +810,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
+ 		/*
+ 		 * Determine required permissions based on GPU fault
+ 		 * access flags.
+-		 * XXX: atomic?
+ 		 */
+ 		switch (buffer->fault[fi]->access) {
+ 		case 0: /* READ. */
+ 			hmm_flags = HMM_PFN_REQ_FAULT;
+ 			break;
++		case 2: /* ATOMIC. */
++			atomic = true;
++			break;
+ 		case 3: /* PREFETCH. */
+ 			hmm_flags = 0;
+ 			break;
+@@ -739,8 +833,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
  		}
  
  		notifier.svmm = svmm;
--		ret = mmu_interval_notifier_insert(&notifier.notifier, mm,
--						   args.i.p.addr, args.i.p.size,
--						   &nouveau_svm_mni_ops);
--		if (!ret) {
--			ret = nouveau_range_fault(svmm, svm->drm, &args.i,
--				sizeof(args), hmm_flags, &notifier);
--			mmu_interval_notifier_remove(&notifier.notifier);
--		}
-+		ret = nouveau_range_fault(svmm, svm->drm, &args.i,
-+					sizeof(args), hmm_flags, &notifier);
+-		ret = nouveau_range_fault(svmm, svm->drm, &args.i,
+-					sizeof(args), hmm_flags, &notifier);
++		if (atomic)
++			ret = nouveau_atomic_range_fault(svmm, svm->drm,
++							 &args.i, sizeof(args),
++							 &notifier);
++		else
++			ret = nouveau_range_fault(svmm, svm->drm, &args.i,
++						  sizeof(args), hmm_flags,
++						  &notifier);
  		mmput(mm);
  
  		limit = args.i.p.addr + args.i.p.size;
+@@ -756,11 +856,15 @@ nouveau_svm_fault(struct nvif_notify *notify)
+ 			 */
+ 			if (buffer->fault[fn]->svmm != svmm ||
+ 			    buffer->fault[fn]->addr >= limit ||
+-			    (buffer->fault[fi]->access == 0 /* READ. */ &&
++			    (buffer->fault[fi]->access == FAULT_ACCESS_READ &&
+ 			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_V)) ||
+-			    (buffer->fault[fi]->access != 0 /* READ. */ &&
+-			     buffer->fault[fi]->access != 3 /* PREFETCH. */ &&
+-			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)))
++			    (buffer->fault[fi]->access != FAULT_ACCESS_READ &&
++			     buffer->fault[fi]->access != FAULT_ACCESS_PREFETCH &&
++			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)) ||
++			    (buffer->fault[fi]->access != FAULT_ACCESS_READ &&
++			     buffer->fault[fi]->access != FAULT_ACCESS_WRITE &&
++			     buffer->fault[fi]->access != FAULT_ACCESS_PREFETCH &&
++			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_A)))
+ 				break;
+ 		}
+ 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
+index a2b179568970..f6188aa9171c 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
+@@ -178,6 +178,7 @@ void nvkm_vmm_unmap_region(struct nvkm_vmm *, struct nvkm_vma *);
+ #define NVKM_VMM_PFN_APER                                 0x00000000000000f0ULL
+ #define NVKM_VMM_PFN_HOST                                 0x0000000000000000ULL
+ #define NVKM_VMM_PFN_VRAM                                 0x0000000000000010ULL
++#define NVKM_VMM_PFN_A					  0x0000000000000004ULL
+ #define NVKM_VMM_PFN_W                                    0x0000000000000002ULL
+ #define NVKM_VMM_PFN_V                                    0x0000000000000001ULL
+ #define NVKM_VMM_PFN_NONE                                 0x0000000000000000ULL
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
+index 236db5570771..f02abd9cb4dd 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
+@@ -88,6 +88,9 @@ gp100_vmm_pgt_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
+ 		if (!(*map->pfn & NVKM_VMM_PFN_W))
+ 			data |= BIT_ULL(6); /* RO. */
+ 
++		if (!(*map->pfn & NVKM_VMM_PFN_A))
++			data |= BIT_ULL(7); /* Atomic disable. */
++
+ 		if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
+ 			addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
+ 			addr = dma_map_page(dev, pfn_to_page(addr), 0,
+@@ -322,6 +325,9 @@ gp100_vmm_pd0_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
+ 		if (!(*map->pfn & NVKM_VMM_PFN_W))
+ 			data |= BIT_ULL(6); /* RO. */
+ 
++		if (!(*map->pfn & NVKM_VMM_PFN_A))
++			data |= BIT_ULL(7); /* Atomic disable. */
++
+ 		if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
+ 			addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
+ 			addr = dma_map_page(dev, pfn_to_page(addr), 0,
 -- 
 2.20.1
 
