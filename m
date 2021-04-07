@@ -1,51 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8D93568AA
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 12:04:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC0F3569BC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 12:31:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5F636E088;
-	Wed,  7 Apr 2021 10:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 313EB6E8F2;
+	Wed,  7 Apr 2021 10:31:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0F66E8EC
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 10:04:28 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4FFg3b1VrNz1qtPt;
- Wed,  7 Apr 2021 12:04:27 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4FFg3b0TVVz1r1Mm;
- Wed,  7 Apr 2021 12:04:27 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id oMlvmVRE7GXr; Wed,  7 Apr 2021 12:04:26 +0200 (CEST)
-X-Auth-Info: 8dUTHqOisTBgWZ5nRtwmWSQnkYJr+zUkSnJLC0MLeoA=
-Received: from mail-internal.denx.de (p578adb1c.dip0.t-ipconnect.de
- [87.138.219.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Wed,  7 Apr 2021 12:04:26 +0200 (CEST)
-Received: from deneb.denx.de (deneb [10.0.20.1])
- by mail-internal.denx.de (Postfix) with ESMTP id 5998D182B1A;
- Wed,  7 Apr 2021 12:04:16 +0200 (CEST)
-Received: by deneb.denx.de (Postfix, from userid 569)
- id 259F524068D; Wed,  7 Apr 2021 12:04:15 +0200 (CEST)
-Date: Wed, 7 Apr 2021 12:04:15 +0200
-From: ch@denx.de
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add bindings for
- SN65DSI83/84/85
-Message-ID: <YG2Dn3RkYOhYmYUa@deneb.denx.de>
-References: <20210214174453.104616-1-jagan@amarulasolutions.com>
- <d7f9b241-3cfc-836a-2519-3b6621899108@denx.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC1489C82;
+ Wed,  7 Apr 2021 10:31:50 +0000 (UTC)
+IronPort-SDR: WeKhbQjk11Q9kArfyaBWg2wA22L3/EZRPCKjjSJW6x6eOuUNT1fh2VoBflHRyqkFiQxgLposU7
+ xvzrfB8Dk0qg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9946"; a="278543319"
+X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; d="scan'208";a="278543319"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2021 03:31:49 -0700
+IronPort-SDR: Fgx5Ycqar1NE1kTy6z4KBpu2sNQ95Zo5AiW9lZfxLvSPUlQO9mM6rgB5saoIpXm/2wf7qIj50l
+ NF3JLOS4uLCw==
+X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; d="scan'208";a="421645848"
+Received: from shochwel-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.33.133])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2021 03:31:46 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>, Pekka Paalanen <ppaalanen@gmail.com>,
+ dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ xorg-devel@lists.x.org, linux-media@vger.kernel.org
+Subject: Re: Call for an EDID parsing library
+In-Reply-To: <7d8dc3ea-a935-5145-482c-42ea43dfd782@xs4all.nl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210407114404.13b41822@eldfell>
+ <7d8dc3ea-a935-5145-482c-42ea43dfd782@xs4all.nl>
+Date: Wed, 07 Apr 2021 13:31:43 +0300
+Message-ID: <87mtuajshc.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d7f9b241-3cfc-836a-2519-3b6621899108@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,40 +50,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- linux-amarula@amarulasolutions.com, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi again,
+On Wed, 07 Apr 2021, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> It is the most complete EDID parser I know based on the various standards.
 
-On Wed, Mar 24, 2021 at 02:56:37PM +0100, Claudius Heine wrote:
-> Hi Jagan,
-> 
-> On 2021-02-14 18:44, Jagan Teki wrote:
-> > SN65DSI83/84/85 devices are MIPI DSI to LVDS based bridge
-> > controller IC's from Texas Instruments.
-> > 
-> > SN65DSI83 - Single Channel DSI to Single-link LVDS bridge
-> > SN65DSI84 - Single Channel DSI to Dual-link LVDS bridge
-> > SN65DSI85 - Dual Channel DSI to Dual-link LVDS bridge
-> > 
-> > Right now the bridge driver is supporting Channel A with single
-> > link, so dt-bindings documented according to it.
-> 
-> Do you know when we can expect a v4 for this?
-> 
-> I am currently working on top of your patch set to setup a dual-link LVDS
-> bridge of SN65DSI84.
+Does it support pure DisplayID in addition to DisplayID blocks embedded
+to EDID extension blocks? I think we'll be needing that sometime in the
+near future. (We don't yet support that in the kernel either.)
 
-Ping
+BR,
+Jani.
+
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
