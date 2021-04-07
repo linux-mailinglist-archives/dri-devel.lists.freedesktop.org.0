@@ -1,58 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6153565FD
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 10:03:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C68B356658
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 10:21:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69B7689829;
-	Wed,  7 Apr 2021 08:03:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9D1D898ED;
+	Wed,  7 Apr 2021 08:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF5189829
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 08:03:25 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- kk2-20020a17090b4a02b02900c777aa746fso871087pjb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Apr 2021 01:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ysz6P9xATvW1FQeoAOxq6tV62TCAmsjSNij/bztrdn4=;
- b=o/5LMQjagAvllv1FW0C6iohuW9mW4dBaVhOXr1Pk7pWDq/KE9mX65b5nA1Bzzanwag
- +RFpkpi0XGmLVFT91DQDCvQKT4tET0B5Z7Hi76NP/5DKkaCqlC4MKNWASCjUUaKetbNd
- BQOHpOmEoY21qIanN+h5LV1NofcYVG7xEZ2yWxxEsAZMtcGcVrZZvxHf1K4Q2IQFd/48
- t7o5UpDN8V1e9BYOJK95cVEfQCVHkyivPxGu7I7FCEDWORgOHDTupcNJdSQx/4JbEXYc
- Fqvbp3dZWYyPqm/TSlCHOMZCXKzbyG0gazYDS9Xie6FUMDuQ8wAmnXab8OUYrXPU8HXd
- xMcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ysz6P9xATvW1FQeoAOxq6tV62TCAmsjSNij/bztrdn4=;
- b=OrNhbzwgO/ycmHELu24a7+aNo/stExo9rFPoy4DEISPaLLP3AEu3pcdI5syUWwgB8b
- sVFB7CLUXLpmrpHDOOcK0aIWuN7lMDtI+XlPZxIdr/Z2nd/h2752/kggQGRwSaRMs6FP
- Ns3RI6C5OqFplbVwJykhrm/KnviMNLRHJqxUDkFTjmV8TsCFTzCw4vyd+6K9hj9lBytV
- elKyjPn8q2kqboUwbBe+rLZySLgBtm+yRNH1Oi51fMdHOPLIanTWLda1L0y49tJYKoSE
- W8edYhWH30IIHFCsBm7m4hJxWtgODPD8aEigSAlMi0vMfmOYXLMtK56cgYrglOZPJM1H
- V+dA==
-X-Gm-Message-State: AOAM531arnjtuep3h5W9/OllLPOAKFVlE9TPdx09hNQA2q+Di6SpITjm
- KT0hNaWhLMLwPUVI/ec+XAY9iewpmZdjSJ+KPS+Umw==
-X-Google-Smtp-Source: ABdhPJzF+g42/bKDLTlY9qetsSZrUD78KLNgSN+3VIfx1JGyGKvSj7fv3RYuv3ijxVh8hTfZTwZjsRTHMV6cgV2emXY=
-X-Received: by 2002:a17:90a:4a8f:: with SMTP id
- f15mr2168432pjh.19.1617782604872; 
- Wed, 07 Apr 2021 01:03:24 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7624898ED
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 08:21:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F450613CF;
+ Wed,  7 Apr 2021 08:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617783662;
+ bh=1IWlmRG9OD413dWYIjvrcWiKG5N1mPS/69ftZBnxCPE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=MU/hOdvwtzxehLxToSu65R5aOnRU3HIBxCz57ZiasngM+1MaaWazON3N+zEdOJZYr
+ lE/KionJZjqUql+6V09QR1bUu6M/Qzp30HMFgSPenbnw9CCxb2i+Qqcl0VX7BDmpmR
+ 72Bj0HiREn8JRuhw+qPf2Z0zeTluUs0xTJtuLdltHzF1SvY7HcsWGui04BfyRIU/J3
+ RBXvcAMPzUyJR/kmeTo5tEfpXoyEyzNJ088/ukU4X+xY5oshHbYlcUgWMGVUob0u3b
+ 6EIxlJUed/GABQ+UyyICvPqtEJrxu8Ym8Ad1HvtfmGdAqRpoZG0oW++4Tx/bGTfSnR
+ oSZ3RBmaWKnhg==
+Received: by mail.kernel.org with local (Exim 4.94)
+ (envelope-from <mchehab@kernel.org>)
+ id 1lU3Qq-005i24-4N; Wed, 07 Apr 2021 10:21:00 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>
+Subject: [PATCH v2 00/19] Fix broken documentation file references
+Date: Wed,  7 Apr 2021 10:20:39 +0200
+Message-Id: <cover.1617783062.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210406090733.169989-1-zhangjianhua18@huawei.com>
- <CAG3jFyvC6ozPxQ=TPdPgLAugKky5AhOZGJSiw0Dc3Kn5Pba0cA@mail.gmail.com>
- <d9bd5abf-0293-6155-dee0-20199fed1fc0@huawei.com>
-In-Reply-To: <d9bd5abf-0293-6155-dee0-20199fed1fc0@huawei.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 7 Apr 2021 10:03:13 +0200
-Message-ID: <CAG3jFyu6YY5pr5bdvqAbzZu0GG0z=PWP+JHL59G26cg0P=563w@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/bridge: lt8912b: DRM_LONTIUM_LT8912B select
- GPIOLIB
-To: "zhangjianhua (E)" <zhangjianhua18@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,33 +47,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, johnny.chenyi@huawei.com,
- heying24@huawei.com
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Akira Yokosawa <akiyks@gmail.com>,
+ dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
+ =?UTF-8?q?Przemys=C5=82aw=20Gaj?= <pgaj@cadence.com>,
+ Harry Wei <harryxiyou@gmail.com>, Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+ Joel Fernandes <joel@joelfernandes.org>, linux-i3c@lists.infradead.org,
+ linux-arch@vger.kernel.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-iio@vger.kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>,
+ linux-input@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, linux-pm@vger.kernel.org,
+ Daniel Lustig <dlustig@nvidia.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Vitor Soares <vitor.soares@synopsys.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Yes, you are right, there are many files reference
-> gpiod_set_value_cansleep() and
->
-> devm_gpiod_get_optional(). How about add config dependencies for all
-> releated
+Hi Jon,
 
-I think this is the way to go and roughly half of the drm bridge
-drivers seem to need this change.
+As files keep being moved around and DT bindings are 
+converted and renamed to yaml, their doc references get 
+outdated, pointing to an invalid places.
 
-Do you mind submitting a series of patches adding this fix for all of
-the relevant bridge drivers?
+This series address those. It is based on the top of docs-next tree,
+and most patches here are independent from the other ones.
 
->
-> configs or only add config dependencies for the top level config?
->
+v2:
+  - Dropped patches that were already applied, Most of those
+    will be following via Jonathan Cameron's iio tree;
+  - Dropped patches that don't apply on the top of docs next.
+  - Added some new patches fixing other breakages.
+
+PS.:  
+  I placed the dropped patches on a separate branch. I'll track 
+  them and re-submit any missing ones after -rc1.
+
+Mauro Carvalho Chehab (19):
+  MAINTAINERS: update ste,mcde.yaml reference
+  MAINTAINERS: update brcm,bcm-v3d.yaml reference
+  MAINTAINERS: update fsl,dpaa2-console.yaml reference
+  MAINTAINERS: update mtk-sd.yaml reference
+  MAINTAINERS: update snps,dw-axi-dmac.yaml reference
+  dt-bindings: don't use ../dir for doc references
+  dt-bindings: fix references for iio-bindings.txt
+  dt-bindings: iommu: mediatek: update mediatek,iommu.yaml references
+  dt-bindings: i3c: update i3c.yaml references
+  dt-bindings:iio:adc: update motorola,cpcap-adc.yaml reference
+  dt-bindings:iio:adc: update dlg,da9150-gpadc.yaml reference
+  dt-bindings: power: supply: da9150: update da9150-charger.txt
+    reference
+  dt-bindings: power: supply: da9150: update da9150-fg.txt reference
+  docs: update sysfs-platform_profile.rst reference
+  docs: update rcu_dereference.rst reference
+  docs: vcpu-requests.rst: fix reference for atomic ops
+  docs: replace transation references for reporting-bugs.rst
+  docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
+  docs: sched-bwc.rst: fix a typo on a doc name
+
+ .../bindings/display/mediatek/mediatek,disp.txt  |  2 +-
+ .../devicetree/bindings/hwmon/ntc_thermistor.txt |  2 +-
+ .../devicetree/bindings/i3c/cdns,i3c-master.txt  |  6 +++---
+ .../bindings/i3c/snps,dw-i3c-master.txt          |  6 +++---
+ .../devicetree/bindings/iio/adc/ingenic,adc.yaml |  5 +++--
+ .../devicetree/bindings/input/adc-joystick.yaml  |  4 +++-
+ .../input/touchscreen/resistive-adc-touch.txt    |  5 ++++-
+ .../bindings/media/mediatek-jpeg-decoder.txt     |  2 +-
+ .../bindings/media/mediatek-jpeg-encoder.txt     |  2 +-
+ .../devicetree/bindings/media/mediatek-mdp.txt   |  2 +-
+ .../bindings/media/mediatek-vcodec.txt           |  2 +-
+ Documentation/devicetree/bindings/mfd/ab8500.txt |  4 +++-
+ Documentation/devicetree/bindings/mfd/da9150.txt |  8 ++++----
+ .../devicetree/bindings/mfd/motorola-cpcap.txt   | 16 ++++++++--------
+ .../bindings/power/supply/da9150-charger.txt     |  2 +-
+ Documentation/scheduler/sched-bwc.rst            |  2 +-
+ .../translations/it_IT/process/howto.rst         |  2 +-
+ Documentation/translations/ja_JP/howto.rst       |  2 +-
+ Documentation/translations/zh_CN/SecurityBugs    |  2 +-
+ .../zh_CN/admin-guide/reporting-issues.rst       |  4 ++--
+ .../translations/zh_CN/process/8.Conclusion.rst  |  2 +-
+ .../translations/zh_CN/process/howto.rst         |  2 +-
+ Documentation/virt/kvm/vcpu-requests.rst         |  2 +-
+ MAINTAINERS                                      | 10 +++++-----
+ include/linux/platform_profile.h                 |  2 +-
+ tools/memory-model/Documentation/glossary.txt    |  2 +-
+ 26 files changed, 54 insertions(+), 46 deletions(-)
+
+-- 
+2.30.2
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
