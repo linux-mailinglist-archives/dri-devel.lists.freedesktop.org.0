@@ -2,78 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506213563DA
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 08:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979AD3563DC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 08:23:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C126E06B;
-	Wed,  7 Apr 2021 06:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3716E21A;
+	Wed,  7 Apr 2021 06:23:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 360 seconds by postgrey-1.36 at gabe;
- Tue, 06 Apr 2021 23:41:25 UTC
-Received: from mta-p6.oit.umn.edu (mta-p6.oit.umn.edu [134.84.196.206])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EA16E029
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 23:41:25 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by mta-p6.oit.umn.edu (Postfix) with ESMTP id 4FFP5m4ZlVz9vBth
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 23:35:24 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p6.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id te5MddeWZ8z4 for <dri-devel@lists.freedesktop.org>;
- Tue,  6 Apr 2021 18:35:24 -0500 (CDT)
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 4FFP5m2x0sz9vBtf
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Apr 2021 18:35:23 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 4FFP5m2x0sz9vBtf
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 4FFP5m2x0sz9vBtf
-Received: by mail-il1-f198.google.com with SMTP id f14so12654837ilr.21
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Apr 2021 16:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JFBsXOVlHHjdSzZeWJyJvvBdMued/K0xOEkGtWU402Q=;
- b=jw0JK6OAT3hKXrthWczTi8kJcQy2JrposNHUiEHoienPromNuX/6FDiFYTdHNKtFwO
- IuZ1sVYvgK7ysivr4tQcIvOpxT7R2k45lK8OCc1Kq8CiYi2aqfag7FK2nQ/TATZkvFuB
- TyRJms8yqv928MC35tBPy00HM3O8AbwScP0OAiPv3R/yaKb9ExXiFxZRlvTb7qEVsNgq
- 2vo9FwBN7/Osc73xCQYo+aMRBo5xhEvh/pyaCrGz/Iyslz5Gg+mo4bdedc6aC536kvr6
- XoZ8Wb1OkX+FJVOAWs1phd/Tj0byJiuyLKvd8rdWz1RRJpcMfhM9BZsYZjXbsdD8EPx2
- eHhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JFBsXOVlHHjdSzZeWJyJvvBdMued/K0xOEkGtWU402Q=;
- b=mdY9bhQJpf/yEaeOtbfBHTcBXcgpZocrySuf68LZ22vCFrgFOMCLau/0oPhA9+JX6W
- e9Epf91UHQj0vgejaAlZh+zgdDDW0r51PQlJsdNe4O37ZfYifGOBoKZjDW83ZzHV97lf
- pxEOPTUkvlqt/+npMACR5Yd5wlErE4Lm8rZrqvgkxHU9uDFBSUfeHzGEldNQqCIQrXwo
- XdFBAiarIRfvrSBQycgste60qZAJassRcdf1M7z1+9iAenJQTqvJ3527NHcXs1f3SHpz
- 3PnjcaQgNNG8H3xnmwrVPLQrQvpcr//p4vcOH3sawwn5ViWnCwUZ1paH2IWA6oXkGj4J
- oAsw==
-X-Gm-Message-State: AOAM530rGKhoAmOHTW63VWReOEjm36ScaS/qfq8R80KfLaCHP/6gF+Ns
- MssfSIio+RZrkiBaI3vrzXR1VlOOPiEb7lPV57upBRBqzSEEQeXVpWtL2B2kBZaSGotEBtAv8QI
- 4cfN9Eb16LXM2yWgjbbnWBrDFIOwcwqNx
-X-Received: by 2002:a05:6e02:1a24:: with SMTP id
- g4mr541658ile.56.1617752123132; 
- Tue, 06 Apr 2021 16:35:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzaO3ytfZodkyajwuLbl1Y4fWouzIS2WVmGek9UP7t+cDJ+s7ZY5VtwQFZ3Q8QArUTuCz1zEw==
-X-Received: by 2002:a05:6e02:1a24:: with SMTP id
- g4mr541645ile.56.1617752122966; 
- Tue, 06 Apr 2021 16:35:22 -0700 (PDT)
-Received: from syssec1.cs.umn.edu ([2607:ea00:101:3c74:6ecd:6512:5d03:eeb6])
- by smtp.googlemail.com with ESMTPSA id
- h128sm14399373ioa.32.2021.04.06.16.35.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Apr 2021 16:35:22 -0700 (PDT)
-From: Aditya Pakki <pakki001@umn.edu>
-To: pakki001@umn.edu
-Subject: [PATCH] video: fbdev: sm501fb:  Fix deallocation of buffers order
-Date: Tue,  6 Apr 2021 18:35:17 -0500
-Message-Id: <20210406233519.2205389-1-pakki001@umn.edu>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 476 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Apr 2021 01:36:04 UTC
+Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B062789ECB
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 01:36:04 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.139])
+ by lucky1.263xmail.com (Postfix) with ESMTP id 9237DF356A;
+ Wed,  7 Apr 2021 09:28:03 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED: 0
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [124.126.19.250])
+ by smtp.263.net (postfix) whith ESMTP id
+ P6247T139731639179008S1617758871505773_; 
+ Wed, 07 Apr 2021 09:28:03 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <1bfbef78173915d5cc4e86b5dcb647c6>
+X-RL-SENDER: songqiang@uniontech.com
+X-SENDER: songqiang@uniontech.com
+X-LOGIN-NAME: songqiang@uniontech.com
+X-FST-TO: christian.koenig@amd.com
+X-SENDER-IP: 124.126.19.250
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+From: songqiang <songqiang@uniontech.com>
+To: christian.koenig@amd.com, ray.huang@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] drivers/gpu/drm/ttm/ttm_page_allo.c: adjust ttm pages
+ refcount fix the bug: Feb 6 17:13:13 aaa-PC kernel: [ 466.271034] BUG: Bad
+ page state in process blur_image pfn:7aee2 Feb 6 17:13:13 aaa-PC kernel: [
+ 466.271037] page:980000025fca4170 count:0 mapcount:0 mapping:980000025a0dca60
+ index:0x0 Feb 6 17:13:13 aaa-PC kernel: [ 466.271039] flags:
+ 0x1e01fff000000() Feb 6 17:13:13 aaa-PC kernel: [ 466.271042] raw:
+ 0001e01fff000000 0000000000000100 0000000000000200 980000025a0dca60 Feb 6
+ 17:13:13 aaa-PC kernel: [ 466.271044] raw: 0000000000000000 0000000000000000
+ 00000000ffffffff Feb 6 17:13:13 aaa-PC kernel: [ 466.271046] page dumped
+ because: non-NULL mapping Feb 6 17:13:13 aaa-PC kernel: [ 466.271047] Modules
+ linked in: bnep fuse bluetooth ecdh_generic sha256_generic cfg80211 rfkill
+ vfat fat serio_raw uio_pdrv_genirq binfmt_misc ip_tables amdgpu chash radeon
+ r8168 loongson gpu_sched Feb 6 17:13:13 aaa-PC kernel: [ 466.271059] CPU: 3
+ PID: 9554 Comm: 
+ blur_image Tainted: G B 4.19.0-loongson-3-desktop #3036 Feb 6 17:13:13 aaa-PC
+ kernel: [ 466.271061] Hardware name: Haier
+ Kunlun-LS3A4000-LS7A-desktop/Kunlun-LS3A4000-LS7A-desktop,
+ BIOS Kunlun-V4.0.12V4.0 LS3A4000 03/19/2020 Feb 6 17:13:13 aaa-PC kernel: [
+ 466.271063] Stack : 000000000000007b 000000007400cce0 0000000000000000
+ 0000000000000007 Feb 6 17:13:13 aaa-PC kernel: [ 466.271067] 0000000000000000
+ 0000000000000000 0000000000002a82 ffffffff8202c910 Feb 6 17:13:13 aaa-PC
+ kernel: [ 466.271070] 0000000000000000 0000000000002a82 0000000000000000
+ ffffffff81e20000 Feb 6 17:13:13 aaa-PC kernel: [ 466.271074] 0000000000000000
+ ffffffff8021301c ffffffff82040000 6e754b20534f4942 Feb 6 17:13:13 aaa-PC
+ kernel: [ 466.271078] ffff000000000000 0000000000000000 000000007400cce0
+ 0000000000000000 Feb 6 17:13:13 aaa-PC kernel: [ 466.271082] 9800000007155d40
+ ffffffff81cc5470 0000000000000005 6db6db6db6db0000 Feb 6 17:13:13 
+ aaa-PC kernel: [ 466.271086] 0000000000000003 fffffffffffffffb
+ 0000000000006000 98000002559f4000 Feb 6 17:13:13 aaa-PC kernel: [ 466.271090]
+ 980000024a448000 980000024a44b7f0 9800000007155d50 ffffffff819f5158 Feb 6
+ 17:13:13 aaa-PC kernel: [ 466.271094] 0000000000000000 0000000000000000
+ 0000000000000000 0000000000000000 Feb 6 17:13:13 aaa-PC kernel: [ 466.271097]
+ 9800000007155d40 ffffffff802310c4 ffffffff81e70000 ffffffff819f5158 Feb 6
+ 17:13:13 aaa-PC kernel: [ 466.271101] ... Feb 6 17:13:13 aaa-PC kernel: [
+ 466.271103] Call Trace: Feb 6 17:13:13 aaa-PC kernel: [ 466.271107]
+ [<ffffffff802310c4>] show_stack+0x44/0x1c0 Feb 6 17:13:13 aaa-PC kernel: [
+ 466.271110] [<ffffffff819f5158>] dump_stack+0x1d8/0x240 Feb 6 17:13:13 aaa-PC
+ kernel: [ 466.271113] [<ffffffff80491c10>] bad_page+0x210/0x2c0 Feb 6
+ 17:13:13 aaa-PC kernel: [ 466.271116] [<ffffffff804931c8>]
+ free_pcppages_bulk+0x708/0x900 Feb 6 17:13:13 aaa-PC kernel: [ 46
+ 6.271119] [<ffffffff804980cc>] free_unref_page_list+0x1cc/0x2c0 Feb 6 17:13:13
+ aaa-PC kernel: [ 466.271122] [<ffffffff804ad2c8>] release_pages+0x648/0x900
+ Feb 6 17:13:13 aaa-PC kernel: [ 466.271125] [<ffffffff804f3b48>]
+ tlb_flush_mmu_free+0x88/0x100 Feb 6 17:13:13 aaa-PC kernel: [ 466.271128]
+ [<ffffffff804f8a24>] zap_pte_range+0xa24/0x1480 Feb 6 17:13:13 aaa-PC kernel:
+ [ 466.271132] [<ffffffff804f98b0>] unmap_page_range+0x1f0/0x500 Feb 6
+ 17:13:13 aaa-PC kernel: [ 466.271135] [<ffffffff804fa054>]
+ unmap_vmas+0x154/0x200 Feb 6 17:13:13 aaa-PC kernel: [ 466.271138]
+ [<ffffffff8051190c>] exit_mmap+0x20c/0x380 Feb 6 17:13:13 aaa-PC kernel: [
+ 466.271142] [<ffffffff802bb9c8>] mmput+0x148/0x300 Feb 6 17:13:13 aaa-PC
+ kernel: [ 466.271145] [<ffffffff802c80d8>] do_exit+0x6d8/0x1900 Feb 6
+ 17:13:13 aaa-PC kernel: [ 466.271148] [<ffffffff802cb288>]
+ do_group_exit+0x88/0x1c0 Feb 6 17:13:13 aaa-PC kernel: [ 466.271151]
+ [<ffffffff802cb3d8>] sys_exit_group+0x18/0x40 Feb 6 17
+ :13:13 aaa-PC kernel: [ 466.271155] [<ffffffff8023f954>]
+ syscall_common+0x34/0xa4
+Date: Wed,  7 Apr 2021 09:27:46 +0800
+Message-Id: <20210407012746.16082-1-songqiang@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 07 Apr 2021 06:23:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,42 +111,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kjlu@umn.edu,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: songqiang <songqiang@uniontech.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The resource release in sm501fb_remove() is not in the inverse order of
-sm501fb_probe(), for the buffers. Release the info object after
-deallocating the buffers.
-
-Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+Signed-off-by: songqiang <songqiang@uniontech.com>
 ---
- drivers/video/fbdev/sm501fb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_page_alloc.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
-index 6a52eba64559..4c32c9e88850 100644
---- a/drivers/video/fbdev/sm501fb.c
-+++ b/drivers/video/fbdev/sm501fb.c
-@@ -2060,11 +2060,11 @@ static int sm501fb_remove(struct platform_device *pdev)
- 		unregister_framebuffer(fbinfo_pnl);
+diff --git a/drivers/gpu/drm/ttm/ttm_page_alloc.c b/drivers/gpu/drm/ttm/ttm_page_alloc.c
+index 14660f723f71..f3698f0ad4d7 100644
+--- a/drivers/gpu/drm/ttm/ttm_page_alloc.c
++++ b/drivers/gpu/drm/ttm/ttm_page_alloc.c
+@@ -736,8 +736,16 @@ static void ttm_put_pages(struct page **pages, unsigned npages, int flags,
+ 					if (++p != pages[i + j])
+ 					    break;
  
- 	sm501fb_stop(info);
--	kfree(info);
+-				if (j == HPAGE_PMD_NR)
++				if (j == HPAGE_PMD_NR) {
+ 					order = HPAGE_PMD_ORDER;
++					for (j = 1; j < HPAGE_PMD_NR; ++j)
++						page_ref_dec(pages[i+j]);
++				}
+ 			}
+ #endif
  
- 	framebuffer_release(fbinfo_pnl);
- 	framebuffer_release(fbinfo_crt);
- 
-+	kfree(info);
- 	return 0;
- }
- 
--- 
-2.25.1
+@@ -868,10 +876,12 @@ static int ttm_get_pages(struct page **pages, unsigned npages, int flags,
+ 				p = alloc_pages(huge_flags, HPAGE_PMD_ORDER);
+ 				if (!p)
+ 					break;
+-
+-				for (j = 0; j < HPAGE_PMD_NR; ++j)
++				for (j = 0; j < HPAGE_PMD_NR; ++j) {
+ 					pages[i++] = p++;
+-
++					if (j > 0)
++						page_ref_inc(pages[i-1]);
++				}
+ 				npages -= HPAGE_PMD_NR;
+ 			}
+ 		}
+
+
 
 _______________________________________________
 dri-devel mailing list
