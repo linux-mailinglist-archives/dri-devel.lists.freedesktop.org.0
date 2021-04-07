@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5861B3564B4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 09:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CC63564D2
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 09:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBC0989C7F;
-	Wed,  7 Apr 2021 07:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 898F8892AE;
+	Wed,  7 Apr 2021 07:13:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B881089C7F
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 07:02:37 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id b4so26778150lfi.6
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Apr 2021 00:02:37 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81F1289204
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 07:13:03 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id o126so26915555lfa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Apr 2021 00:13:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=qFNZUgqGlejiuMp8cdntR3aLAhOwwWtWbK93/gtJcuw=;
- b=m3ytSXJ8X4dgyWmZACcF3oK3kLUc4/IUWM4buRabq6ULzivhuoYmbT4oNxyauiA686
- EqqE65pfpkD1MuHgAyzRu0hQncwPXfIwRGJfw5wXknei7v6wEcgCfi9L1aSB37+gmsXq
- dYeVhESEDX+QIVmU6n66bK8/aBJwZdLXzKkoaltfTgCtivMN0plBBrzbCBdIpJnrUSxS
- mSRs3EMok1UTynHIeQmdaw2j8vorHNEP1ZBR6mOcPYC/doE0Nzn6i/mERbKl3x4jB6/H
- 0tL7p/mgZX6kR0aBXgCGRpvd93XZ8KL/ESiJnFxv0NRBrMKAbLJGlE+1hzRIhSZsAlMp
- 7lEA==
+ :mime-version; bh=1duyocgLk2hEhX2K9ALNo/yISDtpiTKPyYC4EC6WDJM=;
+ b=jiLUdMSCffdrH06JKNega4yKrS+G2VAC4YoYqQNb/V53MLen81N5I17AR9NhsrtTW+
+ 9RJyWPAyq5m3onQsxc9Dylkg80u17q8zDdbm7Sk1AESTFEekJEN6qQ5xqMw3DWK5Bxh2
+ VHnMbNNjSr1WHcRWkShdQow+tMoxEzolhu53gI97XLYk2BAZ8xECwsBF5j9YRk5BDDZm
+ 7khxd9fDm31zdwT94haP2fgzIvr3mCc4qFPRJJCutZ3qLcNT0q/cYGcTdcCZSACPkEG2
+ 0Rq2wS3JTC/z2kuBgStDrEMilR4WZWiU3ITbD2pKliWOs09M6vi0Kbj/isXf8+e8Wi/E
+ BeUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=qFNZUgqGlejiuMp8cdntR3aLAhOwwWtWbK93/gtJcuw=;
- b=h7zPlvvsonUEpdPJd2hrFj2IMHcXaKZmspvrHr7cVlkb4Oo2O78GSt5VV9HojzbIXG
- Q86BY4oA9ZduueK9YxN9aqyYNEAOYkOqp4Ufxq1YMPUx4Rd7+Zg3DGJ5+1Nb1JB2Raza
- zMRltn9bXOV67Ua8YcRtvbYicUIoMiTwYBUuNU4RXWcey+1Y72bjKTuuDZBesFe8RCER
- VjIB0w6XyyJ0THJ1r6iRwhWlUrHkrG/Ma/VSoKttmqyKf0LnOtmnSABndBVnx4fcgWK7
- iJ0AD6krfJ8kVIwz/xFevE5u3LSHlFeqzRE0oNUUE9VudywlbjxYRCIpREOh2bNwIkBE
- K/pg==
-X-Gm-Message-State: AOAM533IjmYBLPFMwxcdlzPsk/uCPLPapvBHXd0tVe2MCdtltTR94txR
- ILPeM18Z4QbVrSn31ovy97U=
-X-Google-Smtp-Source: ABdhPJyWi4D6BDasU4rWu/tUFswiHMHbaKUbyLM7k7oyWgDEgV97B4RpLwVpXcAroDWmyBnhqgehig==
-X-Received: by 2002:a05:6512:310:: with SMTP id
- t16mr1663130lfp.477.1617778956092; 
- Wed, 07 Apr 2021 00:02:36 -0700 (PDT)
+ bh=1duyocgLk2hEhX2K9ALNo/yISDtpiTKPyYC4EC6WDJM=;
+ b=QDcfJU6U5NW8bS5FVGaGRt9XywHBa8VfOgx8J0tUJvYl3DDcOQ0Yg1IX4KJhcU327W
+ uJGQ+gtIHncvxmwxcZ9mPMV2lmptQqZo8/5m4GZkNeX1BP2FFIN5XrsqCwxUCcaBXcsH
+ 4yEPQBnAnJSd243Hm/i4DOwQ1T+nTSKXCrm/iLETqNZUc07FFkYBPiRMwbICJsACuveW
+ 3HSXPOypoi78lYBzHACw5Z3zZy6RGWKTN3jA9o+EfWZpIzulPBFdOTMyb7FcqQx6yV/A
+ t3iPA5t4tHX82lfSE3C3JuRdcuTist7KoS0GfYGxdV5XsI4Xy8yB4/z9q0FPkl501nIC
+ Qxlw==
+X-Gm-Message-State: AOAM5313U+HLxurcygvXbfKBj2NIq/rT+mQwDYSH9mqT0r8NfKH4BAIS
+ /p4BatjmpbdP3NDTi9GiTPo=
+X-Google-Smtp-Source: ABdhPJxBy5dXrEOlwkezRdPm5zALAijWjyrwxex6qoDNaSY1p3AYn3ps9CKp9kls2kXFbsLq5/OvHA==
+X-Received: by 2002:ac2:5684:: with SMTP id 4mr1584522lfr.378.1617779581947;
+ Wed, 07 Apr 2021 00:13:01 -0700 (PDT)
 Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id j24sm168402lfm.89.2021.04.07.00.02.35
+ by smtp.gmail.com with ESMTPSA id g13sm2456027lja.124.2021.04.07.00.13.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Apr 2021 00:02:35 -0700 (PDT)
-Date: Wed, 7 Apr 2021 10:02:24 +0300
+ Wed, 07 Apr 2021 00:13:01 -0700 (PDT)
+Date: Wed, 7 Apr 2021 10:12:58 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/connector: demote connector force-probes for
- non-master clients
-Message-ID: <20210407100224.653fa3e7@eldfell>
-In-Reply-To: <20210402112212.5625-1-contact@emersion.fr>
-References: <20210402112212.5625-1-contact@emersion.fr>
+To: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Subject: Re: [PATCH V4 0/2] Add virtual hardware module
+Message-ID: <20210407101258.72261c5d@eldfell>
+In-Reply-To: <cover.1617602076.git.sylphrenadin@gmail.com>
+References: <cover.1617602076.git.sylphrenadin@gmail.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,133 +65,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1900117159=="
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ melissa.srw@gmail.com
+Content-Type: multipart/mixed; boundary="===============1563774245=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1900117159==
+--===============1563774245==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/Ne2b4V.EZthkUnqnA9c6Ezy"; protocol="application/pgp-signature"
+ boundary="Sig_/8TxTFn5ZIDfMBvvPli94ZI="; protocol="application/pgp-signature"
 
---Sig_/Ne2b4V.EZthkUnqnA9c6Ezy
+--Sig_/8TxTFn5ZIDfMBvvPli94ZI=
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Fri,  2 Apr 2021 13:22:12 +0200
-Simon Ser <contact@emersion.fr> wrote:
+On Mon, 5 Apr 2021 11:41:50 +0530
+Sumera Priyadarsini <sylphrenadin@gmail.com> wrote:
 
-> Force-probing a connector can be slow and cause flickering. As this
-> affects the global KMS state, let's make it so only the DRM master
-> can force-probe a connector.
->=20
-> Non-master DRM clients won't be able to force-probe a connector
-> anymore. Instead, KMS will perform a regular read-only connector
-> query.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> This patchset adds support for emulating virtual hardware with VKMS.
+> The virtual hardware mode can be enabled by using the following command
+> while loading the module:
+>         sudo modprobe vkms enable_virtual_hw=3D1
 
 Hi,
 
-seems like a good idea to me.
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+every time I see this cover letter subject, I start wondering "what is
+this virtual hardware module, yet another one?" and then I read the
+cover letter and realise it is about adding an option to VKMS.
 
-Btw. can force-probe be triggered via sysfs as well and does it require
-root privs?
+The next time you revise this series, could you perhaps clarify the
+subject?
+
+The idea of having a mode where VKMS behaves like a virtual hardware
+driver is good, IMO. I do think "vblank-less mode" describes it better
+though, because I would assume things like USB display drivers to work
+like this too, and VKMS is already a virtual driver anyway.
+
+To clarify, as a userspace programmer what I would expect "vblank-less
+mode" to be is that the DRM driver completes pageflips and modesets at
+arbitrary times, perhaps always immediately or perhaps with a variable
+delay that depends on how much processing is needed for the update.
+Also vblank events do not fire and vblank counters do not advance. Is
+this correct?
 
 
 Thanks,
 pq
 
-
-> ---
->  drivers/gpu/drm/drm_connector.c | 11 ++++++++---
->  include/uapi/drm/drm_mode.h     |  7 ++++---
->  2 files changed, 12 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 7631f76e7f34..2f70a52a892b 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -20,6 +20,7 @@
->   * OF THIS SOFTWARE.
->   */
-> =20
-> +#include <drm/drm_auth.h>
->  #include <drm/drm_connector.h>
->  #include <drm/drm_edid.h>
->  #include <drm/drm_encoder.h>
-> @@ -2374,9 +2375,13 @@ int drm_mode_getconnector(struct drm_device *dev, =
-void *data,
-> =20
->  	mutex_lock(&dev->mode_config.mutex);
->  	if (out_resp->count_modes =3D=3D 0) {
-> -		connector->funcs->fill_modes(connector,
-> -					     dev->mode_config.max_width,
-> -					     dev->mode_config.max_height);
-> +		if (drm_is_current_master(file_priv))
-> +			connector->funcs->fill_modes(connector,
-> +						     dev->mode_config.max_width,
-> +						     dev->mode_config.max_height);
-> +		else
-> +			drm_dbg_kms(dev, "User-space requested a forced probe on [CONNECTOR:%=
-d:%s] but is not the DRM master, demoting to read-only probe",
-> +				    connector->base.id, connector->name);
->  	}
-> =20
->  	out_resp->mm_width =3D connector->display_info.width_mm;
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index a5e76aa06ad5..3efa2e38d89b 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -413,9 +413,10 @@ enum drm_mode_subconnector {
->   *
->   * **Force-probing a connector**
->   *
-> - * If the @count_modes field is set to zero, the kernel will perform a f=
-orced
-> - * probe on the connector to refresh the connector status, modes and EDI=
-D.
-> - * A forced-probe can be slow, might cause flickering and the ioctl will=
- block.
-> + * If the @count_modes field is set to zero and the DRM client is the DRM
-> + * master, the kernel will perform a forced probe on the connector to re=
-fresh
-> + * the connector status, modes and EDID. A forced-probe can be slow, mig=
-ht
-> + * cause flickering and the ioctl will block.
->   *
->   * User-space needs to force-probe connectors to ensure their metadata is
->   * up-to-date at startup and after receiving a hot-plug event. User-space
+> The first patch is prep work for adding virtual_hw mode and refactors
+> the plane composition in vkms by adding a helper function vkms_composer_c=
+ommon()
+> which can be used for both vblank mode and virtual mode.
+>=20
+> The second patch adds virtual hardware support as a module option. It
+> adds new atomic helper functions for the virtual mode
+> and modifies the existing atomic helpers for usage by the vblank mode
+> This gives us two sets of drm_crtc_helper_funcs struct for both modes,
+> making the code flow cleaner and easier to debug.
+>=20
+> This patchset has been tested with the igt tests- kms_writeback, kms_atom=
+ic,
+> kms_lease, kms_flip, kms_pipe_get_crc and preserves results except for
+> subtests related to crc reads and skips tests that rely on vertical
+> blanking. This patchset must be tested after incorporating the
+> igt-tests patch: https://lists.freedesktop.org/archives/igt-dev/2021-Febr=
+uary/029355.html
+>=20
+> Sumera Priyadarsini (2):
+>   drm/vkms: Refactor vkms_composer_worker() to prep for virtual_hw mode
+>   drm/vkms: Add support for virtual hardware mode
+>=20
+>  drivers/gpu/drm/vkms/vkms_composer.c | 88 +++++++++++++++++-----------
+>  drivers/gpu/drm/vkms/vkms_crtc.c     | 51 +++++++++++-----
+>  drivers/gpu/drm/vkms/vkms_drv.c      | 18 ++++--
+>  drivers/gpu/drm/vkms/vkms_drv.h      |  4 ++
+>  4 files changed, 109 insertions(+), 52 deletions(-)
+>=20
 
 
---Sig_/Ne2b4V.EZthkUnqnA9c6Ezy
+--Sig_/8TxTFn5ZIDfMBvvPli94ZI=
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmBtWQAACgkQI1/ltBGq
-qqeNZA/8DpkgLt+PUtN/dHvYdDveZ0KfLocgmBVTpFPtyf4Yk1PRJoMIwnfUo7aE
-aij+/+rQyQXamTlDFLVuiaG0lIY14fzRGE6iZ15KQH0mUu46HRzXseVNEZUcdN8T
-W+xknmpgGf14oReBCQLSfB+hmJ81V54BlcOhxYqNVbMxAFngXcEEmUuZBWeuf9cC
-BcMsMu8pGyiBBapmNwI/2ubBWItDI4ocUcsxOQ6J2NFUlIw+FK4E/Ak3etlPTxZQ
-GjG/FfP4ZNbOdm9cj1c608Lj6wDuTYIu1E7X6zzfet/Z3NvC/R3dcZzm+ZjVNNEp
-J8vikuvHn1jnWE9cJ4IkMq6AK0WGfP/90lDKfQHXl5RiM3GY+Po650OeKwyGVzCB
-T2/z72sTnIgsnvnvgf6FhkkwrXAFmFZHt118kg+YasLb33OzBx0eFQIZ3ibtUJnh
-9qILgHgP24QSUQe8D8KSkdfjHskk2l4Y54Gxp5K6r3qgj6iydRqqPieTJDmwH/Z/
-ssEIfv0jlRlY5Z+SkbImBudqbXcWvr97G7JFWU3U/NAuT8hE0Xw3QgkiB5y+Ebh6
-lz99Isz0icTarJsoQ/tuE2NIUFhLLPoc0yi57K4cF4eGTZsruiQUlqHeARC+DuB2
-7xUyI15gaIQxvlQn2NjpY7N5WPBDTlGpcmvpizZiREsFMOOjtHE=
-=+62A
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmBtW3oACgkQI1/ltBGq
+qqdM0hAAmnlL9dhIQ0JJyfdKGqHPrJf2I89HJWh1aROB2K/N0nTIA+GSpXqEV2zA
+N1Cr+Blw4zHVvTZFCg30lVpxNKVWYYb6xBaToJXi1TqI+1T6wmy3KULlg/JUlYTs
+99EDZmfD8w5mLYvWuXZZrFQLluJPUztLr6KGWMkaB7l1e+NTioauxxP0vwRUjftp
+UBqWJrbVq5XXwAOyjvXd4PnJJMxsOhH5w23b+8YnjNslfLBmXL2ns4wctKt3F+hk
+bAaCXtmsK2Oaq/z4t9wFXkgcwUT8/wEEExbhaPt3QJj+ncte+WRCtso3AdlURFEi
+LTQUhPJp+BKHCiWI99QtB00nOccRF74Uu31uzTM/BoMAcTgX4gbv4VQBCOZ7pyt9
+StVAfmLtSlklAFOZxYVcY+ovP93i2QlmXygr38gbI0y6vamYN654PM9ml+xTeXEh
+87eQeLmE9VGjS+BpsRtm+UZqYh6J9cBR/ZSA2fXFRzTkzS7fD1IS/+6jfYa3uCjf
+sI1LFnjA1q5zwIb64R3td5rD8DfbYS9XMQiU4ih2/9rFkKpdQhaMzAPM3agOxB0C
+YOB6fFVNqbt+Kvx+BFt5IeEDjmCp/WebNMKceQLfhgmV8xLl5U20irCB4fCh+27z
+bqwUbirxnZ2LI6Yp/xty/7L2/5Ra67IGixTUQ7K6lNWqAUZHaH4=
+=42dw
 -----END PGP SIGNATURE-----
 
---Sig_/Ne2b4V.EZthkUnqnA9c6Ezy--
+--Sig_/8TxTFn5ZIDfMBvvPli94ZI=--
 
---===============1900117159==
+--===============1563774245==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -204,4 +179,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1900117159==--
+--===============1563774245==--
