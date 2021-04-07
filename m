@@ -1,34 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36AFE356847
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 11:44:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 501C0356862
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 11:50:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1763B6E8EA;
-	Wed,  7 Apr 2021 09:44:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 237CB89949;
+	Wed,  7 Apr 2021 09:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25B876E8EA;
- Wed,  7 Apr 2021 09:44:08 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FFfXw0Zz8zpVwS;
- Wed,  7 Apr 2021 17:41:20 +0800 (CST)
-Received: from thunder-town.china.huawei.com (10.174.179.202) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 7 Apr 2021 17:43:56 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
- nouveau <nouveau@lists.freedesktop.org>, linux-kernel
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/1] drm/nouveau/kms: remove unused local variable 'width'
-Date: Wed, 7 Apr 2021 17:43:44 +0800
-Message-ID: <20210407094344.2924-1-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 364DD89949
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 09:50:46 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FFfjC2QgdzyNC7;
+ Wed,  7 Apr 2021 17:48:31 +0800 (CST)
+Received: from [10.67.110.73] (10.67.110.73) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.498.0;
+ Wed, 7 Apr 2021 17:50:35 +0800
+Subject: Re: [PATCH -next] drm/bridge: lt8912b: DRM_LONTIUM_LT8912B select
+ GPIOLIB
+To: Robert Foss <robert.foss@linaro.org>
+References: <20210406090733.169989-1-zhangjianhua18@huawei.com>
+ <CAG3jFyvC6ozPxQ=TPdPgLAugKky5AhOZGJSiw0Dc3Kn5Pba0cA@mail.gmail.com>
+ <d9bd5abf-0293-6155-dee0-20199fed1fc0@huawei.com>
+ <CAG3jFyu6YY5pr5bdvqAbzZu0GG0z=PWP+JHL59G26cg0P=563w@mail.gmail.com>
+From: "zhangjianhua (E)" <zhangjianhua18@huawei.com>
+Message-ID: <a40abdd7-af43-28a3-1b79-0de6ca0c0093@huawei.com>
+Date: Wed, 7 Apr 2021 17:50:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Originating-IP: [10.174.179.202]
+In-Reply-To: <CAG3jFyu6YY5pr5bdvqAbzZu0GG0z=PWP+JHL59G26cg0P=563w@mail.gmail.com>
+X-Originating-IP: [10.67.110.73]
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,36 +46,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Jones <jajones@nvidia.com>, Zhen Lei <thunder.leizhen@huawei.com>
-Content-Type: text/plain; charset="utf-8"
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, johnny.chenyi@huawei.com,
+ heying24@huawei.com
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmc6Cgpkcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rpc3BsYXkuYzogSW4gZnVuY3Rpb24g4oCYbm91dmVhdV9m
-cmFtZWJ1ZmZlcl9uZXfigJk6CmRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZGlzcGxh
-eS5jOjMwOToxNTogd2FybmluZzogdmFyaWFibGUg4oCYd2lkdGjigJkgc2V0IGJ1dCBub3QgdXNl
-ZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KCkZpeGVzOiA0ZjU3NDZjODYzZGIgKCJkcm0v
-bm91dmVhdS9rbXM6IENoZWNrIGZyYW1lYnVmZmVyIHNpemUgYWdhaW5zdCBibyIpClJlcG9ydGVk
-LWJ5OiBIdWxrIFJvYm90IDxodWxrY2lAaHVhd2VpLmNvbT4KU2lnbmVkLW9mZi1ieTogWmhlbiBM
-ZWkgPHRodW5kZXIubGVpemhlbkBodWF3ZWkuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2
-ZWF1L25vdXZlYXVfZGlzcGxheS5jIHwgNSArLS0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2
-ZWF1L25vdXZlYXVfZGlzcGxheS5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9k
-aXNwbGF5LmMKaW5kZXggMTc4MzFlZTg5N2VhNDZkLi43ZDNiMWY4ZGUzMDA3ODQgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZGlzcGxheS5jCisrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZGlzcGxheS5jCkBAIC0zMDYsNyArMzA2LDcgQEAK
-IAlzdHJ1Y3Qgbm91dmVhdV9ibyAqbnZibyA9IG5vdXZlYXVfZ2VtX29iamVjdChnZW0pOwogCXN0
-cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiOwogCWNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8g
-KmluZm87Ci0JdW5zaWduZWQgaW50IHdpZHRoLCBoZWlnaHQsIGk7CisJdW5zaWduZWQgaW50IGhl
-aWdodCwgaTsKIAl1aW50MzJfdCB0aWxlX21vZGU7CiAJdWludDhfdCBraW5kOwogCWludCByZXQ7
-CkBAIC0zNDYsOSArMzQ2LDYgQEAKIAlpbmZvID0gZHJtX2dldF9mb3JtYXRfaW5mbyhkZXYsIG1v
-ZGVfY21kKTsKIAogCWZvciAoaSA9IDA7IGkgPCBpbmZvLT5udW1fcGxhbmVzOyBpKyspIHsKLQkJ
-d2lkdGggPSBkcm1fZm9ybWF0X2luZm9fcGxhbmVfd2lkdGgoaW5mbywKLQkJCQkJCSAgICBtb2Rl
-X2NtZC0+d2lkdGgsCi0JCQkJCQkgICAgaSk7CiAJCWhlaWdodCA9IGRybV9mb3JtYXRfaW5mb19w
-bGFuZV9oZWlnaHQoaW5mbywKIAkJCQkJCSAgICAgIG1vZGVfY21kLT5oZWlnaHQsCiAJCQkJCQkg
-ICAgICBpKTsKLS0gCjEuOC4zCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+VGhhbmtzLCBJIHdpbGwgZG8gdGhhdC4KCuWcqCAyMDIxLzQvNyAxNjowMywgUm9iZXJ0IEZvc3Mg
+5YaZ6YGTOgo+PiBZZXMsIHlvdSBhcmUgcmlnaHQsIHRoZXJlIGFyZSBtYW55IGZpbGVzIHJlZmVy
+ZW5jZQo+PiBncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAoKSBhbmQKPj4KPj4gZGV2bV9ncGlvZF9n
+ZXRfb3B0aW9uYWwoKS4gSG93IGFib3V0IGFkZCBjb25maWcgZGVwZW5kZW5jaWVzIGZvciBhbGwK
+Pj4gcmVsZWF0ZWQKPiBJIHRoaW5rIHRoaXMgaXMgdGhlIHdheSB0byBnbyBhbmQgcm91Z2hseSBo
+YWxmIG9mIHRoZSBkcm0gYnJpZGdlCj4gZHJpdmVycyBzZWVtIHRvIG5lZWQgdGhpcyBjaGFuZ2Uu
+Cj4KPiBEbyB5b3UgbWluZCBzdWJtaXR0aW5nIGEgc2VyaWVzIG9mIHBhdGNoZXMgYWRkaW5nIHRo
+aXMgZml4IGZvciBhbGwgb2YKPiB0aGUgcmVsZXZhbnQgYnJpZGdlIGRyaXZlcnM/Cj4KPj4gY29u
+ZmlncyBvciBvbmx5IGFkZCBjb25maWcgZGVwZW5kZW5jaWVzIGZvciB0aGUgdG9wIGxldmVsIGNv
+bmZpZz8KPj4KPiAuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
