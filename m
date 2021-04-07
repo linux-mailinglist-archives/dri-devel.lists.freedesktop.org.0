@@ -2,45 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EB2356DF9
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 15:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC9A356E83
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 16:27:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFACC6E914;
-	Wed,  7 Apr 2021 13:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB066E91B;
+	Wed,  7 Apr 2021 14:27:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4BCD6E90F;
- Wed,  7 Apr 2021 13:57:42 +0000 (UTC)
-IronPort-SDR: 4dnF6t1DnKUB/IrNQBrLUQc3lEBcFXcLS24bzy+Pz2iiOlR0HaWeb9PXf5S3z7ucv5vGPRb+fV
- aACuyICUqigQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9947"; a="257297312"
-X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; d="scan'208";a="257297312"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2021 06:57:42 -0700
-IronPort-SDR: 6e/g5NI4cf94yXyT50CGZBQagCUa1fwj3J1O+bCmD1LytEy0mg3/eCnJijwka626GZ6cdVFHDn
- sV+47szdOoWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; d="scan'208";a="381331043"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga006.jf.intel.com with SMTP; 07 Apr 2021 06:57:38 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 07 Apr 2021 16:57:36 +0300
-Date: Wed, 7 Apr 2021 16:57:36 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 1/2] drm/i915/display/vlv_dsi: Do not skip
- panel_pwr_cycle_delay when disabling the panel
-Message-ID: <YG26UEx8XI5vX3P0@intel.com>
-References: <20210325114823.44922-1-hdegoede@redhat.com>
- <9cb6711d-d183-79d4-dfc1-d932b8c8fcab@redhat.com>
- <YG2mzs+/wZ5cH+7M@intel.com>
- <5f54a568-c81a-a54c-cbaf-2c111269c046@redhat.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2044.outbound.protection.outlook.com [40.107.94.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 607986E919;
+ Wed,  7 Apr 2021 14:27:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T+17hILRY97leP35RYzFDpIL0LZRiLWfKbX7kjpAwdvys0V83sUvP9sqBWUyMPJ4/kSQsw8LzUS99fMyaUI43R2wnj8fDKNcQPnGM3fIQbXg3g2DyzgDaw5Gr4im6+B4iWm7ppljGmSS0YlgdxMnrdaT2LvHXS+USMfbPXvrnNLHcAmCcNSM///o3D6mBY2qGzskCpQohNp/1dxtJjACw41SDXShjN4kuFN8MJwPTrzUlICrW1uMha3r5LiWzZIuduib3N8A26csxD7LPdU06GpVD15tFmVObQsao4Bs+2MpHsoNZcvJwS7+HMVUb84HdVrWwYYhhNPUsE+el9Zz7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bt880XgQr9vZxwpBjNkQJbNaw6NOYjRyuqdt2rxRVOg=;
+ b=AAuE+JinHz+vQpw0RULH+vh0w0yztB6fM2EUeeR5TogSxaoEoWHuRE2XhVvYJFg9A6KqEkN5Nkq2BKXhqdEE8wBNGO0qKQCFH2ferYw21kJa2PZ1ilrDZ31AiIFB56Z66eMpzePbn3wFqUEUPZs/jaK5mudb6PAjsi1JTvAERYNVQy0qhBIF+XDuC6hEhxsGUt33ywniDOOVY1nLsuatv+evWoc2FPtihZxw3LBoZ+cGA4nUenRcJ7Ho7VccVdE0V7KnpOCkrPmClEEbNTQEoj5VdJ7SVlcE/MvPR4wzP3pcSNX21Ykbw0qnMqX5iMFhsSD90nfEMj6ohLPKxh5OsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bt880XgQr9vZxwpBjNkQJbNaw6NOYjRyuqdt2rxRVOg=;
+ b=gcPgM0bTVDdOCr4LZdftMK4rqpDWsXonyQXETGcSaxt/e6U/nPnLAbGEM0tUenWjMZkt5Tj4Pu61H5a48gKP8W0CTFtfbCE0dnGCJSRCVRoKGYFpqjalAKwCumnGJRoWXheEZU5trOuXV23+32uE75pukj/lpw8MHsSV1E6oWDs=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1787.namprd12.prod.outlook.com (2603:10b6:3:113::12)
+ by DM6PR12MB3659.namprd12.prod.outlook.com (2603:10b6:5:14a::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.27; Wed, 7 Apr
+ 2021 14:27:28 +0000
+Received: from DM5PR12MB1787.namprd12.prod.outlook.com
+ ([fe80::576:3b2d:76db:55ab]) by DM5PR12MB1787.namprd12.prod.outlook.com
+ ([fe80::576:3b2d:76db:55ab%3]) with mapi id 15.20.3999.034; Wed, 7 Apr 2021
+ 14:27:28 +0000
+From: Leo Liu <leo.liu@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	xorg-announce@lists.x.org
+Subject: [ANNOUNCE] libdrm 2.4.105
+Date: Wed,  7 Apr 2021 10:26:42 -0400
+Message-Id: <20210407142642.11485-1-leo.liu@amd.com>
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [2607:9880:2088:19:3506:a896:d853:273e]
+X-ClientProxiedBy: BN6PR19CA0051.namprd19.prod.outlook.com
+ (2603:10b6:404:e3::13) To DM5PR12MB1787.namprd12.prod.outlook.com
+ (2603:10b6:3:113::12)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5f54a568-c81a-a54c-cbaf-2c111269c046@redhat.com>
-X-Patchwork-Hint: comment
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ubuntu-Golemit-RV.hitronhub.home
+ (2607:9880:2088:19:3506:a896:d853:273e) by
+ BN6PR19CA0051.namprd19.prod.outlook.com (2603:10b6:404:e3::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4020.17 via Frontend Transport; Wed, 7 Apr 2021 14:27:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 313ba628-6695-4e2e-62c6-08d8f9d1453a
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3659:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB365907681FDE7210F71697B0E5759@DM6PR12MB3659.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ac5JcKHstrOTYk7CSB5QU4uHvKZ6A+dJ/6VWIZJIJn5uc/5p/rfulhXTZlOiBwvFDSnsYe1ISlLZ1/4u2mtW7xXZNClc7rSFy2zv5okhtuU3Li10mKB3bjIp5Dfrlzqoq+RiRMMupjMba3MHxoZ1USuI/8EMSYABnW9P7Vzgk7jlVCMQQSeUu84jWeX3EDAwsu34TQ4nBsHqTvKcNhX3UynSa7iVBBtfIfX5YY/tGBmI12ZbBIzyQasLxFTi5dN4HkXUyxN21JWZZBobMPiV/GVgwghcWdDw2XQPVONkTFbKXoYIzzSLluNZhSH3xgZO3LyF3SX8swtPzbiRSvzJaRu26H2oeHR/WRDXhdW3XwBzKrbx46JOLU4BRX5dcwcCvjO+ph+jEHWEK10Xy59l+7GDRqe3K+vQWnIzvP20Zn1d0VTqjsvMzkVN8PjWOcs07K2NDzgYE4XolJ2hxZFuffQqpfb5Eyle5b8F/tKwr8bx7QM50JNNL1v0d8HjAuoKZjzS4Bef2nDncz/9wNz4PdLq2iFHMCjBI7qNINtKDIvpm4fWiA4RLH3enVxVevbid4PrSCiojIpPy4dKz3xiXBIHpzp0cnMPLpjhDw8/+2AuoEp4Z6+778W20HI0VrL2bscMT3SNwqesT0CI5UNZ7D3pDaV+JSL7jOLWWs8eeqPFs026nxbmVutv2BCUv0sAfcLzmFxdF5d0XxBv1N/Hww==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1787.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39860400002)(366004)(136003)(376002)(396003)(66946007)(8936002)(6486002)(44832011)(4326008)(86362001)(36756003)(5660300002)(316002)(66556008)(2616005)(1076003)(966005)(66476007)(186003)(478600001)(2906002)(6666004)(16526019)(38100700001)(52116002)(8676002)(6506007)(6512007)(83380400001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?EnBx8Lkk1KLUgKpB/c2E8MfL19yxUspWwPjNFjYgdXkcUU0SUXSKa3rNmFES?=
+ =?us-ascii?Q?snjUQakgkBdfH98ZGpbWiNSIpvG9tfmF0zci6CNnEPfCkv3Sf7V17sI+xLE/?=
+ =?us-ascii?Q?BmVRWyuXicvdQ3KZhtmXgsY3EhGjejSkmQcYldLUclqyRRQ5EPF8mp9+AT6g?=
+ =?us-ascii?Q?2ng/sanF+s2S+jG7oHVaryUBueJ9OjKipTu7Rmrp9QMrDXQhFgaY3h9VBFVj?=
+ =?us-ascii?Q?/qRiZoORmQnNphHl9qx8wj5ZsJWcN+pprbzBl5So3rHjBZ4A2u1Cz9az0+2y?=
+ =?us-ascii?Q?pT5LoQDn3JMkekS4WXdKFuoJFIqohSBUVTG3OAq8ZjBa3fvvSlAgmyMeMPyK?=
+ =?us-ascii?Q?H4teO2tuUqDkqCuTNaTGw01aKLZL8cU06j0E9ZeXBW70rZesfjIsgqt4DDeU?=
+ =?us-ascii?Q?b1rjiUnIbJnovjHD7IH+tg/yQLcUe+OywXL5Ka+K9JII0yp8Dp+HVmrGXGuy?=
+ =?us-ascii?Q?qGl/rR3QoYiZNT6fBfqoK6WKwzuLfGlP01aD6zq1vy89NU0XOHmIBkQmLU03?=
+ =?us-ascii?Q?znG9oNRyiIum3sgljLIMkCrlQRuzWhHwz/CvTBsOmI4auV9mL4MTl6TMLtm4?=
+ =?us-ascii?Q?f3zSQLVSMu8cs+7lC+kV21xXUf6OueHeevKHTQp4tdrtQL8UjfzVF8mqdhmG?=
+ =?us-ascii?Q?aJY+ylhJuDy+mWrLvLMc/MnAI+7Cu6Z8wlhk18HFwztrECcrlE4fmKLjksfq?=
+ =?us-ascii?Q?lwjsOTavFd/Mp3UaK2IPQ44gMaKDPU4x0ZWv0iKw5Y7XfBFzHCEQFowed+Yx?=
+ =?us-ascii?Q?OiLFO9BQJRGFjow2cUG/qTXh/IY524F9V4kchumW/aHUFRgqOlR3RIfrueWb?=
+ =?us-ascii?Q?bt+2cui+AZpGT7aA4CsC/AsvCb6IOPpComYB8ygkz7wAmJTFD3dWKg1S4AkD?=
+ =?us-ascii?Q?5aog3Py8UsN76s42tZb8iI7ox5kmRqnLz+dKzOvI27NCyJgA4MoUhi5y8ayd?=
+ =?us-ascii?Q?QKIMq0q6uhXsCC2azwVKPTfGgISpp4Zf2aP6IVfZkvQ5qIWzI2A0V5kShXI2?=
+ =?us-ascii?Q?vFHq1xECx5QoR70HszEiKbw3RlXpF3m5fRrTEfHRoXwtvaLsKRNfXpfHGCT+?=
+ =?us-ascii?Q?Sh6wP4F4YHZ48tXCGDqVk0oCqamzBHbrDr/qHHgQ1bvZoQIKRjGRCAma+zn4?=
+ =?us-ascii?Q?nlvr8zhAozSXSZGIMivkFslu2CrqzitUAsjrcxpqdbYy9ddv25G/mkVR051z?=
+ =?us-ascii?Q?I2tk3kf0C0kMIfvfoC+8WVrHbtaYTuely3zmwaNXZpPuXMMwzsBazAuynULb?=
+ =?us-ascii?Q?WAbXHlxbl3d0OI4XJ5rcvjPLXPU2pAxlUbsJjegcdM5b3i3ENuygQCfP3enn?=
+ =?us-ascii?Q?ry0FuT454br0bn7fYA0Cf7SrvOt4NooMwgOx8ZVT3TtOLKuycwYlgAaOTU/0?=
+ =?us-ascii?Q?TL63GsVxI/dxJ7RKMPyXliNZneoI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 313ba628-6695-4e2e-62c6-08d8f9d1453a
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1787.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2021 14:27:28.0209 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LEfJdnqJUFLt1/GfzXc8Snnp1FjhkS6AoLZ9g0NqKPkJmjHGHqFDZA++tLKbdPaD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3659
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,130 +115,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 07, 2021 at 03:50:35PM +0200, Hans de Goede wrote:
-> Hi,
-> =
+Alex Deucher (1):
+      amdgpu: update marketing names
 
-> On 4/7/21 2:34 PM, Ville Syrj=E4l=E4 wrote:
-> > On Tue, Apr 06, 2021 at 03:57:32PM +0200, Hans de Goede wrote:
-> >> Hi,
-> >>
-> >> On 3/25/21 12:48 PM, Hans de Goede wrote:
-> >>> After the recently added commit fe0f1e3bfdfe ("drm/i915: Shut down
-> >>> displays gracefully on reboot"), the DSI panel on a Cherry Trail based
-> >>> Predia Basic tablet would no longer properly light up after reboot.
-> >>>
-> >>> I've managed to reproduce this without rebooting by doing:
-> >>> chvt 3; echo 1 > /sys/class/graphics/fb0/blank;\
-> >>> echo 0 > /sys/class/graphics/fb0/blank
-> >>>
-> >>> Which rapidly turns the panel off and back on again.
-> >>>
-> >>> The vlv_dsi.c code uses an intel_dsi_msleep() helper for the various =
-delays
-> >>> used for panel on/off, since starting with MIPI-sequences version >=
-=3D 3 the
-> >>> delays are already included inside the MIPI-sequences.
-> >>>
-> >>> The problems exposed by the "Shut down displays gracefully on reboot"
-> >>> change, show that using this helper for the panel_pwr_cycle_delay is
-> >>> not the right thing to do. This has not been noticed until now because
-> >>> normally the panel never is cycled off and directly on again in quick
-> >>> succession.
-> >>>
-> >>> Change the msleep for the panel_pwr_cycle_delay to a normal msleep()
-> >>> call to avoid the panel staying black after a quick off + on cycle.
-> >>>
-> >>> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> >>> Fixes: fe0f1e3bfdfe ("drm/i915: Shut down displays gracefully on rebo=
-ot")
-> >>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>
-> >> Ping? Ville AFAICT this is ready for merging, can you review this plea=
-se so that I can push it to drm-intel-next ?
-> > =
+Alistair Delva (1):
+      xf86drm: fix null pointer deref in drmGetBufInfo
 
-> > Didn't get the original mail, but lgtm.
-> =
+Ashutosh Dixit (1):
+      intel: Keep libdrm working without pread/pwrite ioctls
 
-> Yeah, these bounced I mentioned that in a p.s. in one of the emails
-> in our private threads about the mail issues, with patchwork links,
-> but I guess the p.s. was hidden in all the other stuff in that thread.
-> Anyways this is solved now.
-> =
+Emil Velikov (3):
+      xf86drm: cap number of reported devices by drmGetDevice(2)
+      Revert "xf86drm: cap number of reported devices by drmGetDevice(2)"
+      xf86drm: cap number of reported devices by drmGetDevice(2)
 
-> > Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> =
+Fabio Estevam (1):
+      tests/util: Add mxsfb-drm driver
 
-> Thank you, note this is patch 1/2 does the Reviewed-by apply to
-> both?  Patch 2/2 is here:
-> =
+Fang Tan (1):
+      meson: use library() instead of shared_library().
 
-> https://patchwork.freedesktop.org/patch/425983/
+Heiko Becker (1):
+      meson: Also search for rst2man.py
 
-That one looks good as well.
+James Zhu (1):
+      tests/amdgpu: add vcn test support for dimgrey_cavefish
 
-Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+Jinzhou Su (1):
+      test/amdgpu: remove static varible in Syncobj test
 
-> =
+Lang Yu (2):
+      drm/tests/amdgpu: fix Metadata test failed issue
+      tests/amdgpu: fix bo eviction test issue
 
-> Regards,
-> =
+Leo Liu (4):
+      amdgpu_drm: sync up with the latest amdgpu_drm.h based on drm-next (https://cgit.freedesktop.org/drm/drm)
+      amdgpu: sync up amdgpu_drm.h with latest from kernel
+      amdgpu: add function of INFO ioctl for querying video caps
+      Bump version to 2.4.105
 
-> Hans
-> =
+Simon Ser (4):
+      xf86drmMode: add drmIsKMS
+      xf86drm: warn about GEM handle reference counting
+      xf86drmMode: introduce drmModeGetPropertyType
+      xf86drmMode: set FB_MODIFIERS flag when modifiers are supplied
 
-> =
+Sonny Jiang (1):
+      tests/amdgpu/vcn: clean abundant codes
 
-> =
+Tao Zhou (1):
+      tests/amdgpu: add vcn test support for navy_flounder
 
-> =
+Tejas Upadhyay (3):
+      intel: sync i915_pciids.h with kernel
+      intel: add INTEL_ADLS_IDS to the pciids list
+      intel: Add support for JSL
 
-> >>> ---
-> >>>  drivers/gpu/drm/i915/display/vlv_dsi.c | 4 ++--
-> >>>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm=
-/i915/display/vlv_dsi.c
-> >>> index d5a3f69c5df3..38d5a1f3ded5 100644
-> >>> --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
-> >>> +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-> >>> @@ -996,14 +996,14 @@ static void intel_dsi_post_disable(struct intel=
-_atomic_state *state,
-> >>>  	 * FIXME As we do with eDP, just make a note of the time here
-> >>>  	 * and perform the wait before the next panel power on.
-> >>>  	 */
-> >>> -	intel_dsi_msleep(intel_dsi, intel_dsi->panel_pwr_cycle_delay);
-> >>> +	msleep(intel_dsi->panel_pwr_cycle_delay);
-> >>>  }
-> >>>  =
+Valentin Churavy (1):
+      Use dep_rt in amdgpu/meson.build
 
-> >>>  static void intel_dsi_shutdown(struct intel_encoder *encoder)
-> >>>  {
-> >>>  	struct intel_dsi *intel_dsi =3D enc_to_intel_dsi(encoder);
-> >>>  =
+Victor Hugo Vianna Silva (1):
+      Avoid some compiler errors for tests/util/pattern.c
 
-> >>> -	intel_dsi_msleep(intel_dsi, intel_dsi->panel_pwr_cycle_delay);
-> >>> +	msleep(intel_dsi->panel_pwr_cycle_delay);
-> >>>  }
-> >>>  =
+git tag: libdrm-2.4.105
 
-> >>>  static bool intel_dsi_get_hw_state(struct intel_encoder *encoder,
-> >>>
-> > =
+https://dri.freedesktop.org/libdrm/libdrm-2.4.105.tar.xz
+SHA256: 1d1d024b7cadc63e2b59cddaca94f78864940ab440843841113fbac6afaf2a46  libdrm-2.4.105.tar.xz
+SHA512: 083a04af7208e58be21b89c6ebdbe2db3ba00cd29f0d271bd38bfe97dfca741edafddaaf9b5b95c20fac2c9b700434ea5b21397de26f7073169ad6f5b090f715  libdrm-2.4.105.tar.xz
+PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.105.tar.xz.sig
 
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
