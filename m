@@ -2,62 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4721356FAE
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 17:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B5B357032
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 17:26:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69C126E941;
-	Wed,  7 Apr 2021 15:02:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5946E059;
+	Wed,  7 Apr 2021 15:26:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44DBE6E935
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 15:02:06 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id u10so21086854lju.7
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Apr 2021 08:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UReEYo213vcg++rM9BnCxXvPAz9Gqu2yc6+O99aZXpU=;
- b=t9yU4v5QFQrksboxmgqw9CMDc3UhgK8w4UHj6YAEjjuUlA3SO4xhp+ykJv0YgaITyz
- 3Pdf3NFCMzVvv0eypJIvSgnU+2f2n3Cq56lpUguxIW/KX92KPBXyQUDjViBk1wYvLklj
- syAqMQK2rL79Ln/PLRrMFDLbMHGjMiNxJfhN2NeRyIWdgkFtReSHJmGsRg1F2ZNHXdgz
- Lh9BkKyAD40vLGzi3lWY+kpDHuOxxg9n33ACAimjJTsat3A0eniO7TV8ZcQ4IKb+R5dK
- Jyhzp/oN7XKwI4oyByu6BUEbiEOaECCXcLTTlNzIcDxMuSagrGUzNhSFIC29gX9sHplk
- vxXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UReEYo213vcg++rM9BnCxXvPAz9Gqu2yc6+O99aZXpU=;
- b=rhcTvicZrnIUbfyzWCazL8AdWGubyT+vvfXSIjx8CYXHAVEJuERYSwZWp2X0M49Sqo
- 3DJnR53UINKviW7Df4ISOEzQhPaYfGEd+B4FDKyOMDfL5lArHHv9OeXC7Gr+Q7dGm11m
- E1wpLSWz7wmTsGqxc/MuqdQ60byV1jI8ZGJgr29Ws6u2ewFGlA6M7YYrMI306xD07XSc
- AvKXfUjtuuziz/jVmF3srQdIy65cPdcFE/6dizI3+V76wjORsQAX6lsgG0I3+l+hfZxu
- CBjaGYVYqVrNfyJXqp+6a3VB1zarSUei6i+c4ipCQ0KmHP5DBJp3FOWiDE5HdpapgS6M
- kXeA==
-X-Gm-Message-State: AOAM530ThJUy1QYeYUhG18E7l9vtqY+gabBgnrvdVEFR5GemjsbCYxFg
- GQ8+0LHkTn6Q7jP6eOr+BpMAlQ==
-X-Google-Smtp-Source: ABdhPJxSlyf28SdfZfzsSLBQwJ0rK4f8aI77/+PnV7y9HKV9YtL3A4USpqOmNrcRfil2GQu8M9xpyw==
-X-Received: by 2002:a2e:a60a:: with SMTP id v10mr2479817ljp.267.1617807724545; 
- Wed, 07 Apr 2021 08:02:04 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id o11sm2552142ljg.42.2021.04.07.08.02.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Apr 2021 08:02:04 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 4/4] arm64: dts: sm8250: move bus clock to mdp node for
- sm8250 target
-Date: Wed,  7 Apr 2021 18:01:57 +0300
-Message-Id: <20210407150157.801210-5-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210407150157.801210-1-dmitry.baryshkov@linaro.org>
-References: <20210407150157.801210-1-dmitry.baryshkov@linaro.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84FE56E059
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 15:26:24 +0000 (UTC)
+Received: from [IPv6:2a02:810a:880:f54:e4f9:6942:bb7c:e21] (unknown
+ [IPv6:2a02:810a:880:f54:e4f9:6942:bb7c:e21])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: dafna)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 25C0D1F454D0;
+ Wed,  7 Apr 2021 16:26:23 +0100 (BST)
+Subject: Re: [PATCH] drm: bridge: rename the function drm_bridge_hpd_notify to
+ drm_bridge_hpd_cb
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210330115200.26006-1-dafna.hirschfeld@collabora.com>
+ <YGxWwTTjhFcVDELB@pendragon.ideasonboard.com>
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <284cd4e3-b6a9-0b48-a01d-86d22f4f2e23@collabora.com>
+Date: Wed, 7 Apr 2021 17:26:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <YGxWwTTjhFcVDELB@pendragon.ideasonboard.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,46 +44,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: airlied@linux.ie, dafna3@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, enric.balletbo@collabora.com,
+ kernel@collabora.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the bus clock to mdp device node,in order to facilitate bus band
-width scaling on sm8250 target.
+Hi
 
-The parent device MDSS will not vote for bus bw, instead the vote will
-be triggered by mdp device node. Since a minimum vote is required to
-turn on bus clock, move the clock node to mdp device from where the
-votes are requested.
+On 06.04.21 14:40, Laurent Pinchart wrote:
+> Hi Dafna,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Mar 30, 2021 at 01:52:00PM +0200, Dafna Hirschfeld wrote:
+>> drm_bridge_funcs has a function called 'hpd_notify'.
+>> The function drm_bridge_hpd_notify does not call
+>> 'hpd_notify' but it calls 'hpd_cb'. This is rather
+>> confusing. Rename the function to fix this confusion.
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> ---
+>>   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c        | 2 +-
+>>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
+>>   drivers/gpu/drm/bridge/display-connector.c          | 2 +-
+>>   drivers/gpu/drm/bridge/lontium-lt9611uxc.c          | 8 ++++----
+>>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 2 +-
+>>   drivers/gpu/drm/bridge/ti-tpd12s015.c               | 2 +-
+>>   drivers/gpu/drm/drm_bridge.c                        | 8 ++++----
+>>   include/drm/drm_bridge.h                            | 8 ++++----
+>>   8 files changed, 18 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+>> index 76555ae64e9c..748f82910f4f 100644
+>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+>> @@ -449,7 +449,7 @@ static void adv7511_hpd_work(struct work_struct *work)
+>>   				cec_phys_addr_invalidate(adv7511->cec_adap);
+>>   			drm_kms_helper_hotplug_event(adv7511->connector.dev);
+>>   		} else {
+>> -			drm_bridge_hpd_notify(&adv7511->bridge, status);
+>> +			drm_bridge_hpd_cb(&adv7511->bridge, status);
+>>   		}
+>>   	}
+>>   }
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> index d0c65610ebb5..682da288ff6d 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> @@ -794,7 +794,7 @@ static void cdns_mhdp_fw_cb(const struct firmware *fw, void *context)
+>>   		if (mhdp->connector.dev)
+>>   			drm_kms_helper_hotplug_event(mhdp->bridge.dev);
+>>   		else
+>> -			drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
+>> +			drm_bridge_hpd_cb(&mhdp->bridge, cdns_mhdp_detect(mhdp));
+>>   	}
+>>   }
+>>   
+>> @@ -2314,7 +2314,7 @@ static irqreturn_t cdns_mhdp_irq_handler(int irq, void *data)
+>>   			else
+>>   				drm_kms_helper_hotplug_event(mhdp->bridge.dev);
+>>   		} else {
+>> -			drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
+>> +			drm_bridge_hpd_cb(&mhdp->bridge, cdns_mhdp_detect(mhdp));
+>>   		}
+>>   	}
+>>   
+>> diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+>> index 05eb759da6fc..8ccd69d7fe34 100644
+>> --- a/drivers/gpu/drm/bridge/display-connector.c
+>> +++ b/drivers/gpu/drm/bridge/display-connector.c
+>> @@ -98,7 +98,7 @@ static irqreturn_t display_connector_hpd_irq(int irq, void *arg)
+>>   	struct display_connector *conn = arg;
+>>   	struct drm_bridge *bridge = &conn->bridge;
+>>   
+>> -	drm_bridge_hpd_notify(bridge, display_connector_detect(bridge));
+>> +	drm_bridge_hpd_cb(bridge, display_connector_detect(bridge));
+>>   
+>>   	return IRQ_HANDLED;
+>>   }
+>> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+>> index fee27952ec6d..58f61b5da605 100644
+>> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+>> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+>> @@ -175,10 +175,10 @@ static void lt9611uxc_hpd_work(struct work_struct *work)
+>>   		connected = lt9611uxc->hdmi_connected;
+>>   		mutex_unlock(&lt9611uxc->ocm_lock);
+>>   
+>> -		drm_bridge_hpd_notify(&lt9611uxc->bridge,
+>> -				      connected ?
+>> -				      connector_status_connected :
+>> -				      connector_status_disconnected);
+>> +		drm_bridge_hpd_cb(&lt9611uxc->bridge,
+>> +				  connected ?
+>> +				  connector_status_connected :
+>> +				  connector_status_disconnected);
+>>   	}
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> index dda4fa9a1a08..984ab5c4bc71 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> @@ -3026,7 +3026,7 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
+>>   
+>>   		if (hdmi->bridge.dev) {
+>>   			drm_helper_hpd_irq_event(hdmi->bridge.dev);
+>> -			drm_bridge_hpd_notify(&hdmi->bridge, status);
+>> +			drm_bridge_hpd_cb(&hdmi->bridge, status);
+>>   		}
+>>   	}
+>>   
+>> diff --git a/drivers/gpu/drm/bridge/ti-tpd12s015.c b/drivers/gpu/drm/bridge/ti-tpd12s015.c
+>> index e0e015243a60..2f079b6f51bc 100644
+>> --- a/drivers/gpu/drm/bridge/ti-tpd12s015.c
+>> +++ b/drivers/gpu/drm/bridge/ti-tpd12s015.c
+>> @@ -103,7 +103,7 @@ static irqreturn_t tpd12s015_hpd_isr(int irq, void *data)
+>>   	struct tpd12s015_device *tpd = data;
+>>   	struct drm_bridge *bridge = &tpd->bridge;
+>>   
+>> -	drm_bridge_hpd_notify(bridge, tpd12s015_detect(bridge));
+>> +	drm_bridge_hpd_cb(bridge, tpd12s015_detect(bridge));
+>>   
+>>   	return IRQ_HANDLED;
+>>   }
+>> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+>> index 64f0effb52ac..653761a0d5f9 100644
+>> --- a/drivers/gpu/drm/drm_bridge.c
+>> +++ b/drivers/gpu/drm/drm_bridge.c
+>> @@ -1173,7 +1173,7 @@ void drm_bridge_hpd_disable(struct drm_bridge *bridge)
+>>   EXPORT_SYMBOL_GPL(drm_bridge_hpd_disable);
+>>   
+>>   /**
+>> - * drm_bridge_hpd_notify - notify hot plug detection events
+>> + * drm_bridge_hpd_cb - notify hot plug detection events
+> 
+> This function is still documented as notifying hot plug detection
+> events, so drm_bridge_hpd_cb() isn't a great name :-S I do agree there's
+> confusion with the current naming scheme though.
+> 
+> bridge->hpd_cb() is an internal callback, not part of bridge ops, so I'd
+> rather not expose its name in the public drm_bridge_hpd_notify() API.
+> Could we find a better naming scheme ?
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm64/boot/dts/qcom/sm8250.dtsi | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I that bridge->funcs->hpd_notify is called only from drm_bridge_connector_hpd_notify
+which is called from both the hpd cb and from the 'detect' of the bridge connector.
+But 'detect' is not necesseraly by hpd right? I mean there is other ways apart of hpd
+to detect a connctor right?
+If that is the case then bridge->funcs->hpd_notify is also not a good name.
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-index 394973e778f7..60fe2eaf06c5 100644
---- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-@@ -2294,10 +2294,9 @@ mdss: mdss@ae00000 {
- 			power-domains = <&dispcc MDSS_GDSC>;
- 
- 			clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
--				 <&gcc GCC_DISP_HF_AXI_CLK>,
- 				 <&gcc GCC_DISP_SF_AXI_CLK>,
- 				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
--			clock-names = "iface", "bus", "nrt_bus", "core";
-+			clock-names = "iface", "nrt_bus", "core";
- 
- 			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
- 			assigned-clock-rates = <460000000>;
--- 
-2.30.2
+Also, I see that in some places the function drm_bridge_connector_init
+is called without later calling the function drm_bridge_connector_enable_hpd.
+Is there a use case in which we want to create a bridge connector without enabeling
+the hpd_cb ?
 
+Regarding the naming, maybe we can replace 'drm_bridge_hpd_notify' with 'drm_bridge_hpd' ?
+
+Thanks,
+Dafna
+
+> 
+>>    * @bridge: bridge control structure
+>>    * @status: output connection status
+>>    *
+>> @@ -1183,15 +1183,15 @@ EXPORT_SYMBOL_GPL(drm_bridge_hpd_disable);
+>>    *
+>>    * This function shall be called in a context that can sleep.
+>>    */
+>> -void drm_bridge_hpd_notify(struct drm_bridge *bridge,
+>> -			   enum drm_connector_status status)
+>> +void drm_bridge_hpd_cb(struct drm_bridge *bridge,
+>> +		       enum drm_connector_status status)
+>>   {
+>>   	mutex_lock(&bridge->hpd_mutex);
+>>   	if (bridge->hpd_cb)
+>>   		bridge->hpd_cb(bridge->hpd_data, status);
+>>   	mutex_unlock(&bridge->hpd_mutex);
+>>   }
+>> -EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
+>> +EXPORT_SYMBOL_GPL(drm_bridge_hpd_cb);
+>>   
+>>   #ifdef CONFIG_OF
+>>   /**
+>> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+>> index 2195daa289d2..ab54715eda8b 100644
+>> --- a/include/drm/drm_bridge.h
+>> +++ b/include/drm/drm_bridge.h
+>> @@ -605,7 +605,7 @@ struct drm_bridge_funcs {
+>>   	 * @hpd_enable:
+>>   	 *
+>>   	 * Enable hot plug detection. From now on the bridge shall call
+>> -	 * drm_bridge_hpd_notify() each time a change is detected in the output
+>> +	 * drm_bridge_hpd_cb() each time a change is detected in the output
+>>   	 * connection status, until hot plug detection gets disabled with
+>>   	 * @hpd_disable.
+>>   	 *
+>> @@ -620,7 +620,7 @@ struct drm_bridge_funcs {
+>>   	 * @hpd_disable:
+>>   	 *
+>>   	 * Disable hot plug detection. Once this function returns the bridge
+>> -	 * shall not call drm_bridge_hpd_notify() when a change in the output
+>> +	 * shall not call drm_bridge_hpd_cb() when a change in the output
+>>   	 * connection status occurs.
+>>   	 *
+>>   	 * This callback is optional and shall only be implemented by bridges
+>> @@ -878,8 +878,8 @@ void drm_bridge_hpd_enable(struct drm_bridge *bridge,
+>>   				      enum drm_connector_status status),
+>>   			   void *data);
+>>   void drm_bridge_hpd_disable(struct drm_bridge *bridge);
+>> -void drm_bridge_hpd_notify(struct drm_bridge *bridge,
+>> -			   enum drm_connector_status status);
+>> +void drm_bridge_hpd_cb(struct drm_bridge *bridge,
+>> +		       enum drm_connector_status status);
+>>   
+>>   #ifdef CONFIG_DRM_PANEL_BRIDGE
+>>   struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel);
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
