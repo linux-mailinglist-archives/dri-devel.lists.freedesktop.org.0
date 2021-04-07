@@ -1,36 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B505356762
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 10:59:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508BB356772
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Apr 2021 11:00:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2C5E6E8D9;
-	Wed,  7 Apr 2021 08:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73EF96E8E6;
+	Wed,  7 Apr 2021 09:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A5C4C6E8D9
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 08:59:07 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BFC631063
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 01:59:06 -0700 (PDT)
-Received: from [10.99.99.12] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E4AE3F694
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 01:59:06 -0700 (PDT)
-Subject: Re: [PATCH] drm/komeda: Convert sysfs sprintf/snprintf family to
- sysfs_emit
-To: dri-devel@lists.freedesktop.org
-References: <1617067518-31091-1-git-send-email-tiantao6@hisilicon.com>
-From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
-Organization: Arm Ltd.
-Message-ID: <4868a149-fefe-469b-2054-3e4e52d15450@foss.arm.com>
-Date: Wed, 7 Apr 2021 09:59:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D9EE6E8E6
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Apr 2021 09:00:23 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id s2so13201157qtx.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Apr 2021 02:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ku8OglXxTNGGbHHWxcDhFtMWBJ7gtdpe5IAmLvPb6lg=;
+ b=kkQOW1FEjeAuK4pSRWDAdhG6BTn98oaYU5CXLmk5LoQRxwLgIFMtcfz+yNOUKcVezU
+ wp5fJQIdGN4hXvwFGYOhgvrc5dNVPvNvgN1fNEnOZoQZwLIqWZ5UOfnnOHYkUeWkej++
+ h+HuMRIFphgMWtV6QRs0aBrXTKqZCAPcEBXdxYmjPMruEDSC3P0K6D0eGjsHHmSmW5iT
+ 3eB0xKzkF0Iu7CWkfeuSj6Imeg9AdH5nW1g/6/voQLnt/FSWuit973ZZw9Q6Q9h9Uvg+
+ pmiOFE5J6hAzTc2AguIoltt9XtP/o/ScTdlw9kCgacNjhDWxFf9gQVVgWLqTSPsa4Shb
+ x5zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ku8OglXxTNGGbHHWxcDhFtMWBJ7gtdpe5IAmLvPb6lg=;
+ b=UvAo4Mij3KmlilM3wuhrH8pWxJJLxZ71nJi9YzzTTxLRV6H+zogYluXGyH73tH02Vh
+ r/w9+3ZHK48ogx/9vgCMTjbO9pK7OGZKqP4CAeluyRspP/yPAJnrAaPQxkXNWCTFsV5o
+ IbIHE5/2iRKGMblBXLdv5gQh6y+HGCjOQCfkJFEhVlIr2/HiR7+igv5uKot6VbkPctxz
+ xWITv/q0XYt26rBmieq/ZXpKivRJa3eFmVmj1zv3+N/WVJM+FAMDEj8p3tHkMRx4bkdE
+ BEdKT91kBTFjdRtiQTu10wtmz/RX8zDChDOhDVCQxQbKG50yV0wSpCJlcUYbO1/tCjb0
+ emFw==
+X-Gm-Message-State: AOAM530Hq8KgxykOXd2RaG7Q/PQZWtTIhCpB4pWRpARJx9veE1rSbXLe
+ pbEwJJvPOqMI3ht2YKgiDhx3NJRMDbiYrvGFC3HLbA==
+X-Google-Smtp-Source: ABdhPJwpVpHl5AgfUWWZ7rFE+fTLLWSBLG47+bo0fY9bos4oOj4bPlOhokymeav3cksyRptLE/cPLlYDQRqm8B0+fp8=
+X-Received: by 2002:a05:622a:1716:: with SMTP id
+ h22mr1818569qtk.273.1617786022398; 
+ Wed, 07 Apr 2021 02:00:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1617067518-31091-1-git-send-email-tiantao6@hisilicon.com>
-Content-Language: en-US
+References: <20210406230606.3007138-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20210406230606.3007138-1-dmitry.baryshkov@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 7 Apr 2021 12:00:11 +0300
+Message-ID: <CAA8EJpr7MazgHfL0qQiqfXvRn8T+ExnGhn-QFa1Np-fBhXn53w@mail.gmail.com>
+Subject: Re: [PATCH] clk: fixed: fix double free in resource managed
+ fixed-factor clock
+To: Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,59 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Daniel Palmer <daniel@0x0f.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/30/21 2:25 AM, Tian Tao wrote:
-> Fix the following coccicheck warning:
-> drivers/gpu/drm/arm/display/komeda/komeda_dev.c:97:8-16: WARNING:
-> use scnprintf or sprintf
-> drivers/gpu/drm/arm/display/komeda/komeda_dev.c:88:8-16: WARNING:
-> use scnprintf or sprintf
-> drivers/gpu/drm/arm/display/komeda/komeda_dev.c:65:8-16: WARNING:
-> use scnprintf or sprintf
-> 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> ---
->   drivers/gpu/drm/arm/display/komeda/komeda_dev.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
-> index ca891ae..cc7664c 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
-> @@ -62,7 +62,7 @@ core_id_show(struct device *dev, struct device_attribute *attr, char *buf)
->   {
->   	struct komeda_dev *mdev = dev_to_mdev(dev);
->   
-> -	return snprintf(buf, PAGE_SIZE, "0x%08x\n", mdev->chip.core_id);
-> +	return sysfs_emit(buf, "0x%08x\n", mdev->chip.core_id);
->   }
->   static DEVICE_ATTR_RO(core_id);
->   
-> @@ -85,7 +85,7 @@ config_id_show(struct device *dev, struct device_attribute *attr, char *buf)
->   		if (pipe->layers[i]->layer_type == KOMEDA_FMT_RICH_LAYER)
->   			config_id.n_richs++;
->   	}
-> -	return snprintf(buf, PAGE_SIZE, "0x%08x\n", config_id.value);
-> +	return sysfs_emit(buf, "0x%08x\n", config_id.value);
->   }
->   static DEVICE_ATTR_RO(config_id);
->   
-> @@ -94,7 +94,7 @@ aclk_hz_show(struct device *dev, struct device_attribute *attr, char *buf)
->   {
->   	struct komeda_dev *mdev = dev_to_mdev(dev);
->   
-> -	return snprintf(buf, PAGE_SIZE, "%lu\n", clk_get_rate(mdev->aclk));
-> +	return sysfs_emit(buf, "%lu\n", clk_get_rate(mdev->aclk));
->   }
->   static DEVICE_ATTR_RO(aclk_hz);
->   
-> 
+On Wed, 7 Apr 2021 at 02:06, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> devm_clk_hw_register_fixed_factor_release(), the release function for
+> the devm_clk_hw_register_fixed_factor(), calls
+> clk_hw_unregister_fixed_factor(), which will kfree() the clock. However
+> after that the devres functions will also kfree the allocated data,
+> resulting in double free/memory corruption. Just call
+> clk_hw_unregister() instead, leaving kfree() to devres code.
+>
+> Reported-by: Rob Clark <robdclark@chromium.org>
+> Cc: Daniel Palmer <daniel@0x0f.com>
 
-Looks OK to me.
+Forgot:
+
+Fixes: 0b9266d295ce ("clk: fixed: add devm helper for
+clk_hw_register_fixed_factor()")
+
+
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>
+> Stephen, this fix affects the DSI PHY rework. Do we have a chance of
+> getting it into 5.12, otherwise there will be a cross-dependency between
+> msm-next and clk-next.
+>
+> ---
+>  drivers/clk/clk-fixed-factor.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+
+
+-- 
+With best wishes
+Dmitry
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
