@@ -1,57 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5EE358F8A
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 23:55:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 354FE358FC1
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 00:24:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8E86E405;
-	Thu,  8 Apr 2021 21:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9E9F6E417;
+	Thu,  8 Apr 2021 22:24:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EAA86E405
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 21:55:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 98F2F610FA
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 21:55:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617918944;
- bh=zrfxjO5YXLdFpefJxaEpMldz8eWaxcTxCbP7Ld/Gsek=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=G1c5VijVgm6P3XPWNhzlD4ywUcO+enF6UTVcM6rQWpa1oqkVsv+e1WN7zSJq3BWqT
- smBQ6sefezowDahb5o7jPuTTO6yecTUfywPzHQFhsFVo3a15R1n76TtBRCCeg2dZSu
- z7nAQRXeeKu4bPUPAnIVUglJ88ELOYUVIU629uhxM2YIH9S68Ut+7tihYIKP+qRnC4
- cfOPDkKJNVaBgJ4/9gUtg1JvH7ysQLP3iFlK9C5vlRJLShXlG0F+SmZnKJseLjzdO3
- AOnpvJGladMlCPT7/5zOsQ+JSLdhHK/XxA0YJpFixgm/P07qlihXEesa5o1oYz+Gq/
- 59QrdZsn1L/dQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 8B58F61132; Thu,  8 Apr 2021 21:55:44 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211875] CPU frequency scaling lost after "WARNING: CPU: 2 PID:
- 2358578 at smu8_send_msg_to_smc_with_parameter+0xfe/0x140 [amdgpu]"
-Date: Thu, 08 Apr 2021 21:55:44 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211875-2300-D00ZjCD2T3@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211875-2300@https.bugzilla.kernel.org/>
-References: <bug-211875-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDC76E417
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 22:24:36 +0000 (UTC)
+Received: from [IPv6:2804:431:e7dc:9ef6:7b41:f88b:5bc5:8ea5] (unknown
+ [IPv6:2804:431:e7dc:9ef6:7b41:f88b:5bc5:8ea5])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: leandrohrb)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EFDB71F460C8;
+ Thu,  8 Apr 2021 23:24:33 +0100 (BST)
+Subject: Re: [PATCH 0/2] Document how userspace should use plane format list
+ and IN_FORMATS
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210406192118.12313-1-leandro.ribeiro@collabora.com>
+ <YG7qbA3KthIUXhDn@phenom.ffwll.local>
+From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Message-ID: <14b8b86b-edc5-f726-5920-d5d381d3f538@collabora.com>
+Date: Thu, 8 Apr 2021 19:24:30 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
+In-Reply-To: <YG7qbA3KthIUXhDn@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +44,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, pekka.paalanen@collabora.co.uk, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211875
 
---- Comment #9 from Erhard F. (erhard_f@mailbox.org) ---
-(In reply to Alex Deucher from comment #4)
-> If this is a regression, can you bisect? 
-> https://www.kernel.org/doc/html/latest/admin-guide/bug-bisect.html
-Sorry but my bisecting efforts came to a halt. Last kernel I was able to boot
-was  4.14.228. And this one still has the issue.
 
-Kernels 4.13.16, 4.12.14, 4.11.12, 4.10.17, 4.9.264 I was able to build but
-they don't boot into desktop or even console. Just getting a "no signal"
-message von my monitor after the kernel has booted, and some of these kernels
-do a reboot.
+On 4/8/21 8:35 AM, Daniel Vetter wrote:
+> On Tue, Apr 06, 2021 at 04:21:16PM -0300, Leandro Ribeiro wrote:
+>> This patch is to emphasize how userspace should use the plane format list and
+>> the IN_FORMATS blob. The plane format list contains the formats that do not
+>> require modifiers, and the blob property has the formats that support
+>> modifiers.
+>
+> Uh this is a very strong statement that I don't think is supported by
+> kernel driver code. Where is this from.
+>
+>> Note that these are not disjoint sets. If a format supports modifiers but the
+>> driver can also handle it without a modifier, it should be present in both the
+>> IN_FORMATS blob property and the plane format list.
+> 
+> Same here ...
+> 
 
-Don't know how to proceed from here.
+Yes, sorry. The wording was not good. To clarify:
 
--- 
-You may reply to this email to add a comment.
+I'm trying to document a good approach that userspace *can* (not must)
+take to be able to tell if a certain format can be used in the
+pre-modifier kernel uAPI or if it only works with modifiers.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+The background is that we are reworking the way that Weston stores the
+formats and modifiers supported by the planes, and there were some wrong
+assumptions in the code related to what we can assume that the KMS
+driver supports.
+
+We've discussed and decided to send a patch to raise a discussion and
+check if the conclusions that we've made were reasonable. And if not,
+what would be a better approach.
+
+This is part of a MR in which we add support for the dmabuf-hints
+protocol extension in Weston. In sort, in Weston we store the formats
+and modifiers supported by the planes. Then we send them to the client
+and it may pick one of these format/modifier pairs to allocate its
+buffers, increasing the chances of its surface ending up in a plane.
+
+Here are two commits of the MR that are related to this discussion:
+
+https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/544/diffs?commit_id=de6fc18bc35c2e43dff936dd85f310d1f778a7b8
+
+https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/544/diffs?commit_id=75363bdb121bda2f326109afca5f4c3259423b7d
+
+Thanks!
+
+> I thought these two lists are 100% consistent. If not sounds like driver
+> bugs that we need to maybe validate in drm_plane_init.
+> 
+>> This is important for userspace, as there are situations in which we need to
+>> find out if the KMS driver can handle a certain format without any modifiers.
+> 
+> I don't think you can rely on this. No modifiers means implicit modifier,
+> and the only thing that can give you such buffers is defacto mesa
+> userspace drivers (since that all depends upon driver private magic, with
+> maybe some kernel metadata passed around in private ioctls on the render
+> node).
+> 
+> Maybe for more context, what's the problem you've hit and trying to
+> clarify here?
+> -Daniel
+> 
+>>
+>> Leandro Ribeiro (2):
+>>   drm/doc: document drm_mode_get_plane
+>>   drm/doc: emphasize difference between plane formats and IN_FORMATS
+>>     blob
+>>
+>>  drivers/gpu/drm/drm_plane.c |  4 ++++
+>>  include/uapi/drm/drm_mode.h | 22 ++++++++++++++++++++++
+>>  2 files changed, 26 insertions(+)
+>>
+>> -- 
+>> 2.31.1
+>>
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
