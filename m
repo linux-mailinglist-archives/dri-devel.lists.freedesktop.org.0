@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8CE357F1B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:27:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1682B357F25
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:30:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 908FE6EA3F;
-	Thu,  8 Apr 2021 09:27:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12A126E190;
+	Thu,  8 Apr 2021 09:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25E456EA41
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:27:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617874069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A5IvCnxW0jbdn7IvPVBmPlvnrFHeuHXMc9iT0QRe8gM=;
- b=S06wloffI90P2/gX8Qn9GWd62OLSaMsAQKZc/YTAHlwQPKZgOB6MmSH/52bogRwbiMiDRa
- 4jpjQ2DFSAiDTX3RMMdy8vogXvP9kEnwfuhzjVeoOGEfaLjbZvEb44+CDF3bPfFAgEalg8
- H3NpJCtz8lW/O1PitGieDvIYQwVEr9s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505--XFVfEn2N5-1N9XforGjpQ-1; Thu, 08 Apr 2021 05:27:45 -0400
-X-MC-Unique: -XFVfEn2N5-1N9XforGjpQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BA1283DD22;
- Thu,  8 Apr 2021 09:27:44 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-165.ams2.redhat.com
- [10.36.114.165])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BBD46A045;
- Thu,  8 Apr 2021 09:27:44 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F32AA1800604; Thu,  8 Apr 2021 11:27:40 +0200 (CEST)
-Date: Thu, 8 Apr 2021 11:27:40 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Subject: Re: [PATCH] drm/virtio: Create Dumb BOs as guest Blobs (v2)
-Message-ID: <20210408092740.c42sp32hku5d66ec@sirius.home.kraxel.org>
-References: <20210401065324.vb44nfodohcgrdex@sirius.home.kraxel.org>
- <20210406203625.1727955-1-vivek.kasireddy@intel.com>
- <CAAfnVB=NUjUUUcABQhR3AhQPtdDu9uHZCsi+9Q90babp2AfOpg@mail.gmail.com>
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
+ [IPv6:2607:f8b0:4864:20::735])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2606D6E190
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:30:22 +0000 (UTC)
+Received: by mail-qk1-x735.google.com with SMTP id 7so1479458qka.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 02:30:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5XAETM08UhZJwTK0Ph/sGGuD9pkmUaZXwlb/7bKpHG4=;
+ b=RXSQzyKQL1eJYRKOZk+dBbXVRZto6VVGAwnc/oQX7tUGkscauRyDo6UQjNJ1X1EvJb
+ 3o0K4zVGa1VZhIe6Xf424YK3j6VNXjD13pXV0TxJEB29hdCGeHEw6mMLl4V+xhtK0ocp
+ Io3hQ2BWehASgwBQIhMcIqohLdCGvYg0677LE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5XAETM08UhZJwTK0Ph/sGGuD9pkmUaZXwlb/7bKpHG4=;
+ b=g9RT9AkekhLOka9kypxflz67ElutrgAJbiR/kZ97izjTHEWAV5Amsfc09q/6dE8nGu
+ cxonqAVcmgm7GcjuqgctYyOcwZ/dNubRFhVspsb+FcxLn7nlRO5uiH3oSS+gKr5WYNi4
+ ERTQ6uws99lML6U8YKJWX1of/pBJpabRULfyOf4igtb5yPSpxy+g7J7ryDFy1Owrj0Q+
+ +0jdtHwhniEnnraqso4D8GH+VWckDuEzKyZFLGyEuYfOHGvtgkAQedtIlysE570T8HaL
+ imPpd23LdOeW/ULNjpk48FNb7Hl7OFE4J8yv9GtGo81/TJCIeqGxh83QRJCoET3tYqNl
+ J7Bg==
+X-Gm-Message-State: AOAM532OK8yNsOpUH0dOI/pMofTWgjkMW37YUduFsliIe79uqbJYr6LD
+ XkxSGKBfGIyd+2jysMq7y1RWfX6+S22JiC7g8lwudw==
+X-Google-Smtp-Source: ABdhPJwWEqQurfmYq870drV/cynKIHeNVetiz3skgFdCEUNUOHHIA1edbdLeID25R0yhfxOw5xD/m5nnfHR5aMC+hhc=
+X-Received: by 2002:a37:9bd1:: with SMTP id d200mr7585951qke.328.1617874221077; 
+ Thu, 08 Apr 2021 02:30:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAAfnVB=NUjUUUcABQhR3AhQPtdDu9uHZCsi+9Q90babp2AfOpg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+References: <20210408045926.3202160-1-stevensd@google.com>
+ <7f22ac22-dbe0-f056-b7db-24fa60f9724e@amd.com>
+In-Reply-To: <7f22ac22-dbe0-f056-b7db-24fa60f9724e@amd.com>
+From: David Stevens <stevensd@chromium.org>
+Date: Thu, 8 Apr 2021 18:30:10 +0900
+Message-ID: <CAD=HUj5vS7VZQ-Meaz_Q1xEoamE_2fF0VE-RGj0sfUu0apP7Zg@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm/syncobj: use dma_fence_get_stub"
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,57 +59,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > +
-> > +       if (vgdev->has_resource_blob) {
-> > +               params.blob_mem = VIRTGPU_BLOB_MEM_GUEST;
-> > +               params.blob_flags = VIRTGPU_BLOB_FLAG_USE_SHAREABLE;
-> >
-> 
-> This creates some log spam with crosvm + virgl_3d + vanilla linux, since
-> transfers don't work for guest blobs.  Two options:
-> 
-> a) Add vgdev->has_virgl_3d check and don't create a guest blob in that case.
-> b) The interactions between TRANSFER_TO_HOST_2D and VIRTGPU_BLOB_MEM_GUEST
-> are a bit under-defined in the spec.
-
-Indeed.
-
-> Though since you don't have a host
-> side resource, you can safely skip the transfer and crosvm can be modified
-> to do the right thing in case of RESOURCE_FLUSH.
-
-IIRC the VIRTGPU_BLOB_FLAG_USE_SHAREABLE flag means that the host *can*
-create a shared mapping (i.e. the host seeing guest-side changes without
-explicit transfer doesn't cause problems for the guest).  It doesn not
-mean the host *must* create a shared mapping (note that there is no
-negotiation whenever the host supports shared mappings or not).
-
-So the transfer calls are still needed, and the host can decide to
-shortcut them in case it can create a shared mapping.  In case there is
-no shared mapping (say due to missing udmabuf support) the host can
-fallback to copying.
-
-So I think crosvm should be fixed to not consider transfer commands for
-VIRTGPU_BLOB_MEM_GUEST resources an error.
-
-> It makes a ton of sense to have a explicit udmabuf-like flag
-> ("BLOB_FLAG_CREATE_GUEST_HANDLE" or "BLOB_FLAG_HANDLE_FROM_GUEST" -- want
-> to host OS agnostic -- any other ideas?), especially with 3d mode.
-
-Why?  Can't this be simply an host implementation detail which the guest
-doesn't need to worry about?
-
-take care,
-  Gerd
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBBcHIgOCwgMjAyMSBhdCA0OjAzIFBNIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
+bi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4KPiBBbSAwOC4wNC4yMSB1bSAwNjo1OSBzY2hyaWVi
+IERhdmlkIFN0ZXZlbnM6Cj4gPiBGcm9tOiBEYXZpZCBTdGV2ZW5zIDxzdGV2ZW5zZEBjaHJvbWl1
+bS5vcmc+Cj4gPgo+ID4gVGhpcyByZXZlcnRzIGNvbW1pdCA4NmJiZDg5ZDVkYTY2ZmU3NjAwNDlh
+ZDNmMDRhZGM0MDdlYzBjNGQ2Lgo+ID4KPiA+IFVzaW5nIHRoZSBzaW5nbGV0b24gc3R1YiBmZW5j
+ZSBpbiBkcm1fc3luY29ial9hc3NpZ25fbnVsbF9oYW5kbGUgbWVhbnMKPiA+IHRoYXQgYWxsIHN5
+bmNvYmpzIGNyZWF0ZWQgaW4gYW4gYWxyZWFkeSBzaWduYWxlZCBzdGF0ZSBvciBhbnkgc3luY29i
+anMKPiA+IHNpZ25hbGVkIGJ5IHVzZXJzcGFjZSB3aWxsIHJlZmVyZW5jZSB0aGUgc2luZ2xldG9u
+IGZlbmNlIHdoZW4gZXhwb3J0ZWQKPiA+IHRvIGEgc3luY19maWxlLiBJZiB0aG9zZSBzeW5jX2Zp
+bGVzIGFyZSBxdWVyaWVkIHdpdGggU1lOQ19JT0NfRklMRV9JTkZPLAo+ID4gdGhlbiB0aGUgdGlt
+ZXN0YW1wX25zIHZhbHVlIHJldHVybmVkIHdpbGwgY29ycmVzcG9uZCB0byB3aGVuZXZlciB0aGUK
+PiA+IHNpbmdsZXRvbiBzdHViIGZlbmNlIHdhcyBmaXJzdCBpbml0aWFsaXplZC4gVGhpcyBjYW4g
+YnJlYWsgdGhlIGFiaWxpdHkKPiA+IG9mIHVzZXJzcGFjZSB0byB1c2UgdGltZXN0YW1wcyBvZiB0
+aGVzZSBmZW5jZXMsIGFzIHRoZSBzaW5nbGV0b24gc3R1Ygo+ID4gZmVuY2UncyB0aW1lc3RhbXAg
+YmVhcnMgbm8gcmVsYXRpb25zaGlwIHRvIGFueSBtZWFuaW5nZnVsIGV2ZW50Lgo+Cj4gQW5kIHdo
+eSBleGFjdGx5IGlzIGhhdmluZyB0aGUgdGltZXN0YW1wIG9mIHRoZSBjYWxsIHRvCj4gZHJtX3N5
+bmNvYmpfYXNzaWduX251bGxfaGFuZGxlKCkgYmV0dGVyPwoKVGhlIHRpbWVzdGFtcCByZXR1cm5l
+ZCBieSBTWU5DX0lPQ19GSUxFX0lORk8gaXMgdGhlICJ0aW1lc3RhbXAgb2YKc3RhdHVzIGNoYW5n
+ZSBpbiBuYW5vc2Vjb25kcyIuIElmIHVzZXJzcGFjZSBzaWduYWxzIHRoZSBmZW5jZSB3aXRoCkRS
+TV9JT0NUTF9TWU5DT0JKX1NJR05BTCwgdGhlbiBhIHRpbWVzdGFtcCBmcm9tCmRybV9zeW5jb2Jq
+X2Fzc2lnbl9udWxsX2hhbmRsZSBjb3JyZXNwb25kcyB0byB0aGUgc3RhdHVzIGNoYW5nZS4gSWYK
+dXNlcnNwYWNlIHNldHMgRFJNX1NZTkNPQkpfQ1JFQVRFX1NJR05BTEVEIHdoZW4gY3JlYXRpbmcg
+YSBmZW5jZSwgdGhlbgp0aGUgc3RhdHVzIGNoYW5nZSBoYXBwZW5zIGltbWVkaWF0ZWx5IHVwb24g
+Y3JlYXRpb24sIHdoaWNoIGFnYWluCmNvcnJlc3BvbmRzIHRvIHdoZW4gZHJtX3N5bmNvYmpfYXNz
+aWduX251bGxfaGFuZGxlIGdldHMgY2FsbGVkLgoKPiBBZGRpdGlvbmFsIGlmIHlvdSByZWFsbHkg
+bmVlZCB0aGF0IHBsZWFzZSBkb24ndCByZXZlcnQgdGhlIHBhdGNoLgo+IEluc3RlYWQgcHJvdmlk
+ZSBhIGZ1bmN0aW9uIHdoaWNoIHJldHVybnMgYSBuZXdseSBpbml0aWFsaXplZCBzdHViIGZlbmNl
+Cj4gaW4gdGhlIGRtYV9mZW5jZS5jIGNvZGUuCgpBY2suCgotRGF2aWQKCj4gUmVnYXJkcywKPiBD
+aHJpc3RpYW4uCj4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBEYXZpZCBTdGV2ZW5zIDxzdGV2ZW5z
+ZEBjaHJvbWl1bS5vcmc+Cj4gPiAtLS0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2Jq
+LmMgfCA1OCArKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLQo+ID4gICAxIGZpbGUg
+Y2hhbmdlZCwgNDQgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9zeW5jb2JqLmMKPiA+IGluZGV4IDM0OTE0NjA0OTg0OS4uN2NjMTFmMWE4M2Y0IDEwMDY0NAo+
+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMKPiA+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fc3luY29iai5jCj4gPiBAQCAtMjExLDYgKzIxMSwyMSBAQCBzdHJ1Y3Qgc3lu
+Y29ial93YWl0X2VudHJ5IHsKPiA+ICAgc3RhdGljIHZvaWQgc3luY29ial93YWl0X3N5bmNvYmpf
+ZnVuYyhzdHJ1Y3QgZHJtX3N5bmNvYmogKnN5bmNvYmosCj4gPiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBzdHJ1Y3Qgc3luY29ial93YWl0X2VudHJ5ICp3YWl0KTsKPiA+Cj4g
+PiArc3RydWN0IGRybV9zeW5jb2JqX3N0dWJfZmVuY2Ugewo+ID4gKyAgICAgc3RydWN0IGRtYV9m
+ZW5jZSBiYXNlOwo+ID4gKyAgICAgc3BpbmxvY2tfdCBsb2NrOwo+ID4gK307Cj4gPiArCj4gPiAr
+c3RhdGljIGNvbnN0IGNoYXIgKmRybV9zeW5jb2JqX3N0dWJfZmVuY2VfZ2V0X25hbWUoc3RydWN0
+IGRtYV9mZW5jZSAqZmVuY2UpCj4gPiArewo+ID4gKyAgICAgcmV0dXJuICJzeW5jb2Jqc3R1YiI7
+Cj4gPiArfQo+ID4gKwo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZG1hX2ZlbmNlX29wcyBkcm1f
+c3luY29ial9zdHViX2ZlbmNlX29wcyA9IHsKPiA+ICsgICAgIC5nZXRfZHJpdmVyX25hbWUgPSBk
+cm1fc3luY29ial9zdHViX2ZlbmNlX2dldF9uYW1lLAo+ID4gKyAgICAgLmdldF90aW1lbGluZV9u
+YW1lID0gZHJtX3N5bmNvYmpfc3R1Yl9mZW5jZV9nZXRfbmFtZSwKPiA+ICt9Owo+ID4gKwo+ID4g
+ICAvKioKPiA+ICAgICogZHJtX3N5bmNvYmpfZmluZCAtIGxvb2t1cCBhbmQgcmVmZXJlbmNlIGEg
+c3luYyBvYmplY3QuCj4gPiAgICAqIEBmaWxlX3ByaXZhdGU6IGRybSBmaWxlIHByaXZhdGUgcG9p
+bnRlcgo+ID4gQEAgLTM0NCwxOCArMzU5LDI0IEBAIHZvaWQgZHJtX3N5bmNvYmpfcmVwbGFjZV9m
+ZW5jZShzdHJ1Y3QgZHJtX3N5bmNvYmogKnN5bmNvYmosCj4gPiAgIH0KPiA+ICAgRVhQT1JUX1NZ
+TUJPTChkcm1fc3luY29ial9yZXBsYWNlX2ZlbmNlKTsKPiA+Cj4gPiAtLyoqCj4gPiAtICogZHJt
+X3N5bmNvYmpfYXNzaWduX251bGxfaGFuZGxlIC0gYXNzaWduIGEgc3R1YiBmZW5jZSB0byB0aGUg
+c3luYyBvYmplY3QKPiA+IC0gKiBAc3luY29iajogc3luYyBvYmplY3QgdG8gYXNzaWduIHRoZSBm
+ZW5jZSBvbgo+ID4gLSAqCj4gPiAtICogQXNzaWduIGEgYWxyZWFkeSBzaWduYWxlZCBzdHViIGZl
+bmNlIHRvIHRoZSBzeW5jIG9iamVjdC4KPiA+IC0gKi8KPiA+IC1zdGF0aWMgdm9pZCBkcm1fc3lu
+Y29ial9hc3NpZ25fbnVsbF9oYW5kbGUoc3RydWN0IGRybV9zeW5jb2JqICpzeW5jb2JqKQo+ID4g
+K3N0YXRpYyBpbnQgZHJtX3N5bmNvYmpfYXNzaWduX251bGxfaGFuZGxlKHN0cnVjdCBkcm1fc3lu
+Y29iaiAqc3luY29iaikKPiA+ICAgewo+ID4gLSAgICAgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2Ug
+PSBkbWFfZmVuY2VfZ2V0X3N0dWIoKTsKPiA+ICsgICAgIHN0cnVjdCBkcm1fc3luY29ial9zdHVi
+X2ZlbmNlICpmZW5jZTsKPiA+Cj4gPiAtICAgICBkcm1fc3luY29ial9yZXBsYWNlX2ZlbmNlKHN5
+bmNvYmosIGZlbmNlKTsKPiA+IC0gICAgIGRtYV9mZW5jZV9wdXQoZmVuY2UpOwo+ID4gKyAgICAg
+ZmVuY2UgPSBremFsbG9jKHNpemVvZigqZmVuY2UpLCBHRlBfS0VSTkVMKTsKPiA+ICsgICAgIGlm
+IChmZW5jZSA9PSBOVUxMKQo+ID4gKyAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiA+ICsK
+PiA+ICsgICAgIHNwaW5fbG9ja19pbml0KCZmZW5jZS0+bG9jayk7Cj4gPiArICAgICBkbWFfZmVu
+Y2VfaW5pdCgmZmVuY2UtPmJhc2UsICZkcm1fc3luY29ial9zdHViX2ZlbmNlX29wcywKPiA+ICsg
+ICAgICAgICAgICAgICAgICAgICZmZW5jZS0+bG9jaywgMCwgMCk7Cj4gPiArICAgICBkbWFfZmVu
+Y2Vfc2lnbmFsKCZmZW5jZS0+YmFzZSk7Cj4gPiArCj4gPiArICAgICBkcm1fc3luY29ial9yZXBs
+YWNlX2ZlbmNlKHN5bmNvYmosICZmZW5jZS0+YmFzZSk7Cj4gPiArCj4gPiArICAgICBkbWFfZmVu
+Y2VfcHV0KCZmZW5jZS0+YmFzZSk7Cj4gPiArCj4gPiArICAgICByZXR1cm4gMDsKPiA+ICAgfQo+
+ID4KPiA+ICAgLyogNXMgZGVmYXVsdCBmb3Igd2FpdCBzdWJtaXNzaW9uICovCj4gPiBAQCAtNDY5
+LDYgKzQ5MCw3IEBAIEVYUE9SVF9TWU1CT0woZHJtX3N5bmNvYmpfZnJlZSk7Cj4gPiAgIGludCBk
+cm1fc3luY29ial9jcmVhdGUoc3RydWN0IGRybV9zeW5jb2JqICoqb3V0X3N5bmNvYmosIHVpbnQz
+Ml90IGZsYWdzLAo+ID4gICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRtYV9mZW5jZSAqZmVu
+Y2UpCj4gPiAgIHsKPiA+ICsgICAgIGludCByZXQ7Cj4gPiAgICAgICBzdHJ1Y3QgZHJtX3N5bmNv
+YmogKnN5bmNvYmo7Cj4gPgo+ID4gICAgICAgc3luY29iaiA9IGt6YWxsb2Moc2l6ZW9mKHN0cnVj
+dCBkcm1fc3luY29iaiksIEdGUF9LRVJORUwpOwo+ID4gQEAgLTQ3OSw4ICs1MDEsMTMgQEAgaW50
+IGRybV9zeW5jb2JqX2NyZWF0ZShzdHJ1Y3QgZHJtX3N5bmNvYmogKipvdXRfc3luY29iaiwgdWlu
+dDMyX3QgZmxhZ3MsCj4gPiAgICAgICBJTklUX0xJU1RfSEVBRCgmc3luY29iai0+Y2JfbGlzdCk7
+Cj4gPiAgICAgICBzcGluX2xvY2tfaW5pdCgmc3luY29iai0+bG9jayk7Cj4gPgo+ID4gLSAgICAg
+aWYgKGZsYWdzICYgRFJNX1NZTkNPQkpfQ1JFQVRFX1NJR05BTEVEKQo+ID4gLSAgICAgICAgICAg
+ICBkcm1fc3luY29ial9hc3NpZ25fbnVsbF9oYW5kbGUoc3luY29iaik7Cj4gPiArICAgICBpZiAo
+ZmxhZ3MgJiBEUk1fU1lOQ09CSl9DUkVBVEVfU0lHTkFMRUQpIHsKPiA+ICsgICAgICAgICAgICAg
+cmV0ID0gZHJtX3N5bmNvYmpfYXNzaWduX251bGxfaGFuZGxlKHN5bmNvYmopOwo+ID4gKyAgICAg
+ICAgICAgICBpZiAocmV0IDwgMCkgewo+ID4gKyAgICAgICAgICAgICAgICAgICAgIGRybV9zeW5j
+b2JqX3B1dChzeW5jb2JqKTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+
+ID4gKyAgICAgICAgICAgICB9Cj4gPiArICAgICB9Cj4gPgo+ID4gICAgICAgaWYgKGZlbmNlKQo+
+ID4gICAgICAgICAgICAgICBkcm1fc3luY29ial9yZXBsYWNlX2ZlbmNlKHN5bmNvYmosIGZlbmNl
+KTsKPiA+IEBAIC0xMzIyLDggKzEzNDksMTEgQEAgZHJtX3N5bmNvYmpfc2lnbmFsX2lvY3RsKHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gPiAgICAgICBpZiAocmV0IDwgMCkK
+PiA+ICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPiA+Cj4gPiAtICAgICBmb3IgKGkgPSAwOyBp
+IDwgYXJncy0+Y291bnRfaGFuZGxlczsgaSsrKQo+ID4gLSAgICAgICAgICAgICBkcm1fc3luY29i
+al9hc3NpZ25fbnVsbF9oYW5kbGUoc3luY29ianNbaV0pOwo+ID4gKyAgICAgZm9yIChpID0gMDsg
+aSA8IGFyZ3MtPmNvdW50X2hhbmRsZXM7IGkrKykgewo+ID4gKyAgICAgICAgICAgICByZXQgPSBk
+cm1fc3luY29ial9hc3NpZ25fbnVsbF9oYW5kbGUoc3luY29ianNbaV0pOwo+ID4gKyAgICAgICAg
+ICAgICBpZiAocmV0IDwgMCkKPiA+ICsgICAgICAgICAgICAgICAgICAgICBicmVhazsKPiA+ICsg
+ICAgIH0KPiA+Cj4gPiAgICAgICBkcm1fc3luY29ial9hcnJheV9mcmVlKHN5bmNvYmpzLCBhcmdz
+LT5jb3VudF9oYW5kbGVzKTsKPiA+Cj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
