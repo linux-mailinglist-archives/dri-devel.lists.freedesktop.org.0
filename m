@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45518358E34
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 22:17:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C72358E4E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 22:24:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644BC6E200;
-	Thu,  8 Apr 2021 20:17:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1746E203;
+	Thu,  8 Apr 2021 20:24:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27B5A6E1E0;
- Thu,  8 Apr 2021 20:17:48 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id x2so3504157oiv.2;
- Thu, 08 Apr 2021 13:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GbKRYywPq5lTqQsCGdmRs4HbLi4uvVdVMAoIQiw0/YE=;
- b=XbD/RW/FnbtoAPkniakebko66U6G+Qwa0MElUx/bYeB/yI1VMFNzHysYudOelNxJOa
- duODrLQIYnhnQEUHs962NWQSq9pwDCdB8GPzzEXkmPe/IYwQv86bEnHmAlw9OFRVXk5C
- ajb5DnQBC60HsOVrLNORwe07w5oLUB51hPqz4YfZawEJ3wVXFGTE2M91JAVPORAJshuv
- 41X24jeo6ZbFRZwjQsZlOIMqhpyAOWZOkk0geVtTOTj5hnOQ1CR155m2ZbwdphPD97nT
- 0lZyU1VthhjJ/vShnJBvXrzQUMKUpw28ZgKvhUdo4wuDGQYHEvlHgVzFkFXfBtRoi2eg
- C+wA==
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+ [209.85.210.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97D7F6E203
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 20:24:22 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id
+ w31-20020a9d36220000b02901f2cbfc9743so3578148otb.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 13:24:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GbKRYywPq5lTqQsCGdmRs4HbLi4uvVdVMAoIQiw0/YE=;
- b=iXitKqBy2w8PnItK7Cpv1Jx4Hx6UPvtDXso3C0ZU3EewSzK3+kLmIQWu8ew4MC272y
- tz4VjwRGCTgJOutYbfWXG7MCsVW1oiTs6grNH650DyB9ZBzNUIEtpftztdX8NvilZyJM
- N07ePcZG/oeKfSY3934uca05VFtVmgoTp5JsCofr3MpacwqO3t1ndsa+2e0mxWmr2Hsk
- Gm+OSfeq7Gb9cUPLmPDz4RgQL8egbT3JiT1Y7lFPzYBi6h8WVBUrnqBgpOKTvY4aw/IU
- codR1BC1wu8k39gHfgAF8xhJPe5isLGjyuAvGOnaAcqFoXS/zqyzLyCZL+/7c4g5fHG0
- 5e9Q==
-X-Gm-Message-State: AOAM530weTbrwkAzvs9ZM1IkBUt8jImr6W0SuxXqaFBb3zf1OL4EnWSL
- pi5gKuEblgSlnlOL8tQ4cw2Y9HQDnGEkyAMbhJw=
-X-Google-Smtp-Source: ABdhPJy3iepTkT0luaZ4mGM1ulSQ3NvsRslRZ7CdM0rJ4+5rDwyS0XO+ds+ufIJhqGDT9E04kcyympW6MJzHfe0MiAE=
-X-Received: by 2002:aca:4284:: with SMTP id p126mr7497114oia.123.1617913067479; 
- Thu, 08 Apr 2021 13:17:47 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=M3YCDdiRra6VogGwA1vnhtREzQ+WDuc4H3xMdhTez+I=;
+ b=s4ROW3LjdXXEaN6XCDMnprg84eUgYzGgnsiUUFSM0ZZ4sIsKNFf0RU9UUpC/whn960
+ kAeNxEDYh/jSAVStArmQy/x3xmdoIn1AFdXUq5chu2CRtO/GYoEAPzfFTc0Crtk/K3oC
+ 7gmtDXpQRMYpyOTvhZuT6yEwMYvioVwpT0OcwdCjx7nkMcE00fNUGKsOOmpvAF8PO5bD
+ nOZlA+VraF9c2Dhh5oYlaVRU5k+/HFwIrOBPQo8AxBI0ceWGYwj/mLWV2gmhXnhGTiZE
+ IBw7h1DtSx6RjyBsmyOTIPIuR7oG8BTmAu8WgBk0jn1bylckw9aw64Wf188l5qpXBnXa
+ /6Vw==
+X-Gm-Message-State: AOAM532lFf81zsMBqTDmTavo2aeCQJSpeFqIfajDp1KwTIvf14F7yobp
+ bG+LAxEFx26FDbVcXq8/Nw==
+X-Google-Smtp-Source: ABdhPJyj/1Kl/phQw5WRAIHujWspkCMZzRj5GHMkFqQn8S2h6Zjz41EgwK7JyjKL4+nlYjHLVRVBbg==
+X-Received: by 2002:a05:6830:1290:: with SMTP id
+ z16mr9634528otp.122.1617913461847; 
+ Thu, 08 Apr 2021 13:24:21 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id g13sm105200otq.3.2021.04.08.13.24.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Apr 2021 13:24:20 -0700 (PDT)
+Received: (nullmailer pid 1901276 invoked by uid 1000);
+ Thu, 08 Apr 2021 20:24:20 -0000
+Date: Thu, 8 Apr 2021 15:24:20 -0500
+From: Rob Herring <robh@kernel.org>
+To: Giulio Benetti <giulio.benetti@benettiengineering.com>
+Subject: Re: [PATCH v3 2/9] dt-bindings: display/panel: add Jenson JT60245-01
+Message-ID: <20210408202420.GA1901222@robh.at.kernel.org>
+References: <20210305234427.572114-1-giulio.benetti@benettiengineering.com>
+ <20210401231720.2470869-1-giulio.benetti@benettiengineering.com>
+ <20210401231720.2470869-3-giulio.benetti@benettiengineering.com>
 MIME-Version: 1.0
-References: <1617765004-5308-1-git-send-email-wangyingjie55@126.com>
-In-Reply-To: <1617765004-5308-1-git-send-email-wangyingjie55@126.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 8 Apr 2021 16:17:36 -0400
-Message-ID: <CADnq5_OujJOLukc74YQwwW4pdCA-M_4Gz_pZg8Je1ep3HZBBMw@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/radeon: Fix a missing check bug in
- radeon_dp_mst_detect()
-To: wangyingjie55@126.com
+Content-Disposition: inline
+In-Reply-To: <20210401231720.2470869-3-giulio.benetti@benettiengineering.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +63,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Wed, Apr 7, 2021 at 2:23 AM <wangyingjie55@126.com> wrote:
->
-> From: Yingjie Wang <wangyingjie55@126.com>
->
-> In radeon_dp_mst_detect(), We should check whether or not @connector
-> has been unregistered from userspace. If the connector is unregistered,
-> we should return disconnected status.
->
-> Fixes: 9843ead08f18 ("drm/radeon: add DisplayPort MST support (v2)")
-> Signed-off-by: Yingjie Wang <wangyingjie55@126.com>
+On Fri, 02 Apr 2021 01:17:13 +0200, Giulio Benetti wrote:
+> Add DT binding for "jenson,jt60245-01".
+> 
+> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
 > ---
->  drivers/gpu/drm/radeon/radeon_dp_mst.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_dp_mst.c b/drivers/gpu/drm/radeon/radeon_dp_mst.c
-> index 2c32186c4acd..4e4c937c36c6 100644
-> --- a/drivers/gpu/drm/radeon/radeon_dp_mst.c
-> +++ b/drivers/gpu/drm/radeon/radeon_dp_mst.c
-> @@ -242,6 +242,9 @@ radeon_dp_mst_detect(struct drm_connector *connector,
->                 to_radeon_connector(connector);
->         struct radeon_connector *master = radeon_connector->mst_port;
->
-> +       if (drm_connector_is_unregistered(connector))
-> +               return connector_status_disconnected;
-> +
->         return drm_dp_mst_detect_port(connector, ctx, &master->mst_mgr,
->                                       radeon_connector->port);
->  }
-> --
-> 2.7.4
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
