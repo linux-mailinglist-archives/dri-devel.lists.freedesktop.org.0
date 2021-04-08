@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225D1357E60
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 10:46:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C73357E78
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 10:53:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF1F6EA2D;
-	Thu,  8 Apr 2021 08:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77B0D6EA2E;
+	Thu,  8 Apr 2021 08:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12-17.163.com (m12-17.163.com [220.181.12.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E589A6EA2D
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 08:46:17 +0000 (UTC)
+Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
+ by gabe.freedesktop.org (Postfix) with SMTP id 0A3526EA2E
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 08:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=hAJCn
- 0+oHfyjAm5HefGdXbPdmgpU4l0aRalPUPuht8E=; b=hr/S8pJ0mAmvkY/74DCEi
- +nCy2/Lx9qeRlIu7PataY0bkEY+Zkr/KI6Lw4aY8FNfmNOh51FBG4+qbbx68PQUa
- Ky9MdTMu1NpIZT9MBBClKaZSn3soPLVcKCkWb7AN/2M8yAO1H2laSQTuj7LWXy+D
- xqKBHIhNkx+UCPI2kpcIBs=
-Received: from localhost.localdomain (unknown [119.137.53.45])
- by smtp13 (Coremail) with SMTP id EcCowABXWpLMwm5gR4EIuQ--.56324S2;
- Thu, 08 Apr 2021 16:46:05 +0800 (CST)
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=1mKvG
+ +tRl+t/mX5hfyIaRT0s5yn0eepwWjouyHlWMEY=; b=ZYMIUoPVtPj5zvFM6NGdK
+ 9zDAXmtUynYfz3wD7nP6QcmLa1D9/czosj+4anU2KZMH541sDv6tVoV69shxg/1y
+ Dlh9B8mBEX8iPhy8KfPURKRwPxsuo/BfzCVca24auIB5k810lC0NO2v3VOEfsPd1
+ +Yzt2dtKGmDzTnsMfhbbRE=
+Received: from localhost.localdomain (unknown [113.98.63.214])
+ by smtp7 (Coremail) with SMTP id C8CowADn0oprxG5gHVXFWA--.2954S2;
+ Thu, 08 Apr 2021 16:53:00 +0800 (CST)
 From: Carlis <llyz108@163.com>
 To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
  daniel@ffwll.ch
-Subject: [PATCH] drm/panel: panel-dsi-cm: convert sysfs snprint to sysfs_emit
-Date: Thu,  8 Apr 2021 08:46:03 +0000
-Message-Id: <20210408084603.2112-1-llyz108@163.com>
+Subject: [PATCH v2] drm/panel: panel-dsi-cm: convert sysfs snprintf to
+ sysfs_emit
+Date: Thu,  8 Apr 2021 08:52:57 +0000
+Message-Id: <20210408085257.2396-1-llyz108@163.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-CM-TRANSID: EcCowABXWpLMwm5gR4EIuQ--.56324S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7GrW3Xry3Gw1xCF47Zry3CFg_yoW8Jr4rpF
- 47G347ZrW8JFyqyFWrCFZ2vFyrZ3WIqFWxKa4kGanxuF4UAF48AF9rAFW7Kr15Jr1xG34a
- gF4DKrW5uay8Ar7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j6SoJUUUUU=
-X-Originating-IP: [119.137.53.45]
-X-CM-SenderInfo: xoo16iiqy6il2tof0z/1tbiPg1uhVxBmQhfnQAAsW
+X-CM-TRANSID: C8CowADn0oprxG5gHVXFWA--.2954S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7GrW3Xry3Gw1xCF47Zry3CFg_yoW8JF45pF
+ 47G347ZrW8JFyqyFW5CFZ2vFyrZ3WIqFWxKa4kGanxuF4DAF48AF9rAFW7Kr15Jr1xC34a
+ gF4DKrW5uay8Ar7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jHrWrUUUUU=
+X-Originating-IP: [113.98.63.214]
+X-CM-SenderInfo: xoo16iiqy6il2tof0z/1tbi6xZuhVXlvmLpagABs4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,6 +66,8 @@ WARNING: use scnprintf or sprintf
 
 Signed-off-by: Xuezhi Zhang <zhangxuezhi1@yulong.com>
 ---
+v2: change snprint to snprintf in subject.
+---
  drivers/gpu/drm/panel/panel-dsi-cm.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
@@ -92,7 +95,6 @@ index 5fbfb71ca3d9..a8efb06cca64 100644
  static DEVICE_ATTR_RO(num_dsi_errors);
 -- 
 2.25.1
-
 
 _______________________________________________
 dri-devel mailing list
