@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FAA358003
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 448D535800D
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:57:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B4D6EA5C;
-	Thu,  8 Apr 2021 09:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F82D6EA57;
+	Thu,  8 Apr 2021 09:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE3E66EA5B;
- Thu,  8 Apr 2021 09:56:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BF61761157;
- Thu,  8 Apr 2021 09:56:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E30A6EA56;
+ Thu,  8 Apr 2021 09:57:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4033D61157;
+ Thu,  8 Apr 2021 09:56:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617875774;
- bh=qJxRS7vx1sXE6xcXQMcJdpuIhDNb8doWc5nvVib8CKg=;
+ s=k20201202; t=1617875825;
+ bh=B9VmDawrhjCMWY2yGvON7ogRQ50zM9AwDtPYvXCem5k=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KZ/oVYIMYnAgYH6QJVktZeIA6/aSYiWme3mBgwnkCxayRdrH5xziAm66YyvKrRth7
- 7v9gmEr4vet9wOPetc8R4/QVlcGIuJddziUeRsFMPVcGZa22P9mvPmv43q1B6aD+Js
- Z0e/fme4iIuOE27WCM3w3jK+/81p4DNorwJ+lgUEckK3vbax8fc4dOwWS9QFQ50bHB
- QomrNySbhnrnJqtGC3+M/ApvRrBBJ3ceKHuJulDCYWyiIvtQy3nj4mRUzMnqnyL+hH
- vDqGLXtnBvDVuKNFVaO2Flj0rH/To18bMy5Xeu6DijPGj4p0ZU4/aKk0Y4ceO01yyY
- OTrdegR9Enwbw==
-Date: Thu, 8 Apr 2021 12:56:02 +0300
+ b=FTkpQBgo9w1COX/6jC/2u6P6RPCFA3tl6nGA5eG1RXJ+BaGjbmejJvvhO2Wn4ubvY
+ rectMFGrHL2U66R4DbeV9l+9RMlorb8xZTWUEO7XYTlIoG78fJ/zcvyr6GoIcFgUzV
+ 1RI22L8vsHQobVRIPzTSH9jw6UreGs04bFWxoADonEXJATx0A5LVon+uNz1KpcI+GC
+ CeThnXDwU1DqxG8dcatSuycQeCk91qekdglfyahw14UVVPYSYkvt43sh40htngiecU
+ O4BYaHTbk5u+7OXjoV+cnzy0Jb49t3KY9TppRDBLCZXL6YC1s5Z9Nzwrnc69D0FS9k
+ IU18T2Ns6ybSQ==
+Date: Thu, 8 Apr 2021 12:56:53 +0300
 From: Mike Rapoport <rppt@kernel.org>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1 1/2] drivers/video/fbdev: don't select DMA_CMA
-Message-ID: <YG7TMt0cgGucCPUX@kernel.org>
+Subject: Re: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
+ aspeed or etnaviv
+Message-ID: <YG7TZa8VP458QS5y@kernel.org>
 References: <20210408092011.52763-1-david@redhat.com>
- <20210408092011.52763-2-david@redhat.com>
+ <20210408092011.52763-3-david@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210408092011.52763-2-david@redhat.com>
+In-Reply-To: <20210408092011.52763-3-david@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,7 +62,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 08, 2021 at 11:20:10AM +0200, David Hildenbrand wrote:
+On Thu, Apr 08, 2021 at 11:20:11AM +0200, David Hildenbrand wrote:
 > Random drivers should not override a user configuration of core knobs
 > (e.g., CONFIG_DMA_CMA=n). Use "imply" instead, to still respect
 > dependencies and manual overrides.
@@ -72,29 +73,50 @@ On Thu, Apr 08, 2021 at 11:20:10AM +0200, David Hildenbrand wrote:
 > 
 > Implying DRM_CMA should be sufficient, as that depends on CMA.
 
-	  ^ DMA_CMA ?
-
+          ^ DMA_CMA
+> 
 > Note: If this is a real dependency, we should use "depends on DMA_CMA"
 > instead -  but I assume the driver can work without CMA just fine --
-> esp. when we wouldn't have HAVE_DMA_CONTIGUOUS or CMA right now.
+> esp. when we wouldn't have HAVE_DMA_CONTIGUOUS right now.
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  drivers/video/fbdev/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/aspeed/Kconfig  | 3 +--
+>  drivers/gpu/drm/etnaviv/Kconfig | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index 4f02db65dede..d37cd5341e1b 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -2186,7 +2186,7 @@ config FB_HYPERV
->  	select FB_CFB_COPYAREA
->  	select FB_CFB_IMAGEBLIT
->  	select FB_DEFERRED_IO
-> -	select DMA_CMA if HAVE_DMA_CONTIGUOUS && CMA
+> diff --git a/drivers/gpu/drm/aspeed/Kconfig b/drivers/gpu/drm/aspeed/Kconfig
+> index 5e95bcea43e9..a055f763d230 100644
+> --- a/drivers/gpu/drm/aspeed/Kconfig
+> +++ b/drivers/gpu/drm/aspeed/Kconfig
+> @@ -6,9 +6,8 @@ config DRM_ASPEED_GFX
+>  	depends on MMU
+>  	select DRM_KMS_HELPER
+>  	select DRM_KMS_CMA_HELPER
+> -	select DMA_CMA if HAVE_DMA_CONTIGUOUS
+> -	select CMA if HAVE_DMA_CONTIGUOUS
+>  	select MFD_SYSCON
+> +	imply DRM_CMA
+
+Ditto
+
+>  	help
+>  	  Chose this option if you have an ASPEED AST2500 SOC Display
+>  	  Controller (aka GFX).
+> diff --git a/drivers/gpu/drm/etnaviv/Kconfig b/drivers/gpu/drm/etnaviv/Kconfig
+> index faa7fc68b009..5f5576b7221a 100644
+> --- a/drivers/gpu/drm/etnaviv/Kconfig
+> +++ b/drivers/gpu/drm/etnaviv/Kconfig
+> @@ -9,9 +9,8 @@ config DRM_ETNAVIV
+>  	select THERMAL if DRM_ETNAVIV_THERMAL
+>  	select TMPFS
+>  	select WANT_DEV_COREDUMP
+> -	select CMA if HAVE_DMA_CONTIGUOUS
+> -	select DMA_CMA if HAVE_DMA_CONTIGUOUS
+>  	select DRM_SCHED
 > +	imply DMA_CMA
 >  	help
->  	  This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
+>  	  DRM driver for Vivante GPUs.
 >  
 > -- 
 > 2.30.2
