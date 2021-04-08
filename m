@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853BB357F88
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:42:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CC9357FC9
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:47:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6496EA44;
-	Thu,  8 Apr 2021 09:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 440726EA4C;
+	Thu,  8 Apr 2021 09:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBD846EA44
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:42:49 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id q10so1031237pgj.2
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 02:42:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ALUujV6o8uZUngq4GI/5055uPf7G+D6LO8BfQLkVhv8=;
- b=GdvR0V0FiYIar4gyw7gyYI9kOGza4ogHCCNiZaajELJ+V5eJa5YWbVmzNvJqJ8oJ8v
- NWzJFxNR4tdSmsFasipzjdoWW08Ga++XtIp1aQAz+EzMWa5cMKlOtMD/4RGoCiHhx9YR
- K5zA8olmdgFv2/FO2icy4GMqLLZPIfxLp0/a8=
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA4016EA4C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:47:12 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id 11so1394226pfn.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 02:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wx8MYiZlUE5pbxRfwsCl1OlR8aGmQOE5tCtoCPsygq4=;
+ b=WeLkbj3r/iOMchz9Ce3Si5iRa44gWVC1uBW4P2AjedCLiiR5IDywCZtKbNfVGxlJOF
+ WD9GPotB4FQL3zeuaFfZpnE2e2bp9hRgFNWClt/Oe6yZrOLKtTcsesFXV90rJ3tPr7KD
+ nk2LC504BsusA3+aI7gJXgcCpM5gajTyNmzuj72cUolCvv+b+l52H3W4P4PAHHFg62II
+ iHEV5XNS9J3bqIhnAeoFDVfqBKFcl2XdhN5PEW1GxSqCrWTbgt/8YKG8fb+8FA8JrQmi
+ 8b4sFrJf06fehM5AVFaAHV17MVqtGvm47q0soXCJpD68g0mghExq+rcBxv53PjTaiAVV
+ OxsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ALUujV6o8uZUngq4GI/5055uPf7G+D6LO8BfQLkVhv8=;
- b=rjVAeR7nT/f8Y7OuluIab3xSvx/IcOCSzKik3yeKIem+8RRrayXquihB/AJQsjX50B
- DSiQrxIm71wUT2lnHrBNsGxWGKw/RsvxNIkKO+8Y4ATLQ2KzygoOpE1bkzQl2cqiVHwB
- rXQN/Xwk5g+kCF+Fpl51MuFvufbboqjNKGkv07jMVrogiJqQoocw+EvQ4A5QhO6/yKZ9
- p/TWX2WiBl8g8a0z0szQzCGTuJ/UQTyFypR3YbZwjP534dO2bhzHwyi/qmK+Jkg5vQzm
- uE1w+Lq1QEb7Ei8xSRao6A0Tmvn+jP6aAk1NCyeYskqcGL/tNIsTHUhNk/5E+jU6J2hn
- T6Kw==
-X-Gm-Message-State: AOAM531Pz94UgOQ9gFn7xmlp4UBZM3JVgMu4OOkY6KN6xWyN9KIwWDeK
- Qexf7tzOWoZG84dZivLayXjMJA==
-X-Google-Smtp-Source: ABdhPJy0S66jOMuDB9s93i4bwlleUxkBNZU7/7/Oxrd1NkSSq8mHh6D4dsnigRZ/rQYKXWAcB8aWHA==
-X-Received: by 2002:a05:6a00:1651:b029:241:afa4:92b1 with SMTP id
- m17-20020a056a001651b0290241afa492b1mr6756345pfc.12.1617874969534; 
- Thu, 08 Apr 2021 02:42:49 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:25d8:8458:73e8:75ac])
- by smtp.gmail.com with UTF8SMTPSA id f14sm25010791pfk.92.2021.04.08.02.42.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Apr 2021 02:42:49 -0700 (PDT)
-From: David Stevens <stevensd@chromium.org>
-X-Google-Original-From: David Stevens <stevensd@google.com>
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v2] drm/syncobj: use newly allocated stub fences
-Date: Thu,  8 Apr 2021 18:42:43 +0900
-Message-Id: <20210408094243.3902013-1-stevensd@google.com>
-X-Mailer: git-send-email 2.31.0.208.g409f899ff0-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wx8MYiZlUE5pbxRfwsCl1OlR8aGmQOE5tCtoCPsygq4=;
+ b=h3waRtPAX1KB+xL40Llw92t8H6lawSPuSULBw7ix/OAyydeh4sfINeqSUmK8lzbypP
+ qmpRjZB+0wjChgUSyMP/3hlmijPIZ282OUDk567LTWq1Sr50KxDeT2gYdgX/HwgK2wij
+ B5rtLM8z3VqjUDYpB/QodUAke+p9QOcgkWTPtoXAJ9xJHYlyJaEKPDbvFt1gblAQNmgR
+ KqIr8cYhc5vppchb6wLFDLqlsa6WbEJG7j/c38QM9j0DecpoaDbSdAkONHM+mEAFRyZN
+ nir2n1PcwU2t8t5neiQ3QdAG9H/4nqCjoEveOC0Ggb5eOoV90Qp2MG7BKIxpr1TQYtHA
+ b0Qw==
+X-Gm-Message-State: AOAM5337o7caOSGwXbUz6gcqaY8S9jSgFAc6+6+8qyf0JcSjU0PE7Xj9
+ mmaJhcT6am2qEVzE+OZDIzeDPCrrVJw/SztxtFCMDifiKa9mcw==
+X-Google-Smtp-Source: ABdhPJz3CqwRR9ZuK3onI97NXQdgaNEArs1YyVJb+6DWcf9Ktln4/0MEWwGfWIqhbOluU6wIPlrS61cbUOdbFLDaGMo=
+X-Received: by 2002:aa7:98c9:0:b029:242:18fc:562d with SMTP id
+ e9-20020aa798c90000b029024218fc562dmr6369255pfm.39.1617875232450; Thu, 08 Apr
+ 2021 02:47:12 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210408093822.207917-1-zhangjianhua18@huawei.com>
+In-Reply-To: <20210408093822.207917-1-zhangjianhua18@huawei.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Thu, 8 Apr 2021 11:47:01 +0200
+Message-ID: <CAG3jFysH0Ms_7oP0npKZAv7uXs+uAoO=+FBbCYyBV6dULe3dNg@mail.gmail.com>
+Subject: Re: [PATCH -next v3] drm/bridge: lt8912b: Add header file
+ <linux/gpio/consumer.h>
+To: Zhang Jianhua <zhangjianhua18@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,176 +63,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- David Stevens <stevensd@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, johnny.chenyi@huawei.com,
+ heying24@huawei.com, Adrien Grassein <adrien.grassein@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Stevens <stevensd@chromium.org>
-
-Allocate a new private stub fence in drm_syncobj_assign_null_handle,
-instead of using a static stub fence.
-
-When userspace creates a fence with DRM_SYNCOBJ_CREATE_SIGNALED or when
-userspace signals a fence via DRM_IOCTL_SYNCOBJ_SIGNAL, the timestamp
-obtained when the fence is exported and queried with SYNC_IOC_FILE_INFO
-should match when the fence's status was changed from the perspective of
-userspace, which is during the respective ioctl.
-
-When a static stub fence started being used in by these ioctls, this
-behavior changed. Instead, the timestamp returned by SYNC_IOC_FILE_INFO
-became the first time anything used the static stub fence, which has no
-meaning to userspace.
-
-Signed-off-by: David Stevens <stevensd@chromium.org>
----
-v1 -> v2:
- - checkpatch style fixes
-
- drivers/dma-buf/dma-fence.c   | 33 ++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/drm_syncobj.c | 25 +++++++++++++++++++------
- include/linux/dma-fence.h     |  1 +
- 3 files changed, 52 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index d64fc03929be..6081eb962490 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -26,6 +26,11 @@ EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
- static DEFINE_SPINLOCK(dma_fence_stub_lock);
- static struct dma_fence dma_fence_stub;
- 
-+struct drm_fence_private_stub {
-+	struct dma_fence base;
-+	spinlock_t lock;
-+};
-+
- /*
-  * fence context counter: each execution context should have its own
-  * fence context, this allows checking if fences belong to the same
-@@ -123,7 +128,9 @@ static const struct dma_fence_ops dma_fence_stub_ops = {
- /**
-  * dma_fence_get_stub - return a signaled fence
-  *
-- * Return a stub fence which is already signaled.
-+ * Return a stub fence which is already signaled. The fence's
-+ * timestamp corresponds to the first time after boot this
-+ * function is called.
-  */
- struct dma_fence *dma_fence_get_stub(void)
- {
-@@ -141,6 +148,30 @@ struct dma_fence *dma_fence_get_stub(void)
- }
- EXPORT_SYMBOL(dma_fence_get_stub);
- 
-+/**
-+ * dma_fence_allocate_private_stub - return a private, signaled fence
-+ *
-+ * Return a newly allocated and signaled stub fence.
-+ */
-+struct dma_fence *dma_fence_allocate_private_stub(void)
-+{
-+	struct drm_fence_private_stub *fence;
-+
-+	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-+	if (fence == NULL)
-+		return ERR_PTR(-ENOMEM);
-+
-+	spin_lock_init(&fence->lock);
-+	dma_fence_init(&fence->base,
-+		       &dma_fence_stub_ops,
-+		       &fence->lock,
-+		       0, 0);
-+	dma_fence_signal(&fence->base);
-+
-+	return &fence->base;
-+}
-+EXPORT_SYMBOL(dma_fence_allocate_private_stub);
-+
- /**
-  * dma_fence_context_alloc - allocate an array of fence contexts
-  * @num: amount of contexts to allocate
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 349146049849..a54aa850d143 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -350,12 +350,16 @@ EXPORT_SYMBOL(drm_syncobj_replace_fence);
-  *
-  * Assign a already signaled stub fence to the sync object.
-  */
--static void drm_syncobj_assign_null_handle(struct drm_syncobj *syncobj)
-+static int drm_syncobj_assign_null_handle(struct drm_syncobj *syncobj)
- {
--	struct dma_fence *fence = dma_fence_get_stub();
-+	struct dma_fence *fence = dma_fence_allocate_private_stub();
-+
-+	if (IS_ERR(fence))
-+		return PTR_ERR(fence);
- 
- 	drm_syncobj_replace_fence(syncobj, fence);
- 	dma_fence_put(fence);
-+	return 0;
- }
- 
- /* 5s default for wait submission */
-@@ -469,6 +473,7 @@ EXPORT_SYMBOL(drm_syncobj_free);
- int drm_syncobj_create(struct drm_syncobj **out_syncobj, uint32_t flags,
- 		       struct dma_fence *fence)
- {
-+	int ret;
- 	struct drm_syncobj *syncobj;
- 
- 	syncobj = kzalloc(sizeof(struct drm_syncobj), GFP_KERNEL);
-@@ -479,8 +484,13 @@ int drm_syncobj_create(struct drm_syncobj **out_syncobj, uint32_t flags,
- 	INIT_LIST_HEAD(&syncobj->cb_list);
- 	spin_lock_init(&syncobj->lock);
- 
--	if (flags & DRM_SYNCOBJ_CREATE_SIGNALED)
--		drm_syncobj_assign_null_handle(syncobj);
-+	if (flags & DRM_SYNCOBJ_CREATE_SIGNALED) {
-+		ret = drm_syncobj_assign_null_handle(syncobj);
-+		if (ret < 0) {
-+			drm_syncobj_put(syncobj);
-+			return ret;
-+		}
-+	}
- 
- 	if (fence)
- 		drm_syncobj_replace_fence(syncobj, fence);
-@@ -1322,8 +1332,11 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
- 	if (ret < 0)
- 		return ret;
- 
--	for (i = 0; i < args->count_handles; i++)
--		drm_syncobj_assign_null_handle(syncobjs[i]);
-+	for (i = 0; i < args->count_handles; i++) {
-+		ret = drm_syncobj_assign_null_handle(syncobjs[i]);
-+		if (ret < 0)
-+			break;
-+	}
- 
- 	drm_syncobj_array_free(syncobjs, args->count_handles);
- 
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 9f12efaaa93a..6ffb4b2c6371 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -587,6 +587,7 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
- }
- 
- struct dma_fence *dma_fence_get_stub(void);
-+struct dma_fence *dma_fence_allocate_private_stub(void);
- u64 dma_fence_context_alloc(unsigned num);
- 
- #define DMA_FENCE_TRACE(f, fmt, args...) \
--- 
-2.31.0.208.g409f899ff0-goog
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UHVzaGVkIHRvIGh0dHBzOi8vY2dpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1taXNjL2NvbW1p
+dC8/aWQ9NzUxM2NlNDkwMjdjODIxOGE2ZmNlN2VjNDVjMzI4OWI5MDNiYTRiZAoKCk9uIFRodSwg
+OCBBcHIgMjAyMSBhdCAxMTozOCwgWmhhbmcgSmlhbmh1YSA8emhhbmdqaWFuaHVhMThAaHVhd2Vp
+LmNvbT4gd3JvdGU6Cj4KPiBJZiBDT05GSUdfRFJNX0xPTlRJVU1fTFQ4OTEyQj1tLCB0aGUgZm9s
+bG93aW5nIGVycm9ycyB3aWxsIGJlIHNlZW4gd2hpbGUKPiBjb21waWxpbmcgbG9udGl1bS1sdDg5
+MTJiLmMKPgo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9udGl1bS1sdDg5MTJiLmM6IEluIGZ1
+bmN0aW9uCj4g4oCYbHQ4OTEyX2hhcmRfcG93ZXJfb27igJk6Cj4gZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9sb250aXVtLWx0ODkxMmIuYzoyNTI6MjogZXJyb3I6IGltcGxpY2l0Cj4gZGVjbGFyYXRp
+b24gb2YgZnVuY3Rpb24g4oCYZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNsZWVw4oCZOyBkaWQgeW91IG1l
+YW4KPiDigJhncGlvX3NldF92YWx1ZV9jYW5zbGVlcOKAmT8gWy1XZXJyb3I9aW1wbGljaXQtZnVu
+Y3Rpb24tZGVjbGFyYXRpb25dCj4gICBncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAobHQtPmdwX3Jl
+c2V0LCAwKTsKPiAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgo+ICAgZ3Bpb19zZXRfdmFsdWVf
+Y2Fuc2xlZXAKPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ4OTEyYi5jOiBJbiBm
+dW5jdGlvbiDigJhsdDg5MTJfcGFyc2VfZHTigJk6Cj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9s
+b250aXVtLWx0ODkxMmIuYzo2Mjg6MTM6IGVycm9yOiBpbXBsaWNpdAo+IGRlY2xhcmF0aW9uIG9m
+IGZ1bmN0aW9uIOKAmGRldm1fZ3Bpb2RfZ2V0X29wdGlvbmFs4oCZOyBkaWQgeW91IG1lYW4KPiDi
+gJhkZXZtX2dwaW9fcmVxdWVzdF9vbmXigJk/IFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRl
+Y2xhcmF0aW9uXQo+ICAgZ3BfcmVzZXQgPSBkZXZtX2dwaW9kX2dldF9vcHRpb25hbChkZXYsICJy
+ZXNldCIsIEdQSU9EX09VVF9ISUdIKTsKPiAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn4KPiAgICAgICAgICAgICAgZGV2bV9ncGlvX3JlcXVlc3Rfb25lCj4gZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS9sb250aXVtLWx0ODkxMmIuYzo2Mjg6NTE6IGVycm9yOiDigJhHUElPRF9PVVRf
+SElHSOKAmQo+IHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKTsgZGlkIHlv
+dSBtZWFuIOKAmEdQSU9GX0lOSVRfSElHSOKAmT8KPiAgIGdwX3Jlc2V0ID0gZGV2bV9ncGlvZF9n
+ZXRfb3B0aW9uYWwoZGV2LCAicmVzZXQiLCBHUElPRF9PVVRfSElHSCk7Cj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn4KPiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBHUElPRl9J
+TklUX0hJR0gKPgo+IFNpZ25lZC1vZmYtYnk6IFpoYW5nIEppYW5odWEgPHpoYW5namlhbmh1YTE4
+QGh1YXdlaS5jb20+Cj4gUmV2aWV3ZWQtYnk6IFJvYmVydCBGb3NzIDxyb2JlcnQuZm9zc0BsaW5h
+cm8ub3JnPgo+IC0tLQo+IHYyOgo+IC0gYWRkIGhlYWRlciBmaWxlIDxsaW51eC9ncGlvL2NvbnN1
+bWVyLmg+IGZvciBsb250aXVtLWx0ODkxMmIuYyBpbnN0ZWFkCj4gICBvZiBhZGQgY29uZmlnIGRl
+cGVuZGVuY2UgZm9yIENPTkZJR19EUk1fTE9OVElVTV9MVDg5MTJCCj4gdjM6Cj4gLSBjaGFuZ2Ug
+dGhlICNpbmNsdWRlIGluIGFscGhhYmV0aWNhbCBvcmRlcgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9k
+cm0vYnJpZGdlL2xvbnRpdW0tbHQ4OTEyYi5jIHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9udGl1
+bS1sdDg5MTJiLmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ4OTEyYi5jCj4g
+aW5kZXggNjE0OTE2MTViYWQwLi40ZjY5MzEyMzk4NWIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2JyaWRnZS9sb250aXVtLWx0ODkxMmIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2UvbG9udGl1bS1sdDg5MTJiLmMKPiBAQCAtNSw2ICs1LDcgQEAKPgo+ICAjaW5jbHVkZSA8
+bGludXgvZGV2aWNlLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9kZWxheS5oPgo+ICsjaW5jbHVkZSA8
+bGludXgvZ3Bpby9jb25zdW1lci5oPgo+ICAjaW5jbHVkZSA8bGludXgvaTJjLmg+Cj4gICNpbmNs
+dWRlIDxsaW51eC9ncGlvLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9vZl9ncGlvLmg+Cj4gLS0KPiAy
+LjE3LjEKPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
