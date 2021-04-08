@@ -1,51 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC261357EFE
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:20:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F55357F18
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F24786E17F;
-	Thu,  8 Apr 2021 09:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6A76EA32;
+	Thu,  8 Apr 2021 09:27:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44F956EA21
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617873638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UVD5TiRVowOEwlanTU+u0spxJ8BlxpAWloXgCiVtay0=;
- b=bxQsTATc0trocSay2BJ7USm49ucd3hpM5fIwWU8CGggRJ44PhjgVudyg0gfScz6rXTPc/c
- f5oStc4wVQBlx0rF/SnQwfVtRWP/5nvYDbsAmjKCyUrlsjpst0rc+qpwGXNUGtXFCImpBj
- 8TOxEcRXSEeIoAaqDteUyHVt6w5hEtA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-m83rqXtVNYmboz8HyHTSQA-1; Thu, 08 Apr 2021 05:20:34 -0400
-X-MC-Unique: m83rqXtVNYmboz8HyHTSQA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4E8A1006C80;
- Thu,  8 Apr 2021 09:20:31 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB3B22C169;
- Thu,  8 Apr 2021 09:20:27 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
- aspeed or etnaviv
-Date: Thu,  8 Apr 2021 11:20:11 +0200
-Message-Id: <20210408092011.52763-3-david@redhat.com>
-In-Reply-To: <20210408092011.52763-1-david@redhat.com>
-References: <20210408092011.52763-1-david@redhat.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C7216EA32
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:27:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C3D1B6113C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617874025;
+ bh=D07u/MwdkxeXk5GXahtUKsBRofYiUwcFsT83S48J0Ag=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Vb+Jf/qDhNBL+Ysko5uQmb0Xq87JaB85miDFWN6090xxX9VjHwZGf6MaRZHwTG9qc
+ dPpnpDAIm3k5Xrc0lmy2HoVY6fTci+uIDk9qcGsE4jnj9JPJrlDP1Bn9gLjESvUnll
+ 6CqICBMCVyB3NDDohwhPuhzsLtOrRCTgqLrNAnKLNb/WFgDgcHymC7bb6/ilLE3LO0
+ wohh5kvvwNNSISmfbiyzguP71DeaOzROqCrEeb96baQQmWpf4GiM6IuYIzSlvbbw+x
+ 1PR/YTlwUZikCT1MqAy0gaYhcn7ZNviYayMqvvAHGoRZMBrHZWdruNo0+qYUWT10v/
+ O/4Vk/6DyrStA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id BABD561131; Thu,  8 Apr 2021 09:27:05 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 20secs aborting
+Date: Thu, 08 Apr 2021 09:27:05 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: icedragon.aw@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-211425-2300-FehObzQkKk@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
+References: <bug-211425-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,74 +64,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- David Hildenbrand <david@redhat.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Masahiro Yamada <masahiroy@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
- Joel Stanley <joel@jms.id.au>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- etnaviv@lists.freedesktop.org, Peter Collingbourne <pcc@google.com>,
- linux-arm-kernel@lists.infradead.org, Andrew Jeffery <andrew@aj.id.au>,
- Randy Dunlap <rdunlap@infradead.org>, Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Random drivers should not override a user configuration of core knobs
-(e.g., CONFIG_DMA_CMA=n). Use "imply" instead, to still respect
-dependencies and manual overrides.
+https://bugzilla.kernel.org/show_bug.cgi?id=211425
 
-"This is similar to "select" as it enforces a lower limit on another
- symbol except that the "implied" symbol's value may still be set to n
- from a direct dependency or with a visible prompt."
+Andreas (icedragon.aw@web.de) changed:
 
-Implying DRM_CMA should be sufficient, as that depends on CMA.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.11.11                     |5.11.12
 
-Note: If this is a real dependency, we should use "depends on DMA_CMA"
-instead -  but I assume the driver can work without CMA just fine --
-esp. when we wouldn't have HAVE_DMA_CONTIGUOUS right now.
+--- Comment #16 from Andreas (icedragon.aw@web.de) ---
+With 5.11.12 kernel (still affected) there is a small new message line at the
+end of the other error messages:
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- drivers/gpu/drm/aspeed/Kconfig  | 3 +--
- drivers/gpu/drm/etnaviv/Kconfig | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+...
+[Do Apr  8 11:13:05 2021] [drm:dcn10_link_encoder_enable_dp_output] *ERROR*
+dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command table!
+[Do Apr  8 11:13:07 2021] [drm] amdgpu_dm_irq_schedule_work FAILED src 2
+[Do Apr  8 11:13:27 2021] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+more than 20secs aborting
+[Do Apr  8 11:13:27 2021] [drm:amdgpu_atom_execute_table_locked] *ERROR*
+atombios stuck executing B228 (len 3608, WS 8, PS 0) @ 0xB712
+[Do Apr  8 11:13:27 2021] [drm:amdgpu_atom_execute_table_locked] *ERROR*
+atombios stuck executing B11C (len 268, WS 4, PS 0) @ 0xB16F
+[Do Apr  8 11:13:27 2021] [drm:dcn10_link_encoder_enable_dp_output] *ERROR* 
+dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command table!
 
-diff --git a/drivers/gpu/drm/aspeed/Kconfig b/drivers/gpu/drm/aspeed/Kconfig
-index 5e95bcea43e9..a055f763d230 100644
---- a/drivers/gpu/drm/aspeed/Kconfig
-+++ b/drivers/gpu/drm/aspeed/Kconfig
-@@ -6,9 +6,8 @@ config DRM_ASPEED_GFX
- 	depends on MMU
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_CMA_HELPER
--	select DMA_CMA if HAVE_DMA_CONTIGUOUS
--	select CMA if HAVE_DMA_CONTIGUOUS
- 	select MFD_SYSCON
-+	imply DRM_CMA
- 	help
- 	  Chose this option if you have an ASPEED AST2500 SOC Display
- 	  Controller (aka GFX).
-diff --git a/drivers/gpu/drm/etnaviv/Kconfig b/drivers/gpu/drm/etnaviv/Kconfig
-index faa7fc68b009..5f5576b7221a 100644
---- a/drivers/gpu/drm/etnaviv/Kconfig
-+++ b/drivers/gpu/drm/etnaviv/Kconfig
-@@ -9,9 +9,8 @@ config DRM_ETNAVIV
- 	select THERMAL if DRM_ETNAVIV_THERMAL
- 	select TMPFS
- 	select WANT_DEV_COREDUMP
--	select CMA if HAVE_DMA_CONTIGUOUS
--	select DMA_CMA if HAVE_DMA_CONTIGUOUS
- 	select DRM_SCHED
-+	imply DMA_CMA
- 	help
- 	  DRM driver for Vivante GPUs.
- 
+[Do Apr  8 11:13:29 2021] [drm:dc_link_detect_helper] *ERROR* No EDID read.
+
 -- 
-2.30.2
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
