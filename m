@@ -2,66 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E23358385
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 14:44:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0CB35839F
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 14:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE7826EACB;
-	Thu,  8 Apr 2021 12:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2696EAD0;
+	Thu,  8 Apr 2021 12:50:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B6EB6EACB
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 12:44:19 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id 18so2253152edx.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 05:44:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=hHNEukPPV1vSNkpPzVIANeiA4L23mc7++MpMy606/vU=;
- b=kNPCbNjB5c6CSsECNwF98VsP5hxouLKhO7lHDeDIOq+ejI0ZkZVNloTIhHnEfQrB8j
- 2n+WUzYP6b1ggImvFRd5PDqeMSc/Bj7eGMdsu7hI7SCm7tCHHap8EJbraOkM8ydo/zCn
- o+qIiDaMEqBsXgZK+sMwoyXrsL23ZeUgI/6FyuO6WhcJzeRVHaWgRxlEDOSYr6eOby7p
- PH0Ujl7G6KHK4HIhjdomRYc0kIugcxV/9J4K3uX/BFK7Xug1bvg3zymJvL5AAIX7stnF
- BkltKPf/ocgg1C3zUVMyDTAZuW0IibbZrSYmZ/fZmWyKdxxvh4OcUcBHvOsow4eHQZ69
- jJCg==
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32CD86EAD0
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 12:50:04 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id z8so2079201ljm.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 05:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ue62b/nOsWagddlxWSHgZE+xJ7jpEp33uT3hApzk61s=;
+ b=vvSgQJ10J71/hJsIWwLP3XbsOekOzbhwMvBACn4AWfAGleRLrUNzHNNK5uzeLyioMB
+ oXIl0KjQfY0cc+zIdEytIHzN42/OjUgsVSyQzPNF7LHyemG4aoQzWGjp1kQcgyP994UF
+ PBZBxmSiF5r5UO7u4g9kPbjUHVxyNNgYMU5Knd5mi7CHQ+mjXkXFxyyxdoyhMqiKcHh7
+ KD6xoCCNSIaQ7e7UvoyagNDB6CPkDalEXBqyL+CK5Z+carCsx1vQWABrVJ+/Y/1Z2juI
+ 00Ab6erVT5dMmK0+1wheunsMvAYIodPt4qdrCvcG+ZzapbmUF0rbOlXfcBEE0hLDekJq
+ R2NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=hHNEukPPV1vSNkpPzVIANeiA4L23mc7++MpMy606/vU=;
- b=spAdVcQfmEZivcodLiNN7FBAWZQkV280BUTseLG8nOnKkiYf6/G9XHIkK7HyNzJk24
- 02psx9fhC7MTGS6P5c1ibKqZ5aXELn7L+gQD1iUvkKUzVPJd6nYzV6OpFJTBW4CLG7HC
- hZ4FtXs9c9n720HGpZ1/YltR11XDAs7SQpLRaTn2GCmNIOOhGul/bfFARTGiX2XSQQ+t
- AjxstN1frA+otmkUAWG3svble2VW6VJg5sYk0Yts0gvoDYRTHbhoafcx/AXckoMzmVlx
- TQo79EpeIEmHZvh4g1MnPHYY71MZw+KSjEix+gtWBBJdy34CTAM7dk3txgvDX40OR66D
- q/ag==
-X-Gm-Message-State: AOAM530v/+yJDSm14e6U6CQ30qmiGkpN7cb7p2SmHsd1r52bT8dl6iSN
- 9p6FUBzgW/xf0rekE6gY9v0m9hxNINA=
-X-Google-Smtp-Source: ABdhPJwZG0l5Li9HesUeumJ/eYPadl2eEYfcsoOC0yJPCeLbghg3PfPu+YGm6mX3PFWsth3sbcOPgw==
-X-Received: by 2002:a05:6402:3511:: with SMTP id
- b17mr11139411edd.98.1617885857914; 
- Thu, 08 Apr 2021 05:44:17 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:f469:f66d:5260:18ab?
- ([2a02:908:1252:fb60:f469:f66d:5260:18ab])
- by smtp.gmail.com with ESMTPSA id b21sm2863920ejz.123.2021.04.08.05.44.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Apr 2021 05:44:17 -0700 (PDT)
-Subject: Re: [PATCH] drm/ttm: optimize the pool shrinker a bit
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210401135413.1416-1-christian.koenig@amd.com>
- <YG7kNLwYbDPkyGKx@phenom.ffwll.local>
- <8f38a064-8afa-492d-251f-4ff715d9f9bf@gmail.com>
- <YG7pqs50QXkLQUz3@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <ede33f9c-e86d-7859-74d6-b28067080573@gmail.com>
-Date: Thu, 8 Apr 2021 14:44:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ue62b/nOsWagddlxWSHgZE+xJ7jpEp33uT3hApzk61s=;
+ b=qz02wH+aNGkHRRByJzUlr1boZ+hXPjr4l/Nf5UKJRA3NBUB7lt6p0LB0DBZ9UTUvEr
+ 1mLDoeblAlKSTBgvYivuPjlAapfuLEX4vAtD0IFtGPtWODTf9clyEWoNxkLlVodGqZT3
+ /EOvHoe4w7geix/jIX/MA/5qzOImH5fBOo2HQb/OKBNER30xUkpfqU/jY95vVRRVNkE+
+ rp7P7HOU1rPkhDtUppsP3L4TIsaRrrBLyw0Bc1xHHr4TOTh2+Mq0NSeB6TSyuVtrHEc4
+ 7d8Hr8bdYyZI8HcPyxAJ2g7TlFY+hevHzwcCY4B0x00aDxV5nUBrdWVHTXt2ciy05j7R
+ t/AA==
+X-Gm-Message-State: AOAM533n+CQPg8bskXiKewZLl9i+/VNP3K54GPKzifcM7CoRDzaYaQ7m
+ ZgcOYzNJHXcwq795IB+0rkmpaMMOvMuDAnmfNMW0ng==
+X-Google-Smtp-Source: ABdhPJzHwP6BmbIRqU1HYc3FQkCjshHvviqMY3IIos9nhT5ENCEad5QCJ7O5xWMp2CMbQh00KOeiYn4d7d9pP/p57KM=
+X-Received: by 2002:a2e:7001:: with SMTP id l1mr5550860ljc.200.1617886202537; 
+ Thu, 08 Apr 2021 05:50:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YG7pqs50QXkLQUz3@phenom.ffwll.local>
-Content-Language: en-US
+References: <20210408092011.52763-1-david@redhat.com>
+ <20210408092011.52763-3-david@redhat.com>
+ <CAK8P3a09LdJ-87ZrN28y=t8Sa0zL-3NOvEWhkStMY+2EbO7UAw@mail.gmail.com>
+ <cd14d4b4-da82-b21c-2cd6-8e474d97b955@redhat.com>
+ <CAK8P3a0Wg1mGZoBkD_RwMx-jzQNK2krrDxDQV5uhCHoyz-e=dw@mail.gmail.com>
+ <7496ac87-9676-1b4e-3444-c2a662ec376b@redhat.com>
+ <CAK8P3a1tVwkDbtvKi8atkrg1-CfoQHGrXLCzn_uo+=dfZJfdQA@mail.gmail.com>
+ <3a2d64a7-8425-8daf-17ee-95b9f0c635f9@redhat.com>
+In-Reply-To: <3a2d64a7-8425-8daf-17ee-95b9f0c635f9@redhat.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 8 Apr 2021 14:49:51 +0200
+Message-ID: <CACRpkdYizKGhtYzE+22oZAduLNCOGP9Vbp=LQbXG1C-a+MyMcg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
+ aspeed or etnaviv
+To: David Hildenbrand <david@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,47 +68,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Andrew Jeffery <andrew@aj.id.au>,
+ Masahiro Yamada <masahiroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Michal Simek <michal.simek@xilinx.com>, Linux-MM <linux-mm@kvack.org>,
+ Joel Stanley <joel@jms.id.au>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Peter Collingbourne <pcc@google.com>, Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDguMDQuMjEgdW0gMTM6MzEgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFRodSwgQXBy
-IDA4LCAyMDIxIGF0IDAxOjE3OjMyUE0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+
-IEFtIDA4LjA0LjIxIHVtIDEzOjA4IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPj4+IE9uIFRodSwg
-QXByIDAxLCAyMDIxIGF0IDAzOjU0OjEzUE0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6
-Cj4+Pj4gW1NOSVBdCj4+Pj4gICAgRVhQT1JUX1NZTUJPTCh1bnJlZ2lzdGVyX3Nocmlua2VyKTsK
-Pj4+PiArLyoqCj4+Pj4gKyAqIHN5bmNfc2hyaW5rZXIgLSBXYWl0IGZvciBhbGwgcnVubmluZyBz
-aHJpbmtlcnMgdG8gY29tcGxldGUuCj4+Pj4gKyAqLwo+Pj4+ICt2b2lkIHN5bmNfc2hyaW5rZXJz
-KHZvaWQpCj4+PiBUaGlzIG9uZSBzaG91bGQgcHJvYmFibHkgYmUgaW4gaXRzIG93biBwYXRjaCwg
-d2l0aCBhIGJpdCBtb3JlIGNvbW1pdAo+Pj4gbWVzc2FnZSBhYm91dCB3aHkgd2UgbmVlZCBpdCBh
-bmQgYWxsIHRoYXQuIEknZCBhc3N1bWUgdGhhdCBqdXN0Cj4+PiB1bnJlZ2lzdGVyaW5nIHRoZSBz
-aHJpbmtlciBzaG91bGQgc3luYyBldmVyeXRoaW5nIHdlIG5lZWRlZCB0byBzeW5jCj4+PiBhbHJl
-YWR5LCBhbmQgZm9yIG90aGVyIHN5bmMgbmVlZHMgd2UgY2FuIGRvIGxvY2tpbmcgd2l0aGluIG91
-ciBvd24KPj4+IHNocmlua2VyPwo+PiBDb3JyZWN0LiBSZWFzb24gd2h5IHdlIG5lZWQgdGhlIGJh
-cnJpZXIgaXMgdGhhdCB3ZSBuZWVkIHRvIGRlc3Ryb3kgdGhlCj4+IGRldmljZSAoZHVyaW5nIGhv
-dHBsdWcpIGJlZm9yZSB0aGUgc2hyaW5rZXIgaXMgdW5yZWdpc3RlcmVkIChkdXJpbmcgbW9kdWxl
-Cj4+IHVubG9hZCkuCj4+Cj4+IEdvaW5nIHRvIHNlcGFyYXRlIHRoYXQsIHdyaXRlIHNvbWV0aGlu
-ZyB1cCBpbiB0aGUgY29tbWl0IG1lc3NhZ2UgYW5kIHNlbmQgaXQKPj4gdG8gdGhlIGFwcHJvcHJp
-YXRlIGF1ZGllbmNlLgo+IEhtIHdoeSBkbyB3ZSBuZWVkIHRoYXQ/CgpXaGVuIHRoZSBzaHJpbmtl
-ciBydW5zIGluIHBhcmFsbGVsIHdpdGggKGZvciBleGFtcGxlKSBhIGhvdHBsdWcgZXZlbnQgCmFu
-ZCB1bm1hcHMgcGFnZXMgZnJvbSB0aGUgZGV2aWNlcyBJT01NVSBJIG11c3QgbWFrZSBzdXJlIHRo
-YXQgeW91IGNhbid0IApkZXN0cm95IHRoZSBkZXZpY2Ugb3IgcG9vbCBzdHJ1Y3R1cmUgYXQgdGhl
-IHNhbWUgdGltZS4KClByZXZpb3VzbHkgaG9sZGluZyB0aGUgbXV0ZXggd2hpbGUgdXBkYXRpbmcg
-dGhlIElPTU1VIHdvdWxkIHRha2UgY2FyZSBvZiAKdGhhdCwgYnV0IG5vdyB3ZSBuZWVkIHRvIHBy
-ZXZlbnQgdGhpcyBvdGhlcndpc2UuCgpDb3VsZCBiZSB0aGF0IHRoaXMgaXMgYWxzbyBoYW5kbGVk
-IHNvbWV3aGVyZSBlbHNlLCBidXQgSSdtIGJldHRlciBzYXZlIAp0aGFuIHNvcnJ5IGhlcmUgYW5k
-IGdyYWJiaW5nL3JlbGVhc2luZyB3cml0ZSBzaWRlIG9mIHRoZSBzaHJpbmtlcl9yd3NlbSAKaXMg
-cmF0aGVyIGxpZ2h0d2VpZ2h0LgoKPiBFaXRoZXIgd2F5IHNvdW5kcyBsaWtlIGFuIG9ydGhvZ29u
-YWwgc2VyaWVzIGZvcgo+IHRoZSBob3R1bnBsdWcgd29yaywgbm90IGp1c3Qgc2hyaW5rZXIgb3B0
-aW1pemF0aW9uLgoKSXQgaXMgdW5yZWxhdGVkIHRvIHRoZSBob3RwbHVnIHdvcmsgaW4gZ2VuZXJh
-bC4KClJlZ2FyZHMsCkNocmlzdGlhbi4KCj4gLURhbmllbAo+Cj4+IFRoYW5rcywKPj4gQ2hyaXN0
-aWFuLgo+Pgo+Pj4gLURhbmllbAo+Pj4KPj4+PiArewo+Pj4+ICsJZG93bl93cml0ZSgmc2hyaW5r
-ZXJfcndzZW0pOwo+Pj4+ICsJdXBfd3JpdGUoJnNocmlua2VyX3J3c2VtKTsKPj4+PiArfQo+Pj4+
-ICtFWFBPUlRfU1lNQk9MKHN5bmNfc2hyaW5rZXJzKTsKPj4+PiArCj4+Pj4gICAgI2RlZmluZSBT
-SFJJTktfQkFUQ0ggMTI4Cj4+Pj4gICAgc3RhdGljIHVuc2lnbmVkIGxvbmcgZG9fc2hyaW5rX3Ns
-YWIoc3RydWN0IHNocmlua19jb250cm9sICpzaHJpbmtjdGwsCj4+Pj4gLS0gCj4+Pj4gMi4yNS4x
-Cj4+Pj4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Apr 8, 2021 at 2:01 PM David Hildenbrand <david@redhat.com> wrote:
+
+> > This is something you could do using a hidden helper symbol like
+> >
+> > config DRMA_ASPEED_GFX
+> >         bool "Aspeed display driver"
+> >         select DRM_WANT_CMA
+> >
+> > config DRM_WANT_CMA
+> >         bool
+> >         help
+> >            Select this from any driver that benefits from CMA being enabled
+> >
+> > config DMA_CMA
+> >         bool "Use CMA helpers for DRM"
+> >         default DRM_WANT_CMA
+> >
+> >           Arnd
+> >
+>
+> That's precisely what I had first, with an additional "WANT_CMA" --  but
+> looking at the number of such existing options (I was able to spot 1 !)
+
+If you do this it probably makes sense to fix a few other drivers
+Kconfig in the process. It's not just a problem with your driver.
+"my" drivers:
+
+drivers/gpu/drm/mcde/Kconfig
+drivers/gpu/drm/pl111/Kconfig
+drivers/gpu/drm/tve200/Kconfig
+
+certainly needs this as well, and pretty much anything that is
+selecting DRM_KMS_CMA_HELPER or
+DRM_GEM_CMA_HELPER "wants" DMA_CMA.
+
+Yours,
+Linus Walleij
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
