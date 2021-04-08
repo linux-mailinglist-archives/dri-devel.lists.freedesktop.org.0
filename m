@@ -2,69 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503D6358034
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 12:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63D335803B
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 12:05:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91AFB6EA52;
-	Thu,  8 Apr 2021 10:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 301946EA61;
+	Thu,  8 Apr 2021 10:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB7E6EA52
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 10:05:17 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id a12so1450169wrq.13
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 03:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=36bvTqcToGLAmD+a9gwi7UztJJlmmlryLAr2BU8KQ8s=;
- b=lIdZTKCpObM4Wmr4t/JuIwVigP9bm6yi8C5UN+QUf40InjOtA1Jdt5+tp80w3zNnQo
- VlSZtKdBmzi+ZwGrhGIMLGEyI3q+id+HoCUH4Q4tHYGMh2RoGkmAJXhHhZHaecvlKMmC
- QlFz7G/ND8mE2P823Sob9sGXYc3DtI/97X/D0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=36bvTqcToGLAmD+a9gwi7UztJJlmmlryLAr2BU8KQ8s=;
- b=adQmM8usbxsU1Ddr4tfrP4WGw7mzG1EYcwLpLU4aoET+bZ+V5qW32+ernUGzi+Hpa/
- EFeOUeJQRmdU5IcKjdTCVPy9qLAljRpdLfEhbZygLbS5lctV9Am9RH7ybUMoSNz33z8a
- KliJoLOTpbXCyQmOsBoo34VyL4R5Y8SG5HVv79J1DwS450p//ZKL6wkHH9Mocy5rJtZ8
- YtoqBoREEKxHsRpJcDJY1D6jTY+zy812rB8a/3hUs8zblwBHArG9gSt4nDchk54ek0DW
- Ac+kw3hkrm9YbJdy08edhPZPwvoNP4noPdTfknQAt12j1Y+lWnfacyRuWyhCKjwpx6n6
- Ulog==
-X-Gm-Message-State: AOAM531yD2T+HNDfgpl5ln4/cBYvNCNeFMzaYhsGq0y/6jMipNQe/AxW
- 5XxpMKRFAq9ECJ4H46a2sTLCHA==
-X-Google-Smtp-Source: ABdhPJzpwqYXCVUB+8r0nQC2/W7H7J7o+XDWVlyU4mTtGNJrkB+UEdkDLgvXZNrPAgIv0wJQsQSfww==
-X-Received: by 2002:adf:f692:: with SMTP id v18mr713305wrp.206.1617876316263; 
- Thu, 08 Apr 2021 03:05:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l4sm12802446wmh.8.2021.04.08.03.05.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 03:05:15 -0700 (PDT)
-Date: Thu, 8 Apr 2021 12:05:13 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH 3/3] mm: unexport follow_pfn
-Message-ID: <YG7VWWkvnv2IPEXt@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
- linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
- 3pvd@google.com, Jann Horn <jannh@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
- <20210316153303.3216674-4-daniel.vetter@ffwll.ch>
- <20210329133101.GA1168973@nvidia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F96F6EA61
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 10:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617876339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=stVmdVHDbOoSxNmjFvxne1obfQicq305VBZ17FdaCM0=;
+ b=H0DJR9dJrqE2knCSFp9+5oOUYvc19ZVijv5nzLI3O74tkrAwF+Yzm0tbktmxUZ1y2YWuMX
+ U1nO1eqh05qTGDYf6cPc5QyFpkFqdha2PrOrv2JFunRQwh84RDgLMgBG7p0mPaeMIVu17t
+ BoVJ8ekX5hDwCmZnt8SspuriBz/wkn8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-R8LwhTuXPW2xbmMgCHV62Q-1; Thu, 08 Apr 2021 06:05:35 -0400
+X-MC-Unique: R8LwhTuXPW2xbmMgCHV62Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CA571006C81;
+ Thu,  8 Apr 2021 10:05:32 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0DDB19D9F;
+ Thu,  8 Apr 2021 10:05:24 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] drivers: don't select DMA_CMA or CMA
+Date: Thu,  8 Apr 2021 12:05:21 +0200
+Message-Id: <20210408100523.63356-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210329133101.GA1168973@nvidia.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,75 +54,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org,
- Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
- Jann Horn <jannh@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Cornelia Huck <cohuck@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- 3pvd@google.com, Peter Xu <peterx@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ David Hildenbrand <david@redhat.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Masahiro Yamada <masahiroy@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
+ Joel Stanley <joel@jms.id.au>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ etnaviv@lists.freedesktop.org, Peter Collingbourne <pcc@google.com>,
+ linux-arm-kernel@lists.infradead.org, Andrew Jeffery <andrew@aj.id.au>,
+ Randy Dunlap <rdunlap@infradead.org>, Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 29, 2021 at 10:31:01AM -0300, Jason Gunthorpe wrote:
-> On Tue, Mar 16, 2021 at 04:33:03PM +0100, Daniel Vetter wrote:
-> > Both kvm (in bd2fae8da794 ("KVM: do not assume PTE is writable after
-> > follow_pfn")) and vfio (in 07956b6269d3 ("vfio/type1: Use
-> > follow_pte()")) have lost their callsites of follow_pfn(). All the
-> > other ones have been switched over to unsafe_follow_pfn because they
-> > cannot be fixed without breaking userspace api.
-> > 
-> > Argueably the vfio code is still racy, but that's kinda a bigger
-> 
-> vfio and kvm
+Trying to set CONFIG_CMA=y with CONFIG_DMA_CMA=n revealed that we have
+three drivers that select these options. Random drivers should not
+override user settings of such core knobs. Let's use "imply DMA_CMA"
+instead, such that user configuration and dependencies are respected.
 
-Hm I thought kvm is non-racy due to the mmu notifier catch races?
+v1 -> v2:
+- Fix DRM_CMA -> DMA_CMA
 
-> 
-> > picture. But since it does leak the pte beyond where it drops the pt
-> > lock, without anything else like an mmu notifier guaranteeing
-> > coherence, the problem is at least clearly visible in the vfio code.
-> > So good enough with me.
-> > 
-> > I've decided to keep the explanation that after dropping the pt lock
-> > you must have an mmu notifier if you keep using the pte somehow by
-> > adjusting it and moving it into the kerneldoc for the new follow_pte()
-> > function.
-> > 
-> > Cc: 3pvd@google.com
-> > Cc: Jann Horn <jannh@google.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Jason Gunthorpe <jgg@nvidia.com>
-> > Cc: Cornelia Huck <cohuck@redhat.com>
-> > Cc: Peter Xu <peterx@redhat.com>
-> > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: kvm@vger.kernel.org
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > --- 
-> >  include/linux/mm.h |  2 --
-> >  mm/memory.c        | 26 +++++---------------------
-> >  mm/nommu.c         | 13 +------------
-> >  3 files changed, 6 insertions(+), 35 deletions(-)
-> 
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Peter Collingbourne <pcc@google.com>
+Cc: linux-aspeed@lists.ozlabs.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: etnaviv@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
 
-Thanks for your r-b tags, I'll add them.
--Daniel
+David Hildenbrand (2):
+  drivers/video/fbdev: don't select DMA_CMA
+  drivers/gpu/drm: don't select DMA_CMA or CMA from aspeed or etnaviv
 
-> 
-> Jason
+ drivers/gpu/drm/aspeed/Kconfig  | 3 +--
+ drivers/gpu/drm/etnaviv/Kconfig | 3 +--
+ drivers/video/fbdev/Kconfig     | 2 +-
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
