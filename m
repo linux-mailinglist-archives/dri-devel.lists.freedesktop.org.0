@@ -1,58 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67738358DC8
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 21:55:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B51D3358E1D
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 22:08:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 409FF6E1A5;
-	Thu,  8 Apr 2021 19:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD3F6E1A4;
+	Thu,  8 Apr 2021 20:08:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
- [IPv6:2607:f8b0:4864:20::736])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFE506E1A5
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 19:55:26 +0000 (UTC)
-Received: by mail-qk1-x736.google.com with SMTP id v70so3537579qkb.8
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 12:55:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2WI115VsuVItfr2BpF98BtkUGHktbIekuswgNtc/yWQ=;
- b=KxbRTTY6af3VKPp4S2HqE7Tp2o+8O01vqFeP8r7RbXDM/wa790hnS+UPp/y47uRqfC
- 4mKjkQufJ8Yj+39Qk4PEdJDcwDihNL0in5uZ6C8Ycw32/bSew72cEdXDSkASLbOzho1+
- VSdQgKPHbdIB3+EAixCiDnzmctFhyuyEdw4PQ=
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 479B56E1A4
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 20:08:29 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ t23-20020a0568301e37b02901b65ab30024so3548657otr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 13:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/SpcVGDdp89HQnM1Bzwek/8vZIkYEFVCUzp9ZdaowZE=;
+ b=r7rN4mMnhHcorA32BOFF32cWMR9OsmPyCDiyaJ2FkmlznDZEj8p3a6Oo3mUaRDXOaW
+ 9L38a5QT8TQSjSoxtOP6tKcwlghf4PAM1DQq9AlUmSMLHeTQw2lUgHC6dk/TYn4j/xcI
+ QhRYcwM/6/9iVNMqafIcxUeyKRpknXnancYg88D+94oPHGhMgyosqKt5NwuXhQwS8Jxn
+ P12A3ARhxvjQW1XbX/BmBCXWrwNKOy6QKP2klfnYCW3NMf+gbwmaf3wQUK7jbEqqIhFS
+ re6Mz0J494Kf16ikJyeJag4RWsG4oGPleoob3xYKcfb7fFtKC94WPjY2uGAxx01T9utE
+ arEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2WI115VsuVItfr2BpF98BtkUGHktbIekuswgNtc/yWQ=;
- b=Z+hcUiKfw75tgw4FnQGHS6wGQ6ioAEKMzO8mnklw8XqkR8kQ9wztchRWfxT+1bGcYC
- yxGWqGzxptWFn7LzQGMPprWSh/vwybJKNLigCI2Iw3IsW88KunJ+pVfnGkUYNajoZwnP
- bJNi2OmKvOjWxNLnaanro2RDurYQm8oXKStsMpsvnglAP9CKdSJyz2F9NpQ0crgpOgZS
- r+oea7OEJKRL+8Xy2+qNFg3m/OofmiknOGcdyGNK73go2IuehwVTcXQdMdurstcFWXnq
- nZBiwdpFwX2dRK3GHYdw/zgEDYQX7HAeVfx7IaVGYyhdJSR+Qt+Mfq4/aGOmSlmh+aC5
- JD2A==
-X-Gm-Message-State: AOAM5326k0YIV84WYVxvQhN4isM2VOLNy4UxyjV4EHokxEOrAH9ShMHu
- g0j7jiWumXcR1zD6nVOqUjOjsA==
-X-Google-Smtp-Source: ABdhPJzY7r9AOqkMC5XamcJKlr8gz45ogTkiXpeO5D1cebA8+pUW0m6PHsieZZ+brHlOKRMPNZGyYg==
-X-Received: by 2002:a05:620a:135a:: with SMTP id
- c26mr10226725qkl.110.1617911725823; 
- Thu, 08 Apr 2021 12:55:25 -0700 (PDT)
-Received: from markyacoub.nyc.corp.google.com
- ([2620:0:1003:513:b9ea:a4f6:c7ad:d4c4])
- by smtp.gmail.com with ESMTPSA id n1sm355753qtp.76.2021.04.08.12.55.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 12:55:25 -0700 (PDT)
-From: Mark Yacoub <markyacoub@chromium.org>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amdgpu: Report the Frame number at beginning of CRC
- calculation
-Date: Thu,  8 Apr 2021 15:55:12 -0400
-Message-Id: <20210408195512.2236336-1-markyacoub@chromium.org>
-X-Mailer: git-send-email 2.31.0.208.g409f899ff0-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/SpcVGDdp89HQnM1Bzwek/8vZIkYEFVCUzp9ZdaowZE=;
+ b=MnChDrVDj28JfTkIGjKAUCzYzXGxaJzikCbgl58x8RBOf5rJ4hosOyPTNBXLvXqu/K
+ SkslMS0xESKzbcy4SqbRKfuooKayWANdC1cs15yY+lzPJVutYRZYjYkOpBeNVVWkNu5i
+ V5iw1NUlBbwZE1NrIHEKkSvv8VkscWFqPqDfSDG3CCzvAQQWxItusgIHasL92JSg5V03
+ +iO7F3ysKdDh/9XyiZOwVakzcvRh7jj1xRUNanrICiSL4bSWadw+6SfH4nEJeyuD72/Z
+ PlSmMqVgdEmLfBRQKhJ2G1JrUNWYvZyahMgeY1QlewLIWPjoLqtCrCLbT9dv5u7cTc6N
+ JejA==
+X-Gm-Message-State: AOAM530h2IZvmkZWw1mlGjzDIQ60Vrq7yukJkYzs9/XV7nWKVQpiPfW5
+ YEoip+0Ox/0E0gGR7BNDGWUJY29t2XNq+attvYRsk9h8KPk=
+X-Google-Smtp-Source: ABdhPJwrURNVI7QWg/RnJbH3umxLXlSKW/C0jH/vFSm48C32FmQfZ2PAAZKtWQ4vUbgTn6t4XdElXfDmMFFURMHjnyg=
+X-Received: by 2002:a9d:be2:: with SMTP id 89mr3024304oth.23.1617912508581;
+ Thu, 08 Apr 2021 13:08:28 -0700 (PDT)
 MIME-Version: 1.0
+References: <1617884011-51265-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1617884011-51265-1-git-send-email-tiantao6@hisilicon.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 8 Apr 2021 16:08:17 -0400
+Message-ID: <CADnq5_NVk1YvUwfNzN+XHwT2YSGpiOf3TdBynUt_vyoAr-bVqw@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon/r600: Fix variables that are not used after
+ assignment
+To: Tian Tao <tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,74 +62,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, seanpaul@chromium.org,
- Mark Yacoub <markyacoub@google.com>
+Cc: Dave Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mark Yacoub <markyacoub@google.com>
+Applied.  Thanks!
 
-On reporting back the frame number of the CRCs through
-drm_crtc_add_crc_entry(), send back the vblank count at the time the frame
-CRC starts calculating rather than when the CRCs are ready to be
-reported.
+Alex
 
-Tested by running IGT module: kms_plane::capture_crc()
-
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h   |  1 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c   | 13 ++++++++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 8bfe901cf2374..b1e7af435b440 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -461,6 +461,7 @@ struct dm_crtc_state {
- 	int update_type;
- 	int active_planes;
- 
-+	u64 vblank_at_crc_init;
- 	int crc_skip_count;
- 	enum amdgpu_dm_pipe_crc_source crc_src;
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-index 66cb8730586b1..abf9dcefadbe6 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-@@ -305,6 +305,17 @@ void amdgpu_dm_crtc_handle_crc_irq(struct drm_crtc *crtc)
- 	 * first two CRC values.
- 	 */
- 	if (crtc_state->crc_skip_count < 2) {
-+		/*
-+		 * Save the vblank count at the time when the CRC calculation starts and comes here
-+		 * for the first time (crc_skip_count=0).
-+		 * drm_crtc_add_crc_entry() reports the number of the frame these CRCs are about,
-+		 * which should be the vblank_count of the frame rather than when the CRCs are
-+		 * ready.
-+		 */
-+		if (crtc_state->crc_skip_count == 0) {
-+			crtc_state->vblank_at_crc_init =
-+				drm_crtc_accurate_vblank_count(crtc);
-+		}
- 		crtc_state->crc_skip_count += 1;
- 		return;
- 	}
-@@ -315,6 +326,6 @@ void amdgpu_dm_crtc_handle_crc_irq(struct drm_crtc *crtc)
- 			return;
- 
- 		drm_crtc_add_crc_entry(crtc, true,
--				       drm_crtc_accurate_vblank_count(crtc), crcs);
-+				       crtc_state->vblank_at_crc_init, crcs);
- 	}
- }
--- 
-2.31.0.208.g409f899ff0-goog
-
+On Thu, Apr 8, 2021 at 8:13 AM Tian Tao <tiantao6@hisilicon.com> wrote:
+>
+> err was not used after being assigned -EINVAL and was given a new value,
+> so here add goto to handle the error case.
+>
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> ---
+>  drivers/gpu/drm/radeon/r600.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r600.c
+> index b44e0c6..d516ad7 100644
+> --- a/drivers/gpu/drm/radeon/r600.c
+> +++ b/drivers/gpu/drm/radeon/r600.c
+> @@ -2570,6 +2570,7 @@ int r600_init_microcode(struct radeon_device *rdev)
+>                 pr_err("r600_cp: Bogus length %zu in firmware \"%s\"\n",
+>                        rdev->me_fw->size, fw_name);
+>                 err = -EINVAL;
+> +               goto out;
+>         }
+>
+>         snprintf(fw_name, sizeof(fw_name), "radeon/%s_rlc.bin", rlc_chip_name);
+> @@ -2580,6 +2581,7 @@ int r600_init_microcode(struct radeon_device *rdev)
+>                 pr_err("r600_rlc: Bogus length %zu in firmware \"%s\"\n",
+>                        rdev->rlc_fw->size, fw_name);
+>                 err = -EINVAL;
+> +               goto out;
+>         }
+>
+>         if ((rdev->family >= CHIP_RV770) && (rdev->family <= CHIP_HEMLOCK)) {
+> --
+> 2.7.4
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
