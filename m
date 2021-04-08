@@ -2,45 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6121358899
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 17:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A8A3589F6
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 18:44:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C07BC6EB3D;
-	Thu,  8 Apr 2021 15:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526906EB72;
+	Thu,  8 Apr 2021 16:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
- [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2286EB3B
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 15:34:36 +0000 (UTC)
-Date: Thu, 08 Apr 2021 15:34:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1617896072;
- bh=8T4dl1nqPG6w7Ce24FIwED25sDJndKSDFpPP87ZS7Q0=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=nTEpCvxTDly2+EKNvYA01sWsaTLw3KcORebKgxcwbGx2cNhrpxdVU390vSVaY3X82
- Htg3zBPPO0DcGLqE+ZTNAUI8MA+19nLAGQslgQat7q4i2Wqg4xyKlgWtHEnvFLjQIz
- j/CFo2BQjbPndCpl1dmWb2r6GSgOkGBQxFw2IOoe/aHf+4N8rPbsLpLydf2RYw9UbP
- P6rTU904IhzXeEj0czVTLNjdzAeViPvewkY2qw/uAUfxlYTksMqhDnrVdLyq5AKciQ
- o5CO7fifX3xohsquj1FbTOpbTi5OVXOAvd1dhO9iHvhabauGDagZq5aOr2ALqFcy0G
- 5/If7PhauEBEQ==
-To: Jani Nikula <jani.nikula@linux.intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: Call for an EDID parsing library
-Message-ID: <xpo_2Bu6zqaJzYEya05hXM6WtcyBfk7EHevrdAN_AeWWdpMqGjIUBQ5ZqBMhpGWjhG1ASfvXzHAJhE2cKF4bRkq7xBdbzHk7UyPeaK_amRY=@emersion.fr>
-In-Reply-To: <87lf9siyn6.fsf@intel.com>
-References: <20210407114404.13b41822@eldfell>
- <7d8dc3ea-a935-5145-482c-42ea43dfd782@xs4all.nl> <87mtuajshc.fsf@intel.com>
- <33467672-b66a-7658-de04-7bc37153613f@xs4all.nl> <87r1jkj37y.fsf@intel.com>
- <20210408171311.61f433bd@eldfell> <87o8eoj01m.fsf@intel.com>
- <BIyXHmd9St1ss-z2I5n6mdZZFRRBj2zhTq4eMGjlN-mmPpp_7VC2HjUyF22htq84SlVwil4LBddopV6slVnJIKWd6VcFmzVZOxSTzTpt0BY=@emersion.fr>
- <87lf9siyn6.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE37D6EB72
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 16:44:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617900278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VfhnCQAyCfEthQPScFLk5+XhVK1UjdBG138qICZvuow=;
+ b=ar0/Ev9C0RCZwi438X39cNfOMLl1aBxWyLAyi6OyKjc/zmU21i8LPN6N//W+yq4FJzONLH
+ 4bNCvaseHH+G98bKUZPu2XxiX4jNnubPWEEZJnpEkiC2wbd0vRl6off2h9mF0ecii+Kn54
+ wndNFJqgSqM1p/J1PSyOJyr7ZUDhsiY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-x1HZ9uJoOgSGPofB8dKw8A-1; Thu, 08 Apr 2021 12:44:34 -0400
+X-MC-Unique: x1HZ9uJoOgSGPofB8dKw8A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA2FB801814;
+ Thu,  8 Apr 2021 16:44:30 +0000 (UTC)
+Received: from [10.36.113.26] (ovpn-113-26.ams2.redhat.com [10.36.113.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63A0A60636;
+ Thu,  8 Apr 2021 16:44:24 +0000 (UTC)
+Subject: Re: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
+ aspeed or etnaviv
+To: Linus Walleij <linus.walleij@linaro.org>
+References: <20210408092011.52763-1-david@redhat.com>
+ <20210408092011.52763-3-david@redhat.com>
+ <CAK8P3a09LdJ-87ZrN28y=t8Sa0zL-3NOvEWhkStMY+2EbO7UAw@mail.gmail.com>
+ <cd14d4b4-da82-b21c-2cd6-8e474d97b955@redhat.com>
+ <CAK8P3a0Wg1mGZoBkD_RwMx-jzQNK2krrDxDQV5uhCHoyz-e=dw@mail.gmail.com>
+ <7496ac87-9676-1b4e-3444-c2a662ec376b@redhat.com>
+ <CAK8P3a1tVwkDbtvKi8atkrg1-CfoQHGrXLCzn_uo+=dfZJfdQA@mail.gmail.com>
+ <3a2d64a7-8425-8daf-17ee-95b9f0c635f9@redhat.com>
+ <CACRpkdYizKGhtYzE+22oZAduLNCOGP9Vbp=LQbXG1C-a+MyMcg@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <2ef3b65c-c0ef-7bbe-0e05-39ee8f2bae48@redhat.com>
+Date: Thu, 8 Apr 2021 18:44:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+In-Reply-To: <CACRpkdYizKGhtYzE+22oZAduLNCOGP9Vbp=LQbXG1C-a+MyMcg@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,49 +70,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: xorg-devel@lists.x.org, dri-devel@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Andrew Jeffery <andrew@aj.id.au>,
+ Masahiro Yamada <masahiroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Michal Simek <michal.simek@xilinx.com>, Linux-MM <linux-mm@kvack.org>,
+ Joel Stanley <joel@jms.id.au>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Peter Collingbourne <pcc@google.com>, Mike Rapoport <rppt@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, April 8th, 2021 at 5:28 PM, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On 08.04.21 14:49, Linus Walleij wrote:
+> On Thu, Apr 8, 2021 at 2:01 PM David Hildenbrand <david@redhat.com> wrote:
+> 
+>>> This is something you could do using a hidden helper symbol like
+>>>
+>>> config DRMA_ASPEED_GFX
+>>>          bool "Aspeed display driver"
+>>>          select DRM_WANT_CMA
+>>>
+>>> config DRM_WANT_CMA
+>>>          bool
+>>>          help
+>>>             Select this from any driver that benefits from CMA being enabled
+>>>
+>>> config DMA_CMA
+>>>          bool "Use CMA helpers for DRM"
+>>>          default DRM_WANT_CMA
+>>>
+>>>            Arnd
+>>>
+>>
+>> That's precisely what I had first, with an additional "WANT_CMA" --  but
+>> looking at the number of such existing options (I was able to spot 1 !)
+> 
+> If you do this it probably makes sense to fix a few other drivers
+> Kconfig in the process. It's not just a problem with your driver.
+> "my" drivers:
+> 
 
-> On Thu, 08 Apr 2021, Simon Ser contact@emersion.fr wrote:
->
-> > On Thursday, April 8th, 2021 at 4:58 PM, Jani Nikula jani.nikula@linux.intel.com wrote:
-> >
-> > > Perhaps that should be the takeaway; try to minimize parsed data
-> > > where the consumer needs to know whether it originated from DisplayID or
-> > > EDID?
-> >
-> > So an EDID/DisplayID abstraction layer?
-> >
-> > It sounds like only an EDID and DisplayID expert could come up with a
-> > sane API for that. Also some metadata will only be available in one
-> > format and not the other.
->
-> Well, some of the data already comes from DisplayID extensions in the
-> EDID.
->
-> My point is, if you parse displayid and edid into different structures
-> and APIs, what will the code bases using the library end up looking
-> like? Not pretty? Implementing the same conditionals all over the place?
-> Anyway. I feel like I'm derailing this a bit, and I really don't want
-> that to happen. I think DisplayID is a consideration that should not be
-> forgotten, but it's probably not the first priority here.
+:) I actually wanted to convert them to "depends on DMA_CMA" but ran 
+into recursive dependencies ...
 
-I agree with the goal. I'm just saying that it considerably increases
-the complexity of the task.
+> drivers/gpu/drm/mcde/Kconfig
+> drivers/gpu/drm/pl111/Kconfig
+> drivers/gpu/drm/tve200/Kconfig
 
-If you're just doing an EDID library, you can just expose the EDID
-specific bits with a sane API. If you're designing an abstraction
-layer, you need to have a good look at both APIs, try to come up with
-common data structures that fit both, and be aware of the upcoming spec
-changes to not be stuck with a bad API.
+I was assuming these are "real" dependencies. Will it also work without 
+DMA_CMA?
+
+> 
+> certainly needs this as well, and pretty much anything that is
+> selecting DRM_KMS_CMA_HELPER or
+> DRM_GEM_CMA_HELPER "wants" DMA_CMA.
+
+"wants" as in "desires to use but can life without" or "wants" as in 
+"really needs it". ?
+
+-- 
+Thanks,
+
+David / dhildenb
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
