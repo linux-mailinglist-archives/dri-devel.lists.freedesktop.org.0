@@ -2,40 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F00357883
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 01:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054F0357A0A
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 04:06:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E43316E9BB;
-	Wed,  7 Apr 2021 23:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE206E9E5;
+	Thu,  8 Apr 2021 02:06:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A462F6E9B9;
- Wed,  7 Apr 2021 23:27:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6AABC611C9;
- Wed,  7 Apr 2021 23:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617838034;
- bh=5cQuER9fmc8fHAwXS8iEloQ3JTxyDIMqjDHmBWLnXl0=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=PBOh8ip9/zbP5hdMG6IH1fQDPFqXLrfClhSqsPqTcEnnzJ/uZiLO7WZDYJJRYb5ht
- 45aHyqPjQwTJKXXVSWfyKYrK0cERH1BMo4jIp7iG0t31eoIAugTLtxleiusKiyxO1q
- OC6TcmDOduW3Jl7s8ss5WzESRlWvmEekrwmbsexHBlberXmWPG9b0F0kfzkxm9/Hrz
- CujlpQYi0Fg/6bi3PE81l2hhCHC7bS3T2aISXcTzckilZguH1bH91gShNMn7Ae/hpH
- XAAL8ZGViNo3N3t/jWa5E52Vvb//0PnYj8RBbnzFd8ly0OLoul4wA1lm024tBn+rg7
- cWRXQiq4ARzwA==
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A71C6E9E5
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 02:06:50 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FG4MS0NXRzyNgH;
+ Thu,  8 Apr 2021 10:04:36 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 8 Apr 2021 10:06:39 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>,
+ <robert.foss@linaro.org>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH] drm/bridge: simplify devm_drm_panel_bridge_add_typed
+Date: Thu, 8 Apr 2021 10:07:04 +0800
+Message-ID: <1617847624-53611-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAA8EJppsM1sP=OTiMY8jsLLgU=+p3qgZDD7M+M5naJhfFEF_Zg@mail.gmail.com>
-References: <20210406230606.3007138-1-dmitry.baryshkov@linaro.org>
- <161783530964.3790633.16412468884239960912@swboyd.mtv.corp.google.com>
- <CAA8EJppsM1sP=OTiMY8jsLLgU=+p3qgZDD7M+M5naJhfFEF_Zg@mail.gmail.com>
-Subject: Re: [PATCH] clk: fixed: fix double free in resource managed
- fixed-factor clock
-From: Stephen Boyd <sboyd@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 07 Apr 2021 16:27:13 -0700
-Message-ID: <161783803315.3790633.10829887417379757624@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,52 +40,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- DRM DRIVER FOR MSM ADRENO GPU <linux-arm-msm@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Daniel Palmer <daniel@0x0f.com>,
- DRM DRIVER FOR MSM ADRENO GPU <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- COMMON CLK FRAMEWORK <linux-clk@vger.kernel.org>
+Cc: Tian Tao <tiantao6@hisilicon.com>, dri-devel@lists.freedesktop.org,
+ Yicong Yang <yangyicong@hisilicon.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2021-04-07 15:57:01)
-> On Thu, 8 Apr 2021 at 01:41, Stephen Boyd <sboyd@kernel.org> wrote:
-> >
-> > Quoting Dmitry Baryshkov (2021-04-06 16:06:06)
-> > > devm_clk_hw_register_fixed_factor_release(), the release function for
-> > > the devm_clk_hw_register_fixed_factor(), calls
-> > > clk_hw_unregister_fixed_factor(), which will kfree() the clock. However
-> > > after that the devres functions will also kfree the allocated data,
-> > > resulting in double free/memory corruption. Just call
-> > > clk_hw_unregister() instead, leaving kfree() to devres code.
-> > >
-> > > Reported-by: Rob Clark <robdclark@chromium.org>
-> > > Cc: Daniel Palmer <daniel@0x0f.com>
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > ---
-> > >
-> > > Stephen, this fix affects the DSI PHY rework. Do we have a chance of
-> > > getting it into 5.12, otherwise there will be a cross-dependency between
-> > > msm-next and clk-next.
-> >
-> > Think I can get this into the last fixes PR. One question though, I
-> > think this follows the pattern that things like clk-divider.c use for
-> > devm. Are those also broken?
-> 
-> It looks so. See e.g. the devres_release() function. It calls
-> (*release) callback, then it will kfree the resource.
-> Also see Documentation/driver-api/driver-model/devres.rst, which does
-> not kfree() in release functions.
-> 
-> Do you wish for me to send all the fixes?
-> 
+Use devm_add_action_or_reset() instead of devres_alloc() and
+devres_add(), which works the same. This will simplify the
+code. There is no functional changes.
 
-Yes please send more fixes. They're not high priority though so I'll
-probably leave them to bake in next for a week or so.
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+---
+ drivers/gpu/drm/bridge/panel.c | 27 +++++++++++----------------
+ 1 file changed, 11 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index c916f4b..e5ddefb 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -250,11 +250,9 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
+ }
+ EXPORT_SYMBOL(drm_panel_bridge_remove);
+ 
+-static void devm_drm_panel_bridge_release(struct device *dev, void *res)
++static void devm_drm_panel_bridge_release(void *bridge)
+ {
+-	struct drm_bridge **bridge = res;
+-
+-	drm_panel_bridge_remove(*bridge);
++	drm_panel_bridge_remove(bridge);
+ }
+ 
+ /**
+@@ -295,20 +293,17 @@ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+ 						   struct drm_panel *panel,
+ 						   u32 connector_type)
+ {
+-	struct drm_bridge **ptr, *bridge;
+-
+-	ptr = devres_alloc(devm_drm_panel_bridge_release, sizeof(*ptr),
+-			   GFP_KERNEL);
+-	if (!ptr)
+-		return ERR_PTR(-ENOMEM);
++	struct drm_bridge *bridge;
++	int ret;
+ 
+ 	bridge = drm_panel_bridge_add_typed(panel, connector_type);
+-	if (!IS_ERR(bridge)) {
+-		*ptr = bridge;
+-		devres_add(dev, ptr);
+-	} else {
+-		devres_free(ptr);
+-	}
++	if (IS_ERR(bridge))
++		return bridge;
++
++	ret = devm_add_action_or_reset(dev, devm_drm_panel_bridge_release,
++				       bridge);
++	if (ret)
++		return ERR_PTR(ret);
+ 
+ 	return bridge;
+ }
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
