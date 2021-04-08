@@ -1,58 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B5D358D2A
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 21:01:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 153EB358D78
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 21:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CABE6E30D;
-	Thu,  8 Apr 2021 19:01:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32B1F6E0C1;
+	Thu,  8 Apr 2021 19:27:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2E86E30D;
- Thu,  8 Apr 2021 19:01:36 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so3459121wmy.5; 
- Thu, 08 Apr 2021 12:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NnWJUfUTIh3u8nCF0Cg0RNwJAmxoBSfV+wR+N8grRfo=;
- b=gTNG+oUxfB1lBWblc+1iGXKmk8VmCmuOH+3Uo0cG6t+Heun3HuPfTvlLfpDxo8XOMa
- E4qsgUxu1LqcuAL22yyGc6CDeVxiIwkIyomG7tDCHUMMTMiOel94LNcT80UV2OtRI4n/
- WZJ3jItW/sJeFyif+4E6M0Ww3H4eLNUoBRtEx3n97YMTfcDvCdpOW0IBPhLZh4RTm46K
- tJErmbrFJYa4ucx8cvpO7BszlaKED375GDf47CycUqDAh0Rt+3iCl87wtynxBZtlJQBs
- lcpd58IuxGefRbnhsxUSdusaGabeOfFipuqM+3+YwHaal3LKCqBQ3Z5SXhFMoYBD09Uz
- 8ZtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NnWJUfUTIh3u8nCF0Cg0RNwJAmxoBSfV+wR+N8grRfo=;
- b=i4vl0vy2KG6AuHzybDaHG8416kLJ87gcG28WJR/h3ZPGkGGk39JEYUuC8GxbNg2Ame
- BaT4JpE5+eMc+6G7UihqJuZWDyZCVYsUxPnPBp7+3Ic93wGei8BP1t1zvQuDVil/cCgH
- PNw7cKTU9Y+76AIj2C1qLAx6IcCckL7DbJ/S9v9thCZqIZUcL6oehtBRohjqxlor+LrY
- a6JpNhwq3xYy4Q5xr43Uk2YVlheO48hK7MWPl8mrVZUuI04lUaMwGsCEzvmc+4qxGFY1
- lfxo0o/y9TwMADnNCq77RHY93EqB6XIL8W9tfHMtTUnDe7JuD71I7UPnATEiqWkWL7rI
- I5KQ==
-X-Gm-Message-State: AOAM5328gamj+VbFRzztuKg96llq1Lgj0A2Q8bFlTJeAHGNdxk3R+IRK
- PaWZiXLg77zNa9NoWDJNcbAEYNXJDl+cBgn4S8FZZmCW5hQ=
-X-Google-Smtp-Source: ABdhPJxzohFyh4w2rfcJerLxwyjcjUnXYdLKatqyj01doNPYuzMekUXFYWQWCFIER5N1pkvQFTNp+IWSSEXSPFTXttQ=
-X-Received: by 2002:a7b:c012:: with SMTP id c18mr8141515wmb.94.1617908494935; 
- Thu, 08 Apr 2021 12:01:34 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4F56E0C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 19:27:02 +0000 (UTC)
+Received: from [IPv6:2804:431:e7dc:9ef6:7b41:f88b:5bc5:8ea5] (unknown
+ [IPv6:2804:431:e7dc:9ef6:7b41:f88b:5bc5:8ea5])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: leandrohrb)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2FD5F1F44B4B;
+ Thu,  8 Apr 2021 20:26:59 +0100 (BST)
+Subject: Re: [PATCH 1/2] drm/doc: document drm_mode_get_plane
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20210406192118.12313-1-leandro.ribeiro@collabora.com>
+ <20210406192118.12313-2-leandro.ribeiro@collabora.com>
+ <YG23lE7V0qjJNJu4@intel.com>
+From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Message-ID: <3ce15bc5-0be3-6774-fd05-ceebbaf1b60e@collabora.com>
+Date: Thu, 8 Apr 2021 16:26:55 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-References: <20210406214726.131534-1-marijn.suijten@somainline.org>
- <20210406214726.131534-2-marijn.suijten@somainline.org>
- <6413863d04df9743e2d7e81beff5c3e8@codeaurora.org>
- <04860f05-f79f-de0b-13d1-aba85065b4da@somainline.org>
-In-Reply-To: <04860f05-f79f-de0b-13d1-aba85065b4da@somainline.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 8 Apr 2021 12:05:02 -0700
-Message-ID: <CAF6AEGuoLgBSZOou1TSb-d2o6tHS-L-E7AQLS5RM4aOogvRG7Q@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 1/3] drm/msm/mdp5: Configure PP_SYNC_HEIGHT to
- double the vtotal
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+In-Reply-To: <YG23lE7V0qjJNJu4@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,121 +44,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Martin Botka <martin.botka@somainline.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org,
- freedreno <freedreno@lists.freedesktop.org>,
- ~postmarketos/upstreaming@lists.sr.ht
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, pekka.paalanen@collabora.co.uk, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 7, 2021 at 12:11 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@somainline.org> wrote:
->
-> Il 07/04/21 20:19, abhinavk@codeaurora.org ha scritto:
-> > Hi Marijn
-> >
-> > On 2021-04-06 14:47, Marijn Suijten wrote:
-> >> Leaving this at a close-to-maximum register value 0xFFF0 means it takes
-> >> very long for the MDSS to generate a software vsync interrupt when the
-> >> hardware TE interrupt doesn't arrive.  Configuring this to double the
-> >> vtotal (like some downstream kernels) leads to a frame to take at most
-> >> twice before the vsync signal, until hardware TE comes up.
-> >>
-> >> In this case the hardware interrupt responsible for providing this
-> >> signal - "disp-te" gpio - is not hooked up to the mdp5 vsync/pp logic at
-> >> all.  This solves severe panel update issues observed on at least the
-> >> Xperia Loire and Tone series, until said gpio is properly hooked up to
-> >> an irq.
-> >
-> > The reason the CONFIG_HEIGHT was at such a high value is to make sure that
-> > we always get the TE only from the panel vsync and not false positives
-> > coming
-> > from the tear check logic itself.
-> >
-> > When you say that disp-te gpio is not hooked up, is it something
-> > incorrect with
-> > the schematic OR panel is not generating the TE correctly?
-> >
->
-> Sometimes, some panels aren't getting correctly configured by the
-> OEM/ODM in the first place: especially when porting devices from
-> downstream to upstream, developers often get in a situation in which
-> their TE line is either misconfigured or the DriverIC is not configured
-> to raise V-Sync interrupts.
-> Please remember: some DDICs need a "commands sequence" to enable
-> generating the TE interrupts, sometimes this is not standard, and
-> sometimes OEMs/ODMs are not even doing that in their downstream code
-> (but instead they work around it in creative ways "for reasons", even
-> though their DDIC supports indeed sending TE events).
->
-> This mostly happens when bringing up devices that have autorefresh
-> enabled from the bootloader (when the bootloader sets up the splash
-> screen) by using simple-panel as a (hopefully) temporary solution to get
-> through the initial stages of porting.
->
-> We are not trying to cover cases related to incorrect schematics or
-> hardware mistakes here, as the fix for that - as you know - is to just
-> fix your hardware.
-> What we're trying to do here is to stop freezes and, in some cases,
-> lockups, other than false positives making the developer go offroad when
-> the platform shows that something is wrong during early porting.
->
-> Also, sometimes, some DDICs will not generate TE interrupts when
-> expected... in these cases we get a PP timeout and a MDP5 recovery: this
-> is totally avoidable if we rely on the 2*vtotal, as we wouldn't get
-> through the very time consuming task of recovering the entire MDP.
->
-> Of course, if something is wrong in the MDP and the block really needs
-> recovery, this "trick" won't save anyone and the recovery will anyway be
-> triggered, as the PP-done will anyway timeout.
-
-So, is this (mostly) a workaround due to TE not wired up?  In which
-case I think it is ok, but maybe should have a comment about the
-interaction with TE?
-
-Currently I have this patch in msm-next-staging but I guess we need to
-decide in the next day or so whether to drop it or smash in a comment?
-
-BR,
--R
-
-> >>
-> >> Suggested-by: AngeloGioacchino Del Regno
-> >> <angelogioacchino.delregno@somainline.org>
-> >> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> >> Reviewed-by: AngeloGioacchino Del Regno
-> >> <angelogioacchino.delregno@somainline.org>
-> >> ---
-> >>  drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
-> >> b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
-> >> index ff2c1d583c79..2d5ac03dbc17 100644
-> >> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
-> >> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
-> >> @@ -51,7 +51,7 @@ static int pingpong_tearcheck_setup(struct
-> >> drm_encoder *encoder,
-> >>
-> >>      mdp5_write(mdp5_kms, REG_MDP5_PP_SYNC_CONFIG_VSYNC(pp_id), cfg);
-> >>      mdp5_write(mdp5_kms,
-> >> -        REG_MDP5_PP_SYNC_CONFIG_HEIGHT(pp_id), 0xfff0);
-> >> +        REG_MDP5_PP_SYNC_CONFIG_HEIGHT(pp_id), (2 * mode->vtotal));
-> >>      mdp5_write(mdp5_kms,
-> >>          REG_MDP5_PP_VSYNC_INIT_VAL(pp_id), mode->vdisplay);
-> >>      mdp5_write(mdp5_kms, REG_MDP5_PP_RD_PTR_IRQ(pp_id),
-> >> mode->vdisplay + 1);
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiA0LzcvMjEgMTA6NDUgQU0sIFZpbGxlIFN5cmrDpGzDpCB3cm90ZToKPiBPbiBUdWUsIEFw
+ciAwNiwgMjAyMSBhdCAwNDoyMToxN1BNIC0wMzAwLCBMZWFuZHJvIFJpYmVpcm8gd3JvdGU6Cj4+
+IEFkZCBhIHNtYWxsIGRlc2NyaXB0aW9uIGFuZCBkb2N1bWVudCBzdHJ1Y3QgZmllbGRzIG9mCj4+
+IGRybV9tb2RlX2dldF9wbGFuZS4KPj4KPj4gU2lnbmVkLW9mZi1ieTogTGVhbmRybyBSaWJlaXJv
+IDxsZWFuZHJvLnJpYmVpcm9AY29sbGFib3JhLmNvbT4KPj4gLS0tCj4+ICBpbmNsdWRlL3VhcGkv
+ZHJtL2RybV9tb2RlLmggfCAxOSArKysrKysrKysrKysrKysrKysrCj4+ICAxIGZpbGUgY2hhbmdl
+ZCwgMTkgaW5zZXJ0aW9ucygrKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9k
+cm1fbW9kZS5oIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fbW9kZS5oCj4+IGluZGV4IGQxYTkzZDJh
+ODVmOS4uOTZmYzlhNmRhNjA4IDEwMDY0NAo+PiAtLS0gYS9pbmNsdWRlL3VhcGkvZHJtL2RybV9t
+b2RlLmgKPj4gKysrIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fbW9kZS5oCj4+IEBAIC0zMTIsMTYg
+KzMxMiwzNSBAQCBzdHJ1Y3QgZHJtX21vZGVfc2V0X3BsYW5lIHsKPj4gIAlfX3UzMiBzcmNfdzsK
+Pj4gIH07Cj4+ICAKPj4gKy8qKgo+PiArICogc3RydWN0IGRybV9tb2RlX2dldF9wbGFuZSAtIEdl
+dCBwbGFuZSBtZXRhZGF0YS4KPj4gKyAqCj4+ICsgKiBVc2Vyc3BhY2UgY2FuIHBlcmZvcm0gYSBH
+RVRQTEFORSBpb2N0bCB0byByZXRyaWV2ZSBpbmZvcm1hdGlvbiBhYm91dCBhCj4+ICsgKiBwbGFu
+ZS4KPj4gKyAqLwo+PiAgc3RydWN0IGRybV9tb2RlX2dldF9wbGFuZSB7Cj4+ICsJLyoqIEBwbGFu
+ZV9pZDogT2JqZWN0IElEIG9mIHRoZSBwbGFuZS4gKi8KPj4gIAlfX3UzMiBwbGFuZV9pZDsKPj4g
+IAo+PiArCS8qKiBAY3J0Y19pZDogT2JqZWN0IElEIG9mIHRoZSBjdXJyZW50IENSVEMuICovCj4+
+ICAJX191MzIgY3J0Y19pZDsKPj4gKwkvKiogQGZiX2lkOiBPYmplY3QgSUQgb2YgdGhlIGN1cnJl
+bnQgZmIuICovCj4+ICAJX191MzIgZmJfaWQ7Cj4+ICAKPj4gKwkvKioKPj4gKwkgKiBAcG9zc2li
+bGVfY3J0Y3M6IFBvaW50ZXIgdG8gYGBfX3UzMmBgIGFycmF5IG9mIENSVEMncyB0aGF0IGFyZQo+
+PiArCSAqIGNvbXBhdGlibGUgd2l0aCB0aGUgcGxhbmUuCj4+ICsJICovCj4gCj4gSXQncyBhIGJp
+dG1hc2suCgpUaGFuayB5b3UsIEknbGwgZml4IHRoaXMgaW4gdGhlIG5leHQgdmVyc2lvbi4KCj4g
+Cj4+ICAJX191MzIgcG9zc2libGVfY3J0Y3M7Cj4+ICsJLyoqIEBnYW1tYV9zaXplOiBTaXplIG9m
+IHRoZSBsZWdhY3kgZ2FtbWEgdGFibGUuICovCj4+ICAJX191MzIgZ2FtbWFfc2l6ZTsKPj4gIAo+
+PiArCS8qKiBAY291bnRfZm9ybWF0X3R5cGVzOiBOdW1iZXIgb2YgZm9ybWF0cy4gKi8KPj4gIAlf
+X3UzMiBjb3VudF9mb3JtYXRfdHlwZXM7Cj4+ICsJLyoqCj4+ICsJICogQGZvcm1hdF90eXBlX3B0
+cjogUG9pbnRlciB0byBgYF9fdTMyYGAgYXJyYXkgb2YgZm9ybWF0cyB0aGF0IGFyZQo+PiArCSAq
+IHN1cHBvcnRlZCBieSB0aGUgcGxhbmUuIFRoZXNlIGZvcm1hdHMgZG8gbm90IHJlcXVpcmUgbW9k
+aWZpZXJzLgo+PiArCSAqLwo+PiAgCV9fdTY0IGZvcm1hdF90eXBlX3B0cjsKPj4gIH07Cj4+ICAK
+Pj4gLS0gCj4+IDIuMzEuMQo+Pgo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwo+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwKPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
