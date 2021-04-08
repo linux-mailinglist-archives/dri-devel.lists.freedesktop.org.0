@@ -1,54 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DBB35875F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 16:45:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A10FE3587AB
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 16:58:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4EB66EB16;
-	Thu,  8 Apr 2021 14:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17CB06EB26;
+	Thu,  8 Apr 2021 14:58:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48B4A6EB16
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 14:45:18 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id r12so3505568ejr.5
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 07:45:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UiAst+OVExzFrYgr0Ac6llHp4XJRNyzdkv1JER7eoV8=;
- b=q30UFfS5EfnjnF4XSmWJqH/ubPkHWloYQm1hO5l/KluDGQnAt33hAKbMx1e4wHtIGm
- xYrovM7HAcxDMRZzPc5Zqag1CazE9zf3WN9Yxu8ui1cJ+T9akCuQekXt0y1lGYC9JhXt
- d0s2DzFjYJ1KJOPO99GicUacplYOlfTcIlVqw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UiAst+OVExzFrYgr0Ac6llHp4XJRNyzdkv1JER7eoV8=;
- b=VCi909wB5SI+BGRVuxzUDlsjD2TpAv7ce2hEv+PHhS5hursZCrnXHrU2widl529OST
- 3mIx9HUTUbG/QfVwJmrIol8rBMtIFhSdmqdh1B3wT3fG4IvX4MdjUO7U4UWSCNXOy6oJ
- wlt/Ji7o21P6Tnuh1es7W3mB0HgAxizGzVoPYRST1JrGt62tuJ7qLokm1jtWzBuVPeit
- T8/h5L/iFczrSeaje6ZHW+0pymKV8Vrm0VZ3OGykDC5iLmiCShb39+tKZsDt2hvPfKaw
- t2z67ryp3bcQ+DeJGy79HkE24WKlIiQv8YEzovJ1eboDLnLtEVSFSuKj75LAtkeUlQKu
- QOzg==
-X-Gm-Message-State: AOAM531EUcyse7xdQWAVQ47GVULgGN6ANWTRTneSkOABtJxa4dQpRoQx
- WtJwTekpdg2mJ39V/eyEAdNUYn3e+7Vp5AHC3ln3vg==
-X-Google-Smtp-Source: ABdhPJxkofkeU6cyRKkyyI3iQigf422fSRi/Huh5y/CzNqKuxd/kSIXbN1JyWl5jEBUelSE/9fXnj0sk6h7waoZ1ICU=
-X-Received: by 2002:a17:906:a049:: with SMTP id
- bg9mr10957487ejb.186.1617893116972; 
- Thu, 08 Apr 2021 07:45:16 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4DEA6EB20;
+ Thu,  8 Apr 2021 14:58:19 +0000 (UTC)
+IronPort-SDR: kh4TWBRWSeQGJsIQONTX/MtJvAPd1wt1bJ1/xH2VWCCja0dxqmY42K8kiXtSFidmJ/dTyimLnB
+ YmBX1hkbhfew==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="213966839"
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; d="scan'208";a="213966839"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2021 07:58:19 -0700
+IronPort-SDR: 6pSZNutxS8MTmDert/d2Z3yCWLWiZRro2ylFwLZbHrIw7M5PQvnXlzkM46CfpuhIEEdGk4GDot
+ AgCY6TGlRC7Q==
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; d="scan'208";a="422281819"
+Received: from akervine-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.249.34.131])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2021 07:58:16 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: Call for an EDID parsing library
+In-Reply-To: <20210408171311.61f433bd@eldfell>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210407114404.13b41822@eldfell>
+ <7d8dc3ea-a935-5145-482c-42ea43dfd782@xs4all.nl> <87mtuajshc.fsf@intel.com>
+ <33467672-b66a-7658-de04-7bc37153613f@xs4all.nl> <87r1jkj37y.fsf@intel.com>
+ <20210408171311.61f433bd@eldfell>
+Date: Thu, 08 Apr 2021 17:58:13 +0300
+Message-ID: <87o8eoj01m.fsf@intel.com>
 MIME-Version: 1.0
-References: <20210214174453.104616-1-jagan@amarulasolutions.com>
- <d7f9b241-3cfc-836a-2519-3b6621899108@denx.de>
-In-Reply-To: <d7f9b241-3cfc-836a-2519-3b6621899108@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 8 Apr 2021 20:15:04 +0530
-Message-ID: <CAMty3ZBMt+bx7ZrCQf0b3wrJUtZVe3CS=8-t_wYZ4+=PwP+mbQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add bindings for
- SN65DSI83/84/85
-To: Claudius Heine <ch@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +50,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+ xorg-devel@lists.x.org, dri-devel@lists.freedesktop.org,
+ wayland-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 24, 2021 at 7:26 PM Claudius Heine <ch@denx.de> wrote:
+On Thu, 08 Apr 2021, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> On Thu, 08 Apr 2021 16:49:37 +0300
+> Jani Nikula <jani.nikula@linux.intel.com> wrote:
 >
-> Hi Jagan,
+>> Anyway, this is only tangentially related to the library. I just think
+>> we need to take DisplayID better into account also in the *users* of the
+>> library, as they shouldn't really even look at the EDID if the plain
+>> DisplayID is there, per E-DDC 1.3 section 3.1.
 >
-> On 2021-02-14 18:44, Jagan Teki wrote:
-> > SN65DSI83/84/85 devices are MIPI DSI to LVDS based bridge
-> > controller IC's from Texas Instruments.
-> >
-> > SN65DSI83 - Single Channel DSI to Single-link LVDS bridge
-> > SN65DSI84 - Single Channel DSI to Dual-link LVDS bridge
-> > SN65DSI85 - Dual Channel DSI to Dual-link LVDS bridge
-> >
-> > Right now the bridge driver is supporting Channel A with single
-> > link, so dt-bindings documented according to it.
->
-> Do you know when we can expect a v4 for this?
->
-> I am currently working on top of your patch set to setup a dual-link
-> LVDS bridge of SN65DSI84.
+> That makes me wonder what the kernel DRM uAPI for getting a DisplayID
+> block into userspace would be. A new read-only KMS connector property?
 
-Yes, I'm planning to send v4 this week. will keep you in CC. thanks!
+It's certainly a model everyone's used to working with. Is it worth
+coming up with something new when you anyway have to deal with the
+existing edid property for years to come?
 
-Jagan.
+> Which means userspace (e.g. Weston) needs to know to read the new
+> property. If it does that, then it already knows that it should favour
+> DisplayID over EDID, and there is little the library could do to help
+> with that.
+
+Agreed.
+
+One of the problems for this uABI is that technically you're not
+supposed to read the EDID if the DisplayID is available. But the kernel
+needs to read both to expose both to userspace. I don't really see a way
+around that.
+
+The spec allows for leaving out EDID at 0x50 completely, which may
+eventually require updating kernel and userspace to be DisplayID aware.
+
+> Unless you think the library should be making DRM ioctls, which doesn't
+> sound good to me.
+
+Agreed, keep it simple.
+
+I'd say the library should probably stick to parsing an in-memory blob
+or fd passed to it, and focus on providing parsed information that's
+independent of the underlying data structure, whether it's DisplayID or
+EDID. Perhaps that should be the takeaway; try to minimize parsed data
+where the consumer needs to know whether it originated from DisplayID or
+EDID?
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
