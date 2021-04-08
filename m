@@ -2,56 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799DE358CA0
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 20:31:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC45358CF6
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 20:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 113B26E2D1;
-	Thu,  8 Apr 2021 18:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C5B6E329;
+	Thu,  8 Apr 2021 18:51:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC2116E2D1
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 18:31:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id EB36D61151
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 18:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617906670;
- bh=WkfgsERcHkXFHT1gwPmZGMlZzCeRvPU9ZL7heCxMKzY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=W5Lwck8Q7cfnAlxlCW5PfpDjk+rgeOO+/I51nRokocH/nuFZ22Djew8uafVA/7Wu+
- 8xtLLFz5oakMgxyLz3NvXjLo0rq6ytshca6kkIuqGeIXXe1dt+dFiNA8zVos8rN4bQ
- j4kGPhd5PkcYaSyr+z5MjVla5gUnOptlnLENsjIVj3OUnrn0KqY4Q8A5i1LO/PE5jw
- vJqvu2ZuKE32tN85PS60OcTpA+KwSdnn0UnIYe/YRXhcwcj2YIcLqsfLP9759HOWIL
- OzyKFvLJdM7TGNv5DFTuPy0wav2xih8iqwzfKV+tzQ/7WcMlR4Au/6s2u+Xx1mgvF0
- ls/IG1CbSUlNA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E286161131; Thu,  8 Apr 2021 18:31:09 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212077] AMD GPU discrete card memory at highest frequency even
- while not in use
-Date: Thu, 08 Apr 2021 18:31:09 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: bat_malin@abv.bg
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212077-2300-eqkhm6jHBG@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212077-2300@https.bugzilla.kernel.org/>
-References: <bug-212077-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 931D86E329
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 18:51:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617907908;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BD/3IJ//4IbIiQsBvvArASrfK6cu+iAAJOBJpUvbC/A=;
+ b=R7a14GsrBsQTM+sgbeAJANa2bkWIfOqWbCoe1QuYyoBzpaEvejjdO8eov9cUR3GN6mt9j7
+ KRi/yihheQ69zOgQFSOzjPDznrkCg2sZiVRGLA4SHJyBygXzhlewe1VIQ4W6RU4aRr6MhK
+ v1iAz26cohLmDlHO6k6j/bmNJ94SmlQ=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-PL6MvKeoNfi3AZ_-zZoSAw-1; Thu, 08 Apr 2021 14:51:44 -0400
+X-MC-Unique: PL6MvKeoNfi3AZ_-zZoSAw-1
+Received: by mail-qk1-f198.google.com with SMTP id c7so1881675qka.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 11:51:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=BD/3IJ//4IbIiQsBvvArASrfK6cu+iAAJOBJpUvbC/A=;
+ b=tPPs/l+7lvEGL8REYjWn8ccHwMDRl15omCEf6UAH3q0tnJ81BJW7RW0fAMTVFkJrSY
+ XeBbwgwdPms5fC/t0YFJGNgt4y/f8o1bDqXuBVLMQPCallQc53znAx9nkIZdbKcZ9G3A
+ 5LnvQh+qiVlnpX3pEf2JB1F8eh3siwouqWDDOA4UX79eOzPSKHjbaqR97KfAp7RldxgT
+ 46B6Map/J7msjHc0xNokpBOwfYBR26TkqY0XNYvNEMFmb5E6uZioLcW0P7jKMTQeQ/LM
+ lfOLGlV13jtkQccm7IShaDz0fZoKGD1CnHuQhVqnaWKuA+xDsWRoD0tdURGIPNewxkqq
+ +cow==
+X-Gm-Message-State: AOAM532IPJR5MqXJ3FkkuZqzMVd/0e9PW0+47iEqb5Zz9iOrOxIkt5tm
+ EbpvFk0l28F4QItBb68mW0w4bSSPefkgJVbM81FEV/BQ7weD3/cLTvdHJlqa5mcGQ+m/K4uBvU2
+ B3XTwrqfl3zpB0K6rh5STuOdXwKk8
+X-Received: by 2002:a05:6214:204:: with SMTP id
+ i4mr10502062qvt.47.1617907904507; 
+ Thu, 08 Apr 2021 11:51:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrMnVVlxnhuJ6a9rN/xNvll03hc+4P139kmw6bFat7NGytQIf28KfBPqtGSmUXky694Mxo+A==
+X-Received: by 2002:a05:6214:204:: with SMTP id
+ i4mr10502051qvt.47.1617907904388; 
+ Thu, 08 Apr 2021 11:51:44 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id y9sm235018qtf.58.2021.04.08.11.51.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Apr 2021 11:51:43 -0700 (PDT)
+Message-ID: <893131fcec2cd4d85d840439ddc2f2899f412f1c.camel@redhat.com>
+Subject: Re: [Intel-gfx] [PATCH v2 00/20] drm: Use new DRM printk funcs
+ (like drm_dbg_*()) in DP helpers
+From: Lyude Paul <lyude@redhat.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 08 Apr 2021 14:51:43 -0400
+In-Reply-To: <87zgy9hvvv.fsf@intel.com>
+References: <20210326203807.105754-1-lyude@redhat.com>
+ <87blaym8by.fsf@intel.com> <YG7fz5UmK/SaoY/U@phenom.ffwll.local>
+ <87zgy9hvvv.fsf@intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,19 +86,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: lyude@redhat.com
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTIwNzcKCi0tLSBD
-b21tZW50ICMxNiBmcm9tIEJhdCBNYWxpbiAoYmF0X21hbGluQGFidi5iZykgLS0tCkFmdGVyIHJl
-Ym9vdCBldmVuIGJldHRlciAtIAphbWRncHUtcGNpLTAxMDAKQWRhcHRlcjogUENJIGFkYXB0ZXIK
-dmRkZ2Z4OiAgICAgIDc1Ni4wMCBtViAKZWRnZTogICAgICAgICArMzUuMMKwQyAgKGNyaXQgPSAr
-OTQuMMKwQywgaHlzdCA9IC0yNzMuMcKwQykKcG93ZXIxOiAgICAgICAgNi4yMiBXICAoY2FwID0g
-IDYwLjAwIFcpCgotLSAKWW91IG1heSByZXBseSB0byB0aGlzIGVtYWlsIHRvIGFkZCBhIGNvbW1l
-bnQuCgpZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGlu
-ZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+JFYI too - there was a legitimate looking CI failure on intel with this series,
+so don't be surprised if I have to respin a patch or two (I should be able to
+get it asap as I finally just cleared most of the stuff on my plate off for a
+while)
+
+On Thu, 2021-04-08 at 14:13 +0300, Jani Nikula wrote:
+> On Thu, 08 Apr 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > I think Dave caught up on pulls to drm-next, so after a backmerge of that
+> > to drm-misc-next I think should be all fine to apply directly, no need for
+> > topic branch.
+> 
+> Yup. We've done the backmerges to drm-intel-next and drm-intel-gt-next,
+> and are all in sync, it's only the drm-next -> drm-misc-next backmerge
+> that's still needed.
+> 
+> BR,
+> Jani.
+> 
+
+-- 
+Sincerely,
+   Lyude Paul (she/her)
+   Software Engineer at Red Hat
+   
+Note: I deal with a lot of emails and have a lot of bugs on my plate. If you've
+asked me a question, are waiting for a review/merge on a patch, etc. and I
+haven't responded in a while, please feel free to send me another email to check
+on my status. I don't bite!
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
