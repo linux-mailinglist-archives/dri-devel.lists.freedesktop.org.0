@@ -2,51 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1682B357F25
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348DD357F2C
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:31:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12A126E190;
-	Thu,  8 Apr 2021 09:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 489446EA3B;
+	Thu,  8 Apr 2021 09:31:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2606D6E190
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:30:22 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id 7so1479458qka.7
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 02:30:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5XAETM08UhZJwTK0Ph/sGGuD9pkmUaZXwlb/7bKpHG4=;
- b=RXSQzyKQL1eJYRKOZk+dBbXVRZto6VVGAwnc/oQX7tUGkscauRyDo6UQjNJ1X1EvJb
- 3o0K4zVGa1VZhIe6Xf424YK3j6VNXjD13pXV0TxJEB29hdCGeHEw6mMLl4V+xhtK0ocp
- Io3hQ2BWehASgwBQIhMcIqohLdCGvYg0677LE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5XAETM08UhZJwTK0Ph/sGGuD9pkmUaZXwlb/7bKpHG4=;
- b=g9RT9AkekhLOka9kypxflz67ElutrgAJbiR/kZ97izjTHEWAV5Amsfc09q/6dE8nGu
- cxonqAVcmgm7GcjuqgctYyOcwZ/dNubRFhVspsb+FcxLn7nlRO5uiH3oSS+gKr5WYNi4
- ERTQ6uws99lML6U8YKJWX1of/pBJpabRULfyOf4igtb5yPSpxy+g7J7ryDFy1Owrj0Q+
- +0jdtHwhniEnnraqso4D8GH+VWckDuEzKyZFLGyEuYfOHGvtgkAQedtIlysE570T8HaL
- imPpd23LdOeW/ULNjpk48FNb7Hl7OFE4J8yv9GtGo81/TJCIeqGxh83QRJCoET3tYqNl
- J7Bg==
-X-Gm-Message-State: AOAM532OK8yNsOpUH0dOI/pMofTWgjkMW37YUduFsliIe79uqbJYr6LD
- XkxSGKBfGIyd+2jysMq7y1RWfX6+S22JiC7g8lwudw==
-X-Google-Smtp-Source: ABdhPJwWEqQurfmYq870drV/cynKIHeNVetiz3skgFdCEUNUOHHIA1edbdLeID25R0yhfxOw5xD/m5nnfHR5aMC+hhc=
-X-Received: by 2002:a37:9bd1:: with SMTP id d200mr7585951qke.328.1617874221077; 
- Thu, 08 Apr 2021 02:30:21 -0700 (PDT)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCA446EA3B
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:31:14 +0000 (UTC)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1389KqOq082189;
+ Thu, 8 Apr 2021 17:20:52 +0800 (GMT-8)
+ (envelope-from kuohsiang_chou@aspeedtech.com)
+Received: from localhost.localdomain.com (192.168.2.206) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 8 Apr 2021 17:30:58 +0800
+From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4] drm/ast: Fixed CVE for DP501
+Date: Thu, 8 Apr 2021 17:30:52 +0800
+Message-ID: <20210408093052.59782-1-kuohsiang_chou@aspeedtech.com>
+X-Mailer: git-send-email 2.18.4
+In-Reply-To: <bbe8ccfd-7e73-e1e6-32a5-f08f71c4ed3f@suse.de>
+References: <bbe8ccfd-7e73-e1e6-32a5-f08f71c4ed3f@suse.de>
 MIME-Version: 1.0
-References: <20210408045926.3202160-1-stevensd@google.com>
- <7f22ac22-dbe0-f056-b7db-24fa60f9724e@amd.com>
-In-Reply-To: <7f22ac22-dbe0-f056-b7db-24fa60f9724e@amd.com>
-From: David Stevens <stevensd@chromium.org>
-Date: Thu, 8 Apr 2021 18:30:10 +0900
-Message-ID: <CAD=HUj5vS7VZQ-Meaz_Q1xEoamE_2fF0VE-RGj0sfUu0apP7Zg@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm/syncobj: use dma_fence_get_stub"
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+X-Originating-IP: [192.168.2.206]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1389KqOq082189
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,114 +47,259 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, jenmin_yuan@aspeedtech.com, airlied@redhat.com,
+ arc_sung@aspeedtech.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBcHIgOCwgMjAyMSBhdCA0OjAzIFBNIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
-bi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4KPiBBbSAwOC4wNC4yMSB1bSAwNjo1OSBzY2hyaWVi
-IERhdmlkIFN0ZXZlbnM6Cj4gPiBGcm9tOiBEYXZpZCBTdGV2ZW5zIDxzdGV2ZW5zZEBjaHJvbWl1
-bS5vcmc+Cj4gPgo+ID4gVGhpcyByZXZlcnRzIGNvbW1pdCA4NmJiZDg5ZDVkYTY2ZmU3NjAwNDlh
-ZDNmMDRhZGM0MDdlYzBjNGQ2Lgo+ID4KPiA+IFVzaW5nIHRoZSBzaW5nbGV0b24gc3R1YiBmZW5j
-ZSBpbiBkcm1fc3luY29ial9hc3NpZ25fbnVsbF9oYW5kbGUgbWVhbnMKPiA+IHRoYXQgYWxsIHN5
-bmNvYmpzIGNyZWF0ZWQgaW4gYW4gYWxyZWFkeSBzaWduYWxlZCBzdGF0ZSBvciBhbnkgc3luY29i
-anMKPiA+IHNpZ25hbGVkIGJ5IHVzZXJzcGFjZSB3aWxsIHJlZmVyZW5jZSB0aGUgc2luZ2xldG9u
-IGZlbmNlIHdoZW4gZXhwb3J0ZWQKPiA+IHRvIGEgc3luY19maWxlLiBJZiB0aG9zZSBzeW5jX2Zp
-bGVzIGFyZSBxdWVyaWVkIHdpdGggU1lOQ19JT0NfRklMRV9JTkZPLAo+ID4gdGhlbiB0aGUgdGlt
-ZXN0YW1wX25zIHZhbHVlIHJldHVybmVkIHdpbGwgY29ycmVzcG9uZCB0byB3aGVuZXZlciB0aGUK
-PiA+IHNpbmdsZXRvbiBzdHViIGZlbmNlIHdhcyBmaXJzdCBpbml0aWFsaXplZC4gVGhpcyBjYW4g
-YnJlYWsgdGhlIGFiaWxpdHkKPiA+IG9mIHVzZXJzcGFjZSB0byB1c2UgdGltZXN0YW1wcyBvZiB0
-aGVzZSBmZW5jZXMsIGFzIHRoZSBzaW5nbGV0b24gc3R1Ygo+ID4gZmVuY2UncyB0aW1lc3RhbXAg
-YmVhcnMgbm8gcmVsYXRpb25zaGlwIHRvIGFueSBtZWFuaW5nZnVsIGV2ZW50Lgo+Cj4gQW5kIHdo
-eSBleGFjdGx5IGlzIGhhdmluZyB0aGUgdGltZXN0YW1wIG9mIHRoZSBjYWxsIHRvCj4gZHJtX3N5
-bmNvYmpfYXNzaWduX251bGxfaGFuZGxlKCkgYmV0dGVyPwoKVGhlIHRpbWVzdGFtcCByZXR1cm5l
-ZCBieSBTWU5DX0lPQ19GSUxFX0lORk8gaXMgdGhlICJ0aW1lc3RhbXAgb2YKc3RhdHVzIGNoYW5n
-ZSBpbiBuYW5vc2Vjb25kcyIuIElmIHVzZXJzcGFjZSBzaWduYWxzIHRoZSBmZW5jZSB3aXRoCkRS
-TV9JT0NUTF9TWU5DT0JKX1NJR05BTCwgdGhlbiBhIHRpbWVzdGFtcCBmcm9tCmRybV9zeW5jb2Jq
-X2Fzc2lnbl9udWxsX2hhbmRsZSBjb3JyZXNwb25kcyB0byB0aGUgc3RhdHVzIGNoYW5nZS4gSWYK
-dXNlcnNwYWNlIHNldHMgRFJNX1NZTkNPQkpfQ1JFQVRFX1NJR05BTEVEIHdoZW4gY3JlYXRpbmcg
-YSBmZW5jZSwgdGhlbgp0aGUgc3RhdHVzIGNoYW5nZSBoYXBwZW5zIGltbWVkaWF0ZWx5IHVwb24g
-Y3JlYXRpb24sIHdoaWNoIGFnYWluCmNvcnJlc3BvbmRzIHRvIHdoZW4gZHJtX3N5bmNvYmpfYXNz
-aWduX251bGxfaGFuZGxlIGdldHMgY2FsbGVkLgoKPiBBZGRpdGlvbmFsIGlmIHlvdSByZWFsbHkg
-bmVlZCB0aGF0IHBsZWFzZSBkb24ndCByZXZlcnQgdGhlIHBhdGNoLgo+IEluc3RlYWQgcHJvdmlk
-ZSBhIGZ1bmN0aW9uIHdoaWNoIHJldHVybnMgYSBuZXdseSBpbml0aWFsaXplZCBzdHViIGZlbmNl
-Cj4gaW4gdGhlIGRtYV9mZW5jZS5jIGNvZGUuCgpBY2suCgotRGF2aWQKCj4gUmVnYXJkcywKPiBD
-aHJpc3RpYW4uCj4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBEYXZpZCBTdGV2ZW5zIDxzdGV2ZW5z
-ZEBjaHJvbWl1bS5vcmc+Cj4gPiAtLS0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2Jq
-LmMgfCA1OCArKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLQo+ID4gICAxIGZpbGUg
-Y2hhbmdlZCwgNDQgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9zeW5jb2JqLmMKPiA+IGluZGV4IDM0OTE0NjA0OTg0OS4uN2NjMTFmMWE4M2Y0IDEwMDY0NAo+
-ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMKPiA+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fc3luY29iai5jCj4gPiBAQCAtMjExLDYgKzIxMSwyMSBAQCBzdHJ1Y3Qgc3lu
-Y29ial93YWl0X2VudHJ5IHsKPiA+ICAgc3RhdGljIHZvaWQgc3luY29ial93YWl0X3N5bmNvYmpf
-ZnVuYyhzdHJ1Y3QgZHJtX3N5bmNvYmogKnN5bmNvYmosCj4gPiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBzdHJ1Y3Qgc3luY29ial93YWl0X2VudHJ5ICp3YWl0KTsKPiA+Cj4g
-PiArc3RydWN0IGRybV9zeW5jb2JqX3N0dWJfZmVuY2Ugewo+ID4gKyAgICAgc3RydWN0IGRtYV9m
-ZW5jZSBiYXNlOwo+ID4gKyAgICAgc3BpbmxvY2tfdCBsb2NrOwo+ID4gK307Cj4gPiArCj4gPiAr
-c3RhdGljIGNvbnN0IGNoYXIgKmRybV9zeW5jb2JqX3N0dWJfZmVuY2VfZ2V0X25hbWUoc3RydWN0
-IGRtYV9mZW5jZSAqZmVuY2UpCj4gPiArewo+ID4gKyAgICAgcmV0dXJuICJzeW5jb2Jqc3R1YiI7
-Cj4gPiArfQo+ID4gKwo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZG1hX2ZlbmNlX29wcyBkcm1f
-c3luY29ial9zdHViX2ZlbmNlX29wcyA9IHsKPiA+ICsgICAgIC5nZXRfZHJpdmVyX25hbWUgPSBk
-cm1fc3luY29ial9zdHViX2ZlbmNlX2dldF9uYW1lLAo+ID4gKyAgICAgLmdldF90aW1lbGluZV9u
-YW1lID0gZHJtX3N5bmNvYmpfc3R1Yl9mZW5jZV9nZXRfbmFtZSwKPiA+ICt9Owo+ID4gKwo+ID4g
-ICAvKioKPiA+ICAgICogZHJtX3N5bmNvYmpfZmluZCAtIGxvb2t1cCBhbmQgcmVmZXJlbmNlIGEg
-c3luYyBvYmplY3QuCj4gPiAgICAqIEBmaWxlX3ByaXZhdGU6IGRybSBmaWxlIHByaXZhdGUgcG9p
-bnRlcgo+ID4gQEAgLTM0NCwxOCArMzU5LDI0IEBAIHZvaWQgZHJtX3N5bmNvYmpfcmVwbGFjZV9m
-ZW5jZShzdHJ1Y3QgZHJtX3N5bmNvYmogKnN5bmNvYmosCj4gPiAgIH0KPiA+ICAgRVhQT1JUX1NZ
-TUJPTChkcm1fc3luY29ial9yZXBsYWNlX2ZlbmNlKTsKPiA+Cj4gPiAtLyoqCj4gPiAtICogZHJt
-X3N5bmNvYmpfYXNzaWduX251bGxfaGFuZGxlIC0gYXNzaWduIGEgc3R1YiBmZW5jZSB0byB0aGUg
-c3luYyBvYmplY3QKPiA+IC0gKiBAc3luY29iajogc3luYyBvYmplY3QgdG8gYXNzaWduIHRoZSBm
-ZW5jZSBvbgo+ID4gLSAqCj4gPiAtICogQXNzaWduIGEgYWxyZWFkeSBzaWduYWxlZCBzdHViIGZl
-bmNlIHRvIHRoZSBzeW5jIG9iamVjdC4KPiA+IC0gKi8KPiA+IC1zdGF0aWMgdm9pZCBkcm1fc3lu
-Y29ial9hc3NpZ25fbnVsbF9oYW5kbGUoc3RydWN0IGRybV9zeW5jb2JqICpzeW5jb2JqKQo+ID4g
-K3N0YXRpYyBpbnQgZHJtX3N5bmNvYmpfYXNzaWduX251bGxfaGFuZGxlKHN0cnVjdCBkcm1fc3lu
-Y29iaiAqc3luY29iaikKPiA+ICAgewo+ID4gLSAgICAgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2Ug
-PSBkbWFfZmVuY2VfZ2V0X3N0dWIoKTsKPiA+ICsgICAgIHN0cnVjdCBkcm1fc3luY29ial9zdHVi
-X2ZlbmNlICpmZW5jZTsKPiA+Cj4gPiAtICAgICBkcm1fc3luY29ial9yZXBsYWNlX2ZlbmNlKHN5
-bmNvYmosIGZlbmNlKTsKPiA+IC0gICAgIGRtYV9mZW5jZV9wdXQoZmVuY2UpOwo+ID4gKyAgICAg
-ZmVuY2UgPSBremFsbG9jKHNpemVvZigqZmVuY2UpLCBHRlBfS0VSTkVMKTsKPiA+ICsgICAgIGlm
-IChmZW5jZSA9PSBOVUxMKQo+ID4gKyAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiA+ICsK
-PiA+ICsgICAgIHNwaW5fbG9ja19pbml0KCZmZW5jZS0+bG9jayk7Cj4gPiArICAgICBkbWFfZmVu
-Y2VfaW5pdCgmZmVuY2UtPmJhc2UsICZkcm1fc3luY29ial9zdHViX2ZlbmNlX29wcywKPiA+ICsg
-ICAgICAgICAgICAgICAgICAgICZmZW5jZS0+bG9jaywgMCwgMCk7Cj4gPiArICAgICBkbWFfZmVu
-Y2Vfc2lnbmFsKCZmZW5jZS0+YmFzZSk7Cj4gPiArCj4gPiArICAgICBkcm1fc3luY29ial9yZXBs
-YWNlX2ZlbmNlKHN5bmNvYmosICZmZW5jZS0+YmFzZSk7Cj4gPiArCj4gPiArICAgICBkbWFfZmVu
-Y2VfcHV0KCZmZW5jZS0+YmFzZSk7Cj4gPiArCj4gPiArICAgICByZXR1cm4gMDsKPiA+ICAgfQo+
-ID4KPiA+ICAgLyogNXMgZGVmYXVsdCBmb3Igd2FpdCBzdWJtaXNzaW9uICovCj4gPiBAQCAtNDY5
-LDYgKzQ5MCw3IEBAIEVYUE9SVF9TWU1CT0woZHJtX3N5bmNvYmpfZnJlZSk7Cj4gPiAgIGludCBk
-cm1fc3luY29ial9jcmVhdGUoc3RydWN0IGRybV9zeW5jb2JqICoqb3V0X3N5bmNvYmosIHVpbnQz
-Ml90IGZsYWdzLAo+ID4gICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRtYV9mZW5jZSAqZmVu
-Y2UpCj4gPiAgIHsKPiA+ICsgICAgIGludCByZXQ7Cj4gPiAgICAgICBzdHJ1Y3QgZHJtX3N5bmNv
-YmogKnN5bmNvYmo7Cj4gPgo+ID4gICAgICAgc3luY29iaiA9IGt6YWxsb2Moc2l6ZW9mKHN0cnVj
-dCBkcm1fc3luY29iaiksIEdGUF9LRVJORUwpOwo+ID4gQEAgLTQ3OSw4ICs1MDEsMTMgQEAgaW50
-IGRybV9zeW5jb2JqX2NyZWF0ZShzdHJ1Y3QgZHJtX3N5bmNvYmogKipvdXRfc3luY29iaiwgdWlu
-dDMyX3QgZmxhZ3MsCj4gPiAgICAgICBJTklUX0xJU1RfSEVBRCgmc3luY29iai0+Y2JfbGlzdCk7
-Cj4gPiAgICAgICBzcGluX2xvY2tfaW5pdCgmc3luY29iai0+bG9jayk7Cj4gPgo+ID4gLSAgICAg
-aWYgKGZsYWdzICYgRFJNX1NZTkNPQkpfQ1JFQVRFX1NJR05BTEVEKQo+ID4gLSAgICAgICAgICAg
-ICBkcm1fc3luY29ial9hc3NpZ25fbnVsbF9oYW5kbGUoc3luY29iaik7Cj4gPiArICAgICBpZiAo
-ZmxhZ3MgJiBEUk1fU1lOQ09CSl9DUkVBVEVfU0lHTkFMRUQpIHsKPiA+ICsgICAgICAgICAgICAg
-cmV0ID0gZHJtX3N5bmNvYmpfYXNzaWduX251bGxfaGFuZGxlKHN5bmNvYmopOwo+ID4gKyAgICAg
-ICAgICAgICBpZiAocmV0IDwgMCkgewo+ID4gKyAgICAgICAgICAgICAgICAgICAgIGRybV9zeW5j
-b2JqX3B1dChzeW5jb2JqKTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+
-ID4gKyAgICAgICAgICAgICB9Cj4gPiArICAgICB9Cj4gPgo+ID4gICAgICAgaWYgKGZlbmNlKQo+
-ID4gICAgICAgICAgICAgICBkcm1fc3luY29ial9yZXBsYWNlX2ZlbmNlKHN5bmNvYmosIGZlbmNl
-KTsKPiA+IEBAIC0xMzIyLDggKzEzNDksMTEgQEAgZHJtX3N5bmNvYmpfc2lnbmFsX2lvY3RsKHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gPiAgICAgICBpZiAocmV0IDwgMCkK
-PiA+ICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPiA+Cj4gPiAtICAgICBmb3IgKGkgPSAwOyBp
-IDwgYXJncy0+Y291bnRfaGFuZGxlczsgaSsrKQo+ID4gLSAgICAgICAgICAgICBkcm1fc3luY29i
-al9hc3NpZ25fbnVsbF9oYW5kbGUoc3luY29ianNbaV0pOwo+ID4gKyAgICAgZm9yIChpID0gMDsg
-aSA8IGFyZ3MtPmNvdW50X2hhbmRsZXM7IGkrKykgewo+ID4gKyAgICAgICAgICAgICByZXQgPSBk
-cm1fc3luY29ial9hc3NpZ25fbnVsbF9oYW5kbGUoc3luY29ianNbaV0pOwo+ID4gKyAgICAgICAg
-ICAgICBpZiAocmV0IDwgMCkKPiA+ICsgICAgICAgICAgICAgICAgICAgICBicmVhazsKPiA+ICsg
-ICAgIH0KPiA+Cj4gPiAgICAgICBkcm1fc3luY29ial9hcnJheV9mcmVlKHN5bmNvYmpzLCBhcmdz
-LT5jb3VudF9oYW5kbGVzKTsKPiA+Cj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+[Bug][DP501]
+If ASPEED P2A (PCI to AHB) bridge is disabled and disallowed for
+CVE_2019_6260 item3, and then the monitor's EDID is unable read through
+Parade DP501.
+The reason is the DP501's FW is mapped to BMC addressing space rather
+than Host addressing space.
+The resolution is that using "pci_iomap_range()" maps to DP501's FW that
+stored on the end of FB (Frame Buffer).
+In this case, FrameBuffer reserves the last 2MB used for the image of
+DP501.
+
+Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+ drivers/gpu/drm/ast/ast_dp501.c | 139 +++++++++++++++++++++++---------
+ drivers/gpu/drm/ast/ast_drv.h   |  12 +++
+ drivers/gpu/drm/ast/ast_main.c  |   8 ++
+ 3 files changed, 123 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
+index 88121c0e0..cd93c44f2 100644
+--- a/drivers/gpu/drm/ast/ast_dp501.c
++++ b/drivers/gpu/drm/ast/ast_dp501.c
+@@ -189,6 +189,9 @@ bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size)
+ 	u32 i, data;
+ 	u32 boot_address;
+
++	if (ast->config_mode != ast_use_p2a)
++		return false;
++
+ 	data = ast_mindwm(ast, 0x1e6e2100) & 0x01;
+ 	if (data) {
+ 		boot_address = get_fw_base(ast);
+@@ -207,6 +210,9 @@ static bool ast_launch_m68k(struct drm_device *dev)
+ 	u8 *fw_addr = NULL;
+ 	u8 jreg;
+
++	if (ast->config_mode != ast_use_p2a)
++		return false;
++
+ 	data = ast_mindwm(ast, 0x1e6e2100) & 0x01;
+ 	if (!data) {
+
+@@ -271,25 +277,55 @@ u8 ast_get_dp501_max_clk(struct drm_device *dev)
+ 	struct ast_private *ast = to_ast_private(dev);
+ 	u32 boot_address, offset, data;
+ 	u8 linkcap[4], linkrate, linklanes, maxclk = 0xff;
++	u32 *plinkcap;
+
+-	boot_address = get_fw_base(ast);
+-
+-	/* validate FW version */
+-	offset = 0xf000;
+-	data = ast_mindwm(ast, boot_address + offset);
+-	if ((data & 0xf0) != 0x10) /* version: 1x */
+-		return maxclk;
+-
+-	/* Read Link Capability */
+-	offset  = 0xf014;
+-	*(u32 *)linkcap = ast_mindwm(ast, boot_address + offset);
+-	if (linkcap[2] == 0) {
+-		linkrate = linkcap[0];
+-		linklanes = linkcap[1];
+-		data = (linkrate == 0x0a) ? (90 * linklanes) : (54 * linklanes);
+-		if (data > 0xff)
+-			data = 0xff;
+-		maxclk = (u8)data;
++	if (ast->config_mode == ast_use_p2a) {
++		boot_address = get_fw_base(ast);
++
++		/* validate FW version */
++		offset = AST_DP501_GBL_VERSION;
++		data = ast_mindwm(ast, boot_address + offset);
++		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1) /* version: 1x */
++			return maxclk;
++
++		/* Read Link Capability */
++		offset  = AST_DP501_LINKRATE;
++		plinkcap = (u32 *)linkcap;
++		*plinkcap  = ast_mindwm(ast, boot_address + offset);
++		if (linkcap[2] == 0) {
++			linkrate = linkcap[0];
++			linklanes = linkcap[1];
++			data = (linkrate == 0x0a) ? (90 * linklanes) : (54 * linklanes);
++			if (data > 0xff)
++				data = 0xff;
++			maxclk = (u8)data;
++		}
++	} else {
++		if (!ast->dp501_fw_buf)
++			return AST_DP501_DEFAULT_DCLK;	/* 1024x768 as default */
++
++		/* dummy read */
++		offset = 0x0000;
++		data = readl(ast->dp501_fw_buf + offset);
++
++		/* validate FW version */
++		offset = AST_DP501_GBL_VERSION;
++		data = readl(ast->dp501_fw_buf + offset);
++		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1) /* version: 1x */
++			return maxclk;
++
++		/* Read Link Capability */
++		offset = AST_DP501_LINKRATE;
++		plinkcap = (u32 *)linkcap;
++		*plinkcap = readl(ast->dp501_fw_buf + offset);
++		if (linkcap[2] == 0) {
++			linkrate = linkcap[0];
++			linklanes = linkcap[1];
++			data = (linkrate == 0x0a) ? (90 * linklanes) : (54 * linklanes);
++			if (data > 0xff)
++				data = 0xff;
++			maxclk = (u8)data;
++		}
+ 	}
+ 	return maxclk;
+ }
+@@ -298,26 +334,57 @@ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
+ {
+ 	struct ast_private *ast = to_ast_private(dev);
+ 	u32 i, boot_address, offset, data;
++	u32 *pEDIDidx;
+
+-	boot_address = get_fw_base(ast);
+-
+-	/* validate FW version */
+-	offset = 0xf000;
+-	data = ast_mindwm(ast, boot_address + offset);
+-	if ((data & 0xf0) != 0x10)
+-		return false;
+-
+-	/* validate PnP Monitor */
+-	offset = 0xf010;
+-	data = ast_mindwm(ast, boot_address + offset);
+-	if (!(data & 0x01))
+-		return false;
++	if (ast->config_mode == ast_use_p2a) {
++		boot_address = get_fw_base(ast);
+
+-	/* Read EDID */
+-	offset = 0xf020;
+-	for (i = 0; i < 128; i += 4) {
+-		data = ast_mindwm(ast, boot_address + offset + i);
+-		*(u32 *)(ediddata + i) = data;
++		/* validate FW version */
++		offset = AST_DP501_GBL_VERSION;
++		data = ast_mindwm(ast, boot_address + offset);
++		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1)
++			return false;
++
++		/* validate PnP Monitor */
++		offset = AST_DP501_PNPMONITOR;
++		data = ast_mindwm(ast, boot_address + offset);
++		if (!(data & AST_DP501_PNP_CONNECTED))
++			return false;
++
++		/* Read EDID */
++		offset = AST_DP501_EDID_DATA;
++		for (i = 0; i < 128; i += 4) {
++			data = ast_mindwm(ast, boot_address + offset + i);
++			pEDIDidx = (u32 *)(ediddata + i);
++			*pEDIDidx = data;
++		}
++	} else {
++		if (!ast->dp501_fw_buf)
++			return false;
++
++		/* dummy read */
++		offset = 0x0000;
++		data = readl(ast->dp501_fw_buf + offset);
++
++		/* validate FW version */
++		offset = AST_DP501_GBL_VERSION;
++		data = readl(ast->dp501_fw_buf + offset);
++		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1)
++			return false;
++
++		/* validate PnP Monitor */
++		offset = AST_DP501_PNPMONITOR;
++		data = readl(ast->dp501_fw_buf + offset);
++		if (!(data & AST_DP501_PNP_CONNECTED))
++			return false;
++
++		/* Read EDID */
++		offset = AST_DP501_EDID_DATA;
++		for (i = 0; i < 128; i += 4) {
++			data = readl(ast->dp501_fw_buf + offset + i);
++			pEDIDidx = (u32 *)(ediddata + i);
++			*pEDIDidx = data;
++		}
+ 	}
+
+ 	return true;
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index e82ab8628..911f9f414 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -150,6 +150,7 @@ struct ast_private {
+
+ 	void __iomem *regs;
+ 	void __iomem *ioregs;
++	void __iomem *dp501_fw_buf;
+
+ 	enum ast_chip chip;
+ 	bool vga2_clone;
+@@ -325,6 +326,17 @@ int ast_mode_config_init(struct ast_private *ast);
+ #define AST_MM_ALIGN_SHIFT 4
+ #define AST_MM_ALIGN_MASK ((1 << AST_MM_ALIGN_SHIFT) - 1)
+
++#define AST_DP501_FW_VERSION_MASK	GENMASK(7, 4)
++#define AST_DP501_FW_VERSION_1		BIT(4)
++#define AST_DP501_PNP_CONNECTED		BIT(1)
++
++#define AST_DP501_DEFAULT_DCLK	65
++
++#define AST_DP501_GBL_VERSION	0xf000
++#define AST_DP501_PNPMONITOR	0xf010
++#define AST_DP501_LINKRATE	0xf014
++#define AST_DP501_EDID_DATA	0xf020
++
+ int ast_mm_init(struct ast_private *ast);
+
+ /* ast post */
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 0ac3c2039..dbf5224ab 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -450,6 +450,14 @@ struct ast_private *ast_device_create(const struct drm_driver *drv,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+
++	/* map reserved buffer */
++	ast->dp501_fw_buf = NULL;
++	if (dev->vram_mm->vram_size < pci_resource_len(dev->pdev, 0)) {
++		ast->dp501_fw_buf = pci_iomap_range(dev->pdev, 0, dev->vram_mm->vram_size, 0);
++		if (!ast->dp501_fw_buf)
++			drm_info(dev, "failed to map reserved buffer!\n");
++	}
++
+ 	ret = ast_mode_config_init(ast);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+--
+2.18.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
