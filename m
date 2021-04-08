@@ -2,78 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC45358CF6
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 20:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B5D358D2A
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 21:01:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4C5B6E329;
-	Thu,  8 Apr 2021 18:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CABE6E30D;
+	Thu,  8 Apr 2021 19:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 931D86E329
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 18:51:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617907908;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BD/3IJ//4IbIiQsBvvArASrfK6cu+iAAJOBJpUvbC/A=;
- b=R7a14GsrBsQTM+sgbeAJANa2bkWIfOqWbCoe1QuYyoBzpaEvejjdO8eov9cUR3GN6mt9j7
- KRi/yihheQ69zOgQFSOzjPDznrkCg2sZiVRGLA4SHJyBygXzhlewe1VIQ4W6RU4aRr6MhK
- v1iAz26cohLmDlHO6k6j/bmNJ94SmlQ=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-PL6MvKeoNfi3AZ_-zZoSAw-1; Thu, 08 Apr 2021 14:51:44 -0400
-X-MC-Unique: PL6MvKeoNfi3AZ_-zZoSAw-1
-Received: by mail-qk1-f198.google.com with SMTP id c7so1881675qka.6
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 11:51:44 -0700 (PDT)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2E86E30D;
+ Thu,  8 Apr 2021 19:01:36 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so3459121wmy.5; 
+ Thu, 08 Apr 2021 12:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NnWJUfUTIh3u8nCF0Cg0RNwJAmxoBSfV+wR+N8grRfo=;
+ b=gTNG+oUxfB1lBWblc+1iGXKmk8VmCmuOH+3Uo0cG6t+Heun3HuPfTvlLfpDxo8XOMa
+ E4qsgUxu1LqcuAL22yyGc6CDeVxiIwkIyomG7tDCHUMMTMiOel94LNcT80UV2OtRI4n/
+ WZJ3jItW/sJeFyif+4E6M0Ww3H4eLNUoBRtEx3n97YMTfcDvCdpOW0IBPhLZh4RTm46K
+ tJErmbrFJYa4ucx8cvpO7BszlaKED375GDf47CycUqDAh0Rt+3iCl87wtynxBZtlJQBs
+ lcpd58IuxGefRbnhsxUSdusaGabeOfFipuqM+3+YwHaal3LKCqBQ3Z5SXhFMoYBD09Uz
+ 8ZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=BD/3IJ//4IbIiQsBvvArASrfK6cu+iAAJOBJpUvbC/A=;
- b=tPPs/l+7lvEGL8REYjWn8ccHwMDRl15omCEf6UAH3q0tnJ81BJW7RW0fAMTVFkJrSY
- XeBbwgwdPms5fC/t0YFJGNgt4y/f8o1bDqXuBVLMQPCallQc53znAx9nkIZdbKcZ9G3A
- 5LnvQh+qiVlnpX3pEf2JB1F8eh3siwouqWDDOA4UX79eOzPSKHjbaqR97KfAp7RldxgT
- 46B6Map/J7msjHc0xNokpBOwfYBR26TkqY0XNYvNEMFmb5E6uZioLcW0P7jKMTQeQ/LM
- lfOLGlV13jtkQccm7IShaDz0fZoKGD1CnHuQhVqnaWKuA+xDsWRoD0tdURGIPNewxkqq
- +cow==
-X-Gm-Message-State: AOAM532IPJR5MqXJ3FkkuZqzMVd/0e9PW0+47iEqb5Zz9iOrOxIkt5tm
- EbpvFk0l28F4QItBb68mW0w4bSSPefkgJVbM81FEV/BQ7weD3/cLTvdHJlqa5mcGQ+m/K4uBvU2
- B3XTwrqfl3zpB0K6rh5STuOdXwKk8
-X-Received: by 2002:a05:6214:204:: with SMTP id
- i4mr10502062qvt.47.1617907904507; 
- Thu, 08 Apr 2021 11:51:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrMnVVlxnhuJ6a9rN/xNvll03hc+4P139kmw6bFat7NGytQIf28KfBPqtGSmUXky694Mxo+A==
-X-Received: by 2002:a05:6214:204:: with SMTP id
- i4mr10502051qvt.47.1617907904388; 
- Thu, 08 Apr 2021 11:51:44 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id y9sm235018qtf.58.2021.04.08.11.51.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 11:51:43 -0700 (PDT)
-Message-ID: <893131fcec2cd4d85d840439ddc2f2899f412f1c.camel@redhat.com>
-Subject: Re: [Intel-gfx] [PATCH v2 00/20] drm: Use new DRM printk funcs
- (like drm_dbg_*()) in DP helpers
-From: Lyude Paul <lyude@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 08 Apr 2021 14:51:43 -0400
-In-Reply-To: <87zgy9hvvv.fsf@intel.com>
-References: <20210326203807.105754-1-lyude@redhat.com>
- <87blaym8by.fsf@intel.com> <YG7fz5UmK/SaoY/U@phenom.ffwll.local>
- <87zgy9hvvv.fsf@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NnWJUfUTIh3u8nCF0Cg0RNwJAmxoBSfV+wR+N8grRfo=;
+ b=i4vl0vy2KG6AuHzybDaHG8416kLJ87gcG28WJR/h3ZPGkGGk39JEYUuC8GxbNg2Ame
+ BaT4JpE5+eMc+6G7UihqJuZWDyZCVYsUxPnPBp7+3Ic93wGei8BP1t1zvQuDVil/cCgH
+ PNw7cKTU9Y+76AIj2C1qLAx6IcCckL7DbJ/S9v9thCZqIZUcL6oehtBRohjqxlor+LrY
+ a6JpNhwq3xYy4Q5xr43Uk2YVlheO48hK7MWPl8mrVZUuI04lUaMwGsCEzvmc+4qxGFY1
+ lfxo0o/y9TwMADnNCq77RHY93EqB6XIL8W9tfHMtTUnDe7JuD71I7UPnATEiqWkWL7rI
+ I5KQ==
+X-Gm-Message-State: AOAM5328gamj+VbFRzztuKg96llq1Lgj0A2Q8bFlTJeAHGNdxk3R+IRK
+ PaWZiXLg77zNa9NoWDJNcbAEYNXJDl+cBgn4S8FZZmCW5hQ=
+X-Google-Smtp-Source: ABdhPJxzohFyh4w2rfcJerLxwyjcjUnXYdLKatqyj01doNPYuzMekUXFYWQWCFIER5N1pkvQFTNp+IWSSEXSPFTXttQ=
+X-Received: by 2002:a7b:c012:: with SMTP id c18mr8141515wmb.94.1617908494935; 
+ Thu, 08 Apr 2021 12:01:34 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210406214726.131534-1-marijn.suijten@somainline.org>
+ <20210406214726.131534-2-marijn.suijten@somainline.org>
+ <6413863d04df9743e2d7e81beff5c3e8@codeaurora.org>
+ <04860f05-f79f-de0b-13d1-aba85065b4da@somainline.org>
+In-Reply-To: <04860f05-f79f-de0b-13d1-aba85065b4da@somainline.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 8 Apr 2021 12:05:02 -0700
+Message-ID: <CAF6AEGuoLgBSZOou1TSb-d2o6tHS-L-E7AQLS5RM4aOogvRG7Q@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 1/3] drm/msm/mdp5: Configure PP_SYNC_HEIGHT to
+ double the vtotal
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +65,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Sean Paul <sean@poorly.run>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org,
+ freedreno <freedreno@lists.freedesktop.org>,
+ ~postmarketos/upstreaming@lists.sr.ht
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-JFYI too - there was a legitimate looking CI failure on intel with this series,
-so don't be surprised if I have to respin a patch or two (I should be able to
-get it asap as I finally just cleared most of the stuff on my plate off for a
-while)
+On Wed, Apr 7, 2021 at 12:11 PM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@somainline.org> wrote:
+>
+> Il 07/04/21 20:19, abhinavk@codeaurora.org ha scritto:
+> > Hi Marijn
+> >
+> > On 2021-04-06 14:47, Marijn Suijten wrote:
+> >> Leaving this at a close-to-maximum register value 0xFFF0 means it takes
+> >> very long for the MDSS to generate a software vsync interrupt when the
+> >> hardware TE interrupt doesn't arrive.  Configuring this to double the
+> >> vtotal (like some downstream kernels) leads to a frame to take at most
+> >> twice before the vsync signal, until hardware TE comes up.
+> >>
+> >> In this case the hardware interrupt responsible for providing this
+> >> signal - "disp-te" gpio - is not hooked up to the mdp5 vsync/pp logic at
+> >> all.  This solves severe panel update issues observed on at least the
+> >> Xperia Loire and Tone series, until said gpio is properly hooked up to
+> >> an irq.
+> >
+> > The reason the CONFIG_HEIGHT was at such a high value is to make sure that
+> > we always get the TE only from the panel vsync and not false positives
+> > coming
+> > from the tear check logic itself.
+> >
+> > When you say that disp-te gpio is not hooked up, is it something
+> > incorrect with
+> > the schematic OR panel is not generating the TE correctly?
+> >
+>
+> Sometimes, some panels aren't getting correctly configured by the
+> OEM/ODM in the first place: especially when porting devices from
+> downstream to upstream, developers often get in a situation in which
+> their TE line is either misconfigured or the DriverIC is not configured
+> to raise V-Sync interrupts.
+> Please remember: some DDICs need a "commands sequence" to enable
+> generating the TE interrupts, sometimes this is not standard, and
+> sometimes OEMs/ODMs are not even doing that in their downstream code
+> (but instead they work around it in creative ways "for reasons", even
+> though their DDIC supports indeed sending TE events).
+>
+> This mostly happens when bringing up devices that have autorefresh
+> enabled from the bootloader (when the bootloader sets up the splash
+> screen) by using simple-panel as a (hopefully) temporary solution to get
+> through the initial stages of porting.
+>
+> We are not trying to cover cases related to incorrect schematics or
+> hardware mistakes here, as the fix for that - as you know - is to just
+> fix your hardware.
+> What we're trying to do here is to stop freezes and, in some cases,
+> lockups, other than false positives making the developer go offroad when
+> the platform shows that something is wrong during early porting.
+>
+> Also, sometimes, some DDICs will not generate TE interrupts when
+> expected... in these cases we get a PP timeout and a MDP5 recovery: this
+> is totally avoidable if we rely on the 2*vtotal, as we wouldn't get
+> through the very time consuming task of recovering the entire MDP.
+>
+> Of course, if something is wrong in the MDP and the block really needs
+> recovery, this "trick" won't save anyone and the recovery will anyway be
+> triggered, as the PP-done will anyway timeout.
 
-On Thu, 2021-04-08 at 14:13 +0300, Jani Nikula wrote:
-> On Thu, 08 Apr 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > I think Dave caught up on pulls to drm-next, so after a backmerge of that
-> > to drm-misc-next I think should be all fine to apply directly, no need for
-> > topic branch.
-> 
-> Yup. We've done the backmerges to drm-intel-next and drm-intel-gt-next,
-> and are all in sync, it's only the drm-next -> drm-misc-next backmerge
-> that's still needed.
-> 
-> BR,
-> Jani.
-> 
+So, is this (mostly) a workaround due to TE not wired up?  In which
+case I think it is ok, but maybe should have a comment about the
+interaction with TE?
 
--- 
-Sincerely,
-   Lyude Paul (she/her)
-   Software Engineer at Red Hat
-   
-Note: I deal with a lot of emails and have a lot of bugs on my plate. If you've
-asked me a question, are waiting for a review/merge on a patch, etc. and I
-haven't responded in a while, please feel free to send me another email to check
-on my status. I don't bite!
+Currently I have this patch in msm-next-staging but I guess we need to
+decide in the next day or so whether to drop it or smash in a comment?
 
+BR,
+-R
+
+> >>
+> >> Suggested-by: AngeloGioacchino Del Regno
+> >> <angelogioacchino.delregno@somainline.org>
+> >> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> >> Reviewed-by: AngeloGioacchino Del Regno
+> >> <angelogioacchino.delregno@somainline.org>
+> >> ---
+> >>  drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
+> >> b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
+> >> index ff2c1d583c79..2d5ac03dbc17 100644
+> >> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
+> >> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
+> >> @@ -51,7 +51,7 @@ static int pingpong_tearcheck_setup(struct
+> >> drm_encoder *encoder,
+> >>
+> >>      mdp5_write(mdp5_kms, REG_MDP5_PP_SYNC_CONFIG_VSYNC(pp_id), cfg);
+> >>      mdp5_write(mdp5_kms,
+> >> -        REG_MDP5_PP_SYNC_CONFIG_HEIGHT(pp_id), 0xfff0);
+> >> +        REG_MDP5_PP_SYNC_CONFIG_HEIGHT(pp_id), (2 * mode->vtotal));
+> >>      mdp5_write(mdp5_kms,
+> >>          REG_MDP5_PP_VSYNC_INIT_VAL(pp_id), mode->vdisplay);
+> >>      mdp5_write(mdp5_kms, REG_MDP5_PP_RD_PTR_IRQ(pp_id),
+> >> mode->vdisplay + 1);
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
