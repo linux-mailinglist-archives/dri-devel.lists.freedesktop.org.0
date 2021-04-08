@@ -2,62 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5724A358021
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 11:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83202358023
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 12:00:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B5446EA58;
-	Thu,  8 Apr 2021 09:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2416EA5D;
+	Thu,  8 Apr 2021 10:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5974A6EA58
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 09:59:34 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id 12so2896026lfq.13
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 02:59:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=1tLH7jT4/CjmCaWJ0Xv1OI/zigPrCCc7P343N2RfD08=;
- b=Geazh417k94SqHvMTrB+olx6vfmwjm2kS4qSQDUX76mz+PYr3agPBm7Ja75MhcK80B
- r96CY1ZNKvgWsQLZH+fm0W6xBo8d5eTU6r7lM6JVPqscFnkYhnLzPy/aDJsAwOR30KNh
- EL5Av9pgbzs/8EKRfUDfHWqD16KEm3iL0YQ3rHXE9rNfwBj8RZoRECm1i7w//5qmuwnq
- u+gA6XFWNXAIuKWJYifELJX2PD+lzM8WpVH0VO+wRKarKsv92oSt2qa+tXXAYlKG/VpD
- ePUHy/mtmmSEStO8ihkOc7nJeS1rKI0rzyDA11Syu+YqluRcUUtVkb4h/hwv5gwXL0Vb
- 9Uwg==
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DCF76EA5A
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 10:00:05 +0000 (UTC)
+Received: by mail-qk1-x730.google.com with SMTP id y5so1527096qkl.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 03:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TjMXPxgdcWLwg3HHxfz7xUxG8qs2PWdH8nXM2CLjB+o=;
+ b=gMg1WWlwvL/P1OTnrl6+6JpkrxhoO/PiyHdKo9peBiI09ZW3TEVzuVXZpZg2vYBioS
+ PfYZMgTHRRMMXrv0DRG63sU6Ei/j3p03EGaIlLS4/29rS3l4UhdkKn0HJmxmt+wKoDQ9
+ ayPQOBNw9f7Z2CKEc6TOjro7NGUyqm1RTgXxU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=1tLH7jT4/CjmCaWJ0Xv1OI/zigPrCCc7P343N2RfD08=;
- b=DHvHKSNfN0QA1n0Uch93oPBb3ARHZt4cj4Z621Sj4WEXPmWpnsxcowbA7oigpoS34M
- AKQEXn0cwXeI77r8A8wRohYJ/6xmbWriOD/OPyuOpd2Lv7qQ4ZuZ11qnpkQY/a7LBKwV
- 3NJijgPSvcNG58bNUECzAvADkkn5FwJXsok4uKWY15MKaUU4fY+hsoxwVc44ZbOzUDPl
- OHkQMSNsBp37OQrJSW/NY71UeAIUzTraEiFWWZ1l1lkjdsFQCFVTGG8HVgRUUdd2m0zg
- tMg+nWmgloiGveLPC4MhdZi7wOpcH/ydPwISslOp1J/gqpWbZfRh0YVVXr/0ju/BWX6R
- aBYg==
-X-Gm-Message-State: AOAM5325kCAX+i+HMPqhTTx8kzG9DJG78CK4FJ3iI/lBPySOhh/FjjUA
- uNZ2U/1eRhRWOkwDSALRRgI=
-X-Google-Smtp-Source: ABdhPJyol+ZFYIc7SO5Eu//buV6o3GgcBE2VSBrnAxRHGqxzjxjnRNz3sVoXEe6wll+umq43bjdA6g==
-X-Received: by 2002:ac2:46d6:: with SMTP id p22mr5444310lfo.625.1617875972806; 
- Thu, 08 Apr 2021 02:59:32 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id y10sm2702859ljn.103.2021.04.08.02.59.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 02:59:32 -0700 (PDT)
-Date: Thu, 8 Apr 2021 12:59:19 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>, Ville =?UTF-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 2/2] drm/doc: emphasize difference between plane formats
- and IN_FORMATS blob
-Message-ID: <20210408125919.4a83119c@eldfell>
-In-Reply-To: <RW8-e8gSvP1pTckh_2alh-dqd3OR_bdl8e5PYdZVWBL4VnBMh0_ZWEfdlRmoQvzI0lGVH62Fp83MCaPqLZxlCE5pjntUhq-zW0v4-S_4Vos=@emersion.fr>
-References: <20210406192118.12313-1-leandro.ribeiro@collabora.com>
- <20210406192118.12313-3-leandro.ribeiro@collabora.com>
- <YG24z2oeHVtzvkXy@intel.com>
- <RW8-e8gSvP1pTckh_2alh-dqd3OR_bdl8e5PYdZVWBL4VnBMh0_ZWEfdlRmoQvzI0lGVH62Fp83MCaPqLZxlCE5pjntUhq-zW0v4-S_4Vos=@emersion.fr>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TjMXPxgdcWLwg3HHxfz7xUxG8qs2PWdH8nXM2CLjB+o=;
+ b=ciMpil3+8/KQF1d5M6EWMi6UB82tFXcqgBGio3FZ7ezQ5CSV+kQr3V1v0k3SPcOJzk
+ jSfDatFTn5E/pv+gwMG4JUMiWC7UtRi5I+vor/fYu7bkdnndGyXOFWa3Eb35oKgcj+8s
+ NeQdaoRq/s9lX998/WwZRMJnBdVy6U7vJqidBC2DeJkqfGJ/IR108t8GhbKAWxoKOxkS
+ 0eQLuWbPtfLk0z4WDEYDZ4LtQrujRPDKWfTJ8FenU9Jv1VIrNQfJZm7unvIBkBWMZMxF
+ TPGxFT0r9JjN8p6KRQnRrTMXG2vTFBa0Ykk1SCbMbn73QcYQMErQBfAPmdXB6DobVnQx
+ nJ2A==
+X-Gm-Message-State: AOAM532k9k/uKHnYrK0aik2ZoVoIkkb7L8gRSf+SIBUvNgjoDbQunp04
+ VP+81YeE/wGnAdRyVmBH0ipsGT+YtbcgmEbHpoyN6A==
+X-Google-Smtp-Source: ABdhPJz56m2S81SB+Vk01VDd0B9PR6rluJ8GjWc0odS3E5DUUz2POvMdARG4DmvutKcBbWwWPMGfDeZeb5j+spF4RDM=
+X-Received: by 2002:a05:620a:2190:: with SMTP id
+ g16mr7476782qka.241.1617876004539; 
+ Thu, 08 Apr 2021 03:00:04 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210408095428.3983055-1-stevensd@google.com>
+ <ce605cb0-ad27-e1b0-84c8-647ad1e19405@amd.com>
+In-Reply-To: <ce605cb0-ad27-e1b0-84c8-647ad1e19405@amd.com>
+From: David Stevens <stevensd@chromium.org>
+Date: Thu, 8 Apr 2021 18:59:54 +0900
+Message-ID: <CAD=HUj4Lgm9MbBD1-VvYpAySvKf0k2rK5heDNz35h8s6qTLZ0A@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/syncobj: use newly allocated stub fences
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,123 +60,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, kernel@collabora.com,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0297411702=="
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0297411702==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/03QYDu_JQcftuoyjobV/AO/"; protocol="application/pgp-signature"
-
---Sig_/03QYDu_JQcftuoyjobV/AO/
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 08 Apr 2021 08:39:10 +0000
-Simon Ser <contact@emersion.fr> wrote:
-
-> On Wednesday, April 7th, 2021 at 3:51 PM, Ville Syrj=C3=A4l=C3=A4 <ville.=
-syrjala@linux.intel.com> wrote:
->=20
-> > > +	 * To find out the list of formats that support modifiers, userspace
-> > > +	 * must use the plane IN_FORMATS blob property.
-> > >  	 */ =20
-> >
-> > Addfb2+modifiers predates the IN_FORMATS blob, so this doesn't
-> > match reality. =20
->=20
-> TBH, I'm inclined not to care about this edge-case. It's already
-> complicated enough for user-space to figure out what's the right thing
-> to do when supporting both implicit modifiers and explicit modifiers.
-> Using modifiers without IN_FORMATS is risky, since a whole part of the
-> modifier negotiation mechanism is missing.
->=20
-> Maybe we can just stick a "since kernel x.y.z" in here to address your
-> concern.
-
-Yeah, or we could word it less "must", e.g. "The list of supported
-formats with their explicit modifiers is advertised via IN_FORMATS blob."
-
-We don't have to require userspace to not use the explicit modifier
-uAPI if IN_FORMATS does not exist. There might be other ways how
-userspace determines the explicit modifiers, like a Wayland compositor
-advertising those format-modifier pairs that EGL can import. Then
-clients use those, and the compositor can try to import those to KMS as
-well. Maybe it works, maybe it doesn't (the same even if IN_FORMATS
-exists).
-
-IN_FORMATS just gives better chances of picking something that ends up
-working.
-
-The thing userspace *must not* do is to try to use the no-modifiers uAPI
-when it has an explicit modifier. But do we then have exceptions for
-MOD_LINEAR?
-
-If a buffer has been allocated with explicit modifier MOD_LINEAR, does
-it mean it is ok to import to KMS using the no-modifiers uAPI or not?
-
-The other things userspace *must not* do is use the explicit modifier
-uAPI when it does not have an explicit modifier, in essence pulling a
-modifier out of a hat. It might be tempting to use MOD_LINEAR in that
-case, sometimes it might work, but it's wrong. Userspace must use the
-no-modifiers uAPI instead.
-
-Right?
-
-The point of these documentation patches is to establish the convention
-that:
-
-- drm_mode_get_plane::format_type_ptr is the list of pixel formats that
-  can work via the no-modifiers uAPI, but says nothing about the
-  explicit modifiers uAPI.
-
-- IN_FORMATS is a list of format-modifier pairs that can work via the
-  explicit modifiers API, but says nothing about the no-modifiers uAPI.
-
-Is that a reasonable expectation?
-
-Is it also so that passing MOD_INVALID to the explicit modifier uAPI
-(ADDFB2) is invalid argument? Do we have that documented?
-
-
-Thanks,
-pq
-
---Sig_/03QYDu_JQcftuoyjobV/AO/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmBu0/cACgkQI1/ltBGq
-qqdnoBAAibm0LCFEkEMwzXB8u5pblgGUWnvKer0c0lAJqSA0ZiU9kASaUo+XiRSr
-nkb9+fjSe7DiSad3GAu6dwLnIT0es1YW51m2S+ovXPeKFelq8y5zvN+uEQx07x/Q
-RgKZ32TvsUHwr4BTN99JCWZ+FHFwLXHqcHHxEV8XuyxrSqNvOphMS6q+3k8HsfhU
-ya++eXTCidjbt5R+R3aZf8XFCm2RtPONMmzUBBe9InvwNinJCgE0VPGGtQ/zjLnj
-AoyRi+cM5zJX67+F0bonRyb8F+C9QP6G690VghDnf+fYd32g3Q4qT6MMTjgwSOg9
-fC4bRrYfRYy6qLhZiElKddw7+qeQ8+mAKqRrrL/plMTQKFyHFR/k5rfsfUknW0hz
-AR23bzijoXw6eU7pgLypokrgq7iywF7fiVbK4vDft3fIs9hWHv3nglzyWhZSJpLn
-v7GBUutuhGT0PShwQpswy9aJvj1n730+MNBLbL8pphB4HMoB9XPQ/CUlcQiMzuYF
-gmDgpAV2iKw2gxzrpSuYCAj37xPlbqIZLcFKFqEqNRpuGY3ReCxVRopzyUjtOwCv
-aGzuCD9WdTPOzpJZghyrjlxMataH3nZVjFoic2uLaLDjwah9hd8X6iFi1B+Au+HI
-4frZ7e/Omg4M6s5viTBbbTHCh6IQTsC1F//e7yv73xKrO9dl6Ss=
-=mSTh
------END PGP SIGNATURE-----
-
---Sig_/03QYDu_JQcftuoyjobV/AO/--
-
---===============0297411702==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0297411702==--
+UHVzaGluZyB0byBkcm0tbWlzYy1uZXh0IHdvcmtzIGZvciBtZS4gVGhhbmtzIGZvciB0aGUgcXVp
+Y2sgcmVzcG9uc2VzLgoKLURhdmlkCgpPbiBUaHUsIEFwciA4LCAyMDIxIGF0IDY6NTYgUE0gQ2hy
+aXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFtIDA4
+LjA0LjIxIHVtIDExOjU0IHNjaHJpZWIgRGF2aWQgU3RldmVuczoKPiA+IEZyb206IERhdmlkIFN0
+ZXZlbnMgPHN0ZXZlbnNkQGNocm9taXVtLm9yZz4KPiA+Cj4gPiBBbGxvY2F0ZSBhIG5ldyBwcml2
+YXRlIHN0dWIgZmVuY2UgaW4gZHJtX3N5bmNvYmpfYXNzaWduX251bGxfaGFuZGxlLAo+ID4gaW5z
+dGVhZCBvZiB1c2luZyBhIHN0YXRpYyBzdHViIGZlbmNlLgo+ID4KPiA+IFdoZW4gdXNlcnNwYWNl
+IGNyZWF0ZXMgYSBmZW5jZSB3aXRoIERSTV9TWU5DT0JKX0NSRUFURV9TSUdOQUxFRCBvciB3aGVu
+Cj4gPiB1c2Vyc3BhY2Ugc2lnbmFscyBhIGZlbmNlIHZpYSBEUk1fSU9DVExfU1lOQ09CSl9TSUdO
+QUwsIHRoZSB0aW1lc3RhbXAKPiA+IG9idGFpbmVkIHdoZW4gdGhlIGZlbmNlIGlzIGV4cG9ydGVk
+IGFuZCBxdWVyaWVkIHdpdGggU1lOQ19JT0NfRklMRV9JTkZPCj4gPiBzaG91bGQgbWF0Y2ggd2hl
+biB0aGUgZmVuY2UncyBzdGF0dXMgd2FzIGNoYW5nZWQgZnJvbSB0aGUgcGVyc3BlY3RpdmUgb2YK
+PiA+IHVzZXJzcGFjZSwgd2hpY2ggaXMgZHVyaW5nIHRoZSByZXNwZWN0aXZlIGlvY3RsLgo+ID4K
+PiA+IFdoZW4gYSBzdGF0aWMgc3R1YiBmZW5jZSBzdGFydGVkIGJlaW5nIHVzZWQgaW4gYnkgdGhl
+c2UgaW9jdGxzLCB0aGlzCj4gPiBiZWhhdmlvciBjaGFuZ2VkLiBJbnN0ZWFkLCB0aGUgdGltZXN0
+YW1wIHJldHVybmVkIGJ5IFNZTkNfSU9DX0ZJTEVfSU5GTwo+ID4gYmVjYW1lIHRoZSBmaXJzdCB0
+aW1lIGFueXRoaW5nIHVzZWQgdGhlIHN0YXRpYyBzdHViIGZlbmNlLCB3aGljaCBoYXMgbm8KPiA+
+IG1lYW5pbmcgdG8gdXNlcnNwYWNlLgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IERhdmlkIFN0ZXZl
+bnMgPHN0ZXZlbnNkQGNocm9taXVtLm9yZz4KPgo+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2
+bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4KPiBTaG91bGQgSSBwdXNoIHRoaXMgdG8g
+ZHJtLW1pc2MtbmV4dCBvciBob3cgZG8geW91IHdhbnQgdG8gdXBzdHJlYW0gaXQ/Cj4KPiBUaGFu
+a3MsCj4gQ2hyaXN0aWFuLgo+Cj4gPiAtLS0KPiA+IHYyIC0+IHYzOgo+ID4gICAtIHJldXNlIHRo
+ZSBzdGF0aWMgc3R1YiBzcGlubG9jawo+ID4gdjEgLT4gdjI6Cj4gPiAgIC0gY2hlY2twYXRjaCBz
+dHlsZSBmaXhlcwo+ID4KPiA+ICAgZHJpdmVycy9kbWEtYnVmL2RtYS1mZW5jZS5jICAgfCAyNyAr
+KysrKysrKysrKysrKysrKysrKysrKysrKy0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9zeW5j
+b2JqLmMgfCAyNSArKysrKysrKysrKysrKysrKysrLS0tLS0tCj4gPiAgIGluY2x1ZGUvbGludXgv
+ZG1hLWZlbmNlLmggICAgIHwgIDEgKwo+ID4gICAzIGZpbGVzIGNoYW5nZWQsIDQ2IGluc2VydGlv
+bnMoKyksIDcgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1
+Zi9kbWEtZmVuY2UuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UuYwo+ID4gaW5kZXggZDY0
+ZmMwMzkyOWJlLi5jZTBmNWVmZjU3NWQgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYv
+ZG1hLWZlbmNlLmMKPiA+ICsrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UuYwo+ID4gQEAg
+LTEyMyw3ICsxMjMsOSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRtYV9mZW5jZV9vcHMgZG1hX2Zl
+bmNlX3N0dWJfb3BzID0gewo+ID4gICAvKioKPiA+ICAgICogZG1hX2ZlbmNlX2dldF9zdHViIC0g
+cmV0dXJuIGEgc2lnbmFsZWQgZmVuY2UKPiA+ICAgICoKPiA+IC0gKiBSZXR1cm4gYSBzdHViIGZl
+bmNlIHdoaWNoIGlzIGFscmVhZHkgc2lnbmFsZWQuCj4gPiArICogUmV0dXJuIGEgc3R1YiBmZW5j
+ZSB3aGljaCBpcyBhbHJlYWR5IHNpZ25hbGVkLiBUaGUgZmVuY2Uncwo+ID4gKyAqIHRpbWVzdGFt
+cCBjb3JyZXNwb25kcyB0byB0aGUgZmlyc3QgdGltZSBhZnRlciBib290IHRoaXMKPiA+ICsgKiBm
+dW5jdGlvbiBpcyBjYWxsZWQuCj4gPiAgICAqLwo+ID4gICBzdHJ1Y3QgZG1hX2ZlbmNlICpkbWFf
+ZmVuY2VfZ2V0X3N0dWIodm9pZCkKPiA+ICAgewo+ID4gQEAgLTE0MSw2ICsxNDMsMjkgQEAgc3Ry
+dWN0IGRtYV9mZW5jZSAqZG1hX2ZlbmNlX2dldF9zdHViKHZvaWQpCj4gPiAgIH0KPiA+ICAgRVhQ
+T1JUX1NZTUJPTChkbWFfZmVuY2VfZ2V0X3N0dWIpOwo+ID4KPiA+ICsvKioKPiA+ICsgKiBkbWFf
+ZmVuY2VfYWxsb2NhdGVfcHJpdmF0ZV9zdHViIC0gcmV0dXJuIGEgcHJpdmF0ZSwgc2lnbmFsZWQg
+ZmVuY2UKPiA+ICsgKgo+ID4gKyAqIFJldHVybiBhIG5ld2x5IGFsbG9jYXRlZCBhbmQgc2lnbmFs
+ZWQgc3R1YiBmZW5jZS4KPiA+ICsgKi8KPiA+ICtzdHJ1Y3QgZG1hX2ZlbmNlICpkbWFfZmVuY2Vf
+YWxsb2NhdGVfcHJpdmF0ZV9zdHViKHZvaWQpCj4gPiArewo+ID4gKyAgICAgc3RydWN0IGRtYV9m
+ZW5jZSAqZmVuY2U7Cj4gPiArCj4gPiArICAgICBmZW5jZSA9IGt6YWxsb2Moc2l6ZW9mKCpmZW5j
+ZSksIEdGUF9LRVJORUwpOwo+ID4gKyAgICAgaWYgKGZlbmNlID09IE5VTEwpCj4gPiArICAgICAg
+ICAgICAgIHJldHVybiBFUlJfUFRSKC1FTk9NRU0pOwo+ID4gKwo+ID4gKyAgICAgZG1hX2ZlbmNl
+X2luaXQoZmVuY2UsCj4gPiArICAgICAgICAgICAgICAgICAgICAmZG1hX2ZlbmNlX3N0dWJfb3Bz
+LAo+ID4gKyAgICAgICAgICAgICAgICAgICAgJmRtYV9mZW5jZV9zdHViX2xvY2ssCj4gPiArICAg
+ICAgICAgICAgICAgICAgICAwLCAwKTsKPiA+ICsgICAgIGRtYV9mZW5jZV9zaWduYWwoZmVuY2Up
+Owo+ID4gKwo+ID4gKyAgICAgcmV0dXJuIGZlbmNlOwo+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9M
+KGRtYV9mZW5jZV9hbGxvY2F0ZV9wcml2YXRlX3N0dWIpOwo+ID4gKwo+ID4gICAvKioKPiA+ICAg
+ICogZG1hX2ZlbmNlX2NvbnRleHRfYWxsb2MgLSBhbGxvY2F0ZSBhbiBhcnJheSBvZiBmZW5jZSBj
+b250ZXh0cwo+ID4gICAgKiBAbnVtOiBhbW91bnQgb2YgY29udGV4dHMgdG8gYWxsb2NhdGUKPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYyBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fc3luY29iai5jCj4gPiBpbmRleCAzNDkxNDYwNDk4NDkuLmE1NGFhODUwZDE0MyAx
+MDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jCj4gPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYwo+ID4gQEAgLTM1MCwxMiArMzUwLDE2IEBAIEVY
+UE9SVF9TWU1CT0woZHJtX3N5bmNvYmpfcmVwbGFjZV9mZW5jZSk7Cj4gPiAgICAqCj4gPiAgICAq
+IEFzc2lnbiBhIGFscmVhZHkgc2lnbmFsZWQgc3R1YiBmZW5jZSB0byB0aGUgc3luYyBvYmplY3Qu
+Cj4gPiAgICAqLwo+ID4gLXN0YXRpYyB2b2lkIGRybV9zeW5jb2JqX2Fzc2lnbl9udWxsX2hhbmRs
+ZShzdHJ1Y3QgZHJtX3N5bmNvYmogKnN5bmNvYmopCj4gPiArc3RhdGljIGludCBkcm1fc3luY29i
+al9hc3NpZ25fbnVsbF9oYW5kbGUoc3RydWN0IGRybV9zeW5jb2JqICpzeW5jb2JqKQo+ID4gICB7
+Cj4gPiAtICAgICBzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZSA9IGRtYV9mZW5jZV9nZXRfc3R1Yigp
+Owo+ID4gKyAgICAgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UgPSBkbWFfZmVuY2VfYWxsb2NhdGVf
+cHJpdmF0ZV9zdHViKCk7Cj4gPiArCj4gPiArICAgICBpZiAoSVNfRVJSKGZlbmNlKSkKPiA+ICsg
+ICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIoZmVuY2UpOwo+ID4KPiA+ICAgICAgIGRybV9zeW5j
+b2JqX3JlcGxhY2VfZmVuY2Uoc3luY29iaiwgZmVuY2UpOwo+ID4gICAgICAgZG1hX2ZlbmNlX3B1
+dChmZW5jZSk7Cj4gPiArICAgICByZXR1cm4gMDsKPiA+ICAgfQo+ID4KPiA+ICAgLyogNXMgZGVm
+YXVsdCBmb3Igd2FpdCBzdWJtaXNzaW9uICovCj4gPiBAQCAtNDY5LDYgKzQ3Myw3IEBAIEVYUE9S
+VF9TWU1CT0woZHJtX3N5bmNvYmpfZnJlZSk7Cj4gPiAgIGludCBkcm1fc3luY29ial9jcmVhdGUo
+c3RydWN0IGRybV9zeW5jb2JqICoqb3V0X3N5bmNvYmosIHVpbnQzMl90IGZsYWdzLAo+ID4gICAg
+ICAgICAgICAgICAgICAgICAgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpCj4gPiAgIHsKPiA+ICsg
+ICAgIGludCByZXQ7Cj4gPiAgICAgICBzdHJ1Y3QgZHJtX3N5bmNvYmogKnN5bmNvYmo7Cj4gPgo+
+ID4gICAgICAgc3luY29iaiA9IGt6YWxsb2Moc2l6ZW9mKHN0cnVjdCBkcm1fc3luY29iaiksIEdG
+UF9LRVJORUwpOwo+ID4gQEAgLTQ3OSw4ICs0ODQsMTMgQEAgaW50IGRybV9zeW5jb2JqX2NyZWF0
+ZShzdHJ1Y3QgZHJtX3N5bmNvYmogKipvdXRfc3luY29iaiwgdWludDMyX3QgZmxhZ3MsCj4gPiAg
+ICAgICBJTklUX0xJU1RfSEVBRCgmc3luY29iai0+Y2JfbGlzdCk7Cj4gPiAgICAgICBzcGluX2xv
+Y2tfaW5pdCgmc3luY29iai0+bG9jayk7Cj4gPgo+ID4gLSAgICAgaWYgKGZsYWdzICYgRFJNX1NZ
+TkNPQkpfQ1JFQVRFX1NJR05BTEVEKQo+ID4gLSAgICAgICAgICAgICBkcm1fc3luY29ial9hc3Np
+Z25fbnVsbF9oYW5kbGUoc3luY29iaik7Cj4gPiArICAgICBpZiAoZmxhZ3MgJiBEUk1fU1lOQ09C
+Sl9DUkVBVEVfU0lHTkFMRUQpIHsKPiA+ICsgICAgICAgICAgICAgcmV0ID0gZHJtX3N5bmNvYmpf
+YXNzaWduX251bGxfaGFuZGxlKHN5bmNvYmopOwo+ID4gKyAgICAgICAgICAgICBpZiAocmV0IDwg
+MCkgewo+ID4gKyAgICAgICAgICAgICAgICAgICAgIGRybV9zeW5jb2JqX3B1dChzeW5jb2JqKTsK
+PiA+ICsgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ID4gKyAgICAgICAgICAgICB9
+Cj4gPiArICAgICB9Cj4gPgo+ID4gICAgICAgaWYgKGZlbmNlKQo+ID4gICAgICAgICAgICAgICBk
+cm1fc3luY29ial9yZXBsYWNlX2ZlbmNlKHN5bmNvYmosIGZlbmNlKTsKPiA+IEBAIC0xMzIyLDgg
+KzEzMzIsMTEgQEAgZHJtX3N5bmNvYmpfc2lnbmFsX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYsIHZvaWQgKmRhdGEsCj4gPiAgICAgICBpZiAocmV0IDwgMCkKPiA+ICAgICAgICAgICAgICAg
+cmV0dXJuIHJldDsKPiA+Cj4gPiAtICAgICBmb3IgKGkgPSAwOyBpIDwgYXJncy0+Y291bnRfaGFu
+ZGxlczsgaSsrKQo+ID4gLSAgICAgICAgICAgICBkcm1fc3luY29ial9hc3NpZ25fbnVsbF9oYW5k
+bGUoc3luY29ianNbaV0pOwo+ID4gKyAgICAgZm9yIChpID0gMDsgaSA8IGFyZ3MtPmNvdW50X2hh
+bmRsZXM7IGkrKykgewo+ID4gKyAgICAgICAgICAgICByZXQgPSBkcm1fc3luY29ial9hc3NpZ25f
+bnVsbF9oYW5kbGUoc3luY29ianNbaV0pOwo+ID4gKyAgICAgICAgICAgICBpZiAocmV0IDwgMCkK
+PiA+ICsgICAgICAgICAgICAgICAgICAgICBicmVhazsKPiA+ICsgICAgIH0KPiA+Cj4gPiAgICAg
+ICBkcm1fc3luY29ial9hcnJheV9mcmVlKHN5bmNvYmpzLCBhcmdzLT5jb3VudF9oYW5kbGVzKTsK
+PiA+Cj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9kbWEtZmVuY2UuaCBiL2luY2x1ZGUv
+bGludXgvZG1hLWZlbmNlLmgKPiA+IGluZGV4IDlmMTJlZmFhYTkzYS4uNmZmYjRiMmM2MzcxIDEw
+MDY0NAo+ID4gLS0tIGEvaW5jbHVkZS9saW51eC9kbWEtZmVuY2UuaAo+ID4gKysrIGIvaW5jbHVk
+ZS9saW51eC9kbWEtZmVuY2UuaAo+ID4gQEAgLTU4Nyw2ICs1ODcsNyBAQCBzdGF0aWMgaW5saW5l
+IHNpZ25lZCBsb25nIGRtYV9mZW5jZV93YWl0KHN0cnVjdCBkbWFfZmVuY2UgKmZlbmNlLCBib29s
+IGludHIpCj4gPiAgIH0KPiA+Cj4gPiAgIHN0cnVjdCBkbWFfZmVuY2UgKmRtYV9mZW5jZV9nZXRf
+c3R1Yih2b2lkKTsKPiA+ICtzdHJ1Y3QgZG1hX2ZlbmNlICpkbWFfZmVuY2VfYWxsb2NhdGVfcHJp
+dmF0ZV9zdHViKHZvaWQpOwo+ID4gICB1NjQgZG1hX2ZlbmNlX2NvbnRleHRfYWxsb2ModW5zaWdu
+ZWQgbnVtKTsKPiA+Cj4gPiAgICNkZWZpbmUgRE1BX0ZFTkNFX1RSQUNFKGYsIGZtdCwgYXJncy4u
+LikgXAo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
