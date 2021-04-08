@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9198A358176
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 13:15:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A3435817C
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 13:16:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2320A6EA8F;
-	Thu,  8 Apr 2021 11:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C6076EA90;
+	Thu,  8 Apr 2021 11:16:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A32066EA8E
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 11:15:31 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id b9so1717905wrs.1
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 04:15:31 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAB66EA90
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 11:16:50 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ t5-20020a1c77050000b029010e62cea9deso1046805wmi.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 04:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=AcAFUqp6UAoctTPigHac0GLdbrDMBzvgfm1w3MAPCVc=;
- b=gGVo0KdtGQFzn+gxvhAI7/mbF2A4l4VfZBwtPQU6K9eV3ca1vm5pLoji6HAfVncZrs
- 1LLFVDeqlQleRFCHV19mRzY0GQCTbs4IrhypdEy/VGbI001vRiAYAJ/jqzBOz251K1Zl
- 4PeICtkXuYO/XR2Hil7Uer17XqYYN7+RcIUEM=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=2rGXrZ6/Y1EiQNPy9lkbFWL4CJZGqYO2LJVNvjD1io4=;
+ b=OHopb0BGApE+w2iQb+y029BFxSz9rLKFQjmM26EOnFqolAo53AqcdxDPcgH4GGshsx
+ BDo2R1Ngn8YhwFfhU1bRXkxhUkC8+CvFuLK4r/rDY/d45eKlxh8hkZKuhBPd4fzNvmq9
+ 9HQn1Z6vWXn5rxmfhIbP53Ja69zxlwtLV+/WQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=AcAFUqp6UAoctTPigHac0GLdbrDMBzvgfm1w3MAPCVc=;
- b=UGrm7ImfQ2YH+JgaJPYvfc0nqm27pAdNEA+a8cmcH09cVDJtYJ3V/gawpPtLWnmf8C
- tci3ySpvm9sah3+lDyzy+awbdVoviyC66VaFSp8ibygow+qAI6AjXk/F0afZycJOzCUe
- OHfP+WQvCB4xodVEC2P4RDUz9TMI7LwmoWemj0HaBePDBRRfvm5xHk38SuAClYiewF8w
- zXTkWWuXinlrlKO6Q0ic1NP0USnUN6GuFy0jKqwzpmKxuZWE5lgSTGHcV18qqEhkwvLU
- 7rjdmGrMrbkO5IFbg1sRvmN5xD++PjKaOla1/OHCs50TEjAZMtnvd2hG4qOClfCOKBLI
- li5A==
-X-Gm-Message-State: AOAM533F9OZG83rg0WkyNcupxzNQDe1RHliXxqiKiRHAafvtWnI4xlke
- VTEfG50rFgq8dwCkoDn4UcgCAg==
-X-Google-Smtp-Source: ABdhPJxsrvJEP26+VkzvzCqzDNRxmHcvrkr2wjLdHOCmOy+nZZfHQ5wDk3KDW5f115ZZy75z4/ZORA==
-X-Received: by 2002:a5d:4f0e:: with SMTP id c14mr10713632wru.0.1617880530387; 
- Thu, 08 Apr 2021 04:15:30 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2rGXrZ6/Y1EiQNPy9lkbFWL4CJZGqYO2LJVNvjD1io4=;
+ b=ip62SRvaUiUM27d5+PIpRFE6dXIS1vsH62YWzUhKl7ASzfFwzRIhbM2rDZ9sr8Ux69
+ +sqlDXN1w+hH3ujZL/jmj3uu9KC/jqfpfKtKuIe6F55EcBGq+TTn5ZjaXjYqYgNqk5fc
+ CvRsFADjm5DWv1r6RiajkG8JfXhlxgFZli4nTbYjivBtIMa0kopFscfIxaqybBGAnbmE
+ 7UP7m6oy/j0EzBFC1rvAWI9VL/mBBlth0C8TfvNMVpZOqqunVJmM/Kg7XvD86ESApFfS
+ yVvhZChSSVrZVThD4MtAjYe4uwojEm5bkJ3gcwQarjCNdiqwz+pxkGrNQY8gL1YS2f2Q
+ 4Z2Q==
+X-Gm-Message-State: AOAM532YF1CGU6cGB0vfI3iHTSW07tlBKeEXPA2ytmFd4V6RUHaswlPP
+ lq3yM+RKPA25d2QIYiV6kn3NYA==
+X-Google-Smtp-Source: ABdhPJxQtEIMNNWiroexEm/m5G85YkQS1wiT3VlgjBBAAWlukovDIO0E7vB7vyBxMtzOmujVy8JS4g==
+X-Received: by 2002:a05:600c:89a:: with SMTP id
+ l26mr7826257wmp.179.1617880609163; 
+ Thu, 08 Apr 2021 04:16:49 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o2sm18376833wry.4.2021.04.08.04.15.29
+ by smtp.gmail.com with ESMTPSA id b6sm9577334wrv.12.2021.04.08.04.16.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 04:15:29 -0700 (PDT)
-Date: Thu, 8 Apr 2021 13:15:28 +0200
+ Thu, 08 Apr 2021 04:16:48 -0700 (PDT)
+Date: Thu, 8 Apr 2021 13:16:46 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 0/8] drm/msm: Swappable GEM objects
-Message-ID: <YG7l0LwVQ2s4Y0Sa@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
-References: <20210405174532.1441497-1-robdclark@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/4] drm: Generic dumb_map_offset for TTM-based drivers
+Message-ID: <YG7mHvmhPZIPA37B@phenom.ffwll.local>
+References: <20210406082942.24049-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210405174532.1441497-1-robdclark@gmail.com>
+In-Reply-To: <20210406082942.24049-1-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,71 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
+Cc: airlied@linux.ie, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ kraxel@redhat.com, spice-devel@lists.freedesktop.org, bskeggs@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 05, 2021 at 10:45:23AM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> One would normally hope not to be under enough memory pressure to need
-> to swap GEM objects to disk backed swap.  But memory backed zram swap
-> (as enabled on chromebooks, for example) can actually be quite fast
-> and useful on devices with less RAM.  On a 4GB device, opening up ~4
-> memory intensive web pages (in separate windows rather than tabs, to try
-> and prevent tab discard), I see ~500MB worth of GEM objects, of which
-> maybe only 10% are active at any time, and with unpin/evict enabled,
-> only about half resident (which is a number that gets much lower if you
-> simulate extreme memory pressure).  Assuming a 2:1 compression ratio (I
-> see a bit higher in practice, but cannot isolate swapped out GEM pages
-> vs other), that is like having an extra 100+MB of RAM, or more under
-> higher memory pressure.
-> 
-> Rob Clark (8):
->   drm/msm: ratelimit GEM related WARN_ON()s
->   drm/msm: Reorganize msm_gem_shrinker_scan()
->   drm/msm: Clear msm_obj->sgt in put_pages()
->   drm/msm: Split iova purge and close
->   drm/msm: Add $debugfs/gem stats on resident objects
->   drm/msm: Track potentially evictable objects
->   drm/msm: Small msm_gem_purge() fix
->   drm/msm: Support evicting GEM objects to swap
+On Tue, Apr 06, 2021 at 10:29:38AM +0200, Thomas Zimmermann wrote:
+> The implementation of drm_driver.dumb_map_offset is the same for several
+> TTM-based drivers. Provide a common function in GEM-TTM helpers.
 
-Given how much entertainement shrinkers are, should we aim for more common
-code here?
-
-Christian has tons of fun with adding something like this for ttm (well
-different shades of grey). i915 is going to adopt ttm, at least for
-discrete.
-
-The locking is also an utter pain, and msm seems to still live a lot in
-its own land here. I think as much as possible a standard approach here
-would be really good, ideally maybe as building blocks shared between ttm
-and gem-shmem drivers ...
+Out of curiosity, why does this not fit for radeon/amdgpu?
 -Daniel
 
 > 
->  drivers/gpu/drm/msm/msm_drv.c          |   2 +-
->  drivers/gpu/drm/msm/msm_drv.h          |  13 ++-
->  drivers/gpu/drm/msm/msm_gem.c          | 155 +++++++++++++++++--------
->  drivers/gpu/drm/msm/msm_gem.h          |  68 +++++++++--
->  drivers/gpu/drm/msm/msm_gem_shrinker.c | 129 ++++++++++++--------
->  drivers/gpu/drm/msm/msm_gpu_trace.h    |  13 +++
->  6 files changed, 272 insertions(+), 108 deletions(-)
+> Thomas Zimmermann (4):
+>   drm/gem-ttm-helper: Provide helper for struct
+>     drm_driver.dumb_map_offset
+>   drm/vram-helper: Use drm_gem_ttm_dumb_map_offset()
+>   drm/nouveau: Use drm_gem_ttm_dumb_map_offset()
+>   drm/qxl: Use drm_gem_ttm_dumb_map_offset()
 > 
-> -- 
+>  drivers/gpu/drm/drm_gem_ttm_helper.c      | 33 ++++++++++++++++
+>  drivers/gpu/drm/drm_gem_vram_helper.c     | 48 -----------------------
+>  drivers/gpu/drm/nouveau/nouveau_display.c | 18 ---------
+>  drivers/gpu/drm/nouveau/nouveau_display.h |  2 -
+>  drivers/gpu/drm/nouveau/nouveau_drm.c     |  3 +-
+>  drivers/gpu/drm/qxl/qxl_drv.c             |  3 +-
+>  drivers/gpu/drm/qxl/qxl_drv.h             |  3 --
+>  drivers/gpu/drm/qxl/qxl_dumb.c            | 17 --------
+>  drivers/gpu/drm/qxl/qxl_ioctl.c           |  4 +-
+>  drivers/gpu/drm/qxl/qxl_object.h          |  5 ---
+>  include/drm/drm_gem_ttm_helper.h          |  5 ++-
+>  include/drm/drm_gem_vram_helper.h         |  7 +---
+>  12 files changed, 45 insertions(+), 103 deletions(-)
+> 
+> --
 > 2.30.2
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 Daniel Vetter
