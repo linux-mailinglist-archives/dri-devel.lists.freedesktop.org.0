@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77C635841E
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 15:05:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F161235841C
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 15:05:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 524506EAD4;
-	Thu,  8 Apr 2021 13:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0573E6EAD2;
+	Thu,  8 Apr 2021 13:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E75F46EABC
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 11:49:12 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FGKHP5yJSz19L6C;
- Thu,  8 Apr 2021 19:46:57 +0800 (CST)
-Received: from huawei.com (10.67.174.47) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Thu, 8 Apr 2021
- 19:49:00 +0800
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB2A6EABB
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 11:56:18 +0000 (UTC)
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FGKRc3Ky4z19KPl;
+ Thu,  8 Apr 2021 19:54:04 +0800 (CST)
+Received: from huawei.com (10.67.174.47) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.498.0; Thu, 8 Apr 2021
+ 19:56:10 +0800
 From: He Ying <heying24@huawei.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>,
  <chunfeng.yun@mediatek.com>, <kishon@ti.com>, <vkoul@kernel.org>,
  <matthias.bgg@gmail.com>
-Subject: [PATCH v2 -next] phy: phy-mtk-mipi-dsi: Remove redundant dev_err call
- in mtk_mipi_tx_probe()
-Date: Thu, 8 Apr 2021 07:48:50 -0400
-Message-ID: <20210408114850.14422-1-heying24@huawei.com>
+Subject: [PATCH v2 -next] phy: phy-mtk-hdmi: Remove redundant dev_err call in
+ mtk_hdmi_phy_probe()
+Date: Thu, 8 Apr 2021 07:55:30 -0400
+Message-ID: <20210408115530.15673-1-heying24@huawei.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 X-Originating-IP: [10.67.174.47]
@@ -55,31 +55,30 @@ There is a error message within devm_ioremap_resource
 already, so remove the dev_err call to avoid redundant
 error message.
 
-Reviewed-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: He Ying <heying24@huawei.com>
 ---
 v2:
-- Use 'return PTR_ERR();' instead of 'ret = PTR_ERR();return ret;'.
+- Use 'return PTR_ERR()' instead of 'ret = PTR_ERR();return ret;'.
 
- drivers/phy/mediatek/phy-mtk-mipi-dsi.c | 4 +---
+ drivers/phy/mediatek/phy-mtk-hdmi.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
-index c51114d8e437..01cf31633019 100644
---- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
-+++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
-@@ -151,9 +151,7 @@ static int mtk_mipi_tx_probe(struct platform_device *pdev)
+diff --git a/drivers/phy/mediatek/phy-mtk-hdmi.c b/drivers/phy/mediatek/phy-mtk-hdmi.c
+index 8313bd517e4c..8ad8f717ef43 100644
+--- a/drivers/phy/mediatek/phy-mtk-hdmi.c
++++ b/drivers/phy/mediatek/phy-mtk-hdmi.c
+@@ -119,9 +119,7 @@ static int mtk_hdmi_phy_probe(struct platform_device *pdev)
  	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	mipi_tx->regs = devm_ioremap_resource(dev, mem);
- 	if (IS_ERR(mipi_tx->regs)) {
--		ret = PTR_ERR(mipi_tx->regs);
+ 	hdmi_phy->regs = devm_ioremap_resource(dev, mem);
+ 	if (IS_ERR(hdmi_phy->regs)) {
+-		ret = PTR_ERR(hdmi_phy->regs);
 -		dev_err(dev, "Failed to get memory resource: %d\n", ret);
 -		return ret;
-+		return PTR_ERR(mipi_tx->regs);
++		return PTR_ERR(hdmi_phy->regs);
  	}
  
- 	ref_clk = devm_clk_get(dev, NULL);
+ 	ref_clk = devm_clk_get(dev, "pll_ref");
 -- 
 2.17.1
 
