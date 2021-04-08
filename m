@@ -2,42 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A53357B74
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 06:46:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B03357B9B
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 06:55:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB9CF6E9F0;
-	Thu,  8 Apr 2021 04:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 746BF6E9F1;
+	Thu,  8 Apr 2021 04:55:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B98966E9F0;
- Thu,  8 Apr 2021 04:45:58 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id EDB42AFB7;
- Thu,  8 Apr 2021 04:45:56 +0000 (UTC)
-Subject: Re: [PATCH 3/8] drm/amdgpu: Implement mmap as GEM object function
-To: Felix Kuehling <felix.kuehling@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- bskeggs@redhat.com, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
- sroland@vmware.com, zackr@vmware.com, shashank.sharma@amd.com,
- sam@ravnborg.org, emil.velikov@collabora.com, nirmoy.das@amd.com
-References: <20210406090903.7019-1-tzimmermann@suse.de>
- <20210406090903.7019-4-tzimmermann@suse.de>
- <6b261dab-4a4d-f0c6-95c0-f720c7df12c1@amd.com>
- <b76d1922-c9a5-8533-657a-2c1149832347@suse.de>
- <9db18654-770f-459b-a89a-c57dc8a21bac@amd.com>
- <573dca0f-d017-3614-5e4f-d8d0b6bc413f@amd.com>
- <780bb477-77c3-2f3c-2417-edeffccd63b9@amd.com>
- <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <235e9a2b-c38f-6dba-a78f-03166133ddb0@suse.de>
-Date: Thu, 8 Apr 2021 06:45:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2089.outbound.protection.outlook.com [40.107.92.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A03BD6E8DB;
+ Thu,  8 Apr 2021 04:55:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gAUbLlTJjfxiuwcFGGUiUDHejo2+MDKxPreS6a0wr2Ot1QyD1dH5AuOPWX5qjWAX3TyMvxLiBaTEZUkj2PLGddRb1XWbBB/HfZyMNg2iO4qWpq7G3uvZaPcKixS6e/a1jpRVbrf068JMDmmVzQaHZ7yc7asUs6qwTufvR9/TcPTInIC/rc4JMJSzG9wM5EGT7y+mB/ehF2pPW3ATrY93UtXin/gQPrwNu9UKM5noMdIGQbYSBPDb/P0TF3RAcJJ64GokrrKfRoXGPyY/VuHuRVfRT+e6grMte+s2mK7bWzWvKAxqcMW4ayOVxJV1bvggkEwDADhlPmf3SQl9wOqhrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RHbSkfSkyfnlmVK27d4ANL/XIannZF1JCLuHscP0rgI=;
+ b=A8YoJU+T2oWAxNmPku7iTf47cKbVkgoX65mT15IWh3lRut2Zr4+dK6J244RIy58g5RSnYTZlARX0vpsdXgGtOidoC1HC+r4g4nWlxOfzXv3KXTlZHBxfWn06D/0/djkWEY6QKVprzRDsyFc5SWzddEcny3tkUZzFRIR421UnZ/qlf81BE7UJepYL2VM8G0P8q3O8cBNmaTlCXIzVumRCP80Hpxu231Nvphgs4wI822EszjegQ0iga1EbHLVG3Py27pmUksz2vfcfmuljkO9+OzZM60zUyJtFnhLU3WFzagaZ+OP9Iig0/rOaadPWavcm3IXPXlP7cKaPcH8EVu6ANg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RHbSkfSkyfnlmVK27d4ANL/XIannZF1JCLuHscP0rgI=;
+ b=GOqWSk55KDd3mkDYzioHihzoMhdnzE35KsLIcRhQ4tq/ROeRfi6tGYGEIe/4scCB3FmUEu+nfqQbXgPYVo6/1Gfw/aKMgStp1QjqLTaS1YpwA+T/DSOrnLGTZynNR9HyP234gJa6YUw/UkIvcFlFEGQ8R2RJRa34G3FnuLvklEU=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19)
+ by MN2PR12MB3919.namprd12.prod.outlook.com (2603:10b6:208:16a::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.29; Thu, 8 Apr
+ 2021 04:55:29 +0000
+Received: from MN2PR12MB4488.namprd12.prod.outlook.com
+ ([fe80::3d98:cefb:476c:c36e]) by MN2PR12MB4488.namprd12.prod.outlook.com
+ ([fe80::3d98:cefb:476c:c36e%8]) with mapi id 15.20.3999.032; Thu, 8 Apr 2021
+ 04:55:28 +0000
+From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [pull] amdgpu, radeon drm-fixes-5.12
+Date: Thu,  8 Apr 2021 00:55:12 -0400
+Message-Id: <20210408045512.3879-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.30.2
+X-Originating-IP: [192.161.79.247]
+X-ClientProxiedBy: BL1PR13CA0222.namprd13.prod.outlook.com
+ (2603:10b6:208:2bf::17) To MN2PR12MB4488.namprd12.prod.outlook.com
+ (2603:10b6:208:24e::19)
 MIME-Version: 1.0
-In-Reply-To: <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (192.161.79.247) by
+ BL1PR13CA0222.namprd13.prod.outlook.com (2603:10b6:208:2bf::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.6 via Frontend
+ Transport; Thu, 8 Apr 2021 04:55:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f2b07e1d-1bca-4483-72a9-08d8fa4a87bc
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3919:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB391901BA13F257B593EA47CAF7749@MN2PR12MB3919.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:393;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vit3cfFWMv2hkGFgaB40ELPlxpMi80jSZDlgXghupyeY+sqKszgfwt9uFjG3uXMKE257AYG35PLSNLzOtWa2xbXoyeT/y6wWPiLmcOW6AgW/V/uTZQcAxIgGm89d6GJ04RGuOm7SYyE4QKIHw94xUVEoTxne069ad4vQWaAKOyv/m4jLTggS1yfwXiO/lyHSRSGZED11mbC+gU9X2pY/ycNPVcDNn2EKSItmqu6c0G7UMueWGKpkDRLCq31Dls3AinBjQLI39m8T1Adx/djttvEWm0hVSGGwy+56MyJHyVLDgDRLOGYCSXSQOQTnilp9hfSGAsegdJvSSi/n4D/Bv0+gkLB/TaYB7E1x0aUgrChrsFU6ZtEbLjkVqKOG35wJeP8yRPwcgLNvltmxDWyFOFo2loIAgz4u1FAcVUHKTM7/xIYWJ4iP6b1DMi9trcI5AlPkuqu6FZzta+HGpJULABn52TJKc3xGQ6IrnpKgUGeAPEjd+AbexOW4MCJk474k5G/2L6jKBT8mJx+jdarZtFLG/s+otKEmAD+WrYslyNhHRgVx5tNdjdFP4lpUlWHqq2g5eZq8tYy3SMlWWBlNmuekZ4vQjdCt0w2mmpD7mWs48KXJEQZU+rufgNZ7gwhKb9cPKEB+TYhi9BTjkxXWwNWcdClp2J2Kko692PnqnKDKFFzQFbdAsebUBj2hWxUelmYDrxNgWmZQsl1L5znnwLnfskJBdh6/7AMgOiFfb+SyKzun8Ab3SOB6IB4Ks8uCx6CgESbMkTyLG3j4Yjnqqg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4488.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(136003)(366004)(39860400002)(396003)(8676002)(86362001)(69590400012)(16526019)(478600001)(2906002)(186003)(8936002)(316002)(1076003)(6506007)(2616005)(36756003)(956004)(26005)(966005)(6512007)(38100700001)(4326008)(6666004)(66476007)(66556008)(52116002)(38350700001)(6486002)(5660300002)(83380400001)(66946007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?F7gd+vurH+L3KfaNjpS4XOAeVeD8Owit49EG8EeN7Kl5UaNh5/J/WR3xOZfe?=
+ =?us-ascii?Q?AxVLQnb0S9gPdVbHs+LLBfurayaYH46Si0Nd0TKcadHP12Pjjnrrf2q4934O?=
+ =?us-ascii?Q?WXDI2z/kUPeWMivIgn7QjnejdByRUO83tXpIfqqwNwz0/nGmJinheO3dfI9t?=
+ =?us-ascii?Q?byJM+JPl3D6uGbrnDO+QdqYxYDMR2sP7TtSE9FAyk1v4lZJib4QmzTXWrcEV?=
+ =?us-ascii?Q?RBv02twlMvcNvY3vzMDVCfgaNj+3E+9TgBh/pCFrPzcRLplk4OJ2bwY/0PII?=
+ =?us-ascii?Q?MHtc0uvVsvBW2+PnqZazkSMSizgVTfpdGwr2wV9pIFMxNNdtfaBsvCRFad2k?=
+ =?us-ascii?Q?5fZgXjHgtVUfpMTq4roXA/jVNJjhjU4Qku1idUylyvS9JbjvNHZ+fpUnRikD?=
+ =?us-ascii?Q?zlZ0mfQKpXp01WecHKZ3Sy9sse5zFXrKMrBUjpRXLSE7kwZun3JeTA6bePZP?=
+ =?us-ascii?Q?7UJJgY7qB5OS7ccRT2ulYJs2dnKz3bQR2RUqk6XWtkJd3TGRDcgFP/Gqq7WX?=
+ =?us-ascii?Q?7VwO0JPMowu31D5glp1SK/ZeURRfxOrG8N/dkRdWfR5uzZx5Yh6RSxzr5pKL?=
+ =?us-ascii?Q?QJKWl5WbpABe2cXnLbIdscfwsiHs6rIWhQ7HHWltXyOBIliXUuNljLVoHyo3?=
+ =?us-ascii?Q?w0QaaDnDFZkTqwu+wA539AWU4q12DnWpJz0EYLlxa42oGMliA8am6k5K6kM4?=
+ =?us-ascii?Q?0UCmJUqfa/RwE6gmCkWZn6znRJfsO/7v6wr7E8wBxu2zDchwz8fnKbgSb39h?=
+ =?us-ascii?Q?ticwUO1su8wpPOn4T14bMTl0d+mq8fWyr6/e0H/2oFkYvr+b1UVBkaL4kq6B?=
+ =?us-ascii?Q?NLiihhV4OgyZ8l+GRNkLvpTYve55lmKr1f6cIn4vQIB5R49mkOeG4afyhhhX?=
+ =?us-ascii?Q?ZpY28K/CdU/MZO5hcLJykNyOUVtoVqbSl6Zj1CLOrEcLvgy9MwKCb0uBiNri?=
+ =?us-ascii?Q?okoUUVp7CUZrr64WS8KnVhqa5K1vtXeOf3AsZdQCG3jTCO5Bwm++a3BkPKGb?=
+ =?us-ascii?Q?Hx7D0WVVY7NObX5oklGhEBRhtXzNBJ838C9Wr4+1nZ9VMLN5nSs4Q4mUZtxS?=
+ =?us-ascii?Q?mf7rtYql7L80c/SXppp1MprL52vRQF7ULCK7Cl0J9FlOnTFH+67pvK92mafQ?=
+ =?us-ascii?Q?OyqKl7nv9NrISVNITSdUlRWVpSGmvWlVm+aqic6UZcav4HYfGWlhFAicS0a6?=
+ =?us-ascii?Q?a6LJ281C4Dyrqa1g0ey3JI7rCYghIQjBx39Fd0hEK2CAXSgVx9Act40UOhA6?=
+ =?us-ascii?Q?DVtnWvMFEZICggeydmEHsvylbHhok7u44Bl7ecTTWsdVLf9BuhWB6OSV7D5b?=
+ =?us-ascii?Q?oFNt8SqMmtlvUYlNkIIISIGy?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2b07e1d-1bca-4483-72a9-08d8fa4a87bc
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4488.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2021 04:55:28.8417 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xFTsw1L0sznhbOlWQTE9/4YVSx8b4N6doOzbnwP2L/436xILRK/EaFa5GbSu9bVsN+FtAOSFN/0p9q9GhyekCA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3919
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,156 +115,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0337968065=="
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0337968065==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="4pRK71fWfG6OpeezEOr8yzTHEOHj44DVL"
+Hi Dave, Daniel,
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4pRK71fWfG6OpeezEOr8yzTHEOHj44DVL
-Content-Type: multipart/mixed; boundary="vzKT5KdpOlgisjbOnMd1Ydf6Y6AUL4AoD";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Felix Kuehling <felix.kuehling@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- bskeggs@redhat.com, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
- sroland@vmware.com, zackr@vmware.com, shashank.sharma@amd.com,
- sam@ravnborg.org, emil.velikov@collabora.com, nirmoy.das@amd.com
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Message-ID: <235e9a2b-c38f-6dba-a78f-03166133ddb0@suse.de>
-Subject: Re: [PATCH 3/8] drm/amdgpu: Implement mmap as GEM object function
-References: <20210406090903.7019-1-tzimmermann@suse.de>
- <20210406090903.7019-4-tzimmermann@suse.de>
- <6b261dab-4a4d-f0c6-95c0-f720c7df12c1@amd.com>
- <b76d1922-c9a5-8533-657a-2c1149832347@suse.de>
- <9db18654-770f-459b-a89a-c57dc8a21bac@amd.com>
- <573dca0f-d017-3614-5e4f-d8d0b6bc413f@amd.com>
- <780bb477-77c3-2f3c-2417-edeffccd63b9@amd.com>
- <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
-In-Reply-To: <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
+Fixes for 5.12.
 
---vzKT5KdpOlgisjbOnMd1Ydf6Y6AUL4AoD
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 6fdb8e5aba6a33fe5f1a0bd1bcf0cf2884437ead:
 
-Hi
+  Merge tag 'imx-drm-fixes-2021-04-01' of git://git.pengutronix.de/git/pza/linux into drm-fixes (2021-04-02 04:53:16 +1000)
 
-Am 07.04.21 um 21:49 schrieb Felix Kuehling:
-> On 2021-04-07 3:34 p.m., Felix Kuehling wrote:
->> On 2021-04-07 7:25 a.m., Christian K=C3=B6nig wrote:
->>>>>>> +=C2=A0=C2=A0=C2=A0 /*
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Don't verify access for KFD BOs. They=
- don't have a GEM
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * object associated with them.
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>>>> +=C2=A0=C2=A0=C2=A0 if (bo->kfd_bo)
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;
->>>>>> Who does the access verification now?
->>>>> This is somewhat confusing.
->>>>>
->>>>> I took this check as-is, including the comment, from amdgpu's
->>>>> verify_access function. The verify_access function was called by
->>>>> ttm_bo_mmap. It returned 0 and ttm_bo_mmap did the mapping.
->>>> This is probably a left-over from when we mapped BOs using /dev/kfd.=
- We
->>>> changed this to use /dev/dri/renderD* a long time ago to fix CPU=20
->>>> mapping
->>>> invalidations on memory evictions. I think we can let GEM do the acc=
-ess
->>>> check.
->>>
->>> Ok, good to know.
->>>
->>> Thomas can you remove the extra handling in a separate prerequisite=20
->>> patch?
->>>
->>> If anybody then bisects to this patch we at least know what to do to =
+are available in the Git repository at:
 
->>> get it working again.
->>
->> FWIW, I ran KFDTest test with this shortcut removed on current=20
->> amd-staging-drm-next + my HMM patch series, and it didn't seem to=20
->> cause any issues.
->=20
-> Wait, I celebrated too soon. I was running the wrong kernel. I do see=20
-> some failures where access is being denied. I need to do more debugging=
-=20
-> to figure out what's causing that.
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.12-2021-04-08
 
-OK, thanks for looking into this. I'll wait a bit before sending out the =
+for you to fetch changes up to cdcc108a2aced5f9cbc45920e29bf49819e5477f:
 
-new patchset.
+  drm/amdgpu/smu7: fix CAC setting on TOPAZ (2021-04-08 00:36:40 -0400)
 
-Best regards
-Thomas
+----------------------------------------------------------------
+amd-drm-fixes-5.12-2021-04-08:
 
->=20
-> Regards,
->  =C2=A0 Felix
->=20
->=20
->>
->> Regards,
->> =C2=A0 Felix
->>
->>
->>>
->>> Regards,
->>> Christian.=20
+amdgpu:
+- DCN3 fix
+- Fix CAC setting regression for TOPAZ
+- Fix ttm regression
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+radeon:
+- Fix ttm regression
 
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu/smu7: fix CAC setting on TOPAZ
 
---vzKT5KdpOlgisjbOnMd1Ydf6Y6AUL4AoD--
+Qingqing Zhuo (1):
+      drm/amd/display: Add missing mask for DCN3
 
---4pRK71fWfG6OpeezEOr8yzTHEOHj44DVL
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+xinhui pan (2):
+      drm/amdgpu: Fix size overflow
+      drm/radeon: Fix size overflow
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBuioMFAwAAAAAACgkQlh/E3EQov+Bu
-Hg//TAty7cdL/nBNpj/ingRUpa20dLLqPZ5kCSSDz3zXr8PqhpczDDF4HPs93gFJ5hh0I/0hKPGI
-zHim/XybNAg7yeklnKoZA/Rd3DwwXzGj+/zgNko8ayiJ65yBoasLD2Hl0APocMb7TqQYHHeVvtyC
-Bx3jo5n6uOnmBHdTGDffVd1m62VrO7YqheE3qPd+HoMbRLqIuynZpupnA8v8GMF3wgT4VsDOgV65
-u2lqgUpVCYQ9fNmetixU9jQFYvUbLtEo3tZQkpypWQhU9zDe0NhRHaLzgupK4aU5cgux7PveSB4d
-ORb+SjTeumCaWGVu1FSz4gwAyRHdyx/5fmOBc4SqncAj/yvGeiDc+1xhOTOjbdwcUxrmrX+zwouj
-Yswm2UUb7q0ZDpiRKfGBS1fHEleHBt+qJuFUuhAsUxGkUCxvzNF2dqN/y4qKtZPh9WGWFxbUEJsZ
-35mebgeFExCqhOdh9S6BARfYns6pt4kJGQuf6eoX4RLDcYDSeO26cbHpkRiFPA50m5jode0S+pR5
-j9vAnFsA09nKYmcyKU16/iA6Uqzuf0t4Vqg9F47Or1zY4bjecmd28UhnrUSDR5rglQHHdHlVRuvT
-z/sdxqxZ8B0rUNHbdKzXLPZgPfmdBduaYJyfX3sIm0jfcsY8ve9izdWbzS0EAASxNmfqk49Hu7F8
-e9Y=
-=6dvU
------END PGP SIGNATURE-----
-
---4pRK71fWfG6OpeezEOr8yzTHEOHj44DVL--
-
---===============0337968065==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c             | 2 +-
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.h   | 1 +
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c | 3 ++-
+ drivers/gpu/drm/radeon/radeon_ttm.c                 | 4 ++--
+ 4 files changed, 6 insertions(+), 4 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0337968065==--
