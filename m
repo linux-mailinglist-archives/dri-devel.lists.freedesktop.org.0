@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D180835813C
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 13:01:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 046DD35814A
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 13:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B1556EA89;
-	Thu,  8 Apr 2021 11:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 438456EA8B;
+	Thu,  8 Apr 2021 11:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9F0A6EA8A
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 11:01:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617879661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WQhqnjeZkCOh2eK1FDK8AD+p6DMcS/hFEdzGcfPMAFo=;
- b=Ec63m1aTQBul7FiRa4W1fUa+u8Y3xF7Rt5hKP916XhJsNnAkzHDHEGY/1YLa02TqagJW+I
- FQsnPiGlcOVV/FMGEQjMxKdSqeWZl3g4qndfEUnWmdlbNW0ckgm7Nu0nGMKw2nt7vTve2p
- bTwr+nKMLI/RuUF0MnU86rQ3U4NttXE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-cf3ok8EPM6mmTtU9zSKjug-1; Thu, 08 Apr 2021 07:00:57 -0400
-X-MC-Unique: cf3ok8EPM6mmTtU9zSKjug-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E56F83DD21;
- Thu,  8 Apr 2021 11:00:54 +0000 (UTC)
-Received: from [10.36.114.231] (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF0CA5D9D0;
- Thu,  8 Apr 2021 11:00:48 +0000 (UTC)
-To: Arnd Bergmann <arnd@arndb.de>
-References: <20210408092011.52763-1-david@redhat.com>
- <20210408092011.52763-3-david@redhat.com>
- <CAK8P3a09LdJ-87ZrN28y=t8Sa0zL-3NOvEWhkStMY+2EbO7UAw@mail.gmail.com>
- <cd14d4b4-da82-b21c-2cd6-8e474d97b955@redhat.com>
- <CAK8P3a0Wg1mGZoBkD_RwMx-jzQNK2krrDxDQV5uhCHoyz-e=dw@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
- aspeed or etnaviv
-Message-ID: <7496ac87-9676-1b4e-3444-c2a662ec376b@redhat.com>
-Date: Thu, 8 Apr 2021 13:00:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0896EA8B
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 11:06:17 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so2687767wmy.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Apr 2021 04:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=p0vtgOvE8iFrrW+FYLV4+rHA4rgvxJ8gg28Kh71P4qc=;
+ b=kiFArAnZyBqtytpQIkNm5rEsRYCs5r6j4ZfOrS3OLJ7Tsux0s/Q/LgL6AVo3mxzz6o
+ gvYQqRO5G6JmpJS32Uzi3tXm5SY3MDyT8UFiZRd9wuZknp3ajr3sDNUp5RIEsxptUe4M
+ /HV33tb8kvUQXz+gyDd2XWUBnpuryuXCNmjGo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=p0vtgOvE8iFrrW+FYLV4+rHA4rgvxJ8gg28Kh71P4qc=;
+ b=jG3BkBqhOq/tw9xyGgkmcUtWhUXtZpOkLLRs6Kj+26dBKG7VvfdhJyHfFt2lKTmBkJ
+ p9UI6rcg+vr0/e2E92LX6TcksM7jhEaym/u1d18xbxDJ26gxQTQN179fzCmz3vw/yAbS
+ MrGjMaERGF42UG2QP6RUagot0MAIzPh1YqV3aaO4YYEFwFEyJRO+Mi+xzT19sW7k+A7y
+ 1JaLUf9kzA0wZ3E0g7ETs+7DLI35I5vZM5OFCzLLShh7oQpu3VqPRZxo/jez2sOhXU4B
+ ePpF9j0/RY5VwPJYiV0CUSGSiLGwfc3dOq3vvqsABhPixLpICfy5aDjRam0JWY7+mF8g
+ Na+g==
+X-Gm-Message-State: AOAM530oPWAA88d4PrQyCKsBkBBx5ckuSl2xI42a8IxQAUVTCyEBZavH
+ Nxqi3Cv3Lfm9BdQmkSYskFSfGDeS/HJnqw==
+X-Google-Smtp-Source: ABdhPJwgyQbYDJJ03aWo7qFX343DdQllaEQEIJhPy+tbRI5+2U3016msP4YmDClhO/2MUePG8sheWg==
+X-Received: by 2002:a1c:7c08:: with SMTP id x8mr7815815wmc.106.1617879976185; 
+ Thu, 08 Apr 2021 04:06:16 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y31sm2907091wmp.46.2021.04.08.04.06.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Apr 2021 04:06:15 -0700 (PDT)
+Date: Thu, 8 Apr 2021 13:06:13 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Wan Jiabing <wanjiabing@vivo.com>
+Subject: Re: [PATCH] drm/drm_internal.h: Remove repeated struct declaration
+Message-ID: <YG7jpSjGcCmMdoP7@phenom.ffwll.local>
+Mail-Followup-To: Wan Jiabing <wanjiabing@vivo.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kael_w@yeah.net
+References: <20210401081704.1000863-1-wanjiabing@vivo.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a0Wg1mGZoBkD_RwMx-jzQNK2krrDxDQV5uhCHoyz-e=dw@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Disposition: inline
+In-Reply-To: <20210401081704.1000863-1-wanjiabing@vivo.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,72 +72,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Andrew Jeffery <andrew@aj.id.au>,
- Randy Dunlap <rdunlap@infradead.org>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Michal Simek <michal.simek@xilinx.com>, Linux-MM <linux-mm@kvack.org>,
- Joel Stanley <joel@jms.id.au>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Peter Collingbourne <pcc@google.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Mike Rapoport <rppt@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, kael_w@yeah.net
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->>> In particular, it does not prevent a configuration with 'DRM_CMA=m'
->>
->> I assume you meant "DRM_CMA=n" ? DRM_CMA cannot be built as a module.
+On Thu, Apr 01, 2021 at 04:17:03PM +0800, Wan Jiabing wrote:
+> struct drm_gem_object is declared twice. One is declared
+> at 40th line. The blew one is not needed. Remove the duplicate.
 > 
-> Ok, at least that makes it easier.
+> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+
+Pushed to drm-misc-next, thanks for your patch.
+-Daniel
+
+> ---
+>  drivers/gpu/drm/drm_internal.h | 1 -
+>  1 file changed, 1 deletion(-)
 > 
->>> and 'DRMA_ASPEED_GFX=y', or any build failures from such
->>> a configuration.
->>
->> I don't follow. "DRM_CMA=n" and 'DRMA_ASPEED_GFX=y' is supposed to work
->> just fine (e.g., without HAVE_DMA_CONTIGUOUS) or what am I missing?
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> index fad2249ee67b..1265de2b9d90 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -170,7 +170,6 @@ void drm_sysfs_connector_remove(struct drm_connector *connector);
+>  void drm_sysfs_lease_event(struct drm_device *dev);
+>  
+>  /* drm_gem.c */
+> -struct drm_gem_object;
+>  int drm_gem_init(struct drm_device *dev);
+>  int drm_gem_handle_create_tail(struct drm_file *file_priv,
+>  			       struct drm_gem_object *obj,
+> -- 
+> 2.25.1
 > 
-> I thought you were trying to solve the problem where DRMA_ASPEED_GFX
-> can optionally link against CMA but would fail to build when the CMA code
-> is in a loadable module.
-
-Yes. I was trying to say: it works with this patch just fine. The issue 
-you described does not seem to apply (DRM_CMA=m).
-
-> 
->> Your example looks more like a NOP - no?
->> Or will it have the same effect?
-> 
-> The example I gave is only meaningful if both are tristate, which is
-> not the case here as you explain.
-
-Okay, thanks.
-
-> 
-> It is a somewhat awkward way to say "prevent this symbol from
-> being =y if the dependency is =m".
-
-What would be the right thing to do in the case here then to achieve the 
-"if DRMA_ASPEED_GFX is enabled, also enable DMA_CMA id possible"?
-
-One approach could be to have for DMA_CMA
-
-default y if DRMA_ASPEED_GFX
-
-but it feels like the wrong way to tackle this.
-
-Thanks!
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
