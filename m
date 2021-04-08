@@ -1,48 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEC7357B57
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 06:26:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A53357B74
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Apr 2021 06:46:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C02E66E140;
-	Thu,  8 Apr 2021 04:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB9CF6E9F0;
+	Thu,  8 Apr 2021 04:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99C586E140
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Apr 2021 04:26:29 +0000 (UTC)
-Received: from remote.user (localhost [127.0.0.1])
- by rere.qmqm.pl (Postfix) with ESMTPSA id 4FG7W803jgzCg;
- Thu,  8 Apr 2021 06:26:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
- t=1617855988; bh=qV2VpTLMpZWXRFCyeedYlxHbghdwLxGxZaqi0GEU1/4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gTjlsVCAGkjaPoo/BbQcO77yNHYvuDMrpCkp/O6NBeZgBsq6ah90OKSkNjqJ1hCTH
- ZjnOizDiBu8ajTdySkdp8ZFxXAUBU5BiRLLsLYX4+mfU/A2Y21MPSYIuaUkWRbwkaf
- 8HATHDnNusG77VQl20Gtk1A+9qu6MIexg0yHkP5aQdc8bIXAzsMfoAt0Mw+6ZYl5fp
- bIYLgFvuUXjgU7Z7cYBpOnZYz6hW0/eYpFkdFbwygs4GiUj0QxlaBJoiv4TTunDaZO
- niAb5JPbJNnPlu2ktgcwTWXb13RIVbV9d91XBklxSQ9fHdRa+m22ekvM3wUMdH2KOz
- F4KUvk0DviP0w==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.4 at mail
-Date: Thu, 8 Apr 2021 06:25:31 +0200
-From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v5 03/21] gpu: host1x: Show number of pending waiters in
- debugfs
-Message-ID: <20210408042531.GC19244@qmqm.qmqm.pl>
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-4-mperttunen@nvidia.com>
- <YFm/431gaaP6wY1A@orome.fritz.box>
- <1010683e-56c9-4b06-1540-d8c60a632c70@kapsi.fi>
- <20210401211949.GA25223@qmqm.qmqm.pl>
- <7636618d-72f7-ee0f-df23-1f2ec96973b4@gmail.com>
- <20210408041344.GB19244@qmqm.qmqm.pl>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B98966E9F0;
+ Thu,  8 Apr 2021 04:45:58 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EDB42AFB7;
+ Thu,  8 Apr 2021 04:45:56 +0000 (UTC)
+Subject: Re: [PATCH 3/8] drm/amdgpu: Implement mmap as GEM object function
+To: Felix Kuehling <felix.kuehling@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ bskeggs@redhat.com, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
+ sroland@vmware.com, zackr@vmware.com, shashank.sharma@amd.com,
+ sam@ravnborg.org, emil.velikov@collabora.com, nirmoy.das@amd.com
+References: <20210406090903.7019-1-tzimmermann@suse.de>
+ <20210406090903.7019-4-tzimmermann@suse.de>
+ <6b261dab-4a4d-f0c6-95c0-f720c7df12c1@amd.com>
+ <b76d1922-c9a5-8533-657a-2c1149832347@suse.de>
+ <9db18654-770f-459b-a89a-c57dc8a21bac@amd.com>
+ <573dca0f-d017-3614-5e4f-d8d0b6bc413f@amd.com>
+ <780bb477-77c3-2f3c-2417-edeffccd63b9@amd.com>
+ <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <235e9a2b-c38f-6dba-a78f-03166133ddb0@suse.de>
+Date: Thu, 8 Apr 2021 06:45:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210408041344.GB19244@qmqm.qmqm.pl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,62 +50,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, talho@nvidia.com,
- bhuntsman@nvidia.com, Thierry Reding <thierry.reding@gmail.com>,
- linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0337968065=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBcHIgMDgsIDIwMjEgYXQgMDY6MTM6NDRBTSArMDIwMCwgTWljaGHFgiBNaXJvc8WC
-YXcgd3JvdGU6Cj4gT24gRnJpLCBBcHIgMDIsIDIwMjEgYXQgMDc6MDI6MzJQTSArMDMwMCwgRG1p
-dHJ5IE9zaXBlbmtvIHdyb3RlOgo+ID4gMDIuMDQuMjAyMSAwMDoxOSwgTWljaGHFgiBNaXJvc8WC
-YXcg0L/QuNGI0LXRgjoKPiA+ID4gT24gRnJpLCBNYXIgMjYsIDIwMjEgYXQgMDQ6MzQ6MTNQTSAr
-MDIwMCwgTWlra28gUGVydHR1bmVuIHdyb3RlOgo+ID4gPj4gT24gMy8yMy8yMSAxMjoxNiBQTSwg
-VGhpZXJyeSBSZWRpbmcgd3JvdGU6Cj4gPiA+Pj4gT24gTW9uLCBKYW4gMTEsIDIwMjEgYXQgMDM6
-MDA6MDFQTSArMDIwMCwgTWlra28gUGVydHR1bmVuIHdyb3RlOgo+ID4gPj4+PiBTaG93IHRoZSBu
-dW1iZXIgb2YgcGVuZGluZyB3YWl0ZXJzIGluIHRoZSBkZWJ1Z2ZzIHN0YXR1cyBmaWxlLgo+ID4g
-Pj4+PiBUaGlzIGlzIHVzZWZ1bCBmb3IgdGVzdGluZyB0byB2ZXJpZnkgdGhhdCB3YWl0ZXJzIGRv
-IG5vdCBsZWFrCj4gPiA+Pj4+IG9yIGFjY3VtdWxhdGUgaW5jb3JyZWN0bHkuCj4gPiA+Pj4+Cj4g
-PiA+Pj4+IFNpZ25lZC1vZmYtYnk6IE1pa2tvIFBlcnR0dW5lbiA8bXBlcnR0dW5lbkBudmlkaWEu
-Y29tPgo+ID4gPj4+PiAtLS0KPiA+ID4+Pj4gICBkcml2ZXJzL2dwdS9ob3N0MXgvZGVidWcuYyB8
-IDE0ICsrKysrKysrKysrLS0tCj4gPiA+Pj4+ICAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2VydGlv
-bnMoKyksIDMgZGVsZXRpb25zKC0pCj4gPiA+Pj4+Cj4gPiA+Pj4+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9ob3N0MXgvZGVidWcuYyBiL2RyaXZlcnMvZ3B1L2hvc3QxeC9kZWJ1Zy5jCj4gPiA+
-Pj4+IGluZGV4IDFiNDk5N2JkYTFjNy4uOGExNDg4MGM2MWJiIDEwMDY0NAo+ID4gPj4+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9ob3N0MXgvZGVidWcuYwo+ID4gPj4+PiArKysgYi9kcml2ZXJzL2dwdS9o
-b3N0MXgvZGVidWcuYwo+ID4gPj4+PiBAQCAtNjksNiArNjksNyBAQCBzdGF0aWMgaW50IHNob3df
-Y2hhbm5lbChzdHJ1Y3QgaG9zdDF4X2NoYW5uZWwgKmNoLCB2b2lkICpkYXRhLCBib29sIHNob3df
-ZmlmbykKPiA+ID4+Pj4gICBzdGF0aWMgdm9pZCBzaG93X3N5bmNwdHMoc3RydWN0IGhvc3QxeCAq
-bSwgc3RydWN0IG91dHB1dCAqbykKPiA+ID4+Pj4gICB7Cj4gPiA+Pj4+ICsJc3RydWN0IGxpc3Rf
-aGVhZCAqcG9zOwo+ID4gPj4+PiAgIAl1bnNpZ25lZCBpbnQgaTsKPiA+ID4+Pj4gICAJaG9zdDF4
-X2RlYnVnX291dHB1dChvLCAiLS0tLSBzeW5jcHRzIC0tLS1cbiIpOwo+ID4gPj4+PiBAQCAtNzYs
-MTIgKzc3LDE5IEBAIHN0YXRpYyB2b2lkIHNob3dfc3luY3B0cyhzdHJ1Y3QgaG9zdDF4ICptLCBz
-dHJ1Y3Qgb3V0cHV0ICpvKQo+ID4gPj4+PiAgIAlmb3IgKGkgPSAwOyBpIDwgaG9zdDF4X3N5bmNw
-dF9uYl9wdHMobSk7IGkrKykgewo+ID4gPj4+PiAgIAkJdTMyIG1heCA9IGhvc3QxeF9zeW5jcHRf
-cmVhZF9tYXgobS0+c3luY3B0ICsgaSk7Cj4gPiA+Pj4+ICAgCQl1MzIgbWluID0gaG9zdDF4X3N5
-bmNwdF9sb2FkKG0tPnN5bmNwdCArIGkpOwo+ID4gPj4+PiArCQl1bnNpZ25lZCBpbnQgd2FpdGVy
-cyA9IDA7Cj4gPiA+Pj4+IC0JCWlmICghbWluICYmICFtYXgpCj4gPiA+Pj4+ICsJCXNwaW5fbG9j
-aygmbS0+c3luY3B0W2ldLmludHIubG9jayk7Cj4gPiA+Pj4+ICsJCWxpc3RfZm9yX2VhY2gocG9z
-LCAmbS0+c3luY3B0W2ldLmludHIud2FpdF9oZWFkKQo+ID4gPj4+PiArCQkJd2FpdGVycysrOwo+
-ID4gPj4+PiArCQlzcGluX3VubG9jaygmbS0+c3luY3B0W2ldLmludHIubG9jayk7Cj4gPiA+Pj4K
-PiA+ID4+PiBXb3VsZCBpdCBtYWtlIHNlbnNlIHRvIGtlZXAgYSBydW5uaW5nIGNvdW50IHNvIHRo
-YXQgd2UgZG9uJ3QgaGF2ZSB0bwo+ID4gPj4+IGNvbXB1dGUgaXQgaGVyZT8KPiA+ID4+Cj4gPiA+
-PiBDb25zaWRlcmluZyB0aGlzIGlzIGp1c3QgYSBkZWJ1ZyBmYWNpbGl0eSwgSSB0aGluayBJIHBy
-ZWZlciBub3QgYWRkaW5nIGEgbmV3Cj4gPiA+PiBmaWVsZCBqdXN0IGZvciBpdC4KPiA+ID4gCj4g
-PiA+IFRoaXMgbG9va3MgbGlrZSBJUlEtZGlzYWJsZWQgcmVnaW9uLCBzbyB1bmxlc3Mgb25seSBy
-b290IGNhbiB0cmlnZ2VyCj4gPiA+IHRoaXMgY29kZSwgbWF5YmUgdGhlIGFkZGl0aW9uYWwgZmll
-bGQgY291bGQgc2F2ZSBhIHBvdGVudGlhbCBoZWFkYWNoZT8KPiA+ID4gSG93IG1hbnkgd2FpdGVy
-cyBjYW4gdGhlcmUgYmUgaW4gdGhlIHdvcnN0IGNhc2U/Cj4gPiAKPiA+IFRoZSBob3N0MXgncyBJ
-UlEgaGFuZGxlciBydW5zIGluIGEgd29ya3F1ZXVlLCBzbyBpdCBzaG91bGQgYmUgb2theS4KPiAK
-PiBXaHksIHRoZW4sIHRoaXMgdXNlcyBhIHNwaW5sb2NrIChhbmQgaXQgaGFzICdpbnRyJyBpbiBp
-dHMgbmFtZSk/CgpUaGUgY3JpdGljYWwgc2VjdGlvbnMgYXJlIGFscmVhZHkgTyhuKSBpbiBudW1i
-ZXIgb2Ygd2FpdGVycywgc28gdGhpcwpwYXRjaCBkb2Vzbid0IG1ha2UgdGhpbmdzIHdvcnNlIGFz
-IEkgcHJldmlvdXNseSB0aG91Z2h0LiBUaGUgcXVlc3Rpb25zCnJlbWFpbjogV2hhdCBpcyB0aGUg
-ZXhwZWN0ZWQgbnVtYmVyIGFuZCB1cHBlciBib3VuZCBvZiB3b3JrZXJzPwpTaG91bGRuJ3QgdGhp
-cyBiZSBhIG11dGV4IGluc3RlYWQ/CgpCZXN0IFJlZ2FyZHMKTWljaGHFgiBNaXJvc8WCYXcKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0337968065==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4pRK71fWfG6OpeezEOr8yzTHEOHj44DVL"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4pRK71fWfG6OpeezEOr8yzTHEOHj44DVL
+Content-Type: multipart/mixed; boundary="vzKT5KdpOlgisjbOnMd1Ydf6Y6AUL4AoD";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Felix Kuehling <felix.kuehling@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ bskeggs@redhat.com, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
+ sroland@vmware.com, zackr@vmware.com, shashank.sharma@amd.com,
+ sam@ravnborg.org, emil.velikov@collabora.com, nirmoy.das@amd.com
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Message-ID: <235e9a2b-c38f-6dba-a78f-03166133ddb0@suse.de>
+Subject: Re: [PATCH 3/8] drm/amdgpu: Implement mmap as GEM object function
+References: <20210406090903.7019-1-tzimmermann@suse.de>
+ <20210406090903.7019-4-tzimmermann@suse.de>
+ <6b261dab-4a4d-f0c6-95c0-f720c7df12c1@amd.com>
+ <b76d1922-c9a5-8533-657a-2c1149832347@suse.de>
+ <9db18654-770f-459b-a89a-c57dc8a21bac@amd.com>
+ <573dca0f-d017-3614-5e4f-d8d0b6bc413f@amd.com>
+ <780bb477-77c3-2f3c-2417-edeffccd63b9@amd.com>
+ <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
+In-Reply-To: <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
+
+--vzKT5KdpOlgisjbOnMd1Ydf6Y6AUL4AoD
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 07.04.21 um 21:49 schrieb Felix Kuehling:
+> On 2021-04-07 3:34 p.m., Felix Kuehling wrote:
+>> On 2021-04-07 7:25 a.m., Christian K=C3=B6nig wrote:
+>>>>>>> +=C2=A0=C2=A0=C2=A0 /*
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Don't verify access for KFD BOs. They=
+ don't have a GEM
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * object associated with them.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>>> +=C2=A0=C2=A0=C2=A0 if (bo->kfd_bo)
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;
+>>>>>> Who does the access verification now?
+>>>>> This is somewhat confusing.
+>>>>>
+>>>>> I took this check as-is, including the comment, from amdgpu's
+>>>>> verify_access function. The verify_access function was called by
+>>>>> ttm_bo_mmap. It returned 0 and ttm_bo_mmap did the mapping.
+>>>> This is probably a left-over from when we mapped BOs using /dev/kfd.=
+ We
+>>>> changed this to use /dev/dri/renderD* a long time ago to fix CPU=20
+>>>> mapping
+>>>> invalidations on memory evictions. I think we can let GEM do the acc=
+ess
+>>>> check.
+>>>
+>>> Ok, good to know.
+>>>
+>>> Thomas can you remove the extra handling in a separate prerequisite=20
+>>> patch?
+>>>
+>>> If anybody then bisects to this patch we at least know what to do to =
+
+>>> get it working again.
+>>
+>> FWIW, I ran KFDTest test with this shortcut removed on current=20
+>> amd-staging-drm-next + my HMM patch series, and it didn't seem to=20
+>> cause any issues.
+>=20
+> Wait, I celebrated too soon. I was running the wrong kernel. I do see=20
+> some failures where access is being denied. I need to do more debugging=
+=20
+> to figure out what's causing that.
+
+OK, thanks for looking into this. I'll wait a bit before sending out the =
+
+new patchset.
+
+Best regards
+Thomas
+
+>=20
+> Regards,
+>  =C2=A0 Felix
+>=20
+>=20
+>>
+>> Regards,
+>> =C2=A0 Felix
+>>
+>>
+>>>
+>>> Regards,
+>>> Christian.=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--vzKT5KdpOlgisjbOnMd1Ydf6Y6AUL4AoD--
+
+--4pRK71fWfG6OpeezEOr8yzTHEOHj44DVL
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBuioMFAwAAAAAACgkQlh/E3EQov+Bu
+Hg//TAty7cdL/nBNpj/ingRUpa20dLLqPZ5kCSSDz3zXr8PqhpczDDF4HPs93gFJ5hh0I/0hKPGI
+zHim/XybNAg7yeklnKoZA/Rd3DwwXzGj+/zgNko8ayiJ65yBoasLD2Hl0APocMb7TqQYHHeVvtyC
+Bx3jo5n6uOnmBHdTGDffVd1m62VrO7YqheE3qPd+HoMbRLqIuynZpupnA8v8GMF3wgT4VsDOgV65
+u2lqgUpVCYQ9fNmetixU9jQFYvUbLtEo3tZQkpypWQhU9zDe0NhRHaLzgupK4aU5cgux7PveSB4d
+ORb+SjTeumCaWGVu1FSz4gwAyRHdyx/5fmOBc4SqncAj/yvGeiDc+1xhOTOjbdwcUxrmrX+zwouj
+Yswm2UUb7q0ZDpiRKfGBS1fHEleHBt+qJuFUuhAsUxGkUCxvzNF2dqN/y4qKtZPh9WGWFxbUEJsZ
+35mebgeFExCqhOdh9S6BARfYns6pt4kJGQuf6eoX4RLDcYDSeO26cbHpkRiFPA50m5jode0S+pR5
+j9vAnFsA09nKYmcyKU16/iA6Uqzuf0t4Vqg9F47Or1zY4bjecmd28UhnrUSDR5rglQHHdHlVRuvT
+z/sdxqxZ8B0rUNHbdKzXLPZgPfmdBduaYJyfX3sIm0jfcsY8ve9izdWbzS0EAASxNmfqk49Hu7F8
+e9Y=
+=6dvU
+-----END PGP SIGNATURE-----
+
+--4pRK71fWfG6OpeezEOr8yzTHEOHj44DVL--
+
+--===============0337968065==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0337968065==--
