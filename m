@@ -2,33 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F31359612
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 09:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A1F359629
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 09:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C935C6E479;
-	Fri,  9 Apr 2021 07:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8006E484;
+	Fri,  9 Apr 2021 07:16:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E10EE6E479
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 07:09:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EFFF6E484
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 07:16:31 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4F7DBB126;
- Fri,  9 Apr 2021 07:09:41 +0000 (UTC)
-Subject: Re: [PATCH v2 03/10] drm/aperture: Move fbdev conflict helpers into
- drm_aperture.h
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <20210318102921.21536-4-tzimmermann@suse.de>
- <YG7R6ZkVNwrYaUWX@phenom.ffwll.local>
+ by mx2.suse.de (Postfix) with ESMTP id BB407AF27;
+ Fri,  9 Apr 2021 07:16:29 +0000 (UTC)
+Subject: Re: [PATCH 01/18] drm: Introduce new HDMI helpers
+To: Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
+References: <20210317154352.732095-1-maxime@cerno.tech>
+ <20210317154352.732095-2-maxime@cerno.tech>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <133ad936-f080-f063-b056-3c11b4d9f8d4@suse.de>
-Date: Fri, 9 Apr 2021 09:09:40 +0200
+Message-ID: <65a5bc82-b125-3da9-7f93-f87207718ee7@suse.de>
+Date: Fri, 9 Apr 2021 09:16:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YG7R6ZkVNwrYaUWX@phenom.ffwll.local>
+In-Reply-To: <20210317154352.732095-2-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,270 +44,305 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net, geert+renesas@glider.be, corbet@lwn.net,
- airlied@linux.ie, linux-doc@vger.kernel.org, emil.l.velikov@gmail.com,
- lgirdwood@gmail.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============0864351079=="
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>
+Content-Type: multipart/mixed; boundary="===============1627933102=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0864351079==
+--===============1627933102==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="SfEooEkTlWBwU4yLXLYwo0Hwu4aYK44xI"
+ boundary="tF8XORvtnfZuD0PUSI0AA1ieb7OpYpnVO"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SfEooEkTlWBwU4yLXLYwo0Hwu4aYK44xI
-Content-Type: multipart/mixed; boundary="GFAmzOHVvtb20soidyJaaOtS1Xcm0WKBk";
+--tF8XORvtnfZuD0PUSI0AA1ieb7OpYpnVO
+Content-Type: multipart/mixed; boundary="1U0sWlUfmPBOsR9WeFb8oMK8snN4HBWa5";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: bluescreen_avenger@verizon.net, geert+renesas@glider.be, corbet@lwn.net,
- airlied@linux.ie, emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, lgirdwood@gmail.com,
- virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Message-ID: <133ad936-f080-f063-b056-3c11b4d9f8d4@suse.de>
-Subject: Re: [PATCH v2 03/10] drm/aperture: Move fbdev conflict helpers into
- drm_aperture.h
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <20210318102921.21536-4-tzimmermann@suse.de>
- <YG7R6ZkVNwrYaUWX@phenom.ffwll.local>
-In-Reply-To: <YG7R6ZkVNwrYaUWX@phenom.ffwll.local>
+To: Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>
+Message-ID: <65a5bc82-b125-3da9-7f93-f87207718ee7@suse.de>
+Subject: Re: [PATCH 01/18] drm: Introduce new HDMI helpers
+References: <20210317154352.732095-1-maxime@cerno.tech>
+ <20210317154352.732095-2-maxime@cerno.tech>
+In-Reply-To: <20210317154352.732095-2-maxime@cerno.tech>
 
---GFAmzOHVvtb20soidyJaaOtS1Xcm0WKBk
+--1U0sWlUfmPBOsR9WeFb8oMK8snN4HBWa5
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 08.04.21 um 11:50 schrieb Daniel Vetter:
-> On Thu, Mar 18, 2021 at 11:29:14AM +0100, Thomas Zimmermann wrote:
->> Fbdev's helpers for handling conflicting framebuffers are related to
->> framebuffer apertures, not console emulation. Therefore move them into=
- a
->> drm_aperture.h, which will contain the interfaces for the new aperture=
+with my comments addressed:
 
->> helpers.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
->> ---
->>   Documentation/gpu/drm-internals.rst |  6 +++
->>   include/drm/drm_aperture.h          | 60 +++++++++++++++++++++++++++=
-++
->>   include/drm/drm_fb_helper.h         | 56 ++-------------------------=
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
->>   3 files changed, 69 insertions(+), 53 deletions(-)
->>   create mode 100644 include/drm/drm_aperture.h
->>
->> diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/d=
-rm-internals.rst
->> index 12272b168580..4c7642d2ca34 100644
->> --- a/Documentation/gpu/drm-internals.rst
->> +++ b/Documentation/gpu/drm-internals.rst
->> @@ -75,6 +75,12 @@ update it, its value is mostly useless. The DRM cor=
-e prints it to the
->>   kernel log at initialization time and passes it to userspace through=
- the
->>   DRM_IOCTL_VERSION ioctl.
->>  =20
->> +Managing Ownership of the Framebuffer Aperture
->> +----------------------------------------------
->> +
->> +.. kernel-doc:: include/drm/drm_aperture.h
->> +   :internal:
->> +
->>   Device Instance and Driver Handling
->>   -----------------------------------
->>  =20
->> diff --git a/include/drm/drm_aperture.h b/include/drm/drm_aperture.h
->> new file mode 100644
->> index 000000000000..13766efe9517
->> --- /dev/null
->> +++ b/include/drm/drm_aperture.h
->> @@ -0,0 +1,60 @@
->> +/* SPDX-License-Identifier: MIT */
->> +
->> +#ifndef _DRM_APERTURE_H_
->> +#define _DRM_APERTURE_H_
->> +
->> +#include <linux/fb.h>
->> +#include <linux/vgaarb.h>
->> +
->> +/**
->> + * drm_fb_helper_remove_conflicting_framebuffers - remove firmware-co=
-nfigured framebuffers
+Am 17.03.21 um 16:43 schrieb Maxime Ripard:
+> The new bridge rework to support the input and output formats introduce=
+d
+> some boilerplate code that will need to be shared across drivers.
 >=20
-> Annoying bikeshed, but I'd give them drm_aperture_ prefixes, for ocd
-> consistency. Also make them real functions, they're quite big and will
-> grow more in the next patch.
+> Since dw-hdmi is the only driver so far, let's introduce those helpers
+> based on that code.
 >=20
-> I'm also not super happy about the naming here but oh well.
-
-The original name for this was platform helpers, which was worse. So=20
-it's not like we're not improving. :)
-
-I'll take this patch + some docs from patch 4 + your feedback and turn=20
-it into a separate patchset. It should be useful even without simpledrm.
-
-Best regards
-Thomas
-
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>   drivers/gpu/drm/Makefile   |   2 +-
+>   drivers/gpu/drm/drm_hdmi.c | 170 ++++++++++++++++++++++++++++++++++++=
++
+>   include/drm/drm_hdmi.h     |  24 ++++++
+>   3 files changed, 195 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/gpu/drm/drm_hdmi.c
+>   create mode 100644 include/drm/drm_hdmi.h
 >=20
-> Either way: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
->> + * @a: memory range, users of which are to be removed
->> + * @name: requesting driver name
->> + * @primary: also kick vga16fb if present
->> + *
->> + * This function removes framebuffer devices (initialized by firmware=
-/bootloader)
->> + * which use memory range described by @a. If @a is NULL all such dev=
-ices are
->> + * removed.
->> + */
->> +static inline int
->> +drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct=
- *a,
->> +					      const char *name, bool primary)
->> +{
->> +#if IS_REACHABLE(CONFIG_FB)
->> +	return remove_conflicting_framebuffers(a, name, primary);
->> +#else
->> +	return 0;
->> +#endif
->> +}
->> +
->> +/**
->> + * drm_fb_helper_remove_conflicting_pci_framebuffers - remove firmwar=
-e-configured
->> + *                                                     framebuffers f=
-or PCI devices
->> + * @pdev: PCI device
->> + * @name: requesting driver name
->> + *
->> + * This function removes framebuffer devices (eg. initialized by firm=
-ware)
->> + * using memory range configured for any of @pdev's memory bars.
->> + *
->> + * The function assumes that PCI device with shadowed ROM drives a pr=
-imary
->> + * display and so kicks out vga16fb.
->> + */
->> +static inline int
->> +drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pde=
-v,
->> +						  const char *name)
->> +{
->> +	int ret =3D 0;
->> +
->> +	/*
->> +	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
->> +	 * otherwise the vga fbdev driver falls over.
->> +	 */
->> +#if IS_REACHABLE(CONFIG_FB)
->> +	ret =3D remove_conflicting_pci_framebuffers(pdev, name);
->> +#endif
->> +	if (ret =3D=3D 0)
->> +		ret =3D vga_remove_vgacon(pdev);
->> +	return ret;
->> +}
->> +
->> +#endif
->> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h=
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 5eb5bf7c16e3..1b77bd64a37e 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -17,7 +17,7 @@ drm-y       :=3D	drm_auth.o drm_cache.o \
+>   		drm_plane.o drm_color_mgmt.o drm_print.o \
+>   		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
+>   		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
+> -		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
+> +		drm_client_modeset.o drm_atomic_uapi.o drm_hdmi.o drm_hdcp.o \
+>   		drm_managed.o drm_vblank_work.o
+>  =20
+>   drm-$(CONFIG_DRM_LEGACY) +=3D drm_bufs.o drm_context.o drm_dma.o drm_=
+legacy_misc.o drm_lock.o \
+> diff --git a/drivers/gpu/drm/drm_hdmi.c b/drivers/gpu/drm/drm_hdmi.c
+> new file mode 100644
+> index 000000000000..3834d5dd6d88
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_hdmi.c
+> @@ -0,0 +1,170 @@
 
->> index 3b273f9ca39a..d06a3942fddb 100644
->> --- a/include/drm/drm_fb_helper.h
->> +++ b/include/drm/drm_fb_helper.h
->> @@ -30,13 +30,13 @@
->>   #ifndef DRM_FB_HELPER_H
->>   #define DRM_FB_HELPER_H
->>  =20
->> -struct drm_fb_helper;
->> -
->> +#include <drm/drm_aperture.h>
->>   #include <drm/drm_client.h>
->>   #include <drm/drm_crtc.h>
->>   #include <drm/drm_device.h>
->>   #include <linux/kgdb.h>
->> -#include <linux/vgaarb.h>
->> +
->> +struct drm_fb_helper;
->>  =20
->>   enum mode_set_atomic {
->>   	LEAVE_ATOMIC_MODE_SET,
->> @@ -451,54 +451,4 @@ drm_fbdev_generic_setup(struct drm_device *dev, u=
-nsigned int preferred_bpp)
->>  =20
->>   #endif
->>  =20
->> -/**
->> - * drm_fb_helper_remove_conflicting_framebuffers - remove firmware-co=
-nfigured framebuffers
->> - * @a: memory range, users of which are to be removed
->> - * @name: requesting driver name
->> - * @primary: also kick vga16fb if present
->> - *
->> - * This function removes framebuffer devices (initialized by firmware=
-/bootloader)
->> - * which use memory range described by @a. If @a is NULL all such dev=
-ices are
->> - * removed.
->> - */
->> -static inline int
->> -drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct=
- *a,
->> -					      const char *name, bool primary)
->> -{
->> -#if IS_REACHABLE(CONFIG_FB)
->> -	return remove_conflicting_framebuffers(a, name, primary);
->> -#else
->> -	return 0;
->> -#endif
->> -}
->> -
->> -/**
->> - * drm_fb_helper_remove_conflicting_pci_framebuffers - remove firmwar=
-e-configured framebuffers for PCI devices
->> - * @pdev: PCI device
->> - * @name: requesting driver name
->> - *
->> - * This function removes framebuffer devices (eg. initialized by firm=
-ware)
->> - * using memory range configured for any of @pdev's memory bars.
->> - *
->> - * The function assumes that PCI device with shadowed ROM drives a pr=
-imary
->> - * display and so kicks out vga16fb.
->> - */
->> -static inline int
->> -drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pde=
-v,
->> -						  const char *name)
->> -{
->> -	int ret =3D 0;
->> -
->> -	/*
->> -	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
->> -	 * otherwise the vga fbdev driver falls over.
->> -	 */
->> -#if IS_REACHABLE(CONFIG_FB)
->> -	ret =3D remove_conflicting_pci_framebuffers(pdev, name);
->> -#endif
->> -	if (ret =3D=3D 0)
->> -		ret =3D vga_remove_vgacon(pdev);
->> -	return ret;
->> -}
->> -
->>   #endif
->> --=20
->> 2.30.1
->>
+The SPDX tag is missing from this file.
+
+> +#include <linux/errno.h>
+> +#include <linux/hdmi.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/types.h>
+> +
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_hdmi.h>
+> +
+> +/**
+> + * drm_hdmi_bus_fmt_is_rgb() - Is the media bus format an RGB format?
+> + * @bus_format: MEDIA_BUS_FMT* to test
+> + *
+> + * Checks if the media bus format is an RGB one
+> + *
+> + * RETURNS:
+
+Just a question on this. I always use 'Returns:' Is this supposed to be=20
+in capital letters? And does it make a difference?
+
+> + * True if the format is an RGB one, false otherwise
+> + */
+> +bool drm_hdmi_bus_fmt_is_rgb(u32 bus_format)
+> +{
+> +	switch (bus_format) {
+> +	case MEDIA_BUS_FMT_RGB888_1X24:
+> +	case MEDIA_BUS_FMT_RGB101010_1X30:
+> +	case MEDIA_BUS_FMT_RGB121212_1X36:
+> +	case MEDIA_BUS_FMT_RGB161616_1X48:
+> +		return true;
+> +
+
+No empty line here and in similar places.
+
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_bus_fmt_is_rgb);
+> +
+> +/**
+> + * drm_hdmi_bus_fmt_is_yuv444() - Is the media bus format an YUV444 fo=
+rmat?
+> + * @bus_format: MEDIA_BUS_FMT* to test
+> + *
+> + * Checks if the media bus format is an YUV444 one
+> + *
+> + * RETURNS:
+> + * True if the format is an YUV444 one, false otherwise
+> + */
+> +bool drm_hdmi_bus_fmt_is_yuv444(u32 bus_format)
+> +{
+> +	switch (bus_format) {
+> +	case MEDIA_BUS_FMT_YUV8_1X24:
+> +	case MEDIA_BUS_FMT_YUV10_1X30:
+> +	case MEDIA_BUS_FMT_YUV12_1X36:
+> +	case MEDIA_BUS_FMT_YUV16_1X48:
+> +		return true;
+> +
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_bus_fmt_is_yuv444);
+> +
+> +/**
+> + * drm_hdmi_bus_fmt_is_yuv422() - Is the media bus format an YUV422 fo=
+rmat?
+> + * @bus_format: MEDIA_BUS_FMT* to test
+> + *
+> + * Checks if the media bus format is an YUV422 one
+> + *
+> + * RETURNS:
+> + * True if the format is an YUV422 one, false otherwise
+> + */
+> +bool drm_hdmi_bus_fmt_is_yuv422(u32 bus_format)
+> +{
+> +	switch (bus_format) {
+> +	case MEDIA_BUS_FMT_UYVY8_1X16:
+> +	case MEDIA_BUS_FMT_UYVY10_1X20:
+> +	case MEDIA_BUS_FMT_UYVY12_1X24:
+> +		return true;
+> +
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_bus_fmt_is_yuv422);
+> +
+> +/**
+> + * drm_hdmi_bus_fmt_is_yuv420() - Is the media bus format an YUV420 fo=
+rmat?
+> + * @bus_format: MEDIA_BUS_FMT* to test
+> + *
+> + * Checks if the media bus format is an YUV420 one
+> + *
+> + * RETURNS:
+> + * True if the format is an YUV420 one, false otherwise
+> + */
+> +bool drm_hdmi_bus_fmt_is_yuv420(u32 bus_format)
+> +{
+> +	switch (bus_format) {
+> +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+> +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+> +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
+> +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
+> +		return true;
+> +
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_bus_fmt_is_yuv420);
+> +
+> +/**
+> + * drm_hdmi_bus_fmt_color_depth() - Returns the color depth in bits
+> + * @bus_format: MEDIA_BUS_FMT* to test
+> + *
+> + * Computes the number of bits per color for a given media bus format
+> + *
+> + * RETURNS:
+> + * The number of bits per color
+> + */
+> +int drm_hdmi_bus_fmt_color_depth(u32 bus_format)
+> +{
+> +	switch (bus_format) {
+> +	case MEDIA_BUS_FMT_RGB888_1X24:
+> +	case MEDIA_BUS_FMT_YUV8_1X24:
+> +	case MEDIA_BUS_FMT_UYVY8_1X16:
+> +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+> +		return 8;
+> +
+> +	case MEDIA_BUS_FMT_RGB101010_1X30:
+> +	case MEDIA_BUS_FMT_YUV10_1X30:
+> +	case MEDIA_BUS_FMT_UYVY10_1X20:
+> +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+> +		return 10;
+> +
+> +	case MEDIA_BUS_FMT_RGB121212_1X36:
+> +	case MEDIA_BUS_FMT_YUV12_1X36:
+> +	case MEDIA_BUS_FMT_UYVY12_1X24:
+> +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
+> +		return 12;
+> +
+> +	case MEDIA_BUS_FMT_RGB161616_1X48:
+> +	case MEDIA_BUS_FMT_YUV16_1X48:
+> +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
+> +		return 16;
+> +
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_bus_fmt_color_depth);
+> +
+> +/**
+> + * drm_hdmi_bus_fmt_color_depth() - Returns the color depth in bits
+> + * @bus_format: MEDIA_BUS_FMT* to test
+> + *
+> + * Computes the number of bits per color for a given media bus format
+> + *
+> + * RETURNS:
+> + * The number of bits per color
+> + */
+> +int drm_hdmi_avi_infoframe_output_colorspace(struct hdmi_avi_infoframe=
+ *frame,
+> +					     struct drm_bus_cfg *out_bus_cfg)
+> +{
+> +	if (drm_hdmi_bus_fmt_is_yuv444(out_bus_cfg->format))
+> +		frame->colorspace =3D HDMI_COLORSPACE_YUV444;
+> +	else if (drm_hdmi_bus_fmt_is_yuv422(out_bus_cfg->format))
+> +		frame->colorspace =3D HDMI_COLORSPACE_YUV422;
+> +	else if (drm_hdmi_bus_fmt_is_yuv420(out_bus_cfg->format))
+> +		frame->colorspace =3D HDMI_COLORSPACE_YUV420;
+> +	else if (drm_hdmi_bus_fmt_is_rgb(out_bus_cfg->format))
+> +		frame->colorspace =3D HDMI_COLORSPACE_RGB;
+> +	else
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_avi_infoframe_output_colorspace);
+> diff --git a/include/drm/drm_hdmi.h b/include/drm/drm_hdmi.h
+> new file mode 100644
+> index 000000000000..8cd281699ea0
+> --- /dev/null
+> +++ b/include/drm/drm_hdmi.h
+> @@ -0,0 +1,24 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2013-2015 Mentor Graphics Inc.
+> + * Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
+> + * Copyright (C) 2010, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+> + */
+> +
+> +#ifndef __DRM_HDMI_H_
+> +#define __DRM_HDMI_H_
+> +
+> +#include <linux/types.h>
+> +
+> +struct drm_bus_cfg;
+> +struct hdmi_avi_infoframe;
+> +
+> +bool drm_hdmi_bus_fmt_is_rgb(u32 bus_format);
+> +bool drm_hdmi_bus_fmt_is_yuv444(u32 bus_format);
+> +bool drm_hdmi_bus_fmt_is_yuv422(u32 bus_format);
+> +bool drm_hdmi_bus_fmt_is_yuv420(u32 bus_format);
+> +int drm_hdmi_bus_fmt_color_depth(u32 bus_format);
+> +int drm_hdmi_avi_infoframe_output_colorspace(struct hdmi_avi_infoframe=
+ *frame,
+> +					     struct drm_bus_cfg *out_bus_cfg);
+> +
+> +#endif // __DRM_HDMI_H_
 >=20
 
 --=20
@@ -316,32 +354,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---GFAmzOHVvtb20soidyJaaOtS1Xcm0WKBk--
+--1U0sWlUfmPBOsR9WeFb8oMK8snN4HBWa5--
 
---SfEooEkTlWBwU4yLXLYwo0Hwu4aYK44xI
+--tF8XORvtnfZuD0PUSI0AA1ieb7OpYpnVO
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBv/bQFAwAAAAAACgkQlh/E3EQov+BU
-8Q/+P2/+ZwUIPL7X7ikiT0UUY87D1b3yXqe+EjBSfApy0fg3MUqhLWE07DjJZmIDXfVJ/VN6envU
-iaVFA7WKuG78bILxbPdw5TCZtLNR3FI5gc+lKr4MjucLV9YebXvjfaiEk+pjFkYaRxABwuYIw1p6
-3LgWi9nqRBrZlUgDxT/UHLOmtwKOEUbAYIqQ39I+EZ2ZclC0pUatOo6cogc9caL+jOS5RX1HhL3g
-MJHQlMTHm6cyhAElhO0CdiY959B+X8b35gZGBMvxuXvib7PptejhY3I2YEJH79BB7/s88bhZBdsy
-swnVi4CasXgXxauztWIv4Ve9FWmNpMJEAPecMcMO/cbbgAIiv6IITShEXzC0zNxa6mb5tQwyPHup
-qaFab5+AFlbxpmk1xovViY8ereIbbzmbQFgVC3bQdr4NS5wtGZUZ/LPVUWiWgEQAyHGrRjhNf4vM
-aNrWaMhtoeDHsC6gdUvxgydCXoB0zwYWUSV+wvj1mwmRgqyVi5s3b9yIRe8EycG+rfrEl5EBghgN
-NTu8qSacVF4VUToXSnOC1UtDeq1g4NqbU7n/rNkW20kkCKX4G3HsfmRqSgkuSD6tpFUKXUNgnFJu
-JmTZKccPkz6a6s82sBuR1iWGt4m8sLejHphMA8DSeGsgyqTO2EoWGW+visBE3IQWRvV4moy/uMpt
-1Oc=
-=ADd+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBv/0sFAwAAAAAACgkQlh/E3EQov+Bs
+gxAAjBoRYP7MJZpJc8gdErSu4NRt3LCggyT/yrjoecoWF9RipDSn7QT9ixd5AxBIuk4RxNWj+qbl
+31L5PYR08mhRP451+yIM6V9DMv7wdqR7smCApqlTYFMV5f41HfoArIUvuVJuREHp4GqYfPOWAGdT
+hn0+uAbEkVc09iwBPx5ZsukGuxRZpP8JGFxYAnhiHmoEruVo2I2YdtOhGebG478McQQ48sll/b86
+hAWsvPkllAlUmIVEsy+3KLQVDKHG9J2S435nq08jcSEkYwtfJPKh0Kbir6QQwPM2sHWKsaBNZZ8O
+SfPSU4X+Bo1mjD7337EKw/ZKDYKU9Z0fnd7sToUMgDRf6yKZ7fk/vyT1ng2E7C4NMieoMvp71NjY
+gqneKcluGYEAfZu+czuFjQzolqYAPNgAg+kHIO3ueuMqzXWhaUDMaaGyJZJWmAjxrI5ApQRtLQql
+bZCsC5d0E9f4VJyenshVRseTO0tGn9yRu/R6RFmgH4iTQf0iv/YmsCvlws/IemyYdFd2MRQfJ/xJ
+bnsDJWddz/ahMD2g+o5H/+dtizLYi9ci8HOi/pxMwgI6sqIiaTxBK6mA9wtyjfATQo86eOQgLtHd
+WjVPtS2vtY+B7Q8NTsrKx/iO4ZPDWx9cLoPBAzWKMnV1awl6U+WT6StUJf4Slwif9pVqD0dNAgKN
+qcA=
+=UDYH
 -----END PGP SIGNATURE-----
 
---SfEooEkTlWBwU4yLXLYwo0Hwu4aYK44xI--
+--tF8XORvtnfZuD0PUSI0AA1ieb7OpYpnVO--
 
---===============0864351079==
+--===============1627933102==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -352,4 +390,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0864351079==--
+--===============1627933102==--
