@@ -1,52 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB71535A74F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 21:46:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE2235A768
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 21:51:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBCEB6E044;
-	Fri,  9 Apr 2021 19:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25AB56EC4B;
+	Fri,  9 Apr 2021 19:51:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5746A6E044
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 19:46:34 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id e14so10409782ejz.11
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Apr 2021 12:46:34 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBC26EC4B;
+ Fri,  9 Apr 2021 19:51:09 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id m3so7892322edv.5;
+ Fri, 09 Apr 2021 12:51:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=00DmRMd0Ppqlj6NPfhWteKHJG+0eTjZ5Lw0FbYcqZWg=;
- b=pkS00Iq/wQKviqbuLMLppilzSlzEv+HlJhPDmiQGmXLhAmWY7fWUlKUTxq95gNFJOA
- xFW8exg0NiMjw1Ijes/kkILItqOPu+tXfyFZq3ybDuX9Z/VPooGL6zdMuziFlsNKGzNF
- BpIuaNqOCv0/yNua9z/rDXFJeYk1Eh1Cf11G4ZjHuw63RBcAh46oDAuBJKBQICUPRzpM
- 1f8asSLlRuU/pgaLWVyWiXhmgVDeok31NkJDwCpJhbzOApexd+MYJl1ExMNQ2mZwJgzd
- RRplEn7DplwyM5DW+zTey1KhDkrbcYRzRA/L+u5QUYDpK6NpXJSTMcM9PKjtGakdD6ie
- wR7g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Q4YghfeUvK4/xkYqmOCWT0+rXdh1rLLpjlgOC4UNOP0=;
+ b=k5t2aaN/hgCom3oftsMYuLACt9wNzOL8RpYlUeYg2Zk5nvgBjiaoCLtymRpeYg31Np
+ CKjMjfyy8eLNIEQ7tfmxnTLI4FKz3IFfYOVKpogozn0Twdn8qMr7EBFhWiiTyhsfcpHA
+ dFS5KZWXqSrt4piFIEhzRITZkC9RDk16kdTB1O24R8cXABLf2JgXk6EXJHdD2FCgQnND
+ dUH72wBoG0Rm9G0s4eEPuclYNP1AT6gE4ii6zb/wGzavcH/MSuOhD5AWgAabxY8+WZtX
+ Pznm+orENS4IjMou0I7j+37TybL+nLzW/8OhtsdyYNeDmfbCe0kSbtQT5Zzw723Z1j+s
+ WfNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=00DmRMd0Ppqlj6NPfhWteKHJG+0eTjZ5Lw0FbYcqZWg=;
- b=KyD+Y5QUkoNoFnLET99rBp2+PGfMYCGQ0IJzSO/zzW9kXWEfcuRfhEow5gTUSdEWLH
- UNcp0eBs1herVsqOkANCZZhJs1AW14nIBCGbs9alDk7yK4eMscFsNRIsX9JW0Qa2wPiO
- an1fcZRUUBCO8aFy5qoilM/lOsbGrBxIXPXppj5yEocl+Xss41VJIhn8bYOh6r/Vc8VC
- hTJBwScf6i1oUqVpzn3NSZzTEmDP+fcZXUqsyrhdKij7JAmSyGqbeMzr9AfuFCj/cfff
- NPfeA47v/gUwbImBEPY0zxaH8FZ60AglhNJhkPjE3/fiK665/W8d63XWOKczo3AHfitP
- 84/g==
-X-Gm-Message-State: AOAM5311ZxBrXHgqblew5iNvvWwx0uCtvZHuZkX+jT60706Y8c7vst58
- x0fdHNcUq/J4lLpjGeM2PpxvUkXDlssih3T4clI=
-X-Google-Smtp-Source: ABdhPJw1QLWMZjdPXQ2gCQH271yG+cva4TDX/pYpqFbT7ICP3mLlVjj+P3dUxYswl1jiuS9nuJH2IAJK/Vm8NYqIScU=
-X-Received: by 2002:a17:906:9b15:: with SMTP id
- eo21mr1621220ejc.237.1617997592848; 
- Fri, 09 Apr 2021 12:46:32 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Q4YghfeUvK4/xkYqmOCWT0+rXdh1rLLpjlgOC4UNOP0=;
+ b=KlU1LVchiz9wggLVAzsZo0wafOQtaGqjt3rpmgH7FGW9S8rDWKYl+y4xLl6FBEeG7Q
+ JeJbNPladfkIArlZc8ERANOMKdK+8qVbBEJdGvLf4QpasjR2SyMe1fy4lREtnXIKcrox
+ ZlG1ynHequ803d57Yx4tknW2C/GJhb4FpAzWJ5ZqI6yrUoxi5seQKQSpPjfucG/73wGw
+ E0Nc83JWI3L9N9eXiBhejIg31OufOtcIvZqo734q3gowfo3kOIFxgnurx6Jpaqd/evaE
+ u8jMXVGFRabcqIHXWGmhkfdEzheMM8R9pwYOehHFguULvzoR1xqu2hIAmTHGKGPQXgJb
+ vl0w==
+X-Gm-Message-State: AOAM5313KOpbYQPgPZiodSWFyqxgfRSXWgAsk+CknlYLAni//GETFXjJ
+ UTgiWvmYy405+61lJaWIsWhahtoZHcfNOAe7zc4=
+X-Google-Smtp-Source: ABdhPJzyztJUUHOeb990DQ2LWX3gcPzUtuo5KwCsSwHB8oOXrEsLxrBG7l7FtpB/tsNnMTQlz2TNmIlHfvPJ0I9vxx8=
+X-Received: by 2002:a05:6402:5113:: with SMTP id
+ m19mr19398168edd.78.1617997867776; 
+ Fri, 09 Apr 2021 12:51:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210401222931.3823-1-alexander.deucher@amd.com>
+ <0fa472a5-08b4-87cd-c295-7502bd30c2c0@gmail.com>
+ <CADnq5_NXz-B3BjQdP1x7P3tPC160EO906_TZObJhx85CHt6b2A@mail.gmail.com>
+ <CAPM=9twymi8Emi+GpDW0Gz_OQ63BGwwzKwF_Jxq8=i_VC9U=3w@mail.gmail.com>
+ <CADnq5_Ored1NxmDP5=_-5BXstsTdUPB31upM2AVFLXM1EXKQzQ@mail.gmail.com>
+ <d5cf9d27-471c-f89d-375a-be4a76a5debc@gmail.com>
+ <18a67a9f-4199-ba39-d2a7-419d7993aac4@gmail.com>
+ <CADnq5_OLhO_En84yEeRsBDtMhJ4OY+7XJtgrjqUDrs-8_x7x0g@mail.gmail.com>
+ <3ef9c2ab-a6e1-592c-19af-ab634ec17c45@gmail.com>
+In-Reply-To: <3ef9c2ab-a6e1-592c-19af-ab634ec17c45@gmail.com>
 From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 10 Apr 2021 05:46:21 +1000
-Message-ID: <CAPM=9tzEK7pEZ54TMCMc0yLto5QhnBjGE0X6X6Ca+N9EAc+U=w@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.12-rc7
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Sat, 10 Apr 2021 05:50:56 +1000
+Message-ID: <CAPM=9tzWb_FkeVG2Js6o-oeBA4ECZ24mW07k9+38jX6yYEoXdw@mail.gmail.com>
+Subject: Re: [pull] amdgpu, radeon, ttm, sched drm-next-5.13
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,174 +70,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Zhang, Jack \(Jian\)" <Jack.Zhang1@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
-
-Was relatively quiet this week, but still a few pulls came in, pretty
-much small fixes across the board, a couple of regression fixes in the
-amdgpu/radeon code, msm has a few minor fixes across the board, a
-panel regression fix also.
-
-I'm out all next week, so Daniel will do any last minute fixes for the
-final release, assuming things stick to schedule. I'll be back for the
-merge window but might towards the end of the first week before I get
-my MR lined up.
-
-Dave.
-
-drm-fixes-2021-04-10:
-drm fixes for 5.12-rc7
-
-amdgpu:
-- DCN3 fix
-- Fix CAC setting regression for TOPAZ
-- Fix ttm regression
-
-radeon:
-- Fix ttm regression
-
-msm:
-- a5xx/a6xx timestamp fix
-- microcode version check
-- fail path fix
-- block programming fix
-- error removal fix.
-
-i915:
-- Fix invalid access to ACPI _DSM objects
-
-xen:
-- Fix use-after-free in xen.
-- minor duplicate definition cleanup
-
-vc4:
-- Reduce fifo threshold on hvs4 to fix a fifo full error.
-- minor redundant assignment cleanup
-
-panel:
-- Disable TE support for Droid4 and N950.
-The following changes since commit e49d033bddf5b565044e2abe4241353959bc9120:
-
-  Linux 5.12-rc6 (2021-04-04 14:15:36 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-04-10
-
-for you to fetch changes up to bd119f471299c8692a00b2f5e9bba8e3b81c3466:
-
-  Merge tag 'drm-intel-fixes-2021-04-09' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2021-04-10
-05:18:35 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.12-rc7
-
-amdgpu:
-- DCN3 fix
-- Fix CAC setting regression for TOPAZ
-- Fix ttm regression
-
-radeon:
-- Fix ttm regression
-
-msm:
-- a5xx/a6xx timestamp fix
-- microcode version check
-- fail path fix
-- block programming fix
-- error removal fix.
-
-i915:
-- Fix invalid access to ACPI _DSM objects
-
-xen:
-- Fix use-after-free in xen.
-- minor duplicate defintion cleanup
-
-vc4:
-- Reduce fifo threshold on hvs4 to fix a fifo full error.
-- minor redunantant assignment cleanup
-
-panel:
-- Disable TE support for Droid4 and N950.
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu/smu7: fix CAC setting on TOPAZ
-
-Dave Airlie (4):
-      Merge tag 'amd-drm-fixes-5.12-2021-04-08' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-msm-fixes-2021-04-02' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes
-      Merge tag 'drm-misc-fixes-2021-04-09' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2021-04-09' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-
-Dmitry Baryshkov (1):
-      drm/msm: a6xx: fix version check for the A650 SQE microcode
-
-Dom Cobley (1):
-      drm/vc4: crtc: Reduce PV fifo threshold on hvs4
-
-John Stultz (1):
-      drm/msm: Fix removal of valid error case when checking speed_bin
-
-Kalyan Thota (1):
-      drm/msm/disp/dpu1: program 3d_merge only if block is attached
-
-Lv Yunlong (1):
-      gpu/xen: Fix a use after free in xen_drm_drv_init
-
-Maxime Ripard (1):
-      drm/vc4: plane: Remove redundant assignment
-
-Qingqing Zhuo (1):
-      drm/amd/display: Add missing mask for DCN3
-
-Rob Clark (1):
-      drm/msm: Fix a5xx/a6xx timestamps
-
-Sebastian Reichel (1):
-      drm/panel: panel-dsi-cm: disable TE for now
-
-Stephen Boyd (1):
-      drm/msm: Set drvdata to NULL when msm_drm_init() fails
-
-Takashi Iwai (1):
-      drm/i915: Fix invalid access to ACPI _DSM objects
-
-Wan Jiabing (1):
-      drivers: gpu: drm: xen_drm_front_drm_info is declared twice
-
-xinhui pan (2):
-      drm/amdgpu: Fix size overflow
-      drm/radeon: Fix size overflow
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  2 +-
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.h  |  1 +
- .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    |  3 ++-
- drivers/gpu/drm/i915/display/intel_acpi.c          | 22 ++++++++++++++++++++--
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |  4 ++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 18 ++++++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  4 +++-
- drivers/gpu/drm/msm/msm_drv.c                      |  1 +
- drivers/gpu/drm/panel/panel-dsi-cm.c               | 12 +++++++++---
- drivers/gpu/drm/radeon/radeon_ttm.c                |  4 ++--
- drivers/gpu/drm/vc4/vc4_crtc.c                     | 17 +++++++++++++++++
- drivers/gpu/drm/vc4/vc4_plane.c                    |  1 -
- drivers/gpu/drm/xen/xen_drm_front.c                |  6 ++++--
- drivers/gpu/drm/xen/xen_drm_front_conn.h           |  1 -
- 14 files changed, 74 insertions(+), 22 deletions(-)
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCA5IEFwciAyMDIxIGF0IDE5OjA3LCBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmlnLmxl
+aWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAwOC4wNC4yMSB1bSAxNTowMyBz
+Y2hyaWViIEFsZXggRGV1Y2hlcjoKPiA+IE9uIFRodSwgQXByIDgsIDIwMjEgYXQgNjoyOCBBTSBD
+aHJpc3RpYW4gS8O2bmlnCj4gPiA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdy
+b3RlOgo+ID4+IEFtIDA4LjA0LjIxIHVtIDA5OjEzIHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoK
+PiA+Pj4gQW0gMDcuMDQuMjEgdW0gMjE6MDQgc2NocmllYiBBbGV4IERldWNoZXI6Cj4gPj4+PiBP
+biBXZWQsIEFwciA3LCAyMDIxIGF0IDM6MjMgQU0gRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwu
+Y29tPiB3cm90ZToKPiA+Pj4+PiBPbiBXZWQsIDcgQXByIDIwMjEgYXQgMDY6NTQsIEFsZXggRGV1
+Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29tPgo+ID4+Pj4+IHdyb3RlOgo+ID4+Pj4+PiBPbiBG
+cmksIEFwciAyLCAyMDIxIGF0IDEyOjIyIFBNIENocmlzdGlhbiBLw7ZuaWcKPiA+Pj4+Pj4gPGNr
+b2VuaWcubGVpY2h0enVtZXJrZW5AZ21haWwuY29tPiB3cm90ZToKPiA+Pj4+Pj4+IEhleSBBbGV4
+LAo+ID4+Pj4+Pj4KPiA+Pj4+Pj4+IHRoZSBUVE0gYW5kIHNjaGVkdWxlciBjaGFuZ2VzIHNob3Vs
+ZCBhbHJlYWR5IGJlIGluIHRoZSBkcm0tbWlzYy1uZXh0Cj4gPj4+Pj4+PiBicmFuY2ggKG5vdCAx
+MDAlIHN1cmUgYWJvdXQgdGhlIFRUTSBwYXRjaCwgbmVlZCB0byBkb3VibGUgY2hlY2sKPiA+Pj4+
+Pj4+IG5leHQgd2VlaykuCj4gPj4+Pj4+Pgo+ID4+Pj4+PiBUaGUgVFRNIGNoYW5nZSBpcyBub3Qg
+aW4gZHJtLW1pc2MgeWV0Lgo+ID4+Pj4+Pgo+ID4+Pj4+Pj4gQ291bGQgdGhhdCBjYXVzZSBwcm9i
+bGVtcyB3aGVuIGJvdGggYXJlIG1lcmdlZCBpbnRvIGRybS1uZXh0Pwo+ID4+Pj4+PiBEYXZlLCBE
+YW5pZWwsIGhvdyBkbyB5b3Ugd2FudCB0byBoYW5kbGUgdGhpcz8gIFRoZSBkdXBsaWNhdGVkIHBh
+dGNoCj4gPj4+Pj4+IGlzIHRoaXMgb25lOgo+ID4+Pj4+PiBodHRwczovL2NnaXQuZnJlZWRlc2t0
+b3Aub3JnL2RybS9kcm0tbWlzYy9jb21taXQvP2lkPWFjNGViODNhYjI1NWRlOWMzMTE4NGRmNTFm
+ZDE1MzRiYTM2ZmQyMTIKPiA+Pj4+Pj4KPiA+Pj4+Pj4gYW1kZ3B1IGhhcyBjaGFuZ2VzIHdoaWNo
+IGRlcGVuZCBvbiBpdC4gIFRoZSBzYW1lIHBhdGNoIGlzIGluY2x1ZGVkCj4gPj4+Pj4+IGluIHRo
+aXMgUFIuCj4gPj4+Pj4gT3VjaCBub3Qgc3VyZSBob3cgYmVzdCB0byBzeW5jIHVwIGhlcmUsIG1h
+eWJlIGdldCBtaXNjLW5leHQgaW50byBteQo+ID4+Pj4+IHRyZWUgdGhlbiByZWJhc2UgeW91ciB0
+cmVlIG9uIHRvcCBvZiBpdD8KPiA+Pj4+IEkgY2FuIGRvIHRoYXQuCj4gPj4+IFBsZWFzZSBsZXQg
+bWUgZG91YmxlIGNoZWNrIGxhdGVyIHRvZGF5IHRoYXQgd2UgaGF2ZSBldmVyeXRoaW5nIHdlIG5l
+ZWQKPiA+Pj4gaW4gZHJtLW1pc2MtbmV4dC4KPiA+PiBUaGVyZSB3aGVyZSB0d28gcGF0Y2ggZm9y
+IFRUTSAob25lIGZyb20gRmVsaXggYW5kIG9uZSBmcm9tIE9haykgd2hpY2gKPiA+PiBzdGlsbCBu
+ZWVkZWQgdG8gYmUgcHVzaGVkIHRvIGRybS1taXNjLW5leHQuIEkndmUgZG9uZSB0aGF0IGp1c3Qg
+YSBtaW51dGUKPiA+PiBhZ28uCj4gPj4KPiA+IFRoZXkgd2VyZSBpbmNsdWRlZCBpbiB0aGlzIFBS
+Lgo+ID4KPiA+PiBUaGVuIHdlIGhhdmUgdGhpcyBwYXRjaCB3aGljaCBmaXhlcyBhIGJ1ZyBpbiBj
+b2RlIHJlbW92ZWQgb24KPiA+PiBkcm0tbWlzYy1uZXh0LiBJIHRoaW5rIGl0IHNob3VsZCBiZSBk
+cm9wcGVkIHdoZW4gYW1kLXN0YWdpbmctZHJtLW5leHQgaXMKPiA+PiBiYXNlZCBvbiBkcm0tbmV4
+dC9kcm0tbWlzYy1uZXh0Lgo+ID4+Cj4gPj4gQXV0aG9yOiB4aW5odWkgcGFuIDx4aW5odWkucGFu
+QGFtZC5jb20+Cj4gPj4gRGF0ZTogICBXZWQgRmViIDI0IDExOjI4OjA4IDIwMjEgKzA4MDAKPiA+
+Pgo+ID4+ICAgICAgIGRybS90dG06IERvIG5vdCBhZGQgbm9uLXN5c3RlbSBkb21haW4gQk8gaW50
+byBzd2FwIGxpc3QKPiA+Pgo+ID4gT2suCj4gPgo+ID4+IEkndmUgYWxzbyBmb3VuZCB0aGUgZm9s
+bG93aW5nIHBhdGNoIHdoaWNoIGlzIHByb2JsZW1hdGljIGFzIHdlbGw6Cj4gPj4KPiA+PiBjb21t
+aXQgYzhhOTIxZDQ5NDQzMDI1ZTEwNzk0MzQyZDQ0MzNiM2YyOTYxNjQwOQo+ID4+IEF1dGhvcjog
+SmFjayBaaGFuZyA8SmFjay5aaGFuZzFAYW1kLmNvbT4KPiA+PiBEYXRlOiAgIE1vbiBNYXIgOCAx
+Mjo0MToyNyAyMDIxICswODAwCj4gPj4KPiA+PiAgICAgICBkcm0vYW1kL2FtZGdwdSBpbXBsZW1l
+bnQgdGRyIGFkdmFuY2VkIG1vZGUKPiA+Pgo+ID4+ICAgICAgIFtXaHldCj4gPj4gICAgICAgUHJl
+dmlvdXMgdGRyIGRlc2lnbiB0cmVhdHMgdGhlIGZpcnN0IGpvYiBpbiBqb2JfdGltZW91dCBhcyB0
+aGUgYmFkIGpvYi4KPiA+PiAgICAgICBCdXQgc29tZXRpbWVzIGEgbGF0ZXIgYmFkIGNvbXB1dGUg
+am9iIGNhbiBibG9jayBhIGdvb2QgZ2Z4IGpvYiBhbmQKPiA+PiAgICAgICBjYXVzZSBhbiB1bmV4
+cGVjdGVkIGdmeCBqb2IgdGltZW91dCBiZWNhdXNlIGdmeCBhbmQgY29tcHV0ZSByaW5nIHNoYXJl
+Cj4gPj4gICAgICAgaW50ZXJuYWwgR0MgSFcgbXV0dWFsbHkuCj4gPj4KPiA+PiAgICAgICBbSG93
+XQo+ID4+ICAgICAgIFRoaXMgcGF0Y2ggaW1wbGVtZW50cyBhbiBhZHZhbmNlZCB0ZHIgbW9kZS5J
+dCBpbnZvbHZlcyBhbiBhZGRpdGluYWwKPiA+PiAgICAgICBzeW5jaHJvbm91cyBwcmUtcmVzdWJt
+aXQgc3RlcChTdGVwMCBSZXN1Ym1pdCkgYmVmb3JlIG5vcm1hbCByZXN1Ym1pdAo+ID4+ICAgICAg
+IHN0ZXAgaW4gb3JkZXIgdG8gZmluZCB0aGUgcmVhbCBiYWQgam9iLgo+ID4+Cj4gPj4gICAgICAg
+MS4gQXQgU3RlcDAgUmVzdWJtaXQgc3RhZ2UsIGl0IHN5bmNocm9ub3VzbHkgc3VibWl0cyBhbmQg
+cGVuZHMgZm9yIHRoZQo+ID4+ICAgICAgIGZpcnN0IGpvYiBiZWluZyBzaWduYWxlZC4gSWYgaXQg
+Z2V0cyB0aW1lb3V0LCB3ZSBpZGVudGlmeSBpdCBhcyBndWlsdHkKPiA+PiAgICAgICBhbmQgZG8g
+aHcgcmVzZXQuIEFmdGVyIHRoYXQsIHdlIHdvdWxkIGRvIHRoZSBub3JtYWwgcmVzdWJtaXQgc3Rl
+cCB0bwo+ID4+ICAgICAgIHJlc3VibWl0IGxlZnQgam9icy4KPiA+Pgo+ID4+ICAgICAgIDIuIEZv
+ciB3aG9sZSBncHUgcmVzZXQodnJhbSBsb3N0KSwgZG8gcmVzdWJtaXQgYXMgdGhlIG9sZCB3YXku
+Cj4gPj4KPiA+PiAgICAgICBTaWduZWQtb2ZmLWJ5OiBKYWNrIFpoYW5nIDxKYWNrLlpoYW5nMUBh
+bWQuY29tPgo+ID4+ICAgICAgIFJldmlld2VkLWJ5OiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5
+Lmdyb2R6b3Zza3lAYW1kLmNvbT4KPiA+Pgo+ID4+IFRoYXQgb25lIGlzIG1vZGlmeWluZyBib3Ro
+IGFtZGdwdSBhcyB3ZWxsIGFzIHRoZSBzY2hlZHVsZXIgY29kZS4gSUlSQyBJCj4gPj4gYWN0dWFs
+bHkgcmVxdWVzdGVkIHRoYXQgdGhlIHBhdGNoIGlzIHNwbGl0IGludG8gdHdvLCBidXQgdGhhdCB3
+YXMKPiA+PiBzb21laG93IG5vdCBkb25lLgo+ID4+Cj4gPj4gSG93IHNob3VsZCB3ZSBwcm9jZWVk
+IGhlcmU/IFNob3VsZCBJIHNlcGFyYXRlIHRoZSBwYXRjaCwgcHVzaCB0aGUKPiA+PiBjaGFuZ2Vz
+IHRvIGRybS1taXNjLW5leHQgYW5kIHRoZW4gd2UgbWVyZ2Ugd2l0aCBkcm0tbmV4dCBhbmQgcmVi
+YXNlCj4gPj4gYW1kLXN0YWdpbmctZHJtLW5leHQgb24gdG9wIG9mIHRoYXQ/Cj4gPj4KPiA+PiBU
+aGF0J3MgbW9zdCBsaWtlbHkgdGhlIGNsZWFuZXN0IG9wdGlvbiBhcHByb2FjaCBhcyBmYXIgYXMg
+SSBjYW4gc2VlLgo+ID4gVGhhdCdzIGZpbmUgd2l0aCBtZS4gIFdlIGNvdWxkIGhhdmUgaW5jbHVk
+ZWQgdGhlbSBpbiBteSBQUi4gIE5vdyB3ZQo+ID4gaGF2ZSB3YWl0IGZvciBkcm0tbWlzYy1uZXh0
+IHRvIGJlIG1lcmdlZCBhZ2FpbiBiZWZvcmUgd2UgY2FuIG1lcmdlIHRoZQo+ID4gYW1kZ3B1IGNv
+ZGUuCj4KPiBXZWxsIEknbSBub3Qgc3VyZSwgYnV0IHRoZSBwYXRjaGVzIGFyZSBpZGVudGljYWwg
+b24gYm90aCBicmFuY2hlcy4KPgo+IEFzIGZhciBhcyBJIGNhbiBzZWUgZ2l0IHRoZW4ganVzdCBp
+Z25vcmVzIHRoYXQgaXQgZ2V0cyB0aGUgcGF0Y2hlcyBmcm9tCj4gYm90aCBzaWRlcyBvZiB0aGUg
+bWVyZ2UuCgpObyB0aGlzIGlzIG9uZSBvZiB0aGUgYmlnZ2VzdCBuby1ub3MuIERvbid0IGV2ZXIg
+bWVyZ2UgYSBwYXRjaCB2aWEKbXVsdGlwbGUgdHJlZXMsCml0IGVuZHMgYmFkbHkuICh5b3UgbWln
+aHQgZ2V0IGF3YXkgd2l0aCBpdCBvbmNlIG9yIHR3aWNlIGRlcGVuZGluZywgYnV0IGxvbmdlcgp0
+ZXJtIGJhZCB0aGluZ3MgcmVzdWx0LCBlc3AgYXJvdW5kIG1lcmdlIGNvbmZsaWN0cyB3aXRoIG90
+aGVyIHRyZWVzKS4KCklmIHdlIGhhdmUgcGF0Y2hlcyB3ZSBuZWVkIGluIG11bHRpcGxlIHRyZWVz
+LCB3ZSBoYXZlIHRvIGNyZWF0ZSBhIHN0YWJsZSB0b3BpYwpicmFuY2ggYW5kIHB1bGwgdGhhdCBp
+bnRvIGJvdGggdHJlZXMuCgpkcm0tbWlzYy1uZXh0IGlzIGJhY2ttZXJnZWQgaW50byBkcm0tbmV4
+dCBub3cuCkRhdmUuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
