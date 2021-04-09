@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDFE35A1A2
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 17:04:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EE635A1E2
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 17:22:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D13C86EC30;
-	Fri,  9 Apr 2021 15:04:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B65F6EBAC;
+	Fri,  9 Apr 2021 15:22:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
- [IPv6:2607:f8b0:4864:20::834])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDEEC6EC30
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 15:04:03 +0000 (UTC)
-Received: by mail-qt1-x834.google.com with SMTP id y12so4376332qtx.11
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Apr 2021 08:04:03 -0700 (PDT)
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com
+ [IPv6:2607:f8b0:4864:20::e29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3053E6EBAC;
+ Fri,  9 Apr 2021 15:22:04 +0000 (UTC)
+Received: by mail-vs1-xe29.google.com with SMTP id a19so105128vsh.5;
+ Fri, 09 Apr 2021 08:22:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CN21Yx22tqluTv2eFFOQizY10qMwtRjmlldJWQKijn8=;
- b=JJycN5SqcQMvD15IfxE7z0mePp98Z2QQLPBVgoNEZ0vD5ocdeshVJnHrzJ3Ds41cbJ
- BKegY/uPBJqcV1AnIN/I0YD49/JyyQkNJioHAExvYdhyPfd4fwFPJLygGOXwAW1HK9s2
- 1GAYm3OTToltAPgm/u2+1i5Jv5dHSGfuZBLbFBtWtLEfTkG7xK/xtj5/4DNQfybjPArT
- KFEAYrTm1hI8afDgu9aC9xzUPMACYITzYS2XMBnmfDOU4WFSzlapuHgN8uCl6+06DNW2
- 3EOA5RlObLjR5g2Lt1cJBD+YosRRMC333Ts7U4BGtCOla16THjSpbAdp6KVyWYLv4pNx
- Drxw==
+ :cc; bh=3s5iM0DDtutXCX2CW4Fk02eYIx8aYsLaJtdlto8nJPE=;
+ b=G4wrRJhals2S4TjgcKsiTJsyA42YcY65w3HJYq0XZf/exUD4l9dN8DLs3Lf4l4uEZW
+ r+lhWBYLZ8h69qf8p5HuPR1WrXxgvwYTqpi8L1VjwX6BmTaTsBuLkkCOO2deNVXOJaGZ
+ wRnTyIPFXF7G7Sw0vGk0FD23+S/FAsPtABsf+Kew9aelHZWKuE2fzrWBAHVK3EpN7uwJ
+ 0mpu4aVambDs60rl1skyVuV/HTHMlC3jWsuo6xEulxmVF1p4FxlN9zFD09qoGxPwBtr9
+ E9CYoTtcsVxOX898Pk5FfQvIl/iFTLgy9AKUQiZCWLDiN/JO+uvI1HX6e6/IZZJ1MaES
+ Za3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CN21Yx22tqluTv2eFFOQizY10qMwtRjmlldJWQKijn8=;
- b=igIqNwoM2P0Kv3ynBM3GmyZNkCALA4iet81V9fa8g3hUxYYpVqCr4Kkh2WOl372r3u
- mX69r+PPTeG277Smib/hQVpRVQV5s9cKJOeKePzYtc4vh3/0qdBJKV3p0QHkhF3OVxpt
- OWXv9t8esVwvYiLU3oX9piloXvIk9iKDVeaNueHs5n283u68maqJHD3UuBvk+DeWZPhR
- dPmIn6fI8IDQxCBYkb4m52xGVBuL2GHJwVu+M55P6CiFwFekhRQZPdHtSJF6tPhzm2xP
- dhk8gWQ8/yPXYfM2xf9E3nNLSK1RJvbrqGAo6DkAeJPK9S/KVyXMlkABeVtOFh7b+/jD
- 7/Jg==
-X-Gm-Message-State: AOAM533xosBKkQOPvpFjq696opmLBjkzdEs//z9kHWJ6EemQQSeTFAo6
- NCu1lGDl7BDYfOav6aghpPUOu28xZoX7sZht0zsLMQVik/k=
-X-Google-Smtp-Source: ABdhPJyIlGp/vJjvHFkpiTUUpxktEjhcClJC2oYxOf2xvPfynf0aWb98e+tHNk/nvDQ0PL8MTVc2ciNKBm7uWLaxRac=
-X-Received: by 2002:a05:622a:c:: with SMTP id x12mr1589932qtw.95.1617980643025; 
- Fri, 09 Apr 2021 08:04:03 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=3s5iM0DDtutXCX2CW4Fk02eYIx8aYsLaJtdlto8nJPE=;
+ b=CtNtEnXts9e5PzNLljMzLnx+fxalvwrFzP+xhR5F+IQ5ci7m/L3a6TUdzVt68drWEl
+ GvvDAYawmcoIOEdDLs4YT5sQslwC6umT1OL6Zh1papDKwJ8XhaQd0XZIlXbMxnldpEXk
+ P3L76PIDavD6+w1OZYNfBWDSqVykg93CUmBGxubGaJlD6ooVhvzjomoUrDO3Cbk4wZPT
+ 5SoYIGgwDKMQSeZcm7ngydh43JdnG0U4t1A0ulym3eA10eZNJ32ruwl8vZpywiBMib6M
+ HCJV/NIK9RJYjmkBzuM96TVS2M6D1taKp73iW8CR4TH8CnBPnoP26qVeuh40AdFBg5JC
+ DaUA==
+X-Gm-Message-State: AOAM533kJ1tTFBUnAstshQJxuVAlWD8J4z1mAPLF3rhBh3o4pMDtOoBN
+ Xf3N6I86qh0gDEX1iwRt6LYjonl6FYnXVCHmiK0=
+X-Google-Smtp-Source: ABdhPJwYrqbTO+toHceKeBWFha82OgtSQjsuKppLIZhszG27iDCJgqD0OJhNgbIISMnlNTxQrt/pp+m7P4CZUTxsEX8=
+X-Received: by 2002:a67:e15c:: with SMTP id o28mr8648918vsl.9.1617981723139;
+ Fri, 09 Apr 2021 08:22:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210409130113.1459-1-christian.koenig@amd.com>
- <20210409130113.1459-2-christian.koenig@amd.com>
-In-Reply-To: <20210409130113.1459-2-christian.koenig@amd.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Fri, 9 Apr 2021 16:03:36 +0100
-Message-ID: <CAM0jSHM1sWsW9bY7HzEL-15hMBeFnN=OrHu-LEeaOzTVb8z=UQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/ttm: re-add debugs tt_shrink file
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20210409122231.8391-1-linqiheng@huawei.com>
+In-Reply-To: <20210409122231.8391-1-linqiheng@huawei.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 9 Apr 2021 17:21:52 +0200
+Message-ID: <CAH9NwWfkug1dN2sSMEpJ2JuKNG=wJ7mCcNejgEFKihwviuAbcw@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/etnaviv: remove unneeded if-null-free check
+To: Qiheng Lin <linqiheng@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,17 +60,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCA5IEFwciAyMDIxIGF0IDE0OjAxLCBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmlnLmxl
-aWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBUaGF0IGdvdCBsb3N0IHdoZW4gd2Ug
-bW92ZWQgYmFjayB0byBhIHN0YXRpYyBsaW1pdC4KPgo+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlh
-biBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KUmV2aWV3ZWQtYnk6IE1hdHRoZXcg
-QXVsZCA8bWF0dGhldy5hdWxkQGludGVsLmNvbT4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+Am Fr., 9. Apr. 2021 um 14:23 Uhr schrieb Qiheng Lin <linqiheng@huawei.com>:
+>
+> Eliminate the following coccicheck warning:
+>
+> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:616:2-8: WARNING:
+>  NULL check before some freeing functions is not needed.
+> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:618:2-8: WARNING:
+>  NULL check before some freeing functions is not needed.
+> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:620:2-8: WARNING:
+>  NULL check before some freeing functions is not needed.
+> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:622:2-8: WARNING:
+>  NULL check before some freeing functions is not needed.
+>
+> Signed-off-by: Qiheng Lin <linqiheng@huawei.com>
+
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
