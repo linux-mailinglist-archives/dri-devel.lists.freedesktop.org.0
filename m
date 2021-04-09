@@ -2,67 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7951B359872
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 11:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69216359896
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 11:06:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E209A6EBA1;
-	Fri,  9 Apr 2021 09:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46CF96EBA2;
+	Fri,  9 Apr 2021 09:06:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AB7A6EB9C;
- Fri,  9 Apr 2021 09:00:27 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id A43BB5803D8;
- Fri,  9 Apr 2021 05:00:24 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 09 Apr 2021 05:00:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm2; bh=9wZdiVyfNCa7zlMMlbyQAtx8i2y5jWFjax15mPXOD+w=; b=RvLvZ164
- GayszLvHVOAFHYXPp4ZIqPkyzNIRL0DM50Dz4W6L2htRUqqgS07PlKVoceJmrRS7
- WBJlFquUkV/iDXC22i7DTJUp3LadFphXmd2ah2BCerjojCqnSQbqoByKf3dEyoCj
- OIt2eD7GmOKbDxOUMIfjWjuAvk6qVNkbGGLWiJ4Lj0Mg+r8CHcJR+4hov6L1q675
- g6/o/KtFryW6+cHAOGyqQBeAyLT+SSA1zLtkeJYNcU4DkLbnkAddh5jwskpfefBF
- 4qfPZ12hTPv0yXjQ4nT3M3FMaO9uiVkJE2UYtTPGDS26rMMwjaMYG/KTFq5ym3z3
- qflqZ/aJsJXPCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; bh=9wZdiVyfNCa7zlMMlbyQAtx8i2y5j
- WFjax15mPXOD+w=; b=qi64YZowj0CZi78EjlyBNPwHkiKytnOqT2367jM3HYyYv
- uwOWHOE6AEEPZU2p8n6b0sjSz9x/pkF5Dy916BsxFlKavbCBvcHfEgTH9IrZRmHX
- gWENdqwY1B9I0NV5M+akvSuISmg3yH/JpJfrZ51cCtJpeAciiasRDISIAxyyc4+N
- OuC4Kq99YRmxcDNSp3/gfs+uaCaPMI4z0srB4sB8aN3qIMps3bXPLMoEMw87Q7uv
- 0KkYj2Sbgl4na17idTOZ9g0GZ4jUM9wIl3WL96c5D58mdUGIzbPv6a5DFrSLWU7j
- SteMkQDK/cuyl1TxCI4GI5/8jmTN/5hv3olfdP6yg==
-X-ME-Sender: <xms:phdwYNJLWndbC7A-pSWx8HBH3ZGKJvLuPPgGWfYi0JQ2YBsNav5z0Q>
- <xme:phdwYJF1nltsx39dJKupRSclHiTVZH6sPkhJWEiCtai-JYadtedofyMIOjgFoUz5X
- bxE64ztmfUKwAQ20Nc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudekuddgudduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfggtggusehgtderredttddunecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhephfehtefggeekteffueeileekfeegteetfffggfekleehkeffvedvgedtieetvddu
- necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeltddrkeelrd
- eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
- mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:phdwYClK6SApB63kDQTfYQd48Rts6Jx1FfoA34yyzBKX8WPseNtuXQ>
- <xmx:phdwYGJWbEnVVl6PmCTkbOncJAxtUZRJz-0ikyVhyUzXNKUwYyxZgQ>
- <xmx:phdwYDbdE0Y9c27Sz7kOEoMiiMcPlfluKrak2oC_M-_e_OsMrNytLA>
- <xmx:qBdwYFhLj_o99puvW-WBGEKnlV6mIx1z01s0VTeniB0TW8L62u41VA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id B27491080057;
- Fri,  9 Apr 2021 05:00:22 -0400 (EDT)
-Date: Fri, 9 Apr 2021 11:00:20 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <20210409090020.jroa2d4p4qansrpa@gilmour>
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 231A36EBA2
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 09:06:06 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id m11so3806552pfc.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Apr 2021 02:06:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jBFt7hCrEED4DsJn/9ZDSGXx+J7qlQtOTDSK460XmiI=;
+ b=qhVVkziSC7x1hcssW43FRmDyNiuqo7qvZ8oZqJw0yJAZPFQIuG9YngIGR+LUaqB6Ep
+ gA0gy1rtKXR6pUe+/fTk+cRdVip2NDRJfYqPp4N7Nar3zdZAVXnNb0gqTgh9lrCKFh6S
+ 87iGSlbqb92KPO4K/jLdHRgCSCmVYSxcOz55ychgqVAz+N8EYxu//WImHLTU2LXA803m
+ KcAvG1kJ1zioKENp2TW5WlpVumZkM3qHnwtZWDc0P6zLrHsqQKTqCgypr7ay8QtV2k+S
+ x8sIo+8i8SkHHAtQZp25m/v+3lJoRrbuTW8PGi9pJrKLQPpUkY48wUMyFX93oaC9ZQ5D
+ Mo2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jBFt7hCrEED4DsJn/9ZDSGXx+J7qlQtOTDSK460XmiI=;
+ b=JXMfpc39AvNz0j/Xi5+OCTCrL8M8EYAYK52ysmanjb/v5xyHPxTYwkdxemK9zu/wdT
+ F4uxLlvy7Guef4vMH3R69VOn44Fez1/DrwUfhyazL+XRxHTM/lLgt8KCLN1e/YuBLRtd
+ qtjtdfC2gdw6tvXU1OQ1mMMyL/lspr450tBTzbOt6QuyiUqmX83CO7kWmTUqC6tw7en8
+ M/noARwjM1OaZjBOP0KE/bXFXNhw8lu9DiNqzPLsBZj/ggiyxMNZPT4wHc4q6AfQOJMY
+ dLkwBR7A3IhZjFA3ZcwYKxzlAmn2B6TmBloAul/dWR3S7yF4F1yci9LLbJMzu3AEUQlc
+ JTEA==
+X-Gm-Message-State: AOAM530XBm28MfB1H6ecHjnUJF1sy7rqfzdEltBlab8zhlgKuROXSKTp
+ VyH/n8vlAh6OMeTnklhdMTmG2kcwmlY0PfPsgmzSiA==
+X-Google-Smtp-Source: ABdhPJw6b7uVfLhRrscIOQJPJ0QlL2htq5lncrLazsCVv7TsysUlRSUnImwq7MxuBdaWbKATQsStIfCBvkPZ76tCudc=
+X-Received: by 2002:a63:530d:: with SMTP id h13mr12113445pgb.120.1617959165470; 
+ Fri, 09 Apr 2021 02:06:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <18ec1a440eb71e4f91c0932cd0fadddd2e9a4c0f.1617937551.git.xji@analogixsemi.com>
+In-Reply-To: <18ec1a440eb71e4f91c0932cd0fadddd2e9a4c0f.1617937551.git.xji@analogixsemi.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 9 Apr 2021 11:05:54 +0200
+Message-ID: <CAG3jFyuisQe1RZXx8GpQjwPczak+PBXA084i9euuREeV_w55Rw@mail.gmail.com>
+Subject: Re: [PATCH 1/1] drm/bridge: anx7625: send DPCD command to downstream
+To: Xin Ji <xji@analogixsemi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,177 +60,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0204137512=="
+Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Sheng Pan <span@analogixsemi.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Bernie Liang <bliang@analogixsemi.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Zhen Li <zhenli@analogixsemi.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0204137512==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fue5kycgb63vk7px"
-Content-Disposition: inline
+Hey Xin,
 
 
---fue5kycgb63vk7px
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 9 Apr 2021 at 07:35, Xin Ji <xji@analogixsemi.com> wrote:
+>
+> Send DPCD command to downstream before anx7625 power down,
+> tell downstream into standby mode.
+>
+> Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> ---
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 75 +++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 65cc05982f82..53d2f0d0ee30 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -124,6 +124,23 @@ static int anx7625_reg_write(struct anx7625_data *ctx,
+>         return ret;
+>  }
+>
+> +static int anx7625_reg_block_write(struct anx7625_data *ctx,
+> +                                  struct i2c_client *client,
+> +                                  u8 reg_addr, u8 len, u8 *buf)
+> +{
+> +       int ret;
+> +       struct device *dev = &client->dev;
+> +
+> +       i2c_access_workaround(ctx, client);
+> +
+> +       ret = i2c_smbus_write_i2c_block_data(client, reg_addr, len, buf);
+> +       if (ret < 0)
+> +               DRM_DEV_ERROR(dev, "write i2c block failed id=%x\n:%x",
+> +                             client->addr, reg_addr);
+> +
+> +       return ret;
+> +}
+> +
+>  static int anx7625_write_or(struct anx7625_data *ctx,
+>                             struct i2c_client *client,
+>                             u8 offset, u8 mask)
+> @@ -195,6 +212,55 @@ static int wait_aux_op_finish(struct anx7625_data *ctx)
+>         return val;
+>  }
+>
+> +static int anx7625_aux_dpcd_write(struct anx7625_data *ctx,
+> +                                 u8 addrh, u8 addrm, u8 addrl,
+> +                                 u8 len, u8 *buf)
+> +{
+> +       struct device *dev = &ctx->client->dev;
+> +       int ret;
+> +       u8 cmd;
+> +
+> +       if (len > MAX_DPCD_BUFFER_SIZE) {
+> +               DRM_DEV_ERROR(dev, "exceed aux buffer len.\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       cmd = ((len - 1) << 4) | 0x08;
+> +
+> +       /* Set command and length */
+> +       ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> +                               AP_AUX_COMMAND, cmd);
+> +
+> +       /* Set aux access address */
+> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> +                                AP_AUX_ADDR_7_0, addrl);
+> +       ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> +                                AP_AUX_ADDR_15_8, addrm);
+> +       ret |= anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
+> +                                AP_AUX_ADDR_19_16, addrh);
+> +
+> +       /* Set write data */
+> +       ret |= anx7625_reg_block_write(ctx, ctx->i2c.rx_p0_client,
+> +                                      AP_AUX_BUFF_START, len, buf);
+> +       /* Enable aux access */
+> +       ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
+> +                               AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
+> +       if (ret < 0) {
+> +               DRM_DEV_ERROR(dev, "cannot access aux related register.\n");
+> +               return -EIO;
+> +       }
+> +
+> +       usleep_range(2000, 2100);
+> +
+> +       ret = wait_aux_op_finish(ctx);
+> +       if (ret) {
+> +               DRM_DEV_ERROR(dev, "aux IO error: wait aux op finish.\n");
+> +               return ret;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+>  static int anx7625_video_mute_control(struct anx7625_data *ctx,
+>                                       u8 status)
+>  {
+> @@ -617,6 +683,7 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
+>  {
+>         struct device *dev = &ctx->client->dev;
+>         int ret;
+> +       u8 data;
+>
+>         DRM_DEV_DEBUG_DRIVER(dev, "stop dp output\n");
+>
+> @@ -628,8 +695,16 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
+>         ret |= anx7625_write_and(ctx, ctx->i2c.tx_p2_client, 0x08, 0x7f);
+>
+>         ret |= anx7625_video_mute_control(ctx, 1);
+> +
+> +       DRM_DEV_DEBUG_DRIVER(dev, "notify downstream enter into standby\n");
+> +
+> +       /* Downstream monitor enter into standby mode */
+> +       data = 2;
+> +       ret |= anx7625_aux_dpcd_write(ctx, 0x00, 0x06, 0x00, 1, &data);
+>         if (ret < 0)
+>                 DRM_DEV_ERROR(dev, "IO error : mute video fail\n");
+> +
+> +       return;
+>  }
 
-Hi Dave, Daniel,
-
-Like you asked, here's this week drm-misc-next PR
-
-Maxime
-
-drm-misc-next-2021-04-09:
-drm-misc-next for 5.13:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
-Core Changes:
-  - bridge: Fix Kconfig dependency
-  - cmdline: Refuse zero width/height mode
-  - ttm: Ignore signaled move fences, ioremap buffer according to mem
-         caching settins
-
-Driver Changes:
-  - Conversions to sysfs_emit
-  - tegra: Don't register DP AUX channels before connectors
-  - zynqmp: Fix for an out-of-bound (but within struct padding) memset
-The following changes since commit 6c744983004ebc66756e582294672f8b991288d5:
-
-  drm/bridge: anx7625: disable regulators when power off (2021-04-01 10:38:=
-02 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-04-09
-
-for you to fetch changes up to e8b8b0df8694e39ea6bbbdb9e2fcfa78a61e2e42:
-
-  drm/panel: Convert sysfs sprintf/snprintf family to sysfs_emit (2021-04-0=
-8 20:41:38 -0400)
-
-----------------------------------------------------------------
-drm-misc-next for 5.13:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
-Core Changes:
-  - bridge: Fix Kconfig dependency
-  - cmdline: Refuse zero width/height mode
-  - ttm: Ignore signaled move fences, ioremap buffer according to mem
-         caching settins
-
-Driver Changes:
-  - Conversions to sysfs_emit
-  - tegra: Don't register DP AUX channels before connectors
-  - zynqmp: Fix for an out-of-bound (but within struct padding) memset
-
-----------------------------------------------------------------
-Carsten Haitzler (1):
-      drm/komeda: Fix bit check to import to value of proper type
-
-Christian K=F6nig (1):
-      drm/sched: add missing member documentation
-
-Dafna Hirschfeld (1):
-      drm/bridge: fix typo in Kconfig
-
-Dan Carpenter (1):
-      drm: xlnx: zynqmp: fix a memset in zynqmp_dp_train()
-
-David Stevens (1):
-      drm/syncobj: use newly allocated stub fences
-
-Felix Kuehling (1):
-      drm/ttm: Ignore signaled move fences
-
-Guobin Huang (1):
-      gma500: Use DEFINE_SPINLOCK() for spinlock
-
-Julian Braha (1):
-      drivers: gpu: drm: bridge: fix kconfig dependency on DRM_KMS_HELPER
-
-Lyude Paul (4):
-      drm/dp: Fixup kernel docs for struct drm_dp_aux
-      drm/tegra: Don't register DP AUX channels before connectors
-      drm/print: Fixup DRM_DEBUG_KMS_RATELIMITED()
-      drm/dp_mst: Drop DRM_ERROR() on kzalloc() fail in drm_dp_mst_handle_u=
-p_req()
-
-Oak Zeng (1):
-      drm/ttm: ioremap buffer according to TTM mem caching setting
-
-Tian Tao (2):
-      drm/komeda: Convert sysfs sprintf/snprintf family to sysfs_emit
-      drm/panel: Convert sysfs sprintf/snprintf family to sysfs_emit
-
-Ville Syrj=E4l=E4 (2):
-      drm: Refuse to create zero width/height cmdline modes
-      drm/vblank: Do not store a new vblank timestamp in drm_vblank_restore=
-()
-
-Wan Jiabing (1):
-      drm/drm_internal.h: Remove repeated struct declaration
-
-Zhang Jianhua (1):
-      drm/bridge: lt8912b: Add header file <linux/gpio/consumer.h>
-
- drivers/dma-buf/dma-fence.c                        | 27 ++++++++++++-
- drivers/gpu/drm/arm/display/include/malidp_utils.h |  3 --
- drivers/gpu/drm/arm/display/komeda/komeda_dev.c    |  6 +--
- .../gpu/drm/arm/display/komeda/komeda_pipeline.c   | 16 +++++---
- .../drm/arm/display/komeda/komeda_pipeline_state.c | 19 ++++++----
- drivers/gpu/drm/bridge/Kconfig                     |  3 +-
- drivers/gpu/drm/bridge/lontium-lt8912b.c           |  1 +
- drivers/gpu/drm/drm_dp_mst_topology.c              |  5 +--
- drivers/gpu/drm/drm_internal.h                     |  1 -
- drivers/gpu/drm/drm_modes.c                        |  3 ++
- drivers/gpu/drm/drm_syncobj.c                      | 25 +++++++++---
- drivers/gpu/drm/drm_vblank.c                       |  3 +-
- drivers/gpu/drm/gma500/power.c                     |  3 +-
- drivers/gpu/drm/panel/panel-tpo-td043mtea1.c       |  4 +-
- drivers/gpu/drm/tegra/dpaux.c                      | 11 +++---
- drivers/gpu/drm/ttm/ttm_bo.c                       |  3 +-
- drivers/gpu/drm/ttm/ttm_bo_util.c                  | 14 +++++++
- drivers/gpu/drm/xlnx/zynqmp_dp.c                   |  2 +-
- include/drm/drm_dp_helper.h                        | 44 +++++++++++-------=
-----
- include/drm/drm_print.h                            | 20 ++++++----
- include/drm/gpu_scheduler.h                        |  1 +
- include/linux/dma-fence.h                          |  1 +
- 22 files changed, 142 insertions(+), 73 deletions(-)
-
---fue5kycgb63vk7px
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYHAXowAKCRDj7w1vZxhR
-xZt6AQC0N10+8HJpKjHjQdRQIdtBdWe8D9yMVinbM7zGHbS6PwD+Lf5NFTUx2vIP
-BGICmMLR4v0XoqErRIvNWjyzm6Sl1wk=
-=aiEp
------END PGP SIGNATURE-----
-
---fue5kycgb63vk7px--
-
---===============0204137512==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0204137512==--
