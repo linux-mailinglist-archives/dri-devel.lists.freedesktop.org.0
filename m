@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D772E3592B8
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 05:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092C6359311
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 05:36:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0C8B6E448;
-	Fri,  9 Apr 2021 03:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B3386E44C;
+	Fri,  9 Apr 2021 03:36:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7872F6E441;
- Fri,  9 Apr 2021 03:13:01 +0000 (UTC)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E22326E44C
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 03:36:22 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4FGjqr14Qqz9sW1;
- Fri,  9 Apr 2021 13:12:55 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4FGkLr2qD6z9sW1;
+ Fri,  9 Apr 2021 13:36:20 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1617937978;
- bh=//XF3pf9c64cU+t13IzrOTUQCue+ZS7pXjZN4nupHbg=;
+ s=201702; t=1617939381;
+ bh=IwQxss0MPfAy2uX0dCdAtFxmafidWn5oWAKM3E+z3Ic=;
  h=Date:From:To:Cc:Subject:From;
- b=qax6trgBiOYRcsSNdKFHnpVvqoT/99lvSUdSLgtPjyygpFrMlOQ0RXCE3HVNTXY07
- 04A7GqcMIbkDTCphq4BUSlczeW9m3EC4WTJV8C7JljzT47U7MQhfbKo8QuEKzmivnw
- Z0LMeywwlwFQs7QBaWFEAVj8i9HaP9RhNmW9k8Y+jlt72qttQI7wCYhjL0bgEjHofo
- K/aglLFfHlsrbmnpHSztligf5yRSZMblS8dLF2TN6/enfrio1sseSl/yKvEIEn4DZp
- lxcOJdfdaBMmjSbr+6rIoIoxqdBTSxTt+t9wY2WZKMidYXcl8M4ze11jYgLbR5hnHM
- aAEkwWBtmXs7w==
-Date: Fri, 9 Apr 2021 13:12:53 +1000
+ b=Cbx0IJH1B3345SvFVnj0qL7KPAMaLiMOGlwUwwFkt2qwE90DW0vGtaQPkzRuyC/j2
+ OVr3ORFzm7SVqfA+is1IEi4TuiEtnqmsBGlpNG1nQuCDufDtJvt2K9NysoydwN0GFz
+ 0/bhpxgzqYX+09CfeJZumGNe1y1J6JCBiBy66YDJif3H3uxGYlWyeJ3dhKi3Qean/V
+ KW52Frpm7wc4exN5vRLmq7sZpGxbdiXjbTzPDz5L0tzlCs8p1xprNDK+L2h5DiAZjP
+ dLWOVMfHKonSJJXudsxIQMut13qrSg488RP3wjchNR+nGw0PwhILsKNHJNlHx7rzO0
+ rxtPDUlnCK+mg==
+Date: Fri, 9 Apr 2021 13:36:19 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with the drm-misc-fixes tree
-Message-ID: <20210409131253.1a67eae2@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm tree
+Message-ID: <20210409133619.69c135ff@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,129 +48,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Maxime Ripard <maxime@cerno.tech>
-Content-Type: multipart/mixed; boundary="===============0023701808=="
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: multipart/mixed; boundary="===============0683737235=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0023701808==
-Content-Type: multipart/signed; boundary="Sig_/.3TCEW2K/ucdGcZbZyQjv9B";
+--===============0683737235==
+Content-Type: multipart/signed; boundary="Sig_/6fkHv07WnvS/lravUEQ/Ire";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/.3TCEW2K/ucdGcZbZyQjv9B
+--Sig_/6fkHv07WnvS/lravUEQ/Ire
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-Today's linux-next merge of the drm tree got a conflict in:
+After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
+failed like this:
 
-  drivers/gpu/drm/vc4/vc4_plane.c
+drivers/gpu/drm/i915/display/intel_dp_link_training.c:43:13: error: redefin=
+ition of 'intel_dp_reset_lttpr_common_caps'
+   43 | static void intel_dp_reset_lttpr_common_caps(struct intel_dp *intel=
+_dp)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/i915/display/intel_dp_link_training.c:38:13: note: previous=
+ definition of 'intel_dp_reset_lttpr_common_caps' was here
+   38 | static void intel_dp_reset_lttpr_common_caps(struct intel_dp *intel=
+_dp)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/i915/display/intel_dp_link_training.c:38:13: warning: 'inte=
+l_dp_reset_lttpr_common_caps' defined but not used [-Wunused-function]
 
-between commit:
+Caused by commit
 
-  35d65ab3fdba ("drm/vc4: plane: Remove redundant assignment")
+  9976ff61f045 ("Merge remote-tracking branch 'drm/drm-next'")
 
-from the drm-misc-fixes tree and commit:
+Because commit
 
-  5ddb0bd4ddc3 ("drm/atomic: Pass the full state to planes async atomic che=
-ck and update")
+  7dffbdedb96a ("drm/i915: Disable LTTPR support when the DPCD rev < 1.4")
 
-from the drm tree.
+from Linus' tree and commit
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+  264613b406eb ("drm/i915: Disable LTTPR support when the DPCD rev < 1.4")
+
+from the drm tree are the same patch, git added the funtion twice :-(
+
+I have applied a merge fix patch removing the second copy.
 
 --=20
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/vc4/vc4_plane.c
-index 1e9c84cf614a,c76e73a452e0..000000000000
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@@ -1133,31 -1135,34 +1135,33 @@@ void vc4_plane_async_set_fb(struct drm_
-  }
- =20
-  static void vc4_plane_atomic_async_update(struct drm_plane *plane,
-- 					  struct drm_plane_state *state)
-+ 					  struct drm_atomic_state *state)
-  {
-+ 	struct drm_plane_state *new_plane_state =3D drm_atomic_get_new_plane_sta=
-te(state,
-+ 										 plane);
-  	struct vc4_plane_state *vc4_state, *new_vc4_state;
- =20
-- 	swap(plane->state->fb, state->fb);
-- 	plane->state->crtc_x =3D state->crtc_x;
-- 	plane->state->crtc_y =3D state->crtc_y;
-- 	plane->state->crtc_w =3D state->crtc_w;
-- 	plane->state->crtc_h =3D state->crtc_h;
-- 	plane->state->src_x =3D state->src_x;
-- 	plane->state->src_y =3D state->src_y;
-- 	plane->state->src_w =3D state->src_w;
-- 	plane->state->src_h =3D state->src_h;
-- 	plane->state->alpha =3D state->alpha;
-- 	plane->state->pixel_blend_mode =3D state->pixel_blend_mode;
-- 	plane->state->rotation =3D state->rotation;
-- 	plane->state->zpos =3D state->zpos;
-- 	plane->state->normalized_zpos =3D state->normalized_zpos;
-- 	plane->state->color_encoding =3D state->color_encoding;
-- 	plane->state->color_range =3D state->color_range;
-- 	plane->state->src =3D state->src;
-- 	plane->state->dst =3D state->dst;
-- 	plane->state->visible =3D state->visible;
--=20
-- 	new_vc4_state =3D to_vc4_plane_state(state);
-+ 	swap(plane->state->fb, new_plane_state->fb);
-+ 	plane->state->crtc_x =3D new_plane_state->crtc_x;
-+ 	plane->state->crtc_y =3D new_plane_state->crtc_y;
-+ 	plane->state->crtc_w =3D new_plane_state->crtc_w;
-+ 	plane->state->crtc_h =3D new_plane_state->crtc_h;
-+ 	plane->state->src_x =3D new_plane_state->src_x;
-+ 	plane->state->src_y =3D new_plane_state->src_y;
-+ 	plane->state->src_w =3D new_plane_state->src_w;
-+ 	plane->state->src_h =3D new_plane_state->src_h;
- -	plane->state->src_h =3D new_plane_state->src_h;
-+ 	plane->state->alpha =3D new_plane_state->alpha;
-+ 	plane->state->pixel_blend_mode =3D new_plane_state->pixel_blend_mode;
-+ 	plane->state->rotation =3D new_plane_state->rotation;
-+ 	plane->state->zpos =3D new_plane_state->zpos;
-+ 	plane->state->normalized_zpos =3D new_plane_state->normalized_zpos;
-+ 	plane->state->color_encoding =3D new_plane_state->color_encoding;
-+ 	plane->state->color_range =3D new_plane_state->color_range;
-+ 	plane->state->src =3D new_plane_state->src;
-+ 	plane->state->dst =3D new_plane_state->dst;
-+ 	plane->state->visible =3D new_plane_state->visible;
-+=20
-+ 	new_vc4_state =3D to_vc4_plane_state(new_plane_state);
-  	vc4_state =3D to_vc4_plane_state(plane->state);
- =20
-  	vc4_state->crtc_x =3D new_vc4_state->crtc_x;
-
---Sig_/.3TCEW2K/ucdGcZbZyQjv9B
+--Sig_/6fkHv07WnvS/lravUEQ/Ire
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmBvxjUACgkQAVBC80lX
-0GxIuwf+MLYE674mIMmHxJJji/55gWYtGGX/V3SrSewLyeKvHLfDuQlPItFchsX1
-3Pz68dEgLmoWKU4VMulSbKduwWdP2SBPTT8CuKu9hXGjLj/CaVW9cG0CN6FFi55g
-GQEnlmYDcvLjvVyMmi/Tva+TJ1ck9HRWzfiuSxeo9uDp4qsmSnl04DgKcfovOoy6
-PY4kFCQ7d6QqF4Fnw5RQClDB8Lzf8SV0geat+Hvv9O9R244jLstLNx7rqLuNyd2S
-bzyIMwugX/Oiu274Cxgf9W7aIeYSDrrdVwQ1HNTZErscCjoWjoKE/aFaCOnNKQ2r
-y+SB5knEJv0xAg4gxS2Zxtzb+6SwSw==
-=ya55
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmBvy7MACgkQAVBC80lX
+0Gy5yAf/U42Uq/AB7igWzd8a6NJkb/jaBLQE0Ee2eptP56lOYXjo+dcpgzctYZg6
+vbNSzWBbCqfeBT4f/W5M/HTvJDs4f+/yKYrCR+T8iITMlDfSh/dDt+XqMTz4bt9A
+ZQKnnRnyvf+ZPFmtca33XXhGiQ1RquTBQuReeGLki0xPnq3ukhyxJdBHuKUYU+QN
+3X+cts3DRnzIAG9uqXpFpxuSPx65gl5tMvewM6X1OdQfYW4q7u8bMUNWUcqTiZsi
+VrLlqmR4JX+ZlQgM4kVaJFpkCmZAUF/X0lZp5+YAHd3fYnmb3Q+EUmUcnsyJ3TPT
+11n+haswRp7TtOzmxv4IvnqA92Ykew==
+=jTb1
 -----END PGP SIGNATURE-----
 
---Sig_/.3TCEW2K/ucdGcZbZyQjv9B--
+--Sig_/6fkHv07WnvS/lravUEQ/Ire--
 
---===============0023701808==
+--===============0683737235==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -183,4 +128,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0023701808==--
+--===============0683737235==--
