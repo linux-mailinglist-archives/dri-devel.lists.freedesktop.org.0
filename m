@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0EA1359908
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 11:22:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBAD359937
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 11:29:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9B186EBC4;
-	Fri,  9 Apr 2021 09:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26DA96EBFD;
+	Fri,  9 Apr 2021 09:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD3A6EBC4
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 09:22:43 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id q26so4903593wrz.9
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Apr 2021 02:22:42 -0700 (PDT)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 195806EBFD
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 09:29:46 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id e34so611124wmp.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Apr 2021 02:29:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=vLvBXXNW9anasakQAr8qQLcWcSFiTRvgGWu5WLKs3rk=;
- b=OgsIEelzOm3+bjqC2BAMMEbU3mdKUY4rN//VNlYBl++Lq46Ke2tfQCeeIl6D5liv0A
- syEdFvS+Ov4v6hjl2EdRV4K2tkYI+yZzuHbsNfTmF8ysUsS+23QtCEac2xoGJKp6eqSc
- 7KLxMwOc+EoWb6RAPAZhbjPk+OMKcSAIPnAsU=
+ bh=fT9oV4BN+fP8OtAhEYl3wA5q5d+nVpDfBhmHiic/Ebo=;
+ b=Of0eQXVIqqyCFGTthOVZrcSwN/PcdYd0tqWQSxgxB/HX3Q07xPyvMLrDEU1g1rRQka
+ bqFGykObnzRBTAM1rXkhxA4mVZQtYo9OvxCpClHIkdcKL6m7t1pP6K7wAmX6nCYBrcKc
+ cxzNnHp9IUHUAc+mMGlD8cfSDUg4zk9HX+qNY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=vLvBXXNW9anasakQAr8qQLcWcSFiTRvgGWu5WLKs3rk=;
- b=VrhBUmRwYn1H9++qmfHPDx+CLzTPYT2Csc5PUrioJBOXqslD0IDyZ/WdfqOxz39D+O
- BL+fmrwjRUb/uFZKKdMaANwvUGZV2HbwjVES5h15x5L5l8hzBdj18ulrl0kMzTuG3zin
- AQTGAMIQ/Pmhm1sg6I6QORGK0KjGe57Nr82hvuhEZeHgdSAbkga+IokCZ5wKiSUiaYAx
- WyDGws/jLe/2zjhkHuqCGLyre8xuUaa4Hdx27qIKLFZNSG5UopPOVNqU25U4qqTd/TW5
- bmthlw/xPlrLsVal/T3giWd5SdXA2Vf6EZuqJID7940ZU/t2+xvtzid5AcHsR/FI+wlI
- vZ+Q==
-X-Gm-Message-State: AOAM531WhiJYlP8ypknQSwKXJB379Qpyeve4rXanRMUl80OJEj5VmVMk
- elEOZKg8is1wmqvlf4UJUBD7Iw==
-X-Google-Smtp-Source: ABdhPJzf/ThGjTEWF4IYBosfUTP08Trlj6uVf2xa8DV5u1irOInL3zHkM19FAMZ7rfBdfElplD7GEg==
-X-Received: by 2002:a5d:4884:: with SMTP id g4mr16594801wrq.191.1617960161670; 
- Fri, 09 Apr 2021 02:22:41 -0700 (PDT)
+ bh=fT9oV4BN+fP8OtAhEYl3wA5q5d+nVpDfBhmHiic/Ebo=;
+ b=HqXd/oNg32dcdj/dLq3fTFg5xALSklHlseoauXFg9YS+3Hu7M0vCaSgxZi21Me2W2f
+ Wf8prJ5l0vTNzGeJXOllmzx+yinxK3RCkWHOlJ6JNFAblaoQKPrOHrI4tNGNdyONWXKa
+ S7bPFAS/TXNkUq7UJeqQy/Bj1iVC/M0OBbkyCWxepmxcJCu8KkW0Os4RVoInqgLMT57g
+ 9EbTDATrxcD+q0Xg+kJbMQd1LHuHYZPczQ0/u9BgsgrmS4JBrCc42dMBOrhMn/0r6q7v
+ 8I6qWcrY9jog8xmnBD8vTU9x5KhHnQ4Q42UUqMrv7sxruY4TionrxDMuvn0vVJrBHrSS
+ 9VeA==
+X-Gm-Message-State: AOAM533U/yzM3vSldSJrgxlckPGEZcRT1eBqVXArTsVFXY7d49C8/t9W
+ 10bXQ+7IOmfoxUOfi58486WFARKqwloMvg==
+X-Google-Smtp-Source: ABdhPJxQae+DEM70O7kM/JNRFdzYQvhSYAMN59+W7b1iruQWhDQIYfA7RGhe3W0rKAyPUD3QGqduIA==
+X-Received: by 2002:a7b:c312:: with SMTP id k18mr13169376wmj.89.1617960584649; 
+ Fri, 09 Apr 2021 02:29:44 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f9sm2981589wmj.38.2021.04.09.02.22.40
+ by smtp.gmail.com with ESMTPSA id l14sm3547851wrm.77.2021.04.09.02.29.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Apr 2021 02:22:40 -0700 (PDT)
-Date: Fri, 9 Apr 2021 11:22:38 +0200
+ Fri, 09 Apr 2021 02:29:44 -0700 (PDT)
+Date: Fri, 9 Apr 2021 11:29:42 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH v2 04/10] drm/aperture: Add infrastructure for aperture
  ownership
-Message-ID: <YHAc3vdstgJzIAEL@phenom.ffwll.local>
+Message-ID: <YHAehnkNy9ZZBXhV@phenom.ffwll.local>
 References: <20210318102921.21536-1-tzimmermann@suse.de>
  <20210318102921.21536-5-tzimmermann@suse.de>
  <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
- <a787dde9-70b0-cb38-f2bf-6e7b479525f9@suse.de>
+ <a9d65fa8-6b10-d738-366d-c8254300cb7b@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <a787dde9-70b0-cb38-f2bf-6e7b479525f9@suse.de>
+In-Reply-To: <a9d65fa8-6b10-d738-366d-c8254300cb7b@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,8 +70,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: bluescreen_avenger@verizon.net, geert+renesas@glider.be, corbet@lwn.net,
- airlied@linux.ie, emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, lgirdwood@gmail.com,
+ airlied@linux.ie, linux-doc@vger.kernel.org, emil.l.velikov@gmail.com,
+ lgirdwood@gmail.com, dri-devel@lists.freedesktop.org,
  virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
  broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
 Content-Type: text/plain; charset="iso-8859-1"
@@ -79,11 +79,262 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 09, 2021 at 09:06:56AM +0200, Thomas Zimmermann wrote:
+On Fri, Apr 09, 2021 at 09:54:03AM +0200, Thomas Zimmermann wrote:
 > Hi
 > =
 
 > Am 08.04.21 um 11:48 schrieb Daniel Vetter:
+> > On Thu, Mar 18, 2021 at 11:29:15AM +0100, Thomas Zimmermann wrote:
+> > > Platform devices might operate on firmware framebuffers, such as VESA=
+ or
+> > > EFI. Before a native driver for the graphics hardware can take over t=
+he
+> > > device, it has to remove any platform driver that operates on the fir=
+mware
+> > > framebuffer. Aperture helpers provide the infrastructure for platform
+> > > drivers to acquire firmware framebuffers, and for native drivers to r=
+emove
+> > > them later on.
+> > > =
+
+> > > It works similar to the related fbdev mechanism. During initializatio=
+n, the
+> > > platform driver acquires the firmware framebuffer's I/O memory and pr=
+ovides
+> > > a callback to be removed. The native driver later uses this informati=
+on to
+> > > remove any platform driver for it's framebuffer I/O memory.
+> > > =
+
+> > > The aperture removal code is integrated into the existing code for re=
+moving
+> > > conflicting framebuffers, so native drivers use it automatically.
+> > > =
+
+> > > v2:
+> > > 	* rename plaform helpers to aperture helpers
+> > > 	* tie to device lifetime with devm_ functions
+> > > 	* removed unsued remove() callback
+> > > 	* rename kickout to detach
+> > > 	* make struct drm_aperture private
+> > > 	* rebase onto existing drm_aperture.h header file
+> > > 	* use MIT license only for simplicity
+> > > 	* documentation
+> > > =
+
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
+> > =
+
+> > Bunch of bikesheds for your considerations below, but overall lgtm.
+> > =
+
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > =
+
+> > Cheers, Daniel
+> > =
+
+> > > ---
+> > >   Documentation/gpu/drm-internals.rst |   6 +
+> > >   drivers/gpu/drm/Kconfig             |   7 +
+> > >   drivers/gpu/drm/Makefile            |   1 +
+> > >   drivers/gpu/drm/drm_aperture.c      | 287 +++++++++++++++++++++++++=
++++
+> > >   include/drm/drm_aperture.h          |  38 +++-
+> > >   5 files changed, 338 insertions(+), 1 deletion(-)
+> > >   create mode 100644 drivers/gpu/drm/drm_aperture.c
+> > > =
+
+> > > diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/=
+drm-internals.rst
+> > > index 4c7642d2ca34..06af044c882f 100644
+> > > --- a/Documentation/gpu/drm-internals.rst
+> > > +++ b/Documentation/gpu/drm-internals.rst
+> > > @@ -78,9 +78,15 @@ DRM_IOCTL_VERSION ioctl.
+> > >   Managing Ownership of the Framebuffer Aperture
+> > >   ----------------------------------------------
+> > > +.. kernel-doc:: drivers/gpu/drm/drm_aperture.c
+> > > +   :doc: overview
+> > > +
+> > >   .. kernel-doc:: include/drm/drm_aperture.h
+> > >      :internal:
+> > > +.. kernel-doc:: drivers/gpu/drm/drm_aperture.c
+> > > +   :export:
+> > > +
+> > >   Device Instance and Driver Handling
+> > >   -----------------------------------
+> > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > > index 1461652921be..b9d3fb91d22d 100644
+> > > --- a/drivers/gpu/drm/Kconfig
+> > > +++ b/drivers/gpu/drm/Kconfig
+> > > @@ -221,6 +221,13 @@ config DRM_SCHED
+> > >   	tristate
+> > >   	depends on DRM
+> > > +config DRM_APERTURE
+> > > +	bool
+> > > +	depends on DRM
+> > > +	help
+> > > +	  Controls ownership of graphics apertures. Required to
+> > > +	  synchronize with firmware-based drivers.
+> > =
+
+> > Uh I'm not a big fan of Kconfig and .ko modules for every little helper
+> > code. Imo just stuff this into the drm kms helpers and done. Or stuff it
+> > into drm core code, I think either is a good case for this. Everything =
+is
+> > its own module means we need to EXPORT_SYMBOL more stuff, and then driv=
+ers
+> > get funny ideas about using these internals ...
+> =
+
+> The code lives in the DRM core module. There's no extra ko file. But I'd
+> like to keep the Kconfig option. The aperture helpers will only be requir=
+ed
+> if there are generic drivers in the kernel and for many systems this is n=
+ot
+> the case.
+
+Imo this kind of optimization is what LTO is for. Having hundreds of
+Kconfig symbols just to shave of 2 functions, or something like that, in
+each case just doesn't feel like it's justified spending of effort and
+complexity. Configuring out entire subsystems, sure, but not individual
+pieces like this.
+
+So minimally a new Kconfig like this needs to show in a a) real world
+config b) actual relevant savings in terms of bytes. Otherwise it's really
+just cargo culting. I also feel like Kconfig symbols for everything is an
+appeasement tactic to sneak code int that has seen some resistance about
+potential overhead and all that. The cost in maintenance and complexity in
+keeping all the combinations working is much, much bigger though. Just
+look at the absolute endless amounts of pain that disabling
+CONFIG_BACKLIGHT is causing drm drivers. We do not want more of that,
+except if it's really solidly justified.
+
+And for the "this saves memory" justification, we've done that for i915 to
+kick out support code for old platforms. LTO is what gives you actual
+real-world benefits here, since anything else means a bazillion of Kconfig
+options, each for minimal gain, resulting in an overall unmaintainable
+mess.
+
+</rant>
+
+Cheers, Daniel
+
+> =
+
+> Best regards
+> Thomas
+> =
+
+> > =
+
+> > > +
+> > >   source "drivers/gpu/drm/i2c/Kconfig"
+> > >   source "drivers/gpu/drm/arm/Kconfig"
+> > > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> > > index 5eb5bf7c16e3..c9ecb02df0f3 100644
+> > > --- a/drivers/gpu/drm/Makefile
+> > > +++ b/drivers/gpu/drm/Makefile
+> > > @@ -32,6 +32,7 @@ drm-$(CONFIG_AGP) +=3D drm_agpsupport.o
+> > >   drm-$(CONFIG_PCI) +=3D drm_pci.o
+> > >   drm-$(CONFIG_DEBUG_FS) +=3D drm_debugfs.o drm_debugfs_crc.o
+> > >   drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) +=3D drm_edid_load.o
+> > > +drm-$(CONFIG_DRM_APERTURE) +=3D drm_aperture.o
+> > >   drm_vram_helper-y :=3D drm_gem_vram_helper.o
+> > >   obj-$(CONFIG_DRM_VRAM_HELPER) +=3D drm_vram_helper.o
+> > > diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_ape=
+rture.c
+> > > new file mode 100644
+> > > index 000000000000..4b02b5fed0a1
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/drm_aperture.c
+> > > @@ -0,0 +1,287 @@
+> > > +// SPDX-License-Identifier: MIT
+> > > +
+> > > +#include <linux/device.h>
+> > > +#include <linux/list.h>
+> > > +#include <linux/mutex.h>
+> > > +#include <linux/slab.h>
+> > > +#include <linux/types.h>
+> > > +
+> > > +#include <drm/drm_aperture.h>
+> > > +#include <drm/drm_drv.h>
+> > > +#include <drm/drm_print.h>
+> > > +
+> > > +/**
+> > > + * DOC: overview
+> > > + *
+> > > + * A graphics device might be supported by different drivers, but on=
+ly one
+> > > + * driver can be active at any given time. Many systems load a gener=
+ic
+> > > + * graphics drivers, such as EFI-GOP or VESA, early during the boot =
+process.
+> > > + * During later boot stages, they replace the generic driver with a =
+dedicated,
+> > > + * hardware-specific driver. To take over the device the dedicated d=
+river
+> > > + * first has to remove the generic driver. DRM aperture functions ma=
+nage
+> > > + * ownership of DRM framebuffer memory and hand-over between drivers.
+> > > + *
+> > > + * DRM drivers should call drm_fb_helper_remove_conflicting_framebuf=
+fers()
+> > > + * at the top of their probe function. The function removes any gene=
+ric
+> > > + * driver that is currently associated with the given framebuffer me=
+mory.
+> > > + * If the framebuffer is located at PCI BAR 0, the rsp code looks as=
+ in the
+> > > + * example given below.
+> > > + *
+> > > + * .. code-block:: c
+> > > + *
+> > > + *	static int remove_conflicting_framebuffers(struct pci_dev *pdev)
+> > > + *	{
+> > > + *		struct apertures_struct *ap;
+> > > + *		bool primary =3D false;
+> > > + *		int ret;
+> > > + *
+> > > + *		ap =3D alloc_apertures(1);
+> > > + *		if (!ap)
+> > > + *			return -ENOMEM;
+> > > + *
+> > > + *		ap->ranges[0].base =3D pci_resource_start(pdev, 0);
+> > > + *		ap->ranges[0].size =3D pci_resource_len(pdev, 0);
+> > > + *
+> > > + *	#ifdef CONFIG_X86
+> > > + *		primary =3D pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_=
+ROM_SHADOW;
+> > > + *	#endif
+> > > + *		ret =3D drm_fb_helper_remove_conflicting_framebuffers(ap, "examp=
+le driver", primary);
+> > > + *		kfree(ap);
+> > > + *
+> > > + *		return ret;
+> > > + *	}
+> > > + *
+> > > + *	static int probe(struct pci_dev *pdev)
+> > > + *	{
+> > > + *		int ret;
+> > > + *
+> > > + *		// Remove any generic drivers...
+> > > + *		ret =3D remove_conflicting_framebuffers(pdev);
+> > > + *		if (ret)
+> > > + *			return ret;
+> > > + *
+> > > + *		// ... and initialize the hardware.
+> > > + *		...
+> > > + *
+> > > + *		drm_dev_register();
+> > > + *
+> > > + *		return 0;
+> > > + *	}
+> > > + *
+> > > + * For PCI devices it is often sufficient to use drm_fb_helper_remov=
+e_conflicting_pci_framebuffers()
+> > > + * and let it detect the framebuffer apertures automatically.
 > > =
 
 > > Maybe just me, but to avoid overstretching the attention spawn of doc
@@ -91,24 +342,7 @@ On Fri, Apr 09, 2021 at 09:06:56AM +0200, Thomas Zimmermann wrote:
 > > stronger, e.g. "PCI device drivers can avoid open-coding
 > > remove_conflicting_framebuffers() by calling
 > > drm_fb_helper_remove_conflicting_pci_framebuffers()."
-> =
-
-> It's a tutorial. In my expectation, everyone just copies the tutorial code
-> and fills the gaps.
-
-Sure, but we also have default functions for most common cases, so most
-people just end up copypasting the single function call. Feels like
-overkill to have a tutorial for that.
-
-Imo tutorial/pseudo-code are good if there's more involved code flow that
-many places need to copypaste and customize. Or to show how different
-functions work together collectively. This doesn't quite feel like it's
-clearing that bar.
-
-And please don't get me wrong, solid docs is great. It's just that I think
-we need to have reader's attention span in mind too (and mine personally
-might be on the extremely short side here) to make sure our docs are
-effective at conveying information.
+> > =
 
 > > > + *
 > > > + * .. code-block:: c
@@ -153,41 +387,6 @@ s already
 > > detach ops? You already make this specific to struct drm_device, an
 > > implementation that just calls drm_dev_unplug feels like the right thing
 > > to do?
-> =
-
-> Is it that easy? simepldrm's detach function has code to synchronize with
-> concurrent hotplug removals. If we can use drm_dev_unplug() for everythin=
-g,
-> I'm all for it.
-
-Uh, I should have looked at the code instead of just asking silly
-questions :-)
-
-Now I'm even more scared, and also more convinced that we're recreating a
-bad version of some of the core driver model concepts.
-
-I think the ideal option here would be if drm_aperture could unload
-(unbind really) the platform driver for us, through the driver model. Then
-there's only one place that keeps track whether the driver is unbound or
-not. I'm not sure whether this can be done fully generic on a struct
-device, or whether we need special code for each type. Since atm we only
-have simpledrm we can just specialize on platform_device and it's good
-enough.
-
-I think best here would be to Cc: gregkh on this patch and the simpledrm
-->detach implementatation, and ask for his feedback as driver model
-maintainer. Maybe if you could hack together the platform_device unbind
-path as proof of concept would be even better.
-
-Either way, this is really tricky.
--Daniel
-
-> =
-
-> Best regards
-> Thomas
-> =
-
 > > =
 
 > > Or maybe we should tie this more into the struct device mode and force =
