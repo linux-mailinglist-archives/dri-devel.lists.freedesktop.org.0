@@ -2,33 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A752735A06D
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 15:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB4935A139
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 16:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE3796EC2E;
-	Fri,  9 Apr 2021 13:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 406376E4AB;
+	Fri,  9 Apr 2021 14:36:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFC3B6EC2E
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 13:57:17 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3E128AD2D;
- Fri,  9 Apr 2021 13:57:16 +0000 (UTC)
-Subject: Re: [PATCH v4 2/6] drm/sprd: add Unisoc's drm kms master
-To: Kevin Tang <kevin3.tang@gmail.com>
-References: <20210222132822.7830-1-kevin3.tang@gmail.com>
- <20210222132822.7830-3-kevin3.tang@gmail.com>
- <b1c03605-1304-003c-beb2-ca096a549fb4@suse.de>
- <CAFPSGXZ2o9YRAMax3ZeiyQ5bMtqOsSODMW8V7dXHZSD3gyzbQw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <449a323c-0bb3-a4aa-5a3f-1325fd4b802c@suse.de>
-Date: Fri, 9 Apr 2021 15:57:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
+ [IPv6:2607:f8b0:4864:20::72f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 028E86E4AB
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 14:36:14 +0000 (UTC)
+Received: by mail-qk1-x72f.google.com with SMTP id q3so5950185qkq.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Apr 2021 07:36:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=EJuvcycyIbPa6J675iGyUHRdsq9Wx9OaZYJ9FyJ5nEQ=;
+ b=BnANjNFb/Trm0ooxNcmPQLLussTgG1LGRQ3GaAnIzcsOSt5uXU4sGpJ7BlEjwC8m/V
+ OvkzTen6Pg9zPiI1/TqwKwi1m5gkXFsJDXtPeAtAw45SmH+1A7KSqPf/WTLAWgnQKAMF
+ 6uB2XfH7oMLdGJl8neMQ17GKCNQU7SlgiI9uz2brqyN8CV7NONU9jTLARP9JBbmp5h2R
+ lJWA2MB3dA6IEcF0R6/vsn02gFjSW7bpEoFuiV9fEO5rOnZ7IdNvNP/q0iWiz6tlBq1U
+ HkrThJi5qcNFj/ojDW0D5raIoW/p42GWoPze9G5sYj9YfjvzSufExeyLspgwq3WPNFV4
+ BjiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=EJuvcycyIbPa6J675iGyUHRdsq9Wx9OaZYJ9FyJ5nEQ=;
+ b=rIAg/U/cKoF4gmBdseJmeVF1bBDeM1bGZhBXPOy/zfoAfRIM2BiS80W2gCnApmMUnB
+ VhYCNAYTLtMPO/+gZZ5hhQO0T3JNLq1VWJ65x0sYG11hNq8ySUcRllT3J6IMAIxN7gfi
+ U9eEPejlNJ+PyItWyb98aAinVDbAeTggtC2TOAb1XwFhnYvFhpKYpKoxk00IPg5eYm69
+ TKvF277h0tOcCj8PXjetl8IDb9VDfNa0NoqJ76z4nCRfnOM79VHGmrP8dy6UeVvvCni1
+ Vy59ii8ZkduNYS6H5l8a7xwX4EMH4b5sYnukuq+RQ8z0OaM5FiL/+fP8/TCTu3TU+5n6
+ 0eLg==
+X-Gm-Message-State: AOAM531PPxQIQH0d5tmyWXp4DT5fVf1xQsZfnZthXCWoYd2rPeX4gHl2
+ /yeYhkkXgBePXPXBcsEg99j2vvfZYiGiJUJRoW0=
+X-Google-Smtp-Source: ABdhPJxCKzCseZRiR2YWVzXt9jLzZNh+7TW7yGdtHp44w1mwgu2K7V6oJH62XH4nFMvB+u5Da3glQJjfsFyJYW8QY5I=
+X-Received: by 2002:a05:620a:134a:: with SMTP id
+ c10mr13890799qkl.481.1617978973990; 
+ Fri, 09 Apr 2021 07:36:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFPSGXZ2o9YRAMax3ZeiyQ5bMtqOsSODMW8V7dXHZSD3gyzbQw@mail.gmail.com>
+References: <20210409130113.1459-1-christian.koenig@amd.com>
+In-Reply-To: <20210409130113.1459-1-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Fri, 9 Apr 2021 15:35:47 +0100
+Message-ID: <CAM0jSHNF4UEEduUxDk2dPpjKZBkJv66PQSfqhQcSORh2y-t9Gw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/ttm: fix return value check
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,181 +62,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1443325477=="
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1443325477==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="S4XoDZIR9mto1SEn5emJBWKE0vfzu4oDm"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---S4XoDZIR9mto1SEn5emJBWKE0vfzu4oDm
-Content-Type: multipart/mixed; boundary="NALOUUC0u41Jy3oDgBSIgoxBcf1Yo86DK";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Kevin Tang <kevin3.tang@gmail.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Orson Zhai <orsonzhai@gmail.com>, Sean Paul <sean@poorly.run>
-Message-ID: <449a323c-0bb3-a4aa-5a3f-1325fd4b802c@suse.de>
-Subject: Re: [PATCH v4 2/6] drm/sprd: add Unisoc's drm kms master
-References: <20210222132822.7830-1-kevin3.tang@gmail.com>
- <20210222132822.7830-3-kevin3.tang@gmail.com>
- <b1c03605-1304-003c-beb2-ca096a549fb4@suse.de>
- <CAFPSGXZ2o9YRAMax3ZeiyQ5bMtqOsSODMW8V7dXHZSD3gyzbQw@mail.gmail.com>
-In-Reply-To: <CAFPSGXZ2o9YRAMax3ZeiyQ5bMtqOsSODMW8V7dXHZSD3gyzbQw@mail.gmail.com>
-
---NALOUUC0u41Jy3oDgBSIgoxBcf1Yo86DK
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 09.04.21 um 15:50 schrieb Kevin Tang:
->      > +static int __init sprd_drm_init(void)
->      > +{
->      > +=C2=A0 =C2=A0 =C2=A0int ret;
->=20
->     I think ret should just go away.
->=20
-> Like this?
-> "return platform_register_drivers(sprd_drm_drivers,=20
-> ARRAY_SIZE(sprd_drm_drivers));"
-
-Sure.
-
-Best regards
-Thomas
-
-> if so, i will fix it, thks.
->=20
->=20
->     Acked-by: Thomas Zimmermann <tzimmermann@suse.de
->     <mailto:tzimmermann@suse.de>>
->=20
->      > +
->      > +=C2=A0 =C2=A0 =C2=A0ret =3D platform_register_drivers(sprd_drm_=
-drivers,
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ARRA=
-Y_SIZE(sprd_drm_drivers));
->      > +=C2=A0 =C2=A0 =C2=A0return ret;
->      > +}
->      > +
->      > +static void __exit sprd_drm_exit(void)
->      > +{
->      > +=C2=A0 =C2=A0 =C2=A0platform_unregister_drivers(sprd_drm_driver=
-s,
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ARRAY_SIZE(sprd_dr=
-m_drivers));
->      > +}
->      > +
->      > +module_init(sprd_drm_init);
->      > +module_exit(sprd_drm_exit);
->      > +
->      > +MODULE_AUTHOR("Leon He <leon.he@unisoc.com
->     <mailto:leon.he@unisoc.com>>");
->      > +MODULE_AUTHOR("Kevin Tang <kevin.tang@unisoc.com
->     <mailto:kevin.tang@unisoc.com>>");
->      > +MODULE_DESCRIPTION("Unisoc DRM KMS Master Driver");
->      > +MODULE_LICENSE("GPL v2");
->      > diff --git a/drivers/gpu/drm/sprd/sprd_drm.h
->     b/drivers/gpu/drm/sprd/sprd_drm.h
->      > new file mode 100644
->      > index 000000000..9781fd591
->      > --- /dev/null
->      > +++ b/drivers/gpu/drm/sprd/sprd_drm.h
->      > @@ -0,0 +1,16 @@
->      > +/* SPDX-License-Identifier: GPL-2.0 */
->      > +/*
->      > + * Copyright (C) 2020 Unisoc Inc.
->      > + */
->      > +
->      > +#ifndef _SPRD_DRM_H_
->      > +#define _SPRD_DRM_H_
->      > +
->      > +#include <drm/drm_atomic.h>
->      > +#include <drm/drm_print.h>
->      > +
->      > +struct sprd_drm {
->      > +=C2=A0 =C2=A0 =C2=A0struct drm_device drm;
->      > +};
->      > +
->      > +#endif /* _SPRD_DRM_H_ */
->      >
->=20
->     --=20
->     Thomas Zimmermann
->     Graphics Driver Developer
->     SUSE Software Solutions Germany GmbH
->     Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->     (HRB 36809, AG N=C3=BCrnberg)
->     Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---NALOUUC0u41Jy3oDgBSIgoxBcf1Yo86DK--
-
---S4XoDZIR9mto1SEn5emJBWKE0vfzu4oDm
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBwXTsFAwAAAAAACgkQlh/E3EQov+D7
-MA/+IAHWrnPg7/5qfYPk4UleTosgnVBGNe/Z2fqhtkh4x9NmLTswgvW0hASHzsvGVVjxJGfUOivY
-2/nOETjZEQgBU9VXxVYT+bYlTzmfH5+k7L3cMex/h3XXv1dHKPh5B0aY+IjhBzRSWC1bc7ezIyK3
-tTIGoKdXDMWm4JWFtwrGu1/q2jMUu36E9SNzY4Qtx7MpzaDJgjvfs51sOaTiPTcwmh8loBEInNXw
-8zpzM5EVOTZaSto1vWcw2ItE7yxCC5B/H13TveYVP6Z3DzoaXXFHqAHCvDHAohZw9CdyNFdF/hUB
-5/hHYEJpPEQ9cYqG4FSKDEeSQX1i/uLiWWD2FsUCqIAadJ2e8Bid/7C02oOoaJXNvwn93QnL9I3L
-XzgeNafPpcHo9RJ1k12txhWLu5ptnnPuaalZzliC7eW0dQmyTDUzczOb5N4wDxa9V909Uj4D3biE
-Y866PPJ8iTSoeRM2P3mPBYZ3SSjqVuFh1Oz6IIWTgsDRQtn5Hv5xgJQ+ApH3g6p9D3/W9YjZGyar
-io+SXii5nWsd8V+AIuv6BEYUDihn1Eq6w/sSc7ElZlxoHMZQcHS50NTvAHIybpLt2WkIZyxtcTKQ
-Ss94oiUfdV9ctDVTjNnqoAWjyXOPX9JMRqPux+hxZwqxAhbv0E4WUIvg3sE+lPuKpSrK7d/3f6VN
-NaA=
-=CXJ5
------END PGP SIGNATURE-----
-
---S4XoDZIR9mto1SEn5emJBWKE0vfzu4oDm--
-
---===============1443325477==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1443325477==--
+T24gRnJpLCA5IEFwciAyMDIxIGF0IDE0OjAxLCBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmlnLmxl
+aWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBUaGUgZnVuY3Rpb24gcmV0dXJucyB0
+aGUgbnVtYmVyIG9mIHN3YXBwZWQgcGFnZXMgaGVyZS4gT25seSBhYm9ydCB3aGVuIHdlIGdldAo+
+IGEgbmVnYXRpdmUgZXJyb3IgY29kZS4KPgo+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7Zu
+aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KUmV2aWV3ZWQtYnk6IE1hdHRoZXcgQXVsZCA8
+bWF0dGhldy5hdWxkQGludGVsLmNvbT4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
