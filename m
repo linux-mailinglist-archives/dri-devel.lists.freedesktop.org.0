@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67360359F74
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 15:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DDD359FEA
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Apr 2021 15:35:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 876DB6EC18;
-	Fri,  9 Apr 2021 13:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A22B6EC26;
+	Fri,  9 Apr 2021 13:35:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8DF6E49D
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Apr 2021 13:01:17 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id mh7so8496558ejb.12
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Apr 2021 06:01:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=AjH2D9ygaThMD1dtUFhVHVOUbEbRI4BYB74LUWVz+ik=;
- b=GmOJPUdUx2JYS8Hyprmwc7ya45CV92zfZyG8PJQ2jeaMBqj+/EPrisq1rVDwVD8i0y
- azvMYXGPIDzAc2edatj97ynXpr/NDk0Wd+u6eue/fVMKgPi6HFczEY/W3i6U3JbVq/Np
- lzF+azvznFif4itbSzXYBwyn8k94Q/vM1b1N9TxDY0QWGQV/F1s8YIUAazinWp7RofRB
- WSwULAyd0QXj83o5RjbfiokOFUsbdcyNsM1GwXG/uXAryxQ7P2r8JxOvq+wfpUUn8poM
- 3aVVKxXgdi5r3kbVMBcqh0qQ5zsjcgqhDcyHr6mtBmVrzSonKzCZBrgoArPem63ZyKmk
- vZBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AjH2D9ygaThMD1dtUFhVHVOUbEbRI4BYB74LUWVz+ik=;
- b=aDVFJOL/wkrerOPHjVii7e0y8NG+m/U8xR2bJxdSa/9fP4ZUabqE2AB+Ur2OeXsMWe
- lQgVM+kqzfCPe9rjC6qIGlO0OZuqSFekkervCOFWcu8E0KEP/xAHGQS85To/BvKYNNL4
- 84NHXW3pfea1YkXBKdbpIW6g/JMyz5Y0PTneYZjKr4R5ftLg6cpm8xEjJSQc2lGOpdLO
- h4W40vqSuyyoKHGJZJVo20iAk48TqUsMQYTIiFBkzZiLu/WX+HIOKxEePbysCONFLPTz
- CowLxMrMb07pc7hcX33/p7Wm+yb43lNMfH/qKCFxmMtqzAFePRL+2mx8vrd0n0/sw8Ea
- 8AKA==
-X-Gm-Message-State: AOAM530SR5xSXSCm4YFPgfW9OKZza9VG5yMrBblc/u2zojHpOEBqlv9e
- hs7Oor0hR7JJl3zN6Yp8fFvN5nuAH58=
-X-Google-Smtp-Source: ABdhPJyjsvdUWnW64LuyOXT9VrGw90yA0NMA1wPUgUHtOOJphQAiPxh2CTlo9Y27WQ8Rj7Es/Kr0RA==
-X-Received: by 2002:a17:906:7d02:: with SMTP id
- u2mr559755ejo.249.1617973275770; 
- Fri, 09 Apr 2021 06:01:15 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:228e:f109:19e6:f9c6])
- by smtp.gmail.com with ESMTPSA id r17sm1455072edx.1.2021.04.09.06.01.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Apr 2021 06:01:15 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/ttm: re-add debugs tt_shrink file
-Date: Fri,  9 Apr 2021 15:01:13 +0200
-Message-Id: <20210409130113.1459-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210409130113.1459-1-christian.koenig@amd.com>
-References: <20210409130113.1459-1-christian.koenig@amd.com>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A936EC25;
+ Fri,  9 Apr 2021 13:35:36 +0000 (UTC)
+Received: from mail-ua1-f51.google.com ([209.85.222.51]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1N49Yn-1le2PX1WYj-0105KN; Fri, 09 Apr 2021 15:35:34 +0200
+Received: by mail-ua1-f51.google.com with SMTP id v23so1810969uaq.13;
+ Fri, 09 Apr 2021 06:35:32 -0700 (PDT)
+X-Gm-Message-State: AOAM530Fg9Jd9LhR6MBsZaI1guQG77Y05M5JZ873/tJtLD++mvpBP6/i
+ EX9l7TzGeiNH55Ex644bVmDMwNW7ONuE2/GoqDg=
+X-Google-Smtp-Source: ABdhPJynlbx4kLNikSNjAjnCb5vtFq6G/850R+R5+xWMARHqWLy+tfY7F0Z+Hrp7Hz4KWDmPvvGBCrUcX4hM8LkZWnk=
+X-Received: by 2002:a9d:758b:: with SMTP id s11mr12240759otk.305.1617975319390; 
+ Fri, 09 Apr 2021 06:35:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210409112035.27221-1-david@redhat.com>
+In-Reply-To: <20210409112035.27221-1-david@redhat.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Fri, 9 Apr 2021 15:35:03 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a31uKNcim0n99=yt3zjZ+LQSw4V4+8PS8daLsBdS0iSYg@mail.gmail.com>
+Message-ID: <CAK8P3a31uKNcim0n99=yt3zjZ+LQSw4V4+8PS8daLsBdS0iSYg@mail.gmail.com>
+Subject: Re: [PATCH v3] drivers: introduce and use WANT_DMA_CMA for soft
+ dependencies on DMA_CMA
+To: David Hildenbrand <david@redhat.com>
+X-Provags-ID: V03:K1:hkRGLNMHG/1wUU9HP7zMV+mBjZYTv1bWf8ZFfNaCY2KeW/S73kg
+ Mk0Supar4jDVwNCx+TXqYEud+rzrXC+JLK73WmKWaVTf9buitG5fqH0kjjaEU9AeNdE9aBB
+ J2osJKGR/eCjCth4YY1yCx24hBzjw1GmWNBBHx3fCrohWu0e2x3aLCdplHMZ5123GLhet2N
+ JYfe3G58TWxHpjW6TqvnQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VTBDSgC5udI=:yE2zKyAQbTy1zm5ntyYXkx
+ NCFaxglwKLaG/AVYsmyTJMVxvqOvpjRQY9AYwzOE+bjUYpQ6wPHyNCg9omMqMpWHsXfSZ28FB
+ BHKO2M/0XiDs72ku+pGa05VoJECsp1JANprNZp6rTtPkr9L4rtFeWBzvCUi8QKZKVgGWbuvaV
+ lnnVJ1a9dbyy89ulQgPLqNdAmTzKTKFhD275xSbDTswk21rc3Y8GAGhoDwQBE6IoSp+j7cZKB
+ cYhncrFhPWauCNU39qSQt8gHCoOQ/kh2tloJyIOsdhvLCaR2/IaD7pVHOVqILOX8FqJU4s5CB
+ 2ebRtFfH4E/Yw329ie4ZSOV5jGaoXhnc9oZ+JAhWxdArk60CzVHU1s1w0Q44nCJsFqZqJqPKT
+ RKIGmjnmsdBcwABV5aVYcdhCyPOELK1Bhd3KjLBsXi1WJAf+o4FhiaRi6ATC4nArbBRXpKv0G
+ 6vmPhhG8BmOm478lnd134uYvDx1B7g6i1y3vEVqHW+UNWNRd7SDLb2NInubgZI+qhQBPrSFLd
+ CTJd5i74YlDNt2lcT40Oxn175vU/GmqBGTzZSYsPL11LPmT1Ri506Xw9CtEW48tzznaJ1/gWR
+ zgh6iPUAikk7S2J+5pYgc/g9cov2phjdGu
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,35 +59,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ Paul Cercueil <paul@crapouillou.net>, Suman Anna <s-anna@ti.com>,
+ Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Joel Stanley <joel@jms.id.au>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ Peter Collingbourne <pcc@google.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+ Linux-MM <linux-mm@kvack.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
+ Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhhdCBnb3QgbG9zdCB3aGVuIHdlIG1vdmVkIGJhY2sgdG8gYSBzdGF0aWMgbGltaXQuCgpTaWdu
-ZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0t
-LQogZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQuYyB8IDIwICsrKysrKysrKysrKysrKysrKysr
-CiAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS90dG0vdHRtX3R0LmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCmluZGV4
-IDdkNDc5MDk1ZGNmOC4uNGQ4NDk4YTNkNjQyIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-dHRtL3R0bV90dC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMKQEAgLTM4OSw2
-ICszODksMjEgQEAgdm9pZCB0dG1fdHRfdW5wb3B1bGF0ZShzdHJ1Y3QgdHRtX2RldmljZSAqYmRl
-diwgc3RydWN0IHR0bV90dCAqdHRtKQogCXR0bS0+cGFnZV9mbGFncyAmPSB+VFRNX1BBR0VfRkxB
-R19QUklWX1BPUFVMQVRFRDsKIH0KIAorI2lmZGVmIENPTkZJR19ERUJVR19GUworCisvKiBUZXN0
-IHRoZSBzaHJpbmtlciBmdW5jdGlvbnMgYW5kIGR1bXAgdGhlIHJlc3VsdCAqLworc3RhdGljIGlu
-dCB0dG1fdHRfZGVidWdmc19zaHJpbmtfc2hvdyhzdHJ1Y3Qgc2VxX2ZpbGUgKm0sIHZvaWQgKmRh
-dGEpCit7CisJc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4IGN0eCA9IHsgZmFsc2UsIGZhbHNlIH07
-CisKKwlzZXFfcHJpbnRmKG0sICIlZFxuIiwgdHRtX2dsb2JhbF9zd2Fwb3V0KCZjdHgsIEdGUF9L
-RVJORUwpKTsKKwlyZXR1cm4gMDsKK30KK0RFRklORV9TSE9XX0FUVFJJQlVURSh0dG1fdHRfZGVi
-dWdmc19zaHJpbmspOworCisjZW5kaWYKKworCiAvKioKICAqIHR0bV90dF9tZ3JfaW5pdCAtIHJl
-Z2lzdGVyIHdpdGggdGhlIE1NIHNocmlua2VyCiAgKgpAQCAtMzk2LDYgKzQxMSwxMSBAQCB2b2lk
-IHR0bV90dF91bnBvcHVsYXRlKHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX3R0
-ICp0dG0pCiAgKi8KIHZvaWQgdHRtX3R0X21ncl9pbml0KHVuc2lnbmVkIGxvbmcgbnVtX3BhZ2Vz
-LCB1bnNpZ25lZCBsb25nIG51bV9kbWEzMl9wYWdlcykKIHsKKyNpZmRlZiBDT05GSUdfREVCVUdf
-RlMKKwlkZWJ1Z2ZzX2NyZWF0ZV9maWxlKCJ0dF9zaHJpbmsiLCAwNDAwLCB0dG1fZGVidWdmc19y
-b290LCBOVUxMLAorCQkJICAgICZ0dG1fdHRfZGVidWdmc19zaHJpbmtfZm9wcyk7CisjZW5kaWYK
-KwogCWlmICghdHRtX3BhZ2VzX2xpbWl0KQogCQl0dG1fcGFnZXNfbGltaXQgPSBudW1fcGFnZXM7
-CiAKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+On Fri, Apr 9, 2021 at 1:21 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> Random drivers should not override a user configuration of core knobs
+> (e.g., CONFIG_DMA_CMA=n). Applicable drivers would like to use DMA_CMA,
+> which depends on CMA, if possible; however, these drivers also have to
+> tolerate if DMA_CMA is not available/functioning, for example, if no CMA
+> area for DMA_CMA use has been setup via "cma=X". In the worst case, the
+> driver cannot do it's job properly in some configurations.
+>
+> For example, commit 63f5677544b3 ("drm/etnaviv: select CMA and DMA_CMA if
+> available") documents
+>         While this is no build dependency, etnaviv will only work correctly
+>         on most systems if CMA and DMA_CMA are enabled. Select both options
+>         if available to avoid users ending up with a non-working GPU due to
+>         a lacking kernel config.
+> So etnaviv really wants to have DMA_CMA, however, can deal with some cases
+> where it is not available.
+>
+> Let's introduce WANT_DMA_CMA and use it in most cases where drivers
+> select CMA/DMA_CMA, or depend on DMA_CMA (in a wrong way via CMA because
+> of recursive dependency issues).
+>
+> We'll assume that any driver that selects DRM_GEM_CMA_HELPER or
+> DRM_KMS_CMA_HELPER would like to use DMA_CMA if possible.
+>
+> With this change, distributions can disable CONFIG_CMA or
+> CONFIG_DMA_CMA, without it silently getting enabled again by random
+> drivers. Also, we'll now automatically try to enabled both, CONFIG_CMA
+> and CONFIG_DMA_CMA if they are unspecified and any driver is around that
+> selects WANT_DMA_CMA -- also implicitly via DRM_GEM_CMA_HELPER or
+> DRM_KMS_CMA_HELPER.
+>
+> For example, if any driver selects WANT_DMA_CMA and we do a
+> "make olddefconfig":
+>
+> 1. With "# CONFIG_CMA is not set" and no specification of
+>    "CONFIG_DMA_CMA"
+>
+> -> CONFIG_DMA_CMA won't be part of .config
+>
+> 2. With no specification of CONFIG_CMA or CONFIG_DMA_CMA
+>
+> Contiguous Memory Allocator (CMA) [Y/n/?] (NEW)
+> DMA Contiguous Memory Allocator (DMA_CMA) [Y/n/?] (NEW)
+>
+> 3. With "# CONFIG_CMA is not set" and "# CONFIG_DMA_CMA is not set"
+>
+> -> CONFIG_DMA_CMA will be removed from .config
+>
+> Note: drivers/remoteproc seems to be special; commit c51e882cd711
+> ("remoteproc/davinci: Update Kconfig to depend on DMA_CMA") explains that
+> there is a real dependency to DMA_CMA for it to work; leave that dependency
+> in place and don't convert it to a soft dependency.
+
+I don't think this dependency is fundamentally different from the others,
+though davinci machines tend to have less memory than a lot of the
+other machines, so it's more likely to fail without CMA.
+
+Regardless of this,
+
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
