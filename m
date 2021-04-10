@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D5B35A9E3
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Apr 2021 03:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096FD35AB68
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Apr 2021 08:43:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB0C6E0E5;
-	Sat, 10 Apr 2021 01:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B06676E043;
+	Sat, 10 Apr 2021 06:43:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8467B6E0E5
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Apr 2021 01:19:04 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id d12so12434240lfv.11
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Apr 2021 18:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cXbadlhQap92WD3Oxzmo0aIh3c0IVq45U8NgZ/myc0w=;
- b=J1qJfsd3G51VUtZHejH2W0xArwQAEIsoz7Ag3L9pkjuW9XHmrSxPCeCc/ASZnF+sVm
- ao5RvymWUw/ApUSWMZVl6cjcbtbY2hofZkTz5+q4f0F20ggHftxfnxOj79pUZp4JT65A
- eqSvZZmRYJXudweA/UN3bqVjQOwqxvSuPk78zAP07Mb5GGvhPeep9m2Qek4RDmaa3Rhp
- 3G5eRSYhob8ZlNUGS9ePi40CfXpSKWDW4BvXvbAbcl1l6vYmBzr2R63UYbOJ80o+mQWO
- M2zVqUeysH85gJUPIBpalHz32PcA+YL72ITBld7kdu4yyKLFZ3TFSQ61ZODP9bAqNs/g
- uCTg==
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com
+ [IPv6:2607:f8b0:4864:20::92c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6386E043;
+ Sat, 10 Apr 2021 06:43:08 +0000 (UTC)
+Received: by mail-ua1-x92c.google.com with SMTP id s2so2562362uap.1;
+ Fri, 09 Apr 2021 23:43:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tD3sRW7MhXsgApKUhr5Trpqo6cxrYcmmNJGwF4gwOKs=;
+ b=SMpl/+iLP9kKRhJyvI9ApCT/ke9K3JfR/FMTQOrKpakLLs3eG+Y0Pq3PKHMLhOP0Li
+ eSfQb2mOUDWTUA0GwOilnhPpX5dFWi67LcC9RKDIaXZKZF7pzBFWN3ejY1Di78OpKG6Y
+ sFrZTO0rHj3SFQaW6ZRlGEDBotGqQZg3+XJcGQ4Ux9QNdTcwQ86zaF/wq3QaZ1fUEzGG
+ UYmQLkx1tqkirMfpMxTlCJGOBRKIc93XUHWCnxfk+g9Sl7j04PlbPVjl5kZ6U5fNWIx4
+ b/nYY8RXawYcTPq9YzzWUiFwN+ghiHzJYk51SIVf1irKLa/L0j9oJ9fuSX9nROd+fROV
+ KwMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cXbadlhQap92WD3Oxzmo0aIh3c0IVq45U8NgZ/myc0w=;
- b=txpuPaD5PBUafmz11R4fHFNwGjm1J+kK4vMul+wZfTOYoJQFR9OWf9L++G96fqT+oV
- BNXyYgYdn4nbKvBYdoX6/sckTAUy8Ao5WXvUOCjLTEy/TkeHEPYXqHrh8Q/JplVabHup
- s6Ix9rVez7k3rlfUzJKaDbQ860rjefOJqRTCXbkYCVmIDn3TF6Pjzu3vCC347Qg0Ky8F
- vYkjmjiJx0YZxfT6W3qNCgGF6OV0fV/mMYpLDilM6IxYtqY9CW7IpYrlmSG7VLZU/r3f
- gmPqoXLtRF4XL1E4rameuVxzkYsEkmXtpsTkOrAsORmNQ1GdXbpcQBiUU00cw/eRXStF
- 7wDQ==
-X-Gm-Message-State: AOAM531PaqBKwzNGHwM1qp3d/9k5GxuWyvMJ8jyX2IwLQwLZfP1FjrWa
- /7OwoQ2wv57KKdeMx94Oyn+254dwUaKWkQ==
-X-Google-Smtp-Source: ABdhPJy75C3YoO0lTlpMn1djMnbOvX0ZgTBZhlF04KJLU8PmMSu98lEtJWHvdzOgvsr7y/RLrpboIg==
-X-Received: by 2002:ac2:5446:: with SMTP id d6mr11571187lfn.527.1618017543025; 
- Fri, 09 Apr 2021 18:19:03 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id h4sm614132lfv.22.2021.04.09.18.19.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Apr 2021 18:19:02 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH] drm/msm/dsi: dsi_phy_28nm_8960: fix uninitialized variable
- access
-Date: Sat, 10 Apr 2021 04:19:01 +0300
-Message-Id: <20210410011901.1735866-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tD3sRW7MhXsgApKUhr5Trpqo6cxrYcmmNJGwF4gwOKs=;
+ b=G+kcHf/jp12apsBCLB5d3hVkXWQRLt06cv4otD/QzhyI9gVe87bLgg7Ru61dLpBfi+
+ DbasK98Nb9W7mea1PLqzfu7zH72lY+jpchHcGypUQQm9ijVKNpXD5nnM/41Q/VNhhcbA
+ ba3F8yDdcjAzbV6qreoOf6YniHSlDLNoGUPg7X3J0htSGsNu/h2KL/oF5OUcxk7qCV55
+ 4RwfYrYiivkRbCI/wcn+dzk+fYbxwJIZFA+q0R6VIdufIayfJtkqluZDZNo6KuoyoZz/
+ pt7TzrznElozDMbEA8DtV3+OaQR34wmMGaYMY6DVORpo1onTbwqLRh7vBN2DUB+tf2+x
+ 6GWA==
+X-Gm-Message-State: AOAM532PBAaWy5Y4fxMCQHRiqAzn+EmEOXeEC0YzlVZEn4OHujuoBTTh
+ nOiUGmn9GxwXafCdrQG8PbDGRwCExfaJIgrAu44=
+X-Google-Smtp-Source: ABdhPJwgUEPopjijNm0Znbec+DapNcANQeEmTj4r9qYMN/XdzzPqq4JwU5kxkQMIg7uuy/hxk8tpCwRx4uu9YgIodUM=
+X-Received: by 2002:ab0:7142:: with SMTP id k2mr14667467uao.124.1618036987493; 
+ Fri, 09 Apr 2021 23:43:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <1616675636-27405-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1616675636-27405-1-git-send-email-tiantao6@hisilicon.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Sat, 10 Apr 2021 08:42:56 +0200
+Message-ID: <CAH9NwWdew01Jc1JpupnX3nbNb7n_B3n6bNEQWL3sdGA5+KMnrQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Remove useless error message
+To: Tian Tao <tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,42 +61,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The parent_name initialization was lost in refactoring, restore it now.
-
-Fixes: 5d13459650b3 ("drm/msm/dsi: push provided clocks handling into a generic code")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-index 582b1428f971..86e40a0d41a3 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-@@ -405,6 +405,10 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
- 	if (!vco_name)
- 		return -ENOMEM;
- 
-+	parent_name = devm_kzalloc(dev, 32, GFP_KERNEL);
-+	if (!parent_name)
-+		return -ENOMEM;
-+
- 	clk_name = devm_kzalloc(dev, 32, GFP_KERNEL);
- 	if (!clk_name)
- 		return -ENOMEM;
--- 
-2.30.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gRG8uLCAyNS4gTcOkcnogMjAyMSB1bSAxMzozMyBVaHIgc2NocmllYiBUaWFuIFRhbyA8dGlh
+bnRhbzZAaGlzaWxpY29uLmNvbT46Cj4KPiBGaXggdGhlIGZvbGxvd2luZyBjb2NjaWNoZWNrIHJl
+cG9ydDoKPgo+IGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmM6MTc3NToyLTk6
+Cj4gbGluZSAxNzc1IGlzIHJlZHVuZGFudCBiZWNhdXNlIHBsYXRmb3JtX2dldF9pcnEoKSBhbHJl
+YWR5IHByaW50cyBhbiBlcnJvcgo+Cj4gUmVtb3ZlIGRldl9lcnIoKSBtZXNzYWdlcyBhZnRlciBw
+bGF0Zm9ybV9nZXRfaXJxKCkgZmFpbHVyZXMuCj4KPiBTaWduZWQtb2ZmLWJ5OiBUaWFuIFRhbyA8
+dGlhbnRhbzZAaGlzaWxpY29uLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBaaWhhbyBUYW5nIDx0YW5n
+emloYW8xQGhpc2lsaWNvbi5jb20+Cj4gU2lnbmVkLW9mZi1ieTogSmF5IEZhbmcgPGYuZmFuZ2pp
+YW5AaHVhd2VpLmNvbT4KClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gR21laW5lciA8Y2hyaXN0aWFu
+LmdtZWluZXJAZ21haWwuY29tPgoKCi0tIApncmVldHMKLS0KQ2hyaXN0aWFuIEdtZWluZXIsIE1T
+YwoKaHR0cHM6Ly9jaHJpc3RpYW4tZ21laW5lci5pbmZvL3ByaXZhY3lwb2xpY3kKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
