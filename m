@@ -2,42 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D641D35A9A6
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Apr 2021 02:44:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D5B35A9E3
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Apr 2021 03:19:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C68F46EC6A;
-	Sat, 10 Apr 2021 00:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB0C6E0E5;
+	Sat, 10 Apr 2021 01:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m1561.mail.126.com (m1561.mail.126.com [220.181.15.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D856EC6A;
- Sat, 10 Apr 2021 00:44:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=5/lTD
- DTtvqPXapa1EVayUD87lA5OjiS04PXgFp2HWM4=; b=XWKEfU3I+wKd7eE+0vtRE
- xCey5IwiHqXgbhpQbooKsST3PaWhUW5XVOCcKwlwmi+9AgOu+h9njaOtXv3Ihha6
- YLRfHAvvcmswa/xqakTDprzGiRDkLQGbKGd61djoTqrn+krD9mrgStekQx+YibUD
- sMQ1VO1P0IB6JMTBhcFaCw=
-Received: from wangyingjie55$126.com ( [106.17.213.220] ) by
- ajax-webmail-wmsvr61 (Coremail) ; Sat, 10 Apr 2021 08:43:43 +0800 (CST)
-X-Originating-IP: [106.17.213.220]
-Date: Sat, 10 Apr 2021 08:43:43 +0800 (CST)
-From: "Yingjie Wang" <wangyingjie55@126.com>
-To: "Alex Deucher" <alexdeucher@gmail.com>
-Subject: Re:Re: [PATCH v1] drm/radeon: Fix a missing check bug in
- radeon_dp_mst_detect()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2021 www.mailtech.cn 126com
-In-Reply-To: <CADnq5_OujJOLukc74YQwwW4pdCA-M_4Gz_pZg8Je1ep3HZBBMw@mail.gmail.com>
-References: <1617765004-5308-1-git-send-email-wangyingjie55@126.com>
- <CADnq5_OujJOLukc74YQwwW4pdCA-M_4Gz_pZg8Je1ep3HZBBMw@mail.gmail.com>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8467B6E0E5
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Apr 2021 01:19:04 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id d12so12434240lfv.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Apr 2021 18:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cXbadlhQap92WD3Oxzmo0aIh3c0IVq45U8NgZ/myc0w=;
+ b=J1qJfsd3G51VUtZHejH2W0xArwQAEIsoz7Ag3L9pkjuW9XHmrSxPCeCc/ASZnF+sVm
+ ao5RvymWUw/ApUSWMZVl6cjcbtbY2hofZkTz5+q4f0F20ggHftxfnxOj79pUZp4JT65A
+ eqSvZZmRYJXudweA/UN3bqVjQOwqxvSuPk78zAP07Mb5GGvhPeep9m2Qek4RDmaa3Rhp
+ 3G5eRSYhob8ZlNUGS9ePi40CfXpSKWDW4BvXvbAbcl1l6vYmBzr2R63UYbOJ80o+mQWO
+ M2zVqUeysH85gJUPIBpalHz32PcA+YL72ITBld7kdu4yyKLFZ3TFSQ61ZODP9bAqNs/g
+ uCTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cXbadlhQap92WD3Oxzmo0aIh3c0IVq45U8NgZ/myc0w=;
+ b=txpuPaD5PBUafmz11R4fHFNwGjm1J+kK4vMul+wZfTOYoJQFR9OWf9L++G96fqT+oV
+ BNXyYgYdn4nbKvBYdoX6/sckTAUy8Ao5WXvUOCjLTEy/TkeHEPYXqHrh8Q/JplVabHup
+ s6Ix9rVez7k3rlfUzJKaDbQ860rjefOJqRTCXbkYCVmIDn3TF6Pjzu3vCC347Qg0Ky8F
+ vYkjmjiJx0YZxfT6W3qNCgGF6OV0fV/mMYpLDilM6IxYtqY9CW7IpYrlmSG7VLZU/r3f
+ gmPqoXLtRF4XL1E4rameuVxzkYsEkmXtpsTkOrAsORmNQ1GdXbpcQBiUU00cw/eRXStF
+ 7wDQ==
+X-Gm-Message-State: AOAM531PaqBKwzNGHwM1qp3d/9k5GxuWyvMJ8jyX2IwLQwLZfP1FjrWa
+ /7OwoQ2wv57KKdeMx94Oyn+254dwUaKWkQ==
+X-Google-Smtp-Source: ABdhPJy75C3YoO0lTlpMn1djMnbOvX0ZgTBZhlF04KJLU8PmMSu98lEtJWHvdzOgvsr7y/RLrpboIg==
+X-Received: by 2002:ac2:5446:: with SMTP id d6mr11571187lfn.527.1618017543025; 
+ Fri, 09 Apr 2021 18:19:03 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id h4sm614132lfv.22.2021.04.09.18.19.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Apr 2021 18:19:02 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Jonathan Marek <jonathan@marek.ca>
+Subject: [PATCH] drm/msm/dsi: dsi_phy_28nm_8960: fix uninitialized variable
+ access
+Date: Sat, 10 Apr 2021 04:19:01 +0300
+Message-Id: <20210410011901.1735866-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Message-ID: <50fb7dba.1f7.178b93c0caa.Coremail.wangyingjie55@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: PcqowADX5jbA9HBgFpk8AQ--.52414W
-X-CM-SenderInfo: 5zdqw5xlqjyxrhvvqiyswou0bp/1tbiVwlvp1pEDRCg5AACsT
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,57 +66,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: kernel test robot <lkp@intel.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-My pleasure!
-At 2021-04-09 04:17:36, "Alex Deucher" <alexdeucher@gmail.com> wrote:
->Applied.  Thanks!
->
->Alex
->
->On Wed, Apr 7, 2021 at 2:23 AM <wangyingjie55@126.com> wrote:
->>
->> From: Yingjie Wang <wangyingjie55@126.com>
->>
->> In radeon_dp_mst_detect(), We should check whether or not @connector
->> has been unregistered from userspace. If the connector is unregistered,
->> we should return disconnected status.
->>
->> Fixes: 9843ead08f18 ("drm/radeon: add DisplayPort MST support (v2)")
->> Signed-off-by: Yingjie Wang <wangyingjie55@126.com>
->> ---
->>  drivers/gpu/drm/radeon/radeon_dp_mst.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/radeon/radeon_dp_mst.c b/drivers/gpu/drm/radeon/radeon_dp_mst.c
->> index 2c32186c4acd..4e4c937c36c6 100644
->> --- a/drivers/gpu/drm/radeon/radeon_dp_mst.c
->> +++ b/drivers/gpu/drm/radeon/radeon_dp_mst.c
->> @@ -242,6 +242,9 @@ radeon_dp_mst_detect(struct drm_connector *connector,
->>                 to_radeon_connector(connector);
->>         struct radeon_connector *master = radeon_connector->mst_port;
->>
->> +       if (drm_connector_is_unregistered(connector))
->> +               return connector_status_disconnected;
->> +
->>         return drm_dp_mst_detect_port(connector, ctx, &master->mst_mgr,
->>                                       radeon_connector->port);
->>  }
->> --
->> 2.7.4
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+The parent_name initialization was lost in refactoring, restore it now.
+
+Fixes: 5d13459650b3 ("drm/msm/dsi: push provided clocks handling into a generic code")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+index 582b1428f971..86e40a0d41a3 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+@@ -405,6 +405,10 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+ 	if (!vco_name)
+ 		return -ENOMEM;
+ 
++	parent_name = devm_kzalloc(dev, 32, GFP_KERNEL);
++	if (!parent_name)
++		return -ENOMEM;
++
+ 	clk_name = devm_kzalloc(dev, 32, GFP_KERNEL);
+ 	if (!clk_name)
+ 		return -ENOMEM;
+-- 
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
