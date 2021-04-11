@@ -1,35 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCD435B684
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Apr 2021 20:10:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D177635B694
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Apr 2021 20:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE0E6E10C;
-	Sun, 11 Apr 2021 18:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8029A6E12D;
+	Sun, 11 Apr 2021 18:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA3996E10C
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Apr 2021 18:10:38 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3ED53AFCD;
- Sun, 11 Apr 2021 18:10:37 +0000 (UTC)
-Subject: Re: [syzbot] general protection fault in drm_client_buffer_vunmap
-To: syzbot <syzbot+10328e8428a896b65119@syzkaller.appspotmail.com>,
- airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- igormtorrente@gmail.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- syzkaller-bugs@googlegroups.com, ztong0001@gmail.com
-References: <000000000000c4cba105bfb126a1@google.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <b6d0039a-d605-2a91-ac00-2966291cfc16@suse.de>
-Date: Sun, 11 Apr 2021 20:10:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A47796E0C9
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Apr 2021 12:01:04 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id k12so6423351ilo.20
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Apr 2021 05:01:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+ :from:to;
+ bh=LDTjWmZvEWtUCLx2G8NWLUQGZf4eyJlc261DSUtArss=;
+ b=E6qZb27Ob7U6wfYnzmzh2ocd8jCDwHuLb0isceweoiVfzexAeojb22hHerxuTOM3Il
+ kzr0lHPI/QiihGuUeQ5PDr9ep6mAyM6Ru/iwyijT8sw8uKDx2SIBxHF7iwwPfzAmt7wK
+ zoL7EOqL9qdjow0HwSEExsFakUY+T9PB09xnIYz7dAiMK93uVgrljZXa7K3VNiuoF2gp
+ dJ/jo5HIYl57otB4EaqArzFoAPZSrn6TnUqhQT6b8huoM3/KRDpKUCQQJz8jYD3ij+yO
+ ehTgCIdTRmKmCBDA/IEiNDgHPhhDw8I9LAxSwmKJO1tDnfFppE04uVO+BUS3FfguprH+
+ etXw==
+X-Gm-Message-State: AOAM533o0D2LAlz1HgEG57vFp+Eo3zAfJE0qqWj7oJcvhkhQckz1nq0f
+ 9m2Hl7VEVE9sPIIF3NxoAy8iSrFyXwxXp+JKDRNr6wTbmiuY
+X-Google-Smtp-Source: ABdhPJyDyqbVyC9mBnLUut7DKqzalFIfytiw7VvqlWdVUVr22Qx+pnaBUnEzBz6/UbxXmD5PMAsFPUDFomYIxpMTQViVD0xC5CXh
 MIME-Version: 1.0
-In-Reply-To: <000000000000c4cba105bfb126a1@google.com>
+X-Received: by 2002:a05:6e02:1e0d:: with SMTP id
+ g13mr19341545ila.99.1618142464099; 
+ Sun, 11 Apr 2021 05:01:04 -0700 (PDT)
+Date: Sun, 11 Apr 2021 05:01:04 -0700
+In-Reply-To: <00000000000086f79105b5553f1e@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c4cba105bfb126a1@google.com>
+Subject: Re: [syzbot] general protection fault in drm_client_buffer_vunmap
+From: syzbot <syzbot+10328e8428a896b65119@syzkaller.appspotmail.com>
+To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ igormtorrente@gmail.com, linux-kernel@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ syzkaller-bugs@googlegroups.com, tzimmermann@suse.de, ztong0001@gmail.com
+X-Mailman-Approved-At: Sun, 11 Apr 2021 18:39:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,84 +57,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2033622541=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2033622541==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ii1uA8SbKGnacI9yJQ5vuK86BGgASN8G0"
+syzbot suspects this issue was fixed by commit:
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ii1uA8SbKGnacI9yJQ5vuK86BGgASN8G0
-Content-Type: multipart/mixed; boundary="SsLLBMZChnh4BSylHImKZ5477u4oaUgdk";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: syzbot <syzbot+10328e8428a896b65119@syzkaller.appspotmail.com>,
- airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- igormtorrente@gmail.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- syzkaller-bugs@googlegroups.com, ztong0001@gmail.com
-Message-ID: <b6d0039a-d605-2a91-ac00-2966291cfc16@suse.de>
-Subject: Re: [syzbot] general protection fault in drm_client_buffer_vunmap
-References: <000000000000c4cba105bfb126a1@google.com>
-In-Reply-To: <000000000000c4cba105bfb126a1@google.com>
+commit 874a52f9b693ed8bf7a92b3592a547ce8a684e6f
+Author: Tong Zhang <ztong0001@gmail.com>
+Date:   Sun Feb 28 04:46:25 2021 +0000
 
---SsLLBMZChnh4BSylHImKZ5477u4oaUgdk
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+    drm/fb-helper: only unmap if buffer not null
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10c27b7ed00000
+start commit:   c03c21ba Merge tag 'keys-misc-20210126' of git://git.kerne..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ec4c85e44cc3172e
+dashboard link: https://syzkaller.appspot.com/bug?extid=10328e8428a896b65119
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12d95d7ad00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=148da9ccd00000
+
+If the result looks correct, please mark the issue as fixed by replying with:
 
 #syz fix: drm/fb-helper: only unmap if buffer not null
 
-Am 11.04.21 um 14:01 schrieb syzbot:
-> #syz fix: drm/fb-helper: only unmap if buffer not null
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---SsLLBMZChnh4BSylHImKZ5477u4oaUgdk--
-
---ii1uA8SbKGnacI9yJQ5vuK86BGgASN8G0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBzO5sFAwAAAAAACgkQlh/E3EQov+Do
-iA/6A63OiUqCl0TY+rWCEkigqR95XHyj5rG/PhluHcPBYkV4tOj55HGHdVYazKCSH0qI43rcFW/e
-JTMPpee1SwNXCcVlyl8W8b2rEJfI6hSl4FY9h8Qewy/MlLNv+HoMabhcfu/qEFwJ2OtBtyz82QJx
-z3sCMthyEDWp0TgQ8t5eOKW3/6dkrtaQYWxpGxiqLtQXakZI+4WY+Fak0frWSscWI+NGNBnbV0xP
-N2SxZZlInefPrspDKzgkcxhVmF2gozCU31PSRTgy3Iw7gXfb7S3QrzVyCJYfeqqL2QAu5pb9o+oz
-5IPL6T2xZIkFUJmvEyPNijOJvA8NPWQnoLN0NOknOoqNumyD6lCJ0Ra04tmy40l15dTUbrxTNnMV
-vJKGz68OtWCoyvvqhxHD72tvQI8zXXOlsFHf5tPjRTHYiiO2Bfs34WjrxiyV2NLZ0XcgUvUD9tcO
-lrs296P5ZXQ6j+/jCuKqCRNR+2DwgZNSMiSKb6dAiJW6uIVVW2sWQu17BO7xVGWvv+zIZCP6BbFG
-4m95zNEZ3E2Ajt/OtMvDRivh6PEsA2/HIDEfH4Nrl5DgSzieu6jAxhMYa2TtLbW7qsrB7gkaF8cx
-xzuJGfbhX1xx9Kx+aForK2IJWfwBdS4qNBDl+hzVREJwxKLEuhqEgKAifupBtJ9ZW1+cbrGVw9HP
-aVA=
-=r+LL
------END PGP SIGNATURE-----
-
---ii1uA8SbKGnacI9yJQ5vuK86BGgASN8G0--
-
---===============2033622541==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2033622541==--
