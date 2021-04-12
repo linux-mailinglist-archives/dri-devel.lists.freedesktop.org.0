@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA0235BF86
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB4C35BF88
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:09:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93D486E288;
-	Mon, 12 Apr 2021 09:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 110F86E25B;
+	Mon, 12 Apr 2021 09:09:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D3916E23D;
- Mon, 12 Apr 2021 09:09:28 +0000 (UTC)
-IronPort-SDR: lCxWojj5FiM7BjN3EOH2sEbaY1n799uOCBQpSENMIfGzH1n2jtD5Xrg2Hb/CHogk2EpKpQrZol
- FZEh827LgMSA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="193709714"
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="193709714"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 299FD6E25B;
+ Mon, 12 Apr 2021 09:09:30 +0000 (UTC)
+IronPort-SDR: KUrlgUkSOhx1eLWPDE8PwkknHqyP8RfI9dw16slOt7+slHZHI9rI/moGU1o4UI6YVR0OBZdVr6
+ 75hhBFX+regA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="193709716"
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="193709716"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2021 02:09:28 -0700
-IronPort-SDR: a4i+4YLQL1fjBvSqEFyJBSE003eAch+iYz5SvC8LFKx/XfORxqfYk9dVFtzsPY/T6/V/7fG1vZ
- EVzM4eiMwsiQ==
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="423712645"
+ 12 Apr 2021 02:09:29 -0700
+IronPort-SDR: 6x7+ih+bTMVnjAbWj4LjK1YPQ4ceHnlKDKXDR2s4HYoBvqKXxl+10tw48cMNBUNr7bQlkLaVQo
+ SEYBbp4+qZCw==
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="423712656"
 Received: from tarynrox-mobl1.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.252.5.30])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2021 02:09:27 -0700
+ 12 Apr 2021 02:09:28 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 07/19] drm/i915/fbdev: Use lmem physical addresses for
- fb_mmap() on discrete
-Date: Mon, 12 Apr 2021 10:05:14 +0100
-Message-Id: <20210412090526.30547-8-matthew.auld@intel.com>
+Subject: [PATCH 08/19] drm/i915: Return error value when bo not in LMEM for
+ discrete
+Date: Mon, 12 Apr 2021 10:05:15 +0100
+Message-Id: <20210412090526.30547-9-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210412090526.30547-1-matthew.auld@intel.com>
 References: <20210412090526.30547-1-matthew.auld@intel.com>
@@ -57,70 +57,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mohammed Khajapasha <mohammed.khajapasha@intel.com>
 
-use local memory io BAR address for fbdev's fb_mmap() operation on
-discrete, fbdev uses the physical address of our framebuffer for its
-fb_mmap() fn.
+Return EREMOTE value when frame buffer object is not backed by LMEM
+for discrete. If Local memory is supported by hardware the framebuffer
+backing gem objects should be from local memory.
 
 Signed-off-by: Mohammed Khajapasha <mohammed.khajapasha@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_fbdev.c | 29 +++++++++++++++++-----
- 1 file changed, 23 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index ccd00e65a5fe..2b37959da747 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -41,6 +41,8 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 411b46c012f8..57b06d8728af 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -63,6 +63,7 @@
+ #include "display/intel_vdsc.h"
+ #include "display/intel_vrr.h"
  
 +#include "gem/i915_gem_lmem.h"
-+
- #include "i915_drv.h"
- #include "intel_display_types.h"
- #include "intel_fbdev.h"
-@@ -178,6 +180,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
- 	unsigned long flags = 0;
- 	bool prealloc = false;
- 	void __iomem *vaddr;
-+	struct drm_i915_gem_object *obj;
- 	int ret;
+ #include "gem/i915_gem_object.h"
  
- 	if (intel_fb &&
-@@ -232,13 +235,27 @@ static int intelfb_create(struct drm_fb_helper *helper,
- 	info->fbops = &intelfb_ops;
+ #include "gt/intel_rps.h"
+@@ -11279,11 +11280,20 @@ intel_user_framebuffer_create(struct drm_device *dev,
+ 	struct drm_framebuffer *fb;
+ 	struct drm_i915_gem_object *obj;
+ 	struct drm_mode_fb_cmd2 mode_cmd = *user_mode_cmd;
++	struct drm_i915_private *i915;
  
- 	/* setup aperture base/size for vesafb takeover */
--	info->apertures->ranges[0].base = ggtt->gmadr.start;
--	info->apertures->ranges[0].size = ggtt->mappable_end;
-+	obj = intel_fb_obj(&intel_fb->base);
-+	if (i915_gem_object_is_lmem(obj)) {
-+		struct intel_memory_region *mem = obj->mm.region;
-+
-+		info->apertures->ranges[0].base = mem->io_start;
-+		info->apertures->ranges[0].size = mem->total;
-+
-+		/* Use fbdev's framebuffer from lmem for discrete */
-+		info->fix.smem_start =
-+			(unsigned long)(mem->io_start +
-+					i915_gem_object_get_dma_address(obj, 0));
-+		info->fix.smem_len = obj->base.size;
-+	} else {
-+		info->apertures->ranges[0].base = ggtt->gmadr.start;
-+		info->apertures->ranges[0].size = ggtt->mappable_end;
+ 	obj = i915_gem_object_lookup(filp, mode_cmd.handles[0]);
+ 	if (!obj)
+ 		return ERR_PTR(-ENOENT);
  
--	/* Our framebuffer is the entirety of fbdev's system memory */
--	info->fix.smem_start =
--		(unsigned long)(ggtt->gmadr.start + vma->node.start);
--	info->fix.smem_len = vma->node.size;
-+		/* Our framebuffer is the entirety of fbdev's system memory */
-+		info->fix.smem_start =
-+			(unsigned long)(ggtt->gmadr.start + vma->node.start);
-+		info->fix.smem_len = vma->node.size;
++	/* object is backed with LMEM for discrete */
++	i915 = to_i915(obj->base.dev);
++	if (HAS_LMEM(i915) && !i915_gem_object_is_lmem(obj)) {
++		/* object is "remote", not in local memory */
++		i915_gem_object_put(obj);
++		return ERR_PTR(-EREMOTE);
 +	}
++
+ 	fb = intel_framebuffer_create(obj, &mode_cmd);
+ 	i915_gem_object_put(obj);
  
- 	vaddr = i915_vma_pin_iomap(vma);
- 	if (IS_ERR(vaddr)) {
 -- 
 2.26.3
 
