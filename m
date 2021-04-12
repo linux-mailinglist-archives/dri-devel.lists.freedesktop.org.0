@@ -2,46 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFE135BF47
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B9335C1A5
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B9CD89B98;
-	Mon, 12 Apr 2021 09:05:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C5A6E3EF;
+	Mon, 12 Apr 2021 09:35:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id A257189B98
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 09:05:44 +0000 (UTC)
-X-UUID: 1cb2bca09a7548af8b5375aa339b30e2-20210412
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=nxVXVJ8vQJsktVMC5IOMAtKUWuGPOhkaTBIlEw7fk0U=; 
- b=Xb4/2VUro+JRUF8tk0V9W9R49T9NxidfcrH1w2YAWu4OfyyISxBAkFAOpX2rysyJx783Vjfe6iPZIirUo6EfkwcKCRHJrrbULIHcLbJuJqfl0LEMLbvHWSH+Y0c1JhrzTYizvmuZ9flwyPxkeXtpG1wWb/YWO9xM4RJnylRxygA=;
-X-UUID: 1cb2bca09a7548af8b5375aa339b30e2-20210412
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 290505175; Mon, 12 Apr 2021 17:05:40 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 12 Apr 2021 17:05:30 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Apr 2021 17:05:29 +0800
-Message-ID: <1618218330.16010.13.camel@mtksdaap41>
-Subject: Re: [PATCH v1, 3/3] drm/mediatek: gamma set with cmdq
-From: CK Hu <ck.hu@mediatek.com>
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Date: Mon, 12 Apr 2021 17:05:30 +0800
-In-Reply-To: <1618217129.9080.5.camel@mhfsdcap03>
-References: <1618209347-10816-1-git-send-email-yongqiang.niu@mediatek.com>
- <1618209347-10816-4-git-send-email-yongqiang.niu@mediatek.com>
- <1618216127.12699.4.camel@mtksdaap41> <1618217129.9080.5.camel@mhfsdcap03>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06B306E083
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 09:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618220138;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VSBwqzTaxJCu+qu4cycnbtHOYaiDZgjTNv/wFXF12a8=;
+ b=XyctG9O8JYd8eBSf4d+h1ZSmWA9MHFVe/nM0z31O/EaxHiErXewIqfYnpcPct5Cv/qRX2E
+ 0K0V1u95UrIaAjtrRj2CRDAUQpIVnK/pTs7d+Qkg2mlOH0msyPtc8mgmjSxNx1CxqQx2AA
+ wGoQM0oB1BkNu+iHXx3qHzvpcU2LsQQ=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-510-r0kj3sBWM9OPFlXsesWLmA-1; Mon, 12 Apr 2021 05:35:33 -0400
+X-MC-Unique: r0kj3sBWM9OPFlXsesWLmA-1
+Received: by mail-ej1-f72.google.com with SMTP id jt26so3647142ejc.18
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 02:35:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VSBwqzTaxJCu+qu4cycnbtHOYaiDZgjTNv/wFXF12a8=;
+ b=pmjwQsGaolfJrX/DvP15ZAa+hY1knHlTIAhODfAAjvzdGsUH3jZ3F2nD/Tgt+/7+4A
+ ATa/wnf/TUsoDi/aNvPFaS5PWto573+Ld7l1O9eql7BAX1TLBR8aYmWAPPzwnd8iFxz5
+ vtjzEpL6UFL9qVjmnvf9L5P6Tguvsh490Jqfo6ZA+4EA/G0XspR1AJ3HqZIq3UjY7Cfi
+ 6IxY5tZbEF8cE0dL5VV00iygbZ4dy0Uk7zAM0aTDq4rTouej2EXl/xSPM0szzn1HRwmr
+ xO++b9KO6Ns5WQUwaq9cycY/kc5sXnCu2UpOy6IoVt36/vg4Pzj/PgOt9e/WU0aqLFA/
+ 6yqA==
+X-Gm-Message-State: AOAM531AFsXd/GBeTawHG9D4p2oHarwHCKxRllDIdzP9FjD0/bkQYRh3
+ ZhRD10qIVD4kHiAhsbyPbTWN6k16iFF6uITXBG02RqKn+MhfcAzmXln1H3KiiU0d2SLTlF/0JZp
+ h7MW+bLi+CfLpwT/KZomYoTCgdqhGZ96u6wVM5PK6bylnHk9X5M96aq1DNkBQa7ttx8lR2QGIU6
+ OX8296
+X-Received: by 2002:a05:6402:354b:: with SMTP id
+ f11mr28211159edd.361.1618220132393; 
+ Mon, 12 Apr 2021 02:35:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwn7qRZYXPxfgzhGVwF7935JRoKyMzn/cqk0Z6EgucAMsJP05c03hygtrohbzmmuJN321h5zw==
+X-Received: by 2002:a05:6402:354b:: with SMTP id
+ f11mr28211132edd.361.1618220132109; 
+ Mon, 12 Apr 2021 02:35:32 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+ by smtp.gmail.com with ESMTPSA id l1sm6116331edt.59.2021.04.12.02.35.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Apr 2021 02:35:31 -0700 (PDT)
+Subject: Re: [PATCH 1/2] drm/i915/display/vlv_dsi: Do not skip
+ panel_pwr_cycle_delay when disabling the panel
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20210325114823.44922-1-hdegoede@redhat.com>
+ <9cb6711d-d183-79d4-dfc1-d932b8c8fcab@redhat.com>
+ <YG2mzs+/wZ5cH+7M@intel.com>
+ <5f54a568-c81a-a54c-cbaf-2c111269c046@redhat.com>
+ <YG26UEx8XI5vX3P0@intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <709ffd0a-6336-83d8-5adf-6ce51825a424@redhat.com>
+Date: Mon, 12 Apr 2021 11:35:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: DC4AE128241CC894884240A6A99D87BA6FE31408A987B06BD2CFC36BD64511392000:8
-X-MTK: N
+In-Reply-To: <YG26UEx8XI5vX3P0@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,236 +90,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
-
-On Mon, 2021-04-12 at 16:45 +0800, Yongqiang Niu wrote:
-> On Mon, 2021-04-12 at 16:28 +0800, CK Hu wrote:
-> > Hi, Yongqiang:
-> > 
-> > On Mon, 2021-04-12 at 14:35 +0800, Yongqiang Niu wrote:
-> > > gamma lut set in vsync active will caused display flash issue
-> > > set gamma lut with cmdq 
-> > 
-> > In MT8173, it's ok to set gammma out of vblank period. Why do you
-> > setting gamma in vblank in this patch?
-> > 
-> > Regards,
-> > CK
-> > 
-> 
-> mtk drm driver code has changed many since mt8173, there is no one test
-> this in the newest version for mt8173.
-> 
-> and this issue is random.
-> https://partnerissuetracker.corp.google.com/u/1/issues/153842418
-> 
-> and not all platform will set gamma lut.
-> some project platform will not set gamma lut from chrome os
-> (crhome os set gamma lut may be with some special panel, like AUO
-> B116XTN02.3 in
-> https://partnerissuetracker.corp.google.com/u/1/issues/153842418
-> )
-> 
-
-
-I could not see the page in partnelissuetracker, If this patch fix some
-bug, describe the bug in commit message. It's better that information
-include how to reproduce this bug and what kind of error happen. More
-information would help us to understand why setting in vblank would fix
-this bug.
-
-Regards,
-CK
-
-> > > 
-> > > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> > > ---
-> > >  drivers/gpu/drm/mediatek/mtk_disp_aal.c     |  4 ++--
-> > >  drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  7 ++++---
-> > >  drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 11 ++++++-----
-> > >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 18 +++++++++++-------
-> > >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  8 +++++---
-> > >  5 files changed, 28 insertions(+), 20 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > > index 64b4528..c8e178e 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > > @@ -59,12 +59,12 @@ void mtk_aal_config(struct device *dev, unsigned int w,
-> > >  	mtk_ddp_write(cmdq_pkt, w << 16 | h, &aal->cmdq_reg, aal->regs, DISP_AAL_SIZE);
-> > >  }
-> > >  
-> > > -void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
-> > > +void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt)
-> > >  {
-> > >  	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
-> > >  
-> > >  	if (aal->data && aal->data->has_gamma)
-> > > -		mtk_gamma_set_common(aal->regs, state);
-> > > +		mtk_gamma_set_common(aal->regs, &aal->cmdq_reg, state, cmdq_pkt);
-> > >  }
-> > >  
-> > >  void mtk_aal_start(struct device *dev)
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > > index 86c3068..c2e7dcb 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > > @@ -14,7 +14,7 @@
-> > >  void mtk_aal_config(struct device *dev, unsigned int w,
-> > >  		    unsigned int h, unsigned int vrefresh,
-> > >  		    unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-> > > -void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state);
-> > > +void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt);
-> > >  void mtk_aal_start(struct device *dev);
-> > >  void mtk_aal_stop(struct device *dev);
-> > >  
-> > > @@ -50,8 +50,9 @@ void mtk_dither_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
-> > >  void mtk_gamma_config(struct device *dev, unsigned int w,
-> > >  		      unsigned int h, unsigned int vrefresh,
-> > >  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-> > > -void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state);
-> > > -void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state);
-> > > +void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt);
-> > > +void mtk_gamma_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
-> > > +			  struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt);
-> > >  void mtk_gamma_start(struct device *dev);
-> > >  void mtk_gamma_stop(struct device *dev);
-> > >  
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > > index 3ebf91e..99a4ff3 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > > @@ -55,7 +55,8 @@ void mtk_gamma_clk_disable(struct device *dev)
-> > >  	clk_disable_unprepare(gamma->clk);
-> > >  }
-> > >  
-> > > -void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state)
-> > > +void mtk_gamma_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
-> > > +			  struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt)
-> > >  {
-> > >  	unsigned int i, reg;
-> > >  	struct drm_color_lut *lut;
-> > > @@ -65,23 +66,23 @@ void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state)
-> > >  	if (state->gamma_lut) {
-> > >  		reg = readl(regs + DISP_GAMMA_CFG);
-> > >  		reg = reg | GAMMA_LUT_EN;
-> > > -		writel(reg, regs + DISP_GAMMA_CFG);
-> > > +		mtk_ddp_write(cmdq_pkt, reg, cmdq_reg, regs, DISP_GAMMA_CFG);
-> > >  		lut_base = regs + DISP_GAMMA_LUT;
-> > >  		lut = (struct drm_color_lut *)state->gamma_lut->data;
-> > >  		for (i = 0; i < MTK_LUT_SIZE; i++) {
-> > >  			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
-> > >  				(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
-> > >  				((lut[i].blue >> 6) & LUT_10BIT_MASK);
-> > > -			writel(word, (lut_base + i * 4));
-> > > +			mtk_ddp_write(cmdq_pkt, word, cmdq_reg, regs, (lut_base + i * 4));
-> > >  		}
-> > >  	}
-> > >  }
-> > >  
-> > > -void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
-> > > +void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt)
-> > >  {
-> > >  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-> > >  
-> > > -	mtk_gamma_set_common(gamma->regs, state);
-> > > +	mtk_gamma_set_common(gamma->regs, &gamma->cmdq_reg, state, cmdq_pkt);
-> > >  }
-> > >  
-> > >  void mtk_gamma_config(struct device *dev, unsigned int w,
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > index 8b0de90..73428f0 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > @@ -423,6 +423,15 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
-> > >  		}
-> > >  		mtk_crtc->pending_async_planes = false;
-> > >  	}
-> > > +
-> > > +	if (crtc->state->color_mgmt_changed) {
-> > > +		int i;
-> > > +
-> > > +		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
-> > > +			mtk_ddp_gamma_set(mtk_crtc->ddp_comp[i], crtc->state, cmdq_handle);
-> > > +			mtk_ddp_ctm_set(mtk_crtc->ddp_comp[i], crtc->state);
-> > > +		}
-> > > +	}
-> > >  }
-> > >  
-> > >  static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
-> > > @@ -464,7 +473,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
-> > >  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> > >  	if (mtk_crtc->cmdq_client) {
-> > >  		mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
-> > > -		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
-> > > +		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, 2 * PAGE_SIZE);
-> > >  		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
-> > >  		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
-> > >  		mtk_crtc_ddp_config(crtc, cmdq_handle);
-> > > @@ -616,15 +625,10 @@ static void mtk_drm_crtc_atomic_flush(struct drm_crtc *crtc,
-> > >  				      struct drm_atomic_state *state)
-> > >  {
-> > >  	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
-> > > -	int i;
-> > >  
-> > >  	if (mtk_crtc->event)
-> > >  		mtk_crtc->pending_needs_vblank = true;
-> > > -	if (crtc->state->color_mgmt_changed)
-> > > -		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
-> > > -			mtk_ddp_gamma_set(mtk_crtc->ddp_comp[i], crtc->state);
-> > > -			mtk_ddp_ctm_set(mtk_crtc->ddp_comp[i], crtc->state);
-> > > -		}
-> > > +
-> > >  	mtk_drm_crtc_hw_config(mtk_crtc);
-> > >  }
-> > >  
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > > index bb914d9..bffa58d 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > > @@ -60,7 +60,8 @@ struct mtk_ddp_comp_funcs {
-> > >  			     struct mtk_plane_state *state,
-> > >  			     struct cmdq_pkt *cmdq_pkt);
-> > >  	void (*gamma_set)(struct device *dev,
-> > > -			  struct drm_crtc_state *state);
-> > > +			  struct drm_crtc_state *state,
-> > > +			  struct cmdq_pkt *cmdq_pkt);
-> > >  	void (*bgclr_in_on)(struct device *dev);
-> > >  	void (*bgclr_in_off)(struct device *dev);
-> > >  	void (*ctm_set)(struct device *dev,
-> > > @@ -160,10 +161,11 @@ static inline void mtk_ddp_comp_layer_config(struct mtk_ddp_comp *comp,
-> > >  }
-> > >  
-> > >  static inline void mtk_ddp_gamma_set(struct mtk_ddp_comp *comp,
-> > > -				     struct drm_crtc_state *state)
-> > > +				     struct drm_crtc_state *state,
-> > > +				     struct cmdq_pkt *cmdq_pkt)
-> > >  {
-> > >  	if (comp->funcs && comp->funcs->gamma_set)
-> > > -		comp->funcs->gamma_set(comp->dev, state);
-> > > +		comp->funcs->gamma_set(comp->dev, state, cmdq_pkt);
-> > >  }
-> > >  
-> > >  static inline void mtk_ddp_comp_bgclr_in_on(struct mtk_ddp_comp *comp)
-> > 
-> > 
-> 
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpPbiA0LzcvMjEgMzo1NyBQTSwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIFdlZCwg
+QXByIDA3LCAyMDIxIGF0IDAzOjUwOjM1UE0gKzAyMDAsIEhhbnMgZGUgR29lZGUgd3JvdGU6Cj4+
+IEhpLAo+Pgo+PiBPbiA0LzcvMjEgMjozNCBQTSwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+Pj4g
+T24gVHVlLCBBcHIgMDYsIDIwMjEgYXQgMDM6NTc6MzJQTSArMDIwMCwgSGFucyBkZSBHb2VkZSB3
+cm90ZToKPj4+PiBIaSwKPj4+Pgo+Pj4+IE9uIDMvMjUvMjEgMTI6NDggUE0sIEhhbnMgZGUgR29l
+ZGUgd3JvdGU6Cj4+Pj4+IEFmdGVyIHRoZSByZWNlbnRseSBhZGRlZCBjb21taXQgZmUwZjFlM2Jm
+ZGZlICgiZHJtL2k5MTU6IFNodXQgZG93bgo+Pj4+PiBkaXNwbGF5cyBncmFjZWZ1bGx5IG9uIHJl
+Ym9vdCIpLCB0aGUgRFNJIHBhbmVsIG9uIGEgQ2hlcnJ5IFRyYWlsIGJhc2VkCj4+Pj4+IFByZWRp
+YSBCYXNpYyB0YWJsZXQgd291bGQgbm8gbG9uZ2VyIHByb3Blcmx5IGxpZ2h0IHVwIGFmdGVyIHJl
+Ym9vdC4KPj4+Pj4KPj4+Pj4gSSd2ZSBtYW5hZ2VkIHRvIHJlcHJvZHVjZSB0aGlzIHdpdGhvdXQg
+cmVib290aW5nIGJ5IGRvaW5nOgo+Pj4+PiBjaHZ0IDM7IGVjaG8gMSA+IC9zeXMvY2xhc3MvZ3Jh
+cGhpY3MvZmIwL2JsYW5rO1wKPj4+Pj4gZWNobyAwID4gL3N5cy9jbGFzcy9ncmFwaGljcy9mYjAv
+YmxhbmsKPj4+Pj4KPj4+Pj4gV2hpY2ggcmFwaWRseSB0dXJucyB0aGUgcGFuZWwgb2ZmIGFuZCBi
+YWNrIG9uIGFnYWluLgo+Pj4+Pgo+Pj4+PiBUaGUgdmx2X2RzaS5jIGNvZGUgdXNlcyBhbiBpbnRl
+bF9kc2lfbXNsZWVwKCkgaGVscGVyIGZvciB0aGUgdmFyaW91cyBkZWxheXMKPj4+Pj4gdXNlZCBm
+b3IgcGFuZWwgb24vb2ZmLCBzaW5jZSBzdGFydGluZyB3aXRoIE1JUEktc2VxdWVuY2VzIHZlcnNp
+b24gPj0gMyB0aGUKPj4+Pj4gZGVsYXlzIGFyZSBhbHJlYWR5IGluY2x1ZGVkIGluc2lkZSB0aGUg
+TUlQSS1zZXF1ZW5jZXMuCj4+Pj4+Cj4+Pj4+IFRoZSBwcm9ibGVtcyBleHBvc2VkIGJ5IHRoZSAi
+U2h1dCBkb3duIGRpc3BsYXlzIGdyYWNlZnVsbHkgb24gcmVib290Igo+Pj4+PiBjaGFuZ2UsIHNo
+b3cgdGhhdCB1c2luZyB0aGlzIGhlbHBlciBmb3IgdGhlIHBhbmVsX3B3cl9jeWNsZV9kZWxheSBp
+cwo+Pj4+PiBub3QgdGhlIHJpZ2h0IHRoaW5nIHRvIGRvLiBUaGlzIGhhcyBub3QgYmVlbiBub3Rp
+Y2VkIHVudGlsIG5vdyBiZWNhdXNlCj4+Pj4+IG5vcm1hbGx5IHRoZSBwYW5lbCBuZXZlciBpcyBj
+eWNsZWQgb2ZmIGFuZCBkaXJlY3RseSBvbiBhZ2FpbiBpbiBxdWljawo+Pj4+PiBzdWNjZXNzaW9u
+Lgo+Pj4+Pgo+Pj4+PiBDaGFuZ2UgdGhlIG1zbGVlcCBmb3IgdGhlIHBhbmVsX3B3cl9jeWNsZV9k
+ZWxheSB0byBhIG5vcm1hbCBtc2xlZXAoKQo+Pj4+PiBjYWxsIHRvIGF2b2lkIHRoZSBwYW5lbCBz
+dGF5aW5nIGJsYWNrIGFmdGVyIGEgcXVpY2sgb2ZmICsgb24gY3ljbGUuCj4+Pj4+Cj4+Pj4+IENj
+OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Pj4+PiBG
+aXhlczogZmUwZjFlM2JmZGZlICgiZHJtL2k5MTU6IFNodXQgZG93biBkaXNwbGF5cyBncmFjZWZ1
+bGx5IG9uIHJlYm9vdCIpCj4+Pj4+IFNpZ25lZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdv
+ZWRlQHJlZGhhdC5jb20+Cj4+Pj4KPj4+PiBQaW5nPyBWaWxsZSBBRkFJQ1QgdGhpcyBpcyByZWFk
+eSBmb3IgbWVyZ2luZywgY2FuIHlvdSByZXZpZXcgdGhpcyBwbGVhc2Ugc28gdGhhdCBJIGNhbiBw
+dXNoIGl0IHRvIGRybS1pbnRlbC1uZXh0ID8KPj4+Cj4+PiBEaWRuJ3QgZ2V0IHRoZSBvcmlnaW5h
+bCBtYWlsLCBidXQgbGd0bS4KPj4KPj4gWWVhaCwgdGhlc2UgYm91bmNlZCBJIG1lbnRpb25lZCB0
+aGF0IGluIGEgcC5zLiBpbiBvbmUgb2YgdGhlIGVtYWlscwo+PiBpbiBvdXIgcHJpdmF0ZSB0aHJl
+YWRzIGFib3V0IHRoZSBtYWlsIGlzc3Vlcywgd2l0aCBwYXRjaHdvcmsgbGlua3MsCj4+IGJ1dCBJ
+IGd1ZXNzIHRoZSBwLnMuIHdhcyBoaWRkZW4gaW4gYWxsIHRoZSBvdGhlciBzdHVmZiBpbiB0aGF0
+IHRocmVhZC4KPj4gQW55d2F5cyB0aGlzIGlzIHNvbHZlZCBub3cuCj4+Cj4+PiBSZXZpZXdlZC1i
+eTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPj4KPj4g
+VGhhbmsgeW91LCBub3RlIHRoaXMgaXMgcGF0Y2ggMS8yIGRvZXMgdGhlIFJldmlld2VkLWJ5IGFw
+cGx5IHRvCj4+IGJvdGg/ICBQYXRjaCAyLzIgaXMgaGVyZToKPj4KPj4gaHR0cHM6Ly9wYXRjaHdv
+cmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzQyNTk4My8KPiAKPiBUaGF0IG9uZSBsb29rcyBnb29k
+IGFzIHdlbGwuCj4gCj4gUmV2aWV3ZWQtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFs
+YUBsaW51eC5pbnRlbC5jb20+CgpUaGFuayB5b3UuCgpJJ3ZlIHB1c2hlZCBib3RoIHRvIGRybS1p
+bnRlbC1uZXh0IG5vdy4KClJlZ2FyZHMsCgpIYW5zCgoKCj4+Pj4+IC0tLQo+Pj4+PiAgZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZGlzcGxheS92bHZfZHNpLmMgfCA0ICsrLS0KPj4+Pj4gIDEgZmlsZSBj
+aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4+Pj4+Cj4+Pj4+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L3Zsdl9kc2kuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2Rpc3BsYXkvdmx2X2RzaS5jCj4+Pj4+IGluZGV4IGQ1YTNmNjljNWRmMy4u
+MzhkNWExZjNkZWQ1IDEwMDY0NAo+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
+bGF5L3Zsdl9kc2kuYwo+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L3Zs
+dl9kc2kuYwo+Pj4+PiBAQCAtOTk2LDE0ICs5OTYsMTQgQEAgc3RhdGljIHZvaWQgaW50ZWxfZHNp
+X3Bvc3RfZGlzYWJsZShzdHJ1Y3QgaW50ZWxfYXRvbWljX3N0YXRlICpzdGF0ZSwKPj4+Pj4gIAkg
+KiBGSVhNRSBBcyB3ZSBkbyB3aXRoIGVEUCwganVzdCBtYWtlIGEgbm90ZSBvZiB0aGUgdGltZSBo
+ZXJlCj4+Pj4+ICAJICogYW5kIHBlcmZvcm0gdGhlIHdhaXQgYmVmb3JlIHRoZSBuZXh0IHBhbmVs
+IHBvd2VyIG9uLgo+Pj4+PiAgCSAqLwo+Pj4+PiAtCWludGVsX2RzaV9tc2xlZXAoaW50ZWxfZHNp
+LCBpbnRlbF9kc2ktPnBhbmVsX3B3cl9jeWNsZV9kZWxheSk7Cj4+Pj4+ICsJbXNsZWVwKGludGVs
+X2RzaS0+cGFuZWxfcHdyX2N5Y2xlX2RlbGF5KTsKPj4+Pj4gIH0KPj4+Pj4gIAo+Pj4+PiAgc3Rh
+dGljIHZvaWQgaW50ZWxfZHNpX3NodXRkb3duKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVy
+KQo+Pj4+PiAgewo+Pj4+PiAgCXN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSA9IGVuY190b19p
+bnRlbF9kc2koZW5jb2Rlcik7Cj4+Pj4+ICAKPj4+Pj4gLQlpbnRlbF9kc2lfbXNsZWVwKGludGVs
+X2RzaSwgaW50ZWxfZHNpLT5wYW5lbF9wd3JfY3ljbGVfZGVsYXkpOwo+Pj4+PiArCW1zbGVlcChp
+bnRlbF9kc2ktPnBhbmVsX3B3cl9jeWNsZV9kZWxheSk7Cj4+Pj4+ICB9Cj4+Pj4+ICAKPj4+Pj4g
+IHN0YXRpYyBib29sIGludGVsX2RzaV9nZXRfaHdfc3RhdGUoc3RydWN0IGludGVsX2VuY29kZXIg
+KmVuY29kZXIsCj4+Pj4+Cj4+Pgo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
