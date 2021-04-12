@@ -1,37 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A9635BF78
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:09:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7210035BF7B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:09:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E60389309;
-	Mon, 12 Apr 2021 09:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C30489DD2;
+	Mon, 12 Apr 2021 09:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E04389309;
- Mon, 12 Apr 2021 09:09:19 +0000 (UTC)
-IronPort-SDR: mIo6Rxw5xcPv81NGxt5yz6LSZi6mS4Ir7MhTknZcgbdUbXp8xUT0G1vtfZpsmg83K0NO1FpDzD
- XNXxI3w1zhdw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="193709691"
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="193709691"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3434489533;
+ Mon, 12 Apr 2021 09:09:20 +0000 (UTC)
+IronPort-SDR: hC/kcfzc0YvwBtVtk1WjJNbd3j+NtyFSurmT8caJUiHDgc8TvYHDdlJJvfCAIS3pHsi9GUou9O
+ nC9Zw4wJ9iLQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="193709699"
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="193709699"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2021 02:09:18 -0700
-IronPort-SDR: I1P9rJj3a15qCgpQ1WF8TwQs6nPqxHsKyctOLlc816GDiOnPD71wjUukjb1ngM4sALFfcIR1du
- FjWTdr3y1+Lw==
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="423712568"
+ 12 Apr 2021 02:09:19 -0700
+IronPort-SDR: l8H/5WGNpI7D/N3MRi12Qjk1ZJE+YO+Y9zjqH5be5CFyVx2pwl0BAg7/5slgT1DI3IrLWj/ukQ
+ A5h5yQuj4KRg==
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="423712589"
 Received: from tarynrox-mobl1.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.252.5.30])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2021 02:09:17 -0700
+ 12 Apr 2021 02:09:18 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 00/19] More DG1 enabling
-Date: Mon, 12 Apr 2021 10:05:07 +0100
-Message-Id: <20210412090526.30547-1-matthew.auld@intel.com>
+Subject: [PATCH 01/19] drm/i915/gt: Skip aperture remapping selftest where
+ there is no aperture
+Date: Mon, 12 Apr 2021 10:05:08 +0100
+Message-Id: <20210412090526.30547-2-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210412090526.30547-1-matthew.auld@intel.com>
+References: <20210412090526.30547-1-matthew.auld@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,80 +48,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TmV4dCBiYXRjaCBvZiBERzEgcGF0Y2hlcy4gV2l0aCB0aGlzIHdlIHNob3VsZCBub3cgZ2V0IGEg
-Ym9vdGluZyBERzEgc3lzdGVtIHdpdGgKdGhlIGtlcm5lbCBzZWxmdGVzdHMgcGFzc2luZy4KCkFu
-c2h1bWFuIEd1cHRhICgxKToKICBkcm0vaTkxNS9vcHJvbTogQmFzaWMgc2FuaXRpemF0aW9uCgpB
-bnVzaGEgU3JpdmF0c2EgKDEpOgogIGRybS9pOTE1L2xtZW06IEJ5cGFzcyBhcGVydHVyZSB3aGVu
-IGxtZW0gaXMgYXZhaWxhYmxlCgpDUSBUYW5nICgzKToKICBkcm0vaTkxNTogQ3JlYXRlIHN0b2xl
-biBtZW1vcnkgcmVnaW9uIGZyb20gbG9jYWwgbWVtb3J5CiAgZHJtL2k5MTUvc3RvbGVuOiBlbmZv
-cmNlIHRoZSBtaW5fcGFnZV9zaXplIGNvbnRyYWN0CiAgZHJtL2k5MTUvc3RvbGVuOiBwYXNzIHRo
-ZSBhbGxvY2F0aW9uIGZsYWdzCgpDaHJpcyBXaWxzb24gKDIpOgogIGRybS9pOTE1L2d0OiBTa2lw
-IGFwZXJ0dXJlIHJlbWFwcGluZyBzZWxmdGVzdCB3aGVyZSB0aGVyZSBpcyBubwogICAgYXBlcnR1
-cmUKICBkcm0vaTkxNS9zZWxmdGVzdHM6IE9ubHkgcXVlcnkgUkFQTCBmb3IgaW50ZWdyYXRlZCBw
-b3dlciBtZWFzdXJlbWVudHMKCkNsaW50IFRheWxvciAoMyk6CiAgZHJtL2k5MTUvZGcxOiBSZWFk
-IE9QUk9NIHZpYSBTUEkgY29udHJvbGxlcgogIGRybS9pOTE1L2RnMTogQ29tcHV0ZSBNRU0gQmFu
-ZHdpZHRoIHVzaW5nIE1DSEJBUgogIGRybS9pOTE1L2RnMTogRG91YmxlIG1lbW9yeSBiYW5kd2lk
-dGggYXZhaWxhYmxlCgpKb3PDqSBSb2JlcnRvIGRlIFNvdXphICgxKToKICBkcm0vaTkxNTogV0Eg
-Zm9yIHplcm8gbWVtb3J5IGNoYW5uZWwKCk1hdHQgUm9wZXIgKDEpOgogIGRybS9pOTE1L2xtZW06
-IEZhaWwgZHJpdmVyIGluaXQgaWYgTE1FTSB0cmFpbmluZyBmYWlsZWQKCk1hdHRoZXcgQXVsZCAo
-Myk6CiAgZHJtL2k5MTUvc3RvbGVuOiB0cmVhdCBzdG9sZW4gbG9jYWwgYXMgbm9ybWFsIGxvY2Fs
-IG1lbW9yeQogIGRybS9pOTE1L2d0dDogbWFwIHRoZSBQRCB1cCBmcm9udAogIGRybS9pOTE1L2d0
-dC9kZ2Z4OiBwbGFjZSB0aGUgUEQgaW4gTE1FTQoKTW9oYW1tZWQgS2hhamFwYXNoYSAoMik6CiAg
-ZHJtL2k5MTUvZmJkZXY6IFVzZSBsbWVtIHBoeXNpY2FsIGFkZHJlc3NlcyBmb3IgZmJfbW1hcCgp
-IG9uIGRpc2NyZXRlCiAgZHJtL2k5MTU6IFJldHVybiBlcnJvciB2YWx1ZSB3aGVuIGJvIG5vdCBp
-biBMTUVNIGZvciBkaXNjcmV0ZQoKVmVua2F0YSBSYW1hbmEgTmF5YW5hICgxKToKICBkcm0vaTkx
-NS9kZzE6IEZpeCBtYXBwaW5nIHR5cGUgZm9yIGRlZmF1bHQgc3RhdGUgb2JqZWN0CgpWZW5rYXRh
-IFNhbmRlZXAgRGhhbmFsYWtvdGEgKDEpOgogIGRybS9pOTE1OiBVcGRhdGUgdGhlIGhlbHBlciB0
-byBzZXQgY29ycmVjdCBtYXBwaW5nCgogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9iaW9zLmMgICAgIHwgIDc1ICsrKysrKystCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
-L2ludGVsX2J3LmMgICAgICAgfCAgNjMgKysrKysrLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9kaXNwbGF5LmMgIHwgIDEwICsrCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
-bGF5L2ludGVsX2ZiZGV2LmMgICAgfCAgNTEgKysrKy0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX29wcmVnaW9uLmMgfCAxNjkgKysrKysrKysrKysrKysrKysrCiBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX29wcmVnaW9uLmggfCAgMzggKysrLQogZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2xtZW0uYyAgICAgIHwgIDIwICsrLQogZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2xtZW0uaCAgICAgIHwgICA1ICsKIGRyaXZlcnMv
-Z3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zdG9sZW4uYyAgICB8IDExNiArKysrKysrKysrLS0K
-IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zdG9sZW4uaCAgICB8ICAgMyArCiAu
-Li4vZHJtL2k5MTUvZ2VtL3NlbGZ0ZXN0cy9pOTE1X2dlbV9jb250ZXh0LmMgfCAgMTEgKy0KIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2d0L2dlbjZfcHBndHQuYyAgICAgICAgICB8ICAxMSArLQogZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ3QvZ2VuOF9wcGd0dC5jICAgICAgICAgIHwgIDMxICsrLS0KIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2VuZ2luZV9jcy5jICAgICB8ICAgMyArLQogZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZW5naW5lX3BtLmMgICAgIHwgICAyICstCiBkcml2
-ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9nZ3R0LmMgICAgICAgICAgfCAgIDIgKy0KIGRyaXZl
-cnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0dC5jICAgICAgICAgICB8ICA3MSArKysrKy0tLQog
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3R0LmggICAgICAgICAgIHwgIDEyICstCiBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9scmMuYyAgICAgICAgICAgfCAgIDQgKy0KIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX3BwZ3R0LmMgICAgICAgICB8ICAgNyArLQogZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfcmluZy5jICAgICAgICAgIHwgICA5ICstCiBkcml2
-ZXJzL2dwdS9kcm0vaTkxNS9ndC9zZWxmdGVzdF9jb250ZXh0LmMgICAgfCAgIDMgKy0KIGRyaXZl
-cnMvZ3B1L2RybS9pOTE1L2d0L3NlbGZ0ZXN0X2hhbmdjaGVjay5jICB8ICAgNCArLQogZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ3Qvc2VsZnRlc3RfbHJjLmMgICAgICAgIHwgICA0ICstCiBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9ndC9zZWxmdGVzdF9yYzYuYyAgICAgICAgfCAgMzIgKystLQogZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ3Qvc2VsZnRlc3RfcnBzLmMgICAgICAgIHwgICAyICstCiBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9ndC9zaG1lbV91dGlscy5jICAgICAgICAgfCAgIDQgKy0KIGRyaXZlcnMv
-Z3B1L2RybS9pOTE1L2d0L3VjL2ludGVsX2d1Yy5jICAgICAgICB8ICAgNCArLQogZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZ3QvdWMvaW50ZWxfaHVjLmMgICAgICAgIHwgICA0ICstCiBkcml2ZXJzL2dw
-dS9kcm0vaTkxNS9pOTE1X2Rydi5oICAgICAgICAgICAgICAgfCAgMTEgKy0KIGRyaXZlcnMvZ3B1
-L2RybS9pOTE1L2k5MTVfcGNpLmMgICAgICAgICAgICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvaTkxNV9yZWcuaCAgICAgICAgICAgICAgIHwgIDEyICsrCiBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9pOTE1X3ZtYS5jICAgICAgICAgICAgICAgfCAgMjIgKystCiBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9pbnRlbF9tZW1vcnlfcmVnaW9uLmMgICAgfCAgIDYgKwogZHJpdmVycy9ncHUvZHJt
-L2k5MTUvaW50ZWxfbWVtb3J5X3JlZ2lvbi5oICAgIHwgICA1ICstCiBkcml2ZXJzL2dwdS9kcm0v
-aTkxNS9pbnRlbF91bmNvcmUuYyAgICAgICAgICAgfCAgMTIgKysKIGRyaXZlcnMvZ3B1L2RybS9p
-OTE1L3NlbGZ0ZXN0cy9pOTE1X2dlbV9ndHQuYyB8ICAxMCArLQogZHJpdmVycy9ncHUvZHJtL2k5
-MTUvc2VsZnRlc3RzL2k5MTVfcGVyZi5jICAgIHwgICAzICstCiBkcml2ZXJzL2dwdS9kcm0vaTkx
-NS9zZWxmdGVzdHMvaTkxNV92bWEuYyAgICAgfCAgIDMgKwogZHJpdmVycy9ncHUvZHJtL2k5MTUv
-c2VsZnRlc3RzL2lndF9zcGlubmVyLmMgIHwgICA0ICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9z
-ZWxmdGVzdHMvbGlicmFwbC5jICAgICAgfCAgMTAgKysKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L3Nl
-bGZ0ZXN0cy9saWJyYXBsLmggICAgICB8ICAgNCArCiA0MiBmaWxlcyBjaGFuZ2VkLCA3MTYgaW5z
-ZXJ0aW9ucygrKSwgMTU4IGRlbGV0aW9ucygtKQoKLS0gCjIuMjYuMwoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+From: Chris Wilson <chris@chris-wilson.co.uk>
+
+If there is no mappable aperture, we cannot remap it for access, and the
+selftest is void.
+
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/i915/selftests/i915_vma.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
+index 5fe7b80ca0bd..dd0607254a95 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_vma.c
++++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
+@@ -967,6 +967,9 @@ static int igt_vma_remapped_gtt(void *arg)
+ 	intel_wakeref_t wakeref;
+ 	int err = 0;
+ 
++	if (!i915_ggtt_has_aperture(&i915->ggtt))
++		return 0;
++
+ 	obj = i915_gem_object_create_internal(i915, 10 * 10 * PAGE_SIZE);
+ 	if (IS_ERR(obj))
+ 		return PTR_ERR(obj);
+-- 
+2.26.3
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
