@@ -1,40 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CB735BA39
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 08:41:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8559D35BA84
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 09:01:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF6D26E060;
-	Mon, 12 Apr 2021 06:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 316166E1D5;
+	Mon, 12 Apr 2021 07:01:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id BD95F6E060
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 06:41:22 +0000 (UTC)
-X-UUID: f8aabd12473d4570825721b582a00111-20210412
-X-UUID: f8aabd12473d4570825721b582a00111-20210412
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 2108598801; Mon, 12 Apr 2021 14:36:05 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 12 Apr 2021 14:36:01 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Apr 2021 14:36:00 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v1, 3/3] drm/mediatek: gamma set with cmdq
-Date: Mon, 12 Apr 2021 14:35:47 +0800
-Message-ID: <1618209347-10816-4-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1618209347-10816-1-git-send-email-yongqiang.niu@mediatek.com>
-References: <1618209347-10816-1-git-send-email-yongqiang.niu@mediatek.com>
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD36F6E1D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 07:01:44 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id i81so12480161oif.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 00:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9eoMDF/wQXgBqcptxwajgyfKHfls18wSno0OgI96W1M=;
+ b=Z8VViXsU+J+0t/NeghxVqUCLlf+iJt7KQWTk4fn7J0Nqu3GKiTU3uJNBi11dErZRwT
+ qnV047UmDkOKJgZ2nIQStIbrlGb9jB10Xmbj7Mejny8Wh9w7qeKQqkHolxPkpkHbbbBD
+ aiS9/TWhgdvEiE4xcNmO7YFTO+uBl46QmeBMs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9eoMDF/wQXgBqcptxwajgyfKHfls18wSno0OgI96W1M=;
+ b=PergeW+VUiS61ABWZZ5+rX+d01l31XpI09t/neuGJtirwJIB1+6CMB31Xg6mfNlwOI
+ CfFGvfUZqdYl4KRyIOxOssZUSUkAM7IbL5RM8VudKHnnkPNZd7eKlnlYDTuHjj+eMiU3
+ yJFSo1u1/AuA327uPEdrkqHS/q1Gtsj24YJtI5Lx7o5WCNpibVE6fhP9WPFGHsvAAccb
+ 3EiWC2TZEouL3JZXrR8fCO2L5y/TfVvMwBp1V17BzOG7c4UY3f0tJZTIbo50xRhHMiMf
+ wwH8pS/QawoE0cEWD32jANJUdSHM7x371REBXo8eM2NavilcrhOkF7ME9kpmvsJZHp10
+ Gm4Q==
+X-Gm-Message-State: AOAM533snS+g9Ld3cpLHW8nvWGgGnf6YjlxYEsCCI1CG7wfjlqhJZ2Lf
+ EpoC4A/v3EnEuVwjzxdMrnntXfj7jm2KWJLk89nrog==
+X-Google-Smtp-Source: ABdhPJzn5Y2JD1WWkuSgCEM5RLfbCHfU+wnK35eIswbiFH+SCiimFsZXPintcEeiw7HxTPKJ26KJl6K2LFSWL/9S3TA=
+X-Received: by 2002:aca:b646:: with SMTP id g67mr17522124oif.14.1618210904061; 
+ Mon, 12 Apr 2021 00:01:44 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: BACF569B9F0F25D4D72D96AEB1C6CA56791BB7C7EA94D6DD78DF15CEA1877CBA2000:8
-X-MTK: N
+References: <000000000000226d3f05b02dd607@google.com>
+ <bbcef674-4ac6-c933-b55d-8961ada97f4c@i-love.sakura.ne.jp>
+ <47907f77-b14b-b433-45c6-a315193f0c1a@i-love.sakura.ne.jp>
+ <494395bc-a7dd-fdb1-8196-a236a266ef54@i-love.sakura.ne.jp>
+ <20200927092701.GA1037755@PWN>
+ <4933b81b-9b1a-355b-df0e-9b31e8280ab9@i-love.sakura.ne.jp>
+ <20200928175956.GF24673@neutronstar.dyndns.org>
+ <100dfd3f-3415-80ae-a6cf-30d15f7ca49f@i-love.sakura.ne.jp>
+ <20200929105203.GG24673@neutronstar.dyndns.org>
+ <20200929165657.GS438822@phenom.ffwll.local>
+ <20200929171040.GB1351851@kroah.com>
+ <alpine.DEB.2.21.2104112250310.65251@angie.orcam.me.uk>
+ <CAHk-=wgF8e5i+9eeGu=CgWAagTPv-9UbkG7B6bR5jDe6kkkFZQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wgF8e5i+9eeGu=CgWAagTPv-9UbkG7B6bR5jDe6kkkFZQ@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 12 Apr 2021 09:01:32 +0200
+Message-ID: <CAKMK7uH4+SGr0=FDBiTsMg+iE1ztiuP2QBxsgcvHNhd38ocndg@mail.gmail.com>
+Subject: Re: [PATCH] vt_ioctl: make VT_RESIZEX behave like VT_RESIZE
+To: Linus Torvalds <torvalds@linux-foundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,192 +69,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: syzbot <syzbot+b308f5fd049fbbc6e74f@syzkaller.appspotmail.com>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Greg KH <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Martin Hostettler <textshell@uchuujin.de>,
+ George Kennedy <george.kennedy@oracle.com>, Jiri Slaby <jirislaby@kernel.org>,
+ Peilin Ye <yepeilin.cs@gmail.com>, "Maciej W. Rozycki" <macro@orcam.me.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gamma lut set in vsync active will caused display flash issue
-set gamma lut with cmdq 
+On Mon, Apr 12, 2021 at 12:15 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Sun, Apr 11, 2021 at 2:43 PM Maciej W. Rozycki <macro@orcam.me.uk> wrote:
+> >
+> >  So it does trigger with vgacon and my old server, which I have started
+> > experimenting with and for a start I have switched to a new kernel for an
+> > unrelated purpose (now that I have relieved it from all its usual tasks
+> > except for the last remaining one for which I haven't got the required
+> > user software ported to the new system yet):
+> >
+> > "struct vt_consize"->v_vlin is ignored. Please report if you need this.
+> > "struct vt_consize"->v_clin is ignored. Please report if you need this.
+>
+> Note that it's entirely possible that things continue to work well
+> despite this warning. It's unclear to me from your email if you
+> actually see any difference (and apparently you're not able to see it
+> right now due to not being close to the machine).
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_aal.c     |  4 ++--
- drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  7 ++++---
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 11 ++++++-----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 18 +++++++++++-------
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  8 +++++---
- 5 files changed, 28 insertions(+), 20 deletions(-)
+Original search didn't turn up any users of VT_RESIZEX, this is the
+first. And looking at the source code I think we could outright remove
+support for VT_RESIZEX (but make it silent) and everything should keep
+working:
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-index 64b4528..c8e178e 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-@@ -59,12 +59,12 @@ void mtk_aal_config(struct device *dev, unsigned int w,
- 	mtk_ddp_write(cmdq_pkt, w << 16 | h, &aal->cmdq_reg, aal->regs, DISP_AAL_SIZE);
- }
- 
--void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
-+void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt)
- {
- 	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
- 
- 	if (aal->data && aal->data->has_gamma)
--		mtk_gamma_set_common(aal->regs, state);
-+		mtk_gamma_set_common(aal->regs, &aal->cmdq_reg, state, cmdq_pkt);
- }
- 
- void mtk_aal_start(struct device *dev)
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 86c3068..c2e7dcb 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -14,7 +14,7 @@
- void mtk_aal_config(struct device *dev, unsigned int w,
- 		    unsigned int h, unsigned int vrefresh,
- 		    unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
--void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state);
-+void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt);
- void mtk_aal_start(struct device *dev);
- void mtk_aal_stop(struct device *dev);
- 
-@@ -50,8 +50,9 @@ void mtk_dither_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
- void mtk_gamma_config(struct device *dev, unsigned int w,
- 		      unsigned int h, unsigned int vrefresh,
- 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
--void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state);
--void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state);
-+void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt);
-+void mtk_gamma_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
-+			  struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt);
- void mtk_gamma_start(struct device *dev);
- void mtk_gamma_stop(struct device *dev);
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 3ebf91e..99a4ff3 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -55,7 +55,8 @@ void mtk_gamma_clk_disable(struct device *dev)
- 	clk_disable_unprepare(gamma->clk);
- }
- 
--void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state)
-+void mtk_gamma_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
-+			  struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt)
- {
- 	unsigned int i, reg;
- 	struct drm_color_lut *lut;
-@@ -65,23 +66,23 @@ void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state)
- 	if (state->gamma_lut) {
- 		reg = readl(regs + DISP_GAMMA_CFG);
- 		reg = reg | GAMMA_LUT_EN;
--		writel(reg, regs + DISP_GAMMA_CFG);
-+		mtk_ddp_write(cmdq_pkt, reg, cmdq_reg, regs, DISP_GAMMA_CFG);
- 		lut_base = regs + DISP_GAMMA_LUT;
- 		lut = (struct drm_color_lut *)state->gamma_lut->data;
- 		for (i = 0; i < MTK_LUT_SIZE; i++) {
- 			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
- 				(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
- 				((lut[i].blue >> 6) & LUT_10BIT_MASK);
--			writel(word, (lut_base + i * 4));
-+			mtk_ddp_write(cmdq_pkt, word, cmdq_reg, regs, (lut_base + i * 4));
- 		}
- 	}
- }
- 
--void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
-+void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state, struct cmdq_pkt *cmdq_pkt)
- {
- 	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
- 
--	mtk_gamma_set_common(gamma->regs, state);
-+	mtk_gamma_set_common(gamma->regs, &gamma->cmdq_reg, state, cmdq_pkt);
- }
- 
- void mtk_gamma_config(struct device *dev, unsigned int w,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 8b0de90..73428f0 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -423,6 +423,15 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
- 		}
- 		mtk_crtc->pending_async_planes = false;
- 	}
-+
-+	if (crtc->state->color_mgmt_changed) {
-+		int i;
-+
-+		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
-+			mtk_ddp_gamma_set(mtk_crtc->ddp_comp[i], crtc->state, cmdq_handle);
-+			mtk_ddp_ctm_set(mtk_crtc->ddp_comp[i], crtc->state);
-+		}
-+	}
- }
- 
- static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
-@@ -464,7 +473,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	if (mtk_crtc->cmdq_client) {
- 		mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
--		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
-+		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, 2 * PAGE_SIZE);
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
-@@ -616,15 +625,10 @@ static void mtk_drm_crtc_atomic_flush(struct drm_crtc *crtc,
- 				      struct drm_atomic_state *state)
- {
- 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
--	int i;
- 
- 	if (mtk_crtc->event)
- 		mtk_crtc->pending_needs_vblank = true;
--	if (crtc->state->color_mgmt_changed)
--		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
--			mtk_ddp_gamma_set(mtk_crtc->ddp_comp[i], crtc->state);
--			mtk_ddp_ctm_set(mtk_crtc->ddp_comp[i], crtc->state);
--		}
-+
- 	mtk_drm_crtc_hw_config(mtk_crtc);
- }
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index bb914d9..bffa58d 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -60,7 +60,8 @@ struct mtk_ddp_comp_funcs {
- 			     struct mtk_plane_state *state,
- 			     struct cmdq_pkt *cmdq_pkt);
- 	void (*gamma_set)(struct device *dev,
--			  struct drm_crtc_state *state);
-+			  struct drm_crtc_state *state,
-+			  struct cmdq_pkt *cmdq_pkt);
- 	void (*bgclr_in_on)(struct device *dev);
- 	void (*bgclr_in_off)(struct device *dev);
- 	void (*ctm_set)(struct device *dev,
-@@ -160,10 +161,11 @@ static inline void mtk_ddp_comp_layer_config(struct mtk_ddp_comp *comp,
- }
- 
- static inline void mtk_ddp_gamma_set(struct mtk_ddp_comp *comp,
--				     struct drm_crtc_state *state)
-+				     struct drm_crtc_state *state,
-+				     struct cmdq_pkt *cmdq_pkt)
- {
- 	if (comp->funcs && comp->funcs->gamma_set)
--		comp->funcs->gamma_set(comp->dev, state);
-+		comp->funcs->gamma_set(comp->dev, state, cmdq_pkt);
- }
- 
- static inline void mtk_ddp_comp_bgclr_in_on(struct mtk_ddp_comp *comp)
+        /*
+         * ALWAYS do a VT_RESIZE, even if we already did a VT_RESIZEX
+on a 1.3.3 or higher kernel,
+         * until those kernel programmers make this unambiguous
+         */
+
+       if (do_VT_RESIZE(curr_textmode->cols, curr_textmode->rows,
+resize1x1)) sresize=TRUE;
+
+       if (check_kernel_version(1,3,3, "VT_RESIZEX"))
+         {
+           /*
+            * VDisplay must de divided by 2 for DoubleScan modes,
+            * or VT_RESIZEX will fail -- until someone fixes the kernel
+            * so it understands about doublescan modes.
+            */
+           if (do_VT_RESIZEX(curr_textmode->cols,
+                             curr_textmode->rows,
+                             curr_textmode->VDisplay /
+(MOFLG_ISSET(curr_textmode, ATTR_DOUBLESCAN) ? 2 : 1),
+                             curr_textmode->FontHeight,
+                             curr_textmode->HDisplay/8*curr_textmode->FontWidth,
+                             curr_textmode->FontWidth, resize1x1)) sresize=TRUE;
+         }
+
+The functions are just straightforward wrappers. There's also no cvs
+repo, changelog or old releases before 2000 that would shed some light
+on why this code even exists.
+
+I think we can just tune down the pr_info_once to pr_debug and done.
+Maybe a comment about where the single user we're aware of is.
+-Daniel
+
+>
+> The fact that v_vlin/v_clin are ignored doesn't necessarily mean that
+> they are different from what they were before, so the warning may be a
+> non-issue.
+>
+> > It continues using svgatextmode with its glass (CRT) VT to set my usual
+> > 80x37 text mode (720x576 pixel resolution) by manipulating the VGA clock
+> > chip and the CRT controller appropriately for a nice refresh rate of 85Hz:
+> >
+> > Chipset = `TVGA8900', Textmode clock = 44.90 MHz, 80x37 chars, CharCell = 9x16. Refresh = 52.51kHz/84.7Hz.
+>
+> That doesn't seem necessarily wrong to me.
+>
+> >  So what's the supposed impact of this change that prompted the inclusion
+> > of the messages?
+>
+> There _may_ be no impact at all apart from the messages.
+>
+> The code _used_ to set the scan lines (v_vlin) and font height
+> (v_clin) from those numbers if they were non-zero, and now it just
+> ignores them and warns instead.
+>
+> The code now just sets the font height from the actual font size when
+> the font is set. Which is honestly the only thing that ever made
+> sense. Trying to set it with v_clin is ignored, but it's entirely
+> possible - maybe even likely - that your user of VT_RESIZEX sets it to
+> the same values it already has.
+>
+> Exactly because setting a font line number to anything else than the
+> font size isn't exactly sensible.
+>
+> But if your screen looks different than it used to, that is obviously
+> interesting and says something actually changed (outside of the
+> message itself).
+>
+>            Linus
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
 -- 
-1.8.1.1.dirty
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
