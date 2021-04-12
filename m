@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A380635C5B2
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 13:51:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0EE35C5F0
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 14:12:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3912B6E536;
-	Mon, 12 Apr 2021 11:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4B506E53C;
+	Mon, 12 Apr 2021 12:12:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0D3826E532
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 11:51:51 +0000 (UTC)
-X-UUID: 6825986699c4436ba75bd76f0e4619ed-20210412
-X-UUID: 6825986699c4436ba75bd76f0e4619ed-20210412
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
- ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 123792971; Mon, 12 Apr 2021 19:51:47 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 12 Apr 2021 19:51:42 +0800
-Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Apr 2021 19:51:41 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v4, 3/3] mailbox: cmdq: add mt8192 support
-Date: Mon, 12 Apr 2021 19:51:30 +0800
-Message-ID: <1618228290-18413-4-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1618228290-18413-1-git-send-email-yongqiang.niu@mediatek.com>
-References: <1618228290-18413-1-git-send-email-yongqiang.niu@mediatek.com>
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3E246E53C
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 12:12:03 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ o20-20020a05600c4fd4b0290114265518afso6731599wmq.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 05:12:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=LptbleWykRjwV8Nj9LpseiFoEQQ9lAey2RZIBBdtNOI=;
+ b=g18GLshhhTVKd2/KAhSGm8rgPUepn+fNmnUo/8Myljr4yUsOFwr2iFCH/jU7sUqm98
+ 7kcZebBDFYdwhNteNdn4PrfceXLIdjZxxIYJjqZzvu+BUWLSVKnRgfEZqp8wbpIaKQ6c
+ RI9CZpHobChuj2+jLL8hKlBoRHOkeVQ1UiNSU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=LptbleWykRjwV8Nj9LpseiFoEQQ9lAey2RZIBBdtNOI=;
+ b=rDg1Q2Oump60grYPGbFBYFQ4rRn0QZu6UuwWHT2HerJk/Nn+6h1QAPOEuWHQV/bzMt
+ Y5tCCcJek72pTOCzktfT9G3DVO9rdn3wzLsmuZkxsqmxHijOa2tgF7Kw3cUiX6zUy5rL
+ koOwLvwbaSiSC2/IPCVv766KFASgA+w8vme603XBHMRMX5SmsoVQu8wNQSmvL5ksxeK5
+ Z2567UXu4GesLFjBw4QR/XKxw3io/Ep3GymBMpKi76i/f518GX9+Bd6/eWEFgv/5jqn7
+ +D035V2Ex4nrG79Ww7wOAeu0uoWHM5P/CrOSRuuT1+POnPsb+F7inVMyyD4cSpbB4Vl8
+ OzzA==
+X-Gm-Message-State: AOAM530AS01LvFpa61rkL8YmKISmByF6e0hgmmBwoWAeW6Y70tx3csvq
+ O0Hnshvla6DtNh++Uix19kDXqw==
+X-Google-Smtp-Source: ABdhPJylEDt7Z+ZyMBj3GjIexybBB4ALeVyswrb5sk7qXrp1btZh2OZONAlM4G9QU0RLN5iLDGT/rg==
+X-Received: by 2002:a1c:7ec4:: with SMTP id z187mr26380949wmc.3.1618229522176; 
+ Mon, 12 Apr 2021 05:12:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k16sm16652243wro.11.2021.04.12.05.12.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Apr 2021 05:12:01 -0700 (PDT)
+Date: Mon, 12 Apr 2021 14:11:59 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: Re: [PATCH] gpu: drm: Replace bare "unsigned" with "unsigned int"
+Message-ID: <YHQ5D25KQ+3uADNo@phenom.ffwll.local>
+References: <20210412105309.27156-1-fmdefrancesco@gmail.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 447C2C1B621AAE91646F4EA40E3586078D4BF77CC13B96936FD04B446FFE24992000:8
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <20210412105309.27156-1-fmdefrancesco@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,91 +65,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>, outreachy-kernel@googlegroups.com,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add mt8192 support
+On Mon, Apr 12, 2021 at 12:53:09PM +0200, Fabio M. De Francesco wrote:
+> Replaced the type "unsigned" with "unsigned int" because it is
+> preferred. Issue detected by checkpatch.pl.
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/mailbox/mtk-cmdq-mailbox.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Huh, I didn't know that, TIL.
 
-diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-index e0d9a86..8da700a 100644
---- a/drivers/mailbox/mtk-cmdq-mailbox.c
-+++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-@@ -36,6 +36,8 @@
- #define CMDQ_THR_WAIT_TOKEN		0x30
- #define CMDQ_THR_PRIORITY		0x40
- 
-+#define GCE_GCTL_VALUE			0x48
-+
- #define CMDQ_THR_ACTIVE_SLOT_CYCLES	0x3200
- #define CMDQ_THR_ENABLED		0x1
- #define CMDQ_THR_DISABLED		0x0
-@@ -77,11 +79,13 @@ struct cmdq {
- 	struct clk		*clock;
- 	bool			suspended;
- 	u8			shift_pa;
-+	bool			control_by_sw;
- };
- 
- struct gce_plat {
- 	u32 thread_nr;
- 	u8 shift;
-+	bool control_by_sw;
- };
- 
- u8 cmdq_get_shift_pa(struct mbox_chan *chan)
-@@ -122,6 +126,8 @@ static void cmdq_init(struct cmdq *cmdq)
- 	int i;
- 
- 	WARN_ON(clk_enable(cmdq->clock) < 0);
-+	if (cmdq->control_by_sw)
-+		writel(0x7, cmdq->base + GCE_GCTL_VALUE);
- 	writel(CMDQ_THR_ACTIVE_SLOT_CYCLES, cmdq->base + CMDQ_THR_SLOT_CYCLES);
- 	for (i = 0; i <= CMDQ_MAX_EVENT; i++)
- 		writel(i, cmdq->base + CMDQ_SYNC_TOKEN_UPDATE);
-@@ -598,6 +604,7 @@ static int cmdq_probe(struct platform_device *pdev)
- 
- 	cmdq->thread_nr = plat_data->thread_nr;
- 	cmdq->shift_pa = plat_data->shift;
-+	cmdq->control_by_sw = plat_data->control_by_sw;
- 	cmdq->irq_mask = GENMASK(cmdq->thread_nr - 1, 0);
- 	err = devm_request_irq(dev, cmdq->irq, cmdq_irq_handler, IRQF_SHARED,
- 			       "mtk_cmdq", cmdq);
-@@ -663,11 +670,14 @@ static int cmdq_probe(struct platform_device *pdev)
- static const struct gce_plat gce_plat_v2 = {.thread_nr = 16};
- static const struct gce_plat gce_plat_v3 = {.thread_nr = 24};
- static const struct gce_plat gce_plat_v4 = {.thread_nr = 24, .shift = 3};
-+static const struct gce_plat gce_plat_v5 = {.thread_nr = 24, .shift = 3,
-+					    .control_by_sw = true};
- 
- static const struct of_device_id cmdq_of_ids[] = {
- 	{.compatible = "mediatek,mt8173-gce", .data = (void *)&gce_plat_v2},
- 	{.compatible = "mediatek,mt8183-gce", .data = (void *)&gce_plat_v3},
- 	{.compatible = "mediatek,mt6779-gce", .data = (void *)&gce_plat_v4},
-+	{.compatible = "mediatek,mt8192-gce", .data = (void *)&gce_plat_v5},
- 	{}
- };
- 
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
+Thanks for your patche, merged to drm-misc-next for 5.14.
+-Daniel
+
+> ---
+>  drivers/gpu/drm/drm_atomic.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 5b4547e0f775..46dceb51c90f 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -1302,8 +1302,8 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+>  	struct drm_crtc_state *new_crtc_state;
+>  	struct drm_connector *conn;
+>  	struct drm_connector_state *conn_state;
+> -	unsigned requested_crtc = 0;
+> -	unsigned affected_crtc = 0;
+> +	unsigned int requested_crtc = 0;
+> +	unsigned int affected_crtc = 0;
+>  	int i, ret = 0;
+>  
+>  	DRM_DEBUG_ATOMIC("checking %p\n", state);
+> -- 
+> 2.31.1
+> 
+
 -- 
-1.8.1.1.dirty
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
