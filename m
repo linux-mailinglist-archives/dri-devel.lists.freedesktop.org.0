@@ -1,44 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E333135D339
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 00:37:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7933235D36A
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 00:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC3256E08A;
-	Mon, 12 Apr 2021 22:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45CA36E092;
+	Mon, 12 Apr 2021 22:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C9D6E08A;
- Mon, 12 Apr 2021 22:36:58 +0000 (UTC)
-IronPort-SDR: oebgZckO1l89AFwR1ez2BM9OidxHDACclx4Za+9082GoF/s5r1Cf3Wyrkgdsp5dNiD1pemAHGO
- qobdw0oO50HQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9952"; a="214763919"
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="214763919"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2021 15:36:53 -0700
-IronPort-SDR: Xenu2HEycDuizpvjTCLPQlCbUvm98hd6kB7dw7y3sawNyHjpmU/UVo1wDjU3jYXWTWCFfqpLEW
- Iuo1qL2bZAFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="443218910"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 12 Apr 2021 15:36:51 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1lW5Ap-0000ft-3m; Mon, 12 Apr 2021 22:36:51 +0000
-Date: Tue, 13 Apr 2021 06:36:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/oprom: fix memdup.cocci warnings
-Message-ID: <20210412223630.GA13421@638f114fa1d0>
-References: <20210412090526.30547-15-matthew.auld@intel.com>
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5EC6E092
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 22:47:30 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id c15so5552154wro.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 15:47:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=0naniOFdPM5PdGnJkp2f0jO5+9UTavttrnmkivahNw4=;
+ b=sPxvn9ph2lGwUJPOyV4Gl+dOmGUue3BbS/PtcValeFtvzh0i+Ldmu22+Uhcdm0KvCf
+ o533qc3t4pVy2AUXrB2AT3jKfLjAdaTf5PDBPF9lbBfevaoRtXToPpIzR4yDeejca0ov
+ ZYSnI/MfQF1XO2pAo3Xc/S7jhICB5H/E2PXe8apwth/PS4NaCwJXQ6gWq88o9EVYx9cx
+ WI8buBZFix4+N8bf6mMcp3V2wKMYoQjoazlHNnyYXCZc3r7R0BCjFE6FzWyg/KPHvuu2
+ aa93Uld7A4G1v+AXUBcWEWm2IS0bJK7V4kC5SrQttb6sWXbcXeCRGWNUyOXbM6MLRAuH
+ bsJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=0naniOFdPM5PdGnJkp2f0jO5+9UTavttrnmkivahNw4=;
+ b=cfjHXPZyY5ams7s0s2hRmGcDKSFZi0EgTUjaIvQ7bmMQOWYsEg5cvRoJ3K+crwKAuo
+ tHA2dfylsfIVyZTO63+R7KrSJtBI/AZNKjXmRhFrPzkUvNtdDdMlZaRG3EGJMaYCh+ZA
+ kk4qWxHFLJ/xacC0DJPGIsN4W78L+HZtRloDbeoghRr2hxQgkKSLbUcdz5ibcfKbUTr1
+ U1osJOEJL9K8mOmjEY6bDxCYYGboptWliwzkXCiKrOLCSc8UWx43jJZqWUz2AiJYMCG2
+ 7DGmNUEK71+2u7KqCa+bLm911yPylJsyFyI1F6wdcoFz6tT4kKIfSn55998gkJfJ7tHE
+ xhog==
+X-Gm-Message-State: AOAM531g8HaeWsgK1dNq89IC9clQxd0rX3jnZAZJld5iG8rJrGh6Y5/u
+ y3JhsXGzRw99ZdtMJ9tQR2g=
+X-Google-Smtp-Source: ABdhPJxiSiZViWfWmyiIAFSyaDVHXuEEOTx1626/BTklpJNXLxT8IJTiwMb355phQcEZb99BeFhcbg==
+X-Received: by 2002:adf:fb0e:: with SMTP id c14mr34491215wrr.140.1618267649158; 
+ Mon, 12 Apr 2021 15:47:29 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id q5sm14317798wrv.17.2021.04.12.15.47.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Apr 2021 15:47:28 -0700 (PDT)
+Date: Mon, 12 Apr 2021 19:47:22 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Simon Ser <contact@emersion.fr>,
+ Sumera Priyadarsini <sylphrenadin@gmail.com>
+Subject: [PATCH v2 0/4] drm/vkms: add overlay plane support
+Message-ID: <20210412224722.pbgc7xxk3u42n3sj@smtp.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210412090526.30547-15-matthew.auld@intel.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,51 +67,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Mohammed Khajapasha <mohammed.khajapasha@intel.com>, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: kernel test robot <lkp@intel.com>
+Adding support to overlay type in addition to primary and cursor plane.
+The planes composition relies on the z order of the active planes and
+only occurs if there is a primary plane (as in the current behavior).
 
-drivers/gpu/drm/i915/display/intel_bios.c:2274:7-14: WARNING opportunity for kmemdup
+The first patch switches the function of initializing planes from
+drm_universal_plane_init to drmm_universal_plane_alloc. It aims to
+improve aspects of allocation and cleanup operations, leaving it to the
+DRM infrastructure.
 
- Use kmemdup rather than duplicating its implementation
+The second patch generalizes variables and functions names to refer to
+any kind of plane, not only cursor. The goal is to reuse them for
+blending overlay and cursor planes to primary.
 
-Generated by: scripts/coccinelle/api/memdup.cocci
+The third patch enables the plane composition to select the correct pixel
+blending operation according to the plane format (XRGB8888 or ARGB8888).
 
-CC: Anshuman Gupta <anshuman.gupta@intel.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
----
+The last patch creates a module option to enable overlay, and includes
+overlay to supported types of plane. When the overlay option is enabled,
+one overlay plane is initialized (plus primary and cursor) and it is
+included in the planes composition.
 
-url:    https://github.com/0day-ci/linux/commits/Matthew-Auld/More-DG1-enabling/20210412-171139
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+This work preserves the current results of IGT tests: kms_cursor_crc;
+kms_flip and kms_writeback. In addition, subtests related to overlay in
+kms_atomic and kms_plane_cursor start to pass (pointed out in the commit
+message).
 
- intel_bios.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+---------
+v2:
 
---- a/drivers/gpu/drm/i915/display/intel_bios.c
-+++ b/drivers/gpu/drm/i915/display/intel_bios.c
-@@ -2271,14 +2271,13 @@ static struct vbt_header *spi_oprom_get_
- 	parse_ptr = (u8 *)oprom_opreg + found;
- 	vbt_size = ((struct vbt_header *)parse_ptr)->vbt_size;
- 
--	vbt = kzalloc(vbt_size, GFP_KERNEL);
-+	vbt = kmemdup(parse_ptr, vbt_size, GFP_KERNEL);
- 	if (!vbt) {
- 		DRM_ERROR("Unable to allocate %u bytes for VBT storage\n",
- 			  vbt_size);
- 		goto err_not_found;
- 	}
- 
--	memcpy(vbt, parse_ptr, vbt_size);
- 	if (!intel_bios_is_valid_vbt(vbt, vbt_size))
- 		goto err_free_vbt;
- 
+- Drop unnecessary changes that init crtc without cursor (Daniel)
+- Replace function to initialize planes (Daniel)
+- Add proper pixel blending op according to the plane format (Daniel)
+
+Melissa Wen (4):
+  drm/vkms: init plane using drmm_universal_plane_alloc
+  drm/vkms: rename cursor to plane on ops of planes composition
+  drm/vkms: add XRGB planes composition
+  drm/vkms: add overlay support
+
+ drivers/gpu/drm/vkms/vkms_composer.c | 67 ++++++++++++++++++----------
+ drivers/gpu/drm/vkms/vkms_drv.c      |  5 +++
+ drivers/gpu/drm/vkms/vkms_drv.h      |  9 +++-
+ drivers/gpu/drm/vkms/vkms_output.c   | 28 ++++++------
+ drivers/gpu/drm/vkms/vkms_plane.c    | 50 +++++++++++----------
+ 5 files changed, 96 insertions(+), 63 deletions(-)
+
+-- 
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
