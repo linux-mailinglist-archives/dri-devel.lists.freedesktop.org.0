@@ -1,58 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0EE35C5F0
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 14:12:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C483F35C608
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 14:18:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4B506E53C;
-	Mon, 12 Apr 2021 12:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9D189BB0;
+	Mon, 12 Apr 2021 12:18:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3E246E53C
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 12:12:03 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- o20-20020a05600c4fd4b0290114265518afso6731599wmq.4
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 05:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=LptbleWykRjwV8Nj9LpseiFoEQQ9lAey2RZIBBdtNOI=;
- b=g18GLshhhTVKd2/KAhSGm8rgPUepn+fNmnUo/8Myljr4yUsOFwr2iFCH/jU7sUqm98
- 7kcZebBDFYdwhNteNdn4PrfceXLIdjZxxIYJjqZzvu+BUWLSVKnRgfEZqp8wbpIaKQ6c
- RI9CZpHobChuj2+jLL8hKlBoRHOkeVQ1UiNSU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=LptbleWykRjwV8Nj9LpseiFoEQQ9lAey2RZIBBdtNOI=;
- b=rDg1Q2Oump60grYPGbFBYFQ4rRn0QZu6UuwWHT2HerJk/Nn+6h1QAPOEuWHQV/bzMt
- Y5tCCcJek72pTOCzktfT9G3DVO9rdn3wzLsmuZkxsqmxHijOa2tgF7Kw3cUiX6zUy5rL
- koOwLvwbaSiSC2/IPCVv766KFASgA+w8vme603XBHMRMX5SmsoVQu8wNQSmvL5ksxeK5
- Z2567UXu4GesLFjBw4QR/XKxw3io/Ep3GymBMpKi76i/f518GX9+Bd6/eWEFgv/5jqn7
- +D035V2Ex4nrG79Ww7wOAeu0uoWHM5P/CrOSRuuT1+POnPsb+F7inVMyyD4cSpbB4Vl8
- OzzA==
-X-Gm-Message-State: AOAM530AS01LvFpa61rkL8YmKISmByF6e0hgmmBwoWAeW6Y70tx3csvq
- O0Hnshvla6DtNh++Uix19kDXqw==
-X-Google-Smtp-Source: ABdhPJylEDt7Z+ZyMBj3GjIexybBB4ALeVyswrb5sk7qXrp1btZh2OZONAlM4G9QU0RLN5iLDGT/rg==
-X-Received: by 2002:a1c:7ec4:: with SMTP id z187mr26380949wmc.3.1618229522176; 
- Mon, 12 Apr 2021 05:12:02 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k16sm16652243wro.11.2021.04.12.05.12.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Apr 2021 05:12:01 -0700 (PDT)
-Date: Mon, 12 Apr 2021 14:11:59 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: Re: [PATCH] gpu: drm: Replace bare "unsigned" with "unsigned int"
-Message-ID: <YHQ5D25KQ+3uADNo@phenom.ffwll.local>
-References: <20210412105309.27156-1-fmdefrancesco@gmail.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3F0989BB0;
+ Mon, 12 Apr 2021 12:18:31 +0000 (UTC)
+IronPort-SDR: nt9OEbwgDyTs3vqBFWgaIeDtCx8lw2v/UoQPvXyCdmaSXr46X3HMxqa4bN728vBCRjqr+xtCIf
+ C9QZoT1cy17g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="194204898"
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="194204898"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2021 05:18:30 -0700
+IronPort-SDR: Nlwu90ZxgPxnXLudkLb8t2BgniqYnoYtzYYKswGYPM35Hm401kuvbBUcmqf7VFPCodhblG1AZj
+ lsZI1E4Yr1fw==
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="451433459"
+Received: from tarynrox-mobl1.ger.corp.intel.com (HELO
+ mwauld-desk1.ger.corp.intel.com) ([10.252.5.30])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2021 05:18:28 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [RFC PATCH] drm/doc/rfc: i915 DG1 uAPI
+Date: Mon, 12 Apr 2021 13:18:02 +0100
+Message-Id: <20210412121802.57131-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210412105309.27156-1-fmdefrancesco@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,52 +45,269 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>, outreachy-kernel@googlegroups.com,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel.vetter@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 12, 2021 at 12:53:09PM +0200, Fabio M. De Francesco wrote:
-> Replaced the type "unsigned" with "unsigned int" because it is
-> preferred. Issue detected by checkpatch.pl.
+Add an entry for the new uAPI needed for DG1.
 
-Huh, I didn't know that, TIL.
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Dave Airlie <airlied@gmail.com>
+---
+ Documentation/gpu/rfc/i915_create_ext.c       | 48 ++++++++++
+ .../gpu/rfc/i915_create_ext_placements.c      | 19 ++++
+ Documentation/gpu/rfc/i915_region_query.c     | 54 +++++++++++
+ Documentation/gpu/rfc/index.rst               | 91 +++++++++++++++++++
+ 4 files changed, 212 insertions(+)
+ create mode 100644 Documentation/gpu/rfc/i915_create_ext.c
+ create mode 100644 Documentation/gpu/rfc/i915_create_ext_placements.c
+ create mode 100644 Documentation/gpu/rfc/i915_region_query.c
 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-
-Thanks for your patche, merged to drm-misc-next for 5.14.
--Daniel
-
-> ---
->  drivers/gpu/drm/drm_atomic.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 5b4547e0f775..46dceb51c90f 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -1302,8 +1302,8 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
->  	struct drm_crtc_state *new_crtc_state;
->  	struct drm_connector *conn;
->  	struct drm_connector_state *conn_state;
-> -	unsigned requested_crtc = 0;
-> -	unsigned affected_crtc = 0;
-> +	unsigned int requested_crtc = 0;
-> +	unsigned int affected_crtc = 0;
->  	int i, ret = 0;
->  
->  	DRM_DEBUG_ATOMIC("checking %p\n", state);
-> -- 
-> 2.31.1
-> 
-
+diff --git a/Documentation/gpu/rfc/i915_create_ext.c b/Documentation/gpu/rfc/i915_create_ext.c
+new file mode 100644
+index 000000000000..57c98717d14c
+--- /dev/null
++++ b/Documentation/gpu/rfc/i915_create_ext.c
+@@ -0,0 +1,48 @@
++struct drm_i915_gem_create_ext {
++	/*
++	 * Requested size for the object.
++	 *
++	 * The (page-aligned) allocated size for the object will be returned.
++	 */
++	__u64 size;
++	/*
++	 * Returned handle for the object.
++	 *
++	 * Object handles are nonzero.
++	 */
++	__u32 handle;
++	/* MBZ */
++	__u32 flags;
++	/*
++	 * For I915_GEM_CREATE_EXT_SETPARAM extension usage see both:
++	 *	struct drm_i915_gem_create_ext_setparam.
++	 *	struct drm_i915_gem_object_param for the possible parameters.
++	 */
++#define I915_GEM_CREATE_EXT_SETPARAM 0
++	__u64 extensions;
++};
++
++struct drm_i915_gem_object_param {
++	/* Object handle (0 for I915_GEM_CREATE_EXT_SETPARAM) */
++	__u32 handle;
++
++	/* Data pointer size */
++	__u32 size;
++
++/*
++ * I915_OBJECT_PARAM:
++ *
++ * Select object namespace for the param.
++ */
++#define I915_OBJECT_PARAM  (1ull<<32)
++
++	__u64 param;
++
++	/* Data value or pointer */
++	__u64 data;
++};
++
++struct drm_i915_gem_create_ext_setparam {
++	struct i915_user_extension base;
++	struct drm_i915_gem_object_param param;
++};
+diff --git a/Documentation/gpu/rfc/i915_create_ext_placements.c b/Documentation/gpu/rfc/i915_create_ext_placements.c
+new file mode 100644
+index 000000000000..e2d14484d50a
+--- /dev/null
++++ b/Documentation/gpu/rfc/i915_create_ext_placements.c
+@@ -0,0 +1,19 @@
++#define I915_OBJECT_PARAM  (1ull<<32)
++
++/*
++ * I915_OBJECT_PARAM_MEMORY_REGIONS
++ *
++ * Set the data pointer with the desired set of placements in priority
++ * order(each entry must be unique and supported by the device), as an array of
++ * drm_i915_gem_memory_class_instance, or an equivalent layout of class:instance
++ * pair encodings. See DRM_I915_QUERY_MEMORY_REGIONS for how to query the
++ * supported regions.
++ *
++ * In this case the data pointer size should be the number of
++ * drm_i915_gem_memory_class_instance elements in the placements array.
++ *
++ */
++#define I915_PARAM_MEMORY_REGIONS 0
++#define I915_OBJECT_PARAM_MEMORY_REGIONS (I915_OBJECT_PARAM | \
++					  I915_PARAM_MEMORY_REGIONS)
++	__u64 param;
+diff --git a/Documentation/gpu/rfc/i915_region_query.c b/Documentation/gpu/rfc/i915_region_query.c
+new file mode 100644
+index 000000000000..45e688726375
+--- /dev/null
++++ b/Documentation/gpu/rfc/i915_region_query.c
+@@ -0,0 +1,54 @@
++enum drm_i915_gem_memory_class {
++	I915_MEMORY_CLASS_SYSTEM = 0,
++	I915_MEMORY_CLASS_DEVICE,
++};
++
++struct drm_i915_gem_memory_class_instance {
++	__u16 memory_class; /* see enum drm_i915_gem_memory_class */
++	__u16 memory_instance;
++};
++
++/**
++ * struct drm_i915_memory_region_info
++ *
++ * Describes one region as known to the driver.
++ */
++struct drm_i915_memory_region_info {
++	/** class:instance pair encoding */
++	struct drm_i915_gem_memory_class_instance region;
++
++	/** MBZ */
++	__u32 rsvd0;
++
++	/** MBZ */
++	__u64 caps;
++
++	/** MBZ */
++	__u64 flags;
++
++	/** Memory probed by the driver (-1 = unknown) */
++	__u64 probed_size;
++
++	/** Estimate of memory remaining (-1 = unknown) */
++	__u64 unallocated_size;
++
++	/** MBZ */
++	__u64 rsvd1[8];
++};
++
++/**
++ * struct drm_i915_query_memory_regions
++ *
++ * Region info query enumerates all regions known to the driver by filling in
++ * an array of struct drm_i915_memory_region_info structures.
++ */
++struct drm_i915_query_memory_regions {
++	/** Number of supported regions */
++	__u32 num_regions;
++
++	/** MBZ */
++	__u32 rsvd[3];
++
++	/* Info about each supported region */
++	struct drm_i915_memory_region_info regions[];
++};
+diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+index a8621f7dab8b..40572f514371 100644
+--- a/Documentation/gpu/rfc/index.rst
++++ b/Documentation/gpu/rfc/index.rst
+@@ -15,3 +15,94 @@ host such documentation:
+ 
+ * Once the code has landed move all the documentation to the right places in
+   the main core, helper or driver sections.
++
++I915 DG1/LMEM RFC Section
++=========================
++
++Object placement and region query
++=================================
++Starting from DG1 we need to give userspace the ability to allocate buffers from
++device local-memory. Currently the driver supports gem_create, which can place
++buffers in system memory via shmem, and the usual assortment of other
++interfaces, like dumb buffers and userptr.
++
++To support this new capability, while also providing a uAPI which will work
++beyond just DG1, we propose to offer three new bits of uAPI:
++
++DRM_I915_QUERY_MEMORY_REGIONS
++-----------------------------
++Query mechanism which allows userspace to discover the list of supported memory
++regions(like system-memory and local-memory) for a given device. We identify
++each region with a class and instance pair, which should be unique. The class
++here would be DEVICE or SYSTEM, and the instance would be zero, on platforms
++like DG1.
++
++Side note: The class/instance design is borrowed from our existing engine uAPI,
++where we describe every physical engine in terms of its class, and the
++particular instance, since we can have more than one per class.
++
++In the future we also want to expose more information which can further
++describe the capabilities of a region.
++
++.. literalinclude:: i915_region_query.c
++
++GEM_CREATE_EXT
++--------------
++New ioctl which is basically just gem_create but now allows userspace to
++provide a chain of possible extensions. Note that if we don't provide any
++extensions then we get the exact same behaviour as gem_create.
++
++.. literalinclude:: i915_create_ext.c
++
++Side note: We also need to support PXP[1] in the near future, which is also
++applicable to integrated platforms, and adds its own gem_create_ext extension,
++which basically lets userspace mark a buffer as "protected".
++
++I915_OBJECT_PARAM_MEMORY_REGIONS
++--------------------------------
++Implemented as an extension for gem_create_ext, we would now allow userspace to
++optionally provide an immutable list of preferred placements at creation time,
++in priority order, for a given buffer object.  For the placements we expect
++them each to use the class/instance encoding, as per the output of the regions
++query. Having the list in priority order will be useful in the future when
++placing an object, say during eviction.
++
++.. literalinclude:: i915_create_ext_placements.c
++
++As an example, on DG1 if we wish to set the placement as local-memory we can do
++something like:
++
++.. code-block::
++
++        struct drm_i915_gem_memory_class_instance region_param = {
++                .memory_class = I915_MEMORY_CLASS_DEVICE,
++                .memory_instance = 0,
++        };
++        struct drm_i915_gem_create_ext_setparam setparam_region = {
++                .base = { .name = I915_GEM_CREATE_EXT_SETPARAM },
++                .param = {
++                        .param = I915_OBJECT_PARAM_MEMORY_REGIONS,
++                        .data = (uintptr_t)&region_param,
++                        .size = 1,
++                },
++        };
++
++        struct drm_i915_gem_create_ext create_ext = {
++                .size = 16 * PAGE_SIZE,
++                .extensions = (uintptr_t)&setparam_region,
++        };
++        int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
++        if (err) ...
++
++One fair criticism here is that this seems a little over-engineered[2]. If we
++just consider DG1 then yes, a simple gem_create.flags or something is totally
++all that's needed to tell the kernel to allocate the buffer in local-memory or
++whatever. However looking to the future we need uAPI which can also support
++upcoming Xe HP multi-tile architecture in a sane way, where there can be
++multiple local-memory instances for a given device, and so using both class and
++instance in our uAPI to describe regions is desirable, although specifically
++for DG1 it's uninteresting, since we only have a single local-memory instance.
++
++[1] https://patchwork.freedesktop.org/series/86798/
++
++[2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5599#note_553791
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.26.3
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
