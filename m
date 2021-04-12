@@ -1,37 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9528835C739
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 15:12:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F086735C753
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 15:16:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90F6A6E3C6;
-	Mon, 12 Apr 2021 13:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 409BE6E580;
+	Mon, 12 Apr 2021 13:16:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8A6166E3C6;
- Mon, 12 Apr 2021 13:12:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CFAFD1063;
- Mon, 12 Apr 2021 06:12:31 -0700 (PDT)
-Received: from [10.57.58.164] (unknown [10.57.58.164])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1FDDA3F73B;
- Mon, 12 Apr 2021 06:12:27 -0700 (PDT)
-Subject: Re: [PATCH v3] drivers: introduce and use WANT_DMA_CMA for soft
- dependencies on DMA_CMA
-To: David Hildenbrand <david@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-References: <20210409112035.27221-1-david@redhat.com>
- <CAK8P3a31uKNcim0n99=yt3zjZ+LQSw4V4+8PS8daLsBdS0iSYg@mail.gmail.com>
- <53ec94ac-ffe3-d0bc-d081-3489fa03daa1@redhat.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <34350446-0e0e-6947-40bd-fabdccdc835f@arm.com>
-Date: Mon, 12 Apr 2021 14:12:20 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B916E580
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 13:16:33 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id f12so12945581wro.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 06:16:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=1NFQRODE7UbGRsT/qpL+VgYqO00eDXxN0QzKYNR7OSo=;
+ b=Rzl3serFaVp/CeP9qFNgof3NwsEvFO75bPgAAboTS0j6kUakjpL5kipmNF28wlwBPW
+ 47iCRD226ZEqW9N1HBN5TJJeQpF9/ATUvaALtYcgRyN9lW3dzZVUmVMUaiWE1d3OJpyX
+ vbQ/m6Ogjqq5VWY13sRHCtTMZNDWsVjrl351M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=1NFQRODE7UbGRsT/qpL+VgYqO00eDXxN0QzKYNR7OSo=;
+ b=fEZl0sfRX4mmFvm2Tv8gJnov508o2rr1PcOoJ0/3r0D2Xmn1HC5o5a2s4pACRV9zxV
+ h8VQnlcklDb013/pnTNZY1c2hxTmhyYg9EfAIOmFMT4QZCZ6JAxx+3YW2AM0JYTkIo0r
+ LDZ4g6hnGoTJR/OqO/cJX/evpzV4SYpuTidDTpUyf/rOZv0cMEywOnRwI+q4CtPO565Z
+ F2kbjmjjRM6qX52COOKxMwR8sveMMrIcNTP2yhEycaUY/hIR0z6BUazhrH8XRCBWskYx
+ Jwhh10SwrfXvLDF8DxRO5bAnktSm+P86FhmuV44JvO8QqpneLVVMD7Niudjj5yhmtLpY
+ ut8Q==
+X-Gm-Message-State: AOAM533xtRac1Sth/EnOkE3umXxkDftu4jaUPn1m/oMoykW8HS8lYOnK
+ +gEv/mDeVHBUAuYG2N12MzeD2w==
+X-Google-Smtp-Source: ABdhPJzrzTIZkf4P2C8QU30V37tpgbPu5RrakKRa6LVLpNs244CmC5AoFSyKEl4I9xU5xrpRlDsN1g==
+X-Received: by 2002:adf:ee4d:: with SMTP id w13mr28345494wro.31.1618233391880; 
+ Mon, 12 Apr 2021 06:16:31 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f24sm14960425wmb.32.2021.04.12.06.16.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Apr 2021 06:16:31 -0700 (PDT)
+Date: Mon, 12 Apr 2021 15:16:29 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/doc: emphasize difference between plane formats
+ and IN_FORMATS blob
+Message-ID: <YHRILSZZN/4sk7dr@phenom.ffwll.local>
+References: <20210406192118.12313-1-leandro.ribeiro@collabora.com>
+ <20210406192118.12313-3-leandro.ribeiro@collabora.com>
+ <YG24z2oeHVtzvkXy@intel.com>
+ <RW8-e8gSvP1pTckh_2alh-dqd3OR_bdl8e5PYdZVWBL4VnBMh0_ZWEfdlRmoQvzI0lGVH62Fp83MCaPqLZxlCE5pjntUhq-zW0v4-S_4Vos=@emersion.fr>
+ <20210408125919.4a83119c@eldfell>
+ <YG7pSJHe6gKDJ6Hh@phenom.ffwll.local>
+ <20210408165751.7488e793@eldfell> <YG8Vmsj6mtGZuf3H@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <53ec94ac-ffe3-d0bc-d081-3489fa03daa1@redhat.com>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <YG8Vmsj6mtGZuf3H@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,102 +72,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Paul Cercueil <paul@crapouillou.net>, Christoph Hellwig <hch@lst.de>,
- Masahiro Yamada <masahiroy@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Joel Stanley <joel@jms.id.au>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- "Alexander A. Klimov" <grandmaster@al2klimov.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Peter Collingbourne <pcc@google.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux-MM <linux-mm@kvack.org>, Andrew Jeffery <andrew@aj.id.au>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: airlied@linux.ie, Leandro Ribeiro <leandro.ribeiro@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMS0wNC0wOSAxNDozOSwgRGF2aWQgSGlsZGVuYnJhbmQgd3JvdGU6Cj4gT24gMDkuMDQu
-MjEgMTU6MzUsIEFybmQgQmVyZ21hbm4gd3JvdGU6Cj4+IE9uIEZyaSwgQXByIDksIDIwMjEgYXQg
-MToyMSBQTSBEYXZpZCBIaWxkZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT4gCj4+IHdyb3RlOgo+
-Pj4KPj4+IFJhbmRvbSBkcml2ZXJzIHNob3VsZCBub3Qgb3ZlcnJpZGUgYSB1c2VyIGNvbmZpZ3Vy
-YXRpb24gb2YgY29yZSBrbm9icwo+Pj4gKGUuZy4sIENPTkZJR19ETUFfQ01BPW4pLiBBcHBsaWNh
-YmxlIGRyaXZlcnMgd291bGQgbGlrZSB0byB1c2UgRE1BX0NNQSwKPj4+IHdoaWNoIGRlcGVuZHMg
-b24gQ01BLCBpZiBwb3NzaWJsZTsgaG93ZXZlciwgdGhlc2UgZHJpdmVycyBhbHNvIGhhdmUgdG8K
-Pj4+IHRvbGVyYXRlIGlmIERNQV9DTUEgaXMgbm90IGF2YWlsYWJsZS9mdW5jdGlvbmluZywgZm9y
-IGV4YW1wbGUsIGlmIG5vIENNQQo+Pj4gYXJlYSBmb3IgRE1BX0NNQSB1c2UgaGFzIGJlZW4gc2V0
-dXAgdmlhICJjbWE9WCIuIEluIHRoZSB3b3JzdCBjYXNlLCB0aGUKPj4+IGRyaXZlciBjYW5ub3Qg
-ZG8gaXQncyBqb2IgcHJvcGVybHkgaW4gc29tZSBjb25maWd1cmF0aW9ucy4KPj4+Cj4+PiBGb3Ig
-ZXhhbXBsZSwgY29tbWl0IDYzZjU2Nzc1NDRiMyAoImRybS9ldG5hdml2OiBzZWxlY3QgQ01BIGFu
-ZCAKPj4+IERNQV9DTUEgaWYKPj4+IGF2YWlsYWJsZSIpIGRvY3VtZW50cwo+Pj4gwqDCoMKgwqDC
-oMKgwqDCoCBXaGlsZSB0aGlzIGlzIG5vIGJ1aWxkIGRlcGVuZGVuY3ksIGV0bmF2aXYgd2lsbCBv
-bmx5IHdvcmsgCj4+PiBjb3JyZWN0bHkKPj4+IMKgwqDCoMKgwqDCoMKgwqAgb24gbW9zdCBzeXN0
-ZW1zIGlmIENNQSBhbmQgRE1BX0NNQSBhcmUgZW5hYmxlZC4gU2VsZWN0IGJvdGggCj4+PiBvcHRp
-b25zCj4+PiDCoMKgwqDCoMKgwqDCoMKgIGlmIGF2YWlsYWJsZSB0byBhdm9pZCB1c2VycyBlbmRp
-bmcgdXAgd2l0aCBhIG5vbi13b3JraW5nIEdQVSAKPj4+IGR1ZSB0bwo+Pj4gwqDCoMKgwqDCoMKg
-wqDCoCBhIGxhY2tpbmcga2VybmVsIGNvbmZpZy4KPj4+IFNvIGV0bmF2aXYgcmVhbGx5IHdhbnRz
-IHRvIGhhdmUgRE1BX0NNQSwgaG93ZXZlciwgY2FuIGRlYWwgd2l0aCBzb21lIAo+Pj4gY2FzZXMK
-Pj4+IHdoZXJlIGl0IGlzIG5vdCBhdmFpbGFibGUuCj4+Pgo+Pj4gTGV0J3MgaW50cm9kdWNlIFdB
-TlRfRE1BX0NNQSBhbmQgdXNlIGl0IGluIG1vc3QgY2FzZXMgd2hlcmUgZHJpdmVycwo+Pj4gc2Vs
-ZWN0IENNQS9ETUFfQ01BLCBvciBkZXBlbmQgb24gRE1BX0NNQSAoaW4gYSB3cm9uZyB3YXkgdmlh
-IENNQSBiZWNhdXNlCj4+PiBvZiByZWN1cnNpdmUgZGVwZW5kZW5jeSBpc3N1ZXMpLgo+Pj4KPj4+
-IFdlJ2xsIGFzc3VtZSB0aGF0IGFueSBkcml2ZXIgdGhhdCBzZWxlY3RzIERSTV9HRU1fQ01BX0hF
-TFBFUiBvcgo+Pj4gRFJNX0tNU19DTUFfSEVMUEVSIHdvdWxkIGxpa2UgdG8gdXNlIERNQV9DTUEg
-aWYgcG9zc2libGUuCj4+Pgo+Pj4gV2l0aCB0aGlzIGNoYW5nZSwgZGlzdHJpYnV0aW9ucyBjYW4g
-ZGlzYWJsZSBDT05GSUdfQ01BIG9yCj4+PiBDT05GSUdfRE1BX0NNQSwgd2l0aG91dCBpdCBzaWxl
-bnRseSBnZXR0aW5nIGVuYWJsZWQgYWdhaW4gYnkgcmFuZG9tCj4+PiBkcml2ZXJzLiBBbHNvLCB3
-ZSdsbCBub3cgYXV0b21hdGljYWxseSB0cnkgdG8gZW5hYmxlZCBib3RoLCBDT05GSUdfQ01BCj4+
-PiBhbmQgQ09ORklHX0RNQV9DTUEgaWYgdGhleSBhcmUgdW5zcGVjaWZpZWQgYW5kIGFueSBkcml2
-ZXIgaXMgYXJvdW5kIHRoYXQKPj4+IHNlbGVjdHMgV0FOVF9ETUFfQ01BIC0tIGFsc28gaW1wbGlj
-aXRseSB2aWEgRFJNX0dFTV9DTUFfSEVMUEVSIG9yCj4+PiBEUk1fS01TX0NNQV9IRUxQRVIuCj4+
-Pgo+Pj4gRm9yIGV4YW1wbGUsIGlmIGFueSBkcml2ZXIgc2VsZWN0cyBXQU5UX0RNQV9DTUEgYW5k
-IHdlIGRvIGEKPj4+ICJtYWtlIG9sZGRlZmNvbmZpZyI6Cj4+Pgo+Pj4gMS4gV2l0aCAiIyBDT05G
-SUdfQ01BIGlzIG5vdCBzZXQiIGFuZCBubyBzcGVjaWZpY2F0aW9uIG9mCj4+PiDCoMKgwqAgIkNP
-TkZJR19ETUFfQ01BIgo+Pj4KPj4+IC0+IENPTkZJR19ETUFfQ01BIHdvbid0IGJlIHBhcnQgb2Yg
-LmNvbmZpZwo+Pj4KPj4+IDIuIFdpdGggbm8gc3BlY2lmaWNhdGlvbiBvZiBDT05GSUdfQ01BIG9y
-IENPTkZJR19ETUFfQ01BCj4+Pgo+Pj4gQ29udGlndW91cyBNZW1vcnkgQWxsb2NhdG9yIChDTUEp
-IFtZL24vP10gKE5FVykKPj4+IERNQSBDb250aWd1b3VzIE1lbW9yeSBBbGxvY2F0b3IgKERNQV9D
-TUEpIFtZL24vP10gKE5FVykKPj4+Cj4+PiAzLiBXaXRoICIjIENPTkZJR19DTUEgaXMgbm90IHNl
-dCIgYW5kICIjIENPTkZJR19ETUFfQ01BIGlzIG5vdCBzZXQiCj4+Pgo+Pj4gLT4gQ09ORklHX0RN
-QV9DTUEgd2lsbCBiZSByZW1vdmVkIGZyb20gLmNvbmZpZwo+Pj4KPj4+IE5vdGU6IGRyaXZlcnMv
-cmVtb3RlcHJvYyBzZWVtcyB0byBiZSBzcGVjaWFsOyBjb21taXQgYzUxZTg4MmNkNzExCj4+PiAo
-InJlbW90ZXByb2MvZGF2aW5jaTogVXBkYXRlIEtjb25maWcgdG8gZGVwZW5kIG9uIERNQV9DTUEi
-KSBleHBsYWlucyAKPj4+IHRoYXQKPj4+IHRoZXJlIGlzIGEgcmVhbCBkZXBlbmRlbmN5IHRvIERN
-QV9DTUEgZm9yIGl0IHRvIHdvcms7IGxlYXZlIHRoYXQgCj4+PiBkZXBlbmRlbmN5Cj4+PiBpbiBw
-bGFjZSBhbmQgZG9uJ3QgY29udmVydCBpdCB0byBhIHNvZnQgZGVwZW5kZW5jeS4KPj4KPj4gSSBk
-b24ndCB0aGluayB0aGlzIGRlcGVuZGVuY3kgaXMgZnVuZGFtZW50YWxseSBkaWZmZXJlbnQgZnJv
-bSB0aGUgb3RoZXJzLAo+PiB0aG91Z2ggZGF2aW5jaSBtYWNoaW5lcyB0ZW5kIHRvIGhhdmUgbGVz
-cyBtZW1vcnkgdGhhbiBhIGxvdCBvZiB0aGUKPj4gb3RoZXIgbWFjaGluZXMsIHNvIGl0J3MgbW9y
-ZSBsaWtlbHkgdG8gZmFpbCB3aXRob3V0IENNQS4KPj4KPiAKPiBJIHdhcyBhbHNvIHVuc3VyZSAt
-IGFuZCBMdWNhcyBoYWQgc2ltaWxhciB0aG91Z2h0cy4gSWYgeW91IHdhbnQsIEkgY2FuIAo+IHNl
-bmQgYSB2NCBhbHNvIHRha2luZyBjYXJlIG9mIHRoaXMuCgpUQkggSSB0aGluayBpdCBzaG91bGQg
-YWxsIGp1c3QgYmUgcmVtb3ZlZC4gRE1BX0NNQSBpcyBlZmZlY3RpdmVseSBhbiAKaW50ZXJuYWwg
-ZmVhdHVyZSBvZiB0aGUgRE1BIEFQSSwgYW5kIGRyaXZlcnMgd2hpY2ggc2ltcGx5IHVzZSB0aGUg
-RE1BIApBUEkgc2hvdWxkbid0IHJlYWxseSBiZSB0cnlpbmcgdG8gYXNzdW1lICpob3cqIHRoaW5n
-cyBtaWdodCBiZSBhbGxvY2F0ZWQgCmF0IHJ1bnRpbWUgLSBDTUEgaXMgaGFyZGx5IHRoZSBvbmx5
-IHdheS4gUGxhdGZvcm0tbGV2ZWwgYXNzdW1wdGlvbnMgCmFib3V0IHRoZSBwcmVzZW5jZSBvciBu
-b3Qgb2YgSU9NTVVzLCBtZW1vcnkgY2FydmVvdXRzLCBldGMuLCBhbmQgd2hldGhlciAKaXQgZXZl
-biBtYXR0ZXJzIC0gZS5nLiBhIGRldmljZSB3aXRoIGEgdGlueSBMQ0QgbWF5IG9ubHkgbmVlZCBk
-aXNwbGF5IApidWZmZXJzIHdoaWNoIHN0aWxsIGZpdCBpbiBhIHJlZ3VsYXIgTUFYX09SREVSIGFs
-bG9jYXRpb24gLSBjb3VsZCBnbyBpbiAKcGxhdGZvcm0tc3BlY2lmaWMgY29uZmlncywgYnV0IEkg
-cmVhbGx5IGRvbid0IHRoaW5rIHRoZXkgYmVsb25nIGF0IHRoZSAKZ2VuZXJpYyBzdWJzeXN0ZW0g
-bGV2ZWwuCgpXZSBhbHJlYWR5IGhhdmUgdmFyaW91cyBleGFtcGxlcyBsaWtlIEkyUyBkcml2ZXJz
-IHRoYXQgd29uJ3QgZXZlbiBwcm9iZSAKd2l0aG91dCBhIGRtYWVuZ2luZSBwcm92aWRlciBiZWlu
-ZyBwcmVzZW50LCBvciBob3N0IGNvbnRyb2xsZXIgZHJpdmVycyAKd2hpY2ggYXJlIHVzZWxlc3Mg
-d2l0aG91dCB0aGVpciBjb3JyZXNwb25kaW5nIHBoeSBkcml2ZXIgKGFuZCBJJ20gCmd1ZXNzaW5n
-IHlvdSBjYW4gcHJvYmFibHkgYWxzbyBkbyBoaWdoZXItbGV2ZWwgdGhpbmdzIGxpa2UgaW5jbHVk
-ZSB0aGUgCmJsb2NrIGxheWVyIGJ1dCBvbWl0IGFsbCBmaWxlc3lzdGVtIGRyaXZlcnMpLiBJIGRv
-bid0IGJlbGlldmUgaXQncyAKS2NvbmZpZydzIGpvYiB0byB0cnkgdG8gZ3Vlc3Mgd2hldGhlciBh
-IGdpdmVuIGNvbmZpZ3VyYXRpb24gaXMgKnVzZWZ1bCosIApvbmx5IHRvIGVuZm9yY2UgdGhhdCdz
-IGl0J3MgdmFsaWQgdG8gYnVpbGQuCgpSb2Jpbi4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Apr 08, 2021 at 05:39:22PM +0300, Ville Syrj=E4l=E4 wrote:
+> On Thu, Apr 08, 2021 at 04:57:51PM +0300, Pekka Paalanen wrote:
+> > On Thu, 8 Apr 2021 13:30:16 +0200
+> > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > =
+
+> > > On Thu, Apr 08, 2021 at 12:59:19PM +0300, Pekka Paalanen wrote:
+> > =
+
+> > > > The point of these documentation patches is to establish the conven=
+tion
+> > > > that:
+> > > > =
+
+> > > > - drm_mode_get_plane::format_type_ptr is the list of pixel formats =
+that
+> > > >   can work via the no-modifiers uAPI, but says nothing about the
+> > > >   explicit modifiers uAPI.
+> > > > =
+
+> > > > - IN_FORMATS is a list of format-modifier pairs that can work via t=
+he
+> > > >   explicit modifiers API, but says nothing about the no-modifiers u=
+API.
+> > > > =
+
+> > > > Is that a reasonable expectation?  =
+
+> > > =
+
+> > > I'm not sure. I thought they're the same list underneath in the kerne=
+l, at
+> > > least for drivers that do support modifiers. The current wording I th=
+ink
+> > > suggests more meaning than is actually there.
+> > =
+
+> > They may be the same list in the kernel today, but do you want to force
+> > all future drivers and future formats-modifiers to have that too?
+> > Or did the boat sail already?
+> > =
+
+> > The existing uAPI considers these two to be independent lists, no
+> > documentation saying otherwise, is there?
+> > =
+
+> > Should a kernel driver not have a way to say "this format won't work
+> > via the no-modifiers uAPI"?
+> > =
+
+> > The practical consequence in userspace is how should userspace collect
+> > the lists of supported format-modifier pairs, when the kernel has two
+> > independent format lists, one carries modifiers explicitly and the
+> > other does not. The one that carries explicit modifiers cannot denote
+> > "no modifier" AFAIU.
+> > =
+
+> > So the "obvious" interpretation in userspace is that:
+> > - the format list that does not carry any modifier information should
+> >   be used with the no-modifiers uAPI, and
+> > - the format list that does carry explicit modifiers should be used
+> >   with the explicit modifiers uAPI.
+
+Imo the right interpretation is "it's the same list".
+
+> > If you were to say, that if IN_FORMATS exists, use it and ignore the
+> > old no-modifiers format list, then the conclusion in userspace when
+> > IN_FORMATS exists is that you cannot use the no-modifiers uAPI, because
+> > all formats that are listed as supported carry an explicit modifier.
+
+So formats without modifiers are very funny in their semantics. It means
+- implied modifier is untiled
+- except on i915 and radeon/amdgpu, where there's magic hidden information
+  and you might get something else. But it won't work in multi-gpu
+  situations
+- except bugs (like imo mesa trying to use tiling without modifiers and
+  without magic in-kernel tiling information forwarding is just broken,
+  and surprise, it's broken). We've had some where parts of mesa where
+  assuming modifiers are ok, but that wasn't the case.
+
+Now maybe we can expose to userspace which drivers have magic device-local
+tiling information sharing, but I don't expect this list to ever grow.
+
+Anything beyond that sounds like the kernel should maintain a bug list of
+things which are broken in userspace.
+
+> > I understand that the format or format-modifier lists are not
+> > authoritative. Formats outside of the lists *could* work. But why would
+> > anyone bother trying something that is not suggested to work?
+> =
+
+> IMO formats not listed by any plane should just be rejected by addfb2.
+> I tried to put that check in the drm core actually but there was some
+> weird pushback, so for the moment it's handled by each driver. Some
+> drivers (like i915) will reject anything not supported by any plane,
+> other drivers might not (and probably no one knows how badly they
+> might blow up if you pass in some exotic format...).
+>
+> I also had some igt patches to test that addfb2 behaviour but
+> they didn't go in either.
+>
+> > Or, is the intention such, that all formats in IN_FORMATS list imply
+> > some support through the no-modifiers uAPI too, iff buffer
+> > allocation does not give you an explicit modifier?
+> > =
+
+> > Or, should there be an i-g-t test to ensure that both the old and
+> > IN_FORMATS lists have the exact same pixel formats always, carving that
+> > fact into stone and resolving all this ambiguity?
+> > =
+
+> > > > Is it also so that passing MOD_INVALID to the explicit modifier uAPI
+> > > > (ADDFB2) is invalid argument? Do we have that documented?  =
+
+> > > =
+
+> > > We'd need to check that, currently it's an out-of-band flag in the st=
+ruct.
+> > > Atm DRM_FORMAT_MOD_INVALID is entirely an internal sentinel value to
+> > > denote end-of-array entries.
+> > > =
+
+> > > In practice it wont pass because we validate the modifiers against the
+> > > advertised list.
+> =
+
+> We don't actually. If the driver provides the .format_mod_supported()
+> hook then it's up to the driver to validate the modifier in said hook.
+> This was done so that people can embed metadata inside the modifier
+> while only having the base modifier on the modifier list. How userspace
+> is supposed to figure out which values for this extra metadata are valid
+> I have no idea.
+
+It took me a while to figure this out again, but now I remember. It's
+because of combinatorial explosion of modifiers with stuff like AFBC. So
+the modifier list is not necessarily an exhaustive list of all
+combinations, some of the modifiers count more like flags. Which is kinda
+hilarious since it means userspace can't do anything with modifiers it
+gets :-/
+-Daniel
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
