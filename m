@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE88535C1AE
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:39:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A582035C1B0
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:39:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 772DE6E3FE;
-	Mon, 12 Apr 2021 09:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34F606E424;
+	Mon, 12 Apr 2021 09:39:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8620E6E3EE
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 09:39:38 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id h4so3157849wrt.12
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 02:39:38 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC6B86E3FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 09:39:39 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id a4so12198481wrr.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 02:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b64pfOb+ESukFQpojWv0aNxV3D5E9ms1GDFWEsqil0U=;
- b=cUCTfH9cQ20lN0ASEY1CcKyAskerlXs7EVSJaa6aV9/KVocXxKC9+GyDoWrNIo/+Z6
- xinJzqXyxeW3D3CAEl7kmAQIl0+SFCe0ibs9Urg8AyOHMFU+E8L1wfOvAu319Atd7xv2
- H9wet+wscvVhrd40D2HQX2U9l3P9Y1QnEieLZdZdvGOdjEJd6vAC3u3OcC2NH1yqaFpu
- wPoBNr6F3CGOwT4rkkJQ3k3I7iKBP38HOBmpHCHl+NZpewk2S8wEyrQg4B/6I86x/qmv
- VRRXKBFZsQaPCgjwZfMM6FezSVukE4fYRjWwFFUWkBDxNqUk/JG6wNERV2ufIjHxFpfj
- wFtw==
+ bh=Q4YDvpAD1UGIZmGY7ATXAVL5J0kUewQGcgvVMVoEerk=;
+ b=eUPqdTia5iFGBnU+yibNZFt8DEHCfvTTXCKdGvWosxt5hgzyijv+ZMjBvmmVh+K3nc
+ cGluFdswEu4BADOWi0qosoBXasU4r3Hh9F3dM9yr/hgCKNx0zicuRBFeaG8TG6n4ZXA5
+ 6XPp/YIIWQ3GlSSDFT2A7Uq1RIUT/3D1hHcxKj07dlfX3YuAZ5SaIz4ng87sRS0HSEu4
+ 54/HVMBdy6xi93Dxe3nnTwg+8AMcfE8/BhJEFuX44v4QL5YQk8ILOEfKJKl0hSfAaO5d
+ +x48W2GH7x97MA8qr7wFbIohjIu+MzmMMH8xwiT+ag8EVdw0KLW7SfZDKQiNjj2U7NV9
+ ucog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b64pfOb+ESukFQpojWv0aNxV3D5E9ms1GDFWEsqil0U=;
- b=I8wLq2JrOxEqOfn58ZkDiKboSqmuO4oMl6K5OC+EV5Oh2YRiHXqUEP8p1aB//mUrEV
- WAQjKkWdJZKAmwjgP+CmhUllB+60R3EzmljfULEUPYjhf8Z0wQZxn3DE9jVL/KKiypvL
- wKKI0mssCyuQ35QAwfuDxqHtXwwmpW8TCUgWtYfHSOu0vfUr9cF09n3hZMf+SuPs7fRF
- OpYtsRdUia2WRTMhk7e1oe70bON58KgV3WAaEc+JzqrfVkVfW6kvbEhPPk3LXhwjDsjF
- 4YT2zSXio+Kg31YBnAIVFIm6Nm4bvVcQappvDU6Qf83SuYA+5MvRfZIsDIcuAAAGk9IQ
- I+GQ==
-X-Gm-Message-State: AOAM530RXkKh7FUUTjkh0TwfshhQVo6nytgjLChTGlWAs8XbEp4kyVWm
- 5bUC5g6qh34XmUdpkOVDQ/kN7w==
-X-Google-Smtp-Source: ABdhPJz96Ixh0rydLkGNtoMbTLcMl1V8ZHJ6OxRZb3g3eu/v9lSIxMYmfdeZLJ4ofiQecixqlveQKA==
-X-Received: by 2002:a5d:6c62:: with SMTP id r2mr32037266wrz.62.1618220377138; 
- Mon, 12 Apr 2021 02:39:37 -0700 (PDT)
+ bh=Q4YDvpAD1UGIZmGY7ATXAVL5J0kUewQGcgvVMVoEerk=;
+ b=L9WuJZAXjp0wb8qtTH+wkduPS35Hi1qPRHivwp+ec7MA8vGLHZndfw6IHAOQNTCr3r
+ cxO3lRydmMAfZR5Z/A+ZisfXD719OrTVM3lNVVWNo3plF6fZqkKFFaEC88Rx+IGOf2WX
+ 4bUVMPSLoWSvbnRk1nXmTeeVGO/j9M2uQX0xK+LejhiLDErYPNPG4egfgZQUzUu8lEDj
+ 4BkEy4zRoa2Vf7zTOvazCk++YK0pFO4pvyXvr+qjSwvqj0zyJC1Xl9uMnMBBd4nJ11uj
+ y5Xog0FVpdCgT3ept6bB0w+zv1IiDWQI0KBP2YzDjvk/dtzh/ouMZzZSyT6WmD1/RCdz
+ L/yA==
+X-Gm-Message-State: AOAM531G7SM/QBuj7IbnN/x1RIuzZMYFakZ9lG73tMEf5vSBzgE/Ofqb
+ G1sMkBpiY/7Nl8Gjz3dgPTy5OQ==
+X-Google-Smtp-Source: ABdhPJxigmfZSCdDY1wqLPhfhhfh2s9j7fmTwvG4DM80AXXv5sUawdrPx6YzpUHMmhfQo3YB3ijV/Q==
+X-Received: by 2002:adf:fbc8:: with SMTP id d8mr30640128wrs.94.1618220378404; 
+ Mon, 12 Apr 2021 02:39:38 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:90c:e290:4c21:b00e:ff79:bf20])
  by smtp.gmail.com with ESMTPSA id
- r22sm14405902wmh.11.2021.04.12.02.39.36
+ r22sm14405902wmh.11.2021.04.12.02.39.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Apr 2021 02:39:36 -0700 (PDT)
+ Mon, 12 Apr 2021 02:39:38 -0700 (PDT)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: chunkuang.hu@kernel.org,
 	p.zabel@pengutronix.de,
 	matthias.bgg@gmail.com
-Subject: [PATCH v2 3/5] gpu/drm: mediatek: hdmi: add check for CEA modes only
-Date: Mon, 12 Apr 2021 11:39:26 +0200
-Message-Id: <20210412093928.3321194-4-narmstrong@baylibre.com>
+Subject: [PATCH v2 4/5] gpu/drm: mediatek: hdmi: add optional limit on maximal
+ HDMI mode clock
+Date: Mon, 12 Apr 2021 11:39:27 +0200
+Message-Id: <20210412093928.3321194-5-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210412093928.3321194-1-narmstrong@baylibre.com>
 References: <20210412093928.3321194-1-narmstrong@baylibre.com>
@@ -78,34 +79,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some SoCs like the MT8167 are not validated and supported for HDMI modes
-out of HDMI CEA modes, so add a configuration boolean to filter out
-non-CEA modes.
+Some SoCs like the MT8167 have a hard limit on the maximal supported HDMI TMDS
+clock, so add a configuration value to filter out those modes.
 
 Signed-off-by: Fabien Parent <fparent@baylibre.com>
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index dea46d66e712..0539262e69d3 100644
+index 0539262e69d3..bc50d97f2553 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -148,6 +148,7 @@ struct hdmi_audio_param {
- 
+@@ -149,6 +149,7 @@ struct hdmi_audio_param {
  struct mtk_hdmi_conf {
  	bool tz_disabled;
-+	bool cea_modes_only;
+ 	bool cea_modes_only;
++	unsigned long max_mode_clock;
  };
  
  struct mtk_hdmi {
-@@ -1222,6 +1223,9 @@ static int mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
- 			return MODE_BAD;
- 	}
+@@ -1226,6 +1227,10 @@ static int mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
+ 	if (hdmi->conf->cea_modes_only && !drm_match_cea_mode(mode))
+ 		return MODE_BAD;
  
-+	if (hdmi->conf->cea_modes_only && !drm_match_cea_mode(mode))
-+		return MODE_BAD;
++	if (hdmi->conf->max_mode_clock &&
++	    mode->clock > hdmi->conf->max_mode_clock)
++		return MODE_CLOCK_HIGH;
 +
  	if (mode->clock < 27000)
  		return MODE_CLOCK_LOW;
