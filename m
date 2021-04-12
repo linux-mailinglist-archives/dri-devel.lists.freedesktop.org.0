@@ -2,46 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE55435BCEF
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 10:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E4D35BE80
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 594568925A;
-	Mon, 12 Apr 2021 08:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29EE589CBE;
+	Mon, 12 Apr 2021 09:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 91F6C8925A
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 08:46:28 +0000 (UTC)
-X-UUID: 2ae803f1d74144b48a69dd20ece44968-20210412
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=RweJgmRF+LDjf8Ds2biby3dH1UAHrROV6leebHr8sAA=; 
- b=p479TbB3I8hc2HqD2k+sf8GTw9RuJdpQFbcHLXQIExKdJCJf+UDV+bRvMU1NbnSysQ3EM7+Cf7dkTrr1UFsm3stje5TqbROEkB3biIKhmc8tAzievCr+vrVO9fhKuzo2UDCwZ5bTPEKQsZArZAyPBD+A9pF38J+kYTqgS6Aybz0=;
-X-UUID: 2ae803f1d74144b48a69dd20ece44968-20210412
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 846852216; Mon, 12 Apr 2021 16:46:25 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 12 Apr 2021 16:46:23 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Apr 2021 16:46:23 +0800
-Message-ID: <1618217183.16010.4.camel@mtksdaap41>
-Subject: Re: [PATCH v1] drm/mediatek: adjust rdma fifo threshold calculate
- formula
-From: CK Hu <ck.hu@mediatek.com>
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Date: Mon, 12 Apr 2021 16:46:23 +0800
-In-Reply-To: <1618212332-3547-2-git-send-email-yongqiang.niu@mediatek.com>
-References: <1618212332-3547-1-git-send-email-yongqiang.niu@mediatek.com>
- <1618212332-3547-2-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7531789C99
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 09:00:26 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 133B3B15B;
+ Mon, 12 Apr 2021 09:00:25 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, corbet@lwn.net
+Subject: [PATCH 0/3] drm: Add aperture helpers
+Date: Mon, 12 Apr 2021 11:00:18 +0200
+Message-Id: <20210412090021.23054-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: B93D2EA023810F2AB99CA9F7808B7137FCA922C9F707457EE34B03921C380BE52000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,53 +36,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
+Adds helpers for maintaining aperture ownership. Currently wraps
+the infrastructure around fbdev's remove_conflicting_framebuffers().
 
-On Mon, 2021-04-12 at 15:25 +0800, Yongqiang Niu wrote:
-> the orginal formula will caused rdma fifo threshold config overflow
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> index 728aaad..8c9371b 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> @@ -167,7 +167,7 @@ void mtk_rdma_config(struct device *dev, unsigned int width,
->  	 * output threshold to 6 microseconds with 7/6 overhead to
->  	 * account for blanking, and with a pixel depth of 4 bytes:
->  	 */
-> -	threshold = width * height * vrefresh * 4 * 7 / 1000000;
-> +	threshold = rdma_fifo_size * 7 / 10;
+For adding generic drivers to DRM, we need a hand-over mechanism
+that unloads the generic driver before loading the hardware's native
+driver. So far, this was supported for generic fbdev drivers, but
+not for DRM drivers.
 
-It's better to set threshold by width and height, but it seems that no
-one could come out a solution for all SoC. I could just accept this
-solution, but I need some addition comment for this solution. How do you
-decide 7/10? In the future, another may need to modify this value and he
-need to know why you use 7/10. If you just choose it at random, just
-tell us that you just randomly choose it.
+As a first step, this patchset provides a DRM interface to release
+ownership of a framebuffer aperture. When called, all generic drivers
+for framebuffers in the range are being unloaded. At this point
+the functions wrap similar fbdev functionality. The old fbdev-based
+interface is being inlined into the new functionsa and drivers are
+converted.
 
-Regards,
-CK
+The patchset is based on patches 3 and 4 of [1]. I incorporated the
+review comments and kept the acked-bys.
 
->  	reg = RDMA_FIFO_UNDERFLOW_EN |
->  	      RDMA_FIFO_PSEUDO_SIZE(rdma_fifo_size) |
->  	      RDMA_OUTPUT_VALID_FIFO_THRESHOLD(threshold);
+All converted drivers have been built at least once on either x86-64,
+aarch64 or arm.
+
+[1] https://lore.kernel.org/dri-devel/20210318102921.21536-1-tzimmermann@suse.de/
+
+Thomas Zimmermann (3):
+  drm/aperture: Add infrastructure for aperture ownership
+  drm/aperture: Convert drivers to aperture interfaces
+  drm/aperture: Inline fbdev conflict helpers into aperture helpers
+
+ Documentation/gpu/drm-internals.rst           |  12 ++
+ drivers/gpu/drm/Makefile                      |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |   3 +-
+ drivers/gpu/drm/armada/armada_drv.c           |   5 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |  23 ++-
+ drivers/gpu/drm/bochs/bochs_drv.c             |   3 +-
+ drivers/gpu/drm/drm_aperture.c                | 131 ++++++++++++++++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |   4 +-
+ drivers/gpu/drm/i915/i915_drv.c               |   3 +-
+ drivers/gpu/drm/meson/meson_drv.c             |  27 ++--
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |   5 +-
+ drivers/gpu/drm/msm/msm_fbdev.c               |   5 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |   3 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |   5 +-
+ drivers/gpu/drm/radeon/radeon_drv.c           |   3 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |   5 +-
+ drivers/gpu/drm/tegra/drm.c                   |   4 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |   3 +-
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |   3 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                 |   5 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   4 +-
+ include/drm/drm_aperture.h                    |  31 +++++
+ include/drm/drm_fb_helper.h                   |  51 -------
+ 24 files changed, 242 insertions(+), 108 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_aperture.c
+ create mode 100644 include/drm/drm_aperture.h
+
+--
+2.31.1
 
 _______________________________________________
 dri-devel mailing list
