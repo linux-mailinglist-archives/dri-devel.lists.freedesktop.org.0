@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB4C35BF88
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4569435BF8C
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:09:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 110F86E25B;
-	Mon, 12 Apr 2021 09:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2DBE6E2B8;
+	Mon, 12 Apr 2021 09:09:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 299FD6E25B;
- Mon, 12 Apr 2021 09:09:30 +0000 (UTC)
-IronPort-SDR: KUrlgUkSOhx1eLWPDE8PwkknHqyP8RfI9dw16slOt7+slHZHI9rI/moGU1o4UI6YVR0OBZdVr6
- 75hhBFX+regA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="193709716"
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="193709716"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B0696E2B6;
+ Mon, 12 Apr 2021 09:09:31 +0000 (UTC)
+IronPort-SDR: 6FKiHhvjyI7gfX4PjDdrZ42cPIaf0t2RFzvQAa9bsfdSag13UQluu2SL3iy8TvaKQDm5vJfILM
+ 5CoHF1BXZp9Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="193709720"
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="193709720"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2021 02:09:29 -0700
-IronPort-SDR: 6x7+ih+bTMVnjAbWj4LjK1YPQ4ceHnlKDKXDR2s4HYoBvqKXxl+10tw48cMNBUNr7bQlkLaVQo
- SEYBbp4+qZCw==
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="423712656"
+ 12 Apr 2021 02:09:31 -0700
+IronPort-SDR: CShGZG5ogNK1Sa6MqcgpYwksAEo9/Lf15zpCRSU6MKCnGgXgHvaUJad1noPjczVTL5+1kYTBR4
+ VQLkwaWJze/g==
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; d="scan'208";a="423712665"
 Received: from tarynrox-mobl1.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.252.5.30])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2021 02:09:28 -0700
+ 12 Apr 2021 02:09:29 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 08/19] drm/i915: Return error value when bo not in LMEM for
- discrete
-Date: Mon, 12 Apr 2021 10:05:15 +0100
-Message-Id: <20210412090526.30547-9-matthew.auld@intel.com>
+Subject: [PATCH 09/19] drm/i915/lmem: Fail driver init if LMEM training failed
+Date: Mon, 12 Apr 2021 10:05:16 +0100
+Message-Id: <20210412090526.30547-10-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210412090526.30547-1-matthew.auld@intel.com>
 References: <20210412090526.30547-1-matthew.auld@intel.com>
@@ -48,56 +47,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mohammed Khajapasha <mohammed.khajapasha@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Caz Yokoyama <Caz.Yokoyama@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mohammed Khajapasha <mohammed.khajapasha@intel.com>
+From: Matt Roper <matthew.d.roper@intel.com>
 
-Return EREMOTE value when frame buffer object is not backed by LMEM
-for discrete. If Local memory is supported by hardware the framebuffer
-backing gem objects should be from local memory.
+Boot firmware performs memory training and health assessment during
+startup.  If the memory training fails, the firmware will consider the
+GPU unusable and will instruct the punit to keep the GT powered down.
+If this happens, our driver will be unable to communicate with the GT
+(all GT registers will read back as 0, forcewake requests will timeout,
+etc.) so we should abort driver initialization if this happens.  We can
+confirm that LMEM was initialized successfully via sgunit register
+GU_CNTL.
 
-Signed-off-by: Mohammed Khajapasha <mohammed.khajapasha@intel.com>
+Bspec: 53111
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+Cc: Caz Yokoyama <Caz.Yokoyama@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/i915/i915_reg.h     |  3 +++
+ drivers/gpu/drm/i915/intel_uncore.c | 12 ++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 411b46c012f8..57b06d8728af 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -63,6 +63,7 @@
- #include "display/intel_vdsc.h"
- #include "display/intel_vrr.h"
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 4108f2a7ebfa..da73dc939e58 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -487,6 +487,9 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define GAB_CTL				_MMIO(0x24000)
+ #define   GAB_CTL_CONT_AFTER_PAGEFAULT	(1 << 8)
  
-+#include "gem/i915_gem_lmem.h"
- #include "gem/i915_gem_object.h"
++#define GU_CNTL				_MMIO(0x101010)
++#define   LMEM_INIT			REG_BIT(7)
++
+ #define GEN6_STOLEN_RESERVED		_MMIO(0x1082C0)
+ #define GEN6_STOLEN_RESERVED_ADDR_MASK	(0xFFF << 20)
+ #define GEN7_STOLEN_RESERVED_ADDR_MASK	(0x3FFF << 18)
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index 661b50191f2b..4d0605757428 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -1917,6 +1917,18 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
+ 	if (ret)
+ 		return ret;
  
- #include "gt/intel_rps.h"
-@@ -11279,11 +11280,20 @@ intel_user_framebuffer_create(struct drm_device *dev,
- 	struct drm_framebuffer *fb;
- 	struct drm_i915_gem_object *obj;
- 	struct drm_mode_fb_cmd2 mode_cmd = *user_mode_cmd;
-+	struct drm_i915_private *i915;
- 
- 	obj = i915_gem_object_lookup(filp, mode_cmd.handles[0]);
- 	if (!obj)
- 		return ERR_PTR(-ENOENT);
- 
-+	/* object is backed with LMEM for discrete */
-+	i915 = to_i915(obj->base.dev);
-+	if (HAS_LMEM(i915) && !i915_gem_object_is_lmem(obj)) {
-+		/* object is "remote", not in local memory */
-+		i915_gem_object_put(obj);
-+		return ERR_PTR(-EREMOTE);
++	/*
++	 * The boot firmware initializes local memory and assesses its health.
++	 * If memory training fails, the punit will have been instructed to
++	 * keep the GT powered down; we won't be able to communicate with it
++	 * and we should not continue with driver initialization.
++	 */
++	if (IS_DGFX(i915) &&
++	    !(__raw_uncore_read32(uncore, GU_CNTL) & LMEM_INIT)) {
++		drm_err(&i915->drm, "LMEM not initialized by firmware\n");
++		return -ENODEV;
 +	}
 +
- 	fb = intel_framebuffer_create(obj, &mode_cmd);
- 	i915_gem_object_put(obj);
+ 	if (INTEL_GEN(i915) > 5 && !intel_vgpu_active(i915))
+ 		uncore->flags |= UNCORE_HAS_FORCEWAKE;
  
 -- 
 2.26.3
