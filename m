@@ -1,52 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF15E35C64B
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 14:32:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D140635C67D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 14:43:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFCAB6E578;
-	Mon, 12 Apr 2021 12:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A91106E56D;
+	Mon, 12 Apr 2021 12:43:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 232DD6E578
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 12:32:27 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- i16-20020a9d68d00000b0290286edfdfe9eso1974703oto.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 05:32:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zAbEERU9Z0GRvzFVMLnHRE6+8DF0Uz1ZfFddY3ugnyA=;
- b=SrYJl92CjxSoYrwOug1b0tkxH9c361upsDw6OQCPoJ1rzOiABXR6o+eTvxdylf6/dc
- BPWuuRNyt/bi4lvo/XIY4YNTfKAZafjnJWQ2bCvqAtx9tDOgVKvG4bEjN/oGqX+I9Mnn
- zQIZ39QwjesFlpkRYdDJ0uliAmwCtu6jdk0eo=
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51E786E56D
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 12:43:27 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id w3so20041749ejc.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 05:43:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dl2dcv2j0SH5o5oYkFtGVe/TTES0EMAAwfTwKxscV88=;
+ b=CUlAmIDYxwHPS+G/GXJBiuKltOaw2X7J3Nt8qz96HVkGuM8NIYNAmkZYMo4vbbGIgJ
+ wPvEY0XSjrL7J1+pNpN217IFUOzmrXS0U23eFM6YjELcl4X2V23heYJzHeLphHpKMKIe
+ 0kuZpoc5qYeUGejFqGsv51H0P8f9pQ2IgyIxf7QMQy3dH6eeXYSF/hS8TVHl8bjFveAG
+ yOf9yHUFoO8uN2aOF0hndLiPZziJl33g8JazwvWUZcGrcEFDqOYDaGhet67n83uQ2hD3
+ yXbZuApD7wg9uOsuIfWPAQuUrLExbNURUpTp8GXcwXZQ4H6tVhTjCoviDOjdcQ5bi0Jg
+ 6iIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zAbEERU9Z0GRvzFVMLnHRE6+8DF0Uz1ZfFddY3ugnyA=;
- b=CiM0rRLdQf+EVP/EVooblhWAGSqZ2D6v9Mniox1LGGbMONAFtPoG6fN5JI6VMEaC8d
- M7PHqTnS9SQyMREbghMhTM8zqtkFVo5Ta4dSVBcusDclo15SDm4gE21esKFxSOdKB0+P
- WzB4BRQFN0BZ004T1+htep1ZcXJAOYzNQVA+bmo1HjNBOl3AW2A3ZXa1+qz4XB/fqP5l
- Czz+DjJ2mhg5JvSx3UFulJCRSG1EE9e6Ho2ZOFXfRcFA167V+fTqMfdry7VBLFdXHY7Z
- XdS0x2Zqkyz1hsulL15YItb2QYV9f47aFGEpMvIMWm1fWfv9ZnN8mZVW8tIByUTm91yZ
- jcwg==
-X-Gm-Message-State: AOAM5324FUtXD+rlXhuRfptptr1zEAyfwMCK+eh/vHUhLUEcLWFo46FT
- 3sJ4u1jjECiEJcJKVRzJvizadSsWLaGVO3Ytnjuv2g==
-X-Google-Smtp-Source: ABdhPJwZWPab0+ruj3pNaCbsI0IjG/t2sOrbjhFfXAU0A+ZBAduA4x4bwCTAGxcyHKaoZgfbflns84om4s5i6zN8Mg4=
-X-Received: by 2002:a9d:7b4e:: with SMTP id f14mr24378174oto.281.1618230746369; 
- Mon, 12 Apr 2021 05:32:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dl2dcv2j0SH5o5oYkFtGVe/TTES0EMAAwfTwKxscV88=;
+ b=Q/aMd07XOHexgYuAgqfrW7B43QT3czWZwVff3YRRv1LjFAbUNywuxYKfusBorC+C5z
+ ygS2RCVfivvnoB31teUknsfwA5DjlmUCJC2hZcKAkjMKpU8ycigoPBSJ1o8uVDWigPNC
+ d8VPzRl6S46lDlrG4xFvJ9f6Ex84oGQYmCq1+u9Czbf6Vjv45tVN56xb0PRqJymIvQ0w
+ DJDOyAOHY32HgsxDuwGozZv6WzjxzkRYu5xTNai3YkJZmV0I9u4S/YrHHKPLmMAHsDAX
+ +hNXzpp27UAujnwTzpWvQcZ4+XNmXzYgsvkzYNoH3jTPkHzVmlmo5eeqlIqdN4t1+zvy
+ rZtA==
+X-Gm-Message-State: AOAM5309jeeKzKOzH8/6tuB1Ps4rMM6W/WlwGyrrduItXgcd4dA6neCc
+ 5+jH9rNvHqqf54EqL7FvY/3uSBqiATAae3yQ
+X-Google-Smtp-Source: ABdhPJyMfGqKOKexscCxRN5soA+XmNALMPTzQqi5Vzr7u2C396h3wjEusGrVYgL2hrmzvn5+uqH4GQ==
+X-Received: by 2002:a17:906:f949:: with SMTP id
+ ld9mr6001231ejb.236.1618231405624; 
+ Mon, 12 Apr 2021 05:43:25 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it.
+ [95.237.55.30])
+ by smtp.gmail.com with ESMTPSA id m6sm5939452eds.49.2021.04.12.05.43.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Apr 2021 05:43:25 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: dri-devel@lists.freedesktop.org, outreachy-kernel@googlegroups.com,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>
+Subject: [PATCH v2 0/2] drm: drm_atomic_helper.c: Change types and format
+ comments
+Date: Mon, 12 Apr 2021 14:42:12 +0200
+Message-Id: <20210412124213.4628-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210412122056.28351-1-fmdefrancesco@gmail.com>
- <20210412122056.28351-2-fmdefrancesco@gmail.com>
-In-Reply-To: <20210412122056.28351-2-fmdefrancesco@gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 12 Apr 2021 14:32:14 +0200
-Message-ID: <CAKMK7uEzf64xB5TLS7VvyLVJmX4MBNnHcr3_n1zDq3hOVAm1Rg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gpu: drm: Replace "unsigned" with "unsigned int"
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,81 +72,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Melissa Wen <melissa.srw@gmail.com>,
- outreachy-kernel <outreachy-kernel@googlegroups.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 12, 2021 at 2:21 PM Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
->
-> Replaced "unsigned with "unsigned int" since the latter is preferred.
->
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Replaced "unsigned" with "unsigned int" and formatted comments according
+to the Linux style guidelines. Issues detected by checkpatch.pl.
 
-Nit for the subjects: In drm we generally don't have the gpu prefix,
-but just the level below + what component. So for these two patches it
-would be drm/atomic-helpers: as prefix in the patch summary lines. Can
-you pls adjust that? Patches look good otherwise.
-Thanks, Daniel
+Changes from v1: Rewrote the "Subject" of the patches in the series.
 
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index f2b3e28d938b..cd748ff61162 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -106,7 +106,7 @@ static int handle_conflicting_encoders(struct drm_atomic_state *state,
->         struct drm_connector *connector;
->         struct drm_connector_list_iter conn_iter;
->         struct drm_encoder *encoder;
-> -       unsigned encoder_mask = 0;
-> +       unsigned int encoder_mask = 0;
->         int i, ret = 0;
->
->         /*
-> @@ -609,7 +609,7 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
->         struct drm_connector *connector;
->         struct drm_connector_state *old_connector_state, *new_connector_state;
->         int i, ret;
-> -       unsigned connectors_mask = 0;
-> +       unsigned int connectors_mask = 0;
->
->         for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
->                 bool has_connectors =
-> @@ -1478,7 +1478,7 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
->         struct drm_crtc *crtc;
->         struct drm_crtc_state *old_crtc_state, *new_crtc_state;
->         int i, ret;
-> -       unsigned crtc_mask = 0;
-> +       unsigned int crtc_mask = 0;
->
->          /*
->           * Legacy cursor ioctls are completely unsynced, and userspace
-> @@ -2575,7 +2575,7 @@ drm_atomic_helper_commit_planes_on_crtc(struct drm_crtc_state *old_crtc_state)
->         struct drm_crtc_state *new_crtc_state =
->                 drm_atomic_get_new_crtc_state(old_state, crtc);
->         struct drm_plane *plane;
-> -       unsigned plane_mask;
-> +       unsigned int plane_mask;
->
->         plane_mask = old_crtc_state->plane_mask;
->         plane_mask |= new_crtc_state->plane_mask;
-> --
-> 2.31.1
->
+Fabio M. De Francesco (2):
+  gpu: drm: Replace "unsigned" with "unsigned int"
+  gpu: drm: Correct comments format
 
+ drivers/gpu/drm/drm_atomic_helper.c | 40 ++++++++++++++++++-----------
+ 1 file changed, 25 insertions(+), 15 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.31.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
