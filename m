@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CEA35C618
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 14:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A5835C63C
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 14:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A4E6E55E;
-	Mon, 12 Apr 2021 12:21:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF22899EA;
+	Mon, 12 Apr 2021 12:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80AFB6E55E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 12:21:09 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id z1so14805352edb.8
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 05:21:09 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 000CB899EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 12:28:43 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id w23so4130849ejb.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 05:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IwBxglF+iN+OFUDTNg+emf1SfZYsVOLjYrDjF4LE0F4=;
- b=jCzBywVopnhF1mSPdpmOzIrgIU4KUb+iWPFuobsxnANfwyyiVcoLs+NOj+e1SurkTs
- +ltUytF7W9pA0UJDDSc/mtxkR8hvTeUVZzsiqK96aoTFYHrR+ke2zvtoZLwvjLcqxyAf
- wwEwSkOUh9T7Ew9tcQtVhE8m00coPV2L2USpbQx31gaeV4QTZnla5ao7Y0ksunF9LNA3
- sPEXb1B8Vl/+9ZGst2zE74SCyjz14+PtOZ5uEXEh24J7l7n1V9q/fB1FZWODUo1pCyWY
- sQ8U1tlFwNQSDYNjpfBNdtjbMyakgRGyclpS6HP7tid/Z365EyfqD++1D5FVdg+Hpw0s
- jYJg==
+ bh=oXOFzLZjvk0LyNOjmi5s2GiY2P2vUSqf5iSqo2K7jHE=;
+ b=mTH11GKHf/4UYU1YHUwQ+zG9Wnuuk06YYbVfv9ix18rl/RhS6+HdsDZ5vbTAiWcXCR
+ GFU95Ss07dMBftcwhGseeyLn6qZPeArRBuZWWx5ar04KVmg/KSsrIUcO+uNvxAVWG4lz
+ d36A5Xj2cUSCmDQt9KRPndk0ejErn8JnI/aEhJxeRBsHXEYXXF4eOjEOMBQ3/hwNNC7D
+ y9YveGlJpaRgEj9l6ra2b3Efu7I0xB1whiemL+VjOb/KOsa++xXZs7vQESpv36ig8Roq
+ 3Mow0wnWS0QVso4SrZ9rS3TFfTja952x/Jrx5xNzan1df80HfueuQMk86w9V+KdLHwQd
+ k5Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IwBxglF+iN+OFUDTNg+emf1SfZYsVOLjYrDjF4LE0F4=;
- b=KDEnPc81D4Gx5ioDWf1xsqtwqNr2vxMXXVRayRe60xJw+u7HCKLdYICEHCvsgDyroo
- glLhqr+BJBOyhjblAnEhIrZ0iu8BOoDRlszMUQm6Ulo6lW3+PxZPgG34cSxbg5+2Qx2p
- kuWPM2cRyiLWfjrAWprQy8EO6jo9DWXUyShXXZs4lAxCEdCdfc1Q/J5SPvwBfoO0Jif7
- erZfuRD6aSBF0AYWwlypT55MINFpCF8Ybnambi7HZJdxsai2YQPrF/n7i8xQdGwxAh5a
- SpRKDm9NGcAWfzNoTqS1RevnGH+X8GVU2ArQcX73a8DgA4MuckB4L4dS0ddB6CrvdRIh
- LPEg==
-X-Gm-Message-State: AOAM5304A13OQ5EVJCXPWuwwUdVs+X/vEeNGU32EAalNEzFUgQ2QeIEU
- qvBrl3Mi2MRJ1rqSS309O+crWdg0yTJ8Pot0
-X-Google-Smtp-Source: ABdhPJzS7vLk0dDuapkR7+L2zxeWMUWLhiEJ2ABtm4qhto0Y7QDFHiKUabQT4npuhPYayU2HHAJkJw==
-X-Received: by 2002:aa7:d78a:: with SMTP id s10mr28534045edq.226.1618230067832; 
- Mon, 12 Apr 2021 05:21:07 -0700 (PDT)
+ bh=oXOFzLZjvk0LyNOjmi5s2GiY2P2vUSqf5iSqo2K7jHE=;
+ b=aIDgDD43pKzhf/8thJIay/hVy+ok7wGcc77RRfMtGMhZL2GVmwj2FKAGCZGcl4/nBc
+ hf+Bv6qJHs62Hbx08yeS7Hflb7p2h9MTudhOneUBcgkxvDqVQltt6zscXHT5X8aShVh6
+ MgZE7nAtp3c8EPBgH1TuNs5VCHAg4md4Hf4gzf69YuqucIg1zWtXtPzGp+og2NFrlH3m
+ AVzfNH/2/0epd2xMnd+HkQ7xaRZusyzpAx5sEi3rOErbEV3oaMCylbrmuZphBhWKzwps
+ aguUuUpuWtXqDL5BdXzVAbENfnvFaRhEf1SPD1fS3mFnazKB6U0nT526cDr031NeRm3W
+ LEWg==
+X-Gm-Message-State: AOAM5312Xudbp2KGlj5DViLVwJNIQUtmyT24g3E4nT1V+EKbKQt/4715
+ tt/G6lv32v576VM7CO5aITc=
+X-Google-Smtp-Source: ABdhPJwmjr7fcwq3BcOpoZ6nnzFOF2nE2oWwF1OJxDvK+VMZXatQkAhjLO6Tiqz3jJUPYGd1pP9NDw==
+X-Received: by 2002:a17:906:5e15:: with SMTP id
+ n21mr1499484eju.57.1618230522478; 
+ Mon, 12 Apr 2021 05:28:42 -0700 (PDT)
 Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it.
  [95.237.55.30])
- by smtp.gmail.com with ESMTPSA id ck29sm6408191edb.47.2021.04.12.05.21.06
+ by smtp.gmail.com with ESMTPSA id m14sm6494871edd.63.2021.04.12.05.28.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Apr 2021 05:21:07 -0700 (PDT)
+ Mon, 12 Apr 2021 05:28:41 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: dri-devel@lists.freedesktop.org, outreachy-kernel@googlegroups.com,
- "Daniel Vetter" <daniel.vetter@ffwll.ch>,
- "Melissa Wen" <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>
-Subject: [PATCH 2/2] gpu: drm: Correct comments format
-Date: Mon, 12 Apr 2021 14:20:56 +0200
-Message-Id: <20210412122056.28351-3-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210412122056.28351-1-fmdefrancesco@gmail.com>
-References: <20210412122056.28351-1-fmdefrancesco@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] gpu: drm: Replace bare "unsigned" with "unsigned int"
+Date: Mon, 12 Apr 2021 14:28:40 +0200
+Message-ID: <6109116.xc2Yry14yg@linux.local>
+In-Reply-To: <YHQ5D25KQ+3uADNo@phenom.ffwll.local>
+References: <20210412105309.27156-1-fmdefrancesco@gmail.com>
+ <YHQ5D25KQ+3uADNo@phenom.ffwll.local>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,100 +68,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>, outreachy-kernel@googlegroups.com,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Corrected comments format in accordance to the Linux style guides.
+On Monday, April 12, 2021 2:11:59 PM CEST Daniel Vetter wrote:
+> On Mon, Apr 12, 2021 at 12:53:09PM +0200, Fabio M. De Francesco wrote:
+> > Replaced the type "unsigned" with "unsigned int" because it is
+> > preferred. Issue detected by checkpatch.pl.
+> 
+> Huh, I didn't know that, TIL.
+> 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> 
+> Thanks for your patche, merged to drm-misc-next for 5.14.
+> -Daniel
+>
+I am happy that my first dri-devel patch has been accepted.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/gpu/drm/drm_atomic_helper.c | 32 +++++++++++++++++++----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+Thanks,
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index cd748ff61162..bc3487964fb5 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1018,8 +1018,10 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
- 		struct drm_encoder *encoder;
- 		struct drm_bridge *bridge;
- 
--		/* Shut down everything that's in the changeset and currently
--		 * still on. So need to check the old, saved state. */
-+		/*
-+		 * Shut down everything that's in the changeset and currently
-+		 * still on. So need to check the old, saved state.
-+		 */
- 		if (!old_conn_state->crtc)
- 			continue;
- 
-@@ -1409,7 +1411,7 @@ EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
-  * @dev: DRM device
-  * @state: atomic state object with old state structures
-  * @pre_swap: If true, do an interruptible wait, and @state is the new state.
-- * 	Otherwise @state is the old state.
-+ *	Otherwise @state is the old state.
-  *
-  * For implicit sync, driver should fish the exclusive fence out from the
-  * incoming fb's and stash it in the drm_plane_state.  This is called after
-@@ -1953,8 +1955,10 @@ static int stall_checks(struct drm_crtc *crtc, bool nonblock)
- 	list_for_each_entry(commit, &crtc->commit_list, commit_entry) {
- 		if (i == 0) {
- 			completed = try_wait_for_completion(&commit->flip_done);
--			/* Userspace is not allowed to get ahead of the previous
--			 * commit with nonblocking ones. */
-+			/*
-+			 * Userspace is not allowed to get ahead of the previous
-+			 * commit with nonblocking ones.
-+			 */
- 			if (!completed && nonblock) {
- 				spin_unlock(&crtc->commit_lock);
- 				DRM_DEBUG_ATOMIC("[CRTC:%d:%s] busy with a previous commit\n",
-@@ -2103,9 +2107,11 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- 		if (ret)
- 			return ret;
- 
--		/* Drivers only send out events when at least either current or
-+		/*
-+		 * Drivers only send out events when at least either current or
- 		 * new CRTC state is active. Complete right away if everything
--		 * stays off. */
-+		 * stays off.
-+		 */
- 		if (!old_crtc_state->active && !new_crtc_state->active) {
- 			complete_all(&commit->flip_done);
- 			continue;
-@@ -2137,8 +2143,10 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- 	}
- 
- 	for_each_oldnew_connector_in_state(state, conn, old_conn_state, new_conn_state, i) {
--		/* Userspace is not allowed to get ahead of the previous
--		 * commit with nonblocking ones. */
-+		/*
-+		 * Userspace is not allowed to get ahead of the previous
-+		 * commit with nonblocking ones.
-+		 */
- 		if (nonblock && old_conn_state->commit &&
- 		    !try_wait_for_completion(&old_conn_state->commit->flip_done)) {
- 			DRM_DEBUG_ATOMIC("[CONNECTOR:%d:%s] busy with a previous commit\n",
-@@ -2156,8 +2164,10 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- 	}
- 
- 	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
--		/* Userspace is not allowed to get ahead of the previous
--		 * commit with nonblocking ones. */
-+		/*
-+		 * Userspace is not allowed to get ahead of the previous
-+		 * commit with nonblocking ones.
-+		 */
- 		if (nonblock && old_plane_state->commit &&
- 		    !try_wait_for_completion(&old_plane_state->commit->flip_done)) {
- 			DRM_DEBUG_ATOMIC("[PLANE:%d:%s] busy with a previous commit\n",
--- 
-2.31.1
+Fabio 
+> 
+> > ---
+> > 
+> >  drivers/gpu/drm/drm_atomic.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_atomic.c
+> > b/drivers/gpu/drm/drm_atomic.c
+> > index 5b4547e0f775..46dceb51c90f 100644
+> > --- a/drivers/gpu/drm/drm_atomic.c
+> > +++ b/drivers/gpu/drm/drm_atomic.c
+> > @@ -1302,8 +1302,8 @@ int drm_atomic_check_only(struct drm_atomic_state
+> > *state)> 
+> >  	struct drm_crtc_state *new_crtc_state;
+> >  	struct drm_connector *conn;
+> >  	struct drm_connector_state *conn_state;
+> > 
+> > -	unsigned requested_crtc = 0;
+> > -	unsigned affected_crtc = 0;
+> > +	unsigned int requested_crtc = 0;
+> > +	unsigned int affected_crtc = 0;
+> > 
+> >  	int i, ret = 0;
+> >  	
+> >  	DRM_DEBUG_ATOMIC("checking %p\n", state);
+
+
+
 
 _______________________________________________
 dri-devel mailing list
