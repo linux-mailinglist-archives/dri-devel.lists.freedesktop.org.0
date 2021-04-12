@@ -2,57 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A4035C1B9
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89E235C1BB
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 11:44:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99B6189FBC;
-	Mon, 12 Apr 2021 09:44:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5A16E093;
+	Mon, 12 Apr 2021 09:44:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7089389FBC
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 09:43:59 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- w7-20020a1cdf070000b0290125f388fb34so5798666wmg.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 02:43:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DiAalqXklDV4AQK4+bvItg76/pGr3vAv4Bzs6qws1rw=;
- b=H8ZthHyJG1MTv5jV4T3DNfZa0JihSD+tIYwaheZgYuqakn64kV2PetHHXmftpA2LCe
- fmh/04p0/LKGuBokBDZfjG+lMSFdrXnRq0Zscqt/+uT0xKjx/VFkka3wak/b51EwA7nl
- hqcf94Ni1eLS+0RBdi6tim2srnBC4eHaT80DV5kjZALynmhJPWrhl2M/bBmpDjD3zOb+
- pwC2gtxC4tOzoeJMsNyJKLtolNOIhDxBmepdzSKdhE15U8jUkdHJReCI99rpHVhPbmQ4
- n9ZCnjvJyPOlF2GTSnJflKZuHfT/Ng/jvvU90Ep1k9K1ZmdNxfjtNHd2Gh/oisawoeh4
- P1ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DiAalqXklDV4AQK4+bvItg76/pGr3vAv4Bzs6qws1rw=;
- b=Ak13KnZCgZBoBa1KE3Fc6eZn5B6+069EXzWWVUXdRGIcEdU0FK3KC8SXA9SgwOE9sx
- FrBcZbHv/hyMQUU5qc4lioYb981o94AIlKEsBCMAneTIhJuNwnLtYJurcHkhYsF7LjZh
- SnFQvg0g9vzmBj6ROhWw6tQbHqiCB0D0FS4vfRzr668fGSvnAtaQ+UBYZSVSxz/x0VWY
- rwktCz5AVkWU38Eak4gj+6i9K003kfNoHsMHNZHtDnTEhmvO7/htqOASQ6pwzTFryQm1
- KNzrheODBMlcOCzT0hZAx7m9TWWx+LgWUOlshTQEnY6vfnrV12Qzb2RnTQQAF+TOhBbW
- wYrg==
-X-Gm-Message-State: AOAM530C6dWTcIZGmrx/NOY8+TJ6HaFhbipHvbTz6TMfBuMTron6hnWM
- FZjtwsp+VsMPQXWNg6kHRF9P5JXWqdBHhduhiiCHfw==
-X-Google-Smtp-Source: ABdhPJxp9bL/dpRjep6oSzXrSrLQyAvJNHP/4JIVD2Nmw2274KaUW0BUBBCYHvPhkZ1MtH9NNLIRbSp1VkINIxh9nnw=
-X-Received: by 2002:a1c:771a:: with SMTP id t26mr7873488wmi.96.1618220637957; 
- Mon, 12 Apr 2021 02:43:57 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9500D6E093
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 09:44:09 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 2022AAEFB;
+ Mon, 12 Apr 2021 09:44:08 +0000 (UTC)
+Subject: Re: [PATCH 07/18] drm/vc4: hdmi: Add full range RGB helper
+To: Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
+References: <20210317154352.732095-1-maxime@cerno.tech>
+ <20210317154352.732095-8-maxime@cerno.tech>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <316878dc-8661-e111-27e1-ac8ab3bfc13c@suse.de>
+Date: Mon, 12 Apr 2021 11:44:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-References: <20210318092917.831995-1-maxime@cerno.tech>
- <20210318092917.831995-5-maxime@cerno.tech>
- <CAPY8ntBNr6kTRJkaMNmZ+Z9St9oZ=M9qEAKovtKrCCB=wzBZLw@mail.gmail.com>
- <20210409123557.jjntmcuyfadjnv7g@gilmour>
-In-Reply-To: <20210409123557.jjntmcuyfadjnv7g@gilmour>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 12 Apr 2021 10:43:42 +0100
-Message-ID: <CAPY8ntBC2ctar-LH-HVyQHdmzZYpqxKcEZpBLq8J3vUQiA-_uA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] drm/vc4: hdmi: Enable the scrambler
-To: Maxime Ripard <maxime@cerno.tech>
+In-Reply-To: <20210317154352.732095-8-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,111 +44,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>
+Content-Type: multipart/mixed; boundary="===============0525265174=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0525265174==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="3svIc2ne78SsvZWxrJRz4kboLFCFUpiuq"
 
-On Fri, 9 Apr 2021 at 13:36, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi Dave,
->
-> On Thu, Apr 01, 2021 at 12:30:45PM +0100, Dave Stevenson wrote:
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > ---
-> > >  drivers/gpu/drm/vc4/vc4_hdmi.c      | 56 +++++++++++++++++++++++++++++
-> > >  drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  3 ++
-> > >  2 files changed, 59 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > index 0924a1b9e186..530c83097b1a 100644
-> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > @@ -35,6 +35,7 @@
-> > >  #include <drm/drm_edid.h>
-> > >  #include <drm/drm_probe_helper.h>
-> > >  #include <drm/drm_simple_kms_helper.h>
-> > > +#include <drm/drm_scdc_helper.h>
-> > >  #include <linux/clk.h>
-> > >  #include <linux/component.h>
-> > >  #include <linux/i2c.h>
-> > > @@ -76,6 +77,8 @@
-> > >  #define VC5_HDMI_VERTB_VSPO_SHIFT              16
-> > >  #define VC5_HDMI_VERTB_VSPO_MASK               VC4_MASK(29, 16)
-> > >
-> > > +#define VC5_HDMI_SCRAMBLER_CTL_ENABLE          BIT(0)
-> > > +
-> > >  #define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_SHIFT     8
-> > >  #define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_MASK      VC4_MASK(10, 8)
-> > >
-> > > @@ -457,6 +460,56 @@ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
-> > >                 vc4_hdmi_set_audio_infoframe(encoder);
-> > >  }
-> > >
-> > > +static bool vc4_hdmi_supports_scrambling(struct drm_encoder *encoder,
-> > > +                                        struct drm_display_mode *mode)
-> > > +{
-> > > +       struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
-> > > +       struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-> > > +       struct drm_display_info *display = &vc4_hdmi->connector.display_info;
-> > > +
-> > > +       if (!vc4_encoder->hdmi_monitor)
-> > > +               return false;
-> > > +
-> > > +       if (!display->hdmi.scdc.supported ||
-> > > +           !display->hdmi.scdc.scrambling.supported)
-> > > +               return false;
-> > > +
-> >
-> > I think I made this comment last time, but possibly not very clearly.
->
-> I must have missed it then, sorry :/
->
-> > Up to this point in the function is whether the display/hdmi interface
-> > *supports* scrambling. The bit after is whether it is *required* to be
-> > enabled by the mode.
->
-> Thomas made a suggestion to move the mode clock check to a helper, so
-> we'll end up with essentially a helper about whether we support
-> scrambling or not and if the mode requires it.
->
-> > At the moment, if the display/interface supports scrambling but the
-> > mode doesn't need it, then the scrambling setup is never touched. That
-> > makes a few assumptions about the default settings.
-> > Boot with the firmware selecting 4k60 (ie scrambling on), but
-> > video=HDMI-1:1920x1080 in the kernel command line and you'll have a
-> > mess with scrambling enabled but not signalled.
-> >
-> > I'd be happier if the display/interface says scrambling is supported
-> > then we always call drm_scdc_set_high_tmds_clock_ratio,
-> > drm_scdc_set_scrambling and set the VC5_HDMI_SCRAMBLER_CTL_ENABLE
-> > register bit appropriately for the mode. Feel free to disagree with me
-> > though.
->
-> I think part of it is due to our custom helpers never being called
-> currently during the boot process. Once that is fixed, the disable
-> helpers will be called and will disable the scrambling so we should be
-> good there.
->
-> This creates another issue though. That function takes the mode as the
-> argument and at boot time the mode pointer will be null. I think we can
-> work around it by assuming that we need to disable it at boot all the
-> time (and thus ignore the test if our pointer is null).
->
-> Would that work for you?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--3svIc2ne78SsvZWxrJRz4kboLFCFUpiuq
+Content-Type: multipart/mixed; boundary="idfvWMEp6ywaGAkOjDF66Ira2zcCsxuF9";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ linux-rpi-kernel@lists.infradead.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
+ dri-devel@lists.freedesktop.org
+Message-ID: <316878dc-8661-e111-27e1-ac8ab3bfc13c@suse.de>
+Subject: Re: [PATCH 07/18] drm/vc4: hdmi: Add full range RGB helper
+References: <20210317154352.732095-1-maxime@cerno.tech>
+ <20210317154352.732095-8-maxime@cerno.tech>
+In-Reply-To: <20210317154352.732095-8-maxime@cerno.tech>
 
-Yes, that all sounds reasonable to me.
+--idfvWMEp6ywaGAkOjDF66Ira2zcCsxuF9
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-  Dave
+
+
+Am 17.03.21 um 16:43 schrieb Maxime Ripard:
+> We're going to need to tell whether we want to run with a full or
+> limited range RGB output in multiple places in the code, so let's creat=
+e
+> a helper that will return whether we need with full range or not.
+>=20
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+although with a comments
+
+> ---
+>   drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++++++--
+>   1 file changed, 10 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
+dmi.c
+> index eee9751009c2..fc545072b173 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -95,6 +95,15 @@
+>  =20
+>   #define HDMI_14_MAX_TMDS_CLK   (340 * 1000 * 1000)
+>  =20
+> +static bool vc4_hdmi_is_full_range_rgb(struct vc4_hdmi *vc4_hdmi,
+> +				       const struct drm_display_mode *mode)
+> +{
+> +	struct vc4_hdmi_encoder *vc4_encoder =3D &vc4_hdmi->encoder;
+> +
+> +	return !vc4_encoder->hdmi_monitor ||
+
+Is this ever being called from non-HDMI code? If not, I'd put an=20
+drm_WARN_ONCE around this check.
+
+> +		drm_default_rgb_quant_range(mode) =3D=3D HDMI_QUANTIZATION_RANGE_FUL=
+L;
+> +}
+> +
+>   static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+>   {
+>   	struct drm_info_node *node =3D (struct drm_info_node *)m->private;
+> @@ -833,8 +842,7 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct=20
+drm_encoder *encoder,
+>   	struct vc4_hdmi_encoder *vc4_encoder =3D to_vc4_hdmi_encoder(encoder=
+);
+>   	struct vc4_hdmi *vc4_hdmi =3D encoder_to_vc4_hdmi(encoder);
+>  =20
+> -	if (vc4_encoder->hdmi_monitor &&
+> -	    drm_default_rgb_quant_range(mode) =3D=3D HDMI_QUANTIZATION_RANGE_=
+LIMITED) {
+> +	if (vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode) {
+>   		if (vc4_hdmi->variant->csc_setup)
+>   			vc4_hdmi->variant->csc_setup(vc4_hdmi, true);
+>  =20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--idfvWMEp6ywaGAkOjDF66Ira2zcCsxuF9--
+
+--3svIc2ne78SsvZWxrJRz4kboLFCFUpiuq
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB0FmYFAwAAAAAACgkQlh/E3EQov+Ay
+5hAArqyaEHnu0hHsPt50lzmRXXijy62hNLqkPBhb5NwROr3xqQh2s8FqrXVR6FyOj9oMBVOvI6Hl
+11z0CsXR/NUnxjjw3gyJIJzxTiAVCwzE9LVEC6Nf/Mvb4uTBEpgCIRUIk45aHJPt/HMx60maGyyM
+dj3eoD7luJ+S/UEAUyp+EahxAJkIlLs1vkUjov3t32xiecPyEBOiNZt9oMBc39h39oWD34kcSXRa
+UCw1gksoWIWIDlX0R85IWaHO0C+x1o1pfx+P3qmxW2DRXm6wABfd4e5/sQsCRLzhguXU37xfE5c2
+CirFHvQ7NrKcLT0TspMUvENQTbjoOTtZZdjpHwh/h/8nR3xr06I2VblM6BKppSFUZS/EvrzDpVc+
+IZRHujTpzBuJUR0pGIbioOMlGl4VYRcBXRLsl5uZa1EC0aVv3XI5j6iBzJAgB5jREHysD8w7smQ5
+DSdCfrkdplko34R5KoraZgfn/FkC5rL3W2Ijsvtc77JIllf7wRjUO7V+Hv5+xMJtZjaYervHjK2L
+3Ke0kBtKaj/XKV7mRYy+u4AH44S98OA+ETaMgmuAvTfzuegmvKoHegi7FpzvANKGIIXaiDcS90Dh
+zOpnr94cj468tu4qCVHvfavVEI2oNCBVRS7CpxVMJD8fpOvWvrjqXtUjuo1Thm1W+dXK3AeGXFu7
+w6I=
+=+iMB
+-----END PGP SIGNATURE-----
+
+--3svIc2ne78SsvZWxrJRz4kboLFCFUpiuq--
+
+--===============0525265174==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0525265174==--
