@@ -2,32 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319B835BB20
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 09:45:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB5B35BB8F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 10:02:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 621BE6E1FB;
-	Mon, 12 Apr 2021 07:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBDE6E071;
+	Mon, 12 Apr 2021 08:02:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61C1F6E1FB
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 07:45:39 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DBACCAEB9;
- Mon, 12 Apr 2021 07:45:37 +0000 (UTC)
-Subject: Re: [PATCH v4] drm/ast: Fixed CVE for DP501
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <bbe8ccfd-7e73-e1e6-32a5-f08f71c4ed3f@suse.de>
- <20210408093052.59782-1-kuohsiang_chou@aspeedtech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <214f1451-2406-b298-e233-4939cae9e1f2@suse.de>
-Date: Mon, 12 Apr 2021 09:45:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
-MIME-Version: 1.0
-In-Reply-To: <20210408093052.59782-1-kuohsiang_chou@aspeedtech.com>
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F42E6E071
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 08:02:05 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id d10so8734457pgf.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 01:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=i4KiQmLrkLOzeN8hLf2dN/NrgF3DSMBO5gpVyoWaFzc=;
+ b=o1FIPutAV09D7htR4uEq40Y6WSnQ0vz4qbL0UIOsIGevW+LUx26hK/LKNQZkr/mp2c
+ hkz9ukVC2REtA/pPu8OqLFimk+v4vpSkR2+3VZ6Z0pkUPMZAkUxegyG0frkyY/eFivnu
+ nopBhJz40JRJUOGYIUhcFjqby2Ca5Q4NnGk+gkQTXeYRqV7hrdEIcTLYfRbgcFFbCcAj
+ iJalEDVGgXqj3bh85dPWELJQ06Rif20prwP/7YEwrNyVpgryW3/Rem5cHIdEEXD1g+Gk
+ a1cWhNMzxRnAWlklermQOEp5uML1GTHzAMJkm8dwDEUF1DwbksvLol3GS8yVxyL8K3lR
+ l2pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=i4KiQmLrkLOzeN8hLf2dN/NrgF3DSMBO5gpVyoWaFzc=;
+ b=sb3vFGCFDoMAt6HXQpr6kCOYo9OR0a9xYEfqVBlbB39In1iyHyIO3OWWL4Kn5NWKSs
+ IsB95ihCXTDi9aDydPnctpLwnrvyHTwu5Pl3bUHkp7wtd7IxS4Qg+AgkfSBS/bDQHi6A
+ zExjr0wlFinTB/eLOOjg0CjRUcYPMHAY5Gr0W2JVEdI3YLMiwHNa4vkdcaRR7x89J/6B
+ 4XAoiFldB6ks2ZQCBerX1adSqOT8Lzn9M9E1dFd3e7q4ktZ1AnN0E08jmJVtS94cj8Ys
+ zwQs7qA/yPWzb7M7YOdhfW31tklxQM0I8vDIUavc6qMrbLynJ4CGr3Of0C55twn9AHx0
+ 1+og==
+X-Gm-Message-State: AOAM531wKLzWb0wHl5BbjprVll/XkzLt5ScYXFh6xWslIn5dq0wLrHGN
+ +qlz8/9DrkOsz/I4ixoYYseARw==
+X-Google-Smtp-Source: ABdhPJz8loTReRnnlRXaRfDFwbMj/t2RhuCHNHcWtOmP3VdijFdsigIMBt/E+RNWO3V+QYgxW+h9KQ==
+X-Received: by 2002:a05:6a00:15c6:b029:24e:9dd1:8813 with SMTP id
+ o6-20020a056a0015c6b029024e9dd18813mr1061022pfu.80.1618214525064; 
+ Mon, 12 Apr 2021 01:02:05 -0700 (PDT)
+Received: from ubuntu.huaqin.com ([101.78.151.214])
+ by smtp.gmail.com with ESMTPSA id g24sm3752616pfh.164.2021.04.12.01.02.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Apr 2021 01:02:04 -0700 (PDT)
+From: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+To: pihsun@chromium.org, drinkcat@google.com, marcheu@chromium.org,
+ jitao.shi@mediatek.com, thierry.reding@gmail.com, sam@ravnborg.org,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panel: Add inx Himax8279d MIPI-DSI LCD panel driver
+Date: Mon, 12 Apr 2021 16:01:34 +0800
+Message-Id: <20210412080134.24598-1-xiazhengqiao@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,486 +67,580 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, airlied@redhat.com, jenmin_yuan@aspeedtech.com,
- arc_sung@aspeedtech.com
-Content-Type: multipart/mixed; boundary="===============0898604977=="
+Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0898604977==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="VcnD2jwTmNdIUU9f48otbblbxpMAsl7LO"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VcnD2jwTmNdIUU9f48otbblbxpMAsl7LO
-Content-Type: multipart/mixed; boundary="Zx9eX0PKvZJRIWFLspJrX21tGjobRKaVy";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
- jenmin_yuan@aspeedtech.com, arc_sung@aspeedtech.com
-Message-ID: <214f1451-2406-b298-e233-4939cae9e1f2@suse.de>
-Subject: Re: [PATCH v4] drm/ast: Fixed CVE for DP501
-References: <bbe8ccfd-7e73-e1e6-32a5-f08f71c4ed3f@suse.de>
- <20210408093052.59782-1-kuohsiang_chou@aspeedtech.com>
-In-Reply-To: <20210408093052.59782-1-kuohsiang_chou@aspeedtech.com>
-
---Zx9eX0PKvZJRIWFLspJrX21tGjobRKaVy
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-this patch produces a NULL-ptr deref as shown below. The chip is=20
-detected as AST 2100.
-
-Best regards
-Thomas
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-[   23.641896] BUG: KASAN: null-ptr-deref in=20
-ast_device_create.cold+0x137/0x210 [ast]
-
-[   23.642257] Read of size 8 at addr 0000000000000610 by task=20
-systemd-udevd/321
-
-[   23.642539]
-
-[   23.642696] CPU: 2 PID: 321 Comm: systemd-udevd Tainted: G=20
-  E     5.12.0-rc6-1-default+ #876
-
-[   23.643064] Hardware name: Sun Microsystems SUN FIRE X2270 M2/SUN=20
-FIRE X2270 M2, BIOS 2.05    07/01/2010
-
-[   23.643432] Call Trace:
-
-[   23.643622]  ? ast_device_create.cold+0x137/0x210 [ast]
-
-[   23.643898]  dump_stack+0xa5/0xdc
-
-[   23.644119]  kasan_report.cold+0x50/0x55
-
-[   23.644363]  ? ast_device_create.cold+0x137/0x210 [ast]
-
-[   23.644657]  ast_device_create.cold+0x137/0x210 [ast]
-
-[   23.644926]  ? devres_get+0xe5/0x160
-
-[   23.645152]  ? ast_detect_chip.isra.0+0x110/0x110 [ast]
-
-[   23.645474]  ast_pci_probe+0x4c/0x90 [ast]
-
-[   23.645734]  ? ast_kick_out_firmware_fb+0xd0/0xd0 [ast]
-
-[   23.646003]  local_pci_probe+0x74/0xc0
-
-[   23.646249]  pci_call_probe+0xb7/0x1d0
-
-[   23.646473]  ? pci_pm_suspend_noirq+0x440/0x440
-
-[   23.646773]  pci_device_probe+0x102/0x140
-
-[   23.646998]  ? driver_sysfs_add+0xe2/0x150
-
-[   23.647245]  really_probe+0x185/0x6c0
-
-[   23.647506]  driver_probe_device+0x13f/0x1d0
-
-[   23.647762]  device_driver_attach+0x114/0x120
-
-[   23.648010]  ? device_driver_attach+0x120/0x120
-
-[   23.648254]  __driver_attach+0xb0/0x1a0
-
-[   23.648497]  ? device_driver_attach+0x120/0x120
-
-[   23.648739]  bus_for_each_dev+0xdd/0x120
-
-[   23.648971]  ? subsys_dev_iter_exit+0x10/0x10
-
-[   23.649256]  bus_add_driver+0x1fb/0x2e0
-
-[   23.649514]  driver_register+0x10f/0x190
-
-[   23.649752]  ? 0xffffffffc05fd000
-
-[   23.649971]  do_one_initcall+0xbb/0x3a0
-
-[   23.650206]  ? trace_event_raw_event_initcall_finish+0x120/0x120
-
-[   23.650485]  ? mark_held_locks+0x23/0x90
-
-[   23.650718]  ? lock_is_held_type+0xe5/0x110
-
-[   23.650982]  ? rcu_read_lock_sched_held+0x3f/0x80
-
-[   23.651223]  ? kasan_unpoison+0x21/0x50
-
-[   23.651483]  do_init_module+0xfd/0x3c0
-
-[   23.651720]  load_module+0xcf2/0xd70
-
-[   23.651909]  ? layout_and_allocate+0x260/0x260
-
-[   23.652082]  ? seccomp_run_filters+0x97/0x1d0
-
-[   23.652309]  ? kernel_read_file_from_fd+0x4b/0x90
-
-[   23.652584]  __do_sys_finit_module+0xff/0x180
-
-[   23.652824]  ? __ia32_sys_init_module+0x40/0x40
-
-[   23.653198]  ? syscall_trace_enter.constprop.0+0x99/0x240
-
-[   23.653477]  do_syscall_64+0x33/0x80
-
-[   23.653693]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-[   23.653934] RIP: 0033:0x7f793ecc23dd
-
-[   23.654147] Code: c2 0c 00 0f 05 eb a9 66 0f 1f 44 00 00 f3 0f 1e fa=20
-48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f=20
-05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 63 7a 0c 00 f7 d8 64 89 01 48
-
-[   23.654749] RSP: 002b:00007ffdc09a08c8 EFLAGS: 00000246 ORIG_RAX:=20
-0000000000000139
-
-[   23.655092] RAX: ffffffffffffffda RBX: 000055e8dd73b8d0 RCX:=20
-00007f793ecc23dd
-
-[   23.655375] RDX: 0000000000000000 RSI: 00007f793ede33a3 RDI:=20
-0000000000000010
-
-[   23.655658] RBP: 0000000000020000 R08: 0000000000000000 R09:=20
-000055e8dd746750
-
-[   23.655941] R10: 0000000000000010 R11: 0000000000000246 R12:=20
-00007f793ede33a3
-
-[   23.656224] R13: 000055e8dd743ff0 R14: 0000000000000000 R15:=20
-000055e8dd746a80
-
-[   23.656603]=20
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-
-
-Am 08.04.21 um 11:30 schrieb KuoHsiang Chou:
-> [Bug][DP501]
-> If ASPEED P2A (PCI to AHB) bridge is disabled and disallowed for
-> CVE_2019_6260 item3, and then the monitor's EDID is unable read through=
-
-> Parade DP501.
-> The reason is the DP501's FW is mapped to BMC addressing space rather
-> than Host addressing space.
-> The resolution is that using "pci_iomap_range()" maps to DP501's FW tha=
-t
-> stored on the end of FB (Frame Buffer).
-> In this case, FrameBuffer reserves the last 2MB used for the image of
-> DP501.
->=20
-> Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> ---
->   drivers/gpu/drm/ast/ast_dp501.c | 139 +++++++++++++++++++++++--------=
--
->   drivers/gpu/drm/ast/ast_drv.h   |  12 +++
->   drivers/gpu/drm/ast/ast_main.c  |   8 ++
->   3 files changed, 123 insertions(+), 36 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_=
-dp501.c
-> index 88121c0e0..cd93c44f2 100644
-> --- a/drivers/gpu/drm/ast/ast_dp501.c
-> +++ b/drivers/gpu/drm/ast/ast_dp501.c
-> @@ -189,6 +189,9 @@ bool ast_backup_fw(struct drm_device *dev, u8 *addr=
-, u32 size)
->   	u32 i, data;
->   	u32 boot_address;
->=20
-> +	if (ast->config_mode !=3D ast_use_p2a)
-> +		return false;
-> +
->   	data =3D ast_mindwm(ast, 0x1e6e2100) & 0x01;
->   	if (data) {
->   		boot_address =3D get_fw_base(ast);
-> @@ -207,6 +210,9 @@ static bool ast_launch_m68k(struct drm_device *dev)=
-
->   	u8 *fw_addr =3D NULL;
->   	u8 jreg;
->=20
-> +	if (ast->config_mode !=3D ast_use_p2a)
-> +		return false;
-> +
->   	data =3D ast_mindwm(ast, 0x1e6e2100) & 0x01;
->   	if (!data) {
->=20
-> @@ -271,25 +277,55 @@ u8 ast_get_dp501_max_clk(struct drm_device *dev)
->   	struct ast_private *ast =3D to_ast_private(dev);
->   	u32 boot_address, offset, data;
->   	u8 linkcap[4], linkrate, linklanes, maxclk =3D 0xff;
-> +	u32 *plinkcap;
->=20
-> -	boot_address =3D get_fw_base(ast);
-> -
-> -	/* validate FW version */
-> -	offset =3D 0xf000;
-> -	data =3D ast_mindwm(ast, boot_address + offset);
-> -	if ((data & 0xf0) !=3D 0x10) /* version: 1x */
-> -		return maxclk;
-> -
-> -	/* Read Link Capability */
-> -	offset  =3D 0xf014;
-> -	*(u32 *)linkcap =3D ast_mindwm(ast, boot_address + offset);
-> -	if (linkcap[2] =3D=3D 0) {
-> -		linkrate =3D linkcap[0];
-> -		linklanes =3D linkcap[1];
-> -		data =3D (linkrate =3D=3D 0x0a) ? (90 * linklanes) : (54 * linklanes=
-);
-> -		if (data > 0xff)
-> -			data =3D 0xff;
-> -		maxclk =3D (u8)data;
-> +	if (ast->config_mode =3D=3D ast_use_p2a) {
-> +		boot_address =3D get_fw_base(ast);
-> +
-> +		/* validate FW version */
-> +		offset =3D AST_DP501_GBL_VERSION;
-> +		data =3D ast_mindwm(ast, boot_address + offset);
-> +		if ((data & AST_DP501_FW_VERSION_MASK) !=3D AST_DP501_FW_VERSION_1) =
-/* version: 1x */
-> +			return maxclk;
-> +
-> +		/* Read Link Capability */
-> +		offset  =3D AST_DP501_LINKRATE;
-> +		plinkcap =3D (u32 *)linkcap;
-> +		*plinkcap  =3D ast_mindwm(ast, boot_address + offset);
-> +		if (linkcap[2] =3D=3D 0) {
-> +			linkrate =3D linkcap[0];
-> +			linklanes =3D linkcap[1];
-> +			data =3D (linkrate =3D=3D 0x0a) ? (90 * linklanes) : (54 * linklane=
-s);
-> +			if (data > 0xff)
-> +				data =3D 0xff;
-> +			maxclk =3D (u8)data;
-> +		}
-> +	} else {
-> +		if (!ast->dp501_fw_buf)
-> +			return AST_DP501_DEFAULT_DCLK;	/* 1024x768 as default */
-> +
-> +		/* dummy read */
-> +		offset =3D 0x0000;
-> +		data =3D readl(ast->dp501_fw_buf + offset);
-> +
-> +		/* validate FW version */
-> +		offset =3D AST_DP501_GBL_VERSION;
-> +		data =3D readl(ast->dp501_fw_buf + offset);
-> +		if ((data & AST_DP501_FW_VERSION_MASK) !=3D AST_DP501_FW_VERSION_1) =
-/* version: 1x */
-> +			return maxclk;
-> +
-> +		/* Read Link Capability */
-> +		offset =3D AST_DP501_LINKRATE;
-> +		plinkcap =3D (u32 *)linkcap;
-> +		*plinkcap =3D readl(ast->dp501_fw_buf + offset);
-> +		if (linkcap[2] =3D=3D 0) {
-> +			linkrate =3D linkcap[0];
-> +			linklanes =3D linkcap[1];
-> +			data =3D (linkrate =3D=3D 0x0a) ? (90 * linklanes) : (54 * linklane=
-s);
-> +			if (data > 0xff)
-> +				data =3D 0xff;
-> +			maxclk =3D (u8)data;
-> +		}
->   	}
->   	return maxclk;
->   }
-> @@ -298,26 +334,57 @@ bool ast_dp501_read_edid(struct drm_device *dev, =
-u8 *ediddata)
->   {
->   	struct ast_private *ast =3D to_ast_private(dev);
->   	u32 i, boot_address, offset, data;
-> +	u32 *pEDIDidx;
->=20
-> -	boot_address =3D get_fw_base(ast);
-> -
-> -	/* validate FW version */
-> -	offset =3D 0xf000;
-> -	data =3D ast_mindwm(ast, boot_address + offset);
-> -	if ((data & 0xf0) !=3D 0x10)
-> -		return false;
-> -
-> -	/* validate PnP Monitor */
-> -	offset =3D 0xf010;
-> -	data =3D ast_mindwm(ast, boot_address + offset);
-> -	if (!(data & 0x01))
-> -		return false;
-> +	if (ast->config_mode =3D=3D ast_use_p2a) {
-> +		boot_address =3D get_fw_base(ast);
->=20
-> -	/* Read EDID */
-> -	offset =3D 0xf020;
-> -	for (i =3D 0; i < 128; i +=3D 4) {
-> -		data =3D ast_mindwm(ast, boot_address + offset + i);
-> -		*(u32 *)(ediddata + i) =3D data;
-> +		/* validate FW version */
-> +		offset =3D AST_DP501_GBL_VERSION;
-> +		data =3D ast_mindwm(ast, boot_address + offset);
-> +		if ((data & AST_DP501_FW_VERSION_MASK) !=3D AST_DP501_FW_VERSION_1)
-> +			return false;
-> +
-> +		/* validate PnP Monitor */
-> +		offset =3D AST_DP501_PNPMONITOR;
-> +		data =3D ast_mindwm(ast, boot_address + offset);
-> +		if (!(data & AST_DP501_PNP_CONNECTED))
-> +			return false;
-> +
-> +		/* Read EDID */
-> +		offset =3D AST_DP501_EDID_DATA;
-> +		for (i =3D 0; i < 128; i +=3D 4) {
-> +			data =3D ast_mindwm(ast, boot_address + offset + i);
-> +			pEDIDidx =3D (u32 *)(ediddata + i);
-> +			*pEDIDidx =3D data;
-> +		}
-> +	} else {
-> +		if (!ast->dp501_fw_buf)
-> +			return false;
-> +
-> +		/* dummy read */
-> +		offset =3D 0x0000;
-> +		data =3D readl(ast->dp501_fw_buf + offset);
-> +
-> +		/* validate FW version */
-> +		offset =3D AST_DP501_GBL_VERSION;
-> +		data =3D readl(ast->dp501_fw_buf + offset);
-> +		if ((data & AST_DP501_FW_VERSION_MASK) !=3D AST_DP501_FW_VERSION_1)
-> +			return false;
-> +
-> +		/* validate PnP Monitor */
-> +		offset =3D AST_DP501_PNPMONITOR;
-> +		data =3D readl(ast->dp501_fw_buf + offset);
-> +		if (!(data & AST_DP501_PNP_CONNECTED))
-> +			return false;
-> +
-> +		/* Read EDID */
-> +		offset =3D AST_DP501_EDID_DATA;
-> +		for (i =3D 0; i < 128; i +=3D 4) {
-> +			data =3D readl(ast->dp501_fw_buf + offset + i);
-> +			pEDIDidx =3D (u32 *)(ediddata + i);
-> +			*pEDIDidx =3D data;
-> +		}
->   	}
->=20
->   	return true;
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_dr=
-v.h
-> index e82ab8628..911f9f414 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -150,6 +150,7 @@ struct ast_private {
->=20
->   	void __iomem *regs;
->   	void __iomem *ioregs;
-> +	void __iomem *dp501_fw_buf;
->=20
->   	enum ast_chip chip;
->   	bool vga2_clone;
-> @@ -325,6 +326,17 @@ int ast_mode_config_init(struct ast_private *ast);=
-
->   #define AST_MM_ALIGN_SHIFT 4
->   #define AST_MM_ALIGN_MASK ((1 << AST_MM_ALIGN_SHIFT) - 1)
->=20
-> +#define AST_DP501_FW_VERSION_MASK	GENMASK(7, 4)
-> +#define AST_DP501_FW_VERSION_1		BIT(4)
-> +#define AST_DP501_PNP_CONNECTED		BIT(1)
-> +
-> +#define AST_DP501_DEFAULT_DCLK	65
-> +
-> +#define AST_DP501_GBL_VERSION	0xf000
-> +#define AST_DP501_PNPMONITOR	0xf010
-> +#define AST_DP501_LINKRATE	0xf014
-> +#define AST_DP501_EDID_DATA	0xf020
-> +
->   int ast_mm_init(struct ast_private *ast);
->=20
->   /* ast post */
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_m=
-ain.c
-> index 0ac3c2039..dbf5224ab 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -450,6 +450,14 @@ struct ast_private *ast_device_create(const struct=20
-drm_driver *drv,
->   	if (ret)
->   		return ERR_PTR(ret);
->=20
-> +	/* map reserved buffer */
-> +	ast->dp501_fw_buf =3D NULL;
-> +	if (dev->vram_mm->vram_size < pci_resource_len(dev->pdev, 0)) {
-> +		ast->dp501_fw_buf =3D pci_iomap_range(dev->pdev, 0, dev->vram_mm->vr=
-am_size, 0);
-> +		if (!ast->dp501_fw_buf)
-> +			drm_info(dev, "failed to map reserved buffer!\n");
-> +	}
-> +
->   	ret =3D ast_mode_config_init(ast);
->   	if (ret)
->   		return ERR_PTR(ret);
-> --
-> 2.18.4
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---Zx9eX0PKvZJRIWFLspJrX21tGjobRKaVy--
-
---VcnD2jwTmNdIUU9f48otbblbxpMAsl7LO
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF4BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBz+qAFAwAAAAAACgkQlh/E3EQov+Cp
-CA/3WpfOyy5hn4kAUyVPxODLYdiP/ePAhnQqhWXRWztJJsixqO4ffy55D9KfybZDIBdNTXdBqfRe
-S3MLfKPR27Qt5eMo+R+HqVrt1ia8o8TpbmwzmGCzOsaxkoHLQ7B8gQZ7BLUHdnrcAp6RobbTq+ox
-j8Fku+nF8+/OXB398VPVVhwhBIt7EZf3mU84+qX0gDW+oHkVmakGYtgyvp7rr/qGDTYhE27fKsJP
-7JfSJw5GOIe51OAcF4kVfH7AOIT8L6Irzh6sQO7OJwEuPnaVlV0w82obnryOvUgY7rIMsIyF/BNX
-m2Sdum51JcccP3n8EnQWeXWHXyKK3pPN/bx11faSkjreqzHq5oHt5r2RWV1VvI8aj9C8KRz12YuB
-3YVDsHyzSL8aGlKpJnd8RmUumEhGEPbufXLH/uyOCtXnewfHdx4X+t9CtTW4PqbSB1VITJzE/x/h
-0XChq7/CU1VkaapcGoRkAbU/QXg2kDMCYc1GaWcAtuiIp46R2W5fPSKrfEIVjxzz2uyMl+nFME82
-dGBRxUaCVO8OPC+1uHxkNYnV35C/B3swHr2q3Xoi593yh7QKoDrXDqeppUMv0zqJhmKUjz/NN//E
-khBe+c+G14XPFDcBMmUZglMIzrxoU7oTSgCWunGKFzLZUGgPcfecqSskD0sIjV6pXlFmFn9k8qlT
-4w==
-=+qyz
------END PGP SIGNATURE-----
-
---VcnD2jwTmNdIUU9f48otbblbxpMAsl7LO--
-
---===============0898604977==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Add STARRY 2081101QFH032011-53G 10.1" WUXGA TFT LCD panel
+
+Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+---
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-innolux-himax8279d.c  | 515 ++++++++++++++++++
+ 3 files changed, 525 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-innolux-himax8279d.c
+
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 4894913936e9..288d9268cead 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -132,6 +132,15 @@ config DRM_PANEL_ILITEK_ILI9881C
+ 	  Say Y if you want to enable support for panels based on the
+ 	  Ilitek ILI9881c controller.
+ 
++config DRM_PANEL_INNOLUX_HIMAX8279D
++	tristate "INX 2081101qfh032011-53g 1200x1920 video panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y here if you want to support for inx 2081101qfh032011-53g
++	  1200x1920 video panel.
++
+ config DRM_PANEL_INNOLUX_P079ZCA
+ 	tristate "Innolux P079ZCA panel"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index cae4d976c069..06be76db0a5b 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -12,6 +12,7 @@ obj-$(CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02) += panel-feixin-k101-im2ba02.o
+ obj-$(CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D) += panel-feiyang-fy07024di26a30d.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) += panel-ilitek-ili9322.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
++obj-$(CONFIG_DRM_PANEL_INNOLUX_HIMAX8279D) += panel-innolux-himax8279d.o
+ obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) += panel-innolux-p079zca.o
+ obj-$(CONFIG_DRM_PANEL_JDI_LT070ME05000) += panel-jdi-lt070me05000.o
+ obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) += panel-khadas-ts050.o
+diff --git a/drivers/gpu/drm/panel/panel-innolux-himax8279d.c b/drivers/gpu/drm/panel/panel-innolux-himax8279d.c
+new file mode 100644
+index 000000000000..6840449548e4
+--- /dev/null
++++ b/drivers/gpu/drm/panel/panel-innolux-himax8279d.c
+@@ -0,0 +1,515 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2021, Huaqin Telecom Technology Co., Ltd
++ * Author: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
++ */
++
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/regulator/consumer.h>
++
++#include <drm/drm_connector.h>
++#include <drm/drm_crtc.h>
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_panel.h>
++
++#include <video/mipi_display.h>
++
++struct panel_desc {
++	const struct drm_display_mode *modes;
++	unsigned int bpc;
++
++	/**
++	 * @width_mm: width of the panel's active display area
++	 * @height_mm: height of the panel's active display area
++	 */
++	struct {
++		unsigned int width_mm;
++		unsigned int height_mm;
++	} size;
++
++	unsigned long mode_flags;
++	enum mipi_dsi_pixel_format format;
++	const struct panel_init_cmd *init_cmds;
++	unsigned int lanes;
++	bool discharge_on_disable;
++};
++
++struct inx_panel {
++	struct drm_panel base;
++	struct mipi_dsi_device *dsi;
++
++	const struct panel_desc *desc;
++
++	enum drm_panel_orientation orientation;
++	struct regulator *pp1800;
++	struct regulator *avee;
++	struct regulator *avdd;
++	struct gpio_desc *enable_gpio;
++
++	bool prepared;
++};
++
++enum dsi_cmd_type {
++	INIT_DCS_CMD,
++	DELAY_CMD,
++};
++
++struct panel_init_cmd {
++	enum dsi_cmd_type type;
++	size_t len;
++	const char *data;
++};
++
++#define _INIT_DCS_CMD(...) { \
++	.type = INIT_DCS_CMD, \
++	.len = sizeof((char[]){__VA_ARGS__}), \
++	.data = (char[]){__VA_ARGS__} }
++
++#define _INIT_DELAY_CMD(...) { \
++	.type = DELAY_CMD,\
++	.len = sizeof((char[]){__VA_ARGS__}), \
++	.data = (char[]){__VA_ARGS__} }
++
++static const struct panel_init_cmd starry_qfh032011_53g_init_cmd[] = {
++	_INIT_DCS_CMD(0xB0, 0x01),
++	_INIT_DCS_CMD(0xC3, 0x4F),
++	_INIT_DCS_CMD(0xC4, 0x40),
++	_INIT_DCS_CMD(0xC5, 0x40),
++	_INIT_DCS_CMD(0xC6, 0x40),
++	_INIT_DCS_CMD(0xC7, 0x40),
++	_INIT_DCS_CMD(0xC8, 0x4D),
++	_INIT_DCS_CMD(0xC9, 0x52),
++	_INIT_DCS_CMD(0xCA, 0x51),
++	_INIT_DCS_CMD(0xCD, 0x5D),
++	_INIT_DCS_CMD(0xCE, 0x5B),
++	_INIT_DCS_CMD(0xCF, 0x4B),
++	_INIT_DCS_CMD(0xD0, 0x49),
++	_INIT_DCS_CMD(0xD1, 0x47),
++	_INIT_DCS_CMD(0xD2, 0x45),
++	_INIT_DCS_CMD(0xD3, 0x41),
++	_INIT_DCS_CMD(0xD7, 0x50),
++	_INIT_DCS_CMD(0xD8, 0x40),
++	_INIT_DCS_CMD(0xD9, 0x40),
++	_INIT_DCS_CMD(0xDA, 0x40),
++	_INIT_DCS_CMD(0xDB, 0x40),
++	_INIT_DCS_CMD(0xDC, 0x4E),
++	_INIT_DCS_CMD(0xDD, 0x52),
++	_INIT_DCS_CMD(0xDE, 0x51),
++	_INIT_DCS_CMD(0xE1, 0x5E),
++	_INIT_DCS_CMD(0xE2, 0x5C),
++	_INIT_DCS_CMD(0xE3, 0x4C),
++	_INIT_DCS_CMD(0xE4, 0x4A),
++	_INIT_DCS_CMD(0xE5, 0x48),
++	_INIT_DCS_CMD(0xE6, 0x46),
++	_INIT_DCS_CMD(0xE7, 0x42),
++	_INIT_DCS_CMD(0xB0, 0x03),
++	_INIT_DCS_CMD(0xBE, 0x03),
++	_INIT_DCS_CMD(0xCC, 0x44),
++	_INIT_DCS_CMD(0xC8, 0x07),
++	_INIT_DCS_CMD(0xC9, 0x05),
++	_INIT_DCS_CMD(0xCA, 0x42),
++	_INIT_DCS_CMD(0xCD, 0x3E),
++	_INIT_DCS_CMD(0xCF, 0x60),
++	_INIT_DCS_CMD(0xD2, 0x04),
++	_INIT_DCS_CMD(0xD3, 0x04),
++	_INIT_DCS_CMD(0xD4, 0x01),
++	_INIT_DCS_CMD(0xD5, 0x00),
++	_INIT_DCS_CMD(0xD6, 0x03),
++	_INIT_DCS_CMD(0xD7, 0x04),
++	_INIT_DCS_CMD(0xD9, 0x01),
++	_INIT_DCS_CMD(0xDB, 0x01),
++	_INIT_DCS_CMD(0xE4, 0xF0),
++	_INIT_DCS_CMD(0xE5, 0x0A),
++	_INIT_DCS_CMD(0xB0, 0x00),
++	_INIT_DCS_CMD(0xCC, 0x08),
++	_INIT_DCS_CMD(0xC2, 0x08),
++	_INIT_DCS_CMD(0xC4, 0x10),
++	_INIT_DCS_CMD(0xB0, 0x02),
++	_INIT_DCS_CMD(0xC0, 0x00),
++	_INIT_DCS_CMD(0xC1, 0x0A),
++	_INIT_DCS_CMD(0xC2, 0x20),
++	_INIT_DCS_CMD(0xC3, 0x24),
++	_INIT_DCS_CMD(0xC4, 0x23),
++	_INIT_DCS_CMD(0xC5, 0x29),
++	_INIT_DCS_CMD(0xC6, 0x23),
++	_INIT_DCS_CMD(0xC7, 0x1C),
++	_INIT_DCS_CMD(0xC8, 0x19),
++	_INIT_DCS_CMD(0xC9, 0x17),
++	_INIT_DCS_CMD(0xCA, 0x17),
++	_INIT_DCS_CMD(0xCB, 0x18),
++	_INIT_DCS_CMD(0xCC, 0x1A),
++	_INIT_DCS_CMD(0xCD, 0x1E),
++	_INIT_DCS_CMD(0xCE, 0x20),
++	_INIT_DCS_CMD(0xCF, 0x23),
++	_INIT_DCS_CMD(0xD0, 0x07),
++	_INIT_DCS_CMD(0xD1, 0x00),
++	_INIT_DCS_CMD(0xD2, 0x00),
++	_INIT_DCS_CMD(0xD3, 0x0A),
++	_INIT_DCS_CMD(0xD4, 0x13),
++	_INIT_DCS_CMD(0xD5, 0x1C),
++	_INIT_DCS_CMD(0xD6, 0x1A),
++	_INIT_DCS_CMD(0xD7, 0x13),
++	_INIT_DCS_CMD(0xD8, 0x17),
++	_INIT_DCS_CMD(0xD9, 0x1C),
++	_INIT_DCS_CMD(0xDA, 0x19),
++	_INIT_DCS_CMD(0xDB, 0x17),
++	_INIT_DCS_CMD(0xDC, 0x17),
++	_INIT_DCS_CMD(0xDD, 0x18),
++	_INIT_DCS_CMD(0xDE, 0x1A),
++	_INIT_DCS_CMD(0xDF, 0x1E),
++	_INIT_DCS_CMD(0xE0, 0x20),
++	_INIT_DCS_CMD(0xE1, 0x23),
++	_INIT_DCS_CMD(0xE2, 0x07),
++	_INIT_DCS_CMD(0X11),
++	_INIT_DELAY_CMD(120),
++	_INIT_DCS_CMD(0X29),
++	_INIT_DELAY_CMD(80),
++	{},
++};
++
++static inline struct inx_panel *to_inx_panel(struct drm_panel *panel)
++{
++	return container_of(panel, struct inx_panel, base);
++}
++
++static int inx_panel_init_dcs_cmd(struct inx_panel *inx)
++{
++	struct mipi_dsi_device *dsi = inx->dsi;
++	struct drm_panel *panel = &inx->base;
++	int i, err = 0;
++
++	if (inx->desc->init_cmds) {
++		const struct panel_init_cmd *init_cmds = inx->desc->init_cmds;
++
++		for (i = 0; init_cmds[i].len != 0; i++) {
++			const struct panel_init_cmd *cmd = &init_cmds[i];
++
++			switch (cmd->type) {
++			case DELAY_CMD:
++				msleep(cmd->data[0]);
++				err = 0;
++				break;
++
++			case INIT_DCS_CMD:
++				err = mipi_dsi_dcs_write(dsi, cmd->data[0],
++							 cmd->len <= 1 ? NULL :
++							 &cmd->data[1],
++							 cmd->len - 1);
++				break;
++
++			default:
++				err = -EINVAL;
++			}
++
++			if (err < 0) {
++				dev_err(panel->dev,
++					"failed to write command %u\n", i);
++				return err;
++			}
++		}
++	}
++	return 0;
++}
++
++static int inx_panel_enter_sleep_mode(struct inx_panel *inx)
++{
++	struct mipi_dsi_device *dsi = inx->dsi;
++	int ret;
++
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_set_display_off(dsi);
++	if (ret < 0)
++		return ret;
++
++	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++
++static int inx_panel_unprepare(struct drm_panel *panel)
++{
++	struct inx_panel *inx = to_inx_panel(panel);
++	int ret;
++
++	if (!inx->prepared)
++		return 0;
++
++	ret = inx_panel_enter_sleep_mode(inx);
++	if (ret < 0) {
++		dev_err(panel->dev, "failed to set panel off: %d\n", ret);
++		return ret;
++	}
++
++	msleep(150);
++
++	if (inx->desc->discharge_on_disable) {
++		regulator_disable(inx->avee);
++		regulator_disable(inx->avdd);
++		usleep_range(5000, 7000);
++		gpiod_set_value(inx->enable_gpio, 0);
++		usleep_range(5000, 7000);
++		regulator_disable(inx->pp1800);
++	} else {
++		gpiod_set_value(inx->enable_gpio, 0);
++		usleep_range(500, 1000);
++		regulator_disable(inx->avee);
++		regulator_disable(inx->avdd);
++		usleep_range(5000, 7000);
++		regulator_disable(inx->pp1800);
++	}
++
++	inx->prepared = false;
++
++	return 0;
++}
++
++static int inx_panel_prepare(struct drm_panel *panel)
++{
++	struct inx_panel *inx = to_inx_panel(panel);
++	int ret;
++
++	if (inx->prepared)
++		return 0;
++
++	gpiod_set_value(inx->enable_gpio, 0);
++	usleep_range(1000, 1500);
++
++	ret = regulator_enable(inx->pp1800);
++	if (ret < 0)
++		return ret;
++
++	usleep_range(3000, 5000);
++
++	ret = regulator_enable(inx->avdd);
++	if (ret < 0)
++		goto poweroff1v8;
++	ret = regulator_enable(inx->avee);
++	if (ret < 0)
++		goto poweroffavdd;
++
++	usleep_range(5000, 10000);
++
++	gpiod_set_value(inx->enable_gpio, 1);
++	usleep_range(1000, 2000);
++	gpiod_set_value(inx->enable_gpio, 0);
++	usleep_range(1000, 2000);
++	gpiod_set_value(inx->enable_gpio, 1);
++	usleep_range(6000, 10000);
++
++	ret = inx_panel_init_dcs_cmd(inx);
++	if (ret < 0) {
++		dev_err(panel->dev, "failed to init panel: %d\n", ret);
++		goto poweroff;
++	}
++
++	inx->prepared = true;
++
++	return 0;
++
++poweroff:
++	regulator_disable(inx->avee);
++poweroffavdd:
++	regulator_disable(inx->avdd);
++poweroff1v8:
++	usleep_range(5000, 7000);
++	regulator_disable(inx->pp1800);
++	gpiod_set_value(inx->enable_gpio, 0);
++
++	return ret;
++}
++
++static int inx_panel_enable(struct drm_panel *panel)
++{
++	msleep(130);
++	return 0;
++}
++
++static const struct drm_display_mode starry_qfh032011_53g_default_mode = {
++	.clock = 165731,
++	.hdisplay = 1200,
++	.hsync_start = 1200 + 100,
++	.hsync_end = 1200 + 100 + 10,
++	.htotal = 1200 + 100 + 10 + 100,
++	.vdisplay = 1920,
++	.vsync_start = 1920 + 14,
++	.vsync_end = 1920 + 14 + 10,
++	.vtotal = 1920 + 14 + 10 + 15,
++};
++
++static const struct panel_desc starry_qfh032011_53g_desc = {
++	.modes = &starry_qfh032011_53g_default_mode,
++	.bpc = 8,
++	.size = {
++		.width_mm = 135,
++		.height_mm = 216,
++	},
++	.lanes = 4,
++	.format = MIPI_DSI_FMT_RGB888,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
++		      MIPI_DSI_MODE_LPM,
++	.init_cmds = starry_qfh032011_53g_init_cmd,
++	.discharge_on_disable = false,
++};
++
++static int inx_panel_get_modes(struct drm_panel *panel,
++			       struct drm_connector *connector)
++{
++	struct inx_panel *inx = to_inx_panel(panel);
++	const struct drm_display_mode *m = inx->desc->modes;
++	struct drm_display_mode *mode;
++
++	mode = drm_mode_duplicate(connector->dev, m);
++	if (!mode) {
++		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
++			m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
++		return -ENOMEM;
++	}
++
++	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
++	drm_mode_set_name(mode);
++	drm_mode_probed_add(connector, mode);
++
++	connector->display_info.width_mm = inx->desc->size.width_mm;
++	connector->display_info.height_mm = inx->desc->size.height_mm;
++	connector->display_info.bpc = inx->desc->bpc;
++	drm_connector_set_panel_orientation(connector, inx->orientation);
++
++	return 1;
++}
++
++static const struct drm_panel_funcs inx_panel_funcs = {
++	.unprepare = inx_panel_unprepare,
++	.prepare = inx_panel_prepare,
++	.enable = inx_panel_enable,
++	.get_modes = inx_panel_get_modes,
++};
++
++static int inx_panel_add(struct inx_panel *inx)
++{
++	struct device *dev = &inx->dsi->dev;
++	int err;
++
++	inx->avdd = devm_regulator_get(dev, "avdd");
++	if (IS_ERR(inx->avdd))
++		return PTR_ERR(inx->avdd);
++
++	inx->avee = devm_regulator_get(dev, "avee");
++	if (IS_ERR(inx->avee))
++		return PTR_ERR(inx->avee);
++
++	inx->pp1800 = devm_regulator_get(dev, "pp1800");
++	if (IS_ERR(inx->pp1800))
++		return PTR_ERR(inx->pp1800);
++
++	inx->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
++	if (IS_ERR(inx->enable_gpio)) {
++		dev_err(dev, "cannot get reset-gpios %ld\n",
++			PTR_ERR(inx->enable_gpio));
++		return PTR_ERR(inx->enable_gpio);
++	}
++
++	gpiod_set_value(inx->enable_gpio, 0);
++
++	drm_panel_init(&inx->base, dev, &inx_panel_funcs,
++		       DRM_MODE_CONNECTOR_DSI);
++	err = of_drm_get_panel_orientation(dev->of_node, &inx->orientation);
++	if (err < 0) {
++		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, err);
++		return err;
++	}
++
++	err = drm_panel_of_backlight(&inx->base);
++	if (err)
++		return err;
++
++	inx->base.funcs = &inx_panel_funcs;
++	inx->base.dev = &inx->dsi->dev;
++
++	drm_panel_add(&inx->base);
++
++	return 0;
++}
++
++static int inx_panel_probe(struct mipi_dsi_device *dsi)
++{
++	struct inx_panel *inx;
++	int ret;
++	const struct panel_desc *desc;
++
++	inx = devm_kzalloc(&dsi->dev, sizeof(*inx), GFP_KERNEL);
++	if (!inx)
++		return -ENOMEM;
++
++	desc = of_device_get_match_data(&dsi->dev);
++	dsi->lanes = desc->lanes;
++	dsi->format = desc->format;
++	dsi->mode_flags = desc->mode_flags;
++	inx->desc = desc;
++	inx->dsi = dsi;
++	ret = inx_panel_add(inx);
++	if (ret < 0)
++		return ret;
++
++	mipi_dsi_set_drvdata(dsi, inx);
++
++	ret = mipi_dsi_attach(dsi);
++	if (ret)
++		drm_panel_remove(&inx->base);
++
++	return ret;
++}
++
++static void inx_panel_shutdown(struct mipi_dsi_device *dsi)
++{
++	struct inx_panel *inx = mipi_dsi_get_drvdata(dsi);
++
++	drm_panel_disable(&inx->base);
++	drm_panel_unprepare(&inx->base);
++}
++
++static int inx_panel_remove(struct mipi_dsi_device *dsi)
++{
++	struct inx_panel *inx = mipi_dsi_get_drvdata(dsi);
++	int ret;
++
++	inx_panel_shutdown(dsi);
++
++	ret = mipi_dsi_detach(dsi);
++	if (ret < 0)
++		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
++
++	if (inx->base.dev)
++		drm_panel_remove(&inx->base);
++
++	return 0;
++}
++
++static const struct of_device_id inx_of_match[] = {
++	{ .compatible = "starry,2081101qfh032011-53g",
++	  .data = &starry_qfh032011_53g_desc
++	},
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, inx_of_match);
++
++static struct mipi_dsi_driver inx_panel_driver = {
++	.driver = {
++		.name = "panel-innolux-himax8279d",
++		.of_match_table = inx_of_match,
++	},
++	.probe = inx_panel_probe,
++	.remove = inx_panel_remove,
++	.shutdown = inx_panel_shutdown,
++};
++module_mipi_dsi_driver(inx_panel_driver);
++
++MODULE_AUTHOR("Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>");
++MODULE_DESCRIPTION("INNOLUX HIMAX8279D 1200x1920 video mode panel driver");
++MODULE_LICENSE("GPL v2");
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0898604977==--
