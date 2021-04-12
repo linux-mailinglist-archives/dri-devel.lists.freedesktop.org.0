@@ -2,37 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176D435C3FA
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 12:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48B535C409
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 12:31:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40ACD6E513;
-	Mon, 12 Apr 2021 10:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E897F6E088;
+	Mon, 12 Apr 2021 10:31:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 714746E50B
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 10:28:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB37B6E088
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 10:31:34 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F057BAFCF;
- Mon, 12 Apr 2021 10:28:49 +0000 (UTC)
-Subject: Re: [PATCH 12/18] drm/vc4: hdmi: Replace CSC_CTL hardcoded value by
- defines
-To: Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
-References: <20210317154352.732095-1-maxime@cerno.tech>
- <20210317154352.732095-13-maxime@cerno.tech>
+ by mx2.suse.de (Postfix) with ESMTP id 65F37AFE6;
+ Mon, 12 Apr 2021 10:31:32 +0000 (UTC)
+Subject: Re: [PATCH 1/3] drm/aperture: Add infrastructure for aperture
+ ownership
+To: Jani Nikula <jani.nikula@linux.intel.com>, airlied@linux.ie,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ corbet@lwn.net
+References: <20210412090021.23054-1-tzimmermann@suse.de>
+ <20210412090021.23054-2-tzimmermann@suse.de> <87mtu3kfo3.fsf@intel.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <f9dc15a6-0965-cdd0-8ded-1243678b7e30@suse.de>
-Date: Mon, 12 Apr 2021 12:28:48 +0200
+Message-ID: <b635ebd6-c86e-761c-9bf3-0835fd3278f3@suse.de>
+Date: Mon, 12 Apr 2021 12:31:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210317154352.732095-13-maxime@cerno.tech>
+In-Reply-To: <87mtu3kfo3.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,100 +42,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>
-Content-Type: multipart/mixed; boundary="===============0399590390=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1182281010=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0399590390==
+--===============1182281010==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="dmZdc5j6nqs5UGDPc24XhDgPJxBid2AUL"
+ boundary="3rMFD6xSR3XnkrwKVERWi2cOLJupv54PO"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dmZdc5j6nqs5UGDPc24XhDgPJxBid2AUL
-Content-Type: multipart/mixed; boundary="Y0L173ukZCNYk7PjvCKQ8iSdfROmT48Wu";
+--3rMFD6xSR3XnkrwKVERWi2cOLJupv54PO
+Content-Type: multipart/mixed; boundary="E111peNYnhDxvplny6GPHu4T76mhCid1o";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>
-Message-ID: <f9dc15a6-0965-cdd0-8ded-1243678b7e30@suse.de>
-Subject: Re: [PATCH 12/18] drm/vc4: hdmi: Replace CSC_CTL hardcoded value by
- defines
-References: <20210317154352.732095-1-maxime@cerno.tech>
- <20210317154352.732095-13-maxime@cerno.tech>
-In-Reply-To: <20210317154352.732095-13-maxime@cerno.tech>
+To: Jani Nikula <jani.nikula@linux.intel.com>, airlied@linux.ie,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ corbet@lwn.net
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Message-ID: <b635ebd6-c86e-761c-9bf3-0835fd3278f3@suse.de>
+Subject: Re: [PATCH 1/3] drm/aperture: Add infrastructure for aperture
+ ownership
+References: <20210412090021.23054-1-tzimmermann@suse.de>
+ <20210412090021.23054-2-tzimmermann@suse.de> <87mtu3kfo3.fsf@intel.com>
+In-Reply-To: <87mtu3kfo3.fsf@intel.com>
 
---Y0L173ukZCNYk7PjvCKQ8iSdfROmT48Wu
+--E111peNYnhDxvplny6GPHu4T76mhCid1o
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
+Hi
 
-
-Am 17.03.21 um 16:43 schrieb Maxime Ripard:
-> On BCM2711, the HDMI_CSC_CTL register value has been hardcoded to an
-> opaque value. Let's replace it with properly defined values.
+Am 12.04.21 um 11:36 schrieb Jani Nikula:
+> On Mon, 12 Apr 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> + * DRM drivers should call drm_aperture_remove_conflicting_framebuffe=
+rs()
+>> + * at the top of their probe function. The function removes any gener=
+ic
+>> + * driver that is currently associated with the given framebuffer mem=
+ory.
+>> + * If the framebuffer is located at PCI BAR 0, the rsp code looks as =
+in the
+>> + * example given below.
+>> + *
+>> + * .. code-block:: c
+>> + *
+>> + *	static int remove_conflicting_framebuffers(struct pci_dev *pdev)
+>> + *	{
+>> + *		bool primary =3D false;
+>> + *		resource_size_t base, size;
+>> + *		int ret;
+>> + *
+>> + *		base =3D pci_resource_start(pdev, 0);
+>> + *		size =3D pci_resource_len(pdev, 0);
+>> + *	#ifdef CONFIG_X86
+>> + *		primary =3D pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_R=
+OM_SHADOW;
+>> + *	#endif
+>> + *
+>> + *		return drm_aperture_remove_conflicting_framebuffers(base, size, p=
+rimary,
+>> + *		                                                    "example driv=
+er");
+>> + *	}
+>> + *
+>> + *	static int probe(struct pci_dev *pdev)
+>> + *	{
+>> + *		int ret;
+>> + *
+>> + *		// Remove any generic drivers...
+>> + *		ret =3D remove_conflicting_framebuffers(pdev);
+>> + *		if (ret)
+>> + *			return ret;
+>> + *
+>> + *		// ... and initialize the hardware.
+>> + *		...
+>> + *
+>> + *		drm_dev_register();
+>> + *
+>> + *		return 0;
+>> + *	}
 >=20
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   drivers/gpu/drm/vc4/vc4_hdmi.c | 5 ++---
->   drivers/gpu/drm/vc4/vc4_regs.h | 3 +++
->   2 files changed, 5 insertions(+), 3 deletions(-)
+> I'm guessing you can't use tabs for the first indentation level
+> here. IIRC kernel-doc removes the leading comment marker and one
+> whitespace whether it's space or tab, resulting in rst where the
+> code-block contents are only partially indented.
 >=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
-dmi.c
-> index 9ba555d24187..b0e0cb533944 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -528,12 +528,11 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi *v=
-c4_hdmi,
->   static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
->   			       const struct drm_display_mode *mode)
->   {
-> -	u32 csc_ctl;
-> +	u32 csc_ctl =3D VC5_MT_CP_CSC_CTL_ENABLE | VC4_SET_FIELD(VC4_HD_CSC_C=
-TL_MODE_CUSTOM,
-> +							       VC5_MT_CP_CSC_CTL_MODE);
->  =20
->   	HDMI_WRITE(HDMI_VEC_INTERFACE_XBAR, 0x354021);
->  =20
-> -	csc_ctl =3D 0x07;	/* RGB_CONVERT_MODE =3D custom matrix, || USE_RGB_T=
-O_YCBCR */
-> -
->   	if (vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode)) {
->   		/* CEA VICs other than #1 requre limited range RGB
->   		 * output unless overridden by an AVI infoframe.
-> diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_r=
-egs.h
-> index be2c32a519b3..9d7c034c8b4f 100644
-> --- a/drivers/gpu/drm/vc4/vc4_regs.h
-> +++ b/drivers/gpu/drm/vc4/vc4_regs.h
-> @@ -744,6 +744,9 @@
->   # define VC4_HD_CSC_CTL_RGB2YCC			BIT(1)
->   # define VC4_HD_CSC_CTL_ENABLE			BIT(0)
->  =20
-> +# define VC5_MT_CP_CSC_CTL_ENABLE		BIT(2)
-> +# define VC5_MT_CP_CSC_CTL_MODE_MASK		VC4_MASK(1, 0)
-> +
->   # define VC4_DVP_HT_CLOCK_STOP_PIXEL		BIT(1)
->  =20
->   /* HVS display list information. */
+> Please test the documentation build before applying.
+
+I did and I'm pretty sure it looked correct. But I'll double check.
+
+>=20
+> Otherwise, the series seems like a nice cleanup.
+>=20
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+Thanks.
+
+Best regards
+Thomas
+
+>=20
+>=20
 >=20
 
 --=20
@@ -150,32 +160,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---Y0L173ukZCNYk7PjvCKQ8iSdfROmT48Wu--
+--E111peNYnhDxvplny6GPHu4T76mhCid1o--
 
---dmZdc5j6nqs5UGDPc24XhDgPJxBid2AUL
+--3rMFD6xSR3XnkrwKVERWi2cOLJupv54PO
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB0IOAFAwAAAAAACgkQlh/E3EQov+C/
-Zw//TrvOiYXqhcNJc9RAoqkB19FOJFuAHiHxU1JLlfwUHmWMEuTWxbREs+N26BCvmm7WDcPJJDSj
-0FwwrMNvf/Uvh86DP5oDjmOadreyLAZBIlwgF2QWBzbwKztIcvW4BLS5onpWwVi8nTdvvNaFIhmf
-0/45FCqcCZh3JjRzwFEwNW7nwZg4F6ijn3Ps63aEmlwmqx8aUXZ2agL4zqcTyiK/jR13zIfW6Bvs
-Zfn09yWQoJ39Ju7xzaMtmL1jVAVifIoHsFM0LtHT88pBzYFHQdUv/GCXLMIGvmKzCX+3qqAC+au6
-L4hvdpa51HewPlyFSUc8HZhz70/vsxroMuFbnkUpiqrIBXkEeLsxH5RHuW6/p1e2tzn1BxFUTamo
-Eki4MJHa2jaKQkqF6VOMbw5iXgOLYSozTiBJQXGptbZUN+O5FS4M7HUl8qL+7Wkk1ijmiAse7897
-F5816rvuNDibMgrMdAE3iT/H9KdwIofgQl2U3sgD66ZkVHB4V8K+g6HGe//DIMujmosyh4sQI9tU
-VOLOa2fiuxm5BQqvks6eSvPbC8ShJrgR+pSO82we+XDEvISv4X490OKTFJkkzh9lqI6KKnf4jQbz
-L1cdqnoFjzguowOnq5/PnMhCcvrpApgtN1xkOVS2+Wz+oojQRJIknRwjc2OJQf4Edm0aqcs+xlJP
-+Ng=
-=E2/x
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB0IYMFAwAAAAAACgkQlh/E3EQov+C1
+6g//cnxpgye8JoABShTgIx68I43/feliYp54yfl5l+C9cwwSpaxWpeuQFWZ3/jJ09oMe+0UfEga5
+8QtSNdZMhHhk0fmp8XCiit0EuIA+EwqYP+yHLhQYFExaa85eJI4PgVI21ttL0DoB+9fR/bv0iEK8
+MGOukFMEVBVLC6U3+llzS9bOsNHoma9s/sE3HOK/mqjX4QuVI+O7YWm8KV1nmhzC+AueHFYYywHM
+VfGZ82N+qlr3tEcuiUdnyYI0bLM6HBE32+MWPEx8TzEv6r/iNBQkcXynU48MHMpl76GCWwotNynh
+cRdIpterX+1E4y8WBC9101Sv+GAEA++ktl/GiQluDgQb6z+MfdpVesyTDkdJtf8AY9+ZnKXA56T2
+WQr8a/evAZR3u0/ElH7lZVgriyWexvs3bIzZoTQ+r90/cA7w9lb2TKfhUhoCo6LYUAk3QefrMjS4
+0wlJC5L0mhWDIpRBrXxuTzM/k5zkVr7WK618g5FVSqN6W/piMLJv8o0M8Shj0JXjXlLEvpp7rtlz
+K7nvnYGrClKAAMWjf1HtYoku4/hoo0BoAuQxAB0578BeKu7dNe7N92J5lQDRfaj/tk7Cf3QRn+dH
+gPSadzObM2N4S/a/Z2y0Hfpjtm8GUYloq4MIQpAnEGMG0Adg+XXm5cLdCuNRJ5s945nLwSDTtysQ
+Jcg=
+=MZBj
 -----END PGP SIGNATURE-----
 
---dmZdc5j6nqs5UGDPc24XhDgPJxBid2AUL--
+--3rMFD6xSR3XnkrwKVERWi2cOLJupv54PO--
 
---===============0399590390==
+--===============1182281010==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -186,4 +196,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0399590390==--
+--===============1182281010==--
