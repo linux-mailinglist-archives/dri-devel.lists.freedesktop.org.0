@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E5135C4D2
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 13:19:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CF635C4D3
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 13:19:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18D656E527;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDE136E52F;
 	Mon, 12 Apr 2021 11:18:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id B8A5A6E52C
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 11:18:57 +0000 (UTC)
-X-UUID: 6daa5e11bce24eecac98f2b0f015ac4f-20210412
-X-UUID: 6daa5e11bce24eecac98f2b0f015ac4f-20210412
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by
- mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 40AE96E527
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 11:18:58 +0000 (UTC)
+X-UUID: 222d38d638524bd7ac1e46280a1d6705-20210412
+X-UUID: 222d38d638524bd7ac1e46280a1d6705-20210412
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1894990616; Mon, 12 Apr 2021 19:18:51 +0800
+ with ESMTP id 695174040; Mon, 12 Apr 2021 19:18:56 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 12 Apr 2021 19:18:47 +0800
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 12 Apr 2021 19:18:54 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Apr 2021 19:18:46 +0800
+ Transport; Mon, 12 Apr 2021 19:18:47 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Subject: [PATCH v2,
- 0/5] Revert "mailbox: mediatek: remove implementation related to
- atomic_exec"
-Date: Mon, 12 Apr 2021 19:18:40 +0800
-Message-ID: <1618226325-31927-1-git-send-email-yongqiang.niu@mediatek.com>
+ 1/5] Revert "drm/mediatek: Make sure previous message done or be
+ aborted before send"
+Date: Mon, 12 Apr 2021 19:18:41 +0800
+Message-ID: <1618226325-31927-2-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1618226325-31927-1-git-send-email-yongqiang.niu@mediatek.com>
+References: <1618226325-31927-1-git-send-email-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 389E8F4DE8E8662A451C1C9F583FBEB83B881827185D9C0ABC3A443A8DB4570F2000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,29 +63,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series base linux 5.12-rc2
-these patches will cause home ui flick when cursor moved,
-there is no fix solution yet, revert these patches first.
+This reverts commit 839cbf0531428f3f9535077a461b8631359c1165.
 
-change since v1:
-add mtk-gce.txt and dts modification
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Yongqiang Niu (5):
-  Revert "drm/mediatek: Make sure previous message done or be aborted
-    before send"
-  Revert "mailbox: mediatek: remove implementation related to
-    atomic_exec"
-  Revert "dt-bindings: mailbox: mtk-gce: fix incorrect mbox-cells value"
-  Revert "arm64: dts: mediatek: mt8183: fix gce incorrect mbox-cells
-    value"
-  arm64: dts: mediatek: mt8183: add gce information for mmsys
-
- .../devicetree/bindings/mailbox/mtk-gce.txt        |  2 +-
- arch/arm64/boot/dts/mediatek/mt8183.dtsi           |  5 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |  1 -
- drivers/mailbox/mtk-cmdq-mailbox.c                 | 80 +++++++++++++++++++---
- 4 files changed, 76 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 8b0de90..c76f446 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -463,7 +463,6 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
+ 	}
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ 	if (mtk_crtc->cmdq_client) {
+-		mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
+ 		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
+ 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
+ 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
 -- 
 1.8.1.1.dirty
 
