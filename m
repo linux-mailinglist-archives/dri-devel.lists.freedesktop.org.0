@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69F135C7A2
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 15:30:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 812BE35C80B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Apr 2021 15:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CED16E59F;
-	Mon, 12 Apr 2021 13:30:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 791E26E0E1;
+	Mon, 12 Apr 2021 13:59:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 56783 seconds by postgrey-1.36 at gabe;
- Mon, 12 Apr 2021 13:30:18 UTC
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9EE116E59F
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 13:30:18 +0000 (UTC)
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
- id 6059092009C; Mon, 12 Apr 2021 15:30:16 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by angie.orcam.me.uk (Postfix) with ESMTP id 5A1BE92009B;
- Mon, 12 Apr 2021 15:30:16 +0200 (CEST)
-Date: Mon, 12 Apr 2021 15:30:16 +0200 (CEST)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] vt_ioctl: make VT_RESIZEX behave like VT_RESIZE
-In-Reply-To: <CAKMK7uH4+SGr0=FDBiTsMg+iE1ztiuP2QBxsgcvHNhd38ocndg@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2104121433040.65251@angie.orcam.me.uk>
-References: <000000000000226d3f05b02dd607@google.com>
- <bbcef674-4ac6-c933-b55d-8961ada97f4c@i-love.sakura.ne.jp>
- <47907f77-b14b-b433-45c6-a315193f0c1a@i-love.sakura.ne.jp>
- <494395bc-a7dd-fdb1-8196-a236a266ef54@i-love.sakura.ne.jp>
- <20200927092701.GA1037755@PWN>
- <4933b81b-9b1a-355b-df0e-9b31e8280ab9@i-love.sakura.ne.jp>
- <20200928175956.GF24673@neutronstar.dyndns.org>
- <100dfd3f-3415-80ae-a6cf-30d15f7ca49f@i-love.sakura.ne.jp>
- <20200929105203.GG24673@neutronstar.dyndns.org>
- <20200929165657.GS438822@phenom.ffwll.local>
- <20200929171040.GB1351851@kroah.com>
- <alpine.DEB.2.21.2104112250310.65251@angie.orcam.me.uk>
- <CAHk-=wgF8e5i+9eeGu=CgWAagTPv-9UbkG7B6bR5jDe6kkkFZQ@mail.gmail.com>
- <CAKMK7uH4+SGr0=FDBiTsMg+iE1ztiuP2QBxsgcvHNhd38ocndg@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65FD56E0E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 13:59:07 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id c15so4102633wro.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 06:59:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=0lCq/PP/NPlSxhzovf8/ngBRjtYF5XcCA62w8lsVHZg=;
+ b=B52Xar4JgeKNAIp5L7U/N5g+dfc/16I7rC757YocA6Jujb8vV5nFGxBZpN1nv/t4Aq
+ GxNtvnq4gB1HG0FUxG02b8Mwe7qf40u+GtXlvHJjZfeRWz+lKchYLKc5Y1nx+NWyiD/4
+ wj+/Fvj3R7IitG94Jz/ROL+D5YgWIO4V7VjRk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0lCq/PP/NPlSxhzovf8/ngBRjtYF5XcCA62w8lsVHZg=;
+ b=iaKIdh+XSYptWMLm3y71/9eztfmZBaRcSrZQXu1QKn5YCvkpY4ysjUN4z2Ze+oe1G3
+ V5Mg/lf0Z/tyG6OcbOSl46JlGejD7ryA0J8zxMPdU3UjG85KMyVBFC5LvuNwZc1iWhxK
+ 5ffWh5JV08GLAX3+oV6FcnEmUhsysLHAiAJFX36ewaOfQzrdxWaOTsEojcyx5K6qDpRt
+ D57DTguyKsKBRodDYODLREqieJTCtfzWnNU42cvQg3xkDW+ey0kxJbFeV2huj1ktQG9G
+ WqKGiPB9nS1c2T3A327VAabDvBFVSC+YhtCjGSUbIDBi3d56QhlWmGyvAF33r/A2IFQM
+ hq8Q==
+X-Gm-Message-State: AOAM531N7UCDYVZof+vPCowUwlDsdPpvIolK/2fpbiC0EhfXNrsoYd3r
+ zIHESfZMlLv0iVNcznDCn3LzFw==
+X-Google-Smtp-Source: ABdhPJylLQh5ew4o9kfPVOHulaZa2iA47qdYzKO1pnwUzJxtjKKfjerutuCNMyiWxEP8oY4KGR1d/A==
+X-Received: by 2002:adf:e402:: with SMTP id g2mr32252956wrm.1.1618235946119;
+ Mon, 12 Apr 2021 06:59:06 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y31sm15733523wmp.46.2021.04.12.06.59.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Apr 2021 06:59:05 -0700 (PDT)
+Date: Mon, 12 Apr 2021 15:59:03 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Subject: Re: [PATCH 0/2] Document how userspace should use plane format list
+ and IN_FORMATS
+Message-ID: <YHRSJ2+1JG2hDSdt@phenom.ffwll.local>
+References: <20210406192118.12313-1-leandro.ribeiro@collabora.com>
+ <YG7qbA3KthIUXhDn@phenom.ffwll.local>
+ <14b8b86b-edc5-f726-5920-d5d381d3f538@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <14b8b86b-edc5-f726-5920-d5d381d3f538@collabora.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,120 +67,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: syzbot <syzbot+b308f5fd049fbbc6e74f@syzkaller.appspotmail.com>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Jiri Slaby <jirislaby@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Greg KH <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Martin Hostettler <textshell@uchuujin.de>,
- George Kennedy <george.kennedy@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Peilin Ye <yepeilin.cs@gmail.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ pekka.paalanen@collabora.co.uk, kernel@collabora.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Apr 2021, Daniel Vetter wrote:
-
-> > Note that it's entirely possible that things continue to work well
-> > despite this warning. It's unclear to me from your email if you
-> > actually see any difference (and apparently you're not able to see it
-> > right now due to not being close to the machine).
+On Thu, Apr 08, 2021 at 07:24:30PM -0300, Leandro Ribeiro wrote:
 > 
-> Original search didn't turn up any users of VT_RESIZEX, this is the
-> first. And looking at the source code I think we could outright remove
-> support for VT_RESIZEX (but make it silent) and everything should keep
-> working:
 > 
->         /*
->          * ALWAYS do a VT_RESIZE, even if we already did a VT_RESIZEX
-> on a 1.3.3 or higher kernel,
->          * until those kernel programmers make this unambiguous
->          */
+> On 4/8/21 8:35 AM, Daniel Vetter wrote:
+> > On Tue, Apr 06, 2021 at 04:21:16PM -0300, Leandro Ribeiro wrote:
+> >> This patch is to emphasize how userspace should use the plane format list and
+> >> the IN_FORMATS blob. The plane format list contains the formats that do not
+> >> require modifiers, and the blob property has the formats that support
+> >> modifiers.
+> >
+> > Uh this is a very strong statement that I don't think is supported by
+> > kernel driver code. Where is this from.
+> >
+> >> Note that these are not disjoint sets. If a format supports modifiers but the
+> >> driver can also handle it without a modifier, it should be present in both the
+> >> IN_FORMATS blob property and the plane format list.
+> > 
+> > Same here ...
+> > 
 > 
->        if (do_VT_RESIZE(curr_textmode->cols, curr_textmode->rows,
-> resize1x1)) sresize=TRUE;
+> Yes, sorry. The wording was not good. To clarify:
+
+Ok I think this context helps.
+
+> I'm trying to document a good approach that userspace *can* (not must)
+> take to be able to tell if a certain format can be used in the
+> pre-modifier kernel uAPI or if it only works with modifiers.
+
+I think the short summary is "use modifiers everywhere you can".
+
+> The background is that we are reworking the way that Weston stores the
+> formats and modifiers supported by the planes, and there were some wrong
+> assumptions in the code related to what we can assume that the KMS
+> driver supports.
 > 
->        if (check_kernel_version(1,3,3, "VT_RESIZEX"))
->          {
->            /*
->             * VDisplay must de divided by 2 for DoubleScan modes,
->             * or VT_RESIZEX will fail -- until someone fixes the kernel
->             * so it understands about doublescan modes.
->             */
->            if (do_VT_RESIZEX(curr_textmode->cols,
->                              curr_textmode->rows,
->                              curr_textmode->VDisplay /
-> (MOFLG_ISSET(curr_textmode, ATTR_DOUBLESCAN) ? 2 : 1),
->                              curr_textmode->FontHeight,
->                              curr_textmode->HDisplay/8*curr_textmode->FontWidth,
->                              curr_textmode->FontWidth, resize1x1)) sresize=TRUE;
->          }
+> We've discussed and decided to send a patch to raise a discussion and
+> check if the conclusions that we've made were reasonable. And if not,
+> what would be a better approach.
 > 
-> The functions are just straightforward wrappers. There's also no cvs
-> repo, changelog or old releases before 2000 that would shed some light
-> on why this code even exists.
+> This is part of a MR in which we add support for the dmabuf-hints
+> protocol extension in Weston. In sort, in Weston we store the formats
+> and modifiers supported by the planes. Then we send them to the client
+> and it may pick one of these format/modifier pairs to allocate its
+> buffers, increasing the chances of its surface ending up in a plane.
+> 
+> Here are two commits of the MR that are related to this discussion:
+> 
+> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/544/diffs?commit_id=de6fc18bc35c2e43dff936dd85f310d1f778a7b8
 
- I did some archaeology then, using a local copy of the linux-mips.org 
-Linux tree that has historic information imported from the old oss.sgi.com 
-MIPS/Linux CVS repo.  According to that the ioctl was added with or 
-shortly before 2.1.14:
+  - drmModePlane's format list (the older, which does not advertise
+    modifiers). Formats exposed through this support implicit modifiers.
 
-commit beb116954b9b7f3bb56412b2494b562f02b864b1
-Author: Ralf Baechle <ralf@linux-mips.org>
-Date:   Tue Jan 7 02:33:00 1997 +0000
+The above isn't an accurate statement imo. Implied modifiers is a pretty
+good mess:
+- On most SoC platforms addfb1 actually implies linear. Except mesa got
+  that wrong in a bunch of cases, and now everyone is unhappy.
+- On i915/amdgpu/radeon there's implicit modifiers. Maybe also on nouveau
+  I guess, not sure about any of the others. These don't generally work
+  across device instances.
+- On the kernel side, for drivers supporting modifiers, figuring out which
+  implied modifier to pick is driver specific. There's bugs where
+  essentially depending upon use case things wont work out.
+- There are currently at least formats which never work with untiled
+  modifier, so essentiall useless on addfb1. This applies to some afbc
+  compressed formats.
 
-    Import of Linux/MIPS 2.1.14
+In short: implied modifier is best effort trying to make stuff work,
+somewhat, no guarantees.
 
-and, importantly, it was used to set some parameters: 
+The real recommendation is to not use implied modifiers if you can, so
+also not use addfb1.
 
-		if ( vlin )
-		  video_scan_lines = vlin;
-		if ( clin )
-		  video_font_height = clin;
+> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/544/diffs?commit_id=75363bdb121bda2f326109afca5f4c3259423b7d
 
-used by `con_adjust_height' in drivers/char/vga.c: `video_scan_lines' to 
-set the vertical display limit (so that it is a whole multiple of the new 
-font height) and `video_font_height' to set the cursor scan lines in the 
-CRTC.  The function was used by the PIO_FONTX and PIO_FONTRESET VT ioctls 
-at that point.
+Again this isn't reflecting current reality. Right now the kernel puts the
+same list into both. There is no meaning attached to these two lists being
+different, they are not. Userspace starting to attach meaning pretty much
+means we cannot, ever, make them different, and any additional hints would
+need to be conveyed through new uapi somewhere else, maybe entire new list
+of formats.
 
- That code was moved to `vgacon_adjust_height' in drivers/video/vgacon.c 
-and then drivers/video/console/vgacon.c.  The code is still there, serving 
-the KDFONTOP ioctl.
+Some more fun things around modifiers:
+- Some formats don't work at all with untile, so useless with addfb1.
+  These got mostly added for afbc support I think.
+- What's even more fun and I don't think documented anywhere: The modifier
+  list is treated as a bitmask for some drivers, e.g. afbc drivers
+  generally don't list all combinations, but just the flags they support.
+  So you might get a format+modifier combo that's not even in the list you
+  have, and it will actually work (with addfb2)
 
- With:
+I think before we add new meaning to these two lists and somehow imply
+they can be different (right now they are never different, in any kernel
+that shipped ever since modifier support landed) is to document the
+current modifier rules.
 
-commit 9736a3546de7b6a2b16ad93539e4b3ac72b385bb
-Author: Ralf Baechle <ralf@linux-mips.org>
-Date:   Thu Jun 5 10:06:35 2003 +0000
+Cheers, Daniel
 
-    Merge with Linux 2.5.66.
+> 
+> Thanks!
+> 
+> > I thought these two lists are 100% consistent. If not sounds like driver
+> > bugs that we need to maybe validate in drm_plane_init.
+> > 
+> >> This is important for userspace, as there are situations in which we need to
+> >> find out if the KMS driver can handle a certain format without any modifiers.
+> > 
+> > I don't think you can rely on this. No modifiers means implicit modifier,
+> > and the only thing that can give you such buffers is defacto mesa
+> > userspace drivers (since that all depends upon driver private magic, with
+> > maybe some kernel metadata passed around in private ioctls on the render
+> > node).
+> > 
+> > Maybe for more context, what's the problem you've hit and trying to
+> > clarify here?
+> > -Daniel
+> > 
+> >>
+> >> Leandro Ribeiro (2):
+> >>   drm/doc: document drm_mode_get_plane
+> >>   drm/doc: emphasize difference between plane formats and IN_FORMATS
+> >>     blob
+> >>
+> >>  drivers/gpu/drm/drm_plane.c |  4 ++++
+> >>  include/uapi/drm/drm_mode.h | 22 ++++++++++++++++++++++
+> >>  2 files changed, 26 insertions(+)
+> >>
+> >> -- 
+> >> 2.31.1
+> >>
+> > 
 
-the parameters were moved into `struct vc_data':
-
- 		if (vlin)
--			video_scan_lines = vlin;
-+			vc->vc_scan_lines = vlin;
- 		if (clin)
--			video_font_height = clin;
-+			vc->vc_font.height = clin;
-
-and this piece of code to set them only removed with the change discussed 
-here.
-
- So without even looking at the VT, which I'll surely get to eventually, I 
-conclude this change regresses font resizing (KD_FONT_OP_SET) once a new 
-resolution has been set with svgatextmode.  I think this change needs to 
-be reverted, especially as the problematic PIO_FONT ioctl referred has 
-been since removed with commit ff2047fb755d ("vt: drop old FONT ioctls").
-
-  Maciej
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
