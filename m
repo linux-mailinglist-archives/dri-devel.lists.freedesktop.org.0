@@ -2,59 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CDFB35E106
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 16:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D585535E10B
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 16:14:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A22C6E303;
-	Tue, 13 Apr 2021 14:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6AB189D79;
+	Tue, 13 Apr 2021 14:14:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3896E270
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 14:11:33 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id r7so4628064wrm.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 07:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ch9ICwJVYl6LWPhkOy5IzPVLQgk9xqmcS3NQohJq950=;
- b=K98IC45z2TWPbT/eNHYVXv0rqaVWPKE/ZHbYx2D1N2Woqn4blubXbjPGvr4olQKryI
- NV2F03gdTZL8R3PX4N9uR7w5qL1a15UATL5VQIA5+kmaIJHoca7d9MVVfUyBwsp44gE3
- N368MRQxD6cmFAsXqLYI4ww8vLQMzRVnWW6Rc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ch9ICwJVYl6LWPhkOy5IzPVLQgk9xqmcS3NQohJq950=;
- b=lm8rvYQKFH3cJ6oCq1NR/Ies2Fwlko87uHrewV4x96Bt/RbWWAhLQ+5UBhRCJ0vs/d
- VRDOVLyil/jgHFzkpv6SSPmYIbqqXXINJxw8Kud/WO+4Pp5RyZal8+5wSOtL6AF5Uht8
- smv6T+0PHJMRgnEAHK3gSOU1gkyYxkvsY8LSbBCaiO0MZWH8v/PIVninXs/CNFxma/6H
- Wz2D71od2ZuHvkryRhhEZuM29oSlRGofkhAiagCYh6dQ4ypws8MMUugyBpZ21X4nCA57
- Uqss+DUg7zk2WXQaldxj3aiaczqp0iLtZ5Vh7SuVxVzYdNFIsCpdQ/1WIrPuu/8Nlz4x
- +6ZQ==
-X-Gm-Message-State: AOAM5316NywOF2R/Rneo4Pg9NmFfYoFqz8zotiPWGLlhAfLTCcJfOBQ1
- mSIAyjklPeTjfUFmYtsiwXN1EQ==
-X-Google-Smtp-Source: ABdhPJweAd+lUyXTaICdCL20hVt2OR1gW+lz9cRHc1biIAAPyBghzAapBI3eHK7eKEKFljOGp0muyA==
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr3625415wrz.268.1618323091927; 
- Tue, 13 Apr 2021 07:11:31 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o62sm3195125wmo.3.2021.04.13.07.11.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Apr 2021 07:11:31 -0700 (PDT)
-Date: Tue, 13 Apr 2021 16:11:29 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH 12/12] drm/modifiers: Enforce consistency between the cap
- an IN_FORMATS
-Message-ID: <YHWmkZYqUeZKQN9R@phenom.ffwll.local>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5149989D79
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 14:14:14 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1lWJnw-0001Xa-8n; Tue, 13 Apr 2021 16:14:12 +0200
+Message-ID: <83a41b2e9636cb6a790b23843c6d2628d02c6997.camel@pengutronix.de>
+Subject: Re: [PATCH 05/12] drm/imx: Don't set allow_fb_modifiers explicitly
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 13 Apr 2021 16:14:11 +0200
+In-Reply-To: <YHWk9V/4mu1lGFgD@phenom.ffwll.local>
 References: <20210413094904.3736372-1-daniel.vetter@ffwll.ch>
- <20210413094904.3736372-12-daniel.vetter@ffwll.ch>
- <20210413145602.70f674b1@eldfell>
+ <20210413094904.3736372-5-daniel.vetter@ffwll.ch>
+ <290aef5ed13749d465eb19235aa87a2cef63dd2a.camel@pengutronix.de>
+ <YHWk9V/4mu1lGFgD@phenom.ffwll.local>
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210413145602.70f674b1@eldfell>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,149 +48,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 13, 2021 at 02:56:02PM +0300, Pekka Paalanen wrote:
-> On Tue, 13 Apr 2021 11:49:03 +0200
-> Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> 
-> > It's very confusing for userspace to have to deal with inconsistencies
-> > here, and some drivers screwed this up a bit. Most just ommitted the
-> > format list when they meant to say that only linear modifier is
-> > allowed, but some also meant that only implied modifiers are
-> > acceptable (because actually none of the planes registered supported
-> > modifiers).
-> > 
-> > Now that this is all done consistently across all drivers, document
-> > the rules and enforce it in the drm core.
-> > 
-> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > ---
-> >  drivers/gpu/drm/drm_plane.c   | 16 +++++++++++++++-
-> >  include/drm/drm_mode_config.h |  2 ++
-> >  2 files changed, 17 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> > index 0dd43882fe7c..16a7e3e57f7f 100644
-> > --- a/drivers/gpu/drm/drm_plane.c
-> > +++ b/drivers/gpu/drm/drm_plane.c
-> > @@ -128,6 +128,11 @@
-> >   *     pairs supported by this plane. The blob is a struct
-> >   *     drm_format_modifier_blob. Without this property the plane doesn't
-> >   *     support buffers with modifiers. Userspace cannot change this property.
-> > + *
-> > + *     Note that userspace can check the DRM_CAP_ADDFB2_MODIFIERS driver
-> > + *     capability for general modifier support. If this flag is set then every
-> > + *     plane will have the IN_FORMATS property, even when it only supports
-> > + *     DRM_FORMAT_MOD_LINEAR.
-> 
-> Ooh, that's even better. But isn't that changing the meaning of the
-> cap? Isn't the cap older than IN_FORMATS?
-
-Hm indeed. But also how exactly are you going to user modifiers without
-IN_FORMATS ... it's a bit hard. I think this is all because we've enabled
-modifiers piece-by-piece and never across the entire thing (e.g. with
-compositor and protocols), so the missing pieces only became apparent
-later on.
-
-I'm not sure whether compositors really want to support this, I guess
-worst case we could disable the cap on these old kernels.
-
-> What about the opposite? Is it allowed to have even a single IN_FORMATS
-> if you don't have the cap?
-
-That direction is enforced since 5.1, because some drivers screwed it up
-and confusion in userspace ensued.
-
-Should I add a bug that on kernels older than 5.1 the situation is more
-murky and there's lots of bugs?
-
-> 
-> >   */
-> >  
-> >  static unsigned int drm_num_planes(struct drm_device *dev)
-> > @@ -277,8 +282,14 @@ static int __drm_universal_plane_init(struct drm_device *dev,
-> >  			format_modifier_count++;
-> >  	}
-> >  
-> > -	if (format_modifier_count)
-> > +	/* autoset the cap and check for consistency across all planes */
-> > +	if (format_modifier_count) {
-> > +		WARN_ON(!config->allow_fb_modifiers &&
-> > +			!list_empty(&config->plane_list));
-> 
-> What does this mean?
-
-If allow_fb_modifiers isn't set yet (we do that in the line below) and we
-are _not_ the first plane that gets added to the driver (that's done
-towards the end of the function) then that means there's already a plane
-registered without modifiers and hence IN_FORMAT. Which we then warn
-about.
-
-> 
-> >  		config->allow_fb_modifiers = true;
-> > +	} else {
-> > +		WARN_ON(config->allow_fb_modifiers);
-
-This warning here checks the other case of an earlier plane with
-modifiers, but the one we're adding now doesn't have them.
--Daniel
-
-> > +	}
-> >  
-> >  	plane->modifier_count = format_modifier_count;
-> >  	plane->modifiers = kmalloc_array(format_modifier_count,
-> > @@ -360,6 +371,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
-> >   * drm_universal_plane_init() to let the DRM managed resource infrastructure
-> >   * take care of cleanup and deallocation.
-> >   *
-> > + * Drivers supporting modifiers must set @format_modifiers on all their planes,
-> > + * even those that only support DRM_FORMAT_MOD_LINEAR.
-> 
-> Good.
-> 
-> > + *
-> >   * Returns:
-> >   * Zero on success, error code on failure.
-> >   */
-> > diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> > index ab424ddd7665..1ddf7783fdf7 100644
-> > --- a/include/drm/drm_mode_config.h
-> > +++ b/include/drm/drm_mode_config.h
-> > @@ -909,6 +909,8 @@ struct drm_mode_config {
-> >  	 * @allow_fb_modifiers:
-> >  	 *
-> >  	 * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
-> > +	 * Note that drivers should not set this directly, it is automatically
-> > +	 * set in drm_universal_plane_init().
-> >  	 *
-> >  	 * IMPORTANT:
-> >  	 *
-> 
-> Thanks,
-> pq
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gRGllbnN0YWcsIGRlbSAxMy4wNC4yMDIxIHVtIDE2OjA0ICswMjAwIHNjaHJpZWIgRGFuaWVs
+IFZldHRlcjoKPiBPbiBUdWUsIEFwciAxMywgMjAyMSBhdCAwMTo0NzoyOFBNICswMjAwLCBMdWNh
+cyBTdGFjaCB3cm90ZToKPiA+IEFtIERpZW5zdGFnLCBkZW0gMTMuMDQuMjAyMSB1bSAxMTo0OCAr
+MDIwMCBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPiA+IFNpbmNlCj4gPiA+IAo+ID4gPiBjb21t
+aXQgODkwODgwZGRmZGJlMjU2MDgzMTcwODY2ZTQ5Yzg3NjE4YjcwNmFjNwo+ID4gPiBBdXRob3I6
+IFBhdWwgS29jaWFsa293c2tpIDxwYXVsLmtvY2lhbGtvd3NraUBib290bGluLmNvbT4KPiA+ID4g
+RGF0ZTogICBGcmkgSmFuIDQgMDk6NTY6MTAgMjAxOSArMDEwMAo+ID4gPiAKPiA+ID4gwqDCoMKg
+wqBkcm06IEF1dG8tc2V0IGFsbG93X2ZiX21vZGlmaWVycyB3aGVuIGdpdmVuIG1vZGlmaWVycyBh
+dCBwbGFuZSBpbml0Cj4gPiA+IAo+ID4gPiB0aGlzIGlzIGRvbmUgYXV0b21hdGljYWxseSBhcyBw
+YXJ0IG9mIHBsYW5lIGluaXQsIGlmIGRyaXZlcnMgc2V0IHRoZQo+ID4gPiBtb2RpZmllciBsaXN0
+IGNvcnJlY3RseS4gV2hpY2ggaXMgdGhlIGNhc2UgaGVyZS4KPiA+ID4gCj4gPiA+IFRoaXMgb25l
+IGFjdHVhbGx5IHNldCBpdCB0d2ljZSBvbiB0b3Agb2Ygd2hhdCBkcm1fcGxhbmVfaW5pdCBkb2Vz
+LCBzbwo+ID4gPiBkb3VibGUtcmVkdW5kYW50IQo+ID4gCj4gPiBUaGF0J3Mgbm90IHRydWUuIGlt
+eC1kY3NzIGFuZCBpbXgtZHJtIGFyZSB0d28gdG90YWxseSBzZXBhcmF0ZSBkcml2ZXJzLgo+ID4g
+TWF5YmUgd2Ugc2hvdWxkIG1vdmUgaW14LWRybSBpbnRvIGl0cyBvd24gaXB1djMgZGlyZWN0b3J5
+IG9uZSBkYXkgdG8KPiA+IG1ha2UgdGhpcyBtb3JlIGNsZWFyLiBDaGFuZ2UgaXMgc3RpbGwgY29y
+cmVjdCwgdGhvdWdoLgo+IAo+IEhtIEkgZ3JlZXBlZCBmb3IgZHJtX3VuaXZlcnNhbF9wbGFuZV9p
+bml0IGFuZCBkaWRuJ3QgZmluZCBhbnl0aGluZiBmb3IgdGhlCj4gaW14IG1haW4gZHJpdmVyIC4u
+LiB3aGVyZSBhcmUgcGxhbmVzIHNldCB1cCBmb3IgdGhhdD8gTmVlZCB0byByZXZpZXcgdGhhdAo+
+IHRoZXkgaGF2ZSB0aGUgbW9kaWZpZXJzIGxpc3RlZCBpbiBhbGwgY2FzZXMuCgpUaGF0J3MgaW4g
+ZHJpdmVycy9ncHUvZHJtL2lteC9pcHV2My1wbGFuZS5jIGFuZCBtb2RpZmllcnMgYXJlIGFsd2F5
+cwpzZXQgb24gcGxhbmUgaW5pdC4KClJlZ2FyZHMsCkx1Y2FzCgo+IAo+ID4gCj4gPiBSZXZpZXdl
+ZC1ieTogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Cj4gPiAKPiA+ID4gU2ln
+bmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gPiA+
+IENjOiBQaGlsaXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPgo+ID4gPiBDYzogU2hh
+d24gR3VvIDxzaGF3bmd1b0BrZXJuZWwub3JnPgo+ID4gPiBDYzogU2FzY2hhIEhhdWVyIDxzLmhh
+dWVyQHBlbmd1dHJvbml4LmRlPgo+ID4gPiBDYzogUGVuZ3V0cm9uaXggS2VybmVsIFRlYW0gPGtl
+cm5lbEBwZW5ndXRyb25peC5kZT4KPiA+ID4gQ2M6IEZhYmlvIEVzdGV2YW0gPGZlc3RldmFtQGdt
+YWlsLmNvbT4KPiA+ID4gQ2M6IE5YUCBMaW51eCBUZWFtIDxsaW51eC1pbXhAbnhwLmNvbT4KPiA+
+ID4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+ID4gPiAtLS0KPiA+
+ID4gwqBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1rbXMuYyB8IDEgLQo+ID4gPiDCoGRy
+aXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMgIHwgMSAtCj4gPiA+IMKgMiBmaWxlcyBj
+aGFuZ2VkLCAyIGRlbGV0aW9ucygtKQo+ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9pbXgvZGNzcy9kY3NzLWttcy5jIGIvZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rj
+c3Mta21zLmMKPiA+ID4gaW5kZXggYjU0OWNlNWU3NjA3Li4zN2FlNjhhN2ZiYTUgMTAwNjQ0Cj4g
+PiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWttcy5jCj4gPiA+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWttcy5jCj4gPiA+IEBAIC01Miw3ICs1Miw2
+IEBAIHN0YXRpYyB2b2lkIGRjc3Nfa21zX21vZGVfY29uZmlnX2luaXQoc3RydWN0IGRjc3Nfa21z
+X2RldiAqa21zKQo+ID4gPiDCoAljb25maWctPm1pbl9oZWlnaHQgPSAxOwo+ID4gPiDCoAljb25m
+aWctPm1heF93aWR0aCA9IDQwOTY7Cj4gPiA+IMKgCWNvbmZpZy0+bWF4X2hlaWdodCA9IDQwOTY7
+Cj4gPiA+IC0JY29uZmlnLT5hbGxvd19mYl9tb2RpZmllcnMgPSB0cnVlOwo+ID4gPiDCoAljb25m
+aWctPm5vcm1hbGl6ZV96cG9zID0gdHJ1ZTsKPiA+ID4gwqAKPiA+ID4gCj4gPiA+IAo+ID4gPiAK
+PiA+ID4gwqAJY29uZmlnLT5mdW5jcyA9ICZkY3NzX2RybV9tb2RlX2NvbmZpZ19mdW5jczsKPiA+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vaW14L2lteC1kcm0tY29yZS5jCj4gPiA+IGluZGV4IDJkZWQ4ZTRmMzJkMC4u
+OGJlNGVkYWVjOTU4IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaW14L2lteC1k
+cm0tY29yZS5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMK
+PiA+ID4gQEAgLTIwOSw3ICsyMDksNiBAQCBzdGF0aWMgaW50IGlteF9kcm1fYmluZChzdHJ1Y3Qg
+ZGV2aWNlICpkZXYpCj4gPiA+IMKgCWRybS0+bW9kZV9jb25maWcubWF4X2hlaWdodCA9IDQwOTY7
+Cj4gPiA+IMKgCWRybS0+bW9kZV9jb25maWcuZnVuY3MgPSAmaW14X2RybV9tb2RlX2NvbmZpZ19m
+dW5jczsKPiA+ID4gwqAJZHJtLT5tb2RlX2NvbmZpZy5oZWxwZXJfcHJpdmF0ZSA9ICZpbXhfZHJt
+X21vZGVfY29uZmlnX2hlbHBlcnM7Cj4gPiA+IC0JZHJtLT5tb2RlX2NvbmZpZy5hbGxvd19mYl9t
+b2RpZmllcnMgPSB0cnVlOwo+ID4gPiDCoAlkcm0tPm1vZGVfY29uZmlnLm5vcm1hbGl6ZV96cG9z
+ID0gdHJ1ZTsKPiA+ID4gwqAKPiA+ID4gCj4gPiA+IAo+ID4gPiAKPiA+ID4gwqAJcmV0ID0gZHJt
+bV9tb2RlX2NvbmZpZ19pbml0KGRybSk7Cj4gPiAKPiA+IAo+IAoKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
