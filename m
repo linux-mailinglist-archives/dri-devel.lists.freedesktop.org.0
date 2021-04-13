@@ -2,38 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E76735E36D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 18:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D330035E39F
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 18:16:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C5889B22;
-	Tue, 13 Apr 2021 16:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0F76E828;
+	Tue, 13 Apr 2021 16:16:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF96D89B22
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 16:04:20 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A3E8C9F0;
- Tue, 13 Apr 2021 18:04:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1618329858;
- bh=pUgM55miRgoN+NKLMy+bBwdxnn/EXzhYxduslvOw0Ag=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Uap0ILaCqSXV2FQ50sCvEAUadz05Gj75E13xc+gDhbZkBt6v8QkMz7prkHSAhSXyU
- 1Nd+cQJBWVeSwDO1yjQ9zvlHEd6mFAv271eFF1DwFbQxJOpWyUyu30lQioxBds4bUu
- 5LECcOIa3jxW/QL1qJCzvsWttGZlFonx0FHUmywg=
-Date: Tue, 13 Apr 2021 19:03:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: display: bridge: add it66121 bindings
-Message-ID: <YHXA0KFylvC7FDbK@pendragon.ideasonboard.com>
-References: <20210412154648.3719153-1-narmstrong@baylibre.com>
- <20210412154648.3719153-2-narmstrong@baylibre.com>
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B359F6E821
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 16:16:38 +0000 (UTC)
+Received: by mail-qt1-x833.google.com with SMTP id i6so3523594qti.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 09:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=fM8xjKUkxDgJH68y5rfyDk03IRtTKEoqYSCBVuSOE7k=;
+ b=EtDdXTGFfUd9arFqNywjyFcwOad9WmBK/9SvaC22n2+dx7M9XFf3DEVy5Vyrp+4m25
+ YJINnezgvV4sI5kighvcwusNF4FAO6rFJffXLaSmkaaJvl4MST1LfdV04IoGw0TVkLzV
+ m2jHDonCEC33y6XIJ6A1yjH0UfZaDCsLcH/gy7tt87fnCh+Bl2a1iaCTfuvjMjkx9XMl
+ 4laClIVZURAzTfocEaLFwehikSUYHN6kFGdvs+UagJtcU4T9HE61wAl1OjeW1kzYu+5f
+ 2n03IBj67KqEH1IAxmflsoBxMInkOXfmbIAjUT1RcypfacuSDj04ZpHRHZStfzq6e1M5
+ HPew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fM8xjKUkxDgJH68y5rfyDk03IRtTKEoqYSCBVuSOE7k=;
+ b=hsgxQdV3rQJLCQCNTx5CQ40QnPHKHb/vElAcM5d7A8rGGCzEAYDubp5+/dPYw9KK85
+ Cjz3xV/5NMmZandRgomilh514yekc4KHsBRHUnu8QS/wwVO0I2rBjYhwl+oZTRVj5fGQ
+ ibpPZ+cYY88aTcek+XySreOclflWxq/sA4MiAg48idXBSkvPEKhKI1fcbe+saS7BlU0w
+ ogWcB8IWQR8WAr+YkvesxfGmEj9i07+pH7rPus1pcseQkfNOjP8rfA7Go4V6C+w6WHZF
+ VUf/E6PCItDCyp3BRIz0zsg+tAQvHb72g0pGXNX86ZAbIZYR9gRP3JJsfcO77WagjKHr
+ FxFQ==
+X-Gm-Message-State: AOAM533uPE3WgFwHVK/lkUMZv6GrMaD6qTrQrMi57HiEBWwWRK+p32vV
+ mdqlyYkr3ctdgMbrXhfdN7BUBLRjqtYsY4XCGCI=
+X-Google-Smtp-Source: ABdhPJwQ1MfqMezDzyYN6flaP1oUVNhbKV5SAQtjkHL/sCS0mLR3h5Oop4oSXlDiXLkMazMD6k/YlX/23dIk6vRBrc4=
+X-Received: by 2002:ac8:7dc2:: with SMTP id c2mr31051805qte.341.1618330597841; 
+ Tue, 13 Apr 2021 09:16:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210412154648.3719153-2-narmstrong@baylibre.com>
+References: <20210413135248.1266-1-christian.koenig@amd.com>
+ <20210413135248.1266-2-christian.koenig@amd.com>
+In-Reply-To: <20210413135248.1266-2-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 13 Apr 2021 17:16:11 +0100
+Message-ID: <CAM0jSHP4bHrT2ybmeFMqCc0P5qSXeUC271tyegFVCT+aceWSJw@mail.gmail.com>
+Subject: Re: [PATCH 2/7] drm/amdgpu: check base size instead of mem.num_pages
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,179 +62,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, robert.foss@linaro.org, paul@crapouillou.net,
- a.hajda@samsung.com, dri-devel@lists.freedesktop.org,
- Phong LE <ple@baylibre.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
-
-Thank you for the patch.
-
-On Mon, Apr 12, 2021 at 05:46:46PM +0200, Neil Armstrong wrote:
-> From: Phong LE <ple@baylibre.com>
-> 
-> Add the ITE bridge HDMI it66121 bindings.
-> 
-> Signed-off-by: Phong LE <ple@baylibre.com>
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->  .../bindings/display/bridge/ite,it66121.yaml  | 123 ++++++++++++++++++
->  1 file changed, 123 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> new file mode 100644
-> index 000000000000..61ed6dc7740b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> @@ -0,0 +1,123 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/ite,it66121.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ITE it66121 HDMI bridge Device Tree Bindings
-> +
-> +maintainers:
-> +  - Phong LE <ple@baylibre.com>
-> +  - Neil Armstrong <narmstrong@baylibre.com>
-> +
-> +description: |
-> +  The IT66121 is a high-performance and low-power single channel HDMI
-> +  transmitter, fully compliant with HDMI 1.3a, HDCP 1.2 and backward compatible
-> +  to DVI 1.0 specifications.
-> +
-> +properties:
-> +  compatible:
-> +    const: ite,it66121
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: base I2C address of the device
-
-You can drop the description.
-
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: GPIO connected to active low reset
-> +
-> +  vrf12-supply:
-> +    description: Regulator for 1.2V analog core power.
-> +
-> +  vcn33-supply:
-> +    description: Regulator for 3.3V digital core power.
-> +
-> +  vcn18-supply:
-> +    description: Regulator for 1.8V IO core power.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: DPI input port.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              bus-width:
-> +                description:
-> +                  Endpoint bus width.
-> +                enum:
-> +                  - 12  # 12 data lines connected and dual-edge mode
-> +                  - 24  # 24 data lines connected and single-edge mode
-> +                default: 24
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: HDMI Connector port.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reset-gpios
-> +  - vrf12-supply
-> +  - vcn33-supply
-> +  - vcn18-supply
-> +  - interrupts
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-
-It's customary to indent DT examples with 4 spaces.
-
-> +
-> +      it66121hdmitx: it66121hdmitx@4c {
-> +        compatible = "ite,it66121";
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&ite_pins_default>;
-> +        vcn33-supply = <&mt6358_vcn33_wifi_reg>;
-> +        vcn18-supply = <&mt6358_vcn18_reg>;
-> +        vrf12-supply = <&mt6358_vrf12_reg>;
-> +        reset-gpios = <&pio 160 1 /* GPIO_ACTIVE_LOW */>;
-
-You can #include the necessary headers at the top of the example, and
-use GPIO_ACTIVE_LOW and IRQ_TYPE_LEVEL_LOW to replace the numerical
-values.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +        interrupt-parent = <&pio>;
-> +        interrupts = <4 8 /* IRQ_TYPE_LEVEL_LOW */>;
-> +        reg = <0x4c>;
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@0 {
-> +            reg = <0>;
-> +            it66121_in: endpoint {
-> +              bus-width = <12>;
-> +              remote-endpoint = <&display_out>;
-> +            };
-> +          };
-> +
-> +          port@1 {
-> +            reg = <1>;
-> +            hdmi_conn_out: endpoint {
-> +              remote-endpoint = <&hdmi_conn_in>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAxMyBBcHIgMjAyMSBhdCAxNDo1MiwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
+ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gRHJvcCBzb21lIHVzc2FnZSBvZiBt
+ZW0gaW4gdGhlIGNvZGUuCgp1c2FnZQoKPgo+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7Zu
+aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KUmV2aWV3ZWQtYnk6IE1hdHRoZXcgQXVsZCA8
+bWF0dGhldy5hdWxkQGludGVsLmNvbT4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
