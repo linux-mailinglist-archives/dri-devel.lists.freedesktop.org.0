@@ -2,25 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B9835E5FB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 20:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1560F35E68B
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 20:37:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 529876E857;
-	Tue, 13 Apr 2021 18:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D58F6E860;
+	Tue, 13 Apr 2021 18:37:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA2786E857
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 18:09:33 +0000 (UTC)
-Date: Tue, 13 Apr 2021 19:09:17 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3 1/3] dt-bindings: display: bridge: add it66121 bindings
-To: Neil Armstrong <narmstrong@baylibre.com>
-Message-Id: <H3LIRQ.7IT4EUNNTEBX1@crapouillou.net>
-In-Reply-To: <20210412154648.3719153-2-narmstrong@baylibre.com>
-References: <20210412154648.3719153-1-narmstrong@baylibre.com>
- <20210412154648.3719153-2-narmstrong@baylibre.com>
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
+ [IPv6:2607:f8b0:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBD826E860
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 18:37:40 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id k25so17979756oic.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 11:37:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9l7MhNlE9zmt6nhNqqiUgq+wfQLEas5zTZd2Qi3n29c=;
+ b=QOsR2qML+66/IL/2QygasVpniZsHI8EFVaq3gMigiAz1z0nR9iUZDxl2m8vc9Uas8t
+ UbUicdnCbJI38veDYp8o7bnzx7trAahcwjmWnNJVBr58E7Z3wG0AFiuOOdaOa/bhmAPM
+ UC7Pc5mHm/MRYrAatiU0fjhGoaF6Ez1LMNg6k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9l7MhNlE9zmt6nhNqqiUgq+wfQLEas5zTZd2Qi3n29c=;
+ b=YcQbbrUwbyKOzMwsQemYvy1gbVbSiYpG2px8avCFQzCGzXihz9BQBanJ8KQJnBJqLl
+ EjCs0weUcTE5DsWCjpSu97nNB7F1XG6CwLtM5/k/rdOyetIkR2bGDSNvQ+0if/z1x+4h
+ J3c18JM1MOVabO13epaLb/oERT8vf56+pxjuS30QobscUEOq4wG84/wGxZZh9e+Xq4BF
+ lhr8DdXoeGK4jQWXTDPKBTDSPqkmLEUenFnctJWwGpX8lKqAF0wbnTt93L+mcpbZQTzd
+ VU0UeiLuXpxt+Gw4ZJU4AQU8KAzWAUVMuKf/wktbafkZNAOUoAejxMtFSMIjpZBPif78
+ WV/w==
+X-Gm-Message-State: AOAM530Atp7M3ffUZJFRrsRuyGg0g4sb8gB/ak7doVCF8RbBDat2tLZK
+ mhBkSrMR9abPR5NBeK3d/8FEJEJU8hYjC22AWdZqWA==
+X-Google-Smtp-Source: ABdhPJzt3kTr/mnJ3swKnUlL5iVJ4GtE2T/oWlZHUL1YEPuogvLtGB1kNXErK0jci66Ehs3+KW5l0HK9ayVogLDiydM=
+X-Received: by 2002:aca:4188:: with SMTP id o130mr964224oia.101.1618339060149; 
+ Tue, 13 Apr 2021 11:37:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210413170508.968148-1-kai.heng.feng@canonical.com>
+ <CADnq5_P7_7jOZWTo+KCj3jOpmyDPN8eH3jNTgg3xLC4V9QM7kQ@mail.gmail.com>
+In-Reply-To: <CADnq5_P7_7jOZWTo+KCj3jOpmyDPN8eH3jNTgg3xLC4V9QM7kQ@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 13 Apr 2021 20:37:29 +0200
+Message-ID: <CAKMK7uHR0VDk=C+u1d5qiiqQP+3ad5_gXQwvmPbJ56mG=3RjpQ@mail.gmail.com>
+Subject: Re: [PATCH] efifb: Check efifb_pci_dev before using it
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -33,191 +58,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, Phong LE <ple@baylibre.com>, a.hajda@samsung.com,
- Laurent.pinchart@ideasonboard.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ pjones@redhat.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+On Tue, Apr 13, 2021 at 8:02 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Tue, Apr 13, 2021 at 1:05 PM Kai-Heng Feng
+> <kai.heng.feng@canonical.com> wrote:
+> >
+> > On some platforms like Hyper-V and RPi4 with UEFI firmware, efifb is not
+> > a PCI device.
+> >
+> > So make sure efifb_pci_dev is found before using it.
+> >
+> > Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
+> > BugLink: https://bugs.launchpad.net/bugs/1922403
+> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-Le lun. 12 avril 2021 =E0 17:46, Neil Armstrong =
+fbdev is in drm-misc, so maybe you can push this one too?
+-Daniel
 
-<narmstrong@baylibre.com> a =E9crit :
-> From: Phong LE <ple@baylibre.com>
-> =
-
-> Add the ITE bridge HDMI it66121 bindings.
-> =
-
-> Signed-off-by: Phong LE <ple@baylibre.com>
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->  .../bindings/display/bridge/ite,it66121.yaml  | 123 =
-
-> ++++++++++++++++++
->  1 file changed, 123 insertions(+)
->  create mode 100644 =
-
-> Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> =
-
-> diff --git =
-
-> a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml =
-
-> b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> new file mode 100644
-> index 000000000000..61ed6dc7740b
-> --- /dev/null
-> +++ =
-
-> b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> @@ -0,0 +1,123 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/ite,it66121.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ITE it66121 HDMI bridge Device Tree Bindings
-> +
-> +maintainers:
-> +  - Phong LE <ple@baylibre.com>
-> +  - Neil Armstrong <narmstrong@baylibre.com>
-> +
-> +description: |
-> +  The IT66121 is a high-performance and low-power single channel HDMI
-> +  transmitter, fully compliant with HDMI 1.3a, HDCP 1.2 and backward =
-
-> compatible
-> +  to DVI 1.0 specifications.
-> +
-> +properties:
-> +  compatible:
-> +    const: ite,it66121
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: base I2C address of the device
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: GPIO connected to active low reset
-> +
-> +  vrf12-supply:
-> +    description: Regulator for 1.2V analog core power.
-> +
-> +  vcn33-supply:
-> +    description: Regulator for 3.3V digital core power.
-> +
-> +  vcn18-supply:
-> +    description: Regulator for 1.8V IO core power.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: DPI input port.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              bus-width:
-> +                description:
-> +                  Endpoint bus width.
-> +                enum:
-> +                  - 12  # 12 data lines connected and dual-edge mode
-> +                  - 24  # 24 data lines connected and single-edge =
-
-> mode
-> +                default: 24
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: HDMI Connector port.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-
-Should port@1 really be required? Since the chip itself handles the =
-
-hotplug detection and stuff like DCC, I'm not sure what to connect here.
-
-Cheers,
--Paul
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reset-gpios
-> +  - vrf12-supply
-> +  - vcn33-supply
-> +  - vcn18-supply
-> +  - interrupts
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells =3D <1>;
-> +      #size-cells =3D <0>;
-> +
-> +      it66121hdmitx: it66121hdmitx@4c {
-> +        compatible =3D "ite,it66121";
-> +        pinctrl-names =3D "default";
-> +        pinctrl-0 =3D <&ite_pins_default>;
-> +        vcn33-supply =3D <&mt6358_vcn33_wifi_reg>;
-> +        vcn18-supply =3D <&mt6358_vcn18_reg>;
-> +        vrf12-supply =3D <&mt6358_vrf12_reg>;
-> +        reset-gpios =3D <&pio 160 1 /* GPIO_ACTIVE_LOW */>;
-> +        interrupt-parent =3D <&pio>;
-> +        interrupts =3D <4 8 /* IRQ_TYPE_LEVEL_LOW */>;
-> +        reg =3D <0x4c>;
-> +
-> +        ports {
-> +          #address-cells =3D <1>;
-> +          #size-cells =3D <0>;
-> +
-> +          port@0 {
-> +            reg =3D <0>;
-> +            it66121_in: endpoint {
-> +              bus-width =3D <12>;
-> +              remote-endpoint =3D <&display_out>;
-> +            };
-> +          };
-> +
-> +          port@1 {
-> +            reg =3D <1>;
-> +            hdmi_conn_out: endpoint {
-> +              remote-endpoint =3D <&hdmi_conn_in>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> --
-> 2.25.1
-> =
+>
+> > ---
+> >  drivers/video/fbdev/efifb.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+> > index f58a545b3bf3..8ea8f079cde2 100644
+> > --- a/drivers/video/fbdev/efifb.c
+> > +++ b/drivers/video/fbdev/efifb.c
+> > @@ -575,7 +575,8 @@ static int efifb_probe(struct platform_device *dev)
+> >                 goto err_fb_dealoc;
+> >         }
+> >         fb_info(info, "%s frame buffer device\n", info->fix.id);
+> > -       pm_runtime_get_sync(&efifb_pci_dev->dev);
+> > +       if (efifb_pci_dev)
+> > +               pm_runtime_get_sync(&efifb_pci_dev->dev);
+> >         return 0;
+> >
+> >  err_fb_dealoc:
+> > @@ -602,7 +603,8 @@ static int efifb_remove(struct platform_device *pdev)
+> >         unregister_framebuffer(info);
+> >         sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
+> >         framebuffer_release(info);
+> > -       pm_runtime_put(&efifb_pci_dev->dev);
+> > +       if (efifb_pci_dev)
+> > +               pm_runtime_put(&efifb_pci_dev->dev);
+> >
+> >         return 0;
+> >  }
+> > --
+> > 2.30.2
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
