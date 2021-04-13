@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D91835DBBB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 11:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA81835DBBC
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 11:49:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F6B46E29D;
-	Tue, 13 Apr 2021 09:49:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DACD96E3D3;
+	Tue, 13 Apr 2021 09:49:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8021C6E364
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 09:49:22 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id 12so15789491wrz.7
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 02:49:22 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA14F6E3D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 09:49:44 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id h4so6745465wrt.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 02:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PiiBhY9l8GKVCHiW/Kzeba4BFyvQWM5s+Px74+Kqx6A=;
- b=llN2ucEjXJPUe4ZoAX17ktZ1YyurbLL/c0YqE9jn4iBN3q9F5cUnSZN/7ZLgKEbxLx
- CbudF5LuDy5CwudQYKx+lPqYUzZHFvj588qMiLrZ2NcEtjqvY56L17bKbtDGvLmhG51U
- rxtaKWwicxSu5dA4ocv9q/Xkv1l2a5LV0ZcfU=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K0Wz4wS6e0aG0cvyt2mlje2DcLt3LX0aNr+PuIP3yAo=;
+ b=VDHCqI39fbJhMeJM40wNJA8oXtVOGPIIxoeXUvLsl5G5sOOsnZlDAAK96YK1sn02IL
+ kTSkpEsiLF721ronw4jBAQm0gcNbtEIMElO/fuQO1rnZqp+7EUDFiggVCqlibjyNwfAk
+ kLgOMCS2gAJC/sYwflGznj3J6jViuWafmq2pw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PiiBhY9l8GKVCHiW/Kzeba4BFyvQWM5s+Px74+Kqx6A=;
- b=rOvS8Fb3aCqjt+DC+9QdvxUu1B11vH8jnNxOMBW8zR4wDi2NM7hctPXVkzNqUXMDqo
- eyswZRYJpgph8wm5Zqc2kIACzShG2H0wKXlKjiG7hH9S1GK34Lkqd1qZ3rbEnYE2DxiR
- oBS0BGUEY1D46VeGuUuRpvqgc3FqSqcPOAdDv5QJbgIvf4U5cFd3zR9NqN9fTZtr75YG
- FaNrSIk9I0k+gZAcmoOmRbqO7Zto+8A+beW+1EJxtX0fmIllNl1Uhra19AL5X+gUzz7d
- 0C9Tzg2fCXWzOBPTFj3w3ukFLzLTA3KlyS8U0ARokqN3GDAu2U5S1FURWj2jjXNXROmx
- xG2w==
-X-Gm-Message-State: AOAM531syzcaoMEp8uN3OTX29ak3KaZYsbc+in5PPH0rozsjAh16SlLx
- S9yeHMj/vEACJmYXoOXr/nymQXA1FtHsOQ==
-X-Google-Smtp-Source: ABdhPJzcqLtvsl0DlNnPadf6TrwC7Ar9NPXpLD8Id0MOGDIYXiRA5M4nH4wcTPhyJc/28N8y85F4ig==
-X-Received: by 2002:a5d:6682:: with SMTP id l2mr11515451wru.306.1618307361262; 
- Tue, 13 Apr 2021 02:49:21 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K0Wz4wS6e0aG0cvyt2mlje2DcLt3LX0aNr+PuIP3yAo=;
+ b=tE9CUYda3SOvUoljratwvo6uI0Rq+7Tmt5NFigHCT45SUwwDYlzS9+tCNfTatDvI35
+ kwFjyCjPS5X0TYOy9GHfymKtbTviqhXtIH9DChr1NCTaT0Yt+llWaLemq+l1V0dUtcfW
+ Pc8xRnw6Yc8iXKXoK44V3swTowTzzeaUK2ZOIX3p/4zrpwnnKpkvdkiugga1XI8jwuyu
+ fLw12JrnC2bei9JP8kdl0cpPXqROiZHLnGh7wszVw6EfRTVCmaqAFJIsO/gqmmTHFmnX
+ pHE9VI1r8wmH/6qSbxcUzq950Nvh3gWxpJTeHyWzfX8QFmBTM+rgQ38NRiZXmwHEVwQ7
+ Yd3A==
+X-Gm-Message-State: AOAM531w23ULn3mqm3Pgc+4aBQr+vFQGXm8+RI5RYnNxzQOM7ZTFfa3l
+ lm+EqbgybXCBDOj0TpfRa/qJQlQJvt9ajQ==
+X-Google-Smtp-Source: ABdhPJy08kynhMrxZ4xKGPt8RloTLXu41rqTu0VZP+7WUKfkm5rGSC+Gwa/9CsBzIcyoI8A04EkNkQ==
+X-Received: by 2002:adf:fe4f:: with SMTP id m15mr25789730wrs.67.1618307383685; 
+ Tue, 13 Apr 2021 02:49:43 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 64sm1956458wmz.7.2021.04.13.02.49.20
+ by smtp.gmail.com with ESMTPSA id x15sm1945964wmi.41.2021.04.13.02.49.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Apr 2021 02:49:20 -0700 (PDT)
+ Tue, 13 Apr 2021 02:49:43 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 12/12] drm/modifiers: Enforce consistency between the cap an
- IN_FORMATS
-Date: Tue, 13 Apr 2021 11:49:03 +0200
-Message-Id: <20210413094904.3736372-12-daniel.vetter@ffwll.ch>
+Subject: [PATCH 1/3] dma-buf: Require VM_PFNMAP vma for mmap
+Date: Tue, 13 Apr 2021 11:49:35 +0200
+Message-Id: <20210413094937.3736541-1-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210413094904.3736372-1-daniel.vetter@ffwll.ch>
-References: <20210413094904.3736372-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,97 +61,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Matthew Wilcox <willy@infradead.org>, linaro-mm-sig@lists.linaro.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's very confusing for userspace to have to deal with inconsistencies
-here, and some drivers screwed this up a bit. Most just ommitted the
-format list when they meant to say that only linear modifier is
-allowed, but some also meant that only implied modifiers are
-acceptable (because actually none of the planes registered supported
-modifiers).
-
-Now that this is all done consistently across all drivers, document
-the rules and enforce it in the drm core.
-
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
- drivers/gpu/drm/drm_plane.c   | 16 +++++++++++++++-
- include/drm/drm_mode_config.h |  2 ++
- 2 files changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 0dd43882fe7c..16a7e3e57f7f 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -128,6 +128,11 @@
-  *     pairs supported by this plane. The blob is a struct
-  *     drm_format_modifier_blob. Without this property the plane doesn't
-  *     support buffers with modifiers. Userspace cannot change this property.
-+ *
-+ *     Note that userspace can check the DRM_CAP_ADDFB2_MODIFIERS driver
-+ *     capability for general modifier support. If this flag is set then every
-+ *     plane will have the IN_FORMATS property, even when it only supports
-+ *     DRM_FORMAT_MOD_LINEAR.
-  */
- 
- static unsigned int drm_num_planes(struct drm_device *dev)
-@@ -277,8 +282,14 @@ static int __drm_universal_plane_init(struct drm_device *dev,
- 			format_modifier_count++;
- 	}
- 
--	if (format_modifier_count)
-+	/* autoset the cap and check for consistency across all planes */
-+	if (format_modifier_count) {
-+		WARN_ON(!config->allow_fb_modifiers &&
-+			!list_empty(&config->plane_list));
- 		config->allow_fb_modifiers = true;
-+	} else {
-+		WARN_ON(config->allow_fb_modifiers);
-+	}
- 
- 	plane->modifier_count = format_modifier_count;
- 	plane->modifiers = kmalloc_array(format_modifier_count,
-@@ -360,6 +371,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
-  * drm_universal_plane_init() to let the DRM managed resource infrastructure
-  * take care of cleanup and deallocation.
-  *
-+ * Drivers supporting modifiers must set @format_modifiers on all their planes,
-+ * even those that only support DRM_FORMAT_MOD_LINEAR.
-+ *
-  * Returns:
-  * Zero on success, error code on failure.
-  */
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index ab424ddd7665..1ddf7783fdf7 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -909,6 +909,8 @@ struct drm_mode_config {
- 	 * @allow_fb_modifiers:
- 	 *
- 	 * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
-+	 * Note that drivers should not set this directly, it is automatically
-+	 * set in drm_universal_plane_init().
- 	 *
- 	 * IMPORTANT:
- 	 *
--- 
-2.31.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+dGxkcjsgRE1BIGJ1ZmZlcnMgYXJlbid0IG5vcm1hbCBtZW1vcnksIGV4cGVjdGluZyB0aGF0IHlv
+dSBjYW4gdXNlCnRoZW0gbGlrZSB0aGF0IChsaWtlIGNhbGxpbmcgZ2V0X3VzZXJfcGFnZXMgd29y
+a3MsIG9yIHRoYXQgdGhleSdyZQphY2NvdW50aW5nIGxpa2UgYW55IG90aGVyIG5vcm1hbCBtZW1v
+cnkpIGNhbm5vdCBiZSBndWFyYW50ZWVkLgoKU2luY2Ugc29tZSB1c2Vyc3BhY2Ugb25seSBydW5z
+IG9uIGludGVncmF0ZWQgZGV2aWNlcywgd2hlcmUgYWxsCmJ1ZmZlcnMgYXJlIGFjdHVhbGx5IGFs
+bCByZXNpZGVudCBzeXN0ZW0gbWVtb3J5LCB0aGVyZSdzIGEgaHVnZQp0ZW1wdGF0aW9uIHRvIGFz
+c3VtZSB0aGF0IGEgc3RydWN0IHBhZ2UgaXMgYWx3YXlzIHByZXNlbnQgYW5kIHVzZWFibGUKbGlr
+ZSBmb3IgYW55IG1vcmUgcGFnZWNhY2hlIGJhY2tlZCBtbWFwLiBUaGlzIGhhcyB0aGUgcG90ZW50
+aWFsIHRvCnJlc3VsdCBpbiBhIHVhcGkgbmlnaHRtYXJlLgoKVG8gc3RvcCB0aGlzIGdhcCByZXF1
+aXJlIHRoYXQgRE1BIGJ1ZmZlciBtbWFwcyBhcmUgVk1fUEZOTUFQLCB3aGljaApibG9ja3MgZ2V0
+X3VzZXJfcGFnZXMgYW5kIGFsbCB0aGUgb3RoZXIgc3RydWN0IHBhZ2UgYmFzZWQKaW5mcmFzdHJ1
+Y3R1cmUgZm9yIGV2ZXJ5b25lLiBJbiBzcGlyaXQgdGhpcyBpcyB0aGUgdWFwaSBjb3VudGVycGFy
+dCB0bwp0aGUga2VybmVsLWludGVybmFsIENPTkZJR19ETUFCVUZfREVCVUcuCgpNb3RpdmF0ZWQg
+YnkgYSByZWNlbnQgcGF0Y2ggd2hpY2ggd2FudGVkIHRvIHN3aWNoIHRoZSBzeXN0ZW0gZG1hLWJ1
+ZgpoZWFwIHRvIHZtX2luc2VydF9wYWdlIGluc3RlYWQgb2Ygdm1faW5zZXJ0X3Bmbi4KCnYyOgoK
+SmFzb24gYnJvdWdodCB1cCB0aGF0IHdlIGFsc28gd2FudCB0byBndWFyYW50ZWUgdGhhdCBhbGwg
+cHRlcyBoYXZlIHRoZQpwdGVfc3BlY2lhbCBmbGFnIHNldCwgdG8gY2F0Y2ggZmFzdCBnZXRfdXNl
+cl9wYWdlcyAob24gYXJjaGl0ZWN0dXJlcwp0aGF0IHN1cHBvcnQgdGhpcykuIEFsbG93aW5nIFZN
+X01JWEVETUFQIChsaWtlIFZNX1NQRUNJQUwgZG9lcykgd291bGQKc3RpbGwgYWxsb3cgdm1faW5z
+ZXJ0X3BhZ2UsIGJ1dCBsaW1pdGluZyB0byBWTV9QRk5NQVAgd2lsbCBjYXRjaCB0aGF0LgoKRnJv
+bSBhdWRpdGluZyB0aGUgdmFyaW91cyBmdW5jdGlvbnMgdG8gaW5zZXJ0IHBmbiBwdGUgZW50aXJl
+cwoodm1faW5zZXJ0X3Bmbl9wcm90LCByZW1hcF9wZm5fcmFuZ2UgYW5kIGFsbCBpdCdzIGNhbGxl
+cnMgbGlrZQpkbWFfbW1hcF93YykgaXQgbG9va3MgbGlrZSBWTV9QRk5NQVAgaXMgYWxyZWFkeSBy
+ZXF1aXJlZCBhbnl3YXksIHNvCnRoaXMgc2hvdWxkIGJlIHRoZSBjb3JyZWN0IGZsYWcgdG8gY2hl
+Y2sgZm9yLgoKUmVmZXJlbmNlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC9DQUtNSzd1
+SGkrbUcwejBIVW1OdDEzUUNDdnV0dVJWanBjUjBOalJMMTJrLVdiV3prUmdAbWFpbC5nbWFpbC5j
+b20vCkFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
+CkNjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5jYT4KQ2M6IFN1cmVuIEJhZ2hkYXNhcnlh
+biA8c3VyZW5iQGdvb2dsZS5jb20+CkNjOiBNYXR0aGV3IFdpbGNveCA8d2lsbHlAaW5mcmFkZWFk
+Lm9yZz4KQ2M6IEpvaG4gU3R1bHR6IDxqb2huLnN0dWx0ekBsaW5hcm8ub3JnPgpTaWduZWQtb2Zm
+LWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6IFN1bWl0IFNl
+bXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+CkNjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNo
+cmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpD
+YzogbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnCi0tLQogZHJpdmVycy9kbWEtYnVmL2Rt
+YS1idWYuYyB8IDE1ICsrKysrKysrKysrKystLQogMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlv
+bnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1i
+dWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMKaW5kZXggZjI2NGI3MGMzODNlLi4wNmNi
+MWQyZTlmZGMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMKKysrIGIvZHJp
+dmVycy9kbWEtYnVmL2RtYS1idWYuYwpAQCAtMTI3LDYgKzEyNyw3IEBAIHN0YXRpYyBzdHJ1Y3Qg
+ZmlsZV9zeXN0ZW1fdHlwZSBkbWFfYnVmX2ZzX3R5cGUgPSB7CiBzdGF0aWMgaW50IGRtYV9idWZf
+bW1hcF9pbnRlcm5hbChzdHJ1Y3QgZmlsZSAqZmlsZSwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2
+bWEpCiB7CiAJc3RydWN0IGRtYV9idWYgKmRtYWJ1ZjsKKwlpbnQgcmV0OwogCiAJaWYgKCFpc19k
+bWFfYnVmX2ZpbGUoZmlsZSkpCiAJCXJldHVybiAtRUlOVkFMOwpAQCAtMTQyLDcgKzE0MywxMSBA
+QCBzdGF0aWMgaW50IGRtYV9idWZfbW1hcF9pbnRlcm5hbChzdHJ1Y3QgZmlsZSAqZmlsZSwgc3Ry
+dWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpCiAJICAgIGRtYWJ1Zi0+c2l6ZSA+PiBQQUdFX1NISUZU
+KQogCQlyZXR1cm4gLUVJTlZBTDsKIAotCXJldHVybiBkbWFidWYtPm9wcy0+bW1hcChkbWFidWYs
+IHZtYSk7CisJcmV0ID0gZG1hYnVmLT5vcHMtPm1tYXAoZG1hYnVmLCB2bWEpOworCisJV0FSTl9P
+TighKHZtYS0+dm1fZmxhZ3MgJiBWTV9QRk5NQVApKTsKKworCXJldHVybiByZXQ7CiB9CiAKIHN0
+YXRpYyBsb2ZmX3QgZG1hX2J1Zl9sbHNlZWsoc3RydWN0IGZpbGUgKmZpbGUsIGxvZmZfdCBvZmZz
+ZXQsIGludCB3aGVuY2UpCkBAIC0xMjQ0LDYgKzEyNDksOCBAQCBFWFBPUlRfU1lNQk9MX0dQTChk
+bWFfYnVmX2VuZF9jcHVfYWNjZXNzKTsKIGludCBkbWFfYnVmX21tYXAoc3RydWN0IGRtYV9idWYg
+KmRtYWJ1Ziwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCiAJCSB1bnNpZ25lZCBsb25nIHBn
+b2ZmKQogeworCWludCByZXQ7CisKIAlpZiAoV0FSTl9PTighZG1hYnVmIHx8ICF2bWEpKQogCQly
+ZXR1cm4gLUVJTlZBTDsKIApAQCAtMTI2NCw3ICsxMjcxLDExIEBAIGludCBkbWFfYnVmX21tYXAo
+c3RydWN0IGRtYV9idWYgKmRtYWJ1Ziwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCiAJdm1h
+X3NldF9maWxlKHZtYSwgZG1hYnVmLT5maWxlKTsKIAl2bWEtPnZtX3Bnb2ZmID0gcGdvZmY7CiAK
+LQlyZXR1cm4gZG1hYnVmLT5vcHMtPm1tYXAoZG1hYnVmLCB2bWEpOworCXJldCA9IGRtYWJ1Zi0+
+b3BzLT5tbWFwKGRtYWJ1Ziwgdm1hKTsKKworCVdBUk5fT04oISh2bWEtPnZtX2ZsYWdzICYgVk1f
+UEZOTUFQKSk7CisKKwlyZXR1cm4gcmV0OwogfQogRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9t
+bWFwKTsKIAotLSAKMi4zMS4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
