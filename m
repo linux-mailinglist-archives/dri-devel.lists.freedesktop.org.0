@@ -1,70 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3390535E1F4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 16:54:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D0E35E1F5
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 16:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA5E6E51C;
-	Tue, 13 Apr 2021 14:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 132776E526;
+	Tue, 13 Apr 2021 14:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CABD6E51C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0D16E526
  for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 14:54:50 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 79F6D1640;
- Tue, 13 Apr 2021 10:54:46 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Tue, 13 Apr 2021 10:54:47 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id A48B22D5;
+ Tue, 13 Apr 2021 10:54:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 13 Apr 2021 10:54:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm2; bh=WE7RC/NDvgPNNim5GUlDTAtwqs
- 8TgEBSeBdKCi0LpJw=; b=XcQE46NFf46UBKaAw3R43TENCq/VQK0o90AxNkcgOk
- Zx11iiomcLZXPZ+evYs9qxlkfrF2S737M+8WM3WeODBUOHxbC1JrWh9zNIL+FCcz
- i7nXo5Hah80aWkd/VYmDmG9v7lYvjfbkFnUiW93nB/TTXy/CwokOmlhAcmaqMqGn
- zFteguFbCYlt36Q3gKiYxZPzEF0C6fCq9Y4tR0zTfcGkktotR7p6lFe5LY3uxY/P
- WD87MfKqXHTLOgRJ5ULaMX2QzB4uGKwGtArZPujW/sctyuoIoIrVRpZJ+kssBZDP
- CRXVoVsfKvydJgEW7u9C/D//Djuah75Z+G2NnnjSvpxQ==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=WTTxhz7TT0y6m
+ FK14ROq7Hd8G4QJsosdSX03P/4q+SQ=; b=W1f+iG5AQRFA7Rqci6l/PLRA3pk/j
+ 3ii7OB73GBXFjrjnd5SVrIAQtDcJqASqW/3lX7lQQS3oFBKUk1jWYmJxIYlmpUE8
+ o3O05Hwj2IcMqD8tmQNqOrE8GqSfLOGMGwDgnmS73yTftsP35bLr9XZPsRS8DMby
+ VJNXDsKPTkeiGpWRWENkI0kpCjEgvHl9lQkcBUxAKMUtgSC8jecoVWOG0wJvYj45
+ xPQcbpVeRK+auS3VK1F43sae6UGbt2jP76cheV6JaKXVAFq5BtMMks84oZNcmDMx
+ oJI39MhIOZ0u/qZf84UJzkOtxmNNdREh+Mzhh8ck6ukCcgp9bkm/R16qg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=WE7RC/
- NDvgPNNim5GUlDTAtwqs8TgEBSeBdKCi0LpJw=; b=Z1I34787BtAW3sClguacEb
- avafAiW/ycDqS5ng8ylahgTwkjkDhSOcCjS3qppJvPU0i09UoDwkiaDRoA7MfqGe
- ythvOZpCXP2jdcql4TZNaxhw6UxapPMCzujZugv85bzyIx3irDYbN5w4WOFxCUCH
- LyHqZoTcbpc1aFH7eeWdyQArxgHKdCLWl76GIaJuy7lDS1HUyGUi2POwaC9Qrtfp
- nNufJp/GMowz2DSJ5aPKGFqlrSBHjnMIv+4a4uqeRXb0MIZZdw1aWP5olo82rsoN
- 9/RsXWRhAlXpai5CLxsCTRS4FvEz+waJNJfApvZR0pDzLNTZ/hn762P7OisG7dog
- ==
-X-ME-Sender: <xms:tLB1YOcZP-Bc2Lj1ZIbO00V02UnK9KiwtoLVTReeFiaiVKyiZGfQwA>
- <xme:tLB1YFn61_IntEt4uUhHk3ZRtaLIke3lV4ch4gYOBhZLNDAGNDqxjvhwWQO_TAOcZ
- A5c1TkAHJUWf186zwQ>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=WTTxhz7TT0y6mFK14ROq7Hd8G4QJsosdSX03P/4q+SQ=; b=Ei1JX/Bf
+ bStkwigCilkmw9rKo2AuX748DFFs+lyM7RaFM3RY+NlXOhpc5RQpG1FcCqaUbJl5
+ uaDiR+sBI9gnDFe2jB8HUSd6vDwqWyt4/kQSN2LY8xm7rddefhSnrs0KC+HYICto
+ e1uYEBhoLPwT6gEvIZ2reIqw7r75imKq/ajYtS0VGNxfnkDcV+ojuuW1pNvhtYMQ
+ 03AqR5sa45CZmytS2ZB1JKrDXPcCnjM6xF5Q388JmDGNTqRRCKOFWxDJ+f5lBdwF
+ dr1FmCCprXKQv3diYtiz/RSz7n/b7w9HWO5TDs4rhBJFaM8zoqgavOgoaaGdLdPv
+ 7n+x+zoXN1AIfg==
+X-ME-Sender: <xms:trB1YABDtPii95SlqoDpHTupGQ-6Evqtq7XrnxgksU1ssvaFfGXerw>
+ <xme:trB1YCij6OSPhTest40MM2KjyQ10mH_0KSvHhMtUZeX-C1IKx6rrLAutzy_7GkvZz
+ i19q2R1bRPJxv30njs>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudekledgkedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
- feenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:tLB1YJCeXyvsr3c62ME-_caIiZFeo-3kmbBph-Xfm-RJBR__xtVyrg>
- <xmx:tLB1YHOlZvaiAQQuxgor-XyAnUzqzpBe_GYU5tGp27iPuaxXZZsSnQ>
- <xmx:tLB1YANK1sTMy1v8frH5ACGzDGqbkhvbyccnrUMBXXHRjUPmyGe9fA>
- <xmx:trB1YOy7g911_QFf_ZToDw6J10oIq6tzRRn3KgWAKY0gbzt6Gf2MvE9FqpM>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:trB1YDnA44nMK_RqC2IrBe_Z5KW4W3UP97EvxafbIvE3rneErChuQQ>
+ <xmx:trB1YGx6Gzytfwbemj3L0so0uwuaTQwH_onNZwkZ2T2wx4eHw5fxjw>
+ <xmx:trB1YFTsgwfOYnLL868QF7O05h5UguThCoOlTc_gbKqqfsyTv1iTPA>
+ <xmx:t7B1YKI7zhaJQRWxOVPUxUu_uVNB8LitRbgCIZpItAnsG4Hut4Qk1maQ1CE>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id BC2DE1080064;
- Tue, 13 Apr 2021 10:54:43 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id DB31F24005E;
+ Tue, 13 Apr 2021 10:54:45 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v3 0/9] drm/vc4: hdmi: Support the 4k @ 60Hz modes
-Date: Tue, 13 Apr 2021 16:54:32 +0200
-Message-Id: <20210413145441.483977-1-maxime@cerno.tech>
+Subject: [PATCH v3 1/9] drm/vc4: txp: Properly set the possible_crtcs mask
+Date: Tue, 13 Apr 2021 16:54:33 +0200
+Message-Id: <20210413145441.483977-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210413145441.483977-1-maxime@cerno.tech>
+References: <20210413145441.483977-1-maxime@cerno.tech>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,79 +82,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Daniel Vetter <daniel.vetter@intel.com>,
- Phil Elwell <phil@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, stable@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The current code does a binary OR on the possible_crtcs variable of the
+TXP encoder, while we want to set it to that value instead.
 
-Here is a series that enables the higher resolutions on the HDMI0 Controller
-found in the BCM2711 (RPi4).
-
-In order to work it needs a few adjustments to config.txt, most notably to
-enable the enable_hdmi_4kp60 option.
-
-The firmware also has a glitch at the moment and will not properly release the
-BSC controllers, which will make the EDID retrieval fail.
-
-We can work around this using the following config.txt options:
-
-disable_fw_kms_setup=1
-hdmi_edid_file:0=1
-hdmi_edid_filename:0=1366x768.bin
-hdmi_ignore_edid:0=1
-hdmi_edid_file:1=1
-hdmi_edid_filename:1=1366x768.bin
-hdmi_ignore_edid:1=1
-
-A fix will come for the firmware eventually.
-
-Let me know what you think,
-Maxime
-
+Cc: <stable@vger.kernel.org> # v5.9+
+Fixes: 39fcb2808376 ("drm/vc4: txp: Turn the TXP into a CRTC of its own")
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
+ drivers/gpu/drm/vc4/vc4_txp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes from v2:
-  - Gathered the various tags
-  - Added Cc stable when relevant
-  - Split out the check to test whether the scrambler is required into
-    an helper
-  - Fixed a bug where the scrambler state wouldn't be tracked properly
-    if it was enabled at boot
-
-Changes from v1:
-  - Dropped the range accessors
-  - Drop the mention of force_turbo
-  - Reordered the SCRAMBLER_CTL register to match the offset
-  - Removed duplicate HDMI_14_MAX_TMDS_CLK define
-  - Warn about enable_hdmi_4kp60 only if there's some modes that can't be reached
-  - Rework the BVB clock computation
-
-Maxime Ripard (9):
-  drm/vc4: txp: Properly set the possible_crtcs mask
-  drm/vc4: crtc: Skip the TXP
-  drm/vc4: Rework the encoder retrieval code
-  drm/vc4: hdmi: Prevent clock unbalance
-  drm/vc4: hvs: Make the HVS bind first
-  drm/vc4: hdmi: Properly compute the BVB clock rate
-  drm/vc4: hdmi: Check and warn if we can't reach 4kp60 frequencies
-  drm/vc4: hdmi: Enable the scrambler
-  drm/vc4: hdmi: Raise the maximum clock rate
-
- drivers/gpu/drm/vc4/vc4_crtc.c      |  28 ++++++-
- drivers/gpu/drm/vc4/vc4_drv.c       |  47 ++++++++++-
- drivers/gpu/drm/vc4/vc4_drv.h       |  10 +++
- drivers/gpu/drm/vc4/vc4_hdmi.c      | 122 ++++++++++++++++++++++++++--
- drivers/gpu/drm/vc4/vc4_hdmi.h      |   8 ++
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h |   3 +
- drivers/gpu/drm/vc4/vc4_txp.c       |   2 +-
- 7 files changed, 207 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index c0122d83b651..2fc7f4b5fa09 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -507,7 +507,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 		return ret;
+ 
+ 	encoder = &txp->connector.encoder;
+-	encoder->possible_crtcs |= drm_crtc_mask(crtc);
++	encoder->possible_crtcs = drm_crtc_mask(crtc);
+ 
+ 	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
+ 			       dev_name(dev), txp);
 -- 
 2.30.2
 
