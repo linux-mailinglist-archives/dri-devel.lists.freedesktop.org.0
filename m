@@ -1,42 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D5235E47D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 18:59:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB0A35E484
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 19:02:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F4A96E81F;
-	Tue, 13 Apr 2021 16:59:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9386E820;
+	Tue, 13 Apr 2021 17:02:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC046E81F;
- Tue, 13 Apr 2021 16:59:45 +0000 (UTC)
-IronPort-SDR: 8ZGdGym+Rj4x6VLZuKqQBgwSJTT06zyoAWV/aU4dNn1/CJovN0f2evPJh0+Xfh8/pR8IkLHTBr
- sR3lySrZl7Dg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9953"; a="181582333"
-X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; d="scan'208";a="181582333"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2021 09:59:41 -0700
-IronPort-SDR: b9JQnHmyNK9H0SxG2ldlD6mtXXg/Cwe1SH7FDueh3LgvnB1ET5V2880Yxkm6i8xK9N1XD7izze
- ToJ8S6k9gT4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; d="scan'208";a="424337626"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga008.jf.intel.com with SMTP; 13 Apr 2021 09:59:35 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 13 Apr 2021 19:59:34 +0300
-Date: Tue, 13 Apr 2021 19:59:34 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-Subject: Re: [PATCH] drm/i915: Fix "mitigations" parsing if i915 is builtin
-Message-ID: <YHXN9lqtdvisT8gn@intel.com>
-References: <20210413170240.0d4ffa38@xhacker.debian>
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADF36E820
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 17:02:25 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ il9-20020a17090b1649b0290114bcb0d6c2so11043215pjb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 10:02:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZEvaouwR6lKKsvFUe8XHeQdwyMiT3upsGjjAA793nvs=;
+ b=XCUdCrTs7PS2BCOHvUAl8I29Ib8v3H0FphqThvZBwx3NKViGWKDBWGWD/pgO443/V4
+ YagaA48DTdz+gCXgGiM2BlSeuJiRLr9HpUbz7S+5t6h6gnNOxHIPU8Wn2ZN3wF4KpPx8
+ 4B7hXBQ5I6RSCAnCnyc/kmo0I3pRj0I4AY8Iy6mEB2J+NGpFLwhMk/S3JIkcALC3C8Pj
+ fbXpVTF50wEPQbcFlijwEmjbGD5swOK+my/KO9EPgDav6lX+j0GH+VoSnwHDF+Xw8jnr
+ UIuSuW5wg37/iRhT29CuS/2berWbmZzfq/OrLVy5mD/LNUS7FmzjMtdkARKB2aRe3JoJ
+ Y/kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZEvaouwR6lKKsvFUe8XHeQdwyMiT3upsGjjAA793nvs=;
+ b=sEpXqpAm7rQlaw0v4EEh20fQHZxSzthIkpaGRKkDkilo3XJTt7QyQcU+bAQXG7XZKX
+ xvqbui0wLkOuEkgoJ2YLXfhEyGnZSzctYgwxtObyQFplFgq/0QsXRgJyjrStFqrnp26u
+ sDkh1jr89n+iyL4NdaYY1LGL+/X5/gY/psNM4GpoMsXfkLBO2DHG0Krf3K33pMlNHOQZ
+ 0/Ax41tctqR+CGigAs+/lo+IKdTHNCGo9SM6lL6AAsTz2ZJL9yfgEVT/BMnsIaObpSyZ
+ Wx42KTgUlkiqGNvBsWBtsc3qkTGfBqbgmqfbf8//kx/6n9JFx9v4uo+jZxiJyE2EMvdf
+ a4FQ==
+X-Gm-Message-State: AOAM530H3N6d6yw67JIR+cN+JEs5Pb49wMx1DxEiRsPJw/Fri1sUvJsm
+ fPBSOSX5AEA2yGCjuTIqEiOQT+fkYIhCYQq9aHRz6A==
+X-Google-Smtp-Source: ABdhPJw4Xf7iLvL5C5ojXqkG49c+zHbpQq2lLokzmBbfykkgXcvLHiS+M+BX1uBFsPDo7JNSVhjzjvaVB40CDKZXky4=
+X-Received: by 2002:a17:90b:392:: with SMTP id
+ ga18mr989125pjb.222.1618333345157; 
+ Tue, 13 Apr 2021 10:02:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210413170240.0d4ffa38@xhacker.debian>
-X-Patchwork-Hint: comment
+References: <20210408130746.175358-1-robert.foss@linaro.org>
+ <f1d5f9d4-cb98-cc1c-83ef-74e7e8005b1f@infradead.org>
+In-Reply-To: <f1d5f9d4-cb98-cc1c-83ef-74e7e8005b1f@infradead.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 13 Apr 2021 19:02:14 +0200
+Message-ID: <CAG3jFys1xF9qrhDziUNm9fY8uDY0LSt6xvsnNohY7z0Qp6hMaQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge/sii8620: fix dependency on extcon
+To: Randy Dunlap <rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,103 +63,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Jon Bloomfield <jon.bloomfield@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, kernel test robot <lkp@intel.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 13, 2021 at 05:02:40PM +0800, Jisheng Zhang wrote:
-> I met below error during boot with i915 builtin if pass
-> "i915.mitigations=3Doff":
-> [    0.015589] Booting kernel: `off' invalid for parameter `i915.mitigati=
-ons'
-> =
+Hey Randy,
 
-> The reason is slab subsystem isn't ready at that time, so kstrdup()
-> returns NULL. Fix this issue by using stack var instead of kstrdup().
-> =
+Thanks for looking at this!
 
-> Fixes: 984cadea032b ("drm/i915: Allow the sysadmin to override security m=
-itigations")
-> Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-> ---
->  drivers/gpu/drm/i915/i915_mitigations.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
-> =
+On Fri, 9 Apr 2021 at 18:38, Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 4/8/21 6:07 AM, Robert Foss wrote:
+> > The DRM_SIL_SII8620 kconfig has a weak `imply` dependency
+> > on EXTCON, which causes issues when sii8620 is built
+> > as a builtin and EXTCON is built as a module.
+> >
+> > The symptoms are 'undefined reference' errors caused
+> > by the symbols in EXTCON not being available
+> > to the sii8620 driver.
+> >
+> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > ---
+> >
+> > Changes since v1:
+> >  - Fix typo on comment
+> >
+> >  drivers/gpu/drm/bridge/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> > index 22a467abd3e9..2289b44613af 100644
+> > --- a/drivers/gpu/drm/bridge/Kconfig
+> > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > @@ -169,7 +169,7 @@ config DRM_SIL_SII8620
+> >       tristate "Silicon Image SII8620 HDMI/MHL bridge"
+> >       depends on OF
+> >       select DRM_KMS_HELPER
+> > -     imply EXTCON
+> > +     depends on EXTCON || !EXTCON # if EXTCON=m, this cannot be built-in
+> >       depends on RC_CORE || !RC_CORE
+> >       help
+> >         Silicon Image SII8620 HDMI/MHL bridge chip driver.
+> >
+>
+> That gives me: (on linux-next 20210409)
+>
+> drivers/gpu/drm/Kconfig:77:error: recursive dependency detected!
+> drivers/gpu/drm/Kconfig:77:     symbol DRM_KMS_HELPER is selected by DRM_SIL_SII8620
+> drivers/gpu/drm/bridge/Kconfig:168:     symbol DRM_SIL_SII8620 depends on EXTCON
+> drivers/extcon/Kconfig:2:       symbol EXTCON is selected by CHARGER_MANAGER
+> drivers/power/supply/Kconfig:499:       symbol CHARGER_MANAGER depends on POWER_SUPPLY
+> drivers/power/supply/Kconfig:2: symbol POWER_SUPPLY is selected by OLPC_XO1_SCI
+> arch/x86/Kconfig:2757:  symbol OLPC_XO1_SCI depends on GPIO_CS5535
+> drivers/gpio/Kconfig:1156:      symbol GPIO_CS5535 depends on GPIOLIB
+> drivers/gpio/Kconfig:14:        symbol GPIOLIB is selected by I2C_MUX_LTC4306
+> drivers/i2c/muxes/Kconfig:47:   symbol I2C_MUX_LTC4306 depends on I2C
+> drivers/i2c/Kconfig:8:  symbol I2C is selected by FB_DDC
+> drivers/video/fbdev/Kconfig:63: symbol FB_DDC depends on FB
+> drivers/video/fbdev/Kconfig:12: symbol FB is selected by DRM_KMS_FB_HELPER
+> drivers/gpu/drm/Kconfig:83:     symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
+> For a resolution refer to Documentation/kbuild/kconfig-language.rst
+> subsection "Kconfig recursive dependency limitations"
 
-> diff --git a/drivers/gpu/drm/i915/i915_mitigations.c b/drivers/gpu/drm/i9=
-15/i915_mitigations.c
-> index 84f12598d145..7dadf41064e0 100644
-> --- a/drivers/gpu/drm/i915/i915_mitigations.c
-> +++ b/drivers/gpu/drm/i915/i915_mitigations.c
-> @@ -29,15 +29,13 @@ bool i915_mitigate_clear_residuals(void)
->  static int mitigations_set(const char *val, const struct kernel_param *k=
-p)
->  {
->  	unsigned long new =3D ~0UL;
-> -	char *str, *sep, *tok;
-> +	char str[64], *sep, *tok;
->  	bool first =3D true;
->  	int err =3D 0;
->  =
+I'm not sure how to avoid this circular dependency. The above solution
+is what I've seen w/r to issues like [1]. Clearly it doesn't work in
+this situation. `select EXTCON` doesn't seem to cause this dependency
+error, but I'm not sure it accurately represents the dependency
+sii8620 has on extcon.
 
->  	BUILD_BUG_ON(ARRAY_SIZE(names) >=3D BITS_PER_TYPE(mitigations));
->  =
-
-> -	str =3D kstrdup(val, GFP_KERNEL);
-> -	if (!str)
-> -		return -ENOMEM;
-> +	strncpy(str, val, sizeof(str) - 1);
-
-I don't think strncpy() guarantees that the string is properly
-terminated.
-
-Also commit b1b6bed3b503 ("usb: core: fix quirks_param_set() writing to
-a const pointer") looks broken as well given your findings, and
-arch/um/drivers/virtio_uml.c seems to suffer from this as well.
-kernel/params.c itself seems to have some slab_is_available() magic
-around kmalloc().
-
-I used the following cocci snippet to find these:
-@find@
-identifier O, F;
-position PS;
-@@
-struct kernel_param_ops O =3D {
-...,
-        .set =3D F@PS
-,...
-};
-
-@alloc@
-identifier ALLOC =3D~ "^k.*(alloc|dup)";
-identifier find.F;
-position PA;
-@@
-F(...) {
-<+...
-ALLOC@PA(...)
-...+>
-}
-
-@script:python depends on alloc@
-ps << find.PS;
-pa << alloc.PA;
-@@
-coccilib.report.print_report(ps[0], "struct")
-coccilib.report.print_report(pa[0], "alloc")
-
-That could of course miss a bunch more if they allocate
-via some other function I didn't consider.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+[1] https://lore.kernel.org/lkml/202104040604.SSTe2Cxf-lkp@intel.com/
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
