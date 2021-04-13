@@ -2,32 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3613E35DCBB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 12:48:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74D035DDDC
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 13:37:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E88189CD8;
-	Tue, 13 Apr 2021 10:48:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB5F89DBC;
+	Tue, 13 Apr 2021 11:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6CA89B27;
- Tue, 13 Apr 2021 10:48:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AC2ADAEFB;
- Tue, 13 Apr 2021 10:47:58 +0000 (UTC)
-Subject: Re: [PATCH 3/3] drm/shmem-helper: Align to page size in dumb_create
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20210413094937.3736541-1-daniel.vetter@ffwll.ch>
- <20210413094937.3736541-3-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <af920f32-4fc1-a96e-64e6-8352fb5da523@suse.de>
-Date: Tue, 13 Apr 2021 12:47:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30D7E89D57;
+ Tue, 13 Apr 2021 11:37:01 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ s10-20020a05600c318ab029012d7c83637bso19903wmp.0; 
+ Tue, 13 Apr 2021 04:37:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=d8prWghJv+BkiPsQ41cXnPAO/NBhcn05YDXuxcrhtEc=;
+ b=iff6X5Dx5VtccL1uM8p2zLSXcrty+PuUGC7J7z8zXEhInb/+xp6sCmr4WpXqZMvgb8
+ U/sI9sbF3KF8QWGS2ZH58/wbAC/7sFyazmiDGUsMMbiZdsdaQsyFRpSyaG/tncNYD7s3
+ b6F6wj3u3w1W3ik+XIzTB254U47VrGsIrfJCf1oonuFB3mpok5f2SQ1oAuc1yPmn3Ski
+ DYYNM2390gZtJEKQy/7PKGmwKrmIIzmf+Qjm0+BnJb5dxaY9IWr3JG1W0V+CDbW4edn9
+ 5m022ytrZ/AQR+nTw4hpDAfaI8luLhP1/kebH6wChvq4bm0gWtj+Dc6Q+lYkhQqBRZyR
+ sW8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=d8prWghJv+BkiPsQ41cXnPAO/NBhcn05YDXuxcrhtEc=;
+ b=L3CrXmLH3EYfBbaYsIqRS8atoX3dfLJTb76H93pNGf3AuMMZxoCuXYWZ4A6x03w/c8
+ Gsd3uofJvsBILT8Du1iaBrTxRUeZoxTUGBE4pDdlIYVjgI1P9KMRgYELpu7JCy2vzFF3
+ N+N6/prxt0H1wlFXwZvgy598yF8WoqUeV+fO8WGWxUO++tCCX7eOM4SV2Rx4+S3vDVSc
+ xjEKds0ZHZc40DWUDMzFDRgA7V9mPc/1gXV+vVOM0uJa2+7DTPvhtJD7upnhFkD+pTmZ
+ kPv/LMdlb87IenZ9UNob+AJ3yotMCgo50D46zDloyUV6WyNHXdiT4rw16TyInwDERLQ6
+ 5aLQ==
+X-Gm-Message-State: AOAM530fls2TbPezvH9Wk7s4ud3Eg/IhO80ysMJWrZI8Uqh4IbNReL7/
+ yMHbyX9LFCTjZmfNeVNs1pI=
+X-Google-Smtp-Source: ABdhPJxeKrK3zuVlsI2tuMeQzuZfRj5oEbBzKypg8YvEhMsDsu8BDty5SEpGMzwepcRaCUlSBf8+IA==
+X-Received: by 2002:a1c:7311:: with SMTP id d17mr3559703wmb.183.1618313819915; 
+ Tue, 13 Apr 2021 04:36:59 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id v18sm2141913wmh.28.2021.04.13.04.36.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Apr 2021 04:36:58 -0700 (PDT)
+Date: Tue, 13 Apr 2021 13:37:38 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 10/12] drm/tegra: Don't set allow_fb_modifiers explicitly
+Message-ID: <YHWCgpq5fVpSGdSN@orome.fritz.box>
+References: <20210413094904.3736372-1-daniel.vetter@ffwll.ch>
+ <20210413094904.3736372-10-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <20210413094937.3736541-3-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210413094904.3736372-10-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,118 +68,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0322742422=="
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-tegra@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============1619246116=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0322742422==
+
+--===============1619246116==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="jVfcCROk7CxJ91gQLk00cE3D6GttNh4VX"
+	protocol="application/pgp-signature"; boundary="3zY2OYTARJAQNWvh"
+Content-Disposition: inline
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jVfcCROk7CxJ91gQLk00cE3D6GttNh4VX
-Content-Type: multipart/mixed; boundary="lWRzu6cbfPSWiUWanLTs6KEPAMCUK3JOu";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <af920f32-4fc1-a96e-64e6-8352fb5da523@suse.de>
-Subject: Re: [PATCH 3/3] drm/shmem-helper: Align to page size in dumb_create
-References: <20210413094937.3736541-1-daniel.vetter@ffwll.ch>
- <20210413094937.3736541-3-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210413094937.3736541-3-daniel.vetter@ffwll.ch>
 
---lWRzu6cbfPSWiUWanLTs6KEPAMCUK3JOu
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+--3zY2OYTARJAQNWvh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-Am 13.04.21 um 11:49 schrieb Daniel Vetter:
-> shmem helpers seem a bit sloppy here by automatically rounding up when
-> actually creating the buffer, which results in under-reporting of what
-> we actually have. Caught by igt/vgem_basic tests.
+On Tue, Apr 13, 2021 at 11:49:01AM +0200, Daniel Vetter wrote:
+> Since
 >=20
+> commit 890880ddfdbe256083170866e49c87618b706ac7
+> Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Date:   Fri Jan 4 09:56:10 2019 +0100
+>=20
+>     drm: Auto-set allow_fb_modifiers when given modifiers at plane init
+>=20
+> this is done automatically as part of plane init, if drivers set the
+> modifier list correctly. Which is the case here.
+>=20
+> It was slightly inconsistently though, since planes with only linear
+> modifier support haven't listed that explicitly. Fix that, and cc:
+> stable to allow userspace to rely on this. Again don't backport
+> further than where Paul's patch got added.
+>=20
+> Cc: stable@vger.kernel.org # v5.1 +
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-Drivers get it more wrong than right. I always felt that we should have=20
-all this in generic code with a few parameters somewhere.
-
-But makes sense.
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: linux-tegra@vger.kernel.org
 > ---
->   drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/tegra/dc.c  | 10 ++++++++--
+>  drivers/gpu/drm/tegra/drm.c |  2 --
+>  2 files changed, 8 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> index 6d625cee7a6a..d5e6d4568f99 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -505,13 +505,13 @@ int drm_gem_shmem_dumb_create(struct drm_file *fi=
-le, struct drm_device *dev,
->  =20
->   	if (!args->pitch || !args->size) {
->   		args->pitch =3D min_pitch;
-> -		args->size =3D args->pitch * args->height;
-> +		args->size =3D PAGE_ALIGN(args->pitch * args->height);
->   	} else {
->   		/* ensure sane minimum values */
->   		if (args->pitch < min_pitch)
->   			args->pitch =3D min_pitch;
->   		if (args->size < args->pitch * args->height)
-> -			args->size =3D args->pitch * args->height;
-> +			args->size =3D PAGE_ALIGN(args->pitch * args->height);
->   	}
->  =20
->   	shmem =3D drm_gem_shmem_create_with_handle(file, dev, args->size, &a=
-rgs->handle);
->=20
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index c9385cfd0fc1..f9845a50f866 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -959,6 +959,11 @@ static const struct drm_plane_helper_funcs tegra_cur=
+sor_plane_helper_funcs =3D {
+>  	.atomic_disable =3D tegra_cursor_atomic_disable,
+>  };
+> =20
+> +static const uint64_t linear_modifiers[] =3D {
+> +	DRM_FORMAT_MOD_LINEAR,
+> +	DRM_FORMAT_MOD_INVALID
+> +};
+> +
+>  static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device =
+*drm,
+>  						      struct tegra_dc *dc)
+>  {
+> @@ -987,7 +992,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create=
+(struct drm_device *drm,
+> =20
+>  	err =3D drm_universal_plane_init(drm, &plane->base, possible_crtcs,
+>  				       &tegra_plane_funcs, formats,
+> -				       num_formats, NULL,
+> +				       num_formats, linear_modifiers,
+>  				       DRM_PLANE_TYPE_CURSOR, NULL);
+>  	if (err < 0) {
+>  		kfree(plane);
+> @@ -1106,7 +1111,8 @@ static struct drm_plane *tegra_dc_overlay_plane_cre=
+ate(struct drm_device *drm,
+> =20
+>  	err =3D drm_universal_plane_init(drm, &plane->base, possible_crtcs,
+>  				       &tegra_plane_funcs, formats,
+> -				       num_formats, NULL, type, NULL);
+> +				       num_formats, linear_modifiers,
+> +				       type, NULL);
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+I think we can do better than linear_modifiers for overlay planes, but
+given that this doesn't change existing behaviour, I'll do that in a
+separate patch.
 
+Acked-by: Thierry Reding <treding@nvidia.com>
 
---lWRzu6cbfPSWiUWanLTs6KEPAMCUK3JOu--
-
---jVfcCROk7CxJ91gQLk00cE3D6GttNh4VX
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+--3zY2OYTARJAQNWvh
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB1dt0FAwAAAAAACgkQlh/E3EQov+DP
-4BAAygIlC8JQb0tw3dOLDSCRbqN6qGaeHa0YS17K+LZLhm50FcfzSmH9v/TOGJ+zzBIeC6crK01P
-Dem2fb9GGYu3U5ECnvG8/i2kah3tE7aDQ9uylUaV/LlY2mg85sz7Y8NiQ3im7osjS2FmKroW19mB
-W8PCAU655tFcXJzyje1uctIbxvql1jIPr75pKS+yi/nydJqcDi3B1a8fpoq6qnQ3QQ2/oUuolSMP
-w14jWSIDAoRbMqhki9mef3sZXpi9LTDi/tlxielmfM2gizpZTwy1iWlKFqf8MpZu9UI84Aar8MJD
-37TLqqiaKS7QNrzEaNIgKYieZ9e7r6gh4rjetg5vwZv8W9PaqEtTF6QALyAcMIQhE8bgkcaaNQ/p
-ZcIGHQl3d/YnuQDamym3qXZKlirvgNj5eEKhRaVt5X1Hwmd2WaysCg+RY/ChQVQWY8umf+vfILtv
-Yd+uYzUBE8ZP1/04drzjE8W0Pm40D/5h8hvJWD2/wufd8bWFwcRobVwSLDzV8xL/9+I3VPsKU2iC
-h5oxDrgSN6fzLbZ6513oxwAPhBRgVfqb6I2utOLQGef37TNq9u6PW9SdK/a7lXzLMuGHoRHkQpme
-hJxfh1JNHzpdz6xkxjamd7syddegBJDPBSq0YzBAvE9GaQRUJPtSVArwZshwnwi07wM7MHMo5qMp
-UuQ=
-=1po7
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmB1goAACgkQ3SOs138+
+s6HiPg/9F2IhGz7bj0R3eFPU3cBNVrP3Fi7Q48YLUZofkiN0ka7nGaDGknhgaupF
+bE3N2Yk9Qp+tsN82z3R7PsFfmmPfy3uBKp8lcXV2jMJtb/sqH+JmRZAUl3wzT0qb
+ZwnaBs5xjoPATt8oFC8/8Y1sQ2GW7+6yWCWIaVC8PqiQ5g78L6gsu2N7Ig/rB+P6
+VAI6t1MGjdfiF8lrMF3+kkvbpxrqIybiAHXVhsUxViXH88AWq56lu9LRUWZTk3T9
+eLyBcbyth7XrO4KJOMuOFqXYjPn8f7dKittgCwSacGkItWmQv0+GBrdFeA+i0WZW
+b0SRu1QdGY9ClU0Z+rs9YCRV9P853vCUQs2E6rPEpO9Ul8tP/OKoGu0/DUFV98gJ
+iReAe4bP6CSJN96oJ+FUunvOyJ40gGWToWCmZ37fM1Vt/qH2+LkPAkkbdAPkCqBx
+1frCx2qFhxRNL+laXN7tkkmjg+ZPBqK8VjEQJ+dl5gBQsM8g1o4cliI6KSKgjm4B
+oAArUFz3u9zYzT0sFuqj+lyh9/Tu+gevrUNkcyAkUrngNaEZkCgSL6A6rJLKSOLY
+ZH964cF3UDvzZGwuOaVgR9agCBXh2i/WFa1AtE6HsvB/HELLxg3nUHYe5CBAGrjM
+4BLaGiVxVaYx73qjnaB2LKcqybVO8S+NEP48pWjwnGXz1fu0z/8=
+=0rrw
 -----END PGP SIGNATURE-----
 
---jVfcCROk7CxJ91gQLk00cE3D6GttNh4VX--
+--3zY2OYTARJAQNWvh--
 
---===============0322742422==
+--===============1619246116==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -162,4 +193,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0322742422==--
+--===============1619246116==--
