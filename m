@@ -2,59 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F7735D377
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 00:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9321235D498
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 02:58:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A93A16E0BF;
-	Mon, 12 Apr 2021 22:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D474189CF2;
+	Tue, 13 Apr 2021 00:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45B496E0BC
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 22:52:10 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id p6so7797699wrn.9
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 15:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=Tf4HoZVlhg5D8OuVFFlWklrIy8rsdlCxWZ0mX1eVFYY=;
- b=vDk4j2mxtLf9MHq78R/+qOnNL3zYqjjig/W5rUr54naOV4eddA7gt+WqQpRemWBuvU
- m8k5ZVWW8F4QA0uEKcsAvo7l061Bet+RtnF1NsCl8vMX60/GRvqtSfEeQv03NtHv+v3c
- b+CRVbX+8mgSxX7AZlpgzrFjzCP/YX0rmuwg2H4QbaY9+Ds08YLq7pXKbqoMbk+tWb/E
- Pr3iQa+am34YuksirQ1coAFHB4iLqbp+oWPf7mycEAejxwPVysFVHAlp4eg1wtQhUgbW
- grnCS97MAQkyGNDf6s2gMr39hILEnld9+eFe2UpibuhIPVpBpabJFFcfxq5Dj5FvdWYv
- 5KnA==
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C019A89CF2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 00:58:31 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id u4so17517224ljo.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 17:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G54XNfiUa6fmL9xyBH6PE+DJHSrMe5eje68mpIh8/Sw=;
+ b=Ue/JycxqjtdpVE8LrjRfP0xpbAJjN0Nmwn4vG5hx7SBTsIufvY0EODYnkG7h5EWGwt
+ jxgEzT88x6t9u5UaMyN+c0Qd7Sj4XQjakcIATICuki+TNR3c6EJVWb11TVHJKLotU3xm
+ RtgKzQpALMH18QoYPBbB99tjm+6NuPtv6NsIw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=Tf4HoZVlhg5D8OuVFFlWklrIy8rsdlCxWZ0mX1eVFYY=;
- b=eeiG7eAwI4dD4AOsNM2EsinB+T6+K0Pz8hAQRIUxbcJTDkVM0oMQDfE4zHV9lbHtEV
- xxJl+ZFP9p3COjmQZrzfpAeGlJpJyn7mSOP7A399psSxs7Pj2OM2wWl5oIiR3IWp4Jxp
- L4oUt74WejjADI4ls1PB0LiD4TCupGMeQzQLJJna03zh4JNe3dBCzedzfpqJcRHjnyLP
- 6aH0vxEYRcpYEPhFsmA5roc/Lw246Ya4D7XNZjEHOXDyBJfgaYoqrfRhos3qdtusKKn4
- WZaDVXW67lZe82iS5yZ5qs4+tKrGHpHbnjOyCeywtq4DLhaLU8klt5FkH1mkWxEi1ofa
- P8LQ==
-X-Gm-Message-State: AOAM533QONXuX20OHBr6n8BqEHiVD84se5r5KCXQ1NbDBbODgjnKVKSE
- +/27qPTJJcJ96Sm9h30Ja5n+pMOxhwNqZw==
-X-Google-Smtp-Source: ABdhPJyIs2ZV8lQ0aF+D8wx5kKEEdGUn656ae0FNap+aDZAo7Qxb3D03vzwXPwxqxiIiVaQOErtwcQ==
-X-Received: by 2002:a5d:6e06:: with SMTP id h6mr3898670wrz.201.1618267928968; 
- Mon, 12 Apr 2021 15:52:08 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id n9sm630384wmo.27.2021.04.12.15.52.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Apr 2021 15:52:08 -0700 (PDT)
-Date: Mon, 12 Apr 2021 19:52:01 -0300
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Simon Ser <contact@emersion.fr>,
- Sumera Priyadarsini <sylphrenadin@gmail.com>
-Subject: [PATCH v2 4/4] drm/vkms: add overlay support
-Message-ID: <20210412225201.x3zuhgpmxqq5xo7w@smtp.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G54XNfiUa6fmL9xyBH6PE+DJHSrMe5eje68mpIh8/Sw=;
+ b=SEq0zOU+Nrq92oQkavHHSYYTX0RzhC+CstCen4sz0uPIKGYCEeeJp4+ib6GKiwS6Kt
+ IguesQZUcIb0iYy5s97VBvqVgviW0cRsEinl5tSyQmC6vNoBEn2trjLFgQbPwDkS+lGx
+ KIVABj/l8cMvzgcPmP3VuVcjms/3xDCT05yMFroqY09ItKpTV0D2ENi7RjERDtwKNtcx
+ VM+YSnk2lATu8oWcyQwufvnA0/hggq7UM9BUApJnzqICzmTk3Q8nWbP01QTwpmRbOg9Q
+ dui4iK4dBFHAgFXXcNYKA4V14ZqExGrdyOTR+0ny/8nTRN9cMBWW0mBGM7S1YPZUyNJV
+ 9EbQ==
+X-Gm-Message-State: AOAM531Zlq+IXfRkacdUhJAIOCbPGQTvAzNwxPtuB6NO9zNb8By7uVkn
+ 7/MwNXVkVG85DPQe8c1yzBUf8wa+sI3m0A==
+X-Google-Smtp-Source: ABdhPJypGBJdG3CmlYQSvO43EhRz5ec9+K1n3HIRFFQ1WiIVHtbkL7N9KpvqESEebyq7yxgz0TYfIA==
+X-Received: by 2002:a2e:85cb:: with SMTP id h11mr9937361ljj.12.1618275509826; 
+ Mon, 12 Apr 2021 17:58:29 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
+ [209.85.167.45])
+ by smtp.gmail.com with ESMTPSA id 17sm2718953lfo.204.2021.04.12.17.58.29
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Apr 2021 17:58:29 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id x13so14341158lfr.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Apr 2021 17:58:29 -0700 (PDT)
+X-Received: by 2002:ac2:599c:: with SMTP id w28mr10142882lfn.161.1618275509010; 
+ Mon, 12 Apr 2021 17:58:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <20210401065324.vb44nfodohcgrdex@sirius.home.kraxel.org>
+ <20210406203625.1727955-1-vivek.kasireddy@intel.com>
+ <CAAfnVB=NUjUUUcABQhR3AhQPtdDu9uHZCsi+9Q90babp2AfOpg@mail.gmail.com>
+ <20210408092740.c42sp32hku5d66ec@sirius.home.kraxel.org>
+ <CAAfnVBkSVnDw23XkeaB-oj-bD5wu_-2rg3F+qMkBMezuD5mCkg@mail.gmail.com>
+ <20210409074840.y3ddwbfanpscgydj@sirius.home.kraxel.org>
+In-Reply-To: <20210409074840.y3ddwbfanpscgydj@sirius.home.kraxel.org>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Mon, 12 Apr 2021 17:58:16 -0700
+X-Gmail-Original-Message-ID: <CAAfnVBmkEHB=j3rJyLPOixFRfPD=WQGVs85PuS0RYmViOgVAQA@mail.gmail.com>
+Message-ID: <CAAfnVBmkEHB=j3rJyLPOixFRfPD=WQGVs85PuS0RYmViOgVAQA@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: Create Dumb BOs as guest Blobs (v2)
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,207 +73,389 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, "Zhang,
+ Tina" <tina.zhang@intel.com>
+Content-Type: multipart/mixed; boundary="===============1679861700=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support to overlay plane, in addition to primary and cursor
-planes. In this approach, the plane composition still requires an
-active primary plane and planes are composed associatively in the
-order: (primary <- overlay) <- cursor
+--===============1679861700==
+Content-Type: multipart/alternative; boundary="000000000000dd453305bfd02083"
 
-It enables to run the following IGT tests successfully:
-- kms_plane_cursor:
-  - pipe-A-[overlay, primary, viewport]-size-[64, 128, 256]
-- kms_atomic:
-  - plane-overlay-legacy
-and preserves the successful execution of kms_cursor_crc,
-kms_writeback and kms_flip
+--000000000000dd453305bfd02083
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
----
- drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++----------
- drivers/gpu/drm/vkms/vkms_drv.c      |  5 +++++
- drivers/gpu/drm/vkms/vkms_drv.h      |  1 +
- drivers/gpu/drm/vkms/vkms_output.c   | 11 ++++++++++-
- drivers/gpu/drm/vkms/vkms_plane.c    | 14 +++++++++++---
- 5 files changed, 44 insertions(+), 14 deletions(-)
+On Fri, Apr 9, 2021 at 12:48 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 7fe1fdb3af39..73ce1d381737 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -158,11 +158,12 @@ static void compose_planes(struct vkms_composer *primary_composer,
- 
- static int composite(void **vaddr_out,
- 		     struct vkms_composer *primary_composer,
--		     struct vkms_composer *cursor_composer)
-+		     struct vkms_crtc_state *crtc_state)
- {
- 	struct drm_framebuffer *fb = &primary_composer->fb;
- 	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
- 	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(gem_obj);
-+	int i;
- 
- 	if (!*vaddr_out) {
- 		*vaddr_out = kzalloc(shmem_obj->base.size, GFP_KERNEL);
-@@ -177,8 +178,14 @@ static int composite(void **vaddr_out,
- 
- 	memcpy(*vaddr_out, shmem_obj->vaddr, shmem_obj->base.size);
- 
--	if (cursor_composer)
--		compose_planes(primary_composer, cursor_composer, *vaddr_out);
-+	/* If there are other planes besides primary, we consider the active
-+	 * planes should be in z-order and compose them associatively:
-+	 * ((primary <- overlay) <- cursor)
-+	 */
-+	for (i = 1; i < crtc_state->num_active_planes; i++)
-+		compose_planes(primary_composer,
-+			       crtc_state->active_planes[i]->composer,
-+			       *vaddr_out);
- 
- 	return 0;
- }
-@@ -200,7 +207,7 @@ void vkms_composer_worker(struct work_struct *work)
- 	struct drm_crtc *crtc = crtc_state->base.crtc;
- 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
- 	struct vkms_composer *primary_composer = NULL;
--	struct vkms_composer *cursor_composer = NULL;
-+	struct vkms_plane_state *act_plane = NULL;
- 	bool crc_pending, wb_pending;
- 	void *vaddr_out = NULL;
- 	u32 crc32 = 0;
-@@ -224,11 +231,11 @@ void vkms_composer_worker(struct work_struct *work)
- 	if (!crc_pending)
- 		return;
- 
--	if (crtc_state->num_active_planes >= 1)
--		primary_composer = crtc_state->active_planes[0]->composer;
--
--	if (crtc_state->num_active_planes == 2)
--		cursor_composer = crtc_state->active_planes[1]->composer;
-+	if (crtc_state->num_active_planes >= 1) {
-+		act_plane = crtc_state->active_planes[0];
-+		if (act_plane->base.plane->type == DRM_PLANE_TYPE_PRIMARY)
-+			primary_composer = act_plane->composer;
-+	}
- 
- 	if (!primary_composer)
- 		return;
-@@ -236,7 +243,7 @@ void vkms_composer_worker(struct work_struct *work)
- 	if (wb_pending)
- 		vaddr_out = crtc_state->active_writeback;
- 
--	ret = composite(&vaddr_out, primary_composer, cursor_composer);
-+	ret = composite(&vaddr_out, primary_composer, crtc_state);
- 	if (ret) {
- 		if (ret == -EINVAL && !wb_pending)
- 			kfree(vaddr_out);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 2173b82606f6..027ffe759440 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -44,6 +44,10 @@ static bool enable_writeback = true;
- module_param_named(enable_writeback, enable_writeback, bool, 0444);
- MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector support");
- 
-+static bool enable_overlay;
-+module_param_named(enable_overlay, enable_overlay, bool, 0444);
-+MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
-+
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
- static void vkms_release(struct drm_device *dev)
-@@ -198,6 +202,7 @@ static int __init vkms_init(void)
- 
- 	config->cursor = enable_cursor;
- 	config->writeback = enable_writeback;
-+	config->overlay = enable_overlay;
- 
- 	return vkms_create(config);
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 70fb79621617..ac8c9c2fa4ed 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -89,6 +89,7 @@ struct vkms_device;
- struct vkms_config {
- 	bool writeback;
- 	bool cursor;
-+	bool overlay;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
- };
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 6979fbc7f821..04406bd3ff02 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -39,7 +39,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	struct drm_connector *connector = &output->connector;
- 	struct drm_encoder *encoder = &output->encoder;
- 	struct drm_crtc *crtc = &output->crtc;
--	struct vkms_plane *primary, *cursor = NULL;
-+	struct vkms_plane *primary, *cursor = NULL, *overlay = NULL;
- 	int ret;
- 	int writeback;
- 
-@@ -47,6 +47,15 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	if (IS_ERR(primary))
- 		return PTR_ERR(primary);
- 
-+	if (vkmsdev->config->overlay) {
-+		overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-+		if (IS_ERR(overlay))
-+			return PTR_ERR(overlay);
-+
-+		if (!overlay->base.possible_crtcs)
-+			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-+	}
-+
- 	if (vkmsdev->config->cursor) {
- 		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
- 		if (IS_ERR(cursor))
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 1d35b727dd31..6c2f1644ef59 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -133,7 +133,7 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
- 	if (IS_ERR(crtc_state))
- 		return PTR_ERR(crtc_state);
- 
--	if (plane->type == DRM_PLANE_TYPE_CURSOR)
-+	if (plane->type != DRM_PLANE_TYPE_PRIMARY)
- 		can_position = true;
- 
- 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
-@@ -200,11 +200,19 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
- 	const u32 *formats;
- 	int nformats;
- 
--	if (type == DRM_PLANE_TYPE_CURSOR) {
-+	switch (type) {
-+	case DRM_PLANE_TYPE_PRIMARY:
-+		formats = vkms_formats;
-+		nformats = ARRAY_SIZE(vkms_formats);
-+		funcs = &vkms_primary_helper_funcs;
-+		break;
-+	case DRM_PLANE_TYPE_CURSOR:
-+	case DRM_PLANE_TYPE_OVERLAY:
- 		formats = vkms_plane_formats;
- 		nformats = ARRAY_SIZE(vkms_plane_formats);
- 		funcs = &vkms_primary_helper_funcs;
--	} else {
-+		break;
-+	default:
- 		formats = vkms_formats;
- 		nformats = ARRAY_SIZE(vkms_formats);
- 		funcs = &vkms_primary_helper_funcs;
--- 
-2.30.2
+>   Hi,
+>
+> > > IIRC the VIRTGPU_BLOB_FLAG_USE_SHAREABLE flag means that the host *can*
+> > > create a shared mapping (i.e. the host seeing guest-side changes
+> without
+> > > explicit transfer doesn't cause problems for the guest).  It doesn not
+> > > mean the host *must* create a shared mapping (note that there is no
+> > > negotiation whenever the host supports shared mappings or not).
+> > >
+> >
+> > VIRTGPU_BLOB_FLAG_USE_SHAREABLE means guest userspace intends to share
+> the
+> > blob resource with another virtgpu driver instance via
+> drmPrimeHandleToFd.
+> > It's a rough analogue to VkExportMemoryAllocateInfoKHR or
+> > PIPE_BIND_USE_SHARED.
+>
+> Oh.  My memory was failing me then.  We should *really* clarify the spec
+> for BLOB_MEM_GUEST.
+
+
+> So shared mappings are allowed for all BLOB_MEM_GUEST resources, right?
+>
+
+The guest iovecs are always shared with the host, so they may be copied
+to/from directly depending on the operation.  In the case of RESOURCE_FLUSH
++ BLOB_MEM_GUEST, it could be a copy from the guest iovecs to the host
+framebuffer [host framebuffer != host shadow memory].
+
+
+>
+> > > So the transfer calls are still needed, and the host can decide to
+> > > shortcut them in case it can create a shared mapping.  In case there is
+> > > no shared mapping (say due to missing udmabuf support) the host can
+> > > fallback to copying.
+> >
+> > Transfers are a bit under-defined for BLOB_MEM_GUEST.  Even without
+> udmabuf
+> > on the host, there is no host side resource for guest-only blobs?  Before
+> > blob resources, the dumb flow was:
+> >
+> > 1) update guest side resource
+> > 2) TRANSFER_TO_HOST_2D to copy guest side contents to host side private
+> > resource [Pixman??]
+> > 3) RESOURCE_FLUSH to copy the host-side contents to the framebuffer and
+> > page-flip
+>
+> Yes.
+>
+> > At least for crosvm, this is possible:
+> >
+> > 1) update guest side resource
+> > 2) RESOURCE_FLUSH to copy the guest-side contents to the framebuffer and
+> > pageflip
+> >
+> > With implicit udmabuf, it may be possible to do this:
+> >
+> > 1) update guest side resource
+> > 2) RESOURCE_FLUSH to page-flip
+> >
+> > > So I think crosvm should be fixed to not consider transfer commands for
+> > > VIRTGPU_BLOB_MEM_GUEST resources an error.
+> >
+> > It's a simple change to make and we can definitely do it, if TRANSFER_2D
+> is
+> > helpful for the QEMU case.  I haven't looked at the QEMU side patches.
+>
+> Well, we have two different cases:
+>
+>   (1) No udmabuf available.  qemu will have a host-side shadow then and
+>       the workflow will be largely identical to the non-blob resource
+>       workflow.
+>
+
+I think this is the key difference.  With BLOB_MEM_GUEST, crosvm can only
+have a guest side iovecs and no host-side shadow memory.  With
+BLOB_MEM_GUEST_HOST3D, host-side shadow memory will exist.
+
+I guess it boils down the Pixman dependency.  crosvm sits right on top of
+display APIs (X, wayland) rather than having intermediary layers.  Adding a
+new Pixman API takes time too.
+
+There's a bunch of options:
+
+1) Don't use BLOB_MEM_GUEST dumb buffers in 3D mode.
+2) virglrenderer or crosvm modified to implicitly ignore
+TRANSFER_TO_HOST_2D for BLOB_MEM_GUEST when in 3D mode.
+3) It's probably possible to create an implicit udmabuf
+for RESOURCE_CREATE_2D resources and ignore the transfer there too.  The
+benefit of this is TRANSFER_TO_HOST_2D makes a ton of sense for non-blob
+resources.  No kernel side change needed here, just QEMU.
+4) modify QEMU display integration
+
+I would choose (1) since it solves the log spam problem and it advances
+blob support in QEMU.  Though I leave the decision to QEMU devs.
+
+
+>
+>   (2) With udmabuf support.  qemu can create udmabufs for the resources,
+>       mmap() the dmabuf to get a linear mapping, create a pixman buffer
+>       backed by that dmabuf (no copying needed then).  Depending on
+>       capabilities pass either the pixman image (gl=off) or the dmabuf
+>       handle (gl=on) to the UI code to actually show the guest display.
+>
+> The guest doesn't need to know any of this, it'll just send transfer and
+> flush commands.  In case (1) qemu must process the transfer commands and
+> for case (2) qemu can simply ignore them.
+>
+> > For the PCI-passthrough + guest blob case, the end goal is to share it
+> with
+> > the host compositor.  If there is no guarantee the guest memory can be
+> > converted to an OS-handle (to share with the host compositor), then I
+> think
+> > the guest user space should fallback to another technique involving
+> > memcpy() to share the memory.
+>
+> This is what happens today (using non-blob resources).
+>
+> > So essentially, thinking for two new protocol additions:
+> >
+> > F_CREATE_GUEST_HANDLE (or F_HANDLE_FROM_GUEST) --> means an OS-specific
+> > udmabuf-like mechanism exists on the host.
+> >
+> > BLOB_FLAG_CREATE_GUEST_HANDLE (or BLOB_FLAG_HANDLE_FROM_GUEST)--> tells
+> > host userspace "you must create a udmabuf" [or OS-specific equivalent]
+> upon
+> > success
+>
+> Again:  Why do we actually need that?  Is there any benefit other than
+> the guest knowing it doesn't need to send transfer commands?
+
+I see the whole udmabuf thing as a host-side performance optimization
+> and I think this should be fully transparent to the guest as the host
+> can easily just ignore the transfer commands.
+
+
+So the use case I'm most interested in (and Vivek/Tina?) is
+tiled/compressed udmabufs, so they may be eventually shared with the host
+compositor via the DRM modifier API.
+
+Transfers to linear udmabufs make sense.  Maybe transfers to
+tiled/compressed udmabufs shouldn't even be attempted.
+
+It's a complicated case with many ambiguities, especially with PCI
+passthrough involved.  Explicit tiled/compressed udmabufs are just an idea,
+will have to think more about it / have some proof of concept [with virgl
+and PCI passthrough], before making any concrete proposals.  Will keep your
+idea of just ignoring transfers on the host in mind.
+
+
+> Given we batch commands
+> the extra commands don't lead to extra context switches, so there
+> shouldn't be much overhead.
+>
+> If we really want make the guest aware of the hosts udmabuf state I
+> think this should be designed the other way around:  Add some way for
+> the host to tell the guest transfer commands are not needed for a
+> specific BLOB_MEM_GUEST resource.
+>
+> take care,
+>   Gerd
+>
+>
+
+--000000000000dd453305bfd02083
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 9, 2021 at 12:48 AM Gerd =
+Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 H=
+i,<br>
+<br>
+&gt; &gt; IIRC the VIRTGPU_BLOB_FLAG_USE_SHAREABLE flag means that the host=
+ *can*<br>
+&gt; &gt; create a shared mapping (i.e. the host seeing guest-side changes =
+without<br>
+&gt; &gt; explicit transfer doesn&#39;t cause problems for the guest).=C2=
+=A0 It doesn not<br>
+&gt; &gt; mean the host *must* create a shared mapping (note that there is =
+no<br>
+&gt; &gt; negotiation whenever the host supports shared mappings or not).<b=
+r>
+&gt; &gt;<br>
+&gt; <br>
+&gt; VIRTGPU_BLOB_FLAG_USE_SHAREABLE means guest userspace intends to share=
+ the<br>
+&gt; blob resource with another virtgpu driver instance via drmPrimeHandleT=
+oFd.<br>
+&gt; It&#39;s a rough analogue to VkExportMemoryAllocateInfoKHR or<br>
+&gt; PIPE_BIND_USE_SHARED.<br>
+<br>
+Oh.=C2=A0 My memory was failing me then.=C2=A0 We should *really* clarify t=
+he spec<br>
+for BLOB_MEM_GUEST.=C2=A0</blockquote><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
+<br>
+So shared mappings are allowed for all BLOB_MEM_GUEST resources, right?<br>=
+</blockquote><div><br></div><div><div>The guest iovecs are always shared wi=
+th the host, so they may be copied to/from directly depending on the operat=
+ion.=C2=A0 In the case of RESOURCE_FLUSH + BLOB_MEM_GUEST, it could be a co=
+py from the guest iovecs to the host framebuffer [host framebuffer !=3D hos=
+t shadow memory].</div><div></div></div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+&gt; &gt; So the transfer calls are still needed, and the host can decide t=
+o<br>
+&gt; &gt; shortcut them in case it can create a shared mapping.=C2=A0 In ca=
+se there is<br>
+&gt; &gt; no shared mapping (say due to missing udmabuf support) the host c=
+an<br>
+&gt; &gt; fallback to copying.<br>
+&gt; <br>
+&gt; Transfers are a bit under-defined for BLOB_MEM_GUEST.=C2=A0 Even witho=
+ut udmabuf<br>
+&gt; on the host, there is no host side resource for guest-only blobs?=C2=
+=A0 Before<br>
+&gt; blob resources, the dumb flow was:<br>
+&gt; <br>
+&gt; 1) update guest side resource<br>
+&gt; 2) TRANSFER_TO_HOST_2D to copy guest side contents to host side privat=
+e<br>
+&gt; resource [Pixman??]<br>
+&gt; 3) RESOURCE_FLUSH to copy the host-side contents to the framebuffer an=
+d<br>
+&gt; page-flip<br>
+<br>
+Yes.<br>
+<br>
+&gt; At least for crosvm, this is possible:<br>
+&gt; <br>
+&gt; 1) update guest side resource<br>
+&gt; 2) RESOURCE_FLUSH to copy the guest-side contents to the framebuffer a=
+nd<br>
+&gt; pageflip<br>
+&gt; <br>
+&gt; With implicit udmabuf, it may be possible to do this:<br>
+&gt; <br>
+&gt; 1) update guest side resource<br>
+&gt; 2) RESOURCE_FLUSH to page-flip<br>
+&gt; <br>
+&gt; &gt; So I think crosvm should be fixed to not consider transfer comman=
+ds for<br>
+&gt; &gt; VIRTGPU_BLOB_MEM_GUEST resources an error.<br>
+&gt; <br>
+&gt; It&#39;s a simple change to make and we can definitely do it, if TRANS=
+FER_2D is<br>
+&gt; helpful for the QEMU case.=C2=A0 I haven&#39;t looked at the QEMU side=
+ patches.<br>
+<br>
+Well, we have two different cases:<br>
+<br>
+=C2=A0 (1) No udmabuf available.=C2=A0 qemu will have a host-side shadow th=
+en and<br>
+=C2=A0 =C2=A0 =C2=A0 the workflow will be largely identical to the non-blob=
+ resource<br>
+=C2=A0 =C2=A0 =C2=A0 workflow.<br></blockquote><div><br></div><div><div>I t=
+hink this is the key difference.=C2=A0 With BLOB_MEM_GUEST, crosvm can only=
+ have a guest side iovecs and no host-side shadow memory.=C2=A0 With BLOB_M=
+EM_GUEST_HOST3D, host-side shadow memory will exist.<br></div><div><br></di=
+v><div>I guess it boils down the Pixman dependency.=C2=A0 crosvm sits right=
+ on top of display APIs (X, wayland) rather than having intermediary=C2=A0l=
+ayers.=C2=A0 Adding a new Pixman API takes time too.</div><div><br></div><d=
+iv>There&#39;s a bunch of options:</div><div><br></div><div>1) Don&#39;t us=
+e BLOB_MEM_GUEST dumb buffers in 3D mode.</div><div>2) virglrenderer or cro=
+svm modified to implicitly ignore TRANSFER_TO_HOST_2D for=C2=A0BLOB_MEM_GUE=
+ST when in 3D mode.</div><div>3) It&#39;s probably possible to create an im=
+plicit udmabuf for=C2=A0RESOURCE_CREATE_2D resources and ignore the transfe=
+r there too.=C2=A0 The benefit of this is TRANSFER_TO_HOST_2D makes a ton o=
+f sense for non-blob resources.=C2=A0 No kernel side change needed here, ju=
+st QEMU.</div><div>4) modify QEMU display integration</div><div><br></div><=
+div>I would choose (1) since it solves the log spam problem and it advances=
+ blob support in QEMU.=C2=A0 Though I leave the decision to QEMU devs.</div=
+><div></div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+=C2=A0 (2) With udmabuf support.=C2=A0 qemu can create udmabufs for the res=
+ources,<br>
+=C2=A0 =C2=A0 =C2=A0 mmap() the dmabuf to get a linear mapping, create a pi=
+xman buffer<br>
+=C2=A0 =C2=A0 =C2=A0 backed by that dmabuf (no copying needed then).=C2=A0 =
+Depending on<br>
+=C2=A0 =C2=A0 =C2=A0 capabilities pass either the pixman image (gl=3Doff) o=
+r the dmabuf<br>
+=C2=A0 =C2=A0 =C2=A0 handle (gl=3Don) to the UI code to actually show the g=
+uest display.<br>
+<br>
+The guest doesn&#39;t need to know any of this, it&#39;ll just send transfe=
+r and<br>
+flush commands.=C2=A0 In case (1) qemu must process the transfer commands a=
+nd<br>
+for case (2) qemu can simply ignore them.<br>
+<br>
+&gt; For the PCI-passthrough + guest blob case, the end goal is to share it=
+ with<br>
+&gt; the host compositor.=C2=A0 If there is no guarantee the guest memory c=
+an be<br>
+&gt; converted to an OS-handle (to share with the host compositor), then I =
+think<br>
+&gt; the guest user space should fallback to another technique involving<br=
+>
+&gt; memcpy() to share the memory.<br>
+<br>
+This is what happens today (using non-blob resources).<br>
+<br>
+&gt; So essentially, thinking for two new protocol additions:<br>
+&gt; <br>
+&gt; F_CREATE_GUEST_HANDLE (or F_HANDLE_FROM_GUEST) --&gt; means an OS-spec=
+ific<br>
+&gt; udmabuf-like mechanism exists on the host.<br>
+&gt; <br>
+&gt; BLOB_FLAG_CREATE_GUEST_HANDLE (or BLOB_FLAG_HANDLE_FROM_GUEST)--&gt; t=
+ells<br>
+&gt; host userspace &quot;you must create a udmabuf&quot; [or OS-specific e=
+quivalent] upon<br>
+&gt; success<br>
+<br>
+Again:=C2=A0 Why do we actually need that?=C2=A0 Is there any benefit other=
+ than<br>
+the guest knowing it doesn&#39;t need to send transfer commands?</blockquot=
+e><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
+I see the whole udmabuf thing as a host-side performance optimization<br>
+and I think this should be fully transparent to the guest as the host<br>
+can easily just ignore the transfer commands.=C2=A0 </blockquote><div><br><=
+/div><div>So the use case I&#39;m most interested in (and Vivek/Tina?) is t=
+iled/compressed udmabufs, so they may be eventually shared with the host co=
+mpositor via the DRM=C2=A0modifier=C2=A0API.<div><br></div><div>Transfers t=
+o linear udmabufs make sense.=C2=A0 Maybe transfers to tiled/compressed udm=
+abufs=C2=A0shouldn&#39;t even be attempted.=C2=A0=C2=A0</div><div><br></div=
+><div>It&#39;s a complicated case with many ambiguities, especially with PC=
+I passthrough involved.=C2=A0 Explicit tiled/compressed udmabufs are just a=
+n idea, will have to think more about it / have some proof of concept [with=
+ virgl and PCI passthrough], before making any concrete proposals.=C2=A0 Wi=
+ll keep your idea of just ignoring transfers on the host=C2=A0in mind.</div=
+></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">G=
+iven we batch commands<br>
+the extra commands don&#39;t lead to extra context switches, so there<br>
+shouldn&#39;t be much overhead.<br>
+<br>
+If we really want make the guest aware of the hosts udmabuf state I<br>
+think this should be designed the other way around:=C2=A0 Add some way for<=
+br>
+the host to tell the guest transfer commands are not needed for a<br>
+specific BLOB_MEM_GUEST resource.<br>
+<br>
+take care,<br>
+=C2=A0 Gerd<br>
+<br>
+</blockquote></div></div>
+
+--000000000000dd453305bfd02083--
+
+--===============1679861700==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1679861700==--
