@@ -2,54 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CA835E3AA
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 18:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D5235E47D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 18:59:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B6189C33;
-	Tue, 13 Apr 2021 16:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F4A96E81F;
+	Tue, 13 Apr 2021 16:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F21E6E039
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 16:19:26 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id y12so13152395qtx.11
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 09:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=J+mYsxaAXhddlrGPlGvTvY2sDh/hqduKqqmubiP31tk=;
- b=cpENsElCFDM0xKZ7MV8AUCdlDYvklvHRrGqxdLAyEDOGNn8jkEPXAHolosS/8wd1jp
- hnYzFPJpLWkZ3r2g9SzHED+zRTxYFs5UMl1Q90jzpoX7Lp7XsXO6KvKXnlQ0DQuSOdAD
- UaOQe0hakSzf3pBAIWX25wqD1sCQj2uN5RVjopDxe+CiB3ZH+JoBCmq/uon15+mBictb
- vNS2sh9gGiGdOT0OGYzMPgCGV+iF34VNeD1XgfFfT2BizvLFtWlCCtRgRVF663Dgin6S
- 4YqVb+N+tVbdJGoscu0mDCkoVl19jP3jk1wQyHg5fv6QlAGHgCEG/pS/M4ViUb1SRvMR
- +lVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=J+mYsxaAXhddlrGPlGvTvY2sDh/hqduKqqmubiP31tk=;
- b=BSw5pWlSzoFVkrSz6H/oHS9OBu+EoFEcKxnfba7cZUoN8nhJcLLBO0R4ApxjcEpblH
- cvPDygpxJOX59RLaPYpgtWP6DNX63tSlEDMyuSNS7eiTWfZWTc46eHKm90776GBNqRFF
- L1CGvTvPoFQXy92LQLmP6kMBiDGcnjiIpCX6gl36cA+NA+y6t5ZJU2DkA6CUpZH1nVeJ
- 9ubsJZi3Qs9wxNqgPF2BGTSpYoaMfU/xgne32p9lZeOfGVT1Qg69h/Zw7BB6ivm/wlgN
- ASY7AUpsGeOyZgcWAi7oXKmtx7K4NOc2BJKNup84kYUIu4ihUmrWcaGX5N+tafuOxcGs
- q4uw==
-X-Gm-Message-State: AOAM530VT7kmCYKkW0Ky1gq7RG87XDwvxNrGJCud9SQBFFlqMGa75EUG
- 82LsrXD80LlbCaooY8iBSuhRhsb4a06oSS3TvzgjFwhFMRg=
-X-Google-Smtp-Source: ABdhPJx4c2nmbmaNnfA1ZVBbiFUrwewlINPyO7DOUWJ/V4RNkMyYr2tx7CuV+0xJSTNEVq7xtmxR82/Rh9Kz2kh1WRE=
-X-Received: by 2002:ac8:7dc2:: with SMTP id c2mr31063806qte.341.1618330765396; 
- Tue, 13 Apr 2021 09:19:25 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC046E81F;
+ Tue, 13 Apr 2021 16:59:45 +0000 (UTC)
+IronPort-SDR: 8ZGdGym+Rj4x6VLZuKqQBgwSJTT06zyoAWV/aU4dNn1/CJovN0f2evPJh0+Xfh8/pR8IkLHTBr
+ sR3lySrZl7Dg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9953"; a="181582333"
+X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; d="scan'208";a="181582333"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2021 09:59:41 -0700
+IronPort-SDR: b9JQnHmyNK9H0SxG2ldlD6mtXXg/Cwe1SH7FDueh3LgvnB1ET5V2880Yxkm6i8xK9N1XD7izze
+ ToJ8S6k9gT4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; d="scan'208";a="424337626"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga008.jf.intel.com with SMTP; 13 Apr 2021 09:59:35 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 13 Apr 2021 19:59:34 +0300
+Date: Tue, 13 Apr 2021 19:59:34 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+Subject: Re: [PATCH] drm/i915: Fix "mitigations" parsing if i915 is builtin
+Message-ID: <YHXN9lqtdvisT8gn@intel.com>
+References: <20210413170240.0d4ffa38@xhacker.debian>
 MIME-Version: 1.0
-References: <20210413135248.1266-1-christian.koenig@amd.com>
- <20210413135248.1266-3-christian.koenig@amd.com>
-In-Reply-To: <20210413135248.1266-3-christian.koenig@amd.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 13 Apr 2021 17:18:59 +0100
-Message-ID: <CAM0jSHOrQq4U9JzZrTZ_wkfGru+TYj-c9AzjaFjb4U-zBRoQFg@mail.gmail.com>
-Subject: Re: [PATCH 3/7] drm/ttm: minor range manager coding style clean ups
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20210413170240.0d4ffa38@xhacker.debian>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,19 +49,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Jon Bloomfield <jon.bloomfield@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAxMyBBcHIgMjAyMSBhdCAxNDo1MywgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
-ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gTm8gZnVuY3Rpb25hbCBjaGFuZ2Vz
-LCBqdXN0IHJlbW92aW5nIHRoZSBsZWZ0b3ZlcnMgZnJvbSB0aGUgcmVkZXNpZ24uCj4KPiBTaWdu
-ZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClJl
-dmlld2VkLWJ5OiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVsZEBpbnRlbC5jb20+Cl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Apr 13, 2021 at 05:02:40PM +0800, Jisheng Zhang wrote:
+> I met below error during boot with i915 builtin if pass
+> "i915.mitigations=3Doff":
+> [    0.015589] Booting kernel: `off' invalid for parameter `i915.mitigati=
+ons'
+> =
+
+> The reason is slab subsystem isn't ready at that time, so kstrdup()
+> returns NULL. Fix this issue by using stack var instead of kstrdup().
+> =
+
+> Fixes: 984cadea032b ("drm/i915: Allow the sysadmin to override security m=
+itigations")
+> Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+> ---
+>  drivers/gpu/drm/i915/i915_mitigations.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/i915_mitigations.c b/drivers/gpu/drm/i9=
+15/i915_mitigations.c
+> index 84f12598d145..7dadf41064e0 100644
+> --- a/drivers/gpu/drm/i915/i915_mitigations.c
+> +++ b/drivers/gpu/drm/i915/i915_mitigations.c
+> @@ -29,15 +29,13 @@ bool i915_mitigate_clear_residuals(void)
+>  static int mitigations_set(const char *val, const struct kernel_param *k=
+p)
+>  {
+>  	unsigned long new =3D ~0UL;
+> -	char *str, *sep, *tok;
+> +	char str[64], *sep, *tok;
+>  	bool first =3D true;
+>  	int err =3D 0;
+>  =
+
+>  	BUILD_BUG_ON(ARRAY_SIZE(names) >=3D BITS_PER_TYPE(mitigations));
+>  =
+
+> -	str =3D kstrdup(val, GFP_KERNEL);
+> -	if (!str)
+> -		return -ENOMEM;
+> +	strncpy(str, val, sizeof(str) - 1);
+
+I don't think strncpy() guarantees that the string is properly
+terminated.
+
+Also commit b1b6bed3b503 ("usb: core: fix quirks_param_set() writing to
+a const pointer") looks broken as well given your findings, and
+arch/um/drivers/virtio_uml.c seems to suffer from this as well.
+kernel/params.c itself seems to have some slab_is_available() magic
+around kmalloc().
+
+I used the following cocci snippet to find these:
+@find@
+identifier O, F;
+position PS;
+@@
+struct kernel_param_ops O =3D {
+...,
+        .set =3D F@PS
+,...
+};
+
+@alloc@
+identifier ALLOC =3D~ "^k.*(alloc|dup)";
+identifier find.F;
+position PA;
+@@
+F(...) {
+<+...
+ALLOC@PA(...)
+...+>
+}
+
+@script:python depends on alloc@
+ps << find.PS;
+pa << alloc.PA;
+@@
+coccilib.report.print_report(ps[0], "struct")
+coccilib.report.print_report(pa[0], "alloc")
+
+That could of course miss a bunch more if they allocate
+via some other function I didn't consider.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
