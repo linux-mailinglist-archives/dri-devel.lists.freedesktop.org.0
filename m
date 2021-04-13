@@ -1,41 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D585535E10B
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 16:14:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C99335E135
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Apr 2021 16:17:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6AB189D79;
-	Tue, 13 Apr 2021 14:14:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D35146E1E8;
+	Tue, 13 Apr 2021 14:17:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5149989D79
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 14:14:14 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1lWJnw-0001Xa-8n; Tue, 13 Apr 2021 16:14:12 +0200
-Message-ID: <83a41b2e9636cb6a790b23843c6d2628d02c6997.camel@pengutronix.de>
-Subject: Re: [PATCH 05/12] drm/imx: Don't set allow_fb_modifiers explicitly
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 13 Apr 2021 16:14:11 +0200
-In-Reply-To: <YHWk9V/4mu1lGFgD@phenom.ffwll.local>
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3B0C6E1CE
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 14:17:22 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id g9so612190wrx.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 07:17:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=EWkbtWDvwh8blHW1S1oYsLwYpInQjnR4KgbkuHfuuVE=;
+ b=j9e+bF89hsG/mvnUH7qdvm8+SCCuzoXLUIud1mVkNI/ABHL2kki35lle2L94FAs78A
+ 0x2AhAvLVKdtMyJRlR+k4O96KvngfF1DCaJ7PUemQdHV4BBbKgoVr79ur28yL6YddmMN
+ BsYlzGyYmVnaz8WPdpduF/oxLp7d6qdbZAyX0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=EWkbtWDvwh8blHW1S1oYsLwYpInQjnR4KgbkuHfuuVE=;
+ b=CiYJvEQCkAeGj0i3lzMa6VQs6FYV4FAqixAgs6atpIxXmiu0AF5oAtkUSUBh36wS2G
+ dLc0HYMqiKkLqQLqDim45WyOALePxuczJ8R0nw5QSsz5PzreUw5s4PNhu4rAJJyOBonx
+ DYMDgixGCAWP5ijfC7aQYiD69zfOSkwa0ozyyUefLtCfdU6Dcnb520jDZK7Dc9huNMVB
+ L6Q4wHCjPh1Y77DIMy4NIMnUU4iV7ZklGnrBHmdBXhfEC0gnmYlW7ziY2rUVDPRxKe2T
+ U/HsWahPLriKuWqZ/+xHjxVs8OFx5al3Bsmzmbj5sNW9rCmbXr85m+F5JM6IrMd3WZ5z
+ wLSQ==
+X-Gm-Message-State: AOAM530sXjKOAms65SIm8BIm/zk3X6QRau7WYJ2d5L44sLzsLjHjgiIp
+ zT/ncyWTPuOKSfSAOmMKuzk0ng==
+X-Google-Smtp-Source: ABdhPJzLVkEnh1saGTErC6z1h+PidyjRulX7bU4c7GzVOU+VP44/TFtScd+x3Lf34cnJJawUPxwGrg==
+X-Received: by 2002:adf:fd90:: with SMTP id d16mr15767803wrr.96.1618323441609; 
+ Tue, 13 Apr 2021 07:17:21 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l4sm2567526wmh.8.2021.04.13.07.17.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Apr 2021 07:17:20 -0700 (PDT)
+Date: Tue, 13 Apr 2021 16:17:17 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH 12/12] drm/modifiers: Enforce consistency between the cap
+ an IN_FORMATS
+Message-ID: <YHWn7S2a+HAL9DtZ@phenom.ffwll.local>
 References: <20210413094904.3736372-1-daniel.vetter@ffwll.ch>
- <20210413094904.3736372-5-daniel.vetter@ffwll.ch>
- <290aef5ed13749d465eb19235aa87a2cef63dd2a.camel@pengutronix.de>
- <YHWk9V/4mu1lGFgD@phenom.ffwll.local>
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+ <20210413094904.3736372-12-daniel.vetter@ffwll.ch>
+ <bea01abded059c00de330fbc154ee0db7378d58e.camel@pengutronix.de>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <bea01abded059c00de330fbc154ee0db7378d58e.camel@pengutronix.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,73 +68,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gRGllbnN0YWcsIGRlbSAxMy4wNC4yMDIxIHVtIDE2OjA0ICswMjAwIHNjaHJpZWIgRGFuaWVs
-IFZldHRlcjoKPiBPbiBUdWUsIEFwciAxMywgMjAyMSBhdCAwMTo0NzoyOFBNICswMjAwLCBMdWNh
-cyBTdGFjaCB3cm90ZToKPiA+IEFtIERpZW5zdGFnLCBkZW0gMTMuMDQuMjAyMSB1bSAxMTo0OCAr
-MDIwMCBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPiA+IFNpbmNlCj4gPiA+IAo+ID4gPiBjb21t
-aXQgODkwODgwZGRmZGJlMjU2MDgzMTcwODY2ZTQ5Yzg3NjE4YjcwNmFjNwo+ID4gPiBBdXRob3I6
-IFBhdWwgS29jaWFsa293c2tpIDxwYXVsLmtvY2lhbGtvd3NraUBib290bGluLmNvbT4KPiA+ID4g
-RGF0ZTogICBGcmkgSmFuIDQgMDk6NTY6MTAgMjAxOSArMDEwMAo+ID4gPiAKPiA+ID4gwqDCoMKg
-wqBkcm06IEF1dG8tc2V0IGFsbG93X2ZiX21vZGlmaWVycyB3aGVuIGdpdmVuIG1vZGlmaWVycyBh
-dCBwbGFuZSBpbml0Cj4gPiA+IAo+ID4gPiB0aGlzIGlzIGRvbmUgYXV0b21hdGljYWxseSBhcyBw
-YXJ0IG9mIHBsYW5lIGluaXQsIGlmIGRyaXZlcnMgc2V0IHRoZQo+ID4gPiBtb2RpZmllciBsaXN0
-IGNvcnJlY3RseS4gV2hpY2ggaXMgdGhlIGNhc2UgaGVyZS4KPiA+ID4gCj4gPiA+IFRoaXMgb25l
-IGFjdHVhbGx5IHNldCBpdCB0d2ljZSBvbiB0b3Agb2Ygd2hhdCBkcm1fcGxhbmVfaW5pdCBkb2Vz
-LCBzbwo+ID4gPiBkb3VibGUtcmVkdW5kYW50IQo+ID4gCj4gPiBUaGF0J3Mgbm90IHRydWUuIGlt
-eC1kY3NzIGFuZCBpbXgtZHJtIGFyZSB0d28gdG90YWxseSBzZXBhcmF0ZSBkcml2ZXJzLgo+ID4g
-TWF5YmUgd2Ugc2hvdWxkIG1vdmUgaW14LWRybSBpbnRvIGl0cyBvd24gaXB1djMgZGlyZWN0b3J5
-IG9uZSBkYXkgdG8KPiA+IG1ha2UgdGhpcyBtb3JlIGNsZWFyLiBDaGFuZ2UgaXMgc3RpbGwgY29y
-cmVjdCwgdGhvdWdoLgo+IAo+IEhtIEkgZ3JlZXBlZCBmb3IgZHJtX3VuaXZlcnNhbF9wbGFuZV9p
-bml0IGFuZCBkaWRuJ3QgZmluZCBhbnl0aGluZiBmb3IgdGhlCj4gaW14IG1haW4gZHJpdmVyIC4u
-LiB3aGVyZSBhcmUgcGxhbmVzIHNldCB1cCBmb3IgdGhhdD8gTmVlZCB0byByZXZpZXcgdGhhdAo+
-IHRoZXkgaGF2ZSB0aGUgbW9kaWZpZXJzIGxpc3RlZCBpbiBhbGwgY2FzZXMuCgpUaGF0J3MgaW4g
-ZHJpdmVycy9ncHUvZHJtL2lteC9pcHV2My1wbGFuZS5jIGFuZCBtb2RpZmllcnMgYXJlIGFsd2F5
-cwpzZXQgb24gcGxhbmUgaW5pdC4KClJlZ2FyZHMsCkx1Y2FzCgo+IAo+ID4gCj4gPiBSZXZpZXdl
-ZC1ieTogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Cj4gPiAKPiA+ID4gU2ln
-bmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gPiA+
-IENjOiBQaGlsaXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPgo+ID4gPiBDYzogU2hh
-d24gR3VvIDxzaGF3bmd1b0BrZXJuZWwub3JnPgo+ID4gPiBDYzogU2FzY2hhIEhhdWVyIDxzLmhh
-dWVyQHBlbmd1dHJvbml4LmRlPgo+ID4gPiBDYzogUGVuZ3V0cm9uaXggS2VybmVsIFRlYW0gPGtl
-cm5lbEBwZW5ndXRyb25peC5kZT4KPiA+ID4gQ2M6IEZhYmlvIEVzdGV2YW0gPGZlc3RldmFtQGdt
-YWlsLmNvbT4KPiA+ID4gQ2M6IE5YUCBMaW51eCBUZWFtIDxsaW51eC1pbXhAbnhwLmNvbT4KPiA+
-ID4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+ID4gPiAtLS0KPiA+
-ID4gwqBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1rbXMuYyB8IDEgLQo+ID4gPiDCoGRy
-aXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMgIHwgMSAtCj4gPiA+IMKgMiBmaWxlcyBj
-aGFuZ2VkLCAyIGRlbGV0aW9ucygtKQo+ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9pbXgvZGNzcy9kY3NzLWttcy5jIGIvZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rj
-c3Mta21zLmMKPiA+ID4gaW5kZXggYjU0OWNlNWU3NjA3Li4zN2FlNjhhN2ZiYTUgMTAwNjQ0Cj4g
-PiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWttcy5jCj4gPiA+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWttcy5jCj4gPiA+IEBAIC01Miw3ICs1Miw2
-IEBAIHN0YXRpYyB2b2lkIGRjc3Nfa21zX21vZGVfY29uZmlnX2luaXQoc3RydWN0IGRjc3Nfa21z
-X2RldiAqa21zKQo+ID4gPiDCoAljb25maWctPm1pbl9oZWlnaHQgPSAxOwo+ID4gPiDCoAljb25m
-aWctPm1heF93aWR0aCA9IDQwOTY7Cj4gPiA+IMKgCWNvbmZpZy0+bWF4X2hlaWdodCA9IDQwOTY7
-Cj4gPiA+IC0JY29uZmlnLT5hbGxvd19mYl9tb2RpZmllcnMgPSB0cnVlOwo+ID4gPiDCoAljb25m
-aWctPm5vcm1hbGl6ZV96cG9zID0gdHJ1ZTsKPiA+ID4gwqAKPiA+ID4gCj4gPiA+IAo+ID4gPiAK
-PiA+ID4gwqAJY29uZmlnLT5mdW5jcyA9ICZkY3NzX2RybV9tb2RlX2NvbmZpZ19mdW5jczsKPiA+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vaW14L2lteC1kcm0tY29yZS5jCj4gPiA+IGluZGV4IDJkZWQ4ZTRmMzJkMC4u
-OGJlNGVkYWVjOTU4IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaW14L2lteC1k
-cm0tY29yZS5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMK
-PiA+ID4gQEAgLTIwOSw3ICsyMDksNiBAQCBzdGF0aWMgaW50IGlteF9kcm1fYmluZChzdHJ1Y3Qg
-ZGV2aWNlICpkZXYpCj4gPiA+IMKgCWRybS0+bW9kZV9jb25maWcubWF4X2hlaWdodCA9IDQwOTY7
-Cj4gPiA+IMKgCWRybS0+bW9kZV9jb25maWcuZnVuY3MgPSAmaW14X2RybV9tb2RlX2NvbmZpZ19m
-dW5jczsKPiA+ID4gwqAJZHJtLT5tb2RlX2NvbmZpZy5oZWxwZXJfcHJpdmF0ZSA9ICZpbXhfZHJt
-X21vZGVfY29uZmlnX2hlbHBlcnM7Cj4gPiA+IC0JZHJtLT5tb2RlX2NvbmZpZy5hbGxvd19mYl9t
-b2RpZmllcnMgPSB0cnVlOwo+ID4gPiDCoAlkcm0tPm1vZGVfY29uZmlnLm5vcm1hbGl6ZV96cG9z
-ID0gdHJ1ZTsKPiA+ID4gwqAKPiA+ID4gCj4gPiA+IAo+ID4gPiAKPiA+ID4gwqAJcmV0ID0gZHJt
-bV9tb2RlX2NvbmZpZ19pbml0KGRybSk7Cj4gPiAKPiA+IAo+IAoKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Apr 13, 2021 at 01:54:00PM +0200, Lucas Stach wrote:
+> Am Dienstag, dem 13.04.2021 um 11:49 +0200 schrieb Daniel Vetter:
+> > It's very confusing for userspace to have to deal with inconsistencies
+> > here, and some drivers screwed this up a bit. Most just ommitted the
+> > format list when they meant to say that only linear modifier is
+> > allowed, but some also meant that only implied modifiers are
+> > acceptable (because actually none of the planes registered supported
+> > modifiers).
+> =
+
+> For a lot of the embedded display drivers that never had any out-of-
+> band tiling meta shared with the GPU part, the implied modifier is
+> actually DRM_FORMAT_MOD_LINEAR, so maybe that's where some of the
+> confusion about needing to specify the modifier list comes from.
+
+Yeah that entire discussion last few days is why I wanted to audit all the
+drivers and make sure that going forward we're more explicit&consistent
+with all this. There's huge confusion around implied modifier vs "no
+IN_FORMATS blob property" and what that exactly means.
+-Daniel
+
+> > Now that this is all done consistently across all drivers, document
+> > the rules and enforce it in the drm core.
+> =
+
+> This clarification looks good to me.
+> =
+
+> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> =
+
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > ---
+> > =A0drivers/gpu/drm/drm_plane.c   | 16 +++++++++++++++-
+> > =A0include/drm/drm_mode_config.h |  2 ++
+> > =A02 files changed, 17 insertions(+), 1 deletion(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> > index 0dd43882fe7c..16a7e3e57f7f 100644
+> > --- a/drivers/gpu/drm/drm_plane.c
+> > +++ b/drivers/gpu/drm/drm_plane.c
+> > @@ -128,6 +128,11 @@
+> > =A0=A0*     pairs supported by this plane. The blob is a struct
+> > =A0=A0*     drm_format_modifier_blob. Without this property the plane d=
+oesn't
+> > =A0=A0*     support buffers with modifiers. Userspace cannot change thi=
+s property.
+> > + *
+> > + *     Note that userspace can check the DRM_CAP_ADDFB2_MODIFIERS driv=
+er
+> > + *     capability for general modifier support. If this flag is set th=
+en every
+> > + *     plane will have the IN_FORMATS property, even when it only supp=
+orts
+> > + *     DRM_FORMAT_MOD_LINEAR.
+> > =A0=A0*/
+> > =A0
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =A0static unsigned int drm_num_planes(struct drm_device *dev)
+> > @@ -277,8 +282,14 @@ static int __drm_universal_plane_init(struct drm_d=
+evice *dev,
+> > =A0			format_modifier_count++;
+> > =A0	}
+> > =A0
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > -	if (format_modifier_count)
+> > +	/* autoset the cap and check for consistency across all planes */
+> > +	if (format_modifier_count) {
+> > +		WARN_ON(!config->allow_fb_modifiers &&
+> > +			!list_empty(&config->plane_list));
+> > =A0		config->allow_fb_modifiers =3D true;
+> > +	} else {
+> > +		WARN_ON(config->allow_fb_modifiers);
+> > +	}
+> > =A0
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =
+
+> > =A0	plane->modifier_count =3D format_modifier_count;
+> > =A0	plane->modifiers =3D kmalloc_array(format_modifier_count,
+> > @@ -360,6 +371,9 @@ static int __drm_universal_plane_init(struct drm_de=
+vice *dev,
+> > =A0=A0* drm_universal_plane_init() to let the DRM managed resource infr=
+astructure
+> > =A0=A0* take care of cleanup and deallocation.
+> > =A0=A0*
+> > + * Drivers supporting modifiers must set @format_modifiers on all thei=
+r planes,
+> > + * even those that only support DRM_FORMAT_MOD_LINEAR.
+> > + *
+> > =A0=A0* Returns:
+> > =A0=A0* Zero on success, error code on failure.
+> > =A0=A0*/
+> > diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_confi=
+g.h
+> > index ab424ddd7665..1ddf7783fdf7 100644
+> > --- a/include/drm/drm_mode_config.h
+> > +++ b/include/drm/drm_mode_config.h
+> > @@ -909,6 +909,8 @@ struct drm_mode_config {
+> > =A0	 * @allow_fb_modifiers:
+> > =A0	 *
+> > =A0	 * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl c=
+all.
+> > +	 * Note that drivers should not set this directly, it is automatically
+> > +	 * set in drm_universal_plane_init().
+> > =A0	 *
+> > =A0	 * IMPORTANT:
+> > =A0	 *
+> =
+
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
