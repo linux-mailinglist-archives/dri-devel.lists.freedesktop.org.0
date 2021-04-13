@@ -1,55 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1DE35E914
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 00:36:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CF935E982
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 01:11:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 208416E408;
-	Tue, 13 Apr 2021 22:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3F646E8B5;
+	Tue, 13 Apr 2021 23:11:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA166E408
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 22:36:29 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id x77so9238967oix.8
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 15:36:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bx5OLW8AWrAh5PTyuugkoe6octVcCySAbvj9ENbK5Ns=;
- b=pE5DEZWx2/TgQcqpVnC47cDiHqpbpHEx3wfvwgCrfwNr7R/bLilrcJDDue2dXX2RjA
- D/0muFx+lzBn13XJcGXSSKtsEhir59A5FBXLm/HA5Nu6t6/V29Y+zo8mOdN6gb9iIQKi
- ICwuDkxX2l4GWZAz4YkkavoOkH267GJgizrOCEbfy8+Hwye8rZcOprHw7CNV7snC1gnt
- ricEEjBzUOHfOxJDwbNMQsdL2DkpoGyFtdf2I1mI/MYFZMBbBoEjHvdqZFLV8/C9ecoh
- t9/aO5e6fJlFYM+A4966q/LM+8PUa9iUqmePdfcoDJbAYvH8bEUDdQM+qnEzhnvs87ZN
- Z2Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bx5OLW8AWrAh5PTyuugkoe6octVcCySAbvj9ENbK5Ns=;
- b=QVgi5Jjdw+SRB3mWEMP0GqHYPVjPgzciHXjc5SofeOnEO8i/p9rzoQ7iNka5ImOQfE
- /AkqDuroRPU0ryDnIcnVpleSO/uuqbYdYt8YOEa5xcN3EbxPRsmqu0mFvHv+4Xyide5L
- FPcDgiUutTtf4AIoYrOEaKIqZ8/8L06yGHeVjH8qOCrvticJKDozTQaUuXHL9nkvjFKI
- wgjTwuXMYyP9SOUFY2PHQ9+TRq3jrPyLq82XZEl/g6ClvS7Jgszv7bGnyiFHq5EtwiWN
- tVAlewhrsIco8I3GB/5dUXConIJOh0IFqsiIqh5IoJIXkoqh/Zil4vtNRM3R/99xCT0g
- 0AIg==
-X-Gm-Message-State: AOAM531YHoDbGBJdyzHJIm63eL/dHfji+Brz4qlD5YPdwcwphg5LBKlZ
- kI67WZQ26An/3vSSca5GYxRHMmrLvjefSJtCC3Q=
-X-Google-Smtp-Source: ABdhPJwEdmwr7xDJd0k+ned0ruUp46LLigHsDmi5gLJyYlfy/iFttzbyPoczsn+KdUL9vH5TG82e74jcUuhNg4IXTTo=
-X-Received: by 2002:aca:c08a:: with SMTP id q132mr2359oif.5.1618353388627;
- Tue, 13 Apr 2021 15:36:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210413170508.968148-1-kai.heng.feng@canonical.com>
- <CADnq5_P7_7jOZWTo+KCj3jOpmyDPN8eH3jNTgg3xLC4V9QM7kQ@mail.gmail.com>
- <CAKMK7uHR0VDk=C+u1d5qiiqQP+3ad5_gXQwvmPbJ56mG=3RjpQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uHR0VDk=C+u1d5qiiqQP+3ad5_gXQwvmPbJ56mG=3RjpQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 13 Apr 2021 18:36:17 -0400
-Message-ID: <CADnq5_MpDz9myx8HiKihq-6_Ud48sN=NXN1_ga7WZa9LguzSjA@mail.gmail.com>
-Subject: Re: [PATCH] efifb: Check efifb_pci_dev before using it
-To: Daniel Vetter <daniel@ffwll.ch>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8B646E8B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Apr 2021 23:11:21 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1618355481; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=h2tWG5xj2ouBn6UjmZ7L2pRBqTOGRrJExh1GiCKRh2Q=;
+ b=bZM1NwbNE61Tx6mkJ5gjhI/+xrOAEtC7nG/7+9oVqTFvq9XNF7wRerpe78bq4NMiJ+cOPwNN
+ d4oMbeC0diB3MtTg6D63o9qSeklSt6DQNziSiiq/fikqgfROt9lLfMPydpbHVviN1a1qKTIG
+ Rd55GXMYcEYHiEK7BjfDzwFgUOE=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 6076251803cfff34528df01c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 13 Apr 2021 23:11:20
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 14EF6C43463; Tue, 13 Apr 2021 23:11:20 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 8A557C433CA;
+ Tue, 13 Apr 2021 23:11:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 8A557C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com,
+	sean@poorly.run,
+	swboyd@chromium.org
+Subject: [PATCH v2 1/3] drm/msm/dp: check sink_count before update
+ is_connected status
+Date: Tue, 13 Apr 2021 16:11:10 -0700
+Message-Id: <1618355470-5226-1-git-send-email-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,90 +67,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
- "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- pjones@redhat.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 13, 2021 at 2:37 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, Apr 13, 2021 at 8:02 PM Alex Deucher <alexdeucher@gmail.com> wrote:
-> >
-> > On Tue, Apr 13, 2021 at 1:05 PM Kai-Heng Feng
-> > <kai.heng.feng@canonical.com> wrote:
-> > >
-> > > On some platforms like Hyper-V and RPi4 with UEFI firmware, efifb is not
-> > > a PCI device.
-> > >
-> > > So make sure efifb_pci_dev is found before using it.
-> > >
-> > > Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
-> > > BugLink: https://bugs.launchpad.net/bugs/1922403
-> > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> >
-> > Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
->
-> fbdev is in drm-misc, so maybe you can push this one too?
+Link status is different from display connected status in the case
+of something like an Apple dongle where the type-c plug can be
+connected, and therefore the link is connected, but no sink is
+connected until an HDMI cable is plugged into the dongle.
+The sink_count of DPCD of dongle will increase to 1 once an HDMI
+cable is plugged into the dongle so that display connected status
+will become true. This checking also apply at pm_resume.
 
-Yes, pushed.  Thanks!
+Fixes: 94e58e2d06e3 ("drm/msm/dp: reset dp controller only at boot up and pm_resume")
+Reported-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-Alex
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 5a39da6..0ba71c7 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -586,10 +586,8 @@ static int dp_connect_pending_timeout(struct dp_display_private *dp, u32 data)
+ 	mutex_lock(&dp->event_mutex);
+ 
+ 	state = dp->hpd_state;
+-	if (state == ST_CONNECT_PENDING) {
+-		dp_display_enable(dp, 0);
++	if (state == ST_CONNECT_PENDING)
+ 		dp->hpd_state = ST_CONNECTED;
+-	}
+ 
+ 	mutex_unlock(&dp->event_mutex);
+ 
+@@ -669,10 +667,8 @@ static int dp_disconnect_pending_timeout(struct dp_display_private *dp, u32 data
+ 	mutex_lock(&dp->event_mutex);
+ 
+ 	state =  dp->hpd_state;
+-	if (state == ST_DISCONNECT_PENDING) {
+-		dp_display_disable(dp, 0);
++	if (state == ST_DISCONNECT_PENDING)
+ 		dp->hpd_state = ST_DISCONNECTED;
+-	}
+ 
+ 	mutex_unlock(&dp->event_mutex);
+ 
+@@ -1272,7 +1268,12 @@ static int dp_pm_resume(struct device *dev)
+ 
+ 	status = dp_catalog_link_is_connected(dp->catalog);
+ 
+-	if (status)
++	/*
++	 * can not declared display is connected unless
++	 * HDMI cable is plugged in and sink_count of
++	 * dongle become 1
++	 */
++	if (status && dp->link->sink_count)
+ 		dp->dp_display.is_connected = true;
+ 	else
+ 		dp->dp_display.is_connected = false;
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-> -Daniel
->
-> >
-> > > ---
-> > >  drivers/video/fbdev/efifb.c | 6 ++++--
-> > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-> > > index f58a545b3bf3..8ea8f079cde2 100644
-> > > --- a/drivers/video/fbdev/efifb.c
-> > > +++ b/drivers/video/fbdev/efifb.c
-> > > @@ -575,7 +575,8 @@ static int efifb_probe(struct platform_device *dev)
-> > >                 goto err_fb_dealoc;
-> > >         }
-> > >         fb_info(info, "%s frame buffer device\n", info->fix.id);
-> > > -       pm_runtime_get_sync(&efifb_pci_dev->dev);
-> > > +       if (efifb_pci_dev)
-> > > +               pm_runtime_get_sync(&efifb_pci_dev->dev);
-> > >         return 0;
-> > >
-> > >  err_fb_dealoc:
-> > > @@ -602,7 +603,8 @@ static int efifb_remove(struct platform_device *pdev)
-> > >         unregister_framebuffer(info);
-> > >         sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
-> > >         framebuffer_release(info);
-> > > -       pm_runtime_put(&efifb_pci_dev->dev);
-> > > +       if (efifb_pci_dev)
-> > > +               pm_runtime_put(&efifb_pci_dev->dev);
-> > >
-> > >         return 0;
-> > >  }
-> > > --
-> > > 2.30.2
-> > >
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
