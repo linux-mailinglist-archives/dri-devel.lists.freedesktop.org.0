@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9112D35F177
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 12:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B61D35F1A1
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 12:48:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0EB26E90D;
-	Wed, 14 Apr 2021 10:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F63F6E91B;
+	Wed, 14 Apr 2021 10:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 595566E90D
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 10:26:13 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id k26so2923748wrc.8
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 03:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=3Ao5WZ3vwsN7kCb3fIOQbu8eip9MnaKi4smYqZLOdVU=;
- b=HpzvzErt/IA3QiMhRngpcGc806V+tvHqSLTGxDdFzrjiuauCEBfItBbhzahgmC+8LV
- hra21En+pOjA47qwB9e96l9HkFr1fo/esj3WiBtcYsdKIZEs+hc1Por4naCzYMirBoUL
- 8N1ahespUFYCarA7U4WyT+0I1fkcsU38/yQSo=
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70E256E91B
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 10:48:09 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id z1so23111696edb.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 03:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=71H6BA5e3sxeOI5L/yNcffpyi4lbKa/17UHDallHuZk=;
+ b=GWeVdg8eIP+J8wGHBNfiM7kyB3yyp/mU98WxWysW8OBeyduqbXlxAyS1w/UN26/44U
+ daHtlEmLBCoAM1liNcxtSGFd9/gX1LLlMM+rck1pPG/U5062PO0ayX7jX6QbJxMedOt7
+ oedftIvVdKxDHov5ps0zjxLOyMwssq2LWg0k14o/izjUajZYQuoMNLgDYr4xPErWDb+q
+ 5wz2yBgW3XB6q42AxydpRSXuK551Ob8RQC2lEoY/HjQhGMjuYW/O96FbsHR3daQzB6Kf
+ h59YyJG3d9ic+v+1MiWt8B9GPcq07EjgZvITTjdJ43Wkme8fzC4DzvLiIjX3U+f0b9oh
+ Isgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=3Ao5WZ3vwsN7kCb3fIOQbu8eip9MnaKi4smYqZLOdVU=;
- b=Is83WCEXDd/ZahZng+NPF078zhnVYuY1q+rmpaqgO5VB7XVOCbOnzOdIihd5YZqU+G
- jkuo5weOKhqDvt5W69MDJsxiqLMDZYigj2lC9d7ZDxD7Fkdzr9bp0u2ZHHNzCjIopGXJ
- oQ4khTHmC8pKfLQgi3CWK7FYW3A2QX6YOCHX6nVyCDJMm7gHrrBFUjbW4VKWpDE51+ty
- 6/mHTMrKicrK4kqKOLYbZDkSz+aou3ORclzc6uEU8NfR8iNmQHgih/Hf9bKafo9epdYW
- huHKcCdBC9Yt2wAXxa1Bs0qF8zFh/GtG81HGmIL6gcjXqsAJ3j5y0U855Wv9zmdX3Ec1
- pUgA==
-X-Gm-Message-State: AOAM5318p7SAjtATffz7+i+ngws5FRxb1TgXrF558dtXaBcTzaQVPDI7
- B7WRuxoSmtOt2cczXiHOfaM0eA==
-X-Google-Smtp-Source: ABdhPJxfXWCAvCa/HTshJKOoB5O/Cy5Aow+yIkVFu5jTF1Tbf2lhqAgmAMZW2TvKCQdhWmOA7PiGpA==
-X-Received: by 2002:adf:d219:: with SMTP id j25mr27260860wrh.187.1618395972026; 
- Wed, 14 Apr 2021 03:26:12 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x15sm4845424wmi.41.2021.04.14.03.26.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Apr 2021 03:26:11 -0700 (PDT)
-Date: Wed, 14 Apr 2021 12:26:09 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 8/9] drm/ttm: Don't count pages in SG BOs against
- pages_limit
-Message-ID: <YHbDQcr6Yl1Lljep@phenom.ffwll.local>
-References: <20210414064804.29356-1-Felix.Kuehling@amd.com>
- <20210414064804.29356-9-Felix.Kuehling@amd.com>
- <60d08770-e4f5-4e8f-0a93-2270ae02aa26@gmail.com>
- <YHayqD3IbupkY7b+@phenom.ffwll.local>
- <18a18e85-7b0d-649f-64a3-028376d8de15@amd.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=71H6BA5e3sxeOI5L/yNcffpyi4lbKa/17UHDallHuZk=;
+ b=BPkgo5oConxkB8FfEf+ZCkm+aFYwRWJZwZNixSAhj62d106WMaoi4pC/cPVAxOSHsr
+ m/UfpmHN3iDe81X36cWzWLDXeMnDaGjzbxqQrDqPJX3jRMpqhPD9BYYA5kfzGkczBc0j
+ oK7+gqGgxafZ08AdpvYOHzIL1pYNHI7vy0eQ2TOG2ydXa99i/cqwlWm2zuAjfu/Z6MFL
+ rfuqUvZvrYO+mXf+60YEwS2ZoJUHrY/qbGyLWlvJCtPC/Ov5klLnCHQPNbZbLO3kLpg8
+ SoAjUvulAmToCgy4KdflJD0z7OAOl6GnSP1uCWIqYt0opVAZfZ+b/noOABx8aVQvys9P
+ PuMQ==
+X-Gm-Message-State: AOAM532g6FYXHbenVW8yvQQnWGZs2gmXtk4jJD/8IrvgcAZPSHMLrUbT
+ XCX+rY7nPCmqZZ6b+eDkrhw=
+X-Google-Smtp-Source: ABdhPJxW7X2zWE++NO+HX8XShQjvQNVVnzIvSxxDaCXkHOE9Cz4cONWWadThvXvwglbVcAeTvHkalQ==
+X-Received: by 2002:a05:6402:716:: with SMTP id
+ w22mr17509945edx.206.1618397288079; 
+ Wed, 14 Apr 2021 03:48:08 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:e934:1a45:3324:73c2?
+ ([2a02:908:1252:fb60:e934:1a45:3324:73c2])
+ by smtp.gmail.com with ESMTPSA id ws15sm3451572ejb.38.2021.04.14.03.48.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Apr 2021 03:48:07 -0700 (PDT)
+Subject: Re: [PATCH 5/7] drm/ttm: add ttm_sys_manager
+To: Matthew Auld <matthew.william.auld@gmail.com>
+References: <20210413135248.1266-1-christian.koenig@amd.com>
+ <20210413135248.1266-5-christian.koenig@amd.com>
+ <CAM0jSHP+=z5EHKDUzGPPVsYWGvRCBb4gcNFGYn53H2OdiopNPQ@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <23db48d1-f691-f2be-9eac-131b2c441443@gmail.com>
+Date: Wed, 14 Apr 2021 12:48:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <18a18e85-7b0d-649f-64a3-028376d8de15@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <CAM0jSHP+=z5EHKDUzGPPVsYWGvRCBb4gcNFGYn53H2OdiopNPQ@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,145 +73,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 14, 2021 at 11:19:41AM +0200, Christian K=F6nig wrote:
-> Am 14.04.21 um 11:15 schrieb Daniel Vetter:
-> > On Wed, Apr 14, 2021 at 08:51:51AM +0200, Christian K=F6nig wrote:
-> > > Am 14.04.21 um 08:48 schrieb Felix Kuehling:
-> > > > Pages in SG BOs were not allocated by TTM. So don't count them agai=
-nst
-> > > > TTM's pages limit.
-> > > > =
-
-> > > > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
-> > > =
-
-> > > Going to pick that one up for inclusion in drm-misc-next.
-> > See my other email, but why do we need this? A bit more explanation is =
-imo
-> > needed here at least, since we still need to guarantee that allocations
-> > don't over the limit in total for all gpu buffers together. At least un=
-til
-> > the shrinker has landed.
-> > =
-
-> > And this here just opens up the barn door without any explanation why i=
-t's
-> > ok.
-> =
-
-> The SG based BOs might not even be backed by pages. E.g. exported VRAM.
-> =
-
-> So either they are exported by a driver which should have accounted for t=
-he
-> allocation, exported by TTM which already did the accounting or doesn't e=
-ven
-> point to pages at all.
-> =
-
-> This is really a bug fix to recreate the behavior we had before moving the
-> accounting to this place.
-
-Throw that into the commit message and a-b: me. Ideally with a Fixes: line
-or so pointing at the offending commit that broke stuff. Commit messages
-should really go into more detail when there's an entire story behind a
-small change like this one.
--Daniel
-
-> =
-
-> Christian.
-> =
-
-> > -Daniel
-> > =
-
-> > > Regards,
-> > > Christian.
-> > > =
-
-> > > > ---
-> > > >    drivers/gpu/drm/ttm/ttm_tt.c | 27 ++++++++++++++++++---------
-> > > >    1 file changed, 18 insertions(+), 9 deletions(-)
-> > > > =
-
-> > > > diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm=
-_tt.c
-> > > > index 5d8820725b75..e8b8c3257392 100644
-> > > > --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> > > > +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> > > > @@ -317,9 +317,12 @@ int ttm_tt_populate(struct ttm_device *bdev,
-> > > >    	if (ttm_tt_is_populated(ttm))
-> > > >    		return 0;
-> > > > -	atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
-> > > > -	if (bdev->pool.use_dma32)
-> > > > -		atomic_long_add(ttm->num_pages, &ttm_dma32_pages_allocated);
-> > > > +	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-> > > > +		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
-> > > > +		if (bdev->pool.use_dma32)
-> > > > +			atomic_long_add(ttm->num_pages,
-> > > > +					&ttm_dma32_pages_allocated);
-> > > > +	}
-> > > >    	while (atomic_long_read(&ttm_pages_allocated) > ttm_pages_limit=
- ||
-> > > >    	       atomic_long_read(&ttm_dma32_pages_allocated) >
-> > > > @@ -350,9 +353,12 @@ int ttm_tt_populate(struct ttm_device *bdev,
-> > > >    	return 0;
-> > > >    error:
-> > > > -	atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
-> > > > -	if (bdev->pool.use_dma32)
-> > > > -		atomic_long_sub(ttm->num_pages, &ttm_dma32_pages_allocated);
-> > > > +	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-> > > > +		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
-> > > > +		if (bdev->pool.use_dma32)
-> > > > +			atomic_long_sub(ttm->num_pages,
-> > > > +					&ttm_dma32_pages_allocated);
-> > > > +	}
-> > > >    	return ret;
-> > > >    }
-> > > >    EXPORT_SYMBOL(ttm_tt_populate);
-> > > > @@ -382,9 +388,12 @@ void ttm_tt_unpopulate(struct ttm_device *bdev=
-, struct ttm_tt *ttm)
-> > > >    	else
-> > > >    		ttm_pool_free(&bdev->pool, ttm);
-> > > > -	atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
-> > > > -	if (bdev->pool.use_dma32)
-> > > > -		atomic_long_sub(ttm->num_pages, &ttm_dma32_pages_allocated);
-> > > > +	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-> > > > +		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
-> > > > +		if (bdev->pool.use_dma32)
-> > > > +			atomic_long_sub(ttm->num_pages,
-> > > > +					&ttm_dma32_pages_allocated);
-> > > > +	}
-> > > >    	ttm->page_flags &=3D ~TTM_PAGE_FLAG_PRIV_POPULATED;
-> > > >    }
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fl=
-ists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D04%7C01%7C=
-christian.koenig%40amd.com%7C3075d7fd16644322a13608d8ff25d59b%7C3dd8961fe48=
-84e608e11a82d994e183d%7C0%7C0%7C637539885255795187%7CUnknown%7CTWFpbGZsb3d8=
-eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&a=
-mp;sdata=3DKOnHA1CbNFjjMZR2rgHmGkH%2B7C84YCtA6u9V1wBAay4%3D&amp;reserved=3D0
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpBbSAxNC4wNC4yMSB1bSAxMjowNSBzY2hyaWViIE1hdHRoZXcgQXVsZDoKPiBPbiBUdWUsIDEz
+IEFwciAyMDIxIGF0IDE0OjUzLCBDaHJpc3RpYW4gS8O2bmlnCj4gPGNrb2VuaWcubGVpY2h0enVt
+ZXJrZW5AZ21haWwuY29tPiB3cm90ZToKPj4gQWRkIGEgc2VwYXJhdGUgbWFuYWdlciBmb3IgdGhl
+IHN5c3RlbSBkb21haW4gYW5kIG1ha2UgZnVuY3Rpb24gdGFibGVzCj4+IG1hbmRhdG9yeS4KPj4K
+Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQu
+Y29tPgo+PiAtLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL01ha2VmaWxlICAgICAgICAgIHwg
+IDIgKy0KPj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9kZXZpY2UuYyAgICAgIHwgMTcgKy0t
+LS0tLS0tLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX21vZHVsZS5oICAgICAgfCAgMyAr
+Kwo+PiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Jlc291cmNlLmMgICAgfCAxMCArKy0tLS0K
+Pj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9zeXNfbWFuYWdlci5jIHwgNDYgKysrKysrKysr
+KysrKysrKysrKysrKysrKysrCj4+ICAgNSBmaWxlcyBjaGFuZ2VkLCA1MyBpbnNlcnRpb25zKCsp
+LCAyNSBkZWxldGlvbnMoLSkKPj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJt
+L3R0bS90dG1fc3lzX21hbmFnZXIuYwo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3R0bS9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS90dG0vTWFrZWZpbGUKPj4gaW5kZXggNDBl
+NWU5ZGE3OTUzLi5mOTA2YjIyOTU5Y2YgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90
+dG0vTWFrZWZpbGUKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS9NYWtlZmlsZQo+PiBAQCAt
+NCw3ICs0LDcgQEAKPj4KPj4gICB0dG0teSA6PSB0dG1fdHQubyB0dG1fYm8ubyB0dG1fYm9fdXRp
+bC5vIHR0bV9ib192bS5vIHR0bV9tb2R1bGUubyBcCj4+ICAgICAgICAgIHR0bV9leGVjYnVmX3V0
+aWwubyB0dG1fcmFuZ2VfbWFuYWdlci5vIHR0bV9yZXNvdXJjZS5vIHR0bV9wb29sLm8gXAo+PiAt
+ICAgICAgIHR0bV9kZXZpY2Uubwo+PiArICAgICAgIHR0bV9kZXZpY2UubyB0dG1fc3lzX21hbmFn
+ZXIubwo+PiAgIHR0bS0kKENPTkZJR19BR1ApICs9IHR0bV9hZ3BfYmFja2VuZC5vCj4+Cj4+ICAg
+b2JqLSQoQ09ORklHX0RSTV9UVE0pICs9IHR0bS5vCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9kZXZpY2UuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2RldmljZS5j
+Cj4+IGluZGV4IDFmMjAyNDE2NGQ3Mi4uMzk5NTZlMDhiNGMzIDEwMDY0NAo+PiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vdHRtL3R0bV9kZXZpY2UuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRt
+L3R0bV9kZXZpY2UuYwo+PiBAQCAtMTY1LDIxICsxNjUsNiBAQCBpbnQgdHRtX2RldmljZV9zd2Fw
+b3V0KHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHggKmN0
+eCwKPj4gICB9Cj4+ICAgRVhQT1JUX1NZTUJPTCh0dG1fZGV2aWNlX3N3YXBvdXQpOwo+Pgo+PiAt
+c3RhdGljIHZvaWQgdHRtX2luaXRfc3lzbWFuKHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2KQo+PiAt
+ewo+PiAtICAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuID0gJmJkZXYtPnN5
+c21hbjsKPj4gLQo+PiAtICAgICAgIC8qCj4+IC0gICAgICAgICogSW5pdGlhbGl6ZSB0aGUgc3lz
+dGVtIG1lbW9yeSBidWZmZXIgdHlwZS4KPj4gLSAgICAgICAgKiBPdGhlciB0eXBlcyBuZWVkIHRv
+IGJlIGRyaXZlciAvIElPQ1RMIGluaXRpYWxpemVkLgo+PiAtICAgICAgICAqLwo+PiAtICAgICAg
+IG1hbi0+dXNlX3R0ID0gdHJ1ZTsKPj4gLQo+PiAtICAgICAgIHR0bV9yZXNvdXJjZV9tYW5hZ2Vy
+X2luaXQobWFuLCAwKTsKPj4gLSAgICAgICB0dG1fc2V0X2RyaXZlcl9tYW5hZ2VyKGJkZXYsIFRU
+TV9QTF9TWVNURU0sIG1hbik7Cj4+IC0gICAgICAgdHRtX3Jlc291cmNlX21hbmFnZXJfc2V0X3Vz
+ZWQobWFuLCB0cnVlKTsKPj4gLX0KPj4gLQo+PiAgIHN0YXRpYyB2b2lkIHR0bV9kZXZpY2VfZGVs
+YXllZF93b3JrcXVldWUoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+PiAgIHsKPj4gICAgICAg
+ICAgc3RydWN0IHR0bV9kZXZpY2UgKmJkZXYgPQo+PiBAQCAtMjIyLDcgKzIwNyw3IEBAIGludCB0
+dG1fZGV2aWNlX2luaXQoc3RydWN0IHR0bV9kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fZGV2aWNl
+X2Z1bmNzICpmdW5jcywKPj4KPj4gICAgICAgICAgYmRldi0+ZnVuY3MgPSBmdW5jczsKPj4KPj4g
+LSAgICAgICB0dG1faW5pdF9zeXNtYW4oYmRldik7Cj4+ICsgICAgICAgdHRtX3N5c19tYW5faW5p
+dChiZGV2KTsKPj4gICAgICAgICAgdHRtX3Bvb2xfaW5pdCgmYmRldi0+cG9vbCwgZGV2LCB1c2Vf
+ZG1hX2FsbG9jLCB1c2VfZG1hMzIpOwo+Pgo+PiAgICAgICAgICBiZGV2LT52bWFfbWFuYWdlciA9
+IHZtYV9tYW5hZ2VyOwo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fbW9k
+dWxlLmggYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9tb2R1bGUuaAo+PiBpbmRleCBkN2NhYzVk
+NGI4MzUuLjI2NTY0YTk4OTU4ZiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90
+dG1fbW9kdWxlLmgKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fbW9kdWxlLmgKPj4g
+QEAgLTM0LDcgKzM0LDEwIEBACj4+ICAgI2RlZmluZSBUVE1fUEZYICJbVFRNXSAiCj4+Cj4+ICAg
+c3RydWN0IGRlbnRyeTsKPj4gK3N0cnVjdCB0dG1fZGV2aWNlOwo+Pgo+PiAgIGV4dGVybiBzdHJ1
+Y3QgZGVudHJ5ICp0dG1fZGVidWdmc19yb290Owo+Pgo+PiAraW50IHR0bV9zeXNfbWFuX2luaXQo
+c3RydWN0IHR0bV9kZXZpY2UgKmJkZXYpOwo+PiArCj4+ICAgI2VuZGlmIC8qIF9UVE1fTU9EVUxF
+X0hfICovCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9yZXNvdXJjZS5j
+IGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcmVzb3VyY2UuYwo+PiBpbmRleCAwNGYyZWVmNjUz
+YWIuLmE2OTAwYjgyZjMxYSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
+cmVzb3VyY2UuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9yZXNvdXJjZS5jCj4+
+IEBAIC0zMyw5ICszMyw2IEBAIGludCB0dG1fcmVzb3VyY2VfYWxsb2Moc3RydWN0IHR0bV9idWZm
+ZXJfb2JqZWN0ICpibywKPj4gICAgICAgICAgICAgICAgICB0dG1fbWFuYWdlcl90eXBlKGJvLT5i
+ZGV2LCByZXMtPm1lbV90eXBlKTsKPj4KPj4gICAgICAgICAgcmVzLT5tbV9ub2RlID0gTlVMTDsK
+Pj4gLSAgICAgICBpZiAoIW1hbi0+ZnVuYyB8fCAhbWFuLT5mdW5jLT5hbGxvYykKPj4gLSAgICAg
+ICAgICAgICAgIHJldHVybiAwOwo+PiAtCj4+ICAgICAgICAgIHJldHVybiBtYW4tPmZ1bmMtPmFs
+bG9jKG1hbiwgYm8sIHBsYWNlLCByZXMpOwo+PiAgIH0KPj4KPj4gQEAgLTQ0LDkgKzQxLDcgQEAg
+dm9pZCB0dG1fcmVzb3VyY2VfZnJlZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBzdHJ1
+Y3QgdHRtX3Jlc291cmNlICpyZXMpCj4+ICAgICAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2VfbWFu
+YWdlciAqbWFuID0KPj4gICAgICAgICAgICAgICAgICB0dG1fbWFuYWdlcl90eXBlKGJvLT5iZGV2
+LCByZXMtPm1lbV90eXBlKTsKPj4KPj4gLSAgICAgICBpZiAobWFuLT5mdW5jICYmIG1hbi0+ZnVu
+Yy0+ZnJlZSkKPj4gLSAgICAgICAgICAgICAgIG1hbi0+ZnVuYy0+ZnJlZShtYW4sIHJlcyk7Cj4+
+IC0KPj4gKyAgICAgICBtYW4tPmZ1bmMtPmZyZWUobWFuLCByZXMpOwo+PiAgICAgICAgICByZXMt
+Pm1tX25vZGUgPSBOVUxMOwo+PiAgICAgICAgICByZXMtPm1lbV90eXBlID0gVFRNX1BMX1NZU1RF
+TTsKPj4gICB9Cj4+IEBAIC0xMzksNyArMTM0LDYgQEAgdm9pZCB0dG1fcmVzb3VyY2VfbWFuYWdl
+cl9kZWJ1ZyhzdHJ1Y3QgdHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbiwKPj4gICAgICAgICAgZHJt
+X3ByaW50ZihwLCAiICB1c2VfdHlwZTogJWRcbiIsIG1hbi0+dXNlX3R5cGUpOwo+PiAgICAgICAg
+ICBkcm1fcHJpbnRmKHAsICIgIHVzZV90dDogJWRcbiIsIG1hbi0+dXNlX3R0KTsKPj4gICAgICAg
+ICAgZHJtX3ByaW50ZihwLCAiICBzaXplOiAlbGx1XG4iLCBtYW4tPnNpemUpOwo+PiAtICAgICAg
+IGlmIChtYW4tPmZ1bmMgJiYgbWFuLT5mdW5jLT5kZWJ1ZykKPj4gLSAgICAgICAgICAgICAgICgq
+bWFuLT5mdW5jLT5kZWJ1ZykobWFuLCBwKTsKPj4gKyAgICAgICBtYW4tPmZ1bmMtPmRlYnVnKG1h
+biwgcCk7Cj4gQ2FuIHdlIGRyb3AgdGhpcyBvbmU/IEl0IGxvb2tzIGxpa2Ugbm91dmVhdSBoYXMg
+bWFuYWdlcl9mdW5jcyB3aXRob3V0Cj4gdGhlIC5kZWJ1ZyBob29rPyBMaWtlIG5vdXZlYXVfZ2Fy
+dF9tYW5hZ2VyPwoKQWghIEkgdGhvdWdodCB0aGF0IHdhcyBhbm90aGVyIGNoZWNrIGZvciAhbWFu
+LCBidXQgeW91IGFyZSByaWdodCB0aGF0IAp3aWxsIGJyZWFrIG5vdXZlYXUuCgpUaGFua3MsCkNo
+cmlzdGlhbi4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
