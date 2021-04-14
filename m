@@ -2,57 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EB835F63A
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 16:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234FA35F655
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 16:42:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A8976E4A1;
-	Wed, 14 Apr 2021 14:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E65476E893;
+	Wed, 14 Apr 2021 14:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE3946E4A1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 14:32:48 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id x11so21532787qkp.11
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 07:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uZTA7f1lP/alSRB5qSts1cijc+zm6cFeqObL36qZvHQ=;
- b=YdVYOpxKsSQpZJYtW28M+kzbAMrBgXSUEphLE3HBA+gPNECPpLKx+yE/cy1prdS573
- qkbZGAp3S494ypbtrLJhtX/AFKRuC0tQpHMOPlMcTgTF+2Yp2ppHP34Z3NmPJii3IJFZ
- m1R8b9dRlMdiPZ+tWvVhU2nMQ27QPCKin2pPV+ARDVz4TKjcS4IQ9anD269/00DZWqr8
- DqnMgijFadZ9mJPnqJfODRD93Ghiwcs7XX7Bzxy0VdAXINrigP6OHVDTEs/purgn7cBc
- 6Eb1nIKD/YYfEbMgDnykQs4D+eshiArPmcYYE6+9z9Ef6+19GvYKqUgCPtY4Yj7ZCEki
- ZlYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uZTA7f1lP/alSRB5qSts1cijc+zm6cFeqObL36qZvHQ=;
- b=T/vGfQixxdIrZX+CT/m+saemYqqOMZgbZwGhPHl7DG+HpQI5X6l0oY7AI+iaUuGPvB
- Gk0Cu/1Aea/QGvs9H6sx8hrIZv8JoPJOgqFm7HO5hDu/kgpuQuh5CoxcyKJlX4pYJYJc
- qjy1pd9cJiwKT1/pZKguAxs4weoTFemBM+yJpHe4KrOYeeGU7Y0XEL0imVx8Sgbxuixj
- GubbpHFQhTZluLKcw0bDeDzAffHf/xfP4IYv5Pa9Hd9i2/DOjs2lHdOkVde5q2Jbakz2
- 4ZufI5XDtr0K3yQ4IqO6FLJXYux/+MahEDDeXi5VeXqnIygz75+YuQ/FskalB8cnIR7+
- j2Xw==
-X-Gm-Message-State: AOAM531LtfMCL+yvm2NdQanuHyr67JWLhPBIneIpNRces7IvX0PijxXG
- mYNcOfUlruHVCGQeTn3grn+T4vVo8OypsKwGvM4=
-X-Google-Smtp-Source: ABdhPJyxuP4RuhUEYzj/8bW5yLsFF2F5cs9Ne2TMaTF0ySUJmkOgAI781JYQP7fXJWsmo+mWOmTH6sak7aDzksyPZ4k=
-X-Received: by 2002:a05:620a:2f3:: with SMTP id
- a19mr15355964qko.460.1618410767504; 
- Wed, 14 Apr 2021 07:32:47 -0700 (PDT)
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr00087.outbound.protection.outlook.com [40.107.0.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 746416E4A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 14:34:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c+6CHKjRKQvCZNx2f9r6Xt22a6aJ3GYrEOKZM/wn3SFYGUbaXm5+TVVeB96pqC8ODUPXU0KL2xIV3XtYzTwPmQVEfKTNTWQ4vOUgMlRLDboSAfU+0b8Ptd0TP9B/sIUsazsaDZqtgjgxkEka8Brs41Zf4aa7jq9UB5qipoUach6PqeN19sSUffQxpt0wjJSE/6inF4U4SMAoD5NaXH9PoOVlFihAIfqskxLrsUJ7C2Q1sPkGRNCDv+jKDHc0B12lSHdKdaMWPU+/o0zSwIW12g77DpTVuQRnAOehpa2moym689m4U2DMDcaMWv/j/bXD3DjPouNhPOjbFQfMizCc1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dv1omI8MFqAC+wJx08YmOxdvn3qzpjZ83jgCDfIA9mw=;
+ b=VFPsB00h2hw0bp3HmEpUGRq/omF5xhMcZruR6BlKQ1NTGvt99JAyTO3I1p6fWsNoJ5V3tQbZdGLQY/7MWUGwbjsI1Id+TfuyUgn48SUQhZLmyctQUhUmhGbMh3TjTliQ2cr+2cV4ZzSSYZQ5hxlqUoaaVciqS5lXqN4gPuDHj8Wu0hQWPRBFo3gwj9YZ+P9Yc589ESMPzLpuWQcscMll0FLcLVTSzw0/ubtkxiYM3bo5+fH6rn4lREj7819VK06Npr+bhLQQ1iO7+Tf/AgJl4o5nYdvVcAVhfEaA82J9U8dYlQO3aACPnrOfG/ce3n6pcob+TorZ/X8e2koYG8HEgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dv1omI8MFqAC+wJx08YmOxdvn3qzpjZ83jgCDfIA9mw=;
+ b=Q+I4Dr3J07M28FPivyq8y7gzVVZwf1yo3bcMGykut3lIJ39QKQuqQ+K8A6H1fS91mZM8+bmi+cTxjJsxnifzkTtjgGpdvZZTNJBacZtZnjGjJvVs7e+Mv5Cf/nIx0SpblnVA5cCUt76UuJLMZ/YCsIkC8c0lu8EnIfh72w2oLZE=
+Received: from VE1PR04MB6638.eurprd04.prod.outlook.com (2603:10a6:803:119::15)
+ by VI1PR0402MB2798.eurprd04.prod.outlook.com (2603:10a6:800:ae::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.21; Wed, 14 Apr
+ 2021 14:33:58 +0000
+Received: from VE1PR04MB6638.eurprd04.prod.outlook.com
+ ([fe80::e8e2:7756:13bc:2cb3]) by VE1PR04MB6638.eurprd04.prod.outlook.com
+ ([fe80::e8e2:7756:13bc:2cb3%7]) with mapi id 15.20.3999.037; Wed, 14 Apr 2021
+ 14:33:58 +0000
+From: Robin Gong <yibin.gong@nxp.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>
+Subject: RE: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in probe
+Thread-Topic: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in
+ probe
+Thread-Index: AQHWLcMcvbp0uyGgYk605EKKtgH/8aivLYuAgAF2HACAABbKAIIDgX+Q
+Date: Wed, 14 Apr 2021 14:33:58 +0000
+Message-ID: <VE1PR04MB66387217EDE5133FD2D8F793894E9@VE1PR04MB6638.eurprd04.prod.outlook.com>
+References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
+ <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
+ <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
+ <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
+In-Reply-To: <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: pengutronix.de; dkim=none (message not signed)
+ header.d=none;pengutronix.de; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [92.121.68.129]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 497adc52-b3df-43a9-191f-08d8ff5256e6
+x-ms-traffictypediagnostic: VI1PR0402MB2798:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR0402MB2798F6A1C1253DC2146EC8E4894E9@VI1PR0402MB2798.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: uMO1G+peqKkueAq0cp071OQI3D/LibFl2yQaECJAPijjzXzdlvijPaL6YFdbLy9xbrdcr+4SmNwzNDGNCEfFWiYfg9szaRzxxd5SVKtFwKPGyuGxnLFx1XYsuTn+4KY25mIWEMsUFLKGOo0ALCnxA/k1k4Ubne2TvokBDRo26oKNodBM1+ilyZeUWN9GjlrRPYyt6rn4eKmTFe4kNlM4t2e+p2/qLl0HN+eWKQlRn+UvUUqTRLblbCNuiBNH4pnY1umTs4QZORIbeuc6wsvZ2tHjY00g16TP3x2l2DruGDQ/ASJ2WZXT2PUlqo5XBaIXPOP+g4y4R9j+EbZUivMFOmJTVQsqgV9Dzwjiv8CwFnpZriqOu30XKGt6dIRG2QI98Q0jbaLdbwm8ytAo+sqNiIeuXtyjAuUM3wCqEmGIgM4SeMKi3Gp9eiRaQuXgXm8Qe5OqBNq4UnvMG6blybvr60LLzbA8wOlwMwoKDs1W4HmaFg9C5pmGYPVO25F1PKA/69iKk4U3dy4Dbia0PjS1hhs559zNt47R8zpumLYlHzABB1cxksODsj5/K6cMThQ5SgclJxEvpgUBuERlYY1ZtdLT5A0OheM51qCVt7YMfECuUTcPgFRmJf/bjxXmg+bXGR1x1pAZIiHqIzZSmJgxx+2KiVb8kgDQu1H5gt6GAHs=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR04MB6638.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(346002)(396003)(376002)(366004)(2906002)(478600001)(110136005)(38100700002)(7696005)(54906003)(5660300002)(8936002)(30864003)(122000001)(33656002)(86362001)(316002)(6506007)(66476007)(66556008)(186003)(7416002)(52536014)(83380400001)(8676002)(66946007)(53546011)(26005)(55016002)(76116006)(66446008)(4326008)(9686003)(64756008)(71200400001)(6606295002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?UWRvTUNTMGxnaUxuRjFtVTR4cHR6ekhQaTJ1aHVXQzRYUzFBREdDaHB1OTIr?=
+ =?utf-8?B?VE1RUHlETGs2K3JjUnRvRk96eUhqcG11cXZvbzMzdE5xUkh0dHR6NlJUc29l?=
+ =?utf-8?B?Y1dvcTlRanoyMXFWclFyQ0hVVGYxZVhyQng0WEpsMEFyZ1FlTjE3ZldUZlgv?=
+ =?utf-8?B?VkU5ak1ZK0dkU0YrZTB2cmhJUVEyTXhlRmJrMjdKTTU5QVJtS09MU0JJUWFM?=
+ =?utf-8?B?MjRkMDFPc2k1YkR4cEVBNzRoTTVSRXk1U0o3SGZUVGJmN0J0YkpYU3R6eVFJ?=
+ =?utf-8?B?QnBQQTNNL1pnSHNQVVVKRUlpYjRCcUFqbS9YNngyS3l1Y1lHZ0tkM0I2Nml2?=
+ =?utf-8?B?VTNaTHYrVlArVXN4SG9kRHZHTzlJeGtpUXEvbGJaSXpyRis1RklTYi9VaTc0?=
+ =?utf-8?B?bVg5MEFzN1RsY3RtODBJbHJDSWxWT3NzbGNuRjVoa0hUMFhCdGF0ZEMxK1V4?=
+ =?utf-8?B?MmNDdFR1YWxyNUZFdHkvNlZJSHdzSm1WTHY2bk5YeTR2NnJncHdBeUlqK0s0?=
+ =?utf-8?B?MzU1OFFBMEo2NnpqdEhtTkVlNFVBWmwydlFTMDhkZzMyNmFhTG5SdSsyK0Iw?=
+ =?utf-8?B?Qk1PUFVZUEh2RHhKTmtUbzFkSi8zRHJpdkVtWnYrVU1RRzcyZk9wNndWaEla?=
+ =?utf-8?B?MS9OdEFQbjNheXUyUmpqdU5LNnhXd0o0TlNKMkU3Nm9oMlZZMjBVMWRpU1Rm?=
+ =?utf-8?B?Qmd0bzRjTldtcTlQdXdmd1RqV01nRUJIN3lmWkl1MVZ1VVU2TWZxdnBWL1Rt?=
+ =?utf-8?B?bUNRcnc1d25vM3RQNm5yaXRBTGpHMStZTHUzUEJSVlRDbUhFcnkyT2RPQ2xi?=
+ =?utf-8?B?NlRzbThta1VZeHdjQ3BJQkREcVd4QzVIcndZQlROaWFyY3BaR0trQ1NMV0U4?=
+ =?utf-8?B?OXA3T0JPOUtBTTFKOVFoK1pMOFpmdG5rclplSkduaUU1R0hMV05WNXpwRGx5?=
+ =?utf-8?B?YkhGMG9oa3c2VjROS0xDYlhtQVZENnZjcS8wK0Q0L2dhc3Fja2dyZjZ2eHc0?=
+ =?utf-8?B?WnJWaWFsbWNUdDhvaHU5Nzd1ZVQ5ZkQ5aTkzNUp3aUxPNXloaGZibWNmTG1J?=
+ =?utf-8?B?QkFhdG9CNDRhem1IWVp0UEttKy9PYXk4YktieXNobWlFNS80OGhaRVpSN1VN?=
+ =?utf-8?B?bzYwK1doRHhlT1NjbkkvL1pCdDlNOGQ0dzlwZWZQVXZsTTg0czUyR0RWUlhS?=
+ =?utf-8?B?c3JjY2I1QmxDZjExbFFMbzhndnlFM285Qlp2UFQxVzZlNDhrM21CR0JUa2xh?=
+ =?utf-8?B?cHlVWkowc2VzUXlEb0xBbjRLQWFzSmNFMUhkREY5T3dmNGlsekRicmdoK3VG?=
+ =?utf-8?B?dForWFA3MDN6bFdoMU1wRU1hTlVmSkRhR0JTTWZGYlV1c3p2cU5XbGRibDY5?=
+ =?utf-8?B?ZXQ2OVE4emRpUzQ4ZHJ6Nm5BMC8vYUM4WnBZNDRSKzlCT0VIMGV6aERGcGhu?=
+ =?utf-8?B?UkdUWTB1U3QyY2JraEtEZGE4T3VNSjBQK3RaNjlXYjhFbXI5ME9TWHJYb1l3?=
+ =?utf-8?B?QnFZM3pMWmd2Tk5tTHNGWjZMZmdnNHBiOFJZcjVjRGtqcGpObTRFTjRyTDUw?=
+ =?utf-8?B?MVRjT3hsT3NUTCtGNUNPSEgzb1UrQUhmb2laNUViVEtyc1RwT0xQb3pKemlS?=
+ =?utf-8?B?Uyt5dGZpY2pqYWVhemFRRktJNzg2NDZTb2JTVm8rT0pBTi9hZUJ6dTJTOSsz?=
+ =?utf-8?B?bko5UDV5YzVOU1FtVDZWUGlQbWJ1UmlHcEEwTUJzcVpZekhiQk5aV0ovQ0Z2?=
+ =?utf-8?Q?V2Eln5l87F27IkFzKYkOES1AgO/BRhaXqZjVjQ9?=
 MIME-Version: 1.0
-References: <20210413135248.1266-1-christian.koenig@amd.com>
- <20210413135248.1266-4-christian.koenig@amd.com>
- <CAM0jSHM86Uun6vhndA9fMDCTo_peRRt+VRdXyiA792-b31d7nw@mail.gmail.com>
- <4a6e08f4-e5cc-b2c7-f6b7-cbdd3be555f2@gmail.com>
-In-Reply-To: <4a6e08f4-e5cc-b2c7-f6b7-cbdd3be555f2@gmail.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 14 Apr 2021 15:32:21 +0100
-Message-ID: <CAM0jSHNouiQGg7gKTb7KM1u_spNF5D4xEK3BppPLYobw7WOs+w@mail.gmail.com>
-Subject: Re: [PATCH 4/7] drm/ttm: move the page_alignment into the BO
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6638.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 497adc52-b3df-43a9-191f-08d8ff5256e6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2021 14:33:58.2487 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PjPaATlq1VB1OAmSaXz6iBzi2Vp4NAlzgWiQQJCRlHgwufSKqaFoqR7K8bOVCxIGiXC8L+cX3WLd8Q8/Gwi0VQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2798
+X-Mailman-Approved-At: Wed, 14 Apr 2021 14:42:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,232 +124,368 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Timur Tabi <timur@kernel.org>,
+ Xiubo Li <Xiubo.Lee@gmail.com>, "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "S.j. Wang" <shengjiu.wang@nxp.com>, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "perex@perex.cz" <perex@perex.cz>, Nicolin Chen <nicoleotsuka@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dl-linux-imx <linux-imx@nxp.com>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxNCBBcHIgMjAyMSBhdCAxMDo1NywgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
-ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQW0gMTQuMDQuMjEgdW0gMTE6NDYg
-c2NocmllYiBNYXR0aGV3IEF1bGQ6Cj4gPiBPbiBUdWUsIDEzIEFwciAyMDIxIGF0IDE0OjUzLCBD
-aHJpc3RpYW4gS8O2bmlnCj4gPiA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdy
-b3RlOgo+ID4+IFRoZSBhbGlnbm1lbnQgaXMgYSBjb25zdGFudCBwcm9wZXJ0eSBhbmQgc2hvdWxk
-bid0IGNoYW5nZS4KPiA+Pgo+ID4+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNo
-cmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiA+IFdoYXQgaXMgcGFnZSBhbGlnbm1lbnQgaGVyZT8g
-SXMgaXQganVzdCBmb3IgSFcgcmVzdHJpY3Rpb25zLCBzYXkgaWYgaXQKPiA+IHJlcXVpcmVzIDY0
-SyBwYWdlcyB3aXRoIHRoZSBzYW1lIHBoeXNpY2FsIGFsaWdubWVudCBmb3IgVlJBTSBvcgo+ID4g
-c29tZXRoaW5nPyBCdXQgdGhlbiB3b3VsZG4ndCBpdCBtYWtlIG1vcmUgc2Vuc2UgZm9yIHRoYXQg
-dG8gcmVtYWluIGFzCj4gPiBhIHByb3BlcnR5IG9mIHRoZSByZXNvdXJjZSwgYW5kIG5vdCB0aGUg
-b2JqZWN0PyBPciBhbSBJCj4gPiBtaXN1bmRlcnN0YW5kaW5nIHNvbWV0aGluZz8KPgo+IFRoZSBw
-YWdlX2FsaWdubWVudCAoYmFkIG5hbWUgYnR3KSBpcyB0aGUgcGh5c2ljYWwgYmFzZSBhbGlnbm1l
-bnQgb2YgdGhlCj4gYWxsb2NhdGlvbi4KPgo+IEkgd2FudCB0byBtYWtlIHJlc291cmNlIGFsbG9j
-YXRpb24gb3B0aW9uYWwgaW4gdGhlIG1pZCB0ZXJtLCBhbmQgdGhpcyBpcwo+IHRoZSBvbmx5IGlu
-Zm9ybWF0aW9uIHdlIGN1cnJlbnRseSBkb24ndCBoYXZlIG90aGVyd2lzZS4KPgo+IFRoZSBtb3N0
-IHNlbnNlIHdvdWxkIGl0IG1ha2UgaW4gdGhlIHBsYWNlbWVudCwgc2luY2UgaXQgaXMgcmVhbGx5
-IGFuCj4gYWxsb2NhdGlvbiByZXN0cmljdGlvbi4gQnV0IEkgd291bGQgbmVlZCB0byByZXdvcmsg
-dGhlIHBsYWNlbWVudAo+IGhhbmRsaW5nIGluIGFtZGdwdSBmb3IgdGhpcyB0byBiZSBjb25zaXN0
-ZW50IGZpcnN0Lgo+Cj4gUmVnYXJkcywKPiBDaHJpc3RpYW4uCj4KPiA+Cj4gPj4gLS0tCj4gPj4g
-ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMgICAgICB8ICAyICstCj4g
-Pj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ3R0X21nci5jICB8ICAyICst
-Cj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmggICB8ICAy
-ICstCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYyB8
-ICA1ICsrKy0tCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuaCAg
-ICAgICB8ICAyICstCj4gPj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jICAgICAgICAg
-ICAgICAgICB8ICAzICstLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcmFuZ2VfbWFu
-YWdlci5jICAgICAgfCAgNSArKy0tLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
-ZnhfdGhwLmMgICAgICAgICAgfCAxNSArKysrKysrKy0tLS0tLS0KPiA+PiAgIGluY2x1ZGUvZHJt
-L3R0bS90dG1fYm9fYXBpLmggICAgICAgICAgICAgICAgIHwgIDEgKwo+ID4+ICAgaW5jbHVkZS9k
-cm0vdHRtL3R0bV9yZXNvdXJjZS5oICAgICAgICAgICAgICAgfCAgMSAtCj4gPj4gICAxMCBmaWxl
-cyBjaGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKPiA+Pgo+ID4+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMKPiA+PiBpbmRleCBiNDQzOTA3YWZj
-ZWEuLmYxYzM5N2JlMzgzZCAxMDA2NDQKPiA+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfZ2VtLmMKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
-bWRncHVfZ2VtLmMKPiA+PiBAQCAtNzYzLDcgKzc2Myw3IEBAIGludCBhbWRncHVfZ2VtX29wX2lv
-Y3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gPj4gICAgICAgICAgICAg
-ICAgICB2b2lkIF9fdXNlciAqb3V0ID0gdTY0X3RvX3VzZXJfcHRyKGFyZ3MtPnZhbHVlKTsKPiA+
-Pgo+ID4+ICAgICAgICAgICAgICAgICAgaW5mby5ib19zaXplID0gcm9iai0+dGJvLmJhc2Uuc2l6
-ZTsKPiA+PiAtICAgICAgICAgICAgICAgaW5mby5hbGlnbm1lbnQgPSByb2JqLT50Ym8ubWVtLnBh
-Z2VfYWxpZ25tZW50IDw8IFBBR0VfU0hJRlQ7Cj4gPj4gKyAgICAgICAgICAgICAgIGluZm8uYWxp
-Z25tZW50ID0gcm9iai0+dGJvLnBhZ2VfYWxpZ25tZW50IDw8IFBBR0VfU0hJRlQ7Cj4gPj4gICAg
-ICAgICAgICAgICAgICBpbmZvLmRvbWFpbnMgPSByb2JqLT5wcmVmZXJyZWRfZG9tYWluczsKPiA+
-PiAgICAgICAgICAgICAgICAgIGluZm8uZG9tYWluX2ZsYWdzID0gcm9iai0+ZmxhZ3M7Cj4gPj4g
-ICAgICAgICAgICAgICAgICBhbWRncHVfYm9fdW5yZXNlcnZlKHJvYmopOwo+ID4+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ3R0X21nci5jIGIvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2d0dF9tZ3IuYwo+ID4+IGluZGV4IDg4NjA1NDUz
-NDRjNy4uYzAyNjk3MmNhOWExIDEwMDY0NAo+ID4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9ndHRfbWdyLmMKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfZ3R0X21nci5jCj4gPj4gQEAgLTEzNiw3ICsxMzYsNyBAQCBzdGF0aWMgaW50
-IGFtZGdwdV9ndHRfbWdyX25ldyhzdHJ1Y3QgdHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbiwKPiA+
-Pgo+ID4+ICAgICAgICAgIHNwaW5fbG9jaygmbWdyLT5sb2NrKTsKPiA+PiAgICAgICAgICByID0g
-ZHJtX21tX2luc2VydF9ub2RlX2luX3JhbmdlKCZtZ3ItPm1tLCAmbm9kZS0+bm9kZSwgbWVtLT5u
-dW1fcGFnZXMsCj4gPj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1l
-bS0+cGFnZV9hbGlnbm1lbnQsIDAsIHBsYWNlLT5mcGZuLAo+ID4+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB0Ym8tPnBhZ2VfYWxpZ25tZW50LCAwLCBwbGFjZS0+ZnBm
-biwKPiA+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBsYWNlLT5s
-cGZuLCBEUk1fTU1fSU5TRVJUX0JFU1QpOwo+ID4+ICAgICAgICAgIHNwaW5fdW5sb2NrKCZtZ3It
-PmxvY2spOwo+ID4+Cj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L2FtZGdwdV9vYmplY3QuaCBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmpl
-Y3QuaAo+ID4+IGluZGV4IDlhYzM3NTY5ODIzZi4uYWU0YTY4ZGI4N2MwIDEwMDY0NAo+ID4+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuaAo+ID4+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuaAo+ID4+IEBAIC0xODQs
-NyArMTg0LDcgQEAgc3RhdGljIGlubGluZSB1bnNpZ25lZCBhbWRncHVfYm9fbmdwdV9wYWdlcyhz
-dHJ1Y3QgYW1kZ3B1X2JvICpibykKPiA+Pgo+ID4+ICAgc3RhdGljIGlubGluZSB1bnNpZ25lZCBh
-bWRncHVfYm9fZ3B1X3BhZ2VfYWxpZ25tZW50KHN0cnVjdCBhbWRncHVfYm8gKmJvKQo+ID4+ICAg
-ewo+ID4+IC0gICAgICAgcmV0dXJuIChiby0+dGJvLm1lbS5wYWdlX2FsaWdubWVudCA8PCBQQUdF
-X1NISUZUKSAvIEFNREdQVV9HUFVfUEFHRV9TSVpFOwo+ID4+ICsgICAgICAgcmV0dXJuIChiby0+
-dGJvLnBhZ2VfYWxpZ25tZW50IDw8IFBBR0VfU0hJRlQpIC8gQU1ER1BVX0dQVV9QQUdFX1NJWkU7
-Cj4gPj4gICB9Cj4gPj4KPiA+PiAgIC8qKgo+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV92cmFtX21nci5jCj4gPj4gaW5kZXggMWZjN2VjMGI4OTE1Li4zOGIxOTk1ZDBk
-NmMgMTAwNjQ0Cj4gPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3Zy
-YW1fbWdyLmMKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdnJh
-bV9tZ3IuYwo+ID4+IEBAIC0zOTIsNyArMzkyLDggQEAgc3RhdGljIGludCBhbWRncHVfdnJhbV9t
-Z3JfbmV3KHN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuLAo+ID4+ICAgICAgICAgICAg
-ICAgICAgLyogZGVmYXVsdCB0byAyTUIgKi8KPiA+PiAgICAgICAgICAgICAgICAgIHBhZ2VzX3Bl
-cl9ub2RlID0gKDJVTCA8PCAoMjBVTCAtIFBBR0VfU0hJRlQpKTsKPiA+PiAgICNlbmRpZgo+ID4+
-IC0gICAgICAgICAgICAgICBwYWdlc19wZXJfbm9kZSA9IG1heCgodWludDMyX3QpcGFnZXNfcGVy
-X25vZGUsIG1lbS0+cGFnZV9hbGlnbm1lbnQpOwo+ID4+ICsgICAgICAgICAgICAgICBwYWdlc19w
-ZXJfbm9kZSA9IG1heCgodWludDMyX3QpcGFnZXNfcGVyX25vZGUsCj4gPj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHRiby0+cGFnZV9hbGlnbm1lbnQpOwo+ID4+ICAgICAg
-ICAgICAgICAgICAgbnVtX25vZGVzID0gRElWX1JPVU5EX1VQKG1lbS0+bnVtX3BhZ2VzLCBwYWdl
-c19wZXJfbm9kZSk7Cj4gPj4gICAgICAgICAgfQo+ID4+Cj4gPj4gQEAgLTQzMSw3ICs0MzIsNyBA
-QCBzdGF0aWMgaW50IGFtZGdwdV92cmFtX21ncl9uZXcoc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5h
-Z2VyICptYW4sCj4gPj4KPiA+PiAgICAgICAgICBmb3IgKDsgcGFnZXNfbGVmdDsgKytpKSB7Cj4g
-Pj4gICAgICAgICAgICAgICAgICB1bnNpZ25lZCBsb25nIHBhZ2VzID0gbWluKHBhZ2VzX2xlZnQs
-IHBhZ2VzX3Blcl9ub2RlKTsKPiA+PiAtICAgICAgICAgICAgICAgdWludDMyX3QgYWxpZ25tZW50
-ID0gbWVtLT5wYWdlX2FsaWdubWVudDsKPiA+PiArICAgICAgICAgICAgICAgdWludDMyX3QgYWxp
-Z25tZW50ID0gdGJvLT5wYWdlX2FsaWdubWVudDsKPiA+Pgo+ID4+ICAgICAgICAgICAgICAgICAg
-aWYgKHBhZ2VzID09IHBhZ2VzX3Blcl9ub2RlKQo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAg
-ICBhbGlnbm1lbnQgPSBwYWdlc19wZXJfbm9kZTsKPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL3JhZGVvbi9yYWRlb25fb2JqZWN0LmggYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3Jh
-ZGVvbl9vYmplY3QuaAo+ID4+IGluZGV4IDk4OTZkODIzMWZlNS4uZmQ0MTE2YmRkZTBmIDEwMDY0
-NAo+ID4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX29iamVjdC5oCj4gPj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fb2JqZWN0LmgKPiA+PiBAQCAtMTE5
-LDcgKzExOSw3IEBAIHN0YXRpYyBpbmxpbmUgdW5zaWduZWQgcmFkZW9uX2JvX25ncHVfcGFnZXMo
-c3RydWN0IHJhZGVvbl9ibyAqYm8pCj4gPj4KPiA+PiAgIHN0YXRpYyBpbmxpbmUgdW5zaWduZWQg
-cmFkZW9uX2JvX2dwdV9wYWdlX2FsaWdubWVudChzdHJ1Y3QgcmFkZW9uX2JvICpibykKPiA+PiAg
-IHsKPiA+PiAtICAgICAgIHJldHVybiAoYm8tPnRiby5tZW0ucGFnZV9hbGlnbm1lbnQgPDwgUEFH
-RV9TSElGVCkgLyBSQURFT05fR1BVX1BBR0VfU0laRTsKPiA+PiArICAgICAgIHJldHVybiAoYm8t
-PnRiby5wYWdlX2FsaWdubWVudCA8PCBQQUdFX1NISUZUKSAvIFJBREVPTl9HUFVfUEFHRV9TSVpF
-Owo+ID4+ICAgfQo+ID4+Cj4gPj4gICAvKioKPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3R0bS90dG1fYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPiA+PiBpbmRl
-eCBjZmQwYjkyOTIzOTcuLjJlZmFlNjIwNzU5YSAxMDA2NDQKPiA+PiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9iby5jCj4gPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8u
-Ywo+ID4+IEBAIC05MDMsNyArOTAzLDYgQEAgc3RhdGljIGludCB0dG1fYm9fbW92ZV9idWZmZXIo
-c3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiA+PiAgICAgICAgICBtZW1zZXQoJmhvcCwg
-MCwgc2l6ZW9mKGhvcCkpOwo+ID4+Cj4gPj4gICAgICAgICAgbWVtLm51bV9wYWdlcyA9IFBBR0Vf
-QUxJR04oYm8tPmJhc2Uuc2l6ZSkgPj4gUEFHRV9TSElGVDsKPiA+PiAtICAgICAgIG1lbS5wYWdl
-X2FsaWdubWVudCA9IGJvLT5tZW0ucGFnZV9hbGlnbm1lbnQ7Cj4gPj4gICAgICAgICAgbWVtLmJ1
-cy5vZmZzZXQgPSAwOwo+ID4+ICAgICAgICAgIG1lbS5idXMuYWRkciA9IE5VTEw7Cj4gPj4gICAg
-ICAgICAgbWVtLm1tX25vZGUgPSBOVUxMOwo+ID4+IEBAIC0xMDM4LDEwICsxMDM3LDEwIEBAIGlu
-dCB0dG1fYm9faW5pdF9yZXNlcnZlZChzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiwKPiA+PiAgICAg
-ICAgICBJTklUX0xJU1RfSEVBRCgmYm8tPmRkZXN0cm95KTsKPiA+PiAgICAgICAgICBiby0+YmRl
-diA9IGJkZXY7Cj4gPj4gICAgICAgICAgYm8tPnR5cGUgPSB0eXBlOwo+ID4+ICsgICAgICAgYm8t
-PnBhZ2VfYWxpZ25tZW50ID0gcGFnZV9hbGlnbm1lbnQ7Cj4gPj4gICAgICAgICAgYm8tPm1lbS5t
-ZW1fdHlwZSA9IFRUTV9QTF9TWVNURU07Cj4gPj4gICAgICAgICAgYm8tPm1lbS5udW1fcGFnZXMg
-PSBQQUdFX0FMSUdOKHNpemUpID4+IFBBR0VfU0hJRlQ7Cj4gPj4gICAgICAgICAgYm8tPm1lbS5t
-bV9ub2RlID0gTlVMTDsKPiA+PiAtICAgICAgIGJvLT5tZW0ucGFnZV9hbGlnbm1lbnQgPSBwYWdl
-X2FsaWdubWVudDsKPiA+PiAgICAgICAgICBiby0+bWVtLmJ1cy5vZmZzZXQgPSAwOwo+ID4+ICAg
-ICAgICAgIGJvLT5tZW0uYnVzLmFkZHIgPSBOVUxMOwo+ID4+ICAgICAgICAgIGJvLT5tb3Zpbmcg
-PSBOVUxMOwo+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9yYW5nZV9t
-YW5hZ2VyLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9yYW5nZV9tYW5hZ2VyLmMKPiA+PiBp
-bmRleCBiMWUzZjMwZjdlMmQuLmI5ZDVkYTZlNmE4MSAxMDA2NDQKPiA+PiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vdHRtL3R0bV9yYW5nZV9tYW5hZ2VyLmMKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vdHRtL3R0bV9yYW5nZV9tYW5hZ2VyLmMKPiA+PiBAQCAtNzksOSArNzksOCBAQCBzdGF0aWMg
-aW50IHR0bV9yYW5nZV9tYW5fYWxsb2Moc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4s
-Cj4gPj4gICAgICAgICAgICAgICAgICBtb2RlID0gRFJNX01NX0lOU0VSVF9ISUdIOwo+ID4+Cj4g
-Pj4gICAgICAgICAgc3Bpbl9sb2NrKCZybWFuLT5sb2NrKTsKPiA+PiAtICAgICAgIHJldCA9IGRy
-bV9tbV9pbnNlcnRfbm9kZV9pbl9yYW5nZShtbSwgbm9kZSwKPiA+PiAtICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBtZW0tPm51bV9wYWdlcywKPiA+PiAtICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBtZW0tPnBhZ2VfYWxpZ25tZW50LCAwLAo+
-ID4+ICsgICAgICAgcmV0ID0gZHJtX21tX2luc2VydF9ub2RlX2luX3JhbmdlKG1tLCBub2RlLCBt
-ZW0tPm51bV9wYWdlcywKPiA+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBiby0+cGFnZV9hbGlnbm1lbnQsIDAsCj4gPj4gICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHBsYWNlLT5mcGZuLCBscGZuLCBtb2RlKTsKPiA+PiAgICAgICAg
-ICBzcGluX3VubG9jaygmcm1hbi0+bG9jayk7Cj4gPj4KPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdGhwLmMgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Zt
-d2dmeF90aHAuYwo+ID4+IGluZGV4IGViNjNjYmU2NDkwOS4uNWNjYzM1YjMxOTRjIDEwMDY0NAo+
-ID4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3RocC5jCj4gPj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdGhwLmMKPiA+PiBAQCAtMjgsMTUgKzI4LDE2
-IEBAIHN0YXRpYyBzdHJ1Y3Qgdm13X3RocF9tYW5hZ2VyICp0b190aHBfbWFuYWdlcihzdHJ1Y3Qg
-dHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbikKPiA+Pgo+ID4+ICAgc3RhdGljIGNvbnN0IHN0cnVj
-dCB0dG1fcmVzb3VyY2VfbWFuYWdlcl9mdW5jIHZtd190aHBfZnVuYzsKPiA+Pgo+ID4+IC1zdGF0
-aWMgaW50IHZtd190aHBfaW5zZXJ0X2FsaWduZWQoc3RydWN0IGRybV9tbSAqbW0sIHN0cnVjdCBk
-cm1fbW1fbm9kZSAqbm9kZSwKPiA+PiArc3RhdGljIGludCB2bXdfdGhwX2luc2VydF9hbGlnbmVk
-KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCj4gPj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHN0cnVjdCBkcm1fbW0gKm1tLCBzdHJ1Y3QgZHJtX21tX25vZGUgKm5vZGUs
-Cj4gPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBsb25nIGFs
-aWduX3BhZ2VzLAo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qg
-c3RydWN0IHR0bV9wbGFjZSAqcGxhY2UsCj4gPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICptZW0sCj4gPj4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICB1bnNpZ25lZCBsb25nIGxwZm4sCj4gPj4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBlbnVtIGRybV9tbV9pbnNlcnRfbW9kZSBtb2RlKQo+ID4+ICAg
-ewo+ID4+IC0gICAgICAgaWYgKGFsaWduX3BhZ2VzID49IG1lbS0+cGFnZV9hbGlnbm1lbnQgJiYK
-PiA+PiAtICAgICAgICAgICAoIW1lbS0+cGFnZV9hbGlnbm1lbnQgfHwgYWxpZ25fcGFnZXMgJSBt
-ZW0tPnBhZ2VfYWxpZ25tZW50ID09IDApKSB7Cj4gPj4gKyAgICAgICBpZiAoYWxpZ25fcGFnZXMg
-Pj0gYm8tPnBhZ2VfYWxpZ25tZW50ICYmCj4gPj4gKyAgICAgICAgICAgKCFiby0+cGFnZV9hbGln
-bm1lbnQgfHwgYWxpZ25fcGFnZXMgJSBiby0+cGFnZV9hbGlnbm1lbnQgPT0gMCkpIHsKPiA+PiAg
-ICAgICAgICAgICAgICAgIHJldHVybiBkcm1fbW1faW5zZXJ0X25vZGVfaW5fcmFuZ2UobW0sIG5v
-ZGUsCj4gPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIG1lbS0+bnVtX3BhZ2VzLAo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBhbGlnbl9wYWdlcywgMCwKPiA+PiBAQCAtNzUsNyArNzYsNyBA
-QCBzdGF0aWMgaW50IHZtd190aHBfZ2V0X25vZGUoc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2Vy
-ICptYW4sCj4gPj4gICAgICAgICAgaWYgKElTX0VOQUJMRUQoQ09ORklHX0hBVkVfQVJDSF9UUkFO
-U1BBUkVOVF9IVUdFUEFHRV9QVUQpKSB7Cj4gPj4gICAgICAgICAgICAgICAgICBhbGlnbl9wYWdl
-cyA9IChIUEFHRV9QVURfU0laRSA+PiBQQUdFX1NISUZUKTsKPiA+PiAgICAgICAgICAgICAgICAg
-IGlmIChtZW0tPm51bV9wYWdlcyA+PSBhbGlnbl9wYWdlcykgewo+ID4+IC0gICAgICAgICAgICAg
-ICAgICAgICAgIHJldCA9IHZtd190aHBfaW5zZXJ0X2FsaWduZWQobW0sIG5vZGUsIGFsaWduX3Bh
-Z2VzLAo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgIHJldCA9IHZtd190aHBfaW5zZXJ0X2Fs
-aWduZWQoYm8sIG1tLCBub2RlLCBhbGlnbl9wYWdlcywKPiA+PiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwbGFjZSwgbWVtLCBscGZuLCBtb2Rl
-KTsKPiA+PiAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgKCFyZXQpCj4gPj4gICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgZ290byBmb3VuZF91bmxvY2s7Cj4gPj4gQEAgLTg0LDE0
-ICs4NSwxNCBAQCBzdGF0aWMgaW50IHZtd190aHBfZ2V0X25vZGUoc3RydWN0IHR0bV9yZXNvdXJj
-ZV9tYW5hZ2VyICptYW4sCj4gPj4KPiA+PiAgICAgICAgICBhbGlnbl9wYWdlcyA9IChIUEFHRV9Q
-TURfU0laRSA+PiBQQUdFX1NISUZUKTsKPiA+PiAgICAgICAgICBpZiAobWVtLT5udW1fcGFnZXMg
-Pj0gYWxpZ25fcGFnZXMpIHsKPiA+PiAtICAgICAgICAgICAgICAgcmV0ID0gdm13X3RocF9pbnNl
-cnRfYWxpZ25lZChtbSwgbm9kZSwgYWxpZ25fcGFnZXMsIHBsYWNlLCBtZW0sCj4gPj4gLSAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbHBmbiwgbW9kZSk7Cj4gPj4g
-KyAgICAgICAgICAgICAgIHJldCA9IHZtd190aHBfaW5zZXJ0X2FsaWduZWQoYm8sIG1tLCBub2Rl
-LCBhbGlnbl9wYWdlcywgcGxhY2UsCj4gPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgbWVtLCBscGZuLCBtb2RlKTsKPiA+PiAgICAgICAgICAgICAgICAgIGlm
-ICghcmV0KQo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICBnb3RvIGZvdW5kX3VubG9jazsK
-PiA+PiAgICAgICAgICB9Cj4gPj4KPiA+PiAgICAgICAgICByZXQgPSBkcm1fbW1faW5zZXJ0X25v
-ZGVfaW5fcmFuZ2UobW0sIG5vZGUsIG1lbS0+bnVtX3BhZ2VzLAo+ID4+IC0gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1lbS0+cGFnZV9hbGlnbm1lbnQsIDAsCj4gPj4g
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYm8tPnBhZ2VfYWxpZ25t
-ZW50LCAwLAo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBw
-bGFjZS0+ZnBmbiwgbHBmbiwgbW9kZSk7Cj4gPj4gICBmb3VuZF91bmxvY2s6Cj4gPj4gICAgICAg
-ICAgc3Bpbl91bmxvY2soJnJtYW4tPmxvY2spOwo+ID4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2Ry
-bS90dG0vdHRtX2JvX2FwaS5oIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaAo+ID4+IGlu
-ZGV4IDM1ODdmNjYwZThmNC4uMTY3YzEzMmJhMWMyIDEwMDY0NAo+ID4+IC0tLSBhL2luY2x1ZGUv
-ZHJtL3R0bS90dG1fYm9fYXBpLmgKPiA+PiArKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2Fw
-aS5oCj4gPj4gQEAgLTEyMyw2ICsxMjMsNyBAQCBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qgewo+
-ID4+Cj4gPj4gICAgICAgICAgc3RydWN0IHR0bV9kZXZpY2UgKmJkZXY7Cj4gPj4gICAgICAgICAg
-ZW51bSB0dG1fYm9fdHlwZSB0eXBlOwo+ID4+ICsgICAgICAgdWludDMyX3QgcGFnZV9hbGlnbm1l
-bnQ7Cj4gPj4gICAgICAgICAgdm9pZCAoKmRlc3Ryb3kpIChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
-Y3QgKik7Cj4gPj4KPiA+PiAgICAgICAgICAvKioKPiA+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9k
-cm0vdHRtL3R0bV9yZXNvdXJjZS5oIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9yZXNvdXJjZS5oCj4g
-Pj4gaW5kZXggNjE2NGNjZjRmMzA4Li4zZmY0YTY2OTY0MWUgMTAwNjQ0Cj4gPj4gLS0tIGEvaW5j
-bHVkZS9kcm0vdHRtL3R0bV9yZXNvdXJjZS5oCj4gPj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0
-bV9yZXNvdXJjZS5oCj4gPj4gQEAgLTE3Miw3ICsxNzIsNiBAQCBzdHJ1Y3QgdHRtX3Jlc291cmNl
-IHsKPiA+PiAgICAgICAgICB2b2lkICptbV9ub2RlOwo+ID4+ICAgICAgICAgIHVuc2lnbmVkIGxv
-bmcgc3RhcnQ7Cj4gPj4gICAgICAgICAgdW5zaWduZWQgbG9uZyBudW1fcGFnZXM7Cj4gPj4gLSAg
-ICAgICB1aW50MzJfdCBwYWdlX2FsaWdubWVudDsKClRoZSBrZXJuZWwgZG9jIGZvciB0aGUgQHBh
-Z2VfYWxpZ25tZW50IHNob3VsZCBhbHNvIGJlCnJlbW92ZWQvdHJhbnNwbGFudGVkLCBhbHRob3Vn
-aCBpdCBkb2VzIGxvb2sgbGlrZSB0aGUga2VybmVsIGRvYyBpbgpnZW5lcmFsIGlzIGEgYml0IHN0
-YWxlIGFueXdheSBpbiB0aGlzIGZpbGUuCgpUaGFua3MgZm9yIHRoZSBhYm92ZSBleHBsYW5hdGlv
-biwKUmV2aWV3ZWQtYnk6IE1hdHRoZXcgQXVsZCA8bWF0dGhldy5hdWxkQGludGVsLmNvbT4KCj4g
-Pj4gICAgICAgICAgdWludDMyX3QgbWVtX3R5cGU7Cj4gPj4gICAgICAgICAgdWludDMyX3QgcGxh
-Y2VtZW50Owo+ID4+ICAgICAgICAgIHN0cnVjdCB0dG1fYnVzX3BsYWNlbWVudCBidXM7Cj4gPj4g
-LS0KPiA+PiAyLjI1LjEKPiA+Pgo+ID4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCj4gPj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4+IGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 2020/05/20 17:43 Lucas Stach <l.stach@pengutronix.de> wrote:
+> Am Mittwoch, den 20.05.2020, 16:20 +0800 schrieb Shengjiu Wang:
+> > Hi
+> >
+> > On Tue, May 19, 2020 at 6:04 PM Lucas Stach <l.stach@pengutronix.de>
+> wrote:
+> > > Am Dienstag, den 19.05.2020, 17:41 +0800 schrieb Shengjiu Wang:
+> > > > There are two requirements that we need to move the request of dma
+> > > > channel from probe to open.
+> > >
+> > > How do you handle -EPROBE_DEFER return code from the channel request
+> > > if you don't do it in probe?
+> >
+> > I use the dma_request_slave_channel or dma_request_channel instead of
+> > dmaengine_pcm_request_chan_of. so there should be not -EPROBE_DEFER
+> > return code.
+> 
+> This is a pretty weak argument. The dmaengine device might probe after you
+> try to get the channel. Using a function to request the channel that doesn't
+> allow you to handle probe deferral is IMHO a bug and should be fixed, instead
+> of building even more assumptions on top of it.
+> 
+> > > > - When dma device binds with power-domains, the power will be
+> > > > enabled when we request dma channel. If the request of dma channel
+> > > > happen on probe, then the power-domains will be always enabled
+> > > > after kernel boot up,  which is not good for power saving,  so we
+> > > > need to move the request of dma channel to .open();
+> > >
+> > > This is certainly something which could be fixed in the dmaengine
+> > > driver.
+> >
+> > Dma driver always call the pm_runtime_get_sync in
+> > device_alloc_chan_resources, the device_alloc_chan_resources is called
+> > when channel is requested. so power is enabled on channel request.
+> 
+> So why can't you fix the dmaengine driver to do that RPM call at a later time
+> when the channel is actually going to be used? This will allow further power
+> savings with other slave devices than the audio PCM.
+Hi Lucas,
+  Thanks for your suggestion. I have tried to implement runtime autosuspend in
+fsl-edma driver on i.mx8qm/qxp with delay time (2 sec) for this feature as below
+(or you can refer to drivers/dma/qcom/hidma.c), and pm_runtime_get_sync/
+pm_runtime_put_autosuspend in all dmaengine driver interface like
+device_alloc_chan_resources/device_prep_slave_sg/device_prep_dma_cyclic/
+device_tx_status...
+
+
+                pm_runtime_use_autosuspend(fsl_chan->dev);
+                pm_runtime_set_autosuspend_delay(fsl_chan->dev, 2000);
+
+That could resolve this audio case since the autosuspend could suspend runtime after
+2 seconds if there is no further dma transfer but only channel request(device_alloc_chan_resources).
+But unfortunately, it cause another issue. As you know, on our i.mx8qm/qxp, 
+power domain done by scfw (drivers/firmware/imx/scu-pd.c) over mailbox:
+ imx_sc_pd_power()->imx_scu_call_rpc()-> imx_scu_ipc_write()->mbox_send_message()
+which means have to 'waits for completion', meanwhile, some driver like tty will call dmaengine
+interfaces in non-atomic case as below, 
+
+static int uart_write(struct tty_struct *tty, const unsigned char *buf, int count)
+{
+   .......
+	    port = uart_port_lock(state, flags);
+   ......
+        __uart_start(tty);  //call start_tx()->dmaengine_prep_slave_sg...
+        uart_port_unlock(port, flags);
+        return ret;
+}
+
+Thus dma runtime resume may happen in that timing window and cause kernel alarm. 
+I'm not sure whether there are similar limitations on other driver subsystem. But for me,
+It looks like the only way to resolve the contradiction between tty and scu-pd (hardware
+limitation on i.mx8qm/qxp) is to give up autosuspend and keep pm_runtime_get_sync
+only in device_alloc_chan_resources because request channel is a safe non-atomic phase. 
+Do you have any idea? Thanks in advance. 
+  
+
+> 
+> > > > - With FE-BE case, if the dma channel is requested in probe, then
+> > > > there will be below issue, which is caused by that the dma channel
+> > > > will be requested duplicately
+> > >
+> > > Why is this requested a second time? Is this just some missing
+> > > cleanup on a deferred probe path?
+> >
+> > Not relate with deferred probe.  With DMA1->ASRC->DMA2->ESAI case, the
+> > DMA1->ASRC->DMA2 is in FE,  ESAI is in BE.  When ESAI drvier probe,
+> > DMA3 channel is created with ESAI's "dma:tx" (DMA3 channel
+> > is not used in this FE-BE case).    When FE-BE startup, DMA2
+> > channel is created, it needs the ESAI's "dma:tx", so below warning
+> > comes out.
+> >
+> > > Regards,
+> > > Lucas
+> > >
+> > > > [  638.906268] sysfs: cannot create duplicate filename
+> '/devices/soc0/soc/2000000.bus/2000000.spba-bus/2024000.esai/dma:tx'
+> > > > [  638.919061] CPU: 1 PID: 673 Comm: aplay Not tainted
+> > > > 5.7.0-rc1-12956-gfc64b2585593 #287 [  638.927113] Hardware name:
+> > > > Freescale i.MX6 Quad/DualLite (Device Tree) [  638.933690]
+> > > > [<c0110dd8>] (unwind_backtrace) from [<c010b8ec>]
+> > > > (show_stack+0x10/0x14) [  638.941464] [<c010b8ec>] (show_stack)
+> > > > from [<c0557fc0>] (dump_stack+0xe4/0x118) [  638.948808]
+> > > > [<c0557fc0>] (dump_stack) from [<c032aeb4>]
+> > > > (sysfs_warn_dup+0x50/0x64) [  638.956406] [<c032aeb4>]
+> > > > (sysfs_warn_dup) from [<c032b1a8>]
+> > > > (sysfs_do_create_link_sd+0xc8/0xd4)
+> > > > [  638.965134] [<c032b1a8>] (sysfs_do_create_link_sd) from
+> > > > [<c05dc668>] (dma_request_chan+0xb0/0x210) [  638.974120]
+> > > > [<c05dc668>] (dma_request_chan) from [<c05dc7d0>]
+> > > > (dma_request_slave_channel+0x8/0x14)
+> > > > [  638.983111] [<c05dc7d0>] (dma_request_slave_channel) from
+> > > > [<c09d5548>] (fsl_asrc_dma_hw_params+0x1e0/0x438)
+> > > > [  638.992881] [<c09d5548>] (fsl_asrc_dma_hw_params) from
+> > > > [<c09c1654>] (soc_pcm_hw_params+0x4a0/0x6a8) [  639.001952]
+> > > > [<c09c1654>] (soc_pcm_hw_params) from [<c09c39d4>]
+> > > > (dpcm_fe_dai_hw_params+0x70/0xe4) [  639.010765] [<c09c39d4>]
+> > > > (dpcm_fe_dai_hw_params) from [<c099b274>]
+> > > > (snd_pcm_hw_params+0x158/0x418) [  639.019750] [<c099b274>]
+> > > > (snd_pcm_hw_params) from [<c099c5a0>]
+> (snd_pcm_ioctl+0x734/0x183c) [  639.028129] [<c099c5a0>] (snd_pcm_ioctl)
+> from [<c029ff94>] (ksys_ioctl+0x2ac/0xb98) [  639.035812] [<c029ff94>]
+> (ksys_ioctl) from [<c0100080>] (ret_fast_syscall+0x0/0x28) [  639.043490]
+> Exception stack(0xec529fa8 to 0xec529ff0)
+> > > > [  639.048565] 9fa0:                   bee84650 01321870
+> 00000004 c25c4111 bee84650 0002000f
+> > > > [  639.056766] 9fc0: bee84650 01321870 01321820 00000036
+> 00001f40
+> > > > 00000000 0002c2f8 00000003 [  639.064964] 9fe0: b6f483fc bee8451c
+> > > > b6ee2655 b6e1dcf8 [  639.070339] fsl-esai-dai 2024000.esai: Cannot
+> > > > create DMA dma:tx symlink
+> > > >
+> > > > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > > > ---
+> > > >  sound/soc/fsl/imx-pcm-dma.c | 173
+> > > > +++++++++++++++++++++++++++++++++---
+> > > >  1 file changed, 159 insertions(+), 14 deletions(-)
+> > > >
+> > > > diff --git a/sound/soc/fsl/imx-pcm-dma.c
+> > > > b/sound/soc/fsl/imx-pcm-dma.c index 04a9bc749016..dae53b384df4
+> > > > 100644
+> > > > --- a/sound/soc/fsl/imx-pcm-dma.c
+> > > > +++ b/sound/soc/fsl/imx-pcm-dma.c
+> > > > @@ -11,6 +11,7 @@
+> > > >  #include <linux/dmaengine.h>
+> > > >  #include <linux/types.h>
+> > > >  #include <linux/module.h>
+> > > > +#include <linux/dma-mapping.h>
+> > > >
+> > > >  #include <sound/core.h>
+> > > >  #include <sound/pcm.h>
+> > > > @@ -29,24 +30,168 @@ static bool filter(struct dma_chan *chan, void
+> *param)
+> > > >       return true;
+> > > >  }
+> > > >
+> > > > -static const struct snd_dmaengine_pcm_config
+> imx_dmaengine_pcm_config = {
+> > > > -     .prepare_slave_config =
+> snd_dmaengine_pcm_prepare_slave_config,
+> > > > -     .compat_filter_fn = filter,
+> > > > -};
+> > > > +static int imx_pcm_hw_params(struct snd_soc_component
+> *component,
+> > > > +                          struct snd_pcm_substream *substream,
+> > > > +                          struct snd_pcm_hw_params *params) {
+> > > > +     struct snd_pcm_runtime *runtime = substream->runtime;
+> > > > +     struct snd_soc_pcm_runtime *rtd = substream->private_data;
+> > > > +     struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
+> > > > +     struct snd_dmaengine_dai_dma_data *dma_data;
+> > > > +     struct dma_slave_config config;
+> > > > +     struct dma_chan *chan;
+> > > > +     int ret = 0;
+> > > >
+> > > > -int imx_pcm_dma_init(struct platform_device *pdev, size_t size)
+> > > > +     snd_pcm_set_runtime_buffer(substream,
+> &substream->dma_buffer);
+> > > > +     runtime->dma_bytes = params_buffer_bytes(params);
+> > > > +
+> > > > +     chan = snd_dmaengine_pcm_get_chan(substream);
+> > > > +     if (!chan)
+> > > > +             return -EINVAL;
+> > > > +
+> > > > +     ret = snd_hwparams_to_dma_slave_config(substream, params,
+> &config);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     dma_data = snd_soc_dai_get_dma_data(cpu_dai, substream);
+> > > > +     if (!dma_data)
+> > > > +             return -EINVAL;
+> > > > +
+> > > > +     snd_dmaengine_pcm_set_config_from_dai_data(substream,
+> > > > +                                                dma_data,
+> > > > +                                                &config);
+> > > > +     return dmaengine_slave_config(chan, &config); }
+> > > > +
+> > > > +static int imx_pcm_hw_free(struct snd_soc_component *component,
+> > > > +                        struct snd_pcm_substream *substream)
+> > > >  {
+> > > > -     struct snd_dmaengine_pcm_config *config;
+> > > > +     snd_pcm_set_runtime_buffer(substream, NULL);
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static snd_pcm_uframes_t imx_pcm_pointer(struct snd_soc_component
+> *component,
+> > > > +                                      struct snd_pcm_substream
+> > > > +*substream) {
+> > > > +     return snd_dmaengine_pcm_pointer(substream);
+> > > > +}
+> > > > +
+> > > > +static int imx_pcm_trigger(struct snd_soc_component *component,
+> > > > +                        struct snd_pcm_substream *substream, int
+> > > > +cmd) {
+> > > > +     return snd_dmaengine_pcm_trigger(substream, cmd); }
+> > > > +
+> > > > +static int imx_pcm_open(struct snd_soc_component *component,
+> > > > +                     struct snd_pcm_substream *substream) {
+> > > > +     struct snd_soc_pcm_runtime *rtd = substream->private_data;
+> > > > +     bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
+> > > > +     struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
+> > > > +     struct snd_dmaengine_dai_dma_data *dma_data;
+> > > > +     struct device *dev = component->dev;
+> > > > +     struct snd_pcm_hardware hw;
+> > > > +     struct dma_chan *chan;
+> > > > +     int ret;
+> > > > +
+> > > > +     ret = snd_pcm_hw_constraint_integer(substream->runtime,
+> > > > +
+> SNDRV_PCM_HW_PARAM_PERIODS);
+> > > > +     if (ret < 0) {
+> > > > +             dev_err(dev, "failed to set pcm hw params periods\n");
+> > > > +             return ret;
+> > > > +     }
+> > > > +
+> > > > +     dma_data = snd_soc_dai_get_dma_data(cpu_dai, substream);
+> > > > +     if (!dma_data)
+> > > > +             return -EINVAL;
+> > > > +
+> > > > +     chan = dma_request_slave_channel(cpu_dai->dev, tx ? "tx" : "rx");
+> > > > +     if (!chan) {
+> > > > +             /* Try to request channel using compat_filter_fn */
+> > > > +             chan = snd_dmaengine_pcm_request_channel(filter,
+> > > > +
+> dma_data->filter_data);
+> > > > +             if (!chan)
+> > > > +                     return -ENXIO;
+> > > > +     }
+> > > >
+> > > > -     config = devm_kzalloc(&pdev->dev,
+> > > > -                     sizeof(struct snd_dmaengine_pcm_config),
+> GFP_KERNEL);
+> > > > -     if (!config)
+> > > > -             return -ENOMEM;
+> > > > -     *config = imx_dmaengine_pcm_config;
+> > > > +     ret = snd_dmaengine_pcm_open(substream, chan);
+> > > > +     if (ret)
+> > > > +             goto pcm_open_fail;
+> > > >
+> > > > -     return devm_snd_dmaengine_pcm_register(&pdev->dev,
+> > > > -             config,
+> > > > -             SND_DMAENGINE_PCM_FLAG_COMPAT);
+> > > > +     memset(&hw, 0, sizeof(hw));
+> > > > +     hw.info = SNDRV_PCM_INFO_MMAP |
+> SNDRV_PCM_INFO_MMAP_VALID |
+> > > > +                     SNDRV_PCM_INFO_INTERLEAVED;
+> > > > +     hw.periods_min = 2;
+> > > > +     hw.periods_max = UINT_MAX;
+> > > > +     hw.period_bytes_min = 256;
+> > > > +     hw.period_bytes_max =
+> dma_get_max_seg_size(chan->device->dev);
+> > > > +     hw.buffer_bytes_max = IMX_DEFAULT_DMABUF_SIZE;
+> > > > +     hw.fifo_size = dma_data->fifo_size;
+> > > > +
+> > > > +     /* Refine the hw according to caps of DMA. */
+> > > > +     ret = snd_dmaengine_pcm_refine_runtime_hwparams(substream,
+> > > > +
+> dma_data,
+> > > > +                                                     &hw,
+> > > > +                                                     chan);
+> > > > +     if (ret < 0)
+> > > > +             goto refine_runtime_hwparams_fail;
+> > > > +
+> > > > +     snd_soc_set_runtime_hwparams(substream, &hw);
+> > > > +
+> > > > +     /* Support allocate memory from IRAM */
+> > > > +     ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_IRAM,
+> > > > +                               chan->device->dev,
+> > > > +                               hw.buffer_bytes_max,
+> > > > +                               &substream->dma_buffer);
+> > > > +     if (ret < 0)
+> > > > +             goto alloc_pagas_fail;
+> > > > +
+> > > > +     return 0;
+> > > > +
+> > > > +alloc_pagas_fail:
+> > > > +refine_runtime_hwparams_fail:
+> > > > +     snd_dmaengine_pcm_close(substream);
+> > > > +pcm_open_fail:
+> > > > +     dma_release_channel(chan);
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static int imx_pcm_close(struct snd_soc_component *component,
+> > > > +                      struct snd_pcm_substream *substream) {
+> > > > +     if (substream) {
+> > > > +             snd_dma_free_pages(&substream->dma_buffer);
+> > > > +             substream->dma_buffer.area = NULL;
+> > > > +             substream->dma_buffer.addr = 0;
+> > > > +     }
+> > > > +
+> > > > +     return snd_dmaengine_pcm_close_release_chan(substream);
+> > > > +}
+> > > > +
+> > > > +static int imx_pcm_new(struct snd_soc_component *component,
+> > > > +                    struct snd_soc_pcm_runtime *rtd) {
+> > > > +     struct snd_card *card = rtd->card->snd_card;
+> > > > +
+> > > > +     return dma_coerce_mask_and_coherent(card->dev,
+> > > > +DMA_BIT_MASK(32)); }
+> > > > +
+> > > > +static const struct snd_soc_component_driver imx_pcm_component = {
+> > > > +     .name           = "imx-pcm-dma",
+> > > > +     .pcm_construct  = imx_pcm_new,
+> > > > +     .open           = imx_pcm_open,
+> > > > +     .close          = imx_pcm_close,
+> > > > +     .hw_params      = imx_pcm_hw_params,
+> > > > +     .hw_free        = imx_pcm_hw_free,
+> > > > +     .trigger        = imx_pcm_trigger,
+> > > > +     .pointer        = imx_pcm_pointer,
+> > > > +};
+> > > > +
+> > > > +int imx_pcm_dma_init(struct platform_device *pdev, size_t size) {
+> > > > +     return devm_snd_soc_register_component(&pdev->dev,
+> > > > +
+> &imx_pcm_component,
+> > > > +NULL, 0);
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(imx_pcm_dma_init);
+> > > >
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
