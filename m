@@ -1,56 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B62E35F7B9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 17:35:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D6735F7BD
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 17:37:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA02A6E93B;
-	Wed, 14 Apr 2021 15:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC4936E948;
+	Wed, 14 Apr 2021 15:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 501806E93B
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 15:35:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 24C8E6112F
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 15:35:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618414548;
- bh=H9t9sRBARJYEflizb9SagS3j20EsM1XsSL5S9pp1HlE=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=H8dToRNqKlfQdKULrA79/ncVA7nuJ7eq3mAreqzFEqroczzSR0RQkrS5I4D9chMq2
- 1V4aiFAuZvbDefM2gkf1n/NrRC9gFZOBnZtaR9MghHJi7Mdh3m/dqSaBBCBdUJFv6V
- eo41vwzXnm545MesTS5H51JHaNNB9Cqf/2X+bNfQ/jSRpOQuzCFlhX4BZl6HevAEBk
- QGQTJUOkEmDNuHvp/OP/q1E/IyTfajbwWz7jOdfls/xNjV0qSeXfQe/7JBo1XuI65C
- xLeyrYjDGzawiJOBIYAQOh+JI1Elz37nokPBJc6daSZAVzKbpB813mwBbuO7E6o1uc
- KA+z0x7OoPeCQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 1B93661186; Wed, 14 Apr 2021 15:35:48 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209345] [nouveau] unknown chipset (0f22d0a1) (nVidia Tesla K80)
-Date: Wed, 14 Apr 2021 15:35:47 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kallisti5@unixzen.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209345-2300-fOdSm3L3Bg@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209345-2300@https.bugzilla.kernel.org/>
-References: <bug-209345-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 579136E940;
+ Wed, 14 Apr 2021 15:37:34 +0000 (UTC)
+IronPort-SDR: +7VJ3G6wGKxaFL6HJog8PwX+JZjcHvuaHI8+YFc8B0/MwSY+LGJ0La3zAvs7iJCg8zVF5/wUpW
+ CMzlHC0DC9Jg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="255984263"
+X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; d="scan'208";a="255984263"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2021 08:37:14 -0700
+IronPort-SDR: sWXSvtjRpHMyMGwR6gaDi+OK/+lqfx0YZZA3NZB1MAQ8jrFWDsTcjCTeTF4XyqVjHJtLk4Cw+o
+ F9/TOB1/QaYA==
+X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; d="scan'208";a="418365070"
+Received: from bdebhal-mobl.ger.corp.intel.com (HELO [10.213.205.119])
+ ([10.213.205.119])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2021 08:37:13 -0700
+Subject: Re: [Intel-gfx] [PATCH 19/19] drm/i915/gtt/dgfx: place the PD in LMEM
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20210412090526.30547-1-matthew.auld@intel.com>
+ <20210412090526.30547-20-matthew.auld@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <eab41d73-598b-c95d-4bc3-ca451f013ddf@linux.intel.com>
+Date: Wed, 14 Apr 2021 16:37:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210412090526.30547-20-matthew.auld@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,35 +51,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209345
 
---- Comment #15 from Alexander von Gluck (kallisti5@unixzen.com) ---
-Applied my patch above to ArchLinux (5.11.13-arch1-1) and gave it a whirl.  Got
-a little information from nouveou before the system hard locks up.
+On 12/04/2021 10:05, Matthew Auld wrote:
+> It's a requirement that for dgfx we place all the paging structures in
+> device local-memory.
+> 
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/gen8_ppgtt.c |  5 ++++-
+>   drivers/gpu/drm/i915/gt/intel_gtt.c  | 27 +++++++++++++++++++++++++--
+>   drivers/gpu/drm/i915/gt/intel_gtt.h  |  1 +
+>   3 files changed, 30 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+> index f83496836f0f..11fb5df45a0f 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+> @@ -712,7 +712,10 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt)
+>   	 */
+>   	ppgtt->vm.has_read_only = !IS_GEN_RANGE(gt->i915, 11, 12);
+>   
+> -	ppgtt->vm.alloc_pt_dma = alloc_pt_dma;
+> +	if (HAS_LMEM(gt->i915))
+> +		ppgtt->vm.alloc_pt_dma = alloc_pt_lmem;
+> +	else
+> +		ppgtt->vm.alloc_pt_dma = alloc_pt_dma;
+>   
+>   	err = gen8_init_scratch(&ppgtt->vm);
+>   	if (err)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> index d386b89e2758..1eeeab45445c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> @@ -7,10 +7,23 @@
+>   
+>   #include <linux/fault-inject.h>
+>   
+> +#include "gem/i915_gem_lmem.h"
+>   #include "i915_trace.h"
+>   #include "intel_gt.h"
+>   #include "intel_gtt.h"
+>   
+> +struct drm_i915_gem_object *alloc_pt_lmem(struct i915_address_space *vm, int sz)
+> +{
+> +	struct drm_i915_gem_object *obj;
+> +
+> +	obj = i915_gem_object_create_lmem(vm->i915, sz, 0);
+> +
+> +	/* ensure all dma objects have the same reservation class */
+> +	if (!IS_ERR(obj))
+> +		obj->base.resv = &vm->resv;
+> +	return obj;
+> +}
+> +
+>   struct drm_i915_gem_object *alloc_pt_dma(struct i915_address_space *vm, int sz)
+>   {
+>   	struct drm_i915_gem_object *obj;
+> @@ -27,9 +40,14 @@ struct drm_i915_gem_object *alloc_pt_dma(struct i915_address_space *vm, int sz)
+>   
+>   int map_pt_dma(struct i915_address_space *vm, struct drm_i915_gem_object *obj)
+>   {
+> +	enum i915_map_type type;
+>   	void *vaddr;
+>   
+> -	vaddr = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
+> +	type = I915_MAP_WB;
+> +	if (i915_gem_object_is_lmem(obj))
+> +		type = I915_MAP_WC;
 
-nouveau 0000:0d:00.0: enabling device (0000 -> 0002)
-nouveau 0000:0d:00.0: NVIDIA GK120 (0f22d0a1)
-nouveau 0000:0d:00.0: bios: version 80.21.1f.00.01
-nouveau 0000:0d:00.0: fb: 11520 MiB GDDR5
+Not trusting the "always coherent" helper from earlier in the series?
 
-(hard crash)
+Regards,
 
-I might get more information from serial... however, ran into an unrelated
-issue. Cooling!
+Tvrtko
 
-The Tesla K80 got up to 175F+ at idle and I had to shut things down. Need to
-rig some better cooling solution.
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> +
+> +	vaddr = i915_gem_object_pin_map_unlocked(obj, type);
+>   	if (IS_ERR(vaddr))
+>   		return PTR_ERR(vaddr);
+>   
+> @@ -39,9 +57,14 @@ int map_pt_dma(struct i915_address_space *vm, struct drm_i915_gem_object *obj)
+>   
+>   int map_pt_dma_locked(struct i915_address_space *vm, struct drm_i915_gem_object *obj)
+>   {
+> +	enum i915_map_type type;
+>   	void *vaddr;
+>   
+> -	vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
+> +	type = I915_MAP_WB;
+> +	if (i915_gem_object_is_lmem(obj))
+> +		type = I915_MAP_WC;
+> +
+> +	vaddr = i915_gem_object_pin_map(obj, type);
+>   	if (IS_ERR(vaddr))
+>   		return PTR_ERR(vaddr);
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+> index 40e486704558..44ce27c51631 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+> @@ -527,6 +527,7 @@ int setup_scratch_page(struct i915_address_space *vm);
+>   void free_scratch(struct i915_address_space *vm);
+>   
+>   struct drm_i915_gem_object *alloc_pt_dma(struct i915_address_space *vm, int sz);
+> +struct drm_i915_gem_object *alloc_pt_lmem(struct i915_address_space *vm, int sz);
+>   struct i915_page_table *alloc_pt(struct i915_address_space *vm);
+>   struct i915_page_directory *alloc_pd(struct i915_address_space *vm);
+>   struct i915_page_directory *__alloc_pd(int npde);
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
