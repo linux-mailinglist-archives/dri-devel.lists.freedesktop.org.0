@@ -2,42 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B4C35EF27
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 10:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF2135F013
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 10:50:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC99B6E8F4;
-	Wed, 14 Apr 2021 08:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EECCF6E4BB;
+	Wed, 14 Apr 2021 08:50:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96C056E8F4
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 08:16:22 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D6C06F2;
- Wed, 14 Apr 2021 10:16:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1618388180;
- bh=p7bKNnORnvXq4gKs9g820nMSsU73O8OexxbaO+c4jHA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=q6iXPhBQn7IxK3Fi8sR64LIAnS2hqZJ1oL11Z8JHO2gZTBKXx4246tQHYMLZHEbMp
- UCloyzrfntmWffCg1fQaKUVeYgdJshEODVYFlXBWJdyj04q96MRpyNAIjnki5kvIvc
- 7h+/M2vpOjFmW8jfuiqMZxBw7a1nIxOJmFU1oYC4=
-Date: Wed, 14 Apr 2021 11:16:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH v3 2/3] drm: bridge: add it66121 driver
-Message-ID: <YHak0zr0o0thq/fu@pendragon.ideasonboard.com>
-References: <20210412154648.3719153-1-narmstrong@baylibre.com>
- <20210412154648.3719153-3-narmstrong@baylibre.com>
- <CAG3jFysFb+y6ymXsBQatuwtPEYRTBnWTku0EpmNyR2gR5a=Y2w@mail.gmail.com>
- <3266977b-9d19-c81d-6fd7-b6fa0714b1ef@baylibre.com>
- <CAG3jFysp+3__TfEyvKSf47q3nYsdRSbkb9LxX2pcJr356yAgKw@mail.gmail.com>
- <911c73a8-47e8-0bae-2bdd-9eb217b25094@baylibre.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B30A76E486;
+ Wed, 14 Apr 2021 08:50:14 +0000 (UTC)
+IronPort-SDR: 4wTJPmpcClYmHWpWEJkuGcZbq5CCqMmfl+9oENI1cPrMJwVpUfYCAC964IPwQMVlDBChj7KV67
+ bniP2ib/Kb9g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9953"; a="174704390"
+X-IronPort-AV: E=Sophos;i="5.82,221,1613462400"; 
+ d="asc'?scan'208";a="174704390"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2021 01:50:14 -0700
+IronPort-SDR: PhnCozf8UEFW4UKr5HkHWVFHrUZnwzlL5liJMxVYioxCDwDp1Ia1ghsUam5JRrwtgLBrVYSj2v
+ Dzotrex2mzTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,221,1613462400"; 
+ d="asc'?scan'208";a="450722624"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
+ by FMSMGA003.fm.intel.com with ESMTP; 14 Apr 2021 01:50:11 -0700
+Date: Wed, 14 Apr 2021 16:32:21 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: Re: [PATCH] drm/i915/gvt: remove useless function
+Message-ID: <20210414083221.GN1551@zhen-hp.sh.intel.com>
+References: <1618294728-78952-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <911c73a8-47e8-0bae-2bdd-9eb217b25094@baylibre.com>
+In-Reply-To: <1618294728-78952-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,46 +47,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Phong LE <ple@baylibre.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, paul@crapouillou.net,
- Andrzej Hajda <a.hajda@samsung.com>, Robert Foss <robert.foss@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ zhi.a.wang@intel.com
+Content-Type: multipart/mixed; boundary="===============1146262515=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTmVpbCwKCk9uIFdlZCwgQXByIDE0LCAyMDIxIGF0IDEwOjA4OjQ2QU0gKzAyMDAsIE5laWwg
-QXJtc3Ryb25nIHdyb3RlOgo+IE9uIDE0LzA0LzIwMjEgMTA6MDYsIFJvYmVydCBGb3NzIHdyb3Rl
-Ogo+ID4gT24gV2VkLCAxNCBBcHIgMjAyMSBhdCAwODoxMywgTmVpbCBBcm1zdHJvbmcgPG5hcm1z
-dHJvbmdAYmF5bGlicmUuY29tPiB3cm90ZToKPiA+PiBMZSAxMy8wNC8yMDIxIMOgIDIyOjIxLCBS
-b2JlcnQgRm9zcyBhIMOpY3JpdCA6Cj4gPj4+IEhleSBOZWlsICYgUGhvbmcsCj4gPj4+Cj4gPj4+
-IFRoYW5rcyBmb3Igc3VibWl0dGluZyB0aGlzIHNlcmllcyEKPiA+Pj4KPiA+Pj4+ICsKPiA+Pj4+
-ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9icmlkZ2VfZnVuY3MgaXQ2NjEyMV9icmlkZ2VfZnVu
-Y3MgPSB7Cj4gPj4+PiArICAgICAgIC5hdHRhY2ggPSBpdDY2MTIxX2JyaWRnZV9hdHRhY2gsCj4g
-Pj4+PiArICAgICAgIC5lbmFibGUgPSBpdDY2MTIxX2JyaWRnZV9lbmFibGUsCj4gPj4+PiArICAg
-ICAgIC5kaXNhYmxlID0gaXQ2NjEyMV9icmlkZ2VfZGlzYWJsZSwKPiA+Pj4+ICsgICAgICAgLm1v
-ZGVfc2V0ID0gaXQ2NjEyMV9icmlkZ2VfbW9kZV9zZXQsCj4gPj4+PiArICAgICAgIC5tb2RlX3Zh
-bGlkID0gaXQ2NjEyMV9icmlkZ2VfbW9kZV92YWxpZCwKPiA+Pj4+ICsgICAgICAgLmRldGVjdCA9
-IGl0NjYxMjFfYnJpZGdlX2RldGVjdCwKPiA+Pj4+ICsgICAgICAgLmdldF9lZGlkID0gaXQ2NjEy
-MV9icmlkZ2VfZ2V0X2VkaWQsCj4gPj4+PiArICAgICAgIC5hdG9taWNfZ2V0X291dHB1dF9idXNf
-Zm10cyA9IGl0NjYxMjFfYnJpZGdlX2F0b21pY19nZXRfb3V0cHV0X2J1c19mbXRzLAo+ID4+Pj4g
-KyAgICAgICAuYXRvbWljX2dldF9pbnB1dF9idXNfZm10cyA9IGl0NjYxMjFfYnJpZGdlX2F0b21p
-Y19nZXRfaW5wdXRfYnVzX2ZtdHMsCj4gPj4+PiArfTsKPiA+Pj4KPiA+Pj4gSSB3b3VsZCBsaWtl
-IHRvIHNlZSBhbiBpbXBsZW1lbnRhdGlvbiBvZiBIUEQsIHNpbmNlIGl0IGlzIHN1cHBvcnRlZCBi
-eQo+ID4+PiB0aGUgaGFyZHdhcmVbMV0gKGFuZCByZXF1aXJlZCBieSB0aGUgZG9jdW1lbnRhdGlv
-bikuIElSUSBzdGF0dXMgYml0IDAKPiA+Pj4gc2VlbXMgdG8gYmUgdGhlIHJlc3BvbnNpYmxlIGZv
-ciBub3RpZnlpbmcgdXMgYWJvdXQgaG90IHBsdWcgZGV0ZWN0aW9uCj4gPj4+IGV2ZW50cy4KPiA+
-Pgo+ID4+IEl0J3MgaW1wbGVtZW50ZWQgaW4gdGhlIElSUSBoYW5kbGVyIHdpdGggdGhlIElUNjYx
-MjFfSU5UX1NUQVRVUzFfSFBEX1NUQVRVUyBldmVudC4KPiA+IAo+ID4gSSBkaWRuJ3QgZXZlbiBn
-ZXQgdGhhdCBmYXIgOikKPiA+IAo+ID4gRWl0aGVyIHdheSwgdGhlIEhQRCBzdXBwb3J0IHNob3Vs
-ZCBiZSBleHBvc2VkIGluIGRybV9icmlkZ2VfZnVuY3MKPiA+ICguaHBkX2VuYWJsZSwgLmhwZF9k
-aXNhYmxlIChhbmQgcG9zc2libHkgLmhwZF9ub3RpZnkpKSBhbmQKPiA+IGRybV9icmlkZ2Uub3Bz
-IChEUk1fQlJJREdFX09QX0hQRCkuCj4gCj4gSW5kZWVkIEkgZm9yZ290IHRoZXNlIGNhbGxzIGlu
-IHRoZSBOT19DT05ORUNUT1IgaW1wbGVtZW50YXRpb24uLi4KCkZvciBuZXcgYnJpZGdlcywgeW91
-IHNob3VsZCBubyBpbXBsZW1lbnQgY29ubmVjdG9yIGNyZWF0aW9uLCBvbmx5IHRoZQpEUk1fQlJJ
-REdFX0FUVEFDSF9OT19DT05ORUNUT1IgY2FzZSBzaG91bGQgYmUgc3VwcG9ydGVkLgoKLS0gClJl
-Z2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+
+--===============1146262515==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ctZH5Gqgrl5HoVnD"
+Content-Disposition: inline
+
+
+--ctZH5Gqgrl5HoVnD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2021.04.13 14:18:48 +0800, Jiapeng Chong wrote:
+> Fix the following clang warning:
+>=20
+> drivers/gpu/drm/i915/gvt/gtt.c:590:20: warning: unused function
+> 'ppgtt_set_guest_root_entry' [-Wunused-function].
+>=20
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/i915/gvt/gtt.c | 6 ------
+>  1 file changed, 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gt=
+t.c
+> index 897c007..a01ff44 100644
+> --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> @@ -587,12 +587,6 @@ static void _ppgtt_set_root_entry(struct intel_vgpu_=
+mm *mm,
+>  			   entry, index, false, 0, mm->vgpu);
+>  }
+> =20
+> -static inline void ppgtt_set_guest_root_entry(struct intel_vgpu_mm *mm,
+> -		struct intel_gvt_gtt_entry *entry, unsigned long index)
+> -{
+> -	_ppgtt_set_root_entry(mm, entry, index, true);
+> -}
+> -
+>  static inline void ppgtt_set_shadow_root_entry(struct intel_vgpu_mm *mm,
+>  		struct intel_gvt_gtt_entry *entry, unsigned long index)
+>  {
+> --=20
+
+Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+
+Thanks for covering me on this! Queue this up.
+
+--ctZH5Gqgrl5HoVnD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYHaokAAKCRCxBBozTXgY
+J332AJ4salQYvYttCagxF7P2YWnt4+5OtACfSsWoYZp+DqERU/BbGvS+EbPHckI=
+=oqD8
+-----END PGP SIGNATURE-----
+
+--ctZH5Gqgrl5HoVnD--
+
+--===============1146262515==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1146262515==--
