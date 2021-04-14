@@ -1,22 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE73435F576
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 15:54:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B7C35F578
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 15:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD8C06E82C;
-	Wed, 14 Apr 2021 13:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D61BC6E49F;
+	Wed, 14 Apr 2021 13:56:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA6F56E82C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 13:54:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 446846E49F
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 13:56:41 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 480CEAF26;
- Wed, 14 Apr 2021 13:54:51 +0000 (UTC)
-Subject: Re: [PATCH 13/18] drm/vc4: hdmi: Define colorspace matrices
+ by mx2.suse.de (Postfix) with ESMTP id C0BC8AFDF;
+ Wed, 14 Apr 2021 13:56:39 +0000 (UTC)
+Subject: Re: [PATCH 14/18] drm/vc4: hdmi: Change CSC callback prototype
 To: Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -24,14 +24,14 @@ To: Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
 References: <20210317154352.732095-1-maxime@cerno.tech>
- <20210317154352.732095-14-maxime@cerno.tech>
+ <20210317154352.732095-15-maxime@cerno.tech>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <03265daa-4e19-3d35-6a5e-2bb9271860e4@suse.de>
-Date: Wed, 14 Apr 2021 15:54:48 +0200
+Message-ID: <4a20abab-c0d4-f16a-15ba-f09170a93492@suse.de>
+Date: Wed, 14 Apr 2021 15:56:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210317154352.732095-14-maxime@cerno.tech>
+In-Reply-To: <20210317154352.732095-15-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,19 +48,19 @@ Cc: Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>
-Content-Type: multipart/mixed; boundary="===============1255618810=="
+Content-Type: multipart/mixed; boundary="===============1596224965=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1255618810==
+--===============1596224965==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="0KuPdmQ2xYZLBNHEpiP3jW7YE6zU4Fakp"
+ boundary="gt6u6FqjDqq6bDbgAyOocrte6ngb91hos"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0KuPdmQ2xYZLBNHEpiP3jW7YE6zU4Fakp
-Content-Type: multipart/mixed; boundary="86IFqNplhZmWTkVc6beRVry7B2ZqFwCt4";
+--gt6u6FqjDqq6bDbgAyOocrte6ngb91hos
+Content-Type: multipart/mixed; boundary="CVIiXAziKVV0sSXMgVrxR8IMmnWTQkgCP";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
@@ -73,13 +73,13 @@ Cc: Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>
-Message-ID: <03265daa-4e19-3d35-6a5e-2bb9271860e4@suse.de>
-Subject: Re: [PATCH 13/18] drm/vc4: hdmi: Define colorspace matrices
+Message-ID: <4a20abab-c0d4-f16a-15ba-f09170a93492@suse.de>
+Subject: Re: [PATCH 14/18] drm/vc4: hdmi: Change CSC callback prototype
 References: <20210317154352.732095-1-maxime@cerno.tech>
- <20210317154352.732095-14-maxime@cerno.tech>
-In-Reply-To: <20210317154352.732095-14-maxime@cerno.tech>
+ <20210317154352.732095-15-maxime@cerno.tech>
+In-Reply-To: <20210317154352.732095-15-maxime@cerno.tech>
 
---86IFqNplhZmWTkVc6beRVry7B2ZqFwCt4
+--CVIiXAziKVV0sSXMgVrxR8IMmnWTQkgCP
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -87,124 +87,73 @@ Content-Transfer-Encoding: quoted-printable
 
 
 Am 17.03.21 um 16:43 schrieb Maxime Ripard:
-> The current CSC setup code for the BCM2711 uses a sequence of register
-> writes to configure the CSC depending on whether we output using a full=
+> In order to support the YUV output, we'll need the atomic state to know=
 
-> or limited range.
+> what is the state of the associated property in the CSC setup callback.=
+
 >=20
-> However, with the upcoming introduction of the YUV output, we're going
-> to add new matrices to perform the conversions, so we should switch to
-> something a bit more flexible that takes the matrix as an argument and
-> programs the CSC accordingly.
+> Let's change the prototype of that callback to allow us to access it.
 >=20
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
 > ---
->   drivers/gpu/drm/vc4/vc4_hdmi.c | 77 +++++++++++++++++++++------------=
--
->   1 file changed, 48 insertions(+), 29 deletions(-)
+>   drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
+>   drivers/gpu/drm/vc4/vc4_hdmi.h | 1 +
+>   2 files changed, 4 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
 dmi.c
-> index b0e0cb533944..9614de7303b8 100644
+> index 9614de7303b8..56b5654c820f 100644
 > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -525,6 +525,50 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc=
-4_hdmi,
->   	HDMI_WRITE(HDMI_CSC_CTL, csc_ctl);
+> @@ -490,6 +490,7 @@ static void vc4_hdmi_bridge_post_crtc_powerdown(str=
+uct drm_bridge *bridge,
 >   }
 >  =20
-> +
-> +/*
-> + * If we need to output Full Range RGB, then use the unity matrix
-> + *
-> + * [ 1      0      0      0]
-> + * [ 0      1      0      0]
-> + * [ 0      0      1      0]
-> + *
-> + * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
-> + */
-> +static const u16 vc5_hdmi_csc_full_rgb_unity[3][4] =3D {
-> +	{ 0x2000, 0x0000, 0x0000, 0x0000 },
-> +	{ 0x0000, 0x2000, 0x0000, 0x0000 },
-> +	{ 0x0000, 0x0000, 0x2000, 0x0000 },
-> +};
-> +
-> +/*
-> + * CEA VICs other than #1 require limited range RGB output unless
-> + * overridden by an AVI infoframe. Apply a colorspace conversion to
-> + * squash 0-255 down to 16-235. The matrix here is:
-> + *
-> + * [ 0.8594 0      0      16]
-> + * [ 0      0.8594 0      16]
-> + * [ 0      0      0.8594 16]
-> + *
-> + * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
-> + */
-> +static const u16 vc5_hdmi_csc_full_rgb_to_limited_rgb[3][4] =3D {
-> +	{ 0x1b80, 0x0000, 0x0000, 0x0400 },
-> +	{ 0x0000, 0x1b80, 0x0000, 0x0400 },
-> +	{ 0x0000, 0x0000, 0x1b80, 0x0400 },
-> +};
-> +
-> +static void vc5_hdmi_set_csc_coeffs(struct vc4_hdmi *vc4_hdmi,
-> +				    const u16 coeffs[3][4])
-> +{
-> +	HDMI_WRITE(HDMI_CSC_12_11, (coeffs[0][1] << 16) | coeffs[0][0]);
-> +	HDMI_WRITE(HDMI_CSC_14_13, (coeffs[0][3] << 16) | coeffs[0][2]);
-> +	HDMI_WRITE(HDMI_CSC_22_21, (coeffs[1][1] << 16) | coeffs[1][0]);
-> +	HDMI_WRITE(HDMI_CSC_24_23, (coeffs[1][3] << 16) | coeffs[1][2]);
-> +	HDMI_WRITE(HDMI_CSC_32_31, (coeffs[2][1] << 16) | coeffs[2][0]);
-> +	HDMI_WRITE(HDMI_CSC_34_33, (coeffs[2][3] << 16) | coeffs[2][2]);
-> +}
-> +
->   static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
+>   static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
+> +			       struct drm_atomic_state *state,
+
+With the line length updated to 100 characters, this might just fit onto =
+
+the previous line. Anyway
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
 >   			       const struct drm_display_mode *mode)
 >   {
-> @@ -533,35 +577,10 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *v=
-c4_hdmi,
->  =20
->   	HDMI_WRITE(HDMI_VEC_INTERFACE_XBAR, 0x354021);
->  =20
-> -	if (vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode)) {
-> -		/* CEA VICs other than #1 requre limited range RGB
-> -		 * output unless overridden by an AVI infoframe.
-> -		 * Apply a colorspace conversion to squash 0-255 down
-> -		 * to 16-235.  The matrix here is:
-> -		 *
-> -		 * [ 0.8594 0      0      16]
-> -		 * [ 0      0.8594 0      16]
-> -		 * [ 0      0      0.8594 16]
-> -		 * [ 0      0      0       1]
-> -		 * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
-> -		 */
-> -		HDMI_WRITE(HDMI_CSC_12_11, (0x0000 << 16) | 0x1b80);
-> -		HDMI_WRITE(HDMI_CSC_14_13, (0x0400 << 16) | 0x0000);
-> -		HDMI_WRITE(HDMI_CSC_22_21, (0x1b80 << 16) | 0x0000);
-> -		HDMI_WRITE(HDMI_CSC_24_23, (0x0400 << 16) | 0x0000);
-> -		HDMI_WRITE(HDMI_CSC_32_31, (0x0000 << 16) | 0x0000);
-> -		HDMI_WRITE(HDMI_CSC_34_33, (0x0400 << 16) | 0x1b80);
-> -	} else {
-> -		/* Still use the matrix for full range, but make it unity.
-> -		 * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
-> -		 */
-> -		HDMI_WRITE(HDMI_CSC_12_11, (0x0000 << 16) | 0x2000);
-> -		HDMI_WRITE(HDMI_CSC_14_13, (0x0000 << 16) | 0x0000);
-> -		HDMI_WRITE(HDMI_CSC_22_21, (0x2000 << 16) | 0x0000);
-> -		HDMI_WRITE(HDMI_CSC_24_23, (0x0000 << 16) | 0x0000);
-> -		HDMI_WRITE(HDMI_CSC_32_31, (0x0000 << 16) | 0x0000);
-> -		HDMI_WRITE(HDMI_CSC_34_33, (0x0000 << 16) | 0x2000);
-> -	}
-> +	if (vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode))
-> +		vc5_hdmi_set_csc_coeffs(vc4_hdmi, &vc5_hdmi_csc_full_rgb_unity);
-> +	else
-> +		vc5_hdmi_set_csc_coeffs(vc4_hdmi, &vc5_hdmi_csc_full_rgb_to_limited_=
-rgb);
->  =20
->   	HDMI_WRITE(HDMI_CSC_CTL, csc_ctl);
+>   	u32 csc_ctl;
+> @@ -570,6 +571,7 @@ static void vc5_hdmi_set_csc_coeffs(struct vc4_hdmi=20
+*vc4_hdmi,
 >   }
+>  =20
+>   static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
+> +			       struct drm_atomic_state *state,
+>   			       const struct drm_display_mode *mode)
+>   {
+>   	u32 csc_ctl =3D VC5_MT_CP_CSC_CTL_ENABLE | VC4_SET_FIELD(VC4_HD_CSC_=
+CTL_MODE_CUSTOM,
+> @@ -860,7 +862,7 @@ static void vc4_hdmi_bridge_pre_crtc_enable(struct =
+drm_bridge *bridge,
+>   	struct vc4_hdmi *vc4_hdmi =3D encoder_to_vc4_hdmi(encoder);
+>  =20
+>   	if (vc4_hdmi->variant->csc_setup)
+> -		vc4_hdmi->variant->csc_setup(vc4_hdmi, mode);
+> +		vc4_hdmi->variant->csc_setup(vc4_hdmi, state, mode);
+>  =20
+>   	HDMI_WRITE(HDMI_FIFO_CTL, VC4_HDMI_FIFO_CTL_MASTER_SLAVE_N);
+>   }
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_h=
+dmi.h
+> index d03c849d6ea0..cf5e58a08eb4 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -78,6 +78,7 @@ struct vc4_hdmi_variant {
+>  =20
+>   	/* Callback to enable / disable the CSC */
+>   	void (*csc_setup)(struct vc4_hdmi *vc4_hdmi,
+> +			  struct drm_atomic_state *state,
+>   			  const struct drm_display_mode *mode);
+>  =20
+>   	/* Callback to configure the video timings in the HDMI block */
 >=20
 
 --=20
@@ -216,32 +165,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---86IFqNplhZmWTkVc6beRVry7B2ZqFwCt4--
+--CVIiXAziKVV0sSXMgVrxR8IMmnWTQkgCP--
 
---0KuPdmQ2xYZLBNHEpiP3jW7YE6zU4Fakp
+--gt6u6FqjDqq6bDbgAyOocrte6ngb91hos
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB29CgFAwAAAAAACgkQlh/E3EQov+Dp
-QQ/8DjpPXNba39Pf/4mLZ76bS9gZ5wBb7R6w/Q0XcWh4HG0X66tITH7U6bCBTHP1b2sQncSa+o98
-KsiBwgKykn0HIR5NjKbyBPBLNIZ+pGJ/fx/QIHJSxik9lKapwQVu8ugSmWkHahlzjZljIqJl0s3h
-Re0C7j6k0B3BI6xPW/JGfLHG2v7+ICzoLfVmC7xQ+zNC3KdEF5DU7DwbHa6vV1eVRdr9Vg//nAVi
-LWU8gukZbJ3tsvUCHYV3/f+yHliiCBLbxZTUlkIaaiHgSRwG54VrTnUeKZgugcffKIAHrRWr6qjY
-q259xoq7FVyYjzeHoRv358dgH4qFK94KtzQaXIemLYS9431kRdWqJ21RDXuu3nw7+iXfWlKBPbJL
-IPOH+AYPibqUdyvpwGmI8FRS5nr72ioP9O9IZ81eJSXfJzQkvkZHZhIhG6u9gyro3g9g/UhyQnrD
-cwfWKxYoVYyjXwqKxo68be+GHCqrzSzWe/Vt0Qo/dYF8IGkAgsCRNRKrkFc3i3REdCytrZ5HcU6M
-zgyuZfPOZ3bEdg093WXhyezRfpcZn/shoFwUhu5E81tu9mH2yEElHH3tYeJ+LTGZFuboW2Fr6K2D
-a03DchjK8UgMsVvhPzkMqATwIC1Tdgoie2QCqct+u2GFkngCeuVrTdGSJdh2YWTxzT5o0RDG8Mi2
-n/s=
-=a1Me
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB29JUFAwAAAAAACgkQlh/E3EQov+Cr
+GhAAuLCiyPenZPdardgXYf2VzQrpIpHxdNsLhH4F2bnivkUNE1XfDzLmmmjbXRhDWB39LwN+E7EK
+9DfsPU6oVeya+2X2vKswdZ7s7u5fN37COR1cB9CwvVGity15BE+ZnW++x4S4rvpVnXwOuHUS/AVG
+NagNys03ZzDYrt6288SvXLAFfo7npcKQjivg0cntkqQz76As/SQF40wf0hpmz9U3CXFmYvfb1zss
+zV3fhpjzxripqpiQehknIG6EdGX3gnb+8nz44xjIebRZgNn9yjRrlleS+7PrGX31/E0bO6sd29zy
+c3QKbMP0n93l6Is3822dOt2X9BoD1NY71+g4x0ZFTKPCyaKoBJ5iOHoFVPRTN2riH9HOFaXqWCJW
+oxNO8U/pOzYQ3cs7lu6NoQmObhYMn7Jax6Q9ZcGib6NbYtVebupW0LXL13tk/V1Fb4TkSfyBgq4f
+UrgRjujrZaRblTM4D2NOEyapZcaR2MtQDp84oQnxftsgAfKRsc/zMKksMYQffVr4RLcR7LHfN5OC
+BdaDVakXtR17AEB2ReJ6PQFarfmu0SWY/PCh9wvBWzlI82Ud4Whzb2g9hdEIIGBlahCA+1MQP1bw
+oM6psKeAXO0ZHZpfIsC+oQtW30dNjkjoGSnH3LkFKJfzW0tmvkzZws+StPkjreOojikedd3hFwTP
+ITA=
+=Z/9q
 -----END PGP SIGNATURE-----
 
---0KuPdmQ2xYZLBNHEpiP3jW7YE6zU4Fakp--
+--gt6u6FqjDqq6bDbgAyOocrte6ngb91hos--
 
---===============1255618810==
+--===============1596224965==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -252,4 +201,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1255618810==--
+--===============1596224965==--
