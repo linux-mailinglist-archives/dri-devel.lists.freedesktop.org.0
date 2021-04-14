@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C8135F7B5
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 17:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B62E35F7B9
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 17:35:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C88676E929;
-	Wed, 14 Apr 2021 15:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA02A6E93B;
+	Wed, 14 Apr 2021 15:35:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63F206E929;
- Wed, 14 Apr 2021 15:33:44 +0000 (UTC)
-IronPort-SDR: EfWErWprmTkQ/vAetKyzjcqF7Py7pdtE7lcKHnalNA5nuLTf5STNBrt9YPFb9pwVyv3xYln+Mn
- WZX6abwERzcw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="174770498"
-X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; d="scan'208";a="174770498"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2021 08:33:42 -0700
-IronPort-SDR: CvfFzOqJwCmS/czhY8nH6hcfSdwBSv7oxiGHZSJbu0e+YNwpnr2djivfIGMtU8WSE8I6LdyXiV
- 7dC+Z3WUyrCw==
-X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; d="scan'208";a="418364153"
-Received: from bdebhal-mobl.ger.corp.intel.com (HELO [10.213.205.119])
- ([10.213.205.119])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2021 08:33:40 -0700
-Subject: Re: [Intel-gfx] [PATCH 12/19] drm/i915/lmem: Bypass aperture when
- lmem is available
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20210412090526.30547-1-matthew.auld@intel.com>
- <20210412090526.30547-13-matthew.auld@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <f2b2b40a-309c-a86b-7ddb-0761f7ee6dc0@linux.intel.com>
-Date: Wed, 14 Apr 2021 16:33:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 501806E93B
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 15:35:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 24C8E6112F
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 15:35:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1618414548;
+ bh=H9t9sRBARJYEflizb9SagS3j20EsM1XsSL5S9pp1HlE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=H8dToRNqKlfQdKULrA79/ncVA7nuJ7eq3mAreqzFEqroczzSR0RQkrS5I4D9chMq2
+ 1V4aiFAuZvbDefM2gkf1n/NrRC9gFZOBnZtaR9MghHJi7Mdh3m/dqSaBBCBdUJFv6V
+ eo41vwzXnm545MesTS5H51JHaNNB9Cqf/2X+bNfQ/jSRpOQuzCFlhX4BZl6HevAEBk
+ QGQTJUOkEmDNuHvp/OP/q1E/IyTfajbwWz7jOdfls/xNjV0qSeXfQe/7JBo1XuI65C
+ xLeyrYjDGzawiJOBIYAQOh+JI1Elz37nokPBJc6daSZAVzKbpB813mwBbuO7E6o1uc
+ KA+z0x7OoPeCQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 1B93661186; Wed, 14 Apr 2021 15:35:48 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209345] [nouveau] unknown chipset (0f22d0a1) (nVidia Tesla K80)
+Date: Wed, 14 Apr 2021 15:35:47 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kallisti5@unixzen.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209345-2300-fOdSm3L3Bg@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209345-2300@https.bugzilla.kernel.org/>
+References: <bug-209345-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210412090526.30547-13-matthew.auld@intel.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,122 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>, dri-devel@lists.freedesktop.org,
- Chris P Wilson <chris.p.wilson@intel.com>,
- Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDEyLzA0LzIwMjEgMTA6MDUsIE1hdHRoZXcgQXVsZCB3cm90ZToKPiBGcm9tOiBBbnVzaGEg
-U3JpdmF0c2EgPGFudXNoYS5zcml2YXRzYUBpbnRlbC5jb20+Cj4gCj4gSW4gdGhlIHNjZW5hcmlv
-IHdoZXJlIGxvY2FsIG1lbW9yeSBpcyBhdmFpbGFibGUsIHdlIGhhdmUKPiByZWx5IG9uIENQVSBh
-Y2Nlc3MgdmlhIGxtZW0gZGlyZWN0bHkgaW5zdGVhZCBvZiBhcGVydHVyZS4KPiAKPiB2MjoKPiBn
-bWNoIGlzIG9ubHkgcmVsZXZhbnQgZm9yIG11Y2ggb2xkZXIgaHcsIHRoZXJlZm9yZSB3ZSBjYW4g
-ZHJvcCB0aGUKPiBoYXNfYXBlcnR1cmUgY2hlY2sgc2luY2UgaXQgc2hvdWxkIGFsd2F5cyBiZSBw
-cmVzZW50IG9uIHN1Y2ggcGxhdGZvcm1zLgo+IChDaHJpcykKPiAKPiBDYzogVmlsbGUgU3lyasOk
-bMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBDYzogRGhpbmFrYXJhbiBQYW5k
-aXlhbiA8ZGhpbmFrYXJhbi5wYW5kaXlhbkBpbnRlbC5jb20+Cj4gQ2M6IE1hYXJ0ZW4gTGFua2hv
-cnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6IENocmlzIFAgV2ls
-c29uIDxjaHJpcy5wLndpbHNvbkBpbnRlbC5jb20+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmll
-bC52ZXR0ZXJAaW50ZWwuY29tPgo+IENjOiBKb29uYXMgTGFodGluZW4gPGpvb25hcy5sYWh0aW5l
-bkBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6IERhbmllbGUgQ2VyYW9sbyBTcHVyaW8gPGRhbmllbGUu
-Y2VyYW9sb3NwdXJpb0BpbnRlbC5jb20+Cj4gQ2M6IENRIFRhbmcgPGNxLnRhbmdAaW50ZWwuY29t
-Pgo+IFNpZ25lZC1vZmYtYnk6IEFudXNoYSBTcml2YXRzYSA8YW51c2hhLnNyaXZhdHNhQGludGVs
-LmNvbT4KPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZmJkZXYu
-YyB8IDIyICsrKysrKysrKysrKysrKy0tLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dl
-bS9pOTE1X2dlbV9sbWVtLmMgICB8IDE1ICsrKysrKysrKysrKysrKwo+ICAgZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2xtZW0uaCAgIHwgIDUgKysrKysKPiAgIGRyaXZlcnMvZ3B1
-L2RybS9pOTE1L2k5MTVfdm1hLmMgICAgICAgICAgICB8IDE5ICsrKysrKysrKysrKystLS0tLS0K
-PiAgIDQgZmlsZXMgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25zKC0pCj4g
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZmJkZXYu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZmJkZXYuYwo+IGluZGV4IDJi
-Mzc5NTlkYTc0Ny4uNGFmNDAyMjlmNWVjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfZmJkZXYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfZmJkZXYuYwo+IEBAIC0xMzksMTQgKzEzOSwyMiBAQCBzdGF0aWMgaW50IGlu
-dGVsZmJfYWxsb2Moc3RydWN0IGRybV9mYl9oZWxwZXIgKmhlbHBlciwKPiAgIAlzaXplID0gbW9k
-ZV9jbWQucGl0Y2hlc1swXSAqIG1vZGVfY21kLmhlaWdodDsKPiAgIAlzaXplID0gUEFHRV9BTElH
-TihzaXplKTsKPiAgIAo+IC0JLyogSWYgdGhlIEZCIGlzIHRvbyBiaWcsIGp1c3QgZG9uJ3QgdXNl
-IGl0IHNpbmNlIGZiZGV2IGlzIG5vdCB2ZXJ5Cj4gLQkgKiBpbXBvcnRhbnQgYW5kIHdlIHNob3Vs
-ZCBwcm9iYWJseSB1c2UgdGhhdCBzcGFjZSB3aXRoIEZCQyBvciBvdGhlcgo+IC0JICogZmVhdHVy
-ZXMuICovCj4gICAJb2JqID0gRVJSX1BUUigtRU5PREVWKTsKPiAtCWlmIChzaXplICogMiA8IGRl
-dl9wcml2LT5zdG9sZW5fdXNhYmxlX3NpemUpCj4gLQkJb2JqID0gaTkxNV9nZW1fb2JqZWN0X2Ny
-ZWF0ZV9zdG9sZW4oZGV2X3ByaXYsIHNpemUpOwo+IC0JaWYgKElTX0VSUihvYmopKQo+IC0JCW9i
-aiA9IGk5MTVfZ2VtX29iamVjdF9jcmVhdGVfc2htZW0oZGV2X3ByaXYsIHNpemUpOwo+ICsJaWYg
-KEhBU19MTUVNKGRldl9wcml2KSkgewo+ICsJCW9iaiA9IGk5MTVfZ2VtX29iamVjdF9jcmVhdGVf
-bG1lbShkZXZfcHJpdiwgc2l6ZSwKPiArCQkJCQkJICBJOTE1X0JPX0FMTE9DX0NPTlRJR1VPVVMp
-OwoKSGFzIHRvIGJlIGNvbnRpZ3VvdXM/IFF1ZXN0aW9uIGZvciBkaXNwbGF5IGV4cGVydHMgSSBn
-dWVzcy4KCltDb21lcyBiYWNrIGxhdGVyLl0gQWggZm9yIGlvbWFwPyBQdXQgYSBjb21tZW50IHRv
-IHRoYXQgZWZmZWN0IHBlcmhhcHM/Cgo+ICsJfSBlbHNlIHsKPiArCQkvKgo+ICsJCSAqIElmIHRo
-ZSBGQiBpcyB0b28gYmlnLCBqdXN0IGRvbid0IHVzZSBpdCBzaW5jZSBmYmRldiBpcyBub3QgdmVy
-eQo+ICsJCSAqIGltcG9ydGFudCBhbmQgd2Ugc2hvdWxkIHByb2JhYmx5IHVzZSB0aGF0IHNwYWNl
-IHdpdGggRkJDIG9yIG90aGVyCj4gKwkJICogZmVhdHVyZXMuCj4gKwkJICovCj4gKwkJaWYgKHNp
-emUgKiAyIDwgZGV2X3ByaXYtPnN0b2xlbl91c2FibGVfc2l6ZSkKPiArCQkJb2JqID0gaTkxNV9n
-ZW1fb2JqZWN0X2NyZWF0ZV9zdG9sZW4oZGV2X3ByaXYsIHNpemUpOwo+ICsJCWlmIChJU19FUlIo
-b2JqKSkKPiArCQkJb2JqID0gaTkxNV9nZW1fb2JqZWN0X2NyZWF0ZV9zaG1lbShkZXZfcHJpdiwg
-c2l6ZSk7Cj4gKwl9CgpDb3VsZCB3ZSBrZWVwIHRoZSBJU19FUlIgb3JkZXJlZCBhbGxvY2F0aW9u
-IG9yZGVyIHRvIHNhdmUgaGF2aW5nIHRvIApyZS1pbmRlbnQ/IEJpa2Ugc2hlZCBzbyBvcHRpb25h
-bC4uCgo+ICsKPiAgIAlpZiAoSVNfRVJSKG9iaikpIHsKPiAgIAkJZHJtX2VycigmZGV2X3ByaXYt
-PmRybSwgImZhaWxlZCB0byBhbGxvY2F0ZSBmcmFtZWJ1ZmZlclxuIik7Cj4gICAJCXJldHVybiBQ
-VFJfRVJSKG9iaik7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1
-X2dlbV9sbWVtLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fbG1lbS5jCj4g
-aW5kZXggMDE3ZGI4ZjcxMTMwLi5mNDRiZGQwOGY3Y2IgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2xtZW0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2dlbS9pOTE1X2dlbV9sbWVtLmMKPiBAQCAtMTcsNiArMTcsMjEgQEAgY29uc3Qgc3RydWN0
-IGRybV9pOTE1X2dlbV9vYmplY3Rfb3BzIGk5MTVfZ2VtX2xtZW1fb2JqX29wcyA9IHsKPiAgIAku
-cmVsZWFzZSA9IGk5MTVfZ2VtX29iamVjdF9yZWxlYXNlX21lbW9yeV9yZWdpb24sCj4gICB9Owo+
-ICAgCj4gK3ZvaWQgX19pb21lbSAqCj4gK2k5MTVfZ2VtX29iamVjdF9sbWVtX2lvX21hcChzdHJ1
-Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqLAo+ICsJCQkgICAgdW5zaWduZWQgbG9uZyBuLAo+
-ICsJCQkgICAgdW5zaWduZWQgbG9uZyBzaXplKQo+ICt7Cj4gKwlyZXNvdXJjZV9zaXplX3Qgb2Zm
-c2V0Owo+ICsKPiArCUdFTV9CVUdfT04oIWk5MTVfZ2VtX29iamVjdF9pc19jb250aWd1b3VzKG9i
-aikpOwo+ICsKPiArCW9mZnNldCA9IGk5MTVfZ2VtX29iamVjdF9nZXRfZG1hX2FkZHJlc3Mob2Jq
-LCBuKTsKPiArCW9mZnNldCAtPSBvYmotPm1tLnJlZ2lvbi0+cmVnaW9uLnN0YXJ0Owo+ICsKPiAr
-CXJldHVybiBpb19tYXBwaW5nX21hcF93Yygmb2JqLT5tbS5yZWdpb24tPmlvbWFwLCBvZmZzZXQs
-IHNpemUpOwo+ICt9Cj4gKwo+ICAgYm9vbCBpOTE1X2dlbV9vYmplY3RfaXNfbG1lbShzdHJ1Y3Qg
-ZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQo+ICAgewo+ICAgCXN0cnVjdCBpbnRlbF9tZW1vcnlf
-cmVnaW9uICptciA9IG9iai0+bW0ucmVnaW9uOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9nZW0vaTkxNV9nZW1fbG1lbS5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5
-MTVfZ2VtX2xtZW0uaAo+IGluZGV4IDAzNmQ1M2MwMWRlOS4uZmFjNmJjNWE1ZWJiIDEwMDY0NAo+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9sbWVtLmgKPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fbG1lbS5oCj4gQEAgLTE0LDYgKzE0LDEx
-IEBAIHN0cnVjdCBpbnRlbF9tZW1vcnlfcmVnaW9uOwo+ICAgCj4gICBleHRlcm4gY29uc3Qgc3Ry
-dWN0IGRybV9pOTE1X2dlbV9vYmplY3Rfb3BzIGk5MTVfZ2VtX2xtZW1fb2JqX29wczsKPiAgIAo+
-ICt2b2lkIF9faW9tZW0gKgo+ICtpOTE1X2dlbV9vYmplY3RfbG1lbV9pb19tYXAoc3RydWN0IGRy
-bV9pOTE1X2dlbV9vYmplY3QgKm9iaiwKPiArCQkJICAgIHVuc2lnbmVkIGxvbmcgbiwKPiArCQkJ
-ICAgIHVuc2lnbmVkIGxvbmcgc2l6ZSk7Cj4gKwo+ICAgYm9vbCBpOTE1X2dlbV9vYmplY3RfaXNf
-bG1lbShzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKTsKPiAgIAo+ICAgc3RydWN0IGRy
-bV9pOTE1X2dlbV9vYmplY3QgKgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-OTE1X3ZtYS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV92bWEuYwo+IGluZGV4IDA3NDkw
-ZGI1MWNkYy4uZTI0ZDMzYWVjYWM0IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2k5MTVfdm1hLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3ZtYS5jCj4gQEAg
-LTI3LDYgKzI3LDcgQEAKPiAgIAo+ICAgI2luY2x1ZGUgImRpc3BsYXkvaW50ZWxfZnJvbnRidWZm
-ZXIuaCIKPiAgIAo+ICsjaW5jbHVkZSAiZ2VtL2k5MTVfZ2VtX2xtZW0uaCIKPiAgICNpbmNsdWRl
-ICJndC9pbnRlbF9lbmdpbmUuaCIKPiAgICNpbmNsdWRlICJndC9pbnRlbF9lbmdpbmVfaGVhcnRi
-ZWF0LmgiCj4gICAjaW5jbHVkZSAiZ3QvaW50ZWxfZ3QuaCIKPiBAQCAtNDQ4LDkgKzQ0OSwxMSBA
-QCB2b2lkIF9faW9tZW0gKmk5MTVfdm1hX3Bpbl9pb21hcChzdHJ1Y3QgaTkxNV92bWEgKnZtYSkK
-PiAgIAl2b2lkIF9faW9tZW0gKnB0cjsKPiAgIAlpbnQgZXJyOwo+ICAgCj4gLQlpZiAoR0VNX1dB
-Uk5fT04oIWk5MTVfdm1hX2lzX21hcF9hbmRfZmVuY2VhYmxlKHZtYSkpKSB7Cj4gLQkJZXJyID0g
-LUVOT0RFVjsKPiAtCQlnb3RvIGVycjsKPiArCWlmICghaTkxNV9nZW1fb2JqZWN0X2lzX2xtZW0o
-dm1hLT5vYmopKSB7Cj4gKwkJaWYgKEdFTV9XQVJOX09OKCFpOTE1X3ZtYV9pc19tYXBfYW5kX2Zl
-bmNlYWJsZSh2bWEpKSkgewo+ICsJCQllcnIgPSAtRU5PREVWOwo+ICsJCQlnb3RvIGVycjsKPiAr
-CQl9Cj4gICAJfQo+ICAgCj4gICAJR0VNX0JVR19PTighaTkxNV92bWFfaXNfZ2d0dCh2bWEpKTsK
-PiBAQCAtNDU4LDkgKzQ2MSwxMyBAQCB2b2lkIF9faW9tZW0gKmk5MTVfdm1hX3Bpbl9pb21hcChz
-dHJ1Y3QgaTkxNV92bWEgKnZtYSkKPiAgIAo+ICAgCXB0ciA9IFJFQURfT05DRSh2bWEtPmlvbWFw
-KTsKPiAgIAlpZiAocHRyID09IE5VTEwpIHsKPiAtCQlwdHIgPSBpb19tYXBwaW5nX21hcF93Yygm
-aTkxNV92bV90b19nZ3R0KHZtYS0+dm0pLT5pb21hcCwKPiAtCQkJCQl2bWEtPm5vZGUuc3RhcnQs
-Cj4gLQkJCQkJdm1hLT5ub2RlLnNpemUpOwo+ICsJCWlmIChpOTE1X2dlbV9vYmplY3RfaXNfbG1l
-bSh2bWEtPm9iaikpCj4gKwkJCXB0ciA9IGk5MTVfZ2VtX29iamVjdF9sbWVtX2lvX21hcCh2bWEt
-Pm9iaiwgMCwKPiArCQkJCQkJCSAgdm1hLT5vYmotPmJhc2Uuc2l6ZSk7CgpDYW4gdGhlIHZtYSBz
-aXplIGJlIGJpZ2dlciB0aGFuIHRoZSBvYmplY3QgaGVyZT8gR2l2ZW4gaG93IGJlbG93IHdvcmtz
-IApvZiB2bWEtPm5vZGUuc2l6ZS4KCj4gKwkJZWxzZQo+ICsJCQlwdHIgPSBpb19tYXBwaW5nX21h
-cF93YygmaTkxNV92bV90b19nZ3R0KHZtYS0+dm0pLT5pb21hcCwKPiArCQkJCQkJdm1hLT5ub2Rl
-LnN0YXJ0LAo+ICsJCQkJCQl2bWEtPm5vZGUuc2l6ZSk7CgpMb29rcyBhIGJpdCBvZGQgdGhhdCB0
-aGlzIGNhbGxzIHRoZSBzYW1lIGlvX21hcHBpbmdfbWFwX3djIGFzIAppOTE1X2dlbV9vYmplY3Rf
-bG1lbV9pb19tYXAgZW5kcyB1cCBkb2luZy4gUGVyaGFwcyB0aGF0IHN1Z2dlc3RzIHRoZXJlIApz
-aG91bGQgYmUgYSBzaW5nbGUgaGVscGVyIGhlcmUgYnV0IEkgYW0gbm90IHN1cmUgd2hhdCB3b3Vs
-ZCBiZSBlbGVnYW50LgoKUmVnYXJkcywKClR2cnRrbwoKPiAgIAkJaWYgKHB0ciA9PSBOVUxMKSB7
-Cj4gICAJCQllcnIgPSAtRU5PTUVNOwo+ICAgCQkJZ290byBlcnI7Cj4gCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=209345
+
+--- Comment #15 from Alexander von Gluck (kallisti5@unixzen.com) ---
+Applied my patch above to ArchLinux (5.11.13-arch1-1) and gave it a whirl.  Got
+a little information from nouveou before the system hard locks up.
+
+nouveau 0000:0d:00.0: enabling device (0000 -> 0002)
+nouveau 0000:0d:00.0: NVIDIA GK120 (0f22d0a1)
+nouveau 0000:0d:00.0: bios: version 80.21.1f.00.01
+nouveau 0000:0d:00.0: fb: 11520 MiB GDDR5
+
+(hard crash)
+
+I might get more information from serial... however, ran into an unrelated
+issue. Cooling!
+
+The Tesla K80 got up to 175F+ at idle and I had to shut things down. Need to
+rig some better cooling solution.
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
