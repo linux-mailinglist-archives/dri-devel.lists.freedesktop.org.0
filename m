@@ -2,72 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75FF35ECA6
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 07:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FCF735ED2A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 08:22:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB6BA6E43A;
-	Wed, 14 Apr 2021 05:59:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 610866E450;
+	Wed, 14 Apr 2021 06:22:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE676E218;
- Wed, 14 Apr 2021 05:59:13 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E5sZO3183693;
- Wed, 14 Apr 2021 05:59:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=nragDxkL+n3arrnBcqMCcgezVhn22p05/qXSY+dDHAc=;
- b=MBjdrVMpZEUvCOB+anC7A4qBlHIydqEtWdTkr66BpmepbX2SqcGdq6A21tD7QysjAm3f
- kx4Hg9Gvki6VE6JaobGb4UdsLBi1osBaq9lj89ToWjH6tbGMIzViGK1Dr08bQVrbSRL0
- q611GbvJgJ6gZ+piqdqSnV/sCekx29Ab9oBQvByv8CLVQ0NvkL1zkDdnCHTDe8PPYyIn
- MGg57OZY1A5qxyl/6AXqmRv33FSdh+DeK9O4XIyWSW2mdCgDRaoSKE1BEaUs+XnuWYvS
- sipyhwi0/bEfvsS+XuiVvxOaMbdNld4Z4X2bfWYHpS234DEIzNPCOHNh7xYFVa1h/fTD zQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 37u3erh638-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 14 Apr 2021 05:59:08 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E5uVMH077626;
- Wed, 14 Apr 2021 05:59:06 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 37unkqj7tc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 14 Apr 2021 05:59:06 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13E5x2rD014804;
- Wed, 14 Apr 2021 05:59:02 GMT
-Received: from mwanda (/10.175.166.128)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 13 Apr 2021 22:59:02 -0700
-Date: Wed, 14 Apr 2021 08:58:55 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH v2] drm/amdgpu: fix an error code in
- init_pmu_entry_by_type_and_add()
-Message-ID: <YHaEn8h5JP9CGMee@mwanda>
+Received: from NAM04-BN3-obe.outbound.protection.outlook.com
+ (mail-eopbgr680070.outbound.protection.outlook.com [40.107.68.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF6C6E430;
+ Wed, 14 Apr 2021 03:29:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Oh7oGrwLMKIwyjchL3Sl7DLN593bXd9uKIbQKokXuDE4P5Mqc8jH/ZAXCva8+FMAIPUrrjrNF218FgZAXIy5OwFUMGmSDl/NxObZzVMLALxqYC5pj6si2jZaBfRWNnm1O3Qr1Ymd9zmunXva8m71MxVPf0RdP/bi9+z2nG+7MMltV0uwRroHwHHOOnu7mI21qom7547WCsz4VDKEFyEEyNHjtp8JAqCjq5i9mKfHwYDFYfHe1pxMIevAnaiMlQrztlcrcL88o/vLMZRObC8qOI75/+RNYcl6havAlyygZyHhC/4xmgJt0i/XaKjcmsPhjfPOxOPYNuc23MX6lN/npA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bom6wj1T+7mXVv65yQkm7xi/67iYUyPoexbbC2nF3L8=;
+ b=J0bOpeaydlmzDKQFTa5EyLrJQuBU17JV/mKVXbzCBJc3KI0Yn8eqdKOuT7EOqy6AFz8U14ThpZyU9SZRYba5ZrBGN3QA/Wdf4e7MlSNPv1mVNtAVL2RvCBcIbgwA+8QWUhmXViUvQNHhJG1Xm+X6wxeaRRK6B/5FAZcQLNVkv4vEafRjVdl+UspN5j+KEy9vtgv0krRAD1AfRDDO/AbtWJG9bmkCFmWkYg22rY9DLFkqnX7sVQ1PHWAs4Q5H+eSTqGWzKHKNI6tWRJMQ3FOuTSUdW2nIzuo7wS7K5DenGWni74IG5NCMm9ZTcs3Sm5gP5g3L+o8yN+JDUD8cAXxwDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bom6wj1T+7mXVv65yQkm7xi/67iYUyPoexbbC2nF3L8=;
+ b=IJVkl2eszQN9eDgiS4teyMMGv4Y0w5MR3DFio3BOdC6depTZyL5ifbZzOzcNA+zS1yAeXnX5suEuzaPA8lKhdklfOizO9J//4kq8290o9TijvxhVbyko8HceYPZ48rtWxCuETteDH3TLtc1yIap8/P+22vXaA8jvmdkeSEh1pxY=
+Authentication-Results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BN7PR11MB2579.namprd11.prod.outlook.com (2603:10b6:406:ab::21)
+ by BN6PR11MB2001.namprd11.prod.outlook.com (2603:10b6:404:49::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.21; Wed, 14 Apr
+ 2021 03:29:37 +0000
+Received: from BN7PR11MB2579.namprd11.prod.outlook.com
+ ([fe80::4c79:805b:e69d:948b]) by BN7PR11MB2579.namprd11.prod.outlook.com
+ ([fe80::4c79:805b:e69d:948b%6]) with mapi id 15.20.4020.023; Wed, 14 Apr 2021
+ 03:29:37 +0000
+From: Jun Miao <jun.miao@windriver.com>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/1] drm/i915/gt: Fix a lockdep warnning on RT kernel
+Date: Wed, 14 Apr 2021 11:29:21 +0800
+Message-Id: <20210414032922.12639-1-jun.miao@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK0PR03CA0117.apcprd03.prod.outlook.com
+ (2603:1096:203:b0::33) To BN7PR11MB2579.namprd11.prod.outlook.com
+ (2603:10b6:406:ab::21)
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999
- adultscore=0 phishscore=0 malwarescore=0 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104140041
-X-Proofpoint-ORIG-GUID: yGt6P0BWxuC-YKI_dr6vTyPv7MwbZ-MX
-X-Proofpoint-GUID: yGt6P0BWxuC-YKI_dr6vTyPv7MwbZ-MX
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 clxscore=1011
- adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104140041
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpggp3.wrs.com (60.247.85.82) by
+ HK0PR03CA0117.apcprd03.prod.outlook.com (2603:1096:203:b0::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4020.17 via Frontend Transport; Wed, 14 Apr 2021 03:29:34 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a766f0bb-f8bb-498e-6f9c-08d8fef58798
+X-MS-TrafficTypeDiagnostic: BN6PR11MB2001:
+X-Microsoft-Antispam-PRVS: <BN6PR11MB20011339143490D68960A3978E4E9@BN6PR11MB2001.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:353;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: C1c5gndF8gR3gcBftOX2+3WSycckJ60/+q4ADtt02BUdWF6kOUNnkfHsqKXqteIWThcF8KteLICaVtsOLhX6mZM5o9UebazblxECob2Kn2eRG8if9e0vDM0jvrNwObzMgCZD9Jio1s7LuHgPHIS/5ZSgckCd65PCvx8xbr27/Fc8otM8Lusf6VdX9S0EoyUkAWG281vvjia/IYBw7p4VAgzMEBgiYbDYZbthVTTh02D6OtR7JDCSOA7xKsLhCzBaEXwoeTTpDasBBp8huztI/59Sl54DKRDuQ6a9iU80Q52YxCMWa3eL8I3oYVBdTD4M0OZ8ZZoew9xMlTgYanEiUdrE8nPSetgC3FTCdraJO6VjOE6GHEQSjfvEx0uJJjuP0oIE35a0FfEDtlMhjILCjuxakhiJ0AwDbQDoLkdTEc4xwyfOzGrJbt1EzK6c/MINTgdk+YRbzigCPk9gGFwOAIGh6MQUY9Ks3cFXUPZ+Vo15rxFOU0NJzqZyFYQA+CpMruPxKpmQH4Kf3mbFtZYltiI7VrVgsigzpIvxtMYCbrNuU/Iv+WmcW+vLL/NdrPpdev6Y2F+9G+uQnMq6ffK2t2pwEbYPt7C0WzsExTA6f8p06yNg6m9Iv3wRFuqRYmBqVdHVKLm9ELN2GvDMiTip8ENY3+5nfMVip4e2Ry75ZBgNVWN0yiyo16wQiym3KBjC9UjxolBIa6yRjDVqHvEbuA8ucsyYd8jLEyXIg3KOgJQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN7PR11MB2579.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(39850400004)(376002)(346002)(366004)(6512007)(6666004)(36756003)(956004)(52116002)(4744005)(5660300002)(8936002)(6486002)(16526019)(2906002)(316002)(83380400001)(86362001)(2616005)(186003)(66946007)(478600001)(1076003)(44832011)(6506007)(38100700002)(8676002)(66476007)(38350700002)(26005)(66556008)(4326008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?BMPmX7QdvqPHBvqvywLJpjK9tIrzEBHEu28jx37MJ7P4D5QiyY2ECLZep8gS?=
+ =?us-ascii?Q?tTw2yxqj/VUNma3CDeBfksjVS7SB3YBSYJDfzvUifFNzTclIahEIih7AH/+5?=
+ =?us-ascii?Q?2HjmQh9NAHK74iIRCH9d1OeMTdxidNiYzQQeCmo7/6g8IZqtoY/lVcPvC04R?=
+ =?us-ascii?Q?TDBdnsNkICjetMaw8GYtD78jpQB99xfA5ulc59VA6fE9jR1fDEW/uwRXdGbM?=
+ =?us-ascii?Q?goMPHJnLnd+BRHeY8tcUm+rMYvd5uXImxTS4OR/ygi4zZ3J8V/eCiSW08Egc?=
+ =?us-ascii?Q?3KLcLf4Y2/d1ySjEk57U6we7y0Tbb6gf9TX+wEl88I3jcFrsJslBgaUj7GqI?=
+ =?us-ascii?Q?jcJZltPKTOuS+ZpOCvDzPHMZs02iA2B9+UL0Ps+5e4VUXyONnkUDq8AmXRF7?=
+ =?us-ascii?Q?slPj/Yawh5rtsSNh6kvxDaf+D4+7Wh10vvgB1NWkteBhxOlMLxTyGNLka7BE?=
+ =?us-ascii?Q?aRDVGxIraB8p8tbLV3T7HWfWb6Fn5RVmqnENHnwJDqyz3iSbtdKNm7OFZx0s?=
+ =?us-ascii?Q?Ror2jop7Q6RROu1RDQ6xh4nn/LMm4FPO7PlnDy3jBW/OUiqEGihOs0lxsVxQ?=
+ =?us-ascii?Q?dVq8gVYTo18gXn2S+xqKBkp2QZA2idkW1m4QbeY3xmqdGxW0OD5SPprSqUF/?=
+ =?us-ascii?Q?9O/kxFbd/fkPKC/zURM5PdFJEe/p9hnX0vAr2/XP/MuYS54b80htno9ll2MP?=
+ =?us-ascii?Q?9bdZ+yrx+mj3o9hWNIBROQamQWgajkhfHB/jfuuRhUjWk27tBt3Iwk83HuvI?=
+ =?us-ascii?Q?u3SnQeNd2bvDK277n/q4f1OJmrTAAqR6gWCq5B/ma97LpzGDDTqqxGo1c5iv?=
+ =?us-ascii?Q?WTAhw6lvjXKieFcKOVohWmY5JsuAev0Aa5Tp6NFQXhtcHOBSl+Wt/ZZSTVV7?=
+ =?us-ascii?Q?EYDZM4dUozwUTWpGYfhHQ3NVfFo7Hdj6Pjikjx9eiSyU2lerZkqOrOLQHev6?=
+ =?us-ascii?Q?RJQxoOmFAZovzo6Zl/ErmsU9CAquhTAEDV3C76gGRmiYxl9gOQQzICMoT62m?=
+ =?us-ascii?Q?wHxiYYWU2H9ML+LHK8XdIiAOM/fKaT5FYtd0moBQtr4CXUKdCjX5uQ0qT8Iz?=
+ =?us-ascii?Q?kT6oEJpN0oVd4D+eT/2aqLOAYZR8YPzY41zJq1cLSo9TSw7aZZ9x0qVel2XV?=
+ =?us-ascii?Q?Bp14WblkKAi/Fh1LMJYQu6JtucpW5Wqiq00jubaBGNE0O+PIj3JSVmSlVKmV?=
+ =?us-ascii?Q?WtWwEAy8Y6HGsTvpwd7UnM0IIIWHugnpAUMGiPgS49WgOmFqxTaG5ZRAvOd2?=
+ =?us-ascii?Q?SFoVPWKFM3E7h0z6y86SeHdsoqyQfh5kUJmwRTjEYLTtAxfXXrhbzQmd/0+y?=
+ =?us-ascii?Q?OvqOepKv7GmTRcSnCEZC6Kd2?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a766f0bb-f8bb-498e-6f9c-08d8fef58798
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR11MB2579.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2021 03:29:37.5098 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: endL6fLpjli32hxN3azlDn/pADsLvyxy8lZsMh3pTdY2uA6AA0qRE5RW081jWPCVXf0kZUFaBbsF6DIjlWti+Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB2001
+X-Mailman-Approved-At: Wed, 14 Apr 2021 06:22:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +116,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Kim <jonathan.kim@amd.com>, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org,
- Harish Kasiviswanathan <harish.kasiviswanathan@amd.com>,
- amd-gfx@lists.freedesktop.org, Luben Tuikov <luben.tuikov@amd.com>,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the kmemdup() fails then this should return a negative error code
-but it currently returns success
+Hi,all 
+	This lockdep warning is only in the RT kernel.
+	Which is introduced by this path:https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c?h=v5.12-rc7&id=9d5612ca165a58aacc160465532e7998b9aab270
+	Fix it. 
 
-Fixes: b4a7db71ea06 ("drm/amdgpu: add per device user friendly xgmi events for vega20")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-v2: I sent this patch in Feb but I accidentally added an unrelated
-hunk from nouveau to the commit.  Now both hunks are have been sent to
-the correct lists.
+Jun Miao (1):
+  drm/i915/gt: Fix a lockdep warnning on RT kernel
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-index 19c0a3655228..82e9ecf84352 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-@@ -519,8 +519,10 @@ static int init_pmu_entry_by_type_and_add(struct amdgpu_pmu_entry *pmu_entry,
- 	pmu_entry->pmu.attr_groups = kmemdup(attr_groups, sizeof(attr_groups),
- 								GFP_KERNEL);
- 
--	if (!pmu_entry->pmu.attr_groups)
-+	if (!pmu_entry->pmu.attr_groups) {
-+		ret = -ENOMEM;
- 		goto err_attr_group;
-+	}
- 
- 	snprintf(pmu_name, PMU_NAME_SIZE, "%s_%d", pmu_entry->pmu_file_prefix,
- 				adev_to_drm(pmu_entry->adev)->primary->index);
 -- 
-2.30.2
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
