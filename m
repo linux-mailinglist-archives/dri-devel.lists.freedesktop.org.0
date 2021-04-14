@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893D035F11C
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 11:57:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D5A35F133
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 12:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B3A6E917;
-	Wed, 14 Apr 2021 09:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD3016E912;
+	Wed, 14 Apr 2021 10:05:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5792F6E917
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 09:57:19 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- b136-20020a1c1b8e0000b029012c69da2040so2826067wmb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 02:57:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=innUXiB15NxWF+Gc/VTlCtD8WBbd4L/RNyxniUwRLqA=;
- b=Nfeo0+Sse/38E4c9WlEAr8Vf+7clPjo9Y1d4RkN05n97be+7FhZqVpXgtdBUVVaOPu
- kfod6S3pNEFG2b+cfZtnCwNwvZ1u2z8tc1zftUDD5kRa+z0rUPEcQP27OXq4vk5WsNJG
- bfV89EJBn++3UMtxSyOMS8/PDgPc8tRfSJd+o=
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9626E90D
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 10:05:48 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id f12so15016004qtf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 03:05:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=qsTKijvfR+x1ItkmgoRxBGaL7jp0qq4z6tv2LtwChDM=;
+ b=XwiDUlRErUlmFXpaChQ7nTNfmURt+9ZaYYfwlNDFchaQxQCNhnfLo9yR4sSQVl/w3S
+ zOfNCgPrnwfjTFEx9rz1U6XMTkSdlhgY6PfYMVMYwuQO5e9KrQcxOKXYbf3fQEd5JsUO
+ 3xtg+7nQEgVdrCzbiQjmALqSolgPwES7xfmoiFmfp0juucN3bMK6yvmkHDi9TzlyV0P9
+ 5QhHwKls75R+Ct7ffmvvBYob5gs1//chpp0lP0haEtQNQIyjE4EEbcOo1y1hINab//pZ
+ Ej5j68LjLbO5yxawC0JieiEXptCTvqyTikNG3t3YtfWquwoVqejbcfKczwgkesgnGeWS
+ 2Ptg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=innUXiB15NxWF+Gc/VTlCtD8WBbd4L/RNyxniUwRLqA=;
- b=svKcdcoLWfeTAJwgAi0o7dsx6kW92h4NC0easDJnjOg6uTuUCavp6z48FrD8HQye1v
- B7veld7m5hsqGnx9pawflwfeH1dclUBU+RAaOFgXtSOK3VPWAqBercEAuf3TMtkyBsGK
- vXE7qQwq0JJYok6UhbFkpapC5F6pszOjhmRRf4kRjNksq3fJ2BYu+5Nw0TuvMUK7Xscy
- ZQkuCSiYaTXK4Ys7LPLnZfTOIv90hfuC01wle3ZGXmYZEIwhT40Gq9CWUZS+RbIuXJEk
- 4tGl4YTftxW12xROHYoji3ReUP0bTySKmTqCau7w8wfaaIGtelfBqlWb9wDTgmHH1YSg
- WabQ==
-X-Gm-Message-State: AOAM5331Ho9HwLZ9xlWGqnZRlvSU+C9nQGh+eAbrRimlyHz+3CDkJTJF
- uKq1s6qHnDUVbAUgChjS8nEHTw==
-X-Google-Smtp-Source: ABdhPJwmtC3RxIu6VuJ1bwJhdLL3NRAeAWOG59VuWnx7KZk0ZzWi0yELdPy3glzmyKBK6W9airtfAQ==
-X-Received: by 2002:a05:600c:220c:: with SMTP id
- z12mr2161154wml.92.1618394238095; 
- Wed, 14 Apr 2021 02:57:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f24sm4824397wmb.32.2021.04.14.02.57.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Apr 2021 02:57:17 -0700 (PDT)
-Date: Wed, 14 Apr 2021 11:57:15 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Melissa Wen <melissa.srw@gmail.com>
-Subject: Re: [PATCH v3 4/4] drm/vkms: add overlay support
-Message-ID: <YHa8ewZwizAIwrMM@phenom.ffwll.local>
-References: <cover.1618299945.git.melissa.srw@gmail.com>
- <792ef462f7ffcd16559a2096673d0b3b5c09777c.1618299945.git.melissa.srw@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qsTKijvfR+x1ItkmgoRxBGaL7jp0qq4z6tv2LtwChDM=;
+ b=U9kuQjTdf6MDKxb3BLhUr2oqk7jVxIZeRzfiiqK9X0TjHIQv3pnY6b9ljhFI9Hi3+z
+ VZrI2pV1+HAZajRx4ULLdEGrvOqxMs1rvnM1WOXkLsQCrakfLjIl8XfqL6RNcAEesNWp
+ 3hFNUpocwja1PMQI6PdZBf4dHL2SCN0bz3iMcWZeS38LMUwxC038D2aIeXhZqLXuv/TR
+ dt9LNw1A5+8u203YLJ4Va++aVsKxngp6/AXsR7N46jzw9TPRbSf3S+teRcS6+qndmiNh
+ xMM5R/19ijlrkAa11SV81yj91W8DY/iBnhtuzfeHK5rDLtzAgDcxCmqjMl74nmnIypbL
+ IfoQ==
+X-Gm-Message-State: AOAM532grhfCjLMMchQgS+LEjDBEYD88zeRP+/gQbwCPLL3sryprMcD4
+ O+o0Ss/1TdsWDeHyC0URCD5LPFlR6SCAPqNUygc=
+X-Google-Smtp-Source: ABdhPJwYhdZ+aEFj4xHGVIRLIPlrPJae2Y4T342wmKiRyWtuCe1HNkZZ64/dpTmskltYyi2VwoFHbcdmhfI2xztsy1k=
+X-Received: by 2002:ac8:70d9:: with SMTP id g25mr11323981qtp.223.1618394747203; 
+ Wed, 14 Apr 2021 03:05:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <792ef462f7ffcd16559a2096673d0b3b5c09777c.1618299945.git.melissa.srw@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20210413135248.1266-1-christian.koenig@amd.com>
+ <20210413135248.1266-5-christian.koenig@amd.com>
+In-Reply-To: <20210413135248.1266-5-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 14 Apr 2021 11:05:20 +0100
+Message-ID: <CAM0jSHP+=z5EHKDUzGPPVsYWGvRCBb4gcNFGYn53H2OdiopNPQ@mail.gmail.com>
+Subject: Re: [PATCH 5/7] drm/ttm: add ttm_sys_manager
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,231 +62,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Sumera Priyadarsini <sylphrenadin@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 13, 2021 at 04:56:02AM -0300, Melissa Wen wrote:
-> Add support to overlay plane, in addition to primary and cursor
-> planes. In this approach, the plane composition still requires an
-> active primary plane and planes are composed associatively in the
-> order: (primary <- overlay) <- cursor
-> 
-> It enables to run the following IGT tests successfully:
-> - kms_plane_cursor:
->   - pipe-A-[overlay, primary, viewport]-size-[64, 128, 256]
-> - kms_atomic:
->   - plane-overlay-legacy
-> and preserves the successful execution of kms_cursor_crc,
-> kms_writeback and kms_flip
-> 
-> Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++----------
->  drivers/gpu/drm/vkms/vkms_drv.c      |  5 +++++
->  drivers/gpu/drm/vkms/vkms_drv.h      |  1 +
->  drivers/gpu/drm/vkms/vkms_output.c   | 11 ++++++++++-
->  drivers/gpu/drm/vkms/vkms_plane.c    | 14 +++++++++++---
->  5 files changed, 44 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 7fe1fdb3af39..73ce1d381737 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -158,11 +158,12 @@ static void compose_planes(struct vkms_composer *primary_composer,
->  
->  static int composite(void **vaddr_out,
-
-Ok this was done in patch 2, but I think the names here need a bit
-improvement. composite is a noun, not a verb, but this function does
-stuff, so we need a verb. Also I feel like compose_planes (i.e. the
-original name) reflects better what it actually does.
-
->  		     struct vkms_composer *primary_composer,
-> -		     struct vkms_composer *cursor_composer)
-> +		     struct vkms_crtc_state *crtc_state)
->  {
->  	struct drm_framebuffer *fb = &primary_composer->fb;
->  	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
->  	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(gem_obj);
-> +	int i;
->  
->  	if (!*vaddr_out) {
->  		*vaddr_out = kzalloc(shmem_obj->base.size, GFP_KERNEL);
-> @@ -177,8 +178,14 @@ static int composite(void **vaddr_out,
->  
->  	memcpy(*vaddr_out, shmem_obj->vaddr, shmem_obj->base.size);
->  
-> -	if (cursor_composer)
-> -		compose_planes(primary_composer, cursor_composer, *vaddr_out);
-> +	/* If there are other planes besides primary, we consider the active
-> +	 * planes should be in z-order and compose them associatively:
-> +	 * ((primary <- overlay) <- cursor)
-> +	 */
-> +	for (i = 1; i < crtc_state->num_active_planes; i++)
-> +		compose_planes(primary_composer,
-
-Ofc that then clashes with compose_planes here, but this function only
-composes a single plane. So the plural plane_s_ is kinda wrong, and we
-could just call this function compose_plane. I think with that bikeshed
-this reads a bit better. So please adjust that in patch 2 (keep the r-b)
-and this here also lgtm.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +			       crtc_state->active_planes[i]->composer,
-> +			       *vaddr_out);
->  
->  	return 0;
->  }
-> @@ -200,7 +207,7 @@ void vkms_composer_worker(struct work_struct *work)
->  	struct drm_crtc *crtc = crtc_state->base.crtc;
->  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
->  	struct vkms_composer *primary_composer = NULL;
-> -	struct vkms_composer *cursor_composer = NULL;
-> +	struct vkms_plane_state *act_plane = NULL;
->  	bool crc_pending, wb_pending;
->  	void *vaddr_out = NULL;
->  	u32 crc32 = 0;
-> @@ -224,11 +231,11 @@ void vkms_composer_worker(struct work_struct *work)
->  	if (!crc_pending)
->  		return;
->  
-> -	if (crtc_state->num_active_planes >= 1)
-> -		primary_composer = crtc_state->active_planes[0]->composer;
-> -
-> -	if (crtc_state->num_active_planes == 2)
-> -		cursor_composer = crtc_state->active_planes[1]->composer;
-> +	if (crtc_state->num_active_planes >= 1) {
-> +		act_plane = crtc_state->active_planes[0];
-> +		if (act_plane->base.plane->type == DRM_PLANE_TYPE_PRIMARY)
-> +			primary_composer = act_plane->composer;
-> +	}
->  
->  	if (!primary_composer)
->  		return;
-> @@ -236,7 +243,7 @@ void vkms_composer_worker(struct work_struct *work)
->  	if (wb_pending)
->  		vaddr_out = crtc_state->active_writeback;
->  
-> -	ret = composite(&vaddr_out, primary_composer, cursor_composer);
-> +	ret = composite(&vaddr_out, primary_composer, crtc_state);
->  	if (ret) {
->  		if (ret == -EINVAL && !wb_pending)
->  			kfree(vaddr_out);
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 2173b82606f6..027ffe759440 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -44,6 +44,10 @@ static bool enable_writeback = true;
->  module_param_named(enable_writeback, enable_writeback, bool, 0444);
->  MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector support");
->  
-> +static bool enable_overlay;
-> +module_param_named(enable_overlay, enable_overlay, bool, 0444);
-> +MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
-> +
->  DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
->  
->  static void vkms_release(struct drm_device *dev)
-> @@ -198,6 +202,7 @@ static int __init vkms_init(void)
->  
->  	config->cursor = enable_cursor;
->  	config->writeback = enable_writeback;
-> +	config->overlay = enable_overlay;
->  
->  	return vkms_create(config);
->  }
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 70fb79621617..ac8c9c2fa4ed 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -89,6 +89,7 @@ struct vkms_device;
->  struct vkms_config {
->  	bool writeback;
->  	bool cursor;
-> +	bool overlay;
->  	/* only set when instantiated */
->  	struct vkms_device *dev;
->  };
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 6979fbc7f821..04406bd3ff02 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -39,7 +39,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  	struct drm_connector *connector = &output->connector;
->  	struct drm_encoder *encoder = &output->encoder;
->  	struct drm_crtc *crtc = &output->crtc;
-> -	struct vkms_plane *primary, *cursor = NULL;
-> +	struct vkms_plane *primary, *cursor = NULL, *overlay = NULL;
->  	int ret;
->  	int writeback;
->  
-> @@ -47,6 +47,15 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  	if (IS_ERR(primary))
->  		return PTR_ERR(primary);
->  
-> +	if (vkmsdev->config->overlay) {
-> +		overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-> +		if (IS_ERR(overlay))
-> +			return PTR_ERR(overlay);
-> +
-> +		if (!overlay->base.possible_crtcs)
-> +			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-> +	}
-> +
->  	if (vkmsdev->config->cursor) {
->  		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
->  		if (IS_ERR(cursor))
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index da4251aff67f..8be9eab41ea0 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -133,7 +133,7 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
->  	if (IS_ERR(crtc_state))
->  		return PTR_ERR(crtc_state);
->  
-> -	if (plane->type == DRM_PLANE_TYPE_CURSOR)
-> +	if (plane->type != DRM_PLANE_TYPE_PRIMARY)
->  		can_position = true;
->  
->  	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
-> @@ -200,11 +200,19 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
->  	const u32 *formats;
->  	int nformats;
->  
-> -	if (type == DRM_PLANE_TYPE_CURSOR) {
-> +	switch (type) {
-> +	case DRM_PLANE_TYPE_PRIMARY:
-> +		formats = vkms_formats;
-> +		nformats = ARRAY_SIZE(vkms_formats);
-> +		funcs = &vkms_primary_helper_funcs;
-> +		break;
-> +	case DRM_PLANE_TYPE_CURSOR:
-> +	case DRM_PLANE_TYPE_OVERLAY:
->  		formats = vkms_plane_formats;
->  		nformats = ARRAY_SIZE(vkms_plane_formats);
->  		funcs = &vkms_primary_helper_funcs;
-> -	} else {
-> +		break;
-> +	default:
->  		formats = vkms_formats;
->  		nformats = ARRAY_SIZE(vkms_formats);
->  		funcs = &vkms_primary_helper_funcs;
-> -- 
-> 2.30.2
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAxMyBBcHIgMjAyMSBhdCAxNDo1MywgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
+ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQWRkIGEgc2VwYXJhdGUgbWFuYWdl
+ciBmb3IgdGhlIHN5c3RlbSBkb21haW4gYW5kIG1ha2UgZnVuY3Rpb24gdGFibGVzCj4gbWFuZGF0
+b3J5Lgo+Cj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
+Z0BhbWQuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vdHRtL01ha2VmaWxlICAgICAgICAg
+IHwgIDIgKy0KPiAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMgICAgICB8IDE3ICst
+LS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fbW9kdWxlLmggICAgICB8ICAzICsr
+Cj4gIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Jlc291cmNlLmMgICAgfCAxMCArKy0tLS0KPiAg
+ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fc3lzX21hbmFnZXIuYyB8IDQ2ICsrKysrKysrKysrKysr
+KysrKysrKysrKysrKwo+ICA1IGZpbGVzIGNoYW5nZWQsIDUzIGluc2VydGlvbnMoKyksIDI1IGRl
+bGV0aW9ucygtKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
+c3lzX21hbmFnZXIuYwo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vTWFrZWZp
+bGUgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL01ha2VmaWxlCj4gaW5kZXggNDBlNWU5ZGE3OTUzLi5m
+OTA2YjIyOTU5Y2YgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS9NYWtlZmlsZQo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vTWFrZWZpbGUKPiBAQCAtNCw3ICs0LDcgQEAKPgo+
+ICB0dG0teSA6PSB0dG1fdHQubyB0dG1fYm8ubyB0dG1fYm9fdXRpbC5vIHR0bV9ib192bS5vIHR0
+bV9tb2R1bGUubyBcCj4gICAgICAgICB0dG1fZXhlY2J1Zl91dGlsLm8gdHRtX3JhbmdlX21hbmFn
+ZXIubyB0dG1fcmVzb3VyY2UubyB0dG1fcG9vbC5vIFwKPiAtICAgICAgIHR0bV9kZXZpY2Uubwo+
+ICsgICAgICAgdHRtX2RldmljZS5vIHR0bV9zeXNfbWFuYWdlci5vCj4gIHR0bS0kKENPTkZJR19B
+R1ApICs9IHR0bV9hZ3BfYmFja2VuZC5vCj4KPiAgb2JqLSQoQ09ORklHX0RSTV9UVE0pICs9IHR0
+bS5vCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2RldmljZS5jIGIvZHJp
+dmVycy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMKPiBpbmRleCAxZjIwMjQxNjRkNzIuLjM5OTU2
+ZTA4YjRjMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9kZXZpY2UuYwo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2RldmljZS5jCj4gQEAgLTE2NSwyMSArMTY1
+LDYgQEAgaW50IHR0bV9kZXZpY2Vfc3dhcG91dChzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiwgc3Ry
+dWN0IHR0bV9vcGVyYXRpb25fY3R4ICpjdHgsCj4gIH0KPiAgRVhQT1JUX1NZTUJPTCh0dG1fZGV2
+aWNlX3N3YXBvdXQpOwo+Cj4gLXN0YXRpYyB2b2lkIHR0bV9pbml0X3N5c21hbihzdHJ1Y3QgdHRt
+X2RldmljZSAqYmRldikKPiAtewo+IC0gICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2Vy
+ICptYW4gPSAmYmRldi0+c3lzbWFuOwo+IC0KPiAtICAgICAgIC8qCj4gLSAgICAgICAgKiBJbml0
+aWFsaXplIHRoZSBzeXN0ZW0gbWVtb3J5IGJ1ZmZlciB0eXBlLgo+IC0gICAgICAgICogT3RoZXIg
+dHlwZXMgbmVlZCB0byBiZSBkcml2ZXIgLyBJT0NUTCBpbml0aWFsaXplZC4KPiAtICAgICAgICAq
+Lwo+IC0gICAgICAgbWFuLT51c2VfdHQgPSB0cnVlOwo+IC0KPiAtICAgICAgIHR0bV9yZXNvdXJj
+ZV9tYW5hZ2VyX2luaXQobWFuLCAwKTsKPiAtICAgICAgIHR0bV9zZXRfZHJpdmVyX21hbmFnZXIo
+YmRldiwgVFRNX1BMX1NZU1RFTSwgbWFuKTsKPiAtICAgICAgIHR0bV9yZXNvdXJjZV9tYW5hZ2Vy
+X3NldF91c2VkKG1hbiwgdHJ1ZSk7Cj4gLX0KPiAtCj4gIHN0YXRpYyB2b2lkIHR0bV9kZXZpY2Vf
+ZGVsYXllZF93b3JrcXVldWUoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+ICB7Cj4gICAgICAg
+ICBzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiA9Cj4gQEAgLTIyMiw3ICsyMDcsNyBAQCBpbnQgdHRt
+X2RldmljZV9pbml0KHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX2RldmljZV9m
+dW5jcyAqZnVuY3MsCj4KPiAgICAgICAgIGJkZXYtPmZ1bmNzID0gZnVuY3M7Cj4KPiAtICAgICAg
+IHR0bV9pbml0X3N5c21hbihiZGV2KTsKPiArICAgICAgIHR0bV9zeXNfbWFuX2luaXQoYmRldik7
+Cj4gICAgICAgICB0dG1fcG9vbF9pbml0KCZiZGV2LT5wb29sLCBkZXYsIHVzZV9kbWFfYWxsb2Ms
+IHVzZV9kbWEzMik7Cj4KPiAgICAgICAgIGJkZXYtPnZtYV9tYW5hZ2VyID0gdm1hX21hbmFnZXI7
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX21vZHVsZS5oIGIvZHJpdmVy
+cy9ncHUvZHJtL3R0bS90dG1fbW9kdWxlLmgKPiBpbmRleCBkN2NhYzVkNGI4MzUuLjI2NTY0YTk4
+OTU4ZiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9tb2R1bGUuaAo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX21vZHVsZS5oCj4gQEAgLTM0LDcgKzM0LDEwIEBA
+Cj4gICNkZWZpbmUgVFRNX1BGWCAiW1RUTV0gIgo+Cj4gIHN0cnVjdCBkZW50cnk7Cj4gK3N0cnVj
+dCB0dG1fZGV2aWNlOwo+Cj4gIGV4dGVybiBzdHJ1Y3QgZGVudHJ5ICp0dG1fZGVidWdmc19yb290
+Owo+Cj4gK2ludCB0dG1fc3lzX21hbl9pbml0KHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2KTsKPiAr
+Cj4gICNlbmRpZiAvKiBfVFRNX01PRFVMRV9IXyAqLwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9yZXNvdXJjZS5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcmVzb3Vy
+Y2UuYwo+IGluZGV4IDA0ZjJlZWY2NTNhYi4uYTY5MDBiODJmMzFhIDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS90dG0vdHRtX3Jlc291cmNlLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+dHRtL3R0bV9yZXNvdXJjZS5jCj4gQEAgLTMzLDkgKzMzLDYgQEAgaW50IHR0bV9yZXNvdXJjZV9h
+bGxvYyhzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgICAgICAgICAgICAgICB0dG1f
+bWFuYWdlcl90eXBlKGJvLT5iZGV2LCByZXMtPm1lbV90eXBlKTsKPgo+ICAgICAgICAgcmVzLT5t
+bV9ub2RlID0gTlVMTDsKPiAtICAgICAgIGlmICghbWFuLT5mdW5jIHx8ICFtYW4tPmZ1bmMtPmFs
+bG9jKQo+IC0gICAgICAgICAgICAgICByZXR1cm4gMDsKPiAtCj4gICAgICAgICByZXR1cm4gbWFu
+LT5mdW5jLT5hbGxvYyhtYW4sIGJvLCBwbGFjZSwgcmVzKTsKPiAgfQo+Cj4gQEAgLTQ0LDkgKzQx
+LDcgQEAgdm9pZCB0dG1fcmVzb3VyY2VfZnJlZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJv
+LCBzdHJ1Y3QgdHRtX3Jlc291cmNlICpyZXMpCj4gICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNl
+X21hbmFnZXIgKm1hbiA9Cj4gICAgICAgICAgICAgICAgIHR0bV9tYW5hZ2VyX3R5cGUoYm8tPmJk
+ZXYsIHJlcy0+bWVtX3R5cGUpOwo+Cj4gLSAgICAgICBpZiAobWFuLT5mdW5jICYmIG1hbi0+ZnVu
+Yy0+ZnJlZSkKPiAtICAgICAgICAgICAgICAgbWFuLT5mdW5jLT5mcmVlKG1hbiwgcmVzKTsKPiAt
+Cj4gKyAgICAgICBtYW4tPmZ1bmMtPmZyZWUobWFuLCByZXMpOwo+ICAgICAgICAgcmVzLT5tbV9u
+b2RlID0gTlVMTDsKPiAgICAgICAgIHJlcy0+bWVtX3R5cGUgPSBUVE1fUExfU1lTVEVNOwo+ICB9
+Cj4gQEAgLTEzOSw3ICsxMzQsNiBAQCB2b2lkIHR0bV9yZXNvdXJjZV9tYW5hZ2VyX2RlYnVnKHN0
+cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuLAo+ICAgICAgICAgZHJtX3ByaW50ZihwLCAi
+ICB1c2VfdHlwZTogJWRcbiIsIG1hbi0+dXNlX3R5cGUpOwo+ICAgICAgICAgZHJtX3ByaW50Zihw
+LCAiICB1c2VfdHQ6ICVkXG4iLCBtYW4tPnVzZV90dCk7Cj4gICAgICAgICBkcm1fcHJpbnRmKHAs
+ICIgIHNpemU6ICVsbHVcbiIsIG1hbi0+c2l6ZSk7Cj4gLSAgICAgICBpZiAobWFuLT5mdW5jICYm
+IG1hbi0+ZnVuYy0+ZGVidWcpCj4gLSAgICAgICAgICAgICAgICgqbWFuLT5mdW5jLT5kZWJ1Zyko
+bWFuLCBwKTsKPiArICAgICAgIG1hbi0+ZnVuYy0+ZGVidWcobWFuLCBwKTsKCkNhbiB3ZSBkcm9w
+IHRoaXMgb25lPyBJdCBsb29rcyBsaWtlIG5vdXZlYXUgaGFzIG1hbmFnZXJfZnVuY3Mgd2l0aG91
+dAp0aGUgLmRlYnVnIGhvb2s/IExpa2Ugbm91dmVhdV9nYXJ0X21hbmFnZXI/Cl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
