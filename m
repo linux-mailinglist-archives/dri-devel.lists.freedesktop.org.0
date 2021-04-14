@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2977B35FD39
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 23:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE9E35FE3B
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 01:11:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03BD46E97A;
-	Wed, 14 Apr 2021 21:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25E216E0D5;
+	Wed, 14 Apr 2021 23:11:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B36EC6E978
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 21:22:51 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id u7so9058128plr.6
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 14:22:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=RwOM404YmU1KKr4Np2+NWPRKRhKCplH67w1Du3EIAzQ=;
- b=Q/PrJhcrkB4mA4Y/IyOwo4Y5/jw1VFleUeDObzYvyFXWkXyIsRs8uwsnv1Vyf9uZVn
- X4IK4yTUElUXiM6WM4wgRDVkFR0GnMD4W0hBDAq5xWOD8XwzxYCXZ9xuGVCfvl2IyRhs
- b9Nw/D9ta7A4r3gyOwPYoUo6JxoSjcDyKclUo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=RwOM404YmU1KKr4Np2+NWPRKRhKCplH67w1Du3EIAzQ=;
- b=ES+QXPaN4I8PMBwmCApfHgqAPjL7hNyATmvaSaK4UPmT86VLgK/ny1X95YdMW+PXty
- ndA3DTNqtFOCZxb4a5NqXnutGN6cAcPDW9LRGrFMeLHBn4EPOQEhIDmDQg2EAmXu7Ol9
- kpWimvVwXt94ur1gEeKKYNTABchxSXri87xETs3d1HucOjlwqMHnCHXNHmDpl3Kvkmk5
- Liiy8gjA5cvOpHlp6zLybDCvyznZs89QFPGTbRyi0r4mtp5XFGb+QG95pS4AnbBzsV4b
- wKuDvURbabkVIGXdl61d88TADjEtSSNC6IR2BDcQzk7TuSB0HSGF8mEr8ILFROhqwipc
- 2n4Q==
-X-Gm-Message-State: AOAM532YdcfB7QVaEwSN0SuRNFSsRr0XPyH2wRWKuBp0hlHiRKSTNF1M
- 31J1r19YnhHBz9rDvB3FHskWTQ==
-X-Google-Smtp-Source: ABdhPJx24gNc+irPfeI28vsit1JxAWe901EHCr3I7J4jq9hZYIxfEPuDHg/FpXbn5CxlkVPUjcZb2w==
-X-Received: by 2002:a17:90b:3909:: with SMTP id
- ob9mr133410pjb.181.1618435371367; 
- Wed, 14 Apr 2021 14:22:51 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:753e:814e:f002:498a])
- by smtp.gmail.com with ESMTPSA id e190sm301649pfe.3.2021.04.14.14.22.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Apr 2021 14:22:50 -0700 (PDT)
-MIME-Version: 1.0
-In-Reply-To: <1618434170-28302-1-git-send-email-khsieh@codeaurora.org>
-References: <1618434170-28302-1-git-send-email-khsieh@codeaurora.org>
-Subject: Re: [PATCH v2 2/3] drm/msm/dp: initialize audio_comp when audio starts
-From: Stephen Boyd <swboyd@chromium.org>
-To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run
-Date: Wed, 14 Apr 2021 14:22:49 -0700
-Message-ID: <161843536949.46595.14917924989191979850@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 890946E0AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 23:11:48 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1618441909; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=fwodgzOCL8qGE9ma8LbsgVs6uWRw/97IInh7NLij6oI=;
+ b=Rg7+i2MPCO3OXgVDk5JwXjCAbt/QhbCdiCoGptY9pJEDyX30I+ejurlrYL8CTzhmQnMTMnS8
+ nOcsCpjJdVk2iEysIjLCQJ9NOd47L3l9plGHW19QnImEZbIp4QUeiA/pFEH/qRK/Tqsrvc+g
+ 77H99oVJbGB3HIdMAcIFPZLV1yU=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 607776b187ce1fbb5606c6a2 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 14 Apr 2021 23:11:45
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4C964C43463; Wed, 14 Apr 2021 23:11:44 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 0DFDBC433C6;
+ Wed, 14 Apr 2021 23:11:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0DFDBC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=abhinavk@codeaurora.org
+From: Abhinav Kumar <abhinavk@codeaurora.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 0/3] Add devcoredump support for DPU
+Date: Wed, 14 Apr 2021 16:11:34 -0700
+Message-Id: <1618441897-17123-1-git-send-email-abhinavk@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,72 +63,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
+ swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
  aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2021-04-14 14:02:50)
-> Initialize audio_comp when audio starts and wait for audio_comp at
-> dp_display_disable(). This will take care of both dongle unplugged
-> and display off (suspend) cases.
-> 
-> Changes in v2:
-> -- add dp_display_start_audio()
-> 
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+This series adds support to use devcoredump for DPU driver. It introduces
+the msm_disp_snapshot module which assists in the capturing of register dumps during
+error scenarios. When a display related error happens, the msm_disp_snapshot module
+captures all the relevant register dumps along with the snapshot of the drm
+atomic state and triggers a devcoredump.
 
-Looking better. Thanks!
+changes in v4:
+ - rename dpu_dbg to msm_disp_snapshot and move it to msm/disp
+ - start using a list of blocks to store the hardware block information
+ - cleanup block allocation and freeing logic to simplify it
 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 0ba71c7..8a69bcd 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -177,6 +177,14 @@ static int dp_del_event(struct dp_display_private *dp_priv, u32 event)
->  
->         return 0;
->  }
-> +void dp_display_start_audio(struct msm_dp *dp_display)
+Abhinav Kumar (3):
+  drm: allow drm_atomic_print_state() to accept any drm_printer
+  drm/msm: add support to take dpu snapshot
+  drm/msm: add disp snapshot points across dpu driver
 
-Please unstick this from previous function by adding a newline above.
+ drivers/gpu/drm/drm_atomic.c                       |  28 +++-
+ drivers/gpu/drm/drm_atomic_uapi.c                  |   4 +-
+ drivers/gpu/drm/drm_crtc_internal.h                |   4 +-
+ drivers/gpu/drm/msm/Makefile                       |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  18 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  14 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  61 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |   5 +
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot.c       | 161 ++++++++++++++++++
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot.h       | 167 +++++++++++++++++++
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c  | 181 +++++++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |  12 ++
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |   4 +
+ drivers/gpu/drm/msm/dp/dp_display.c                |  29 ++++
+ drivers/gpu/drm/msm/dp/dp_display.h                |   1 +
+ drivers/gpu/drm/msm/dsi/dsi.c                      |   5 +
+ drivers/gpu/drm/msm/dsi/dsi.h                      |   4 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |  19 +++
+ drivers/gpu/drm/msm/msm_drv.c                      |  29 +++-
+ drivers/gpu/drm/msm/msm_drv.h                      |   2 +
+ drivers/gpu/drm/selftests/test-drm_framebuffer.c   |   1 +
+ 23 files changed, 743 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+ create mode 100644 drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+ create mode 100644 drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
 
-> +{
-> +       struct dp_display_private *dp;
-> +
-> +       dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +
-> +       reinit_completion(&dp->audio_comp);
-> +}
->  
->  void dp_display_signal_audio_complete(struct msm_dp *dp_display)
->  {
-> @@ -648,10 +656,6 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
->         /* start sentinel checking in case of missing uevent */
->         dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, DP_TIMEOUT_5_SECOND);
->  
-> -       /* signal the disconnect event early to ensure proper teardown */
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-This doesn't need to be done early anymore? Please mention why in the
-commit text.
-
-> -       reinit_completion(&dp->audio_comp);
-> -       dp_display_handle_plugged_change(g_dp_display, false);
-> -
->         dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK |
->                                         DP_DP_IRQ_HPD_INT_MASK, true);
->  
-> @@ -894,7 +898,6 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
->         /* wait only if audio was enabled */
->         if (dp_display->audio_enabled) {
->                 /* signal the disconnect event */
-> -               reinit_completion(&dp->audio_comp);
->                 dp_display_handle_plugged_change(dp_display, false);
->                 if (!wait_for_completion_timeout(&dp->audio_comp,
->                                 HZ * 5))
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
