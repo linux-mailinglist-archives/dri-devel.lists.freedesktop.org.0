@@ -1,59 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91CB35F071
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 11:08:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BE235F079
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 11:10:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF9389AB5;
-	Wed, 14 Apr 2021 09:08:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F9CC6E4D4;
+	Wed, 14 Apr 2021 09:10:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C768F89ABE
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 09:08:22 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- b136-20020a1c1b8e0000b029012c69da2040so2747379wmb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 02:08:22 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4553A6E503
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 09:10:50 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ w7-20020a1cdf070000b0290125f388fb34so9690018wmg.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 02:10:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cqP0gjc1UtzViswayeYBkOIxC7p7CX3JMgXUxI4EqHg=;
- b=Z39Tk6cgvlEBKWP6Pf8Z2uwQ1uIHGiZ+MDCeZrewJYcl6YLP9pBFb6ATh693ldXE6g
- OCfUxipyXvl8JWXHfP1WFNwA9AICHF8Cx+Pg4QXgxnGFiU5mpgtkyfYGVYcCV8KZVbEr
- ZVAjC8rZ2rVZiR3tlbV93PpE8V8X35HEIRjE4=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=xsQYX2UHTRaG1Vym45NrgNrdV4EUKH9oW8JvGS1IMYY=;
+ b=aoXau1/tL0UuarbWeJEoRyF7u0YNWsS7WG34VfjL2OsY+mvp6dA2b8ofn7+jT4rAZJ
+ mNlD9nYQyoqJP+Mave/iyaltyaBe0DW3YwUEKSpf797xQVpt776AwFuNHwN9OilD+gXu
+ wW90zgCjrmLsyr7/rPn7mk4NbNHOaS3ksiWfM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cqP0gjc1UtzViswayeYBkOIxC7p7CX3JMgXUxI4EqHg=;
- b=hyqIueKM0o8cxiQh/2HFw8CRJRiwpg8XEk7+aoBgCb4R6ipXV7LjjDcKIWnotle+y6
- y4vYVFdIKKDaZDUhsTjwH6BFt958Eq5URZcp4dHC2fawHen1jHotQo0zqFtXJjkjONps
- CyuRyJn+QKUZJ6Mad19WQCZ200R4JkLdLJ8OBb2n/i7m+jeE4q6eD/cUJ1FoKtVX6UoY
- 81J8001SAz2/QohJVvwQQz7Y+1ZqveVTrxpMAHA8iqIrVOs14hTGwybFXRVfzWsCkqrm
- cry2x9KTWtZxxq75CVwtJr1srlYekyXTRuQ41RY6iglTFV6nciyJhs/FL65NWHb9NpHL
- 0XAQ==
-X-Gm-Message-State: AOAM532Q6Y177U3FemOVYH/rUEbQ6ANhQWYfJ6ta66dwK+9xG/MhWPxt
- ifnNyyqqk2ZTZ6uLALDJPtijsMBSl0ahxw==
-X-Google-Smtp-Source: ABdhPJxAKcgn4iWmh9nkzPW5Xend/PiBUZhhxoqeRO9taKoFJVUrqETADHv7ktmUZT3JQlzu/mqcVQ==
-X-Received: by 2002:a05:600c:3397:: with SMTP id
- o23mr1934817wmp.26.1618391301436; 
- Wed, 14 Apr 2021 02:08:21 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xsQYX2UHTRaG1Vym45NrgNrdV4EUKH9oW8JvGS1IMYY=;
+ b=pSFX4+DcuQvvuAAX0Ge51zTWoUGOkvvyY5BXSi8a78OMxraN/BRQrByxGZU/KCUbeB
+ 4z4Q3EGss4gGKP0r+MTfinCy8iG2YT1DBjyiLYosQ7YzA9/I0h4ToB3+kcIPBxHBNyI9
+ EKJIvNqaLINgpvP4AutrAmshnhmZjl9HQ2WPdahTdYuI6xbMzQM+qaJqxl49C8VKPIxq
+ PUtxIl9spnEkMQCxqi7rN+ALWa22RUuJf0S9Q3MfIJBR2QS/vNCRYzo5KpsjsHWv5jz7
+ N0RbcAxV5adcrlR/vn1WYE1HQCN66sCHYufxRY5Bc4Aqgs1ohUPB0DUsaCd92qitFlDs
+ udTg==
+X-Gm-Message-State: AOAM532Lo7WGtFGEwW88YKeRrU2TiEvTZrn/1cdoiiHcbg1zpZA3Tzak
+ IAsThOqnoDRYZRK5fL4mUTEAhQ==
+X-Google-Smtp-Source: ABdhPJwmXoRmvMh89AnahmLC2e0I/Y6U+Jr4qUNzw+RsZa37BBNREfDXVI1QrkiIoxUzktM8lukOnQ==
+X-Received: by 2002:a1c:ac02:: with SMTP id v2mr1975777wme.111.1618391448838; 
+ Wed, 14 Apr 2021 02:10:48 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y15sm6022588wrh.8.2021.04.14.02.08.20
+ by smtp.gmail.com with ESMTPSA id l9sm4359704wmq.2.2021.04.14.02.10.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Apr 2021 02:08:20 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/modifiers: Enforce consistency between the cap an
- IN_FORMATS
-Date: Wed, 14 Apr 2021 11:08:15 +0200
-Message-Id: <20210414090815.453744-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210413094904.3736372-12-daniel.vetter@ffwll.ch>
-References: <20210413094904.3736372-12-daniel.vetter@ffwll.ch>
+ Wed, 14 Apr 2021 02:10:48 -0700 (PDT)
+Date: Wed, 14 Apr 2021 11:10:46 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH 05/12] drm/imx: Don't set allow_fb_modifiers explicitly
+Message-ID: <YHaxls5WbuU/5pts@phenom.ffwll.local>
+References: <20210413094904.3736372-1-daniel.vetter@ffwll.ch>
+ <20210413094904.3736372-5-daniel.vetter@ffwll.ch>
+ <290aef5ed13749d465eb19235aa87a2cef63dd2a.camel@pengutronix.de>
+ <YHWk9V/4mu1lGFgD@phenom.ffwll.local>
+ <83a41b2e9636cb6a790b23843c6d2628d02c6997.camel@pengutronix.de>
+ <9395e1fde2725d4fe01c206d9172b8acd7cdf921.camel@nxp.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <9395e1fde2725d4fe01c206d9172b8acd7cdf921.camel@nxp.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,105 +70,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's very confusing for userspace to have to deal with inconsistencies
-here, and some drivers screwed this up a bit. Most just ommitted the
-format list when they meant to say that only linear modifier is
-allowed, but some also meant that only implied modifiers are
-acceptable (because actually none of the planes registered supported
-modifiers).
+On Wed, Apr 14, 2021 at 10:24:22AM +0800, Liu Ying wrote:
+> Hi Daniel,
+> 
+> On Tue, 2021-04-13 at 16:14 +0200, Lucas Stach wrote:
+> > Am Dienstag, dem 13.04.2021 um 16:04 +0200 schrieb Daniel Vetter:
+> > > On Tue, Apr 13, 2021 at 01:47:28PM +0200, Lucas Stach wrote:
+> > > > Am Dienstag, dem 13.04.2021 um 11:48 +0200 schrieb Daniel Vetter:
+> > > > > Since
+> > > > > 
+> > > > > commit 890880ddfdbe256083170866e49c87618b706ac7
+> > > > > Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > > Date:   Fri Jan 4 09:56:10 2019 +0100
+> > > > > 
+> > > > >     drm: Auto-set allow_fb_modifiers when given modifiers at plane init
+> > > > > 
+> > > > > this is done automatically as part of plane init, if drivers set the
+> > > > > modifier list correctly. Which is the case here.
+> > > > > 
+> > > > > This one actually set it twice on top of what drm_plane_init does, so
+> > > > > double-redundant!
+> > > > 
+> > > > That's not true. imx-dcss and imx-drm are two totally separate drivers.
+> > > > Maybe we should move imx-drm into its own ipuv3 directory one day to
+> > > > make this more clear. Change is still correct, though.
+> > > 
+> > > Hm I greeped for drm_universal_plane_init and didn't find anythinf for the
+> > > imx main driver ... where are planes set up for that? Need to review that
+> > > they have the modifiers listed in all cases.
+> > 
+> > That's in drivers/gpu/drm/imx/ipuv3-plane.c and modifiers are always
+> > set on plane init.
 
-Now that this is all done consistently across all drivers, document
-the rules and enforce it in the drm core.
+Oh I didn't grep for the new drmm_universal_plane_alloc. Thanks for
+pointing this out.
 
-v2:
-- Make the capability a link (Simon)
-- Note that all is lost before 5.1.
+> > 
+> > Regards,
+> > Lucas
+> > 
+> > > > Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> > > > 
+> > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > > > Cc: Shawn Guo <shawnguo@kernel.org>
+> > > > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > > > > Cc: Fabio Estevam <festevam@gmail.com>
+> > > > > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > > > > Cc: linux-arm-kernel@lists.infradead.org
+> > > > > ---
+> > > > >  drivers/gpu/drm/imx/dcss/dcss-kms.c | 1 -
+> > > > >  drivers/gpu/drm/imx/imx-drm-core.c  | 1 -
+> 
+> Nit: Since this patch touches two totally separate drivers(imx-dcss and
+> imx-drm), it would be good to split it into two patches.
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-Cc: Simon Ser <contact@emersion.fr>
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
- drivers/gpu/drm/drm_plane.c   | 18 +++++++++++++++++-
- include/drm/drm_mode_config.h |  2 ++
- 2 files changed, 19 insertions(+), 1 deletion(-)
+I think if you expect that, then you need to move the imx-drm driver into
+a subdirectory like dcss. And like e.g. drm/msm works too. As-is this is
+just kinda confusing for people not involved in imx.
+-Daniel
 
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 0dd43882fe7c..20c7a1665414 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -128,6 +128,13 @@
-  *     pairs supported by this plane. The blob is a struct
-  *     drm_format_modifier_blob. Without this property the plane doesn't
-  *     support buffers with modifiers. Userspace cannot change this property.
-+ *
-+ *     Note that userspace can check the &DRM_CAP_ADDFB2_MODIFIERS driver
-+ *     capability for general modifier support. If this flag is set then every
-+ *     plane will have the IN_FORMATS property, even when it only supports
-+ *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
-+ *     various bugs in this area with inconsistencies between the capability
-+ *     flag and per-plane properties.
-  */
- 
- static unsigned int drm_num_planes(struct drm_device *dev)
-@@ -277,8 +284,14 @@ static int __drm_universal_plane_init(struct drm_device *dev,
- 			format_modifier_count++;
- 	}
- 
--	if (format_modifier_count)
-+	/* autoset the cap and check for consistency across all planes */
-+	if (format_modifier_count) {
-+		WARN_ON(!config->allow_fb_modifiers &&
-+			!list_empty(&config->plane_list));
- 		config->allow_fb_modifiers = true;
-+	} else {
-+		WARN_ON(config->allow_fb_modifiers);
-+	}
- 
- 	plane->modifier_count = format_modifier_count;
- 	plane->modifiers = kmalloc_array(format_modifier_count,
-@@ -360,6 +373,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
-  * drm_universal_plane_init() to let the DRM managed resource infrastructure
-  * take care of cleanup and deallocation.
-  *
-+ * Drivers supporting modifiers must set @format_modifiers on all their planes,
-+ * even those that only support DRM_FORMAT_MOD_LINEAR.
-+ *
-  * Returns:
-  * Zero on success, error code on failure.
-  */
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index ab424ddd7665..1ddf7783fdf7 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -909,6 +909,8 @@ struct drm_mode_config {
- 	 * @allow_fb_modifiers:
- 	 *
- 	 * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
-+	 * Note that drivers should not set this directly, it is automatically
-+	 * set in drm_universal_plane_init().
- 	 *
- 	 * IMPORTANT:
- 	 *
+> 
+> Thanks,
+> Liu Ying
+> 
+> > > > >  2 files changed, 2 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+> > > > > index b549ce5e7607..37ae68a7fba5 100644
+> > > > > --- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
+> > > > > +++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+> > > > > @@ -52,7 +52,6 @@ static void dcss_kms_mode_config_init(struct dcss_kms_dev *kms)
+> > > > >  	config->min_height = 1;
+> > > > >  	config->max_width = 4096;
+> > > > >  	config->max_height = 4096;
+> > > > > -	config->allow_fb_modifiers = true;
+> > > > >  	config->normalize_zpos = true;
+> > > > >  
+> > > > > 
+> > > > > 
+> > > > > 
+> > > > >  	config->funcs = &dcss_drm_mode_config_funcs;
+> > > > > diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > > index 2ded8e4f32d0..8be4edaec958 100644
+> > > > > --- a/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > > +++ b/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > > @@ -209,7 +209,6 @@ static int imx_drm_bind(struct device *dev)
+> > > > >  	drm->mode_config.max_height = 4096;
+> > > > >  	drm->mode_config.funcs = &imx_drm_mode_config_funcs;
+> > > > >  	drm->mode_config.helper_private = &imx_drm_mode_config_helpers;
+> > > > > -	drm->mode_config.allow_fb_modifiers = true;
+> > > > >  	drm->mode_config.normalize_zpos = true;
+> > > > >  
+> > > > > 
+> > > > > 
+> > > > > 
+> > > > >  	ret = drmm_mode_config_init(drm);
+> > 
+> > 
+> 
+
 -- 
-2.31.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
