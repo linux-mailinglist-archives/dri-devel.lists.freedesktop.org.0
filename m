@@ -1,43 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C113C35EE9C
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 09:44:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F7E35EE9F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Apr 2021 09:45:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68B0B6E479;
-	Wed, 14 Apr 2021 07:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7936E45E;
+	Wed, 14 Apr 2021 07:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 449F06E47B;
- Wed, 14 Apr 2021 07:44:29 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B873DABF6;
- Wed, 14 Apr 2021 07:44:26 +0000 (UTC)
-Subject: Re: [PATCH 3/8] drm/amdgpu: Implement mmap as GEM object function
-To: Felix Kuehling <felix.kuehling@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- bskeggs@redhat.com, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
- sroland@vmware.com, zackr@vmware.com, shashank.sharma@amd.com,
- sam@ravnborg.org, emil.velikov@collabora.com, nirmoy.das@amd.com
-References: <20210406090903.7019-1-tzimmermann@suse.de>
- <20210406090903.7019-4-tzimmermann@suse.de>
- <6b261dab-4a4d-f0c6-95c0-f720c7df12c1@amd.com>
- <b76d1922-c9a5-8533-657a-2c1149832347@suse.de>
- <9db18654-770f-459b-a89a-c57dc8a21bac@amd.com>
- <573dca0f-d017-3614-5e4f-d8d0b6bc413f@amd.com>
- <780bb477-77c3-2f3c-2417-edeffccd63b9@amd.com>
- <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <63c90815-c9d8-68df-daa1-c165215a6b7c@suse.de>
-Date: Wed, 14 Apr 2021 09:44:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B68F76E45E;
+ Wed, 14 Apr 2021 07:45:42 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id a25so8961850ljm.11;
+ Wed, 14 Apr 2021 00:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=Oh3uXTI5AKPh0+QnB4MnRnmcHC/GiVg0BzjUws+n8xA=;
+ b=D8ciI1VtZDibR38itw0RYrTuKKrtbe/DpuKI1d015E82jRU7Cjp8JAyv7zMj+Sjaxp
+ b2jK7yt3Yfbl8zGEBFljZKdIJYfySnIwUeK4FyaicZqVt1pCpnICDIFgRoj7UxHuCi1k
+ Tvl4UlMl3Vi/5BSHHvspe+tvdUDnb/59XL4RXrrlcNIWeiDFCkZXP/qsEsHnKIkxiLw0
+ aoIcuJk20ouE8PJu+q0jTHCGFKp1XYIdXIwTkRDPWDxPQ8tlALiZl+MDQJeL5ySPgI53
+ kThYa4BRXPrr/cPWg68eHty5uQKM5iei4/yusRVlZhlukJ3ieWCcjShtw0u1Of3CNAUi
+ EWXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=Oh3uXTI5AKPh0+QnB4MnRnmcHC/GiVg0BzjUws+n8xA=;
+ b=agyQFrfxecCnU3jHt+8KFQ/0Ymq24iNTuEsE7pdRLiBh6xnKhfhkxWQ8oKZ3/2d5/t
+ 7qz43WYKFyxd4O/gP8aBU9MmrKVKHHaFHjaC4QAoNldRPN6fk5vIC4KsnQDAlk9rXm9C
+ vvMnk+oWr7/x1Y0bemEVzotRTDDIDZSfHmOixCUrtopQQXXQbJkXHNc6esrDDpk2yCyv
+ YbY1AROfDz3XpLCOXGZpEtqtUJiu7NzQpI2ZRNJLNf9s5jJD71G/PB+1UOmkspQwfE9D
+ zwSaeZzdDVJSRMcIRwdZr/QgKJhsNz/Oov+YEuMJpogILXqnEcYpyKOv9fXqknqb2gFa
+ QXzg==
+X-Gm-Message-State: AOAM532YJLzOQ3e2CwvPN/QkOwjqSoPxA3N1wHIswan7OhCN0832/NmK
+ 2jabb3Bty9DJbPdlARXWZrY=
+X-Google-Smtp-Source: ABdhPJxNU9nkjIny1xQo1U7jvAL9/1B8t5814PNfaT4GHeNAY0CX6kKtdS56X/T4eggOIrHctEkjfA==
+X-Received: by 2002:a2e:d19:: with SMTP id 25mr13522917ljn.369.1618386341179; 
+ Wed, 14 Apr 2021 00:45:41 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id f11sm4241479lfm.230.2021.04.14.00.45.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Apr 2021 00:45:40 -0700 (PDT)
+Date: Wed, 14 Apr 2021 10:45:30 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 12/12] drm/modifiers: Enforce consistency between the
+ cap an IN_FORMATS
+Message-ID: <20210414104530.44b16355@eldfell>
+In-Reply-To: <YHWmkZYqUeZKQN9R@phenom.ffwll.local>
+References: <20210413094904.3736372-1-daniel.vetter@ffwll.ch>
+ <20210413094904.3736372-12-daniel.vetter@ffwll.ch>
+ <20210413145602.70f674b1@eldfell>
+ <YHWmkZYqUeZKQN9R@phenom.ffwll.local>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,154 +69,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0965527884=="
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============0191188620=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0965527884==
+--===============0191188620==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Jzk40XCw0oHnpIZqrmxs3V1v04lxedhKe"
+ boundary="Sig_/q+nGk+RET5w6PvXJF8OglyL"; protocol="application/pgp-signature"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Jzk40XCw0oHnpIZqrmxs3V1v04lxedhKe
-Content-Type: multipart/mixed; boundary="otObQxGaOSMPhIOvTCAlNX8ckBPTJka99";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Felix Kuehling <felix.kuehling@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- bskeggs@redhat.com, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
- sroland@vmware.com, zackr@vmware.com, shashank.sharma@amd.com,
- sam@ravnborg.org, emil.velikov@collabora.com, nirmoy.das@amd.com
-Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <63c90815-c9d8-68df-daa1-c165215a6b7c@suse.de>
-Subject: Re: [PATCH 3/8] drm/amdgpu: Implement mmap as GEM object function
-References: <20210406090903.7019-1-tzimmermann@suse.de>
- <20210406090903.7019-4-tzimmermann@suse.de>
- <6b261dab-4a4d-f0c6-95c0-f720c7df12c1@amd.com>
- <b76d1922-c9a5-8533-657a-2c1149832347@suse.de>
- <9db18654-770f-459b-a89a-c57dc8a21bac@amd.com>
- <573dca0f-d017-3614-5e4f-d8d0b6bc413f@amd.com>
- <780bb477-77c3-2f3c-2417-edeffccd63b9@amd.com>
- <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
-In-Reply-To: <a152c174-c0fe-fc6f-9fa0-9054ffe415a9@amd.com>
-
---otObQxGaOSMPhIOvTCAlNX8ckBPTJka99
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+--Sig_/q+nGk+RET5w6PvXJF8OglyL
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Tue, 13 Apr 2021 16:11:29 +0200
+Daniel Vetter <daniel@ffwll.ch> wrote:
 
-Am 07.04.21 um 21:49 schrieb Felix Kuehling:
-> On 2021-04-07 3:34 p.m., Felix Kuehling wrote:
->> On 2021-04-07 7:25 a.m., Christian K=C3=B6nig wrote:
->>>>>>> +=C2=A0=C2=A0=C2=A0 /*
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Don't verify access for KFD BOs. They=20
-don't have a GEM
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * object associated with them.
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>>>> +=C2=A0=C2=A0=C2=A0 if (bo->kfd_bo)
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;
->>>>>> Who does the access verification now?
->>>>> This is somewhat confusing.
->>>>>
->>>>> I took this check as-is, including the comment, from amdgpu's
->>>>> verify_access function. The verify_access function was called by
->>>>> ttm_bo_mmap. It returned 0 and ttm_bo_mmap did the mapping.
->>>> This is probably a left-over from when we mapped BOs using /dev/kfd.=20
-We
->>>> changed this to use /dev/dri/renderD* a long time ago to fix CPU=20
->>>> mapping
->>>> invalidations on memory evictions. I think we can let GEM do the acc=
-ess
->>>> check.
->>>
->>> Ok, good to know.
->>>
->>> Thomas can you remove the extra handling in a separate prerequisite=20
->>> patch?
->>>
->>> If anybody then bisects to this patch we at least know what to do to =
-
->>> get it working again.
->>
->> FWIW, I ran KFDTest test with this shortcut removed on current=20
->> amd-staging-drm-next + my HMM patch series, and it didn't seem to=20
->> cause any issues.
+> On Tue, Apr 13, 2021 at 02:56:02PM +0300, Pekka Paalanen wrote:
+> > On Tue, 13 Apr 2021 11:49:03 +0200
+> > Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >  =20
+> > > It's very confusing for userspace to have to deal with inconsistencies
+> > > here, and some drivers screwed this up a bit. Most just ommitted the
+> > > format list when they meant to say that only linear modifier is
+> > > allowed, but some also meant that only implied modifiers are
+> > > acceptable (because actually none of the planes registered supported
+> > > modifiers).
+> > >=20
+> > > Now that this is all done consistently across all drivers, document
+> > > the rules and enforce it in the drm core.
+> > >=20
+> > > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: David Airlie <airlied@linux.ie>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > ---
+> > >  drivers/gpu/drm/drm_plane.c   | 16 +++++++++++++++-
+> > >  include/drm/drm_mode_config.h |  2 ++
+> > >  2 files changed, 17 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> > > index 0dd43882fe7c..16a7e3e57f7f 100644
+> > > --- a/drivers/gpu/drm/drm_plane.c
+> > > +++ b/drivers/gpu/drm/drm_plane.c
+> > > @@ -128,6 +128,11 @@
+> > >   *     pairs supported by this plane. The blob is a struct
+> > >   *     drm_format_modifier_blob. Without this property the plane doe=
+sn't
+> > >   *     support buffers with modifiers. Userspace cannot change this =
+property.
+> > > + *
+> > > + *     Note that userspace can check the DRM_CAP_ADDFB2_MODIFIERS dr=
+iver
+> > > + *     capability for general modifier support. If this flag is set =
+then every
+> > > + *     plane will have the IN_FORMATS property, even when it only su=
+pports
+> > > + *     DRM_FORMAT_MOD_LINEAR. =20
+> >=20
+> > Ooh, that's even better. But isn't that changing the meaning of the
+> > cap? Isn't the cap older than IN_FORMATS? =20
 >=20
-> Wait, I celebrated too soon. I was running the wrong kernel. I do see=20
-> some failures where access is being denied. I need to do more debugging=20
+> Hm indeed. But also how exactly are you going to user modifiers without
+> IN_FORMATS ... it's a bit hard.
 
-> to figure out what's causing that.
+Easy for at least one specific case, as Daniel Stone said in IRC. Use
+GBM to allocate using the no-modifiers API but specify USE_LINEAR. That
+basically gives you MOD_LINEAR buffer. Then you can try to make a DRM
+FB for it using AddFB2-with-modifiers.
 
-Any news here? I saw the patch at [1], which removes the kfd_bo test.=20
-Can I assume that the series addresses the issue?
+Does anyone do this, I have no idea.
 
-Best regards
-Thomas
+Actually, I think this semantic change is fine. Old userspace did not
+know that the cap means all planes have IN_FORMATS, so they can deal
+with IN_FORMATS missing, but if it is never missing, no problem.
 
-[1] https://patchwork.freedesktop.org/patch/427516/?series=3D88822&rev=3D=
-1
+It could be a problem with new userspace and old kernel, but that's by
+definition not a kernel bug, right? Just... inconvenient for userspace
+as they can't make full use of the flag and need to keep the fallback
+path for missing IN_FORMATS.
 
+As long as there are KMS drivers that don't support modifiers, generic
+userspace probably needs the fallback path anyway.
+
+> I think this is all because we've enabled
+> modifiers piece-by-piece and never across the entire thing (e.g. with
+> compositor and protocols), so the missing pieces only became apparent
+> later on.
 >=20
-> Regards,
->  =C2=A0 Felix
+> I'm not sure whether compositors really want to support this, I guess
+> worst case we could disable the cap on these old kernels.
 >=20
+> > What about the opposite? Is it allowed to have even a single IN_FORMATS
+> > if you don't have the cap? =20
 >=20
->>
->> Regards,
->> =C2=A0 Felix
->>
->>
->>>
->>> Regards,
->>> Christian.=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> That direction is enforced since 5.1, because some drivers screwed it up
+> and confusion in userspace ensued.
+>=20
+> Should I add a bug that on kernels older than 5.1 the situation is more
+> murky and there's lots of bugs?
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Yes, that would help to set expectations.
+
+I'm currently on Debian stable FWIW, so 4.19 based kernel with I don't
+know what patches.
+
+On Tue, 13 Apr 2021 16:19:10 +0200
+Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Tue, Apr 13, 2021 at 04:11:29PM +0200, Daniel Vetter wrote:
+> >=20
+> > Should I add a bug that on kernels older than 5.1 the situation is more
+> > murky and there's lots of bugs? =20
+>=20
+> I guess we should recommend to userspace that if they spot an
+> inconsistency between IN_FORMATS across planes and the cap then maybe they
+> want to disable modifier support because it might be all kinds of broken?
+
+Yes please!
 
 
---otObQxGaOSMPhIOvTCAlNX8ckBPTJka99--
+------
 
---Jzk40XCw0oHnpIZqrmxs3V1v04lxedhKe
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+> >  =20
+> > >   */
+> > > =20
+> > >  static unsigned int drm_num_planes(struct drm_device *dev)
+> > > @@ -277,8 +282,14 @@ static int __drm_universal_plane_init(struct drm=
+_device *dev,
+> > >  			format_modifier_count++;
+> > >  	}
+> > > =20
+> > > -	if (format_modifier_count)
+> > > +	/* autoset the cap and check for consistency across all planes */
+> > > +	if (format_modifier_count) {
+> > > +		WARN_ON(!config->allow_fb_modifiers &&
+> > > +			!list_empty(&config->plane_list)); =20
+> >=20
+> > What does this mean? =20
+>=20
+> If allow_fb_modifiers isn't set yet (we do that in the line below) and we
+> are _not_ the first plane that gets added to the driver (that's done
+> towards the end of the function) then that means there's already a plane
+> registered without modifiers and hence IN_FORMAT. Which we then warn
+> about.
+
+Ah, ok! Would have taken a while for me to decipher that, and
+impossible with just this patch context.
+
+> >  =20
+> > >  		config->allow_fb_modifiers =3D true;
+> > > +	} else {
+> > > +		WARN_ON(config->allow_fb_modifiers); =20
+>=20
+> This warning here checks the other case of an earlier plane with
+> modifiers, but the one we're adding now doesn't have them.
+
+Cool.
+
+
+Thanks,
+pq
+
+--Sig_/q+nGk+RET5w6PvXJF8OglyL
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB2nVkFAwAAAAAACgkQlh/E3EQov+DS
-nw/9E/yHXw5W+6+v6OVFtoP5+DJbb2QzdRHvxKJky6y9PkdHRSi9zwJJQcuPgeJEttn6/5+XEN2w
-YMTb3qqH+Dzye0ahAEAZVHT0z4XWUbh7e4WaJ84dW6WqHnqOl2BkPitWGH7Mjn/CrBy/OF6J8Jcr
-LO6mkCWvpCxPblvDz/4Dc1rESBLgqmdVouyD6nJDYJW9gRADVTpf4cfod5zaP2Y2na5L4O9Z5wgp
-OSw3D/KCHLceD5pKvthyxWwmRAhwOKtOHqxRz7wbM1z4LuW8ZNXvBc2H57q8Cv8CwyvK04MCpcpI
-JQh9omsxLXZUXQA8E3kSVbzj1HZ/e6L9OesllYTg6iCx4WveKDTVtOyG/QcNuCaxke6CGhNqzbdh
-2tq90uDbZSDvHd0k2zcd1UMb8oYcqVM8F/YhqczNwAeDqhCFxgSskgxKRA8d29oSJ7ka18jxuBSe
-847NZBeiYbAk7y21X3ejQoJ4koKe8y3q5SLStif4s+YX/gy0CJaoA2ZPqYUnvLUsrsHfcNXlKJXa
-k3Mo/M0aFdyRfzbTdSTWpXeMJL1lwFvBeMhrRcRGYScZxCM4ZchHLobVqtdrDTXIICQNqpCBO3PO
-1GJWPAorjioN4D18HJkxIVF2u5AwIMYKHiPFdidM/2to4CPbeKnjPXGhNedlaTxqFkuFj1ifkWpX
-2ag=
-=MCWY
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmB2nZoACgkQI1/ltBGq
+qqcFGQ//ZZqe6Vf64cEpyU19fKLi47KertYzn0aUALxH9Pui9SH2FsKlHqBpekDy
+jvCn6gfoFoNBt/ZNn4q2jlQzHy/+macSFVc23QVUVj/A1pDza4LNEB73cjFkLQjW
+Vg0rnO2lhEgd+pYmYryNrKP+i8Jg781zWJdD1XpifQzhwjhIBAcwVrzne0UL2ndT
+XJa8GUuT5olXC/UNGeLojQIaMXt7YPVS/HXIcacEPaWDEV4UaSrQ9SVm49bHsJIt
+3jOjFVd8lkS4WDSh/IJ+RBj1UJifW/kt+fIPywezkNW35l8sv69A6Lzd0c+A/h+o
+9djvHRKuCceHqk5m7AGjXhcFprQJR/LIcQ0fHdVSLEfxiOlxAUgvDEIrGzzWAxr/
++Q5CgXRlkl5UTiX66haTL1VsswFkcZn7knhglS5NzlpC1Cck+sq7h9DaHCocchCt
+cJg3Jonhd37FADNiWoCu+q2d4DpLXk6INKTTkSDWr/N0so1M1wXTlzYz33Lee6Pv
+7pysmEJFYJ67GK+z1Wnrxjva8E0+C0hlPkYajCd/dUhv19JbuAjwdes+vyOPREiO
+q0SLYJXsd73Dm57GNColGpkfzpmmlh7d9bfP1TEVJcbtzJSv3/ILT1Rl0MDroEbu
+ZwUFEzG65cSyVoeBHR7E8n3mPVJ9rbhnSd3oJRuWfU3AsXihuF0=
+=GLyu
 -----END PGP SIGNATURE-----
 
---Jzk40XCw0oHnpIZqrmxs3V1v04lxedhKe--
+--Sig_/q+nGk+RET5w6PvXJF8OglyL--
 
---===============0965527884==
+--===============0191188620==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -208,4 +272,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0965527884==--
+--===============0191188620==--
