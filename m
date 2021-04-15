@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60CC3607DF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 13:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06393607E1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 13:01:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3A556E154;
-	Thu, 15 Apr 2021 11:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F30C6E4F8;
+	Thu, 15 Apr 2021 11:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F08EF6E07F
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 11:00:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1AA6E07F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 11:00:46 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8E65DB1F3;
- Thu, 15 Apr 2021 11:00:44 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 15B7BB1FD;
+ Thu, 15 Apr 2021 11:00:45 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch, marex@denx.de, stefan@agner.ch, shawnguo@kernel.org,
  s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
  linux-imx@nxp.com, linux-graphics-maintainer@vmware.com,
  sroland@vmware.com, zackr@vmware.com
-Subject: [PATCH 3/4] drm/zte: Don't select DRM_KMS_FB_HELPER
-Date: Thu, 15 Apr 2021 13:00:39 +0200
-Message-Id: <20210415110040.23525-4-tzimmermann@suse.de>
+Subject: [PATCH 4/4] drm: Remove DRM_KMS_FB_HELPER Kconfig option
+Date: Thu, 15 Apr 2021 13:00:40 +0200
+Message-Id: <20210415110040.23525-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210415110040.23525-1-tzimmermann@suse.de>
 References: <20210415110040.23525-1-tzimmermann@suse.de>
@@ -48,26 +48,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Selecting DRM_FBDEV_EMULATION will include the correct secttings for
-fbdev emulation. Drivers should not override this.
+It's only used by DRM_FBDEV_EMULATION, so inline it there.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/zte/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/Kconfig | 28 +++++++++++-----------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/zte/Kconfig b/drivers/gpu/drm/zte/Kconfig
-index 90ebaedc11fd..aa8594190b50 100644
---- a/drivers/gpu/drm/zte/Kconfig
-+++ b/drivers/gpu/drm/zte/Kconfig
-@@ -3,7 +3,6 @@ config DRM_ZTE
- 	tristate "DRM Support for ZTE SoCs"
- 	depends on DRM && ARCH_ZX
- 	select DRM_KMS_CMA_HELPER
--	select DRM_KMS_FB_HELPER
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 3c16bd1afd87..d3a9ca4b1cec 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -80,23 +80,6 @@ config DRM_KMS_HELPER
+ 	help
+ 	  CRTC helpers for KMS drivers.
+ 
+-config DRM_KMS_FB_HELPER
+-	bool
+-	depends on DRM_KMS_HELPER
+-	select FB
+-	select FRAMEBUFFER_CONSOLE if !EXPERT
+-	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
+-	select FB_SYS_FOPS
+-	select FB_SYS_FILLRECT
+-	select FB_SYS_COPYAREA
+-	select FB_SYS_IMAGEBLIT
+-	select FB_CFB_FILLRECT
+-	select FB_CFB_COPYAREA
+-	select FB_CFB_IMAGEBLIT
+-	select FB_DEFERRED_IO
+-	help
+-	  FBDEV helpers for KMS drivers.
+-
+ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+         bool "Enable refcount backtrace history in the DP MST helpers"
+ 	depends on STACKTRACE_SUPPORT
+@@ -117,6 +100,17 @@ config DRM_FBDEV_EMULATION
+ 	depends on DRM
  	select DRM_KMS_HELPER
- 	select SND_SOC_HDMI_CODEC if SND_SOC
- 	select VIDEOMODE_HELPERS
+ 	select DRM_KMS_FB_HELPER
++	select FB
++	select FB_CFB_FILLRECT
++	select FB_CFB_COPYAREA
++	select FB_CFB_IMAGEBLIT
++	select FB_DEFERRED_IO
++	select FB_SYS_FOPS
++	select FB_SYS_FILLRECT
++	select FB_SYS_COPYAREA
++	select FB_SYS_IMAGEBLIT
++	select FRAMEBUFFER_CONSOLE if !EXPERT
++	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
+ 	default y
+ 	help
+ 	  Choose this option if you have a need for the legacy fbdev
 -- 
 2.31.1
 
