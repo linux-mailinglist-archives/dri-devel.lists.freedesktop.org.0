@@ -2,55 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878D036147D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 00:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39243615AC
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 00:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7B36EB09;
-	Thu, 15 Apr 2021 22:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1BD6EABD;
+	Thu, 15 Apr 2021 22:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
- [209.85.210.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9DD76EB09;
- Thu, 15 Apr 2021 22:04:20 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id
- 65-20020a9d03470000b02902808b4aec6dso19259391otv.6; 
- Thu, 15 Apr 2021 15:04:20 -0700 (PDT)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1FAD6EABD
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 22:47:01 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id u15so4375590plf.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 15:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=4QXyNLhNR/ybAA8PhqI1Y4BCgzCX+KpeDdgoizSFaz0=;
+ b=L8G3d+gV+ZHqNkVAriDsrtVhQMCQV82uICqEb1zx1gUZUrHTLb/QtmAwXKfy4wXRNo
+ sbi42TE/mnsc+Lp3EC3yZuCmD88NlzUjqVXVC0gKoWE3IyTBrFsxCEmEtKHEQa35W/3/
+ eoBFIqvEgEVTAx6u4F3UxeGblQP8MygfDsj2U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cjrjUXHacNvGNDk7Q/C+ESbCLjg4Pa5yFyEf+O/Q6Rk=;
- b=Oe/UYSEAD7POi1UfY6PrMJ38+DtZRY/HkIa86QXf229Sh43I4zo9NPM/4vU6hr8OwA
- iI6pwmDvbwjQiOicLSVsG/CEnSUfxLkp7o5EFFSdva3bQOqhtm1yta/nYinR5h8Sk0bv
- 76qQoLMdYNbOHV+U987mHzzpI3xUpSYI0CuzYaNkHLRiaFsFKc3tt79smG/VonKpEf3F
- XIqBDGF6rp+sExUXcu39qzb8c89ek7j1DVe7F4qc1f0MSG24JjqZ0KvBZpGNosxFfY1p
- oSh4/Fpn4XnzKdguwEW21iY2AHYS+8k+tW0ZF5uv5rgpNwRTmMXolaVBrlflo2/mBjv3
- lHDg==
-X-Gm-Message-State: AOAM532K4Tc/qbaP7Xq56LlzN3dSEXlknZt52uwduVFXoUR92xgqKtcD
- NQS7vjcsb6KI+AGlqQ3TCA==
-X-Google-Smtp-Source: ABdhPJzs5cTY0YiItEz95ckGhd4fP2bum5/rIk1QKiYpZyI1sYfO1Yo40mAXSSBYGF8zxgIXNDa72A==
-X-Received: by 2002:a05:6830:1e15:: with SMTP id
- s21mr1077237otr.334.1618524260057; 
- Thu, 15 Apr 2021 15:04:20 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id l9sm820713oog.32.2021.04.15.15.04.17
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=4QXyNLhNR/ybAA8PhqI1Y4BCgzCX+KpeDdgoizSFaz0=;
+ b=dnEU/9cXsaW/tpP+RixlpOYG5WKx3mO2OY+b3qJDFkc1aA7gamFdm7tlc6Vai370xF
+ BW29OGaY3h8LFbjtIFkjwu7yHOvVLaKoNV8fiUs0amCyu0MNYBd0gGU5GW/8hAyX1Vcm
+ luQ44SO+u2JVTU2UTByjRpaPib7+7d98YdAd2FBv96Je5ktgSaZ8wPIMMO2lGLFI1nMq
+ 5L0EEb8njYJFp2k+xE0xnuFdTAxTaWfyhCtQ5BDLL5f+bNxTLNSK2ICKVYAfFIC6oodv
+ x5QC95FrM681Gv3IND24P29OQOovUcLVf1irhcC7x1B9Y9e8txvhVd1wTRBGtVLJS9Hk
+ Z/cg==
+X-Gm-Message-State: AOAM532lGlp+m9YYtNi3s9QdSAfyAgQYRreXVQzHOZo0UuIwyLREeCDH
+ JL07ZSV/OhsQnD2uu4i5VvBNjA==
+X-Google-Smtp-Source: ABdhPJxFhcnc0BQvrngfQ3Z5AFfIdVKhj/xb/yL3sabyo7p2u8N5bSvEyBbGwKVUGR30J7RRrB+6pA==
+X-Received: by 2002:a17:902:b188:b029:e8:bd90:3f99 with SMTP id
+ s8-20020a170902b188b02900e8bd903f99mr6372521plr.6.1618526821364; 
+ Thu, 15 Apr 2021 15:47:01 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:201:1ddc:37d8:5171:510d])
+ by smtp.gmail.com with ESMTPSA id a128sm3038828pfd.115.2021.04.15.15.47.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 15:04:18 -0700 (PDT)
-Received: (nullmailer pid 1959975 invoked by uid 1000);
- Thu, 15 Apr 2021 22:04:16 -0000
-Date: Thu, 15 Apr 2021 17:04:16 -0500
-From: Rob Herring <robh@kernel.org>
-To: Rajeev Nandan <rajeevny@codeaurora.org>
-Subject: Re: [v1 2/3] dt-bindings: drm/bridge: ti-sn65dsi86: Document
- use-aux-backlight
-Message-ID: <20210415220416.GA1954887@robh.at.kernel.org>
-References: <1618418390-15055-1-git-send-email-rajeevny@codeaurora.org>
- <1618418390-15055-3-git-send-email-rajeevny@codeaurora.org>
+ Thu, 15 Apr 2021 15:47:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1618418390-15055-3-git-send-email-rajeevny@codeaurora.org>
+In-Reply-To: <78036f23979206070bd9c9df180e2866@codeaurora.org>
+References: <1618355504-5401-1-git-send-email-khsieh@codeaurora.org>
+ <161843459482.46595.11409016331159748598@swboyd.mtv.corp.google.com>
+ <60bceecc3d4dcc71c66a4b093d0e6c0f@codeaurora.org>
+ <161851718969.46595.12896385877607476879@swboyd.mtv.corp.google.com>
+ <78036f23979206070bd9c9df180e2866@codeaurora.org>
+Subject: Re: [PATCH v2 3/3] drm/msm/dp: check main link status before start
+ aux read
+From: Stephen Boyd <swboyd@chromium.org>
+To: khsieh@codeaurora.org
+Date: Thu, 15 Apr 2021 15:46:59 -0700
+Message-ID: <161852681935.46595.9941294298184495830@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,48 +70,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, mkrishn@codeaurora.org,
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, seanpaul@chromium.org,
- abhinavk@codeaurora.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org,
- freedreno@lists.freedesktop.org
+ abhinavk@codeaurora.org, dri-devel@lists.freedesktop.org,
+ aravindh@codeaurora.org, sean@poorly.run
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 14, 2021 at 10:09:49PM +0530, Rajeev Nandan wrote:
-> If the panel connected to the bridge supports backlight control
-> using DPCD registers on the DisplayPort aux channel, setting
-> "use-aux-backlight" property in the bridge node will enable the
-> registration of a DP aux backlight device from the bridge driver.
+Quoting khsieh@codeaurora.org (2021-04-15 15:02:40)
+> On 2021-04-15 13:06, Stephen Boyd wrote:
+> > 
+> > Is it really necessary to have this patch at all? I think there are
+> > bigger problems with suspend/resume of the DP driver in relation to the
+> > kthread stopping. I hope that the aux channel would start NAKing
+> > transfers once the cable is disconnected too, so that we don't need to
+> > do an extra check for each aux transfer.
 > 
-> Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
-> ---
->  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml          | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> I am working on duplicate this problem, but it is not happen on me yet 
+> so far.
+>  From kernel dump, i can see it crash at dp_irq_hdp_handle() after 
+> suspended.
+> dp_irq_hpd_handle and dp_pm_suspend() are serialized by event_mutex.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> index 26932d2..c8d8c00 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> @@ -58,6 +58,12 @@ properties:
->    clock-names:
->      const: refclk
->  
-> +  use-aux-backlight:
+> After suspend, ahb clock is disabled.
+> Hence next dp_catalog_link_is_connected() crash at acess dp ctrl 
+> registers.
+> 
+> 
+> aux channel does not do NAKing immediately if unplugged. Therefore 
+> aux_transfer will wait until timeout (HZ/4).
+> worst, drm_dp_dpcd_access() will retry 32 times before return dpcd 
+> read/write failed.
+> This patch try to eliminate the time spinning on waiting for timeout 32 
+> times.
+> 
 
-use-dp-aux-backlight perhaps.
+Would be useful to have that level of detail in the commit text.
 
-> +    type: boolean
-> +    description:
-> +      The panel backlight to be controlled using DPCD registers on
-> +      the DP aux channel.
-
-Sounds like a property of the panel, not the bridge. So it should be in 
-the panel node.
-
-Rob
+Maybe when the cable is disconnected the DP phy should be shutdown and
+some bit in the phy could effectively "cut off" the aux channel and then
+NAKs would start coming through here in the DP controller I/O register
+space?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
