@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA8D3610FE
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 19:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B9A361131
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 19:37:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D17B6EAA0;
-	Thu, 15 Apr 2021 17:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED58B6EAA3;
+	Thu, 15 Apr 2021 17:37:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A13826EAA0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 17:20:23 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id c16so25033855oib.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 10:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Hb91kHB4hd7RZsbVok3P3m+0+e1mHd+vXtOpQovYFpI=;
- b=M+kfDC5bMPU3ED38T4ZrnPwEzh5j2bqP/7LcQywy7ZozzoDUnUYyj9xZ+EecWUZT6t
- WF/PMomiJ4MVHtIi1uyaUGKL4Zkk1UW+N9qWedphfFBitxq3Cmj094EaiB6pAqy0J0xj
- 3C30dK0rZbVDG6dhTguJh8mYrDKKSgfNehn/M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Hb91kHB4hd7RZsbVok3P3m+0+e1mHd+vXtOpQovYFpI=;
- b=nLn5FyIC1tOLVEcd/+KMEbLlw7+9dW94ezEh9Uv8fM1qNPYwpBGdFAyzwAtWhykeJf
- 7BvU++uPKjCt8+qjEy9kyu2Z4NQWpH/D/VR/g+MZj0Er7ireO3slpFyVH2ijx8A37ASH
- PP10PI5F0Cskc1sX5f8uqy6nHPpu4l5eRKJ0ig4XocfsrPAgVSgN0HvfZuWxhksVz/Ar
- 1bIgLzK9NZEi9ctWVutE24u2KAHozYLYSRWBi6U/5rAEOOtJwPP2Vi9ci1GyYspMpv/b
- WbGmnX8cRwxg6dyMs7aFAgAtKJdtkonzGpPD3UjIPnwKdzEWxt/J3XMrQkjkrBnGrnk8
- bA2Q==
-X-Gm-Message-State: AOAM5329DsXNiELiWEs+gS/IsW2HgDhrMuHGwKMNOfvqumox/vpBf4zD
- b1fxspN0ae4Yd2/k6MC9+Y9ln8zaZ+gjeTFNJbZdiA==
-X-Google-Smtp-Source: ABdhPJy+3LlXJme+3WZUXV+0eXhwY0xCtSkAf5/dpuxuky+SLtOUAHKEhc6pYlx0y8zTn8D9LbRsr/FSnbdEt9fQ5X4=
-X-Received: by 2002:aca:1c17:: with SMTP id c23mr3329745oic.128.1618507222785; 
- Thu, 15 Apr 2021 10:20:22 -0700 (PDT)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C51BC6EAA3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 17:37:31 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1618508251; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=vMuapGc6r+sQXc4RIPpj5//TOg7JGDyrIsFu9NTNbKI=;
+ b=vagrLPrW9nisrEtNVfHmQK/FbX++LgAQLNWizWZUc8atuY5qY+M8OGsPh+Vl9f48s7FS2T5f
+ 7CgqV0WDyZ0MkDTli/frB4C19rejIqC6PS9Rg/G1H64CBCW+7P/cBL/bkIb2fRVtVs1k1zFc
+ WChJ2GLcDUAVCQSKvZm9VmqKS4M=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 607879daf34440a9d48420fe (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 15 Apr 2021 17:37:30
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id CD994C43461; Thu, 15 Apr 2021 17:37:30 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 742A8C433C6;
+ Thu, 15 Apr 2021 17:37:29 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210328225709.18541-1-daniele.ceraolospurio@intel.com>
- <20210328225709.18541-12-daniele.ceraolospurio@intel.com>
-In-Reply-To: <20210328225709.18541-12-daniele.ceraolospurio@intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 15 Apr 2021 19:20:11 +0200
-Message-ID: <CAKMK7uEwg7cpxu72eyXpA561VWEiwL1UqmqbRz53HZzXqypMSA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v3 11/16] drm/i915/pxp: interface for marking
- contexts as using protected content
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>, 
- dri-devel <dri-devel@lists.freedesktop.org>
+Date: Thu, 15 Apr 2021 10:37:29 -0700
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v2 3/3] drm/msm/dp: check main link status before start
+ aux read
+In-Reply-To: <161843459482.46595.11409016331159748598@swboyd.mtv.corp.google.com>
+References: <1618355504-5401-1-git-send-email-khsieh@codeaurora.org>
+ <161843459482.46595.11409016331159748598@swboyd.mtv.corp.google.com>
+Message-ID: <60bceecc3d4dcc71c66a4b093d0e6c0f@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,409 +64,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, dri-devel@lists.freedesktop.org,
+ aravindh@codeaurora.org, sean@poorly.run
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 29, 2021 at 12:58 AM Daniele Ceraolo Spurio
-<daniele.ceraolospurio@intel.com> wrote:
->
-> Extra tracking and checks around protected objects, coming in a follow-up
-> patch, will be enabled only for contexts that opt in. Contexts can only be
-> marked as using protected content at creation time and they must be both
-> bannable and not recoverable.
->
-> When a PXP teardown occurs, all gem contexts marked this way that
-> have been used at least once will be marked as invalid and all new
-> submissions using them will be rejected. All intel contexts within the
-> invalidated gem contexts will be marked banned.
-> A new flag has been added to the RESET_STATS ioctl to report the
-> invalidation to userspace.
->
-> v2: split to its own patch and improve doc (Chris), invalidate contexts
-> on teardown
->
-> v3: improve doc, use -EACCES for execbuf fail (Chris), make protected
->     context flag not mandatory in protected object execbuf to avoid
->     abuse (Lionel)
->
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-
-Same here, needs to be cc'ed to dri-devel. Also Jason is working on a
-big cleanup of the context creation uapi, so needs coordination. Also
-ping maintainers for awareness, not sure yet how to get this merged
-with the branches we have (I forgot the maintainer ping on patch 12).
--Daniel
-
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 59 ++++++++++++++++++-
->  drivers/gpu/drm/i915/gem/i915_gem_context.h   | 18 ++++++
->  .../gpu/drm/i915/gem/i915_gem_context_types.h |  2 +
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 18 ++++++
->  drivers/gpu/drm/i915/pxp/intel_pxp.c          | 48 +++++++++++++++
->  drivers/gpu/drm/i915/pxp/intel_pxp.h          |  1 +
->  drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  3 +
->  include/uapi/drm/i915_drm.h                   | 26 ++++++++
->  8 files changed, 172 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index fd8ee52e17a4..f3fd302682bb 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -76,6 +76,8 @@
->  #include "gt/intel_gpu_commands.h"
->  #include "gt/intel_ring.h"
->
-> +#include "pxp/intel_pxp.h"
-> +
->  #include "i915_gem_context.h"
->  #include "i915_globals.h"
->  #include "i915_trace.h"
-> @@ -1972,6 +1974,40 @@ static int set_priority(struct i915_gem_context *ctx,
->         return 0;
->  }
->
-> +static int set_protected(struct i915_gem_context *ctx,
-> +                        const struct drm_i915_gem_context_param *args)
-> +{
-> +       int ret = 0;
-> +
-> +       if (!intel_pxp_is_enabled(&ctx->i915->gt.pxp))
-> +               ret = -ENODEV;
-> +       else if (ctx->file_priv) /* can't change this after creation! */
-> +               ret = -EEXIST;
-> +       else if (args->size)
-> +               ret = -EINVAL;
-> +       else if (!args->value)
-> +               clear_bit(UCONTEXT_PROTECTED, &ctx->user_flags);
-> +       else if (i915_gem_context_is_recoverable(ctx) ||
-> +                !i915_gem_context_is_bannable(ctx))
-> +               ret = -EPERM;
-> +       else
-> +               set_bit(UCONTEXT_PROTECTED, &ctx->user_flags);
-> +
-> +       return ret;
-> +}
-> +
-> +static int get_protected(struct i915_gem_context *ctx,
-> +                        struct drm_i915_gem_context_param *args)
-> +{
-> +       if (!intel_pxp_is_enabled(&ctx->i915->gt.pxp))
-> +               return -ENODEV;
-> +
-> +       args->size = 0;
-> +       args->value = i915_gem_context_uses_protected_content(ctx);
-> +
-> +       return 0;
-> +}
-> +
->  static int ctx_setparam(struct drm_i915_file_private *fpriv,
->                         struct i915_gem_context *ctx,
->                         struct drm_i915_gem_context_param *args)
-> @@ -2004,6 +2040,8 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
->                         ret = -EPERM;
->                 else if (args->value)
->                         i915_gem_context_set_bannable(ctx);
-> +               else if (i915_gem_context_uses_protected_content(ctx))
-> +                       ret = -EPERM; /* can't clear this for protected contexts */
->                 else
->                         i915_gem_context_clear_bannable(ctx);
->                 break;
-> @@ -2011,10 +2049,12 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
->         case I915_CONTEXT_PARAM_RECOVERABLE:
->                 if (args->size)
->                         ret = -EINVAL;
-> -               else if (args->value)
-> -                       i915_gem_context_set_recoverable(ctx);
-> -               else
-> +               else if (!args->value)
->                         i915_gem_context_clear_recoverable(ctx);
-> +               else if (i915_gem_context_uses_protected_content(ctx))
-> +                       ret = -EPERM; /* can't set this for protected contexts */
-> +               else
-> +                       i915_gem_context_set_recoverable(ctx);
->                 break;
->
->         case I915_CONTEXT_PARAM_PRIORITY:
-> @@ -2041,6 +2081,10 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
->                 ret = set_ringsize(ctx, args);
->                 break;
->
-> +       case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
-> +               ret = set_protected(ctx, args);
-> +               break;
-> +
->         case I915_CONTEXT_PARAM_BAN_PERIOD:
->         default:
->                 ret = -EINVAL;
-> @@ -2494,6 +2538,10 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
->                 ret = get_ringsize(ctx, args);
->                 break;
->
-> +       case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
-> +               ret = get_protected(ctx, args);
-> +               break;
-> +
->         case I915_CONTEXT_PARAM_BAN_PERIOD:
->         default:
->                 ret = -EINVAL;
-> @@ -2554,6 +2602,11 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
->         args->batch_active = atomic_read(&ctx->guilty_count);
->         args->batch_pending = atomic_read(&ctx->active_count);
->
-> +       /* re-use args->flags for output flags */
-> +       args->flags = 0;
-> +       if (i915_gem_context_invalidated(ctx))
-> +               args->flags |= I915_CONTEXT_INVALIDATED;
-> +
->         ret = 0;
->  out:
->         rcu_read_unlock();
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> index b5c908f3f4f2..169d3fb49252 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> @@ -108,6 +108,24 @@ i915_gem_context_clear_user_engines(struct i915_gem_context *ctx)
->         clear_bit(CONTEXT_USER_ENGINES, &ctx->flags);
->  }
->
-> +static inline bool
-> +i915_gem_context_invalidated(const struct i915_gem_context *ctx)
-> +{
-> +       return test_bit(CONTEXT_INVALID, &ctx->flags);
-> +}
-> +
-> +static inline void
-> +i915_gem_context_set_invalid(struct i915_gem_context *ctx)
-> +{
-> +       set_bit(CONTEXT_INVALID, &ctx->flags);
-> +}
-> +
-> +static inline bool
-> +i915_gem_context_uses_protected_content(const struct i915_gem_context *ctx)
-> +{
-> +       return test_bit(UCONTEXT_PROTECTED, &ctx->user_flags);
-> +}
-> +
->  /* i915_gem_context.c */
->  void i915_gem_init__contexts(struct drm_i915_private *i915);
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> index 340473aa70de..a0f80475da05 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> @@ -134,6 +134,7 @@ struct i915_gem_context {
->  #define UCONTEXT_BANNABLE              2
->  #define UCONTEXT_RECOVERABLE           3
->  #define UCONTEXT_PERSISTENCE           4
-> +#define UCONTEXT_PROTECTED             5
->
->         /**
->          * @flags: small set of booleans
-> @@ -141,6 +142,7 @@ struct i915_gem_context {
->         unsigned long flags;
->  #define CONTEXT_CLOSED                 0
->  #define CONTEXT_USER_ENGINES           1
-> +#define CONTEXT_INVALID                        2
->
->         struct mutex mutex;
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 5964e67c7d36..72c2470fcfe6 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -21,6 +21,8 @@
->  #include "gt/intel_gt_pm.h"
->  #include "gt/intel_ring.h"
->
-> +#include "pxp/intel_pxp.h"
-> +
->  #include "i915_drv.h"
->  #include "i915_gem_clflush.h"
->  #include "i915_gem_context.h"
-> @@ -746,6 +748,11 @@ static int eb_select_context(struct i915_execbuffer *eb)
->         if (unlikely(!ctx))
->                 return -ENOENT;
->
-> +       if (i915_gem_context_invalidated(ctx)) {
-> +               i915_gem_context_put(ctx);
-> +               return -EACCES;
-> +       }
-> +
->         eb->gem_context = ctx;
->         if (rcu_access_pointer(ctx->vm))
->                 eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
-> @@ -2940,6 +2947,17 @@ eb_select_engine(struct i915_execbuffer *eb)
->
->         intel_gt_pm_get(ce->engine->gt);
->
-> +       if (i915_gem_context_uses_protected_content(eb->gem_context)) {
-> +               err = intel_pxp_wait_for_arb_start(&ce->engine->gt->pxp);
-> +               if (err)
-> +                       goto err;
-> +
-> +               if (i915_gem_context_invalidated(eb->gem_context)) {
-> +                       err = -EACCES;
-> +                       goto err;
-> +               }
-> +       }
-> +
->         if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
->                 err = intel_context_alloc_state(ce);
->                 if (err)
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> index 948b8153c8c9..cbc5249a1bf9 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> @@ -7,6 +7,7 @@
->  #include "intel_pxp_irq.h"
->  #include "intel_pxp_session.h"
->  #include "intel_pxp_tee.h"
-> +#include "gem/i915_gem_context.h"
->  #include "gt/intel_context.h"
->  #include "i915_drv.h"
->
-> @@ -171,3 +172,50 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp)
->
->         intel_pxp_irq_disable(pxp);
->  }
-> +
-> +void intel_pxp_invalidate(struct intel_pxp *pxp)
-> +{
-> +       struct drm_i915_private *i915 = pxp_to_gt(pxp)->i915;
-> +       struct i915_gem_context *ctx, *cn;
-> +
-> +       /* ban all contexts marked as protected */
-> +       spin_lock_irq(&i915->gem.contexts.lock);
-> +       list_for_each_entry_safe(ctx, cn, &i915->gem.contexts.list, link) {
-> +               struct i915_gem_engines_iter it;
-> +               struct intel_context *ce;
-> +
-> +               if (!kref_get_unless_zero(&ctx->ref))
-> +                       continue;
-> +
-> +               if (likely(!i915_gem_context_uses_protected_content(ctx)) ||
-> +                   i915_gem_context_invalidated(ctx)) {
-> +                       i915_gem_context_put(ctx);
-> +                       continue;
-> +               }
-> +
-> +               spin_unlock_irq(&i915->gem.contexts.lock);
-> +
-> +               /*
-> +                * Note that by the time we get here the HW keys are already
-> +                * long gone, so any batch using them that's already on the
-> +                * engines is very likely a lost cause (and it has probably
-> +                * already hung the engine). Therefore, we skip attempting to
-> +                * pull the running context out of the HW and we prioritize
-> +                * bringing the session back as soon as possible.
-> +                */
-> +               for_each_gem_engine(ce, i915_gem_context_lock_engines(ctx), it) {
-> +                       /* only invalidate if at least one ce was allocated */
-> +                       if (test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
-> +                               intel_context_set_banned(ce);
-> +                               i915_gem_context_set_invalid(ctx);
-> +                       }
-> +               }
-> +               i915_gem_context_unlock_engines(ctx);
-> +
-> +               spin_lock_irq(&i915->gem.contexts.lock);
-> +               list_safe_reset_next(ctx, cn, link);
-> +               i915_gem_context_put(ctx);
-> +       }
-> +       spin_unlock_irq(&i915->gem.contexts.lock);
-> +}
-> +
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> index 074b3b980957..91c1a2056309 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> @@ -33,6 +33,7 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp);
->
->  void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
->  int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp);
-> +void intel_pxp_invalidate(struct intel_pxp *pxp);
->  #else
->  static inline void intel_pxp_init(struct intel_pxp *pxp)
->  {
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> index ef7c891cef14..707c908acfcc 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> @@ -92,6 +92,9 @@ static int pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
->         /* must mark termination in progress calling this function */
->         GEM_WARN_ON(pxp->arb_is_valid);
->
-> +       /* invalidate protected objects */
-> +       intel_pxp_invalidate(pxp);
-> +
->         /* terminate the hw sessions */
->         ret = intel_pxp_terminate_session(pxp, ARB_SESSION);
->         if (ret) {
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 3dcb8fe64ccd..7a2088eccc9f 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -1695,6 +1695,26 @@ struct drm_i915_gem_context_param {
->   * Default is 16 KiB.
->   */
->  #define I915_CONTEXT_PARAM_RINGSIZE    0xc
-> +
-> +/*
-> + * I915_CONTEXT_PARAM_PROTECTED_CONTENT:
-> + *
-> + * Mark that the context makes use of protected content, which will result
-> + * in the context being invalidated when the protected content session is.
-> + * This flag can only be set at context creation time and, when set to true,
-> + * must be preceded by an explicit setting of I915_CONTEXT_PARAM_RECOVERABLE
-> + * to false. This flag can't be set to true in conjunction with setting the
-> + * I915_CONTEXT_PARAM_BANNABLE flag to false.
-> + *
-> + * Given the numerous restriction on this flag, there are several unique
-> + * failure cases:
-> + *
-> + * -ENODEV: feature not available
-> + * -EEXIST: trying to modify an existing context
-> + * -EPERM: trying to mark a recoverable or not bannable context as protected
-> + * -EACCES: submitting an invalidated context for execution
-> + */
-> +#define I915_CONTEXT_PARAM_PROTECTED_CONTENT    0xd
->  /* Must be kept compact -- no holes and well documented */
->
->         __u64 value;
-> @@ -1925,6 +1945,12 @@ struct drm_i915_reg_read {
->  struct drm_i915_reset_stats {
->         __u32 ctx_id;
->         __u32 flags;
-> +       /*
-> +        * contexts marked as using protected content are invalidated when the
-> +        * protected content session dies. Submission of invalidated contexts
-> +        * is rejected with -EACCES.
-> +        */
-> +#define I915_CONTEXT_INVALIDATED 0x1
->
->         /* All resets since boot/module reload, for all contexts */
->         __u32 reset_count;
-> --
-> 2.29.2
->
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On 2021-04-14 14:09, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2021-04-13 16:11:44)
+>> Make sure main link is in connection state before start aux
+>> read/write operation to avoid unnecessary long delay due to
+>> main link had been unplugged.
+>> 
+>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+>> ---
+>>  drivers/gpu/drm/msm/dp/dp_aux.c  |  5 +++++
+>>  drivers/gpu/drm/msm/dp/dp_link.c | 20 +++++++++++++++-----
+>>  2 files changed, 20 insertions(+), 5 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c 
+>> b/drivers/gpu/drm/msm/dp/dp_aux.c
+>> index 7c22bfe..fae3806 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+>> @@ -343,6 +343,11 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux 
+>> *dp_aux,
+>> 
+>>         mutex_lock(&aux->mutex);
+>> 
+>> +       if (!dp_catalog_link_is_connected(aux->catalog)) {
+>> +               ret = -ETIMEDOUT;
+>> +               goto unlock_exit;
+>> +       }
+> 
+> I get a crash here sometimes when plugging and unplugging an apple HDMI
+> dongle during suspend/resume. I guess device power management
+> (dp_pm_suspend()) is happening in parallel with aux transfers from the
+> kthread. Why doesn't the aux communication start reporting NAKs once 
+> the
+> cable is disconnected?
+> 
+> [  366.210058] hdmi-audio-codec hdmi-audio-codec.15.auto: calling
+> platform_pm_suspend+0x0/0x60 @ 7175, parent:
+> ae90000.displayport-controller
+> [  366.222825] hdmi-audio-codec hdmi-audio-codec.15.auto:
+> platform_pm_suspend+0x0/0x60 returned 0 after 1 usecs
+> [  366.232939] msm-dp-display ae90000.displayport-controller: calling
+> dp_pm_suspend+0x0/0x80 @ 7175, parent: ae00000.mdss
+> [  366.244006] msm-dp-display ae90000.displayport-controller:
+> dp_pm_suspend+0x0/0x80 returned 0 after 79 usecs
+> [  366.254025] msm_dsi ae94000.dsi: calling
+> pm_runtime_force_suspend+0x0/0xb4 @ 7175, parent: ae00000.mdss
+> [  366.263669] msm_dsi ae94000.dsi: pm_runtime_force_suspend+0x0/0xb4
+> returned 0 after 0 usecs
+> [  366.272290] panel-simple panel: calling
+> platform_pm_suspend+0x0/0x60 @ 7175, parent: platform
+> [  366.272501] ti_sn65dsi86 2-002d: calling
+> pm_runtime_force_suspend+0x0/0xb4 @ 176, parent: i2c-2
+> [  366.281055] panel-simple panel: platform_pm_suspend+0x0/0x60
+> returned 0 after 0 usecs
+> [  366.281081] leds mmc1::: calling led_suspend+0x0/0x4c @ 7175,
+> parent: 7c4000.sdhci
+> [  366.290065] ti_sn65dsi86 2-002d: pm_runtime_force_suspend+0x0/0xb4
+> returned 0 after 0 usecs
+> [  366.298046] leds mmc1::: led_suspend+0x0/0x4c returned 0 after 1 
+> usecs
+> [  366.302994] Internal error: synchronous external abort: 96000010
+> [#1] PREEMPT SMP
+> [  366.303006] Modules linked in: vhost_vsock
+> vmw_vsock_virtio_transport_common vsock vhost rfcomm algif_hash
+> algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE venus_enc
+> hci_uart venus_dec btqca cros_ec_typec typec bluetooth qcom_spmi_adc5
+> snd_soc_sc7180 qcom_spmi_temp_alarm ecdh_generic qcom_spmi_adc_tm5
+> qcom_vadc_common snd_soc_qcom_common ecc snd_soc_rt5682_i2c
+> snd_soc_rt5682 snd_soc_rl6231 venus_core v4l2_mem2mem
+> snd_soc_lpass_sc7180 snd_soc_lpass_hdmi snd_soc_lpass_cpu
+> snd_soc_lpass_platform snd_soc_max98357a fuse iio_trig_sysfs
+> cros_ec_sensors cros_ec_sensors_ring cros_ec_lid_angle
+> cros_ec_sensors_core industrialio_triggered_buffer kfifo_buf
+> cros_ec_sensorhub lzo_rle lzo_compress zram ath10k_snoc ath10k_core
+> ath mac80211 cfg80211 cdc_ether usbnet r8152 mii uvcvideo
+> videobuf2_vmalloc joydev
+> [  366.303211] CPU: 0 PID: 224 Comm: dp_hpd_handler Not tainted 5.4.109 
+> #27
+> [  366.303216] Hardware name: Google Lazor (rev3+) with KB Backlight 
+> (DT)
+> [  366.303225] pstate: 60c00009 (nZCv daif +PAN +UAO)
+> [  366.303234] pc : dp_catalog_link_is_connected+0x20/0x34
+> [  366.303244] lr : dp_aux_transfer+0x44/0x284
+> [  366.303250] sp : ffffffc011bfbbe0
+> [  366.303254] x29: ffffffc011bfbbe0 x28: aaaaaaaaaaaaaaaa
+> [  366.303262] x27: 000000000000000c x26: ffffff896f8212bc
+> [  366.303269] x25: 0000000000000001 x24: 0000000000000001
+> [  366.303275] x23: 0000000000000020 x22: ffffff896ff82118
+> [  366.303282] x21: ffffffc011bfbc50 x20: ffffff896ff82090
+> [  366.303289] x19: ffffff896ffc3598 x18: 0000000000000000
+> [  366.303295] x17: 0000000000000000 x16: 0000000000000001
+> [  366.303303] x15: 0000000000000000 x14: 00000000000002ef
+> [  366.303311] x13: 0000000000000400 x12: ffffffeb896ea060
+> [  366.303317] x11: 0000000000000000 x10: 0000000000000000
+> [  366.303324] x9 : ffffff896f061100 x8 : ffffffc010582204
+> [  366.303331] x7 : 000000b2b5593519 x6 : 00000000003033ff
+> [  366.303338] x5 : 0000000000000000 x4 : 0000000000000001
+> [  366.303345] x3 : ffffff896ff432a1 x2 : 0000000000000000
+> [  366.303352] x1 : 0000000000000119 x0 : ffffff896ffc3598
+> [  366.303360] Call trace:
+> [  366.303367]  dp_catalog_link_is_connected+0x20/0x34
+> [  366.303374]  dp_aux_transfer+0x44/0x284
+> [  366.303387]  drm_dp_dpcd_access+0x8c/0x11c
+> [  366.303393]  drm_dp_dpcd_read+0x64/0x10c
+> [  366.303399]  dp_link_process_request+0x94/0xaf8
+> [  366.303405]  dp_display_usbpd_attention_cb+0x38/0x140
+> [  366.303411]  hpd_event_thread+0x3f0/0x48c
+> [  366.303426]  kthread+0x140/0x17c
+> [  366.303439]  ret_from_fork+0x10/0x18
+> [  366.303458] Code: d503201f f85f0268 f9400508 91081108 (b9400108)
+> 
+it needs to make sure core clock enabled before access dp ctrl registers
+I am look into it
+>> +
+>>         aux->native = msg->request & (DP_AUX_NATIVE_WRITE & 
+>> DP_AUX_NATIVE_READ);
+>> 
+>>         /* Ignore address only message */
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c 
+>> b/drivers/gpu/drm/msm/dp/dp_link.c
+>> index be986da..d35b18e 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_link.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
+>> @@ -737,18 +737,25 @@ static int dp_link_parse_sink_count(struct 
+>> dp_link *dp_link)
+>>         return 0;
+>>  }
+>> 
+>> -static void dp_link_parse_sink_status_field(struct dp_link_private 
+>> *link)
+>> +static int dp_link_parse_sink_status_field(struct dp_link_private 
+>> *link)
+>>  {
+>>         int len = 0;
+>> 
+>>         link->prev_sink_count = link->dp_link.sink_count;
+>> -       dp_link_parse_sink_count(&link->dp_link);
+>> +       len = dp_link_parse_sink_count(&link->dp_link);
+>> +       if (len < 0) {
+>> +               DRM_ERROR("DP lparse sink count failed\n");
+> 
+> Is it 'lparse' on purpose?
+> 
+>> +               return len;
+>> +       }
+>> 
+>>         len = drm_dp_dpcd_read_link_status(link->aux,
+>>                 link->link_status);
+>> -       if (len < DP_LINK_STATUS_SIZE)
+>> +       if (len < DP_LINK_STATUS_SIZE) {
+>>                 DRM_ERROR("DP link status read failed\n");
+>> -       dp_link_parse_request(link);
+>> +               return len;
+>> +       }
+>> +
+>> +       return dp_link_parse_request(link);
+>>  }
+>> 
+>>  /**
+>> @@ -1032,7 +1039,10 @@ int dp_link_process_request(struct dp_link 
+>> *dp_link)
+>> 
+>>         dp_link_reset_data(link);
+>> 
+>> -       dp_link_parse_sink_status_field(link);
+>> +       ret = dp_link_parse_sink_status_field(link);
+>> +       if (ret) {
+>> +               return ret;
+>> +       }
+>> 
+>>         if (link->request.test_requested == DP_TEST_LINK_EDID_READ) {
+>>                 dp_link->sink_request |= DP_TEST_LINK_EDID_READ;
+> 
+> These are probably good fixes on their own given that
+> dp_link_parse_sink_count() can return an error and that was being
+> ignored.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
