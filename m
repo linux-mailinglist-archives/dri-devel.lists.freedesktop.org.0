@@ -2,37 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531353609E3
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 14:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CC1360A27
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 15:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5977C6E505;
-	Thu, 15 Apr 2021 12:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E276E509;
+	Thu, 15 Apr 2021 13:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E76256E504;
- Thu, 15 Apr 2021 12:59:33 +0000 (UTC)
-IronPort-SDR: cjefKX4AOK9ElzSGqvu/zj577Zqhrfd3HIZ38wtqC3mN4ZZbrk6w4nRv2N9V9y+PTeI8rtI5l2
- 4+6QvKnvVcDw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="280159586"
-X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; d="scan'208";a="280159586"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2021 05:59:15 -0700
-IronPort-SDR: YCqPSg8wcaXFJ3rJLwzRlZkuIHat5TcOyq9TJUbqU7jPqfoEecEMInuDRtT+igrylGRK5OYN23
- hHvwm1a4lB2w==
-X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; d="scan'208";a="418732658"
-Received: from rkapur-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.212.63.86])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2021 05:59:13 -0700
-Date: Thu, 15 Apr 2021 08:59:11 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <YHg4nz/ndzDRmPjd@intel.com>
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
+ [IPv6:2607:f8b0:4864:20::f2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0A5F6EA70
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 13:08:58 +0000 (UTC)
+Received: by mail-qv1-xf2e.google.com with SMTP id j3so11605233qvs.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 06:08:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Av9lBh4ytQJLZDgCvCumBBm678aTIHFLWXFB6bVJiGk=;
+ b=MjHrmHj3CxKqGBd/wHR9VR1eOkob2QYJ9Aeq0rkN3vePFB+JTxwCpU8ycDTeFNwpUZ
+ t7JcUD3aKSEM1MTXPKb7eliUDURUr0m7JkhZTnCQ+QggTWSHzPT15NLUiMoFRvLsvTcp
+ MujH3kN7+0dHS3pvIhfruu731O3qCDMiNH5zLY0q+lHp1ki7z7UJTI8WYoNXe5gESNrA
+ miDO6KrL0zb2AMzSf7cG2g17pL+kj6Eri7EWR9XKqg7rc8sYsyIyaJqwnbH4fHuYzuN8
+ yDLUup0nMkjt6ALnPeExIWExt0Y+B/bNa/A44hKD/B09wIPf27z3NhhTXp+IX7XC5SYl
+ WH1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Av9lBh4ytQJLZDgCvCumBBm678aTIHFLWXFB6bVJiGk=;
+ b=Ya4p2TbGkalvpFQxD7s8+YlzpDdgNKFGZvVb0vdx00smstYthspoCjhROEvvSEIzxQ
+ 1G+rO/jiGTITaO4w7C1UBIKPt4PEhzrTISA/yORKXdZ4kyXHrpoSExkw2zpCrTgNrZzf
+ wKs277mcImH3tz2WL2hcHfcdN/PvhwebkBs72si97ATcp5Yajd8juo0+ArllqdYmnh49
+ eLsuGVDyD6peY9sol7VAOQhziA40LRZdImR0yK22v48H6CFsvZPUERgOPsmGqrkak6h6
+ VeqEEUWIUQ7apmYbTUURkk1AjjYockwyZeCihHwtEZD+iGuQE6jUi61jKPqfNgwO7AJv
+ Ikuw==
+X-Gm-Message-State: AOAM533MwNUAqLml5PycJdsd3K9/bBK6ana9rMeQ+FJALbT9K6PtOlW+
+ SCIOfqzYzpZad0TKoYCz3PcmEA==
+X-Google-Smtp-Source: ABdhPJwBZbvTOtQ7JrjyHedhunLhY1PtV+CdCC/35yHj+3yXUnmSXDK4vTITiMNWCEVv9JExSNyNAg==
+X-Received: by 2002:a05:6214:4b0:: with SMTP id
+ w16mr2924175qvz.54.1618492137741; 
+ Thu, 15 Apr 2021 06:08:57 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.115.133])
+ by smtp.gmail.com with ESMTPSA id l24sm1755539qtp.18.2021.04.15.06.08.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Apr 2021 06:08:56 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1lX1jr-006k2Q-Q4; Thu, 15 Apr 2021 10:08:55 -0300
+Date: Thu, 15 Apr 2021 10:08:55 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: linux-next: manual merge of the vfio tree with the drm tree
+Message-ID: <20210415130855.GR227011@ziepe.ca>
+References: <20210415164734.1143f20d@canb.auug.org.au>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <20210415164734.1143f20d@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,63 +71,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Jani Nikula <jani.nikula@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On Thu, Apr 15, 2021 at 04:47:34PM +1000, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Today's linux-next merge of the vfio tree got a conflict in:
+> 
+>   drivers/gpu/drm/i915/gvt/gvt.c
+> 
+> between commit:
+> 
+>   9ff06c385300 ("drm/i915/gvt: Remove references to struct drm_device.pdev")
+> 
+> from the drm tree and commit:
+> 
+>   383987fd15ba ("vfio/gvt: Use mdev_get_type_group_id()")
+> 
+> from the vfio tree.
+> 
+> I fixed it up (I used the latter version) and can carry the fix as
+> necessary.
 
-Here goes drm-intel-fixes-2021-04-15:
+Yes that is right, thank you
 
-Display panel & power related fixes:
-
-- Backlight fix (Lyude)
-- Display watermark fix (Ville)
-- VLV panel power fix (Hans)
-
-Thanks,
-Rodrigo.
-
-The following changes since commit d434405aaab7d0ebc516b68a8fc4100922d7f5ef:
-
-  Linux 5.12-rc7 (2021-04-11 15:16:13 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-04-=
-15
-
-for you to fetch changes up to aee6f25e9c911323aa89a200e1bb160c1613ed3d:
-
-  drm/i915/display/vlv_dsi: Do not skip panel_pwr_cycle_delay when disablin=
-g the panel (2021-04-12 08:00:33 -0400)
-
-----------------------------------------------------------------
-Display panel & power related fixes:
-
-- Backlight fix (Lyude)
-- Display watermark fix (Ville)
-- VLV panel power fix (Hans)
-
-----------------------------------------------------------------
-Hans de Goede (1):
-      drm/i915/display/vlv_dsi: Do not skip panel_pwr_cycle_delay when disa=
-bling the panel
-
-Lyude Paul (1):
-      drm/i915/dpcd_bl: Don't try vesa interface unless specified by VBT
-
-Ville Syrj=E4l=E4 (1):
-      drm/i915: Don't zero out the Y plane's watermarks
-
- drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 1 -
- drivers/gpu/drm/i915/display/vlv_dsi.c                | 4 ++--
- drivers/gpu/drm/i915/intel_pm.c                       | 4 ++--
- 3 files changed, 4 insertions(+), 5 deletions(-)
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
