@@ -1,32 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE345360833
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 13:24:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFF53607EA
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 13:02:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E8CD6EA38;
-	Thu, 15 Apr 2021 11:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C90106E4FE;
+	Thu, 15 Apr 2021 11:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3D4416EA23
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 10:22:33 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 727AB12FC;
- Thu, 15 Apr 2021 03:22:32 -0700 (PDT)
-Received: from usa.arm.com (e103737-lin.cambridge.arm.com [10.1.197.49])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4D2AC3F73B;
- Thu, 15 Apr 2021 03:22:31 -0700 (PDT)
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] efifb: Fix runtime pm calls for non PCI efifb device
-Date: Thu, 15 Apr 2021 11:22:24 +0100
-Message-Id: <20210415102224.2764054-1-sudeep.holla@arm.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70476E4FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 11:02:47 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3334FAE5C;
+ Thu, 15 Apr 2021 11:02:46 +0000 (UTC)
+Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device node
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-9-tzimmermann@suse.de>
+ <20210408081353.ojt2kgnnbh6kp6gp@gilmour>
+ <3c7bacd1-e40e-0953-9ad9-9f79274106d5@suse.de>
+ <20210415092123.7zn6fbnkuqlajord@gilmour>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <9b21042c-9908-3847-702a-cb891d1769e0@suse.de>
+Date: Thu, 15 Apr 2021 13:02:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 15 Apr 2021 11:24:30 +0000
+In-Reply-To: <20210415092123.7zn6fbnkuqlajord@gilmour>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,105 +42,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Jones <pjones@redhat.com>, linux-kernel@vger.kernel.org,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sudeep Holla <sudeep.holla@arm.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: bluescreen_avenger@verizon.net, geert+renesas@glider.be, corbet@lwn.net,
+ airlied@linux.ie, emil.l.velikov@gmail.com, linux-doc@vger.kernel.org,
+ lgirdwood@gmail.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
+ broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
+Content-Type: multipart/mixed; boundary="===============0047218111=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
-added runtime pm calls to probe and remove routines to ensure the PCI
-device for efifb stays in D0 state. However not ever efifb is based on
-PCI device and efifb_pci_dev can be NULL if that is the case.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0047218111==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="pv9oRcu0brx3qp43qMsIO2M2HlTYKSgAh"
 
-In such cases, we will get a boot splat like below due to NULL dereference:
--->8
- Console: switching to colour frame buffer device 240x67
- fb0: EFI VGA frame buffer device
- Unable to handle kernel NULL pointer dereference at virtual address 0000000000000270
- Mem abort info:
-   ESR = 0x96000004
-   EC = 0x25: DABT (current EL), IL = 32 bits
-   SET = 0, FnV = 0
-   EA = 0, S1PTW = 0
- Data abort info:
-   ISV = 0, ISS = 0x00000004
-   CM = 0, WnR = 0
- [0000000000000270] user address but active_mm is swapper
- Internal error: Oops: 96000004 [#1] PREEMPT SMP
- Modules linked in:
- CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.12.0-rc7-next-20210413 #1
- Hardware name: ARM LTD ARM Juno Development Platform/ARM Juno Development Platform
- pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
- pc : pm_runtime_drop_link+0x12c/0x338
- lr : efifb_probe+0x7bc/0x7f0
- Call trace:
-  pm_runtime_drop_link+0x12c/0x338
-  efifb_probe+0x7bc/0x7f0
-  platform_probe+0x68/0xd8
-  really_probe+0xe4/0x3a8
-  driver_probe_device+0x64/0xc8
-  device_driver_attach+0x74/0x80
-  __driver_attach+0x64/0xf0
-  bus_for_each_dev+0x70/0xc0
-  driver_attach+0x24/0x30
-  bus_add_driver+0x150/0x1f8
-  driver_register+0x64/0x120
-  __platform_driver_register+0x28/0x38
-  efifb_driver_init+0x1c/0x28
-  do_one_initcall+0x48/0x2b0
-  kernel_init_freeable+0x1e8/0x258
-  kernel_init+0x14/0x118
-  ret_from_fork+0x10/0x30
- Code: 88027c01 35ffffa2 17fff706 f9800051 (885f7c40)
- ---[ end trace 17d8da630bf8ff77 ]---
- Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
--->8
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--pv9oRcu0brx3qp43qMsIO2M2HlTYKSgAh
+Content-Type: multipart/mixed; boundary="CcQrpjqdj87PdBCsgqbGS58fbpaH1Wc0B";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com, broonie@kernel.org,
+ sam@ravnborg.org, robh@kernel.org, emil.l.velikov@gmail.com,
+ geert+renesas@glider.be, hdegoede@redhat.com,
+ bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org
+Message-ID: <9b21042c-9908-3847-702a-cb891d1769e0@suse.de>
+Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device
+ node
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-9-tzimmermann@suse.de>
+ <20210408081353.ojt2kgnnbh6kp6gp@gilmour>
+ <3c7bacd1-e40e-0953-9ad9-9f79274106d5@suse.de>
+ <20210415092123.7zn6fbnkuqlajord@gilmour>
+In-Reply-To: <20210415092123.7zn6fbnkuqlajord@gilmour>
 
-Fix the issue by checking for non-NULL efifb_pci_dev before dereferencing
-for runtime pm calls in probe and remove routines.
+--CcQrpjqdj87PdBCsgqbGS58fbpaH1Wc0B
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Peter Jones <pjones@redhat.com>
-Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
----
- drivers/video/fbdev/efifb.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Hi
 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index f58a545b3bf3..8ea8f079cde2 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -575,7 +575,8 @@ static int efifb_probe(struct platform_device *dev)
- 		goto err_fb_dealoc;
- 	}
- 	fb_info(info, "%s frame buffer device\n", info->fix.id);
--	pm_runtime_get_sync(&efifb_pci_dev->dev);
-+	if (efifb_pci_dev)
-+		pm_runtime_get_sync(&efifb_pci_dev->dev);
- 	return 0;
- 
- err_fb_dealoc:
-@@ -602,7 +603,8 @@ static int efifb_remove(struct platform_device *pdev)
- 	unregister_framebuffer(info);
- 	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
- 	framebuffer_release(info);
--	pm_runtime_put(&efifb_pci_dev->dev);
-+	if (efifb_pci_dev)
-+		pm_runtime_put(&efifb_pci_dev->dev);
- 
- 	return 0;
- }
--- 
-2.25.1
+Am 15.04.21 um 11:21 schrieb Maxime Ripard:
+> Hi,
+>=20
+> On Thu, Apr 15, 2021 at 09:31:01AM +0200, Thomas Zimmermann wrote:
+>> Am 08.04.21 um 10:13 schrieb Maxime Ripard:
+>>> Hi,
+>>>
+>>> On Thu, Mar 18, 2021 at 11:29:19AM +0100, Thomas Zimmermann wrote:
+>>>> Make sure required hardware clocks are enabled while the firmware
+>>>> framebuffer is in use.
+>>>>
+>>>> The basic code has been taken from the simplefb driver and adapted
+>>>> to DRM. Clocks are released automatically via devres helpers.
+>>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
+>>>
+>>> Even though it's definitely simpler to review, merging the driver fir=
+st
+>>> and then the clocks and regulators will break bisection on the platfo=
+rms
+>>> that rely on them
+>>
+>> I'd like to keep the patches separate for now, but can squash patches =
+6 to 8
+>> them into one before pushing them. OK?
+>=20
+> Yep, that works for me :)
+>=20
+>>>
+>>> Another thing worth considering is also that both drivers will probe =
+if
+>>> they are enabled (which is pretty likely), which is not great :)
+>>>
+>>> I guess we should make them mutually exclusive through Kconfig
+>>
+>> We already have several drivers in fbdev and DRM that handle the same
+>> hardware. We don't do this for any other pair, why bother now?
+>=20
+> Yeah, but simplefb/simpledrm are going to be enabled pretty much
+> everywhere, as opposed to the other drivers that are more specialized.
+
+Well, OK. But I'd like to give simpledrm preference over simplefb. There =
+
+should be an incentive to switch to DRM.
+
+Best regards
+Thomas
+
+>=20
+> Maxime
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+
+
+--CcQrpjqdj87PdBCsgqbGS58fbpaH1Wc0B--
+
+--pv9oRcu0brx3qp43qMsIO2M2HlTYKSgAh
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB4HVQFAwAAAAAACgkQlh/E3EQov+AF
+pxAAozROWie7dTxAtiRfgzQSS03XukbT+QHR6seC98Xrm+SH2tiSpSBZNZ/L857rVnPWBGaXcmPu
+u4XvB6rJZ8n87m10g1nQjODoeAdRInWOXn9pRwLbcEmMcQBNPx224OCjtijEtDvmnnX/efsJJ9mX
+/+f2/n4T5+FlCfQgGF9MDLmZEjCxNYwlU63zwS3Ben6WZYtS0aYPKUjctDRAJAyGtO7u4mbu1P+b
+OIqvx/bezvuuEQbvxLIr61VOg1fDkRWBMgyx6aKcr6wJHOcGFyGTw2KTWl0TKN0CmQpRyA+dnDZM
+jfv7WUxsIvJc3+3UNqfM46BXKVMG2bx0df5K9dWcNfJMYThnUaqooXXvu2Ea+SqjtCPBwoa6TyHT
+qTceXK3/h/UNOjIZh/I69CYkeJeWgYzOvyf3AlCWAZUPZml2zomzHRRH+anK8QDZ+nEjX7+f73FG
+qWQVp2Zzv6pfVAUhQtpqYwNh22RmUgmWgDweT1bK4U2636HpEeAOAzO4/zMYPpm6Dkp3Cl3LpwHI
++jtGcIruoG98psJcBdiwELvIH22Rs3VxukqSROaRuWqVtYkgwaP7LZPZ8Vg+4hXkfb0d5vqK95G9
+makNHChC9A14HgJ+uRXZXbl21H2fhrqV2uJNwOe35P7JjSgedWFoJLlyb1Hoz1O2iRTGdrzGGKPw
+hRM=
+=tU5/
+-----END PGP SIGNATURE-----
+
+--pv9oRcu0brx3qp43qMsIO2M2HlTYKSgAh--
+
+--===============0047218111==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0047218111==--
