@@ -1,70 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A4035FF2F
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 03:18:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 439EE35FF32
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 03:19:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2D56E987;
-	Thu, 15 Apr 2021 01:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5786E989;
+	Thu, 15 Apr 2021 01:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0996E987
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 01:18:44 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id c123so18808017qke.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 18:18:44 -0700 (PDT)
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEB646E989
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 01:19:30 +0000 (UTC)
+Received: by mail-qt1-x836.google.com with SMTP id y12so17011314qtx.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 18:19:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=D57YEe3Guw0rkAcbubjcbs5fWzM1lNld8P0agFB2S84=;
- b=cr5pmWp5esXb0vQ1Eg6coHa/AeW5noxGZrUHDDSspfLXRjJgwNj5DmPNZRJIyUL4vs
- a8hVz3xdXlZLMn7Y2ZBeWXpzsBpC6s6YBjg7XrRutXLaiL4jCRLo32NxeA58hMizhCxn
- Cjec6/G1rbuCFNnzdgCqoqF2MsuNy9B71sxzY=
+ :cc; bh=8aPyvheTo359M1XDribOD0pZhfeuF44YjhQwSBPOIAw=;
+ b=hS2JR6sElgLAeSGeeiC5NWKU6wJRmnDZZwZmROkbPRe18b3qtT1n+5v07HhUKGaCpI
+ h42fJ2GHWGoGhhhKrYomCGkV+pb05xvk1n9OUFq5pOBr152EvEXvhdKx+JmLpEPZZVvy
+ LQUPTj550/2FqR3G/xrsZcVXYBV8n6AwO44fY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=D57YEe3Guw0rkAcbubjcbs5fWzM1lNld8P0agFB2S84=;
- b=cYnBYk/ILnY+W9JtY0XrMHNe8pzghJrr6DAmykTEq6BYueT1LQZTMwdhNOcrzM8W89
- NHJUdDvlKo+LLI14h9KpuDTW+f7JhO/EVHEv0WcibRcNEnJA2wtyIAHiFpIjKxeXQBw7
- MDTYHF8mw9J2Htz+AvD7ettXJfim8czH/7NPoJq0Ll6D0hq22mpBwTElPOS7jE7EyHlX
- PSjlqUhYMNeTVd04CSM4T3BKkIJmwbhOcZaiJSP3hDwKeAlFWSh4FzyuShpvbOrz8TXh
- dTmI4qHGOWuVkzYuS0vRLbQXhCHQ2ee3L3QHrGU5UqW/8TYmASuLNqg/ogSE9q3xXhKs
- SAKA==
-X-Gm-Message-State: AOAM5304bxVsbHquubC6YZOqDwMCLRyRWoPrpNmuq/MyrtXcTHaOFG31
- e+nyoeq916x7yK1/oIlmwjr57oq+lq3W+A==
-X-Google-Smtp-Source: ABdhPJwAtKKOdH3tlHonMgKfW3mJVw/mVk/N9CjEryjwVVCCgCvmXaB+nIWwUNI/C2OMvQir53Se4A==
-X-Received: by 2002:a05:620a:12f0:: with SMTP id
- f16mr1239968qkl.376.1618449522341; 
- Wed, 14 Apr 2021 18:18:42 -0700 (PDT)
+ bh=8aPyvheTo359M1XDribOD0pZhfeuF44YjhQwSBPOIAw=;
+ b=s6ZKmmzpMKMtOC/v9Q98I9at6B/IoMqIQUnON8chl6yyDrb5oTri8qhoKVinguzGxc
+ ged/LB1//JngP/CKQzfxX6LiVcBx5/RYFT5SCXyQHd2duoOadu8DrIMt/yy5BBd0c47e
+ 0+MlMfkugu85vJIAXCfDYpMIndqeYtMYvDGfZtyw5V5JQrfOZrPpjqTOoA36qZOvOoF0
+ Xk6jbEY5K6DWbo7A2ytiN5AEVa6rxA7o4odM1z9W77srYTxHXNxwKCdsm1hbXOICRLFn
+ Rg1soCXdg/T0dg1FRas3jakkMcdK+AEhO8fRgMASJdSeFi0kBaTqMHXNsEbEUfKCmLaN
+ mJCQ==
+X-Gm-Message-State: AOAM531kj4BN5v1xk3W2zBAyBlyx4RVsh0oA8DurvvUqfSVg1/O3xaI5
+ F3z7k6s8mh19apqJdlpiHdH5H4I0mhVmdw==
+X-Google-Smtp-Source: ABdhPJxB3cTrWpcCuNZk5W3HSSacGry1itViOJs1dis6G7pHUfW0a1pHTnMP/pnVfAVA/Sui1GF7vw==
+X-Received: by 2002:ac8:d03:: with SMTP id q3mr867316qti.183.1618449569468;
+ Wed, 14 Apr 2021 18:19:29 -0700 (PDT)
 Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
  [209.85.219.175])
- by smtp.gmail.com with ESMTPSA id l124sm909218qkf.31.2021.04.14.18.18.41
+ by smtp.gmail.com with ESMTPSA id p10sm825946qtl.17.2021.04.14.18.19.25
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Apr 2021 18:18:41 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id n12so24265766ybf.8
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 18:18:41 -0700 (PDT)
-X-Received: by 2002:a25:6088:: with SMTP id u130mr1114285ybb.257.1618449520411; 
- Wed, 14 Apr 2021 18:18:40 -0700 (PDT)
+ Wed, 14 Apr 2021 18:19:26 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id n12so24267277ybf.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Apr 2021 18:19:25 -0700 (PDT)
+X-Received: by 2002:a25:58d5:: with SMTP id m204mr1191125ybb.32.1618449565216; 
+ Wed, 14 Apr 2021 18:19:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210330025345.3980086-1-dianders@chromium.org>
- <CGME20210330025435eucas1p12b96966451ee0691f6d5d99b64ac2c8b@eucas1p1.samsung.com>
- <20210329195255.v2.11.Ied721dc895156046ac523baa55a71da241cd09c7@changeid>
- <8887ded7-d1ab-844c-e3a3-f39f6ef6264a@samsung.com>
- <CAD=FV=XJ5qtMDn5B431ObPS0JU3-P3755N7jzLZbbcc6XpqYtg@mail.gmail.com>
- <b3c08808-204c-6a3c-3e58-a2766985b5ef@samsung.com>
- <CAD=FV=WS8=hi07tA=t_5xOfPkb8TqY63A712uhJg4H8pUPCRJw@mail.gmail.com>
- <7bc4ce04-4110-8b8a-067b-824296b52480@samsung.com>
-In-Reply-To: <7bc4ce04-4110-8b8a-067b-824296b52480@samsung.com>
+References: <20210402222846.2461042-1-dianders@chromium.org>
+ <20210402152701.v3.1.If62a003f76a2bc4ccc6c53565becc05d2aad4430@changeid>
+ <YGpeo9LV4uAh1B7u@pendragon.ideasonboard.com>
+In-Reply-To: <YGpeo9LV4uAh1B7u@pendragon.ideasonboard.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 14 Apr 2021 18:18:28 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UL7EiKE0djnfy4t1x-NKqAaaFcLL4c_NCY+2i9zYHMzA@mail.gmail.com>
-Message-ID: <CAD=FV=UL7EiKE0djnfy4t1x-NKqAaaFcLL4c_NCY+2i9zYHMzA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/14] drm/bridge: ti-sn65dsi86: Power things properly
- for reading the EDID
-To: Andrzej Hajda <a.hajda@samsung.com>
+Date: Wed, 14 Apr 2021 18:19:13 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UN38EiYMiwNjysBS6dReKDaf+g2GcgaVt9iF1mTRKg7A@mail.gmail.com>
+Message-ID: <CAD=FV=UN38EiYMiwNjysBS6dReKDaf+g2GcgaVt9iF1mTRKg7A@mail.gmail.com>
+Subject: Re: [PATCH v3 01/12] drm/bridge: Fix the stop condition of
+ drm_bridge_chain_pre_enable()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,16 +73,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
  Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
  Steev Klimaszewski <steev@kali.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Robert Foss <robert.foss@linaro.org>
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Stephen Boyd <swboyd@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -96,294 +90,91 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Apr 6, 2021 at 9:52 AM Andrzej Hajda <a.hajda@samsung.com> wrote:
+On Sun, Apr 4, 2021 at 5:50 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hello again after easter,
-
-Sorry, I was out last week and I'm just getting back to this now.
-
-
-> I have looked little bit more at sn65* driver and its application to
-> have better background.
+> Hi Doug,
 >
-> I miss only info what panel do you have, how it is enabled/power controlled.
-
-I am personally working on "sc7180-trogdor" boards right now
-(arch/arm64/boot/dts/qcom/sc7180-trogdor*.dts). However I believe that
-this patch series also enables proper EDID reading on
-"sdm850-lenovo-yoga-c630.dts". That board, while also a Qualcomm
-board, has completely different heritage than the trogdor ones. It's a
-laptop that ships with Windows and (as far as I know) was designed
-mostly independently.
-
-On the trogdor boards the bridge has some power rails and an enable
-line hooked up to it and the bridge itself can work when these rails
-are turned on. The panel is on a separate power rail and you can't
-talk to the panel at all until it's powered on and then asserts HPD to
-us to say it finished its boot sequence.
-
-
-> W dniu 01.04.2021 o 16:57, Doug Anderson pisze:
-> > Hi,
-> >
-> > On Thu, Apr 1, 2021 at 4:12 AM Andrzej Hajda <a.hajda@samsung.com> wrote:
-> >>
-> >> W dniu 31.03.2021 o 16:48, Doug Anderson pisze:
-> >>> Hi,
-> >>>
-> >>> On Wed, Mar 31, 2021 at 4:08 AM Andrzej Hajda <a.hajda@samsung.com> wrote:
-> >>>> W dniu 30.03.2021 o 04:53, Douglas Anderson pisze:
-> >>>>> eDP panels won't provide their EDID unless they're powered on. Let's
-> >>>>> chain a power-on before we read the EDID. This roughly matches what
-> >>>>> was done in 'parade-ps8640.c'.
-> >>>>>
-> >>>>> NOTE: The old code attempted to call pm_runtime_get_sync() before
-> >>>>> reading the EDID. While that was enough to power the bridge chip on,
-> >>>>> it wasn't enough to talk to the panel for two reasons:
-> >>>>> 1. Since we never ran the bridge chip's pre-enable then we never set
-> >>>>>       the bit to ignore HPD. This meant the bridge chip didn't even _try_
-> >>>>>       to go out on the bus and communicate with the panel.
-> >>>>> 2. Even if we fixed things to ignore HPD, the EDID still wouldn't read
-> >>>>>       if the panel wasn't on.
-> >>>>>
-> >>>>> One thing that's a bit odd here is taking advantage of the EDID that
-> >>>>> the core might have cached for us. See the patch ("drm/edid: Use the
-> >>>>> cached EDID in drm_get_edid() if eDP"). We manage to get at the cache
-> >>>>> by:
-> >>>>> - Instantly failing aux transfers if we're not powered.
-> >>>>> - If the first read of the EDID fails we try again after powering.
-> >>>>>
-> >>>>> Fixes: 58074b08c04a ("drm/bridge: ti-sn65dsi86: Read EDID blob over DDC")
-> >>>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> >>>>> ---
-> >>>>> Depending on what people think of the other patches in this series,
-> >>>>> some of this could change.
-> >>>>> - If everyone loves the "runtime PM" in the panel driver then we
-> >>>>>      could, in theory, put the pre-enable chaining straight in the "aux
-> >>>>>      transfer" function.
-> >>>>> - If everyone hates the EDID cache moving to the core then we can
-> >>>>>      avoid some of the awkward flow of things and keep the EDID cache in
-> >>>>>      the sn65dsi86 driver.
-> >>>> I wonder if this shouldn't be solved in the core - ie caller of
-> >>>> get_modes callback should be responsible for powering up the pipeline,
-> >>>> otherwise we need to repeat this stuff in every bridge/panel driver.
-> >>>>
-> >>>> Any thoughts?
-> >>> Yeah, I did look at this a little bit. Presumably it would only make
-> >>> sense to do it for eDP connections since:
-> >>>
-> >>> a) The concept of reading an EDID doesn't make sense for things like MIPI.
-> >> I guess you mean MIPI DSI
-> > Yes, sorry! I'll try to be more clear.
-> >
-> >
-> >> and yes I agree, more generally it usually(!)
-> >> doesn't make sense for any setup with fixed display panel.
-> >>
-> >> On the other hand there are DSI/HDMI or DSI/DP adapters which usually
-> >> have EDID reading logic.
-> >>
-> >> And the concept makes sense for most connectors accepting external
-> >> displays: HDMI, DP, MHL, VGA...
-> > So, actually, IMO the concept doesn't make sense for anything with an
-> > external connector. Here's the logic for a handful of connectors:
-> >
-> > 1. MIPI DSI: there is no EDID so this doesn't make sense.
-> >
-> > 2. An external connector (HDMI, DP, etc): the display that's plugged
-> > in is externally powered so doesn't need us to power it up to read the
-> > EDID. By definition, when the HPD signal is asserted then it's OK to
-> > read the EDID and we don't even know if a display is plugged in until
-> > HPD is asserted. Thus no special power sequencing is needed to read
-> > the EDID.  (Yes, we need to make sure that the eDP controller itself
-> > is powered, but that doesn't seem like it's the core's business).
+> Thank you for the patch.
 >
-> Not true IMO, even if external device is powered on, you must enable
-> EDID-reader logic.
+> On Fri, Apr 02, 2021 at 03:28:35PM -0700, Douglas Anderson wrote:
+> > The drm_bridge_chain_pre_enable() is not the proper opposite of
+> > drm_bridge_chain_post_disable(). It continues along the chain to
+> > _before_ the starting bridge. Let's fix that.
+> >
+> > Fixes: 05193dc38197 ("drm/bridge: Make the bridge chain a double-linked list")
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >  drivers/gpu/drm/drm_bridge.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > index 64f0effb52ac..044acd07c153 100644
+> > --- a/drivers/gpu/drm/drm_bridge.c
+> > +++ b/drivers/gpu/drm/drm_bridge.c
+> > @@ -522,6 +522,9 @@ void drm_bridge_chain_pre_enable(struct drm_bridge *bridge)
+> >       list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+> >               if (iter->funcs->pre_enable)
+> >                       iter->funcs->pre_enable(iter);
+> > +
+> > +             if (iter == bridge)
+> > +                     break;
 >
-> I guess it is not uncommon to have different power states for EDID
-> reading and bridge/panel pre-enablement (especially in embedded world).
-> In fact there are setups where EDID-reader is totally different device
-> than the bridge itself, and these devices should be
-> powered/enabled/operational only for time of EDID reading.
-
-Right, I'm not saying that no components on the motherboard need to be
-powered in order to read the EDID. I'm only saying that:
-
-1. For external DP we can't know if the sink is there until HPD is asserted.
-
-2. For external DP we have to provide some power to the sink _before_
-the sync can assert HPD.
-
-3. As soon as the sink asserts HPD (subject to debouncing rules) we
-can immediately read the EDID as far as the sink is concerned
-
-Said another way: we never get into a state with external DP where we
-want to read an EDID of an unpowered sink because we don't even know
-that the sink is there until it is powered and we can read the EDID
-from it.
-
-As far as powering up components on the motherboard goes, I think
-that's a much simpler problem and I don't think we have to worry about
-it here, do we? This falls squarely in the purvue of the bridge driver
-itself or, if the DDC bus is some other i2c bus, it should be handled
-by the normal methods.
-
-
-> > 3. eDP: this is where it matters. This is because:
-> >
-> > 3a) eDP displays aren't powered all the time. If you just boot up or
-> > you blank your screen, likely the display has no power at all.
-> >
-> > 3b) Because the display has no power, the "HPD" signal doesn't assert.
-> > In fact, for eDP the "HPD" signal really should mean "display ready"
-> > or "display finished powering up".
-> >
-> > 3c) Even though we never get a HPD signal, we still simply assume that
-> > a display is present because this is an "embedded" device.
-> >
-> > So eDP is unique (as far as I know) in that it's a type of display
-> > that has an EDID but that we will report "a display is here" before
-> > we've powered up the display and before we can read the EDID.
-> >
-> >>> b) For something with an external connector (DP and HDMI) you don't
-> >>> even know they're inserted unless the EDID is ready to read (these
-> >>> devices are, essentially, always powered).
-> >> Usually there are two elements which are not the same:
-> >>
-> >> 1. HotPlug signal/wire.
-> >>
-> >> 2. EDID reading logic.
-> >>
-> >> The logic responsible for reading EDID needs to be enabled only for time
-> >> required for EDID reading :) So it's power state often must be
-> >> controlled explicitly by the bridge driver. So even if in many cases
-> >> pre_enable powers on the logic for EDID reading it does not make it the
-> >> rule, so I must step back from my claim that it is up to caller :)
-> > OK, I'll plan to keep it in the bridge chip driver now.
-> >
-> >
-> >>> So I started off trying to do this in the core for eDP, but then it
-> >>> wasn't completely clear how to write this code in a way that was super
-> >>> generic. Specifically:
-> >>>
-> >>> 1. I don't think it's a 100% guarantee that everything is powered on
-> >>> in pre-enable and powered off in post-disable. In this bridge chip
-> >>> it's true, but maybe not every eDP driver? Would you want me to just
-> >>> assume this, or add a flag?
-> >> Ok, pre_enable should power on the chip, but for performing
-> >> initialization of video transport layer. Assumption it will power on
-> >> EDID logic is incorrect, so my claim seems wrong, but also this patch
-> >> looks incorrect :)
-> >>
-> >> In general only device containing EDID logic knows how to power it up.
-> > I still believe my patch is correct. Specifically I don't need to make
-> > any assumptions about display elements upstream of me (sources of the
-> > bridge chip). I only need to make assumptions about the pre-enable of
-> > the bridge driver itself and anything downstream of it.
-> >
-> > At the moment downstream of this particular bridge chip is always a
-> > panel device. Even further, all known downstream devices are
-> > "simple-panel". That is known to power up the panel enough to read the
-> > EDID in the "prepare" stage.
-> >
-> > Sure, someone _could_ add another bridge downstream in some design,
-> > but it would be up to that person to either fix that downstream driver
-> > to power itself in pre-enable or to add some type of quirk disabling
-> > the EDID reading.
-> >
-> >
-> >> Since I do not know your particular case I can propose few possible ways
-> >> to investigate:
-> >>
-> >> - call bridge.next->get_modes - you leave responsibility for powering up
-> >> to the downstream device.
-> > The "next" bridge is the panel, so I don't think this works.
+> This looks good as it matches drm_atomic_bridge_chain_disable().
 >
->
-> Then drm_panel_get_modes will work then.
->
-> >> - ddc driver on i2c request should power up the panel - seems also correct,
-> > Right, so I could put the
-> > "drm_bridge_chain_pre_enable(&pdata->bridge)" into the
-> > ti_sn_aux_transfer() function. I talked about that a little bit "after
-> > the cut" in my post where I said:
-> >
-> >> - If everyone loves the "runtime PM" in the panel driver then we
-> >>    could, in theory, put the pre-enable chaining straight in the "aux
-> >>    transfer" function.
-> > The reason for the dependence on "runtime PM" in the panel driver is
-> > that we are doing DDC over AUX and it breaks the EDID reading into
-> > lots of chunks so if we did the powering up and powering down there it
-> > would be crazy slow without the delayed poweroff.
->
->
-> OK, it resembles to me DSI-controlled panel - to query/configure panel
-> panel driver asks DSI-host to transfer some bytes to the panel and/or
-> back via DSI-bus.
->
-> In case of eDP panels we could do similar thing to read edid - we call
-> drm_panel_get_modes - it calls drm_panel_funcs.get_modes callback and it
-> decides (based on DT) if it should fill modes according to hardcoded
-> info into the driver or to ask the physical panel via DP-controller -
-> this way all the players (the panel, AUX/DDC device) will know what to
-> power-up.
->
-> I guess there is missing pieces - there is no DP bus :), I am not sure
-> if there is straight way to access panel's aux/ddc from the panel
-> driver, maybe somehow via drm_connector ???
->
-> Of course this only my idea - to be discussed with others.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-OK, I can see how this could work. At least in simple-panel there is
-already a "ddc-i2c-bus" property that can be used to give the panel
-access to the DDC bus. Today, when simple-panel tries to use this, it
-_doesn't_ power on the panel first. I'm not sure how/why that works. I
-guess maybe it doesn't actually work (you run with a hardcoded mode
-the first time?) or all the current users have panels where you can
-always read the EDID? We could probably co-opt this and, possibly, add
-a boolean property in the simple-panel struct saying whether a panel
-needs to be turned on to read its modes?
+Thanks for your review here and several of the other patches. Can you
+suggest any plan for getting them landed? It would at least be nice to
+get the non-controversial ones landed.
 
-One issue, though, is that we're going to end up with the
-chicken-and-egg problem again. The bridge chip provides the DDC bus at
-"attach" time. The panel won't probe until the DDC bus is there. The
-bridge chip won't probe (and certainly won't attach) until the panel
-is there.
 
-OK, so as I was writing this it looks like Laurent responded too...
-So I think Laurent is saying that keeping the EDID reading in the
-bridge chip (like I'm doing) is fine. I was debating this a bit with
-myself this afternoon...
+> I'm curious though, given that the bridge passed to the function should
+> be the one closest to the encoder, does this make a difference ?
 
-Part of me thought: there's no reason to reorganize the world to solve
-the chicken-and-egg problem. The bridge chip can read the EDID fine
-and I think that for this bridge chip it's pretty easy to argue that
-after pre-enable of the bridge (and anything after it) that it's valid
-to read the EDID. Yes, you could organize it like you said but I
-wasn't sure the advantages. It felt like the bridge chip chaining was
-designed specifically so that the EDID reading could be in the bridge
-like I was doing...
+Yes, that's how I discovered it originally. Let's see. So if I don't
+have this patch but have the rest of the series then I get a splat at
+bootup. This shows that dsi_mgr_bridge_pre_enable() must be "earlier"
+in the chain than my bridge chip. Here's the splat:
 
-...but then another part of me was thinking about another patch series
-that was just sent out:
-
-https://lore.kernel.org/r/1618418390-15055-1-git-send-email-rajeevny@codeaurora.org/
-
-In that patch series we need to figure out how to control the
-backlight of a panel which requires DDC transactions to happen. It
-might (?) make sense to have that backlight control in the panel
-driver (maybe?) and doing so would require exposing the "ddc" bus to
-the panel driver. Once you start thinking of doing that then Andrzej's
-proposal maybe makes more sense? I'm definitely looking for guidance
-here.
-
-I did try to prototype up Andrzej's and I feel like I was close but
-there was still a bug or two, and my chicken-and-egg solution was a
-big hack, too. I'll plan to keep poking at it tomorrow unless you say
-I shouldn't.
-
--Doug
+ msm_dsi_host_get_phy_clk_req: unable to calc clk rate, -22
+ ------------[ cut here ]------------
+ disp_cc_mdss_ahb_clk status stuck at 'off'
+ WARNING: CPU: 7 PID: 404 at drivers/clk/qcom/clk-branch.c:92
+clk_branch_toggle+0x194/0x280
+ Modules linked in: joydev
+ CPU: 7 PID: 404 Comm: frecon Tainted: G    B             5.12.0-rc3-lockdep+ #2
+ Hardware name: Google Lazor (rev1 - 2) with LTE (DT)
+ pstate: 60400089 (nZCv daIf +PAN -UAO -TCO BTYPE=--)
+ pc : clk_branch_toggle+0x194/0x280
+ lr : clk_branch_toggle+0x190/0x280
+ ...
+ Call trace:
+  clk_branch_toggle+0x194/0x280
+  clk_branch2_enable+0x28/0x34
+  clk_core_enable+0x2f4/0x6b4
+  clk_enable+0x54/0x74
+  dsi_phy_enable_resource+0x80/0xd8
+  msm_dsi_phy_enable+0xa8/0x4a8
+  enable_phy+0x9c/0xf4
+  dsi_mgr_bridge_pre_enable+0x23c/0x4b0
+  drm_bridge_chain_pre_enable+0xac/0xe4
+  ti_sn_bridge_connector_get_modes+0x134/0x1b8
+  drm_helper_probe_single_connector_modes+0x49c/0x1358
+  drm_mode_getconnector+0x460/0xe98
+  drm_ioctl_kernel+0x144/0x228
+  drm_ioctl+0x418/0x7cc
+  drm_compat_ioctl+0x1bc/0x230
+  __arm64_compat_sys_ioctl+0x14c/0x188
+  el0_svc_common+0x128/0x23c
+  do_el0_svc_compat+0x50/0x60
+  el0_svc_compat+0x24/0x34
+  el0_sync_compat_handler+0xc0/0xf0
+  el0_sync_compat+0x174/0x180
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
