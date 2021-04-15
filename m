@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F6B35FF50
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 03:24:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3F435FF53
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 03:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CA076E9A5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 001436E99A;
 	Thu, 15 Apr 2021 01:24:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-BN3-obe.outbound.protection.outlook.com
  (mail-eopbgr680075.outbound.protection.outlook.com [40.107.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B4126E9A0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E260F6E9AB;
  Thu, 15 Apr 2021 01:24:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n4nIGmcmfTf8qce4qYHVOKwr9cbeZmmfChOfo7D9ul9ZVjOibgi1CupTnJK82NRzshANvOrWM56Ti8M39lG19L45alsSz6GyRb2Xii1NLc9oMsLgUpvpFbr7xmMJjoFH/a8u77ls8qFCaFSzSd4QhOg0tCxHkwdgu9nzNg+ptoQgqjFnyHka4fP7C98ftmcPUZ8yiTCc2R2MPGeJ7Wuf7LtIqYS2oUC5j8H7+MZpekv5oAwkpRoYGi/RamJYEXJMPHeKTlxT/H0iG82c1SM7bL3KFe0LFrljkj3mUtAzISBNcbDgn38bR017H6ZU1Z0dxCTcvdH4TZa1lhRxzesCVw==
+ b=bFpFA9oTfxE/eoy6i8c2TsksZRfWn3VktM+QVyNdP9GwORrbFjhdJ+QW0zB5uL7AlVFlrP07pd61XwpU7zmHNl7RP4s4uCnI/J5IYg3SQZLEBZHbMo2muKYeEU3tDukCdh1QVk1N3EFUIxhRhKRdY1s+DXyC3vutkadlOlICUNV8/6mzJQ9+WQZJQau4zjokGu9ZmRks+YcOPu/teQ30LRws1duyhKKobux/SkEjicSlto7oJpSla199nK7YSxP93G2crRaME3oSUEZIZH02S+RN+elzoOyaXHZ0OBzE/k7N/fo6N5NCL1Rhnv/NJppo9yHmf3+NSeNaOM/w0wu7+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dxVWP1WLlBmfpqL7qphhHvUsjdSQOpI643oNlzmXbvc=;
- b=PMJ91kES4fASFy9IR+5Q8RfLInNZ3T4KpgWcWuUefMr2HVd6n+6NOpeDJ5Hj63TzTUbFpesfTNNOg9/BPv97EQZDVmbOQ9JGwKDTmhHPaCpRd6sM4wbOTBsdNluSob6svY/WMrHMnZbunbIhQ184mUfPOLXxQoxVbSysWa/UDjSLmkDz8XxqSOcxsm1Ru7uI5U+9BeiBxE7zG/RbCd73Yk/U09oUdcRdNWNb1MHfOFAMtHfWDmvPPeMYedEDuYLrCNKrUfuB8aKD7xz7RawcsFIy7uYFlOZFRkMr64lmn67FxP8E+33wm7xtJsH7DYHGW5qzDg/aOC1G4Ulind5itA==
+ bh=oDRYLubAR5EYI5yjWJjCJx/6o+jDlnFw1qGG2Z8KcdU=;
+ b=esD2Upwr5itXoV1SzbfhQowuZjf7QVptA5/TLSAmnv4/jqIQM4yycP54yiNPLDGaZubncjAfxjeQflrDoTPtTZnmHKvvcaVYKQNmuUsb0jSo2Pj1cNmp32Qu+w2iTTxRl8XAz2LKsdkzuJlGiyG8tHa9L2Z/J19Ivewa/8yARX3LMaiQjkY/IgSlNLvohCedU7+tArEQ8/wpms2Ld83Y3x/S4tx0R+Lm3OqDG4ZtV7fK1u9P9i9bAn/efM77relcUl0ImzlAOrE4qF/3/riTw7KGhrwYxQKrwmR+gugPR/q2nfMbM7dWw73/67ayrBr7R8OMyChyqZGlgZaFZW3v1Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dxVWP1WLlBmfpqL7qphhHvUsjdSQOpI643oNlzmXbvc=;
- b=WvxIQJI4i5GLCaPxv1q2jyygPQn5YZNUVjSQAXjt/J/tloY67/je5tFKoZ/iM3Q+HRsNBHFyhbaoGq+4eI6oOwSAGR6r2f7cRaaFU+zgAkiwhyjo6fVBvmE676dT208EABd/IGmmWvZHEiFlNsI+hciz+PG5hAplZUwOdY0V+N4=
+ bh=oDRYLubAR5EYI5yjWJjCJx/6o+jDlnFw1qGG2Z8KcdU=;
+ b=vn35GvPNu5WHvE/UdNj4uw2Y++oqLLodbk3I+lZB+HWFtH9G4DiclJxLMlX3Kbuo0jJSoEQTUmuds4Rx/HSb0B+lJFkV02w/Ig+u7VNQfIijHqkziAOuw4Nm1Qqkh40WSvg++ywunobh31VZPjbI3WSwAGs1NW7dP/BHMc5DWMk=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -42,10 +42,9 @@ Received: from BL0PR12MB4948.namprd12.prod.outlook.com
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/34] drm/amdkfd: add ioctl to configure and query xnack
- retries
-Date: Wed, 14 Apr 2021 21:23:17 -0400
-Message-Id: <20210415012337.1755-15-Felix.Kuehling@amd.com>
+Subject: [PATCH 15/34] drm/amdkfd: register HMM device private zone
+Date: Wed, 14 Apr 2021 21:23:18 -0400
+Message-Id: <20210415012337.1755-16-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210415012337.1755-1-Felix.Kuehling@amd.com>
 References: <20210415012337.1755-1-Felix.Kuehling@amd.com>
@@ -61,50 +60,50 @@ Received: from Harpoon.amd.com (165.204.55.251) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.21 via Frontend
  Transport; Thu, 15 Apr 2021 01:24:01 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9eee65cd-d148-4f0d-cc84-08d8ffad267e
+X-MS-Office365-Filtering-Correlation-Id: 71dfa49d-8d79-410a-5d85-08d8ffad26bf
 X-MS-TrafficTypeDiagnostic: MN2PR12MB4797:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB47977717122B1A905E3AA33D924D9@MN2PR12MB4797.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4797FCCCE7A6F6A5C9B7E7BD924D9@MN2PR12MB4797.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CEmosMUf4UfszADrE9COUBzT5MhnMzBzwOOAwYlo/Id9uo4u0qfQyGEHRU3U1Jd+EcMFWD/GCjAvvEj+DyIOUNDR9uEfjSP7KhlYQrSGQ2A4NHJf/oxpWUo3bNSrhvVFj5AeDfN7HIpwdgGK+7TlQ+O+tTR9lM0Im2zlaubyn11jlHPovuc71Kl2BUHp22BxpCevZP/nWXl3lN5m6qXusBTikY0jWEdLgkIAtyKKQxrCmXK/5vj4/jJsNtLAEnW1korfnxQ8Fds8NHAf7yzIBzbR1RkYWqCM0sQK/jVEKGbbprkrQYM7ymbhW8Xd6fkI48CA7+COlXvc5VMhNIppY6qM/r8a2/SCdMjHXQcfeW4AGsxRJfMoRkfepCop0hpvUIOjV+i7CPDGCCm4Vu3UqVrRNEh+MXkhIoZFnHCngG5O68KU1RiqNi0Y6zhEyvCWNSOJaVJ7QueSJupPv0kd91+NhJZrJOa1Wb4eUFnCg/Abgzx7YeHA2aV+9kMGDaQXWEQ7flp3gC5NW/ja0IAKypfT8C+snqfdhVbDlLYAq7b1RHAZiPhZ8SkdDDNog8kC8wQxBAKzFWbkyUct9AtD/1xZtp1+GATqgXAHyqEBtCdkOa7ng5UBJdHIRYf2zVqfdYtCJT6TSBGRRoz/Oet5WCFEDugYvy12RLe+59NNboY=
+X-Microsoft-Antispam-Message-Info: ICcxTh6IkpHRssGcW7LRhKCdYGEe20bwXshOaXMOl/nrA3k6tLU/nvT3QnDSE82N3tSJxR5c5psZBuzPjxr0+DiN/H0+hSVOJxjsEn5kJCW5NlTqwV3nxK00tkOiUCCI02shjMImjGyqzRPLvcy4Ab1bXZo/NNbTktpQ6FgScVUHXd3D8KLkHJoCyvKagcgfBGnmkJ9PwdCRU+D/Ibe0rOjNVNk0UkxQu9s5a5Gax4sUn7oxDITu4EBFktekQ9V1uFwsNjJZUI1jFGeYeznDeal2hlAOYE/X6pHvCbMbr5TzkOsuLNKu43yepLhN/seFOug7szsmzsbSU3w03A1FnqjVLEizJtkEMha+N03DX7X+QKQVoDCNGyvO15mu/xTZjOQ+q4IkR2KmPM/MtR4Eg/lgsGdzr0vIROEyQ6Dj4tETl9OSYJuOm8gfSVKJvp1Zub9Ew3JHzxReuMhxkHv+fNWPEdlMPsuNiGJODNLJ2exVL/oal5fQDQCWRzVNfHAy5ZI99Gm2zLqUHsiGkAR3dSbV+Ug9LHJ9Lu6/47JC5W+LelqtYFyj+FPI1PYNHwAlL91SXKIpBrSQr68x8J3poIEGsP0oD7BREMBMtoMJcNkXxvQ0lPnHINj65oD2X4cg/ft5Fybgt+0cawvZj6dyLFJGRL0tG2q/VVdcgZPslzo=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(396003)(366004)(39860400002)(136003)(346002)(376002)(86362001)(66476007)(66946007)(2906002)(38350700002)(186003)(36756003)(16526019)(450100002)(38100700002)(5660300002)(83380400001)(66556008)(4326008)(52116002)(7696005)(478600001)(6486002)(8936002)(2616005)(8676002)(1076003)(6666004)(956004)(26005)(316002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?fcX39+TbWAVR+n3TtQEGGVQcftTvoHhzfge0YnS2YFbZzkPA1V1PIWSWXdgQ?=
- =?us-ascii?Q?x5mggKqZlKiZX+zylGcJkWy7KNEPy9GYdZb4RY6SQLIduEJK1Rh2zwlOlx9o?=
- =?us-ascii?Q?AmH9zLkhpPsLA+dYIbyxmczLFWCiifVlz2ATwqIrX86ZjPHjM10/4UjZN6jX?=
- =?us-ascii?Q?nYSSTfaRpPUHGg9lIwfWuy5o6OIEyapHEKkU7CjmdKotZlLGfgC6Oq3eyAa0?=
- =?us-ascii?Q?yXpbJi/WjJd4ua4M68eQEUSEscb9e6kBfmbWL72ThgAzzadtlGo0Fnim4Zg1?=
- =?us-ascii?Q?1BcgocemB+N80T61EPK+qsXEChmOrXZK2m7peK1VeBDCkC23eFn800ifuZ8S?=
- =?us-ascii?Q?J79exi9it3V9hkQ4Zj5sQhyaWkzuoqGcWQPS0YKMJasNA8nWq7SBwd/GP3mH?=
- =?us-ascii?Q?ovxfOd92DnkggnOsXikqmYi+UXRc4YIckcjmiz0bRXCeROvMh5oBEuR04mhn?=
- =?us-ascii?Q?a7CXnwIxg4wF4QRzKEntV+y2IMADe2RrH2WOQb5K7y70VrAjHpEtIaItpdE0?=
- =?us-ascii?Q?VsER2aPWBgiZ32RqYfkHlSFvZYxYn70ZeAABfF6QWh71IXRQd9V0vVphPsvE?=
- =?us-ascii?Q?JhDfGet2NRb8ejo0eetXkl3SMYSRpZAdoZALRzlPCebPE34EXvSCiB8XrJl1?=
- =?us-ascii?Q?k3jl/dbyubQaTPuG/8maZ1wz3elPL0UQitnxN/o6xTkSn5y4qPM9dOdPdYfE?=
- =?us-ascii?Q?w/xTrTiRvYf/6mYxp9g8aSGZ76GAjag4Yd0n+NY4xRr6EE1D3Q4vNcm84ZTB?=
- =?us-ascii?Q?lHBKlviatY1Rz7yPxSuwpJAjKwtjy/d6MaCY2aN/2Vf5wftW7v3HyIT2ihyT?=
- =?us-ascii?Q?ek+rWn2hBGlz85ul0Z2vGpF0v+nfTx1Q206FZGGVU6RqR4tb2Hs3jCvVhwCC?=
- =?us-ascii?Q?2ainD/UWmUPo7z6YZLx5CvZKVGMXdbG2nh0tZfPPwggdtAABzlVcri6MukvA?=
- =?us-ascii?Q?Bcw1o96Etbble1WAalrSjJkivl7iHvZoIgtZ29B6OCZMrGzYsFR3U0VuFZ3S?=
- =?us-ascii?Q?zRcd615HuH9mHsLeXEIkesKzuCD5tdxJN86fOatLmJ/GREpRUtwk4QFouVod?=
- =?us-ascii?Q?/vEtNpKYC6W+0MqvU316wmX2CRteYQVk6Bct5rJgmGSDPtfvdpt/bVnXPgWD?=
- =?us-ascii?Q?OFsroqkdbpV81SR5axc+3pRu4Km6R5uP8t4fzl6U7yK3DO2vXpqBDwVbfA5l?=
- =?us-ascii?Q?d96P+zvQ9x5b3r+Q6vBIYBIZ0Bzt4Bp7uZ08mphCWLdqwnaHpZn7yDBYhDd7?=
- =?us-ascii?Q?2G5ggIqW1bKdlWF3fvXp/T24okBt3IBPKqnNTpnnX3T2P3MydaU/NWKvtLZe?=
- =?us-ascii?Q?98U6blfd83XeX04F9q/+LyYi?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?6ZZCUo4X3Gg9RNqq96yhytpBMBvfRVBKr//YB+BFA83hqx/gmjbsZyBihk+r?=
+ =?us-ascii?Q?JwWiCPDPgDeRfYE+w7tIuFEjhcYMmeENv4eTXaCAIff6rAbDwKOKnjJkthOs?=
+ =?us-ascii?Q?AU/JV/6HPE+/iN5SgWp7gsd6uu1ZpF0b+q7MBwvtg/0BK49Z7Zgk+UHmbZlr?=
+ =?us-ascii?Q?u1oDx1AxJSJpzdo/9975K0l7+5VILDtCNa21VnAcoY+4Dh7NVa2GkxcHGeU9?=
+ =?us-ascii?Q?1Y92Ob5txULEgLAdkWVnnaEUT+qdj00zRTYouhGFe7e5eJt4W0p3LNesL+Mk?=
+ =?us-ascii?Q?CKczMKKG8Yy72+v+t73Qa4n52oIMkiZskrMF1bVnRvNonu/9zjJZPbL1cPaz?=
+ =?us-ascii?Q?Pb8X41cMzMlYMRF/vDfYu39/ARNY2y3BSJqDu9MXzt27WsP/RE7oqfuJKAnH?=
+ =?us-ascii?Q?t+zlXW4rB0qNEKHX8E534macFIwYXZk2hJJY7O0ckpawqqxijkrNPDI2fqM0?=
+ =?us-ascii?Q?csMb9JNEC4PAob/K+/i+2DZxh9r9gaPXCA2heImdy3VyfKiBsiaS/HKmGkTr?=
+ =?us-ascii?Q?1Bsbzqiq5BlPLRgJdYmKqjGrShL4ZnUGb8gv3Ea4sZvOWPk75VCFNocpL3Z+?=
+ =?us-ascii?Q?MhggTDU3Wmhqe3e3IYry90iECy0XRQcwZ17W3zpUaPgvcBhB7m5fpiIFREUA?=
+ =?us-ascii?Q?kEEIVWY294VcsL3jYVYvRsIoBnThDSyT5+Rsl2Gt636gHP9Lkt2I7F0hVZjS?=
+ =?us-ascii?Q?goHeDuzoWrJJwU0PA57fwujStgdyNTDu7UPC7TniWyVUGDWCRPUZ1gmV2xRC?=
+ =?us-ascii?Q?e7/MeTsrlRbEObYYyvcSlApLmNlB6t2HZJSce+3eG565THI9SUJR/1XSwOFX?=
+ =?us-ascii?Q?+e13YM7S7JVexIb8ZP/ZHR0QwslCDoLF0UTF2TiOu3bCN5igsVgkUbE9RbaO?=
+ =?us-ascii?Q?dOA5LoJk17a910uuhqJeul9F4Q0O1djtjYyo616iZppB84bhbCOePyedGkLY?=
+ =?us-ascii?Q?uLYxmD0Xqj0wzFEj/IpZxci5AmE505p/ASNnFytIEdL82dgdQTrqRMI36rJ1?=
+ =?us-ascii?Q?qflWODiDo4Mk2rbLv26OMaE9IPkMKeHBXUpfeSt/rtwF7rS3ENtvzLJ6AoDd?=
+ =?us-ascii?Q?cxNi9oh8FpOoR57LDTxAeVpg0ybWbUItqn4YDvP6kugTsguDvGskos3l45a9?=
+ =?us-ascii?Q?zGaluqzCd+H3HiqqGiS+mgV+AVLCzMo+uI/SROGIenJQglDiLCSFpvhxePTu?=
+ =?us-ascii?Q?9hGqoIgWmAuubCu2VRyLSslymNpRCT2zDZPnyFxbXkBmmxVV8MnYNO7L9WC9?=
+ =?us-ascii?Q?YD9ZbGLN3eJYBWQwl95QHRkdRa8qIiww1sBfZKmg8wM9t06PQZOESuWqXYHg?=
+ =?us-ascii?Q?cc9NuvgbXuBoKBXu0JjY8pJz?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9eee65cd-d148-4f0d-cc84-08d8ffad267e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71dfa49d-8d79-410a-5d85-08d8ffad26bf
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2021 01:24:01.4817 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2021 01:24:01.9407 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c+OXVOEV/yMDjzY+4Mh1x7UQaSVUvqixnfifEkjO2l18/s6yTxjzMUV/81uF44xp/qq+XCbhbjokU4/YRcdEKw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 06VITsoNJ+O6Txjjs7/WJ/rtQZb/LDnfmk6Rgzcp1EONMribW0ZzKymyOoB8YoHjdqtRfqThZOR/AYL/I4IBgg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4797
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -118,136 +117,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>
+Cc: Philip Yang <Philip.Yang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Sierra <alex.sierra@amd.com>
+From: Philip Yang <Philip.Yang@amd.com>
 
-Xnack retries are used for page fault recovery. Some AMD chip
-families support continuously retry while page table entries are invalid.
-The driver must handle the page fault interrupt and fill in a valid entry
-for the GPU to continue.
+Register vram memory as MEMORY_DEVICE_PRIVATE type resource, to
+allocate vram backing pages for page migration.
 
-This ioctl allows to enable/disable XNACK retries per KFD process.
-
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+Signed-off-by: Philip Yang <Philip.Yang@amd.com>
 Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 28 +++++++++++++++
- include/uapi/linux/kfd_ioctl.h           | 43 +++++++++++++++++++++++-
- 2 files changed, 70 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdkfd/Kconfig       |   2 +
+ drivers/gpu/drm/amd/amdkfd/Makefile      |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c  |   4 +
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 104 +++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.h |  49 +++++++++++
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |   3 +
+ 6 files changed, 164 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+ create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index 9511826ac8ae..9838d0cd1f51 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -1743,6 +1743,31 @@ static int kfd_ioctl_smi_events(struct file *filep,
- 	return kfd_smi_event_open(dev, &args->anon_fd);
- }
+diff --git a/drivers/gpu/drm/amd/amdkfd/Kconfig b/drivers/gpu/drm/amd/amdkfd/Kconfig
+index f02c938f75da..fb8d85716599 100644
+--- a/drivers/gpu/drm/amd/amdkfd/Kconfig
++++ b/drivers/gpu/drm/amd/amdkfd/Kconfig
+@@ -8,6 +8,8 @@ config HSA_AMD
+ 	depends on DRM_AMDGPU && (X86_64 || ARM64 || PPC64)
+ 	imply AMD_IOMMU_V2 if X86_64
+ 	select HMM_MIRROR
++	select ZONE_DEVICE
++	select DEVICE_PRIVATE
+ 	select MMU_NOTIFIER
+ 	select DRM_AMDGPU_USERPTR
+ 	help
+diff --git a/drivers/gpu/drm/amd/amdkfd/Makefile b/drivers/gpu/drm/amd/amdkfd/Makefile
+index 387ce0217d35..a93301dbc464 100644
+--- a/drivers/gpu/drm/amd/amdkfd/Makefile
++++ b/drivers/gpu/drm/amd/amdkfd/Makefile
+@@ -55,7 +55,8 @@ AMDKFD_FILES	:= $(AMDKFD_PATH)/kfd_module.o \
+ 		$(AMDKFD_PATH)/kfd_dbgmgr.o \
+ 		$(AMDKFD_PATH)/kfd_smi_events.o \
+ 		$(AMDKFD_PATH)/kfd_crat.o \
+-		$(AMDKFD_PATH)/kfd_svm.o
++		$(AMDKFD_PATH)/kfd_svm.o \
++		$(AMDKFD_PATH)/kfd_migrate.o
  
-+static int kfd_ioctl_set_xnack_mode(struct file *filep,
-+				    struct kfd_process *p, void *data)
+ ifneq ($(CONFIG_AMD_IOMMU_V2),)
+ AMDKFD_FILES += $(AMDKFD_PATH)/kfd_iommu.o
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+index 357b9bf62a1c..b31bae91fbd0 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+@@ -30,6 +30,7 @@
+ #include "kfd_iommu.h"
+ #include "amdgpu_amdkfd.h"
+ #include "kfd_smi_events.h"
++#include "kfd_migrate.h"
+ 
+ #define MQD_SIZE_ALIGNED 768
+ 
+@@ -814,6 +815,8 @@ bool kgd2kfd_device_init(struct kfd_dev *kfd,
+ 
+ 	kfd_cwsr_init(kfd);
+ 
++	svm_migrate_init((struct amdgpu_device *)kfd->kgd);
++
+ 	if (kfd_resume(kfd))
+ 		goto kfd_resume_error;
+ 
+@@ -862,6 +865,7 @@ void kgd2kfd_device_exit(struct kfd_dev *kfd)
+ {
+ 	if (kfd->init_complete) {
+ 		kgd2kfd_suspend(kfd, false);
++		svm_migrate_fini((struct amdgpu_device *)kfd->kgd);
+ 		device_queue_manager_uninit(kfd->dqm);
+ 		kfd_interrupt_exit(kfd);
+ 		kfd_topology_remove_device(kfd);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+new file mode 100644
+index 000000000000..0361396d17cb
+--- /dev/null
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+@@ -0,0 +1,104 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/*
++ * Copyright 2020-2021 Advanced Micro Devices, Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#include <linux/types.h>
++#include <linux/hmm.h>
++#include <linux/dma-direction.h>
++#include <linux/dma-mapping.h>
++#include "amdgpu_sync.h"
++#include "amdgpu_object.h"
++#include "amdgpu_vm.h"
++#include "amdgpu_mn.h"
++#include "kfd_priv.h"
++#include "kfd_svm.h"
++#include "kfd_migrate.h"
++
++static void svm_migrate_page_free(struct page *page)
 +{
-+	struct kfd_ioctl_set_xnack_mode_args *args = data;
-+	int r = 0;
-+
-+	mutex_lock(&p->mutex);
-+	if (args->xnack_enabled >= 0) {
-+		if (!list_empty(&p->pqm.queues)) {
-+			pr_debug("Process has user queues running\n");
-+			mutex_unlock(&p->mutex);
-+			return -EBUSY;
-+		}
-+		if (args->xnack_enabled && !kfd_process_xnack_mode(p, true))
-+			r = -EPERM;
-+		else
-+			p->xnack_enabled = args->xnack_enabled;
-+	} else {
-+		args->xnack_enabled = p->xnack_enabled;
-+	}
-+	mutex_unlock(&p->mutex);
-+
-+	return r;
 +}
 +
- static int kfd_ioctl_svm(struct file *filep, struct kfd_process *p, void *data)
- {
- 	struct kfd_ioctl_svm_args *args = data;
-@@ -1869,6 +1894,9 @@ static const struct amdkfd_ioctl_desc amdkfd_ioctls[] = {
- 			kfd_ioctl_smi_events, 0),
- 
- 	AMDKFD_IOCTL_DEF(AMDKFD_IOC_SVM, kfd_ioctl_svm, 0),
-+
-+	AMDKFD_IOCTL_DEF(AMDKFD_IOC_SET_XNACK_MODE,
-+			kfd_ioctl_set_xnack_mode, 0),
- };
- 
- #define AMDKFD_CORE_IOCTL_COUNT	ARRAY_SIZE(amdkfd_ioctls)
-diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
-index 247b57baa94f..3cb5b5dd9f77 100644
---- a/include/uapi/linux/kfd_ioctl.h
-+++ b/include/uapi/linux/kfd_ioctl.h
-@@ -597,6 +597,44 @@ struct kfd_ioctl_svm_args {
- 	struct kfd_ioctl_svm_attribute attrs[0];
- };
- 
 +/**
-+ * kfd_ioctl_set_xnack_mode_args - Arguments for set_xnack_mode
++ * svm_migrate_to_ram - CPU page fault handler
++ * @vmf: CPU vm fault vma, address
 + *
-+ * @xnack_enabled:       [in/out] Whether to enable XNACK mode for this process
++ * Context: vm fault handler, mm->mmap_sem is taken
 + *
-+ * @xnack_enabled indicates whether recoverable page faults should be
-+ * enabled for the current process. 0 means disabled, positive means
-+ * enabled, negative means leave unchanged. If enabled, virtual address
-+ * translations on GFXv9 and later AMD GPUs can return XNACK and retry
-+ * the access until a valid PTE is available. This is used to implement
-+ * device page faults.
-+ *
-+ * On output, @xnack_enabled returns the (new) current mode (0 or
-+ * positive). Therefore, a negative input value can be used to query
-+ * the current mode without changing it.
-+ *
-+ * The XNACK mode fundamentally changes the way SVM managed memory works
-+ * in the driver, with subtle effects on application performance and
-+ * functionality.
-+ *
-+ * Enabling XNACK mode requires shader programs to be compiled
-+ * differently. Furthermore, not all GPUs support changing the mode
-+ * per-process. Therefore changing the mode is only allowed while no
-+ * user mode queues exist in the process. This ensure that no shader
-+ * code is running that may be compiled for the wrong mode. And GPUs
-+ * that cannot change to the requested mode will prevent the XNACK
-+ * mode from occurring. All GPUs used by the process must be in the
-+ * same XNACK mode.
-+ *
-+ * GFXv8 or older GPUs do not support 48 bit virtual addresses or SVM.
-+ * Therefore those GPUs are not considered for the XNACK mode switch.
-+ *
-+ * Return: 0 on success, -errno on failure
++ * Return:
++ * 0 - OK
++ * VM_FAULT_SIGBUS - notice application to have SIGBUS page fault
 + */
-+struct kfd_ioctl_set_xnack_mode_args {
-+	__s32 xnack_enabled;
++static vm_fault_t svm_migrate_to_ram(struct vm_fault *vmf)
++{
++	return VM_FAULT_SIGBUS;
++}
++
++static const struct dev_pagemap_ops svm_migrate_pgmap_ops = {
++	.page_free		= svm_migrate_page_free,
++	.migrate_to_ram		= svm_migrate_to_ram,
 +};
 +
- #define AMDKFD_IOCTL_BASE 'K'
- #define AMDKFD_IO(nr)			_IO(AMDKFD_IOCTL_BASE, nr)
- #define AMDKFD_IOR(nr, type)		_IOR(AMDKFD_IOCTL_BASE, nr, type)
-@@ -699,7 +737,10 @@ struct kfd_ioctl_svm_args {
- 
- #define AMDKFD_IOC_SVM	AMDKFD_IOWR(0x20, struct kfd_ioctl_svm_args)
- 
-+#define AMDKFD_IOC_SET_XNACK_MODE		\
-+		AMDKFD_IOWR(0x21, struct kfd_ioctl_set_xnack_mode_args)
++int svm_migrate_init(struct amdgpu_device *adev)
++{
++	struct kfd_dev *kfddev = adev->kfd.dev;
++	struct dev_pagemap *pgmap;
++	struct resource *res;
++	unsigned long size;
++	void *r;
 +
- #define AMDKFD_COMMAND_START		0x01
--#define AMDKFD_COMMAND_END		0x21
-+#define AMDKFD_COMMAND_END		0x22
++	/* Page migration works on Vega10 or newer */
++	if (kfddev->device_info->asic_family < CHIP_VEGA10)
++		return -EINVAL;
++
++	pgmap = &kfddev->pgmap;
++	memset(pgmap, 0, sizeof(*pgmap));
++
++	/* TODO: register all vram to HMM for now.
++	 * should remove reserved size
++	 */
++	size = ALIGN(adev->gmc.real_vram_size, 2ULL << 20);
++	res = devm_request_free_mem_region(adev->dev, &iomem_resource, size);
++	if (IS_ERR(res))
++		return -ENOMEM;
++
++	pgmap->type = MEMORY_DEVICE_PRIVATE;
++	pgmap->nr_range = 1;
++	pgmap->range.start = res->start;
++	pgmap->range.end = res->end;
++	pgmap->ops = &svm_migrate_pgmap_ops;
++	pgmap->owner = adev;
++	pgmap->flags = MIGRATE_VMA_SELECT_DEVICE_PRIVATE;
++	r = devm_memremap_pages(adev->dev, pgmap);
++	if (IS_ERR(r)) {
++		pr_err("failed to register HMM device memory\n");
++		return PTR_ERR(r);
++	}
++
++	pr_info("HMM registered %ldMB device memory\n", size >> 20);
++
++	return 0;
++}
++
++void svm_migrate_fini(struct amdgpu_device *adev)
++{
++	memunmap_pages(&adev->kfd.dev->pgmap);
++}
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
+new file mode 100644
+index 000000000000..89392548ec44
+--- /dev/null
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
+@@ -0,0 +1,49 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/*
++ * Copyright 2020-2021 Advanced Micro Devices, Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef KFD_MIGRATE_H_
++#define KFD_MIGRATE_H_
++
++#include <linux/rwsem.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
++#include <linux/sched/mm.h>
++#include <linux/hmm.h>
++#include "kfd_priv.h"
++#include "kfd_svm.h"
++
++#if defined(CONFIG_DEVICE_PRIVATE)
++int svm_migrate_init(struct amdgpu_device *adev);
++void svm_migrate_fini(struct amdgpu_device *adev);
++
++#else
++static inline int svm_migrate_init(struct amdgpu_device *adev)
++{
++	DRM_WARN_ONCE("DEVICE_PRIVATE kernel config option is not enabled, "
++		      "add CONFIG_DEVICE_PRIVATE=y in config file to fix\n");
++	return -ENODEV;
++}
++static inline void svm_migrate_fini(struct amdgpu_device *adev) {}
++#endif
++#endif /* KFD_MIGRATE_H_ */
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index 5c0efaaebd8c..ca1b0c518d46 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -322,6 +322,9 @@ struct kfd_dev {
+ 	unsigned int max_doorbell_slices;
  
- #endif
+ 	int noretry;
++
++	/* HMM page migration MEMORY_DEVICE_PRIVATE mapping */
++	struct dev_pagemap pgmap;
+ };
+ 
+ enum kfd_mempool {
 -- 
 2.31.1
 
