@@ -1,72 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3533605A1
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 11:26:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A6E3605B6
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 11:30:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1FC36EA18;
-	Thu, 15 Apr 2021 09:26:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E9686EA19;
+	Thu, 15 Apr 2021 09:30:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F8E16EA18
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 09:26:40 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id F103D10F3;
- Thu, 15 Apr 2021 05:26:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 15 Apr 2021 05:26:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=PtaPMljBD2boZ8zdNUtTMi1M1Dx
- Oz641bQ2OhBoGMjo=; b=qZJm9bq/q8pqEMr1PDT01gAsiPjumU/BRbuKfpekYpj
- L2DrcagM3UtPSpGEOJw5YaUcMFU9PZYvgLxKCtg1dFp7u5CYxVJDLjzgHBEnD68B
- a+xbxwkyg5Pvou6eHzz+TTFRWf+Ikc4/skKbyGDeVUnUlsMzVftQM3Dju9oJepjZ
- bWn1Sq3R34YmpKSn/0cu6PpfvP8AO5MJHozjLPD7NslF4nnrD+RyS+c5yiWKczAj
- agJ0b2b+dvoLeE+cfqu1d5pL1E3SjKLyk68qXIKO4srq+rwmH2orMWqdEk+69yTB
- YLZIy0koG/H1+tAnTYTlWKoV5ASAhfyI9L/Vk/ezp7w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=PtaPMl
- jBD2boZ8zdNUtTMi1M1DxOz641bQ2OhBoGMjo=; b=rdruuGFMfbwZsnv/OifYg6
- eF1id0DgmV4ZuqeJ79qlIhTYgdyozjLarNrFq4lOc1Z+yTmv/ItRvPB4o/PZG/nj
- VVTfAj4EAw1CTOtKMWkD/a0C/BcNG90N1hu1oegDHA0ECuETV8oRPzgYo8tiFMXe
- /Bl9elVSYyZzl3osUDfmeWzZhKx5XCFvgJBvwg5aWYw0YqM3vjUPknRWfXC32H1J
- T+C8gqEzp2WUvD4b+84KY/plhPLjbMapTKXeh0EQqQ0pqmfHw7YJ5ss5eT68U9ya
- DZZD2LBtT5lb1leq6vHw3MQNoACTYO/LKmVkx9kiNgLNgqv4QAoDC3k6QeKbiCmw
- ==
-X-ME-Sender: <xms:ywZ4YLVEyFbZdE7VindQd54P70eLLG1KZjhhVEbjn05WA6KRUsp4Gg>
- <xme:ywZ4YH3UAM-_BraEqDdmPGpqsDRaos5L-ij__R0qkxs0wChUq2XKgOGnzVtmwbpEL
- Xvwmq4BKwZyy_BfzIM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudelfedgudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ywZ4YCa0Ke0eotrSX1S8ssua1fQKjj3JefXX5Slst5mcRUmPisSRXg>
- <xmx:ywZ4YKrhooip1bTHf-TtoaOk3xp1RAbhgkfFmohB0NJfWKDv9ZDbcA>
- <xmx:ywZ4YOpwZNHX7a20ucRaRhiw4JnOmwFsL3Zkt8HFZK4q6fuWlUGzyg>
- <xmx:zgZ4YGwMvDYgXzWoQomG1WFrp3MfFBgBN_jPYXQdp28hAcMgWDwhw66AdRE>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 23E0424005B;
- Thu, 15 Apr 2021 05:26:35 -0400 (EDT)
-Date: Thu, 15 Apr 2021 11:26:33 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 2/2] drm/ingenic: Don't request full modeset if property
- is not modified
-Message-ID: <20210415092633.4vkteqmqqxfgrjxz@gilmour>
-References: <20210329175046.214629-1-paul@crapouillou.net>
- <20210329175046.214629-3-paul@crapouillou.net>
-MIME-Version: 1.0
-In-Reply-To: <20210329175046.214629-3-paul@crapouillou.net>
+Received: from out30-43.freemail.mail.aliyun.com
+ (out30-43.freemail.mail.aliyun.com [115.124.30.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4B36EA19
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 09:30:26 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R311e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=alimailimapcm10staff010182156082;
+ MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
+ TI=SMTPD_---0UVdYADO_1618479022; 
+Received: from
+ j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0UVdYADO_1618479022) by smtp.aliyun-inc.com(127.0.0.1);
+ Thu, 15 Apr 2021 17:30:23 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/radeon/si: Fix inconsistent indenting
+Date: Thu, 15 Apr 2021 17:30:20 +0800
+Message-Id: <1618479020-38198-1-git-send-email-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,103 +39,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, od@zcrc.me,
- stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0028047046=="
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Kernel test robot throws below warning ->
 
---===============0028047046==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rbolhufisrxhasd4"
-Content-Disposition: inline
+smatch warnings:
+drivers/gpu/drm/radeon/si.c:4514 si_vm_packet3_cp_dma_check() warn:
+inconsistent indenting
 
+Fixed the inconsistent indenting.
 
---rbolhufisrxhasd4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/gpu/drm/radeon/si.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi,
-
-On Mon, Mar 29, 2021 at 06:50:46PM +0100, Paul Cercueil wrote:
-> Avoid requesting a full modeset if the sharpness property is not
-> modified, because then we don't actually need it.
->=20
-> Fixes: fc1acf317b01 ("drm/ingenic: Add support for the IPU")
-> Cc: <stable@vger.kernel.org> # 5.8+
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  drivers/gpu/drm/ingenic/ingenic-ipu.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/inge=
-nic/ingenic-ipu.c
-> index 3b1091e7c0cd..95b665c4a7b0 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-> @@ -640,10 +640,12 @@ ingenic_ipu_plane_atomic_set_property(struct drm_pl=
-ane *plane,
->  {
->  	struct ingenic_ipu *ipu =3D plane_to_ingenic_ipu(plane);
->  	struct drm_crtc_state *crtc_state;
-> +	bool mode_changed;
-> =20
->  	if (property !=3D ipu->sharpness_prop)
->  		return -EINVAL;
-> =20
-> +	mode_changed =3D val !=3D ipu->sharpness;
->  	ipu->sharpness =3D val;
-> =20
->  	if (state->crtc) {
-> @@ -651,7 +653,7 @@ ingenic_ipu_plane_atomic_set_property(struct drm_plan=
-e *plane,
->  		if (WARN_ON(!crtc_state))
->  			return -EINVAL;
-> =20
-> -		crtc_state->mode_changed =3D true;
-> +		crtc_state->mode_changed |=3D mode_changed;
->  	}
-
-I'd just change the condition from
-
-if (state->crtc)
-
-to
-
-if (state->crtc && val !=3D ipu->sharpness)
-
-It's going to be easier to extend if you ever need to. Also, drivers
-usually do this in atomic_check, is there a specific reason to do it in
-atomic_set_property?
-
-Maxime
-
---rbolhufisrxhasd4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYHgGyAAKCRDj7w1vZxhR
-xbrVAQD22j4BtDq6oO5iGWb7UdC+qPz36k0/YBh5BRbQ5qyf2gD+KYIoom5pUNBU
-kg6Yl77CjwRcM0x0V2Ylhu7QwgWEpwA=
-=U0dV
------END PGP SIGNATURE-----
-
---rbolhufisrxhasd4--
-
---===============0028047046==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
+index 88731b79..d0e94b1 100644
+--- a/drivers/gpu/drm/radeon/si.c
++++ b/drivers/gpu/drm/radeon/si.c
+@@ -4511,7 +4511,7 @@ static int si_vm_packet3_cp_dma_check(u32 *ib, u32 idx)
+ 			} else {
+ 				for (i = 0; i < (command & 0x1fffff); i++) {
+ 					reg = start_reg + (4 * i);
+-				if (!si_vm_reg_valid(reg)) {
++					if (!si_vm_reg_valid(reg)) {
+ 						DRM_ERROR("CP DMA Bad DST register\n");
+ 						return -EINVAL;
+ 					}
+-- 
+1.8.3.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0028047046==--
