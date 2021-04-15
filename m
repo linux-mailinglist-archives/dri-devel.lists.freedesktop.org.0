@@ -1,33 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF1A3606F5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 12:18:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 583D83607DD
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 13:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6E436EA44;
-	Thu, 15 Apr 2021 10:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26CA26E0A0;
+	Thu, 15 Apr 2021 11:00:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE7F56EA2B;
- Thu, 15 Apr 2021 10:17:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFBF06E07F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 11:00:44 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 67B79B1FD;
- Thu, 15 Apr 2021 10:17:48 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 40B24AE42;
+ Thu, 15 Apr 2021 11:00:43 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, bskeggs@redhat.com, ray.huang@amd.com,
- linux-graphics-maintainer@vmware.com, sroland@vmware.com, zackr@vmware.com,
- shashank.sharma@amd.com, sam@ravnborg.org, emil.velikov@collabora.com,
- Felix.Kuehling@amd.com, nirmoy.das@amd.com
-Subject: [PATCH v2 7/7] drm/ttm: Remove ttm_bo_mmap() and friends
-Date: Thu, 15 Apr 2021 12:17:40 +0200
-Message-Id: <20210415101740.21847-8-tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, marex@denx.de, stefan@agner.ch, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, linux-graphics-maintainer@vmware.com,
+ sroland@vmware.com, zackr@vmware.com
+Subject: [PATCH 0/4] drm: Fix config dependencies for fbdev emulation
+Date: Thu, 15 Apr 2021 13:00:36 +0200
+Message-Id: <20210415110040.23525-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210415101740.21847-1-tzimmermann@suse.de>
-References: <20210415101740.21847-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,87 +39,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGZ1bmN0aW9uIHR0bV9ib19tbWFwIGlzIHVudXNlZC4gUmVtb3ZlIGl0IGFuZCBpdCdzIGhl
-bHBlcnM7IGluY2x1ZGluZwp0aGUgdmVyaWZ5X2FjY2VzcyBjYWxsYmFjayBpbiBzdHJ1Y3QgdHRt
-X2RldmljZV9mdW5jcy4KClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtv
-ZW5pZ0BhbWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMgfCA1MyAt
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9f
-YXBpLmggICAgfCAxMyAtLS0tLS0tLQogaW5jbHVkZS9kcm0vdHRtL3R0bV9kZXZpY2UuaCAgICB8
-IDE1IC0tLS0tLS0tLS0KIDMgZmlsZXMgY2hhbmdlZCwgODEgZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0uYyBiL2RyaXZlcnMvZ3B1L2RybS90
-dG0vdHRtX2JvX3ZtLmMKaW5kZXggYmY0YTIxM2JjNjZjLi42Y2QzNTIzOTk5NDEgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3R0bS90dG1fYm9fdm0uYwpAQCAtNTA4LDMwICs1MDgsNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
-IHZtX29wZXJhdGlvbnNfc3RydWN0IHR0bV9ib192bV9vcHMgPSB7CiAJLmFjY2VzcyA9IHR0bV9i
-b192bV9hY2Nlc3MsCiB9OwogCi1zdGF0aWMgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICp0dG1f
-Ym9fdm1fbG9va3VwKHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2LAotCQkJCQkJICB1bnNpZ25lZCBs
-b25nIG9mZnNldCwKLQkJCQkJCSAgdW5zaWduZWQgbG9uZyBwYWdlcykKLXsKLQlzdHJ1Y3QgZHJt
-X3ZtYV9vZmZzZXRfbm9kZSAqbm9kZTsKLQlzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvID0g
-TlVMTDsKLQotCWRybV92bWFfb2Zmc2V0X2xvY2tfbG9va3VwKGJkZXYtPnZtYV9tYW5hZ2VyKTsK
-LQotCW5vZGUgPSBkcm1fdm1hX29mZnNldF9sb29rdXBfbG9ja2VkKGJkZXYtPnZtYV9tYW5hZ2Vy
-LCBvZmZzZXQsIHBhZ2VzKTsKLQlpZiAobGlrZWx5KG5vZGUpKSB7Ci0JCWJvID0gY29udGFpbmVy
-X29mKG5vZGUsIHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCwKLQkJCQkgIGJhc2Uudm1hX25vZGUp
-OwotCQlibyA9IHR0bV9ib19nZXRfdW5sZXNzX3plcm8oYm8pOwotCX0KLQotCWRybV92bWFfb2Zm
-c2V0X3VubG9ja19sb29rdXAoYmRldi0+dm1hX21hbmFnZXIpOwotCi0JaWYgKCFibykKLQkJcHJf
-ZXJyKCJDb3VsZCBub3QgZmluZCBidWZmZXIgb2JqZWN0IHRvIG1hcFxuIik7Ci0KLQlyZXR1cm4g
-Ym87Ci19Ci0KIHN0YXRpYyB2b2lkIHR0bV9ib19tbWFwX3ZtYV9zZXR1cChzdHJ1Y3QgdHRtX2J1
-ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKIHsKIAkvKgpAQCAt
-NTU5LDM1ICs1MzUsNiBAQCBzdGF0aWMgdm9pZCB0dG1fYm9fbW1hcF92bWFfc2V0dXAoc3RydWN0
-IHR0bV9idWZmZXJfb2JqZWN0ICpibywgc3RydWN0IHZtX2FyZWFfcwogCXZtYS0+dm1fZmxhZ3Mg
-fD0gVk1fSU8gfCBWTV9ET05URVhQQU5EIHwgVk1fRE9OVERVTVA7CiB9CiAKLWludCB0dG1fYm9f
-bW1hcChzdHJ1Y3QgZmlsZSAqZmlscCwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCi0JCXN0
-cnVjdCB0dG1fZGV2aWNlICpiZGV2KQotewotCXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm87
-Ci0JaW50IHJldDsKLQotCWlmICh1bmxpa2VseSh2bWEtPnZtX3Bnb2ZmIDwgRFJNX0ZJTEVfUEFH
-RV9PRkZTRVRfU1RBUlQpKQotCQlyZXR1cm4gLUVJTlZBTDsKLQotCWJvID0gdHRtX2JvX3ZtX2xv
-b2t1cChiZGV2LCB2bWEtPnZtX3Bnb2ZmLCB2bWFfcGFnZXModm1hKSk7Ci0JaWYgKHVubGlrZWx5
-KCFibykpCi0JCXJldHVybiAtRUlOVkFMOwotCi0JaWYgKHVubGlrZWx5KCFiby0+YmRldi0+ZnVu
-Y3MtPnZlcmlmeV9hY2Nlc3MpKSB7Ci0JCXJldCA9IC1FUEVSTTsKLQkJZ290byBvdXRfdW5yZWY7
-Ci0JfQotCXJldCA9IGJvLT5iZGV2LT5mdW5jcy0+dmVyaWZ5X2FjY2VzcyhibywgZmlscCk7Ci0J
-aWYgKHVubGlrZWx5KHJldCAhPSAwKSkKLQkJZ290byBvdXRfdW5yZWY7Ci0KLQl0dG1fYm9fbW1h
-cF92bWFfc2V0dXAoYm8sIHZtYSk7Ci0JcmV0dXJuIDA7Ci1vdXRfdW5yZWY6Ci0JdHRtX2JvX3B1
-dChibyk7Ci0JcmV0dXJuIHJldDsKLX0KLUVYUE9SVF9TWU1CT0wodHRtX2JvX21tYXApOwotCiBp
-bnQgdHRtX2JvX21tYXBfb2JqKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCBzdHJ1Y3QgdHRt
-X2J1ZmZlcl9vYmplY3QgKmJvKQogewogCXR0bV9ib19nZXQoYm8pOwpkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgK
-aW5kZXggMjE1NWUyZTM4YWVjLi42ZTM1NjgwYWMwMWIgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJt
-L3R0bS90dG1fYm9fYXBpLmgKKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaApAQCAt
-NTIyLDE5ICs1MjIsNiBAQCB2b2lkIHR0bV9ib192dW5tYXAoc3RydWN0IHR0bV9idWZmZXJfb2Jq
-ZWN0ICpibywgc3RydWN0IGRtYV9idWZfbWFwICptYXApOwogICovCiBpbnQgdHRtX2JvX21tYXBf
-b2JqKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
-KmJvKTsKIAotLyoqCi0gKiB0dG1fYm9fbW1hcCAtIG1tYXAgb3V0IG9mIHRoZSB0dG0gZGV2aWNl
-IGFkZHJlc3Mgc3BhY2UuCi0gKgotICogQGZpbHA6ICAgICAgZmlscCBhcyBpbnB1dCBmcm9tIHRo
-ZSBtbWFwIG1ldGhvZC4KLSAqIEB2bWE6ICAgICAgIHZtYSBhcyBpbnB1dCBmcm9tIHRoZSBtbWFw
-IG1ldGhvZC4KLSAqIEBiZGV2OiAgICAgIFBvaW50ZXIgdG8gdGhlIHR0bV9kZXZpY2Ugd2l0aCB0
-aGUgYWRkcmVzcyBzcGFjZSBtYW5hZ2VyLgotICoKLSAqIFRoaXMgZnVuY3Rpb24gaXMgaW50ZW5k
-ZWQgdG8gYmUgY2FsbGVkIGJ5IHRoZSBkZXZpY2UgbW1hcCBtZXRob2QuCi0gKiBpZiB0aGUgZGV2
-aWNlIGFkZHJlc3Mgc3BhY2UgaXMgdG8gYmUgYmFja2VkIGJ5IHRoZSBibyBtYW5hZ2VyLgotICov
-Ci1pbnQgdHRtX2JvX21tYXAoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCB2bV9hcmVhX3N0cnVj
-dCAqdm1hLAotCQlzdHJ1Y3QgdHRtX2RldmljZSAqYmRldik7Ci0KIC8qKgogICogdHRtX2JvX2lv
-CiAgKgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9kZXZpY2UuaCBiL2luY2x1ZGUv
-ZHJtL3R0bS90dG1fZGV2aWNlLmgKaW5kZXggN2M4Zjg3YmQ1MmQzLi5jZDU5MmY4ZTk0MWIgMTAw
-NjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNlLmgKKysrIGIvaW5jbHVkZS9kcm0v
-dHRtL3R0bV9kZXZpY2UuaApAQCAtMTYxLDIxICsxNjEsNiBAQCBzdHJ1Y3QgdHRtX2RldmljZV9m
-dW5jcyB7CiAJCSAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpuZXdfbWVtLAogCQkgICAgc3RydWN0
-IHR0bV9wbGFjZSAqaG9wKTsKIAotCS8qKgotCSAqIHN0cnVjdCB0dG1fYm9fZHJpdmVyX21lbWJl
-ciB2ZXJpZnlfYWNjZXNzCi0JICoKLQkgKiBAYm86IFBvaW50ZXIgdG8gYSBidWZmZXIgb2JqZWN0
-LgotCSAqIEBmaWxwOiBQb2ludGVyIHRvIGEgc3RydWN0IGZpbGUgdHJ5aW5nIHRvIGFjY2VzcyB0
-aGUgb2JqZWN0LgotCSAqCi0JICogQ2FsbGVkIGZyb20gdGhlIG1hcCAvIHdyaXRlIC8gcmVhZCBt
-ZXRob2RzIHRvIHZlcmlmeSB0aGF0IHRoZQotCSAqIGNhbGxlciBpcyBwZXJtaXR0ZWQgdG8gYWNj
-ZXNzIHRoZSBidWZmZXIgb2JqZWN0LgotCSAqIFRoaXMgbWVtYmVyIG1heSBiZSBzZXQgdG8gTlVM
-TCwgd2hpY2ggd2lsbCByZWZ1c2UgdGhpcyBraW5kIG9mCi0JICogYWNjZXNzIGZvciBhbGwgYnVm
-ZmVyIG9iamVjdHMuCi0JICogVGhpcyBmdW5jdGlvbiBzaG91bGQgcmV0dXJuIDAgaWYgYWNjZXNz
-IGlzIGdyYW50ZWQsIC1FUEVSTSBvdGhlcndpc2UuCi0JICovCi0JaW50ICgqdmVyaWZ5X2FjY2Vz
-cykoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKLQkJCSAgICAgc3RydWN0IGZpbGUgKmZp
-bHApOwotCiAJLyoqCiAJICogSG9vayB0byBub3RpZnkgZHJpdmVyIGFib3V0IGEgcmVzb3VyY2Ug
-ZGVsZXRlLgogCSAqLwotLSAKMi4zMS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+While working on the recent aperture helpers, I found it hard to
+disable fbdev because drivers keep on selecting it automatically.
+
+Cleanup the config dependencies. Fbdev support should be configured
+by users. DRM drivers should check for DRM_FBDEV_EMULATION to enable
+fbdev support.
+
+Thomas Zimmermann (4):
+  drm/vmwgfx: Make console emulation depend on DRM_FBDEV_EMULATION
+  drm/mxsfb: Don't select DRM_KMS_FB_HELPER
+  drm/zte: Don't select DRM_KMS_FB_HELPER
+  drm: Remove DRM_KMS_FB_HELPER Kconfig option
+
+ drivers/gpu/drm/Kconfig             | 28 +++++++++++-----------------
+ drivers/gpu/drm/mxsfb/Kconfig       |  1 -
+ drivers/gpu/drm/vmwgfx/Kconfig      |  7 +------
+ drivers/gpu/drm/vmwgfx/Makefile     |  4 +++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 19 +++++++++++++++++++
+ drivers/gpu/drm/zte/Kconfig         |  1 -
+ 6 files changed, 34 insertions(+), 26 deletions(-)
+
+--
+2.31.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
