@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091AA36127F
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 20:50:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071423612C2
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 21:12:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F986EAB6;
-	Thu, 15 Apr 2021 18:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42BA16EABC;
+	Thu, 15 Apr 2021 19:12:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5939B6EAB6
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 18:50:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1B286EABD
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 19:12:18 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C9A25AFD7;
- Thu, 15 Apr 2021 18:50:27 +0000 (UTC)
-To: Zack Rusin <zackr@vmware.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch, marex@denx.de,
- stefan@agner.ch, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- linux-graphics-maintainer@vmware.com, sroland@vmware.com
-References: <20210415110040.23525-1-tzimmermann@suse.de>
- <20210415110040.23525-2-tzimmermann@suse.de>
- <af143092-edd3-91eb-025d-836de1e4a104@vmware.com>
+ by mx2.suse.de (Postfix) with ESMTP id 80EE3B125;
+ Thu, 15 Apr 2021 19:12:17 +0000 (UTC)
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-5-tzimmermann@suse.de>
+ <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
+ <a787dde9-70b0-cb38-f2bf-6e7b479525f9@suse.de>
+ <YHAc3vdstgJzIAEL@phenom.ffwll.local>
+ <0996ac00-9f7f-27ca-8b14-b551feff8ce4@suse.de>
+ <YHg4Ux7L3FTV45ST@phenom.ffwll.local>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/4] drm/vmwgfx: Make console emulation depend on
- DRM_FBDEV_EMULATION
-Message-ID: <a7c61e61-cc6f-93db-7d49-2dc666143ab8@suse.de>
-Date: Thu, 15 Apr 2021 20:50:26 +0200
+Subject: Re: [PATCH v2 04/10] drm/aperture: Add infrastructure for aperture
+ ownership
+Message-ID: <78b42ee2-6846-32f3-3ed8-0173ff031f0a@suse.de>
+Date: Thu, 15 Apr 2021 21:12:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <af143092-edd3-91eb-025d-836de1e4a104@vmware.com>
+In-Reply-To: <YHg4Ux7L3FTV45ST@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,184 +45,503 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1737558260=="
+Cc: bluescreen_avenger@verizon.net, geert+renesas@glider.be, corbet@lwn.net,
+ airlied@linux.ie, linux-doc@vger.kernel.org, emil.l.velikov@gmail.com,
+ lgirdwood@gmail.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
+ broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
+Content-Type: multipart/mixed; boundary="===============1863956733=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1737558260==
+--===============1863956733==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="WfbRQoYtH3DnLZfBSh723ooLFFrWYsd6G"
+ boundary="LZDxcCarnThux4YG1ReTlSxm5cn3NIYl7"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WfbRQoYtH3DnLZfBSh723ooLFFrWYsd6G
-Content-Type: multipart/mixed; boundary="7rGh9qLKj63uw427eMNzBsvzLGVK4uutb";
+--LZDxcCarnThux4YG1ReTlSxm5cn3NIYl7
+Content-Type: multipart/mixed; boundary="OZDRayy34zTJ7CGri4CxMHyMAv5jtJsH3";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Zack Rusin <zackr@vmware.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch, marex@denx.de,
- stefan@agner.ch, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- linux-graphics-maintainer@vmware.com, sroland@vmware.com
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Message-ID: <a7c61e61-cc6f-93db-7d49-2dc666143ab8@suse.de>
-Subject: Re: [PATCH 1/4] drm/vmwgfx: Make console emulation depend on
- DRM_FBDEV_EMULATION
-References: <20210415110040.23525-1-tzimmermann@suse.de>
- <20210415110040.23525-2-tzimmermann@suse.de>
- <af143092-edd3-91eb-025d-836de1e4a104@vmware.com>
-In-Reply-To: <af143092-edd3-91eb-025d-836de1e4a104@vmware.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: bluescreen_avenger@verizon.net, geert+renesas@glider.be, corbet@lwn.net,
+ airlied@linux.ie, emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, lgirdwood@gmail.com,
+ virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
+ broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
+Message-ID: <78b42ee2-6846-32f3-3ed8-0173ff031f0a@suse.de>
+Subject: Re: [PATCH v2 04/10] drm/aperture: Add infrastructure for aperture
+ ownership
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-5-tzimmermann@suse.de>
+ <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
+ <a787dde9-70b0-cb38-f2bf-6e7b479525f9@suse.de>
+ <YHAc3vdstgJzIAEL@phenom.ffwll.local>
+ <0996ac00-9f7f-27ca-8b14-b551feff8ce4@suse.de>
+ <YHg4Ux7L3FTV45ST@phenom.ffwll.local>
+In-Reply-To: <YHg4Ux7L3FTV45ST@phenom.ffwll.local>
 
---7rGh9qLKj63uw427eMNzBsvzLGVK4uutb
+--OZDRayy34zTJ7CGri4CxMHyMAv5jtJsH3
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 15.04.21 um 20:21 schrieb Zack Rusin:
-> On 4/15/21 7:00 AM, Thomas Zimmermann wrote:
->> Respect DRM's kconfig setting for fbdev console emulation. If enabled,=
-
->> it will select all required config options. So remove them from vmwgfx=
-'s
->> Kconfig file.
+Am 15.04.21 um 14:57 schrieb Daniel Vetter:
+> On Thu, Apr 15, 2021 at 08:56:20AM +0200, Thomas Zimmermann wrote:
+>> Hi
 >>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->> =C2=A0 drivers/gpu/drm/vmwgfx/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 7 +------
->> =C2=A0 drivers/gpu/drm/vmwgfx/Makefile=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=20
-4 +++-
->> =C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 19 +++++++++++++++++++
->> =C2=A0 3 files changed, 23 insertions(+), 7 deletions(-)
+>> Am 09.04.21 um 11:22 schrieb Daniel Vetter:
+>>>> Is it that easy? simepldrm's detach function has code to synchronize=20
+with
+>>>> concurrent hotplug removals. If we can use drm_dev_unplug() for ever=
+ything,
+>>>> I'm all for it.
+>>>
+>>> Uh, I should have looked at the code instead of just asking silly
+>>> questions :-)
+>>>
+>>> Now I'm even more scared, and also more convinced that we're recreati=
+ng
+>> a
+>>> bad version of some of the core driver model concepts.
+>>>
+>>> I think the ideal option here would be if drm_aperture could unload
+>>> (unbind really) the platform driver for us, through the driver model.=20
+Then
+>>> there's only one place that keeps track whether the driver is unbound=20
+or
+>>> not. I'm not sure whether this can be done fully generic on a struct
+>>> device, or whether we need special code for each type. Since atm we o=
+nly
+>>> have simpledrm we can just specialize on platform_device and it's goo=
+d
+>>> enough.
 >>
->> diff --git a/drivers/gpu/drm/vmwgfx/Kconfig=20
->> b/drivers/gpu/drm/vmwgfx/Kconfig
->> index 15acdf2a7c0f..b3a34196935b 100644
->> --- a/drivers/gpu/drm/vmwgfx/Kconfig
->> +++ b/drivers/gpu/drm/vmwgfx/Kconfig
->> @@ -2,12 +2,7 @@
->> =C2=A0 config DRM_VMWGFX
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tristate "DRM driver for VMware Virtual=20
-GPU"
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on DRM && PCI && X86 && MMU
->> -=C2=A0=C2=A0=C2=A0 select FB_DEFERRED_IO
->> -=C2=A0=C2=A0=C2=A0 select FB_CFB_FILLRECT
->> -=C2=A0=C2=A0=C2=A0 select FB_CFB_COPYAREA
->> -=C2=A0=C2=A0=C2=A0 select FB_CFB_IMAGEBLIT
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_TTM
->> -=C2=A0=C2=A0=C2=A0 select FB
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select MAPPING_DIRTY_HELPERS
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Only needed for the transitional use =
-of drm_crtc_init - can be=20
->> removed
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # again once vmwgfx sets up the primary=20
-plane itself.
->> @@ -20,7 +15,7 @@ config DRM_VMWGFX
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The compiled module will be=20
-called "vmwgfx.ko".
->> =C2=A0 config DRM_VMWGFX_FBCON
->> -=C2=A0=C2=A0=C2=A0 depends on DRM_VMWGFX && FB
->> +=C2=A0=C2=A0=C2=A0 depends on DRM_VMWGFX && DRM_FBDEV_EMULATION
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool "Enable framebuffer console under =
-vmwgfx by default"
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 help
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Choose this option if=20
-you are shipping a new vmwgfx
->> diff --git a/drivers/gpu/drm/vmwgfx/Makefile=20
->> b/drivers/gpu/drm/vmwgfx/Makefile
->> index 8c02fa5852e7..9f5743013cbb 100644
->> --- a/drivers/gpu/drm/vmwgfx/Makefile
->> +++ b/drivers/gpu/drm/vmwgfx/Makefile
->> @@ -1,6 +1,6 @@
->> =C2=A0 # SPDX-License-Identifier: GPL-2.0
->> =C2=A0 vmwgfx-y :=3D vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx=
-_drv.o \
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmwgfx_fb.o vmwgfx_ioctl.o=20
-vmwgfx_resource.o=20
->> vmwgfx_ttm_buffer.o \
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmwgfx_ioctl.o vmwgfx_reso=
-urce.o vmwgfx_ttm_buffer.o \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmwgfx_cmd.o vm=
-wgfx_irq.o vmwgfx_ldu.o vmwgfx_ttm_glue.o \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmwgfx_overlay.=
-o vmwgfx_gmrid_manager.o vmwgfx_fence.o \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmwgfx_bo.o vmw=
-gfx_scrn.o vmwgfx_context.o \
->> @@ -11,5 +11,7 @@ vmwgfx-y :=3D vmwgfx_execbuf.o vmwgfx_gmr.o=20
->> vmwgfx_kms.o vmwgfx_drv.o \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmwgfx_validati=
-on.o vmwgfx_page_dirty.o vmwgfx_streamoutput.o \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_object.o tt=
-m_lock.o ttm_memory.o
->> +vmwgfx-$(CONFIG_DRM_FBDEV_EMULATION) +=3D vmwgfx_fb.o
->> =C2=A0 vmwgfx-$(CONFIG_TRANSPARENT_HUGEPAGE) +=3D vmwgfx_thp.o
->> +
->> =C2=A0 obj-$(CONFIG_DRM_VMWGFX) :=3D vmwgfx.o
->> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h=20
->> b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
->> index 7e6518709e14..e7836da190c4 100644
->> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
->> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
->> @@ -1116,10 +1116,29 @@ extern void vmw_generic_waiter_remove(struct=20
->> vmw_private *dev_priv,
->> =C2=A0=C2=A0 * Kernel framebuffer - vmwgfx_fb.c
->> =C2=A0=C2=A0 */
->> +#ifdef CONFIG_DRM_FBDEV_EMULATION
->> =C2=A0 int vmw_fb_init(struct vmw_private *vmw_priv);
->> =C2=A0 int vmw_fb_close(struct vmw_private *dev_priv);
->> =C2=A0 int vmw_fb_off(struct vmw_private *vmw_priv);
->> =C2=A0 int vmw_fb_on(struct vmw_private *vmw_priv);
->> +#else
->> +static inline int vmw_fb_init(struct vmw_private *vmw_priv)
->> +{
->> +=C2=A0=C2=A0=C2=A0 return 0;
->> +}
->> +static inline int vmw_fb_close(struct vmw_private *dev_priv)
->> +{
->> +=C2=A0=C2=A0=C2=A0 return 0;
->> +}
->> +static inline int vmw_fb_off(struct vmw_private *vmw_priv)
->> +{
->> +=C2=A0=C2=A0=C2=A0 return 0;
->> +}
->> +static inline int vmw_fb_on(struct vmw_private *vmw_priv)
->> +{
->> +=C2=A0=C2=A0=C2=A0 return 0;
->> +}
->> +#endif
->> =C2=A0 /**
->> =C2=A0=C2=A0 * Kernel modesetting - vmwgfx_kms.c
->>
+>> I meanwhile found that calling platform_device_unregister() is the rig=
+ht
+>> thing to do. It is like a hot-unplug event. It's simple to implement a=
+nd
+>> removes the generic device as well. Any memory ranges for the generic =
+device
+>> are gone as well. Only the native driver's native device will remain. =
+That's
+>> better than the existing simplefb driver.
 >=20
-> This changes the behavior a bit, I guess DRM_VMWGFX (or at least=20
-> DRM_VMWGFX_FBCON) would need to select DRM_FBDEV_EMULATION to preserve =
-
-> the old behavior, but that's largely due to the fact that given how=20
-> those options were setup we never run without FB set. In general it=20
-> should be ok and looks more reasonable than the current setup. I'll try=20
-
-> it out on Monday just in case, but for now:
+> That sounds great.
 >=20
-> Reviewed-by: Zack Rusin <zackr@vmware.com>
+>> Which unregister function to call still driver-specific, so I kept the=
+
+>> callback.
 >=20
+> Could we have the callback in core code, and you do something like
+> drm_aperture_acquire_platform (and later on drm_aperture_acquire_pci or=
 
-All other drivers use DRM_FBDEV_EMULATION, so vmwgfx would follow common =
+> whatever, although tbh I'm not sure we ever get anything else than
+> platform). That function can do a runtime check that drm_device->dev is=
 
-conventions.
+> actually a platform dev.
 
-AFAICT DRM_VMWGFX_FBCON is just the default on/off setting. How about=20
-making DRM_VMWGFX_FBCON depend on DRM_FBDEV_EMULATION? Users would be=20
-able to enable fbdev emulation in general and, if needed, still pick a=20
-separate default on/off for vmwgfx.
+Somehow I knew you wouldn't like the current abstraction. :)
+
+>=20
+> Another idea: Do the runtime casting in the core without anything? Atm =
+we
+> have platform that needs support, maybe pci device, so we could easily
+> extend this and just let it do the right thing. Then no callback is
+> needed. I.e.
+>=20
+> 	if (is_platform_dev(drm_device->dev))
+> 		platform_device_unregister(drm_device->dev);
+> 	else
+> 		WARN(1, "not yet implemented\n");
+>=20
+> or something like that.
+
+I don't like that. I spend time to remove the usb and pci device=20
+pointers from code and structs. I don't want to introduce a new=20
+hard-coded special case here.
+
+>=20
+> I just find the callback to essentially unregister a device a bit
+> redundant.
+
+I'd like to go with your first idea. The callback would be internal and=20
+the public acquire function is specifically for firmware-based platform=20
+devices. That covers simple-framebuffer, VESA, EFI, and probably any=20
+other generic interface that fbdev supported in the last 20+ yrs. I=20
+don't think we'll ever need anything else.
+
+Still, I'd like to have some abstraction between the internals of the=20
+aperture helpers and our actual use case. I'll update the patchset=20
+accordingly.
 
 Best regards
 Thomas
 
-> z
+> -Daniel
+>=20
+>>
+>> Best regards
+>> Thomas
+>>
+>>>
+>>> I think best here would be to Cc: gregkh on this patch and the simple=
+drm
+>>> ->detach implementatation, and ask for his feedback as driver model
+>>> maintainer. Maybe if you could hack together the platform_device unbi=
+nd
+>>> path as proof of concept would be even better.
+>>>
+>>> Either way, this is really tricky.
+>>> -Daniel
+>>>
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>>>
+>>>>> Or maybe we should tie this more into the struct device mode and fo=
+rce an
+>>>>> unload that way? That way devm cleanup would work as one expects, a=
+nd
+>>>>> avoid the need for anything specific (hopefully) in this detach cal=
+lback.
+>>>>>
+>>>>> Just feels a bit like we're reinventing half of the driver model he=
+re,
+>>>>> badly.
+>>>>>
+>>>>>> + *	};
+>>>>>> + *
+>>>>>> + *	static int acquire_framebuffers(struct drm_device *dev, struct=20
+pci_dev *pdev)
+>>>>>> + *	{
+>>>>>> + *		resource_size_t start, len;
+>>>>>> + *		struct drm_aperture *ap;
+>>>>>> + *
+>>>>>> + *		base =3D pci_resource_start(pdev, 0);
+>>>>>> + *		size =3D pci_resource_len(pdev, 0);
+>>>>>> + *
+>>>>>> + *		ap =3D devm_acquire_aperture(dev, base, size, &ap_funcs);
+>>>>>> + *		if (IS_ERR(ap))
+>>>>>> + *			return PTR_ERR(ap);
+>>>>>> + *
+>>>>>> + *		return 0;
+>>>>>> + *	}
+>>>>>> + *
+>>>>>> + *	static int probe(struct pci_dev *pdev)
+>>>>>> + *	{
+>>>>>> + *		struct drm_device *dev;
+>>>>>> + *		int ret;
+>>>>>> + *
+>>>>>> + *		// ... Initialize the device...
+>>>>>> + *		dev =3D devm_drm_dev_alloc();
+>>>>>> + *		...
+>>>>>> + *
+>>>>>> + *		// ... and acquire ownership of the framebuffer.
+>>>>>> + *		ret =3D acquire_framebuffers(dev, pdev);
+>>>>>> + *		if (ret)
+>>>>>> + *			return ret;
+>>>>>> + *
+>>>>>> + *		drm_dev_register();
+>>>>>> + *
+>>>>>> + *		return 0;
+>>>>>> + *	}
+>>>>>> + *
+>>>>>> + * The generic driver is now subject to forced removal by other d=
+rivers. This
+>>>>>> + * is when the detach function in struct &drm_aperture_funcs come=
+s into play.
+>>>>>> + * When a driver calls drm_fb_helper_remove_conflicting_framebuff=
+ers() et al
+>>>>>> + * for the registered framebuffer range, the DRM core calls struc=
+t
+>>>>>> + * &drm_aperture_funcs.detach and the generic driver has to onloa=
+d itself. It
+>>>>>> + * may not access the device's registers, framebuffer memory, ROM=
+, etc after
+>>>>>> + * detach returned. If the driver supports hotplugging, detach ca=
+n be treated
+>>>>>> + * like an unplug event.
+>>>>>> + *
+>>>>>> + * .. code-block:: c
+>>>>>> + *
+>>>>>> + *	static void detach_from_device(struct drm_device *dev,
+>>>>>> + *				       resource_size_t base,
+>>>>>> + *				       resource_size_t size)
+>>>>>> + *	{
+>>>>>> + *		// Signal unplug
+>>>>>> + *		drm_dev_unplug(dev);
+>>>>>> + *
+>>>>>> + *		// Maybe do other clean-up operations
+>>>>>> + *		...
+>>>>>> + *	}
+>>>>>> + *
+>>>>>> + *	static struct drm_aperture_funcs ap_funcs =3D {
+>>>>>> + *		.detach =3D detach_from_device,
+>>>>>> + *	};
+>>>>>> + */
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * struct drm_aperture - Represents a DRM framebuffer aperture
+>>>>>> + *
+>>>>>> + * This structure has no public fields.
+>>>>>> + */
+>>>>>> +struct drm_aperture {
+>>>>>> +	struct drm_device *dev;
+>>>>>> +	resource_size_t base;
+>>>>>> +	resource_size_t size;
+>>>>>> +
+>>>>>> +	const struct drm_aperture_funcs *funcs;
+>>>>>> +
+>>>>>> +	struct list_head lh;
+>>>>>> +};
+>>>>>> +
+>>>>>> +static LIST_HEAD(drm_apertures);
+>>>>>> +
+>>>>>> +static DEFINE_MUTEX(drm_apertures_lock);
+>>>>>> +
+>>>>>> +static bool overlap(resource_size_t base1, resource_size_t end1,
+>>>>>> +		    resource_size_t base2, resource_size_t end2)
+>>>>>> +{
+>>>>>> +	return (base1 < end2) && (end1 > base2);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void devm_aperture_acquire_release(void *data)
+>>>>>> +{
+>>>>>> +	struct drm_aperture *ap =3D data;
+>>>>>> +	bool detached =3D !ap->dev;
+>>>>>> +
+>>>>>> +	if (!detached)
+>>>>>
+>>>>> Uh this needs a comment that if ap->dev is NULL then we're called f=
+rom
+>>>>> drm_aperture_detach_drivers() and hence the lock is already held.
+>>>>>
+>>>>>> +		mutex_lock(&drm_apertures_lock);
+>>>>>
+>>>>> and an
+>>>>>
+>>>>> 	else
+>>>>> 		locdep_assert_held(&drm_apertures_lock);
+>>>>>
+>>>>> here to check that. I was scratching my head first quite a bit how =
+you'd
+>>>>> solve the deadlock, this is a neat solution (much simpler than anyt=
+hing I
+>>>>> came up with in my head). But needs comments.
+>>>>>
+>>>>>> +
+>>>>>> +	list_del(&ap->lh);
+>>>>>> +
+>>>>>> +	if (!detached)
+>>>>>> +		mutex_unlock(&drm_apertures_lock);
+>>>>>> +}
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * devm_aperture_acquire - Acquires ownership of a framebuffer on=20
+behalf of a DRM driver.
+>>>>>> + * @dev:	the DRM device to own the framebuffer memory
+>>>>>> + * @base:	the framebuffer's byte offset in physical memory
+>>>>>> + * @size:	the framebuffer size in bytes
+>>>>>> + * @funcs:	callback functions
+>>>>>> + *
+>>>>>> + * Installs the given device as the new owner. The function fails=20
+if the
+>>>>>> + * framebuffer range, or parts of it, is currently owned by
+>>>>>> another
+>> driver.
+>>>>>> + * To evict current owners, callers should use
+>>>>>> + * drm_fb_helper_remove_conflicting_framebuffers() et al. before =
+calling this
+>>>>>> + * function. Acquired apertures are released automatically if the=20
+underlying
+>>>>>> + * device goes away.
+>>>>>> + *
+>>>>>> + * Returns:
+>>>>>> + * An instance of struct &drm_aperture on success, or a pointer-e=
+ncoded
+>>>>>> + * errno value otherwise.
+>>>>>> + */
+>>>>>> +struct drm_aperture *
+>>>>>> +devm_aperture_acquire(struct drm_device *dev,
+>>>>>> +		      resource_size_t base, resource_size_t size,
+>>>>>> +		      const struct drm_aperture_funcs *funcs)
+>>>>>> +{
+>>>>>> +	size_t end =3D base + size;
+>>>>>> +	struct list_head *pos;
+>>>>>> +	struct drm_aperture *ap;
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	mutex_lock(&drm_apertures_lock);
+>>>>>> +
+>>>>>> +	list_for_each(pos, &drm_apertures) {
+>>>>>> +		ap =3D container_of(pos, struct drm_aperture, lh);
+>>>>>> +		if (overlap(base, end, ap->base, ap->base + ap->size))
+>>>>>> +			return ERR_PTR(-EBUSY);
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	ap =3D devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
+>>>>>> +	if (!ap)
+>>>>>> +		return ERR_PTR(-ENOMEM);
+>>>>>> +
+>>>>>> +	ap->dev =3D dev;
+>>>>>> +	ap->base =3D base;
+>>>>>> +	ap->size =3D size;
+>>>>>> +	ap->funcs =3D funcs;
+>>>>>> +	INIT_LIST_HEAD(&ap->lh);
+>>>>>> +
+>>>>>> +	list_add(&ap->lh, &drm_apertures);
+>>>>>> +
+>>>>>> +	mutex_unlock(&drm_apertures_lock);
+>>>>>> +
+>>>>>> +	ret =3D devm_add_action_or_reset(dev->dev, devm_aperture_acquire=
+_release, ap);
+>>>>>> +	if (ret)
+>>>>>> +		return ERR_PTR(ret);
+>>>>>> +
+>>>>>> +	return ap;
+>>>>>> +}
+>>>>>> +EXPORT_SYMBOL(devm_aperture_acquire);
+>>>>>> +
+>>>>>> +void drm_aperture_detach_drivers(resource_size_t base, resource_s=
+ize_t size)
+>>>>>> +{
+>>>>>> +	resource_size_t end =3D base + size;
+>>>>>> +	struct list_head *pos, *n;
+>>>>>> +
+>>>>>> +	mutex_lock(&drm_apertures_lock);
+>>>>>> +
+>>>>>> +	list_for_each_safe(pos, n, &drm_apertures) {
+>>>>>> +		struct drm_aperture *ap =3D
+>>>>>> +			container_of(pos, struct drm_aperture, lh);
+>>>>>> +		struct drm_device *dev =3D ap->dev;
+>>>>>> +
+>>>>>> +		if (!overlap(base, end, ap->base, ap->base + ap->size))
+>>>>>> +			continue;
+>>>>>> +
+>>>>>> +		ap->dev =3D NULL; /* detach from device */
+>>>>>> +		if (drm_WARN_ON(dev, !ap->funcs->detach))
+>>>>>> +			continue;
+>>>>>> +		ap->funcs->detach(dev, ap->base, ap->size);
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	mutex_unlock(&drm_apertures_lock);
+>>>>>> +}
+>>>>>> +EXPORT_SYMBOL(drm_aperture_detach_drivers);
+>>>>>
+>>>>> Is this just exported because of the inline functions in the
+>>>>> headers?
+>> Imo
+>>>>> better to make them proper functions (they're big after your patch&=
+not
+>>>>> perf critical, so not good candidates for inlining anyway).
+>>>>>
+>>>>>> diff --git a/include/drm/drm_aperture.h b/include/drm/drm_aperture=
+=2Eh
+>>>>>> index 13766efe9517..696cec75ef78 100644
+>>>>>> --- a/include/drm/drm_aperture.h
+>>>>>> +++ b/include/drm/drm_aperture.h
+>>>>>> @@ -4,8 +4,30 @@
+>>>>>>     #define _DRM_APERTURE_H_
+>>>>>>     #include <linux/fb.h>
+>>>>>> +#include <linux/pci.h>
+>>>>>>     #include <linux/vgaarb.h>
+>>>>>> +struct drm_aperture;
+>>>>>> +struct drm_device;
+>>>>>> +
+>>>>>> +struct drm_aperture_funcs {
+>>>>>> +	void (*detach)(struct drm_device *dev, resource_size_t base, res=
+ource_size_t size);
+>>>>>> +};
+>>>>>> +
+>>>>>> +struct drm_aperture *
+>>>>>> +devm_aperture_acquire(struct drm_device *dev,
+>>>>>> +		      resource_size_t base, resource_size_t size,
+>>>>>> +		      const struct drm_aperture_funcs *funcs);
+>>>>>> +
+>>>>>> +#if defined(CONFIG_DRM_APERTURE)
+>>>>>> +void drm_aperture_detach_drivers(resource_size_t base, resource_s=
+ize_t size);
+>>>>>> +#else
+>>>>>> +static inline void
+>>>>>> +drm_aperture_detach_drivers(resource_size_t base, resource_size_t=20
+size)
+>>>>>> +{
+>>>>>> +}
+>>>>>> +#endif
+>>>>>> +
+>>>>>>     /**
+>>>>>>      * drm_fb_helper_remove_conflicting_framebuffers - remove firm=
+ware-configured framebuffers
+>>>>>>      * @a: memory range, users of which are to be removed
+>>>>>> @@ -20,6 +42,11 @@ static inline int
+>>>>>>     drm_fb_helper_remove_conflicting_framebuffers(struct apertures=
+_struct *a,
+>>>>>>     					      const char *name, bool primary)
+>>>>>>     {
+>>>>>> +	int i;
+>>>>>> +
+>>>>>> +	for (i =3D 0; i < a->count; ++i)
+>>>>>> +		drm_aperture_detach_drivers(a->ranges[i].base, a->ranges[i].siz=
+e);
+>>>>>> +
+>>>>>>     #if IS_REACHABLE(CONFIG_FB)
+>>>>>>     	return remove_conflicting_framebuffers(a, name, primary);
+>>>>>>     #else
+>>>>>> @@ -43,7 +70,16 @@ static inline int
+>>>>>>     drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_d=
+ev *pdev,
+>>>>>>     						  const char *name)
+>>>>>>     {
+>>>>>> -	int ret =3D 0;
+>>>>>> +	resource_size_t base, size;
+>>>>>> +	int bar, ret =3D 0;
+>>>>>> +
+>>>>>> +	for (bar =3D 0; bar < PCI_STD_NUM_BARS; bar++) {
+>>>>>> +		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+>>>>>> +			continue;
+>>>>>> +		base =3D pci_resource_start(pdev, bar);
+>>>>>> +		size =3D pci_resource_len(pdev, bar);
+>>>>>> +		drm_aperture_detach_drivers(base, size);
+>>>>>> +	}
+>>>>>>     	/*
+>>>>>>     	 * WARNING: Apparently we must kick fbdev drivers before vgac=
+on,
+>>>>>> --=20
+>>>>>> 2.30.1
+>>>>>>
+>>>>>
+>>>>
+>>>> --=20
+>>>> Thomas Zimmermann
+>>>> Graphics Driver Developer
+>>>> SUSE Software Solutions Germany GmbH
+>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>>>> (HRB 36809, AG N=C3=BCrnberg)
+>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>>
+>>>
+>>>
+>>>
+>>>
+>>
+>> --=20
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>
+>=20
+>=20
+>=20
+>=20
 
 --=20
 Thomas Zimmermann
@@ -233,32 +552,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---7rGh9qLKj63uw427eMNzBsvzLGVK4uutb--
+--OZDRayy34zTJ7CGri4CxMHyMAv5jtJsH3--
 
---WfbRQoYtH3DnLZfBSh723ooLFFrWYsd6G
+--LZDxcCarnThux4YG1ReTlSxm5cn3NIYl7
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB4ivIFAwAAAAAACgkQlh/E3EQov+B4
-JhAAwMhCH9PWr1a/A8xoEczKNmJkzTZRqDplxBmZhLeRHdizy8dvz0NxSBedj9AthRcnPmK+Pbmg
-MPGAto8OW2JK9bssw9ROXIcdt7MWmUdJlRsv80v/68B3OlUjAM7q/oiIZBFmLEa1jq7iJb2nc4ok
-t1IkC480SzS/rpH+cs/s9ZibE7nsDCjknbx82/Z+IMYiIZQ+Ka53LLPkt8RuSHcuZ3gGt/tVQI+n
-z/TqRlS5flPahkc87HY7JMo0uFGs9tM1A1aG3SPtDCJYju2i3M2Gm8gxtJ4z9hqPOszuhvdWCWSW
-FnW1CVjNkKBU7Zb3gp6lPekKsa+5Iu7XQw3C0c+X2YxBkUnSEcMzQW1g5e1TGxvWxp+Dub7ClqX3
-/jIjlVAIQXtHEmKMvxoM8/wLrWuOhMbitKvkdlJv42Ax7QLYW+992hQW1yah0OzeHo2nxlLXxxHB
-oNp608vfYRLoms6sVF/Vx0Di4hBookOyfWfvXWvzjvJkXlNA5doXd3iVIWUeTprUqFkF5vy+DGOB
-fAPXlWrZTMaM/xg7yS3WbJ3e9nq00dEHXP5jMnFtu6P0LMR3lKglnwxr587yh1hk5S6ViUkAm1xV
-kdjpbNXL4raiC2ddamZZi+/uV3udejih6gw0DQFycL6YiqWCLN8O+N7E4CG+nE4AyB9OAm1ayEyc
-tEg=
-=1TAo
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB4kA8FAwAAAAAACgkQlh/E3EQov+AL
+qw/7BK1VNDiGSEh1soR4gjBgae+StNGSd153UfmSKbS+xhRpGdC4//BSBc1DVZ7kZGVRg4udEL1M
+O0BzWlChHPale1vxleFEUd6NOF6PCxTR2zsMMFPKTPdNefy9Ue4Xd5O/iriccVnE5ECvbl2j4H4a
+4xoZHwVvw2I7RD0LpaJ/pdI52V4o3CHrTNhTvLx1FYuObugt/s0URIwTtratHJ2dxxOQYs4Vqdvq
+W0bHA+DW6Ne5IhxrBLj8jSVgIT5FljRVbY17jMMf9gy2Ud8TQ5cpOpRiX8knotiiq7WED0aFNeeX
+TfBnEmOF7dxAGHqAwAtiuY45qG5R1NnkvsWMoylV28sHRl366LIRY+2WmjE817cLbWVPqOtPceWn
+Fq6I+SVHxgMw7//3oTtqk3880eGNcU7nfIr/IT7pV6g7H/tuiw0VmGmdmD6fF/6tCMUgzZLoMLO2
+xFBH0yGaufFtsZyEQcdLzwD25m0R10gH+if8nI831IZB1Fwp2P/oxjl5T8eIyyzNUu5LfB+FNBZ+
+KHRNST+pBWcB0GDR3P9u4UaEAo2WaMqWioOLjkpXfBqgtwHEUicVQ3/cH7gX1DBCW+IB8aRzdqs4
+4WEAl8xl/ltmpO5vSj+TZRbxi9DsEN05w8aGst6LwZY/oGbKJIMgoUbU1ZdQEeQ1gK7nR/Kc21V9
+Bwc=
+=/mGs
 -----END PGP SIGNATURE-----
 
---WfbRQoYtH3DnLZfBSh723ooLFFrWYsd6G--
+--LZDxcCarnThux4YG1ReTlSxm5cn3NIYl7--
 
---===============1737558260==
+--===============1863956733==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -269,4 +588,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1737558260==--
+--===============1863956733==--
