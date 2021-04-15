@@ -2,55 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F06360C06
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 16:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1432360C2B
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 16:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 898FC6E56A;
-	Thu, 15 Apr 2021 14:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78D0E6EA54;
+	Thu, 15 Apr 2021 14:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 328C06E56A
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 14:40:59 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- v19-20020a0568300913b029028423b78c2dso14143437ott.8
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 07:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 334A46EA54
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 14:48:41 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id 130so11209312qkm.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 07:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VEt6mvEKTdOGChls37Odagh+2dfQz3wjfEMWebvklwk=;
- b=V5rzrU+4DyGy1V8jJ+4yYBFUROZXLdElMIQH4eMuNIfwQFj+royxguePKn6fRMHTai
- ak+gK7NfdAIFzyuR5NGghLGZo59lM0/eD49ImW/LsF07YJUuAIpvPccsyzkKN6zfSDDx
- 6OVYQS0PFdSwZCUXd7uSlTkw692vM4AYahL38=
+ :cc; bh=eQFFIM7pSZ3rNVADx3v3MXfqo0UYnXyfAUTQM2K5W9I=;
+ b=YqgXOwr2Mt6Lvo/hqtmAeXPCGz6u5wu+SrcecmjKDQyC9GQaTDWQnPOyH2k0mtcoYP
+ SASBrNZwIWRJ+0dEC/2PIl51tsk9Y5EvAh5TCAuBRYYfg+qfJ3ESXVTDrCbNGPaJAIXd
+ G+E8vdMCY9dWUF8rh+b/jhgukZDc3iNNEg/+Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VEt6mvEKTdOGChls37Odagh+2dfQz3wjfEMWebvklwk=;
- b=V0Eesz2ias+Hz2mD9x14f72rfaIOA1JXxMuD7IvET/THDbp0cNqrBYL9G/RzLzraQU
- RIxYOA6lmEQkUxBUGimcn5ez8FF+bEbuaLhKNk4xEEXAt0DZWfCj2pn8DnsWPMQMQFSr
- EajIwl0rkYJn+6kkk+vMmROOh+6Q1Ym0ah9hTwYEE7ju9I8cZe2ofxDn4w+mxVoZv1og
- Hk/48ywn/WkDzFB3VjenghPonJ/M4nm1w1C5FY342+OTXi3cVlj/SqTEa+MCoY6KilDS
- ioP9lHdN1LINeRO3S//hWatgfC5BE3E+8wD+pKfKMpgLBR+5pbVEiDj8ffWCGhtwFzgD
- y7EQ==
-X-Gm-Message-State: AOAM532KUPWr+TyTmSDxwJpE9IDjCk3/bGN4iy4ZrgP4Dcr+Kd0LxlcC
- iGdTDrEydJVPvXL9qXNqLevfB2ogBCP0B1qMYrvCNQ==
-X-Google-Smtp-Source: ABdhPJylUE5SaS/MBPEb5brV3yFI6tRxxxzHmtD3b8quasw7TFxPuSwI0vq9jz8837THzTg1bTfubCDxJgtI7xVLOXo=
-X-Received: by 2002:a05:6830:1398:: with SMTP id
- d24mr3100156otq.281.1618497658229; 
- Thu, 15 Apr 2021 07:40:58 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=eQFFIM7pSZ3rNVADx3v3MXfqo0UYnXyfAUTQM2K5W9I=;
+ b=d9+LEYRisUuql/N4gIbnpCo7wuXaQCr9e9TGaTK61O+B+LQ5Gj/b81FBjkdw1t7+1H
+ VQroq83W2HSA3uvKQYwXLqvh09uzKoY37dTDYXyIBn2FmVerZ1NeV3Hu85mwRDayvHq8
+ U7rjzJBv3bMT0COjrO0MAffj0TbJSvBE6C8yloUcGuGuO6rW5LIl8L9e7UTSZ9vcglWg
+ AWP5BDY+UjHWLUkmYOj7pXvz+eYvtekAp6dPZT9AL9H2/yogAqQrOofPAjgfxR+SsYgt
+ oAwZnsFeFWnyNdwLxjeXYo0jZ/xpa/CHanODBFqz9Smti5naueY4YisEgy9CC+j3lnZg
+ Om7Q==
+X-Gm-Message-State: AOAM532nn2eYbUqXrcxRR5YTG1DhMsO0fdOUrJSnIUL/Sb6OftZi/ZtA
+ iCXk6upBwG8K33xBTYq+ZXMbbTnGBriBkQ==
+X-Google-Smtp-Source: ABdhPJyonv2JgwcWLqsnU44ztMLwByQ5JvlTEi88rrpBG/aQJZI6mP9rDlnG6h0CjgByK880sxdxqA==
+X-Received: by 2002:a37:bb02:: with SMTP id l2mr3766885qkf.391.1618498120079; 
+ Thu, 15 Apr 2021 07:48:40 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
+ [209.85.219.174])
+ by smtp.gmail.com with ESMTPSA id z124sm2143952qke.36.2021.04.15.07.48.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Apr 2021 07:48:38 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id c195so26416716ybf.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 07:48:38 -0700 (PDT)
+X-Received: by 2002:a25:d847:: with SMTP id p68mr4882363ybg.345.1618498117948; 
+ Thu, 15 Apr 2021 07:48:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <62e5b25ce7e22633c09fb0242a69d268b3b45595.camel@linux.intel.com>
- <d5ad41b9-0248-285b-8873-b8010e7c8c27@amd.com>
- <YHhBqNKukDlZ2Cld@phenom.ffwll.local>
- <d3960d8e-c9c6-11b4-f7e1-d2340b57ec87@shipmail.org>
-In-Reply-To: <d3960d8e-c9c6-11b4-f7e1-d2340b57ec87@shipmail.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 15 Apr 2021 16:40:47 +0200
-Message-ID: <CAKMK7uHe4oiS6wyfgF_N2vEcYiQ7EPeHvjjhRyMObmYnDC+T3A@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [RFC] Cross-driver ww transaction lock lists
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>
+References: <20210402222846.2461042-1-dianders@chromium.org>
+ <20210402152701.v3.1.If62a003f76a2bc4ccc6c53565becc05d2aad4430@changeid>
+ <YGpeo9LV4uAh1B7u@pendragon.ideasonboard.com>
+ <CAD=FV=UN38EiYMiwNjysBS6dReKDaf+g2GcgaVt9iF1mTRKg7A@mail.gmail.com>
+ <YHedYnUrcnhRDnie@pendragon.ideasonboard.com>
+In-Reply-To: <YHedYnUrcnhRDnie@pendragon.ideasonboard.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 15 Apr 2021 07:48:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UhqCe1r1kqVdmYOmy75j_v73RSjP0d0MX0q5zq2GVJoQ@mail.gmail.com>
+Message-ID: <CAD=FV=UhqCe1r1kqVdmYOmy75j_v73RSjP0d0MX0q5zq2GVJoQ@mail.gmail.com>
+Subject: Re: [PATCH v3 01/12] drm/bridge: Fix the stop condition of
+ drm_bridge_chain_pre_enable()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,109 +73,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Matthew Auld <matthew.auld@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+ Steev Klimaszewski <steev@kali.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Stephen Boyd <swboyd@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBcHIgMTUsIDIwMjEgYXQgNDowMiBQTSBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwp
-Cjx0aG9tYXNfb3NAc2hpcG1haWwub3JnPiB3cm90ZToKPgo+Cj4gT24gNC8xNS8yMSAzOjM3IFBN
-LCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4gT24gVHVlLCBBcHIgMTMsIDIwMjEgYXQgMDk6NTc6
-MDZBTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+Pgo+ID4+IEFtIDEzLjA0LjIx
-IHVtIDA5OjUwIHNjaHJpZWIgVGhvbWFzIEhlbGxzdHLDtm06Cj4gPj4+IEhpIQo+ID4+Pgo+ID4+
-PiBEdXJpbmcgdGhlIGRtYV9yZXN2IGNvbnZlcnNpb24gb2YgdGhlIGk5MTUgZHJpdmVyLCB3ZSd2
-ZSBiZWVuIHVzaW5nIHd3Cj4gPj4+IHRyYW5zYWN0aW9uIGxvY2sgbGlzdHMgdG8ga2VlcCB0cmFj
-ayBvZiB3d19tdXRleGVzIHRoYXQgYXJlIGxvY2tlZAo+ID4+PiBkdXJpbmcgdGhlIHRyYW5zYWN0
-aW9uIHNvIHRoYXQgdGhleSBjYW4gYmUgYmF0Y2ggdW5sb2NrZWQgYXQgc3VpdGFibGUKPiA+Pj4g
-bG9jYXRpb25zLiBJbmNsdWRpbmcgYWxzbyB0aGUgTE1FTS9WUkFNIGV2aWN0aW9uIHdlJ3ZlIGVu
-ZGVkIHVwIHdpdGgKPiA+Pj4gdHdvIHN0YXRpYyBsaXN0cyBwZXIgdHJhbnNhY3Rpb24gY29udGV4
-dDsgb25lIHR5cGljYWxseSB1bmxvY2tlZCBhdCB0aGUKPiA+Pj4gZW5kIG9mIHRyYW5zYWN0aW9u
-IGFuZCBvbmUgaW5pdGlhbGl6ZWQgYmVmb3JlIGFuZCB1bmxvY2tlZCBhZnRlciBlYWNoCj4gPj4+
-IGJ1ZmZlciBvYmplY3QgdmFsaWRhdGUuIFRoaXMgZW5hYmxlcyB1cyB0byBkbyBzbGVlcGluZyBs
-b2NraW5nIGF0Cj4gPj4+IGV2aWN0aW9uIGFuZCBrZWVwIG9iamVjdHMgbG9ja2VkIG9uIHRoZSBl
-dmljdGlvbiBsaXN0IHVudGlsIHdlCj4gPj4+IGV2ZW50dWFsbHkgc3VjY2VlZCBhbGxvY2F0aW5n
-IG1lbW9yeSAobW9kdWxvIG1pbm9yIGZsYXdzIG9mIGNvdXJzZSkuCj4gPj4+Cj4gPj4+IEl0IHdv
-dWxkIGJlIGJlbmVmaWNpYWwgd2l0aCB0aGUgaTkxNSBUVE0gY29udmVyc2lvbiB0byBiZSBhYmxl
-IHRvCj4gPj4+IGludHJvZHVjZSBhIHNpbWlsYXIgZnVuY3Rpb25hbGl0eSB0aGF0IHdvdWxkIHdv
-cmsgaW4gdHRtIGJ1dCBhbHNvCj4gPj4+IGNyb3NzLWRyaXZlciBpbiwgZm9yIGV4YW1wbGUgbW92
-ZV9ub3RpZnkuIEl0IHdvdWxkIGFsc28gYmUgYmVuZWZpY2lhbAo+ID4+PiB0byBiZSBhYmxlIHRv
-IHB1dCBhbnkgZG1hX3Jlc3Ygd3cgbXV0ZXggb24gdGhlIGxpc3RzLCBhbmQgbm90IHJlcXVpcmUK
-PiA+Pj4gaXQgdG8gYmUgZW1iZWRkZWQgaW4gYSBwYXJ0aWN1bGFyIG9iamVjdCB0eXBlLgo+ID4+
-Pgo+ID4+PiBJIHN0YXJ0ZWQgc2NldGNoaW5nIG9uIHNvbWUgdXRpbGl0aWVzIGZvciB0aGlzLiBG
-b3IgVFRNLCBmb3IgZXhhbXBsZSwKPiA+Pj4gdGhlIGlkZWEgd291bGQgYmUgdG8gcGFzcyBhIGxp
-c3QgaGVhZCBmb3IgdGhlIHd3IHRyYW5zYWN0aW9uIGxvY2sgbGlzdAo+ID4+PiBpbiB0aGUgdHRt
-X29wZXJhdGlvbl9jdHguIEEgZnVuY3Rpb24gdGFraW5nIGEgd3dfbXV0ZXggY291bGQgdGhlbgo+
-ID4+PiBlaXRoZXIgYXR0YWNoIGEgZ3JhYmJlZCBsb2NrIHRvIHRoZSBsaXN0IGZvciBiYXRjaCB1
-bmxvY2tpbmcsIG9yIGJlCj4gPj4+IHJlc3BvbnNpYmxlIGZvciB1bmxvY2tpbmcgd2hlbiB0aGUg
-bG9jaydzIHNjb3BlIGlzIGV4aXRlZC4gSXQncyBhbHNvCj4gPj4+IHBvc3NpYmxlIHRvIGNyZWF0
-ZSBzdWJsaXN0cyBpZiBzbyBkZXNpcmVkLiBJIGJlbGlldmUgdGhlIGJlbG93IHdvdWxkIGJlCj4g
-Pj4+IHN1ZmZpY2llbnQgdG8gY292ZXIgdGhlIGk5MTUgZnVuY3Rpb25hbGl0eS4KPiA+Pj4KPiA+
-Pj4gQW55IGNvbW1lbnRzIGFuZCBzdWdnZXN0aW9ucyBhcHByZWNpYXRlZCEKPiA+PiBhaCB5ZXMg
-RGFuaWVsIGFuZCBJIGhhdmVuIGJlZW4gZGlzY3Vzc2luZyBzb21ldGhpbmcgbGlrZSB0aGlzIGZv
-ciB5ZWFycy4KPiA+Pgo+ID4+IEkgYWxzbyBjYW1lIHVwIHdpdGggcm91Z2ggaW1wbGVtZW50YXRp
-b24sIGJ1dCB3ZSBhbHdheXMgcmFuIGludG8gbGlmZXRpbWUKPiA+PiBpc3N1ZXMuCj4gPj4KPiA+
-PiBJbiBvdGhlciB3b3JkcyB0aGUgd3dfbXV0ZXhlcyB3aGljaCBhcmUgb24gdGhlIGxpc3Qgd291
-bGQgbmVlZCB0byBiZSBrZXB0Cj4gPj4gYWxpdmUgdW50aWwgdW5sb2NrZWQuCj4gPj4KPiA+PiBC
-ZWNhdXNlIG9mIHRoaXMgd2Uga2luZCBvZiBiYWNrZWQgdXAgYW5kIHNhaWQgd2Ugd291bGQgbmVl
-ZCB0aGlzIG9uIHRoZSBHRU0KPiA+PiBsZXZlbCBpbnN0ZWFkIG9mIHdvcmtpbmcgd2l0aCBkbWFf
-cmVzdiBvYmplY3RzLgo+ID4gWWVhaCB0aGVyZSdzIGEgZmV3IGZ1bm55IGNvbmNlcm5zIGhlcmUg
-dGhhdCBtYWtlIHRoaXMgYXdrd2FyZDoKPiA+IC0gRm9yIHNpbXBsaWNpdHkgZG9pbmcgdGhlc2Ug
-aGVscGVycyBhdCB0aGUgZ2VtIGxldmVsIHNob3VsZCBtYWtlIHRoaW5ncyBhCj4gPiAgICBiaXQg
-ZWFzaWVyLCBiZWNhdXNlIHRoZW4gd2UgaGF2ZSBhIHN0YW5kYXJkIHdheSB0byBkcm9wIHRoZSBy
-ZWZlcmVuY2UuCj4gPiAgICBJdCBkb2VzIG1lYW4gdGhhdCB0aGUgb25seSB0aGluZyB5b3UgY2Fu
-IGxvY2sgbGlrZSB0aGlzIGFyZSBnZW0gb2JqZWN0cywKPiA+ICAgIGJ1dCBJIHRoaW5rIHRoYXQn
-cyBmaW5lLiBBdCBsZWFzdCBmb3IgYSBmaXJzdCBjdXQuCj4gPgo+ID4gLSBUaGlzIGlzIGEgYml0
-IGF3a3dhcmQgZm9yIHZtd2dmeCwgYnV0IGEpIFphY2sgaGFzIG1lbnRpb25lZCBoZSdzIGxvb2tp
-bmcKPiA+ICAgIGludG8gYWRvcHRpbmcgZ2VtIGJvIGludGVybmFsbHkgdG8gYmUgYWJsZSB0byBk
-cm9wIGEgcGlsZSBvZiBjb2RlIGFuZAo+ID4gICAgc3RvcCBtYWtpbmcgdm13Z2Z4IHRoZSBvbmx5
-IHNwZWNpYWwtY2FzZSB3ZSBoYXZlIGIpIGRyaXZlcnMgd2hpY2ggZG9uJ3QKPiA+ICAgIG5lZWQg
-dGhpcyB3b24ndCBuZWVkIHRoaXMsIHNvIHNob3VsZCBiZSBmaW5lLgo+ID4KPiA+ICAgIFRoZSBv
-dGhlciBhd2t3YXJkIHRoaW5nIEkgZ3Vlc3MgaXMgdGhhdCB0dG0gd291bGQgbmVlZCB0byB1c2Ug
-dGhlCj4gPiAgICBlbWJlZGRlZCBrcmVmIGZyb20gdGhlIGdlbSBibywgYnV0IHRoYXQgc2hvdWxk
-IGJlIHRyYW5zcGFyZW50IEkgdGhpbmsuCj4gPgo+ID4gLSBOZXh0IHVwIGlzIGRtYS1idWY6IEZv
-ciBpOTE1IHdlJ2QgbGlrZSB0byBkbyB0aGUgc2FtZSBldmljdGlvbiB0cmljawo+ID4gICAgYWxz
-byB0aHJvdWdoIHAycCBkbWEtYnVmIGNhbGxiYWNrcywgc28gdGhhdCB0aGlzIHdvcmtzIHRoZSBz
-YW1lIGFzCj4gPiAgICBldmljdGlvbi9yZXNlcnZhdGlvbiB3aXRoaW4gYSBncHUuIEJ1dCBmb3Ig
-dGhlc2UgaW50ZXJuYWwgYm8geW91IG1pZ2h0Cj4gPiAgICBub3QgaGF2ZSBhIGRtYS1idWYsIHNv
-IHdlIGNhbid0IGp1c3QgbGlmdCB0aGUgdHJpY2sgdG8gdGhlIGRtYS1idWYKPiA+ICAgIGxldmVs
-LiBCdXQgSSB0aGluayBpZiB3ZSBwYXNzIGUuZy4gYSBzdHJ1Y3QgbGlzdF9oZWFkIGFuZCBhIGNh
-bGxiYWNrIHRvCj4gPiAgICB1bnJlZmVyZW5jZS91bmxvY2sgYWxsIHRoZSBidWZmZXJzIGluIHRo
-ZXJlIHRvIHRoZSBleHBvcnRlciwgcGx1cwo+ID4gICAgc2ltaWxhciBmb3IgdGhlIHNsb3dwYXRo
-IGxvY2ssIHRoZW4gdGhhdCBzaG91bGQgYmUgZG9hYmxlIHdpdGhvdXQKPiA+ICAgIGdsb3Jpb3Vz
-IGxheWVyaW5nIGludmVyc2lvbnMgYmV0d2VlbiBkbWEtYnVmIGFuZCBnZW0uCj4gPgo+ID4gICAg
-SSB0aGluayBmb3IgZG1hLWJ1ZiBpdCBzaG91bGQgZXZlbiBiZSBvayBpZiB0aGlzIHJlcXVpcmVz
-IHRoYXQgd2UKPiA+ICAgIGFsbG9jYXRlIGFuIGVudGlyZSBzdHJ1Y3R1cmUgd2l0aCBrbWFsbG9j
-IG9yIHNvbWV0aGluZywgYWxsb2NhdGluZwo+ID4gICAgbWVtb3J5IHdoaWxlIGhvbGRpbmcgZG1h
-X3Jlc3YgaXMgb2suCj4KPiBZZXMsIHRoZSB0aGluZyBoZXJlIHdpdGggdGhlIHN1Z2dlc3RlZCBo
-ZWxwZXJzIGlzIHRoYXQgeW91IHdvdWxkIGp1c3QKPiBlbWJlZCBhIHRyYW5zX2xvY2tpdGVtIHN0
-cnVjdCBpbiB0aGUgZ2VtIG9iamVjdCAoYW5kIGRlZmluZXMgdGhlIGdlbQo+IG9iamVjdCBvcHMp
-LiBPdGhlcndpc2UgYW5kIGZvciBwYXNzaW5nIHRvIGRtYS1idWYgdGhpcyBpcyBwcmV0dHkgbXVj
-aAo+IGV4YWN0bHkgd2hhdCB5b3UgYXJlIHN1Z2dlc3RpbmcsIGJ1dCB0aGUgaHVnZSBiZW5lZml0
-IG9mIGVuY2Fwc3VsYXRpbmcKPiB0aGUgbmVlZGVkIG1lbWJlcnMgbGlrZSB0aGlzIGlzIHRoYXQg
-d2hlbiB3ZSBuZWVkIHRvIGNoYW5nZSBzb21ldGhpbmcgd2UKPiBjaGFuZ2UgaXQgaW4ganVzdCBv
-bmUgcGxhY2UuCj4KPiBGb3IgYW55dGhpbmcgdGhhdCBkb2Vzbid0IGhhdmUgYSBnZW0gb2JqZWN0
-IChkbWEtYnVmLCB2bXdnZnggb3IKPiB3aGF0ZXZlcikgeW91IGhhdmUgdGhlIGNob2ljZSBvZiBl
-aXRoZXIgYWxsb2NhdGluZyBhIHN0cnVjdAo+IHRyYW5zX2xvY2tpdGVtIG9yIGVtYmVkIGl0IHdo
-ZXJldmVyIHlvdSBwcmVmZXIuIEluIHBhcnRpY3VsYXIsIHRoaXMgaXMKPiBiZW5lZmljaWFsIHdo
-ZXJlIHlvdSBoYXZlIGEgc2luZ2xlIGRtYS1yZXN2IGNsYXNzIHd3LW11dGV4IHNpdHRpbmcKPiBz
-b21ld2hlcmUgaW4gdGhlIHdheSBhbmQgeW91IGRvbid0IHdhbnQgdG8gbmVlZGxlc3NseSBoYXZl
-IGEgZ2VtIG9iamVjdAo+IHRoYXQgZW1iZWRzIGl0LgoKVGhlIHRoaW5nIGlzLCBldmVyeW9uZSB3
-aG8gYWN0dWFsbHkgdXNlcyBkbWFfcmVzdl9sb2NrIGhhcyBhCmdlbV9idWZmZXJfb2JqZWN0IHVu
-ZGVybmVhdGguIFNvIGl0IGZlZWxzIGEgYml0IGxpa2UgZmxleGliaWxpdHkgZm9yCm5vIHJlYWwg
-bmVlZCwgYW5kIEkgdGhpbmsgaXQgd291bGQgbWFrZSBpdCBzbGlnaHRseSBtb3JlIGF3a2FyZCBm
-b3IKZ2VtIGRyaXZlcnMgdG8gbmVhdGx5IGludGVncmF0ZSBpbnRvIHRoZWlyIGNzIHBhdGguIFRo
-ZSBsb2NraXRlbQpzdHJ1Y3Qgd29ya3MsIGJ1dCBpdCBpcyBhIGJpdCBjdW1iZXJzb21lLgoKQWxz
-byBpZiB3ZSBhZGQgc29tZSB3cmFwcGVycyB0byBlLmcuIGFkZCBhIGdlbV9ibyB0byB0aGUgY3R4
-LCB0aGVuIGlmCndlIGRlY2lkZSB0byBzbGlwIHRoZSBsb2NraXRlbSBpbiB0aGVyZSwgd2Ugc3Rp
-bGwgb25seSBuZWVkIHRvIHRvdWNoCnRoZSBoZWxwZXIgY29kZSwgYW5kIG5vdCBhbGwgZHJpdmVy
-cy4KLURhbmllbAotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29y
-cG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+Hi,
+
+On Wed, Apr 14, 2021 at 6:56 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Doug,
+>
+> On Wed, Apr 14, 2021 at 06:19:13PM -0700, Doug Anderson wrote:
+> > On Sun, Apr 4, 2021 at 5:50 PM Laurent Pinchart wrote:
+> > > On Fri, Apr 02, 2021 at 03:28:35PM -0700, Douglas Anderson wrote:
+> > > > The drm_bridge_chain_pre_enable() is not the proper opposite of
+> > > > drm_bridge_chain_post_disable(). It continues along the chain to
+> > > > _before_ the starting bridge. Let's fix that.
+> > > >
+> > > > Fixes: 05193dc38197 ("drm/bridge: Make the bridge chain a double-linked list")
+> > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > > Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+> > > > ---
+> > > >
+> > > > (no changes since v1)
+> > > >
+> > > >  drivers/gpu/drm/drm_bridge.c | 3 +++
+> > > >  1 file changed, 3 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > > > index 64f0effb52ac..044acd07c153 100644
+> > > > --- a/drivers/gpu/drm/drm_bridge.c
+> > > > +++ b/drivers/gpu/drm/drm_bridge.c
+> > > > @@ -522,6 +522,9 @@ void drm_bridge_chain_pre_enable(struct drm_bridge *bridge)
+> > > >       list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+> > > >               if (iter->funcs->pre_enable)
+> > > >                       iter->funcs->pre_enable(iter);
+> > > > +
+> > > > +             if (iter == bridge)
+> > > > +                     break;
+> > >
+> > > This looks good as it matches drm_atomic_bridge_chain_disable().
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > Thanks for your review here and several of the other patches. Can you
+> > suggest any plan for getting them landed? It would at least be nice to
+> > get the non-controversial ones landed.
+>
+> Do you have commit access to drm-misc ? If not, given your
+> contributions, I think you qualify for it.
+
+No, I don't have access. I searched for how to get it and read through
+the qualifications and, you're right, I think I do. I've hopefully
+followed the right flow and created an issue to give me ssh access:
+
+https://gitlab.freedesktop.org/freedesktop/freedesktop/-/issues/348
+
+Is that something you (or someone else on this CC list) approves?
+
+
+> > > I'm curious though, given that the bridge passed to the function should
+> > > be the one closest to the encoder, does this make a difference ?
+> >
+> > Yes, that's how I discovered it originally. Let's see. So if I don't
+> > have this patch but have the rest of the series then I get a splat at
+> > bootup. This shows that dsi_mgr_bridge_pre_enable() must be "earlier"
+> > in the chain than my bridge chip. Here's the splat:
+>
+> Right, I think it's caused by a later patch in the series calling this
+> function with a different bridge than the one closest to the encoder.
+
+Yup! I still wanted this patch to be first in the series, though,
+since it's a bugfix that we'd want to land even if the later patches
+changed in some way.
+
+-Doug
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
