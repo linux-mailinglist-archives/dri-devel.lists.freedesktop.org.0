@@ -1,64 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5364C3606D5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 12:12:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6721F3606D7
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 12:12:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C33A6E165;
-	Thu, 15 Apr 2021 10:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E37A6EA20;
+	Thu, 15 Apr 2021 10:12:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FAF36E165
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 10:12:13 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id r8so38179468lfp.10
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 03:12:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Itx3xIB4vBXowgO5rVjeZp8XNY2n0XOetykFhl9hWow=;
- b=L4fOI3m5jedVmkoFqF4OMT0LKDappFVqesZYHY7CyLNRuknzo5hrAxbWLpeGBofHFn
- Kgi0cDatOkL0X14/u+gkYo0Sh4vlxHKlBWQaxNeOJ+GXhl2tfO0H2GiMYt3fa4Kq5CNK
- KtMdewT7N/e18vas4p77Xz9KempXtugzcD2n3d+1GKgWMuikghC5X7qXiO2hndzROTkl
- AbyGXbKsJZfKp3DuECU0TkgNr9AarbWV2v3aY+Gu508bQ8OnJwnBNbY6zNs9V5vUnRKq
- lfBwkYiaA7oTAFACrnnz4TpJpz1Kc2GsRFtI1wFHdA4wVfQYX7USAonbG5wtxlSu96/z
- 5Ubg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Itx3xIB4vBXowgO5rVjeZp8XNY2n0XOetykFhl9hWow=;
- b=kM4H6/s+31ehsQnfcIYeGMNJOy1HOqDMGnbRC8fNcx8zcTTL6ArILYsqKVMhYsZT5P
- xRdfpImN6AmOameeirz40/3ZZuJt0jiD+n0JP/hadTTU61eQUwhBhlE9jrRj0N4/+BGg
- /jIDUJqxtUcAyo4P31KmFUnEc/OL+WM4/2NT64QUEuCgg5u6VchRSx2yFKNiiKfRk9QT
- KA7gi7GYYmF0M7+iOLPhovclf7K74neMaBkl3tcKz667durQ1OMkWv/ku+hbbNxUkqdG
- TRl3EgHmENnHu8ZnrXcRUHgPycDIrrR2/rlmHFmWk8gXr0gTQmsYA8RiPvFP0sLuDkRk
- wBpg==
-X-Gm-Message-State: AOAM5339DfQuNHVGGw1SmdE2RX/4ugkegsbfIXOuxmOKNJwsxKmSldR2
- dpvxSwnP+ogMD7IedVEWmUtV7A==
-X-Google-Smtp-Source: ABdhPJyD6Rs7jiUdmupgDiq3XJMVdCt6DZ+cyVt1/xewJXMALCuiphmTOBBn8HXbou8s2wx72Ft2Cw==
-X-Received: by 2002:a05:6512:3ba9:: with SMTP id
- g41mr2115337lfv.38.1618481532082; 
- Thu, 15 Apr 2021 03:12:12 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id c23sm623400lfc.300.2021.04.15.03.12.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 03:12:11 -0700 (PDT)
-Subject: Re: [PATCH] drm/msm/dsi: fix msm_dsi_phy_get_clk_provider return code
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Jonathan Marek <jonathan@marek.ca>
-References: <20210412000158.2049066-1-dmitry.baryshkov@linaro.org>
-Message-ID: <b752d929-7f8c-6396-85a3-6b32c77121ca@linaro.org>
-Date: Thu, 15 Apr 2021 13:12:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 762026EA1C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 10:12:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
+ In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=CbOTGVvPs0U6ccPcBAz3XTa5DR3oDV4c8Psx+m0JOCE=; b=Xz2u2WU+XkMOIzge50EntfZGiH
+ WEskqO3kq7MPQBVc5Bz/iSGAydNJ/76D5oKIEs5rBq8RZZO4765DsJMtedxAUkaWaBz3K9MIAXk8Y
+ TDfBgkyjy2MvnsW+DaMIJoeMk8F4NSu1hxMYGbt1UlyFcLBd3XtI6ki83co28rPNZsfSzV4t/AtuT
+ ssS8dVWKRBVQTQkEmggIo0JutLgts6ZAI0ZtJ7NxnugajXEpEcd8F4BKTs9WDx/4jsWkW102uYzU1
+ Rah7FW8SMxuzA0gPNgCye7uH4QzMRrFgHDC+7ms2o3vjZz2cxp6W31Zne5xHOgxUTek36avcI92Tp
+ YNp82f3A==;
+Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=roundcube.kapsi.fi)
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <jyri.sarha@iki.fi>)
+ id 1lWyz9-0000wI-45; Thu, 15 Apr 2021 13:12:31 +0300
 MIME-Version: 1.0
-In-Reply-To: <20210412000158.2049066-1-dmitry.baryshkov@linaro.org>
-Content-Language: en-GB
+Date: Thu, 15 Apr 2021 13:12:28 +0300
+From: Jyri Sarha <jyri.sarha@iki.fi>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] drm/bridge: Centralize error message when bridge attach
+ fails
+In-Reply-To: <20210415014710.4033-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20210415014710.4033-1-laurent.pinchart+renesas@ideasonboard.com>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <04682a45a799554116db621627d28723@iki.fi>
+X-Sender: jyri.sarha@iki.fi
+X-SA-Exim-Connect-IP: 91.232.154.200
+X-SA-Exim-Mail-From: jyri.sarha@iki.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,52 +54,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Tomi Valkeinen <tomba@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Sandy Huang <hjc@rock-chips.com>,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ dri-devel@lists.freedesktop.org, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Tian Tao <tiantao6@hisilicon.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-On 12/04/2021 03:01, Dmitry Baryshkov wrote:
-> msm_dsi_phy_get_clk_provider() always returns two provided clocks, so
-> return 0 instead of returning incorrect -EINVAL error code.
+On 2021-04-15 4:47, Laurent Pinchart wrote:
+> Being informed of a failure to attach a bridge is useful, and many
+> drivers prints an error message in that case. Move the message to
+> drm_bridge_attach() to avoid code duplication.
 > 
-> Fixes: 5d13459650b3 ("drm/msm/dsi: push provided clocks handling into a generic code")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Suggested-by: Stephen Boyd <swboyd@chromium.org>
+> Signed-off-by: Laurent Pinchart 
+> <laurent.pinchart+renesas@ideasonboard.com>
 
-I wanted to ping/remind regarding this patch and regarding 
-https://lore.kernel.org/linux-arm-msm/20210410011901.1735866-1-dmitry.baryshkov@linaro.org/
-
-It would be great to get those two fixes in linux-next or early during 
-5.14 cycle.
-
-> ---
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> index f0a2ddf96a4b..ff7f2ec42030 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> @@ -843,7 +843,7 @@ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
->   	if (pixel_clk_provider)
->   		*pixel_clk_provider = phy->provided_clocks->hws[DSI_PIXEL_PLL_CLK]->clk;
->   
-> -	return -EINVAL;
-> +	return 0;
->   }
->   
->   void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy)
-> 
-
-
--- 
-With best wishes
-Dmitry
+Reviewed-by: Jyri Sarha <jyri.sarha@iki.fi>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
