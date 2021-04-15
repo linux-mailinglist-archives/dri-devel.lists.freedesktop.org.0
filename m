@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52078360013
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 04:40:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A17CE360014
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 04:40:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 175966E0E9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4959A6E4D0;
 	Thu, 15 Apr 2021 02:40:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com
  (mail-mw2nam10on2051.outbound.protection.outlook.com [40.107.94.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A63A96E0E9;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80FF36E0F6;
  Thu, 15 Apr 2021 02:40:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fVErOyx77n8YSaaizzrQPywrUSKSuxPNK0gL9OPS70nqpIjeZ2fiOa9F1FQQaH0yZyvhzU/R6Q2S+wkOkHPWRCkDcL0lhptEN542KMe5v/OjplzvT5tyupePjb4ix1sN4CtV4/JA9k7saQDcVX2o/KZe/02hLQvi1ZCQo89ynxC3NME9JYL2SfEcDQMNScjsF7MvlkyzeMYTXltKOpmX0UeEuJF3zM0KAL8IGZvh/oUf44kKHi6jdL0JJfLLSZWETGgGNWfAKtrobPWP1c4FACzpJxqrwCA/nyEF9O2XsbY9ZWjEtmT9gXc/fPbLMMFBudOT/GjWip1/ppkdexxAuA==
+ b=Yrzvej5ZviwMlJGlEj2jIk4h2lGQCOZuF8o/0bWUVGBFj83ZFUBhVZYOYI0J0TZRolkZjFF1yEmJkEqPhhuLM/bZG4xnPlec6jMAVu7lPBdVBSU0+JGFOseIBMAI4u624upaoYuBed3h/9k0OlMMxt5dNS9kuJM/wr4uZ4Tal1vrCn87m0gwznHH05R84GFGQZiTv3Yq2dfxknEDu70T7TuASR2HFmBJNRImx9LlgINY5mjHSDnOp6DZ3ZwjM5oIPIJq17OOqk+KoHopZJ53LRK4K9/Wbt48GzOc5BKxhcgp9sTGnOA/V7MHjp0PsPF7j8KIv2BzFWsYTHXhrepytQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1vnWDD0VGV91MjnzA6LVbFV0yPVbMn9GQPQ8+RavDdQ=;
- b=Rpd3W1mNzHo2lm1GH+wzINDzd+Qd2EfXG7sNHhJR1BoLwRRcYuSUo8K9JWt5kxket460Fyfw/sPhja6v1bbSgSvQwK9xuaqNKQvZaZB1q8qbgSFgRaVZn8ZyebGCjUtWsYY/3vpPKFlUCfBl1lrkgkKPQ8EX5//EjOYHZ1ZdKSUCKSBmqIdNq3QmGgZ6MDwgYVzfUbkVaeVpVYJt2sOog4NiXbaV5g3/7TshZOMK7pH+dynV1fpIQVRrUBl9QlAvScpLAiPOa3dLiTpNJ7JZwat+estw/mTChYtTpqhTtDGujiGpZgHb/ssCJ5l9uPSlWiNjBczhOQWu6jKZDhfQVA==
+ bh=56OpfKRAobATF+ekELY98bzNfHBCbAkFTKX1cvuY3oc=;
+ b=XqZpbRfz7Ktxc2ob3jiM/5NJ6kl+2UP7Mn9+NsC2xrBPPup9Nx5yrRLmk5BIV1sRW5IdbNP7TGGOrpTRPH0kjNYSNCnLr0trs4R3pM8IfHy1CGS3o1o7xtDZwmC3vvF9wANs1J1X3592ETiS8SV6gcwDAerWtJcgFxbtwOUEPah7/V+uULhzRGs2vKQUenZcUCsvykeSzt4qPYLR0JiTnwlFXM2xTbr2SjuVFZV5sW82rK7kL1J7eo6u574kQL9c3GxBcE3bY64S4ymG+X3mq/xdlBvsOG/c2YJgMOcLSfDg9J+R8VvKjvgeKivM3r4GIGJDCGIx1RssBv8tCGWZyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1vnWDD0VGV91MjnzA6LVbFV0yPVbMn9GQPQ8+RavDdQ=;
- b=T/a/Y5yTXapxPQhsZ/2iMkPc3dnNF78BsyAsB4FtCqhWo6eW4I5Xhr+yR+wEDafk24ELgEtxhFEJWGorm4rg99Iomi4T5qXk9eNA6OOb0SQAvn/VC81mMVhj9HSjWoSeokf11hkxjOu7ehcPVT/ad4gX3v9OaJk8rOoHnpjC4GQ=
+ bh=56OpfKRAobATF+ekELY98bzNfHBCbAkFTKX1cvuY3oc=;
+ b=kAp6dKTWAnjhZWwHuTpaHP5Y1/pNRpKzAeDXMq9TpSrx6pRlehdnQFzPyxv+MOqVB+BSORkDxoPwJ2jyrA404Hdz7rITZJG9skzp1+4wPwI+BqgrgmgcHP8MtV0kEptH354M74O6FxRmb7xxKVtvsh7erfqpKJy4MVD/UiP16MI=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -42,10 +42,12 @@ Received: from BL0PR12MB4948.namprd12.prod.outlook.com
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/3] drm/amdkfd: Use drm_priv to pass VM from KFD to amdgpu
-Date: Wed, 14 Apr 2021 22:40:11 -0400
-Message-Id: <20210415024013.15522-1-Felix.Kuehling@amd.com>
+Subject: [PATCH v2 2/3] drm/amdkfd: Allow access for mmapping KFD BOs
+Date: Wed, 14 Apr 2021 22:40:12 -0400
+Message-Id: <20210415024013.15522-2-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210415024013.15522-1-Felix.Kuehling@amd.com>
+References: <20210415024013.15522-1-Felix.Kuehling@amd.com>
 X-Originating-IP: [165.204.55.251]
 X-ClientProxiedBy: YTOPR0101CA0045.CANPRD01.PROD.OUTLOOK.COM
  (2603:10b6:b00:14::22) To BL0PR12MB4948.namprd12.prod.outlook.com
@@ -58,49 +60,57 @@ Received: from Harpoon.amd.com (165.204.55.251) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.21 via Frontend
  Transport; Thu, 15 Apr 2021 02:40:27 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 61e37a56-7c4f-4414-6430-08d8ffb7d3e5
+X-MS-Office365-Filtering-Correlation-Id: c5f6c1f2-7137-4688-7a20-08d8ffb7d427
 X-MS-TrafficTypeDiagnostic: MN2PR12MB4206:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB420649204F12BC81DDBE146C924D9@MN2PR12MB4206.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:357;
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB42064C9BF8870E5F687F4416924D9@MN2PR12MB4206.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E5GOopQrcR4TSBq6pE+ELx5gdo/dnzMo2VpuVrCPAFN1zvaZw8Jwxb4DQqcYMXqg/a4sV81rAB/C+9vL4N/k50Uhi9n01Izl1bn+rydKkh9ows1uoyiBbE5mfjovmSRfT6wRGHhmdZfNw5k26lPTX11HOwjxeN7DwaEYFQXzw3YzD3P9llhoa3Ya7T6AI+B2AXrkXPQTGVii/LE/xgW8T21eX9ZqevjVeiu7OiUMiuts/g41yusCkz9TAqegt32OQt0ZtbcuD2MrRIZIccM4LVTo31ZgujW1dDohALN5A74XCjjLS43qM8dfI4WkBtYtE+WqP4X3zPVkPjGG8W0ZVC3d2JPOxIFdAQ5uki1DK3GILSnmy2oxKTg5bwSoS5ut3RpCIvgc+OEkixJOfwwghkxNrgor8+MPNzf5yBPaDMbSDNuT04Z4Xl6Ojsgus/Z7aCmGFjlzDVYX/mkIc0r7aVs+76Er/bs/NVtu74S0aPxxPxKqR0N/z1dPTy4PEErvP+vxakPcpPepq1pdrXe5is+Xo8akV8J9qdTG1gBGDQLiz9zB5bRD9UWJzN2vi+Ag0bY4h2sEDvpL1yKsbzH1jXnNEanQ5sJKWsun+eOtie4Z28FWpx2aHotuRxLIn72lcKtNpUBXz5TlpvyvOVNBtnYCfBZoTXF+dWuxFRInPLc=
+X-Microsoft-Antispam-Message-Info: cEKlqql4aMG0keFd2ubaqdHN3JSgA/L/RDcBDdiR/oV25KyeiMGMUEklVVtg5tgt4g94FqToDZQJAKHFKUTWNwRm+DOD+ZLC/8RvUvkKGSfS1SAbn1P6nLss3ZQ8XUUkRe1D4eqD6ozeGZ+iCm5PrhapC//YC3AqjZuNI3v1uGrU1jcZZS0+WfrdVZiRTGNGM6I5oGea6worsETQvhX1CqzQ0781A1BaRj0uEO6x1o6C62sWMQGkEW90AbIougbgN6kHwfrIAQ69o1yfmzjVg18oOmyf3PI+8ccqrTiC7MWMNxyTrKpusODHfZr3CCMiTOZ0qX+zV/tkGfFcxwsguVY125M2ecJY7F3ept1jLlywx5AXXWK3WzypDFDWkWb7lMVC5H7g2Qnuhv6cDNVOdOen/Z7Xd7wGXA63p7RjFmRqR8dAhNNw2+bkf9WgS+Gm612CnatBcv2RGziwVcRVnt22EUWd1od/zfiBDvK1DoBsdIVZ4t4QRQcjoEJmj7etkFSSG5C8SJP7PWg9pxG0UA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(396003)(376002)(366004)(39860400002)(26005)(8676002)(7696005)(2616005)(956004)(16526019)(186003)(66946007)(6486002)(5660300002)(1076003)(316002)(52116002)(38100700002)(6666004)(8936002)(2906002)(38350700002)(30864003)(66556008)(450100002)(83380400001)(478600001)(86362001)(66476007)(36756003);
+ SFS:(4636009)(346002)(136003)(396003)(376002)(366004)(39860400002)(26005)(8676002)(7696005)(2616005)(956004)(16526019)(186003)(66946007)(6486002)(5660300002)(1076003)(316002)(52116002)(38100700002)(6666004)(8936002)(2906002)(38350700002)(66556008)(450100002)(4326008)(66574015)(83380400001)(478600001)(86362001)(66476007)(36756003);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?/JStIF+Ct0OFBDoVPTtMiIeJT8BFMSD8LWy8bTGX5pnbldbefvLQ18zvpCZI?=
- =?us-ascii?Q?lxW2oCMecHlsfRDyJuax/xqgti7DYAmb+z4mvh8mH5KBCGhoz4cLJmzME/Rg?=
- =?us-ascii?Q?6vDog75dew/x0ehcXLwOSMp8MDQLVaoPpnqpMFdJZY8jfGB3uB6OVV/NnkIv?=
- =?us-ascii?Q?u0RhCN1J1OrAUKuUX8zVXx5/8hnfSSmBuvAUIDJFTJzISFgjwuccd/bXFdjT?=
- =?us-ascii?Q?Bg4vd0sGhW+SPwH+f46vQauTSpqYYsTseQFENBR83j9DwCvmPMSVz5ffMUdl?=
- =?us-ascii?Q?g2Mzp98Jaz3ilPKtIAaDCl2LaBOEvLVGDTxe2TYwomRv4gUqFsfr9HKv3S5n?=
- =?us-ascii?Q?7NKD/300RsVtli3Fgw7Z8/zaVyDrKKyiE0e4n20m2cEYeJmV7Du3P/CXJKj5?=
- =?us-ascii?Q?5hNkYZb/XqnX6Sa98yayh8WsRYZeCaTFlY0P3FL9U/tygu+MWh+sa+jwnWmi?=
- =?us-ascii?Q?fPwVAI5QbWfUBNvVF3DOmu7heUDO540maYzaUwrCD4dXMB5suz+XV6aX1EUS?=
- =?us-ascii?Q?frsPQI2YhjyDRu/7YH51NCnWdZrYt84SfOrS+x9U1MVgH5LdLvzVPgheHeXJ?=
- =?us-ascii?Q?ZJ4DQ51iv7tcwZPM/rzgG++b5JeRM7gH1lL0Bwegm//Bwat+u/hRuw2qi1CE?=
- =?us-ascii?Q?wC2kBFmE2BXmMDziM5+C5T/yb17mDj97ItKDWKrGv+aPvyoLUCG0+SF467K4?=
- =?us-ascii?Q?KkBO0izmd5fdApoZXhWLOXZamxoC4xYPUFVNfePgYPoRg0Qx+CeNuPZgyck7?=
- =?us-ascii?Q?ufS+v/mspdRo8Do/p00kmE++sT5yobVmK/qBGORauGh2tTNOv1C8aKK2NcTs?=
- =?us-ascii?Q?6xvtj+DDiA/BsvcZe00Eu28BuR7Mk0qh04755TuPQnBbE/h6Rv8/7mfgxpPm?=
- =?us-ascii?Q?TajS2hwQxytXFFB8f43+npVjUs8sw++Z27DN4iyq81kzMjCF8dhW/iu1x9vS?=
- =?us-ascii?Q?Ka/ahqyClq1UKL3lTHqX/HvPz68yG/oaBbOLsEGIUjOSLM/OjIg/piLhozPy?=
- =?us-ascii?Q?IfkPB/DZS2M6uE/lJRqibXaVtp35b+LLeOITBzMm5lXq5YV2xBRWM4Vd7Exl?=
- =?us-ascii?Q?bu8kBoFw0kJsLTX4kXfKZqTv+OgSkAlzMyWFTupHmJweP0yrPcuReS/xfHFT?=
- =?us-ascii?Q?B27cFLQVbUktOpCZLJU22FUvDm09pmjnQW7OHd35l1BWEgX38M/iIsBpcEdw?=
- =?us-ascii?Q?jQX/gozeVi7lWXhGwkeQw8ZaH8fxYVuj3mw2oa9WlBkXFT1aMQ8T/LW9RzEc?=
- =?us-ascii?Q?SBvvt4fZPyS4s3Vk5YXiD5jVYbnQvHtaX/Gi2s4xttxnQH+YASZLU2vPkLnX?=
- =?us-ascii?Q?1HY83a7kQLIeAulUafns8NKW?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OTNlNGREa1FJcTZIYlU5K1FXM0ZuZlFTVGNHZHBMQ2NSb1VZYzRucGY0c1V1?=
+ =?utf-8?B?WnlKTHpGTEplUXRqWWJxR3JVU0ZFSlArVU9jWVU3dGdOeHVrbU1sbmtZaml6?=
+ =?utf-8?B?bllYS2ZXWkJ4Z1N2UVB4YmV2N1grTXVtV2tWeVFobGlpRUZmRCtHdDJ1THZ2?=
+ =?utf-8?B?UU5pTlVEazNMay8zYk5jcW9mMVdvMFYzNDJjb3crcWcyeUhxdDhBeWxCaCtm?=
+ =?utf-8?B?cFlwejU5bFovQzNsdU9nUmdYWFo4UDlabHdydmNselBYdW9hN1dIYWh1dVdq?=
+ =?utf-8?B?cFBYTVlEZGYzZUZUTTVMdlRaMHhvYkRsSDUvQkVVeElGTDQzZWtubHE2SUdZ?=
+ =?utf-8?B?cWZXQ0hSU2lFZzd3TDk4QTlXVVN6SlU3S0pOYVVnSnlaenFxdktvY1IzbTZQ?=
+ =?utf-8?B?TGFMeXdvVGYza1ZBOElpTVY1RVFCaDJWZ1NQdGxHUXJTRWR0TEhJWm5PZGpK?=
+ =?utf-8?B?NzJpblo3endyL0tFUW1rb1duSGp1QXlvZUdNTmRPcUlpdXJTdGVPQW0rbUNH?=
+ =?utf-8?B?cU8xbmRxcVpyVk9ZSlVDU3dRNHpiL2RQZ0M3ckJYNklJM1VPbUhheDN4b2pT?=
+ =?utf-8?B?MWtpUFo5QU5RV3NSbDN3SWsyZlRlR1lCSnRlYTJlY2RhRE1DVEZnOTJXMDN2?=
+ =?utf-8?B?dCtSYWM3aE9tUm5qZjBwWFYxdTk2RUlJM05XT2hIejFJdjJJZEYrbDczK1Fq?=
+ =?utf-8?B?ZkhwTnlQWDhLcTA5bXY5dWlzMVNKVG5WeU1OdkVtMzd6ditmZ2Q3UDJqODIv?=
+ =?utf-8?B?L2NqVHZCVS91SU9xSlVCZ3JGeWVqZ1AzUWtsTm9FelBPQnUwTURubnByUVl6?=
+ =?utf-8?B?eDk3ZU9lWEdyWjZHbVhTcy80NVFQMXRqMUZ1U2h1aUpqeU9sc0dhUk5pRE5U?=
+ =?utf-8?B?c01aaE0yT2o2d2c5MEZIQjZjYTZVTjNhWWVBOHk4ZWFiUVhCa1V3WFBiRzhs?=
+ =?utf-8?B?V3gvN1U0SiszdFdsdVpnQjdTVkFlY2hMSXRrcDlmVHgzdGRrWUtpaHQyR0Yr?=
+ =?utf-8?B?THYxT3pjMlVWQ2d4UU5CcDRDV2xhSFlva3JzRmxMRkpiaTg1dEVxQXJXbXhx?=
+ =?utf-8?B?dmdGL3dSQnRaTmZjWjY2OExuMlRGQUxoTEhrTE1BM0NTak5zbzdJV2oxNEUy?=
+ =?utf-8?B?cGhjNjdYMU9ESHgrWlBJQUtFUmV5aytXZCtuUnR3ZHh3cTAvb1lTRTkxbGh3?=
+ =?utf-8?B?NEZvUlFGMzBwdjhCQk9LMFdlc1lTTDUvKy9oZk5CcGwzWWhGWndaa1B2cTND?=
+ =?utf-8?B?cDdpRHQ4TjNJMmpvOE02TjhvTUxvcTBVajJUK0I3RURkTmFtSEE2Sy8rMHo5?=
+ =?utf-8?B?K3JzYWx3ODZhSHVFRkd1Y1hTODlJVGJvWlJUSVlVR0Jra3dORy95WTVDaGRu?=
+ =?utf-8?B?L0RCdVdVdExLRkZlOGZPc1dma2tOTi9GMERzOVNOYjJZVGdON0R6Y1NINTlI?=
+ =?utf-8?B?dVJIc1RVSWtvWlBKNDJPb251Z0tHTy9HMWpSL2NLTzZvcmlMNjVWOHBVWjZu?=
+ =?utf-8?B?VzVyam43VXpyZVo5alBTdlhNTEFadUZuZmwzSWRJL0tla1RIR2N2UmRIaW4x?=
+ =?utf-8?B?cU1yUktWTlU4M3FOYmhkUnB2SWNLamUrODkyR0MyM3JPUlRMbHRVUDh4L3dx?=
+ =?utf-8?B?ME10cGJKVG9xVnN3UHV5dXNRcnVoVjBhS3Mzei9peldpTklqdGk4RExQelIx?=
+ =?utf-8?B?bzdqNDQ3WjdoakRDQlJ2cDZkaFo5NWljODIrZ2UvaEdFKzczSHRxUmovZFFK?=
+ =?utf-8?Q?Bsok2lIdodOezvFubMS4SeXBbhUVIjsTjtW066P?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61e37a56-7c4f-4414-6430-08d8ffb7d3e5
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5f6c1f2-7137-4688-7a20-08d8ffb7d427
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2021 02:40:27.3333 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2021 02:40:27.7963 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +HxKpteEpCmNtQ1tShZW2HhenFGcseHvmy/BfGZZt9XGG5KdbDzae+/dQthj2yppOSKGhMWXGvucnEpZds5TOQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: nzs9vor+6A1LygJCvCaaIpp6h5LF0iGKPaXTmJ2QCe8xFQOyKIPRQA5U9DBW+qxhb0bZmrjZCgPniLwQvmeEXg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4206
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -114,450 +124,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu needs the drm_priv to allow mmap
-to access the BO through the corresponding file descriptor. The VM can
-also be extracted from drm_priv, so drm_priv can replace the vm parameter
-in the kfd2kgd interface.
-
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    | 14 ++--
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 69 +++++++++++--------
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  8 +--
- .../drm/amd/amdkfd/kfd_device_queue_manager.c |  6 +-
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c      | 23 +++----
- 6 files changed, 67 insertions(+), 55 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-index 5ffb07b02810..0d59bebd92af 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-@@ -236,20 +236,20 @@ uint8_t amdgpu_amdkfd_get_xgmi_hops_count(struct kgd_dev *dst, struct kgd_dev *s
- /* GPUVM API */
- int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct kgd_dev *kgd,
- 					struct file *filp, u32 pasid,
--					void **vm, void **process_info,
-+					void **process_info,
- 					struct dma_fence **ef);
--void amdgpu_amdkfd_gpuvm_release_process_vm(struct kgd_dev *kgd, void *vm);
--uint64_t amdgpu_amdkfd_gpuvm_get_process_page_dir(void *vm);
-+void amdgpu_amdkfd_gpuvm_release_process_vm(struct kgd_dev *kgd, void *drm_priv);
-+uint64_t amdgpu_amdkfd_gpuvm_get_process_page_dir(void *drm_priv);
- int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
- 		struct kgd_dev *kgd, uint64_t va, uint64_t size,
--		void *vm, struct kgd_mem **mem,
-+		void *drm_priv, struct kgd_mem **mem,
- 		uint64_t *offset, uint32_t flags);
- int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
- 		struct kgd_dev *kgd, struct kgd_mem *mem, uint64_t *size);
- int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
--		struct kgd_dev *kgd, struct kgd_mem *mem, void *vm);
-+		struct kgd_dev *kgd, struct kgd_mem *mem, void *drm_priv);
- int amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
--		struct kgd_dev *kgd, struct kgd_mem *mem, void *vm);
-+		struct kgd_dev *kgd, struct kgd_mem *mem, void *drm_priv);
- int amdgpu_amdkfd_gpuvm_sync_memory(
- 		struct kgd_dev *kgd, struct kgd_mem *mem, bool intr);
- int amdgpu_amdkfd_gpuvm_map_gtt_bo_to_kernel(struct kgd_dev *kgd,
-@@ -260,7 +260,7 @@ int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct kgd_dev *kgd,
- 					      struct kfd_vm_fault_info *info);
- int amdgpu_amdkfd_gpuvm_import_dmabuf(struct kgd_dev *kgd,
- 				      struct dma_buf *dmabuf,
--				      uint64_t va, void *vm,
-+				      uint64_t va, void *drm_priv,
- 				      struct kgd_mem **mem, uint64_t *size,
- 				      uint64_t *mmap_offset);
- int amdgpu_amdkfd_get_tile_config(struct kgd_dev *kgd,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 7d4118c8128a..dc86faa03b88 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -948,6 +948,13 @@ static int process_update_pds(struct amdkfd_process_info *process_info,
- 	return 0;
- }
- 
-+static struct amdgpu_vm *drm_priv_to_vm(struct drm_file *drm_priv)
-+{
-+	struct amdgpu_fpriv *fpriv = drm_priv->driver_priv;
-+
-+	return &fpriv->vm;
-+}
-+
- static int init_kfd_vm(struct amdgpu_vm *vm, void **process_info,
- 		       struct dma_fence **ef)
- {
-@@ -1036,15 +1043,19 @@ static int init_kfd_vm(struct amdgpu_vm *vm, void **process_info,
- 
- int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct kgd_dev *kgd,
- 					   struct file *filp, u32 pasid,
--					   void **vm, void **process_info,
-+					   void **process_info,
- 					   struct dma_fence **ef)
- {
- 	struct amdgpu_device *adev = get_amdgpu_device(kgd);
--	struct drm_file *drm_priv = filp->private_data;
--	struct amdgpu_fpriv *drv_priv = drm_priv->driver_priv;
--	struct amdgpu_vm *avm = &drv_priv->vm;
-+	struct amdgpu_fpriv *drv_priv;
-+	struct amdgpu_vm *avm;
- 	int ret;
- 
-+	ret = amdgpu_file_to_fpriv(filp, &drv_priv);
-+	if (ret)
-+		return ret;
-+	avm = &drv_priv->vm;
-+
- 	/* Already a compute VM? */
- 	if (avm->process_info)
- 		return -EINVAL;
-@@ -1059,7 +1070,7 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct kgd_dev *kgd,
- 	if (ret)
- 		return ret;
- 
--	*vm = (void *)avm;
-+	amdgpu_vm_set_task_info(avm);
- 
- 	return 0;
- }
-@@ -1100,15 +1111,17 @@ void amdgpu_amdkfd_gpuvm_destroy_cb(struct amdgpu_device *adev,
- 	}
- }
- 
--void amdgpu_amdkfd_gpuvm_release_process_vm(struct kgd_dev *kgd, void *vm)
-+void amdgpu_amdkfd_gpuvm_release_process_vm(struct kgd_dev *kgd, void *drm_priv)
- {
- 	struct amdgpu_device *adev = get_amdgpu_device(kgd);
--	struct amdgpu_vm *avm = (struct amdgpu_vm *)vm;
-+	struct amdgpu_vm *avm;
- 
--	if (WARN_ON(!kgd || !vm))
-+	if (WARN_ON(!kgd || !drm_priv))
- 		return;
- 
--	pr_debug("Releasing process vm %p\n", vm);
-+	avm = drm_priv_to_vm(drm_priv);
-+
-+	pr_debug("Releasing process vm %p\n", avm);
- 
- 	/* The original pasid of amdgpu vm has already been
- 	 * released during making a amdgpu vm to a compute vm
-@@ -1119,9 +1132,9 @@ void amdgpu_amdkfd_gpuvm_release_process_vm(struct kgd_dev *kgd, void *vm)
- 	amdgpu_vm_release_compute(adev, avm);
- }
- 
--uint64_t amdgpu_amdkfd_gpuvm_get_process_page_dir(void *vm)
-+uint64_t amdgpu_amdkfd_gpuvm_get_process_page_dir(void *drm_priv)
- {
--	struct amdgpu_vm *avm = (struct amdgpu_vm *)vm;
-+	struct amdgpu_vm *avm = drm_priv_to_vm(drm_priv);
- 	struct amdgpu_bo *pd = avm->root.base.bo;
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(pd->tbo.bdev);
- 
-@@ -1132,11 +1145,11 @@ uint64_t amdgpu_amdkfd_gpuvm_get_process_page_dir(void *vm)
- 
- int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
- 		struct kgd_dev *kgd, uint64_t va, uint64_t size,
--		void *vm, struct kgd_mem **mem,
-+		void *drm_priv, struct kgd_mem **mem,
- 		uint64_t *offset, uint32_t flags)
- {
- 	struct amdgpu_device *adev = get_amdgpu_device(kgd);
--	struct amdgpu_vm *avm = (struct amdgpu_vm *)vm;
-+	struct amdgpu_vm *avm = drm_priv_to_vm(drm_priv);
- 	enum ttm_bo_type bo_type = ttm_bo_type_device;
- 	struct sg_table *sg = NULL;
- 	uint64_t user_addr = 0;
-@@ -1347,10 +1360,10 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
- }
- 
- int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
--		struct kgd_dev *kgd, struct kgd_mem *mem, void *vm)
-+		struct kgd_dev *kgd, struct kgd_mem *mem, void *drm_priv)
- {
- 	struct amdgpu_device *adev = get_amdgpu_device(kgd);
--	struct amdgpu_vm *avm = (struct amdgpu_vm *)vm;
-+	struct amdgpu_vm *avm = drm_priv_to_vm(drm_priv);
- 	int ret;
- 	struct amdgpu_bo *bo;
- 	uint32_t domain;
-@@ -1391,9 +1404,9 @@ int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
- 	pr_debug("Map VA 0x%llx - 0x%llx to vm %p domain %s\n",
- 			mem->va,
- 			mem->va + bo_size * (1 + mem->aql_queue),
--			vm, domain_string(domain));
-+			avm, domain_string(domain));
- 
--	ret = reserve_bo_and_vm(mem, vm, &ctx);
-+	ret = reserve_bo_and_vm(mem, avm, &ctx);
- 	if (unlikely(ret))
- 		goto out;
- 
-@@ -1437,7 +1450,7 @@ int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
- 	}
- 
- 	list_for_each_entry(entry, &mem->bo_va_list, bo_list) {
--		if (entry->bo_va->base.vm == vm && !entry->is_mapped) {
-+		if (entry->bo_va->base.vm == avm && !entry->is_mapped) {
- 			pr_debug("\t map VA 0x%llx - 0x%llx in entry %p\n",
- 					entry->va, entry->va + bo_size,
- 					entry);
-@@ -1449,7 +1462,7 @@ int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
- 				goto map_bo_to_gpuvm_failed;
- 			}
- 
--			ret = vm_update_pds(vm, ctx.sync);
-+			ret = vm_update_pds(avm, ctx.sync);
- 			if (ret) {
- 				pr_err("Failed to update page directories\n");
- 				goto map_bo_to_gpuvm_failed;
-@@ -1485,11 +1498,11 @@ int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
- }
- 
- int amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
--		struct kgd_dev *kgd, struct kgd_mem *mem, void *vm)
-+		struct kgd_dev *kgd, struct kgd_mem *mem, void *drm_priv)
- {
- 	struct amdgpu_device *adev = get_amdgpu_device(kgd);
--	struct amdkfd_process_info *process_info =
--		((struct amdgpu_vm *)vm)->process_info;
-+	struct amdgpu_vm *avm = drm_priv_to_vm(drm_priv);
-+	struct amdkfd_process_info *process_info = avm->process_info;
- 	unsigned long bo_size = mem->bo->tbo.base.size;
- 	struct kfd_bo_va_list *entry;
- 	struct bo_vm_reservation_context ctx;
-@@ -1497,7 +1510,7 @@ int amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
- 
- 	mutex_lock(&mem->lock);
- 
--	ret = reserve_bo_and_cond_vms(mem, vm, BO_VM_MAPPED, &ctx);
-+	ret = reserve_bo_and_cond_vms(mem, avm, BO_VM_MAPPED, &ctx);
- 	if (unlikely(ret))
- 		goto out;
- 	/* If no VMs were reserved, it means the BO wasn't actually mapped */
-@@ -1506,17 +1519,17 @@ int amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
- 		goto unreserve_out;
- 	}
- 
--	ret = vm_validate_pt_pd_bos((struct amdgpu_vm *)vm);
-+	ret = vm_validate_pt_pd_bos(avm);
- 	if (unlikely(ret))
- 		goto unreserve_out;
- 
- 	pr_debug("Unmap VA 0x%llx - 0x%llx from vm %p\n",
- 		mem->va,
- 		mem->va + bo_size * (1 + mem->aql_queue),
--		vm);
-+		avm);
- 
- 	list_for_each_entry(entry, &mem->bo_va_list, bo_list) {
--		if (entry->bo_va->base.vm == vm && entry->is_mapped) {
-+		if (entry->bo_va->base.vm == avm && entry->is_mapped) {
- 			pr_debug("\t unmap VA 0x%llx - 0x%llx from entry %p\n",
- 					entry->va,
- 					entry->va + bo_size,
-@@ -1642,14 +1655,14 @@ int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct kgd_dev *kgd,
- 
- int amdgpu_amdkfd_gpuvm_import_dmabuf(struct kgd_dev *kgd,
- 				      struct dma_buf *dma_buf,
--				      uint64_t va, void *vm,
-+				      uint64_t va, void *drm_priv,
- 				      struct kgd_mem **mem, uint64_t *size,
- 				      uint64_t *mmap_offset)
- {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)kgd;
-+	struct amdgpu_vm *avm = drm_priv_to_vm(drm_priv);
- 	struct drm_gem_object *obj;
- 	struct amdgpu_bo *bo;
--	struct amdgpu_vm *avm = (struct amdgpu_vm *)vm;
- 
- 	if (dma_buf->ops != &amdgpu_dmabuf_ops)
- 		/* Can't handle non-graphics buffers */
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index 43de260b2230..97da1632f504 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -1297,7 +1297,7 @@ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
- 
- 	err = amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
- 		dev->kgd, args->va_addr, args->size,
--		pdd->vm, (struct kgd_mem **) &mem, &offset,
-+		pdd->drm_priv, (struct kgd_mem **) &mem, &offset,
- 		flags);
- 
- 	if (err)
-@@ -1448,7 +1448,7 @@ static int kfd_ioctl_map_memory_to_gpu(struct file *filep,
- 			goto get_mem_obj_from_handle_failed;
- 		}
- 		err = amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
--			peer->kgd, (struct kgd_mem *)mem, peer_pdd->vm);
-+			peer->kgd, (struct kgd_mem *)mem, peer_pdd->drm_priv);
- 		if (err) {
- 			pr_err("Failed to map to gpu %d/%d\n",
- 			       i, args->n_devices);
-@@ -1555,7 +1555,7 @@ static int kfd_ioctl_unmap_memory_from_gpu(struct file *filep,
- 			goto get_mem_obj_from_handle_failed;
- 		}
- 		err = amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
--			peer->kgd, (struct kgd_mem *)mem, peer_pdd->vm);
-+			peer->kgd, (struct kgd_mem *)mem, peer_pdd->drm_priv);
- 		if (err) {
- 			pr_err("Failed to unmap from gpu %d/%d\n",
- 			       i, args->n_devices);
-@@ -1701,7 +1701,7 @@ static int kfd_ioctl_import_dmabuf(struct file *filep,
- 	}
- 
- 	r = amdgpu_amdkfd_gpuvm_import_dmabuf(dev->kgd, dmabuf,
--					      args->va_addr, pdd->vm,
-+					      args->va_addr, pdd->drm_priv,
- 					      (struct kgd_mem **)&mem, &size,
- 					      NULL);
- 	if (r)
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index d3eaa1549bd7..98c2046c7331 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -738,7 +738,7 @@ static int restore_process_queues_nocpsch(struct device_queue_manager *dqm,
- 
- 	pdd = qpd_to_pdd(qpd);
- 	/* Retrieve PD base */
--	pd_base = amdgpu_amdkfd_gpuvm_get_process_page_dir(pdd->vm);
-+	pd_base = amdgpu_amdkfd_gpuvm_get_process_page_dir(pdd->drm_priv);
- 
- 	dqm_lock(dqm);
- 	if (WARN_ON_ONCE(!qpd->evicted)) /* already restored, do nothing */
-@@ -821,7 +821,7 @@ static int restore_process_queues_cpsch(struct device_queue_manager *dqm,
- 
- 	pdd = qpd_to_pdd(qpd);
- 	/* Retrieve PD base */
--	pd_base = amdgpu_amdkfd_gpuvm_get_process_page_dir(pdd->vm);
-+	pd_base = amdgpu_amdkfd_gpuvm_get_process_page_dir(pdd->drm_priv);
- 
- 	dqm_lock(dqm);
- 	if (WARN_ON_ONCE(!qpd->evicted)) /* already restored, do nothing */
-@@ -873,7 +873,7 @@ static int register_process(struct device_queue_manager *dqm,
- 
- 	pdd = qpd_to_pdd(qpd);
- 	/* Retrieve PD base */
--	pd_base = amdgpu_amdkfd_gpuvm_get_process_page_dir(pdd->vm);
-+	pd_base = amdgpu_amdkfd_gpuvm_get_process_page_dir(pdd->drm_priv);
- 
- 	dqm_lock(dqm);
- 	list_add(&n->list, &dqm->queues);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-index 0b6595f7acda..c6357ceb247d 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-@@ -669,7 +669,7 @@ struct kfd_process_device {
- 
- 	/* VM context for GPUVM allocations */
- 	struct file *drm_file;
--	void *vm;
-+	void *drm_priv;
- 
- 	/* GPUVM allocations storage */
- 	struct idr alloc_idr;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index d97e330a5022..209e9edd6ddd 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -647,7 +647,7 @@ static void kfd_process_free_gpuvm(struct kgd_mem *mem,
- {
- 	struct kfd_dev *dev = pdd->dev;
- 
--	amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(dev->kgd, mem, pdd->vm);
-+	amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(dev->kgd, mem, pdd->drm_priv);
- 	amdgpu_amdkfd_gpuvm_free_memory_of_gpu(dev->kgd, mem, NULL);
- }
- 
-@@ -667,11 +667,11 @@ static int kfd_process_alloc_gpuvm(struct kfd_process_device *pdd,
- 	int err;
- 
- 	err = amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(kdev->kgd, gpu_va, size,
--						 pdd->vm, &mem, NULL, flags);
-+						 pdd->drm_priv, &mem, NULL, flags);
- 	if (err)
- 		goto err_alloc_mem;
- 
--	err = amdgpu_amdkfd_gpuvm_map_memory_to_gpu(kdev->kgd, mem, pdd->vm);
-+	err = amdgpu_amdkfd_gpuvm_map_memory_to_gpu(kdev->kgd, mem, pdd->drm_priv);
- 	if (err)
- 		goto err_map_mem;
- 
-@@ -901,10 +901,10 @@ static void kfd_process_device_free_bos(struct kfd_process_device *pdd)
- 		for (i = 0; i < p->n_pdds; i++) {
- 			struct kfd_process_device *peer_pdd = p->pdds[i];
- 
--			if (!peer_pdd->vm)
-+			if (!peer_pdd->drm_priv)
- 				continue;
- 			amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
--				peer_pdd->dev->kgd, mem, peer_pdd->vm);
-+				peer_pdd->dev->kgd, mem, peer_pdd->drm_priv);
- 		}
- 
- 		amdgpu_amdkfd_gpuvm_free_memory_of_gpu(pdd->dev->kgd, mem, NULL);
-@@ -932,7 +932,7 @@ static void kfd_process_destroy_pdds(struct kfd_process *p)
- 
- 		if (pdd->drm_file) {
- 			amdgpu_amdkfd_gpuvm_release_process_vm(
--					pdd->dev->kgd, pdd->vm);
-+					pdd->dev->kgd, pdd->drm_priv);
- 			fput(pdd->drm_file);
- 		}
- 
-@@ -1375,7 +1375,7 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
- 	if (!drm_file)
- 		return -EINVAL;
- 
--	if (pdd->vm)
-+	if (pdd->drm_priv)
- 		return -EBUSY;
- 
- 	p = pdd->process;
-@@ -1383,13 +1383,12 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
- 
- 	ret = amdgpu_amdkfd_gpuvm_acquire_process_vm(
- 		dev->kgd, drm_file, p->pasid,
--		&pdd->vm, &p->kgd_process_info, &p->ef);
-+		&p->kgd_process_info, &p->ef);
- 	if (ret) {
- 		pr_err("Failed to create process VM object\n");
- 		return ret;
- 	}
--
--	amdgpu_vm_set_task_info(pdd->vm);
-+	pdd->drm_priv = drm_file->private_data;
- 
- 	ret = kfd_process_device_reserve_ib_mem(pdd);
- 	if (ret)
-@@ -1405,7 +1404,7 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
- err_init_cwsr:
- err_reserve_ib_mem:
- 	kfd_process_device_free_bos(pdd);
--	pdd->vm = NULL;
-+	pdd->drm_priv = NULL;
- 
- 	return ret;
- }
-@@ -1429,7 +1428,7 @@ struct kfd_process_device *kfd_bind_process_to_device(struct kfd_dev *dev,
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
--	if (!pdd->vm)
-+	if (!pdd->drm_priv)
- 		return ERR_PTR(-ENODEV);
- 
- 	/*
--- 
-2.31.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RFJNIHJlbmRlciBub2RlIGZpbGUgaGFuZGxlcyBhcmUgdXNlZCBmb3IgQ1BVIG1hcHBpbmcgb2Yg
+Qk9zIHVzaW5nIG1tYXAKYnkgdGhlIFRodW5rLiBJdCB1c2VzIHRoZSBEUk0gcmVuZGVyIG5vZGUg
+b2YgdGhlIEdQVSB3aGVyZSB0aGUgQk8gd2FzCmFsbG9jYXRlZC4KCkRSTSBhbGxvd3MgbW1hcCBh
+Y2Nlc3MgYXV0b21hdGljYWxseSB3aGVuIGl0IGNyZWF0ZXMgYSBHRU0gaGFuZGxlIGZvciBhCkJP
+LiBLRkQgQk9zIGRvbid0IGhhdmUgR0VNIGhhbmRsZXMsIHNvIEtGRCBuZWVkcyB0byBtYW5hZ2Ug
+YWNjZXNzCm1hbnVhbGx5LiBVc2UgZHJtX3ZtYV9ub2RlX2FsbG93IHRvIGFsbG93IHVzZXIgbW9k
+ZSB0byBtbWFwIEJPcyBhbGxvY2F0ZWQKd2l0aCBrZmRfaW9jdGxfYWxsb2NfbWVtb3J5X29mX2dw
+dSB0aHJvdWdoIHRoZSBEUk0gcmVuZGVyIG5vZGUgdGhhdCB3YXMKdXNlZCBpbiB0aGUga2ZkX2lv
+Y3RsX2FjcXVpcmVfdm0gY2FsbCBmb3IgdGhlIHNhbWUgR1BVLgoKU2lnbmVkLW9mZi1ieTogRmVs
+aXggS3VlaGxpbmcgPEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+CkFja2VkLWJ5OiBDaHJpc3RpYW4g
+S8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2FtZGtmZC5oICAgICB8ICAzICsrLQogLi4uL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfYW1ka2ZkX2dwdXZtLmMgICB8IDE4ICsrKysrKysrKysrKysrKysrLQogZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX2NoYXJkZXYuYyAgICAgICB8ICA4ICsrKysrLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfcHJvY2Vzcy5jICAgICAgIHwgIDkgKysr
+KysrLS0tCiA0IGZpbGVzIGNoYW5nZWQsIDMwIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0p
+CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZC5o
+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZC5oCmluZGV4IDBkNTli
+ZWJkOTJhZi4uN2M4YzVlNDY5NzA3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfYW1ka2ZkLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X2FtZGtmZC5oCkBAIC0yNDUsNyArMjQ1LDggQEAgaW50IGFtZGdwdV9hbWRrZmRfZ3B1dm1f
+YWxsb2NfbWVtb3J5X29mX2dwdSgKIAkJdm9pZCAqZHJtX3ByaXYsIHN0cnVjdCBrZ2RfbWVtICoq
+bWVtLAogCQl1aW50NjRfdCAqb2Zmc2V0LCB1aW50MzJfdCBmbGFncyk7CiBpbnQgYW1kZ3B1X2Ft
+ZGtmZF9ncHV2bV9mcmVlX21lbW9yeV9vZl9ncHUoCi0JCXN0cnVjdCBrZ2RfZGV2ICprZ2QsIHN0
+cnVjdCBrZ2RfbWVtICptZW0sIHVpbnQ2NF90ICpzaXplKTsKKwkJc3RydWN0IGtnZF9kZXYgKmtn
+ZCwgc3RydWN0IGtnZF9tZW0gKm1lbSwgdm9pZCAqZHJtX3ByaXYsCisJCXVpbnQ2NF90ICpzaXpl
+KTsKIGludCBhbWRncHVfYW1ka2ZkX2dwdXZtX21hcF9tZW1vcnlfdG9fZ3B1KAogCQlzdHJ1Y3Qg
+a2dkX2RldiAqa2dkLCBzdHJ1Y3Qga2dkX21lbSAqbWVtLCB2b2lkICpkcm1fcHJpdik7CiBpbnQg
+YW1kZ3B1X2FtZGtmZF9ncHV2bV91bm1hcF9tZW1vcnlfZnJvbV9ncHUoCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2dwdXZtLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2dwdXZtLmMKaW5kZXggZGM4NmZhYTAz
+Yjg4Li5mOTZjMzMxYzliNmQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2FtZGdwdV9hbWRrZmRfZ3B1dm0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfYW1ka2ZkX2dwdXZtLmMKQEAgLTEyMjksNiArMTIyOSwxMSBAQCBpbnQgYW1kZ3B1X2Ft
+ZGtmZF9ncHV2bV9hbGxvY19tZW1vcnlfb2ZfZ3B1KAogCQkJIGRvbWFpbl9zdHJpbmcoYWxsb2Nf
+ZG9tYWluKSwgcmV0KTsKIAkJZ290byBlcnJfYm9fY3JlYXRlOwogCX0KKwlyZXQgPSBkcm1fdm1h
+X25vZGVfYWxsb3coJmdvYmotPnZtYV9ub2RlLCBkcm1fcHJpdik7CisJaWYgKHJldCkgeworCQlw
+cl9kZWJ1ZygiRmFpbGVkIHRvIGFsbG93IHZtYSBub2RlIGFjY2Vzcy4gcmV0ICVkXG4iLCByZXQp
+OworCQlnb3RvIGVycl9ub2RlX2FsbG93OworCX0KIAlibyA9IGdlbV90b19hbWRncHVfYm8oZ29i
+aik7CiAJaWYgKGJvX3R5cGUgPT0gdHRtX2JvX3R5cGVfc2cpIHsKIAkJYm8tPnRiby5zZyA9IHNn
+OwpAQCAtMTI1OCw2ICsxMjYzLDggQEAgaW50IGFtZGdwdV9hbWRrZmRfZ3B1dm1fYWxsb2NfbWVt
+b3J5X29mX2dwdSgKIAogYWxsb2NhdGVfaW5pdF91c2VyX3BhZ2VzX2ZhaWxlZDoKIAlyZW1vdmVf
+a2dkX21lbV9mcm9tX2tmZF9ib19saXN0KCptZW0sIGF2bS0+cHJvY2Vzc19pbmZvKTsKKwlkcm1f
+dm1hX25vZGVfcmV2b2tlKCZnb2JqLT52bWFfbm9kZSwgZHJtX3ByaXYpOworZXJyX25vZGVfYWxs
+b3c6CiAJYW1kZ3B1X2JvX3VucmVmKCZibyk7CiAJLyogRG9uJ3QgdW5yZXNlcnZlIHN5c3RlbSBt
+ZW0gbGltaXQgdHdpY2UgKi8KIAlnb3RvIGVycl9yZXNlcnZlX2xpbWl0OwpAQCAtMTI3NSw3ICsx
+MjgyLDggQEAgaW50IGFtZGdwdV9hbWRrZmRfZ3B1dm1fYWxsb2NfbWVtb3J5X29mX2dwdSgKIH0K
+IAogaW50IGFtZGdwdV9hbWRrZmRfZ3B1dm1fZnJlZV9tZW1vcnlfb2ZfZ3B1KAotCQlzdHJ1Y3Qg
+a2dkX2RldiAqa2dkLCBzdHJ1Y3Qga2dkX21lbSAqbWVtLCB1aW50NjRfdCAqc2l6ZSkKKwkJc3Ry
+dWN0IGtnZF9kZXYgKmtnZCwgc3RydWN0IGtnZF9tZW0gKm1lbSwgdm9pZCAqZHJtX3ByaXYsCisJ
+CXVpbnQ2NF90ICpzaXplKQogewogCXN0cnVjdCBhbWRrZmRfcHJvY2Vzc19pbmZvICpwcm9jZXNz
+X2luZm8gPSBtZW0tPnByb2Nlc3NfaW5mbzsKIAl1bnNpZ25lZCBsb25nIGJvX3NpemUgPSBtZW0t
+PmJvLT50Ym8uYmFzZS5zaXplOwpAQCAtMTM1Miw2ICsxMzYwLDcgQEAgaW50IGFtZGdwdV9hbWRr
+ZmRfZ3B1dm1fZnJlZV9tZW1vcnlfb2ZfZ3B1KAogCX0KIAogCS8qIEZyZWUgdGhlIEJPKi8KKwlk
+cm1fdm1hX25vZGVfcmV2b2tlKCZtZW0tPmJvLT50Ym8uYmFzZS52bWFfbm9kZSwgZHJtX3ByaXYp
+OwogCWRybV9nZW1fb2JqZWN0X3B1dCgmbWVtLT5iby0+dGJvLmJhc2UpOwogCW11dGV4X2Rlc3Ry
+b3koJm1lbS0+bG9jayk7CiAJa2ZyZWUobWVtKTsKQEAgLTE2NjMsNiArMTY3Miw3IEBAIGludCBh
+bWRncHVfYW1ka2ZkX2dwdXZtX2ltcG9ydF9kbWFidWYoc3RydWN0IGtnZF9kZXYgKmtnZCwKIAlz
+dHJ1Y3QgYW1kZ3B1X3ZtICphdm0gPSBkcm1fcHJpdl90b192bShkcm1fcHJpdik7CiAJc3RydWN0
+IGRybV9nZW1fb2JqZWN0ICpvYmo7CiAJc3RydWN0IGFtZGdwdV9ibyAqYm87CisJaW50IHJldDsK
+IAogCWlmIChkbWFfYnVmLT5vcHMgIT0gJmFtZGdwdV9kbWFidWZfb3BzKQogCQkvKiBDYW4ndCBo
+YW5kbGUgbm9uLWdyYXBoaWNzIGJ1ZmZlcnMgKi8KQEAgLTE2ODMsNiArMTY5MywxMiBAQCBpbnQg
+YW1kZ3B1X2FtZGtmZF9ncHV2bV9pbXBvcnRfZG1hYnVmKHN0cnVjdCBrZ2RfZGV2ICprZ2QsCiAJ
+aWYgKCEqbWVtKQogCQlyZXR1cm4gLUVOT01FTTsKIAorCXJldCA9IGRybV92bWFfbm9kZV9hbGxv
+dygmb2JqLT52bWFfbm9kZSwgZHJtX3ByaXYpOworCWlmIChyZXQpIHsKKwkJa2ZyZWUobWVtKTsK
+KwkJcmV0dXJuIHJldDsKKwl9CisKIAlpZiAoc2l6ZSkKIAkJKnNpemUgPSBhbWRncHVfYm9fc2l6
+ZShibyk7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9jaGFy
+ZGV2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfY2hhcmRldi5jCmluZGV4IDk3
+ZGExNjMyZjUwNC4uMjQyZThiMjhmZWFjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGtmZC9rZmRfY2hhcmRldi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tm
+ZF9jaGFyZGV2LmMKQEAgLTEzMjgsNyArMTMyOCw4IEBAIHN0YXRpYyBpbnQga2ZkX2lvY3RsX2Fs
+bG9jX21lbW9yeV9vZl9ncHUoc3RydWN0IGZpbGUgKmZpbGVwLAogCXJldHVybiAwOwogCiBlcnJf
+ZnJlZToKLQlhbWRncHVfYW1ka2ZkX2dwdXZtX2ZyZWVfbWVtb3J5X29mX2dwdShkZXYtPmtnZCwg
+KHN0cnVjdCBrZ2RfbWVtICopbWVtLCBOVUxMKTsKKwlhbWRncHVfYW1ka2ZkX2dwdXZtX2ZyZWVf
+bWVtb3J5X29mX2dwdShkZXYtPmtnZCwgKHN0cnVjdCBrZ2RfbWVtICopbWVtLAorCQkJCQkgICAg
+ICAgcGRkLT5kcm1fcHJpdiwgTlVMTCk7CiBlcnJfdW5sb2NrOgogCW11dGV4X3VubG9jaygmcC0+
+bXV0ZXgpOwogCXJldHVybiBlcnI7CkBAIC0xMzY1LDcgKzEzNjYsNyBAQCBzdGF0aWMgaW50IGtm
+ZF9pb2N0bF9mcmVlX21lbW9yeV9vZl9ncHUoc3RydWN0IGZpbGUgKmZpbGVwLAogCX0KIAogCXJl
+dCA9IGFtZGdwdV9hbWRrZmRfZ3B1dm1fZnJlZV9tZW1vcnlfb2ZfZ3B1KGRldi0+a2dkLAotCQkJ
+CQkJKHN0cnVjdCBrZ2RfbWVtICopbWVtLCAmc2l6ZSk7CisJCQkJKHN0cnVjdCBrZ2RfbWVtICop
+bWVtLCBwZGQtPmRybV9wcml2LCAmc2l6ZSk7CiAKIAkvKiBJZiBmcmVlaW5nIHRoZSBidWZmZXIg
+ZmFpbGVkLCBsZWF2ZSB0aGUgaGFuZGxlIGluIHBsYWNlIGZvcgogCSAqIGNsZWFuLXVwIGR1cmlu
+ZyBwcm9jZXNzIHRlYXItZG93bi4KQEAgLTE3MjEsNyArMTcyMiw4IEBAIHN0YXRpYyBpbnQga2Zk
+X2lvY3RsX2ltcG9ydF9kbWFidWYoc3RydWN0IGZpbGUgKmZpbGVwLAogCXJldHVybiAwOwogCiBl
+cnJfZnJlZToKLQlhbWRncHVfYW1ka2ZkX2dwdXZtX2ZyZWVfbWVtb3J5X29mX2dwdShkZXYtPmtn
+ZCwgKHN0cnVjdCBrZ2RfbWVtICopbWVtLCBOVUxMKTsKKwlhbWRncHVfYW1ka2ZkX2dwdXZtX2Zy
+ZWVfbWVtb3J5X29mX2dwdShkZXYtPmtnZCwgKHN0cnVjdCBrZ2RfbWVtICopbWVtLAorCQkJCQkg
+ICAgICAgcGRkLT5kcm1fcHJpdiwgTlVMTCk7CiBlcnJfdW5sb2NrOgogCW11dGV4X3VubG9jaygm
+cC0+bXV0ZXgpOwogCWRtYV9idWZfcHV0KGRtYWJ1Zik7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vYW1kL2FtZGtmZC9rZmRfcHJvY2Vzcy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRr
+ZmQva2ZkX3Byb2Nlc3MuYwppbmRleCAyMDllOWVkZDZkZGQuLjBhNTM3OTQzOTY0MiAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3Byb2Nlc3MuYworKysgYi9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfcHJvY2Vzcy5jCkBAIC02NDgsNyArNjQ4LDggQEAg
+c3RhdGljIHZvaWQga2ZkX3Byb2Nlc3NfZnJlZV9ncHV2bShzdHJ1Y3Qga2dkX21lbSAqbWVtLAog
+CXN0cnVjdCBrZmRfZGV2ICpkZXYgPSBwZGQtPmRldjsKIAogCWFtZGdwdV9hbWRrZmRfZ3B1dm1f
+dW5tYXBfbWVtb3J5X2Zyb21fZ3B1KGRldi0+a2dkLCBtZW0sIHBkZC0+ZHJtX3ByaXYpOwotCWFt
+ZGdwdV9hbWRrZmRfZ3B1dm1fZnJlZV9tZW1vcnlfb2ZfZ3B1KGRldi0+a2dkLCBtZW0sIE5VTEwp
+OworCWFtZGdwdV9hbWRrZmRfZ3B1dm1fZnJlZV9tZW1vcnlfb2ZfZ3B1KGRldi0+a2dkLCBtZW0s
+IHBkZC0+ZHJtX3ByaXYsCisJCQkJCSAgICAgICBOVUxMKTsKIH0KIAogLyoga2ZkX3Byb2Nlc3Nf
+YWxsb2NfZ3B1dm0gLSBBbGxvY2F0ZSBHUFUgVk0gZm9yIHRoZSBLRkQgcHJvY2VzcwpAQCAtNzEy
+LDcgKzcxMyw4IEBAIHN0YXRpYyBpbnQga2ZkX3Byb2Nlc3NfYWxsb2NfZ3B1dm0oc3RydWN0IGtm
+ZF9wcm9jZXNzX2RldmljZSAqcGRkLAogCXJldHVybiBlcnI7CiAKIGVycl9tYXBfbWVtOgotCWFt
+ZGdwdV9hbWRrZmRfZ3B1dm1fZnJlZV9tZW1vcnlfb2ZfZ3B1KGtkZXYtPmtnZCwgbWVtLCBOVUxM
+KTsKKwlhbWRncHVfYW1ka2ZkX2dwdXZtX2ZyZWVfbWVtb3J5X29mX2dwdShrZGV2LT5rZ2QsIG1l
+bSwgcGRkLT5kcm1fcHJpdiwKKwkJCQkJICAgICAgIE5VTEwpOwogZXJyX2FsbG9jX21lbToKIAkq
+a3B0ciA9IE5VTEw7CiAJcmV0dXJuIGVycjsKQEAgLTkwNyw3ICs5MDksOCBAQCBzdGF0aWMgdm9p
+ZCBrZmRfcHJvY2Vzc19kZXZpY2VfZnJlZV9ib3Moc3RydWN0IGtmZF9wcm9jZXNzX2RldmljZSAq
+cGRkKQogCQkJCXBlZXJfcGRkLT5kZXYtPmtnZCwgbWVtLCBwZWVyX3BkZC0+ZHJtX3ByaXYpOwog
+CQl9CiAKLQkJYW1kZ3B1X2FtZGtmZF9ncHV2bV9mcmVlX21lbW9yeV9vZl9ncHUocGRkLT5kZXYt
+PmtnZCwgbWVtLCBOVUxMKTsKKwkJYW1kZ3B1X2FtZGtmZF9ncHV2bV9mcmVlX21lbW9yeV9vZl9n
+cHUocGRkLT5kZXYtPmtnZCwgbWVtLAorCQkJCQkJICAgICAgIHBkZC0+ZHJtX3ByaXYsIE5VTEwp
+OwogCQlrZmRfcHJvY2Vzc19kZXZpY2VfcmVtb3ZlX29ial9oYW5kbGUocGRkLCBpZCk7CiAJfQog
+fQotLSAKMi4zMS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
