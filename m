@@ -1,62 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2C93604CF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 10:47:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2203604EC
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 10:53:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B32C96EA0B;
-	Thu, 15 Apr 2021 08:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B546E9FF;
+	Thu, 15 Apr 2021 08:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 735396E51B;
- Thu, 15 Apr 2021 08:47:34 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id g5so28952639ejx.0;
- Thu, 15 Apr 2021 01:47:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qWlbSSUH0gS3gW5PE2wMFHjxRCzK07uOk5ad6KVFLjc=;
- b=R+CN/vK4Rsx7x0JeF+c4qsrFj/rTMYrFb7FjTEVJluOGu+vGDAZ8fVvoEmUe0vSyf3
- tOSBjwsaVr8feZpHGoF2n0DUpRZwzm/gOQzSQK6i4jCXgy3qAIIw82gOdsxhfq0hBSYz
- UlKlAFsQBJ6KZREdFEzjc1Kqjfe/Pqkrtr/P1hBDpZeuIm8q4uYqdD0d5gqETZ1VSxa/
- WLNt25A0XD76U1vvBFq0aUo+8lF+pA2+ZO3NC2n4GCYvPySqEcR1dCduwxLEjnvL+w9T
- B2e7zR46NUQG9EGTlU7eF3m6N75rToGhyH81/l1S8T8GrDNT7lakcGH9mOjrJOI5KzvO
- LHww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qWlbSSUH0gS3gW5PE2wMFHjxRCzK07uOk5ad6KVFLjc=;
- b=KnzjeMBcNpnw6NH2lxlQ6Bwz23hgrN9QBpNUtWNzg5UyQtd9bFYRQIBmjtj67LF/Cd
- WKFU4qNYNIhgNQYUfs0rnVACguIQ+NHA7UxjIdcgH9YEzQ4IZFHySyvEnVTHIg5pDqSz
- UknGuZ2VKXpoi4PRcp7Oj0Ya/qggIHeks1rG9mfVaALu1hXkFdAa4G1+OCcaX1L31CFu
- vjFblvAf3ODfcNdN7Oh/dQiXex6wzAZvk9JVZ2HI59NyJIQeKcCdpX9gDZBL2mWZXVSw
- 1JGGt/LxmCZT5wzmBo6EgcvtpNBj+2tyPWMYDg+fNYdw9SGv892vIYifaKop0/vH2ePa
- Hifg==
-X-Gm-Message-State: AOAM533LSRD+1LzMoohk4Z+c1QghmwsAyCvQlAvsBtWIlrtXKBrng29E
- BtBt2KjxxWvBBvhE9Bt7csv2XNBkdg4=
-X-Google-Smtp-Source: ABdhPJzK4RAojy64vlp2CbaMwtbh37W3to2sqCbEV1LAQ8Ssg/ircSNleUnOF0WvTWGLolyeSIOuOA==
-X-Received: by 2002:a17:906:b1d4:: with SMTP id
- bv20mr2344110ejb.46.1618476453206; 
- Thu, 15 Apr 2021 01:47:33 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:3ba1:ccd9:cd93:a8ed])
- by smtp.gmail.com with ESMTPSA id a9sm1830049eds.33.2021.04.15.01.47.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 01:47:32 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/ttm: warn stricter about freeing pinned BOs
-Date: Thu, 15 Apr 2021 10:47:30 +0200
-Message-Id: <20210415084730.2057-3-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210415084730.2057-1-christian.koenig@amd.com>
-References: <20210415084730.2057-1-christian.koenig@amd.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 668476E9FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 08:53:31 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EDE3BB1B7;
+ Thu, 15 Apr 2021 08:53:29 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
+ broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
+ emil.l.velikov@gmail.com, geert+renesas@glider.be, hdegoede@redhat.com,
+ bluescreen_avenger@verizon.net, gregkh@linuxfoundation.org
+Subject: [PATCH v3 0/9] drm: Support simple-framebuffer devices and firmware
+ fbs
+Date: Thu, 15 Apr 2021 10:53:17 +0200
+Message-Id: <20210415085326.8824-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,28 +40,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: virtualization@lists.linux-foundation.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U28gZmFyIHdlIG9ubHkgd2FybmVkIHdoZW4gdGhlIEJPcyB3aGVyZSBwaW5uZWQgYW5kIG5vdCBp
-ZGxlLgoKQWxzbyB3YXJuIGlmIHdlIHNlZSBhIHBpbm5lZCBCTyBpbiBnZW5lcmFsLgoKU2lnbmVk
-LW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgotLS0K
-IGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgfCA0ICsrKy0KIDEgZmlsZSBjaGFuZ2VkLCAz
-IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vdHRtL3R0bV9iby5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwppbmRleCBjZmQw
-YjkyOTIzOTcuLjgwODMxZGYwZWY2MSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90
-dG1fYm8uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCkBAIC00MDEsNiArNDAx
-LDggQEAgc3RhdGljIHZvaWQgdHRtX2JvX3JlbGVhc2Uoc3RydWN0IGtyZWYgKmtyZWYpCiAJc3Ry
-dWN0IHR0bV9kZXZpY2UgKmJkZXYgPSBiby0+YmRldjsKIAlpbnQgcmV0OwogCisJV0FSTl9PTl9P
-TkNFKGJvLT5waW5fY291bnQpOworCiAJaWYgKCFiby0+ZGVsZXRlZCkgewogCQlyZXQgPSB0dG1f
-Ym9faW5kaXZpZHVhbGl6ZV9yZXN2KGJvKTsKIAkJaWYgKHJldCkgewpAQCAtNDM0LDcgKzQzNiw3
-IEBAIHN0YXRpYyB2b2lkIHR0bV9ib19yZWxlYXNlKHN0cnVjdCBrcmVmICprcmVmKQogCQkgKiBG
-SVhNRTogUVhMIGlzIHRyaWdnZXJpbmcgdGhpcy4gQ2FuIGJlIHJlbW92ZWQgd2hlbiB0aGUKIAkJ
-ICogZHJpdmVyIGlzIGZpeGVkLgogCQkgKi8KLQkJaWYgKFdBUk5fT05fT05DRShiby0+cGluX2Nv
-dW50KSkgeworCQlpZiAoYm8tPnBpbl9jb3VudCkgewogCQkJYm8tPnBpbl9jb3VudCA9IDA7CiAJ
-CQl0dG1fYm9fbW92ZV90b19scnVfdGFpbChibywgJmJvLT5tZW0sIE5VTEwpOwogCQl9Ci0tIAoy
-LjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This patchset adds support for simple-framebuffer platform devices and
+a handover mechanism for native drivers to take-over control of the
+hardware.
+
+The new driver, called simpledrm, binds to a simple-frambuffer platform
+device. The kernel's boot code creates such devices for firmware-provided
+framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or boot
+loader sets up the framebuffers. Description via device tree is also an
+option.
+
+Simpledrm is small enough to be linked into the kernel. The driver's main
+purpose is to provide graphical output during the early phases of the boot
+process, before the native DRM drivers are available. Native drivers are
+typically loaded from an initrd ram disk. Occationally simpledrm can also
+serve as interim solution on graphics hardware without native DRM driver.
+
+So far distributions rely on fbdev drivers, such as efifb, vesafb or
+simplefb, for early-boot graphical output. However fbdev is deprecated and
+the drivers do not provide DRM interfaces for modern userspace.
+
+Patches 1 and 2 prepare the DRM format helpers for simpledrm.
+
+Patches 4 to 8 add the simpledrm driver. It's build on simple DRM helpers
+and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
+pageflips, SHMEM buffers are copied into the framebuffer memory, similar
+to cirrus or mgag200. The code in patches 7 and 8 handles clocks and
+regulators. It's based on the simplefb drivers, but has been modified for
+DRM.
+
+Patches 3 and 9 add a hand-over mechanism. Simpledrm acquires it's
+framebuffer's I/O-memory range and provides a callback function to be
+removed by a native driver. The native driver will remove simpledrm before
+taking over the hardware. The removal is integrated into existing helpers,
+so drivers use it automatically.
+
+I've also been working on fastboot support (i.e., flicker-free booting).
+This requires state-readout from simpledrm via generic interfaces, as
+outlined in [1]. I do have some prototype code, but it will take a while
+to get this ready. Simpledrm will then support it.
+
+I've tested simpledrm with x86 EFI and VESA framebuffers, which both work
+reliably. The fbdev console and Weston work automatically. Xorg requires
+manual configuration of the device. Xorgs current modesetting driver does
+not work with both, platform and PCI device, for the same physical
+hardware. Once configured, X11 works. I looked into X11, but couldn't see
+an easy way of fixing the problem. With the push towards Wayland+Xwayland
+I expect the problem to become a non-issue soon. Additional testing has
+been reported at [2].
+
+One cosmetical issue is that simpledrm's device file is card0 and the
+native driver's device file is card1. After simpledrm has been kicked out,
+only card1 is left. This does not seem to be a practical problem however.
+
+TODO/IDEAS:
+	* provide deferred takeover
+	* provide bootsplash DRM client
+	* make simplekms usable with ARM-EFI fbs
+
+v3:
+	* clear screen to black when disabled (Daniel)
+	* rebase onto existing aperture helpers
+	* detach via hot-unplug via platform_device_unregister()
+v2:
+	* rename to simpledrm, aperture helpers
+	* reorganized patches
+	* use hotplug helpers for removal (Daniel)
+	* added DT match tables (Rob)
+	* use shadow-plane helpers
+	* lots of minor cleanups
+
+[1] https://lore.kernel.org/dri-devel/CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPvJ=9BwmvfU-O0gg@mail.gmail.com/
+[2] https://lore.kernel.org/dri-devel/1761762.3HQLrFs1K7@nerdopolis/
+
+Thomas Zimmermann (9):
+  drm/format-helper: Pass destination pitch to drm_fb_memcpy_dstclip()
+  drm/format-helper: Add blitter functions
+  drm/aperture: Add infrastructure for aperture ownership
+  drm: Add simpledrm driver
+  drm/simpledrm: Add fbdev emulation
+  drm/simpledrm: Initialize framebuffer data from device-tree node
+  drm/simpledrm: Acquire clocks from DT device node
+  drm/simpledrm: Acquire regulators from DT device node
+  drm/simpledrm: Acquire memory aperture for framebuffer
+
+ MAINTAINERS                            |   7 +
+ drivers/gpu/drm/drm_aperture.c         | 216 +++++-
+ drivers/gpu/drm/drm_format_helper.c    |  96 ++-
+ drivers/gpu/drm/mgag200/mgag200_mode.c |   2 +-
+ drivers/gpu/drm/tiny/Kconfig           |  16 +
+ drivers/gpu/drm/tiny/Makefile          |   1 +
+ drivers/gpu/drm/tiny/cirrus.c          |   2 +-
+ drivers/gpu/drm/tiny/simpledrm.c       | 920 +++++++++++++++++++++++++
+ include/drm/drm_aperture.h             |  36 +-
+ include/drm/drm_format_helper.h        |  10 +-
+ 10 files changed, 1279 insertions(+), 27 deletions(-)
+ create mode 100644 drivers/gpu/drm/tiny/simpledrm.c
+
+--
+2.31.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
