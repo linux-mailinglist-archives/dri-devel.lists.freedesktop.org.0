@@ -2,53 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D74361957
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 07:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D563619AE
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 08:06:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49E596EB24;
-	Fri, 16 Apr 2021 05:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6D46E167;
+	Fri, 16 Apr 2021 06:06:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B7A6EB23;
- Fri, 16 Apr 2021 05:35:26 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id l131so21684378oih.0;
- Thu, 15 Apr 2021 22:35:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SFCuQjzeWEqVOnSxH9l3seK+DWkURq4UwkFrvexD2eU=;
- b=d0yTUxmTcD6nOU09FHnlzTo0lx2mwWzMVSDLY7FdcLjHeVJeVLjeilmVNNQ4CSC/gh
- IhmShyVpFwEkb9hwfZVsXO0m2pbhuetrECeMDuRev7x0LLI2satvKrdejFVsmSttz8cO
- oxxjcQ8yK62sSn2/mMDFyyFkm/OXJ3r0QDr8VbDowa9jo+XZzn1QF7cf/GB0qU4esOsP
- EYTV3EC9dhbV2KS33vH86rsn3jkQNG0sytqkXlFoTPb8zNX3wCrRAF2oz/YdjIx6Unjd
- 9dYYB0VszdZtUdpViQaMQfDmz00euvrj3EZxr2Xl/tTsda+uRd+y6tZv1kQPUbeREXed
- giRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SFCuQjzeWEqVOnSxH9l3seK+DWkURq4UwkFrvexD2eU=;
- b=XuxM03ExlkuokL6dfbpbI6iaJHuX0PWWqwZInPYGDn0mk/WJJ0Kzwd8Og24Ohz2V4Z
- 9gNjkYvosDTnzeZ7f66RXJC0inLlo1m9P1HpNqfQOytFHSmeJQ3UwO1HfE5r1NgoHdRg
- I1/eerpH2dTjuHGuCZPY4loCMUKpjytmSgi7Ob7Lg1MSZ25YZnO7t1eooiXtCVtLijgo
- XUefhtuvFXKIl+EHZGXqwE/gheoA7egW25Noqi62gfZSSMgIXAN1LuH5wwfk2u1kKADp
- SPOyq5MAN8w77YeQOJImQ3NuwWeLdYeiEQYj4qrXV5GRDD3fsNgj/MSD22L9nvuGsbLX
- 6QKQ==
-X-Gm-Message-State: AOAM533Zv+Sub+VoJoB1tP4pSHqzBxO/89b/inFK6Ufjo+MyhIwSgZRp
- e6otngDcju1cVd2wKXYj3Pn0zdKU5guHWtYHeP0=
-X-Google-Smtp-Source: ABdhPJypqEgjQFMCGz9v5f2MQTPTCxXxge7bZue6TFEQc+HYzUoahf5lCYEmOL2SVqpvYBWuuf78thQEnheNwoAxOXo=
-X-Received: by 2002:aca:c08a:: with SMTP id q132mr4986993oif.5.1618551325311; 
- Thu, 15 Apr 2021 22:35:25 -0700 (PDT)
+X-Greylist: delayed 576 seconds by postgrey-1.36 at gabe;
+ Thu, 15 Apr 2021 22:35:10 UTC
+Received: from s2.our.net (s2.our.net [69.168.53.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9787B6EABA;
+ Thu, 15 Apr 2021 22:35:10 +0000 (UTC)
+Received: from [192.168.1.108] (c-24-22-33-250.hsd1.or.comcast.net
+ [24.22.33.250]) by s2.our.net (Postfix) with ESMTPSA id A91975E61C;
+ Thu, 15 Apr 2021 15:25:32 -0700 (PDT)
+Subject: Re: [Mesa-dev] [PATCH v3 3/4] drm/i915/uapi: convert i915_query and
+ friend to kernel doc
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20210415155958.391624-1-matthew.auld@intel.com>
+ <20210415155958.391624-3-matthew.auld@intel.com>
+From: Ian Romanick <idr@freedesktop.org>
+Message-ID: <5de63e24-51f0-71eb-b992-484da998e65f@freedesktop.org>
+Date: Thu, 15 Apr 2021 15:25:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210415212508.7ef57d73@Zen-II-x12.niklas.com>
- <20210415221626.3a33787f@Zen-II-x12.niklas.com>
-In-Reply-To: <20210415221626.3a33787f@Zen-II-x12.niklas.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 16 Apr 2021 01:35:14 -0400
-Message-ID: <CADnq5_MqWX9wGN7p+8RYqQ7dxV84sQjdgv9nWFrDgbVLh46oDw@mail.gmail.com>
-Subject: Re: [Regression] amdgpu driver broken on AMD HD7770 GHz edition.
-To: David Niklas <Hgntkwis@vfemail.net>
+In-Reply-To: <20210415155958.391624-3-matthew.auld@intel.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 16 Apr 2021 06:06:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,34 +43,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chunming Zhou <David1.Zhou@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: mesa-dev@lists.freedesktop.org, Kenneth Graunke <kenneth@whitecape.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 16, 2021 at 12:48 AM David Niklas <Hgntkwis@vfemail.net> wrote:
->
-> Hey,
->
-> I forgot to give you a bug tracker in case you want one.
-> Here: https://bugzilla.kernel.org/show_bug.cgi?id=212691
+On 4/15/21 8:59 AM, Matthew Auld wrote:
+> Add a note about the two-step process.
+> 
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: mesa-dev@lists.freedesktop.org
+> ---
+>  include/uapi/drm/i915_drm.h | 57 ++++++++++++++++++++++++++++++-------
+>  1 file changed, 46 insertions(+), 11 deletions(-)
+> 
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index d9c954a5a456..ef36f1a0adde 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -2210,14 +2210,23 @@ struct drm_i915_perf_oa_config {
+>  	__u64 flex_regs_ptr;
+>  };
+>  
+> +/**
+> + * struct drm_i915_query_item - An individual query for the kernel to process.
+> + *
+> + * The behaviour is determined by the @query_id. Note that exactly what
 
-I've followed up on the bug report.  Please take a look there.
+Since we just had a big discussion about this on mesa-dev w.r.t. Mesa
+code and documentation... does the kernel have a policy about which
+flavor (pun intended) of English should be used?
 
-Alex
+> + * @data_ptr is also depends on the specific @query_id.
+> + */
+>  struct drm_i915_query_item {
+> +	/** @query_id: The id for this query */
+>  	__u64 query_id;
+>  #define DRM_I915_QUERY_TOPOLOGY_INFO    1
+>  #define DRM_I915_QUERY_ENGINE_INFO	2
+>  #define DRM_I915_QUERY_PERF_CONFIG      3
+>  /* Must be kept compact -- no holes and well documented */
+>  
+> -	/*
+> +	/**
+> +	 * @length:
+> +	 *
+>  	 * When set to zero by userspace, this is filled with the size of the
+>  	 * data to be written at the data_ptr pointer. The kernel sets this
+>  	 * value to a negative value to signal an error on a particular query
+> @@ -2225,21 +2234,26 @@ struct drm_i915_query_item {
+>  	 */
+>  	__s32 length;
+>  
+> -	/*
+> +	/**
+> +	 * @flags:
+> +	 *
+>  	 * When query_id == DRM_I915_QUERY_TOPOLOGY_INFO, must be 0.
+>  	 *
+>  	 * When query_id == DRM_I915_QUERY_PERF_CONFIG, must be one of the
+> -	 * following :
+> -	 *         - DRM_I915_QUERY_PERF_CONFIG_LIST
+> -	 *         - DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID
+> -	 *         - DRM_I915_QUERY_PERF_CONFIG_FOR_UUID
+> +	 * following:
+> +	 *
+> +	 *	- DRM_I915_QUERY_PERF_CONFIG_LIST
+> +	 *      - DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID
+> +	 *      - DRM_I915_QUERY_PERF_CONFIG_FOR_UUID
+>  	 */
+>  	__u32 flags;
+>  #define DRM_I915_QUERY_PERF_CONFIG_LIST          1
+>  #define DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID 2
+>  #define DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_ID   3
+>  
+> -	/*
+> +	/**
+> +	 * @data_ptr:
+> +	 *
+>  	 * Data will be written at the location pointed by data_ptr when the
+>  	 * value of length matches the length of the data to be written by the
+>  	 * kernel.
+> @@ -2247,16 +2261,37 @@ struct drm_i915_query_item {
+>  	__u64 data_ptr;
+>  };
+>  
+> +/**
+> + * struct drm_i915_query - Supply an array of drm_i915_query_item for the kernel
+> + * to fill out.
+> + *
+> + * Note that this is generally a two step process for each drm_i915_query_item
+> + * in the array:
+> + *
+> + *	1.) Call the DRM_IOCTL_I915_QUERY, giving it our array of
+> + *	drm_i915_query_item, with drm_i915_query_item.size set to zero. The
+> + *	kernel will then fill in the size, in bytes, which tells userspace how
+> + *	memory it needs to allocate for the blob(say for an array of
+> + *	properties).
+> + *
+> + *	2.) Next we call DRM_IOCTL_I915_QUERY again, this time with the
+> + *	drm_i915_query_item.data_ptr equal to our newly allocated blob. Note
+> + *	that the i915_query_item.size should still be the same as what the
+> + *	kernel previously set. At this point the kernel can fill in the blob.
+> + *
+> + */
+>  struct drm_i915_query {
+> +	/** @num_items: The number of elements in the @items_ptr array */
+>  	__u32 num_items;
+>  
+> -	/*
+> -	 * Unused for now. Must be cleared to zero.
+> +	/**
+> +	 * @flags: Unused for now. Must be cleared to zero.
+>  	 */
+>  	__u32 flags;
+>  
+> -	/*
+> -	 * This points to an array of num_items drm_i915_query_item structures.
+> +	/**
+> +	 * @items_ptr: This points to an array of num_items drm_i915_query_item
+> +	 * structures.
+>  	 */
+>  	__u64 items_ptr;
+>  };
+> 
 
->
-> Thanks,
-> David
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
