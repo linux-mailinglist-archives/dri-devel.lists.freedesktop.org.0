@@ -2,45 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF7835FF03
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 02:47:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D9635FF15
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 02:58:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADF6A6E0A5;
-	Thu, 15 Apr 2021 00:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8395B6E980;
+	Thu, 15 Apr 2021 00:58:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B94926E0A5
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 00:47:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 583896E980
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 00:58:28 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F2F351E;
- Thu, 15 Apr 2021 02:47:46 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63B3E51E;
+ Thu, 15 Apr 2021 02:58:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1618447666;
- bh=ilnDH2Tmo+0CqI9tBtv+n6dQ1b/F3Pcfu3i0iNkboSk=;
+ s=mail; t=1618448306;
+ bh=dT0dNdclklPiYApYQlXIEs77mjYEm26Y9+wMkOD0nvc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jqWiywpV6pua2IaL+cpO7jXIr2e6qz+0w/zCuO/nkxh/+WQRa2RvpCjIK4eQFZoIj
- RMn1ufUmvv6VIBjfATZG9+wYUCaTLcf8thB1WmnUzpbKxyub/d24faMz7ZfJe0mt/x
- ZN51/mbqBPGybTEDxsD0MNudiF0tBDQHcsxgXyW8=
-Date: Thu, 15 Apr 2021 03:47:45 +0300
+ b=RxLAeseP/5Pdt5JDnRvWf/rt6evuAn133rWeH6zaj1mKSEUlv64P8LNG/QdY52rXj
+ kAZ9ksbDJQbfOkAFg7j5b+4VSSoOPa3I2w9S5KrUpQy8BqA705FFPZTDiBtU/g82el
+ Lknu/tWvcMyEHaLL+ZO6r8+4faZeq4oA+AMYXOlk=
+Date: Thu, 15 Apr 2021 03:58:25 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH v2 11/14] drm/bridge: ti-sn65dsi86: Power things properly
- for reading the EDID
-Message-ID: <YHeNMcUU3c9br2Am@pendragon.ideasonboard.com>
-References: <20210330025345.3980086-1-dianders@chromium.org>
- <CGME20210330025435eucas1p12b96966451ee0691f6d5d99b64ac2c8b@eucas1p1.samsung.com>
- <20210329195255.v2.11.Ied721dc895156046ac523baa55a71da241cd09c7@changeid>
- <8887ded7-d1ab-844c-e3a3-f39f6ef6264a@samsung.com>
- <CAD=FV=XJ5qtMDn5B431ObPS0JU3-P3755N7jzLZbbcc6XpqYtg@mail.gmail.com>
- <b3c08808-204c-6a3c-3e58-a2766985b5ef@samsung.com>
- <CAD=FV=WS8=hi07tA=t_5xOfPkb8TqY63A712uhJg4H8pUPCRJw@mail.gmail.com>
- <7bc4ce04-4110-8b8a-067b-824296b52480@samsung.com>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v3 12/12] drm/panel: panel-simple: Use runtime pm to
+ avoid excessive unprepare / prepare
+Message-ID: <YHePsQgqOau1V5lD@pendragon.ideasonboard.com>
+References: <20210402222846.2461042-1-dianders@chromium.org>
+ <20210402152701.v3.12.I9e8bd33b49c496745bfac58ea9ab418bd3b6f5ce@changeid>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7bc4ce04-4110-8b8a-067b-824296b52480@samsung.com>
+In-Reply-To: <20210402152701.v3.12.I9e8bd33b49c496745bfac58ea9ab418bd3b6f5ce@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,207 +47,314 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Doug Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
- Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Steev Klimaszewski <steev@kali.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQW5kcnplaiwKCk9uIFR1ZSwgQXByIDA2LCAyMDIxIGF0IDA2OjUyOjA3UE0gKzAyMDAsIEFu
-ZHJ6ZWogSGFqZGEgd3JvdGU6Cj4gSGVsbG8gYWdhaW4gYWZ0ZXIgZWFzdGVyLAo+IAo+IEkgaGF2
-ZSBsb29rZWQgbGl0dGxlIGJpdCBtb3JlIGF0IHNuNjUqIGRyaXZlciBhbmQgaXRzIGFwcGxpY2F0
-aW9uIHRvIAo+IGhhdmUgYmV0dGVyIGJhY2tncm91bmQuCj4gCj4gSSBtaXNzIG9ubHkgaW5mbyB3
-aGF0IHBhbmVsIGRvIHlvdSBoYXZlLCBob3cgaXQgaXMgZW5hYmxlZC9wb3dlciBjb250cm9sbGVk
-Lgo+IAo+IFcgZG5pdSAwMS4wNC4yMDIxIG/CoDE2OjU3LCBEb3VnIEFuZGVyc29uIHBpc3plOgo+
-ID4gT24gVGh1LCBBcHIgMSwgMjAyMSBhdCA0OjEyIEFNIEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFA
-c2Ftc3VuZy5jb20+IHdyb3RlOgo+ID4+IFcgZG5pdSAzMS4wMy4yMDIxIG8gMTY6NDgsIERvdWcg
-QW5kZXJzb24gcGlzemU6Cj4gPj4+IE9uIFdlZCwgTWFyIDMxLCAyMDIxIGF0IDQ6MDggQU0gQW5k
-cnplaiBIYWpkYSA8YS5oYWpkYUBzYW1zdW5nLmNvbT4gd3JvdGU6Cj4gPj4+PiBXIGRuaXUgMzAu
-MDMuMjAyMSBvIDA0OjUzLCBEb3VnbGFzIEFuZGVyc29uIHBpc3plOgo+ID4+Pj4+IGVEUCBwYW5l
-bHMgd29uJ3QgcHJvdmlkZSB0aGVpciBFRElEIHVubGVzcyB0aGV5J3JlIHBvd2VyZWQgb24uIExl
-dCdzCj4gPj4+Pj4gY2hhaW4gYSBwb3dlci1vbiBiZWZvcmUgd2UgcmVhZCB0aGUgRURJRC4gVGhp
-cyByb3VnaGx5IG1hdGNoZXMgd2hhdAo+ID4+Pj4+IHdhcyBkb25lIGluICdwYXJhZGUtcHM4NjQw
-LmMnLgo+ID4+Pj4+Cj4gPj4+Pj4gTk9URTogVGhlIG9sZCBjb2RlIGF0dGVtcHRlZCB0byBjYWxs
-IHBtX3J1bnRpbWVfZ2V0X3N5bmMoKSBiZWZvcmUKPiA+Pj4+PiByZWFkaW5nIHRoZSBFRElELiBX
-aGlsZSB0aGF0IHdhcyBlbm91Z2ggdG8gcG93ZXIgdGhlIGJyaWRnZSBjaGlwIG9uLAo+ID4+Pj4+
-IGl0IHdhc24ndCBlbm91Z2ggdG8gdGFsayB0byB0aGUgcGFuZWwgZm9yIHR3byByZWFzb25zOgo+
-ID4+Pj4+IDEuIFNpbmNlIHdlIG5ldmVyIHJhbiB0aGUgYnJpZGdlIGNoaXAncyBwcmUtZW5hYmxl
-IHRoZW4gd2UgbmV2ZXIgc2V0Cj4gPj4+Pj4gICAgICAgdGhlIGJpdCB0byBpZ25vcmUgSFBELiBU
-aGlzIG1lYW50IHRoZSBicmlkZ2UgY2hpcCBkaWRuJ3QgZXZlbiBfdHJ5Xwo+ID4+Pj4+ICAgICAg
-IHRvIGdvIG91dCBvbiB0aGUgYnVzIGFuZCBjb21tdW5pY2F0ZSB3aXRoIHRoZSBwYW5lbC4KPiA+
-Pj4+PiAyLiBFdmVuIGlmIHdlIGZpeGVkIHRoaW5ncyB0byBpZ25vcmUgSFBELCB0aGUgRURJRCBz
-dGlsbCB3b3VsZG4ndCByZWFkCj4gPj4+Pj4gICAgICAgaWYgdGhlIHBhbmVsIHdhc24ndCBvbi4K
-PiA+Pj4+Pgo+ID4+Pj4+IE9uZSB0aGluZyB0aGF0J3MgYSBiaXQgb2RkIGhlcmUgaXMgdGFraW5n
-IGFkdmFudGFnZSBvZiB0aGUgRURJRCB0aGF0Cj4gPj4+Pj4gdGhlIGNvcmUgbWlnaHQgaGF2ZSBj
-YWNoZWQgZm9yIHVzLiBTZWUgdGhlIHBhdGNoICgiZHJtL2VkaWQ6IFVzZSB0aGUKPiA+Pj4+PiBj
-YWNoZWQgRURJRCBpbiBkcm1fZ2V0X2VkaWQoKSBpZiBlRFAiKS4gV2UgbWFuYWdlIHRvIGdldCBh
-dCB0aGUgY2FjaGUKPiA+Pj4+PiBieToKPiA+Pj4+PiAtIEluc3RhbnRseSBmYWlsaW5nIGF1eCB0
-cmFuc2ZlcnMgaWYgd2UncmUgbm90IHBvd2VyZWQuCj4gPj4+Pj4gLSBJZiB0aGUgZmlyc3QgcmVh
-ZCBvZiB0aGUgRURJRCBmYWlscyB3ZSB0cnkgYWdhaW4gYWZ0ZXIgcG93ZXJpbmcuCj4gPj4+Pj4K
-PiA+Pj4+PiBGaXhlczogNTgwNzRiMDhjMDRhICgiZHJtL2JyaWRnZTogdGktc242NWRzaTg2OiBS
-ZWFkIEVESUQgYmxvYiBvdmVyIEREQyIpCj4gPj4+Pj4gU2lnbmVkLW9mZi1ieTogRG91Z2xhcyBB
-bmRlcnNvbiA8ZGlhbmRlcnNAY2hyb21pdW0ub3JnPgo+ID4+Pj4+IC0tLQo+ID4+Pj4+IERlcGVu
-ZGluZyBvbiB3aGF0IHBlb3BsZSB0aGluayBvZiB0aGUgb3RoZXIgcGF0Y2hlcyBpbiB0aGlzIHNl
-cmllcywKPiA+Pj4+PiBzb21lIG9mIHRoaXMgY291bGQgY2hhbmdlLgo+ID4+Pj4+IC0gSWYgZXZl
-cnlvbmUgbG92ZXMgdGhlICJydW50aW1lIFBNIiBpbiB0aGUgcGFuZWwgZHJpdmVyIHRoZW4gd2UK
-PiA+Pj4+PiAgICAgIGNvdWxkLCBpbiB0aGVvcnksIHB1dCB0aGUgcHJlLWVuYWJsZSBjaGFpbmlu
-ZyBzdHJhaWdodCBpbiB0aGUgImF1eAo+ID4+Pj4+ICAgICAgdHJhbnNmZXIiIGZ1bmN0aW9uLgo+
-ID4+Pj4+IC0gSWYgZXZlcnlvbmUgaGF0ZXMgdGhlIEVESUQgY2FjaGUgbW92aW5nIHRvIHRoZSBj
-b3JlIHRoZW4gd2UgY2FuCj4gPj4+Pj4gICAgICBhdm9pZCBzb21lIG9mIHRoZSBhd2t3YXJkIGZs
-b3cgb2YgdGhpbmdzIGFuZCBrZWVwIHRoZSBFRElEIGNhY2hlIGluCj4gPj4+Pj4gICAgICB0aGUg
-c242NWRzaTg2IGRyaXZlci4KPiA+Pj4+Cj4gPj4+PiBJIHdvbmRlciBpZiB0aGlzIHNob3VsZG4n
-dCBiZSBzb2x2ZWQgaW4gdGhlIGNvcmUgLSBpZSBjYWxsZXIgb2YKPiA+Pj4+IGdldF9tb2RlcyBj
-YWxsYmFjayBzaG91bGQgYmUgcmVzcG9uc2libGUgZm9yIHBvd2VyaW5nIHVwIHRoZSBwaXBlbGlu
-ZSwKPiA+Pj4+IG90aGVyd2lzZSB3ZSBuZWVkIHRvIHJlcGVhdCB0aGlzIHN0dWZmIGluIGV2ZXJ5
-IGJyaWRnZS9wYW5lbCBkcml2ZXIuCj4gPj4+Pgo+ID4+Pj4gQW55IHRob3VnaHRzPwo+ID4+Pgo+
-ID4+PiBZZWFoLCBJIGRpZCBsb29rIGF0IHRoaXMgYSBsaXR0bGUgYml0LiBQcmVzdW1hYmx5IGl0
-IHdvdWxkIG9ubHkgbWFrZQo+ID4+PiBzZW5zZSB0byBkbyBpdCBmb3IgZURQIGNvbm5lY3Rpb25z
-IHNpbmNlOgo+ID4+Pgo+ID4+PiBhKSBUaGUgY29uY2VwdCBvZiByZWFkaW5nIGFuIEVESUQgZG9l
-c24ndCBtYWtlIHNlbnNlIGZvciB0aGluZ3MgbGlrZSBNSVBJLgo+ID4+Cj4gPj4gSSBndWVzcyB5
-b3UgbWVhbiBNSVBJIERTSQo+ID4KPiA+IFllcywgc29ycnkhIEknbGwgdHJ5IHRvIGJlIG1vcmUg
-Y2xlYXIuCj4gPgo+ID4+IGFuZCB5ZXMgSSBhZ3JlZSwgbW9yZSBnZW5lcmFsbHkgaXQgdXN1YWxs
-eSghKQo+ID4+IGRvZXNuJ3QgbWFrZSBzZW5zZSBmb3IgYW55IHNldHVwIHdpdGggZml4ZWQgZGlz
-cGxheSBwYW5lbC4KPiA+Pgo+ID4+IE9uIHRoZSBvdGhlciBoYW5kIHRoZXJlIGFyZSBEU0kvSERN
-SSBvciBEU0kvRFAgYWRhcHRlcnMgd2hpY2ggdXN1YWxseQo+ID4+IGhhdmUgRURJRCByZWFkaW5n
-IGxvZ2ljLgo+ID4+Cj4gPj4gQW5kIHRoZSBjb25jZXB0IG1ha2VzIHNlbnNlIGZvciBtb3N0IGNv
-bm5lY3RvcnMgYWNjZXB0aW5nIGV4dGVybmFsCj4gPj4gZGlzcGxheXM6IEhETUksIERQLCBNSEws
-IFZHQS4uLgo+ID4KPiA+IFNvLCBhY3R1YWxseSwgSU1PIHRoZSBjb25jZXB0IGRvZXNuJ3QgbWFr
-ZSBzZW5zZSBmb3IgYW55dGhpbmcgd2l0aCBhbgo+ID4gZXh0ZXJuYWwgY29ubmVjdG9yLiBIZXJl
-J3MgdGhlIGxvZ2ljIGZvciBhIGhhbmRmdWwgb2YgY29ubmVjdG9yczoKPiA+Cj4gPiAxLiBNSVBJ
-IERTSTogdGhlcmUgaXMgbm8gRURJRCBzbyB0aGlzIGRvZXNuJ3QgbWFrZSBzZW5zZS4KPiA+Cj4g
-PiAyLiBBbiBleHRlcm5hbCBjb25uZWN0b3IgKEhETUksIERQLCBldGMpOiB0aGUgZGlzcGxheSB0
-aGF0J3MgcGx1Z2dlZAo+ID4gaW4gaXMgZXh0ZXJuYWxseSBwb3dlcmVkIHNvIGRvZXNuJ3QgbmVl
-ZCB1cyB0byBwb3dlciBpdCB1cCB0byByZWFkIHRoZQo+ID4gRURJRC4gQnkgZGVmaW5pdGlvbiwg
-d2hlbiB0aGUgSFBEIHNpZ25hbCBpcyBhc3NlcnRlZCB0aGVuIGl0J3MgT0sgdG8KPiA+IHJlYWQg
-dGhlIEVESUQgYW5kIHdlIGRvbid0IGV2ZW4ga25vdyBpZiBhIGRpc3BsYXkgaXMgcGx1Z2dlZCBp
-biB1bnRpbAo+ID4gSFBEIGlzIGFzc2VydGVkLiBUaHVzIG5vIHNwZWNpYWwgcG93ZXIgc2VxdWVu
-Y2luZyBpcyBuZWVkZWQgdG8gcmVhZAo+ID4gdGhlIEVESUQuICAoWWVzLCB3ZSBuZWVkIHRvIG1h
-a2Ugc3VyZSB0aGF0IHRoZSBlRFAgY29udHJvbGxlciBpdHNlbGYKPiA+IGlzIHBvd2VyZWQsIGJ1
-dCB0aGF0IGRvZXNuJ3Qgc2VlbSBsaWtlIGl0J3MgdGhlIGNvcmUncyBidXNpbmVzcykuCj4gCj4g
-Tm90IHRydWUgSU1PLCBldmVuIGlmIGV4dGVybmFsIGRldmljZSBpcyBwb3dlcmVkIG9uLCB5b3Ug
-bXVzdCBlbmFibGUgCj4gRURJRC1yZWFkZXIgbG9naWMuCgpTdXJlLCBidXQgSSB0aGluayBEb3Vn
-IHdhcyByZWZlcnJpbmcgdG8gcG93ZXJpbmcgdXAgdGhlIGRldmljZSBjb25uZWN0ZWQKdG8gdGhl
-IFNONjVEU0k4NiBvdXRwdXQuIFdoZW4gdGhhdCBkZXZpY2UgKGZyb20gYSBEVCBhbmQgRFJNIGJy
-aWRnZQpwb2ludCBvZiB2aWV3KSBpcyBhbiBleHRlcm5hbCBjb25uZWN0b3IsIGl0IG1lYW5zIHRo
-YXQgdGhlIGhhcmR3YXJlCmRldmljZSBpcyBhbiBleHRlcm5hbCBIRE1JL0RQIHNpbmssIGFuZCB3
-ZSBoYXZlIG5vIHdheSB0byBjb250cm9sIGl0cwpwb3dlci4gVGhlIFNONjVEU0k4NiBpdHNlbGYg
-b2YgY291cnNlIG5lZWRzIHRvIGJlIHBvd2VyZWQuCgo+IEkgZ3Vlc3MgaXQgaXMgbm90IHVuY29t
-bW9uIHRvIGhhdmUgZGlmZmVyZW50IHBvd2VyIHN0YXRlcyBmb3IgRURJRCAKPiByZWFkaW5nIGFu
-ZCBicmlkZ2UvcGFuZWwgcHJlLWVuYWJsZW1lbnQgKGVzcGVjaWFsbHkgaW4gZW1iZWRkZWQgd29y
-bGQpLiAKPiBJbiBmYWN0IHRoZXJlIGFyZSBzZXR1cHMgd2hlcmUgRURJRC1yZWFkZXIgaXMgdG90
-YWxseSBkaWZmZXJlbnQgZGV2aWNlIAo+IHRoYW4gdGhlIGJyaWRnZSBpdHNlbGYsIGFuZCB0aGVz
-ZSBkZXZpY2VzIHNob3VsZCBiZSAKPiBwb3dlcmVkL2VuYWJsZWQvb3BlcmF0aW9uYWwgb25seSBm
-b3IgdGltZSBvZiBFRElEIHJlYWRpbmcuCj4gCj4gPiAzLiBlRFA6IHRoaXMgaXMgd2hlcmUgaXQg
-bWF0dGVycy4gVGhpcyBpcyBiZWNhdXNlOgo+ID4KPiA+IDNhKSBlRFAgZGlzcGxheXMgYXJlbid0
-IHBvd2VyZWQgYWxsIHRoZSB0aW1lLiBJZiB5b3UganVzdCBib290IHVwIG9yCj4gPiB5b3UgYmxh
-bmsgeW91ciBzY3JlZW4sIGxpa2VseSB0aGUgZGlzcGxheSBoYXMgbm8gcG93ZXIgYXQgYWxsLgo+
-ID4KPiA+IDNiKSBCZWNhdXNlIHRoZSBkaXNwbGF5IGhhcyBubyBwb3dlciwgdGhlICJIUEQiIHNp
-Z25hbCBkb2Vzbid0IGFzc2VydC4KPiA+IEluIGZhY3QsIGZvciBlRFAgdGhlICJIUEQiIHNpZ25h
-bCByZWFsbHkgc2hvdWxkIG1lYW4gImRpc3BsYXkgcmVhZHkiCj4gPiBvciAiZGlzcGxheSBmaW5p
-c2hlZCBwb3dlcmluZyB1cCIuCj4gPgo+ID4gM2MpIEV2ZW4gdGhvdWdoIHdlIG5ldmVyIGdldCBh
-IEhQRCBzaWduYWwsIHdlIHN0aWxsIHNpbXBseSBhc3N1bWUgdGhhdAo+ID4gYSBkaXNwbGF5IGlz
-IHByZXNlbnQgYmVjYXVzZSB0aGlzIGlzIGFuICJlbWJlZGRlZCIgZGV2aWNlLgo+ID4KPiA+IFNv
-IGVEUCBpcyB1bmlxdWUgKGFzIGZhciBhcyBJIGtub3cpIGluIHRoYXQgaXQncyBhIHR5cGUgb2Yg
-ZGlzcGxheQo+ID4gdGhhdCBoYXMgYW4gRURJRCBidXQgdGhhdCB3ZSB3aWxsIHJlcG9ydCAiYSBk
-aXNwbGF5IGlzIGhlcmUiIGJlZm9yZQo+ID4gd2UndmUgcG93ZXJlZCB1cCB0aGUgZGlzcGxheSBh
-bmQgYmVmb3JlIHdlIGNhbiByZWFkIHRoZSBFRElELgo+ID4KPiA+Pj4gYikgRm9yIHNvbWV0aGlu
-ZyB3aXRoIGFuIGV4dGVybmFsIGNvbm5lY3RvciAoRFAgYW5kIEhETUkpIHlvdSBkb24ndAo+ID4+
-PiBldmVuIGtub3cgdGhleSdyZSBpbnNlcnRlZCB1bmxlc3MgdGhlIEVESUQgaXMgcmVhZHkgdG8g
-cmVhZCAodGhlc2UKPiA+Pj4gZGV2aWNlcyBhcmUsIGVzc2VudGlhbGx5LCBhbHdheXMgcG93ZXJl
-ZCkuCj4gPj4KPiA+PiBVc3VhbGx5IHRoZXJlIGFyZSB0d28gZWxlbWVudHMgd2hpY2ggYXJlIG5v
-dCB0aGUgc2FtZToKPiA+Pgo+ID4+IDEuIEhvdFBsdWcgc2lnbmFsL3dpcmUuCj4gPj4KPiA+PiAy
-LiBFRElEIHJlYWRpbmcgbG9naWMuCj4gPj4KPiA+PiBUaGUgbG9naWMgcmVzcG9uc2libGUgZm9y
-IHJlYWRpbmcgRURJRCBuZWVkcyB0byBiZSBlbmFibGVkIG9ubHkgZm9yIHRpbWUKPiA+PiByZXF1
-aXJlZCBmb3IgRURJRCByZWFkaW5nIDopIFNvIGl0J3MgcG93ZXIgc3RhdGUgb2Z0ZW4gbXVzdCBi
-ZQo+ID4+IGNvbnRyb2xsZWQgZXhwbGljaXRseSBieSB0aGUgYnJpZGdlIGRyaXZlci4gU28gZXZl
-biBpZiBpbiBtYW55IGNhc2VzCj4gPj4gcHJlX2VuYWJsZSBwb3dlcnMgb24gdGhlIGxvZ2ljIGZv
-ciBFRElEIHJlYWRpbmcgaXQgZG9lcyBub3QgbWFrZSBpdCB0aGUKPiA+PiBydWxlLCBzbyBJIG11
-c3Qgc3RlcCBiYWNrIGZyb20gbXkgY2xhaW0gdGhhdCBpdCBpcyB1cCB0byBjYWxsZXIgOikKPiA+
-Cj4gPiBPSywgSSdsbCBwbGFuIHRvIGtlZXAgaXQgaW4gdGhlIGJyaWRnZSBjaGlwIGRyaXZlciBu
-b3cuCj4gPgo+ID4+PiBTbyBJIHN0YXJ0ZWQgb2ZmIHRyeWluZyB0byBkbyB0aGlzIGluIHRoZSBj
-b3JlIGZvciBlRFAsIGJ1dCB0aGVuIGl0Cj4gPj4+IHdhc24ndCBjb21wbGV0ZWx5IGNsZWFyIGhv
-dyB0byB3cml0ZSB0aGlzIGNvZGUgaW4gYSB3YXkgdGhhdCB3YXMgc3VwZXIKPiA+Pj4gZ2VuZXJp
-Yy4gU3BlY2lmaWNhbGx5Ogo+ID4+Pgo+ID4+PiAxLiBJIGRvbid0IHRoaW5rIGl0J3MgYSAxMDAl
-IGd1YXJhbnRlZSB0aGF0IGV2ZXJ5dGhpbmcgaXMgcG93ZXJlZCBvbgo+ID4+PiBpbiBwcmUtZW5h
-YmxlIGFuZCBwb3dlcmVkIG9mZiBpbiBwb3N0LWRpc2FibGUuIEluIHRoaXMgYnJpZGdlIGNoaXAK
-PiA+Pj4gaXQncyB0cnVlLCBidXQgbWF5YmUgbm90IGV2ZXJ5IGVEUCBkcml2ZXI/IFdvdWxkIHlv
-dSB3YW50IG1lIHRvIGp1c3QKPiA+Pj4gYXNzdW1lIHRoaXMsIG9yIGFkZCBhIGZsYWc/Cj4gPj4K
-PiA+PiBPaywgcHJlX2VuYWJsZSBzaG91bGQgcG93ZXIgb24gdGhlIGNoaXAsIGJ1dCBmb3IgcGVy
-Zm9ybWluZwo+ID4+IGluaXRpYWxpemF0aW9uIG9mIHZpZGVvIHRyYW5zcG9ydCBsYXllci4gQXNz
-dW1wdGlvbiBpdCB3aWxsIHBvd2VyIG9uCj4gPj4gRURJRCBsb2dpYyBpcyBpbmNvcnJlY3QsIHNv
-IG15IGNsYWltIHNlZW1zIHdyb25nLCBidXQgYWxzbyB0aGlzIHBhdGNoCj4gPj4gbG9va3MgaW5j
-b3JyZWN0IDopCj4gPj4KPiA+PiBJbiBnZW5lcmFsIG9ubHkgZGV2aWNlIGNvbnRhaW5pbmcgRURJ
-RCBsb2dpYyBrbm93cyBob3cgdG8gcG93ZXIgaXQgdXAuCj4gPgo+ID4gSSBzdGlsbCBiZWxpZXZl
-IG15IHBhdGNoIGlzIGNvcnJlY3QuIFNwZWNpZmljYWxseSBJIGRvbid0IG5lZWQgdG8gbWFrZQo+
-ID4gYW55IGFzc3VtcHRpb25zIGFib3V0IGRpc3BsYXkgZWxlbWVudHMgdXBzdHJlYW0gb2YgbWUg
-KHNvdXJjZXMgb2YgdGhlCj4gPiBicmlkZ2UgY2hpcCkuIEkgb25seSBuZWVkIHRvIG1ha2UgYXNz
-dW1wdGlvbnMgYWJvdXQgdGhlIHByZS1lbmFibGUgb2YKPiA+IHRoZSBicmlkZ2UgZHJpdmVyIGl0
-c2VsZiBhbmQgYW55dGhpbmcgZG93bnN0cmVhbSBvZiBpdC4KPiA+Cj4gPiBBdCB0aGUgbW9tZW50
-IGRvd25zdHJlYW0gb2YgdGhpcyBwYXJ0aWN1bGFyIGJyaWRnZSBjaGlwIGlzIGFsd2F5cyBhCj4g
-PiBwYW5lbCBkZXZpY2UuIEV2ZW4gZnVydGhlciwgYWxsIGtub3duIGRvd25zdHJlYW0gZGV2aWNl
-cyBhcmUKPiA+ICJzaW1wbGUtcGFuZWwiLiBUaGF0IGlzIGtub3duIHRvIHBvd2VyIHVwIHRoZSBw
-YW5lbCBlbm91Z2ggdG8gcmVhZCB0aGUKPiA+IEVESUQgaW4gdGhlICJwcmVwYXJlIiBzdGFnZS4K
-PiA+Cj4gPiBTdXJlLCBzb21lb25lIF9jb3VsZF8gYWRkIGFub3RoZXIgYnJpZGdlIGRvd25zdHJl
-YW0gaW4gc29tZSBkZXNpZ24sCj4gPiBidXQgaXQgd291bGQgYmUgdXAgdG8gdGhhdCBwZXJzb24g
-dG8gZWl0aGVyIGZpeCB0aGF0IGRvd25zdHJlYW0gZHJpdmVyCj4gPiB0byBwb3dlciBpdHNlbGYg
-aW4gcHJlLWVuYWJsZSBvciB0byBhZGQgc29tZSB0eXBlIG9mIHF1aXJrIGRpc2FibGluZwo+ID4g
-dGhlIEVESUQgcmVhZGluZy4KPiA+Cj4gPj4gU2luY2UgSSBkbyBub3Qga25vdyB5b3VyIHBhcnRp
-Y3VsYXIgY2FzZSBJIGNhbiBwcm9wb3NlIGZldyBwb3NzaWJsZSB3YXlzCj4gPj4gdG8gaW52ZXN0
-aWdhdGU6Cj4gPj4KPiA+PiAtIGNhbGwgYnJpZGdlLm5leHQtPmdldF9tb2RlcyAtIHlvdSBsZWF2
-ZSByZXNwb25zaWJpbGl0eSBmb3IgcG93ZXJpbmcgdXAKPiA+PiB0byB0aGUgZG93bnN0cmVhbSBk
-ZXZpY2UuCj4gPgo+ID4gVGhlICJuZXh0IiBicmlkZ2UgaXMgdGhlIHBhbmVsLCBzbyBJIGRvbid0
-IHRoaW5rIHRoaXMgd29ya3MuCj4gCj4gVGhlbiBkcm1fcGFuZWxfZ2V0X21vZGVzIHdpbGwgd29y
-ayB0aGVuLgoKTm90IGlmIHRoZSBwYW5lbCBleHBvc2VzIG1vZGVzIHRocm91Z2ggRURJRCwgaW4g
-dGhhdCBjYXNlIGl0J3MgdGhlCnJlc3BvbnNpYmlsaXR5IG9mIHRoZSBkZXZpY2UgY29ubmVjdGVk
-IHRvIHRoZSBEREMvQVVYIHBvcnQgdG8gcmVhZCB0aGUKRURJRCBhbmQgcHJvdmlkZSBtb2Rlcy4g
-VGhlIHBhbmVsIGRyaXZlciB3b24ndCBiZSBhYmxlIHRvIGhhbmRsZSBpdCBvbgppdHMgb3duLgoK
-PiA+PiAtIGRkYyBkcml2ZXIgb24gaTJjIHJlcXVlc3Qgc2hvdWxkIHBvd2VyIHVwIHRoZSBwYW5l
-bCAtIHNlZW1zIGFsc28gY29ycmVjdCwKPiA+Cj4gPiBSaWdodCwgc28gSSBjb3VsZCBwdXQgdGhl
-Cj4gPiAiZHJtX2JyaWRnZV9jaGFpbl9wcmVfZW5hYmxlKCZwZGF0YS0+YnJpZGdlKSIgaW50byB0
-aGUKPiA+IHRpX3NuX2F1eF90cmFuc2ZlcigpIGZ1bmN0aW9uLiBJIHRhbGtlZCBhYm91dCB0aGF0
-IGEgbGl0dGxlIGJpdCAiYWZ0ZXIKPiA+IHRoZSBjdXQiIGluIG15IHBvc3Qgd2hlcmUgSSBzYWlk
-Ogo+ID4KPiA+PiAtIElmIGV2ZXJ5b25lIGxvdmVzIHRoZSAicnVudGltZSBQTSIgaW4gdGhlIHBh
-bmVsIGRyaXZlciB0aGVuIHdlCj4gPj4gICBjb3VsZCwgaW4gdGhlb3J5LCBwdXQgdGhlIHByZS1l
-bmFibGUgY2hhaW5pbmcgc3RyYWlnaHQgaW4gdGhlICJhdXgKPiA+PiAgIHRyYW5zZmVyIiBmdW5j
-dGlvbi4KPiA+Cj4gPiBUaGUgcmVhc29uIGZvciB0aGUgZGVwZW5kZW5jZSBvbiAicnVudGltZSBQ
-TSIgaW4gdGhlIHBhbmVsIGRyaXZlciBpcwo+ID4gdGhhdCB3ZSBhcmUgZG9pbmcgRERDIG92ZXIg
-QVVYIGFuZCBpdCBicmVha3MgdGhlIEVESUQgcmVhZGluZyBpbnRvCj4gPiBsb3RzIG9mIGNodW5r
-cyBzbyBpZiB3ZSBkaWQgdGhlIHBvd2VyaW5nIHVwIGFuZCBwb3dlcmluZyBkb3duIHRoZXJlIGl0
-Cj4gPiB3b3VsZCBiZSBjcmF6eSBzbG93IHdpdGhvdXQgdGhlIGRlbGF5ZWQgcG93ZXJvZmYuCj4g
-Cj4gT0ssIGl0IHJlc2VtYmxlcyB0byBtZSBEU0ktY29udHJvbGxlZCBwYW5lbCAtIHRvIHF1ZXJ5
-L2NvbmZpZ3VyZSBwYW5lbCAKPiBwYW5lbCBkcml2ZXIgYXNrcyBEU0ktaG9zdCB0byB0cmFuc2Zl
-ciBzb21lIGJ5dGVzIHRvIHRoZSBwYW5lbCBhbmQvb3IgCj4gYmFjayB2aWEgRFNJLWJ1cy4KPiAK
-PiBJbiBjYXNlIG9mIGVEUCBwYW5lbHMgd2UgY291bGQgZG8gc2ltaWxhciB0aGluZyB0byByZWFk
-IGVkaWQgLSB3ZSBjYWxsIAo+IGRybV9wYW5lbF9nZXRfbW9kZXMgLSBpdCBjYWxscyBkcm1fcGFu
-ZWxfZnVuY3MuZ2V0X21vZGVzIGNhbGxiYWNrIGFuZCBpdCAKPiBkZWNpZGVzIChiYXNlZCBvbiBE
-VCkgaWYgaXQgc2hvdWxkIGZpbGwgbW9kZXMgYWNjb3JkaW5nIHRvIGhhcmRjb2RlZCAKPiBpbmZv
-IGludG8gdGhlIGRyaXZlciBvciB0byBhc2sgdGhlIHBoeXNpY2FsIHBhbmVsIHZpYSBEUC1jb250
-cm9sbGVyIC0gCj4gdGhpcyB3YXkgYWxsIHRoZSBwbGF5ZXJzICh0aGUgcGFuZWwsIEFVWC9EREMg
-ZGV2aWNlKSB3aWxsIGtub3cgd2hhdCB0byAKPiBwb3dlci11cC4KPiAKPiBJIGd1ZXNzIHRoZXJl
-IGlzIG1pc3NpbmcgcGllY2VzIC0gdGhlcmUgaXMgbm8gRFAgYnVzIDopLCBJIGFtIG5vdCBzdXJl
-IAo+IGlmIHRoZXJlIGlzIHN0cmFpZ2h0IHdheSB0byBhY2Nlc3MgcGFuZWwncyBhdXgvZGRjIGZy
-b20gdGhlIHBhbmVsIAo+IGRyaXZlciwgbWF5YmUgc29tZWhvdyB2aWEgZHJtX2Nvbm5lY3RvciA/
-Pz8KCklmIHRoZSBTTjY1RFNJODYgaGFzIHRvIGNhbGwgZHJtX3BhbmVsX2dldF9tb2RlcygpLCB3
-aGljaCB3aWxsIHRoZW4gY2FsbApiYWNrIGludG8gdGhlIFNONjVEU0k4NiBkcml2ZXIgdG8gcGVy
-Zm9ybSB0aGUgRURJRCByZWFkLCBpdCBzZWVtcyB0byBtZQp0aGF0IHRoZSBwYW5lbCBkcml2ZXIg
-c2hvdWxkbid0IGJlIGludm9sdmVkIGF0IGFsbC4KCkRSTSBicmlkZ2VzIGhhdmUgInJlY2VudGx5
-IiBnYWluZWQgbmV3IG9wZXJhdGlvbnMgdG8gcmV0cmlldmUgRURJRCwgYW5kCnRoZXJlJ3MgYSBo
-ZWxwZXIgKGRybV9icmlkZ2VfY29ubmVjdG9yKSB0aGF0IGNyZWF0ZXMgYSBjb25uZWN0b3IgZm9y
-IGEKY2hhaW4gb2YgYnJpZGdlcywgZGVsZWdhdGluZyBjb25uZWN0b3Igb3BlcmF0aW9ucyB0byB0
-aGUgYXBwcm9wcmlhdGUKYnJpZGdlIGluIHRoZSBjaGFpbi4gVGhpcyBzZWVtcyBhIGJldHRlciB3
-YXkgZm9yd2FyZCB0byBtZSAoYnV0IEknbQpiaWFzZWQsIGFzIEkndmUgYXV0aG9yZWQgdGhhdCBj
-b2RlIDotKSkuCgo+IE9mIGNvdXJzZSB0aGlzIG9ubHkgbXkgaWRlYSAtIHRvIGJlIGRpc2N1c3Nl
-ZCB3aXRoIG90aGVycy4KCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQaW5jaGFydApfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Doug,
+
+Thank you for the patch.
+
+On Fri, Apr 02, 2021 at 03:28:46PM -0700, Douglas Anderson wrote:
+> Unpreparing and re-preparing a panel can be a really heavy
+> operation. Panels datasheets often specify something on the order of
+> 500ms as the delay you should insert after turning off the panel
+> before turning it on again. In addition, turning on a panel can have
+> delays on the order of 100ms - 200ms before the panel will assert HPD
+> (AKA "panel ready"). The above means that we should avoid turning a
+> panel off if we're going to turn it on again shortly.
+> 
+> The above becomes a problem when we want to read the EDID of a
+> panel. The way that ordering works is that userspace wants to read the
+> EDID of the panel _before_ fully enabling it so that it can set the
+> initial mode correctly. However, we can't read the EDID until we power
+> it up. This leads to code that does this dance (like
+> ps8640_bridge_get_edid()):
+> 
+> 1. When userspace requests EDID / the panel modes (through an ioctl),
+>    we power on the panel just enough to read the EDID and then power
+>    it off.
+> 2. Userspace then turns the panel on.
+> 
+> There's likely not much time between step #1 and #2 and so we want to
+> avoid powering the panel off and on again between those two steps.
+> 
+> Let's use Runtime PM to help us. We'll move the existing prepare() and
+> unprepare() to be runtime resume() and runtime suspend(). Now when we
+> want to prepare() or unprepare() we just increment or decrement the
+> refcount. We'll default to a 1 second autosuspend delay which seems
+> sane given the typical delays we see for panels.
+> 
+> A few notes:
+> - It seems the existing unprepare() and prepare() are defined to be
+>   no-ops if called extra times. We'll preserve that behavior.
+
+The prepare and unprepare calls are supposed to be balanced, which
+should allow us to drop this check. Do you have a reason to suspect that
+it may not be the case ?
+
+> - This is a slight change in the ABI of simple panel. If something was
+>   absolutely relying on the unprepare() to happen instantly that
+>   simply won't be the case anymore. I'm not aware of anyone relying on
+>   that behavior, but if there is someone then we'll need to figure out
+>   how to enable (or disable) this new delayed behavior selectively.
+> - In order for this to work we now have a hard dependency on
+>   "PM". From memory this is a legit thing to assume these days and we
+>   don't have to find some fallback to keep working if someone wants to
+>   build their system without "PM".
+
+Sounds fine to me.
+
+The code looks good to me. Possibly with the prepared check removed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> 
+> (no changes since v1)
+> 
+>  drivers/gpu/drm/panel/Kconfig        |  1 +
+>  drivers/gpu/drm/panel/panel-simple.c | 93 +++++++++++++++++++++-------
+>  2 files changed, 73 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 4894913936e9..ef87d92cdf49 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -80,6 +80,7 @@ config DRM_PANEL_SIMPLE
+>  	tristate "support for simple panels"
+>  	depends on OF
+>  	depends on BACKLIGHT_CLASS_DEVICE
+> +	depends on PM
+>  	select VIDEOMODE_HELPERS
+>  	help
+>  	  DRM panel driver for dumb panels that need at most a regulator and
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index be312b5c04dd..6b22872b3281 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -27,6 +27,7 @@
+>  #include <linux/module.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regulator/consumer.h>
+>  
+>  #include <video/display_timing.h>
+> @@ -175,6 +176,8 @@ struct panel_simple {
+>  	bool enabled;
+>  	bool no_hpd;
+>  
+> +	bool prepared;
+> +
+>  	ktime_t prepared_time;
+>  	ktime_t unprepared_time;
+>  
+> @@ -334,19 +337,31 @@ static int panel_simple_disable(struct drm_panel *panel)
+>  	return 0;
+>  }
+>  
+> +static int panel_simple_suspend(struct device *dev)
+> +{
+> +	struct panel_simple *p = dev_get_drvdata(dev);
+> +
+> +	gpiod_set_value_cansleep(p->enable_gpio, 0);
+> +	regulator_disable(p->supply);
+> +	p->unprepared_time = ktime_get();
+> +
+> +	return 0;
+> +}
+> +
+>  static int panel_simple_unprepare(struct drm_panel *panel)
+>  {
+>  	struct panel_simple *p = to_panel_simple(panel);
+> +	int ret;
+>  
+> -	if (p->prepared_time == 0)
+> +	/* Unpreparing when already unprepared is a no-op */
+> +	if (!p->prepared)
+>  		return 0;
+>  
+> -	gpiod_set_value_cansleep(p->enable_gpio, 0);
+> -
+> -	regulator_disable(p->supply);
+> -
+> -	p->prepared_time = 0;
+> -	p->unprepared_time = ktime_get();
+> +	pm_runtime_mark_last_busy(panel->dev);
+> +	ret = pm_runtime_put_autosuspend(panel->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +	p->prepared = false;
+>  
+>  	return 0;
+>  }
+> @@ -376,22 +391,19 @@ static int panel_simple_get_hpd_gpio(struct device *dev,
+>  	return 0;
+>  }
+>  
+> -static int panel_simple_prepare_once(struct drm_panel *panel)
+> +static int panel_simple_prepare_once(struct panel_simple *p)
+>  {
+> -	struct panel_simple *p = to_panel_simple(panel);
+> +	struct device *dev = p->base.dev;
+>  	unsigned int delay;
+>  	int err;
+>  	int hpd_asserted;
+>  	unsigned long hpd_wait_us;
+>  
+> -	if (p->prepared_time != 0)
+> -		return 0;
+> -
+>  	panel_simple_wait(p->unprepared_time, p->desc->delay.unprepare);
+>  
+>  	err = regulator_enable(p->supply);
+>  	if (err < 0) {
+> -		dev_err(panel->dev, "failed to enable supply: %d\n", err);
+> +		dev_err(dev, "failed to enable supply: %d\n", err);
+>  		return err;
+>  	}
+>  
+> @@ -405,7 +417,7 @@ static int panel_simple_prepare_once(struct drm_panel *panel)
+>  
+>  	if (p->hpd_gpio) {
+>  		if (IS_ERR(p->hpd_gpio)) {
+> -			err = panel_simple_get_hpd_gpio(panel->dev, p, false);
+> +			err = panel_simple_get_hpd_gpio(dev, p, false);
+>  			if (err)
+>  				goto error;
+>  		}
+> @@ -423,7 +435,7 @@ static int panel_simple_prepare_once(struct drm_panel *panel)
+>  
+>  		if (err) {
+>  			if (err != -ETIMEDOUT)
+> -				dev_err(panel->dev,
+> +				dev_err(dev,
+>  					"error waiting for hpd GPIO: %d\n", err);
+>  			goto error;
+>  		}
+> @@ -447,25 +459,46 @@ static int panel_simple_prepare_once(struct drm_panel *panel)
+>   */
+>  #define MAX_PANEL_PREPARE_TRIES		5
+>  
+> -static int panel_simple_prepare(struct drm_panel *panel)
+> +static int panel_simple_resume(struct device *dev)
+>  {
+> +	struct panel_simple *p = dev_get_drvdata(dev);
+>  	int ret;
+>  	int try;
+>  
+>  	for (try = 0; try < MAX_PANEL_PREPARE_TRIES; try++) {
+> -		ret = panel_simple_prepare_once(panel);
+> +		ret = panel_simple_prepare_once(p);
+>  		if (ret != -ETIMEDOUT)
+>  			break;
+>  	}
+>  
+>  	if (ret == -ETIMEDOUT)
+> -		dev_err(panel->dev, "Prepare timeout after %d tries\n", try);
+> +		dev_err(dev, "Prepare timeout after %d tries\n", try);
+>  	else if (try)
+> -		dev_warn(panel->dev, "Prepare needed %d retries\n", try);
+> +		dev_warn(dev, "Prepare needed %d retries\n", try);
+>  
+>  	return ret;
+>  }
+>  
+> +static int panel_simple_prepare(struct drm_panel *panel)
+> +{
+> +	struct panel_simple *p = to_panel_simple(panel);
+> +	int ret;
+> +
+> +	/* Preparing when already prepared is a no-op */
+> +	if (p->prepared)
+> +		return 0;
+> +
+> +	ret = pm_runtime_get_sync(panel->dev);
+> +	if (ret < 0) {
+> +		pm_runtime_put_autosuspend(panel->dev);
+> +		return ret;
+> +	}
+> +
+> +	p->prepared = true;
+> +
+> +	return 0;
+> +}
+> +
+>  static int panel_simple_enable(struct drm_panel *panel)
+>  {
+>  	struct panel_simple *p = to_panel_simple(panel);
+> @@ -748,6 +781,18 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  		break;
+>  	}
+>  
+> +	dev_set_drvdata(dev, panel);
+> +
+> +	/*
+> +	 * We use runtime PM for prepare / unprepare since those power the panel
+> +	 * on and off and those can be very slow operations. This is important
+> +	 * to optimize powering the panel on briefly to read the EDID before
+> +	 * fully enabling the panel.
+> +	 */
+> +	pm_runtime_enable(dev);
+> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> +	pm_runtime_use_autosuspend(dev);
+> +
+>  	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
+>  
+>  	err = drm_panel_of_backlight(&panel->base);
+> @@ -756,8 +801,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  
+>  	drm_panel_add(&panel->base);
+>  
+> -	dev_set_drvdata(dev, panel);
+> -
+>  	return 0;
+>  
+>  free_ddc:
+> @@ -4603,10 +4646,17 @@ static void panel_simple_platform_shutdown(struct platform_device *pdev)
+>  	panel_simple_shutdown(&pdev->dev);
+>  }
+>  
+> +static const struct dev_pm_ops panel_simple_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(panel_simple_suspend, panel_simple_resume, NULL)
+> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +				pm_runtime_force_resume)
+> +};
+> +
+>  static struct platform_driver panel_simple_platform_driver = {
+>  	.driver = {
+>  		.name = "panel-simple",
+>  		.of_match_table = platform_of_match,
+> +		.pm = &panel_simple_pm_ops,
+>  	},
+>  	.probe = panel_simple_platform_probe,
+>  	.remove = panel_simple_platform_remove,
+> @@ -4901,6 +4951,7 @@ static struct mipi_dsi_driver panel_simple_dsi_driver = {
+>  	.driver = {
+>  		.name = "panel-simple-dsi",
+>  		.of_match_table = dsi_of_match,
+> +		.pm = &panel_simple_pm_ops,
+>  	},
+>  	.probe = panel_simple_dsi_probe,
+>  	.remove = panel_simple_dsi_remove,
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
