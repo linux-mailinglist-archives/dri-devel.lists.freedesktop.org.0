@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A17361022
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 18:27:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB35A36105B
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 18:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 305166EA93;
-	Thu, 15 Apr 2021 16:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB0B6EA98;
+	Thu, 15 Apr 2021 16:45:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFD9D6EA90;
- Thu, 15 Apr 2021 16:27:52 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- k14-20020a9d7dce0000b02901b866632f29so23110823otn.1; 
- Thu, 15 Apr 2021 09:27:52 -0700 (PDT)
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E27216EA98
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 16:45:26 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id z15so10582897qtj.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 09:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Sv8ShlWCFYrRvkMTcwOZXNbuS9oUEdPA5USpJjouThE=;
- b=FOOM/KGf5hmW0LDCmdb7lpl3uQgy3UEwO5PjMunL+/tdyf8NWyML93As/uk5No4kVh
- 3/iXatPA+uyl4WU4kwgTde2JNYOYaA2k8gyZG2KwJVXV4KAOnN5NjCCyWeTP+Ud0ZITN
- pE6MFRRf6HPHNAGmDLKh/JT3gm5Bi/4d3N+KLC/ChSptzig+a2yUe7WQn8hzzu+KkUSM
- JkJ6fdVOKnXn7dV07WRwH2ec7QWF5jouXuqqnUvEmpY+rbfm+Kf+mD9md/PoGFXfD6BE
- K/n8ukXWUAe7R+IA3uMA3HQyoBCZYyU6u9t8uq7UYz9Zbeaw9uwsADCmwN+TckTsGJRV
- 4RVQ==
+ :cc:content-transfer-encoding;
+ bh=ymb443vHuPHe54y8A8ox12SPhH6Lmds08FT0LxawHHg=;
+ b=gkX1hbnfa93m+Xk88XQ/v4N36CY1iVcew39PlaMziwRazl1aHZOzUuTEqjRgaeKBvC
+ DQJ6Cw2XH1N6971wZilzCmns1vixacOhZAcJzG3ON1y35l//3XkepQB8s2wcmF5jbkhw
+ t4yzxKMk9AyMZAqGag0viMf8x8e8wSrriy39U+CSARtTSwiBkx2NFUnxzrsVPW0i+YGH
+ F6kMEVlVrOqF0rhfFJoET7KZV4z9dM5cz3vEycGwTfEKwqIlQjb7hZr/Phhf/IypLWAV
+ vke82W3b7x86HTdWAe25FJJX1Mo2yHdkTtYlbiY4eYgk5/Bj3JJmBkZIKcNnMP9F3TMg
+ JCmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Sv8ShlWCFYrRvkMTcwOZXNbuS9oUEdPA5USpJjouThE=;
- b=MpaLhgB6KS0Zmr4jq3SqRRqmKHNbMqfrl5cjaitf0D1J5YWvpI6/v1hH3fO9TngVKw
- mWIn8yfjx0JYvFtalIV9V+avYxJZzCSNiGMfBeyLUqP7eUWbwLq0L/ByLcz9UpL02mtm
- 5e7m0o72f6JQSJm7P/gUlgurQ8pLu9bu41cF5Z2jm/KN8pgbFS/OQPmUaduPQHtuY1t8
- 38HPKF5EK0lUylgNpkT5lV5rIcyj+3JVkTOwsnQrD0hYemUsQKDVZP1wol6XhFqlasWx
- O0nlUAqD6ksgcIH9O2A5MiOchdTUzSaAUNa3Fq5kKGVwBEpS6oyltmLwrKFp5j4P2Id6
- On0Q==
-X-Gm-Message-State: AOAM5330CoAamS0ALz78T9asTT/IbPWVyJqLcxZw6DYdzxm554Yzqkon
- QDzQQSETZiGkBiykmS/8+VvjynRdYqOhqIxDbKE=
-X-Google-Smtp-Source: ABdhPJwn2G/eQ/cTmZ4tw/XztL2pHSPpSZmCTo0b2P4Qui2SzWi6hDRqjufrC2EUtW2Zd42jmLZarDzkmZOZXrf+qWk=
-X-Received: by 2002:a05:6830:1697:: with SMTP id
- k23mr115526otr.132.1618504072201; 
- Thu, 15 Apr 2021 09:27:52 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ymb443vHuPHe54y8A8ox12SPhH6Lmds08FT0LxawHHg=;
+ b=JU7xAgKq9qQzTnjdySa+YBNuMpvRjj4p4oElanZla4l1uNLo8KnvpzS401sdK8oaEh
+ UeVI4IR/FqUYdqkyNloVaPD2GAXHVcEm20bWSY/xsHjOkQTGPncVmUJqrikJYASsqaic
+ 0K5oIDl+M8NlJNxR9+OD9owQckC9N2IUIkW6/1JSYcf4IrQU+WNOato8t1HaPYpZcfLZ
+ meyHtzE1jx/lsoBIh4raUz/5IgKqMKNZJjdCiZ9YGz5Of1qXKKX9ilXqvqi1J6NOAKNm
+ ASfAhua5yjoaHTpxfLJsXPQN+BIpWS7bhAq04EHJD4YnR1NbRhgkMWPauXKpB054n+sP
+ SRKg==
+X-Gm-Message-State: AOAM530TITMH9+CiOZKxPudGYzY1288umggBNgkb+SsjWqqvhsuoK9Jl
+ SxqfncwzOX6Tupi4Ob+ulQL0OxKABYU/FhqPNEY=
+X-Google-Smtp-Source: ABdhPJw6+WZSUfmIg17Sfc3mDqM//FAq7Rst5x8k2dLMQxhQ3IkJ/c/1lzNXw6/pt7A5kv6jdAVpP3Y0Psu73Af6BX4=
+X-Received: by 2002:ac8:5e4a:: with SMTP id i10mr3797084qtx.341.1618505126143; 
+ Thu, 15 Apr 2021 09:45:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <1618479020-38198-1-git-send-email-yang.lee@linux.alibaba.com>
-In-Reply-To: <1618479020-38198-1-git-send-email-yang.lee@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 15 Apr 2021 12:27:41 -0400
-Message-ID: <CADnq5_OzUTQnTFjp2KFij3M8g3Fgq+dfMJyn8dkjzU+mR3yceA@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon/si: Fix inconsistent indenting
-To: Yang Li <yang.lee@linux.alibaba.com>
+References: <20210413135248.1266-1-christian.koenig@amd.com>
+ <20210413135248.1266-6-christian.koenig@amd.com>
+In-Reply-To: <20210413135248.1266-6-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Thu, 15 Apr 2021 17:44:59 +0100
+Message-ID: <CAM0jSHP9Sns050QsOLO+0XZ2i8T5-Cf6hz5yGkbaPCL6DX0a9g@mail.gmail.com>
+Subject: Re: [PATCH 6/7] drm/ttm: always initialize the full ttm_resource
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +62,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Thu, Apr 15, 2021 at 5:30 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
->
-> Kernel test robot throws below warning ->
->
-> smatch warnings:
-> drivers/gpu/drm/radeon/si.c:4514 si_vm_packet3_cp_dma_check() warn:
-> inconsistent indenting
->
-> Fixed the inconsistent indenting.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/radeon/si.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
-> index 88731b79..d0e94b1 100644
-> --- a/drivers/gpu/drm/radeon/si.c
-> +++ b/drivers/gpu/drm/radeon/si.c
-> @@ -4511,7 +4511,7 @@ static int si_vm_packet3_cp_dma_check(u32 *ib, u32 idx)
->                         } else {
->                                 for (i = 0; i < (command & 0x1fffff); i++) {
->                                         reg = start_reg + (4 * i);
-> -                               if (!si_vm_reg_valid(reg)) {
-> +                                       if (!si_vm_reg_valid(reg)) {
->                                                 DRM_ERROR("CP DMA Bad DST register\n");
->                                                 return -EINVAL;
->                                         }
-> --
-> 1.8.3.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAxMyBBcHIgMjAyMSBhdCAxNDo1MywgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
+ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gSW5pdCBhbGwgZmllbGRzIGluIHR0
+bV9yZXNvdXJjZV9hbGxvYygpIHdoZW4gd2UgY3JlYXRlIGEgbmV3IHJlc291cmNlLgo+Cj4gU2ln
+bmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpS
+ZXZpZXdlZC1ieTogTWF0dGhldyBBdWxkIDxtYXR0aGV3LmF1bGRAaW50ZWwuY29tPgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
