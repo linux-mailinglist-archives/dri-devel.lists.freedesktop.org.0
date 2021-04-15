@@ -1,49 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C83F3607F3
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 13:05:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6293C36084F
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 13:33:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB1E26EA23;
-	Thu, 15 Apr 2021 11:05:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 247616E176;
+	Thu, 15 Apr 2021 11:33:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86A206EA23;
- Thu, 15 Apr 2021 11:05:15 +0000 (UTC)
-IronPort-SDR: bRFoqy7ehAESlUDg2vsnHuHxs84mTsRVBYftzINAKgOl2o02UeUGPA/ss1e3DiSWKj5ORU5lV+
- UYHzM2tgz+1Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="191643869"
-X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; d="scan'208";a="191643869"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2021 04:05:14 -0700
-IronPort-SDR: IpDRZywzN0Wewj+q/zqcteUNU9LxRH+b4QcNYTjxVYQhnXUb3XQGKPVLI+gsUvRTO4xJNNa1oY
- BFWWQpl1cIaw==
-X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; d="scan'208";a="522330457"
-Received: from annelyon-mobl2.ger.corp.intel.com (HELO [10.213.207.39])
- ([10.213.207.39])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2021 04:05:10 -0700
-Subject: Re: [Intel-gfx] [PATCH 11/19] drm/i915: Update the helper to set
- correct mapping
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20210412090526.30547-1-matthew.auld@intel.com>
- <20210412090526.30547-12-matthew.auld@intel.com>
- <7bc2a663-fbc0-6486-341a-7dca980c2440@linux.intel.com>
- <CAM0jSHNhWcscW9txPDyKActTiTWjzhASJb5xC8XPzHeN+Y18QA@mail.gmail.com>
- <9aca524c-3710-dfaa-bfec-aef76aee7b26@linux.intel.com>
- <CAM0jSHN57bwK6f=tH59iAO5R5WpWfZOw56tsjzxVuJf8SkM+vw@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <ed521b72-4dd0-2b0f-e313-5fc31c37fae1@linux.intel.com>
-Date: Thu, 15 Apr 2021 12:05:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2608D6E169
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 11:33:51 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ y20-20020a1c4b140000b029011f294095d3so14405568wma.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 04:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=13k+njGV2uKvtcoZVwTEnL8TyFMpsUTPjBtwvKMVIn0=;
+ b=FA7sBqmNPXF8L1IJzMBiC1C+03+99yGRO7xmwzxSHEiQO8dF+RyiqtUv473TRBl9DJ
+ ofy6vPj3WsLHCTJkVa/VA3GEbj+z04eJQju/RlhR1oPO7IJ+o65MGBUxf1pKuQFxfVJw
+ KoqsWiC/bAs3ilsn2Nalfni+TyiMXOfAvpvqc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=13k+njGV2uKvtcoZVwTEnL8TyFMpsUTPjBtwvKMVIn0=;
+ b=a9Li+ZtppFX026k6G/4G1IScOe7FSe9vYCL7SwTO1gf2hexcXHWxPC9CESsxha8s/Q
+ 9auk8cTuUiF52gYdwN6mpDfgWvGvTaYIYF38X/SaYYKTuY876i+A3vcSI9uAh2CFPdc/
+ ADT5MscbAafCSqchBWHyGJ5XYsLlLHMJPAvM5uUUtIvimkHWWMmIcA33PSlS7ChEY6AH
+ xHLf+G3EUgv2J9DEAP9doWZ7nnA60F4GXgBQ0bVQYdtZqmjcK2GNTn40NFFPeaagFhF8
+ atlwtFZwwID081RQ4Z//+5LhLbOBVRj2yZM6IHiKYiVvxfja6uAA2/UP4sxT4WEg5RQ7
+ lzdg==
+X-Gm-Message-State: AOAM530fUnUSFOPPEN2QgyHgw5jEwFOI/9mbzbBfPChF+IdvQU3xGpz1
+ g0l+AbebnPH0dghpZMTvOxnq6g==
+X-Google-Smtp-Source: ABdhPJwTws/OP8YfTa+zhDBcdtMyEgxr2rTeY9T3TS8womfbkDSVJm6xM69NBHRm4ORd7JehhSwcVQ==
+X-Received: by 2002:a1c:2985:: with SMTP id p127mr2679848wmp.165.1618486429812; 
+ Thu, 15 Apr 2021 04:33:49 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id a22sm2431649wrc.59.2021.04.15.04.33.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Apr 2021 04:33:48 -0700 (PDT)
+Date: Thu, 15 Apr 2021 13:33:46 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH 10/12] drm/tegra: Don't set allow_fb_modifiers explicitly
+Message-ID: <YHgkmgsvBmMXiHTr@phenom.ffwll.local>
+References: <20210413094904.3736372-1-daniel.vetter@ffwll.ch>
+ <20210413094904.3736372-10-daniel.vetter@ffwll.ch>
+ <YHWCgpq5fVpSGdSN@orome.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <CAM0jSHN57bwK6f=tH59iAO5R5WpWfZOw56tsjzxVuJf8SkM+vw@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <YHWCgpq5fVpSGdSN@orome.fritz.box>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,261 +67,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-tegra@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 15/04/2021 10:23, Matthew Auld wrote:
-> On Thu, 15 Apr 2021 at 09:21, Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->>
->> On 14/04/2021 17:20, Matthew Auld wrote:
->>> On Wed, 14 Apr 2021 at 16:22, Tvrtko Ursulin
->>> <tvrtko.ursulin@linux.intel.com> wrote:
->>>>
->>>>
->>>> On 12/04/2021 10:05, Matthew Auld wrote:
->>>>> From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
->>>>>
->>>>> Determine the possible coherent map type based on object location,
->>>>> and if target has llc or if user requires an always coherent
->>>>> mapping.
->>>>>
->>>>> Cc: Matthew Auld <matthew.auld@intel.com>
->>>>> Cc: CQ Tang <cq.tang@intel.com>
->>>>> Suggested-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>>>> Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
->>>>> ---
->>>>>     drivers/gpu/drm/i915/gt/intel_engine_cs.c    |  3 ++-
->>>>>     drivers/gpu/drm/i915/gt/intel_engine_pm.c    |  2 +-
->>>>>     drivers/gpu/drm/i915/gt/intel_lrc.c          |  4 +++-
->>>>>     drivers/gpu/drm/i915/gt/intel_ring.c         |  9 ++++++---
->>>>>     drivers/gpu/drm/i915/gt/selftest_context.c   |  3 ++-
->>>>>     drivers/gpu/drm/i915/gt/selftest_hangcheck.c |  4 ++--
->>>>>     drivers/gpu/drm/i915/gt/selftest_lrc.c       |  4 +++-
->>>>>     drivers/gpu/drm/i915/gt/uc/intel_guc.c       |  4 +++-
->>>>>     drivers/gpu/drm/i915/gt/uc/intel_huc.c       |  4 +++-
->>>>>     drivers/gpu/drm/i915/i915_drv.h              | 11 +++++++++--
->>>>>     drivers/gpu/drm/i915/selftests/igt_spinner.c |  4 ++--
->>>>>     11 files changed, 36 insertions(+), 16 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>> index efe935f80c1a..b79568d370f5 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>> @@ -664,7 +664,8 @@ static int init_status_page(struct intel_engine_cs *engine)
->>>>>         if (ret)
->>>>>                 goto err;
->>>>>
->>>>> -     vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
->>>>> +     vaddr = i915_gem_object_pin_map(obj,
->>>>> +                                     i915_coherent_map_type(engine->i915, obj, true));
->>>>>         if (IS_ERR(vaddr)) {
->>>>>                 ret = PTR_ERR(vaddr);
->>>>>                 goto err_unpin;
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
->>>>> index 7c9af86fdb1e..47f4397095e5 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
->>>>> @@ -23,7 +23,7 @@ static void dbg_poison_ce(struct intel_context *ce)
->>>>>
->>>>>         if (ce->state) {
->>>>>                 struct drm_i915_gem_object *obj = ce->state->obj;
->>>>> -             int type = i915_coherent_map_type(ce->engine->i915);
->>>>> +             int type = i915_coherent_map_type(ce->engine->i915, obj, true);
->>>>>                 void *map;
->>>>>
->>>>>                 if (!i915_gem_object_trylock(obj))
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
->>>>> index e86897cde984..aafe2a4df496 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
->>>>> @@ -903,7 +903,9 @@ lrc_pre_pin(struct intel_context *ce,
->>>>>         GEM_BUG_ON(!i915_vma_is_pinned(ce->state));
->>>>>
->>>>>         *vaddr = i915_gem_object_pin_map(ce->state->obj,
->>>>> -                                      i915_coherent_map_type(ce->engine->i915) |
->>>>> +                                      i915_coherent_map_type(ce->engine->i915,
->>>>> +                                                             ce->state->obj,
->>>>> +                                                             false) |
->>>>>                                          I915_MAP_OVERRIDE);
->>>>>
->>>>>         return PTR_ERR_OR_ZERO(*vaddr);
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c b/drivers/gpu/drm/i915/gt/intel_ring.c
->>>>> index aee0a77c77e0..3cf6c7e68108 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_ring.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_ring.c
->>>>> @@ -53,9 +53,12 @@ int intel_ring_pin(struct intel_ring *ring, struct i915_gem_ww_ctx *ww)
->>>>>
->>>>>         if (i915_vma_is_map_and_fenceable(vma))
->>>>>                 addr = (void __force *)i915_vma_pin_iomap(vma);
->>>>> -     else
->>>>> -             addr = i915_gem_object_pin_map(vma->obj,
->>>>> -                                            i915_coherent_map_type(vma->vm->i915));
->>>>> +     else {
->>>>> +             int type = i915_coherent_map_type(vma->vm->i915, vma->obj, false);
->>>>> +
->>>>> +             addr = i915_gem_object_pin_map(vma->obj, type);
->>>>> +     }
->>>>> +
->>>>>         if (IS_ERR(addr)) {
->>>>>                 ret = PTR_ERR(addr);
->>>>>                 goto err_ring;
->>>>> diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
->>>>> index b9bdd1d23243..26685b927169 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/selftest_context.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/selftest_context.c
->>>>> @@ -88,7 +88,8 @@ static int __live_context_size(struct intel_engine_cs *engine)
->>>>>                 goto err;
->>>>>
->>>>>         vaddr = i915_gem_object_pin_map_unlocked(ce->state->obj,
->>>>> -                                              i915_coherent_map_type(engine->i915));
->>>>> +                                              i915_coherent_map_type(engine->i915,
->>>>> +                                                                     ce->state->obj, false));
->>>>>         if (IS_ERR(vaddr)) {
->>>>>                 err = PTR_ERR(vaddr);
->>>>>                 intel_context_unpin(ce);
->>>>> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->>>>> index 746985971c3a..5b63d4df8c93 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->>>>> @@ -69,7 +69,7 @@ static int hang_init(struct hang *h, struct intel_gt *gt)
->>>>>         h->seqno = memset(vaddr, 0xff, PAGE_SIZE);
->>>>>
->>>>>         vaddr = i915_gem_object_pin_map_unlocked(h->obj,
->>>>> -                                              i915_coherent_map_type(gt->i915));
->>>>> +                                              i915_coherent_map_type(gt->i915, h->obj, false));
->>>>>         if (IS_ERR(vaddr)) {
->>>>>                 err = PTR_ERR(vaddr);
->>>>>                 goto err_unpin_hws;
->>>>> @@ -130,7 +130,7 @@ hang_create_request(struct hang *h, struct intel_engine_cs *engine)
->>>>>                 return ERR_CAST(obj);
->>>>>         }
->>>>>
->>>>> -     vaddr = i915_gem_object_pin_map_unlocked(obj, i915_coherent_map_type(gt->i915));
->>>>> +     vaddr = i915_gem_object_pin_map_unlocked(obj, i915_coherent_map_type(gt->i915, obj, false));
->>>>>         if (IS_ERR(vaddr)) {
->>>>>                 i915_gem_object_put(obj);
->>>>>                 i915_vm_put(vm);
->>>>> diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
->>>>> index 85e7df6a5123..d8f6623524e8 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
->>>>> @@ -1221,7 +1221,9 @@ static int compare_isolation(struct intel_engine_cs *engine,
->>>>>         }
->>>>>
->>>>>         lrc = i915_gem_object_pin_map_unlocked(ce->state->obj,
->>>>> -                                   i915_coherent_map_type(engine->i915));
->>>>> +                                            i915_coherent_map_type(engine->i915,
->>>>> +                                                                   ce->state->obj,
->>>>> +                                                                   false));
->>>>>         if (IS_ERR(lrc)) {
->>>>>                 err = PTR_ERR(lrc);
->>>>>                 goto err_B1;
->>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->>>>> index 78305b2ec89d..adae04c47aab 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->>>>> @@ -682,7 +682,9 @@ int intel_guc_allocate_and_map_vma(struct intel_guc *guc, u32 size,
->>>>>         if (IS_ERR(vma))
->>>>>                 return PTR_ERR(vma);
->>>>>
->>>>> -     vaddr = i915_gem_object_pin_map_unlocked(vma->obj, I915_MAP_WB);
->>>>> +     vaddr = i915_gem_object_pin_map_unlocked(vma->obj,
->>>>> +                                              i915_coherent_map_type(guc_to_gt(guc)->i915,
->>>>> +                                                                     vma->obj, true));
->>>>>         if (IS_ERR(vaddr)) {
->>>>>                 i915_vma_unpin_and_release(&vma, 0);
->>>>>                 return PTR_ERR(vaddr);
->>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
->>>>> index 2126dd81ac38..56d2144dc6a0 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
->>>>> @@ -82,7 +82,9 @@ static int intel_huc_rsa_data_create(struct intel_huc *huc)
->>>>>         if (IS_ERR(vma))
->>>>>                 return PTR_ERR(vma);
->>>>>
->>>>> -     vaddr = i915_gem_object_pin_map_unlocked(vma->obj, I915_MAP_WB);
->>>>> +     vaddr = i915_gem_object_pin_map_unlocked(vma->obj,
->>>>> +                                              i915_coherent_map_type(gt->i915,
->>>>> +                                                                     vma->obj, true));
->>>>>         if (IS_ERR(vaddr)) {
->>>>>                 i915_vma_unpin_and_release(&vma, 0);
->>>>>                 return PTR_ERR(vaddr);
->>>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
->>>>> index 69e43bf91a15..2abbc06712a4 100644
->>>>> --- a/drivers/gpu/drm/i915/i915_drv.h
->>>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
->>>>> @@ -78,6 +78,7 @@
->>>>>     #include "gem/i915_gem_context_types.h"
->>>>>     #include "gem/i915_gem_shrinker.h"
->>>>>     #include "gem/i915_gem_stolen.h"
->>>>> +#include "gem/i915_gem_lmem.h"
->>>>>
->>>>>     #include "gt/intel_engine.h"
->>>>>     #include "gt/intel_gt_types.h"
->>>>> @@ -1921,9 +1922,15 @@ static inline int intel_hws_csb_write_index(struct drm_i915_private *i915)
->>>>>     }
->>>>>
->>>>>     static inline enum i915_map_type
->>>>> -i915_coherent_map_type(struct drm_i915_private *i915)
->>>>> +i915_coherent_map_type(struct drm_i915_private *i915,
->>>>> +                    struct drm_i915_gem_object *obj, bool always_coherent)
->>>>>     {
->>>>> -     return HAS_LLC(i915) ? I915_MAP_WB : I915_MAP_WC;
->>>>> +     if (i915_gem_object_is_lmem(obj))
->>>>> +             return I915_MAP_WC;
->>>>> +     if (HAS_LLC(i915) || always_coherent)
->>>>> +             return I915_MAP_WB;
->>>>> +     else
->>>>> +             return I915_MAP_WC;
->>>>
->>>> Seems this patch is doing two things.
->>>>
->>>> First it is adding lmem support to this helper by always returning WC
->>>> for lmem objects.
->>>>
->>>> Secondly it is introducing an idea of "always coherent" in a helper
->>>> called i915_coherent_map_type. Could someone explain what is coherent vs
->>>> always coherent?
->>>>
->>>> And also, why is always coherent happy with WB? Sounds counter intuitive
->>>> to me.
->>>
->>> All this does is try to keep the existing behaviour intact, whilst
->>> also ensuring that all lmem objects are mapped using only WC, no
->>> matter what. The always_coherent=true thing is for the existing places
->>> where we sometimes map the object using WB, without first considering
->>> whether the device has the fast shared LLC vs snooping. Yes, it's
->>> slightly ugly :)
->>
->> Not fully following - if we had to write kerneldoc for always_coherent
->> input argument - what it would say?
+On Tue, Apr 13, 2021 at 01:37:38PM +0200, Thierry Reding wrote:
+> On Tue, Apr 13, 2021 at 11:49:01AM +0200, Daniel Vetter wrote:
+> > Since
+> > 
+> > commit 890880ddfdbe256083170866e49c87618b706ac7
+> > Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > Date:   Fri Jan 4 09:56:10 2019 +0100
+> > 
+> >     drm: Auto-set allow_fb_modifiers when given modifiers at plane init
+> > 
+> > this is done automatically as part of plane init, if drivers set the
+> > modifier list correctly. Which is the case here.
+> > 
+> > It was slightly inconsistently though, since planes with only linear
+> > modifier support haven't listed that explicitly. Fix that, and cc:
+> > stable to allow userspace to rely on this. Again don't backport
+> > further than where Paul's patch got added.
+> > 
+> > Cc: stable@vger.kernel.org # v5.1 +
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > Cc: linux-tegra@vger.kernel.org
+> > ---
+> >  drivers/gpu/drm/tegra/dc.c  | 10 ++++++++--
+> >  drivers/gpu/drm/tegra/drm.c |  2 --
+> >  2 files changed, 8 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> > index c9385cfd0fc1..f9845a50f866 100644
+> > --- a/drivers/gpu/drm/tegra/dc.c
+> > +++ b/drivers/gpu/drm/tegra/dc.c
+> > @@ -959,6 +959,11 @@ static const struct drm_plane_helper_funcs tegra_cursor_plane_helper_funcs = {
+> >  	.atomic_disable = tegra_cursor_atomic_disable,
+> >  };
+> >  
+> > +static const uint64_t linear_modifiers[] = {
+> > +	DRM_FORMAT_MOD_LINEAR,
+> > +	DRM_FORMAT_MOD_INVALID
+> > +};
+> > +
+> >  static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
+> >  						      struct tegra_dc *dc)
+> >  {
+> > @@ -987,7 +992,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
+> >  
+> >  	err = drm_universal_plane_init(drm, &plane->base, possible_crtcs,
+> >  				       &tegra_plane_funcs, formats,
+> > -				       num_formats, NULL,
+> > +				       num_formats, linear_modifiers,
+> >  				       DRM_PLANE_TYPE_CURSOR, NULL);
+> >  	if (err < 0) {
+> >  		kfree(plane);
+> > @@ -1106,7 +1111,8 @@ static struct drm_plane *tegra_dc_overlay_plane_create(struct drm_device *drm,
+> >  
+> >  	err = drm_universal_plane_init(drm, &plane->base, possible_crtcs,
+> >  				       &tegra_plane_funcs, formats,
+> > -				       num_formats, NULL, type, NULL);
+> > +				       num_formats, linear_modifiers,
+> > +				       type, NULL);
 > 
-> @always_coherent - If true we should always try to map the object
-> using WB. If false we should only map as WB if the device supports the
-> fast shared LLC, in the case of snooped devices we will map use WC.
-> Note that If the resource is lmem then we will always map as WC,
-> regardless of the value of always_coherent, since that's all we
-> currently support.
+> I think we can do better than linear_modifiers for overlay planes, but
+> given that this doesn't change existing behaviour, I'll do that in a
+> separate patch.
 > 
-> Maybe the naming is poor?
+> Acked-by: Thierry Reding <treding@nvidia.com>
 
-Maybe just confusing to me, not sure yet.
-
-So always_coherent is not about how the callers wants to use it, but 
-about platform knowledge? Or a performance concern for LLC vs snooping 
-cases? Does WB works (coherently) on snooping platforms?
-
-Regards,
-
-Tvrtko
+Applied to drm-misc-next, thanks for taking a look.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
