@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0523C361003
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 18:20:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73056361008
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 18:21:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 005896EA7F;
-	Thu, 15 Apr 2021 16:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 391496EA82;
+	Thu, 15 Apr 2021 16:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF1A26EA7F;
- Thu, 15 Apr 2021 16:20:28 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- t140-20020a4a3e920000b02901e5c1add773so4263521oot.1; 
- Thu, 15 Apr 2021 09:20:28 -0700 (PDT)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8CC26EA97;
+ Thu, 15 Apr 2021 16:21:48 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id x77so15441597oix.8;
+ Thu, 15 Apr 2021 09:21:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4wy9+FSYsHBNYRRKB8rjo0Aurqevxrj+BEYYslbcwfQ=;
- b=cBcAin6sml73IfOxqihWogeWPV+X/rC4KvlNxcRfdFy3+vfft12MtwmdPItF0gvDXe
- 5DulcxJe8LzdfYVHy3xPIXtjqyEhs1EjzWnY5dJVf1ALw0jhKPGHF44LXveEBpVaQb9j
- nxNhNW+IVe4x0/ngrTkjzjbJQ3UrwOJlP/iavPuKafuK+g7cS77VXCjNeBkndEn8lfgH
- fiiy+MF008A0ShNEKPD9lthEkDj+tTjzyS4tw5fwLEPo8XrIJM90vK/CXQDjvo/58AoJ
- lLtEVEm3st1DTgV7nXBSmNzut4IStBQvg/cHzqXK62fzbUekA7uS8nwrNsg9GCx7sLkd
- n5eg==
+ :cc; bh=t7pqJXti59c1rJZw2pACVhJls5W5jKhWFw5ukj9e48U=;
+ b=R/O/tUak6DfYH8B+Kw9sxzRxBlisU2gV2zGdlsVd+Gf+3WQN6UF1UrcAVLfwAQDixd
+ RJ3g8Wa4FsX9e2nQKAZw6BuSDTxAy3wgnCf396qM7TEfAOJdNSxfZtI/a/u2n0+4ruGw
+ yG3EbY29ZC8VeFe6DR/hxxFL6GchyU6huaMgLFaKb3n8v6hOCut08KfMCdDetwuAO38G
+ kEh2Ze+IQ0poo2z9pgYxEJw+DnXF6XWIBv8B8eDKH8aLf/ICDcf1fI6waMbaF6/2H+zU
+ 9ghTvXh9THRm0uVldKexJE68WLSnI6+8YzJrfe2z0mOluWF+UZgZukKaQXojYM/jnQiC
+ 88pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=4wy9+FSYsHBNYRRKB8rjo0Aurqevxrj+BEYYslbcwfQ=;
- b=OhNgxPS5I9eWj9ISxLUIBODLbPygFt2Uji9P4y0DB5M2JJU3WuX+OyHcGfpCq5BvBE
- IwNBOrw0fLnLxUsHK4VhrQYugFnzGSG4sFqgdRaRVE5meMSplCcxThoIFl+OCsahm+sQ
- RNl5d6pb+QoQeNuYXFYDULhZHF2+WpbGEQAxNkEh7Ga4p2evRHLny0DWlefMlS8SDLK5
- soF3oxDtNbXeevoLDrO8OcQuCLrCIVW2YUwluNJe3+jZytn7MNza1oAn3FZomJblKKdq
- 8T80ZLFY4tlpJnZdycTeONEPCKQjg/XX1WM85CAkxoVnEfvlZ6NYe0BVqsvk+3rWXF+4
- vB8A==
-X-Gm-Message-State: AOAM532Dkr1+1OjGyYbgtbJoFpl4VRDEVEoFkuPBCGRD9bpxvufD/ekR
- xusD8o6VwB8yh796G7wvDVXJSuNq9WuLt7a184A=
-X-Google-Smtp-Source: ABdhPJxS3N09Snz488dSxKq8qMJh5tRsGiKdDxpn2eYSpvVMwBt2NmG+/+tHw6cbDHAW8x2kFyAY7enUtwmSLN0amYg=
-X-Received: by 2002:a4a:2410:: with SMTP id m16mr3241288oof.90.1618503628040; 
- Thu, 15 Apr 2021 09:20:28 -0700 (PDT)
+ bh=t7pqJXti59c1rJZw2pACVhJls5W5jKhWFw5ukj9e48U=;
+ b=FC7WB9QXaQ3CmZ2WuFWAgig0r8zf4rBq9bz8MbqhLGmb9mLZJoxHZMZQRpMtsHv/wy
+ 4Yx5UZ0AM9SG4ryuvYEm6AcmN0VVDKU38amcQ3SULKA2WFTKJbSSwNkwKNTvQ4Qsnb0p
+ BEhIm8yRQtpjhpvQ4lDbr6G++Z0ZUDoF5nsSPI8m1LBOXoQZZwX5FJD1vWAKA8dwHAQE
+ Lj+yzQBI55d1OKpjkuUO9WVwilHrkKjhCvWs/7hOCvx2N/8LeWojn65BtMfUQ+4ZdE22
+ 79xT4afCUvRV7v9ZAsN8w75jHogRS8PO+41TasCOaxAbbmQhn82h+dA0jfFv5Osi3jBP
+ 89Mg==
+X-Gm-Message-State: AOAM531chiWpnl7Db9DQFi0NOorRMln1dKbpXRJk7xU80DOd7tiB4YfG
+ mx25+ztWvpSQZwK+x4STOdrAfQfzNEnIv4q3Vx8=
+X-Google-Smtp-Source: ABdhPJyrh8so60UP05DbmhzkFCCL+XuSDGiplhBalDHBQgGOJbpmiGOkUNLDHSgeIXiFmFlKjE+F7nb8TUjaJlmgjag=
+X-Received: by 2002:aca:c08a:: with SMTP id q132mr2977980oif.5.1618503708222; 
+ Thu, 15 Apr 2021 09:21:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <1618284379-28126-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1618284379-28126-1-git-send-email-tiantao6@hisilicon.com>
+References: <YHaEn8h5JP9CGMee@mwanda>
+In-Reply-To: <YHaEn8h5JP9CGMee@mwanda>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 15 Apr 2021 12:20:16 -0400
-Message-ID: <CADnq5_M-236qN22kyypzVDvOj0RnFLegqoiTkSFuquqe6o0JYg@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon/cik: remove set but not used variables
-To: Tian Tao <tiantao6@hisilicon.com>
+Date: Thu, 15 Apr 2021 12:21:37 -0400
+Message-ID: <CADnq5_Nt+QuaT6Qo2eRguJ34dxjK-_DttOKT-ZeL1cPjgKncjQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amdgpu: fix an error code in
+ init_pmu_entry_by_type_and_add()
+To: Dan Carpenter <dan.carpenter@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +61,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
+Cc: Jonathan Kim <jonathan.kim@amd.com>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org,
+ Harish Kasiviswanathan <harish.kasiviswanathan@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 12, 2021 at 11:26 PM Tian Tao <tiantao6@hisilicon.com> wrote:
+On Wed, Apr 14, 2021 at 1:59 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
 >
-> The value of pipe_id and queue_id  are not used under certain
-> circumstances, so just delete.
+> If the kmemdup() fails then this should return a negative error code
+> but it currently returns success
 >
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> Fixes: b4a7db71ea06 ("drm/amdgpu: add per device user friendly xgmi events for vega20")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 Applied.  Thanks!
 
 Alex
 
 > ---
->  drivers/gpu/drm/radeon/cik.c | 4 ----
->  1 file changed, 4 deletions(-)
+> v2: I sent this patch in Feb but I accidentally added an unrelated
+> hunk from nouveau to the commit.  Now both hunks are have been sent to
+> the correct lists.
 >
-> diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
-> index 8b7a4f7..42a8afa 100644
-> --- a/drivers/gpu/drm/radeon/cik.c
-> +++ b/drivers/gpu/drm/radeon/cik.c
-> @@ -7948,8 +7948,6 @@ int cik_irq_process(struct radeon_device *rdev)
->                         DRM_ERROR("Illegal register access in command stream\n");
->                         /* XXX check the bitfield order! */
->                         me_id = (ring_id & 0x60) >> 5;
-> -                       pipe_id = (ring_id & 0x18) >> 3;
-> -                       queue_id = (ring_id & 0x7) >> 0;
->                         switch (me_id) {
->                         case 0:
->                                 /* This results in a full GPU reset, but all we need to do is soft
-> @@ -7971,8 +7969,6 @@ int cik_irq_process(struct radeon_device *rdev)
->                         DRM_ERROR("Illegal instruction in command stream\n");
->                         /* XXX check the bitfield order! */
->                         me_id = (ring_id & 0x60) >> 5;
-> -                       pipe_id = (ring_id & 0x18) >> 3;
-> -                       queue_id = (ring_id & 0x7) >> 0;
->                         switch (me_id) {
->                         case 0:
->                                 /* This results in a full GPU reset, but all we need to do is soft
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> index 19c0a3655228..82e9ecf84352 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> @@ -519,8 +519,10 @@ static int init_pmu_entry_by_type_and_add(struct amdgpu_pmu_entry *pmu_entry,
+>         pmu_entry->pmu.attr_groups = kmemdup(attr_groups, sizeof(attr_groups),
+>                                                                 GFP_KERNEL);
+>
+> -       if (!pmu_entry->pmu.attr_groups)
+> +       if (!pmu_entry->pmu.attr_groups) {
+> +               ret = -ENOMEM;
+>                 goto err_attr_group;
+> +       }
+>
+>         snprintf(pmu_name, PMU_NAME_SIZE, "%s_%d", pmu_entry->pmu_file_prefix,
+>                                 adev_to_drm(pmu_entry->adev)->primary->index);
 > --
-> 2.7.4
+> 2.30.2
 >
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
