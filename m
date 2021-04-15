@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5786B360505
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 10:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FB6360503
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 10:53:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA7056EA0C;
-	Thu, 15 Apr 2021 08:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E856EA07;
+	Thu, 15 Apr 2021 08:53:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E98B86E9FE
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 08:53:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77A956E9FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 08:53:35 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 79E76B1C8;
- Thu, 15 Apr 2021 08:53:33 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 0ACBAB1FA;
+ Thu, 15 Apr 2021 08:53:34 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
  broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
  emil.l.velikov@gmail.com, geert+renesas@glider.be, hdegoede@redhat.com,
  bluescreen_avenger@verizon.net, gregkh@linuxfoundation.org
-Subject: [PATCH v3 6/9] drm/simpledrm: Initialize framebuffer data from
- device-tree node
-Date: Thu, 15 Apr 2021 10:53:23 +0200
-Message-Id: <20210415085326.8824-7-tzimmermann@suse.de>
+Subject: [PATCH v3 7/9] drm/simpledrm: Acquire clocks from DT device node
+Date: Thu, 15 Apr 2021 10:53:24 +0200
+Message-Id: <20210415085326.8824-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210415085326.8824-1-tzimmermann@suse.de>
 References: <20210415085326.8824-1-tzimmermann@suse.de>
@@ -50,143 +49,157 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A firmware framebuffer might also be specified via device-tree files. If
-no device platform data is given, try the DT device node.
+Make sure required hardware clocks are enabled while the firmware
+framebuffer is in use.
 
-v2:
-	* add Device Tree match table
-	* clean-up parser wrappers
+The basic code has been taken from the simplefb driver and adapted
+to DRM. Clocks are released automatically via devres helpers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
 ---
- drivers/gpu/drm/tiny/simpledrm.c | 89 ++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+ drivers/gpu/drm/tiny/simpledrm.c | 108 +++++++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
 
 diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 64e8a8581d9a..53d6bec7d0b2 100644
+index 53d6bec7d0b2..996318500abf 100644
 --- a/drivers/gpu/drm/tiny/simpledrm.c
 +++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -114,6 +114,74 @@ simplefb_get_format_pd(struct drm_device *dev,
- 	return simplefb_get_validated_format(dev, pd->format);
+@@ -1,5 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
++#include <linux/clk.h>
++#include <linux/of_clk.h>
+ #include <linux/platform_data/simplefb.h>
+ #include <linux/platform_device.h>
+ 
+@@ -190,6 +192,12 @@ struct simpledrm_device {
+ 	struct drm_device dev;
+ 	struct platform_device *pdev;
+ 
++	/* clocks */
++#if defined CONFIG_OF && defined CONFIG_COMMON_CLK
++	unsigned int clk_count;
++	struct clk **clks;
++#endif
++
+ 	/* simplefb settings */
+ 	struct drm_display_mode mode;
+ 	const struct drm_format_info *format;
+@@ -211,6 +219,103 @@ static struct simpledrm_device *simpledrm_device_of_dev(struct drm_device *dev)
+ 	return container_of(dev, struct simpledrm_device, dev);
  }
  
-+static int
-+simplefb_read_u32_of(struct drm_device *dev, struct device_node *of_node,
-+		     const char *name, u32 *value)
-+{
-+	int ret = of_property_read_u32(of_node, name, value);
++/*
++ * Hardware
++ */
 +
-+	if (ret)
-+		drm_err(dev, "simplefb: cannot parse framebuffer %s: error %d\n",
-+			name, ret);
++#if defined CONFIG_OF && defined CONFIG_COMMON_CLK
++/*
++ * Clock handling code.
++ *
++ * Here we handle the clocks property of our "simple-framebuffer" dt node.
++ * This is necessary so that we can make sure that any clocks needed by
++ * the display engine that the bootloader set up for us (and for which it
++ * provided a simplefb dt node), stay up, for the life of the simplefb
++ * driver.
++ *
++ * When the driver unloads, we cleanly disable, and then release the clocks.
++ *
++ * We only complain about errors here, no action is taken as the most likely
++ * error can only happen due to a mismatch between the bootloader which set
++ * up simplefb, and the clock definitions in the device tree. Chances are
++ * that there are no adverse effects, and if there are, a clean teardown of
++ * the fb probe will not help us much either. So just complain and carry on,
++ * and hope that the user actually gets a working fb at the end of things.
++ */
++
++static void simpledrm_device_release_clocks(void *res)
++{
++	struct simpledrm_device *sdev = simpledrm_device_of_dev(res);
++	unsigned int i;
++
++	for (i = 0; i < sdev->clk_count; ++i) {
++		if (sdev->clks[i]) {
++			clk_disable_unprepare(sdev->clks[i]);
++			clk_put(sdev->clks[i]);
++		}
++	}
++}
++
++static int simpledrm_device_init_clocks(struct simpledrm_device *sdev)
++{
++	struct drm_device *dev = &sdev->dev;
++	struct platform_device *pdev = sdev->pdev;
++	struct device_node *of_node = pdev->dev.of_node;
++	struct clk *clock;
++	unsigned int i;
++	int ret;
++
++	if (dev_get_platdata(&pdev->dev) || !of_node)
++		return 0;
++
++	sdev->clk_count = of_clk_get_parent_count(of_node);
++	if (!sdev->clk_count)
++		return 0;
++
++	sdev->clks = drmm_kzalloc(dev, sdev->clk_count * sizeof(sdev->clks[0]),
++				  GFP_KERNEL);
++	if (!sdev->clks)
++		return -ENOMEM;
++
++	for (i = 0; i < sdev->clk_count; ++i) {
++		clock = of_clk_get(of_node, i);
++		if (IS_ERR(clock)) {
++			ret = PTR_ERR(clock);
++			if (ret == -EPROBE_DEFER)
++				goto err;
++			drm_err(dev, "clock %u not found: %d\n", i, ret);
++			continue;
++		}
++		ret = clk_prepare_enable(clock);
++		if (ret) {
++			drm_err(dev, "failed to enable clock %u: %d\n",
++				i, ret);
++			clk_put(clock);
++		}
++		sdev->clks[i] = clock;
++	}
++
++	return devm_add_action_or_reset(&pdev->dev,
++					simpledrm_device_release_clocks,
++					sdev);
++
++err:
++	while (i) {
++		--i;
++		if (sdev->clks[i]) {
++			clk_disable_unprepare(sdev->clks[i]);
++			clk_put(sdev->clks[i]);
++		}
++	}
 +	return ret;
 +}
-+
-+static int
-+simplefb_read_string_of(struct drm_device *dev, struct device_node *of_node,
-+			const char *name, const char **value)
++#else
++static int simpledrm_device_init_clocks(struct simpledrm_device *sdev)
 +{
-+	int ret = of_property_read_string(of_node, name, value);
-+
-+	if (ret)
-+		drm_err(dev, "simplefb: cannot parse framebuffer %s: error %d\n",
-+			name, ret);
-+	return ret;
++	return 0;
 +}
-+
-+static int
-+simplefb_get_width_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	u32 width;
-+	int ret = simplefb_read_u32_of(dev, of_node, "width", &width);
-+
-+	if (ret)
-+		return ret;
-+	return simplefb_get_validated_int0(dev, "width", width);
-+}
-+
-+static int
-+simplefb_get_height_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	u32 height;
-+	int ret = simplefb_read_u32_of(dev, of_node, "height", &height);
-+
-+	if (ret)
-+		return ret;
-+	return simplefb_get_validated_int0(dev, "height", height);
-+}
-+
-+static int
-+simplefb_get_stride_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	u32 stride;
-+	int ret = simplefb_read_u32_of(dev, of_node, "stride", &stride);
-+
-+	if (ret)
-+		return ret;
-+	return simplefb_get_validated_int(dev, "stride", stride);
-+}
-+
-+static const struct drm_format_info *
-+simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	const char *format;
-+	int ret = simplefb_read_string_of(dev, of_node, "format", &format);
-+
-+	if (ret)
-+		return ERR_PTR(ret);
-+	return simplefb_get_validated_format(dev, format);
-+}
++#endif
 +
  /*
-  * Simple Framebuffer device
+  *  Simplefb settings
   */
-@@ -166,6 +234,7 @@ static int simpledrm_device_init_fb(struct simpledrm_device *sdev)
- 	struct drm_device *dev = &sdev->dev;
- 	struct platform_device *pdev = sdev->pdev;
- 	const struct simplefb_platform_data *pd = dev_get_platdata(&pdev->dev);
-+	struct device_node *of_node = pdev->dev.of_node;
+@@ -552,6 +657,9 @@ simpledrm_device_create(struct drm_driver *drv, struct platform_device *pdev)
+ 	sdev->pdev = pdev;
+ 	platform_set_drvdata(pdev, sdev);
  
- 	if (pd) {
- 		width = simplefb_get_width_pd(dev, pd);
-@@ -180,6 +249,19 @@ static int simpledrm_device_init_fb(struct simpledrm_device *sdev)
- 		format = simplefb_get_format_pd(dev, pd);
- 		if (IS_ERR(format))
- 			return PTR_ERR(format);
-+	} else if (of_node) {
-+		width = simplefb_get_width_of(dev, of_node);
-+		if (width < 0)
-+			return width;
-+		height = simplefb_get_height_of(dev, of_node);
-+		if (height < 0)
-+			return height;
-+		stride = simplefb_get_stride_of(dev, of_node);
-+		if (stride < 0)
-+			return stride;
-+		format = simplefb_get_format_of(dev, of_node);
-+		if (IS_ERR(format))
-+			return PTR_ERR(format);
- 	} else {
- 		drm_err(dev, "no simplefb configuration found\n");
- 		return -ENODEV;
-@@ -534,9 +616,16 @@ static int simpledrm_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct of_device_id simpledrm_of_match_table[] = {
-+	{ .compatible = "simple-framebuffer", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, simpledrm_of_match_table);
-+
- static struct platform_driver simpledrm_platform_driver = {
- 	.driver = {
- 		.name = "simple-framebuffer", /* connect to sysfb */
-+		.of_match_table = simpledrm_of_match_table,
- 	},
- 	.probe = simpledrm_probe,
- 	.remove = simpledrm_remove,
++	ret = simpledrm_device_init_clocks(sdev);
++	if (ret)
++		return ERR_PTR(ret);
+ 	ret = simpledrm_device_init_fb(sdev);
+ 	if (ret)
+ 		return ERR_PTR(ret);
 -- 
 2.31.1
 
