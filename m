@@ -1,63 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844B43608A9
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 13:56:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4CBB3608F5
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 14:11:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD35F6EA46;
-	Thu, 15 Apr 2021 11:56:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E22D46EA4C;
+	Thu, 15 Apr 2021 12:11:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD446EA46
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 11:56:27 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id r9so36433516ejj.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 04:56:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Mmzr1BXITN8/WsQtuIlDuVTV5ipAk7FG2VM5j+Bi1So=;
- b=QvQMXegx4Q6FfPIpt3BYD7d/rIzGJpkhRMRMpxNI2Jc9ovzo2ea9Po/pjK9xcot10J
- qfrgGeGvDxK0UtoQelPc859qvv3lCo3V+I61eOMYlY8VoruRr/1VzBriz8TYVT38gXGi
- bKsI+0K3iURKjYw5ibQslYc04LzCB2HkYJNOWtQdeJtmREQywEIO3U6qpcFFSzp1UUSr
- dtudZ7kiiIBbHYxn6lznMpdvme+RuMnAyO8YBP/JdG6KqY3gxKnonMJ2xQr0SQ3k8UEY
- 6eAqAWXS/841WW5UHmuMlxOhssYyTS1s5DnIKzXWT6WFbvJt2mBq4t3ivxQ5Rtr6d49m
- ObjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Mmzr1BXITN8/WsQtuIlDuVTV5ipAk7FG2VM5j+Bi1So=;
- b=g4pviWQZNvYjSBrwt/UXI8eQi+MdYmXBQPEDvCx5zUMxQW12wB/tXQWdtYbANb5DXw
- 58SpHJKrVbZRTTg/mekW4L3ySxBeFwi4Zfyi9X/WD9A8DCCyHr9KpHEUrQxNCziwcdxx
- TADn3tQxWxEX93lEUTdnHlT3HHXWJRa7GqYH8I3e1/2eTCzuSBzUGnQn/o9qUUiahLYx
- N6gsB6XCCauKC14iAmo+RaUT6v80H3krA8QBJXnwJBuxUospVJ4Au9NJXbGWo4HWHMa8
- ca1NrynG61GJnuqyDjvSXrh8NxUACWyF6hbKEc4HuUhazuejRoJNLuXXwEJz/HuMg5vh
- 8BBQ==
-X-Gm-Message-State: AOAM532IFVHfG5vT7hUjhm04NQR2Sf2wEBicrNIhoLVVIhPHW5fPFfq3
- TsuufJE+Cp4al69m9Iqsxr8=
-X-Google-Smtp-Source: ABdhPJyRvFr8GCcyp6cP4pUhEHuqjgAxms+Re3dD8oeMsGnJsnFn3mLckPuF7TSkfuSpiaA2RZVQPA==
-X-Received: by 2002:a17:906:278e:: with SMTP id
- j14mr3012533ejc.224.1618487786343; 
- Thu, 15 Apr 2021 04:56:26 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:3ba1:ccd9:cd93:a8ed])
- by smtp.gmail.com with ESMTPSA id s9sm2182461edd.16.2021.04.15.04.56.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 04:56:26 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/ttm: optimize the pool shrinker a bit v2
-Date: Thu, 15 Apr 2021 13:56:24 +0200
-Message-Id: <20210415115624.2904-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210415115624.2904-1-christian.koenig@amd.com>
-References: <20210415115624.2904-1-christian.koenig@amd.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88B296E500;
+ Thu, 15 Apr 2021 12:11:13 +0000 (UTC)
+IronPort-SDR: KYYygcB8BJ57jOO2yA4MiXLtcFo7ODU6L6FlMvS03RGbQulgg1hN/CLo+x96heDIPDxMHlCanq
+ 2kQG1APXWCpA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="280153584"
+X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; 
+ d="asc'?scan'208";a="280153584"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2021 05:11:13 -0700
+IronPort-SDR: Ag3JTxydd+BoZMqrZHS2g+vR8Eq1VQToYblJfFy88zEgalskyeHIApqYnrb0n8YNkiQoJLiYqN
+ k+ts2gM3ioIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; 
+ d="asc'?scan'208";a="461591472"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
+ by orsmga001.jf.intel.com with ESMTP; 15 Apr 2021 05:11:09 -0700
+Date: Thu, 15 Apr 2021 19:53:17 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH] drm/i915/gvt: Fix error code in intel_gvt_init_device()
+Message-ID: <20210415115317.GS1551@zhen-hp.sh.intel.com>
+References: <YHaFQtk/DIVYK1u5@mwanda>
 MIME-Version: 1.0
+In-Reply-To: <YHaFQtk/DIVYK1u5@mwanda>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,88 +47,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: akpm@linux-foundation.org, ray.huang@amd.com, vbabka@suse.cz
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: fred gao <fred.gao@intel.com>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
+Content-Type: multipart/mixed; boundary="===============1789364711=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U3dpdGNoIGJhY2sgdG8gdXNpbmcgYSBzcGlubG9jayBhZ2FpbiBieSBtb3ZpbmcgdGhlIElPTU1V
-IHVubWFwIG91dHNpZGUKb2YgdGhlIGxvY2tlZCByZWdpb24uCgp2MjogQWRkIGEgY29tbWVudCBl
-eHBsYWluaW5nIHdoeSB3ZSBuZWVkIHN5bmNfc2hyaW5rZXJzKCkuCgpTaWduZWQtb2ZmLWJ5OiBD
-aHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fcG9vbC5jIHwgNDQgKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0t
-LS0tLQogMSBmaWxlIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKyksIDIyIGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYyBiL2RyaXZlcnMvZ3B1
-L2RybS90dG0vdHRtX3Bvb2wuYwppbmRleCBjYjM4YjFhMTdiMDkuLjk1NTgzNmQ1NjljYyAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcG9vbC5jCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS90dG0vdHRtX3Bvb2wuYwpAQCAtNzAsNyArNzAsNyBAQCBzdGF0aWMgc3RydWN0IHR0bV9w
-b29sX3R5cGUgZ2xvYmFsX3VuY2FjaGVkW01BWF9PUkRFUl07CiBzdGF0aWMgc3RydWN0IHR0bV9w
-b29sX3R5cGUgZ2xvYmFsX2RtYTMyX3dyaXRlX2NvbWJpbmVkW01BWF9PUkRFUl07CiBzdGF0aWMg
-c3RydWN0IHR0bV9wb29sX3R5cGUgZ2xvYmFsX2RtYTMyX3VuY2FjaGVkW01BWF9PUkRFUl07CiAK
-LXN0YXRpYyBzdHJ1Y3QgbXV0ZXggc2hyaW5rZXJfbG9jazsKK3N0YXRpYyBzcGlubG9ja190IHNo
-cmlua2VyX2xvY2s7CiBzdGF0aWMgc3RydWN0IGxpc3RfaGVhZCBzaHJpbmtlcl9saXN0Owogc3Rh
-dGljIHN0cnVjdCBzaHJpbmtlciBtbV9zaHJpbmtlcjsKIApAQCAtMjYzLDkgKzI2Myw5IEBAIHN0
-YXRpYyB2b2lkIHR0bV9wb29sX3R5cGVfaW5pdChzdHJ1Y3QgdHRtX3Bvb2xfdHlwZSAqcHQsIHN0
-cnVjdCB0dG1fcG9vbCAqcG9vbCwKIAlzcGluX2xvY2tfaW5pdCgmcHQtPmxvY2spOwogCUlOSVRf
-TElTVF9IRUFEKCZwdC0+cGFnZXMpOwogCi0JbXV0ZXhfbG9jaygmc2hyaW5rZXJfbG9jayk7CisJ
-c3Bpbl9sb2NrKCZzaHJpbmtlcl9sb2NrKTsKIAlsaXN0X2FkZF90YWlsKCZwdC0+c2hyaW5rZXJf
-bGlzdCwgJnNocmlua2VyX2xpc3QpOwotCW11dGV4X3VubG9jaygmc2hyaW5rZXJfbG9jayk7CisJ
-c3Bpbl91bmxvY2soJnNocmlua2VyX2xvY2spOwogfQogCiAvKiBSZW1vdmUgYSBwb29sX3R5cGUg
-ZnJvbSB0aGUgZ2xvYmFsIHNocmlua2VyIGxpc3QgYW5kIGZyZWUgYWxsIHBhZ2VzICovCkBAIC0y
-NzMsOSArMjczLDkgQEAgc3RhdGljIHZvaWQgdHRtX3Bvb2xfdHlwZV9maW5pKHN0cnVjdCB0dG1f
-cG9vbF90eXBlICpwdCkKIHsKIAlzdHJ1Y3QgcGFnZSAqcDsKIAotCW11dGV4X2xvY2soJnNocmlu
-a2VyX2xvY2spOworCXNwaW5fbG9jaygmc2hyaW5rZXJfbG9jayk7CiAJbGlzdF9kZWwoJnB0LT5z
-aHJpbmtlcl9saXN0KTsKLQltdXRleF91bmxvY2soJnNocmlua2VyX2xvY2spOworCXNwaW5fdW5s
-b2NrKCZzaHJpbmtlcl9sb2NrKTsKIAogCXdoaWxlICgocCA9IHR0bV9wb29sX3R5cGVfdGFrZShw
-dCkpKQogCQl0dG1fcG9vbF9mcmVlX3BhZ2UocHQtPnBvb2wsIHB0LT5jYWNoaW5nLCBwdC0+b3Jk
-ZXIsIHApOwpAQCAtMzEzLDI0ICszMTMsMTkgQEAgc3RhdGljIHN0cnVjdCB0dG1fcG9vbF90eXBl
-ICp0dG1fcG9vbF9zZWxlY3RfdHlwZShzdHJ1Y3QgdHRtX3Bvb2wgKnBvb2wsCiBzdGF0aWMgdW5z
-aWduZWQgaW50IHR0bV9wb29sX3Nocmluayh2b2lkKQogewogCXN0cnVjdCB0dG1fcG9vbF90eXBl
-ICpwdDsKLQl1bnNpZ25lZCBpbnQgbnVtX2ZyZWVkOwogCXN0cnVjdCBwYWdlICpwOwogCi0JbXV0
-ZXhfbG9jaygmc2hyaW5rZXJfbG9jayk7CisJc3Bpbl9sb2NrKCZzaHJpbmtlcl9sb2NrKTsKIAlw
-dCA9IGxpc3RfZmlyc3RfZW50cnkoJnNocmlua2VyX2xpc3QsIHR5cGVvZigqcHQpLCBzaHJpbmtl
-cl9saXN0KTsKKwlsaXN0X21vdmVfdGFpbCgmcHQtPnNocmlua2VyX2xpc3QsICZzaHJpbmtlcl9s
-aXN0KTsKKwlzcGluX3VubG9jaygmc2hyaW5rZXJfbG9jayk7CiAKIAlwID0gdHRtX3Bvb2xfdHlw
-ZV90YWtlKHB0KTsKLQlpZiAocCkgewotCQl0dG1fcG9vbF9mcmVlX3BhZ2UocHQtPnBvb2wsIHB0
-LT5jYWNoaW5nLCBwdC0+b3JkZXIsIHApOwotCQludW1fZnJlZWQgPSAxIDw8IHB0LT5vcmRlcjsK
-LQl9IGVsc2UgewotCQludW1fZnJlZWQgPSAwOwotCX0KLQotCWxpc3RfbW92ZV90YWlsKCZwdC0+
-c2hyaW5rZXJfbGlzdCwgJnNocmlua2VyX2xpc3QpOwotCW11dGV4X3VubG9jaygmc2hyaW5rZXJf
-bG9jayk7CisJaWYgKCFwKQorCQlyZXR1cm4gMDsKIAotCXJldHVybiBudW1fZnJlZWQ7CisJdHRt
-X3Bvb2xfZnJlZV9wYWdlKHB0LT5wb29sLCBwdC0+Y2FjaGluZywgcHQtPm9yZGVyLCBwKTsKKwly
-ZXR1cm4gMSA8PCBwdC0+b3JkZXI7CiB9CiAKIC8qIFJldHVybiB0aGUgYWxsb2NhdGlvbiBvcmRl
-ciBiYXNlZCBmb3IgYSBwYWdlICovCkBAIC01MzAsNiArNTI1LDExIEBAIHZvaWQgdHRtX3Bvb2xf
-ZmluaShzdHJ1Y3QgdHRtX3Bvb2wgKnBvb2wpCiAJCQlmb3IgKGogPSAwOyBqIDwgTUFYX09SREVS
-OyArK2opCiAJCQkJdHRtX3Bvb2xfdHlwZV9maW5pKCZwb29sLT5jYWNoaW5nW2ldLm9yZGVyc1tq
-XSk7CiAJfQorCisJLyogV2UgcmVtb3ZlZCB0aGUgcG9vbCB0eXBlcyBmcm9tIHRoZSBMUlUsIGJ1
-dCB3ZSBuZWVkIHRvIGFsc28gbWFrZSBzdXJlCisJICogdGhhdCBubyBzaHJpbmtlciBpcyBjb25j
-dXJyZW50bHkgZnJlZWluZyBwYWdlcyBmcm9tIHRoZSBwb29sLgorCSAqLworCXN5bmNfc2hyaW5r
-ZXJzKCk7CiB9CiAKIC8qIEFzIGxvbmcgYXMgcGFnZXMgYXJlIGF2YWlsYWJsZSBtYWtlIHN1cmUg
-dG8gcmVsZWFzZSBhdCBsZWFzdCBvbmUgKi8KQEAgLTYwNCw3ICs2MDQsNyBAQCBzdGF0aWMgaW50
-IHR0bV9wb29sX2RlYnVnZnNfZ2xvYmFsc19zaG93KHN0cnVjdCBzZXFfZmlsZSAqbSwgdm9pZCAq
-ZGF0YSkKIHsKIAl0dG1fcG9vbF9kZWJ1Z2ZzX2hlYWRlcihtKTsKIAotCW11dGV4X2xvY2soJnNo
-cmlua2VyX2xvY2spOworCXNwaW5fbG9jaygmc2hyaW5rZXJfbG9jayk7CiAJc2VxX3B1dHMobSwg
-IndjXHQ6Iik7CiAJdHRtX3Bvb2xfZGVidWdmc19vcmRlcnMoZ2xvYmFsX3dyaXRlX2NvbWJpbmVk
-LCBtKTsKIAlzZXFfcHV0cyhtLCAidWNcdDoiKTsKQEAgLTYxMyw3ICs2MTMsNyBAQCBzdGF0aWMg
-aW50IHR0bV9wb29sX2RlYnVnZnNfZ2xvYmFsc19zaG93KHN0cnVjdCBzZXFfZmlsZSAqbSwgdm9p
-ZCAqZGF0YSkKIAl0dG1fcG9vbF9kZWJ1Z2ZzX29yZGVycyhnbG9iYWxfZG1hMzJfd3JpdGVfY29t
-YmluZWQsIG0pOwogCXNlcV9wdXRzKG0sICJ1YyAzMlx0OiIpOwogCXR0bV9wb29sX2RlYnVnZnNf
-b3JkZXJzKGdsb2JhbF9kbWEzMl91bmNhY2hlZCwgbSk7Ci0JbXV0ZXhfdW5sb2NrKCZzaHJpbmtl
-cl9sb2NrKTsKKwlzcGluX3VubG9jaygmc2hyaW5rZXJfbG9jayk7CiAKIAl0dG1fcG9vbF9kZWJ1
-Z2ZzX2Zvb3RlcihtKTsKIApAQCAtNjQwLDcgKzY0MCw3IEBAIGludCB0dG1fcG9vbF9kZWJ1Z2Zz
-KHN0cnVjdCB0dG1fcG9vbCAqcG9vbCwgc3RydWN0IHNlcV9maWxlICptKQogCiAJdHRtX3Bvb2xf
-ZGVidWdmc19oZWFkZXIobSk7CiAKLQltdXRleF9sb2NrKCZzaHJpbmtlcl9sb2NrKTsKKwlzcGlu
-X2xvY2soJnNocmlua2VyX2xvY2spOwogCWZvciAoaSA9IDA7IGkgPCBUVE1fTlVNX0NBQ0hJTkdf
-VFlQRVM7ICsraSkgewogCQlzZXFfcHV0cyhtLCAiRE1BICIpOwogCQlzd2l0Y2ggKGkpIHsKQEAg
-LTY1Niw3ICs2NTYsNyBAQCBpbnQgdHRtX3Bvb2xfZGVidWdmcyhzdHJ1Y3QgdHRtX3Bvb2wgKnBv
-b2wsIHN0cnVjdCBzZXFfZmlsZSAqbSkKIAkJfQogCQl0dG1fcG9vbF9kZWJ1Z2ZzX29yZGVycyhw
-b29sLT5jYWNoaW5nW2ldLm9yZGVycywgbSk7CiAJfQotCW11dGV4X3VubG9jaygmc2hyaW5rZXJf
-bG9jayk7CisJc3Bpbl91bmxvY2soJnNocmlua2VyX2xvY2spOwogCiAJdHRtX3Bvb2xfZGVidWdm
-c19mb290ZXIobSk7CiAJcmV0dXJuIDA7CkBAIC02OTMsNyArNjkzLDcgQEAgaW50IHR0bV9wb29s
-X21ncl9pbml0KHVuc2lnbmVkIGxvbmcgbnVtX3BhZ2VzKQogCWlmICghcGFnZV9wb29sX3NpemUp
-CiAJCXBhZ2VfcG9vbF9zaXplID0gbnVtX3BhZ2VzOwogCi0JbXV0ZXhfaW5pdCgmc2hyaW5rZXJf
-bG9jayk7CisJc3Bpbl9sb2NrX2luaXQoJnNocmlua2VyX2xvY2spOwogCUlOSVRfTElTVF9IRUFE
-KCZzaHJpbmtlcl9saXN0KTsKIAogCWZvciAoaSA9IDA7IGkgPCBNQVhfT1JERVI7ICsraSkgewot
-LSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+--===============1789364711==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="UsbkURXZxe2ekgES"
+Content-Disposition: inline
+
+
+--UsbkURXZxe2ekgES
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2021.04.14 09:01:38 +0300, Dan Carpenter wrote:
+> The intel_gvt_init_vgpu_type_groups() function is only called from
+> intel_gvt_init_device().  If it fails then the intel_gvt_init_device()
+> prints the error code and propagates it back again.  That's a bug
+> because false is zero/success.  The fix is to modify it to return zero
+> or negative error codes and make everything consistent.
+>=20
+> Fixes: c5d71cb31723 ("drm/i915/gvt: Move vGPU type related code into gvt =
+file")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+
+Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+
+Thanks, Dan! Applied this.
+
+>  drivers/gpu/drm/i915/gvt/gvt.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gvt/gvt.c b/drivers/gpu/drm/i915/gvt/gv=
+t.c
+> index 2ecb8534930b..1deb253ffe80 100644
+> --- a/drivers/gpu/drm/i915/gvt/gvt.c
+> +++ b/drivers/gpu/drm/i915/gvt/gvt.c
+> @@ -126,7 +126,7 @@ static bool intel_get_gvt_attrs(struct attribute_grou=
+p ***intel_vgpu_type_groups
+>  	return true;
+>  }
+> =20
+> -static bool intel_gvt_init_vgpu_type_groups(struct intel_gvt *gvt)
+> +static int intel_gvt_init_vgpu_type_groups(struct intel_gvt *gvt)
+>  {
+>  	int i, j;
+>  	struct intel_vgpu_type *type;
+> @@ -144,7 +144,7 @@ static bool intel_gvt_init_vgpu_type_groups(struct in=
+tel_gvt *gvt)
+>  		gvt_vgpu_type_groups[i] =3D group;
+>  	}
+> =20
+> -	return true;
+> +	return 0;
+> =20
+>  unwind:
+>  	for (j =3D 0; j < i; j++) {
+> @@ -152,7 +152,7 @@ static bool intel_gvt_init_vgpu_type_groups(struct in=
+tel_gvt *gvt)
+>  		kfree(group);
+>  	}
+> =20
+> -	return false;
+> +	return -ENOMEM;
+>  }
+> =20
+>  static void intel_gvt_cleanup_vgpu_type_groups(struct intel_gvt *gvt)
+> @@ -373,7 +373,7 @@ int intel_gvt_init_device(struct drm_i915_private *i9=
+15)
+>  		goto out_clean_thread;
+> =20
+>  	ret =3D intel_gvt_init_vgpu_type_groups(gvt);
+> -	if (ret =3D=3D false) {
+> +	if (ret) {
+>  		gvt_err("failed to init vgpu type groups: %d\n", ret);
+>  		goto out_clean_types;
+>  	}
+> --=20
+> 2.30.2
+>=20
+> _______________________________________________
+> intel-gvt-dev mailing list
+> intel-gvt-dev@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
+
+--UsbkURXZxe2ekgES
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYHgpKAAKCRCxBBozTXgY
+JwjkAKCSaNdnh8Enpt19xF9KII6ijHEjGwCfSf8O9mouYgsENRZKXWdtLHyv7J0=
+=REJl
+-----END PGP SIGNATURE-----
+
+--UsbkURXZxe2ekgES--
+
+--===============1789364711==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1789364711==--
