@@ -2,31 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A6E3605B6
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 11:30:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DCD3605B9
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Apr 2021 11:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E9686EA19;
-	Thu, 15 Apr 2021 09:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECE346EA1D;
+	Thu, 15 Apr 2021 09:31:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-43.freemail.mail.aliyun.com
- (out30-43.freemail.mail.aliyun.com [115.124.30.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4B36EA19
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 09:30:26 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R311e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=alimailimapcm10staff010182156082;
- MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
- TI=SMTPD_---0UVdYADO_1618479022; 
-Received: from
- j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0UVdYADO_1618479022) by smtp.aliyun-inc.com(127.0.0.1);
- Thu, 15 Apr 2021 17:30:23 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/radeon/si: Fix inconsistent indenting
-Date: Thu, 15 Apr 2021 17:30:20 +0800
-Message-Id: <1618479020-38198-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+X-Greylist: delayed 901 seconds by postgrey-1.36 at gabe;
+ Thu, 15 Apr 2021 09:31:23 UTC
+Received: from mickerik.phytec.de (mickerik.phytec.de [195.145.39.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9D096EA1A
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Apr 2021 09:31:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
+ q=dns/txt; i=@phytec.de; t=1618478179; x=1621070179;
+ h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=17z95mcBltXt7s41OWVSnVP4aCtle9ny46vxPgGBZIM=;
+ b=JaYYmAq1r6Zem68a14XexEwGuVN+u7tppMXNZQi7KDtQInOlSlkhBzwDNPB6Id17
+ AL8T+YTy9UzJQ4ONAaAJBvLzjGXA1mqDCoA637WjY05F+iWwCOQEE7QjjWySCfRw
+ 6CVjmzgLHCGVitHa+F69TT04vS3SX6aL87pbfmdIaUg=;
+X-AuditID: c39127d2-324b870000001c53-3c-60780463c42e
+Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
+ by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 5D.53.07251.36408706;
+ Thu, 15 Apr 2021 11:16:19 +0200 (CEST)
+Received: from lws-riedmueller.phytec.de ([172.16.23.108])
+ by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+ with ESMTP id 2021041511161871-136032 ;
+ Thu, 15 Apr 2021 11:16:18 +0200 
+From: Stefan Riedmueller <s.riedmueller@phytec.de>
+To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH 1/3] drm/panel: Add connector_type and bus_format for AUO
+ G104SN02 V2 panel
+Date: Thu, 15 Apr 2021 11:16:14 +0200
+Message-Id: <20210415091616.53415-1-s.riedmueller@phytec.de>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+ 17, 2016) at 15.04.2021 11:16:18,
+ Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
+ 15.04.2021 11:16:19
+X-TNEFEvaluated: 1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJLMWRmVeSWpSXmKPExsWyRoCBSzeZpSLBYNFjNovecyeZLP5vm8hs
+ ceXrezaLy7vmsFms+LmV0eLnrnksDmwee78tYPHYOesuu8f2bw9YPe53H2fyWDLtKpvH501y
+ AWxRXDYpqTmZZalF+nYJXBlnF2xjKrjLVtHW/pi9gfEOaxcjJ4eEgInE2f6/7F2MXBxCAtsY
+ JZ7vvgjlXGOUWP74JCNIFZuAkcSCaY1MIAkRgQmMEtPufmUCSTAL5EvM7X3BDGILC0RLbL26
+ A2wsi4CqxOoljWDNvAI2Ent7ZjFCrJOXmHnpOztEXFDi5MwnLCBDJQSuMEqs3nKSHaJISOL0
+ 4rPMEAu0JZYtfM08gZFvFpKeWUhSCxiZVjEK5WYmZ6cWZWbrFWRUlqQm66WkbmIEBufhieqX
+ djD2zfE4xMjEwXiIUYKDWUmE121KSYIQb0piZVVqUX58UWlOavEhRmkOFiVx3g28JWFCAumJ
+ JanZqakFqUUwWSYOTqkGxjDdjA+rm3qCbup+tipjmXbX1fyYeXpvTq6kX1u03bk/0duUJwlf
+ 3WZ1acLOGY+jEnhsW1+vXGSp8oBXSuy09WoP1ndOaxR3bw44wvJacHHaXEEBV/ciX5m9s6b8
+ PN+hqBh4kzNk5furUvF7b99xjjlWuCzp09d7BT59gSv7582+GTexRHvPISWW4oxEQy3mouJE
+ AJ27Ix08AgAA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,44 +69,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com
-MIME-Version: 1.0
+Cc: Stefan Riedmueller <s.riedmueller@phytec.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kernel test robot throws below warning ->
+The AUO G104SN02 V2 is an LVDS display which supports 6 and 8 bpc PSWG.
+Add the corresponding connector type and 8 bpc as default bus_format.
 
-smatch warnings:
-drivers/gpu/drm/radeon/si.c:4514 si_vm_packet3_cp_dma_check() warn:
-inconsistent indenting
-
-Fixed the inconsistent indenting.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
 ---
- drivers/gpu/drm/radeon/si.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-simple.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
-index 88731b79..d0e94b1 100644
---- a/drivers/gpu/drm/radeon/si.c
-+++ b/drivers/gpu/drm/radeon/si.c
-@@ -4511,7 +4511,7 @@ static int si_vm_packet3_cp_dma_check(u32 *ib, u32 idx)
- 			} else {
- 				for (i = 0; i < (command & 0x1fffff); i++) {
- 					reg = start_reg + (4 * i);
--				if (!si_vm_reg_valid(reg)) {
-+					if (!si_vm_reg_valid(reg)) {
- 						DRM_ERROR("CP DMA Bad DST register\n");
- 						return -EINVAL;
- 					}
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 4e2dad314c79..44583d0ed902 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1098,6 +1098,8 @@ static const struct panel_desc auo_g104sn02 = {
+ 		.width = 211,
+ 		.height = 158,
+ 	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+ static const struct drm_display_mode auo_g121ean01_mode = {
 -- 
-1.8.3.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
