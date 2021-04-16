@@ -1,42 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DEA361AC3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 09:46:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E9A361ACF
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 09:51:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEDFB6E194;
-	Fri, 16 Apr 2021 07:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EC456E197;
+	Fri, 16 Apr 2021 07:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB2006E194
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:46:11 +0000 (UTC)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
- [91.157.208.71])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCBE05A5;
- Fri, 16 Apr 2021 09:46:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1618559170;
- bh=P7wwiy1ARCZJKs2Gzsnd/CbbG6MTgpoebNlqrb2EiGU=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=vGl2HQqQ6d+qaDSlFxoNL4JTPaQwlXITDJiAMAOMY+J0JwWUXmbYafcnXHvGemzzx
- erq15XghRnW1hyHPgDs5Zr/tWfnTI8El+9yrE4habSs5L8IQ/qRqpkT1mT6X/HKYvv
- 2sVY8iONFHBD5NoFAmWxXnt6R5js5/1ipVHnY0AQ=
-Subject: Re: [PATCHv2 1/6] drm: drm_bridge: add connector_attach/detach bridge
- ops
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
-References: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
- <20210302162403.983585-2-hverkuil-cisco@xs4all.nl>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <3ba8c7c3-2e86-964d-2e5b-5cdd805def5c@ideasonboard.com>
-Date: Fri, 16 Apr 2021 10:46:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B55F96E197
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:51:00 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id b3so12240761oie.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 00:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Tkf19eO+Io33QpEZ9OrMFNNm5052NTcThj0KVfGt26E=;
+ b=adlH1/Y2CVaKl1vH5IxrVfUZMgz2Dm6ie2X3uyje5e5//jKV370i8WP3AQHuW3vbUw
+ ZR+LGSk9BXwPk7APtR6eguUQm/xqSCu6FWvyCoADVL/xkJa9yJ0to6Ep5QNQsQUa8OQi
+ dKJ7CEAM2gi0LExzHs8e0DLKB9jJui5rWFXtjCuEbf9WdkrtbP9PkUpS+dlFuUCBV0m2
+ EuCig2dFJc46pPzm4gaUo0QzEWnojq0BumD/utqFClI6ktM2LVk7cPjd52irMEQgbHmH
+ 0+bNxavCXzaXXZ3IstK/v5s17t7Zui2goTK8NqTOBRQII4pkj6oF9XOxN1JU2z5T0nRn
+ Wdrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Tkf19eO+Io33QpEZ9OrMFNNm5052NTcThj0KVfGt26E=;
+ b=XDG81joedu2GXh0JEDVwUatgyenZGenDZysCohuUHl3rbUiktbICrAtoGOHoaVl8S4
+ bHjxaeMNU2204humhPywu+mQcDnu99ecGPUi6/4MAGDqXB+q6Sf+nQEygAblJyXN3/eZ
+ fHTl6tq0BdCK17DTC5FAUIE+04HCcoh3NiPCYCInTpvRp52gJ++xY1Xtw+iffk7qvvJO
+ 086+PG5BQkvhA4dS4rgCk3ZlqxIBc8jP3Flnhy9x6KJW4MlYdz7t1LhCQn8+Hx7Skusy
+ XR7PJKVncwpDYhw6sx7oiDgHBqJM2Vrhetr7v5PBMSzjAtGMC5B5QdqdOiqniG8tjdRd
+ ZuqA==
+X-Gm-Message-State: AOAM531e8otPyilvg8zgcdzXN/LoAcO44LMmgQsm5OVSj0kUO3aXuMFe
+ 7oN/ALOxn2KRITvDqJ/DLA8siqMBRhQzWyInRHE=
+X-Google-Smtp-Source: ABdhPJz8CjIrb9secSmN82+8dgT65mEJoVfALDHzcnEalMEMeagCfEVWO/3pFoH/4IMU2ZnA4XlvzlP7/zSe0eH/qzY=
+X-Received: by 2002:aca:b408:: with SMTP id d8mr5584941oif.47.1618559460006;
+ Fri, 16 Apr 2021 00:51:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210302162403.983585-2-hverkuil-cisco@xs4all.nl>
-Content-Language: en-US
+References: <1618236288-1617-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1618236288-1617-2-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1618236288-1617-2-git-send-email-yongqiang.niu@mediatek.com>
+From: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Fri, 16 Apr 2021 09:50:50 +0200
+Message-ID: <CAFqH_50wSBVHnkzr1+Jh=1pppM7rKwZLjkVwhZnBnO=zEo46CA@mail.gmail.com>
+Subject: Re: [PATCH v5, 1/4] soc: mediatek: mmsys: add component OVL_2L2
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,87 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
- Sekhar Nori <nsekhar@ti.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
-
-On 02/03/2021 18:23, Hans Verkuil wrote:
-> Add bridge connector_attach/detach ops. These ops are called when a
-> bridge is attached or detached to a drm_connector. These ops can be
-> used to register and unregister an HDMI CEC adapter for a bridge that
-> supports CEC.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->   drivers/gpu/drm/drm_bridge_connector.c |  9 +++++++++
->   include/drm/drm_bridge.h               | 27 ++++++++++++++++++++++++++
->   2 files changed, 36 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-> index 791379816837..07db71d4f5b3 100644
-> --- a/drivers/gpu/drm/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> @@ -203,6 +203,11 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
->   {
->   	struct drm_bridge_connector *bridge_connector =
->   		to_drm_bridge_connector(connector);
-> +	struct drm_bridge *bridge;
-> +
-> +	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge)
-> +		if (bridge->funcs->connector_detach)
-> +			bridge->funcs->connector_detach(bridge, connector);
->   
->   	if (bridge_connector->bridge_hpd) {
->   		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
-> @@ -375,6 +380,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->   		connector->polled = DRM_CONNECTOR_POLL_CONNECT
->   				  | DRM_CONNECTOR_POLL_DISCONNECT;
->   
-> +	drm_for_each_bridge_in_chain(encoder, bridge)
-> +		if (bridge->funcs->connector_attach)
-> +			bridge->funcs->connector_attach(bridge, connector);
-> +
->   	return connector;
->   }
->   EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 2195daa289d2..3320a6ebd253 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -629,6 +629,33 @@ struct drm_bridge_funcs {
->   	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
->   	 */
->   	void (*hpd_disable)(struct drm_bridge *bridge);
-> +
-> +	/**
-> +	 * @connector_attach:
-> +	 *
-> +	 * This callback is invoked whenever our bridge is being attached to a
-> +	 * &drm_connector. This is where an HDMI CEC adapter can be registered.
-> +	 * Note that this callback expects that this op always succeeds. Since
-> +	 * HDMI CEC support is an optional feature, any failure to register a
-> +	 * CEC adapter must be ignored since video output will still work
-> +	 * without CEC.
-> +	 *
-
-Even if CEC support is optional, the callback itself is generic. 
-Wouldn't it be better to make this function return an error, and for 
-CEC, just return 0 if CEC won't get registered correctly?
-
-Also, I personally like things to fail if something doesn't go right, 
-instead of continuing, if that thing is never supposed to happen in 
-normal situations. E.g. if CEC registration fails because we're out of 
-memory, I think the op should fail too.
-
-  Tomi
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgWW9uZ3FpYW5nLAoKVGhhbmsgeW91IGZvciB5b3VyIHBhdGNoLgoKTWlzc2F0Z2UgZGUgWW9u
+Z3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+IGRlbCBkaWEgZGwuLCAxMgpk
+4oCZYWJyLiAyMDIxIGEgbGVzIDE2OjA0Ogo+Cj4gVGhpcyBwYXRjaCBhZGQgY29tcG9uZW50IE9W
+TF8yTDIKPgo+IFNpZ25lZC1vZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVk
+aWF0ZWsuY29tPgo+IFJldmlld2VkLWJ5OiBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2Vy
+bmVsLm9yZz4KClJldmlld2VkLWJ5OiBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIDxlbnJpYy5iYWxs
+ZXRib0Bjb2xsYWJvcmEuY29tPgoKPiAtLS0KPiAgaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsv
+bXRrLW1tc3lzLmggfCAxICsKPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4KPiBk
+aWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmggYi9pbmNs
+dWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGstbW1zeXMuaAo+IGluZGV4IDIyMjhiZjYuLmY2YjU4
+ZjkgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmgK
+PiArKysgYi9pbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGstbW1zeXMuaAo+IEBAIC0yOSw2
+ICsyOSw3IEBAIGVudW0gbXRrX2RkcF9jb21wX2lkIHsKPiAgICAgICAgIEREUF9DT01QT05FTlRf
+T1ZMMCwKPiAgICAgICAgIEREUF9DT01QT05FTlRfT1ZMXzJMMCwKPiAgICAgICAgIEREUF9DT01Q
+T05FTlRfT1ZMXzJMMSwKPiArICAgICAgIEREUF9DT01QT05FTlRfT1ZMXzJMMiwKPiAgICAgICAg
+IEREUF9DT01QT05FTlRfT1ZMMSwKPiAgICAgICAgIEREUF9DT01QT05FTlRfUFdNMCwKPiAgICAg
+ICAgIEREUF9DT01QT05FTlRfUFdNMSwKPiAtLQo+IDEuOC4xLjEuZGlydHkKPgo+IF9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxp
+bmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
