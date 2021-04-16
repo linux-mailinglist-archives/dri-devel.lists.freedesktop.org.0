@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909A436217F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 15:53:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95D7362197
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D63A96EA9A;
-	Fri, 16 Apr 2021 13:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A50F36EA4F;
+	Fri, 16 Apr 2021 14:00:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4F56E0C5;
- Fri, 16 Apr 2021 13:53:47 +0000 (UTC)
-IronPort-SDR: s5t8+FNr1juIil10IWsGCjaUIFFce3i3fhNngTHKZyhabl9MTN0hnaJKOo/fxmYB1YdJiHpE5p
- PkORSsMzR29g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9956"; a="280360333"
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="280360333"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2021 06:53:46 -0700
-IronPort-SDR: skT04xgQZfDJGwcf32LC53DFT4SzrBbkeTbPKJp7DIWUAUcA09ngZP/NDZgXa89m0U2b2EjHyf
- q2B8t+nwi0yA==
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="453346243"
-Received: from pmwillia-mobl2.ger.corp.intel.com (HELO [10.252.7.203])
- ([10.252.7.203])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2021 06:53:45 -0700
-Subject: Re: [Intel-gfx] [PATCH 06/19] drm/i915/stolen: pass the allocation
- flags
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20210412090526.30547-1-matthew.auld@intel.com>
- <20210412090526.30547-7-matthew.auld@intel.com>
- <4dc60bcc-ffb8-db6a-dc0d-4a3700661258@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <026a38d2-3953-9dd1-ad90-9ad781374e6b@intel.com>
-Date: Fri, 16 Apr 2021 14:53:43 +0100
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E616EA4F;
+ Fri, 16 Apr 2021 14:00:40 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 34B41B12D;
+ Fri, 16 Apr 2021 14:00:39 +0000 (UTC)
+Subject: Re: [PATCH v3 5/7] drm/vmwgfx: Inline ttm_bo_mmap() into vmwgfx driver
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, bskeggs@redhat.com, ray.huang@amd.com,
+ linux-graphics-maintainer@vmware.com, sroland@vmware.com, zackr@vmware.com,
+ shashank.sharma@amd.com, sam@ravnborg.org, emil.velikov@collabora.com,
+ Felix.Kuehling@amd.com, nirmoy.das@amd.com
+References: <20210416133146.24825-1-tzimmermann@suse.de>
+ <20210416133146.24825-6-tzimmermann@suse.de>
+ <b7008944-fbe5-bd59-d2a9-ff62bea38237@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <3f0d0a8b-fa40-a4c6-fb0a-991fc6729806@suse.de>
+Date: Fri, 16 Apr 2021 16:00:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <4dc60bcc-ffb8-db6a-dc0d-4a3700661258@linux.intel.com>
-Content-Language: en-GB
+In-Reply-To: <b7008944-fbe5-bd59-d2a9-ff62bea38237@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,64 +45,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1226863605=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTQvMDQvMjAyMSAxNjowOSwgVHZydGtvIFVyc3VsaW4gd3JvdGU6Cj4gCj4gT24gMTIvMDQv
-MjAyMSAxMDowNSwgTWF0dGhldyBBdWxkIHdyb3RlOgo+PiBGcm9tOiBDUSBUYW5nIDxjcS50YW5n
-QGludGVsLmNvbT4KPj4KPj4gU3RvbGVuIG1lbW9yeSBpcyBhbHdheXMgYWxsb2NhdGVkIGFzIHBo
-eXNpY2FsbHkgY29udGlndW91cyBwYWdlcywgbWFyawo+PiB0aGUgb2JqZWN0IGZsYWdzIGFzIHN1
-Y2guCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IENRIFRhbmcgPGNxLnRhbmdAaW50ZWwuY29tPgo+PiBT
-aWduZWQtb2ZmLWJ5OiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVsZEBpbnRlbC5jb20+Cj4+IC0t
-LQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fc3RvbGVuLmMgfCAxMCAr
-KysrKystLS0tCj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDQgZGVsZXRp
-b25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9n
-ZW1fc3RvbGVuLmMgCj4+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xl
-bi5jCj4+IGluZGV4IGY3MTNlYWJiNzY3MS4uNDlhMmRmY2M4YmE3IDEwMDY0NAo+PiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fc3RvbGVuLmMKPj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xlbi5jCj4+IEBAIC02MzMsMTQgKzYzMywx
-NSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3Rfb3BzIAo+PiBpOTE1
-X2dlbV9vYmplY3Rfc3RvbGVuX29wcyA9IHsKPj4gwqAgc3RhdGljIGludCBfX2k5MTVfZ2VtX29i
-amVjdF9jcmVhdGVfc3RvbGVuKHN0cnVjdCAKPj4gaW50ZWxfbWVtb3J5X3JlZ2lvbiAqbWVtLAo+
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0
-IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaiwKPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fbW1fbm9kZSAqc3RvbGVuKQo+PiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9tbV9ub2Rl
-ICpzdG9sZW4sCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCB1bnNpZ25lZCBpbnQgZmxhZ3MpCj4+IMKgIHsKPj4gwqDCoMKgwqDCoCBzdGF0aWMgc3RydWN0
-IGxvY2tfY2xhc3Nfa2V5IGxvY2tfY2xhc3M7Cj4+IMKgwqDCoMKgwqAgdW5zaWduZWQgaW50IGNh
-Y2hlX2xldmVsOwo+PiDCoMKgwqDCoMKgIGludCBlcnI7Cj4+IMKgwqDCoMKgwqAgZHJtX2dlbV9w
-cml2YXRlX29iamVjdF9pbml0KCZtZW0tPmk5MTUtPmRybSwgJm9iai0+YmFzZSwgCj4+IHN0b2xl
-bi0+c2l6ZSk7Cj4+IC3CoMKgwqAgaTkxNV9nZW1fb2JqZWN0X2luaXQob2JqLCAmaTkxNV9nZW1f
-b2JqZWN0X3N0b2xlbl9vcHMsIAo+PiAmbG9ja19jbGFzcywgMCk7Cj4+ICvCoMKgwqAgaTkxNV9n
-ZW1fb2JqZWN0X2luaXQob2JqLCAmaTkxNV9nZW1fb2JqZWN0X3N0b2xlbl9vcHMsIAo+PiAmbG9j
-a19jbGFzcywgZmxhZ3MpOwo+PiDCoMKgwqDCoMKgIG9iai0+c3RvbGVuID0gc3RvbGVuOwo+PiDC
-oMKgwqDCoMKgIG9iai0+cmVhZF9kb21haW5zID0gSTkxNV9HRU1fRE9NQUlOX0NQVSB8IEk5MTVf
-R0VNX0RPTUFJTl9HVFQ7Cj4+IEBAIC02ODIsNyArNjgzLDcgQEAgc3RhdGljIGludCBfaTkxNV9n
-ZW1fb2JqZWN0X3N0b2xlbl9pbml0KHN0cnVjdCAKPj4gaW50ZWxfbWVtb3J5X3JlZ2lvbiAqbWVt
-LAo+PiDCoMKgwqDCoMKgIGlmIChyZXQpCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGVycl9m
-cmVlOwo+PiAtwqDCoMKgIHJldCA9IF9faTkxNV9nZW1fb2JqZWN0X2NyZWF0ZV9zdG9sZW4obWVt
-LCBvYmosIHN0b2xlbik7Cj4+ICvCoMKgwqAgcmV0ID0gX19pOTE1X2dlbV9vYmplY3RfY3JlYXRl
-X3N0b2xlbihtZW0sIG9iaiwgc3RvbGVuLCBmbGFncyk7Cj4+IMKgwqDCoMKgwqAgaWYgKHJldCkK
-Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZXJyX3JlbW92ZTsKPj4gQEAgLTg0MCw3ICs4NDEs
-OCBAQCAKPj4gaTkxNV9nZW1fb2JqZWN0X2NyZWF0ZV9zdG9sZW5fZm9yX3ByZWFsbG9jYXRlZChz
-dHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAKPj4gKmk5MTUsCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBn
-b3RvIGVycl9zdG9sZW47Cj4+IMKgwqDCoMKgwqAgfQo+PiAtwqDCoMKgIHJldCA9IF9faTkxNV9n
-ZW1fb2JqZWN0X2NyZWF0ZV9zdG9sZW4obWVtLCBvYmosIHN0b2xlbik7Cj4+ICvCoMKgwqAgcmV0
-ID0gX19pOTE1X2dlbV9vYmplY3RfY3JlYXRlX3N0b2xlbihtZW0sIG9iaiwgc3RvbGVuLAo+PiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgSTkxNV9C
-T19BTExPQ19DT05USUdVT1VTKTsKPj4gwqDCoMKgwqDCoCBpZiAocmV0KQo+PiDCoMKgwqDCoMKg
-wqDCoMKgwqAgZ290byBlcnJfb2JqZWN0X2ZyZWU7Cj4+Cj4gCj4gQXJlIGFsbCBzdG9sZW4gb2Jq
-ZWN0cyBhbHdheXMgY29udGlndW91cyBvciBvbmx5IG9uZXMgYWxsb2NhdGVkIGJ5IAo+IGk5MTVf
-Z2VtX29iamVjdF9jcmVhdGVfc3RvbGVuX2Zvcl9wcmVhbGxvY2F0ZWQ/IElmIGZvcm1lciBzaG91
-bGQgCj4gX19pOTE1X2dlbV9vYmplY3RfY3JlYXRlX3N0b2xlbiBqdXN0IHNldCB0aGUgZmxhZyB3
-aXRob3V0IHRoZSBuZWVkIHRvIAo+IHBhc3MgaXQgaW4/CgpZZXMsIGFsbCBzdG9sZW4gb2JqZWN0
-IGFyZSBwaHlzaWNhbGx5IGNvbnRpZ3VvdXMuIEFncmVlZCwgbW92aW5nIHRoZSAKSTkxNV9CT19B
-TExPQ19DT05USUdVT1VTIGludG8gX19pOTE1X2dlbV9vYmplY3RfY3JlYXRlX3N0b2xlbigpIG1h
-a2VzIAptb3JlIHNlbnNlIGhlcmUuCgo+IAo+IFJlZ2FyZHMsCj4gCj4gVHZydGtvCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1226863605==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="x2rSL5UwlVquz7IVn5gXAmWjRXaDyqWI6"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--x2rSL5UwlVquz7IVn5gXAmWjRXaDyqWI6
+Content-Type: multipart/mixed; boundary="KAxHHaUTOdLuCF1VreK1RtsudTRHa32UF";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, bskeggs@redhat.com, ray.huang@amd.com,
+ linux-graphics-maintainer@vmware.com, sroland@vmware.com, zackr@vmware.com,
+ shashank.sharma@amd.com, sam@ravnborg.org, emil.velikov@collabora.com,
+ Felix.Kuehling@amd.com, nirmoy.das@amd.com
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Message-ID: <3f0d0a8b-fa40-a4c6-fb0a-991fc6729806@suse.de>
+Subject: Re: [PATCH v3 5/7] drm/vmwgfx: Inline ttm_bo_mmap() into vmwgfx
+ driver
+References: <20210416133146.24825-1-tzimmermann@suse.de>
+ <20210416133146.24825-6-tzimmermann@suse.de>
+ <b7008944-fbe5-bd59-d2a9-ff62bea38237@gmail.com>
+In-Reply-To: <b7008944-fbe5-bd59-d2a9-ff62bea38237@gmail.com>
+
+--KAxHHaUTOdLuCF1VreK1RtsudTRHa32UF
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 16.04.21 um 15:46 schrieb Christian K=C3=B6nig:
+> Am 16.04.21 um 15:31 schrieb Thomas Zimmermann:
+>> The vmwgfx driver is the only remaining user of ttm_bo_mmap(). Inline
+>> the code. The internal helper ttm_bo_vm_lookup() is now also part of
+>> vmwgfx as vmw_bo_vm_lookup().
+>>
+>> v2:
+>> =C2=A0=C2=A0=C2=A0=C2=A0* replace pr_err() with drm_err() (Zack)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reviewed-by: Zack Rusin <zackr@vmware.com>
+>> ---
+>> =C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c | 56 +++++++++++++++++=
++++++--
+>> =C2=A0 1 file changed, 53 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c=20
+>> b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+>> index cb9975889e2f..c8b6543b4e39 100644
+>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+>> @@ -27,6 +27,32 @@
+>> =C2=A0 #include "vmwgfx_drv.h"
+>> +static struct ttm_buffer_object *vmw_bo_vm_lookup(struct ttm_device=20
+>> *bdev,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 unsigned long offset,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 unsigned long pages)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 struct vmw_private *dev_priv =3D container_of(bdev=
+, struct=20
+>> vmw_private, bdev);
+>> +=C2=A0=C2=A0=C2=A0 struct drm_device *drm =3D &dev_priv->drm;
+>> +=C2=A0=C2=A0=C2=A0 struct drm_vma_offset_node *node;
+>> +=C2=A0=C2=A0=C2=A0 struct ttm_buffer_object *bo =3D NULL;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 drm_vma_offset_lock_lookup(bdev->vma_manager);
+>> +
+>> +=C2=A0=C2=A0=C2=A0 node =3D drm_vma_offset_lookup_locked(bdev->vma_ma=
+nager, offset,=20
+>> pages);
+>> +=C2=A0=C2=A0=C2=A0 if (likely(node)) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo =3D container_of(node, =
+struct ttm_buffer_object,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 base.vma_node);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo =3D ttm_bo_get_unless_z=
+ero(bo);
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 drm_vma_offset_unlock_lookup(bdev->vma_manager);
+>> +
+>> +=C2=A0=C2=A0=C2=A0 if (!bo)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_err(drm, "Could not fi=
+nd buffer object to map\n");
+>> +
+>> +=C2=A0=C2=A0=C2=A0 return bo;
+>> +}
+>> +
+>> =C2=A0 int vmw_mmap(struct file *filp, struct vm_area_struct *vma)
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 static const struct vm_operations_struc=
+t vmw_vm_ops =3D {
+>> @@ -41,10 +67,28 @@ int vmw_mmap(struct file *filp, struct=20
+>> vm_area_struct *vma)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv =3D filp->pr=
+ivate_data;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vmw_private *dev_priv =3D vmw_pr=
+iv(file_priv->minor->dev);
+>> -=C2=A0=C2=A0=C2=A0 int ret =3D ttm_bo_mmap(filp, vma, &dev_priv->bdev=
+);
+>> +=C2=A0=C2=A0=C2=A0 struct ttm_device *bdev =3D &dev_priv->bdev;
+>> +=C2=A0=C2=A0=C2=A0 struct ttm_buffer_object *bo;
+>> +=C2=A0=C2=A0=C2=A0 int ret;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 if (unlikely(vma->vm_pgoff < DRM_FILE_PAGE_OFFSET_=
+START))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 bo =3D vmw_bo_vm_lookup(bdev, vma->vm_pgoff, vma_p=
+ages(vma));
+>> +=C2=A0=C2=A0=C2=A0 if (unlikely(!bo))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
+>> -=C2=A0=C2=A0=C2=A0 if (ret)
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>> +=C2=A0=C2=A0=C2=A0 if (unlikely(!bo->bdev->funcs->verify_access)) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D -EPERM;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unref;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +=C2=A0=C2=A0=C2=A0 ret =3D bo->bdev->funcs->verify_access(bo, filp);
+>=20
+> Is there any reason we can't call vmw_verify_access() directly here?
+>=20
+> Would allow us to completely nuke the verify_access callback as well as=20
+
+> far as I can see.
+
+We have to spare something for patches 6 and 7. Otherwise they'd be=20
+empty. ;)
+
+Best regards
+Thomas
+
+>=20
+> Regards,
+> Christian.
+>=20
+>> +=C2=A0=C2=A0=C2=A0 if (unlikely(ret !=3D 0))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unref;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 ret =3D ttm_bo_mmap_obj(vma, bo);
+>> +=C2=A0=C2=A0=C2=A0 if (unlikely(ret !=3D 0))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unref;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_ops =3D &vmw_vm_ops;
+>> @@ -52,7 +96,13 @@ int vmw_mmap(struct file *filp, struct=20
+>> vm_area_struct *vma)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!is_cow_mapping(vma->vm_flags))
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_flags =3D=20
+(vma->vm_flags & ~VM_MIXEDMAP) | VM_PFNMAP;
+>> +=C2=A0=C2=A0=C2=A0 ttm_bo_put(bo); /* release extra ref taken by ttm_=
+bo_mmap_obj() */
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> +
+>> +out_unref:
+>> +=C2=A0=C2=A0=C2=A0 ttm_bo_put(bo);
+>> +=C2=A0=C2=A0=C2=A0 return ret;
+>> =C2=A0 }
+>> =C2=A0 /* struct vmw_validation_mem callback */
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--KAxHHaUTOdLuCF1VreK1RtsudTRHa32UF--
+
+--x2rSL5UwlVquz7IVn5gXAmWjRXaDyqWI6
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB5mIYFAwAAAAAACgkQlh/E3EQov+Dk
+cQ/+InrAMAvEwtRpmhrDg4Kb637mWixYAgcbmbwgoAacHBnleb1h6XIPgpsyrorjnWvPTut5yssO
+oZoOtz0dQZ7ZON4g0AqIMii3TVgfv9fyUpSAYz3EgyTdvwgVVLiK+n8TV1qtQLEKOd/nruYd9DKa
+21KPTqWiUc5/InrMDmRlE5IDNlEEM6IVF9e7MZlsHKVNVXppKX4bxNQ7AYNPrCYswa+Bj3OCoE2E
+Sa5ZduJV4dzVji5BR4aBSdYHZBU5fvvHu2UHF3HU+ElyL4iC0+90jS1sSoMQ9bwmHq4EXg3jjCNG
+KwX/YU4kKWNQomolVbW7mZpzTnHQmCy11bbfoHcUwqPGkc5MUwCjCpaOf1xcitW96zNNCa6p0Ohm
+NY2CS+vq0TLdorJvYp8q59E1mViz9ThaKe+OCfGhtf/Zqd1xZrdRCmaFDhG+AwvmDL2f3T+oAJKL
+haYLrgHbaMaim6LXij4+7ZTNmU0jbCYBtIsydcCvn3hK4J0ikaT7sKwXaBCmJJ7vxE2Y3KzfuKWC
+DZfPSVD/DOGY+0ZbdwE1wrUvXhq44mQiy/U3cpfT7zaK6cZhC5O6vkzCLPz6vq8KV/ixsmT2cqWa
+Zoybc2vykiFL79cS0d8iTE5vr+as7ixANhKUr9WwKOOEGcb0ipVj1NS3mPWGo6YMMbfBvt/FWwhz
+HIk=
+=V+VK
+-----END PGP SIGNATURE-----
+
+--x2rSL5UwlVquz7IVn5gXAmWjRXaDyqWI6--
+
+--===============1226863605==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1226863605==--
