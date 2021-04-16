@@ -2,42 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEC5361FE7
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 14:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F256361FEC
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 14:34:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A21576E0DE;
-	Fri, 16 Apr 2021 12:31:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9CD56E104;
+	Fri, 16 Apr 2021 12:34:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2456E0DE
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 12:31:16 +0000 (UTC)
-IronPort-SDR: K31fCGObzCep4gmfT/9Re1rDEHgR/lAoCcWAte3UBB/KDdRnN0gR3iTOtYRM5hJwE9zBE/2mLY
- 7WpkXcZnGZ9w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="182158063"
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="182158063"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2021 05:31:16 -0700
-IronPort-SDR: IxumiiRIJwpJIuwk28rwAKWbEPw6iGRwlTfxtJIvWbuclrEnn3yybu9rpcJwu3q4mtazbBUoOp
- RDfvU03krWpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="522699204"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmsmga001.fm.intel.com with ESMTP; 16 Apr 2021 05:31:14 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id C093D142; Fri, 16 Apr 2021 15:31:31 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/2] fbtft: Don't spam logs when probe is deferred
-Date: Fri, 16 Apr 2021 15:31:17 +0300
-Message-Id: <20210416123117.4993-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210416123117.4993-1-andriy.shevchenko@linux.intel.com>
-References: <20210416123117.4993-1-andriy.shevchenko@linux.intel.com>
+Received: from JPTOSEGREL01.sonyericsson.com (jptosegrel01.sonyericsson.com
+ [124.215.201.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35F3C6E104
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 12:34:17 +0000 (UTC)
+From: Peter Enderborg <peter.enderborg@sony.com>
+To: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Alexey Dobriyan <adobriyan@gmail.com>, Andrew
+ Morton <akpm@linux-foundation.org>, Muchun Song <songmuchun@bytedance.com>,
+ Roman Gushchin <guro@fb.com>, Shakeel Butt <shakeelb@google.com>, Michal
+ Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>, Sami Tolvanen
+ <samitolvanen@google.com>, Mike Rapoport <rppt@kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v2] dma-buf: Add DmaBufTotal counter in meminfo
+Date: Fri, 16 Apr 2021 14:33:52 +0200
+Message-ID: <20210416123352.10747-1-peter.enderborg@sony.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+X-SEG-SpamProfiler-Analysis: v=2.3 cv=crzlbGwi c=1 sm=1 tr=0
+ a=9drRLWArJOlETflmpfiyCA==:117 a=3YhXtTcJ-WEA:10 a=z6gsHLkEAAAA:8
+ a=USQXLDy_ZNVIum19Oj8A:9 a=d-OLMTCWyvARjPbQ-enb:22 a=pHzHmUro8NiASowvMSCR:22
+ a=Ew2E2A-JSTLzCXPT_086:22
+X-SEG-SpamProfiler-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,52 +45,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Peter Enderborg <peter.enderborg@sony.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When requesting GPIO line the probe can be deferred.
-In such case don't spam logs with an error message.
-This can be achieved by switching to dev_err_probe().
+This adds a total used dma-buf memory. Details
+can be found in debugfs, however it is not for everyone
+and not always available. dma-buf are indirect allocated by
+userspace. So with this value we can monitor and detect
+userspace applications that have problems.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
 ---
- drivers/staging/fbtft/fbtft-core.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/dma-buf/dma-buf.c | 12 ++++++++++++
+ fs/proc/meminfo.c         |  5 ++++-
+ include/linux/dma-buf.h   |  1 +
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 67c3b1975a4d..a564907c4fa1 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -75,20 +75,16 @@ static int fbtft_request_one_gpio(struct fbtft_par *par,
- 				  struct gpio_desc **gpiop)
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index f264b70c383e..9f88171b394c 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -37,6 +37,7 @@ struct dma_buf_list {
+ };
+ 
+ static struct dma_buf_list db_list;
++static atomic_long_t dma_buf_size;
+ 
+ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
  {
- 	struct device *dev = par->info->device;
--	int ret = 0;
+@@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+ 		dma_resv_fini(dmabuf->resv);
  
- 	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
- 					       GPIOD_OUT_LOW);
--	if (IS_ERR(*gpiop)) {
--		ret = PTR_ERR(*gpiop);
--		dev_err(dev,
--			"Failed to request %s GPIO: %d\n", name, ret);
--		return ret;
--	}
-+	if (IS_ERR(*gpiop))
-+		dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
-+
- 	fbtft_par_dbg(DEBUG_REQUEST_GPIOS, par, "%s: '%s' GPIO\n",
- 		      __func__, name);
++	atomic_long_sub(dmabuf->size, &dma_buf_size);
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
+@@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	mutex_lock(&db_list.lock);
+ 	list_add(&dmabuf->list_node, &db_list.head);
+ 	mutex_unlock(&db_list.lock);
++	atomic_long_add(dmabuf->size, &dma_buf_size);
  
--	return ret;
-+	return 0;
+ 	return dmabuf;
+ 
+@@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
  }
+ EXPORT_SYMBOL_GPL(dma_buf_vunmap);
  
- static int fbtft_request_gpios(struct fbtft_par *par)
++/**
++ * dma_buf_get_size - Return the used nr pages by dma-buf
++ */
++long dma_buf_get_size(void)
++{
++	return atomic_long_read(&dma_buf_size) >> PAGE_SHIFT;
++}
++EXPORT_SYMBOL_GPL(dma_buf_get_size);
++
+ #ifdef CONFIG_DEBUG_FS
+ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ {
+diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+index 6fa761c9cc78..178f6ffb1618 100644
+--- a/fs/proc/meminfo.c
++++ b/fs/proc/meminfo.c
+@@ -16,6 +16,7 @@
+ #ifdef CONFIG_CMA
+ #include <linux/cma.h>
+ #endif
++#include <linux/dma-buf.h>
+ #include <asm/page.h>
+ #include "internal.h"
+ 
+@@ -145,7 +146,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 	show_val_kb(m, "CmaFree:        ",
+ 		    global_zone_page_state(NR_FREE_CMA_PAGES));
+ #endif
+-
++#ifdef CONFIG_DMA_SHARED_BUFFER
++	show_val_kb(m, "DmaBufTotal:    ", dma_buf_get_size());
++#endif
+ 	hugetlb_report_meminfo(m);
+ 
+ 	arch_report_meminfo(m);
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index efdc56b9d95f..f6481315a377 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
+ 		 unsigned long);
+ int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
++long dma_buf_get_size(void);
+ #endif /* __DMA_BUF_H__ */
 -- 
-2.30.2
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
