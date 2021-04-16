@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E14361C34
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 11:00:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE338361C3A
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 11:01:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D256EB3F;
-	Fri, 16 Apr 2021 09:00:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38FD66EB3A;
+	Fri, 16 Apr 2021 09:00:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E18EE6EB3C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 09:00:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E7D6EB3A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 09:00:54 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5D97AAE86;
- Fri, 16 Apr 2021 09:00:51 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 7F4D5AEE5;
+ Fri, 16 Apr 2021 09:00:52 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
  broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
  emil.l.velikov@gmail.com, geert+renesas@glider.be, hdegoede@redhat.com,
  bluescreen_avenger@verizon.net, gregkh@linuxfoundation.org
-Subject: [PATCH v4 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
-Date: Fri, 16 Apr 2021 11:00:40 +0200
-Message-Id: <20210416090048.11492-2-tzimmermann@suse.de>
+Subject: [PATCH v4 3/9] drm/aperture: Add infrastructure for aperture ownership
+Date: Fri, 16 Apr 2021 11:00:42 +0200
+Message-Id: <20210416090048.11492-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210416090048.11492-1-tzimmermann@suse.de>
 References: <20210416090048.11492-1-tzimmermann@suse.de>
@@ -51,95 +50,382 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The memcpy's destination buffer might have a different pitch than the
-source. Support different pitches as function argument.
+Platform devices might operate on firmware framebuffers, such as VESA or
+EFI. Before a native driver for the graphics hardware can take over the
+device, it has to remove any platform driver that operates on the firmware
+framebuffer. Aperture helpers provide the infrastructure for platform
+drivers to acquire firmware framebuffers, and for native drivers to remove
+them later on.
+
+It works similar to the related fbdev mechanism. During initialization, the
+platform driver acquires the firmware framebuffer's I/O memory and provides
+a callback to be removed. The native driver later uses this information to
+remove any platform driver for it's framebuffer I/O memory.
+
+The aperture removal code is integrated into the existing code for removing
+conflicting framebuffers, so native drivers use it automatically.
+
+v4:
+	* hide detach callback in implementation (Daniel)
+	* documentation fixes
+v3:
+	* rebase onto existing aperture infrastructure
+	* release aperture from list during detach; fix dangling apertures
+	* don't export struct drm_aperture
+	* document struct drm_aperture_funcs
+v2:
+	* rename plaform helpers to aperture helpers
+	* tie to device lifetime with devm_ functions
+	* removed unsued remove() callback
+	* rename kickout to detach
+	* make struct drm_aperture private
+	* rebase onto existing drm_aperture.h header file
+	* use MIT license only for simplicity
+	* documentation
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
 ---
- drivers/gpu/drm/drm_format_helper.c    | 9 +++++----
- drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
- drivers/gpu/drm/tiny/cirrus.c          | 2 +-
- include/drm/drm_format_helper.h        | 2 +-
- 4 files changed, 8 insertions(+), 7 deletions(-)
+ Documentation/gpu/drm-internals.rst |  21 ++-
+ drivers/gpu/drm/drm_aperture.c      | 221 +++++++++++++++++++++++++++-
+ include/drm/drm_aperture.h          |  20 +--
+ 3 files changed, 230 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index c043ca364c86..8d5a683afea7 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -52,6 +52,7 @@ EXPORT_SYMBOL(drm_fb_memcpy);
+diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
+index 06af044c882f..2f4056200611 100644
+--- a/Documentation/gpu/drm-internals.rst
++++ b/Documentation/gpu/drm-internals.rst
+@@ -75,18 +75,6 @@ update it, its value is mostly useless. The DRM core prints it to the
+ kernel log at initialization time and passes it to userspace through the
+ DRM_IOCTL_VERSION ioctl.
+ 
+-Managing Ownership of the Framebuffer Aperture
+-----------------------------------------------
+-
+-.. kernel-doc:: drivers/gpu/drm/drm_aperture.c
+-   :doc: overview
+-
+-.. kernel-doc:: include/drm/drm_aperture.h
+-   :internal:
+-
+-.. kernel-doc:: drivers/gpu/drm/drm_aperture.c
+-   :export:
+-
+ Device Instance and Driver Handling
+ -----------------------------------
+ 
+@@ -102,6 +90,15 @@ Device Instance and Driver Handling
+ .. kernel-doc:: drivers/gpu/drm/drm_drv.c
+    :export:
+ 
++Managing Ownership of the Framebuffer Aperture
++----------------------------------------------
++
++.. kernel-doc:: drivers/gpu/drm/drm_aperture.c
++   :doc: overview
++
++.. kernel-doc:: drivers/gpu/drm/drm_aperture.c
++   :export:
++
+ Driver Load
+ -----------
+ 
+diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
+index e034dd7f9b09..0ad17d09610d 100644
+--- a/drivers/gpu/drm/drm_aperture.c
++++ b/drivers/gpu/drm/drm_aperture.c
+@@ -1,9 +1,18 @@
+ // SPDX-License-Identifier: MIT
+ 
++#include <linux/device.h>
+ #include <linux/fb.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
++#include <linux/pci.h>
++#include <linux/platform_device.h> /* for firmware helpers */
++#include <linux/slab.h>
++#include <linux/types.h>
+ #include <linux/vgaarb.h>
+ 
+ #include <drm/drm_aperture.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_print.h>
+ 
  /**
-  * drm_fb_memcpy_dstclip - Copy clip buffer
-  * @dst: Destination buffer (iomem)
-+ * @dst_pitch: Number of bytes between two consecutive scanlines within dst
-  * @vaddr: Source buffer
-  * @fb: DRM framebuffer
-  * @clip: Clip rectangle area to copy
-@@ -59,12 +60,12 @@ EXPORT_SYMBOL(drm_fb_memcpy);
-  * This function applies clipping on dst, i.e. the destination is a
-  * full (iomem) framebuffer but only the clip rect content is copied over.
+  * DOC: overview
+@@ -62,8 +71,200 @@
+  * framebuffer apertures automatically. Device drivers without knowledge of
+  * the framebuffer's location shall call drm_aperture_remove_framebuffers(),
+  * which removes all drivers for known framebuffer.
++ *
++ * Drivers that are susceptible to being removed by other drivers, such as
++ * generic EFI or VESA drivers, have to register themselves as owners of their
++ * given framebuffer memory. Ownership of the framebuffer memory is achived
++ * by calling devm_aperture_acquire_from_firmware(). On success, the driver
++ * is the owner of the framebuffer range. The function fails if the
++ * framebuffer is already by another driver. See below for an example.
++ *
++ * .. code-block:: c
++ *
++ *	static int acquire_framebuffers(struct drm_device *dev, struct platform_device *pdev)
++ *	{
++ *		resource_size_t base, size;
++ *
++ *		mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++ *		if (!mem)
++ *			return -EINVAL;
++ *		base = mem->start;
++ *		size = resource_size(mem);
++ *
++ *		return devm_acquire_aperture_from_firmware(dev, base, size);
++ *	}
++ *
++ *	static int probe(struct platform_device *pdev)
++ *	{
++ *		struct drm_device *dev;
++ *		int ret;
++ *
++ *		// ... Initialize the device...
++ *		dev = devm_drm_dev_alloc();
++ *		...
++ *
++ *		// ... and acquire ownership of the framebuffer.
++ *		ret = acquire_framebuffers(dev, pdev);
++ *		if (ret)
++ *			return ret;
++ *
++ *		drm_dev_register(dev, 0);
++ *
++ *		return 0;
++ *	}
++ *
++ * The generic driver is now subject to forced removal by other drivers. This
++ * only works for platform drivers that support hot unplug.
++ * When a driver calls drm_aperture_remove_conflicting_framebuffers() et al
++ * for the registered framebuffer range, the aperture helpers call
++ * platform_device_unregister() and the generic driver unloads itself. It
++ * may not access the device's registers, framebuffer memory, ROM, etc
++ * afterwards.
   */
--void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
--			   struct drm_framebuffer *fb,
-+void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch,
-+			   void *vaddr, struct drm_framebuffer *fb,
- 			   struct drm_rect *clip)
- {
- 	unsigned int cpp = fb->format->cpp[0];
--	unsigned int offset = clip_offset(clip, fb->pitches[0], cpp);
-+	unsigned int offset = clip_offset(clip, dst_pitch, cpp);
- 	size_t len = (clip->x2 - clip->x1) * cpp;
- 	unsigned int y, lines = clip->y2 - clip->y1;
  
-@@ -73,7 +74,7 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
- 	for (y = 0; y < lines; y++) {
- 		memcpy_toio(dst, vaddr, len);
- 		vaddr += fb->pitches[0];
--		dst += fb->pitches[0];
-+		dst += dst_pitch;
- 	}
++struct drm_aperture {
++	struct drm_device *dev;
++	resource_size_t base;
++	resource_size_t size;
++	struct list_head lh;
++	void (*detach)(struct drm_device *dev);
++};
++
++static LIST_HEAD(drm_apertures);
++static DEFINE_MUTEX(drm_apertures_lock);
++
++static bool overlap(resource_size_t base1, resource_size_t end1,
++		    resource_size_t base2, resource_size_t end2)
++{
++	return (base1 < end2) && (end1 > base2);
++}
++
++static void devm_aperture_acquire_release(void *data)
++{
++	struct drm_aperture *ap = data;
++	bool detached = !ap->dev;
++
++	if (detached)
++		return;
++
++	mutex_lock(&drm_apertures_lock);
++	list_del(&ap->lh);
++	mutex_unlock(&drm_apertures_lock);
++}
++
++static int devm_aperture_acquire(struct drm_device *dev,
++				 resource_size_t base, resource_size_t size,
++				 void (*detach)(struct drm_device *))
++{
++	size_t end = base + size;
++	struct list_head *pos;
++	struct drm_aperture *ap;
++
++	mutex_lock(&drm_apertures_lock);
++
++	list_for_each(pos, &drm_apertures) {
++		ap = container_of(pos, struct drm_aperture, lh);
++		if (overlap(base, end, ap->base, ap->base + ap->size))
++			return -EBUSY;
++	}
++
++	ap = devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
++	if (!ap)
++		return -ENOMEM;
++
++	ap->dev = dev;
++	ap->base = base;
++	ap->size = size;
++	ap->detach = detach;
++	INIT_LIST_HEAD(&ap->lh);
++
++	list_add(&ap->lh, &drm_apertures);
++
++	mutex_unlock(&drm_apertures_lock);
++
++	return devm_add_action_or_reset(dev->dev, devm_aperture_acquire_release, ap);
++}
++
++static void drm_aperture_detach_firmware(struct drm_device *dev)
++{
++	struct platform_device *pdev = to_platform_device(dev->dev);
++
++	/*
++	 * Remove the device from the device hierarchy. This is the right thing
++	 * to do for firmware-based DRM drivers, such as EFI, VESA or VGA. After
++	 * the new driver takes over the hardware, the firmware device's state
++	 * will be lost.
++	 *
++	 * For non-platform devices, a new callback would be required.
++	 *
++	 * If the aperture helpers ever need to handle native drivers, this call
++	 * would only have to unplug the DRM device, so that the hardware device
++	 * stays around after detachment.
++	 */
++	platform_device_unregister(pdev);
++}
++
++/**
++ * devm_aperture_acquire_from_firmware - Acquires ownership of a firmware framebuffer
++ *                                       on behalf of a DRM driver.
++ * @dev:	the DRM device to own the framebuffer memory
++ * @base:	the framebuffer's byte offset in physical memory
++ * @size:	the framebuffer size in bytes
++ *
++ * Installs the given device as the new owner of the framebuffer. The function
++ * expects the framebuffer to be provided by a platform device that has been
++ * set up by firmware. Firmware can be any generic interface, such as EFI,
++ * VESA, VGA, etc. If the native hardware driver takes over ownership of the
++ * frambuffer range, the firmware state gets lost. Aperture helpers will then
++ * unregister the platform device automatically. Acquired apertures are
++ * released automatically if the underlying device goes away.
++ *
++ * The function fails if the framebuffer range, or parts of it, is currently
++ * owned by another driver. To evict current owners, callers should use
++ * drm_aperture_remove_conflicting_framebuffers() et al. before calling this
++ * function. The function also fails if the given device is not a platform
++ * device.
++ *
++ * Returns:
++ * 0 on success, or a negative errno value otherwise.
++ */
++int devm_aperture_acquire_from_firmware(struct drm_device *dev, resource_size_t base,
++					resource_size_t size)
++{
++	if (drm_WARN_ON(dev, !dev_is_platform(dev->dev)))
++		return -EINVAL;
++
++	return devm_aperture_acquire(dev, base, size, drm_aperture_detach_firmware);
++}
++EXPORT_SYMBOL(devm_aperture_acquire_from_firmware);
++
++static void drm_aperture_detach_drivers(resource_size_t base, resource_size_t size)
++{
++	resource_size_t end = base + size;
++	struct list_head *pos, *n;
++
++	mutex_lock(&drm_apertures_lock);
++
++	list_for_each_safe(pos, n, &drm_apertures) {
++		struct drm_aperture *ap =
++			container_of(pos, struct drm_aperture, lh);
++		struct drm_device *dev = ap->dev;
++
++		if (WARN_ON_ONCE(!dev))
++			continue;
++
++		if (!overlap(base, end, ap->base, ap->base + ap->size))
++			continue;
++
++		ap->dev = NULL; /* detach from device */
++		list_del(&ap->lh);
++
++		ap->detach(dev);
++	}
++
++	mutex_unlock(&drm_apertures_lock);
++}
++
+ /**
+  * drm_aperture_remove_conflicting_framebuffers - remove existing framebuffers in the given range
+  * @base: the aperture's base address in physical memory
+@@ -94,10 +295,13 @@ int drm_aperture_remove_conflicting_framebuffers(resource_size_t base, resource_
+ 	ret = remove_conflicting_framebuffers(a, name, primary);
+ 	kfree(a);
+ 
+-	return ret;
+-#else
+-	return 0;
++	if (ret)
++		return ret;
+ #endif
++
++	drm_aperture_detach_drivers(base, size);
++
++	return 0;
  }
- EXPORT_SYMBOL(drm_fb_memcpy_dstclip);
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index cece3e57fb27..9d576240faed 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -1554,7 +1554,7 @@ mgag200_handle_damage(struct mga_device *mdev, struct drm_framebuffer *fb,
+ EXPORT_SYMBOL(drm_aperture_remove_conflicting_framebuffers);
+ 
+@@ -115,7 +319,16 @@ EXPORT_SYMBOL(drm_aperture_remove_conflicting_framebuffers);
+  */
+ int drm_aperture_remove_conflicting_pci_framebuffers(struct pci_dev *pdev, const char *name)
  {
- 	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
+-	int ret = 0;
++	resource_size_t base, size;
++	int bar, ret = 0;
++
++	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
++		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
++			continue;
++		base = pci_resource_start(pdev, bar);
++		size = pci_resource_len(pdev, bar);
++		drm_aperture_detach_drivers(base, size);
++	}
  
--	drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
-+	drm_fb_memcpy_dstclip(mdev->vram, fb->pitches[0], vmap, fb, clip);
+ 	/*
+ 	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+diff --git a/include/drm/drm_aperture.h b/include/drm/drm_aperture.h
+index 23cc01647ed3..a6e8d287eaab 100644
+--- a/include/drm/drm_aperture.h
++++ b/include/drm/drm_aperture.h
+@@ -5,27 +5,15 @@
  
- 	/* Always scanout image at VRAM offset 0 */
- 	mgag200_set_startadd(mdev, (u32)0);
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index e3afb45d9a5c..42611dacde88 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -324,7 +324,7 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb, const struct dma_buf_
- 		return -ENODEV;
+ #include <linux/types.h>
  
- 	if (cirrus->cpp == fb->format->cpp[0])
--		drm_fb_memcpy_dstclip(cirrus->vram,
-+		drm_fb_memcpy_dstclip(cirrus->vram, fb->pitches[0],
- 				      vmap, fb, rect);
++struct drm_device;
+ struct pci_dev;
  
- 	else if (fb->format->cpp[0] == 4 && cirrus->cpp == 2)
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index 5f9e37032468..2b5036a5fbe7 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -11,7 +11,7 @@ struct drm_rect;
++int devm_aperture_acquire_from_firmware(struct drm_device *dev, resource_size_t base,
++					resource_size_t size);
++
+ int drm_aperture_remove_conflicting_framebuffers(resource_size_t base, resource_size_t size,
+ 						 bool primary, const char *name);
  
- void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer *fb,
- 		   struct drm_rect *clip);
--void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
-+void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vaddr,
- 			   struct drm_framebuffer *fb,
- 			   struct drm_rect *clip);
- void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+ int drm_aperture_remove_conflicting_pci_framebuffers(struct pci_dev *pdev, const char *name);
+ 
+-/**
+- * drm_aperture_remove_framebuffers - remove all existing framebuffers
+- * @primary: also kick vga16fb if present
+- * @name: requesting driver name
+- *
+- * This function removes all graphics device drivers. Use this function on systems
+- * that can have their framebuffer located anywhere in memory.
+- *
+- * Returns:
+- * 0 on success, or a negative errno code otherwise
+- */
+-static inline int drm_aperture_remove_framebuffers(bool primary, const char *name)
+-{
+-	return drm_aperture_remove_conflicting_framebuffers(0, (resource_size_t)-1, primary, name);
+-}
+-
+ #endif
 -- 
 2.31.1
 
