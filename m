@@ -2,33 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B76D361C61
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 11:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDBB361CB2
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 11:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE26A6EB46;
-	Fri, 16 Apr 2021 09:01:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4DDB6EB43;
+	Fri, 16 Apr 2021 09:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5F56EB3E
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 09:00:57 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D82B5AF42;
- Fri, 16 Apr 2021 09:00:55 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
- broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
- emil.l.velikov@gmail.com, geert+renesas@glider.be, hdegoede@redhat.com,
- bluescreen_avenger@verizon.net, gregkh@linuxfoundation.org
-Subject: [PATCH v4 9/9] drm/simpledrm: Acquire memory aperture for framebuffer
-Date: Fri, 16 Apr 2021 11:00:48 +0200
-Message-Id: <20210416090048.11492-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210416090048.11492-1-tzimmermann@suse.de>
-References: <20210416090048.11492-1-tzimmermann@suse.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 767266EB43
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 09:07:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3145C613BA
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 09:07:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1618564059;
+ bh=S1RgGOvLnt8Uq+i5YbXxuESPSFtFlBFj8NXZsRYtyYU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=TrbtffF9jVbxJ+tb3hJiiPgd2BcMAxp2TSa1h8omIasuU+URPtW7urBygsErjRQvE
+ exLWkyz0NyDc2WeOVvo8NRj7GUKwW/QgrkhXBE3Gbk3xh4KU2Pt3SrqAkrEwObwrY8
+ WKwuKbLhV+NY5hGILQM0iMFowvDlA2SlgB0K/8xQ8PHKfjR/upvWZhi+lmy5W/PZgB
+ xOY6JLarkmgreVxiiThVeTihatl3aHoPjhjSP92oqPCvLGEZOlsSiETxX3o2FyT5Gd
+ tKtoBdyW2aBcXL/LJmhBMNqmJm6S7X3RathWWCZTUKs9+r8Sikr2JwVbn6e0zPQRU8
+ T5q+nvh3YXiXQ==
+Received: by mail-ed1-f51.google.com with SMTP id e7so31300710edu.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 02:07:39 -0700 (PDT)
+X-Gm-Message-State: AOAM532p+B6UB4ZD5typL5uuDEq02KsvYfyJoC3iqR30mNWg8PbJ3lP+
+ XnqGj2/2XwsP2nVMXg71p+DgmWOHn8eP/y7yLIY=
+X-Google-Smtp-Source: ABdhPJyoLKjcIf5H3PNFNwAinXaqu3cZQXJay5heRNq9YsT2IQ1iB7QMeeaB0QcE6v0s0pHHd4CoF8oe7YmBOMxa694=
+X-Received: by 2002:a05:6402:11c9:: with SMTP id
+ j9mr8734093edw.348.1618564057803; 
+ Fri, 16 Apr 2021 02:07:37 -0700 (PDT)
 MIME-Version: 1.0
+References: <1616403070-35776-1-git-send-email-yang.lee@linux.alibaba.com>
+In-Reply-To: <1616403070-35776-1-git-send-email-yang.lee@linux.alibaba.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Date: Fri, 16 Apr 2021 11:07:25 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPdPcQ1=UZiUumuLz8JSR2gTh=a-E01WE8ffdaa4+vsHUw@mail.gmail.com>
+Message-ID: <CAJKOXPdPcQ1=UZiUumuLz8JSR2gTh=a-E01WE8ffdaa4+vsHUw@mail.gmail.com>
+Subject: Re: [PATCH] drm/omap: dsi: Add missing IRQF_ONESHOT
+To: Yang Li <yang.lee@linux.alibaba.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,129 +53,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: virtualization@lists.linux-foundation.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, tomba@kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We register the simplekms device with the DRM platform helpers. A
-native driver for the graphics hardware will kick-out the simpledrm
-driver before taking over the device.
+On Mon, 22 Mar 2021 at 09:53, Yang Li <yang.lee@linux.alibaba.com> wrote:
+>
+> fixed the following coccicheck:
+> ./drivers/gpu/drm/omapdrm/dss/dsi.c:4329:7-27: ERROR: Threaded IRQ with
+> no primary handler requested without IRQF_ONESHOT
+>
+> Make sure threaded IRQs without a primary handler are always request
+> with IRQF_ONESHOT
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/omapdrm/dss/dsi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index b31d750..844cb0b 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -4326,7 +4326,7 @@ static int omap_dsi_register_te_irq(struct dsi_data *dsi,
+>
+>         irq_set_status_flags(te_irq, IRQ_NOAUTOEN);
+>
+> -       err = request_threaded_irq(te_irq, NULL, omap_dsi_te_irq_handler,
+> +       err = request_threaded_irq(te_irq | IRQF_ONESHOT, NULL, omap_dsi_te_irq_handler,
+>                                    IRQF_TRIGGER_RISING, "TE", dsi);
 
-The original generic platform device from the simple-framebuffer boot
-code will be unregistered. The native driver will use whatever native
-hardware device it received.
+Did you test it? There are several patches like this all over the tree
+so it looks like "let's fix everything from Coccinelle". It's a trend
+recently... multiple people send these patches. The point is that you
+should not blindly follow coccinelle but adjust the change for real
+case (e.g. is it a nested interrupt). Without this consideration and
+testing - NACK.
 
-v4:
-	* convert to drm_aperture_acquire_from_firmware()
-v3:
-	* use platform_device_unregister() and handle detachment
-	  like hot-unplug event (Daniel)
-v2:
-	* adapt to aperture changes
-	* use drm_dev_unplug() and drm_dev_enter/exit()
-	* don't split error string
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
----
- drivers/gpu/drm/tiny/simpledrm.c | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 9d522473cd7c..2bdb477d9326 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -6,6 +6,7 @@
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_damage_helper.h>
-@@ -517,14 +518,23 @@ static int simpledrm_device_init_fb(struct simpledrm_device *sdev)
- 
- static int simpledrm_device_init_mm(struct simpledrm_device *sdev)
- {
-+	struct drm_device *dev = &sdev->dev;
- 	struct platform_device *pdev = sdev->pdev;
- 	struct resource *mem;
- 	void __iomem *screen_base;
-+	int ret;
- 
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	if (!mem)
- 		return -EINVAL;
- 
-+	ret = devm_aperture_acquire_from_firmware(dev, mem->start, resource_size(mem));
-+	if (ret) {
-+		drm_err(dev, "could not acquire memory range [0x%llx:0x%llx]: error %d\n",
-+			mem->start, mem->end, ret);
-+		return ret;
-+	}
-+
- 	screen_base = devm_ioremap_wc(&pdev->dev, mem->start,
- 				      resource_size(mem));
- 	if (!screen_base)
-@@ -625,12 +635,18 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
-+	struct drm_device *dev = &sdev->dev;
-+	int idx;
- 
- 	if (!fb)
- 		return;
- 
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
-+
- 	drm_fb_blit_dstclip(sdev->screen_base, sdev->pitch,
- 			    sdev->format->format, vmap, fb);
-+	drm_dev_exit(idx);
- }
- 
- static void
-@@ -658,7 +674,9 @@ simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
- 	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_device *dev = &sdev->dev;
- 	struct drm_rect clip;
-+	int idx;
- 
- 	if (!fb)
- 		return;
-@@ -666,8 +684,13 @@ simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &clip))
- 		return;
- 
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
-+
- 	drm_fb_blit_rect_dstclip(sdev->screen_base, sdev->pitch,
- 				 sdev->format->format, vmap, fb, &clip);
-+
-+	drm_dev_exit(idx);
- }
- 
- static const struct drm_simple_display_pipe_funcs
-@@ -847,7 +870,7 @@ static int simpledrm_remove(struct platform_device *pdev)
- 	struct simpledrm_device *sdev = platform_get_drvdata(pdev);
- 	struct drm_device *dev = &sdev->dev;
- 
--	drm_dev_unregister(dev);
-+	drm_dev_unplug(dev);
- 
- 	return 0;
- }
--- 
-2.31.1
-
+Best regards,
+Krzysztof
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
