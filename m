@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92C73622A5
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B7F362296
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F3C6EC2E;
-	Fri, 16 Apr 2021 14:38:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A9F6EC17;
+	Fri, 16 Apr 2021 14:38:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB08A6EC16
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:38:00 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id z1so32560219edb.8
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:38:00 -0700 (PDT)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE1B6EC03
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:38:01 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id o20so6273770edc.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1tnd3CCiOTU6oRai7K6vIdbIrWXk2JdXqV/lmbbBung=;
- b=HI74TewrvzX00NmCH+IL7CJ5pNK8/FG90QDJLwNNOsPf9pK80IK3XLopWTolQGqBZ1
- l66Xp92uOfThrHapM4RL52WP+Tq1/QZ7NhDl+vJ7vTV/FnlP18Ut2bi7+pjHFLgIonM7
- L8TdNjsCTalQdSV76CluMM3eewdeJ1xo9ZwVD4YYFnQtbB5wxsFnJ2X1msTClEX5Ihxt
- 62RZuzoQpM/TWMVjiY8gkLu4AA+Pc6HKNrDi4bde2w3MfbVJkohMJ588/36cL5+Axbjl
- R07gelnAn7ICrYX1Lxn3DyUy5kX4gGvWOVmBkhSZoAH80jX37IxAVa92M6SURCDPTXMM
- Wc3g==
+ bh=q9QkHlwJDar64oIul6Zxhmqo4CTxwCRZxxTfk+OGqes=;
+ b=eY+BehDOCCwJrQBgJvFkrLf60qYGNjp86LQ95v4aL7ItluI4Kc1SOgueUMBeL7xVO0
+ HabFWzx1pws/L5MRCFq5LUoT5qfUy3s5FD/uSxeZFuyHKY3170WEz1Csbb4fSPaBDIqN
+ oRoIS2YwYhl3F0P/wmetAgGaxJNwr8QMpvE56Jxb1rGkseV0sHdrWs1gzTSOL2x1NJS0
+ Vj80LYVwo8lXzAojSa+aNSIeTjnQWOA9oP0WJp53MrM0/1L47DLNnl/6xm51fQAC1llu
+ FYuAOZoo41nr91MY3qLkcrnWrr3xBTW/WLIuUjkwS7wdSBtV0LoR2GWHCg5gPjz2JP4q
+ OdwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1tnd3CCiOTU6oRai7K6vIdbIrWXk2JdXqV/lmbbBung=;
- b=dCHniCQUOisGMfHmxN6Vh6cfzJwEEGaSLvbv83PcbzTL80K2nVK3auDueWL/6kMlTb
- z+PZZTXDku8+2vOUQrZyn8Zt7+mhAGIIfGtnb6i3ZmWuhp4/2+jZjF3jStjGWgmt3mfJ
- 2grkTWo/D/9WnrNJxepDRu0GJ6msbCOf0w3mTJhrcNmKSj6lfapet3eVWTtP/11B4VYx
- 7O/juSka5Rgkf9kX5SCOhHTX85hQizRwZN4H866Rft6Ub2DqmHfFxdGHSzMKpuEhVfk1
- sOKdio3B2Knr0aSCaLABeAUlJ18WzanjXOfRTyv/DEaRFio/A/TPmNscPKyjwz8KQcGm
- t9Gw==
-X-Gm-Message-State: AOAM530AarYcaiQ4CRWi3Re6Tx8r6H9eUrzPLKFokT8EA19wdiZtsBIZ
- 2wfwmaxHyyjgT2IoMex3TT791g==
-X-Google-Smtp-Source: ABdhPJzOAqEdWjMEk3fAEKmtY/yRpSZ10LT8MjLqMMrqvYXPj4js3DUS3SKLuNiq1CnKaRGz62pd3Q==
-X-Received: by 2002:aa7:dc0b:: with SMTP id b11mr10548194edu.124.1618583879454; 
- Fri, 16 Apr 2021 07:37:59 -0700 (PDT)
+ bh=q9QkHlwJDar64oIul6Zxhmqo4CTxwCRZxxTfk+OGqes=;
+ b=fcdXbGPKO08yN3HrtpB5nPUmhSKgtsrLw/MJ6jP25uk6CiEkVJYRDb79lfUtkdmADs
+ d44YY4Xl3Bv91gcvi90bkpwSQXBkVcXEz95t4k1xwZX0u0CdY3INm0YtJeRnFup1QZwU
+ E9GXG/9KELSTYIwYDbr2a4pA8IJ2Xg27rBOwR4v6kaeYupRBnwHXAAoV/BMFMuq7ONzW
+ iD4VHYgJQd7HjU2TEd9qvhroPMPuETAVMH/j85ZGBMLK55kbALmQT5YtGT7rAzxTjeNh
+ JsU9c0gYWTK2BgGUPNF0fM+N54/FAAlAhpoPTLyszlPNv+zjThtWNG5luOpfO3V6dR1p
+ S0og==
+X-Gm-Message-State: AOAM533DSw/V8oAbpYkgbYeabjleTCwqa4p8UHbRvByTctotZnUrgvb2
+ 5tKpRfHZGd0y/LGJBGWCr9Gw8g==
+X-Google-Smtp-Source: ABdhPJyfwppiWNh6UNq5J0oc3JQa61CxtXjxBSY55rvdOBADEXG3x0lLiRIZS3Wa6Jra3UH/lva7pA==
+X-Received: by 2002:a05:6402:cb3:: with SMTP id
+ cn19mr2427916edb.206.1618583880589; 
+ Fri, 16 Apr 2021 07:38:00 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.58
+ by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 07:37:59 -0700 (PDT)
+ Fri, 16 Apr 2021 07:38:00 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 28/40] drm/panel/panel-raspberrypi-touchscreen: Demote
- kernel-doc abuse
-Date: Fri, 16 Apr 2021 15:37:13 +0100
-Message-Id: <20210416143725.2769053-29-lee.jones@linaro.org>
+Subject: [PATCH 29/40] drm/amd/amdgpu/amdgpu_fence: Provide description for
+ 'sched_score'
+Date: Fri, 16 Apr 2021 15:37:14 +0100
+Message-Id: <20210416143725.2769053-30-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210416143725.2769053-1-lee.jones@linaro.org>
 References: <20210416143725.2769053-1-lee.jones@linaro.org>
@@ -68,45 +69,40 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ amd-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Jerome Glisse <glisse@freedesktop.org>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
-
- drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c:33: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Eric Anholt <eric@anholt.net>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-index 5e9ccefb88f62..2229f1af2ca8c 100644
---- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-+++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-@@ -29,7 +29,7 @@
-  * DEALINGS IN THE SOFTWARE.
-  */
- 
--/**
-+/*
-  * Raspberry Pi 7" touchscreen panel driver.
-  *
-  * The 7" touchscreen consists of a DPI LCD panel, a Toshiba
--- 
-2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ZlbmNlLmM6NDQ0OiB3YXJuaW5nOiBGdW5jdGlv
+biBwYXJhbWV0ZXIgb3IgbWVtYmVyICdzY2hlZF9zY29yZScgbm90IGRlc2NyaWJlZCBpbiAnYW1k
+Z3B1X2ZlbmNlX2RyaXZlcl9pbml0X3JpbmcnCgpDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIu
+ZGV1Y2hlckBhbWQuY29tPgpDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmln
+QGFtZC5jb20+CkNjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwg
+VmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+CkNjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBs
+aW5hcm8ub3JnPgpDYzogSmVyb21lIEdsaXNzZSA8Z2xpc3NlQGZyZWVkZXNrdG9wLm9yZz4KQ2M6
+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCkNjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbmFyby1tbS1z
+aWdAbGlzdHMubGluYXJvLm9yZwpTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0Bs
+aW5hcm8ub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5j
+IHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZmVuY2UuYyBiL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jCmluZGV4IDQ3ZWE0Njg1OTYxODQuLjMwNzcyNjA4ZWFj
+NmMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5j
+CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jCkBAIC00MzQs
+NiArNDM0LDcgQEAgaW50IGFtZGdwdV9mZW5jZV9kcml2ZXJfc3RhcnRfcmluZyhzdHJ1Y3QgYW1k
+Z3B1X3JpbmcgKnJpbmcsCiAgKgogICogQHJpbmc6IHJpbmcgdG8gaW5pdCB0aGUgZmVuY2UgZHJp
+dmVyIG9uCiAgKiBAbnVtX2h3X3N1Ym1pc3Npb246IG51bWJlciBvZiBlbnRyaWVzIG9uIHRoZSBo
+YXJkd2FyZSBxdWV1ZQorICogQHNjaGVkX3Njb3JlOiBvcHRpb25hbCBzY29yZSBhdG9taWMgc2hh
+cmVkIHdpdGggb3RoZXIgc2NoZWR1bGVycwogICoKICAqIEluaXQgdGhlIGZlbmNlIGRyaXZlciBm
+b3IgdGhlIHJlcXVlc3RlZCByaW5nIChhbGwgYXNpY3MpLgogICogSGVscGVyIGZ1bmN0aW9uIGZv
+ciBhbWRncHVfZmVuY2VfZHJpdmVyX2luaXQoKS4KLS0gCjIuMjcuMAoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
