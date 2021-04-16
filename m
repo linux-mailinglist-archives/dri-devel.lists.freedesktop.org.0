@@ -2,37 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91DF136252B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 18:08:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495DA3625A2
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 18:27:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D3F36EC63;
-	Fri, 16 Apr 2021 16:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC1FE6EC73;
+	Fri, 16 Apr 2021 16:27:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPTOSEGREL01.sonyericsson.com (jptosegrel01.sonyericsson.com
- [124.215.201.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA5D76EC63
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 16:08:04 +0000 (UTC)
-From: Peter Enderborg <peter.enderborg@sony.com>
-To: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, Alexey Dobriyan <adobriyan@gmail.com>, Andrew
- Morton <akpm@linux-foundation.org>, Muchun Song <songmuchun@bytedance.com>,
- Roman Gushchin <guro@fb.com>, Shakeel Butt <shakeelb@google.com>, Michal
- Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>, Sami Tolvanen
- <samitolvanen@google.com>, Mike Rapoport <rppt@kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v3] dma-buf: Add DmaBufTotal counter in meminfo
-Date: Fri, 16 Apr 2021 18:07:54 +0200
-Message-ID: <20210416160754.2944-1-peter.enderborg@sony.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8C616EC75;
+ Fri, 16 Apr 2021 16:27:36 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id v6so41692925ejo.6;
+ Fri, 16 Apr 2021 09:27:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0ShXI12foOcUA52ohYfIDfBgnWFXNmaWhwrX+YYN+/c=;
+ b=VwWwajPp3/0Ms76Fxjwoz46Olg8L5SIaPEFb3v9yziS5wH/de3mpbhCSHTtECY0T5r
+ MWaINdL+0Bma7in/I0wq7kYVjFRScvbi6pBRjBcSijjHdPuVp2MPxMIYv6D5w84hUe7E
+ PHe5z6AtXYEiL3mqU5r9KWn13/w2wZeaU9ONVOJrajq6TEVsIt/5PtPfxVUjpoFocvSc
+ j5gP95YIWuA8L6PCyCCzUJBjkDdOi+HVzSornZzPBASPaKB4mmuBlXBNjGVUmlwywHPj
+ zuWLgqSi3k/YgyZx3tDRsJj2bC5Gi8Eg82RasP86HojHoRuLBUjJutfsl9NGBFGyttC1
+ y/tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0ShXI12foOcUA52ohYfIDfBgnWFXNmaWhwrX+YYN+/c=;
+ b=osXMtgwNoXK+yogu+YXbbfG/t7kkAWqh30hRMoP+N1EeXLIZKw39BT2vYG8cNQ8FR+
+ C4MdnyGBYtcjZxuji5+vnctvGcUjIj9uK1ZECnLKFUJjYQOYwrMVNne11PL638j9Weju
+ e+UPv5k/z9ldGnae9PTaEvy6d4jVEg5YNEbvkDYm99fFFURwIOU9VywWdPu7OFSyVMiP
+ 9o2TLMTsBmk6kKpE4X9M6QATl/Bj9UMm2VsV9qWdvJ2UYMKfJGKQdRy3nWWqtczLZiy8
+ t/yIyZJTUU4IsiqS4V9wiyba6Q7mZt3hO5Y2YsmnA4UvH1zy/WDaLvYqHc5qgBQbar5K
+ zUrg==
+X-Gm-Message-State: AOAM531csUwWxY9ef2/cqgFLNwVCafseAePR5ZxYgruo7jWNTFotQnc4
+ tM2CDwbG7yeOMA+G9gRBUUoSpMRvdGBtzxQintg=
+X-Google-Smtp-Source: ABdhPJy0+4tmvilhSb0/zfPx6hf0AM+IScMnABDoeEdWCAdBc8M++WbytCTjRTTCf1Wh9nDtlzgV1SZe/Ym0UacbsHw=
+X-Received: by 2002:a17:906:4112:: with SMTP id
+ j18mr8964664ejk.171.1618590455579; 
+ Fri, 16 Apr 2021 09:27:35 -0700 (PDT)
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=crzlbGwi c=1 sm=1 tr=0
- a=fZcToFWbXLKijqHhjJ02CA==:117 a=3YhXtTcJ-WEA:10 a=z6gsHLkEAAAA:8
- a=tkJolnyHCId0vxgkOZ0A:9 a=d-OLMTCWyvARjPbQ-enb:22 a=pHzHmUro8NiASowvMSCR:22
- a=Ew2E2A-JSTLzCXPT_086:22
-X-SEG-SpamProfiler-Score: 0
+References: <20210319210317.32369-1-mario.kleiner.de@gmail.com>
+ <YFi9Nu/rAjfEdnBg@intel.com>
+In-Reply-To: <YFi9Nu/rAjfEdnBg@intel.com>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Fri, 16 Apr 2021 18:27:23 +0200
+Message-ID: <CAEsyxygUbyjCS0V6AGdh0HPu20wWQaRuTy9pXJmS1XNS+LLcMw@mail.gmail.com>
+Subject: Re: 16 bpc fixed point (RGBA16) framebuffer support for core and AMD.
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,106 +63,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Enderborg <peter.enderborg@sony.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds a total used dma-buf memory. Details
-can be found in debugfs, however it is not for everyone
-and not always available. dma-buf are indirect allocated by
-userspace. So with this value we can monitor and detect
-userspace applications that have problems.
-
-Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
----
- drivers/dma-buf/dma-buf.c | 12 ++++++++++++
- fs/proc/meminfo.c         |  5 ++++-
- include/linux/dma-buf.h   |  1 +
- 3 files changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index f264b70c383e..d40fff2ae1fa 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -37,6 +37,7 @@ struct dma_buf_list {
- };
- 
- static struct dma_buf_list db_list;
-+static atomic_long_t dma_buf_global_allocated;
- 
- static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- {
-@@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
- 		dma_resv_fini(dmabuf->resv);
- 
-+	atomic_long_sub(dmabuf->size, &dma_buf_global_allocated);
- 	module_put(dmabuf->owner);
- 	kfree(dmabuf->name);
- 	kfree(dmabuf);
-@@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	mutex_lock(&db_list.lock);
- 	list_add(&dmabuf->list_node, &db_list.head);
- 	mutex_unlock(&db_list.lock);
-+	atomic_long_add(dmabuf->size, &dma_buf_global_allocated);
- 
- 	return dmabuf;
- 
-@@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
- }
- EXPORT_SYMBOL_GPL(dma_buf_vunmap);
- 
-+/**
-+ * dma_buf_get_size - Return the used nr pages by dma-buf
-+ */
-+long dma_buf_allocated_pages(void)
-+{
-+	return atomic_long_read(&dma_buf_global_allocated) >> PAGE_SHIFT;
-+}
-+EXPORT_SYMBOL_GPL(dma_buf_allocated_pages);
-+
- #ifdef CONFIG_DEBUG_FS
- static int dma_buf_debug_show(struct seq_file *s, void *unused)
- {
-diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-index 6fa761c9cc78..ccc7c40c8db7 100644
---- a/fs/proc/meminfo.c
-+++ b/fs/proc/meminfo.c
-@@ -16,6 +16,7 @@
- #ifdef CONFIG_CMA
- #include <linux/cma.h>
- #endif
-+#include <linux/dma-buf.h>
- #include <asm/page.h>
- #include "internal.h"
- 
-@@ -145,7 +146,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	show_val_kb(m, "CmaFree:        ",
- 		    global_zone_page_state(NR_FREE_CMA_PAGES));
- #endif
--
-+#ifdef CONFIG_DMA_SHARED_BUFFER
-+	show_val_kb(m, "DmaBufTotal:    ", dma_buf_allocated_pages());
-+#endif
- 	hugetlb_report_meminfo(m);
- 
- 	arch_report_meminfo(m);
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index efdc56b9d95f..5b05816bd2cd 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
- 		 unsigned long);
- int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
- void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
-+long dma_buf_allocated_pages(void);
- #endif /* __DMA_BUF_H__ */
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBNYXIgMjIsIDIwMjEgYXQgNDo1MiBQTSBWaWxsZSBTeXJqw6Rsw6QKPHZpbGxlLnN5
+cmphbGFAbGludXguaW50ZWwuY29tPiB3cm90ZToKPgo+IE9uIEZyaSwgTWFyIDE5LCAyMDIxIGF0
+IDEwOjAzOjEyUE0gKzAxMDAsIE1hcmlvIEtsZWluZXIgd3JvdGU6Cj4gPiBIaSwKPiA+Cj4gPiB0
+aGlzIHBhdGNoIHNlcmllcyBhZGRzIHRoZSBmb3VyY2MncyBmb3IgMTYgYml0IGZpeGVkIHBvaW50
+IHVub3JtCj4gPiBmcmFtZWJ1ZmZlcnMgdG8gdGhlIGNvcmUsIGFuZCB0aGVuIGFuIGltcGxlbWVu
+dGF0aW9uIGZvciBBTUQgZ3B1J3MKPiA+IHdpdGggRGlzcGxheUNvcmUuCj4gPgo+ID4gVGhpcyBp
+cyBpbnRlbmRlZCB0byBhbGxvdyBmb3IgcGFnZWZsaXBwaW5nIHRvLCBhbmQgZGlyZWN0IHNjYW5v
+dXQgb2YsCj4gPiBWdWxrYW4gc3dhcGNoYWluIGltYWdlcyBpbiB0aGUgZm9ybWF0IFZLX0ZPUk1B
+VF9SMTZHMTZCMTZBMTZfVU5PUk0uCj4gPiBJIGhhdmUgcGF0Y2hlZCBBTUQncyBHUFVPcGVuIGFt
+ZHZsayBPU1MgZHJpdmVyIHRvIGVuYWJsZSB0aGlzIGZvcm1hdAo+ID4gZm9yIHN3YXBjaGFpbnMs
+IG1hcHBpbmcgdG8gRFJNX0ZPUk1BVF9YQkdSMTYxNjE2MTY6Cj4gPiBMaW5rOiBodHRwczovL2dp
+dGh1Yi5jb20va2xlaW5lcm0vcGFsL2NvbW1pdC9hMjVkNDgwMjA3NGIxM2E4ZDVmN2VkYzk2YWU0
+NTQ2OWVjYmFjM2M0Cj4KPiBXZSBzaG91bGQgYWxzbyBhZGQgc3VwcG9ydCBmb3IgdGhlc2UgZm9y
+bWF0cyBpbnRvIGlndC5hIFNob3VsZAo+IGJlIHNlbWktZWFzeSBieSBqdXN0IGFkZGluZyB0aGUg
+c3VpdGFibGUgZmxvYXQ8LT51aW50MTYKPiBjb252ZXJzaW9uIHN0dWZmLgo+CgpIaSBWaWxsZSwK
+CkNvdWxkIHlvdSBwb2ludCBtZSB0byBhIHNwZWNpZmljIHRlc3QgY2FzZSAvIGZpbGUgdGhhdCBJ
+IHNob3VsZCBsb29rCmF0IGZvciBhZGRpbmcgdGhpcz8KCnRoYW5rcywKLW1hcmlvCgo+IC0tCj4g
+VmlsbGUgU3lyasOkbMOkCj4gSW50ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
