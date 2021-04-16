@@ -1,45 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C485361EA3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 13:30:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C8C361EE5
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 13:39:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC4A6E0AB;
-	Fri, 16 Apr 2021 11:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 813A56E1CF;
+	Fri, 16 Apr 2021 11:39:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from the.earth.li (the.earth.li
- [IPv6:2a00:1098:86:4d:c0ff:ee:15:900d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A056F6E0AB
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 11:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
- s=the; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=RJbwMca3HWTPhpw7xIW9Qq7e+WzukTXRdxw66YuQufo=; b=aUGBP3d/qfBQUdtvaDMKYuBTvz
- slWpKMc7ouKXgcXYzKeggC9IZ6HPyJoZWUxeHaIKrCmWn411wmMts/6786gOuSsUKQ8wST2uJh5XY
- 6i/8izHDInpAl/5Z+ZQJNoO+M4n4WSSSVvKsJeaQCca2mzgY3+m2lIRUtErZHhzLFU4eBFKJ8IPvI
- mePo2K407iV7UCCJ8LglNCB2kHe+N370JaeETmGqM01hzEsGSQBRuLQeEP/WGngqYU7qLD6q7Tmpq
- RIA6BJ0K9QnYOEXU4MAFCSHZ+m92f0GSJqQ06xdtDYj47SJrvfOykBAacmTiDEMY7tzjmMAuafV6U
- fBsmCN4Q==;
-Received: from noodles by the.earth.li with local (Exim 4.92)
- (envelope-from <noodles@earth.li>)
- id 1lXMfk-0003r3-Hf; Fri, 16 Apr 2021 12:30:04 +0100
-Date: Fri, 16 Apr 2021 12:30:04 +0100
-From: Jonathan McDowell <noodles@earth.li>
-To: Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH] drm/rockchip: Cope with endpoints that haven't been
- registered yet
-Message-ID: <20210416113004.GW11733@earth.li>
-References: <20210316182753.GA25685@earth.li>
- <3104631.44csPzL39Z@phil>
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5176E1CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 11:39:02 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id p6so19660740wrn.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 04:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ch3B1QB839TpxbyTCaHh7+PjqFlJHeFp/HZU3MiGscw=;
+ b=EkzQjer0WgUEgQkZ/WCQ1qZSR+xOL8CYkmgyGZqX8M/cpDnJ3Jdq7NAUhqBGqi3yjA
+ RvxLBAhdzA+iPTcZCJ9eRsGEGviRSKwt63OrvHOCS0KWJWgntOZuiNpq0t2/LzV1v7RI
+ XdY+G5TuRKGbvh/bK/vA+nuoL3oWvnx81/1QcUl0hPVXiX6lne0wZcU39Dnw01eexj4/
+ aAmRmD45JLqraflxN0P9n9NRW+tOLy31DVmNZNxB1sJtCQ6rBU4/vaMe3bZ/bjGdQU/c
+ vNXcsAyBt2CKFWL7r7Dzm/htr5Q83g2zk0NzsSft44P0UdjSeRe0LKdJOehBAf0HNf2D
+ 7mvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Ch3B1QB839TpxbyTCaHh7+PjqFlJHeFp/HZU3MiGscw=;
+ b=GealNR+kPTvMGFwXfc30S6cJsAC5akWaYmYClL+m0oKrNICbCLqdZF4snXRp+k87Pq
+ HRSL6xf/hcAb0mvAMCiMv1Pm5hN7pAEB6OHrG4sJJN1qa9M5u9YwUDeLBT4KBhc6Bw37
+ KBktao5Kz6WWf2FqYeer9XKhlZgZqWi0BbQaDhn74SaBgqXqf51Nwxl/+gn91he+mDJv
+ Hi5fbI3Od62y5XqiKfcbNmiWj/LaN8g/Gy8QlSFJcJqN0HE0xUA1V9+7cEeZyzVL+1LC
+ mugeyaszZ19ADlnCkrQjstyL/d6ULmrgXreFbejwTldcn1ZjvUOhHplXLwioAwsunQm+
+ hdKw==
+X-Gm-Message-State: AOAM532JyKJP+lnvJmOhh8aCzyZlVTGUDIIxin7OK1ihBRmJ8FUzgsfP
+ zHp0+6O9jWeDkkYkzZlQ3tEhQw==
+X-Google-Smtp-Source: ABdhPJxV3W8/JmRRJjOYH3rbQ9IP5SnGF8wi+6Gmv+4bzOiXNfk7ypsXlDfWMH46OpTJMpcWlMSOlg==
+X-Received: by 2002:a5d:4d46:: with SMTP id a6mr8565355wru.3.1618573140641;
+ Fri, 16 Apr 2021 04:39:00 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:90c:e290:6e70:fd4e:dfdb:68d7?
+ ([2a01:e0a:90c:e290:6e70:fd4e:dfdb:68d7])
+ by smtp.gmail.com with ESMTPSA id n2sm9756992wmb.32.2021.04.16.04.38.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Apr 2021 04:39:00 -0700 (PDT)
+Subject: Re: [PATCH 0/2] drm/bridge: dw-hdmi: disable loading of DW-HDMI CEC
+ sub-driver
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210416092737.1971876-1-narmstrong@baylibre.com>
+ <YHlfqJIlUh7eytty@pendragon.ideasonboard.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <96b9e144-0791-4c19-3e3c-b0e9efb86138@baylibre.com>
+Date: Fri, 16 Apr 2021 13:38:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3104631.44csPzL39Z@phil>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YHlfqJIlUh7eytty@pendragon.ideasonboard.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,111 +75,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 21, 2021 at 07:58:13PM +0100, Heiko Stuebner wrote:
-> Am Dienstag, 16. M=E4rz 2021, 19:27:53 CET schrieb Jonathan McDowell:
-> > The Rockchip RGB CRTC output driver attempts to avoid probing Rockchip
-> > subdrivers to see if they're a connected panel or bridge. However part
-> > of its checks assumes that if no OF platform device is found then it
-> > can't be a valid bridge or panel. This causes issues with I2C controlled
-> > bridges that have not yet been registered to the point they can be
-> > found.
-> > =
+On 16/04/2021 11:58, Laurent Pinchart wrote:
+> Hi Neil,
+> 
+> On Fri, Apr 16, 2021 at 11:27:35AM +0200, Neil Armstrong wrote:
+>> This adds DW-HDMI driver a glue option to disable loading of the CEC sub-driver.
+>>
+>> On some SoCs, the CEC functionality is enabled in the IP config bits, but the
+>> CEC bus is non-functional like on Amlogic SoCs, where the CEC config bit is set
+>> but the DW-HDMI CEC signal is not connected to a physical pin, leading to some
+>> confusion when the DW-HDMI CEC controller can't communicate on the bus.
+> 
+> If we can't trust the CEC config bit, would it be better to not use it
+> at all, and instead let each platform glue logic tell whether to enable
+> CEC or not ?
 
-> > Change this to return EPROBE_DEFER instead of ENODEV and don't ignore
-> > such devices. The subsequent call to drm_of_find_panel_or_bridge() will
-> > return EPROBE_DEFER as well if there's actually a valid device we should
-> > wait for.
-> > =
+Actually, the CEC config bit is right, the HW exists and should be functional, but
+this bit doesn't tell if the CEC signal is connected to something.
 
-> > Signed-off-by: Jonathan McDowell <noodles@earth.li>
-> > ---
-> >  drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 8 ++++++--
-> >  drivers/gpu/drm/rockchip/rockchip_rgb.c     | 7 ++++---
-> >  2 files changed, 10 insertions(+), 5 deletions(-)
-> > =
+This lies in the IP integration, like other bits under the "amlogic,meson-*-dw-hdmi"
+umbrella.
 
-> > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/=
-drm/rockchip/rockchip_drm_drv.c
-> > index 212bd87c0c4a..b0d63a566501 100644
-> > --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> > @@ -270,11 +270,15 @@ int rockchip_drm_endpoint_is_subdriver(struct dev=
-ice_node *ep)
-> >  	if (!node)
-> >  		return -ENODEV;
-> >  =
+The first attempt was by Hans using DT, but adding a property in DT for a vendor
+specific compatible doesn't make sense. Another idea would be to describe the
+CEC signal endpoint like we do for video signal, but I think this is out of scope and
+this solution is much simpler and straightforward, and it's more an exception than
+a general use case to solve.
 
-> > -	/* status disabled will prevent creation of platform-devices */
-> > +	/*
-> > +	 * status disabled will prevent creation of platform-devices,
-> > +	 * but equally we can't rely on the driver having been registered
-> > +	 * yet (e.g. I2C bridges).
-> > +	 */
-> >  	pdev =3D of_find_device_by_node(node);
-> >  	of_node_put(node);
-> >  	if (!pdev)
-> > -		return -ENODEV;
-> > +		return -EPROBE_DEFER;
-> =
+Neil
 
-> In general, how does that relate to i2c-bridge-drivers, as
-> of_find_device_by_node supposedly only acts on platform-devices?
+> 
+>> Jernej Skrabec (1):
+>>   drm/bridge/synopsys: dw-hdmi: Add an option to suppress loading CEC
+>>     driver
+>>
+>> Neil Armstrong (1):
+>>   drm/meson: dw-hdmi: disable DW-HDMI CEC sub-driver
+>>
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
+>>  drivers/gpu/drm/meson/meson_dw_hdmi.c     | 1 +
+>>  include/drm/bridge/dw_hdmi.h              | 2 ++
+>>  3 files changed, 4 insertions(+), 1 deletion(-)
+>>
+> 
 
-I think the problem here is that not finding the device node means we
-return an error here, which means it's not actually possible to attach
-an i2c bridge driver to the Rockchip RGB interface at present.
-
-> Also if that points to a disabled bridge (hdmi, etc) that would likely ma=
-ke
-> it probe-defer indefinitly, as that device will never become available?
-> =
-
-> Maybe we could do something like of_device_is_available() which checks
-> the status property of the node. So something like:
-> =
-
->   	pdev =3D of_find_device_by_node(node);
->   	if (!pdev) {
-> 		bool avail =3D of_device_is_available(node);
-> =
-
-> 		of_node_put(node);
-> =
-
-> 		/* if disabled
-> 		if (!avail)
-> 			return -ENODEV;
-> 		else
-> 			return -EPROBE_DEFER;
-> 	}
->   	of_node_put(node);
-> =
-
-> Though I still do not understand how that should actually pick up on
-> i2c devices at all.
-
-of_find_device_by_node will fail here, as it's not a platform device,
-but then of_device_is_available should return true so I think I can
-actually just return false here rather than EPROBE_DEFER - because if
-it's not a platform device then it's not a subdriver, which is what
-we're checking for.
-
-I'll re-roll and test this weekend and post an updated revision. Thanks
-for the pointers.
-
-J.
-
--- =
-
-101 things you can't have too much of : 3 - Sleep.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
