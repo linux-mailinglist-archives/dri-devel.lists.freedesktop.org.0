@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10CB362B54
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 00:41:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D41362B5C
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 00:41:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04D666ED00;
-	Fri, 16 Apr 2021 22:41:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C38336ED06;
+	Fri, 16 Apr 2021 22:41:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9521C6ECFD
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 22:41:14 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- q14-20020a17090a430eb02901503aaee02bso4307194pjg.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 15:41:14 -0700 (PDT)
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 774D36ECFD
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 22:41:15 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id q10so20136430pgj.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 15:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=arYfDziQ7JqtHagMZMKOYCMKNublHQp90g9ZkRsFczM=;
- b=mN6qpELZXar6kKih5JxRBBFEYSweIWQPTF6n7JZwjb7+r/pPNb7nuVrJK2KoxdmSzJ
- zoWF2nn4+CLJWweIt95D0yHK5zjcnwFmFgAqmrvUTSAJCx0aHGq9LqKeZmp9AGwqIDXa
- pf3aeAU+sd9PtcjGqjHRXKYJcINvdoS6eDVYM=
+ bh=nPMsVDj+4YKTnON7a1KtMaowFA2keLlUTvk2F9riiB4=;
+ b=f0HkhQBnInfn7G8aHry9gNS/5JowFl4+yK3TH9A/F0KsoJyuwEXDmxo32aezEm9xLo
+ ked0qm1grf0PsK7Eb2/Y+8OcEAaPK9iZ5QlLtvNKvaATX8W1r8k/vtKKfZ5Nk6iF2zgA
+ Q+q229YpiJ74tQjgKbDWwlG2uXA8WRSnRn02k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=arYfDziQ7JqtHagMZMKOYCMKNublHQp90g9ZkRsFczM=;
- b=B5gbsByrf2TeOXeEUZtrANIsLTyb46lzlqH8ffhuslIJ1VCpP89Z5XYMUft2QuUb2H
- XWixKCe8rVriPWZ5qje73y5+sj9fsjaVOS304+ngct5BWpO2mwJAje3x4GDTNX+NPeSv
- vA7hFcuLvg+RpmRiSfbOpd3rZSUbiw0fKfqg1+DZBsfF5Y89knp7apnwJgtxoFrLoUf4
- Gz+2KH8N/ixIN0kt3r1cYzXn8RJZChZYyykRRrD6QJdPey/oVG3KM81f6LZJKxk0e/Cc
- t6msl80s4SZ/Pm+IcJc7cYRcOY6v3MRa7zBkLuOfYV1bnMd6XkYJ6YuscPqVIsYdimBR
- 0T0g==
-X-Gm-Message-State: AOAM531n7bvu4Zb8nZbve1HKgelMFrpAkZPa1Yff+CHWuMoO7bW+DvgW
- XHOGW9kpMxPLK9o98/03Ku6HIg==
-X-Google-Smtp-Source: ABdhPJxfJeYmNUZU0SQzKad80gI5h7aF/get/kiao8C/JaZL424bKEQ7AtmAZGki8jOcUrYxVnv0EQ==
-X-Received: by 2002:a17:90b:3118:: with SMTP id
- gc24mr12004727pjb.212.1618612874081; 
- Fri, 16 Apr 2021 15:41:14 -0700 (PDT)
+ bh=nPMsVDj+4YKTnON7a1KtMaowFA2keLlUTvk2F9riiB4=;
+ b=HNwqkD9lBpBWt66kfYuJZIQ9V6jcNTO2MrNJOMjydffbNuyQ3ADa8CvWwyGF+p7p+7
+ P8oty6gXZ0QBgTPjedFesJaM39BG6uEHEOLX4Hj74QopdcDLuNBCKACnchzlYQ4uwT2U
+ s8M03D4oerHsZnl4D50bluhbpPGdbTBu/OhyrLDP54JgUosKPnobESMq+LHiiNyQWyUJ
+ sY6zIrV9w4VnKhgd+Xn8mGrfxlrA3qpivYovilRGpsVtI2IukwFfTATdDqPHTZhsNlDx
+ pkPkPQrVryacFirGrS7KhmLKQ/DeIpIGBHTDUeVcBTNov5F0vDyFX5Mc4bLhAYWw8ryl
+ Q7NA==
+X-Gm-Message-State: AOAM532YSe533RI4hjEipkkbIiiuhgahjNh4aLwfqzCL3msNUY68/04v
+ VKvWIXUMQie2eSeX04fe/BzUug==
+X-Google-Smtp-Source: ABdhPJzERbU1GArhvZgQnO9hZsPzSxEvRKDlEAnuacWfUbimUdtH/2dMGxiwiE3ddFPq/pVcGmH6HQ==
+X-Received: by 2002:a63:3245:: with SMTP id y66mr1115064pgy.435.1618612875101; 
+ Fri, 16 Apr 2021 15:41:15 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:dc8a:c9d0:aa5b:5386])
- by smtp.gmail.com with ESMTPSA id r6sm5633659pgp.64.2021.04.16.15.41.13
+ by smtp.gmail.com with ESMTPSA id r6sm5633659pgp.64.2021.04.16.15.41.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 15:41:13 -0700 (PDT)
+ Fri, 16 Apr 2021 15:41:14 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
  Sam Ravnborg <sam@ravnborg.org>, Wolfram Sang <wsa@kernel.org>
-Subject: [PATCH v4 19/27] drm/bridge: ti-sn65dsi86: If refclk,
- DP AUX can happen w/out pre-enable
-Date: Fri, 16 Apr 2021 15:39:42 -0700
-Message-Id: <20210416153909.v4.19.Ie8cf556114953c6e7634564cc0d3ddbd103cb96c@changeid>
+Subject: [PATCH v4 20/27] drm/bridge: ti-sn65dsi86: Promote the AUX channel to
+ its own sub-dev
+Date: Fri, 16 Apr 2021 15:39:43 -0700
+Message-Id: <20210416153909.v4.20.Ie9daa320d907fff73f893f74b898197e399cce59@changeid>
 X-Mailer: git-send-email 2.31.1.368.gbe11c130af-goog
 In-Reply-To: <20210416223950.3586967-1-dianders@chromium.org>
 References: <20210416223950.3586967-1-dianders@chromium.org>
@@ -83,282 +81,183 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's reorganize how we init and turn on the reference clock in the
-code to allow us to turn it on early (even before pre_enable()) so
-that we can read the EDID early. This is handy for eDP because:
-- We always assume that a panel is there.
-- Once we report that a panel is there we get asked to read the EDID.
-- Pre-enable isn't called until we know what pixel clock we want to
-  use and we're ready to turn everything on. That's _after_ we get
-  asked to read the EDID.
+We'd like to be able to expose the DDC-over-AUX channel bus to our
+panel. This gets into a chicken-and-egg problem because:
+- The panel wants to get its DDC at probe time.
+- The ti-sn65dsi86 MIPI-to-eDP bridge code, which provides the DDC
+  bus, wants to get the panel at probe time.
 
-NOTE: the above only works out OK if we "refclk" is provided. Though I
-don't have access to any hardware that uses ti-sn65dsi86 and _doesn't_
-provide a "refclk", I believe that we'll have trouble reading the EDID
-at bootup in that case. Specifically I believe that if there's no
-"refclk" we need the MIPI source clock to be active before we can
-successfully read the EDID. My evidence here is that, in testing, I
-couldn't read the EDID until I turned on the DPPLL in the bridge chip
-and that the DPPLL needs the input clock to be active.
+By using a sub device we can fully create the AUX channel bits so that
+the panel can get them. Then the panel can finish probing and the
+bridge can probe.
 
-Since this is hard to support, let's punt trying to handle this case
-if there's no "refclk". In that case we'll enable comms in
-pre_enable() like we always did.
+To accomplish this, we also move registering the AUX channel out of
+the bridge's attach code and do it right at probe time. We use devm to
+manage cleanup.
 
-I don't believe there are any users of the ti-sn65dsi86 bridge chip
-that _don't_ use "refclk". The bridge chip is _very_ inflexible in
-that mode. The only time I've seen that mode used was for some really
-early prototype hardware that was thrown in the e-waste bin years ago
-when we realized how inflexible it was.
-
-Even if someone is using the bridge chip without the "refclk" they're
-in no worse shape than they were before the (fairly recent) commit
-58074b08c04a ("drm/bridge: ti-sn65dsi86: Read EDID blob over DDC").
+NOTE: there's a little bit of a trick here. Though the AUX channel can
+run without the MIPI-to-eDP bits of the code, the MIPI-to-eDP bits
+can't run without the AUX channel. We could come up a complicated
+signaling scheme (have the MIPI-to-eDP bits return EPROBE_DEFER for a
+while or wait on some sort of completion), but it seems simple enough
+to just not even bother creating the bridge device until the AUX
+channel probes. That's what we'll do.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
 (no changes since v1)
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 129 +++++++++++++++++++-------
- 1 file changed, 94 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 82 ++++++++++++++++++++-------
+ 1 file changed, 63 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index b3c699da7724..875e5dbe6594 100644
+index 875e5dbe6594..8253098bcdbf 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -132,6 +132,8 @@
-  * @dp_lanes:     Count of dp_lanes we're using.
-  * @ln_assign:    Value to program to the LN_ASSIGN register.
-  * @ln_polrs:     Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
-+ * @comms_enabled: If true then communication over the aux channel is enabled.
-+ * @comms_mutex:   Protects modification of comms_enabled.
+@@ -116,6 +116,7 @@
+  * struct ti_sn65dsi86 - Platform data for ti-sn65dsi86 driver.
+  * @bridge_aux:   AUX-bus sub device for MIPI-to-eDP bridge functionality.
+  * @gpio_aux:     AUX-bus sub device for GPIO controller functionality.
++ * @aux_aux:      AUX-bus sub device for eDP AUX channel functionality.
   *
-  * @gchip:        If we expose our GPIOs, this is used.
-  * @gchip_output: A cache of whether we've set GPIOs to output.  This
-@@ -162,6 +164,8 @@ struct ti_sn65dsi86 {
- 	int				dp_lanes;
- 	u8				ln_assign;
- 	u8				ln_polrs;
-+	bool				comms_enabled;
-+	struct mutex			comms_mutex;
+  * @dev:          Pointer to the top level (i2c) device.
+  * @regmap:       Regmap for accessing i2c.
+@@ -148,6 +149,7 @@
+ struct ti_sn65dsi86 {
+ 	struct auxiliary_device		bridge_aux;
+ 	struct auxiliary_device		gpio_aux;
++	struct auxiliary_device		aux_aux;
  
- #if defined(CONFIG_OF_GPIO)
- 	struct gpio_chip		gchip;
-@@ -250,6 +254,47 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
- 			   REFCLK_FREQ(i));
- }
+ 	struct device			*dev;
+ 	struct regmap			*regmap;
+@@ -483,18 +485,12 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 		return -EINVAL;
+ 	}
  
-+static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
-+{
-+	mutex_lock(&pdata->comms_mutex);
-+
-+	/* configure bridge ref_clk */
-+	ti_sn_bridge_set_refclk_freq(pdata);
-+
-+	/*
-+	 * HPD on this bridge chip is a bit useless.  This is an eDP bridge
-+	 * so the HPD is an internal signal that's only there to signal that
-+	 * the panel is done powering up.  ...but the bridge chip debounces
-+	 * this signal by between 100 ms and 400 ms (depending on process,
-+	 * voltage, and temperate--I measured it at about 200 ms).  One
-+	 * particular panel asserted HPD 84 ms after it was powered on meaning
-+	 * that we saw HPD 284 ms after power on.  ...but the same panel said
-+	 * that instead of looking at HPD you could just hardcode a delay of
-+	 * 200 ms.  We'll assume that the panel driver will have the hardcoded
-+	 * delay in its prepare and always disable HPD.
-+	 *
-+	 * If HPD somehow makes sense on some future panel we'll have to
-+	 * change this to be conditional on someone specifying that HPD should
-+	 * be used.
-+	 */
-+	regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
-+			   HPD_DISABLE);
-+
-+	pdata->comms_enabled = true;
-+
-+	mutex_unlock(&pdata->comms_mutex);
-+}
-+
-+static void ti_sn65dsi86_disable_comms(struct ti_sn65dsi86 *pdata)
-+{
-+	mutex_lock(&pdata->comms_mutex);
-+
-+	pdata->comms_enabled = false;
-+	clk_disable_unprepare(pdata->refclk);
-+
-+	mutex_unlock(&pdata->comms_mutex);
-+}
-+
- static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
- {
- 	struct ti_sn65dsi86 *pdata = dev_get_drvdata(dev);
-@@ -263,6 +308,16 @@ static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
+-	ret = drm_dp_aux_register(&pdata->aux);
+-	if (ret < 0) {
+-		drm_err(bridge->dev, "Failed to register DP AUX channel: %d\n", ret);
+-		return ret;
+-	}
+-
+ 	ret = drm_connector_init(bridge->dev, &pdata->connector,
+ 				 &ti_sn_bridge_connector_funcs,
+ 				 DRM_MODE_CONNECTOR_eDP);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to initialize connector with drm\n");
+-		goto err_conn_init;
++		return ret;
+ 	}
  
- 	gpiod_set_value(pdata->enable_gpio, 1);
- 
-+	/*
-+	 * If we have a reference clock we can enable communication w/ the
-+	 * panel (including the aux channel) w/out any need for an input clock
-+	 * so we can do it in resume which lets us read the EDID before
-+	 * pre_enable(). Without a reference clock we need the MIPI reference
-+	 * clock so reading early doesn't work.
-+	 */
-+	if (pdata->refclk)
-+		ti_sn65dsi86_enable_comms(pdata);
-+
+ 	drm_connector_helper_add(&pdata->connector,
+@@ -551,8 +547,6 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 	mipi_dsi_device_unregister(dsi);
+ err_dsi_host:
+ 	drm_connector_cleanup(&pdata->connector);
+-err_conn_init:
+-	drm_dp_aux_unregister(&pdata->aux);
  	return ret;
  }
  
-@@ -271,6 +326,9 @@ static int __maybe_unused ti_sn65dsi86_suspend(struct device *dev)
- 	struct ti_sn65dsi86 *pdata = dev_get_drvdata(dev);
- 	int ret;
+@@ -1316,11 +1310,6 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+ 	if (ret)
+ 		return ret;
  
-+	if (pdata->refclk)
-+		ti_sn65dsi86_disable_comms(pdata);
-+
- 	gpiod_set_value(pdata->enable_gpio, 0);
- 
- 	ret = regulator_bulk_disable(SN_REGULATOR_SUPPLY_NUM, pdata->supplies);
-@@ -843,27 +901,8 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
- 
- 	pm_runtime_get_sync(pdata->dev);
- 
--	/* configure bridge ref_clk */
--	ti_sn_bridge_set_refclk_freq(pdata);
+-	pdata->aux.name = "ti-sn65dsi86-aux";
+-	pdata->aux.dev = pdata->dev;
+-	pdata->aux.transfer = ti_sn_aux_transfer;
+-	drm_dp_aux_init(&pdata->aux);
 -
--	/*
--	 * HPD on this bridge chip is a bit useless.  This is an eDP bridge
--	 * so the HPD is an internal signal that's only there to signal that
--	 * the panel is done powering up.  ...but the bridge chip debounces
--	 * this signal by between 100 ms and 400 ms (depending on process,
--	 * voltage, and temperate--I measured it at about 200 ms).  One
--	 * particular panel asserted HPD 84 ms after it was powered on meaning
--	 * that we saw HPD 284 ms after power on.  ...but the same panel said
--	 * that instead of looking at HPD you could just hardcode a delay of
--	 * 200 ms.  We'll assume that the panel driver will have the hardcoded
--	 * delay in its prepare and always disable HPD.
--	 *
--	 * If HPD somehow makes sense on some future panel we'll have to
--	 * change this to be conditional on someone specifying that HPD should
--	 * be used.
--	 */
--	regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
--			   HPD_DISABLE);
-+	if (!pdata->refclk)
-+		ti_sn65dsi86_enable_comms(pdata);
+ 	pdata->bridge.funcs = &ti_sn_bridge_funcs;
+ 	pdata->bridge.of_node = np;
  
- 	drm_panel_prepare(pdata->panel);
+@@ -1419,6 +1408,54 @@ static int ti_sn65dsi86_add_aux_device(struct ti_sn65dsi86 *pdata,
+ 	return ret;
  }
-@@ -874,7 +913,8 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
  
- 	drm_panel_unprepare(pdata->panel);
- 
--	clk_disable_unprepare(pdata->refclk);
-+	if (!pdata->refclk)
-+		ti_sn65dsi86_disable_comms(pdata);
- 
- 	pm_runtime_put_sync(pdata->dev);
- }
-@@ -908,6 +948,20 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 	if (len > SN_AUX_MAX_PAYLOAD_BYTES)
- 		return -EINVAL;
- 
-+	pm_runtime_get_sync(pdata->dev);
-+	mutex_lock(&pdata->comms_mutex);
++static void ti_sn65dsi86_unregister_dp_aux(void *data)
++{
++	drm_dp_aux_unregister(data);
++}
++
++static int ti_sn_aux_probe(struct auxiliary_device *adev,
++			   const struct auxiliary_device_id *id)
++{
++	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
++	int ret;
++
++	pdata->aux.name = "ti-sn65dsi86-aux";
++	pdata->aux.dev = pdata->dev;
++	pdata->aux.transfer = ti_sn_aux_transfer;
++	drm_dp_aux_init(&pdata->aux);
++
++	ret = drm_dp_aux_register(&pdata->aux);
++	if (ret < 0) {
++		drm_err(pdata, "Failed to register DP AUX channel: %d\n", ret);
++		return ret;
++	}
++	ret = devm_add_action_or_reset(&adev->dev,
++				       ti_sn65dsi86_unregister_dp_aux, &pdata->aux);
++	if (ret)
++		return ret;
 +
 +	/*
-+	 * If someone tries to do a DDC over AUX transaction before pre_enable()
-+	 * on a device without a dedicated reference clock then we just can't
-+	 * do it. Fail right away. This prevents non-refclk users from reading
-+	 * the EDID before enabling the panel but such is life.
++	 * The eDP to MIPI bridge parts don't work until the AUX channel is
++	 * setup so we don't add it in the main driver probe, we add it now.
 +	 */
-+	if (!pdata->comms_enabled) {
-+		ret = -EIO;
-+		goto exit;
-+	}
++	return ti_sn65dsi86_add_aux_device(pdata, &pdata->bridge_aux, "bridge");
++}
 +
- 	switch (request) {
- 	case DP_AUX_NATIVE_WRITE:
- 	case DP_AUX_I2C_WRITE:
-@@ -918,7 +972,8 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 		msg->reply = 0;
- 		break;
- 	default:
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto exit;
++static const struct auxiliary_device_id ti_sn_aux_id_table[] = {
++	{ .name = "ti_sn65dsi86.aux", },
++	{},
++};
++
++MODULE_DEVICE_TABLE(auxiliary, ti_sn_aux_id_table);
++
++static struct auxiliary_driver ti_sn_aux_driver = {
++	.name = "aux",
++	.probe = ti_sn_aux_probe,
++	.id_table = ti_sn_aux_id_table,
++};
++
++module_auxiliary_driver(ti_sn_aux_driver);
++
+ static int ti_sn65dsi86_probe(struct i2c_client *client,
+ 			      const struct i2c_device_id *id)
+ {
+@@ -1477,10 +1514,11 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
+ 	 * motiviation here is to solve the chicken-and-egg problem of probe
+ 	 * ordering. The bridge wants the panel to be there when it probes.
+ 	 * The panel wants its HPD GPIO (provided by sn65dsi86 on some boards)
+-	 * when it probes. There will soon be other devices (DDC I2C bus, PWM)
+-	 * that have the same problem. Having sub-devices allows the some sub
+-	 * devices to finish probing even if others return -EPROBE_DEFER and
+-	 * gets us around the problems.
++	 * when it probes. The panel and maybe backlight might want the DDC
++	 * bus. Soon the PWM provided by the bridge chip will have the same
++	 * problem. Having sub-devices allows the some sub devices to finish
++	 * probing even if others return -EPROBE_DEFER and gets us around the
++	 * problems.
+ 	 */
+ 
+ 	if (IS_ENABLED(CONFIG_OF_GPIO)) {
+@@ -1489,7 +1527,13 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
+ 			return ret;
  	}
  
- 	BUILD_BUG_ON(sizeof(addr_len) != sizeof(__be32));
-@@ -942,11 +997,11 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 	ret = regmap_read_poll_timeout(pdata->regmap, SN_AUX_CMD_REG, val,
- 				       !(val & AUX_CMD_SEND), 0, 50 * 1000);
- 	if (ret)
--		return ret;
-+		goto exit;
- 
- 	ret = regmap_read(pdata->regmap, SN_AUX_CMD_STATUS_REG, &val);
- 	if (ret)
--		return ret;
-+		goto exit;
- 
- 	if (val & AUX_IRQ_STATUS_AUX_RPLY_TOUT) {
- 		/*
-@@ -954,13 +1009,14 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 		 * but it hit a timeout. We ignore defers here because they're
- 		 * handled in hardware.
- 		 */
--		return -ETIMEDOUT;
-+		ret = -ETIMEDOUT;
-+		goto exit;
- 	}
- 
- 	if (val & AUX_IRQ_STATUS_AUX_SHORT) {
- 		ret = regmap_read(pdata->regmap, SN_AUX_LENGTH_REG, &len);
- 		if (ret)
--			return ret;
-+			goto exit;
- 	} else if (val & AUX_IRQ_STATUS_NAT_I2C_FAIL) {
- 		switch (request) {
- 		case DP_AUX_I2C_WRITE:
-@@ -972,18 +1028,19 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 			msg->reply |= DP_AUX_NATIVE_REPLY_NACK;
- 			break;
- 		}
--		return 0;
-+		len = 0;
-+		goto exit;
- 	}
- 
--	if (request == DP_AUX_NATIVE_WRITE || request == DP_AUX_I2C_WRITE ||
--	    len == 0)
--		return len;
-+	if (request != DP_AUX_NATIVE_WRITE && request != DP_AUX_I2C_WRITE && len != 0)
-+		ret = regmap_bulk_read(pdata->regmap, SN_AUX_RDATA_REG(0), buf, len);
- 
--	ret = regmap_bulk_read(pdata->regmap, SN_AUX_RDATA_REG(0), buf, len);
--	if (ret)
--		return ret;
-+exit:
-+	mutex_unlock(&pdata->comms_mutex);
-+	pm_runtime_mark_last_busy(pdata->dev);
-+	pm_runtime_put_autosuspend(pdata->dev);
- 
--	return len;
-+	return ret ? ret : len;
+-	return ti_sn65dsi86_add_aux_device(pdata, &pdata->bridge_aux, "bridge");
++	/*
++	 * NOTE: At the end of the AUX channel probe we'll add the aux device
++	 * for the bridge. This is because the bridge can't be used until the
++	 * AUX channel is there and this is a very simple solution to the
++	 * dependency problem.
++	 */
++	return ti_sn65dsi86_add_aux_device(pdata, &pdata->aux_aux, "aux");
  }
  
- static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
-@@ -1380,6 +1437,8 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
- 	dev_set_drvdata(dev, pdata);
- 	pdata->dev = dev;
- 
-+	mutex_init(&pdata->comms_mutex);
-+
- 	pdata->regmap = devm_regmap_init_i2c(client,
- 					     &ti_sn65dsi86_regmap_config);
- 	if (IS_ERR(pdata->regmap)) {
+ static struct i2c_device_id ti_sn65dsi86_id[] = {
 -- 
 2.31.1.368.gbe11c130af-goog
 
