@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF4D3629C2
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 22:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C32C362B38
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 00:41:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 578406ECE5;
-	Fri, 16 Apr 2021 20:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 251C36E102;
+	Fri, 16 Apr 2021 22:40:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA8A66ECF0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 20:57:54 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1618606680; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=K9XAt0dF0rPjhih357PzXQ5mX72jFd/tJd9KUJ0vL1M=;
- b=p5YCMtp87uQThKEIJ0qEyTvpF66HB951vjGO6xj49d0FNZ316rOLYtSzrb0CVY0mjqaYm5wY
- x4otrBACssHY+a8A4unW5Ob1C0ICs6WVmSmCl/3VI1AcWFCogDakj+xwkje0WWJVtdkdMU4a
- fMpcPOh2c+xBZVTicOlNIrKZ4b0=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 6079fa4ca817abd39ab3f115 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 16 Apr 2021 20:57:48
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id BBC9BC43463; Fri, 16 Apr 2021 20:57:47 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B7CABC43462;
- Fri, 16 Apr 2021 20:57:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B7CABC43462
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 7/7] drm/msm: add disp snapshot points across dpu driver
-Date: Fri, 16 Apr 2021 13:57:25 -0700
-Message-Id: <1618606645-19695-8-git-send-email-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1618606645-19695-1-git-send-email-abhinavk@codeaurora.org>
-References: <1618606645-19695-1-git-send-email-abhinavk@codeaurora.org>
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFDA86E102
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 22:40:53 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id a12so19258037pfc.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 15:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ViswrO4sNM/Xqi4udoIc8TV1g5Dhwym3dG9TOSi7ivs=;
+ b=TMpqd+SZZNmTBRTV6uWewh2kSXCh2ZpBo6CN20Dp1CF52eaoP14/KHfKKwODaGwtt5
+ xl0iLUpo8safOBqsFCvyhS5LCcuKLHRmVOjaOrgrg9NYd9R1G99pU2Ryy6JuC3vJBP5U
+ 5TgykYHu6b4idrMShUykAgXxtyU1Zhne4XTJ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ViswrO4sNM/Xqi4udoIc8TV1g5Dhwym3dG9TOSi7ivs=;
+ b=J3LPowflFnq5GCwmo6Ylv0g64b2z6xFDz/nrQsIzwZg9CufwrleJcAHT/83YavZZwL
+ rTHTqk+lHjwG3M8+cmrLAXIXoS8sZb1SfzTRPcu63k7Nfl8OLsCvdVH3sj/dl3BmKCld
+ jCeMer5m+yPpj733opat/aDVshzmjdFA9F58NUA0Wg4Sd4PTlKiqBXoEgOJdKoW3jfvr
+ NxdQEOlgUKbttCxTnt73V5OvjP+pPWv9QeRd8QHzZ80Lt1NDhui/avAtFOC+lYWLzoB/
+ eM1KkfMYnyi6ELfL+yhoq/NswuTZZTPUfOA+KVR1Yi4gyWA2rl7k02PWceLN39iT2gdo
+ X7LQ==
+X-Gm-Message-State: AOAM5324Jm+5Qe3YgztULtJRIzKSK5tbv/N5LevbxGUzaoaUvneCacMU
+ 5yAWS5J1t8LB9qIDAtNiSRhVdw==
+X-Google-Smtp-Source: ABdhPJx6lCORDd6OQS0dzEmoduf0wcmDKI4UY+j+Y/gi2+7rXDlEFFzUVrPJJjly2rZhsMrKa7vSlw==
+X-Received: by 2002:a63:c446:: with SMTP id m6mr1059717pgg.71.1618612853290;
+ Fri, 16 Apr 2021 15:40:53 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:dc8a:c9d0:aa5b:5386])
+ by smtp.gmail.com with ESMTPSA id r6sm5633659pgp.64.2021.04.16.15.40.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Apr 2021 15:40:52 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Sam Ravnborg <sam@ravnborg.org>, Wolfram Sang <wsa@kernel.org>
+Subject: [PATCH v4 00/27] drm: Fix EDID reading on ti-sn65dsi86;
+ solve some chicken-and-egg problems
+Date: Fri, 16 Apr 2021 15:39:23 -0700
+Message-Id: <20210416223950.3586967-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.31.1.368.gbe11c130af-goog
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,202 +67,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
- dmitry.baryshkov@linaro.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>, Steev Klimaszewski <steev@kali.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, robdclark@chromium.org,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Andy Gross <agross@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel@vger.kernel.org, Boris Brezillon <boris.brezillon@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-i2c@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add snapshot points across dpu driver to trigger dumps when critical
-errors are hit.
+The primary goal of this series is to try to properly fix EDID reading
+for eDP panels using the ti-sn65dsi86 bridge.
 
-changes in v5:
- - change the callers to use the snapshot function directly
+Previously we had a patch that added EDID reading but it turned out
+not to work at bootup. This caused some extra churn at bootup as we
+tried (and failed) to read the EDID several times and also ended up
+forcing us to use the hardcoded mode at boot. With this patch series I
+believe EDID reading is reliable at boot now and we never use the
+hardcoded mode.
 
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c          | 16 +++++++++++++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 14 +++++++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c |  8 +++++++-
- 3 files changed, 29 insertions(+), 9 deletions(-)
+This series is the logical successor to the 3-part series containing
+the patch ("drm/bridge: ti-sn65dsi86: Properly get the EDID, but only
+if refclk") [1] though only one actual patch is the same between the
+two.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 8d94205..f1642de 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2014-2018, 2020-2021 The Linux Foundation. All rights reserved.
-  * Copyright (C) 2013 Red Hat
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
-@@ -26,6 +26,7 @@
- #include "dpu_crtc.h"
- #include "dpu_trace.h"
- #include "dpu_core_irq.h"
-+#include "disp/msm_disp_snapshot.h"
- 
- #define DPU_DEBUG_ENC(e, fmt, ...) DPU_DEBUG("enc%d " fmt,\
- 		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
-@@ -1336,6 +1337,11 @@ static void dpu_encoder_underrun_callback(struct drm_encoder *drm_enc,
- 
- 	DPU_ATRACE_BEGIN("encoder_underrun_callback");
- 	atomic_inc(&phy_enc->underrun_cnt);
-+
-+	/* trigger dump only on the first underrun */
-+	if (atomic_read(&phy_enc->underrun_cnt) == 1)
-+		msm_disp_snapshot_state(drm_enc->dev);
-+
- 	trace_dpu_enc_underrun_cb(DRMID(drm_enc),
- 				  atomic_read(&phy_enc->underrun_cnt));
- 	DPU_ATRACE_END("encoder_underrun_callback");
-@@ -1565,19 +1571,23 @@ static void dpu_encoder_helper_hw_reset(struct dpu_encoder_phys *phys_enc)
- 	struct dpu_encoder_virt *dpu_enc;
- 	struct dpu_hw_ctl *ctl;
- 	int rc;
-+	struct drm_encoder *drm_enc;
- 
- 	dpu_enc = to_dpu_encoder_virt(phys_enc->parent);
- 	ctl = phys_enc->hw_ctl;
-+	drm_enc = phys_enc->parent;
- 
- 	if (!ctl->ops.reset)
- 		return;
- 
--	DRM_DEBUG_KMS("id:%u ctl %d reset\n", DRMID(phys_enc->parent),
-+	DRM_DEBUG_KMS("id:%u ctl %d reset\n", DRMID(drm_enc),
- 		      ctl->idx);
- 
- 	rc = ctl->ops.reset(ctl);
--	if (rc)
-+	if (rc) {
- 		DPU_ERROR_ENC(dpu_enc, "ctl %d reset failure\n",  ctl->idx);
-+		msm_disp_snapshot_state(drm_enc->dev);
-+	}
- 
- 	phys_enc->enable_state = DPU_ENC_ENABLED;
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index b2be39b..9999a73 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
-  */
- 
- #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
-@@ -11,6 +11,7 @@
- #include "dpu_core_irq.h"
- #include "dpu_formats.h"
- #include "dpu_trace.h"
-+#include "disp/msm_disp_snapshot.h"
- 
- #define DPU_DEBUG_CMDENC(e, fmt, ...) DPU_DEBUG("enc%d intf%d " fmt, \
- 		(e) && (e)->base.parent ? \
-@@ -191,10 +192,13 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
- 			to_dpu_encoder_phys_cmd(phys_enc);
- 	u32 frame_event = DPU_ENCODER_FRAME_EVENT_ERROR;
- 	bool do_log = false;
-+	struct drm_encoder *drm_enc;
- 
- 	if (!phys_enc->hw_pp)
- 		return -EINVAL;
- 
-+	drm_enc = phys_enc->parent;
-+
- 	cmd_enc->pp_timeout_report_cnt++;
- 	if (cmd_enc->pp_timeout_report_cnt == PP_TIMEOUT_MAX_TRIALS) {
- 		frame_event |= DPU_ENCODER_FRAME_EVENT_PANEL_DEAD;
-@@ -203,7 +207,7 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
- 		do_log = true;
- 	}
- 
--	trace_dpu_enc_phys_cmd_pdone_timeout(DRMID(phys_enc->parent),
-+	trace_dpu_enc_phys_cmd_pdone_timeout(DRMID(drm_enc),
- 		     phys_enc->hw_pp->idx - PINGPONG_0,
- 		     cmd_enc->pp_timeout_report_cnt,
- 		     atomic_read(&phys_enc->pending_kickoff_cnt),
-@@ -212,12 +216,12 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
- 	/* to avoid flooding, only log first time, and "dead" time */
- 	if (do_log) {
- 		DRM_ERROR("id:%d pp:%d kickoff timeout %d cnt %d koff_cnt %d\n",
--			  DRMID(phys_enc->parent),
-+			  DRMID(drm_enc),
- 			  phys_enc->hw_pp->idx - PINGPONG_0,
- 			  phys_enc->hw_ctl->idx - CTL_0,
- 			  cmd_enc->pp_timeout_report_cnt,
- 			  atomic_read(&phys_enc->pending_kickoff_cnt));
--
-+		msm_disp_snapshot_state(drm_enc->dev);
- 		dpu_encoder_helper_unregister_irq(phys_enc, INTR_IDX_RDPTR);
- 	}
- 
-@@ -228,7 +232,7 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
- 
- 	if (phys_enc->parent_ops->handle_frame_done)
- 		phys_enc->parent_ops->handle_frame_done(
--				phys_enc->parent, phys_enc, frame_event);
-+				drm_enc, phys_enc, frame_event);
- 
- 	return -ETIMEDOUT;
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 0e06b7e..fed019f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
--/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-+/* Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
-  */
- 
- #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
-@@ -9,6 +9,7 @@
- #include "dpu_core_irq.h"
- #include "dpu_formats.h"
- #include "dpu_trace.h"
-+#include "disp/msm_disp_snapshot.h"
- 
- #define DPU_DEBUG_VIDENC(e, fmt, ...) DPU_DEBUG("enc%d intf%d " fmt, \
- 		(e) && (e)->parent ? \
-@@ -468,6 +469,7 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
- 		"update pending flush ctl %d intf %d\n",
- 		ctl->idx - CTL_0, phys_enc->hw_intf->idx);
- 
-+	atomic_set(&phys_enc->underrun_cnt, 0);
- 
- 	/* ctl_flush & timing engine enable will be triggered by framework */
- 	if (phys_enc->enable_state == DPU_ENC_DISABLED)
-@@ -537,6 +539,9 @@ static void dpu_encoder_phys_vid_prepare_for_kickoff(
- {
- 	struct dpu_hw_ctl *ctl;
- 	int rc;
-+	struct drm_encoder *drm_enc;
-+
-+	drm_enc = phys_enc->parent;
- 
- 	ctl = phys_enc->hw_ctl;
- 	if (!ctl->ops.wait_reset_status)
-@@ -550,6 +555,7 @@ static void dpu_encoder_phys_vid_prepare_for_kickoff(
- 	if (rc) {
- 		DPU_ERROR_VIDENC(phys_enc, "ctl %d reset failure: %d\n",
- 				ctl->idx, rc);
-+		msm_disp_snapshot_state(drm_enc->dev);
- 		dpu_encoder_helper_unregister_irq(phys_enc, INTR_IDX_VSYNC);
- 	}
- }
+This series starts out with some general / obvious fixes and moves on
+to some more specific and maybe controversial ones. I wouldn't object
+to some of the earlier ones landing if they look ready.
+
+This patch was developed agains linuxnext (next-20210416) on a
+sc7180-trogdor-lazor device. To get things booting for me, I had to
+use Stephen's patch [2] to keep from crashing but otherwise all the
+patches I needed were here.
+
+Primary change between v2 and v3 is to stop doing the EDID caching in
+the core. I also added Andrzej's review tags.
+
+Between v3 and v4 this series grew a whole lot. I changed it so that
+the EDID reading is actually driven by the panel driver now as was
+suggested by Andrzej. While I still believe that the old approach
+wasn't too bad I'm still switching. Why?
+
+The main reason is that I think it's useful in general for the panel
+code to have access to the DDC bus and to be able to read the
+EDID. This may allow us to more easily have the panel code support
+multiple sources of panels--it can read the EDID and possibly adjust
+timings based on the model ID. It also allows the panel code (or
+perhaps backlight code?) to send DDC commands if they are need for a
+particular panel.
+
+At the moment, once the panel is provided the DDC bus then existing
+code will assume that it should be in charge of reading the
+EDID. While it doesn't have to work that way, it seems sane to build
+on what's already there.
+
+In order to expose the DDC bus to the panel, I had to solve a bunch of
+chicken-and-egg problems in terms of probe ordering between the bridge
+and the panel. I've broken the bridge driver into several sub drivers
+to make this happen. At the moment the sub-drivers are just there to
+solve the probe problem, but conceivably someone could use them to
+break the driver up in the future if need be.
+
+I apologize in advance for the length of this series. I'm currently
+working through getting commit access to drm-misc [3] so I can land
+the first several patches which are already reviewed. There are still
+a lot of patches even after the first few, but hopefully you can see
+that there are only so many because they're broken up into nice and
+reviewable bite-sized-chunks. :-)
+
+[1] https://lore.kernel.org/r/20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid/
+[2] https://lore.kernel.org/r/161706912161.3012082.17313817257247946143@swboyd.mtv.corp.google.com/
+[3] https://gitlab.freedesktop.org/freedesktop/freedesktop/-/issues/348
+
+Changes in v4:
+- Reword commit mesage slightly.
+
+Changes in v3:
+- Removed "NOTES" from commit message.
+
+Changes in v2:
+- Removed 2nd paragraph in commit message.
+
+Douglas Anderson (27):
+  drm/bridge: Fix the stop condition of drm_bridge_chain_pre_enable()
+  drm/bridge: ti-sn65dsi86: Simplify refclk handling
+  drm/bridge: ti-sn65dsi86: Remove incorrectly tagged kerneldoc comment
+  drm/bridge: ti-sn65dsi86: Reorder remove()
+  drm/bridge: ti-sn65dsi86: Move drm_panel_unprepare() to post_disable()
+  drm/bridge: ti-sn65dsi86: Get rid of the useless detect() function
+  drm/panel: panel-simple: Use runtime pm to avoid excessive unprepare /
+    prepare
+  drm/bridge: ti-sn65dsi86: Rename the main driver data structure
+  drm/bridge: ti-sn65dsi86: More renames in prep for sub-devices
+  drm/bridge: ti-sn65dsi86: Clean debugfs code
+  drm/bridge: ti-sn65dsi86: Add local var for "dev" to simplify probe
+  drm/bridge: ti-sn65dsi86: Cleanup managing of drvdata
+  drm/bridge: ti-sn65dsi86: Use devm to do our runtime_disable
+  drm/bridge: ti-sn65dsi86: Move all the chip-related init to the start
+  drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into
+    sub-drivers
+  drm/panel: panel-simple: Get rid of hacky HPD chicken-and-egg code
+  drm/bridge: ti-sn65dsi86: Use pm_runtime autosuspend
+  drm/bridge: ti-sn65dsi86: Code motion of refclk management functions
+  drm/bridge: ti-sn65dsi86: If refclk, DP AUX can happen w/out
+    pre-enable
+  drm/bridge: ti-sn65dsi86: Promote the AUX channel to its own sub-dev
+  i2c: i2c-core-of: Fix corner case of finding adapter by node
+  drm/panel: panel-simple: Remove extra call:
+    drm_connector_update_edid_property()
+  drm/panel: panel-simple: Power the panel when reading the EDID
+  drm/panel: panel-simple: Cache the EDID as long as we retain power
+  drm/bridge: ti-sn65dsi86: Don't read EDID blob over DDC
+  arm64: dts: qcom: Link the panel to the bridge's DDC bus
+  drm/panel: panel-simple: Prepare/unprepare are refcounted, not forced
+
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi |   1 +
+ drivers/gpu/drm/bridge/Kconfig               |   1 +
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c        | 748 ++++++++++++-------
+ drivers/gpu/drm/drm_bridge.c                 |   3 +
+ drivers/gpu/drm/panel/Kconfig                |   1 +
+ drivers/gpu/drm/panel/panel-simple.c         | 123 +--
+ drivers/i2c/i2c-core-of.c                    |  17 +-
+ 7 files changed, 555 insertions(+), 339 deletions(-)
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.31.1.368.gbe11c130af-goog
 
 _______________________________________________
 dri-devel mailing list
