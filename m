@@ -2,60 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45569362115
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 15:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95BE36211C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 15:37:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 466616EA1E;
-	Fri, 16 Apr 2021 13:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 463676EB0A;
+	Fri, 16 Apr 2021 13:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6FC6EA1E
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 13:32:49 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id n127so2539163wmb.5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 06:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:mime-version
- :content-disposition:content-transfer-encoding;
- bh=hrzLya89eEvpFLZLKBl1cD6X0iqxPFh++vX1H4RxaPM=;
- b=KxsQ4CAq0MNzNH+pcQeLYmwQIhyKFLbE9/bbDboSLCN8yc3a3UHmYbYXnSL0PBPseb
- YXxTBITODTzMm8AsFRaxzNXxiQD8LrvI6TIpfnYn+4QcMVXfBLUAy4eYaQslh3TZxmHz
- XsBYQmbpf5VGRlgKTQmKm1adZhCBiks8c4TB8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:mime-version:content-disposition
- :content-transfer-encoding;
- bh=hrzLya89eEvpFLZLKBl1cD6X0iqxPFh++vX1H4RxaPM=;
- b=LDsJxEXe7723g91vw+SmZ81anieH/TP/2un7OT3jKONZYgNjJb26fUUzWQa6N1r4OQ
- CqTyGFdwJXRaRiJ80wtrZFPKE2F+255XH/J/ximPqo2hsmM39MYNxx7cmFPmRMTwxCxP
- aMXcL0KqcEr3xffPp7kdXxs9Iloj4I1QrBLvQYqZoSays175ePp/617NqmwZrw8x63z2
- 2mKppIITV2G+lHt8vVKFlsZtZ6TqvUVi1/S2J8IgXxVXrTRL2a9nJQRQGb9FuYHs9Dx4
- 1X0IddZOXY5pZtDV2fHnr3/nqLfk+NbbmCb9KKrLUliBtKoZZQl8dgffkCEpHSyTGn7O
- I6rQ==
-X-Gm-Message-State: AOAM533QbVfP/q3B6tB3EaFFlnimkh2g4Wr6sJs0dfoIq/VnjmAgUxxi
- ifmU8QJXdqJccNqa+lDSPybGxw==
-X-Google-Smtp-Source: ABdhPJwmzzbCUBU42t6ZBV0CVhcp6jfBS0ZYqehStSJBSnQg1xKNnuutuMaagDY5rRm58GclqpHK4A==
-X-Received: by 2002:a05:600c:b4b:: with SMTP id
- k11mr8349064wmr.180.1618579967707; 
- Fri, 16 Apr 2021 06:32:47 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u4sm9967392wml.0.2021.04.16.06.32.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 06:32:47 -0700 (PDT)
-Date: Fri, 16 Apr 2021 15:32:40 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PULL] drm-fixes
-Message-ID: <YHmR+Gyh/s2sHT2D@phenom.ffwll.local>
-Mail-Followup-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15DD76EB0A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 13:37:54 +0000 (UTC)
+IronPort-SDR: 8Tgli/oLNBHbc1gg6u2hHvHnETfZM5XK9gbDgnbc70cMW8TKA4F5hVjpnwi7Bix73yhG4bVRHN
+ fbWCqfbAg5oA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="194599030"
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="194599030"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2021 06:37:53 -0700
+IronPort-SDR: 8dvdtdypufG707Mx+5ZL29GNEAAlplLat4g+afwTSoljBiRLyUMrP309/ZUwc2Y7+rkUkDPCa1
+ OHM0ukp3k5zg==
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="399910046"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2021 06:37:51 -0700
+Received: from andy by smile with local (Exim 4.94)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1lXOfM-004ezF-70; Fri, 16 Apr 2021 16:37:48 +0300
+Date: Fri, 16 Apr 2021 16:37:48 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/2] fbtft: Rectify GPIO handling
+Message-ID: <YHmTLPWT/BoTik/P@smile.fi.intel.com>
+References: <20210416123117.4993-1-andriy.shevchenko@linux.intel.com>
+ <YHmIb2YrwfzZa7Wh@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <YHmIb2YrwfzZa7Wh@kroah.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,67 +51,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.net>,
+ linux-fbdev@vger.kernel.org, Nishad Kamdar <nishadkamdar@gmail.com>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phil Reid <preid@electromag.com.au>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Fri, Apr 16, 2021 at 02:51:59PM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Apr 16, 2021 at 03:31:16PM +0300, Andy Shevchenko wrote:
+> > The infamous commit c440eee1a7a1 ("Staging: fbtft: Switch to
+> > the GPIO descriptor interface") broke GPIO handling completely.
+> > It has already four commits to rectify and it seems not enough.
+> > In order to fix the mess here we:
+> > 
+> >   1) Set default to "inactive" for all requested pins
+> > 
+> >   2) Fix CS, RD, and WR pins polarity since it's active low and
+> >      GPIO descriptor interface takes it into consideration from
+> >      the Device Tree or ACPI
+> > 
+> >   3) Fix RESET pin polarity in the places missed by the commit
+> >      b918d1c27066 ("Staging: fbtft: Fix reset assertion when using gpio descriptor")
+> > 
+> >   4) Consolidate chip activation (CS assert) under default
+> >      ->reset() callback
+> > 
+> > To summarize the expectations about polarity for GPIOs:
+> > 
+> >    #RD			Low
+> >    #WR			Low
+> >    #CS			Low
+> >    #RESET		Low
+> >    DC or RS		High
+> >    RW			High
+> >    Data	0..15		High
+> > 
+> > See also Adafruit learning course [1] for the example of the schematics.
+> > 
+> > While at it, drop unneeded NULL checks, since GPIO API is tolerant to that.
+> > At the end, update TODO to mark this job eventually done.
+> > 
+> > [1]: https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/downloads
+> 
+> Shouldn't this be broken up into "one patch per thing" from your list
+> above?  Feels like you did a lot of different things all in the same
+> patch :(
 
-I pinged the usual suspects, only intel fixes pending. drm-next also looks
-ready, minus the big pull request summary Dave will have to type next
-week.
+I am aware, but breaking to the things here will bring it to the state where
+the functionality is still broken in between. Another point is that the drop
+of unneeded checks will bring the modification of the same line in the code
+twice. Or if you look at 5), for instance, due to CS management breakage,
+fixing it w/o 5) will bring it to the weird case that previously handled CS
+due to lucky defaults from firmware or bootloader, suddenly won't work and
+nothing can help it. The split in this case would look like adding the CS
+handling to all drivers followed by removal all of them. I think it's ugly.
+And so on. Believe me, I really tried hard to split this, but it always
+becomes to undesired result.
 
-Cheers, Daniel
+Any ideas how to split that we fix stuff in one commit?
 
-drm-fixes-2021-04-16:
-drm/i915 fixes
 
-Cheers, Daniel
+-- 
+With Best Regards,
+Andy Shevchenko
 
-The following changes since commit d434405aaab7d0ebc516b68a8fc4100922d7f5ef:
 
-  Linux 5.12-rc7 (2021-04-11 15:16:13 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-04-16
-
-for you to fetch changes up to 4d2e1288372ccc5ac60290bc10cace49c9bfa6d0:
-
-  Merge tag 'drm-intel-fixes-2021-04-15' of git://anongit.freedesktop.org/d=
-rm/drm-intel into drm-fixes (2021-04-15 15:24:17 +0200)
-
-----------------------------------------------------------------
-drm/i915 fixes
-
-----------------------------------------------------------------
-Daniel Vetter (1):
-      Merge tag 'drm-intel-fixes-2021-04-15' of git://anongit.freedesktop.o=
-rg/drm/drm-intel into drm-fixes
-
-Hans de Goede (1):
-      drm/i915/display/vlv_dsi: Do not skip panel_pwr_cycle_delay when disa=
-bling the panel
-
-Lyude Paul (1):
-      drm/i915/dpcd_bl: Don't try vesa interface unless specified by VBT
-
-Ville Syrj=E4l=E4 (1):
-      drm/i915: Don't zero out the Y plane's watermarks
-
- drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 1 -
- drivers/gpu/drm/i915/display/vlv_dsi.c                | 4 ++--
- drivers/gpu/drm/i915/intel_pm.c                       | 4 ++--
- 3 files changed, 4 insertions(+), 5 deletions(-)
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
