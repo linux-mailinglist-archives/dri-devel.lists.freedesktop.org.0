@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9490C3629C0
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 22:58:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF4D3629C2
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 22:58:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFE9F6ECEF;
-	Fri, 16 Apr 2021 20:57:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 578406ECE5;
+	Fri, 16 Apr 2021 20:58:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED1A06ECF2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 20:57:49 +0000 (UTC)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA8A66ECF0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 20:57:54 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1618606671; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1618606680; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=GdqceOKrBIoEKipe2tzeetfrMK1ksjTf62RkhJlhZvg=;
- b=t7YVBVJAndl37nKCipid4bhtirop0Gs4i+IguggDti4vFwGTZtcSf8e0kroSkKropsde+tft
- yFpt6aodKUI/15y/LhcjkMxrI/5cqYfZH54JTFh11mDk3EezU/bjfPM6rip4sTyYz9IO9Itn
- iThJlDB4tBTPlIjFH8UWl9pSjLY=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ bh=K9XAt0dF0rPjhih357PzXQ5mX72jFd/tJd9KUJ0vL1M=;
+ b=p5YCMtp87uQThKEIJ0qEyTvpF66HB951vjGO6xj49d0FNZ316rOLYtSzrb0CVY0mjqaYm5wY
+ x4otrBACssHY+a8A4unW5Ob1C0ICs6WVmSmCl/3VI1AcWFCogDakj+xwkje0WWJVtdkdMU4a
+ fMpcPOh2c+xBZVTicOlNIrKZ4b0=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 6079fa49a817abd39ab3e3f6 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 16 Apr 2021 20:57:45
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 6079fa4ca817abd39ab3f115 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 16 Apr 2021 20:57:48
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 89F9EC43462; Fri, 16 Apr 2021 20:57:44 +0000 (UTC)
+ id BBC9BC43463; Fri, 16 Apr 2021 20:57:47 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7D505C433C6;
- Fri, 16 Apr 2021 20:57:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7D505C433C6
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id B7CABC43462;
+ Fri, 16 Apr 2021 20:57:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B7CABC43462
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=abhinavk@codeaurora.org
 From: Abhinav Kumar <abhinavk@codeaurora.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 6/7] drm/msm: add support to take dsi, dp and dpu snapshot
-Date: Fri, 16 Apr 2021 13:57:24 -0700
-Message-Id: <1618606645-19695-7-git-send-email-abhinavk@codeaurora.org>
+Subject: [PATCH v5 7/7] drm/msm: add disp snapshot points across dpu driver
+Date: Fri, 16 Apr 2021 13:57:25 -0700
+Message-Id: <1618606645-19695-8-git-send-email-abhinavk@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1618606645-19695-1-git-send-email-abhinavk@codeaurora.org>
 References: <1618606645-19695-1-git-send-email-abhinavk@codeaurora.org>
@@ -76,56 +77,188 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support to take the register snapshot of dsi, dp and dpu
-modules.
+Add snapshot points across dpu driver to trigger dumps when critical
+errors are hit.
+
+changes in v5:
+ - change the callers to use the snapshot function directly
 
 Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
 ---
- drivers/gpu/drm/msm/disp/msm_disp_snapshot.h      |  1 +
- drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c          | 16 +++++++++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 14 +++++++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c |  8 +++++++-
+ 3 files changed, 29 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
-index 11dfa57..7e075e7 100644
---- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
-+++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
-@@ -27,6 +27,7 @@
- #include <linux/devcoredump.h>
- #include <stdarg.h>
- #include "msm_kms.h"
-+#include "dsi.h"
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 8d94205..f1642de 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2014-2018, 2020-2021 The Linux Foundation. All rights reserved.
+  * Copyright (C) 2013 Red Hat
+  * Author: Rob Clark <robdclark@gmail.com>
+  */
+@@ -26,6 +26,7 @@
+ #include "dpu_crtc.h"
+ #include "dpu_trace.h"
+ #include "dpu_core_irq.h"
++#include "disp/msm_disp_snapshot.h"
  
- #define MSM_DISP_SNAPSHOT_MAX_BLKS		10
+ #define DPU_DEBUG_ENC(e, fmt, ...) DPU_DEBUG("enc%d " fmt,\
+ 		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
+@@ -1336,6 +1337,11 @@ static void dpu_encoder_underrun_callback(struct drm_encoder *drm_enc,
  
-diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-index 024ca49..44dc682 100644
---- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-+++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-@@ -130,9 +130,25 @@ void msm_disp_snapshot_capture_state(struct msm_disp_state *disp_state)
- {
- 	struct msm_drm_private *priv;
- 	struct drm_device *drm_dev;
-+	struct msm_kms *kms;
-+	int i;
+ 	DPU_ATRACE_BEGIN("encoder_underrun_callback");
+ 	atomic_inc(&phy_enc->underrun_cnt);
++
++	/* trigger dump only on the first underrun */
++	if (atomic_read(&phy_enc->underrun_cnt) == 1)
++		msm_disp_snapshot_state(drm_enc->dev);
++
+ 	trace_dpu_enc_underrun_cb(DRMID(drm_enc),
+ 				  atomic_read(&phy_enc->underrun_cnt));
+ 	DPU_ATRACE_END("encoder_underrun_callback");
+@@ -1565,19 +1571,23 @@ static void dpu_encoder_helper_hw_reset(struct dpu_encoder_phys *phys_enc)
+ 	struct dpu_encoder_virt *dpu_enc;
+ 	struct dpu_hw_ctl *ctl;
+ 	int rc;
++	struct drm_encoder *drm_enc;
  
- 	drm_dev = disp_state->drm_dev;
- 	priv = drm_dev->dev_private;
-+	kms = priv->kms;
-+
-+	if (priv->dp)
-+		msm_dp_snapshot(priv->dp);
-+
-+	for (i = 0; i < ARRAY_SIZE(priv->dsi); i++) {
-+		if (!priv->dsi[i])
-+			continue;
-+
-+		msm_dsi_snapshot(priv->dsi[i]);
+ 	dpu_enc = to_dpu_encoder_virt(phys_enc->parent);
+ 	ctl = phys_enc->hw_ctl;
++	drm_enc = phys_enc->parent;
+ 
+ 	if (!ctl->ops.reset)
+ 		return;
+ 
+-	DRM_DEBUG_KMS("id:%u ctl %d reset\n", DRMID(phys_enc->parent),
++	DRM_DEBUG_KMS("id:%u ctl %d reset\n", DRMID(drm_enc),
+ 		      ctl->idx);
+ 
+ 	rc = ctl->ops.reset(ctl);
+-	if (rc)
++	if (rc) {
+ 		DPU_ERROR_ENC(dpu_enc, "ctl %d reset failure\n",  ctl->idx);
++		msm_disp_snapshot_state(drm_enc->dev);
 +	}
-+
-+	if (kms->funcs->snapshot)
-+		kms->funcs->snapshot(kms);
  
- 	msm_disp_capture_atomic_state(disp_state);
+ 	phys_enc->enable_state = DPU_ENC_ENABLED;
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index b2be39b..9999a73 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
++ * Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
+  */
+ 
+ #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
+@@ -11,6 +11,7 @@
+ #include "dpu_core_irq.h"
+ #include "dpu_formats.h"
+ #include "dpu_trace.h"
++#include "disp/msm_disp_snapshot.h"
+ 
+ #define DPU_DEBUG_CMDENC(e, fmt, ...) DPU_DEBUG("enc%d intf%d " fmt, \
+ 		(e) && (e)->base.parent ? \
+@@ -191,10 +192,13 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
+ 			to_dpu_encoder_phys_cmd(phys_enc);
+ 	u32 frame_event = DPU_ENCODER_FRAME_EVENT_ERROR;
+ 	bool do_log = false;
++	struct drm_encoder *drm_enc;
+ 
+ 	if (!phys_enc->hw_pp)
+ 		return -EINVAL;
+ 
++	drm_enc = phys_enc->parent;
++
+ 	cmd_enc->pp_timeout_report_cnt++;
+ 	if (cmd_enc->pp_timeout_report_cnt == PP_TIMEOUT_MAX_TRIALS) {
+ 		frame_event |= DPU_ENCODER_FRAME_EVENT_PANEL_DEAD;
+@@ -203,7 +207,7 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
+ 		do_log = true;
+ 	}
+ 
+-	trace_dpu_enc_phys_cmd_pdone_timeout(DRMID(phys_enc->parent),
++	trace_dpu_enc_phys_cmd_pdone_timeout(DRMID(drm_enc),
+ 		     phys_enc->hw_pp->idx - PINGPONG_0,
+ 		     cmd_enc->pp_timeout_report_cnt,
+ 		     atomic_read(&phys_enc->pending_kickoff_cnt),
+@@ -212,12 +216,12 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
+ 	/* to avoid flooding, only log first time, and "dead" time */
+ 	if (do_log) {
+ 		DRM_ERROR("id:%d pp:%d kickoff timeout %d cnt %d koff_cnt %d\n",
+-			  DRMID(phys_enc->parent),
++			  DRMID(drm_enc),
+ 			  phys_enc->hw_pp->idx - PINGPONG_0,
+ 			  phys_enc->hw_ctl->idx - CTL_0,
+ 			  cmd_enc->pp_timeout_report_cnt,
+ 			  atomic_read(&phys_enc->pending_kickoff_cnt));
+-
++		msm_disp_snapshot_state(drm_enc->dev);
+ 		dpu_encoder_helper_unregister_irq(phys_enc, INTR_IDX_RDPTR);
+ 	}
+ 
+@@ -228,7 +232,7 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
+ 
+ 	if (phys_enc->parent_ops->handle_frame_done)
+ 		phys_enc->parent_ops->handle_frame_done(
+-				phys_enc->parent, phys_enc, frame_event);
++				drm_enc, phys_enc, frame_event);
+ 
+ 	return -ETIMEDOUT;
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index 0e06b7e..fed019f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
+  */
+ 
+ #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
+@@ -9,6 +9,7 @@
+ #include "dpu_core_irq.h"
+ #include "dpu_formats.h"
+ #include "dpu_trace.h"
++#include "disp/msm_disp_snapshot.h"
+ 
+ #define DPU_DEBUG_VIDENC(e, fmt, ...) DPU_DEBUG("enc%d intf%d " fmt, \
+ 		(e) && (e)->parent ? \
+@@ -468,6 +469,7 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
+ 		"update pending flush ctl %d intf %d\n",
+ 		ctl->idx - CTL_0, phys_enc->hw_intf->idx);
+ 
++	atomic_set(&phys_enc->underrun_cnt, 0);
+ 
+ 	/* ctl_flush & timing engine enable will be triggered by framework */
+ 	if (phys_enc->enable_state == DPU_ENC_DISABLED)
+@@ -537,6 +539,9 @@ static void dpu_encoder_phys_vid_prepare_for_kickoff(
+ {
+ 	struct dpu_hw_ctl *ctl;
+ 	int rc;
++	struct drm_encoder *drm_enc;
++
++	drm_enc = phys_enc->parent;
+ 
+ 	ctl = phys_enc->hw_ctl;
+ 	if (!ctl->ops.wait_reset_status)
+@@ -550,6 +555,7 @@ static void dpu_encoder_phys_vid_prepare_for_kickoff(
+ 	if (rc) {
+ 		DPU_ERROR_VIDENC(phys_enc, "ctl %d reset failure: %d\n",
+ 				ctl->idx, rc);
++		msm_disp_snapshot_state(drm_enc->dev);
+ 		dpu_encoder_helper_unregister_irq(phys_enc, INTR_IDX_VSYNC);
+ 	}
  }
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
