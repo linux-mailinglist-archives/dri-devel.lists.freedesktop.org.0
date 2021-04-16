@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD1A36226C
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCA9362272
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:37:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2766EBA6;
-	Fri, 16 Apr 2021 14:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C294A6EBAA;
+	Fri, 16 Apr 2021 14:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57A056EBA6
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:37:31 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id l4so42443094ejc.10
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:37:31 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE9C6EBAA
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:37:32 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id g5so35778030ejx.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8GxxDkNQ8xWrJkT9ns8670579onh7Bw+Uvw6ps3Hfzw=;
- b=sYu24cfTNp3Sk4VoVSTiZqobXGS3o/nl0S6CM7UMymRzJySbfpZpwBn4yOUMeZDO5R
- TTPZysgH5JwH4gWicDVlSJXvfnJhRa6vSH8N7qnf2cLql+HX6P9eGY8yH05SiJkTTapB
- cUsa5jSFYsua/vA/qRY+5BCk+jpyp7Bx/plX0fwM/Yavv33fVDc+ZKkJOUdehjEothHN
- fYbTCXiVvAYkcPlpsALfnFYCAiNnI8LYEyvQX9anXk0VAaVTV2QN40epzPGkkFu/3j8C
- E7/HouOKLSTw9DWGjH+xF6aSIabcOm+GI/p5GAe1cQxOpvsMQ853+b+kmUjjRUkihTWz
- a5EQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=VYzn1VsttDc5u7AelF9CkTnKusclemxo5lG9PEnIZr0=;
+ b=XRmWKOv6guMS+IbKQ1nR/MpGvYdxDko1xAVIYaWcKl6MamS0SVMmZ75XSFI9Cye0T9
+ 9BS97ix3R0y3mYrYb3IGAzWkM+/yRwBl2Kv14MjYPqZ9610fIGglnsldbcoaC/fTjaAc
+ mKPJeTjjwcj8QrmKXht0EOH3v3I7WTn1yl33O+nkUToCm8OePrZF98CDJk/zjE8FCnaQ
+ PB85WEufp2gnvgizH6iUcLGRGTSbodFUjdm66bU6Gw9y7FmEateVNROgue7cOjxiyuYA
+ zJM5Os0rkkBuUK6R4mh4wcOlnObvbNDYoDx5tNwiLbVxBpXu6j4jhQo1bcfl3ViUdw1H
+ qyrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8GxxDkNQ8xWrJkT9ns8670579onh7Bw+Uvw6ps3Hfzw=;
- b=DypkSux5FC/g2JunyNj4RSaS37xI5HOb+vqfgpoN/FeaLdbhve8wWP81TMi6YbABHX
- 5xjrdPlRrbk0HiLAqUulzcteZdhFzyEgXia0ZeWpiAUrBB4vc+InsCejHbfqJaBXttlT
- MZLRXGM5iaU7dtYcYzEUwcARA5byim+tnw0Lbui5JeCHAsidGdO4hrmGvGIXkT+73vTb
- 4MF1qMXFNfV1pM0Y8v0Kz3K9O2moq6HoEBa8R37cqxX5lhQmD6aZAnFvA+zdNsb5hH3H
- +Pq22LtiHCqbvbqPovOgES32yDokAyfGzAuyTosrg4pJ+/P1xRtQkEE5rBeOThUFXjHB
- eqaQ==
-X-Gm-Message-State: AOAM531ThOq1TFzS7ShVKKN3CBcHgNVD8cVL2FwzqYSiDYPLyqTjZB03
- ++wHJ+2mACQUafcyxz2+NjF+xQ==
-X-Google-Smtp-Source: ABdhPJz9kIi33dwSJ44VTeiCQHZMhDXP4sc0J7Kiq4t3coxWZ1m1x67Zk7mnLNXlBKhO87ldnTNptw==
-X-Received: by 2002:a17:906:1dd3:: with SMTP id
- v19mr8633955ejh.4.1618583849970; 
- Fri, 16 Apr 2021 07:37:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=VYzn1VsttDc5u7AelF9CkTnKusclemxo5lG9PEnIZr0=;
+ b=RWpAmfPi4cdzAOYby+TG9sobGIVm7BDrWgo2kLjp8mvbl7YvxEFViZjrSeOdx95QhV
+ 6U7zIKzUULvpzGSnSQ9rkHi1Yza5TZ/rsBYUguKTRMLv8FzrpQeVVbWuGTjzPoHSZ8aV
+ zL73mNno5itdieLShR84SSAgdPSq47Nri6K4yDAr1f1HP0LakAwaBp4IH8w7oFohosT4
+ 2ua0cZLqoFSboy/etrCKL7Xf9NHbe6oi9hQ3SG/SBdOEJ9/8Il1Ya/qDBa+YNUy1vrOx
+ LU+WI+d23pW4ARASOEpxF/TTwVQaSHTLb31+SE5NIDTkBmv6TzuQFWa5+oR9is/1Yzqq
+ tYvw==
+X-Gm-Message-State: AOAM530o49kIngvuXnEi+xXQegbXoMDcBr6XhI4IPpSuKW9D06X1CHWp
+ yBN10536ati0MnpIx8tV385Qcg==
+X-Google-Smtp-Source: ABdhPJzS7iRiA8cMdlSdvgHSZhxaiPHw7L57D0vmYGcZH5tBd+Zf6/r8dLorUxFxSPPbW0r8o5VWaQ==
+X-Received: by 2002:a17:906:a20c:: with SMTP id
+ r12mr8479881ejy.554.1618583851199; 
+ Fri, 16 Apr 2021 07:37:31 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.27
+ by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 07:37:29 -0700 (PDT)
+ Fri, 16 Apr 2021 07:37:30 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 00/40] [Set 16] Rid W=1 warnings from GPU!
-Date: Fri, 16 Apr 2021 15:36:45 +0100
-Message-Id: <20210416143725.2769053-1-lee.jones@linaro.org>
+Subject: [PATCH 01/40] drm/nouveau/nvkm/subdev/bios/init: Demote obvious abuse
+ of kernel-doc
+Date: Fri, 16 Apr 2021 15:36:46 +0100
+Message-Id: <20210416143725.2769053-2-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210416143725.2769053-1-lee.jones@linaro.org>
+References: <20210416143725.2769053-1-lee.jones@linaro.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,164 +69,790 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Ajay Kumar <ajaykumar.rs@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Ben Widawsky <ben@bwidawsk.net>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Jeremy Kolb <jkolb@brandeis.edu>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Vincent Abriou <vincent.abriou@st.com>, Michal Simek <michal.simek@xilinx.com>,
- amd-gfx@lists.freedesktop.org, Rob Clark <rob.clark@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-arm-msm@vger.kernel.org,
- Nirmoy Das <nirmoy.das@amd.com>, Akshu Agarwal <akshua@gmail.com>,
- linux-tegra@vger.kernel.org, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, Kuogee Hsieh <khsieh@codeaurora.org>,
- Tomi Valkeinen <tomba@kernel.org>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- Jerome Glisse <glisse@freedesktop.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, linaro-mm-sig@lists.linaro.org,
- Alex Deucher <alexander.deucher@amd.com>, linux-mediatek@lists.infradead.org,
- linux-media@vger.kernel.org, freedreno@lists.freedesktop.org,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBzZXQgaXMgcGFydCBvZiBhIGxhcmdlciBlZmZvcnQgYXR0ZW1wdGluZyB0byBjbGVhbi11
-cCBXPTEKa2VybmVsIGJ1aWxkcywgd2hpY2ggYXJlIGN1cnJlbnRseSBvdmVyd2hlbG1pbmdseSBy
-aWRkbGVkIHdpdGgKbmlnZ2x5IGxpdHRsZSB3YXJuaW5ncy4KCkxlZSBKb25lcyAoNDApOgogIGRy
-bS9ub3V2ZWF1L252a20vc3ViZGV2L2Jpb3MvaW5pdDogRGVtb3RlIG9idmlvdXMgYWJ1c2Ugb2Yg
-a2VybmVsLWRvYwogIGRybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3A6IFJlbW92ZSB1bnVzZWQgdmFy
-aWFibGUgJ3JldCcKICBkcm0vbXNtL2RwL2RwX2Rpc3BsYXk6IFJlbW92ZSB1bnVzZWQgdmFyaWFi
-bGUgJ2hwZCcKICBpbmNsdWRlOiBkcm06IGRybV9hdG9taWM6IE1ha2UgdXNlIG9mICduZXdfcGxh
-bmVfc3RhdGUnCiAgZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvdm9sdC9nazIwYTogRGVtb3RlIG5v
-bi1jb25mb3JtYW50IGtlcm5lbC1kb2MKICAgIGhlYWRlcnMKICBkcm0vbm91dmVhdS9udmttL2Vu
-Z2luZS9nci9nZjEwMDogRGVtb3RlIG5vbi1jb25mb3JtYW50IGtlcm5lbC1kb2MKICAgIGhlYWRl
-cgogIGRybS9ub3V2ZWF1L25vdXZlYXVfYm86IFJlbW92ZSB1bnVzZWQgdmFyaWFibGVzICdkZXYn
-CiAgZHJtL25vdXZlYXUvbm91dmVhdV9kaXNwbGF5OiBSZW1vdmUgc2V0IGJ1dCB1bnVzZWQgdmFy
-aWFibGUgJ3dpZHRoJwogIGRybS9ub3V2ZWF1L2Rpc3BudjA0L2NydGM6IERlbW90ZSBub24tY29u
-Zm9ybWluZyBrZXJuZWwtZG9jIGhlYWRlcnMKICBkcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwOiBS
-ZW1vdmUgdW51c2VkIHZhcmlhYmxlICdyZXQnIGZyb20gZnVuY3Rpb24KICAgIHJldHVybmluZyB2
-b2lkCiAgZHJtL25vdXZlYXUvZGlzcG52NTAvaGVhZGM1N2Q6IE1ha2UgbG9jYWwgZnVuY3Rpb24g
-J2hlYWRjNTdkX29sdXQnCiAgICBzdGF0aWMKICBkcm0vbm91dmVhdS9udjUwX2Rpc3BsYXk6IFJl
-bW92ZSBzdXBlcmZsdW91cyBwcm90b3R5cGUgZm9yIGxvY2FsCiAgICBzdGF0aWMgZnVuY3Rpb25z
-CiAgZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcDogSW5jbHVkZSBoZWFkZXIgY29udGFpbmluZyBv
-dXIgcHJvdG90eXBlcwogIGRybS9ub3V2ZWF1L25vdXZlYXVfaW9jMzI6IEZpbGUgaGVhZGVycyBh
-cmUgbm90IGdvb2QgY2FuZGlkYXRlcyBmb3IKICAgIGtlcm5lbC1kb2MKICBkcm0vbm91dmVhdS9u
-b3V2ZWF1X3N2bTogUmVtb3ZlIHVudXNlZCB2YXJpYWJsZSAncmV0JyBmcm9tIHZvaWQKICAgIGZ1
-bmN0aW9uCiAgZHJtL25vdXZlYXUvbm91dmVhdV9pb2MzMjogRGVtb3RlIGtlcm5lbC1kb2MgYWJ1
-c2UgdG8gc3RhbmRhcmQgY29tbWVudAogICAgYmxvY2sKICBncHU6IGhvc3QxeDogYnVzOiBSZW1v
-dmUgc3VwZXJmbHVvdXMgcGFyYW0gZGVzY3JpcHRpb24gJ2tleScKICBkcm0vb21hcGRybS9vbWFw
-X2lycTogRml4IGEgY291cGxlIG9mIGluY29ycmVjdGx5IGRvY3VtZW50ZWQgZnVuY3Rpb25zCiAg
-ZHJtL29tYXBkcm0vb21hcF9nZW06IFByb3Blcmx5IGRvY3VtZW50IG9tYXBfZ2VtX2R1bWJfbWFw
-X29mZnNldCgpCiAgZHJtL3hsbngvenlucW1wX2Rpc3A6IEZpeCBpbmNvcnJlY3RseSBkb2N1bWVu
-dGVkIGVudW0gJ3p5bnFtcF9kaXNwX2lkJwogIGRybS94bG54L3p5bnFtcF9kcDogRml4IGEgbGl0
-dGxlIHBvdGVudGlhbCBkb2Mtcm90CiAgZHJtL3R0bS90dG1fdHQ6IERlbW90ZSBub24tY29uZm9y
-bWFudCBrZXJuZWwtZG9jIGhlYWRlcgogIGRybS90dG0vdHRtX2JvOiBGaXggaW5jb3JyZWN0bHkg
-ZG9jdW1lbnRlZCBmdW5jdGlvbgogICAgJ3R0bV9ib19jbGVhbnVwX3JlZnMnCiAgZHJtL3NjaGVk
-dWxlci9zY2hlZF9lbnRpdHk6IEZpeCBzb21lIGZ1bmN0aW9uIG5hbWUgZGlzcGFyaXR5CiAgZHJt
-L3JhZGVvbi9yYWRlb25fZGV2aWNlOiBQcm92aWRlIGZ1bmN0aW9uIG5hbWUgaW4ga2VybmVsLWRv
-YyBoZWFkZXIKICBkcm0vYW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlOiBSZW1vdmUgdW51c2VkIHZh
-cmlhYmxlICdyJwogIGRybS90dG0vdHRtX2RldmljZTogRGVtb3RlIGtlcm5lbC1kb2MgYWJ1c2Vz
-CiAgZHJtL3BhbmVsL3BhbmVsLXJhc3BiZXJyeXBpLXRvdWNoc2NyZWVuOiBEZW1vdGUga2VybmVs
-LWRvYyBhYnVzZQogIGRybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZTogUHJvdmlkZSBkZXNjcmlw
-dGlvbiBmb3IgJ3NjaGVkX3Njb3JlJwogIGRybS92Z2VtL3ZnZW1fZHJ2OiBEZW1vdGUga2VybmVs
-LWRvYyBhYnVzZQogIGRybS9hbWQvYW1kZ3B1L2FtZGdwdV9nYXJ0OiBDb3JyZWN0IGEgY291cGxl
-IG9mIGZ1bmN0aW9uIG5hbWVzIGluIHRoZQogICAgZG9jcwogIGRybS9hbWQvYW1kZ3B1L2FtZGdw
-dV90dG06IEZpeCBpbmNvcnJlY3RseSBkb2N1bWVudGVkIGZ1bmN0aW9uCiAgICAnYW1kZ3B1X3R0
-bV9jb3B5X21lbV90b19tZW0oKScKICBkcm0vYW1kL2FtZGdwdS9hbWRncHVfcmluZzogUHJvdmlk
-ZSBkZXNjcmlwdGlvbiBmb3IgJ3NjaGVkX3Njb3JlJwogIGRybS9leHlub3MvZXh5bm9zX2RybV9m
-aW1kOiBSZWFsaWduIGZ1bmN0aW9uIG5hbWUgd2l0aCBpdHMgaGVhZGVyCiAgZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X2NzOiBSZXBhaXIgc29tZSBmdW5jdGlvbiBuYW1pbmcgZGlzcGFyaXR5CiAgZHJt
-L2V4eW5vcy9leHlub3M3X2RybV9kZWNvbjogUmVhbGlnbiBmdW5jdGlvbiBuYW1lIHdpdGggaXRz
-IGhlYWRlcgogIGRybS9wYW5lbC9wYW5lbC1zaXRyb25peC1zdDc3MDE6IERlbW90ZSBrZXJuZWwt
-ZG9jIGZvcm1hdCBhYnVzZQogIGRybS9leHlub3MvZXh5bm9zX2RybV9pcHA6IEZpeCBzb21lIGZ1
-bmN0aW9uIG5hbWUgZGlzcGFyaXR5IGlzc3VlcwogIGRybS9zdGkvc3RpX2hkbWk6IFByb3ZpZGUg
-a2VybmVsLWRvYyBoZWFkZXJzIHdpdGggZnVuY3Rpb24gbmFtZXMKICBkcm0vbWVkaWF0ZWsvbXRr
-X2Rpc3BfY2NvcnI6IERlbW90ZSBsZXNzIHRoYW4gaGFsZi1wb3B1bGF0ZWQgc3RydWN0CiAgICBo
-ZWFkZXIKCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY3MuYyAgICAgICAgfCAg
-IDYgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYyAgICB8ICAg
-NSArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ZlbmNlLmMgICAgIHwgICAx
-ICsKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nYXJ0LmMgICAgICB8ICAgNCAr
-LQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3JpbmcuYyAgICAgIHwgICAxICsK
-IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyAgICAgICB8ICAgMiArLQog
-ZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3M3X2RybV9kZWNvbi5jICAgIHwgICAyICstCiBk
-cml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZmltZC5jICAgICAgfCAgIDIgKy0KIGRy
-aXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9pcHAuYyAgICAgICB8ICAgNCArLQogZHJp
-dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX2Njb3JyLmMgICAgIHwgICAyICstCiBkcml2
-ZXJzL2dwdS9kcm0vbXNtL2RwL2RwX2Rpc3BsYXkuYyAgICAgICAgICAgfCAgIDMgLQogZHJpdmVy
-cy9ncHUvZHJtL25vdXZlYXUvZGlzcG52MDQvY3J0Yy5jICAgICAgIHwgICA0ICstCiBkcml2ZXJz
-L2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMgICAgICAgfCAgMTAgKy0KIGRyaXZlcnMv
-Z3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2hlYWRjNTdkLmMgICB8ICAgMiArLQogZHJpdmVycy9n
-cHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jICAgICAgICAgIHwgICA0IC0KIGRyaXZlcnMvZ3B1
-L2RybS9ub3V2ZWF1L25vdXZlYXVfZGlzcGxheS5jICAgICB8ICAgOCArLQogZHJpdmVycy9ncHUv
-ZHJtL25vdXZlYXUvbm91dmVhdV9pb2MzMi5jICAgICAgIHwgICA0ICstCiBkcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5jICAgICAgICAgfCAgIDUgKy0KIGRyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L252NTBfZGlzcGxheS5oICAgICAgICB8ICAgMyAtCiAuLi4vZ3B1L2RybS9ub3V2
-ZWF1L252a20vZW5naW5lL2dyL2dmMTAwLmMgICAgfCAgIDIgKy0KIC4uLi9ncHUvZHJtL25vdXZl
-YXUvbnZrbS9zdWJkZXYvYmlvcy9pbml0LmMgICB8IDIwNCArKysrKystLS0tLS0tLS0tLS0KIC4u
-Li9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvdm9sdC9nazIwYS5jICB8ICAgNCArLQogZHJp
-dmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9nZW0uYyAgICAgICAgICAgIHwgICAyICstCiBkcml2
-ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2lycS5jICAgICAgICAgICAgfCAgIDQgKy0KIC4uLi9k
-cm0vcGFuZWwvcGFuZWwtcmFzcGJlcnJ5cGktdG91Y2hzY3JlZW4uYyB8ICAgMiArLQogZHJpdmVy
-cy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpdHJvbml4LXN0NzcwMS5jIHwgICAyICstCiBkcml2ZXJz
-L2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kZXZpY2UuYyAgICAgICAgfCAgIDMgKy0KIGRyaXZlcnMv
-Z3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfZW50aXR5LmMgICAgICB8ICAgNiArLQogZHJpdmVycy9n
-cHUvZHJtL3N0aS9zdGlfaGRtaS5jICAgICAgICAgICAgICAgIHwgIDE4ICstCiBkcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9iby5jICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1
-L2RybS90dG0vdHRtX2RldmljZS5jICAgICAgICAgICAgICB8ICAgNCArLQogZHJpdmVycy9ncHUv
-ZHJtL3R0bS90dG1fdHQuYyAgICAgICAgICAgICAgICAgIHwgICAyICstCiBkcml2ZXJzL2dwdS9k
-cm0vdmdlbS92Z2VtX2Rydi5jICAgICAgICAgICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2Ry
-bS94bG54L3p5bnFtcF9kaXNwLmMgICAgICAgICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJt
-L3hsbngvenlucW1wX2RwLmMgICAgICAgICAgICAgIHwgICAyICstCiBkcml2ZXJzL2dwdS9ob3N0
-MXgvYnVzLmMgICAgICAgICAgICAgICAgICAgICAgfCAgIDEgLQogaW5jbHVkZS9kcm0vZHJtX2F0
-b21pYy5oICAgICAgICAgICAgICAgICAgICAgIHwgICAzICstCiAzNyBmaWxlcyBjaGFuZ2VkLCAx
-MzAgaW5zZXJ0aW9ucygrKSwgMjA3IGRlbGV0aW9ucygtKQoKQ2M6IEFkYW0gSmFja3NvbiA8YWph
-eEByZWRoYXQuY29tPgpDYzogQWpheSBLdW1hciA8YWpheWt1bWFyLnJzQHNhbXN1bmcuY29tPgpD
-YzogQWtzaHUgQWdhcndhbCA8YWtzaHVhQGdtYWlsLmNvbT4KQ2M6IEFsZXggRGV1Y2hlciA8YWxl
-eGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-CkNjOiBCZW5qYW1pbiBHYWlnbmFyZCA8YmVuamFtaW4uZ2FpZ25hcmRAbGluYXJvLm9yZz4KQ2M6
-IEJlbiBTa2VnZ3MgPGJza2VnZ3NAcmVkaGF0LmNvbT4KQ2M6IEJlbiBXaWRhd3NreSA8YmVuQGJ3
-aWRhd3NrLm5ldD4KQ2M6IENocmlzdGlhbiBLb2VuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
-bT4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzog
-Q2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+CkNjOiBEYW5pZWwgVmV0dGVy
-IDxkYW5pZWxAZmZ3bGwuY2g+CkNjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNj
-OiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBFcmljIEFuaG9sdCA8ZXJpY0Bh
-bmhvbHQubmV0PgpDYzogZnJlZWRyZW5vQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogSHVhbmcg
-UnVpIDxyYXkuaHVhbmdAYW1kLmNvbT4KQ2M6IEh5dW4gS3dvbiA8aHl1bi5rd29uQHhpbGlueC5j
-b20+CkNjOiBJbmtpIERhZSA8aW5raS5kYWVAc2Ftc3VuZy5jb20+CkNjOiBKYWdhbiBUZWtpIDxq
-YWdhbkBhbWFydWxhc29sdXRpb25zLmNvbT4KQ2M6IEplcmVteSBLb2xiIDxqa29sYkBicmFuZGVp
-cy5lZHU+CkNjOiBKZXJvbWUgR2xpc3NlIDxnbGlzc2VAZnJlZWRlc2t0b3Aub3JnPgpDYzogSm9v
-bnlvdW5nIFNoaW0gPGp5MDkyMi5zaGltQHNhbXN1bmcuY29tPgpDYzogS3J6eXN6dG9mIEtvemxv
-d3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBjYW5vbmljYWwuY29tPgpDYzogS3VvZ2VlIEhzaWVo
-IDxraHNpZWhAY29kZWF1cm9yYS5vcmc+CkNjOiBLeXVuZ21pbiBQYXJrIDxreXVuZ21pbi5wYXJr
-QHNhbXN1bmcuY29tPgpDYzogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVh
-c29uYm9hcmQuY29tPgpDYzogbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnCkNjOiBsaW51
-eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKQ2M6IGxpbnV4LWFybS1tc21Admdlci5r
-ZXJuZWwub3JnCkNjOiBsaW51eC1tZWRpYXRla0BsaXN0cy5pbmZyYWRlYWQub3JnCkNjOiBsaW51
-eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LXNhbXN1bmctc29jQHZnZXIua2VybmVs
-Lm9yZwpDYzogbGludXgtdGVncmFAdmdlci5rZXJuZWwub3JnCkNjOiBMeXVkZSBQYXVsIDxseXVk
-ZUByZWRoYXQuY29tPgpDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxp
-bnV4LmludGVsLmNvbT4KQ2M6IE1hcmVrIFN6eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1zdW5n
-LmNvbT4KQ2M6IE1hdHRoaWFzIEJydWdnZXIgPG1hdHRoaWFzLmJnZ0BnbWFpbC5jb20+CkNjOiBN
-YXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+CkNjOiBNaWNoYWwgU2ltZWsgPG1pY2hh
-bC5zaW1la0B4aWxpbnguY29tPgpDYzogTmlybW95IERhcyA8bmlybW95LmRhc0BhbWQuY29tPgpD
-Yzogbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IFBoaWxpcHAgWmFiZWwgPHAuemFi
-ZWxAcGVuZ3V0cm9uaXguZGU+CkNjOiBSb2IgQ2xhcmsgPHJvYi5jbGFya0BsaW5hcm8ub3JnPgpD
-YzogUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwuY29tPgpDYzogU2FtIFJhdm5ib3JnIDxzYW1A
-cmF2bmJvcmcub3JnPgpDYzogU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5ydW4+CkNjOiBTZXVuZy1X
-b28gS2ltIDxzdzAzMTIua2ltQHNhbXN1bmcuY29tPgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5z
-ZW13YWxAbGluYXJvLm9yZz4KQ2M6IFRoaWVycnkgUmVkaW5nIDx0aGllcnJ5LnJlZGluZ0BnbWFp
-bC5jb20+CkNjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KQ2M6IFRv
-bWkgVmFsa2VpbmVuIDx0b21iYUBrZXJuZWwub3JnPgpDYzogVmluY2VudCBBYnJpb3UgPHZpbmNl
-bnQuYWJyaW91QHN0LmNvbT4KLS0gCjIuMjcuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:584: warning: Function parameter or member 'init' not described in 'init_reserved'
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:611: warning: Function parameter or member 'init' not described in 'init_done'
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:622: warning: Function parameter or member 'init' not described in 'init_io_restrict_prog'
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:659: warning: Function parameter or member 'init' not described in 'init_repeat'
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:685: warning: Function parameter or member 'init' not described in 'init_io_restrict_pll'
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:725: warning: Function parameter or member 'init' not described in 'init_end_repeat'
+
+NB: Trimmed for brevity (lots of these!)
+
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ .../gpu/drm/nouveau/nvkm/subdev/bios/init.c   | 204 ++++++------------
+ 1 file changed, 68 insertions(+), 136 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
+index 9de74f41dcd2a..5a91dc4e5c8ec 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
+@@ -575,9 +575,8 @@ init_tmds_reg(struct nvbios_init *init, u8 tmds)
+  * init opcode handlers
+  *****************************************************************************/
+ 
+-/**
++/*
+  * init_reserved - stub for various unknown/unused single-byte opcodes
+- *
+  */
+ static void
+ init_reserved(struct nvbios_init *init)
+@@ -602,9 +601,8 @@ init_reserved(struct nvbios_init *init)
+ 	init->offset += length;
+ }
+ 
+-/**
++/*
+  * INIT_DONE - opcode 0x71
+- *
+  */
+ static void
+ init_done(struct nvbios_init *init)
+@@ -613,9 +611,8 @@ init_done(struct nvbios_init *init)
+ 	init->offset = 0x0000;
+ }
+ 
+-/**
++/*
+  * INIT_IO_RESTRICT_PROG - opcode 0x32
+- *
+  */
+ static void
+ init_io_restrict_prog(struct nvbios_init *init)
+@@ -650,9 +647,8 @@ init_io_restrict_prog(struct nvbios_init *init)
+ 	trace("}]\n");
+ }
+ 
+-/**
++/*
+  * INIT_REPEAT - opcode 0x33
+- *
+  */
+ static void
+ init_repeat(struct nvbios_init *init)
+@@ -676,9 +672,8 @@ init_repeat(struct nvbios_init *init)
+ 	init->repeat = repeat;
+ }
+ 
+-/**
++/*
+  * INIT_IO_RESTRICT_PLL - opcode 0x34
+- *
+  */
+ static void
+ init_io_restrict_pll(struct nvbios_init *init)
+@@ -716,9 +711,8 @@ init_io_restrict_pll(struct nvbios_init *init)
+ 	trace("}]\n");
+ }
+ 
+-/**
++/*
+  * INIT_END_REPEAT - opcode 0x36
+- *
+  */
+ static void
+ init_end_repeat(struct nvbios_init *init)
+@@ -732,9 +726,8 @@ init_end_repeat(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_COPY - opcode 0x37
+- *
+  */
+ static void
+ init_copy(struct nvbios_init *init)
+@@ -759,9 +752,8 @@ init_copy(struct nvbios_init *init)
+ 	init_wrvgai(init, port, index, data);
+ }
+ 
+-/**
++/*
+  * INIT_NOT - opcode 0x38
+- *
+  */
+ static void
+ init_not(struct nvbios_init *init)
+@@ -771,9 +763,8 @@ init_not(struct nvbios_init *init)
+ 	init_exec_inv(init);
+ }
+ 
+-/**
++/*
+  * INIT_IO_FLAG_CONDITION - opcode 0x39
+- *
+  */
+ static void
+ init_io_flag_condition(struct nvbios_init *init)
+@@ -788,9 +779,8 @@ init_io_flag_condition(struct nvbios_init *init)
+ 		init_exec_set(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_GENERIC_CONDITION - opcode 0x3a
+- *
+  */
+ static void
+ init_generic_condition(struct nvbios_init *init)
+@@ -840,9 +830,8 @@ init_generic_condition(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_IO_MASK_OR - opcode 0x3b
+- *
+  */
+ static void
+ init_io_mask_or(struct nvbios_init *init)
+@@ -859,9 +848,8 @@ init_io_mask_or(struct nvbios_init *init)
+ 	init_wrvgai(init, 0x03d4, index, data &= ~(1 << or));
+ }
+ 
+-/**
++/*
+  * INIT_IO_OR - opcode 0x3c
+- *
+  */
+ static void
+ init_io_or(struct nvbios_init *init)
+@@ -878,9 +866,8 @@ init_io_or(struct nvbios_init *init)
+ 	init_wrvgai(init, 0x03d4, index, data | (1 << or));
+ }
+ 
+-/**
++/*
+  * INIT_ANDN_REG - opcode 0x47
+- *
+  */
+ static void
+ init_andn_reg(struct nvbios_init *init)
+@@ -895,9 +882,8 @@ init_andn_reg(struct nvbios_init *init)
+ 	init_mask(init, reg, mask, 0);
+ }
+ 
+-/**
++/*
+  * INIT_OR_REG - opcode 0x48
+- *
+  */
+ static void
+ init_or_reg(struct nvbios_init *init)
+@@ -912,9 +898,8 @@ init_or_reg(struct nvbios_init *init)
+ 	init_mask(init, reg, 0, mask);
+ }
+ 
+-/**
++/*
+  * INIT_INDEX_ADDRESS_LATCHED - opcode 0x49
+- *
+  */
+ static void
+ init_idx_addr_latched(struct nvbios_init *init)
+@@ -942,9 +927,8 @@ init_idx_addr_latched(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_IO_RESTRICT_PLL2 - opcode 0x4a
+- *
+  */
+ static void
+ init_io_restrict_pll2(struct nvbios_init *init)
+@@ -977,9 +961,8 @@ init_io_restrict_pll2(struct nvbios_init *init)
+ 	trace("}]\n");
+ }
+ 
+-/**
++/*
+  * INIT_PLL2 - opcode 0x4b
+- *
+  */
+ static void
+ init_pll2(struct nvbios_init *init)
+@@ -994,9 +977,8 @@ init_pll2(struct nvbios_init *init)
+ 	init_prog_pll(init, reg, freq);
+ }
+ 
+-/**
++/*
+  * INIT_I2C_BYTE - opcode 0x4c
+- *
+  */
+ static void
+ init_i2c_byte(struct nvbios_init *init)
+@@ -1025,9 +1007,8 @@ init_i2c_byte(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_ZM_I2C_BYTE - opcode 0x4d
+- *
+  */
+ static void
+ init_zm_i2c_byte(struct nvbios_init *init)
+@@ -1051,9 +1032,8 @@ init_zm_i2c_byte(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_ZM_I2C - opcode 0x4e
+- *
+  */
+ static void
+ init_zm_i2c(struct nvbios_init *init)
+@@ -1085,9 +1065,8 @@ init_zm_i2c(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_TMDS - opcode 0x4f
+- *
+  */
+ static void
+ init_tmds(struct nvbios_init *init)
+@@ -1111,9 +1090,8 @@ init_tmds(struct nvbios_init *init)
+ 	init_wr32(init, reg + 0, addr);
+ }
+ 
+-/**
++/*
+  * INIT_ZM_TMDS_GROUP - opcode 0x50
+- *
+  */
+ static void
+ init_zm_tmds_group(struct nvbios_init *init)
+@@ -1138,9 +1116,8 @@ init_zm_tmds_group(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_CR_INDEX_ADDRESS_LATCHED - opcode 0x51
+- *
+  */
+ static void
+ init_cr_idx_adr_latch(struct nvbios_init *init)
+@@ -1168,9 +1145,8 @@ init_cr_idx_adr_latch(struct nvbios_init *init)
+ 	init_wrvgai(init, 0x03d4, addr0, save0);
+ }
+ 
+-/**
++/*
+  * INIT_CR - opcode 0x52
+- *
+  */
+ static void
+ init_cr(struct nvbios_init *init)
+@@ -1188,9 +1164,8 @@ init_cr(struct nvbios_init *init)
+ 	init_wrvgai(init, 0x03d4, addr, val | data);
+ }
+ 
+-/**
++/*
+  * INIT_ZM_CR - opcode 0x53
+- *
+  */
+ static void
+ init_zm_cr(struct nvbios_init *init)
+@@ -1205,9 +1180,8 @@ init_zm_cr(struct nvbios_init *init)
+ 	init_wrvgai(init, 0x03d4, addr, data);
+ }
+ 
+-/**
++/*
+  * INIT_ZM_CR_GROUP - opcode 0x54
+- *
+  */
+ static void
+ init_zm_cr_group(struct nvbios_init *init)
+@@ -1229,9 +1203,8 @@ init_zm_cr_group(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_CONDITION_TIME - opcode 0x56
+- *
+  */
+ static void
+ init_condition_time(struct nvbios_init *init)
+@@ -1256,9 +1229,8 @@ init_condition_time(struct nvbios_init *init)
+ 	init_exec_set(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_LTIME - opcode 0x57
+- *
+  */
+ static void
+ init_ltime(struct nvbios_init *init)
+@@ -1273,9 +1245,8 @@ init_ltime(struct nvbios_init *init)
+ 		mdelay(msec);
+ }
+ 
+-/**
++/*
+  * INIT_ZM_REG_SEQUENCE - opcode 0x58
+- *
+  */
+ static void
+ init_zm_reg_sequence(struct nvbios_init *init)
+@@ -1298,9 +1269,8 @@ init_zm_reg_sequence(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_PLL_INDIRECT - opcode 0x59
+- *
+  */
+ static void
+ init_pll_indirect(struct nvbios_init *init)
+@@ -1317,9 +1287,8 @@ init_pll_indirect(struct nvbios_init *init)
+ 	init_prog_pll(init, reg, freq);
+ }
+ 
+-/**
++/*
+  * INIT_ZM_REG_INDIRECT - opcode 0x5a
+- *
+  */
+ static void
+ init_zm_reg_indirect(struct nvbios_init *init)
+@@ -1336,9 +1305,8 @@ init_zm_reg_indirect(struct nvbios_init *init)
+ 	init_wr32(init, addr, data);
+ }
+ 
+-/**
++/*
+  * INIT_SUB_DIRECT - opcode 0x5b
+- *
+  */
+ static void
+ init_sub_direct(struct nvbios_init *init)
+@@ -1362,9 +1330,8 @@ init_sub_direct(struct nvbios_init *init)
+ 	init->offset += 3;
+ }
+ 
+-/**
++/*
+  * INIT_JUMP - opcode 0x5c
+- *
+  */
+ static void
+ init_jump(struct nvbios_init *init)
+@@ -1380,9 +1347,8 @@ init_jump(struct nvbios_init *init)
+ 		init->offset += 3;
+ }
+ 
+-/**
++/*
+  * INIT_I2C_IF - opcode 0x5e
+- *
+  */
+ static void
+ init_i2c_if(struct nvbios_init *init)
+@@ -1407,9 +1373,8 @@ init_i2c_if(struct nvbios_init *init)
+ 	init_exec_force(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_COPY_NV_REG - opcode 0x5f
+- *
+  */
+ static void
+ init_copy_nv_reg(struct nvbios_init *init)
+@@ -1433,9 +1398,8 @@ init_copy_nv_reg(struct nvbios_init *init)
+ 	init_mask(init, dreg, ~dmask, (data & smask) ^ sxor);
+ }
+ 
+-/**
++/*
+  * INIT_ZM_INDEX_IO - opcode 0x62
+- *
+  */
+ static void
+ init_zm_index_io(struct nvbios_init *init)
+@@ -1451,9 +1415,8 @@ init_zm_index_io(struct nvbios_init *init)
+ 	init_wrvgai(init, port, index, data);
+ }
+ 
+-/**
++/*
+  * INIT_COMPUTE_MEM - opcode 0x63
+- *
+  */
+ static void
+ init_compute_mem(struct nvbios_init *init)
+@@ -1469,9 +1432,8 @@ init_compute_mem(struct nvbios_init *init)
+ 	init_exec_force(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_RESET - opcode 0x65
+- *
+  */
+ static void
+ init_reset(struct nvbios_init *init)
+@@ -1496,9 +1458,8 @@ init_reset(struct nvbios_init *init)
+ 	init_exec_force(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_CONFIGURE_MEM - opcode 0x66
+- *
+  */
+ static u16
+ init_configure_mem_clk(struct nvbios_init *init)
+@@ -1555,9 +1516,8 @@ init_configure_mem(struct nvbios_init *init)
+ 	init_exec_force(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_CONFIGURE_CLK - opcode 0x67
+- *
+  */
+ static void
+ init_configure_clk(struct nvbios_init *init)
+@@ -1589,9 +1549,8 @@ init_configure_clk(struct nvbios_init *init)
+ 	init_exec_force(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_CONFIGURE_PREINIT - opcode 0x68
+- *
+  */
+ static void
+ init_configure_preinit(struct nvbios_init *init)
+@@ -1615,9 +1574,8 @@ init_configure_preinit(struct nvbios_init *init)
+ 	init_exec_force(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_IO - opcode 0x69
+- *
+  */
+ static void
+ init_io(struct nvbios_init *init)
+@@ -1655,9 +1613,8 @@ init_io(struct nvbios_init *init)
+ 	init_wrport(init, port, data | value);
+ }
+ 
+-/**
++/*
+  * INIT_SUB - opcode 0x6b
+- *
+  */
+ static void
+ init_sub(struct nvbios_init *init)
+@@ -1682,9 +1639,8 @@ init_sub(struct nvbios_init *init)
+ 	init->offset += 2;
+ }
+ 
+-/**
++/*
+  * INIT_RAM_CONDITION - opcode 0x6d
+- *
+  */
+ static void
+ init_ram_condition(struct nvbios_init *init)
+@@ -1701,9 +1657,8 @@ init_ram_condition(struct nvbios_init *init)
+ 		init_exec_set(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_NV_REG - opcode 0x6e
+- *
+  */
+ static void
+ init_nv_reg(struct nvbios_init *init)
+@@ -1719,9 +1674,8 @@ init_nv_reg(struct nvbios_init *init)
+ 	init_mask(init, reg, ~mask, data);
+ }
+ 
+-/**
++/*
+  * INIT_MACRO - opcode 0x6f
+- *
+  */
+ static void
+ init_macro(struct nvbios_init *init)
+@@ -1743,9 +1697,8 @@ init_macro(struct nvbios_init *init)
+ 	init->offset += 2;
+ }
+ 
+-/**
++/*
+  * INIT_RESUME - opcode 0x72
+- *
+  */
+ static void
+ init_resume(struct nvbios_init *init)
+@@ -1755,9 +1708,8 @@ init_resume(struct nvbios_init *init)
+ 	init_exec_set(init, true);
+ }
+ 
+-/**
++/*
+  * INIT_STRAP_CONDITION - opcode 0x73
+- *
+  */
+ static void
+ init_strap_condition(struct nvbios_init *init)
+@@ -1773,9 +1725,8 @@ init_strap_condition(struct nvbios_init *init)
+ 		init_exec_set(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_TIME - opcode 0x74
+- *
+  */
+ static void
+ init_time(struct nvbios_init *init)
+@@ -1794,9 +1745,8 @@ init_time(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_CONDITION - opcode 0x75
+- *
+  */
+ static void
+ init_condition(struct nvbios_init *init)
+@@ -1811,9 +1761,8 @@ init_condition(struct nvbios_init *init)
+ 		init_exec_set(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_IO_CONDITION - opcode 0x76
+- *
+  */
+ static void
+ init_io_condition(struct nvbios_init *init)
+@@ -1828,9 +1777,8 @@ init_io_condition(struct nvbios_init *init)
+ 		init_exec_set(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_ZM_REG16 - opcode 0x77
+- *
+  */
+ static void
+ init_zm_reg16(struct nvbios_init *init)
+@@ -1845,9 +1793,8 @@ init_zm_reg16(struct nvbios_init *init)
+ 	init_wr32(init, addr, data);
+ }
+ 
+-/**
++/*
+  * INIT_INDEX_IO - opcode 0x78
+- *
+  */
+ static void
+ init_index_io(struct nvbios_init *init)
+@@ -1867,9 +1814,8 @@ init_index_io(struct nvbios_init *init)
+ 	init_wrvgai(init, port, index, data | value);
+ }
+ 
+-/**
++/*
+  * INIT_PLL - opcode 0x79
+- *
+  */
+ static void
+ init_pll(struct nvbios_init *init)
+@@ -1884,9 +1830,8 @@ init_pll(struct nvbios_init *init)
+ 	init_prog_pll(init, reg, freq);
+ }
+ 
+-/**
++/*
+  * INIT_ZM_REG - opcode 0x7a
+- *
+  */
+ static void
+ init_zm_reg(struct nvbios_init *init)
+@@ -1904,9 +1849,8 @@ init_zm_reg(struct nvbios_init *init)
+ 	init_wr32(init, addr, data);
+ }
+ 
+-/**
++/*
+  * INIT_RAM_RESTRICT_PLL - opcde 0x87
+- *
+  */
+ static void
+ init_ram_restrict_pll(struct nvbios_init *init)
+@@ -1934,9 +1878,8 @@ init_ram_restrict_pll(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_RESET_BEGUN - opcode 0x8c
+- *
+  */
+ static void
+ init_reset_begun(struct nvbios_init *init)
+@@ -1945,9 +1888,8 @@ init_reset_begun(struct nvbios_init *init)
+ 	init->offset += 1;
+ }
+ 
+-/**
++/*
+  * INIT_RESET_END - opcode 0x8d
+- *
+  */
+ static void
+ init_reset_end(struct nvbios_init *init)
+@@ -1956,9 +1898,8 @@ init_reset_end(struct nvbios_init *init)
+ 	init->offset += 1;
+ }
+ 
+-/**
++/*
+  * INIT_GPIO - opcode 0x8e
+- *
+  */
+ static void
+ init_gpio(struct nvbios_init *init)
+@@ -1972,9 +1913,8 @@ init_gpio(struct nvbios_init *init)
+ 		nvkm_gpio_reset(gpio, DCB_GPIO_UNUSED);
+ }
+ 
+-/**
++/*
+  * INIT_RAM_RESTRICT_ZM_GROUP - opcode 0x8f
+- *
+  */
+ static void
+ init_ram_restrict_zm_reg_group(struct nvbios_init *init)
+@@ -2010,9 +1950,8 @@ init_ram_restrict_zm_reg_group(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_COPY_ZM_REG - opcode 0x90
+- *
+  */
+ static void
+ init_copy_zm_reg(struct nvbios_init *init)
+@@ -2027,9 +1966,8 @@ init_copy_zm_reg(struct nvbios_init *init)
+ 	init_wr32(init, dreg, init_rd32(init, sreg));
+ }
+ 
+-/**
++/*
+  * INIT_ZM_REG_GROUP - opcode 0x91
+- *
+  */
+ static void
+ init_zm_reg_group(struct nvbios_init *init)
+@@ -2049,9 +1987,8 @@ init_zm_reg_group(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_XLAT - opcode 0x96
+- *
+  */
+ static void
+ init_xlat(struct nvbios_init *init)
+@@ -2077,9 +2014,8 @@ init_xlat(struct nvbios_init *init)
+ 	init_mask(init, daddr, ~dmask, data);
+ }
+ 
+-/**
++/*
+  * INIT_ZM_MASK_ADD - opcode 0x97
+- *
+  */
+ static void
+ init_zm_mask_add(struct nvbios_init *init)
+@@ -2098,9 +2034,8 @@ init_zm_mask_add(struct nvbios_init *init)
+ 	init_wr32(init, addr, data);
+ }
+ 
+-/**
++/*
+  * INIT_AUXCH - opcode 0x98
+- *
+  */
+ static void
+ init_auxch(struct nvbios_init *init)
+@@ -2122,9 +2057,8 @@ init_auxch(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_AUXCH - opcode 0x99
+- *
+  */
+ static void
+ init_zm_auxch(struct nvbios_init *init)
+@@ -2144,9 +2078,8 @@ init_zm_auxch(struct nvbios_init *init)
+ 	}
+ }
+ 
+-/**
++/*
+  * INIT_I2C_LONG_IF - opcode 0x9a
+- *
+  */
+ static void
+ init_i2c_long_if(struct nvbios_init *init)
+@@ -2183,9 +2116,8 @@ init_i2c_long_if(struct nvbios_init *init)
+ 	init_exec_set(init, false);
+ }
+ 
+-/**
++/*
+  * INIT_GPIO_NE - opcode 0xa9
+- *
+  */
+ static void
+ init_gpio_ne(struct nvbios_init *init)
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
