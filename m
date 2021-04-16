@@ -1,28 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2968362049
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 14:53:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 500C336204B
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 14:54:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047026E1F4;
-	Fri, 16 Apr 2021 12:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FEE96E1F9;
+	Fri, 16 Apr 2021 12:54:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 488E96E1F4
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 12:53:48 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DFF38ABED;
- Fri, 16 Apr 2021 12:53:46 +0000 (UTC)
-From: Takashi Iwai <tiwai@suse.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: Fix fbcon blank on QEMU graphics drivers
-Date: Fri, 16 Apr 2021 14:53:44 +0200
-Message-Id: <20210416125344.13550-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.26.2
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2DB36E1F9;
+ Fri, 16 Apr 2021 12:54:11 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id e14so41951016ejz.11;
+ Fri, 16 Apr 2021 05:54:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=7EUGgFCxVJzb8pyDoiyMM78nVcqyNM7ePeNkigUmMe4=;
+ b=YT2X/Fq3yd7QUnOI+LErRgAfU6T2haUDfUl/gmbt/p0O1O/4GHJzmzBnuay/JGl3sT
+ 58Ba+j57iGN7+yM/6KWyvbAs3SJKvnbEF4rQo8BULSysyV+n8ySVcssRLOtKGCoLlEVT
+ Ef/c+3OkaxWD6ZFVlDdbCYmH21TMSNuoOcHmHWq0qOTTOIVUjc5Mf5UiZlva4IqEF5qt
+ BeSAL9B4zX5HigKtMF4QMTW0846J7dU5NgMYfeniSt/ktAUpJrCQoaRR93Fhp+Hpz1R7
+ 9YlO8SAX2yb6op1aBAoHelbe/sLqhLSTP8ujhCKzj3jDfREgtvcDXM+GyPcvFzRnTB4B
+ kv6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=7EUGgFCxVJzb8pyDoiyMM78nVcqyNM7ePeNkigUmMe4=;
+ b=gefVbAVMRGQqUrXHD2rA7/IE50qB54g5ufQpv+aul9kGbkqzAn1pC6wFdX/oTwFMmm
+ H7n5eNciQRekrRV71lT7SARpQkbMVOtGk75+L1pguVMO0Tt+oqQPYx/quH8cYtlDomix
+ CMYCsPFAwuNiOWU9fvJqJKdt1Pfdsxqi1h7yM2FErZCzhbL3jvm+GBRRUu90U5+qgJ1f
+ rVyUVjvgmKD6uEkyvPmMHuqDvQGTefXJ93nrmkJ4zENyAQ8ySKg92btJ2GC8EA0fPh4i
+ 5cFYnw58BMKEoptlNIqT4+Wlp8kHxuYD0gUxdBgEZeEusmVg6Qy0vxDP/1MZVKWKxBvj
+ iS3A==
+X-Gm-Message-State: AOAM531IrT/p5I/ElL9H2WaAgtSYSTr7ABY7HYI8BX+tx2vF3BmvP26d
+ byvq7nYsf6hiXq3EAJnLqXlme5G7MMw=
+X-Google-Smtp-Source: ABdhPJz/ckqeRBEmgo7V+3swl7gUDKhG1Ao+Rv8Rr2mrwcHHd2G9UdkacysCVjxHmdvskHY2ELPreg==
+X-Received: by 2002:a17:907:20f0:: with SMTP id
+ rh16mr8588642ejb.320.1618577650519; 
+ Fri, 16 Apr 2021 05:54:10 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:6a8a:26d6:7403:5ada?
+ ([2a02:908:1252:fb60:6a8a:26d6:7403:5ada])
+ by smtp.gmail.com with ESMTPSA id l15sm5125833edb.48.2021.04.16.05.54.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Apr 2021 05:54:10 -0700 (PDT)
+Subject: Re: [PATCH 1/3] drm/amdgpu: make sure we unpin the UVD BO
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20210415084730.2057-1-christian.koenig@amd.com>
+Message-ID: <a15d4af8-98af-1036-c6f4-7738f08678e1@gmail.com>
+Date: Fri, 16 Apr 2021 14:54:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210415084730.2057-1-christian.koenig@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,127 +71,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the DRM fbcon helper for console blank,
-drm_fb_helper_blank(), simply calls drm_fb_helper_dpms() and always
-returns zero, supposing the driver dealing with DPMS or atomic
-crtc->active flip to handle blanking the screen.  It works on most of
-devices, but broken on most of KVM/QEMU graphics: bochs, qxl and
-cirrus drivers just ignore crtc->active state change as blanking (or
-cirrus ignoring DPMS).  In practice, when you run like
-  % setterm --blank force
-on a VT console, the screen freezes without actually blanking.
-
-A simple fix for this problem would be not to rely on DPMS but let
-fbcon performs the generic blank code.  This can be achieved just by
-returning an error from drm_fb_helper_blank().
-
-In this patch, we add a flag, no_dpms_blank, to drm_fb_helper for
-indicating that the driver doesn't handle blank via DPMS or
-crtc->active flip.  When this flag is set, drm_fb_helper_blank()
-simply returns an error, so that fbcon falls back to its generic blank
-handler.  The flag is set to both bochs and qxl drivers in this patch,
-while cirrus is left untouched as it's declared as to-be-deprecated.
-
-Link: https://lore.kernel.org/dri-devel/20170726205636.19144-1-tiwai@suse.de/
-BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1095700
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
-
-Here I whip a dead horse again, revisiting the long-standing issue
-stated in the previous patch set in 2017:
-  https://lore.kernel.org/dri-devel/20170726205636.19144-1-tiwai@suse.de/
-
-I thought to refresh the previous patch set at first, but it seems
-invalid for the atomic modeset case.  And for the atomic, it's even
-more difficult to propagate the return from the bottom to up.
-So I ended up with this approach as it's much simpler.
-
-But if there is any better way (even simpler or more robust), I'd
-happily rewrite, too.
-
----
- drivers/gpu/drm/bochs/bochs_drv.c | 3 +++
- drivers/gpu/drm/drm_fb_helper.c   | 5 +++++
- drivers/gpu/drm/qxl/qxl_drv.c     | 3 +++
- include/drm/drm_fb_helper.h       | 8 ++++++++
- 4 files changed, 19 insertions(+)
-
-diff --git a/drivers/gpu/drm/bochs/bochs_drv.c b/drivers/gpu/drm/bochs/bochs_drv.c
-index b469624fe40d..816899a266ff 100644
---- a/drivers/gpu/drm/bochs/bochs_drv.c
-+++ b/drivers/gpu/drm/bochs/bochs_drv.c
-@@ -132,6 +132,9 @@ static int bochs_pci_probe(struct pci_dev *pdev,
- 		goto err_unload;
- 
- 	drm_fbdev_generic_setup(dev, 32);
-+	if (dev->fb_helper)
-+		dev->fb_helper->no_dpms_blank = true;
-+
- 	return ret;
- 
- err_unload:
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index f6baa2046124..b892f02ff2f1 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -332,9 +332,14 @@ static void drm_fb_helper_dpms(struct fb_info *info, int dpms_mode)
-  */
- int drm_fb_helper_blank(int blank, struct fb_info *info)
- {
-+	struct drm_fb_helper *fb_helper = info->par;
-+
- 	if (oops_in_progress)
- 		return -EBUSY;
- 
-+	if (fb_helper->no_dpms_blank)
-+		return -EINVAL;
-+
- 	switch (blank) {
- 	/* Display: On; HSync: On, VSync: On */
- 	case FB_BLANK_UNBLANK:
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-index 1864467f1063..58ecfaeed7c1 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.c
-+++ b/drivers/gpu/drm/qxl/qxl_drv.c
-@@ -120,6 +120,9 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		goto modeset_cleanup;
- 
- 	drm_fbdev_generic_setup(&qdev->ddev, 32);
-+	if (qdev->fb_helper)
-+		qdev->fb_helper->no_dpms_blank = true;
-+
- 	return 0;
- 
- modeset_cleanup:
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index 3b273f9ca39a..151be4219c32 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -176,6 +176,14 @@ struct drm_fb_helper {
- 	 */
- 	bool deferred_setup;
- 
-+	/**
-+	 * @no_dpms_blank:
-+	 *
-+	 * A flag indicating that the driver doesn't support blanking.
-+	 * Then fbcon core code falls back to its generic handler.
-+	 */
-+	bool no_dpms_blank;
-+
- 	/**
- 	 * @preferred_bpp:
- 	 *
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UGluZz8KCkFtIDE1LjA0LjIxIHVtIDEwOjQ3IHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoKPiBS
+ZWxlYXNpbmcgcGlubmVkIEJPcyBpcyBpbGxlZ2FsIG5vdy4KPgo+IFNpZ25lZC1vZmYtYnk6IENo
+cmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAgIGRyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3V2ZF92N18wLmMgfCAxICsKPiAgIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L3V2ZF92N18wLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS91dmRfdjdfMC5jCj4g
+aW5kZXggN2NkNjdjYjJhYzVmLi4xYTJiZjJjYTFiZTUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvdXZkX3Y3XzAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L3V2ZF92N18wLmMKPiBAQCAtMzYzLDYgKzM2Myw3IEBAIHN0YXRpYyBpbnQgdXZkX3Y3
+XzBfZW5jX3JpbmdfdGVzdF9pYihzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmcsIGxvbmcgdGltZW91
+dCkKPiAgIAo+ICAgZXJyb3I6Cj4gICAJZG1hX2ZlbmNlX3B1dChmZW5jZSk7Cj4gKwlhbWRncHVf
+Ym9fdW5waW4oYm8pOwo+ICAgCWFtZGdwdV9ib191bnJlc2VydmUoYm8pOwo+ICAgCWFtZGdwdV9i
+b191bnJlZigmYm8pOwo+ICAgCXJldHVybiByOwoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
