@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E836E361CE3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 11:58:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973A9361CE1
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 11:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF9D6EB5F;
-	Fri, 16 Apr 2021 09:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B93E6EB5A;
+	Fri, 16 Apr 2021 09:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 601 seconds by postgrey-1.36 at gabe;
- Fri, 16 Apr 2021 09:48:25 UTC
-Received: from JPTOSEGREL01.sonyericsson.com (jptosegrel01.sonyericsson.com
- [124.215.201.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE2636EB5F
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 09:48:25 +0000 (UTC)
-From: Peter Enderborg <peter.enderborg@sony.com>
-To: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, Alexey Dobriyan <adobriyan@gmail.com>, Andrew
- Morton <akpm@linux-foundation.org>, Muchun Song <songmuchun@bytedance.com>,
- Roman Gushchin <guro@fb.com>, Shakeel Butt <shakeelb@google.com>, Michal
- Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>, Sami Tolvanen
- <samitolvanen@google.com>, Mike Rapoport <rppt@kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH] dma-buf: Add DmaBufTotal counter in meminfo
-Date: Fri, 16 Apr 2021 11:37:19 +0200
-Message-ID: <20210416093719.6197-1-peter.enderborg@sony.com>
-X-Mailer: git-send-email 2.17.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2D789117
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 09:58:04 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A3935A5;
+ Fri, 16 Apr 2021 11:58:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1618567082;
+ bh=xSo6PytDu5Cq4mnyjhpzVYDwWNwyPGmVgHOT/48h4nU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MZOdxX5ofISyaTc31LDkhK/plA7k0+HS91ESbp1PMm16M18wsilwkkSaOsQ2Cug4w
+ G+DmizAgRLLcii1bDbmZ9zJe7k4kt5/6nT340AKnyGUJfLTSluhMP+PjX7UM9aUsVf
+ 2TjmDMBTbT9JF4vbcSaaMTNZn0LW25TvON5CZO34=
+Date: Fri, 16 Apr 2021 12:58:00 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH 0/2] drm/bridge: dw-hdmi: disable loading of DW-HDMI CEC
+ sub-driver
+Message-ID: <YHlfqJIlUh7eytty@pendragon.ideasonboard.com>
+References: <20210416092737.1971876-1-narmstrong@baylibre.com>
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=crzlbGwi c=1 sm=1 tr=0
- a=9drRLWArJOlETflmpfiyCA==:117 a=3YhXtTcJ-WEA:10 a=z6gsHLkEAAAA:8
- a=USQXLDy_ZNVIum19Oj8A:9 a=d-OLMTCWyvARjPbQ-enb:22 a=pHzHmUro8NiASowvMSCR:22
- a=Ew2E2A-JSTLzCXPT_086:22
-X-SEG-SpamProfiler-Score: 0
-X-Mailman-Approved-At: Fri, 16 Apr 2021 09:58:28 +0000
+Content-Disposition: inline
+In-Reply-To: <20210416092737.1971876-1-narmstrong@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,100 +46,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Enderborg <peter.enderborg@sony.com>
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds a total used dma-buf memory. Details
-can be found in debugfs, however it is not for everyone
-and not always available.
+Hi Neil,
 
-Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
----
- drivers/dma-buf/dma-buf.c | 12 ++++++++++++
- fs/proc/meminfo.c         |  2 ++
- include/linux/dma-buf.h   |  1 +
- 3 files changed, 15 insertions(+)
+On Fri, Apr 16, 2021 at 11:27:35AM +0200, Neil Armstrong wrote:
+> This adds DW-HDMI driver a glue option to disable loading of the CEC sub-driver.
+> 
+> On some SoCs, the CEC functionality is enabled in the IP config bits, but the
+> CEC bus is non-functional like on Amlogic SoCs, where the CEC config bit is set
+> but the DW-HDMI CEC signal is not connected to a physical pin, leading to some
+> confusion when the DW-HDMI CEC controller can't communicate on the bus.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index f264b70c383e..9f88171b394c 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -37,6 +37,7 @@ struct dma_buf_list {
- };
- 
- static struct dma_buf_list db_list;
-+static atomic_long_t dma_buf_size;
- 
- static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- {
-@@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
- 		dma_resv_fini(dmabuf->resv);
- 
-+	atomic_long_sub(dmabuf->size, &dma_buf_size);
- 	module_put(dmabuf->owner);
- 	kfree(dmabuf->name);
- 	kfree(dmabuf);
-@@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	mutex_lock(&db_list.lock);
- 	list_add(&dmabuf->list_node, &db_list.head);
- 	mutex_unlock(&db_list.lock);
-+	atomic_long_add(dmabuf->size, &dma_buf_size);
- 
- 	return dmabuf;
- 
-@@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
- }
- EXPORT_SYMBOL_GPL(dma_buf_vunmap);
- 
-+/**
-+ * dma_buf_get_size - Return the used nr pages by dma-buf
-+ */
-+long dma_buf_get_size(void)
-+{
-+	return atomic_long_read(&dma_buf_size) >> PAGE_SHIFT;
-+}
-+EXPORT_SYMBOL_GPL(dma_buf_get_size);
-+
- #ifdef CONFIG_DEBUG_FS
- static int dma_buf_debug_show(struct seq_file *s, void *unused)
- {
-diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-index 6fa761c9cc78..3c1a82b51a6f 100644
---- a/fs/proc/meminfo.c
-+++ b/fs/proc/meminfo.c
-@@ -16,6 +16,7 @@
- #ifdef CONFIG_CMA
- #include <linux/cma.h>
- #endif
-+#include <linux/dma-buf.h>
- #include <asm/page.h>
- #include "internal.h"
- 
-@@ -145,6 +146,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	show_val_kb(m, "CmaFree:        ",
- 		    global_zone_page_state(NR_FREE_CMA_PAGES));
- #endif
-+	show_val_kb(m, "DmaBufTotal:    ", dma_buf_get_size());
- 
- 	hugetlb_report_meminfo(m);
- 
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index efdc56b9d95f..f6481315a377 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
- 		 unsigned long);
- int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
- void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
-+long dma_buf_get_size(void);
- #endif /* __DMA_BUF_H__ */
+If we can't trust the CEC config bit, would it be better to not use it
+at all, and instead let each platform glue logic tell whether to enable
+CEC or not ?
+
+> Jernej Skrabec (1):
+>   drm/bridge/synopsys: dw-hdmi: Add an option to suppress loading CEC
+>     driver
+> 
+> Neil Armstrong (1):
+>   drm/meson: dw-hdmi: disable DW-HDMI CEC sub-driver
+> 
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
+>  drivers/gpu/drm/meson/meson_dw_hdmi.c     | 1 +
+>  include/drm/bridge/dw_hdmi.h              | 2 ++
+>  3 files changed, 4 insertions(+), 1 deletion(-)
+> 
+
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
