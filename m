@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39ADA3622A6
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C618E36229A
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 318386EC27;
-	Fri, 16 Apr 2021 14:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E67786EC16;
+	Fri, 16 Apr 2021 14:38:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56CD86EC21
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:38:08 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id x12so21714348ejc.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:38:08 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC0526EC0F
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:38:09 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id w23so26672399ejb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:38:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N0J5Bxl7vhdML2GM3ovQErwfTec12UCEbn+lGIO9lAc=;
- b=Y9TWecd7BKcNNCyqA8M5xkHBbkrb0RLig/181L5KKhITa6WQrpLWHcWzAOUIpBbztH
- mfRFZYAaWiwyACw5lHpXyoD70Ly9TRr4SOMk5VawhA49+MUL7RyTRAajxJcDKndra2eH
- V4RfFTTeH2LlPtlHCKTk2r9xYprOHtVxqcZAqTx3FazjAI/9jOiGACuJN1F1+rFv/U1u
- E8PDt+mxyQaPN12boKUE0/+Sz3/u7luoqbIKEhu5RM1PsrE3aj8Zc7W4n1wcjHpJ5+xZ
- 2s7FZNTpszGtEwl1ty0W7VtlLhxWznOCaALkgQwHeA7SDpHoiMfZyMB0Cyhuer6c5ThR
- h2CQ==
+ bh=JrproNEUMCgSjmh/8B0I/rNyBQoaOU4LantvG8VttuY=;
+ b=AbhwF2o8lWGjI+FDsAThxXdYjTFw6ntHJ+FjLaceNvJgOS2Y7pl+JkE3/1i576V58B
+ YvDUmpqhZuyg4ON7XYVatcqM580H8JN3lJS9HLyvlLYjuXBs5xAjEta/3co9QOEIr43v
+ XLrqP7juFl6LHY7r+NdZVb0uIbH4dibSpJu6wGgmMky1EuVOjhAXtvsFFHpR0y46mchQ
+ rNSYZwaCr8ePffvLwn7sdYpMKrD+vBBEloIRYGDJwzMvm6Upd6Mr0PlQYUiNkmTcHqFp
+ eVdmSNrJHUvjzz7h9vB9PlsqKdu6rTezQq6HeQ7z78UZtM0LGOPupSB1p9WxIUVHznWW
+ Y/hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N0J5Bxl7vhdML2GM3ovQErwfTec12UCEbn+lGIO9lAc=;
- b=jnNShb2VCxqkLLBzUTeeQYkzo7SgP6YhZK2iKsySXrljljZAFfxNvp2yCaybhWYZ4n
- Wu+h88my9mBoWPUFD+Ce5t4/KYHaOsVxt/lHcAc0Yu79UbPQjBzKUdXGwzkqXEAU5Q89
- 8jjni4WhjRckzSjc1r16Ih2P2Ba6acL/fuwy2Rr4FlAPSAYCanyKpBIjzE/jqvtVPTtW
- n54j+s2N7KIWdUKJKAgImsvhYK8/qvR9m6UdIn9S0uaKowL2CEmUtT4nZMRMxQWp8ACb
- wqDjpsr6bModdmkRXX6+JCBVBKUb71ewwuszZ6Q8ReEvkH0fJBPmqEStoManW/4Wk7Hi
- 675w==
-X-Gm-Message-State: AOAM533N1382FIrpqZ3uMqyZoGvFgBjXctckV6c7hbNRTXBf+cfBV2TL
- kScVycSqzLC5jccOuuIRauA0sQ==
-X-Google-Smtp-Source: ABdhPJwQfIUje2tlYBZv8vPpUeMPQ8VZakZYwR5uwBK9VUsCi0n8gtjtebQD5JAd2uGQhYmRaUFAPA==
-X-Received: by 2002:a17:906:4119:: with SMTP id
- j25mr8642477ejk.459.1618583887046; 
- Fri, 16 Apr 2021 07:38:07 -0700 (PDT)
+ bh=JrproNEUMCgSjmh/8B0I/rNyBQoaOU4LantvG8VttuY=;
+ b=H+XQghv4Gz3xRLXPiMG/jhDsM5XfS+Omlja8ZqRdWK3iZtWuCritoZuppPqTHvedrP
+ JNgQFVqYVtyK53w0pxa4Yk/T4nZuS0rsL2IzaR+jQkwsCX6b72quONZjDXqpcFklYdR0
+ W0/6sQ2Ue5KL8rhVvp+RVe37u0SYOwTqDeOxisloV9k2hEjA06CigeDXDVxhOFLObF+k
+ KTCyMwlv0lXfoU+veUc/l/DX4T98g7iTsuj6NQua9V6hbolxnhaGFERUL1crDv1Tvard
+ AN+Tu3hhUAV7V1DRGDNUTaAmBCD7xIh+YdCOnI3KPEn9D8gzYkx1AS/dj9ojdwHxW6Ve
+ wB/A==
+X-Gm-Message-State: AOAM530KtMZXZ/lgNNIRdIVGRX1St+jyoPI9h5za14L01wsSBdJAE8dS
+ qWlwn2pA0OYsdElrSuzakEznbA==
+X-Google-Smtp-Source: ABdhPJxRohIyR/YCoUD5YI/XkzLdyuPidmXlmk0d8AmwuQ7/5UcOVVluw10vUFCBA6T3eZAmMx7dlA==
+X-Received: by 2002:a17:906:dbcd:: with SMTP id
+ yc13mr8165471ejb.99.1618583888233; 
+ Fri, 16 Apr 2021 07:38:08 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.38.06
+ by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.38.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 07:38:06 -0700 (PDT)
+ Fri, 16 Apr 2021 07:38:07 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 35/40] drm/amd/amdgpu/amdgpu_cs: Repair some function naming
- disparity
-Date: Fri, 16 Apr 2021 15:37:20 +0100
-Message-Id: <20210416143725.2769053-36-lee.jones@linaro.org>
+Subject: [PATCH 36/40] drm/exynos/exynos7_drm_decon: Realign function name
+ with its header
+Date: Fri, 16 Apr 2021 15:37:21 +0100
+Message-Id: <20210416143725.2769053-37-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210416143725.2769053-1-lee.jones@linaro.org>
 References: <20210416143725.2769053-1-lee.jones@linaro.org>
@@ -68,55 +68,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Jerome Glisse <glisse@freedesktop.org>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, Akshu Agarwal <akshua@gmail.com>,
+ Ajay Kumar <ajaykumar.rs@samsung.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmM6Njg1OiB3YXJuaW5nOiBleHBlY3Rpbmcg
-cHJvdG90eXBlIGZvciBjc19wYXJzZXJfZmluaSgpLiBQcm90b3R5cGUgd2FzIGZvciBhbWRncHVf
-Y3NfcGFyc2VyX2ZpbmkoKSBpbnN0ZWFkCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfY3MuYzoxNTAyOiB3YXJuaW5nOiBleHBlY3RpbmcgcHJvdG90eXBlIGZvciBhbWRncHVfY3Nf
-d2FpdF9hbGxfZmVuY2UoKS4gUHJvdG90eXBlIHdhcyBmb3IgYW1kZ3B1X2NzX3dhaXRfYWxsX2Zl
-bmNlcygpIGluc3RlYWQKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jcy5jOjE2
-NTY6IHdhcm5pbmc6IGV4cGVjdGluZyBwcm90b3R5cGUgZm9yIGFtZGdwdV9jc19maW5kX2JvX3Zh
-KCkuIFByb3RvdHlwZSB3YXMgZm9yIGFtZGdwdV9jc19maW5kX21hcHBpbmcoKSBpbnN0ZWFkCgpD
-YzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpDYzogIkNocmlzdGlh
-biBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkNjOiBEYXZpZCBBaXJsaWUgPGFp
-cmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+CkNjOiBT
-dW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgpDYzogSmVyb21lIEdsaXNzZSA8
-Z2xpc3NlQGZyZWVkZXNrdG9wLm9yZz4KQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-CkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBsaW51eC1tZWRpYUB2Z2Vy
-Lmtlcm5lbC5vcmcKQ2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwpTaWduZWQtb2Zm
-LWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1kZ3B1L2FtZGdwdV9jcy5jIHwgNiArKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGlu
-c2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfY3MuYwppbmRleCBiNWM3NjY5OTgwNDU4Li45MDEzNmY5ZGVkZDY1IDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY3MuYworKysgYi9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfY3MuYwpAQCAtNjcyLDcgKzY3Miw3IEBAIHN0YXRpYyBpbnQg
-YW1kZ3B1X2NzX3N5bmNfcmluZ3Moc3RydWN0IGFtZGdwdV9jc19wYXJzZXIgKnApCiB9CiAKIC8q
-KgotICogY3NfcGFyc2VyX2ZpbmkoKSAtIGNsZWFuIHBhcnNlciBzdGF0ZXMKKyAqIGFtZGdwdV9j
-c19wYXJzZXJfZmluaSgpIC0gY2xlYW4gcGFyc2VyIHN0YXRlcwogICogQHBhcnNlcjoJcGFyc2Vy
-IHN0cnVjdHVyZSBob2xkaW5nIHBhcnNpbmcgY29udGV4dC4KICAqIEBlcnJvcjoJZXJyb3IgbnVt
-YmVyCiAgKiBAYmFja29mZjoJaW5kaWNhdG9yIHRvIGJhY2tvZmYgdGhlIHJlc2VydmF0aW9uCkBA
-IC0xNDg4LDcgKzE0ODgsNyBAQCBpbnQgYW1kZ3B1X2NzX2ZlbmNlX3RvX2hhbmRsZV9pb2N0bChz
-dHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogfQogCiAvKioKLSAqIGFtZGdwdV9j
-c193YWl0X2FsbF9mZW5jZSAtIHdhaXQgb24gYWxsIGZlbmNlcyB0byBzaWduYWwKKyAqIGFtZGdw
-dV9jc193YWl0X2FsbF9mZW5jZXMgLSB3YWl0IG9uIGFsbCBmZW5jZXMgdG8gc2lnbmFsCiAgKgog
-ICogQGFkZXY6IGFtZGdwdSBkZXZpY2UKICAqIEBmaWxwOiBmaWxlIHByaXZhdGUKQEAgLTE2Mzks
-NyArMTYzOSw3IEBAIGludCBhbWRncHVfY3Nfd2FpdF9mZW5jZXNfaW9jdGwoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIH0KIAogLyoqCi0gKiBhbWRncHVfY3NfZmluZF9ib192
-YSAtIGZpbmQgYm9fdmEgZm9yIFZNIGFkZHJlc3MKKyAqIGFtZGdwdV9jc19maW5kX21hcHBpbmcg
-LSBmaW5kIGJvX3ZhIGZvciBWTSBhZGRyZXNzCiAgKgogICogQHBhcnNlcjogY29tbWFuZCBzdWJt
-aXNzaW9uIHBhcnNlciBjb250ZXh0CiAgKiBAYWRkcjogVk0gYWRkcmVzcwotLSAKMi4yNy4wCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c:355: warning: expecting prototype for shadow_protect_win(). Prototype was for decon_shadow_protect_win() instead
+
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc: Akshu Agarwal <akshua@gmail.com>
+Cc: Ajay Kumar <ajaykumar.rs@samsung.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-samsung-soc@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+index 431c5d32f9a47..9b5e6f94e5585 100644
+--- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
++++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+@@ -344,7 +344,7 @@ static void decon_win_set_colkey(struct decon_context *ctx, unsigned int win)
+ }
+ 
+ /**
+- * shadow_protect_win() - disable updating values from shadow registers at vsync
++ * decon_shadow_protect_win() - disable updating values from shadow registers at vsync
+  *
+  * @ctx: display and enhancement controller context
+  * @win: window to protect registers for
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
