@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87933625F9
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 18:48:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB1A3625FE
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 18:50:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9146E1F5;
-	Fri, 16 Apr 2021 16:48:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F0826EB88;
+	Fri, 16 Apr 2021 16:50:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE976E1F5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 16:48:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 1DDC4611EF
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 16:48:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F02496EB88
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 16:50:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 63BB2613A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 16:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618591713;
- bh=oD0ZjUafeB8QsuQ9eekVLBmiab0hekfoDAz2tI+hWKE=;
+ s=k20201202; t=1618591804;
+ bh=U/J3FZ6kYfA/94wYdk0U/GUH/fAAt0BMD2LG3pWd8L4=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=jGtk4kqhV1TaWDALIJSfhK8XM45Ao2P9GrgcZwixeoS86IbAKBqJZ9vSrphwK+MLv
- pqK/Y5DguJdGmzAlESGKMVX7nVZDTx9b5S48Fgusbxg2WlshGreaL1ksjLSnrm3duu
- fHA/002oZZj66f6BSWgOFv/J+cwWEJuv1aGUJcS9CAabdiKl+hJihX9gFRgvuvjp1t
- o7Ot66h8H6WHCG1Bb8rz6hwCyaPZVXB04rtcTdxvnnEiPVxVN1708OBLJq+POVyDGv
- VYsCoQChmLN0PA3HRO/0h+VVNYK0ZHwcGR/sTOVTU4sePuG7biGVYN4yJsKCaxGip4
- DJKAl49X9QyPg==
+ b=owF2M9VSTN/dNfei9vMPl5lLJNYWFqatmkahZKH2hvOusNSAZY/p4p9W9c0erGMmd
+ AA0ZdplrvVZYWD2njSVSvIufseaQH/YGpvvCGG0X7jGksvIpjJAgugA7VVh9VQIrG7
+ RcAhosJg8qhl1MqdKqtXrQ7qIVGlrCFn+Ug3cpZeZoP92LZhWmH41foIq2d7u4lmEt
+ fJsMzF2QxnN9R1KU5X219aGKk5LILEtvdEwXEzIHAERwndB9VYZ4MiBxD0UEC4KsN8
+ LyKnkqMS9U+cRQhqXI91h+WxXS/Ni8lKlX1nUnHodpJjtqo2Pj4Uj3O5mlXYyfwHJR
+ XU+y4gDyXsk5A==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 1AA246105A; Fri, 16 Apr 2021 16:48:33 +0000 (UTC)
+ id 6043861186; Fri, 16 Apr 2021 16:50:04 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 13170] Macbook 5,2 only boots with acpi=off, or nosmp, or
  maxcpus=1
-Date: Fri, 16 Apr 2021 16:48:32 +0000
+Date: Fri, 16 Apr 2021 16:50:03 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,7 +46,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-13170-2300-eCls3ivasj@https.bugzilla.kernel.org/>
+Message-ID: <bug-13170-2300-ljYd9ic257@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-13170-2300@https.bugzilla.kernel.org/>
 References: <bug-13170-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,18 +71,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=13170
 
---- Comment #73 from morten vermund (mortenvermund@gmail.com) ---
-(In reply to Alex Murray from comment #40)
-> It may not be relevant, but apparently the same non-bootable issue has been
-> seen on the MacBook Air 2,1 - which was solved (ie. without resorting to
-> maxcpus=1 or noacpi) with the following options:
-> 
-> acpi=noirq pnpacpi=off
-> 
-> (originally from here:
-> https://web.bricksite.net/u77w/realmoneycasinos/online-casinos.html)
-
-https://web.bricksite.net/u77w/realmoneycasinos/
+--- Comment #74 from morten vermund (mortenvermund@gmail.com) ---
+(In reply to morten vermund from comment #71)
+> (In reply to dentament from comment #64)
+> > Hi,
+> > I boot with 2 cpus, acpi and everything working on ubuntu 10.04 using grub
+> > 1.99 compiled following these instructions:
+> > https://webonlinegambling.com/
+> > and with this grub.cfg:
+> > 
+> > -----
+> > insmod efi_gop
+> > menuentry "Ubuntu Linux Lucid 2.6.32-33-generic" {
+> >       set root='(hd0,3)'
+> >       linux /boot/vmlinuz-2.6.32-33-generic root=/dev/sda3 video=efifb ro
+> > splash
+> >       initrd /boot/initrd.img-2.6.32-33-generic
+> > }
+> > -----https://njonlinecasinos.webgarden.com/
+> > 
+> > But there's still a problem with this method (tried with various versions
+> of
+> > grub-efi): although it may seem the cpus do frequency switching allright,
+> > they actually always work at their minimum speed. See:
+> > https://bugs.launchpad.net/ubuntu/+source/linux/+bug/669865
 
 -- 
 You may reply to this email to add a comment.
