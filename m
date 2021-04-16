@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BA0362289
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69AA0362292
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED9D6EC11;
-	Fri, 16 Apr 2021 14:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFF76EC1E;
+	Fri, 16 Apr 2021 14:37:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB4CD6EC08
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:37:48 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id g17so31848319edm.6
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:37:48 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74B436EC04
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:37:49 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id u17so42505554ejk.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BenSWVQP2zN1koiPW0t4kws5hTFRiEoau/BE1y9GfNM=;
- b=HIAesytEg5S3sduMFPZ6ZtYIe1kNf+o5CbxfxLRVidE4pbMb2kNGB64UxIGQU2qRyM
- enc++rAblmvxbBCHBLncASVRGti1rSEsilx9FwhuOehh6gVuXXsI6Re/bG3gJuv+y+in
- CSCstZfPkCUC7FIEyTX+0I7CB1NSsmmH1fDey0abB0EpwuZKW6ueLNv/XdiZ2V2UEJn4
- NQlDG1UkwPm+gpcJ6bieuV8UmL8z8ZF5GAWLN11J0ywRM/zGDAJQ0Cf9a8fI/BrQfWR+
- FtPDM926uNLX5X90uAItZowa8ttUBbcgMOz/r7cf9oZZHYVBD/Bl8g0a8NvPX7M/jDkE
- Lu8g==
+ bh=61oKXxvl+24t+oBgcuj4NfG+vBqO/3mKOMoXwskYVGU=;
+ b=X4BXqdfG23NXa84B1Vlw8fBJx1H23dD737fq31AW5KzaRwv5QkDL16paKDhgU1wF8W
+ GOL7iCorZFDYIS0EemuA5lDQa4FHfNL/wr/A1E0/ig2HuqDN7oxizMG/QdnscB4oBsDP
+ 5WIgMUlhpojZQs9TK06RF1Nrwj9zyQTJbO8BI0VWmYwcphGIQsks2Bps/emwiy+CH/Wk
+ o67Nj1MfKAlRF3jncWbu3AUTyN36ebEjkndRCtA6nkAWNOFo5+SKbfsQIh4rpmjt6Dow
+ F6NMyDFABd2NhOpbIqURgxg4QjDROUlAYJxrkg3GXO/KZ9XSpWXilAKay+z0Aj7Zc9lU
+ 0d9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BenSWVQP2zN1koiPW0t4kws5hTFRiEoau/BE1y9GfNM=;
- b=WpL/dyAxOYgnv8MKZJD7FWV90XbBqug0HklAlcFwnCWmyflsYUi1if9ibw09nEupgb
- AsMIoypVWS4d8j1MxbQgvaINKuNIVFUT8u/ees8NuIOvR0fa9TLjP5nMJwToFxv9ruWy
- VtqdDlOFovuOOa5cwZJgLO9DkLSDd6ABpU6wIsJlDBBr+JK7/eAe06bs2tULB5ZJRW3g
- E5I/6d2pNxRXmENjzFCzpZS7pj9tPvldbYFuTYrKINmDz11cVkK4yxBdVRZZBYjsG8RZ
- XW4uCEonb2Ra07cN4bg7a1HhE/mVXVGrot7O/L5eOXRSiCKfTBYtfVC+Fd5HjzO7dOBN
- mSRg==
-X-Gm-Message-State: AOAM531qDRPW32rbSE66D565prP/WHNxF9OyWU/IXIrzS5Cq1hnMg7dA
- JXlJMzm+SbYgP8OjL5r6nLBdhQ==
-X-Google-Smtp-Source: ABdhPJy03x/bQOosuLTJJIEEGcLYhuxCxgQFnP3tHnQy4iOpxU3Fu9WUEZt8yiBzKt28dhZZF24//Q==
-X-Received: by 2002:a05:6402:518b:: with SMTP id
- q11mr10396198edd.151.1618583867088; 
- Fri, 16 Apr 2021 07:37:47 -0700 (PDT)
+ bh=61oKXxvl+24t+oBgcuj4NfG+vBqO/3mKOMoXwskYVGU=;
+ b=X8iDNfr2CxEI1px34P/KH5sdQSehQg9d2k74CMqmlpwlCtAJG/CP1sqAo6mu04PaSv
+ wTglNQcLhm8c+Hkrz/1+iAuQ/Nyy9PpZWRtzb2X5ww3cqX5o+uoEJ/71sXYtBXzg+mtf
+ R9ZaVVdoaUX15h8KkCDEuPGYSuKRVgXfzGWKbADDrS8Z/WlytMZlJQyHqHkv1Zb6g6DY
+ hpBgU3sijxOy8Dm8/hkmGhb9OLe5M8301aRAaOZVrxk9emzvJh7UHpsfNEUWPi6VrfyW
+ Bkcx7VhI7eXE+SyKtd1meLeNaENQcflCobLvLh3yRv27zOEmlNZqaDqXwDdBh7uwkVwj
+ uMSQ==
+X-Gm-Message-State: AOAM533fm2g0yjoxyJCG/rgCNz3GmCYBC/d1HlSLfayNDCfn0kwb+lFg
+ YIl1iF7BbBV3gMKUKQeJeyxCVg==
+X-Google-Smtp-Source: ABdhPJxfs0dO3k/tSuzZR0zH09FpnzlHYRFLRl3kEj7fOswxtkCOFLd/lE/Wsujn8Z016ric4zI1mQ==
+X-Received: by 2002:a17:906:9bd3:: with SMTP id
+ de19mr8318214ejc.329.1618583868141; 
+ Fri, 16 Apr 2021 07:37:48 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.46
+ by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 07:37:46 -0700 (PDT)
+ Fri, 16 Apr 2021 07:37:47 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 16/40] drm/nouveau/nouveau_ioc32: Demote kernel-doc abuse to
- standard comment block
-Date: Fri, 16 Apr 2021 15:37:01 +0100
-Message-Id: <20210416143725.2769053-17-lee.jones@linaro.org>
+Subject: [PATCH 17/40] gpu: host1x: bus: Remove superfluous param description
+ 'key'
+Date: Fri, 16 Apr 2021 15:37:02 +0100
+Message-Id: <20210416143725.2769053-18-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210416143725.2769053-1-lee.jones@linaro.org>
 References: <20210416143725.2769053-1-lee.jones@linaro.org>
@@ -68,9 +68,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -78,33 +77,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'filp' not described in 'nouveau_compat_ioctl'
- drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'cmd' not described in 'nouveau_compat_ioctl'
- drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'arg' not described in 'nouveau_compat_ioctl'
+ drivers/gpu/host1x/bus.c:774: warning: Excess function parameter 'key' description in '__host1x_client_register'
 
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_ioc32.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/host1x/bus.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ioc32.c b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-index 8ddf9b2325a42..2af3615c5205c 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-@@ -38,7 +38,7 @@
- 
- #include "nouveau_ioctl.h"
- 
--/**
-+/*
-  * Called whenever a 32-bit process running under a 64-bit kernel
-  * performs an ioctl on /dev/dri/card<n>.
+diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+index 218e3718fd68c..e293b68acc348 100644
+--- a/drivers/gpu/host1x/bus.c
++++ b/drivers/gpu/host1x/bus.c
+@@ -761,7 +761,6 @@ EXPORT_SYMBOL(host1x_client_exit);
+ /**
+  * __host1x_client_register() - register a host1x client
+  * @client: host1x client
+- * @key: lock class key for the client-specific mutex
   *
+  * Registers a host1x client with each host1x controller instance. Note that
+  * each client will only match their parent host1x controller and will only be
 -- 
 2.27.0
 
