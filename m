@@ -2,51 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1443621A7
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB9E36220A
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E07996EA7D;
-	Fri, 16 Apr 2021 14:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A408F6EB52;
+	Fri, 16 Apr 2021 14:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFD776EB2F
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:05:48 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id k25so27961247oic.4
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=C+rlscYexZWyPJJB0luvYK5Jp5Lb4ntWaMwIlWDCxA8=;
- b=aqEUqE065VaA1LwsczKanpqB99xvbwu5/6XFHqu2VzFcLX9nLgtXhKEDAAh4z2Zgce
- 2NHFkJMnhfweDT1DiVO+L+AjT8k8iY3oN0Cq7tSl4EYoQgh0RfsI5Q0rZb8mVZUCpv4n
- JeCWkypP+8h7Sq2WLNafD2IQbHUkcC+ISkbW8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=C+rlscYexZWyPJJB0luvYK5Jp5Lb4ntWaMwIlWDCxA8=;
- b=osTOhGmUnyAYNsuYQ7yKvJft/vd8WkXsl+DI1d/b/jvwWtDw+kQblci7T/YzXfAd5m
- kZ4v9t9Jdq+4RPCLvK8DOo8Q7q9hRrLEM0/IPt+TyyO+uZ62RxXI8+LCRV47acUinbCN
- 3peXGZG/bYN2Xmy4/8Yl1tf9K/pYlkBGAKrE+ey4oLZWltIKmI0gBrrw5C3zrCs+8xLl
- dRNosVPrhND1VvWcwrP+KD+4DdTirGswm7LhcJJMpk2O6g26sppdR84P3btMT4vgguvj
- QOReRgWLxJilZ8G2JnH+MRY1b2SPPyBgRGA+KhaQE1HQda0ZWm1P8COS9/9VXtJWAtqh
- Pr5A==
-X-Gm-Message-State: AOAM5315SQW0/FkdWLaFDHROeZKVLq9lVcE+cUWrXPtuF8jOOFdnGcB+
- VatIjdyCY7CWa6Z9yvCNTnRvAbLOMyqZFcCbCnZpiQ==
-X-Google-Smtp-Source: ABdhPJzsyoD8rSn82Wk4RELA4g8ccBTtnaaqGRscH6DkkkViY9/e2f1QiufuNIB2MrmlFZn/9lkjcERLEypc1ghcFXY=
-X-Received: by 2002:a05:6808:699:: with SMTP id
- k25mr1952151oig.101.1618581946705; 
- Fri, 16 Apr 2021 07:05:46 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B25616EB6C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:20:59 +0000 (UTC)
+IronPort-SDR: WF1RMRMsFDRfjuzfvXuUDoKTHUzve96D5YdSuK7Zxz9XBZsEDzYAvd0XwWMXXXY4Nl6p6xKDfd
+ qBxsTjW1BLkg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9956"; a="215579671"
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="215579671"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2021 07:20:41 -0700
+IronPort-SDR: B7Ib3nZkSHvV9A+S3y+55TbrrjAUe0wBDXBvsv5N1anIo+a7dYHaSg6HUm7bj65D/3U4205g+5
+ DemFaL/Q9pbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="522722964"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmsmga001.fm.intel.com with ESMTP; 16 Apr 2021 07:20:30 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 14D9D12A; Fri, 16 Apr 2021 17:20:46 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/4] fbtft: Replace custom ->reset() with generic one
+Date: Fri, 16 Apr 2021 17:20:41 +0300
+Message-Id: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210416103718.460830-1-matthew.auld@intel.com>
- <20210416103718.460830-2-matthew.auld@intel.com>
-In-Reply-To: <20210416103718.460830-2-matthew.auld@intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 16 Apr 2021 16:05:35 +0200
-Message-ID: <CAKMK7uHKAiw6rVbFongjDDxa-SAJXt3+LSdOaj5Pgj4vHnqQmA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/doc: add section for driver uAPI
-To: Matthew Auld <matthew.auld@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,75 +48,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jordan Justen <jordan.l.justen@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Kenneth Graunke <kenneth@whitecape.org>, Jason Ekstrand <jason@jlekstrand.net>,
- Mesa Dev <mesa-dev@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 16, 2021 at 12:37 PM Matthew Auld <matthew.auld@intel.com> wrote:
->
-> Add section for drm/i915 uAPI and pull in i915_drm.h.
->
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: mesa-dev@lists.freedesktop.org
+The custom ->reset() repeats the generic one, replace it.
 
-lgtm. Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Note, in newer kernels the context of the function is a sleeping one,
+it's fine to switch over to the sleeping functions. Keeping the reset
+line asserted longer than 20 microseconds is also okay, it's an idling
+state of the hardware.
 
-> ---
->  Documentation/gpu/driver-uapi.rst | 8 ++++++++
->  Documentation/gpu/index.rst       | 1 +
->  2 files changed, 9 insertions(+)
->  create mode 100644 Documentation/gpu/driver-uapi.rst
->
-> diff --git a/Documentation/gpu/driver-uapi.rst b/Documentation/gpu/driver-uapi.rst
-> new file mode 100644
-> index 000000000000..4411e6919a3d
-> --- /dev/null
-> +++ b/Documentation/gpu/driver-uapi.rst
-> @@ -0,0 +1,8 @@
-> +===============
-> +DRM Driver uAPI
-> +===============
-> +
-> +drm/i915 uAPI
-> +=============
-> +
-> +.. kernel-doc:: include/uapi/drm/i915_drm.h
-> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-> index ec4bc72438e4..b9c1214d8f23 100644
-> --- a/Documentation/gpu/index.rst
-> +++ b/Documentation/gpu/index.rst
-> @@ -10,6 +10,7 @@ Linux GPU Driver Developer's Guide
->     drm-kms
->     drm-kms-helpers
->     drm-uapi
-> +   driver-uapi
->     drm-client
->     drivers
->     backlight
-> --
-> 2.26.3
->
+Fixes: b2ebd4be6fa1 ("staging: fbtft: add fb_agm1264k-fl driver")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: new patch split from the bigger fix (Greg)
+ drivers/staging/fbtft/fb_agm1264k-fl.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-
+diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/staging/fbtft/fb_agm1264k-fl.c
+index eeeeec97ad27..4dfc22d05a40 100644
+--- a/drivers/staging/fbtft/fb_agm1264k-fl.c
++++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
+@@ -77,19 +77,6 @@ static int init_display(struct fbtft_par *par)
+ 	return 0;
+ }
+ 
+-static void reset(struct fbtft_par *par)
+-{
+-	if (!par->gpio.reset)
+-		return;
+-
+-	dev_dbg(par->info->device, "%s()\n", __func__);
+-
+-	gpiod_set_value(par->gpio.reset, 0);
+-	udelay(20);
+-	gpiod_set_value(par->gpio.reset, 1);
+-	mdelay(120);
+-}
+-
+ /* Check if all necessary GPIOS defined */
+ static int verify_gpios(struct fbtft_par *par)
+ {
+@@ -439,7 +426,6 @@ static struct fbtft_display display = {
+ 		.set_addr_win = set_addr_win,
+ 		.verify_gpios = verify_gpios,
+ 		.request_gpios_match = request_gpios_match,
+-		.reset = reset,
+ 		.write = write,
+ 		.write_register = write_reg8_bus8,
+ 		.write_vmem = write_vmem,
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
