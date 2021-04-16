@@ -1,39 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8E13622B3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:47:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A9D3622B4
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A185C6EC09;
-	Fri, 16 Apr 2021 14:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D40EA6EC0E;
+	Fri, 16 Apr 2021 14:47:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8BAF6EC09
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:47:01 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C586C510;
- Fri, 16 Apr 2021 16:46:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1618584420;
- bh=cQArhNoWMAlPCxN0Uts+L5Q+YkzYFQeuqeKvTHpGInw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WRUDU+fHVYP1SmkEbF043sQt24g1Kbv6AdtfwwYYg6FT280yhEEWx9LB8SC1/SLmo
- faWL3syih+hWi+Xahjiv0Cu0T8dH792SwUkanFbISIouOCbfL0w2ugSYARhGu/feSb
- t/+4L6FpNGjR35Y7ZKlu4Rez6mR6UL4A/PdGyqEk=
-Date: Fri, 16 Apr 2021 17:46:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 21/40] drm/xlnx/zynqmp_dp: Fix a little potential doc-rot
-Message-ID: <YHmjYRKouy9P/YGb@pendragon.ideasonboard.com>
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56DC86EC0E
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:47:29 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id u21so42530633ejo.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:47:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=g0XKUS1TlHQQdNyUmvZMzlYJbLqAhGmFHXulH+uYRNc=;
+ b=f2ZDTmiEuxYYa86N6C2qnat3M3pM2bVpaAu8VGRFYHaK2P0DpmovNk6o3hjJWiPUlD
+ o7G+UY8ZoobPKwIv1mPIMzcC6jIIsrQnz9MmvkFQQDbJESSFCCtp4DI555jrRDVsnAFq
+ lqLTXtBHIRmFIPOJr469vpYRjut7wS7s5Z2I4UdSPsC0JOoF/6nihD0rAqCQGONxFceB
+ aIPTbvELdUWV3srRx4qBjZklNeztXm++7k5YcAGOiVoe72zUDwYVB2GZTRtq9cEUzK3R
+ h8MDLgKeQtLVZ5EnMn6IxlNxQSD/CSrHJA7qWSnvUh/SU/CIxia85W7Vv0HRuI15Pc9q
+ w9IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=g0XKUS1TlHQQdNyUmvZMzlYJbLqAhGmFHXulH+uYRNc=;
+ b=J0k/4sgjyzRdidYaAPiu5R5lm64FPTN6WR9LnUeD/eYygdDVWj9PH5aJD6Are63LD0
+ eVoHoW8q2HyAFk1kaArOoOCoRwoYKFHSBE9iDwpQWeSt+VW9ncfty0DIefF9LspMSVP6
+ 1hrr2TeVlwYwGH87lwrQ+NCSt5Z+oIFwddgOo0CMDmSFQ6MFBJmcFJqV87smdmp5XT2X
+ WNGxFkdeV/FhrQLWuIhstZotr3mxay9VWfPQmabg4Qdx1RAmnlcokBc6WlkDPL3HC9H4
+ 8WCO0RusGQpAh0fhuZTl2tX4RmOdjWkxblEIrNPg3sN9E5Bh9LWErMDhbnFeGRPQ+5JB
+ fG9Q==
+X-Gm-Message-State: AOAM532AGqqi9rqfQ+O5YnvRcfZ+zy8j/+4fc58QB1Kwzp/8NjwcmkGy
+ CDA0k/fWFpEsT/eENqwBOpRSWw==
+X-Google-Smtp-Source: ABdhPJwK7OS5GZ6fsGB4Jf+dnVda/NwOxPrNHCrgw7AUMQ4UAFFNFcBcXSU20uxtVOc2TeiOy2SjEg==
+X-Received: by 2002:a17:906:1c17:: with SMTP id
+ k23mr8876981ejg.266.1618584448071; 
+ Fri, 16 Apr 2021 07:47:28 -0700 (PDT)
+Received: from dell ([91.110.221.215])
+ by smtp.gmail.com with ESMTPSA id o6sm5646765edw.24.2021.04.16.07.47.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Apr 2021 07:47:27 -0700 (PDT)
+Date: Fri, 16 Apr 2021 15:47:21 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH 34/40] drm/exynos/exynos_drm_fimd: Realign function name
+ with its header
+Message-ID: <20210416144721.GZ4869@dell>
 References: <20210416143725.2769053-1-lee.jones@linaro.org>
- <20210416143725.2769053-22-lee.jones@linaro.org>
+ <20210416143725.2769053-35-lee.jones@linaro.org>
+ <f871839d-6b1b-84b4-19d1-860d209ef193@canonical.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210416143725.2769053-22-lee.jones@linaro.org>
+In-Reply-To: <f871839d-6b1b-84b4-19d1-860d209ef193@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,62 +71,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>, David Airlie <airlied@linux.ie>,
+Cc: linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michal Simek <michal.simek@xilinx.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lee,
-
-Thank you for the patch.
-
-On Fri, Apr 16, 2021 at 03:37:06PM +0100, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
-> 
->  drivers/gpu/drm/xlnx/zynqmp_dp.c:806: warning: expecting prototype for zynqmp_dp_link_train(). Prototype was for zynqmp_dp_train() instead
-> 
-> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Michal Simek <michal.simek@xilinx.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I assume you'll merge the whole series in one go through drm-misc. If
-that's not the case, please let me know and I'll take the zynqmp patches
-in my tree.
-
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 59d1fb017da01..5ce96421acf40 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -797,7 +797,7 @@ static int zynqmp_dp_link_train_ce(struct zynqmp_dp *dp)
->  }
->  
->  /**
-> - * zynqmp_dp_link_train - Train the link
-> + * zynqmp_dp_train - Train the link
->   * @dp: DisplayPort IP core structure
->   *
->   * Return: 0 if all trains are done successfully, or corresponding error code.
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCAxNiBBcHIgMjAyMSwgS3J6eXN6dG9mIEtvemxvd3NraSB3cm90ZToKCj4gT24gMTYv
+MDQvMjAyMSAxNjozNywgTGVlIEpvbmVzIHdyb3RlOgo+ID4gRml4ZXMgdGhlIGZvbGxvd2luZyBX
+PTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6Cj4gPiAKPiA+ICBkcml2ZXJzL2dwdS9kcm0vZXh5
+bm9zL2V4eW5vc19kcm1fZmltZC5jOjczNDogd2FybmluZzogZXhwZWN0aW5nIHByb3RvdHlwZSBm
+b3Igc2hhZG93X3Byb3RlY3Rfd2luKCkuIFByb3RvdHlwZSB3YXMgZm9yIGZpbWRfc2hhZG93X3By
+b3RlY3Rfd2luKCkgaW5zdGVhZAo+ID4gCj4gPiBDYzogSW5raSBEYWUgPGlua2kuZGFlQHNhbXN1
+bmcuY29tPgo+ID4gQ2M6IEpvb255b3VuZyBTaGltIDxqeTA5MjIuc2hpbUBzYW1zdW5nLmNvbT4K
+PiA+IENjOiBTZXVuZy1Xb28gS2ltIDxzdzAzMTIua2ltQHNhbXN1bmcuY29tPgo+ID4gQ2M6IEt5
+dW5nbWluIFBhcmsgPGt5dW5nbWluLnBhcmtAc2Ftc3VuZy5jb20+Cj4gPiBDYzogRGF2aWQgQWly
+bGllIDxhaXJsaWVkQGxpbnV4LmllPgo+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
+bC5jaD4KPiA+IENjOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGNh
+bm9uaWNhbC5jb20+Cj4gPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4g
+Q2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+ID4gQ2M6IGxpbnV4LXNh
+bXN1bmctc29jQHZnZXIua2VybmVsLm9yZwo+ID4gU2lnbmVkLW9mZi1ieTogTGVlIEpvbmVzIDxs
+ZWUuam9uZXNAbGluYXJvLm9yZz4KPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9leHlub3Mv
+ZXh5bm9zX2RybV9maW1kLmMgfCAyICstCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gSGkgTGVlLAo+IAo+IEkgYWxyZWFkeSBzZW50IGEgZml4
+IGZvciB0aGlzIG9uZSBvbiA1dGggb2YgQXByaWw6Cj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
+bGttbC8yMDIxMDQwNTE4MTUyNC41MjQyNi0xLWtyenlzenRvZi5rb3psb3dza2lAY2Fub25pY2Fs
+LmNvbS8KCk5vIHByb2JsZW0uICBUaGFua3MgZm9yIGxldHRpbmcgbWUga25vdy4KCi0tIApMZWUg
+Sm9uZXMgW+adjueQvOaWr10KU2VuaW9yIFRlY2huaWNhbCBMZWFkIC0gRGV2ZWxvcGVyIFNlcnZp
+Y2VzCkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBcm0gU29DcwpGb2xs
+b3cgTGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
