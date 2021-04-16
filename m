@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3F4362B45
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 00:41:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F71362B46
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 00:41:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11B466E1D2;
-	Fri, 16 Apr 2021 22:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3396E1BB;
+	Fri, 16 Apr 2021 22:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DECC56E11C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 22:40:56 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id z16so20129390pga.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 15:40:56 -0700 (PDT)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 093116E1BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 22:40:58 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id p67so14325447pfp.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 15:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XvcTL0RsbG+N8ibrkzli2K1A+rE+ZrcYjKP9wz2z40I=;
- b=AufOpWxiDS8cPPrP7xzjOHsIoN36eKpOCxEXl12PAo2J/qdSsF4bqxhnWAoHrmPdgi
- jdSwBdRJc9Q5vDcJV0vvreL74oFh6+Anm/o8pvPb8DW+i5Aelp9ZDP1HNTZ0Rp2OrdyZ
- XPBg766uOfY2dHhRsLvb38FAjAcOn8oh7WNLY=
+ bh=Lu8AkZNDWlNH1fxgO+EV43zlL49xIkQqM7cXQa1E70s=;
+ b=boe3GraedXsJgeS77vtR2rV2V7UGXCxUaQcxH1b5+AOfv4z1Z27hGPMn2tDe6fhRsn
+ hvDtUo57zkdiGiJELJycymBwSweYrtJbTs6zoLwzgHftJlJQKjMQ99dXQxfQhkhTjAAh
+ u9n+/dhH6qEfJPbCP0XrOfmurcTC84gRst7uk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XvcTL0RsbG+N8ibrkzli2K1A+rE+ZrcYjKP9wz2z40I=;
- b=oHTe8FZx19SBVixGf45iylqbvHz4hW4skjMi3QPkmJZZHm4B+A9Teo6vIB2aYeTzno
- p/ge4nfPNnfxQ1ZaspTSDa8u5WQjyanxes6BMBH/nW7QhnWZwCeT4GIxHlpqnfvq+SK3
- WnDiuhUlO/n6KJe5ILqSuET8FDILzi35R7Jh51mwYQ1p2UKtNndwKgaBPF187IStXFRQ
- YL5PoajdB42+vGQIPVzn41j9LZVuGnw371UKSp1hoJ2V59FUdFGkjFoZH+8OowhUrINq
- MORATdPUqvF5CduHCFZYomBtk6TB9xZ9k0iB/v3u4YFQ9cIgkoxSkxQdymAErRuxGeS5
- NpGg==
-X-Gm-Message-State: AOAM5327B3aYR7RW/PF84D5O65pmz2fT3OULSjNH/ink7A09+QVyFoxN
- 2OjLakSzyFNFBWG/Ih/2PD0/cg==
-X-Google-Smtp-Source: ABdhPJzNUiYzRYYbvZn//8wjS/CeqlBImBF5oNQlkkD5V/lJHOiw3ppDJgVHdWGhvCqC6g4Hpy9jag==
-X-Received: by 2002:aa7:9791:0:b029:25c:38de:aa6b with SMTP id
- o17-20020aa797910000b029025c38deaa6bmr522788pfp.19.1618612856582; 
- Fri, 16 Apr 2021 15:40:56 -0700 (PDT)
+ bh=Lu8AkZNDWlNH1fxgO+EV43zlL49xIkQqM7cXQa1E70s=;
+ b=sjc8mA1STpu7aWocoIv5sHKDW4ZIwJvA8hmUPPBNKLzmMSYPm6CjZT7hMMhAaepVf1
+ Gh/GV6fRuECf60QV47Uy02oKKBKFAqiuVp0ZImTFXJyWXYeluMq67IArpK4KGdiGkFkF
+ tXQBQs5ZxnMNfFGSV+i++6J3zZBSV3UFpBnAQHD1xZZdayL4tR/UssPhL1yJyusoVyD9
+ Jd0SBh3C24qKdxs7XwiJkSdphupWTigWW7gFZGJIWLRbl/HO/21S5yPKXRC5gXFESDAq
+ 74EGqbr1S/Ok4qsR39iQpr6ZQy0ZpAN0DLaevLgemeKoNOfFHcWO9jnlytcsy3eY2wLS
+ 7zWw==
+X-Gm-Message-State: AOAM531pS/UdHwpwuMoI/j44JE3Q6y6GjW7oI35DNoomtZ02eXgrK5md
+ e/4lpM0vXl2Aul4BIL4MpKtgJg==
+X-Google-Smtp-Source: ABdhPJyTDqtz7UW4GkJ3AlSBpIPnxOnqUox/SqIrqnGsonE9KjngvVcmJxuRuSYBWLmdJQvyT8RIIg==
+X-Received: by 2002:aa7:904b:0:b029:250:991e:315 with SMTP id
+ n11-20020aa7904b0000b0290250991e0315mr9708738pfo.70.1618612857697; 
+ Fri, 16 Apr 2021 15:40:57 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:dc8a:c9d0:aa5b:5386])
- by smtp.gmail.com with ESMTPSA id r6sm5633659pgp.64.2021.04.16.15.40.55
+ by smtp.gmail.com with ESMTPSA id r6sm5633659pgp.64.2021.04.16.15.40.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 15:40:56 -0700 (PDT)
+ Fri, 16 Apr 2021 15:40:57 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
  Sam Ravnborg <sam@ravnborg.org>, Wolfram Sang <wsa@kernel.org>
-Subject: [PATCH v4 03/27] drm/bridge: ti-sn65dsi86: Remove incorrectly tagged
- kerneldoc comment
-Date: Fri, 16 Apr 2021 15:39:26 -0700
-Message-Id: <20210416153909.v4.3.I167766eeaf4c4646a3934c4dd5332decbab6bd68@changeid>
+Subject: [PATCH v4 04/27] drm/bridge: ti-sn65dsi86: Reorder remove()
+Date: Fri, 16 Apr 2021 15:39:27 -0700
+Message-Id: <20210416153909.v4.4.Ifcf1deaa372eba7eeb4f8eb516c5d15b77a657a9@changeid>
 X-Mailer: git-send-email 2.31.1.368.gbe11c130af-goog
 In-Reply-To: <20210416223950.3586967-1-dianders@chromium.org>
 References: <20210416223950.3586967-1-dianders@chromium.org>
@@ -83,32 +82,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A random comment inside a function had "/**" in front of it. That
-doesn't make sense. Remove.
+Let's make the remove() function strictly the reverse of the probe()
+function so it's easier to reason about.
+
+This patch was created by code inspection and should move us closer to
+a proper remove.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
 
-(no changes since v1)
+(no changes since v3)
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v3:
+- Removed "NOTES" from commit message.
+
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 96fe8f2c0ea9..76f43af6735d 100644
+index 76f43af6735d..c006678c9921 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -788,7 +788,7 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
- 	/* set dsi clk frequency value */
- 	ti_sn_bridge_set_dsi_rate(pdata);
+@@ -1315,20 +1315,21 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
+ 	if (!pdata)
+ 		return -EINVAL;
  
--	/**
-+	/*
- 	 * The SN65DSI86 only supports ASSR Display Authentication method and
- 	 * this method is enabled by default. An eDP panel must support this
- 	 * authentication method. We need to enable this method in the eDP panel
+-	kfree(pdata->edid);
+-	ti_sn_debugfs_remove(pdata);
+-
+-	of_node_put(pdata->host_node);
+-
+-	pm_runtime_disable(pdata->dev);
+-
+ 	if (pdata->dsi) {
+ 		mipi_dsi_detach(pdata->dsi);
+ 		mipi_dsi_device_unregister(pdata->dsi);
+ 	}
+ 
++	kfree(pdata->edid);
++
++	ti_sn_debugfs_remove(pdata);
++
+ 	drm_bridge_remove(&pdata->bridge);
+ 
++	pm_runtime_disable(pdata->dev);
++
++	of_node_put(pdata->host_node);
++
+ 	return 0;
+ }
+ 
 -- 
 2.31.1.368.gbe11c130af-goog
 
