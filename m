@@ -1,44 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99183622AD
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:42:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4503E3622B1
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0CB46EBFE;
-	Fri, 16 Apr 2021 14:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73A326EC0A;
+	Fri, 16 Apr 2021 14:45:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3AB6EBFE
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:42:09 +0000 (UTC)
-IronPort-SDR: /T9HQTKv9spT9WmsNscdQiEeB+RLesh1LgJ/YauMdq3SqX6ubrZTM6SYx5S+/BQzfOuDDlOKB/
- JF1OjmhXIzYw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9956"; a="215582462"
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="215582462"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2021 07:42:08 -0700
-IronPort-SDR: HG4qjL1YMnW5HHQIdjfSEzfDoqyXUesZW51hWmyBeha99RNQ6nryWSzv4AI92sOWr++wOe2EW/
- w6GtmmN+UAAw==
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="399925866"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2021 07:42:06 -0700
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1lXPfY-004fhK-4q; Fri, 16 Apr 2021 17:42:04 +0300
-Date: Fri, 16 Apr 2021 17:42:04 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] video: ssd1307fb: Drop OF dependency
-Message-ID: <YHmiPMcgMqHCzaur@smile.fi.intel.com>
-References: <20210409164140.17337-1-andriy.shevchenko@linux.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F18DE6EC1A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:45:07 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8849B51E;
+ Fri, 16 Apr 2021 16:45:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1618584306;
+ bh=7gdYMuUtn6uOGMcMMnkrDu5CQiOt/VJ+0qsqd8hKfU4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=D7WE6YKMq9p03CIOMLvar3I/tBOdqoEJ8kBNzQ1oxzf6LqFRDorw4gLWjwaj1npzc
+ 7Yulu1L8UTSxxd2/IAfQ+CPjbtgOxYV8m7rMTi6f6cEr7vE9YzgTQgGr4W88CUDh40
+ FcQ+wq79AJV+JCVDU7+8JQk3MqcZ9tMawF9tk6PY=
+Date: Fri, 16 Apr 2021 17:45:02 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 20/40] drm/xlnx/zynqmp_disp: Fix incorrectly documented
+ enum 'zynqmp_disp_id'
+Message-ID: <YHmi7psSllqh9WwG@pendragon.ideasonboard.com>
+References: <20210416143725.2769053-1-lee.jones@linaro.org>
+ <20210416143725.2769053-21-lee.jones@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210409164140.17337-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20210416143725.2769053-21-lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,52 +47,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Michal Simek <michal.simek@xilinx.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Cc: Greg.
+Hi Lee,
 
-Greg, can you pick up this one?
+Thank you for the patch.
 
-The subsystem seems orphaned and I see your name in the git history for the
-recent submissions against that driver.
-
-Id is 20210409164140.17337-1-andriy.shevchenko@linux.intel.com
-
-On Fri, Apr 09, 2021 at 07:41:40PM +0300, Andy Shevchenko wrote:
-> After the commit 72915994e028 ("video: ssd1307fb: Make use of device
-> properties") driver does not depend on OF, drop unneeded dependency.
+On Fri, Apr 16, 2021 at 03:37:05PM +0100, Lee Jones wrote:
+> Fixes the following W=1 kernel build warning(s):
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c:101: warning: expecting prototype for enum zynqmp_disp_id. Prototype was for enum zynqmp_disp_layer_id instead
+> 
+> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Michal Simek <michal.simek@xilinx.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  drivers/video/fbdev/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index 4f02db65dede..7506b5949eb0 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -2209,7 +2209,6 @@ config FB_SIMPLE
->  config FB_SSD1307
->  	tristate "Solomon SSD1307 framebuffer support"
->  	depends on FB && I2C
-> -	depends on OF
->  	depends on GPIOLIB || COMPILE_TEST
->  	select FB_SYS_FOPS
->  	select FB_SYS_FILLRECT
-> -- 
-> 2.30.2
-> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index 109d627968ac0..ca1161ec9e16f 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -91,7 +91,7 @@ struct zynqmp_disp_format {
+>  };
+>  
+>  /**
+> - * enum zynqmp_disp_id - Layer identifier
+> + * enum zynqmp_disp_layer_id - Layer identifier
+>   * @ZYNQMP_DISP_LAYER_VID: Video layer
+>   * @ZYNQMP_DISP_LAYER_GFX: Graphics layer
+>   */
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
