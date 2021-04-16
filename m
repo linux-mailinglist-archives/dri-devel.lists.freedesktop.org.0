@@ -2,33 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8A9362112
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 15:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45569362115
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 15:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0646EA86;
-	Fri, 16 Apr 2021 13:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466616EA1E;
+	Fri, 16 Apr 2021 13:32:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 878936EA86;
- Fri, 16 Apr 2021 13:31:53 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1FEBCAF37;
- Fri, 16 Apr 2021 13:31:52 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, bskeggs@redhat.com, ray.huang@amd.com,
- linux-graphics-maintainer@vmware.com, sroland@vmware.com, zackr@vmware.com,
- shashank.sharma@amd.com, sam@ravnborg.org, emil.velikov@collabora.com,
- Felix.Kuehling@amd.com, nirmoy.das@amd.com
-Subject: [PATCH v3 7/7] drm/ttm: Remove ttm_bo_mmap() and friends
-Date: Fri, 16 Apr 2021 15:31:46 +0200
-Message-Id: <20210416133146.24825-8-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210416133146.24825-1-tzimmermann@suse.de>
-References: <20210416133146.24825-1-tzimmermann@suse.de>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6FC6EA1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 13:32:49 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id n127so2539163wmb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 06:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=hrzLya89eEvpFLZLKBl1cD6X0iqxPFh++vX1H4RxaPM=;
+ b=KxsQ4CAq0MNzNH+pcQeLYmwQIhyKFLbE9/bbDboSLCN8yc3a3UHmYbYXnSL0PBPseb
+ YXxTBITODTzMm8AsFRaxzNXxiQD8LrvI6TIpfnYn+4QcMVXfBLUAy4eYaQslh3TZxmHz
+ XsBYQmbpf5VGRlgKTQmKm1adZhCBiks8c4TB8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:mime-version:content-disposition
+ :content-transfer-encoding;
+ bh=hrzLya89eEvpFLZLKBl1cD6X0iqxPFh++vX1H4RxaPM=;
+ b=LDsJxEXe7723g91vw+SmZ81anieH/TP/2un7OT3jKONZYgNjJb26fUUzWQa6N1r4OQ
+ CqTyGFdwJXRaRiJ80wtrZFPKE2F+255XH/J/ximPqo2hsmM39MYNxx7cmFPmRMTwxCxP
+ aMXcL0KqcEr3xffPp7kdXxs9Iloj4I1QrBLvQYqZoSays175ePp/617NqmwZrw8x63z2
+ 2mKppIITV2G+lHt8vVKFlsZtZ6TqvUVi1/S2J8IgXxVXrTRL2a9nJQRQGb9FuYHs9Dx4
+ 1X0IddZOXY5pZtDV2fHnr3/nqLfk+NbbmCb9KKrLUliBtKoZZQl8dgffkCEpHSyTGn7O
+ I6rQ==
+X-Gm-Message-State: AOAM533QbVfP/q3B6tB3EaFFlnimkh2g4Wr6sJs0dfoIq/VnjmAgUxxi
+ ifmU8QJXdqJccNqa+lDSPybGxw==
+X-Google-Smtp-Source: ABdhPJwmzzbCUBU42t6ZBV0CVhcp6jfBS0ZYqehStSJBSnQg1xKNnuutuMaagDY5rRm58GclqpHK4A==
+X-Received: by 2002:a05:600c:b4b:: with SMTP id
+ k11mr8349064wmr.180.1618579967707; 
+ Fri, 16 Apr 2021 06:32:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u4sm9967392wml.0.2021.04.16.06.32.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Apr 2021 06:32:47 -0700 (PDT)
+Date: Fri, 16 Apr 2021 15:32:40 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [PULL] drm-fixes
+Message-ID: <YHmR+Gyh/s2sHT2D@phenom.ffwll.local>
+Mail-Followup-To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Dave Airlie <airlied@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,87 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGZ1bmN0aW9uIHR0bV9ib19tbWFwIGlzIHVudXNlZC4gUmVtb3ZlIGl0IGFuZCBpdCdzIGhl
-bHBlcnM7IGluY2x1ZGluZwp0aGUgdmVyaWZ5X2FjY2VzcyBjYWxsYmFjayBpbiBzdHJ1Y3QgdHRt
-X2RldmljZV9mdW5jcy4KClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtv
-ZW5pZ0BhbWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMgfCA1MyAt
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9f
-YXBpLmggICAgfCAxMyAtLS0tLS0tLQogaW5jbHVkZS9kcm0vdHRtL3R0bV9kZXZpY2UuaCAgICB8
-IDE1IC0tLS0tLS0tLS0KIDMgZmlsZXMgY2hhbmdlZCwgODEgZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0uYyBiL2RyaXZlcnMvZ3B1L2RybS90
-dG0vdHRtX2JvX3ZtLmMKaW5kZXggYmY0YTIxM2JjNjZjLi42Y2QzNTIzOTk5NDEgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3R0bS90dG1fYm9fdm0uYwpAQCAtNTA4LDMwICs1MDgsNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
-IHZtX29wZXJhdGlvbnNfc3RydWN0IHR0bV9ib192bV9vcHMgPSB7CiAJLmFjY2VzcyA9IHR0bV9i
-b192bV9hY2Nlc3MsCiB9OwogCi1zdGF0aWMgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICp0dG1f
-Ym9fdm1fbG9va3VwKHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2LAotCQkJCQkJICB1bnNpZ25lZCBs
-b25nIG9mZnNldCwKLQkJCQkJCSAgdW5zaWduZWQgbG9uZyBwYWdlcykKLXsKLQlzdHJ1Y3QgZHJt
-X3ZtYV9vZmZzZXRfbm9kZSAqbm9kZTsKLQlzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvID0g
-TlVMTDsKLQotCWRybV92bWFfb2Zmc2V0X2xvY2tfbG9va3VwKGJkZXYtPnZtYV9tYW5hZ2VyKTsK
-LQotCW5vZGUgPSBkcm1fdm1hX29mZnNldF9sb29rdXBfbG9ja2VkKGJkZXYtPnZtYV9tYW5hZ2Vy
-LCBvZmZzZXQsIHBhZ2VzKTsKLQlpZiAobGlrZWx5KG5vZGUpKSB7Ci0JCWJvID0gY29udGFpbmVy
-X29mKG5vZGUsIHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCwKLQkJCQkgIGJhc2Uudm1hX25vZGUp
-OwotCQlibyA9IHR0bV9ib19nZXRfdW5sZXNzX3plcm8oYm8pOwotCX0KLQotCWRybV92bWFfb2Zm
-c2V0X3VubG9ja19sb29rdXAoYmRldi0+dm1hX21hbmFnZXIpOwotCi0JaWYgKCFibykKLQkJcHJf
-ZXJyKCJDb3VsZCBub3QgZmluZCBidWZmZXIgb2JqZWN0IHRvIG1hcFxuIik7Ci0KLQlyZXR1cm4g
-Ym87Ci19Ci0KIHN0YXRpYyB2b2lkIHR0bV9ib19tbWFwX3ZtYV9zZXR1cChzdHJ1Y3QgdHRtX2J1
-ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKIHsKIAkvKgpAQCAt
-NTU5LDM1ICs1MzUsNiBAQCBzdGF0aWMgdm9pZCB0dG1fYm9fbW1hcF92bWFfc2V0dXAoc3RydWN0
-IHR0bV9idWZmZXJfb2JqZWN0ICpibywgc3RydWN0IHZtX2FyZWFfcwogCXZtYS0+dm1fZmxhZ3Mg
-fD0gVk1fSU8gfCBWTV9ET05URVhQQU5EIHwgVk1fRE9OVERVTVA7CiB9CiAKLWludCB0dG1fYm9f
-bW1hcChzdHJ1Y3QgZmlsZSAqZmlscCwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCi0JCXN0
-cnVjdCB0dG1fZGV2aWNlICpiZGV2KQotewotCXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm87
-Ci0JaW50IHJldDsKLQotCWlmICh1bmxpa2VseSh2bWEtPnZtX3Bnb2ZmIDwgRFJNX0ZJTEVfUEFH
-RV9PRkZTRVRfU1RBUlQpKQotCQlyZXR1cm4gLUVJTlZBTDsKLQotCWJvID0gdHRtX2JvX3ZtX2xv
-b2t1cChiZGV2LCB2bWEtPnZtX3Bnb2ZmLCB2bWFfcGFnZXModm1hKSk7Ci0JaWYgKHVubGlrZWx5
-KCFibykpCi0JCXJldHVybiAtRUlOVkFMOwotCi0JaWYgKHVubGlrZWx5KCFiby0+YmRldi0+ZnVu
-Y3MtPnZlcmlmeV9hY2Nlc3MpKSB7Ci0JCXJldCA9IC1FUEVSTTsKLQkJZ290byBvdXRfdW5yZWY7
-Ci0JfQotCXJldCA9IGJvLT5iZGV2LT5mdW5jcy0+dmVyaWZ5X2FjY2VzcyhibywgZmlscCk7Ci0J
-aWYgKHVubGlrZWx5KHJldCAhPSAwKSkKLQkJZ290byBvdXRfdW5yZWY7Ci0KLQl0dG1fYm9fbW1h
-cF92bWFfc2V0dXAoYm8sIHZtYSk7Ci0JcmV0dXJuIDA7Ci1vdXRfdW5yZWY6Ci0JdHRtX2JvX3B1
-dChibyk7Ci0JcmV0dXJuIHJldDsKLX0KLUVYUE9SVF9TWU1CT0wodHRtX2JvX21tYXApOwotCiBp
-bnQgdHRtX2JvX21tYXBfb2JqKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCBzdHJ1Y3QgdHRt
-X2J1ZmZlcl9vYmplY3QgKmJvKQogewogCXR0bV9ib19nZXQoYm8pOwpkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgK
-aW5kZXggMjE1NWUyZTM4YWVjLi42ZTM1NjgwYWMwMWIgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJt
-L3R0bS90dG1fYm9fYXBpLmgKKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaApAQCAt
-NTIyLDE5ICs1MjIsNiBAQCB2b2lkIHR0bV9ib192dW5tYXAoc3RydWN0IHR0bV9idWZmZXJfb2Jq
-ZWN0ICpibywgc3RydWN0IGRtYV9idWZfbWFwICptYXApOwogICovCiBpbnQgdHRtX2JvX21tYXBf
-b2JqKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
-KmJvKTsKIAotLyoqCi0gKiB0dG1fYm9fbW1hcCAtIG1tYXAgb3V0IG9mIHRoZSB0dG0gZGV2aWNl
-IGFkZHJlc3Mgc3BhY2UuCi0gKgotICogQGZpbHA6ICAgICAgZmlscCBhcyBpbnB1dCBmcm9tIHRo
-ZSBtbWFwIG1ldGhvZC4KLSAqIEB2bWE6ICAgICAgIHZtYSBhcyBpbnB1dCBmcm9tIHRoZSBtbWFw
-IG1ldGhvZC4KLSAqIEBiZGV2OiAgICAgIFBvaW50ZXIgdG8gdGhlIHR0bV9kZXZpY2Ugd2l0aCB0
-aGUgYWRkcmVzcyBzcGFjZSBtYW5hZ2VyLgotICoKLSAqIFRoaXMgZnVuY3Rpb24gaXMgaW50ZW5k
-ZWQgdG8gYmUgY2FsbGVkIGJ5IHRoZSBkZXZpY2UgbW1hcCBtZXRob2QuCi0gKiBpZiB0aGUgZGV2
-aWNlIGFkZHJlc3Mgc3BhY2UgaXMgdG8gYmUgYmFja2VkIGJ5IHRoZSBibyBtYW5hZ2VyLgotICov
-Ci1pbnQgdHRtX2JvX21tYXAoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCB2bV9hcmVhX3N0cnVj
-dCAqdm1hLAotCQlzdHJ1Y3QgdHRtX2RldmljZSAqYmRldik7Ci0KIC8qKgogICogdHRtX2JvX2lv
-CiAgKgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9kZXZpY2UuaCBiL2luY2x1ZGUv
-ZHJtL3R0bS90dG1fZGV2aWNlLmgKaW5kZXggN2M4Zjg3YmQ1MmQzLi5jZDU5MmY4ZTk0MWIgMTAw
-NjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNlLmgKKysrIGIvaW5jbHVkZS9kcm0v
-dHRtL3R0bV9kZXZpY2UuaApAQCAtMTYxLDIxICsxNjEsNiBAQCBzdHJ1Y3QgdHRtX2RldmljZV9m
-dW5jcyB7CiAJCSAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpuZXdfbWVtLAogCQkgICAgc3RydWN0
-IHR0bV9wbGFjZSAqaG9wKTsKIAotCS8qKgotCSAqIHN0cnVjdCB0dG1fYm9fZHJpdmVyX21lbWJl
-ciB2ZXJpZnlfYWNjZXNzCi0JICoKLQkgKiBAYm86IFBvaW50ZXIgdG8gYSBidWZmZXIgb2JqZWN0
-LgotCSAqIEBmaWxwOiBQb2ludGVyIHRvIGEgc3RydWN0IGZpbGUgdHJ5aW5nIHRvIGFjY2VzcyB0
-aGUgb2JqZWN0LgotCSAqCi0JICogQ2FsbGVkIGZyb20gdGhlIG1hcCAvIHdyaXRlIC8gcmVhZCBt
-ZXRob2RzIHRvIHZlcmlmeSB0aGF0IHRoZQotCSAqIGNhbGxlciBpcyBwZXJtaXR0ZWQgdG8gYWNj
-ZXNzIHRoZSBidWZmZXIgb2JqZWN0LgotCSAqIFRoaXMgbWVtYmVyIG1heSBiZSBzZXQgdG8gTlVM
-TCwgd2hpY2ggd2lsbCByZWZ1c2UgdGhpcyBraW5kIG9mCi0JICogYWNjZXNzIGZvciBhbGwgYnVm
-ZmVyIG9iamVjdHMuCi0JICogVGhpcyBmdW5jdGlvbiBzaG91bGQgcmV0dXJuIDAgaWYgYWNjZXNz
-IGlzIGdyYW50ZWQsIC1FUEVSTSBvdGhlcndpc2UuCi0JICovCi0JaW50ICgqdmVyaWZ5X2FjY2Vz
-cykoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKLQkJCSAgICAgc3RydWN0IGZpbGUgKmZp
-bHApOwotCiAJLyoqCiAJICogSG9vayB0byBub3RpZnkgZHJpdmVyIGFib3V0IGEgcmVzb3VyY2Ug
-ZGVsZXRlLgogCSAqLwotLSAKMi4zMS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+Hi Linus,
+
+I pinged the usual suspects, only intel fixes pending. drm-next also looks
+ready, minus the big pull request summary Dave will have to type next
+week.
+
+Cheers, Daniel
+
+drm-fixes-2021-04-16:
+drm/i915 fixes
+
+Cheers, Daniel
+
+The following changes since commit d434405aaab7d0ebc516b68a8fc4100922d7f5ef:
+
+  Linux 5.12-rc7 (2021-04-11 15:16:13 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-04-16
+
+for you to fetch changes up to 4d2e1288372ccc5ac60290bc10cace49c9bfa6d0:
+
+  Merge tag 'drm-intel-fixes-2021-04-15' of git://anongit.freedesktop.org/d=
+rm/drm-intel into drm-fixes (2021-04-15 15:24:17 +0200)
+
+----------------------------------------------------------------
+drm/i915 fixes
+
+----------------------------------------------------------------
+Daniel Vetter (1):
+      Merge tag 'drm-intel-fixes-2021-04-15' of git://anongit.freedesktop.o=
+rg/drm/drm-intel into drm-fixes
+
+Hans de Goede (1):
+      drm/i915/display/vlv_dsi: Do not skip panel_pwr_cycle_delay when disa=
+bling the panel
+
+Lyude Paul (1):
+      drm/i915/dpcd_bl: Don't try vesa interface unless specified by VBT
+
+Ville Syrj=E4l=E4 (1):
+      drm/i915: Don't zero out the Y plane's watermarks
+
+ drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 1 -
+ drivers/gpu/drm/i915/display/vlv_dsi.c                | 4 ++--
+ drivers/gpu/drm/i915/intel_pm.c                       | 4 ++--
+ 3 files changed, 4 insertions(+), 5 deletions(-)
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
