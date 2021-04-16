@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F94362298
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 311C1362294
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE4E6EC19;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B366EC1B;
 	Fri, 16 Apr 2021 14:38:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
  [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76BE76EC03
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:37:54 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id d21so12452711edv.9
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:37:54 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A55E96EC26
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:37:55 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id g17so31848767edm.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+nA+2lokIo5+ShZDBy9HyhfN8ugkVVJ0D8A+fjT6S/o=;
- b=JT+qwWdcusOALmrf7ZLdMUE2NBydZv8PujbzUpgvw3/DUohzJA+x2wlYAeJAoFG5rM
- rMkYK7DHWY1dlwMI6ot5f+Auf1YMrEF6RlZPeTFoWdNaIfQhXlq5UkxQq/Fv/Ljf2ybi
- s/XEi1+IVlW3YJwBO6sgSD6pCGOqE9H35Xk4fXmQyLF4bsVolmGBL4CKd3oW2G+BJJaS
- mK0C+22qN43AXEx4JBIcs8Mnk/pvpU9PA4//UQvXIECQv4BPNHcLv8B8GAHuy6+hIMlH
- l2/NrhYhJqiDC7a/N2dSCognVIg0Cf1IxtaTkXtEQl+OlYLudwNpMxofszyIjhqfbq6D
- UwnQ==
+ bh=H6lJM5vDlPCigZaMaZ137qXfyZxXCNgpbaNiX62r2Ss=;
+ b=flSVCO6bULmEgKESUIhxGFuVTNcmVsqnwVrbn6m72srwUAYXKxBZS5Q/oDRhGv11DB
+ v2a+c3zWguVvSFBphtnT73j9vAYOvHTNhi79odq04gfZLHYc8P+C4KTSZfBLdj8PyqNi
+ BysQPAg5pgN8mANchtugw5z6tOHIVzKAx7bDEr8rmeH8ZQ8wjCv2lHbOIbX9jNKGxnLM
+ ha5i5bwbGCMi3MrzIg5/rf/uHde9U+WFKoCGDBgH6kOx9yXAPH+LqQIFyTVIgV/dHEsc
+ SyIsLANSeD5YaFr6F/3jY5GkhhiKLkX0scp2o5vzC6FMlIjMpnzTMnNQ3SCT8WDCRs+9
+ AjbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+nA+2lokIo5+ShZDBy9HyhfN8ugkVVJ0D8A+fjT6S/o=;
- b=d1NPlstf6JoxL2CxEJ+v1SdTpH9rqN//JCutFHOJR4gDoHUu1x75FiY3eQgS0RbE8o
- YmGfUkRDCu6D65UfeGn+RRSWZrZstazdMBxilH61ZGSg0dfDvKRNAhCkqJJ6EPqW1CkN
- yMzjulssAhBIlqpof8+rinrI4mjcCNQNfba70XyGxrtaMH+jtJaxG4cTMwVPg8DMKbQw
- ZjqlZ1BUt15YXpjiRRROc5qgb+CvM4ZrTUgidj/q6LzPpiz7hpDxxADXVuCKlWswC5eS
- pXZHtTqQrCh+Aqz5MrpUzlBxLERkUglH+66Stkv/DKodWWLODlmN1id2gjH5F2O74jHt
- 27Jg==
-X-Gm-Message-State: AOAM531f2rKdJxn38thfQdLYYHTYR8/mp7w3FD4zMy3jPRLCrem4MLSg
- wJxNwlcNJHUX/iAT8ySimfWqGw==
-X-Google-Smtp-Source: ABdhPJyC14vYUXyqy/t+TqjEGM4ZhoCO42QZ4CqVlCScrkxs6PVqHnQ1Pzc5N+W97cANt3cO8Uu1Gw==
-X-Received: by 2002:aa7:d046:: with SMTP id n6mr9118370edo.357.1618583873184; 
- Fri, 16 Apr 2021 07:37:53 -0700 (PDT)
+ bh=H6lJM5vDlPCigZaMaZ137qXfyZxXCNgpbaNiX62r2Ss=;
+ b=h6cf7Jg3mnsJEfyJRs9Aa8Xfxj3TpPGRa50JZOf3KoMTKf5XhblKOqpXBZ7tLr4mbw
+ l9nIG/LHa+t35wZsWdnQDwIEVgKXOo7WKbX5SiFuXZ0lVUT0AZqh/dyn9cqhYc9NYr8E
+ OU0Pj6ptH5wRmbFxXtTLVNS8EkVh/f6wOWurEb6ZnYyee3Xwaop/CC3tcUeN6OHdt8eV
+ ToaY41C5nht8VaTVzUrz4dFWjWYJS2JtywjGFg5baispS3KaEs05jRs0p2O79EEttfyQ
+ EpMXLQglT60E4mT/8l5WiMuvIhqfrJJr7J9/RbxYwKc/aHSwpWfgeUDQfXaOMKXc/HUB
+ t1eQ==
+X-Gm-Message-State: AOAM5316wHDZ1Q0BLAvuKSDaQyE9z4iykAsRMIeBHJhf89RXjT8G6Kru
+ YhwhBGV9ONXV3mE651nQ0vLKxw==
+X-Google-Smtp-Source: ABdhPJyb4be2bRHCUASGhOYcF9QNbDlJuZvsy9N/XCm+mUih0S3RcBA88c3OyeoKleXaK17tAQDyYw==
+X-Received: by 2002:a50:9b12:: with SMTP id o18mr10607699edi.376.1618583874356; 
+ Fri, 16 Apr 2021 07:37:54 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.52
+ by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 07:37:52 -0700 (PDT)
+ Fri, 16 Apr 2021 07:37:53 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 22/40] drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
-Date: Fri, 16 Apr 2021 15:37:07 +0100
-Message-Id: <20210416143725.2769053-23-lee.jones@linaro.org>
+Subject: [PATCH 23/40] drm/ttm/ttm_bo: Fix incorrectly documented function
+ 'ttm_bo_cleanup_refs'
+Date: Fri, 16 Apr 2021 15:37:08 +0100
+Message-Id: <20210416143725.2769053-24-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210416143725.2769053-1-lee.jones@linaro.org>
 References: <20210416143725.2769053-1-lee.jones@linaro.org>
@@ -67,8 +68,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+ dri-devel@lists.freedesktop.org, Christian Koenig <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Huang Rui <ray.huang@amd.com>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -76,32 +78,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/ttm/ttm_tt.c:398: warning: Function parameter or member 'num_pages' not described in 'ttm_tt_mgr_init'
- drivers/gpu/drm/ttm/ttm_tt.c:398: warning: Function parameter or member 'num_dma32_pages' not described in 'ttm_tt_mgr_init'
+ drivers/gpu/drm/ttm/ttm_bo.c:293: warning: expecting prototype for function ttm_bo_cleanup_refs(). Prototype was for ttm_bo_cleanup_refs() instead
 
 Cc: Christian Koenig <christian.koenig@amd.com>
 Cc: Huang Rui <ray.huang@amd.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
 Cc: dri-devel@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/ttm/ttm_tt.c | 2 +-
+ drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-index 7dcd3fb694956..d939c3bde2fcf 100644
---- a/drivers/gpu/drm/ttm/ttm_tt.c
-+++ b/drivers/gpu/drm/ttm/ttm_tt.c
-@@ -389,7 +389,7 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
- 	ttm->page_flags &= ~TTM_PAGE_FLAG_PRIV_POPULATED;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index cfd0b92923973..defec9487e1de 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -274,7 +274,7 @@ static void ttm_bo_flush_all_fences(struct ttm_buffer_object *bo)
  }
  
--/**
-+/*
-  * ttm_tt_mgr_init - register with the MM shrinker
+ /**
+- * function ttm_bo_cleanup_refs
++ * ttm_bo_cleanup_refs
+  * If bo idle, remove from lru lists, and unref.
+  * If not idle, block if possible.
   *
-  * Register with the MM shrinker for swapping out BOs.
 -- 
 2.27.0
 
