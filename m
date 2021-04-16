@@ -1,68 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C8C361EE5
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 13:39:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E26C361F3F
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 14:02:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 813A56E1CF;
-	Fri, 16 Apr 2021 11:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE0F6EB7B;
+	Fri, 16 Apr 2021 12:02:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5176E1CF
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 11:39:02 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id p6so19660740wrn.9
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 04:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ch3B1QB839TpxbyTCaHh7+PjqFlJHeFp/HZU3MiGscw=;
- b=EkzQjer0WgUEgQkZ/WCQ1qZSR+xOL8CYkmgyGZqX8M/cpDnJ3Jdq7NAUhqBGqi3yjA
- RvxLBAhdzA+iPTcZCJ9eRsGEGviRSKwt63OrvHOCS0KWJWgntOZuiNpq0t2/LzV1v7RI
- XdY+G5TuRKGbvh/bK/vA+nuoL3oWvnx81/1QcUl0hPVXiX6lne0wZcU39Dnw01eexj4/
- aAmRmD45JLqraflxN0P9n9NRW+tOLy31DVmNZNxB1sJtCQ6rBU4/vaMe3bZ/bjGdQU/c
- vNXcsAyBt2CKFWL7r7Dzm/htr5Q83g2zk0NzsSft44P0UdjSeRe0LKdJOehBAf0HNf2D
- 7mvQ==
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7B16EB7B
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 12:02:10 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id w23so25951552ejb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 05:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Cx3VVTqxL2siJLu1JWCTgXcZiMK9cUznSais4SHozjY=;
+ b=a80VHwYhs8HkBppRrROPNtCcYs+1KeUCFpu5uHIaO0zmSoXcvcRelgq0449c2Smqz5
+ zpxPJk06zHPdxl4cuDHlFEpPF2BZSv1OEioRC2logzdesZCRedhqfL4gIrwf+jHUsBrp
+ SLdoIHeCG4nCigR/lu2kJdSietUsJ/gVUinWVsN5GEBjx5P/XYf7VZYH7EaBQpyMf6CA
+ HCbl2a8fO+YyTCTIbQK6q+USMgSbLF2P/vP4yJTrowwwuTwmHi/seCEwIYaMCc4dpY/Z
+ 8LR8NckxVYbBz6scSvs7FspXR1PFgmf2dBPoOPJmgjFVMrct8br0OtczP4jUTPlr61RN
+ S2Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Ch3B1QB839TpxbyTCaHh7+PjqFlJHeFp/HZU3MiGscw=;
- b=GealNR+kPTvMGFwXfc30S6cJsAC5akWaYmYClL+m0oKrNICbCLqdZF4snXRp+k87Pq
- HRSL6xf/hcAb0mvAMCiMv1Pm5hN7pAEB6OHrG4sJJN1qa9M5u9YwUDeLBT4KBhc6Bw37
- KBktao5Kz6WWf2FqYeer9XKhlZgZqWi0BbQaDhn74SaBgqXqf51Nwxl/+gn91he+mDJv
- Hi5fbI3Od62y5XqiKfcbNmiWj/LaN8g/Gy8QlSFJcJqN0HE0xUA1V9+7cEeZyzVL+1LC
- mugeyaszZ19ADlnCkrQjstyL/d6ULmrgXreFbejwTldcn1ZjvUOhHplXLwioAwsunQm+
- hdKw==
-X-Gm-Message-State: AOAM532JyKJP+lnvJmOhh8aCzyZlVTGUDIIxin7OK1ihBRmJ8FUzgsfP
- zHp0+6O9jWeDkkYkzZlQ3tEhQw==
-X-Google-Smtp-Source: ABdhPJxV3W8/JmRRJjOYH3rbQ9IP5SnGF8wi+6Gmv+4bzOiXNfk7ypsXlDfWMH46OpTJMpcWlMSOlg==
-X-Received: by 2002:a5d:4d46:: with SMTP id a6mr8565355wru.3.1618573140641;
- Fri, 16 Apr 2021 04:39:00 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:90c:e290:6e70:fd4e:dfdb:68d7?
- ([2a01:e0a:90c:e290:6e70:fd4e:dfdb:68d7])
- by smtp.gmail.com with ESMTPSA id n2sm9756992wmb.32.2021.04.16.04.38.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Apr 2021 04:39:00 -0700 (PDT)
-Subject: Re: [PATCH 0/2] drm/bridge: dw-hdmi: disable loading of DW-HDMI CEC
- sub-driver
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210416092737.1971876-1-narmstrong@baylibre.com>
- <YHlfqJIlUh7eytty@pendragon.ideasonboard.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <96b9e144-0791-4c19-3e3c-b0e9efb86138@baylibre.com>
-Date: Fri, 16 Apr 2021 13:38:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Cx3VVTqxL2siJLu1JWCTgXcZiMK9cUznSais4SHozjY=;
+ b=qzQX4+58t6uF9sSreWKYLYEbI83d55Y90cVK2kZzpOzmD1jzwXXaP7BIyaKUg+p6hO
+ Qfg7JX1UcF0hUWZdHJg6ruL4Ho8NWKctWdToBmFFWpF7TfH03JVTlORqik8wH17K30Yp
+ PwAStwrO3hdzjwm4x9BYZCEcdrehslM/DwZPXuPNLojCde79eE6fmu5Gf+4iR5lHkwoi
+ ykNY+gZLaMpJKWOLUyzuZz15UXAvDbyPpvcslrRy1JrMsYPPTGZ2gBWe1baOFkYWCAL2
+ v5XDWiZaFj/pm6asBxdiRvZpI0GcgvVq1ygP0fYLymmccRPryO9cVksx/lap7gIC0BCn
+ xkpw==
+X-Gm-Message-State: AOAM533N4HzYMV8dsW9wMN2BgOBim1kvxuFmpxKE/MNPGqPba6ppnXMl
+ 8++wMl7OKVWLkmtaXSCHSk4kJq3/VBP0pKz6wYo=
+X-Google-Smtp-Source: ABdhPJw3pTjYPILXl6MDAqLPWhP5HQU8WlDcEM8rCz9N8kOrGWOYKeG3wVw3MswjKnzYJl6SralZCnNBoPnwlYpuiGw=
+X-Received: by 2002:a17:906:7842:: with SMTP id
+ p2mr8364396ejm.87.1618574528765; 
+ Fri, 16 Apr 2021 05:02:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YHlfqJIlUh7eytty@pendragon.ideasonboard.com>
-Content-Language: en-US
+References: <20210331133313.411307-1-adrien.grassein@gmail.com>
+ <20210331133313.411307-2-adrien.grassein@gmail.com>
+ <20210331144230.GP2088@kadam>
+In-Reply-To: <20210331144230.GP2088@kadam>
+From: Adrien Grassein <adrien.grassein@gmail.com>
+Date: Fri, 16 Apr 2021 14:01:57 +0200
+Message-ID: <CABkfQAH+3Ox9=JiYPkUiXT2soPv-FnCkqNtwvOj7EXvrMT4Z=w@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] drm/bridge: lt8912b: fix incorrect handling of
+ of_* return values
+To: Robert Foss <robert.foss@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,59 +65,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/04/2021 11:58, Laurent Pinchart wrote:
-> Hi Neil,
-> 
-> On Fri, Apr 16, 2021 at 11:27:35AM +0200, Neil Armstrong wrote:
->> This adds DW-HDMI driver a glue option to disable loading of the CEC sub-driver.
->>
->> On some SoCs, the CEC functionality is enabled in the IP config bits, but the
->> CEC bus is non-functional like on Amlogic SoCs, where the CEC config bit is set
->> but the DW-HDMI CEC signal is not connected to a physical pin, leading to some
->> confusion when the DW-HDMI CEC controller can't communicate on the bus.
-> 
-> If we can't trust the CEC config bit, would it be better to not use it
-> at all, and instead let each platform glue logic tell whether to enable
-> CEC or not ?
-
-Actually, the CEC config bit is right, the HW exists and should be functional, but
-this bit doesn't tell if the CEC signal is connected to something.
-
-This lies in the IP integration, like other bits under the "amlogic,meson-*-dw-hdmi"
-umbrella.
-
-The first attempt was by Hans using DT, but adding a property in DT for a vendor
-specific compatible doesn't make sense. Another idea would be to describe the
-CEC signal endpoint like we do for video signal, but I think this is out of scope and
-this solution is much simpler and straightforward, and it's more an exception than
-a general use case to solve.
-
-Neil
-
-> 
->> Jernej Skrabec (1):
->>   drm/bridge/synopsys: dw-hdmi: Add an option to suppress loading CEC
->>     driver
->>
->> Neil Armstrong (1):
->>   drm/meson: dw-hdmi: disable DW-HDMI CEC sub-driver
->>
->>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
->>  drivers/gpu/drm/meson/meson_dw_hdmi.c     | 1 +
->>  include/drm/bridge/dw_hdmi.h              | 2 ++
->>  3 files changed, 4 insertions(+), 1 deletion(-)
->>
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgUm9iZXJ0LAoKQ291bGQgeW91IHBsZWFzZSBoYXZlIGEgbG9vayBhdCB0aGlzIHBhdGNoPwpJ
+dCBoYXMgYmVlbiByZXZpZXdlZCBieSB0aGUgYnVnIHJlcG9ydGVyIGFuZCBhbm90aGVyIHBlcnNv
+bi4KCkkgZG9uJ3QgcmVjZWl2ZSBhbnkgIm1lcmdlZCIgbWVzc2FnZS4KClRoYW5rcyBhIGxvdCwK
+QWRyaWVuCgpMZSBtZXIuIDMxIG1hcnMgMjAyMSDDoCAxNjo0MiwgRGFuIENhcnBlbnRlciA8ZGFu
+LmNhcnBlbnRlckBvcmFjbGUuY29tPiBhIMOpY3JpdCA6Cj4KPiBPbiBXZWQsIE1hciAzMSwgMjAy
+MSBhdCAwMzozMzoxM1BNICswMjAwLCBBZHJpZW4gR3Jhc3NlaW4gd3JvdGU6Cj4gPiBBIHN0YXRp
+YyBhbmFseXNpcyBzaG93cyBzZXZlcmFsIGlzc3VlcyBpbiB0aGUgZHJpdmVyIGNvZGUgYXQKPiA+
+IHByb2JpbmcgdGltZS4KPiA+Cj4gPiBEVCBwYXJzaW5nIGVycm9ycyB3ZXJlIGJhZCBoYW5kbGVk
+IGFuZCBjb3VsZCBsZWFkIHRvIGJ1Z3M6Cj4gPiAgIC0gQmFkIGVycm9yIGRldGVjdGlvbjsKPiA+
+ICAgLSBCYWQgcmVsZWFzZSBvZiByZXNzb3VyY2VzCj4gPgo+ID4gUmVwb3J0ZWQtYnk6IERhbiBD
+YXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KPiA+IFN1Z2dlc3RlZC1ieTogRGFu
+IENhcnBlbnRlciAgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6
+IEFkcmllbiBHcmFzc2VpbiA8YWRyaWVuLmdyYXNzZWluQGdtYWlsLmNvbT4KPiA+IFJldmlld2Vk
+LWJ5OiBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcuY29tPgo+Cj4gR3JlYXQhICBUaGFu
+a3MhCj4KPiBSZXZpZXdlZC1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUu
+Y29tPgo+Cj4gcmVnYXJkcywKPiBkYW4gY2FycGVudGVyCj4KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
