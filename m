@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF0F36220B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6288362202
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A45E16EB6C;
-	Fri, 16 Apr 2021 14:21:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57DBB6EABA;
+	Fri, 16 Apr 2021 14:20:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9CB6EB52
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:20:59 +0000 (UTC)
-IronPort-SDR: ABU/LxcaEPruQrUDm5zif16LZnB/5QW5u97JfyslrJNPtZzkJWOGubsefnyUDsDpHOEItxVy3L
- OO8UxQwl08PA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9956"; a="215579666"
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="215579666"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2021 07:20:41 -0700
-IronPort-SDR: GYu6JtG5Ljri3illY5pAkNqdRIMGeZB9jA00ZkEx+9ITdC1xn+Vlv7jzTeS4pwIlrFa0ARbQ02
- GCpT6BWm5VAg==
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB7566EABA
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:20:32 +0000 (UTC)
+IronPort-SDR: ciHLKmBX0W8ToiAp/GMbxuC8RS5vw0b9QrAF6gVhH5bEI6T6Be4P+yNPMCEA+qS5IVfziAuwi3
+ yJY7abYQ5K3w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9956"; a="182540298"
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="182540298"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2021 07:20:31 -0700
+IronPort-SDR: 5Xax06SS0p776N2F/UMPeXAX0xfcpJX/z3XWMIqXA3RuzgcNzlAPjldrsl2bNSdSF4++ni5uAG
+ krw0uFmbhpyA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="522722965"
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; d="scan'208";a="615968303"
 Received: from black.fi.intel.com ([10.237.72.28])
- by fmsmga001.fm.intel.com with ESMTP; 16 Apr 2021 07:20:30 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 16 Apr 2021 07:20:30 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 2E488147; Fri, 16 Apr 2021 17:20:47 +0300 (EEST)
+ id 396FF1D2; Fri, 16 Apr 2021 17:20:47 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/4] fbtft: Don't spam logs when probe is deferred
-Date: Fri, 16 Apr 2021 17:20:43 +0300
-Message-Id: <20210416142044.17766-3-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 4/4] fbtft: Update TODO
+Date: Fri, 16 Apr 2021 17:20:44 +0300
+Message-Id: <20210416142044.17766-4-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
 References: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
@@ -56,45 +56,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When requesting GPIO line the probe can be deferred.
-In such case don't spam logs with an error message.
-This can be achieved by switching to dev_err_probe().
+Now, after a few fixes we may consider the conversion to
+the GPIO descriptor API is done.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-v2: no changes
- drivers/staging/fbtft/fbtft-core.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+v2: new patch split from the bigger fix (Greg)
+ drivers/staging/fbtft/TODO | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 67c3b1975a4d..a564907c4fa1 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -75,20 +75,16 @@ static int fbtft_request_one_gpio(struct fbtft_par *par,
- 				  struct gpio_desc **gpiop)
- {
- 	struct device *dev = par->info->device;
--	int ret = 0;
- 
- 	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
- 					       GPIOD_OUT_LOW);
--	if (IS_ERR(*gpiop)) {
--		ret = PTR_ERR(*gpiop);
--		dev_err(dev,
--			"Failed to request %s GPIO: %d\n", name, ret);
--		return ret;
--	}
-+	if (IS_ERR(*gpiop))
-+		dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
-+
- 	fbtft_par_dbg(DEBUG_REQUEST_GPIOS, par, "%s: '%s' GPIO\n",
- 		      __func__, name);
- 
--	return ret;
-+	return 0;
- }
- 
- static int fbtft_request_gpios(struct fbtft_par *par)
+diff --git a/drivers/staging/fbtft/TODO b/drivers/staging/fbtft/TODO
+index a9f4802bb6be..e72a08bf221c 100644
+--- a/drivers/staging/fbtft/TODO
++++ b/drivers/staging/fbtft/TODO
+@@ -1,8 +1,3 @@
+-* convert all uses of the old GPIO API from <linux/gpio.h> to the
+-  GPIO descriptor API in <linux/gpio/consumer.h> and look up GPIO
+-  lines from device tree, ACPI or board files, board files should
+-  use <linux/gpio/machine.h>
+-
+ * convert all these over to drm_simple_display_pipe and submit for inclusion
+   into the DRM subsystem under drivers/gpu/drm - fbdev doesn't take any new
+   drivers anymore.
 -- 
 2.30.2
 
