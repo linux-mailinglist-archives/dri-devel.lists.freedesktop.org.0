@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69AA0362292
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C422936228C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 16:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFF76EC1E;
-	Fri, 16 Apr 2021 14:37:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53E656EBA5;
+	Fri, 16 Apr 2021 14:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74B436EC04
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:37:49 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id u17so42505554ejk.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:37:49 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70D126EC03
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 14:37:50 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id r12so42510627ejr.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 07:37:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=61oKXxvl+24t+oBgcuj4NfG+vBqO/3mKOMoXwskYVGU=;
- b=X4BXqdfG23NXa84B1Vlw8fBJx1H23dD737fq31AW5KzaRwv5QkDL16paKDhgU1wF8W
- GOL7iCorZFDYIS0EemuA5lDQa4FHfNL/wr/A1E0/ig2HuqDN7oxizMG/QdnscB4oBsDP
- 5WIgMUlhpojZQs9TK06RF1Nrwj9zyQTJbO8BI0VWmYwcphGIQsks2Bps/emwiy+CH/Wk
- o67Nj1MfKAlRF3jncWbu3AUTyN36ebEjkndRCtA6nkAWNOFo5+SKbfsQIh4rpmjt6Dow
- F6NMyDFABd2NhOpbIqURgxg4QjDROUlAYJxrkg3GXO/KZ9XSpWXilAKay+z0Aj7Zc9lU
- 0d9w==
+ bh=77KORMvjycuosDmjlDlE5rkJsrZos9ee6jXmEuSJFYU=;
+ b=HPaBNGTBopwSRGzFIlqBdzxoh9v8tKGDodE6bsGoO8t2VUZO/SxuVnkNG9JnqDCbGE
+ VojMx5Hv47p3/y6Fyv1MNHvDV1eia1HKQeYArX0WlBkzBrPbItLWOuFSWHI1owP5l9CM
+ MvLa8jw5+ntXAixaJz9MmS0dkOZwTx0+4fVEZm6lf6/KvCWrYnuLJbxRg24OtYcK7tZS
+ 8SNXAB5bWdX7zoJW/Xi9x78O8THiDfx0uRWPY78zqAFoYUxtFgJS693oKm5Gb5xlJK8T
+ tKU0/X1g2YCb6T9AqWYqwzFuHDR6wNLFSipYp2GwbyW/LTk6ppVhcUDNE5pkfSVYW6B2
+ ZrCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=61oKXxvl+24t+oBgcuj4NfG+vBqO/3mKOMoXwskYVGU=;
- b=X8iDNfr2CxEI1px34P/KH5sdQSehQg9d2k74CMqmlpwlCtAJG/CP1sqAo6mu04PaSv
- wTglNQcLhm8c+Hkrz/1+iAuQ/Nyy9PpZWRtzb2X5ww3cqX5o+uoEJ/71sXYtBXzg+mtf
- R9ZaVVdoaUX15h8KkCDEuPGYSuKRVgXfzGWKbADDrS8Z/WlytMZlJQyHqHkv1Zb6g6DY
- hpBgU3sijxOy8Dm8/hkmGhb9OLe5M8301aRAaOZVrxk9emzvJh7UHpsfNEUWPi6VrfyW
- Bkcx7VhI7eXE+SyKtd1meLeNaENQcflCobLvLh3yRv27zOEmlNZqaDqXwDdBh7uwkVwj
- uMSQ==
-X-Gm-Message-State: AOAM533fm2g0yjoxyJCG/rgCNz3GmCYBC/d1HlSLfayNDCfn0kwb+lFg
- YIl1iF7BbBV3gMKUKQeJeyxCVg==
-X-Google-Smtp-Source: ABdhPJxfs0dO3k/tSuzZR0zH09FpnzlHYRFLRl3kEj7fOswxtkCOFLd/lE/Wsujn8Z016ric4zI1mQ==
-X-Received: by 2002:a17:906:9bd3:: with SMTP id
- de19mr8318214ejc.329.1618583868141; 
- Fri, 16 Apr 2021 07:37:48 -0700 (PDT)
+ bh=77KORMvjycuosDmjlDlE5rkJsrZos9ee6jXmEuSJFYU=;
+ b=XfOyDOUuGaR2VKgMdKO0rokqUFn/4xMZLzD1NubfLiZYblFaOlB5KgBz4Q1bbv1Cyi
+ mt5JHQWxrHQDgW/pu2y2kr/m2rY/qZnYcAttXnOylHFYMErctJyLLw6FyvEOgCErdrY9
+ jNGYgzlAX/UUGQnG6Ba3GoO/MJGsAe4B2h97V5viIfMIalneqy4qWeBw/DCz/GDU6+ll
+ vna/KA3/u81wuw93Ji6Q44bHOjVxFPX/afRv0Dt89QyY8wvO4lkTsEeV0FEwShe8QL2y
+ Q6RLHSoi3p1isOhjyy+ShQRAw19xYGp/fy46yBmMXClT3UsIJVSvU6QGT7TwNeWnQ+m5
+ KtZQ==
+X-Gm-Message-State: AOAM531kf4GPb6Q1qDHsSEuYjcoUpMRqBCNb2B6VovQxkLn61/khctuw
+ 7DsUsaqb2dyszHPxp/VmZQgK2g==
+X-Google-Smtp-Source: ABdhPJzqQgFU7n08Qr/b5rOK9sbCAd1su0qR5zRs5qHTAnyG7RJlaa/5uaHYH3FzGTjDbsEGgdGDcw==
+X-Received: by 2002:a17:906:94d2:: with SMTP id
+ d18mr8641752ejy.531.1618583869107; 
+ Fri, 16 Apr 2021 07:37:49 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.47
+ by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 07:37:47 -0700 (PDT)
+ Fri, 16 Apr 2021 07:37:48 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 17/40] gpu: host1x: bus: Remove superfluous param description
- 'key'
-Date: Fri, 16 Apr 2021 15:37:02 +0100
-Message-Id: <20210416143725.2769053-18-lee.jones@linaro.org>
+Subject: [PATCH 18/40] drm/omapdrm/omap_irq: Fix a couple of incorrectly
+ documented functions
+Date: Fri, 16 Apr 2021 15:37:03 +0100
+Message-Id: <20210416143725.2769053-19-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210416143725.2769053-1-lee.jones@linaro.org>
 References: <20210416143725.2769053-1-lee.jones@linaro.org>
@@ -68,8 +68,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Tomi Valkeinen <tomba@kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Clark <rob.clark@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -77,28 +78,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/host1x/bus.c:774: warning: Excess function parameter 'key' description in '__host1x_client_register'
+ drivers/gpu/drm/omapdrm/omap_irq.c:114: warning: expecting prototype for enable_vblank(). Prototype was for omap_irq_enable_vblank() instead
+ drivers/gpu/drm/omapdrm/omap_irq.c:140: warning: expecting prototype for disable_vblank(). Prototype was for omap_irq_disable_vblank() instead
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Tomi Valkeinen <tomba@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rob Clark <rob.clark@linaro.org>
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-tegra@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/host1x/bus.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/omapdrm/omap_irq.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 218e3718fd68c..e293b68acc348 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -761,7 +761,6 @@ EXPORT_SYMBOL(host1x_client_exit);
+diff --git a/drivers/gpu/drm/omapdrm/omap_irq.c b/drivers/gpu/drm/omapdrm/omap_irq.c
+index 15148d4b35b57..dff095c864909 100644
+--- a/drivers/gpu/drm/omapdrm/omap_irq.c
++++ b/drivers/gpu/drm/omapdrm/omap_irq.c
+@@ -99,7 +99,7 @@ int omap_irq_enable_framedone(struct drm_crtc *crtc, bool enable)
+ }
+ 
  /**
-  * __host1x_client_register() - register a host1x client
-  * @client: host1x client
-- * @key: lock class key for the client-specific mutex
+- * enable_vblank - enable vblank interrupt events
++ * omap_irq_enable_vblank - enable vblank interrupt events
+  * @crtc: DRM CRTC
   *
-  * Registers a host1x client with each host1x controller instance. Note that
-  * each client will only match their parent host1x controller and will only be
+  * Enable vblank interrupts for @crtc.  If the device doesn't have
+@@ -129,7 +129,7 @@ int omap_irq_enable_vblank(struct drm_crtc *crtc)
+ }
+ 
+ /**
+- * disable_vblank - disable vblank interrupt events
++ * omap_irq_disable_vblank - disable vblank interrupt events
+  * @crtc: DRM CRTC
+  *
+  * Disable vblank interrupts for @crtc.  If the device doesn't have
 -- 
 2.27.0
 
