@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA840361C44
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 11:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D16C361C5B
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 11:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 871406EB41;
-	Fri, 16 Apr 2021 09:00:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02BE66EB47;
+	Fri, 16 Apr 2021 09:00:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CBFB6EB3E
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 09:00:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59C356EB3A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 09:00:53 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C1692AF38;
- Fri, 16 Apr 2021 09:00:54 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id E607DAEC6;
+ Fri, 16 Apr 2021 09:00:51 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
  broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
  emil.l.velikov@gmail.com, geert+renesas@glider.be, hdegoede@redhat.com,
  bluescreen_avenger@verizon.net, gregkh@linuxfoundation.org
-Subject: [PATCH v4 7/9] drm/simpledrm: Acquire clocks from DT device node
-Date: Fri, 16 Apr 2021 11:00:46 +0200
-Message-Id: <20210416090048.11492-8-tzimmermann@suse.de>
+Subject: [PATCH v4 2/9] drm/format-helper: Add blitter functions
+Date: Fri, 16 Apr 2021 11:00:41 +0200
+Message-Id: <20210416090048.11492-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210416090048.11492-1-tzimmermann@suse.de>
 References: <20210416090048.11492-1-tzimmermann@suse.de>
@@ -41,7 +41,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: virtualization@lists.linux-foundation.org,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ virtualization@lists.linux-foundation.org,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
@@ -49,157 +50,129 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make sure required hardware clocks are enabled while the firmware
-framebuffer is in use.
-
-The basic code has been taken from the simplefb driver and adapted
-to DRM. Clocks are released automatically via devres helpers.
+The blitter functions copy a framebuffer to I/O memory using one of
+the existing conversion functions.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
 ---
- drivers/gpu/drm/tiny/simpledrm.c | 108 +++++++++++++++++++++++++++++++
- 1 file changed, 108 insertions(+)
+ drivers/gpu/drm/drm_format_helper.c | 87 +++++++++++++++++++++++++++++
+ include/drm/drm_format_helper.h     |  8 +++
+ 2 files changed, 95 insertions(+)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 53d6bec7d0b2..996318500abf 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -1,5 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
-+#include <linux/clk.h>
-+#include <linux/of_clk.h>
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
- 
-@@ -190,6 +192,12 @@ struct simpledrm_device {
- 	struct drm_device dev;
- 	struct platform_device *pdev;
- 
-+	/* clocks */
-+#if defined CONFIG_OF && defined CONFIG_COMMON_CLK
-+	unsigned int clk_count;
-+	struct clk **clks;
-+#endif
-+
- 	/* simplefb settings */
- 	struct drm_display_mode mode;
- 	const struct drm_format_info *format;
-@@ -211,6 +219,103 @@ static struct simpledrm_device *simpledrm_device_of_dev(struct drm_device *dev)
- 	return container_of(dev, struct simpledrm_device, dev);
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index 8d5a683afea7..0e885cd34107 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -344,3 +344,90 @@ void drm_fb_xrgb8888_to_gray8(u8 *dst, void *vaddr, struct drm_framebuffer *fb,
  }
+ EXPORT_SYMBOL(drm_fb_xrgb8888_to_gray8);
  
-+/*
-+ * Hardware
++/**
++ * drm_fb_blit_rect_dstclip - Copy parts of a framebuffer to display memory
++ * @dst:	The display memory to copy to
++ * @dst_pitch:	Number of bytes between two consecutive scanlines within dst
++ * @dst_format:	FOURCC code of the display's color format
++ * @vmap:	The framebuffer memory to copy from
++ * @fb:		The framebuffer to copy from
++ * @clip:	Clip rectangle area to copy
++ *
++ * This function copies parts of a framebuffer to display memory. If the
++ * formats of the display and the framebuffer mismatch, the blit function
++ * will attempt to convert between them.
++ *
++ * Use drm_fb_blit_dstclip() to copy the full framebuffer.
++ *
++ * Returns:
++ * 0 on success, or
++ * -EINVAL if the color-format conversion failed, or
++ * a negative error code otherwise.
 + */
-+
-+#if defined CONFIG_OF && defined CONFIG_COMMON_CLK
-+/*
-+ * Clock handling code.
-+ *
-+ * Here we handle the clocks property of our "simple-framebuffer" dt node.
-+ * This is necessary so that we can make sure that any clocks needed by
-+ * the display engine that the bootloader set up for us (and for which it
-+ * provided a simplefb dt node), stay up, for the life of the simplefb
-+ * driver.
-+ *
-+ * When the driver unloads, we cleanly disable, and then release the clocks.
-+ *
-+ * We only complain about errors here, no action is taken as the most likely
-+ * error can only happen due to a mismatch between the bootloader which set
-+ * up simplefb, and the clock definitions in the device tree. Chances are
-+ * that there are no adverse effects, and if there are, a clean teardown of
-+ * the fb probe will not help us much either. So just complain and carry on,
-+ * and hope that the user actually gets a working fb at the end of things.
-+ */
-+
-+static void simpledrm_device_release_clocks(void *res)
++int drm_fb_blit_rect_dstclip(void __iomem *dst, unsigned int dst_pitch,
++			     uint32_t dst_format, void *vmap,
++			     struct drm_framebuffer *fb,
++			     struct drm_rect *clip)
 +{
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(res);
-+	unsigned int i;
++	uint32_t fb_format = fb->format->format;
 +
-+	for (i = 0; i < sdev->clk_count; ++i) {
-+		if (sdev->clks[i]) {
-+			clk_disable_unprepare(sdev->clks[i]);
-+			clk_put(sdev->clks[i]);
-+		}
-+	}
-+}
++	/* treat alpha channel like filler bits */
++	if (fb_format == DRM_FORMAT_ARGB8888)
++		fb_format = DRM_FORMAT_XRGB8888;
++	if (dst_format == DRM_FORMAT_ARGB8888)
++		dst_format = DRM_FORMAT_XRGB8888;
 +
-+static int simpledrm_device_init_clocks(struct simpledrm_device *sdev)
-+{
-+	struct drm_device *dev = &sdev->dev;
-+	struct platform_device *pdev = sdev->pdev;
-+	struct device_node *of_node = pdev->dev.of_node;
-+	struct clk *clock;
-+	unsigned int i;
-+	int ret;
-+
-+	if (dev_get_platdata(&pdev->dev) || !of_node)
++	if (dst_format == fb_format) {
++		drm_fb_memcpy_dstclip(dst, dst_pitch, vmap, fb, clip);
 +		return 0;
 +
-+	sdev->clk_count = of_clk_get_parent_count(of_node);
-+	if (!sdev->clk_count)
-+		return 0;
-+
-+	sdev->clks = drmm_kzalloc(dev, sdev->clk_count * sizeof(sdev->clks[0]),
-+				  GFP_KERNEL);
-+	if (!sdev->clks)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < sdev->clk_count; ++i) {
-+		clock = of_clk_get(of_node, i);
-+		if (IS_ERR(clock)) {
-+			ret = PTR_ERR(clock);
-+			if (ret == -EPROBE_DEFER)
-+				goto err;
-+			drm_err(dev, "clock %u not found: %d\n", i, ret);
-+			continue;
++	} else if (dst_format == DRM_FORMAT_RGB565) {
++		if (fb_format == DRM_FORMAT_XRGB8888) {
++			drm_fb_xrgb8888_to_rgb565_dstclip(dst, dst_pitch,
++							  vmap, fb, clip,
++							  false);
++			return 0;
 +		}
-+		ret = clk_prepare_enable(clock);
-+		if (ret) {
-+			drm_err(dev, "failed to enable clock %u: %d\n",
-+				i, ret);
-+			clk_put(clock);
-+		}
-+		sdev->clks[i] = clock;
-+	}
-+
-+	return devm_add_action_or_reset(&pdev->dev,
-+					simpledrm_device_release_clocks,
-+					sdev);
-+
-+err:
-+	while (i) {
-+		--i;
-+		if (sdev->clks[i]) {
-+			clk_disable_unprepare(sdev->clks[i]);
-+			clk_put(sdev->clks[i]);
++	} else if (dst_format == DRM_FORMAT_RGB888) {
++		if (fb_format == DRM_FORMAT_XRGB8888) {
++			drm_fb_xrgb8888_to_rgb888_dstclip(dst, dst_pitch,
++							  vmap, fb, clip);
++			return 0;
 +		}
 +	}
-+	return ret;
++
++	return -EINVAL;
 +}
-+#else
-+static int simpledrm_device_init_clocks(struct simpledrm_device *sdev)
++EXPORT_SYMBOL(drm_fb_blit_rect_dstclip);
++
++/**
++ * drm_fb_blit_dstclip - Copy framebuffer to display memory
++ * @dst:	The display memory to copy to
++ * @dst_pitch:	Number of bytes between two consecutive scanlines within dst
++ * @dst_format:	FOURCC code of the display's color format
++ * @vmap:	The framebuffer memory to copy from
++ * @fb:		The framebuffer to copy from
++ *
++ * This function copies a full framebuffer to display memory. If the formats
++ * of the display and the framebuffer mismatch, the copy function will
++ * attempt to convert between them.
++ *
++ * See drm_fb_blit_rect_dstclip() for more inforamtion.
++ *
++ * Returns:
++ * 0 on success, or a negative error code otherwise.
++ */
++int drm_fb_blit_dstclip(void __iomem *dst, unsigned int dst_pitch,
++			uint32_t dst_format, void *vmap,
++			struct drm_framebuffer *fb)
 +{
-+	return 0;
++	struct drm_rect fullscreen = {
++		.x1 = 0,
++		.x2 = fb->width,
++		.y1 = 0,
++		.y2 = fb->height,
++	};
++	return drm_fb_blit_rect_dstclip(dst, dst_pitch, dst_format, vmap, fb,
++					&fullscreen);
 +}
-+#endif
-+
- /*
-  *  Simplefb settings
-  */
-@@ -552,6 +657,9 @@ simpledrm_device_create(struct drm_driver *drv, struct platform_device *pdev)
- 	sdev->pdev = pdev;
- 	platform_set_drvdata(pdev, sdev);
++EXPORT_SYMBOL(drm_fb_blit_dstclip);
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+index 2b5036a5fbe7..4e0258a61311 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -28,4 +28,12 @@ void drm_fb_xrgb8888_to_rgb888_dstclip(void __iomem *dst, unsigned int dst_pitch
+ void drm_fb_xrgb8888_to_gray8(u8 *dst, void *vaddr, struct drm_framebuffer *fb,
+ 			      struct drm_rect *clip);
  
-+	ret = simpledrm_device_init_clocks(sdev);
-+	if (ret)
-+		return ERR_PTR(ret);
- 	ret = simpledrm_device_init_fb(sdev);
- 	if (ret)
- 		return ERR_PTR(ret);
++int drm_fb_blit_rect_dstclip(void __iomem *dst, unsigned int dst_pitch,
++			     uint32_t dst_format, void *vmap,
++			     struct drm_framebuffer *fb,
++			     struct drm_rect *rect);
++int drm_fb_blit_dstclip(void __iomem *dst, unsigned int dst_pitch,
++			uint32_t dst_format, void *vmap,
++			struct drm_framebuffer *fb);
++
+ #endif /* __LINUX_DRM_FORMAT_HELPER_H */
 -- 
 2.31.1
 
