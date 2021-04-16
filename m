@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB759361BB6
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 10:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595EA361BBE
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Apr 2021 10:54:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72FF06EB38;
-	Fri, 16 Apr 2021 08:49:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0B2D6EB30;
+	Fri, 16 Apr 2021 08:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4A46EB34
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 08:49:48 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id m9so13150144wrx.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 01:49:48 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61E2A6E1CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 08:54:31 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ u5-20020a7bcb050000b029010e9316b9d5so13774577wmj.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Apr 2021 01:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=uRoTxFF1OXVjG6/o0fiqDR8JlnjHW21SFX6N1jpeew0=;
- b=HB12Sn3GcS28ZdaK2je7hzLN6yuB26rPFK2GBWA+gp6xPXpvTh4miQAmQDXC77oQJi
- 37bqEkVsYf8Lx3yHty83ut3Zkj8AWJSGkryeCo9XDt2okm5IJV4dMv1Qc1vHCkVxyrk5
- YQG878C3A4kfPRcwBAKX1z0uJpeKaB911u7PE=
+ bh=mhwolVfB4+fwYFGVZVMaMHwj2Wwi06L4O2mU6F6bnZ8=;
+ b=BivPCXotv50fVGsBLggSshOV7Z3wjPLpyA//8zGE1bIfu2TEeQfIiZPAkBJIu/124l
+ E+utNiwsDBLnc69GbWdcCf8QCVl1w533///ZAUOCZ73U6BMAGeqJlQznSh0Sge2ZFGac
+ K6PUu584M0gd6HuOh+BLXNpvxhzxdjl1PwPqI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=uRoTxFF1OXVjG6/o0fiqDR8JlnjHW21SFX6N1jpeew0=;
- b=dBrqH91XxsmmhzhoEMf2ScXL2K2endwO6xvkxRL3nvtenR+H4Okb+vnHf5qLf71pfE
- HOEzPItmsJWmhMOhTq9VQCDS+w2RSQ7fxjghRJPG/CU6p6xciNSGEP5R0J7RUK8C4t9D
- jO7PgIvPENRb3EDnIQYEAGRL3pBB5Jb2IGh47ZbTeR4YhgDHGMYilLGhC0EzHhykY0Y2
- iYATjZfcrU7c/8U93u4vXTqVAf4P/n43emkDwg2vrqcRWeNlSjWk5C9CxRyjJaS/zGhb
- OJYpoEKcFucH0tmT3EOa8QyZz/TKmnoPZSQO/+regsUHrHSyuaJRYqtRMchFYFJz7v2v
- FeTQ==
-X-Gm-Message-State: AOAM532KHANCuiH+ZbGCQ7pcrUEaeKex3jd35vtj5rr5ZQPYlqPydhm7
- NMaeAWQ87jxEEMWRGKS2tufpdQ==
-X-Google-Smtp-Source: ABdhPJwFbH3HsEBvSQl+03qrhVW7mwxuoTpi0+a+UEefTsyragQVuxZZRYgwHVERoYfHOzB+hHp1Mg==
-X-Received: by 2002:a5d:4533:: with SMTP id j19mr8118133wra.111.1618562986888; 
- Fri, 16 Apr 2021 01:49:46 -0700 (PDT)
+ bh=mhwolVfB4+fwYFGVZVMaMHwj2Wwi06L4O2mU6F6bnZ8=;
+ b=YMMJITuNmvZUTwX4u4s0SewmeeCyarZh66on3ILH8m0Q8ZJTnAzxYyD6SO3EBFbNXL
+ XBWpmWhreZ/yYHwso2eZXq/0D3euRYxIdy7/VG9l59yc6tM7omnHGV3Cx/Obkqfdw+VU
+ urwzxm6PmLAkB4CSRyGwdZxjJHnLe2BwTxTuxjhyba8sh6ZgCrSdu5OLbPJWD7aVp3vS
+ cXl8r1lJU13ER3mjrogjSrcEjNz7F9xcSARye5EO0Nd2R3/Dc+wpUZsvVSpfC6oZkVsu
+ 0kN/PG9UVy/D/f1mmxdKH/X8ziyMXY9aL25yJISB23vYq4Ye9aCpusXtVuYA+LalZLUH
+ LzVw==
+X-Gm-Message-State: AOAM530PNmKGfCOJDplgyc3mYcK5SZquvv5VO5Dngcdn+8ePtTp7bvKi
+ MkYfqUtRNG1U/PY9bpPYz+lMyA==
+X-Google-Smtp-Source: ABdhPJz+FKwqJNJV6V9ky2Q3Pr1I/gyRjCM8ffvR9zGtjRVijd+/pM7L9NaYnxr3wGs7x2HDGcVHOw==
+X-Received: by 2002:a7b:c10e:: with SMTP id w14mr7002846wmi.8.1618563269995;
+ Fri, 16 Apr 2021 01:54:29 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b15sm2324810wmj.46.2021.04.16.01.49.46
+ by smtp.gmail.com with ESMTPSA id v189sm8175612wmg.9.2021.04.16.01.54.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 01:49:46 -0700 (PDT)
-Date: Fri, 16 Apr 2021 10:49:44 +0200
+ Fri, 16 Apr 2021 01:54:29 -0700 (PDT)
+Date: Fri, 16 Apr 2021 10:54:27 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH v3 3/4] drm/i915/uapi: convert i915_query and friend to
- kernel doc
-Message-ID: <YHlPqPi6Mhn6dDW7@phenom.ffwll.local>
+Subject: Re: [PATCH v3 1/4] drm/i915/uapi: hide kernel doc warnings
+Message-ID: <YHlQw7QQ1oPbWUBX@phenom.ffwll.local>
 References: <20210415155958.391624-1-matthew.auld@intel.com>
- <20210415155958.391624-3-matthew.auld@intel.com>
+ <YHlObAzsosrxXdm2@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210415155958.391624-3-matthew.auld@intel.com>
+In-Reply-To: <YHlObAzsosrxXdm2@phenom.ffwll.local>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,151 +66,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Jordan Justen <jordan.l.justen@intel.com>, intel-gfx@lists.freedesktop.org,
+Cc: Jordan Justen <jordan.l.justen@intel.com>, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Kenneth Graunke <kenneth@whitecape.org>,
- mesa-dev@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
+ Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@intel.com>,
+ mesa-dev@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 15, 2021 at 04:59:57PM +0100, Matthew Auld wrote:
-> Add a note about the two-step process.
+On Fri, Apr 16, 2021 at 10:44:28AM +0200, Daniel Vetter wrote:
+> On Thu, Apr 15, 2021 at 04:59:55PM +0100, Matthew Auld wrote:
+> > It's not properly formatted kernel doc, just nerf the warnings for now.
+> > 
+> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Jordan Justen <jordan.l.justen@intel.com>
+> > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Kenneth Graunke <kenneth@whitecape.org>
+> > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: Dave Airlie <airlied@gmail.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: mesa-dev@lists.freedesktop.org
 > 
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: mesa-dev@lists.freedesktop.org
-> ---
->  include/uapi/drm/i915_drm.h | 57 ++++++++++++++++++++++++++++++-------
->  1 file changed, 46 insertions(+), 11 deletions(-)
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Ok I need to revise, we need to pull this into Documentation/gpu/. I think
+best would be to create a new driver-uapi.rst file, put it right after
+drm-uapi.rst, and then add a section for drm/i915 uapi or similar.
+
+Also since pxp patches, Jason's ctx cleanup and lmem all need this prep
+work in patches 1-3 here, can you pls just resend those with the review
+feedback so we can fast-track merging?
+
+Thanks, Daniel
+
 > 
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index d9c954a5a456..ef36f1a0adde 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -2210,14 +2210,23 @@ struct drm_i915_perf_oa_config {
->  	__u64 flex_regs_ptr;
->  };
->  
-> +/**
-> + * struct drm_i915_query_item - An individual query for the kernel to process.
-> + *
-> + * The behaviour is determined by the @query_id. Note that exactly what
-> + * @data_ptr is also depends on the specific @query_id.
-> + */
->  struct drm_i915_query_item {
-> +	/** @query_id: The id for this query */
->  	__u64 query_id;
->  #define DRM_I915_QUERY_TOPOLOGY_INFO    1
->  #define DRM_I915_QUERY_ENGINE_INFO	2
->  #define DRM_I915_QUERY_PERF_CONFIG      3
->  /* Must be kept compact -- no holes and well documented */
->  
-> -	/*
-> +	/**
-> +	 * @length:
-> +	 *
->  	 * When set to zero by userspace, this is filled with the size of the
->  	 * data to be written at the data_ptr pointer. The kernel sets this
->  	 * value to a negative value to signal an error on a particular query
-> @@ -2225,21 +2234,26 @@ struct drm_i915_query_item {
->  	 */
->  	__s32 length;
->  
-> -	/*
-> +	/**
-> +	 * @flags:
-> +	 *
->  	 * When query_id == DRM_I915_QUERY_TOPOLOGY_INFO, must be 0.
->  	 *
->  	 * When query_id == DRM_I915_QUERY_PERF_CONFIG, must be one of the
-> -	 * following :
-> -	 *         - DRM_I915_QUERY_PERF_CONFIG_LIST
-> -	 *         - DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID
-> -	 *         - DRM_I915_QUERY_PERF_CONFIG_FOR_UUID
-> +	 * following:
-> +	 *
-> +	 *	- DRM_I915_QUERY_PERF_CONFIG_LIST
-> +	 *      - DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID
-> +	 *      - DRM_I915_QUERY_PERF_CONFIG_FOR_UUID
->  	 */
->  	__u32 flags;
->  #define DRM_I915_QUERY_PERF_CONFIG_LIST          1
->  #define DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID 2
->  #define DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_ID   3
->  
-> -	/*
-> +	/**
-> +	 * @data_ptr:
-> +	 *
->  	 * Data will be written at the location pointed by data_ptr when the
->  	 * value of length matches the length of the data to be written by the
->  	 * kernel.
-> @@ -2247,16 +2261,37 @@ struct drm_i915_query_item {
->  	__u64 data_ptr;
->  };
->  
-> +/**
-> + * struct drm_i915_query - Supply an array of drm_i915_query_item for the kernel
-> + * to fill out.
-> + *
-> + * Note that this is generally a two step process for each drm_i915_query_item
-> + * in the array:
-> + *
-> + *	1.) Call the DRM_IOCTL_I915_QUERY, giving it our array of
-
-I'm not sure this results in pretty rendering in htmldocs output. Please
-check this.
-
-This also made me realize that we're not pulling any of this into the drm
-documents at all. I'll revise my review on patch 1.
-
-Docs here look good:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-
-> + *	drm_i915_query_item, with drm_i915_query_item.size set to zero. The
-> + *	kernel will then fill in the size, in bytes, which tells userspace how
-> + *	memory it needs to allocate for the blob(say for an array of
-> + *	properties).
-> + *
-> + *	2.) Next we call DRM_IOCTL_I915_QUERY again, this time with the
-> + *	drm_i915_query_item.data_ptr equal to our newly allocated blob. Note
-> + *	that the i915_query_item.size should still be the same as what the
-> + *	kernel previously set. At this point the kernel can fill in the blob.
-> + *
-> + */
->  struct drm_i915_query {
-> +	/** @num_items: The number of elements in the @items_ptr array */
->  	__u32 num_items;
->  
-> -	/*
-> -	 * Unused for now. Must be cleared to zero.
-> +	/**
-> +	 * @flags: Unused for now. Must be cleared to zero.
->  	 */
->  	__u32 flags;
->  
-> -	/*
-> -	 * This points to an array of num_items drm_i915_query_item structures.
-> +	/**
-> +	 * @items_ptr: This points to an array of num_items drm_i915_query_item
-> +	 * structures.
->  	 */
->  	__u64 items_ptr;
->  };
+> > ---
+> >  include/uapi/drm/i915_drm.h | 16 ++++++++--------
+> >  1 file changed, 8 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> > index ddc47bbf48b6..a50257cde9ff 100644
+> > --- a/include/uapi/drm/i915_drm.h
+> > +++ b/include/uapi/drm/i915_drm.h
+> > @@ -1054,12 +1054,12 @@ struct drm_i915_gem_exec_fence {
+> >  	__u32 flags;
+> >  };
+> >  
+> > -/**
+> > +/*
+> >   * See drm_i915_gem_execbuffer_ext_timeline_fences.
+> >   */
+> >  #define DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES 0
+> >  
+> > -/**
+> > +/*
+> >   * This structure describes an array of drm_syncobj and associated points for
+> >   * timeline variants of drm_syncobj. It is invalid to append this structure to
+> >   * the execbuf if I915_EXEC_FENCE_ARRAY is set.
+> > @@ -1700,7 +1700,7 @@ struct drm_i915_gem_context_param {
+> >  	__u64 value;
+> >  };
+> >  
+> > -/**
+> > +/*
+> >   * Context SSEU programming
+> >   *
+> >   * It may be necessary for either functional or performance reason to configure
+> > @@ -2067,7 +2067,7 @@ struct drm_i915_perf_open_param {
+> >  	__u64 properties_ptr;
+> >  };
+> >  
+> > -/**
+> > +/*
+> >   * Enable data capture for a stream that was either opened in a disabled state
+> >   * via I915_PERF_FLAG_DISABLED or was later disabled via
+> >   * I915_PERF_IOCTL_DISABLE.
+> > @@ -2081,7 +2081,7 @@ struct drm_i915_perf_open_param {
+> >   */
+> >  #define I915_PERF_IOCTL_ENABLE	_IO('i', 0x0)
+> >  
+> > -/**
+> > +/*
+> >   * Disable data capture for a stream.
+> >   *
+> >   * It is an error to try and read a stream that is disabled.
+> > @@ -2090,7 +2090,7 @@ struct drm_i915_perf_open_param {
+> >   */
+> >  #define I915_PERF_IOCTL_DISABLE	_IO('i', 0x1)
+> >  
+> > -/**
+> > +/*
+> >   * Change metrics_set captured by a stream.
+> >   *
+> >   * If the stream is bound to a specific context, the configuration change
+> > @@ -2103,7 +2103,7 @@ struct drm_i915_perf_open_param {
+> >   */
+> >  #define I915_PERF_IOCTL_CONFIG	_IO('i', 0x2)
+> >  
+> > -/**
+> > +/*
+> >   * Common to all i915 perf records
+> >   */
+> >  struct drm_i915_perf_record_header {
+> > @@ -2151,7 +2151,7 @@ enum drm_i915_perf_record_type {
+> >  	DRM_I915_PERF_RECORD_MAX /* non-ABI */
+> >  };
+> >  
+> > -/**
+> > +/*
+> >   * Structure to upload perf dynamic configuration into the kernel.
+> >   */
+> >  struct drm_i915_perf_oa_config {
+> > -- 
+> > 2.26.3
+> > 
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 > -- 
-> 2.26.3
-> 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
