@@ -1,53 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88EC436319F
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 19:49:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A95E3631EF
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 21:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEE26E5D3;
-	Sat, 17 Apr 2021 17:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A54C26ED1E;
+	Sat, 17 Apr 2021 19:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70B166E5D3;
- Sat, 17 Apr 2021 17:49:18 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id a4so29767090wrr.2;
- Sat, 17 Apr 2021 10:49:18 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E48326ED1E
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 19:12:34 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id v6so45607378ejo.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 12:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gMhNbNGvJIy0W54t2+jjd5JvuAH30UWhJb9UCM3Fxt0=;
- b=QNgw8v1ODQ3popOSFT98BMtFTy2lrtW8i48CVEVxG4v2bh5CEilJ1jDNmncMac5W0I
- Vi0+aA3LiEpkCxZ3o3Lj2x+PdJbDstXZofauACi85ffINBtEybopFOnmAWndkzQBqumP
- MYoKs2Ukz6kOE0m6VuFparSXUncmDhI2wAvt616JxLwJOmMRFns3Ok9u2D4bZepKfsML
- yVJs8tcVNwKaDBDT/JdzseNlahAlNVs4Mg+UJiQImi7fjlvVoOaKehazrnpfwXfBfl8V
- cQpkiYlCv77bl7rB8NtVwaoG8MPGftpq44WSgiaf/uyW+oGGNS2FzgDmIv0Z/O0xJEFJ
- 4Tcw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4EeE/jEG+BwS2yLzax1oxoe1YlEFDe9IUirRYoBxddY=;
+ b=c7+kaWC9DjKkxn882whe6mMcd7HxFJ1bFx6boT52Kt5Na7Hsz74IweAgpdXTr9Hdqb
+ cHm600tCOzfepihXRSKoRjr6P6Y7eHYHOVaJM4nU41WthSVcIRCiEcASb4fNULWj5dHK
+ 8cAGqT78I0dG6DkmvQFXelgrGqLF+iR5FO8Q83Llwb9dq3d6fRcivo0AMZoeFtu61O8u
+ gaJNhW5PcY9WXX5H/Xp07n41hirN7EnlshoAtZsKOU7mQMSw9zqmt6z11qzqVDZJSCXg
+ CwEkFYy4nhHJSDaTd8rYJP9LREtzHDp2MWoE4IMYRiJdzeIGdOPaL5AqlbeWNOwB38e7
+ ZonQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gMhNbNGvJIy0W54t2+jjd5JvuAH30UWhJb9UCM3Fxt0=;
- b=HcoIuiCI8AyPIpz+F6kU4ydWHX7dEpae9n2GLjMBLCWkxWeKw7CGFjpNL3/tWwNhRY
- G0OsZHUjfJNisTytr3cC3CEomC6aYBSY81OUG4dGe5MgftCffTj/qeGW/RX7VQdzC9ch
- 5MaePzCaSV3DltM7K6LW4Nap8n+QcObS1gWjYZ0sULZcwZzY+SNHA9v2n3i2nR7ylyxM
- icked1jVdbw/i3oZ2QqFQpxcbOzzcuLNq8Lv9B1oq+TU4lOgf9AvCMB+1yboksTN5N1S
- ZW6BYiGEUG/L/Pg4XWBd2Jy1gq/QeSdbDDOIXxU102Zt3ZywCoyS7L7UhkRVTB/5q5qc
- Qlxg==
-X-Gm-Message-State: AOAM533N40FUDyOyzmxpaI6D7REhTqo4MrvnykBRkHwbaWbggIt0hL9R
- 3/CvaHpccl7dTd17nlC8VNR1wWMYLAFrm3yigtU=
-X-Google-Smtp-Source: ABdhPJzZ03PjLvSbr+EYaGObqqYd6gtKUzZhFhFFqRCVQqnl3bd+oCaXlHlIsjYz7jpf/2N8aX8WRprUkQrNrPegMV4=
-X-Received: by 2002:a5d:4412:: with SMTP id z18mr5508193wrq.28.1618681757094; 
- Sat, 17 Apr 2021 10:49:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4EeE/jEG+BwS2yLzax1oxoe1YlEFDe9IUirRYoBxddY=;
+ b=flVySZB+2g4gBd3EWOeuafTvVe/GfrgjI8hdlIOU52duMqbUYMa8W0obzuIe7jIy2v
+ PxOSE6oblVZQ0swXCaeIQJrO3PVNPqyCWC6PX6zKT5npHI6rnITVigmKGMCXwdlS4oLa
+ QXM0HvkmFmVZRcqQ0I3mYxWdqnqzwdX79EEC1IwkSmRKxYgK9TJfZntyGPmEm8AX+HlS
+ OabS0cOb/4QBGQAUtkMA+hNLkK54mluQGzujEJXEKzd6qxtEKPKoMz5u9kSKqTsdJBGF
+ OtT3sSq9O1w91Jm7sKcbCog41+tUs6b6PUQ9BcQi4nwXXkYdfr0Wno4m9/t7UX1y9nMX
+ qeag==
+X-Gm-Message-State: AOAM5304H2FmZ8XB5kbO9epmQSXE4Q4DYgTeqBwi+Kgq26lhocPrgwZK
+ TqaV7S4xzRaUafdg0RNWtb+XpMqXjWoiXAur
+X-Google-Smtp-Source: ABdhPJyGYSdAqu7p2msp8dZbH+4TtUnNXsdN6d5lTefqsUv+w53QsA3buofHXcR1ZmmLg6pI3vpMDg==
+X-Received: by 2002:a17:906:3509:: with SMTP id
+ r9mr14193077eja.490.1618686753304; 
+ Sat, 17 Apr 2021 12:12:33 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it.
+ [95.237.55.30])
+ by smtp.gmail.com with ESMTPSA id g11sm8330120edy.9.2021.04.17.12.12.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Apr 2021 12:12:32 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: dri-devel@lists.freedesktop.org, outreachy-kernel@googlegroups.com,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/nouveau/dispnv50: disp.c: Replace drm_modeset_*_all with
+ DRM_MODESET_LOCK_ALL_*
+Date: Sat, 17 Apr 2021 21:12:28 +0200
+Message-Id: <20210417191228.2980-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210417161912.62811-1-caleb@connolly.tech>
-In-Reply-To: <20210417161912.62811-1-caleb@connolly.tech>
-From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 17 Apr 2021 10:52:49 -0700
-Message-ID: <CAF6AEGv2701e+FMKX12+rHYwLpv06-kAo364Us7wEw6pAoC7Dg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: always parse interconnects
-To: Caleb Connolly <caleb@connolly.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,56 +69,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Kalyan Thota <kalyant@codeaurora.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 17, 2021 at 9:21 AM Caleb Connolly <caleb@connolly.tech> wrote:
->
-> The WARN_ON in dpu_runtime_resume() fires constantly on non-SC7180
-> platforms. As SDM845 now has interconnects hooked up we should always
-> try and parse them.
->
-> Fixes: 627dc55c273d ("drm/msm/disp/dpu1: icc path needs to be set before dpu runtime resume")
-> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+Replace the deprecated API with DRM_MODESET_LOCK_ALL_* helpers (according
+to the TODO list of the DRM subsystem).
 
-I believe this series in msm-next already solves this
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-https://patchwork.freedesktop.org/series/88644/
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 828f48d5bdd4..e167bf96ff12 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -666,16 +666,19 @@ nv50_audio_component_bind(struct device *kdev, struct device *hda_kdev,
+ 	struct drm_device *drm_dev = dev_get_drvdata(kdev);
+ 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
+ 	struct drm_audio_component *acomp = data;
++	struct drm_modeset_acquire_ctx ctx;
++	int ret = 0;
+ 
+ 	if (WARN_ON(!device_link_add(hda_kdev, kdev, DL_FLAG_STATELESS)))
+ 		return -ENOMEM;
+ 
+-	drm_modeset_lock_all(drm_dev);
++	DRM_MODESET_LOCK_ALL_BEGIN(drm_dev, ctx, 0, ret);
+ 	acomp->ops = &nv50_audio_component_ops;
+ 	acomp->dev = kdev;
+ 	drm->audio.component = acomp;
+-	drm_modeset_unlock_all(drm_dev);
+-	return 0;
++	DRM_MODESET_LOCK_ALL_END(drm_dev, ctx, ret);
++
++	return ret;
+ }
+ 
+ static void
+@@ -685,12 +688,14 @@ nv50_audio_component_unbind(struct device *kdev, struct device *hda_kdev,
+ 	struct drm_device *drm_dev = dev_get_drvdata(kdev);
+ 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
+ 	struct drm_audio_component *acomp = data;
++	struct drm_modeset_acquire_ctx ctx;
++	int ret = 0;
+ 
+-	drm_modeset_lock_all(drm_dev);
++	DRM_MODESET_LOCK_ALL_BEGIN(drm_dev, ctx, 0, ret);
+ 	drm->audio.component = NULL;
+ 	acomp->ops = NULL;
+ 	acomp->dev = NULL;
+-	drm_modeset_unlock_all(drm_dev);
++	DRM_MODESET_LOCK_ALL_END(drm_dev, ctx, ret);
+ }
+ 
+ static const struct component_ops nv50_audio_component_bind_ops = {
+-- 
+2.31.1
 
-BR,
--R
-
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 85f2c3564c96..fb061e666faa 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -933,8 +933,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->                 DPU_DEBUG("REG_DMA is not defined");
->         }
->
-> -       if (of_device_is_compatible(dev->dev->of_node, "qcom,sc7180-mdss"))
-> -               dpu_kms_parse_data_bus_icc_path(dpu_kms);
-> +       dpu_kms_parse_data_bus_icc_path(dpu_kms);
->
->         pm_runtime_get_sync(&dpu_kms->pdev->dev);
->
-> --
-> 2.30.2
->
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
