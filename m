@@ -2,43 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2950362E0E
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 08:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB5C362EE5
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 11:31:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89A876E03B;
-	Sat, 17 Apr 2021 06:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18BFA6E073;
+	Sat, 17 Apr 2021 09:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs19.siol.net [185.57.226.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49EB46E03B
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 06:31:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Zimbra) with ESMTP id BF64B523653;
- Sat, 17 Apr 2021 08:31:40 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id n-saAgAigrm7; Sat, 17 Apr 2021 08:31:40 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Zimbra) with ESMTPS id 749A95238C1;
- Sat, 17 Apr 2021 08:31:40 +0200 (CEST)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net
- [89.212.178.211]) (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Zimbra) with ESMTPA id E0502523653;
- Sat, 17 Apr 2021 08:31:39 +0200 (CEST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH 0/2] drm/bridge: dw-hdmi: disable loading of DW-HDMI CEC
- sub-driver
-Date: Sat, 17 Apr 2021 08:31:39 +0200
-Message-ID: <9525152.Q8VVBrNj5Z@jernej-laptop>
-In-Reply-To: <96b9e144-0791-4c19-3e3c-b0e9efb86138@baylibre.com>
-References: <20210416092737.1971876-1-narmstrong@baylibre.com>
- <YHlfqJIlUh7eytty@pendragon.ideasonboard.com>
- <96b9e144-0791-4c19-3e3c-b0e9efb86138@baylibre.com>
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FCA66E03F
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 07:18:46 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id e5so64861wrg.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 00:18:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=lzDESpnJwy8q2no0zZGoouoLNqh3tnmLEUrJ5GDonRs=;
+ b=rzn2XdwumhMz3IMq2hTIY1ZtnZGekwQClLm2fRy8IPnOaGOBMFLf4aYOib1aCfHeqm
+ 1pAj2Gfd3TtRiRPgcWseBXWQVukxHfViduJLDUY2KjqKPNO/kTcjm589PqNe36Q7J3Wx
+ wSdcPBGkmAPLMio+IZIFMTlN+eMTwScTkIboPUhj4Z7t07X1Hzk2UVN9Rxyjre7SW4lS
+ aCsKzSysJz25T1yjzeAhtWKSHeLXUPb3ZSpi8RmzXKnbs56wmKjcw4LwoRe2GuQveYGH
+ gte54cDVCR1OMW80mGjUnXdun3ldjiWz/whg8sNaNsGA60mp5GWKKLbfpUqmsd3DxaDT
+ J0Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=lzDESpnJwy8q2no0zZGoouoLNqh3tnmLEUrJ5GDonRs=;
+ b=CmTOJn8nX7PRq6mbp0DP8tqzLLH4esi/beyu/4JK8HnkB/0fx9Jxpi2xj6qXTfHt7v
+ TEkBqr0GtT9PXr9+sq/iXrOzGKWfn3ElfhMFtMeQEGmgZyauCIxpqQp6S7qCaboKXBDk
+ QkMZebJD9eVFrrDeMrYI98bIE5okkv1fzhIOSYehokFLiMJrFY9FkW9IF5/zE4CcNQzH
+ SDfRB7Fg4kgdJDIp/yBsde/jPVf1vbIPQd0R96F4Aew0CLv16RX0tLUyLNWrmW+9s2H4
+ DjnBOK8pyGSnHQzvxsej5mnedkxA4yty/bvisQhlsmr0MnzGqq89s7zgYkIOXuBE2mjG
+ gE+Q==
+X-Gm-Message-State: AOAM533FNLqiFMhPitp23HqB5BZy09UKjsyPpuNrVdgo684UQfx9HGnV
+ Uwnt/4IPDCZOKwZLzMqIGjUi/E9nFaI=
+X-Google-Smtp-Source: ABdhPJz0+l+y4ld0p2Udvtz/O3KNkgh30U2n0VS6z7cZMwrLx+P+RCwDkaRBydqu+x37EBy5qZLJgw==
+X-Received: by 2002:adf:e108:: with SMTP id t8mr2836394wrz.371.1618643924864; 
+ Sat, 17 Apr 2021 00:18:44 -0700 (PDT)
+Received: from agape.jhs ([5.171.80.7])
+ by smtp.gmail.com with ESMTPSA id a2sm6954216wmn.48.2021.04.17.00.18.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Apr 2021 00:18:44 -0700 (PDT)
+Date: Sat, 17 Apr 2021 09:18:41 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2 1/4] fbtft: Replace custom ->reset() with generic one
+Message-ID: <20210417071838.GA1401@agape.jhs>
+References: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Sat, 17 Apr 2021 09:31:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,77 +68,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
- hverkuil-cisco@xs4all.nl, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CC Hans Verkuil
+Hi,
 
-Dne petek, 16. april 2021 ob 13:38:59 CEST je Neil Armstrong napisal(a):
-> On 16/04/2021 11:58, Laurent Pinchart wrote:
-> > Hi Neil,
-> > 
-> > On Fri, Apr 16, 2021 at 11:27:35AM +0200, Neil Armstrong wrote:
-> >> This adds DW-HDMI driver a glue option to disable loading of the CEC
-> >> sub-driver.
-> >> 
-> >> On some SoCs, the CEC functionality is enabled in the IP config bits, but
-> >> the CEC bus is non-functional like on Amlogic SoCs, where the CEC config
-> >> bit is set but the DW-HDMI CEC signal is not connected to a physical
-> >> pin, leading to some confusion when the DW-HDMI CEC controller can't
-> >> communicate on the bus.> 
-> > If we can't trust the CEC config bit, would it be better to not use it
-> > at all, and instead let each platform glue logic tell whether to enable
-> > CEC or not ?
+'staging:' in mail subject is missing...
+
+On Fri, Apr 16, 2021 at 05:20:41PM +0300, Andy Shevchenko wrote:
+> The custom ->reset() repeats the generic one, replace it.
 > 
-> Actually, the CEC config bit is right, the HW exists and should be
-> functional, but this bit doesn't tell if the CEC signal is connected to
-> something.
-
-I'm in favour of Neil's solution. Currently we have only one exception.
-
+> Note, in newer kernels the context of the function is a sleeping one,
+> it's fine to switch over to the sleeping functions. Keeping the reset
+> line asserted longer than 20 microseconds is also okay, it's an idling
+> state of the hardware.
 > 
-> This lies in the IP integration, like other bits under the
-> "amlogic,meson-*-dw-hdmi" umbrella.
+> Fixes: b2ebd4be6fa1 ("staging: fbtft: add fb_agm1264k-fl driver")
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> v2: new patch split from the bigger fix (Greg)
+>  drivers/staging/fbtft/fb_agm1264k-fl.c | 14 --------------
+>  1 file changed, 14 deletions(-)
 > 
-> The first attempt was by Hans using DT, but adding a property in DT for a
-> vendor specific compatible doesn't make sense. Another idea would be to
-> describe the CEC signal endpoint like we do for video signal, but I think
-> this is out of scope and this solution is much simpler and straightforward,
-> and it's more an exception than a general use case to solve.
-
-Note that we still need DT property for disabling CEC. I have one Allwinner H3 
-board where board designer decided to use GPIO CEC implementation instead of 
-DW HDMI one (vendor Linux doesn't implement DW HDMI CEC driver). Other H3 
-boards happily use DW HDMI CEC.
-
-Best regards,
-Jernej
-
+> diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/staging/fbtft/fb_agm1264k-fl.c
+> index eeeeec97ad27..4dfc22d05a40 100644
+> --- a/drivers/staging/fbtft/fb_agm1264k-fl.c
+> +++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
+> @@ -77,19 +77,6 @@ static int init_display(struct fbtft_par *par)
+>  	return 0;
+>  }
+>  
+> -static void reset(struct fbtft_par *par)
+> -{
+> -	if (!par->gpio.reset)
+> -		return;
+> -
+> -	dev_dbg(par->info->device, "%s()\n", __func__);
+> -
+> -	gpiod_set_value(par->gpio.reset, 0);
+> -	udelay(20);
+> -	gpiod_set_value(par->gpio.reset, 1);
+> -	mdelay(120);
+> -}
+> -
+>  /* Check if all necessary GPIOS defined */
+>  static int verify_gpios(struct fbtft_par *par)
+>  {
+> @@ -439,7 +426,6 @@ static struct fbtft_display display = {
+>  		.set_addr_win = set_addr_win,
+>  		.verify_gpios = verify_gpios,
+>  		.request_gpios_match = request_gpios_match,
+> -		.reset = reset,
+>  		.write = write,
+>  		.write_register = write_reg8_bus8,
+>  		.write_vmem = write_vmem,
+> -- 
+> 2.30.2
 > 
-> Neil
 > 
-> >> Jernej Skrabec (1):
-> >>   drm/bridge/synopsys: dw-hdmi: Add an option to suppress loading CEC
-> >>   
-> >>     driver
-> >> 
-> >> Neil Armstrong (1):
-> >>   drm/meson: dw-hdmi: disable DW-HDMI CEC sub-driver
-> >>  
-> >>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
-> >>  drivers/gpu/drm/meson/meson_dw_hdmi.c     | 1 +
-> >>  include/drm/bridge/dw_hdmi.h              | 2 ++
-> >>  3 files changed, 4 insertions(+), 1 deletion(-)
 
+thank you,
 
-
-
+fabio
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
