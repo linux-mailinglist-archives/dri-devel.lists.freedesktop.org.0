@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A95E3631EF
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 21:12:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784C436329C
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Apr 2021 01:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A54C26ED1E;
-	Sat, 17 Apr 2021 19:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEED6E03E;
+	Sat, 17 Apr 2021 23:03:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E48326ED1E
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 19:12:34 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id v6so45607378ejo.6
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 12:12:34 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C9266E03E
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 23:03:11 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id sd23so38675878ejb.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 16:03:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4EeE/jEG+BwS2yLzax1oxoe1YlEFDe9IUirRYoBxddY=;
- b=c7+kaWC9DjKkxn882whe6mMcd7HxFJ1bFx6boT52Kt5Na7Hsz74IweAgpdXTr9Hdqb
- cHm600tCOzfepihXRSKoRjr6P6Y7eHYHOVaJM4nU41WthSVcIRCiEcASb4fNULWj5dHK
- 8cAGqT78I0dG6DkmvQFXelgrGqLF+iR5FO8Q83Llwb9dq3d6fRcivo0AMZoeFtu61O8u
- gaJNhW5PcY9WXX5H/Xp07n41hirN7EnlshoAtZsKOU7mQMSw9zqmt6z11qzqVDZJSCXg
- CwEkFYy4nhHJSDaTd8rYJP9LREtzHDp2MWoE4IMYRiJdzeIGdOPaL5AqlbeWNOwB38e7
- ZonQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=awh5awoCxMMNiV/7Kf29qR5FFX37u+O+sxaqHZhsHlM=;
+ b=qdwF8fQXzNyz1Um55Sq9mMsOqRLOqHYwqARV0AANFao1ooGPOXPFCda4gGjkCBoMof
+ 9nv2BrSDv2HI3gUNE79/GH3WF7mVBDqf9XA/AraluM2P0pkCRsTCl4DGUdpPHOaT3Y+9
+ qXqaWUTTyLa2+N2HNnpQWy8R2ABzj8hNuldF8dbOOvO34/hjOftitAc7SY6nHh7RL8It
+ pLyZOjuh+reLI3gTXkH0Ea3CICSZNZ20CN6EfXt8bUC7ff8ygndT6pcY8B1fYn/hOz7F
+ CA+73UqgFw+HJAutibw/gmPrGpSYriKYUZPbMi9TbIq56WiyhG6X7/Cyqs7msSD6gDDf
+ rL1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4EeE/jEG+BwS2yLzax1oxoe1YlEFDe9IUirRYoBxddY=;
- b=flVySZB+2g4gBd3EWOeuafTvVe/GfrgjI8hdlIOU52duMqbUYMa8W0obzuIe7jIy2v
- PxOSE6oblVZQ0swXCaeIQJrO3PVNPqyCWC6PX6zKT5npHI6rnITVigmKGMCXwdlS4oLa
- QXM0HvkmFmVZRcqQ0I3mYxWdqnqzwdX79EEC1IwkSmRKxYgK9TJfZntyGPmEm8AX+HlS
- OabS0cOb/4QBGQAUtkMA+hNLkK54mluQGzujEJXEKzd6qxtEKPKoMz5u9kSKqTsdJBGF
- OtT3sSq9O1w91Jm7sKcbCog41+tUs6b6PUQ9BcQi4nwXXkYdfr0Wno4m9/t7UX1y9nMX
- qeag==
-X-Gm-Message-State: AOAM5304H2FmZ8XB5kbO9epmQSXE4Q4DYgTeqBwi+Kgq26lhocPrgwZK
- TqaV7S4xzRaUafdg0RNWtb+XpMqXjWoiXAur
-X-Google-Smtp-Source: ABdhPJyGYSdAqu7p2msp8dZbH+4TtUnNXsdN6d5lTefqsUv+w53QsA3buofHXcR1ZmmLg6pI3vpMDg==
-X-Received: by 2002:a17:906:3509:: with SMTP id
- r9mr14193077eja.490.1618686753304; 
- Sat, 17 Apr 2021 12:12:33 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it.
- [95.237.55.30])
- by smtp.gmail.com with ESMTPSA id g11sm8330120edy.9.2021.04.17.12.12.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Apr 2021 12:12:32 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: dri-devel@lists.freedesktop.org, outreachy-kernel@googlegroups.com,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/nouveau/dispnv50: disp.c: Replace drm_modeset_*_all with
- DRM_MODESET_LOCK_ALL_*
-Date: Sat, 17 Apr 2021 21:12:28 +0200
-Message-Id: <20210417191228.2980-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=awh5awoCxMMNiV/7Kf29qR5FFX37u+O+sxaqHZhsHlM=;
+ b=jQiLcmmn6SyLYteXAZM17WJJdYxAzm5c1QSbSO4O1G3ocIcrjp99wCBB7AK7SVKFAH
+ zij2fD85Tm3txQAsHqFpp3g8FGGa1Fov3TSH+5UVMon5DvL38t2/TAemA2bWkoCUvEiD
+ JEwAHFNN+slfJE2FoJBm36FL80y8GVgcT6OfNE65z/RUxbmCBdjfZq6InSJgs63Cqsv0
+ vhmLsZBj3zsVzE1nK/gOQKornX93/+36Hwd//nDiJKO3kan53qj8QRXn1ArGuL7Y2b0i
+ MLO7s207QxUA06xMV4X4/mcybloQIH6iRRJn41PDRanfAA5AFNc/hitk4R/gJxx/nPum
+ ahuA==
+X-Gm-Message-State: AOAM531HOAHV7ONFggDDvsxHiStGJDLNSeXKC8KCii6ztSJVNFE8YK6N
+ BWB3cylvE0Vsdo/+mmhYeN4dwX2PQ4GIfexJnrnqLLgp
+X-Google-Smtp-Source: ABdhPJzpbt5ewsVC/q19XdbX+qOqd5F2Bk9Ox1foytDZ0ajRhFfZoSdsXpxnLwooQACBK4MEn751OXxBV6kX91cWfjc=
+X-Received: by 2002:a17:906:5f95:: with SMTP id
+ a21mr14608471eju.456.1618700589820; 
+ Sat, 17 Apr 2021 16:03:09 -0700 (PDT)
 MIME-Version: 1.0
+References: <f7add0a2-162e-3bd2-b1be-344a94f2acbf@vmware.com>
+In-Reply-To: <f7add0a2-162e-3bd2-b1be-344a94f2acbf@vmware.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sun, 18 Apr 2021 09:02:58 +1000
+Message-ID: <CAPM=9twZd-Y6dnx7eQW6paw8BoREnMiPAe5FnBM1sZ-3uPk9YQ@mail.gmail.com>
+Subject: Re: [git pull] drm/vmwgfx fixes for 5.12-rc8
+To: Zack Rusin <zackr@vmware.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,67 +62,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the deprecated API with DRM_MODESET_LOCK_ALL_* helpers (according
-to the TODO list of the DRM subsystem).
+Hi Zack,
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+Please make sure to always cc dri-devel and/or Daniel on these so if
+I'm away they don't get lost, but also so that they make it into
+patchwork for processing.
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 828f48d5bdd4..e167bf96ff12 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -666,16 +666,19 @@ nv50_audio_component_bind(struct device *kdev, struct device *hda_kdev,
- 	struct drm_device *drm_dev = dev_get_drvdata(kdev);
- 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
- 	struct drm_audio_component *acomp = data;
-+	struct drm_modeset_acquire_ctx ctx;
-+	int ret = 0;
- 
- 	if (WARN_ON(!device_link_add(hda_kdev, kdev, DL_FLAG_STATELESS)))
- 		return -ENOMEM;
- 
--	drm_modeset_lock_all(drm_dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(drm_dev, ctx, 0, ret);
- 	acomp->ops = &nv50_audio_component_ops;
- 	acomp->dev = kdev;
- 	drm->audio.component = acomp;
--	drm_modeset_unlock_all(drm_dev);
--	return 0;
-+	DRM_MODESET_LOCK_ALL_END(drm_dev, ctx, ret);
-+
-+	return ret;
- }
- 
- static void
-@@ -685,12 +688,14 @@ nv50_audio_component_unbind(struct device *kdev, struct device *hda_kdev,
- 	struct drm_device *drm_dev = dev_get_drvdata(kdev);
- 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
- 	struct drm_audio_component *acomp = data;
-+	struct drm_modeset_acquire_ctx ctx;
-+	int ret = 0;
- 
--	drm_modeset_lock_all(drm_dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(drm_dev, ctx, 0, ret);
- 	drm->audio.component = NULL;
- 	acomp->ops = NULL;
- 	acomp->dev = NULL;
--	drm_modeset_unlock_all(drm_dev);
-+	DRM_MODESET_LOCK_ALL_END(drm_dev, ctx, ret);
- }
- 
- static const struct component_ops nv50_audio_component_bind_ops = {
--- 
-2.31.1
+If you have a chance can you resend it, I'll see if we can process
+this out of band and get it to Linus before release.
 
+Dave.
+
+On Thu, 15 Apr 2021 at 07:14, Zack Rusin <zackr@vmware.com> wrote:
+>
+> The following changes since commit d434405aaab7d0ebc516b68a8fc4100922d7f5ef:
+>
+>    Linux 5.12-rc7 (2021-04-11 15:16:13 -0700)
+>
+> are available in the Git repository at:
+>
+>    git@gitlab.freedesktop.org:zack/vmwgfx.git tags/vmwgfx-fixes-2021-04-14
+>
+> for you to fetch changes up to 2ef4fb92363c44e8a6f93fd0877b6a7dee6f874d:
+>
+>    drm/vmwgfx: Make sure bo's are unpinned before putting them back (2021-04-14 16:41:31 -0400)
+>
+> ----------------------------------------------------------------
+> vmwgfx fixes for regressions in 5.12
+>
+> Here's a set of 3 patches fixing ugly regressions
+> in the vmwgfx driver. We broke lock initialization
+> code and ended up using spinlocks before initialization
+> breaking lockdep.
+> Also there was a bit of a fallout from drm changes
+> which made the core validate that unreferenced buffers
+> have been unpinned. vmwgfx pinning code predates a lot
+> of the core drm and wasn't written to account for those
+> semantics. Fortunately changes required to fix it
+> are not too intrusive.
+> The changes have been validated by our internal ci.
+>
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+>
+> ----------------------------------------------------------------
+> Zack Rusin (3):
+>        drm/vmwgfx: Make sure we unpin no longer needed buffers
+>        drm/vmwgfx: Fix the lockdep breakage
+>        drm/vmwgfx: Make sure bo's are unpinned before putting them back
+>
+>   drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c |  4 ++++
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 17 ++++++++---------
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  5 +----
+>   drivers/gpu/drm/vmwgfx/vmwgfx_mob.c     | 14 ++++++++++++++
+>   4 files changed, 27 insertions(+), 13 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
