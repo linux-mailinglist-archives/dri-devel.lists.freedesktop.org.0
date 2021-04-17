@@ -2,48 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1939F363125
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 18:22:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC979363132
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Apr 2021 18:38:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2C36E56D;
-	Sat, 17 Apr 2021 16:22:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEEF16E573;
+	Sat, 17 Apr 2021 16:38:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
- [185.70.41.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00BC16E56D
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 16:21:42 +0000 (UTC)
-Received: from mail-03.mail-europe.com (mail-0301.mail-europe.com
- [188.165.51.139])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4FMyyD2NQkz4xSSD;
- Sat, 17 Apr 2021 16:21:40 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
- dkim=pass (1024-bit key) header.d=connolly.tech header.i=@connolly.tech
- header.b="no1Uh9BN"
-Date: Sat, 17 Apr 2021 16:21:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
- s=protonmail; t=1618676495;
- bh=V0cwotR5J2nsOzzWyrrQ5p675uu29gm6T0j3r8W0fhc=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=no1Uh9BNk2DJIJGJTZYhSTHZHgdS7KdVumPf/UQLcuvKWLKIV8jHDsI0j9OYTMwnE
- r00I8KhL3ixnVAoaqqjftm25pwI4yVrv/zVWIVpewAWEdpc61weK8bIZcs6HkeVjR8
- GB7t8wzAirvWi5VhcrT84M8Jw/iXfY3hkLelCDZQ=
-To: caleb@connolly.tech, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Kalyan Thota <kalyant@codeaurora.org>
-From: Caleb Connolly <caleb@connolly.tech>
-Subject: [PATCH] drm/msm: always parse interconnects
-Message-ID: <20210417161912.62811-1-caleb@connolly.tech>
+Received: from JPTOSEGREL01.sonyericsson.com (jptosegrel01.sonyericsson.com
+ [124.215.201.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3544F6E573
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Apr 2021 16:38:49 +0000 (UTC)
+From: Peter Enderborg <peter.enderborg@sony.com>
+To: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Alexey Dobriyan <adobriyan@gmail.com>, Andrew
+ Morton <akpm@linux-foundation.org>, Muchun Song <songmuchun@bytedance.com>,
+ Roman Gushchin <guro@fb.com>, Shakeel Butt <shakeelb@google.com>, Michal
+ Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>, Sami Tolvanen
+ <samitolvanen@google.com>, Mike Rapoport <rppt@kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Date: Sat, 17 Apr 2021 18:38:35 +0200
+Message-ID: <20210417163835.25064-1-peter.enderborg@sony.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
-X-Mailman-Approved-At: Sat, 17 Apr 2021 16:22:43 +0000
+X-SEG-SpamProfiler-Analysis: v=2.3 cv=crzlbGwi c=1 sm=1 tr=0
+ a=fZcToFWbXLKijqHhjJ02CA==:117 a=3YhXtTcJ-WEA:10 a=z6gsHLkEAAAA:8
+ a=USQXLDy_ZNVIum19Oj8A:9 a=d-OLMTCWyvARjPbQ-enb:22 a=pHzHmUro8NiASowvMSCR:22
+ a=Ew2E2A-JSTLzCXPT_086:22
+X-SEG-SpamProfiler-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,42 +45,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Caleb Connolly <caleb@connolly.tech>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org
+Cc: Peter Enderborg <peter.enderborg@sony.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The WARN_ON in dpu_runtime_resume() fires constantly on non-SC7180
-platforms. As SDM845 now has interconnects hooked up we should always
-try and parse them.
+This adds a total used dma-buf memory. Details
+can be found in debugfs, however it is not for everyone
+and not always available. dma-buf are indirect allocated by
+userspace. So with this value we can monitor and detect
+userspace applications that have problems.
 
-Fixes: 627dc55c273d ("drm/msm/disp/dpu1: icc path needs to be set before dpu runtime resume")
-Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/dma-buf/dma-buf.c | 12 ++++++++++++
+ fs/proc/meminfo.c         |  5 ++++-
+ include/linux/dma-buf.h   |  1 +
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 85f2c3564c96..fb061e666faa 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -933,8 +933,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 		DPU_DEBUG("REG_DMA is not defined");
- 	}
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index f264b70c383e..4dc37cd4293b 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -37,6 +37,7 @@ struct dma_buf_list {
+ };
  
--	if (of_device_is_compatible(dev->dev->of_node, "qcom,sc7180-mdss"))
--		dpu_kms_parse_data_bus_icc_path(dpu_kms);
-+	dpu_kms_parse_data_bus_icc_path(dpu_kms);
+ static struct dma_buf_list db_list;
++static atomic_long_t dma_buf_global_allocated;
  
- 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
+ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+ {
+@@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+ 		dma_resv_fini(dmabuf->resv);
  
++	atomic_long_sub(dmabuf->size, &dma_buf_global_allocated);
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
+@@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	mutex_lock(&db_list.lock);
+ 	list_add(&dmabuf->list_node, &db_list.head);
+ 	mutex_unlock(&db_list.lock);
++	atomic_long_add(dmabuf->size, &dma_buf_global_allocated);
+ 
+ 	return dmabuf;
+ 
+@@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+ 
++/**
++ * dma_buf_allocated_pages - Return the used nr of pages
++ * allocated for dma-buf
++ */
++long dma_buf_allocated_pages(void)
++{
++	return atomic_long_read(&dma_buf_global_allocated) >> PAGE_SHIFT;
++}
++
+ #ifdef CONFIG_DEBUG_FS
+ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ {
+diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+index 6fa761c9cc78..ccc7c40c8db7 100644
+--- a/fs/proc/meminfo.c
++++ b/fs/proc/meminfo.c
+@@ -16,6 +16,7 @@
+ #ifdef CONFIG_CMA
+ #include <linux/cma.h>
+ #endif
++#include <linux/dma-buf.h>
+ #include <asm/page.h>
+ #include "internal.h"
+ 
+@@ -145,7 +146,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 	show_val_kb(m, "CmaFree:        ",
+ 		    global_zone_page_state(NR_FREE_CMA_PAGES));
+ #endif
+-
++#ifdef CONFIG_DMA_SHARED_BUFFER
++	show_val_kb(m, "DmaBufTotal:    ", dma_buf_allocated_pages());
++#endif
+ 	hugetlb_report_meminfo(m);
+ 
+ 	arch_report_meminfo(m);
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index efdc56b9d95f..5b05816bd2cd 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
+ 		 unsigned long);
+ int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
++long dma_buf_allocated_pages(void);
+ #endif /* __DMA_BUF_H__ */
 -- 
-2.30.2
-
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
