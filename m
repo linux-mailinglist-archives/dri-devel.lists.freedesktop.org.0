@@ -2,57 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67D1363F39
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 11:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9188C363FDE
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 12:48:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E436E203;
-	Mon, 19 Apr 2021 09:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E839489E9B;
+	Mon, 19 Apr 2021 10:48:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60BD36E203
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 09:55:19 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id o16so38629561ljp.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 02:55:19 -0700 (PDT)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D619189E9B;
+ Mon, 19 Apr 2021 10:48:24 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ u14-20020a17090a1f0eb029014e38011b09so13448067pja.5; 
+ Mon, 19 Apr 2021 03:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ac+/RDFDZwqxQM1YZG+NKhRwGNKn1wPe8k84YxH283M=;
- b=HKurBa83oYzINv/oZfV8hZ44LSh6xV6T5WewOSna3dYwU6kEDtcHOpYaTFb0LobUpW
- 7fdEQ8hb47KZteiK7MjxXBaBun9KGzzieF5X1DEbp6VvMuGlC5Aoty4wyj4CxDhjfh8m
- T9ecaygHZGQFOHHRTl21E7LKNCrjCcQb8tzyF1yVOYT7AnsM4spz/yZGg9ejlC/fVpdH
- VJHyykmZUuZZb5U1GCL03hCV/T27G22vi0vzKmNxO7OIVdG7Ys/LASEYo2db7O73mHMf
- owXhcQk/sA4dE86jDMiDcwXHJzynp9NkB+sP7Yyk8SK1RuZN88MmwDOl2TbAZ/bwp9Cy
- WYtg==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=gBK5ezSmXBGy28j4ajL3ZEsWmSj3q9YRztP3DHnHozQ=;
+ b=ocJ882+vjbgUoWU5JdLRekQW6gFPqUOa7SmYbN5FOqZlMvJhf0Ii1dH0QwTNg0n48g
+ 2rL6uRwfHT/gp7t4BKUx57jwrkeSGa1Wa7ZE12cd4Kkl3ZKWOfSFsGfI+J/77/CvaHBI
+ RiJHlsDR7rSODhsDgk2VimIyC1Ep0pwAXB6we53HScKv7LhqCTl2tz6bIW2XYOx4/6Xn
+ 3yGxmHuuUF0mh3btGczY1U4isjpV80PC7q6V2urlGLh3Vi4/MWS9tVzc3Ak05eF1FIk+
+ cuSMLFqeE7eJhCYKBYky8M04/WiJ9x+ANnZKrOF/H3fPZ11mkiC9PKZhiyjTaLdo1BQw
+ qhCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ac+/RDFDZwqxQM1YZG+NKhRwGNKn1wPe8k84YxH283M=;
- b=q8tAegF9UVmfHrPutJr/upTDgfnKMlvGDovd1BonwsCEwgcimnulUCyihGAC+mzaI4
- G0ALXAIVbR9fqmkMc2h5W+RVHKd2yMHRUf+NR+eK+C9A1iX15E40QcS4pGiOuG9yUKh4
- 1yhLBr9SFAZmnD1mpM5gXB2Bvz9iHX2GBfK9UXX8yOax0UGLNRsbSG6fl2gnwqIaJ1L+
- c0XJqYVFGFZBf6B17cjm1/svqgahm/rZLKgxdVFub0ziOk5ajCAjkqHC3Ef1tn9cE+61
- bhS/6oN2B4xT4N1FQy63J9AtuGiwALkMi4nTywxhxrjKDGrTX/VJ0gj+ZNBamMix+4n4
- Or8w==
-X-Gm-Message-State: AOAM5315GoLZE5l/eOuFiPLwtPi+QyV6ICwio4kbXjmeJcSy0f0gIidq
- AuAjQyKOurfxQx6ehl/oi788tjbm6aU3NnVZpf4=
-X-Google-Smtp-Source: ABdhPJzjbowagID+0Tq/eUdoUjEEqSw6LDCkb3PwLhpzB3fsLwZpjsdyJweOlmDzPmNZviyxLZpu8VQVfiWbl6dgh2Y=
-X-Received: by 2002:a05:651c:1249:: with SMTP id
- h9mr10822745ljh.141.1618826117706; 
- Mon, 19 Apr 2021 02:55:17 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=gBK5ezSmXBGy28j4ajL3ZEsWmSj3q9YRztP3DHnHozQ=;
+ b=dsSH+oiFQhsgDRS4u2rTFirRNljqrlzCDrCRNKobvoh4GapJ+bTRCY9Y6sqtOOu26o
+ CvkNqbKd6/szexFuoo4Q5BH/jAUIruiZOtKAer3XBrlYy5vA0FJ54FvTueg9mqwvIiBv
+ vzSX+uDtuZGzAUXl8l/bEXfdIJt6bQmpp9dOhKcfFI6auztr6/poiBFYEz1VuFFt+cuN
+ W+boEgK0fB7OL9tQoioRuCqRbf+mOUbHFumYNq0ddF2+WC28JMj5yktBcEzgOdBPs1/Q
+ Kc8HrvlyxZy8xRCwq1l4s7Q1yM6u+L0fgqPu4FRYlMNFWNqQhNDcUhA3khYhar9UHay9
+ wDlg==
+X-Gm-Message-State: AOAM5338c6Ym80gwLfPKCXfPAbKM3VAJoeKTjXM4NfGF4MxPkr54uypH
+ f+5k7YvHUwlDCioOgPO7+xotIMm7sIxeQhhvzrcYn31mkv8i1w==
+X-Google-Smtp-Source: ABdhPJyYs6NKrQKPRFPAAdOviI7AU2PE7eWKXk96tqP4jkYe1iKEAD5fKj6Io8v9VteZH8Yxrcaso4AM3Tvnragoxb0=
+X-Received: by 2002:a17:902:c209:b029:ec:7add:e183 with SMTP id
+ 9-20020a170902c209b02900ec7adde183mr17005245pll.74.1618829304111; Mon, 19 Apr
+ 2021 03:48:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <1616945059-8718-1-git-send-email-u0084500@gmail.com>
- <CADiBU3-d3_L8RTeYCirnfjJdG=ea6UVenAi8O8GO_LvOaB7OdA@mail.gmail.com>
- <20210419072229.GA4869@dell> <20210419072317.GB4869@dell>
- <20210419072403.GC4869@dell>
-In-Reply-To: <20210419072403.GC4869@dell>
-From: ChiYuan Huang <u0084500@gmail.com>
-Date: Mon, 19 Apr 2021 17:55:06 +0800
-Message-ID: <CADiBU38bMuH00Bcx5hJas2=yAon00ffcGokT4u89vX-LJYuxNA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] mfd: rt4831: Adds support for Richtek RT4831
-To: Lee Jones <lee.jones@linaro.org>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Mon, 19 Apr 2021 06:47:48 -0400
+Message-ID: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+Subject: [RFC] Linux Graphics Next: Explicit fences everywhere and no BO
+ fences - initial proposal
+To: ML Mesa-dev <mesa-dev@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,40 +61,250 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>, b.zolnierkie@samsung.com,
- jingoohan1@gmail.com, lgirdwood@gmail.com, dri-devel@lists.freedesktop.org,
- lkml <linux-kernel@vger.kernel.org>, ChiYuan Huang <cy_huang@richtek.com>,
- Mark Brown <broonie@kernel.org>, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1727302083=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4g5pa8IDIwMjHlubQ05pyIMTnml6Ug6YCx
-5LiAIOS4i+WNiDM6MjTlr6vpgZPvvJoKPgo+IE9uIE1vbiwgMTkgQXByIDIwMjEsIExlZSBKb25l
-cyB3cm90ZToKPgo+ID4gT24gTW9uLCAxOSBBcHIgMjAyMSwgTGVlIEpvbmVzIHdyb3RlOgo+ID4K
-PiA+ID4gT24gTW9uLCAxOSBBcHIgMjAyMSwgQ2hpWXVhbiBIdWFuZyB3cm90ZToKPiA+ID4KPiA+
-ID4gPiBIaSwgTGludXggbWZkIHJldmlld2VyczoKPiA+ID4gPiAgICBJdCdzIGJlZW4gdGhyZWUg
-d2Vla3Mgbm90IHRvIGdldCBhbnkgcmVzcG9uc2UgZnJvbSB5b3UuCj4gPiA+ID4gSXMgdGhlcmUg
-c29tZXRoaW5nIHdyb25nIGFib3V0IHRoaXMgbWZkIHBhdGNoPwo+ID4gPiA+IElmIHllcywgcGxl
-YXNlIGZlZWwgZnJlZSB0byBsZXQgbWUga25vdy4KPiA+ID4KPiA+ID4gQ291cGxlIG9mIHRoaW5n
-czoKPiA+ID4KPiA+ID4gRmlyc3QsIGlmIHlvdSB0aGluayBhIHBhdGNoIGhhZCBmYWxsZW4gdGhy
-b3VnaCB0aGUgZ2Fwcywgd2hpY2ggZG9lcwo+ID4gPiBoYXBwZW4gc29tZXRpbWVzLCBpdCBpcyBn
-ZW5lcmFsbHkgY29uc2lkZXJlZCBhY2NlcHRhYmxlIHRvIHN1Ym1pdCBhCj4gPiA+IFtSRVNFTkRd
-IH4yIHdlZWtzIGFmdGVyIHRoZSBpbml0aWFsIHN1Ym1pc3Npb24uICBGWUk6IFRoaXMgd2FzIHN1
-Y2ggYQo+ID4gPiBwYXRjaC4gIEl0IHdhcyBub3Qgb24sIG9yIGhhZCBmYWxsZW4gb2ZmIG9mIG15
-IHJhZGFyIGZvciBzb21lIHJlYXNvbi4KPiA+ID4KPiA+ID4gU2Vjb25kbHksIHdlIGFyZSByZWFs
-bHkgbGF0ZSBpbiB0aGUgcmVsZWFzZSBjeWNsZS4gIC1yYzggaGFzIGp1c3QgYmVlbgo+ID4gPiBy
-ZWxlYXNlZC4gIFF1aXRlIGEgZmV3IG1haW50YWluZXJzIHNsb3cgZG93biBhdCB+LXJjNi4gIFBh
-cnRpY3VsYXJseQo+ID4gPiBmb3IgbmV3IGRyaXZlcnMuCj4gPiA+Cj4gPiA+IE5vIG5lZWQgdG8g
-cmVzdWJtaXQgdGhpcyBkcml2ZXIgdGhpcyB0aW1lLiAgSXQgaXMgbm93IG9uIG15IHRvLXJldmll
-dwo+ID4gPiBsaXN0IGFuZCBJIHdpbGwgdGVuZCB0byBpdCBzaG9ydGx5Lgo+ID4gPgo+ID4gPiBU
-aGFua3MgZm9yIHlvdXIgcGF0aWVuY2UuCj4gPgo+ID4gQWxzbyB5b3UgYXJlIG1pc3NpbmcgYSBE
-VCByZXZpZXcgb24gcGF0Y2ggNC4KPgo+IC4uLiBsb29rcyBsaWtlIHlvdSBmb3Jnb3QgdG8gQ2Mg
-dGhlbSEKPgpZYXAsIHJlYWxseS4gSScnbGwgcmVzZW5kIHBhdGNoIDQgYW5kIGNjIHRoZW0uIFRo
-eC4KPiAtLQo+IExlZSBKb25lcyBb5p2O55C85pavXQo+IFNlbmlvciBUZWNobmljYWwgTGVhZCAt
-IERldmVsb3BlciBTZXJ2aWNlcwo+IExpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJl
-IGZvciBBcm0gU29Dcwo+IEZvbGxvdyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+--===============1727302083==
+Content-Type: multipart/alternative; boundary="0000000000009fa78505c0511119"
+
+--0000000000009fa78505c0511119
+Content-Type: text/plain; charset="UTF-8"
+
+Hi,
+
+This is our initial proposal for explicit fences everywhere and new memory
+management that doesn't use BO fences. It's a redesign of how Linux
+graphics drivers work, and it can coexist with what we have now.
+
+
+*1. Introduction*
+(skip this if you are already sold on explicit fences)
+
+The current Linux graphics architecture was initially designed for GPUs
+with only one graphics queue where everything was executed in the
+submission order and per-BO fences were used for memory management and
+CPU-GPU synchronization, not GPU-GPU synchronization. Later, multiple
+queues were added on top, which required the introduction of implicit
+GPU-GPU synchronization between queues of different processes using per-BO
+fences. Recently, even parallel execution within one queue was enabled
+where a command buffer starts draws and compute shaders, but doesn't wait
+for them, enabling parallelism between back-to-back command buffers.
+Modesetting also uses per-BO fences for scheduling flips. Our GPU scheduler
+was created to enable all those use cases, and it's the only reason why the
+scheduler exists.
+
+The GPU scheduler, implicit synchronization, BO-fence-based memory
+management, and the tracking of per-BO fences increase CPU overhead and
+latency, and reduce parallelism. There is a desire to replace all of them
+with something much simpler. Below is how we could do it.
+
+
+*2. Explicit synchronization for window systems and modesetting*
+
+The producer is an application and the consumer is a compositor or a
+modesetting driver.
+
+*2.1. The Present request*
+
+As part of the Present request, the producer will pass 2 fences (sync
+objects) to the consumer alongside the presented DMABUF BO:
+- The submit fence: Initially unsignalled, it will be signalled when the
+producer has finished drawing into the presented buffer.
+- The return fence: Initially unsignalled, it will be signalled when the
+consumer has finished using the presented buffer.
+
+Deadlock mitigation to recover from segfaults:
+- The kernel knows which process is obliged to signal which fence. This
+information is part of the Present request and supplied by userspace.
+- If the producer crashes, the kernel signals the submit fence, so that the
+consumer can make forward progress.
+- If the consumer crashes, the kernel signals the return fence, so that the
+producer can reclaim the buffer.
+- A GPU hang signals all fences. Other deadlocks will be handled like GPU
+hangs.
+
+Other window system requests can follow the same idea.
+
+Merged fences where one fence object contains multiple fences will be
+supported. A merged fence is signalled only when its fences are signalled.
+The consumer will have the option to redefine the unsignalled return fence
+to a merged fence.
+
+*2.2. Modesetting*
+
+Since a modesetting driver can also be the consumer, the present ioctl will
+contain a submit fence and a return fence too. One small problem with this
+is that userspace can hang the modesetting driver, but in theory, any later
+present ioctl can override the previous one, so the unsignalled
+presentation is never used.
+
+
+*3. New memory management*
+
+The per-BO fences will be removed and the kernel will not know which
+buffers are busy. This will reduce CPU overhead and latency. The kernel
+will not need per-BO fences with explicit synchronization, so we just need
+to remove their last user: buffer evictions. It also resolves the current
+OOM deadlock.
+
+*3.1. Evictions*
+
+If the kernel wants to move a buffer, it will have to wait for everything
+to go idle, halt all userspace command submissions, move the buffer, and
+resume everything. This is not expected to happen when memory is not
+exhausted. Other more efficient ways of synchronization are also possible
+(e.g. sync only one process), but are not discussed here.
+
+*3.2. Per-process VRAM usage quota*
+
+Each process can optionally and periodically query its VRAM usage quota and
+change domains of its buffers to obey that quota. For example, a process
+allocated 2 GB of buffers in VRAM, but the kernel decreased the quota to 1
+GB. The process can change the domains of the least important buffers to
+GTT to get the best outcome for itself. If the process doesn't do it, the
+kernel will choose which buffers to evict at random. (thanks to Christian
+Koenig for this idea)
+
+*3.3. Buffer destruction without per-BO fences*
+
+When the buffer destroy ioctl is called, an optional fence list can be
+passed to the kernel to indicate when it's safe to deallocate the buffer.
+If the fence list is empty, the buffer will be deallocated immediately.
+Shared buffers will be handled by merging fence lists from all processes
+that destroy them. Mitigation of malicious behavior:
+- If userspace destroys a busy buffer, it will get a GPU page fault.
+- If userspace sends fences that never signal, the kernel will have a
+timeout period and then will proceed to deallocate the buffer anyway.
+
+*3.4. Other notes on MM*
+
+Overcommitment of GPU-accessible memory will cause an allocation failure or
+invoke the OOM killer. Evictions to GPU-inaccessible memory might not be
+supported.
+
+Kernel drivers could move to this new memory management today. Only buffer
+residency and evictions would stop using per-BO fences.
+
+
+
+*4. Deprecating implicit synchronization*
+
+It can be phased out by introducing a new generation of hardware where the
+driver doesn't add support for it (like a driver fork would do), assuming
+userspace has all the changes for explicit synchronization. This could
+potentially create an isolated part of the kernel DRM where all drivers
+only support explicit synchronization.
+
+Marek
+
+--0000000000009fa78505c0511119
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>This is our initial prop=
+osal for explicit fences everywhere and new memory management that doesn&#3=
+9;t use BO fences. It&#39;s a redesign of how Linux graphics drivers work, =
+and it can coexist with what we have now.<br></div><div><br></div><div><br>=
+</div><div><b>1. Introduction</b><br></div><div>(skip this if you are alrea=
+dy sold on explicit fences)</div><div><br></div><div></div><div>The current=
+ Linux graphics architecture was initially designed for GPUs with only one =
+graphics queue where everything was executed in the submission order and pe=
+r-BO fences were used for memory management and CPU-GPU synchronization, no=
+t GPU-GPU synchronization. Later, multiple queues were added on top, which =
+required the introduction of implicit GPU-GPU synchronization between queue=
+s of different processes using per-BO fences. Recently, even parallel execu=
+tion within one queue was enabled where a command buffer starts draws and c=
+ompute shaders, but doesn&#39;t wait for them, enabling parallelism between=
+ back-to-back command buffers. Modesetting also uses per-BO fences for sche=
+duling flips. Our GPU scheduler was created to enable all those use cases, =
+and it&#39;s the only reason why the scheduler exists.<br></div><div><br></=
+div><div>The GPU scheduler, implicit synchronization, BO-fence-based memory=
+ management, and the tracking of per-BO fences increase CPU overhead and la=
+tency, and reduce parallelism. There is a desire to replace all of them wit=
+h something much simpler. Below is how we could do it.<br></div><div><br></=
+div><div><br></div><div><b>2. Explicit synchronization for window systems a=
+nd modesetting</b><br></div><div><br></div><div>The producer is an applicat=
+ion and the consumer is a compositor or a modesetting driver.<br></div><div=
+><br></div><div><b>2.1. The Present request</b><br></div><div><br></div><di=
+v>As part of the Present request, the producer will pass 2 fences (sync obj=
+ects) to the consumer alongside the presented DMABUF BO:</div><div>- The su=
+bmit fence: Initially unsignalled, it will be signalled when the producer h=
+as finished drawing into the presented buffer.<br></div><div>- The return f=
+ence: Initially unsignalled, it will be signalled when the consumer has fin=
+ished using the presented buffer.</div><div><br></div><div>Deadlock mitigat=
+ion to recover from segfaults:</div><div>- The kernel knows which process i=
+s obliged to signal which fence. This information is part of the Present re=
+quest and supplied by userspace.<br></div><div>- If the producer crashes, t=
+he kernel signals the submit fence, so that the consumer can make forward p=
+rogress.</div><div>- If the consumer crashes, the kernel signals the return=
+ fence, so that the producer can reclaim the buffer.</div><div>- A GPU hang=
+ signals all fences. Other deadlocks will be handled like GPU hangs.<br></d=
+iv><div><br></div><div>Other window system requests can follow the same ide=
+a.<br></div><div><br></div><div><div>Merged fences where one fence object c=
+ontains multiple fences will be supported. A merged fence is signalled only=
+ when its fences are signalled. The consumer will have the option to redefi=
+ne the unsignalled return fence to a merged fence.<br></div></div><div><b><=
+br></b></div><div><b>2.2. Modesetting</b><br></div><div><br></div><div>Sinc=
+e a modesetting driver can also be the consumer, the present ioctl will con=
+tain a submit fence and a return fence too.  One small problem with this is=
+ that userspace can hang the modesetting=20
+driver, but in theory, any later present ioctl can override the previous on=
+e, so the unsignalled presentation is never used.<br></div><div></div><div>=
+<br></div><div><br></div><div><b>3. New memory management</b></div><div><br=
+></div><div>The per-BO fences will be removed and the kernel will not know =
+which buffers are busy. This will reduce CPU overhead and latency. The kern=
+el will not need per-BO fences with explicit synchronization, so we just ne=
+ed to remove their last user: buffer evictions. It also resolves the curren=
+t OOM deadlock.<br></div><div><br></div><div><b>3.1. Evictions</b><br></div=
+><div><br></div><div>If the kernel wants to move a buffer, it will have to =
+wait for everything to go idle, halt all userspace command submissions, mov=
+e the buffer, and resume everything. This is not expected to happen when me=
+mory is not exhausted. Other more efficient ways of synchronization are als=
+o possible (e.g. sync only one process), but are not discussed here.<br></d=
+iv><div><br></div><div><b>3.2. Per-process VRAM usage quota</b><br></div><d=
+iv><br></div><div>Each process can optionally and periodically query its VR=
+AM usage quota and change domains of its buffers to obey that quota. For ex=
+ample, a process allocated 2 GB of buffers in VRAM, but the kernel decrease=
+d the quota to 1 GB. The process can change the domains of the least import=
+ant buffers to GTT to get the best outcome for itself. If the process doesn=
+&#39;t do it, the kernel will choose which buffers to evict at random. (tha=
+nks to Christian Koenig for this idea)<br></div><div><br></div><div><b>3.3.=
+ Buffer destruction without per-BO fences</b><br></div><div><br></div><div>=
+When the buffer destroy ioctl is called, an optional fence list can be pass=
+ed to the kernel to indicate when it&#39;s safe to deallocate the buffer. I=
+f the fence list is empty, the buffer will be deallocated immediately. Shar=
+ed buffers will be handled by merging fence lists from all processes that d=
+estroy them. Mitigation of malicious behavior:</div><div>- If userspace des=
+troys a busy buffer, it will get a GPU page fault.</div><div>- If userspace=
+ sends fences that never signal, the kernel will have a timeout period and =
+then will proceed to deallocate the buffer anyway.</div><div><br></div><div=
+><b>3.4. Other notes on MM</b><br></div><div><br></div><div><div>Overcommit=
+ment of GPU-accessible memory will cause an allocation failure or invoke th=
+e OOM killer. Evictions to GPU-inaccessible memory might not be supported.<=
+br></div></div><div><br></div><div><div>Kernel drivers could move to this n=
+ew memory management today. Only buffer residency and evictions would stop =
+using per-BO fences.<br><b></b></div></div><div><br></div><div><br></div><d=
+iv><b>4. Deprecating implicit synchronization<br></b></div><div></div><div>=
+<div><br></div><div>It can be phased out by introducing a new generation of=
+ hardware where the driver doesn&#39;t add support for it (like a driver fo=
+rk would do), assuming userspace has all the changes for explicit synchroni=
+zation. This could potentially create an isolated part of the kernel DRM wh=
+ere all drivers only support explicit synchronization.<br></div></div><div>=
+</div><div><br></div><div></div><div></div><div></div><div>Marek<br></div><=
+/div>
+
+--0000000000009fa78505c0511119--
+
+--===============1727302083==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1727302083==--
