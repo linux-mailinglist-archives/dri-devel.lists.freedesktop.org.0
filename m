@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222BF364E10
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 00:57:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A0B364E1A
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 00:57:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD016E486;
-	Mon, 19 Apr 2021 22:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72AC46E456;
+	Mon, 19 Apr 2021 22:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 494A36E486
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 22:57:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9D76E484
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 22:57:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618873028;
+ s=mimecast20190719; t=1618873040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YMmr5Ouhvh6nm+wTQmmPynlw/HQvORWYNdyjVzafLV4=;
- b=g4o2jjwDK1+N6sdENVvma/taLXNw1gFM57462Zk3rsqXZ3dcYqq3+EN67JAuD8B151At7Z
- 3Zomht87L86drw1BJwev2xf5amM4Hoz+2enxV1cgOa3zLtBPxTeCOgjYLMzQS8/aujogKU
- KhCZfoi7LCD576h+3vL3lRpOhX34HyE=
+ bh=fS9SqrwNupvrpopbD8VXXaX4x7rSbuPne+g1wA7IR90=;
+ b=ASa6/9J52kRCB6gYfyRAI8z0/qB6nYVdIsDx1P7MIEtoiJVG7bM6xZqUNsrdETLVrlfb/V
+ PCDoRJhxPmaRe9bgnzHx0YdJx1NdOt1Ms+hnhyyXXabHUOVNwJt49hALyDGLv8ZmKczQRg
+ 64PuH9BDnd3t1uW7KYoKFfDE0UcS2ak=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-Cy6vB_jXPCml40vMmb-1OQ-1; Mon, 19 Apr 2021 18:57:06 -0400
-X-MC-Unique: Cy6vB_jXPCml40vMmb-1OQ-1
+ us-mta-170-f2PZW0kYMXOTpl2tXGVvAQ-1; Mon, 19 Apr 2021 18:57:18 -0400
+X-MC-Unique: f2PZW0kYMXOTpl2tXGVvAQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47BCD817469;
- Mon, 19 Apr 2021 22:57:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 268CD501F0;
+ Mon, 19 Apr 2021 22:57:15 +0000 (UTC)
 Received: from Ruby.lyude.net (ovpn-119-153.rdu2.redhat.com [10.10.119.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4014C5C1C4;
- Mon, 19 Apr 2021 22:56:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2AA325C1C4;
+ Mon, 19 Apr 2021 22:57:11 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -44,10 +44,10 @@ To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v3 08/20] drm/dp: Pass drm_dp_aux to
- drm_dp_link_train_clock_recovery_delay()
-Date: Mon, 19 Apr 2021 18:55:10 -0400
-Message-Id: <20210419225523.184856-9-lyude@redhat.com>
+Subject: [PATCH v3 09/20] drm/dp: Pass drm_dp_aux to
+ drm_dp*_link_train_channel_eq_delay()
+Date: Mon, 19 Apr 2021 18:55:11 -0400
+Message-Id: <20210419225523.184856-10-lyude@redhat.com>
 In-Reply-To: <20210419225523.184856-1-lyude@redhat.com>
 References: <20210419225523.184856-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -75,7 +75,7 @@ Cc: David Airlie <airlied@linux.ie>, Oleg Vasilev <oleg.vasilev@intel.com>,
  Sean Paul <sean@poorly.run>,
  "moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
  Hyun Kwon <hyun.kwon@xilinx.com>, open list <linux-kernel@vger.kernel.org>,
- Manasi Navare <manasi.d.navare@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, Xu Wang <vulab@iscas.ac.cn>,
  Alex Deucher <alexander.deucher@amd.com>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
@@ -84,137 +84,186 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So that we can start using drm_dbg_*() in
-drm_dp_link_train_clock_recovery_delay().
+So that we can start using drm_dbg_*() for
+drm_dp_link_train_channel_eq_delay() and
+drm_dp_lttpr_link_train_channel_eq_delay().
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 ---
- drivers/gpu/drm/amd/amdgpu/atombios_dp.c              | 2 +-
- drivers/gpu/drm/drm_dp_helper.c                       | 3 ++-
- drivers/gpu/drm/i915/display/intel_dp_link_training.c | 2 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c                      | 2 +-
- drivers/gpu/drm/msm/edp/edp_ctrl.c                    | 2 +-
- drivers/gpu/drm/radeon/atombios_dp.c                  | 2 +-
- drivers/gpu/drm/xlnx/zynqmp_dp.c                      | 2 +-
- include/drm/drm_dp_helper.h                           | 4 +++-
- 8 files changed, 11 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.c           |  2 +-
+ drivers/gpu/drm/drm_dp_helper.c                    | 14 +++++++++-----
+ .../gpu/drm/i915/display/intel_dp_link_training.c  |  4 ++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  4 ++--
+ drivers/gpu/drm/msm/edp/edp_ctrl.c                 |  4 ++--
+ drivers/gpu/drm/radeon/atombios_dp.c               |  2 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c                   |  2 +-
+ include/drm/drm_dp_helper.h                        |  6 ++++--
+ 8 files changed, 22 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-index 14a097322238..b0eaeb6afd29 100644
+index b0eaeb6afd29..9f0acee0a271 100644
 --- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
 +++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-@@ -617,7 +617,7 @@ amdgpu_atombios_dp_link_train_cr(struct amdgpu_atombios_dp_link_train_info *dp_i
+@@ -682,7 +682,7 @@ amdgpu_atombios_dp_link_train_ce(struct amdgpu_atombios_dp_link_train_info *dp_i
  	dp_info->tries = 0;
- 	voltage = 0xff;
+ 	channel_eq = false;
  	while (1) {
--		drm_dp_link_train_clock_recovery_delay(dp_info->dpcd);
-+		drm_dp_link_train_clock_recovery_delay(dp_info->aux, dp_info->dpcd);
+-		drm_dp_link_train_channel_eq_delay(dp_info->dpcd);
++		drm_dp_link_train_channel_eq_delay(dp_info->aux, dp_info->dpcd);
  
  		if (drm_dp_dpcd_read_link_status(dp_info->aux,
  						 dp_info->link_status) <= 0) {
 diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index b197fdac2334..3a3c4cfb9ac6 100644
+index 3a3c4cfb9ac6..eaafc676aa0c 100644
 --- a/drivers/gpu/drm/drm_dp_helper.c
 +++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -132,7 +132,8 @@ u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZ
+@@ -151,7 +151,8 @@ void drm_dp_link_train_clock_recovery_delay(const struct drm_dp_aux *aux,
  }
- EXPORT_SYMBOL(drm_dp_get_adjust_request_post_cursor);
+ EXPORT_SYMBOL(drm_dp_link_train_clock_recovery_delay);
  
--void drm_dp_link_train_clock_recovery_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-+void drm_dp_link_train_clock_recovery_delay(const struct drm_dp_aux *aux,
-+					    const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+-static void __drm_dp_link_train_channel_eq_delay(unsigned long rd_interval)
++static void __drm_dp_link_train_channel_eq_delay(const struct drm_dp_aux *aux,
++						 unsigned long rd_interval)
  {
- 	unsigned long rd_interval = dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
- 					 DP_TRAINING_AUX_RD_MASK;
+ 	if (rd_interval > 4)
+ 		DRM_DEBUG_KMS("AUX interval %lu, out of range (max 4)\n",
+@@ -165,9 +166,11 @@ static void __drm_dp_link_train_channel_eq_delay(unsigned long rd_interval)
+ 	usleep_range(rd_interval, rd_interval * 2);
+ }
+ 
+-void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
++void drm_dp_link_train_channel_eq_delay(const struct drm_dp_aux *aux,
++					const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+ {
+-	__drm_dp_link_train_channel_eq_delay(dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
++	__drm_dp_link_train_channel_eq_delay(aux,
++					     dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
+ 					     DP_TRAINING_AUX_RD_MASK);
+ }
+ EXPORT_SYMBOL(drm_dp_link_train_channel_eq_delay);
+@@ -183,13 +186,14 @@ static u8 dp_lttpr_phy_cap(const u8 phy_cap[DP_LTTPR_PHY_CAP_SIZE], int r)
+ 	return phy_cap[r - DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1];
+ }
+ 
+-void drm_dp_lttpr_link_train_channel_eq_delay(const u8 phy_cap[DP_LTTPR_PHY_CAP_SIZE])
++void drm_dp_lttpr_link_train_channel_eq_delay(const struct drm_dp_aux *aux,
++					      const u8 phy_cap[DP_LTTPR_PHY_CAP_SIZE])
+ {
+ 	u8 interval = dp_lttpr_phy_cap(phy_cap,
+ 				       DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1) &
+ 		      DP_TRAINING_AUX_RD_MASK;
+ 
+-	__drm_dp_link_train_channel_eq_delay(interval);
++	__drm_dp_link_train_channel_eq_delay(aux, interval);
+ }
+ EXPORT_SYMBOL(drm_dp_lttpr_link_train_channel_eq_delay);
+ 
 diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-index 591ddc4b876c..198ddb3c173a 100644
+index 198ddb3c173a..6bf6f1ec13ed 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-@@ -513,7 +513,7 @@ static void intel_dp_link_training_clock_recovery_delay(struct intel_dp *intel_d
- 							enum drm_dp_phy dp_phy)
+@@ -665,11 +665,11 @@ intel_dp_link_training_channel_equalization_delay(struct intel_dp *intel_dp,
+ 						  enum drm_dp_phy dp_phy)
  {
- 	if (dp_phy == DP_PHY_DPRX)
--		drm_dp_link_train_clock_recovery_delay(intel_dp->dpcd);
-+		drm_dp_link_train_clock_recovery_delay(&intel_dp->aux, intel_dp->dpcd);
- 	else
- 		drm_dp_lttpr_link_train_clock_recovery_delay();
+ 	if (dp_phy == DP_PHY_DPRX) {
+-		drm_dp_link_train_channel_eq_delay(intel_dp->dpcd);
++		drm_dp_link_train_channel_eq_delay(&intel_dp->aux, intel_dp->dpcd);
+ 	} else {
+ 		const u8 *phy_caps = intel_dp_lttpr_phy_caps(intel_dp, dp_phy);
+ 
+-		drm_dp_lttpr_link_train_channel_eq_delay(phy_caps);
++		drm_dp_lttpr_link_train_channel_eq_delay(&intel_dp->aux, phy_caps);
+ 	}
  }
+ 
 diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 1390f3547fde..264a9eae87d3 100644
+index 264a9eae87d3..2cebd17a7289 100644
 --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
 +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1103,7 +1103,7 @@ static int dp_ctrl_link_train_1(struct dp_ctrl_private *ctrl,
- 	tries = 0;
- 	old_v_level = ctrl->link->phy_params.v_level;
- 	for (tries = 0; tries < maximum_retries; tries++) {
--		drm_dp_link_train_clock_recovery_delay(ctrl->panel->dpcd);
-+		drm_dp_link_train_clock_recovery_delay(ctrl->aux, ctrl->panel->dpcd);
+@@ -1184,7 +1184,7 @@ static int dp_ctrl_link_lane_down_shift(struct dp_ctrl_private *ctrl)
+ static void dp_ctrl_clear_training_pattern(struct dp_ctrl_private *ctrl)
+ {
+ 	dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_DISABLE);
+-	drm_dp_link_train_channel_eq_delay(ctrl->panel->dpcd);
++	drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
+ }
+ 
+ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
+@@ -1215,7 +1215,7 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
+ 	dp_ctrl_train_pattern_set(ctrl, pattern | DP_RECOVERED_CLOCK_OUT_EN);
+ 
+ 	for (tries = 0; tries <= maximum_retries; tries++) {
+-		drm_dp_link_train_channel_eq_delay(ctrl->panel->dpcd);
++		drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
  
  		ret = dp_ctrl_read_link_status(ctrl, link_status);
  		if (ret)
 diff --git a/drivers/gpu/drm/msm/edp/edp_ctrl.c b/drivers/gpu/drm/msm/edp/edp_ctrl.c
-index 57af3d8b6699..6501598448b4 100644
+index 6501598448b4..4fb397ee7c84 100644
 --- a/drivers/gpu/drm/msm/edp/edp_ctrl.c
 +++ b/drivers/gpu/drm/msm/edp/edp_ctrl.c
-@@ -608,7 +608,7 @@ static int edp_start_link_train_1(struct edp_ctrl *ctrl)
- 	tries = 0;
- 	old_v_level = ctrl->v_level;
+@@ -665,7 +665,7 @@ static int edp_start_link_train_2(struct edp_ctrl *ctrl)
+ 		return ret;
+ 
  	while (1) {
--		drm_dp_link_train_clock_recovery_delay(ctrl->dpcd);
-+		drm_dp_link_train_clock_recovery_delay(ctrl->drm_aux, ctrl->dpcd);
+-		drm_dp_link_train_channel_eq_delay(ctrl->dpcd);
++		drm_dp_link_train_channel_eq_delay(ctrl->drm_aux, ctrl->dpcd);
  
  		rlen = drm_dp_dpcd_read_link_status(ctrl->drm_aux, link_status);
  		if (rlen < DP_LINK_STATUS_SIZE) {
+@@ -743,7 +743,7 @@ static int edp_clear_training_pattern(struct edp_ctrl *ctrl)
+ 
+ 	ret = edp_train_pattern_set_write(ctrl, 0);
+ 
+-	drm_dp_link_train_channel_eq_delay(ctrl->dpcd);
++	drm_dp_link_train_channel_eq_delay(ctrl->drm_aux, ctrl->dpcd);
+ 
+ 	return ret;
+ }
 diff --git a/drivers/gpu/drm/radeon/atombios_dp.c b/drivers/gpu/drm/radeon/atombios_dp.c
-index c50c504bad50..299b9d8da376 100644
+index 299b9d8da376..4c1e551d9714 100644
 --- a/drivers/gpu/drm/radeon/atombios_dp.c
 +++ b/drivers/gpu/drm/radeon/atombios_dp.c
-@@ -680,7 +680,7 @@ static int radeon_dp_link_train_cr(struct radeon_dp_link_train_info *dp_info)
+@@ -743,7 +743,7 @@ static int radeon_dp_link_train_ce(struct radeon_dp_link_train_info *dp_info)
  	dp_info->tries = 0;
- 	voltage = 0xff;
+ 	channel_eq = false;
  	while (1) {
--		drm_dp_link_train_clock_recovery_delay(dp_info->dpcd);
-+		drm_dp_link_train_clock_recovery_delay(dp_info->aux, dp_info->dpcd);
+-		drm_dp_link_train_channel_eq_delay(dp_info->dpcd);
++		drm_dp_link_train_channel_eq_delay(dp_info->aux, dp_info->dpcd);
  
  		if (drm_dp_dpcd_read_link_status(dp_info->aux,
  						 dp_info->link_status) <= 0) {
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index e8efbab5ae69..6ef2d9b3884c 100644
+index 6ef2d9b3884c..cc98ac009ecd 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -713,7 +713,7 @@ static int zynqmp_dp_link_train_cr(struct zynqmp_dp *dp)
+@@ -778,7 +778,7 @@ static int zynqmp_dp_link_train_ce(struct zynqmp_dp *dp)
  		if (ret)
  			return ret;
  
--		drm_dp_link_train_clock_recovery_delay(dp->dpcd);
-+		drm_dp_link_train_clock_recovery_delay(&dp->aux, dp->dpcd);
+-		drm_dp_link_train_channel_eq_delay(dp->dpcd);
++		drm_dp_link_train_channel_eq_delay(&dp->aux, dp->dpcd);
  		ret = drm_dp_dpcd_read_link_status(&dp->aux, link_status);
  		if (ret < 0)
  			return ret;
 diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 417b2c101a1e..9900c93e4f2c 100644
+index 9900c93e4f2c..b162aed6f1c8 100644
 --- a/include/drm/drm_dp_helper.h
 +++ b/include/drm/drm_dp_helper.h
-@@ -29,6 +29,7 @@
- #include <drm/drm_connector.h>
- 
- struct drm_device;
-+struct drm_dp_aux;
- 
- /*
-  * Unless otherwise noted, all values are from the DP 1.1a spec.  Note that
-@@ -1482,7 +1483,8 @@ u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZ
- #define DP_LTTPR_COMMON_CAP_SIZE	8
- #define DP_LTTPR_PHY_CAP_SIZE		3
- 
--void drm_dp_link_train_clock_recovery_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
-+void drm_dp_link_train_clock_recovery_delay(const struct drm_dp_aux *aux,
-+					    const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+@@ -1486,8 +1486,10 @@ u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZ
+ void drm_dp_link_train_clock_recovery_delay(const struct drm_dp_aux *aux,
+ 					    const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
  void drm_dp_lttpr_link_train_clock_recovery_delay(void);
- void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
- void drm_dp_lttpr_link_train_channel_eq_delay(const u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
+-void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+-void drm_dp_lttpr_link_train_channel_eq_delay(const u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
++void drm_dp_link_train_channel_eq_delay(const struct drm_dp_aux *aux,
++					const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
++void drm_dp_lttpr_link_train_channel_eq_delay(const struct drm_dp_aux *aux,
++					      const u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
+ 
+ u8 drm_dp_link_rate_to_bw_code(int link_rate);
+ int drm_dp_bw_code_to_link_rate(u8 link_bw);
 -- 
 2.30.2
 
