@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EC9364941
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 19:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C2D364A14
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 20:48:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 300D789D57;
-	Mon, 19 Apr 2021 17:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 296976E428;
+	Mon, 19 Apr 2021 18:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB54089D57
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 17:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=Gpg37cvlNUMgLhfhroZl1NiOwZjHB+4OxYlq13ZJrJg=; b=QX7pEvmkb1sjPZOTLUFK+4Wc+y
- 2ebvKMHggZF8U18gdY0LB4pUiveA9irbibMC0nU5zyWDPe0jQwgEShicv1UBgKN/uCl5LJCWQjZ/z
- 19ikclN4b7Z+dqcDyMXsXw5Le9AaxzSs7r71YKyfadDt4qvZDuSF+31mczbUnH2a+ojonjb0lyoZd
- 9JQlyjIdkW/0QT5vqGVv/lUEGWyHxaKOQPaNG1biKNQyi/5hRWwZurt8zgEOHZViTK1A8sCyqdD+9
- ecpBIvD0Pj1XpjuLdUNFs+7On834xSrTSvTksEN34y9bfL2HsdgmmTi7f1f5D0uHNteIABXHtBXBu
- HQ53Y81w==;
-Received: from [2601:1c0:6280:3f0::df68]
- by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lYY6Y-00E5iM-Fi; Mon, 19 Apr 2021 17:54:43 +0000
-Subject: Re: [PATCH v3] drm/bridge/sii8620: fix dependency on extcon
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Robert Foss <robert.foss@linaro.org>, a.hajda@samsung.com,
- narmstrong@baylibre.com, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@siol.net, airlied@linux.ie, daniel@ffwll.ch,
- cw00.choi@samsung.com, m.purski@samsung.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>
-References: <20210419090124.153560-1-robert.foss@linaro.org>
- <1627725d-1c7e-109f-f995-e761bb022ccc@infradead.org>
-Message-ID: <d295f001-575d-f14c-b0c1-1444dd29a03e@infradead.org>
-Date: Mon, 19 Apr 2021 10:54:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10B4A6E428
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 18:48:48 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id v6so8638354oiv.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 11:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kpx1KvA9nXC26B9CQb4+xACaQ8wLuRHcCxO/n6ExF0U=;
+ b=hQ1rvMtbsthxX0bcVY3jpCUWiCSMfnwrt3hi+FiJRkFu6yOxgLyo5XgPkGt5oVM6Yv
+ ltCgNwYWejvNRblwJm49thiCU5NuTkpZOHHFyHYo5mMGbY6s3RtFlFwC1kfMQX6jr7tB
+ YKBSMieantC67pRYX5HlCaQYcsItCDiKwS7gw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kpx1KvA9nXC26B9CQb4+xACaQ8wLuRHcCxO/n6ExF0U=;
+ b=j8clU4kI01CRDq15D8nvTIvYOh0G5Ofkq8pITJMUuG64cg34JH4pt2Jg7xqUQn/FC4
+ sYcniTGxA9o6SOKmS2LHw/FTkyl346AitiXNQGXsTBceRe9mXY3mwEzQCj6GX4mBVh8+
+ WxG4Nnh3EsndmsxEDhFjFHNdHjNdiDzNPBWhp2YuCXC7jk9BixlgY2BVfRYY2+G0Kt4h
+ fujLyu1OxuepkpVYpqA/K2cezWJyBZA+d5GN4RQp4f8/iIiNg5pmySqgyBQ2SxAiFHG3
+ giHjQ7nheoGPNlixPlSkqUoUD43P0IdaD3a1odPw4x/fTTpkf7aPiltdXITVCfw4vxXp
+ 3Ozg==
+X-Gm-Message-State: AOAM531OQ+by3l+dnrZACZRhjfCA4Zs6A96G3wopaEZAH6SGhZeGNt2R
+ C4INDX+BcdWLLnwWLw5t0se4izTBK2pR+zJOgo3Yww==
+X-Google-Smtp-Source: ABdhPJwavLqMTWA2oCxkDxHG5TA7CHQFRyfsIt88Ll0l0C1mbeb47hPwRMYOZZ/KtZcGD5P/PEhfVRtjP4zDXbWxeQc=
+X-Received: by 2002:aca:2219:: with SMTP id b25mr206855oic.14.1618858128169;
+ Mon, 19 Apr 2021 11:48:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1627725d-1c7e-109f-f995-e761bb022ccc@infradead.org>
-Content-Language: en-US
+References: <f7add0a2-162e-3bd2-b1be-344a94f2acbf@vmware.com>
+ <CAPM=9twZd-Y6dnx7eQW6paw8BoREnMiPAe5FnBM1sZ-3uPk9YQ@mail.gmail.com>
+In-Reply-To: <CAPM=9twZd-Y6dnx7eQW6paw8BoREnMiPAe5FnBM1sZ-3uPk9YQ@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 19 Apr 2021 20:48:37 +0200
+Message-ID: <CAKMK7uG3bHcqK=8ef7rQLfcgRWwsHTZexpi3i7pe9q1NZG9ejQ@mail.gmail.com>
+Subject: Re: [git pull] drm/vmwgfx fixes for 5.12-rc8
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,75 +58,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/19/21 10:10 AM, Randy Dunlap wrote:
-> On 4/19/21 2:01 AM, Robert Foss wrote:
->> The DRM_SIL_SII8620 kconfig has a weak `imply` dependency
->> on EXTCON, which causes issues when sii8620 is built
->> as a builtin and EXTCON is built as a module.
->>
->> The symptoms are 'undefined reference' errors caused
->> by the symbols in EXTCON not being available
->> to the sii8620 driver.
->>
->> Fixes: 688838442147 ("drm/bridge/sii8620: use micro-USB cable detection logic to detect MHL")
->> Signed-off-by: Robert Foss <robert.foss@linaro.org>
->> Reported-by: kernel test robot <lkp@intel.com>
->> ---
->>
->> LKP reported issue:
->> https://lore.kernel.org/lkml/202104040604.SSTe2Cxf-lkp@intel.com/
->>
->>
->> Changes since v1:
->>  - Fix typo on comment
->>
->> Changes since v2:
->>  - Randy: Changed from `depends` to `select` 
-> 
-> I don't know why my name is on that. I didn't
-> suggest any change -- I just reported that v2
-> had a problem.
-> 
-> 
->>
->>
->>  drivers/gpu/drm/bridge/Kconfig | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
->> index 22a467abd3e9..70402da5cc70 100644
->> --- a/drivers/gpu/drm/bridge/Kconfig
->> +++ b/drivers/gpu/drm/bridge/Kconfig
->> @@ -169,7 +169,7 @@ config DRM_SIL_SII8620
->>  	tristate "Silicon Image SII8620 HDMI/MHL bridge"
->>  	depends on OF
->>  	select DRM_KMS_HELPER
->> -	imply EXTCON
->> +	select EXTCON
->>  	depends on RC_CORE || !RC_CORE
->>  	help
->>  	  Silicon Image SII8620 HDMI/MHL bridge chip driver.
-> 
-> 
-> Thanks. Works For Me.
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+On Sun, Apr 18, 2021 at 1:03 AM Dave Airlie <airlied@gmail.com> wrote:
+>
+> Hi Zack,
+>
+> Please make sure to always cc dri-devel and/or Daniel on these so if
+> I'm away they don't get lost, but also so that they make it into
+> patchwork for processing.
+>
+> If you have a chance can you resend it, I'll see if we can process
+> this out of band and get it to Linus before release.
 
-Actually I can upgrade that to:
+Or use drm-misc-fixes train, usually it leaves on schedul :-)
+-Daniel
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+>
+> Dave.
+>
+> On Thu, 15 Apr 2021 at 07:14, Zack Rusin <zackr@vmware.com> wrote:
+> >
+> > The following changes since commit d434405aaab7d0ebc516b68a8fc4100922d7f5ef:
+> >
+> >    Linux 5.12-rc7 (2021-04-11 15:16:13 -0700)
+> >
+> > are available in the Git repository at:
+> >
+> >    git@gitlab.freedesktop.org:zack/vmwgfx.git tags/vmwgfx-fixes-2021-04-14
+> >
+> > for you to fetch changes up to 2ef4fb92363c44e8a6f93fd0877b6a7dee6f874d:
+> >
+> >    drm/vmwgfx: Make sure bo's are unpinned before putting them back (2021-04-14 16:41:31 -0400)
+> >
+> > ----------------------------------------------------------------
+> > vmwgfx fixes for regressions in 5.12
+> >
+> > Here's a set of 3 patches fixing ugly regressions
+> > in the vmwgfx driver. We broke lock initialization
+> > code and ended up using spinlocks before initialization
+> > breaking lockdep.
+> > Also there was a bit of a fallout from drm changes
+> > which made the core validate that unreferenced buffers
+> > have been unpinned. vmwgfx pinning code predates a lot
+> > of the core drm and wasn't written to account for those
+> > semantics. Fortunately changes required to fix it
+> > are not too intrusive.
+> > The changes have been validated by our internal ci.
+> >
+> > Signed-off-by: Zack Rusin <zackr@vmware.com>
+> >
+> > ----------------------------------------------------------------
+> > Zack Rusin (3):
+> >        drm/vmwgfx: Make sure we unpin no longer needed buffers
+> >        drm/vmwgfx: Fix the lockdep breakage
+> >        drm/vmwgfx: Make sure bo's are unpinned before putting them back
+> >
+> >   drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c |  4 ++++
+> >   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 17 ++++++++---------
+> >   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  5 +----
+> >   drivers/gpu/drm/vmwgfx/vmwgfx_mob.c     | 14 ++++++++++++++
+> >   4 files changed, 27 insertions(+), 13 deletions(-)
 
 
-ta.
+
 -- 
-~Randy
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
