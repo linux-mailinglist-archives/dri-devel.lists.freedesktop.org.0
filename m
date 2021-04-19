@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C2D364A14
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 20:48:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34112364DE8
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 00:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 296976E428;
-	Mon, 19 Apr 2021 18:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42B736E446;
+	Mon, 19 Apr 2021 22:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B4A6E428
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 18:48:48 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id v6so8638354oiv.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 11:48:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kpx1KvA9nXC26B9CQb4+xACaQ8wLuRHcCxO/n6ExF0U=;
- b=hQ1rvMtbsthxX0bcVY3jpCUWiCSMfnwrt3hi+FiJRkFu6yOxgLyo5XgPkGt5oVM6Yv
- ltCgNwYWejvNRblwJm49thiCU5NuTkpZOHHFyHYo5mMGbY6s3RtFlFwC1kfMQX6jr7tB
- YKBSMieantC67pRYX5HlCaQYcsItCDiKwS7gw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kpx1KvA9nXC26B9CQb4+xACaQ8wLuRHcCxO/n6ExF0U=;
- b=j8clU4kI01CRDq15D8nvTIvYOh0G5Ofkq8pITJMUuG64cg34JH4pt2Jg7xqUQn/FC4
- sYcniTGxA9o6SOKmS2LHw/FTkyl346AitiXNQGXsTBceRe9mXY3mwEzQCj6GX4mBVh8+
- WxG4Nnh3EsndmsxEDhFjFHNdHjNdiDzNPBWhp2YuCXC7jk9BixlgY2BVfRYY2+G0Kt4h
- fujLyu1OxuepkpVYpqA/K2cezWJyBZA+d5GN4RQp4f8/iIiNg5pmySqgyBQ2SxAiFHG3
- giHjQ7nheoGPNlixPlSkqUoUD43P0IdaD3a1odPw4x/fTTpkf7aPiltdXITVCfw4vxXp
- 3Ozg==
-X-Gm-Message-State: AOAM531OQ+by3l+dnrZACZRhjfCA4Zs6A96G3wopaEZAH6SGhZeGNt2R
- C4INDX+BcdWLLnwWLw5t0se4izTBK2pR+zJOgo3Yww==
-X-Google-Smtp-Source: ABdhPJwavLqMTWA2oCxkDxHG5TA7CHQFRyfsIt88Ll0l0C1mbeb47hPwRMYOZZ/KtZcGD5P/PEhfVRtjP4zDXbWxeQc=
-X-Received: by 2002:aca:2219:: with SMTP id b25mr206855oic.14.1618858128169;
- Mon, 19 Apr 2021 11:48:48 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 460306E444
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 22:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618872935;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ApSxY6cQxPwMOv8yFBqAhygLAe9qmNzrZuA363mprUQ=;
+ b=acQbrJ4IiXSH9VzSI5ifi/ksETLLDxBrpohFCJn/OrHrBEcoPnQpOm5O24C7ENlSVNDsud
+ Rryk0rnRUSDfECFjf+wDbz/jFnPpyVAWaPx8Anow1wheMzZZZKbvGw+18ZwBCNFzcvOT4H
+ MAVwdjvYIA4IZaftNNLLc2oxf6NitU0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-js6UxZP5M42NIbLfA5gs6A-1; Mon, 19 Apr 2021 18:55:31 -0400
+X-MC-Unique: js6UxZP5M42NIbLfA5gs6A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB4618030C9;
+ Mon, 19 Apr 2021 22:55:29 +0000 (UTC)
+Received: from Ruby.lyude.net (ovpn-119-153.rdu2.redhat.com [10.10.119.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC4135C1D0;
+ Mon, 19 Apr 2021 22:55:28 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v3 00/20] drm: Use new DRM printk funcs (like drm_dbg_*()) in
+ DP helpers
+Date: Mon, 19 Apr 2021 18:55:02 -0400
+Message-Id: <20210419225523.184856-1-lyude@redhat.com>
 MIME-Version: 1.0
-References: <f7add0a2-162e-3bd2-b1be-344a94f2acbf@vmware.com>
- <CAPM=9twZd-Y6dnx7eQW6paw8BoREnMiPAe5FnBM1sZ-3uPk9YQ@mail.gmail.com>
-In-Reply-To: <CAPM=9twZd-Y6dnx7eQW6paw8BoREnMiPAe5FnBM1sZ-3uPk9YQ@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 19 Apr 2021 20:48:37 +0200
-Message-ID: <CAKMK7uG3bHcqK=8ef7rQLfcgRWwsHTZexpi3i7pe9q1NZG9ejQ@mail.gmail.com>
-Subject: Re: [git pull] drm/vmwgfx fixes for 5.12-rc8
-To: Dave Airlie <airlied@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,78 +65,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 18, 2021 at 1:03 AM Dave Airlie <airlied@gmail.com> wrote:
->
-> Hi Zack,
->
-> Please make sure to always cc dri-devel and/or Daniel on these so if
-> I'm away they don't get lost, but also so that they make it into
-> patchwork for processing.
->
-> If you have a chance can you resend it, I'll see if we can process
-> this out of band and get it to Linus before release.
+Since it's been asked quite a few times on some of the various DP
+related patch series I've submitted to use the new DRM printk helpers,
+and it technically wasn't really trivial to do this before due to the
+lack of a consistent way to find a drm_device for an AUX channel, this
+patch series aims to address this. In this series we:
 
-Or use drm-misc-fixes train, usually it leaves on schedul :-)
--Daniel
+* (NEW!) Move i2c adapter setup into drm_dp_aux_init() and add
+  drm_dp_aux_fini()
+* Clean-up potentially erroneous usages of drm_dp_aux_init() and
+  drm_dp_aux_register() so that actual AUX registration doesn't happen
+  until we have an associated DRM device
+* Clean-up any obvious errors in drivers we find along the way
+* Add a backpointer to the respective drm_device for an AUX channel in
+  drm_dp_aux.drm_dev, and hook it up in every driver with an AUX channel
+  across the tree
+* Add a new ratelimited print helper we'll need for converting the DP
+  helpers over to using the new DRM printk helpers
+* Fix any inconsistencies with logging in drm_dp_helper.c so we always
+  have the aux channel name printed
+* Prepare the various DP helpers so they can find the correct drm_device
+  to use for logging
+* And finally, convert all of the DP helpers over to using drm_dbg_*()
+  and drm_err().
 
->
-> Dave.
->
-> On Thu, 15 Apr 2021 at 07:14, Zack Rusin <zackr@vmware.com> wrote:
-> >
-> > The following changes since commit d434405aaab7d0ebc516b68a8fc4100922d7f5ef:
-> >
-> >    Linux 5.12-rc7 (2021-04-11 15:16:13 -0700)
-> >
-> > are available in the Git repository at:
-> >
-> >    git@gitlab.freedesktop.org:zack/vmwgfx.git tags/vmwgfx-fixes-2021-04-14
-> >
-> > for you to fetch changes up to 2ef4fb92363c44e8a6f93fd0877b6a7dee6f874d:
-> >
-> >    drm/vmwgfx: Make sure bo's are unpinned before putting them back (2021-04-14 16:41:31 -0400)
-> >
-> > ----------------------------------------------------------------
-> > vmwgfx fixes for regressions in 5.12
-> >
-> > Here's a set of 3 patches fixing ugly regressions
-> > in the vmwgfx driver. We broke lock initialization
-> > code and ended up using spinlocks before initialization
-> > breaking lockdep.
-> > Also there was a bit of a fallout from drm changes
-> > which made the core validate that unreferenced buffers
-> > have been unpinned. vmwgfx pinning code predates a lot
-> > of the core drm and wasn't written to account for those
-> > semantics. Fortunately changes required to fix it
-> > are not too intrusive.
-> > The changes have been validated by our internal ci.
-> >
-> > Signed-off-by: Zack Rusin <zackr@vmware.com>
-> >
-> > ----------------------------------------------------------------
-> > Zack Rusin (3):
-> >        drm/vmwgfx: Make sure we unpin no longer needed buffers
-> >        drm/vmwgfx: Fix the lockdep breakage
-> >        drm/vmwgfx: Make sure bo's are unpinned before putting them back
-> >
-> >   drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c |  4 ++++
-> >   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 17 ++++++++---------
-> >   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  5 +----
-> >   drivers/gpu/drm/vmwgfx/vmwgfx_mob.c     | 14 ++++++++++++++
-> >   4 files changed, 27 insertions(+), 13 deletions(-)
+Lyude Paul (20):
+  drm/amdgpu: Add error handling to amdgpu_dm_initialize_dp_connector()
+  drm/dp: Add __no_check to drm_dp_aux_register()
+  drm/dp: Move i2c init to drm_dp_aux_init, add __must_check and fini
+  drm/bridge/cdns-mhdp8546: Register DP aux channel with userspace
+  drm/nouveau/kms/nv50-: Move AUX adapter reg to connector late
+    register/early unregister
+  drm/dp: Add backpointer to drm_device in drm_dp_aux
+  drm/dp: Clarify DP AUX registration time
+  drm/dp: Pass drm_dp_aux to drm_dp_link_train_clock_recovery_delay()
+  drm/dp: Pass drm_dp_aux to drm_dp*_link_train_channel_eq_delay()
+  drm/dp: Always print aux channel name in logs
+  drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_detect()
+  drm/dp_dual_mode: Pass drm_device to
+    drm_dp_dual_mode_set_tmds_output()
+  drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_max_tmds_clock()
+  drm/dp_dual_mode: Pass drm_device to
+    drm_dp_dual_mode_get_tmds_output()
+  drm/dp_dual_mode: Pass drm_device to drm_lspcon_(get|set)_mode()
+  drm/dp_mst: Pass drm_dp_mst_topology_mgr to drm_dp_get_vc_payload_bw()
+  drm/print: Handle potentially NULL drm_devices in drm_dbg_*
+  drm/dp: Convert drm_dp_helper.c to using drm_err/drm_dbg_*()
+  drm/dp_dual_mode: Convert drm_dp_dual_mode_helper.c to using
+    drm_err/drm_dbg_kms()
+  drm/dp_mst: Convert drm_dp_mst_topology.c to drm_err()/drm_dbg*()
 
-
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |   7 +-
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.c      |  17 +-
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.h      |   2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  29 +-
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  49 ++-
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.h   |   6 +-
+ .../drm/bridge/analogix/analogix-anx6345.c    |   3 +
+ .../drm/bridge/analogix/analogix-anx78xx.c    |   3 +
+ .../drm/bridge/analogix/analogix_dp_core.c    |   2 +
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  26 +-
+ drivers/gpu/drm/bridge/tc358767.c             |   6 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  17 +-
+ drivers/gpu/drm/drm_dp_aux_dev.c              |   6 +
+ drivers/gpu/drm/drm_dp_dual_mode_helper.c     |  68 ++--
+ drivers/gpu/drm/drm_dp_helper.c               | 260 +++++++-----
+ drivers/gpu/drm/drm_dp_mst_topology.c         | 376 +++++++++---------
+ drivers/gpu/drm/i915/display/intel_dp_aux.c   |  11 +-
+ drivers/gpu/drm/i915/display/intel_dp_aux.h   |   2 +-
+ .../drm/i915/display/intel_dp_link_training.c |   6 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   3 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |   7 +-
+ drivers/gpu/drm/i915/display/intel_lspcon.c   |  17 +-
+ drivers/gpu/drm/msm/dp/dp_aux.c               |   1 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              |   6 +-
+ drivers/gpu/drm/msm/edp/edp.h                 |   3 +-
+ drivers/gpu/drm/msm/edp/edp_aux.c             |   6 +-
+ drivers/gpu/drm/msm/edp/edp_ctrl.c            |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.c   |  27 +-
+ drivers/gpu/drm/radeon/atombios_dp.c          |   5 +-
+ drivers/gpu/drm/radeon/radeon_connectors.c    |   1 +
+ drivers/gpu/drm/tegra/dpaux.c                 |  15 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |   6 +-
+ include/drm/drm_dp_dual_mode_helper.h         |  14 +-
+ include/drm/drm_dp_helper.h                   |  24 +-
+ include/drm/drm_dp_mst_helper.h               |   3 +-
+ include/drm/drm_print.h                       |  20 +-
+ 36 files changed, 631 insertions(+), 431 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
