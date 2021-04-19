@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6496C364E33
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 00:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA93364E43
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 00:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 808426E4AF;
-	Mon, 19 Apr 2021 22:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1198B6E4DE;
+	Mon, 19 Apr 2021 22:57:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C439B6E4AF
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 22:57:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A67796E4C5
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 22:57:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618873061;
+ s=mimecast20190719; t=1618873065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fsHuKp62g6hI184+2qHzJYxOaWwL5I8FKOj2XVUcHtg=;
- b=bjdumGY4OWV7WINiw+nqXsnzblAnhgZQ15jXmoEUchFndVOkb357UX95VUjlc/ULqVuwEL
- hD1M2xfAx1HOjIWQeUIlYRQy6IFxSJ3Beerqo/uWJhsT41ZXKeHxnkin2dFSuRPhUhN/f9
- kDkg3UcKG5fg4PMFHw6fGZq0bgXfiX0=
+ bh=aORR5BDLVuChgsGPTpiSbr2OxX85lHm3aaLawSJYbVM=;
+ b=jOddZxutI+x8udB23TOTGtNK15DnS7OfVGcyvOOd2nDpHfS5xU/Gh3YCEKvUKWse0T/6O3
+ jb2BMbzrcP4JDwrYJAsRaMy88ioizyso1b2I1qX8jjCMuIcXmW32K1QBzI81YoH7gzc7Au
+ zxy3NIIrCBOZkWx7+4/iO1UPvxvkcyg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-7HqwpQ7CNqWh07_0SxZWmA-1; Mon, 19 Apr 2021 18:57:37 -0400
-X-MC-Unique: 7HqwpQ7CNqWh07_0SxZWmA-1
+ us-mta-138-15fvv2bnOhSJvr70IefdHA-1; Mon, 19 Apr 2021 18:57:41 -0400
+X-MC-Unique: 15fvv2bnOhSJvr70IefdHA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47B8C107ACE3;
- Mon, 19 Apr 2021 22:57:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44D9E1006C80;
+ Mon, 19 Apr 2021 22:57:39 +0000 (UTC)
 Received: from Ruby.lyude.net (ovpn-119-153.rdu2.redhat.com [10.10.119.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 443725C1C4;
- Mon, 19 Apr 2021 22:57:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A29835C1C4;
+ Mon, 19 Apr 2021 22:57:36 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -44,10 +44,10 @@ To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v3 15/20] drm/dp_dual_mode: Pass drm_device to
- drm_lspcon_(get|set)_mode()
-Date: Mon, 19 Apr 2021 18:55:17 -0400
-Message-Id: <20210419225523.184856-16-lyude@redhat.com>
+Subject: [PATCH v3 16/20] drm/dp_mst: Pass drm_dp_mst_topology_mgr to
+ drm_dp_get_vc_payload_bw()
+Date: Mon, 19 Apr 2021 18:55:18 -0400
+Message-Id: <20210419225523.184856-17-lyude@redhat.com>
 In-Reply-To: <20210419225523.184856-1-lyude@redhat.com>
 References: <20210419225523.184856-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -64,127 +64,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
- David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, Uma Shankar <uma.shankar@intel.com>,
- Sean Paul <sean@poorly.run>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ Anshuman Gupta <anshuman.gupta@intel.com>, Lee Shawn C <shawn.c.lee@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So that we can start using drm_dbg_*() throughout the DRM DP helpers.
+Since this is one of the few functions in drm_dp_mst_topology.c that
+doesn't have any way of getting access to a drm_device, let's pass the
+drm_dp_mst_topology_mgr down to this function so that it can use
+drm_dbg_kms().
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- drivers/gpu/drm/drm_dp_dual_mode_helper.c   |  8 +++++---
- drivers/gpu/drm/i915/display/intel_lspcon.c | 12 +++++++-----
- include/drm/drm_dp_dual_mode_helper.h       |  4 ++--
- 3 files changed, 14 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c       | 7 +++++--
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 3 ++-
+ include/drm/drm_dp_mst_helper.h             | 3 ++-
+ 3 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/drm_dp_dual_mode_helper.c
-index c9c2952bcad2..dbf9b1fdec63 100644
---- a/drivers/gpu/drm/drm_dp_dual_mode_helper.c
-+++ b/drivers/gpu/drm/drm_dp_dual_mode_helper.c
-@@ -430,6 +430,7 @@ EXPORT_SYMBOL(drm_dp_get_dual_mode_type_name);
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 276f7f054d62..9bac5bd050ab 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -3638,6 +3638,7 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+ 
  /**
-  * drm_lspcon_get_mode: Get LSPCON's current mode of operation by
-  * reading offset (0x80, 0x41)
-+ * @dev: &drm_device to use
-  * @adapter: I2C-over-aux adapter
-  * @mode: current lspcon mode of operation output variable
+  * drm_dp_get_vc_payload_bw - get the VC payload BW for an MST link
++ * @mgr: The &drm_dp_mst_topology_mgr to use
+  * @link_rate: link rate in 10kbits/s units
+  * @link_lane_count: lane count
   *
-@@ -437,7 +438,7 @@ EXPORT_SYMBOL(drm_dp_get_dual_mode_type_name);
-  * 0 on success, sets the current_mode value to appropriate mode
-  * -error on failure
+@@ -3646,7 +3647,8 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+  * convert the number of PBNs required for a given stream to the number of
+  * timeslots this stream requires in each MTP.
   */
--int drm_lspcon_get_mode(struct i2c_adapter *adapter,
-+int drm_lspcon_get_mode(const struct drm_device *dev, struct i2c_adapter *adapter,
- 			enum drm_lspcon_mode *mode)
+-int drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count)
++int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
++			     int link_rate, int link_lane_count)
  {
- 	u8 data;
-@@ -477,13 +478,14 @@ EXPORT_SYMBOL(drm_lspcon_get_mode);
- /**
-  * drm_lspcon_set_mode: Change LSPCON's mode of operation by
-  * writing offset (0x80, 0x40)
-+ * @dev: &drm_device to use
-  * @adapter: I2C-over-aux adapter
-  * @mode: required mode of operation
-  *
-  * Returns:
-  * 0 on success, -error on failure/timeout
-  */
--int drm_lspcon_set_mode(struct i2c_adapter *adapter,
-+int drm_lspcon_set_mode(const struct drm_device *dev, struct i2c_adapter *adapter,
- 			enum drm_lspcon_mode mode)
- {
- 	u8 data = 0;
-@@ -508,7 +510,7 @@ int drm_lspcon_set_mode(struct i2c_adapter *adapter,
- 	 * so wait and retry until time out or done.
- 	 */
- 	do {
--		ret = drm_lspcon_get_mode(adapter, &current_mode);
-+		ret = drm_lspcon_get_mode(dev, adapter, &current_mode);
- 		if (ret) {
- 			DRM_ERROR("can't confirm LSPCON mode change\n");
- 			return ret;
-diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
-index ca25044e7d1b..ec0048024746 100644
---- a/drivers/gpu/drm/i915/display/intel_lspcon.c
-+++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
-@@ -139,10 +139,11 @@ void lspcon_detect_hdr_capability(struct intel_lspcon *lspcon)
+ 	if (link_rate == 0 || link_lane_count == 0)
+ 		DRM_DEBUG_KMS("invalid link rate/lane count: (%d / %d)\n",
+@@ -3711,7 +3713,8 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
+ 			goto out_unlock;
+ 		}
  
- static enum drm_lspcon_mode lspcon_get_current_mode(struct intel_lspcon *lspcon)
- {
-+	struct intel_dp *intel_dp = lspcon_to_intel_dp(lspcon);
- 	enum drm_lspcon_mode current_mode;
--	struct i2c_adapter *adapter = &lspcon_to_intel_dp(lspcon)->aux.ddc;
-+	struct i2c_adapter *adapter = &intel_dp->aux.ddc;
+-		mgr->pbn_div = drm_dp_get_vc_payload_bw(drm_dp_bw_code_to_link_rate(mgr->dpcd[1]),
++		mgr->pbn_div = drm_dp_get_vc_payload_bw(mgr,
++							drm_dp_bw_code_to_link_rate(mgr->dpcd[1]),
+ 							mgr->dpcd[2] & DP_MAX_LANE_COUNT_MASK);
+ 		if (mgr->pbn_div == 0) {
+ 			ret = -EINVAL;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 180f97cd74cb..eb04b3cefda2 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -70,7 +70,8 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
+ 		slots = drm_dp_atomic_find_vcpi_slots(state, &intel_dp->mst_mgr,
+ 						      connector->port,
+ 						      crtc_state->pbn,
+-						      drm_dp_get_vc_payload_bw(crtc_state->port_clock,
++						      drm_dp_get_vc_payload_bw(&intel_dp->mst_mgr,
++									       crtc_state->port_clock,
+ 									       crtc_state->lane_count));
+ 		if (slots == -EDEADLK)
+ 			return slots;
+diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+index bd1c39907b92..20dc705642bd 100644
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -783,7 +783,8 @@ drm_dp_mst_detect_port(struct drm_connector *connector,
  
--	if (drm_lspcon_get_mode(adapter, &current_mode)) {
-+	if (drm_lspcon_get_mode(intel_dp->aux.drm_dev, adapter, &current_mode)) {
- 		DRM_DEBUG_KMS("Error reading LSPCON mode\n");
- 		return DRM_LSPCON_MODE_INVALID;
- 	}
-@@ -175,11 +176,12 @@ static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
- static int lspcon_change_mode(struct intel_lspcon *lspcon,
- 			      enum drm_lspcon_mode mode)
- {
-+	struct intel_dp *intel_dp = lspcon_to_intel_dp(lspcon);
- 	int err;
- 	enum drm_lspcon_mode current_mode;
--	struct i2c_adapter *adapter = &lspcon_to_intel_dp(lspcon)->aux.ddc;
-+	struct i2c_adapter *adapter = &intel_dp->aux.ddc;
+ struct edid *drm_dp_mst_get_edid(struct drm_connector *connector, struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
  
--	err = drm_lspcon_get_mode(adapter, &current_mode);
-+	err = drm_lspcon_get_mode(intel_dp->aux.drm_dev, adapter, &current_mode);
- 	if (err) {
- 		DRM_ERROR("Error reading LSPCON mode\n");
- 		return err;
-@@ -190,7 +192,7 @@ static int lspcon_change_mode(struct intel_lspcon *lspcon,
- 		return 0;
- 	}
+-int drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count);
++int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
++			     int link_rate, int link_lane_count);
  
--	err = drm_lspcon_set_mode(adapter, mode);
-+	err = drm_lspcon_set_mode(intel_dp->aux.drm_dev, adapter, mode);
- 	if (err < 0) {
- 		DRM_ERROR("LSPCON mode change failed\n");
- 		return err;
-diff --git a/include/drm/drm_dp_dual_mode_helper.h b/include/drm/drm_dp_dual_mode_helper.h
-index 01eec9ff5962..7ee482265087 100644
---- a/include/drm/drm_dp_dual_mode_helper.h
-+++ b/include/drm/drm_dp_dual_mode_helper.h
-@@ -114,8 +114,8 @@ int drm_dp_dual_mode_set_tmds_output(const struct drm_device *dev, enum drm_dp_d
- 				     struct i2c_adapter *adapter, bool enable);
- const char *drm_dp_get_dual_mode_type_name(enum drm_dp_dual_mode_type type);
+ int drm_dp_calc_pbn_mode(int clock, int bpp, bool dsc);
  
--int drm_lspcon_get_mode(struct i2c_adapter *adapter,
-+int drm_lspcon_get_mode(const struct drm_device *dev, struct i2c_adapter *adapter,
- 			enum drm_lspcon_mode *current_mode);
--int drm_lspcon_set_mode(struct i2c_adapter *adapter,
-+int drm_lspcon_set_mode(const struct drm_device *dev, struct i2c_adapter *adapter,
- 			enum drm_lspcon_mode reqd_mode);
- #endif
 -- 
 2.30.2
 
