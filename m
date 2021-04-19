@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729333640DB
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 13:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42D93640DD
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 13:50:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 457BD6E296;
-	Mon, 19 Apr 2021 11:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2786E252;
+	Mon, 19 Apr 2021 11:50:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 048196E296
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 11:49:33 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD2A6E2B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 11:50:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618832973;
+ s=mimecast20190719; t=1618833001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8Nvnr/mWvz+T6laJ/pjEcnY0Y4Tpa0q+5QaX0V8C0qs=;
- b=jLE818sfJNucl2yE7RyVGHyxXTaSNvZTr/Uhi+HUpXsrfHyh0QmMU/tVB46Kdha5yhSWnW
- n7XNBnX+DNqCqb7YCB4UU8nZAZg8YRPoL1xCACsud4jZ7pVbDmbee7ggYKsMJqUMSs06Yp
- SjfKtwSeCNgrN6FllngFlb8/xvvyBes=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-ovc6bo3sPA26XR5Sf8dk7A-1; Mon, 19 Apr 2021 07:49:31 -0400
-X-MC-Unique: ovc6bo3sPA26XR5Sf8dk7A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- s7-20020adfc5470000b0290106eef17cbdso5501249wrf.11
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 04:49:31 -0700 (PDT)
+ bh=4OeTmn3FpbFUKffAvSBuF9L9RSoOACTtnRhAzQxRMNI=;
+ b=ZlBbfp0klhF4Qd/5iwSm7PtEjR5KcN/fLfNZWhG2D0YZRgwKL8v+GvcxvKdZi6ouer7Gk+
+ 3RKnIca/2O748IEX8HabsQ3PBZQF561BVjREY52VQpOhW0aGS2mFdGlJ/BC1cv/GJjYHhx
+ De8wd18PtUhDBIRjwPEBMCc93alb4Qw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-MG4Y2KRhMKG8-qsAlzLm3g-1; Mon, 19 Apr 2021 07:49:59 -0400
+X-MC-Unique: MG4Y2KRhMKG8-qsAlzLm3g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 93-20020adf80e60000b0290106fab45006so4402454wrl.20
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 04:49:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8Nvnr/mWvz+T6laJ/pjEcnY0Y4Tpa0q+5QaX0V8C0qs=;
- b=azIl0hdYcDMH7dKS07L8J7kCNid0WMtICgyNbhQz2OuWxyEAW9XHyxHPLPH2ohCXCr
- Dq7iOp1gAc8Yp62nhJVbIWEw+dTwpbkd/HhrLw3YhKt5uzrjABFZ8hYxzcTeA6sjZ8Ut
- uryc8js+2BAYEMTQeMH73UO3RyCN6S5Fwv7fc5OSYK2cGv8A7XpxoMd6vEmPOfzT9v3+
- aaSe8Jpu3tbqB09P61MvUXQYRgXgscejBQyqiJYxnJ+Eus+aJcpiWQq64hY9obUP78t8
- bcJEZbbDSfkJkRjszGiIJoaxlf68KyjJ2N5oX5v2ZjEe6Q/7PVsq/bXRDNx/UpJTvUls
- jTLw==
-X-Gm-Message-State: AOAM531yMy8NbuS7ZbIuEjsUZTQZf1scQpSDLKuA9RtstVEeXiyuBHWz
- 39ox5ovJno+y2vI83ILwZpYYv7RoAVMUVZ4InkQp2F4hvQlScGvUujdmiSZScLy1JB26T/aQ0RZ
- 7s91lRzJX4BRystIRvdLDJ6CTVWYI6GL37W5OghxKOKyU
-X-Received: by 2002:a1c:1f52:: with SMTP id f79mr21592718wmf.171.1618832970139; 
- Mon, 19 Apr 2021 04:49:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzbWHC/ooj/VbZZN3N0wPL5QrNvrPzxuDU9v2cQf3Sv9GVLeLTyCV/rsvFtv2/ZSANB/M4j+9FNq3XLJqeWUPY=
-X-Received: by 2002:a1c:1f52:: with SMTP id f79mr21592702wmf.171.1618832970007; 
- Mon, 19 Apr 2021 04:49:30 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4OeTmn3FpbFUKffAvSBuF9L9RSoOACTtnRhAzQxRMNI=;
+ b=r9wQJ4vv4/uSLoBxOaN3PMdKSfjG+RQgagi9G/kQimClh+1F8Djlm2y0dpQMzRkoIL
+ Pnm258Wes+Qhp7VS/b2rO4g22bejim5pnKtQ9nPaPyK7LCFoDP+jYFil18ppPRtmbWbt
+ asztSWsn1vtVL2j1vF6uOjsA1GkXNlSAzR0rjorwAgqPN91iS9r7Pw+lMNPTktJ0oSdC
+ NL8iyIX/v2aI8eKEwyDkRIKd/1NNRwGQloWjHE1f3X4CQb76is2eGRhfJ5ukpTX/SbEE
+ trYaD2XvcVq0KgdUktTYSe8/tViPHxMD375pVxfToEuQWIDZwQFdWCG90wRPqPTmwgIe
+ HDIw==
+X-Gm-Message-State: AOAM532cwEhlpyhP5BGQdLRJ+/R+ROl6cb+7PU8VXBnGrMoTbzY8UyCr
+ LvtYOhz5RwGwVJhgLR62CMCJ4MHqlK+yah7BDSL8stjwYIKx6f3vd9rtv6+GamxnJb3xeKqOjRu
+ QBpF4Ds78NCX9OS7zUmQJVjjBn76v6P950DhUE2V4R7K4
+X-Received: by 2002:adf:ec42:: with SMTP id w2mr14074908wrn.373.1618832998772; 
+ Mon, 19 Apr 2021 04:49:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLwKcD0/QfFrXTpG9Ze8cVc8PUyBjsNLwD4wylL2K1NJkkTxya259K5+FXuzZ/wkYrN2Jsdk/SsSVasMPFFAs=
+X-Received: by 2002:adf:ec42:: with SMTP id w2mr14074891wrn.373.1618832998608; 
+ Mon, 19 Apr 2021 04:49:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210416143725.2769053-1-lee.jones@linaro.org>
- <20210416143725.2769053-15-lee.jones@linaro.org>
-In-Reply-To: <20210416143725.2769053-15-lee.jones@linaro.org>
+ <20210416143725.2769053-14-lee.jones@linaro.org>
+In-Reply-To: <20210416143725.2769053-14-lee.jones@linaro.org>
 From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 19 Apr 2021 13:49:19 +0200
-Message-ID: <CACO55tsz_2G0aozzLXK_X7Hyw+Y0dtR=YdGi=sP73zdNnor1_A@mail.gmail.com>
-Subject: Re: [PATCH 14/40] drm/nouveau/nouveau_ioc32: File headers are not
- good candidates for kernel-doc
+Date: Mon, 19 Apr 2021 13:49:48 +0200
+Message-ID: <CACO55tu6B5kQM3HKAeMFNQ7TF3vKzsgMVC0J18h+UNeJi-O36Q@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH 13/40] drm/nouveau/dispnv50/disp: Include header
+ containing our prototypes
 To: Lee Jones <lee.jones@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
@@ -77,49 +78,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
-
-On Fri, Apr 16, 2021 at 4:38 PM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=1 kernel build warning(s):
->
->  drivers/gpu/drm/nouveau/nouveau_ioc32.c:2: warning: Cannot understand  * file mga_ioc32.c
->
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_ioc32.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_ioc32.c b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-> index adf01ca9e035d..8ddf9b2325a42 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-> @@ -1,4 +1,4 @@
-> -/**
-> +/*
->   * \file mga_ioc32.c
->   *
->   * 32-bit ioctl compatibility routines for the MGA DRM.
-> --
-> 2.27.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UmV2aWV3ZWQtYnk6IEthcm9sIEhlcmJzdCA8a2hlcmJzdEByZWRoYXQuY29tPgoKT24gRnJpLCBB
+cHIgMTYsIDIwMjEgYXQgNDozOCBQTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPiB3
+cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMp
+Ogo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYzoyNTk5OjE6IHdh
+cm5pbmc6IG5vIHByZXZpb3VzIHByb3RvdHlwZSBmb3Ig4oCYbnY1MF9kaXNwbGF5X2NyZWF0ZeKA
+mSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCj4KPiBDYzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRo
+YXQuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmll
+bCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwo+IENjOiBub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYt
+Ynk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyB8IDIgKysKPiAgMSBmaWxlIGNoYW5nZWQsIDIg
+aW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rp
+c3BudjUwL2Rpc3AuYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwo+
+IGluZGV4IDM1MWY5NTQ5ODk1MzAuLjQ5MDVlZDU4NGZmNDggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCj4gQEAgLTY4LDYgKzY4LDggQEAKPgo+ICAjaW5jbHVk
+ZSA8c3ViZGV2L2Jpb3MvZHAuaD4KPgo+ICsjaW5jbHVkZSAibnY1MF9kaXNwbGF5LmgiCj4gKwo+
+ICAvKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqCj4gICAqIEVWTyBjaGFubmVsCj4gICAqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKi8KPiAtLQo+IDIuMjcuMAo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KPiBOb3V2ZWF1IG1haWxpbmcgbGlzdAo+IE5vdXZlYXVAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9ub3V2ZWF1CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
