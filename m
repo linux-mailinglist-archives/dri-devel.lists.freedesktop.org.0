@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A56E3640D7
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 13:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 467E13640D9
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 13:49:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033D689DF7;
-	Mon, 19 Apr 2021 11:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 598A16E25A;
+	Mon, 19 Apr 2021 11:49:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CDEB89DF7
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 11:49:05 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD5076E25A
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 11:49:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618832944;
+ s=mimecast20190719; t=1618832970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X8/WB5h/DCpqWz25sPbtK613PP91ho7sThr7U3NsdLI=;
- b=OEtl5oYZ0J24OGiW5ijqjxbuWwts0PrdNg4U7v0JVJfqSRLgU3vRSLTYnVczKd4vxsOrxB
- YhbdCU3661vXSvGgXqwjROjg41pLL4VOKZROu5SV+Bx+CIYK2SPwZ05xxYkZIKxrPxLAju
- EsncctTIf4A0U80NBZ4ASwMFzZDx8ag=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-9cHB_p0wNnSo43pMelEUVg-1; Mon, 19 Apr 2021 07:49:02 -0400
-X-MC-Unique: 9cHB_p0wNnSo43pMelEUVg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c124-20020a1c9a820000b0290136c7a94cf3so380124wme.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 04:49:02 -0700 (PDT)
+ bh=Nly+1DO6xtNI7xIJZQr0CwBL9odu8O2pnwWHw5PL2Fk=;
+ b=MKQjWyX1GCbbIZOR+D19XiXnFCm63I4OpmIinfMXUQ1c9CAdrG6P8Pvf27kWkA2zMmiOlL
+ GXwhimq0bJttSYl7Ox+RfhYgSbq5MY8jovn9HV5QNWymcPZOKYyzLuBkROa0FOiInYImkM
+ KxJmH6+ccbpGCaYlKeBqLtcQb4pnwko=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-pHbqZh64NNuJZhF1kF8aTg-1; Mon, 19 Apr 2021 07:49:26 -0400
+X-MC-Unique: pHbqZh64NNuJZhF1kF8aTg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ l18-20020a0560000232b02901026f4b8548so8941881wrz.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 04:49:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=X8/WB5h/DCpqWz25sPbtK613PP91ho7sThr7U3NsdLI=;
- b=Q8dAA+6yz8jgvh83Tl9h/r4NZsCN6RdmGreQLzsPKwyJ3sf3dK1zscND5J+u/jtfw6
- QNQSYqkRNA5lYfSXw3VAyfsMufxLzum2YehVl5zYBRhohUjZwIQHWYkTvT3d3Arwpf6+
- F7eA7AnGPPN62RtamoYkuErKH9GlYKee/DYoGimUf7ieUVFolhuPx7AEICQmwHZPKyCx
- uKcsfaGpEe5sWBNg/M6/SGk/ejPzLbwI0uFton/IEKL/Sps5auWgt34Lct0TaqSDmD2N
- 7qxGL+EYhVtcaLvZsR7kOhEto5wEAgxS4+hYtAoktEGAiZ7ZsdaA/Obwlf58KkV30n1F
- YkSw==
-X-Gm-Message-State: AOAM533ZgtJ4sBIMMwGD/uW4/y0pOYrRmXqwFBScAPb8OYz8zOSkYFtz
- 9+NqpEQPJBC5xLAkGNBZunrqQc+to0nZq+ToJRsSiNS9/1cZ2mAVbnGEx5+qmw8cpBuhM9SWGfc
- Ea620aJJaIre2brxCVm8L4dzgV6/pRtIW2geTNPcx+hfl
-X-Received: by 2002:a05:600c:3796:: with SMTP id
- o22mr21036158wmr.139.1618832941558; 
- Mon, 19 Apr 2021 04:49:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwqeEo6baFAOSCC5EED8Adjw7elmBbplC1HwyVdu+epP3qNnST1SJ2pLkLV0oLFm79ijqBFSPkWTkiLHj2i6Lo=
-X-Received: by 2002:a05:600c:3796:: with SMTP id
- o22mr21036144wmr.139.1618832941419; 
- Mon, 19 Apr 2021 04:49:01 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Nly+1DO6xtNI7xIJZQr0CwBL9odu8O2pnwWHw5PL2Fk=;
+ b=RtAEmFX9LxVd77T1iYbYD37M9Q98ZZoszrN0jnXKakxz5ylVYuWrcun3MsbIuGnxUZ
+ GdcwgjawiwqONDMzpI3x/T59dm+/eOTavfQw6syhva+b+fGQt1pECX2JYJHjIXK59Q16
+ Dol7eR7WWzBjf8PJkrzBmdsjnwF0z1YSGn83JD568BC4SCJKX7eEE57lxCVOAN5M+NTu
+ UY5U1rKTRLFIoNHSSB4B9FlZ/BDZelqzePKY0DKTdyG/kKumV3gnqiTLXv0uCg53wgol
+ +i9Ve8zuT3T5lWhysFyIl+mqzJGR9AzjGsc0oaS+0E0DLz4sjsi5VNmee53Ayp742Sop
+ 4qIg==
+X-Gm-Message-State: AOAM532HsTf7vYMWJndh3OUQtehfgzMIsu8sgtByukZeJoJGhTkYyoah
+ 7NHPmqwDNs22VS0zCoPRmOCucn+vNKfvcA8Hck2+eG+kCtZR+KcwQUyT6RkDG8CtLV7/d5zMn8Q
+ mGyUVs8VcSOfyonp1yWHFfEawVpBrjg+vCgIr68GsQKAX
+X-Received: by 2002:a5d:524d:: with SMTP id k13mr14503022wrc.113.1618832965217; 
+ Mon, 19 Apr 2021 04:49:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxo70JbUkSOXLnCMJ/q0c/kasxJbjovwmjfD+BmIDk5mqXW5hGpIhL7aPNl6r8rZpHGwg8WLg/vphWP4pcCf1U=
+X-Received: by 2002:a5d:524d:: with SMTP id k13mr14503007wrc.113.1618832965102; 
+ Mon, 19 Apr 2021 04:49:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210416143725.2769053-1-lee.jones@linaro.org>
- <20210416143725.2769053-16-lee.jones@linaro.org>
-In-Reply-To: <20210416143725.2769053-16-lee.jones@linaro.org>
+ <20210416143725.2769053-17-lee.jones@linaro.org>
+In-Reply-To: <20210416143725.2769053-17-lee.jones@linaro.org>
 From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 19 Apr 2021 13:48:50 +0200
-Message-ID: <CACO55tvbVFPfjzTxmoKMbxVv1bR9xguX+QCLZawtg2SdSN9qzQ@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH 15/40] drm/nouveau/nouveau_svm: Remove unused
- variable 'ret' from void function
+Date: Mon, 19 Apr 2021 13:49:14 +0200
+Message-ID: <CACO55tsRq3dMrmw+msxnGf4e5=30m0R+XyAX4AMtgNrMNv284w@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH 16/40] drm/nouveau/nouveau_ioc32: Demote
+ kernel-doc abuse to standard comment block
 To: Lee Jones <lee.jones@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
@@ -80,50 +77,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBcHIgMTYsIDIwMjEgYXQgNDozOCBQTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
-YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmM6IElu
-IGZ1bmN0aW9uIOKAmG5vdXZlYXVfcGZuc19tYXDigJk6Cj4gIGRyaXZlcnMvZ3B1L2RybS9ub3V2
-ZWF1L25vdXZlYXVfc3ZtLmM6ODEwOjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJldOKAmSBzZXQg
-YnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQo+Cj4gQ2M6IEJlbiBTa2Vn
-Z3MgPGJza2VnZ3NAcmVkaGF0LmNvbT4KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4
-LmllPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgo+IC0t
-LQo+ICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5jIHwgNSArKy0tLQo+ICAx
-IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5jCj4gaW5kZXggMWMzZjg5MDM3N2QyYy4uMjZhZjZl
-ZTkxNTM2OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3N2
-bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9zdm0uYwo+IEBAIC04
-MTEsNyArODExLDYgQEAgbm91dmVhdV9wZm5zX21hcChzdHJ1Y3Qgbm91dmVhdV9zdm1tICpzdm1t
-LCBzdHJ1Y3QgbW1fc3RydWN0ICptbSwKPiAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcg
-YWRkciwgdTY0ICpwZm5zLCB1bnNpZ25lZCBsb25nIG5wYWdlcykKPiAgewo+ICAgICAgICAgc3Ry
-dWN0IG5vdXZlYXVfcGZubWFwX2FyZ3MgKmFyZ3MgPSBub3V2ZWF1X3BmbnNfdG9fYXJncyhwZm5z
-KTsKPiAtICAgICAgIGludCByZXQ7Cj4KPiAgICAgICAgIGFyZ3MtPnAuYWRkciA9IGFkZHI7Cj4g
-ICAgICAgICBhcmdzLT5wLnNpemUgPSBucGFnZXMgPDwgUEFHRV9TSElGVDsKPiBAQCAtODE5LDgg
-KzgxOCw4IEBAIG5vdXZlYXVfcGZuc19tYXAoc3RydWN0IG5vdXZlYXVfc3ZtbSAqc3ZtbSwgc3Ry
-dWN0IG1tX3N0cnVjdCAqbW0sCj4gICAgICAgICBtdXRleF9sb2NrKCZzdm1tLT5tdXRleCk7Cj4K
-PiAgICAgICAgIHN2bW0tPnZtbS0+dm1tLm9iamVjdC5jbGllbnQtPnN1cGVyID0gdHJ1ZTsKPiAt
-ICAgICAgIHJldCA9IG52aWZfb2JqZWN0X2lvY3RsKCZzdm1tLT52bW0tPnZtbS5vYmplY3QsIGFy
-Z3MsIHNpemVvZigqYXJncykgKwo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbnBh
-Z2VzICogc2l6ZW9mKGFyZ3MtPnAucGh5c1swXSksIE5VTEwpOwo+ICsgICAgICAgbnZpZl9vYmpl
-Y3RfaW9jdGwoJnN2bW0tPnZtbS0+dm1tLm9iamVjdCwgYXJncywgc2l6ZW9mKCphcmdzKSArCj4g
-KyAgICAgICAgICAgICAgICAgICAgICAgICBucGFnZXMgKiBzaXplb2YoYXJncy0+cC5waHlzWzBd
-KSwgTlVMTCk7Cgp5ZWFoIG1oaC4uIEkgdGhpbmsgdGhpcyBvbmUgaXMgYWN0dWFsbHkgZmluZSwg
-YnV0IGl0IG1pZ2h0IG1ha2Ugc2Vuc2UKdG8gc3RpbGwgcmVwb3J0IHNvbWV0aGluZyBiYWNrLCBh
-bHRob3VnaCBpbiB1c2Vyc3BhY2Ugd2Ugc3RpbGwgZG9uJ3QKY2FyZSBhcyB0aGUgQ0wgQVBJIGRv
-ZXNuJ3QgcmV0dXJuIGFueSBlcnJvci4KCj4gICAgICAgICBzdm1tLT52bW0tPnZtbS5vYmplY3Qu
-Y2xpZW50LT5zdXBlciA9IGZhbHNlOwo+Cj4gICAgICAgICBtdXRleF91bmxvY2soJnN2bW0tPm11
-dGV4KTsKPiAtLQo+IDIuMjcuMAo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KPiBOb3V2ZWF1IG1haWxpbmcgbGlzdAo+IE5vdXZlYXVAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9ub3V2ZWF1CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
+
+On Fri, Apr 16, 2021 at 4:38 PM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> Fixes the following W=1 kernel build warning(s):
+>
+>  drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'filp' not described in 'nouveau_compat_ioctl'
+>  drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'cmd' not described in 'nouveau_compat_ioctl'
+>  drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'arg' not described in 'nouveau_compat_ioctl'
+>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_ioc32.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_ioc32.c b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
+> index 8ddf9b2325a42..2af3615c5205c 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_ioc32.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
+> @@ -38,7 +38,7 @@
+>
+>  #include "nouveau_ioctl.h"
+>
+> -/**
+> +/*
+>   * Called whenever a 32-bit process running under a 64-bit kernel
+>   * performs an ioctl on /dev/dri/card<n>.
+>   *
+> --
+> 2.27.0
+>
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
+>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
