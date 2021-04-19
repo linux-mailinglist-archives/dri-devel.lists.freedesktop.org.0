@@ -2,144 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31294364796
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 17:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314C536474D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 17:43:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3EB26E402;
-	Mon, 19 Apr 2021 15:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E622289FDB;
+	Mon, 19 Apr 2021 15:43:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2353 seconds by postgrey-1.36 at gabe;
- Mon, 19 Apr 2021 15:58:45 UTC
-Received: from mx08-001d1705.pphosted.com (mx08-001d1705.pphosted.com
- [185.183.30.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB7D06E402
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 15:58:45 +0000 (UTC)
-Received: from pps.filterd (m0209322.ppops.net [127.0.0.1])
- by mx08-001d1705.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13JF9vU6027869; Mon, 19 Apr 2021 15:19:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=S1;
- bh=3eWPU5yaEOpanB6mTLtzP2tTF4eXq4E+uHU7eyXY0P8=;
- b=R5vwJD1MsBUD73jrPm2+bti1bq6GUfHZkh5R5Aaqc4t1fzO60HE+4OHp9j3ANhtkH8Am
- +MQiI1qwz7PVau9RItZSFLhaQEZEqbN1QumeZqsvomBBIsfI1Dhy/NvkvAuZx3A7iEQP
- ug962dZo38VtpPsP+MqZDEqR+wl2/YMYchUno08W/LUbYa3TJ4Siijanl7avwhg9gKjm
- gF37TdY2/jYkaELsY2OWebyZyBThMNPZJ8Bo4EgWoVy+M8zlUlDHjVes2rjcA3vOsbsK
- iUkczL+Q0K87Th4FCZkIXQ1xvCNo5q1OC1r/hxLH8SwftW71dbs0ZVE4xrBwbSC8aEfz 1g== 
-Received: from eur02-ve1-obe.outbound.protection.outlook.com
- (mail-ve1eur02lp2057.outbound.protection.outlook.com [104.47.6.57])
- by mx08-001d1705.pphosted.com with ESMTP id 37ypf9ayp4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Apr 2021 15:19:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gsiuUsKG4GcOLh947aGhwS1DmqEWrNAKkQDi9VfdbTZ+EUUMdeyFWs+c174Axq1hC8k57ljbvTR3ZgSj9g4l6/dGfMifmqroDoAQNSRDxxvY5Uq24zYZkqwcjALbatmpVkKslzvcrlDTuSXhjaZ/02nKkTbARnU/dOC0UANctPWG6OcYJew+zDzJiVas7pCemPJWB9zrlG/h6FzrRYw8dyOxNiSQ8IniWwo6e1RxXnTbSUZc4hNKap+7Ex38/NjG6oY5Z7Rigti8tGKgIM06GwxamvXnk7F7UX/ZcmpzHV0QjsPUZso2ZocDXG4T2jJwyYP+kFAYnRPQ2PDUJhu1+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3eWPU5yaEOpanB6mTLtzP2tTF4eXq4E+uHU7eyXY0P8=;
- b=jsUtGydQ4vK+FkwDDAtvIhl64d+WG9Rq71kR4EKpf7XiQ2+eyDiUcathzj+5SKEMToAaa7mPhO5BxBLQiiN+A/2woma9pvX1S3mOEM/m2xccVIamGyZbwpU7dn/SHiR+kuiANNXnzNMCnObfoYoratx9Sk80a2lfpe/xCnUH495uREdj9vlQuq3lI3PGALrPL+6H3f9GMlK3CJClUxa0T91l/LfLozHvxMQZkjwu2DGEbMza7u8zLqzoW9clA5zMUItqIAZP0sPFK/YzY9hehqFB3Wp47TdeF3BqGsPzFApYNcCXz5uwEnrZhkSRBq0Urz3SE/gq+m6d1q5punvzQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-Received: from AM9P193MB1491.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:306::20)
- by AM0P193MB0692.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:148::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.19; Mon, 19 Apr
- 2021 15:19:03 +0000
-Received: from AM9P193MB1491.EURP193.PROD.OUTLOOK.COM
- ([fe80::35b3:3e5e:6533:84e0]) by AM9P193MB1491.EURP193.PROD.OUTLOOK.COM
- ([fe80::35b3:3e5e:6533:84e0%5]) with mapi id 15.20.4042.024; Mon, 19 Apr 2021
- 15:19:03 +0000
-From: <Peter.Enderborg@sony.com>
-To: <mhocko@suse.com>
-Subject: Re: [PATCH v4] dma-buf: Add DmaBufTotal counter in meminfo
-Thread-Topic: [PATCH v4] dma-buf: Add DmaBufTotal counter in meminfo
-Thread-Index: AQHXM3Yw6ll+UCWErEeaPUdSTn+rzaq7xNSAgAAG/YCAACafgIAABUyA
-Date: Mon, 19 Apr 2021 15:19:03 +0000
-Message-ID: <23aa041b-0e7c-6f82-5655-836899973d66@sony.com>
-References: <20210417104032.5521-1-peter.enderborg@sony.com>
- <YH10s/7MjxBBsjVL@dhcp22.suse.cz>
- <c3f0da9c-d127-5edf-dd21-50fd5298acef@sony.com>
- <YH2a9YfRBlfNnF+u@dhcp22.suse.cz>
-In-Reply-To: <YH2a9YfRBlfNnF+u@dhcp22.suse.cz>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-authentication-results: suse.com; dkim=none (message not signed)
- header.d=none;suse.com; dmarc=none action=none header.from=sony.com;
-x-originating-ip: [37.139.156.40]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5d091908-9bc4-4fbd-cf59-08d903467789
-x-ms-traffictypediagnostic: AM0P193MB0692:
-x-microsoft-antispam-prvs: <AM0P193MB06925381AFE653FEC98E649886499@AM0P193MB0692.EURP193.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LIx1JVrLnygfy6bl+DJDFGGAHzSXcfwLmm5RlURKQSeZ7K7rgzm8KODHImU6BwPLrTil//Ow/J1b8aTlWDDdny12tBCU5GC5HMd1VGFgzaA9YPutyzqyPDNNQO2WCRVJYcsW8QSc1CUEysZlJ9QXSMUvoAL6DYZVscwmVb1Q5awCraFEZLKbrtthFfcgOTOU7rO/42TVE9DH+i+833C84wwTAZNdqiFVRg27QXyJvb0jnUe/g0H5mGwWsyjX5zIXFOZLG9wxssQOiLtfFJIknpNVjGNYLlqpbNR7Rhkkt+54Vb6MGsSfW+FrZ54V581tHBAJMKqxt38J1UJjfiqS8dBJ7gHp+u0u4VccxFValorpHQHjNyYGCKQQaudyJnKELcrcQkWmpY5DscPL/T1h8HTBMPibu2wg8fZgNupGzcIpy4PeFSVd2/ei8uhEO/0wICI1nPHAVkW902MzDJvg6cTr1dMJiejhrvDqZEr0fm3ugH9SWry6pWfgPREGzadgkFoEfdyS5D28Epbbqa3AcXt06OGUc1VSesGWLJyiFzDfcgaM9JSpOkiF3Mf9zPeoEuhUzHbnP2k8ECU6gdcMk+It+6oDNi1xgfwQyI1oIrc4b9FrTzgkpebQBgSbrmf96ytsO96S3RX8X/1MXepdwosZkxSmlrI+ohdudUebD8acmC+WZhLG4yG3/8qdtaeM
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9P193MB1491.EURP193.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39850400004)(366004)(396003)(346002)(136003)(122000001)(71200400001)(26005)(83380400001)(186003)(8936002)(53546011)(36756003)(5660300002)(7416002)(6916009)(8676002)(2906002)(478600001)(38100700002)(2616005)(64756008)(66556008)(66946007)(31686004)(6512007)(316002)(66446008)(66476007)(4326008)(76116006)(86362001)(6506007)(6486002)(54906003)(91956017)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?bTZ2d0puQldtbEdKUHhOZ0h1RHFtVTVBUzNkdk9ZZ3JOVzN0cUFtMnRuUmVx?=
- =?utf-8?B?b3BTakFIdkVRUmFKbXFZS3RvdzZ0eEdKYWFndFJzUENSVnV0aU5wWHFvQ2U1?=
- =?utf-8?B?RlNDcVZFVk53bGVQcmpxWTZwQWI1dW1pRVdONjF2S0ZlcjFwZUFOSlJXTHNW?=
- =?utf-8?B?WWp2T0V2aVVNa1dNS3dLaXZITTZRNUJPQkpJTmVWMGRySnBodXFySVQxTnpj?=
- =?utf-8?B?YlpHZXNzdTdXRUlXbmE3K0hBbDEyRTlVOWMzdDQyckpBVk9JQ3hYWjlUTTMx?=
- =?utf-8?B?NlM0QmdCUENHandMSFNBOTdCU0U0SmxhM0p6VDBsT245WUhHdUhNKzNNckpL?=
- =?utf-8?B?ZnhGMkxXT1oyaCtNQTFwUXFTMjJpVEZMSEM5NVpjdjZSVzVBN3pwbitsSW5m?=
- =?utf-8?B?T0NURDdqMWJtZzNTOWpueW5CMElvTTRjT1AydFZkZkJhSEVuQ3lzbTBjeVFs?=
- =?utf-8?B?TTJubFZjSWppWWsrWmRaYU1SRjB4c2lvTC9JaTF2b3V4U3dxaGdpb04xelI5?=
- =?utf-8?B?S1pzbTVZWm1KS01UdzZHNS9tOEdiWFFsdFlPeXFxTTBVbHc3dEtVMUh1VkhX?=
- =?utf-8?B?TzluOXN4TFk4c2s1M1krZEFQQmNzTSs0NHJwYjNzdk9QL0J1OTBRL3ZiY3J0?=
- =?utf-8?B?T1pnNCszWEZCbndPbEtGaFkvSWdkY1dLYzJ5SFFnWlJYdEZHM1BjTlFJQVB4?=
- =?utf-8?B?WEkrNktoYTlpblZDalhYNFBqZHIxbmJETWZ0dC9CR212UUhHWUkycU10ajVh?=
- =?utf-8?B?NFBYSkpVbUhoUjhzVGh1N090a2NTc2l5dk56aXVTLzM1YVBqQ3V3SEVlaHpV?=
- =?utf-8?B?K29jRXFzdHg4U2dwZi9mNHNvcmFFdG5Zd3kvOEp5SENkcVkxekFjWDVTVlJW?=
- =?utf-8?B?ajM1TjMxZFhOcFB4WjRNcW9jalkrQm9LeHgrVEJ0MXVqZHpTc0RXeWo5OHdY?=
- =?utf-8?B?UVJQdkN2VllFNFdZSnhFM0poU0s4V09VVUJDRktrRFJMV3V3S0RCOGdsZU5C?=
- =?utf-8?B?cUFPL2ZiSHlMYkYrTTRkSVU2OFh3cWY1akFrbmRmbi9pUHhyMkZhUEc2RzBR?=
- =?utf-8?B?dk01dTF1SW4wYUVjRzM4SWhHTkFQWGgzMy94b0dWR0U1eTNWZ0tEWmcwbTRp?=
- =?utf-8?B?eHNPUFNJdDJNOVg0SjdYeHdoa1BtMDVMbzJ3T0V6N2QvMVlHeXA3QXA5djdS?=
- =?utf-8?B?NDBBV3Vvb3IzRTUxQ3h0OGhrWnJwaXh0Y1ppWjlEenJGaUxLL0VoREtqdnlM?=
- =?utf-8?B?MmhMSkNHMHlTYko2ZndVRDdQREZFUmY3QW12YXdzVmU5ZjBqTnc1NDBQSzBY?=
- =?utf-8?B?Nkk4RW9KTTFmY1p6bmphMFh0M0ltTTB3UXFSdHJhSGtmTWZpSExrQ0p2VUhZ?=
- =?utf-8?B?TFV5eHFhM3BaaXpzQWdDb0NUZTdoRkxZczRQa0ErRmkzSXdDc3NHanhwOVJu?=
- =?utf-8?B?NDREOGRaNFYySDRjU0RRSFRjRFpZR3BHLy92cDJpRDVPU2EwMktGci9WUktS?=
- =?utf-8?B?T2MxRGd1Y2YwNkQ1UmtvTHQ2Z2NLNHQwTXFDalZrSnFWODA3NFVoVHE1TWdG?=
- =?utf-8?B?SDlnajVPQjFpS1I4VDVVb1ZaMWJZSEhRV3QvZW91WWtKQUFIRXB5aG5nTzcv?=
- =?utf-8?B?S24rbWtQWWsrOWtGS0syeENudFBoeGh4REhCTmlwQXQrTW93MVlDQlVlSG5H?=
- =?utf-8?B?cnpPVXc4aHJlcFN6MERLbkR1eVd6K1hpUFV1MXVFWlg3Z0h0R204eHVaSDEz?=
- =?utf-8?Q?LNAhR2LFoUeimtDUCn/MviUS8cRbmQ2fBt9AItK?=
-x-ms-exchange-transport-forked: True
-Content-ID: <F41EC5F459BCD74FBE1BFFF423E4D818@EURP193.PROD.OUTLOOK.COM>
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com
+ [IPv6:2607:f8b0:4864:20::f2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFBD789FDB
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 15:43:47 +0000 (UTC)
+Received: by mail-qv1-xf2a.google.com with SMTP id gv2so7784659qvb.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 08:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gY9I1iBHQGPcCB4nWpZeR+9X7MDWUZ4aIohnT6sq9KM=;
+ b=LuajrzoVUJVAdvAKuLMaSA2GyXoFL6hgUFQss59m00qFmneaM+UjMEkqsxkRo2MFc/
+ LJHJTU7m/f5NjVz7LeikwX04VYOp6CMtdSlm9CeT+OBa82q74NCljvEvaN/ReEmqLYCN
+ PYD7iJ0LBf/3EMFqx8I8V7xuxo+Q33WDVQ7pI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gY9I1iBHQGPcCB4nWpZeR+9X7MDWUZ4aIohnT6sq9KM=;
+ b=JJRUUHbre4BzYrpFCxW+fCF9IIRwcJeF4KXWa6Mdn6uasd3Y/DqRK2olocuwyveUqe
+ TyFgBFGnOXJH20QAQn7mr60DbiR+EYY90ctXYMuBVMpFzKwGLiaxhi9f7bEvG9TQDOK/
+ hDy0yimnazhAjZajdcuQcJuqfblBMZd+AwYv7G+cniMeVbuWLSuOrvekwdVQ6VDYmZTQ
+ vlasKN/ZuiPFBxx8xZ5gfmNOwfEUyMnoq+hzH/yZRMP8xlzAuUIKODdWy+r3Z4bJz2oA
+ /aWR7uvA+oPU7ihOx9Dr/ax8voJB6AizCyH/HZWZRLTZmUgu9QM1yfP7ZZ3iEe4dNZZw
+ AB7A==
+X-Gm-Message-State: AOAM533T2VifC2tI/QW0rwq9OAvxOLSQEFRYoQdJ9thX/rTwFGcRa9v7
+ qFvUSCS4zx9wKbMAhzmRCJaPkNuGVlC3Aw==
+X-Google-Smtp-Source: ABdhPJxLbh0PUYYsiy5cApP4KUbnigxW0HJ6foXz+ZYb6cZkoZL0XqHvGBeb9vdCk5tLDWvjF4dUxQ==
+X-Received: by 2002:a0c:f18c:: with SMTP id m12mr22146802qvl.19.1618847026425; 
+ Mon, 19 Apr 2021 08:43:46 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
+ [209.85.219.174])
+ by smtp.gmail.com with ESMTPSA id s22sm1008727qkg.58.2021.04.19.08.43.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Apr 2021 08:43:45 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id v3so36920154ybi.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 08:43:45 -0700 (PDT)
+X-Received: by 2002:a25:244d:: with SMTP id k74mr17981842ybk.79.1618847024707; 
+ Mon, 19 Apr 2021 08:43:44 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9P193MB1491.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d091908-9bc4-4fbd-cf59-08d903467789
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2021 15:19:03.7242 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nJwbApFIjVTCbrV5GgWtNLr5uphPHwDIcqUkI2OXwj3WnFekwbN/+PqZ/2pHKYEluAV+eAZgP4jwMZB1yfHa2OhAd7wTdFsATMM7f969jbc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0P193MB0692
-X-Proofpoint-GUID: EoiSFTZYiFVhmiLPi69mEOMnhvu3HkqO
-X-Proofpoint-ORIG-GUID: EoiSFTZYiFVhmiLPi69mEOMnhvu3HkqO
-X-Sony-Outbound-GUID: EoiSFTZYiFVhmiLPi69mEOMnhvu3HkqO
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-19_10:2021-04-19,
- 2021-04-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 spamscore=0 phishscore=0 clxscore=1015 impostorscore=0
- mlxscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104190105
+References: <20210416153909.v4.15.I3e68fa38c4ccbdbdf145cad2b01e83a1e5eac302@changeid>
+ <202104171051.46GyYIaF-lkp@intel.com>
+In-Reply-To: <202104171051.46GyYIaF-lkp@intel.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 19 Apr 2021 08:43:33 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WL3tWAg-jtB6qoq0nrCxaZZwYKwKCCoxytzR2YMS9iPA@mail.gmail.com>
+Message-ID: <CAD=FV=WL3tWAg-jtB6qoq0nrCxaZZwYKwKCCoxytzR2YMS9iPA@mail.gmail.com>
+Subject: Re: [PATCH v4 15/27] drm/bridge: ti-sn65dsi86: Break GPIO and
+ MIPI-to-eDP bridge into sub-drivers
+To: kernel test robot <lkp@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,65 +70,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: willy@infradead.org, neilb@suse.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, adobriyan@gmail.com,
- linaro-mm-sig@lists.linaro.org, shakeelb@google.com, rppt@kernel.org,
- samitolvanen@google.com, songmuchun@bytedance.com,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- christian.koenig@amd.com, guro@fb.com, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, kbuild-all@lists.01.org,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Wolfram Sang <wsa-dev@sang-engineering.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNC8xOS8yMSA1OjAwIFBNLCBNaWNoYWwgSG9ja28gd3JvdGU6DQo+IE9uIE1vbiAxOS0wNC0y
-MSAxMjo0MTo1OCwgUGV0ZXIuRW5kZXJib3JnQHNvbnkuY29tIHdyb3RlOg0KPj4gT24gNC8xOS8y
-MSAyOjE2IFBNLCBNaWNoYWwgSG9ja28gd3JvdGU6DQo+Pj4gT24gU2F0IDE3LTA0LTIxIDEyOjQw
-OjMyLCBQZXRlciBFbmRlcmJvcmcgd3JvdGU6DQo+Pj4+IFRoaXMgYWRkcyBhIHRvdGFsIHVzZWQg
-ZG1hLWJ1ZiBtZW1vcnkuIERldGFpbHMNCj4+Pj4gY2FuIGJlIGZvdW5kIGluIGRlYnVnZnMsIGhv
-d2V2ZXIgaXQgaXMgbm90IGZvciBldmVyeW9uZQ0KPj4+PiBhbmQgbm90IGFsd2F5cyBhdmFpbGFi
-bGUuIGRtYS1idWYgYXJlIGluZGlyZWN0IGFsbG9jYXRlZCBieQ0KPj4+PiB1c2Vyc3BhY2UuIFNv
-IHdpdGggdGhpcyB2YWx1ZSB3ZSBjYW4gbW9uaXRvciBhbmQgZGV0ZWN0DQo+Pj4+IHVzZXJzcGFj
-ZSBhcHBsaWNhdGlvbnMgdGhhdCBoYXZlIHByb2JsZW1zLg0KPj4+IFRoZSBjaGFuZ2Vsb2cgd291
-bGQgYmVuZWZpdCBmcm9tIG1vcmUgYmFja2dyb3VuZCBvbiB3aHkgdGhpcyBpcyBuZWVkZWQsDQo+
-Pj4gYW5kIHdobyBpcyB0aGUgcHJpbWFyeSBjb25zdW1lciBvZiB0aGF0IHZhbHVlLg0KPj4+DQo+
-Pj4gSSBjYW5ub3QgcmVhbGx5IGNvbW1lbnQgb24gdGhlIGRtYS1idWYgaW50ZXJuYWxzIGJ1dCBJ
-IGhhdmUgdHdvIHJlbWFya3MuDQo+Pj4gRG9jdW1lbnRhdGlvbi9maWxlc3lzdGVtcy9wcm9jLnJz
-dCBuZWVkcyBhbiB1cGRhdGUgd2l0aCB0aGUgY291bnRlcg0KPj4+IGV4cGxhbmF0aW9uIGFuZCBz
-ZWNvbmRseSBpcyB0aGlzIGluZm9ybWF0aW9uIHVzZWZ1bCBmb3IgT09NIHNpdHVhdGlvbnMNCj4+
-PiBhbmFseXNpcz8gSWYgeWVzIHRoZW4gc2hvd19tZW0gc2hvdWxkIGR1bXAgdGhlIHZhbHVlIGFz
-IHdlbGwuDQo+Pj4NCj4+PiBGcm9tIHRoZSBpbXBsZW1lbnRhdGlvbiBwb2ludCBvZiB2aWV3LCBp
-cyB0aGVyZSBhbnkgcmVhc29uIHdoeSB0aGlzDQo+Pj4gaGFzbid0IHVzZWQgdGhlIGV4aXN0aW5n
-IGdsb2JhbF9ub2RlX3BhZ2Vfc3RhdGUgaW5mcmFzdHJ1Y3R1cmU/DQo+PiBJIGZpeCBkb2MgaW4g
-bmV4dCB2ZXJzaW9uLsKgIEltIG5vdCBzdXJlIHdoYXQgeW91IGV4cGVjdCB0aGUgY29tbWl0IG1l
-c3NhZ2UgdG8gaW5jbHVkZS4NCj4gQXMgSSd2ZSBzYWlkLiBVc3VhbCBqdXN0aWZpY2F0aW9uIGNv
-dmVycyBhbnN3ZXJzIHRvIGZvbGxvd2luZyBxdWVzdGlvbnMNCj4gCS0gV2h5IGRvIHdlIG5lZWQg
-aXQ/DQo+IAktIFdoeSB0aGUgZXhpc3RpbmcgZGF0YSBpcyBpbnN1ZmljaWVudD8NCj4gCS0gV2hv
-IGlzIHN1cHBvc2VkIHRvIHVzZSB0aGUgZGF0YSBhbmQgZm9yIHdoYXQ/DQo+DQo+IEkgY2FuIHNl
-ZSBhbiBhbnN3ZXIgZm9yIHRoZSBmaXJzdCB0d28gcXVlc3Rpb25zIChiZWNhdXNlIHRoaXMgY2Fu
-IGJlIGENCj4gbG90IG9mIG1lbW9yeSBhbmQgdGhlIGV4aXN0aW5nIGluZnJhc3RydWN0dXJlIGlz
-IG5vdCBwcm9kdWN0aW9uIHN1aXRhYmxlDQo+IC0gZGVidWdmcykuIEJ1dCB0aGUgY2hhbmdlbG9n
-IGRvZXNuJ3QgcmVhbGx5IGV4cGxhaW4gd2hvIGlzIGdvaW5nIHRvIHVzZQ0KPiB0aGUgbmV3IGRh
-dGEuIElzIHRoaXMgYSBtb25pdG9yaW5nIHRvIHJhaXNlIGFuIGVhcmx5IGFsYXJtIHdoZW4gdGhl
-DQo+IHZhbHVlIGdyb3dzPyBJcyB0aGlzIGZvciBkZWJ1Z2dpbmcgbWlzYmVoYXZpbmcgZHJpdmVy
-cz8gSG93IGlzIGl0DQo+IHZhbHVhYmxlIGZvciB0aG9zZT8NCj4NCj4+IFRoZSBmdW5jdGlvbiBv
-ZiB0aGUgbWVtaW5mbyBpczogKEZyb20gRG9jdW1lbnRhdGlvbi9maWxlc3lzdGVtcy9wcm9jLnJz
-dCkNCj4+DQo+PiAiUHJvdmlkZXMgaW5mb3JtYXRpb24gYWJvdXQgZGlzdHJpYnV0aW9uIGFuZCB1
-dGlsaXphdGlvbiBvZiBtZW1vcnkuIg0KPiBUcnVlLiBZZXQgd2UgZG8gbm90IGV4cG9ydCBhbnkg
-cmFuZG9tIGNvdW50ZXJzLCBkbyB3ZT8NCj4NCj4+IEltIG5vdCB0aGUgZGVzaWduZWQgb2YgZG1h
-LWJ1ZiwgSSB0aGlua8KgIGdsb2JhbF9ub2RlX3BhZ2Vfc3RhdGUgYXMgYSBrZXJuZWwNCj4+IGlu
-dGVybmFsLg0KPiBJdCBwcm92aWRlcyBhIG5vZGUgc3BlY2lmaWMgYW5kIG9wdGltaXplZCBjb3Vu
-dGVycy4gSXMgdGhpcyBhIGdvb2QgZml0DQo+IHdpdGggeW91ciBuZXcgY291bnRlcj8gT3IgdGhl
-IE5VTUEgbG9jYWxpdHkgaXMgb2Ygbm8gaW1wb3J0YW5jZT8NCg0KU291bmRzIGdvb2QgdG8gbWUs
-IGlmIENocmlzdGlhbiBLb2VuaWcgdGhpbmsgaXQgaXMgZ29vZCwgSSB3aWxsIHVzZSB0aGF0Lg0K
-SXQgaXMgb25seSB2aXJ0aW8gaW4gZHJpdmVycyB0aGF0IHVzZSB0aGUgZ2xvYmFsX25vZGVfcGFn
-ZV9zdGF0ZSBpZg0KdGhhdCBtYXR0ZXJzLg0KDQoNCj4NCj4+IGRtYS1idWYgaXMgYSBkZXZpY2Ug
-ZHJpdmVyIHRoYXQgcHJvdmlkZXMgYSBmdW5jdGlvbiBzbyBJIG1pZ2h0IGJlDQo+PiBvbiB0aGUg
-b3V0c2lkZS4gSG93ZXZlciBJIGFsc28gc2VlIHRoYXQgaXQgbWlnaHQgYmUgcmVsZXZhbnQgZm9y
-IGEgT09NLg0KPj4gSXQgaXMgbWVtb3J5IHRoYXQgY2FuIGJlIGZyZWVkIGJ5IGtpbGxpbmcgdXNl
-cnNwYWNlIHByb2Nlc3Nlcy4NCj4+DQo+PiBUaGUgc2hvd19tZW0gdGhpbmcuIFNob3VsZCBpdCBi
-ZSBhIHNlcGFyYXRlIHBhdGNoPw0KPiBUaGlzIGlzIHVwIHRvIHlvdSBidXQgaWYgeW91IHdhbnQg
-dG8gZXhwb3NlIHRoZSBjb3VudGVyIHRoZW4gc2VuZCBpdCBpbg0KPiBvbmUgc2VyaWVzLg0KPg0K
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi,
+
+On Fri, Apr 16, 2021 at 7:32 PM kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Douglas,
+>
+> I love your patch! Yet something to improve:
+>
+> [auto build test ERROR on next-20210416]
+> [cannot apply to wsa/i2c/for-next robh/for-next linus/master v5.12-rc7 v5.12-rc6 v5.12-rc5 v5.12-rc7]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
+>
+> url:    https://github.com/0day-ci/linux/commits/Douglas-Anderson/drm-Fix-EDID-reading-on-ti-sn65dsi86-solve-some-chicken-and-egg-problems/20210417-064243
+> base:    18250b538735142307082e4e99e3ae5c12d44013
+> config: x86_64-randconfig-a002-20210416 (attached as .config)
+> compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project f549176ad976caa3e19edd036df9a7e12770af7c)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install x86_64 cross compiling tool for clang build
+>         # apt-get install binutils-x86-64-linux-gnu
+>         # https://github.com/0day-ci/linux/commit/a870b6e38fac3e5453e4b74fdfe6eb05c8be7ea7
+>         git remote add linux-review https://github.com/0day-ci/linux
+>         git fetch --no-tags linux-review Douglas-Anderson/drm-Fix-EDID-reading-on-ti-sn65dsi86-solve-some-chicken-and-egg-problems/20210417-064243
+>         git checkout a870b6e38fac3e5453e4b74fdfe6eb05c8be7ea7
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 ARCH=x86_64
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+> All errors (new ones prefixed by >>):
+>
+> >> drivers/gpu/drm/bridge/ti-sn65dsi86.c:1308:1: error: redefinition of '__inittest'
+>    module_auxiliary_driver(ti_sn_bridge_driver);
+>    ^
+>    include/linux/auxiliary_bus.h:71:2: note: expanded from macro 'module_auxiliary_driver'
+>            module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+>            ^
+>    include/linux/device/driver.h:262:3: note: expanded from macro 'module_driver'
+>    } \
+>      ^
+>    include/linux/module.h:130:42: note: expanded from macro '\
+>    module_init'
+>            static inline initcall_t __maybe_unused __inittest(void)                \
+>                                                    ^
+>    drivers/gpu/drm/bridge/ti-sn65dsi86.c:1190:1: note: previous definition is here
+>    module_auxiliary_driver(ti_sn_gpio_driver);
+>    ^
+>    include/linux/auxiliary_bus.h:71:2: note: expanded from macro 'module_auxiliary_driver'
+>            module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+>            ^
+>    include/linux/device/driver.h:262:3: note: expanded from macro 'module_driver'
+>    } \
+>      ^
+>    include/linux/module.h:130:42: note: expanded from macro '\
+>    module_init'
+>            static inline initcall_t __maybe_unused __inittest(void)                \
+
+Ah, my mistake in individually using these in the same module:
+
+module_auxiliary_driver(ti_sn_gpio_driver);
+module_auxiliary_driver(ti_sn_bridge_driver);
+module_auxiliary_driver(ti_sn_aux_driver);
+module_i2c_driver(ti_sn65dsi86_driver);
+
+What I had worked fine because I wasn't building as a module. I've
+fixed this to have a manual init mechanism that will look something
+like this at the end of the series:
+
+---
+
+static int __init ti_sn65dsi86_init(void)
+{
+    int ret;
+
+    ret = i2c_add_driver(&ti_sn65dsi86_driver);
+    if (ret)
+        return ret;
+
+    ret = ti_sn_gpio_register();
+    if (ret)
+        goto err_main_was_registered;
+
+    ret = auxiliary_driver_register(&ti_sn_aux_driver);
+    if (ret)
+        goto err_gpio_was_registered;
+
+    ret = auxiliary_driver_register(&ti_sn_bridge_driver);
+    if (ret)
+        goto err_aux_was_registered;
+
+    return 0;
+
+err_aux_was_registered:
+    auxiliary_driver_unregister(&ti_sn_aux_driver);
+err_gpio_was_registered:
+    ti_sn_gpio_unregister();
+err_main_was_registered:
+    i2c_del_driver(&ti_sn65dsi86_driver);
+
+    return ret;
+}
+module_init(ti_sn65dsi86_init);
+
+static void __exit ti_sn65dsi86_exit(void)
+{
+    auxiliary_driver_unregister(&ti_sn_bridge_driver);
+    auxiliary_driver_unregister(&ti_sn_aux_driver);
+    ti_sn_gpio_unregister();
+    i2c_del_driver(&ti_sn65dsi86_driver);
+}
+module_exit(ti_sn65dsi86_exit);
+
+---
+
+With that I can compile as a module and everything works fine with
+this builtin. I'll plan to spin a v5 with that fix but I'll wait a
+little bit to see if I get any feedback. If I happen to get drm-misc
+commit access or can convince someone, I'll try to get the early
+patches in the series landed so v5 isn't so giant.
+
+NOTE: on my system sn65dsi86 doesn't actually work currently when
+running as a module. That's a pre-existing problem and not one
+introduced by my patch. Or perhaps, more appropriately, a pre-existing
+pile of problems that I'm not going to try to tackle. A quick summary:
+
+* Part of the problem of making this a module is that I run into the
+looping I spent a little bit of time looking at in the past [1]. I
+believe the main MSM graphics driver can't handle itself being builtin
+but some of the things it needs being in modules.
+
+* Part of the problem is fw_devlink. I don't think it understands the
+circularness of the panel and HPD lines and it seems to get upset
+unless in permissive mode.
+
+* If I try permissive mode and move the whole MSM graphics to a
+module, I get an error about 'disp_cc_mdss_mdp_clk_src: RCG did not
+turn on'. Again, this is without my patch series.
+
+Those are not small problems and not new, so I'll settle for making
+sure I continue to compile as a module.
+
+
+[1] https://lore.kernel.org/lkml/20200710230224.2265647-1-dianders@chromium.org/
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
