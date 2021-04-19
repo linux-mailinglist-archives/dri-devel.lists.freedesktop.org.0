@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCDC363E7A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 11:28:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD25363E8D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 11:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2252489F27;
-	Mon, 19 Apr 2021 09:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5D9F89E01;
+	Mon, 19 Apr 2021 09:34:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 888B389F27
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 09:28:56 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id w23so36023652ejb.9
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 02:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m5rpwlEjaI9dAkx0tUZmMh6WBDfm91hSZip1y2Vtmek=;
- b=kneflRMcdyNFfpDmfZt8MFvGeDVjdKBhMeX9Evpmq47QMNVtk6xXXCqVKjpcS+w+mZ
- 90/e3Txw58vQjYNcUh6CBgnAAqYozVstPJoIqOUvL62RCR1S9b1U73R1bPIPKuNGbYtM
- MakovfBhCOM5Y9tqBC7P36h1I2sWVDgq6atPKRGyzLtXPdJL6CpnE6eHJubsAoakUPwY
- FrIB+cQd61bn/dxucHm2FPoG0QH0m2IMoHLcLU/0RPJ9CzbjXPUDQ4jDqZWbMNm7zyfO
- LRRKmUWKZVqGAjLNEiXEnTyqvBI7x5WX8k56f/A81Hlw1PYsbFtppqYFOm4S6YpSjWny
- YwrA==
+Received: from gw.atmark-techno.com (gw.atmark-techno.com [13.115.124.170])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0B11989E01
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 09:34:09 +0000 (UTC)
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197])
+ by gw.atmark-techno.com (Postfix) with ESMTPS id B08568049E
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 18:34:08 +0900 (JST)
+Received: by mail-il1-f197.google.com with SMTP id
+ q7-20020a056e0215c7b029013ea7521279so10913391ilu.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 02:34:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m5rpwlEjaI9dAkx0tUZmMh6WBDfm91hSZip1y2Vtmek=;
- b=a4EV5ykUmMSuVDhk8IpahLq4/wUPVSKuJIdyJXDPIKXXZ69tC1NFIdaFBF+14K5kB3
- CRSIkqcRJTWeI7XGke2FhuIAzlLFIs35CiFdJkGxHoLluXWhhQ/O1skPCwF+9zqSUc8q
- m6Uuy2yBXfIyWdtv5NHP7FKMOX9wyGefeHxkEL/74renChRuu0nD8E6zN3+MMVV37jaQ
- Hxx2fyM7kM7mMIngB77XF7CjbbbBrKuEnl71IrooCZUYbffzhUnYsBCNKVWA4cluOmLt
- Kfhfu5JKVObDTdcPh8GGzwA1r1hq3COOD3q+q1baIJ3BYYqiUS/Ug1o5gbxS9mKS2ZPF
- hE9g==
-X-Gm-Message-State: AOAM532bkdfT5AbeQskyEcJRxVgLtqJ/6sGEEgQb9oFsR2J+DWvyfg6+
- 66EHc1y17dwgyjRDhgGMxTs=
-X-Google-Smtp-Source: ABdhPJxM9AGcruBzQZ8UOxap8rArgjsUteV1mlqOQnOvMHbQjpDImPFMCK27NJ2lQI1FOCz3unrx+w==
-X-Received: by 2002:a17:906:d922:: with SMTP id
- rn2mr10038349ejb.165.1618824535197; 
- Mon, 19 Apr 2021 02:28:55 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:f0f2:71b:2dbf:db0e])
- by smtp.gmail.com with ESMTPSA id s9sm12026487edd.16.2021.04.19.02.28.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 02:28:54 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: linux-graphics-maintainer@vmware.com,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: remove special handling for non GEM drivers
-Date: Mon, 19 Apr 2021 11:28:53 +0200
-Message-Id: <20210419092853.1605-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=f9v+Sm8mKFEbQyXi/sN2tJHr2LOa9v0CsJoz/H5l6cU=;
+ b=Nbgf+Yn/+UTfJ4zIaDILJPajRSdFhlOA0IwIOAN6Qx7kG+doUgSugmUZIsq9SCHTgm
+ kC5iRBgeSvB98W7+CBbioVbNCpCgWZTPHB+QoC4rxofm1vMgojFZ4WHycDBo56iU0yh0
+ k2muSyl/T6btUQa6BQM5p5jDq20AeQkMK0ZU88GGMx0BXVoqtXueQdh7zok7DYBAWQMR
+ tbViKgcgAu/3oKPJHHJAs17EvVTF2kKjN1tyKy2stPyI9/gf4KXjtbyfPD/kw+nRwYfW
+ Vs2H1arRf2fHyTALg2LYqVaNnUIBGwDZ6QLwRfw1aY4Oso8XlyUoJTzF1sPqpUMJwacd
+ dJNg==
+X-Gm-Message-State: AOAM530o2mKk9bEDGw6Ng1Mz4WrtObzalJj+THR/fpMJTX5zG7W1iEof
+ X7VwKBxfX776TsqKEOsWjtQl7dKq6RECnQvxGMUp/hsPe2Y03+y64dxqiDXNDIdqJZ/5jgm6WkF
+ 4bbCA2XnoMiF5WPyXNh8DqDva5rg+T2t+
+X-Received: by 2002:a63:1665:: with SMTP id 37mr11208875pgw.31.1618824837066; 
+ Mon, 19 Apr 2021 02:33:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3BVfHB/Iu3InVzb+YLUkuY7/BfcYMlC0sOGsbJiks+G4SQp5aPsproxuobb7vRE8Qif9k+g==
+X-Received: by 2002:a63:1665:: with SMTP id 37mr11208853pgw.31.1618824836841; 
+ Mon, 19 Apr 2021 02:33:56 -0700 (PDT)
+Received: from pc-0115 (103.131.189.35.bc.googleusercontent.com.
+ [35.189.131.103])
+ by smtp.gmail.com with ESMTPSA id x18sm10982637pjn.51.2021.04.19.02.33.56
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 19 Apr 2021 02:33:56 -0700 (PDT)
+Received: from martinet by pc-0115 with local (Exim 4.94)
+ (envelope-from <martinet@pc-0115>)
+ id 1lYQHy-002k7D-3h; Mon, 19 Apr 2021 18:33:54 +0900
+Date: Mon, 19 Apr 2021 18:33:44 +0900
+From: Dominique MARTINET <dominique.martinet@atmark-techno.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
+ soc_device_match
+Message-ID: <YH1OeFy+SepIYYG0@atmark-techno.com>
+References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
+ <20210419042722.27554-4-alice.guo@oss.nxp.com>
+ <YH0O907dfGY9jQRZ@atmark-techno.com>
+ <CAMuHMdVY1SLZ0K30T2pimyrR6Mm=VoSTO=L-xxCy2Bj7_kostw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVY1SLZ0K30T2pimyrR6Mm=VoSTO=L-xxCy2Bj7_kostw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,73 +71,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ray.huang@amd.com, sroland@vmware.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: ulf.hansson@linaro.org, aymen.sghaier@nxp.com, geert+renesas@glider.be,
+ rafael@kernel.org, airlied@linux.ie, mturquette@baylibre.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ a.hajda@samsung.com, netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+ peter.ujfalusi@gmail.com, linux-clk@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, wim@linux-watchdog.org,
+ herbert@gondor.apana.org.au, horia.geanta@nxp.com, khilman@baylibre.com,
+ joro@8bytes.org, narmstrong@baylibre.com, linux-staging@lists.linux.dev,
+ iommu@lists.linux-foundation.org, kishon@ti.com, tony@atomide.com,
+ linux-omap@vger.kernel.org, stern@rowland.harvard.edu, kuba@kernel.org,
+ linux@roeck-us.net, linux-media@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, will@kernel.org, linux-pm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, edubezval@gmail.com, linux-gpio@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, ssantosh@kernel.org,
+ matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org, mchehab@kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ "Alice Guo \(OSS\)" <alice.guo@oss.nxp.com>, balbi@kernel.org,
+ tomba@kernel.org, sboyd@kernel.org, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org, adrian.hunter@intel.com,
+ robert.foss@linaro.org, leoyang.li@nxp.com, linux@prisktech.co.nz,
+ vkoul@kernel.org, Arnd Bergmann <arnd@arndb.de>, linux-crypto@vger.kernel.org,
+ j-keerthy@ti.com, dmaengine@vger.kernel.org, Roy.Pledge@nxp.com,
+ jyri.sarha@iki.fi, davem@davemloft.net
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dm13Z2Z4IGlzIHRoZSBvbmx5IGRyaXZlciBhY3R1YWxseSB1c2luZyB0aGlzLiBNb3ZlIHRoZSBo
-YW5kbGluZyBpbnRvCnRoZSBkcml2ZXIgaW5zdGVhZC4KClNpZ25lZC1vZmYtYnk6IENocmlzdGlh
-biBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-dHRtL3R0bV9iby5jICAgICAgIHwgMTEgLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X2JvLmMgfCAxMCArKysrKysrKysrCiBpbmNsdWRlL2RybS90dG0vdHRtX2JvX2Fw
-aS5oICAgICAgIHwgMTkgLS0tLS0tLS0tLS0tLS0tLS0tLQogMyBmaWxlcyBjaGFuZ2VkLCAxMCBp
-bnNlcnRpb25zKCspLCAzMCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vdHRtL3R0bV9iby5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwppbmRleCA4MDgz
-MWRmMGVmNjEuLjM4MTgzZTIyNzExNiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90
-dG1fYm8uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCkBAIC00NjAsOCArNDYw
-LDYgQEAgc3RhdGljIHZvaWQgdHRtX2JvX3JlbGVhc2Uoc3RydWN0IGtyZWYgKmtyZWYpCiAKIAlh
-dG9taWNfZGVjKCZ0dG1fZ2xvYi5ib19jb3VudCk7CiAJZG1hX2ZlbmNlX3B1dChiby0+bW92aW5n
-KTsKLQlpZiAoIXR0bV9ib191c2VzX2VtYmVkZGVkX2dlbV9vYmplY3QoYm8pKQotCQlkbWFfcmVz
-dl9maW5pKCZiby0+YmFzZS5fcmVzdik7CiAJYm8tPmRlc3Ryb3koYm8pOwogfQogCkBAIC0xMDU2
-LDE1ICsxMDU0LDYgQEAgaW50IHR0bV9ib19pbml0X3Jlc2VydmVkKHN0cnVjdCB0dG1fZGV2aWNl
-ICpiZGV2LAogCX0gZWxzZSB7CiAJCWJvLT5iYXNlLnJlc3YgPSAmYm8tPmJhc2UuX3Jlc3Y7CiAJ
-fQotCWlmICghdHRtX2JvX3VzZXNfZW1iZWRkZWRfZ2VtX29iamVjdChibykpIHsKLQkJLyoKLQkJ
-ICogYm8uYmFzZSBpcyBub3QgaW5pdGlhbGl6ZWQsIHNvIHdlIGhhdmUgdG8gc2V0dXAgdGhlCi0J
-CSAqIHN0cnVjdCBlbGVtZW50cyB3ZSB3YW50IHVzZSByZWdhcmRsZXNzLgotCQkgKi8KLQkJYm8t
-PmJhc2Uuc2l6ZSA9IHNpemU7Ci0JCWRtYV9yZXN2X2luaXQoJmJvLT5iYXNlLl9yZXN2KTsKLQkJ
-ZHJtX3ZtYV9ub2RlX3Jlc2V0KCZiby0+YmFzZS52bWFfbm9kZSk7Ci0JfQogCWF0b21pY19pbmMo
-JnR0bV9nbG9iLmJvX2NvdW50KTsKIAogCS8qCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-dm13Z2Z4L3Ztd2dmeF9iby5jIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfYm8uYwpp
-bmRleCA1MGU1MjlhMDE2NzcuLjU4NzMxNGQ1Nzk5MSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3Ztd2dmeC92bXdnZnhfYm8uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dm
-eF9iby5jCkBAIC00NjAsNiArNDYwLDcgQEAgdm9pZCB2bXdfYm9fYm9fZnJlZShzdHJ1Y3QgdHRt
-X2J1ZmZlcl9vYmplY3QgKmJvKQogCVdBUk5fT04odm13X2JvLT5kaXJ0eSk7CiAJV0FSTl9PTigh
-UkJfRU1QVFlfUk9PVCgmdm13X2JvLT5yZXNfdHJlZSkpOwogCXZtd19ib191bm1hcCh2bXdfYm8p
-OworCWRtYV9yZXN2X2ZpbmkoJmJvLT5iYXNlLl9yZXN2KTsKIAlrZnJlZSh2bXdfYm8pOwogfQog
-CkBAIC01MTIsNiArNTEzLDExIEBAIGludCB2bXdfYm9fY3JlYXRlX2tlcm5lbChzdHJ1Y3Qgdm13
-X3ByaXZhdGUgKmRldl9wcml2LCB1bnNpZ25lZCBsb25nIHNpemUsCiAJaWYgKHVubGlrZWx5KHJl
-dCkpCiAJCWdvdG8gZXJyb3JfZnJlZTsKIAorCisJYm8tPmJhc2Uuc2l6ZSA9IHNpemU7CisJZG1h
-X3Jlc3ZfaW5pdCgmYm8tPmJhc2UuX3Jlc3YpOworCWRybV92bWFfbm9kZV9yZXNldCgmYm8tPmJh
-c2Uudm1hX25vZGUpOworCiAJcmV0ID0gdHRtX2JvX2luaXRfcmVzZXJ2ZWQoJmRldl9wcml2LT5i
-ZGV2LCBibywgc2l6ZSwKIAkJCQkgICB0dG1fYm9fdHlwZV9kZXZpY2UsIHBsYWNlbWVudCwgMCwK
-IAkJCQkgICAmY3R4LCBOVUxMLCBOVUxMLCBOVUxMKTsKQEAgLTU3MCw2ICs1NzYsMTAgQEAgaW50
-IHZtd19ib19pbml0KHN0cnVjdCB2bXdfcHJpdmF0ZSAqZGV2X3ByaXYsCiAJaWYgKHVubGlrZWx5
-KHJldCkpCiAJCXJldHVybiByZXQ7CiAKKwl2bXdfYm8tPmJhc2UuYmFzZS5zaXplID0gc2l6ZTsK
-KwlkbWFfcmVzdl9pbml0KCZ2bXdfYm8tPmJhc2UuYmFzZS5fcmVzdik7CisJZHJtX3ZtYV9ub2Rl
-X3Jlc2V0KCZ2bXdfYm8tPmJhc2UuYmFzZS52bWFfbm9kZSk7CisKIAlyZXQgPSB0dG1fYm9faW5p
-dF9yZXNlcnZlZChiZGV2LCAmdm13X2JvLT5iYXNlLCBzaXplLAogCQkJCSAgIHR0bV9ib190eXBl
-X2RldmljZSwgcGxhY2VtZW50LAogCQkJCSAgIDAsICZjdHgsIE5VTEwsIE5VTEwsIGJvX2ZyZWUp
-OwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJt
-L3R0bS90dG1fYm9fYXBpLmgKaW5kZXggMzU4N2Y2NjBlOGY0Li5lODhkYTQ4MWE5NzYgMTAwNjQ0
-Ci0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKKysrIGIvaW5jbHVkZS9kcm0vdHRt
-L3R0bV9ib19hcGkuaApAQCAtNTYyLDI1ICs1NjIsNiBAQCBzc2l6ZV90IHR0bV9ib19pbyhzdHJ1
-Y3QgdHRtX2RldmljZSAqYmRldiwgc3RydWN0IGZpbGUgKmZpbHAsCiBpbnQgdHRtX2JvX3N3YXBv
-dXQoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4
-ICpjdHgsCiAJCSAgIGdmcF90IGdmcF9mbGFncyk7CiAKLS8qKgotICogdHRtX2JvX3VzZXNfZW1i
-ZWRkZWRfZ2VtX29iamVjdCAtIGNoZWNrIGlmIHRoZSBnaXZlbiBibyB1c2VzIHRoZQotICogZW1i
-ZWRkZWQgZHJtX2dlbV9vYmplY3QuCi0gKgotICogTW9zdCB0dG0gZHJpdmVycyBhcmUgdXNpbmcg
-Z2VtIHRvbywgc28gdGhlIGVtYmVkZGVkCi0gKiB0dG1fYnVmZmVyX29iamVjdC5iYXNlIHdpbGwg
-YmUgaW5pdGlhbGl6ZWQgYnkgdGhlIGRyaXZlciAoYmVmb3JlCi0gKiBjYWxsaW5nIHR0bV9ib19p
-bml0KS4gIEl0IGlzIGFsc28gcG9zc2libGUgdG8gdXNlIHR0bSB3aXRob3V0IGdlbQotICogdGhv
-dWdoICh2bXdnZnggZG9lcyB0aGF0KS4KLSAqCi0gKiBUaGlzIGhlbHBlciB3aWxsIGZpZ3VyZSB3
-aGVuZXZlciBhIGdpdmVuIHR0bSBibyBpcyBhIGdlbSBvYmplY3QgdG9vCi0gKiBvciBub3QuCi0g
-KgotICogQGJvOiBUaGUgYm8gdG8gY2hlY2suCi0gKi8KLXN0YXRpYyBpbmxpbmUgYm9vbCB0dG1f
-Ym9fdXNlc19lbWJlZGRlZF9nZW1fb2JqZWN0KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8p
-Ci17Ci0JcmV0dXJuIGJvLT5iYXNlLmRldiAhPSBOVUxMOwotfQotCiAvKioKICAqIHR0bV9ib19w
-aW4gLSBQaW4gdGhlIGJ1ZmZlciBvYmplY3QuCiAgKiBAYm86IFRoZSBidWZmZXIgb2JqZWN0IHRv
-IHBpbgotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+
+Geert Uytterhoeven wrote on Mon, Apr 19, 2021 at 11:03:24AM +0200:
+> > This is going to need quite some more work to be acceptable, in my
+> > opinion, but I think it should be possible.
+> 
+> In general, this is very hard to do, IMHO. Some drivers may be used on
+> multiple platforms, some of them registering an SoC device, some of
+> them not registering an SoC device.  So there is no way to know the
+> difference between "SoC device not registered, intentionally", and
+> "SoC device not yet registered".
+
+Hm, good point, I was probably a bit too optimistic if there are devices
+which don't register any soc yet have drivers which want one; I don't
+see how to make the difference indeed... And that does mean we can't
+just defer all the time.
+
+> soc_device_match() should only be used as a last resort, to identify
+> systems that cannot be identified otherwise.  Typically this is used for
+> quirks, which should only be enabled on a very specific subset of
+> systems.  IMHO such systems should make sure soc_device_match()
+> is available early, by registering their SoC device early.
+
+I definitely agree there, my suggestion to defer was only because I know
+of no other way to influence the ordering of drivers loading reliably
+and gave up on soc being init'd early.
+
+In this particular case the problem is that since 7d981405d0fd ("soc:
+imx8m: change to use platform driver") the soc probe tries to use the
+nvmem driver for ocotp fuses for imx8m devices, which isn't ready yet.
+So soc loading gets pushed back to the end of the list because it gets
+defered and other drivers relying on soc_device_match get confused
+because they wrongly think a device doesn't match a quirk when it
+actually does.
+
+If there is a way to ensure the nvmem driver gets loaded before the soc,
+that would also solve the problem nicely, and avoid the need to mess
+with all the ~50 drivers which use it.
+
+
+Is there a way to control in what order drivers get loaded? Something in
+the dtb perhaps?
+
+
+Thanks,
+-- 
+Dominique
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
