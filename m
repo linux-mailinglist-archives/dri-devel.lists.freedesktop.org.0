@@ -1,46 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083F1363D56
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 10:20:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C45363E1C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 11:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9A46E1F1;
-	Mon, 19 Apr 2021 08:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834F689AFF;
+	Mon, 19 Apr 2021 09:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com
- [209.85.217.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E758F6E1F1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 08:20:25 +0000 (UTC)
-Received: by mail-vs1-f47.google.com with SMTP id k124so17184513vsk.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 01:20:25 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F08D689AFF
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 09:01:39 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id k26so16710140wrc.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 02:01:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TPqPD/BdKbOmQoY/69ahqiLeLy4W5bUr61Qz2mAbQO8=;
+ b=ZDkUmAfiNr7vTw1GLZge+A/3lbdsF/wNvgIGrY/66IjAeb7JkxqkJ0G/3heyKx1bpy
+ ay9fjir4M6WU7e+kYVMvUrsqazj1q+JJWXuwS7rAWPWy/6fiD2YD6c9S5M6mBDH+QAPM
+ 5CXAQlIZx9XlaC2nvi9RbwwSyXIyUUKyvOOMiwChIzAAmagIFrLtJTjalX0x+tmZEGXW
+ 1sn5VFCVXt5RVUfiUM+8virAYqShpxLwyVnqBlqIWHV0i2dp14zdWT53ZatA1FpK3zOg
+ Y6Bt18WS4izwrTSxGNzo8Ijpk9pSeVB98ss4KuzYKF3AnhDVBij0OAR2VXMa6HwLR84p
+ pW5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ltv54OOOgcKhPoH7oRaigoXMRi+Z2QqH7bQ4dTNkEvU=;
- b=FRWa10ByzOpOeOW8NZBN1UCtal36pnGuOV9yY3H5P2zkuGDX43V33Dh3eXfAWsscaj
- s6MGdEPnKRpQsqPx3NmrH0Pmr6X5yUFQZ3jNRGOuWT5brxfTs9LikWhudNbcnoVvaqW8
- mvzfIw1s4qvRd/PzJUIsBJCsPL2ogYPe8wbgvDQZrdd/yCB1DVaYGMwsh+gzmGv0tnbp
- w///kZ4moC8TbnyJDx5psNpY/owjJNfONUaQFAo2fqymII2JNrSWPB+PSdAfOxxrE2+G
- CoK3UUOSl/ToXBODUpr7ut7d3mLszLjmYo5RMjiB1Ye8BZTX50wmrd6C8J7ZDvuS6Q1x
- NvGQ==
-X-Gm-Message-State: AOAM53186uAmAmHASnNQY9WlNGJn8VNHFSQHesLJeT1N+5ORNrDdwTC0
- Iaak8KzUusr+rIcDxH/s5wpMYi5cSD2NUnKNuSo=
-X-Google-Smtp-Source: ABdhPJw0QI7XOFx1TPnFrXWAlR/QW1v6zaWS/KnYbAtB/CEX2DsVVO2yNBv9r1VAA3kWmuOXuQwF2fQGH/J1go6B4oc=
-X-Received: by 2002:a67:f503:: with SMTP id u3mr12373252vsn.3.1618820424835;
- Mon, 19 Apr 2021 01:20:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TPqPD/BdKbOmQoY/69ahqiLeLy4W5bUr61Qz2mAbQO8=;
+ b=Mmrm23wK++oPxXrhJrAGNkjJSE1aJkhFI0s70EDycfT0wq/n4vuAUnDHa11qQHVNKu
+ YzBPk8Y+i8EO6XqsQrdYkxl5Y/JqZiXKYd0FXQui4FcnQHvKichTVkn7pR4mlcxz1uRP
+ atl7yJVDealkwQ0uixCBg6dG0s+KOL/Au1dmZ1I0L7iIYYPPkTIWq+ET/O1dfHCCB1ci
+ O97jpO3x39UCK9hf0aMiYg6NLjkc4xTDAemX256NoAXoiYTm46o0bcXPq6nzg2rTTrJc
+ dGM39MuyunXSlto5QnrAQp0AXexh0B3OumFTHJgUAFWt6PQgyrVJdL/Q8tZgRfTfU363
+ jkzQ==
+X-Gm-Message-State: AOAM533N5hnQu49qQv7MICSIK9gvLRhdOUXf9UA8BwhtSe6Zk/ptfuP3
+ 8Md0D2baWFLuDykdL3FrOJPNsA==
+X-Google-Smtp-Source: ABdhPJys4VsgOUWkYQqpx+Qn/FCs2zadombmpxdeBA++SkKxsdC+yJFpD3mOYG/M8XmtvFWemf0B5w==
+X-Received: by 2002:a5d:5912:: with SMTP id v18mr13582443wrd.14.1618822898682; 
+ Mon, 19 Apr 2021 02:01:38 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:2454:3e3:5f00:4e60:4ba6:c549:25f6])
+ by smtp.gmail.com with ESMTPSA id m14sm21477080wrh.28.2021.04.19.02.01.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Apr 2021 02:01:38 -0700 (PDT)
+From: Robert Foss <robert.foss@linaro.org>
+To: a.hajda@samsung.com, narmstrong@baylibre.com, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@siol.net, airlied@linux.ie, daniel@ffwll.ch,
+ cw00.choi@samsung.com, m.purski@samsung.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v3] drm/bridge/sii8620: fix dependency on extcon
+Date: Mon, 19 Apr 2021 11:01:24 +0200
+Message-Id: <20210419090124.153560-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.31.0.30.g398dba342d.dirty
 MIME-Version: 1.0
-References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
- <20210419042722.27554-2-alice.guo@oss.nxp.com>
-In-Reply-To: <20210419042722.27554-2-alice.guo@oss.nxp.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 19 Apr 2021 10:20:13 +0200
-Message-ID: <CAMuHMdUbrPxtJ9DCP0_nFrReuuO4vFY2J79LrKY82D7bCOfzRw@mail.gmail.com>
-Subject: Re: [RFC v1 PATCH 1/3] drivers: soc: add support for soc_device_match
- returning -EPROBE_DEFER
-To: "Alice Guo (OSS)" <alice.guo@oss.nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,98 +70,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ulf.hansson@linaro.org, aymen.sghaier@nxp.com, geert+renesas@glider.be,
- rafael@kernel.org, airlied@linux.ie, mturquette@baylibre.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- a.hajda@samsung.com, netdev@vger.kernel.org, linux-phy@lists.infradead.org,
- will@kernel.org, linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- wim@linux-watchdog.org, herbert@gondor.apana.org.au, horia.geanta@nxp.com,
- khilman@baylibre.com, joro@8bytes.org, narmstrong@baylibre.com,
- linux-staging@lists.linux.dev, iommu@lists.linux-foundation.org,
- peter.ujfalusi@gmail.com, kishon@ti.com, tony@atomide.com,
- linux-omap@vger.kernel.org, stern@rowland.harvard.edu, kuba@kernel.org,
- linux@roeck-us.net, linux-media@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Roy.Pledge@nxp.com, linux-pm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, edubezval@gmail.com, linux-gpio@vger.kernel.org,
- linux-mediatek@lists.infradead.org, ssantosh@kernel.org,
- matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org, mchehab@kernel.org,
- linux-arm-kernel@lists.infradead.org, balbi@kernel.org, tomba@kernel.org,
- sboyd@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, adrian.hunter@intel.com, robert.foss@linaro.org,
- leoyang.li@nxp.com, linux@prisktech.co.nz, vkoul@kernel.org,
- Arnd Bergmann <arnd@arndb.de>, linux-crypto@vger.kernel.org, j-keerthy@ti.com,
- dmaengine@vger.kernel.org, jyri.sarha@iki.fi, davem@davemloft.net
+Cc: kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alice,
+The DRM_SIL_SII8620 kconfig has a weak `imply` dependency
+on EXTCON, which causes issues when sii8620 is built
+as a builtin and EXTCON is built as a module.
 
-CC Arnd (soc_device_match() author)
+The symptoms are 'undefined reference' errors caused
+by the symbols in EXTCON not being available
+to the sii8620 driver.
 
-On Mon, Apr 19, 2021 at 6:28 AM Alice Guo (OSS) <alice.guo@oss.nxp.com> wrote:
-> From: Alice Guo <alice.guo@nxp.com>
->
-> In i.MX8M boards, the registration of SoC device is later than caam
-> driver which needs it. Caam driver needs soc_device_match to provide
-> -EPROBE_DEFER when no SoC device is registered and no
-> early_soc_dev_attr.
+Fixes: 688838442147 ("drm/bridge/sii8620: use micro-USB cable detection logic to detect MHL")
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Reported-by: kernel test robot <lkp@intel.com>
+---
 
-I'm wondering if this is really a good idea: soc_device_match() is a
-last-resort low-level check, and IMHO should be made available early on,
-so there is no need for -EPROBE_DEFER.
+LKP reported issue:
+https://lore.kernel.org/lkml/202104040604.SSTe2Cxf-lkp@intel.com/
 
->
-> Signed-off-by: Alice Guo <alice.guo@nxp.com>
 
-Thanks for your patch!
+Changes since v1:
+ - Fix typo on comment
 
-> --- a/drivers/base/soc.c
-> +++ b/drivers/base/soc.c
-> @@ -110,6 +110,7 @@ static void soc_release(struct device *dev)
->  }
->
->  static struct soc_device_attribute *early_soc_dev_attr;
-> +static bool soc_dev_attr_init_done = false;
+Changes since v2:
+ - Randy: Changed from `depends` to `select` 
 
-Do you need this variable?
 
->
->  struct soc_device *soc_device_register(struct soc_device_attribute *soc_dev_attr)
->  {
-> @@ -157,6 +158,7 @@ struct soc_device *soc_device_register(struct soc_device_attribute *soc_dev_attr
->                 return ERR_PTR(ret);
->         }
->
-> +       soc_dev_attr_init_done = true;
->         return soc_dev;
->
->  out3:
-> @@ -246,6 +248,9 @@ const struct soc_device_attribute *soc_device_match(
->         if (!matches)
->                 return NULL;
->
-> +       if (!soc_dev_attr_init_done && !early_soc_dev_attr)
+ drivers/gpu/drm/bridge/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-if (!soc_bus_type.p && !early_soc_dev_attr)
-
-> +               return ERR_PTR(-EPROBE_DEFER);
-> +
->         while (!ret) {
->                 if (!(matches->machine || matches->family ||
->                       matches->revision || matches->soc_id))
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 22a467abd3e9..70402da5cc70 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -169,7 +169,7 @@ config DRM_SIL_SII8620
+ 	tristate "Silicon Image SII8620 HDMI/MHL bridge"
+ 	depends on OF
+ 	select DRM_KMS_HELPER
+-	imply EXTCON
++	select EXTCON
+ 	depends on RC_CORE || !RC_CORE
+ 	help
+ 	  Silicon Image SII8620 HDMI/MHL bridge chip driver.
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.31.0.30.g398dba342d.dirty
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
