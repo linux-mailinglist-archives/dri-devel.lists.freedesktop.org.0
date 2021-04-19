@@ -2,63 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70832363D41
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 10:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083F1363D56
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 10:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83F7889B3B;
-	Mon, 19 Apr 2021 08:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9A46E1F1;
+	Mon, 19 Apr 2021 08:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566CA89BF4
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 08:18:16 +0000 (UTC)
-Received: from mail-ej1-f72.google.com ([209.85.218.72])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <krzysztof.kozlowski@canonical.com>)
- id 1lYP6l-0007zM-5M
- for dri-devel@lists.freedesktop.org; Mon, 19 Apr 2021 08:18:15 +0000
-Received: by mail-ej1-f72.google.com with SMTP id
- w2-20020a1709062f82b0290378745f26d5so3332785eji.6
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 01:18:15 -0700 (PDT)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com
+ [209.85.217.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E758F6E1F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 08:20:25 +0000 (UTC)
+Received: by mail-vs1-f47.google.com with SMTP id k124so17184513vsk.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 01:20:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pZDneaovJpVfH9OrjUAPe/h6WG3DKbu6qNqsKILVDmw=;
- b=dWDN3VGYzcFasotVHRswmiDPwJs3DOFHJ5swoD8pES7DEynvxNOqjBfKLEWJcBgOkG
- oSF63e8YqXYq4JjNWxsIlZdxyeuZ+s547MJf2SM78h53FyeUO6a4frniuQsKak4Xqnbb
- elTSihVNS5MdeJ7osWpuZLqMEWndH0kxozdoyEaDzwh/f3at+DTWAZtGcKloNVwQwoFm
- GhMzMZX1vNGp2lrj+mBWbGPWU0mcT/2mb9K0cfsIU3FczQ353pZMbHta94RmLzy9Zge/
- 3PYGW+IS5qktIEbKELujfdv5pyFc0147CeP2YBz538UrEyr1iPQav0/61lBChGxfIoXF
- GJPQ==
-X-Gm-Message-State: AOAM531c3FIxAWe+ZN8yuuqDOEDQT9rk76nT5OTWyrSbwVUmXXqrpGH4
- oKsM7LNGFNw+6xJDu/+OsTj2mwkp8qzkP54GcEAC8XH/PHENqtnwyUvUR/GMm+EPFzg44dHZnZc
- 8YVWZYf+f2Ul15tEMN5hlIQRKWJIhPlHbAiCrkHlqcSEoMA==
-X-Received: by 2002:a17:907:7b98:: with SMTP id
- ne24mr17965284ejc.304.1618820293749; 
- Mon, 19 Apr 2021 01:18:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwVOkUQrDkpbC9/rr/kn2dqwuK7KzA0hik5Peg6nOv1+wwGTCu3rE5nbdIF1jQ14TsTKfJnUQ==
-X-Received: by 2002:a17:907:7b98:: with SMTP id
- ne24mr17965273ejc.304.1618820293599; 
- Mon, 19 Apr 2021 01:18:13 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-192-147.adslplus.ch.
- [188.155.192.147])
- by smtp.gmail.com with ESMTPSA id u1sm12093563edv.90.2021.04.19.01.18.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 01:18:13 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/gma500: remove trailing whitespaces
-Date: Mon, 19 Apr 2021 10:18:07 +0200
-Message-Id: <20210419081807.68000-2-krzysztof.kozlowski@canonical.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210419081807.68000-1-krzysztof.kozlowski@canonical.com>
-References: <20210419081807.68000-1-krzysztof.kozlowski@canonical.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ltv54OOOgcKhPoH7oRaigoXMRi+Z2QqH7bQ4dTNkEvU=;
+ b=FRWa10ByzOpOeOW8NZBN1UCtal36pnGuOV9yY3H5P2zkuGDX43V33Dh3eXfAWsscaj
+ s6MGdEPnKRpQsqPx3NmrH0Pmr6X5yUFQZ3jNRGOuWT5brxfTs9LikWhudNbcnoVvaqW8
+ mvzfIw1s4qvRd/PzJUIsBJCsPL2ogYPe8wbgvDQZrdd/yCB1DVaYGMwsh+gzmGv0tnbp
+ w///kZ4moC8TbnyJDx5psNpY/owjJNfONUaQFAo2fqymII2JNrSWPB+PSdAfOxxrE2+G
+ CoK3UUOSl/ToXBODUpr7ut7d3mLszLjmYo5RMjiB1Ye8BZTX50wmrd6C8J7ZDvuS6Q1x
+ NvGQ==
+X-Gm-Message-State: AOAM53186uAmAmHASnNQY9WlNGJn8VNHFSQHesLJeT1N+5ORNrDdwTC0
+ Iaak8KzUusr+rIcDxH/s5wpMYi5cSD2NUnKNuSo=
+X-Google-Smtp-Source: ABdhPJw0QI7XOFx1TPnFrXWAlR/QW1v6zaWS/KnYbAtB/CEX2DsVVO2yNBv9r1VAA3kWmuOXuQwF2fQGH/J1go6B4oc=
+X-Received: by 2002:a67:f503:: with SMTP id u3mr12373252vsn.3.1618820424835;
+ Mon, 19 Apr 2021 01:20:24 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
+ <20210419042722.27554-2-alice.guo@oss.nxp.com>
+In-Reply-To: <20210419042722.27554-2-alice.guo@oss.nxp.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 19 Apr 2021 10:20:13 +0200
+Message-ID: <CAMuHMdUbrPxtJ9DCP0_nFrReuuO4vFY2J79LrKY82D7bCOfzRw@mail.gmail.com>
+Subject: Re: [RFC v1 PATCH 1/3] drivers: soc: add support for soc_device_match
+ returning -EPROBE_DEFER
+To: "Alice Guo (OSS)" <alice.guo@oss.nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,262 +53,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc: ulf.hansson@linaro.org, aymen.sghaier@nxp.com, geert+renesas@glider.be,
+ rafael@kernel.org, airlied@linux.ie, mturquette@baylibre.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ a.hajda@samsung.com, netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+ will@kernel.org, linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ wim@linux-watchdog.org, herbert@gondor.apana.org.au, horia.geanta@nxp.com,
+ khilman@baylibre.com, joro@8bytes.org, narmstrong@baylibre.com,
+ linux-staging@lists.linux.dev, iommu@lists.linux-foundation.org,
+ peter.ujfalusi@gmail.com, kishon@ti.com, tony@atomide.com,
+ linux-omap@vger.kernel.org, stern@rowland.harvard.edu, kuba@kernel.org,
+ linux@roeck-us.net, linux-media@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, Roy.Pledge@nxp.com, linux-pm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, edubezval@gmail.com, linux-gpio@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, ssantosh@kernel.org,
+ matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org, mchehab@kernel.org,
+ linux-arm-kernel@lists.infradead.org, balbi@kernel.org, tomba@kernel.org,
+ sboyd@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, adrian.hunter@intel.com, robert.foss@linaro.org,
+ leoyang.li@nxp.com, linux@prisktech.co.nz, vkoul@kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-crypto@vger.kernel.org, j-keerthy@ti.com,
+ dmaengine@vger.kernel.org, jyri.sarha@iki.fi, davem@davemloft.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove trailing whitespaces.  No functional change.
+Hi Alice,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- drivers/gpu/drm/gma500/backlight.c    |  4 +--
- drivers/gpu/drm/gma500/cdv_intel_dp.c | 50 +++++++++++++--------------
- 2 files changed, 26 insertions(+), 28 deletions(-)
+CC Arnd (soc_device_match() author)
 
-diff --git a/drivers/gpu/drm/gma500/backlight.c b/drivers/gpu/drm/gma500/backlight.c
-index 35600d070cb5..9e90258541a4 100644
---- a/drivers/gpu/drm/gma500/backlight.c
-+++ b/drivers/gpu/drm/gma500/backlight.c
-@@ -42,7 +42,7 @@ void gma_backlight_disable(struct drm_device *dev)
- 		dev_priv->backlight_device->props.brightness = 0;
- 		do_gma_backlight_set(dev);
- 	}
--#endif	
-+#endif
- }
- 
- void gma_backlight_set(struct drm_device *dev, int v)
-@@ -54,7 +54,7 @@ void gma_backlight_set(struct drm_device *dev, int v)
- 		dev_priv->backlight_device->props.brightness = v;
- 		do_gma_backlight_set(dev);
- 	}
--#endif	
-+#endif
- }
- 
- int gma_backlight_init(struct drm_device *dev)
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-index 6d3ada39ff86..595b765ecc71 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-@@ -245,7 +245,7 @@ i2c_dp_aux_add_bus(struct i2c_adapter *adapter)
-                 if (W && !in_dbg_master()) msleep(W);                   \
-         }                                                               \
-         ret__;                                                          \
--})      
-+})
- 
- #define wait_for(COND, MS) _wait_for(COND, MS, 1)
- 
-@@ -386,7 +386,7 @@ static void cdv_intel_edp_panel_vdd_on(struct gma_encoder *intel_encoder)
- 	if (intel_dp->panel_on) {
- 		DRM_DEBUG_KMS("Skip VDD on because of panel on\n");
- 		return;
--	}	
-+	}
- 	DRM_DEBUG_KMS("\n");
- 
- 	pp = REG_READ(PP_CONTROL);
-@@ -433,7 +433,7 @@ static bool cdv_intel_edp_panel_on(struct gma_encoder *intel_encoder)
- 		DRM_DEBUG_KMS("Error in Powering up eDP panel, status %x\n", REG_READ(PP_STATUS));
- 		intel_dp->panel_on = false;
- 	} else
--		intel_dp->panel_on = true;	
-+		intel_dp->panel_on = true;
- 	msleep(intel_dp->panel_power_up_delay);
- 
- 	return false;
-@@ -449,7 +449,7 @@ static void cdv_intel_edp_panel_off (struct gma_encoder *intel_encoder)
- 
- 	pp = REG_READ(PP_CONTROL);
- 
--	if ((pp & POWER_TARGET_ON) == 0) 
-+	if ((pp & POWER_TARGET_ON) == 0)
- 		return;
- 
- 	intel_dp->panel_on = false;
-@@ -464,7 +464,7 @@ static void cdv_intel_edp_panel_off (struct gma_encoder *intel_encoder)
- 	DRM_DEBUG_KMS("PP_STATUS %x\n", REG_READ(PP_STATUS));
- 
- 	if (wait_for((REG_READ(PP_STATUS) & idle_off_mask) == 0, 1000)) {
--		DRM_DEBUG_KMS("Error in turning off Panel\n");	
-+		DRM_DEBUG_KMS("Error in turning off Panel\n");
- 	}
- 
- 	msleep(intel_dp->panel_power_cycle_delay);
-@@ -535,7 +535,7 @@ cdv_intel_dp_mode_valid(struct drm_connector *connector,
- 	    if (cdv_intel_dp_link_required(mode->clock, 24)
- 	     	> cdv_intel_dp_max_data_rate(max_link_clock, max_lanes))
- 		return MODE_CLOCK_HIGH;
--		
-+
- 	}
- 	if (mode->clock < 10000)
- 		return MODE_CLOCK_LOW;
-@@ -606,7 +606,7 @@ cdv_intel_dp_aux_ch(struct gma_encoder *encoder,
- 		for (i = 0; i < send_bytes; i += 4)
- 			REG_WRITE(ch_data + i,
- 				   pack_aux(send + i, send_bytes - i));
--	
-+
- 		/* Send the command and wait for it to complete */
- 		REG_WRITE(ch_ctl,
- 			   DP_AUX_CH_CTL_SEND_BUSY |
-@@ -623,7 +623,7 @@ cdv_intel_dp_aux_ch(struct gma_encoder *encoder,
- 				break;
- 			udelay(100);
- 		}
--	
-+
- 		/* Clear done status and any errors */
- 		REG_WRITE(ch_ctl,
- 			   status |
-@@ -659,7 +659,7 @@ cdv_intel_dp_aux_ch(struct gma_encoder *encoder,
- 		      DP_AUX_CH_CTL_MESSAGE_SIZE_SHIFT);
- 	if (recv_bytes > recv_size)
- 		recv_bytes = recv_size;
--	
-+
- 	for (i = 0; i < recv_bytes; i += 4)
- 		unpack_aux(REG_READ(ch_data + i),
- 			   recv + i, recv_bytes - i);
-@@ -870,7 +870,7 @@ cdv_intel_dp_i2c_init(struct gma_connector *connector,
- 	ret = i2c_dp_aux_add_bus(&intel_dp->adapter);
- 	if (is_edp(encoder))
- 		cdv_intel_edp_panel_vdd_off(encoder);
--	
-+
- 	return ret;
- }
- 
-@@ -1291,13 +1291,13 @@ cdv_intel_get_adjust_train(struct gma_encoder *encoder)
- 		if (this_p > p)
- 			p = this_p;
- 	}
--	
-+
- 	if (v >= CDV_DP_VOLTAGE_MAX)
- 		v = CDV_DP_VOLTAGE_MAX | DP_TRAIN_MAX_SWING_REACHED;
- 
- 	if (p == DP_TRAIN_PRE_EMPHASIS_MASK)
- 		p |= DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
--		
-+
- 	for (lane = 0; lane < 4; lane++)
- 		intel_dp->train_set[lane] = v | p;
- }
-@@ -1358,7 +1358,6 @@ cdv_intel_dp_set_link_train(struct gma_encoder *encoder,
- 			uint32_t dp_reg_value,
- 			uint8_t dp_train_pat)
- {
--	
- 	struct drm_device *dev = encoder->base.dev;
- 	int ret;
- 	struct cdv_intel_dp *intel_dp = encoder->dev_priv;
-@@ -1384,7 +1383,6 @@ static bool
- cdv_intel_dplink_set_level(struct gma_encoder *encoder,
- 			uint8_t dp_train_pat)
- {
--	
- 	int ret;
- 	struct cdv_intel_dp *intel_dp = encoder->dev_priv;
- 
-@@ -1462,7 +1460,7 @@ cdv_intel_dp_set_vswing_premph(struct gma_encoder *encoder, uint8_t signal_level
- 	/* ;gfx_dpio_set_reg(0x8124, 0x00004000) */
- 	index = 2 * premph + 1;
- 	cdv_sb_write(dev, ddi_reg->PreEmph2, dp_vswing_premph_table[index]);
--	return;	
-+	return;
- }
- 
- 
-@@ -1481,8 +1479,8 @@ cdv_intel_dp_start_link_train(struct gma_encoder *encoder)
- 
- 	DP |= DP_PORT_EN;
- 	DP &= ~DP_LINK_TRAIN_MASK;
--		
--	reg = DP;	
-+
-+	reg = DP;
- 	reg |= DP_LINK_TRAIN_PAT_1;
- 	/* Enable output, wait for it to become active */
- 	REG_WRITE(intel_dp->output_reg, reg);
-@@ -1556,7 +1554,7 @@ cdv_intel_dp_start_link_train(struct gma_encoder *encoder)
- 	if (!clock_recovery) {
- 		DRM_DEBUG_KMS("failure in DP patter 1 training, train set %x\n", intel_dp->train_set[0]);
- 	}
--	
-+
- 	intel_dp->DP = DP;
- }
- 
-@@ -1747,7 +1745,7 @@ static int cdv_intel_dp_get_modes(struct drm_connector *connector)
- 	if (is_edp(intel_encoder)) {
- 		struct drm_device *dev = connector->dev;
- 		struct drm_psb_private *dev_priv = dev->dev_private;
--		
-+
- 		cdv_intel_edp_panel_vdd_off(intel_encoder);
- 		if (ret) {
- 			if (edp && !intel_dp->panel_fixed_mode) {
-@@ -1942,11 +1940,11 @@ static void cdv_disable_intel_clock_gating(struct drm_device *dev)
- 			DPCUNIT_CLOCK_GATE_DISABLE |
- 			DPLSUNIT_CLOCK_GATE_DISABLE |
- 			DPOUNIT_CLOCK_GATE_DISABLE |
--		 	DPIOUNIT_CLOCK_GATE_DISABLE);	
-+			DPIOUNIT_CLOCK_GATE_DISABLE);
- 
- 	REG_WRITE(DSPCLK_GATE_D, reg_value);
- 
--	udelay(500);		
-+	udelay(500);
- }
- 
- void
-@@ -1990,7 +1988,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
- 	gma_encoder->dev_priv=intel_dp;
- 	intel_dp->encoder = gma_encoder;
- 	intel_dp->output_reg = output_reg;
--	
-+
- 	drm_encoder_helper_add(encoder, &cdv_intel_dp_helper_funcs);
- 	drm_connector_helper_add(connector, &cdv_intel_dp_connector_helper_funcs);
- 
-@@ -2027,7 +2025,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
- 		pp_on = REG_READ(PP_CONTROL);
- 		pp_on &= ~PANEL_UNLOCK_MASK;
- 	        pp_on |= PANEL_UNLOCK_REGS;
--		
-+
- 		REG_WRITE(PP_CONTROL, pp_on);
- 
- 		pwm_ctrl = REG_READ(BLC_PWM_CTL2);
-@@ -2037,7 +2035,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
-                 pp_on = REG_READ(PP_ON_DELAYS);
-                 pp_off = REG_READ(PP_OFF_DELAYS);
-                 pp_div = REG_READ(PP_DIVISOR);
--	
-+
- 		/* Pull timing values out of registers */
-                 cur.t1_t3 = (pp_on & PANEL_POWER_UP_DELAY_MASK) >>
-                         PANEL_POWER_UP_DELAY_SHIFT;
-@@ -2085,9 +2083,9 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
- 			goto err_connector;
- 		} else {
-         		DRM_DEBUG_KMS("DPCD: Rev=%x LN_Rate=%x LN_CNT=%x LN_DOWNSP=%x\n",
--				intel_dp->dpcd[0], intel_dp->dpcd[1], 
-+				intel_dp->dpcd[0], intel_dp->dpcd[1],
- 				intel_dp->dpcd[2], intel_dp->dpcd[3]);
--			
-+
- 		}
- 		/* The CDV reference driver moves pnale backlight setup into the displays that
- 		   have a backlight: this is a good idea and one we should probably adopt, however
+On Mon, Apr 19, 2021 at 6:28 AM Alice Guo (OSS) <alice.guo@oss.nxp.com> wrote:
+> From: Alice Guo <alice.guo@nxp.com>
+>
+> In i.MX8M boards, the registration of SoC device is later than caam
+> driver which needs it. Caam driver needs soc_device_match to provide
+> -EPROBE_DEFER when no SoC device is registered and no
+> early_soc_dev_attr.
+
+I'm wondering if this is really a good idea: soc_device_match() is a
+last-resort low-level check, and IMHO should be made available early on,
+so there is no need for -EPROBE_DEFER.
+
+>
+> Signed-off-by: Alice Guo <alice.guo@nxp.com>
+
+Thanks for your patch!
+
+> --- a/drivers/base/soc.c
+> +++ b/drivers/base/soc.c
+> @@ -110,6 +110,7 @@ static void soc_release(struct device *dev)
+>  }
+>
+>  static struct soc_device_attribute *early_soc_dev_attr;
+> +static bool soc_dev_attr_init_done = false;
+
+Do you need this variable?
+
+>
+>  struct soc_device *soc_device_register(struct soc_device_attribute *soc_dev_attr)
+>  {
+> @@ -157,6 +158,7 @@ struct soc_device *soc_device_register(struct soc_device_attribute *soc_dev_attr
+>                 return ERR_PTR(ret);
+>         }
+>
+> +       soc_dev_attr_init_done = true;
+>         return soc_dev;
+>
+>  out3:
+> @@ -246,6 +248,9 @@ const struct soc_device_attribute *soc_device_match(
+>         if (!matches)
+>                 return NULL;
+>
+> +       if (!soc_dev_attr_init_done && !early_soc_dev_attr)
+
+if (!soc_bus_type.p && !early_soc_dev_attr)
+
+> +               return ERR_PTR(-EPROBE_DEFER);
+> +
+>         while (!ret) {
+>                 if (!(matches->machine || matches->family ||
+>                       matches->revision || matches->soc_id))
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
