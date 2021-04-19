@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAD4364000
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 12:59:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E9F364002
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 12:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1E646E21C;
-	Mon, 19 Apr 2021 10:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1C2C6E204;
+	Mon, 19 Apr 2021 10:59:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF9266E22F;
- Mon, 19 Apr 2021 10:58:55 +0000 (UTC)
-IronPort-SDR: TQsb8uOsWlndO7ITNKOU9E2VOtiHNvoaLk99EzXx5ezyS+iZwPlV2T9Qc2ISWr98ZIxVZgMYjU
- 50ZhmPZXz9kQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="259264065"
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="259264065"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFC316E204;
+ Mon, 19 Apr 2021 10:58:58 +0000 (UTC)
+IronPort-SDR: AiqcoQFe+p7Xc8nIoaSIKzSY9AVbM/pIGArBBlsnTYSMEb06LPGtpo6hVRmskEtNboh0V17lH9
+ MSn9ikVP6Mxw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="259264073"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="259264073"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2021 03:58:55 -0700
-IronPort-SDR: Mtpgb/LQCaGBJW1muEvvoW3rlZROKviIZ3fhGBXa6ezhlL0zTUxRUGy6NWtuL3cuo/e1zAcqy7
- 8PAka8dN/j6g==
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="383700192"
+ 19 Apr 2021 03:58:58 -0700
+IronPort-SDR: 0m6Jmf+KaGwPsFZNytPcUPFOpvEMqOQ3r2SwHPy2CROtUfIAP3113Hct0MIvQuvIJdFhhNDO3U
+ sO2fdAp5X45Q==
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="383700197"
 Received: from vpjampan-mobl2.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.252.9.192])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2021 03:58:53 -0700
+ 19 Apr 2021 03:58:56 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/4] drm/doc: add section for driver uAPI
-Date: Mon, 19 Apr 2021 11:57:39 +0100
-Message-Id: <20210419105741.27844-2-matthew.auld@intel.com>
+Subject: [PATCH v2 3/4] drm/i915/uapi: convert i915_user_extension to kernel
+ doc
+Date: Mon, 19 Apr 2021 11:57:40 +0100
+Message-Id: <20210419105741.27844-3-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210419105741.27844-1-matthew.auld@intel.com>
 References: <20210419105741.27844-1-matthew.auld@intel.com>
@@ -56,7 +57,13 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add section for drm/i915 uAPI and pull in i915_drm.h.
+Add some example usage for the extension chaining also, which is quite
+nifty.
+
+v2: (Daniel)
+  - clarify that the name is just some integer, also document that the
+    name space is not global
+v3: prefer kernel-doc references for structs
 
 Suggested-by: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
@@ -69,38 +76,87 @@ Cc: Dave Airlie <airlied@gmail.com>
 Cc: dri-devel@lists.freedesktop.org
 Cc: mesa-dev@lists.freedesktop.org
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
 ---
- Documentation/gpu/driver-uapi.rst | 8 ++++++++
- Documentation/gpu/index.rst       | 1 +
- 2 files changed, 9 insertions(+)
- create mode 100644 Documentation/gpu/driver-uapi.rst
+ include/uapi/drm/i915_drm.h | 54 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 50 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/gpu/driver-uapi.rst b/Documentation/gpu/driver-uapi.rst
-new file mode 100644
-index 000000000000..4411e6919a3d
---- /dev/null
-+++ b/Documentation/gpu/driver-uapi.rst
-@@ -0,0 +1,8 @@
-+===============
-+DRM Driver uAPI
-+===============
-+
-+drm/i915 uAPI
-+=============
-+
-+.. kernel-doc:: include/uapi/drm/i915_drm.h
-diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-index ec4bc72438e4..b9c1214d8f23 100644
---- a/Documentation/gpu/index.rst
-+++ b/Documentation/gpu/index.rst
-@@ -10,6 +10,7 @@ Linux GPU Driver Developer's Guide
-    drm-kms
-    drm-kms-helpers
-    drm-uapi
-+   driver-uapi
-    drm-client
-    drivers
-    backlight
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 92da48e935d1..e2867d8cd5e3 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -62,8 +62,8 @@ extern "C" {
+ #define I915_ERROR_UEVENT		"ERROR"
+ #define I915_RESET_UEVENT		"RESET"
+ 
+-/*
+- * i915_user_extension: Base class for defining a chain of extensions
++/**
++ * struct i915_user_extension - Base class for defining a chain of extensions
+  *
+  * Many interfaces need to grow over time. In most cases we can simply
+  * extend the struct and have userspace pass in more data. Another option,
+@@ -76,12 +76,58 @@ extern "C" {
+  * increasing complexity, and for large parts of that interface to be
+  * entirely optional. The downside is more pointer chasing; chasing across
+  * the __user boundary with pointers encapsulated inside u64.
++ *
++ * Example chaining:
++ *
++ * .. code-block:: C
++ *
++ *	struct i915_user_extension ext3 {
++ *		.next_extension = 0, // end
++ *		.name = ...,
++ *	};
++ *	struct i915_user_extension ext2 {
++ *		.next_extension = (uintptr_t)&ext3,
++ *		.name = ...,
++ *	};
++ *	struct i915_user_extension ext1 {
++ *		.next_extension = (uintptr_t)&ext2,
++ *		.name = ...,
++ *	};
++ *
++ * Typically the struct i915_user_extension would be embedded in some uAPI
++ * struct, and in this case we would feed it the head of the chain(i.e ext1),
++ * which would then apply all of the above extensions.
++ *
+  */
+ struct i915_user_extension {
++	/**
++	 * @next_extension:
++	 *
++	 * Pointer to the next struct i915_user_extension, or zero if the end.
++	 */
+ 	__u64 next_extension;
++	/**
++	 * @name: Name of the extension.
++	 *
++	 * Note that the name here is just some integer.
++	 *
++	 * Also note that the name space for this is not global for the whole
++	 * driver, but rather its scope/meaning is limited to the specific piece
++	 * of uAPI which has embedded the struct i915_user_extension.
++	 */
+ 	__u32 name;
+-	__u32 flags; /* All undefined bits must be zero. */
+-	__u32 rsvd[4]; /* Reserved for future use; must be zero. */
++	/**
++	 * @flags: MBZ
++	 *
++	 * All undefined bits must be zero.
++	 */
++	__u32 flags;
++	/**
++	 * @rsvd: MBZ
++	 *
++	 * Reserved for future use; must be zero.
++	 */
++	__u32 rsvd[4];
+ };
+ 
+ /*
 -- 
 2.26.3
 
