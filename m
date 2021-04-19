@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE6D363C92
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 09:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BCA363C96
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 09:33:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72592898BE;
-	Mon, 19 Apr 2021 07:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE56D89935;
+	Mon, 19 Apr 2021 07:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1F7088E14
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 07:33:05 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id h4so23808696wrt.12
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 00:33:05 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3BC489654
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 07:33:06 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ i21-20020a05600c3555b029012eae2af5d4so7976708wmq.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 00:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q4YDvpAD1UGIZmGY7ATXAVL5J0kUewQGcgvVMVoEerk=;
- b=XkSOZwT/oa3mmMJht/SBoeMg2otJHicOZgzMpmC08FMiEwdqB0yn1q8KQZzzpNhaQo
- Ef7Myuk86h3cyP0dJSislHg6EhhfFefA9P3S2ErrnyqQhc9pbLy1jsHm6lKEpPqJ0SOR
- JuvPgdaVP9vS0tullk/0uT0ETPm7YmGbR4YnCfZDukTHal2rtqSbauJpv0FQu4/PdrHD
- oLRdZlZI9WTqm+7QLbTKRF3/m/KPCKoZ8pObnB+KJ2z1ZbOwVpdQSk3LTrk8Ncan/Sqs
- VdIXcx6KfdSiYoHEgooNeGOxo6EfXmZm+eExlzuI8w1OaOd3aiCSczk5XB6NS6qd55Lz
- T/qQ==
+ bh=emj6t0YnQ8kfODwk6pGcM/emMJNNvWG7eis4Ne6JndY=;
+ b=ZL4CqRjEM25VfPQ91mxKikXxoGFcWs5V1j8nRUuzj1LuXfZwD+rcZUBC19BuehGTtr
+ /jXy3BDxC93xAAtPnfoY7UsF8/c2ygJ0ei15efmQ+vjFGTGg2ACxp+az8DUBkHj7U24B
+ GevTlMbtm7rIUrN8ZdbmTcpNEiOR9SjfNVenUwqN8KQ/ltddApEwLrfpImQtrwGTJEjh
+ fngb4LerqOOcvGPNxq2mf+fSitFXKbwuOE3JDgaacF3qJo7f1rtRrPOKEesDuNdCQsfq
+ sjlnBAD2LbnjH7BxcsTQcSgMZOFur10IOlnEqJr5nvt2x06fGuynWHVz/7X0Fwpk+SVC
+ ISLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q4YDvpAD1UGIZmGY7ATXAVL5J0kUewQGcgvVMVoEerk=;
- b=uRdlOsQJw/RxmCP7EArgHVvBctMSEQIUamftiMjDO2eG7WbOXvRhUScs0lFA93TgUv
- fTneF4lv2bsisG0dxS7KZwWPqNC1lIuMU2RnDEhX/AzSqC5Je+0vo6/Ur/GvQ7cvFHvm
- 4a67rBPAD3TqiYu0Zozu1gg2RwmLsxfytbnoV1/TUnOl2Az/izZkK4oxo4aIrUoE0oew
- 5RsDtcYAQnidTbEbaEpzk6EWXob+sUoNV0UvszW7UdPvOAgZdrpGpC5Pf7cEoZqbLhXV
- OcnHIY+ErcSNlIwkGUC7kDZ075y3zCDRiNa+0dnuw3Dm2hQ4hHt3s4/61nUTIzoMRLU6
- Glvg==
-X-Gm-Message-State: AOAM530N5XOmJVS6HPcP5d0lWgns6o2ndCxW4x3LADWSOJyhNM9B6WJ4
- nVLNV34j2A41woux3oLWXGjxMA==
-X-Google-Smtp-Source: ABdhPJzqovubh4OIWgMpiHuIhqzqftX8pIo/o42SHQDoE+imJW2kEiaMLsGF7g8XzUNuo5obehrM7g==
-X-Received: by 2002:adf:ba94:: with SMTP id p20mr12928692wrg.300.1618817584363; 
- Mon, 19 Apr 2021 00:33:04 -0700 (PDT)
+ bh=emj6t0YnQ8kfODwk6pGcM/emMJNNvWG7eis4Ne6JndY=;
+ b=q1b9hwe59xWefWRImYz70pJcsIXSbbCmWj+MxJAG1Z/JYUQWQBzqTxA+kR7amkCBG0
+ DS9s1Ermjv+RJVL/RguMaTKWThq3DKia13sVwkyHRM/acKDDZCuUNZdKnyytDVX+wfJg
+ hk2Vjl7tgrkFW7DClO4Vpe1vuNDzNDAQwiKqm8WVBBNTTVxBApi0KfgBUGr7Vx2OBR1U
+ Bc3QdFyADPjHO1aZUbdxJDoqouqGZSMWWb0n0zYevuBpU/YUV9EbGA9w1BtuOopMvIuj
+ TxzbW+T9vzB+AGlo/YhyVonXYkwGoXSztbVOBiNZeQZYIj/qZ0IB4V4Wh6SzTZMcXaIq
+ dn2w==
+X-Gm-Message-State: AOAM531SnquC0Ccx+O5OWJHBS/pUasl6MLF4toYi4AUXIyCC5LXTDUBe
+ 7/bFjH+mygKVTTDXFnmO4vxX0Q==
+X-Google-Smtp-Source: ABdhPJzGQL1OhlR8+hi1vO6S/bHuXkKUrxWtipf9az5y2tpodd03GfcTaLLiX/r6QDId8mHxWWHkQw==
+X-Received: by 2002:a1c:7d92:: with SMTP id y140mr20099187wmc.41.1618817585523; 
+ Mon, 19 Apr 2021 00:33:05 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:90c:e290:2e82:31e6:67f1:4f33])
  by smtp.gmail.com with ESMTPSA id
- y125sm5492311wmy.34.2021.04.19.00.33.03
+ y125sm5492311wmy.34.2021.04.19.00.33.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 00:33:03 -0700 (PDT)
+ Mon, 19 Apr 2021 00:33:05 -0700 (PDT)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: chunkuang.hu@kernel.org,
 	p.zabel@pengutronix.de,
 	matthias.bgg@gmail.com
-Subject: [PATCH v3 4/5] gpu/drm: mediatek: hdmi: add optional limit on maximal
- HDMI mode clock
-Date: Mon, 19 Apr 2021 09:32:43 +0200
-Message-Id: <20210419073244.2678688-5-narmstrong@baylibre.com>
+Subject: [PATCH v3 5/5] gpu/drm: mediatek: hdmi: add MT8167 configuration
+Date: Mon, 19 Apr 2021 09:32:44 +0200
+Message-Id: <20210419073244.2678688-6-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210419073244.2678688-1-narmstrong@baylibre.com>
 References: <20210419073244.2678688-1-narmstrong@baylibre.com>
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; i=fmerdT5sHqIGuoUTZDrccRl/0zoMQFtVjUuTCnM2Nu4=;
- m=kS8rkVG4drN6qA/sYwEi96Os3BdhRRg85LscWfEOz9U=;
- p=XzRamrwQ2kdOF7GfyCvXP4CcM6GKIYyeek0NDT5Wv0U=;
- g=cc05bb87977587a07030f409f3d9b83309a9f1c7
+X-Patch-Hashes: v=1; h=sha256; i=1cCt+CaaWnX35LcUAeqH/AEy6pDlaztP4tTWRAOEW/o=;
+ m=teArBpVk0i7hN2a9Z6e7zXDAZkWNF5zds9OXrfPJoB0=;
+ p=K8BqlJdCG5wZ6jJdNp1bjexbIQG0ke7ZpzDma32UUOk=;
+ g=6cc1cbbc495832f0509ff603f4cf0aef4bc07664
 X-Patch-Sig: m=pgp; i=narmstrong@baylibre.com; s=0xA4CFF8AE;
- b=iQIzBAABCgAdFiEEPVPGJshWBf4d9CyLd9zb2sjISdEFAmB9MgwACgkQd9zb2sjISdGlFg//d/P
- CVZrkoJp/X4KUj/7Z+BhPfopOjq0Wiun0RiLoVicfOFVE23BrE2jif6szo9bLnddyzHnqRC/LOmDG
- sQEiX89TVIsnsasXsRPGFbHqMgpdzHdZeg0JVUEkacKc7WObdzdorYa7E1Sy85lkLQQFZERYRxIYs
- x7l8Rfn+fYO0g/2bM5Xo39BN+vjktqt2Z6+jf8PMaNHdWHbZ/Sibggehilqv1gvbNGzArviBVbogb
- CzbuFkm4caJlGpyuOh9lzqb5oX1dS1b4sJOKlV0vab8riyRDSWIrvSve6lIJKS5Zy2nnePFJDRIdo
- KXCX8tTjJ3oR9eFt0I6uDo1tPnQNUN+I+YPiwH1ADYzFZe/l6jgrmJ8vmD3sEPsqu8StxA2C97stl
- kPJjY6S3CSQAwoWUiXOY06ExKPKQdzJlilfy0bwmBllmpHeaV2AgOUw/SUVZQKFLQ8gy0dHTgCuhJ
- xtYcQKSob+AoJUPLuKlkJ5rWm7DvsLQ59ZkIVczynpm5b+fxtQtAwgFXqqcVrOe/BwQGzcTkG+w69
- g3JFk9Jgf3DMbQ9SL1gKIdDr+DqyBPjvgu2XxQk+4d8A8MV36AQpEUTrF5WKJnf6aM9l7TIUr8hOw
- vDn318ylmunNTWomQl7CBbWMUxB26/KBGzy/HJ/rlIaRskMmDaGmzSMMQQD2KUYs=
+ b=iQIzBAABCgAdFiEEPVPGJshWBf4d9CyLd9zb2sjISdEFAmB9MgwACgkQd9zb2sjISdEMxxAAwQG
+ a+P54dAPqlMY8zUbqvNt5ka/vcf7mcAprjgN/KlWL1AGezCSgcDrg14v3AenQoy0qGmKNTOWWXNgy
+ KUDxzxqqLMN8026Rbu9qA7UYiXBATnDffnboSbdDIp1pq9BNmPxcXh3TxJaY4hhellGfM/mayJOEM
+ ShU8TTCZNqloDOMVg70ASdsuanBjdHAvdnuej0NkHyzRyExEXen3COBwjIR3XfxQOeTk2a1SKk1ZI
+ ODSa0Z/WrffKry0RNauAowcFc1HEMWJOA/WOzpy5XhkNhYUgXOGUkE9mP46T0FBqk/rPEPlNLRm8g
+ tngkf1Q0yr7pnW6EIsO5n7UeYMDz8d2oxXzjyu96SVYyhyu9FvA616lLwSuSRNj3WcS49t/aEYXe0
+ yLcdRpQrsYCcEJXv4CmL+2DM6CG9CvIcfDkB8BomaihadIG9o71Y623796hJw/N5QzCli31vz3+xO
+ HmARnkiHXlLrCHCuEhgHauJcbR2qtsrUPB7uagYIR5GjSFDfr9MOfTohL6/sPjWEUFHznhilRdd+1
+ j2LapJBSbUHjoIiGiPDw5xfzhYeZP/MFKaFQqb4Zyk/OBgeAJTTgLYByTyez5xIcTTc0SJ7m1mQYt
+ jbm09ErtlMy9clPUBh0c9ZiMu/j/oo6Z0LH9Rfu5P27shuGK4WybCEhfHVkBAU24=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,38 +94,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some SoCs like the MT8167 have a hard limit on the maximal supported HDMI TMDS
-clock, so add a configuration value to filter out those modes.
+The MT8167 SoC have a hard limit on the maximal supported HDMI TMDS clock,
+and is not validated and supported for HDMI modes out of HDMI CEA modes,
+so add a configuration entry linked to the MT8167 compatible.
 
 Signed-off-by: Fabien Parent <fparent@baylibre.com>
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 0539262e69d3..bc50d97f2553 100644
+index bc50d97f2553..c1651a83700d 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -149,6 +149,7 @@ struct hdmi_audio_param {
- struct mtk_hdmi_conf {
- 	bool tz_disabled;
- 	bool cea_modes_only;
-+	unsigned long max_mode_clock;
+@@ -1787,10 +1787,18 @@ static const struct mtk_hdmi_conf mtk_hdmi_conf_mt2701 = {
+ 	.tz_disabled = true,
  };
  
- struct mtk_hdmi {
-@@ -1226,6 +1227,10 @@ static int mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
- 	if (hdmi->conf->cea_modes_only && !drm_match_cea_mode(mode))
- 		return MODE_BAD;
- 
-+	if (hdmi->conf->max_mode_clock &&
-+	    mode->clock > hdmi->conf->max_mode_clock)
-+		return MODE_CLOCK_HIGH;
++static const struct mtk_hdmi_conf mtk_hdmi_conf_mt8167 = {
++	.max_mode_clock = 148500,
++	.cea_modes_only = true,
++};
 +
- 	if (mode->clock < 27000)
- 		return MODE_CLOCK_LOW;
- 	if (mode->clock > 297000)
+ static const struct of_device_id mtk_drm_hdmi_of_ids[] = {
+ 	{ .compatible = "mediatek,mt2701-hdmi",
+ 	  .data = &mtk_hdmi_conf_mt2701,
+ 	},
++	{ .compatible = "mediatek,mt8167-hdmi",
++	  .data = &mtk_hdmi_conf_mt8167,
++	},
+ 	{ .compatible = "mediatek,mt8173-hdmi",
+ 	},
+ 	{}
 -- 
 2.25.1
 
