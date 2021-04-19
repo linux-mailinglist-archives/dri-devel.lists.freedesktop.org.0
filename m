@@ -2,120 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFAE03644D2
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 15:36:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D5F364548
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 15:51:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BBE16E314;
-	Mon, 19 Apr 2021 13:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70C676E32F;
+	Mon, 19 Apr 2021 13:51:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07BC46E311
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 13:36:43 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id i81so35430253oif.6
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 06:36:42 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 125296E328
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 13:51:47 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id h10so40767035edt.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 06:51:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=O4YSIccK0/khECcBMp5SF3VOcTD2gCbWGRlUmk7xgdE=;
- b=QxxIckYEZwj2Mgtp8u/3/qf16jg+yLNElvzMoUENyE8FhR5U4F1ImpG/uaCtWn7nXx
- 3ekx6eAkEakamER9JUPZziOdMQ7cYIuzBpwC+MIodRuraJb5f0wtBtlttjdMsO0OEX0E
- Vue3b/0hVrm5zjzOUHcm6P75oFT95tz5ssNtuxTY3PQLptg6JPDnftllvhB2Akc/5H8y
- av6fIYScX75LKL5qkqONXuqkqvYupnGtLtfVyUxiqnViV9v0xN4vlzzeNtuLPVgBdG2+
- d5B/Yoi0FpivPTjvf4I9ia64JPbHQGMn5TtlPyrfIob5emmTl96+6TFcARCxBPY5ie5j
- vdPQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Cof3fQ+FS9F0riGAc/xnWt+MmWs7z47fFubv8E2ON9o=;
+ b=U2GDjV1wTpVMCh3GsuQkl47kI8hqgdlDJ8E+4V3v0IOnLCoWqhOLVQ3Zwet08XZWfh
+ ARAkgzY0eTOdssl8koF+4XvDstxJk1TeFe2OW1aWYuXc+39aeuIhgLvGF4it/Mhc+n53
+ 8mFXmAqJd+B9HZAc+nd5qkBmM0gnEi5HmWQ2veym/KfcY5yTZgEsH1SBsgWhCwEo5BfY
+ 3hMfqNPMizPKDUb/W3zC3mQnCFuSQimbJozWKmI5ybiQ+EHYSD+5LQ7xe9/xUEoPxfLF
+ 4UPhgueHGgsYo0Y3QIMK0cxhp6KEiW2CQE0mittXpXnrdJj3viQqLFWlT0+1fw65WDcB
+ 5sFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=O4YSIccK0/khECcBMp5SF3VOcTD2gCbWGRlUmk7xgdE=;
- b=s2SRqzqmaa5MU/yWs9MXGHsNsc+yeSPtPMD5MNEJJhTLd4JZuXxA1MoAETHzxs4S4U
- 6c5xHQlv1A5xFBcZHSPxsQ8++M6FE/tlQgo/E7b32DyP77CjsM483BQkSHVKEBGWYUGI
- +qztMzcNvP9L777lFZE8XnZ5k0AMP0xr1XKuaVyvW9Jhqt7MsLgd3J4AtMVLn2UAzY2h
- 4wacqqNAY6/E0lQU5B8rYrJnrjVDWD3I+dRhqzmr06PjKrE2wc2PS37T4aeCR0+woD1D
- F1AHg+rn/jZrTT/wMPkj0mdx+bH98cFuaWMgfu7ZMLD4muHjNv1TLVSb1wvbczuzmSqA
- tsOQ==
-X-Gm-Message-State: AOAM533m5oWrA+V5zc/aznf4ZDZ67U864usnDnYDeIwm5saH50tp6zpq
- 8qVywKLxe61uvA43NFTLPUQ=
-X-Google-Smtp-Source: ABdhPJzaWk38LeqfKmLypaOGl7ffmdvt0c0bJk6i9AejEUNHdMbwxgKF0PlxU0vz+DQ2qmfzA+b1OQ==
-X-Received: by 2002:aca:ef84:: with SMTP id n126mr15301837oih.78.1618839402271; 
- Mon, 19 Apr 2021 06:36:42 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- p22sm3563941otf.25.2021.04.19.06.36.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Apr 2021 06:36:41 -0700 (PDT)
-Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
- soc_device_match
-To: "Alice Guo (OSS)" <alice.guo@oss.nxp.com>, gregkh@linuxfoundation.org,
- rafael@kernel.org, horia.geanta@nxp.com, aymen.sghaier@nxp.com,
- herbert@gondor.apana.org.au, davem@davemloft.net, tony@atomide.com,
- geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
- vkoul@kernel.org, peter.ujfalusi@gmail.com, a.hajda@samsung.com,
- narmstrong@baylibre.com, robert.foss@linaro.org, airlied@linux.ie,
- daniel@ffwll.ch, khilman@baylibre.com, tomba@kernel.org, jyri.sarha@iki.fi,
- joro@8bytes.org, will@kernel.org, mchehab@kernel.org,
- ulf.hansson@linaro.org, adrian.hunter@intel.com, kishon@ti.com,
- kuba@kernel.org, linus.walleij@linaro.org, Roy.Pledge@nxp.com,
- leoyang.li@nxp.com, ssantosh@kernel.org, matthias.bgg@gmail.com,
- edubezval@gmail.com, j-keerthy@ti.com, balbi@kernel.org,
- linux@prisktech.co.nz, stern@rowland.harvard.edu, wim@linux-watchdog.org
-References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
- <20210419042722.27554-4-alice.guo@oss.nxp.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <5a6550d9-083a-cc50-a6c0-ce035ceb1b2f@roeck-us.net>
-Date: Mon, 19 Apr 2021 06:36:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Cof3fQ+FS9F0riGAc/xnWt+MmWs7z47fFubv8E2ON9o=;
+ b=SDPsl1sSHwHSE3MDXT1lgtvdsAVfzhAXVdnYP6jIO5CRcKi126hYrE3n4B5qOk6ztm
+ 6WqMFCprLEuKobs7Gu382P9svsI4YkTbgd0XHGDfSiejmWwdG6CWZH39oqnyYqPAXsAG
+ WTp9vQQOtNy08wMhPtdLVmdcpnf3Kp3DfRl515va72GFRFLI0PEFJGLHRV6F0RCg+AH9
+ XvQ+5szUxBilvNKLwLnJgcBc8gKyOKRK1/PJ4GFOQqodmj34hRXjUuSI9tXrXtQFjX6t
+ QmNVPxgOftdEGRUxBl+7XDtRmD0Df6oIT1fD/LVEipzEQqAGdNlILxLRo+aSU891mUq7
+ E6Qw==
+X-Gm-Message-State: AOAM531ZxIxG1FXnY9DiDCoStDMiZK2+xj8j/Rsmf7H2/pIR6ugrwY7R
+ tSIOEIJK2P8xMMwmnBmoFRE=
+X-Google-Smtp-Source: ABdhPJwZ9ktXUJXUp27Afa/8JTsIUAyIgjJ+MmqR1zfKcSBiIAVozVms+eMIlRY/KDGcZprlK2xusQ==
+X-Received: by 2002:a05:6402:35c9:: with SMTP id
+ z9mr25882757edc.94.1618840305671; 
+ Mon, 19 Apr 2021 06:51:45 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it.
+ [79.52.107.152])
+ by smtp.gmail.com with ESMTPSA id q2sm10444900eje.24.2021.04.19.06.51.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Apr 2021 06:51:45 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [Outreachy kernel] [PATCH 1/2] drm/amd/amdgpu/amdgpu_device.c:
+ Replace drm_modeset_*_all with DRM_MODESET_LOCK_ALL_*
+Date: Mon, 19 Apr 2021 15:51:43 +0200
+Message-ID: <4883020.1eLjRNAHnk@linux.local>
+In-Reply-To: <alpine.DEB.2.22.394.2104191506110.16374@hadrien>
+References: <20210419122059.738-1-fmdefrancesco@gmail.com>
+ <20210419122059.738-2-fmdefrancesco@gmail.com>
+ <alpine.DEB.2.22.394.2104191506110.16374@hadrien>
 MIME-Version: 1.0
-In-Reply-To: <20210419042722.27554-4-alice.guo@oss.nxp.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,55 +70,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-gpio@vger.kernel.org, netdev@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Melissa Wen <melissa.srw@gmail.com>, outreachy-kernel@googlegroups.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/18/21 9:27 PM, Alice Guo (OSS) wrote:
-> From: Alice Guo <alice.guo@nxp.com>
+On Monday, April 19, 2021 3:08:51 PM CEST Julia Lawall wrote:
+> On Mon, 19 Apr 2021, Fabio M. De Francesco wrote:
+> > Replace the deprecated API with new helpers, according to the TODO list
+> > of the DRM subsystem.
 > 
-> Update all the code that use soc_device_match because add support for
-> soc_device_match returning -EPROBE_DEFER.
+> The commit message will perhaps not be very meaningful one year from now.
+> You could say for example DRM_MODESET_LOCK_ALL_BEGIN was introduced in
+> commit XXX (there is a proper format for referring to other commits) for
+> what purpose.  And then say that you are making the replacement.
 > 
-> Signed-off-by: Alice Guo <alice.guo@nxp.com>
-> ---
-[ ... ]
->  drivers/watchdog/renesas_wdt.c                |  2 +-
->  48 files changed, 131 insertions(+), 52 deletions(-)
+> Actually, I'm a little surprised to see something that looks like a
+> function call be replaced by something that looks like a macro.  Maybe it
+> was a macro all along, and this is just making that more clear.  In any
+> case, if I were to look at this commit, I would appreciate a little more
+> context information.
 > 
-[ ... ]
-> diff --git a/drivers/watchdog/renesas_wdt.c b/drivers/watchdog/renesas_wdt.c
-> index 5791198960e6..fdc534dc4024 100644
-> --- a/drivers/watchdog/renesas_wdt.c
-> +++ b/drivers/watchdog/renesas_wdt.c
-> @@ -197,7 +197,7 @@ static bool rwdt_blacklisted(struct device *dev)
->  	const struct soc_device_attribute *attr;
->  
->  	attr = soc_device_match(rwdt_quirks_match);
-> -	if (attr && setup_max_cpus > (uintptr_t)attr->data) {
-> +	if (!IS_ERR(attr) && attr && setup_max_cpus > (uintptr_t)attr->data) {
+> julia
+>
+I have made that message in line with an old commit (9bcaa3fe58ab) that had 
+been taken by D. Vetter (the DRM maintainer). That message didn't explain more 
+than referring to the TODO list. I try to stick with each subsystem's  
+conventions.
 
-This is wrong. We can not make the decision below without having access
-to attr. The function may wrongly return false if soc_device_match()
-returns an error.
+However, I agree with you: referring to a TODO list, which some day  will 
+surely change, is not the best means to provide context information.
 
-Guenter
+From that macro documentation (https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#c.DRM_MODESET_LOCK_ALL_BEGIN):
 
->  		dev_info(dev, "Watchdog blacklisted on %s %s\n", attr->soc_id,
->  			 attr->revision);
->  		return true;
+"DRM_MODESET_LOCK_ALL_BEGIN  simplifies grabbing all modeset locks using a 
+local context. This has the advantage of reducing boilerplate, [...]". 
+(Please, note that I haven't copied the last part of the paragraph because it 
+talks about checking the return value but I think it's useless because the 
+only possible return value is 0).
+
+If more context information is needed, I would add the above-mentioned note to 
+my commit message and submit a v2 patch.
+
+Is it the right way to solve the issue that you pointed out?
+
+Thanks in advance,
+
+Fabio
 > 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> > 
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 18 ++++++++++++------
+> >  1 file changed, 12 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c index
+> > 6447cd6ca5a8..e1a71579f8e6 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > @@ -32,6 +32,7 @@
+> > 
+> >  #include <linux/slab.h>
+> >  
+> >  #include <drm/drm_atomic_helper.h>
+> > 
+> > +#include <drm/drm_drv.h>
+> > 
+> >  #include <drm/drm_probe_helper.h>
+> >  #include <drm/amdgpu_drm.h>
+> >  #include <linux/vgaarb.h>
+> > 
+> > @@ -3694,14 +3695,17 @@ int amdgpu_device_suspend(struct drm_device *dev,
+> > bool fbcon)> 
+> >  	if (!amdgpu_device_has_dc_support(adev)) {
+> >  	
+> >  		/* turn off display hw */
+> > 
+> > -		drm_modeset_lock_all(dev);
+> > +		struct drm_modeset_acquire_ctx ctx;
+> > +		int ret;
+> > +
+> > +		DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+> > 
+> >  		drm_connector_list_iter_begin(dev, &iter);
+> >  		drm_for_each_connector_iter(connector, &iter)
+> >  		
+> >  			drm_helper_connector_dpms(connector,
+> >  			
+> >  						  
+DRM_MODE_DPMS_OFF);
+> >  		
+> >  		drm_connector_list_iter_end(&iter);
+> > 
+> > -		drm_modeset_unlock_all(dev);
+> > -			/* unpin the front buffers and cursors */
+> > +		DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> > +		/* unpin the front buffers and cursors */
+> > 
+> >  		list_for_each_entry(crtc, &dev->mode_config.crtc_list, 
+head) {
+> >  		
+> >  			struct amdgpu_crtc *amdgpu_crtc = 
+to_amdgpu_crtc(crtc);
+> >  			struct drm_framebuffer *fb = crtc->primary-
+>fb;
+> > 
+> > @@ -3830,19 +3834,21 @@ int amdgpu_device_resume(struct drm_device *dev,
+> > bool fbcon)> 
+> >  	/* blat the mode back in */
+> >  	if (fbcon) {
+> >  	
+> >  		if (!amdgpu_device_has_dc_support(adev)) {
+> > 
+> > +			struct drm_modeset_acquire_ctx ctx;
+> > +			int ret;
+> > +
+> > 
+> >  			/* pre DCE11 */
+> >  			drm_helper_resume_force_mode(dev);
+> >  			
+> >  			/* turn on display hw */
+> > 
+> > -			drm_modeset_lock_all(dev);
+> > +			DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, 
+ret);
+> > 
+> >  			drm_connector_list_iter_begin(dev, &iter);
+> >  			drm_for_each_connector_iter(connector, 
+&iter)
+> >  			
+> >  				
+drm_helper_connector_dpms(connector,
+> >  				
+> >  							  
+DRM_MODE_DPMS_ON);
+> >  			
+> >  			drm_connector_list_iter_end(&iter);
+> > 
+> > -
+> > -			drm_modeset_unlock_all(dev);
+> > +			DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> > 
+> >  		}
+> >  		amdgpu_fbdev_set_suspend(adev, 0);
+> >  	
+> >  	}
+> > 
+> > --
+> > 2.31.1
+> > 
+> > --
+> > You received this message because you are subscribed to the Google Groups
+> > "outreachy-kernel" group. To unsubscribe from this group and stop 
+receiving
+> > emails from it, send an email to
+> > outreachy-kernel+unsubscribe@googlegroups.com. To view this discussion on
+> > the web visit
+> > https://groups.google.com/d/msgid/outreachy-kernel/20210419122059.738-2-fmd
+> > efrancesco%40gmail.com.
+
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
