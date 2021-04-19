@@ -1,63 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C45363E1C
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 11:01:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AB8363E26
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Apr 2021 11:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 834F689AFF;
-	Mon, 19 Apr 2021 09:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3164689D39;
+	Mon, 19 Apr 2021 09:03:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F08D689AFF
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 09:01:39 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id k26so16710140wrc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 02:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TPqPD/BdKbOmQoY/69ahqiLeLy4W5bUr61Qz2mAbQO8=;
- b=ZDkUmAfiNr7vTw1GLZge+A/3lbdsF/wNvgIGrY/66IjAeb7JkxqkJ0G/3heyKx1bpy
- ay9fjir4M6WU7e+kYVMvUrsqazj1q+JJWXuwS7rAWPWy/6fiD2YD6c9S5M6mBDH+QAPM
- 5CXAQlIZx9XlaC2nvi9RbwwSyXIyUUKyvOOMiwChIzAAmagIFrLtJTjalX0x+tmZEGXW
- 1sn5VFCVXt5RVUfiUM+8virAYqShpxLwyVnqBlqIWHV0i2dp14zdWT53ZatA1FpK3zOg
- Y6Bt18WS4izwrTSxGNzo8Ijpk9pSeVB98ss4KuzYKF3AnhDVBij0OAR2VXMa6HwLR84p
- pW5g==
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
+ [209.85.217.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6443A89D39
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 09:03:37 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id k19so4137079vsg.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Apr 2021 02:03:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TPqPD/BdKbOmQoY/69ahqiLeLy4W5bUr61Qz2mAbQO8=;
- b=Mmrm23wK++oPxXrhJrAGNkjJSE1aJkhFI0s70EDycfT0wq/n4vuAUnDHa11qQHVNKu
- YzBPk8Y+i8EO6XqsQrdYkxl5Y/JqZiXKYd0FXQui4FcnQHvKichTVkn7pR4mlcxz1uRP
- atl7yJVDealkwQ0uixCBg6dG0s+KOL/Au1dmZ1I0L7iIYYPPkTIWq+ET/O1dfHCCB1ci
- O97jpO3x39UCK9hf0aMiYg6NLjkc4xTDAemX256NoAXoiYTm46o0bcXPq6nzg2rTTrJc
- dGM39MuyunXSlto5QnrAQp0AXexh0B3OumFTHJgUAFWt6PQgyrVJdL/Q8tZgRfTfU363
- jkzQ==
-X-Gm-Message-State: AOAM533N5hnQu49qQv7MICSIK9gvLRhdOUXf9UA8BwhtSe6Zk/ptfuP3
- 8Md0D2baWFLuDykdL3FrOJPNsA==
-X-Google-Smtp-Source: ABdhPJys4VsgOUWkYQqpx+Qn/FCs2zadombmpxdeBA++SkKxsdC+yJFpD3mOYG/M8XmtvFWemf0B5w==
-X-Received: by 2002:a5d:5912:: with SMTP id v18mr13582443wrd.14.1618822898682; 
- Mon, 19 Apr 2021 02:01:38 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:2454:3e3:5f00:4e60:4ba6:c549:25f6])
- by smtp.gmail.com with ESMTPSA id m14sm21477080wrh.28.2021.04.19.02.01.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 02:01:38 -0700 (PDT)
-From: Robert Foss <robert.foss@linaro.org>
-To: a.hajda@samsung.com, narmstrong@baylibre.com, robert.foss@linaro.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@siol.net, airlied@linux.ie, daniel@ffwll.ch,
- cw00.choi@samsung.com, m.purski@samsung.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3] drm/bridge/sii8620: fix dependency on extcon
-Date: Mon, 19 Apr 2021 11:01:24 +0200
-Message-Id: <20210419090124.153560-1-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.31.0.30.g398dba342d.dirty
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YToQwZXN38nw8LU8icFLB58IB4Z2bfPdJB1gmWWtNj8=;
+ b=p8uW+3n51E+Th/rfaaHrOrZ4G29MuhNwlpJj11pv+a0coyj4cLCSIDorxDUVO85bq/
+ p5rpKNPeJYz1W4/cPvnZN/XUjawIqyhwe/v10AWPTmnp+JxS1RFYFhTF+IUG2CxOWAG3
+ 6fEn4SWDmj7CuvZjo2U9XiUF29C6TIyjcF6rrYmtsNUsKuPKKaj2XQiGkSJKJHjyMNn/
+ 0vjurX1UISd/bx8ScMse9m2xPgWQJ15mhdgCl6/Vi0Ehz0MHeSE6Fe6EXx85vberKqKI
+ arAF0schV5q3bkKmAzBr94B0ttGaK+uvPDJQ0DRuGSlgEpFMkQagfqy8d80zQPcSk81F
+ 4yIw==
+X-Gm-Message-State: AOAM5321oUZGve15p9slUqPVt9niUmWjU2SsFOsQnDSN1jwWT0dABPKD
+ xTF1m5dP/zY9RLsj7BYD0KWqQCfFhimrWJvqTz4=
+X-Google-Smtp-Source: ABdhPJxHtnj/DXie9H0wxpzVZlSTyniokdUb/gsNNsMkANVtAtzr2mFBhczBYEoBurfSWsjRkBkPBhRAOOMrjVGBWsw=
+X-Received: by 2002:a67:7c8c:: with SMTP id x134mr13821818vsc.40.1618823016409; 
+ Mon, 19 Apr 2021 02:03:36 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
+ <20210419042722.27554-4-alice.guo@oss.nxp.com>
+ <YH0O907dfGY9jQRZ@atmark-techno.com>
+In-Reply-To: <YH0O907dfGY9jQRZ@atmark-techno.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 19 Apr 2021 11:03:24 +0200
+Message-ID: <CAMuHMdVY1SLZ0K30T2pimyrR6Mm=VoSTO=L-xxCy2Bj7_kostw@mail.gmail.com>
+Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
+ soc_device_match
+To: Dominique MARTINET <dominique.martinet@atmark-techno.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,55 +54,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>
+Cc: ulf.hansson@linaro.org, aymen.sghaier@nxp.com, geert+renesas@glider.be,
+ rafael@kernel.org, airlied@linux.ie, mturquette@baylibre.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ a.hajda@samsung.com, netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+ peter.ujfalusi@gmail.com, linux-clk@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, wim@linux-watchdog.org,
+ herbert@gondor.apana.org.au, horia.geanta@nxp.com, khilman@baylibre.com,
+ joro@8bytes.org, narmstrong@baylibre.com, linux-staging@lists.linux.dev,
+ iommu@lists.linux-foundation.org, kishon@ti.com, tony@atomide.com,
+ linux-omap@vger.kernel.org, stern@rowland.harvard.edu, kuba@kernel.org,
+ linux@roeck-us.net, linux-media@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, will@kernel.org, linux-pm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, edubezval@gmail.com, linux-gpio@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, ssantosh@kernel.org,
+ matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org, mchehab@kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ "Alice Guo \(OSS\)" <alice.guo@oss.nxp.com>, balbi@kernel.org,
+ tomba@kernel.org, sboyd@kernel.org, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org, adrian.hunter@intel.com,
+ robert.foss@linaro.org, leoyang.li@nxp.com, linux@prisktech.co.nz,
+ vkoul@kernel.org, Arnd Bergmann <arnd@arndb.de>, linux-crypto@vger.kernel.org,
+ j-keerthy@ti.com, dmaengine@vger.kernel.org, Roy.Pledge@nxp.com,
+ jyri.sarha@iki.fi, davem@davemloft.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM_SIL_SII8620 kconfig has a weak `imply` dependency
-on EXTCON, which causes issues when sii8620 is built
-as a builtin and EXTCON is built as a module.
+Hi Dominique,
 
-The symptoms are 'undefined reference' errors caused
-by the symbols in EXTCON not being available
-to the sii8620 driver.
+CC Arnd (soc_device_match() author)
 
-Fixes: 688838442147 ("drm/bridge/sii8620: use micro-USB cable detection logic to detect MHL")
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Reported-by: kernel test robot <lkp@intel.com>
----
+On Mon, Apr 19, 2021 at 7:03 AM Dominique MARTINET
+<dominique.martinet@atmark-techno.com> wrote:
+> Alice Guo (OSS) wrote on Mon, Apr 19, 2021 at 12:27:22PM +0800:
+> > From: Alice Guo <alice.guo@nxp.com>
+> > Update all the code that use soc_device_match
+>
+> A single patch might be difficult to accept for all components, a each
+> maintainer will probably want to have a say on their subsystem?
+>
+> I would suggest to split these for a non-RFC version; a this will really
+> need to be case-by-case handling.
+>
+> > because add support for soc_device_match returning -EPROBE_DEFER.
+>
+> (English does not parse here for me)
+>
+> I've only commented a couple of places in the code itself, but this
+> doesn't seem to add much support for errors, just sweep the problem
+> under the rug.
+>
+> > Signed-off-by: Alice Guo <alice.guo@nxp.com>
+> > ---
+> >
+> > diff --git a/drivers/bus/ti-sysc.c b/drivers/bus/ti-sysc.c
+> > index 5fae60f8c135..00c59aa217c1 100644
+> > --- a/drivers/bus/ti-sysc.c
+> > +++ b/drivers/bus/ti-sysc.c
+> > @@ -2909,7 +2909,7 @@ static int sysc_init_soc(struct sysc *ddata)
+> >       }
+> >
+> >       match = soc_device_match(sysc_soc_feat_match);
+> > -     if (!match)
+> > +     if (!match || IS_ERR(match))
+> >               return 0;
+>
+> This function handles errors, I would recommend returning the error as
+> is if soc_device_match returned one so the probe can be retried later.
 
-LKP reported issue:
-https://lore.kernel.org/lkml/202104040604.SSTe2Cxf-lkp@intel.com/
+Depends...
 
+> > --- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
+> > +++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+> > @@ -439,6 +439,7 @@ static const unsigned int r8a7795es2_mod_nullify[] __initconst = {
+> >
+> >  static int __init r8a7795_cpg_mssr_init(struct device *dev)
+> >  {
+> > +     const struct soc_device_attribute *match;
+> >       const struct rcar_gen3_cpg_pll_config *cpg_pll_config;
+> >       u32 cpg_mode;
+> >       int error;
+> > @@ -453,7 +454,8 @@ static int __init r8a7795_cpg_mssr_init(struct device *dev)
+> >               return -EINVAL;
+> >       }
+> >
+> > -     if (soc_device_match(r8a7795es1)) {
+> > +     match = soc_device_match(r8a7795es1);
+> > +     if (!IS_ERR(match) && match) {
+>
+> Same, return the error.
+> Assuming an error means no match will just lead to hard to debug
+> problems because the driver potentially assumed the wrong device when
+> it's just not ready yet.
 
-Changes since v1:
- - Fix typo on comment
+When running on R-Car H3, there will always be a match device, as
+the SoC device is registered early.
 
-Changes since v2:
- - Randy: Changed from `depends` to `select` 
+>
+> >               cpg_core_nullify_range(r8a7795_core_clks,
+> >                                      ARRAY_SIZE(r8a7795_core_clks),
+> >                                      R8A7795_CLK_S0D2, R8A7795_CLK_S0D12);
+> > [...]
+> > diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+> > index eaaec0a55cc6..13a06b613379 100644
+> > --- a/drivers/iommu/ipmmu-vmsa.c
+> > +++ b/drivers/iommu/ipmmu-vmsa.c
+> > @@ -757,17 +757,20 @@ static const char * const devices_allowlist[] = {
+> >
+> >  static bool ipmmu_device_is_allowed(struct device *dev)
+> >  {
+> > +     const struct soc_device_attribute *match1, *match2;
+> >       unsigned int i;
+> >
+> >       /*
+> >        * R-Car Gen3 and RZ/G2 use the allow list to opt-in devices.
+> >        * For Other SoCs, this returns true anyway.
+> >        */
+> > -     if (!soc_device_match(soc_needs_opt_in))
+> > +     match1 = soc_device_match(soc_needs_opt_in);
+> > +     if (!IS_ERR(match1) && !match1)
+>
+> I'm not sure what you intended to do, but !match1 already means there is
+> no error so the original code is identical.
+>
+> In this case ipmmu_device_is_allowed does not allow errors so this is
+> one of the "difficult" drivers that require slightly more thinking.
+> It is only called in ipmmu_of_xlate which does return errors properly,
+> so in this case the most straightforward approach would be to make
+> ipmmu_device_is_allowed return an int and forward errors as well.
+>
+> ...
+> This is going to need quite some more work to be acceptable, in my
+> opinion, but I think it should be possible.
 
+In general, this is very hard to do, IMHO. Some drivers may be used on
+multiple platforms, some of them registering an SoC device, some of
+them not registering an SoC device.  So there is no way to know the
+difference between "SoC device not registered, intentionally", and
+"SoC device not yet registered".
 
- drivers/gpu/drm/bridge/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+soc_device_match() should only be used as a last resort, to identify
+systems that cannot be identified otherwise.  Typically this is used for
+quirks, which should only be enabled on a very specific subset of
+systems.  IMHO such systems should make sure soc_device_match()
+is available early, by registering their SoC device early.
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 22a467abd3e9..70402da5cc70 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -169,7 +169,7 @@ config DRM_SIL_SII8620
- 	tristate "Silicon Image SII8620 HDMI/MHL bridge"
- 	depends on OF
- 	select DRM_KMS_HELPER
--	imply EXTCON
-+	select EXTCON
- 	depends on RC_CORE || !RC_CORE
- 	help
- 	  Silicon Image SII8620 HDMI/MHL bridge chip driver.
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.31.0.30.g398dba342d.dirty
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
