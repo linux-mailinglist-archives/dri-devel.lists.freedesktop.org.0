@@ -2,39 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0F936538B
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 09:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2EE365390
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 09:53:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE4C89C88;
-	Tue, 20 Apr 2021 07:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5C489CF5;
+	Tue, 20 Apr 2021 07:53:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1056289C80;
- Tue, 20 Apr 2021 07:51:30 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9712BB23F;
- Tue, 20 Apr 2021 07:51:28 +0000 (UTC)
-Subject: Re: [PATCH v3 5/7] drm/vmwgfx: Inline ttm_bo_mmap() into vmwgfx driver
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- bskeggs@redhat.com, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
- sroland@vmware.com, zackr@vmware.com, shashank.sharma@amd.com,
- sam@ravnborg.org, emil.velikov@collabora.com, Felix.Kuehling@amd.com,
- nirmoy.das@amd.com
-References: <20210416133146.24825-1-tzimmermann@suse.de>
- <20210416133146.24825-6-tzimmermann@suse.de>
- <b7008944-fbe5-bd59-d2a9-ff62bea38237@gmail.com>
- <80012c09-6975-f694-420f-72b2236dcf4e@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <52403618-62f5-2085-c245-e1e98762cccb@suse.de>
-Date: Tue, 20 Apr 2021 09:51:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4531C89CF5
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 07:53:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6BA771435;
+ Tue, 20 Apr 2021 00:53:39 -0700 (PDT)
+Received: from bogus (unknown [10.57.52.142])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3F2973F85F;
+ Tue, 20 Apr 2021 00:53:38 -0700 (PDT)
+Date: Tue, 20 Apr 2021 08:53:32 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Sudeep Holla <sudeep.holla@arm.com>, Peter Jones <pjones@redhat.com>
+Subject: Re: [PATCH] efifb: Fix runtime pm calls for non PCI efifb device
+Message-ID: <20210420075332.t56dlpppb6bnpjzd@bogus>
+References: <20210415102224.2764054-1-sudeep.holla@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <80012c09-6975-f694-420f-72b2236dcf4e@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20210415102224.2764054-1-sudeep.holla@arm.com>
+User-Agent: NeoMutt/20171215
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,250 +43,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0260180435=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0260180435==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="gQzpEqqhDoyhySzOfs5qkbaa7mzBt19EA"
+Gentle Ping! There is boot failure because of this issue with linux-next
+on few arm platforms with non PCIe efifb. Please review and get the fix
+merged ASAP so the testing on these platforms can continue with linux-next.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---gQzpEqqhDoyhySzOfs5qkbaa7mzBt19EA
-Content-Type: multipart/mixed; boundary="4hXKDfjTeiDGgeeZmmQD2sc8GodJ4lZ0X";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- bskeggs@redhat.com, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
- sroland@vmware.com, zackr@vmware.com, shashank.sharma@amd.com,
- sam@ravnborg.org, emil.velikov@collabora.com, Felix.Kuehling@amd.com,
- nirmoy.das@amd.com
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Message-ID: <52403618-62f5-2085-c245-e1e98762cccb@suse.de>
-Subject: Re: [PATCH v3 5/7] drm/vmwgfx: Inline ttm_bo_mmap() into vmwgfx
- driver
-References: <20210416133146.24825-1-tzimmermann@suse.de>
- <20210416133146.24825-6-tzimmermann@suse.de>
- <b7008944-fbe5-bd59-d2a9-ff62bea38237@gmail.com>
- <80012c09-6975-f694-420f-72b2236dcf4e@amd.com>
-In-Reply-To: <80012c09-6975-f694-420f-72b2236dcf4e@amd.com>
+On Thu, Apr 15, 2021 at 11:22:24AM +0100, Sudeep Holla wrote:
+> Commit a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
+> added runtime pm calls to probe and remove routines to ensure the PCI
+> device for efifb stays in D0 state. However not ever efifb is based on
+> PCI device and efifb_pci_dev can be NULL if that is the case.
+>
+> In such cases, we will get a boot splat like below due to NULL dereference:
+> -->8
+>  Console: switching to colour frame buffer device 240x67
+>  fb0: EFI VGA frame buffer device
+>  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000270
+>  Mem abort info:
+>    ESR = 0x96000004
+>    EC = 0x25: DABT (current EL), IL = 32 bits
+>    SET = 0, FnV = 0
+>    EA = 0, S1PTW = 0
+>  Data abort info:
+>    ISV = 0, ISS = 0x00000004
+>    CM = 0, WnR = 0
+>  [0000000000000270] user address but active_mm is swapper
+>  Internal error: Oops: 96000004 [#1] PREEMPT SMP
+>  Modules linked in:
+>  CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.12.0-rc7-next-20210413 #1
+>  Hardware name: ARM LTD ARM Juno Development Platform/ARM Juno Development Platform
+>  pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+>  pc : pm_runtime_drop_link+0x12c/0x338
+>  lr : efifb_probe+0x7bc/0x7f0
+>  Call trace:
+>   pm_runtime_drop_link+0x12c/0x338
+>   efifb_probe+0x7bc/0x7f0
+>   platform_probe+0x68/0xd8
+>   really_probe+0xe4/0x3a8
+>   driver_probe_device+0x64/0xc8
+>   device_driver_attach+0x74/0x80
+>   __driver_attach+0x64/0xf0
+>   bus_for_each_dev+0x70/0xc0
+>   driver_attach+0x24/0x30
+>   bus_add_driver+0x150/0x1f8
+>   driver_register+0x64/0x120
+>   __platform_driver_register+0x28/0x38
+>   efifb_driver_init+0x1c/0x28
+>   do_one_initcall+0x48/0x2b0
+>   kernel_init_freeable+0x1e8/0x258
+>   kernel_init+0x14/0x118
+>   ret_from_fork+0x10/0x30
+>  Code: 88027c01 35ffffa2 17fff706 f9800051 (885f7c40)
+>  ---[ end trace 17d8da630bf8ff77 ]---
+>  Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+> -->8
+>
+> Fix the issue by checking for non-NULL efifb_pci_dev before dereferencing
+> for runtime pm calls in probe and remove routines.
+>
+> Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
+> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Peter Jones <pjones@redhat.com>
+> Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+> ---
+>  drivers/video/fbdev/efifb.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+> index f58a545b3bf3..8ea8f079cde2 100644
+> --- a/drivers/video/fbdev/efifb.c
+> +++ b/drivers/video/fbdev/efifb.c
+> @@ -575,7 +575,8 @@ static int efifb_probe(struct platform_device *dev)
+>  		goto err_fb_dealoc;
+>  	}
+>  	fb_info(info, "%s frame buffer device\n", info->fix.id);
+> -	pm_runtime_get_sync(&efifb_pci_dev->dev);
+> +	if (efifb_pci_dev)
+> +		pm_runtime_get_sync(&efifb_pci_dev->dev);
+>  	return 0;
+>
+>  err_fb_dealoc:
+> @@ -602,7 +603,8 @@ static int efifb_remove(struct platform_device *pdev)
+>  	unregister_framebuffer(info);
+>  	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
+>  	framebuffer_release(info);
+> -	pm_runtime_put(&efifb_pci_dev->dev);
+> +	if (efifb_pci_dev)
+> +		pm_runtime_put(&efifb_pci_dev->dev);
+>
+>  	return 0;
+>  }
+> --
+> 2.25.1
+>
 
---4hXKDfjTeiDGgeeZmmQD2sc8GodJ4lZ0X
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 16.04.21 um 15:51 schrieb Christian K=C3=B6nig:
-> Am 16.04.21 um 15:46 schrieb Christian K=C3=B6nig:
->> Am 16.04.21 um 15:31 schrieb Thomas Zimmermann:
->>> The vmwgfx driver is the only remaining user of ttm_bo_mmap(). Inline=
-
->>> the code. The internal helper ttm_bo_vm_lookup() is now also part of
->>> vmwgfx as vmw_bo_vm_lookup().
->>>
->>> v2:
->>> =C2=A0=C2=A0=C2=A0=C2=A0* replace pr_err() with drm_err() (Zack)
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Reviewed-by: Zack Rusin <zackr@vmware.com>
->>> ---
->>> =C2=A0 drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c | 56 ++++++++++++++++=
-++++++--
->>> =C2=A0 1 file changed, 53 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c=20
->>> b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>> index cb9975889e2f..c8b6543b4e39 100644
->>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>> @@ -27,6 +27,32 @@
->>> =C2=A0 =C2=A0 #include "vmwgfx_drv.h"
->>> =C2=A0 +static struct ttm_buffer_object *vmw_bo_vm_lookup(struct=20
->>> ttm_device *bdev,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 unsigned long offset,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 unsigned long pages)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 struct vmw_private *dev_priv =3D container_of(bde=
-v, struct=20
->>> vmw_private, bdev);
->>> +=C2=A0=C2=A0=C2=A0 struct drm_device *drm =3D &dev_priv->drm;
->>> +=C2=A0=C2=A0=C2=A0 struct drm_vma_offset_node *node;
->>> +=C2=A0=C2=A0=C2=A0 struct ttm_buffer_object *bo =3D NULL;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 drm_vma_offset_lock_lookup(bdev->vma_manager);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 node =3D drm_vma_offset_lookup_locked(bdev->vma_m=
-anager, offset,=20
->>> pages);
->>> +=C2=A0=C2=A0=C2=A0 if (likely(node)) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo =3D container_of(node,=20
-struct ttm_buffer_object,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 base.vma_node);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo =3D ttm_bo_get_unless_=
-zero(bo);
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0 drm_vma_offset_unlock_lookup(bdev->vma_manager);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (!bo)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_err(drm, "Could not f=
-ind buffer object to map\n");
->>> +
->>> +=C2=A0=C2=A0=C2=A0 return bo;
->>> +}
->>> +
->>> =C2=A0 int vmw_mmap(struct file *filp, struct vm_area_struct *vma)
->>> =C2=A0 {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 static const struct vm_operations_stru=
-ct vmw_vm_ops =3D {
->>> @@ -41,10 +67,28 @@ int vmw_mmap(struct file *filp, struct=20
->>> vm_area_struct *vma)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv =3D filp->p=
-rivate_data;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vmw_private *dev_priv =3D vmw_p=
-riv(file_priv->minor->dev);
->>> -=C2=A0=C2=A0=C2=A0 int ret =3D ttm_bo_mmap(filp, vma, &dev_priv->bde=
-v);
->>> +=C2=A0=C2=A0=C2=A0 struct ttm_device *bdev =3D &dev_priv->bdev;
->>> +=C2=A0=C2=A0=C2=A0 struct ttm_buffer_object *bo;
->>> +=C2=A0=C2=A0=C2=A0 int ret;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (unlikely(vma->vm_pgoff < DRM_FILE_PAGE_OFFSET=
-_START))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 bo =3D vmw_bo_vm_lookup(bdev, vma->vm_pgoff, vma_=
-pages(vma));
->>> +=C2=A0=C2=A0=C2=A0 if (unlikely(!bo))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->>> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (ret)
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
->>> +=C2=A0=C2=A0=C2=A0 if (unlikely(!bo->bdev->funcs->verify_access)) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D -EPERM;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unref;
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0 ret =3D bo->bdev->funcs->verify_access(bo, filp);=
-
->>
->> Is there any reason we can't call vmw_verify_access() directly here?
->>
->> Would allow us to completely nuke the verify_access callback as well=20
->> as far as I can see.
->=20
-> Forget what I said, couldn't see the next patch in my mailbox at time o=
-f=20
-> writing.
->=20
-> Whole series is Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd=
-=2Ecom>
-
-Thanks a lot. If I'm not mistaken, the patches at [1] need to go in=20
-first. So it could take a a bit until this lands.
-
-Otherwise, this series could go through the same tree as [1] if nouveau=20
-and vmwgfx devs don't mind.
-
-Best regards
-Thomas
-
-[1] https://patchwork.freedesktop.org/series/88822/
-
->=20
-> Thanks for the nice cleanup,
-> Christian.
->=20
->>
->> Regards,
->> Christian.
->>
->>> +=C2=A0=C2=A0=C2=A0 if (unlikely(ret !=3D 0))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unref;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 ret =3D ttm_bo_mmap_obj(vma, bo);
->>> +=C2=A0=C2=A0=C2=A0 if (unlikely(ret !=3D 0))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unref;
->>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_ops =3D &vmw_vm_ops;
->>> =C2=A0 @@ -52,7 +96,13 @@ int vmw_mmap(struct file *filp, struct=20
->>> vm_area_struct *vma)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!is_cow_mapping(vma->vm_flags))
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_flags =
-=3D (vma->vm_flags & ~VM_MIXEDMAP) | VM_PFNMAP;
->>> =C2=A0 +=C2=A0=C2=A0=C2=A0 ttm_bo_put(bo); /* release extra ref taken=20
-by=20
->>> ttm_bo_mmap_obj() */
->>> +
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>> +
->>> +out_unref:
->>> +=C2=A0=C2=A0=C2=A0 ttm_bo_put(bo);
->>> +=C2=A0=C2=A0=C2=A0 return ret;
->>> =C2=A0 }
->>> =C2=A0 =C2=A0 /* struct vmw_validation_mem callback */
->>
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---4hXKDfjTeiDGgeeZmmQD2sc8GodJ4lZ0X--
-
---gQzpEqqhDoyhySzOfs5qkbaa7mzBt19EA
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB+h/8FAwAAAAAACgkQlh/E3EQov+B7
-4w/8CdxG67uhYl2m7yiaoCqLylhg0vp0+DpL76ZlvDReGHl/qxbqAkaSDXDq7wN0+GlV6iixjNx2
-3zcvPYSLKPi1YNJSBWWsOdLsRAhxtENUCcXJtkCmZ5fUFIy+7fv8KeSn6+I7HvTpqneexqNl4fBb
-q+LmTG9bfOhV+wPW/1I6fTyESpubq2sN0+ma126xNj2eiD7Pt17c56fcjKxZ3mnYZXPRXiDZQWa8
-4CYrywBzUzu3XvW1LLwle5tnCUllr+z4Pcd0nvPZv4xOM/mttf0k3Z494JkZzgjdwNgU7b9TiVUn
-G94TkjzYletmDrJr76qErWrinI0e2Z9Yf8yMWOMNxo5ujwiwB586Kx+dPH3hpJORkDSQzwF9urKd
-bO7ZDrdwiU308uYbhFJypI3YxqKIrJfoXfSrLW30xv+vFk3mjD8R5hp1uRCfGTgpqXsFmDELj4dG
-aSJCG+8NtOR7B36DUslfbdI9yYR3+hCk4A5lamkCxllJgUrTV5bXw++aQZVEM7ynVGCELGKuXYiH
-IwG96eUL4XfTRRyY76bhng1G41zj9dHOl4XkeMSE7boHQ0aOlaugxAGoDmzE9JC54DJuStzIeC5L
-25K/1nDCL4LKJYu0DkP9FB0S8PxSnPiL32TA+omuGqZ7kwDshms4LwhpRbFjX6f5P9vh6FTgbr/p
-SSo=
-=ymPq
------END PGP SIGNATURE-----
-
---gQzpEqqhDoyhySzOfs5qkbaa7mzBt19EA--
-
---===============0260180435==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+--
+Regards,
+Sudeep
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0260180435==--
