@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715D43654BF
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E27F2365507
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 275716E4B3;
-	Tue, 20 Apr 2021 09:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13B966E4C9;
+	Tue, 20 Apr 2021 09:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 038766E4B3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:05:33 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id e186so37754648iof.7
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 02:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Sky0InoRGfz08ZIPfmMoicP8h0LTiiMAffpNGDgYJbs=;
- b=nXMxTLh0sKp6GpxETText2EprCJ00h2r68bNjyo/IF5LUKD5vBUWvHwARRPAn+uyrJ
- kQjDZ0KCSUQEIki+oYck1Elb/FO48FaV2LtgbHDizELXrrlpNqUAtUVQ5tTUE9mHKyB5
- ZbQXnv+ZIdsOqZz8tjBc7JlTrPQwcxVciypAE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Sky0InoRGfz08ZIPfmMoicP8h0LTiiMAffpNGDgYJbs=;
- b=KoA+o7aBB7GOyxruH4/OgiKdCPWEJRUgdHPMRqD5x+DRTAZC6ff0YJFLUrJzjySjxk
- qpK9BS+TTSsSGwzFyFZ6ceaciPi0MpThvENe4U7PBdrsJ+juTZENeeZb8DvBWieadqhc
- 7Fkr0APM0ZKeEZ+MQ6JXNvHvaZYYiDzX77tBcxIWpcDbtQ2EpFidKBwCsWnHByaXuJOv
- DIMgpix87cJsACrO9UqSIkkmfNlG4vaXP7MmF2221+bcHWDwCOSai3kUmhTP12v0m+dq
- Ycjj1zHnax99l0HcimvdL+XryWlmGb7Xvn5TIUxf0ftouzpL6hFEaoOO/xIe94/t6Rrs
- qfTg==
-X-Gm-Message-State: AOAM533ypogsA1KTnZ1R2Ezxmmh5wmawfOTpMG7Wyp90U0u1Nd7Pra1v
- dj22lQsC5mhuaiKGB+cWT9bNHQrkF+zEmd/zoaNTbRU4+rA=
-X-Google-Smtp-Source: ABdhPJzFCTPxONwGXoOnArB99NKE78wLC243d0eUdaQKA1eYD2nbVDr80hIVXEpRVLb15Vj/6o9+Igu1fSkXz87MjDc=
-X-Received: by 2002:a5d:9682:: with SMTP id m2mr18657371ion.20.1618909533198; 
- Tue, 20 Apr 2021 02:05:33 -0700 (PDT)
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0926E4C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:12:49 +0000 (UTC)
+Received: from mail-ej1-f43.google.com ([209.85.218.43]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MIxmm-1lEUa531I2-00KU7u for <dri-devel@lists.freedesktop.org>; Tue, 20
+ Apr 2021 11:07:43 +0200
+Received: by mail-ej1-f43.google.com with SMTP id v6so55845750ejo.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 02:07:43 -0700 (PDT)
+X-Gm-Message-State: AOAM5311Y+3H1yqwMj11CFk3+Y6tn9hxZyAIKZ+pEZdGhCCmM6v6FYpd
+ 4e9qWz+N0tLrchotxw1NZW9+J32DLxWYd5j3xqM=
+X-Google-Smtp-Source: ABdhPJwSiNwlZ27l6d0oeVOJMjBIBpaEf6fV+Kr02yQOCGa6DdHdokE+eIs4+TiyDD+ybgS8jO4hGYikHl0QAhmuRDs=
+X-Received: by 2002:adf:db4f:: with SMTP id f15mr19571156wrj.99.1618909652608; 
+ Tue, 20 Apr 2021 02:07:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210409045314.3420733-1-hsinyi@chromium.org>
-In-Reply-To: <20210409045314.3420733-1-hsinyi@chromium.org>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 20 Apr 2021 17:05:06 +0800
-Message-ID: <CAJMQK-gFk8WV0W2TTP7=OTsBqgWmy_eKSd42Xa5dJzvUFDTAXQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/mediatek: set panel orientation before
- drm_dev_register().
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Enric Balletbo i Serra <enric.balletbo@collabora.com>
+References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
+ <20210419042722.27554-4-alice.guo@oss.nxp.com>
+ <YH0O907dfGY9jQRZ@atmark-techno.com>
+ <CAMuHMdVY1SLZ0K30T2pimyrR6Mm=VoSTO=L-xxCy2Bj7_kostw@mail.gmail.com>
+ <YH1OeFy+SepIYYG0@atmark-techno.com>
+ <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
+ <YH4VdPNO9cdzc5MD@atmark-techno.com>
+In-Reply-To: <YH4VdPNO9cdzc5MD@atmark-techno.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 20 Apr 2021 11:07:16 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
+Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
+Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
+ soc_device_match
+To: Dominique MARTINET <dominique.martinet@atmark-techno.com>
+X-Provags-ID: V03:K1:1AMFxWlCfru2gV1vt/8GOQalzBgZcXbu8hWV8i20Cuh9WQyaW1f
+ GcKzFJrPaGkrCFsUx/tMdYzWMmvzphLxkSfav6ZYJjrRA+Izzsj9tUBFh6m6BRxIzeoSNDE
+ Zb8579Gk6kAwaTIF914yQmra7cpSCQMAbKq+/+OUKPGIx5Ju3jhv/kyf8rWaeV6Ut5iMipF
+ ETVaYK+SQbiGfh7zvCfIA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uX9o50WlzFM=:3Ukkk15pZakuhf5sHurWOV
+ qSPl6dZNTdD9BTNuX5sMDxiePg1Oq87Vg3zJe8gTnjcnL+hauRufkEc12J9uIdJtGO8nDsb7U
+ JWVW3ZMoDyADonUGLrG5eHNyn7uJBH38GLDLJoI0VgUWeu4rYtUYPT2+eqMxtl8nnlpsjezs9
+ P/CflQzet2Bs6e4Kw/mFrpGzQpPz09oAL97P4oj3l9EO8oZqEjt+5vCntwDfo2xvbBvX9HWhE
+ W4o5aU7C5EEkKtKPK15yHlqhOW+pCTrrrQnpo3jLRwVDYh3H4bVNs7ggVNsd1UAoAAMPszG/x
+ jP22Q48tL9jTYU3QmZv5bgDT3A8bKbbiKCmnfBa4udtTXUE0ySnpkIeXlOogXr/GZypc7nb2n
+ 1VnGYAEssGAudwJ5p18EPMahylPuk75y/MQI+klX2NUsOOPepIZ/kLxTWMUugI3JnimF5PI9g
+ Dr5G0o3fOLVJigeyoUOYHrM8xOmeYQTgnTUJ8/FqSnyJsYIp1Aekt74ratdCaWk9vnSZ9398s
+ MC4rz9r+QbLq0dM2VYA0hmUWdJZeGxfOEG2/vnZleig0A4JuPdqNpVJPd2lokYq4eMRm9A68O
+ mFShwc3EjP3yeFaoYFN/+oXUnCL/ut+mFXBww3FIJvxJtIucosvOi68MVHbLe4S6KFtnOPqnQ
+ bcNo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,119 +67,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Devicetree List <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, aymen.sghaier@nxp.com,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Rafael Wysocki <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Networking <netdev@vger.kernel.org>,
+ linux-phy@lists.infradead.org, peter.ujfalusi@gmail.com,
+ linux-clk <linux-clk@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ =?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
+ Kevin Hilman <khilman@baylibre.com>, Joerg Roedel <joro@8bytes.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-staging@lists.linux.dev,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Kishon <kishon@ti.com>, Tony Lindgren <tony@atomide.com>,
+ linux-omap <linux-omap@vger.kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Jakub Kicinski <kuba@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ LINUXWATCHDOG <linux-watchdog@vger.kernel.org>, Will Deacon <will@kernel.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Eduardo Valentin <edubezval@gmail.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "moderated list:ARM/Mediatek SoC..." <linux-mediatek@lists.infradead.org>,
+ Santosh Shilimkar <ssantosh@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "open list:ARM/Amlogic Meson SoC support" <linux-amlogic@lists.infradead.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "Alice Guo \(OSS\)" <alice.guo@oss.nxp.com>, Felipe Balbi <balbi@kernel.org>,
+ tomba@kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ gregkh <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>,
+ USB list <linux-usb@vger.kernel.org>, linux-mmc <linux-mmc@vger.kernel.org>,
+ Adrian Hunter <adrian.hunter@intel.com>, Robert Foss <robert.foss@linaro.org>,
+ Leo Li <leoyang.li@nxp.com>, Tony Prisk <linux@prisktech.co.nz>,
+ Vinod Koul <vkoul@kernel.org>,
+ "open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
+ <linux-crypto@vger.kernel.org>, Keerthy <j-keerthy@ti.com>,
+ dmaengine@vger.kernel.org, Roy Pledge <Roy.Pledge@nxp.com>, jyri.sarha@iki.fi,
+ David Miller <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 9, 2021 at 12:53 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+On Tue, Apr 20, 2021 at 1:44 AM Dominique MARTINET
+<dominique.martinet@atmark-techno.com> wrote:
+> Arnd Bergmann wrote on Mon, Apr 19, 2021 at 02:16:36PM +0200:
+> > For built-in drivers, load order depends on the initcall level and
+> > link order (how things are lined listed in the Makefile hierarchy).
+> >
+> > For loadable modules, this is up to user space in the end.
+> >
+> > Which of the drivers in this scenario are loadable modules?
 >
-> drm_dev_register() sets connector->registration_state to
-> DRM_CONNECTOR_REGISTERED and dev->registered to true. If
-> drm_connector_set_panel_orientation() is first called after
-> drm_dev_register(), it will fail several checks and results in following
-> warning. So set panel orientation in dsi before drm_dev_register() is
-> called.
->
-> [    4.480976] ------------[ cut here ]------------
-> [    4.485603] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:45 __drm_mode_object_add+0xb4/0xbc
-> <snip>
-> [    4.609772] Call trace:
-> [    4.612208]  __drm_mode_object_add+0xb4/0xbc
-> [    4.616466]  drm_mode_object_add+0x20/0x2c
-> [    4.620552]  drm_property_create+0xdc/0x174
-> [    4.624723]  drm_property_create_enum+0x34/0x98
-> [    4.629241]  drm_connector_set_panel_orientation+0x64/0xa0
-> [    4.634716]  boe_panel_get_modes+0x88/0xd8
-> [    4.638802]  drm_panel_get_modes+0x2c/0x48
-> [    4.642887]  panel_bridge_get_modes+0x1c/0x28
-> [    4.647233]  drm_bridge_connector_get_modes+0xa0/0xd4
-> [    4.652273]  drm_helper_probe_single_connector_modes+0x218/0x700
-> [    4.658266]  drm_mode_getconnector+0x1b4/0x45c
-> [    4.662699]  drm_ioctl_kernel+0xac/0x128
-> [    4.666611]  drm_ioctl+0x268/0x410
-> [    4.670002]  drm_compat_ioctl+0xdc/0xf0
-> [    4.673829]  __arm64_compat_sys_ioctl+0xc8/0x100
-> [    4.678436]  el0_svc_common+0xf4/0x1c0
-> [    4.682174]  do_el0_svc_compat+0x28/0x3c
-> [    4.686088]  el0_svc_compat+0x10/0x1c
-> [    4.689738]  el0_sync_compat_handler+0xa8/0xcc
-> [    4.694171]  el0_sync_compat+0x178/0x180
-> [    4.698082] ---[ end trace b4f2db9d9c88610b ]---
-> [    4.702721] ------------[ cut here ]------------
-> [    4.707329] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:243 drm_object_attach_property+0x48/0xb8
-> <snip>
-> [    4.833830] Call trace:
-> [    4.836266]  drm_object_attach_property+0x48/0xb8
-> [    4.840958]  drm_connector_set_panel_orientation+0x84/0xa0
-> [    4.846432]  boe_panel_get_modes+0x88/0xd8
-> [    4.850516]  drm_panel_get_modes+0x2c/0x48
-> [    4.854600]  panel_bridge_get_modes+0x1c/0x28
-> [    4.858946]  drm_bridge_connector_get_modes+0xa0/0xd4
-> [    4.863984]  drm_helper_probe_single_connector_modes+0x218/0x700
-> [    4.869978]  drm_mode_getconnector+0x1b4/0x45c
-> [    4.874410]  drm_ioctl_kernel+0xac/0x128
-> [    4.878320]  drm_ioctl+0x268/0x410
-> [    4.881711]  drm_compat_ioctl+0xdc/0xf0
-> [    4.885536]  __arm64_compat_sys_ioctl+0xc8/0x100
-> [    4.890142]  el0_svc_common+0xf4/0x1c0
-> [    4.893879]  do_el0_svc_compat+0x28/0x3c
-> [    4.897791]  el0_svc_compat+0x10/0x1c
-> [    4.901441]  el0_sync_compat_handler+0xa8/0xcc
-> [    4.905873]  el0_sync_compat+0x178/0x180
-> [    4.909783] ---[ end trace b4f2db9d9c88610c ]---
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> All the drivers involved in my case are built-in (nvmem, soc and final
+> soc_device_match consumer e.g. caam_jr that crashes the kernel if soc is
+> not identified properly).
 
-ping on the thread, thanks.
+Ok, in that case you may have a chance to just adapt the initcall
+levels. This is somewhat fragile if someone else already relies
+on a particular order, but it's an easy one-line change to change
+a driver e.g. from module_init() or device_initcall() to arch_initcall().
 
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index ae403c67cbd9..45a702ee09f3 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -205,6 +205,7 @@ struct mtk_dsi {
->         u32 irq_data;
->         wait_queue_head_t irq_wait_queue;
->         const struct mtk_dsi_driver_data *driver_data;
-> +       enum drm_panel_orientation orientation;
->  };
->
->  static inline struct mtk_dsi *bridge_to_dsi(struct drm_bridge *b)
-> @@ -966,6 +967,8 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
->         }
->         drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
->
-> +       drm_connector_set_panel_orientation(dsi->connector, dsi->orientation);
-> +
->         return 0;
->
->  err_cleanup_encoder:
-> @@ -1029,6 +1032,12 @@ static int mtk_dsi_probe(struct platform_device *pdev)
->                         ret = PTR_ERR(dsi->next_bridge);
->                         goto err_unregister_host;
->                 }
-> +
-> +               ret = of_drm_get_panel_orientation(panel->dev->of_node, &dsi->orientation);
-> +               if (ret) {
-> +                       dev_err(dev, "failed to get panel orientation %d\n", ret);
-> +                       return ret;
-> +               }
->         }
->
->         dsi->driver_data = of_device_get_match_data(dev);
-> --
-> 2.31.1.295.g9ea45b61b8-goog
->
+> I frankly don't like the idea of moving nvmem/ above soc/ in
+> drivers/Makefile as a "solution" to this (especially as there is one
+> that seems to care about what soc they run on...), so I'll have a look
+> at links first, hopefully that will work out.
+
+Right, that would be way more fragile.
+
+I think the main problem in this case is the caam driver that really
+should not look into the particular SoC type or even machine
+compatible string. This is something we can do as a last resort
+for compatibility with busted devicetree files, but it appears that
+this driver does it as the primary method for identifying different
+hardware revisions. I would suggest fixing the binding so that
+each SoC that includes one of these devices has a soc specific
+compatible string associated with the device that the driver can
+use as the primary way of identifying the device.
+
+We probably need to keep the old logic around for old dtb files,
+but there can at least be a comment next to that table that
+discourages people from adding more entries there.
+
+      Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
