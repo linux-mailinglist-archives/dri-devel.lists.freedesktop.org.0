@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7807F365EFC
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 20:03:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A1F365F17
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 20:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 861AA6E88B;
-	Tue, 20 Apr 2021 18:03:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B35526E896;
+	Tue, 20 Apr 2021 18:16:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB4A56E88E
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 18:03:50 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id u187so1241637wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 11:03:50 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00F586E890
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 18:16:24 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id w4so34919004wrt.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 11:16:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7GUAjPYcxNqRZ2aYVIkKv9QcUfcYBP6GVGmwH3EOSb4=;
- b=NyTQ0N+kJrQ6KieEmDhHP+Xp088BmYx3e5JgZ1m2tI2HPftA/sV56N0eHUelNdTbVs
- FeRztL9jisP0SVSQUa1eYnqNGJGZWmFVj3mCR7yUD94E4p42TTNMUnPlgWepIsbDl26G
- A9u2LU97qcks3ADQr6z156kUFLemzp4hw3AHeUAVwQHGb/iBYsE7lKM2oHZlfX7sJHP9
- lfyWDQaGhQVIvehV/7lTDsvdXYndGm96oyZQA/hNlb6UrV3KjSf6Qp4ycblAZUL2Qsah
- phUY9rb/8U4ItH0wXRjiRp8O8taqNIr1L8RDNgLSYzIQNOH9O3b6aEuk4NiVlRQTG4WV
- /RuA==
+ :cc; bh=7SpmCxT/nTHlY+2XgH97oE1bAOfA80ctqu0kl+CSM2k=;
+ b=dOVJN3eucvXrwu7wUZ60F0lV73mfi9Fh4EqIiWQRu8bAcRYXur6Ux1tMH2LewTXHrF
+ YSuzbg5E0TQadg1eZOns7Pm8yM4cprtcdu9Zk/S+7EqnXUVsmv1ZCWC18WLeHoQoPYGW
+ Ijz0B7n+9hviFvMUUCB/Ey0rdR9g/OXR92ghb/fzHlZUIBT8mviXbhIrr9QIIn26U9hW
+ eoHxxYAM+TpnuCq4zYUO2jTS24MfvGRTHsoUzcxCI8Tj6t/T8B6uafFVJgcGVA9Yb1RW
+ dp7b1pvnKSnEwjE2ZsSuM5dFAcwhbMjcVRzbY4wL1/+g27vzKm9XVFzm7hfP75BOrfN4
+ sVMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7GUAjPYcxNqRZ2aYVIkKv9QcUfcYBP6GVGmwH3EOSb4=;
- b=AmKNvrNS/VDATa+42W1zhijKbIPIhYKRWUtYZ9EVLqzsLKPBhFAovCDT8gwW68b19N
- s62J6SdfGzU7NeXtnMcfla+drzLJgfOhS8/GszWF0Mimfcpz5s7YAd/X5mpaMAdIcwQi
- y4nm5cCswSTbQKGP5LJBvM0olFTAZi1m4liU4JSUnIAlKJahKOHsHG1gpUIg7HcSAADC
- AAV+ZPcp+qKGBGDKADEjh2pIy4rk+f4hkUjtJ+TuIXcOA4q33/3Hk7/1ChmqnYmTGX9f
- c1JUBfERvc2Poo7+Gw8ymmnIB60YFPiwQSSzhLe13iJ3mVf0RVW7Zbzehz+CHZy6YbYH
- dzMQ==
-X-Gm-Message-State: AOAM5305Lu658WAMCzn7L5S9ZRrrsrSxyRUOplCWq7FFt3fIcBp81l2E
- f/rJnDyeo7+CO/ap/Koa9kkE75kEyqT1FAbonBH1UA==
-X-Google-Smtp-Source: ABdhPJwuAm9/Ic8kXfmltZESRsHDWfcynAoJ5qkYpX1+Rl+7YArUQb3WFWUNM4H3cr1Rm32qj3RwoXNoJqxovLObXWc=
-X-Received: by 2002:a1c:6808:: with SMTP id d8mr5741600wmc.147.1618941829497; 
- Tue, 20 Apr 2021 11:03:49 -0700 (PDT)
+ bh=7SpmCxT/nTHlY+2XgH97oE1bAOfA80ctqu0kl+CSM2k=;
+ b=I6GjAx90jxu0EpPmnjBsSXadpb0Q4Z9Xr7GTwxMSK4h6gAvbNzW9zCDRGBnzCoaYfE
+ 2+fY4oYWyVktoj20YLENedlhTnP0snbZiTmkhNrQK7hSJo8ocoo5nPRX5kUoCZ9mU9Z6
+ JiSG1DlIEkWpK5GHuN7eKDLyqV8/xyXrpnhgQ+fm/sGrOAkmaRlvSai/iZ5UwtXiq/Tb
+ hC925chAHBsm+cnU8SuopWLt6pY4xOCIRZotepIqWfhdQ7HsLT1aoZBStTXtKe/ULMTJ
+ qJvzlGKO2jaBEwUztI9tM9tZbqQdHCzbkZabf0ppmJa0hQny07mwkLd3qcxdn84BKWXy
+ Jjww==
+X-Gm-Message-State: AOAM532HBLVBGGi9jXV4+b+fRbWai8Jr6dfBH/4pCS76p3xS1rA3EABi
+ db8uWlPGCtC+bA+3LoJE2ZHuvEP/AlHxnwbyxfHb1oty2a76TG/Y
+X-Google-Smtp-Source: ABdhPJxztdnIxiEQ+YbsCwVl6QyVpt469fudUCY2lBFkY8qwUP46ad/fjJOE6MHV68PPo4U9Om8L0SyxipRQqQeCU3Q=
+X-Received: by 2002:adf:eb0a:: with SMTP id s10mr22414696wrn.6.1618942583638; 
+ Tue, 20 Apr 2021 11:16:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rO7_Q2L0PogryGmuxLJk-DA3ckM+6vmDioErZ3_6s0iRQ@mail.gmail.com>
- <136d3b55-ff1e-c47b-d443-22bd27427956@gmail.com>
- <CAPj87rMSk+SgCBfrcQTEvppp=qQv4MRdeHRKAOUn5pZAEhh9mg@mail.gmail.com>
- <8e5026aa-599e-52d0-4959-6c3bcc16cb76@gmail.com>
- <CAPj87rMzFfouhv89-Vj3jDsH8JB5NFiyv+yV07KvJZaa2rB7Kw@mail.gmail.com>
- <CAAxE2A442Rkn5RfU9KH4cBzURZxqHgCX73-GVYrR+8u1cPXowg@mail.gmail.com>
-In-Reply-To: <CAAxE2A442Rkn5RfU9KH4cBzURZxqHgCX73-GVYrR+8u1cPXowg@mail.gmail.com>
+ <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
+ <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
+ <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
+ <2ee6acde-5643-0597-017b-7e20bd1a704d@gmail.com>
+In-Reply-To: <2ee6acde-5643-0597-017b-7e20bd1a704d@gmail.com>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 20 Apr 2021 19:03:01 +0100
-Message-ID: <CAPj87rOFryz7FoSDhRGMkCghid7Sj8QJ13+ZJV2O3HnFEKRGug@mail.gmail.com>
+Date: Tue, 20 Apr 2021 19:15:34 +0100
+Message-ID: <CAPj87rN0hMHVKFzAte-mnPyPT_NUG7z=cmabTw65rJ22eQhYoQ@mail.gmail.com>
 Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
  and no BO fences - initial proposal
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,116 +66,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0593213187=="
+ Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: multipart/mixed; boundary="===============2144217413=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0593213187==
-Content-Type: multipart/alternative; boundary="000000000000a8ddd105c06b4468"
+--===============2144217413==
+Content-Type: multipart/alternative; boundary="0000000000009c1c9705c06b7154"
 
---000000000000a8ddd105c06b4468
+--0000000000009c1c9705c06b7154
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 20 Apr 2021 at 17:25, Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wrot=
-e:
+On Tue, 20 Apr 2021 at 19:00, Christian K=C3=B6nig <
+ckoenig.leichtzumerken@gmail.com> wrote:
 
-> Daniel, imagine hardware that can only do what Windows does: future fence=
+> Am 20.04.21 um 19:44 schrieb Daniel Stone:
+>
+> But winsys is something _completely_ different. Yes, you're using the GPU
+> to do things with buffers A, B, and C to produce buffer Z. Yes, you're
+> using vkQueuePresentKHR to schedule that work. Yes, Mutter's composition
+> job might depend on a Chromium composition job which depends on GTA's
+> render job which depends on GTA's compute job which might take a year to
+> complete. Mutter's composition job needs to complete in 'reasonable'
+> (again, FSVO) time, no matter what. The two are compatible.
+>
+> How? Don't lump them together. Isolate them aggressively, and
+> _predictably_ in a way that you can reason about.
+>
+> What clients do in their own process space is their own business. Games
+> can deadlock themselves if they get wait-before-signal wrong. Compute job=
 s
-> signalled by userspace whenever userspace wants, and no kernel queues lik=
-e
-> we have today.
+> can run for a year. Their problem. Winsys is not that, because you're
+> crossing every isolation boundary possible. Process, user, container, VM =
+-
+> every kind of privilege boundary. Thus far, dma_fence has protected us fr=
+om
+> the most egregious abuses by guaranteeing bounded-time completion; it als=
+o
+> acts as a sequencing primitive, but from the perspective of a winsys pers=
+on
+> that's of secondary importance, which is probably one of the bigger
+> disconnects between winsys people and GPU driver people.
 >
-> The only reason why current AMD GPUs work is because they have a ring
-> buffer per queue with pointers to userspace command buffers followed by
-> fences. What will we do if that ring buffer is removed?
+>
+> Finally somebody who understands me :)
+>
+> Well the question is then how do we get winsys and your own process space
+> together then?
 >
 
-I can totally imagine that; memory fences are clearly a reality and we need
-to make them work for functionality as well as performance. Let's imagine
-that winsys joins that flying-car future of totally arbitrary sync, that we
-work only on memory fences and nothing else, and that this all happens by
-the time we're all vaccinated and can go cram into a room with 8000
-other people at FOSDEM instead of trying to do this over email.
+It's a jarring transition. If you take a very narrow view and say 'it's all
+GPU work in shared buffers so it should all work the same', then
+client<->winsys looks the same as client<->client gbuffer. But this is a
+trap.
 
-But the first couple of sentences of your proposal has the kernel
-monitoring those synchronisation points to ensure that they complete in
-bounded time. That already _completely_ destroys the purity of the simple
-picture you paint. Either there are no guarantees and userspace has to
-figure it out, or there are guarantees and we have to compromise that
-purity.
+Just because you can mmap() a file on an NFS server in New Zealand doesn't
+mean that you should have the same expectations of memory access to that
+file as you do to of a pointer from alloca(). Even if the primitives look
+the same, you are crossing significant boundaries, and those do not come
+without a compromise and a penalty.
 
-I understand how you arrived at your proposal from your perspective as an
-extremely skilled driver developer who has delivered gigantic performance
-improvements to real-world clients. As a winsys person with a very
-different perspective, I disagree with you on where you are drawing the
-boundaries, to the point that I think your initial proposal is worse than
-useless; doing glFinish() or the VkFence equivalent in clients would be
-better in most cases than the first mail.
 
-I don't want to do glFinish (which I'm right about), and you don't want to
-do dma_fence (which you're right about). So let's work together to find a
-middle ground which we're both happy with. That middle ground does exist,
-and we as winsys people are happy to eat a significant amount of pain to
-arrive at that middle ground. Your current proposal is at once too gentle
-on the winsys, and far too harsh on it. I only want to move where and how
-those lines are drawn, not to pretend that all the world is still a
-single-context FIFO execution engine.
+> Anyway, one of the great things about winsys (there are some! trust me) i=
+s
+> we don't need to be as hopelessly general as for game engines, nor as
+> hyperoptimised. We place strict demands on our clients, and we literally
+> kill them every single time they get something wrong in a way that's
+> visible to us. Our demands on the GPU are so embarrassingly simple that y=
+ou
+> can run every modern desktop environment on GPUs which don't have unified
+> shaders. And on certain platforms who don't share tiling formats between
+> texture/render-target/scanout ... and it all still runs fast enough that
+> people don't complain.
+>
+>
+> Ignoring everything below since that is the display pipeline I'm not
+> really interested in. My concern is how to get the buffer from the client
+> to the server without allowing the client to get the server into trouble?
+>
+> My thinking is still to use timeouts to acquire texture locks. E.g. when
+> the compositor needs to access texture it grabs a lock and if that lock
+> isn't available in less than 20ms whoever is holding it is killed hard an=
+d
+> the lock given to the compositor.
+>
+> It's perfectly fine if a process has a hung queue, but if it tries to sen=
+d
+> buffers which should be filled by that queue to the compositor it just ge=
+ts
+> a corrupted window content.
+>
+
+Kill the client hard. If the compositor has speculatively queued sampling
+against rendering which never completed, let it access garbage. You'll have
+one frame of garbage (outdated content, all black, random pattern; the
+failure mode is equally imperfect, because there is no perfect answer),
+then the compositor will notice the client has disappeared and remove all
+its resources.
+
+It's not possible to completely prevent this situation if the compositor
+wants to speculatively pipeline work, only ameliorate it. From a
+system-global point of view, just expose the situation and let it bubble
+up. Watch the number of fences which failed to retire in time, and destroy
+the context if there are enough of them (maybe 1, maybe 100). Watch the
+number of contexts the file description get forcibly destroyed, and destroy
+the file description if there are enough of them. Watch the number of
+descriptions which get forcibly destroyed, and destroy the process if there
+are enough of them. Watch the number of processes in a cgroup/pidns which
+get forcibly destroyed, and destroy the ... etc. Whether it's the DRM
+driver or an external monitor such as systemd/Flatpak/podman/Docker doing
+that is pretty immaterial, as long as the concept of failure bubbling up
+remains.
+
+(20ms is objectively the wrong answer FWIW, because we're not a hard RTOS.
+But if our biggest point of disagreement is 20 vs. 200 vs. 2000 vs. 20000
+ms, then this thread has been a huge success!)
 
 Cheers,
 Daniel
 
---000000000000a8ddd105c06b4468
+--0000000000009c1c9705c06b7154
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><span style=3D"">On Tue, 20 Apr 2021 at 1=
-7:25, Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:maraeo@gmail.com">maraeo@=
-gmail.com</a>&gt; wrote:</span><br></div><div class=3D"gmail_quote"><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Daniel, im=
-agine hardware that can only do what Windows does: future fences signalled =
-by userspace whenever userspace wants, and no kernel queues like we have to=
-day.</div><div><br></div><div>The only reason why current AMD GPUs work is =
-because they have a ring buffer per queue with pointers to userspace comman=
-d buffers followed by fences. What will we do if that ring buffer is remove=
-d?</div></div></blockquote><div><br></div><div>I can totally imagine that; =
-memory fences are clearly a reality and we need to make them work for funct=
-ionality as well as performance. Let&#39;s imagine that winsys joins that f=
-lying-car future of totally arbitrary sync, that we work only on memory fen=
-ces and nothing else, and that this all happens by the time we&#39;re all v=
-accinated and can go cram into a room with 8000 other=C2=A0people at FOSDEM=
- instead of trying to do this over email.</div><div><br></div><div>But the =
-first couple of sentences of your proposal has the kernel monitoring those =
-synchronisation=C2=A0points to ensure that they complete in bounded time. T=
-hat already _completely_ destroys the purity of the simple picture you pain=
-t.=C2=A0<span style=3D"">Either there are no guarantees and userspace has t=
-o figure it out, or there are guarantees and we have to compromise that pur=
-ity.</span></div><div><span style=3D""><br></span></div><div><span style=3D=
-"">I understand how you arrived at your proposal from your perspective as a=
-n extremely skilled driver developer who has delivered gigantic performance=
- improvements to real-world clients. As a winsys person with a very differe=
-nt perspective,=C2=A0</span><span style=3D"">I disagree with you on where y=
-ou are drawing the boundaries, to the point that I think your initial propo=
-sal is worse than useless; doing glFinish() or the VkFence equivalent in cl=
-ients would be better in most cases than the first mail.</span></div><div><=
-span style=3D""><br></span></div><div><span style=3D"">I don&#39;t want to =
-do glFinish (which I&#39;m right about), and you don&#39;t want to do dma_f=
-ence (which you&#39;re right about). So let&#39;s work together to find a m=
-iddle ground which we&#39;re both happy with. That middle ground does exist=
-, and we as winsys people are happy to eat a significant amount of pain to =
-arrive at that middle ground. Your current proposal is at once too gentle o=
-n the winsys, and far too harsh on it. I only want to move where and how th=
-ose lines are drawn, not to pretend that all the world is still a single-co=
-ntext FIFO execution engine.</span></div><div><br></div><div>Cheers,</div><=
-div>Daniel=C2=A0</div></div></div>
+9:00, Christian K=C3=B6nig &lt;<a href=3D"mailto:ckoenig.leichtzumerken@gma=
+il.com">ckoenig.leichtzumerken@gmail.com</a>&gt; wrote:</span><br></div><di=
+v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+ =20
+   =20
+ =20
+  <div><div>Am 20.04.21 um 19:44 schrieb Daniel
+      Stone:</div><blockquote type=3D"cite"><div dir=3D"ltr"><div class=3D"=
+gmail_quote">
+          <div>But winsys is something _completely_ different. Yes,
+            you&#39;re using the GPU to do things with buffers A, B, and C
+            to produce buffer Z. Yes, you&#39;re using vkQueuePresentKHR to
+            schedule that work. Yes, Mutter&#39;s composition job might
+            depend on a Chromium composition job which depends on GTA&#39;s
+            render job which depends on GTA&#39;s compute job which might
+            take a year to complete. Mutter&#39;s composition job needs to
+            complete in &#39;reasonable&#39; (again, FSVO) time, no matter =
+what.
+            The two are compatible.</div>
+          <div><br>
+          </div>
+          <div>How? Don&#39;t lump them together. Isolate them
+            aggressively,=C2=A0and _predictably_ in a way that you can reas=
+on
+            about.</div>
+          <div><br>
+          </div>
+          <div>What clients do in their own process space is their own
+            business.=C2=A0Games can deadlock themselves if they get
+            wait-before-signal wrong. Compute jobs can run for a year.
+            Their problem. Winsys is not that, because you&#39;re crossing
+            every isolation boundary possible. Process, user, container,
+            VM - every kind of privilege boundary. Thus far, dma_fence
+            has protected us from the most egregious abuses by
+            guaranteeing bounded-time completion; it also acts as a
+            sequencing primitive, but from the perspective of a winsys
+            person that&#39;s of secondary importance, which is probably on=
+e
+            of the bigger disconnects between winsys people and GPU
+            driver people.</div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Finally somebody who understands me :)<br>
+    <br>
+    Well the question is then how do we get winsys and your own process
+    space together then?<br></div></blockquote><div><br></div><div>It&#39;s=
+ a jarring transition. If you take a very narrow view and say &#39;it&#39;s=
+ all GPU work in shared buffers so it should all work the same&#39;, then c=
+lient&lt;-&gt;winsys looks the same as client&lt;-&gt;client gbuffer. But t=
+his is a trap.</div><div><br></div><div>Just because you can mmap() a file =
+on an NFS server in New Zealand doesn&#39;t mean that you should have the s=
+ame expectations of memory access to that file as you do to of a pointer fr=
+om alloca(). Even if the primitives look the same, you are crossing signifi=
+cant boundaries, and those do not come without a compromise and a penalty.<=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
+v><blockquote type=3D"cite">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote">
+         =20
+          <div>Anyway, one of the great things about winsys (there are
+            some! trust me) is we don&#39;t need to be as hopelessly genera=
+l
+            as for game engines, nor as hyperoptimised. We place strict
+            demands on our clients, and we literally kill them every
+            single time they get something wrong in a way that&#39;s visibl=
+e
+            to us. Our demands on the GPU are so embarrassingly simple
+            that you can run every modern desktop environment on GPUs
+            which don&#39;t have unified shaders. And on certain=C2=A0platf=
+orms
+            who don&#39;t share tiling formats between
+            texture/render-target/scanout ... and it all still runs fast
+            enough that people don&#39;t complain.</div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Ignoring everything below since that is the display pipeline I&#39;m no=
+t
+    really interested in. My concern is how to get the buffer from the
+    client to the server without allowing the client to get the server
+    into trouble?<br>
+    <br>
+    My thinking is still to use timeouts to acquire texture locks. E.g.
+    when the compositor needs to access texture it grabs a lock and if
+    that lock isn&#39;t available in less than 20ms whoever is holding it i=
+s
+    killed hard and the lock given to the compositor.<br>
+    <br>
+    It&#39;s perfectly fine if a process has a hung queue, but if it tries
+    to send buffers which should be filled by that queue to the
+    compositor it just gets a corrupted window content.<br></div></blockquo=
+te><div><br></div><div>Kill the client hard. If the compositor has speculat=
+ively queued sampling against rendering which never completed, let it acces=
+s garbage. You&#39;ll have one frame of garbage (outdated content, all blac=
+k, random pattern; the failure mode is equally imperfect, because there is =
+no perfect answer), then the compositor will notice the client has disappea=
+red and remove all its resources.</div><div><br></div><div>It&#39;s not pos=
+sible to completely prevent this situation if the compositor wants to specu=
+latively pipeline work, only ameliorate it. From a system-global point of v=
+iew, just expose the situation and let it bubble up. Watch the number of fe=
+nces which failed to retire in time, and destroy the context if there are e=
+nough of them (maybe 1, maybe 100). Watch the number of contexts the file d=
+escription get forcibly destroyed, and destroy the file description if ther=
+e are enough of them. Watch the number of descriptions which get forcibly d=
+estroyed, and destroy the process if there are enough of them. Watch the nu=
+mber of processes in a cgroup/pidns=C2=A0which get forcibly destroyed, and =
+destroy the ... etc. Whether it&#39;s the DRM driver or an external monitor=
+ such as systemd/Flatpak/podman/Docker doing that is pretty immaterial, as =
+long as the concept of failure bubbling up remains.</div><div><br></div><di=
+v>(20ms is objectively the wrong answer FWIW, because we&#39;re not a hard =
+RTOS. But if our biggest point of disagreement is 20 vs. 200 vs. 2000 vs. 2=
+0000 ms, then this thread has been a huge success!)</div><div><br></div><di=
+v>Cheers,</div><div>Daniel=C2=A0</div></div></div>
 
---000000000000a8ddd105c06b4468--
+--0000000000009c1c9705c06b7154--
 
---===============0593213187==
+--===============2144217413==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -188,4 +325,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0593213187==--
+--===============2144217413==--
