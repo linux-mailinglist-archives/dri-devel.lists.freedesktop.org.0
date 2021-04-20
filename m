@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB023655FD
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 12:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FF936563B
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 12:34:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B09E26E5A0;
-	Tue, 20 Apr 2021 10:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B89226E7D2;
+	Tue, 20 Apr 2021 10:34:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D60589BF6
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 10:18:14 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- p10-20020a1c544a0000b02901387e17700fso735472wmi.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 03:18:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
+ [IPv6:2607:f8b0:4864:20::c2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4441E6E51B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 10:34:16 +0000 (UTC)
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ e12-20020a056820060cb02901e94efc049dso3447851oow.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 03:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cH0rGckPR5nlkuOQYF6RTadD6+Qauh+YmIPVFqFky9o=;
- b=RcickEIDYR3s1X48pURWUIV354SunLbac+wDNG43y0RI1TP6hm7qUTE/LfH+jKMdnc
- 9GfBn6WcYCSWdJD42Xo34Qa7tTece1Bockoc8PKq9UPzIvBY9TXbnsBok1TxXWWSwCne
- 3ZsydrJABlBU5PTINLlt4znQxlNswNo72g2BRx96ObormZuQcbCSnCHENVhYsC/jM1gL
- xaR8YTA+6sSnOI8EmP6jrVMT3YI4qRVONPUjN0zFGtOCnze8ELUkU/puEYl7w5m9PvvI
- S4KkaAwLYsSpEyAmfaf/2R87iqw3Mi4FJu0JG3BHFlI16oZ7VqPt7qaZDak0kDyxTqgw
- JrTA==
+ :cc:content-transfer-encoding;
+ bh=It2h0CWBk6BUTSUjofY2LycAZaOsIuSdDjAG0CpJ97k=;
+ b=GTxmr0y7O83zeWhHbfTMKyll5e+0ctCZPg2jyoaYQkXIha8r0o6p8u9qYNH2xMl/Oi
+ WDyyiJqNnNGOfq923n8LdmWUQs/0kvv8pB6OjfPrQIdFrQO72DZtluf9Y+wbvuextKgz
+ 8X+2qkd7YxtNC6LVYFAnSYpzVQ0EMBpf0jU/A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cH0rGckPR5nlkuOQYF6RTadD6+Qauh+YmIPVFqFky9o=;
- b=bYkOowfXlizYEVWLhtGdzzH0cvRzDjgK4XxzycucI0fz3EkrX9vITCLtql7tOPXGyU
- +XHp4wkO3HRMlfRGVOGkwaOMn/tw1MFtql1PNm6wy2msLmi56Ot25q9MrsMH8ghbY0Jr
- oN4bmUc0ykgfPAc5tH79/csqsHZVU34AORVTF06joypwaoyXjFAscE1YCIhIFwU13enE
- gqtVDf6EuD3K5IfOp2Eh+Evu+ljIPQYAmyY6eORdSfIJbK1f+FROtLsVq35xYWusFRv9
- CiBUN9rw8pUR3Wnwl/PcWp0bEoOS4gumqFlP+2SgHiLBdocejekFqgUdFvjROmATJTrc
- 0LQg==
-X-Gm-Message-State: AOAM532gUhayzetuic2yCCKnkx1iJRwsJ4X1wB0f9Tki30FdVqtehC45
- O/bADbQybZymmgYpHa+Lw4klvXrucaxLt7Vzi1Lydw==
-X-Google-Smtp-Source: ABdhPJwZ6YcGi0ysxPtRYaIWFxwOhLL4POauABx1AfIjBMPM0b9kk1GnikHfwflbhfZbeoQ+31qMaWpgfFpYo5kGCbs=
-X-Received: by 2002:a7b:cd04:: with SMTP id f4mr3812575wmj.84.1618913892675;
- Tue, 20 Apr 2021 03:18:12 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=It2h0CWBk6BUTSUjofY2LycAZaOsIuSdDjAG0CpJ97k=;
+ b=ENMQXg3YPzC8cRxfY54RHVXp9GfXoWNhqtZvoSsLzsBpwmiI/AI8U7taez3oq/Yfgc
+ lH2gmIAOKbEXy9vMlC6J2gqShsdFiNzXjo9At0HyCjkfUjqq6QRN06YQE5+ozr1M6JBm
+ qZxrU+dP+P6coelhOta7f0eX6QN0wL4/bNxmrKZkP7bxrYg30BXxFanQN/zirBQD/pUf
+ B965i+tkpNjfSTjlAJ8yq8CcwC60LzSxeuNLaujfdInpGSn89ZTUPQxJne0A9tYUhWHP
+ 7Ywa6z0LRQ1nFbAmHk4qz35q9aL48n2q6j0sW3PUt33f39+VOi0Go9KMBAiJq5Dp0hug
+ nzow==
+X-Gm-Message-State: AOAM531VR8VgGP3GkBTHjIfRkYQcwJo1QlAa7vzHwxChNzrE/peBw1Tx
+ XsHFJmHnA3yGBEjGJ9ZQEOeemNzYQwEVPW0cOKKF1g==
+X-Google-Smtp-Source: ABdhPJws64Rt8CGmsRiClLD/xaqkYoV0qLDoji2Nxs9acf4kN0XpJfWzw0ks4g5xO35T5Bc+bAybKs6/MK8Itsn5oaY=
+X-Received: by 2002:a4a:d553:: with SMTP id q19mr16616684oos.28.1618914855439; 
+ Tue, 20 Apr 2021 03:34:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <a28f2wvjsZ0pMcKjyC4C5DgvT59Bn32JORf1DdTei3818_ZXYRGV19m5IpaWqELPeDNPSj2SRbMznfuCrCYmO0mLtpaxN5MprB3QRk3Isww=@emersion.fr>
-In-Reply-To: <a28f2wvjsZ0pMcKjyC4C5DgvT59Bn32JORf1DdTei3818_ZXYRGV19m5IpaWqELPeDNPSj2SRbMznfuCrCYmO0mLtpaxN5MprB3QRk3Isww=@emersion.fr>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 20 Apr 2021 11:17:26 +0100
-Message-ID: <CAPj87rO_DJtq6_XO400FK2u97CWXDo5Px21Q+svAPg8r+WEuCg@mail.gmail.com>
-Subject: Re: Split render/display SoCs, Mesa's renderonly,
- and Wayland dmabuf hints
-To: Simon Ser <contact@emersion.fr>
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+ <CAOFGe95xnRjqVHssoOVvERP12KUnD2FHhG_LfqE6Z0h9nFH9AA@mail.gmail.com>
+ <926b18b2-2498-9fcb-8516-fa34510fb898@gmail.com>
+In-Reply-To: <926b18b2-2498-9fcb-8516-fa34510fb898@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 20 Apr 2021 12:34:04 +0200
+Message-ID: <CAKMK7uE3s2z8mDiuWs73Xg3PMsrr3WNg20q03V0EOyfZmmDFcQ@mail.gmail.com>
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,357 +62,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: multipart/mixed; boundary="===============0286788301=="
+Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0286788301==
-Content-Type: multipart/alternative; boundary="0000000000007ec73005c064c3b8"
-
---0000000000007ec73005c064c3b8
-Content-Type: text/plain; charset="UTF-8"
-
-Hi,
-
-On Mon, 19 Apr 2021 at 13:06, Simon Ser <contact@emersion.fr> wrote:
-
-> I'm working on a Wayland extension [1] that, among other things, allows
-> compositors to advertise the preferred device to be used by Wayland
-> clients.
->
-> In general, compositors will send a render node. However, in the case
-> of split render/display SoCs, things get a little bit complicated.
->
-> [...]
->
-
-Thanks for the write-up Simon!
-
-
-> There are a few solutions:
->
-> 1. Require compositors to discover the render device by trying to import
->    a buffer. For each available render device, the compositor would
->    allocate a buffer, export it as a DMA-BUF, import it to the
->    display-only device, then try to drmModeAddFB.
->
-
-I don't think this is actually tractable? Assuming that 'allocate a buffer'
-means 'obtain a gbm_device for the render node directly and allocate a
-gbm_bo from it', even with compatible formats and modifiers this will fail
-for more restrictive display hardware. imx-drm and pl111 (combined with vc4
-on some Raspberry Pis) will fail this, since they'll take different
-allocation paths when they're bound through kmsro vs. directly, accounting
-for things like contiguous allocation. So we'd get false negatives on at
-least some platforms.
-
-
-> 2. Allow compositors to query the render device magically opened by
->    kmsro. This could be done either via EGL_EXT_device_drm, or via a
->    new EGL extension.
->
-
-This would be my strong preference, and I don't entirely understand
-anholt's pushback here. The way I see it, GBM is about allocation for
-scanout, and EGL is about rendering. If, on a split GPU/display system, we
-create a gbm_device from a KMS display-only device node, then creating an
-EGLDisplay from that magically binds us to a completely different DRM GPU
-node, and anything using that EGLDisplay will use that GPU device to render.
-
-Being able to discover the GPU device node through the device query is
-really useful, because it tells us exactly what implicit magic EGL did
-under the hood, and about the device that EGL will use. Being able to
-discover the display node is much less useful; it does tell us how GBM will
-allocate buffers, but the user already knows which device is in use because
-they supplied it to GBM. I see the display node as a property of GBM, and
-the GPU node as a property of EGL, even if EGL does do (*waves hands*)
-stuff under the hood to ensure the two are compatible.
-
-If we had EGL_EXT_explicit_device, things get even more weird, I think;
-would the device query on an EGLDisplay created with a combination of a
-gbm_device native display handle and an explicit EGLDevice handle return
-the scanout device from GBM or the GPU device from EGL? On my reading, I'd
-expect it to be the latter; if the queries returned very different things
-based on whether GPU device selection was implicit (returning the KMS node)
-or explicit (GPU node), that would definitely violate the principle of
-least surprise.
-
-
-> 3. Allow compositors to query the kernel drivers to know which devices
->    are compatible with each other. Some uAPI to query a compatible
->    display device from a render-only device, or vice-versa, has been
->    suggested in the past.
->
-
-What does 'compatible' mean? Would an Intel iGPU and and AMD dGPU be
-compatible with each other? Would a Mali GPU bound to system memory through
-AMBA be as compatible with the display controller as it would with an AMD
-GPU on PCIE? I think a query which only exposed whether or not devices
-could share dmabufs with each other is far too generic to be helpful for
-the actual usecase we have, as well as not being useful enough for other
-usecases ('well you _can_ use dmabufs from your AMD GPU on your Mali GPU,
-but only if they were allocated in the right domain').
-
-
-> (1) has a number of limitations and gotchas. It requires allocating
-> real buffers, this has a rather big cost for something done at
-> compositor initialization time. It requires to select a buffer format
-> and modifier compatible with both devices, so it can't be isolated in
-> a simple function (and e.g. shared between all compositors in libdrm).
->
-
-We're already going to have to do throwaway allocations to make Intel's
-tiled modes work; I'd rather not extend this out to doing throwaway
-allocations across device combinations as well as modifier lists.
-
-
-> Some drivers will allow to drmModeAddFB buffers that can't be scanned
-> out, and will only reject the buffer at atomic commit time.
->
-
-This is 100% a KMS driver bug and should be fixed there. It's not
-catastrophic, since commits can fail for any reason or none at all and
-compositors are expected to handle this, but they should absolutely be
-rejecting buffers which can never be scanned out at all at AddFB time.
-
-
-> (2) wouldn't work with non-EGL APIs such as Vulkan. Eric Anholt seemed
-> pretty opposed to this idea, but I didn't fully understood why.
->
-
-Well, Vulkan doesn't have GBM in the same way, right? In the Vulkan case,
-we already know exactly what the GPU is, because it's the VkPhysicalDevice
-you had to explicitly select to create the VkDevice etc; if you're using
-GBM it's because you've _also_ created a gbm_device for the KMS node and
-are allocating gbm_bos to import to VkDeviceMemory/VkImage, so you already
-have both pieces of information. (If you're creating VkDeviceMemory/VkImage
-in Vulkan then exporting dmabuf from there, since there's no way to specify
-a target device, it's a blind guess as to whether it'll actually work for
-KMS. Maybe it will! But maybe not.)
-
-
-> I don't know how feasible (3) is. The kernel drivers must be able to
-> decide whether buffers coming from another driver can be scanned out,
-> but how early can they give an answer? Can they give an answer solely
-> based on a DRM node, and not a DMA-BUF?
->
-
-Maybe! But maybe not.
-
-
-> Feedback is welcome. Do you agree with the premise that compositors
-> need access to the render node?
-
-
-Yes, strongly. Compositors may optimise for direct paths (e.g. direct
-scanout of client buffers through KMS, directly providing client buffers to
-media codecs for streaming) where possible. But they must always have a
-'device of last resort': if these optimal paths are not possible (your
-codec doesn't like your client buffers, you can't do direct scanout because
-a notification occluded your client content and you've run out of overlay
-planes, you're on Intel and your display FIFO size is measured in bits),
-the compositor needs to know that it can access the client buffers somehow.
-
-This is done by always importing into a GPU device - for most current
-compositors as an EGLImage, for some others as a VkImage - and falling back
-to GL composition paths, or GL blits, or even ReadPixels if strictly
-necessary, so your client content continues to be accessible.
-
-There is no way to do this without telling the client what that GPU device
-node is, so it can allocate accordingly. Thanks to the implicit device
-selection performed when creating an EGLDisplay from a gbm_device, we
-cannot currently discover what that device node is.
-
-
-> Do you have any other potential solution in mind?
-
-
-I can't think of any right now, but am open to hearing them.
-
-
-> Which solution would you prefer?
-
-
-For all the reasons above, strongly #2, i.e. that querying the DRM device
-node from the EGLDevice returned by querying an EGLDisplay created from a
-gbm_device, returns the GPU device's render node and not the KMS device's
-primary node.
-
-Cheers,
-Daniel
-
---0000000000007ec73005c064c3b8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi,</div><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">On Mon, 19 Apr 2021 at 13:06, Simon Se=
-r &lt;<a href=3D"mailto:contact@emersion.fr">contact@emersion.fr</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">I&#39;m wor=
-king on a Wayland extension [1] that, among other things, allows<br>
-compositors to advertise the preferred device to be used by Wayland<br>
-clients.<br>
-<br>
-In general, compositors will send a render node. However, in the case<br>
-of split render/display SoCs, things get a little bit complicated.<br>
-<br>[...]<br></blockquote><div><br></div><div>Thanks for the write-up Simon=
-!</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">T=
-here are a few solutions:<br>
-<br>
-1. Require compositors to discover the render device by trying to import<br=
->
-=C2=A0 =C2=A0a buffer. For each available render device, the compositor wou=
-ld<br>
-=C2=A0 =C2=A0allocate a buffer, export it as a DMA-BUF, import it to the<br=
->
-=C2=A0 =C2=A0display-only device, then try to drmModeAddFB.<br></blockquote=
-><div><br></div><div>I don&#39;t think this is actually tractable? Assuming=
- that &#39;allocate a buffer&#39; means &#39;obtain a gbm_device for the re=
-nder node directly and allocate a gbm_bo from it&#39;, even with compatible=
- formats and modifiers this will fail for more restrictive display hardware=
-. imx-drm and pl111 (combined with vc4 on some Raspberry Pis) will fail thi=
-s, since they&#39;ll take different allocation paths when they&#39;re bound=
- through kmsro vs. directly, accounting for things like contiguous allocati=
-on. So we&#39;d get false negatives on at least some platforms.</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-2. Allow compositors to query the render device magically opened by<br>
-=C2=A0 =C2=A0kmsro. This could be done either via EGL_EXT_device_drm, or vi=
-a a<br>
-=C2=A0 =C2=A0new EGL extension.<br></blockquote><div><br></div><div>This wo=
-uld be my strong preference, and I don&#39;t entirely understand anholt&#39=
-;s pushback here. The way I see it, GBM is about allocation for scanout, an=
-d EGL is about rendering. If, on a split GPU/display system, we create a gb=
-m_device from a KMS display-only device node, then creating an EGLDisplay f=
-rom that magically binds us to a completely different DRM GPU node, and any=
-thing using that EGLDisplay will use that GPU device to render.</div><div><=
-br></div><div>Being able to discover the GPU device node through the device=
- query is really useful, because it tells us exactly what implicit magic EG=
-L did under the hood, and about the device that EGL will use. Being able to=
- discover the display node is much less useful; it does tell us how GBM wil=
-l allocate buffers, but the user already knows which device is in use becau=
-se they supplied it to GBM. I see the display node as a property of GBM, an=
-d the GPU node as a property of EGL, even if EGL does do (*waves hands*) st=
-uff under the hood to ensure the two are compatible.</div><div><br></div><d=
-iv>If we had EGL_EXT_explicit_device, things get even more weird, I think; =
-would the device query on an EGLDisplay created with a combination of a gbm=
-_device native display handle and an explicit EGLDevice handle return the s=
-canout device from GBM or the GPU device from EGL? On my reading, I&#39;d e=
-xpect it to be the latter; if the queries returned very different things ba=
-sed on whether GPU device selection was implicit (returning the KMS node) o=
-r explicit (GPU node), that would definitely violate the principle of least=
- surprise.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-3. Allow compositors to query the kernel drivers to know which devices<br>
-=C2=A0 =C2=A0are compatible with each other. Some uAPI to query a compatibl=
-e<br>
-=C2=A0 =C2=A0display device from a render-only device, or vice-versa, has b=
-een<br>
-=C2=A0 =C2=A0suggested in the past.<br></blockquote><div><br></div><div>Wha=
-t does &#39;compatible&#39; mean? Would an Intel iGPU and and AMD dGPU be c=
-ompatible with each other? Would a Mali GPU bound to system memory through =
-AMBA be as compatible with the display controller as it would with an AMD G=
-PU on PCIE? I think a query which only exposed whether or not devices could=
- share dmabufs=C2=A0with each other is far too generic to be helpful for th=
-e actual usecase=C2=A0we have, as well as not being useful enough for other=
- usecases (&#39;well you _can_ use dmabufs from your AMD GPU on your Mali G=
-PU, but only if they were allocated in the right domain&#39;).</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-(1) has a number of limitations and gotchas. It requires allocating<br>
-real buffers, this has a rather big cost for something done at<br>
-compositor initialization time. It requires to select a buffer format<br>
-and modifier compatible with both devices, so it can&#39;t be isolated in<b=
-r>
-a simple function (and e.g. shared between all compositors in libdrm).<br><=
-/blockquote><div><br></div><div>We&#39;re already going to have to do throw=
-away allocations to make Intel&#39;s tiled modes work; I&#39;d rather not e=
-xtend this out to doing throwaway allocations across device combinations as=
- well as modifier lists.</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">
-Some drivers will allow to drmModeAddFB buffers that can&#39;t be scanned<b=
-r>
-out, and will only reject the buffer at atomic commit time.<br></blockquote=
-><div><br></div><div>This is 100% a KMS driver bug and should be fixed ther=
-e. It&#39;s not catastrophic, since commits can fail for any reason or none=
- at all and compositors are expected to handle this, but they should absolu=
-tely be rejecting buffers which can never be scanned out at all at AddFB ti=
-me.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-(2) wouldn&#39;t work with non-EGL APIs such as Vulkan. Eric Anholt seemed<=
-br>
-pretty opposed to this idea, but I didn&#39;t fully understood why.<br></bl=
-ockquote><div><br></div><div>Well, Vulkan doesn&#39;t have GBM in the same =
-way, right? In the Vulkan case, we already know exactly what the GPU is, be=
-cause it&#39;s the VkPhysicalDevice you had to explicitly select to create =
-the VkDevice=C2=A0etc; if you&#39;re using GBM it&#39;s because you&#39;ve =
-_also_ created a gbm_device for the KMS node and are allocating gbm_bos to =
-import to VkDeviceMemory/VkImage, so you already have both pieces of inform=
-ation. (If you&#39;re creating VkDeviceMemory/VkImage in Vulkan then export=
-ing dmabuf from there, since there&#39;s no way to specify a target device,=
- it&#39;s a blind guess as to whether it&#39;ll actually work for KMS. Mayb=
-e it will! But maybe not.)</div><div><span style=3D"">=C2=A0</span></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-I don&#39;t know how feasible (3) is. The kernel drivers must be able to<br=
->
-decide whether buffers coming from another driver can be scanned out,<br>
-but how early can they give an answer? Can they give an answer solely<br>
-based on a DRM node, and not a DMA-BUF?<br></blockquote><div><br></div><div=
->Maybe! But maybe not.</div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
-Feedback is welcome. Do you agree with the premise that compositors<br>
-need access to the render node?</blockquote><div><br></div><div>Yes, strong=
-ly. Compositors may optimise for direct paths (e.g. direct scanout of clien=
-t buffers through KMS, directly providing client buffers to media codecs fo=
-r streaming) where possible. But they must always have a &#39;device of las=
-t resort&#39;: if these optimal paths are not possible (your codec doesn&#3=
-9;t like your client buffers, you can&#39;t do direct scanout because a not=
-ification occluded your client content and you&#39;ve run out of overlay pl=
-anes, you&#39;re on Intel and your display FIFO size is measured in bits), =
-the compositor needs to know that it can access the client buffers somehow.=
-</div><div><br></div><div>This is done by always importing into a GPU devic=
-e - for most current compositors as an EGLImage, for some others as a VkIma=
-ge - and falling back to GL composition paths, or GL blits, or even ReadPix=
-els if strictly necessary, so your client content continues to be accessibl=
-e.</div><div><br></div><div>There is no way to do this without telling the =
-client what that GPU device node is, so it can allocate accordingly. Thanks=
- to the implicit device selection performed when creating an EGLDisplay fro=
-m a gbm_device, we cannot currently discover what that device node is.</div=
-><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Do you =
-have any other potential solution in mind?</blockquote><div><br></div><div>=
-I can&#39;t think of any right now,=C2=A0but am open to hearing them.</div>=
-<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Which so=
-lution would you prefer?</blockquote><div><br></div><div>For all the reason=
-s above, strongly #2, i.e. that querying the DRM device node from the EGLDe=
-vice returned by querying an EGLDisplay created from a gbm_device, returns =
-the GPU device&#39;s render node and not the KMS device&#39;s primary node.=
-</div><div><br></div><div>Cheers,</div><div>Daniel</div></div></div>
-
---0000000000007ec73005c064c3b8--
-
---===============0286788301==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0286788301==--
+T24gVHVlLCBBcHIgMjAsIDIwMjEgYXQgMTI6MTUgUE0gQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5p
+Zy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQW0gMTkuMDQuMjEgdW0gMTc6
+NDggc2NocmllYiBKYXNvbiBFa3N0cmFuZDoKPiA+IE5vdCBnb2luZyB0byBjb21tZW50IG9uIGV2
+ZXJ5dGhpbmcgb24gdGhlIGZpcnN0IHBhc3MuLi4KPiA+Cj4gPiBPbiBNb24sIEFwciAxOSwgMjAy
+MSBhdCA1OjQ4IEFNIE1hcmVrIE9sxaHDoWsgPG1hcmFlb0BnbWFpbC5jb20+IHdyb3RlOgo+ID4+
+IEhpLAo+ID4+Cj4gPj4gVGhpcyBpcyBvdXIgaW5pdGlhbCBwcm9wb3NhbCBmb3IgZXhwbGljaXQg
+ZmVuY2VzIGV2ZXJ5d2hlcmUgYW5kIG5ldyBtZW1vcnkgbWFuYWdlbWVudCB0aGF0IGRvZXNuJ3Qg
+dXNlIEJPIGZlbmNlcy4gSXQncyBhIHJlZGVzaWduIG9mIGhvdyBMaW51eCBncmFwaGljcyBkcml2
+ZXJzIHdvcmssIGFuZCBpdCBjYW4gY29leGlzdCB3aXRoIHdoYXQgd2UgaGF2ZSBub3cuCj4gPj4K
+PiA+Pgo+ID4+IDEuIEludHJvZHVjdGlvbgo+ID4+IChza2lwIHRoaXMgaWYgeW91IGFyZSBhbHJl
+YWR5IHNvbGQgb24gZXhwbGljaXQgZmVuY2VzKQo+ID4+Cj4gPj4gVGhlIGN1cnJlbnQgTGludXgg
+Z3JhcGhpY3MgYXJjaGl0ZWN0dXJlIHdhcyBpbml0aWFsbHkgZGVzaWduZWQgZm9yIEdQVXMgd2l0
+aCBvbmx5IG9uZSBncmFwaGljcyBxdWV1ZSB3aGVyZSBldmVyeXRoaW5nIHdhcyBleGVjdXRlZCBp
+biB0aGUgc3VibWlzc2lvbiBvcmRlciBhbmQgcGVyLUJPIGZlbmNlcyB3ZXJlIHVzZWQgZm9yIG1l
+bW9yeSBtYW5hZ2VtZW50IGFuZCBDUFUtR1BVIHN5bmNocm9uaXphdGlvbiwgbm90IEdQVS1HUFUg
+c3luY2hyb25pemF0aW9uLiBMYXRlciwgbXVsdGlwbGUgcXVldWVzIHdlcmUgYWRkZWQgb24gdG9w
+LCB3aGljaCByZXF1aXJlZCB0aGUgaW50cm9kdWN0aW9uIG9mIGltcGxpY2l0IEdQVS1HUFUgc3lu
+Y2hyb25pemF0aW9uIGJldHdlZW4gcXVldWVzIG9mIGRpZmZlcmVudCBwcm9jZXNzZXMgdXNpbmcg
+cGVyLUJPIGZlbmNlcy4gUmVjZW50bHksIGV2ZW4gcGFyYWxsZWwgZXhlY3V0aW9uIHdpdGhpbiBv
+bmUgcXVldWUgd2FzIGVuYWJsZWQgd2hlcmUgYSBjb21tYW5kIGJ1ZmZlciBzdGFydHMgZHJhd3Mg
+YW5kIGNvbXB1dGUgc2hhZGVycywgYnV0IGRvZXNuJ3Qgd2FpdCBmb3IgdGhlbSwgZW5hYmxpbmcg
+cGFyYWxsZWxpc20gYmV0d2VlbiBiYWNrLXRvLWJhY2sgY29tbWFuZCBidWZmZXJzLiBNb2Rlc2V0
+dGluZyBhbHNvIHVzZXMgcGVyLUJPIGZlbmNlcyBmb3Igc2NoZWR1bGluZyBmbGlwcy4gT3VyIEdQ
+VSBzY2hlZHVsZXIgd2FzIGNyZWF0ZWQgdG8gZW5hYmxlIGFsbCB0aG9zZSB1c2UgY2FzZXMsIGFu
+ZCBpdCdzIHRoZSBvbmx5IHJlYXNvbiB3aHkgdGhlIHNjaGVkdWxlciBleGlzdHMuCj4gPj4KPiA+
+PiBUaGUgR1BVIHNjaGVkdWxlciwgaW1wbGljaXQgc3luY2hyb25pemF0aW9uLCBCTy1mZW5jZS1i
+YXNlZCBtZW1vcnkgbWFuYWdlbWVudCwgYW5kIHRoZSB0cmFja2luZyBvZiBwZXItQk8gZmVuY2Vz
+IGluY3JlYXNlIENQVSBvdmVyaGVhZCBhbmQgbGF0ZW5jeSwgYW5kIHJlZHVjZSBwYXJhbGxlbGlz
+bS4gVGhlcmUgaXMgYSBkZXNpcmUgdG8gcmVwbGFjZSBhbGwgb2YgdGhlbSB3aXRoIHNvbWV0aGlu
+ZyBtdWNoIHNpbXBsZXIuIEJlbG93IGlzIGhvdyB3ZSBjb3VsZCBkbyBpdC4KPiA+Pgo+ID4+Cj4g
+Pj4gMi4gRXhwbGljaXQgc3luY2hyb25pemF0aW9uIGZvciB3aW5kb3cgc3lzdGVtcyBhbmQgbW9k
+ZXNldHRpbmcKPiA+Pgo+ID4+IFRoZSBwcm9kdWNlciBpcyBhbiBhcHBsaWNhdGlvbiBhbmQgdGhl
+IGNvbnN1bWVyIGlzIGEgY29tcG9zaXRvciBvciBhIG1vZGVzZXR0aW5nIGRyaXZlci4KPiA+Pgo+
+ID4+IDIuMS4gVGhlIFByZXNlbnQgcmVxdWVzdAo+ID4+Cj4gPj4gQXMgcGFydCBvZiB0aGUgUHJl
+c2VudCByZXF1ZXN0LCB0aGUgcHJvZHVjZXIgd2lsbCBwYXNzIDIgZmVuY2VzIChzeW5jIG9iamVj
+dHMpIHRvIHRoZSBjb25zdW1lciBhbG9uZ3NpZGUgdGhlIHByZXNlbnRlZCBETUFCVUYgQk86Cj4g
+Pj4gLSBUaGUgc3VibWl0IGZlbmNlOiBJbml0aWFsbHkgdW5zaWduYWxsZWQsIGl0IHdpbGwgYmUg
+c2lnbmFsbGVkIHdoZW4gdGhlIHByb2R1Y2VyIGhhcyBmaW5pc2hlZCBkcmF3aW5nIGludG8gdGhl
+IHByZXNlbnRlZCBidWZmZXIuCj4gPj4gLSBUaGUgcmV0dXJuIGZlbmNlOiBJbml0aWFsbHkgdW5z
+aWduYWxsZWQsIGl0IHdpbGwgYmUgc2lnbmFsbGVkIHdoZW4gdGhlIGNvbnN1bWVyIGhhcyBmaW5p
+c2hlZCB1c2luZyB0aGUgcHJlc2VudGVkIGJ1ZmZlci4KPiA+IEknbSBub3Qgc3VyZSBzeW5jb2Jq
+IGlzIHdoYXQgd2Ugd2FudC4gIEluIHRoZSBJbnRlbCB3b3JsZCB3ZSdyZSB0cnlpbmcKPiA+IHRv
+IGdvIGV2ZW4gZnVydGhlciB0byBzb21ldGhpbmcgd2UncmUgY2FsbGluZyAidXNlcnNwYWNlIGZl
+bmNlcyIgd2hpY2gKPiA+IGFyZSBhIHRpbWVsaW5lIGltcGxlbWVudGVkIGFzIGEgc2luZ2xlIDY0
+LWJpdCB2YWx1ZSBpbiBzb21lCj4gPiBDUFUtbWFwcGFibGUgQk8uICBUaGUgY2xpZW50IHdyaXRl
+cyBhIGhpZ2hlciB2YWx1ZSBpbnRvIHRoZSBCTyB0bwo+ID4gc2lnbmFsIHRoZSB0aW1lbGluZS4K
+Pgo+IFdlbGwgdGhhdCBpcyBleGFjdGx5IHdoYXQgb3VyIFdpbmRvd3MgZ3V5cyBoYXZlIHN1Z2dl
+c3RlZCBhcyB3ZWxsLCBidXQKPiBpdCBzdHJvbmdseSBsb29rcyBsaWtlIHRoYXQgdGhpcyBpc24n
+dCBzdWZmaWNpZW50Lgo+Cj4gRmlyc3Qgb2YgYWxsIHlvdSBydW4gaW50byBzZWN1cml0eSBwcm9i
+bGVtcyB3aGVuIGFueSBhcHBsaWNhdGlvbiBjYW4KPiBqdXN0IHdyaXRlIGFueSB2YWx1ZSB0byB0
+aGF0IG1lbW9yeSBsb2NhdGlvbi4gSnVzdCBpbWFnaW5lIGFuCj4gYXBwbGljYXRpb24gc2V0cyB0
+aGUgY291bnRlciB0byB6ZXJvIGFuZCBYIHdhaXRzIGZvcmV2ZXIgZm9yIHNvbWUKPiByZW5kZXJp
+bmcgdG8gZmluaXNoLgoKVGhlIHRoaW5nIGlzLCB3aXRoIHVzZXJzcGFjZSBmZW5jZXMgc2VjdXJp
+dHkgYm91bmRhcnkgaXNzdWUgcHJldmVudAptb3ZlcyBpbnRvIHVzZXJzcGFjZSBlbnRpcmVseS4g
+QW5kIGl0IHJlYWxseSBkb2Vzbid0IG1hdHRlciB3aGV0aGVyCnRoZSBldmVudCB5b3UncmUgd2Fp
+dGluZyBvbiBkb2Vzbid0IGNvbXBsZXRlIGJlY2F1c2UgdGhlIG90aGVyIGFwcApjcmFzaGVkIG9y
+IHdhcyBzdHVwaWQgb3IgaW50ZW50aW9uYWxseSBnYXZlIHlvdSBhIHdyb25nIGZlbmNlIHBvaW50
+OgpZb3UgaGF2ZSB0byBzb21laG93IGhhbmRsZSB0aGF0LCBlLmcuIHBlcmhhcHMgd2l0aCBjb25k
+aXRpb25hbApyZW5kZXJpbmcgYW5kIGp1c3QgdXNpbmcgdGhlIG9sZCBmcmFtZSBpbiBjb21wb3Np
+dGluZyBpZiB0aGUgbmV3IG9uZQpkb2Vzbid0IHNob3cgdXAgaW4gdGltZS4gT3Igc29tZXRoaW5n
+IGxpa2UgdGhhdC4gU28gdHJ5aW5nIHRvIGdldCB0aGUKa2VybmVsIGludm9sdmVkIGJ1dCBhbHNv
+IG5vdCBzbyBtdWNoIGludm9sdmVkIHNvdW5kcyBsaWtlIGEgYmFkIGRlc2lnbgp0byBtZS4KCj4g
+QWRkaXRpb25hbCB0byB0aGF0IGluIHN1Y2ggYSBtb2RlbCB5b3UgY2FuJ3QgZGV0ZXJtaW5lIHdo
+byBpcyB0aGUgZ3VpbHR5Cj4gcXVldWUgaW4gY2FzZSBvZiBhIGhhbmcgYW5kIGNhbid0IHJlc2V0
+IHRoZSBzeW5jaHJvbml6YXRpb24gcHJpbWl0aXZlcwo+IGluIGNhc2Ugb2YgYW4gZXJyb3IuCj4K
+PiBBcGFydCBmcm9tIHRoYXQgdGhpcyBpcyByYXRoZXIgaW5lZmZpY2llbnQsIGUuZy4gd2UgZG9u
+J3QgaGF2ZSBhbnkgd2F5Cj4gdG8gcHJldmVudCBwcmlvcml0eSBpbnZlcnNpb24gd2hlbiB1c2Vk
+IGFzIGEgc3luY2hyb25pemF0aW9uIG1lY2hhbmlzbQo+IGJldHdlZW4gZGlmZmVyZW50IEdQVSBx
+dWV1ZXMuCgpZZWFoIGJ1dCB5b3UgY2FuJ3QgaGF2ZSBpdCBib3RoIHdheXMuIEVpdGhlciBhbGwg
+dGhlIHNjaGVkdWxpbmcgaW4gdGhlCmtlcm5lbCBhbmQgZmVuY2UgaGFuZGxpbmcgaXMgYSBwcm9i
+bGVtLCBvciB5b3UgYWN0dWFsbHkgd2FudCB0bwpzY2hlZHVsZSBpbiB0aGUga2VybmVsLiBodyBz
+ZWVtcyB0byBkZWZpbml0ZWx5IG1vdmUgdG93YXJkcyB0aGUgbW9yZQpzdHVwaWQgc3BpbmxvY2st
+aW4taHcgbW9kZWwgKGFuZCBkaXJlY3Qgc3VibWl0IGZyb20gdXNlcnNwYWNlIGFuZCBhbGwKdGhh
+dCksIHByaW9yaXR5IGludmVyc2lvbnMgYmUgZGFtbmVkLiBJJ20gcmVhbGx5IG5vdCBzdXJlIHdl
+IHNob3VsZApmaWdodCB0aGF0IC0gaWYgaXQncyByZWFsbHkgdGhhdCBpbmVmZmljaWVudCB0aGVu
+IG1heWJlIGh3IHdpbGwgYWRkCnN1cHBvcnQgZm9yIHdhaXRpbmcgc3luYyBjb25zdHJ1Y3RzIGlu
+IGhhcmR3YXJlLCBvciBhdCBsZWFzdCBiZQpzbWFydGVyIGFib3V0IHNjaGVkdWxpbmcgb3RoZXIg
+c3R1ZmYuIEUuZy4gb24gaW50ZWwgaHcgYm90aCB0aGUga2VybmVsCnNjaGVkdWxlciBhbmQgZncg
+c2NoZWR1bGVyIGtub3dzIHdoZW4geW91J3JlIHNwaW5uaW5nIG9uIGEgaHcgZmVuY2UKKHdoZXRo
+ZXIgdXNlcnNwYWNlIG9yIGtlcm5lbCBkb2Vzbid0IG1hdHRlcikgYW5kIHBsdWdzIGluIHNvbWV0
+aGluZwplbHNlLiBBZGQgaW4gYSBiaXQgb2YgaHcgc3VwcG9ydCB0byB3YXRjaCBjYWNoZWxpbmVz
+LCBhbmQgeW91IGhhdmUKc29tZXRoaW5nIHdoaWNoIGNhbiBoYW5kbGUgYm90aCBkaXJlY3Rpb25z
+IGVmZmljaWVudGx5LgoKSW1vIGdpdmVuIHdoZXJlIGh3IGlzIGdvaW5nLCB3ZSBzaG91bGRuJ3Qg
+dHJ5IHRvIGJlIHRvbyBjbGV2ZXIgaGVyZS4KVGhlIG9ubHkgdGhpbmcgd2UgZG8gbmVlZCB0byBw
+cm92aXNpb24gaXMgYmVpbmcgYWJsZSB0byBkbyBjcHUgc2lkZQp3YWl0cyB3aXRob3V0IHNwaW5u
+aW5nLiBBbmQgdGhhdCBzaG91bGQgcHJvYmFibHkgYmUgZG9uZSBpbiBhIGZhaXJseQpncHUgc3Bl
+Y2lmaWMgd2F5IHN0aWxsLgotRGFuaWVsCgo+IENocmlzdGlhbi4KPgo+ID4gICAgVGhlIGtlcm5l
+bCB0aGVuIHByb3ZpZGVzIHNvbWUgaGVscGVycyBmb3IKPiA+IHdhaXRpbmcgb24gdGhlbSByZWxp
+YWJseSBhbmQgd2l0aG91dCBzcGlubmluZy4gIEkgZG9uJ3QgZXhwZWN0Cj4gPiBldmVyeW9uZSB0
+byBzdXBwb3J0IHRoZXNlIHJpZ2h0IGF3YXkgYnV0LCBJZiB3ZSdyZSBnb2luZyB0byByZS1wbHVt
+Ygo+ID4gdXNlcnNwYWNlIGZvciBleHBsaWNpdCBzeW5jaHJvbml6YXRpb24sIEknZCBsaWtlIHRv
+IG1ha2Ugc3VyZSB3ZSB0YWtlCj4gPiB0aGlzIGludG8gYWNjb3VudCBzbyB3ZSBvbmx5IGhhdmUg
+dG8gZG8gaXQgb25jZS4KPiA+Cj4gPgo+ID4+IERlYWRsb2NrIG1pdGlnYXRpb24gdG8gcmVjb3Zl
+ciBmcm9tIHNlZ2ZhdWx0czoKPiA+PiAtIFRoZSBrZXJuZWwga25vd3Mgd2hpY2ggcHJvY2VzcyBp
+cyBvYmxpZ2VkIHRvIHNpZ25hbCB3aGljaCBmZW5jZS4gVGhpcyBpbmZvcm1hdGlvbiBpcyBwYXJ0
+IG9mIHRoZSBQcmVzZW50IHJlcXVlc3QgYW5kIHN1cHBsaWVkIGJ5IHVzZXJzcGFjZS4KPiA+IFRo
+aXMgaXNuJ3QgY2xlYXIgdG8gbWUuICBZZXMsIGlmIHdlJ3JlIHVzaW5nIGFueXRoaW5nIGRtYS1m
+ZW5jZSBiYXNlZAo+ID4gbGlrZSBzeW5jb2JqLCB0aGlzIGlzIHRydWUuICBCdXQgaXQgZG9lc24n
+dCBzZWVtIHRvdGFsbHkgdHJ1ZSBhcyBhCj4gPiBnZW5lcmFsIHN0YXRlbWVudC4KPiA+Cj4gPgo+
+ID4+IC0gSWYgdGhlIHByb2R1Y2VyIGNyYXNoZXMsIHRoZSBrZXJuZWwgc2lnbmFscyB0aGUgc3Vi
+bWl0IGZlbmNlLCBzbyB0aGF0IHRoZSBjb25zdW1lciBjYW4gbWFrZSBmb3J3YXJkIHByb2dyZXNz
+Lgo+ID4+IC0gSWYgdGhlIGNvbnN1bWVyIGNyYXNoZXMsIHRoZSBrZXJuZWwgc2lnbmFscyB0aGUg
+cmV0dXJuIGZlbmNlLCBzbyB0aGF0IHRoZSBwcm9kdWNlciBjYW4gcmVjbGFpbSB0aGUgYnVmZmVy
+Lgo+ID4+IC0gQSBHUFUgaGFuZyBzaWduYWxzIGFsbCBmZW5jZXMuIE90aGVyIGRlYWRsb2NrcyB3
+aWxsIGJlIGhhbmRsZWQgbGlrZSBHUFUgaGFuZ3MuCj4gPiBXaGF0IGRvIHlvdSBtZWFuIGJ5ICJh
+bGwiPyAgQWxsIGZlbmNlcyB0aGF0IHdlcmUgc3VwcG9zZWQgdG8gYmUKPiA+IHNpZ25hbGVkIGJ5
+IHRoZSBodW5nIGNvbnRleHQ/Cj4gPgo+ID4KPiA+PiBPdGhlciB3aW5kb3cgc3lzdGVtIHJlcXVl
+c3RzIGNhbiBmb2xsb3cgdGhlIHNhbWUgaWRlYS4KPiA+Pgo+ID4+IE1lcmdlZCBmZW5jZXMgd2hl
+cmUgb25lIGZlbmNlIG9iamVjdCBjb250YWlucyBtdWx0aXBsZSBmZW5jZXMgd2lsbCBiZSBzdXBw
+b3J0ZWQuIEEgbWVyZ2VkIGZlbmNlIGlzIHNpZ25hbGxlZCBvbmx5IHdoZW4gaXRzIGZlbmNlcyBh
+cmUgc2lnbmFsbGVkLiBUaGUgY29uc3VtZXIgd2lsbCBoYXZlIHRoZSBvcHRpb24gdG8gcmVkZWZp
+bmUgdGhlIHVuc2lnbmFsbGVkIHJldHVybiBmZW5jZSB0byBhIG1lcmdlZCBmZW5jZS4KPiA+Pgo+
+ID4+IDIuMi4gTW9kZXNldHRpbmcKPiA+Pgo+ID4+IFNpbmNlIGEgbW9kZXNldHRpbmcgZHJpdmVy
+IGNhbiBhbHNvIGJlIHRoZSBjb25zdW1lciwgdGhlIHByZXNlbnQgaW9jdGwgd2lsbCBjb250YWlu
+IGEgc3VibWl0IGZlbmNlIGFuZCBhIHJldHVybiBmZW5jZSB0b28uIE9uZSBzbWFsbCBwcm9ibGVt
+IHdpdGggdGhpcyBpcyB0aGF0IHVzZXJzcGFjZSBjYW4gaGFuZyB0aGUgbW9kZXNldHRpbmcgZHJp
+dmVyLCBidXQgaW4gdGhlb3J5LCBhbnkgbGF0ZXIgcHJlc2VudCBpb2N0bCBjYW4gb3ZlcnJpZGUg
+dGhlIHByZXZpb3VzIG9uZSwgc28gdGhlIHVuc2lnbmFsbGVkIHByZXNlbnRhdGlvbiBpcyBuZXZl
+ciB1c2VkLgo+ID4+Cj4gPj4KPiA+PiAzLiBOZXcgbWVtb3J5IG1hbmFnZW1lbnQKPiA+Pgo+ID4+
+IFRoZSBwZXItQk8gZmVuY2VzIHdpbGwgYmUgcmVtb3ZlZCBhbmQgdGhlIGtlcm5lbCB3aWxsIG5v
+dCBrbm93IHdoaWNoIGJ1ZmZlcnMgYXJlIGJ1c3kuIFRoaXMgd2lsbCByZWR1Y2UgQ1BVIG92ZXJo
+ZWFkIGFuZCBsYXRlbmN5LiBUaGUga2VybmVsIHdpbGwgbm90IG5lZWQgcGVyLUJPIGZlbmNlcyB3
+aXRoIGV4cGxpY2l0IHN5bmNocm9uaXphdGlvbiwgc28gd2UganVzdCBuZWVkIHRvIHJlbW92ZSB0
+aGVpciBsYXN0IHVzZXI6IGJ1ZmZlciBldmljdGlvbnMuIEl0IGFsc28gcmVzb2x2ZXMgdGhlIGN1
+cnJlbnQgT09NIGRlYWRsb2NrLgo+ID4gSXMgdGhpcyBldmVuIHJlYWxseSBwb3NzaWJsZT8gIEkn
+bSBubyBrZXJuZWwgTU0gZXhwZXJ0ICh0cnlpbmcgdG8KPiA+IGxlYXJuIHNvbWUpIGJ1dCBteSB1
+bmRlcnN0YW5kaW5nIGlzIHRoYXQgdGhlIHVzZSBvZiBwZXItQk8gZG1hLWZlbmNlCj4gPiBydW5z
+IGRlZXAuICBJIHdvdWxkIGxpa2UgdG8gc3RvcCB1c2luZyBpdCBmb3IgaW1wbGljaXQgc3luY2hy
+b25pemF0aW9uCj4gPiB0byBiZSBzdXJlLCBidXQgSSdtIG5vdCBzdXJlIEkgYmVsaWV2ZSB0aGUg
+Y2xhaW0gdGhhdCB3ZSBjYW4gZ2V0IHJpZAo+ID4gb2YgaXQgZW50aXJlbHkuICBIYXBweSB0byBz
+ZWUgc29tZW9uZSB0cnksIHRob3VnaC4KPiA+Cj4gPgo+ID4+IDMuMS4gRXZpY3Rpb25zCj4gPj4K
+PiA+PiBJZiB0aGUga2VybmVsIHdhbnRzIHRvIG1vdmUgYSBidWZmZXIsIGl0IHdpbGwgaGF2ZSB0
+byB3YWl0IGZvciBldmVyeXRoaW5nIHRvIGdvIGlkbGUsIGhhbHQgYWxsIHVzZXJzcGFjZSBjb21t
+YW5kIHN1Ym1pc3Npb25zLCBtb3ZlIHRoZSBidWZmZXIsIGFuZCByZXN1bWUgZXZlcnl0aGluZy4g
+VGhpcyBpcyBub3QgZXhwZWN0ZWQgdG8gaGFwcGVuIHdoZW4gbWVtb3J5IGlzIG5vdCBleGhhdXN0
+ZWQuIE90aGVyIG1vcmUgZWZmaWNpZW50IHdheXMgb2Ygc3luY2hyb25pemF0aW9uIGFyZSBhbHNv
+IHBvc3NpYmxlIChlLmcuIHN5bmMgb25seSBvbmUgcHJvY2VzcyksIGJ1dCBhcmUgbm90IGRpc2N1
+c3NlZCBoZXJlLgo+ID4+Cj4gPj4gMy4yLiBQZXItcHJvY2VzcyBWUkFNIHVzYWdlIHF1b3RhCj4g
+Pj4KPiA+PiBFYWNoIHByb2Nlc3MgY2FuIG9wdGlvbmFsbHkgYW5kIHBlcmlvZGljYWxseSBxdWVy
+eSBpdHMgVlJBTSB1c2FnZSBxdW90YSBhbmQgY2hhbmdlIGRvbWFpbnMgb2YgaXRzIGJ1ZmZlcnMg
+dG8gb2JleSB0aGF0IHF1b3RhLiBGb3IgZXhhbXBsZSwgYSBwcm9jZXNzIGFsbG9jYXRlZCAyIEdC
+IG9mIGJ1ZmZlcnMgaW4gVlJBTSwgYnV0IHRoZSBrZXJuZWwgZGVjcmVhc2VkIHRoZSBxdW90YSB0
+byAxIEdCLiBUaGUgcHJvY2VzcyBjYW4gY2hhbmdlIHRoZSBkb21haW5zIG9mIHRoZSBsZWFzdCBp
+bXBvcnRhbnQgYnVmZmVycyB0byBHVFQgdG8gZ2V0IHRoZSBiZXN0IG91dGNvbWUgZm9yIGl0c2Vs
+Zi4gSWYgdGhlIHByb2Nlc3MgZG9lc24ndCBkbyBpdCwgdGhlIGtlcm5lbCB3aWxsIGNob29zZSB3
+aGljaCBidWZmZXJzIHRvIGV2aWN0IGF0IHJhbmRvbS4gKHRoYW5rcyB0byBDaHJpc3RpYW4gS29l
+bmlnIGZvciB0aGlzIGlkZWEpCj4gPiBUaGlzIGlzIGdvaW5nIHRvIGJlIGRpZmZpY3VsdC4gIE9u
+IEludGVsLCB3ZSBoYXZlIHNvbWUgcmVzb3VyY2VzIHRoYXQKPiA+IGhhdmUgdG8gYmUgcGlubmVk
+IHRvIFZSQU0gYW5kIGNhbid0IGJlIGR5bmFtaWNhbGx5IHN3YXBwZWQgb3V0IGJ5IHRoZQo+ID4g
+a2VybmVsLiAgSW4gR0wsIHdlIHByb2JhYmx5IGNhbiBkZWFsIHdpdGggaXQgc29tZXdoYXQgZHlu
+YW1pY2FsbHkuICBJbgo+ID4gVnVsa2FuLCB3ZSdsbCBiZSBlbnRpcmVseSBkZXBlbmRlbnQgb24g
+dGhlIGFwcGxpY2F0aW9uIHRvIHVzZSB0aGUKPiA+IGFwcHJvcHJpYXRlIFZ1bGthbiBtZW1vcnkg
+YnVkZ2V0IEFQSXMuCj4gPgo+ID4gLS1KYXNvbgo+ID4KPiA+Cj4gPj4gMy4zLiBCdWZmZXIgZGVz
+dHJ1Y3Rpb24gd2l0aG91dCBwZXItQk8gZmVuY2VzCj4gPj4KPiA+PiBXaGVuIHRoZSBidWZmZXIg
+ZGVzdHJveSBpb2N0bCBpcyBjYWxsZWQsIGFuIG9wdGlvbmFsIGZlbmNlIGxpc3QgY2FuIGJlIHBh
+c3NlZCB0byB0aGUga2VybmVsIHRvIGluZGljYXRlIHdoZW4gaXQncyBzYWZlIHRvIGRlYWxsb2Nh
+dGUgdGhlIGJ1ZmZlci4gSWYgdGhlIGZlbmNlIGxpc3QgaXMgZW1wdHksIHRoZSBidWZmZXIgd2ls
+bCBiZSBkZWFsbG9jYXRlZCBpbW1lZGlhdGVseS4gU2hhcmVkIGJ1ZmZlcnMgd2lsbCBiZSBoYW5k
+bGVkIGJ5IG1lcmdpbmcgZmVuY2UgbGlzdHMgZnJvbSBhbGwgcHJvY2Vzc2VzIHRoYXQgZGVzdHJv
+eSB0aGVtLiBNaXRpZ2F0aW9uIG9mIG1hbGljaW91cyBiZWhhdmlvcjoKPiA+PiAtIElmIHVzZXJz
+cGFjZSBkZXN0cm95cyBhIGJ1c3kgYnVmZmVyLCBpdCB3aWxsIGdldCBhIEdQVSBwYWdlIGZhdWx0
+Lgo+ID4+IC0gSWYgdXNlcnNwYWNlIHNlbmRzIGZlbmNlcyB0aGF0IG5ldmVyIHNpZ25hbCwgdGhl
+IGtlcm5lbCB3aWxsIGhhdmUgYSB0aW1lb3V0IHBlcmlvZCBhbmQgdGhlbiB3aWxsIHByb2NlZWQg
+dG8gZGVhbGxvY2F0ZSB0aGUgYnVmZmVyIGFueXdheS4KPiA+Pgo+ID4+IDMuNC4gT3RoZXIgbm90
+ZXMgb24gTU0KPiA+Pgo+ID4+IE92ZXJjb21taXRtZW50IG9mIEdQVS1hY2Nlc3NpYmxlIG1lbW9y
+eSB3aWxsIGNhdXNlIGFuIGFsbG9jYXRpb24gZmFpbHVyZSBvciBpbnZva2UgdGhlIE9PTSBraWxs
+ZXIuIEV2aWN0aW9ucyB0byBHUFUtaW5hY2Nlc3NpYmxlIG1lbW9yeSBtaWdodCBub3QgYmUgc3Vw
+cG9ydGVkLgo+ID4+Cj4gPj4gS2VybmVsIGRyaXZlcnMgY291bGQgbW92ZSB0byB0aGlzIG5ldyBt
+ZW1vcnkgbWFuYWdlbWVudCB0b2RheS4gT25seSBidWZmZXIgcmVzaWRlbmN5IGFuZCBldmljdGlv
+bnMgd291bGQgc3RvcCB1c2luZyBwZXItQk8gZmVuY2VzLgo+ID4+Cj4gPj4KPiA+PiA0LiBEZXBy
+ZWNhdGluZyBpbXBsaWNpdCBzeW5jaHJvbml6YXRpb24KPiA+Pgo+ID4+IEl0IGNhbiBiZSBwaGFz
+ZWQgb3V0IGJ5IGludHJvZHVjaW5nIGEgbmV3IGdlbmVyYXRpb24gb2YgaGFyZHdhcmUgd2hlcmUg
+dGhlIGRyaXZlciBkb2Vzbid0IGFkZCBzdXBwb3J0IGZvciBpdCAobGlrZSBhIGRyaXZlciBmb3Jr
+IHdvdWxkIGRvKSwgYXNzdW1pbmcgdXNlcnNwYWNlIGhhcyBhbGwgdGhlIGNoYW5nZXMgZm9yIGV4
+cGxpY2l0IHN5bmNocm9uaXphdGlvbi4gVGhpcyBjb3VsZCBwb3RlbnRpYWxseSBjcmVhdGUgYW4g
+aXNvbGF0ZWQgcGFydCBvZiB0aGUga2VybmVsIERSTSB3aGVyZSBhbGwgZHJpdmVycyBvbmx5IHN1
+cHBvcnQgZXhwbGljaXQgc3luY2hyb25pemF0aW9uLgo+ID4+Cj4gPj4gTWFyZWsKPiA+PiBfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+IGRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKPiA+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPj4g
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+PiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiBt
+ZXNhLWRldiBtYWlsaW5nIGxpc3QKPiA+IG1lc2EtZGV2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9tZXNhLWRl
+dgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
+aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
