@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41A0365A08
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 15:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3953659FE
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 15:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81FB56E82B;
-	Tue, 20 Apr 2021 13:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82CF06E81D;
+	Tue, 20 Apr 2021 13:26:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id AB5086E81D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 13:26:49 +0000 (UTC)
-X-UUID: 959f53c016c34ab6838cafa57f8b35a2-20210420
+ by gabe.freedesktop.org (Postfix) with ESMTP id 022B56E81D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 13:26:46 +0000 (UTC)
+X-UUID: 67b4741ee606471bb1f9e905ed906884-20210420
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=x4PC10VWjynceWQKGlyruq1xHVfMHe0q+ks95eUDcMM=; 
- b=h4Amvf4zV4EtMkX2uOL4XqdQaDatxwvRwb5ngk9VPSOOCnHO5ReevrLdvhAn5RpAgTGbB5wpolNxmbFt+WEr/9H2fsGIk2bu9IoBdpwuMGd208bbXNW7Etcr83p6wkRXEVwqERMWhDQH5gSKCjU6igqkGVGEemsietuXaU9M0dQ=;
-X-UUID: 959f53c016c34ab6838cafa57f8b35a2-20210420
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ bh=F/Ns6WIK2Dy0aPedbYy3llJMXtmG+SMNazBAvgRMihY=; 
+ b=o0UFIGtF7B5l+zpZ/eonUMjp4IyVrBz4SJ+o6C1z6gZde/pSxgrVv04K313rlg+ePenX7Dlg1KHOp9jf8PVjKNBIJJJ8KWRe84pjKGf9dWuDqGTJ++lgzPRMwQmg56W91edZA3uBAjqgKD0bLYzKZwpxs8qbs4Zbps07DkEuBCk=;
+X-UUID: 67b4741ee606471bb1f9e905ed906884-20210420
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1691856229; Tue, 20 Apr 2021 21:26:37 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
- (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 20 Apr 2021 21:26:20 +0800
+ with ESMTP id 369354208; Tue, 20 Apr 2021 21:26:29 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 20 Apr 2021 21:26:21 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Tue, 20 Apr 2021 21:26:18 +0800
+ 15.0.1497.2 via Frontend Transport; Tue, 20 Apr 2021 21:26:20 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/4] drm/mediatek: fine tune the dsi panel's power sequence
-Date: Tue, 20 Apr 2021 21:26:12 +0800
-Message-ID: <20210420132614.150242-3-jitao.shi@mediatek.com>
+Subject: [PATCH 4/4] drm/mediatek: add dsi module reset driver
+Date: Tue, 20 Apr 2021 21:26:13 +0800
+Message-ID: <20210420132614.150242-4-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210420132614.150242-1-jitao.shi@mediatek.com>
 References: <20210420132614.150242-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: DE26EABE28240C1980E352A0A7E176B5B54C70B4B01E7B5C108E2A0C6A821C082000:8
+X-TM-SNTS-SMTP: CDD0EDBC07D217E939DC5558E2076778B137CA9F9ABA7EDE162356D70FBDF6E02000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,56 +65,107 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the drm_panel_prepare_power and drm_panel_unprepare_power control.
-Turn on panel power(drm_panel_prepare_power) and control before dsi
-enable. And then dsi enable, send dcs cmd in drm_panel_prepare, last
-turn on backlight.
+Reset dsi HW to default when power on. Prevent the setting differet
+between bootloader and kernel.
 
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 36 +++++++++++++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index a1ff152ef468..455fe582c6b5 100644
+index 455fe582c6b5..113438ddd4cc 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -615,10 +615,13 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
- 	dsi->data_rate = DIV_ROUND_UP_ULL(dsi->vm.pixelclock * bit_per_pixel,
- 					  dsi->lanes);
+@@ -7,10 +7,12 @@
+ #include <linux/component.h>
+ #include <linux/iopoll.h>
+ #include <linux/irq.h>
++#include <linux/mfd/syscon.h>
+ #include <linux/of.h>
+ #include <linux/of_platform.h>
+ #include <linux/phy/phy.h>
+ #include <linux/platform_device.h>
++#include <linux/regmap.h>
  
-+	if (panel_bridge_prepare_power(dsi->next_bridge))
-+		DRM_INFO("can't prepare power the panel\n");
+ #include <video/mipi_display.h>
+ #include <video/videomode.h>
+@@ -143,6 +145,8 @@
+ #define DATA_0				(0xff << 16)
+ #define DATA_1				(0xff << 24)
+ 
++#define MMSYS_SW_RST_DSI_B BIT(25)
 +
- 	ret = clk_set_rate(dsi->hs_clk, dsi->data_rate);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to set data rate: %d\n", ret);
--		goto err_refcount;
-+		goto err_prepare_power;
- 	}
+ #define NS_TO_CYCLE(n, c)    ((n) / (c) + (((n) % (c)) ? 1 : 0))
  
- 	phy_power_on(dsi->phy);
-@@ -661,7 +664,9 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
- 	clk_disable_unprepare(dsi->engine_clk);
- err_phy_power_off:
- 	phy_power_off(dsi->phy);
--err_refcount:
-+err_prepare_power:
-+	if (panel_bridge_unprepare_power(dsi->next_bridge))
-+		DRM_INFO("Can't unprepare power the panel\n");
- 	dsi->refcount--;
+ #define MTK_DSI_HOST_IS_READ(type) \
+@@ -186,7 +190,8 @@ struct mtk_dsi {
+ 	struct drm_bridge *next_bridge;
+ 	struct drm_connector *connector;
+ 	struct phy *phy;
+-
++	struct regmap *mmsys_sw_rst_b;
++	u32 sw_rst_b;
+ 	void __iomem *regs;
+ 
+ 	struct clk *engine_clk;
+@@ -272,6 +277,16 @@ static void mtk_dsi_disable(struct mtk_dsi *dsi)
+ 	mtk_dsi_mask(dsi, DSI_CON_CTRL, DSI_EN, 0);
+ }
+ 
++static void mtk_dsi_reset_all(struct mtk_dsi *dsi)
++{
++	regmap_update_bits(dsi->mmsys_sw_rst_b, dsi->sw_rst_b,
++			   MMSYS_SW_RST_DSI_B, 0);
++	usleep_range(1000, 1100);
++
++	regmap_update_bits(dsi->mmsys_sw_rst_b, dsi->sw_rst_b,
++			   MMSYS_SW_RST_DSI_B, MMSYS_SW_RST_DSI_B);
++}
++
+ static void mtk_dsi_reset_engine(struct mtk_dsi *dsi)
+ {
+ 	mtk_dsi_mask(dsi, DSI_CON_CTRL, DSI_RESET, DSI_RESET);
+@@ -985,6 +1000,8 @@ static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	ret = mtk_dsi_encoder_init(drm, dsi);
+ 
++	mtk_dsi_reset_all(dsi);
++
  	return ret;
  }
-@@ -694,6 +699,9 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
- 	clk_disable_unprepare(dsi->digital_clk);
  
- 	phy_power_off(dsi->phy);
+@@ -1007,6 +1024,7 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct drm_panel *panel;
+ 	struct resource *regs;
++	struct regmap *regmap;
+ 	int irq_num;
+ 	int ret;
+ 
+@@ -1022,6 +1040,22 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
++	regmap = syscon_regmap_lookup_by_phandle(dev->of_node,
++						 "mediatek,syscon-dsi");
++	ret = of_property_read_u32_index(dev->of_node, "mediatek,syscon-dsi", 1,
++					 &dsi->sw_rst_b);
 +
-+	if (panel_bridge_unprepare_power(dsi->next_bridge))
-+		DRM_INFO("Can't unprepare power the panel\n");
- }
- 
- static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
++	if (IS_ERR(regmap))
++		ret = PTR_ERR(regmap);
++
++	if (ret) {
++		ret = PTR_ERR(regmap);
++		dev_err(dev, "Failed to get mmsys registers: %d\n", ret);
++		return ret;
++	}
++
++	dsi->mmsys_sw_rst_b = regmap;
++
+ 	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+ 					  &panel, &dsi->next_bridge);
+ 	if (ret)
 -- 
 2.25.1
 _______________________________________________
