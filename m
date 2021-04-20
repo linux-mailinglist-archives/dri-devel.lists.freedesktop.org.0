@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B003A3655A1
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:41:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4DB3655B6
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7777A89F89;
-	Tue, 20 Apr 2021 09:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 218AD89DD8;
+	Tue, 20 Apr 2021 09:47:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBE406E526
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:41:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BECBB610A1;
- Tue, 20 Apr 2021 09:41:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618911713;
- bh=Un7yeElEVIiqeGbXSh4qF0s7poSaThN9A0qIRjII9EM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ccb3aIcShAtpQ1+dsYpH8kdgCeXxaAxKBoeXCpxSwnZwfSpb9sySHQCBFd98lmhm5
- 3jlS2a4hksP9dXywhk1Uaf1FQyWT/6hPyFqgFOrjpj4M3MB3kfmiFwBMXZZsrDPJNJ
- IWDmncrJ2X4DvFBvoMkBhhHWwDWCRNlwkZHkVYWBUYXfVJjfgoavuUuJ2/g66OhySt
- dunjEpf8/TZPONQcGJRsU3Z+Gmajnml3UZd9ywTZGwce6Tx2ML96hMHTdEkwYKV/fe
- zq+RLOYdQ18onjmVODdXYGLMB8F04PTkBumblC5NNN3Qfx6hLB7xBsUMHCX8wCxfPo
- QGplo/Mad3MOw==
-Date: Tue, 20 Apr 2021 12:41:43 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Peter.Enderborg@sony.com
-Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
-Message-ID: <YH6h16hviixphaHV@kernel.org>
-References: <20210417163835.25064-1-peter.enderborg@sony.com>
- <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
- <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3365889B0B;
+ Tue, 20 Apr 2021 09:47:45 +0000 (UTC)
+IronPort-SDR: RnNqp9oYoL4+BynX5PU7v4cPLmB4KYZb6+njIpklIm3gYKcaWweZb51k/UP7Yb6skEDs1ckvK3
+ XuvaRc2D5VYA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="259433866"
+X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="259433866"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2021 02:47:44 -0700
+IronPort-SDR: JUrD+TGjtHXxcPuGCP/qcVPzIVJrZBnbOCUFeMynxyWodHy8+pU3kYyya2k2G/FT3S9rUoR5D7
+ tSaEt1rgZeQA==
+X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="400944204"
+Received: from davidmor-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.9.211])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2021 02:47:39 -0700
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
+In-Reply-To: <878s5ebny0.fsf@intel.com>
+References: <878s5ebny0.fsf@intel.com>
+Subject: Re: [PULL] topic/intel-gen-to-ver -> drm-intel-next and
+ drm-intel-gt-next
+To: Jani Nikula <jani.nikula@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <161891205594.28135.14229347864444400275@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Tue, 20 Apr 2021 12:47:36 +0300
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,197 +49,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mhocko@suse.com, neilb@suse.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, adobriyan@gmail.com,
- linaro-mm-sig@lists.linaro.org, shakeelb@google.com, willy@infradead.org,
- samitolvanen@google.com, songmuchun@bytedance.com,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- christian.koenig@amd.com, guro@fb.com, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sean Paul <sean@poorly.run>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Peter,
-
-On Tue, Apr 20, 2021 at 09:26:00AM +0000, Peter.Enderborg@sony.com wrote:
-> On 4/20/21 10:58 AM, Daniel Vetter wrote:
-> > On Sat, Apr 17, 2021 at 06:38:35PM +0200, Peter Enderborg wrote:
-> >> This adds a total used dma-buf memory. Details
-> >> can be found in debugfs, however it is not for everyone
-> >> and not always available. dma-buf are indirect allocated by
-> >> userspace. So with this value we can monitor and detect
-> >> userspace applications that have problems.
-> >>
-> >> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
-> > So there have been tons of discussions around how to track dma-buf and
-> > why, and I really need to understand the use-cass here first I think. p=
-roc
-> > uapi is as much forever as anything else, and depending what you're doi=
-ng
-> > this doesn't make any sense at all:
-> >
-> > - on most linux systems dma-buf are only instantiated for shared buffer.
-> >   So there this gives you a fairly meaningless number and not anything
-> >   reflecting gpu memory usage at all.
-> >
-> > - on Android all buffers are allocated through dma-buf afaik. But there
-> >   we've recently had some discussions about how exactly we should track
-> >   all this, and the conclusion was that most of this should be solved by
-> >   cgroups long term. So if this is for Android, then I don't think addi=
-ng
-> >   random quick stop-gaps to upstream is a good idea (because it's a pre=
-tty
-> >   long list of patches that have come up on this).
-> >
-> > So what is this for?
-> =
-
-> For the overview. dma-buf today only have debugfs for info. Debugfs
-> is not allowed by google to use in andoid. So this aggregate the informat=
-ion
-> so we can get information on what going on on the system.=A0
- =
-
-Can you send an example debugfs output to see what data are we talking
-about?
-
-> And the LKML standard respond to that is "SHOW ME THE CODE".
-> =
-
-> When the top memgc has a aggregated information on dma-buf it is maybe
-> a better source to meminfo. But then it also imply that dma-buf requires =
-memcg.
-> =
-
-> And I dont see any problem to replace this with something better with it =
-is ready.
-
-Well, the problem with replacing the counter in /proc/meminfo is that it
-requires all users of /proc/meminfo to adapt to the changes.
-
-That's why it's way less painful to go an extra mile and define (hopefully)
-stable user ABI up front.
-
-Why can't you use fdinfo to show how much memory consumed by a dma-buf?
-
-> > -Daniel
-> >
-> >> ---
-> >>  drivers/dma-buf/dma-buf.c | 12 ++++++++++++
-> >>  fs/proc/meminfo.c         |  5 ++++-
-> >>  include/linux/dma-buf.h   |  1 +
-> >>  3 files changed, 17 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> >> index f264b70c383e..4dc37cd4293b 100644
-> >> --- a/drivers/dma-buf/dma-buf.c
-> >> +++ b/drivers/dma-buf/dma-buf.c
-> >> @@ -37,6 +37,7 @@ struct dma_buf_list {
-> >>  };
-> >>  =
-
-> >>  static struct dma_buf_list db_list;
-> >> +static atomic_long_t dma_buf_global_allocated;
-> >>  =
-
-> >>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int =
-buflen)
-> >>  {
-> >> @@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
-> >>  	if (dmabuf->resv =3D=3D (struct dma_resv *)&dmabuf[1])
-> >>  		dma_resv_fini(dmabuf->resv);
-> >>  =
-
-> >> +	atomic_long_sub(dmabuf->size, &dma_buf_global_allocated);
-> >>  	module_put(dmabuf->owner);
-> >>  	kfree(dmabuf->name);
-> >>  	kfree(dmabuf);
-> >> @@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_bu=
-f_export_info *exp_info)
-> >>  	mutex_lock(&db_list.lock);
-> >>  	list_add(&dmabuf->list_node, &db_list.head);
-> >>  	mutex_unlock(&db_list.lock);
-> >> +	atomic_long_add(dmabuf->size, &dma_buf_global_allocated);
-> >>  =
-
-> >>  	return dmabuf;
-> >>  =
-
-> >> @@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, str=
-uct dma_buf_map *map)
-> >>  }
-> >>  EXPORT_SYMBOL_GPL(dma_buf_vunmap);
-> >>  =
-
-> >> +/**
-> >> + * dma_buf_allocated_pages - Return the used nr of pages
-> >> + * allocated for dma-buf
-> >> + */
-> >> +long dma_buf_allocated_pages(void)
-> >> +{
-> >> +	return atomic_long_read(&dma_buf_global_allocated) >> PAGE_SHIFT;
-> >> +}
-> >> +
-> >>  #ifdef CONFIG_DEBUG_FS
-> >>  static int dma_buf_debug_show(struct seq_file *s, void *unused)
-> >>  {
-> >> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-> >> index 6fa761c9cc78..ccc7c40c8db7 100644
-> >> --- a/fs/proc/meminfo.c
-> >> +++ b/fs/proc/meminfo.c
-> >> @@ -16,6 +16,7 @@
-> >>  #ifdef CONFIG_CMA
-> >>  #include <linux/cma.h>
-> >>  #endif
-> >> +#include <linux/dma-buf.h>
-> >>  #include <asm/page.h>
-> >>  #include "internal.h"
-> >>  =
-
-> >> @@ -145,7 +146,9 @@ static int meminfo_proc_show(struct seq_file *m, v=
-oid *v)
-> >>  	show_val_kb(m, "CmaFree:        ",
-> >>  		    global_zone_page_state(NR_FREE_CMA_PAGES));
-> >>  #endif
-> >> -
-> >> +#ifdef CONFIG_DMA_SHARED_BUFFER
-> >> +	show_val_kb(m, "DmaBufTotal:    ", dma_buf_allocated_pages());
-> >> +#endif
-> >>  	hugetlb_report_meminfo(m);
-> >>  =
-
-> >>  	arch_report_meminfo(m);
-> >> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> >> index efdc56b9d95f..5b05816bd2cd 100644
-> >> --- a/include/linux/dma-buf.h
-> >> +++ b/include/linux/dma-buf.h
-> >> @@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_=
-struct *,
-> >>  		 unsigned long);
-> >>  int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> >>  void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> >> +long dma_buf_allocated_pages(void);
-> >>  #endif /* __DMA_BUF_H__ */
-> >> -- =
-
-> >> 2.17.1
-> >>
-> >> _______________________________________________
-> >> dri-devel mailing list
-> >> dri-devel@lists.freedesktop.org
-> >> https://urldefense.com/v3/__https://lists.freedesktop.org/mailman/list=
-info/dri-devel__;!!JmoZiZGBv3RvKRSx!qW8kUOZyY4Dkew6OvqgfoM-5unQNVeF_M1biaIA=
-yQQBR0KB7ksRzZjoh382ZdGGQR9k$ =
-
-> =
-
-
--- =
-
-Sincerely yours,
-Mike.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UXVvdGluZyBKYW5pIE5pa3VsYSAoMjAyMS0wNC0xOSAxMjo1MzoxMSkKPiAKPiBIaSBKb29uYXMg
+YW5kIFJvZHJpZ28gLQo+IAo+IEhlcmUncyB0aGUgZ2VuIHRvIHZlciBjb252ZXJzaW9uIHRvcGlj
+IGJyYW5jaCB0byBiZSBtZXJnZWQgdG8gYm90aAo+IGRybS1pbnRlbC1uZXh0IGFuZCBkcm0taW50
+ZWwtZ3QtbmV4dC4KClB1bGxlZC4KClJlZ2FyZHMsIEpvb25hcwoKPiBMb3RzIG9mIENjJ3MgZm9y
+IGhlYWRzIHVwLgo+IAo+IAo+IEJSLAo+IEphbmkuCj4gCj4gCj4gdG9waWMvaW50ZWwtZ2VuLXRv
+LXZlci0yMDIxLTA0LTE5Ogo+IEdlbiB0byB2ZXIgY29udmVyc2lvbnMgYWNyb3NzIHRoZSBkcml2
+ZXIKPiAKPiBUaGUgbWFpbiBjaGFuZ2UgaXMgTHVjYXMnIHNlcmllcyBbMV0sIHdpdGggVmlsbGUn
+cyBHTEsgZml4ZXMgWzJdIGFuZCBhCj4gY2hlcnJ5LXBpY2sgb2YgTWF0dCdzIGNvbW1pdCBbM10g
+ZnJvbSBkcm0taW50ZWwtbmV4dCBhcyBhIGJhc2UgdG8gYXZvaWQKPiBjb25mbGljdHMuCj4gCj4g
+WzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvODg4MjUvCj4gWzJd
+IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvODg5MzgvCj4gWzNdIDcw
+YmZiMzA3NDNkNSAoImRybS9pOTE1L2Rpc3BsYXk6IEVsaW1pbmF0ZSBJU19HRU45X3tCQyxMUH0i
+KQo+IAo+IEJSLAo+IEphbmkuCj4gCj4gVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1p
+dCA5YzBmZWQ4NGQ1NzUwZTFlZWE2YzY2NGUwNzNmZmEyNTM0YTE3NzQzOgo+IAo+ICAgTWVyZ2Ug
+dGFnICdkcm0taW50ZWwtbmV4dC0yMDIxLTA0LTAxJyBvZiBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNr
+dG9wLm9yZy9kcm0vZHJtLWludGVsIGludG8gZHJtLW5leHQgKDIwMjEtMDQtMDggMTQ6MDI6MjEg
+KzEwMDApCj4gCj4gYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6Cj4gCj4g
+ICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLWludGVsIHRhZ3MvdG9waWMv
+aW50ZWwtZ2VuLXRvLXZlci0yMDIxLTA0LTE5Cj4gCj4gZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2Vz
+IHVwIHRvIDQyNTM5MGM1ZGNlNmRhNzY1NzgzODk2MjlkMTk1MTdmY2Q3OWM5NTk6Cj4gCj4gICBk
+cm0vaTkxNTogc3BsaXQgZGdmeCBmZWF0dXJlcyBmcm9tIGdlbiAxMiAoMjAyMS0wNC0xNCAxMzow
+NTowNiArMDMwMCkKPiAKPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gR2VuIHRvIHZlciBjb252ZXJzaW9ucyBhY3Jvc3Mg
+dGhlIGRyaXZlcgo+IAo+IFRoZSBtYWluIGNoYW5nZSBpcyBMdWNhcycgc2VyaWVzIFsxXSwgd2l0
+aCBWaWxsZSdzIEdMSyBmaXhlcyBbMl0gYW5kIGEKPiBjaGVycnktcGljayBvZiBNYXR0J3MgY29t
+bWl0IFszXSBmcm9tIGRybS1pbnRlbC1uZXh0IGFzIGEgYmFzZSB0byBhdm9pZAo+IGNvbmZsaWN0
+cy4KPiAKPiBbMV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy84ODgy
+NS8KPiBbMl0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy84ODkzOC8K
+PiBbM10gNzBiZmIzMDc0M2Q1ICgiZHJtL2k5MTUvZGlzcGxheTogRWxpbWluYXRlIElTX0dFTjlf
+e0JDLExQfSIpCj4gCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IEx1Y2FzIERlIE1hcmNoaSAoMTIpOgo+ICAgICAgIGRy
+bS9pOTE1L2Rpc3BsYXk6IHVzZSBESVNQTEFZX1ZFUigpIG9uIHJlbWFpbmluZyB1c2Vycwo+ICAg
+ICAgIGRybS9pOTE1OiByZW5hbWUgZGlzcGxheS52ZXJzaW9uIHRvIGRpc3BsYXkudmVyCj4gICAg
+ICAgZHJtL2k5MTUvZGlzcGxheTogcmVuYW1lIGRpc3BsYXkgdmVyc2lvbiBtYWNyb3MKPiAgICAg
+ICBkcm0vaTkxNTogYWRkIG1hY3JvcyBmb3IgZ3JhcGhpY3MgYW5kIG1lZGlhIHZlcnNpb25zCj4g
+ICAgICAgZHJtL2k5MTUvZ3Q6IHJlcGxhY2UgZ2VuIHVzZSBpbiBpbnRlbF9lbmdpbmVfY3MKPiAg
+ICAgICBkcm0vaTkxNS9zZWxmdGVzdHM6IHJlcGxhY2UgdW51c2VkIG1hc2sgd2l0aCBzaW1wbGUg
+dmVyc2lvbgo+ICAgICAgIGRybS9pOTE1L3NlbGZ0ZXN0czogZWxpbWluYXRlIHVzZSBvZiBnZW5f
+bWFzawo+ICAgICAgIGRybS9pOTE1OiBmaW5pc2ggcmVtb3ZhbCBvZiBnZW5fbWFzawo+ICAgICAg
+IGRybS9pOTE1OiBlbGltaW5hdGUgcmVtYWluaW5nIHVzZXMgb2YgaW50ZWxfZGV2aWNlX2luZm8t
+Pmdlbgo+ICAgICAgIGRybS9pOTE1OiBmaW5pc2ggcmVtb3ZhbCBvZiBnZW4gZnJvbSBpbnRlbF9k
+ZXZpY2VfaW5mbwo+ICAgICAgIGRybS9pOTE1OiBhZGQgbWVkaWEgYW5kIGRpc3BsYXkgdmVyc2lv
+bnMgdG8gZGV2aWNlX2luZm8gcHJpbnQKPiAgICAgICBkcm0vaTkxNTogc3BsaXQgZGdmeCBmZWF0
+dXJlcyBmcm9tIGdlbiAxMgo+IAo+IE1hdHQgUm9wZXIgKDEpOgo+ICAgICAgIGRybS9pOTE1L2Rp
+c3BsYXk6IEVsaW1pbmF0ZSBJU19HRU45X3tCQyxMUH0KPiAKPiBWaWxsZSBTeXJqw6Rsw6QgKDUp
+Ogo+ICAgICAgIGRybS9pOTE1OiBSZXN0b3JlIGxvc3QgZ2xrIEZCQyAxNmJwcCB3L2EKPiAgICAg
+ICBkcm0vaTkxNTogUmVzdG9yZSBsb3N0IGdsayBjY3Mgdy9hCj4gICAgICAgZHJtL2k5MTU6IERp
+c2FibGUgTFRUUFIgZGV0ZWN0aW9uIG9uIEdMSyBvbmNlIGFnYWluCj4gICAgICAgZHJtL2k5MTU6
+IERvbid0IHVzZSB7c2tsLCBjbmx9X2hwZF9waW4oKSBmb3IgYnh0L2dsawo+ICAgICAgIGRybS9p
+OTE1OiBSZW1vdmUgYSBmZXcgcmVkdW5kYW50IGdsayBjaGVja3MKPiAKPiAgZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvZGlzcGxheS9pOXh4X3BsYW5lLmMgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJz
+L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ljbF9kc2kuYyAgICAgICAgICAgICB8ICA0ICstCj4gIGRy
+aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYXRvbWljLmMgICAgICAgIHwgIDIgKy0K
+PiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdWRpby5jICAgICAgICAgfCAg
+NCArLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Jpb3MuYyAgICAgICAg
+ICB8ICA5ICstLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2J3LmMgICAg
+ICAgICAgICB8ICA4ICstLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Nk
+Y2xrLmMgICAgICAgICB8IDQyICsrKysrKystLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1
+L2Rpc3BsYXkvaW50ZWxfY29sb3IuYyAgICAgICAgIHwgIDYgKy0KPiAgZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZGlzcGxheS9pbnRlbF9jcnQuYyAgICAgICAgICAgfCAgNiArLQo+ICBkcml2ZXJzL2dw
+dS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2NydGMuYyAgICAgICAgICB8ICA0ICstCj4gIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfY3NyLmMgICAgICAgICAgIHwgIDQgKy0KPiAg
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYyAgICAgICAgICAgfCA1MyAr
+KysrKysrKystLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9k
+ZGlfYnVmX3RyYW5zLmMgfCAxMCArKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aW50ZWxfZGlzcGxheS5jICAgICAgIHwgNjQgKysrKysrKysrKystLS0tLS0tLS0tLQo+ICAuLi4v
+Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9kZWJ1Z2ZzLmMgICB8ICAyICstCj4g
+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9wb3dlci5jIHwgNTcg
+KysrKysrKysrKy0tLS0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
+X2RwLmMgICAgICAgICAgICB8IDEwICsrLS0KPiAgLi4uL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
+dGVsX2RwX2xpbmtfdHJhaW5pbmcuYyAgfCAgMiArLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9k
+aXNwbGF5L2ludGVsX2RwX21zdC5jICAgICAgICB8ICAyICstCj4gIGRyaXZlcnMvZ3B1L2RybS9p
+OTE1L2Rpc3BsYXkvaW50ZWxfZHBsbC5jICAgICAgICAgIHwgIDggKy0tCj4gIGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBsbF9tZ3IuYyAgICAgIHwgIDYgKy0KPiAgZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9mYi5jICAgICAgICAgICAgfCAgMiArLQo+ICBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2ZiYy5jICAgICAgICAgICB8IDIxICsr
+Ky0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9maWZvX3VuZGVycnVu
+LmMgfCAgNCArLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2dtYnVzLmMg
+ICAgICAgICB8IDEyICsrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9o
+ZGNwLmMgICAgICAgICAgfCAgOSArLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9oZG1pLmMgICAgICAgICAgfCAgOSArLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
+cGxheS9pbnRlbF9sdmRzLmMgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9kaXNwbGF5L2ludGVsX292ZXJsYXkuYyAgICAgICB8IDEwICsrLS0KPiAgZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wYW5lbC5jICAgICAgICAgfCAxMCArKy0tCj4gIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcGlwZV9jcmMuYyAgICAgIHwgIDQgKy0KPiAg
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wcHMuYyAgICAgICAgICAgfCAxNCAr
+Ky0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Bzci5jICAgICAgICAg
+ICB8ICA0ICstCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfdGMuYyAgICAg
+ICAgICAgIHwgIDYgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF90di5j
+ICAgICAgICAgICAgfCAgNiArLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L3NrbF91
+bml2ZXJzYWxfcGxhbmUuYyB8IDEwICsrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
+eS92bHZfZHNpLmMgICAgICAgICAgICAgfCA0NiArKysrKysrKy0tLS0tLS0tCj4gIGRyaXZlcnMv
+Z3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9leGVjYnVmZmVyLmMgICAgIHwgMjIgKysrKy0tLS0K
+PiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZW5naW5lX2NzLmMgICAgICAgICAgfCA0
+MCArKysrKysrLS0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9zZWxmdGVzdF9lbmdp
+bmVfY3MuYyAgICAgICB8IDE4ICsrKy0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9zZWxm
+dGVzdF93b3JrYXJvdW5kcy5jICAgICB8IDEwICsrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUv
+aTkxNV9kcnYuYyAgICAgICAgICAgICAgICAgICAgfCAgNCArLQo+ICBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9pOTE1X2Rydi5oICAgICAgICAgICAgICAgICAgICB8IDQyICsrKysrKysrLS0tLS0tCj4g
+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJxLmMgICAgICAgICAgICAgICAgICAgIHwgMjMg
+KysrKy0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9wY2kuYyAgICAgICAgICAgICAg
+ICAgICAgfCAxMyArKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kZXZpY2VfaW5m
+by5jICAgICAgICAgICB8ICA0ICstCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX2Rldmlj
+ZV9pbmZvLmggICAgICAgICAgIHwgIDYgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxf
+cG0uYyAgICAgICAgICAgICAgICAgICAgfCA1MCArKysrKysrKy0tLS0tLS0tLQo+ICBkcml2ZXJz
+L2dwdS9kcm0vaTkxNS9pbnRlbF91bmNvcmUuYyAgICAgICAgICAgICAgICB8ICA4ICsrLQo+ICBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9zZWxmdGVzdHMvaW50ZWxfdW5jb3JlLmMgICAgICB8ICA4ICsr
+LQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9zZWxmdGVzdHMvbW9ja19nZW1fZGV2aWNlLmMgICB8
+ICAyICstCj4gIDUxIGZpbGVzIGNoYW5nZWQsIDM3NiBpbnNlcnRpb25zKCspLCAzNDggZGVsZXRp
+b25zKC0pCj4gCj4gLS0gCj4gSmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNz
+IENlbnRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
