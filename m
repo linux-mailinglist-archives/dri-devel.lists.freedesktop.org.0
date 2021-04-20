@@ -2,42 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448FF36624A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 00:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63CB136625F
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 01:11:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDE926E8F9;
-	Tue, 20 Apr 2021 22:49:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B2B86E910;
+	Tue, 20 Apr 2021 23:11:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9CBD6E8F9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 22:49:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5293345E;
- Wed, 21 Apr 2021 00:49:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1618958980;
- bh=tnPqQylg0M/heoMDy9x5XiXEnGZ70xHfOc6q1pK7LwQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZeMKknPmyhvE4Lv+KgrktMqxfIhcblSiEh0KPDRygcger3YAT3GSLEBBVqXh7qDG3
- LUCWeoNI6c8vlxZEBDR5b4U2e8itmNqfq+KD8TT6Vjcyoxfawp1ukhGUyh4Uuk+uES
- vWsUrRluJfe99MxGLvGZHiOc3SPvj76DvRnhj3UA=
-Date: Wed, 21 Apr 2021 01:49:36 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH 0/2] drm/bridge: dw-hdmi: disable loading of DW-HDMI CEC
- sub-driver
-Message-ID: <YH9agHwLhEL27TA1@pendragon.ideasonboard.com>
-References: <20210416092737.1971876-1-narmstrong@baylibre.com>
- <YHlfqJIlUh7eytty@pendragon.ideasonboard.com>
- <96b9e144-0791-4c19-3e3c-b0e9efb86138@baylibre.com>
- <cbea511c-5d5c-8c59-f91f-fedc8eec1e39@xs4all.nl>
- <0821533b-9e6a-237e-3845-741e82de4ed9@baylibre.com>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 971E06E910
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 23:11:16 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id n2so60694861ejy.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 16:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FVqDM5y+W5f3EH16t1Ahlx8M+BW0BiUiCd9Lvd/IGQM=;
+ b=nXPqfbhuSr9Vo44E8+E80cteavqc9jdiJMcShe0Kmh1JZig6Jv04+G37tFIc4AVzjW
+ 2oJlyKPlKE1VZ1WxQoqenhZB4ntRQm37Cjna01MF6al7iQWEVqg7HSoJqwha0K76QO6S
+ qo23HfHfHH4JJ01PiZ9VzXZzf+kdEqcJTP0UXTr4t2e0RGOYXRDZmgFDTpkDZHGlVAzS
+ Mmf8x73Hr688qvyNQ+0g7oLDgEzN4RlV6mik1tQZdrOoE2fhF6KDEoGOmAm3LdE4zs5K
+ trC6PpCZXSH7b1JZBs0kPo4/6gf/PADCQ2svX6P8JBA1//sgyhiIioip9UwmxDTi3tjE
+ ERTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FVqDM5y+W5f3EH16t1Ahlx8M+BW0BiUiCd9Lvd/IGQM=;
+ b=PdXbgDT3q/ivJrOBCGzmE0P7toNn5J2tZAumxnclnyTLfpPbYwFpHt4Dlw+2TgmSV7
+ 8Xod0HXbDfEccH95W/J/ec/tPDN4W2Bwk+i310mqb9B/sXJo2kFwMCFy75BWn42NEXu2
+ yjolug4gPhtULl0+05IZg0Wj5qfzScHoqyI+nKimM7bufgMzQ4EgxtlCb3WszBva2sCI
+ sz3QQJLnUV8HCvpQQjjRWGgQt1EQXxrqjAbDNJcFdfF0+Ydpax872rP8F8FSYspYyjPT
+ 2uRx2Gj5uhBRQTynQzBq8aEsCKqV8msSyZLyD+H/B1VJuHDFZZcMDey1sbUHzaKaWX8m
+ +Xeg==
+X-Gm-Message-State: AOAM531wu54Ju1rFokEPp719kQAb25pdc0xl6iDcg9jVE+Sx55b7ltFb
+ v1kwwRx3O4wkKN/2fnOZu3dTW3nIhr2tiXJo/Z0x3Q==
+X-Google-Smtp-Source: ABdhPJw/Z3Q7nVvXszDBarriiKrARjTdV8bEsc9N8g0Vsk+qAbaH/iHuKC4G+y8Z4rXsGLi8te3AkAH0pc6LlyRSBcQ=
+X-Received: by 2002:a17:906:1c98:: with SMTP id
+ g24mr30359655ejh.457.1618960275097; 
+ Tue, 20 Apr 2021 16:11:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0821533b-9e6a-237e-3845-741e82de4ed9@baylibre.com>
+References: <a28f2wvjsZ0pMcKjyC4C5DgvT59Bn32JORf1DdTei3818_ZXYRGV19m5IpaWqELPeDNPSj2SRbMznfuCrCYmO0mLtpaxN5MprB3QRk3Isww=@emersion.fr>
+ <CAPj87rO_DJtq6_XO400FK2u97CWXDo5Px21Q+svAPg8r+WEuCg@mail.gmail.com>
+In-Reply-To: <CAPj87rO_DJtq6_XO400FK2u97CWXDo5Px21Q+svAPg8r+WEuCg@mail.gmail.com>
+From: Eric Anholt <eric@anholt.net>
+Date: Tue, 20 Apr 2021 16:11:04 -0700
+Message-ID: <CADaigPVePfkYvVrmSAf59GycCfngW6eW2Z0DKL0N-_aYL-vE+Q@mail.gmail.com>
+Subject: Re: Split render/display SoCs, Mesa's renderonly,
+ and Wayland dmabuf hints
+To: Daniel Stone <daniel@fooishbar.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,84 +65,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, Hans Verkuil <hverkuil@xs4all.nl>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 20, 2021 at 05:19:52PM +0200, Neil Armstrong wrote:
-> On 20/04/2021 17:13, Hans Verkuil wrote:
-> > On 16/04/2021 13:38, Neil Armstrong wrote:
-> >> On 16/04/2021 11:58, Laurent Pinchart wrote:
-> >>> Hi Neil,
-> >>>
-> >>> On Fri, Apr 16, 2021 at 11:27:35AM +0200, Neil Armstrong wrote:
-> >>>> This adds DW-HDMI driver a glue option to disable loading of the CEC sub-driver.
-> >>>>
-> >>>> On some SoCs, the CEC functionality is enabled in the IP config bits, but the
-> >>>> CEC bus is non-functional like on Amlogic SoCs, where the CEC config bit is set
-> >>>> but the DW-HDMI CEC signal is not connected to a physical pin, leading to some
-> >>>> confusion when the DW-HDMI CEC controller can't communicate on the bus.
-> >>>
-> >>> If we can't trust the CEC config bit, would it be better to not use it
-> >>> at all, and instead let each platform glue logic tell whether to enable
-> >>> CEC or not ?
-> >>
-> >> Actually, the CEC config bit is right, the HW exists and should be functional, but
-> >> this bit doesn't tell if the CEC signal is connected to something.
-> >>
-> >> This lies in the IP integration, like other bits under the "amlogic,meson-*-dw-hdmi"
-> >> umbrella.
-> >>
-> >> The first attempt was by Hans using DT, but adding a property in DT for a vendor
-> >> specific compatible doesn't make sense. Another idea would be to describe the
-> >> CEC signal endpoint like we do for video signal, but I think this is out of scope and
-> >> this solution is much simpler and straightforward, and it's more an exception than
-> >> a general use case to solve.
-> > 
-> > While a DT property might not make sense in this particular case, I still
-> > believe that it is a perfectly valid approach in general: whether or not
-> > the CEC pin is connected is at the hardware level decision, it is not
-> > something that software can detect. If the designer of the board didn't
-> > connect it, then the only place you can define that is in the device tree.
-> 
-> Agreed, we need to define a smart way to declare CEC bus relationship in DT, the side
-> effect would be to handle this particular case.
+On Tue, Apr 20, 2021 at 3:18 AM Daniel Stone <daniel@fooishbar.org> wrote:
+>
+> Hi,
+>
+> On Mon, 19 Apr 2021 at 13:06, Simon Ser <contact@emersion.fr> wrote:
+>>
+>> I'm working on a Wayland extension [1] that, among other things, allows
+>> compositors to advertise the preferred device to be used by Wayland
+>> clients.
+>>
+>> In general, compositors will send a render node. However, in the case
+>> of split render/display SoCs, things get a little bit complicated.
+>>
+>> [...]
+>
+>
+> Thanks for the write-up Simon!
+>
+>>
+>> There are a few solutions:
+>>
+>> 1. Require compositors to discover the render device by trying to import
+>>    a buffer. For each available render device, the compositor would
+>>    allocate a buffer, export it as a DMA-BUF, import it to the
+>>    display-only device, then try to drmModeAddFB.
+>
+>
+> I don't think this is actually tractable? Assuming that 'allocate a buffer' means 'obtain a gbm_device for the render node directly and allocate a gbm_bo from it', even with compatible formats and modifiers this will fail for more restrictive display hardware. imx-drm and pl111 (combined with vc4 on some Raspberry Pis) will fail this, since they'll take different allocation paths when they're bound through kmsro vs. directly, accounting for things like contiguous allocation. So we'd get false negatives on at least some platforms.
+>
+>>
+>> 2. Allow compositors to query the render device magically opened by
+>>    kmsro. This could be done either via EGL_EXT_device_drm, or via a
+>>    new EGL extension.
+>
+>
+> This would be my strong preference, and I don't entirely understand anholt's pushback here. The way I see it, GBM is about allocation for scanout, and EGL is about rendering. If, on a split GPU/display system, we create a gbm_device from a KMS display-only device node, then creating an EGLDisplay from that magically binds us to a completely different DRM GPU node, and anything using that EGLDisplay will use that GPU device to render.
+>
+> Being able to discover the GPU device node through the device query is really useful, because it tells us exactly what implicit magic EGL did under the hood, and about the device that EGL will use. Being able to discover the display node is much less useful; it does tell us how GBM will allocate buffers, but the user already knows which device is in use because they supplied it to GBM. I see the display node as a property of GBM, and the GPU node as a property of EGL, even if EGL does do (*waves hands*) stuff under the hood to ensure the two are compatible.
 
-I wonder if it would make sense to use the OF graph bindings to describe
-the connection between the CEC controller and the CEC "device" (which I
-assume in most cases will be a DT node for a physical connector). Or is
-this overkill ?
-
-> > Anyway, for meson I am fine with this solution. At least it prevents creating
-> > a non-functioning cec device. So for this series:
-> > 
-> > Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> Thanks,
-> 
-> Applying this serie to drm-misc-next
-> 
-> >>>> Jernej Skrabec (1):
-> >>>>   drm/bridge/synopsys: dw-hdmi: Add an option to suppress loading CEC
-> >>>>     driver
-> >>>>
-> >>>> Neil Armstrong (1):
-> >>>>   drm/meson: dw-hdmi: disable DW-HDMI CEC sub-driver
-> >>>>
-> >>>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
-> >>>>  drivers/gpu/drm/meson/meson_dw_hdmi.c     | 1 +
-> >>>>  include/drm/bridge/dw_hdmi.h              | 2 ++
-> >>>>  3 files changed, 4 insertions(+), 1 deletion(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+I guess if we're assuming that the caller definitely knows about the
+display device and is asking EGL for the render node in order to do
+smarter buffer sharing between display and render, I can see it.  My
+objection was that getting the render node in that discussion was
+apparently some workaround for other brokenness, and was going to
+result in software that didn't work on pl111 and vc4 displays because
+it was trying to dodge kmsro.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
