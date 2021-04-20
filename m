@@ -1,55 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FF936563B
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 12:34:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4585A36563E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 12:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B89226E7D2;
-	Tue, 20 Apr 2021 10:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 565816E5D5;
+	Tue, 20 Apr 2021 10:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
- [IPv6:2607:f8b0:4864:20::c2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4441E6E51B
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 10:34:16 +0000 (UTC)
-Received: by mail-oo1-xc2a.google.com with SMTP id
- e12-20020a056820060cb02901e94efc049dso3447851oow.9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 03:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=It2h0CWBk6BUTSUjofY2LycAZaOsIuSdDjAG0CpJ97k=;
- b=GTxmr0y7O83zeWhHbfTMKyll5e+0ctCZPg2jyoaYQkXIha8r0o6p8u9qYNH2xMl/Oi
- WDyyiJqNnNGOfq923n8LdmWUQs/0kvv8pB6OjfPrQIdFrQO72DZtluf9Y+wbvuextKgz
- 8X+2qkd7YxtNC6LVYFAnSYpzVQ0EMBpf0jU/A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=It2h0CWBk6BUTSUjofY2LycAZaOsIuSdDjAG0CpJ97k=;
- b=ENMQXg3YPzC8cRxfY54RHVXp9GfXoWNhqtZvoSsLzsBpwmiI/AI8U7taez3oq/Yfgc
- lH2gmIAOKbEXy9vMlC6J2gqShsdFiNzXjo9At0HyCjkfUjqq6QRN06YQE5+ozr1M6JBm
- qZxrU+dP+P6coelhOta7f0eX6QN0wL4/bNxmrKZkP7bxrYg30BXxFanQN/zirBQD/pUf
- B965i+tkpNjfSTjlAJ8yq8CcwC60LzSxeuNLaujfdInpGSn89ZTUPQxJne0A9tYUhWHP
- 7Ywa6z0LRQ1nFbAmHk4qz35q9aL48n2q6j0sW3PUt33f39+VOi0Go9KMBAiJq5Dp0hug
- nzow==
-X-Gm-Message-State: AOAM531VR8VgGP3GkBTHjIfRkYQcwJo1QlAa7vzHwxChNzrE/peBw1Tx
- XsHFJmHnA3yGBEjGJ9ZQEOeemNzYQwEVPW0cOKKF1g==
-X-Google-Smtp-Source: ABdhPJws64Rt8CGmsRiClLD/xaqkYoV0qLDoji2Nxs9acf4kN0XpJfWzw0ks4g5xO35T5Bc+bAybKs6/MK8Itsn5oaY=
-X-Received: by 2002:a4a:d553:: with SMTP id q19mr16616684oos.28.1618914855439; 
- Tue, 20 Apr 2021 03:34:15 -0700 (PDT)
+Received: from mblankhorst.nl (mblankhorst.nl
+ [IPv6:2a02:2308::216:3eff:fe92:dfa3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA6C789C60;
+ Tue, 20 Apr 2021 10:34:55 +0000 (UTC)
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915: Remove asynchronous vma binding
+Date: Tue, 20 Apr 2021 12:34:50 +0200
+Message-Id: <20210420103451.408059-1-maarten.lankhorst@linux.intel.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAOFGe95xnRjqVHssoOVvERP12KUnD2FHhG_LfqE6Z0h9nFH9AA@mail.gmail.com>
- <926b18b2-2498-9fcb-8516-fa34510fb898@gmail.com>
-In-Reply-To: <926b18b2-2498-9fcb-8516-fa34510fb898@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 20 Apr 2021 12:34:04 +0200
-Message-ID: <CAKMK7uE3s2z8mDiuWs73Xg3PMsrr3WNg20q03V0EOyfZmmDFcQ@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,200 +32,463 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgMjAsIDIwMjEgYXQgMTI6MTUgUE0gQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5p
-Zy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQW0gMTkuMDQuMjEgdW0gMTc6
-NDggc2NocmllYiBKYXNvbiBFa3N0cmFuZDoKPiA+IE5vdCBnb2luZyB0byBjb21tZW50IG9uIGV2
-ZXJ5dGhpbmcgb24gdGhlIGZpcnN0IHBhc3MuLi4KPiA+Cj4gPiBPbiBNb24sIEFwciAxOSwgMjAy
-MSBhdCA1OjQ4IEFNIE1hcmVrIE9sxaHDoWsgPG1hcmFlb0BnbWFpbC5jb20+IHdyb3RlOgo+ID4+
-IEhpLAo+ID4+Cj4gPj4gVGhpcyBpcyBvdXIgaW5pdGlhbCBwcm9wb3NhbCBmb3IgZXhwbGljaXQg
-ZmVuY2VzIGV2ZXJ5d2hlcmUgYW5kIG5ldyBtZW1vcnkgbWFuYWdlbWVudCB0aGF0IGRvZXNuJ3Qg
-dXNlIEJPIGZlbmNlcy4gSXQncyBhIHJlZGVzaWduIG9mIGhvdyBMaW51eCBncmFwaGljcyBkcml2
-ZXJzIHdvcmssIGFuZCBpdCBjYW4gY29leGlzdCB3aXRoIHdoYXQgd2UgaGF2ZSBub3cuCj4gPj4K
-PiA+Pgo+ID4+IDEuIEludHJvZHVjdGlvbgo+ID4+IChza2lwIHRoaXMgaWYgeW91IGFyZSBhbHJl
-YWR5IHNvbGQgb24gZXhwbGljaXQgZmVuY2VzKQo+ID4+Cj4gPj4gVGhlIGN1cnJlbnQgTGludXgg
-Z3JhcGhpY3MgYXJjaGl0ZWN0dXJlIHdhcyBpbml0aWFsbHkgZGVzaWduZWQgZm9yIEdQVXMgd2l0
-aCBvbmx5IG9uZSBncmFwaGljcyBxdWV1ZSB3aGVyZSBldmVyeXRoaW5nIHdhcyBleGVjdXRlZCBp
-biB0aGUgc3VibWlzc2lvbiBvcmRlciBhbmQgcGVyLUJPIGZlbmNlcyB3ZXJlIHVzZWQgZm9yIG1l
-bW9yeSBtYW5hZ2VtZW50IGFuZCBDUFUtR1BVIHN5bmNocm9uaXphdGlvbiwgbm90IEdQVS1HUFUg
-c3luY2hyb25pemF0aW9uLiBMYXRlciwgbXVsdGlwbGUgcXVldWVzIHdlcmUgYWRkZWQgb24gdG9w
-LCB3aGljaCByZXF1aXJlZCB0aGUgaW50cm9kdWN0aW9uIG9mIGltcGxpY2l0IEdQVS1HUFUgc3lu
-Y2hyb25pemF0aW9uIGJldHdlZW4gcXVldWVzIG9mIGRpZmZlcmVudCBwcm9jZXNzZXMgdXNpbmcg
-cGVyLUJPIGZlbmNlcy4gUmVjZW50bHksIGV2ZW4gcGFyYWxsZWwgZXhlY3V0aW9uIHdpdGhpbiBv
-bmUgcXVldWUgd2FzIGVuYWJsZWQgd2hlcmUgYSBjb21tYW5kIGJ1ZmZlciBzdGFydHMgZHJhd3Mg
-YW5kIGNvbXB1dGUgc2hhZGVycywgYnV0IGRvZXNuJ3Qgd2FpdCBmb3IgdGhlbSwgZW5hYmxpbmcg
-cGFyYWxsZWxpc20gYmV0d2VlbiBiYWNrLXRvLWJhY2sgY29tbWFuZCBidWZmZXJzLiBNb2Rlc2V0
-dGluZyBhbHNvIHVzZXMgcGVyLUJPIGZlbmNlcyBmb3Igc2NoZWR1bGluZyBmbGlwcy4gT3VyIEdQ
-VSBzY2hlZHVsZXIgd2FzIGNyZWF0ZWQgdG8gZW5hYmxlIGFsbCB0aG9zZSB1c2UgY2FzZXMsIGFu
-ZCBpdCdzIHRoZSBvbmx5IHJlYXNvbiB3aHkgdGhlIHNjaGVkdWxlciBleGlzdHMuCj4gPj4KPiA+
-PiBUaGUgR1BVIHNjaGVkdWxlciwgaW1wbGljaXQgc3luY2hyb25pemF0aW9uLCBCTy1mZW5jZS1i
-YXNlZCBtZW1vcnkgbWFuYWdlbWVudCwgYW5kIHRoZSB0cmFja2luZyBvZiBwZXItQk8gZmVuY2Vz
-IGluY3JlYXNlIENQVSBvdmVyaGVhZCBhbmQgbGF0ZW5jeSwgYW5kIHJlZHVjZSBwYXJhbGxlbGlz
-bS4gVGhlcmUgaXMgYSBkZXNpcmUgdG8gcmVwbGFjZSBhbGwgb2YgdGhlbSB3aXRoIHNvbWV0aGlu
-ZyBtdWNoIHNpbXBsZXIuIEJlbG93IGlzIGhvdyB3ZSBjb3VsZCBkbyBpdC4KPiA+Pgo+ID4+Cj4g
-Pj4gMi4gRXhwbGljaXQgc3luY2hyb25pemF0aW9uIGZvciB3aW5kb3cgc3lzdGVtcyBhbmQgbW9k
-ZXNldHRpbmcKPiA+Pgo+ID4+IFRoZSBwcm9kdWNlciBpcyBhbiBhcHBsaWNhdGlvbiBhbmQgdGhl
-IGNvbnN1bWVyIGlzIGEgY29tcG9zaXRvciBvciBhIG1vZGVzZXR0aW5nIGRyaXZlci4KPiA+Pgo+
-ID4+IDIuMS4gVGhlIFByZXNlbnQgcmVxdWVzdAo+ID4+Cj4gPj4gQXMgcGFydCBvZiB0aGUgUHJl
-c2VudCByZXF1ZXN0LCB0aGUgcHJvZHVjZXIgd2lsbCBwYXNzIDIgZmVuY2VzIChzeW5jIG9iamVj
-dHMpIHRvIHRoZSBjb25zdW1lciBhbG9uZ3NpZGUgdGhlIHByZXNlbnRlZCBETUFCVUYgQk86Cj4g
-Pj4gLSBUaGUgc3VibWl0IGZlbmNlOiBJbml0aWFsbHkgdW5zaWduYWxsZWQsIGl0IHdpbGwgYmUg
-c2lnbmFsbGVkIHdoZW4gdGhlIHByb2R1Y2VyIGhhcyBmaW5pc2hlZCBkcmF3aW5nIGludG8gdGhl
-IHByZXNlbnRlZCBidWZmZXIuCj4gPj4gLSBUaGUgcmV0dXJuIGZlbmNlOiBJbml0aWFsbHkgdW5z
-aWduYWxsZWQsIGl0IHdpbGwgYmUgc2lnbmFsbGVkIHdoZW4gdGhlIGNvbnN1bWVyIGhhcyBmaW5p
-c2hlZCB1c2luZyB0aGUgcHJlc2VudGVkIGJ1ZmZlci4KPiA+IEknbSBub3Qgc3VyZSBzeW5jb2Jq
-IGlzIHdoYXQgd2Ugd2FudC4gIEluIHRoZSBJbnRlbCB3b3JsZCB3ZSdyZSB0cnlpbmcKPiA+IHRv
-IGdvIGV2ZW4gZnVydGhlciB0byBzb21ldGhpbmcgd2UncmUgY2FsbGluZyAidXNlcnNwYWNlIGZl
-bmNlcyIgd2hpY2gKPiA+IGFyZSBhIHRpbWVsaW5lIGltcGxlbWVudGVkIGFzIGEgc2luZ2xlIDY0
-LWJpdCB2YWx1ZSBpbiBzb21lCj4gPiBDUFUtbWFwcGFibGUgQk8uICBUaGUgY2xpZW50IHdyaXRl
-cyBhIGhpZ2hlciB2YWx1ZSBpbnRvIHRoZSBCTyB0bwo+ID4gc2lnbmFsIHRoZSB0aW1lbGluZS4K
-Pgo+IFdlbGwgdGhhdCBpcyBleGFjdGx5IHdoYXQgb3VyIFdpbmRvd3MgZ3V5cyBoYXZlIHN1Z2dl
-c3RlZCBhcyB3ZWxsLCBidXQKPiBpdCBzdHJvbmdseSBsb29rcyBsaWtlIHRoYXQgdGhpcyBpc24n
-dCBzdWZmaWNpZW50Lgo+Cj4gRmlyc3Qgb2YgYWxsIHlvdSBydW4gaW50byBzZWN1cml0eSBwcm9i
-bGVtcyB3aGVuIGFueSBhcHBsaWNhdGlvbiBjYW4KPiBqdXN0IHdyaXRlIGFueSB2YWx1ZSB0byB0
-aGF0IG1lbW9yeSBsb2NhdGlvbi4gSnVzdCBpbWFnaW5lIGFuCj4gYXBwbGljYXRpb24gc2V0cyB0
-aGUgY291bnRlciB0byB6ZXJvIGFuZCBYIHdhaXRzIGZvcmV2ZXIgZm9yIHNvbWUKPiByZW5kZXJp
-bmcgdG8gZmluaXNoLgoKVGhlIHRoaW5nIGlzLCB3aXRoIHVzZXJzcGFjZSBmZW5jZXMgc2VjdXJp
-dHkgYm91bmRhcnkgaXNzdWUgcHJldmVudAptb3ZlcyBpbnRvIHVzZXJzcGFjZSBlbnRpcmVseS4g
-QW5kIGl0IHJlYWxseSBkb2Vzbid0IG1hdHRlciB3aGV0aGVyCnRoZSBldmVudCB5b3UncmUgd2Fp
-dGluZyBvbiBkb2Vzbid0IGNvbXBsZXRlIGJlY2F1c2UgdGhlIG90aGVyIGFwcApjcmFzaGVkIG9y
-IHdhcyBzdHVwaWQgb3IgaW50ZW50aW9uYWxseSBnYXZlIHlvdSBhIHdyb25nIGZlbmNlIHBvaW50
-OgpZb3UgaGF2ZSB0byBzb21laG93IGhhbmRsZSB0aGF0LCBlLmcuIHBlcmhhcHMgd2l0aCBjb25k
-aXRpb25hbApyZW5kZXJpbmcgYW5kIGp1c3QgdXNpbmcgdGhlIG9sZCBmcmFtZSBpbiBjb21wb3Np
-dGluZyBpZiB0aGUgbmV3IG9uZQpkb2Vzbid0IHNob3cgdXAgaW4gdGltZS4gT3Igc29tZXRoaW5n
-IGxpa2UgdGhhdC4gU28gdHJ5aW5nIHRvIGdldCB0aGUKa2VybmVsIGludm9sdmVkIGJ1dCBhbHNv
-IG5vdCBzbyBtdWNoIGludm9sdmVkIHNvdW5kcyBsaWtlIGEgYmFkIGRlc2lnbgp0byBtZS4KCj4g
-QWRkaXRpb25hbCB0byB0aGF0IGluIHN1Y2ggYSBtb2RlbCB5b3UgY2FuJ3QgZGV0ZXJtaW5lIHdo
-byBpcyB0aGUgZ3VpbHR5Cj4gcXVldWUgaW4gY2FzZSBvZiBhIGhhbmcgYW5kIGNhbid0IHJlc2V0
-IHRoZSBzeW5jaHJvbml6YXRpb24gcHJpbWl0aXZlcwo+IGluIGNhc2Ugb2YgYW4gZXJyb3IuCj4K
-PiBBcGFydCBmcm9tIHRoYXQgdGhpcyBpcyByYXRoZXIgaW5lZmZpY2llbnQsIGUuZy4gd2UgZG9u
-J3QgaGF2ZSBhbnkgd2F5Cj4gdG8gcHJldmVudCBwcmlvcml0eSBpbnZlcnNpb24gd2hlbiB1c2Vk
-IGFzIGEgc3luY2hyb25pemF0aW9uIG1lY2hhbmlzbQo+IGJldHdlZW4gZGlmZmVyZW50IEdQVSBx
-dWV1ZXMuCgpZZWFoIGJ1dCB5b3UgY2FuJ3QgaGF2ZSBpdCBib3RoIHdheXMuIEVpdGhlciBhbGwg
-dGhlIHNjaGVkdWxpbmcgaW4gdGhlCmtlcm5lbCBhbmQgZmVuY2UgaGFuZGxpbmcgaXMgYSBwcm9i
-bGVtLCBvciB5b3UgYWN0dWFsbHkgd2FudCB0bwpzY2hlZHVsZSBpbiB0aGUga2VybmVsLiBodyBz
-ZWVtcyB0byBkZWZpbml0ZWx5IG1vdmUgdG93YXJkcyB0aGUgbW9yZQpzdHVwaWQgc3BpbmxvY2st
-aW4taHcgbW9kZWwgKGFuZCBkaXJlY3Qgc3VibWl0IGZyb20gdXNlcnNwYWNlIGFuZCBhbGwKdGhh
-dCksIHByaW9yaXR5IGludmVyc2lvbnMgYmUgZGFtbmVkLiBJJ20gcmVhbGx5IG5vdCBzdXJlIHdl
-IHNob3VsZApmaWdodCB0aGF0IC0gaWYgaXQncyByZWFsbHkgdGhhdCBpbmVmZmljaWVudCB0aGVu
-IG1heWJlIGh3IHdpbGwgYWRkCnN1cHBvcnQgZm9yIHdhaXRpbmcgc3luYyBjb25zdHJ1Y3RzIGlu
-IGhhcmR3YXJlLCBvciBhdCBsZWFzdCBiZQpzbWFydGVyIGFib3V0IHNjaGVkdWxpbmcgb3RoZXIg
-c3R1ZmYuIEUuZy4gb24gaW50ZWwgaHcgYm90aCB0aGUga2VybmVsCnNjaGVkdWxlciBhbmQgZncg
-c2NoZWR1bGVyIGtub3dzIHdoZW4geW91J3JlIHNwaW5uaW5nIG9uIGEgaHcgZmVuY2UKKHdoZXRo
-ZXIgdXNlcnNwYWNlIG9yIGtlcm5lbCBkb2Vzbid0IG1hdHRlcikgYW5kIHBsdWdzIGluIHNvbWV0
-aGluZwplbHNlLiBBZGQgaW4gYSBiaXQgb2YgaHcgc3VwcG9ydCB0byB3YXRjaCBjYWNoZWxpbmVz
-LCBhbmQgeW91IGhhdmUKc29tZXRoaW5nIHdoaWNoIGNhbiBoYW5kbGUgYm90aCBkaXJlY3Rpb25z
-IGVmZmljaWVudGx5LgoKSW1vIGdpdmVuIHdoZXJlIGh3IGlzIGdvaW5nLCB3ZSBzaG91bGRuJ3Qg
-dHJ5IHRvIGJlIHRvbyBjbGV2ZXIgaGVyZS4KVGhlIG9ubHkgdGhpbmcgd2UgZG8gbmVlZCB0byBw
-cm92aXNpb24gaXMgYmVpbmcgYWJsZSB0byBkbyBjcHUgc2lkZQp3YWl0cyB3aXRob3V0IHNwaW5u
-aW5nLiBBbmQgdGhhdCBzaG91bGQgcHJvYmFibHkgYmUgZG9uZSBpbiBhIGZhaXJseQpncHUgc3Bl
-Y2lmaWMgd2F5IHN0aWxsLgotRGFuaWVsCgo+IENocmlzdGlhbi4KPgo+ID4gICAgVGhlIGtlcm5l
-bCB0aGVuIHByb3ZpZGVzIHNvbWUgaGVscGVycyBmb3IKPiA+IHdhaXRpbmcgb24gdGhlbSByZWxp
-YWJseSBhbmQgd2l0aG91dCBzcGlubmluZy4gIEkgZG9uJ3QgZXhwZWN0Cj4gPiBldmVyeW9uZSB0
-byBzdXBwb3J0IHRoZXNlIHJpZ2h0IGF3YXkgYnV0LCBJZiB3ZSdyZSBnb2luZyB0byByZS1wbHVt
-Ygo+ID4gdXNlcnNwYWNlIGZvciBleHBsaWNpdCBzeW5jaHJvbml6YXRpb24sIEknZCBsaWtlIHRv
-IG1ha2Ugc3VyZSB3ZSB0YWtlCj4gPiB0aGlzIGludG8gYWNjb3VudCBzbyB3ZSBvbmx5IGhhdmUg
-dG8gZG8gaXQgb25jZS4KPiA+Cj4gPgo+ID4+IERlYWRsb2NrIG1pdGlnYXRpb24gdG8gcmVjb3Zl
-ciBmcm9tIHNlZ2ZhdWx0czoKPiA+PiAtIFRoZSBrZXJuZWwga25vd3Mgd2hpY2ggcHJvY2VzcyBp
-cyBvYmxpZ2VkIHRvIHNpZ25hbCB3aGljaCBmZW5jZS4gVGhpcyBpbmZvcm1hdGlvbiBpcyBwYXJ0
-IG9mIHRoZSBQcmVzZW50IHJlcXVlc3QgYW5kIHN1cHBsaWVkIGJ5IHVzZXJzcGFjZS4KPiA+IFRo
-aXMgaXNuJ3QgY2xlYXIgdG8gbWUuICBZZXMsIGlmIHdlJ3JlIHVzaW5nIGFueXRoaW5nIGRtYS1m
-ZW5jZSBiYXNlZAo+ID4gbGlrZSBzeW5jb2JqLCB0aGlzIGlzIHRydWUuICBCdXQgaXQgZG9lc24n
-dCBzZWVtIHRvdGFsbHkgdHJ1ZSBhcyBhCj4gPiBnZW5lcmFsIHN0YXRlbWVudC4KPiA+Cj4gPgo+
-ID4+IC0gSWYgdGhlIHByb2R1Y2VyIGNyYXNoZXMsIHRoZSBrZXJuZWwgc2lnbmFscyB0aGUgc3Vi
-bWl0IGZlbmNlLCBzbyB0aGF0IHRoZSBjb25zdW1lciBjYW4gbWFrZSBmb3J3YXJkIHByb2dyZXNz
-Lgo+ID4+IC0gSWYgdGhlIGNvbnN1bWVyIGNyYXNoZXMsIHRoZSBrZXJuZWwgc2lnbmFscyB0aGUg
-cmV0dXJuIGZlbmNlLCBzbyB0aGF0IHRoZSBwcm9kdWNlciBjYW4gcmVjbGFpbSB0aGUgYnVmZmVy
-Lgo+ID4+IC0gQSBHUFUgaGFuZyBzaWduYWxzIGFsbCBmZW5jZXMuIE90aGVyIGRlYWRsb2NrcyB3
-aWxsIGJlIGhhbmRsZWQgbGlrZSBHUFUgaGFuZ3MuCj4gPiBXaGF0IGRvIHlvdSBtZWFuIGJ5ICJh
-bGwiPyAgQWxsIGZlbmNlcyB0aGF0IHdlcmUgc3VwcG9zZWQgdG8gYmUKPiA+IHNpZ25hbGVkIGJ5
-IHRoZSBodW5nIGNvbnRleHQ/Cj4gPgo+ID4KPiA+PiBPdGhlciB3aW5kb3cgc3lzdGVtIHJlcXVl
-c3RzIGNhbiBmb2xsb3cgdGhlIHNhbWUgaWRlYS4KPiA+Pgo+ID4+IE1lcmdlZCBmZW5jZXMgd2hl
-cmUgb25lIGZlbmNlIG9iamVjdCBjb250YWlucyBtdWx0aXBsZSBmZW5jZXMgd2lsbCBiZSBzdXBw
-b3J0ZWQuIEEgbWVyZ2VkIGZlbmNlIGlzIHNpZ25hbGxlZCBvbmx5IHdoZW4gaXRzIGZlbmNlcyBh
-cmUgc2lnbmFsbGVkLiBUaGUgY29uc3VtZXIgd2lsbCBoYXZlIHRoZSBvcHRpb24gdG8gcmVkZWZp
-bmUgdGhlIHVuc2lnbmFsbGVkIHJldHVybiBmZW5jZSB0byBhIG1lcmdlZCBmZW5jZS4KPiA+Pgo+
-ID4+IDIuMi4gTW9kZXNldHRpbmcKPiA+Pgo+ID4+IFNpbmNlIGEgbW9kZXNldHRpbmcgZHJpdmVy
-IGNhbiBhbHNvIGJlIHRoZSBjb25zdW1lciwgdGhlIHByZXNlbnQgaW9jdGwgd2lsbCBjb250YWlu
-IGEgc3VibWl0IGZlbmNlIGFuZCBhIHJldHVybiBmZW5jZSB0b28uIE9uZSBzbWFsbCBwcm9ibGVt
-IHdpdGggdGhpcyBpcyB0aGF0IHVzZXJzcGFjZSBjYW4gaGFuZyB0aGUgbW9kZXNldHRpbmcgZHJp
-dmVyLCBidXQgaW4gdGhlb3J5LCBhbnkgbGF0ZXIgcHJlc2VudCBpb2N0bCBjYW4gb3ZlcnJpZGUg
-dGhlIHByZXZpb3VzIG9uZSwgc28gdGhlIHVuc2lnbmFsbGVkIHByZXNlbnRhdGlvbiBpcyBuZXZl
-ciB1c2VkLgo+ID4+Cj4gPj4KPiA+PiAzLiBOZXcgbWVtb3J5IG1hbmFnZW1lbnQKPiA+Pgo+ID4+
-IFRoZSBwZXItQk8gZmVuY2VzIHdpbGwgYmUgcmVtb3ZlZCBhbmQgdGhlIGtlcm5lbCB3aWxsIG5v
-dCBrbm93IHdoaWNoIGJ1ZmZlcnMgYXJlIGJ1c3kuIFRoaXMgd2lsbCByZWR1Y2UgQ1BVIG92ZXJo
-ZWFkIGFuZCBsYXRlbmN5LiBUaGUga2VybmVsIHdpbGwgbm90IG5lZWQgcGVyLUJPIGZlbmNlcyB3
-aXRoIGV4cGxpY2l0IHN5bmNocm9uaXphdGlvbiwgc28gd2UganVzdCBuZWVkIHRvIHJlbW92ZSB0
-aGVpciBsYXN0IHVzZXI6IGJ1ZmZlciBldmljdGlvbnMuIEl0IGFsc28gcmVzb2x2ZXMgdGhlIGN1
-cnJlbnQgT09NIGRlYWRsb2NrLgo+ID4gSXMgdGhpcyBldmVuIHJlYWxseSBwb3NzaWJsZT8gIEkn
-bSBubyBrZXJuZWwgTU0gZXhwZXJ0ICh0cnlpbmcgdG8KPiA+IGxlYXJuIHNvbWUpIGJ1dCBteSB1
-bmRlcnN0YW5kaW5nIGlzIHRoYXQgdGhlIHVzZSBvZiBwZXItQk8gZG1hLWZlbmNlCj4gPiBydW5z
-IGRlZXAuICBJIHdvdWxkIGxpa2UgdG8gc3RvcCB1c2luZyBpdCBmb3IgaW1wbGljaXQgc3luY2hy
-b25pemF0aW9uCj4gPiB0byBiZSBzdXJlLCBidXQgSSdtIG5vdCBzdXJlIEkgYmVsaWV2ZSB0aGUg
-Y2xhaW0gdGhhdCB3ZSBjYW4gZ2V0IHJpZAo+ID4gb2YgaXQgZW50aXJlbHkuICBIYXBweSB0byBz
-ZWUgc29tZW9uZSB0cnksIHRob3VnaC4KPiA+Cj4gPgo+ID4+IDMuMS4gRXZpY3Rpb25zCj4gPj4K
-PiA+PiBJZiB0aGUga2VybmVsIHdhbnRzIHRvIG1vdmUgYSBidWZmZXIsIGl0IHdpbGwgaGF2ZSB0
-byB3YWl0IGZvciBldmVyeXRoaW5nIHRvIGdvIGlkbGUsIGhhbHQgYWxsIHVzZXJzcGFjZSBjb21t
-YW5kIHN1Ym1pc3Npb25zLCBtb3ZlIHRoZSBidWZmZXIsIGFuZCByZXN1bWUgZXZlcnl0aGluZy4g
-VGhpcyBpcyBub3QgZXhwZWN0ZWQgdG8gaGFwcGVuIHdoZW4gbWVtb3J5IGlzIG5vdCBleGhhdXN0
-ZWQuIE90aGVyIG1vcmUgZWZmaWNpZW50IHdheXMgb2Ygc3luY2hyb25pemF0aW9uIGFyZSBhbHNv
-IHBvc3NpYmxlIChlLmcuIHN5bmMgb25seSBvbmUgcHJvY2VzcyksIGJ1dCBhcmUgbm90IGRpc2N1
-c3NlZCBoZXJlLgo+ID4+Cj4gPj4gMy4yLiBQZXItcHJvY2VzcyBWUkFNIHVzYWdlIHF1b3RhCj4g
-Pj4KPiA+PiBFYWNoIHByb2Nlc3MgY2FuIG9wdGlvbmFsbHkgYW5kIHBlcmlvZGljYWxseSBxdWVy
-eSBpdHMgVlJBTSB1c2FnZSBxdW90YSBhbmQgY2hhbmdlIGRvbWFpbnMgb2YgaXRzIGJ1ZmZlcnMg
-dG8gb2JleSB0aGF0IHF1b3RhLiBGb3IgZXhhbXBsZSwgYSBwcm9jZXNzIGFsbG9jYXRlZCAyIEdC
-IG9mIGJ1ZmZlcnMgaW4gVlJBTSwgYnV0IHRoZSBrZXJuZWwgZGVjcmVhc2VkIHRoZSBxdW90YSB0
-byAxIEdCLiBUaGUgcHJvY2VzcyBjYW4gY2hhbmdlIHRoZSBkb21haW5zIG9mIHRoZSBsZWFzdCBp
-bXBvcnRhbnQgYnVmZmVycyB0byBHVFQgdG8gZ2V0IHRoZSBiZXN0IG91dGNvbWUgZm9yIGl0c2Vs
-Zi4gSWYgdGhlIHByb2Nlc3MgZG9lc24ndCBkbyBpdCwgdGhlIGtlcm5lbCB3aWxsIGNob29zZSB3
-aGljaCBidWZmZXJzIHRvIGV2aWN0IGF0IHJhbmRvbS4gKHRoYW5rcyB0byBDaHJpc3RpYW4gS29l
-bmlnIGZvciB0aGlzIGlkZWEpCj4gPiBUaGlzIGlzIGdvaW5nIHRvIGJlIGRpZmZpY3VsdC4gIE9u
-IEludGVsLCB3ZSBoYXZlIHNvbWUgcmVzb3VyY2VzIHRoYXQKPiA+IGhhdmUgdG8gYmUgcGlubmVk
-IHRvIFZSQU0gYW5kIGNhbid0IGJlIGR5bmFtaWNhbGx5IHN3YXBwZWQgb3V0IGJ5IHRoZQo+ID4g
-a2VybmVsLiAgSW4gR0wsIHdlIHByb2JhYmx5IGNhbiBkZWFsIHdpdGggaXQgc29tZXdoYXQgZHlu
-YW1pY2FsbHkuICBJbgo+ID4gVnVsa2FuLCB3ZSdsbCBiZSBlbnRpcmVseSBkZXBlbmRlbnQgb24g
-dGhlIGFwcGxpY2F0aW9uIHRvIHVzZSB0aGUKPiA+IGFwcHJvcHJpYXRlIFZ1bGthbiBtZW1vcnkg
-YnVkZ2V0IEFQSXMuCj4gPgo+ID4gLS1KYXNvbgo+ID4KPiA+Cj4gPj4gMy4zLiBCdWZmZXIgZGVz
-dHJ1Y3Rpb24gd2l0aG91dCBwZXItQk8gZmVuY2VzCj4gPj4KPiA+PiBXaGVuIHRoZSBidWZmZXIg
-ZGVzdHJveSBpb2N0bCBpcyBjYWxsZWQsIGFuIG9wdGlvbmFsIGZlbmNlIGxpc3QgY2FuIGJlIHBh
-c3NlZCB0byB0aGUga2VybmVsIHRvIGluZGljYXRlIHdoZW4gaXQncyBzYWZlIHRvIGRlYWxsb2Nh
-dGUgdGhlIGJ1ZmZlci4gSWYgdGhlIGZlbmNlIGxpc3QgaXMgZW1wdHksIHRoZSBidWZmZXIgd2ls
-bCBiZSBkZWFsbG9jYXRlZCBpbW1lZGlhdGVseS4gU2hhcmVkIGJ1ZmZlcnMgd2lsbCBiZSBoYW5k
-bGVkIGJ5IG1lcmdpbmcgZmVuY2UgbGlzdHMgZnJvbSBhbGwgcHJvY2Vzc2VzIHRoYXQgZGVzdHJv
-eSB0aGVtLiBNaXRpZ2F0aW9uIG9mIG1hbGljaW91cyBiZWhhdmlvcjoKPiA+PiAtIElmIHVzZXJz
-cGFjZSBkZXN0cm95cyBhIGJ1c3kgYnVmZmVyLCBpdCB3aWxsIGdldCBhIEdQVSBwYWdlIGZhdWx0
-Lgo+ID4+IC0gSWYgdXNlcnNwYWNlIHNlbmRzIGZlbmNlcyB0aGF0IG5ldmVyIHNpZ25hbCwgdGhl
-IGtlcm5lbCB3aWxsIGhhdmUgYSB0aW1lb3V0IHBlcmlvZCBhbmQgdGhlbiB3aWxsIHByb2NlZWQg
-dG8gZGVhbGxvY2F0ZSB0aGUgYnVmZmVyIGFueXdheS4KPiA+Pgo+ID4+IDMuNC4gT3RoZXIgbm90
-ZXMgb24gTU0KPiA+Pgo+ID4+IE92ZXJjb21taXRtZW50IG9mIEdQVS1hY2Nlc3NpYmxlIG1lbW9y
-eSB3aWxsIGNhdXNlIGFuIGFsbG9jYXRpb24gZmFpbHVyZSBvciBpbnZva2UgdGhlIE9PTSBraWxs
-ZXIuIEV2aWN0aW9ucyB0byBHUFUtaW5hY2Nlc3NpYmxlIG1lbW9yeSBtaWdodCBub3QgYmUgc3Vw
-cG9ydGVkLgo+ID4+Cj4gPj4gS2VybmVsIGRyaXZlcnMgY291bGQgbW92ZSB0byB0aGlzIG5ldyBt
-ZW1vcnkgbWFuYWdlbWVudCB0b2RheS4gT25seSBidWZmZXIgcmVzaWRlbmN5IGFuZCBldmljdGlv
-bnMgd291bGQgc3RvcCB1c2luZyBwZXItQk8gZmVuY2VzLgo+ID4+Cj4gPj4KPiA+PiA0LiBEZXBy
-ZWNhdGluZyBpbXBsaWNpdCBzeW5jaHJvbml6YXRpb24KPiA+Pgo+ID4+IEl0IGNhbiBiZSBwaGFz
-ZWQgb3V0IGJ5IGludHJvZHVjaW5nIGEgbmV3IGdlbmVyYXRpb24gb2YgaGFyZHdhcmUgd2hlcmUg
-dGhlIGRyaXZlciBkb2Vzbid0IGFkZCBzdXBwb3J0IGZvciBpdCAobGlrZSBhIGRyaXZlciBmb3Jr
-IHdvdWxkIGRvKSwgYXNzdW1pbmcgdXNlcnNwYWNlIGhhcyBhbGwgdGhlIGNoYW5nZXMgZm9yIGV4
-cGxpY2l0IHN5bmNocm9uaXphdGlvbi4gVGhpcyBjb3VsZCBwb3RlbnRpYWxseSBjcmVhdGUgYW4g
-aXNvbGF0ZWQgcGFydCBvZiB0aGUga2VybmVsIERSTSB3aGVyZSBhbGwgZHJpdmVycyBvbmx5IHN1
-cHBvcnQgZXhwbGljaXQgc3luY2hyb25pemF0aW9uLgo+ID4+Cj4gPj4gTWFyZWsKPiA+PiBfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+IGRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKPiA+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPj4g
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
-PiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiBt
-ZXNhLWRldiBtYWlsaW5nIGxpc3QKPiA+IG1lc2EtZGV2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
-ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9tZXNhLWRl
-dgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
-aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+Commit e3793468b466 ("drm/i915: Use the async worker to avoid reclaim
+tainting the ggtt->mutex") moves the vma binding to dma_fence_work,
+but dma_fence_work has has signalling fence semantics.
+
+On braswell, we can call stop_machine inside fence_work, causing a splat
+because memory allocation inside stop_machine is allowed.
+
+This patch does not fix that lockdep splat yet, but will allow the next
+patch to remove it.
+
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c |   3 -
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c       |   1 -
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c       |   1 -
+ drivers/gpu/drm/i915/gt/intel_ggtt.c       |   4 -
+ drivers/gpu/drm/i915/gt/intel_gtt.h        |   2 -
+ drivers/gpu/drm/i915/i915_gem.c            |   6 -
+ drivers/gpu/drm/i915/i915_vma.c            | 174 +++------------------
+ drivers/gpu/drm/i915/i915_vma.h            |   5 +-
+ drivers/gpu/drm/i915/i915_vma_types.h      |   3 -
+ 9 files changed, 21 insertions(+), 178 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index b0597de206de..ec04df0a3b89 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -505,9 +505,6 @@ static void dbg_poison(struct i915_ggtt *ggtt,
+ 	if (!drm_mm_node_allocated(&ggtt->error_capture))
+ 		return;
+ 
+-	if (ggtt->vm.bind_async_flags & I915_VMA_GLOBAL_BIND)
+-		return; /* beware stop_machine() inversion */
+-
+ 	GEM_BUG_ON(!IS_ALIGNED(size, PAGE_SIZE));
+ 
+ 	mutex_lock(&ggtt->error_mutex);
+diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+index e08dff376339..0c5a9a767849 100644
+--- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+@@ -436,7 +436,6 @@ struct i915_ppgtt *gen6_ppgtt_create(struct intel_gt *gt)
+ 	ppgtt->base.vm.pd_shift = ilog2(SZ_4K * SZ_4K / sizeof(gen6_pte_t));
+ 	ppgtt->base.vm.top = 1;
+ 
+-	ppgtt->base.vm.bind_async_flags = I915_VMA_LOCAL_BIND;
+ 	ppgtt->base.vm.allocate_va_range = gen6_alloc_va_range;
+ 	ppgtt->base.vm.clear_range = gen6_ppgtt_clear_range;
+ 	ppgtt->base.vm.insert_entries = gen6_ppgtt_insert_entries;
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+index 176c19633412..92f8a23e66cc 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+@@ -736,7 +736,6 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt)
+ 			goto err_free_pd;
+ 	}
+ 
+-	ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
+ 	ppgtt->vm.insert_entries = gen8_ppgtt_insert;
+ 	ppgtt->vm.allocate_va_range = gen8_ppgtt_alloc;
+ 	ppgtt->vm.clear_range = gen8_ppgtt_clear;
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 670c1271e7d5..e1ec6edae1fb 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -127,7 +127,6 @@ void i915_ggtt_suspend(struct i915_ggtt *ggtt)
+ 
+ 	list_for_each_entry_safe(vma, vn, &ggtt->vm.bound_list, vm_link) {
+ 		GEM_BUG_ON(!drm_mm_node_allocated(&vma->node));
+-		i915_vma_wait_for_bind(vma);
+ 
+ 		if (i915_vma_is_pinned(vma))
+ 			continue;
+@@ -671,7 +670,6 @@ static int init_aliasing_ppgtt(struct i915_ggtt *ggtt)
+ 	ppgtt->vm.allocate_va_range(&ppgtt->vm, &stash, 0, ggtt->vm.total);
+ 
+ 	ggtt->alias = ppgtt;
+-	ggtt->vm.bind_async_flags |= ppgtt->vm.bind_async_flags;
+ 
+ 	GEM_BUG_ON(ggtt->vm.vma_ops.bind_vma != ggtt_bind_vma);
+ 	ggtt->vm.vma_ops.bind_vma = aliasing_gtt_bind_vma;
+@@ -911,8 +909,6 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
+ 	    IS_CHERRYVIEW(i915) /* fails with concurrent use/update */) {
+ 		ggtt->vm.insert_entries = bxt_vtd_ggtt_insert_entries__BKL;
+ 		ggtt->vm.insert_page    = bxt_vtd_ggtt_insert_page__BKL;
+-		ggtt->vm.bind_async_flags =
+-			I915_VMA_GLOBAL_BIND | I915_VMA_LOCAL_BIND;
+ 	}
+ 
+ 	ggtt->invalidate = gen8_ggtt_invalidate;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+index e67e34e17913..d9d2ca8b4b61 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+@@ -230,8 +230,6 @@ struct i915_address_space {
+ 	u64 total;		/* size addr space maps (ex. 2GB for ggtt) */
+ 	u64 reserved;		/* size addr space reserved */
+ 
+-	unsigned int bind_async_flags;
+-
+ 	/*
+ 	 * Each active user context has its own address space (in full-ppgtt).
+ 	 * Since the vm may be shared between multiple contexts, we count how
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index b23f58e94cfb..4639c47c038b 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -946,12 +946,6 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+ 		mutex_unlock(&ggtt->vm.mutex);
+ 	}
+ 
+-	ret = i915_vma_wait_for_bind(vma);
+-	if (ret) {
+-		i915_vma_unpin(vma);
+-		return ERR_PTR(ret);
+-	}
+-
+ 	return vma;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 07490db51cdc..e4b2590d41ce 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -289,79 +289,6 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
+ 	return vma;
+ }
+ 
+-struct i915_vma_work {
+-	struct dma_fence_work base;
+-	struct i915_address_space *vm;
+-	struct i915_vm_pt_stash stash;
+-	struct i915_vma *vma;
+-	struct drm_i915_gem_object *pinned;
+-	struct i915_sw_dma_fence_cb cb;
+-	enum i915_cache_level cache_level;
+-	unsigned int flags;
+-};
+-
+-static int __vma_bind(struct dma_fence_work *work)
+-{
+-	struct i915_vma_work *vw = container_of(work, typeof(*vw), base);
+-	struct i915_vma *vma = vw->vma;
+-
+-	vma->ops->bind_vma(vw->vm, &vw->stash,
+-			   vma, vw->cache_level, vw->flags);
+-	return 0;
+-}
+-
+-static void __vma_release(struct dma_fence_work *work)
+-{
+-	struct i915_vma_work *vw = container_of(work, typeof(*vw), base);
+-
+-	if (vw->pinned) {
+-		__i915_gem_object_unpin_pages(vw->pinned);
+-		i915_gem_object_put(vw->pinned);
+-	}
+-
+-	i915_vm_free_pt_stash(vw->vm, &vw->stash);
+-	i915_vm_put(vw->vm);
+-}
+-
+-static const struct dma_fence_work_ops bind_ops = {
+-	.name = "bind",
+-	.work = __vma_bind,
+-	.release = __vma_release,
+-};
+-
+-struct i915_vma_work *i915_vma_work(void)
+-{
+-	struct i915_vma_work *vw;
+-
+-	vw = kzalloc(sizeof(*vw), GFP_KERNEL);
+-	if (!vw)
+-		return NULL;
+-
+-	dma_fence_work_init(&vw->base, &bind_ops);
+-	vw->base.dma.error = -EAGAIN; /* disable the worker by default */
+-
+-	return vw;
+-}
+-
+-int i915_vma_wait_for_bind(struct i915_vma *vma)
+-{
+-	int err = 0;
+-
+-	if (rcu_access_pointer(vma->active.excl.fence)) {
+-		struct dma_fence *fence;
+-
+-		rcu_read_lock();
+-		fence = dma_fence_get_rcu_safe(&vma->active.excl.fence);
+-		rcu_read_unlock();
+-		if (fence) {
+-			err = dma_fence_wait(fence, MAX_SCHEDULE_TIMEOUT);
+-			dma_fence_put(fence);
+-		}
+-	}
+-
+-	return err;
+-}
+-
+ /**
+  * i915_vma_bind - Sets up PTEs for an VMA in it's corresponding address space.
+  * @vma: VMA to map
+@@ -375,8 +302,7 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
+  */
+ int i915_vma_bind(struct i915_vma *vma,
+ 		  enum i915_cache_level cache_level,
+-		  u32 flags,
+-		  struct i915_vma_work *work)
++		  u32 flags, struct i915_vm_pt_stash *stash)
+ {
+ 	u32 bind_flags;
+ 	u32 vma_flags;
+@@ -405,39 +331,7 @@ int i915_vma_bind(struct i915_vma *vma,
+ 	GEM_BUG_ON(!vma->pages);
+ 
+ 	trace_i915_vma_bind(vma, bind_flags);
+-	if (work && bind_flags & vma->vm->bind_async_flags) {
+-		struct dma_fence *prev;
+-
+-		work->vma = vma;
+-		work->cache_level = cache_level;
+-		work->flags = bind_flags;
+-
+-		/*
+-		 * Note we only want to chain up to the migration fence on
+-		 * the pages (not the object itself). As we don't track that,
+-		 * yet, we have to use the exclusive fence instead.
+-		 *
+-		 * Also note that we do not want to track the async vma as
+-		 * part of the obj->resv->excl_fence as it only affects
+-		 * execution and not content or object's backing store lifetime.
+-		 */
+-		prev = i915_active_set_exclusive(&vma->active, &work->base.dma);
+-		if (prev) {
+-			__i915_sw_fence_await_dma_fence(&work->base.chain,
+-							prev,
+-							&work->cb);
+-			dma_fence_put(prev);
+-		}
+-
+-		work->base.dma.error = 0; /* enable the queue_work() */
+-
+-		if (vma->obj) {
+-			__i915_gem_object_pin_pages(vma->obj);
+-			work->pinned = i915_gem_object_get(vma->obj);
+-		}
+-	} else {
+-		vma->ops->bind_vma(vma->vm, NULL, vma, cache_level, bind_flags);
+-	}
++	vma->ops->bind_vma(vma->vm, stash, vma, cache_level, bind_flags);
+ 
+ 	atomic_or(bind_flags, &vma->flags);
+ 	return 0;
+@@ -531,9 +425,6 @@ bool i915_vma_misplaced(const struct i915_vma *vma,
+ 	if (!drm_mm_node_allocated(&vma->node))
+ 		return false;
+ 
+-	if (test_bit(I915_VMA_ERROR_BIT, __i915_vma_flags(vma)))
+-		return true;
+-
+ 	if (vma->node.size < size)
+ 		return true;
+ 
+@@ -752,7 +643,7 @@ static bool try_qad_pin(struct i915_vma *vma, unsigned int flags)
+ 		if (unlikely(flags & ~bound))
+ 			return false;
+ 
+-		if (unlikely(bound & (I915_VMA_OVERFLOW | I915_VMA_ERROR)))
++		if (unlikely(bound & I915_VMA_OVERFLOW))
+ 			return false;
+ 
+ 		if (!(bound & I915_VMA_PIN_MASK))
+@@ -770,7 +661,7 @@ static bool try_qad_pin(struct i915_vma *vma, unsigned int flags)
+ 	 */
+ 	mutex_lock(&vma->vm->mutex);
+ 	do {
+-		if (unlikely(bound & (I915_VMA_OVERFLOW | I915_VMA_ERROR))) {
++		if (unlikely(bound & I915_VMA_OVERFLOW)) {
+ 			pinned = false;
+ 			break;
+ 		}
+@@ -857,10 +748,10 @@ static void vma_unbind_pages(struct i915_vma *vma)
+ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ 		    u64 size, u64 alignment, u64 flags)
+ {
+-	struct i915_vma_work *work = NULL;
+ 	intel_wakeref_t wakeref = 0;
+ 	unsigned int bound;
+ 	int err;
++	struct i915_vm_pt_stash stash = {};
+ 
+ #ifdef CONFIG_PROVE_LOCKING
+ 	if (debug_locks && !WARN_ON(!ww) && vma->resv)
+@@ -883,33 +774,21 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ 	if (flags & PIN_GLOBAL)
+ 		wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
+ 
+-	if (flags & vma->vm->bind_async_flags) {
+-		/* lock VM */
+-		err = i915_vm_lock_objects(vma->vm, ww);
++	if (vma->vm->allocate_va_range) {
++		err = i915_vm_alloc_pt_stash(vma->vm,
++					     &stash,
++					     vma->size);
+ 		if (err)
+ 			goto err_rpm;
+ 
+-		work = i915_vma_work();
+-		if (!work) {
+-			err = -ENOMEM;
++		err = i915_vm_lock_objects(vma->vm, ww);
++		if (err)
+ 			goto err_rpm;
+-		}
+ 
+-		work->vm = i915_vm_get(vma->vm);
+-
+-		/* Allocate enough page directories to used PTE */
+-		if (vma->vm->allocate_va_range) {
+-			err = i915_vm_alloc_pt_stash(vma->vm,
+-						     &work->stash,
+-						     vma->size);
+-			if (err)
+-				goto err_fence;
+-
+-			err = i915_vm_pin_pt_stash(vma->vm,
+-						   &work->stash);
+-			if (err)
+-				goto err_fence;
+-		}
++		err = i915_vm_pin_pt_stash(vma->vm,
++					   &stash);
++		if (err)
++			goto err_rpm;
+ 	}
+ 
+ 	/*
+@@ -932,7 +811,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ 	err = mutex_lock_interruptible_nested(&vma->vm->mutex,
+ 					      !(flags & PIN_GLOBAL));
+ 	if (err)
+-		goto err_fence;
++		goto err_rpm;
+ 
+ 	/* No more allocations allowed now we hold vm->mutex */
+ 
+@@ -942,11 +821,6 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ 	}
+ 
+ 	bound = atomic_read(&vma->flags);
+-	if (unlikely(bound & I915_VMA_ERROR)) {
+-		err = -ENOMEM;
+-		goto err_unlock;
+-	}
+-
+ 	if (unlikely(!((bound + 1) & I915_VMA_PIN_MASK))) {
+ 		err = -EAGAIN; /* pins are meant to be fairly temporary */
+ 		goto err_unlock;
+@@ -973,7 +847,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ 	GEM_BUG_ON(!vma->pages);
+ 	err = i915_vma_bind(vma,
+ 			    vma->obj ? vma->obj->cache_level : 0,
+-			    flags, work);
++			    flags, &stash);
+ 	if (err)
+ 		goto err_remove;
+ 
+@@ -996,10 +870,8 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ 	i915_active_release(&vma->active);
+ err_unlock:
+ 	mutex_unlock(&vma->vm->mutex);
+-err_fence:
+-	if (work)
+-		dma_fence_work_commit_imm(&work->base);
+ err_rpm:
++	i915_vm_free_pt_stash(vma->vm, &stash);
+ 	if (wakeref)
+ 		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
+ 	vma_put_pages(vma);
+@@ -1034,14 +906,8 @@ int i915_ggtt_pin(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ 			err = i915_vma_pin_ww(vma, ww, 0, align, flags | PIN_GLOBAL);
+ 		else
+ 			err = i915_vma_pin(vma, 0, align, flags | PIN_GLOBAL);
+-		if (err != -ENOSPC) {
+-			if (!err) {
+-				err = i915_vma_wait_for_bind(vma);
+-				if (err)
+-					i915_vma_unpin(vma);
+-			}
++		if (err != -ENOSPC)
+ 			return err;
+-		}
+ 
+ 		/* Unlike i915_vma_pin, we don't take no for an answer! */
+ 		flush_idle_contexts(vm->gt);
+@@ -1306,7 +1172,7 @@ void __i915_vma_evict(struct i915_vma *vma)
+ 		trace_i915_vma_unbind(vma);
+ 		vma->ops->unbind_vma(vma->vm, vma);
+ 	}
+-	atomic_and(~(I915_VMA_BIND_MASK | I915_VMA_ERROR | I915_VMA_GGTT_WRITE),
++	atomic_and(~(I915_VMA_BIND_MASK | I915_VMA_GGTT_WRITE),
+ 		   &vma->flags);
+ 
+ 	i915_vma_detach(vma);
+diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+index 8df784a026d2..d1d0fc76ef99 100644
+--- a/drivers/gpu/drm/i915/i915_vma.h
++++ b/drivers/gpu/drm/i915/i915_vma.h
+@@ -195,11 +195,10 @@ i915_vma_compare(struct i915_vma *vma,
+ 	return memcmp(&vma->ggtt_view.partial, &view->partial, view->type);
+ }
+ 
+-struct i915_vma_work *i915_vma_work(void);
+ int i915_vma_bind(struct i915_vma *vma,
+ 		  enum i915_cache_level cache_level,
+ 		  u32 flags,
+-		  struct i915_vma_work *work);
++		  struct i915_vm_pt_stash *stash);
+ 
+ bool i915_gem_valid_gtt_space(struct i915_vma *vma, unsigned long color);
+ bool i915_vma_misplaced(const struct i915_vma *vma,
+@@ -418,8 +417,6 @@ struct i915_vma *i915_vma_make_unshrinkable(struct i915_vma *vma);
+ void i915_vma_make_shrinkable(struct i915_vma *vma);
+ void i915_vma_make_purgeable(struct i915_vma *vma);
+ 
+-int i915_vma_wait_for_bind(struct i915_vma *vma);
+-
+ static inline int i915_vma_sync(struct i915_vma *vma)
+ {
+ 	/* Wait for the asynchronous bindings and pending GPU reads */
+diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+index 6b1bfa230b82..82868a755a96 100644
+--- a/drivers/gpu/drm/i915/i915_vma_types.h
++++ b/drivers/gpu/drm/i915/i915_vma_types.h
+@@ -240,9 +240,6 @@ struct i915_vma {
+ 
+ #define I915_VMA_ALLOC_BIT	12
+ 
+-#define I915_VMA_ERROR_BIT	13
+-#define I915_VMA_ERROR		((int)BIT(I915_VMA_ERROR_BIT))
+-
+ #define I915_VMA_GGTT_BIT	14
+ #define I915_VMA_CAN_FENCE_BIT	15
+ #define I915_VMA_USERFAULT_BIT	16
+-- 
+2.31.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
