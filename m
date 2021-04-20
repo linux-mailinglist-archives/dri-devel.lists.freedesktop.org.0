@@ -2,27 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27F2365507
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8926B3654EE
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:11:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13B966E4C9;
-	Tue, 20 Apr 2021 09:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A13F6E4AE;
+	Tue, 20 Apr 2021 09:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0926E4C9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:12:49 +0000 (UTC)
-Received: from mail-ej1-f43.google.com ([209.85.218.43]) by
- mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MIxmm-1lEUa531I2-00KU7u for <dri-devel@lists.freedesktop.org>; Tue, 20
- Apr 2021 11:07:43 +0200
-Received: by mail-ej1-f43.google.com with SMTP id v6so55845750ejo.6
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 02:07:43 -0700 (PDT)
-X-Gm-Message-State: AOAM5311Y+3H1yqwMj11CFk3+Y6tn9hxZyAIKZ+pEZdGhCCmM6v6FYpd
- 4e9qWz+N0tLrchotxw1NZW9+J32DLxWYd5j3xqM=
-X-Google-Smtp-Source: ABdhPJwSiNwlZ27l6d0oeVOJMjBIBpaEf6fV+Kr02yQOCGa6DdHdokE+eIs4+TiyDD+ybgS8jO4hGYikHl0QAhmuRDs=
-X-Received: by 2002:adf:db4f:: with SMTP id f15mr19571156wrj.99.1618909652608; 
- Tue, 20 Apr 2021 02:07:32 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF2B56E4AE
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:11:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9358A613AF
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1618909868;
+ bh=DeGQ9vUDRCVhA8t5Ph+0N53DtPOXi7alQM8lRrwQwKo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=EXaUejfPaaye7JWUCmF8GSi/RlYZhQsdmX+kLcrBeX0F1eFgr44krM1ixkRCmXqkg
+ FBkMtZZGYAFq9xBKq5dcb2BOQt+ZCJKFph809k2UHYXQ05bfNbCW2UMcbcmTQ+BSp+
+ d4wYwcs4Xh3CFODUAnQ6T/3q0QUsxZsoXx5nhwd/fpBWvKp8/59bRQmO/3zgbXcwmK
+ 5ZxGXiVuroDwkEdd0DsqBUmQGVuvW3ND1+dRkLPV1j+YSFx6n/pEQ0ehheOXLBySbA
+ UArXFDspN2qbdaPSjruyfPlBf3HVvFuXT3t/kqjY8MxeeKRO9TZhjCji8FQIgiY4FO
+ xIB/CJ63eyrXQ==
+Received: by mail-lf1-f53.google.com with SMTP id h36so6220648lfv.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 02:11:08 -0700 (PDT)
+X-Gm-Message-State: AOAM532tX56seTsSlU5307y32bnXGXWq3hGVHW837RK0OWO8+5BXJDOM
+ STTz9w+13XQwwo0CntuVfSbgpU65QSiFYzibU1Y=
+X-Google-Smtp-Source: ABdhPJyHjUN6C0/sUkUlP+4nedtBBPWCDMG4VnGKqPhVa1uJB5nLQGViYOHp7TNdMb76BpIs8GkQPbFl+yNnVewK4NU=
+X-Received: by 2002:a5d:6dc4:: with SMTP id d4mr20219548wrz.105.1618909856639; 
+ Tue, 20 Apr 2021 02:10:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
  <20210419042722.27554-4-alice.guo@oss.nxp.com>
@@ -32,29 +40,13 @@ References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
  <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
  <YH4VdPNO9cdzc5MD@atmark-techno.com>
 In-Reply-To: <YH4VdPNO9cdzc5MD@atmark-techno.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 20 Apr 2021 11:07:16 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
-Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Tue, 20 Apr 2021 11:10:40 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1tPQm1Qj2KZu2jOM=TUP0dJgP4G9eKkWfv-PZEAWEhyA@mail.gmail.com>
+Message-ID: <CAK8P3a1tPQm1Qj2KZu2jOM=TUP0dJgP4G9eKkWfv-PZEAWEhyA@mail.gmail.com>
 Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
  soc_device_match
 To: Dominique MARTINET <dominique.martinet@atmark-techno.com>
-X-Provags-ID: V03:K1:1AMFxWlCfru2gV1vt/8GOQalzBgZcXbu8hWV8i20Cuh9WQyaW1f
- GcKzFJrPaGkrCFsUx/tMdYzWMmvzphLxkSfav6ZYJjrRA+Izzsj9tUBFh6m6BRxIzeoSNDE
- Zb8579Gk6kAwaTIF914yQmra7cpSCQMAbKq+/+OUKPGIx5Ju3jhv/kyf8rWaeV6Ut5iMipF
- ETVaYK+SQbiGfh7zvCfIA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uX9o50WlzFM=:3Ukkk15pZakuhf5sHurWOV
- qSPl6dZNTdD9BTNuX5sMDxiePg1Oq87Vg3zJe8gTnjcnL+hauRufkEc12J9uIdJtGO8nDsb7U
- JWVW3ZMoDyADonUGLrG5eHNyn7uJBH38GLDLJoI0VgUWeu4rYtUYPT2+eqMxtl8nnlpsjezs9
- P/CflQzet2Bs6e4Kw/mFrpGzQpPz09oAL97P4oj3l9EO8oZqEjt+5vCntwDfo2xvbBvX9HWhE
- W4o5aU7C5EEkKtKPK15yHlqhOW+pCTrrrQnpo3jLRwVDYh3H4bVNs7ggVNsd1UAoAAMPszG/x
- jP22Q48tL9jTYU3QmZv5bgDT3A8bKbbiKCmnfBa4udtTXUE0ySnpkIeXlOogXr/GZypc7nb2n
- 1VnGYAEssGAudwJ5p18EPMahylPuk75y/MQI+klX2NUsOOPepIZ/kLxTWMUugI3JnimF5PI9g
- Dr5G0o3fOLVJigeyoUOYHrM8xOmeYQTgnTUJ8/FqSnyJsYIp1Aekt74ratdCaWk9vnSZ9398s
- MC4rz9r+QbLq0dM2VYA0hmUWdJZeGxfOEG2/vnZleig0A4JuPdqNpVJPd2lokYq4eMRm9A68O
- mFShwc3EjP3yeFaoYFN/+oXUnCL/ut+mFXBww3FIJvxJtIucosvOi68MVHbLe4S6KFtnOPqnQ
- bcNo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
