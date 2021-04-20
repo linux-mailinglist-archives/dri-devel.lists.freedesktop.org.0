@@ -1,58 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C19366287
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 01:38:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C607366294
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 01:47:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 010E16E92D;
-	Tue, 20 Apr 2021 23:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22CCA89BF8;
+	Tue, 20 Apr 2021 23:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 570836E0BE
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 23:38:53 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id 31so12454212pgn.13
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 16:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=rUEcOAL+JdYx7iw/rsaYqBg6P/fDtNoMJwsAvdMr4k8=;
- b=ZtpSHHCa3/J8Q01BlM9ud01JiqjG6VpT4jrLH7nfoh0ZpIi8KROK+UzYFdOnAHv64Y
- CPOB9aO3tqTwU+EzkIGARznb+Fck3IRcGC/40Qx1xaqQSg93VSjQwgwG6CVyaSvLvI7Q
- I9dscI7B21TE96Aa8oufyl1VbcaTs4vfL2n5k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=rUEcOAL+JdYx7iw/rsaYqBg6P/fDtNoMJwsAvdMr4k8=;
- b=avn2FU014gIegNWejJtvIzc/kmz33LT5aPOr4h6+KZH3VsVFydlZD5muZpbg+y7odS
- 5Ht7b3/LqxTXpwx3GXi+2sb+oRBYFtMKFOfUzCIJfc3Fuh5nz8v1wTjvIozz1274yw5x
- 4MmJmb4v1CFooFLtqI56l+CVWDKaqdWfZIwLgOgk6pBx50SWPQto11qJ/BuRLyzjEpz/
- GAGLPmb51MMFTpe6lFaqiqIMeAacOgALgWxQevKjgdYBJXvaMsAPdof+nDufbsb2tTvo
- 4L9dlndYhMlNMqECt65xTy+PAcCqM+hWK+hN/oIPCZghF6JEdYwaUin7mFq4uA/sAQnk
- FgBg==
-X-Gm-Message-State: AOAM5329TxHOLQlohkiYWCDKmImxLMlfTBP70GBqClJq8RzKQxwDGFku
- VaRnzz0A3P1gksxxTWl8Ylnlqw==
-X-Google-Smtp-Source: ABdhPJwaJs4WZDLFNWzbOxVCZx4k6HAurBhLbnuarykRH3zTa6CzwurH2yeUCrWudlUlo0Eph/iupQ==
-X-Received: by 2002:a17:90a:9509:: with SMTP id t9mr7754936pjo.3.1618961932968; 
- Tue, 20 Apr 2021 16:38:52 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:bf8b:4b8b:2315:3719])
- by smtp.gmail.com with ESMTPSA id r3sm111567pfl.159.2021.04.20.16.38.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 16:38:52 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB3F89BF8
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 23:47:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2DD4061416
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 23:47:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1618962425;
+ bh=eA0je9XIMBi+hBIu0Pn+Aqj2T8qTA7b2uS0VLUF9zzI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=LLoLlHkeLBDnQdbZLhuvX9xOoH4axN0qp+9NqdkFFfPTNsTVrZX2BYwP95/jmzXbe
+ FZdHUD9WmZ8roFsiA8D2MZxqFnhaf8wG4d0mEji0L11b9lNqtTc226sT81K2/sFg0d
+ 3NOutLIfcIdLaCAfDJuBkkcQsjJn7GG+NnryiTpTIJNTAgZ4rrxfKGKH7Z/fdQEgu9
+ jO3bL4tY86zEh/S5odoWApJ/bgqVsXXCohotJowhgy8LdR2mLlCrl7mJxFJaisZsLq
+ UkCous9eWdQPBpcr/CN9dWVs4HWZTJ42DMYruXNpzSY8/J57DCFo4UA6mwFLZ7lwl2
+ C5ymHH/U29J+w==
+Received: by mail-ej1-f52.google.com with SMTP id u21so60831259ejo.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 16:47:05 -0700 (PDT)
+X-Gm-Message-State: AOAM533XNDu0amM+qDgevPyxsiLx/Y4NzSF2cc8b41LWCqPpdEpKpFEQ
+ eM2PERCDjFbewz3LxsgGCrBRD5RqJNNNHR37Vg==
+X-Google-Smtp-Source: ABdhPJzWtA0GFcdRkEW30nmVsBQ8OqLDMIWv7BThU6NzNQoUVz5rdXp0ZYW89/UGZrCQLN81Daaw9OUcamTMW6UpIik=
+X-Received: by 2002:a17:907:629c:: with SMTP id
+ nd28mr30584066ejc.267.1618962423550; 
+ Tue, 20 Apr 2021 16:47:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1618594731-556-1-git-send-email-khsieh@codeaurora.org>
-References: <1618594731-556-1-git-send-email-khsieh@codeaurora.org>
-Subject: Re: [PATCH v3 3/3] drm/msm/dp: check main link status before start
- aux read
-From: Stephen Boyd <swboyd@chromium.org>
-To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run
-Date: Tue, 20 Apr 2021 16:38:50 -0700
-Message-ID: <161896193053.46595.7590816467281538002@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+References: <20210409045314.3420733-1-hsinyi@chromium.org>
+ <CAJMQK-gFk8WV0W2TTP7=OTsBqgWmy_eKSd42Xa5dJzvUFDTAXQ@mail.gmail.com>
+In-Reply-To: <CAJMQK-gFk8WV0W2TTP7=OTsBqgWmy_eKSd42Xa5dJzvUFDTAXQ@mail.gmail.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 21 Apr 2021 07:46:52 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9pJ=H4gQKsC1VeHo6Z4qsHFzOe267QVu6p_Jid0AXsKQ@mail.gmail.com>
+Message-ID: <CAAOTY_9pJ=H4gQKsC1VeHo6Z4qsHFzOe267QVu6p_Jid0AXsKQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/mediatek: set panel orientation before
+ drm_dev_register().
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,142 +55,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, khsieh@codeaurora.org,
- dri-devel@lists.freedesktop.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2021-04-16 10:38:51)
-> Maybe when the cable is disconnected the DP phy should be shutdown and
-> some bit in the phy could effectively "cut off" the aux channel and then
-> NAKs would start coming through here in the DP controller I/O register
-> space. This patch have DP aux channel read/write to return NAK immediately
-> if DP controller connection status is in unplugged state.
-> 
-> Changes in V3:
-> -- check core_initialized before handle irq_hpd
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/dp/dp_aux.c     |  5 +++++
->  drivers/gpu/drm/msm/dp/dp_display.c | 14 ++++++++++----
->  drivers/gpu/drm/msm/dp/dp_link.c    | 20 +++++++++++++++-----
->  3 files changed, 30 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-> index 7c22bfe..fae3806 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-> @@ -343,6 +343,11 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
->  
->         mutex_lock(&aux->mutex);
->  
-> +       if (!dp_catalog_link_is_connected(aux->catalog)) {
-> +               ret = -ETIMEDOUT;
-> +               goto unlock_exit;
-> +       }
-> +
-
-This still makes me concerned. Any possibility to not do this and have
-the phy cut the connection off and have this transfer timeout
-immediately?
-
->         aux->native = msg->request & (DP_AUX_NATIVE_WRITE & DP_AUX_NATIVE_READ);
->  
->         /* Ignore address only message */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 1784e11..db3f45e 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -571,7 +571,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
->                 dp->hpd_state = ST_DISCONNECTED;
->  
->                 if (ret == -ECONNRESET) { /* cable unplugged */
-> -                       dp->core_initialized = false;
-> +                       DRM_ERROR("dongle unplugged = %d\n", ret);
-
-Is this a debug message?
-
->                 }
->  
->         } else {
-> @@ -711,9 +711,15 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
->                 return 0;
->         }
->  
-> -       ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
-> -       if (ret == -ECONNRESET) { /* cable unplugged */
-> -               dp->core_initialized = false;
-> +       /*
-> +        * dp core (ahb/aux clks) must be initialized before
-> +        * irq_hpd be handled
-> +        */
-> +       if (dp->core_initialized) {
-> +               ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
-> +               if (ret == -ECONNRESET) { /* cable unplugged */
-> +                       DRM_ERROR("dongle unplugged = %d\n", ret);
-
-Another debug message?
-
-> +               }
->         }
->  
->         mutex_unlock(&dp->event_mutex);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-> index be986da..53ecae6 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_link.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
-> @@ -737,18 +737,25 @@ static int dp_link_parse_sink_count(struct dp_link *dp_link)
->         return 0;
->  }
->  
-> -static void dp_link_parse_sink_status_field(struct dp_link_private *link)
-> +static int dp_link_parse_sink_status_field(struct dp_link_private *link)
->  {
->         int len = 0;
->  
->         link->prev_sink_count = link->dp_link.sink_count;
-> -       dp_link_parse_sink_count(&link->dp_link);
-> +       len = dp_link_parse_sink_count(&link->dp_link);
-> +       if (len < 0) {
-> +               DRM_ERROR("DP parse sink count failed\n");
-> +               return len;
-> +       }
->  
->         len = drm_dp_dpcd_read_link_status(link->aux,
->                 link->link_status);
-> -       if (len < DP_LINK_STATUS_SIZE)
-> +       if (len < DP_LINK_STATUS_SIZE) {
->                 DRM_ERROR("DP link status read failed\n");
-> -       dp_link_parse_request(link);
-> +               return len;
-> +       }
-> +
-> +       return dp_link_parse_request(link);
->  }
->  
->  /**
-> @@ -1032,7 +1039,10 @@ int dp_link_process_request(struct dp_link *dp_link)
->  
->         dp_link_reset_data(link);
->  
-> -       dp_link_parse_sink_status_field(link);
-> +       ret = dp_link_parse_sink_status_field(link);
-> +       if (ret) {
-> +               return ret;
-> +       }
->  
->         if (link->request.test_requested == DP_TEST_LINK_EDID_READ) {
->                 dp_link->sink_request |= DP_TEST_LINK_EDID_READ;
-> -- 
-
-Can you split this part off into another patch? It seems to stand on its
-own as it makes the code more robust to transfer errors in the sink
-parsing code.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEhzaW4tWWk6CgpIc2luLVlpIFdhbmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+IOaWvCAyMDIx
+5bm0NOaciDIw5pelIOmAseS6jCDkuIvljYg1OjA15a+r6YGT77yaCj4KPiBPbiBGcmksIEFwciA5
+LCAyMDIxIGF0IDEyOjUzIFBNIEhzaW4tWWkgV2FuZyA8aHNpbnlpQGNocm9taXVtLm9yZz4gd3Jv
+dGU6Cj4gPgo+ID4gZHJtX2Rldl9yZWdpc3RlcigpIHNldHMgY29ubmVjdG9yLT5yZWdpc3RyYXRp
+b25fc3RhdGUgdG8KPiA+IERSTV9DT05ORUNUT1JfUkVHSVNURVJFRCBhbmQgZGV2LT5yZWdpc3Rl
+cmVkIHRvIHRydWUuIElmCj4gPiBkcm1fY29ubmVjdG9yX3NldF9wYW5lbF9vcmllbnRhdGlvbigp
+IGlzIGZpcnN0IGNhbGxlZCBhZnRlcgo+ID4gZHJtX2Rldl9yZWdpc3RlcigpLCBpdCB3aWxsIGZh
+aWwgc2V2ZXJhbCBjaGVja3MgYW5kIHJlc3VsdHMgaW4gZm9sbG93aW5nCj4gPiB3YXJuaW5nLiBT
+byBzZXQgcGFuZWwgb3JpZW50YXRpb24gaW4gZHNpIGJlZm9yZSBkcm1fZGV2X3JlZ2lzdGVyKCkg
+aXMKPiA+IGNhbGxlZC4KCkFsbCBjb25uZWN0b3Igd291bGQgaGF2ZSB0aGlzIHByb2JsZW0sIHNv
+IEkgd291bGQgbGlrZSB0byBmaXggdGhpcyBpbgpjb21tb24gY29kZS4KSW4gZHJtX2Nvbm5lY3Rv
+cl9pbml0KCksIHlvdSBjb3VsZCBhZGQgInBhbmVsIG9yaWVudGF0aW9uIiBwcm9wZXJ0eQp3aXRo
+IHZhbHVlIERSTV9NT0RFX1BBTkVMX09SSUVOVEFUSU9OX1VOS05PV04sIHNvIGl0IHdvdWxkIG5v
+dCBhZGQgbmV3Cm9iamVjdCB3aGVuIGdldCBtb2Rlcy4KClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+
+ID4KPiA+IFsgICAgNC40ODA5NzZdIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0t
+LQo+ID4gWyAgICA0LjQ4NTYwM10gV0FSTklORzogQ1BVOiA1IFBJRDogMzY5IGF0IGRyaXZlcnMv
+Z3B1L2RybS9kcm1fbW9kZV9vYmplY3QuYzo0NSBfX2RybV9tb2RlX29iamVjdF9hZGQrMHhiNC8w
+eGJjCj4gPiA8c25pcD4KPiA+IFsgICAgNC42MDk3NzJdIENhbGwgdHJhY2U6Cj4gPiBbICAgIDQu
+NjEyMjA4XSAgX19kcm1fbW9kZV9vYmplY3RfYWRkKzB4YjQvMHhiYwo+ID4gWyAgICA0LjYxNjQ2
+Nl0gIGRybV9tb2RlX29iamVjdF9hZGQrMHgyMC8weDJjCj4gPiBbICAgIDQuNjIwNTUyXSAgZHJt
+X3Byb3BlcnR5X2NyZWF0ZSsweGRjLzB4MTc0Cj4gPiBbICAgIDQuNjI0NzIzXSAgZHJtX3Byb3Bl
+cnR5X2NyZWF0ZV9lbnVtKzB4MzQvMHg5OAo+ID4gWyAgICA0LjYyOTI0MV0gIGRybV9jb25uZWN0
+b3Jfc2V0X3BhbmVsX29yaWVudGF0aW9uKzB4NjQvMHhhMAo+ID4gWyAgICA0LjYzNDcxNl0gIGJv
+ZV9wYW5lbF9nZXRfbW9kZXMrMHg4OC8weGQ4Cj4gPiBbICAgIDQuNjM4ODAyXSAgZHJtX3BhbmVs
+X2dldF9tb2RlcysweDJjLzB4NDgKPiA+IFsgICAgNC42NDI4ODddICBwYW5lbF9icmlkZ2VfZ2V0
+X21vZGVzKzB4MWMvMHgyOAo+ID4gWyAgICA0LjY0NzIzM10gIGRybV9icmlkZ2VfY29ubmVjdG9y
+X2dldF9tb2RlcysweGEwLzB4ZDQKPiA+IFsgICAgNC42NTIyNzNdICBkcm1faGVscGVyX3Byb2Jl
+X3NpbmdsZV9jb25uZWN0b3JfbW9kZXMrMHgyMTgvMHg3MDAKPiA+IFsgICAgNC42NTgyNjZdICBk
+cm1fbW9kZV9nZXRjb25uZWN0b3IrMHgxYjQvMHg0NWMKPiA+IFsgICAgNC42NjI2OTldICBkcm1f
+aW9jdGxfa2VybmVsKzB4YWMvMHgxMjgKPiA+IFsgICAgNC42NjY2MTFdICBkcm1faW9jdGwrMHgy
+NjgvMHg0MTAKPiA+IFsgICAgNC42NzAwMDJdICBkcm1fY29tcGF0X2lvY3RsKzB4ZGMvMHhmMAo+
+ID4gWyAgICA0LjY3MzgyOV0gIF9fYXJtNjRfY29tcGF0X3N5c19pb2N0bCsweGM4LzB4MTAwCj4g
+PiBbICAgIDQuNjc4NDM2XSAgZWwwX3N2Y19jb21tb24rMHhmNC8weDFjMAo+ID4gWyAgICA0LjY4
+MjE3NF0gIGRvX2VsMF9zdmNfY29tcGF0KzB4MjgvMHgzYwo+ID4gWyAgICA0LjY4NjA4OF0gIGVs
+MF9zdmNfY29tcGF0KzB4MTAvMHgxYwo+ID4gWyAgICA0LjY4OTczOF0gIGVsMF9zeW5jX2NvbXBh
+dF9oYW5kbGVyKzB4YTgvMHhjYwo+ID4gWyAgICA0LjY5NDE3MV0gIGVsMF9zeW5jX2NvbXBhdCsw
+eDE3OC8weDE4MAo+ID4gWyAgICA0LjY5ODA4Ml0gLS0tWyBlbmQgdHJhY2UgYjRmMmRiOWQ5Yzg4
+NjEwYiBdLS0tCj4gPiBbICAgIDQuNzAyNzIxXSAtLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0t
+LS0tLS0tLS0KPiA+IFsgICAgNC43MDczMjldIFdBUk5JTkc6IENQVTogNSBQSUQ6IDM2OSBhdCBk
+cml2ZXJzL2dwdS9kcm0vZHJtX21vZGVfb2JqZWN0LmM6MjQzIGRybV9vYmplY3RfYXR0YWNoX3By
+b3BlcnR5KzB4NDgvMHhiOAo+ID4gPHNuaXA+Cj4gPiBbICAgIDQuODMzODMwXSBDYWxsIHRyYWNl
+Ogo+ID4gWyAgICA0LjgzNjI2Nl0gIGRybV9vYmplY3RfYXR0YWNoX3Byb3BlcnR5KzB4NDgvMHhi
+OAo+ID4gWyAgICA0Ljg0MDk1OF0gIGRybV9jb25uZWN0b3Jfc2V0X3BhbmVsX29yaWVudGF0aW9u
+KzB4ODQvMHhhMAo+ID4gWyAgICA0Ljg0NjQzMl0gIGJvZV9wYW5lbF9nZXRfbW9kZXMrMHg4OC8w
+eGQ4Cj4gPiBbICAgIDQuODUwNTE2XSAgZHJtX3BhbmVsX2dldF9tb2RlcysweDJjLzB4NDgKPiA+
+IFsgICAgNC44NTQ2MDBdICBwYW5lbF9icmlkZ2VfZ2V0X21vZGVzKzB4MWMvMHgyOAo+ID4gWyAg
+ICA0Ljg1ODk0Nl0gIGRybV9icmlkZ2VfY29ubmVjdG9yX2dldF9tb2RlcysweGEwLzB4ZDQKPiA+
+IFsgICAgNC44NjM5ODRdICBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMr
+MHgyMTgvMHg3MDAKPiA+IFsgICAgNC44Njk5NzhdICBkcm1fbW9kZV9nZXRjb25uZWN0b3IrMHgx
+YjQvMHg0NWMKPiA+IFsgICAgNC44NzQ0MTBdICBkcm1faW9jdGxfa2VybmVsKzB4YWMvMHgxMjgK
+PiA+IFsgICAgNC44NzgzMjBdICBkcm1faW9jdGwrMHgyNjgvMHg0MTAKPiA+IFsgICAgNC44ODE3
+MTFdICBkcm1fY29tcGF0X2lvY3RsKzB4ZGMvMHhmMAo+ID4gWyAgICA0Ljg4NTUzNl0gIF9fYXJt
+NjRfY29tcGF0X3N5c19pb2N0bCsweGM4LzB4MTAwCj4gPiBbICAgIDQuODkwMTQyXSAgZWwwX3N2
+Y19jb21tb24rMHhmNC8weDFjMAo+ID4gWyAgICA0Ljg5Mzg3OV0gIGRvX2VsMF9zdmNfY29tcGF0
+KzB4MjgvMHgzYwo+ID4gWyAgICA0Ljg5Nzc5MV0gIGVsMF9zdmNfY29tcGF0KzB4MTAvMHgxYwo+
+ID4gWyAgICA0LjkwMTQ0MV0gIGVsMF9zeW5jX2NvbXBhdF9oYW5kbGVyKzB4YTgvMHhjYwo+ID4g
+WyAgICA0LjkwNTg3M10gIGVsMF9zeW5jX2NvbXBhdCsweDE3OC8weDE4MAo+ID4gWyAgICA0Ljkw
+OTc4M10gLS0tWyBlbmQgdHJhY2UgYjRmMmRiOWQ5Yzg4NjEwYyBdLS0tCj4gPgo+ID4gU2lnbmVk
+LW9mZi1ieTogSHNpbi1ZaSBXYW5nIDxoc2lueWlAY2hyb21pdW0ub3JnPgo+Cj4gcGluZyBvbiB0
+aGUgdGhyZWFkLCB0aGFua3MuCj4KPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRl
+ay9tdGtfZHNpLmMgfCA5ICsrKysrKysrKwo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlv
+bnMoKykKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
+c2kuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMKPiA+IGluZGV4IGFlNDAz
+YzY3Y2JkOS4uNDVhNzAyZWUwOWYzIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kc2kuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
+c2kuYwo+ID4gQEAgLTIwNSw2ICsyMDUsNyBAQCBzdHJ1Y3QgbXRrX2RzaSB7Cj4gPiAgICAgICAg
+IHUzMiBpcnFfZGF0YTsKPiA+ICAgICAgICAgd2FpdF9xdWV1ZV9oZWFkX3QgaXJxX3dhaXRfcXVl
+dWU7Cj4gPiAgICAgICAgIGNvbnN0IHN0cnVjdCBtdGtfZHNpX2RyaXZlcl9kYXRhICpkcml2ZXJf
+ZGF0YTsKPiA+ICsgICAgICAgZW51bSBkcm1fcGFuZWxfb3JpZW50YXRpb24gb3JpZW50YXRpb247
+Cj4gPiAgfTsKPiA+Cj4gPiAgc3RhdGljIGlubGluZSBzdHJ1Y3QgbXRrX2RzaSAqYnJpZGdlX3Rv
+X2RzaShzdHJ1Y3QgZHJtX2JyaWRnZSAqYikKPiA+IEBAIC05NjYsNiArOTY3LDggQEAgc3RhdGlj
+IGludCBtdGtfZHNpX2VuY29kZXJfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLCBzdHJ1Y3Qg
+bXRrX2RzaSAqZHNpKQo+ID4gICAgICAgICB9Cj4gPiAgICAgICAgIGRybV9jb25uZWN0b3JfYXR0
+YWNoX2VuY29kZXIoZHNpLT5jb25uZWN0b3IsICZkc2ktPmVuY29kZXIpOwo+ID4KPiA+ICsgICAg
+ICAgZHJtX2Nvbm5lY3Rvcl9zZXRfcGFuZWxfb3JpZW50YXRpb24oZHNpLT5jb25uZWN0b3IsIGRz
+aS0+b3JpZW50YXRpb24pOwo+ID4gKwo+ID4gICAgICAgICByZXR1cm4gMDsKPiA+Cj4gPiAgZXJy
+X2NsZWFudXBfZW5jb2RlcjoKPiA+IEBAIC0xMDI5LDYgKzEwMzIsMTIgQEAgc3RhdGljIGludCBt
+dGtfZHNpX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gPiAgICAgICAgICAg
+ICAgICAgICAgICAgICByZXQgPSBQVFJfRVJSKGRzaS0+bmV4dF9icmlkZ2UpOwo+ID4gICAgICAg
+ICAgICAgICAgICAgICAgICAgZ290byBlcnJfdW5yZWdpc3Rlcl9ob3N0Owo+ID4gICAgICAgICAg
+ICAgICAgIH0KPiA+ICsKPiA+ICsgICAgICAgICAgICAgICByZXQgPSBvZl9kcm1fZ2V0X3BhbmVs
+X29yaWVudGF0aW9uKHBhbmVsLT5kZXYtPm9mX25vZGUsICZkc2ktPm9yaWVudGF0aW9uKTsKPiA+
+ICsgICAgICAgICAgICAgICBpZiAocmV0KSB7Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICBk
+ZXZfZXJyKGRldiwgImZhaWxlZCB0byBnZXQgcGFuZWwgb3JpZW50YXRpb24gJWRcbiIsIHJldCk7
+Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ID4gKyAgICAgICAgICAg
+ICAgIH0KPiA+ICAgICAgICAgfQo+ID4KPiA+ICAgICAgICAgZHNpLT5kcml2ZXJfZGF0YSA9IG9m
+X2RldmljZV9nZXRfbWF0Y2hfZGF0YShkZXYpOwo+ID4gLS0KPiA+IDIuMzEuMS4yOTUuZzllYTQ1
+YjYxYjgtZ29vZwo+ID4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
