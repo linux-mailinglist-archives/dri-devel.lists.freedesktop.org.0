@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F148365BE3
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 17:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06520365BEC
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 17:13:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 364596E831;
-	Tue, 20 Apr 2021 15:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D856F89DB7;
+	Tue, 20 Apr 2021 15:13:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F4526E831
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 15:08:02 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- k4-20020a7bc4040000b02901331d89fb83so8070876wmi.5
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 08:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a7rBcmDXDGz4Lw9+pZ+HWZu6yZyUb/BG4yrlM5ykTEQ=;
- b=tQ5NrFo6I62yb10tHSiAMD0JMIxw+0yoUCC3Dns2wyXFKhpqurJo9j2FLF5cX3vYb5
- DqtvENDRy+GRdVOe8WkEGuls/p0JtPIH8LioqpEdf4NUGSDXAX+e8l6G9aqzHeJmLRcV
- C0N0N2b40a1VGvoqffaTVDiggOQaP1MOC5r/ErFS8ZtL2FlIdd1WS6cCzNS6p2Q3AgW3
- LB0Bbtlgdt3QFueZbuIyK/+D3aRyXBZCQw9A+r1Q2n0fRS1r5QCxt0WR1RlHeR4/srJk
- CjX7CmfUgmSdD8+TmglFwJ+esbiekk0Aj0WyzDmzU7RkBH+4oQ1ENgghizO/wBfu2yjm
- jVMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=a7rBcmDXDGz4Lw9+pZ+HWZu6yZyUb/BG4yrlM5ykTEQ=;
- b=AgA+kThE8aJiu7l+rfwN1Fh9a8z6e2hI35yMkGHMmSpLyaA1xXEsLVgkDMUZnNbqtk
- usvT/xr2K/OdnnHeSsh2oAP3wJHBHvIqz+ZEQxK4+O9Uh+uj/eM1FK8t0D46q3RJ3UTq
- jzOwTSDs9hdFgQCwuOs/Krm2qNGvDBBO4ZV90nLk943WOj77nFGJlJDlyCIpU+5LLf13
- OpkwXUBsAWM/ujVJtQGgp92Sdpmo+LALdPpNfwV/NDE344RiG25LuC+RPD+/O/zu8AM3
- rEJjAi8pf7twemo8xD2RCAfGa9qKRXo0oXHLtVmiySy8gQTaS+5pW8RDAOj3W61abgVg
- ufLQ==
-X-Gm-Message-State: AOAM530fl8IyluSoKxeOWZwiKlx4yDw7bxFIdxSEUHykLdqU0vwQyaHh
- OTwXI07arT8Gg/4cGiMRWoD4ziKhTVFtkOF3mt0QQg==
-X-Google-Smtp-Source: ABdhPJzsm1S1eYDa2vwDE2I5nX5nAxme3IqyTbxU2Zqib0Pm3AcKfp8ADxvrD63XBPQh5zx7WO1x8Iq4anRfciPt3pU=
-X-Received: by 2002:a7b:cd04:: with SMTP id f4mr5154247wmj.84.1618931281218;
- Tue, 20 Apr 2021 08:08:01 -0700 (PDT)
+Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net
+ [194.109.24.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2DF89DB7
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 15:13:26 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud8.xs4all.net with ESMTPA
+ id Ys3vl5TJaXsivYs3ylst79; Tue, 20 Apr 2021 17:13:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+ t=1618931603; bh=3C0exdyZaQiSGldksQpZfnPH4H6n3fld0R4rJ3LKuto=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=faFGkgmY+B8OeIIURy0DFsuAbHMupaVe/9aNrM6VvIbe/W57NLoMWWSMESk5QY8Mv
+ n6tLBR4pyo0o91lIGrn6sNl2wmwznlxE830j3WOD2ZfPootYrQ6IRQKP/VtAIl1ytH
+ tLKU4eu62zu42AMFf8fe6XzdBOyF+afxCtaDmzt/mlWZJJWLnOEY1rUWO4QNtp4Mec
+ npKbjyUmVTp0Hp3A15qu/8EDhxNQ5DFdXCP92YdkBt/lBhWs/fAwbLxE/9NyyPADYl
+ MdiH7nRqCaGbMTQ/QfFG1OD+JyUnocoiNtNTkk4/9F0bsfYjzjysfhBmP+JidXVYI8
+ rRKYhktmGtP0A==
+Subject: Re: [PATCH 0/2] drm/bridge: dw-hdmi: disable loading of DW-HDMI CEC
+ sub-driver
+To: Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210416092737.1971876-1-narmstrong@baylibre.com>
+ <YHlfqJIlUh7eytty@pendragon.ideasonboard.com>
+ <96b9e144-0791-4c19-3e3c-b0e9efb86138@baylibre.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <cbea511c-5d5c-8c59-f91f-fedc8eec1e39@xs4all.nl>
+Date: Tue, 20 Apr 2021 17:13:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rO7_Q2L0PogryGmuxLJk-DA3ckM+6vmDioErZ3_6s0iRQ@mail.gmail.com>
- <136d3b55-ff1e-c47b-d443-22bd27427956@gmail.com>
-In-Reply-To: <136d3b55-ff1e-c47b-d443-22bd27427956@gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 20 Apr 2021 16:07:13 +0100
-Message-ID: <CAPj87rMSk+SgCBfrcQTEvppp=qQv4MRdeHRKAOUn5pZAEhh9mg@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <96b9e144-0791-4c19-3e3c-b0e9efb86138@baylibre.com>
+Content-Language: en-US
+X-CMAE-Envelope: MS4xfDW8hEuWfrPrGvMc0olaEqO/1NZZ2yQB6WunaYVqq8MMrH5Sc3f2aTH42A3BAjZZ79UDFNJG6FEQbmiNEveAXU3jrDh9BPb7rKQsNBZlxBJ8G9LkTDpz
+ qxD/6CMKaS6Mod/qRe9vKOOIJ0qV7CLLV9nRS4hIecITZIXQXzbDAlVTCwWTqHMCorEplxuE+o/YBuut6nfaMaa3Ijr5cKzPw6kVDFlBvZNyPxmRhGZQxrDD
+ lbnmm4/1h7S6WfPi9kBv4XRwTHRmUUsfEvn1n1x31yag5ccdCETr3Mu11F844QoH7Hz9pZ9wJL57yz6y41Ka0ZRq+bj2Wspex/50krDYACnhAjPyU5Urmtjo
+ +lusK7ss2EGSSUnMMynnA9PjXZfNZZo1Y8DpEMmCV6OVxRhhWm2kwStujrbXHcMLFNrrLNmvGJgJIAnhdi9X54VlwkATGdoQUB7XzhATvxXrj2qFPLhowZCr
+ VTzjeVy+XJaKyFVHeN2b+67qyM+FfTCKZWdvDaO7ypk6d4e2gqPC34T4vMA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,177 +58,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Content-Type: multipart/mixed; boundary="===============0291535056=="
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
+ robert.foss@linaro.org, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0291535056==
-Content-Type: multipart/alternative; boundary="000000000000eee5f505c068cf65"
-
---000000000000eee5f505c068cf65
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 20 Apr 2021 at 15:58, Christian K=C3=B6nig <
-ckoenig.leichtzumerken@gmail.com> wrote:
-
-> Am 20.04.21 um 16:53 schrieb Daniel Stone:
->
-> On Mon, 19 Apr 2021 at 11:48, Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wr=
-ote:
->
->> Deadlock mitigation to recover from segfaults:
->> - The kernel knows which process is obliged to signal which fence. This
->> information is part of the Present request and supplied by userspace.
->> - If the producer crashes, the kernel signals the submit fence, so that
->> the consumer can make forward progress.
->> - If the consumer crashes, the kernel signals the return fence, so that
->> the producer can reclaim the buffer.
->> - A GPU hang signals all fences. Other deadlocks will be handled like GP=
-U
->> hangs.
+On 16/04/2021 13:38, Neil Armstrong wrote:
+> On 16/04/2021 11:58, Laurent Pinchart wrote:
+>> Hi Neil,
 >>
->
-> Another thought: with completely arbitrary userspace fencing, none of thi=
-s
-> is helpful either. If the compositor can't guarantee that a hostile clien=
-t
-> has submitted a fence which will never be signaled, then it won't be
-> waiting on it, so it already needs infrastructure to handle something lik=
-e
-> this.
->
->
-> That already handles the crashed-client case, because if the client
-> crashes, then its connection will be dropped, which will trigger the
-> compositor to destroy all its resources anyway, including any pending wai=
-ts.
->
->
-> Exactly that's the problem. A compositor isn't immediately informed that
-> the client crashed, instead it is still referencing the buffer and trying
-> to use it for compositing.
->
+>> On Fri, Apr 16, 2021 at 11:27:35AM +0200, Neil Armstrong wrote:
+>>> This adds DW-HDMI driver a glue option to disable loading of the CEC sub-driver.
+>>>
+>>> On some SoCs, the CEC functionality is enabled in the IP config bits, but the
+>>> CEC bus is non-functional like on Amlogic SoCs, where the CEC config bit is set
+>>> but the DW-HDMI CEC signal is not connected to a physical pin, leading to some
+>>> confusion when the DW-HDMI CEC controller can't communicate on the bus.
+>>
+>> If we can't trust the CEC config bit, would it be better to not use it
+>> at all, and instead let each platform glue logic tell whether to enable
+>> CEC or not ?
+> 
+> Actually, the CEC config bit is right, the HW exists and should be functional, but
+> this bit doesn't tell if the CEC signal is connected to something.
+> 
+> This lies in the IP integration, like other bits under the "amlogic,meson-*-dw-hdmi"
+> umbrella.
+> 
+> The first attempt was by Hans using DT, but adding a property in DT for a vendor
+> specific compatible doesn't make sense. Another idea would be to describe the
+> CEC signal endpoint like we do for video signal, but I think this is out of scope and
+> this solution is much simpler and straightforward, and it's more an exception than
+> a general use case to solve.
 
-If the compositor no longer has a guarantee that the buffer will be ready
-for composition in a reasonable amount of time (which dma_fence gives us,
-and this proposal does not appear to give us), then the compositor isn't
-trying to use the buffer for compositing, it's waiting asynchronously on a
-notification that the fence has signaled before it attempts to use the
-buffer.
+While a DT property might not make sense in this particular case, I still
+believe that it is a perfectly valid approach in general: whether or not
+the CEC pin is connected is at the hardware level decision, it is not
+something that software can detect. If the designer of the board didn't
+connect it, then the only place you can define that is in the device tree.
 
-Marek's initial suggestion is that the kernel signal the fence, which would
-unblock composition (and presumably show garbage on screen, or at best jump
-back to old content).
+Anyway, for meson I am fine with this solution. At least it prevents creating
+a non-functioning cec device. So for this series:
 
-My position is that the compositor will know the process has crashed anyway
-- because its socket has been closed - at which point we destroy all the
-client's resources including its windows and buffers regardless. Signaling
-the fence doesn't give us any value here, _unless_ the compositor is just
-blindly waiting for the fence to signal ... which it can't do because
-there's no guarantee the fence will ever signal.
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Cheers,
-Daniel
+Regards,
 
---000000000000eee5f505c068cf65
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	Hans
 
-<div dir=3D"ltr"><div dir=3D"ltr"><span style=3D"">On Tue, 20 Apr 2021 at 1=
-5:58, Christian K=C3=B6nig &lt;<a href=3D"mailto:ckoenig.leichtzumerken@gma=
-il.com">ckoenig.leichtzumerken@gmail.com</a>&gt; wrote:</span></div><div cl=
-ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div>
-    <div>Am 20.04.21 um 16:53 schrieb Daniel
-      Stone:</div><blockquote type=3D"cite">
-     =20
-      <div dir=3D"ltr">
-       =20
-       =20
-        <div class=3D"gmail_quote">
-          <div dir=3D"ltr" class=3D"gmail_attr">On Mon, 19 Apr 2021 at
-            11:48, Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:maraeo@gmail=
-.com" target=3D"_blank">maraeo@gmail.com</a>&gt; wrote:</div>
-          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div dir=3D"ltr">
-              <div><span>Deadlock mitigation to recover from
-                  segfaults:</span><br>
-              </div>
-              <div>- The kernel knows which process is obliged to signal
-                which fence. This information is part of the Present
-                request and supplied by userspace.<br>
-              </div>
-              <div>- If the producer crashes, the kernel signals the
-                submit fence, so that the consumer can make forward
-                progress.</div>
-              <div>- If the consumer crashes, the kernel signals the
-                return fence, so that the producer can reclaim the
-                buffer.</div>
-              <div>- A GPU hang signals all fences. Other deadlocks will
-                be handled like GPU hangs.</div>
-            </div>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>Another thought: with completely arbitrary userspace
-            fencing, none of this is helpful either. If the compositor
-            can&#39;t guarantee that a hostile client has submitted a fence
-            which will never be signaled, then it won&#39;t be waiting on
-            it, so it already needs infrastructure to handle something
-            like this. </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    <blockquote type=3D"cite">
-      <div dir=3D"ltr">
-        <div class=3D"gmail_quote">
-          <div>That already=C2=A0handles the crashed-client case, because i=
-f
-            the client crashes, then its connection will be dropped,
-            which will trigger the compositor to destroy all its
-            resources anyway, including any pending waits.</div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Exactly that&#39;s the problem. A compositor isn&#39;t immediately info=
-rmed
-    that the client crashed, instead it is still referencing the buffer
-    and trying to use it for compositing.<br></div></blockquote><div><br></=
-div><div>If the compositor no longer has a guarantee that the buffer will b=
-e ready for composition in a reasonable amount of time (which dma_fence giv=
-es us, and this proposal does not appear to give us), then the compositor i=
-sn&#39;t trying to use the buffer for compositing, it&#39;s waiting asynchr=
-onously on a notification that the fence has signaled before it attempts to=
- use the buffer.</div><div><br></div><div>Marek&#39;s initial suggestion is=
- that the kernel signal the fence, which would unblock composition (and pre=
-sumably show garbage on screen,=C2=A0or at best jump back to old content).<=
-/div><div><br></div><div>My position is that the compositor will know the p=
-rocess has crashed anyway - because its socket has been closed - at which p=
-oint we destroy all the client&#39;s resources including its windows and bu=
-ffers regardless. Signaling the fence doesn&#39;t give us any value here, _=
-unless_ the compositor is just blindly waiting for the fence to signal ... =
-which it can&#39;t do because there&#39;s no guarantee the fence will ever =
-signal.</div><div>=C2=A0</div><div>Cheers,</div><div>Daniel</div></div></di=
-v>
-
---000000000000eee5f505c068cf65--
-
---===============0291535056==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> 
+> Neil
+> 
+>>
+>>> Jernej Skrabec (1):
+>>>   drm/bridge/synopsys: dw-hdmi: Add an option to suppress loading CEC
+>>>     driver
+>>>
+>>> Neil Armstrong (1):
+>>>   drm/meson: dw-hdmi: disable DW-HDMI CEC sub-driver
+>>>
+>>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
+>>>  drivers/gpu/drm/meson/meson_dw_hdmi.c     | 1 +
+>>>  include/drm/bridge/dw_hdmi.h              | 2 ++
+>>>  3 files changed, 4 insertions(+), 1 deletion(-)
+>>>
+>>
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0291535056==--
