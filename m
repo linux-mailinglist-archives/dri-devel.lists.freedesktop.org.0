@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A1F365F17
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 20:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF17A365F8C
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 20:39:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B35526E896;
-	Tue, 20 Apr 2021 18:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86C3A6E8A3;
+	Tue, 20 Apr 2021 18:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00F586E890
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 18:16:24 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id w4so34919004wrt.5
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 11:16:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD5216E8A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 18:39:37 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id k25so39939270oic.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 11:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7SpmCxT/nTHlY+2XgH97oE1bAOfA80ctqu0kl+CSM2k=;
- b=dOVJN3eucvXrwu7wUZ60F0lV73mfi9Fh4EqIiWQRu8bAcRYXur6Ux1tMH2LewTXHrF
- YSuzbg5E0TQadg1eZOns7Pm8yM4cprtcdu9Zk/S+7EqnXUVsmv1ZCWC18WLeHoQoPYGW
- Ijz0B7n+9hviFvMUUCB/Ey0rdR9g/OXR92ghb/fzHlZUIBT8mviXbhIrr9QIIn26U9hW
- eoHxxYAM+TpnuCq4zYUO2jTS24MfvGRTHsoUzcxCI8Tj6t/T8B6uafFVJgcGVA9Yb1RW
- dp7b1pvnKSnEwjE2ZsSuM5dFAcwhbMjcVRzbY4wL1/+g27vzKm9XVFzm7hfP75BOrfN4
- sVMw==
+ :cc:content-transfer-encoding;
+ bh=OX6C+iI++g2/VPHoW6IHRfm/sW80wyROqgAxq9IBiss=;
+ b=d0YPMIsl74PH6PnLCXlYrFsSUcPZzVoM/mCE5VntzROQwn/tqix6ps2PNECUL4NrzI
+ 70m6TGiOy0R20KvcPIHdcuU9mHgvN8jKVq1/gVEsTcZqnX9HF+WpdG+cDH3e+yj8OYi+
+ Jt5eGK00cbYjT/xcz1levmDZcOe3LF8zAF9Jc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7SpmCxT/nTHlY+2XgH97oE1bAOfA80ctqu0kl+CSM2k=;
- b=I6GjAx90jxu0EpPmnjBsSXadpb0Q4Z9Xr7GTwxMSK4h6gAvbNzW9zCDRGBnzCoaYfE
- 2+fY4oYWyVktoj20YLENedlhTnP0snbZiTmkhNrQK7hSJo8ocoo5nPRX5kUoCZ9mU9Z6
- JiSG1DlIEkWpK5GHuN7eKDLyqV8/xyXrpnhgQ+fm/sGrOAkmaRlvSai/iZ5UwtXiq/Tb
- hC925chAHBsm+cnU8SuopWLt6pY4xOCIRZotepIqWfhdQ7HsLT1aoZBStTXtKe/ULMTJ
- qJvzlGKO2jaBEwUztI9tM9tZbqQdHCzbkZabf0ppmJa0hQny07mwkLd3qcxdn84BKWXy
- Jjww==
-X-Gm-Message-State: AOAM532HBLVBGGi9jXV4+b+fRbWai8Jr6dfBH/4pCS76p3xS1rA3EABi
- db8uWlPGCtC+bA+3LoJE2ZHuvEP/AlHxnwbyxfHb1oty2a76TG/Y
-X-Google-Smtp-Source: ABdhPJxztdnIxiEQ+YbsCwVl6QyVpt469fudUCY2lBFkY8qwUP46ad/fjJOE6MHV68PPo4U9Om8L0SyxipRQqQeCU3Q=
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr22414696wrn.6.1618942583638; 
- Tue, 20 Apr 2021 11:16:23 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OX6C+iI++g2/VPHoW6IHRfm/sW80wyROqgAxq9IBiss=;
+ b=RfGNCOa7eAXXT2e53dMqTBslp+hZcBkyOiF7AIfxNO7ZWE0gcblZYJkCFT/d7cTo+w
+ EP1zJABYxd4eGLcoR4gh1gaZImHcfEc1TXYMG/wJcOhwJDF9jrdDg8ua57zVL4ceGF88
+ DP3mH6b0Bkh4Hgj6TBblRg0S8dSOgmY0U/xQFsHrWJA2uP2/jEk4Fx+PvelHbAqySTtN
+ QWvPe3lgl1SJz5GRDiqo8vBFf13+USVh55h5qZ+nwnLTjFXEfCZNN98WsJv9jQeRv3cE
+ rMEBVZjtVz+gHRSntG9U95TTunQIVdXZj8u1EjlDfy8OPBtMFnZ54atyu4LPnjMVt+tN
+ FqFA==
+X-Gm-Message-State: AOAM5303wqYdzsypiYqmceIWqw+7faNngaSGfbpNxKcYzKa1ZhictZob
+ DKq7iSID5PssKSzNLThUTFbbHSjxqh5Hu/3/YKbk5Q==
+X-Google-Smtp-Source: ABdhPJwq5BdMjXIh0h4aOgjl36YmJT/sUDTpe2+Jw/hg4A06bYJoHFMVSFAF7rkgi6K2co0j3iwUxOZ2X8COGdNwb1k=
+X-Received: by 2002:a05:6808:699:: with SMTP id
+ k25mr4019206oig.101.1618943977033; 
+ Tue, 20 Apr 2021 11:39:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
- <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
- <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
- <2ee6acde-5643-0597-017b-7e20bd1a704d@gmail.com>
-In-Reply-To: <2ee6acde-5643-0597-017b-7e20bd1a704d@gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 20 Apr 2021 19:15:34 +0100
-Message-ID: <CAPj87rN0hMHVKFzAte-mnPyPT_NUG7z=cmabTw65rJ22eQhYoQ@mail.gmail.com>
+ <CAPj87rO7_Q2L0PogryGmuxLJk-DA3ckM+6vmDioErZ3_6s0iRQ@mail.gmail.com>
+ <136d3b55-ff1e-c47b-d443-22bd27427956@gmail.com>
+ <CAPj87rMSk+SgCBfrcQTEvppp=qQv4MRdeHRKAOUn5pZAEhh9mg@mail.gmail.com>
+ <8e5026aa-599e-52d0-4959-6c3bcc16cb76@gmail.com>
+ <CAPj87rMzFfouhv89-Vj3jDsH8JB5NFiyv+yV07KvJZaa2rB7Kw@mail.gmail.com>
+ <CAAxE2A442Rkn5RfU9KH4cBzURZxqHgCX73-GVYrR+8u1cPXowg@mail.gmail.com>
+In-Reply-To: <CAAxE2A442Rkn5RfU9KH4cBzURZxqHgCX73-GVYrR+8u1cPXowg@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 20 Apr 2021 20:39:25 +0200
+Message-ID: <CAKMK7uGpvgEKcaNpFKQ=D4cPH1vbWnQR8m-xV2Ek_goDQfcGUg@mail.gmail.com>
 Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
  and no BO fences - initial proposal
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,263 +66,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: multipart/mixed; boundary="===============2144217413=="
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2144217413==
-Content-Type: multipart/alternative; boundary="0000000000009c1c9705c06b7154"
-
---0000000000009c1c9705c06b7154
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 20 Apr 2021 at 19:00, Christian K=C3=B6nig <
-ckoenig.leichtzumerken@gmail.com> wrote:
-
-> Am 20.04.21 um 19:44 schrieb Daniel Stone:
->
-> But winsys is something _completely_ different. Yes, you're using the GPU
-> to do things with buffers A, B, and C to produce buffer Z. Yes, you're
-> using vkQueuePresentKHR to schedule that work. Yes, Mutter's composition
-> job might depend on a Chromium composition job which depends on GTA's
-> render job which depends on GTA's compute job which might take a year to
-> complete. Mutter's composition job needs to complete in 'reasonable'
-> (again, FSVO) time, no matter what. The two are compatible.
->
-> How? Don't lump them together. Isolate them aggressively, and
-> _predictably_ in a way that you can reason about.
->
-> What clients do in their own process space is their own business. Games
-> can deadlock themselves if they get wait-before-signal wrong. Compute job=
-s
-> can run for a year. Their problem. Winsys is not that, because you're
-> crossing every isolation boundary possible. Process, user, container, VM =
--
-> every kind of privilege boundary. Thus far, dma_fence has protected us fr=
-om
-> the most egregious abuses by guaranteeing bounded-time completion; it als=
-o
-> acts as a sequencing primitive, but from the perspective of a winsys pers=
-on
-> that's of secondary importance, which is probably one of the bigger
-> disconnects between winsys people and GPU driver people.
->
->
-> Finally somebody who understands me :)
->
-> Well the question is then how do we get winsys and your own process space
-> together then?
->
-
-It's a jarring transition. If you take a very narrow view and say 'it's all
-GPU work in shared buffers so it should all work the same', then
-client<->winsys looks the same as client<->client gbuffer. But this is a
-trap.
-
-Just because you can mmap() a file on an NFS server in New Zealand doesn't
-mean that you should have the same expectations of memory access to that
-file as you do to of a pointer from alloca(). Even if the primitives look
-the same, you are crossing significant boundaries, and those do not come
-without a compromise and a penalty.
-
-
-> Anyway, one of the great things about winsys (there are some! trust me) i=
-s
-> we don't need to be as hopelessly general as for game engines, nor as
-> hyperoptimised. We place strict demands on our clients, and we literally
-> kill them every single time they get something wrong in a way that's
-> visible to us. Our demands on the GPU are so embarrassingly simple that y=
-ou
-> can run every modern desktop environment on GPUs which don't have unified
-> shaders. And on certain platforms who don't share tiling formats between
-> texture/render-target/scanout ... and it all still runs fast enough that
-> people don't complain.
->
->
-> Ignoring everything below since that is the display pipeline I'm not
-> really interested in. My concern is how to get the buffer from the client
-> to the server without allowing the client to get the server into trouble?
->
-> My thinking is still to use timeouts to acquire texture locks. E.g. when
-> the compositor needs to access texture it grabs a lock and if that lock
-> isn't available in less than 20ms whoever is holding it is killed hard an=
-d
-> the lock given to the compositor.
->
-> It's perfectly fine if a process has a hung queue, but if it tries to sen=
-d
-> buffers which should be filled by that queue to the compositor it just ge=
-ts
-> a corrupted window content.
->
-
-Kill the client hard. If the compositor has speculatively queued sampling
-against rendering which never completed, let it access garbage. You'll have
-one frame of garbage (outdated content, all black, random pattern; the
-failure mode is equally imperfect, because there is no perfect answer),
-then the compositor will notice the client has disappeared and remove all
-its resources.
-
-It's not possible to completely prevent this situation if the compositor
-wants to speculatively pipeline work, only ameliorate it. From a
-system-global point of view, just expose the situation and let it bubble
-up. Watch the number of fences which failed to retire in time, and destroy
-the context if there are enough of them (maybe 1, maybe 100). Watch the
-number of contexts the file description get forcibly destroyed, and destroy
-the file description if there are enough of them. Watch the number of
-descriptions which get forcibly destroyed, and destroy the process if there
-are enough of them. Watch the number of processes in a cgroup/pidns which
-get forcibly destroyed, and destroy the ... etc. Whether it's the DRM
-driver or an external monitor such as systemd/Flatpak/podman/Docker doing
-that is pretty immaterial, as long as the concept of failure bubbling up
-remains.
-
-(20ms is objectively the wrong answer FWIW, because we're not a hard RTOS.
-But if our biggest point of disagreement is 20 vs. 200 vs. 2000 vs. 20000
-ms, then this thread has been a huge success!)
-
-Cheers,
-Daniel
-
---0000000000009c1c9705c06b7154
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><span style=3D"">On Tue, 20 Apr 2021 at 1=
-9:00, Christian K=C3=B6nig &lt;<a href=3D"mailto:ckoenig.leichtzumerken@gma=
-il.com">ckoenig.leichtzumerken@gmail.com</a>&gt; wrote:</span><br></div><di=
-v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
- =20
-   =20
- =20
-  <div><div>Am 20.04.21 um 19:44 schrieb Daniel
-      Stone:</div><blockquote type=3D"cite"><div dir=3D"ltr"><div class=3D"=
-gmail_quote">
-          <div>But winsys is something _completely_ different. Yes,
-            you&#39;re using the GPU to do things with buffers A, B, and C
-            to produce buffer Z. Yes, you&#39;re using vkQueuePresentKHR to
-            schedule that work. Yes, Mutter&#39;s composition job might
-            depend on a Chromium composition job which depends on GTA&#39;s
-            render job which depends on GTA&#39;s compute job which might
-            take a year to complete. Mutter&#39;s composition job needs to
-            complete in &#39;reasonable&#39; (again, FSVO) time, no matter =
-what.
-            The two are compatible.</div>
-          <div><br>
-          </div>
-          <div>How? Don&#39;t lump them together. Isolate them
-            aggressively,=C2=A0and _predictably_ in a way that you can reas=
-on
-            about.</div>
-          <div><br>
-          </div>
-          <div>What clients do in their own process space is their own
-            business.=C2=A0Games can deadlock themselves if they get
-            wait-before-signal wrong. Compute jobs can run for a year.
-            Their problem. Winsys is not that, because you&#39;re crossing
-            every isolation boundary possible. Process, user, container,
-            VM - every kind of privilege boundary. Thus far, dma_fence
-            has protected us from the most egregious abuses by
-            guaranteeing bounded-time completion; it also acts as a
-            sequencing primitive, but from the perspective of a winsys
-            person that&#39;s of secondary importance, which is probably on=
-e
-            of the bigger disconnects between winsys people and GPU
-            driver people.</div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Finally somebody who understands me :)<br>
-    <br>
-    Well the question is then how do we get winsys and your own process
-    space together then?<br></div></blockquote><div><br></div><div>It&#39;s=
- a jarring transition. If you take a very narrow view and say &#39;it&#39;s=
- all GPU work in shared buffers so it should all work the same&#39;, then c=
-lient&lt;-&gt;winsys looks the same as client&lt;-&gt;client gbuffer. But t=
-his is a trap.</div><div><br></div><div>Just because you can mmap() a file =
-on an NFS server in New Zealand doesn&#39;t mean that you should have the s=
-ame expectations of memory access to that file as you do to of a pointer fr=
-om alloca(). Even if the primitives look the same, you are crossing signifi=
-cant boundaries, and those do not come without a compromise and a penalty.<=
-/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
-v><blockquote type=3D"cite">
-      <div dir=3D"ltr">
-        <div class=3D"gmail_quote">
-         =20
-          <div>Anyway, one of the great things about winsys (there are
-            some! trust me) is we don&#39;t need to be as hopelessly genera=
-l
-            as for game engines, nor as hyperoptimised. We place strict
-            demands on our clients, and we literally kill them every
-            single time they get something wrong in a way that&#39;s visibl=
-e
-            to us. Our demands on the GPU are so embarrassingly simple
-            that you can run every modern desktop environment on GPUs
-            which don&#39;t have unified shaders. And on certain=C2=A0platf=
-orms
-            who don&#39;t share tiling formats between
-            texture/render-target/scanout ... and it all still runs fast
-            enough that people don&#39;t complain.</div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Ignoring everything below since that is the display pipeline I&#39;m no=
-t
-    really interested in. My concern is how to get the buffer from the
-    client to the server without allowing the client to get the server
-    into trouble?<br>
-    <br>
-    My thinking is still to use timeouts to acquire texture locks. E.g.
-    when the compositor needs to access texture it grabs a lock and if
-    that lock isn&#39;t available in less than 20ms whoever is holding it i=
-s
-    killed hard and the lock given to the compositor.<br>
-    <br>
-    It&#39;s perfectly fine if a process has a hung queue, but if it tries
-    to send buffers which should be filled by that queue to the
-    compositor it just gets a corrupted window content.<br></div></blockquo=
-te><div><br></div><div>Kill the client hard. If the compositor has speculat=
-ively queued sampling against rendering which never completed, let it acces=
-s garbage. You&#39;ll have one frame of garbage (outdated content, all blac=
-k, random pattern; the failure mode is equally imperfect, because there is =
-no perfect answer), then the compositor will notice the client has disappea=
-red and remove all its resources.</div><div><br></div><div>It&#39;s not pos=
-sible to completely prevent this situation if the compositor wants to specu=
-latively pipeline work, only ameliorate it. From a system-global point of v=
-iew, just expose the situation and let it bubble up. Watch the number of fe=
-nces which failed to retire in time, and destroy the context if there are e=
-nough of them (maybe 1, maybe 100). Watch the number of contexts the file d=
-escription get forcibly destroyed, and destroy the file description if ther=
-e are enough of them. Watch the number of descriptions which get forcibly d=
-estroyed, and destroy the process if there are enough of them. Watch the nu=
-mber of processes in a cgroup/pidns=C2=A0which get forcibly destroyed, and =
-destroy the ... etc. Whether it&#39;s the DRM driver or an external monitor=
- such as systemd/Flatpak/podman/Docker doing that is pretty immaterial, as =
-long as the concept of failure bubbling up remains.</div><div><br></div><di=
-v>(20ms is objectively the wrong answer FWIW, because we&#39;re not a hard =
-RTOS. But if our biggest point of disagreement is 20 vs. 200 vs. 2000 vs. 2=
-0000 ms, then this thread has been a huge success!)</div><div><br></div><di=
-v>Cheers,</div><div>Daniel=C2=A0</div></div></div>
-
---0000000000009c1c9705c06b7154--
-
---===============2144217413==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2144217413==--
+T24gVHVlLCBBcHIgMjAsIDIwMjEgYXQgNjoyNSBQTSBNYXJlayBPbMWhw6FrIDxtYXJhZW9AZ21h
+aWwuY29tPiB3cm90ZToKPgo+IERhbmllbCwgaW1hZ2luZSBoYXJkd2FyZSB0aGF0IGNhbiBvbmx5
+IGRvIHdoYXQgV2luZG93cyBkb2VzOiBmdXR1cmUgZmVuY2VzIHNpZ25hbGxlZCBieSB1c2Vyc3Bh
+Y2Ugd2hlbmV2ZXIgdXNlcnNwYWNlIHdhbnRzLCBhbmQgbm8ga2VybmVsIHF1ZXVlcyBsaWtlIHdl
+IGhhdmUgdG9kYXkuCj4KPiBUaGUgb25seSByZWFzb24gd2h5IGN1cnJlbnQgQU1EIEdQVXMgd29y
+ayBpcyBiZWNhdXNlIHRoZXkgaGF2ZSBhIHJpbmcgYnVmZmVyIHBlciBxdWV1ZSB3aXRoIHBvaW50
+ZXJzIHRvIHVzZXJzcGFjZSBjb21tYW5kIGJ1ZmZlcnMgZm9sbG93ZWQgYnkgZmVuY2VzLiBXaGF0
+IHdpbGwgd2UgZG8gaWYgdGhhdCByaW5nIGJ1ZmZlciBpcyByZW1vdmVkPwoKV2VsbCB0aGlzIGlz
+IGFuIGVudGlyZWx5IGRpZmZlcmVudCBwcm9ibGVtIHRoYW4gd2hhdCB5b3Ugc2V0IG91dCB0bwpk
+ZXNjcmliZS4gVGhpcyBpcyBlc3NlbnRpYWxseSB0aGUgcHJvYmxlbSB3aGVyZSBodyBkb2VzIG5v
+dCBoYXZlIGFueQpzdXBwb3J0IGZvciBwcml2aWxlZGdlZCBjb21tYW5kcyBhbmQgc2VwYXJhdGUg
+cHJpdmlsZWRnZXMgY29tbWFuZApidWZmZXIsIGFuZCBkaXJlY3QgdXNlcnNwYWNlIHN1Ym1pdCBp
+cyB0aGUgb25seSB0aGluZyB0aGF0IGlzCmF2YWlsYWJsZS4KCkkgdGhpbmsgaWYgdGhpcyBpcyB5
+b3VyIHByb2JsZW0sIHRoZW4geW91IGdldCB0byBpbXBsZW1lbnQgc29tZSB2ZXJ5CmludGVyZXN0
+aW5nIGNvbXBhdCBzaGltLiBCdXQgdGhhdCdzIGFuIGVudGlyZWx5IGRpZmZlcmVudCBwcm9ibGVt
+IGZyb20Kd2hhdCB5b3UndmUgZGVzY3JpYmVkIGluIHlvdXIgbWFpbC4gVGhpcyBwcmV0dHkgbXVj
+aCBhc3N1bWVzIGF0IHRoZSBodwpsZXZlbCB0aGUgb25seSB0aGluZyB0aGF0IHdvcmtzIGlzIEFU
+Uy9wYXNpZCwgYW5kIHZyYW0gaXMgbWFuYWdlZCB3aXRoCkhNTSBleGNsdXNpdmVseS4gT25jZSB5
+b3UgaGF2ZSB0aGF0IHB1cmUgZHJpdmVyIHN0YWNrIHlvdSBnZXQgdG8gZmFrZQppdCBpbiB0aGUg
+a2VybmVsIGZvciBjb21wYXQgd2l0aCBldmVyeXRoaW5nIHRoYXQgZXhpc3RzIGFscmVhZHkuIEhv
+dwpleGFjdGx5IHRoYXQgd2lsbCBsb29rIGFuZCBob3cgZXhhY3RseSB5b3UgYmVzdCBjb25zdHJ1
+Y3QgeW91cgpkbWFfZmVuY2VzIGZvciBjb21wYXQgd2lsbCBkZXBlbmQgaGlnaGx5IHVwb24gaG93
+IG11Y2ggaXMgc3RpbGwgdGhlcmUKaW4gdGhpcyBodyAoZS5nLiB3cnQgaW50ZXJydXB0IGdlbmVy
+YXRpb24pLiBBIGxvdCBvZiB0aGUKaW5mcmFzdHJ1Y3R1cmUgd2FzIGFsc28gZG9uZSBhcyBwYXJ0
+IG9mIGRybV9zeW5jb2JqLiBJIG1lYW4gd2UgaGF2ZQplbnRpcmVseSBmYWtlIGtlcm5lbCBkcml2
+ZXJzIGxpa2UgdmdlbS92a21zIHRoYXQgY3JlYXRlIGRtYV9mZW5jZSwgc28KYSBodyByaW5nYnVm
+ZmVyIGlzIHJlYWxseSBub3QgcmVxdWlyZWQuCgpTbyAuLi4gaXMgdGhpcyB5b3VyIHByb2JsZW0g
+dW5kZXJuZWF0aCBpdCBhbGwsIG9yIHdhcyB0aGF0IG1vcmUgYSB3aWxkCnN0cmF3bWFuIGZvciB0
+aGUgZGlzY3Vzc2lvbj8KLURhbmllbAoKCj4gTWFyZWsKPgo+IE9uIFR1ZSwgQXByIDIwLCAyMDIx
+IGF0IDExOjUwIEFNIERhbmllbCBTdG9uZSA8ZGFuaWVsQGZvb2lzaGJhci5vcmc+IHdyb3RlOgo+
+Pgo+PiBIaSwKPj4KPj4gT24gVHVlLCAyMCBBcHIgMjAyMSBhdCAxNjoxNiwgQ2hyaXN0aWFuIEvD
+tm5pZyA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Pj4KPj4+IEFt
+IDIwLjA0LjIxIHVtIDE3OjA3IHNjaHJpZWIgRGFuaWVsIFN0b25lOgo+Pj4KPj4+IElmIHRoZSBj
+b21wb3NpdG9yIG5vIGxvbmdlciBoYXMgYSBndWFyYW50ZWUgdGhhdCB0aGUgYnVmZmVyIHdpbGwg
+YmUgcmVhZHkgZm9yIGNvbXBvc2l0aW9uIGluIGEgcmVhc29uYWJsZSBhbW91bnQgb2YgdGltZSAo
+d2hpY2ggZG1hX2ZlbmNlIGdpdmVzIHVzLCBhbmQgdGhpcyBwcm9wb3NhbCBkb2VzIG5vdCBhcHBl
+YXIgdG8gZ2l2ZSB1cyksIHRoZW4gdGhlIGNvbXBvc2l0b3IgaXNuJ3QgdHJ5aW5nIHRvIHVzZSB0
+aGUgYnVmZmVyIGZvciBjb21wb3NpdGluZywgaXQncyB3YWl0aW5nIGFzeW5jaHJvbm91c2x5IG9u
+IGEgbm90aWZpY2F0aW9uIHRoYXQgdGhlIGZlbmNlIGhhcyBzaWduYWxlZCBiZWZvcmUgaXQgYXR0
+ZW1wdHMgdG8gdXNlIHRoZSBidWZmZXIuCj4+Pgo+Pj4gTWFyZWsncyBpbml0aWFsIHN1Z2dlc3Rp
+b24gaXMgdGhhdCB0aGUga2VybmVsIHNpZ25hbCB0aGUgZmVuY2UsIHdoaWNoIHdvdWxkIHVuYmxv
+Y2sgY29tcG9zaXRpb24gKGFuZCBwcmVzdW1hYmx5IHNob3cgZ2FyYmFnZSBvbiBzY3JlZW4sIG9y
+IGF0IGJlc3QganVtcCBiYWNrIHRvIG9sZCBjb250ZW50KS4KPj4+Cj4+PiBNeSBwb3NpdGlvbiBp
+cyB0aGF0IHRoZSBjb21wb3NpdG9yIHdpbGwga25vdyB0aGUgcHJvY2VzcyBoYXMgY3Jhc2hlZCBh
+bnl3YXkgLSBiZWNhdXNlIGl0cyBzb2NrZXQgaGFzIGJlZW4gY2xvc2VkIC0gYXQgd2hpY2ggcG9p
+bnQgd2UgZGVzdHJveSBhbGwgdGhlIGNsaWVudCdzIHJlc291cmNlcyBpbmNsdWRpbmcgaXRzIHdp
+bmRvd3MgYW5kIGJ1ZmZlcnMgcmVnYXJkbGVzcy4gU2lnbmFsaW5nIHRoZSBmZW5jZSBkb2Vzbid0
+IGdpdmUgdXMgYW55IHZhbHVlIGhlcmUsIF91bmxlc3NfIHRoZSBjb21wb3NpdG9yIGlzIGp1c3Qg
+YmxpbmRseSB3YWl0aW5nIGZvciB0aGUgZmVuY2UgdG8gc2lnbmFsIC4uLiB3aGljaCBpdCBjYW4n
+dCBkbyBiZWNhdXNlIHRoZXJlJ3Mgbm8gZ3VhcmFudGVlIHRoZSBmZW5jZSB3aWxsIGV2ZXIgc2ln
+bmFsLgo+Pj4KPj4+Cj4+PiBZZWFoLCBidXQgdGhhdCBhc3N1bWVzIHRoYXQgdGhlIGNvbXBvc2l0
+b3IgaGFzIGNoYW5nZSB0byBub3QgYmxpbmRseSB3YWl0IGZvciB0aGUgY2xpZW50IHRvIGZpbmlz
+aCByZW5kZXJpbmcgYW5kIGFzIERhbmllbCBleHBsYWluZWQgdGhhdCBpcyByYXRoZXIgdW5yZWFs
+aXN0aWMuCj4+Pgo+Pj4gV2hhdCB3ZSBuZWVkIGlzIGEgZmFsbGJhY2sgbWVjaGFuaXNtIHdoaWNo
+IHNpZ25hbHMgdGhlIGZlbmNlIGFmdGVyIGEgdGltZW91dCBhbmQgZ2l2ZXMgYSBwZW5hbHR5IHRv
+IHRoZSBvbmUgY2F1c2luZyB0aGUgdGltZW91dC4KPj4+Cj4+PiBUaGF0IGdpdmVzIHVzIHRoZSBz
+YW1lIGZ1bmN0aW9uYWxpdHkgd2UgaGF2ZSB0b2RheSB3aXRoIHRoZSBpbiBzb2Z0d2FyZSBzY2hl
+ZHVsZXIgaW5zaWRlIHRoZSBrZXJuZWwuCj4+Cj4+Cj4+IE9LLCBpZiB0aGF0J3MgdGhlIGNhc2Ug
+dGhlbiBJIHRoaW5rIEknbSByZWFsbHkgbWlzc2luZyBzb21ldGhpbmcgd2hpY2ggaXNuJ3QgZXhw
+bGFpbmVkIGluIHRoaXMgdGhyZWFkLCBiZWNhdXNlIEkgZG9uJ3QgdW5kZXJzdGFuZCB3aGF0IHRo
+ZSBhZGRpdGlvbmFsIGNvbXBsZXhpdHkgYW5kIEFQSSBjaGFuZ2UgZ2FpbnMgdXMgKHNlZSBteSBm
+aXJzdCByZXBseSBpbiB0aGlzIHRocmVhZCkuCj4+Cj4+IEJ5IHdheSBvZiBleGFtcGxlIC0gc2F5
+IEkgaGF2ZSBhIGJsaW5kLWJ1dC1leHBsaWNpdCBjb21wb3NpdG9yIHRoYXQgdGFrZXMgYSBkcm1f
+c3luY29iaiBhbG9uZyB3aXRoIGEgZG1hYnVmIHdpdGggZWFjaCBjbGllbnQgcHJlc2VudGF0aW9u
+IHJlcXVlc3QsIGJ1dCBkb2Vzbid0IGNoZWNrIHN5bmNvYmogY29tcGxldGlvbiwgaXQganVzdCBp
+bXBvcnRzIHRoYXQgaW50byBhIFZrU2VtYXBob3JlICsgVmtJbWFnZSBhbmQgc2NoZWR1bGVzIHdv
+cmsgZm9yIHRoZSBuZXh0IGZyYW1lLgo+Pgo+PiBDdXJyZW50bHksIHRoYXQgZ2VuZXJhdGVzIGFu
+IGV4ZWNidWYgaW9jdGwgZm9yIHRoZSBjb21wb3NpdGlvbiAoaWdub3JlIEtNUyBmb3Igbm93KSB3
+aXRoIGEgc3luYyBwb2ludCB0byB3YWl0IG9uLCBhbmQgdGhlIGtlcm5lbCtHUFUgc2NoZWR1bGlu
+ZyBndWFyYW50ZWVzIHRoYXQgdGhlIGNvbXBvc2l0aW9uIHdvcmsgd2lsbCBub3QgYmVnaW4gdW50
+aWwgdGhlIGNsaWVudCByZW5kZXJpbmcgd29yayBoYXMgcmV0aXJlZC4gV2UgaGF2ZSBhIGZ1cnRo
+ZXIgZ3VhcmFudGVlIHRoYXQgdGhpcyB3b3JrIHdpbGwgY29tcGxldGUgaW4gcmVhc29uYWJsZSB0
+aW1lLCBmb3Igc29tZSB2YWx1ZSBvZiAncmVhc29uYWJsZScuCj4+Cj4+IE15IHVuZGVyc3RhbmRp
+bmcgb2YgdGhpcyBjdXJyZW50IHByb3Bvc2FsIGlzIHRoYXQ6Cj4+ICogdXNlcnNwYWNlIGNyZWF0
+ZXMgYSAncHJlc2VudCBmZW5jZScgd2l0aCB0aGlzIG5ldyBpb2N0bAo+PiAqIHRoZSBmZW5jZSBi
+ZWNvbWVzIHNpZ25hbGVkIHdoZW4gYSB2YWx1ZSBpcyB3cml0dGVuIHRvIGEgbG9jYXRpb24gaW4g
+bWVtb3J5LCB3aGljaCBpcyB2aXNpYmxlIHRocm91Z2ggYm90aCBDUFUgYW5kIEdQVSBtYXBwaW5n
+cyBvZiB0aGF0IHBhZ2UKPj4gKiB0aGlzICdwcmVzZW50IGZlbmNlJyBpcyBpbXBvcnRlZCBhcyBh
+IFZrU2VtYXBob3JlICg/KSBhbmQgdGhlIHVzZXJzcGFjZSBWdWxrYW4gZHJpdmVyIHdpbGwgc29t
+ZWhvdyB3YWl0IG9uIHRoaXMgdmFsdWUgIGVpdGhlciBiZWZvcmUgc3VibWl0dGluZyB3b3JrIG9y
+IGFzIGEgcG9zc2libHktaGFyZHdhcmUtYXNzaXN0ZWQgR1BVLXNpZGUgd2FpdCAoPykKPj4gKiB0
+aGUga2VybmVsJ3Mgc2NoZWR1bGVyIGlzIHRodXMgZWxpbWluYXRlZCBmcm9tIHRoZSBlcXVhdGlv
+biwgYW5kIGV2ZXJ5IGV4ZWNidWYgaXMgc3VibWl0dGVkIGRpcmVjdGx5IHRvIGhhcmR3YXJlLCBi
+ZWNhdXNlIGVpdGhlciB1c2Vyc3BhY2Uga25vd3MgdGhhdCB0aGUgZmVuY2UgaGFzIGFscmVhZHkg
+YmVlbiBzaWduYWxlZCwgb3IgaXQgd2lsbCBpc3N1ZSBhIEdQVS1zaWRlIHdhaXQgKD8pCj4+ICog
+YnV0IHRoZSBrZXJuZWwgaXMgc3RpbGwgcmVxdWlyZWQgdG8gbW9uaXRvciBjb21wbGV0aW9uIG9m
+IGV2ZXJ5IGZlbmNlIGl0c2VsZiwgc28gaXQgY2FuIGZvcmNpYmx5IGNvbXBsZXRlLCBvciBwZW5h
+bGlzZSB0aGUgY2xpZW50ICg/KQo+Pgo+PiBMYXN0bHksIGxldCdzIHNheSB3ZSBzdG9wIGlnbm9y
+aW5nIEtNUzogd2hhdCBoYXBwZW5zIGZvciB0aGUgcmVuZGVyLXdpdGgtR1BVLWRpc3BsYXktb24t
+S01TIGNhc2U/IERvIHdlIG5lZWQgdG8gZG8gdGhlIGVxdWl2YWxlbnQgb2YgZ2xGaW5pc2goKSBp
+biB1c2Vyc3BhY2UgYW5kIG9ubHkgc3VibWl0IHRoZSBLTVMgYXRvbWljIHJlcXVlc3Qgd2hlbiB0
+aGUgR1BVIHdvcmsgaGFzIGZ1bGx5IHJldGlyZWQ/Cj4+Cj4+IENsYXJpZnlpbmcgdGhvc2UgcG9p
+bnRzIHdvdWxkIGJlIHJlYWxseSBoZWxwZnVsIHNvIHRoaXMgaXMgbGVzcyBvZiBhIHN0cmF3bWFu
+LiBJIGhhdmUgc29tZSBmdXJ0aGVyIG9waW5pb25zLCBidXQgSSdtIGdvaW5nIHRvIHdhaXQgdW50
+aWwgSSB1bmRlcnN0YW5kIHdoYXQgSSdtIGFjdHVhbGx5IGFyZ3VpbmcgYWdhaW5zdCBiZWZvcmUg
+SSBnbyB0b28gZmFyLiA6KSBUaGUgbGFzdCBwb2ludCBpcyB2ZXJ5IHNhbGllbnQgdGhvdWdoLgo+
+Pgo+PiBDaGVlcnMsCj4+IERhbmllbAo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KPiBtZXNhLWRldiBtYWlsaW5nIGxpc3QKPiBtZXNhLWRldkBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL21lc2EtZGV2CgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVy
+LCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
