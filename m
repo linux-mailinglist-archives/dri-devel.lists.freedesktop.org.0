@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2815366135
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 22:54:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1262E36618A
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 23:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 577FD6E8DC;
-	Tue, 20 Apr 2021 20:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 820446E8DD;
+	Tue, 20 Apr 2021 21:25:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F60A6E8D6
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 20:54:02 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- 5-20020a9d09050000b029029432d8d8c5so11106009otp.11
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 13:54:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA6CA6E8DD;
+ Tue, 20 Apr 2021 21:25:20 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ i26-20020a9d625a0000b02902a2119f7613so329567otk.10; 
+ Tue, 20 Apr 2021 14:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+9CzNNo6qK0a1HlYtEKpNdFwMAjOkB4iTQg21q+R7WM=;
- b=M5OqeXLSGbs0qLCBnUQlDT7EKkVC6IVdKYnsavsRAjSQpS6unWZZ5Lw/Z+YOVVuPMM
- 2vh3sIx6OicI3o1+i2v0Jzs/HY6zeNSb9Rc/uTIPsJbLJ4T1q36erMS4k063B9T4ISBd
- +/yeUf2u2jWgIq5w35bYOJAze8TTx38AMkAXc=
+ :cc; bh=+94cd/jX9sjDc89stbH05qMt3apklq+Yobx3TwJ2KJw=;
+ b=KayuPQnJClOx7SM+PA/ikbJmWWeVZQ3AHc/Gkw2ZgmSgRSuhjGdYbkFUyAkh7bOZAI
+ PYWleZGj6bNHtoNmMh0ymLJlCT5A0cwZ8kz1BqDTWqGenWmjLC7VtQIdMh1ImLLl/MSp
+ FIP2ixfRj1kGzzxXL9TD0Amm+/0Fo6/GUGidgONU8+S3DvG0fY3gjJG8G47MhUdM/NdJ
+ K406CydUhI/RK8Q8SLB4dq44knKEhnMXNx3Gql92D/H2xZNG3ZznraXOrSzG8RLDOtNw
+ U0D9Qfux1R1gLu+ZHi7siK6oJ+VgE0rh18hJTC5v38+abqf9lCbBX2rnsq82FfgzkTyQ
+ XWHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+9CzNNo6qK0a1HlYtEKpNdFwMAjOkB4iTQg21q+R7WM=;
- b=YooqJ86YL4qH29Q1Plliw6C/q/Rsb/0EHfAsT6rBwXMfi18xE5UFqfu/wvdXFHQbpu
- gNW3t04EO1Acdapyvk3VbSUmPS+iWSsBjJBbfIfYSK6iWbPaQl26auoHiHhgunNSJL3K
- aBRWL66nqmyPnJ776Bcle9F1dfQy6FGeRHFDavppKO4eZ0bLuqxnTGZOEvZnErfhzxZ5
- Q+9vk3azwK84Xs1Q0uzbhR985gugyNMmep0mRi+ORzOI14q2EtpDXig3H9ystIlaMVJj
- KuSP3eT6NVK7+BZjT8uU+pNc8HkSUOJkFaymtyuqKvWjE1WYZ12NqYJyLi3kd1Umqziz
- gRuw==
-X-Gm-Message-State: AOAM531DaJucflnQ5JJsZMGXqLWbVTFUUPvmJ318mXrRBuW7CWVlGyyn
- Kq92oFWataDBRvd84SEfb/vJs0QTLcxj5+K9n7T9Dg==
-X-Google-Smtp-Source: ABdhPJyrlQs0cmBULqtDtVBa+uZ4Nh42mhpyBDtmuX2s2RBgQeDtV1C9YydrikuGmRegoZJX6KgDX4zN9n0FDdgVmkE=
-X-Received: by 2002:a05:6830:2103:: with SMTP id
- i3mr1493179otc.303.1618952041398; 
- Tue, 20 Apr 2021 13:54:01 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=+94cd/jX9sjDc89stbH05qMt3apklq+Yobx3TwJ2KJw=;
+ b=VaBP5XzjPKmIZb2IPt2Rd9h9t73KatkMJGto9ZaQ0ZHI0SArDGLPnXgwUEuu/LckSZ
+ aHNeWrjW0Atiy0tun4cbO5j14WP2HLCmk+T04kZ/jlrrozLg4BR3nAGTmBzGA5yxeWeT
+ zuds/GnQxWiPt1/zLV4x/G0C7PXz5yXwkN/RigXOjrz3Ol0WB28dCmu0bsSP00Vv9FiH
+ Sir1kxu0thM2AEfTlcBgXLsVssUqrLdjihsOh32dVn1otgttbS/4El6cdeENfuxoJ4OV
+ kKMr/6siwZb5PONNNHfcAmxmQ9CWJW9LOR3Sin3e8kwbzM6LgTAn5HROgzrg4t1eE3Jk
+ 1WWw==
+X-Gm-Message-State: AOAM533CTwEp83t12NPHm/jucYNplE9+P9MhNxtmGQLvmQ8i7JpzjBvb
+ 03ZTgv8B6E7WChaVM0PGbZ/N9fKO5rYsu8I7E2o=
+X-Google-Smtp-Source: ABdhPJyEBWlFxv39cCh3Ez/LGgDffyoElnokJUk8cIivV3xK6XxgEqMrnr1nVRtkJRUWiMnZ09qy7OgulHhQi+5fbP0=
+X-Received: by 2002:a05:6830:15d3:: with SMTP id
+ j19mr11040215otr.23.1618953920151; 
+ Tue, 20 Apr 2021 14:25:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210416133146.24825-1-tzimmermann@suse.de>
- <20210416133146.24825-6-tzimmermann@suse.de>
- <b7008944-fbe5-bd59-d2a9-ff62bea38237@gmail.com>
- <80012c09-6975-f694-420f-72b2236dcf4e@amd.com>
- <52403618-62f5-2085-c245-e1e98762cccb@suse.de>
- <YH6WJ0p2jGd3Q5Xw@phenom.ffwll.local>
- <a76b44d2-d894-ab4e-ef37-f0feb4326297@amd.com>
-In-Reply-To: <a76b44d2-d894-ab4e-ef37-f0feb4326297@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 20 Apr 2021 22:53:50 +0200
-Message-ID: <CAKMK7uGmR_US-fy1GTWF4jCnCiRofyDrrJP1qFrE2CKLWbTXBA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] drm/vmwgfx: Inline ttm_bo_mmap() into vmwgfx driver
-To: Felix Kuehling <felix.kuehling@amd.com>
+References: <20210319210317.32369-1-mario.kleiner.de@gmail.com>
+ <CAEsyxygq1k4pTT-8ASuJn=rSzHBXyhy5jRStoBVmniR2B_MrJg@mail.gmail.com>
+In-Reply-To: <CAEsyxygq1k4pTT-8ASuJn=rSzHBXyhy5jRStoBVmniR2B_MrJg@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 20 Apr 2021 17:25:09 -0400
+Message-ID: <CADnq5_OtKZ3=pZR_F4zx2Bz1zvEzuxb4fQU41c-XTBT8-H4Byw@mail.gmail.com>
+Subject: Re: 16 bpc fixed point (RGBA16) framebuffer support for core and AMD.
+To: Mario Kleiner <mario.kleiner.de@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,52 +63,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>, "Sharma,
- Shashank" <shashank.sharma@amd.com>, Dave Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Roland Scheidegger <sroland@vmware.com>, Nirmoy Das <nirmoy.das@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgMjAsIDIwMjEgYXQgMTA6MjMgUE0gRmVsaXggS3VlaGxpbmcgPGZlbGl4Lmt1
-ZWhsaW5nQGFtZC5jb20+IHdyb3RlOgo+Cj4KPiBBbSAyMDIxLTA0LTIwIHVtIDQ6NTEgYS5tLiBz
-Y2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPj4+IFdob2xlIHNlcmllcyBpcyBSZXZpZXdlZC1ieTog
-Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+ID4+IFRoYW5rcyBh
-IGxvdC4gSWYgSSdtIG5vdCBtaXN0YWtlbiwgdGhlIHBhdGNoZXMgYXQgWzFdIG5lZWQgdG8gZ28g
-aW4gZmlyc3QuCj4gPj4gU28gaXQgY291bGQgdGFrZSBhIGEgYml0IHVudGlsIHRoaXMgbGFuZHMu
-Cj4gPj4KPiA+PiBPdGhlcndpc2UsIHRoaXMgc2VyaWVzIGNvdWxkIGdvIHRocm91Z2ggdGhlIHNh
-bWUgdHJlZSBhcyBbMV0gaWYgbm91dmVhdSBhbmQKPiA+PiB2bXdnZnggZGV2cyBkb24ndCBtaW5k
-Lgo+ID4gSSB3b3VsZCBsYW5kIGl0IGFsbCB0aHJvdWdoIGRybS1taXNjLW5leHQuIE1heWJlIGNo
-ZWNrIHdpdGggQWxleCBvbiBpcmMKPiA+IGZvciBhbiBhY2sgZm9yIG1lcmdpbmcgdGhhdCB3YXks
-IGJ1dCBJIGRvbid0IHRoaW5rIHRoaXMgd2lsbCBjYXVzZSBpc3N1ZXMKPiA+IGFnYWluc3QgdGhl
-IGFtZGdwdSB0cmVlLiBMb3RzIG9mIHR0bSBjbGVhbnVwIGhhcyBsYW5kZWQgdGhpcyB3YXkgYWxy
-ZWFkeQo+ID4gcGFzdCBmZXcgbW9udGhzLiBPdGhlcndpc2UgeW91IGNvdWxkIGNyZWF0ZSBhIHNt
-YWxsIHRvcGljIGJyYW5jaCB3aXRoCj4gPiB0aGVzZSBwYXRjaGVzIGhlcmUgYW5kIHNlbmQgdGhh
-dCB0byBBbGV4LCBhbmQgaGUgY2FuIHNvcnQgb3V0IHRoZQo+ID4gaW50ZXJhY3Rpb24gd2l0aCBG
-ZWxpeCcgc2VyaWVzLgo+ID4gLURhbmllbAo+Cj4gTXkgcGF0Y2ggc2VyaWVzIGludm9sdmVkIHNv
-bWUgcHJldHR5IGZhci1yZWFjaGluZyBjaGFuZ2VzIGluIEtGRAo+IChyZW5hbWluZyBzb21lIHZh
-cmlhYmxlcyBpbiBLRkQgYW5kIGFtZGdwdSwgY2hhbmdpbmcgdGhlIEtGRC0+YW1kZ3B1Cj4gaW50
-ZXJmYWNlKS4gV2UgYWxyZWFkeSBzdWJtaXR0ZWQgb3RoZXIgcGF0Y2hlcyBvbiB0b3Agb2YgaXQg
-dGhhdCBoYXZlCj4gZGVwZW5kZW5jaWVzIG9uIGl0LiBJZiB3ZSBkZWNpZGUgdG8gZGVsaXZlciB0
-aGlzIHRocm91Z2ggYSBkaWZmZXJlbnQKPiB0cmVlIGFuZCByZW1vdmUgaXQgZnJvbSBhbWQtc3Rh
-Z2luZy1kcm0tbmV4dCwgdGhlcmUgd2lsbCBiZSBjb25mbGljdHMgdG8KPiByZXNvbHZlIHdoZW4g
-cmVtb3ZpbmcgaXQgZnJvbSBhbWQtc3RhZ2luZy1kcm0tbmV4dCwgYW5kIGFnYWluIHRoZSBuZXh0
-Cj4gdGltZSB5b3UgbWVyZ2Ugd2l0aCBhbWQtc3RhZ2luZy1kcm0tbmV4dC4KCkFoIHRoZW4gdGhl
-IHVzdWFsIHdheSBpcyBmb3IgQWxleCB0byBhc3NlbWJsZSBhIHRvcGljIHB1bGwgcmVxdWVzdAoo
-c3RhYmxlLCBub24tcmViYXNpbmcpIHdpdGggdGhvc2Ugc2VsZWN0IHBhdGNoZXMsIHdoaWNoIHRo
-ZW4gZ2V0cwptZXJnZWQgaW50byBkcm0tbWlzYy1uZXh0LiBPciB3ZSBzbWFzaCBpdCBhbGwgaW50
-byBhbWRncHUtbmV4dC4gT3Igd2UKanVzdCB3YWl0IHVudGlsIC1yYzIgd2hlbiBkcm0tbmV4dCBp
-cyBiYWNrIG9wZW4gZm9yIGJ1c2luZXNzLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Apr 16, 2021 at 12:29 PM Mario Kleiner
+<mario.kleiner.de@gmail.com> wrote:
+>
+> Friendly ping to the AMD people. Nicholas, Harry, Alex, any feedback?
+> Would be great to get this in sooner than later.
+>
+
+No objections from me.
+
+Alex
+
+
+> Thanks and have a nice weekend,
+> -mario
+>
+> On Fri, Mar 19, 2021 at 10:03 PM Mario Kleiner
+> <mario.kleiner.de@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > this patch series adds the fourcc's for 16 bit fixed point unorm
+> > framebuffers to the core, and then an implementation for AMD gpu's
+> > with DisplayCore.
+> >
+> > This is intended to allow for pageflipping to, and direct scanout of,
+> > Vulkan swapchain images in the format VK_FORMAT_R16G16B16A16_UNORM.
+> > I have patched AMD's GPUOpen amdvlk OSS driver to enable this format
+> > for swapchains, mapping to DRM_FORMAT_XBGR16161616:
+> > Link: https://github.com/kleinerm/pal/commit/a25d4802074b13a8d5f7edc96ae45469ecbac3c4
+> >
+> > My main motivation for this is squeezing every bit of precision
+> > out of the hardware for scientific and medical research applications,
+> > where fp16 in the unorm range is limited to ~11 bpc effective linear
+> > precision in the upper half [0.5;1.0] of the unorm range, although
+> > the hardware could do at least 12 bpc.
+> >
+> > It has been successfully tested on AMD RavenRidge (DCN-1), and with
+> > Polaris11 (DCE-11.2). Up to two displays were active on RavenRidge
+> > (DP 2560x1440@144Hz + HDMI 2560x1440@120Hz), the maximum supported
+> > on my hw, both running at 10 bpc DP output depth.
+> >
+> > Up to three displays were active on the Polaris (DP 2560x1440@144Hz +
+> > 2560x1440@100Hz USB-C DP-altMode-to-HDMI converter + eDP 2880x1800@60Hz
+> > Apple Retina panel), all running at 10 bpc output depth.
+> >
+> > No malfunctions, visual artifacts or other oddities were observed
+> > (apart from an adventureous mess of cables and adapters on my desk),
+> > suggesting it works.
+> >
+> > I used my automatic photometer measurement procedure to verify the
+> > effective output precision of 10 bpc DP native signal + spatial
+> > dithering in the gpu as enabled by the amdgpu driver. Results show
+> > the expected 12 bpc precision i hoped for -- the current upper limit
+> > for AMD display hw afaik.
+> >
+> > So it seems to work in the way i hoped :).
+> >
+> > Some open questions wrt. AMD DC, to be addressed in this patch series, or follow up
+> > patches if neccessary:
+> >
+> > - For the atomic check for plane scaling, the current patch will
+> > apply the same hw limits as for other rgb fixed point fb's, e.g.,
+> > for 8 bpc rgb8. Is this correct? Or would we need to use the fp16
+> > limits, because this is also a 64 bpp format? Or something new
+> > entirely?
+> >
+> > - I haven't added the new fourcc to the DCC tables yet. Should i?
+> >
+> > - I had to change an assert for DCE to allow 36bpp linebuffers (patch 4/5).
+> > It looks to me as if that assert was inconsistent with other places
+> > in the driver where COLOR_DEPTH121212 is supported, and looking at
+> > the code, the change seems harmless. At least on DCE-11.2 the change
+> > didn't cause any noticeable (by myself) or measurable (by my equipment)
+> > problems on any of the 3 connected displays.
+> >
+> > - Related to that change, while i needed to increase lb pixelsize to 36bpp
+> > to get > 10 bpc effective precision on DCN, i didn't need to do that
+> > on DCE. Also no change of lb pixelsize was needed on either DCN or DCe
+> > to get > 10 bpc precision for fp16 framebuffers, so something seems to
+> > behave differently for floating point 16 vs. fixed point 16. This all
+> > seems to suggest one could leave lb pixelsize at the old 30 bpp value
+> > on at least DCE-11.2 and still get the > 10 bpc precision if one wanted
+> > to avoid the changes of patch 4/5.
+> >
+> > Thanks,
+> > -mario
+> >
+> >
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
