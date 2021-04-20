@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFBD365B71
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 16:49:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6437D365B82
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 16:54:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC2EE88E95;
-	Tue, 20 Apr 2021 14:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 511FC6E53E;
+	Tue, 20 Apr 2021 14:54:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BFCB88E95
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 14:49:10 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id h4so28871467wrt.12
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 07:49:09 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E035989B7B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 14:54:01 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id a4so37937619wrr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 07:54:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cdVh8MgJ3hW4eH9NelsGjOWmRUKen6Ny2zYwNZtusm0=;
- b=iXvgXWk1pXVxRnSGMDD02neg24RzJJaPmnbrglH49tCCTXQLx9iSVPkXYnhfJUsZ63
- s6/Gp/FnyJxORaV7nbpBWyQnUIXNelzDW/lIr6wXf8dUHSgQUdgAEAf9t3qTdBOzThPt
- 0QHr85nCS5abEfAiQv1TOpoY9yMYi5l3ml4JzUnaURpMaiYX3LP25Ps51ZHQ6MdmVx9h
- Fogzvz/F3fic5Sj/PO6YIFNJDYbF0vL4dyjduoRch0Wc4ivWP7MAk3zK6sG8hufW3Pzf
- SdWCIqRYhLxJQgKLHHaA6/eZLZwCqhgT1gErr9UzK1N71mxAoIvG33e5bllM4oaGeheU
- JGdg==
+ :cc; bh=7EnE0sILCEAAxZ75hu+FoNcaJ2O6wqh81pzTh1A5KoE=;
+ b=SGIcX7ioYGt0l+x9jMEuivD2+2lf1E26L9alBPajnDNTGFybUMrCYBelaK+oRfLAe1
+ nt2WHRCQtnvBA6w+DwbyT7n8RMsarr1R9UimlbtPH0dLXMHf901vhcTfUjkWy0rqYaMG
+ mO+vPPknE2OhlK4RX6PBtyh86SqB4rhxzrKkP7vNPYjzYjzhrZGES+LxU2W3Q+h8cD1j
+ SvSPlHH7zuFH5N6L/G9QT8BLrvmVsyaKfKImdVnxzP36/S5Y8fGM2G5CYSa8B6+AyK69
+ kpt+vxu2rBofUYNeQoFmsuSq4wdlavNonqLW9nNzmqQmE8FjRF8h1TueTYknSeFshm2g
+ bG4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cdVh8MgJ3hW4eH9NelsGjOWmRUKen6Ny2zYwNZtusm0=;
- b=MXksqRH/yuVWkLhAVZvMng+V6xDdK/0mqzTpHzEsqXCIYGusEVl902SGfL/qEmoKly
- whoBkSl3F7Z1LSswYeZWpvpgCf3xHjRwBH4WBZJs3UXQKTDL3ViHDVPwskIXy2C3jF/i
- Zoc6gNRCoSu7ccwrE3F+bDFVEp1FNa2Aa2eCps6HA7aoT5m3TF5t2CwiA2vUCKkbavRI
- RKzjBzTOxBbn6i76wg25NFoV88AIiY4xNF9atoyr8Jrkm3+N7jCX27sbWIu5/XOEiAgF
- Nbi5mi6RUGl5wGKl1zPGkwWcg0s6LHDNL3q55ptGv7X2H3p3hFYMeNGwHEq5YGwibL7z
- TdEA==
-X-Gm-Message-State: AOAM532Qtge9spyboA2f1TxFndj/Wzfqo6cuOGG1aOwUAzPtQZPx/4Hf
- viKIQlZYFP7TGKvu0+cjntOrICyCtEFljInl0+YwOw==
-X-Google-Smtp-Source: ABdhPJzE4R91MpVGkN6iAOo5Axe07ZxsvgnvjbpeOJkCKLR5/LAD17zPHniT6BPdeCwP2Y05zVvzi7vUeydgGNH/YA8=
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr21372540wrn.6.1618930148537; 
- Tue, 20 Apr 2021 07:49:08 -0700 (PDT)
+ bh=7EnE0sILCEAAxZ75hu+FoNcaJ2O6wqh81pzTh1A5KoE=;
+ b=dTf1XYqPhHHVZPPtSl9z1TTdDXvuritgC2mQZVeSMZOrWmDQjTqfI4ArFMUsUfzbMc
+ LxQ0xe1Sckdw0hQo9SgwpSnFxBpdtgC7+Y+sqU1OO724VwSIYsB5LIPjAzRLHmkXppb7
+ FZB2aDDW4Th00SuOtKNk3CzqO7iDMorTHxQ7//SBOgYVfzp4vaEBVa+ybFSSW6Eg9L1W
+ dDtVEKzZ60UT2z5vsvWWJ3lFJtOrbUfQ44gvfpKNTLJgJT+4Wy7xDooRC79RN/wWSuIc
+ LeLQPOIcMgNLcRrWKDd4WqGl9f4R4DANokETA9211j5bJx7rL5GmLYO6Q7gkdTihFmmu
+ sUGA==
+X-Gm-Message-State: AOAM531ic8FypCW12G+lHiWC2jMrPLS3OJaXUyCSzHRxu/Y7eqVgtyw3
+ uX9nf3FEhItJcnCH2jLKPOiRFLCc8D9iH5H3Bw5kzcd21h/lITyO
+X-Google-Smtp-Source: ABdhPJwb29/x/stUryS9wXKW47RvIS1zQKywEO44AYiK6HL/r2X6XjsjqyWESUglNCDwG/qXd8uisA8vPIy1K4CartU=
+X-Received: by 2002:adf:ce90:: with SMTP id r16mr20960095wrn.354.1618930440431; 
+ Tue, 20 Apr 2021 07:54:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210416123352.10747-1-peter.enderborg@sony.com>
- <CAPj87rM9gaPS5SOHo3CKUU=5H0PDaG28r8BXimhVp-wmCbMvWA@mail.gmail.com>
- <9d4b7f7d-1a7d-0899-bf33-49fac1847bbe@sony.com>
-In-Reply-To: <9d4b7f7d-1a7d-0899-bf33-49fac1847bbe@sony.com>
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+In-Reply-To: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 20 Apr 2021 15:48:21 +0100
-Message-ID: <CAPj87rNo2WS8A0BUoncZhZg4gMOcBrjOF5gxiAWrbpO6z1Rnqg@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-buf: Add DmaBufTotal counter in meminfo
-To: Peter Enderborg <Peter.Enderborg@sony.com>
+Date: Tue, 20 Apr 2021 15:53:10 +0100
+Message-ID: <CAPj87rO7_Q2L0PogryGmuxLJk-DA3ckM+6vmDioErZ3_6s0iRQ@mail.gmail.com>
+Subject: Re: [RFC] Linux Graphics Next: Explicit fences everywhere and no BO
+ fences - initial proposal
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,103 +62,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Matthew Wilcox <willy@infradead.org>,
- NeilBrown <neilb@suse.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alexey Dobriyan <adobriyan@gmail.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Shakeel Butt <shakeelb@google.com>, Mike Rapoport <rppt@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>,
- Muchun Song <songmuchun@bytedance.com>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Roman Gushchin <guro@fb.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1599874911=="
+Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0520485914=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1599874911==
-Content-Type: multipart/alternative; boundary="0000000000006b8c7805c0688c24"
+--===============0520485914==
+Content-Type: multipart/alternative; boundary="000000000000d17bf505c0689de9"
 
---0000000000006b8c7805c0688c24
+--000000000000d17bf505c0689de9
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 20 Apr 2021 at 14:46, <Peter.Enderborg@sony.com> wrote:
+Hi,
 
-> On 4/20/21 3:34 PM, Daniel Stone wrote:
-> > On Fri, 16 Apr 2021 at 13:34, Peter Enderborg <peter.enderborg@sony.com
-> <mailto:peter.enderborg@sony.com>> wrote:
-> >     This adds a total used dma-buf memory. Details
-> >     can be found in debugfs, however it is not for everyone
-> >     and not always available. dma-buf are indirect allocated by
-> >     userspace. So with this value we can monitor and detect
-> >     userspace applications that have problems.
-> >
-> >
-> > FWIW, this won't work super well for Android where gralloc is
-> implemented as a system service, so all graphics usage will instantly be
-> accounted to it.
->
-> This resource allocation is a big part of why we need it. Why should it
-> not work?
+On Mon, 19 Apr 2021 at 11:48, Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wrot=
+e:
+
+> Deadlock mitigation to recover from segfaults:
+> - The kernel knows which process is obliged to signal which fence. This
+> information is part of the Present request and supplied by userspace.
+> - If the producer crashes, the kernel signals the submit fence, so that
+> the consumer can make forward progress.
+> - If the consumer crashes, the kernel signals the return fence, so that
+> the producer can reclaim the buffer.
+> - A GPU hang signals all fences. Other deadlocks will be handled like GPU
+> hangs.
 >
 
-Sorry, I'd somehow completely misread that as being locally rather than
-globally accounted. Given that, it's more correct, just also not super
-useful.
+Another thought: with completely arbitrary userspace fencing, none of this
+is helpful either. If the compositor can't guarantee that a hostile client
+has submitted a fence which will never be signaled, then it won't be
+waiting on it, so it already needs infrastructure to handle something like
+this. That already handles the crashed-client case, because if the client
+crashes, then its connection will be dropped, which will trigger the
+compositor to destroy all its resources anyway, including any pending waits=
+.
 
-Some drivers export allocation tracepoints which you could use if you have
-a decent userspace tracing infrastructure. Short of that, many drivers
-export this kind of thing through debugfs already. I think a better
-long-term direction is probably getting accounting from dma-heaps rather
-than extending core dmabuf itself.
+GPU hangs also look pretty similar; it's an infinite wait, until the client
+resubmits a new buffer which would replace (& discard) the old.
+
+So signal-fence-on-process-exit isn't helpful and doesn't provide any extra
+reliability; it in fact probably just complicates things.
 
 Cheers,
 Daniel
 
---0000000000006b8c7805c0688c24
+--000000000000d17bf505c0689de9
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><span style=3D"">On Tue, 20 Apr 2021 at 1=
-4:46, &lt;<a href=3D"mailto:Peter.Enderborg@sony.com">Peter.Enderborg@sony.=
-com</a>&gt; wrote:</span><br></div><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">On 4/20/21 3:34 PM, Daniel Stone wrote=
-:<br>&gt; On Fri, 16 Apr 2021 at 13:34, Peter Enderborg &lt;<a href=3D"mail=
-to:peter.enderborg@sony.com" target=3D"_blank">peter.enderborg@sony.com</a>=
- &lt;mailto:<a href=3D"mailto:peter.enderborg@sony.com" target=3D"_blank">p=
-eter.enderborg@sony.com</a>&gt;&gt; wrote:<br>&gt;=C2=A0 =C2=A0 =C2=A0This =
-adds a total used dma-buf memory. Details<br>
-&gt;=C2=A0 =C2=A0 =C2=A0can be found in debugfs, however it is not for ever=
-yone<br>
-&gt;=C2=A0 =C2=A0 =C2=A0and not always available. dma-buf are indirect allo=
-cated by<br>
-&gt;=C2=A0 =C2=A0 =C2=A0userspace. So with this value we can monitor and de=
-tect<br>
-&gt;=C2=A0 =C2=A0 =C2=A0userspace applications that have problems.<br>
-&gt;<br>
-&gt;<br>
-&gt; FWIW, this won&#39;t work super well for Android where gralloc is impl=
-emented as a system service, so all graphics usage will instantly be accoun=
-ted to it.<br><br>
-This resource allocation is a big part of why we need it. Why should it not=
- work?<br></blockquote><div><br></div><div>Sorry, I&#39;d somehow completel=
-y misread that as being locally rather than globally accounted. Given that,=
- it&#39;s more correct, just also not super useful.</div><div><span style=
-=3D""><br></span></div><div><span style=3D"">Some drivers export allocation=
- tracepoints which you could use if you have a decent userspace tracing inf=
-rastructure. Short of that, many drivers export this kind of thing through =
-debugfs already. I think a better long-term direction is probably getting a=
-ccounting from dma-heaps rather than extending core dmabuf itself.</span></=
-div><div><span style=3D""><br></span></div><div><span style=3D"">Cheers,</s=
-pan></div><div><span style=3D"">Daniel=C2=A0</span></div></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi,</div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Mon, 19 Apr 2021 at 11:48, Marek Ol=
+=C5=A1=C3=A1k &lt;<a href=3D"mailto:maraeo@gmail.com">maraeo@gmail.com</a>&=
+gt; wrote:</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div><span style=3D"">Deadlock mitigation to recover from segfault=
+s:</span><br></div><div>- The kernel knows which process is obliged to sign=
+al which fence. This information is part of the Present request and supplie=
+d by userspace.<br></div><div>- If the producer crashes, the kernel signals=
+ the submit fence, so that the consumer can make forward progress.</div><di=
+v>- If the consumer crashes, the kernel signals the return fence, so that t=
+he producer can reclaim the buffer.</div><div>- A GPU hang signals all fenc=
+es. Other deadlocks will be handled like GPU hangs.</div></div></blockquote=
+><div><br></div><div>Another thought: with completely arbitrary userspace f=
+encing, none of this is helpful either. If the compositor can&#39;t guarant=
+ee that a hostile client has submitted a fence which will never be signaled=
+, then it won&#39;t be waiting on it, so it already needs infrastructure to=
+ handle something like this. That already=C2=A0handles the crashed-client c=
+ase, because if the client crashes, then its connection will be dropped, wh=
+ich will trigger the compositor to destroy all its resources anyway, includ=
+ing any pending waits.</div><div><br></div><div>GPU hangs also look pretty =
+similar; it&#39;s an infinite wait, until the client resubmits a new buffer=
+ which would replace (&amp; discard) the old.</div><div><br></div><div>So s=
+ignal-fence-on-process-exit isn&#39;t helpful and doesn&#39;t provide any e=
+xtra reliability; it in fact probably just complicates things.</div><div><s=
+pan style=3D""><br></span></div><div><span style=3D"">Cheers,</span></div><=
+div><span style=3D"">Daniel=C2=A0</span></div></div></div>
 
---0000000000006b8c7805c0688c24--
+--000000000000d17bf505c0689de9--
 
---===============1599874911==
+--===============0520485914==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -170,4 +154,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1599874911==--
+--===============0520485914==--
