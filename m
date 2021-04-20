@@ -1,64 +1,150 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84EA43654B1
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:00:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A663654B6
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6106C89CF9;
-	Tue, 20 Apr 2021 09:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF08E89219;
+	Tue, 20 Apr 2021 09:03:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C5026E4B3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:00:03 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id u17so57145242ejk.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 02:00:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=9F5hsOm0JtuvjD/yPuuw5z0LfYAYU4sjI4hsLbH0sgM=;
- b=E9X01uWn/XR87JKTU9p3LkAkx8zfJkkNMSHslhJRlSMkoTP2j/lPyom1DlFgIULdw8
- B9wfqCXJ14gjFb+x+Yg5J5QbW+FM0dDcF0bRO+eGIUV8sQexJNYfmXCadMVKW/zNS2xl
- FA9d6yP//V94LqedPnOdlZklUXEYm4J15wcGg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=9F5hsOm0JtuvjD/yPuuw5z0LfYAYU4sjI4hsLbH0sgM=;
- b=FrrbM7bCqln0vy7tce/MId8gS9R/gaT+QFq8YelO0zKy8EEQuJCOtyngmtDXYz1cbr
- 3q01oEsj4wVyIxNon1wM8LrB8XmHJjCO3wubQZbAGm5Xg9ROT+msPi9h65Q6x3tlFi03
- EHvLdb1RMxCR7IQIgAFcMrE806b9TQFzjiTv16TyVePu+pGvJ8rEvnBVi6h6cSaN2h24
- VHZNL5o8Y105gn1/Pug+MLVzdivHICsvRYVABYm91kOWlsOlwx8NHV96G6k3+jE/kkep
- wqnWX0rQSLN+SiRrc1keAez90to5B49zVytEk7K75v3JT4OrxHhgOujAPmfIlYKei9c4
- iiyQ==
-X-Gm-Message-State: AOAM531H+I8iGHSFnTMdEEwBWGuOf8PkxmE0lopr5V959owImwHG9YLj
- h9w3e+UA6mygrloRr5/tPun97w==
-X-Google-Smtp-Source: ABdhPJyvmFrrhA9NhzM91pmUYfDLeofpifqV3mla1nuhAHSBAQ9+HwIdKL817Myk10zbo2kMkMY4qw==
-X-Received: by 2002:a17:906:a0d4:: with SMTP id
- bh20mr26420038ejb.348.1618909202229; 
- Tue, 20 Apr 2021 02:00:02 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l15sm14811698edb.48.2021.04.20.02.00.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 02:00:01 -0700 (PDT)
-Date: Tue, 20 Apr 2021 11:00:00 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: Re: [PATCH 2/2] drm/gma500: remove trailing whitespaces
-Message-ID: <YH6YEDr5n7QUxAQs@phenom.ffwll.local>
-Mail-Followup-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20210419081807.68000-1-krzysztof.kozlowski@canonical.com>
- <20210419081807.68000-2-krzysztof.kozlowski@canonical.com>
+Received: from mx07-001d1705.pphosted.com (mx07-001d1705.pphosted.com
+ [185.132.183.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2C789219
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:03:18 +0000 (UTC)
+Received: from pps.filterd (m0209327.ppops.net [127.0.0.1])
+ by mx08-001d1705.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13K9192P014307; Tue, 20 Apr 2021 09:03:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=S1;
+ bh=W97UwFrKOsg0HT4UFrJ4MCeX70b2tg+9O5VbwwrrfOU=;
+ b=cD1WQtnL7VK19prmsA3OF3RfWDiGKPssjPfnt0UFUtSwzMqA+QunkqLBbEMLeuifwa5n
+ GdbCJcPmU+MzL2cocjoC3wMc18gEghNqrCT8sZYjuSsbV61fb9Cg6I/fUTDWgeckkUsZ
+ ArLGJRcGLwnVNVkH5R6rKdP7Fveiqx77gpnLKVTqLwPb7mt1NrqmvHWDAzXvWaBCvnLl
+ MbjMAvItN5ThPsh912IkSRhlqTtvnzt+Qoi+ZspThBBwjMjw1DXDQRIhfgd3mskHuMGI
+ sDgwiicQ5cC+edaBvEnkxtcb/6vC1aTv4DUOz9/RbZ/vBgVW8vjl2vj9Gjzkd4E+kwbd kw== 
+Received: from eur04-he1-obe.outbound.protection.outlook.com
+ (mail-he1eur04lp2059.outbound.protection.outlook.com [104.47.13.59])
+ by mx08-001d1705.pphosted.com with ESMTP id 37ypj1sxtw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 20 Apr 2021 09:03:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XjPbMnBq6GKLyO1pU7Zgh3R0TXuRbcuFyLBQMUr+81MmEvIZj5HtONFawBVg6sXCF8Qd1sZp97eGT5bT0ZijqAP8oFLMZIVsFs0s54CmMcZES+JorCkYgJVTsRYJsntMYXmy05EgD2W+xN+kZXivKSWvYM4oZQxrPIbFeqIUT1fkNqEzb8ikw3DeEE57fLkXZV8l7/n0TNSllS11E/C+wI11xiJ97SF+yg7SelLPpqTB8BohMSKhLA+LO4GSpk8Fpo4UYIljBZ1787qjUV75KKET0ZF5clTNvgThUkvBmtK6+qqqNQZUgC2h741YRTHNPrDMeHKMA6kcG8uZ2xa49w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W97UwFrKOsg0HT4UFrJ4MCeX70b2tg+9O5VbwwrrfOU=;
+ b=bPoX7kf31VMmw3YShVvxSyzUp8epwSgYT1w4Jm5HBMxAyrlBiy3E4RQm5NycpqcQNMgLPojrw+iRi/BuWmTHywqywsfJPVoWQxmDVQHS37ewVBToAgRDe7ZMZ+epEBIZFgnnDT92jeTQi3FhZ/mSoiPykaKS0LLx7ISAJw5RJwlCN/cyYenJL5t2ZIezbuT2Y9eDeRScgYZO6ikHKWdjVkotI08GCmCOFX/Z632TAIu3angEXU3/HSNshK7JPQTfb8nNyrq+or8uG9uOuDClJVwvB+hEjO2c/37x/FCfckNgz+nxMOmt+dWk7086aSHzhntPavo1gLHCkhEn674jSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
+ dkim=pass header.d=sony.com; arc=none
+Received: from AM9P193MB1491.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:306::20)
+ by AM9P193MB1048.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1f2::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.18; Tue, 20 Apr
+ 2021 09:02:57 +0000
+Received: from AM9P193MB1491.EURP193.PROD.OUTLOOK.COM
+ ([fe80::35b3:3e5e:6533:84e0]) by AM9P193MB1491.EURP193.PROD.OUTLOOK.COM
+ ([fe80::35b3:3e5e:6533:84e0%5]) with mapi id 15.20.4065.020; Tue, 20 Apr 2021
+ 09:02:57 +0000
+From: <Peter.Enderborg@sony.com>
+To: <mhocko@suse.com>, <christian.koenig@amd.com>
+Subject: Re: [PATCH v4] dma-buf: Add DmaBufTotal counter in meminfo
+Thread-Topic: [PATCH v4] dma-buf: Add DmaBufTotal counter in meminfo
+Thread-Index: AQHXM3Yw6ll+UCWErEeaPUdSTn+rzaq7xNSAgAAG/YCAACafgIAABUyAgAAHCICAAAergIAABySAgADyaoCAAAenAIAAA+2AgAAVYwA=
+Date: Tue, 20 Apr 2021 09:02:57 +0000
+Message-ID: <5efa2b11-850b-ad89-b518-b776247748a4@sony.com>
+References: <20210417104032.5521-1-peter.enderborg@sony.com>
+ <YH10s/7MjxBBsjVL@dhcp22.suse.cz>
+ <c3f0da9c-d127-5edf-dd21-50fd5298acef@sony.com>
+ <YH2a9YfRBlfNnF+u@dhcp22.suse.cz>
+ <23aa041b-0e7c-6f82-5655-836899973d66@sony.com>
+ <d70efba0-c63d-b55a-c234-eb6d82ae813f@amd.com>
+ <YH2ru642wYfqK5ne@dhcp22.suse.cz>
+ <07ed1421-89f8-8845-b254-21730207c185@amd.com>
+ <YH59E15ztpTTUKqS@dhcp22.suse.cz>
+ <b89c84da-65d2-35df-7249-ea8edc0bee9b@amd.com>
+ <YH6GyThr2mPrM6h5@dhcp22.suse.cz>
+In-Reply-To: <YH6GyThr2mPrM6h5@dhcp22.suse.cz>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+authentication-results: suse.com; dkim=none (message not signed)
+ header.d=none;suse.com; dmarc=none action=none header.from=sony.com;
+x-originating-ip: [37.139.156.40]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 796f73d5-f06d-4f36-2d32-08d903db1779
+x-ms-traffictypediagnostic: AM9P193MB1048:
+x-microsoft-antispam-prvs: <AM9P193MB10487D40556B954484AA228B86489@AM9P193MB1048.EURP193.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Hri75q6awjHA6vV8JTD6qfaawfKFpY5MuJQgMES9BColOkiCn4Qbh9E41R699PhRga6gwMM6RMeogY9nGEJmrms5/NL1M6PwDbrml6Kc/eo9ZFGeTkXahYLBvXHueKpcygs6SCT1XM7WB38vmFHI74UrGcpYAPlr7mM3cGMRYKlUxreulxbitc5NTvUgDhrikHlu0nxBb3mGN75SOTVtH1C7a44F/GsyJE9BKZHhTHYYnTuFSwZ4HgEw58X+zDlmz2bJEJQ1HYmQ973qNU2JcXZe+k0toucaVOwpFDvewlFBovfdU42nx4Hh2wMLrGRNzt1ewORlwX90G+7quvvogRWLG5Ia4Qpp+fEJE09sWsXyhU3fuWr8WOTvzPKcY3QmDT7imM5+XbYOASvYy1fPvf0GnELFtF238GjBNoUH3yM8UALuC8yttDfyWQk/siuvcLVW8xMXDhHstTEVMS3vUBRV7XjN3zoSOQyZJ1gJzRu75S2y/L1h9/qaGAKQX7ju9BbIXBF3cOuLnR/Y5r4bzadTjdHdjwRQJnDAQ/OKMt6EY7ErXs6QfOVwd2Uuv5xUWVqVyQi+3dWUR6HR/7Coq3vwM9Zr0bBu9zQfnl0BW531XMZKR+/8FFzbC1QzzKGiJaPrDJ40rukoFxlcJj4VEchK4hJgfP3UKIPaloKB3WDNdZJz2NEpnJcLdwwWpclj
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9P193MB1491.EURP193.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(376002)(396003)(366004)(136003)(346002)(54906003)(76116006)(38100700002)(86362001)(31686004)(36756003)(186003)(83380400001)(122000001)(31696002)(6486002)(478600001)(4326008)(7416002)(26005)(6512007)(71200400001)(316002)(66946007)(66476007)(64756008)(91956017)(66446008)(8676002)(110136005)(4744005)(2906002)(5660300002)(2616005)(6506007)(8936002)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?QW9QTXo3NFI2Q0c5QWE0SEZBaXAyS2c5Ny8wOHB1R0hmMnZrbk56UDkzcUhl?=
+ =?utf-8?B?eG9GOU93eFg3Z3RtaVlBbkc1d25GRmZkcGhDZWE5SHpsUExTOUU5b294Qzlp?=
+ =?utf-8?B?RG1MVVlYUnpkUlcrcTF3N0lySFZSZnVVRDgxWEhNTDFXRUYvRGYxV0Y1NVgy?=
+ =?utf-8?B?NzgyNDFoRmpiUEF6RGQ0WWtRNlB6V0xmRi9QT1g5eERMZFF6Z25DOGpGT29X?=
+ =?utf-8?B?SU9LeGhpRlVOUlRBVHR2SzFHYTRJZVdhM0syeWl6VSsxU1V4WHdHck5sc0Rv?=
+ =?utf-8?B?c3c0bnJsMWhWa1pPdjcvR1paaEJpWjBXc1BFTUxQNnd5UVF6cis3WnpjTm9a?=
+ =?utf-8?B?b3lieFpMTU9uVFFndVdYc2h4MGpXK3o1T0s1cHBvRmk4R0tObmNiYmxmMzNG?=
+ =?utf-8?B?VGVDZ2l0ZEpMdWUxVzR5VlhuL2o0RENkUlFVbzlFL3gzMUZVOVFlRHZhejQ3?=
+ =?utf-8?B?N1BHSm1IaEJpczdjSEpKanUyZ3dON0grUzJ6Z3NkcEJqOHAxVTQwckRiUzF6?=
+ =?utf-8?B?a1BjQXlGZ1BGQUlqaHJlM1ZCMzJFUEJsU2trVHgwT0FGUEdxZ1hJbDAwVEpw?=
+ =?utf-8?B?U0ZZTlhFOXArWG9RZzhNdXdDb2FwWmhXS0Q2bUZRQ0JJdmszV3Z6akFGb2VO?=
+ =?utf-8?B?RHA0QVpaanFlNm1LV0NzMXl6VUhGTzFlVU4vTERCYnpkQWlzb1hXejh6Yndt?=
+ =?utf-8?B?c0tLWmhSZVp3MStLUld2R3NoRnRxL0NncTcxcTlabk4wR3ZUZlhheVFUWmZp?=
+ =?utf-8?B?SDA3Zmt5S3BlV3JMNlFjRFdLWmtSdEpaOEIvYTM1WFE3SkFGNzZ2NzRNc0hm?=
+ =?utf-8?B?RWRTeVJIOVBZT0FZNytpOFovRVRJRC9HaEd1WkpYUHZCQVRCQ1lES2sxS2hm?=
+ =?utf-8?B?cWtrQnV2UndOY3dtSVU4TTFlTTNpMGtWUElNYnVUbkxMM3NkME1wUE9GVCt6?=
+ =?utf-8?B?dVpjMHZYRFlzcVAyS2ZMZVFSUjljbnl5QVlZc0g5OEk4SDdMeXoyK3paNi9t?=
+ =?utf-8?B?QnFnK3A3elBCdTl5NytBeWR4SlJUWTd0SnJDUUdJUnFGR2RRbUViOEVKWmlS?=
+ =?utf-8?B?ZmZMbEFXUW5GaUFFcEhoR2N6Zm95RFlyNEhVWC9Ic1JXcW1IbmdqREYzY1oz?=
+ =?utf-8?B?V0hmSmpzSTVhYWRSazZ6QVZNcG9FaGtOMzhiWVU1QjlSM1lDNEtXUUxGS3pj?=
+ =?utf-8?B?bUpLdTQ3K2FMSjR3LzY2bDBtbitjWFFVdzBTNGNPTWk5SFkwUjZsY2ZNRURr?=
+ =?utf-8?B?LzdyWElhdnMzNFVFTFRmVW10MDVIN29rMnVxNU5oMXgvNm91a1N0Yy8yVldH?=
+ =?utf-8?B?SmpiRG5JaForRGdiNzcxc2NaT3YyZUNUTFYxNnN1NjdoUXl4eitqZDROby90?=
+ =?utf-8?B?c3dPOVdXektoWTBUbmJ5UTNaV3F0d01NVEJIS3poSS8yQWl3UmJOVlBHb3o5?=
+ =?utf-8?B?QU5xcmRMYlhUZ2JKd2ZnbklTTWV5QjdlQ1lVY1NvR2VYWE1wYTdVcWtXMHEr?=
+ =?utf-8?B?TDJWWW1pQ3B3ZVg2eS90Z1dZQllReVppaXU4NjRYMU1BMDd6MXZNSENRWlRo?=
+ =?utf-8?B?NVNjSDFRTGIydnZqbWovcE13RFk4MUllSVVSK2MrTXQ3a2RweGM2U1FteVFt?=
+ =?utf-8?B?V3FnTlBXejZVUVRHTndwdXVVem9YNTIyUEE5MTU3dmpkNjBUM3VreWZwUGlT?=
+ =?utf-8?B?a0NnejlhSG00eFU2U2tCdzRPdkx0ZHVvbDU5bkFMeU56RlNsaFNSUUdpRWlu?=
+ =?utf-8?Q?I2h47/IMFEjtGDac5N+QK+MlK5DWEwWxeI+guwn?=
+x-ms-exchange-transport-forked: True
+Content-ID: <315B595006F4F84C9866F86429B314C0@EURP193.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210419081807.68000-2-krzysztof.kozlowski@canonical.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-OriginatorOrg: sony.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9P193MB1491.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 796f73d5-f06d-4f36-2d32-08d903db1779
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2021 09:02:57.5457 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /YrwRyzJTV0tUceUaZPjrtF133lurlvfj+D+CfwpN5FN1xzWCyw8N8ONf+w0pxV+vk3tAO465YrxPO9P//G8gNhbzb21BTRnnzY+PXqsj6Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9P193MB1048
+X-Proofpoint-GUID: cdbTQqXEFf1Nn1Upu3WCUurwiCSrGMgt
+X-Proofpoint-ORIG-GUID: cdbTQqXEFf1Nn1Upu3WCUurwiCSrGMgt
+X-Sony-Outbound-GUID: cdbTQqXEFf1Nn1Upu3WCUurwiCSrGMgt
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-20_02:2021-04-19,
+ 2021-04-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ adultscore=0 clxscore=1015 spamscore=0 suspectscore=0 mlxscore=0
+ bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104200067
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,273 +157,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: willy@infradead.org, neilb@suse.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ shakeelb@google.com, rppt@kernel.org, samitolvanen@google.com,
+ songmuchun@bytedance.com, linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org, adobriyan@gmail.com, guro@fb.com,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 19, 2021 at 10:18:07AM +0200, Krzysztof Kozlowski wrote:
-> Remove trailing whitespaces.  No functional change.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
-Both patches applied to drm-misc-next, thanks.
--Daniel
+>> But that isn't really system memory at all, it's just allocated device
+>> memory.
+> OK, that was not really clear to me. So this is not really accounted to
+> MemTotal? If that is really the case then reporting it into the oom
+> report is completely pointless and I am not even sure /proc/meminfo is
+> the right interface either. It would just add more confusion I am
+> afraid.
+>  
 
-> ---
->  drivers/gpu/drm/gma500/backlight.c    |  4 +--
->  drivers/gpu/drm/gma500/cdv_intel_dp.c | 50 +++++++++++++--------------
->  2 files changed, 26 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/gma500/backlight.c b/drivers/gpu/drm/gma500/backlight.c
-> index 35600d070cb5..9e90258541a4 100644
-> --- a/drivers/gpu/drm/gma500/backlight.c
-> +++ b/drivers/gpu/drm/gma500/backlight.c
-> @@ -42,7 +42,7 @@ void gma_backlight_disable(struct drm_device *dev)
->  		dev_priv->backlight_device->props.brightness = 0;
->  		do_gma_backlight_set(dev);
->  	}
-> -#endif	
-> +#endif
->  }
->  
->  void gma_backlight_set(struct drm_device *dev, int v)
-> @@ -54,7 +54,7 @@ void gma_backlight_set(struct drm_device *dev, int v)
->  		dev_priv->backlight_device->props.brightness = v;
->  		do_gma_backlight_set(dev);
->  	}
-> -#endif	
-> +#endif
->  }
->  
->  int gma_backlight_init(struct drm_device *dev)
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> index 6d3ada39ff86..595b765ecc71 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> @@ -245,7 +245,7 @@ i2c_dp_aux_add_bus(struct i2c_adapter *adapter)
->                  if (W && !in_dbg_master()) msleep(W);                   \
->          }                                                               \
->          ret__;                                                          \
-> -})      
-> +})
->  
->  #define wait_for(COND, MS) _wait_for(COND, MS, 1)
->  
-> @@ -386,7 +386,7 @@ static void cdv_intel_edp_panel_vdd_on(struct gma_encoder *intel_encoder)
->  	if (intel_dp->panel_on) {
->  		DRM_DEBUG_KMS("Skip VDD on because of panel on\n");
->  		return;
-> -	}	
-> +	}
->  	DRM_DEBUG_KMS("\n");
->  
->  	pp = REG_READ(PP_CONTROL);
-> @@ -433,7 +433,7 @@ static bool cdv_intel_edp_panel_on(struct gma_encoder *intel_encoder)
->  		DRM_DEBUG_KMS("Error in Powering up eDP panel, status %x\n", REG_READ(PP_STATUS));
->  		intel_dp->panel_on = false;
->  	} else
-> -		intel_dp->panel_on = true;	
-> +		intel_dp->panel_on = true;
->  	msleep(intel_dp->panel_power_up_delay);
->  
->  	return false;
-> @@ -449,7 +449,7 @@ static void cdv_intel_edp_panel_off (struct gma_encoder *intel_encoder)
->  
->  	pp = REG_READ(PP_CONTROL);
->  
-> -	if ((pp & POWER_TARGET_ON) == 0) 
-> +	if ((pp & POWER_TARGET_ON) == 0)
->  		return;
->  
->  	intel_dp->panel_on = false;
-> @@ -464,7 +464,7 @@ static void cdv_intel_edp_panel_off (struct gma_encoder *intel_encoder)
->  	DRM_DEBUG_KMS("PP_STATUS %x\n", REG_READ(PP_STATUS));
->  
->  	if (wait_for((REG_READ(PP_STATUS) & idle_off_mask) == 0, 1000)) {
-> -		DRM_DEBUG_KMS("Error in turning off Panel\n");	
-> +		DRM_DEBUG_KMS("Error in turning off Panel\n");
->  	}
->  
->  	msleep(intel_dp->panel_power_cycle_delay);
-> @@ -535,7 +535,7 @@ cdv_intel_dp_mode_valid(struct drm_connector *connector,
->  	    if (cdv_intel_dp_link_required(mode->clock, 24)
->  	     	> cdv_intel_dp_max_data_rate(max_link_clock, max_lanes))
->  		return MODE_CLOCK_HIGH;
-> -		
-> +
->  	}
->  	if (mode->clock < 10000)
->  		return MODE_CLOCK_LOW;
-> @@ -606,7 +606,7 @@ cdv_intel_dp_aux_ch(struct gma_encoder *encoder,
->  		for (i = 0; i < send_bytes; i += 4)
->  			REG_WRITE(ch_data + i,
->  				   pack_aux(send + i, send_bytes - i));
-> -	
-> +
->  		/* Send the command and wait for it to complete */
->  		REG_WRITE(ch_ctl,
->  			   DP_AUX_CH_CTL_SEND_BUSY |
-> @@ -623,7 +623,7 @@ cdv_intel_dp_aux_ch(struct gma_encoder *encoder,
->  				break;
->  			udelay(100);
->  		}
-> -	
-> +
->  		/* Clear done status and any errors */
->  		REG_WRITE(ch_ctl,
->  			   status |
-> @@ -659,7 +659,7 @@ cdv_intel_dp_aux_ch(struct gma_encoder *encoder,
->  		      DP_AUX_CH_CTL_MESSAGE_SIZE_SHIFT);
->  	if (recv_bytes > recv_size)
->  		recv_bytes = recv_size;
-> -	
-> +
->  	for (i = 0; i < recv_bytes; i += 4)
->  		unpack_aux(REG_READ(ch_data + i),
->  			   recv + i, recv_bytes - i);
-> @@ -870,7 +870,7 @@ cdv_intel_dp_i2c_init(struct gma_connector *connector,
->  	ret = i2c_dp_aux_add_bus(&intel_dp->adapter);
->  	if (is_edp(encoder))
->  		cdv_intel_edp_panel_vdd_off(encoder);
-> -	
-> +
->  	return ret;
->  }
->  
-> @@ -1291,13 +1291,13 @@ cdv_intel_get_adjust_train(struct gma_encoder *encoder)
->  		if (this_p > p)
->  			p = this_p;
->  	}
-> -	
-> +
->  	if (v >= CDV_DP_VOLTAGE_MAX)
->  		v = CDV_DP_VOLTAGE_MAX | DP_TRAIN_MAX_SWING_REACHED;
->  
->  	if (p == DP_TRAIN_PRE_EMPHASIS_MASK)
->  		p |= DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
-> -		
-> +
->  	for (lane = 0; lane < 4; lane++)
->  		intel_dp->train_set[lane] = v | p;
->  }
-> @@ -1358,7 +1358,6 @@ cdv_intel_dp_set_link_train(struct gma_encoder *encoder,
->  			uint32_t dp_reg_value,
->  			uint8_t dp_train_pat)
->  {
-> -	
->  	struct drm_device *dev = encoder->base.dev;
->  	int ret;
->  	struct cdv_intel_dp *intel_dp = encoder->dev_priv;
-> @@ -1384,7 +1383,6 @@ static bool
->  cdv_intel_dplink_set_level(struct gma_encoder *encoder,
->  			uint8_t dp_train_pat)
->  {
-> -	
->  	int ret;
->  	struct cdv_intel_dp *intel_dp = encoder->dev_priv;
->  
-> @@ -1462,7 +1460,7 @@ cdv_intel_dp_set_vswing_premph(struct gma_encoder *encoder, uint8_t signal_level
->  	/* ;gfx_dpio_set_reg(0x8124, 0x00004000) */
->  	index = 2 * premph + 1;
->  	cdv_sb_write(dev, ddi_reg->PreEmph2, dp_vswing_premph_table[index]);
-> -	return;	
-> +	return;
->  }
->  
->  
-> @@ -1481,8 +1479,8 @@ cdv_intel_dp_start_link_train(struct gma_encoder *encoder)
->  
->  	DP |= DP_PORT_EN;
->  	DP &= ~DP_LINK_TRAIN_MASK;
-> -		
-> -	reg = DP;	
-> +
-> +	reg = DP;
->  	reg |= DP_LINK_TRAIN_PAT_1;
->  	/* Enable output, wait for it to become active */
->  	REG_WRITE(intel_dp->output_reg, reg);
-> @@ -1556,7 +1554,7 @@ cdv_intel_dp_start_link_train(struct gma_encoder *encoder)
->  	if (!clock_recovery) {
->  		DRM_DEBUG_KMS("failure in DP patter 1 training, train set %x\n", intel_dp->train_set[0]);
->  	}
-> -	
-> +
->  	intel_dp->DP = DP;
->  }
->  
-> @@ -1747,7 +1745,7 @@ static int cdv_intel_dp_get_modes(struct drm_connector *connector)
->  	if (is_edp(intel_encoder)) {
->  		struct drm_device *dev = connector->dev;
->  		struct drm_psb_private *dev_priv = dev->dev_private;
-> -		
-> +
->  		cdv_intel_edp_panel_vdd_off(intel_encoder);
->  		if (ret) {
->  			if (edp && !intel_dp->panel_fixed_mode) {
-> @@ -1942,11 +1940,11 @@ static void cdv_disable_intel_clock_gating(struct drm_device *dev)
->  			DPCUNIT_CLOCK_GATE_DISABLE |
->  			DPLSUNIT_CLOCK_GATE_DISABLE |
->  			DPOUNIT_CLOCK_GATE_DISABLE |
-> -		 	DPIOUNIT_CLOCK_GATE_DISABLE);	
-> +			DPIOUNIT_CLOCK_GATE_DISABLE);
->  
->  	REG_WRITE(DSPCLK_GATE_D, reg_value);
->  
-> -	udelay(500);		
-> +	udelay(500);
->  }
->  
->  void
-> @@ -1990,7 +1988,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
->  	gma_encoder->dev_priv=intel_dp;
->  	intel_dp->encoder = gma_encoder;
->  	intel_dp->output_reg = output_reg;
-> -	
-> +
->  	drm_encoder_helper_add(encoder, &cdv_intel_dp_helper_funcs);
->  	drm_connector_helper_add(connector, &cdv_intel_dp_connector_helper_funcs);
->  
-> @@ -2027,7 +2025,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
->  		pp_on = REG_READ(PP_CONTROL);
->  		pp_on &= ~PANEL_UNLOCK_MASK;
->  	        pp_on |= PANEL_UNLOCK_REGS;
-> -		
-> +
->  		REG_WRITE(PP_CONTROL, pp_on);
->  
->  		pwm_ctrl = REG_READ(BLC_PWM_CTL2);
-> @@ -2037,7 +2035,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
->                  pp_on = REG_READ(PP_ON_DELAYS);
->                  pp_off = REG_READ(PP_OFF_DELAYS);
->                  pp_div = REG_READ(PP_DIVISOR);
-> -	
-> +
->  		/* Pull timing values out of registers */
->                  cur.t1_t3 = (pp_on & PANEL_POWER_UP_DELAY_MASK) >>
->                          PANEL_POWER_UP_DELAY_SHIFT;
-> @@ -2085,9 +2083,9 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
->  			goto err_connector;
->  		} else {
->          		DRM_DEBUG_KMS("DPCD: Rev=%x LN_Rate=%x LN_CNT=%x LN_DOWNSP=%x\n",
-> -				intel_dp->dpcd[0], intel_dp->dpcd[1], 
-> +				intel_dp->dpcd[0], intel_dp->dpcd[1],
->  				intel_dp->dpcd[2], intel_dp->dpcd[3]);
-> -			
-> +
->  		}
->  		/* The CDV reference driver moves pnale backlight setup into the displays that
->  		   have a backlight: this is a good idea and one we should probably adopt, however
-> -- 
-> 2.25.1
-> 
+Why is it confusing? Documentation is quite clear:
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+"Provides information about distribution and utilization of memory. This
+varies by architecture and compile options."
+
+A topology with VRAM fits very well on that. The point is to have an
+overview.
+
+
+>>> See where I am heading?
+>> Yeah, totally. Thanks for pointing this out.
+>>
+>> Suggestions how to handle that?
+> As I've pointed out in previous reply we do have an API to account per
+> node memory but now that you have brought up that this is not something
+> we account as a regular memory then this doesn't really fit into that
+> model. But maybe I am just confused.
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
