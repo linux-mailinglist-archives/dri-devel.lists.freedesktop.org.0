@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B76536545C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 10:41:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E59365478
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 10:46:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 633F76E47A;
-	Tue, 20 Apr 2021 08:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF616E12C;
+	Tue, 20 Apr 2021 08:46:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF2A89CBC
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 08:41:42 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id s15so44052017edd.4
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 01:41:41 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 816046E12C
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 08:46:51 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id w3so57090570ejc.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 01:46:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=kTvIrhd5T0TmCSro7OLiMHWa1HxRfzT9Q0+pVpW/bYk=;
- b=DSigTbIsYkqSL3KITeBAXN/N0hP3Ld+165PN23dIeZJXGLdonEiXwLRfVPmWBp1go5
- FCrjItUox6HVivFasOP0JdWtU+i6ljo4CQQd6ILT0zdcdEAyW/ADSXxoKOwqOB2pxPGi
- zrM3Px+4JKJyk5BoGWJTlyOXmMvELNvZBsbxc=
+ :content-disposition:in-reply-to;
+ bh=vuclwn4vyYALU0qWvo6KCdEtoH/58AhLvrs6PmwRMkU=;
+ b=d6k/+pMNRaJAPmCwZIx46LdCjEclIZQZIiqmt5R+9oE2HbK/SUZCyy9PgG7R/SdRV5
+ +qqmMuLhWyBlELzXKxtTUWe/a/F923nSFKxOiKEcHGTTAXjjfYZKxixldu4HVwNbjrvS
+ goh8h0wa7opFwUTqajn0mk7R0ka7M8qA/THy4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=kTvIrhd5T0TmCSro7OLiMHWa1HxRfzT9Q0+pVpW/bYk=;
- b=tZAFOC92qpCxO1rWg+cj0TZe5YsAa9N8ROozcwz8R8RoqIPzDBQsSf7x6kSnkRR9mB
- EO1lYQ8m2nyno9edoxqMCgkOXP3+1gohP5JLuLSOmuAifwfjGlVSZqZ93YE+JbZDgXhG
- Zg8KAoQHCjTSokZtqb0pFHu+EW8VswSk3sSZKMszbLALM7ejHqn6yRdmjPwwIxplu0/p
- wS75RW+rHu8uQZBF4lo+8PSGyX2ngF63erj9WXDtMOygnWah/PVTuiT7YxbM1YmM1I/b
- TtaiV757XKxsL+NC/6DVbwxizdDEMto+jeMfQWTfWsWpr5LLJXlDXNtitf06mfmc9Zi8
- OO4A==
-X-Gm-Message-State: AOAM532SkxSVrU3iO9ZN7UlAQVEnUp2DNgjYOh5H+9j9JDXxdP2ydFdA
- aAf9AHT1phqnMAj6pBom+GwyOg==
-X-Google-Smtp-Source: ABdhPJx2ryokP8VgMHZsZx3rV56DrXASKZhZO9f8TLrCQaNIsfP8YRMpAEE06MpiBvJ1iiDmKkZNzA==
-X-Received: by 2002:a05:6402:42c9:: with SMTP id
- i9mr31162294edc.35.1618908100756; 
- Tue, 20 Apr 2021 01:41:40 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=vuclwn4vyYALU0qWvo6KCdEtoH/58AhLvrs6PmwRMkU=;
+ b=bFiaSUcFLdv1VF1KGKTdndsBrCamcbAfkoUY4DjZ2LAdk96E6Zk77vxt+n+y9EzRBP
+ GwqkfUQkiBRwtQweSQSxHV1y9GGuAjIggToW9rZDMqnImqAUSd0fyWvUpNKQJLEF/fJV
+ bmsAj4PhrBNEhWg5bykFhpvjLKUsOczeTIpAGXR0OaONSlq/YhV5OPrwu1S8o5NYLb/M
+ yunaAeYrX+0/mEzfobMYYx4udX4jJ7q53PiXyy7mJuoC/kDX3E9+GLpUOFtN2rcAV48C
+ 5YLxtYjPf0tgazasgZ4DYZ1IInMDEzWxI3tUjvI9jSCt4HTNRCY644YOFQ6AQHi5vQ27
+ jpoQ==
+X-Gm-Message-State: AOAM530PMdwne9+8TDR9ASCdz9JjiCxWPP7y8GWDMFhfVoWx07JTRqXF
+ Hf/PYfXp8PH7kmSk7E9huP59cg==
+X-Google-Smtp-Source: ABdhPJyhF872h1aJTtsSGthH1G/y01DLyqPuLLT/uw2mQIUL7MPcOuFmVGGTl/E/UJzUQ97XvDsuxw==
+X-Received: by 2002:a17:906:53cd:: with SMTP id
+ p13mr26254640ejo.379.1618908410246; 
+ Tue, 20 Apr 2021 01:46:50 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a21sm12068247ejk.15.2021.04.20.01.41.39
+ by smtp.gmail.com with ESMTPSA id n14sm11973365ejy.90.2021.04.20.01.46.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 01:41:40 -0700 (PDT)
-Date: Tue, 20 Apr 2021 10:41:38 +0200
+ Tue, 20 Apr 2021 01:46:49 -0700 (PDT)
+Date: Tue, 20 Apr 2021 10:46:47 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Inki Dae <inki.dae@samsung.com>
-Subject: Re: [PATCH 03/12] drm/exynos: Don't set allow_fb_modifiers explicitly
-Message-ID: <YH6TwgrVIUlQwH2g@phenom.ffwll.local>
-References: <20210413094904.3736372-1-daniel.vetter@ffwll.ch>
- <CGME20210413094922epcas1p47e75ce008a78971af7a923aadc0b9d3b@epcas1p4.samsung.com>
- <20210413094904.3736372-3-daniel.vetter@ffwll.ch>
- <df4acc12-27da-3a81-6e2b-eee197107341@samsung.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v4 0/9] drm: Support simple-framebuffer devices and
+ firmware fbs
+Message-ID: <YH6U92Q71ntU6Z1R@phenom.ffwll.local>
+References: <20210416090048.11492-1-tzimmermann@suse.de>
+ <CAMuHMdWcC8O+UzQDQj7Bm4uK_myjFT5D2ccTmneTJYi4SMfCRQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <df4acc12-27da-3a81-6e2b-eee197107341@samsung.com>
+In-Reply-To: <CAMuHMdWcC8O+UzQDQj7Bm4uK_myjFT5D2ccTmneTJYi4SMfCRQ@mail.gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,50 +67,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
+Cc: bluescreen_avenger@verizon.net, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Daniel Vetter <daniel.vetter@intel.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, virtualization@lists.linux-foundation.org,
+ Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgMjAsIDIwMjEgYXQgMDM6MzE6MjdQTSArMDkwMCwgSW5raSBEYWUgd3JvdGU6
-Cj4gCj4gCj4gMjEuIDQuIDEzLiDsmKTtm4QgNjo0OOyXkCBEYW5pZWwgVmV0dGVyIOydtCjqsIAp
-IOyTtCDquIA6Cj4gPiBTaW5jZQo+ID4gCj4gPiBjb21taXQgODkwODgwZGRmZGJlMjU2MDgzMTcw
-ODY2ZTQ5Yzg3NjE4YjcwNmFjNwo+ID4gQXV0aG9yOiBQYXVsIEtvY2lhbGtvd3NraSA8cGF1bC5r
-b2NpYWxrb3dza2lAYm9vdGxpbi5jb20+Cj4gPiBEYXRlOiAgIEZyaSBKYW4gNCAwOTo1NjoxMCAy
-MDE5ICswMTAwCj4gPiAKPiA+ICAgICBkcm06IEF1dG8tc2V0IGFsbG93X2ZiX21vZGlmaWVycyB3
-aGVuIGdpdmVuIG1vZGlmaWVycyBhdCBwbGFuZSBpbml0Cj4gPiAKPiA+IHRoaXMgaXMgZG9uZSBh
-dXRvbWF0aWNhbGx5IGFzIHBhcnQgb2YgcGxhbmUgaW5pdCwgaWYgZHJpdmVycyBzZXQgdGhlCj4g
-PiBtb2RpZmllciBsaXN0IGNvcnJlY3RseS4gV2hpY2ggaXMgdGhlIGNhc2UgaGVyZS4KPiA+IAo+
-ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+
-Cj4gCj4gQWNrZWQtYnk6IElua2kgRGFlIDxpbmtpLmRhZUBzYW1zdW5nLmNvbT4KClRoYW5rcyBm
-b3IgdGFraW5nIGEgbG9vaywgcHVzaGVkIHRvIGRybS1taXNjLW5leHQuCi1EYW5pZWwKCj4gCj4g
-VGhhbmtzLAo+IElua2kgRGFlCj4gCj4gPiBDYzogSW5raSBEYWUgPGlua2kuZGFlQHNhbXN1bmcu
-Y29tPgo+ID4gQ2M6IEpvb255b3VuZyBTaGltIDxqeTA5MjIuc2hpbUBzYW1zdW5nLmNvbT4KPiA+
-IENjOiBTZXVuZy1Xb28gS2ltIDxzdzAzMTIua2ltQHNhbXN1bmcuY29tPgo+ID4gQ2M6IEt5dW5n
-bWluIFBhcmsgPGt5dW5nbWluLnBhcmtAc2Ftc3VuZy5jb20+Cj4gPiBDYzogS3J6eXN6dG9mIEtv
-emxvd3NraSA8a3J6a0BrZXJuZWwub3JnPgo+ID4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMu
-aW5mcmFkZWFkLm9yZwo+ID4gQ2M6IGxpbnV4LXNhbXN1bmctc29jQHZnZXIua2VybmVsLm9yZwo+
-ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2ZiLmMgfCAyIC0t
-Cj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIgZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZmIuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9leHlub3MvZXh5bm9zX2RybV9mYi5jCj4gPiBpbmRleCA2NDM3MGI2MzRjY2EuLjc5ZmEzNjQ5
-MTg1YyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9m
-Yi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZmIuYwo+ID4g
-QEAgLTE3Nyw3ICsxNzcsNSBAQCB2b2lkIGV4eW5vc19kcm1fbW9kZV9jb25maWdfaW5pdChzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2KQo+ID4gIAlkZXYtPm1vZGVfY29uZmlnLmZ1bmNzID0gJmV4eW5v
-c19kcm1fbW9kZV9jb25maWdfZnVuY3M7Cj4gPiAgCWRldi0+bW9kZV9jb25maWcuaGVscGVyX3By
-aXZhdGUgPSAmZXh5bm9zX2RybV9tb2RlX2NvbmZpZ19oZWxwZXJzOwo+ID4gIAo+ID4gLQlkZXYt
-Pm1vZGVfY29uZmlnLmFsbG93X2ZiX21vZGlmaWVycyA9IHRydWU7Cj4gPiAtCj4gPiAgCWRldi0+
-bW9kZV9jb25maWcubm9ybWFsaXplX3pwb3MgPSB0cnVlOwo+ID4gIH0KPiA+IAoKLS0gCkRhbmll
-bCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9n
-LmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Apr 19, 2021 at 10:00:56AM +0200, Geert Uytterhoeven wrote:
+> Hi Thomas,
+> 
+> On Fri, Apr 16, 2021 at 11:00 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > This patchset adds support for simple-framebuffer platform devices and
+> > a handover mechanism for native drivers to take-over control of the
+> > hardware.
+> >
+> > The new driver, called simpledrm, binds to a simple-frambuffer platform
+> > device. The kernel's boot code creates such devices for firmware-provided
+> > framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or boot
+> > loader sets up the framebuffers. Description via device tree is also an
+> > option.
+> 
+> I guess this can be used as a replacement for offb, too...
+> 
+> > Patches 4 to 8 add the simpledrm driver. It's build on simple DRM helpers
+> > and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
+> 
+> .... if support for 8-bit frame buffers would be added?
+
+Is that 8-bit greyscale or 8-bit indexed with 256 entry palette? Former
+shouldn't be a big thing, but the latter is only really supported by the
+overall drm ecosystem in theory. Most userspace assumes that xrgb8888
+works, and we keep that illusion up by emulating it in kernel for hw which
+just doesn't support it. But reformatting xrgb8888 to c8 is tricky at
+best. The uapis are all there for setting the palette, and C8 is a defined
+format even with atomic kms interface, but really there's not much
+userspace for it. In other words, it would work as well as current offb
+would, but that's at least that.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
