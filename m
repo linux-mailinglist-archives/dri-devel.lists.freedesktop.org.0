@@ -2,42 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ECA365DF2
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 18:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5406B365DFC
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 18:57:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 154AB88D18;
-	Tue, 20 Apr 2021 16:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA1A6E87C;
+	Tue, 20 Apr 2021 16:57:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
- [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5696A88D18
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 16:54:13 +0000 (UTC)
-Date: Tue, 20 Apr 2021 16:53:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1618937650;
- bh=X1M3tuVWpAndo1D47PQUBVonVDO+ZAaIPMIUS0x26b8=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=TBvKFhwNGBAUHOPt0grNaqrVV00KrVPyIJWVDzOPciGZWni9hMGQ7KibtBfSeemnw
- JClZZ6aEYGfocVP/OflHpG5rkPr44l/NWPv42BW5Yu1EKso6gmYk0EUvOPpCryiF6r
- rHCv6DirMKktf/gYDuR/XCGqNlgUQNRKNOtDjD6NOpcRGd8QYS4fFtjdggISkzH9jR
- mZDwdtBXeqETnbG+vseELTRDMey+bNGV9ykmalBhUbpPj/EFvpToOJQrnV9ipbrY+H
- mLAlNqQe+2ARHCvPaLHiscPxJOizCX9otpN66FWmtuz/AEA/6ZxMZ+6Syumbmj/4is
- 079eb11/sU88w==
-To: Daniel Vetter <daniel@ffwll.ch>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/connector: demote connector force-probes for
- non-master clients
-Message-ID: <i5W_XkwCUbcRZg59AqPDlYbRlD8t4Tf4rnAU2ulYxKXAqiOj6uOaDcUoIXdR_3YD1ioqlbWHLhHrVPNWCn1STLs95lMPyOoIGHTWWpod4Ok=@emersion.fr>
-In-Reply-To: <YH6bjle8zyejKJD0@phenom.ffwll.local>
-References: <20210402112212.5625-1-contact@emersion.fr>
- <YH6bjle8zyejKJD0@phenom.ffwll.local>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 803246E87C
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 16:57:01 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 22BC5ABED;
+ Tue, 20 Apr 2021 16:57:00 +0000 (UTC)
+From: Takashi Iwai <tiwai@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] drm/bochs: Add screen blanking support
+Date: Tue, 20 Apr 2021 18:56:59 +0200
+Message-Id: <20210420165659.23163-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,24 +35,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, April 20th, 2021 at 11:14 AM, Daniel Vetter <daniel@ffwll.ch> wrote:
+On bochs DRM driver, the execution of "setterm --blank force" results
+in a frozen screen instead of a blank screen.  It's due to the lack of
+the screen blanking support in its code.
 
-> Do we have an igt for this? Timing test should do the job I think,
-> assuming we have at least one output which requires an edid read (so maybe
-> skip the test if a forced probe takes less than 10ms or so).
+Actually, the QEMU bochs vga side can switch to the blanking mode when
+the bit 0x20 is cleared on VGA_ATT_IW register (0x3c0), which updates
+ar_index in QEMU side.  So, essentially, we'd just need to clear the
+bit at pipe disable callback; that's what this patch does essentially.
 
-Err, an igt that only relies on timings? Sorry, but that sounds like a
-recipe for flaky tests.
+However, a tricky part is that the QEMU vga code does treat VGA_ATT_IW
+register always as "flip-flop"; the first write is for index and the
+second write is for the data like palette.  Meanwhile, in the current
+bochs DRM driver, the flip-flop wasn't considered, and it calls only
+the register update once with the value 0x20.
 
-Ideally a chamelium test would allow to make sure all of this works as
-expected. I don't really have this hw anymore though.
+So, in this patch, we fix the behavior by simply writing the
+VGA_ATT_IW register value twice at each place as well.
+
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ drivers/gpu/drm/bochs/bochs_hw.c  | 13 ++++++++++++-
+ drivers/gpu/drm/bochs/bochs_kms.c |  8 ++++++++
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bochs/bochs_hw.c b/drivers/gpu/drm/bochs/bochs_hw.c
+index 2d7380a9890e..9a6f90216d6c 100644
+--- a/drivers/gpu/drm/bochs/bochs_hw.c
++++ b/drivers/gpu/drm/bochs/bochs_hw.c
+@@ -213,6 +213,14 @@ void bochs_hw_setmode(struct bochs_device *bochs,
+ 	if (!drm_dev_enter(bochs->dev, &idx))
+ 		return;
+ 
++	if (!mode) {
++		DRM_DEBUG_DRIVER("crtc disabled\n");
++		/* set to blank mode; send twice for ar_flip_flop */
++		bochs_vga_writeb(bochs, 0x3c0, 0);
++		bochs_vga_writeb(bochs, 0x3c0, 0);
++		goto exit;
++	}
++
+ 	bochs->xres = mode->hdisplay;
+ 	bochs->yres = mode->vdisplay;
+ 	bochs->bpp = 32;
+@@ -223,7 +231,9 @@ void bochs_hw_setmode(struct bochs_device *bochs,
+ 			 bochs->xres, bochs->yres, bochs->bpp,
+ 			 bochs->yres_virtual);
+ 
+-	bochs_vga_writeb(bochs, 0x3c0, 0x20); /* unblank */
++	/* unblank; send twice for ar_flip_flop */
++	bochs_vga_writeb(bochs, 0x3c0, 0x20);
++	bochs_vga_writeb(bochs, 0x3c0, 0x20);
+ 
+ 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,      0);
+ 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_BPP,         bochs->bpp);
+@@ -239,6 +249,7 @@ void bochs_hw_setmode(struct bochs_device *bochs,
+ 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,
+ 			  VBE_DISPI_ENABLED | VBE_DISPI_LFB_ENABLED);
+ 
++ exit:
+ 	drm_dev_exit(idx);
+ }
+ 
+diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
+index 853081d186d5..b0d77d6d3ae4 100644
+--- a/drivers/gpu/drm/bochs/bochs_kms.c
++++ b/drivers/gpu/drm/bochs/bochs_kms.c
+@@ -57,6 +57,13 @@ static void bochs_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	bochs_plane_update(bochs, plane_state);
+ }
+ 
++static void bochs_pipe_disable(struct drm_simple_display_pipe *pipe)
++{
++	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
++
++	bochs_hw_setmode(bochs, NULL);
++}
++
+ static void bochs_pipe_update(struct drm_simple_display_pipe *pipe,
+ 			      struct drm_plane_state *old_state)
+ {
+@@ -67,6 +74,7 @@ static void bochs_pipe_update(struct drm_simple_display_pipe *pipe,
+ 
+ static const struct drm_simple_display_pipe_funcs bochs_pipe_funcs = {
+ 	.enable	    = bochs_pipe_enable,
++	.disable    = bochs_pipe_disable,
+ 	.update	    = bochs_pipe_update,
+ 	.prepare_fb = drm_gem_vram_simple_display_pipe_prepare_fb,
+ 	.cleanup_fb = drm_gem_vram_simple_display_pipe_cleanup_fb,
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
