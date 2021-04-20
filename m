@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA1C365D91
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 18:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBD9365D97
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 18:42:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E675F6E873;
-	Tue, 20 Apr 2021 16:42:19 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A406E873;
- Tue, 20 Apr 2021 16:42:19 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id k26so21909517wrc.8;
- Tue, 20 Apr 2021 09:42:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=r+E/kkjY9VCD+TDHQ25+3eYjqgcKsNN6xqcqIvblOGY=;
- b=EuO11aRwYnEDpISs0soIMRvGoq9agr6v5Q3Nb03JTlBEZu+ujxSB9SmQxWS0QWS84d
- Dc8FjQHYRRdHyu9A0OUwvZxjw/Q1bSjVo5qC1A6ExfrNOzU7Zphecwy3f1KCHpB1Ai4U
- D7Dzr2ip5s/EkLmKXUj1ZcQJ/Ol9rGQUnAM1ndlD4usQgIQOUqiPa2ZyMX1h7fkjFEE2
- n0heShv4GRO4JkmwZdOke2Zv/WeN/09cuWqYL4svY84bGfF2IUSh23tXe/KMdpMJ0ZA+
- 9d4HUTHCcrjUpMOejzj5V0LPXzKm5WQl9pjKxYuq080g0OgWBdWPzLNgwRDvYkwMhQ9W
- Q4EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=r+E/kkjY9VCD+TDHQ25+3eYjqgcKsNN6xqcqIvblOGY=;
- b=qlpq9O4miNNghLS90BW1HrJQ8oxXSJPlvec9a0KjGK+n3xqaclRgR7qeQ4LZA5pNfx
- rnUIlkGEXctAh2hgBL6FqgsFwD8obj9tig2NfG1O63cPpCIRbpXux0Dur/0e/BqiTEqS
- LrkGwpCkMY6Y1393LMfiq5XqRZHmSr8EeytFyZkYOKNygSy8b3gPcO6d8RQtqsbkiECh
- FfYFx2Wjs9rBLWs42OmYjGew1SesoQs66U6aQqI9PC6lEVmDbF4/S3VZsyFjyWcWRMiF
- JOf+py4KAt+zOW0ALC2zJeIISF8CSby7K8s08qKob8jOeLzMqXu79zDv7/Tck7YtmoDN
- /0gQ==
-X-Gm-Message-State: AOAM530H3egljPmf63mBCCxkQvhUzYZv6+0kft4oyk2YT3rqJfK0IkB5
- Pb9dK9DFKtAgzBhIoefa1MwVMfMQer0mzCEZ4nc=
-X-Google-Smtp-Source: ABdhPJzGZIUoSuNBPLAx1v1wmIvoEGr5xlUCoPXfst/mHXI1yEBM3yTgtLYmx7IiV9+eKfK5q1AYP2pXUQ8cY1Yy+cQ=
-X-Received: by 2002:a5d:6983:: with SMTP id g3mr21142799wru.415.1618936938026; 
- Tue, 20 Apr 2021 09:42:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rO7_Q2L0PogryGmuxLJk-DA3ckM+6vmDioErZ3_6s0iRQ@mail.gmail.com>
- <136d3b55-ff1e-c47b-d443-22bd27427956@gmail.com>
- <CAPj87rMSk+SgCBfrcQTEvppp=qQv4MRdeHRKAOUn5pZAEhh9mg@mail.gmail.com>
- <8e5026aa-599e-52d0-4959-6c3bcc16cb76@gmail.com>
- <CAPj87rMzFfouhv89-Vj3jDsH8JB5NFiyv+yV07KvJZaa2rB7Kw@mail.gmail.com>
- <CAAxE2A442Rkn5RfU9KH4cBzURZxqHgCX73-GVYrR+8u1cPXowg@mail.gmail.com>
-In-Reply-To: <CAAxE2A442Rkn5RfU9KH4cBzURZxqHgCX73-GVYrR+8u1cPXowg@mail.gmail.com>
-From: Jacob Lifshay <programmerjake@gmail.com>
-Date: Tue, 20 Apr 2021 09:42:05 -0700
-Message-ID: <CAC2bXD4M+hQ6hOdiyrQ26ozNbVZWGxTLsBCDeMv3OSzq02ShoA@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id D32EB6E87A;
+	Tue, 20 Apr 2021 16:42:45 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A06EF6E875
+ for <dri-devel@freedesktop.org>; Tue, 20 Apr 2021 16:42:43 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1618936964; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=uOhn+aQN8qW3a4uUMr59vR32uEH+af8BSoI5IdTx6/s=;
+ b=i8OfrhqAGwLyP5p9L3KB9Z4oBQNrG20a6h7JrjWxOzQxXDNqXOh+l3JalTVrQ4s4gNISWwpe
+ IaCGRIuYE9uijEtEpCg0Pdp3w997k5e77mjplYH6jV7aXnedYyu5rTApakVtX8zmRbnfbIwH
+ NhaYS7GrAhnAFZ6192WDcyyrLAA=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 607f0482e0e9c9a6b660cb60 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 20 Apr 2021 16:42:42
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 5B77EC433D3; Tue, 20 Apr 2021 16:42:42 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 72548C433D3;
+ Tue, 20 Apr 2021 16:42:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 72548C433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno@lists.freedesktop.org,
+	dri-devel@freedesktop.org
+Subject: [PATCH] freedreno/a6xx: Add a few registers
+Date: Tue, 20 Apr 2021 22:12:28 +0530
+Message-Id: <1618936948-13610-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,69 +63,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0936973660=="
+Cc: linux-arm-msm@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0936973660==
-Content-Type: multipart/alternative; boundary="0000000000001ad83105c06a21eb"
+Add a few new registers for a6xx gpu.
 
---0000000000001ad83105c06a21eb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
+ registers/adreno/a6xx.xml     | 2 ++
+ registers/adreno/a6xx_gmu.xml | 2 ++
+ 2 files changed, 4 insertions(+)
 
-On Tue, Apr 20, 2021, 09:25 Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wrote:
-
-> Daniel, imagine hardware that can only do what Windows does: future fence=
-s
-> signalled by userspace whenever userspace wants, and no kernel queues lik=
-e
-> we have today.
->
-
-Hmm, that sounds kinda like what we're trying to do for Libre-SOC's gpu
-which is basically where the cpu (exactly the same cores as the gpu) runs a
-user-space software renderer with extra instructions to make it go fast, so
-the kernel only gets involved for futex-wait or for video scan-out. This
-causes problems when figuring out how to interact with dma-fences for
-interoperability...
-
-Jacob Lifshay
-
---0000000000001ad83105c06a21eb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Tue, Apr 20, 2021, 09:25 Marek Ol=C5=A1=C3=A1k &lt;<a href=
-=3D"mailto:maraeo@gmail.com">maraeo@gmail.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex"><div dir=3D"ltr"><div>Daniel, imagine hardware th=
-at can only do what Windows does: future fences signalled by userspace when=
-ever userspace wants, and no kernel queues like we have today.</div></div><=
-/blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Hmm, =
-that sounds kinda like what we&#39;re trying to do for Libre-SOC&#39;s gpu =
-which is basically where the cpu (exactly the same cores as the gpu) runs a=
- user-space software renderer with extra instructions to make it go fast, s=
-o the kernel only gets involved for futex-wait or for video scan-out. This =
-causes problems when figuring out how to interact with dma-fences for inter=
-operability...</div><div dir=3D"auto"><br></div><div dir=3D"auto">Jacob Lif=
-shay</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div></div>
-
---0000000000001ad83105c06a21eb--
-
---===============0936973660==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/registers/adreno/a6xx.xml b/registers/adreno/a6xx.xml
+index 15314fb..3b04565 100644
+--- a/registers/adreno/a6xx.xml
++++ b/registers/adreno/a6xx.xml
+@@ -1107,6 +1107,7 @@ to upconvert to 32b float internally?
+ 	<reg32 offset="0x098D" name="CP_AHB_CNTL"/>
+ 	<reg32 offset="0x0A00" name="CP_APERTURE_CNTL_HOST"/>
+ 	<reg32 offset="0x0A03" name="CP_APERTURE_CNTL_CD"/>
++	<reg32 offset="0x0B34" name="CP_LPAC_PROG_FIFO_SIZE"/>
+ 	<reg32 offset="0x0C01" name="VSC_ADDR_MODE_CNTL" type="a5xx_address_mode"/>
+ 	<reg32 offset="0x0201" name="RBBM_INT_0_STATUS" type="A6XX_RBBM_INT_0_MASK"/>
+ 	<reg32 offset="0x0210" name="RBBM_STATUS">
+@@ -1740,6 +1741,7 @@ to upconvert to 32b float internally?
+ 	<reg32 offset="0x3119" name="VBIF_PERF_PWR_CNT_HIGH1"/>
+ 	<reg32 offset="0x311a" name="VBIF_PERF_PWR_CNT_HIGH2"/>
+ 
++	<reg32 offset="0x3c01" name="GBIF_SCACHE_CNTL0"/>
+ 	<reg32 offset="0x3c02" name="GBIF_SCACHE_CNTL1"/>
+ 	<reg32 offset="0x3c03" name="GBIF_QSB_SIDE0"/>
+ 	<reg32 offset="0x3c04" name="GBIF_QSB_SIDE1"/>
+diff --git a/registers/adreno/a6xx_gmu.xml b/registers/adreno/a6xx_gmu.xml
+index dbefd0c..f8bf1fd 100644
+--- a/registers/adreno/a6xx_gmu.xml
++++ b/registers/adreno/a6xx_gmu.xml
+@@ -112,6 +112,7 @@ xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+ 	<reg32 offset="0x50e9" name="GMU_RPMH_HYST_CTRL"/>
+ 	<reg32 offset="0x50ec" name="GPU_GMU_CX_GMU_RPMH_POWER_STATE"/>
+ 	<reg32 offset="0x50f0" name="GPU_GMU_CX_GMU_CX_FAL_INTF"/>
++	<reg32 offset="0x50f1" name="GPU_GMU_CX_GMU_CX_FALNEXT_INTF"/>
+ 	<reg32 offset="0x5100" name="GPU_GMU_CX_GMU_PWR_COL_CP_MSG"/>
+ 	<reg32 offset="0x5101" name="GPU_GMU_CX_GMU_PWR_COL_CP_RESP"/>
+ 	<reg32 offset="0x51f0" name="GMU_BOOT_KMD_LM_HANDSHAKE"/>
+@@ -193,6 +194,7 @@ xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+ 	<reg32 offset="0x9312" name="GMU_AHB_FENCE_RANGE_1"/>
+ 	<reg32 offset="0x9c03" name="GPU_CC_GX_GDSCR"/>
+ 	<reg32 offset="0x9d42" name="GPU_CC_GX_DOMAIN_MISC"/>
++	<reg32 offset="0xc001" name="GPU_CPR_FSM_CTL"/>
+ 
+ 	<!-- starts at offset 0x8c00 on most gpus -->
+ 	<reg32 offset="0x0004" name="GPU_RSCC_RSC_STATUS0_DRV0"/>
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0936973660==--
