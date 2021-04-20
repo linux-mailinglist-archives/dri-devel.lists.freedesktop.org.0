@@ -1,35 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE51365312
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 09:19:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D89365319
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 09:20:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 015996E043;
-	Tue, 20 Apr 2021 07:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5766E0D0;
+	Tue, 20 Apr 2021 07:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C285A6E043
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 07:19:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3DD2F60C40;
- Tue, 20 Apr 2021 07:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1618903158;
- bh=pktyu9GGKjTObq0rU5/41yUklfwS8kQ21/mqPt8V+QM=;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C734B6E0D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 07:20:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DAC9860C40;
+ Tue, 20 Apr 2021 07:20:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1618903252;
+ bh=Ciqp0HqfGZibJ89pF/L2lKK2JBtAZcO03tptwL0YyAs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hP5I0a8Z6H63iP4GVjgKXs6PS4lmyGeoOI68kBxEG36thouvMInr+buISN7xUY51c
- z03bn/K0dn21GscboQv7l7voWkHt6cw6RQeOwQEVmo8FxRzOyYnpOTMbd8DiMd384D
- wbytYch/wqtQ04/LADGgGHxXABWN3eAW3h6c+jDs=
-Date: Tue, 20 Apr 2021 09:19:16 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Aditya Pakki <pakki001@umn.edu>
-Subject: Re: [PATCH] video: fbdev: sm501fb: Fix deallocation of buffers order
-Message-ID: <YH6AdPxOE8d51pXy@kroah.com>
-References: <20210406233519.2205389-1-pakki001@umn.edu>
+ b=WZsQW3+Qm5LDVOpORw7z9UfDvMeJX1isMcl3sFgRXUSbDjLVZNniqkwH5+f5dsI1q
+ LYfLhR1QyH6E+SIlzEDS5Q6+l1ccISlQ32/NcssVRZpoiHcFlJonoqWMfXuy2xYeVE
+ v2gMsTtZHxpnK3A4vyIyx2+PKOo/Vx31Y/rALlPrzYVumKOUUb8HmPEJF63f2uB4E1
+ JVuMvvGp/guaaRRvG9vfxDN5C54CmcI8UoaRlUeTDtbQCT7Rpn4AF0aQgcE04pJVEH
+ dWkd09ghtV6zXu5Exf9UBe+fDUks1vRvM3LpuuLUiBec4qWWR0bVMiTgvERaRXSLbu
+ hufBhTUWwNMjw==
+Date: Tue, 20 Apr 2021 10:20:43 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH v4] dma-buf: Add DmaBufTotal counter in meminfo
+Message-ID: <YH6Ayy1fWGGWMU+q@kernel.org>
+References: <20210417104032.5521-1-peter.enderborg@sony.com>
+ <YH10s/7MjxBBsjVL@dhcp22.suse.cz>
+ <c3f0da9c-d127-5edf-dd21-50fd5298acef@sony.com>
+ <YH2a9YfRBlfNnF+u@dhcp22.suse.cz>
+ <23aa041b-0e7c-6f82-5655-836899973d66@sony.com>
+ <d70efba0-c63d-b55a-c234-eb6d82ae813f@amd.com>
+ <YH2ru642wYfqK5ne@dhcp22.suse.cz>
+ <07ed1421-89f8-8845-b254-21730207c185@amd.com>
+ <YH59E15ztpTTUKqS@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210406233519.2205389-1-pakki001@umn.edu>
+In-Reply-To: <YH59E15ztpTTUKqS@dhcp22.suse.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,49 +53,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kjlu@umn.edu,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: willy@infradead.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, neilb@suse.de,
+ linux-kernel@vger.kernel.org, Peter.Enderborg@sony.com,
+ linaro-mm-sig@lists.linaro.org, shakeelb@google.com,
+ dri-devel@lists.freedesktop.org, samitolvanen@google.com,
+ songmuchun@bytedance.com, linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org, adobriyan@gmail.com, guro@fb.com,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 06, 2021 at 06:35:17PM -0500, Aditya Pakki wrote:
-> The resource release in sm501fb_remove() is not in the inverse order of
-> sm501fb_probe(), for the buffers. Release the info object after
-> deallocating the buffers.
-> 
-> Signed-off-by: Aditya Pakki <pakki001@umn.edu>
-> ---
->  drivers/video/fbdev/sm501fb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
-> index 6a52eba64559..4c32c9e88850 100644
-> --- a/drivers/video/fbdev/sm501fb.c
-> +++ b/drivers/video/fbdev/sm501fb.c
-> @@ -2060,11 +2060,11 @@ static int sm501fb_remove(struct platform_device *pdev)
->  		unregister_framebuffer(fbinfo_pnl);
->  
->  	sm501fb_stop(info);
-> -	kfree(info);
->  
->  	framebuffer_release(fbinfo_pnl);
->  	framebuffer_release(fbinfo_crt);
->  
-> +	kfree(info);
->  	return 0;
->  }
->  
-> -- 
-> 2.25.1
-> 
+On Tue, Apr 20, 2021 at 09:04:51AM +0200, Michal Hocko wrote:
+> On Mon 19-04-21 18:37:13, Christian K=F6nig wrote:
+> > Am 19.04.21 um 18:11 schrieb Michal Hocko:
+> [...]
+> > > The question is not whether it is NUMA aware but whether it is useful=
+ to
+> > > know per-numa data for the purpose the counter is supposed to serve.
+> > =
 
-There is no function change here at all, please stop it with pointless
-patches.
+> > No, not at all. The pages of a single DMA-buf could even be from differ=
+ent
+> > NUMA nodes if the exporting driver decides that this is somehow useful.
+> =
 
-greg k-h
+> As the use of the counter hasn't been explained yet I can only
+> speculate. One thing that I can imagine to be useful is to fill gaps in
+> our accounting. It is quite often that the memroy accounted in
+> /proc/meminfo (or oom report) doesn't add up to the overall memory
+> usage. In some workloads the workload can be huge! In many cases there
+> are other means to find out additional memory by a subsystem specific
+> interfaces (e.g. networking buffers). I do assume that dma-buf is just
+> one of those and the counter can fill the said gap at least partially
+> for some workloads. That is definitely useful.
+
+A bit off-topic.
+
+Michal, I think it would have been nice to have an explanation like above
+in Documentation/proc/meminfo, what do you say?
+ =
+
+> What I am trying to bring up with NUMA side is that the same problem can
+> happen on per-node basis. Let's say that some user consumes unexpectedly
+> large amount of dma-buf on a certain node. This can lead to observable
+> performance impact on anybody on allocating from that node and even
+> worse cause an OOM for node bound consumers. How do I find out that it
+> was dma-buf that has caused the problem?
+> =
+
+> See where I am heading?
+
+-- =
+
+Sincerely yours,
+Mike.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
