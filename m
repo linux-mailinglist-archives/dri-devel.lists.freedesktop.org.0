@@ -1,54 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D19D3653C7
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 10:12:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 659C33653CF
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 10:14:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 490A26E44D;
-	Tue, 20 Apr 2021 08:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E22B16E461;
+	Tue, 20 Apr 2021 08:14:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A57FE6E44D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 08:12:40 +0000 (UTC)
-Received: from mail-lj1-f198.google.com ([209.85.208.198])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <kai.heng.feng@canonical.com>) id 1lYlUs-0001f7-W2
- for dri-devel@lists.freedesktop.org; Tue, 20 Apr 2021 08:12:39 +0000
-Received: by mail-lj1-f198.google.com with SMTP id
- z9-20020a2e88490000b02900b896c98249so7117727ljj.7
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 01:12:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IV9Eebskso7YyD0zMzspoNTbhY3LJpAmQOuTJ1c9y40=;
- b=eh6NhWfXgTeNs9etUHFlCIywz1awp86+qveHNNCDGNsxxPLtJQqjIzm4re1cBmXfZO
- m8OeUvV5O2qyEOoezLU20wvHpYCrc7vk4dc9EzhxftUihKnPZWiTI3QAaULOX0+bY5vp
- /o0jg7Yd2X1uB65qEt0BdS9eLxgo7EuyMSSNqpn1PrZ0uLLrsc+0BBrVRJztBt3Ti3wX
- dGKyG3hh7ds5dFv4YflIFAOKpAne9Jxg2/RGhW/+EPrLI1lCH9gnUdFGS+bEZfina6iC
- YO2LRG3CgmA76oTpwJm1DDovRGIDGV0sWXO/UK4nK8ZfQx3uVJZwGWqFmZHqJqif5MP6
- FrqQ==
-X-Gm-Message-State: AOAM531bDmzHfsSNDJkcQYF95NnW+D+s5wEgjWT1aDRtbHwkkGW8BjSv
- y9x0lVwr19e3CLQOLpJEfM4ZyYmnoFOWjCn1foRVPz8sPLUXeAPTSOTaT7YB+rU6rZIN5gaFRvY
- iBfiTt2ztEsN5h/Hg90PRr8wnLLedndU/mVeZ7l9eFHWwQSgDfwV5e/RZ7mmTUg==
-X-Received: by 2002:ac2:5f1b:: with SMTP id 27mr14782462lfq.425.1618906358348; 
- Tue, 20 Apr 2021 01:12:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGj+Hlh1J4/cwN5jCaEklO5slca58XNB7qVuci1XVRA8XrEJfTHTIictY7IK+d0qKQHdTKXplsFsdyezE44Ec=
-X-Received: by 2002:ac2:5f1b:: with SMTP id 27mr14782427lfq.425.1618906357768; 
- Tue, 20 Apr 2021 01:12:37 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D15B16E454;
+ Tue, 20 Apr 2021 08:14:26 +0000 (UTC)
+IronPort-SDR: NXmaxhx+CzkHGeaIHLWFAnkz8yg446hl2kXblrKpBuQBmZtxQWCASFOU8zhWSVdqY0mOlp2h4/
+ fVZStJ01WSsA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="193343365"
+X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="193343365"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2021 01:14:26 -0700
+IronPort-SDR: Cxj7ganx+nV90yPpMiVWE6qtl6+EMVAiGF6UykeJoDtukenFRfrSPjRTDSrKPkZSKpGF2Cna0F
+ F6uvu7cEBDBQ==
+X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="426831797"
+Received: from karunatx-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.252.35.249])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2021 01:14:21 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rajeev Nandan <rajeevny@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: Re: [v1 0/3] drm: Add support for backlight control of eDP panel on
+ ti-sn65dsi86 bridge
+In-Reply-To: <1618418390-15055-1-git-send-email-rajeevny@codeaurora.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <1618418390-15055-1-git-send-email-rajeevny@codeaurora.org>
+Date: Tue, 20 Apr 2021 11:14:18 +0300
+Message-ID: <871rb5bcf9.fsf@intel.com>
 MIME-Version: 1.0
-References: <20210415102224.2764054-1-sudeep.holla@arm.com>
- <20210420075332.t56dlpppb6bnpjzd@bogus>
-In-Reply-To: <20210420075332.t56dlpppb6bnpjzd@bogus>
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Date: Tue, 20 Apr 2021 16:12:26 +0800
-Message-ID: <CAAd53p6zti5rmJ5LjW3WbYsSGBs5CgBuOztHv-nvMObGBh7Q+A@mail.gmail.com>
-Subject: Re: [PATCH] efifb: Fix runtime pm calls for non PCI efifb device
-To: Sudeep Holla <sudeep.holla@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,124 +50,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Peter Jones <pjones@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: mkrishn@codeaurora.org, Rajeev Nandan <rajeevny@codeaurora.org>,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, dianders@chromium.org,
+ seanpaul@chromium.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ kalyan_t@codeaurora.org, hoegsberg@chromium.org, "Lankhorst,
+ Maarten" <maarten.lankhorst@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sudeep,
 
-On Tue, Apr 20, 2021 at 3:53 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
+Cc: Lyude and drm-misc maintainers
+
+On Wed, 14 Apr 2021, Rajeev Nandan <rajeevny@codeaurora.org> wrote:
+> The backlight level of an eDP panel can be controlled through the AUX
+> channel using DPCD registers of the panel.
 >
-> Gentle Ping! There is boot failure because of this issue with linux-next
-> on few arm platforms with non PCIe efifb. Please review and get the fix
-> merged ASAP so the testing on these platforms can continue with linux-next.
+> The capability for the Source device to adjust backlight characteristics
+> within the panel, using the Sink device DPCD registers is indicated by
+> the TCON_BACKLIGHT_ADJUSTMENT_CAPABLE bit in the EDP_GENERAL_CAPABILITY_1
+> register (DPCD Address 701h, bit0). In this configuration, the eDP TCON
+> receives the backlight level information from the host, through the AUX
+> channel.
 
-It was merged in drm-tip as d510c88cfbb2 ("efifb: Check efifb_pci_dev
-before using it").
+i915 has had this capability for some years now, and work is in progress
+to extract the DP AUX backlight code to drm core as helpers [1]. There's
+much more to it than what's proposed here. Adding incompatible DP AUX
+code at this point would be a pretty bad outcome.
 
-Kai-Heng
+For example, we can't tie backlight device register to DP AUX backlight,
+because there are modes where *both* the eDP PWM pin based backlight
+control and DP AUX backlight control are used *simultaneously*. The
+backlight device register needs to be in code that is aware of both.
+
+Granted, it was a mistake way back when to add this in i915 only, and it
+should've been lifted to drm much earlier. It would've been done by
+Lyude by now, but people were not happy about not using drm device based
+logging. And that has unfortunately lead to a pretty massive prep series
+[2].
+
+Please look into the code added to drm helpers in [1], and see how that
+would work for you.
+
+
+BR,
+Jani.
+
+
+[1] http://lore.kernel.org/r/20210205234515.1216538-1-lyude@redhat.com
+[2] http://lore.kernel.org/r/20210419225523.184856-1-lyude@redhat.com
+
 
 >
-> On Thu, Apr 15, 2021 at 11:22:24AM +0100, Sudeep Holla wrote:
-> > Commit a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
-> > added runtime pm calls to probe and remove routines to ensure the PCI
-> > device for efifb stays in D0 state. However not ever efifb is based on
-> > PCI device and efifb_pci_dev can be NULL if that is the case.
-> >
-> > In such cases, we will get a boot splat like below due to NULL dereference:
-> > -->8
-> >  Console: switching to colour frame buffer device 240x67
-> >  fb0: EFI VGA frame buffer device
-> >  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000270
-> >  Mem abort info:
-> >    ESR = 0x96000004
-> >    EC = 0x25: DABT (current EL), IL = 32 bits
-> >    SET = 0, FnV = 0
-> >    EA = 0, S1PTW = 0
-> >  Data abort info:
-> >    ISV = 0, ISS = 0x00000004
-> >    CM = 0, WnR = 0
-> >  [0000000000000270] user address but active_mm is swapper
-> >  Internal error: Oops: 96000004 [#1] PREEMPT SMP
-> >  Modules linked in:
-> >  CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.12.0-rc7-next-20210413 #1
-> >  Hardware name: ARM LTD ARM Juno Development Platform/ARM Juno Development Platform
-> >  pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
-> >  pc : pm_runtime_drop_link+0x12c/0x338
-> >  lr : efifb_probe+0x7bc/0x7f0
-> >  Call trace:
-> >   pm_runtime_drop_link+0x12c/0x338
-> >   efifb_probe+0x7bc/0x7f0
-> >   platform_probe+0x68/0xd8
-> >   really_probe+0xe4/0x3a8
-> >   driver_probe_device+0x64/0xc8
-> >   device_driver_attach+0x74/0x80
-> >   __driver_attach+0x64/0xf0
-> >   bus_for_each_dev+0x70/0xc0
-> >   driver_attach+0x24/0x30
-> >   bus_add_driver+0x150/0x1f8
-> >   driver_register+0x64/0x120
-> >   __platform_driver_register+0x28/0x38
-> >   efifb_driver_init+0x1c/0x28
-> >   do_one_initcall+0x48/0x2b0
-> >   kernel_init_freeable+0x1e8/0x258
-> >   kernel_init+0x14/0x118
-> >   ret_from_fork+0x10/0x30
-> >  Code: 88027c01 35ffffa2 17fff706 f9800051 (885f7c40)
-> >  ---[ end trace 17d8da630bf8ff77 ]---
-> >  Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
-> > -->8
-> >
-> > Fix the issue by checking for non-NULL efifb_pci_dev before dereferencing
-> > for runtime pm calls in probe and remove routines.
-> >
-> > Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
-> > Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Peter Jones <pjones@redhat.com>
-> > Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
-> > ---
-> >  drivers/video/fbdev/efifb.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-> > index f58a545b3bf3..8ea8f079cde2 100644
-> > --- a/drivers/video/fbdev/efifb.c
-> > +++ b/drivers/video/fbdev/efifb.c
-> > @@ -575,7 +575,8 @@ static int efifb_probe(struct platform_device *dev)
-> >               goto err_fb_dealoc;
-> >       }
-> >       fb_info(info, "%s frame buffer device\n", info->fix.id);
-> > -     pm_runtime_get_sync(&efifb_pci_dev->dev);
-> > +     if (efifb_pci_dev)
-> > +             pm_runtime_get_sync(&efifb_pci_dev->dev);
-> >       return 0;
-> >
-> >  err_fb_dealoc:
-> > @@ -602,7 +603,8 @@ static int efifb_remove(struct platform_device *pdev)
-> >       unregister_framebuffer(info);
-> >       sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
-> >       framebuffer_release(info);
-> > -     pm_runtime_put(&efifb_pci_dev->dev);
-> > +     if (efifb_pci_dev)
-> > +             pm_runtime_put(&efifb_pci_dev->dev);
-> >
-> >       return 0;
-> >  }
-> > --
-> > 2.25.1
-> >
+> The changes in this patch series do the following:
+> - Add drm_dp_aux_backlight_ APIs to support backlight control using DPCD
+>   registers on the DisplayPort AUX channel.
+>   The current version only supports backlight brightness control by the
+>   EDP_BACKLIGHT_BRIGHTNESS_MSB/LSB registers (DPCD Addresses 722h-723h).
+> - Add support for backlight control of the eDP panel connected to the
+>   ti-sn65dsi86 bridge.
 >
-> --
-> Regards,
-> Sudeep
+> Rajeev Nandan (3):
+>   drm/dp: Add DisplayPort aux backlight control support
+>   dt-bindings: drm/bridge: ti-sn65dsi86: Document use-aux-backlight
+>   drm/bridge: ti-sn65dsi86: Add DisplayPort aux backlight support
+>
+>  .../bindings/display/bridge/ti,sn65dsi86.yaml      |   8 +
+>  drivers/gpu/drm/Kconfig                            |   8 +
+>  drivers/gpu/drm/Makefile                           |   1 +
+>  drivers/gpu/drm/bridge/Kconfig                     |   1 +
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  26 +++
+>  drivers/gpu/drm/drm_dp_aux_backlight.c             | 191 +++++++++++++++++++++
+>  include/drm/drm_dp_aux_backlight.h                 |  29 ++++
+>  7 files changed, 264 insertions(+)
+>  create mode 100644 drivers/gpu/drm/drm_dp_aux_backlight.c
+>  create mode 100644 include/drm/drm_dp_aux_backlight.h
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
