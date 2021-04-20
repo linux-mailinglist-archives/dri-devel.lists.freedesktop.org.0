@@ -1,69 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F30365749
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 13:14:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2525B36574D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 13:14:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DED208931D;
-	Tue, 20 Apr 2021 11:14:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C58C896E7;
+	Tue, 20 Apr 2021 11:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAF5D8931D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 11:14:20 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id n2so57650081ejy.7
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 04:14:20 -0700 (PDT)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6FE89690
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 11:14:39 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ 5-20020a9d09050000b029029432d8d8c5so9496100otp.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 04:14:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=Typh3MhSkbyPMTThE0U2Q1ZO/12rDfMhvhLaVI/d1e8=;
- b=KQVXC/pMQkblNXMVtLAj7SnpDWgtKhyIP7FvLpcFc3jKrVAILUkLPJk5INg+VNl2RO
- wII2H98OwSqJVSwyaGuiBtgO0UCGsX6cUXbfvzUlK2megqFX5dMhq0eUPJyut/23j34l
- 2FpLrHrROB3lrJqNBrYTmdaqRxVXzqB0FdTWY=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Xyqd+Smcu6wIZmS7ooLPKIsK9Od0bgT+yItvPZRG4Ak=;
+ b=F0aHqxNEWE2zgC2irEWRCZEuQl76s8kEjKXNlglNWSjB70nz8GVyrY9xzq7SBoFmX+
+ nmo/wnv9vaTwxtDYc7YO7+w4kIVrc+hUka1UO+YwA7sCJ3+2sREQPmTPgv4p4Xfearxl
+ 3Eixfd3jUMkUUCbxIlHRXM6+/dLAlL43IhUEs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=Typh3MhSkbyPMTThE0U2Q1ZO/12rDfMhvhLaVI/d1e8=;
- b=BHVDNRzO0PULltZ1E57T0qevmi5sOBZ3hwX4Z1v6c2IM4VueiS16gt9sFm5NxS7O28
- KresRXpUPRul7KcOcraojrz0fXmKFhtuNbGO2D+FY1izHpDWOUzbYJP8IzmYCUpBgXlb
- O+Ktlo+JFl42bLBKLhYHk9e6CgJuqDuQwnvzKZgh9NJRV5SHfyJW+nJWZ2Gtt/zmF1TW
- QCHEVPLgYj9DlRovOA9cV++YoVLsf1l3pd2t1ET2V065F58kY+AnCBQtCyuMHQGQ6VYW
- ZR2YHAqrMHLo0r44pSMlyQfi52cL124QPKifkwDM/ACao8ydu9Qlijp5afCBVivnyunt
- nUew==
-X-Gm-Message-State: AOAM533GA3JNvAhiCaLmHJILr6yNa/Ah5/w9/rlXZhuEtYu/T0kWkcJt
- Hntb+UPh7NjYjhfArn6GeYpBcA==
-X-Google-Smtp-Source: ABdhPJy8I04sLJ6rISKUbY8p7EIy7J+0ccdspYtYAIEZfvYtprT2Z23ngxTun+fd5qbntXzHzXLbDA==
-X-Received: by 2002:a17:906:7fd3:: with SMTP id
- r19mr27643200ejs.286.1618917259038; 
- Tue, 20 Apr 2021 04:14:19 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f1sm10639067edz.60.2021.04.20.04.14.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 04:14:18 -0700 (PDT)
-Date: Tue, 20 Apr 2021 13:14:16 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Peter.Enderborg@sony.com
-Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
-Message-ID: <YH63iPzbGWzb676T@phenom.ffwll.local>
-Mail-Followup-To: Peter.Enderborg@sony.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, adobriyan@gmail.com,
- akpm@linux-foundation.org, songmuchun@bytedance.com, guro@fb.com,
- shakeelb@google.com, mhocko@suse.com, neilb@suse.de,
- samitolvanen@google.com, rppt@kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, willy@infradead.org
-References: <20210417163835.25064-1-peter.enderborg@sony.com>
- <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
- <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Xyqd+Smcu6wIZmS7ooLPKIsK9Od0bgT+yItvPZRG4Ak=;
+ b=XCbG+aoWpjuknqoBfsNCUoZhr+EidqGb/2258B6k5/cdCTnr/fdr0xXVHQ1HFFNQgP
+ 8hBLnvFQnDkXSarYqOKsnea5X0xF8mdBauJ9J3z8da6+qMzbm02GecRa/gdOn7pKbLhV
+ NANbMcyrLIDQX/ZGzQhZtH5pNaJRnm/vVDGeupr5b6I3Ty8j2iQAq5kTmIBhH71c9bc8
+ lZNP4FNk/CV+el6CidR0+qiuyud4qVUDyob9eBRjFgy7dLLb9UihiUL521BJdkrk6+1p
+ W2ZHGNw5xwcu2Ggx+tGHfdNwE9+SqteAgKSliD4mHHCbA8eOlKZ36FitQxvTZ8yH+45k
+ 5vng==
+X-Gm-Message-State: AOAM532sZ0rOW5KLn6hSDwjiMqeE9Vgv0JS5I0y65FQo/9XkgaSbPvF+
+ 0CofGYqNIYebgl1iG3ZOV7gH6/xYRmawPGg1hkcY8Q==
+X-Google-Smtp-Source: ABdhPJzimwcoE3+ZKjz+zUbTNNoH0hPyLkqJXPnSGyPUYmck9Y558GUPJO6kv4WpBT1ZMhhu4qNxSLk6+HG9jouk8h4=
+X-Received: by 2002:a05:6830:1398:: with SMTP id
+ d24mr19109708otq.281.1618917278781; 
+ Tue, 20 Apr 2021 04:14:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <a28f2wvjsZ0pMcKjyC4C5DgvT59Bn32JORf1DdTei3818_ZXYRGV19m5IpaWqELPeDNPSj2SRbMznfuCrCYmO0mLtpaxN5MprB3QRk3Isww=@emersion.fr>
+ <CAPj87rO_DJtq6_XO400FK2u97CWXDo5Px21Q+svAPg8r+WEuCg@mail.gmail.com>
+In-Reply-To: <CAPj87rO_DJtq6_XO400FK2u97CWXDo5Px21Q+svAPg8r+WEuCg@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 20 Apr 2021 13:14:27 +0200
+Message-ID: <CAKMK7uEA5ZWfr=nCkB8aSwkO-trGEAxL1cfyz+iY1+92dRutiA@mail.gmail.com>
+Subject: Re: Split render/display SoCs, Mesa's renderonly,
+ and Wayland dmabuf hints
+To: Daniel Stone <daniel@fooishbar.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,195 +62,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mhocko@suse.com, willy@infradead.org, neilb@suse.de,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- adobriyan@gmail.com, linaro-mm-sig@lists.linaro.org, shakeelb@google.com,
- rppt@kernel.org, samitolvanen@google.com, songmuchun@bytedance.com,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- christian.koenig@amd.com, guro@fb.com, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 20, 2021 at 09:26:00AM +0000, Peter.Enderborg@sony.com wrote:
-> On 4/20/21 10:58 AM, Daniel Vetter wrote:
-> > On Sat, Apr 17, 2021 at 06:38:35PM +0200, Peter Enderborg wrote:
-> >> This adds a total used dma-buf memory. Details
-> >> can be found in debugfs, however it is not for everyone
-> >> and not always available. dma-buf are indirect allocated by
-> >> userspace. So with this value we can monitor and detect
-> >> userspace applications that have problems.
-> >>
-> >> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
-> > So there have been tons of discussions around how to track dma-buf and
-> > why, and I really need to understand the use-cass here first I think. p=
-roc
-> > uapi is as much forever as anything else, and depending what you're doi=
-ng
-> > this doesn't make any sense at all:
-> >
-> > - on most linux systems dma-buf are only instantiated for shared buffer.
-> >   So there this gives you a fairly meaningless number and not anything
-> >   reflecting gpu memory usage at all.
-> >
-> > - on Android all buffers are allocated through dma-buf afaik. But there
-> >   we've recently had some discussions about how exactly we should track
-> >   all this, and the conclusion was that most of this should be solved by
-> >   cgroups long term. So if this is for Android, then I don't think addi=
-ng
-> >   random quick stop-gaps to upstream is a good idea (because it's a pre=
-tty
-> >   long list of patches that have come up on this).
-> >
-> > So what is this for?
-> =
+Just 2 comments on the kernel aspects here.
 
-> For the overview. dma-buf today only have debugfs for info. Debugfs
-> is not allowed by google to use in andoid. So this aggregate the informat=
-ion
-> so we can get information on what going on on the system.=A0
-> =
+On Tue, Apr 20, 2021 at 12:18 PM Daniel Stone <daniel@fooishbar.org> wrote:
+>
+> Hi,
+>
+> On Mon, 19 Apr 2021 at 13:06, Simon Ser <contact@emersion.fr> wrote:
+>>
+>> I'm working on a Wayland extension [1] that, among other things, allows
+>> compositors to advertise the preferred device to be used by Wayland
+>> clients.
+>>
+>> In general, compositors will send a render node. However, in the case
+>> of split render/display SoCs, things get a little bit complicated.
+>>
+>> [...]
+>
+>
+> Thanks for the write-up Simon!
+>
+>>
+>> There are a few solutions:
+>>
+>> 1. Require compositors to discover the render device by trying to import
+>>    a buffer. For each available render device, the compositor would
+>>    allocate a buffer, export it as a DMA-BUF, import it to the
+>>    display-only device, then try to drmModeAddFB.
+>
+>
+> I don't think this is actually tractable? Assuming that 'allocate a buffer' means 'obtain a gbm_device for the render node directly and allocate a gbm_bo from it', even with compatible formats and modifiers this will fail for more restrictive display hardware. imx-drm and pl111 (combined with vc4 on some Raspberry Pis) will fail this, since they'll take different allocation paths when they're bound through kmsro vs. directly, accounting for things like contiguous allocation. So we'd get false negatives on at least some platforms.
+>
+>>
+>> 2. Allow compositors to query the render device magically opened by
+>>    kmsro. This could be done either via EGL_EXT_device_drm, or via a
+>>    new EGL extension.
+>
+>
+> This would be my strong preference, and I don't entirely understand anholt's pushback here. The way I see it, GBM is about allocation for scanout, and EGL is about rendering. If, on a split GPU/display system, we create a gbm_device from a KMS display-only device node, then creating an EGLDisplay from that magically binds us to a completely different DRM GPU node, and anything using that EGLDisplay will use that GPU device to render.
+>
+> Being able to discover the GPU device node through the device query is really useful, because it tells us exactly what implicit magic EGL did under the hood, and about the device that EGL will use. Being able to discover the display node is much less useful; it does tell us how GBM will allocate buffers, but the user already knows which device is in use because they supplied it to GBM. I see the display node as a property of GBM, and the GPU node as a property of EGL, even if EGL does do (*waves hands*) stuff under the hood to ensure the two are compatible.
+>
+> If we had EGL_EXT_explicit_device, things get even more weird, I think; would the device query on an EGLDisplay created with a combination of a gbm_device native display handle and an explicit EGLDevice handle return the scanout device from GBM or the GPU device from EGL? On my reading, I'd expect it to be the latter; if the queries returned very different things based on whether GPU device selection was implicit (returning the KMS node) or explicit (GPU node), that would definitely violate the principle of least surprise.
+>
+>>
+>> 3. Allow compositors to query the kernel drivers to know which devices
+>>    are compatible with each other. Some uAPI to query a compatible
+>>    display device from a render-only device, or vice-versa, has been
+>>    suggested in the past.
+>
+>
+> What does 'compatible' mean? Would an Intel iGPU and and AMD dGPU be compatible with each other? Would a Mali GPU bound to system memory through AMBA be as compatible with the display controller as it would with an AMD GPU on PCIE? I think a query which only exposed whether or not devices could share dmabufs with each other is far too generic to be helpful for the actual usecase we have, as well as not being useful enough for other usecases ('well you _can_ use dmabufs from your AMD GPU on your Mali GPU, but only if they were allocated in the right domain').
+>
+>>
+>> (1) has a number of limitations and gotchas. It requires allocating
+>> real buffers, this has a rather big cost for something done at
+>> compositor initialization time. It requires to select a buffer format
+>> and modifier compatible with both devices, so it can't be isolated in
+>> a simple function (and e.g. shared between all compositors in libdrm).
+>
+>
+> We're already going to have to do throwaway allocations to make Intel's tiled modes work; I'd rather not extend this out to doing throwaway allocations across device combinations as well as modifier lists.
+>
+>>
+>> Some drivers will allow to drmModeAddFB buffers that can't be scanned
+>> out, and will only reject the buffer at atomic commit time.
+>
+>
+> This is 100% a KMS driver bug and should be fixed there. It's not catastrophic, since commits can fail for any reason or none at all and compositors are expected to handle this, but they should absolutely be rejecting buffers which can never be scanned out at all at AddFB time.
 
-> And the LKML standard respond to that is "SHOW ME THE CODE".
+Yup. Kernel is supposed to reject as early as possible, main points
+for scanning out something for display are
+- FD2HANDLE aka  dma-buf import. If it's not contig, but the device
+requires contig, it should fail here. This takes into account IOMMU,
+but hilariously there's some display IP where only half the CRTC are
+connected to an IOMMU, the other half needs physically contig memory
+...
+- AddFB2, if you got any of the metadata combos wrong (like
+modifiers/fourcc, alignment and all that)
+- atomic TEST_ONLY for anything more specific for a given combo
+(running out of bw/special hw converters are the big ones)
 
-Yes. Except this extends to how exactly this is supposed to be used in
-userspace and acted upon.
+I think with more helper rollout we've gotten a lot better at this,
+but probably still lots of bugs around.
 
-> When the top memgc has a aggregated information on dma-buf it is maybe
-> a better source to meminfo. But then it also imply that dma-buf requires =
-memcg.
-> =
+>> (2) wouldn't work with non-EGL APIs such as Vulkan. Eric Anholt seemed
+>> pretty opposed to this idea, but I didn't fully understood why.
+>
+>
+> Well, Vulkan doesn't have GBM in the same way, right? In the Vulkan case, we already know exactly what the GPU is, because it's the VkPhysicalDevice you had to explicitly select to create the VkDevice etc; if you're using GBM it's because you've _also_ created a gbm_device for the KMS node and are allocating gbm_bos to import to VkDeviceMemory/VkImage, so you already have both pieces of information. (If you're creating VkDeviceMemory/VkImage in Vulkan then exporting dmabuf from there, since there's no way to specify a target device, it's a blind guess as to whether it'll actually work for KMS. Maybe it will! But maybe not.)
+>
+>>
+>> I don't know how feasible (3) is. The kernel drivers must be able to
+>> decide whether buffers coming from another driver can be scanned out,
+>> but how early can they give an answer? Can they give an answer solely
+>> based on a DRM node, and not a DMA-BUF?
+>
+>
+> Maybe! But maybe not.
 
-> And I dont see any problem to replace this with something better with it =
-is ready.
+Just replying on this one: This feels a lot like the kernel should
+know about which mesa you have installed. Which really isn't the
+kernel's job.
 
-The thing is, this is uapi. Once it's merged we cannot, ever, replace it.
-It must be kept around forever, or a very close approximation thereof. So
-merging this with the justification that we can fix it later on or replace
-isn't going to happen.
+E.g. if you have a mesa without panfrost, then panfrost + some display
+kms thing is definitely not compatible. But if you have it installed,
+then they are. Feel free to make this arbitrarily more nasty with
+stuff like "mesa is there, supports the combo except not yet the
+specific afbc modifier combo you actually required".
+
+Unless I'm completely off this doesn't sound like something the kernel
+should be involved in at all.
+
+I think the one thing the kernel should provide here is which kind of
+backing storage types each device can work with, to cover stuff like
+cma vs scatter-gather shmem. The long-standing idea was to expose
+these as dma-buf heaps and then sprinkle some links in sysfs, but that
+idea is as far away from working code as ever.
 -Daniel
 
-> =
+>> Feedback is welcome. Do you agree with the premise that compositors
+>> need access to the render node?
+>
+>
+> Yes, strongly. Compositors may optimise for direct paths (e.g. direct scanout of client buffers through KMS, directly providing client buffers to media codecs for streaming) where possible. But they must always have a 'device of last resort': if these optimal paths are not possible (your codec doesn't like your client buffers, you can't do direct scanout because a notification occluded your client content and you've run out of overlay planes, you're on Intel and your display FIFO size is measured in bits), the compositor needs to know that it can access the client buffers somehow.
+>
+> This is done by always importing into a GPU device - for most current compositors as an EGLImage, for some others as a VkImage - and falling back to GL composition paths, or GL blits, or even ReadPixels if strictly necessary, so your client content continues to be accessible.
+>
+> There is no way to do this without telling the client what that GPU device node is, so it can allocate accordingly. Thanks to the implicit device selection performed when creating an EGLDisplay from a gbm_device, we cannot currently discover what that device node is.
+>
+>>
+>> Do you have any other potential solution in mind?
+>
+>
+> I can't think of any right now, but am open to hearing them.
+>
+>>
+>> Which solution would you prefer?
+>
+>
+> For all the reasons above, strongly #2, i.e. that querying the DRM device node from the EGLDevice returned by querying an EGLDisplay created from a gbm_device, returns the GPU device's render node and not the KMS device's primary node.
+>
+> Cheers,
+> Daniel
 
-> > -Daniel
-> >
-> >> ---
-> >>  drivers/dma-buf/dma-buf.c | 12 ++++++++++++
-> >>  fs/proc/meminfo.c         |  5 ++++-
-> >>  include/linux/dma-buf.h   |  1 +
-> >>  3 files changed, 17 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> >> index f264b70c383e..4dc37cd4293b 100644
-> >> --- a/drivers/dma-buf/dma-buf.c
-> >> +++ b/drivers/dma-buf/dma-buf.c
-> >> @@ -37,6 +37,7 @@ struct dma_buf_list {
-> >>  };
-> >>  =
 
-> >>  static struct dma_buf_list db_list;
-> >> +static atomic_long_t dma_buf_global_allocated;
-> >>  =
 
-> >>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int =
-buflen)
-> >>  {
-> >> @@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
-> >>  	if (dmabuf->resv =3D=3D (struct dma_resv *)&dmabuf[1])
-> >>  		dma_resv_fini(dmabuf->resv);
-> >>  =
-
-> >> +	atomic_long_sub(dmabuf->size, &dma_buf_global_allocated);
-> >>  	module_put(dmabuf->owner);
-> >>  	kfree(dmabuf->name);
-> >>  	kfree(dmabuf);
-> >> @@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_bu=
-f_export_info *exp_info)
-> >>  	mutex_lock(&db_list.lock);
-> >>  	list_add(&dmabuf->list_node, &db_list.head);
-> >>  	mutex_unlock(&db_list.lock);
-> >> +	atomic_long_add(dmabuf->size, &dma_buf_global_allocated);
-> >>  =
-
-> >>  	return dmabuf;
-> >>  =
-
-> >> @@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, str=
-uct dma_buf_map *map)
-> >>  }
-> >>  EXPORT_SYMBOL_GPL(dma_buf_vunmap);
-> >>  =
-
-> >> +/**
-> >> + * dma_buf_allocated_pages - Return the used nr of pages
-> >> + * allocated for dma-buf
-> >> + */
-> >> +long dma_buf_allocated_pages(void)
-> >> +{
-> >> +	return atomic_long_read(&dma_buf_global_allocated) >> PAGE_SHIFT;
-> >> +}
-> >> +
-> >>  #ifdef CONFIG_DEBUG_FS
-> >>  static int dma_buf_debug_show(struct seq_file *s, void *unused)
-> >>  {
-> >> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-> >> index 6fa761c9cc78..ccc7c40c8db7 100644
-> >> --- a/fs/proc/meminfo.c
-> >> +++ b/fs/proc/meminfo.c
-> >> @@ -16,6 +16,7 @@
-> >>  #ifdef CONFIG_CMA
-> >>  #include <linux/cma.h>
-> >>  #endif
-> >> +#include <linux/dma-buf.h>
-> >>  #include <asm/page.h>
-> >>  #include "internal.h"
-> >>  =
-
-> >> @@ -145,7 +146,9 @@ static int meminfo_proc_show(struct seq_file *m, v=
-oid *v)
-> >>  	show_val_kb(m, "CmaFree:        ",
-> >>  		    global_zone_page_state(NR_FREE_CMA_PAGES));
-> >>  #endif
-> >> -
-> >> +#ifdef CONFIG_DMA_SHARED_BUFFER
-> >> +	show_val_kb(m, "DmaBufTotal:    ", dma_buf_allocated_pages());
-> >> +#endif
-> >>  	hugetlb_report_meminfo(m);
-> >>  =
-
-> >>  	arch_report_meminfo(m);
-> >> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> >> index efdc56b9d95f..5b05816bd2cd 100644
-> >> --- a/include/linux/dma-buf.h
-> >> +++ b/include/linux/dma-buf.h
-> >> @@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_=
-struct *,
-> >>  		 unsigned long);
-> >>  int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> >>  void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> >> +long dma_buf_allocated_pages(void);
-> >>  #endif /* __DMA_BUF_H__ */
-> >> -- =
-
-> >> 2.17.1
-> >>
-> >> _______________________________________________
-> >> dri-devel mailing list
-> >> dri-devel@lists.freedesktop.org
-> >> https://urldefense.com/v3/__https://lists.freedesktop.org/mailman/list=
-info/dri-devel__;!!JmoZiZGBv3RvKRSx!qW8kUOZyY4Dkew6OvqgfoM-5unQNVeF_M1biaIA=
-yQQBR0KB7ksRzZjoh382ZdGGQR9k$ =
-
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
