@@ -1,24 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4585A36563E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 12:35:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A789365640
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 12:35:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 565816E5D5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE3996E7D5;
 	Tue, 20 Apr 2021 10:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mblankhorst.nl (mblankhorst.nl
  [IPv6:2a02:2308::216:3eff:fe92:dfa3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA6C789C60;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB07C6E5D1;
  Tue, 20 Apr 2021 10:34:55 +0000 (UTC)
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/i915: Remove asynchronous vma binding
-Date: Tue, 20 Apr 2021 12:34:50 +0200
-Message-Id: <20210420103451.408059-1-maarten.lankhorst@linux.intel.com>
+Subject: [PATCH 2/2] drm/i915: Use trylock in shrinker for ggtt on bsw vt-d
+ and bxt, v2.
+Date: Tue, 20 Apr 2021 12:34:51 +0200
+Message-Id: <20210420103451.408059-2-maarten.lankhorst@linux.intel.com>
 X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210420103451.408059-1-maarten.lankhorst@linux.intel.com>
+References: <20210420103451.408059-1-maarten.lankhorst@linux.intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -32,459 +35,339 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit e3793468b466 ("drm/i915: Use the async worker to avoid reclaim
-tainting the ggtt->mutex") moves the vma binding to dma_fence_work,
-but dma_fence_work has has signalling fence semantics.
+The stop_machine() lock may allocate memory, but is called inside
+vm->mutex, which is taken in the shrinker. This will cause a lockdep
+splat, as can be seen below:
 
-On braswell, we can call stop_machine inside fence_work, causing a splat
-because memory allocation inside stop_machine is allowed.
+<4>[  462.585762] ======================================================
+<4>[  462.585768] WARNING: possible circular locking dependency detected
+<4>[  462.585773] 5.12.0-rc5-CI-Trybot_7644+ #1 Tainted: G     U
+<4>[  462.585779] ------------------------------------------------------
+<4>[  462.585783] i915_selftest/5540 is trying to acquire lock:
+<4>[  462.585788] ffffffff826440b0 (cpu_hotplug_lock){++++}-{0:0}, at: stop_machine+0x12/0x30
+<4>[  462.585814]
+                  but task is already holding lock:
+<4>[  462.585818] ffff888125369c70 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x38e/0xb40 [i915]
+<4>[  462.586301]
+                  which lock already depends on the new lock.
 
-This patch does not fix that lockdep splat yet, but will allow the next
-patch to remove it.
+<4>[  462.586305]
+                  the existing dependency chain (in reverse order) is:
+<4>[  462.586309]
+                  -> #2 (&vm->mutex/1){+.+.}-{3:3}:
+<4>[  462.586323]        i915_gem_shrinker_taints_mutex+0x2d/0x50 [i915]
+<4>[  462.586719]        i915_address_space_init+0x12d/0x130 [i915]
+<4>[  462.587092]        ppgtt_init+0x4e/0x80 [i915]
+<4>[  462.587467]        gen8_ppgtt_create+0x3e/0x5c0 [i915]
+<4>[  462.587828]        i915_ppgtt_create+0x28/0xf0 [i915]
+<4>[  462.588203]        intel_gt_init+0x123/0x370 [i915]
+<4>[  462.588572]        i915_gem_init+0x129/0x1f0 [i915]
+<4>[  462.588971]        i915_driver_probe+0x753/0xd80 [i915]
+<4>[  462.589320]        i915_pci_probe+0x43/0x1d0 [i915]
+<4>[  462.589671]        pci_device_probe+0x9e/0x110
+<4>[  462.589680]        really_probe+0xea/0x410
+<4>[  462.589690]        driver_probe_device+0xd9/0x140
+<4>[  462.589697]        device_driver_attach+0x4a/0x50
+<4>[  462.589704]        __driver_attach+0x83/0x140
+<4>[  462.589711]        bus_for_each_dev+0x75/0xc0
+<4>[  462.589718]        bus_add_driver+0x14b/0x1f0
+<4>[  462.589724]        driver_register+0x66/0xb0
+<4>[  462.589731]        i915_init+0x70/0x87 [i915]
+<4>[  462.590053]        do_one_initcall+0x56/0x2e0
+<4>[  462.590061]        do_init_module+0x55/0x200
+<4>[  462.590068]        load_module+0x2703/0x2990
+<4>[  462.590074]        __do_sys_finit_module+0xad/0x110
+<4>[  462.590080]        do_syscall_64+0x33/0x80
+<4>[  462.590089]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+<4>[  462.590096]
+                  -> #1 (fs_reclaim){+.+.}-{0:0}:
+<4>[  462.590109]        fs_reclaim_acquire+0x9f/0xd0
+<4>[  462.590118]        kmem_cache_alloc_trace+0x3d/0x430
+<4>[  462.590126]        intel_cpuc_prepare+0x3b/0x1b0
+<4>[  462.590133]        cpuhp_invoke_callback+0x9e/0x890
+<4>[  462.590141]        _cpu_up+0xa4/0x130
+<4>[  462.590147]        cpu_up+0x82/0x90
+<4>[  462.590153]        bringup_nonboot_cpus+0x4a/0x60
+<4>[  462.590159]        smp_init+0x21/0x5c
+<4>[  462.590167]        kernel_init_freeable+0x8a/0x1b7
+<4>[  462.590175]        kernel_init+0x5/0xff
+<4>[  462.590181]        ret_from_fork+0x22/0x30
+<4>[  462.590187]
+                  -> #0 (cpu_hotplug_lock){++++}-{0:0}:
+<4>[  462.590199]        __lock_acquire+0x1520/0x2590
+<4>[  462.590207]        lock_acquire+0xd1/0x3d0
+<4>[  462.590213]        cpus_read_lock+0x39/0xc0
+<4>[  462.590219]        stop_machine+0x12/0x30
+<4>[  462.590226]        bxt_vtd_ggtt_insert_entries__BKL+0x36/0x50 [i915]
+<4>[  462.590601]        ggtt_bind_vma+0x5d/0x80 [i915]
+<4>[  462.590970]        i915_vma_bind+0xdc/0x1c0 [i915]
+<4>[  462.591374]        i915_vma_pin_ww+0x435/0xb40 [i915]
+<4>[  462.591779]        make_obj_busy+0xcb/0x330 [i915]
+<4>[  462.592170]        igt_mmap_offset_exhaustion+0x45f/0x4c0 [i915]
+<4>[  462.592562]        __i915_subtests.cold.7+0x42/0x92 [i915]
+<4>[  462.592995]        __run_selftests.part.3+0x10d/0x172 [i915]
+<4>[  462.593428]        i915_live_selftests.cold.5+0x1f/0x47 [i915]
+<4>[  462.593860]        i915_pci_probe+0x93/0x1d0 [i915]
+<4>[  462.594210]        pci_device_probe+0x9e/0x110
+<4>[  462.594217]        really_probe+0xea/0x410
+<4>[  462.594226]        driver_probe_device+0xd9/0x140
+<4>[  462.594233]        device_driver_attach+0x4a/0x50
+<4>[  462.594240]        __driver_attach+0x83/0x140
+<4>[  462.594247]        bus_for_each_dev+0x75/0xc0
+<4>[  462.594254]        bus_add_driver+0x14b/0x1f0
+<4>[  462.594260]        driver_register+0x66/0xb0
+<4>[  462.594267]        i915_init+0x70/0x87 [i915]
+<4>[  462.594586]        do_one_initcall+0x56/0x2e0
+<4>[  462.594592]        do_init_module+0x55/0x200
+<4>[  462.594599]        load_module+0x2703/0x2990
+<4>[  462.594605]        __do_sys_finit_module+0xad/0x110
+<4>[  462.594612]        do_syscall_64+0x33/0x80
+<4>[  462.594618]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+<4>[  462.594625]
+                  other info that might help us debug this:
+
+<4>[  462.594629] Chain exists of:
+                    cpu_hotplug_lock --> fs_reclaim --> &vm->mutex/1
+
+<4>[  462.594645]  Possible unsafe locking scenario:
+
+<4>[  462.594648]        CPU0                    CPU1
+<4>[  462.594652]        ----                    ----
+<4>[  462.594655]   lock(&vm->mutex/1);
+<4>[  462.594664]                                lock(fs_reclaim);
+<4>[  462.594671]                                lock(&vm->mutex/1);
+<4>[  462.594679]   lock(cpu_hotplug_lock);
+<4>[  462.594686]
+                   *** DEADLOCK ***
+
+<4>[  462.594690] 4 locks held by i915_selftest/5540:
+<4>[  462.594696]  #0: ffff888100fbc240 (&dev->mutex){....}-{3:3}, at: device_driver_attach+0x18/0x50
+<4>[  462.594715]  #1: ffffc900006cb9a0 (reservation_ww_class_acquire){+.+.}-{0:0}, at: make_obj_busy+0x81/0x330 [i915]
+<4>[  462.595118]  #2: ffff88812a6081e8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: make_obj_busy+0x21f/0x330 [i915]
+<4>[  462.595519]  #3: ffff888125369c70 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x38e/0xb40 [i915]
+<4>[  462.595934]
+                  stack backtrace:
+<4>[  462.595939] CPU: 0 PID: 5540 Comm: i915_selftest Tainted: G     U            5.12.0-rc5-CI-Trybot_7644+ #1
+<4>[  462.595947] Hardware name: GOOGLE Kefka/Kefka, BIOS MrChromebox 02/04/2018
+<4>[  462.595952] Call Trace:
+<4>[  462.595961]  dump_stack+0x7f/0xad
+<4>[  462.595974]  check_noncircular+0x12e/0x150
+<4>[  462.595982]  ? save_stack.isra.17+0x3f/0x70
+<4>[  462.595991]  ? drm_mm_insert_node_in_range+0x34a/0x5b0
+<4>[  462.596000]  ? i915_vma_pin_ww+0x9ec/0xb40 [i915]
+<4>[  462.596410]  __lock_acquire+0x1520/0x2590
+<4>[  462.596419]  ? do_init_module+0x55/0x200
+<4>[  462.596429]  lock_acquire+0xd1/0x3d0
+<4>[  462.596435]  ? stop_machine+0x12/0x30
+<4>[  462.596445]  ? gen8_ggtt_insert_entries+0xf0/0xf0 [i915]
+<4>[  462.596816]  cpus_read_lock+0x39/0xc0
+<4>[  462.596824]  ? stop_machine+0x12/0x30
+<4>[  462.596831]  stop_machine+0x12/0x30
+<4>[  462.596839]  bxt_vtd_ggtt_insert_entries__BKL+0x36/0x50 [i915]
+<4>[  462.597210]  ggtt_bind_vma+0x5d/0x80 [i915]
+<4>[  462.597580]  i915_vma_bind+0xdc/0x1c0 [i915]
+<4>[  462.597986]  i915_vma_pin_ww+0x435/0xb40 [i915]
+<4>[  462.598395]  ? make_obj_busy+0xcb/0x330 [i915]
+<4>[  462.598786]  make_obj_busy+0xcb/0x330 [i915]
+<4>[  462.599180]  ? 0xffffffff81000000
+<4>[  462.599187]  ? debug_mutex_unlock+0x50/0xa0
+<4>[  462.599198]  igt_mmap_offset_exhaustion+0x45f/0x4c0 [i915]
+<4>[  462.599592]  __i915_subtests.cold.7+0x42/0x92 [i915]
+<4>[  462.600026]  ? i915_perf_selftests+0x20/0x20 [i915]
+<4>[  462.600422]  ? __i915_nop_setup+0x10/0x10 [i915]
+<4>[  462.600820]  __run_selftests.part.3+0x10d/0x172 [i915]
+<4>[  462.601253]  i915_live_selftests.cold.5+0x1f/0x47 [i915]
+<4>[  462.601686]  i915_pci_probe+0x93/0x1d0 [i915]
+<4>[  462.602037]  ? _raw_spin_unlock_irqrestore+0x3d/0x60
+<4>[  462.602047]  pci_device_probe+0x9e/0x110
+<4>[  462.602057]  really_probe+0xea/0x410
+<4>[  462.602067]  driver_probe_device+0xd9/0x140
+<4>[  462.602075]  device_driver_attach+0x4a/0x50
+<4>[  462.602084]  __driver_attach+0x83/0x140
+<4>[  462.602091]  ? device_driver_attach+0x50/0x50
+<4>[  462.602099]  ? device_driver_attach+0x50/0x50
+<4>[  462.602107]  bus_for_each_dev+0x75/0xc0
+<4>[  462.602116]  bus_add_driver+0x14b/0x1f0
+<4>[  462.602124]  driver_register+0x66/0xb0
+<4>[  462.602133]  i915_init+0x70/0x87 [i915]
+<4>[  462.602453]  ? 0xffffffffa0606000
+<4>[  462.602458]  do_one_initcall+0x56/0x2e0
+<4>[  462.602466]  ? kmem_cache_alloc_trace+0x374/0x430
+<4>[  462.602476]  do_init_module+0x55/0x200
+<4>[  462.602484]  load_module+0x2703/0x2990
+<4>[  462.602500]  ? __do_sys_finit_module+0xad/0x110
+<4>[  462.602507]  __do_sys_finit_module+0xad/0x110
+<4>[  462.602519]  do_syscall_64+0x33/0x80
+<4>[  462.602527]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+<4>[  462.602535] RIP: 0033:0x7fab69d8d89d
+
+Changes since v1:
+- Add lockdep annotations during init, to ensure that lockdep is primed.
+  This also fixes a false positive when reading /proc/lockdep_stats
+  during module reload.
 
 Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c |   3 -
- drivers/gpu/drm/i915/gt/gen6_ppgtt.c       |   1 -
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c       |   1 -
- drivers/gpu/drm/i915/gt/intel_ggtt.c       |   4 -
- drivers/gpu/drm/i915/gt/intel_gtt.h        |   2 -
- drivers/gpu/drm/i915/i915_gem.c            |   6 -
- drivers/gpu/drm/i915/i915_vma.c            | 174 +++------------------
- drivers/gpu/drm/i915/i915_vma.h            |   5 +-
- drivers/gpu/drm/i915/i915_vma_types.h      |   3 -
- 9 files changed, 21 insertions(+), 178 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 13 +++++++++----
+ drivers/gpu/drm/i915/gt/intel_ggtt.c         |  8 +++++---
+ drivers/gpu/drm/i915/gt/intel_gtt.c          | 17 ++++++++++++++++-
+ drivers/gpu/drm/i915/i915_drv.h              | 11 +++++++++--
+ drivers/gpu/drm/i915/i915_gem.c              | 15 +++++++++++++--
+ 5 files changed, 52 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index b0597de206de..ec04df0a3b89 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -505,9 +505,6 @@ static void dbg_poison(struct i915_ggtt *ggtt,
- 	if (!drm_mm_node_allocated(&ggtt->error_capture))
- 		return;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+index 3e248d3bd869..7545ddd83659 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+@@ -38,15 +38,17 @@ static bool can_release_pages(struct drm_i915_gem_object *obj)
+ }
  
--	if (ggtt->vm.bind_async_flags & I915_VMA_GLOBAL_BIND)
--		return; /* beware stop_machine() inversion */
--
- 	GEM_BUG_ON(!IS_ALIGNED(size, PAGE_SIZE));
+ static bool unsafe_drop_pages(struct drm_i915_gem_object *obj,
+-			      unsigned long shrink)
++			      unsigned long shrink, bool trylock_vm)
+ {
+ 	unsigned long flags;
  
- 	mutex_lock(&ggtt->error_mutex);
-diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-index e08dff376339..0c5a9a767849 100644
---- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-@@ -436,7 +436,6 @@ struct i915_ppgtt *gen6_ppgtt_create(struct intel_gt *gt)
- 	ppgtt->base.vm.pd_shift = ilog2(SZ_4K * SZ_4K / sizeof(gen6_pte_t));
- 	ppgtt->base.vm.top = 1;
+ 	flags = 0;
+ 	if (shrink & I915_SHRINK_ACTIVE)
+-		flags = I915_GEM_OBJECT_UNBIND_ACTIVE;
++		flags |= I915_GEM_OBJECT_UNBIND_ACTIVE;
+ 	if (!(shrink & I915_SHRINK_BOUND))
+-		flags = I915_GEM_OBJECT_UNBIND_TEST;
++		flags |= I915_GEM_OBJECT_UNBIND_TEST;
++	if (trylock_vm)
++		flags |= I915_GEM_OBJECT_UNBIND_VM_TRYLOCK;
  
--	ppgtt->base.vm.bind_async_flags = I915_VMA_LOCAL_BIND;
- 	ppgtt->base.vm.allocate_va_range = gen6_alloc_va_range;
- 	ppgtt->base.vm.clear_range = gen6_ppgtt_clear_range;
- 	ppgtt->base.vm.insert_entries = gen6_ppgtt_insert_entries;
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index 176c19633412..92f8a23e66cc 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -736,7 +736,6 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt)
- 			goto err_free_pd;
- 	}
+ 	if (i915_gem_object_unbind(obj, flags) == 0)
+ 		return true;
+@@ -116,6 +118,9 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+ 	unsigned long scanned = 0;
+ 	int err;
  
--	ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
- 	ppgtt->vm.insert_entries = gen8_ppgtt_insert;
- 	ppgtt->vm.allocate_va_range = gen8_ppgtt_alloc;
- 	ppgtt->vm.clear_range = gen8_ppgtt_clear;
++	/* CHV + VTD workaround use stop_machine(); need to trylock vm->mutex */
++	bool trylock_vm = !ww && intel_vm_no_concurrent_access_wa(i915);
++
+ 	trace_i915_gem_shrink(i915, target, shrink);
+ 
+ 	/*
+@@ -203,7 +208,7 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+ 			spin_unlock_irqrestore(&i915->mm.obj_lock, flags);
+ 
+ 			err = 0;
+-			if (unsafe_drop_pages(obj, shrink)) {
++			if (unsafe_drop_pages(obj, shrink, trylock_vm)) {
+ 				/* May arrive from get_pages on another bo */
+ 				if (!ww) {
+ 					if (!i915_gem_object_trylock(obj))
 diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 670c1271e7d5..e1ec6edae1fb 100644
+index e1ec6edae1fb..e6e6efacab87 100644
 --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
 +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -127,7 +127,6 @@ void i915_ggtt_suspend(struct i915_ggtt *ggtt)
+@@ -904,9 +904,11 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
  
- 	list_for_each_entry_safe(vma, vn, &ggtt->vm.bound_list, vm_link) {
- 		GEM_BUG_ON(!drm_mm_node_allocated(&vma->node));
--		i915_vma_wait_for_bind(vma);
+ 	ggtt->vm.insert_entries = gen8_ggtt_insert_entries;
  
- 		if (i915_vma_is_pinned(vma))
- 			continue;
-@@ -671,7 +670,6 @@ static int init_aliasing_ppgtt(struct i915_ggtt *ggtt)
- 	ppgtt->vm.allocate_va_range(&ppgtt->vm, &stash, 0, ggtt->vm.total);
- 
- 	ggtt->alias = ppgtt;
--	ggtt->vm.bind_async_flags |= ppgtt->vm.bind_async_flags;
- 
- 	GEM_BUG_ON(ggtt->vm.vma_ops.bind_vma != ggtt_bind_vma);
- 	ggtt->vm.vma_ops.bind_vma = aliasing_gtt_bind_vma;
-@@ -911,8 +909,6 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
- 	    IS_CHERRYVIEW(i915) /* fails with concurrent use/update */) {
+-	/* Serialize GTT updates with aperture access on BXT if VT-d is on. */
+-	if (intel_ggtt_update_needs_vtd_wa(i915) ||
+-	    IS_CHERRYVIEW(i915) /* fails with concurrent use/update */) {
++	/*
++	 * Serialize GTT updates with aperture access on BXT if VT-d is on,
++	 * and always on CHV.
++	 */
++	if (intel_vm_no_concurrent_access_wa(i915)) {
  		ggtt->vm.insert_entries = bxt_vtd_ggtt_insert_entries__BKL;
  		ggtt->vm.insert_page    = bxt_vtd_ggtt_insert_page__BKL;
--		ggtt->vm.bind_async_flags =
--			I915_VMA_GLOBAL_BIND | I915_VMA_LOCAL_BIND;
  	}
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+index 941f8af016d6..a994234f2bd4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+@@ -132,7 +132,22 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
+ 	 */
+ 	mutex_init(&vm->mutex);
+ 	lockdep_set_subclass(&vm->mutex, subclass);
+-	i915_gem_shrinker_taints_mutex(vm->i915, &vm->mutex);
++
++	if (!intel_vm_no_concurrent_access_wa(vm->i915)) {
++		i915_gem_shrinker_taints_mutex(vm->i915, &vm->mutex);
++	} else {
++		/*
++		 * CHV + BXT VTD workaround use stop_machine(),
++		 * which is allowed to allocate memory. This means &vm->mutex
++		 * is the outer lock, and in theory we can allocate memory inside
++		 * it through stop_machine().
++		 *
++		 * Add the annotation for this, we use trylock in shrinker.
++		 */
++		mutex_acquire(&vm->mutex.dep_map, 0, 0, _THIS_IP_);
++		might_alloc(GFP_KERNEL);
++		mutex_release(&vm->mutex.dep_map, _THIS_IP_);
++	}
+ 	dma_resv_init(&vm->resv);
  
- 	ggtt->invalidate = gen8_ggtt_invalidate;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index e67e34e17913..d9d2ca8b4b61 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -230,8 +230,6 @@ struct i915_address_space {
- 	u64 total;		/* size addr space maps (ex. 2GB for ggtt) */
- 	u64 reserved;		/* size addr space reserved */
+ 	GEM_BUG_ON(!vm->total);
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index e20294e9227a..4ef4f45dfb49 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1712,9 +1712,15 @@ static inline bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv)
+ }
  
--	unsigned int bind_async_flags;
--
- 	/*
- 	 * Each active user context has its own address space (in full-ppgtt).
- 	 * Since the vm may be shared between multiple contexts, we count how
+ static inline bool
+-intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *dev_priv)
++intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *i915)
+ {
+-	return IS_BROXTON(dev_priv) && intel_vtd_active();
++	return IS_BROXTON(i915) && intel_vtd_active();
++}
++
++static inline bool
++intel_vm_no_concurrent_access_wa(struct drm_i915_private *i915)
++{
++	return IS_CHERRYVIEW(i915) || intel_ggtt_update_needs_vtd_wa(i915);
+ }
+ 
+ /* i915_drv.c */
+@@ -1794,6 +1800,7 @@ int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
+ #define I915_GEM_OBJECT_UNBIND_ACTIVE BIT(0)
+ #define I915_GEM_OBJECT_UNBIND_BARRIER BIT(1)
+ #define I915_GEM_OBJECT_UNBIND_TEST BIT(2)
++#define I915_GEM_OBJECT_UNBIND_VM_TRYLOCK BIT(3)
+ 
+ void i915_gem_runtime_suspend(struct drm_i915_private *dev_priv);
+ 
 diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index b23f58e94cfb..4639c47c038b 100644
+index 4639c47c038b..dcf91a12172f 100644
 --- a/drivers/gpu/drm/i915/i915_gem.c
 +++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -946,12 +946,6 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 		mutex_unlock(&ggtt->vm.mutex);
- 	}
+@@ -157,8 +157,19 @@ int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
+ 		if (vma) {
+ 			ret = -EBUSY;
+ 			if (flags & I915_GEM_OBJECT_UNBIND_ACTIVE ||
+-			    !i915_vma_is_active(vma))
+-				ret = i915_vma_unbind(vma);
++			    !i915_vma_is_active(vma)) {
++				if (i915_is_ggtt(vma->vm) &&
++				    flags & I915_GEM_OBJECT_UNBIND_VM_TRYLOCK) {
++					if (mutex_trylock(&vma->vm->mutex)) {
++						ret = __i915_vma_unbind(vma);
++						mutex_unlock(&vma->vm->mutex);
++					} else {
++						ret = -EBUSY;
++					}
++				} else {
++					ret = i915_vma_unbind(vma);
++				}
++			}
  
--	ret = i915_vma_wait_for_bind(vma);
--	if (ret) {
--		i915_vma_unpin(vma);
--		return ERR_PTR(ret);
--	}
--
- 	return vma;
- }
- 
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 07490db51cdc..e4b2590d41ce 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -289,79 +289,6 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
- 	return vma;
- }
- 
--struct i915_vma_work {
--	struct dma_fence_work base;
--	struct i915_address_space *vm;
--	struct i915_vm_pt_stash stash;
--	struct i915_vma *vma;
--	struct drm_i915_gem_object *pinned;
--	struct i915_sw_dma_fence_cb cb;
--	enum i915_cache_level cache_level;
--	unsigned int flags;
--};
--
--static int __vma_bind(struct dma_fence_work *work)
--{
--	struct i915_vma_work *vw = container_of(work, typeof(*vw), base);
--	struct i915_vma *vma = vw->vma;
--
--	vma->ops->bind_vma(vw->vm, &vw->stash,
--			   vma, vw->cache_level, vw->flags);
--	return 0;
--}
--
--static void __vma_release(struct dma_fence_work *work)
--{
--	struct i915_vma_work *vw = container_of(work, typeof(*vw), base);
--
--	if (vw->pinned) {
--		__i915_gem_object_unpin_pages(vw->pinned);
--		i915_gem_object_put(vw->pinned);
--	}
--
--	i915_vm_free_pt_stash(vw->vm, &vw->stash);
--	i915_vm_put(vw->vm);
--}
--
--static const struct dma_fence_work_ops bind_ops = {
--	.name = "bind",
--	.work = __vma_bind,
--	.release = __vma_release,
--};
--
--struct i915_vma_work *i915_vma_work(void)
--{
--	struct i915_vma_work *vw;
--
--	vw = kzalloc(sizeof(*vw), GFP_KERNEL);
--	if (!vw)
--		return NULL;
--
--	dma_fence_work_init(&vw->base, &bind_ops);
--	vw->base.dma.error = -EAGAIN; /* disable the worker by default */
--
--	return vw;
--}
--
--int i915_vma_wait_for_bind(struct i915_vma *vma)
--{
--	int err = 0;
--
--	if (rcu_access_pointer(vma->active.excl.fence)) {
--		struct dma_fence *fence;
--
--		rcu_read_lock();
--		fence = dma_fence_get_rcu_safe(&vma->active.excl.fence);
--		rcu_read_unlock();
--		if (fence) {
--			err = dma_fence_wait(fence, MAX_SCHEDULE_TIMEOUT);
--			dma_fence_put(fence);
--		}
--	}
--
--	return err;
--}
--
- /**
-  * i915_vma_bind - Sets up PTEs for an VMA in it's corresponding address space.
-  * @vma: VMA to map
-@@ -375,8 +302,7 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
-  */
- int i915_vma_bind(struct i915_vma *vma,
- 		  enum i915_cache_level cache_level,
--		  u32 flags,
--		  struct i915_vma_work *work)
-+		  u32 flags, struct i915_vm_pt_stash *stash)
- {
- 	u32 bind_flags;
- 	u32 vma_flags;
-@@ -405,39 +331,7 @@ int i915_vma_bind(struct i915_vma *vma,
- 	GEM_BUG_ON(!vma->pages);
- 
- 	trace_i915_vma_bind(vma, bind_flags);
--	if (work && bind_flags & vma->vm->bind_async_flags) {
--		struct dma_fence *prev;
--
--		work->vma = vma;
--		work->cache_level = cache_level;
--		work->flags = bind_flags;
--
--		/*
--		 * Note we only want to chain up to the migration fence on
--		 * the pages (not the object itself). As we don't track that,
--		 * yet, we have to use the exclusive fence instead.
--		 *
--		 * Also note that we do not want to track the async vma as
--		 * part of the obj->resv->excl_fence as it only affects
--		 * execution and not content or object's backing store lifetime.
--		 */
--		prev = i915_active_set_exclusive(&vma->active, &work->base.dma);
--		if (prev) {
--			__i915_sw_fence_await_dma_fence(&work->base.chain,
--							prev,
--							&work->cb);
--			dma_fence_put(prev);
--		}
--
--		work->base.dma.error = 0; /* enable the queue_work() */
--
--		if (vma->obj) {
--			__i915_gem_object_pin_pages(vma->obj);
--			work->pinned = i915_gem_object_get(vma->obj);
--		}
--	} else {
--		vma->ops->bind_vma(vma->vm, NULL, vma, cache_level, bind_flags);
--	}
-+	vma->ops->bind_vma(vma->vm, stash, vma, cache_level, bind_flags);
- 
- 	atomic_or(bind_flags, &vma->flags);
- 	return 0;
-@@ -531,9 +425,6 @@ bool i915_vma_misplaced(const struct i915_vma *vma,
- 	if (!drm_mm_node_allocated(&vma->node))
- 		return false;
- 
--	if (test_bit(I915_VMA_ERROR_BIT, __i915_vma_flags(vma)))
--		return true;
--
- 	if (vma->node.size < size)
- 		return true;
- 
-@@ -752,7 +643,7 @@ static bool try_qad_pin(struct i915_vma *vma, unsigned int flags)
- 		if (unlikely(flags & ~bound))
- 			return false;
- 
--		if (unlikely(bound & (I915_VMA_OVERFLOW | I915_VMA_ERROR)))
-+		if (unlikely(bound & I915_VMA_OVERFLOW))
- 			return false;
- 
- 		if (!(bound & I915_VMA_PIN_MASK))
-@@ -770,7 +661,7 @@ static bool try_qad_pin(struct i915_vma *vma, unsigned int flags)
- 	 */
- 	mutex_lock(&vma->vm->mutex);
- 	do {
--		if (unlikely(bound & (I915_VMA_OVERFLOW | I915_VMA_ERROR))) {
-+		if (unlikely(bound & I915_VMA_OVERFLOW)) {
- 			pinned = false;
- 			break;
+ 			__i915_vma_put(vma);
  		}
-@@ -857,10 +748,10 @@ static void vma_unbind_pages(struct i915_vma *vma)
- int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 		    u64 size, u64 alignment, u64 flags)
- {
--	struct i915_vma_work *work = NULL;
- 	intel_wakeref_t wakeref = 0;
- 	unsigned int bound;
- 	int err;
-+	struct i915_vm_pt_stash stash = {};
- 
- #ifdef CONFIG_PROVE_LOCKING
- 	if (debug_locks && !WARN_ON(!ww) && vma->resv)
-@@ -883,33 +774,21 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	if (flags & PIN_GLOBAL)
- 		wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
- 
--	if (flags & vma->vm->bind_async_flags) {
--		/* lock VM */
--		err = i915_vm_lock_objects(vma->vm, ww);
-+	if (vma->vm->allocate_va_range) {
-+		err = i915_vm_alloc_pt_stash(vma->vm,
-+					     &stash,
-+					     vma->size);
- 		if (err)
- 			goto err_rpm;
- 
--		work = i915_vma_work();
--		if (!work) {
--			err = -ENOMEM;
-+		err = i915_vm_lock_objects(vma->vm, ww);
-+		if (err)
- 			goto err_rpm;
--		}
- 
--		work->vm = i915_vm_get(vma->vm);
--
--		/* Allocate enough page directories to used PTE */
--		if (vma->vm->allocate_va_range) {
--			err = i915_vm_alloc_pt_stash(vma->vm,
--						     &work->stash,
--						     vma->size);
--			if (err)
--				goto err_fence;
--
--			err = i915_vm_pin_pt_stash(vma->vm,
--						   &work->stash);
--			if (err)
--				goto err_fence;
--		}
-+		err = i915_vm_pin_pt_stash(vma->vm,
-+					   &stash);
-+		if (err)
-+			goto err_rpm;
- 	}
- 
- 	/*
-@@ -932,7 +811,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	err = mutex_lock_interruptible_nested(&vma->vm->mutex,
- 					      !(flags & PIN_GLOBAL));
- 	if (err)
--		goto err_fence;
-+		goto err_rpm;
- 
- 	/* No more allocations allowed now we hold vm->mutex */
- 
-@@ -942,11 +821,6 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	}
- 
- 	bound = atomic_read(&vma->flags);
--	if (unlikely(bound & I915_VMA_ERROR)) {
--		err = -ENOMEM;
--		goto err_unlock;
--	}
--
- 	if (unlikely(!((bound + 1) & I915_VMA_PIN_MASK))) {
- 		err = -EAGAIN; /* pins are meant to be fairly temporary */
- 		goto err_unlock;
-@@ -973,7 +847,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	GEM_BUG_ON(!vma->pages);
- 	err = i915_vma_bind(vma,
- 			    vma->obj ? vma->obj->cache_level : 0,
--			    flags, work);
-+			    flags, &stash);
- 	if (err)
- 		goto err_remove;
- 
-@@ -996,10 +870,8 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	i915_active_release(&vma->active);
- err_unlock:
- 	mutex_unlock(&vma->vm->mutex);
--err_fence:
--	if (work)
--		dma_fence_work_commit_imm(&work->base);
- err_rpm:
-+	i915_vm_free_pt_stash(vma->vm, &stash);
- 	if (wakeref)
- 		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
- 	vma_put_pages(vma);
-@@ -1034,14 +906,8 @@ int i915_ggtt_pin(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 			err = i915_vma_pin_ww(vma, ww, 0, align, flags | PIN_GLOBAL);
- 		else
- 			err = i915_vma_pin(vma, 0, align, flags | PIN_GLOBAL);
--		if (err != -ENOSPC) {
--			if (!err) {
--				err = i915_vma_wait_for_bind(vma);
--				if (err)
--					i915_vma_unpin(vma);
--			}
-+		if (err != -ENOSPC)
- 			return err;
--		}
- 
- 		/* Unlike i915_vma_pin, we don't take no for an answer! */
- 		flush_idle_contexts(vm->gt);
-@@ -1306,7 +1172,7 @@ void __i915_vma_evict(struct i915_vma *vma)
- 		trace_i915_vma_unbind(vma);
- 		vma->ops->unbind_vma(vma->vm, vma);
- 	}
--	atomic_and(~(I915_VMA_BIND_MASK | I915_VMA_ERROR | I915_VMA_GGTT_WRITE),
-+	atomic_and(~(I915_VMA_BIND_MASK | I915_VMA_GGTT_WRITE),
- 		   &vma->flags);
- 
- 	i915_vma_detach(vma);
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index 8df784a026d2..d1d0fc76ef99 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -195,11 +195,10 @@ i915_vma_compare(struct i915_vma *vma,
- 	return memcmp(&vma->ggtt_view.partial, &view->partial, view->type);
- }
- 
--struct i915_vma_work *i915_vma_work(void);
- int i915_vma_bind(struct i915_vma *vma,
- 		  enum i915_cache_level cache_level,
- 		  u32 flags,
--		  struct i915_vma_work *work);
-+		  struct i915_vm_pt_stash *stash);
- 
- bool i915_gem_valid_gtt_space(struct i915_vma *vma, unsigned long color);
- bool i915_vma_misplaced(const struct i915_vma *vma,
-@@ -418,8 +417,6 @@ struct i915_vma *i915_vma_make_unshrinkable(struct i915_vma *vma);
- void i915_vma_make_shrinkable(struct i915_vma *vma);
- void i915_vma_make_purgeable(struct i915_vma *vma);
- 
--int i915_vma_wait_for_bind(struct i915_vma *vma);
--
- static inline int i915_vma_sync(struct i915_vma *vma)
- {
- 	/* Wait for the asynchronous bindings and pending GPU reads */
-diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 6b1bfa230b82..82868a755a96 100644
---- a/drivers/gpu/drm/i915/i915_vma_types.h
-+++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -240,9 +240,6 @@ struct i915_vma {
- 
- #define I915_VMA_ALLOC_BIT	12
- 
--#define I915_VMA_ERROR_BIT	13
--#define I915_VMA_ERROR		((int)BIT(I915_VMA_ERROR_BIT))
--
- #define I915_VMA_GGTT_BIT	14
- #define I915_VMA_CAN_FENCE_BIT	15
- #define I915_VMA_USERFAULT_BIT	16
 -- 
 2.31.0
 
