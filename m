@@ -2,66 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F643658CB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 14:19:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E952A365929
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 14:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0E08891CD;
-	Tue, 20 Apr 2021 12:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81F8D89D5C;
+	Tue, 20 Apr 2021 12:43:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 213BC891CD;
- Tue, 20 Apr 2021 12:19:22 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id sd23so49296644ejb.12;
- Tue, 20 Apr 2021 05:19:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=x2cywhTThWcjIyJE5wbwX0KETrjn0+BAyPRscv+cOQc=;
- b=j4oYpXeTvBJR8wkVbYOSF7I04ZNMvSzuLvglVRVfvWudY+1Bd8W1X8k3BORn/gt3VH
- 9dAvZO0setPanZeJKmyyA9yYauy62cSOQ+rDgQXDzOiPQfRn0VYb7oFis4dh3yF9izXC
- eL3BAdNL6QjMOOt3P27mPilGZ0BoUDEBrZ7XG8ejAZDzLYBWeb9tsNpOae4E/Kn/F5kK
- VmmxMc1jgHsY5u6XKcIf0T14jlg2nRFTTC4Xa3moHUXVnP7xXkUJz+Pir40TPJta1Y/h
- yAFQnTw8Vo+hLZnZrde+MgPsgkVCfzyvbtRYn84KjxFI4lRmQkpwIJDayBIUPvVUcr46
- 1GuQ==
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24A2389D4D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 12:43:14 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ f195-20020a1c1fcc0000b029012eb88126d7so9928733wmf.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 05:43:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1A1FhbJ+FbSSw3BxOb3KkgKYWZqTXHZrqrCjcYwYJcs=;
+ b=FoBmbyaTSxvXRlARvdCjwfAdLvRWE+NlUoFQthtrSkrnFPfUAPLR5RzQgIUI6G9AFG
+ No+KXNYyIiGlkMP7ghXoOIFGjt0vpeo5ojPCh+yvOTXyxTOeyGVku7AMSKcANuho7oB2
+ jJgXRgn2T+pAoWwdw7VEkgaPWSAjVWVclg0GUbUhuGmuc7+LzRAnzay9hW9m2b9pIgUZ
+ ACyDGCwsAclKoup4xsmtfealiYOe70jQtRc9LNBhFrjBojFMWbY9+Dt0v5DccyhD/9O+
+ t7tEunQ/IVXBfDcSfrWPyO3B6sG3Xg7V0Nam/MiayiGDyCR9H48Vz6zp59AYe8AAetD0
+ tW9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=x2cywhTThWcjIyJE5wbwX0KETrjn0+BAyPRscv+cOQc=;
- b=IDZGaNmRHbW/EaDZXLzO9evFgJn48jznhz5mdpu6qe0kXPaAYuSpeC1TlIOaazYG89
- 5zlsB5mar4wBGFEBiBEUit8WOWAMJdx01SRG8J4aZvb61VOqWeyZ0esCROCv2QedPtcq
- EmWr72jb1nGPrgwWD1k4kwxu1FOK33rociomABDEpf90gAQnApXIiaiYx3YpbDbXxyX/
- WORGKAn3kqSOLOCH1EfDSrSe1Xr/xBSVALy3g4fD431EE8P7HUhamDZqoUzTy5qIRob4
- YLtb/lCCQdHA5PByWt7xFfkTiAOxaCNU5XNy7rwoweyKn+bpYsu+NaxemJckak4W8Ksj
- jQWg==
-X-Gm-Message-State: AOAM5329J1z6xsMIvtTZyV1+paDcz+ENU78A4ySrc8qR1wIMMeYjg9U1
- rB6TZkew4y4wVJqR+Pm+cntOOVX23Yg=
-X-Google-Smtp-Source: ABdhPJz3uXtrn0742jblI0JQyNaL90bJPtgNyYu373n0IQsbJUfQjx8V0hKCbVYlabKhPtvpTY/6BA==
-X-Received: by 2002:a17:906:cc48:: with SMTP id
- mm8mr28263011ejb.58.1618921160641; 
- Tue, 20 Apr 2021 05:19:20 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:3caf:a441:2498:1468?
- ([2a02:908:1252:fb60:3caf:a441:2498:1468])
- by smtp.gmail.com with ESMTPSA id t1sm12557342eju.88.2021.04.20.05.19.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 05:19:20 -0700 (PDT)
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?=
- <maraeo@gmail.com>
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <YH7CmXyKFFh3lagO@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <757c44f5-32bc-dd24-d940-933189cb0069@gmail.com>
-Date: Tue, 20 Apr 2021 14:19:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1A1FhbJ+FbSSw3BxOb3KkgKYWZqTXHZrqrCjcYwYJcs=;
+ b=YFzA04P+wxXU/529OvydzDBCCGavuWN8t1jmNAkUR2Rif3xQEWHrlWsUe7Dn/uyI7M
+ Y9aalxp5a1zTw20ZDPSZCwUXnsacb96rqS/fqH+C0wZczyTD0NEiM+Pju4X9Y37oXLtd
+ b1kOtuljco+jAvezC4R6PTqIWg8YykR9bKRJfaqP+B7SI6+QUFyCmDoG0Y18h51hjwg2
+ dbBs6a8W6uz0wA83Tql0PNdAoG5jch1/ZBYfAqn4VN8+Mn1ieTcXAbGh7Re2f5MF2j1P
+ GSaw+lQkr+ViemX0D6BT1LLmaqOKviO+WjYYtbsaXTqxpdt/lFDaVgGkVsA5V/9BrKB4
+ Cccg==
+X-Gm-Message-State: AOAM533z7zkwi+ImThTMaW9CHqZtDe8q9x6qBXHL8Mtg+8JzqJxcEofp
+ zte2nQ8M2OL1up17CUi+RA+34AGv3JIGzebPwvgGGA==
+X-Google-Smtp-Source: ABdhPJzt31Lz1kyKa4Ugm7G+y8ERq/chnTmu1aPI9einVE4/n5INTR9dcPtzHUkm0f0HzoAlvcLEjrDY7M1g42UVICY=
+X-Received: by 2002:a7b:cd04:: with SMTP id f4mr4479123wmj.84.1618922592559;
+ Tue, 20 Apr 2021 05:43:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YH7CmXyKFFh3lagO@phenom.ffwll.local>
-Content-Language: en-US
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+In-Reply-To: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 20 Apr 2021 13:42:26 +0100
+Message-ID: <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
+Subject: Re: [RFC] Linux Graphics Next: Explicit fences everywhere and no BO
+ fences - initial proposal
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,289 +65,466 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============2088955798=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLAoKQW0gMjAuMDQuMjEgdW0gMTQ6MDEgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+
-IE9uIE1vbiwgQXByIDE5LCAyMDIxIGF0IDA2OjQ3OjQ4QU0gLTA0MDAsIE1hcmVrIE9sxaHDoWsg
-d3JvdGU6Cj4+IEhpLAo+Pgo+PiBUaGlzIGlzIG91ciBpbml0aWFsIHByb3Bvc2FsIGZvciBleHBs
-aWNpdCBmZW5jZXMgZXZlcnl3aGVyZSBhbmQgbmV3IG1lbW9yeQo+PiBtYW5hZ2VtZW50IHRoYXQg
-ZG9lc24ndCB1c2UgQk8gZmVuY2VzLiBJdCdzIGEgcmVkZXNpZ24gb2YgaG93IExpbnV4Cj4+IGdy
-YXBoaWNzIGRyaXZlcnMgd29yaywgYW5kIGl0IGNhbiBjb2V4aXN0IHdpdGggd2hhdCB3ZSBoYXZl
-IG5vdy4KPj4KPj4KPj4gKjEuIEludHJvZHVjdGlvbioKPj4gKHNraXAgdGhpcyBpZiB5b3UgYXJl
-IGFscmVhZHkgc29sZCBvbiBleHBsaWNpdCBmZW5jZXMpCj4+Cj4+IFRoZSBjdXJyZW50IExpbnV4
-IGdyYXBoaWNzIGFyY2hpdGVjdHVyZSB3YXMgaW5pdGlhbGx5IGRlc2lnbmVkIGZvciBHUFVzCj4+
-IHdpdGggb25seSBvbmUgZ3JhcGhpY3MgcXVldWUgd2hlcmUgZXZlcnl0aGluZyB3YXMgZXhlY3V0
-ZWQgaW4gdGhlCj4+IHN1Ym1pc3Npb24gb3JkZXIgYW5kIHBlci1CTyBmZW5jZXMgd2VyZSB1c2Vk
-IGZvciBtZW1vcnkgbWFuYWdlbWVudCBhbmQKPj4gQ1BVLUdQVSBzeW5jaHJvbml6YXRpb24sIG5v
-dCBHUFUtR1BVIHN5bmNocm9uaXphdGlvbi4gTGF0ZXIsIG11bHRpcGxlCj4+IHF1ZXVlcyB3ZXJl
-IGFkZGVkIG9uIHRvcCwgd2hpY2ggcmVxdWlyZWQgdGhlIGludHJvZHVjdGlvbiBvZiBpbXBsaWNp
-dAo+PiBHUFUtR1BVIHN5bmNocm9uaXphdGlvbiBiZXR3ZWVuIHF1ZXVlcyBvZiBkaWZmZXJlbnQg
-cHJvY2Vzc2VzIHVzaW5nIHBlci1CTwo+PiBmZW5jZXMuIFJlY2VudGx5LCBldmVuIHBhcmFsbGVs
-IGV4ZWN1dGlvbiB3aXRoaW4gb25lIHF1ZXVlIHdhcyBlbmFibGVkCj4+IHdoZXJlIGEgY29tbWFu
-ZCBidWZmZXIgc3RhcnRzIGRyYXdzIGFuZCBjb21wdXRlIHNoYWRlcnMsIGJ1dCBkb2Vzbid0IHdh
-aXQKPj4gZm9yIHRoZW0sIGVuYWJsaW5nIHBhcmFsbGVsaXNtIGJldHdlZW4gYmFjay10by1iYWNr
-IGNvbW1hbmQgYnVmZmVycy4KPj4gTW9kZXNldHRpbmcgYWxzbyB1c2VzIHBlci1CTyBmZW5jZXMg
-Zm9yIHNjaGVkdWxpbmcgZmxpcHMuIE91ciBHUFUgc2NoZWR1bGVyCj4+IHdhcyBjcmVhdGVkIHRv
-IGVuYWJsZSBhbGwgdGhvc2UgdXNlIGNhc2VzLCBhbmQgaXQncyB0aGUgb25seSByZWFzb24gd2h5
-IHRoZQo+PiBzY2hlZHVsZXIgZXhpc3RzLgo+Pgo+PiBUaGUgR1BVIHNjaGVkdWxlciwgaW1wbGlj
-aXQgc3luY2hyb25pemF0aW9uLCBCTy1mZW5jZS1iYXNlZCBtZW1vcnkKPj4gbWFuYWdlbWVudCwg
-YW5kIHRoZSB0cmFja2luZyBvZiBwZXItQk8gZmVuY2VzIGluY3JlYXNlIENQVSBvdmVyaGVhZCBh
-bmQKPj4gbGF0ZW5jeSwgYW5kIHJlZHVjZSBwYXJhbGxlbGlzbS4gVGhlcmUgaXMgYSBkZXNpcmUg
-dG8gcmVwbGFjZSBhbGwgb2YgdGhlbQo+PiB3aXRoIHNvbWV0aGluZyBtdWNoIHNpbXBsZXIuIEJl
-bG93IGlzIGhvdyB3ZSBjb3VsZCBkbyBpdC4KPiBJIGdldCB0aGUgZmVlbGluZyB5b3UncmUgbWl4
-aW5nIHVwIGEgbG90IG9mIHRoaW5ncyBoZXJlIHRoYXQgaGF2ZSBtb3JlCj4gbnVhbmNlLCBzbyBm
-aXJzdCBzb21lIGxpbmdvLgo+Cj4gLSBUaGVyZSdzIGtlcm5lbCBiYXNlZCBzeW5jaHJvbml6YXRp
-b24sIGJhc2VkIG9uIGRtYV9mZW5jZS4gVGhlc2UgY29tZSBpbgo+ICAgIHR3byBtYWpvciB2YXJp
-YW50czogSW1wbGljaXQgc3luY2hyb25pemF0aW9uLCB3aGVyZSB0aGUga2VybmVsIGF0dGFjaGVz
-Cj4gICAgdGhlIGRtYV9mZW5jZXMgdG8gYSBkbWEtYnVmLCBhbmQgZXhwbGljaXQgc3luY2hyb25p
-emF0aW9uLCB3aGVyZSB0aGUKPiAgICBkbWFfZmVuY2UgZ2V0cyBwYXNzZWQgYXJvdW5kIGFzIGEg
-c3RhbmQtYWxvbmUgb2JqZWN0LCBlaXRoZXIgYSBzeW5jX2ZpbGUKPiAgICBvciBhIGRybV9zeW5j
-b2JqCj4KPiAtIFRoZW4gdGhlcmUncyB1c2Vyc3BhY2UgZmVuY2Ugc3luY2hyb25pemF0aW9uLCB3
-aGVyZSB1c2Vyc3BhY2UgaXNzdWVzIGFueQo+ICAgIGZlbmNlcyBkaXJlY3RseSBhbmQgdGhlIGtl
-cm5lbCBkb2Vzbid0IGV2ZW4ga25vdyB3aGF0J3MgZ29pbmcgb24uIFRoaXMKPiAgICBpcyB0aGUg
-b25seSBtb2RlbCB0aGF0IGFsbG93cyB5b3UgdG8gZGl0Y2ggdGhlIGtlcm5lbCBvdmVyaGVhZCwg
-YW5kIGl0J3MKPiAgICBhbHNvIHRoZSBtb2RlbCB0aGF0IHZrIHVzZXMuCj4KPiAgICBJIGNvbmN1
-ciB3aXRoIEphc29uIHRoYXQgdGhpcyBvbmUgaXMgdGhlIGZ1dHVyZSwgaXQncyB0aGUgbW9kZWwg
-aHcKPiAgICB3YW50cywgY29tcHV0ZSB3YW50cyBhbmQgdmsgd2FudHMuIEJ1aWxkaW5nIGFuIGV4
-cGxpY2l0IGZlbmNlIHdvcmxkCj4gICAgd2hpY2ggZG9lc24ndCBhaW0gYXQgdGhpcyBpcyBpbW8g
-d2FzdGVkIGVmZm9ydC4KPgo+IE5vdyB5b3Ugc21hc2ggdGhlbSBpbnRvIG9uZSB0aGluZyBieSBh
-bHNvIGNoYW5naW5nIHRoZSBtZW1vcnkgbW9kZWwsIGJ1dCBJCj4gdGhpbmsgdGhhdCBkb2Vzbid0
-IHdvcms6Cj4KPiAtIFJlbHlpbmcgb24gZ3B1IHBhZ2UgZmF1bHRzIGFjcm9zcyB0aGUgYm9hcmQg
-d29udCBoYXBwZW4uIEkgdGhpbmsgcmlnaHQKPiAgICBub3cgb25seSBhbWQncyBHRlgxMCBvciBz
-byBoYXMgZW5vdWdoIHBhZ2VmYXVsdCBzdXBwb3J0IHRvIGFsbG93IHRoaXMsCgpJdCdzIGV2ZW4g
-d29yc2UuIEdGWDkgaGFzIGVub3VnaCBzdXBwb3J0IHNvIHRoYXQgaW4gdGhlb3J5IGNhbiB3b3Jr
-LgoKQmVjYXVzZSBvZiB0aGlzIEZlbGl4IGFuZCBoaXMgdGVhbSBhcmUgd29ya2luZyBvbiBITU0g
-c3VwcG9ydCBiYXNlZCBvbiAKdGhpcyBnZW5lcmF0aW9uLgoKT24gR0ZYMTAgc29tZSBhc3BlY3Rz
-IG9mIGl0IGFyZSBpbXByb3ZlZCB3aGlsZSBvdGhlcnMgYXJlIHRvdGFsbHkgYnJva2VuIAphZ2Fp
-bi4KCj4gICAgYW5kIG5vdCBldmVuIHRoZXJlIEknbSByZWFsbHkgc3VyZS4gTm90aGluZyBlbHNl
-IHdpbGwgYW55dGltZSBzb29uLCBhdAo+ICAgIGxlYXN0IG5vdCBhcyBmYXIgYXMgSSBrbm93LiBT
-byB3ZSBuZWVkIHRvIHN1cHBvcnQgc2xpZ2h0bHkgbW9yZSBodyBpbgo+ICAgIHVwc3RyZWFtIHRo
-YW4ganVzdCB0aGF0LiAgQW55IHBsYW4gdGhhdCdzIHJlYWxpc3RpYyBuZWVkcyB0byBjb3BlIHdp
-dGgKPiAgICBkbWFfZmVuY2UgZm9yIGEgcmVhbGx5IGxvbmcgdGltZS4KPgo+IC0gUG93bl5XUGlu
-IEFsbCBUaGUgVGhpbmdzISBpcyBwcm9iYWJseSBub3QgYSBnZW5lcmFsIGVub3VnaCBtZW1vcnkK
-PiAgICBtYW5hZ2VtZW50IGFwcHJvYWNoLiBXZSd2ZSBraW5kYSB0cmllZCBmb3IgeWVhcnMgdG8g
-bW92ZSBhd2F5IGZyb20gaXQuCj4gICAgU3VyZSB3ZSBjYW4gc3VwcG9ydCBpdCBhcyBhbiBvcHRp
-bWl6YXRpb24gaW4gc3BlY2lmaWMgd29ya2xvYWRzLCBhbmQgaXQKPiAgICB3aWxsIG1ha2Ugc3R1
-ZmYgZmFzdGVyLCBidXQgaXQncyBub3QgZ29pbmcgdG8gYmUgdGhlIGRlZmF1bHQgSSB0aGluay4K
-Pgo+IC0gV2UgbGl2ZSBpbiBhIHBvc3QgeGY4Ni12aWRlby0kdmVuZG9yIHdvcmxkLCBhbmQgYWxs
-IHRoZXNlIG90aGVyCj4gICAgY29tcG9zaXRvcnMgcmVseSBvbiBpbXBsaWNpdCBzeW5jLiBZb3Un
-cmUgbm90IGdvaW5nIHRvIGJlIGFibGUgdG8gZ2V0Cj4gICAgcmlkIG9mIHRoZW0gYW55dGltZSBz
-b29uLiBXaGF0J3Mgd29yc2UsIGFsbCB0aGUgdmFyaW91cyBFR0wvdmsgYnVmZmVyCj4gICAgc2hh
-cmluZyB0aGluZ3MgYWxzbyByZWx5IG9uIGltcGxpY2l0IHN5bmMsIHNvIHlvdSBnZXQgdG8gZml4
-IHVwIHRvbnMgb2YKPiAgICBhcHBsaWNhdGlvbnMgb24gdG9wLiBBbnkgcGxhbiB0aGF0J3MgcmVh
-bGlzdGljIG5lZWRzIHRvIGNvcGUgd2l0aAo+ICAgIGltcGxpY2l0L2V4cGxpY2l0IGF0IHRoZSBz
-YW1lIHRpbWUgdG9nZXRoZXIgd29uJ3Qgd29yay4KPgo+IC0gQWJzb2x1dGUgaW5mdXJpYXRpbmcs
-IGJ1dCB5b3UgY2FuJ3QgdXNlIHBhZ2UtZmF1bHRpbmcgdG9nZXRoZXIgd2l0aCBhbnkKPiAgICBk
-bWFfZmVuY2Ugc3luY2hyb25pemF0aW9uIHByaW1pdGl2ZXMsIHdoZXRoZXIgaW1wbGljaXQgb3Ig
-ZXhwbGljaXQuIFRoaXMKPiAgICBtZWFucyB1bnRpbCB0aGUgZW50aXJlIGVjb3N5c3RlbSBtb3Zl
-ZCBmb3J3YXJkIChnb29kIGx1Y2sgd2l0aCB0aGF0KSB3ZQo+ICAgIGhhdmUgdG8gc3VwcG9ydCBk
-bWFfZmVuY2UuIFRoZSBvbmx5IHN5bmMgbW9kZWwgdGhhdCB3b3JrcyB0b2dldGhlciB3aXRoCj4g
-ICAgcGFnZSBmYXVsdHMgaXMgdXNlcnNwYWNlIGZlbmNlIGJhc2VkIHN5bmMuCj4KPiBUaGVuIHRo
-ZXJlJ3MgdGhlIHNvbWV3aGF0IGFzaWRlIHRvcGljIG9mIGhvdyBhbWRncHUvcmFkZW9uc2kgZG9l
-cyBpbXBsaWNpdAo+IHN5bmMsIGF0IGxlYXN0IGxhc3QgSSBjaGVja2VkLiBDdXJyZW50bHkgdGhp
-cyBvdmVyc3luY2hyb25pemVzIGJhZGx5Cj4gYmVjYXVzZSBpdCdzIGxlZnQgdG8gdGhlIGtlcm5l
-bCB0byBndWVzcyB3aGF0IHNob3VsZCBiZSBzeW5jaHJvbml6ZWQsIGFuZAo+IHRoYXQgZ2V0cyB0
-aGluZ3Mgd3JvbmcuIFdoYXQgeW91IG5lZWQgdGhlcmUgaXMgZXhwbGljaXQgaW1wbGljaXQKPiBz
-eW5jaHJvbml6YXRpb246Cj4KPiAtIG9uIHRoZSBjcyBzaWRlLCB1c2Vyc3BhY2UgbXVzdCBzZXQg
-ZXhwbGljaXQgZm9yIHdoaWNoIGJ1ZmZlcnMgdGhlIGtlcm5lbAo+ICAgIHNob3VsZCBlbmdhZ2Ug
-aW4gaW1wbGljaXQgc3luY2hyb25pemF0aW9uLiBUaGF0J3MgaG93IGl0IHdvcmtzIG9uIGFsbAo+
-ICAgIG90aGVyIGRyaXZlcnMgdGhhdCBzdXBwb3J0IG1vcmUgZXhwbGljaXQgdXNlcnNwYWNlIGxp
-a2Ugdmsgb3IgZ2wgZHJpdmVycwo+ICAgIHRoYXQgYXJlIGludGVybmFsbHkgYWxsIGV4cGxpY2l0
-LiBTbyBlc3NlbnRpYWxseSB5b3Ugb25seSBzZXQgdGhlCj4gICAgaW1wbGljaXQgZmVuY2Ugc2xv
-dCB3aGVuIHlvdSByZWFsbHkgd2FudCB0bywgYW5kIG9ubHkgdXNlcnNwYWNlIGtub3dzCj4gICAg
-dGhpcy4gSW1wbGVtZW50aW5nIHRoaXMgd2l0aG91dCBicmVha2luZyB0aGUgY3VycmVudCBsb2dp
-YyBwcm9iYWJseQo+ICAgIG5lZWRzIHNvbWUgZmxhZ3MuCj4KPiAtIHRoZSBvdGhlciBzaWRlIGlz
-bid0IHRoZXJlIHlldCB1cHN0cmVhbSwgYnV0IEphc29uIGhhcyBwYXRjaGVzLgo+ICAgIEVzc2Vu
-dGlhbGx5IHlvdSBhbHNvIG5lZWQgdG8gc2FtcGxlIHlvdXIgaW1wbGljaXQgc3luYyBwb2ludHMg
-YXQgdGhlCj4gICAgcmlnaHQgc3BvdCwgdG8gYXZvaWQgb3ZlcnN5bmMgb24gbGF0ZXIgcmVuZGVy
-aW5nIGJ5IHRoZSBwcm9kdWNlci4KPiAgICBKYXNvbidzIHBhdGNoIHNvbHZlcyB0aGlzIGJ5IGFk
-ZGluZyBhbiBpb2N0bCB0byBkbWEtYnVmIHRvIGdldCB0aGUKPiAgICBjdXJyZW50IHNldC4KPgo+
-IC0gd2l0aG91dCBhbnkgb2YgdGhpcyB0aGluZ3MgZm9yIHB1cmUgZXhwbGljaXQgZmVuY2luZyB1
-c2Vyc3BhY2UgdGhlCj4gICAga2VybmVsIHdpbGwgc2ltcGx5IG1haW50YWluIGEgbGlzdCBvZiBh
-bGwgY3VycmVudCB1c2VycyBvZiBhIGJ1ZmZlci4gRm9yCj4gICAgbWVtb3J5IG1hbmFnZW1lbnQs
-IHdoaWNoIG1lYW5zIGV2aWN0aW9uIGhhbmRsaW5nIHJvdWdobHkgd29ya3MgbGlrZSB5b3UKPiAg
-ICBkZXNjcmliZSBiZWxvdywgd2Ugd2FpdCBmb3IgZXZlcnl0aGluZyBiZWZvcmUgYSBidWZmZXIg
-Y2FuIGJlIG1vdmVkLgo+Cj4gVGhpcyBzaG91bGQgZ2V0IHJpZCBvZiB0aGUgb3ZlcnN5bmMgaXNz
-dWVzLCBhbmQgc2luY2UgaW1wbGljaXQgc3luYyBpcwo+IGJhY2tlZCBpbiBldmVyeXdoZXJlIHJp
-Z2h0IG5vdywgeW91J2xsIGhhdmUgdG8gZGVhbCB3aXRoIGltcGxpY2l0IHN5bmMgZm9yCj4gYSB2
-ZXJ5IGxvbmcgdGltZS4KPgo+IE5leHQgdXAgaXMgcmVkdWNpbmcgdGhlIG1lbW9yeSBtYW5hZ2Vy
-IG92ZXJoZWFkIG9mIGFsbCB0aGlzLCB3aXRob3V0Cj4gY2hhbmdpbmcgdGhlIGVjb3N5c3RlbS4K
-Pgo+IC0gaHcgb3B0aW9uIHdvdWxkIGJlIHBhZ2UgZmF1bHRzLCBidXQgdW50aWwgd2UgaGF2ZSBm
-dWxsIGV4cGxpY2l0Cj4gICAgdXNlcnNwYWNlIHN5bmMgd2UgY2FuJ3QgdXNlIHRob3NlLiBXaGlj
-aCBjdXJyZW50bHkgbWVhbnMgY29tcHV0ZSBvbmx5Lgo+ICAgIE5vdGUgdGhhdCBmb3IgdnVsa2Fu
-IG9yIG1heWJlIGFsc28gZ2wgdGhpcyBpcyBxdWl0ZSBuYXN0eSBmb3IgdXNlcnNwYWNlLAo+ICAg
-IHNpbmNlIGFzIHNvb24gYXMgeW91IG5lZWQgdG8gc3dpdGNoIHRvIGRtYV9mZW5jIHN5bmMgb3Ig
-aW1wbGljaXQgc3luYwo+ICAgICh3aW5zeXMgYnVmZmVyLCBvciBidWZmZXIgc2hhcmluZyB3aXRo
-IGFueSBvZiB0aGUgY3VycmVudCBzZXQgb2YKPiAgICBleHRlbnNpb25zKSB5b3UgaGF2ZSB0byBm
-bGlwIHlvdXIgaW50ZXJuYWwgZHJpdmVyIHN0YXRlIGFyb3VuZCBhbGwgc3luYwo+ICAgIHBvaW50
-cyBvdmVyIGZyb20gdXNlcnNwYWNlIGZlbmNpbmcgdG8gZG1hX2ZlbmNlIGtlcm5lbCBmZW5jaW5n
-LiBDYW4KPiAgICBzdGlsbCBiZSBhbGwgZXhwbGljaXQgdXNpbmcgZHJtX3N5bmNvYmogb2ZjLgo+
-Cj4gLSBuZXh0IHVwIGlmIHlvdXIgaHcgaGFzIHByZWVtcHRpb24sIHlvdSBjb3VsZCB1c2UgdGhh
-dCwgZXhjZXB0IHByZWVtcHRpb24KPiAgICB0YWtlcyBhIHdoaWxlIGxvbmdlciwgc28gZnJvbSBt
-ZW1vcnkgcG92IHJlYWxseSBzaG91bGQgYmUgZG9uZSB3aXRoCj4gICAgZG1hX2ZlbmNlLiBQbHVz
-IGl0IGhhcyBhbGwgdGhlIHNhbWUgcHJvYmxlbXMgaW4gdGhhdCBpdCByZXF1aXJlcwo+ICAgIHVz
-ZXJzcGFjZSBmZW5jZXMuCj4KPiAtIG5vdyBmb3IgbWFraW5nIGRtYV9mZW5jZSBPKDEpIGluIHRo
-ZSBmYXN0cGF0aCB5b3UgbmVlZCB0aGUgc2hhcmVkCj4gICAgZG1hX3Jlc3YgdHJpY2sgYW5kIHRo
-ZSBscnUgYnVsayBtb3ZlLiByYWR2L2FtZHZsayB1c2UgdGhhdCwgYnV0IEkgdGhpbmsKPiAgICBy
-YWRlb25zaSBub3QgeWV0LiBCdXQgbWF5YmUgSSBtaXNzZWQgdGhhdC4gRWl0aGVyIHdheSB3ZSBu
-ZWVkIHRvIGRvIHNvbWUKPiAgICBiZXR0ZXIga2VybmVsIHdvcmsgc28gaXQgY2FuIGFsc28gYmUg
-ZmFzdCBmb3Igc2hhcmVkIGJ1ZmZlcnMsIGlmIHRob3NlCj4gICAgYmVjb21lIGEgcHJvYmxlbS4g
-T24gdGhlIEdMIHNpZGUgZG9pbmcgdGhpcyB3aWxsIHVzZSBhIGxvdCBvZiB0aGUgdHJpY2tzCj4g
-ICAgZm9yIHJlc2lkZW5jeS93b3JraW5nIHNldCBtYW5hZ2VtZW50IHlvdSBkZXNjcmliZSBiZWxv
-dywgZXhjZXB0IHRoZQo+ICAgIGtlcm5lbCBjYW4gc3RpbGwgdGhyb3cgb3V0IGFuIGVudGlyZSBn
-cHUgam9iLiBUaGlzIGlzIGVzc2VudGlhbGx5IHdoYXQKPiAgICB5b3UgZGVzY3JpYmUgd2l0aCAz
-LjEuIFZ1bGthbi9jb21wdXRlIGFscmVhZHkgd29yayBsaWtlIHRoaXMuCj4KPiBOb3cgdGhpcyBn
-ZXRzIHRoZSBwZXJmb3JtYW5jZSB1cCwgYnV0IGl0IGRvZXNuJ3QgZ2l2ZSB1cyBhbnkgcm9hZCB0
-b3dhcmRzCj4gdXNpbmcgcGFnZSBmYXVsdHMgKG91dHNpZGUgb2YgY29tcHV0ZSkgYW5kIHNvIHJl
-dGlyaW5nIGRtYV9mZW5jZSBmb3IgZ29vZC4KPiBGb3IgdGhhdCB3ZSBuZWVkIGEgZmV3IHBpZWNl
-czoKPgo+IC0gRnVsbCBuZXcgc2V0IG9mIHVzZXJzcGFjZSB3aW5zeXMgcHJvdG9jb2xzIGFuZCBl
-Z2wvdmsgZXh0ZW5zaW9ucy4gUHJheQo+ICAgIGl0IGFjdHVhbGx5IGdldHMgYWRvcHRlZCwgYmVj
-YXVzZSBuZWl0aGVyIEFNRCBub3IgSW50ZWwgaGF2ZSB0aGUKPiAgICBlbmdpbmVlcnMgdG8gcHVz
-aCB0aGVzZSBraW5kIG9mIGVjb3N5c3RlbXMvbWlkZGxld2FyZSBpc3N1ZXMgZm9yd2FyZCBvbgo+
-ICAgIHRoZWlyIHBheXJvbGxzLiBHb29kIHBpY2sgaXMgcHJvYmFibHkgdXNpbmcgZHJtX3N5bmNv
-YmogYXMgdGhlIGtlcm5lbAo+ICAgIHByaW1pdGl2ZSBmb3IgdGhpcy4gU3RpbGwgdXNlcyBkbWFf
-ZmVuY2UgdW5kZXJuZWF0aC4KPgo+IC0gU29tZSBjbGV2ZXIga2VybmVsIHRyaWNrcyBzbyB0aGF0
-IHdlIGNhbiBzdWJzdGl0dXRlIGRtYV9mZW5jZSBmb3IKPiAgICB1c2Vyc3BhY2UgZmVuY2VzIHdp
-dGhpbiBhIGRybV9zeW5jb2JqLiBkcm1fc3luY29iaiBhbHJlYWR5IGhhcyB0aGUKPiAgICBub3Rp
-b24gb2Ygd2FpdGluZyBmb3IgYSBkbWFfZmVuY2UgdG8gbWF0ZXJpYWxpemUuIFdlIGNhbiBhYnVz
-ZSB0aGF0IHRvCj4gICAgY3JlYXRlIGFuIHVwZ3JhZGUgcGF0aCBmcm9tIGRtYV9mZW5jZSBiYXNl
-ZCBzeW5jIHRvIHVzZXJzcGFjZSBmZW5jZQo+ICAgIHN5bmNpbmcuIE9mYyBub25lIG9mIHRoaXMg
-d2lsbCBiZSBvbiB0aGUgdGFibGUgaWYgdXNlcnNwYWNlIGhhc24ndAo+ICAgIGFkb3B0ZWQgZXhw
-bGljaXQgc3luYy4KPgo+IFdpdGggdGhlc2UgdHdvIHRoaW5ncyBJIHRoaW5rIHdlIGNhbiBoYXZl
-IGEgcmVhc29uYWJsZSB1cGdyYWRlIHBhdGguIE5vbmUKPiBvZiB0aGlzIHdpbGwgYmUgYnJlYWsg
-dGhlIHdvcmxkIHR5cGUgdGhpbmdzIHRob3VnaC4KCkhvdyBhYm91dCB0aGlzOgoxLiBXZSBleHRl
-bmQgZHJtX3N5bmNvYmogdG8gYmUgYWJsZSB0byBjb250YWluIGJvdGggY2xhc3NpYyBkbWFfZmVu
-Y2UgYXMgCndlbGwgYXMgYmVpbmcgdXNlZCBmb3IgdXNlciBmZW5jZSBzeW5jaHJvbml6YXRpb24u
-CgogwqDCoMKgIFdlIGFscmVhZHkgZGlzY3Vzc2VkIHRoYXQgYnJpZWZseSBhbmQgSSB0aGluayB3
-ZSBzaG91bGQgaGF2ZSBhIApyb3VnaCBwbGFuIGZvciB0aGlzIGluIG91ciBoZWFkcy4KCjIuIFdl
-IGFsbG93IGF0dGFjaGluZyBhbiBkcm1fc3luY29iaiBvbiBkbWFfcmVzdiBmb3IgaW1wbGljaXQg
-c3luYy4KCiDCoMKgwqAgVGhpcyByZXF1aXJlcyB0aGF0IGJvdGggdGhlIGNvbnN1bWVyIGFzIHdl
-bGwgYXMgdGhlIHByb2R1Y2VyIHNpZGUgCndpbGwgc3VwcG9ydCB1c2VyIGZlbmNlIHN5bmNocm9u
-aXphdGlvbi4KCiDCoMKgwqAgV2Ugd291bGQgc3RpbGwgaGF2ZSBxdWl0ZSBhIGJ1bmNoIG9mIGxp
-bWl0YXRpb25zLCBlc3BlY2lhbGx5IHdlIAp3b3VsZCBuZWVkIHRvIGFkanVzdCBhbGwgdGhlIGtl
-cm5lbCBjb25zdW1lcnMgb2YgY2xhc3NpYyBkbWFfcmVzdiAKb2JqZWN0cy4gQnV0IEkgdGhpbmsg
-aXQgc2hvdWxkIGJlIGRvYWJsZS4KClJlZ2FyZHMsCkNocmlzdGlhbi4KCj4KPiBCdW5jaCBvZiBj
-b21tZW50cyBiZWxvdy4KPgo+PiAqMi4gRXhwbGljaXQgc3luY2hyb25pemF0aW9uIGZvciB3aW5k
-b3cgc3lzdGVtcyBhbmQgbW9kZXNldHRpbmcqCj4+Cj4+IFRoZSBwcm9kdWNlciBpcyBhbiBhcHBs
-aWNhdGlvbiBhbmQgdGhlIGNvbnN1bWVyIGlzIGEgY29tcG9zaXRvciBvciBhCj4+IG1vZGVzZXR0
-aW5nIGRyaXZlci4KPj4KPj4gKjIuMS4gVGhlIFByZXNlbnQgcmVxdWVzdCoKPj4KPj4gQXMgcGFy
-dCBvZiB0aGUgUHJlc2VudCByZXF1ZXN0LCB0aGUgcHJvZHVjZXIgd2lsbCBwYXNzIDIgZmVuY2Vz
-IChzeW5jCj4+IG9iamVjdHMpIHRvIHRoZSBjb25zdW1lciBhbG9uZ3NpZGUgdGhlIHByZXNlbnRl
-ZCBETUFCVUYgQk86Cj4+IC0gVGhlIHN1Ym1pdCBmZW5jZTogSW5pdGlhbGx5IHVuc2lnbmFsbGVk
-LCBpdCB3aWxsIGJlIHNpZ25hbGxlZCB3aGVuIHRoZQo+PiBwcm9kdWNlciBoYXMgZmluaXNoZWQg
-ZHJhd2luZyBpbnRvIHRoZSBwcmVzZW50ZWQgYnVmZmVyLgo+PiAtIFRoZSByZXR1cm4gZmVuY2U6
-IEluaXRpYWxseSB1bnNpZ25hbGxlZCwgaXQgd2lsbCBiZSBzaWduYWxsZWQgd2hlbiB0aGUKPj4g
-Y29uc3VtZXIgaGFzIGZpbmlzaGVkIHVzaW5nIHRoZSBwcmVzZW50ZWQgYnVmZmVyLgo+IEJ1aWxk
-IHRoaXMgd2l0aCBzeW5jb2JqIHRpbWVsaW5lcyBhbmQgaXQgbWFrZXMgYSBsb3QgbW9yZSBzZW5z
-ZSBJIHRoaW5rLgo+IFdlJ2xsIG5lZWQgdGhhdCBmb3IgaGF2aW5nIGEgcHJvcGVyIHVwZ3JhZGUg
-cGF0aCwgYm90aCBvbiB0aGUgaHcvZHJpdmVyCj4gc2lkZSAoYmVpbmcgYWJsZSB0byBzdXBwb3J0
-IHN0dWZmIGxpa2UgcHJlZW1wdCBvciBncHUgcGFnZSBmYXVsdHMpIGFuZCB0aGUKPiBlY29zeXN0
-ZW0gc2lkZSAoc28gdGhhdCB3ZSBkb24ndCBoYXZlIHRvIHJldiBwcm90b2NvbHMgdHdpY2UsIG9u
-Y2UgZ29pbmcKPiB0byBleHBsaWNpdCBkbWFfZmVuY2Ugc3luYyBhbmQgb25jZSBtb3JlIGZvciB1
-c2Vyc3BhY2Ugc3luYykuCj4KPj4gRGVhZGxvY2sgbWl0aWdhdGlvbiB0byByZWNvdmVyIGZyb20g
-c2VnZmF1bHRzOgo+PiAtIFRoZSBrZXJuZWwga25vd3Mgd2hpY2ggcHJvY2VzcyBpcyBvYmxpZ2Vk
-IHRvIHNpZ25hbCB3aGljaCBmZW5jZS4gVGhpcwo+PiBpbmZvcm1hdGlvbiBpcyBwYXJ0IG9mIHRo
-ZSBQcmVzZW50IHJlcXVlc3QgYW5kIHN1cHBsaWVkIGJ5IHVzZXJzcGFjZS4KPj4gLSBJZiB0aGUg
-cHJvZHVjZXIgY3Jhc2hlcywgdGhlIGtlcm5lbCBzaWduYWxzIHRoZSBzdWJtaXQgZmVuY2UsIHNv
-IHRoYXQgdGhlCj4+IGNvbnN1bWVyIGNhbiBtYWtlIGZvcndhcmQgcHJvZ3Jlc3MuCj4+IC0gSWYg
-dGhlIGNvbnN1bWVyIGNyYXNoZXMsIHRoZSBrZXJuZWwgc2lnbmFscyB0aGUgcmV0dXJuIGZlbmNl
-LCBzbyB0aGF0IHRoZQo+PiBwcm9kdWNlciBjYW4gcmVjbGFpbSB0aGUgYnVmZmVyLgo+IFNvIGZv
-ciBrZXJuZWwgYmFzZWQgc3luYyBpbW8gc2ltcGxlc3QgaXMgdG8ganVzdCByZXVzZSBkbWFfZmVu
-Y2UsIHNhbWUKPiBydWxlcyBhcHBseS4KPgo+IEZvciB1c2Vyc3BhY2UgZmVuY2luZyB0aGUga2Vy
-bmVsIHNpbXBseSBkb2Vzbid0IGNhcmUgaG93IHN0dXBpZCB1c2Vyc3BhY2UKPiBpcy4gU2VjdXJp
-dHkgY2hlY2tzIGF0IGJvdW5kYXJpZXMgKGUuZy4gY2xpZW50IHZzIGNvbXBvc2l0b3IpIGlzIGFs
-c28KPiB1c2Vyc2VwYWNlJ3MgcHJvYmxlbSBhbmQgY2FuIGJlIGhhbmRsZWQgYnkgZS5nLiAgdGlt
-ZW91dHMgKyBjb25kaXRpb25hbAo+IHJlbmRlcmluZyBvbiB0aGUgY29tcG9zaXRvciBzaWRlLiBU
-aGUgdGltZW91dCBtaWdodCBiZSBpbiB0aGUgY29tcGF0IGdsdWUsCj4gZS5nLiB3aGVuIHdlIHN0
-YWxsIGZvciBhIGRtYV9mZW5jZSB0byBtYXRlcmlhbGl6ZSBmcm9tIGEgZHJtX3N5bmNvYmouIEkK
-PiB0aGluayBpbiB2dWxrYW4gdGhpcyBpcyBkZWZhY3RvIGFscmVhZHkgdXAgdG8gYXBwbGljYXRp
-b25zIHRvIGRlYWwgd2l0aAo+IGVudGlyZWx5IGlmIHRoZXkgZGVhbCB3aXRoIHVudHJ1c3RlZCBm
-ZW5jZXMuCj4KPj4gLSBBIEdQVSBoYW5nIHNpZ25hbHMgYWxsIGZlbmNlcy4gT3RoZXIgZGVhZGxv
-Y2tzIHdpbGwgYmUgaGFuZGxlZCBsaWtlIEdQVQo+PiBoYW5ncy4KPiBOb3BlLCB3ZSBjYW4ndCBq
-dXN0IHNocnVnIG9mZiBhbGwgZGVhZGxvY2tzIHdpdGggImdwdSByZXNldCByb2xscyBpbiIuIEZv
-cgo+IG9uZSwgd2l0aCB1c2Vyc3BhY2UgZmVuY2luZyB0aGUga2VybmVsIGlzbid0IGF3YXJlIG9m
-IGFueSBkZWFkbG9ja3MsIHlvdQo+IGZ1bmRhbWVudGFsbHkgY2FuJ3QgdGVsbCAiaGFzIGRlYWRs
-b2NrZWQiIGZyb20gImlzIHN0aWxsIGRvaW5nIHVzZWZ1bAo+IGNvbXB1dGF0aW9ucyIgYmVjYXVz
-ZSB0aGF0IGFtb3VudHMgdG8gc29sdmluZyB0aGUgaGFsdGluZyBwcm9ibGVtLgo+Cj4gQW55IHBy
-b2dyYW1taW5nIG1vZGVsIHdlIGNvbWUgdXAgd2l0aCB3aGVyZSBib3RoIGtlcm5lbCBhbmQgdXNl
-cnNwYWNlIGFyZQo+IGludm9sdmVkIG5lZWRzIHRvIGNvbWUgdXAgd2l0aCBydWxlcyB3aGVyZSBh
-dCBsZWFzdCBub24tZXZpbCB1c2Vyc3BhY2UKPiBuZXZlciBkZWFkbG9ja3MuIEFuZCBpZiB5b3Ug
-anVzdCBhbGxvdyBib3RoIHRoZW4gaXQncyBwcmV0dHkgZWFzeSB0byBjb21lCj4gdXAgd2l0aCBz
-Y2VuYXJpb3Mgd2hlcmUgYm90aCB1c2Vyc3BhY2UgYW5kIGtlcm5lbCBhbG9uZyBhcmUgZGVhZGxv
-Y2sgZnJlZSwKPiBidXQgaW50ZXJhY3Rpb25zIHJlc3VsdCBpbiBoYW5ncy4gVGhhdCdzIHdoeSB3
-ZSd2ZSByZWNlbnRseSBkb2N1bWVudGVkIGFsbAo+IHRoZSBjb3JuZXIgY2FzZXMgYXJvdW5kIGlu
-ZGVmaW5pdGUgZG1hX2ZlbmNlcywgYW5kIGFsc28gd2h5IHlvdSBjYW4ndCB1c2UKPiBncHUgcGFn
-ZSBmYXVsdHMgY3VycmVudGx5IGFueXRoaW5nIHRoYXQgdXNlcyBkbWFfZmVuY2UgZm9yIHN5bmMu
-Cj4KPiBUaGF0J3Mgd2h5IEkgdGhpbmsgd2l0aCB1c2Vyc3BhY2UgZmVuY2luZyB0aGUga2VybmVs
-IHNpbXBseSBzaG91bGQgbm90IGJlCj4gaW52b2x2ZWQgYXQgYWxsLCBhc2lkZSBmcm9tIHByb3Zp
-ZGluZyBvcHRpbWl6ZWQvYmxvY2tpbmcgY3B1IHdhaXQKPiBmdW5jdGlvbmFsaXR5Lgo+Cj4+IE90
-aGVyIHdpbmRvdyBzeXN0ZW0gcmVxdWVzdHMgY2FuIGZvbGxvdyB0aGUgc2FtZSBpZGVhLgo+Pgo+
-PiBNZXJnZWQgZmVuY2VzIHdoZXJlIG9uZSBmZW5jZSBvYmplY3QgY29udGFpbnMgbXVsdGlwbGUg
-ZmVuY2VzIHdpbGwgYmUKPj4gc3VwcG9ydGVkLiBBIG1lcmdlZCBmZW5jZSBpcyBzaWduYWxsZWQg
-b25seSB3aGVuIGl0cyBmZW5jZXMgYXJlIHNpZ25hbGxlZC4KPj4gVGhlIGNvbnN1bWVyIHdpbGwg
-aGF2ZSB0aGUgb3B0aW9uIHRvIHJlZGVmaW5lIHRoZSB1bnNpZ25hbGxlZCByZXR1cm4gZmVuY2UK
-Pj4gdG8gYSBtZXJnZWQgZmVuY2UuCj4+Cj4+ICoyLjIuIE1vZGVzZXR0aW5nKgo+Pgo+PiBTaW5j
-ZSBhIG1vZGVzZXR0aW5nIGRyaXZlciBjYW4gYWxzbyBiZSB0aGUgY29uc3VtZXIsIHRoZSBwcmVz
-ZW50IGlvY3RsIHdpbGwKPj4gY29udGFpbiBhIHN1Ym1pdCBmZW5jZSBhbmQgYSByZXR1cm4gZmVu
-Y2UgdG9vLiBPbmUgc21hbGwgcHJvYmxlbSB3aXRoIHRoaXMKPj4gaXMgdGhhdCB1c2Vyc3BhY2Ug
-Y2FuIGhhbmcgdGhlIG1vZGVzZXR0aW5nIGRyaXZlciwgYnV0IGluIHRoZW9yeSwgYW55IGxhdGVy
-Cj4+IHByZXNlbnQgaW9jdGwgY2FuIG92ZXJyaWRlIHRoZSBwcmV2aW91cyBvbmUsIHNvIHRoZSB1
-bnNpZ25hbGxlZAo+PiBwcmVzZW50YXRpb24gaXMgbmV2ZXIgdXNlZC4KPj4KPj4KPj4gKjMuIE5l
-dyBtZW1vcnkgbWFuYWdlbWVudCoKPj4KPj4gVGhlIHBlci1CTyBmZW5jZXMgd2lsbCBiZSByZW1v
-dmVkIGFuZCB0aGUga2VybmVsIHdpbGwgbm90IGtub3cgd2hpY2gKPj4gYnVmZmVycyBhcmUgYnVz
-eS4gVGhpcyB3aWxsIHJlZHVjZSBDUFUgb3ZlcmhlYWQgYW5kIGxhdGVuY3kuIFRoZSBrZXJuZWwK
-Pj4gd2lsbCBub3QgbmVlZCBwZXItQk8gZmVuY2VzIHdpdGggZXhwbGljaXQgc3luY2hyb25pemF0
-aW9uLCBzbyB3ZSBqdXN0IG5lZWQKPj4gdG8gcmVtb3ZlIHRoZWlyIGxhc3QgdXNlcjogYnVmZmVy
-IGV2aWN0aW9ucy4gSXQgYWxzbyByZXNvbHZlcyB0aGUgY3VycmVudAo+PiBPT00gZGVhZGxvY2su
-Cj4gV2hhdCdzICJ0aGUgY3VycmVudCBPT00gZGVhZGxvY2siPwo+Cj4+ICozLjEuIEV2aWN0aW9u
-cyoKPj4KPj4gSWYgdGhlIGtlcm5lbCB3YW50cyB0byBtb3ZlIGEgYnVmZmVyLCBpdCB3aWxsIGhh
-dmUgdG8gd2FpdCBmb3IgZXZlcnl0aGluZwo+PiB0byBnbyBpZGxlLCBoYWx0IGFsbCB1c2Vyc3Bh
-Y2UgY29tbWFuZCBzdWJtaXNzaW9ucywgbW92ZSB0aGUgYnVmZmVyLCBhbmQKPj4gcmVzdW1lIGV2
-ZXJ5dGhpbmcuIFRoaXMgaXMgbm90IGV4cGVjdGVkIHRvIGhhcHBlbiB3aGVuIG1lbW9yeSBpcyBu
-b3QKPj4gZXhoYXVzdGVkLiBPdGhlciBtb3JlIGVmZmljaWVudCB3YXlzIG9mIHN5bmNocm9uaXph
-dGlvbiBhcmUgYWxzbyBwb3NzaWJsZQo+PiAoZS5nLiBzeW5jIG9ubHkgb25lIHByb2Nlc3MpLCBi
-dXQgYXJlIG5vdCBkaXNjdXNzZWQgaGVyZS4KPj4KPj4gKjMuMi4gUGVyLXByb2Nlc3MgVlJBTSB1
-c2FnZSBxdW90YSoKPj4KPj4gRWFjaCBwcm9jZXNzIGNhbiBvcHRpb25hbGx5IGFuZCBwZXJpb2Rp
-Y2FsbHkgcXVlcnkgaXRzIFZSQU0gdXNhZ2UgcXVvdGEgYW5kCj4+IGNoYW5nZSBkb21haW5zIG9m
-IGl0cyBidWZmZXJzIHRvIG9iZXkgdGhhdCBxdW90YS4gRm9yIGV4YW1wbGUsIGEgcHJvY2Vzcwo+
-PiBhbGxvY2F0ZWQgMiBHQiBvZiBidWZmZXJzIGluIFZSQU0sIGJ1dCB0aGUga2VybmVsIGRlY3Jl
-YXNlZCB0aGUgcXVvdGEgdG8gMQo+PiBHQi4gVGhlIHByb2Nlc3MgY2FuIGNoYW5nZSB0aGUgZG9t
-YWlucyBvZiB0aGUgbGVhc3QgaW1wb3J0YW50IGJ1ZmZlcnMgdG8KPj4gR1RUIHRvIGdldCB0aGUg
-YmVzdCBvdXRjb21lIGZvciBpdHNlbGYuIElmIHRoZSBwcm9jZXNzIGRvZXNuJ3QgZG8gaXQsIHRo
-ZQo+PiBrZXJuZWwgd2lsbCBjaG9vc2Ugd2hpY2ggYnVmZmVycyB0byBldmljdCBhdCByYW5kb20u
-ICh0aGFua3MgdG8gQ2hyaXN0aWFuCj4+IEtvZW5pZyBmb3IgdGhpcyBpZGVhKQo+Pgo+PiAqMy4z
-LiBCdWZmZXIgZGVzdHJ1Y3Rpb24gd2l0aG91dCBwZXItQk8gZmVuY2VzKgo+Pgo+PiBXaGVuIHRo
-ZSBidWZmZXIgZGVzdHJveSBpb2N0bCBpcyBjYWxsZWQsIGFuIG9wdGlvbmFsIGZlbmNlIGxpc3Qg
-Y2FuIGJlCj4+IHBhc3NlZCB0byB0aGUga2VybmVsIHRvIGluZGljYXRlIHdoZW4gaXQncyBzYWZl
-IHRvIGRlYWxsb2NhdGUgdGhlIGJ1ZmZlci4KPj4gSWYgdGhlIGZlbmNlIGxpc3QgaXMgZW1wdHks
-IHRoZSBidWZmZXIgd2lsbCBiZSBkZWFsbG9jYXRlZCBpbW1lZGlhdGVseS4KPj4gU2hhcmVkIGJ1
-ZmZlcnMgd2lsbCBiZSBoYW5kbGVkIGJ5IG1lcmdpbmcgZmVuY2UgbGlzdHMgZnJvbSBhbGwgcHJv
-Y2Vzc2VzCj4+IHRoYXQgZGVzdHJveSB0aGVtLiBNaXRpZ2F0aW9uIG9mIG1hbGljaW91cyBiZWhh
-dmlvcjoKPj4gLSBJZiB1c2Vyc3BhY2UgZGVzdHJveXMgYSBidXN5IGJ1ZmZlciwgaXQgd2lsbCBn
-ZXQgYSBHUFUgcGFnZSBmYXVsdC4KPj4gLSBJZiB1c2Vyc3BhY2Ugc2VuZHMgZmVuY2VzIHRoYXQg
-bmV2ZXIgc2lnbmFsLCB0aGUga2VybmVsIHdpbGwgaGF2ZSBhCj4+IHRpbWVvdXQgcGVyaW9kIGFu
-ZCB0aGVuIHdpbGwgcHJvY2VlZCB0byBkZWFsbG9jYXRlIHRoZSBidWZmZXIgYW55d2F5Lgo+Pgo+
-PiAqMy40LiBPdGhlciBub3RlcyBvbiBNTSoKPj4KPj4gT3ZlcmNvbW1pdG1lbnQgb2YgR1BVLWFj
-Y2Vzc2libGUgbWVtb3J5IHdpbGwgY2F1c2UgYW4gYWxsb2NhdGlvbiBmYWlsdXJlIG9yCj4+IGlu
-dm9rZSB0aGUgT09NIGtpbGxlci4gRXZpY3Rpb25zIHRvIEdQVS1pbmFjY2Vzc2libGUgbWVtb3J5
-IG1pZ2h0IG5vdCBiZQo+PiBzdXBwb3J0ZWQuCj4+Cj4+IEtlcm5lbCBkcml2ZXJzIGNvdWxkIG1v
-dmUgdG8gdGhpcyBuZXcgbWVtb3J5IG1hbmFnZW1lbnQgdG9kYXkuIE9ubHkgYnVmZmVyCj4+IHJl
-c2lkZW5jeSBhbmQgZXZpY3Rpb25zIHdvdWxkIHN0b3AgdXNpbmcgcGVyLUJPIGZlbmNlcy4KPj4K
-Pj4KPj4KPj4gKjQuIERlcHJlY2F0aW5nIGltcGxpY2l0IHN5bmNocm9uaXphdGlvbioKPj4KPj4g
-SXQgY2FuIGJlIHBoYXNlZCBvdXQgYnkgaW50cm9kdWNpbmcgYSBuZXcgZ2VuZXJhdGlvbiBvZiBo
-YXJkd2FyZSB3aGVyZSB0aGUKPj4gZHJpdmVyIGRvZXNuJ3QgYWRkIHN1cHBvcnQgZm9yIGl0IChs
-aWtlIGEgZHJpdmVyIGZvcmsgd291bGQgZG8pLCBhc3N1bWluZwo+PiB1c2Vyc3BhY2UgaGFzIGFs
-bCB0aGUgY2hhbmdlcyBmb3IgZXhwbGljaXQgc3luY2hyb25pemF0aW9uLiBUaGlzIGNvdWxkCj4+
-IHBvdGVudGlhbGx5IGNyZWF0ZSBhbiBpc29sYXRlZCBwYXJ0IG9mIHRoZSBrZXJuZWwgRFJNIHdo
-ZXJlIGFsbCBkcml2ZXJzCj4+IG9ubHkgc3VwcG9ydCBleHBsaWNpdCBzeW5jaHJvbml6YXRpb24u
-Cj4gMTAtMjAgeWVhcnMgSSdkIHNheSBiZWZvcmUgdGhhdCdzIGV2ZW4gYW4gb3B0aW9uLgo+IC1E
-YW5pZWwKPgo+PiBNYXJlawo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwo+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwKPgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+--===============2088955798==
+Content-Type: multipart/alternative; boundary="0000000000000c7cd205c066caa3"
+
+--0000000000000c7cd205c066caa3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Marek,
+
+On Mon, 19 Apr 2021 at 11:48, Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wrot=
+e:
+
+> *2. Explicit synchronization for window systems and modesetting*
+>
+> The producer is an application and the consumer is a compositor or a
+> modesetting driver.
+>
+> *2.1. The Present request*
+>
+
+So the 'present request' is an ioctl, right? Not a userspace construct like
+it is today? If so, how do we correlate the two?
+
+The terminology is pretty X11-centric so I'll assume that's what you've
+designed against, but Wayland and even X11 carry much more auxiliary
+information attached to a present request than just 'this buffer, this
+swapchain'. Wayland latches a lot of data on presentation, including
+non-graphics data such as surface geometry (so we can have resizes which
+don't suck), window state (e.g. fullscreen or not, also so we can have
+resizes which don't suck), and these requests can also cascade through a
+tree of subsurfaces (so we can have embeds which don't suck). X11 mostly
+just carries timestamps, which is more tractable.
+
+Given we don't want to move the entirety of Wayland into kernel-visible
+objects, how do we synchronise the two streams so they aren't incoherent?
+Taking a rough stab at it whilst assuming we do have
+DRM_IOCTL_NONMODE_PRESENT, this would create a present object somewhere in
+kernel space, which the producer would create and ?? export a FD from, that
+the compositor would ?? import.
+
+As part of the Present request, the producer will pass 2 fences (sync
+> objects) to the consumer alongside the presented DMABUF BO:
+> - The submit fence: Initially unsignalled, it will be signalled when the
+> producer has finished drawing into the presented buffer.
+>
+
+We have already have this in Wayland through dma_fence. I'm relaxed about
+this becoming drm_syncobj or drm_newmappedysncobjthing, it's just a matter
+of typing. X11 has patches to DRI3 to support dma_fence, but they never got
+merged because it was far too invasive to a server which is no longer
+maintained.
+
+
+> - The return fence: Initially unsignalled, it will be signalled when the
+> consumer has finished using the presented buffer.
+>
+
+Currently in Wayland the return fence (again a dma_fence) is generated by
+the compositor and sent as an event when it's done, because we can't have
+speculative/empty/future fences. drm_syncobj would make this possible, but
+so far I've been hesitant because I don't see the benefit to it (more
+below).
+
+
+> Deadlock mitigation to recover from segfaults:
+> - The kernel knows which process is obliged to signal which fence. This
+> information is part of the Present request and supplied by userspace.
+>
+
+Same as today with dma_fence. Less true with drm_syncobj if we're using
+timelines.
+
+
+> - If the producer crashes, the kernel signals the submit fence, so that
+> the consumer can make forward progress.
+>
+
+This is only a change if the producer is now allowed to submit a fence
+before it's flushed the work which would eventually fulfill that fence.
+Using dma_fence has so far isolated us from this.
+
+
+> - If the consumer crashes, the kernel signals the return fence, so that
+> the producer can reclaim the buffer.
+>
+
+'The consumer' is problematic, per below. I think the wording you want is
+'if no references are held to the submitted present object'.
+
+
+> - A GPU hang signals all fences. Other deadlocks will be handled like GPU
+> hangs.
+>
+> Other window system requests can follow the same idea.
+>
+
+Which other window system requests did you have in mind? Again, moving the
+entirety of Wayland's signaling into the kernel is a total non-starter.
+Partly because it means our entire protocol would be subject to the
+kernel's ABI rules, partly because the rules and interdependencies between
+the requests are extremely complex, but mostly because the kernel is just a
+useless proxy: it would be forced to do significant work to reason about
+what those requests do and when they should happen, but wouldn't be able to
+make those decisions itself so would have to just punt everything to
+userspace. Unless we have eBPF compositors.
+
+
+> Merged fences where one fence object contains multiple fences will be
+> supported. A merged fence is signalled only when its fences are signalled=
+.
+> The consumer will have the option to redefine the unsignalled return fenc=
+e
+> to a merged fence.
+>
+
+An elaboration of how this differed from drm_syncobj would be really
+helpful here. I can make some guesses based on the rest of the mail, but
+I'm not sure how accurate they are.
+
+
+> *2.2. Modesetting*
+>
+> Since a modesetting driver can also be the consumer, the present ioctl
+> will contain a submit fence and a return fence too. One small problem wit=
+h
+> this is that userspace can hang the modesetting driver, but in theory, an=
+y
+> later present ioctl can override the previous one, so the unsignalled
+> presentation is never used.
+>
+
+This is also problematic. It's not just KMS, but media codecs too - V4L
+doesn't yet have explicit fencing, but given the programming model of
+codecs and how deeply they interoperate, but it will.
+
+Rather than client (GPU) -> compositor (GPU) -> compositor (KMS), imagine
+you're playing a Steam game on your Chromebook which you're streaming via
+Twitch or whatever. The full chain looks like:
+* Steam game renders with GPU
+* Xwayland in container receives dmabuf, forwards dmabuf to Wayland server
+(does not directly consume)
+* Wayland server (which is actually Chromium) receives dmabuf, forwards
+dmabuf to Chromium UI process
+* Chromium UI process forwards client dmabuf to KMS for direct scanout
+* Chromium UI process _also_ forwards client dmabuf to GPU process
+* Chromium GPU process composites Chromium UI + client dmabuf + webcam
+frame from V4L to GPU composition job
+* Chromium GPU process forwards GPU composition dmabuf (not client dmabuf)
+to media codec for streaming
+
+So, we don't have a 1:1 producer:consumer relationship. Even if we accept
+it's 1:n, your Chromebook is about to burst into flames and we're dropping
+frames to try to keep up. Some of the consumers are FIFO (the codec wants
+to push things through in order), and some of them are mailbox (the display
+wants to get the latest content, not from half a second ago before the
+other player started jumping around and now you're dead). You can't reason
+about any of these dependencies ahead of time from a producer PoV, because
+userspace will be making these decisions frame by frame. Also someone's
+started using the Vulkan present-timing extension because life wasn't
+confusing enough already.
+
+As Christian and Daniel were getting at, there are also two 'levels' of
+explicit synchronisation.
+
+The first (let's call it 'blind') is plumbing a dma_fence through to be
+passed with the dmabuf. When the client submits a buffer for presentation,
+it submits a dma_fence as well. When the compositor is finished with it
+(i.e. has flushed the last work which will source from that buffer), it
+passes a dma_fence back to the client, or no fence if required (buffer was
+never accessed, or all accesses are known to be fully retired e.g. the last
+fence accessing it has already signaled). This is just a matter of typing,
+and is supported by at least Weston. It implies no scheduling change over
+implicit fencing in that the compositor can be held hostage by abusive
+clients with a really long compute shader in their dependency chain: all
+that's happening is that we're plumbing those synchronisation tokens
+through userspace instead of having the kernel dig them up from dma_resv.
+But we at least have a no-deadlock guarantee, because a dma_fence will
+complete in bounded time.
+
+The second (let's call it 'smart') is ... much more than that. Not only
+does the compositor accept and generate explicit synchronisation points for
+the client, but those synchronisation points aren't dma_fences, but may be
+wait-before-signal, or may be wait-never-signal. So in order to avoid a
+terminal deadlock, the compositor has to sit on every synchronisation point
+and check before it flushes any dependent work that it has signaled, or
+will at least signal in bounded time. If that guarantee isn't there, you
+have to punt and see if anything happens at your next repaint point. We
+don't currently have this support in any compositor, and it's a lot more
+work than blind.
+
+Given the interdependencies I've described above for Wayland - say a resize
+case, or when a surface commit triggers a cascade of subsurface commits -
+GPU-side conditional rendering is not always possible. In those cases, you
+_must_ do CPU-side waits and keep both sets of state around. Pain.
+
+Typing all that out has convinced me that the current proposal is a net
+loss in every case.
+
+Complex rendering uses (game engine with a billion draw calls, a billion
+BOs, complex sync dependencies, wait-before-signal and/or conditional
+rendering/descriptor indexing) don't need the complexity of a present ioctl
+and checking whether other processes have crashed or whatever. They already
+have everything plumbed through for this themselves, and need to implement
+so much infrastructure around it that they don't need much/any help from
+the kernel. Just give them a sync primitive with almost zero guarantees
+that they can map into CPU & GPU address space, let them go wild with it.
+drm_syncobj_plus_footgun. Good luck.
+
+Simple presentation uses (desktop, browser, game) don't need the
+hyperoptimisation of sync primitives. Frame times are relatively long, and
+you can only have so many surfaces which aren't occluded. Either you have a
+complex scene to composite, in which case the CPU overhead of something
+like dma_fence is lower than the CPU overhead required to walk through a
+single compositor repaint cycle anyway, or you have a completely trivial
+scene to composite and you can absolutely eat the overhead of exporting and
+scheduling like two fences in 10ms.
+
+Complex presentation uses (out-streaming, media sources, deeper
+presentation chains) make the trivial present ioctl so complex that its
+benefits evaporate. Wait-before-signal pushes so much complexity into the
+compositor that you have to eat a lot of CPU overhead there and lose your
+ability to do pipelined draws because you have to hang around and see if
+they'll ever complete. Cross-device usage means everyone just ends up
+spinning on the CPU instead.
+
+So, can we take a step back? What are the problems we're trying to solve?
+If it's about optimising the game engine's internal rendering, how would
+that benefit from a present ioctl instead of current synchronisation?
+
+If it's about composition, how do we balance the complexity between the
+kernel and userspace? What's the global benefit from throwing our hands in
+the air and saying 'you deal with it' to all of userspace, given that
+existing mailbox systems making frame-by-frame decisions already preclude
+deep/speculative pipelining on the client side?
+
+Given that userspace then loses all ability to reason about presentation if
+wait-before-signal becomes a thing, do we end up with a global performance
+loss by replacing the overhead of kernel dma_fence handling with userspace
+spinning on a page? Even if we micro-optimise that by allowing userspace to
+be notified on access, is the overhead of pagefault -> kernel signal
+handler -> queue signalfd notification -> userspace event loop -> read page
+& compare to expected value, actually better than dma_fence?
+
+Cheers,
+Daniel
+
+--0000000000000c7cd205c066caa3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Marek,</div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 19 Apr 2021 at 11:48, Ma=
+rek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:maraeo@gmail.com" target=3D"_blan=
+k">maraeo@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><div dir=3D"ltr"><div><b>2. Explicit synchronization for=
+ window systems and modesetting</b><br></div><div><br></div><div>The produc=
+er is an application and the consumer is a compositor or a modesetting driv=
+er.<br></div><div><br></div><div><b>2.1. The Present request</b></div></div=
+></blockquote><div><br></div><div>So the &#39;present request&#39; is an io=
+ctl, right? Not a userspace construct like it is today? If so, how do we co=
+rrelate the two?</div><div><br></div><div>The terminology is pretty X11-cen=
+tric so I&#39;ll assume that&#39;s what you&#39;ve designed against, but Wa=
+yland and even X11 carry much more auxiliary information attached to a pres=
+ent request than just &#39;this buffer, this swapchain&#39;. Wayland latche=
+s a lot of data on presentation,=C2=A0including non-graphics data such as s=
+urface geometry (so we can have resizes which don&#39;t suck), window state=
+ (e.g. fullscreen or not, also so we can have resizes which don&#39;t suck)=
+, and these requests can also cascade through a tree of subsurfaces (so we =
+can have embeds which don&#39;t suck).=C2=A0X11 mostly just carries timesta=
+mps, which is more tractable.</div><div><br></div><div>Given we don&#39;t w=
+ant to move the entirety of Wayland into kernel-visible objects, how do we =
+synchronise the two streams so they aren&#39;t incoherent? Taking a rough s=
+tab at it whilst assuming we do have DRM_IOCTL_NONMODE_PRESENT, this would =
+create a present object somewhere in kernel space, which the producer would=
+ create and ?? export a FD from, that the compositor would ?? import.</div>=
+<div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div>As part of the Present request, the producer will pass 2 fenc=
+es (sync objects) to the consumer alongside the presented DMABUF BO:</div><=
+div>- The submit fence: Initially unsignalled, it will be signalled when th=
+e producer has finished drawing into the presented buffer.<br></div></div><=
+/blockquote><div><br></div><div>We have already have this in Wayland throug=
+h dma_fence. I&#39;m relaxed about this becoming drm_syncobj or drm_newmapp=
+edysncobjthing, it&#39;s just a matter of typing. X11 has patches to DRI3 t=
+o support dma_fence, but they never got merged because it was far too invas=
+ive to a server which is no longer maintained.</div><div>=C2=A0</div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div></div><di=
+v>- The return fence: Initially unsignalled, it will be signalled when the =
+consumer has finished using the presented buffer.</div></div></blockquote><=
+div><br></div><div>Currently in Wayland the return fence (again a dma_fence=
+) is generated by the compositor and sent as an event when it&#39;s done, b=
+ecause we can&#39;t have speculative/empty/future fences. drm_syncobj would=
+ make this possible, but so far I&#39;ve been hesitant because I don&#39;t =
+see the benefit to it (more below).</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Deadlock mitigation =
+to recover from segfaults:</div><div>- The kernel knows which process is ob=
+liged to signal which fence. This information is part of the Present reques=
+t and supplied by userspace.<br></div></div></blockquote><div><br></div><di=
+v>Same as today with dma_fence. Less true with drm_syncobj if we&#39;re usi=
+ng timelines.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"ltr"><div></div><div>- If the producer crashes, the =
+kernel signals the submit fence, so that the consumer can make forward prog=
+ress.</div></div></blockquote><div><br></div><div>This is only a change if =
+the producer is now allowed to submit a fence before it&#39;s flushed the w=
+ork which would eventually fulfill that fence. Using dma_fence has so far i=
+solated us from this.</div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><div dir=3D"ltr"><div>- If the consumer crashes, the ker=
+nel signals the return fence, so that the producer can reclaim the buffer.<=
+/div></div></blockquote><div><br></div><div>&#39;The consumer&#39; is probl=
+ematic, per below. I think the wording you want is &#39;if no references ar=
+e held to the submitted present object&#39;.</div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>- A GPU han=
+g signals all fences. Other deadlocks will be handled like GPU hangs.<br></=
+div><div><br></div><div>Other window system requests can follow the same id=
+ea.</div></div></blockquote><div><br></div><div>Which other window system r=
+equests did you have in mind? Again, moving the entirety of Wayland&#39;s s=
+ignaling into the kernel is a total non-starter. Partly because it means ou=
+r entire protocol would be subject to the kernel&#39;s ABI rules, partly be=
+cause the rules and interdependencies between the requests are extremely co=
+mplex, but mostly because the kernel is just a useless proxy: it would be f=
+orced to do significant work to reason about what those requests do and whe=
+n they should happen, but wouldn&#39;t be able to make those decisions itse=
+lf so would have to just punt everything to userspace. Unless we have eBPF =
+compositors.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"ltr"><div><div>Merged fences where one fence object =
+contains multiple fences will be supported. A merged fence is signalled onl=
+y when its fences are signalled. The consumer will have the option to redef=
+ine the unsignalled return fence to a merged fence.</div></div></div></bloc=
+kquote><div><br></div><div>An elaboration of how this differed from drm_syn=
+cobj would be really helpful here. I can make some guesses based on the res=
+t of the mail, but I&#39;m not sure how accurate they are.</div><div>=C2=A0=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
+iv><b>2.2. Modesetting</b><br></div><div><br></div><div>Since a modesetting=
+ driver can also be the consumer, the present ioctl will contain a submit f=
+ence and a return fence too.  One small problem with this is that userspace=
+ can hang the modesetting=20
+driver, but in theory, any later present ioctl can override the previous on=
+e, so the unsignalled presentation is never used.</div></div></blockquote><=
+div><br></div><div>This is also problematic. It&#39;s not just KMS, but med=
+ia codecs too - V4L doesn&#39;t yet have explicit fencing, but given the pr=
+ogramming model of codecs and how deeply they interoperate, but it will.</d=
+iv><div><br></div><div>Rather than client (GPU) -&gt; compositor (GPU) -&gt=
+; compositor (KMS), imagine you&#39;re playing a Steam game on your Chromeb=
+ook which you&#39;re streaming via Twitch or whatever. The full chain looks=
+ like:</div><div>* Steam game renders with GPU</div><div>* Xwayland in cont=
+ainer receives dmabuf, forwards dmabuf to Wayland server (does not directly=
+ consume)</div><div>* Wayland server (which is actually Chromium) receives =
+dmabuf, forwards dmabuf to Chromium UI process</div><div>* Chromium UI proc=
+ess forwards client dmabuf to KMS for direct scanout</div><div>* Chromium U=
+I process _also_ forwards client dmabuf to GPU process</div><div>* Chromium=
+ GPU process composites Chromium UI=C2=A0+ client dmabuf=C2=A0+ webcam fram=
+e from V4L to GPU composition job</div><div>* Chromium GPU process forwards=
+ GPU composition dmabuf (not client dmabuf) to media codec for streaming</d=
+iv><div><br></div><div>So, we don&#39;t have a 1:1 producer:consumer relati=
+onship. Even if we accept it&#39;s 1:n, your Chromebook is about to burst i=
+nto flames and we&#39;re dropping frames to try to keep up. Some of the con=
+sumers are FIFO (the codec wants to push things through in order), and some=
+ of them are mailbox (the display wants to get the latest content, not from=
+ half a second ago before the other player started jumping around and now y=
+ou&#39;re dead). You can&#39;t reason about any of these dependencies ahead=
+ of time from a producer PoV, because userspace will be making these decisi=
+ons frame by frame. Also someone&#39;s started using the Vulkan present-tim=
+ing extension because life wasn&#39;t confusing enough already.</div><div><=
+br></div><div>As Christian and Daniel were getting at, there are also two &=
+#39;levels&#39; of explicit synchronisation.</div><div><br></div><div>The f=
+irst (let&#39;s call it &#39;blind&#39;) is plumbing a dma_fence through to=
+ be passed with the dmabuf. When the client submits a buffer for presentati=
+on, it submits a dma_fence as well. When the compositor is finished with it=
+ (i.e. has flushed the last work which will source from that buffer), it pa=
+sses a dma_fence back to the client, or no fence if required (buffer was ne=
+ver accessed, or all accesses are known to be fully retired e.g. the last f=
+ence accessing it has already signaled). This is just a matter of typing, a=
+nd is supported by at least Weston. It implies no scheduling change over im=
+plicit fencing in that the compositor can be held hostage by abusive client=
+s with a really long compute shader in their dependency chain: all that&#39=
+;s happening is that we&#39;re plumbing those synchronisation tokens throug=
+h userspace instead of having the kernel dig them up from dma_resv. But we =
+at least have a no-deadlock guarantee, because a dma_fence will complete in=
+ bounded time.</div><div><br></div><div>The second (let&#39;s call it &#39;=
+smart&#39;) is ... much more than that. Not only does the compositor accept=
+ and generate explicit synchronisation points for the client, but those syn=
+chronisation points aren&#39;t dma_fences, but may be wait-before-signal, o=
+r may be wait-never-signal. So in order to avoid a terminal deadlock, the c=
+ompositor has to sit on every synchronisation point and check before it flu=
+shes any dependent work that it has signaled, or will at least signal in bo=
+unded time. If that guarantee isn&#39;t there, you have to punt and see if =
+anything happens at your next repaint point. We don&#39;t currently have th=
+is support in any compositor, and it&#39;s a lot more work than blind.</div=
+><div><br></div><div>Given the interdependencies I&#39;ve described above f=
+or Wayland - say a resize case, or when a surface commit triggers a cascade=
+ of subsurface commits - GPU-side conditional rendering is not always possi=
+ble. In those cases, you _must_ do CPU-side waits and keep both sets of sta=
+te around. Pain.</div><div><br></div><div>Typing all that out has convinced=
+ me that the current proposal is a net loss in every case.</div><div><br></=
+div><div>Complex rendering uses (game engine with a billion draw calls, a b=
+illion BOs, complex sync dependencies, wait-before-signal and/or conditiona=
+l rendering/descriptor indexing) don&#39;t need the complexity of a present=
+ ioctl and checking whether other processes have crashed or whatever. They =
+already have everything plumbed through for this themselves, and need to im=
+plement so much infrastructure around it that they don&#39;t need much/any =
+help from the kernel. Just give them a sync primitive with almost zero guar=
+antees that they can map into CPU &amp; GPU address space, let them go wild=
+ with it. drm_syncobj_plus_footgun. Good luck.</div><div><br></div><div>Sim=
+ple presentation uses (desktop, browser, game) don&#39;t need the hyperopti=
+misation of sync primitives. Frame times are relatively long, and you can o=
+nly have so many surfaces which aren&#39;t occluded. Either you have a comp=
+lex scene to composite, in which case the CPU overhead of something like dm=
+a_fence is lower than the CPU overhead required to walk through a single co=
+mpositor repaint cycle anyway, or you have a completely trivial scene to co=
+mposite and you can absolutely eat the overhead of exporting and scheduling=
+ like two fences in 10ms.</div><div><span><br></span></div><div><span>Compl=
+ex presentation uses (out-streaming, media sources, deeper presentation cha=
+ins) make the trivial present ioctl so complex that its benefits evaporate.=
+ Wait-before-signal pushes so much complexity into the compositor that you =
+have to eat a lot of CPU overhead there and lose your ability to do pipelin=
+ed draws because you have to hang around and see if they&#39;ll ever comple=
+te. Cross-device usage means everyone just ends up spinning on the CPU inst=
+ead.</span></div><div><span><br></span></div><div><span>So, can we take a s=
+tep back? What are the problems we&#39;re trying to solve? If it&#39;s abou=
+t optimising the game engine&#39;s internal rendering, how would that benef=
+it from a present ioctl instead of current synchronisation?</span></div><di=
+v><span><br></span></div><div><span>If it&#39;s about composition, how do w=
+e balance the complexity between the kernel and userspace? What&#39;s the g=
+lobal benefit from throwing our hands in the air and saying &#39;you deal w=
+ith it&#39; to all of userspace, given that existing mailbox systems making=
+ frame-by-frame decisions already preclude deep/speculative pipelining on t=
+he client side?</span></div><div><span><br></span></div><div><span>Given th=
+at userspace then loses all ability to reason about presentation if wait-be=
+fore-signal becomes a thing, do we end up with a global performance loss by=
+ replacing the overhead of kernel dma_fence handling with userspace spinnin=
+g on a page? Even if we micro-optimise that by allowing userspace to be not=
+ified on access, is the overhead of pagefault -&gt; kernel signal handler -=
+&gt; queue signalfd notification -&gt; userspace event loop -&gt; read page=
+ &amp; compare to expected value, actually better than dma_fence?</span></d=
+iv><div><span><br></span></div><div><span>Cheers,</span></div><div><span>Da=
+niel=C2=A0</span></div></div></div>
+
+--0000000000000c7cd205c066caa3--
+
+--===============2088955798==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2088955798==--
