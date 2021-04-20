@@ -2,46 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3607E36596F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 15:01:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3271365979
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 15:04:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 022AD6E0AC;
-	Tue, 20 Apr 2021 13:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C85A6E4FF;
+	Tue, 20 Apr 2021 13:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 354846E0AC
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 13:01:27 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D117B613CE
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 13:01:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618923686;
- bh=rtORbGc3mPMhlArrUrjghPvRhVtKXaf7d9TRrasS6l0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=VMumAygSE2Ss89tpuyftaMuLsWVlHbuUiOCbE8Ai7UM5E6RsNHIG9Vf4xtaC5qwKr
- O/qTpB4pkucmnZ3hez0dd3jHy+B2ziZ24j2pdzihRTrnG631AEEeFTonndrokzneRV
- fAlejQkAack3j+VindxNlgBzaFt6E33gc8tfDylJhzkcXhrUMNnxV+lZ6QtSmdN5EQ
- +1QNhVUNNq7EWbL1+0+jlludkTmVA2DTA/EPQmmN7+A2XDrkH6E/Edh5Is/S5zN1UY
- Dm+m093pRdDh3yhZFuuV6lxhG7ADpLJlcxGCBoTiokyTGU3rhh236EaQmxjuveju2R
- kvvrKuGcEAYbA==
-Received: by mail-qk1-f171.google.com with SMTP id t17so10687253qkg.4
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 06:01:26 -0700 (PDT)
-X-Gm-Message-State: AOAM531KoyQgh1UNhC4tpEWJiLqORjtFEvSJeAQVQ9W8xuW2VQ6paLSt
- VM33FP8sJOSQ1UBoX0Kpmo3mZ1Z9rWDy3tsucA==
-X-Google-Smtp-Source: ABdhPJytCtVfQJCSrxQnJlrByY2ajWXURyVePKmlcnaE97mOqQU4IvcMx9ee78uVQZawM9qyCusf98X4PqudjDjJq+I=
-X-Received: by 2002:ae9:f819:: with SMTP id x25mr9783240qkh.68.1618923685847; 
- Tue, 20 Apr 2021 06:01:25 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B808D6E4FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 13:04:19 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id g9so21505741wrx.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 06:04:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RzBZsXzT2dX5XnPwZH8kl1Gl66Kr/BRGxEjT+od0hGg=;
+ b=Ho3FN0Pwcadait9yqH5B1GLhyJ2V3LecZnUAFNU55tvTeGQUy0tJl75PxuGOdm0w54
+ cq/CdtXItSnbIvTquqYBVeKumgBWWfeVXXlhSUpkZN9YSeaO7Q3FM2cmBUR9Z6KgcBia
+ BWGkC7MVbs6RouJPZsr/GO60PQ3rzXCb4rZpTlZvkHA5n502WL1j6GxBKrh0jilUTCfv
+ 4CkjGkDvcJgtRqy0ltquT2WhQDfWYr22yTAELoYLReuPSitBtnWChcnKPUdXl7Oh0KEJ
+ /qRp5Icl3lRHeZ6xbprG+b9n5ERzVy0g+4T8lFbtVBH3HBUTeWqaafBFluyeiztb8D0+
+ SQyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RzBZsXzT2dX5XnPwZH8kl1Gl66Kr/BRGxEjT+od0hGg=;
+ b=ElCv3jh9aZOkjb0WNfSiGb/TMkqmmCG5AAxsfKLQz8FuEImPI9iyCtYTDBPWzBKZg2
+ 9uyC6HZWcEejwPfzOpV57mS+NcKXgAK5yVwJtIq1uAhnfawOfupjHSw1K72oPaH8TzDi
+ HaeVywuwo68vzptyTo5B7GyvT7i0OMTe2T8ruBi7chMHgsyUjSCpEEguCnaYZ2CrE/Pc
+ RK0AiHbB8y+wu0tCzC7M+l25oZ70nN+CHB4P+mRyGE9GaaaKhI/8zsxxMQKNll//4b9T
+ jZqmTo1fxpAir67kr3CkWjFQEAhxLgjBkOGPGLYGlTJq1VOw+xkY6lyvj3pQh5aRB2H+
+ m6rQ==
+X-Gm-Message-State: AOAM531yMWvLgXZs0zsAp1x7iJG+VCAn/qNfFFpf9SHfgC3TENjs6wvM
+ 5Gfwfd+gvsaT6sAhhyRpgJF6MYIpBR1GIH8oW7XGvA==
+X-Google-Smtp-Source: ABdhPJw5t9rpbWa2xPIfIdCqvEdhqubgZ8i9qpbd7tvUoTbq9yt0l0da36hamI0bTLqPS+wvq+RBwGSwpmqujq6m7NY=
+X-Received: by 2002:adf:eb0a:: with SMTP id s10mr20818682wrn.6.1618923858319; 
+ Tue, 20 Apr 2021 06:04:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210126011759.1605641-1-drinkcat@chromium.org>
- <20210126091747.v11.1.Ie74d3355761aab202d4825ac6f66d990bba0130e@changeid>
-In-Reply-To: <20210126091747.v11.1.Ie74d3355761aab202d4825ac6f66d990bba0130e@changeid>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 20 Apr 2021 08:01:13 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+gWm+94zF1XN2KiRYgAZewiDkCk5B5bhLB=M+-HbD=fA@mail.gmail.com>
-Message-ID: <CAL_Jsq+gWm+94zF1XN2KiRYgAZewiDkCk5B5bhLB=M+-HbD=fA@mail.gmail.com>
-Subject: Re: [PATCH v11 1/4] dt-bindings: gpu: mali-bifrost: Add Mediatek
- MT8183
-To: Nicolas Boichat <drinkcat@chromium.org>
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+ <YH7CmXyKFFh3lagO@phenom.ffwll.local>
+In-Reply-To: <YH7CmXyKFFh3lagO@phenom.ffwll.local>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 20 Apr 2021 14:03:32 +0100
+Message-ID: <CAPj87rOhAfLRpRCAgNnCB+dW3vuyVuZK6h3EHdxA-wrH8LxuuQ@mail.gmail.com>
+Subject: Re: [RFC] Linux Graphics Next: Explicit fences everywhere and no BO
+ fences - initial proposal
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,127 +63,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Fei Shao <fshao@chromium.org>, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Content-Type: multipart/mixed; boundary="===============1784454742=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 25, 2021 at 7:18 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
->
-> Define a compatible string for the Mali Bifrost GPU found in
-> Mediatek's MT8183 SoCs.
->
-> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> ---
->
-> Changes in v11:
->  - binding: power-domain-names not power-domainS-names
->
-> Changes in v10:
->  - Fix the binding to make sure sram-supply property can be provided.
->
-> Changes in v9: None
-> Changes in v8: None
-> Changes in v7: None
-> Changes in v6:
->  - Rebased, actually tested with recent mesa driver.
->
-> Changes in v5:
->  - Rename "2d" power domain to "core2"
->
-> Changes in v4:
->  - Add power-domain-names description
->    (kept Alyssa's reviewed-by as the change is minor)
->
-> Changes in v3: None
-> Changes in v2: None
->
->  .../bindings/gpu/arm,mali-bifrost.yaml        | 28 +++++++++++++++++++
->  1 file changed, 28 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index 184492162e7e..3e758f88e2cd 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -17,6 +17,7 @@ properties:
->      items:
->        - enum:
->            - amlogic,meson-g12a-mali
-> +          - mediatek,mt8183-mali
->            - realtek,rtd1619-mali
->            - rockchip,px30-mali
->        - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-> @@ -41,6 +42,8 @@ properties:
->
->    mali-supply: true
->
-> +  sram-supply: true
-> +
->    operating-points-v2: true
->
->    power-domains:
-> @@ -87,6 +90,31 @@ allOf:
->      then:
->        required:
->          - resets
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8183-mali
-> +    then:
-> +      properties:
-> +        power-domains:
-> +          description:
-> +            List of phandle and PM domain specifier as documented in
-> +            Documentation/devicetree/bindings/power/power_domain.txt
-> +          minItems: 3
-> +          maxItems: 3
+--===============1784454742==
+Content-Type: multipart/alternative; boundary="0000000000007e6ce005c0671530"
 
-This won't work because the top level schema restricts this to 1. The
-top level needs to say:
+--0000000000007e6ce005c0671530
+Content-Type: text/plain; charset="UTF-8"
 
-power-domains:
-  minItems: 1
-  maxItems: 3
+Hi,
 
-And you need just 'minItems: 3' here and 'maxItems: 1' in the else clause.
+On Tue, 20 Apr 2021 at 13:01, Daniel Vetter <daniel@ffwll.ch> wrote:
 
-And drop the description. That's every 'power-domains' property.
-
-> +        power-domain-names:
-> +          items:
-> +            - const: core0
-> +            - const: core1
-> +            - const: core2
-
-Blank line
-
-> +      required:
-> +        - sram-supply
-> +        - power-domains
-> +        - power-domain-names
-> +    else:
-> +      properties:
-> +        sram-supply: false
+> - We live in a post xf86-video-$vendor world, and all these other
+>   compositors rely on implicit sync. You're not going to be able to get
+>   rid of them anytime soon. What's worse, all the various EGL/vk buffer
+>   sharing things also rely on implicit sync, so you get to fix up tons of
+>   applications on top. Any plan that's realistic needs to cope with
+>   implicit/explicit at the same time together won't work.
 >
->  examples:
->    - |
-> --
-> 2.30.0.280.ga3ce27912f-goog
+> - Absolute infuriating, but you can't use page-faulting together with any
+>   dma_fence synchronization primitives, whether implicit or explicit. This
+>   means until the entire ecosystem moved forward (good luck with that) we
+>   have to support dma_fence. The only sync model that works together with
+>   page faults is userspace fence based sync.
 >
+This should get rid of the oversync issues, and since implicit sync is
+> backed in everywhere right now, you'll have to deal with implicit sync for
+> a very long time.
+>
+
+Depends what you mean by 'implicit sync'. ;)
+
+Getting userspace (Vulkan WSI, EGL, Wayland compositors, browsers, media
+clients) over to explicit sync is easy, _provided_ that the explicit sync
+gives us the same guarantees as implicit sync, i.e. completes in bounded
+time, GPU/display work can be flushed to the kernel predicated on fence
+completion with the kernel handling synchronisation and scheduling. It's
+just a matter of typing, and until now we haven't had a great reason to do
+that typing. Now we do have that reason, so we are implementing it. Whether
+it's dma_fence or drm_syncobj is mostly immaterial; we can encode in
+protocol requirements that you can't try to use wait-before-signal with
+drm_syncobj and you'll get killed if you try.
+
+Getting that userspace over to fully userspace-based sync
+(wait-before-signal or wait-never-signal, no kernel assistance but you just
+have to roll your own polling or signal handling on either CPU or GPU side)
+is not easy. It might never happen, because it's an extraordinary amount of
+work, introduces a huge amount of fragility into a super-critical path, and
+and so far it's not clear that it's a global performance improvement for
+the whole system, just shifting performance problems from kernel to
+userspace, and probably (AFAICT) making them worse in addition to the other
+problems it brings.
+
+What am I missing?
+
+Cheers,
+Daniel
+
+--0000000000007e6ce005c0671530
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi,</div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Tue, 20 Apr 2021 at 13:01, Daniel V=
+etter &lt;<a href=3D"mailto:daniel@ffwll.ch">daniel@ffwll.ch</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">- We live in a =
+post xf86-video-$vendor world, and all these other<br>
+=C2=A0 compositors rely on implicit sync. You&#39;re not going to be able t=
+o get<br>
+=C2=A0 rid of them anytime soon. What&#39;s worse, all the various EGL/vk b=
+uffer<br>
+=C2=A0 sharing things also rely on implicit sync, so you get to fix up tons=
+ of<br>
+=C2=A0 applications on top. Any plan that&#39;s realistic needs to cope wit=
+h<br>
+=C2=A0 implicit/explicit at the same time together won&#39;t work.<br>
+<br>
+- Absolute infuriating, but you can&#39;t use page-faulting together with a=
+ny<br>
+=C2=A0 dma_fence synchronization primitives, whether implicit or explicit. =
+This<br>
+=C2=A0 means until the entire ecosystem moved forward (good luck with that)=
+ we<br>
+=C2=A0 have to support dma_fence. The only sync model that works together w=
+ith<br>
+=C2=A0 page faults is userspace fence based sync.<span style=3D"">=C2=A0</s=
+pan><br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This=
+ should get rid of the oversync issues, and since implicit sync is<br>
+backed in everywhere right now, you&#39;ll have to deal with implicit sync =
+for<br>
+a very long time.<br></blockquote><div><br></div><div>Depends what you mean=
+ by &#39;implicit sync&#39;. ;)</div><div><br></div><div>Getting userspace=
+=C2=A0(Vulkan WSI, EGL, Wayland compositors, browsers, media clients) over =
+to explicit sync is easy, _provided_ that the explicit sync gives us the sa=
+me guarantees as implicit sync, i.e. completes in bounded time, GPU/display=
+ work can be flushed to the kernel predicated on fence completion with the =
+kernel handling synchronisation and scheduling. It&#39;s just a matter of t=
+yping, and until now we haven&#39;t had a great reason to do that typing. N=
+ow we do have that reason, so we are implementing it. Whether it&#39;s dma_=
+fence or drm_syncobj is mostly immaterial; we can encode in protocol requir=
+ements that you can&#39;t try to use wait-before-signal with drm_syncobj an=
+d you&#39;ll get killed if you try.</div><div><br></div><div>Getting that u=
+serspace over to fully userspace-based sync (wait-before-signal or wait-nev=
+er-signal, no kernel assistance but you just have to roll your own polling =
+or signal handling on either CPU or GPU side) is not easy. It might never h=
+appen, because it&#39;s an extraordinary amount of work, introduces a huge =
+amount of fragility into a super-critical path, and and so far it&#39;s not=
+ clear that it&#39;s a global performance improvement for the whole system,=
+ just shifting performance problems from kernel to userspace, and probably =
+(AFAICT) making them worse in addition to the other problems it brings.</di=
+v><div><br></div><div>What am I missing?</div><div><br></div><div>Cheers,</=
+div><div>Daniel</div></div></div>
+
+--0000000000007e6ce005c0671530--
+
+--===============1784454742==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1784454742==--
