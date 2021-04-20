@@ -1,58 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53689365518
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:15:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 096B336551E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 11:16:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83D8D6E4CA;
-	Tue, 20 Apr 2021 09:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18A626E4E3;
+	Tue, 20 Apr 2021 09:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA746E4D0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:14:58 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id i3so18459202edt.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 02:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dDLj435FJMgcHMaZd0a0zuW5fuAcU2aysUyArWhQuts=;
- b=NuoG+QINVS+BPXIBxMGFC/Raj89b//b09Ra0dUEJVuf771afdMBlFZHK/UR92mf81J
- 7vX4/cWulGt3c2tKbmZUtRSPzxbhcwBbm6IusAPBUW5EfQIZ2z9kNINF32owD6W8MZ0j
- g0a4P1nOSW3HgUQeNiGdMu2E+JgUYPP6sbpDA=
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+ [209.85.217.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6394A6E4D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 09:16:22 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id d25so12389928vsp.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 02:16:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dDLj435FJMgcHMaZd0a0zuW5fuAcU2aysUyArWhQuts=;
- b=NhbdFKOJ7am3NitO+jub6UpyGmUVpsdxICNeAdbp4xGoEI2QL9ZxactLSHykQK4b00
- x+BNZquKKja6AspxKqGEJjkdS2J1FPHf/Vw2grV3K7N0DeAPAvYxyUHYh+3NDrxWVV/M
- uuNutGmlLU9EiGOswUtFs7/RH40q/IDXiCgWl5kREA0S5hiFju5DuBwnFornWHOveONs
- I+Hlwm9rPBDzmwQ48fyHX0KE5Mu1jdUWgT6go5Tw9ao1iDArRXxNwiCxWe0h/jrwDLGO
- 6wxM8QGCmD6MZKMRLTI877y9O9OoXg/YsX8mbr/ku/vL1v5vHmBTebwxjEnOdH/G34pZ
- LLyg==
-X-Gm-Message-State: AOAM5300SPUS1nhJQuzYWDlko3cgwlgDYtxGnsLxogy7sWt0QeHjAZvs
- W7keOKunmhZ91V93yT4AU6Omog==
-X-Google-Smtp-Source: ABdhPJzV4lwY3iOa44gfO+oUTYnxBFLQdQr8pp21pYL/1rShKgNxEaS68+F/ekk56dG40O6/zUyUuw==
-X-Received: by 2002:aa7:c40b:: with SMTP id j11mr31277776edq.219.1618910097038; 
- Tue, 20 Apr 2021 02:14:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id by27sm11842302ejc.47.2021.04.20.02.14.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 02:14:56 -0700 (PDT)
-Date: Tue, 20 Apr 2021 11:14:54 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/connector: demote connector force-probes for
- non-master clients
-Message-ID: <YH6bjle8zyejKJD0@phenom.ffwll.local>
-References: <20210402112212.5625-1-contact@emersion.fr>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uP55GvNxmqa154x7zBMI5pifzTMvppax2nMlHT01uhQ=;
+ b=iTQnWMSmV5Ypl14cE07CFSPT3vDE7nSY7hFhwpDoEgzrh/voYkuD6GQ/1yTpu7iOZ2
+ ynQdKht6tmhIdQ4AES5+Xd7tASMvsbbSf8EDl7CFAyFB6Hj7KpNfzBgWMjj/yTbSRjtt
+ bbsX2AscUD5ukE8h45W0JvJ/DHr6vDA6Rn8zsSO9YE4T2meDqiE+W6RlK7+f/CvQWxeH
+ HgRMVN+YIH20z/QZvZvbJ8RKsxdLn77w9QtWZ55wTPBAFTAD6oF3Ulve4YV2PVOR42FO
+ 8zBGRMi2A4rkPGeXx+StZh1sdla/2I3Px2GlRnIZhftRRrbIITz1lL31r9bSON7T49yR
+ IXHg==
+X-Gm-Message-State: AOAM533XSx6XDNitLEJE9fR95nlLWZTsXKhWOeCKn+az8mA2l6QDZ3az
+ +id+VsGhuyYhyKyOfAhSSlxxSCuupOsppGY0UMA=
+X-Google-Smtp-Source: ABdhPJyqjmGX3OnB4biL5E0m5o4GJ98N03BW81GWgSF08q3NwpxNGSQhoujnYb0pAPeIay+ye8/EKvIXD8MRF5C4Bbw=
+X-Received: by 2002:a67:fc57:: with SMTP id p23mr19084812vsq.40.1618910181231; 
+ Tue, 20 Apr 2021 02:16:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210402112212.5625-1-contact@emersion.fr>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20210416090048.11492-1-tzimmermann@suse.de>
+ <CAMuHMdWcC8O+UzQDQj7Bm4uK_myjFT5D2ccTmneTJYi4SMfCRQ@mail.gmail.com>
+ <YH6U92Q71ntU6Z1R@phenom.ffwll.local>
+In-Reply-To: <YH6U92Q71ntU6Z1R@phenom.ffwll.local>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 20 Apr 2021 11:16:09 +0200
+Message-ID: <CAMuHMdU7BXN0P29wqWo2w3BWr=vQ=UHZHUnfFbMC--29ZBph-w@mail.gmail.com>
+Subject: Re: [PATCH v4 0/9] drm: Support simple-framebuffer devices and
+ firmware fbs
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,100 +54,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: bluescreen_avenger@verizon.net, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, virtualization@lists.linux-foundation.org,
+ Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg KH <gregkh@linuxfoundation.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 02, 2021 at 01:22:12PM +0200, Simon Ser wrote:
-> Force-probing a connector can be slow and cause flickering. As this
-> affects the global KMS state, let's make it so only the DRM master
-> can force-probe a connector.
-> 
-> Non-master DRM clients won't be able to force-probe a connector
-> anymore. Instead, KMS will perform a regular read-only connector
-> query.
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 11 ++++++++---
->  include/uapi/drm/drm_mode.h     |  7 ++++---
->  2 files changed, 12 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 7631f76e7f34..2f70a52a892b 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -20,6 +20,7 @@
->   * OF THIS SOFTWARE.
->   */
->  
-> +#include <drm/drm_auth.h>
->  #include <drm/drm_connector.h>
->  #include <drm/drm_edid.h>
->  #include <drm/drm_encoder.h>
-> @@ -2374,9 +2375,13 @@ int drm_mode_getconnector(struct drm_device *dev, void *data,
->  
->  	mutex_lock(&dev->mode_config.mutex);
->  	if (out_resp->count_modes == 0) {
-> -		connector->funcs->fill_modes(connector,
-> -					     dev->mode_config.max_width,
-> -					     dev->mode_config.max_height);
-> +		if (drm_is_current_master(file_priv))
-> +			connector->funcs->fill_modes(connector,
-> +						     dev->mode_config.max_width,
-> +						     dev->mode_config.max_height);
-> +		else
-> +			drm_dbg_kms(dev, "User-space requested a forced probe on [CONNECTOR:%d:%s] but is not the DRM master, demoting to read-only probe",
-> +				    connector->base.id, connector->name);
->  	}
->  
->  	out_resp->mm_width = connector->display_info.width_mm;
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index a5e76aa06ad5..3efa2e38d89b 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -413,9 +413,10 @@ enum drm_mode_subconnector {
->   *
->   * **Force-probing a connector**
->   *
-> - * If the @count_modes field is set to zero, the kernel will perform a forced
-> - * probe on the connector to refresh the connector status, modes and EDID.
-> - * A forced-probe can be slow, might cause flickering and the ioctl will block.
-> + * If the @count_modes field is set to zero and the DRM client is the DRM
+Hi Daniel,
 
-*current* DRM master
+On Tue, Apr 20, 2021 at 10:46 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Mon, Apr 19, 2021 at 10:00:56AM +0200, Geert Uytterhoeven wrote:
+> > On Fri, Apr 16, 2021 at 11:00 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > This patchset adds support for simple-framebuffer platform devices and
+> > > a handover mechanism for native drivers to take-over control of the
+> > > hardware.
+> > >
+> > > The new driver, called simpledrm, binds to a simple-frambuffer platform
+> > > device. The kernel's boot code creates such devices for firmware-provided
+> > > framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or boot
+> > > loader sets up the framebuffers. Description via device tree is also an
+> > > option.
+> >
+> > I guess this can be used as a replacement for offb, too...
+> >
+> > > Patches 4 to 8 add the simpledrm driver. It's build on simple DRM helpers
+> > > and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
+> >
+> > .... if support for 8-bit frame buffers would be added?
+>
+> Is that 8-bit greyscale or 8-bit indexed with 256 entry palette? Former
 
-The drm master/client relationship survives a DROPMASTER ioctl, but also
-it's only really relevant for the old authmagic dance. But just to be
-consistent here.
+8-bit indexed with 256 entry palette.
 
-> + * master, the kernel will perform a forced probe on the connector to refresh
-> + * the connector status, modes and EDID. A forced-probe can be slow, might
-> + * cause flickering and the ioctl will block.
+> shouldn't be a big thing, but the latter is only really supported by the
+> overall drm ecosystem in theory. Most userspace assumes that xrgb8888
+> works, and we keep that illusion up by emulating it in kernel for hw which
+> just doesn't support it. But reformatting xrgb8888 to c8 is tricky at
+> best. The uapis are all there for setting the palette, and C8 is a defined
+> format even with atomic kms interface, but really there's not much
+> userspace for it. In other words, it would work as well as current offb
+> would, but that's at least that.
 
-Do we have an igt for this? Timing test should do the job I think,
-assuming we have at least one output which requires an edid read (so maybe
-skip the test if a forced probe takes less than 10ms or so).
+Oh, that's good to know!
+Does this mean fbdev is not deprecated for anything <= C8? ;-)
 
-Patch lgtm, but igt would be really nice here.
+A while ago, I was looking into converting an fbdev driver to drm, and
+one of the things I ran into is lack of C4, C2, C1, Y8, Y4, Y2, and
+monochrome support.  On top of that, lots of internal code seems to
+assume pixels are never smaller than a byte (thus ignoring
+char_per_block[]/block_w).  The lack of support for planar modes isn't
+that bad, combined with the need for copying, as c2p conversion can be
+done while copying, thus even making life easier for userspace
+applications that can just always work on chunky data.
+Then real work kicked in, before I got anything working...
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Thanks!
 
->   *
->   * User-space needs to force-probe connectors to ensure their metadata is
->   * up-to-date at startup and after receiving a hot-plug event. User-space
-> -- 
-> 2.31.1
-> 
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
