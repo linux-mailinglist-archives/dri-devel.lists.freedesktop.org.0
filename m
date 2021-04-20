@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9718366196
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Apr 2021 23:27:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2D23661D3
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 00:01:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 772076E8E5;
-	Tue, 20 Apr 2021 21:27:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEDC6E8F7;
+	Tue, 20 Apr 2021 22:01:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A82446E8E5
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 21:27:15 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- 65-20020a9d03470000b02902808b4aec6dso32385231otv.6
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 14:27:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=30FxQx6+h/DPZfAuYkCh0ZYoDk/KVeqAfInmZT+LL3E=;
- b=sFZydY8u9ka2/hRBi6tB84+cNI9yI6A5eHiJF6L2eIBh5bTHgCEj8vr5GcNwyBX53m
- YtZgsDa35Y5jxsFYmBqwahuvtaNfyvFNS3GwlA2VqNHdBIlnzUiLdAQB6tm3VU5VDyso
- uFGc0Z8Qp7RcAooHar0ptvBIuQph1o6Nyk4TlTiba47P2aajD5eB79njpMy6nsbXLQuw
- tBMjHzP1MJLB9xQF4+AcMqjkWhZZuYfp697XThO2ZYGUamm5xYwqOAC0t3L9zJYGd9mI
- MMITrMovm2eLl47XlYTB8ZkWc6GmXSMT6zOSg4MEr7YvIPBkYf+x85LpaPChrLMFUSXG
- 9ZiQ==
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1081A6E8F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 22:01:05 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id p16so16491528plf.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 15:01:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=v8dPsnj7LVPAJqreP5fUXlj6CsjITq45zlynre8tQwU=;
+ b=LCxqTfbSUo+aGA+zS74bOqNZKleN1jR/KQ6Ydc9QI8CWZrJ7b8/jS5nRk+IwTvzAiH
+ 5L3S9FdMPWBdAo7bb2vUFaED/Nkw41491VBPTrcvR8cHYMjQWAJpIdAyAN6d5xVzIYIE
+ 90jbX4aAOFGiKGl4qH+nF1hv8rgFS4hGi8sQo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=30FxQx6+h/DPZfAuYkCh0ZYoDk/KVeqAfInmZT+LL3E=;
- b=YGAY0kfmo7uAOZQId3ZKQcYpT65JbzcK9fy9pZ9aeOZHnt1Fq9gvk9fNSTP59dJe1+
- BjKNmADzHmzzQVYFzhLKPmf8EgkVSryqXPepYKwIeXrdkYl0fwGF95VbpetHrmzcyyBX
- ZnSQtlgzVPYkaf8hL0PcxCCc2nQfLxDQoyxir6vaXOPvsWIU0ifzXYJqjTiEU4AWLjtY
- 7yuq79Cv57O6UaVq1WZwbWROZIr1nFFMbS1AOB4gS2dIpYR3sAKulEV8Dl9f/6LBu3ua
- klmFZSzuw+Qnj8xir4EcrU3Wrt6QG4wUozSWQWUCrnDqiQTaGQPaM93OpbRZhuzU7Fm3
- n3Hw==
-X-Gm-Message-State: AOAM53225vt1pZuBAy0ReuemaV1Tf6S9JIssH4X9HT2JtvfcBuqvXneD
- To4SU0TTXa/0wncMeGGPSPnqFCn07huCSEK+asE=
-X-Google-Smtp-Source: ABdhPJzyHli5TQG29616h8SoL5wezkFSsDA4ukcNLXQQEbIAs43KGcKjYGIETR2Kb01xcJ3OxH/pNSr2v18uh+7dFEc=
-X-Received: by 2002:a9d:75c4:: with SMTP id c4mr18676343otl.311.1618954035087; 
- Tue, 20 Apr 2021 14:27:15 -0700 (PDT)
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=v8dPsnj7LVPAJqreP5fUXlj6CsjITq45zlynre8tQwU=;
+ b=pWsxY33sqjdzcgd3VZin+Z4Y1j1a7WPNnmxpg7gD5Fe+a11Pz7jdqJ1sl5M5AGhizV
+ 8qU9wOGTKjm94UUbgu2b6oWE4r50FHTENvI4HLhQ1c1vIK1Lq8f8UUbftV/HfGJHdlX8
+ uhcuCHspE4vbv47boeuaox3Zz2aYeYicbUvXffUlUZYHD7A1BA831R9QmmeBUWlyTpDE
+ eR29RzR2f6l3Z35bPAlqMzJaBZu4PtmjFOOxte6FWDCcWXMbw93l+oxbtPfGGqEoLskH
+ lQwFwP/2oa04579TEk5Dpfz1HCUYn+J/UmJ08sEzEtCgbj7UKBvSHpvjUmI14am2B3SR
+ X5aA==
+X-Gm-Message-State: AOAM5312RgVJmvfKyd8U6Rs1dF6PN6Ws3mqLaFGpEkiFVIzn/4oOC+Wp
+ CYhnmcy08PNT/ACspSfZVMT8BA==
+X-Google-Smtp-Source: ABdhPJw39iivqaEsGNyvaKDr7/Mbo/adR7cFLGbc1hXX8DChY41Jiy/BZY3aZAztF1khmi7IFjahHA==
+X-Received: by 2002:a17:902:e5d1:b029:eb:7ec2:648e with SMTP id
+ u17-20020a170902e5d1b02900eb7ec2648emr29213086plf.30.1618956064553; 
+ Tue, 20 Apr 2021 15:01:04 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:201:bf8b:4b8b:2315:3719])
+ by smtp.gmail.com with ESMTPSA id b10sm45714pfb.27.2021.04.20.15.01.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Apr 2021 15:01:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210416143725.2769053-1-lee.jones@linaro.org>
- <20210416143725.2769053-24-lee.jones@linaro.org>
- <5035dd00-45a9-80c0-7bcc-8035167a8e0d@amd.com>
-In-Reply-To: <5035dd00-45a9-80c0-7bcc-8035167a8e0d@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 20 Apr 2021 17:27:04 -0400
-Message-ID: <CADnq5_Os8LjPoj7_fim2x2RqMhySSUT0BRFdMfd8AFdAjGkhTA@mail.gmail.com>
-Subject: Re: [PATCH 23/40] drm/ttm/ttm_bo: Fix incorrectly documented function
- 'ttm_bo_cleanup_refs'
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <1618604877-28297-1-git-send-email-khsieh@codeaurora.org>
+References: <1618604877-28297-1-git-send-email-khsieh@codeaurora.org>
+Subject: Re: [PATCH 1/2] drm/msm/dp: service only one irq_hpd if there are
+ multiple irq_hpd pending
+From: Stephen Boyd <swboyd@chromium.org>
+To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run
+Date: Tue, 20 Apr 2021 15:01:02 -0700
+Message-ID: <161895606268.46595.2841353121480638642@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,44 +66,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Huang Rui <ray.huang@amd.com>, Lee Jones <lee.jones@linaro.org>,
- linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, khsieh@codeaurora.org,
+ dri-devel@lists.freedesktop.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBcHIgMTYsIDIwMjEgYXQgMTE6MzIgQU0gQ2hyaXN0aWFuIEvDtm5pZwo8Y2hyaXN0
-aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFtIDE2LjA0LjIxIHVtIDE2OjM3IHNjaHJp
-ZWIgTGVlIEpvbmVzOgo+ID4gRml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdh
-cm5pbmcocyk6Cj4gPgo+ID4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jOjI5Mzogd2Fy
-bmluZzogZXhwZWN0aW5nIHByb3RvdHlwZSBmb3IgZnVuY3Rpb24gdHRtX2JvX2NsZWFudXBfcmVm
-cygpLiBQcm90b3R5cGUgd2FzIGZvciB0dG1fYm9fY2xlYW51cF9yZWZzKCkgaW5zdGVhZAo+ID4K
-PiA+IENjOiBDaHJpc3RpYW4gS29lbmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gPiBD
-YzogSHVhbmcgUnVpIDxyYXkuaHVhbmdAYW1kLmNvbT4KPiA+IENjOiBEYXZpZCBBaXJsaWUgPGFp
-cmxpZWRAbGludXguaWU+Cj4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+
-ID4gQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+Cj4gPiBDYzogZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2Vy
-bmVsLm9yZwo+ID4gQ2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+ID4gU2lnbmVk
-LW9mZi1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KPgo+IFJldmlld2VkLWJ5
-OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CgpDYW4geW91IHB1
-c2ggdGhlIHR0bSBhbmQgc2NoZWQgZml4ZXMgdG8gZHJtLW1pc2M/CgpBbGV4CgoKPgo+ID4gLS0t
-Cj4gPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgfCAyICstCj4gPiAgIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+ID4KPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
-Ym8uYwo+ID4gaW5kZXggY2ZkMGI5MjkyMzk3My4uZGVmZWM5NDg3ZTFkZSAxMDA2NDQKPiA+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS90dG0vdHRtX2JvLmMKPiA+IEBAIC0yNzQsNyArMjc0LDcgQEAgc3RhdGljIHZvaWQgdHRtX2Jv
-X2ZsdXNoX2FsbF9mZW5jZXMoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibykKPiA+ICAgfQo+
-ID4KPiA+ICAgLyoqCj4gPiAtICogZnVuY3Rpb24gdHRtX2JvX2NsZWFudXBfcmVmcwo+ID4gKyAq
-IHR0bV9ib19jbGVhbnVwX3JlZnMKPiA+ICAgICogSWYgYm8gaWRsZSwgcmVtb3ZlIGZyb20gbHJ1
-IGxpc3RzLCBhbmQgdW5yZWYuCj4gPiAgICAqIElmIG5vdCBpZGxlLCBibG9jayBpZiBwb3NzaWJs
-ZS4KPiA+ICAgICoKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Quoting Kuogee Hsieh (2021-04-16 13:27:57)
+> Some dongle may generate more than one irq_hpd events in a short period of
+> time. This patch will treat those irq_hpd events as single one and service
+> only one irq_hpd event.
+
+Why is it bad to get multiple irq_hpd events in a short period of time?
+Please tell us here in the commit text.
+
+> 
+> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 5a39da6..0a7d383 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -707,6 +707,9 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+>                 return 0;
+>         }
+>  
+> +       /* only handle first irq_hpd in case of multiple irs_hpd pending */
+> +       dp_del_event(dp, EV_IRQ_HPD_INT);
+> +
+>         ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+>         if (ret == -ECONNRESET) { /* cable unplugged */
+>                 dp->core_initialized = false;
+> @@ -1300,6 +1303,9 @@ static int dp_pm_suspend(struct device *dev)
+>         /* host_init will be called at pm_resume */
+>         dp->core_initialized = false;
+>  
+> +       /* system suspended, delete pending irq_hdps */
+> +       dp_del_event(dp, EV_IRQ_HPD_INT);
+
+What happens if I suspend my device and when this function is running I
+toggle my monitor to use the HDMI input that is connected instead of some
+other input, maybe the second HDMI input? Wouldn't that generate an HPD
+interrupt to grab the attention of this device?
+
+> +
+>         mutex_unlock(&dp->event_mutex);
+>  
+>         return 0;
+> @@ -1496,6 +1502,9 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
+>         /* stop sentinel checking */
+>         dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
+>  
+> +       /* link is down, delete pending irq_hdps */
+> +       dp_del_event(dp_display, EV_IRQ_HPD_INT);
+> +
+
+I'm becoming convinced that the whole kthread design and event queue is
+broken. These sorts of patches are working around the larger problem
+that the kthread is running independently of the driver and irqs can
+come in at any time but the event queue is not checked from the irq
+handler to debounce the irq event. Is the event queue necessary at all?
+I wonder if it would be simpler to just use an irq thread and process
+the hpd signal from there. Then we're guaranteed to not get an irq again
+until the irq thread is done processing the event. This would naturally
+debounce the irq hpd event that way.
+
+>         dp_display_disable(dp_display, 0);
+>  
+>         rc = dp_display_unprepare(dp);
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
