@@ -2,57 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197C33664D2
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 07:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44C0366533
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 08:10:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3358D6E948;
-	Wed, 21 Apr 2021 05:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 867776E94B;
+	Wed, 21 Apr 2021 06:10:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFB2B6E947
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 05:29:15 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id h15so9921668pfv.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 22:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5hFZoL/B1X+TSHMC73OVlRCB/m5eFhUPf/0EsulpbQc=;
- b=GSqR/tNLV3h2WeySeGfMGXOdlSgUpYvKwLbgArv7aByT94uKy05vclZyhRVEgxk6z1
- y2lzKfsYfERoExvktOFnGzS6Nit5WD4J93WIFbcrCCn5ypodHnnkR6Xb9ApUv4tRIkTX
- X4dQbkBfnwKACwTorawRek4NP46rAGerLZ384=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5hFZoL/B1X+TSHMC73OVlRCB/m5eFhUPf/0EsulpbQc=;
- b=MmcbU60badcC1s054YbBySsJXWASEe/PdYmQZjLtdk98/X33oDF0gRGR0Aag1dTYhA
- fZzqNJnJMwcm4n6LDf+w4PaKDJ7GCK1UXTGC21DNH6GGLxcbLZWiqGAlhigBCNi1tRz6
- GmtxTNNl2Uhw4iiqBkXIm1GCX4oNG9RY2+bE0f7coRza+mypbhGXoQSqVuOY9XL+Fsd3
- BZIx13ynAnk7sbPZObwGimE79QPyHsn3ZcbPcDQDEyKRqVmtWkftpJtLJAxTblY3n1UT
- vWi25mpDuRjQCawYMrTQtrOCf3evH/htnYE9O9tGgpI3mnh1ciek4rkDDtzkdyQKfDT1
- 2osw==
-X-Gm-Message-State: AOAM531lYzw9m6LvfrqPVfjDdRJpnoY4HNobIMRTtesAtcN+qMKdgccQ
- 6gMbe2K4CXkWKqtTMYCXicQ46Q==
-X-Google-Smtp-Source: ABdhPJyZDRqJdOcJWbtPfs6X/UaeVpCly9Jbo3Ob3dn5LLzwTPwfK1AOmwpC17pOPG6/nzFx3YPVUw==
-X-Received: by 2002:a17:90b:808:: with SMTP id
- bk8mr9347798pjb.128.1618982955584; 
- Tue, 20 Apr 2021 22:29:15 -0700 (PDT)
-Received: from drinkcat2.tpe.corp.google.com
- ([2401:fa00:1:b:b3e5:49c0:4843:2bbe])
- by smtp.gmail.com with ESMTPSA id b6sm602537pfa.185.2021.04.20.22.29.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 22:29:15 -0700 (PDT)
-From: Nicolas Boichat <drinkcat@chromium.org>
-To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Subject: [PATCH v13 4/4] drm/panfrost: Add mt8183-mali compatible string
-Date: Wed, 21 Apr 2021 13:28:55 +0800
-Message-Id: <20210421132841.v13.4.I5f6b04431828ec9c3e41e65f3337cec6a127480d@changeid>
-X-Mailer: git-send-email 2.31.1.368.gbe11c130af-goog
-In-Reply-To: <20210421052855.1279713-1-drinkcat@chromium.org>
-References: <20210421052855.1279713-1-drinkcat@chromium.org>
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2056E94B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 06:10:46 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4FQ9CQ2dq0z9t5G;
+ Wed, 21 Apr 2021 16:10:42 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1618985444;
+ bh=4MvTAN8NWMjHr1OMP9BQ1vlhM4Re9k9Mwv+2K60afss=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ip1uYGMNCaFRYUXkpAy6gH9W1pbbNfJ6rW3PX8bbYXLBkZ816UJFGfpINRHyk+PB+
+ l8sIGJ42w2NZQ6Tv0QFJ0Z49tHfvlcQskF64zfWCXz6EqI5XSCIsSGng0lQU81dTCq
+ XV+yVm3E8Xw/MQ2PUyZwmBFUpNCn+kvevXFB4NWsKrXNQls9ZGICN8ig614KEUxagt
+ TsFJOVYhHWDhLLVlj1ntn1kapa9+blAYsoYpOVpqwFHtoiqM9XtkCzjjDb5qfG6L6O
+ fad9UyGHOyCpLmX3R4Php66nSSru+pPfvwxJTcVCy46WaCcx/J1ONeefxG/GWDjLup
+ JsuQ1MWFlGxWw==
+Date: Wed, 21 Apr 2021 16:10:41 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: build warning after merge of the amdgpu tree
+Message-ID: <20210421161041.47f8b3a7@canb.auug.org.au>
+In-Reply-To: <20210311220033.7c5fe548@canb.auug.org.au>
+References: <20210311220033.7c5fe548@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,80 +48,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- fshao@chromium.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
- linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- Matthias Brugger <matthias.bgg@gmail.com>, hoegsberg@chromium.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Zhan Liu <zhan.liu@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0622535852=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for MT8183's G72 Bifrost.
+--===============0622535852==
+Content-Type: multipart/signed; boundary="Sig_/1SE.zLDGNbwles/Nb1PByQO";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-Reviewed-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
----
+--Sig_/1SE.zLDGNbwles/Nb1PByQO
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-(no changes since v7)
+Hi all,
 
-Changes in v7:
- - Fix GPU ID in commit message
+On Thu, 11 Mar 2021 22:00:33 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>=20
+> After merging the amdgpu tree, today's linux-next build (htmldocs)
+> produced this warning:
+>=20
+> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:143: warning: Function =
+parameter or member 'list' not described in 'dal_allocation'
+> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:143: warning: Function =
+parameter or member 'bo' not described in 'dal_allocation'
+> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:143: warning: Function =
+parameter or member 'cpu_ptr' not described in 'dal_allocation'
+> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:143: warning: Function =
+parameter or member 'gpu_addr' not described in 'dal_allocation'
+>=20
+> Introduced by commit
+>=20
+>   1ace37b873c2 ("drm/amdgpu/display: Implement functions to let DC alloca=
+te GPU memory")
 
-Changes in v6:
- - Context conflicts, reflow the code.
- - Use ARRAY_SIZE for power domains too.
+I am still seeing these warnings (as of next-20210420).  That is now
+commit
 
-Changes in v5:
- - Change power domain name from 2d to core2.
+  0dd795323405 ("drm/amdgpu/display: Implement functions to let DC allocate=
+ GPU memory")
 
-Changes in v4:
- - Add power domain names.
+in the drm tree.
+--=20
+Cheers,
+Stephen Rothwell
 
-Changes in v3:
- - Match mt8183-mali instead of bifrost, as we require special
-   handling for the 2 regulators and 3 power domains.
+--Sig_/1SE.zLDGNbwles/Nb1PByQO
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
- drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 83a461bdeea8..ca07098a6141 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -665,6 +665,15 @@ static const struct panfrost_compatible amlogic_data = {
- 	.vendor_quirk = panfrost_gpu_amlogic_quirk,
- };
- 
-+const char * const mediatek_mt8183_supplies[] = { "mali", "sram" };
-+const char * const mediatek_mt8183_pm_domains[] = { "core0", "core1", "core2" };
-+static const struct panfrost_compatible mediatek_mt8183_data = {
-+	.num_supplies = ARRAY_SIZE(mediatek_mt8183_supplies),
-+	.supply_names = mediatek_mt8183_supplies,
-+	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
-+	.pm_domain_names = mediatek_mt8183_pm_domains,
-+};
-+
- static const struct of_device_id dt_match[] = {
- 	/* Set first to probe before the generic compatibles */
- 	{ .compatible = "amlogic,meson-gxm-mali",
-@@ -681,6 +690,7 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "arm,mali-t860", .data = &default_data, },
- 	{ .compatible = "arm,mali-t880", .data = &default_data, },
- 	{ .compatible = "arm,mali-bifrost", .data = &default_data, },
-+	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, dt_match);
--- 
-2.31.1.368.gbe11c130af-goog
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmB/weEACgkQAVBC80lX
+0Gy7kAgAnIAGxiQIdjCsEFtLKE9bQrN5w6+GdFkEjK6teBscqxxifBWJy7HCyUac
+3rfNbzu2sIfaio5KPcY2/0FuhQsCOqhsITRYDF+n5yUriLsarAX4LhxHe7OaA/N5
+HjCm8KJXiPiLp2+LAfmGyjMb9C1AGh7vE7WVWopkLHopDeZyW3fbxutOPEwLWK9Q
+ttk42DkijKee1cqPhFzqGQdu4J6gCnRUO+T3ARjirl65ZOcpsB47GmsGavWL4/bo
+97EW7X6tWYUE0Sa+2iQsL6zYTN/taSnARe2DE/9jWKs1bZftxNFwV24R4IJqBz2l
+g6ia2dEyU7VAY8A/8zSiCGmJHRHp/Q==
+=LSTq
+-----END PGP SIGNATURE-----
+
+--Sig_/1SE.zLDGNbwles/Nb1PByQO--
+
+--===============0622535852==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0622535852==--
