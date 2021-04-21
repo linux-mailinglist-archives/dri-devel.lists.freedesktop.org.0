@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222E7367032
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 18:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A387367031
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 18:32:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65DD26E9D1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22A086E9BD;
 	Wed, 21 Apr 2021 16:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D43D6E9BD
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 16:31:57 +0000 (UTC)
-IronPort-SDR: 2U5NDOna2GXzEXFcR6fXdJhtjLXi7xihD+yJK5J68AUYWirrA8jVmAK3/1L4tJgv0oFA8W5wDI
- V6QOTUVHu2lA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="195755665"
-X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="195755665"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2021 09:31:55 -0700
-IronPort-SDR: SW/MX5tiLWdk3DY1dXqevEm3+fN3N/PmJZJYDLYM2dgrIq3/vVq4KoWzMR5puCefRbWJvUzv3W
- KhJovEQSwa9A==
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6E86E9BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 16:31:56 +0000 (UTC)
+IronPort-SDR: BrL0gg1cKeKwCditg3QJT+FcH41OlOsLEH7C+rvegIUMV8jzKfAinYBvuhAkO/T/3KGNWQ05qs
+ 7seR/n0rskzw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="259683501"
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="259683501"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2021 09:31:54 -0700
+IronPort-SDR: 8mpqoR++U7NCLnyr7TzI1hrvs2Rj7+13yqelMiFT+BmC7iRJSjAHsuejlobgDp5CyJxDspxvai
+ sMfA0y92/dEw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="385825523"
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="602943662"
 Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga006.jf.intel.com with ESMTP; 21 Apr 2021 09:31:52 -0700
+ by orsmga005.jf.intel.com with ESMTP; 21 Apr 2021 09:31:52 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
- id D02361FC; Wed, 21 Apr 2021 19:32:09 +0300 (EEST)
+ id DA2E3272; Wed, 21 Apr 2021 19:32:09 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 4/7] drm/ili9486: Avoid spamming logs if probe is deferred
-Date: Wed, 21 Apr 2021 19:31:54 +0300
-Message-Id: <20210421163157.50949-4-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 5/7] drm/ili9341: Avoid spamming logs if probe is deferred
+Date: Wed, 21 Apr 2021 19:31:55 +0300
+Message-Id: <20210421163157.50949-5-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210421163157.50949-1-andriy.shevchenko@linux.intel.com>
 References: <20210421163157.50949-1-andriy.shevchenko@linux.intel.com>
@@ -63,17 +63,17 @@ this by replacing DRM_DEV_ERROR() by dev_err_probe().
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/gpu/drm/tiny/ili9486.c | 12 ++++--------
+ drivers/gpu/drm/tiny/ili9341.c | 12 ++++--------
  1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
-index d7ce40eb166a..8d8dd6347b09 100644
---- a/drivers/gpu/drm/tiny/ili9486.c
-+++ b/drivers/gpu/drm/tiny/ili9486.c
-@@ -206,16 +206,12 @@ static int ili9486_probe(struct spi_device *spi)
+diff --git a/drivers/gpu/drm/tiny/ili9341.c b/drivers/gpu/drm/tiny/ili9341.c
+index 6ce97f0698eb..43418b0f8be3 100644
+--- a/drivers/gpu/drm/tiny/ili9341.c
++++ b/drivers/gpu/drm/tiny/ili9341.c
+@@ -192,16 +192,12 @@ static int ili9341_probe(struct spi_device *spi)
  	drm = &dbidev->drm;
  
- 	dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+ 	dbi->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
 -	if (IS_ERR(dbi->reset)) {
 -		DRM_DEV_ERROR(dev, "Failed to get gpio 'reset'\n");
 -		return PTR_ERR(dbi->reset);
@@ -81,7 +81,7 @@ index d7ce40eb166a..8d8dd6347b09 100644
 +	if (IS_ERR(dbi->reset))
 +		return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
  
- 	dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
+ 	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
 -	if (IS_ERR(dc)) {
 -		DRM_DEV_ERROR(dev, "Failed to get gpio 'dc'\n");
 -		return PTR_ERR(dc);
