@@ -2,54 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96F5366F28
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 17:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0E2366F34
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 17:32:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C1836E169;
-	Wed, 21 Apr 2021 15:29:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB8BB6E9C8;
+	Wed, 21 Apr 2021 15:32:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 679276E169
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 15:29:18 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id n2so64094056ejy.7
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 08:29:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=D9cYeQjsmbm7N0G9SYYKqixFynKO7BLL8/PiYxQrUa8=;
- b=fqmuic3T8AViijvn37YC2oVQ3UZMI91TNv+sw9WgBE7Xko6RqLRtVla393BsYNt0l9
- mg4OguqTMx2HIAiGp6p5/x3MRO4GcoeNQExUzWDSSpb9aZ+Qefvp38yPPLIBniR41hC/
- vUrDCjQbpQ6f3/aO1kksxic7p8jYr6CHFOt1E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=D9cYeQjsmbm7N0G9SYYKqixFynKO7BLL8/PiYxQrUa8=;
- b=eIELzHCTIoclLoBNYfKASDEHn7hrrCT5OhGWfsSbR2/K4b+/r0TAvdaflug9yffaGq
- 2JsS/CL167A9ZLE9n6MBEgIlF7nLn49DWcx1UCsKHmueBxOUEq0LK14pkaO6OywSryih
- wYFoxAPZzbfgzrP/wLWaTntcmaxq21NH5IiFGh5CE1ThifwcIDpjppgCD+9afuQbNs+1
- xnONDCVLMoQEDl4REyIcivZpvw1A1d2J1hfwDdA8gZkE9enuJEhKdOenemCjLdOTdBWd
- 2vWllXNiWeks75WmXEFkh3YYhVYIrfK6QJ06zmWASTEzlj1mlZjsqPvdnPQq20yIvAnU
- vVKA==
-X-Gm-Message-State: AOAM530cMwfGssWCFKd+jWEXczWxCKwP9bCQfinI5Il8bGZODluh8+hc
- NTYIJhs0aDESScEcpZaWpuB+/ZJrAefphg==
-X-Google-Smtp-Source: ABdhPJyimNvbe+zQ5zu6cKOyz09g7ohBhwQGEsLmUz/FxJ3f9+HD8dgawKzJ50ET13ZjTNQL9O3kRg==
-X-Received: by 2002:a17:906:b34e:: with SMTP id
- cd14mr34190841ejb.369.1619018957055; 
- Wed, 21 Apr 2021 08:29:17 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id br14sm2810254ejb.61.2021.04.21.08.29.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Apr 2021 08:29:16 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/todo: Add link to old debugfs RFC
-Date: Wed, 21 Apr 2021 17:29:11 +0200
-Message-Id: <20210421152911.1871473-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.31.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21F166E9B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 15:32:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F277861445;
+ Wed, 21 Apr 2021 15:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619019129;
+ bh=RC899umZ0BwpHoFBaQEd03wqXFYBjtGaL5NqM7dfCT8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CpNQszCLq4n8vEbp+4q9qxxt6foYHXA6LMbxM0pUASXfc28rRQcnHijjCXk/bU4TR
+ TdDYeNqRAnnuj8/VLcS5qJ+U07HSMDxPsyQDrG7EJzs2PCv4MxVSBtSYtwYW+PNk62
+ KPitZe+vN9l/HeCKZkA695LuhNegPcRtu6FLyojANSpA0XhVRnYVDfv4MxiPKnPyaa
+ s33u6+4RK9KDcho9/4XcQ0uBmY7Nh+0+l0fdoIHE8WzrDzLSrBN5K5PIpOTmbJh780
+ NBpCEJ2w2VdcFapAACBUQ6BQdb5B+z9QC/dLgLEdzQHHEZlz953zvRL+EwG6ghuB8k
+ P/eYtCOFPaOGg==
+Date: Wed, 21 Apr 2021 18:31:58 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Peter.Enderborg@sony.com
+Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Message-ID: <YIBFbh4Dd1XaDbto@kernel.org>
+References: <20210417163835.25064-1-peter.enderborg@sony.com>
+ <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
+ <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
+ <YH63iPzbGWzb676T@phenom.ffwll.local>
+ <a60d1eaf-f9f8-e0f3-d214-15ce2c0635c2@sony.com>
+ <YH/tHFBtIawBfGBl@phenom.ffwll.local>
+ <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +51,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <melissa.srw@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: mhocko@suse.com, neilb@suse.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, adobriyan@gmail.com,
+ linaro-mm-sig@lists.linaro.org, shakeelb@google.com, willy@infradead.org,
+ samitolvanen@google.com, songmuchun@bytedance.com,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ christian.koenig@amd.com, guro@fb.com, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I always forget where it was, store it until this gets picked up by an
-internship again.
+On Wed, Apr 21, 2021 at 10:37:11AM +0000, Peter.Enderborg@sony.com wrote:
+> On 4/21/21 11:15 AM, Daniel Vetter wrote:
+> >
+> > We need to understand what the "correct" value is. Not in terms of kern=
+el
+> > code, but in terms of semantics. Like if userspace allocates a GL textu=
+re,
+> > is this supposed to show up in your metric or not. Stuff like that.
+> That it like that would like to only one pointer type. You need to know w=
+hat
+> =
 
-Cc: Wambui Karuga <wambui.karugax@gmail.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- Documentation/gpu/todo.rst | 2 ++
- 1 file changed, 2 insertions(+)
+> you pointing at to know what it is. it might be a hardware or a other poi=
+nter.
+> =
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 7ff9fac10d8b..12e61869939e 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -546,6 +546,8 @@ There's a bunch of issues with it:
-   this (together with the drm_minor->drm_device move) would allow us to remove
-   debugfs_init.
- 
-+Previous RFC that hasn't landed yet: https://lore.kernel.org/dri-devel/20200513114130.28641-2-wambui.karugax@gmail.com/
-+
- Contact: Daniel Vetter
- 
- Level: Intermediate
--- 
-2.31.0
+> If there is a limitation on your pointers it is a good metric to count th=
+em
+> even if you don't=A0 know what they are. Same goes for dma-buf, they
+> are generic, but they consume some resources that are counted in pages.
+> =
 
+> It would be very good if there a sub division where you could measure
+> all possible types separately.=A0 We have the detailed in debugfs, but no=
+thing
+> for the user. A summary in meminfo seems to be the best place for such
+> metric.
+ =
+
+Let me try to summarize my understanding of the problem, maybe it'll help
+others as well.
+
+A device driver allocates memory and exports this memory via dma-buf so
+that this memory will be accessible for userspace via a file descriptor.
+
+The allocated memory can be either allocated with alloc_page() from system
+RAM or by other means from dedicated VRAM (that is not managed by Linux mm)
+or even from on-device memory.
+
+The dma-buf driver tracks the amount of the memory it was requested to
+export and the size it sees is available at debugfs and fdinfo.
+
+The debugfs is not available to user and maybe entirely disabled in
+production systems.
+
+There could be quite a few open dma-bufs so there is no overall summary,
+plus fdinfo in production systems your refer to is also unavailable to the
+user because of selinux policy.
+
+And there are a few details that are not clear to me:
+
+* Since DRM device drivers seem to be the major user of dma-buf exports,
+  why cannot we add information about their memory consumption to, say,
+  /sys/class/graphics/drm/cardX/memory-usage?
+
+* How exactly user generates reports that would include the new counters?
+  From my (mostly outdated) experience Android users won't open a terminal
+  and type 'cat /proc/meminfo' there. I'd presume there is a vendor agent
+  that collects the data and sends it for analysis. In this case what is
+  the reason the vendor is unable to adjust selinix policy so that the
+  agent will be able to access fdinfo?
+
+* And, as others already mentioned, it is not clear what are the problems
+  that can be detected by examining DmaBufTotal except saying "oh, there is
+  too much/too little memory exported via dma-buf". What would be user
+  visible effects of these problems? What are the next steps to investigate
+  them? What other data will be probably required to identify root cause?
+
+-- =
+
+Sincerely yours,
+Mike.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
