@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739C43672FB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 20:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFFE367307
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 21:02:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743CA89DFB;
-	Wed, 21 Apr 2021 18:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DCDF6E0D9;
+	Wed, 21 Apr 2021 19:02:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07BD289DFB
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 18:58:27 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id sd23so56391547ejb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 11:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=54Mx0VE5DUiDmkj0gLV5ZKMgKjIaEBZW9DsfzslmghU=;
- b=cIwEitSreHvoU5Rh+cIH0tZLKycMvzPLdGHqiw+jXsqD8kR6ex55OetBSsTyUBV4LX
- 59EyQE51R+6lLsUh1H+5UYSTC01ru38vMT+B2W9M3ubWlH87hz3sdiXgFkLq473Em6xM
- 0PnBeZZ25Boh+7HU+asoGDpKftZAK8Hu8m0FFHSM5WWS7CcCHq/P6ZmzkE9NzF7plnZi
- kKqp+cED1NzKcctzQgoGpUNDK54Qe1RGy/WbuSqi8YjYuzPAhYOJt8KGs7tNG7n3IL0N
- 9RcWqS/lIDKe6URfyas7uSnO4ef4M0a4PMTQx0i8lX7MyVopoh9ZxfVW2CAt7vXdUmrt
- 4Xcg==
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B81026E0D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 19:02:37 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ i16-20020a9d68d00000b0290286edfdfe9eso29252848oto.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 12:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=s9FLTXEW/DtWvaN9LaTv0x1ijj98X3ajcN+7b+Y4Vm0=;
+ b=Bzbr+bptOOO+Uza9KmmlAPfZTA89UmwFHHnUvutcC0l6LisR1ZUdljSnulsiSiUhUl
+ bq5uU2xjord7twTsRSGz6kPJKBzsZsSaSOpQBLc93juGrWaLZAEIlcqUKwm+DHGa6x/m
+ sE/PUP74NiRYXZ3Akuy/wCoFbYsCZLZyXB3ts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=54Mx0VE5DUiDmkj0gLV5ZKMgKjIaEBZW9DsfzslmghU=;
- b=OWSN7avZD8Osc78PoQMwHdMaT8fCEy27YqGvkpnwHWdJOOJfUCVTeQTQtWHCSMa2M+
- aoXEV7aEWrb18bXdF9a5dTFwn97Jm8hxaj+W774CRzEVI/Fx/idgr3VDoJh7P+dhkpDs
- Z9ay+Lxpxl/z0xaNIjWC9ER2bjdc2wMfKaKze3hJTreloyskZ+jJz+aEQOHIf8ZdK6pl
- IWDVvOi4h+1YkAUw/fNTbqwSxoF/RRncRMeNC/Kk/2RodX2ZIn37BoH4Ew2O2oMVRCHV
- B452OvxAS0E9PbMJON+VIdPfjz/trXXOuoVmmAa8CerdiwTHgpzTa+d81oP6nD+e18ok
- aMJg==
-X-Gm-Message-State: AOAM530xuIR199Uu9hBb8ICUycwuveVO9u+9YYwR7wm6bKyDid1ikzAb
- 9Q3WZVZfhhOKXSGijBMe0G8ayK+uYzQmpDgp22JbN5B5qQ0=
-X-Google-Smtp-Source: ABdhPJxr+QMxd/2sbSjF2e5fiqBz1ZUDqK8kWBFS4fujTcB9PfbvZM0Sf6S5HTljFDtzkJfTTvg6NHM9k333nq6g1KY=
-X-Received: by 2002:a17:906:5fce:: with SMTP id
- k14mr35082568ejv.9.1619031505577; 
- Wed, 21 Apr 2021 11:58:25 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=s9FLTXEW/DtWvaN9LaTv0x1ijj98X3ajcN+7b+Y4Vm0=;
+ b=fXzmqL2KT4UOtfBZxfwGqYuz5zpeUwfV0m1cu3hEoyU1S/6ezAg2ZPA/t+h/bB+3Ex
+ QCa424kcWM36oePFHmboa5bzwMXvLoW13zkzo3s8GJE8FNAhaM+hQT1AVFKS7gO1CTgz
+ 23ZD9pNuNZhJ2wvex3asey8kgj49b/5Z9Hke2XAQioqt3K2sGjxMiVYTLKjvXjLHpBwA
+ m9iTXuLBAdlRhl5jjkSsivFe//Pg/aZBTr7elTx+ZOU84Fquy0gpDBcJruJScxMzWNZ4
+ ZyxXPCdzSqtu/W6IW+y2Z4IwYQUu5073puwBqB+nM5ALVtnXPyClFfDumhJc2RCVXn1y
+ 3PbA==
+X-Gm-Message-State: AOAM530+F6QIit/cheduMb7A+lsRizmdg/wwaaxQyD9E4cJNdEObmn11
+ F2f2K4XWWbChm6xOYyj2rSlg0DmPJo1mkc/k0nCcYa7I5lc=
+X-Google-Smtp-Source: ABdhPJx8qRDitnxRa3n5V3YpiLfAeANzWB5FMO9ORrTa9vIF6bSmXbqBIFPl9ubmHoPT2/109WAH37OEsymvozhU0lY=
+X-Received: by 2002:a05:6830:1398:: with SMTP id
+ d24mr24940630otq.281.1619031757088; 
+ Wed, 21 Apr 2021 12:02:37 -0700 (PDT)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 22 Apr 2021 04:58:14 +1000
-Message-ID: <CAPM=9tyXf8aJnBPfd8E6aT-61PCayKy7M4MM4Sq+OLk+MwvohA@mail.gmail.com>
-Subject: umn experiment patches fallout in drm
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alex Deucher <alexdeucher@gmail.com>, 
- Ben Skeggs <skeggsb@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <f7add0a2-162e-3bd2-b1be-344a94f2acbf@vmware.com>
+ <CAPM=9twZd-Y6dnx7eQW6paw8BoREnMiPAe5FnBM1sZ-3uPk9YQ@mail.gmail.com>
+ <2dea2bb1-ff91-601d-5945-f9974d3f050b@vmware.com>
+In-Reply-To: <2dea2bb1-ff91-601d-5945-f9974d3f050b@vmware.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 21 Apr 2021 21:02:26 +0200
+Message-ID: <CAKMK7uExn01wSKtAgr6P0npEhdeDe1+ie1yH5Pz0tFx7QWjeFw@mail.gmail.com>
+Subject: Re: [git pull] drm/vmwgfx fixes for 5.12-rc8
+To: Zack Rusin <zackr@vmware.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +63,42 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TG9va2luZyBhdCB0aGUgdW1uLmVkdSBwYXRjaGVzIGZvciBkcm0gaW4gdGhlIGxhc3Qgd2hpbGUs
-IGFsbCB0aGUKcmVmY291bnQgb25lcyBsb29rIGJvZ3VzLAoKMjAyMC0wNi0xMyAyMDo0OCAtMDUw
-MCBBZGl0eWEgUGFra2kgbyBkcm0vbm91dmVhdTogZml4IHJlZmVyZW5jZSBjb3VudApsZWFrIGlu
-IG5vdXZlYXVfZGVidWdmc19zdHJhcF9wZWVrCjIwMjAtMDYtMTMgMjA6MjIgLTA1MDAgQWRpdHlh
-IFBha2tpIG8gZHJtL25vdXZlYXU6IEZpeCByZWZlcmVuY2UgY291bnQKbGVhayBpbiBub3V2ZWF1
-X2Nvbm5lY3Rvcl9kZXRlY3QKMjAyMC0wNi0xMyAyMDoyOSAtMDUwMCBBZGl0eWEgUGFra2kgbyBk
-cm0vbm91dmVhdTogZml4IHJlZmVyZW5jZSBjb3VudApsZWFrIGluIG52NTBfZGlzcF9hdG9taWNf
-Y29tbWl0CjIwMjAtMDYtMTMgMjA6NDEgLTA1MDAgQWRpdHlhIFBha2tpIG8gZHJtL25vdXZlYXU6
-IGZpeCBtdWx0aXBsZQppbnN0YW5jZXMgb2YgcmVmZXJlbmNlIGNvdW50IGxlYWtzCjIwMjAtMDYt
-MTMgMjA6MzMgLTA1MDAgQWRpdHlhIFBha2tpIG8gZHJtL25vdXZlYXUvZHJtL25vdmVhdTogZml4
-CnJlZmVyZW5jZSBjb3VudCBsZWFrIGluIG5vdXZlYXVfZmJjb25fb3BlbgoyMDIwLTA2LTEzIDIx
-OjIxIC0wNTAwIEFkaXR5YSBQYWtraSDilIIgbyBkcm0vcmFkZW9uOiBGaXggcmVmZXJlbmNlCmNv
-dW50IGxlYWtzIGNhdXNlZCBieSBwbV9ydW50aW1lX2dldF9zeW5jCjIwMjAtMDYtMTMgMjA6NTUg
-LTA1MDAgQWRpdHlhIFBha2tpIOKUgiDilIIgbyBkcm0vcmFkZW9uOiBmaXggbXVsdGlwbGUKcmVm
-ZXJlbmNlIGNvdW50IGxlYWsKMjAyMC0wNi0xMyAxNDozMiAtMDUwMCBRaXVzaGkgV3UgICAg4pSC
-IOKUgiDilIIgbyBkcm0vYW1ka2ZkOiBGaXggcmVmZXJlbmNlCmNvdW50IGxlYWtzLgoKVGhlc2Ug
-b25lcyBsb29rIHNhbmUgYnV0IG1heWJlIHdlIHNob3VsZCByZXZlcnQgdGhlbSBhbGwgYW55d2F5
-cy4KCjIwMTktMTItMTUgMTM6NDMgLTA2MDAgQWRpdHlhIFBha2tpIOKUgiDilIIg4pSCIOKUgiBv
-IGRybTogcmVtb3ZlIGR1cGxpY2F0ZQpjaGVjayBvbiBwYXJlbnQgYW5kIGF2b2lkIEJVR19PTgoy
-MDE5LTEwLTE3IDIzOjQxIC0wNTAwIEthbmdqaWUgTHUgICDilIIg4pSCIOKUgiDilIIg4pSCIG8g
-ZHJtL2dtYTUwMDogZml4IG1lbW9yeQpkaXNjbG9zdXJlcyBkdWUgdG8gdW5pbml0aWFsaXplZCBi
-eXRlcwoyMDE5LTEwLTE3IDIzOjI5IC0wNTAwIEthbmdqaWUgTHUgICDilIIg4pSCIOKUgiDilIIg
-4pSCIG8gZ21hL2dtYTUwMDogZml4IGEKbWVtb3J5IGRpc2Nsb3N1cmUgYnVnIGR1ZSB0byB1bmlu
-aXRpYWxpemVkIGJ5dGVzCjIwMTktMDMtMjQgMTg6MTYgLTA1MDAgS2FuZ2ppZSBMdSAgIOKUgiDi
-lIIg4pSCIOKUgiDilIIg4pSCIG8gZHJtL3YzZDogZml4IGEKbWlzc2luZyBjaGVjayBvZiBwbV9y
-dW50aW1lX2dldF9zeW5jCjIwMTktMDMtMDggMjI6MzYgLTA2MDAgS2FuZ2ppZSBMdSAgIOKUgiDi
-lIIg4pSCIOKUgiDilIIg4pSCIOKUgiBvIGRybTogdmttczogY2hlY2sKc3RhdHVzIG9mIGFsbG9j
-X29yZGVyZWRfd29ya3F1ZXVlCgpCZW4sIEFsZXggY2FuIHlvdSBsaW5lIHVwIHJldmVydHMgZm9y
-IG5leHQgZm9yIGFsbCBvZiB0aGUKbm91dmVhdS9hbWRncHUvcmFkZW9uIG9uZXM/CgpEYXZlLgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Apr 21, 2021 at 7:00 PM Zack Rusin <zackr@vmware.com> wrote:
+>
+> On 4/17/21 7:02 PM, Dave Airlie wrote:
+> > Hi Zack,
+> >
+> > Please make sure to always cc dri-devel and/or Daniel on these so if
+> > I'm away they don't get lost, but also so that they make it into
+> > patchwork for processing.
+> >
+> > If you have a chance can you resend it, I'll see if we can process
+> > this out of band and get it to Linus before release.
+> Hi, Dave.
+>
+> Thank you! I just noticed that you've sent it out. Would you still like me to resend it through dri-devel? The patches all went through dri-devel already, I just assumed that from dri-misc docs that drm-misc-fixes wouldn't be merged again until after 5.13 was out which is why I went directly.
+
+drm-misc-fixes will get pulled into the merge window when it misses
+the last release (which would be 5.12). drm-misc-next-fixes is the
+special branch which is for fixes during the merge window time, for
+issues in drm-next (so for 5.13).
+
+I know that ideally maintainters would just cherry-pick bugfixes to
+the right release branch (like on mesa or xserver or well any other
+reasonable project), but since drm-misc is volunteer run committers
+need to pick the right branch. But aside from that drm-misc is always
+open for bugfixes (and also always open for feature work).
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
