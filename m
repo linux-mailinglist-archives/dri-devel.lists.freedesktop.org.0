@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3560F3662F5
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 02:19:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C343662F8
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 02:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC1CD6E927;
-	Wed, 21 Apr 2021 00:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0271F6E928;
+	Wed, 21 Apr 2021 00:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DF166E927
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 00:19:20 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id u7so18802159plr.6
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 17:19:20 -0700 (PDT)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D630C6E928
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 00:19:26 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id v13so7023136ple.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 17:19:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=udOtkZZjDYxPso6eI0a9vHxz9Qn5dM9EKymdOtACQ/Y=;
- b=loH3oVgpvHTTtx+Cm+Q4516fccOHDIn3WVuFgwOzELLQGBJbxFTEfU0h7fxjh1/t7/
- pCIXvhlKcDSWzhuj6cNA7eaolw6JroiG8q657XZODQRywiWBOFMMoWlGV+KWrQ0w40e7
- p0dJrrcs+L2AU/7RmZWMu4e4BiEsFMsDE90qo=
+ bh=F81+3GQzn3QgcZNo+rxxDFXnkqXmgl8p5GAog02ZRx8=;
+ b=Oi5H8Hha3ytR8cWuT+7PYVercpB4oLQHHpFFg0bpO8uL3a0Qv4L13y2MlE8Ey3paB8
+ gHmz4xY008rRgvKignKWhcQGGlU/OdnIty9LER+HsVQQeVoPD5Wt9EZuHgL/ynMcesq+
+ ymXJGv1AHhMQ7dbVLFShuGwFOidVsXKNoZTCw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=udOtkZZjDYxPso6eI0a9vHxz9Qn5dM9EKymdOtACQ/Y=;
- b=A383pV6fkcUnr9nlaTKg2ixfASK9DjJy2glNxdsK1tPiMo4IfDDW0WlwVyYp62YQLX
- WMmLj5A3y9/ZLvBShCS9SLCT6DPNRemTyZgGwdAttPorvOmyvwHTvkW4lPY1p7g5FJwc
- eLu8Lc7LnhOyQcnAS1aYzhjW1OZudICWXT8AUrJTNvkKY4biVBOfWCXl1qK/UHhdAYKd
- 1RsBZ5Da/iCbisfWvIrrIyhyD8AW9gV3FqWWZ0naOoSqRmYDRSrZs5kqVpklN7BQS5kp
- E7E4CMYzBjlZOpiS5q7W/jjdjItJww3MjsybYPDt8lu1+L7DLGtO3KO0jDPGmyAUm0G2
- SY1g==
-X-Gm-Message-State: AOAM533n92w/uZdFe8GX4e7Y+9XqBM3hWb3tjSB1mIcONUU7hN6QB71Y
- hrvsS4EZRq07OHZTvwxdSxqvSA==
-X-Google-Smtp-Source: ABdhPJw0YM5F0tNQtH8BnGQocJOVnUuo5TWPyiJSGrWay1gXYG7nneFIqPf6+Zy3J5d0TfXcX8TfxQ==
-X-Received: by 2002:a17:902:8bc3:b029:e9:9639:be21 with SMTP id
- r3-20020a1709028bc3b02900e99639be21mr31370108plo.59.1618964359731; 
- Tue, 20 Apr 2021 17:19:19 -0700 (PDT)
+ bh=F81+3GQzn3QgcZNo+rxxDFXnkqXmgl8p5GAog02ZRx8=;
+ b=ICDXYlPyXirHciKvLKCb6jbGg/bp44OhIwfbfFEA1RK4UJhHZTLgMMvDjgmuNTeDGW
+ BZEi0x0nv7/LYygAJt4lvjC2xKkOe8A70+6jAJvvKKLV625bioEi/NqdHAxCUf9Thq02
+ 48zPjFXPICaq5kPTwKWYoQc7QrdwU6yVa9gSm5hwhl4u0p+cnA2XONgTaQ06I8uMHD7b
+ gY1qX1nlJ0ZYefrYW6cJZTJV3YPU/AYnJc23pNUeNt3AHCF1IjFab23EdodFcslpXrcP
+ rQ0hSMbblwtLwK6wWCuTqAAJQZ3bE6Mro1QexhtyUZS6bZ+TkRzoVEtbkZ/xW1ZN2AxJ
+ VCrg==
+X-Gm-Message-State: AOAM531yhy/vmU9pjoQm4z1gCdpU/JI2IGUj9SYluIKKK9bniZjZt9DC
+ C1jyAnD1XMAP8so8OSTkUDJk5w==
+X-Google-Smtp-Source: ABdhPJwmw6bZvj4D5y/EjRC8isYDtq+5t9VnX5sB/1Ie4Dv3J11RrhTkSP/tNUCvygOb6jp8J+DaKA==
+X-Received: by 2002:a17:902:7c0b:b029:eb:24a:1209 with SMTP id
+ x11-20020a1709027c0bb02900eb024a1209mr30305963pll.43.1618964366529; 
+ Tue, 20 Apr 2021 17:19:26 -0700 (PDT)
 Received: from drinkcat2.tpe.corp.google.com
  ([2401:fa00:1:b:95d2:8c89:b629:ff49])
- by smtp.gmail.com with ESMTPSA id d20sm145494pfn.166.2021.04.20.17.19.16
+ by smtp.gmail.com with ESMTPSA id d20sm145494pfn.166.2021.04.20.17.19.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 17:19:19 -0700 (PDT)
+ Tue, 20 Apr 2021 17:19:26 -0700 (PDT)
 From: Nicolas Boichat <drinkcat@chromium.org>
 To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Subject: [PATCH v12 1/4] dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
-Date: Wed, 21 Apr 2021 08:19:05 +0800
-Message-Id: <20210421081831.v12.1.Ie74d3355761aab202d4825ac6f66d990bba0130e@changeid>
+Subject: [PATCH v12 3/4] drm/panfrost: devfreq: Disable devfreq when
+ num_supplies > 1
+Date: Wed, 21 Apr 2021 08:19:07 +0800
+Message-Id: <20210421081831.v12.3.I3af068abe30c9c85cabc4486385c52e56527a509@changeid>
 X-Mailer: git-send-email 2.31.1.368.gbe11c130af-goog
 In-Reply-To: <20210421001908.813625-1-drinkcat@chromium.org>
 References: <20210421001908.813625-1-drinkcat@chromium.org>
@@ -66,105 +67,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>,
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
  fshao@chromium.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, boris.brezillon@collabora.com,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- hsinyi@chromium.org, Matthias Brugger <matthias.bgg@gmail.com>,
- hoegsberg@chromium.org, linux-arm-kernel@lists.infradead.org
+ dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
+ hsinyi@chromium.org, hoegsberg@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define a compatible string for the Mali Bifrost GPU found in
-Mediatek's MT8183 SoCs.
+GPUs with more than a single regulator (e.g. G72 on MT8183) will
+require platform-specific handling for devfreq, for 2 reasons:
+ 1. The opp core (drivers/opp/core.c:_generic_set_opp_regulator)
+    does not support multiple regulators, so we'll need custom
+    handlers.
+ 2. Generally, platforms with 2 regulators have platform-specific
+    constraints on how the voltages should be set (e.g.
+    minimum/maximum voltage difference between them), so we
+    should not just create generic handlers that simply
+    change the voltages without taking care of those constraints.
+
+Disable devfreq for now on those GPUs.
 
 Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+Reviewed-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
 
-Changes in v12:
- - binding: Fix min/maxItems logic (Rob Herring)
+(no changes since v9)
 
-Changes in v11:
- - binding: power-domain-names not power-domainS-names
+Changes in v9:
+ - Explain why devfreq needs to be disabled for GPUs with >1
+   regulators.
 
-Changes in v10:
- - Fix the binding to make sure sram-supply property can be provided.
+Changes in v8:
+ - Use DRM_DEV_INFO instead of ERROR
+
+Changes in v7:
+ - Fix GPU ID in commit message
 
 Changes in v6:
- - Rebased, actually tested with recent mesa driver.
+ - devfreq: New change
 
-Changes in v5:
- - Rename "2d" power domain to "core2"
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-Changes in v4:
- - Add power-domain-names description
-   (kept Alyssa's reviewed-by as the change is minor)
-
- .../bindings/gpu/arm,mali-bifrost.yaml        | 30 ++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 184492162e7e..b22cd8f1b015 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -17,6 +17,7 @@ properties:
-     items:
-       - enum:
-           - amlogic,meson-g12a-mali
-+          - mediatek,mt8183-mali
-           - realtek,rtd1619-mali
-           - rockchip,px30-mali
-       - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-@@ -41,10 +42,13 @@ properties:
+diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+index 47d27e54a34f..aca3bb9a12e4 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
++++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+@@ -92,9 +92,19 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+ 	struct thermal_cooling_device *cooling;
+ 	struct panfrost_devfreq *pfdevfreq = &pfdev->pfdevfreq;
  
-   mali-supply: true
- 
-+  sram-supply: true
+-	ret = devm_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
+-					 pfdev->comp->num_supplies);
+-	if (ret) {
++	if (pfdev->comp->num_supplies > 1) {
++		/*
++		 * GPUs with more than 1 supply require platform-specific handling:
++		 * continue without devfreq
++		 */
++		DRM_DEV_INFO(dev, "More than 1 supply is not supported yet\n");
++		return 0;
++	}
 +
-   operating-points-v2: true
- 
-   power-domains:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 3
- 
-   resets:
-     maxItems: 2
-@@ -87,6 +91,30 @@ allOf:
-     then:
-       required:
-         - resets
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: mediatek,mt8183-mali
-+    then:
-+      properties:
-+        power-domains:
-+          minItems: 3
-+        power-domain-names:
-+          items:
-+            - const: core0
-+            - const: core1
-+            - const: core2
-+
-+      required:
-+        - sram-supply
-+        - power-domains
-+        - power-domain-names
-+    else:
-+      properties:
-+        power-domains:
-+          maxItems: 1
-+        sram-supply: false
- 
- examples:
-   - |
++	opp_table = dev_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
++					      pfdev->comp->num_supplies);
++	if (IS_ERR(opp_table)) {
++		ret = PTR_ERR(opp_table);
+ 		/* Continue if the optional regulator is missing */
+ 		if (ret != -ENODEV) {
+ 			DRM_DEV_ERROR(dev, "Couldn't set OPP regulators\n");
 -- 
 2.31.1.368.gbe11c130af-goog
 
