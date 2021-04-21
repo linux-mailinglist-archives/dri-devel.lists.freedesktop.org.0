@@ -2,38 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC5C367038
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 18:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EB936703A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 18:32:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A07B26E9D2;
-	Wed, 21 Apr 2021 16:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE13D6E9D3;
+	Wed, 21 Apr 2021 16:32:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2C606E9BD
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 16:31:56 +0000 (UTC)
-IronPort-SDR: Zd78nyeFt7sdRixKwRpAtoCBcqkOezhLD8RChjC2/oXRG2usieY4x0gr07ccHYJ6g3Ai+JOSfa
- pkeDFnR4Kugw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="195755661"
-X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="195755661"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 848966E9D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 16:32:09 +0000 (UTC)
+IronPort-SDR: Aw630LwgaF+UB9sAMv7axjfFhJqJ2V39ZQPB0ubAtruCppOb/USFkAj+5n4WN/+S96dRl8LjJU
+ HiqdHBaHhWQA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="257043076"
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="257043076"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Apr 2021 09:31:54 -0700
-IronPort-SDR: egJVzti0po9XsNmWI6Ek9lQZfrx+P59DVCjFK8P3PktHZQFjGBvqZbki3SoWSOAlG+GXxyUhlJ
- aJC/kvrmCObg==
+IronPort-SDR: /KdGZlOfqIx0fIq/OJyt4dPj5qBRzQbE521tpZrgJ9jd9wamzmqs056dGqJvaC83NbitTUXziA
+ q3+RaAsr1KTg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="423606001"
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="445985932"
 Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga007.jf.intel.com with ESMTP; 21 Apr 2021 09:31:52 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2021 09:31:52 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
- id B353516A; Wed, 21 Apr 2021 19:32:09 +0300 (EEST)
+ id BC8DE13C; Wed, 21 Apr 2021 19:32:09 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/7] drm/st7735r: Avoid spamming logs if probe is deferred
-Date: Wed, 21 Apr 2021 19:31:51 +0300
-Message-Id: <20210421163157.50949-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 2/7] drm/st7586: Avoid spamming logs if probe is deferred
+Date: Wed, 21 Apr 2021 19:31:52 +0300
+Message-Id: <20210421163157.50949-2-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210421163157.50949-1-andriy.shevchenko@linux.intel.com>
+References: <20210421163157.50949-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,15 +63,15 @@ this by replacing DRM_DEV_ERROR() by dev_err_probe().
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/gpu/drm/tiny/st7735r.c | 12 ++++--------
+ drivers/gpu/drm/tiny/st7586.c | 12 ++++--------
  1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
-index faaba0a033ea..e3cbaa846e2b 100644
---- a/drivers/gpu/drm/tiny/st7735r.c
-+++ b/drivers/gpu/drm/tiny/st7735r.c
-@@ -207,16 +207,12 @@ static int st7735r_probe(struct spi_device *spi)
- 	drm = &dbidev->drm;
+diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
+index ff5cf60f4bd7..fdd823e6ed44 100644
+--- a/drivers/gpu/drm/tiny/st7586.c
++++ b/drivers/gpu/drm/tiny/st7586.c
+@@ -323,16 +323,12 @@ static int st7586_probe(struct spi_device *spi)
+ 	bufsize = (st7586_mode.vdisplay + 2) / 3 * st7586_mode.hdisplay;
  
  	dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
 -	if (IS_ERR(dbi->reset)) {
@@ -79,16 +81,16 @@ index faaba0a033ea..e3cbaa846e2b 100644
 +	if (IS_ERR(dbi->reset))
 +		return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
  
- 	dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
--	if (IS_ERR(dc)) {
--		DRM_DEV_ERROR(dev, "Failed to get gpio 'dc'\n");
--		return PTR_ERR(dc);
+ 	a0 = devm_gpiod_get(dev, "a0", GPIOD_OUT_LOW);
+-	if (IS_ERR(a0)) {
+-		DRM_DEV_ERROR(dev, "Failed to get gpio 'a0'\n");
+-		return PTR_ERR(a0);
 -	}
-+	if (IS_ERR(dc))
-+		return dev_err_probe(dev, PTR_ERR(dc), "Failed to get GPIO 'dc'\n");
++	if (IS_ERR(a0))
++		return dev_err_probe(dev, PTR_ERR(a0), "Failed to get GPIO 'a0'\n");
  
- 	dbidev->backlight = devm_of_find_backlight(dev);
- 	if (IS_ERR(dbidev->backlight))
+ 	device_property_read_u32(dev, "rotation", &rotation);
+ 
 -- 
 2.30.2
 
