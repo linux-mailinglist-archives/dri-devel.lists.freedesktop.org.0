@@ -2,42 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D74A3672B4
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 20:40:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739C43672FB
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 20:58:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E23CE6E9CC;
-	Wed, 21 Apr 2021 18:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 743CA89DFB;
+	Wed, 21 Apr 2021 18:58:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3F166E9B1;
- Wed, 21 Apr 2021 18:39:56 +0000 (UTC)
-IronPort-SDR: BGFvayV3tT52vlkLPTw/Rk5lWUv8z/a9fgjbuJygGwULwYR1CRT8vlfRge3y84gXrYrEyGC8LC
- TJPRVrnGAkUQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="175862026"
-X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="175862026"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2021 11:39:55 -0700
-IronPort-SDR: TYr7rALY8BDfHLuqtwjGXeSIhIxdv0mdUqjczB7YQwL3bakP1SpKickfZtMBIQ9F5AuYya2Wu7
- v9a4jUFNPYyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="455450299"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga002.fm.intel.com with SMTP; 21 Apr 2021 11:39:51 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 21 Apr 2021 21:39:50 +0300
-Date: Wed, 21 Apr 2021 21:39:50 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: Re: [PATCH] drm/i915/dp: Use slow and wide link training for
- everything
-Message-ID: <YIBxduMptaKAFOUq@intel.com>
-References: <20210421052054.1434718-1-kai.heng.feng@canonical.com>
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07BD289DFB
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 18:58:27 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id sd23so56391547ejb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 11:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=54Mx0VE5DUiDmkj0gLV5ZKMgKjIaEBZW9DsfzslmghU=;
+ b=cIwEitSreHvoU5Rh+cIH0tZLKycMvzPLdGHqiw+jXsqD8kR6ex55OetBSsTyUBV4LX
+ 59EyQE51R+6lLsUh1H+5UYSTC01ru38vMT+B2W9M3ubWlH87hz3sdiXgFkLq473Em6xM
+ 0PnBeZZ25Boh+7HU+asoGDpKftZAK8Hu8m0FFHSM5WWS7CcCHq/P6ZmzkE9NzF7plnZi
+ kKqp+cED1NzKcctzQgoGpUNDK54Qe1RGy/WbuSqi8YjYuzPAhYOJt8KGs7tNG7n3IL0N
+ 9RcWqS/lIDKe6URfyas7uSnO4ef4M0a4PMTQx0i8lX7MyVopoh9ZxfVW2CAt7vXdUmrt
+ 4Xcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=54Mx0VE5DUiDmkj0gLV5ZKMgKjIaEBZW9DsfzslmghU=;
+ b=OWSN7avZD8Osc78PoQMwHdMaT8fCEy27YqGvkpnwHWdJOOJfUCVTeQTQtWHCSMa2M+
+ aoXEV7aEWrb18bXdF9a5dTFwn97Jm8hxaj+W774CRzEVI/Fx/idgr3VDoJh7P+dhkpDs
+ Z9ay+Lxpxl/z0xaNIjWC9ER2bjdc2wMfKaKze3hJTreloyskZ+jJz+aEQOHIf8ZdK6pl
+ IWDVvOi4h+1YkAUw/fNTbqwSxoF/RRncRMeNC/Kk/2RodX2ZIn37BoH4Ew2O2oMVRCHV
+ B452OvxAS0E9PbMJON+VIdPfjz/trXXOuoVmmAa8CerdiwTHgpzTa+d81oP6nD+e18ok
+ aMJg==
+X-Gm-Message-State: AOAM530xuIR199Uu9hBb8ICUycwuveVO9u+9YYwR7wm6bKyDid1ikzAb
+ 9Q3WZVZfhhOKXSGijBMe0G8ayK+uYzQmpDgp22JbN5B5qQ0=
+X-Google-Smtp-Source: ABdhPJxr+QMxd/2sbSjF2e5fiqBz1ZUDqK8kWBFS4fujTcB9PfbvZM0Sf6S5HTljFDtzkJfTTvg6NHM9k333nq6g1KY=
+X-Received: by 2002:a17:906:5fce:: with SMTP id
+ k14mr35082568ejv.9.1619031505577; 
+ Wed, 21 Apr 2021 11:58:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210421052054.1434718-1-kai.heng.feng@canonical.com>
-X-Patchwork-Hint: comment
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 22 Apr 2021 04:58:14 +1000
+Message-ID: <CAPM=9tyXf8aJnBPfd8E6aT-61PCayKy7M4MM4Sq+OLk+MwvohA@mail.gmail.com>
+Subject: umn experiment patches fallout in drm
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexdeucher@gmail.com>, 
+ Ben Skeggs <skeggsb@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,154 +62,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- Sean Paul <seanpaul@chromium.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- rodrigo.vivi@intel.com, Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 21, 2021 at 01:20:31PM +0800, Kai-Heng Feng wrote:
-> Screen flickers on Innolux eDP 1.3 panel when clock rate 540000 is in use.
-> =
-
-> According to the panel vendor, though clock rate 540000 is advertised,
-> but the max clock rate it really supports is 270000.
-> =
-
-> Ville Syrj=E4l=E4 mentioned that fast and narrow also breaks some eDP 1.4
-> panel, so use slow and wide training for all panels to resolve the
-> issue.
-> =
-
-> User also confirmed that the new strategy doesn't introduce any
-> regression on XPS 9380.
-> =
-
-> v2:
->  - Use slow and wide for everything.
-> =
-
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3384
-> References: https://gitlab.freedesktop.org/drm/intel/-/issues/272
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-
-Thanks. Pushed to drm-intel-next.
-
-I did a quick scan of a few CI logs and noticed that at least cml-u2
-changed behaviour:
-- [CONNECTOR:95:eDP-1] Link Training passed at link rate =3D 432000, lane c=
-ount =3D 1, at DPRX
-+ [CONNECTOR:95:eDP-1] Link Training passed at link rate =3D 216000, lane c=
-ount =3D 2, at DPRX
-
-But it still appears to work, and 2.16Gbps is also the link rate chosen
-by the BIOS, which is reassuring.
-
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -1095,44 +1095,6 @@ intel_dp_compute_link_config_wide(struct intel_dp =
-*intel_dp,
->  	return -EINVAL;
->  }
->  =
-
-> -/* Optimize link config in order: max bpp, min lanes, min clock */
-> -static int
-> -intel_dp_compute_link_config_fast(struct intel_dp *intel_dp,
-> -				  struct intel_crtc_state *pipe_config,
-> -				  const struct link_config_limits *limits)
-> -{
-> -	const struct drm_display_mode *adjusted_mode =3D &pipe_config->hw.adjus=
-ted_mode;
-> -	int bpp, clock, lane_count;
-> -	int mode_rate, link_clock, link_avail;
-> -
-> -	for (bpp =3D limits->max_bpp; bpp >=3D limits->min_bpp; bpp -=3D 2 * 3)=
- {
-> -		int output_bpp =3D intel_dp_output_bpp(pipe_config->output_format, bpp=
-);
-> -
-> -		mode_rate =3D intel_dp_link_required(adjusted_mode->crtc_clock,
-> -						   output_bpp);
-> -
-> -		for (lane_count =3D limits->min_lane_count;
-> -		     lane_count <=3D limits->max_lane_count;
-> -		     lane_count <<=3D 1) {
-> -			for (clock =3D limits->min_clock; clock <=3D limits->max_clock; clock=
-++) {
-> -				link_clock =3D intel_dp->common_rates[clock];
-> -				link_avail =3D intel_dp_max_data_rate(link_clock,
-> -								    lane_count);
-> -
-> -				if (mode_rate <=3D link_avail) {
-> -					pipe_config->lane_count =3D lane_count;
-> -					pipe_config->pipe_bpp =3D bpp;
-> -					pipe_config->port_clock =3D link_clock;
-> -
-> -					return 0;
-> -				}
-> -			}
-> -		}
-> -	}
-> -
-> -	return -EINVAL;
-> -}
-> -
->  static int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 dsc_ma=
-x_bpc)
->  {
->  	int i, num_bpc;
-> @@ -1382,22 +1344,11 @@ intel_dp_compute_link_config(struct intel_encoder=
- *encoder,
->  	    intel_dp_can_bigjoiner(intel_dp))
->  		pipe_config->bigjoiner =3D true;
->  =
-
-> -	if (intel_dp_is_edp(intel_dp))
-> -		/*
-> -		 * Optimize for fast and narrow. eDP 1.3 section 3.3 and eDP 1.4
-> -		 * section A.1: "It is recommended that the minimum number of
-> -		 * lanes be used, using the minimum link rate allowed for that
-> -		 * lane configuration."
-> -		 *
-> -		 * Note that we fall back to the max clock and lane count for eDP
-> -		 * panels that fail with the fast optimal settings (see
-> -		 * intel_dp->use_max_params), in which case the fast vs. wide
-> -		 * choice doesn't matter.
-> -		 */
-> -		ret =3D intel_dp_compute_link_config_fast(intel_dp, pipe_config, &limi=
-ts);
-> -	else
-> -		/* Optimize for slow and wide. */
-> -		ret =3D intel_dp_compute_link_config_wide(intel_dp, pipe_config, &limi=
-ts);
-> +	/*
-> +	 * Optimize for slow and wide for everything, because there are some
-> +	 * eDP 1.3 and 1.4 panels don't work well with fast and narrow.
-> +	 */
-> +	ret =3D intel_dp_compute_link_config_wide(intel_dp, pipe_config, &limit=
-s);
->  =
-
->  	/* enable compression if the mode doesn't fit available BW */
->  	drm_dbg_kms(&i915->drm, "Force DSC en =3D %d\n", intel_dp->force_dsc_en=
-);
-> -- =
-
-> 2.30.2
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TG9va2luZyBhdCB0aGUgdW1uLmVkdSBwYXRjaGVzIGZvciBkcm0gaW4gdGhlIGxhc3Qgd2hpbGUs
+IGFsbCB0aGUKcmVmY291bnQgb25lcyBsb29rIGJvZ3VzLAoKMjAyMC0wNi0xMyAyMDo0OCAtMDUw
+MCBBZGl0eWEgUGFra2kgbyBkcm0vbm91dmVhdTogZml4IHJlZmVyZW5jZSBjb3VudApsZWFrIGlu
+IG5vdXZlYXVfZGVidWdmc19zdHJhcF9wZWVrCjIwMjAtMDYtMTMgMjA6MjIgLTA1MDAgQWRpdHlh
+IFBha2tpIG8gZHJtL25vdXZlYXU6IEZpeCByZWZlcmVuY2UgY291bnQKbGVhayBpbiBub3V2ZWF1
+X2Nvbm5lY3Rvcl9kZXRlY3QKMjAyMC0wNi0xMyAyMDoyOSAtMDUwMCBBZGl0eWEgUGFra2kgbyBk
+cm0vbm91dmVhdTogZml4IHJlZmVyZW5jZSBjb3VudApsZWFrIGluIG52NTBfZGlzcF9hdG9taWNf
+Y29tbWl0CjIwMjAtMDYtMTMgMjA6NDEgLTA1MDAgQWRpdHlhIFBha2tpIG8gZHJtL25vdXZlYXU6
+IGZpeCBtdWx0aXBsZQppbnN0YW5jZXMgb2YgcmVmZXJlbmNlIGNvdW50IGxlYWtzCjIwMjAtMDYt
+MTMgMjA6MzMgLTA1MDAgQWRpdHlhIFBha2tpIG8gZHJtL25vdXZlYXUvZHJtL25vdmVhdTogZml4
+CnJlZmVyZW5jZSBjb3VudCBsZWFrIGluIG5vdXZlYXVfZmJjb25fb3BlbgoyMDIwLTA2LTEzIDIx
+OjIxIC0wNTAwIEFkaXR5YSBQYWtraSDilIIgbyBkcm0vcmFkZW9uOiBGaXggcmVmZXJlbmNlCmNv
+dW50IGxlYWtzIGNhdXNlZCBieSBwbV9ydW50aW1lX2dldF9zeW5jCjIwMjAtMDYtMTMgMjA6NTUg
+LTA1MDAgQWRpdHlhIFBha2tpIOKUgiDilIIgbyBkcm0vcmFkZW9uOiBmaXggbXVsdGlwbGUKcmVm
+ZXJlbmNlIGNvdW50IGxlYWsKMjAyMC0wNi0xMyAxNDozMiAtMDUwMCBRaXVzaGkgV3UgICAg4pSC
+IOKUgiDilIIgbyBkcm0vYW1ka2ZkOiBGaXggcmVmZXJlbmNlCmNvdW50IGxlYWtzLgoKVGhlc2Ug
+b25lcyBsb29rIHNhbmUgYnV0IG1heWJlIHdlIHNob3VsZCByZXZlcnQgdGhlbSBhbGwgYW55d2F5
+cy4KCjIwMTktMTItMTUgMTM6NDMgLTA2MDAgQWRpdHlhIFBha2tpIOKUgiDilIIg4pSCIOKUgiBv
+IGRybTogcmVtb3ZlIGR1cGxpY2F0ZQpjaGVjayBvbiBwYXJlbnQgYW5kIGF2b2lkIEJVR19PTgoy
+MDE5LTEwLTE3IDIzOjQxIC0wNTAwIEthbmdqaWUgTHUgICDilIIg4pSCIOKUgiDilIIg4pSCIG8g
+ZHJtL2dtYTUwMDogZml4IG1lbW9yeQpkaXNjbG9zdXJlcyBkdWUgdG8gdW5pbml0aWFsaXplZCBi
+eXRlcwoyMDE5LTEwLTE3IDIzOjI5IC0wNTAwIEthbmdqaWUgTHUgICDilIIg4pSCIOKUgiDilIIg
+4pSCIG8gZ21hL2dtYTUwMDogZml4IGEKbWVtb3J5IGRpc2Nsb3N1cmUgYnVnIGR1ZSB0byB1bmlu
+aXRpYWxpemVkIGJ5dGVzCjIwMTktMDMtMjQgMTg6MTYgLTA1MDAgS2FuZ2ppZSBMdSAgIOKUgiDi
+lIIg4pSCIOKUgiDilIIg4pSCIG8gZHJtL3YzZDogZml4IGEKbWlzc2luZyBjaGVjayBvZiBwbV9y
+dW50aW1lX2dldF9zeW5jCjIwMTktMDMtMDggMjI6MzYgLTA2MDAgS2FuZ2ppZSBMdSAgIOKUgiDi
+lIIg4pSCIOKUgiDilIIg4pSCIOKUgiBvIGRybTogdmttczogY2hlY2sKc3RhdHVzIG9mIGFsbG9j
+X29yZGVyZWRfd29ya3F1ZXVlCgpCZW4sIEFsZXggY2FuIHlvdSBsaW5lIHVwIHJldmVydHMgZm9y
+IG5leHQgZm9yIGFsbCBvZiB0aGUKbm91dmVhdS9hbWRncHUvcmFkZW9uIG9uZXM/CgpEYXZlLgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
