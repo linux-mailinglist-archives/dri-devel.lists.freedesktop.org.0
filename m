@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CF0366E45
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 16:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10259366E48
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 16:32:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 749DF6E9BB;
-	Wed, 21 Apr 2021 14:32:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41A956E9BE;
+	Wed, 21 Apr 2021 14:32:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23BB66E9BB
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 14:32:30 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- 92-20020a9d02e50000b029028fcc3d2c9eso16627912otl.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 07:32:30 -0700 (PDT)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB8076E9C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 14:32:51 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id k25so42604728oic.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 07:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KatKMRcorHaCB8knJAAJ9JHDSKXTyx9e9HLULQuHgrw=;
- b=Lk9mhpUltJNpMeMC/+MYMF5AVtHdMcxa/Gaf0vfsQCCCNJj9tDSD+Yt0gsFvik3kR2
- I1N0CxLCo6qJDWjfOHXnxmah+smujMVA5FU8CRp/HjbzUew2IJ4z238DWKHVzWQGQvAn
- bss0JKTo5oLvIuqC1kbc1BJqut9z24/EJO/4I=
+ :cc; bh=O4NdzpZfqirPp0gvR813Ah3uNgfBFiqBDJuyFPyGu1E=;
+ b=Kjz9TxZBQw4kQOiJ6hp0eg94TUg7BhRw7HZ8u74uB33gpDmRY6KAQzDoDFyY9qiFDU
+ 0rqSNQr7DET8P3ubXLIabb344MfpQ/1AxVSeePgjKBgtjwzU3vl+QIi3xmXZ083gD0/9
+ LQhoP5fRUPucz1zsAF4aXtw1RiIZpoROr55O8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KatKMRcorHaCB8knJAAJ9JHDSKXTyx9e9HLULQuHgrw=;
- b=uDXtoTJ8h4JxYMMOl5AINxwIuiywCxm3/Ewvl5SjGv8o5QYFnm1CVnw6yx9HNfhipi
- KeoTGmd/iRMI12XNhblmhMs8+vyxxwEZHu21B36gw/vqequP9Z1DrkmhDcX/6zk+q85G
- JbnXCJXUKphpE8r/s73YFtgZjjVBcw1um7DJ7SpCFZNZmyJFiZVnn3B7TvgOJaphTx82
- nG8UpGiCy6HfIiuXlMeP2Dh93Nnh65RqT20gmnI3tqm2DDH8VJt2lrJHbtvo8hE2qoeo
- mpLviTsclbVKq/ZcRRaXG4sITQvUolB96Tr90rSz9wJ3lK/dozMr0H2d2i/anLu5DPr5
- nChw==
-X-Gm-Message-State: AOAM533mO9o9EKfF8VuW/Sg++ocdLVyLd3EI9K/ieATzMOs7Et9guZ5M
- gVpnTPYiOK65fR4ZpSQV/pFxl4DbZyGK9f5zjVNGTw==
-X-Google-Smtp-Source: ABdhPJzhesco6THmq6TsUiGIDC3hulWXQaMptXynVdEEkp0XyOzFvk6Agm/HhpxmFj31qNzTiQMCz5w39aqGVCzGpgs=
-X-Received: by 2002:a05:6830:1398:: with SMTP id
- d24mr24080226otq.281.1619015549354; 
- Wed, 21 Apr 2021 07:32:29 -0700 (PDT)
+ bh=O4NdzpZfqirPp0gvR813Ah3uNgfBFiqBDJuyFPyGu1E=;
+ b=WLL8EWA1jX3d6zGXVSgZHAjQWf4PRNMQoc67lrG/WdgiGU+3VreDDCDElmfXpAzEal
+ K1TCpDOR/l93dZ3t7JkbtcGH3EpYNnpsbwtrgtsqqGYCAU7M012RQ3CcGUrHHt1Ud4V2
+ OZh+eAf/ds9NEWvvsEKzShPaikbVnPDhapuWswo9I0f4mMe7Fzb8mhll8OkkJW9IU0EI
+ LM2uB5s3sAqaMLOmrXP2TqD1aerPAvWv4EM3sCwFM6tYe6o1URB33FCryoHCCRWwB9bY
+ 6HtwOAYOgZ4wYzbju8o7rZgp+p6aIn181+2EAQPxneIfr0gVxobQcrCE/7pMUJPvIjnw
+ JknQ==
+X-Gm-Message-State: AOAM530+vD8hZ7Mj1TDk94Vq6ZHBVcGs+nTFq2fvchXiEqE7vJ8KSoci
+ FEa4FaeS3JocCGHPYCJR1/k0FatV8y8J0/Q3FP9yKw==
+X-Google-Smtp-Source: ABdhPJzplxjGkMkE3Q1aIt+OfIn0aKTDJphbICRrJaG7SWlq7lWbgO/UnV/T4onLOoKBjH6XsduDUlgmuHX60sLxXw8=
+X-Received: by 2002:a05:6808:9b0:: with SMTP id
+ e16mr6459393oig.128.1619015571169; 
+ Wed, 21 Apr 2021 07:32:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210421120353.544518-1-maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20210421120353.544518-1-maarten.lankhorst@linux.intel.com>
+References: <20210421120938.546076-1-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20210421120938.546076-1-maarten.lankhorst@linux.intel.com>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 21 Apr 2021 16:32:18 +0200
-Message-ID: <CAKMK7uFpoY7YMEMbftjq+P5XHR6L+F0KwFtbK7CtuUFy7HsLkQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Fix docbook descriptions for i915_cmd_parser
+Date: Wed, 21 Apr 2021 16:32:40 +0200
+Message-ID: <CAKMK7uF51AyrqydPVwy4u=H9h2apk2uYhnvUFRijDCY4Y2OKzQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Fix docbook descriptions for i915_gem_shrinker
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,61 +67,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 21, 2021 at 2:03 PM Maarten Lankhorst
+On Wed, Apr 21, 2021 at 2:09 PM Maarten Lankhorst
 <maarten.lankhorst@linux.intel.com> wrote:
 >
-> Fixes the following htmldocs warnings:
-> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess function parameter 'trampoline' description in 'intel_engine_cmd_parser'
-> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'jump_whitelist' not described in 'intel_engine_cmd_parser'
-> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'shadow_map' not described in 'intel_engine_cmd_parser'
-> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'batch_map' not described in 'intel_engine_cmd_parser'
-> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess function parameter 'trampoline' description in 'intel_engine_cmd_parser'
+> Fixes the following htmldocs warning:
+> drivers/gpu/drm/i915/gem/i915_gem_shrinker.c:102: warning: Function parameter or member 'ww' not described in 'i915_gem_shrink'
 >
+> Fixes: cf41a8f1dc1e ("drm/i915: Finally remove obj->mm.lock.")
 > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > ---
->  drivers/gpu/drm/i915/i915_cmd_parser.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/i915/i915_cmd_parser.c b/drivers/gpu/drm/i915/i915_cmd_parser.c
-> index e6f1e93abbbb..afb9b7516999 100644
-> --- a/drivers/gpu/drm/i915/i915_cmd_parser.c
-> +++ b/drivers/gpu/drm/i915/i915_cmd_parser.c
-> @@ -1369,6 +1369,18 @@ static int check_bbstart(u32 *cmd, u32 offset, u32 length,
->         return 0;
->  }
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> index 7545ddd83659..f4fb68e8955a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> @@ -72,6 +72,7 @@ static void try_to_writeback(struct drm_i915_gem_object *obj,
 >
-> +/**
-> + * intel_engine_cmd_parser_alloc_jump_whitelist() - preallocate jump whitelist for intel_engine_cmd_parser()
-> + * @batch_length: length of the commands in batch_obj
-> + * @trampoline: Whether jump trampolines are used.
-> + *
-> + * Preallocates a jump whitelist for parsing the cmd buffer in intel_engine_cmd_parser().
-> + * This has to be preallocated, because the command parser runs in signaling context,
-> + * and may not allocate any memory.
-> + *
-> + * Return: NULL or pointer to a jump whitelist, or ERR_PTR() on failure. Use
-> + * IS_ERR() to check for errors. Must bre freed() with kfree().
-
-IS_ERR_OR_NULL or needs an actual bugfix in the code since we're not
-consistent. Also s/bre/be/
--Daniel
-
-> + */
->  unsigned long *intel_engine_cmd_parser_alloc_jump_whitelist(u32 batch_length,
->                                                             bool trampoline)
->  {
-> @@ -1401,7 +1413,9 @@ unsigned long *intel_engine_cmd_parser_alloc_jump_whitelist(u32 batch_length,
->   * @batch_offset: byte offset in the batch at which execution starts
->   * @batch_length: length of the commands in batch_obj
->   * @shadow: validated copy of the batch buffer in question
-> - * @trampoline: whether to emit a conditional trampoline at the end of the batch
-> + * @jump_whitelist: buffer preallocated with intel_engine_cmd_parser_alloc_jump_whitelist()
-> + * @shadow_map: mapping to @shadow vma
-> + * @batch_map: mapping to @batch vma
->   *
->   * Parses the specified batch buffer looking for privilege violations as
->   * described in the overview.
+>  /**
+>   * i915_gem_shrink - Shrink buffer object caches
+> + * @ww: i915 gem ww acquire ctx, or NULL
+>   * @i915: i915 device
+>   * @target: amount of memory to make available, in pages
+>   * @nr_scanned: optional output for number of pages scanned (incremental)
 > --
 > 2.31.0
 >
