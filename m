@@ -1,63 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3AD3673B3
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 21:47:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 535C0367445
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 22:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E876E9FB;
-	Wed, 21 Apr 2021 19:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FADD6E207;
+	Wed, 21 Apr 2021 20:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08DC86E9FB
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 19:47:14 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- q123-20020a1c43810000b029012c7d852459so3170646wma.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 12:47:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Yfid5mt4o5SnHIBGrtPwH6oVDyBU8btfMOQ75Gb0/cY=;
- b=LKfsuxEC1pQx5HGYVdIakZHU1YNE76qyidClLc1Ingi52X2R8O0ujbEUwocr50BqHq
- FEQ11v/VpDyhweTsTFm8+L8ZAb5V2OgQKNxlZ1uNAUK6keMrv9fIvIRcatZenE93XCqY
- ECmBewYF8nWmY6k1y/EFhLnV1hp/ro93FHJcq1+oZBh7MIo+wQZnAOvri1u0GJEfcGo8
- pEGYgKaOIWJ7O/r0C9r7DQenrBkIQq8X2ZQ/C9neqiZ8Oy2dMR7aDZ3ZU3JZWKIvcU7r
- +VF3Fdk+Vt8aw4gM+rwHxsNw6kMhM9Fkgw186E9FHvut5+p3H5viZEkPWj0rhEWfwK2c
- t5iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Yfid5mt4o5SnHIBGrtPwH6oVDyBU8btfMOQ75Gb0/cY=;
- b=PMRrJtC0bscRrbqiqeKnpWoi69z0fUHlU4gZwJABv7qWXpgtbRaHhORRr+p2kU1Ijm
- 2ZPtFY7Qol4+wfosVBt6KEavO+dbTfsO8t+9pDB9vZdUOJe7DEATTULdlO7ZiQipSiH6
- TDzyRBVDcNnM+QT3Pv+qpVw11vHF8khgBdo7Ig/QUvE0OYb6Q0oo9rGiUYVQaZ/Wo//9
- EPBCAUajdFh2frR2whwYDpX78lKTtu1Ee4dEw6Hq/rd+lTtZ1TVhCgBjP/dApIpITVxU
- dn4I8Zm0OUORLEt7jANekdK37l2Aoq8nSUoknxVuPIQxKOTtu/6Feh92/65T1TPWsMZO
- P+ow==
-X-Gm-Message-State: AOAM5323iQ89z0Dq2ZrVONyuQuDUbNAyp0UomL6JAHzpIOEGiCBVbca/
- NSxAdoilt8+5r5DxJF1S/Do=
-X-Google-Smtp-Source: ABdhPJz2uLV4nWLi4eXhOCtXdleTEIXrzjTgH7mD6Oolld/dVCTPksywDFUu1wAm+e7Y+o4O5Vx7JQ==
-X-Received: by 2002:a05:600c:cc:: with SMTP id
- u12mr11443875wmm.110.1619034432706; 
- Wed, 21 Apr 2021 12:47:12 -0700 (PDT)
-Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:6d3d:2d8b:5417:831c])
- by smtp.gmail.com with ESMTPSA id
- c6sm13004217wmr.0.2021.04.21.12.47.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Apr 2021 12:47:11 -0700 (PDT)
-From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 5/5] drm: drm_context.c: Adjust end of block comment
-Date: Wed, 21 Apr 2021 20:46:58 +0100
-Message-Id: <341b1ae1475fad22035cf3ff11df73cd49063d4c.1618756333.git.martinsdecarvalhobeatriz@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1618756333.git.martinsdecarvalhobeatriz@gmail.com>
-References: <cover.1618756333.git.martinsdecarvalhobeatriz@gmail.com>
-MIME-Version: 1.0
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 168656E207
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 20:46:15 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1619037977; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=WMNzn12sp0I1xSRnusBjExFnrSaK6dKVV0yrk/rva9o=;
+ b=FH5tiDdcXbgpXcsUPR650+PJ/mgPkAqdX76qiGsFf2KT0y6UVCXik0ArBDov4gk4Sku0ptKD
+ Wlg+BZbMPtH6Jqe8uuX/COGr5TqC+dPrD7CeyWEf6nzw5rN0GpQD5DidWCEl07aIFbEVtBcM
+ rUt1ltqs7w44lKzV2jQBb2bqQ90=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 60808f15c39407c3271c3c14 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 21 Apr 2021 20:46:13
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id BA242C433D3; Wed, 21 Apr 2021 20:46:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 54E6CC4338A;
+ Wed, 21 Apr 2021 20:46:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 54E6CC4338A
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com,
+	sean@poorly.run,
+	swboyd@chromium.org
+Subject: [PATCH v2] drm/msm/dp: service only one irq_hpd if there are multiple
+ irq_hpd pending
+Date: Wed, 21 Apr 2021 13:46:04 -0700
+Message-Id: <1619037964-26222-1-git-send-email-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,38 +67,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, outreachy-kernel@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, khsieh@codeaurora.org,
+ dri-devel@lists.freedesktop.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new line with */ on the last line of a block comment to follow the
-Linux kernel coding conventions.
-Problem found by checkpatch.
+irq_hpd is an asynchronous event generated by panel to bring up attention
+of host. It could only be generated at run time of normal operation and
+it is not possible to be generated while main link is down. Therefore no
+need to handle irq_hpd if main link is down, such as cable unplug or system
+suspended. To handle irq_hpd, host has to read DPCD out of panel to figure
+out what action requested and perform that action accordingly. Also only
+handle the latest irq_hpd if there are multiple irq_hpd pending at the time
+of service since panel contains only the latest irq_hpd request status.
 
-Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+Changes in v2:
+-- re wording of commit test
+
+Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
 ---
- drivers/gpu/drm/drm_context.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_context.c
-index c99be950bf17..54e3c513d6a5 100644
---- a/drivers/gpu/drm/drm_context.c
-+++ b/drivers/gpu/drm/drm_context.c
-@@ -312,7 +312,8 @@ static int drm_context_switch_complete(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 5a39da6..1107c4e 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -707,6 +707,12 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+ 		return 0;
+ 	}
  
- 	/* If a context switch is ever initiated
- 	   when the kernel holds the lock, release
--	   that lock here. */
-+	   that lock here.
++	/*
++	 * handle only one irq_hpd in case of multiple irq_hpd pending
++	 * since panel contains the lateset request at this time
 +	 */
- 	clear_bit(0, &dev->context_flag);
++	dp_del_event(dp, EV_IRQ_HPD_INT);
++
+ 	ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+ 	if (ret == -ECONNRESET) { /* cable unplugged */
+ 		dp->core_initialized = false;
+@@ -1300,6 +1306,9 @@ static int dp_pm_suspend(struct device *dev)
+ 	/* host_init will be called at pm_resume */
+ 	dp->core_initialized = false;
+ 
++	/* suspending, no need to handle pending irq_hdps */
++	dp_del_event(dp, EV_IRQ_HPD_INT);
++
+ 	mutex_unlock(&dp->event_mutex);
  
  	return 0;
+@@ -1496,6 +1505,9 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
+ 	/* stop sentinel checking */
+ 	dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
+ 
++	/* link is teared down, no need to handle pending irq_hdps */
++	dp_del_event(dp_display, EV_IRQ_HPD_INT);
++
+ 	dp_display_disable(dp_display, 0);
+ 
+ 	rc = dp_display_unprepare(dp);
 -- 
-2.25.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
 _______________________________________________
 dri-devel mailing list
