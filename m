@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C61367391
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 21:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B941367394
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 21:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA8126E9E2;
-	Wed, 21 Apr 2021 19:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA4656E9E1;
+	Wed, 21 Apr 2021 19:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFD56E9E1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 19:42:53 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id g9so26485905wrx.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 12:42:53 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD0CF6E9E1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 19:42:54 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id w4so38786347wrt.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 12:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JU6/Qfl9n+QXWwBGt0462NZzcBDiybmlQ03LCPVjDcM=;
- b=EF4lWCEaoKX8fLy8cm5aOM/qjMBsBPcQxY6gh7z1b6zRT0KzOLOCYtnYT2OLC64JbL
- rzQ4CI8LNWIewiRGfBk3db2sk9X0ITizHMfXEx/Y2SMgBvuJ459nGLhFpSsjSbrG0kZe
- HfMkpztZZ/ki5VMyPg1iW5fC26ijNiTbKL47LjdIPjS5/Nvmefod6zmqaC2qJg/UILlX
- 01eY3CBfTf0+doHRt6V/+PIs0FRC9J17kKkXKz+XC9FMuGsQ6ECfcI5rPqRwc1BePWvp
- tk5nyun6WSPL/nx080ahNpi59LafdJssw6pQ2dpr9Y+rPhgK3SC+9y211CksOFi3xh9P
- yrug==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=prbsc0FyNObzI+Wvj3P6FznlVAvE0zjRobacKBhitVA=;
+ b=TA1TfJKHBEZIrBxpR53G5eOoISpEKxuSiMYvlHmHfvOn4KpnIsZBkWt5u5KBadT55G
+ emnfZBDEEgeVmcit93tfkq3uOvwyIJreSWA0P4Y2NIJtZqiNbchrNomB+73rdUxKUwJD
+ igfT4UVzD3jPXClgg/1jrNpgORohlP3faxxKubgEUa69hKZw9ptqE8SBB0z3KnZvJrbG
+ GXSTFs2NAHSZ1+zE85j4+sqo63rTL2JmFsoyGdDiTnSE+1zawQe91Ivnqfn4S2jFMdxp
+ cepJ1VAnZk4MBzvN3JOAOVJhZ77zsDUFPl8i5QXdEdzCDRA90HU4+kYWcJeEq/vrDpvL
+ jb+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JU6/Qfl9n+QXWwBGt0462NZzcBDiybmlQ03LCPVjDcM=;
- b=DHdehOsouULamFVBslhtv6hBBNNyY4z6QJzJTaZk0W2z5vgUfURQsCEHM33aAA3v8X
- IUc0VBUyvaBoTo6dbdPuTQA39DxZ3DWTICh7hAHIF027Y93KG6eUniFl882A54Ob5Bsz
- njcHdTb/kiLEcE/wQwXcFOWS1AikLREMtYEUt4q75AwXXMsS+DC8AIVHiJ/HduhT1rEM
- aPZcLIHRm2Cv0uYTy3nfLHQ5BjArO42LRtIZED3AtxQR+75MedXMTmTZWZoehM9lnZ1u
- J6jZ03Wu/Ni8gXT/eFmftmx1+hErokr+rei6oB9GehqdAvO2ADCiVaHu4qNSeN8gOvOE
- cPzQ==
-X-Gm-Message-State: AOAM533z2Y8wMA0tI6a/q55wBbxPaP+LtVZCuAiQdVFnGJs3OVrJARsG
- ykDrWzfM6bqtNlck3RQx8l4=
-X-Google-Smtp-Source: ABdhPJxwLLpPCAGgCKzl/unvPvqM8+kZJPO3R33aSTcElWruEpi/1NIOV+MzVBGeU40BkA90bykGHQ==
-X-Received: by 2002:adf:cf09:: with SMTP id o9mr29478140wrj.366.1619034172365; 
- Wed, 21 Apr 2021 12:42:52 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=prbsc0FyNObzI+Wvj3P6FznlVAvE0zjRobacKBhitVA=;
+ b=lD8PswgxCC7lBIs+YtjUMw266fE1Z4Ig/ndESwnjHbhLndqhxaJzPemlM/Jkm1r665
+ 3iI5HWTS3IpHkFjBoZx4HBiG5sYayX3pkbx3tl3PRKtmzXnTDv5vWXuyh4z7WASowdNu
+ WzPMrhJAu6fYwLzVD0tYC9iNmVsa4yBEYIp8vJ1B3VofinJ1mw6ctxraqM1wa82DLGU+
+ QT/09ZD9mLCoOzahcBsQIexHu3YtYDLtos4EFB9+qki/dpXghMaIxjGiQG1PVgHMwcOs
+ jjIRiRdAQlpYo9dfH/Qa2WsKztPuXIpPRn7tdCfBDcIKSSxLiY5f+2a9WJbid20IhavW
+ jPPA==
+X-Gm-Message-State: AOAM532gpMiIaTJvZbUFntpSglXnkqO57hIuqxTpC8JdEajUHiQaP0cv
+ UMznvy/PVZTNX9nql9Zi3r4=
+X-Google-Smtp-Source: ABdhPJx6yLbiq5abH25qv20sKnGJQ9F1yfiFlHebIXRV8dHW84eJQOMVJKyF3fMyuhKVZ9695EzjGQ==
+X-Received: by 2002:adf:d0c8:: with SMTP id z8mr29435342wrh.68.1619034173663; 
+ Wed, 21 Apr 2021 12:42:53 -0700 (PDT)
 Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:6d3d:2d8b:5417:831c])
  by smtp.gmail.com with ESMTPSA id
- o4sm484163wrn.81.2021.04.21.12.42.50
+ o4sm484163wrn.81.2021.04.21.12.42.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Apr 2021 12:42:51 -0700 (PDT)
+ Wed, 21 Apr 2021 12:42:53 -0700 (PDT)
 From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 0/3] drm: Use tabs for code indents 
-Date: Wed, 21 Apr 2021 20:42:46 +0100
-Message-Id: <cover.1618828127.git.martinsdecarvalhobeatriz@gmail.com>
+Subject: [PATCH 1/3] drm: drm_atomic_uapi.c: Use tabs for code indents
+Date: Wed, 21 Apr 2021 20:42:47 +0100
+Message-Id: <dc8286f5590fff609f924845fb622dd5f962a11b.1618828127.git.martinsdecarvalhobeatriz@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1618828127.git.martinsdecarvalhobeatriz@gmail.com>
+References: <cover.1618828127.git.martinsdecarvalhobeatriz@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,18 +77,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Remove space and use tabs for indent the code to follow the
 Linux kernel coding conventions.
-Problem found by checkpatch
+Problem found by checkpatch.
 
-Beatriz Martins de Carvalho (3):
-  drm: drm_atomic_uapi.c: Use tabs for code indents
-  drm: drm_blend.c: Use tabs for code indents
-  drm: drm_connector.c: Use tabs for code indents
+Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+---
+ drivers/gpu/drm/drm_atomic_uapi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/gpu/drm/drm_atomic_uapi.c |  6 ++---
- drivers/gpu/drm/drm_blend.c       |  4 ++--
- drivers/gpu/drm/drm_connector.c   | 38 +++++++++++++++----------------
- 3 files changed, 24 insertions(+), 24 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 268bb69c2e2f..438e9585b225 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -78,8 +78,8 @@ int drm_atomic_set_mode_for_crtc(struct drm_crtc_state *state,
+ 		drm_mode_convert_to_umode(&umode, mode);
+ 		state->mode_blob =
+ 			drm_property_create_blob(state->crtc->dev,
+-		                                 sizeof(umode),
+-		                                 &umode);
++						 sizeof(umode),
++						 &umode);
+ 		if (IS_ERR(state->mode_blob))
+ 			return PTR_ERR(state->mode_blob);
+ 
+@@ -114,7 +114,7 @@ EXPORT_SYMBOL(drm_atomic_set_mode_for_crtc);
+  * Zero on success, error code on failure. Cannot return -EDEADLK.
+  */
+ int drm_atomic_set_mode_prop_for_crtc(struct drm_crtc_state *state,
+-                                      struct drm_property_blob *blob)
++				      struct drm_property_blob *blob)
+ {
+ 	struct drm_crtc *crtc = state->crtc;
+ 
 -- 
 2.25.1
 
