@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640A636637D
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 03:56:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CB0366436
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 06:00:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DED46E935;
-	Wed, 21 Apr 2021 01:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F36C86E038;
+	Wed, 21 Apr 2021 04:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
- [IPv6:2607:f8b0:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 861796E933
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 01:56:34 +0000 (UTC)
-Received: by mail-il1-x132.google.com with SMTP id r5so25514376ilb.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 18:56:34 -0700 (PDT)
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com
+ [IPv6:2607:f8b0:4864:20::e34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEBE36E038
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 04:00:36 +0000 (UTC)
+Received: by mail-vs1-xe34.google.com with SMTP id u22so9519796vsu.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Apr 2021 21:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=cvMssSvc8hPyloKKClMogTnqJuOXUsMOm4XH61nQD34=;
- b=duz3UEHMYloeEwUBvhhwPqYWfptD8iwoHpnlrEhziVb7cG+9UwhbQIR/oX+ERtldRA
- goUOXoKvlHGEQTxqX44Jp1mncGTT57MJTkgjQmU/eNUhT6+523DnP8gKv/62bVAhmJ1t
- Orm8ZwXPdwjhFxkm9f+trZgH68wjoz69x7JSM=
+ :cc; bh=Xt+GQvk7UCjysn06gj5L/SQBPrigIvE1NOz7WEy+AKw=;
+ b=VgyYsPvlKTLCdXiNCI1aub4fGEWqdkN23cKPeOzsX+dG28L8FX+/LiDEbJVpS/LRYr
+ aB4g7gVd3K63q01YAYXFBarfY7cAe89HoHGF8io6yuPolR+YLTpkODOc7T8T5eSzxNbN
+ a2sF3SDLXGHkMlZU8mBkZF2xAhghXgR7K2X4c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cvMssSvc8hPyloKKClMogTnqJuOXUsMOm4XH61nQD34=;
- b=lTt6Ta3/7KLsqTyXvZNXdqtmwp67xMpYpU/sueOqCu7XIRPxBkpjbkVAeg1o8igQqL
- ca8092VRZ15qYRs3CA0cA7tFq6gVB+ahf5ak2MAFNDbwK18M3xD635VHAEKOk5hpdbuJ
- KRIsz+drPEQ2BK5pkIJGl8c2u4yI7kgxDZG6GfgoEastH7zdUEJaP7Yh9EI+bG19usfu
- UtQH0IQw2AbQ9Fm9tChNDocSYXGNMA+UEGcit5J8vxpGLpJlwIhR8NWYrJLlrjjw0F9W
- iwDZN/nqaIdXvk7wfHF9EGUIRGg6bliw+vxSFIKVLohijxR1hDz47pqOGVak3mFK3nDS
- 86/A==
-X-Gm-Message-State: AOAM532Kl/qDXMqszkFVgvjhKMirxxrCDOJxS0BTr6mRFFnUd5GSGR2Y
- RdsR0IZqEBy4Q+rPmYsP+r5ib/cTVPvCbXIToN7cTA==
-X-Google-Smtp-Source: ABdhPJyduQbgwU81Uwxufem1ofj2vTk7xmlEMfaBM6o4S82+Dp7cP5qxHhrJsqLF8Jh6BVMCYX0eqfz3T+c6stggfO0=
-X-Received: by 2002:a05:6e02:20ce:: with SMTP id
- 14mr24148490ilq.102.1618970193723; 
- Tue, 20 Apr 2021 18:56:33 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Xt+GQvk7UCjysn06gj5L/SQBPrigIvE1NOz7WEy+AKw=;
+ b=OgBsrtedmRn6qugEFGLHnfIvem0/s0I8YHJxkSZrz0kKAl6XghjrUKy4sGjvsV93Me
+ iulXrCf0cNrfTbkvGmyfHMl+3FWhfP6jwWHhtvleyu8X/72Mg8SH4xzFskuOXCeGCZuo
+ +dugsaIX2mDJeLdfsP0Zi9ddgK91NN8+GCk7jry55KdS3I0tuOccKbx4FLKvHd7DPQLu
+ HK6brWo/Ng2zNiapaGK+H9vW+05LpKSY1lr/FUTF8U5FhlcKNdc0V/ONRedcYfIo/RSC
+ RpSypADG4jeDo25855S9Ahjsz/sv4/7LvobpCfvWPBbfbJvRRiqnrFqXgDdWHSL9rUFt
+ 1+1A==
+X-Gm-Message-State: AOAM530oa0iqxrTlUGJ2TMWqcmR/Ry1FyMqQotczkaqeX5O7+jQZBdxg
+ mQAhOQGXTayjs/qzmE+4LM9RE6vGUQSsORokuDMQKQ==
+X-Google-Smtp-Source: ABdhPJx8sqi7yyCbZtsqWkPAetpn+zmApPCR4F96SUihvi7LBsId0jAdkje9hdf8VwGHUya1KDTYm2FJ2kYtrRm/mtE=
+X-Received: by 2002:a67:efd1:: with SMTP id s17mr10253276vsp.16.1618977635719; 
+ Tue, 20 Apr 2021 21:00:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210409045314.3420733-1-hsinyi@chromium.org>
- <CAJMQK-gFk8WV0W2TTP7=OTsBqgWmy_eKSd42Xa5dJzvUFDTAXQ@mail.gmail.com>
- <CAAOTY_9pJ=H4gQKsC1VeHo6Z4qsHFzOe267QVu6p_Jid0AXsKQ@mail.gmail.com>
-In-Reply-To: <CAAOTY_9pJ=H4gQKsC1VeHo6Z4qsHFzOe267QVu6p_Jid0AXsKQ@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Wed, 21 Apr 2021 09:56:07 +0800
-Message-ID: <CAJMQK-i8aZWmKyJ=7Gf8Wee3MynnqVvpijTOxqKp9M0vyECcPQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/mediatek: set panel orientation before
- drm_dev_register().
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20210421001908.813625-1-drinkcat@chromium.org>
+ <20210421081831.v12.3.I3af068abe30c9c85cabc4486385c52e56527a509@changeid>
+In-Reply-To: <20210421081831.v12.3.I3af068abe30c9c85cabc4486385c52e56527a509@changeid>
+From: Nicolas Boichat <drinkcat@chromium.org>
+Date: Wed, 21 Apr 2021 12:00:24 +0800
+Message-ID: <CANMq1KBfg1SKM1iC+EUXjCiA-f9p=JSBvkp3h3eygH2aZfCAng@mail.gmail.com>
+Subject: Re: [PATCH v12 3/4] drm/panfrost: devfreq: Disable devfreq when
+ num_supplies > 1
+To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,127 +60,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Devicetree List <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, lkml <linux-kernel@vger.kernel.org>,
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Fei Shao <fshao@chromium.org>, lkml <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Kristian Kristensen <hoegsberg@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBcHIgMjEsIDIwMjEgYXQgNzo0NyBBTSBDaHVuLUt1YW5nIEh1IDxjaHVua3Vhbmcu
-aHVAa2VybmVsLm9yZz4gd3JvdGU6Cj4KPiBIaSwgSHNpbi1ZaToKPgo+IEhzaW4tWWkgV2FuZyA8
-aHNpbnlpQGNocm9taXVtLm9yZz4g5pa8IDIwMjHlubQ05pyIMjDml6Ug6YCx5LqMIOS4i+WNiDU6
-MDXlr6vpgZPvvJoKPiA+Cj4gPiBPbiBGcmksIEFwciA5LCAyMDIxIGF0IDEyOjUzIFBNIEhzaW4t
-WWkgV2FuZyA8aHNpbnlpQGNocm9taXVtLm9yZz4gd3JvdGU6Cj4gPiA+Cj4gPiA+IGRybV9kZXZf
-cmVnaXN0ZXIoKSBzZXRzIGNvbm5lY3Rvci0+cmVnaXN0cmF0aW9uX3N0YXRlIHRvCj4gPiA+IERS
-TV9DT05ORUNUT1JfUkVHSVNURVJFRCBhbmQgZGV2LT5yZWdpc3RlcmVkIHRvIHRydWUuIElmCj4g
-PiA+IGRybV9jb25uZWN0b3Jfc2V0X3BhbmVsX29yaWVudGF0aW9uKCkgaXMgZmlyc3QgY2FsbGVk
-IGFmdGVyCj4gPiA+IGRybV9kZXZfcmVnaXN0ZXIoKSwgaXQgd2lsbCBmYWlsIHNldmVyYWwgY2hl
-Y2tzIGFuZCByZXN1bHRzIGluIGZvbGxvd2luZwo+ID4gPiB3YXJuaW5nLiBTbyBzZXQgcGFuZWwg
-b3JpZW50YXRpb24gaW4gZHNpIGJlZm9yZSBkcm1fZGV2X3JlZ2lzdGVyKCkgaXMKPiA+ID4gY2Fs
-bGVkLgo+Cj4gQWxsIGNvbm5lY3RvciB3b3VsZCBoYXZlIHRoaXMgcHJvYmxlbSwgc28gSSB3b3Vs
-ZCBsaWtlIHRvIGZpeCB0aGlzIGluCj4gY29tbW9uIGNvZGUuCj4gSW4gZHJtX2Nvbm5lY3Rvcl9p
-bml0KCksIHlvdSBjb3VsZCBhZGQgInBhbmVsIG9yaWVudGF0aW9uIiBwcm9wZXJ0eQo+IHdpdGgg
-dmFsdWUgRFJNX01PREVfUEFORUxfT1JJRU5UQVRJT05fVU5LTk9XTiwgc28gaXQgd291bGQgbm90
-IGFkZCBuZXcKPiBvYmplY3Qgd2hlbiBnZXQgbW9kZXMuCgpIaSBDSywKCkNhbGxpbmcgZHJtX2Nv
-bm5lY3Rvcl9zZXRfcGFuZWxfb3JpZW50YXRpb24oKSB3aXRoCkRSTV9NT0RFX1BBTkVMX09SSUVO
-VEFUSU9OX1VOS05PV04gd2lsbCBiZSBhIG5vLW9wLiBBbmQgb25jZSB0aGUKb3JpZW50YXRpb24g
-aXMgc2V0LCB0aGUgMm5kIGNhbGwgdG8gdGhpcyBpcyBhbHNvIG5vLW9wLgpodHRwczovL2VsaXhp
-ci5ib290bGluLmNvbS9saW51eC92NS4xMi1yYzgvc291cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-Y29ubmVjdG9yLmMjTDIxODIKClRoZSAxc3QgdGltZSBjYWxsIHRvIGRybV9jb25uZWN0b3Jfc2V0
-X3BhbmVsX29yaWVudGF0aW9uKCkgaGFzIHRvIGJlCnByaW9yIHRoYW4gZHJtX2Rldl9yZWdpc3Rl
-cigpLgoKT3JpZW50YXRpb24gaXMgYW4gb3B0aW9uYWwgcHJvcGVydHksIGFuZCBkaWZmZXJlbnQg
-ZHNpIGhhcyBkaWZmZXJlbnQKd2F5cyB0byByZWFkIGFuZCBoYW5kbGUgdGhpcy4gRWcuIHZsdl9k
-c2lbMV0sIGludGVsX2RwWzJdLCBzbyBJIHRoaW5rCml0J3MgYmV0dGVyIHRvIGxldCBlYWNoIGNv
-bm5lY3RvciBkZWNpZGUgaG93IHRvIGhhbmRsZSBvcmllbnRhdGlvbi4KClsxXSBodHRwczovL2Vs
-aXhpci5ib290bGluLmNvbS9saW51eC92NS4xMi1yYzgvc291cmNlL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvdmx2X2RzaS5jI0wxNjMyClsyXSBodHRwczovL2VsaXhpci5ib290bGluLmNv
-bS9saW51eC92NS4xMi1yYzgvc291cmNlL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
-ZWxfZHAuYyNMNjQ4OAoKVGhhbmtzCj4KPiBSZWdhcmRzLAo+IENodW4tS3VhbmcuCj4KPiA+ID4K
-PiA+ID4gWyAgICA0LjQ4MDk3Nl0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0t
-Cj4gPiA+IFsgICAgNC40ODU2MDNdIFdBUk5JTkc6IENQVTogNSBQSUQ6IDM2OSBhdCBkcml2ZXJz
-L2dwdS9kcm0vZHJtX21vZGVfb2JqZWN0LmM6NDUgX19kcm1fbW9kZV9vYmplY3RfYWRkKzB4YjQv
-MHhiYwo+ID4gPiA8c25pcD4KPiA+ID4gWyAgICA0LjYwOTc3Ml0gQ2FsbCB0cmFjZToKPiA+ID4g
-WyAgICA0LjYxMjIwOF0gIF9fZHJtX21vZGVfb2JqZWN0X2FkZCsweGI0LzB4YmMKPiA+ID4gWyAg
-ICA0LjYxNjQ2Nl0gIGRybV9tb2RlX29iamVjdF9hZGQrMHgyMC8weDJjCj4gPiA+IFsgICAgNC42
-MjA1NTJdICBkcm1fcHJvcGVydHlfY3JlYXRlKzB4ZGMvMHgxNzQKPiA+ID4gWyAgICA0LjYyNDcy
-M10gIGRybV9wcm9wZXJ0eV9jcmVhdGVfZW51bSsweDM0LzB4OTgKPiA+ID4gWyAgICA0LjYyOTI0
-MV0gIGRybV9jb25uZWN0b3Jfc2V0X3BhbmVsX29yaWVudGF0aW9uKzB4NjQvMHhhMAo+ID4gPiBb
-ICAgIDQuNjM0NzE2XSAgYm9lX3BhbmVsX2dldF9tb2RlcysweDg4LzB4ZDgKPiA+ID4gWyAgICA0
-LjYzODgwMl0gIGRybV9wYW5lbF9nZXRfbW9kZXMrMHgyYy8weDQ4Cj4gPiA+IFsgICAgNC42NDI4
-ODddICBwYW5lbF9icmlkZ2VfZ2V0X21vZGVzKzB4MWMvMHgyOAo+ID4gPiBbICAgIDQuNjQ3MjMz
-XSAgZHJtX2JyaWRnZV9jb25uZWN0b3JfZ2V0X21vZGVzKzB4YTAvMHhkNAo+ID4gPiBbICAgIDQu
-NjUyMjczXSAgZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKzB4MjE4LzB4
-NzAwCj4gPiA+IFsgICAgNC42NTgyNjZdICBkcm1fbW9kZV9nZXRjb25uZWN0b3IrMHgxYjQvMHg0
-NWMKPiA+ID4gWyAgICA0LjY2MjY5OV0gIGRybV9pb2N0bF9rZXJuZWwrMHhhYy8weDEyOAo+ID4g
-PiBbICAgIDQuNjY2NjExXSAgZHJtX2lvY3RsKzB4MjY4LzB4NDEwCj4gPiA+IFsgICAgNC42NzAw
-MDJdICBkcm1fY29tcGF0X2lvY3RsKzB4ZGMvMHhmMAo+ID4gPiBbICAgIDQuNjczODI5XSAgX19h
-cm02NF9jb21wYXRfc3lzX2lvY3RsKzB4YzgvMHgxMDAKPiA+ID4gWyAgICA0LjY3ODQzNl0gIGVs
-MF9zdmNfY29tbW9uKzB4ZjQvMHgxYzAKPiA+ID4gWyAgICA0LjY4MjE3NF0gIGRvX2VsMF9zdmNf
-Y29tcGF0KzB4MjgvMHgzYwo+ID4gPiBbICAgIDQuNjg2MDg4XSAgZWwwX3N2Y19jb21wYXQrMHgx
-MC8weDFjCj4gPiA+IFsgICAgNC42ODk3MzhdICBlbDBfc3luY19jb21wYXRfaGFuZGxlcisweGE4
-LzB4Y2MKPiA+ID4gWyAgICA0LjY5NDE3MV0gIGVsMF9zeW5jX2NvbXBhdCsweDE3OC8weDE4MAo+
-ID4gPiBbICAgIDQuNjk4MDgyXSAtLS1bIGVuZCB0cmFjZSBiNGYyZGI5ZDljODg2MTBiIF0tLS0K
-PiA+ID4gWyAgICA0LjcwMjcyMV0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0t
-Cj4gPiA+IFsgICAgNC43MDczMjldIFdBUk5JTkc6IENQVTogNSBQSUQ6IDM2OSBhdCBkcml2ZXJz
-L2dwdS9kcm0vZHJtX21vZGVfb2JqZWN0LmM6MjQzIGRybV9vYmplY3RfYXR0YWNoX3Byb3BlcnR5
-KzB4NDgvMHhiOAo+ID4gPiA8c25pcD4KPiA+ID4gWyAgICA0LjgzMzgzMF0gQ2FsbCB0cmFjZToK
-PiA+ID4gWyAgICA0LjgzNjI2Nl0gIGRybV9vYmplY3RfYXR0YWNoX3Byb3BlcnR5KzB4NDgvMHhi
-OAo+ID4gPiBbICAgIDQuODQwOTU4XSAgZHJtX2Nvbm5lY3Rvcl9zZXRfcGFuZWxfb3JpZW50YXRp
-b24rMHg4NC8weGEwCj4gPiA+IFsgICAgNC44NDY0MzJdICBib2VfcGFuZWxfZ2V0X21vZGVzKzB4
-ODgvMHhkOAo+ID4gPiBbICAgIDQuODUwNTE2XSAgZHJtX3BhbmVsX2dldF9tb2RlcysweDJjLzB4
-NDgKPiA+ID4gWyAgICA0Ljg1NDYwMF0gIHBhbmVsX2JyaWRnZV9nZXRfbW9kZXMrMHgxYy8weDI4
-Cj4gPiA+IFsgICAgNC44NTg5NDZdICBkcm1fYnJpZGdlX2Nvbm5lY3Rvcl9nZXRfbW9kZXMrMHhh
-MC8weGQ0Cj4gPiA+IFsgICAgNC44NjM5ODRdICBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25u
-ZWN0b3JfbW9kZXMrMHgyMTgvMHg3MDAKPiA+ID4gWyAgICA0Ljg2OTk3OF0gIGRybV9tb2RlX2dl
-dGNvbm5lY3RvcisweDFiNC8weDQ1Ywo+ID4gPiBbICAgIDQuODc0NDEwXSAgZHJtX2lvY3RsX2tl
-cm5lbCsweGFjLzB4MTI4Cj4gPiA+IFsgICAgNC44NzgzMjBdICBkcm1faW9jdGwrMHgyNjgvMHg0
-MTAKPiA+ID4gWyAgICA0Ljg4MTcxMV0gIGRybV9jb21wYXRfaW9jdGwrMHhkYy8weGYwCj4gPiA+
-IFsgICAgNC44ODU1MzZdICBfX2FybTY0X2NvbXBhdF9zeXNfaW9jdGwrMHhjOC8weDEwMAo+ID4g
-PiBbICAgIDQuODkwMTQyXSAgZWwwX3N2Y19jb21tb24rMHhmNC8weDFjMAo+ID4gPiBbICAgIDQu
-ODkzODc5XSAgZG9fZWwwX3N2Y19jb21wYXQrMHgyOC8weDNjCj4gPiA+IFsgICAgNC44OTc3OTFd
-ICBlbDBfc3ZjX2NvbXBhdCsweDEwLzB4MWMKPiA+ID4gWyAgICA0LjkwMTQ0MV0gIGVsMF9zeW5j
-X2NvbXBhdF9oYW5kbGVyKzB4YTgvMHhjYwo+ID4gPiBbICAgIDQuOTA1ODczXSAgZWwwX3N5bmNf
-Y29tcGF0KzB4MTc4LzB4MTgwCj4gPiA+IFsgICAgNC45MDk3ODNdIC0tLVsgZW5kIHRyYWNlIGI0
-ZjJkYjlkOWM4ODYxMGMgXS0tLQo+ID4gPgo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBIc2luLVlpIFdh
-bmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+Cj4gPgo+ID4gcGluZyBvbiB0aGUgdGhyZWFkLCB0aGFu
-a3MuCj4gPgo+ID4gPiAtLS0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNp
-LmMgfCA5ICsrKysrKysrKwo+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKQo+
-ID4gPgo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2ku
-YyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMKPiA+ID4gaW5kZXggYWU0MDNj
-NjdjYmQ5Li40NWE3MDJlZTA5ZjMgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZHNpLmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19kc2kuYwo+ID4gPiBAQCAtMjA1LDYgKzIwNSw3IEBAIHN0cnVjdCBtdGtfZHNpIHsKPiA+ID4g
-ICAgICAgICB1MzIgaXJxX2RhdGE7Cj4gPiA+ICAgICAgICAgd2FpdF9xdWV1ZV9oZWFkX3QgaXJx
-X3dhaXRfcXVldWU7Cj4gPiA+ICAgICAgICAgY29uc3Qgc3RydWN0IG10a19kc2lfZHJpdmVyX2Rh
-dGEgKmRyaXZlcl9kYXRhOwo+ID4gPiArICAgICAgIGVudW0gZHJtX3BhbmVsX29yaWVudGF0aW9u
-IG9yaWVudGF0aW9uOwo+ID4gPiAgfTsKPiA+ID4KPiA+ID4gIHN0YXRpYyBpbmxpbmUgc3RydWN0
-IG10a19kc2kgKmJyaWRnZV90b19kc2koc3RydWN0IGRybV9icmlkZ2UgKmIpCj4gPiA+IEBAIC05
-NjYsNiArOTY3LDggQEAgc3RhdGljIGludCBtdGtfZHNpX2VuY29kZXJfaW5pdChzdHJ1Y3QgZHJt
-X2RldmljZSAqZHJtLCBzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+ID4gPiAgICAgICAgIH0KPiA+ID4g
-ICAgICAgICBkcm1fY29ubmVjdG9yX2F0dGFjaF9lbmNvZGVyKGRzaS0+Y29ubmVjdG9yLCAmZHNp
-LT5lbmNvZGVyKTsKPiA+ID4KPiA+ID4gKyAgICAgICBkcm1fY29ubmVjdG9yX3NldF9wYW5lbF9v
-cmllbnRhdGlvbihkc2ktPmNvbm5lY3RvciwgZHNpLT5vcmllbnRhdGlvbik7Cj4gPiA+ICsKPiA+
-ID4gICAgICAgICByZXR1cm4gMDsKPiA+ID4KPiA+ID4gIGVycl9jbGVhbnVwX2VuY29kZXI6Cj4g
-PiA+IEBAIC0xMDI5LDYgKzEwMzIsMTIgQEAgc3RhdGljIGludCBtdGtfZHNpX3Byb2JlKHN0cnVj
-dCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgIHJl
-dCA9IFBUUl9FUlIoZHNpLT5uZXh0X2JyaWRnZSk7Cj4gPiA+ICAgICAgICAgICAgICAgICAgICAg
-ICAgIGdvdG8gZXJyX3VucmVnaXN0ZXJfaG9zdDsKPiA+ID4gICAgICAgICAgICAgICAgIH0KPiA+
-ID4gKwo+ID4gPiArICAgICAgICAgICAgICAgcmV0ID0gb2ZfZHJtX2dldF9wYW5lbF9vcmllbnRh
-dGlvbihwYW5lbC0+ZGV2LT5vZl9ub2RlLCAmZHNpLT5vcmllbnRhdGlvbik7Cj4gPiA+ICsgICAg
-ICAgICAgICAgICBpZiAocmV0KSB7Cj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGRldl9l
-cnIoZGV2LCAiZmFpbGVkIHRvIGdldCBwYW5lbCBvcmllbnRhdGlvbiAlZFxuIiwgcmV0KTsKPiA+
-ID4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPiA+ID4gKyAgICAgICAgICAg
-ICAgIH0KPiA+ID4gICAgICAgICB9Cj4gPiA+Cj4gPiA+ICAgICAgICAgZHNpLT5kcml2ZXJfZGF0
-YSA9IG9mX2RldmljZV9nZXRfbWF0Y2hfZGF0YShkZXYpOwo+ID4gPiAtLQo+ID4gPiAyLjMxLjEu
-Mjk1Lmc5ZWE0NWI2MWI4LWdvb2cKPiA+ID4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+Argh sorry I messed up the rebase and this doesn't even build...
+
+I'll send v13.
+
+On Wed, Apr 21, 2021 at 8:19 AM Nicolas Boichat <drinkcat@chromium.org> wrote:
+>
+> GPUs with more than a single regulator (e.g. G72 on MT8183) will
+> require platform-specific handling for devfreq, for 2 reasons:
+>  1. The opp core (drivers/opp/core.c:_generic_set_opp_regulator)
+>     does not support multiple regulators, so we'll need custom
+>     handlers.
+>  2. Generally, platforms with 2 regulators have platform-specific
+>     constraints on how the voltages should be set (e.g.
+>     minimum/maximum voltage difference between them), so we
+>     should not just create generic handlers that simply
+>     change the voltages without taking care of those constraints.
+>
+> Disable devfreq for now on those GPUs.
+>
+> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> Reviewed-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> ---
+>
+> (no changes since v9)
+>
+> Changes in v9:
+>  - Explain why devfreq needs to be disabled for GPUs with >1
+>    regulators.
+>
+> Changes in v8:
+>  - Use DRM_DEV_INFO instead of ERROR
+>
+> Changes in v7:
+>  - Fix GPU ID in commit message
+>
+> Changes in v6:
+>  - devfreq: New change
+>
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> index 47d27e54a34f..aca3bb9a12e4 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -92,9 +92,19 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>         struct thermal_cooling_device *cooling;
+>         struct panfrost_devfreq *pfdevfreq = &pfdev->pfdevfreq;
+>
+> -       ret = devm_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
+> -                                        pfdev->comp->num_supplies);
+> -       if (ret) {
+> +       if (pfdev->comp->num_supplies > 1) {
+> +               /*
+> +                * GPUs with more than 1 supply require platform-specific handling:
+> +                * continue without devfreq
+> +                */
+> +               DRM_DEV_INFO(dev, "More than 1 supply is not supported yet\n");
+> +               return 0;
+> +       }
+> +
+> +       opp_table = dev_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
+> +                                             pfdev->comp->num_supplies);
+> +       if (IS_ERR(opp_table)) {
+> +               ret = PTR_ERR(opp_table);
+>                 /* Continue if the optional regulator is missing */
+>                 if (ret != -ENODEV) {
+>                         DRM_DEV_ERROR(dev, "Couldn't set OPP regulators\n");
+> --
+> 2.31.1.368.gbe11c130af-goog
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
