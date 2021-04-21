@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1BA367362
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 21:23:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C61367391
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 21:42:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F06F89DC9;
-	Wed, 21 Apr 2021 19:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA8126E9E2;
+	Wed, 21 Apr 2021 19:42:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4837189DC9
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 19:23:18 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id r186so15680721oif.8
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 12:23:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8IJKDGX3BTvu2536eJ67tHTzeSLOA/Ecu0T5dQbV8lc=;
- b=G1Ph1HfYcQ0Ht2rQkf38XCSSASuD0vCqwozPbCXcULanhanq+lo5eKglE4ZrXhowfx
- BY+38EFMXl9/ivTpRFGDpkaNQiCqohWaiLlgBeaLK6ErxxTxP5i7FnBUhjxbC2sA/fzG
- SNob5iS/1Yo/8G8uv6kDL5HxdlCxOuvSDMfS0=
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFD56E9E1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 19:42:53 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id g9so26485905wrx.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 12:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JU6/Qfl9n+QXWwBGt0462NZzcBDiybmlQ03LCPVjDcM=;
+ b=EF4lWCEaoKX8fLy8cm5aOM/qjMBsBPcQxY6gh7z1b6zRT0KzOLOCYtnYT2OLC64JbL
+ rzQ4CI8LNWIewiRGfBk3db2sk9X0ITizHMfXEx/Y2SMgBvuJ459nGLhFpSsjSbrG0kZe
+ HfMkpztZZ/ki5VMyPg1iW5fC26ijNiTbKL47LjdIPjS5/Nvmefod6zmqaC2qJg/UILlX
+ 01eY3CBfTf0+doHRt6V/+PIs0FRC9J17kKkXKz+XC9FMuGsQ6ECfcI5rPqRwc1BePWvp
+ tk5nyun6WSPL/nx080ahNpi59LafdJssw6pQ2dpr9Y+rPhgK3SC+9y211CksOFi3xh9P
+ yrug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8IJKDGX3BTvu2536eJ67tHTzeSLOA/Ecu0T5dQbV8lc=;
- b=sv921swLOZxF8suanqRNHc/2V3d0yA3qNqwMLiiQ4Cx4VDOHrFNx2+5KLa6AZkcGYg
- zp3tjihHjrWgNEwOswiV0y7WSQz5dJkIRrlCdgcMMEdPZSWJtphCTOKc1DeCBOEb5OQL
- RYtgqp/ylYXKJaargkehgPj853jkG92qBPEVjlvIzXcahDq3FXxWLkQlplJrsTOFFtbv
- I3Sez/Rbb7bQIrpJfFAEb8LT8DNQlibZQoUol3dXcNQwqmxTwyW9QJT8h89xo4dM3jZ7
- 8LBREUnsGaPP5eL6WwccDh9c2jH1BMRKaX0ZgPkRT2h8ZwIXlnVqdiOay58Lkp1EDFb4
- gFqQ==
-X-Gm-Message-State: AOAM533H/Um4eo1QY60KtQODev2gheN8t2JCPBSP3HoePStjHJF40Eu/
- BhGcxKhW+4dAFEZjUv5//XGuOfkxPjl5duf8rhsmSA==
-X-Google-Smtp-Source: ABdhPJxoneVp2Y10jSZuthYbRZxrdkwsP9I6vXBPT1TcWPNnq2xxkxh891DQaZ6xKBcDpKYCOAu9xKqH8hmzLJDM02I=
-X-Received: by 2002:a05:6808:9b0:: with SMTP id
- e16mr7264334oig.128.1619032997662; 
- Wed, 21 Apr 2021 12:23:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JU6/Qfl9n+QXWwBGt0462NZzcBDiybmlQ03LCPVjDcM=;
+ b=DHdehOsouULamFVBslhtv6hBBNNyY4z6QJzJTaZk0W2z5vgUfURQsCEHM33aAA3v8X
+ IUc0VBUyvaBoTo6dbdPuTQA39DxZ3DWTICh7hAHIF027Y93KG6eUniFl882A54Ob5Bsz
+ njcHdTb/kiLEcE/wQwXcFOWS1AikLREMtYEUt4q75AwXXMsS+DC8AIVHiJ/HduhT1rEM
+ aPZcLIHRm2Cv0uYTy3nfLHQ5BjArO42LRtIZED3AtxQR+75MedXMTmTZWZoehM9lnZ1u
+ J6jZ03Wu/Ni8gXT/eFmftmx1+hErokr+rei6oB9GehqdAvO2ADCiVaHu4qNSeN8gOvOE
+ cPzQ==
+X-Gm-Message-State: AOAM533z2Y8wMA0tI6a/q55wBbxPaP+LtVZCuAiQdVFnGJs3OVrJARsG
+ ykDrWzfM6bqtNlck3RQx8l4=
+X-Google-Smtp-Source: ABdhPJxwLLpPCAGgCKzl/unvPvqM8+kZJPO3R33aSTcElWruEpi/1NIOV+MzVBGeU40BkA90bykGHQ==
+X-Received: by 2002:adf:cf09:: with SMTP id o9mr29478140wrj.366.1619034172365; 
+ Wed, 21 Apr 2021 12:42:52 -0700 (PDT)
+Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:6d3d:2d8b:5417:831c])
+ by smtp.gmail.com with ESMTPSA id
+ o4sm484163wrn.81.2021.04.21.12.42.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Apr 2021 12:42:51 -0700 (PDT)
+From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH 0/3] drm: Use tabs for code indents 
+Date: Wed, 21 Apr 2021 20:42:46 +0100
+Message-Id: <cover.1618828127.git.martinsdecarvalhobeatriz@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210415155958.391624-1-matthew.auld@intel.com>
- <20210415155958.391624-4-matthew.auld@intel.com>
- <CAOFGe96QALJa4FbWkVxczTdOA6b41zk1GxdYwRsrP7GwSZ4zvw@mail.gmail.com>
- <6cf790c7-84bf-4d35-c1c3-4cf826655faf@intel.com>
- <CAOFGe95gMUuqXX=Yn_xMRVxQmcwiqNEN0m3PgyNACcm0iNTyKg@mail.gmail.com>
- <5a412489-75ed-e971-0e0b-388f0f964fac@linux.intel.com>
- <CAOFGe97HuFOe08ttq7yyuiTVphjvwRB2542at6uEEb5YX671Rw@mail.gmail.com>
- <db6f3015-654b-17fa-0d72-4339c4ab338d@linux.intel.com>
- <CAOFGe95FqvMnnH82o_uQtffpFNKarB0Gvs+vLkhQ-UKjiXO0Mg@mail.gmail.com>
- <5c572f88-dac8-5b00-e75b-209a772e4082@linux.intel.com>
- <CAOFGe97BCf8YKUkJcXHFumv4aF44N91Y19CX4XUhOcLu-9gWyA@mail.gmail.com>
- <9841933a-e3ae-eabf-bcbe-88602378c88f@linux.intel.com>
-In-Reply-To: <9841933a-e3ae-eabf-bcbe-88602378c88f@linux.intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 21 Apr 2021 21:23:06 +0200
-Message-ID: <CAKMK7uG+7we_mtTs7TDDWTecqbzzha8UBPVuhZm0EwrGpiCC7A@mail.gmail.com>
-Subject: Re: [Mesa-dev] [PATCH v3 4/4] drm/doc/rfc: i915 DG1 uAPI
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,67 +66,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Kenneth Graunke <kenneth@whitecape.org>, Matthew Auld <matthew.auld@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: melissa.srw@gmail.com, outreachy-kernel@googlegroups.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 21, 2021 at 8:28 PM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
-> On 21/04/2021 18:17, Jason Ekstrand wrote:
-> > On Wed, Apr 21, 2021 at 9:25 AM Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >> On 21/04/2021 14:54, Jason Ekstrand wrote:
-> >>> On Wed, Apr 21, 2021 at 3:22 AM Tvrtko Ursulin
-> >>> <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>> On 20/04/2021 18:00, Jason Ekstrand wrote:
-> >>>> I am not claiming to know memory region query will end up the same, and
-> >>>> I definitely agree we cannot guess the future. I am just saying rsvd
-> >>>> fields are inconsequential really in terms of maintenance burden and
-> >>>> have been proven useful in the past. So I disagree with the drive to
-> >>>> kick them all out.
-> >>>
-> >>> Sure, it doesn't cost anything to have extra zeros in the struct.
-> >>> However, if/when the API grows using rsvd fields, we end up with "if
-> >>> CAP_FOO is set, rsvd[5] means blah" which makes for a horribly
-> >>> confusing API.  As a userspace person who has to remember how to use
-> >>> this stuff, I'd rather make another call or chain in a struct than try
-> >>> to remember and/or figure out what all 8 rsvd fields mean.
-> >>
-> >> Well it's not called rsvd in the uapi which is aware of the new field
-> >> but has a new name.
-> >
-> > Are we allowed to do that?  This is a genuine question.  When I've
-> > tried in the past (cliprects), I was told we couldn't rename it even
-> > though literally no one had used it in code for years.
->
-> Well we did the union for pad_to_size so I thought we are allowed that
-> trick at least. From my experience backward source level compatibility
-> is not always there even with things like glibc. Despite that, are we
-> generally required to stay backward source compatible I will not claim
-> either way.
+Remove space and use tabs for indent the code to follow the
+Linux kernel coding conventions.
+Problem found by checkpatch
 
-I think the anonymous union with exactly same sized field is ok. We
-also try hard to be source compatible, but we have screwed up in the
-past and shrugged it off. The one example that comes to mind is
-extended structures at the bottom with new field, which the kernel
-automatically zero-extends for old userspace. But when you recompile,
-your new-old userspace might no longer clear the new fields because
-the ioctl code didn't start out by memset()ing the entire struct.
+Beatriz Martins de Carvalho (3):
+  drm: drm_atomic_uapi.c: Use tabs for code indents
+  drm: drm_blend.c: Use tabs for code indents
+  drm: drm_connector.c: Use tabs for code indents
 
-But by&large we managed to not botch things up on source compat, but
-it's definitely a lot tricker than ABI compat.
--Daniel
+ drivers/gpu/drm/drm_atomic_uapi.c |  6 ++---
+ drivers/gpu/drm/drm_blend.c       |  4 ++--
+ drivers/gpu/drm/drm_connector.c   | 38 +++++++++++++++----------------
+ 3 files changed, 24 insertions(+), 24 deletions(-)
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
