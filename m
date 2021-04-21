@@ -1,51 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10259366E48
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 16:32:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B235F366E54
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 16:35:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41A956E9BE;
-	Wed, 21 Apr 2021 14:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24C2E6E9BF;
+	Wed, 21 Apr 2021 14:35:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB8076E9C0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 14:32:51 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id k25so42604728oic.4
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 07:32:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O4NdzpZfqirPp0gvR813Ah3uNgfBFiqBDJuyFPyGu1E=;
- b=Kjz9TxZBQw4kQOiJ6hp0eg94TUg7BhRw7HZ8u74uB33gpDmRY6KAQzDoDFyY9qiFDU
- 0rqSNQr7DET8P3ubXLIabb344MfpQ/1AxVSeePgjKBgtjwzU3vl+QIi3xmXZ083gD0/9
- LQhoP5fRUPucz1zsAF4aXtw1RiIZpoROr55O8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O4NdzpZfqirPp0gvR813Ah3uNgfBFiqBDJuyFPyGu1E=;
- b=WLL8EWA1jX3d6zGXVSgZHAjQWf4PRNMQoc67lrG/WdgiGU+3VreDDCDElmfXpAzEal
- K1TCpDOR/l93dZ3t7JkbtcGH3EpYNnpsbwtrgtsqqGYCAU7M012RQ3CcGUrHHt1Ud4V2
- OZh+eAf/ds9NEWvvsEKzShPaikbVnPDhapuWswo9I0f4mMe7Fzb8mhll8OkkJW9IU0EI
- LM2uB5s3sAqaMLOmrXP2TqD1aerPAvWv4EM3sCwFM6tYe6o1URB33FCryoHCCRWwB9bY
- 6HtwOAYOgZ4wYzbju8o7rZgp+p6aIn181+2EAQPxneIfr0gVxobQcrCE/7pMUJPvIjnw
- JknQ==
-X-Gm-Message-State: AOAM530+vD8hZ7Mj1TDk94Vq6ZHBVcGs+nTFq2fvchXiEqE7vJ8KSoci
- FEa4FaeS3JocCGHPYCJR1/k0FatV8y8J0/Q3FP9yKw==
-X-Google-Smtp-Source: ABdhPJzplxjGkMkE3Q1aIt+OfIn0aKTDJphbICRrJaG7SWlq7lWbgO/UnV/T4onLOoKBjH6XsduDUlgmuHX60sLxXw8=
-X-Received: by 2002:a05:6808:9b0:: with SMTP id
- e16mr6459393oig.128.1619015571169; 
- Wed, 21 Apr 2021 07:32:51 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6BC6E0C5;
+ Wed, 21 Apr 2021 14:35:32 +0000 (UTC)
+IronPort-SDR: 1ujDaxAe77IkgziKjdD9EbL0FOvKocd3z8+eHi203zjQ9ycLJVkDYyLdcLnUf6d9iisU5AfHAd
+ Y1qwSfUO20tA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="281037432"
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="281037432"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2021 07:35:31 -0700
+IronPort-SDR: HWsQTFY9Ec4G7w9jl5pldMLsfs1sDrxoh53br45DlB5cdkDxbAee1VnpwbTnIBb6oYa8V9aY9i
+ i/+jXHrJ4NoA==
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="524314331"
+Received: from crodgers-mobl2.ger.corp.intel.com (HELO [10.213.224.141])
+ ([10.213.224.141])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2021 07:35:30 -0700
+Subject: Re: [PATCH v2 1/4] drm/i915: Create stolen memory region from local
+ memory
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20210421104658.304142-1-matthew.auld@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <64a9c5c7-295c-71fa-ac7f-199b64d20c0f@linux.intel.com>
+Date: Wed, 21 Apr 2021 15:35:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210421120938.546076-1-maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20210421120938.546076-1-maarten.lankhorst@linux.intel.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 21 Apr 2021 16:32:40 +0200
-Message-ID: <CAKMK7uF51AyrqydPVwy4u=H9h2apk2uYhnvUFRijDCY4Y2OKzQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Fix docbook descriptions for i915_gem_shrinker
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20210421104658.304142-1-matthew.auld@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,52 +51,384 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Stephen Rothwell <sfr@canb.auug.org.au>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: CQ Tang <cq.tang@intel.com>, Xinyun Liu <xinyun.liu@intel.com>,
+ dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 21, 2021 at 2:09 PM Maarten Lankhorst
-<maarten.lankhorst@linux.intel.com> wrote:
->
-> Fixes the following htmldocs warning:
-> drivers/gpu/drm/i915/gem/i915_gem_shrinker.c:102: warning: Function parameter or member 'ww' not described in 'i915_gem_shrink'
->
-> Fixes: cf41a8f1dc1e ("drm/i915: Finally remove obj->mm.lock.")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
+On 21/04/2021 11:46, Matthew Auld wrote:
+> From: CQ Tang <cq.tang@intel.com>
+> 
+> Add "REGION_STOLEN" device info to dg1, create stolen memory
+> region from upper portion of local device memory, starting
+> from DSMBASE.
+> 
+> v2:
+>      - s/drm_info/drm_dbg; userspace likely doesn't care about stolen.
+>      - mem->type is only setup after the region probe, so setting the name
+>        as stolen-local or stolen-system based on this value won't work. Split
+>        system vs local stolen setup to fix this.
+>      - kill all the region->devmem/is_devmem stuff. We already differentiate
+>        the different types of stolen so such things shouldn't be needed
+>        anymore.
+> v3:
+>      - split stolen lmem vs smem ops(Tvrtko)
+>      - add shortcut for stolen region in i915(Tvrtko)
+>      - sanity check dsm base vs bar size(Xinyun)
+> v4(Tvrtko):
+>      - more cleanup
+>      - add some TODOs
+> 
+> Signed-off-by: CQ Tang <cq.tang@intel.com>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Xinyun Liu <xinyun.liu@intel.com>
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> index 7545ddd83659..f4fb68e8955a 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> @@ -72,6 +72,7 @@ static void try_to_writeback(struct drm_i915_gem_object *obj,
->
->  /**
->   * i915_gem_shrink - Shrink buffer object caches
-> + * @ww: i915 gem ww acquire ctx, or NULL
->   * @i915: i915 device
->   * @target: amount of memory to make available, in pages
->   * @nr_scanned: optional output for number of pages scanned (incremental)
-> --
-> 2.31.0
->
+>   drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 132 ++++++++++++++++++---
+>   drivers/gpu/drm/i915/gem/i915_gem_stolen.h |   3 +-
+>   drivers/gpu/drm/i915/i915_drv.h            |   7 ++
+>   drivers/gpu/drm/i915/i915_pci.c            |   2 +-
+>   drivers/gpu/drm/i915/i915_reg.h            |   1 +
+>   drivers/gpu/drm/i915/intel_memory_region.c |  13 +-
+>   drivers/gpu/drm/i915/intel_memory_region.h |   5 +-
+>   7 files changed, 140 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+> index b0597de206de..13a7932cfe1a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+> @@ -10,6 +10,7 @@
+>   #include <drm/drm_mm.h>
+>   #include <drm/i915_drm.h>
+>   
+> +#include "gem/i915_gem_lmem.h"
+>   #include "gem/i915_gem_region.h"
+>   #include "i915_drv.h"
+>   #include "i915_gem_stolen.h"
+> @@ -121,6 +122,14 @@ static int i915_adjust_stolen(struct drm_i915_private *i915,
+>   		}
+>   	}
+>   
+> +	/*
+> +	 * With stolen lmem, we don't need to check if the address range
+> +	 * overlaps with the non-stolen system memory range, since lmem is local
+> +	 * to the gpu.
+> +	 */
+> +	if (HAS_LMEM(i915))
+> +		return 0;
+> +
+>   	/*
+>   	 * Verify that nothing else uses this physical address. Stolen
+>   	 * memory should be reserved by the BIOS and hidden from the
+> @@ -374,8 +383,9 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
+>   	}
+>   }
+>   
+> -static int i915_gem_init_stolen(struct drm_i915_private *i915)
+> +static int i915_gem_init_stolen(struct intel_memory_region *mem)
+>   {
+> +	struct drm_i915_private *i915 = mem->i915;
+>   	struct intel_uncore *uncore = &i915->uncore;
+>   	resource_size_t reserved_base, stolen_top;
+>   	resource_size_t reserved_total, reserved_size;
+> @@ -396,10 +406,10 @@ static int i915_gem_init_stolen(struct drm_i915_private *i915)
+>   		return 0;
+>   	}
+>   
+> -	if (resource_size(&intel_graphics_stolen_res) == 0)
+> +	if (resource_size(&mem->region) == 0)
+>   		return 0;
+>   
+> -	i915->dsm = intel_graphics_stolen_res;
+> +	i915->dsm = mem->region;
+>   
+>   	if (i915_adjust_stolen(i915, &i915->dsm))
+>   		return 0;
+> @@ -688,39 +698,123 @@ struct drm_i915_gem_object *
+>   i915_gem_object_create_stolen(struct drm_i915_private *i915,
+>   			      resource_size_t size)
+>   {
+> -	return i915_gem_object_create_region(i915->mm.regions[INTEL_REGION_STOLEN_SMEM],
+> +	return i915_gem_object_create_region(i915->mm.stolen_region,
+>   					     size, I915_BO_ALLOC_CONTIGUOUS);
+>   }
+>   
+> -static int init_stolen(struct intel_memory_region *mem)
+> +static int init_stolen_smem(struct intel_memory_region *mem)
+>   {
+> -	intel_memory_region_set_name(mem, "stolen");
+> -
+>   	/*
+>   	 * Initialise stolen early so that we may reserve preallocated
+>   	 * objects for the BIOS to KMS transition.
+>   	 */
+> -	return i915_gem_init_stolen(mem->i915);
+> +	return i915_gem_init_stolen(mem);
+>   }
+>   
+> -static void release_stolen(struct intel_memory_region *mem)
+> +static void release_stolen_smem(struct intel_memory_region *mem)
+>   {
+>   	i915_gem_cleanup_stolen(mem->i915);
+>   }
+>   
+> -static const struct intel_memory_region_ops i915_region_stolen_ops = {
+> -	.init = init_stolen,
+> -	.release = release_stolen,
+> +static const struct intel_memory_region_ops i915_region_stolen_smem_ops = {
+> +	.init = init_stolen_smem,
+> +	.release = release_stolen_smem,
+>   	.init_object = _i915_gem_object_stolen_init,
+>   };
+>   
+> -struct intel_memory_region *i915_gem_stolen_setup(struct drm_i915_private *i915)
+> +static int init_stolen_lmem(struct intel_memory_region *mem)
+> +{
+> +	int err;
+> +
+> +	if (GEM_WARN_ON(resource_size(&mem->region) == 0))
+> +		return -ENODEV;
+> +
+> +	if (!io_mapping_init_wc(&mem->iomap,
+> +				mem->io_start,
+> +				resource_size(&mem->region)))
+> +		return -EIO;
+> +
+> +	/*
+> +	 * TODO: For stolen lmem we mostly just care about populating the dsm
+> +	 * related bits and setting up the drm_mm allocator for the range.
+> +	 * Perhaps split up i915_gem_init_stolen() for this.
+> +	 */
+> +	err = i915_gem_init_stolen(mem);
+> +	if (err)
+> +		goto err_fini;
+> +
+> +	return 0;
+> +
+> +err_fini:
+> +	io_mapping_fini(&mem->iomap);
+> +	return err;
+> +}
+> +
+> +static void release_stolen_lmem(struct intel_memory_region *mem)
+>   {
+> -	return intel_memory_region_create(i915,
+> -					  intel_graphics_stolen_res.start,
+> -					  resource_size(&intel_graphics_stolen_res),
+> -					  PAGE_SIZE, 0,
+> -					  &i915_region_stolen_ops);
+> +	io_mapping_fini(&mem->iomap);
+> +	i915_gem_cleanup_stolen(mem->i915);
+> +}
+> +
+> +static const struct intel_memory_region_ops i915_region_stolen_lmem_ops = {
+> +	.init = init_stolen_lmem,
+> +	.release = release_stolen_lmem,
+> +	.init_object = _i915_gem_object_stolen_init,
+> +};
+> +
+> +struct intel_memory_region *
+> +i915_gem_stolen_lmem_setup(struct drm_i915_private *i915)
+> +{
+> +	struct intel_uncore *uncore = &i915->uncore;
+> +	struct pci_dev *pdev = i915->drm.pdev;
+> +	struct intel_memory_region *mem;
+> +	resource_size_t io_start;
+> +	resource_size_t lmem_size;
+> +	u64 lmem_base;
+> +
+> +	lmem_base = intel_uncore_read64(uncore, GEN12_DSMBASE);
+> +	if (GEM_WARN_ON(lmem_base >= pci_resource_len(pdev, 2)))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	lmem_size = pci_resource_len(pdev, 2) - lmem_base;
+> +	io_start = pci_resource_start(pdev, 2) + lmem_base;
+> +
+> +	mem = intel_memory_region_create(i915, lmem_base, lmem_size,
+> +					 I915_GTT_PAGE_SIZE_4K, io_start,
+> +					 &i915_region_stolen_lmem_ops);
+> +	if (IS_ERR(mem))
+> +		return mem;
+> +
+> +	/*
+> +	 * TODO: consider creating common helper to just print all the
+> +	 * interesting stuff from intel_memory_region, which we can use for all
+> +	 * our probed regions.
+> +	 */
+> +
+> +	drm_dbg(&i915->drm, "Stolen Local memory IO start: %pa\n",
+> +		&mem->io_start);
+> +
+> +	intel_memory_region_set_name(mem, "stolen-local");
+> +
+> +	return mem;
+> +}
+> +
+> +struct intel_memory_region*
+> +i915_gem_stolen_smem_setup(struct drm_i915_private *i915)
+> +{
+> +	struct intel_memory_region *mem;
+> +
+> +	mem = intel_memory_region_create(i915,
+> +					 intel_graphics_stolen_res.start,
+> +					 resource_size(&intel_graphics_stolen_res),
+> +					 PAGE_SIZE, 0,
+> +					 &i915_region_stolen_smem_ops);
+> +	if (IS_ERR(mem))
+> +		return mem;
+> +
+> +	intel_memory_region_set_name(mem, "stolen-system");
+> +
+> +	return mem;
+>   }
+>   
+>   struct drm_i915_gem_object *
+> @@ -728,7 +822,7 @@ i915_gem_object_create_stolen_for_preallocated(struct drm_i915_private *i915,
+>   					       resource_size_t stolen_offset,
+>   					       resource_size_t size)
+>   {
+> -	struct intel_memory_region *mem = i915->mm.regions[INTEL_REGION_STOLEN_SMEM];
+> +	struct intel_memory_region *mem = i915->mm.stolen_region;
+>   	struct drm_i915_gem_object *obj;
+>   	struct drm_mm_node *stolen;
+>   	int ret;
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.h b/drivers/gpu/drm/i915/gem/i915_gem_stolen.h
+> index b03489706796..2bec6c367b9c 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.h
+> @@ -21,7 +21,8 @@ int i915_gem_stolen_insert_node_in_range(struct drm_i915_private *dev_priv,
+>   					 u64 end);
+>   void i915_gem_stolen_remove_node(struct drm_i915_private *dev_priv,
+>   				 struct drm_mm_node *node);
+> -struct intel_memory_region *i915_gem_stolen_setup(struct drm_i915_private *i915);
+> +struct intel_memory_region *i915_gem_stolen_smem_setup(struct drm_i915_private *i915);
+> +struct intel_memory_region *i915_gem_stolen_lmem_setup(struct drm_i915_private *i915);
+>   struct drm_i915_gem_object *
+>   i915_gem_object_create_stolen(struct drm_i915_private *dev_priv,
+>   			      resource_size_t size);
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index e20294e9227a..0b44333eb703 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -514,6 +514,13 @@ struct intel_l3_parity {
+>   };
+>   
+>   struct i915_gem_mm {
+> +	/*
+> +	 * Shortcut for the stolen region. This points to either
+> +	 * INTEL_REGION_STOLEN_SMEM for integrated platforms, or
+> +	 * INTEL_REGION_STOLEN_LMEM for discrete, or NULL if the device doesn't
+> +	 * support stolen.
+> +	 */
+> +	struct intel_memory_region *stolen_region;
+>   	/** Memory allocator for GTT stolen memory */
+>   	struct drm_mm stolen;
+>   	/** Protects the usage of the GTT stolen memory allocator. This is
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index 7786217638ed..c678e0663d80 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -908,7 +908,7 @@ static const struct intel_device_info rkl_info = {
+>   };
+>   
+>   #define DGFX_FEATURES \
+> -	.memory_regions = REGION_SMEM | REGION_LMEM, \
+> +	.memory_regions = REGION_SMEM | REGION_LMEM | REGION_STOLEN_LMEM, \
+>   	.has_master_unit_irq = 1, \
+>   	.has_llc = 0, \
+>   	.has_snoop = 1, \
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index f80d656331f4..ea20058bc13f 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -12191,6 +12191,7 @@ enum skl_power_gate {
+>   #define GEN12_GLOBAL_MOCS(i)	_MMIO(0x4000 + (i) * 4) /* Global MOCS regs */
+>   
+>   #define GEN12_GSMBASE			_MMIO(0x108100)
+> +#define GEN12_DSMBASE			_MMIO(0x1080C0)
+>   
+>   /* gamt regs */
+>   #define GEN8_L3_LRA_1_GPGPU _MMIO(0x4dd4)
+> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
+> index bf837b6bb185..481a487faca6 100644
+> --- a/drivers/gpu/drm/i915/intel_memory_region.c
+> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
+> @@ -22,6 +22,10 @@ static const struct {
+>   		.class = INTEL_MEMORY_STOLEN_SYSTEM,
+>   		.instance = 0,
+>   	},
+> +	[INTEL_REGION_STOLEN_LMEM] = {
+> +		.class = INTEL_MEMORY_STOLEN_LOCAL,
+> +		.instance = 0,
+> +	},
+>   };
+>   
+>   struct intel_memory_region *
+> @@ -278,8 +282,15 @@ int intel_memory_regions_hw_probe(struct drm_i915_private *i915)
+>   		case INTEL_MEMORY_SYSTEM:
+>   			mem = i915_gem_shmem_setup(i915);
+>   			break;
+> +		case INTEL_MEMORY_STOLEN_LOCAL:
+> +			mem = i915_gem_stolen_lmem_setup(i915);
+> +			if (!IS_ERR(mem))
+> +				i915->mm.stolen_region = mem;
+> +			break;
+>   		case INTEL_MEMORY_STOLEN_SYSTEM:
+> -			mem = i915_gem_stolen_setup(i915);
+> +			mem = i915_gem_stolen_smem_setup(i915);
+> +			if (!IS_ERR(mem))
+> +				i915->mm.stolen_region = mem;
+>   			break;
+>   		default:
+>   			continue;
+> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
+> index edd49067c8ca..4c8ec15af55f 100644
+> --- a/drivers/gpu/drm/i915/intel_memory_region.h
+> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
+> @@ -26,18 +26,21 @@ enum intel_memory_type {
+>   	INTEL_MEMORY_SYSTEM = 0,
+>   	INTEL_MEMORY_LOCAL,
+>   	INTEL_MEMORY_STOLEN_SYSTEM,
+> +	INTEL_MEMORY_STOLEN_LOCAL,
+>   };
+>   
+>   enum intel_region_id {
+>   	INTEL_REGION_SMEM = 0,
+>   	INTEL_REGION_LMEM,
+>   	INTEL_REGION_STOLEN_SMEM,
+> +	INTEL_REGION_STOLEN_LMEM,
+>   	INTEL_REGION_UNKNOWN, /* Should be last */
+>   };
+>   
+>   #define REGION_SMEM     BIT(INTEL_REGION_SMEM)
+>   #define REGION_LMEM     BIT(INTEL_REGION_LMEM)
+>   #define REGION_STOLEN_SMEM   BIT(INTEL_REGION_STOLEN_SMEM)
+> +#define REGION_STOLEN_LMEM   BIT(INTEL_REGION_STOLEN_LMEM)
+>   
+>   #define I915_ALLOC_MIN_PAGE_SIZE  BIT(0)
+>   #define I915_ALLOC_CONTIGUOUS     BIT(1)
+> @@ -82,7 +85,7 @@ struct intel_memory_region {
+>   	u16 type;
+>   	u16 instance;
+>   	enum intel_region_id id;
+> -	char name[8];
+> +	char name[16];
+>   
+>   	struct list_head reserved;
+>   
+> 
 
+With the TODOs in place, I think I can finally see the road to clean 
+stolen setup. Thanks for refining it at this stage.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Regards,
+
+Tvrtko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
