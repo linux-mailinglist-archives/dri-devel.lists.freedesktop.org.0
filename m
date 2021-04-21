@@ -2,28 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA54C3666A0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 10:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F673666A2
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 10:02:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96B196E18F;
-	Wed, 21 Apr 2021 08:01:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1B46E95B;
+	Wed, 21 Apr 2021 08:02:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 087456E18F
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 08:01:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF40D6E95B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 08:02:33 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 70053B113;
- Wed, 21 Apr 2021 08:01:48 +0000 (UTC)
-Date: Wed, 21 Apr 2021 10:01:48 +0200
-Message-ID: <s5hsg3kawwj.wl-tiwai@suse.de>
+ by mx2.suse.de (Postfix) with ESMTP id 7405BB127;
+ Wed, 21 Apr 2021 08:02:32 +0000 (UTC)
+Date: Wed, 21 Apr 2021 10:02:32 +0200
+Message-ID: <s5hr1j4awvb.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
 Subject: Re: [PATCH] drm/bochs: Add screen blanking support
-In-Reply-To: <6d2f59c0-113f-2d9e-1fb3-a794dafbd74a@suse.de>
+In-Reply-To: <20210421071942.eyzbao63pn54loj2@sirius.home.kraxel.org>
 References: <20210420165659.23163-1-tiwai@suse.de>
  <6d2f59c0-113f-2d9e-1fb3-a794dafbd74a@suse.de>
+ <20210421071942.eyzbao63pn54loj2@sirius.home.kraxel.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
  FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
  (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -40,49 +41,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Apr 2021 19:47:31 +0200,
-Thomas Zimmermann wrote:
+On Wed, 21 Apr 2021 09:19:42 +0200,
+Gerd Hoffmann wrote:
 > 
-> Hi
+> > > However, a tricky part is that the QEMU vga code does treat VGA_ATT_IW
+> > > register always as "flip-flop"; the first write is for index and the
+> > > second write is for the data like palette.  Meanwhile, in the current
+> > > bochs DRM driver, the flip-flop wasn't considered, and it calls only
+> > > the register update once with the value 0x20.
+> > > 
+> > 
+> > Unless bochs does things very different, the index should first be reset by
+> > reading 0x3da. Then write the index, then the data.
+> > 
+> > https://web.stanford.edu/class/cs140/projects/pintos/specs/freevga/vga/vgareg.htm#attribute
 > 
-> Am 20.04.21 um 18:56 schrieb Takashi Iwai:
-> > On bochs DRM driver, the execution of "setterm --blank force" results
-> > in a frozen screen instead of a blank screen.  It's due to the lack of
-> > the screen blanking support in its code.
-> >
-> > Actually, the QEMU bochs vga side can switch to the blanking mode when
-> > the bit 0x20 is cleared on VGA_ATT_IW register (0x3c0), which updates
-> > ar_index in QEMU side.  So, essentially, we'd just need to clear the
-> > bit at pipe disable callback; that's what this patch does essentially.
-> >
-> > However, a tricky part is that the QEMU vga code does treat VGA_ATT_IW
-> > register always as "flip-flop"; the first write is for index and the
-> > second write is for the data like palette.  Meanwhile, in the current
-> > bochs DRM driver, the flip-flop wasn't considered, and it calls only
-> > the register update once with the value 0x20.
-> >
-> 
-> Unless bochs does things very different, the index should first be
-> reset by reading 0x3da. Then write the index, then the data.
-> 
-> https://web.stanford.edu/class/cs140/projects/pintos/specs/freevga/vga/vgareg.htm#attribute
+> bochs should follow standard vga logic here.
+> Also a bochs_set_blank(true/false) helper function probably makes sense.
 
-Thanks for the pointer!
+OK, I factored it out to bochs_hw_blank() in v2 patch.
 
-It seems that QEMU stdvga actually implements the discard of flip flop
-bit by reading 0x3da.  Meanwhile, the write of the data isn't needed
-in this case because we do care only about the enablement bit 0x20 of
-ar_index.
 
-I'll resubmit v2 patch.
-
+thanks,
 
 Takashi
 _______________________________________________
