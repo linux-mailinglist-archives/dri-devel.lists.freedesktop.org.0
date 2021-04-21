@@ -2,44 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C586366857
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 11:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6522C3668A8
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 11:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB726E96C;
-	Wed, 21 Apr 2021 09:48:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63E046E96F;
+	Wed, 21 Apr 2021 09:58:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 541626E96C;
- Wed, 21 Apr 2021 09:48:23 +0000 (UTC)
-IronPort-SDR: 8E6/C6MDo5D3qv4+VQGMo2/Ih6jrm2uAi12emWPQZut7cgc5GKD/Herlj7hllnonajie/RpYxE
- EJc93nGSbjOg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="281000556"
-X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; d="scan'208";a="281000556"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2021 02:48:22 -0700
-IronPort-SDR: ukgF+S5I29bsMzF+UXC+g87NBVfOXMY75AXl7fgbfGQWCa4u0Q/qOdBvQvbVUteqxH24hxT7hm
- 64coiHOCftog==
-X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; d="scan'208";a="534832347"
-Received: from ddacost1-mobl1.ger.corp.intel.com (HELO [10.252.9.23])
- ([10.252.9.23])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2021 02:48:21 -0700
-Subject: Re: [PATCH 4/5] drm/i915/stolen: pass the allocation flags
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20210420131842.164163-1-matthew.auld@intel.com>
- <20210420131842.164163-4-matthew.auld@intel.com>
- <8559c955-3882-aec4-f87c-afbe82052e5b@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <5e105279-a3ae-d79c-8042-321cf5849f35@intel.com>
-Date: Wed, 21 Apr 2021 10:48:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E6646E96F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 09:58:23 +0000 (UTC)
+Date: Wed, 21 Apr 2021 10:58:09 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v4 2/3] drm: bridge: add it66121 driver
+To: Neil Armstrong <narmstrong@baylibre.com>
+Message-Id: <XORWRQ.E9G842XQIEQJ@crapouillou.net>
+In-Reply-To: <68505537-1cf9-2c85-877e-fa530b1ea26c@baylibre.com>
+References: <20210419071223.2673533-1-narmstrong@baylibre.com>
+ <20210419071223.2673533-3-narmstrong@baylibre.com>
+ <68505537-1cf9-2c85-877e-fa530b1ea26c@baylibre.com>
 MIME-Version: 1.0
-In-Reply-To: <8559c955-3882-aec4-f87c-afbe82052e5b@linux.intel.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,77 +34,1223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: CQ Tang <cq.tang@intel.com>, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, robert.foss@linaro.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Phong LE <ple@baylibre.com>, a.hajda@samsung.com,
+ Laurent.pinchart@ideasonboard.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAvMDQvMjAyMSAxNzoxNCwgVHZydGtvIFVyc3VsaW4gd3JvdGU6Cj4gCj4gT24gMjAvMDQv
-MjAyMSAxNDoxOCwgTWF0dGhldyBBdWxkIHdyb3RlOgo+PiBGcm9tOiBDUSBUYW5nIDxjcS50YW5n
-QGludGVsLmNvbT4KPj4KPj4gU3RvbGVuIG1lbW9yeSBpcyBhbHdheXMgYWxsb2NhdGVkIGFzIHBo
-eXNpY2FsbHkgY29udGlndW91cyBwYWdlcywgbWFyawo+PiB0aGUgb2JqZWN0IGZsYWdzIGFzIHN1
-Y2guCj4+Cj4+IHYyOiBtb3ZlIHNldHRpbmcgSTkxNV9CT19BTExPQ19DT05USUdVT1VTIGludG8g
-Y3JlYXRlX3N0b2xlbgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBDUSBUYW5nIDxjcS50YW5nQGludGVs
-LmNvbT4KPj4gU2lnbmVkLW9mZi1ieTogTWF0dGhldyBBdWxkIDxtYXR0aGV3LmF1bGRAaW50ZWwu
-Y29tPgo+PiBDYzogVHZydGtvIFVyc3VsaW4gPHR2cnRrby51cnN1bGluQGxpbnV4LmludGVsLmNv
-bT4KPj4gLS0tCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zdG9sZW4u
-YyB8IDE3ICsrKysrKysrKysrKy0tLS0tCj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRp
-b25zKCspLCA1IGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xlbi5jIAo+PiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dl
-bS9pOTE1X2dlbV9zdG9sZW4uYwo+PiBpbmRleCA0ZjlmZTVhY2EzN2UuLjQ2Zjc5YjI0MGRmNyAx
-MDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xlbi5j
-Cj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zdG9sZW4uYwo+PiBA
-QCAtNjMzLDE0ICs2MzMsMjEgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1faTkxNV9nZW1fb2Jq
-ZWN0X29wcyAKPj4gaTkxNV9nZW1fb2JqZWN0X3N0b2xlbl9vcHMgPSB7Cj4+IMKgIHN0YXRpYyBp
-bnQgX19pOTE1X2dlbV9vYmplY3RfY3JlYXRlX3N0b2xlbihzdHJ1Y3QgCj4+IGludGVsX21lbW9y
-eV9yZWdpb24gKm1lbSwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmosCj4+IC3CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX21tX25vZGUgKnN0
-b2xlbikKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0
-cnVjdCBkcm1fbW1fbm9kZSAqc3RvbGVuLAo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgdW5zaWduZWQgaW50IGZsYWdzKQo+PiDCoCB7Cj4+IMKgwqDCoMKg
-wqAgc3RhdGljIHN0cnVjdCBsb2NrX2NsYXNzX2tleSBsb2NrX2NsYXNzOwo+PiDCoMKgwqDCoMKg
-IHVuc2lnbmVkIGludCBjYWNoZV9sZXZlbDsKPj4gwqDCoMKgwqDCoCBpbnQgZXJyOwo+PiArwqDC
-oMKgIC8qCj4+ICvCoMKgwqDCoCAqIFN0b2xlbiBvYmplY3RzIGFyZSBhbHdheXMgcGh5c2ljYWxs
-eSBjb250aWd1b3VzIHNpbmNlIHdlIGp1c3QKPj4gK8KgwqDCoMKgICogYWxsb2NhdGUgb25lIGJp
-ZyBibG9jayB1bmRlcm5lYXRoIHVzaW5nIHRoZSBkcm1fbW0gcmFuZ2UgCj4+IGFsbG9jYXRvci4K
-Pj4gK8KgwqDCoMKgICovCj4+ICvCoMKgwqAgZmxhZ3MgfD0gSTkxNV9CT19BTExPQ19DT05USUdV
-T1VTOwo+PiArCj4+IMKgwqDCoMKgwqAgZHJtX2dlbV9wcml2YXRlX29iamVjdF9pbml0KCZtZW0t
-Pmk5MTUtPmRybSwgJm9iai0+YmFzZSwgCj4+IHN0b2xlbi0+c2l6ZSk7Cj4+IC3CoMKgwqAgaTkx
-NV9nZW1fb2JqZWN0X2luaXQob2JqLCAmaTkxNV9nZW1fb2JqZWN0X3N0b2xlbl9vcHMsIAo+PiAm
-bG9ja19jbGFzcywgMCk7Cj4+ICvCoMKgwqAgaTkxNV9nZW1fb2JqZWN0X2luaXQob2JqLCAmaTkx
-NV9nZW1fb2JqZWN0X3N0b2xlbl9vcHMsIAo+PiAmbG9ja19jbGFzcywgZmxhZ3MpOwo+PiDCoMKg
-wqDCoMKgIG9iai0+c3RvbGVuID0gc3RvbGVuOwo+PiDCoMKgwqDCoMKgIG9iai0+cmVhZF9kb21h
-aW5zID0gSTkxNV9HRU1fRE9NQUlOX0NQVSB8IEk5MTVfR0VNX0RPTUFJTl9HVFQ7Cj4+IEBAIC02
-ODIsNyArNjg5LDcgQEAgc3RhdGljIGludCBfaTkxNV9nZW1fb2JqZWN0X3N0b2xlbl9pbml0KHN0
-cnVjdCAKPj4gaW50ZWxfbWVtb3J5X3JlZ2lvbiAqbWVtLAo+PiDCoMKgwqDCoMKgIGlmIChyZXQp
-Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGVycl9mcmVlOwo+PiAtwqDCoMKgIHJldCA9IF9f
-aTkxNV9nZW1fb2JqZWN0X2NyZWF0ZV9zdG9sZW4obWVtLCBvYmosIHN0b2xlbik7Cj4+ICvCoMKg
-wqAgcmV0ID0gX19pOTE1X2dlbV9vYmplY3RfY3JlYXRlX3N0b2xlbihtZW0sIG9iaiwgc3RvbGVu
-LCBmbGFncyk7Cj4gCj4gSG0gb2RkIHRoYXQgcHJldmlvdXNseSB0aGUgZmxhZ3Mgd2VyZSBpZ25v
-cmVkIGluIGhlcmUuIEkgZ3Vlc3Mgbm8gCj4gY2FsbGVycyB3ZXJlIHBhc3NpbmcgYW55IHdoZW4g
-Y3JlYXRpbmcgc3RvbGVuIG9iamVjdHMuIElmIG5vbmUgYXJlIAo+IHN1cHBvcnRlZCBzaG91bGQg
-d2UgYWRkIGEgR0VNX0JVR19PTiB0byBjaGVjayBmb3IgdGhhdD8KCkkgdGhpbmsgdGhpcyBpdCdz
-IGlzIHN0aWxsIHJlYWNoYWJsZSBmb3IgdmlhIG9iamVjdF9jcmVhdGVfcmVnaW9uKCksIGJ1dCAK
-eWVhaCBtYXliZSBqdXN0IGxlYXZlIGZvciBsYXRlciwgaWYgd2UgZG8gcmVhbGx5IG5lZWQgaXQu
-Cgo+IAo+IFJlZ2FyZHMsCj4gCj4gVHZydGtvCj4gCj4+IMKgwqDCoMKgwqAgaWYgKHJldCkKPj4g
-wqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZXJyX3JlbW92ZTsKPj4gQEAgLTcwMCw3ICs3MDcsNyBA
-QCBpOTE1X2dlbV9vYmplY3RfY3JlYXRlX3N0b2xlbihzdHJ1Y3QgCj4+IGRybV9pOTE1X3ByaXZh
-dGUgKmk5MTUsCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJlc291
-cmNlX3NpemVfdCBzaXplKQo+PiDCoCB7Cj4+IMKgwqDCoMKgwqAgcmV0dXJuIGk5MTVfZ2VtX29i
-amVjdF9jcmVhdGVfcmVnaW9uKGk5MTUtPm1tLnN0b2xlbl9yZWdpb24sCj4+IC3CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2l6ZSwgSTkxNV9CT19BTExP
-Q19DT05USUdVT1VTKTsKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBzaXplLCAwKTsKPj4gwqAgfQo+PiDCoCBzdGF0aWMgaW50IGluaXRfc3RvbGVu
-X3NtZW0oc3RydWN0IGludGVsX21lbW9yeV9yZWdpb24gKm1lbSkKPj4gQEAgLTg2Niw3ICs4NzMs
-NyBAQCAKPj4gaTkxNV9nZW1fb2JqZWN0X2NyZWF0ZV9zdG9sZW5fZm9yX3ByZWFsbG9jYXRlZChz
-dHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAKPj4gKmk5MTUsCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBn
-b3RvIGVycl9zdG9sZW47Cj4+IMKgwqDCoMKgwqAgfQo+PiAtwqDCoMKgIHJldCA9IF9faTkxNV9n
-ZW1fb2JqZWN0X2NyZWF0ZV9zdG9sZW4obWVtLCBvYmosIHN0b2xlbik7Cj4+ICvCoMKgwqAgcmV0
-ID0gX19pOTE1X2dlbV9vYmplY3RfY3JlYXRlX3N0b2xlbihtZW0sIG9iaiwgc3RvbGVuLCAwKTsK
-Pj4gwqDCoMKgwqDCoCBpZiAocmV0KQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBlcnJfb2Jq
-ZWN0X2ZyZWU7Cj4+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Hi Neil,
+
+Le mer. 21 avril 2021 =E0 11:25, Neil Armstrong =
+
+<narmstrong@baylibre.com> a =E9crit :
+> Hi Paul,
+> =
+
+> On 19/04/2021 09:12, Neil Armstrong wrote:
+>>  From: Phong LE <ple@baylibre.com>
+>> =
+
+>>  This commit is a simple driver for bridge HMDI it66121.
+>>  The input format is RBG and there is no color conversion.
+>>  Audio, HDCP and CEC are not supported yet.
+> =
+
+> Did you manage to get it working on your platform with all the needed =
+
+> bridge stuff ?
+> =
+
+> Neil
+
+I think I will need a bit more time to update ingenic-drm to use the =
+
+bridge stuff. That's quite a big change.
+
+So don't wait for me.
+
+Cheers,
+-Paul
+
+>> =
+
+>>  Signed-off-by: Phong LE <ple@baylibre.com>
+>>  Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+>>  ---
+>>   drivers/gpu/drm/bridge/Kconfig       |    8 +
+>>   drivers/gpu/drm/bridge/Makefile      |    1 +
+>>   drivers/gpu/drm/bridge/ite-it66121.c | 1021 =
+
+>> ++++++++++++++++++++++++++
+>>   3 files changed, 1030 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/bridge/ite-it66121.c
+>> =
+
+>>  diff --git a/drivers/gpu/drm/bridge/Kconfig =
+
+>> b/drivers/gpu/drm/bridge/Kconfig
+>>  index e4110d6ca7b3..6915c38fa459 100644
+>>  --- a/drivers/gpu/drm/bridge/Kconfig
+>>  +++ b/drivers/gpu/drm/bridge/Kconfig
+>>  @@ -74,6 +74,14 @@ config DRM_LONTIUM_LT9611UXC
+>>   	  HDMI signals
+>>   	  Please say Y if you have such hardware.
+>> =
+
+>>  +config DRM_ITE_IT66121
+>>  +	tristate "ITE IT66121 HDMI bridge"
+>>  +	depends on OF
+>>  +	select DRM_KMS_HELPER
+>>  +	select REGMAP_I2C
+>>  +	help
+>>  +	  Support for ITE IT66121 HDMI bridge.
+>>  +
+>>   config DRM_LVDS_CODEC
+>>   	tristate "Transparent LVDS encoders and decoders support"
+>>   	depends on OF
+>>  diff --git a/drivers/gpu/drm/bridge/Makefile =
+
+>> b/drivers/gpu/drm/bridge/Makefile
+>>  index 86e7acc76f8d..4f725753117c 100644
+>>  --- a/drivers/gpu/drm/bridge/Makefile
+>>  +++ b/drivers/gpu/drm/bridge/Makefile
+>>  @@ -24,6 +24,7 @@ obj-$(CONFIG_DRM_TI_SN65DSI86) +=3D ti-sn65dsi86.o
+>>   obj-$(CONFIG_DRM_TI_TFP410) +=3D ti-tfp410.o
+>>   obj-$(CONFIG_DRM_TI_TPD12S015) +=3D ti-tpd12s015.o
+>>   obj-$(CONFIG_DRM_NWL_MIPI_DSI) +=3D nwl-dsi.o
+>>  +obj-$(CONFIG_DRM_ITE_IT66121) +=3D ite-it66121.o
+>> =
+
+>>   obj-y +=3D analogix/
+>>   obj-y +=3D cadence/
+>>  diff --git a/drivers/gpu/drm/bridge/ite-it66121.c =
+
+>> b/drivers/gpu/drm/bridge/ite-it66121.c
+>>  new file mode 100644
+>>  index 000000000000..d8a60691fd32
+>>  --- /dev/null
+>>  +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+>>  @@ -0,0 +1,1021 @@
+>>  +// SPDX-License-Identifier: GPL-2.0-only
+>>  +/*
+>>  + * Copyright (C) 2020 BayLibre, SAS
+>>  + * Author: Phong LE <ple@baylibre.com>
+>>  + * Copyright (C) 2018-2019, Artem Mygaiev
+>>  + * Copyright (C) 2017, Fresco Logic, Incorporated.
+>>  + *
+>>  + */
+>>  +
+>>  +#include <linux/module.h>
+>>  +#include <linux/device.h>
+>>  +#include <linux/interrupt.h>
+>>  +#include <linux/i2c.h>
+>>  +#include <linux/bitfield.h>
+>>  +#include <linux/property.h>
+>>  +#include <linux/regmap.h>
+>>  +#include <linux/of_graph.h>
+>>  +#include <linux/gpio/consumer.h>
+>>  +#include <linux/pinctrl/consumer.h>
+>>  +#include <linux/regulator/consumer.h>
+>>  +
+>>  +#include <drm/drm_atomic_helper.h>
+>>  +#include <drm/drm_bridge.h>
+>>  +#include <drm/drm_crtc_helper.h>
+>>  +#include <drm/drm_edid.h>
+>>  +#include <drm/drm_modes.h>
+>>  +#include <drm/drm_print.h>
+>>  +#include <drm/drm_probe_helper.h>
+>>  +
+>>  +#define IT66121_VENDOR_ID0_REG			0x00
+>>  +#define IT66121_VENDOR_ID1_REG			0x01
+>>  +#define IT66121_DEVICE_ID0_REG			0x02
+>>  +#define IT66121_DEVICE_ID1_REG			0x03
+>>  +
+>>  +#define IT66121_VENDOR_ID0			0x54
+>>  +#define IT66121_VENDOR_ID1			0x49
+>>  +#define IT66121_DEVICE_ID0			0x12
+>>  +#define IT66121_DEVICE_ID1			0x06
+>>  +#define IT66121_REVISION_MASK			GENMASK(7, 4)
+>>  +#define IT66121_DEVICE_ID1_MASK			GENMASK(3, 0)
+>>  +
+>>  +#define IT66121_MASTER_SEL_REG			0x10
+>>  +#define IT66121_MASTER_SEL_HOST			BIT(0)
+>>  +
+>>  +#define IT66121_AFE_DRV_REG			0x61
+>>  +#define IT66121_AFE_DRV_RST			BIT(4)
+>>  +#define IT66121_AFE_DRV_PWD			BIT(5)
+>>  +
+>>  +#define IT66121_INPUT_MODE_REG			0x70
+>>  +#define IT66121_INPUT_MODE_RGB			(0 << 6)
+>>  +#define IT66121_INPUT_MODE_YUV422		BIT(6)
+>>  +#define IT66121_INPUT_MODE_YUV444		(2 << 6)
+>>  +#define IT66121_INPUT_MODE_CCIR656		BIT(4)
+>>  +#define IT66121_INPUT_MODE_SYNCEMB		BIT(3)
+>>  +#define IT66121_INPUT_MODE_DDR			BIT(2)
+>>  +
+>>  +#define IT66121_INPUT_CSC_REG			0x72
+>>  +#define IT66121_INPUT_CSC_ENDITHER		BIT(7)
+>>  +#define IT66121_INPUT_CSC_ENUDFILTER		BIT(6)
+>>  +#define IT66121_INPUT_CSC_DNFREE_GO		BIT(5)
+>>  +#define IT66121_INPUT_CSC_RGB_TO_YUV		0x02
+>>  +#define IT66121_INPUT_CSC_YUV_TO_RGB		0x03
+>>  +#define IT66121_INPUT_CSC_NO_CONV		0x00
+>>  +
+>>  +#define IT66121_AFE_XP_REG			0x62
+>>  +#define IT66121_AFE_XP_GAINBIT			BIT(7)
+>>  +#define IT66121_AFE_XP_PWDPLL			BIT(6)
+>>  +#define IT66121_AFE_XP_ENI			BIT(5)
+>>  +#define IT66121_AFE_XP_ENO			BIT(4)
+>>  +#define IT66121_AFE_XP_RESETB			BIT(3)
+>>  +#define IT66121_AFE_XP_PWDI			BIT(2)
+>>  +
+>>  +#define IT66121_AFE_IP_REG			0x64
+>>  +#define IT66121_AFE_IP_GAINBIT			BIT(7)
+>>  +#define IT66121_AFE_IP_PWDPLL			BIT(6)
+>>  +#define IT66121_AFE_IP_CKSEL_05			(0 << 4)
+>>  +#define IT66121_AFE_IP_CKSEL_1			BIT(4)
+>>  +#define IT66121_AFE_IP_CKSEL_2			(2 << 4)
+>>  +#define IT66121_AFE_IP_CKSEL_2OR4		(3 << 4)
+>>  +#define IT66121_AFE_IP_ER0			BIT(3)
+>>  +#define IT66121_AFE_IP_RESETB			BIT(2)
+>>  +#define IT66121_AFE_IP_ENC			BIT(1)
+>>  +#define IT66121_AFE_IP_EC1			BIT(0)
+>>  +
+>>  +#define IT66121_AFE_XP_EC1_REG			0x68
+>>  +#define IT66121_AFE_XP_EC1_LOWCLK		BIT(4)
+>>  +
+>>  +#define IT66121_SW_RST_REG			0x04
+>>  +#define IT66121_SW_RST_REF			BIT(5)
+>>  +#define IT66121_SW_RST_AREF			BIT(4)
+>>  +#define IT66121_SW_RST_VID			BIT(3)
+>>  +#define IT66121_SW_RST_AUD			BIT(2)
+>>  +#define IT66121_SW_RST_HDCP			BIT(0)
+>>  +
+>>  +#define IT66121_DDC_COMMAND_REG			0x15
+>>  +#define IT66121_DDC_COMMAND_BURST_READ		0x0
+>>  +#define IT66121_DDC_COMMAND_EDID_READ		0x3
+>>  +#define IT66121_DDC_COMMAND_FIFO_CLR		0x9
+>>  +#define IT66121_DDC_COMMAND_SCL_PULSE		0xA
+>>  +#define IT66121_DDC_COMMAND_ABORT		0xF
+>>  +
+>>  +#define IT66121_HDCP_REG			0x20
+>>  +#define IT66121_HDCP_CPDESIRED			BIT(0)
+>>  +#define IT66121_HDCP_EN1P1FEAT			BIT(1)
+>>  +
+>>  +#define IT66121_INT_STATUS1_REG			0x06
+>>  +#define IT66121_INT_STATUS1_AUD_OVF		BIT(7)
+>>  +#define IT66121_INT_STATUS1_DDC_NOACK		BIT(5)
+>>  +#define IT66121_INT_STATUS1_DDC_FIFOERR		BIT(4)
+>>  +#define IT66121_INT_STATUS1_DDC_BUSHANG		BIT(2)
+>>  +#define IT66121_INT_STATUS1_RX_SENS_STATUS	BIT(1)
+>>  +#define IT66121_INT_STATUS1_HPD_STATUS		BIT(0)
+>>  +
+>>  +#define IT66121_DDC_HEADER_REG			0x11
+>>  +#define IT66121_DDC_HEADER_HDCP			0x74
+>>  +#define IT66121_DDC_HEADER_EDID			0xA0
+>>  +
+>>  +#define IT66121_DDC_OFFSET_REG			0x12
+>>  +#define IT66121_DDC_BYTE_REG			0x13
+>>  +#define IT66121_DDC_SEGMENT_REG			0x14
+>>  +#define IT66121_DDC_RD_FIFO_REG			0x17
+>>  +
+>>  +#define IT66121_CLK_BANK_REG			0x0F
+>>  +#define IT66121_CLK_BANK_PWROFF_RCLK		BIT(6)
+>>  +#define IT66121_CLK_BANK_PWROFF_ACLK		BIT(5)
+>>  +#define IT66121_CLK_BANK_PWROFF_TXCLK		BIT(4)
+>>  +#define IT66121_CLK_BANK_PWROFF_CRCLK		BIT(3)
+>>  +#define IT66121_CLK_BANK_0			0
+>>  +#define IT66121_CLK_BANK_1			1
+>>  +
+>>  +#define IT66121_INT_REG				0x05
+>>  +#define IT66121_INT_ACTIVE_HIGH			BIT(7)
+>>  +#define IT66121_INT_OPEN_DRAIN			BIT(6)
+>>  +#define IT66121_INT_TX_CLK_OFF			BIT(0)
+>>  +
+>>  +#define IT66121_INT_MASK1_REG			0x09
+>>  +#define IT66121_INT_MASK1_AUD_OVF		BIT(7)
+>>  +#define IT66121_INT_MASK1_DDC_NOACK		BIT(5)
+>>  +#define IT66121_INT_MASK1_DDC_FIFOERR		BIT(4)
+>>  +#define IT66121_INT_MASK1_DDC_BUSHANG		BIT(2)
+>>  +#define IT66121_INT_MASK1_RX_SENS		BIT(1)
+>>  +#define IT66121_INT_MASK1_HPD			BIT(0)
+>>  +
+>>  +#define IT66121_INT_CLR1_REG			0x0C
+>>  +#define IT66121_INT_CLR1_PKTACP			BIT(7)
+>>  +#define IT66121_INT_CLR1_PKTNULL		BIT(6)
+>>  +#define IT66121_INT_CLR1_PKTGEN			BIT(5)
+>>  +#define IT66121_INT_CLR1_KSVLISTCHK		BIT(4)
+>>  +#define IT66121_INT_CLR1_AUTHDONE		BIT(3)
+>>  +#define IT66121_INT_CLR1_AUTHFAIL		BIT(2)
+>>  +#define IT66121_INT_CLR1_RX_SENS		BIT(1)
+>>  +#define IT66121_INT_CLR1_HPD			BIT(0)
+>>  +
+>>  +#define IT66121_AV_MUTE_REG			0xC1
+>>  +#define IT66121_AV_MUTE_ON			BIT(0)
+>>  +#define IT66121_AV_MUTE_BLUESCR			BIT(1)
+>>  +
+>>  +#define IT66121_PKT_GEN_CTRL_REG		0xC6
+>>  +#define IT66121_PKT_GEN_CTRL_ON			BIT(0)
+>>  +#define IT66121_PKT_GEN_CTRL_RPT		BIT(1)
+>>  +
+>>  +#define IT66121_AVIINFO_DB1_REG			0x158
+>>  +#define IT66121_AVIINFO_DB2_REG			0x159
+>>  +#define IT66121_AVIINFO_DB3_REG			0x15A
+>>  +#define IT66121_AVIINFO_DB4_REG			0x15B
+>>  +#define IT66121_AVIINFO_DB5_REG			0x15C
+>>  +#define IT66121_AVIINFO_CSUM_REG		0x15D
+>>  +#define IT66121_AVIINFO_DB6_REG			0x15E
+>>  +#define IT66121_AVIINFO_DB7_REG			0x15F
+>>  +#define IT66121_AVIINFO_DB8_REG			0x160
+>>  +#define IT66121_AVIINFO_DB9_REG			0x161
+>>  +#define IT66121_AVIINFO_DB10_REG		0x162
+>>  +#define IT66121_AVIINFO_DB11_REG		0x163
+>>  +#define IT66121_AVIINFO_DB12_REG		0x164
+>>  +#define IT66121_AVIINFO_DB13_REG		0x165
+>>  +
+>>  +#define IT66121_AVI_INFO_PKT_REG		0xCD
+>>  +#define IT66121_AVI_INFO_PKT_ON			BIT(0)
+>>  +#define IT66121_AVI_INFO_PKT_RPT		BIT(1)
+>>  +
+>>  +#define IT66121_HDMI_MODE_REG			0xC0
+>>  +#define IT66121_HDMI_MODE_HDMI			BIT(0)
+>>  +
+>>  +#define IT66121_SYS_STATUS_REG			0x0E
+>>  +#define IT66121_SYS_STATUS_ACTIVE_IRQ		BIT(7)
+>>  +#define IT66121_SYS_STATUS_HPDETECT		BIT(6)
+>>  +#define IT66121_SYS_STATUS_SENDECTECT		BIT(5)
+>>  +#define IT66121_SYS_STATUS_VID_STABLE		BIT(4)
+>>  +#define IT66121_SYS_STATUS_AUD_CTS_CLR		BIT(1)
+>>  +#define IT66121_SYS_STATUS_CLEAR_IRQ		BIT(0)
+>>  +
+>>  +#define IT66121_DDC_STATUS_REG			0x16
+>>  +#define IT66121_DDC_STATUS_TX_DONE		BIT(7)
+>>  +#define IT66121_DDC_STATUS_ACTIVE		BIT(6)
+>>  +#define IT66121_DDC_STATUS_NOACK		BIT(5)
+>>  +#define IT66121_DDC_STATUS_WAIT_BUS		BIT(4)
+>>  +#define IT66121_DDC_STATUS_ARBI_LOSE		BIT(3)
+>>  +#define IT66121_DDC_STATUS_FIFO_FULL		BIT(2)
+>>  +#define IT66121_DDC_STATUS_FIFO_EMPTY		BIT(1)
+>>  +#define IT66121_DDC_STATUS_FIFO_VALID		BIT(0)
+>>  +
+>>  +#define IT66121_EDID_SLEEP_US			20000
+>>  +#define IT66121_EDID_TIMEOUT_US			200000
+>>  +#define IT66121_EDID_FIFO_SIZE			32
+>>  +#define IT66121_AFE_CLK_HIGH			80000 /* Khz */
+>>  +
+>>  +struct it66121_ctx {
+>>  +	struct regmap *regmap;
+>>  +	struct drm_bridge bridge;
+>>  +	struct drm_bridge *next_bridge;
+>>  +	struct drm_connector *connector;
+>>  +	struct device *dev;
+>>  +	struct gpio_desc *gpio_reset;
+>>  +	struct i2c_client *client;
+>>  +	struct regulator_bulk_data supplies[3];
+>>  +	u32 bus_width;
+>>  +	struct mutex lock; /* Protects fields below and device registers =
+
+>> */
+>>  +	struct hdmi_avi_infoframe hdmi_avi_infoframe;
+>>  +};
+>>  +
+>>  +static const struct regmap_range_cfg it66121_regmap_banks[] =3D {
+>>  +	{
+>>  +		.name =3D "it66121",
+>>  +		.range_min =3D 0x00,
+>>  +		.range_max =3D 0x1FF,
+>>  +		.selector_reg =3D IT66121_CLK_BANK_REG,
+>>  +		.selector_mask =3D 0x1,
+>>  +		.selector_shift =3D 0,
+>>  +		.window_start =3D 0x00,
+>>  +		.window_len =3D 0x130,
+>>  +	},
+>>  +};
+>>  +
+>>  +static const struct regmap_config it66121_regmap_config =3D {
+>>  +	.val_bits =3D 8,
+>>  +	.reg_bits =3D 8,
+>>  +	.max_register =3D 0x1FF,
+>>  +	.ranges =3D it66121_regmap_banks,
+>>  +	.num_ranges =3D ARRAY_SIZE(it66121_regmap_banks),
+>>  +};
+>>  +
+>>  +static void it66121_hw_reset(struct it66121_ctx *ctx)
+>>  +{
+>>  +	gpiod_set_value(ctx->gpio_reset, 1);
+>>  +	msleep(20);
+>>  +	gpiod_set_value(ctx->gpio_reset, 0);
+>>  +}
+>>  +
+>>  +static inline int ite66121_power_on(struct it66121_ctx *ctx)
+>>  +{
+>>  +	return regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), =
+
+>> ctx->supplies);
+>>  +}
+>>  +
+>>  +static inline int ite66121_power_off(struct it66121_ctx *ctx)
+>>  +{
+>>  +	return regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), =
+
+>> ctx->supplies);
+>>  +}
+>>  +
+>>  +static inline int it66121_preamble_ddc(struct it66121_ctx *ctx)
+>>  +{
+>>  +	return regmap_write(ctx->regmap, IT66121_MASTER_SEL_REG, =
+
+>> IT66121_MASTER_SEL_HOST);
+>>  +}
+>>  +
+>>  +static inline int it66121_fire_afe(struct it66121_ctx *ctx)
+>>  +{
+>>  +	return regmap_write(ctx->regmap, IT66121_AFE_DRV_REG, 0);
+>>  +}
+>>  +
+>>  +/* TOFIX: Handle YCbCr Input & Output */
+>>  +static int it66121_configure_input(struct it66121_ctx *ctx)
+>>  +{
+>>  +	int ret;
+>>  +	u8 mode =3D IT66121_INPUT_MODE_RGB;
+>>  +
+>>  +	if (ctx->bus_width =3D=3D 12)
+>>  +		mode |=3D IT66121_INPUT_MODE_DDR;
+>>  +
+>>  +	ret =3D regmap_write(ctx->regmap, IT66121_INPUT_MODE_REG, mode);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	return regmap_write(ctx->regmap, IT66121_INPUT_CSC_REG, =
+
+>> IT66121_INPUT_CSC_NO_CONV);
+>>  +}
+>>  +
+>>  +/**
+>>  + * it66121_configure_afe() - Configure the analog front end
+>>  + * @ctx: it66121_ctx object
+>>  + * @mode: mode to configure
+>>  + *
+>>  + * RETURNS:
+>>  + * zero if success, a negative error code otherwise.
+>>  + */
+>>  +static int it66121_configure_afe(struct it66121_ctx *ctx,
+>>  +				 const struct drm_display_mode *mode)
+>>  +{
+>>  +	int ret;
+>>  +
+>>  +	ret =3D regmap_write(ctx->regmap, IT66121_AFE_DRV_REG,
+>>  +			   IT66121_AFE_DRV_RST);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	if (mode->clock > IT66121_AFE_CLK_HIGH) {
+>>  +		ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_XP_REG,
+>>  +					IT66121_AFE_XP_GAINBIT |
+>>  +					IT66121_AFE_XP_ENO,
+>>  +					IT66121_AFE_XP_GAINBIT);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
+>>  +					IT66121_AFE_IP_GAINBIT |
+>>  +					IT66121_AFE_IP_ER0 |
+>>  +					IT66121_AFE_IP_EC1,
+>>  +					IT66121_AFE_IP_GAINBIT);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_XP_EC1_REG,
+>>  +					IT66121_AFE_XP_EC1_LOWCLK, 0x80);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +	} else {
+>>  +		ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_XP_REG,
+>>  +					IT66121_AFE_XP_GAINBIT |
+>>  +					IT66121_AFE_XP_ENO,
+>>  +					IT66121_AFE_XP_ENO);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
+>>  +					IT66121_AFE_IP_GAINBIT |
+>>  +					IT66121_AFE_IP_ER0 |
+>>  +					IT66121_AFE_IP_EC1, IT66121_AFE_IP_ER0 |
+>>  +					IT66121_AFE_IP_EC1);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_XP_EC1_REG,
+>>  +					IT66121_AFE_XP_EC1_LOWCLK,
+>>  +					IT66121_AFE_XP_EC1_LOWCLK);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +	}
+>>  +
+>>  +	/* Clear reset flags */
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_SW_RST_REG,
+>>  +				IT66121_SW_RST_REF | IT66121_SW_RST_VID, 0);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	return it66121_fire_afe(ctx);
+>>  +}
+>>  +
+>>  +static inline int it66121_wait_ddc_ready(struct it66121_ctx *ctx)
+>>  +{
+>>  +	int ret, val;
+>>  +	u32 busy =3D IT66121_DDC_STATUS_NOACK | IT66121_DDC_STATUS_WAIT_BUS =
+
+>> |
+>>  +		   IT66121_DDC_STATUS_ARBI_LOSE;
+>>  +
+>>  +	ret =3D regmap_read_poll_timeout(ctx->regmap, =
+
+>> IT66121_DDC_STATUS_REG, val, true,
+>>  +				       IT66121_EDID_SLEEP_US, IT66121_EDID_TIMEOUT_US);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	if (val & busy)
+>>  +		return -EAGAIN;
+>>  +
+>>  +	return 0;
+>>  +}
+>>  +
+>>  +static int it66121_clear_ddc_fifo(struct it66121_ctx *ctx)
+>>  +{
+>>  +	int ret;
+>>  +
+>>  +	ret =3D it66121_preamble_ddc(ctx);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	return regmap_write(ctx->regmap, IT66121_DDC_COMMAND_REG,
+>>  +			    IT66121_DDC_COMMAND_FIFO_CLR);
+>>  +}
+>>  +
+>>  +static int it66121_abort_ddc_ops(struct it66121_ctx *ctx)
+>>  +{
+>>  +	int ret;
+>>  +	unsigned int swreset, cpdesire;
+>>  +
+>>  +	ret =3D regmap_read(ctx->regmap, IT66121_SW_RST_REG, &swreset);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_read(ctx->regmap, IT66121_HDCP_REG, &cpdesire);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write(ctx->regmap, IT66121_HDCP_REG,
+>>  +			   cpdesire & (~IT66121_HDCP_CPDESIRED & 0xFF));
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write(ctx->regmap, IT66121_SW_RST_REG,
+>>  +			   (swreset | IT66121_SW_RST_HDCP));
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D it66121_preamble_ddc(ctx);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write(ctx->regmap, IT66121_DDC_COMMAND_REG,
+>>  +			   IT66121_DDC_COMMAND_ABORT);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	return it66121_wait_ddc_ready(ctx);
+>>  +}
+>>  +
+>>  +static int it66121_get_edid_block(void *context, u8 *buf,
+>>  +				  unsigned int block, size_t len)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D context;
+>>  +	unsigned int val;
+>>  +	int remain =3D len;
+>>  +	int offset =3D 0;
+>>  +	int ret, cnt;
+>>  +
+>>  +	offset =3D (block % 2) * len;
+>>  +	block =3D block / 2;
+>>  +
+>>  +	ret =3D regmap_read(ctx->regmap, IT66121_INT_STATUS1_REG, &val);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	if (val & IT66121_INT_STATUS1_DDC_BUSHANG) {
+>>  +		ret =3D it66121_abort_ddc_ops(ctx);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +	}
+>>  +
+>>  +	ret =3D it66121_clear_ddc_fifo(ctx);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	while (remain > 0) {
+>>  +		cnt =3D (remain > IT66121_EDID_FIFO_SIZE) ?
+>>  +				IT66121_EDID_FIFO_SIZE : remain;
+>>  +		ret =3D it66121_preamble_ddc(ctx);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write(ctx->regmap, IT66121_DDC_COMMAND_REG,
+>>  +				   IT66121_DDC_COMMAND_FIFO_CLR);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D it66121_wait_ddc_ready(ctx);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_read(ctx->regmap, IT66121_INT_STATUS1_REG, &val);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		if (val & IT66121_INT_STATUS1_DDC_BUSHANG) {
+>>  +			ret =3D it66121_abort_ddc_ops(ctx);
+>>  +			if (ret)
+>>  +				return ret;
+>>  +		}
+>>  +
+>>  +		ret =3D it66121_preamble_ddc(ctx);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write(ctx->regmap, IT66121_DDC_HEADER_REG,
+>>  +				   IT66121_DDC_HEADER_EDID);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write(ctx->regmap, IT66121_DDC_OFFSET_REG, offset);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write(ctx->regmap, IT66121_DDC_BYTE_REG, cnt);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write(ctx->regmap, IT66121_DDC_SEGMENT_REG, block);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		ret =3D regmap_write(ctx->regmap, IT66121_DDC_COMMAND_REG,
+>>  +				   IT66121_DDC_COMMAND_EDID_READ);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		offset +=3D cnt;
+>>  +		remain -=3D cnt;
+>>  +
+>>  +		/* Per programming manual, sleep here before emptying the FIFO */
+>>  +		msleep(20);
+>>  +
+>>  +		ret =3D it66121_wait_ddc_ready(ctx);
+>>  +		if (ret)
+>>  +			return ret;
+>>  +
+>>  +		do {
+>>  +			ret =3D regmap_read(ctx->regmap, IT66121_DDC_RD_FIFO_REG, &val);
+>>  +			if (ret)
+>>  +				return ret;
+>>  +			*(buf++) =3D val;
+>>  +			cnt--;
+>>  +		} while (cnt > 0);
+>>  +	}
+>>  +
+>>  +	return 0;
+>>  +}
+>>  +
+>>  +static bool it66121_is_hpd_detect(struct it66121_ctx *ctx)
+>>  +{
+>>  +	int val;
+>>  +
+>>  +	if (regmap_read(ctx->regmap, IT66121_SYS_STATUS_REG, &val))
+>>  +		return false;
+>>  +
+>>  +	return val & IT66121_SYS_STATUS_HPDETECT;
+>>  +}
+>>  +
+>>  +static int it66121_bridge_attach(struct drm_bridge *bridge,
+>>  +				 enum drm_bridge_attach_flags flags)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +	int ret;
+>>  +
+>>  +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
+>>  +		return -EINVAL;
+>>  +
+>>  +	ret =3D drm_bridge_attach(bridge->encoder, ctx->next_bridge, =
+
+>> bridge, flags);
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
+>>  +				IT66121_CLK_BANK_PWROFF_RCLK, 0);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_INT_REG,
+>>  +				IT66121_INT_TX_CLK_OFF, 0);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_DRV_REG,
+>>  +				IT66121_AFE_DRV_PWD, 0);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_XP_REG,
+>>  +				IT66121_AFE_XP_PWDI | IT66121_AFE_XP_PWDPLL, 0);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
+>>  +				IT66121_AFE_IP_PWDPLL, 0);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_DRV_REG,
+>>  +				IT66121_AFE_DRV_RST, 0);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_XP_REG,
+>>  +				IT66121_AFE_XP_RESETB, IT66121_AFE_XP_RESETB);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
+>>  +				IT66121_AFE_IP_RESETB, IT66121_AFE_IP_RESETB);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_SW_RST_REG,
+>>  +				IT66121_SW_RST_REF,
+>>  +				IT66121_SW_RST_REF);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	/* Per programming manual, sleep here for bridge to settle */
+>>  +	msleep(50);
+>>  +
+>>  +	/* Start interrupts */
+>>  +	return regmap_write_bits(ctx->regmap, IT66121_INT_MASK1_REG,
+>>  +				 IT66121_INT_MASK1_DDC_NOACK |
+>>  +				 IT66121_INT_MASK1_DDC_FIFOERR |
+>>  +				 IT66121_INT_MASK1_DDC_BUSHANG, 0);
+>>  +}
+>>  +
+>>  +static int it66121_set_mute(struct it66121_ctx *ctx, bool mute)
+>>  +{
+>>  +	int ret;
+>>  +	unsigned int val =3D 0;
+>>  +
+>>  +	if (mute)
+>>  +		val =3D IT66121_AV_MUTE_ON;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_AV_MUTE_REG, =
+
+>> IT66121_AV_MUTE_ON, val);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	return regmap_write(ctx->regmap, IT66121_PKT_GEN_CTRL_REG,
+>>  +			    IT66121_PKT_GEN_CTRL_ON | IT66121_PKT_GEN_CTRL_RPT);
+>>  +}
+>>  +
+>>  +#define MAX_OUTPUT_SEL_FORMATS	1
+>>  +
+>>  +static u32 *it66121_bridge_atomic_get_output_bus_fmts(struct =
+
+>> drm_bridge *bridge,
+>>  +						      struct drm_bridge_state *bridge_state,
+>>  +						      struct drm_crtc_state *crtc_state,
+>>  +						      struct drm_connector_state *conn_state,
+>>  +						      unsigned int *num_output_fmts)
+>>  +{
+>>  +	u32 *output_fmts;
+>>  +
+>>  +	output_fmts =3D kcalloc(MAX_OUTPUT_SEL_FORMATS, =
+
+>> sizeof(*output_fmts),
+>>  +			      GFP_KERNEL);
+>>  +	if (!output_fmts)
+>>  +		return NULL;
+>>  +
+>>  +	/* TOFIX handle more than MEDIA_BUS_FMT_RGB888_1X24 as output =
+
+>> format */
+>>  +	output_fmts[0] =3D  MEDIA_BUS_FMT_RGB888_1X24;
+>>  +	*num_output_fmts =3D 1;
+>>  +
+>>  +	return output_fmts;
+>>  +}
+>>  +
+>>  +#define MAX_INPUT_SEL_FORMATS	1
+>>  +
+>>  +static u32 *it66121_bridge_atomic_get_input_bus_fmts(struct =
+
+>> drm_bridge *bridge,
+>>  +						     struct drm_bridge_state *bridge_state,
+>>  +						     struct drm_crtc_state *crtc_state,
+>>  +						     struct drm_connector_state *conn_state,
+>>  +						     u32 output_fmt,
+>>  +						     unsigned int *num_input_fmts)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +	u32 *input_fmts;
+>>  +
+>>  +	*num_input_fmts =3D 0;
+>>  +
+>>  +	input_fmts =3D kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
+>>  +			     GFP_KERNEL);
+>>  +	if (!input_fmts)
+>>  +		return NULL;
+>>  +
+>>  +	if (ctx->bus_width =3D=3D 12)
+>>  +		/* IT66121FN Datasheet specifies Little-Endian ordering */
+>>  +		input_fmts[0] =3D MEDIA_BUS_FMT_RGB888_2X12_LE;
+>>  +	else
+>>  +		/* TOFIX support more input bus formats in 24bit width */
+>>  +		input_fmts[0] =3D MEDIA_BUS_FMT_RGB888_1X24;
+>>  +	*num_input_fmts =3D 1;
+>>  +
+>>  +	return input_fmts;
+>>  +}
+>>  +
+>>  +static void it66121_bridge_enable(struct drm_bridge *bridge,
+>>  +				  struct drm_bridge_state *bridge_state)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +	struct drm_atomic_state *state =3D bridge_state->base.state;
+>>  +
+>>  +	ctx->connector =3D drm_atomic_get_new_connector_for_encoder(state, =
+
+>> bridge->encoder);
+>>  +
+>>  +	it66121_set_mute(ctx, false);
+>>  +}
+>>  +
+>>  +static void it66121_bridge_disable(struct drm_bridge *bridge,
+>>  +				   struct drm_bridge_state *bridge_state)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +
+>>  +	it66121_set_mute(ctx, true);
+>>  +
+>>  +	ctx->connector =3D NULL;
+>>  +}
+>>  +
+>>  +static
+>>  +void it66121_bridge_mode_set(struct drm_bridge *bridge,
+>>  +			     const struct drm_display_mode *mode,
+>>  +			     const struct drm_display_mode *adjusted_mode)
+>>  +{
+>>  +	int ret, i;
+>>  +	u8 buf[HDMI_INFOFRAME_SIZE(AVI)];
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +	const u16 aviinfo_reg[HDMI_AVI_INFOFRAME_SIZE] =3D {
+>>  +		IT66121_AVIINFO_DB1_REG,
+>>  +		IT66121_AVIINFO_DB2_REG,
+>>  +		IT66121_AVIINFO_DB3_REG,
+>>  +		IT66121_AVIINFO_DB4_REG,
+>>  +		IT66121_AVIINFO_DB5_REG,
+>>  +		IT66121_AVIINFO_DB6_REG,
+>>  +		IT66121_AVIINFO_DB7_REG,
+>>  +		IT66121_AVIINFO_DB8_REG,
+>>  +		IT66121_AVIINFO_DB9_REG,
+>>  +		IT66121_AVIINFO_DB10_REG,
+>>  +		IT66121_AVIINFO_DB11_REG,
+>>  +		IT66121_AVIINFO_DB12_REG,
+>>  +		IT66121_AVIINFO_DB13_REG
+>>  +	};
+>>  +
+>>  +	mutex_lock(&ctx->lock);
+>>  +
+>>  +	hdmi_avi_infoframe_init(&ctx->hdmi_avi_infoframe);
+>>  +
+>>  +	ret =3D =
+
+>> drm_hdmi_avi_infoframe_from_display_mode(&ctx->hdmi_avi_infoframe, =
+
+>> ctx->connector,
+>>  +						       adjusted_mode);
+>>  +	if (ret) {
+>>  +		DRM_ERROR("Failed to setup AVI infoframe: %d\n", ret);
+>>  +		goto unlock;
+>>  +	}
+>>  +
+>>  +	ret =3D hdmi_avi_infoframe_pack(&ctx->hdmi_avi_infoframe, buf, =
+
+>> sizeof(buf));
+>>  +	if (ret < 0) {
+>>  +		DRM_ERROR("Failed to pack infoframe: %d\n", ret);
+>>  +		goto unlock;
+>>  +	}
+>>  +
+>>  +	/* Write new AVI infoframe packet */
+>>  +	for (i =3D 0; i < HDMI_AVI_INFOFRAME_SIZE; i++) {
+>>  +		if (regmap_write(ctx->regmap, aviinfo_reg[i], buf[i + =
+
+>> HDMI_INFOFRAME_HEADER_SIZE]))
+>>  +			goto unlock;
+>>  +	}
+>>  +	if (regmap_write(ctx->regmap, IT66121_AVIINFO_CSUM_REG, buf[3]))
+>>  +		goto unlock;
+>>  +
+>>  +	/* Enable AVI infoframe */
+>>  +	if (regmap_write(ctx->regmap, IT66121_AVI_INFO_PKT_REG,
+>>  +			 IT66121_AVI_INFO_PKT_ON | IT66121_AVI_INFO_PKT_RPT))
+>>  +		goto unlock;
+>>  +
+>>  +	/* Set TX mode to HDMI */
+>>  +	if (regmap_write(ctx->regmap, IT66121_HDMI_MODE_REG, =
+
+>> IT66121_HDMI_MODE_HDMI))
+>>  +		goto unlock;
+>>  +
+>>  +	if (regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
+>>  +			      IT66121_CLK_BANK_PWROFF_TXCLK, =
+
+>> IT66121_CLK_BANK_PWROFF_TXCLK))
+>>  +		goto unlock;
+>>  +
+>>  +	if (it66121_configure_input(ctx))
+>>  +		goto unlock;
+>>  +
+>>  +	if (it66121_configure_afe(ctx, adjusted_mode))
+>>  +		goto unlock;
+>>  +
+>>  +	regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG, =
+
+>> IT66121_CLK_BANK_PWROFF_TXCLK, 0);
+>>  +
+>>  +unlock:
+>>  +	mutex_unlock(&ctx->lock);
+>>  +}
+>>  +
+>>  +static enum drm_mode_status it66121_bridge_mode_valid(struct =
+
+>> drm_bridge *bridge,
+>>  +						      const struct drm_display_info *info,
+>>  +						      const struct drm_display_mode *mode)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +	unsigned long max_clock;
+>>  +
+>>  +	max_clock =3D (ctx->bus_width =3D=3D 12) ? 74250 : 148500;
+>>  +
+>>  +	if (mode->clock > max_clock)
+>>  +		return MODE_CLOCK_HIGH;
+>>  +
+>>  +	if (mode->clock < 25000)
+>>  +		return MODE_CLOCK_LOW;
+>>  +
+>>  +	return MODE_OK;
+>>  +}
+>>  +
+>>  +static enum drm_connector_status it66121_bridge_detect(struct =
+
+>> drm_bridge *bridge)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +
+>>  +	return it66121_is_hpd_detect(ctx) ? connector_status_connected
+>>  +					  : connector_status_disconnected;
+>>  +}
+>>  +
+>>  +static void it66121_bridge_hpd_enable(struct drm_bridge *bridge)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +	int ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_INT_MASK1_REG, =
+
+>> IT66121_INT_MASK1_HPD, 0);
+>>  +	if (ret)
+>>  +		dev_err(ctx->dev, "failed to enable HPD IRQ\n");
+>>  +}
+>>  +
+>>  +static void it66121_bridge_hpd_disable(struct drm_bridge *bridge)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +	int ret;
+>>  +
+>>  +	ret =3D regmap_write_bits(ctx->regmap, IT66121_INT_MASK1_REG,
+>>  +				IT66121_INT_MASK1_HPD, IT66121_INT_MASK1_HPD);
+>>  +	if (ret)
+>>  +		dev_err(ctx->dev, "failed to disable HPD IRQ\n");
+>>  +}
+>>  +
+>>  +static struct edid *it66121_bridge_get_edid(struct drm_bridge =
+
+>> *bridge,
+>>  +					    struct drm_connector *connector)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D container_of(bridge, struct =
+
+>> it66121_ctx, bridge);
+>>  +	struct edid *edid;
+>>  +
+>>  +	mutex_lock(&ctx->lock);
+>>  +	edid =3D drm_do_get_edid(connector, it66121_get_edid_block, ctx);
+>>  +	mutex_unlock(&ctx->lock);
+>>  +
+>>  +	return edid;
+>>  +}
+>>  +
+>>  +static const struct drm_bridge_funcs it66121_bridge_funcs =3D {
+>>  +	.atomic_duplicate_state =3D =
+
+>> drm_atomic_helper_bridge_duplicate_state,
+>>  +	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
+>>  +	.atomic_reset =3D drm_atomic_helper_bridge_reset,
+>>  +	.attach =3D it66121_bridge_attach,
+>>  +	.atomic_get_output_bus_fmts =3D =
+
+>> it66121_bridge_atomic_get_output_bus_fmts,
+>>  +	.atomic_get_input_bus_fmts =3D =
+
+>> it66121_bridge_atomic_get_input_bus_fmts,
+>>  +	.atomic_enable =3D it66121_bridge_enable,
+>>  +	.atomic_disable =3D it66121_bridge_disable,
+>>  +	.mode_set =3D it66121_bridge_mode_set,
+>>  +	.mode_valid =3D it66121_bridge_mode_valid,
+>>  +	.detect =3D it66121_bridge_detect,
+>>  +	.get_edid =3D it66121_bridge_get_edid,
+>>  +	.hpd_enable =3D it66121_bridge_hpd_enable,
+>>  +	.hpd_disable =3D it66121_bridge_hpd_disable,
+>>  +};
+>>  +
+>>  +static irqreturn_t it66121_irq_threaded_handler(int irq, void =
+
+>> *dev_id)
+>>  +{
+>>  +	int ret;
+>>  +	unsigned int val;
+>>  +	struct it66121_ctx *ctx =3D dev_id;
+>>  +	struct device *dev =3D ctx->dev;
+>>  +	enum drm_connector_status status;
+>>  +	bool event =3D false;
+>>  +
+>>  +	mutex_lock(&ctx->lock);
+>>  +
+>>  +	ret =3D regmap_read(ctx->regmap, IT66121_SYS_STATUS_REG, &val);
+>>  +	if (ret)
+>>  +		goto unlock;
+>>  +
+>>  +	if (!(val & IT66121_SYS_STATUS_ACTIVE_IRQ))
+>>  +		goto unlock;
+>>  +
+>>  +	ret =3D regmap_read(ctx->regmap, IT66121_INT_STATUS1_REG, &val);
+>>  +	if (ret) {
+>>  +		dev_err(dev, "Cannot read STATUS1_REG %d\n", ret);
+>>  +	} else {
+>>  +		if (val & IT66121_INT_STATUS1_DDC_FIFOERR)
+>>  +			it66121_clear_ddc_fifo(ctx);
+>>  +		if (val & (IT66121_INT_STATUS1_DDC_BUSHANG |
+>>  +			   IT66121_INT_STATUS1_DDC_NOACK))
+>>  +			it66121_abort_ddc_ops(ctx);
+>>  +		if (val & IT66121_INT_STATUS1_HPD_STATUS) {
+>>  +			regmap_write_bits(ctx->regmap, IT66121_INT_CLR1_REG,
+>>  +					  IT66121_INT_CLR1_HPD, IT66121_INT_CLR1_HPD);
+>>  +
+>>  +			status =3D it66121_is_hpd_detect(ctx) ? connector_status_connected
+>>  +							    : connector_status_disconnected;
+>>  +
+>>  +			event =3D true;
+>>  +		}
+>>  +	}
+>>  +
+>>  +	regmap_write_bits(ctx->regmap, IT66121_SYS_STATUS_REG,
+>>  +			  IT66121_SYS_STATUS_CLEAR_IRQ,
+>>  +			  IT66121_SYS_STATUS_CLEAR_IRQ);
+>>  +
+>>  +unlock:
+>>  +	mutex_unlock(&ctx->lock);
+>>  +
+>>  +	if (event)
+>>  +		drm_bridge_hpd_notify(&ctx->bridge, status);
+>>  +
+>>  +	return IRQ_HANDLED;
+>>  +}
+>>  +
+>>  +static int it66121_probe(struct i2c_client *client,
+>>  +			 const struct i2c_device_id *id)
+>>  +{
+>>  +	u32 vendor_ids[2], device_ids[2], revision_id;
+>>  +	struct device_node *ep;
+>>  +	int ret;
+>>  +	struct it66121_ctx *ctx;
+>>  +	struct device *dev =3D &client->dev;
+>>  +
+>>  +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+>>  +		dev_err(dev, "I2C check functionality failed.\n");
+>>  +		return -ENXIO;
+>>  +	}
+>>  +
+>>  +	ep =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+>>  +	if (!ep)
+>>  +		return -EINVAL;
+>>  +
+>>  +	ctx =3D devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+>>  +	if (!ctx)
+>>  +		return -ENOMEM;
+>>  +
+>>  +	ctx->dev =3D dev;
+>>  +	ctx->client =3D client;
+>>  +
+>>  +	of_property_read_u32(ep, "bus-width", &ctx->bus_width);
+>>  +	of_node_put(ep);
+>>  +
+>>  +	if (ctx->bus_width !=3D 12 && ctx->bus_width !=3D 24)
+>>  +		return -EINVAL;
+>>  +
+>>  +	ep =3D of_graph_get_remote_node(dev->of_node, 1, -1);
+>>  +	if (!ep)
+>>  +		return -EPROBE_DEFER;
+>>  +
+>>  +	ctx->next_bridge =3D of_drm_find_bridge(ep);
+>>  +	of_node_put(ep);
+>>  +
+>>  +	i2c_set_clientdata(client, ctx);
+>>  +	mutex_init(&ctx->lock);
+>>  +
+>>  +	ctx->supplies[0].supply =3D "vcn33";
+>>  +	ctx->supplies[1].supply =3D "vcn18";
+>>  +	ctx->supplies[2].supply =3D "vrf12";
+>>  +	ret =3D devm_regulator_bulk_get(ctx->dev, 3, ctx->supplies);
+>>  +	if (ret) {
+>>  +		dev_err(ctx->dev, "regulator_bulk failed\n");
+>>  +		return ret;
+>>  +	}
+>>  +
+>>  +	ret =3D ite66121_power_on(ctx);
+>>  +	if (ret)
+>>  +		return ret;
+>>  +
+>>  +	it66121_hw_reset(ctx);
+>>  +
+>>  +	ctx->regmap =3D devm_regmap_init_i2c(client, =
+
+>> &it66121_regmap_config);
+>>  +	if (IS_ERR(ctx->regmap)) {
+>>  +		ite66121_power_off(ctx);
+>>  +		return PTR_ERR(ctx);
+>>  +	}
+>>  +
+>>  +	regmap_read(ctx->regmap, IT66121_VENDOR_ID0_REG, &vendor_ids[0]);
+>>  +	regmap_read(ctx->regmap, IT66121_VENDOR_ID1_REG, &vendor_ids[1]);
+>>  +	regmap_read(ctx->regmap, IT66121_DEVICE_ID0_REG, &device_ids[0]);
+>>  +	regmap_read(ctx->regmap, IT66121_DEVICE_ID1_REG, &device_ids[1]);
+>>  +
+>>  +	/* Revision is shared with DEVICE_ID1 */
+>>  +	revision_id =3D FIELD_GET(IT66121_REVISION_MASK, device_ids[1]);
+>>  +	device_ids[1] &=3D IT66121_DEVICE_ID1_MASK;
+>>  +
+>>  +	if (vendor_ids[0] !=3D IT66121_VENDOR_ID0 || vendor_ids[1] !=3D =
+
+>> IT66121_VENDOR_ID1 ||
+>>  +	    device_ids[0] !=3D IT66121_DEVICE_ID0 || device_ids[1] !=3D =
+
+>> IT66121_DEVICE_ID1) {
+>>  +		ite66121_power_off(ctx);
+>>  +		return -ENODEV;
+>>  +	}
+>>  +
+>>  +	ctx->bridge.funcs =3D &it66121_bridge_funcs;
+>>  +	ctx->bridge.of_node =3D dev->of_node;
+>>  +	ctx->bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
+>>  +	ctx->bridge.ops =3D DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID | =
+
+>> DRM_BRIDGE_OP_HPD;
+>>  +
+>>  +	ret =3D devm_request_threaded_irq(dev, client->irq, =
+
+>> NULL,	it66121_irq_threaded_handler,
+>>  +					IRQF_ONESHOT, dev_name(dev), ctx);
+>>  +	if (ret < 0) {
+>>  +		dev_err(dev, "Failed to request irq %d:%d\n", client->irq, ret);
+>>  +		ite66121_power_off(ctx);
+>>  +		return ret;
+>>  +	}
+>>  +
+>>  +	drm_bridge_add(&ctx->bridge);
+>>  +
+>>  +	dev_info(ctx->dev, "IT66121 revision %d probed\n", revision_id);
+>>  +
+>>  +	return 0;
+>>  +}
+>>  +
+>>  +static int it66121_remove(struct i2c_client *client)
+>>  +{
+>>  +	struct it66121_ctx *ctx =3D i2c_get_clientdata(client);
+>>  +
+>>  +	ite66121_power_off(ctx);
+>>  +	drm_bridge_remove(&ctx->bridge);
+>>  +	mutex_destroy(&ctx->lock);
+>>  +
+>>  +	return 0;
+>>  +}
+>>  +
+>>  +static const struct of_device_id it66121_dt_match[] =3D {
+>>  +	{ .compatible =3D "ite,it66121" },
+>>  +	{ }
+>>  +};
+>>  +MODULE_DEVICE_TABLE(of, it66121_dt_match);
+>>  +
+>>  +static const struct i2c_device_id it66121_id[] =3D {
+>>  +	{ "it66121", 0 },
+>>  +	{ }
+>>  +};
+>>  +MODULE_DEVICE_TABLE(i2c, it66121_id);
+>>  +
+>>  +static struct i2c_driver it66121_driver =3D {
+>>  +	.driver =3D {
+>>  +		.name	=3D "it66121",
+>>  +		.of_match_table =3D it66121_dt_match,
+>>  +	},
+>>  +	.probe =3D it66121_probe,
+>>  +	.remove =3D it66121_remove,
+>>  +	.id_table =3D it66121_id,
+>>  +};
+>>  +
+>>  +module_i2c_driver(it66121_driver);
+>>  +
+>>  +MODULE_AUTHOR("Phong LE");
+>>  +MODULE_DESCRIPTION("IT66121 HDMI transmitter driver");
+>>  +MODULE_LICENSE("GPL v2");
+>> =
+
+> =
+
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
