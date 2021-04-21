@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BDF3673AE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 21:47:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF573673B1
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 21:47:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 502F16E9F2;
-	Wed, 21 Apr 2021 19:47:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 233716E9F5;
+	Wed, 21 Apr 2021 19:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B0E66E9F5
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 19:47:05 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id s7so42429555wru.6
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 12:47:05 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 925066E9F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 19:47:06 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id h4so33475185wrt.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 12:47:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fG85dbebKoSteYYPivVE8kWXsCAyDtNNlGMTLX6zqlw=;
- b=etWKGeAx/x3qUoLi/y3SSHai4Jy9Be89Vz6wWtbp3/JpV22IOnAi8X6tLsDKoLlDMu
- NsR+OkLxq24eSdHklEDCJ8z8dTxzE65YyRJQtpK6oFhyoKgYGAvhv3V/wP8Ko0RCukKh
- kaOWNfiV3834c8INNrPmn920FQGgppAP6SRQGjXVKaHqA0wcsvyyupXwI6DY1HwtI4YM
- VKwTTeFpxsS94g0/JmmNy06vN7NeOt7a0Kq+C+kYLYzDR8DYBDVpZ/xyYW7GUp52UjLy
- dPFYBOQpKAYhfYWPLDWv00t6/kRtpcsIY8vXZgWibmTDn6uz6Xl4nQgthiFIwCPYvtUs
- Mu2g==
+ bh=wbsSVt7sDZG21p+Jtcnqvu0ncqhD0atmQImaH5s0bwk=;
+ b=hXaSUZBKWs848qfeVqeV28s7ipAbNsGnYXpFqoWKSh0AnfRNyYL30Deb2TIxaQ8+Nw
+ tzEq1y6VELyipK+ZTpYupeR2+lrbf5ECMqXiYmMTM2xkzXWunYg6QtMOsoI1RuM1INE0
+ UAhmv+cWERrrCpP8mf6xAJVFjPIW6D1bUPMROipmAPIGQUc91IJbCxBjwdtvVDxXGZy1
+ 0iwxfI5yh2SDdpC852X1JzgmRqa9+sjhne1b9i4R+hsR6Sy07EN+opOjoQiNjuQaLxku
+ zshAtna2LUOwHcf0Xwg4CoJJU5ZpIANS2v+idVRH3Ni6UlucvoMhP/Yq5K3boJOCb8q/
+ QgjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fG85dbebKoSteYYPivVE8kWXsCAyDtNNlGMTLX6zqlw=;
- b=KXS/YUXoxwUy/rx58MQKV2jrhYoAs/g6E2uyI/aY0S1msV0uo8A+MGlobQrFz3gzCo
- atOJYW3YQFOObGibZWjNNwfApgUFSuKx8Aa0KEUUhg09cWpLZTzThQFENGfhwCu7Dnt6
- IuuCx9yuqglNclW/FIjCLuNcuybmaghM1PabzcLPZAWWemGhWed5h80bWQAbPpIf9zfn
- mXiqnGAO9gkUZoDpw927uvrtkhCfNQZ9DcFiV01jESTuqW9zvw4lxtSiaLu3onevDuZ2
- lQhtOWik6UgahMZloviZ+Gss+7MTDDxvNrsNqjbYIEv4+fEZOjgSzb37udWtIWEzzHz+
- CTUQ==
-X-Gm-Message-State: AOAM530mFVsFjiRMYuaVlj+4Ez01n6t6FCy+nIKfGB+1ZkLIc5AYKTRt
- Rs9qK5OUmnjBr6BRAz8NcfM=
-X-Google-Smtp-Source: ABdhPJx8xeSxs2+tkJWE8YUNHn4xmhjUGtPY2imH1F2SiUxoBmdMSB+rtYG4dt8hDV11lteiAjVNsg==
-X-Received: by 2002:a5d:640f:: with SMTP id z15mr29104558wru.221.1619034423874; 
- Wed, 21 Apr 2021 12:47:03 -0700 (PDT)
+ bh=wbsSVt7sDZG21p+Jtcnqvu0ncqhD0atmQImaH5s0bwk=;
+ b=evvA51xu11g34yIlAxNYpqlLVn5mYGUBw/+fnBPB4Pv3+IckdNhiaKgcWbAD42aZme
+ husjgK9F84xq7mlqgf4oUg0mHlI9B1pWdyFe3WwQ6ZYIzm2GqrJGptzmNLvdVaiFJ9qs
+ sVdnqo+L091ODfbXHm98DL+q+1pV3d/oxCya4lQ+77iK2Jmpjh4tQVsPzcW8mfpw0O63
+ 5t+qClO8fIzSPmelTTFFv/nsK3OIf3RRtY8EOyDBTjzHZSbY3UeSPei8Jk/gKWW1GRkY
+ ppejvbC+lQ+j7lpy04LMzFK/UjrpKicMtZa8Dvq9DKfrCjAyujBYwENrgGUHk6I/gmz6
+ RO/g==
+X-Gm-Message-State: AOAM530VrYsN7oBvJk4GIooG+0U41QW1+DXwveMzXhLZg0DLFOrO5FRu
+ 5mxCWQIwvUTVKm1czjcvqc0=
+X-Google-Smtp-Source: ABdhPJxP1aXh5dtJXaC5CzIhfHBRCWzADTDBq/drjfza2c9pNgFdMscavfFKqAewtHOEZ2qU6u0Kyg==
+X-Received: by 2002:a5d:6d0a:: with SMTP id e10mr27714506wrq.161.1619034425291; 
+ Wed, 21 Apr 2021 12:47:05 -0700 (PDT)
 Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:6d3d:2d8b:5417:831c])
  by smtp.gmail.com with ESMTPSA id
- c6sm13004217wmr.0.2021.04.21.12.47.02
+ c6sm13004217wmr.0.2021.04.21.12.47.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Apr 2021 12:47:02 -0700 (PDT)
+ Wed, 21 Apr 2021 12:47:04 -0700 (PDT)
 From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 1/5] drm: drm_atomic.c: Adjust end of block comment
-Date: Wed, 21 Apr 2021 20:46:54 +0100
-Message-Id: <387b6b852a72d6a98133cead5e4d0e3c39dd5094.1618756333.git.martinsdecarvalhobeatriz@gmail.com>
+Subject: [PATCH 2/5] drm: drm_auth.c: Adjust end of block comment
+Date: Wed, 21 Apr 2021 20:46:55 +0100
+Message-Id: <cd1e8f6637b914825ee4b9643a4e9d9eba49f276.1618756333.git.martinsdecarvalhobeatriz@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1618756333.git.martinsdecarvalhobeatriz@gmail.com>
 References: <cover.1618756333.git.martinsdecarvalhobeatriz@gmail.com>
@@ -81,23 +81,23 @@ Problem found by checkpatch.
 
 Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 ---
- drivers/gpu/drm/drm_atomic.c | 3 ++-
+ drivers/gpu/drm/drm_auth.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 46dceb51c90f..e42d9fc5d9ff 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -385,7 +385,8 @@ static int drm_atomic_crtc_check(const struct drm_crtc_state *old_crtc_state,
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index f2d46b7ac6f9..f00e5abdbbf4 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -300,7 +300,8 @@ int drm_master_open(struct drm_file *file_priv)
+ 	int ret = 0;
  
- 	/* The state->enable vs. state->mode_blob checks can be WARN_ON,
- 	 * as this is a kernel-internal detail that userspace should never
--	 * be able to trigger. */
-+	 * be able to trigger.
+ 	/* if there is no current master make this fd it, but do not create
+-	 * any master object for render clients */
++	 * any master object for render clients
 +	 */
- 	if (drm_core_check_feature(crtc->dev, DRIVER_ATOMIC) &&
- 	    WARN_ON(new_crtc_state->enable && !new_crtc_state->mode_blob)) {
- 		DRM_DEBUG_ATOMIC("[CRTC:%d:%s] enabled without mode blob\n",
+ 	mutex_lock(&dev->master_mutex);
+ 	if (!dev->master)
+ 		ret = drm_new_set_master(dev, file_priv);
 -- 
 2.25.1
 
