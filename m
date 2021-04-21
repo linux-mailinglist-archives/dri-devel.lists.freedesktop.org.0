@@ -1,125 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19201366E0F
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 16:23:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE69366E1C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 16:25:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BDC6E986;
-	Wed, 21 Apr 2021 14:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4D0C6E9A5;
+	Wed, 21 Apr 2021 14:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2066.outbound.protection.outlook.com [40.107.220.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAD46E986;
- Wed, 21 Apr 2021 14:23:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VJO3Zv3ZrcjGcXaJrk4FmHTCZF9GjZJstSeWmvw1UeJUtCBlmk5Eoy51mTP6mqfzqYAiobdaa4eZf/QJy/u2PvzLWP+o9RzSzcrUQxPgRVg/GsfZaJ3NHPXHq2NXV/ScQm+1bT1X/gh8pMMOi/HGbe5x5eMjGScei8CQYdQPslDwmlN8BXO5GBmAWlYxwy7Tl8zGqyNKeLR8P/hkPlU2Dv20hChYX1hyvClMYz1mb2TpxQ0vLektzijpG5OC0EnOD/RW6XTtdx6d/I6xuIxff26oWz5+oNFHqORfjF/yy9aX6hYDkOEl9HTa7awuNX+fuCFtUKYUT1wJ7Oe6GGdWDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sbhLCF2jW1o4CffArA4/oGXrCchqD7i6yFX4TSgSs1A=;
- b=NQg/LoFHSRD8rFHe9fiVSQRSePGvDOwXo/ZtArf6kj0g1v+yQL92SALyCIkRaVYp/rGG6sEkn4oTJllkL8+ZgGKbz/YNiKICF05Nu3XKTfOM7jCdO0GJLB19JmIe2NSl0MxT4DHfqnDfEF50yXzCJ9FLDpHlTm0/dQ+HFJecA36oQwsv0ubSwqtxAs/RebOAE0QFYbRvjnEwFF9b/8jnPMjyKRN7QLhUPU0nVdNotd3PTehYsLfmbqlD59Mx7ColzgyXSzbdCZP69hKzwopnmnPxsrZUtMX3do8FpsuBDNp6xbbCms+WpWtDVCr2S8zcZVtdL5hqaaeQOi1/WMazDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sbhLCF2jW1o4CffArA4/oGXrCchqD7i6yFX4TSgSs1A=;
- b=PcAchEQCjocPEnVNQJmLtxZ8IscvCHfr4AsfULQ6g8mF1xg+1zzNsIMn4SfIV2HC2hsVZZ61s1VQWqsqs+oL6PoTKX585FER8Mj7+8sRmVZTrjd++4ib+j0/XvwzB5Hso84DroQn3MXZTv4xYaGNVpy0dk/+4RopE8aDjOLIJ2s=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from BY5PR12MB4644.namprd12.prod.outlook.com (2603:10b6:a03:1f9::11)
- by BYAPR12MB2712.namprd12.prod.outlook.com (2603:10b6:a03:65::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.19; Wed, 21 Apr
- 2021 14:23:31 +0000
-Received: from BY5PR12MB4644.namprd12.prod.outlook.com
- ([fe80::7063:edb0:6da8:c368]) by BY5PR12MB4644.namprd12.prod.outlook.com
- ([fe80::7063:edb0:6da8:c368%4]) with mapi id 15.20.4042.024; Wed, 21 Apr 2021
- 14:23:31 +0000
-Subject: Re: [PATCH v3 01/20] drm/amdgpu: Add error handling to
- amdgpu_dm_initialize_dp_connector()
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Thierry Reding <thierry.reding@gmail.com>
-References: <20210419225523.184856-1-lyude@redhat.com>
- <20210419225523.184856-2-lyude@redhat.com>
-From: Mikita Lipski <mlipski@amd.com>
-Message-ID: <bf4f9c16-f5d7-214c-dbb7-08cb58cf6d7c@amd.com>
-Date: Wed, 21 Apr 2021 10:23:25 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
-In-Reply-To: <20210419225523.184856-2-lyude@redhat.com>
-Content-Language: en-US
-X-Originating-IP: [165.204.54.211]
-X-ClientProxiedBy: YTXPR0101CA0057.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::34) To BY5PR12MB4644.namprd12.prod.outlook.com
- (2603:10b6:a03:1f9::11)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4B8F6E9A5;
+ Wed, 21 Apr 2021 14:25:12 +0000 (UTC)
+IronPort-SDR: AFDVhhpad0FCk7FsR05x1PRrCOYkHUkQ0WnKIX/IujG/nXmn5rxI6PjVSR3tRNQVSR3VrgJQar
+ qXbaIeexlCdA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="175192033"
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="175192033"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2021 07:25:12 -0700
+IronPort-SDR: g/idQR2qJXKK37mMndWw429LiaNvHAk/zfk4BE4rc3MtzifIrapSD4dyQOd4nJnR1trq/gowQq
+ +prtPDmEN6vw==
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="524311216"
+Received: from crodgers-mobl2.ger.corp.intel.com (HELO [10.213.224.141])
+ ([10.213.224.141])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2021 07:25:10 -0700
+Subject: Re: [PATCH v3 4/4] drm/doc/rfc: i915 DG1 uAPI
+To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20210415155958.391624-1-matthew.auld@intel.com>
+ <20210415155958.391624-4-matthew.auld@intel.com>
+ <CAOFGe96QALJa4FbWkVxczTdOA6b41zk1GxdYwRsrP7GwSZ4zvw@mail.gmail.com>
+ <6cf790c7-84bf-4d35-c1c3-4cf826655faf@intel.com>
+ <CAOFGe95gMUuqXX=Yn_xMRVxQmcwiqNEN0m3PgyNACcm0iNTyKg@mail.gmail.com>
+ <5a412489-75ed-e971-0e0b-388f0f964fac@linux.intel.com>
+ <CAOFGe97HuFOe08ttq7yyuiTVphjvwRB2542at6uEEb5YX671Rw@mail.gmail.com>
+ <db6f3015-654b-17fa-0d72-4339c4ab338d@linux.intel.com>
+ <CAOFGe95FqvMnnH82o_uQtffpFNKarB0Gvs+vLkhQ-UKjiXO0Mg@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <5c572f88-dac8-5b00-e75b-209a772e4082@linux.intel.com>
+Date: Wed, 21 Apr 2021 15:25:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.31.19.100] (165.204.54.211) by
- YTXPR0101CA0057.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::34) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.21 via Frontend
- Transport; Wed, 21 Apr 2021 14:23:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 48536e22-4820-499f-3df8-08d904d109ed
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2712:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR12MB27122F89C24E6956868A37E6E4479@BYAPR12MB2712.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u7PrFPlOnEeR1qC4vbXbjVj0azMcvlif65xBd4pjddRbJsKIVb4VuVUsaS7zuwg+sX9aP+ZcNzKeyly4U6Uzds9xrZ53y6a07CrLkHv9Nt3V0TRCjFPSa82QRZcEZFvSf0AmMT+wyeacjxJqIfo6yoUK8Eei3Jn7tr2w2h2EkFQipWaVkepM+CiAKiHuLA77W0f+MX4TvqfXUJjj2r4IT/ePnyq/LiMNqa4nLQcIvfhlnDJPYeaUX/qb+90mbKSO4eDLo4JygwJZLLO4X9NtBP4Ul0I5dgbmIOyeQ6+H1WaCq7+wlDmhzSWgJGPrHQYhLGPzeJ96s1BaCM0BzdonTOm5nIF/JuzXQ9W3lu6dvn+qoPVs6PYMg+58GkbneMWlJAWZeFYpBjxVzsj6MpKAXIXWI65he246Am/kYHXACzOJDR3ZkzFrJB80eIAuhBM1vueGuYBMMwbVH+SR1mtiWP9lY+qx3ydF1QyOcQmV4wkrqkI8TH+rDDZ2rd3sNJld0SdlVJWWZt8MVWE66ZJvufax4I5I2XpXS46v0W3nclBHRdgmszrfVaQjFKDHVVbcHQdORRGopIDkZ9iJaMC6KAVY0mKb15Kb+AILCmQcUcJ4FuqhSsnN9DOXUMD25znQO+L/+cOeN0NsT1kznOlWmm1aJVdw/Tg9dA0M27cvB9PNMsgHq1mb2G2YG6diSG2AxnotZEv1T+Ot/ld/+1lkBGbd7DjcHw/6iTq9yxzx+jKuMjNy03+BHcmQVpDGTDb3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR12MB4644.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(366004)(39850400004)(136003)(396003)(16576012)(186003)(53546011)(83380400001)(956004)(4326008)(921005)(16526019)(478600001)(31686004)(316002)(6486002)(8676002)(5660300002)(8936002)(54906003)(38350700002)(38100700002)(36756003)(2906002)(52116002)(66476007)(31696002)(66946007)(26005)(110136005)(2616005)(66556008)(7416002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RlJrejdRQ2NPOURMVmpUUm9ibUZXeTkyZ00vbGJMTFdXNERoYXU0VmpvbDFT?=
- =?utf-8?B?Q0ZDMjdDMkkzUGp2TkZSdFFNUHIrNXNtQjRIWXVpWVllWC9XZnFPSTNaN2Zu?=
- =?utf-8?B?MnFQWTllVHFjSDZwaXRjKzZmTXJ2SldyVHVUbVBwdTVKaENHaE9kVjFBNllH?=
- =?utf-8?B?L2tIb1NhbXJLV2FxRG1nVXlBMDhlVDFKZjVuRTUwMWVjNXA0TThheUdHbVVX?=
- =?utf-8?B?dDhCZmE5cEtCcXR6clhGUmZRdmltaXpGV29HTUw3d2NMVVBHMyt2YkJ3VDZ1?=
- =?utf-8?B?bFVadGpKTmVTVlRiNW1BMCt2b1V3elgzaGc0TTFldWRWbXpDY0Q4Q3gzWWM0?=
- =?utf-8?B?ajIxVXIrdlNzVW5walppM244bUFzU1hZcXZadUtVVVY5aTFCbGYwaDY0TTVH?=
- =?utf-8?B?c1NrZ0w5SS9PYklPeDJxTStoN2QyV1pJUFRyTWJaaFQxTDZzUjgxM0dHSjVx?=
- =?utf-8?B?VHM4QkFtNXNRYmpjN25zQWlBQU9YckJDM3U2L1M5SlZjazdKOEgvd1VHVVBu?=
- =?utf-8?B?MmpaOU9jbVg0VWVxMFUxUzQxUVYzalkxYTJyaHUwcktiTU1vMDY1b3pCZkRx?=
- =?utf-8?B?NjZ4TVYrVjE3c2dHUWs4dHB6aXhGUGZSOWp4VFdWVUhvdUladEpqTE9LUUI0?=
- =?utf-8?B?RXB3cGVHNy9xNGJxSEtIRTRaVTFxTS9neGsxMWtLQnJPSjU0UXk3T0h1RXVK?=
- =?utf-8?B?dDlnYUVCRERSMktjaEZWaWZVS3lORnREeWxrK0VYTDNrNUlIR2lvSEE0KzlC?=
- =?utf-8?B?LzQ3UG82Q0JwaVQ1UGt0RUtMMktuK09FNnpybC9JMUxmNVUvQ0FVcHUzRGtl?=
- =?utf-8?B?OUtqdjlKR3U2U3Q3dmNrdEdrV3ZRdFdBQ0NDQTkvRlhIZHRtbEFENUE5WnRQ?=
- =?utf-8?B?ZFg4S1N3cWdlQVdheS9hQS9DamV5Z21SMHowa0hVQzcwNjAzVEFmT04ybkxv?=
- =?utf-8?B?UUF0dmM3dkhDeDg2anFMZFNLT1YzY29zZXdqRHEvMnh4RVZId3Zvc043QzlK?=
- =?utf-8?B?NGswMUppOFNjUkxIUnpSQ3BPQ2FJQ3BPTTNPVldYVktHWG03YlpMR0hrQXhO?=
- =?utf-8?B?QmNsVkZDQ085eEhlRmtBTjNlYmVlMHAydGYwbUppRytrYVVFWGZ1M1pZSzhq?=
- =?utf-8?B?c0cwQ25xOWdCVmY0cklWQ2h2Z2szclJQdytwTW1IMklzVVBOaGdpbHEyblVH?=
- =?utf-8?B?b245Mjdza056WmhvOFdwVjQ0MG5YajhBUlVVeGw3eDlBVFdZc2k3YUYyM0hG?=
- =?utf-8?B?c3VualBkMzJnZnJLejJ1ZkRzUzIrNVFUNXJqZWZKS0xTblBpdEc5ei9uQjBv?=
- =?utf-8?B?OUozcU1qNEFjRXZiYjZ0c3BaTklMSk1OektzRjkwR2JBT1U3R2FIMmZVMyt3?=
- =?utf-8?B?SFZ0ajMxNGF0K2htdjQrWmozSytxcysvVklDeFpvdjZHTUFueTg1bTBjT2RQ?=
- =?utf-8?B?SXdzMklvSnB3a2NCUUNiYVI2T29rNzhtbUNNQVBoVStXTDBJaU02dG1sWHdi?=
- =?utf-8?B?cUZGR1JZMFNHb0xIYmRWaGR5SnU2V21tZGp5TTc1MnFIYU1MN01uRENpS3NX?=
- =?utf-8?B?NWozdTBLY0ZZUWtsY2g0T1J2K3hkTXBvNzMvZ1lpKzN1SEloV29XMDZTYWd1?=
- =?utf-8?B?N21weHNZdkRGb0ZoR3MybkxtTm5oRHU4YktaNVI4S3BrcDUxZnFSN3k5KzNJ?=
- =?utf-8?B?VFpxZnBHbHRMS3BOUGlQTU1EeHRJM1drMklQNllIZXpkVXRvRHZlTFU3NjAx?=
- =?utf-8?Q?PoKdLOCR3JweURJ5jHNpB77j/L1c5JpCra4Cf+K?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 48536e22-4820-499f-3df8-08d904d109ed
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4644.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2021 14:23:31.5432 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1hF9wSI42bc0bMJQ/udM3sXxyvDem9W3iib5k0ygJjlgTxYn3G5TN3TVqVl59Cbf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2712
+In-Reply-To: <CAOFGe95FqvMnnH82o_uQtffpFNKarB0Gvs+vLkhQ-UKjiXO0Mg@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,183 +58,278 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Chris Park <Chris.Park@amd.com>,
- Eryk Brol <eryk.brol@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- open list <linux-kernel@vger.kernel.org>,
- Nikola Cornij <nikola.cornij@amd.com>,
- Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
- David Airlie <airlied@linux.ie>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Jordan Justen <jordan.l.justen@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Kenneth Graunke <kenneth@whitecape.org>, Matthew Auld <matthew.auld@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ ML mesa-dev <mesa-dev@lists.freedesktop.org>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the change!
 
-Reviewed-by: Mikita Lipski <Mikita.Lipski@amd.com>
+On 21/04/2021 14:54, Jason Ekstrand wrote:
+> On Wed, Apr 21, 2021 at 3:22 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>>
+>> On 20/04/2021 18:00, Jason Ekstrand wrote:
+>>> On Tue, Apr 20, 2021 at 11:34 AM Tvrtko Ursulin
+>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>
+>>>>
+>>>> On 19/04/2021 16:19, Jason Ekstrand wrote:
+>>>>> On Mon, Apr 19, 2021 at 7:02 AM Matthew Auld <matthew.auld@intel.com> wrote:
+>>>>>>
+>>>>>> On 16/04/2021 17:38, Jason Ekstrand wrote:
+>>>>>>> On Thu, Apr 15, 2021 at 11:04 AM Matthew Auld <matthew.auld@intel.com> wrote:
+>>>>>>>>
+>>>>>>>> Add an entry for the new uAPI needed for DG1.
+>>>>>>>>
+>>>>>>>> v2(Daniel):
+>>>>>>>>       - include the overall upstreaming plan
+>>>>>>>>       - add a note for mmap, there are differences here for TTM vs i915
+>>>>>>>>       - bunch of other suggestions from Daniel
+>>>>>>>> v3:
+>>>>>>>>      (Daniel)
+>>>>>>>>       - add a note for set/get caching stuff
+>>>>>>>>       - add some more docs for existing query and extensions stuff
+>>>>>>>>       - add an actual code example for regions query
+>>>>>>>>       - bunch of other stuff
+>>>>>>>>      (Jason)
+>>>>>>>>       - uAPI change(!):
+>>>>>>>>             - try a simpler design with the placements extension
+>>>>>>>>             - rather than have a generic setparam which can cover multiple
+>>>>>>>>               use cases, have each extension be responsible for one thing
+>>>>>>>>               only
+>>>>>>>>
+>>>>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>>>>>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>>>>>>>> Cc: Jordan Justen <jordan.l.justen@intel.com>
+>>>>>>>> Cc: Daniel Vetter <daniel.vetter@intel.com>
+>>>>>>>> Cc: Kenneth Graunke <kenneth@whitecape.org>
+>>>>>>>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+>>>>>>>> Cc: Dave Airlie <airlied@gmail.com>
+>>>>>>>> Cc: dri-devel@lists.freedesktop.org
+>>>>>>>> Cc: mesa-dev@lists.freedesktop.org
+>>>>>>>> ---
+>>>>>>>>      Documentation/gpu/rfc/i915_gem_lmem.h   | 255 ++++++++++++++++++++++++
+>>>>>>>>      Documentation/gpu/rfc/i915_gem_lmem.rst | 139 +++++++++++++
+>>>>>>>>      Documentation/gpu/rfc/index.rst         |   4 +
+>>>>>>>>      3 files changed, 398 insertions(+)
+>>>>>>>>      create mode 100644 Documentation/gpu/rfc/i915_gem_lmem.h
+>>>>>>>>      create mode 100644 Documentation/gpu/rfc/i915_gem_lmem.rst
+>>>>>>>>
+>>>>>>>> diff --git a/Documentation/gpu/rfc/i915_gem_lmem.h b/Documentation/gpu/rfc/i915_gem_lmem.h
+>>>>>>>> new file mode 100644
+>>>>>>>> index 000000000000..2a82a452e9f2
+>>>>>>>> --- /dev/null
+>>>>>>>> +++ b/Documentation/gpu/rfc/i915_gem_lmem.h
+>>>>>>>> @@ -0,0 +1,255 @@
+>>>>>>>> +/*
+>>>>>>>> + * Note that drm_i915_query_item and drm_i915_query are existing bits of uAPI.
+>>>>>>>> + * For the regions query we are just adding a new query id, so no actual new
+>>>>>>>> + * ioctl or anything, but including it here for reference.
+>>>>>>>> + */
+>>>>>>>> +struct drm_i915_query_item {
+>>>>>>>> +#define DRM_I915_QUERY_MEMORY_REGIONS   0xdeadbeaf
+>>>>>>>> +       ....
+>>>>>>>> +        __u64 query_id;
+>>>>>>>> +
+>>>>>>>> +        /*
+>>>>>>>> +         * When set to zero by userspace, this is filled with the size of the
+>>>>>>>> +         * data to be written at the data_ptr pointer. The kernel sets this
+>>>>>>>> +         * value to a negative value to signal an error on a particular query
+>>>>>>>> +         * item.
+>>>>>>>> +         */
+>>>>>>>> +        __s32 length;
+>>>>>>>> +
+>>>>>>>> +        __u32 flags;
+>>>>>>>> +        /*
+>>>>>>>> +         * Data will be written at the location pointed by data_ptr when the
+>>>>>>>> +         * value of length matches the length of the data to be written by the
+>>>>>>>> +         * kernel.
+>>>>>>>> +         */
+>>>>>>>> +        __u64 data_ptr;
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +struct drm_i915_query {
+>>>>>>>> +        __u32 num_items;
+>>>>>>>> +        /*
+>>>>>>>> +         * Unused for now. Must be cleared to zero.
+>>>>>>>> +         */
+>>>>>>>> +        __u32 flags;
+>>>>>>>> +        /*
+>>>>>>>> +         * This points to an array of num_items drm_i915_query_item structures.
+>>>>>>>> +         */
+>>>>>>>> +        __u64 items_ptr;
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +#define DRM_IOCTL_I915_QUERY   DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_QUERY, struct drm_i915_query)
+>>>>>>>> +
+>>>>>>>> +/**
+>>>>>>>> + * enum drm_i915_gem_memory_class
+>>>>>>>> + */
+>>>>>>>> +enum drm_i915_gem_memory_class {
+>>>>>>>> +       /** @I915_MEMORY_CLASS_SYSTEM: system memory */
+>>>>>>>> +       I915_MEMORY_CLASS_SYSTEM = 0,
+>>>>>>>> +       /** @I915_MEMORY_CLASS_DEVICE: device local-memory */
+>>>>>>>> +       I915_MEMORY_CLASS_DEVICE,
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +/**
+>>>>>>>> + * struct drm_i915_gem_memory_class_instance
+>>>>>>>> + */
+>>>>>>>> +struct drm_i915_gem_memory_class_instance {
+>>>>>>>> +       /** @memory_class: see enum drm_i915_gem_memory_class */
+>>>>>>>> +       __u16 memory_class;
+>>>>>>>> +
+>>>>>>>> +       /** @memory_instance: which instance */
+>>>>>>>> +       __u16 memory_instance;
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +/**
+>>>>>>>> + * struct drm_i915_memory_region_info
+>>>>>>>> + *
+>>>>>>>> + * Describes one region as known to the driver.
+>>>>>>>> + *
+>>>>>>>> + * Note that we reserve quite a lot of stuff here for potential future work. As
+>>>>>>>> + * an example we might want expose the capabilities(see caps) for a given
+>>>>>>>> + * region, which could include things like if the region is CPU
+>>>>>>>> + * mappable/accessible etc.
+>>>>>>>
+>>>>>>> I get caps but I'm seriously at a loss as to what the rest of this
+>>>>>>> would be used for.  Why are caps and flags both there and separate?
+>>>>>>> Flags are typically something you set, not query.  Also, what's with
+>>>>>>> rsvd1 at the end?  This smells of substantial over-building to me.
+>>>>>>>
+>>>>>>> I thought to myself, "maybe I'm missing a future use-case" so I looked
+>>>>>>> at the internal tree and none of this is being used there either.
+>>>>>>> This indicates to me that either I'm missing something and there's
+>>>>>>> code somewhere I don't know about or, with three years of building on
+>>>>>>> internal branches, we still haven't proven that any of this is needed.
+>>>>>>> If it's the latter, which I strongly suspect, maybe we should drop the
+>>>>>>> unnecessary bits and only add them back in if and when we have proof
+>>>>>>> that they're useful.
+>>>>>>
+>>>>>> Do you mean just drop caps/flags here, but keep/inflate rsvd0/rsvd1,
+>>>>>> which is less opinionated about future unknowns? If so, makes sense to me.
+>>>>>
+>>>>> I meant drop flags and rsvd1.  We need rsvd0 for padding and  I can
+>>>>> see some value to caps.  We may want to advertise, for instance, what
+>>>>> mapping coherency types are available per-heap.  But I don't see any
+>>>>> use for any of the other fields.
+>>>>
+>>>> I'd suggest making sure at least enough rsvd fields remain so that flags
+>>>> could be added later if needed. Experience from engine info shows that
+>>>> both were required in order to extend the query via re-purposing the
+>>>> rsvds and adding flag bits to indicate when a certain rsvd contains a
+>>>> new piece of information.
+>>>
+>>> Looking at DII, all I see is we started using caps.  I already said
+>>> I'm fine with caps.  I can already imagine some useful ones like
+>>> specifying what kinds of mappings we can do.
+>>>
+>>> If we're concerned about more complicated stuff, I argue that we have
+>>> no ability to predict what that will look like and so just throwing in
+>>> a bunch of __u32 rsvd[N] is blind guessing.  I'm seeing a lot of that
+>>> in the recently added APIs such as the flags and rsvd[4] in
+>>> i915_user_extension.  What's that there for?  Why can't you put that
+>>> information in the extension struct which derives from it?  Maybe it's
+>>> so that we can extend it.  But we added that struct as part of an
+>>> extension mechanism!?!
+>>>
+>>> If we want to make things extensible, Vulkan actually provides some
+>>> prior art for this in the form of allowing queries to be extended just
+>>> like input structs.  We could add a __u64 extensions field to
+>>> memory_region_info and, if we ever need to query more info, the client
+>>> can provide a chain of additional per-region queries.  Yeah, there are
+>>> problems with it and it gets a bit clunky but it does work pretty
+>>> well.
+>>>
+>>>> I probably cannot go into too much detail
+>>>> here, but anyway the point is just to make sure too much is not stripped
+>>>> out so that instead of simply adding fields/flags we have to add a new
+>>>> query in the future. IMO some rsvd fields are not really harmful and if
+>>>> they can make things easier in the future why not.
+>>>
+>>> Maybe it's my tired and generally grumpy state of mind but I'm not
+>>> particularly favorable towards "why not?" as a justification for
+>>> immutable kernel APIs.  We've already found a few places where
+>>> Zoidberg API design has caused us problems.  We need an answer to
+>>> "why?"  Future extensibility is a potentially valid answer but we need
+>>> to do a better job of thinking through it than we have in the past.
+>>
+>> I did not simply say why not, did I?
+> 
+> You literally did:  "...and if they can make things easier in the
+> future why not."
 
-On 2021-04-19 6:55 p.m., Lyude Paul wrote:
-> While working on moving i2c device registration into drm_dp_aux_init() - I
-> realized that in order to do so we need to make sure that drivers calling
-> drm_dp_aux_init() handle any errors it could possibly return. In the
-> process of doing that, I noticed that the majority of AMD's code for DP
-> connector creation doesn't attempt to do any real error handling.
+You quote the second *part* of *one* sentence from my reply in response 
+to my statement that I said more in my reply that just that bit?
+
+>> It is a balance thing between cost
+>> and benefit. I see the cost of rsvd fields as approaching zero really ,
+>> and cost of having to add query v2 if we end up having not enough rsvd
+>> as definitely way bigger.
+>>
+>> If you look at the mentioned engine info query you will see that as soon
+>> as you add some caps, flags become useful (so userspace can answer the
+>> question of does the object not support this cap or does the kernel does
+>> not even know about the cap).
+>>
+>> Furthermore, in that uapi, caps pertain to the property of the
+>> underlying object being queried, while the flags pertain to the query
+>> itself. I find that separation logical and useful.
 > 
-> So, let's fix this and also cleanup amdgpu_dm_initialize_dp_connector()
-> while we're at it. This way we can handle the error codes from
-> drm_dp_aux_init().
+> Ok, that answers the question I asked above: "what are flags for and
+> why are they different?"  At the very least, that should be
+> documented.  Then again...  We really want a GETPARAM query any time a
+> kernel interface changes, such as adding caps, and we can say that
+> userspace should ignore caps it doesn't understand.  I think that
+> solves both directions of the negotiation without flags.
+
+I said to look at engine info didn't I.
+
+Getparam also works to some extent, but it's IMO too flat and top-level 
+to stuff the answers to random hierarchical questions.
+
+GET_PARAM_DOES_QUERY_<x>_SUPPORT_CAP_<y>? Nah.. a bit clumsy I think 
+when we can return the supported caps in the query itself.
+
+>> I am not claiming to know memory region query will end up the same, and
+>> I definitely agree we cannot guess the future. I am just saying rsvd
+>> fields are inconsequential really in terms of maintenance burden and
+>> have been proven useful in the past. So I disagree with the drive to
+>> kick them all out.
 > 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 29 +++++++-----
->   .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 44 +++++++++++--------
->   .../display/amdgpu_dm/amdgpu_dm_mst_types.h   |  6 +--
->   3 files changed, 45 insertions(+), 34 deletions(-)
+> Sure, it doesn't cost anything to have extra zeros in the struct.
+> However, if/when the API grows using rsvd fields, we end up with "if
+> CAP_FOO is set, rsvd[5] means blah" which makes for a horribly
+> confusing API.  As a userspace person who has to remember how to use
+> this stuff, I'd rather make another call or chain in a struct than try
+> to remember and/or figure out what all 8 rsvd fields mean.
+
+Well it's not called rsvd in the uapi which is aware of the new field 
+but has a new name.
+
+>> Btw extension chains also work for me. I this a bit more complicated and
+>> we don't have prior art in i915 to use them on the read/get/query side
+>> but we could add if a couple of rsvd is so objectionable.
 > 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index a0c8c41e4e57..fc5d315bbb05 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7608,10 +7608,9 @@ static int amdgpu_dm_connector_init(struct amdgpu_display_manager *dm,
->   
->   	aconnector->i2c = i2c;
->   	res = i2c_add_adapter(&i2c->base);
-> -
->   	if (res) {
->   		DRM_ERROR("Failed to register hw i2c %d\n", link->link_index);
-> -		goto out_free;
-> +		goto fail_free;
->   	}
->   
->   	connector_type = to_drm_connector_type(link->connector_signal);
-> @@ -7625,8 +7624,7 @@ static int amdgpu_dm_connector_init(struct amdgpu_display_manager *dm,
->   
->   	if (res) {
->   		DRM_ERROR("connector_init failed\n");
-> -		aconnector->connector_id = -1;
-> -		goto out_free;
-> +		goto fail_id;
->   	}
->   
->   	drm_connector_helper_add(
-> @@ -7643,15 +7641,22 @@ static int amdgpu_dm_connector_init(struct amdgpu_display_manager *dm,
->   	drm_connector_attach_encoder(
->   		&aconnector->base, &aencoder->base);
->   
-> -	if (connector_type == DRM_MODE_CONNECTOR_DisplayPort
-> -		|| connector_type == DRM_MODE_CONNECTOR_eDP)
-> -		amdgpu_dm_initialize_dp_connector(dm, aconnector, link->link_index);
-> -
-> -out_free:
-> -	if (res) {
-> -		kfree(i2c);
-> -		aconnector->i2c = NULL;
-> +	if (connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
-> +	    connector_type == DRM_MODE_CONNECTOR_eDP) {
-> +		res = amdgpu_dm_initialize_dp_connector(dm, aconnector, link->link_index);
-> +		if (res)
-> +			goto fail_cleanup;
->   	}
-> +
-> +	return 0;
-> +fail_cleanup:
-> +	drm_connector_cleanup(&aconnector->base);
-> +fail_id:
-> +	aconnector->connector_id = -1;
-> +fail_free:
-> +	kfree(i2c);
-> +	aconnector->i2c = NULL;
-> +
->   	return res;
->   }
->   
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 73cdb9fe981a..3dee9cce9c9e 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -425,33 +425,39 @@ static const struct drm_dp_mst_topology_cbs dm_mst_cbs = {
->   	.add_connector = dm_dp_add_mst_connector,
->   };
->   
-> -void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
-> -				       struct amdgpu_dm_connector *aconnector,
-> -				       int link_index)
-> +int amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
-> +				      struct amdgpu_dm_connector *aconnector,
-> +				      int link_index)
->   {
-> -	aconnector->dm_dp_aux.aux.name =
-> -		kasprintf(GFP_KERNEL, "AMDGPU DM aux hw bus %d",
-> -			  link_index);
-> -	aconnector->dm_dp_aux.aux.transfer = dm_dp_aux_transfer;
-> -	aconnector->dm_dp_aux.ddc_service = aconnector->dc_link->ddc;
-> +	struct amdgpu_dm_dp_aux *dm_aux = &aconnector->dm_dp_aux;
-> +	int ret;
->   
-> -	drm_dp_aux_init(&aconnector->dm_dp_aux.aux);
-> -	drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
-> -				      &aconnector->base);
-> +	dm_aux->aux.name = kasprintf(GFP_KERNEL, "AMDGPU DM aux hw bus %d", link_index);
-> +	if (!dm_aux->aux.name)
-> +		return -ENOMEM;
-> +
-> +	dm_aux->aux.transfer = dm_dp_aux_transfer;
-> +	dm_aux->ddc_service = aconnector->dc_link->ddc;
-> +
-> +	drm_dp_aux_init(&dm_aux->aux);
-> +	drm_dp_cec_register_connector(&dm_aux->aux, &aconnector->base);
->   
->   	if (aconnector->base.connector_type == DRM_MODE_CONNECTOR_eDP)
-> -		return;
-> +		return 0;
->   
->   	aconnector->mst_mgr.cbs = &dm_mst_cbs;
-> -	drm_dp_mst_topology_mgr_init(
-> -		&aconnector->mst_mgr,
-> -		adev_to_drm(dm->adev),
-> -		&aconnector->dm_dp_aux.aux,
-> -		16,
-> -		4,
-> -		aconnector->connector_id);
-> +	ret = drm_dp_mst_topology_mgr_init(&aconnector->mst_mgr, adev_to_drm(dm->adev),
-> +					   &dm_aux->aux, 16, 4, aconnector->connector_id);
-> +	if (ret)
-> +		goto unreg_cec;
->   
->   	drm_connector_attach_dp_subconnector_property(&aconnector->base);
-> +
-> +	return 0;
-> +unreg_cec:
-> +	drm_dp_cec_unregister_connector(&dm_aux->aux);
-> +	kfree(dm_aux->aux.name);
-> +	return ret;
->   }
->   
->   int dm_mst_get_pbn_divider(struct dc_link *link)
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> index b38bd68121ce..cf771ff58bb3 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> @@ -31,9 +31,9 @@ struct amdgpu_dm_connector;
->   
->   int dm_mst_get_pbn_divider(struct dc_link *link);
->   
-> -void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
-> -				       struct amdgpu_dm_connector *aconnector,
-> -				       int link_index);
-> +int amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
-> +				      struct amdgpu_dm_connector *aconnector,
-> +				      int link_index);
->   
->   void
->   dm_dp_create_fake_mst_encoders(struct amdgpu_device *adev);
-> 
+> Another option, which I think I mentioned somewhere, is that we could
+> add a secondary query which takes a memory region class and instance
+> and lets you query additional properties one-at-a-time.  That might be
+> easier to extend.  Sure, it means more ioctls but they're not that
+> expensive and they should only happen at driver initialization so I'm
+> not that inclined to care about the cost there.
+
+Or leave flags and some rsvd so you can add extensions later. :)
+
+Regards,
+
+Tvrtko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
