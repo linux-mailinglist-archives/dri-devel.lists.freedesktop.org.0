@@ -2,39 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A9936658D
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 08:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E063665A1
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 08:49:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3A7C6E950;
-	Wed, 21 Apr 2021 06:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257A26E18E;
+	Wed, 21 Apr 2021 06:49:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A41D6E950
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 06:40:27 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4FQ9sj2J9wz9t17;
- Wed, 21 Apr 2021 16:40:25 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1618987225;
- bh=XsDHO0Oy5yGJAE5kU0AI5Ee3CCMoeO3Dzo0AXAGdG5w=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=p79o4cZ731SOoEY3IlZpt6l8ienuP+OmVFEqj/U6QJMNliWTIVgKrBfr94ZrV1/1T
- C3tD8dkJQ0iJWR3tZ445YjAGSfm8zm/GrhvtfUtKYMx+8do6cYl/NloJwWFmta83MF
- Z2BSM9ojG4xjL4+uwzFW8iTXpRwguTHWESnciLT3mDe+A4vptOBPQDLaUghL5b9lvt
- oR7BPC3EblIJtHKomGs2IHiTejORB1vo3x5YNquLkFfc62iWRzlkO+JSKtCHoVqBFc
- X8IzS5eL6ECRjJowHj+y5caHVLUQ5aaPe9+NqkjiUiPdq9lp9kuOoPQRfTRAZv4Mwm
- XiWHZHLG0MhAA==
-Date: Wed, 21 Apr 2021 16:40:24 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: linux-next: build warning after merge of the amdgpu tree
-Message-ID: <20210421164024.42bc068f@canb.auug.org.au>
-In-Reply-To: <20210416124044.53d4beee@canb.auug.org.au>
-References: <20210416124044.53d4beee@canb.auug.org.au>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0866E17B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 06:49:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 611C6613ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 06:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1618987759;
+ bh=SJBYKGP4MrY9yWy2IegX5Yq8Yoetqhy1H5JaCvzrj9A=;
+ h=From:To:Subject:Date:From;
+ b=L6gvcmGi28Ar5qjU7VJPO2rQJ8nP9ck/m9k5Qy6n99+pv1UGukxJ7AzwNdW9c9Xrk
+ HqWFBbJjN8IuIDcx+D669Yom6EM5IQziCVxIqIYMwgaN/xJWbjc4fuADMeMPiEZ5yj
+ yBP/y7D7vlS8r6eiTvmDVQVARgqVyyUbz/AmtRsqVJcWGMiOGywBtOEeBOLvwl+jP6
+ AN+prmKeaKWHPc2b8V/GHTL5NUPAozzns1POvi4z44p2ZihxnB/SGq3rx7hpEFvGKz
+ H8W2K+iQX7ag4t8uy9be4Qz25Px+ODUzMFIy/p0prOI5CNAT9oklXlS01MucU8BKT0
+ 8KO4bZl+9vPog==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 59099610C9; Wed, 21 Apr 2021 06:49:19 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212739] New: [amdgpu] Sporadic GPU errors, screen artifacts and
+ GPU-induced system lockups on Vega 10 (Raven Ridge)
+Date: Wed, 21 Apr 2021 06:49:18 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tunas@cryptolab.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-212739-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,74 +64,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Prike Liang <Prike.Liang@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0701511538=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0701511538==
-Content-Type: multipart/signed; boundary="Sig_/qlAOkY._IzDXxqlncDoTl+q";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+https://bugzilla.kernel.org/show_bug.cgi?id=212739
 
---Sig_/qlAOkY._IzDXxqlncDoTl+q
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+            Bug ID: 212739
+           Summary: [amdgpu] Sporadic GPU errors, screen artifacts and
+                    GPU-induced system lockups on Vega 10 (Raven Ridge)
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.11.14-1, 5.12.rc7.d0411.gd434405-1
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: tunas@cryptolab.net
+        Regression: No
 
-Hi all,
+Created attachment 296449
+  --> https://bugzilla.kernel.org/attachment.cgi?id=296449&action=edit
+Example of GPU artifacts from the recoverable variant of this error
 
-On Fri, 16 Apr 2021 12:40:44 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> After merging the amdgpu tree, today's linux-next build (powerpc
-> ppc64_defconfig) produced this warning:
->=20
-> drivers/pci/quirks.c: In function 'quirk_amd_nvme_fixup':
-> drivers/pci/quirks.c:312:18: warning: unused variable 'rdev' [-Wunused-va=
-riable]
->   312 |  struct pci_dev *rdev;
->       |                  ^~~~
->=20
-> Introduced by commit
->=20
->   9597624ef606 ("nvme: put some AMD PCIE downstream NVME device to simple=
- suspend/resume path")
+From time to time, the amdgpu driver will report a page fault (sometimes coming
+from pid 0, sometimes coming from the web browser, sometimes the screen
+compositor or Xorg, sometimes a video player, etc.) as shown below:
 
-I am still seeing this warning.
+>kernel: amdgpu 0000:05:00.0: amdgpu: [gfxhub0] retry page fault (src_id:0
+>ring:0 vmid:4 pasid:0, for process  pid 0 thread  pid 0)
+>kernel: amdgpu 0000:05:00.0: amdgpu:   in page starting at address
+>0x800101606000 from client 27
+>kernel: amdgpu 0000:05:00.0: amdgpu: VM_L2_PROTECTION_FAULT_STATUS:0x00401031
+>kernel: amdgpu 0000:05:00.0: amdgpu:          Faulty UTCL2 client ID: TCP
+>(0x8)
+>kernel: amdgpu 0000:05:00.0: amdgpu:          MORE_FAULTS: 0x1
+>kernel: amdgpu 0000:05:00.0: amdgpu:          WALKER_ERROR: 0x0
+>kernel: amdgpu 0000:05:00.0: amdgpu:          PERMISSION_FAULTS: 0x3
+>kernel: amdgpu 0000:05:00.0: amdgpu:          MAPPING_ERROR: 0x0
+>kernel: amdgpu 0000:05:00.0: amdgpu:          RW: 0x0`
 
---=20
-Cheers,
-Stephen Rothwell
+This message is repeated several thousand times in dmesg ("x callbacks
+suppressed") with different addresses of form 0x80010160Y000 (where Y is a hex
+digit between 1-8.)
+In the meantime, the computer is completely hung in terms of display, i.e.
+inputs go through, music keeps playing, but the screen is static.
 
---Sig_/qlAOkY._IzDXxqlncDoTl+q
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Then, several seconds later, it's followed by:
+>kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences
+>timed out!
 
------BEGIN PGP SIGNATURE-----
+And finally,
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmB/yNgACgkQAVBC80lX
-0GzqqQf/eDjklTlIPHFc2K9mgY05ort42+zD3LPeSUbjOCf98KDaIi5a6il1S+2Y
-fRNejS72os+i9zoEiRPhZIDe8PY065ysSv3SO56NcYjyhVCzf9OKzU+a4qM8xY9I
-XQ66Zq1Gpg5GNxW0D9FM4Z6RGKnJtskCYCP2Gg+F7vyXQXcg2xUeYIvUgARobX8N
-knrqUYHiAJ4BKBFuAx9YbiWvNmYfUHJJEMUVUAHvb6f9RHlcd1fm5Bly4k9hTC5A
-r5YJ+yAibYR6j2n7/8WLuN0X4lqbk4JMm/ImRqzUO9OJgTtwMfGn6inRvuQSUjHS
-zjcTalgk/SubMOXqsG0tErJQaS7ulg==
-=pQ+e
------END PGP SIGNATURE-----
+>[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, but soft
+>recovered
 
---Sig_/qlAOkY._IzDXxqlncDoTl+q--
+After this, the computer resumes operation (but with GPU artifacts having
+appeared on the screen - for an example of these, see attached screenshot).
 
---===============0701511538==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Alternatively, sometimes instead of the soft recovery message, the GPU cannot
+recover and displays the following messages in the kernel log:
 
+>kernel: [drm:gfx_v9_0_priv_reg_irq [amdgpu]] *ERROR* Illegal register access
+>in command stream
+>kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, signaled
+>seq=3356413, emitted seq=3356415
+>kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information:
+>process Xorg pid 14524 thread Xorg:cs0 pid 14539
+>kernel: amdgpu 0000:05:00.0: amdgpu: GPU reset begin!
+>kernel: [drm] free PSP TMR buffer
+>kernel: amdgpu 0000:05:00.0: amdgpu: MODE2 reset
+>kernel: amdgpu 0000:05:00.0: amdgpu: GPU reset succeeded, trying to resume
+>kernel: [drm] PCIE GART of 1024M enabled (table at 0x000000F400900000).
+>kernel: [drm] PSP is resuming...
+>kernel: [drm] reserve 0x400000 from 0xf47fc00000 for PSP TMR
+>kernel: amdgpu 0000:05:00.0: amdgpu: RAS: optional ras ta ucode is not
+>available
+>kernel: amdgpu 0000:05:00.0: amdgpu: RAP: optional rap ta ucode is not
+>available
+>kernel: [drm] kiq ring mec 2 pipe 1 q 0
+>kernel: amdgpu 0000:05:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR*
+>ring sdma0 test failed (-110)
+>kernel: [drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP
+>block <sdma_v4_0> failed -110
+>kernel: amdgpu 0000:05:00.0: amdgpu: GPU reset(4) failed
+>kernel: amdgpu 0000:05:00.0: amdgpu: GPU reset end with ret = -110
+
+at which point rebooting is necessary as the GPU will not resume operation.
+
+This also happens on the latest 5.12 rc (as of the writing of this bug report,
+this is rc7).
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0701511538==--
