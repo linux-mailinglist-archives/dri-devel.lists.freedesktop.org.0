@@ -2,69 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F85366736
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 10:45:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5E236676D
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 10:59:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF196E194;
-	Wed, 21 Apr 2021 08:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24D476E138;
+	Wed, 21 Apr 2021 08:59:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B310D6E194
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 08:45:00 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 7F6935C0109;
- Wed, 21 Apr 2021 04:44:51 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 21 Apr 2021 04:44:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=BJKF3HFMqCDqpikARYsHWbdK2LE
- YC24070F4f1pr7qo=; b=v63pYMcDGlynjONp7XU7QQFjfhnr2CTcEpueax7xVFi
- B7RIprqaKy3G7WYRSDb1YrwelCADiUIXql9jcfqeP7xNh2jmLbQeNeOgf/wc+BCR
- wYeRUWsMOpJnrrZzTgIIqJnCBikTKgxLxURVrVuwTuGBo2Bsmjf2LwoxqfHI3EJx
- 8qXAmKd40eezVlVGBW4uCYcN9uTNuUTpSoQ9q2DgKYcPl033R0LQx3SEEpAxOBHx
- 3FtPEmP/JcFAabHn+RplHHocSi8Q8twcX2xA/Cl1bHlI1AQmzXaR2EwdeLpfkorV
- 340EK4Ep0jJ2FnUfPowKfKKrxSKgbBGJKAe7hjuJVWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=BJKF3H
- FMqCDqpikARYsHWbdK2LEYC24070F4f1pr7qo=; b=KfG13fYaRsPFfnvhTtZZml
- AwHAGF9lUmCdU7/8JGodQBAzCkaT9u0nDWxOP4/5BTJFulN5nIw5TYuNYzD1HMqH
- LRZFLD9YpnMWZ3TDhc3IKV6dNXMwDmvsZYiqrjOXDViy6JjCJ/2fjYIIScpUhbQ4
- lNmO/YKKzUW2OfNlpSokRJUoxs5kcOxb9ZsJs1rMtANkezERrYGcBuVGt3guqxN+
- NmAXLgUV15UzLlPphVHEDOAkwQ31iFjY7QEJy9OLGRblD5BnBb2euTrbCk0hkzPW
- icew2KT87B03aVtjIyHxcsH6zAAL6EHLN7ly81QO/jBuvbSLqYgOCgEMj/HgSIkw
- ==
-X-ME-Sender: <xms:AeZ_YP8E2MFZy1WHnkQ5brISu-HaEUwU1u6t2uwiN_tMIHAYRjbfuw>
- <xme:AeZ_YLtWgaJmaAa6L_5KOhlubwRcdgi0PYLwpKsrtGFlnyLtBZZ1TfSWuZhBWCl-6
- yz6_P25gNB9KTFknt4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtkedgtdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:AeZ_YNBHwnqtCFosCvMNmP38t-U_DhyCn3MFbblN3TqwDdkSCACVVQ>
- <xmx:AeZ_YLff4KkzNrgzzHxw5J5X0TGQgYvyq-eG9Nyol9kmesW8H3wy0Q>
- <xmx:AeZ_YENvtYhS3byqCIiDV0BNtU2cSVM-sISjdoGCSw_jtrIRqHyTSw>
- <xmx:A-Z_YJoVhgh1xyBNaXB7CvppTZvfzoobghNpYoF3xFFO0EjBLG-TlQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4137F1080069;
- Wed, 21 Apr 2021 04:44:49 -0400 (EDT)
-Date: Wed, 21 Apr 2021 10:44:47 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: Re: [PATCH] drm/vc4: remove unused function
-Message-ID: <20210421084447.5igon4bjxw5la2dr@gilmour>
-References: <1618476325-112629-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADF316E138
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 08:59:17 +0000 (UTC)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 13L8mB25041354;
+ Wed, 21 Apr 2021 16:48:11 +0800 (GMT-8)
+ (envelope-from kuohsiang_chou@aspeedtech.com)
+Received: from localhost.localdomain.com (192.168.2.206) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 21 Apr 2021 16:59:05 +0800
+From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5] drm/ast: Fixed CVE for DP501
+Date: Wed, 21 Apr 2021 16:58:59 +0800
+Message-ID: <20210421085859.17761-1-kuohsiang_chou@aspeedtech.com>
+X-Mailer: git-send-email 2.18.4
+In-Reply-To: <214f1451-2406-b298-e233-4939cae9e1f2@suse.de>
+References: <214f1451-2406-b298-e233-4939cae9e1f2@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <1618476325-112629-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Originating-IP: [192.168.2.206]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 13L8mB25041354
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,58 +47,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1500989285=="
+Cc: airlied@linux.ie, jenmin_yuan@aspeedtech.com, airlied@redhat.com,
+ arc_sung@aspeedtech.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+[Bug][DP501]
+If ASPEED P2A (PCI to AHB) bridge is disabled and disallowed for
+CVE_2019_6260 item3, and then the monitor's EDID is unable read through
+Parade DP501.
+The reason is the DP501's FW is mapped to BMC addressing space rather
+than Host addressing space.
+The resolution is that using "pci_iomap_range()" maps to DP501's FW that
+stored on the end of FB (Frame Buffer).
+In this case, FrameBuffer reserves the last 2MB used for the image of
+DP501.
 
---===============1500989285==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="itw6l6a2pxgxfotk"
-Content-Disposition: inline
+Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+ drivers/gpu/drm/ast/ast_dp501.c | 139 +++++++++++++++++++++++---------
+ drivers/gpu/drm/ast/ast_drv.h   |  12 +++
+ drivers/gpu/drm/ast/ast_main.c  |  11 ++-
+ 3 files changed, 125 insertions(+), 37 deletions(-)
 
+diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
+index 88121c0e0..cd93c44f2 100644
+--- a/drivers/gpu/drm/ast/ast_dp501.c
++++ b/drivers/gpu/drm/ast/ast_dp501.c
+@@ -189,6 +189,9 @@ bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size)
+ 	u32 i, data;
+ 	u32 boot_address;
 
---itw6l6a2pxgxfotk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
++	if (ast->config_mode != ast_use_p2a)
++		return false;
++
+ 	data = ast_mindwm(ast, 0x1e6e2100) & 0x01;
+ 	if (data) {
+ 		boot_address = get_fw_base(ast);
+@@ -207,6 +210,9 @@ static bool ast_launch_m68k(struct drm_device *dev)
+ 	u8 *fw_addr = NULL;
+ 	u8 jreg;
 
-On Thu, Apr 15, 2021 at 04:45:25PM +0800, Jiapeng Chong wrote:
-> Fix the following clang warning:
->=20
-> drivers/gpu/drm/vc4/vc4_vec.c:201:1: warning: unused function
-> 'to_vc4_vec_connector' [-Wunused-function].
->=20
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
++	if (ast->config_mode != ast_use_p2a)
++		return false;
++
+ 	data = ast_mindwm(ast, 0x1e6e2100) & 0x01;
+ 	if (!data) {
 
-Merged, thanks!
-Maxime
+@@ -271,25 +277,55 @@ u8 ast_get_dp501_max_clk(struct drm_device *dev)
+ 	struct ast_private *ast = to_ast_private(dev);
+ 	u32 boot_address, offset, data;
+ 	u8 linkcap[4], linkrate, linklanes, maxclk = 0xff;
++	u32 *plinkcap;
 
---itw6l6a2pxgxfotk
-Content-Type: application/pgp-signature; name="signature.asc"
+-	boot_address = get_fw_base(ast);
+-
+-	/* validate FW version */
+-	offset = 0xf000;
+-	data = ast_mindwm(ast, boot_address + offset);
+-	if ((data & 0xf0) != 0x10) /* version: 1x */
+-		return maxclk;
+-
+-	/* Read Link Capability */
+-	offset  = 0xf014;
+-	*(u32 *)linkcap = ast_mindwm(ast, boot_address + offset);
+-	if (linkcap[2] == 0) {
+-		linkrate = linkcap[0];
+-		linklanes = linkcap[1];
+-		data = (linkrate == 0x0a) ? (90 * linklanes) : (54 * linklanes);
+-		if (data > 0xff)
+-			data = 0xff;
+-		maxclk = (u8)data;
++	if (ast->config_mode == ast_use_p2a) {
++		boot_address = get_fw_base(ast);
++
++		/* validate FW version */
++		offset = AST_DP501_GBL_VERSION;
++		data = ast_mindwm(ast, boot_address + offset);
++		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1) /* version: 1x */
++			return maxclk;
++
++		/* Read Link Capability */
++		offset  = AST_DP501_LINKRATE;
++		plinkcap = (u32 *)linkcap;
++		*plinkcap  = ast_mindwm(ast, boot_address + offset);
++		if (linkcap[2] == 0) {
++			linkrate = linkcap[0];
++			linklanes = linkcap[1];
++			data = (linkrate == 0x0a) ? (90 * linklanes) : (54 * linklanes);
++			if (data > 0xff)
++				data = 0xff;
++			maxclk = (u8)data;
++		}
++	} else {
++		if (!ast->dp501_fw_buf)
++			return AST_DP501_DEFAULT_DCLK;	/* 1024x768 as default */
++
++		/* dummy read */
++		offset = 0x0000;
++		data = readl(ast->dp501_fw_buf + offset);
++
++		/* validate FW version */
++		offset = AST_DP501_GBL_VERSION;
++		data = readl(ast->dp501_fw_buf + offset);
++		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1) /* version: 1x */
++			return maxclk;
++
++		/* Read Link Capability */
++		offset = AST_DP501_LINKRATE;
++		plinkcap = (u32 *)linkcap;
++		*plinkcap = readl(ast->dp501_fw_buf + offset);
++		if (linkcap[2] == 0) {
++			linkrate = linkcap[0];
++			linklanes = linkcap[1];
++			data = (linkrate == 0x0a) ? (90 * linklanes) : (54 * linklanes);
++			if (data > 0xff)
++				data = 0xff;
++			maxclk = (u8)data;
++		}
+ 	}
+ 	return maxclk;
+ }
+@@ -298,26 +334,57 @@ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
+ {
+ 	struct ast_private *ast = to_ast_private(dev);
+ 	u32 i, boot_address, offset, data;
++	u32 *pEDIDidx;
 
------BEGIN PGP SIGNATURE-----
+-	boot_address = get_fw_base(ast);
+-
+-	/* validate FW version */
+-	offset = 0xf000;
+-	data = ast_mindwm(ast, boot_address + offset);
+-	if ((data & 0xf0) != 0x10)
+-		return false;
+-
+-	/* validate PnP Monitor */
+-	offset = 0xf010;
+-	data = ast_mindwm(ast, boot_address + offset);
+-	if (!(data & 0x01))
+-		return false;
++	if (ast->config_mode == ast_use_p2a) {
++		boot_address = get_fw_base(ast);
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYH/l/wAKCRDj7w1vZxhR
-xU5EAQDn5Jd5WIf37k9BdcNfXVCoUDe8Ll/W9Tt9ZIfVy9MLdwEA8hhFwVtkF5yD
-vJxGE9kSZJzvaE3614YEzmLa7RlU8QQ=
-=O/zW
------END PGP SIGNATURE-----
+-	/* Read EDID */
+-	offset = 0xf020;
+-	for (i = 0; i < 128; i += 4) {
+-		data = ast_mindwm(ast, boot_address + offset + i);
+-		*(u32 *)(ediddata + i) = data;
++		/* validate FW version */
++		offset = AST_DP501_GBL_VERSION;
++		data = ast_mindwm(ast, boot_address + offset);
++		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1)
++			return false;
++
++		/* validate PnP Monitor */
++		offset = AST_DP501_PNPMONITOR;
++		data = ast_mindwm(ast, boot_address + offset);
++		if (!(data & AST_DP501_PNP_CONNECTED))
++			return false;
++
++		/* Read EDID */
++		offset = AST_DP501_EDID_DATA;
++		for (i = 0; i < 128; i += 4) {
++			data = ast_mindwm(ast, boot_address + offset + i);
++			pEDIDidx = (u32 *)(ediddata + i);
++			*pEDIDidx = data;
++		}
++	} else {
++		if (!ast->dp501_fw_buf)
++			return false;
++
++		/* dummy read */
++		offset = 0x0000;
++		data = readl(ast->dp501_fw_buf + offset);
++
++		/* validate FW version */
++		offset = AST_DP501_GBL_VERSION;
++		data = readl(ast->dp501_fw_buf + offset);
++		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1)
++			return false;
++
++		/* validate PnP Monitor */
++		offset = AST_DP501_PNPMONITOR;
++		data = readl(ast->dp501_fw_buf + offset);
++		if (!(data & AST_DP501_PNP_CONNECTED))
++			return false;
++
++		/* Read EDID */
++		offset = AST_DP501_EDID_DATA;
++		for (i = 0; i < 128; i += 4) {
++			data = readl(ast->dp501_fw_buf + offset + i);
++			pEDIDidx = (u32 *)(ediddata + i);
++			*pEDIDidx = data;
++		}
+ 	}
 
---itw6l6a2pxgxfotk--
+ 	return true;
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index e82ab8628..911f9f414 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -150,6 +150,7 @@ struct ast_private {
 
---===============1500989285==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+ 	void __iomem *regs;
+ 	void __iomem *ioregs;
++	void __iomem *dp501_fw_buf;
+
+ 	enum ast_chip chip;
+ 	bool vga2_clone;
+@@ -325,6 +326,17 @@ int ast_mode_config_init(struct ast_private *ast);
+ #define AST_MM_ALIGN_SHIFT 4
+ #define AST_MM_ALIGN_MASK ((1 << AST_MM_ALIGN_SHIFT) - 1)
+
++#define AST_DP501_FW_VERSION_MASK	GENMASK(7, 4)
++#define AST_DP501_FW_VERSION_1		BIT(4)
++#define AST_DP501_PNP_CONNECTED		BIT(1)
++
++#define AST_DP501_DEFAULT_DCLK	65
++
++#define AST_DP501_GBL_VERSION	0xf000
++#define AST_DP501_PNPMONITOR	0xf010
++#define AST_DP501_LINKRATE	0xf014
++#define AST_DP501_EDID_DATA	0xf020
++
+ int ast_mm_init(struct ast_private *ast);
+
+ /* ast post */
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 0ac3c2039..3976a2587 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -99,7 +99,7 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
+ 	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
+ 		/* Double check it's actually working */
+ 		data = ast_read32(ast, 0xf004);
+-		if (data != 0xFFFFFFFF) {
++		if ((data != 0xFFFFFFFF) && (data != 0x00)) {
+ 			/* P2A works, grab silicon revision */
+ 			ast->config_mode = ast_use_p2a;
+
+@@ -411,6 +411,7 @@ struct ast_private *ast_device_create(const struct drm_driver *drv,
+ 		return ast;
+ 	dev = &ast->base;
+
++	dev->pdev = pdev;
+ 	pci_set_drvdata(pdev, dev);
+
+ 	ast->regs = pci_iomap(pdev, 1, 0);
+@@ -450,6 +451,14 @@ struct ast_private *ast_device_create(const struct drm_driver *drv,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+
++	/* map reserved buffer */
++	ast->dp501_fw_buf = NULL;
++	if (dev->vram_mm->vram_size < pci_resource_len(dev->pdev, 0)) {
++		ast->dp501_fw_buf = pci_iomap_range(dev->pdev, 0, dev->vram_mm->vram_size, 0);
++		if (!ast->dp501_fw_buf)
++			drm_info(dev, "failed to map reserved buffer!\n");
++	}
++
+ 	ret = ast_mode_config_init(ast);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+--
+2.18.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1500989285==--
