@@ -2,43 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0E2366F34
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 17:32:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42A3366F3A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Apr 2021 17:34:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB8BB6E9C8;
-	Wed, 21 Apr 2021 15:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 428C489A72;
+	Wed, 21 Apr 2021 15:34:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21F166E9B8
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 15:32:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F277861445;
- Wed, 21 Apr 2021 15:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619019129;
- bh=RC899umZ0BwpHoFBaQEd03wqXFYBjtGaL5NqM7dfCT8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CpNQszCLq4n8vEbp+4q9qxxt6foYHXA6LMbxM0pUASXfc28rRQcnHijjCXk/bU4TR
- TdDYeNqRAnnuj8/VLcS5qJ+U07HSMDxPsyQDrG7EJzs2PCv4MxVSBtSYtwYW+PNk62
- KPitZe+vN9l/HeCKZkA695LuhNegPcRtu6FLyojANSpA0XhVRnYVDfv4MxiPKnPyaa
- s33u6+4RK9KDcho9/4XcQ0uBmY7Nh+0+l0fdoIHE8WzrDzLSrBN5K5PIpOTmbJh780
- NBpCEJ2w2VdcFapAACBUQ6BQdb5B+z9QC/dLgLEdzQHHEZlz953zvRL+EwG6ghuB8k
- P/eYtCOFPaOGg==
-Date: Wed, 21 Apr 2021 18:31:58 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Peter.Enderborg@sony.com
-Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
-Message-ID: <YIBFbh4Dd1XaDbto@kernel.org>
-References: <20210417163835.25064-1-peter.enderborg@sony.com>
- <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
- <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
- <YH63iPzbGWzb676T@phenom.ffwll.local>
- <a60d1eaf-f9f8-e0f3-d214-15ce2c0635c2@sony.com>
- <YH/tHFBtIawBfGBl@phenom.ffwll.local>
- <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6DB389A72;
+ Wed, 21 Apr 2021 15:34:05 +0000 (UTC)
+IronPort-SDR: QTcjCF9tdORWhTsN1p3CDDb+iHfgjpIobeT9V4jtL4uptiVKuTVgwXEP8uU8CdeYFy9/hmFlHe
+ fkRe4oK93M9A==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="259671624"
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="259671624"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2021 08:34:04 -0700
+IronPort-SDR: dCCfnlxXCyFzqFwNwg0NZdAHRvhaBX+7rj72B21XPh4r+6hXtSLLvvjeASOipGDTedzLwASvq7
+ 4TDXK5uY6DZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="455385225"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga002.fm.intel.com with SMTP; 21 Apr 2021 08:34:02 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 21 Apr 2021 18:34:01 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/4] drm/i915: Fix older platforms
+Date: Wed, 21 Apr 2021 18:33:57 +0300
+Message-Id: <20210421153401.13847-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,90 +46,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mhocko@suse.com, neilb@suse.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, adobriyan@gmail.com,
- linaro-mm-sig@lists.linaro.org, shakeelb@google.com, willy@infradead.org,
- samitolvanen@google.com, songmuchun@bytedance.com,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- christian.koenig@amd.com, guro@fb.com, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 21, 2021 at 10:37:11AM +0000, Peter.Enderborg@sony.com wrote:
-> On 4/21/21 11:15 AM, Daniel Vetter wrote:
-> >
-> > We need to understand what the "correct" value is. Not in terms of kern=
-el
-> > code, but in terms of semantics. Like if userspace allocates a GL textu=
-re,
-> > is this supposed to show up in your metric or not. Stuff like that.
-> That it like that would like to only one pointer type. You need to know w=
-hat
-> =
-
-> you pointing at to know what it is. it might be a hardware or a other poi=
-nter.
-> =
-
-> If there is a limitation on your pointers it is a good metric to count th=
-em
-> even if you don't=A0 know what they are. Same goes for dma-buf, they
-> are generic, but they consume some resources that are counted in pages.
-> =
-
-> It would be very good if there a sub division where you could measure
-> all possible types separately.=A0 We have the detailed in debugfs, but no=
-thing
-> for the user. A summary in meminfo seems to be the best place for such
-> metric.
- =
-
-Let me try to summarize my understanding of the problem, maybe it'll help
-others as well.
-
-A device driver allocates memory and exports this memory via dma-buf so
-that this memory will be accessible for userspace via a file descriptor.
-
-The allocated memory can be either allocated with alloc_page() from system
-RAM or by other means from dedicated VRAM (that is not managed by Linux mm)
-or even from on-device memory.
-
-The dma-buf driver tracks the amount of the memory it was requested to
-export and the size it sees is available at debugfs and fdinfo.
-
-The debugfs is not available to user and maybe entirely disabled in
-production systems.
-
-There could be quite a few open dma-bufs so there is no overall summary,
-plus fdinfo in production systems your refer to is also unavailable to the
-user because of selinux policy.
-
-And there are a few details that are not clear to me:
-
-* Since DRM device drivers seem to be the major user of dma-buf exports,
-  why cannot we add information about their memory consumption to, say,
-  /sys/class/graphics/drm/cardX/memory-usage?
-
-* How exactly user generates reports that would include the new counters?
-  From my (mostly outdated) experience Android users won't open a terminal
-  and type 'cat /proc/meminfo' there. I'd presume there is a vendor agent
-  that collects the data and sends it for analysis. In this case what is
-  the reason the vendor is unable to adjust selinix policy so that the
-  agent will be able to access fdinfo?
-
-* And, as others already mentioned, it is not clear what are the problems
-  that can be detected by examining DmaBufTotal except saying "oh, there is
-  too much/too little memory exported via dma-buf". What would be user
-  visible effects of these problems? What are the next steps to investigate
-  them? What other data will be probably required to identify root cause?
-
--- =
-
-Sincerely yours,
-Mike.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCkZp
+eCBhIGRpdi1ieS16ZXJvIG9uIGdlbjIsIGFuZCBtYWtlIHRoZSBMLXNoYXBlZCBtZW1vcnkgZGV0
+ZWN0aW9uCmFjdHVhbGx5IHdvcmsgb24gY2wvY3RnLiBBdG0gdGhlIFNXSVpaTEVfVU5LTk9XTiBz
+dHVmZiBqdXN0IHRyaXBzCnNvbWUgR0VNX0JVR19PTnMuIFRoaXMgZG9lc24ndCBmaXggdGhvc2Ug
+YnV0IHNpbmNlIEkgcG9wdWxhdGUgYWxsCm15IG1lbW9yeSBjaGFubmVscyBzeW1tZXRyaWNhbGx5
+IEkgZ2V0IHRvIGF2b2lkIHRoZSBHRU1fQlVHX09OcwpieSBjb3JyZWN0bHkgZGV0ZWN0aW5nIHRo
+YXQgSSBkb24ndCBoYXZlIGFuIEwtc2hhcGVkIG1lbW9yeQpjb25maWd1cmF0aW9uLgoKVmlsbGUg
+U3lyasOkbMOkICg0KToKICBkcm0vaTkxNTogQXZvaWQgZGl2LWJ5LXplcm8gb24gZ2VuMgogIGRy
+bS9pOTE1OiBSZWFkIEMwRFJCMy9DMURSQjMgYXMgMTYgYml0cyBhZ2FpbgogIGRybS9pOTE1OiBH
+aXZlIEMwRFJCMy9DMURSQjMgYSBfQlcgc3VmZml4CiAgZHJtL2k5MTU6IFJld3JpdGUgQ0wvQ1RH
+IEwtc2hhcGVkIG1lbW9yeSBkZXRlY3Rpb24KCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkx
+NV9nZW1fbW1hbi5jICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9n
+Z3R0X2ZlbmNpbmcuYyB8IDE5ICsrKysrKysrKystLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9p
+OTE1L2k5MTVfZGVidWdmcy5jICAgICAgICAgIHwgMTYgKysrKysrKysrKysrLS0tLQogZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcuaCAgICAgICAgICAgICAgfCAgOCArKysrKystLQogNCBm
+aWxlcyBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspLCAxNiBkZWxldGlvbnMoLSkKCi0tIAoyLjI2
+LjMKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
