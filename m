@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102083676D4
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 03:31:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB6B3676CC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 03:31:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA7B6E9B9;
-	Thu, 22 Apr 2021 01:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2A36E98A;
+	Thu, 22 Apr 2021 01:31:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-DM6-obe.outbound.protection.outlook.com
  (mail-dm6nam10on2062.outbound.protection.outlook.com [40.107.93.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A00446E9B2;
- Thu, 22 Apr 2021 01:31:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F30446E0DE;
+ Thu, 22 Apr 2021 01:31:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IAwY6PvqnE8KNdze8JMi80syFNDEBnAPv267YydCL4rYqqdhQtmZnG5RV08pyjQZ5tAEFptErs5pK1jv1735n9nVqF371eNyaBW+prRvPkIG57tyyxDGRrPC9LT1h1otvmKpHGZjM5S36L1RFvVeQxPFxS2iVdJIbxmaSzZlO4W6fmQLYxRkQRsZnYkWI6QVVvaZWb3DnvOlG78tKPNPU3cZSaQUc0aUF+JdQwhdjeb0B4FrTWm1+6zPfjHmhkuVC+t9k1AGTw0guXwZ8/aYNo1/IDun9+vUEgG9JO/XAa5EFbx4yufn4NWbftMy+73L/6WF/p0TITMd9c/zI05Fuw==
+ b=HB940/s1wVS+mshpvZ2iPWQv+nUrHsvjeRelV2uzyp+O4UMEui/OcssSoZwvljJT+ZPfch07vsP6+cSULZYYbQyjTjrMQV8rwB52xwK+Aejdx2gtOMjy34Y8wCp0tGhWnOg3CFMNRkfvZ8aRYHwAauTT1AgN4UP5TM8wMldLrkzF1y60/RqBpdAZE5CyVJFUFWdSD4WLEojt0K/vX6meiDvmjPjaerz+fuqBV6GGL3TZnbqRpfjbd+WOxJTT5FORbfF+eB/aTx9rD10r/jtUu1h7Iqh4Ghfyie7Httgn3tLyUJnGEXmxGsFN4XEdfTtVgl9mqrUD/OiQ6wJoSRygag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+dNxVPsGVAQwUo8RVWZ314DCEpQBnWjBhuwK0MGwQSk=;
- b=knLrXSX1O1b+2yOzJ2BnaM49jvidETbI2cTD/HQHOkAQJNktAf15gMNc4blpsWSOOHyS0QEwMwMeujxg+M035CttzHVx4UzYTZNb68FRAMut3/4BD08Tv08kiQAres9//LkmfhhGl9rGwjwhciPqIbFdICA3y5oYyYyap5nBc/9PmXyEbOCydgJs7uJNDD9Ks1dp9sISt5ViX5FscLbocFtju3mIezbONSEEZqsSm/9he2TaaRdwTKuYk+/4P9EGtM1O/KFVw1WoA4/omUujEcVTgJ/tM6DpgzzFPvSAIAD+i2DcRGjN59Z8Gq+YvqN6V5JpoL99ruWk67glb+7Q+A==
+ bh=uiGDNPyB9sauXjIoK3sHx2ycVrVYGwVdzXautwbXQvo=;
+ b=jau+5/PbKig7aEehQHgPhVDYP0eZGzhfa1poFHv47uUYeFoU4KlkF60CKJ2B+8ZQcLv5BU2uCJ0RcWYoK9xrgiqnPuT1U4NkkJrGRWnp63Aw0x3IjFfRTqqfl61m59I4CfgcxSkWELZ+8soFsUzE7YMnVQHjM2YwRiD3PWzwo1G7TLjDK1qsN32sdwqiVs54Ns9rT8hW4IWVtvUuPtS5X1swQDmYhfm4XFt8tM2eHCd620XJkOT9tjQymId8QPNT9sI+Yd+0/arkRL1Sv5usolv4BdZ+QJwlg4Y2+RO3U7ZTcQ7ovm5jtfkeHo6Y+r2TJeQkZ4/sxvgWTikce4hKpA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+dNxVPsGVAQwUo8RVWZ314DCEpQBnWjBhuwK0MGwQSk=;
- b=zwRwUV3OgbUc5J7ApidOqbx5lx1t7H13A6pXLTAsPnhP7is8ohDffGLCs0zOq5mRrlJdJex5K9e7wVbcOJUgy02hq0iTVyqvt5AlJQxpdzRYAb/ZbwdrgSyJKJXl4yiGufVWApB7jiFTXqDMeBg/TjRf9B0W9CYmihEMeIwigVM=
+ bh=uiGDNPyB9sauXjIoK3sHx2ycVrVYGwVdzXautwbXQvo=;
+ b=s4VN6mcy/7guGAByigoGKvoL22rg/fG//e4LG1kTN5S8F1cZ6P35VEyIamgsRgWpUJvPrOh4dpOXex7K3XHcacdAPGKn/T10I6ydi4Nhx3eM2pEW1kfH4VA4sT/8dS1cZxC1K2zDD/Me9aUQ/gP0yGDV3L68efXuOkfgaP60Dqo=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,18 +34,20 @@ Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
  by MN2PR12MB4438.namprd12.prod.outlook.com (2603:10b6:208:267::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Thu, 22 Apr
- 2021 01:31:14 +0000
+ 2021 01:31:15 +0000
 Received: from BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033%7]) with mapi id 15.20.3933.040; Thu, 22 Apr 2021
- 01:31:14 +0000
+ 01:31:15 +0000
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 00/10] Implement multi-GPU DMA mappings for KFD
-Date: Wed, 21 Apr 2021 21:30:48 -0400
-Message-Id: <20210422013058.6305-1-Felix.Kuehling@amd.com>
+Subject: [PATCH v2 01/10] rock-dbg_defconfig: Enable Intel IOMMU
+Date: Wed, 21 Apr 2021 21:30:49 -0400
+Message-Id: <20210422013058.6305-2-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210422013058.6305-1-Felix.Kuehling@amd.com>
+References: <20210422013058.6305-1-Felix.Kuehling@amd.com>
 X-Originating-IP: [165.204.55.251]
 X-ClientProxiedBy: YT1PR01CA0027.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::40)
  To BL0PR12MB4948.namprd12.prod.outlook.com
@@ -57,49 +59,49 @@ Received: from Harpoon.amd.com (165.204.55.251) by
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.4042.21 via Frontend Transport; Thu, 22 Apr 2021 01:31:14 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 459a5c5e-1f1a-44da-5790-08d9052e51af
+X-MS-Office365-Filtering-Correlation-Id: 503c7d7b-8c36-40f9-5d38-08d9052e51f0
 X-MS-TrafficTypeDiagnostic: MN2PR12MB4438:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4438416A75739B7F9B3DEEA092469@MN2PR12MB4438.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4438CE05B80D257C20AA5FC492469@MN2PR12MB4438.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: w5LKLhJV3pFBKy/szvu8ehG2ppmqoBhOcSxES9P1fhY4W2N6ZSENKWu3E3KMesCMTDgt117Woxu7WXp0ZaFKVPjsoqCLr9eamG1V5gF4I1FXLJv4TxpBXSlan748wbl+F8ZYeW09gk1qWAh5eWYNIhV1dDhh7qtHtP/uWLlihcOnKZrrx6qpKdGwfij00N4tXLbca4WFRbNHr1/wJpLvOsXS9br3Xej8Zs1vKLHw3/55+TxDkd9h9uONmWaOTbOZrWtjckJeG2ki2kT5lxVOYpfgRfBSMTrGBo4LBpnlFqE84E2IAL7Vb2jUw+oHhnglJKf/TCrZ4o2+p6Sid6jFwAhtt2P9ljhcEhdP6jsbSn9Rbgs9DI7RMB7fNOVFA7azt4WQ1fMnOTPXuuMW7AKFxfyhdkH6h1wozlaz/4pnzxkM+DBY+BSjZRA6TnPZdKH0bLL9OOao0ZBszC07jtZEDGt+4tUTh/qrJ2SRoRWeOwhXZerFvM4SlQ+hZZFN7KvUEaOAjuO1zDrYcvAP1sgR8uNqFSvh6xQI46Vmuv3OuHvcxkVQWI4cLItkQJ+T97sooB0XpzvVSaYviC1nOvEpXloR8dvgFTK/bbB2zze6+gjbvLEKmzuWrE30AtNJrW8XZ9/wFj6uBdYUZaK+bzMJVjrZjhG/ED4Ie0IiNTnW/Pk=
+X-Microsoft-Antispam-Message-Info: w7eGUaxuvg9E3eV6zlDSImjjjE1q/tHATFmyGhrTQulo/jOQX+OdZxaML0z2gC6BEGViYXpSch4XhZppkQI49QgEvXcfIpF9C6jKNg5EViOvqwZ2AwRkcBM4no8p1J8TEkPPj0K+OKcEwAzLUnlpV7apBZ08SrhlAWQfY4ea265l1Flh5B8FCu7y/JdnbqRkYONaavPiSlEiaaS3r7X1sOKZK1HDWX16AShBfwF+67k5XIouqDrS+Z6gwi7bVREKU10Wo2YWISQBwk9gITxdaqwWioWZV9IPrTwrZLoaw5J8+gp9LbAyPlZaojQEnMhc38VfB8vPIX2Uh4ubuqm0KhwGMk2fii2+Mnwahm++35nfb7aBVS/OvEKZdYqKTVFk2+Bet31mCyfK7bK69nxeMkOfL7ww3hEKYpwCVSzNfrHM7xLMzLbLxcUxRH/fn9ba1Nap6pR5yQD4YN8btAkd2pn82YLJ0OzPdhBFu8p9dDrrRWFEnwmYCILdzDbXSx9r+8C0xeL70JXopzV+OqzbP6w+G1iaGXdBoZqxQNkwCP4HHAhhyLk+J1SbdPwcK1W39dJVhBJQPR5mojjCInv76YhXBvdcB0/NjLYdn71aO4YQFGnG9DDiO45eQkTmZrA4Mq8QF+kMW0iRjb+LGZ4PKvFNR2YX0bxUfXXBZltib7Q=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(346002)(136003)(376002)(396003)(366004)(39860400002)(8676002)(16526019)(450100002)(186003)(66556008)(36756003)(66946007)(8936002)(52116002)(956004)(2906002)(26005)(2616005)(478600001)(6486002)(38350700002)(38100700002)(83380400001)(86362001)(316002)(7696005)(5660300002)(6666004)(1076003)(66476007);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?3+0qSzIAGVVswnLIkukYjmCbZYT9cDAVTttGWj42g1mRqLCMtxXd8b1oeQiM?=
- =?us-ascii?Q?O8Wx4GgUbQ5GVqP2t1aZ5kMQ+9uB9bRrjLW7LNLl37gG94QqF4QMkpDLscYu?=
- =?us-ascii?Q?NlTLqeD+G+DFFYL1QuBQthS6Igr4ybPxiaYXFqAqFMkP5fcMwTdN6QxzM6pL?=
- =?us-ascii?Q?s4jNGdWlR28ya9eo7sbzIMS+PYxB/UUaNh45JTbFzXSQ9bUdOFimRmataOkE?=
- =?us-ascii?Q?bIhnnXN5aMM9l4qjaLhONrNAhljyF5YU2MOuRO2NDyn7PUAbuUrTVntCvR6a?=
- =?us-ascii?Q?AELWOxc6Li5Hj2z6dAncbvfpLxmZUTNLbmB59IGgoyyeNLY4L0rGU0YFuVvC?=
- =?us-ascii?Q?CerjiURWvAoaaBWWcNIUxLfetCTz8tm9LncwDVMAiqbxzUxnB5++OH5bajPP?=
- =?us-ascii?Q?FqYOZnl2FGO0m36lldcHJhpN1bpS+f2VTk3dQ4OgUp6XPXsZMDTXn7HN44rp?=
- =?us-ascii?Q?DVIFteJKOtAfegudzZlURiZAN1Z9yZjR54GvTMyTDdhTCZv2hypcC823QSjH?=
- =?us-ascii?Q?XkzEMtYttHEShZ7vds+jQRuxIuZ99dUWgflyKqNlvAL7Oix1HKIJtnJzdIXb?=
- =?us-ascii?Q?UvAL6GY9NefWJBZIFqfqHyonlfOGanUyhY5SePfxv4zyyGt/bYFh2GA1s3wm?=
- =?us-ascii?Q?2Vf5MU0LkqVvesdBiatLKiFD36g+kcPaJv8r87rPEMthhPLpQc0PJ8J5VcuF?=
- =?us-ascii?Q?fJYmpgTlQN51P2Eb5fC7+D3aYI9LeBomhDDIpAAUc674buzd0bpLCAQEZOqn?=
- =?us-ascii?Q?Hfn1J8x+JtFTPbPE3dGNO4OSTLH/aHs6R9ytz5i4joNxT6jTrePqKKOiXdBp?=
- =?us-ascii?Q?nPK4psvpREk0eTiywkLpqPE+UmHfTZDuTqoumcuAfF2+gFurgAsQBpclhZLr?=
- =?us-ascii?Q?8oX1MaplIGoF/92BMXKuk1onQmw7NNOndGFHN23b5baGlLU9PmwlddNpVeDw?=
- =?us-ascii?Q?U4iAx34wGhT9rjmnemhuKuLUAOsdgSpi0qzkaZylRpQ29i6aKYzZSjCOCKmi?=
- =?us-ascii?Q?VffCNr77wbQrp6rvu2M8//VojcdyB5TY1AWr9/RQbwc7jgCi5N7nJvhZ2wfZ?=
- =?us-ascii?Q?IbMwkXfqw9r1e1wTVXwjFe/Nwn/apkN9eKjFcDAsYVGj3uo9Yg8IRHv93pgu?=
- =?us-ascii?Q?0QaPH7G7oaykTA64F/1IimQPqJYHt16/aV37skeoiKg/IQ+1zDXpjJlzihpF?=
- =?us-ascii?Q?C8D3AtRfEFZVL9GtsxC+k0GfYtGjjbe06e5lmK56iooVqUZ65ZTE0lsxS30h?=
- =?us-ascii?Q?0Ekl5kKmx+2E5ZJKFnQrLCnENDBTmg5R122C3AVo4yECBqNTAgO1tPYWDhoY?=
- =?us-ascii?Q?07RTiI98cvJAblri1NhDBfF9?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?LYokfIyxEAjN5zPzrydrywBOaIDYyilHeLvjyZv3ifKFc93w19+8ppFQo7JB?=
+ =?us-ascii?Q?lmgiwk6mZYEI6CyLXH6gyDe/ezUq/WHawU/QlcqJzJFn16krwF91f+Q73RtX?=
+ =?us-ascii?Q?bggIh4IWhLRbYu3NP+GLYVEIUy/TekN0y+K8Npenumq2W4VIHMUEtxrFiYTX?=
+ =?us-ascii?Q?YWWZdSXXeMd8u+m8o8xL9IVcZ7snkxNFS18bg89Zs2ti/C6fTYmeF+tYWYkY?=
+ =?us-ascii?Q?zhROB7m5VIYg8iUUAWxKYL+/zdOltvOqO5sOMuOFqtPtPxns3/cwM6I8tXqw?=
+ =?us-ascii?Q?NpuVKdxyWFPI66LSH+0aHZc9XYcIHSzH6m8xCqftoSR1VEtsVQAQZOcP9Jmd?=
+ =?us-ascii?Q?AafHtKilqxvrSXiMU2oK4dWQcwnYyL9U+JIrXT5L5nh/G+0QsyL5jg+Ua6U4?=
+ =?us-ascii?Q?1hdLDIgwRmoCofnu9SiNWnK3SiFxOVnpno74/Il8LXKfsGZNw+nCxJCeRVEx?=
+ =?us-ascii?Q?z3+gOEQ/tvOBuzYVqdvalIRMtEKXmtfzSr3JKZSk1ZY0hpp9ZKJdZehSDpY3?=
+ =?us-ascii?Q?DzeZ+d46xFsIqhR9iQXhFkEdKnfgInC3uhExCgj79gfgO//GqPILYkhwhET9?=
+ =?us-ascii?Q?BxiscdIGNZqXbzyJuNMoPXI72ag/hHR95wnp5bX4PpwKIr2r1Umcf7TDndWY?=
+ =?us-ascii?Q?iZ4t/Z8N/6Dbbop8eEzgXYFhD5tbP/G0XUZJ8kYVTU59IAz5N2yWJEeWST1k?=
+ =?us-ascii?Q?krBZsW6QJPp6dnh4ciyxrwzP1XGTmy/s+lLZn8Nbdlh6UoDXT58ANuoLiS2p?=
+ =?us-ascii?Q?waDJ7LwiFppIAMfAhzVr8/JYaOmlRn+lJwvhlNvfxQ8TjCK181t7HQh0v/ec?=
+ =?us-ascii?Q?m4pDwNcejUdzI2gVPK5SJ9tA6nZdvAG9CtpaAPViD8xslw1yB262uFbkdcmt?=
+ =?us-ascii?Q?AfBgBg8RuzATdugJvUGoGk/BYFx4mCNnhhMEBOQvLQrDSUlrX/gyXRux80f+?=
+ =?us-ascii?Q?aIsJSisKUsQCT0sOyEIfgXmcKQ3gLQGBvyhTKVUJIHcx2fhwRq9XRAEQrxq5?=
+ =?us-ascii?Q?cJYCda+kp52jRG/BM6NHQfxY3hujccR5eud6edj5uA6qHHMNMVb9ywrjDWdk?=
+ =?us-ascii?Q?Kva9Ns7uZHZmF8+PjcBLY3WEFr9P7VCLJwmsprlCxiSsA0//c2PCkIGdW9GF?=
+ =?us-ascii?Q?h695t8/ool9RuyZ/U0Z97MEWNy/7HLwZEKK+UvjdShlK0Xs0cUbA8TkYPrsR?=
+ =?us-ascii?Q?UrSO9vCCdTECD9WQq2k/cTq5mHkj0J0SfOYHRwvj2ManoK4fBD1WmVoHZ1vH?=
+ =?us-ascii?Q?yXp31ZMJgQqmBhoYiYsq1DjNXb+87c/M5m0SCneLKpYqdXbrvgLBpHEWEAhI?=
+ =?us-ascii?Q?qaXfzg785WndPl66zxH+kKiF?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 459a5c5e-1f1a-44da-5790-08d9052e51af
+X-MS-Exchange-CrossTenant-Network-Message-Id: 503c7d7b-8c36-40f9-5d38-08d9052e51f0
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 01:31:14.8279 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 01:31:15.3665 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y2n4+umF2DFmSdibms7enzSI3a7t9dw/lkxxVdyeXKBqo+/eN4V7A9Z+UMaGpy2JMT9982WP/VJyp9z0zLKpRA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vkt1hAvYVsUyno8D8iDgxTSsOUUjpwSQKBphD19PUFvPwrD6WsKRsqfB8UWNclcVtaM4hkGTL1522UaCI+dw5g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4438
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -118,49 +120,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series fixes DMA-mappings of system memory (GTT and userptr)
-for KFD running on multi-GPU systems with IOMMU enabled. One SG-BO per
-GPU is needed to maintain the DMA mappings of each BO.
+Enable the Intel IOMMU driver in the rock-dbg_defconfig. This enables
+testing of DMA mappings on systems with an Intel IOMMU.
 
-Changes in v2:
-- Made the original BO parent of the SG BO to fix bo destruction order
-- Removed individualiation hack that is, not needed with parent BO
-- Removed resv locking hace in amdgpu_ttm_unpopulate, not needed without
-  the individualization hack
-- Added a patch to enable the Intel IOMMU driver in rock-dbg_defconfig
-- Added a patch to move dmabuf attach/detach into backend_(un)bind
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+---
+ arch/x86/configs/rock-dbg_defconfig | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-I'm still seeing some IOMMU access faults in the eviction test. They seem
-to be related to userptr handling. They happen even without this patch
-series on a single-GPU system, where this patch series is not needed. I
-believe this is an old problem in KFD or amdgpu that is being exposed by
-device isolation from the IOMMU. I'm debugging it, but it should not hold
-up this patch series.
-
-"drm/ttm: Don't count pages in SG BOs against pages_limit" was already
-applied to drm-misc (I think). I'm still including it here because my
-patches depend on it. Without that, the SG BOs created for DMA mappings
-cause many tests fail because TTM incorrectly thinks it's out of memory.
-
-Felix Kuehling (10):
-  rock-dbg_defconfig: Enable Intel IOMMU
-  drm/amdgpu: Rename kfd_bo_va_list to kfd_mem_attachment
-  drm/amdgpu: Keep a bo-reference per-attachment
-  drm/amdgpu: Simplify AQL queue mapping
-  drm/amdgpu: Add multi-GPU DMA mapping helpers
-  drm/amdgpu: DMA map/unmap when updating GPU mappings
-  drm/amdgpu: Move kfd_mem_attach outside reservation
-  drm/amdgpu: Add DMA mapping of GTT BOs
-  drm/ttm: Don't count pages in SG BOs against pages_limit
-  drm/amdgpu: Move dmabuf attach/detach to backend_(un)bind
-
- arch/x86/configs/rock-dbg_defconfig           |  11 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  18 +-
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 530 ++++++++++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  51 +-
- drivers/gpu/drm/ttm/ttm_tt.c                  |  27 +-
- 5 files changed, 437 insertions(+), 200 deletions(-)
-
+diff --git a/arch/x86/configs/rock-dbg_defconfig b/arch/x86/configs/rock-dbg_defconfig
+index 54688993d6e2..9f7d93307754 100644
+--- a/arch/x86/configs/rock-dbg_defconfig
++++ b/arch/x86/configs/rock-dbg_defconfig
+@@ -296,6 +296,7 @@ CONFIG_ARCH_SUSPEND_POSSIBLE=y
+ CONFIG_ARCH_WANT_GENERAL_HUGETLB=y
+ CONFIG_ZONE_DMA32=y
+ CONFIG_AUDIT_ARCH=y
++CONFIG_HAVE_INTEL_TXT=y
+ CONFIG_X86_64_SMP=y
+ CONFIG_ARCH_SUPPORTS_UPROBES=y
+ CONFIG_FIX_EARLYCON_MEM=y
+@@ -3112,6 +3113,7 @@ CONFIG_DRM_AMD_DC_DCN=y
+ # end of Display Engine Configuration
+ 
+ CONFIG_HSA_AMD=y
++CONFIG_HSA_AMD_SVM=y
+ # CONFIG_DRM_NOUVEAU is not set
+ # CONFIG_DRM_I915 is not set
+ # CONFIG_DRM_VGEM is not set
+@@ -3770,6 +3772,7 @@ CONFIG_MAILBOX=y
+ CONFIG_PCC=y
+ # CONFIG_ALTERA_MBOX is not set
+ CONFIG_IOMMU_IOVA=y
++CONFIG_IOASID=y
+ CONFIG_IOMMU_API=y
+ CONFIG_IOMMU_SUPPORT=y
+ 
+@@ -3783,7 +3786,12 @@ CONFIG_IOMMU_SUPPORT=y
+ CONFIG_IOMMU_DMA=y
+ CONFIG_AMD_IOMMU=y
+ CONFIG_AMD_IOMMU_V2=m
+-# CONFIG_INTEL_IOMMU is not set
++CONFIG_DMAR_TABLE=y
++CONFIG_INTEL_IOMMU=y
++# CONFIG_INTEL_IOMMU_SVM is not set
++CONFIG_INTEL_IOMMU_DEFAULT_ON=y
++CONFIG_INTEL_IOMMU_FLOPPY_WA=y
++# CONFIG_INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON is not set
+ # CONFIG_IRQ_REMAP is not set
+ 
+ #
+@@ -4184,6 +4192,7 @@ CONFIG_SECURITY_NETWORK=y
+ CONFIG_PAGE_TABLE_ISOLATION=y
+ # CONFIG_SECURITY_NETWORK_XFRM is not set
+ # CONFIG_SECURITY_PATH is not set
++# CONFIG_INTEL_TXT is not set
+ CONFIG_LSM_MMAP_MIN_ADDR=65536
+ CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
+ # CONFIG_HARDENED_USERCOPY is not set
 -- 
 2.31.1
 
