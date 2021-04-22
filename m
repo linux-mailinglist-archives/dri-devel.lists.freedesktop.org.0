@@ -1,53 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42483367CBA
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 10:43:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C30B367CD6
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 10:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C54E6EA4D;
-	Thu, 22 Apr 2021 08:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9BD26EA41;
+	Thu, 22 Apr 2021 08:47:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6806EA44
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 08:43:23 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id r12so67590256ejr.5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 01:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FqiDNyS4J6V/J3OGwSYhyDd+SOw2Ixt+IYI2Uj7joGs=;
- b=XMCwYxtYxDNez0T1wLh3FfQDTOBHLoJMqlaCRUHmMyksWtApmS5yNftIcsqWnXI+Ev
- fqg6LmwZRlfd99zk7JMgmp4BuYEazclymGcfJzQlXmpXZlmXReX9naCh/0o9fm9uIULY
- HgELs0fzfyQ72dWO7HAZB3eI/TlUf4ToC8g2o=
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 502316EA3D
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 08:47:53 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id h4so34890197wrt.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 01:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vhe86cA9Lih/Xt94SXw0z79g/E1uDPv2HAfY3KSx+U8=;
+ b=QVQ0oK3P9q5+OKlOxd2cm20f+Pe+5e1RcMSaxC+9Gh0mXJKMsYMm7TE9eBkDByCvJk
+ z0t0VbWjfYIHDAGtcSzpLvKSkPXl/BV6E9PlCvPXDiKVnASbaWpqxRa49TmfmEiHGPhO
+ y0vxBUIf7EKTCWvPJvWApPxrMKOr8qz8XVCNI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FqiDNyS4J6V/J3OGwSYhyDd+SOw2Ixt+IYI2Uj7joGs=;
- b=dC2fEr6ycipyXNAJuH1m440YUwkzYxiAVt5g+Bv3v4++2Ibd0NtJtBEAn1lsARtD/r
- l6frDfVtekASI6i6FwIv9ADBPWwRyMJ2RL4r3Vz9kkT3JjWknvI5J+EMTVh6rqAlGaoZ
- 7I72spmFqnqdVGN1x8xPkEkIvRPXykVNOC0WDhbT/ssHwoXbFSE+3H+zLDaOzuPeRGz7
- ZIy/e1Qj5qzHAU0aInnYPkeV33QriWSBdBLpxO9qK2BI8/QyJEh7ebeB5JRLaabXw8vM
- z/P58w3KWEJ+LblShItiS2qqoQDVARZWCgD9urT5Ceg8kqPjE9LXnDfMmMGvekglZoGv
- o2tA==
-X-Gm-Message-State: AOAM5302kgHoq/XX+87nOR7YFOMcNMWBy1eHZ7T8w+9JA2WXL4fCRN70
- xUTleKm/noOXn8ykiMVAYGKuIDtpmsY3ghvcFRkEfw==
-X-Google-Smtp-Source: ABdhPJwf+ZmaxufgGxquqfYcFezshd0co6gU41ZUuLA0rBxCPUZ6oAByg7aIvTPPZ/xyhWDBXOqz3AfiPfDyDW2cHBE=
-X-Received: by 2002:a17:906:3018:: with SMTP id
- 24mr2229023ejz.186.1619081002490; 
- Thu, 22 Apr 2021 01:43:22 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=vhe86cA9Lih/Xt94SXw0z79g/E1uDPv2HAfY3KSx+U8=;
+ b=kk0QAEadPIJHrw6pGCUrPE9cHv+wzQPjdiWrXrdFDzT9r0wvn+nAWQtNAZQfWJ1IE2
+ gVsGqb8juFyz773XqCSVKd9YABgEU3rpv4ZfIAgsPCV2Kncvls/sAAN8WG1J26TQGR/U
+ ATuw8/1+ZE8XgJP3JOvVAO9ed0AO1Ar3Vvd70Fmg3MiFWw+K1vbhNNR8Irod48jgMPRO
+ zDM8sqIGs45MaQrbnGjQewhMUKr8u5+Tn9A6hw0lX3ncKJq9fney7IWfEdGP4iOG9L63
+ o/rXHGbNnF+v0t+CcL5xq+IoQxa6tZahSued/R8tQEKPZy+ZgPqCFO+lMKBc+a4TuYBZ
+ edYQ==
+X-Gm-Message-State: AOAM532K9j8PE9QeBGGdEgMRSThMGxETBqGRQN9MxOqNoOEThHKv526N
+ N5qZrz/8hVV5VhokxVD9xCp0ng==
+X-Google-Smtp-Source: ABdhPJzcm6kE7NQZCOW9L9xzUGFvRn8tmUaI48ZbsK+VB9ct0DWTuMUMU2ZRLQNrm2Aj2yX3VTR6QA==
+X-Received: by 2002:adf:fb43:: with SMTP id c3mr2731711wrs.360.1619081272055; 
+ Thu, 22 Apr 2021 01:47:52 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o62sm5253687wme.5.2021.04.22.01.47.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Apr 2021 01:47:51 -0700 (PDT)
+Date: Thu, 22 Apr 2021 10:47:25 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+Subject: Re: [PATCH 3/3] drm: drm_connector.c: Use tabs for code indents
+Message-ID: <YIE4HTjVGbBPaRQG@phenom.ffwll.local>
+Mail-Followup-To: Beatriz Martins de Carvalho
+ <martinsdecarvalhobeatriz@gmail.com>, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, melissa.srw@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ outreachy-kernel@googlegroups.com
+References: <cover.1618828127.git.martinsdecarvalhobeatriz@gmail.com>
+ <0200474fbdb1149856308bccb8e467415f0b3d99.1618828127.git.martinsdecarvalhobeatriz@gmail.com>
 MIME-Version: 1.0
-References: <20210421223122.112736-1-marex@denx.de>
-In-Reply-To: <20210421223122.112736-1-marex@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 22 Apr 2021 14:13:11 +0530
-Message-ID: <CAMty3ZB9iHY6-YV7JRrhekR_7yA=m2dgwR=5a+D3=h4hAMi7WQ@mail.gmail.com>
-Subject: Re: [PATCH V2 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add TI
- SN65DSI83 and SN65DSI84 bindings
-To: Marek Vasut <marex@denx.de>
+Content-Disposition: inline
+In-Reply-To: <0200474fbdb1149856308bccb8e467415f0b3d99.1618828127.git.martinsdecarvalhobeatriz@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,56 +72,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Claudius Heine <ch@denx.de>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ melissa.srw@gmail.com, outreachy-kernel@googlegroups.com,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 22, 2021 at 4:01 AM Marek Vasut <marex@denx.de> wrote:
->
-> Add DT binding document for TI SN65DSI83 and SN65DSI84 DSI to LVDS bridge.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: devicetree@vger.kernel.org
-> To: dri-devel@lists.freedesktop.org
-> ---
-> V2: Add compatible string for SN65DSI84, since this is now tested on it
-> ---
->  .../bindings/display/bridge/ti,sn65dsi83.yaml | 134 ++++++++++++++++++
->  1 file changed, 134 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> new file mode 100644
-> index 000000000000..42d11b46a1eb
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> @@ -0,0 +1,134 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: SN65DSI83 and SN65DSI84 DSI to LVDS bridge chip
+On Wed, Apr 21, 2021 at 08:42:49PM +0100, Beatriz Martins de Carvalho wrote:
+> Remove space and use tabs for indent the code to follow the
+> Linux kernel coding conventions.
+> Problem found by checkpatch
+> 
+> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 
-Can it possible to wait for my v4 to have dual-link LVDS supported
-which is quite discussing points on previous versions?
+Both of your patch sets applied to drm-misc-next for 5.14, thanks a lot.
+-Daniel
 
-Jagan.
+> ---
+>  drivers/gpu/drm/drm_connector.c | 38 ++++++++++++++++-----------------
+>  1 file changed, 19 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 7631f76e7f34..38600c3a6ab2 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1958,11 +1958,11 @@ int drm_connector_set_path_property(struct drm_connector *connector,
+>  	int ret;
+>  
+>  	ret = drm_property_replace_global_blob(dev,
+> -	                                       &connector->path_blob_ptr,
+> -	                                       strlen(path) + 1,
+> -	                                       path,
+> -	                                       &connector->base,
+> -	                                       dev->mode_config.path_property);
+> +					       &connector->path_blob_ptr,
+> +					       strlen(path) + 1,
+> +					       path,
+> +					       &connector->base,
+> +					       dev->mode_config.path_property);
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_connector_set_path_property);
+> @@ -1988,11 +1988,11 @@ int drm_connector_set_tile_property(struct drm_connector *connector)
+>  
+>  	if (!connector->has_tile) {
+>  		ret  = drm_property_replace_global_blob(dev,
+> -		                                        &connector->tile_blob_ptr,
+> -		                                        0,
+> -		                                        NULL,
+> -		                                        &connector->base,
+> -		                                        dev->mode_config.tile_property);
+> +							&connector->tile_blob_ptr,
+> +							0,
+> +							NULL,
+> +							&connector->base,
+> +							dev->mode_config.tile_property);
+>  		return ret;
+>  	}
+>  
+> @@ -2003,11 +2003,11 @@ int drm_connector_set_tile_property(struct drm_connector *connector)
+>  		 connector->tile_h_size, connector->tile_v_size);
+>  
+>  	ret = drm_property_replace_global_blob(dev,
+> -	                                       &connector->tile_blob_ptr,
+> -	                                       strlen(tile) + 1,
+> -	                                       tile,
+> -	                                       &connector->base,
+> -	                                       dev->mode_config.tile_property);
+> +					       &connector->tile_blob_ptr,
+> +					       strlen(tile) + 1,
+> +					       tile,
+> +					       &connector->base,
+> +					       dev->mode_config.tile_property);
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_connector_set_tile_property);
+> @@ -2076,10 +2076,10 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+>  
+>  	ret = drm_property_replace_global_blob(dev,
+>  					       &connector->edid_blob_ptr,
+> -	                                       size,
+> -	                                       edid,
+> -	                                       &connector->base,
+> -	                                       dev->mode_config.edid_property);
+> +					       size,
+> +					       edid,
+> +					       &connector->base,
+> +					       dev->mode_config.edid_property);
+>  	if (ret)
+>  		return ret;
+>  	return drm_connector_set_tile_property(connector);
+> -- 
+> 2.25.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
