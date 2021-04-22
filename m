@@ -2,31 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655FC368485
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 18:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79F13684A1
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 18:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BDD56E3E3;
-	Thu, 22 Apr 2021 16:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4496E3F5;
+	Thu, 22 Apr 2021 16:16:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D549E6E3E3;
- Thu, 22 Apr 2021 16:13:36 +0000 (UTC)
-Received: from 1-171-214-192.dynamic-ip.hinet.net ([1.171.214.192]
- helo=localhost) by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <kai.heng.feng@canonical.com>)
- id 1lZbxD-0001U9-29; Thu, 22 Apr 2021 16:13:24 +0000
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, ville.syrjala@linux.intel.com
-Subject: [PATCH] drm/i915: Invoke BXT _DSM to enable MUX on HP Workstation
- laptops
-Date: Fri, 23 Apr 2021 00:13:06 +0800
-Message-Id: <20210422161316.194620-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.30.2
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC3E6E3F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 16:16:36 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3209082B11;
+ Thu, 22 Apr 2021 18:16:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1619108194;
+ bh=7ahP0wfJl7a6tjL58phrBFy+ms6ZDLS8ik7E40g21eE=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=rY5eA85yGT1XaJVNr+uB89ZiPxCXuLeKgR7qytzwkoyrGChe819SA2j7lWkm/Iofi
+ MmU/NMnknOS32PeU5lHozgQpdM4E1jNLdmwlX75CsUB5tUj6YQ9IOmE/ai8To1TcYF
+ blFJOwIjFBx+5gIYqKVIVcqN+glYXBI/JIRevaXQ9L3pzt9do6o0zqBucwoPfHGoay
+ JkWOWr8F3EKZn8dVWoYu5THJ6yU9OO4M5j1LvihC4xhC+pw8zjdlu2dvaKEPLOfiNC
+ o7BarV1sE8o++iH/8D+iZStnQbF72eJpUosTvThllyEKNn7FoeZQjstKcVyOvn+koD
+ nebQZUK8NJ0Bw==
+Subject: Re: [PATCH V2 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add TI
+ SN65DSI83 and SN65DSI84 bindings
+To: Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org
+References: <20210421223122.112736-1-marex@denx.de>
+ <9ffbea6e-c341-4a43-3c9e-0b177cfe98d5@baylibre.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <23d965f2-991c-8330-ba6e-7a42723f51c3@denx.de>
+Date: Thu, 22 Apr 2021 18:16:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
+In-Reply-To: <9ffbea6e-c341-4a43-3c9e-0b177cfe98d5@baylibre.com>
+Content-Language: en-US
+X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,128 +55,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: devicetree@vger.kernel.org, ch@denx.de,
+ Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On HP Fury G7 Workstations, graphics output is re-routed from Intel GFX
-to discrete GFX after S3. This is not desirable, because userspace will
-treat connected display as a new one, losing display settings.
+On 4/22/21 10:38 AM, Neil Armstrong wrote:
+[...]
+>> +      port@1:
+>> +        type: object
+>> +        additionalProperties: false
+>> +
+>> +        description:
+>> +          Video port for LVDS output (panel or bridge).
+>> +
+>> +        properties:
+>> +          reg:
+>> +            const: 1
+>> +
+>> +          endpoint:
+>> +            type: object
+>> +            additionalProperties: false
+>> +            properties:
+>> +              remote-endpoint: true
+> 
+> Similar to Jagan's serie, would be great to add bindings for the dual-link LVDS even if not supported
+> by the driver (the driver can fails with a verbose error).
 
-The expected behavior is to let discrete GFX drives all external
-displays.
-
-The platform in question uses ACPI method \_SB.PCI0.HGME to enable MUX.
-The method is inside the BXT _DSM, so add the _DSM and call it
-accordingly.
-
-I also tested some MUX-less and iGPU only laptops with the BXT _DSM, no
-regression was found.
-
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3113
-References: https://lore.kernel.org/intel-gfx/1460040732-31417-4-git-send-email-animesh.manna@intel.com/
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
- drivers/gpu/drm/i915/display/intel_acpi.c | 17 +++++++++++++++++
- drivers/gpu/drm/i915/display/intel_acpi.h |  2 ++
- drivers/gpu/drm/i915/i915_drv.c           |  5 +++++
- 3 files changed, 24 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
-index 833d0c1be4f1..c7b57c22dce3 100644
---- a/drivers/gpu/drm/i915/display/intel_acpi.c
-+++ b/drivers/gpu/drm/i915/display/intel_acpi.c
-@@ -14,11 +14,16 @@
- 
- #define INTEL_DSM_REVISION_ID 1 /* For Calpella anyway... */
- #define INTEL_DSM_FN_PLATFORM_MUX_INFO 1 /* No args */
-+#define INTEL_DSM_FN_PLATFORM_BXT_MUX_INFO 0 /* No args */
- 
- static const guid_t intel_dsm_guid =
- 	GUID_INIT(0x7ed873d3, 0xc2d0, 0x4e4f,
- 		  0xa8, 0x54, 0x0f, 0x13, 0x17, 0xb0, 0x1c, 0x2c);
- 
-+static const guid_t intel_bxt_dsm_guid =
-+	GUID_INIT(0x3e5b41c6, 0xeb1d, 0x4260,
-+		  0x9d, 0x15, 0xc7, 0x1f, 0xba, 0xda, 0xe4, 0x14);
-+
- static char *intel_dsm_port_name(u8 id)
- {
- 	switch (id) {
-@@ -176,6 +181,18 @@ void intel_unregister_dsm_handler(void)
- {
- }
- 
-+void intel_bxt_dsm_detect(struct pci_dev *pdev)
-+{
-+	acpi_handle dhandle;
-+
-+	dhandle = ACPI_HANDLE(&pdev->dev);
-+	if (!dhandle)
-+		return;
-+
-+	acpi_evaluate_dsm(dhandle, &intel_bxt_dsm_guid, INTEL_DSM_REVISION_ID,
-+			  INTEL_DSM_FN_PLATFORM_BXT_MUX_INFO, NULL);
-+}
-+
- /*
-  * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
-  * Attached to the Display Adapter).
-diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
-index e8b068661d22..0dd456335bd0 100644
---- a/drivers/gpu/drm/i915/display/intel_acpi.h
-+++ b/drivers/gpu/drm/i915/display/intel_acpi.h
-@@ -11,10 +11,12 @@ struct drm_i915_private;
- #ifdef CONFIG_ACPI
- void intel_register_dsm_handler(void);
- void intel_unregister_dsm_handler(void);
-+void intel_bxt_dsm_detect(struct pci_dev *pdev);
- void intel_acpi_device_id_update(struct drm_i915_private *i915);
- #else
- static inline void intel_register_dsm_handler(void) { return; }
- static inline void intel_unregister_dsm_handler(void) { return; }
-+static inline void intel_bxt_dsm_detect(struct pci_dev *pdev) { return; }
- static inline
- void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
- #endif /* CONFIG_ACPI */
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 785dcf20c77b..57b12068aab4 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -853,6 +853,8 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		goto out_cleanup_gem;
- 
-+	intel_bxt_dsm_detect(pdev);
-+
- 	i915_driver_register(i915);
- 
- 	enable_rpm_wakeref_asserts(&i915->runtime_pm);
-@@ -1215,6 +1217,7 @@ int i915_suspend_switcheroo(struct drm_i915_private *i915, pm_message_t state)
- static int i915_drm_resume(struct drm_device *dev)
- {
- 	struct drm_i915_private *dev_priv = to_i915(dev);
-+	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
- 	int ret;
- 
- 	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
-@@ -1271,6 +1274,8 @@ static int i915_drm_resume(struct drm_device *dev)
- 
- 	intel_gvt_resume(dev_priv);
- 
-+	intel_bxt_dsm_detect(pdev);
-+
- 	enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
- 
- 	return 0;
--- 
-2.30.2
-
+I don't want to add any sort of bindings which I cannot validate against 
+real hardware. I would argue that adding the 2x single / dual link LVDS 
+DT property could be added when someone has a need for it and can test 
+it on real hardware, and such a binding should be simple develop and 
+add. And that is better, because we won't end up with some possibly 
+misdesigned untested DT binding which would become part of the ABI and 
+would have to be supported forever.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
