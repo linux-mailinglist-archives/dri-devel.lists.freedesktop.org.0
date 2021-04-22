@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBE6367BD7
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 10:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E410F367C58
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 10:18:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E44386EA39;
-	Thu, 22 Apr 2021 08:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E86A89B46;
+	Thu, 22 Apr 2021 08:18:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00E296EA39
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 08:13:38 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- p10-20020a1c544a0000b02901387e17700fso2609934wmi.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 01:13:38 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0347989B0D
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 08:18:15 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ f195-20020a1c1fcc0000b029012eb88126d7so2613356wmf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 01:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=y+2orF1pTAhlEapNdeXUHEPMIxuWbRepsrCfwxwKqPQ=;
- b=gHnwqNUV9ImgCFezmiVa76pK8wVFkRrxerF84m3fGkLrmxRPS22ANeM2+wardiWMau
- TIACxgmBON1oew/9mDWdVzRInBo7wiaCjCKjux8OlAWeeO77boWwGStL+p6m1yNjeC3R
- wCI3YUFG5nSBBAvTADfTufzcNHi3gNchFusrA=
+ :mime-version:content-disposition:in-reply-to;
+ bh=4MknbIT7CWhKfazUcArL9gVzlWhfw/gbr5rLiB4UULY=;
+ b=KUQGn467FGS7Cc17n7B5Cei0400l5Y/+7iXKO/S25YkklcZ7Sdy8oeuoVFepS6pzqj
+ 0UiQY5oaDYRMNvkWRrhTY3VmVE3eJUk018cJpsg4V9l8Rhd6+QRjHXaCETMdvyRE/j0b
+ 0J54xHgYENwgVUkncDf62z6BM1/Fu6e1j85ss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=y+2orF1pTAhlEapNdeXUHEPMIxuWbRepsrCfwxwKqPQ=;
- b=p0NOmnNxCL99W9Ffo4lXDYXMUiIrNb75Bcy+VK0xjaJld4s75D3JvEALyX6Fdw6HZS
- iHRSp8PWuHlEt/yYb8HblKpOGOvQByH9xGs/J/9RKjEDzqDyAP+mXydkODDU1iwMBsvm
- wSBHNXJfI6zvZPU02pdAl/XsFucAwPJWgSQx9kt/msu7ret+zyaSihf+Ko5XP0X0AWmb
- IN7Gbhi0RBnJTjHrP7/VjLTeCwMsHYTMgkMBDvqt90PrNrh3k+BUZEtSt+VG/WcrQhvd
- GwfQpFy8pekfIs7DYqVuFrtOmxPftjyf4WTcqGYE30cug9FDUuLfjZyrVdUXGVJzeohe
- rovA==
-X-Gm-Message-State: AOAM532u9nj/uMCBnlkUjaFNNYrAteFPYaKB04GugLBwqQkrnyHMTK5g
- lk51oA4437myb09Bz7qTkR0kfg==
-X-Google-Smtp-Source: ABdhPJxj8Wjmw9peJ0Dkkr6S5qwG/1RIJTJQvvdMp6AsnTRfP/VbwnRDvQEbFil5LrRoQEP2bPFE4A==
-X-Received: by 2002:a1c:4b11:: with SMTP id y17mr2401274wma.72.1619079217522; 
- Thu, 22 Apr 2021 01:13:37 -0700 (PDT)
+ :in-reply-to;
+ bh=4MknbIT7CWhKfazUcArL9gVzlWhfw/gbr5rLiB4UULY=;
+ b=XQgbKaicAdEbEtZF/rxytKq1H0PHdPO56xc3PBYZzw+ktEdLUhQU5dOAYiSGvD14bz
+ V2RerEf5Zoj1oX8L3kNn7ASXhx22aF1I4o9olLBI5E1CHlCPkUH+EWsxqQ7BoY2pkYt2
+ bdEB5texdocLoLChWAm9XcErOwg2hrkMT6k2Dg++PdlpSwdqcN374VttEa7MAbTx6Iuw
+ +s187elPHeqqd1n//HtOrRuLjU72HJTonkdpB+tFFwD4kHKGLTKFU3gsLoDkT7hZljM7
+ fTPDhNMqOzi81MECz6n9JOQvFl7DINtlJZW20QEOnlaMoV0mnvSqYcQpwn8Tv/IV//tn
+ 514w==
+X-Gm-Message-State: AOAM533539aCvu+ACWvKQVqdfSxX7gOFC/4A/YStzOZYL4yjOu5osi9h
+ 91BWQ1lHSGF2lY3rlN4vZmNEAA==
+X-Google-Smtp-Source: ABdhPJyYeg6+dBCeVaLicwbWWHGjEqMDmuiY+xd9mnZGLeW0ntlVLmyvlg4tFGdYnfahZaSVd24EWg==
+X-Received: by 2002:a7b:c769:: with SMTP id x9mr14123572wmk.124.1619079494623; 
+ Thu, 22 Apr 2021 01:18:14 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b12sm20494903wmj.1.2021.04.22.01.13.36
+ by smtp.gmail.com with ESMTPSA id x2sm2474310wrg.31.2021.04.22.01.18.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 01:13:37 -0700 (PDT)
-Date: Thu, 22 Apr 2021 10:13:35 +0200
+ Thu, 22 Apr 2021 01:18:14 -0700 (PDT)
+Date: Thu, 22 Apr 2021 10:18:12 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 2/2] ovl: fix reference counting in ovl_mmap error path
-Message-ID: <YIEwL09isbCIM82+@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, 
- linux-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
- codalist@coda.cs.cmu.edu, dri-devel@lists.freedesktop.org,
- jgg@ziepe.ca, jaharkes@cs.cmu.edu, akpm@linux-foundation.org,
- miklos@szeredi.hu, coda@cs.cmu.edu
-References: <20210421132012.82354-1-christian.koenig@amd.com>
- <20210421132012.82354-2-christian.koenig@amd.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH] drm/i915: Fix docbook descriptions for i915_cmd_parser
+Message-ID: <YIExRAHQvZmgL5S+@phenom.ffwll.local>
+Mail-Followup-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210421120353.544518-1-maarten.lankhorst@linux.intel.com>
+ <CAKMK7uFpoY7YMEMbftjq+P5XHR6L+F0KwFtbK7CtuUFy7HsLkQ@mail.gmail.com>
+ <9ae96fa1-6c91-4ec1-422d-8e0a95251bb7@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210421132012.82354-2-christian.koenig@amd.com>
+In-Reply-To: <9ae96fa1-6c91-4ec1-422d-8e0a95251bb7@linux.intel.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,75 +74,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jaharkes@cs.cmu.edu, miklos@szeredi.hu, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, codalist@coda.cs.cmu.edu, jgg@ziepe.ca,
- akpm@linux-foundation.org, linux-unionfs@vger.kernel.org, coda@cs.cmu.edu
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 21, 2021 at 03:20:12PM +0200, Christian K=F6nig wrote:
-> mmap_region() now calls fput() on the vma->vm_file.
-> =
+On Wed, Apr 21, 2021 at 04:39:10PM +0200, Maarten Lankhorst wrote:
+> Op 21-04-2021 om 16:32 schreef Daniel Vetter:
+> > On Wed, Apr 21, 2021 at 2:03 PM Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com> wrote:
+> >> Fixes the following htmldocs warnings:
+> >> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess function parameter 'trampoline' description in 'intel_engine_cmd_parser'
+> >> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'jump_whitelist' not described in 'intel_engine_cmd_parser'
+> >> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'shadow_map' not described in 'intel_engine_cmd_parser'
+> >> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'batch_map' not described in 'intel_engine_cmd_parser'
+> >> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess function parameter 'trampoline' description in 'intel_engine_cmd_parser'
+> >>
+> >> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> >> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> >> ---
+> >>  drivers/gpu/drm/i915/i915_cmd_parser.c | 16 +++++++++++++++-
+> >>  1 file changed, 15 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/i915_cmd_parser.c b/drivers/gpu/drm/i915/i915_cmd_parser.c
+> >> index e6f1e93abbbb..afb9b7516999 100644
+> >> --- a/drivers/gpu/drm/i915/i915_cmd_parser.c
+> >> +++ b/drivers/gpu/drm/i915/i915_cmd_parser.c
+> >> @@ -1369,6 +1369,18 @@ static int check_bbstart(u32 *cmd, u32 offset, u32 length,
+> >>         return 0;
+> >>  }
+> >>
+> >> +/**
+> >> + * intel_engine_cmd_parser_alloc_jump_whitelist() - preallocate jump whitelist for intel_engine_cmd_parser()
+> >> + * @batch_length: length of the commands in batch_obj
+> >> + * @trampoline: Whether jump trampolines are used.
+> >> + *
+> >> + * Preallocates a jump whitelist for parsing the cmd buffer in intel_engine_cmd_parser().
+> >> + * This has to be preallocated, because the command parser runs in signaling context,
+> >> + * and may not allocate any memory.
+> >> + *
+> >> + * Return: NULL or pointer to a jump whitelist, or ERR_PTR() on failure. Use
+> >> + * IS_ERR() to check for errors. Must bre freed() with kfree().
+> > IS_ERR_OR_NULL or needs an actual bugfix in the code since we're not
+> > consistent. Also s/bre/be/
+> We're sort of consistent, NULL is a valid return code. IS_ERR is only on faliure. :)
 
-> Fix this by using vma_set_file() so it doesn't need to be
-> handled manually here any more.
-> =
+Maybe explain that and then Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-> Fixes: 1527f926fd04 ("mm: mmap: fix fput in error path v2")
-> CC: stable@vger.kernel.org # 5.11+
-> ---
->  fs/overlayfs/file.c | 11 +----------
->  1 file changed, 1 insertion(+), 10 deletions(-)
-> =
+Cheers, Daniel
 
-> diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
-> index dbfb35fb0ff7..3847cdc069b5 100644
-> --- a/fs/overlayfs/file.c
-> +++ b/fs/overlayfs/file.c
-> @@ -430,20 +430,11 @@ static int ovl_mmap(struct file *file, struct vm_ar=
-ea_struct *vma)
->  	if (WARN_ON(file !=3D vma->vm_file))
->  		return -EIO;
->  =
+> > -Daniel
+> >
+> >> + */
+> >>  unsigned long *intel_engine_cmd_parser_alloc_jump_whitelist(u32 batch_length,
+> >>                                                             bool trampoline)
+> >>  {
+> >> @@ -1401,7 +1413,9 @@ unsigned long *intel_engine_cmd_parser_alloc_jump_whitelist(u32 batch_length,
+> >>   * @batch_offset: byte offset in the batch at which execution starts
+> >>   * @batch_length: length of the commands in batch_obj
+> >>   * @shadow: validated copy of the batch buffer in question
+> >> - * @trampoline: whether to emit a conditional trampoline at the end of the batch
+> >> + * @jump_whitelist: buffer preallocated with intel_engine_cmd_parser_alloc_jump_whitelist()
+> >> + * @shadow_map: mapping to @shadow vma
+> >> + * @batch_map: mapping to @batch vma
+> >>   *
+> >>   * Parses the specified batch buffer looking for privilege violations as
+> >>   * described in the overview.
+> >> --
+> >> 2.31.0
+> >>
+> >
+> 
 
-> -	vma->vm_file =3D get_file(realfile);
-> +	vma_set_file(vma, realfile);
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->  =
-
->  	old_cred =3D ovl_override_creds(file_inode(file)->i_sb);
->  	ret =3D call_mmap(vma->vm_file, vma);
->  	revert_creds(old_cred);
-> -
-> -	if (ret) {
-> -		/* Drop reference count from new vm_file value */
-> -		fput(realfile);
-> -	} else {
-> -		/* Drop reference count from previous vm_file value */
-> -		fput(file);
-> -	}
-> -
->  	ovl_file_accessed(file);
->  =
-
->  	return ret;
-> -- =
-
-> 2.25.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
