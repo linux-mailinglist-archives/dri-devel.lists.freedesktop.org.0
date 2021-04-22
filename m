@@ -2,32 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886493680BE
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 14:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F93368132
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 15:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC6D6E43C;
-	Thu, 22 Apr 2021 12:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27FF789B9E;
+	Thu, 22 Apr 2021 13:08:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E42C96EA8A;
- Thu, 22 Apr 2021 12:44:54 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1lZYhQ-0007YJ-Ta; Thu, 22 Apr 2021 12:44:52 +0000
-From: Colin King <colin.king@canonical.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] drm/amdkfd: remove redundant initialization to variable
- r
-Date: Thu, 22 Apr 2021 13:44:52 +0100
-Message-Id: <20210422124452.247714-1-colin.king@canonical.com>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1A3589B9E
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 13:08:08 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id 4so12173924lfp.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 06:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wEnNcZ4YZn2akcChwcsrQFitFibcc6kwO8ISCLJGqG0=;
+ b=GKtLLcujei8TL1I3EJdhDRWnqyC1FBYBWcEeYtuWY/CqdDctF6P5guWCKpGI7NLQQk
+ Oi6pMXUTrllt/6XzrP6Ae0D5Azi3Aa06ZWjwIVx4qcpuCp7Q1cHVtLntk+vkafrFKKPe
+ GFvBrtt7Ph1NrBaqU2LNMhFdrCf6cGcbdhonSoc62Q+6uhl3V4ymjQ8YslEGnd1LKpqk
+ b2mV8JwSCkfqL7z/SRi/nRfkKZ5VuN4AQtg99qd/vFQqXRwLxv9ks0qVAgeTKBQtvYW+
+ ES0Qj5pFOJCNYna8VT0Bw32TF+aRBX0a/LPVH4eOBmof4ir0RqluZrvDjbn8b/w81DSx
+ pEpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wEnNcZ4YZn2akcChwcsrQFitFibcc6kwO8ISCLJGqG0=;
+ b=bG6UmuFs3LHgnvF376s008YwMTG2r8O4suFjhETkcMGKT6BCc/+L5fZQSDMs2zAsGD
+ kbCu7hQJkDfkNPCu+1X46D3vzVITDs4oIlsLoz+vE5vQ2NHa3TYip0zZCD9GjbukZ+qW
+ dvOXiStNDEq70ujv2Hd8rA5nI2KkoHsvBEeIaLWMKtzaSLzq58bcCcubzsG9sefsJR1+
+ a7V9YeFKaE74Oaa8sqxZFso5qe/GMmUkF0YRPIcLTDH/jih5OZB+dHZsSgPweE/FEREy
+ /E/71Zbc7xjkmfEaJWvf2ruY/rckFkR272+XWRYE1tm8eauBtldxMBhqVIhztnd77I0Y
+ psOA==
+X-Gm-Message-State: AOAM531O6hz7jzfQ4HQeuzfsmZ0K3clgL9y1dWwaTw9FtQGgNnN1W2ZK
+ jlLuEg+8jwET0+W1gW7mYNeZhw==
+X-Google-Smtp-Source: ABdhPJzGgQFoznmNTBQ9/rQlpMhfABUJv6A8npxZRm6v0OqaCxsaGafnvy+KlHXAz7IUWqpQf1fRzA==
+X-Received: by 2002:a05:6512:3a8c:: with SMTP id
+ q12mr2534714lfu.129.1619096887234; 
+ Thu, 22 Apr 2021 06:08:07 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id v17sm259833lfr.35.2021.04.22.06.08.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Apr 2021 06:08:06 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Subject: [PATCH v2 0/3] drm/msm/dpu: simplify dpu_hw_blk handling
+Date: Thu, 22 Apr 2021 16:08:01 +0300
+Message-Id: <20210422130804.825030-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,39 +67,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+Drop most of "extra" features of dpu_hw_blk.
 
-The variable r is being initialized with a value that is never read
-and it is being updated later with a new value. The initialization is
-redundant and can be removed.
+Changes since v1:
+ - Make dpu_hw_blk an empty structure
+ - Split this into separate patchset
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+----------------------------------------------------------------
+Dmitry Baryshkov (3):
+      drm/msm/dpu: remove unused dpu_hw_blk features
+      drm/msm/dpu: drop dpu_hw_blk_destroy function
+      drm/msm/dpu: hw_blk: make dpu_hw_blk empty opaque structure
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-index d44a46eb00d6..a66b67083d83 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-@@ -303,7 +303,7 @@ svm_migrate_copy_to_vram(struct amdgpu_device *adev, struct svm_range *prange,
- 	uint64_t vram_addr;
- 	uint64_t offset;
- 	uint64_t i, j;
--	int r = -ENOMEM;
-+	int r;
- 
- 	pr_debug("svms 0x%p [0x%lx 0x%lx]\n", prange->svms, prange->start,
- 		 prange->last);
--- 
-2.30.2
+ drivers/gpu/drm/msm/Makefile                    |   1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c      | 139 ------------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h      |  22 +---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c      |   6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c     |   7 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c     |   6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c       |   6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c  |   6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c |   6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c     |   6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c      |   6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c          |   2 +-
+ 12 files changed, 2 insertions(+), 211 deletions(-)
+ delete mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
+
 
 _______________________________________________
 dri-devel mailing list
