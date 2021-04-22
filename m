@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56DA367D47
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 11:10:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3510367D66
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 11:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B14B6EA48;
-	Thu, 22 Apr 2021 09:10:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4C76EA55;
+	Thu, 22 Apr 2021 09:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71DD76E0D9
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Apr 2021 18:55:29 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1619031332; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=y7qK94xUWLx6N7TlAKwTp7gAjHIxqzroU6QKac5T3Ag=;
- b=q6CMJHPxGfBLhxd56tH1BMQ8dQHQMyozCMFZZ9Gm7KWuEFCRpbI8R2763+tQSK6FKoGZvDun
- PgR5aIuoeYsUv8REgz3W+y9YtRxJyyT1F/TZCa0ypClnxAg1VdgnHohdE9zLve+U58eAj9Mw
- NcRsYBEga9kUnIm7GBO72kYclVU=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 6080751afebcffa80f1cdab0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 21 Apr 2021 18:55:22
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 7B4F7C433D3; Wed, 21 Apr 2021 18:55:22 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: aravindh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 5FDBBC433F1;
- Wed, 21 Apr 2021 18:55:21 +0000 (UTC)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 150886EA41
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 08:15:19 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ nm3-20020a17090b19c3b029014e1bbf6c60so529882pjb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 01:15:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FvJrG6v4LzxdU4oF5EoFjO30pTB4A85M49SYo7WPBCw=;
+ b=AMMWTSQCSdwHsUUdJCOC7YgUNrGXxRc8ufe8ShxXHlWgfWfBk0oS2HBubv7AQuSAMq
+ M0urTLFpK7JN5/zRDUB5Fe/pClBUqpuo+IAb+avdRaxLPwR3C9WYDtIQPHvIq7nNv2DT
+ 9Un/y51JxY/e6QYvwfJXjQ/aVxL0I13goxqlM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FvJrG6v4LzxdU4oF5EoFjO30pTB4A85M49SYo7WPBCw=;
+ b=WVVoA4n8eX7ebpYgq4xAUBFAvXou6KwowdpBenXk08A5kasoCIdrAZ4XLxQpREuZ5X
+ UJ8wl/RPw1uHVCUtlXKAoEPP+9uBjAYOxbs6k8DrXycypuuFRsmlyQq+wzvL0eMt8yjA
+ LZ76+Y/EZ9Y2tdqS04qmkrQu27f8oDwnl+jlKzlnAjjQ7OqPu3lJPue5/Lg0d5Xz9H6a
+ sxGrF6d1G7aadoLptFRiAEVTaL0HdQUB3dX/my2UhZwyY/1+CkW2WwjxAKQIkjfXdaw0
+ LBVDlaiRO+JPTqLo14cMS0lzoqoIBYAVpEHCmMHyq0K/BJSyBIqZbnpmEjkx00SKYvyl
+ j72g==
+X-Gm-Message-State: AOAM53134iGp+ToO+/1biBj2Tea3Oel7e4eWMeLQpyraqSO2Vm1ly+4o
+ TTOn3aClNRDsi+1qggdr4qhYyw==
+X-Google-Smtp-Source: ABdhPJyk2JPTp3iko6u7v5EX3M6TzCT5gzjwwnFh5uBqfgtgyUVxzY91nyUWyB+4tQ6Gme84DA/b2g==
+X-Received: by 2002:a17:902:edd5:b029:e9:7477:5f0a with SMTP id
+ q21-20020a170902edd5b02900e974775f0amr2141960plk.81.1619079318644; 
+ Thu, 22 Apr 2021 01:15:18 -0700 (PDT)
+Received: from localhost ([2401:fa00:1:10:1a8e:1bde:f79e:c302])
+ by smtp.gmail.com with UTF8SMTPSA id r1sm1538054pjo.26.2021.04.22.01.15.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Apr 2021 01:15:18 -0700 (PDT)
+From: Claire Chang <tientzu@chromium.org>
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
+ jgross@suse.com, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: [PATCH v5 00/16] Restricted DMA
+Date: Thu, 22 Apr 2021 16:14:52 +0800
+Message-Id: <20210422081508.3942748-1-tientzu@chromium.org>
+X-Mailer: git-send-email 2.31.1.368.gbe11c130af-goog
 MIME-Version: 1.0
-Date: Wed, 21 Apr 2021 11:55:21 -0700
-From: aravindh@codeaurora.org
-To: khsieh@codeaurora.org
-Subject: Re: [PATCH 1/2] drm/msm/dp: service only one irq_hpd if there are
- multiple irq_hpd pending
-In-Reply-To: <e3c3ef96ac507da6f138106f70c78ed2@codeaurora.org>
-References: <1618604877-28297-1-git-send-email-khsieh@codeaurora.org>
- <161895606268.46595.2841353121480638642@swboyd.mtv.corp.google.com>
- <e3c3ef96ac507da6f138106f70c78ed2@codeaurora.org>
-Message-ID: <ddc1e372c5f864cd62c4e056ef2e6404@codeaurora.org>
-X-Sender: aravindh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Thu, 22 Apr 2021 09:10:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,125 +68,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, Stephen Boyd <swboyd@chromium.org>,
- dri-devel@lists.freedesktop.org, sean@poorly.run
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
+ Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
+ bhelgaas@google.com, tientzu@chromium.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ nouveau@lists.freedesktop.org, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
+ tfiga@chromium.org,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
+ bauerman@linux.ibm.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-04-21 10:26, khsieh@codeaurora.org wrote:
-> On 2021-04-20 15:01, Stephen Boyd wrote:
->> Quoting Kuogee Hsieh (2021-04-16 13:27:57)
->>> Some dongle may generate more than one irq_hpd events in a short 
->>> period of
->>> time. This patch will treat those irq_hpd events as single one and 
->>> service
->>> only one irq_hpd event.
->> 
->> Why is it bad to get multiple irq_hpd events in a short period of 
->> time?
->> Please tell us here in the commit text.
->> 
->>> 
->>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->>> ---
->>>  drivers/gpu/drm/msm/dp/dp_display.c | 9 +++++++++
->>>  1 file changed, 9 insertions(+)
->>> 
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->>> b/drivers/gpu/drm/msm/dp/dp_display.c
->>> index 5a39da6..0a7d383 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>> @@ -707,6 +707,9 @@ static int dp_irq_hpd_handle(struct 
->>> dp_display_private *dp, u32 data)
->>>                 return 0;
->>>         }
->>> 
->>> +       /* only handle first irq_hpd in case of multiple irs_hpd 
->>> pending */
->>> +       dp_del_event(dp, EV_IRQ_HPD_INT);
->>> +
->>>         ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
->>>         if (ret == -ECONNRESET) { /* cable unplugged */
->>>                 dp->core_initialized = false;
->>> @@ -1300,6 +1303,9 @@ static int dp_pm_suspend(struct device *dev)
->>>         /* host_init will be called at pm_resume */
->>>         dp->core_initialized = false;
->>> 
->>> +       /* system suspended, delete pending irq_hdps */
->>> +       dp_del_event(dp, EV_IRQ_HPD_INT);
->> 
->> What happens if I suspend my device and when this function is running 
->> I
->> toggle my monitor to use the HDMI input that is connected instead of 
->> some
->> other input, maybe the second HDMI input? Wouldn't that generate an 
->> HPD
->> interrupt to grab the attention of this device?
-> no,
-> At this time display is off. this mean dp controller is off and
-> mainlink has teared down.
-> it will start with plug in interrupt to bring dp controller up and
-> start link training.
-> irq_hpd can be generated only panel is at run time of operation mode
-> and need attention from host.
-> If host is shutting down, then no need to service pending irq_hpd.
-> 
->> 
->>> +
->>>         mutex_unlock(&dp->event_mutex);
->>> 
->>>         return 0;
->>> @@ -1496,6 +1502,9 @@ int msm_dp_display_disable(struct msm_dp *dp, 
->>> struct drm_encoder *encoder)
->>>         /* stop sentinel checking */
->>>         dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
->>> 
->>> +       /* link is down, delete pending irq_hdps */
->>> +       dp_del_event(dp_display, EV_IRQ_HPD_INT);
->>> +
->> 
->> I'm becoming convinced that the whole kthread design and event queue 
->> is
->> broken. These sorts of patches are working around the larger problem
->> that the kthread is running independently of the driver and irqs can
->> come in at any time but the event queue is not checked from the irq
->> handler to debounce the irq event. Is the event queue necessary at 
->> all?
->> I wonder if it would be simpler to just use an irq thread and process
->> the hpd signal from there. Then we're guaranteed to not get an irq 
->> again
->> until the irq thread is done processing the event. This would 
->> naturally
->> debounce the irq hpd event that way.
-> event q just like bottom half of irq handler. it turns irq into event
-> and handle them sequentially.
-> irq_hpd is asynchronous event from panel to bring up attention of hsot
-> during run time of operation.
-> Here, the dongle is unplugged and main link had teared down so that no
-> need to service pending irq_hpd if any.
-> 
+This series implements mitigations for lack of DMA access control on
+systems without an IOMMU, which could result in the DMA accessing the
+system memory at unexpected times and/or unexpected addresses, possibly
+leading to data leakage or corruption.
 
-As Kuogee mentioned, IRQ_HPD is a message received from the panel and is 
-not like your typical HW generated IRQ. There is no guarantee that we 
-will not receive an IRQ_HPD until we are finished with processing of an 
-earlier HPD message or an IRQ_HPD message. For example - when you run 
-the protocol compliance, when we get a HPD from the sink, we are 
-expected to start reading DPCD, EDID and proceed with link training. As 
-soon as link training is finished (which is marked by a specific DPCD 
-register write), the sink is going to issue an IRQ_HPD. At this point, 
-we may not done with processing the HPD high as after link training we 
-would typically notify the user mode of the newly connected display, 
-etc.
-> 
->> 
->>>         dp_display_disable(dp_display, 0);
->>> 
->>>         rc = dp_display_unprepare(dp);
+For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
+not behind an IOMMU. As PCI-e, by design, gives the device full access to
+system memory, a vulnerability in the Wi-Fi firmware could easily escalate
+to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
+full chain of exploits; [2], [3]).
+
+To mitigate the security concerns, we introduce restricted DMA. Restricted
+DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
+specially allocated region and does memory allocation from the same region.
+The feature on its own provides a basic level of protection against the DMA
+overwriting buffer contents at unexpected times. However, to protect
+against general data leakage and system memory corruption, the system needs
+to provide a way to restrict the DMA to a predefined memory region (this is
+usually done at firmware level, e.g. MPU in ATF on some ARM platforms [4]).
+
+[1a] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html
+[1b] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_11.html
+[2] https://blade.tencent.com/en/advisories/qualpwn/
+[3] https://www.bleepingcomputer.com/news/security/vulnerabilities-found-in-highly-popular-firmware-for-wifi-chips/
+[4] https://github.com/ARM-software/arm-trusted-firmware/blob/master/plat/mediatek/mt8183/drivers/emi_mpu/emi_mpu.c#L132
+
+v5:
+  Rebase on latest linux-next
+
+v4:
+  - Fix spinlock bad magic
+  - Use rmem->name for debugfs entry
+  - Address the comments in v3
+
+v3:
+  Using only one reserved memory region for both streaming DMA and memory
+  allocation.
+  https://lore.kernel.org/patchwork/cover/1360992/
+
+v2:
+  Building on top of swiotlb.
+  https://lore.kernel.org/patchwork/cover/1280705/
+
+v1:
+  Using dma_map_ops.
+  https://lore.kernel.org/patchwork/cover/1271660/
+
+Claire Chang (16):
+  swiotlb: Fix the type of index
+  swiotlb: Refactor swiotlb init functions
+  swiotlb: Refactor swiotlb_create_debugfs
+  swiotlb: Add DMA_RESTRICTED_POOL
+  swiotlb: Add restricted DMA pool initialization
+  swiotlb: Add a new get_io_tlb_mem getter
+  swiotlb: Update is_swiotlb_buffer to add a struct device argument
+  swiotlb: Update is_swiotlb_active to add a struct device argument
+  swiotlb: Bounce data from/to restricted DMA pool if available
+  swiotlb: Move alloc_size to find_slots
+  swiotlb: Refactor swiotlb_tbl_unmap_single
+  dma-direct: Add a new wrapper __dma_direct_free_pages()
+  swiotlb: Add restricted DMA alloc/free support.
+  dma-direct: Allocate memory from restricted DMA pool if available
+  dt-bindings: of: Add restricted DMA pool
+  of: Add plumbing for restricted DMA pool
+
+ .../reserved-memory/reserved-memory.txt       |  24 ++
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_ttm.c         |   2 +-
+ drivers/iommu/dma-iommu.c                     |  12 +-
+ drivers/of/address.c                          |  25 ++
+ drivers/of/device.c                           |   3 +
+ drivers/of/of_private.h                       |   5 +
+ drivers/pci/xen-pcifront.c                    |   2 +-
+ drivers/xen/swiotlb-xen.c                     |   2 +-
+ include/linux/device.h                        |   4 +
+ include/linux/swiotlb.h                       |  41 ++-
+ kernel/dma/Kconfig                            |  14 +
+ kernel/dma/direct.c                           |  57 +++--
+ kernel/dma/direct.h                           |   9 +-
+ kernel/dma/swiotlb.c                          | 242 +++++++++++++-----
+ 15 files changed, 347 insertions(+), 97 deletions(-)
+
+-- 
+2.31.1.368.gbe11c130af-goog
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
