@@ -1,62 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197BB3686AC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 20:39:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB313686C4
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 20:51:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA7866E59B;
-	Thu, 22 Apr 2021 18:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4781B6E5AB;
+	Thu, 22 Apr 2021 18:51:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD936E59B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 18:39:28 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id g17so54004960edm.6
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 11:39:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xeakXfmAJOS4QPn/pFkDvo7FQKYVhQEklCs4O1KqYzg=;
- b=Te3StrIurIlXM7JD0tojCAKgXyZmenFjxEvny1HGsbiD5E7hyVbsxG4Aj4pxpRpPbD
- +PyuBGAcSh0IeQpGQpaCI2OSd64pl6ayBmKaG465/3kmXYrlfAiDoAKL6KvwhuAvJV6M
- OxiF52j1YskkcEHtYxLIp8dTvkQRBC8VVMqbeSeL0GSd71w7kZdhCFditMGTuHXjjtwP
- qtWSM4YSG/jU38tDcjNXFFaZk7ER4QPrPFg/GfIJqjF6G6vP3OA+Hj4lFbIMh47fwYz5
- gE+YI74DF3vdpQkbZG1jvWZatfWYnahtIfpib4OazwOIa8IN4a1KsfV24ReaCy1o5802
- bnSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xeakXfmAJOS4QPn/pFkDvo7FQKYVhQEklCs4O1KqYzg=;
- b=pG++Hbn9pFLyUenFewNbLhCd8e/zoBCwmImZju9Wj+vSaQyKD1Z8vB40aX78gbq8cS
- QSXBOivCngg+z9RbTy+2oEAnvJejUyaSROHklkFUaN5ecYC5TC0WCuYHweJlnQ2CO3FU
- md21dMEvYNY6/trGsPRGFy4JJojTcNI5QsSuk4yw3QFdLEGNsPBl1XK6UpSfM3YXstox
- 8cqu1ge+aPb43R8hWTbqMEHwaRlAjjG1QgbOdCeoWTxZIfGb4ecAKB8Oo1JDk1o1IiHc
- wpUHzzYyin2PWvD7sxjres5WElTpe4IHetrGmZk8Oq/q1LM9mxI2QaqqHnbmHuNS1mrU
- ytMQ==
-X-Gm-Message-State: AOAM533qbs55vQ4U0YDKEE4j5/6K+Cawb1u/zhFxa00qELg8or0PteqF
- +McMbTygMDrD5Mm56RGlMtY=
-X-Google-Smtp-Source: ABdhPJyrkgyuKenetMv/b2b/dzOblKLM356T2egkkIzB73xGh5E19RA5LUF8Sg+TyrLsgOrN2y5QIw==
-X-Received: by 2002:aa7:c7da:: with SMTP id o26mr5636731eds.244.1619116766695; 
- Thu, 22 Apr 2021 11:39:26 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it.
- [79.52.107.152])
- by smtp.gmail.com with ESMTPSA id c12sm3152896edx.54.2021.04.22.11.39.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 11:39:26 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v2] drm/amd/amdgpu/amdgpu_drv.c: Replace drm_modeset_lock_all
- with drm_modeset_lock
-Date: Thu, 22 Apr 2021 20:39:19 +0200
-Message-Id: <20210422183919.14959-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B71DF6E5AB;
+ Thu, 22 Apr 2021 18:51:54 +0000 (UTC)
+IronPort-SDR: XjEaaeFQqvSgQ14rlgXmYjzLPe1Y1t8Sgx6AtSNvwqzDaSrcX9dTHHNLVYtVodhp6KCVYpWClK
+ NKOPcyFlsqIQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9962"; a="175438289"
+X-IronPort-AV: E=Sophos;i="5.82,243,1613462400"; d="scan'208";a="175438289"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2021 11:51:54 -0700
+IronPort-SDR: 53GYaL8ca1IhBNbJfGJqKXsZvAf8Qy/JQ7WWEMp4yhZgwB/MZmKUaBLnLfwE3VDtAbhTbWWWiU
+ NP4Gi+TWIPLw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,243,1613462400"; d="scan'208";a="464055868"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga001.jf.intel.com with SMTP; 22 Apr 2021 11:51:51 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 22 Apr 2021 21:51:50 +0300
+Date: Thu, 22 Apr 2021 21:51:50 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915: Rewrite CL/CTG L-shaped memory
+ detection
+Message-ID: <YIHFxuoGabGElClS@intel.com>
+References: <20210421153401.13847-1-ville.syrjala@linux.intel.com>
+ <20210421153401.13847-5-ville.syrjala@linux.intel.com>
+ <YIFGt+I8LMckYyVG@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <YIFGt+I8LMckYyVG@phenom.ffwll.local>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,58 +52,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_modeset_lock_all() is not needed here, so it is replaced with
-drm_modeset_lock(). The crtc list around which we are looping never
-changes, therefore the only lock we need is to protect access to
-crtc->state.
+On Thu, Apr 22, 2021 at 11:49:43AM +0200, Daniel Vetter wrote:
+> On Wed, Apr 21, 2021 at 06:34:01PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > =
 
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
+> > Currently we try to detect a symmetric memory configurations
+> > using a magic DCC2_MODIFIED_ENHANCED_DISABLE bit. That bit is
+> > either only set on a very specific subset of machines or it
+> > just does not exist (it's not mentioned in any public chipset
+> > datasheets I've found). As it happens my CL/CTG machines never
+> > set said bit, even if I populate the channels with identical
+> > sticks.
+> > =
 
-Changes from v1: Removed unnecessary braces around single statement
-block.
+> > So let's do the L-shaped memory detection the same way as the
+> > desktop variants, ie. just look at the DRAM rank boundary
+> > registers to see if both channels have an identical size.
+> > =
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+> > With this my CL/CTG no longer claim L-shaped memory when I use
+> > identical sticks. Also tested with non-matching sticks just to
+> > make sure the L-shaped memory is still properly detected.
+> > =
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 671ec1002230..adfeec2b17c0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -1439,17 +1439,15 @@ static int amdgpu_pmops_runtime_idle(struct device *dev)
- 	if (amdgpu_device_has_dc_support(adev)) {
- 		struct drm_crtc *crtc;
- 
--		drm_modeset_lock_all(drm_dev);
--
- 		drm_for_each_crtc(crtc, drm_dev) {
--			if (crtc->state->active) {
-+			drm_modeset_lock(&crtc->mutex, NULL);
-+			if (crtc->state->active)
- 				ret = -EBUSY;
-+			drm_modeset_unlock(&crtc->mutex);
-+			if (ret < 0)
- 				break;
--			}
- 		}
- 
--		drm_modeset_unlock_all(drm_dev);
--
- 	} else {
- 		struct drm_connector *list_connector;
- 		struct drm_connector_list_iter iter;
--- 
-2.31.1
+> > And for completeness let's update the debugfs code to dump
+> > the correct set of registers on each platform.
+> > =
 
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> =
+
+> Did you check this with the swapping igt? I have some vague memories of
+> bug reports where somehow the machine was acting like it's L-shaped memory
+> despite that banks were populated equally. I've iirc tried all kinds of
+> tricks to figure it out, all to absolutely no avail.
+
+BTW looking at the patches/dumps in eg.
+https://bugs.freedesktop.org/show_bug.cgi?id=3D28813
+I can't immediately see a single thing that is actually using
+the correct register offsets for cl/ctg. So I'm a bit sceptical
+about how well this was researched in the past.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
