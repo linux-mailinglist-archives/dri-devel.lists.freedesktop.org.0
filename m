@@ -1,68 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370FC3684EB
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 18:33:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37795368511
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 18:40:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F00766E05A;
-	Thu, 22 Apr 2021 16:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF9846E098;
+	Thu, 22 Apr 2021 16:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA196E05A;
- Thu, 22 Apr 2021 16:33:35 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id A3E68582B9F;
- Thu, 22 Apr 2021 12:33:33 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 22 Apr 2021 12:33:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm2; bh=gSRogRQ+WrmQp6tKZpAhKXf0Wf00LBctjhsGY4vUI8E=; b=V+dqHFPT
- rZkUq+/p3BLL0uiVh3aF7bXeCyuBiRV2H9YaLfhqpuEVo/GyG2LaqjAvYEIg0+ny
- CEpkw+xUtdL9vgofEC368jqcGPm1VQLBTGi0br2YD2D2KkCgOAHCG/hqliTvS1Wr
- c0o5GO9VMaCJM9cZMiXtCcLdbOo+JcjBjo1YO6tpK0ZvOfDdYlgqrc7UQuQtAYCa
- sjpxdJx4udCd9qCvB9ghfGeeA7YWFI4EfSTq9rsdrzU4sj0mNcrFNEI/USk/pYGS
- bh+PwMBQ0OjbSq4o6TUq1Y0ANuh9rpNvUcdnVSryD/v6s1YaJ8jF2A79vH2HzV1r
- xNUhM13GZXraYQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; bh=gSRogRQ+WrmQp6tKZpAhKXf0Wf00L
- BctjhsGY4vUI8E=; b=rjFyDM6+mAXOUGJjxURHJOc7zWxfFj/f7wCqL5O92RknQ
- GrpuGxwnGsD8PgIbPbYbg/8N3fNRIG1qXeULEdiqUAtcCwHibNpCeyDrO/Kbf1OI
- k60VHzxAXAd3ARSDYabk+C6NFDQQnB5Q5Jp/2OEHR8qkfUW/v4uxgmu2nBhb/PUD
- xjcjvMZZ9R6iCjEEIg4fO5kTcjfLVxV4CqCDW8snK7KKFJP6aKruFIWxBaK+rHSG
- 6RxfwDkje6+K70F7MYvN5vZFJbBeXFTGrnsdz6hDVyCtoNhRMWjWvMl73+j0Gtog
- 238gaQMvgFoevi3hOMNumfUe4GlhWnIEJ1OW0JhZA==
-X-ME-Sender: <xms:XKWBYPUV5PjLaOasa2JBkGdWtBvipjpik91jwNjVtu5LAgupozqQcA>
- <xme:XKWBYCKFnQZgadm_LFK1R1hK-MLIfP_Vzwxh6NPYcC6VzwD2PrGmk2aMxJBTK4DXi
- b_AB3rv76UcWMXcQ2I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddutddguddtudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpefhheetgfegkeetffeuieelkeefgeetteffgffgkeelheekffevvdegtdeitedv
- udenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepledtrdekle
- drieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
- ohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:XKWBYH9JJmeQh0dDYhQTGgLCOYllTLSDTrfP37GT39WaolaF5Uwong>
- <xmx:XKWBYNKaquHUPQJ30Jm3_KKtQmpQx8JnQf3iuK0Rfm7h40riWjADnQ>
- <xmx:XKWBYEnl6oAMylcjsU6hG24YTGrtgJE14YlxpqCW_VoxdAJGPwn5Gg>
- <xmx:XaWBYLkg6_fkAxSuX30ua_tnZXSkXKNhKwbaBBxttIuml8vrZ05enQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 24CCA108005B;
- Thu, 22 Apr 2021 12:33:32 -0400 (EDT)
-Date: Thu, 22 Apr 2021 18:33:29 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20210422163329.dvbuwre3akwdmzjt@gilmour>
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 365F46E098;
+ Thu, 22 Apr 2021 16:40:22 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ d3-20020a9d29030000b029027e8019067fso40827950otb.13; 
+ Thu, 22 Apr 2021 09:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=88HnI483fJxvDdvPuNllK0SIphjU/Sv3iv4Nfuq3XeI=;
+ b=MKsH5Fn4CoU1UME6/OvAKiBbCZ4p+nj1p6ozPUIRTM8c0AXqc/CuzrY1XbU5qd27eI
+ CAw+U2rvOcpbBDMLWrMcVwtgk5DqfWRH3kVr8uxkjZFOwwZt0n5MD2ofWfPOTihmf3eS
+ ChdzA/HlXtyYPKGKm/UXCVVhSu4yl19+wZ2LgvQDvcOmyecxs2zZp/qvTBoid4GxzVms
+ DNzO8wmkg1Mu616bAsaFWHhhKBkipy/Kci7a6iuNxkYQG0rw0BdjyOQ/AkYvBcN2vJpu
+ El4bUMxKtx7sQa+FDPs9vFhSlzH12gvy/stOzs0DWB883nRbp2KdI8k5JdWHlbJnNr+F
+ Ykug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=88HnI483fJxvDdvPuNllK0SIphjU/Sv3iv4Nfuq3XeI=;
+ b=AdSYhNsS9RC+ChLpSiDaIF6PE7YdWRzFPoIAslCbr2mHD3+1zGL8jk2N7LSRqqo4Ej
+ f4MhXHJJseNwZeMSPA/g+Qj5jlsIPuQEEYo5sHpEuYl2opC2CnEdV5YDYnnH/qSehh3E
+ CPWLzWvADcyja8QJ0yPBYe1mzyenCyJz89bz/g0dPgtJUOJTP1hO+yHMuHkUeTKkUuqy
+ uWShJGzxr3DIUgZ4ZEnZIxw0H/1G712a0lieS7tpsTRJKGX/UUMJD8coH/uassF4tUL4
+ vd+yFfJje9G9EUine6p3rl3hwFBFn7a28Pu+3Z5LLWDR4+3fpQQUPNkiWwx9p+htqhcG
+ qCeQ==
+X-Gm-Message-State: AOAM533T6bDCn686J53afeUtSCSZ2qe5EUzlt9mIu+D1AkZYc3v6lUi+
+ NHGyHhcvs0fbWi6UOF78lteBB268Lqb+ZPoZMWg=
+X-Google-Smtp-Source: ABdhPJy949+gEuiuUdBsp43DOePQ4cKenGO7K1x3lB5uwpkiaPMAQ3RT0cbNhsQpNhYrBx59P3y1ALH4tV0iRnWPKtY=
+X-Received: by 2002:a05:6830:15d3:: with SMTP id
+ j19mr3629569otr.23.1619109621542; 
+ Thu, 22 Apr 2021 09:40:21 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210422163329.dvbuwre3akwdmzjt@gilmour>
+In-Reply-To: <20210422163329.dvbuwre3akwdmzjt@gilmour>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 22 Apr 2021 12:40:10 -0400
+Message-ID: <CADnq5_O39XAV+EF=CeKGK3UEG6E_6Gt_goW6u1+5siC5ROtz4Q@mail.gmail.com>
+Subject: Re: [PULL] drm-misc-next-fixes
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,99 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1634535167=="
+Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1634535167==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="uszy7nwn2bcbg3zw"
-Content-Disposition: inline
-
-
---uszy7nwn2bcbg3zw
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Dave, Daniel,
-
-Here's this week drm-misc-next-fixes PR, for the next merge window
-
-Thanks!
-Maxime
-
-drm-misc-next-fixes-2021-04-22:
-A few fixes for the next merge window, with some build fixes for anx7625
-and lt8912b bridges, incorrect error handling for lt8912b and TTM, and
-one fix for TTM page limit accounting.
-The following changes since commit 9c0fed84d5750e1eea6c664e073ffa2534a17743:
-
-  Merge tag 'drm-intel-next-2021-04-01' of git://anongit.freedesktop.org/dr=
-m/drm-intel into drm-next (2021-04-08 14:02:21 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2021-=
-04-22
-
-for you to fetch changes up to a4394b6d0a273941a75ebe86a86d6416d536ed0f:
-
-  drm/ttm: Don't count pages in SG BOs against pages_limit (2021-04-21 15:3=
-5:20 +0200)
-
-----------------------------------------------------------------
-A few fixes for the next merge window, with some build fixes for anx7625
-and lt8912b bridges, incorrect error handling for lt8912b and TTM, and
-one fix for TTM page limit accounting.
-
-----------------------------------------------------------------
-Adrien Grassein (1):
-      drm/bridge: lt8912b: fix incorrect handling of of_* return values
-
-Christian K=F6nig (1):
-      drm/ttm: fix return value check
-
-Felix Kuehling (1):
-      drm/ttm: Don't count pages in SG BOs against pages_limit
-
-Randy Dunlap (2):
-      drm: bridge: fix ANX7625 use of mipi_dsi_() functions
-      drm: bridge: fix LONTIUM use of mipi_dsi_() functions
-
- drivers/gpu/drm/bridge/Kconfig           |  3 +++
- drivers/gpu/drm/bridge/analogix/Kconfig  |  1 +
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 32 +++++++++++++++++-----------=
-----
- drivers/gpu/drm/ttm/ttm_tt.c             | 29 +++++++++++++++++++----------
- 4 files changed, 40 insertions(+), 25 deletions(-)
-
---uszy7nwn2bcbg3zw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYIGlWQAKCRDj7w1vZxhR
-xSZbAQCODFS274YG+2lKy4KLM2CbYMdgGHi3umOtKZUHGgClkQEAsqan1AcQ3/Is
-0O/qvMwXzs6W3ACdHWbe6G0/2sCv9Qw=
-=rBa2
------END PGP SIGNATURE-----
-
---uszy7nwn2bcbg3zw--
-
---===============1634535167==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1634535167==--
+T24gVGh1LCBBcHIgMjIsIDIwMjEgYXQgMTI6MzMgUE0gTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNl
+cm5vLnRlY2g+IHdyb3RlOgo+Cj4gSGkgRGF2ZSwgRGFuaWVsLAo+Cj4gSGVyZSdzIHRoaXMgd2Vl
+ayBkcm0tbWlzYy1uZXh0LWZpeGVzIFBSLCBmb3IgdGhlIG5leHQgbWVyZ2Ugd2luZG93Cj4KCkNh
+biB3ZSBhbHNvIGNoZXJyeS1waWNrIHRoaXMgcGF0Y2g6Cmh0dHBzOi8vY2dpdC5mcmVlZGVza3Rv
+cC5vcmcvZHJtL2RybS1taXNjL2NvbW1pdC8/aWQ9ZDUxMGM4OGNmYmIyOTRkMmIxZTJkMGI3MTU3
+NmU5Yjc5ZDBlMmU4MwpJdCBzaG91bGQgaGF2ZSByZWFsbHkgZ29uZSBpbnRvIGRybS1taXNjLW5l
+eHQtZml4ZXMgcmF0aGVyIHRoYW4KZHJtLW1pc2MtbmV4dCwgYnV0IEkgbWlzanVkZ2VkIHRoZSB0
+aW1pbmcuCgpUaGFua3MsCgpBbGV4Cgo+IFRoYW5rcyEKPiBNYXhpbWUKPgo+IGRybS1taXNjLW5l
+eHQtZml4ZXMtMjAyMS0wNC0yMjoKPiBBIGZldyBmaXhlcyBmb3IgdGhlIG5leHQgbWVyZ2Ugd2lu
+ZG93LCB3aXRoIHNvbWUgYnVpbGQgZml4ZXMgZm9yIGFueDc2MjUKPiBhbmQgbHQ4OTEyYiBicmlk
+Z2VzLCBpbmNvcnJlY3QgZXJyb3IgaGFuZGxpbmcgZm9yIGx0ODkxMmIgYW5kIFRUTSwgYW5kCj4g
+b25lIGZpeCBmb3IgVFRNIHBhZ2UgbGltaXQgYWNjb3VudGluZy4KPiBUaGUgZm9sbG93aW5nIGNo
+YW5nZXMgc2luY2UgY29tbWl0IDljMGZlZDg0ZDU3NTBlMWVlYTZjNjY0ZTA3M2ZmYTI1MzRhMTc3
+NDM6Cj4KPiAgIE1lcmdlIHRhZyAnZHJtLWludGVsLW5leHQtMjAyMS0wNC0wMScgb2YgZ2l0Oi8v
+YW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1pbnRlbCBpbnRvIGRybS1uZXh0ICgyMDIx
+LTA0LTA4IDE0OjAyOjIxICsxMDAwKQo+Cj4gYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9z
+aXRvcnkgYXQ6Cj4KPiAgIGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlz
+YyB0YWdzL2RybS1taXNjLW5leHQtZml4ZXMtMjAyMS0wNC0yMgo+Cj4gZm9yIHlvdSB0byBmZXRj
+aCBjaGFuZ2VzIHVwIHRvIGE0Mzk0YjZkMGEyNzM5NDFhNzVlYmU4NmE4NmQ2NDE2ZDUzNmVkMGY6
+Cj4KPiAgIGRybS90dG06IERvbid0IGNvdW50IHBhZ2VzIGluIFNHIEJPcyBhZ2FpbnN0IHBhZ2Vz
+X2xpbWl0ICgyMDIxLTA0LTIxIDE1OjM1OjIwICswMjAwKQo+Cj4gLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IEEgZmV3IGZp
+eGVzIGZvciB0aGUgbmV4dCBtZXJnZSB3aW5kb3csIHdpdGggc29tZSBidWlsZCBmaXhlcyBmb3Ig
+YW54NzYyNQo+IGFuZCBsdDg5MTJiIGJyaWRnZXMsIGluY29ycmVjdCBlcnJvciBoYW5kbGluZyBm
+b3IgbHQ4OTEyYiBhbmQgVFRNLCBhbmQKPiBvbmUgZml4IGZvciBUVE0gcGFnZSBsaW1pdCBhY2Nv
+dW50aW5nLgo+Cj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQo+IEFkcmllbiBHcmFzc2VpbiAoMSk6Cj4gICAgICAgZHJtL2Jy
+aWRnZTogbHQ4OTEyYjogZml4IGluY29ycmVjdCBoYW5kbGluZyBvZiBvZl8qIHJldHVybiB2YWx1
+ZXMKPgo+IENocmlzdGlhbiBLw7ZuaWcgKDEpOgo+ICAgICAgIGRybS90dG06IGZpeCByZXR1cm4g
+dmFsdWUgY2hlY2sKPgo+IEZlbGl4IEt1ZWhsaW5nICgxKToKPiAgICAgICBkcm0vdHRtOiBEb24n
+dCBjb3VudCBwYWdlcyBpbiBTRyBCT3MgYWdhaW5zdCBwYWdlc19saW1pdAo+Cj4gUmFuZHkgRHVu
+bGFwICgyKToKPiAgICAgICBkcm06IGJyaWRnZTogZml4IEFOWDc2MjUgdXNlIG9mIG1pcGlfZHNp
+XygpIGZ1bmN0aW9ucwo+ICAgICAgIGRybTogYnJpZGdlOiBmaXggTE9OVElVTSB1c2Ugb2YgbWlw
+aV9kc2lfKCkgZnVuY3Rpb25zCj4KPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnICAg
+ICAgICAgICB8ICAzICsrKwo+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2FuYWxvZ2l4L0tjb25m
+aWcgIHwgIDEgKwo+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ4OTEyYi5jIHwg
+MzIgKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fdHQuYyAgICAgICAgICAgICB8IDI5ICsrKysrKysrKysrKysrKysrKystLS0tLS0tLS0t
+Cj4gIDQgZmlsZXMgY2hhbmdlZCwgNDAgaW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRpb25zKC0pCj4g
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
