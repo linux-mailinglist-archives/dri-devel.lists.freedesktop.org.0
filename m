@@ -2,120 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4431368761
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 21:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5703688DB
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 00:09:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA2316E5BE;
-	Thu, 22 Apr 2021 19:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BECA76EAD3;
+	Thu, 22 Apr 2021 22:09:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2045.outbound.protection.outlook.com [40.107.220.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC93E6E5BE;
- Thu, 22 Apr 2021 19:43:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RbCUxAu3FZhk4JimsxLT/3MS+pjvkWqbGHHOCHpr5gpmmhlfk65pjpN392OxnBaRwECgJFOyIBab1+jdZzOlJHknLQW7H+smVAm+juCgUxZ42JNWXBZ1aNkVSxng1481kkraZecxSi2LQiGAwOF4MTy9PUVEoMPUd7oR0JHQ31ZlyJrdldDXnyL4KmtW603WKaAumuBO4L/OVwKjXnIsjZva/7v5S7QnPdyN9Ki+Sv1PyMnBCPej7hmRE51RLPM0Pyu4+qga+6zpWiOOzYf5MJYfr8wK8BCYTGO0CKfPB7DftF+Jz+S90HWl5BuCcpwkewCZ1VK8dpddT+ToulfQvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Yq+cv11qqPc4M0UOEL5/ziQQd52hOpSGeLEor1k058=;
- b=UiWyPixErF/qYkqEpMgi0v8Q2NmwBzthC5yI5JxYknxgdh7Wpqn20jz7buWPmm7/suxOf6NJt6Cxm03rCWZ9hC6N9v9EJhfv9Zt60+3c6fdJnpxT0TJ0tkrOVVxTjnOsCrqxNO4a/OHOQiUctoYCa+QvK9uTReR2c7UkrrmVCzb4R+Ne+1PWjUxA56U6E/naCM7Pc7DhAfHHyRcuCQ5hXf5MAVmf0J8ODM9F5qGCpJqzv2qAAXrpVH3FBQSxHVDaJXHtpmpfoQlMbcok2j8o/EvoZ+cfE8l4Z3TVOwm3psDwPRSC+7ducUOsZ1gvTq3qd3JJYcUYGS7GfmDJI2em+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Yq+cv11qqPc4M0UOEL5/ziQQd52hOpSGeLEor1k058=;
- b=uUKNBZDECrCPt/BUpMyHbvMrWNnWIBzAhSbM2EGL3Nm78L+9PoVN6tqmm2axlXcjlMFg4xT9upNRWFP/jygSUrBCnpiSRCrC58xz2oQOcvk835pB9MgDsVFkykGyDGuYbZ3MZEiLNt4osRebXuhn6WEdIQ3Op1wU8Mj5e41CQEM=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
- by BL0PR12MB2484.namprd12.prod.outlook.com (2603:10b6:207:4e::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.32; Thu, 22 Apr
- 2021 19:43:53 +0000
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::70f5:99ed:65a1:c033%7]) with mapi id 15.20.3933.040; Thu, 22 Apr 2021
- 19:43:53 +0000
-Subject: Re: [PATCH][next] drm/amdkfd: remove redundant initialization to
- variable r
-To: Colin King <colin.king@canonical.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210422124452.247714-1-colin.king@canonical.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <cd3329b0-dc8b-c9e5-a4aa-b161dbf4a7cd@amd.com>
-Date: Thu, 22 Apr 2021 15:43:50 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <20210422124452.247714-1-colin.king@canonical.com>
-Content-Language: en-US
-X-Originating-IP: [142.182.183.69]
-X-ClientProxiedBy: YT2PR01CA0002.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:38::7) To BL0PR12MB4948.namprd12.prod.outlook.com
- (2603:10b6:208:1cc::20)
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
+ [IPv6:2607:f8b0:4864:20::835])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4C5B6EAD3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 22:09:04 +0000 (UTC)
+Received: by mail-qt1-x835.google.com with SMTP id c6so35126412qtc.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 15:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5roJkic0nXNRM3VIYkQyWtU/pzCfecquUK1y4VSYsBM=;
+ b=E1uQJeZyhsZ3rshSHSi6KeMjy3MiuSwEMIew2Qj0UkZ3/lgruvu4pT5Nq7UfvihZqB
+ A3YrEd/I76QQIq+8Uk6BnKRc2gsw/sZJW0fTccUL60rff3S35r2/3NiMhsN1jP8FvyFl
+ sKbGAHdo76iJ1KRaC5gOK2SkiJ2b2N7KvLUbA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5roJkic0nXNRM3VIYkQyWtU/pzCfecquUK1y4VSYsBM=;
+ b=B11Echcb6RxKg9HZRGBW6V4H7tYbobsl7yO4ZNqoYaa5C+1j2dHP+vPztbuAI8XhFu
+ 8pJTbYXMmtKAC+axcmAakidzJhF2YpEPU3CnWfSOG90ZrWXz0Dfa15RhcxzfPKU9Snzm
+ 0hatU58yLWHSq9J0CYIH4pATxxofCstWX75+9Ew8PUAnixuPYDaJ4SFLfhnjNd8agumm
+ CglDmp3PeZyEbtzHRoAQm2phIQOV9xsZS49Bz1lyUsMWdVK/W88kxDhT/jf+xENgr878
+ kRZxp/OxmOHPkp76GrscoCKwAAnzuH2j3vYfvGL4jY7KTY27dV3+eLfRVgloNhRRz04f
+ 4gNg==
+X-Gm-Message-State: AOAM531J5AAODI5kOk6zrsqgN+yRLIRJDmkl9VwCktYfOk2j7V8BhegS
+ 9bLZoNSHCIh98+hJgpxVeGIIufI9fvFFkg==
+X-Google-Smtp-Source: ABdhPJzO16NKSG4nKKcmKePFCesmru/fU800sBtwNvD2iCRjm+8/9GPQGFFMaZE8hCwahFGTBiFVgQ==
+X-Received: by 2002:ac8:148f:: with SMTP id l15mr708863qtj.130.1619129343639; 
+ Thu, 22 Apr 2021 15:09:03 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
+ [209.85.219.177])
+ by smtp.gmail.com with ESMTPSA id v18sm3153264qtq.38.2021.04.22.15.09.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Apr 2021 15:09:01 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id t94so110834ybi.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 15:09:00 -0700 (PDT)
+X-Received: by 2002:a25:6088:: with SMTP id u130mr1261862ybb.257.1619129340027; 
+ Thu, 22 Apr 2021 15:09:00 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.182.183.69) by
- YT2PR01CA0002.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:38::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.22 via Frontend Transport; Thu, 22 Apr 2021 19:43:52 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fe748671-c8c1-4322-f41b-08d905c6f542
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2484:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB24845FA1D8D43A5A95A6378592469@BL0PR12MB2484.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1002;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SCaNFfSkb1vG9+jKxKPqRIUjsb55obqO16p0Ay7EG/B0Y2c0NcCyOB7hs4wc4o5qBdLpDdExTBtEqfDj0RBXNWNUeUa+781qJi00z9juura2PXMwzPBq4gmKmtvv/miFeXQuOKG0TzJnxJYZsxtmG9lYmpeiodClMXOyt3DJLGz4vPauN4qAwx1wn7xWMoOA37S1L9/tl0vCA23F0qmav90BwDOe7lPp4GB7yKxVXQplQbl/tcihrUa34esvsTOcLKjPXtTBev+wynQCnLmgsmg3FxBwEn7ZdtFvIWl0WqN3g17v73Irip3DNHtMwTFNwTjnv98VR7/7bjrpJfv3SBtjlivcnlw0o24hwsx8LHlbk3Hwntm3owhlskpBPlSBoCXp+GCxkxLcmndj58Dh0Qo1Yy8V1eaavxh4wJpi2SGsR+b9RoQTYssxlgbsczrT4mExolDoe/1oTlCMrvwlrp/Vk2dstORlXTtJUVetI/A5nOOTp76QG3l2UB7gq/TYYbOYlleEw53DQBH+hd9qe+RrJAGOVrzGWean+TB93gvNiB/7GGygUHNweMbWP0Hn8kfbV5S+Qb5jR9GTG96dEYZyuA3MYrXZby5oezIMb9xm4sUKo7XRAtBdb4FDGYKOKa4b/2yBD/kVSJD/73xad6LSXYTNTHmCeUYPpcOuyIRtR6ojMEps91ClM91RTRKV44576M69yJOlIAyoA4hpbIhyFzs6CFqeH4ATVqFEOm8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(366004)(346002)(136003)(39860400002)(66946007)(31696002)(6486002)(110136005)(31686004)(66556008)(8936002)(4326008)(956004)(36756003)(66476007)(186003)(2906002)(478600001)(38100700002)(5660300002)(8676002)(86362001)(2616005)(83380400001)(16576012)(16526019)(316002)(44832011)(26005)(129723003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZU9zdFdtNWgvZlZsb0x0Z1VzNFZIQm82d2l2cHpPMnpURFdFSmZtdTBhS1Ey?=
- =?utf-8?B?aDRuanovRE55a0xEWENnNkFEYVJxRitZb3ora3gwcGxQTXVWSjJibXlPMW52?=
- =?utf-8?B?QUF5SW80cTdhdnBnWStpMStpYktFaktQQzYzTmgwdUNoSkhoWHFONkpyZWMw?=
- =?utf-8?B?UUVxWDcyb3lZS3pFcEQxR2lTZUJNTzFzSUNvWUR4SVdNMmZ6S3NWRGlUTXVo?=
- =?utf-8?B?NURoMG5KTmdzbld3V1VCTDZ0b3hFcWFXZDdrSVNVZk1xWFZKQ0l5Y09hbFUr?=
- =?utf-8?B?M05OUWhzUkVJNzE0RnhuUjEvaUNndmVUd1hNTHNPbENjZ1liUW5YUjFtUUc5?=
- =?utf-8?B?TEx5RDNXZzVKRVk4by9qZlo1THBMYklWYW9hT0lYeERwYkxucUVqaGdobmta?=
- =?utf-8?B?UnJTUTIvLzFKRUpHc2k5UUhtMkFqN2UrNWZ0YmdncWFacVpYSUZjR3pFeHRI?=
- =?utf-8?B?UTJSdGJ6bWRjSk0xWVdxSHppczZsYTRsY1BiZHlsNlVBZ1hVaHk4Vit4WFph?=
- =?utf-8?B?bUlNK1QzekhENHI5OWlUcmxoNzhQbDE2c3A4eThuRXNNSm9icWtvVXczU1E3?=
- =?utf-8?B?cDBHQzU4M1QvcDJTWWszcStoZjlKMVRUaDhmTmdGZWhKelZ1d1hTQ21XaEdl?=
- =?utf-8?B?VHlLZTRGR0RPb3AyK0ltem00R1NqcThWSVQ4NHBPTmRPWDVob3RLc3hNNXNP?=
- =?utf-8?B?a29BaDlQakJqL0E2V1o0UDdCVWxkd1ZsRE04R3UvNzFWR1MvbTFCRDhmQlN2?=
- =?utf-8?B?VWxtWGZjaEVxY0l5UTlDQ2JldUxJdU90dCtWcy9OeS9KVEhvcWdYU1JPN3lh?=
- =?utf-8?B?Z25QbnNZT0JabTF4NVBHVVFmWmNwSkVWdjUxQ05jT3pXZlo4ZDVGTkFhQWk2?=
- =?utf-8?B?SzdhWmdWNlhkVUZ6b2liMkNMZks2TC9FZ0pFdEk4aytnUzk5bWpLK21aZXRu?=
- =?utf-8?B?aHNkb3lIbHZTdWlyRVRCVlJ4MjlHRFhwMXVrWkF3aVJHZHUrK0Z4bEpWYWI5?=
- =?utf-8?B?bjVjNWdwRGxSR21HclpVSmdkd0RaSFFUdFVXcEZBSXhrWUJVa3lMSG1kcGhz?=
- =?utf-8?B?RVJ1ZUFXWlh3TDVnR2U1UkxVRTltVWVnNEFjUmRZMFhGWVNJY0pWSHdJeE13?=
- =?utf-8?B?Q0lURmo3bmJrK0hFdlh4cGlBNEgzZ2V6dWNmZlpneGxIUGI0ZFJ0OTRCdVFB?=
- =?utf-8?B?UVoyMmRvc0w3K0Q0MHgrNFUxOXlMODVoQjcxckFweW12VFF1cWRkankzL2JN?=
- =?utf-8?B?UVp1UXo2Y0p1U2Y2NWRYbWtHZ1FjVktBakVka2FsamFSdWR0OGJqTXNuMWRN?=
- =?utf-8?B?ZGJlWFNxWFI4OG9KejhtRExBZTNCTWdNOG9iZG8zV0RxM1pzLytoc2daLy9B?=
- =?utf-8?B?V2k5L0dWRFNnSDBPMFNVMytWbzBiK1ZGazJhVkl5bTNhUFFSdGNRUVYzM05K?=
- =?utf-8?B?UDNoQjk0anVqSHVpWVJSZ2hXOFFtWjVmOVo2SjZ3ZllUMjNBRUVZQ3ZMOEV1?=
- =?utf-8?B?RXFQUitCT2NqRW0wM3hKSEkrUmZQaDNySVZFUXVLNE1aUTJSV2xjT2FnQkZ1?=
- =?utf-8?B?d21iSkFlUWdId0tHYkRVS1c2c1A0WlVEWk5aUjNxV3R4bVBLUERRNW4vNit5?=
- =?utf-8?B?KytWU1pDa3hNQmFHZEVyUkhvMExVR0RPQnRRRktlTWZYNVFpVGQzeFVnU0dH?=
- =?utf-8?B?TGZmcHZ3S1MxQ1IwdktGU29RZGl1Z3Exckg1eUw1bURHbTV6bEV5YlUxREEr?=
- =?utf-8?Q?IG51ikF4PvoZyLHjiGux3CqblT/AxrQ8cz5ekTm?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe748671-c8c1-4322-f41b-08d905c6f542
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 19:43:52.8952 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4vN1811C7VBajz2U6wjFApjWQYnpd2oGvMULyzTdDeCJTnpInNnhOUotcp2VlUHvljJtBYMSqI7O4kxfKcBOGQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2484
+References: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
+ <20210326000907.GA1965415@robh.at.kernel.org>
+ <CAD=FV=XqG8oH5HCttKSNYJV2eHwLxq-tm1C+UFLn+cAHUrBaHg@mail.gmail.com>
+In-Reply-To: <CAD=FV=XqG8oH5HCttKSNYJV2eHwLxq-tm1C+UFLn+cAHUrBaHg@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 22 Apr 2021 15:08:48 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VZYOMPwQZzWdhJGh5cjJWw_EcM-wQVEivZ-bdGXjPrEQ@mail.gmail.com>
+Message-ID: <CAD=FV=VZYOMPwQZzWdhJGh5cjJWw_EcM-wQVEivZ-bdGXjPrEQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] dt-bindings: display: simple: Add the panel on
+ sc7180-trogdor-pompom
+To: Rob Herring <robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,31 +71,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Nicolas Boichat <drinkcat@chromium.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Andy Gross <agross@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Steev Klimaszewski <steev@kali.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjAyMS0wNC0yMiB1bSA4OjQ0IGEubS4gc2NocmllYiBDb2xpbiBLaW5nOgo+IEZyb206IENv
-bGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Cj4KPiBUaGUgdmFyaWFibGUg
-ciBpcyBiZWluZyBpbml0aWFsaXplZCB3aXRoIGEgdmFsdWUgdGhhdCBpcyBuZXZlciByZWFkCj4g
-YW5kIGl0IGlzIGJlaW5nIHVwZGF0ZWQgbGF0ZXIgd2l0aCBhIG5ldyB2YWx1ZS4gVGhlIGluaXRp
-YWxpemF0aW9uIGlzCj4gcmVkdW5kYW50IGFuZCBjYW4gYmUgcmVtb3ZlZC4KPgo+IEFkZHJlc3Nl
-cy1Db3Zlcml0eTogKCJVbnVzZWQgdmFsdWUiKQo+IFNpZ25lZC1vZmYtYnk6IENvbGluIElhbiBL
-aW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+CkFwcGxpZWQgdG8gYW1kLXN0YWdpbmctZHJt
-LW5leHQuCgpUaGFua3MsCsKgIEZlbGl4CgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRrZmQva2ZkX21pZ3JhdGUuYyB8IDIgKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRrZmQva2ZkX21pZ3JhdGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9taWdy
-YXRlLmMKPiBpbmRleCBkNDRhNDZlYjAwZDYuLmE2NmI2NzA4M2Q4MyAxMDA2NDQKPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfbWlncmF0ZS5jCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRrZmQva2ZkX21pZ3JhdGUuYwo+IEBAIC0zMDMsNyArMzAzLDcgQEAgc3Zt
-X21pZ3JhdGVfY29weV90b192cmFtKHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2LCBzdHJ1Y3Qg
-c3ZtX3JhbmdlICpwcmFuZ2UsCj4gIAl1aW50NjRfdCB2cmFtX2FkZHI7Cj4gIAl1aW50NjRfdCBv
-ZmZzZXQ7Cj4gIAl1aW50NjRfdCBpLCBqOwo+IC0JaW50IHIgPSAtRU5PTUVNOwo+ICsJaW50IHI7
-Cj4gIAo+ICAJcHJfZGVidWcoInN2bXMgMHglcCBbMHglbHggMHglbHhdXG4iLCBwcmFuZ2UtPnN2
-bXMsIHByYW5nZS0+c3RhcnQsCj4gIAkJIHByYW5nZS0+bGFzdCk7Cl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi,
+
+On Mon, Mar 29, 2021 at 9:25 AM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Thu, Mar 25, 2021 at 5:09 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Tue, Mar 16, 2021 at 02:08:19PM -0700, Douglas Anderson wrote:
+> > > The sc7180-trogdor-pompom board might be attached to any number of a
+> > > pile of eDP panels. At the moment I'm told that the list might include:
+> > > - KD KD116N21-30NV-A010
+> > > - KD KD116N09-30NH-A016
+> > > - Starry 2081116HHD028001-51D
+> > > - Sharp LQ116M1JW10
+> > >
+> > > It should be noted that while the EDID programmed in the first 3
+> > > panels indicates that they should run with exactly the same timing (to
+> > > keep things simple), the 4th panel not only needs different timing but
+> > > has a different resolution.
+> > >
+> > > As is true in general with eDP panels, we can figure out which panel
+> > > we have and all the info needed to drive its pixel clock by reading
+> > > the EDID. However, we can do this only after we've powered the panel
+> > > on. Powering on the panels requires following the timing diagram in
+> > > each panel's datasheet which specifies delays between certain
+> > > actions. This means that, while we can be quite dynamic about handling
+> > > things we can't just totally skip out on describing the panel like we
+> > > could do if it was connected to an external-facing DP port.
+> >
+> > Is this a 'standard' eDP connector? AFAICT, there does seem to be
+> > such a thing.
+>
+> To answer this one: there's not any "standard" physical plug as far as
+> I can tell. There's a connector on the board side for the LCD that has
+> a whole hodgepodge of signals on it. Maybe USB for a camera. Some
+> power signals. Maybe a PWM for a backlight. Maybe some DMIC signals.
+> eDP signals which might be anywhere from 1 to 4 lanes. HPD (which is
+> really a "panel ready" signal for eDP). The size / style of connector
+> and the exact set of signals (and their ordering) is board specific.
+> You then get a board-specific cable that splits things out. Some might
+> go to a camera/MIC sub board. Some go to the panel and hook onto a
+> panel-specific connector which has pin count and orderings defined by
+> that panel. :-P
+>
+>
+> > I've said in the past I'd be okay with a edp-connector
+> > node. If that needs just the "HPD absent delay" property, I think that
+> > would be okay. It's just a never ending stream of new properties with
+> > each new panel that I don't want to see.
+>
+> Thinking about this we'd need at least one other property right now
+> which is an enable delay. Specifically at least one panel I've
+> supported recently lied about HPD for a short period after bootup.
+> Specifically see commit 667d73d72f31 ("drm: panel: simple: Delay HPD
+> checking on boe_nv133fhm_n61 for 15 ms"). ...and, of course, the
+> existing power supply / enable signals that "simple-panel" already
+> has.
+>
+> Also: if we weren't going to add the other delay properties in the
+> device tree, we'd have to add the code right away that used the EDID
+> to set other delays. That wouldn't be the end of the world, but it
+> would be code to write.
+>
+>
+> One last thought to add: I've looked at ~10 panels specs recently.
+> Though they are all a little different from each other, I will say
+> that almost every one of them seems to have the exact same timing
+> diagram in it just with different numbers filled in. To me that backs
+> up the idea that you can/should do the power sequence with a fairly
+> standard (parameterized) driver. I can't link the datasheets I have
+> but searching for "edp panel datasheet" finds me this random
+> datasheet:
+>
+> https://www.data-modul.com/sites/default/files/products/NV156QUM-N72_specification_12039472.pdf
+>
+> See "8.0 POWER SEQUENCE" in that document. All the panels have a
+> nearly identical diagram with different numbers filled in. You can
+> kinda tell it was copied from some other panel since some numbers
+> (like T4) aren't even defined.
+
+So this thread has been quiet for a while, but the problem still exists.
+
+Here's my current plan, but please yell if you disagree:
+
+1. See about adding a generic "eDP connector" node. Having stewed on
+this for a while I think I'm convinced that even though there's not
+really a single standard physical connector that is used everywhere
+that there are at least a set of signals that can be collectively
+thought about as the "eDP signals". Certainly I have a set of very
+different panels from very different manufacturers that I can
+"interchange" and they work fine assuming I have the right cable
+"adapting" them from the connector on my board to the connector on the
+panel. While different panels have different timings that they care
+are enforced, there is a way to express it in a relatively common way
+as evidenced by the fact that all panel datasheet timing diagrams look
+similar and the fact that panel-simple handles so many different
+panels (yes, we periodically add more timing constraints to handle
+there but mostly that's because the code wasn't able to handle every
+constraint that could be expressed in those standard-looking timing
+diagrams in the datasheets).
+
+
+2. The "eDP connector" node will have all the same properties as
+today's "panel-simple.yaml" with the addition of:
+
+enable-delay
+hpd-absent-delay
+
+The idea is that you power on the panel, hardcode an enable-delay (to
+handle early HPD glitches), and then wait for HPD (or wait
+hpd-absent-delay if HPD isn't provided).
+
+Note that "ddc-i2c-bus" will be a required node instead of optional.
+
+
+3. Once we power the panel on then we will query the EDID and set the
+rest of the panel timings / modes based on the model specified in the
+EDID. Potentially it could update the "enable-delay" and
+"hpd-absent-delay" at this point too.
+
+
+We can thumb wrestle about whether the code to support this lives in
+"panel-simple.c" or not.
+
+-Doug
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
