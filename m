@@ -1,109 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6253676C9
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 03:31:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8C23677FC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 05:33:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 499336E9AB;
-	Thu, 22 Apr 2021 01:31:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 621436E067;
+	Thu, 22 Apr 2021 03:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2062.outbound.protection.outlook.com [40.107.93.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC726E027;
- Thu, 22 Apr 2021 01:31:21 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2076.outbound.protection.outlook.com [40.107.21.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B98D6E03C
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 03:33:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ay9LPdfXhN9LD1vJIi7rpw+98nYsbDwgoe5u9ZiqqxEDrqe+F2m3eynWw5sG5/LLGJ095Nx3lhFXcC8bE8S47ysBfmgSJE//dq+TT9/F92V/Z3ycmwcL+eAdBdKB3glE4YzWPH5IaAonVEaxbg1UHvsGyxhbOZkf1tTMNCjVGFe8F4finlHxjlzZrNgUzEW9aiBkCqFVNyioE6nN0piNcopumww5RDQn9bdFrsVfo+NoGXiNDPhIGK1eseL3vMCsEk82CbO2tjcq8D5MGjZG9LIDiUEkLxvK7uED1p4h937dgwYBRUy/AjeBxR3oXyBsNojIXgrTAu4bUx7J/jRLIg==
+ b=JE6reM9kj7vNjfSfPiuyl5vd+7QCkLR/ADWC2ZmmDb24EJN3WaVNtCk94AqQL535PfLM4CTkRZtQZLUtbzDsVMgqlYGFCTBf7BhnyfxfPVXmY9jtmMPPikkPGsXdmJhYntnJPWXhle2PwlCymybkZxXct9za1mu/e2MY7jrtOHT7cGIU3sQlHyqfnRpiW8HHf5iyTKvORNu/RObzPEA/dRDALBNZnnSOfY4I/11WykFXRgrxDxP7o1AyksOPsZ2qudRQmCzccKw1fUEvUmR2EnKWU2LGg+heYgRrAht0pfZsmjUAkcI0ToBsuevIb+LLDvi1TQzbb4r9LEmewyab4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VkZjhC/1rnhhkSi5MTUeQLMCe5BWmL9UkuDzzaGAfpA=;
- b=dHyV5lLgIW82wNd/4VMyX+BgWoa16lb69AXa2PPb02gnygNPc54fyGtsNzYXBf8tbL7DGvYgHgRcO65Q9dRQzR/cuymxPsnMP52SAmPalPhGYdKEWhLhF2D9LX9XcUA1pxvEhU5r+k4kk8u1nDUTegzmqY86iKncBWvdH84q1wuIvZadG++fY2RRzqFF4CRM3LbZYmOXCn9C7pNn05shg7kYEE/DUf6VBnRrU6+UmqUqzEMkNom4rRL7jD+r5od3eFvNaKALThcLZ19aUhWBUV9cY5vPQgfaFFofxm+w3XtBmJEGOWaq4vhcQzfHjtARsJS6G6GMZ9Wv6LiSERBu8g==
+ bh=o03vfC+4NXzUr0PHV++OJDwB3OIuaNMObXIfMV2ySFM=;
+ b=UN9IHsywbxfSJg7sX5FidcD2/mwgQ+cDSbI/SOTLYqwXwjJrI0V0CQ2a0RcVmJyA4Df0uHGIfP9uI+2qZXo75/OUcznzQk/FqheukeAeJKd0uXAPm1G48ntDKX5q3y/5KfdDqqHBX7ZMKbOkWOmPe2mYbq3CjmpkN5nqp/K2CUHlJuzredKEyBORYGQGKb9ZbYUY36pDzgTlL5baGFHPLnLBFMYhiWuc6pN7k8sqrwAV0jpjMFSURwlk2ld8MORyCHnQGTwR+cQPTSjQWZyYAYvu3K8aDROTN9lCCSt7pcjlt9081ZpI1HwfL6Ev9Jb+IxxZoKP2IM6OgwXgzfzpwA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VkZjhC/1rnhhkSi5MTUeQLMCe5BWmL9UkuDzzaGAfpA=;
- b=j4Q1SqpFkjHhvceCyKmDaWU1sAov04tvCZdukHC5FWCwFmPhA+evbJrN9Eihk11NRa4bmupNQmBCyIOgNGTgN1iMtlq8wu+Uv59U4NsjEZRfcK4+N/ouH8VTmt8h05c/LQKVDEgDPrwgl0VRnnTzyoIqol1UuGvVGIENM3GrQGA=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
- by MN2PR12MB4438.namprd12.prod.outlook.com (2603:10b6:208:267::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Thu, 22 Apr
- 2021 01:31:19 +0000
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::70f5:99ed:65a1:c033%7]) with mapi id 15.20.3933.040; Thu, 22 Apr 2021
- 01:31:19 +0000
-From: Felix Kuehling <Felix.Kuehling@amd.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 10/10] drm/amdgpu: Move dmabuf attach/detach to
- backend_(un)bind
-Date: Wed, 21 Apr 2021 21:30:58 -0400
-Message-Id: <20210422013058.6305-11-Felix.Kuehling@amd.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210422013058.6305-1-Felix.Kuehling@amd.com>
-References: <20210422013058.6305-1-Felix.Kuehling@amd.com>
-X-Originating-IP: [165.204.55.251]
-X-ClientProxiedBy: YT1PR01CA0027.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::40)
- To BL0PR12MB4948.namprd12.prod.outlook.com
- (2603:10b6:208:1cc::20)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Harpoon.amd.com (165.204.55.251) by
- YT1PR01CA0027.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::40) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.21 via Frontend Transport; Thu, 22 Apr 2021 01:31:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 83e12367-74a5-4e7c-c1ac-08d9052e5454
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4438:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4438B31A3A5FD4CB16F7BA2692469@MN2PR12MB4438.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: a7QGYK8PFErh7FnGiiU8TqXqPDGsvrjuabLBcQE+onSSLCPwVHjDuqeP2kjvNTSVKjO6rDkvHztDDfZHn40Zse+aCz6RyqRqafSCNnG0MQtGSpUBcej0qwbCSSjfMbcquZ7w+TOlwjOxT+5zXBITbsrcI8iGtKX7WtDXHd49jiTOwZGa60aAbhtU8ln2XddQZcOCP7cWjiXPp926Ep/yOoUBsMuUPMYh272zAL+50srODiCfQ97uVGxEpRK2p50M5lwg0JIz7B8x3y+zCa/TN0kowCSoZt6DiDQjgdodDZOqJZme5CRYzrvuN6XRVIDYtzLNcOyus94ZBNNbomGPPcTElKdwu9mrFu2+lEzXHiwkLsdE5TI5Afm81p/BX/dm9Ri8sIkYm/1bQbptOBC+ucECUHfeFafCo1jKUmTcWD2rTSq5AMZXg/R573mYl466jUEN0YeVNWsv1ffc30XQvq6Hktsn36gcP6rDmBC6mLcWvOtVSRMLL10DhzK0JaqGGt2IDE9JnyyMQW6ukPUwScykp9UkTuithsgfuOzI7gUjypHruUHGd+aBa02rPNSr0+AsBCaW602SU/ROuCcimBq9hO6b6wrHdAJMMFE/kM0lx+SaV7dCN3y8G3XoUHgOs1tdzD6bnlL0vs7OV49GUDlhA/Tkj6EzMFY5cN8YGpU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(376002)(396003)(366004)(39860400002)(8676002)(16526019)(450100002)(186003)(66556008)(36756003)(66946007)(8936002)(52116002)(956004)(2906002)(26005)(2616005)(478600001)(6486002)(38350700002)(38100700002)(83380400001)(86362001)(316002)(7696005)(5660300002)(6666004)(1076003)(66476007);
+ bh=o03vfC+4NXzUr0PHV++OJDwB3OIuaNMObXIfMV2ySFM=;
+ b=qGlbIL9uRBQiHJ5dbu3hIB5LiStDj0ziod7c5N4KdJR5CvXyjSoIBGlU/XzCw1AO4qh0XwFyhQSB/d7+YXyx5by7kAjxqaTPV9zLypNrEpcXB4x0OvLX8d4kZNTD2E4aaNWdJfdheyzpOcs6mVerJNNcHg1NITj4b+ynC9o2Aac=
+Received: from VE1PR04MB6688.eurprd04.prod.outlook.com (20.179.235.153) by
+ VI1PR04MB4733.eurprd04.prod.outlook.com (20.177.51.155) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4042.24; Thu, 22 Apr 2021 03:33:33 +0000
+Received: from VE1PR04MB6688.eurprd04.prod.outlook.com
+ ([fe80::de2:8b2:852b:6eca]) by VE1PR04MB6688.eurprd04.prod.outlook.com
+ ([fe80::de2:8b2:852b:6eca%7]) with mapi id 15.20.4042.024; Thu, 22 Apr 2021
+ 03:33:33 +0000
+From: Robin Gong <yibin.gong@nxp.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>
+Subject: RE: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in probe
+Thread-Topic: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in
+ probe
+Thread-Index: AQHWLcMcvbp0uyGgYk605EKKtgH/8aivLYuAgAF2HACAABbKAIIDgX+QgAHvdICAAJqQwIAG4DOAgAHNh+CAAAv2AIABkvaQgAA9gACAAIks0A==
+Date: Thu, 22 Apr 2021 03:33:32 +0000
+Message-ID: <VE1PR04MB6688F1C65295C1A0D689C5A289469@VE1PR04MB6688.eurprd04.prod.outlook.com>
+References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
+ <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
+ <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
+ <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
+ <VE1PR04MB66387217EDE5133FD2D8F793894E9@VE1PR04MB6638.eurprd04.prod.outlook.com>
+ <50ef17a2d57b022c48bbca71fd4e074cc3ca9be5.camel@pengutronix.de>
+ <VE1PR04MB6638EE85485768351755557B89499@VE1PR04MB6638.eurprd04.prod.outlook.com>
+ <97262466d537402ad4032098ef277d6d47734f1f.camel@pengutronix.de>
+ <VE1PR04MB6638659EC8557D01861042B189489@VE1PR04MB6638.eurprd04.prod.outlook.com>
+ <d8d084aa7ff183e2f78128a46a0ce5241f357c9a.camel@pengutronix.de>
+ <VE1PR04MB66887C731E32BDBB340B044C89479@VE1PR04MB6688.eurprd04.prod.outlook.com>
+ <18fbdc4bf0574a722134400ad9e4510d3cbcb767.camel@pengutronix.de>
+In-Reply-To: <18fbdc4bf0574a722134400ad9e4510d3cbcb767.camel@pengutronix.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: pengutronix.de; dkim=none (message not signed)
+ header.d=none;pengutronix.de; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.67]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d7698a4c-fc54-4ba8-fc53-08d9053f67c6
+x-ms-traffictypediagnostic: VI1PR04MB4733:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR04MB47336C17EFA022581A71AA2089469@VI1PR04MB4733.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8NYef9/JSyHTn5YNuNNNtjVHxwzz1eI/y3DFt9duHjinAATnWug6nGAiNBfOo0gOapOghvi45JxFFH8uruLi7JXwDT1jq+/3/S++id8e+5Wc06zFXE5f0eKT4bgSHXIdMYu67HHOkHo+lQJzUXONYpYdnrUtU8QDMSd8L2d+cyZl1XhGZQDsMhcVHxi3vRdQibS2qhsDQLB9PEPIk2fxJ4cA8VyRbQVKbwWKcFkXa8SOOJJCIVIUNfARbN1GNl0XY2SRnoEjflznt7oSGzXbcg+z/tZtlBVEX/EhyhKH4Z61dL6kQHYP5rzCiGCCA5Nkuf1RWxCwnYktrMz2rkglY/2sPpI0mNugkH3U6ru2RmiVCnJFLIE0MEpv0fb0UDTbCCfN8fSlcAcSN+dC9aXMbquoMpru5ehdIEThepDryZC5L5ZawPlCAuQBYtrMvSPs9myEXQ70SVo+ThEGxSN4/cgkolHztJYnWfHKg0WtiwQpOS16fOJh1XLBiIaMNDCZrQDA8hDfHNL2JL+uRGFYQteYUbwT57Q1p8KYCd7JxiRCCsVfP2gZpPJMP9rLopzAz2fpdBRFCNtRG19pJ8fHxyVT67cf6Wo9lr5dSJ8Ml4E=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR04MB6688.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(136003)(39860400002)(366004)(396003)(478600001)(6506007)(71200400001)(26005)(86362001)(38100700002)(54906003)(8936002)(33656002)(8676002)(83380400001)(186003)(110136005)(5660300002)(122000001)(66476007)(76116006)(66556008)(4326008)(7416002)(66446008)(55016002)(66946007)(64756008)(316002)(9686003)(52536014)(7696005)(2906002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?8lNE5KPRIWySUzwIJ759xjZiFNPWjX4lDUpe1DLtR+wiolWlMhIGm1BINZHe?=
- =?us-ascii?Q?dyeFFjs4uOF95hOsErF1DM2AWKwzXll9nz/uo5IsVflnk7+na7oOx7WHDSsO?=
- =?us-ascii?Q?7nkqz6bT+PNh0Vn24WazrvuKuWqgnXHsVUaDNhIz1M5eI0w53x2Q2YezW1nA?=
- =?us-ascii?Q?Y9kl3DGLIm8sf4xk+9dJavsJqpLrkPHe1o6C9En7UkwbBTSL+AzP7ULgCXZq?=
- =?us-ascii?Q?/wdkDOUYJEhgKhPc0t+QsHne5gkYn6JSDOMtIMzOSYWt18Re0EjcCy1/TFrY?=
- =?us-ascii?Q?4qJSbnt8+kgnSU6vKm+YNDV0DwjFUMIJ5qYTbFQo/6umjQHSZtSBBDYFjCRp?=
- =?us-ascii?Q?5T9rj/nCSWZxlSb+mwWZ/jR2ZvsbI5fmrcxn9Ek2ZkfGFyaS7vbn3tyfM7Q7?=
- =?us-ascii?Q?2yORjm7PUbbRjvfW2NAAma/68gQpydmgxtVikDOkkbDIekviBMV1aYiXdBCH?=
- =?us-ascii?Q?mskRTGXohGP/gSW6aWYPX7l7WG2h/4Ldb+xlrSSF6nGxjcMZpyiG4r5weHLa?=
- =?us-ascii?Q?s6PnY0gLACtGoeApShgl2E3Ij2Ev6DUyQX8jYNWvKX/vbMQLXiA86cSUUC6l?=
- =?us-ascii?Q?sK276U6sWDbsqWgt4uatovK3eulsMFIdxnT2UyKmCI7lzB8kRZnc3iboPmSW?=
- =?us-ascii?Q?wsrbZrHstKruOmBSnSNaUbC2qgVwtlbdvjslqE1IHuUvC+WLsldyKdMfcq3p?=
- =?us-ascii?Q?FIWWLN66xNjSOo4voJH56Oiyt/QNTDqj/g9SNuXi2HojVvBE24w0hVVCL0/9?=
- =?us-ascii?Q?fvgmr6YOcJd4NvEA8q3sPLyIhN2ijGNg1SdbCwh6Wbfg09dQdE0mV7hlZNLI?=
- =?us-ascii?Q?tchhO/0ox94NtTj+2EGMK6jnDHW1e8yrVFR6xxsizvViVPRZVjhYHTG6kpYs?=
- =?us-ascii?Q?1Es+HfEtivoLaOcuKvsC0giPpI+0a5d8iHh2qIThXYKXebmeoR5PSRqbdsuE?=
- =?us-ascii?Q?NyR48YuseAeX3OVAsugHkP6FmJUPtotMLdlr+94YMq/A8o5nSB2P07Vdyues?=
- =?us-ascii?Q?RgJ1ADgbcpAwYftljn/jZ5g2xDi7Y/UunlNxVMRIaMQ1VChEG7YJbPMLdpb0?=
- =?us-ascii?Q?krp+2VlXSUySpQKdWJu8K36kgqRzd/x/eHvTqp5xz0Z02ypX0BVQbwtB6MtG?=
- =?us-ascii?Q?CSP+ZfLR6ipUHA9Q7h0T6ctijOdikSHZZuKnei+pGdUtlimfgIQN9p9TuWii?=
- =?us-ascii?Q?iazhTTX9I1AEoQvVqjuABatYrFVD7jtcTLt7ZsXkeOVu++n+2uOqd9XmGQIs?=
- =?us-ascii?Q?5DSyPa2JzVylsUgFAX/Bks/ltDKW4CqGaPpSDm5fn+HDdvYRylXa+fX02D8S?=
- =?us-ascii?Q?R10Ao0TOQDOW85hLqIP1s2s0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83e12367-74a5-4e7c-c1ac-08d9052e5454
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
+x-ms-exchange-antispam-messagedata: =?utf-8?B?dVYyQlk5WFcvUE5WSkVKemRYam9paFkxbWFGLzhMS01aMFROWURiZDNqMGNi?=
+ =?utf-8?B?bWJxbThhSml0ZDhlOTdHUmFSNEsweExFemhQcjh3ODFoRm5INXlnYUh4b1Jr?=
+ =?utf-8?B?blAyRC9mbTMwNWZEUGpEVmFQSDJrdFVleWhkQWdYS3hEWFZ2elpCWWhLeE4w?=
+ =?utf-8?B?Q21iUU16WVpjTTdkZWJWMTBFVCtteW9xYzduRHlUcXYycEtZNzRLVFZjaTB2?=
+ =?utf-8?B?RFdsWnRvZUxEdStBSWNWSEhxRkMwTktDcHdWb3UvNlY0Uk9mL1hVRDkreFFD?=
+ =?utf-8?B?dm0vUkRMdklGNWJUVmhva0lzaitRMktPWDJrakpzUXpiWVl2QkNFRXk2MFdx?=
+ =?utf-8?B?RzQyQmFZTEhZS2NUUlZiaHl6V1VVWWprSzRDbXd3bWxobVNwcHREbHVycHJY?=
+ =?utf-8?B?VGJJWU9wSWlETlVqbW1GSDlseExKMTltYy95WjJaRUROYjdhMHg5eXlBRHNI?=
+ =?utf-8?B?bEVrelZQRkdKUXRydEVtNXM4TjU4R1NlMFFjcldBeis2Rm5KamZTY1V5ZkZW?=
+ =?utf-8?B?akNsdU4rVEkwanJEbFB6bjNWdmRrN29jTjZNWHl6MEF0YlhUTjNCZXZSSWVn?=
+ =?utf-8?B?d2M1Zm1BQ2FqaEVhM2FkWFd3QmF0RldkQTZoanJ1aUMzM1o1ampFTUZpREJr?=
+ =?utf-8?B?SmVPaWtEbTgvK2FFdEduNXlBRlhJUmFyelN3RWRWb2IrTUZ5WERDM0VEWk9v?=
+ =?utf-8?B?UzZtZHNIT1VQUDdUOUc4YzB1M2g0ODNsbllUbkRpSi9xaHlZSzVNS3hQcXhD?=
+ =?utf-8?B?T3JRS1M1UWRSaVlWQzgyc3FRRUR1cWVjM0Q5dkpJc094Q1NvREl5N2tKUmZ0?=
+ =?utf-8?B?MEhEd0Y5NU5KcFZ2WVNqMXNuVS9taXVFZ3ltOGNod2pZejZ4U0JnaVM5eXkx?=
+ =?utf-8?B?UGVmc1RmM1F1WExrb3Bod3NEdXFuOWNJWHBNOU9PWHk1OFdTU29LdnduS3cz?=
+ =?utf-8?B?a0hIdk9Hb0xUdkovNGU5ZmlWdEJZaHZmUzIyS1dxUjEzQmlEa3ZIOXZLNkFN?=
+ =?utf-8?B?Q011REhIV204NEUxb3lNNzl4enZQNkVvSWNOMFVOaFNDZHRpQ1l0ZEtoNVZR?=
+ =?utf-8?B?QVJ0QlhTWGI4Sm5vUXF1TkFVR3dSay83WWNpSFZpOGhnWmlrWHBYK1ZhUURV?=
+ =?utf-8?B?MTY3UW5QS3JRdVNDR1R4bmIySzM1dktmMzlKZkl2TTNtbWRDeTc1aFRxeFhX?=
+ =?utf-8?B?d0hUcW0ySk1VWUpVYU55cU5NSkxIUENGZ011ZHRGZURsRGJEOUdjaTJwZmNU?=
+ =?utf-8?B?NFcvYm5pRFFvR1N0T1ZKa2oxZlh2OGtSdFRiSktpd0NKcjc3Rk5BMksrM3I4?=
+ =?utf-8?B?OGRxLzdVTkhoWDF5TmJMZjRMbm92cCtCMUM3NFRudk1QOGZ0SEtIZmlaWWYw?=
+ =?utf-8?B?RDd5WHliS0hSci9FaWpZYThxTlJ6ekV3NkMxVEFwbHp5YVZUVGpSbUF1dnpI?=
+ =?utf-8?B?ekw2UVJzUW5wUEMvc0thQ0FhZlRSeUUyMUZ1TVBieGh1dU9XN3Jzb3h6OG5W?=
+ =?utf-8?B?SC9Sd0NXN0M1RURZaVJVelpZVisxNmYwZ2wwcHlMOWx6RlQvSWlzY3B5R21i?=
+ =?utf-8?B?a0lHOUxwWFFPTy96bkhhQlNQSUtZWHMyRzN3WkROa1hiOE5hc3YvVTlpcjZW?=
+ =?utf-8?B?REZQak5uU0s1SS83bnhzbjZuWThPOE9VR0ppOFNqR1oweDVweTBzMTRqQjZW?=
+ =?utf-8?B?a1BJd0phVWx3d0w1anNvMmtpZWFYc3pjZGZSVmZuTmpibTFFTUhacUpZUkJq?=
+ =?utf-8?Q?H9KEyx0HJWJjx8v2hRq7SPrE+KwOOCC5e/CtzXL?=
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 01:31:19.2544 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 92QLOwWDYQ72c6yNLzybmKNhEGK/qlWxw6mYbjagb0+VemMgPQNnK80AU/i6lPWMeW9eF8W6WrQqqsfx4JxFBw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4438
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6688.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7698a4c-fc54-4ba8-fc53-08d9053f67c6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2021 03:33:33.0369 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BRNocrvJrpVhgdQz0MnWUuHlv0/0Hui0f9cCAp0kWdvMJISOPcOgPDqlmuIc8PAclL56q0X8WqSZuEg45OjmIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4733
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,123 +130,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ Timur Tabi <timur@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Nicolin Chen <nicoleotsuka@gmail.com>, Mark Brown <broonie@kernel.org>,
+ dl-linux-imx <linux-imx@nxp.com>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "perex@perex.cz" <perex@perex.cz>, "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "S.j. Wang" <shengjiu.wang@nxp.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dmabuf attachment should be updated by moving the SG BO to DOMAIN_CPU
-and back to DOMAIN_GTT. This does not necessarily invoke the
-populate/unpopulate callbacks. Do this in backend_bind/unbind instead.
+On 2021/04/22 Lucas Stach <l.stach@pengutronix.de> wrote:
+> > But the timer of runtime_auto_suspend decide when enter runtime
+> > suspend rather than hardware, while transfer data size and transfer
+> > rate on IP bus decide when the dma interrupt happen.
+> >
+> But it isn't the hardware that decides to drop the rpm refcount to 0 and
+> starting the autosuspend timer, it's the driver.
+Yes, driver should keep rpm refcount never to 0 in such case. But I think that case
+Is a common case in dma cyclic with runtime_auto_suspend, so some dma driver
+also add pm_runtime_get_sync/ pm_runtime_put_autosuspend in interrupt handler
+like qcom/bam_dma.c for safe rather than only pm_runtime_mark_last_busy().
 
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  3 --
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 51 +++++++++----------
- 2 files changed, 25 insertions(+), 29 deletions(-)
+> 
+> >  Generally, we can call pm_runtime_get_sync(fsl_chan->dev)/
+> > pm_runtime_mark_last_busy in interrupt handler to hope the
+> > runtime_auto_suspend timer expiry later than interrupt coming, but if
+> > the transfer data size is larger in cyclic and transfer rate is very
+> > slow like 115200 or lower on uart, the fix autosuspend timer
+> > 100ms/200ms maybe not enough, hence, runtime suspend may execute
+> > meanwhile the dma interrupt maybe triggered and caught by GIC(but
+> > interrupt handler prevent by spin_lock_irqsave in pm_suspend_timer_fn() ),
+> and then interrupt handler start to run after runtime suspend.
+> 
+> If your driver code drops the rpm refcount to 0 and starts the autosuspend
+> timer while a cyclic transfer is still in flight this is clearly a bug. Autosuspend is
+> not there to paper over driver bugs, but to amortize cost of actually
+> suspending and resuming the hardware. Your driver code must still work even
+> if the timeout is 0, i.e. the hardware is immediately suspended after you drop
+> the rpm refcount to 0.
+> 
+> If you still have transfers queued/in-flight the driver code must keep a rpm
+> reference.
+Yes, that's what I said for fix before as below.
+'I have a simple workaround that disable runtime suspend in issue_pending worker by
+calling pm_runtime_forbid() and then enable runtime auto suspend in dmaengine_terminate_all
+so that we could easily regard that edma channel is always in runtime resume between
+issue_pending and channel terminated and ignore the above interrupt handler/scu-pd limitation' 
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 18a1f9222a59..68e6ce8dcf33 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -582,9 +582,6 @@ kfd_mem_dmaunmap_dmabuf(struct kfd_mem_attachment *attachment)
- 
- 	amdgpu_bo_placement_from_domain(bo, AMDGPU_GEM_DOMAIN_CPU);
- 	ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
--	/* FIXME: This does not guarantee that amdgpu_ttm_tt_unpopulate is
--	 * called
--	 */
- }
- 
- static void
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 7e7d8330d64b..fc2a8d681dbc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -910,7 +910,23 @@ static int amdgpu_ttm_backend_bind(struct ttm_device *bdev,
- 			DRM_ERROR("failed to pin userptr\n");
- 			return r;
- 		}
-+	} else if (ttm->page_flags & TTM_PAGE_FLAG_SG) {
-+		if (!ttm->sg) {
-+			struct dma_buf_attachment *attach;
-+			struct sg_table *sgt;
-+
-+			attach = gtt->gobj->import_attach;
-+			sgt = dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
-+			if (IS_ERR(sgt))
-+				return PTR_ERR(sgt);
-+
-+			ttm->sg = sgt;
-+		}
-+
-+		drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
-+					       ttm->num_pages);
- 	}
-+
- 	if (!ttm->num_pages) {
- 		WARN(1, "nothing to bind %u pages for mreg %p back %p!\n",
- 		     ttm->num_pages, bo_mem, ttm);
-@@ -1037,8 +1053,15 @@ static void amdgpu_ttm_backend_unbind(struct ttm_device *bdev,
- 	int r;
- 
- 	/* if the pages have userptr pinning then clear that first */
--	if (gtt->userptr)
-+	if (gtt->userptr) {
- 		amdgpu_ttm_tt_unpin_userptr(bdev, ttm);
-+	} else if (ttm->sg && gtt->gobj->import_attach) {
-+		struct dma_buf_attachment *attach;
-+
-+		attach = gtt->gobj->import_attach;
-+		dma_buf_unmap_attachment(attach, ttm->sg, DMA_BIDIRECTIONAL);
-+		ttm->sg = NULL;
-+	}
- 
- 	if (!gtt->bound)
- 		return;
-@@ -1125,23 +1148,8 @@ static int amdgpu_ttm_tt_populate(struct ttm_device *bdev,
- 		return 0;
- 	}
- 
--	if (ttm->page_flags & TTM_PAGE_FLAG_SG) {
--		if (!ttm->sg) {
--			struct dma_buf_attachment *attach;
--			struct sg_table *sgt;
--
--			attach = gtt->gobj->import_attach;
--			sgt = dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
--			if (IS_ERR(sgt))
--				return PTR_ERR(sgt);
--
--			ttm->sg = sgt;
--		}
--
--		drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
--					       ttm->num_pages);
-+	if (ttm->page_flags & TTM_PAGE_FLAG_SG)
- 		return 0;
--	}
- 
- 	return ttm_pool_alloc(&adev->mman.bdev.pool, ttm, ctx);
- }
-@@ -1165,15 +1173,6 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_device *bdev,
- 		return;
- 	}
- 
--	if (ttm->sg && gtt->gobj->import_attach) {
--		struct dma_buf_attachment *attach;
--
--		attach = gtt->gobj->import_attach;
--		dma_buf_unmap_attachment(attach, ttm->sg, DMA_BIDIRECTIONAL);
--		ttm->sg = NULL;
--		return;
--	}
--
- 	if (ttm->page_flags & TTM_PAGE_FLAG_SG)
- 		return;
- 
--- 
-2.31.1
+
+
 
 _______________________________________________
 dri-devel mailing list
