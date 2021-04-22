@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D522C368136
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 15:08:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1EE368144
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 15:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A48289CF7;
-	Thu, 22 Apr 2021 13:08:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 617D86EA84;
+	Thu, 22 Apr 2021 13:11:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E5DA89CB9
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 13:08:11 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id y4so31857896lfl.10
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 06:08:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5DDTBrdtIX5m2n+pKNngs7kA+ovZXf2j+7G44yMR1F4=;
- b=lOY5CDyysiP6wLc9ELU69DbdSH9wkTPe4+Hze7Nn9mUVjFUwywus4/n/kzwp1W6LSX
- ZtTd/GTMOhTyurRUgyif8XQks5heuDWG3YOXTFkAfBG+IKv7Tl8xxeQxRzVgpVzjwS+A
- gnGHQPxu17xrlX26Fd6RTdiQo7tbztHX3cGjZklwxFFSaoXm7y89t4mBxCh4QBDdo/rX
- 8zVCpWFjVPyImIi7hN52nPQs3rKo++7c2JDn6BXhylEW9954s/AuXvdkNf2dIewTioTV
- 6UN9c/364nG/TUBS2Xo8K4lSHz2Z/YRymwkcd3gCbGJk27geXiJN2A7OIAAx9L+UODWk
- FffA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5DDTBrdtIX5m2n+pKNngs7kA+ovZXf2j+7G44yMR1F4=;
- b=LbcEELA7D/Caw1mtYf6F7yeqICzq9T2wXmv++qey63Kyivf/dhziFC6hcpTBHCQ/3U
- 3FdJ9Iju3CTXZjzXIg9jJ625Dp5CSTgyS1UdrHiaMVQFzMAjkxRxoUqlC/x4UkIXmb2s
- i+X38/jIIF/TU1Kww9pZ3CMo1tQWuwWanhOrM6nwB/C4GhUWF4CcyZZ7dBoyIFvSbNkw
- S+r8osSO78iBNaRzcnY3nbAtJjSWnaLxtn9wOjjDjX1/3l3uhL/YjuOiuHoXnzPqzAnP
- rZHxw90ScaaQhP7/XZkLufGq+rTAgg73HwdArup15OQavGSZWZviORHx89gcw1rKOm2+
- ZRTQ==
-X-Gm-Message-State: AOAM5333GkTi1h89jV0yBSNU09S2NBLVytZjSn4xNnS5oZgbWozxLz68
- ikzEgMWpawOQlhl1Wyt+yh5qRg==
-X-Google-Smtp-Source: ABdhPJyDSy5RkLtGGj0PCWMNpvjZbyaeOY6MgijdM6Zd+UJWXKNNkKxmWSXrQCmVll6sYKJ2o/rzVw==
-X-Received: by 2002:a05:6512:985:: with SMTP id
- w5mr2465933lft.122.1619096889476; 
- Thu, 22 Apr 2021 06:08:09 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id v17sm259833lfr.35.2021.04.22.06.08.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 06:08:09 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 3/3] drm/msm/dpu: hw_blk: make dpu_hw_blk empty opaque
- structure
-Date: Thu, 22 Apr 2021 16:08:04 +0300
-Message-Id: <20210422130804.825030-4-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210422130804.825030-1-dmitry.baryshkov@linaro.org>
-References: <20210422130804.825030-1-dmitry.baryshkov@linaro.org>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACC8B6EA84;
+ Thu, 22 Apr 2021 13:11:27 +0000 (UTC)
+IronPort-SDR: h/f3HBGppAnadrbk120i7imNcgJP2Y0gy5Ph2B6W2k2IG78Dfh3lXqTY2sXjk2C/hls5E0acwp
+ RTzHN8RhsMnQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9962"; a="183013050"
+X-IronPort-AV: E=Sophos;i="5.82,242,1613462400"; d="scan'208";a="183013050"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2021 06:11:25 -0700
+IronPort-SDR: 2cws8iVnIBUTaYtmiex6GaRlSETtuK+tB1Tf/+g++/J2QYE8gmfSjA/MsRtNGxDq7D0bZ8RRhC
+ RU1PY14364ug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,242,1613462400"; d="scan'208";a="386076135"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga006.jf.intel.com with SMTP; 22 Apr 2021 06:11:23 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 22 Apr 2021 16:11:22 +0300
+Date: Thu, 22 Apr 2021 16:11:22 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915: Rewrite CL/CTG L-shaped memory
+ detection
+Message-ID: <YIF1+mhbWO7UD/yN@intel.com>
+References: <20210421153401.13847-1-ville.syrjala@linux.intel.com>
+ <20210421153401.13847-5-ville.syrjala@linux.intel.com>
+ <YIFGt+I8LMckYyVG@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <YIFGt+I8LMckYyVG@phenom.ffwll.local>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,211 +52,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code does not really use dpu_hw_blk fields, so drop them, making
-dpu_hw_blk empty structure.
+On Thu, Apr 22, 2021 at 11:49:43AM +0200, Daniel Vetter wrote:
+> On Wed, Apr 21, 2021 at 06:34:01PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > =
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/Makefile                  |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c    | 24 -------------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h    |  4 +---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     |  2 --
- .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    |  2 --
- .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  2 +-
- 12 files changed, 2 insertions(+), 45 deletions(-)
- delete mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
+> > Currently we try to detect a symmetric memory configurations
+> > using a magic DCC2_MODIFIED_ENHANCED_DISABLE bit. That bit is
+> > either only set on a very specific subset of machines or it
+> > just does not exist (it's not mentioned in any public chipset
+> > datasheets I've found). As it happens my CL/CTG machines never
+> > set said bit, even if I populate the channels with identical
+> > sticks.
+> > =
 
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index 610d630326bb..55dbde30c2a2 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -58,7 +58,6 @@ msm-y := \
- 	disp/dpu1/dpu_encoder_phys_cmd.o \
- 	disp/dpu1/dpu_encoder_phys_vid.o \
- 	disp/dpu1/dpu_formats.o \
--	disp/dpu1/dpu_hw_blk.o \
- 	disp/dpu1/dpu_hw_catalog.o \
- 	disp/dpu1/dpu_hw_ctl.o \
- 	disp/dpu1/dpu_hw_interrupts.o \
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
-deleted file mode 100644
-index 1f2b74b9eb65..000000000000
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
-+++ /dev/null
-@@ -1,24 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
-- */
--
--#define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
--
--#include <linux/mutex.h>
--#include <linux/errno.h>
--#include <linux/slab.h>
--
--#include "dpu_hw_mdss.h"
--#include "dpu_hw_blk.h"
--
--/**
-- * dpu_hw_blk_init - initialize hw block object
-- * @hw_blk: pointer to hw block object
-- * @type: hw block type - enum dpu_hw_blk_type
-- * @id: instance id of the hw block
-- */
--void dpu_hw_blk_init(struct dpu_hw_blk *hw_blk, u32 type, int id)
--{
--	hw_blk->type = type;
--	hw_blk->id = id;
--}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
-index 7768694b558a..52e92f37eda4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
-@@ -19,9 +19,7 @@ struct dpu_hw_blk;
-  * @refcount: reference/usage count
-  */
- struct dpu_hw_blk {
--	u32 type;
--	int id;
-+	/* opaque */
- };
- 
--void dpu_hw_blk_init(struct dpu_hw_blk *hw_blk, u32 type, int id);
- #endif /*_DPU_HW_BLK_H */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index 441f66a4fb37..f8a74f6cdc4c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -613,8 +613,6 @@ struct dpu_hw_ctl *dpu_hw_ctl_init(enum dpu_ctl idx,
- 	c->mixer_count = m->mixer_count;
- 	c->mixer_hw_caps = m->mixer;
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_CTL, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-index 977b25968f34..a98e964c3b6f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-@@ -110,8 +110,6 @@ struct dpu_hw_dspp *dpu_hw_dspp_init(enum dpu_dspp idx,
- 	c->cap = cfg;
- 	_setup_dspp_ops(c, c->cap->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_DSPP, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-index 17224556d5a8..116e2b5b1a90 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-@@ -325,8 +325,6 @@ struct dpu_hw_intf *dpu_hw_intf_init(enum dpu_intf idx,
- 	c->mdss = m;
- 	_setup_intf_ops(&c->ops, c->cap->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_INTF, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-index 76f8b8f75b82..cb6bb7a22c15 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-@@ -182,8 +182,6 @@ struct dpu_hw_mixer *dpu_hw_lm_init(enum dpu_lm idx,
- 	c->cap = cfg;
- 	_setup_mixer_ops(m, &c->ops, c->cap->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_LM, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
-index 406ba950a066..c06d595d5df0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
-@@ -79,8 +79,6 @@ struct dpu_hw_merge_3d *dpu_hw_merge_3d_init(enum dpu_merge_3d idx,
- 	c->caps = cfg;
- 	_setup_merge_3d_ops(c, c->caps->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_MERGE_3D, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-index 92cd724263ce..55766c97c4c8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-@@ -282,8 +282,6 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(enum dpu_pingpong idx,
- 	c->caps = cfg;
- 	_setup_pingpong_ops(c, c->caps->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_PINGPONG, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 8734a47040aa..69eed7932486 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -733,8 +733,6 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
- 	hw_pipe->cap = cfg;
- 	_setup_layer_ops(hw_pipe, hw_pipe->cap->features);
- 
--	dpu_hw_blk_init(&hw_pipe->base, DPU_HW_BLK_SSPP, idx);
--
- 	return hw_pipe;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-index dae77d9c2c74..282e3c6c6d48 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-@@ -322,8 +322,6 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(enum dpu_mdp idx,
- 	mdp->caps = cfg;
- 	_setup_mdp_ops(&mdp->ops, mdp->caps->features);
- 
--	dpu_hw_blk_init(&mdp->base, DPU_HW_BLK_TOP, idx);
--
- 	return mdp;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index fd2d104f0a91..5afdfceeaa6e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -428,7 +428,7 @@ static int _dpu_rm_reserve_ctls(
- 		features = ctl->caps->features;
- 		has_split_display = BIT(DPU_CTL_SPLIT_DISPLAY) & features;
- 
--		DPU_DEBUG("ctl %d caps 0x%lX\n", rm->ctl_blks[j]->id, features);
-+		DPU_DEBUG("ctl %d caps 0x%lX\n", j + CTL_0, features);
- 
- 		if (needs_split_display != has_split_display)
- 			continue;
--- 
-2.30.2
+> > So let's do the L-shaped memory detection the same way as the
+> > desktop variants, ie. just look at the DRAM rank boundary
+> > registers to see if both channels have an identical size.
+> > =
 
+> > With this my CL/CTG no longer claim L-shaped memory when I use
+> > identical sticks. Also tested with non-matching sticks just to
+> > make sure the L-shaped memory is still properly detected.
+> > =
+
+> > And for completeness let's update the debugfs code to dump
+> > the correct set of registers on each platform.
+> > =
+
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> =
+
+> Did you check this with the swapping igt? I have some vague memories of
+> bug reports where somehow the machine was acting like it's L-shaped memory
+> despite that banks were populated equally. I've iirc tried all kinds of
+> tricks to figure it out, all to absolutely no avail.
+
+Did you have a specific test in mind? I ran a bunch of things
+that seemed swizzle related. All passed just fine.
+
+Chris did have similar concerns and suggested we should have
+better tests. I guess what I should try to do is some selftests
+which make sure we test both high and low physical addresses
+and check the swizzle pattern is as expected. But haven't =
+
+found the time to do that yet.
+
+> =
+
+> tbh I'd just not touch this, not really worth it.
+
+It's totally worth it to get gen4 machines working again.
+
+
+> -Daniel
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 15 ++++++++-------
+> >  drivers/gpu/drm/i915/i915_debugfs.c          | 16 ++++++++++++----
+> >  drivers/gpu/drm/i915/i915_reg.h              |  4 ++++
+> >  3 files changed, 24 insertions(+), 11 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu=
+/drm/i915/gt/intel_ggtt_fencing.c
+> > index 0fa6c38893f7..754f20768de5 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > @@ -693,14 +693,15 @@ static void detect_bit_6_swizzle(struct i915_ggtt=
+ *ggtt)
+> >  				swizzle_x =3D I915_BIT_6_SWIZZLE_9_10_17;
+> >  				swizzle_y =3D I915_BIT_6_SWIZZLE_9_17;
+> >  			}
+> > -			break;
+> > -		}
+> >  =
+
+> > -		/* check for L-shaped memory aka modified enhanced addressing */
+> > -		if (IS_GEN(i915, 4) &&
+> > -		    !(intel_uncore_read(uncore, DCC2) & DCC2_MODIFIED_ENHANCED_DISAB=
+LE)) {
+> > -			swizzle_x =3D I915_BIT_6_SWIZZLE_UNKNOWN;
+> > -			swizzle_y =3D I915_BIT_6_SWIZZLE_UNKNOWN;
+> > +			/* check for L-shaped memory aka modified enhanced addressing */
+> > +			if (IS_GEN(i915, 4) &&
+> > +			    intel_uncore_read16(uncore, C0DRB3_CL) !=3D
+> > +			    intel_uncore_read16(uncore, C1DRB3_CL)) {
+> > +				swizzle_x =3D I915_BIT_6_SWIZZLE_UNKNOWN;
+> > +				swizzle_y =3D I915_BIT_6_SWIZZLE_UNKNOWN;
+> > +			}
+> > +			break;
+> >  		}
+> >  =
+
+> >  		if (dcc =3D=3D 0xffffffff) {
+> > diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915=
+/i915_debugfs.c
+> > index 8dd374691102..6de11ffcde38 100644
+> > --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> > +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> > @@ -621,10 +621,18 @@ static int i915_swizzle_info(struct seq_file *m, =
+void *data)
+> >  			   intel_uncore_read(uncore, DCC));
+> >  		seq_printf(m, "DDC2 =3D 0x%08x\n",
+> >  			   intel_uncore_read(uncore, DCC2));
+> > -		seq_printf(m, "C0DRB3 =3D 0x%04x\n",
+> > -			   intel_uncore_read16(uncore, C0DRB3_BW));
+> > -		seq_printf(m, "C1DRB3 =3D 0x%04x\n",
+> > -			   intel_uncore_read16(uncore, C1DRB3_BW));
+> > +
+> > +		if (IS_G45(dev_priv) || IS_I965G(dev_priv) || IS_G33(dev_priv)) {
+> > +			seq_printf(m, "C0DRB3 =3D 0x%04x\n",
+> > +				   intel_uncore_read16(uncore, C0DRB3_BW));
+> > +			seq_printf(m, "C1DRB3 =3D 0x%04x\n",
+> > +				   intel_uncore_read16(uncore, C1DRB3_BW));
+> > +		} else if (IS_GEN(dev_priv, 4)) {
+> > +			seq_printf(m, "C0DRB3 =3D 0x%04x\n",
+> > +				   intel_uncore_read16(uncore, C0DRB3_CL));
+> > +			seq_printf(m, "C1DRB3 =3D 0x%04x\n",
+> > +				   intel_uncore_read16(uncore, C1DRB3_CL));
+> > +		}
+> >  	} else if (INTEL_GEN(dev_priv) >=3D 6) {
+> >  		seq_printf(m, "MAD_DIMM_C0 =3D 0x%08x\n",
+> >  			   intel_uncore_read(uncore, MAD_DIMM_C0));
+> > diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i91=
+5_reg.h
+> > index 0587b2455ea1..055c258179a1 100644
+> > --- a/drivers/gpu/drm/i915/i915_reg.h
+> > +++ b/drivers/gpu/drm/i915/i915_reg.h
+> > @@ -3790,6 +3790,10 @@ static inline bool i915_mmio_reg_valid(i915_reg_=
+t reg)
+> >  #define C0DRB3_BW		_MMIO(MCHBAR_MIRROR_BASE + 0x206)
+> >  #define C1DRB3_BW		_MMIO(MCHBAR_MIRROR_BASE + 0x606)
+> >  =
+
+> > +/* 965gm,ctg DRAM channel configuration */
+> > +#define C0DRB3_CL		_MMIO(MCHBAR_MIRROR_BASE + 0x1206)
+> > +#define C1DRB3_CL		_MMIO(MCHBAR_MIRROR_BASE + 0x1306)
+> > +
+> >  /* snb MCH registers for reading the DRAM channel configuration */
+> >  #define MAD_DIMM_C0			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5004)
+> >  #define MAD_DIMM_C1			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5008)
+> > -- =
+
+> > 2.26.3
+> > =
+
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> =
+
+> -- =
+
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
