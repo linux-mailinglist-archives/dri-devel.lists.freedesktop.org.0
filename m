@@ -1,64 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB3736844F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 18:00:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 655FC368485
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 18:13:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0E66E3AE;
-	Thu, 22 Apr 2021 15:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BDD56E3E3;
+	Thu, 22 Apr 2021 16:13:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A3B86E3AE
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 15:59:58 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id n2so69533286ejy.7
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 08:59:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1MFsgMi1vScM/Xb4Qn/U8v6SwMwWvXpGL3C1LP/euKw=;
- b=VMTL9Pmsx8mAuoF2J0RLpSs6vSjUyH+Qb+ikO0dild2RCYQ3a4jdGEB5/vdO4WmL54
- fQ4M9TjDLVcpbyb5dKniDuDZxSdHtqIhMISryjXKCkBbpaemDHnPmqYHXpbopgJeF86k
- g0l08o39WKNbGipu9sZ+c3RgufZts87Rj+DefkBvns/nFM+DNJUNVIWQF1wwf9XIaYUC
- 1fcOaGzE44biHaJdvdwCmp4i/q5lvnEXA7PTiGN8FTRg1jJLqAKXKGYOUSqz4igMivnT
- nGhdxYzRv+EscSZEwEkGuKlJl8MPUwKoM7GGeU5wmzBkcfnLiCBibU4/J0bhU6ok0d5r
- u5gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1MFsgMi1vScM/Xb4Qn/U8v6SwMwWvXpGL3C1LP/euKw=;
- b=cBJSZmsUa1KJVxrxNUFDyz72pj7tspY1ENKwaeReXPPtCJR0gTE6IYbKf0gco6f+Cq
- Jd8s7KiIkvkVY8xz+FvuhHIAo4mSFAAA96l6w7vGI3XPdVSv1V5AYSm1LM3L7vt8qZgh
- GMcyfQ98+rCya0lwrHfyil4xhOLarJ61Bd49WnFwf7B8e16E9qsq2UFLf/S8MvOF0UBE
- I/mfFjGRs3Fd0GtSu72BI/GnaIph9cs3uy4H9RgSgdeOHlJusWD50ll2qWJ092L6C0ta
- mVfsFAoLbpzkUbqcbSwobUPTHqpcmJwQrq4cB4ga84QvlM8uMGq/YpG8SBNjzCfJPCBv
- rLlg==
-X-Gm-Message-State: AOAM533p+v3067mf4/npBYHGjN3Elmu1u0Flae2UNnDjS8eaZTxWktiw
- KGJPvqdPqm5HbAZ9vMh4/UM=
-X-Google-Smtp-Source: ABdhPJxvokTBKhDTnzty8TsRMpTNxLZQx0zh1Pe3lEqnk4rJoiUWmNpIj2+juJqvF+Ghk2xyKBuI5w==
-X-Received: by 2002:a17:906:4ed1:: with SMTP id
- i17mr4060093ejv.424.1619107196772; 
- Thu, 22 Apr 2021 08:59:56 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it.
- [79.52.107.152])
- by smtp.gmail.com with ESMTPSA id q25sm2551608edt.51.2021.04.22.08.59.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 08:59:56 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
- Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH] drm/amd/amdgpu/amdgpu_drv.c: Replace drm_modeset_lock_all
- with drm_modeset_lock
-Date: Thu, 22 Apr 2021 17:59:51 +0200
-Message-Id: <20210422155951.6314-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D549E6E3E3;
+ Thu, 22 Apr 2021 16:13:36 +0000 (UTC)
+Received: from 1-171-214-192.dynamic-ip.hinet.net ([1.171.214.192]
+ helo=localhost) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>)
+ id 1lZbxD-0001U9-29; Thu, 22 Apr 2021 16:13:24 +0000
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, ville.syrjala@linux.intel.com
+Subject: [PATCH] drm/i915: Invoke BXT _DSM to enable MUX on HP Workstation
+ laptops
+Date: Fri, 23 Apr 2021 00:13:06 +0800
+Message-Id: <20210422161316.194620-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,52 +39,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_modeset_lock_all() is not needed here, so it is replaced with
-drm_modeset_lock(). The crtc list around which we are looping never
-changes, therefore the only lock we need is to protect access to
-crtc->state.
+On HP Fury G7 Workstations, graphics output is re-routed from Intel GFX
+to discrete GFX after S3. This is not desirable, because userspace will
+treat connected display as a new one, losing display settings.
 
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+The expected behavior is to let discrete GFX drives all external
+displays.
+
+The platform in question uses ACPI method \_SB.PCI0.HGME to enable MUX.
+The method is inside the BXT _DSM, so add the _DSM and call it
+accordingly.
+
+I also tested some MUX-less and iGPU only laptops with the BXT _DSM, no
+regression was found.
+
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3113
+References: https://lore.kernel.org/intel-gfx/1460040732-31417-4-git-send-email-animesh.manna@intel.com/
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/display/intel_acpi.c | 17 +++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_acpi.h |  2 ++
+ drivers/gpu/drm/i915/i915_drv.c           |  5 +++++
+ 3 files changed, 24 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 671ec1002230..bce8f6793d8e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -1439,17 +1439,16 @@ static int amdgpu_pmops_runtime_idle(struct device *dev)
- 	if (amdgpu_device_has_dc_support(adev)) {
- 		struct drm_crtc *crtc;
+diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+index 833d0c1be4f1..c7b57c22dce3 100644
+--- a/drivers/gpu/drm/i915/display/intel_acpi.c
++++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+@@ -14,11 +14,16 @@
  
--		drm_modeset_lock_all(drm_dev);
--
- 		drm_for_each_crtc(crtc, drm_dev) {
-+			drm_modeset_lock(&crtc->mutex, NULL);
- 			if (crtc->state->active) {
- 				ret = -EBUSY;
--				break;
- 			}
-+			drm_modeset_unlock(&crtc->mutex);
-+			if (ret < 0)
-+				break;
- 		}
+ #define INTEL_DSM_REVISION_ID 1 /* For Calpella anyway... */
+ #define INTEL_DSM_FN_PLATFORM_MUX_INFO 1 /* No args */
++#define INTEL_DSM_FN_PLATFORM_BXT_MUX_INFO 0 /* No args */
  
--		drm_modeset_unlock_all(drm_dev);
--
- 	} else {
- 		struct drm_connector *list_connector;
- 		struct drm_connector_list_iter iter;
+ static const guid_t intel_dsm_guid =
+ 	GUID_INIT(0x7ed873d3, 0xc2d0, 0x4e4f,
+ 		  0xa8, 0x54, 0x0f, 0x13, 0x17, 0xb0, 0x1c, 0x2c);
+ 
++static const guid_t intel_bxt_dsm_guid =
++	GUID_INIT(0x3e5b41c6, 0xeb1d, 0x4260,
++		  0x9d, 0x15, 0xc7, 0x1f, 0xba, 0xda, 0xe4, 0x14);
++
+ static char *intel_dsm_port_name(u8 id)
+ {
+ 	switch (id) {
+@@ -176,6 +181,18 @@ void intel_unregister_dsm_handler(void)
+ {
+ }
+ 
++void intel_bxt_dsm_detect(struct pci_dev *pdev)
++{
++	acpi_handle dhandle;
++
++	dhandle = ACPI_HANDLE(&pdev->dev);
++	if (!dhandle)
++		return;
++
++	acpi_evaluate_dsm(dhandle, &intel_bxt_dsm_guid, INTEL_DSM_REVISION_ID,
++			  INTEL_DSM_FN_PLATFORM_BXT_MUX_INFO, NULL);
++}
++
+ /*
+  * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
+  * Attached to the Display Adapter).
+diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
+index e8b068661d22..0dd456335bd0 100644
+--- a/drivers/gpu/drm/i915/display/intel_acpi.h
++++ b/drivers/gpu/drm/i915/display/intel_acpi.h
+@@ -11,10 +11,12 @@ struct drm_i915_private;
+ #ifdef CONFIG_ACPI
+ void intel_register_dsm_handler(void);
+ void intel_unregister_dsm_handler(void);
++void intel_bxt_dsm_detect(struct pci_dev *pdev);
+ void intel_acpi_device_id_update(struct drm_i915_private *i915);
+ #else
+ static inline void intel_register_dsm_handler(void) { return; }
+ static inline void intel_unregister_dsm_handler(void) { return; }
++static inline void intel_bxt_dsm_detect(struct pci_dev *pdev) { return; }
+ static inline
+ void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
+ #endif /* CONFIG_ACPI */
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index 785dcf20c77b..57b12068aab4 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -853,6 +853,8 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (ret)
+ 		goto out_cleanup_gem;
+ 
++	intel_bxt_dsm_detect(pdev);
++
+ 	i915_driver_register(i915);
+ 
+ 	enable_rpm_wakeref_asserts(&i915->runtime_pm);
+@@ -1215,6 +1217,7 @@ int i915_suspend_switcheroo(struct drm_i915_private *i915, pm_message_t state)
+ static int i915_drm_resume(struct drm_device *dev)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
++	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+ 	int ret;
+ 
+ 	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
+@@ -1271,6 +1274,8 @@ static int i915_drm_resume(struct drm_device *dev)
+ 
+ 	intel_gvt_resume(dev_priv);
+ 
++	intel_bxt_dsm_detect(pdev);
++
+ 	enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
+ 
+ 	return 0;
 -- 
-2.31.1
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
