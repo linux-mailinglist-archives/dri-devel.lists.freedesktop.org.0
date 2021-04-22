@@ -1,56 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44ED367BBF
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 10:10:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0961367BCC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Apr 2021 10:11:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2E5F6E151;
-	Thu, 22 Apr 2021 08:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C625D6EA38;
+	Thu, 22 Apr 2021 08:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4F566E1D5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 08:10:17 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id u17so67468857ejk.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 01:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h+CMl0wy3Vjr3C3/bC9rZ5K1PCcuzB8i4uU1sLoEz/Q=;
- b=REWRFzLC60dlqnMXMPEWx38bd5GYmNw56uXhyWHcnMYr3Tv5NpMHovQnA5Bb+5InmN
- 4b+4f0c1dH/bJ06BBd0tlLT9CpiaeANYTqzerfaaKs42oIiIp1kXhG4vlCosi3/d5fu2
- ElHUSdzzB0d8IjpqH4NOgi+LZkCL7w/YXTu+o=
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFF56EA38
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 08:11:39 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id y204so22184127wmg.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 01:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=YzUSYaOgN9hxojeW0mU7pzbBG2m7ss1xHFD86VpZnFw=;
+ b=SQBU2KUkg8eg+N+tMN7haZLLtl7EyaXi5aA3ujHphx/jCYBCM14EfIxYNwUyfBHKb4
+ snU8IimoDnaoZJp5mAhiDqj430JufITSFQ4+HLTMZ3NXHi3TPOIkxL3m6gWEwikhLUrz
+ t3K6p6XAEM+uZ19sV6Ln7bgwAmV/FiGMvgtls=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h+CMl0wy3Vjr3C3/bC9rZ5K1PCcuzB8i4uU1sLoEz/Q=;
- b=g0Lms1WV8/CGtzwpLwye7M+yyT8G2qaiqNOokWcZaI4RjUh+2GU748BRxZ5fHNmSOH
- QvothA8L5xDHJW3UAecj4aqb1T4tHGzR9cUOKLPxkdZ2aMpeRUmsUyM4RXbM9tMEypJU
- VjrjQon6iXzg6udccw+sqbcgOoX+YDdmiPz52DVOn7DxWt8yiTmgLgIg1WyTWlSyEoVx
- dKeIuSo8n99PphhqtDmvcBAG0iu3lfz19PBfXLbHCzZtP7weLP9I84vSgkJd2G7byqUj
- AOdtN+DLj+fchb1fdZFFCjEuQjN3qPWBfAqDlVjNtNxsYtaV3nQfuwyja+CLClGketID
- od9Q==
-X-Gm-Message-State: AOAM5336IRlIvVf+jehfCB2VzFN/r1hjsuiCckt9h8tC1HvHFPK49h6l
- kWN0JsmdAnsmCVommuWBUGXW1jnHKMMTaUU7Y4PByQ==
-X-Google-Smtp-Source: ABdhPJz86iG8pbA8A6dOaF9RURCM9V6vojTjv4f6LyDRLnUH+5yxZV2UZ3/KAwNZFRV4cxKgrwj0Yfx3i4LiRRYoxeY=
-X-Received: by 2002:a17:906:235b:: with SMTP id
- m27mr2083664eja.336.1619079016529; 
- Thu, 22 Apr 2021 01:10:16 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=YzUSYaOgN9hxojeW0mU7pzbBG2m7ss1xHFD86VpZnFw=;
+ b=cpgSO1hsWgKT5YPoyqou7p7E+8XWolnweE+a1zJQyopT4ftWJIJASFE4C6Dt4Ejv5s
+ HuRR41Iwh8SyBZw2IBGmJsiR2+1fT6vMgTrWzCHVixCbSh++1Q6TBmaLT0/WSzoFlDRK
+ TZuMpxBTM8pdxh9YQz7dTEEFbcARR25lCFqOns+Pv8dGaJ5BEWY2LjaqsdOrf2i2yIM1
+ B9i5EnBGMKCbf5dMdg9EsKIbGgNBlmRWnvm2MZpqDSXBWM8A4CbHl7toxDSXlSW+7bGb
+ FDrciL8z3s8S4XpDh3s1PgcuLvAOyFk+nbPS3ASLFl20ahKzyzZDhQFtcYeqL0bsNHFK
+ qetA==
+X-Gm-Message-State: AOAM531lQp/I8qZvlyylGpqHLaidxXEEOfDHaBtFdEeEKNKqbJd0NAUh
+ WIQxzL9uACvh2sNQ+IK/puMYWQ==
+X-Google-Smtp-Source: ABdhPJzQpl8oyp8JKOUGIeroE+P/ggioIzwSyjJLJwYdLC/3EQSRErDjzwQT8eDoqpZqalDMXfPETw==
+X-Received: by 2002:a1c:1dd0:: with SMTP id d199mr2436011wmd.54.1619079098208; 
+ Thu, 22 Apr 2021 01:11:38 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l20sm2249188wmg.33.2021.04.22.01.11.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Apr 2021 01:11:37 -0700 (PDT)
+Date: Thu, 22 Apr 2021 10:11:35 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/2] coda: fix reference counting in coda_file_mmap error
+ path
+Message-ID: <YIEvt01bQkKhxDSJ@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, 
+ linux-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, dri-devel@lists.freedesktop.org,
+ jgg@ziepe.ca, jaharkes@cs.cmu.edu, akpm@linux-foundation.org,
+ miklos@szeredi.hu, coda@cs.cmu.edu
+References: <20210421132012.82354-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-References: <20210214174453.104616-1-jagan@amarulasolutions.com>
- <d7f9b241-3cfc-836a-2519-3b6621899108@denx.de>
- <CAMty3ZBMt+bx7ZrCQf0b3wrJUtZVe3CS=8-t_wYZ4+=PwP+mbQ@mail.gmail.com>
- <2d9a88e9-e443-0243-4b68-85fc01d9677b@denx.de>
-In-Reply-To: <2d9a88e9-e443-0243-4b68-85fc01d9677b@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 22 Apr 2021 13:40:05 +0530
-Message-ID: <CAMty3ZAhdOesrEA26_rduEOaxpwScd5Og6biXT5SzULbH6GR6w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add bindings for
- SN65DSI83/84/85
-To: Marek Vasut <marex@denx.de>
+Content-Disposition: inline
+In-Reply-To: <20210421132012.82354-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,55 +72,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Claudius Heine <ch@denx.de>,
- Jonas Karlman <jonas@kwiboo.se>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: jaharkes@cs.cmu.edu, miklos@szeredi.hu, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, codalist@coda.cs.cmu.edu, jgg@ziepe.ca,
+ akpm@linux-foundation.org, linux-unionfs@vger.kernel.org, coda@cs.cmu.edu
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 22, 2021 at 4:04 AM Marek Vasut <marex@denx.de> wrote:
->
-> On 4/8/21 4:45 PM, Jagan Teki wrote:
-> > On Wed, Mar 24, 2021 at 7:26 PM Claudius Heine <ch@denx.de> wrote:
-> >>
-> >> Hi Jagan,
-> >>
-> >> On 2021-02-14 18:44, Jagan Teki wrote:
-> >>> SN65DSI83/84/85 devices are MIPI DSI to LVDS based bridge
-> >>> controller IC's from Texas Instruments.
-> >>>
-> >>> SN65DSI83 - Single Channel DSI to Single-link LVDS bridge
-> >>> SN65DSI84 - Single Channel DSI to Dual-link LVDS bridge
-> >>> SN65DSI85 - Dual Channel DSI to Dual-link LVDS bridge
-> >>>
-> >>> Right now the bridge driver is supporting Channel A with single
-> >>> link, so dt-bindings documented according to it.
-> >>
-> >> Do you know when we can expect a v4 for this?
-> >>
-> >> I am currently working on top of your patch set to setup a dual-link
-> >> LVDS bridge of SN65DSI84.
-> >
-> > Yes, I'm planning to send v4 this week. will keep you in CC. thanks!
->
-> I haven't seen any activity here for over two weeks, so I decided to
-> send V2 of the driver I wrote, now tested on both DSI83 and DSI84.
+On Wed, Apr 21, 2021 at 03:20:11PM +0200, Christian K=F6nig wrote:
+> mmap_region() now calls fput() on the vma->vm_file.
+> =
 
-It delayed me since I have considered several comments from the
-Mailing list to wrote Dual Link-LVDS configuration support. I have a
-plan to send v4 in the coming weekend with these changes, I thought it
-would be the possible driver to support 1 and 2 links LVDS.
+> So we need to drop the extra reference on the coda file instead of the
+> host file.
+> =
 
-Jagan.
+> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> Fixes: 1527f926fd04 ("mm: mmap: fix fput in error path v2")
+> CC: stable@vger.kernel.org # 5.11+
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  fs/coda/file.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> =
+
+> diff --git a/fs/coda/file.c b/fs/coda/file.c
+> index 128d63df5bfb..ef5ca22bfb3e 100644
+> --- a/fs/coda/file.c
+> +++ b/fs/coda/file.c
+> @@ -175,10 +175,10 @@ coda_file_mmap(struct file *coda_file, struct vm_ar=
+ea_struct *vma)
+>  	ret =3D call_mmap(vma->vm_file, vma);
+>  =
+
+>  	if (ret) {
+> -		/* if call_mmap fails, our caller will put coda_file so we
+> -		 * should drop the reference to the host_file that we got.
+> +		/* if call_mmap fails, our caller will put host_file so we
+> +		 * should drop the reference to the coda_file that we got.
+>  		 */
+> -		fput(host_file);
+> +		fput(coda_file);
+>  		kfree(cvm_ops);
+>  	} else {
+>  		/* here we add redirects for the open/close vm_operations */
+> -- =
+
+> 2.25.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
