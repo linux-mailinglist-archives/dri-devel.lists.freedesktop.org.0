@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3026369AC0
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 21:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56658369B5D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 22:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C5426EC4C;
-	Fri, 23 Apr 2021 19:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C40E06E182;
+	Fri, 23 Apr 2021 20:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 949A66E15D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 19:12:20 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id v7so22608322qkj.13
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 12:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=H896F4PjwDY8jmfWwaLDr4shp26B+KmxkyhAPtoMs4M=;
- b=pRma3lac0c5ClpyVGp+FlxDrBykek+53y2UaGikk8p9eHwfH7nW4VE/v7DHQV32oeZ
- 5G9WhJZyojjSE6DFn0ndsv4QXv9e1QHpZg07YBRQ/JPMA+MNwFKGdwDu6VXN6kdmcxZo
- 1nByFst29E593MUK+C0aJPfnNnZ6ITjj7qF32THxkIdgfRugqs2kBTpMTXIv2+p/1eSH
- LnjKtF3RenT8LbipYN3UZqka5GF9siPGVro+5MTLey4gXPqR3y4gMSfV5V1ftQUwMkhK
- AfJUaiGZIjlyNn3ErcmbmmVME5EYXwOyjigc6yKMlspVMy4AfHPS0ZJY1J+tDLhUa0Sk
- NiOg==
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1B316E182
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 20:37:02 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ 35-20020a9d05260000b029029c82502d7bso14971578otw.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 13:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=n+Lz2TX+kMzb81cQaVrZn/S3HsQ886ZKObdk4TR8rGM=;
+ b=mtUubTCiYbbtl7jdlEhqYee9xYWGtLmQVd4S4ti3uiFf7RNFAxhNToaQ0yBpWsEmIS
+ 7X3AhI/WrAuco42pB5so245EmeieJ7GNpsc7COlKbr5L9eR95+8y0Nm2dquGuopmg4wv
+ 0GCVape7MMBAJfE34o5kkcuLxHJ1/r0XDBPP1N/T2DrASZ/2tJADHqNj77tHKqUc7al8
+ a9vQIUzYSR6LyoZi1cZ2x56Z6wb4i/mrFiBoxwGnxVIYYlKiscE62M2+Jz/4MYfGwVuR
+ ZohYPvIkptMVLvgZGiKdoYKF865X65zf9nEdnAAWPDZAp3XLL4IV4P/Y9shMioYlGdUm
+ 2c9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=H896F4PjwDY8jmfWwaLDr4shp26B+KmxkyhAPtoMs4M=;
- b=VUHoAYhLKLVyeBzrezWPyeuCRqsbPEJGP3AIM+HXdYW7oyDzmg0Ux2SdHR0xlytvft
- 4qsX4SPMFms/ZL2JzNd4qEaQ2ETRWA6F9iE/73k+Lbz+AICrxwxRkyfTNKbMJsYSiJn5
- ugk7sh0S1dtTl1AZuXZSPWSh1QkJ3Z6xbQAFCja/Ljso+v8ARV/JkjZV9bn/045/yKRC
- RdBNUoXt6t2GS7BWmeSdb4J6EqVFPi//gNWnZMUWwag5oPGqjCMozoy+BWMQfWF4P9Ff
- MFqBwHsaxg9F9RkBUhKPHws7pn6vt7EXKdcfXBWqprF1V190SjDZiTboO4gDa2zNlpNk
- zzJQ==
-X-Gm-Message-State: AOAM530zytgA5ZAXG5kfqvuF3RThzQUkuoK5zi8F6MoR/G7hjde+F7hH
- WQvaC4HSkYMe1OXLeikyOUidAQ==
-X-Google-Smtp-Source: ABdhPJxtl7HyuuifiNlkFxXYO7ncQRrKu5Xh1IELP5GvMv+x2eQ8MKIDTBx5pc6kfeilwBtBpV4L+Q==
-X-Received: by 2002:a37:a90a:: with SMTP id s10mr5507081qke.63.1619205139696; 
- Fri, 23 Apr 2021 12:12:19 -0700 (PDT)
-Received: from localhost.localdomain
- (modemcable068.184-131-66.mc.videotron.ca. [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id a22sm4834630qtp.80.2021.04.23.12.12.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 12:12:19 -0700 (PDT)
-From: Jonathan Marek <jonathan@marek.ca>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/msm: deprecate MSM_BO_UNCACHED (map as writecombine
- instead)
-Date: Fri, 23 Apr 2021 15:08:21 -0400
-Message-Id: <20210423190833.25319-6-jonathan@marek.ca>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20210423190833.25319-1-jonathan@marek.ca>
-References: <20210423190833.25319-1-jonathan@marek.ca>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=n+Lz2TX+kMzb81cQaVrZn/S3HsQ886ZKObdk4TR8rGM=;
+ b=pb1OXk+t5KJ+O9XOgQ3AsohcB4nWTioTxBPI6dVZGtl6X4DA+YIt8i40Qit7jUzBRZ
+ JElvA3A6PW9OtV7KONqsKFk9YESHWIn3nPrRNcdvUgP76K0UIXNO2p8VLApbG5KQFrE3
+ GTR0z5KhqVrsgeOoBBukeUcPAHpBpYIDnLBwnFaURtrRM5UrTI8XTX+8rTVr+CSa0pWV
+ cAnXQu7pYGGWVp4sfLP9RXbURQBZ5sWcfmCQ8LoHFl27j/VQR9PFplqCbXWQ0TqOuLhW
+ 8SUTP2OQIPe/MWZ5NSHTN5A2CBvGSeoe1/E9aOnq6FY2PFCPa/Lvr7MpLHgTmZ1+43Oe
+ IIYQ==
+X-Gm-Message-State: AOAM5330P9gBFchHkVl076cntj1BfTxCHCHT8ecfYV/GmYqu1n4le6Ce
+ 74OU81Xhs5xdDwTs6JkuLY1Ad+AbaKx9c+jOVMcf+CsqWPNBdfWz
+X-Google-Smtp-Source: ABdhPJzC4zx2bb7IiGqj8Z2NxHVgJ1/V4g7any3R9OrebY62e+iqDOGxVUVa2v8coETtkxX7ySnfVX7V4tNPA5HKJ1M=
+X-Received: by 2002:a05:6830:15d3:: with SMTP id
+ j19mr4891264otr.23.1619210222043; 
+ Fri, 23 Apr 2021 13:37:02 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210416124044.53d4beee@canb.auug.org.au>
+ <20210421164024.42bc068f@canb.auug.org.au>
+In-Reply-To: <20210421164024.42bc068f@canb.auug.org.au>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 23 Apr 2021 16:36:50 -0400
+Message-ID: <CADnq5_NGLC719T9Mx1wR+aLi8Ybwr8-ocCSYCRe=uNEBvJ+R4A@mail.gmail.com>
+Subject: Re: linux-next: build warning after merge of the amdgpu tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,59 +63,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>
+Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Prike Liang <Prike.Liang@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There shouldn't be any reason to ever use uncached over writecombine,
-so just use writecombine for MSM_BO_UNCACHED.
+On Wed, Apr 21, 2021 at 2:40 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>
+> Hi all,
+>
+> On Fri, 16 Apr 2021 12:40:44 +1000 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> >
+> > After merging the amdgpu tree, today's linux-next build (powerpc
+> > ppc64_defconfig) produced this warning:
+> >
+> > drivers/pci/quirks.c: In function 'quirk_amd_nvme_fixup':
+> > drivers/pci/quirks.c:312:18: warning: unused variable 'rdev' [-Wunused-variable]
+> >   312 |  struct pci_dev *rdev;
+> >       |                  ^~~~
+> >
+> > Introduced by commit
+> >
+> >   9597624ef606 ("nvme: put some AMD PCIE downstream NVME device to simple suspend/resume path")
+>
+> I am still seeing this warning.
 
-Note: userspace never used MSM_BO_UNCACHED anyway
+I no longer have that patch in my tree.  Was this an old build?
 
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
- drivers/gpu/drm/msm/msm_gem.c | 4 +---
- include/uapi/drm/msm_drm.h    | 2 +-
- 2 files changed, 2 insertions(+), 4 deletions(-)
+Alex
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 2e92e80009c8..56bca9178253 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -201,10 +201,8 @@ void msm_gem_put_pages(struct drm_gem_object *obj)
- 
- static pgprot_t msm_gem_pgprot(struct msm_gem_object *msm_obj, pgprot_t prot)
- {
--	if (msm_obj->flags & MSM_BO_WC)
-+	if (msm_obj->flags & (MSM_BO_WC|MSM_BO_UNCACHED))
- 		return pgprot_writecombine(prot);
--	if (msm_obj->flags & MSM_BO_UNCACHED)
--		return pgprot_noncached(prot);
- 	return prot;
- }
- 
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index a92d90a6d96f..f075851021c3 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -94,7 +94,7 @@ struct drm_msm_param {
- /* cache modes */
- #define MSM_BO_CACHED        0x00010000
- #define MSM_BO_WC            0x00020000
--#define MSM_BO_UNCACHED      0x00040000
-+#define MSM_BO_UNCACHED      0x00040000 /* deprecated, use MSM_BO_WC */
- #define MSM_BO_CACHED_COHERENT 0x080000
- 
- #define MSM_BO_FLAGS         (MSM_BO_SCANOUT | \
--- 
-2.26.1
-
+>
+> --
+> Cheers,
+> Stephen Rothwell
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
