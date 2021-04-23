@@ -1,51 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100E336994C
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 20:22:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6083699DD
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 20:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B68E6EC25;
-	Fri, 23 Apr 2021 18:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C736E056;
+	Fri, 23 Apr 2021 18:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5F86E419
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 18:22:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619202127;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wnwUXuktq3XktOISO/1NK97hBW8acao1j5wHNN1fMSg=;
- b=gaq9xd1M5a0wEQwVNJvA6EjtCqt1W8tr8nA7casaoQrJbc5kDV6XJbbDTobrwtWwlMQPdk
- +k0YuyDIS4fmmpzwx9haRLkPKZXaYT8PrtvHTtT9xiDbxLYCNv7/9XnJgTNjJZGNE2KTTA
- J4L+XvP7y+kQTCzcfBbj46JcL0mTl9I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-qFHRcptSMyq-AEa6BhKJLQ-1; Fri, 23 Apr 2021 14:22:05 -0400
-X-MC-Unique: qFHRcptSMyq-AEa6BhKJLQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49537343A3;
- Fri, 23 Apr 2021 18:22:04 +0000 (UTC)
-Received: from Ruby.lyude.net (ovpn-114-74.rdu2.redhat.com [10.10.114.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17B69608BA;
- Fri, 23 Apr 2021 18:22:03 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: linux-tegra@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/tegra: Fix DP AUX channel reference leaks
-Date: Fri, 23 Apr 2021 14:21:46 -0400
-Message-Id: <20210423182146.185633-3-lyude@redhat.com>
-In-Reply-To: <20210423182146.185633-1-lyude@redhat.com>
-References: <20210423182146.185633-1-lyude@redhat.com>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B475E6E056;
+ Fri, 23 Apr 2021 18:40:15 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id l17so18747537oil.11;
+ Fri, 23 Apr 2021 11:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j3rbej15nTxekMSQ1d2nQzyOkeUYbiZHxrH9ny0O8Oc=;
+ b=aA2xwfEgakU/kmGZNNzcdMQc6wSaL2tS0j/txBQzgMEyVhyWmJmvS2j3S0BZ+7Zx5r
+ j8Y/Ir8Ly78Ms2ruYnd6eOU66Dozyanfsy20HpdyeVef0rVRYTucIdfa0IhOLNbnf97O
+ 0USgHsNSno9Gav/tZs8CSz86aUX7LEGB5Bg0hifGMHXh9lJ9trIVQgQ/MgisiHmeAkv2
+ JBVrjaKpYOa0LodQjT+0i2ME6xCW2kSgUBlAYmcJu1X6JlYyuibnUBLRD1EjEg73naxl
+ 0dM2Ma48nKOsyI95tclJqyyMVfjtu9gEHOdC2zexjM2R5o7B/BLAUf1NhrgSJgrqnKb+
+ wc+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j3rbej15nTxekMSQ1d2nQzyOkeUYbiZHxrH9ny0O8Oc=;
+ b=O/2f6lAtyvldcn3VYqAjgA6/1hgtT+VVxVghzqjRXJL9cgFKtOf1o8JWX4Mnhaeaaw
+ i91yofAwxGHp39UcecL4weknG+LGsplFiC0q9vvSHEkGXLe9dqCirNKd8/HZrIvGXAOY
+ csI27ugKY3+28PUvM86628H6hPfZnBrc4KNVtNM8GPdyWP77vOfeUp4kpU7fZEVHA68X
+ J48kQpfL5tdnVs0uvZZY6m1jAeBt4gy4qemBbIF2fYeTuOpIkmMklLzgwe3guTTit311
+ cHuR/gzZWktAKJ+FKmwnQSmFo3FftXqZtywDh7RXdmGxug9buDZn5BfOuBgeDBK/MzJu
+ yeiQ==
+X-Gm-Message-State: AOAM530LA8F+LaWTT/iQDruXS2z7sgMt3Lm9q4r0i3Nr+5MZuXX1W6B7
+ oF9T3dQqC4Imf/KuLlTvRht2kNCZ8ZIEU0V+XIo=
+X-Google-Smtp-Source: ABdhPJy2XuueP4dPExRWZi8ws1g5uJwd7d1b7YaYrcT24czjaGaQrPADg9hlwDPvVQDxiB1aranscBUKR3TwqAVYnHI=
+X-Received: by 2002:aca:c08a:: with SMTP id q132mr4813114oif.5.1619203214988; 
+ Fri, 23 Apr 2021 11:40:14 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <1617929840-13269-1-git-send-email-wangyingjie55@126.com>
+In-Reply-To: <1617929840-13269-1-git-send-email-wangyingjie55@126.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 23 Apr 2021 14:40:04 -0400
+Message-ID: <CADnq5_P6=ztTEJ3uC6gnLCcPXUJFJDHLatswcGFD6_iy_rOM+g@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/amd/dc: Fix a missing check bug in
+ dm_dp_mst_detect()
+To: wangyingjie55@126.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,72 +61,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>
+Cc: "Tuikov, Luben" <luben.tuikov@amd.com>, Eryk Brol <eryk.brol@amd.com>,
+ "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@linux.ie>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Wayne Lin <Wayne.Lin@amd.com>,
+ "Deucher, Alexander" <alexander.deucher@amd.com>, "Lipski,
+ Mikita" <mikita.lipski@amd.com>, Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Noticed while fixing the regression I introduced in Tegra that Tegra seems
-to actually never release the device or module references it's grabbing for
-the DP AUX channel. So, let's fix that by dropping them when appropriate.
+Applied.  Thanks!
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/tegra/sor.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+Alex
 
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 4e0e3a63e586..474586e18d06 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3772,12 +3772,13 @@ static int tegra_sor_probe(struct platform_device *pdev)
- 
- 	err = tegra_sor_parse_dt(sor);
- 	if (err < 0)
--		return err;
-+		goto put_aux;
- 
- 	err = tegra_output_probe(&sor->output);
--	if (err < 0)
--		return dev_err_probe(&pdev->dev, err,
--				     "failed to probe output\n");
-+	if (err < 0) {
-+		err = dev_err_probe(&pdev->dev, err, "failed to probe output\n");
-+		goto put_aux;
-+	}
- 
- 	if (sor->ops && sor->ops->probe) {
- 		err = sor->ops->probe(sor);
-@@ -3966,6 +3967,11 @@ static int tegra_sor_probe(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
- remove:
- 	tegra_output_remove(&sor->output);
-+put_aux:
-+	if (sor->aux && sor->output.ddc) {
-+		module_put(sor->aux->dev->driver->owner);
-+		put_device(sor->aux->dev);
-+	}
- 	return err;
- }
- 
-@@ -3985,6 +3991,11 @@ static int tegra_sor_remove(struct platform_device *pdev)
- 
- 	tegra_output_remove(&sor->output);
- 
-+	if (sor->aux && sor->output.ddc) {
-+		module_put(sor->aux->dev->driver->owner);
-+		put_device(sor->aux->dev);
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.30.2
-
+On Thu, Apr 8, 2021 at 9:01 PM <wangyingjie55@126.com> wrote:
+>
+> From: Yingjie Wang <wangyingjie55@126.com>
+>
+> In dm_dp_mst_detect(), We should check whether or not @connector
+> has been unregistered from userspace. If the connector is unregistered,
+> we should return disconnected status.
+>
+> Fixes: 4562236b3bc0 ("drm/amd/dc: Add dc display driver (v2)")
+> Signed-off-by: Yingjie Wang <wangyingjie55@126.com>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index 8ab0b9060d2b..103dfd0e9b65 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -271,6 +271,9 @@ dm_dp_mst_detect(struct drm_connector *connector,
+>         struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+>         struct amdgpu_dm_connector *master = aconnector->mst_port;
+>
+> +       if (drm_connector_is_unregistered(connector))
+> +               return connector_status_disconnected;
+> +
+>         return drm_dp_mst_detect_port(connector, ctx, &master->mst_mgr,
+>                                       aconnector->port);
+>  }
+> --
+> 2.7.4
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
