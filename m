@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EC436979C
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 18:59:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F27369792
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 18:59:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 021126EC0D;
-	Fri, 23 Apr 2021 16:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0626E161;
+	Fri, 23 Apr 2021 16:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBB0E6EC07
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 16:59:44 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- m6-20020a17090a8586b02901507e1acf0fso1596903pjn.3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 09:59:44 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E64B06E161
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 16:59:45 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id lt13so14570056pjb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 09:59:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xP5DIs1FkSE0BDkM2KIzYkHfQ0hdD3i5eW0X+nUNW+Y=;
- b=Nui0pXvr5mJQMbnlzuYsHB8sZuXeWkPY3IJOWfaIzTzDi/nK7GX+qeRokQsNKy2fYL
- j1y6mX12y+CQx8BOw57VkZYhCBu6XhRlhhbJYAlTfbuYaUlcixbob351UBwviRX9wNcv
- xKZ6ARbbjmm25KQR9dd0/UTv4z2clW3SG0Ocs=
+ bh=pdcpo4UqRlWs4ocPfX4snuIEGMWz2iUneYKWicWu5Ps=;
+ b=UiXErXemW2Z1PCdM9rdxduLgZdKkZp2cJ5UTIOMhKS/ZBUmVIriOjKreGnp1xfCQs4
+ vE7OR5LEr7+0PS3EtSxsnORGB1XnMRLhtR/hwozuWTiDGTDzBVc+Z7heZxAXehNhWWu8
+ mitoDjp0bgrk9G2vLOxRD91XRxARy41wepVMg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xP5DIs1FkSE0BDkM2KIzYkHfQ0hdD3i5eW0X+nUNW+Y=;
- b=RdlWD2jqeyTKNz4U7d3adEmwWY7II9i5h2unkAMk1LXTvTHWuMIbqJ3zGPmeUxqUEO
- CcQWTEr95fq7epVKuIVX4W8FLikFWYbYg0gFXwcFNnZ6H+ygT3O84twTtvVuRfwlcv8S
- G57rMbjFYp1egUxvTdYRq/na74vIcBqvb2sMCd/1o7ScQVFYjfAdWo7LTrCu/6tN2ZlQ
- 0Qhis4N24zGmuQoi67ptYKHQElDoqluRWLBgVx4RWBkWWyght5bLv+BDJAaBRlu6ErIg
- DXOXdZjLJFJnZagwx6q+Bru8BL5bzTfFiZaLcW4FFEcWS8iOKrYDp9B5FZqwr8Vu29EF
- Dy+A==
-X-Gm-Message-State: AOAM532Dj2x/nqukWZDWOQ4rO4rPrZz0WF4vxUy0Lu0Psp6KcN6hYZLb
- VylH6zDGCFOwjxb8JvqsBYHFaQ==
-X-Google-Smtp-Source: ABdhPJxb8n3U3zZOiWMrXechOGFa6o/j6TcVWcBF+GRLB7Z3nK12l4CAlGd+Lw7zqpaW3ocWIOL1DQ==
-X-Received: by 2002:a17:90a:a395:: with SMTP id
- x21mr5425317pjp.95.1619197184632; 
- Fri, 23 Apr 2021 09:59:44 -0700 (PDT)
+ bh=pdcpo4UqRlWs4ocPfX4snuIEGMWz2iUneYKWicWu5Ps=;
+ b=d+VZtfCFm/xO8ni4dQYppgH7Yzcz1ucCVlQCvt09D6VFNjnuMQejZKDshbBFWxC6vR
+ 7/VChGhAIJwU42ElS2jvTVdmfGnvtGi0N2h5daW2hq1z6iqBatPvMbNxtKUXxJiTafL1
+ sFPorZTN7GfxiVywThtuTfLTVC/gY25ttwtSz9+rLUR/y5TzQ941768EbLajX/SEFuY4
+ pSxTD9q2pnD8t7gb+r3vupbRtNKVw/mZdUFn8XebFfPLUG06eF0TEfTtGIV72fwYfMzl
+ IrwXW4WEtpACdGJjZWK5ne1ByVrLsGj3hInsb5MMV3HdDF22Sepzut3RSaSClX2t/8Df
+ WBbA==
+X-Gm-Message-State: AOAM5324fChobb28gcVpIhJQmeYX8UfldSTyr6y57aMQSdHc9ej73ZQb
+ +K0KCL403OtWRkhUqw0iGPTjZw==
+X-Google-Smtp-Source: ABdhPJyAWKVmxvEi9reu/EoUqAW7KcB819hFWrr09EJVcKqxEtEvh/AuypvfPYDZ1yx6Fv3YxVpHEQ==
+X-Received: by 2002:a17:90b:344d:: with SMTP id
+ lj13mr6661098pjb.44.1619197185610; 
+ Fri, 23 Apr 2021 09:59:45 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:6d86:663d:71f8:6a11])
- by smtp.gmail.com with ESMTPSA id v8sm5123607pfm.128.2021.04.23.09.59.43
+ by smtp.gmail.com with ESMTPSA id v8sm5123607pfm.128.2021.04.23.09.59.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 09:59:44 -0700 (PDT)
+ Fri, 23 Apr 2021 09:59:45 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
  Sam Ravnborg <sam@ravnborg.org>, Wolfram Sang <wsa@kernel.org>
-Subject: [PATCH v5 04/20] drm/bridge: ti-sn65dsi86: Use devm to do our
- runtime_disable
-Date: Fri, 23 Apr 2021 09:58:50 -0700
-Message-Id: <20210423095743.v5.4.I1e627eb5f316c0cf6595b120e6e262f5bf890300@changeid>
+Subject: [PATCH v5 05/20] drm/bridge: ti-sn65dsi86: Clean debugfs code
+Date: Fri, 23 Apr 2021 09:58:51 -0700
+Message-Id: <20210423095743.v5.5.I5fe072753290c6a77eda736ebd5778e17b7cb0fb@changeid>
 X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
 In-Reply-To: <20210423165906.2504169-1-dianders@chromium.org>
 References: <20210423165906.2504169-1-dianders@chromium.org>
@@ -83,64 +81,94 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no devm_runtime_enable(), but it's easy to use
-devm_add_action_or_reset() and means we don't need to worry about the
-disable in our remove() routine or in error paths.
-
-No functional changes intended by this change.
+Let's cleanup the debugfs code to:
+- Check for errors.
+- Use devm to manage freeing, which also means we don't need to store
+  a pointer in our structure.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
+Bjorn: I left off your tag on this patch since I made changes compared
+to v4. Can you re-add if it still looks OK? This is now ordered
+_after_ the pm_runtime patch so I believe the ordering problem you
+pointed out should be fixed as well?
 
 Changes in v5:
-- Reordered to debugfs change to avoid transient issue
+- Don't print debugfs creation errors.
+- Handle NULL from debugfs_create_dir() which is documented possible.
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 33 +++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 57574132e200..44d8395505f0 100644
+index 44d8395505f0..8aa36074aab9 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1213,6 +1213,11 @@ static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
- 	pdata->ln_polrs = ln_polrs;
+@@ -118,7 +118,6 @@
+  * @aux:          Our aux channel.
+  * @bridge:       Our bridge.
+  * @connector:    Our connector.
+- * @debugfs:      Used for managing our debugfs.
+  * @host_node:    Remote DSI node.
+  * @dsi:          Our MIPI DSI source.
+  * @edid:         Detected EDID of eDP panel.
+@@ -146,7 +145,6 @@ struct ti_sn65dsi86 {
+ 	struct drm_dp_aux		aux;
+ 	struct drm_bridge		bridge;
+ 	struct drm_connector		connector;
+-	struct dentry			*debugfs;
+ 	struct edid			*edid;
+ 	struct device_node		*host_node;
+ 	struct mipi_dsi_device		*dsi;
+@@ -245,18 +243,31 @@ static int status_show(struct seq_file *s, void *data)
+ 
+ DEFINE_SHOW_ATTRIBUTE(status);
+ 
+-static void ti_sn65dsi86_debugfs_init(struct ti_sn65dsi86 *pdata)
++static void ti_sn65dsi86_debugfs_remove(void *data)
+ {
+-	pdata->debugfs = debugfs_create_dir(dev_name(pdata->dev), NULL);
+-
+-	debugfs_create_file("status", 0600, pdata->debugfs, pdata,
+-			&status_fops);
++	debugfs_remove_recursive(data);
  }
  
-+static void ti_sn65dsi86_runtime_disable(void *data)
-+{
-+	pm_runtime_disable(data);
-+}
-+
- static int ti_sn65dsi86_probe(struct i2c_client *client,
- 			      const struct i2c_device_id *id)
+-static void ti_sn65dsi86_debugfs_remove(struct ti_sn65dsi86 *pdata)
++static void ti_sn65dsi86_debugfs_init(struct ti_sn65dsi86 *pdata)
  {
-@@ -1272,12 +1277,13 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
- 		return ret;
- 
- 	pm_runtime_enable(pdata->dev);
-+	ret = devm_add_action_or_reset(pdata->dev, ti_sn65dsi86_runtime_disable, pdata->dev);
+-	debugfs_remove_recursive(pdata->debugfs);
+-	pdata->debugfs = NULL;
++	struct device *dev = pdata->dev;
++	struct dentry *debugfs;
++	int ret;
++
++	debugfs = debugfs_create_dir(dev_name(dev), NULL);
++
++	/*
++	 * We might get an error back if debugfs wasn't enabled in the kernel
++	 * so let's just silently return upon failure.
++	 */
++	if (IS_ERR_OR_NULL(debugfs))
++		return;
++
++	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_debugfs_remove, debugfs);
 +	if (ret)
-+		return ret;
++		return;
++
++	debugfs_create_file("status", 0600, debugfs, pdata, &status_fops);
+ }
  
- 	ret = ti_sn_setup_gpio_controller(pdata);
--	if (ret) {
--		pm_runtime_disable(pdata->dev);
-+	if (ret)
- 		return ret;
--	}
+ /* Connector funcs */
+@@ -1316,8 +1327,6 @@ static int ti_sn65dsi86_remove(struct i2c_client *client)
  
- 	i2c_set_clientdata(client, pdata);
+ 	kfree(pdata->edid);
  
-@@ -1314,8 +1320,6 @@ static int ti_sn65dsi86_remove(struct i2c_client *client)
- 
+-	ti_sn65dsi86_debugfs_remove(pdata);
+-
  	drm_bridge_remove(&pdata->bridge);
  
--	pm_runtime_disable(pdata->dev);
--
  	of_node_put(pdata->host_node);
- 
- 	return 0;
 -- 
 2.31.1.498.g6c1eba8ee3d-goog
 
