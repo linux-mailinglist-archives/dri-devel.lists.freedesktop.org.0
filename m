@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E201369C52
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 23:56:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E43BA369C5F
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 00:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2046EC96;
-	Fri, 23 Apr 2021 21:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBF906EC9B;
+	Fri, 23 Apr 2021 22:02:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from desiato.infradead.org (desiato.infradead.org
  [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A306EC96
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 21:56:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3B3F6EC9B
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 22:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
+ :In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:
  Sender:Reply-To:Content-ID:Content-Description;
- bh=v84hbqLBm76A9j4Ez4iAIyql8jD8liqw2eiruGo9PqM=; b=alN16LCNqkPlQMKgdnjObdyA5b
- a2XYttFsTsQjsfE762CyezS4VKcMv96DZWoFL5krk9AawPEhaccBrXTSRyI5oU5t6vdwJEFIm7VnT
- 8lFlT3DEPSS3xDfZhuWpypBnnTv71gIhQZbd/qlkrBayFFQG1gJUgOadM8IZDQJ63tGRSwemo9NRH
- yzmlYedLnUt5CgUfLnuSkGRsw141F0tScm8vrrEelcGpcCZCn+zZrES25zboVP/gg2pXgrMkkzVbe
- Bme1S2x65aMTis9heIWfFgnQqhzeJc3I9D7dNpYZT1nZpEyeK2wdkTIInyIHn743PvnjU1fMa1Z6J
- qGgH4Byw==;
+ bh=b7TCoIrPXpw0o3ThbdrJrScFNQkxIcaphgQY+xymGuk=; b=QqyYFgV7mDVW5p6oiO6WKcvoa+
+ RQ3SOtRK4OIpWPsI3xoZbgzGGZ1o8hwUCM8PbZifepGB6Vi6686pY0zPF4EYvR9JvOFaRuPSTZ+eN
+ iDMjN5K4n7yOK+Eaz0DUGRknUTL1FVZSBF5BhZJI5bx+8G67hu4OBrhX7Vn5vpjRZyFi+mdIQT4D/
+ z/mniyDdGEQG5EtSoseeu8AgKaw9FsoJCJ98/9rtHx2P6gmfWZoAwTW4LmcJt3WhoLhtiDz7fQfpu
+ 195KVhxbnvXXLA6NW458LDIxK9d7Kg4i92PhlebgEfBGmgvAc5SuQGvEdwXssKwPVOujs+V/cVNLN
+ T8I82Dlw==;
 Received: from [2601:1c0:6280:3f0::6d64]
  by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1la3mZ-002SMh-Sk; Fri, 23 Apr 2021 21:56:16 +0000
+ id 1la3sc-002Sr4-PS; Fri, 23 Apr 2021 22:02:31 +0000
 Subject: Re: [PATCH] drm: rcar-du: fix linker undefined references
+From: Randy Dunlap <rdunlap@infradead.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20210423213727.27751-1-rdunlap@infradead.org>
  <YINAJP1iPwsukLah@pendragon.ideasonboard.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <dca3ea68-9259-25f9-3d89-983783f9f7da@infradead.org>
-Date: Fri, 23 Apr 2021 14:56:11 -0700
+ <dca3ea68-9259-25f9-3d89-983783f9f7da@infradead.org>
+Message-ID: <a1096c8e-65ef-042c-5293-0785e1e21dba@infradead.org>
+Date: Fri, 23 Apr 2021 15:02:27 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <YINAJP1iPwsukLah@pendragon.ideasonboard.com>
+In-Reply-To: <dca3ea68-9259-25f9-3d89-983783f9f7da@infradead.org>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,103 +55,93 @@ Cc: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Jacopo Mondi <jacopo+renesas@jmondi.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/23/21 2:46 PM, Laurent Pinchart wrote:
-> Hi Randy,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Apr 23, 2021 at 02:37:27PM -0700, Randy Dunlap wrote:
->> When DRM_RCAR_DU=y and DRM_RCAR_LVDS=m, there are several build errors
->> as reported by 'kernel test robot'. These can be corrected by changing
->> "imply" to "select".
->>
->> In looking at this, the same problem (build errors) happens when
->> DRM_RCAR_DU=y and DRM_RCAR_CMM=m, so again change the "imply" to
->> "select" here as well.
->>
->> These 2 changes fix the following 8 build/link errors:
->>
->> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
->> rcar_du_crtc.c:(.text+0x1be8): undefined reference to `rcar_lvds_clk_enable'
->> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
->> rcar_du_crtc.c:(.text+0x2438): undefined reference to `rcar_lvds_clk_disable'
->> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_drv.o: in function `rcar_du_init':
->> rcar_du_drv.c:(.init.text+0x14): undefined reference to `rcar_du_of_init'
->> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_encoder.o: in function `rcar_du_encoder_init':
->> rcar_du_encoder.c:(.text+0x1d4): undefined reference to `rcar_lvds_dual_link'
->>
->> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_cmm_setup':
->> rcar_du_crtc.c:(.text+0x380): undefined reference to `rcar_cmm_setup'
->> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
->> rcar_du_crtc.c:(.text+0x1c08): undefined reference to `rcar_cmm_enable'
->> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
->> rcar_du_crtc.c:(.text+0x231c): undefined reference to `rcar_cmm_disable'
->> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_kms.o: in function `rcar_du_modeset_init':
->> rcar_du_kms.c:(.text+0xd08): undefined reference to `rcar_cmm_init'
->>
->> Fixes: e08e934d6c28 ("drm: rcar-du: Add support for CMM")
->> Fixes: 02f2b30032c1 ("drm: rcar-du: lvds: Add API to enable/disable clock output")
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Cc: Masahiro Yamada <masahiroy@kernel.org>
->> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: linux-renesas-soc@vger.kernel.org
->> Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>
->> ---
->>   drivers/gpu/drm/rcar-du/Kconfig |    4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> --- linux-next-20210420.orig/drivers/gpu/drm/rcar-du/Kconfig
->> +++ linux-next-20210420/drivers/gpu/drm/rcar-du/Kconfig
->> @@ -4,8 +4,8 @@ config DRM_RCAR_DU
->>   	depends on DRM && OF
->>   	depends on ARM || ARM64
->>   	depends on ARCH_RENESAS || COMPILE_TEST
->> -	imply DRM_RCAR_CMM
->> -	imply DRM_RCAR_LVDS
->> +	select DRM_RCAR_CMM
->> +	select DRM_RCAR_LVDS
-> 
-> No all platforms that integrate a DU have CMM and/or LVDS support, so we
-> shouldn't select the automatically.
-> 
-> Would
-> 
-> 	depends on DRM_RCAR_CMM || DRM_RCAR_CMM=n
-> 	depends on DRM_RCAR_LVDS || DRM_RCAR_LVDS=n
-> 
-
-Looks good; I like it, but kconfig does not:
-
-$ xbuild_arm64.sh  oldconfig
-make[1]: Entering directory 
-'/home/rdunlap/lnx/next/linux-next-20210420/ARM64'
-   GEN     Makefile
-drivers/gpu/drm/rcar-du/Kconfig:2:error: recursive dependency detected!
-drivers/gpu/drm/rcar-du/Kconfig:2:	symbol DRM_RCAR_DU depends on 
-DRM_RCAR_CMM
-drivers/gpu/drm/rcar-du/Kconfig:17:	symbol DRM_RCAR_CMM depends on 
-DRM_RCAR_DU
-For a resolution refer to Documentation/kbuild/kconfig-language.rst
-subsection "Kconfig recursive dependency limitations"
-
-> work ? I thought that's what "imply" meant, but it seems I got it wrong.
-> 
->>   	select DRM_KMS_HELPER
->>   	select DRM_KMS_CMA_HELPER
->>   	select DRM_GEM_CMA_HELPER
-> 
-
-
-Thanks.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gNC8yMy8yMSAyOjU2IFBNLCBSYW5keSBEdW5sYXAgd3JvdGU6Cj4gT24gNC8yMy8yMSAyOjQ2
+IFBNLCBMYXVyZW50IFBpbmNoYXJ0IHdyb3RlOgo+PiBIaSBSYW5keSwKPj4KPj4gVGhhbmsgeW91
+IGZvciB0aGUgcGF0Y2guCj4+Cj4+IE9uIEZyaSwgQXByIDIzLCAyMDIxIGF0IDAyOjM3OjI3UE0g
+LTA3MDAsIFJhbmR5IER1bmxhcCB3cm90ZToKPj4+IFdoZW4gRFJNX1JDQVJfRFU9eSBhbmQgRFJN
+X1JDQVJfTFZEUz1tLCB0aGVyZSBhcmUgc2V2ZXJhbCBidWlsZCBlcnJvcnMKPj4+IGFzIHJlcG9y
+dGVkIGJ5ICdrZXJuZWwgdGVzdCByb2JvdCcuIFRoZXNlIGNhbiBiZSBjb3JyZWN0ZWQgYnkgY2hh
+bmdpbmcKPj4+ICJpbXBseSIgdG8gInNlbGVjdCIuCj4+Pgo+Pj4gSW4gbG9va2luZyBhdCB0aGlz
+LCB0aGUgc2FtZSBwcm9ibGVtIChidWlsZCBlcnJvcnMpIGhhcHBlbnMgd2hlbgo+Pj4gRFJNX1JD
+QVJfRFU9eSBhbmQgRFJNX1JDQVJfQ01NPW0sIHNvIGFnYWluIGNoYW5nZSB0aGUgImltcGx5IiB0
+bwo+Pj4gInNlbGVjdCIgaGVyZSBhcyB3ZWxsLgo+Pj4KPj4+IFRoZXNlIDIgY2hhbmdlcyBmaXgg
+dGhlIGZvbGxvd2luZyA4IGJ1aWxkL2xpbmsgZXJyb3JzOgo+Pj4KPj4+IGFhcmNoNjQtbGludXgt
+bGQ6IGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfY3J0Yy5vOiBpbiBmdW5jdGlvbiAK
+Pj4+IGByY2FyX2R1X2NydGNfYXRvbWljX2VuYWJsZSc6Cj4+PiByY2FyX2R1X2NydGMuYzooLnRl
+eHQrMHgxYmU4KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byAKPj4+IGByY2FyX2x2ZHNfY2xrX2Vu
+YWJsZScKPj4+IGFhcmNoNjQtbGludXgtbGQ6IGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJf
+ZHVfY3J0Yy5vOiBpbiBmdW5jdGlvbiAKPj4+IGByY2FyX2R1X2NydGNfYXRvbWljX2Rpc2FibGUn
+Ogo+Pj4gcmNhcl9kdV9jcnRjLmM6KC50ZXh0KzB4MjQzOCk6IHVuZGVmaW5lZCByZWZlcmVuY2Ug
+dG8gCj4+PiBgcmNhcl9sdmRzX2Nsa19kaXNhYmxlJwo+Pj4gYWFyY2g2NC1saW51eC1sZDogZHJp
+dmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9kcnYubzogaW4gZnVuY3Rpb24gCj4+PiBgcmNh
+cl9kdV9pbml0JzoKPj4+IHJjYXJfZHVfZHJ2LmM6KC5pbml0LnRleHQrMHgxNCk6IHVuZGVmaW5l
+ZCByZWZlcmVuY2UgdG8gCj4+PiBgcmNhcl9kdV9vZl9pbml0Jwo+Pj4gYWFyY2g2NC1saW51eC1s
+ZDogZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9lbmNvZGVyLm86IGluIAo+Pj4gZnVu
+Y3Rpb24gYHJjYXJfZHVfZW5jb2Rlcl9pbml0JzoKPj4+IHJjYXJfZHVfZW5jb2Rlci5jOigudGV4
+dCsweDFkNCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gCj4+PiBgcmNhcl9sdmRzX2R1YWxfbGlu
+aycKPj4+Cj4+PiBhYXJjaDY0LWxpbnV4LWxkOiBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2Fy
+X2R1X2NydGMubzogaW4gZnVuY3Rpb24gCj4+PiBgcmNhcl9kdV9jbW1fc2V0dXAnOgo+Pj4gcmNh
+cl9kdV9jcnRjLmM6KC50ZXh0KzB4MzgwKTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgcmNhcl9j
+bW1fc2V0dXAnCj4+PiBhYXJjaDY0LWxpbnV4LWxkOiBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9y
+Y2FyX2R1X2NydGMubzogaW4gZnVuY3Rpb24gCj4+PiBgcmNhcl9kdV9jcnRjX2F0b21pY19lbmFi
+bGUnOgo+Pj4gcmNhcl9kdV9jcnRjLmM6KC50ZXh0KzB4MWMwOCk6IHVuZGVmaW5lZCByZWZlcmVu
+Y2UgdG8gYHJjYXJfY21tX2VuYWJsZScKPj4+IGFhcmNoNjQtbGludXgtbGQ6IGRyaXZlcnMvZ3B1
+L2RybS9yY2FyLWR1L3JjYXJfZHVfY3J0Yy5vOiBpbiBmdW5jdGlvbiAKPj4+IGByY2FyX2R1X2Ny
+dGNfYXRvbWljX2Rpc2FibGUnOgo+Pj4gcmNhcl9kdV9jcnRjLmM6KC50ZXh0KzB4MjMxYyk6IHVu
+ZGVmaW5lZCByZWZlcmVuY2UgdG8gYHJjYXJfY21tX2Rpc2FibGUnCj4+PiBhYXJjaDY0LWxpbnV4
+LWxkOiBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X2ttcy5vOiBpbiBmdW5jdGlvbiAK
+Pj4+IGByY2FyX2R1X21vZGVzZXRfaW5pdCc6Cj4+PiByY2FyX2R1X2ttcy5jOigudGV4dCsweGQw
+OCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYHJjYXJfY21tX2luaXQnCj4+Pgo+Pj4gRml4ZXM6
+IGUwOGU5MzRkNmMyOCAoImRybTogcmNhci1kdTogQWRkIHN1cHBvcnQgZm9yIENNTSIpCj4+PiBG
+aXhlczogMDJmMmIzMDAzMmMxICgiZHJtOiByY2FyLWR1OiBsdmRzOiBBZGQgQVBJIHRvIGVuYWJs
+ZS9kaXNhYmxlIAo+Pj4gY2xvY2sgb3V0cHV0IikKPj4+IFNpZ25lZC1vZmYtYnk6IFJhbmR5IER1
+bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQub3JnPgo+Pj4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0
+IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+Pj4gQ2M6IE1hc2FoaXJvIFlhbWFkYSA8bWFzYWhpcm95
+QGtlcm5lbC5vcmc+Cj4+PiBDYzogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBp
+ZGVhc29uYm9hcmQuY29tPgo+Pj4gQ2M6IEtpZXJhbiBCaW5naGFtIDxraWVyYW4uYmluZ2hhbSty
+ZW5lc2FzQGlkZWFzb25ib2FyZC5jb20+Cj4+PiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwo+Pj4gQ2M6IGxpbnV4LXJlbmVzYXMtc29jQHZnZXIua2VybmVsLm9yZwo+Pj4gQ2M6
+IEphY29wbyBNb25kaSA8amFjb3BvK3JlbmVzYXNAam1vbmRpLm9yZz4KPj4+IC0tLQo+Pj4gwqAg
+ZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvS2NvbmZpZyB8wqDCoMKgIDQgKystLQo+Pj4gwqAgMSBm
+aWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPj4+Cj4+PiAtLS0g
+bGludXgtbmV4dC0yMDIxMDQyMC5vcmlnL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L0tjb25maWcK
+Pj4+ICsrKyBsaW51eC1uZXh0LTIwMjEwNDIwL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L0tjb25m
+aWcKPj4+IEBAIC00LDggKzQsOCBAQCBjb25maWcgRFJNX1JDQVJfRFUKPj4+IMKgwqDCoMKgwqAg
+ZGVwZW5kcyBvbiBEUk0gJiYgT0YKPj4+IMKgwqDCoMKgwqAgZGVwZW5kcyBvbiBBUk0gfHwgQVJN
+NjQKPj4+IMKgwqDCoMKgwqAgZGVwZW5kcyBvbiBBUkNIX1JFTkVTQVMgfHwgQ09NUElMRV9URVNU
+Cj4+PiAtwqDCoMKgIGltcGx5IERSTV9SQ0FSX0NNTQo+Pj4gLcKgwqDCoCBpbXBseSBEUk1fUkNB
+Ul9MVkRTCj4+PiArwqDCoMKgIHNlbGVjdCBEUk1fUkNBUl9DTU0KPj4+ICvCoMKgwqAgc2VsZWN0
+IERSTV9SQ0FSX0xWRFMKPj4KPj4gTm8gYWxsIHBsYXRmb3JtcyB0aGF0IGludGVncmF0ZSBhIERV
+IGhhdmUgQ01NIGFuZC9vciBMVkRTIHN1cHBvcnQsIHNvIHdlCj4+IHNob3VsZG4ndCBzZWxlY3Qg
+dGhlIGF1dG9tYXRpY2FsbHkuCj4+Cj4+IFdvdWxkCj4+Cj4+IMKgwqDCoMKgZGVwZW5kcyBvbiBE
+Uk1fUkNBUl9DTU0gfHwgRFJNX1JDQVJfQ01NPW4KPj4gwqDCoMKgwqBkZXBlbmRzIG9uIERSTV9S
+Q0FSX0xWRFMgfHwgRFJNX1JDQVJfTFZEUz1uCj4+Cj4gCj4gTG9va3MgZ29vZDsgSSBsaWtlIGl0
+LCBidXQga2NvbmZpZyBkb2VzIG5vdDoKPiAKPiAkIHhidWlsZF9hcm02NC5zaMKgIG9sZGNvbmZp
+Zwo+IG1ha2VbMV06IEVudGVyaW5nIGRpcmVjdG9yeSAKPiAnL2hvbWUvcmR1bmxhcC9sbngvbmV4
+dC9saW51eC1uZXh0LTIwMjEwNDIwL0FSTTY0Jwo+ICDCoCBHRU7CoMKgwqDCoCBNYWtlZmlsZQo+
+IGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L0tjb25maWc6MjplcnJvcjogcmVjdXJzaXZlIGRlcGVu
+ZGVuY3kgZGV0ZWN0ZWQhCj4gZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvS2NvbmZpZzoyOsKgwqDC
+oCBzeW1ib2wgRFJNX1JDQVJfRFUgZGVwZW5kcyBvbiAKPiBEUk1fUkNBUl9DTU0KPiBkcml2ZXJz
+L2dwdS9kcm0vcmNhci1kdS9LY29uZmlnOjE3OsKgwqDCoCBzeW1ib2wgRFJNX1JDQVJfQ01NIGRl
+cGVuZHMgb24gCj4gRFJNX1JDQVJfRFUKPiBGb3IgYSByZXNvbHV0aW9uIHJlZmVyIHRvIERvY3Vt
+ZW50YXRpb24va2J1aWxkL2tjb25maWctbGFuZ3VhZ2UucnN0Cj4gc3Vic2VjdGlvbiAiS2NvbmZp
+ZyByZWN1cnNpdmUgZGVwZW5kZW5jeSBsaW1pdGF0aW9ucyIKPiAKPj4gd29yayA/IEkgdGhvdWdo
+dCB0aGF0J3Mgd2hhdCAiaW1wbHkiIG1lYW50LCBidXQgaXQgc2VlbXMgSSBnb3QgaXQgd3Jvbmcu
+Cj4+Cj4+PiDCoMKgwqDCoMKgIHNlbGVjdCBEUk1fS01TX0hFTFBFUgo+Pj4gwqDCoMKgwqDCoCBz
+ZWxlY3QgRFJNX0tNU19DTUFfSEVMUEVSCj4+PiDCoMKgwqDCoMKgIHNlbGVjdCBEUk1fR0VNX0NN
+QV9IRUxQRVIKPj4KClRoZXJlIGlzIHNvbWUgZG9jdW1lbnRhdGlvbiAoa2NvbmZpZy1sYW5ndWFn
+ZS5yc3QpIHRoYXQgc2F5cyB0aGF0IHdoZW4gYSAKZHJpdmVyIEtjb25maWcgaXMgdXNpbmcgbWl4
+ZWQgYnVpbHRpbiBhbmQgbG9hZGFibGUgbW9kdWxlcywgdGhlIGRyaXZlciAKc2hvdWxkIGJlIHVz
+aW5nIElTX1JFQUNIQUJMRSgpLiBUaGUgZXhhbXBsZSBhbHNvIHVzZXMgImltcGx5Iiwgc28gbWF5
+YmUKd2Ugc2hvdWxkL2NvdWxkIHRyeSBzb21ldGhpbmcgbGlrZSB0aGF0OgpJZiBDTU0gaXMgUkVB
+Q0hCTEUoKSwgbWFrZSB0aGUgY2FsbHMuCklmIExWRFMgaXMgUkVBREFCTEUoKSwgbWFrZSB0aGUg
+Y2FsbHMuCgpJIGNhbiBsb29rIGludG8gdGhhdCBzb21lIG1vcmUgaWYgeW91IHdhbnQgbWUgdG8u
+Ck9yIEknbGwgYmUgaGFwcHkgdG8gbGV0IHlvdSBkbyBzby4gOikKClRoYW5rcy4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
