@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27630369670
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 17:54:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DECAA3696AD
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 18:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8576E123;
-	Fri, 23 Apr 2021 15:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2C856E10F;
+	Fri, 23 Apr 2021 16:12:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9336E123
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 15:54:30 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id x7so48833656wrw.10
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 08:54:30 -0700 (PDT)
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A78C6E10F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 16:12:49 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ v19-20020a0568300913b029028423b78c2dso37105199ott.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 09:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nu1AQU+twsRz9Nxjz3ymYspXF0v3XdvGCJQ0v8RcVRo=;
- b=zzs2nDvmtgNn4vNGiTRoEFSmyZbqBJbAtiMphuEg6JWh/Bdg0bCBMnbuTxtZIEd3Xn
- Vwy3vTifWKZRRsrrS4WnmDTh/mYnBU4MS3yAl5j0+xIaRVdek32fO8fcQydcayFD/2W+
- bZAW/jScVBCqnth5PSQeqLv0jzajFH4T3e9Wi5JAqCNqTkEZ26iFQGw+jcDHXM9DPISb
- omjCxL9i4OxGp1qYfGRdZoqYFQcVXeGf/GeLGsaVmApLiEpXrnq2zLaXXRZrWeBgkXiH
- 8wFslsPahoseJoFrAaYzi+5ZFvo6d1B5iAFq5Bb06LU+c3XDDisDnJWdO4xnlZGFaCmE
- zRPw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=t2yrefWokbt33zTb8tmxj08fAqkU3+m9KUoV5do9LC0=;
+ b=PJ/zA3NEHcqEnhs54KzGFdXCkq4oVc/gAhKk8CPtOzBSe3RpJxzCnR8t0i5EWQ2rUn
+ cBvcR75IV7rT/nCF4fzK4L8JBnVnV4fvzgBFlVnTefFtn/sUFAydBkgugBPl4u093wYZ
+ UDBgcLOOuPdIfospceeYriu21HsVIX0XCEve5L1FragZ4PenxTOH+fi3cwYSG5rMeTin
+ LtV8ITJCs8Q93hancAReZ5D8emnlNbC2HuKZKWPu6z95xsaBrZUQkp97rZArr0f5ra/j
+ sXNPosDBmufG4qNw09oYtxTfSW/XWSxeGYTLVEb3D4jQD5sG/i5PvthnYHoL+Z7V9PIh
+ FDCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nu1AQU+twsRz9Nxjz3ymYspXF0v3XdvGCJQ0v8RcVRo=;
- b=osIz9Z7yzJtRHIJbI9tkcqMNnrQ7prT4HYmdOhX4dBlEDQ5qyN1EKEpKb1/b5S5cPO
- IOBISFqKcMwktBzi1+7TSCIY1cDd7KUGcGtr4KE88wiTAq3zThNk7uC69dH63zv4J+nu
- df8xr9GpMj1+ESpoIf6V6m/vj4aH2P3niNp1dn+PbYH/AkabAJg02GI7iN47wzO9NJuV
- pRheepXelZkiS1DKCTCBzH1F4OGRY8wtC1T7+VoBykhcgctrUk/dB9quBebfIWi2y+gz
- cL958ECTNNx50/9u1+xgYi5lGpkUVBvQUa7NN+fpvBfzZzm4fN2DXK2ihfujBdXxu3Iq
- PBUQ==
-X-Gm-Message-State: AOAM531lXsyrkFet9IVj/43DkHtfbzq9Q3hAtN3td4uhMAvE3PgqbCgi
- zVOoeS1Zkw15hLqsCZhyzLdBzMqDiH1QlZnN
-X-Google-Smtp-Source: ABdhPJwLByVzjeQfrGQm37MTSxSmM8jUI0bZu5jLgqs98P2DdRBHTGNZGkVrk74Y3o5VcWcVKxExdA==
-X-Received: by 2002:adf:fd90:: with SMTP id d16mr5478562wrr.96.1619193269230; 
- Fri, 23 Apr 2021 08:54:29 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:82c:5f0:cdf4:4f8:cdd5:cc88?
- ([2a01:e0a:82c:5f0:cdf4:4f8:cdd5:cc88])
- by smtp.gmail.com with ESMTPSA id c16sm9281685wrt.83.2021.04.23.08.54.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Apr 2021 08:54:28 -0700 (PDT)
-Subject: Re: [PATCH V2 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-References: <20210421223122.112736-2-marex@denx.de>
-From: Loic Poulain <loic.poulain@linaro.org>
-Message-ID: <bbd542f5-9d75-20a5-55d4-67f1fd042fdd@linaro.org>
-Date: Fri, 23 Apr 2021 18:03:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=t2yrefWokbt33zTb8tmxj08fAqkU3+m9KUoV5do9LC0=;
+ b=fRqYFcbntrnkeQNH9v09/b5su3b7CdbJ8/ZD2YdlfaVlLZ5cMlfUjuZDjACs5xtItV
+ lYKg4v0Xet5RFzxdMIebDUmeKlDWg/wpjgQlhLNN0rSYdtxtLGNKsxRzHn7JORxjPC/a
+ StZJfIENxepY69iAbS4+NqIM8CSgIB7ercf34bFenMtTb/QSA00Wvnq+NYqCTlwNDVQ4
+ 6cWVIpH6QSFYdSNNzqKbY6EK/ZL/J8gAE6Qogty7lR7JOBQqjuvxRxF24jrM65QKTkD2
+ pDY6AviNoc45BEBEPWKqL4GpN6cmMSd75eBa+WoUH2Gc+uFnftB4pxKFHNlI/D5iIYPo
+ g+1A==
+X-Gm-Message-State: AOAM531m49Sp2RsXo5KM6rUjvgqX41m7Sa1WwwuaDKZST+85Ww1ahvvz
+ t7pvOf5/iSB4NXhSjcpTSEG1Zw==
+X-Google-Smtp-Source: ABdhPJz1tp/EQchiVjH4auFBqgFjc0Uz3XgKzC1NFD0VSi1F0QaLnrO+79sKOL4PwuCs206USDCV7A==
+X-Received: by 2002:a9d:5a1a:: with SMTP id v26mr4123172oth.50.1619194368866; 
+ Fri, 23 Apr 2021 09:12:48 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id x24sm1465060otk.16.2021.04.23.09.12.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Apr 2021 09:12:48 -0700 (PDT)
+Date: Fri, 23 Apr 2021 11:12:46 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v4 24/27] drm/panel: panel-simple: Cache the EDID as long
+ as we retain power
+Message-ID: <YILx/iODs+DFWWwm@builder.lan>
+References: <20210416223950.3586967-1-dianders@chromium.org>
+ <20210416153909.v4.24.If050957eaa85cf45b10bcf61e6f7fa61c9750ebf@changeid>
 MIME-Version: 1.0
-In-Reply-To: <20210421223122.112736-2-marex@denx.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210416153909.v4.24.If050957eaa85cf45b10bcf61e6f7fa61c9750ebf@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,61 +70,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dianders@chromium.org, swboyd@chromium.org, philippe.schenker@toradex.com,
- laurent.pinchart@ideasonboard.com, valentin@compulab.co.il, sam@ravnborg.org,
- jagan@amarulasolutions.com
+Cc: robdclark@chromium.org, Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
+ Stephen Boyd <swboyd@chromium.org>, Wolfram Sang <wsa@kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri 16 Apr 17:39 CDT 2021, Douglas Anderson wrote:
 
-
-On 22/04/2021 00:31, Marek Vasut wrote:
-> Add driver for TI SN65DSI83 Single-link DSI to Single-link LVDS bridge
-> and TI SN65DSI84 Single-link DSI to Dual-link or 2x Single-link LVDS
-> bridge. TI SN65DSI85 is unsupported due to lack of hardware to test on,
-> but easy to add.
+> It doesn't make sense to go out to the bus and read the EDID over and
+> over again. Let's cache it and throw away the cache when we turn power
+> off from the panel. Autosuspend means that even if there are several
+> calls to read the EDID before we officially turn the power on then we
+> should get good use out of this cache.
 > 
-> The driver operates the chip via I2C bus. Currently the LVDS clock are
-> always derived from DSI clock lane, which is the usual mode of operation.
-> Support for clock from external oscillator is not implemented, but it is
-> easy to add if ever needed. Only RGB888 pixel format is implemented, the
-> LVDS666 is not supported, but could be added if needed.
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Philippe Schenker <philippe.schenker@toradex.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: Valentin Raevsky <valentin@compulab.co.il>
-> To: dri-devel@lists.freedesktop.org
-> ---
-> V2: - Use dev_err_probe()
->      - Set REG_RC_RESET as volatile
->      - Wait for PLL stabilization by polling REG_RC_LVDS_PLL
->      - Use ctx->mode = *adj instead of *mode in sn65dsi83_mode_set
->      - Add tested DSI84 support in dual-link mode
->      - Correctly set VCOM
->      - Fill in missing DSI CHB and LVDS CHB bits from DSI84 and DSI85
->        datasheets, with that all the reserved bits make far more sense
->        as the DSI83 and DSI84 seems to be reduced version of DSI85
-> ---
->   drivers/gpu/drm/bridge/Kconfig        |  10 +
->   drivers/gpu/drm/bridge/Makefile       |   1 +
->   drivers/gpu/drm/bridge/ti-sn65dsi83.c | 617 ++++++++++++++++++++++++++
->   3 files changed, 628 insertions(+)
->   create mode 100644 drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> (no changes since v1)
+> 
+>  drivers/gpu/drm/panel/panel-simple.c | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 40382c1be692..5a2953c4ca44 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -189,6 +189,8 @@ struct panel_simple {
+>  	struct gpio_desc *enable_gpio;
+>  	struct gpio_desc *hpd_gpio;
+>  
+> +	struct edid *edid;
+> +
+>  	struct drm_display_mode override_mode;
+>  
+>  	enum drm_panel_orientation orientation;
+> @@ -345,6 +347,9 @@ static int panel_simple_suspend(struct device *dev)
+>  	regulator_disable(p->supply);
+>  	p->unprepared_time = ktime_get();
+>  
+> +	kfree(p->edid);
+> +	p->edid = NULL;
 
-Tested on MSC-SM2S-IMX8MINI module with a 1024x768 (VESA-24) single LVDS 
-channel panel.
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-Tested-by: Loic Poulain <loic.poulain@linaro.org>
 
-Loic
+But separate of this, shouldn't the driver have a pm_runtime_disable()
+in the remove path to synchronize the autosleep? Or is that not how that
+works?
+
+Regards,
+Bjorn
+
+> +
+>  	return 0;
+>  }
+>  
+> @@ -510,15 +515,13 @@ static int panel_simple_get_modes(struct drm_panel *panel,
+>  
+>  	/* probe EDID if a DDC bus is available */
+>  	if (p->ddc) {
+> -		struct edid *edid;
+> -
+>  		pm_runtime_get_sync(panel->dev);
+>  
+> -		edid = drm_get_edid(connector, p->ddc);
+> -		if (edid) {
+> -			num += drm_add_edid_modes(connector, edid);
+> -			kfree(edid);
+> -		}
+> +		if (!p->edid)
+> +			p->edid = drm_get_edid(connector, p->ddc);
+> +
+> +		if (p->edid)
+> +			num += drm_add_edid_modes(connector, p->edid);
+>  
+>  		pm_runtime_mark_last_busy(panel->dev);
+>  		pm_runtime_put_autosuspend(panel->dev);
+> -- 
+> 2.31.1.368.gbe11c130af-goog
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
