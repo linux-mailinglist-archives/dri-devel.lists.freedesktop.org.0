@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B03C369857
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 19:28:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E136369845
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 19:26:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33AB06EC2B;
-	Fri, 23 Apr 2021 17:28:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52ADF6E15C;
+	Fri, 23 Apr 2021 17:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9021B6EC29
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 17:28:23 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id e13so40511704qkl.6
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 10:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0dIM7Z+izOVG/oERmdhb/AMzsUaJVmcES7PVqS331VM=;
- b=apOR0knurXWFkWtUKkhaYdc0wvkv0INvP0vg2nRSRsUKi9dcrFP87lQjZqxyvrgqNI
- YwqkMrKG1/kahvSQV4MMcfd/RECKjK+QlxSPWgTMk55Hc+6o5P1BF5b0HaK6TzkTc2kX
- w0dft9Ljn6gOwIvMF4JyesNuF6FePqO6bpuqI382E4xW3hiZEQ/IQ01OpcER25BuJ86o
- jyr4QBKPZQRpBymWZFZtaCp6kDKtfJnv9jy9s+VHKC5P3jVp/hbeSt7J0NaEbmZHc6GP
- eaCteezieRkwN4rKLTAwMmyYm8+dahqgFTdoP+F3il1VAvmrCWiYh1NAET0y/ltSheTO
- RIlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0dIM7Z+izOVG/oERmdhb/AMzsUaJVmcES7PVqS331VM=;
- b=tm06b63CxVOtqHulIDcWQmTC8b7hYYqbhsu8nNbBCy3ji7EoRhQYVYoyGb489G67ZX
- s5XuOp+ZHdq93Mq8svqk1hv8Fw1DTaQcuE60u/fcf8I5usvBO/WmbPpfKtbIeAZAsv3g
- FqFzpRDKW7VqNDk3iqb5Ch5PlY1XEyMMConDlk4K3MnaX/vMHTw1p38TzB+OzW4GuYiu
- 0uF6jkwzjAP6V4xtuwljHt1Bf67e4lzKGDXSdv6KTW3Wm9rSa38NI8PFiFiCJLKNvUH/
- tufhL3VD/g9B9X5KkuBfZ6ph38HrQB5TZqvaKxHI9Jng71tv4O1ZLuf16RFWDsMKnweN
- CfOw==
-X-Gm-Message-State: AOAM532R+OzMqlfInLMNkKAiNLtC/1MYg8k9mgmcH+j0IMR58VDvbf4O
- iEc77Z7jIDDOsnWUMdkaZBbufQ==
-X-Google-Smtp-Source: ABdhPJxArxkdk3Sbb5pycb0lGdXVtFll8pGKYnMJCsR7OqSOwl+mhD2ZRyqP2CBOfxpc8LqVI+uXpg==
-X-Received: by 2002:a37:a34b:: with SMTP id m72mr4953889qke.92.1619198902742; 
- Fri, 23 Apr 2021 10:28:22 -0700 (PDT)
-Received: from localhost.localdomain
- (modemcable068.184-131-66.mc.videotron.ca. [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id y23sm4782627qkb.47.2021.04.23.10.28.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 10:28:22 -0700 (PDT)
-From: Jonathan Marek <jonathan@marek.ca>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 2/2] dt-bindings: display: msm/dsi: add qcom,
- dsi-phy-cphy-mode option
-Date: Fri, 23 Apr 2021 13:24:40 -0400
-Message-Id: <20210423172450.4885-3-jonathan@marek.ca>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20210423172450.4885-1-jonathan@marek.ca>
-References: <20210423172450.4885-1-jonathan@marek.ca>
-MIME-Version: 1.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED8306E15C
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 17:26:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id BA175613DB;
+ Fri, 23 Apr 2021 17:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619198763;
+ bh=wfz6N5xeBn+UX47MzlcTSUCbXmUZo0AJF7GcXr9pukc=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=J4ITZHEUYv7gtJTfoBG/+mdqnEHYKQXrB1V8Tg/kMx+cEvdiZRuGIdiI15sNAtl/D
+ 3KS70OPFloHejFqkdbIU3Z2wVCWXZEB58c8c97Ba4liF7+NJP52WUwnVEgsp/GACQX
+ GTo4y8k2J7YWI4L8ZzifqvY3jNWsvBd3yTxwR4n/FcOV2i+bOUD17djD+YFpoxsYvJ
+ 6lknmDbkkUDM3zs3CyrIstjiXlM9NkLLjuthB4Np+k0ekBwDsL2D+AEjzi6NLOc8c1
+ ScE0zQfGxTbuFwlVly6p/GthPIEsrhN+k+Mjc6LJ7Oc/0nrw7ri1LQbaZXJgjeaQZC
+ Zlge5HhABZGwg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
+ [127.0.0.1])
+ by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id B0AE8608FB;
+ Fri, 23 Apr 2021 17:26:03 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.12 final
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tyKdGHyiRLDooKrMf=02GtNn8U4YfF4dJtXdabnVAGdXQ@mail.gmail.com>
+References: <CAPM=9tyKdGHyiRLDooKrMf=02GtNn8U4YfF4dJtXdabnVAGdXQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tyKdGHyiRLDooKrMf=02GtNn8U4YfF4dJtXdabnVAGdXQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2021-04-23
+X-PR-Tracked-Commit-Id: aca38735ae624b93c71c055b68d5802b8f356ea5
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 5bfc75d92efd494db37f5c4c173d3639d4772966
+Message-Id: <161919876366.26356.3681344564819322556.pr-tracker-bot@kernel.org>
+Date: Fri, 23 Apr 2021 17:26:03 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,40 +55,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document qcom,dsi-phy-cphy-mode option, which can be used to control
-whether DSI will operate in D-PHY (default) or C-PHY mode.
+The pull request you sent on Fri, 23 Apr 2021 13:52:29 +1000:
 
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
- Documentation/devicetree/bindings/display/msm/dsi.txt | 1 +
- 1 file changed, 1 insertion(+)
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-04-23
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
-index b9a64d3ff184..7ffc86a9816b 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi.txt
-+++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
-@@ -124,6 +124,7 @@ Required properties:
- Optional properties:
- - qcom,dsi-phy-regulator-ldo-mode: Boolean value indicating if the LDO mode PHY
-   regulator is wanted.
-+- qcom,dsi-phy-cphy-mode: Boolean value indicating if CPHY mode is wanted.
- - qcom,mdss-mdp-transfer-time-us:	Specifies the dsi transfer time for command mode
- 					panels in microseconds. Driver uses this number to adjust
- 					the clock rate according to the expected transfer time.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/5bfc75d92efd494db37f5c4c173d3639d4772966
+
+Thank you!
+
 -- 
-2.26.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
