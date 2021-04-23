@@ -1,46 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5F5369BD9
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 23:07:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAE3369C0D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 23:30:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 344826EC52;
-	Fri, 23 Apr 2021 21:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACD96EC5D;
+	Fri, 23 Apr 2021 21:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
- [209.85.166.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 095996EC50;
- Fri, 23 Apr 2021 21:07:15 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id p8so1728449iol.11;
- Fri, 23 Apr 2021 14:07:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vGf4Bqg3eO6JS3gvF6LxMt8XkWMGCm3Fd5yjKYFBgF8=;
- b=E203/yiOlCKbcP6eZiGFqffMqZDLPbUDVm5ztZ2yZMyDkAcLnf6RLnV4cJqB6r++zF
- l5OB6zgsR5RYJdy431rqYeKNpN24j+lRL29u6tZTkFO7V9E7OlybUOKGC0nRGaRGczcR
- UTNRQ4tFlKBfTKy+1mecrRZN1ROaGg+PShbz34OHN3+Eut4XhMbgu2/RXVBVlHT2XCfg
- ewduK7/Kx3nUnJHP083CS/vMbJlvREtcuaKPJFBsqoc5bCNMFuJBlkALI9aFhGJ0J3lU
- F1LAhHPRD7hZPkeX733dE9nE2tqohmtOm0cll0R+LqBg6M6YXKPSqmBiC+aY1LIIj7mf
- J7hA==
-X-Gm-Message-State: AOAM532nosdB2QoLRKesuURSyMPgSfFVrogGPL85buUQq4fFgxUFIFOf
- Pi5knQzN/vIUa+EehIChquEoeyszm3ksU3jrhdA=
-X-Google-Smtp-Source: ABdhPJx/mGXYebrjo1LW38fgTdwSQnNr3RmcE4CILvZv37TRPOr8OlvisBQvXkXDoBESh8c9agnzKhcwdoToZrcFn2Y=
-X-Received: by 2002:a5e:d515:: with SMTP id e21mr4718257iom.30.1619212035381; 
- Fri, 23 Apr 2021 14:07:15 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FC66EC5D
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 21:30:40 +0000 (UTC)
+Received: from [IPv6:2804:431:e7dd:b215:2a57:79ce:97d1:4a15] (unknown
+ [IPv6:2804:431:e7dd:b215:2a57:79ce:97d1:4a15])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: leandrohrb)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D70FB1F43DC2;
+ Fri, 23 Apr 2021 22:30:37 +0100 (BST)
+Subject: Re: [PATCH v2 1/1] drm/doc: document drm_mode_get_plane
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20210422181004.34247-1-leandro.ribeiro@collabora.com>
+ <20210422181004.34247-2-leandro.ribeiro@collabora.com>
+ <20210423141126.308d4145@eldfell>
+From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Message-ID: <3c3a5d35-10bf-4b32-1970-aed4bc1d6488@collabora.com>
+Date: Fri, 23 Apr 2021 18:30:33 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.1
 MIME-Version: 1.0
-References: <20210423184309.207645-1-lyude@redhat.com>
- <20210423184309.207645-3-lyude@redhat.com>
-In-Reply-To: <20210423184309.207645-3-lyude@redhat.com>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Fri, 23 Apr 2021 17:07:04 -0400
-Message-ID: <CAKb7UvgpMO60gRzmJY0V5nOsT8u9y2hFLazmVJ+pEiedEKOOhQ@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH v4 02/17] drm/nouveau/kms/nv50-: Move AUX
- adapter reg to connector late register/early unregister
-To: Lyude Paul <lyude@redhat.com>
+In-Reply-To: <20210423141126.308d4145@eldfell>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,105 +44,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: airlied@linux.ie, kernel@collabora.com, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some trivia, no comment on the real logic of the changes:
 
-On Fri, Apr 23, 2021 at 2:43 PM Lyude Paul <lyude@redhat.com> wrote:
->
-> Since AUX adapters on nouveau have their respective DRM connectors as
-> parents, we need to make sure that we register then after their connectors.
 
-then -> them
+On 4/23/21 8:11 AM, Pekka Paalanen wrote:
+> On Thu, 22 Apr 2021 15:10:04 -0300
+> Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
+> 
+>> Add a small description and document struct fields of
+>> drm_mode_get_plane.
+>>
+>> Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+>> ---
+>>  include/uapi/drm/drm_mode.h | 16 ++++++++++++++++
+>>  1 file changed, 16 insertions(+)
+>>
+>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+>> index a5e76aa06ad5..3e85de928db9 100644
+>> --- a/include/uapi/drm/drm_mode.h
+>> +++ b/include/uapi/drm/drm_mode.h
+>> @@ -312,16 +312,32 @@ struct drm_mode_set_plane {
+>>  	__u32 src_w;
+>>  };
+>>
+>> +/**
+>> + * struct drm_mode_get_plane - Get plane metadata.
+>> + *
+>> + * Userspace can perform a GETPLANE ioctl to retrieve information about a
+>> + * plane.
+>> + */
+>>  struct drm_mode_get_plane {
+>> +	/** @plane_id: Object ID of the plane. */
+>>  	__u32 plane_id;
+>>
+>> +	/** @crtc_id: Object ID of the current CRTC. */
+>>  	__u32 crtc_id;
+>> +	/** @fb_id: Object ID of the current fb. */
+>>  	__u32 fb_id;
+>>
+>> +	/** @possible_crtcs: Bitmask of CRTC's compatible with the plane. */
+> 
+> This should probably explain what the bits in the mask correspond to.
+> As in, which CRTC does bit 0 refer to, and so on.
+> 
 
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_connector.c | 25 ++++++++++++++++-----
->  1 file changed, 20 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> index 61e6d7412505..c04044be3d32 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> @@ -401,7 +401,6 @@ nouveau_connector_destroy(struct drm_connector *connector)
->         drm_connector_cleanup(connector);
->         if (nv_connector->aux.transfer) {
->                 drm_dp_cec_unregister_connector(&nv_connector->aux);
-> -               drm_dp_aux_unregister(&nv_connector->aux);
->                 kfree(nv_connector->aux.name);
->         }
->         kfree(connector);
-> @@ -905,13 +904,29 @@ nouveau_connector_late_register(struct drm_connector *connector)
->         int ret;
->
->         ret = nouveau_backlight_init(connector);
-> +       if (ret)
-> +               return ret;
->
-> +       if (connector->connector_type == DRM_MODE_CONNECTOR_eDP ||
-> +           connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) {
-> +               ret = drm_dp_aux_register(&nouveau_connector(connector)->aux);
-> +               if (ret)
-> +                       goto backlight_fini;
-> +       }
-> +
-> +       return 0;
-> +backlight_fini:
-> +       nouveau_backlight_fini(connector);
->         return ret;
->  }
->
->  static void
->  nouveau_connector_early_unregister(struct drm_connector *connector)
->  {
-> +       if (connector->connector_type == DRM_MODE_CONNECTOR_eDP ||
-> +           connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
-> +               drm_dp_aux_unregister(&nouveau_connector(connector)->aux);
-> +
->         nouveau_backlight_fini(connector);
->  }
->
-> @@ -1343,14 +1358,14 @@ nouveau_connector_create(struct drm_device *dev,
->                 snprintf(aux_name, sizeof(aux_name), "sor-%04x-%04x",
->                          dcbe->hasht, dcbe->hashm);
->                 nv_connector->aux.name = kstrdup(aux_name, GFP_KERNEL);
-> -               ret = drm_dp_aux_register(&nv_connector->aux);
-> +               drm_dp_aux_init(&nv_connector->aux);
->                 if (ret) {
-> -                       NV_ERROR(drm, "failed to register aux channel\n");
-> +                       NV_ERROR(drm, "Failed to init AUX adapter for sor-%04x-%04x: %d\n",
+What about:
 
-Maybe just use aux_name instead of rebuilding the string again?
+"possible_crtcs: Bitmask of CRTC's compatible with the plane. CRTC's are
+created and they receive an index, which corresponds to their position
+in the bitmask. CRTC with index 0 will be in bit 0, and so on."
 
-> +                                dcbe->hasht, dcbe->hashm, ret);
->                         kfree(nv_connector);
->                         return ERR_PTR(ret);
->                 }
-> -               funcs = &nouveau_connector_funcs;
-> -               break;
-> +               fallthrough;
->         default:
->                 funcs = &nouveau_connector_funcs;
->                 break;
-> --
-> 2.30.2
->
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
+>>  	__u32 possible_crtcs;
+>> +	/** @gamma_size: Size of the legacy gamma table. */
+> 
+> What are the units? Entries? Bytes?
+> 
+
+The number of entries. I'll update to "gamma_size: Number of entries of
+the legacy gamma lookup table" in the next version.
+
+>>  	__u32 gamma_size;
+>>
+>> +	/** @count_format_types: Number of formats. */
+>>  	__u32 count_format_types;
+>> +	/**
+>> +	 * @format_type_ptr: Pointer to ``__u32`` array of formats that are
+>> +	 * supported by the plane. These formats do not require modifiers.
+> 
+> I wonder if the "do not require modifiers" is again going too far in
+> making a difference between this list and IN_FORMATS?
+> 
+
+Yes that's true, I'll drop this phrase.
+
+>> +	 */
+>>  	__u64 format_type_ptr;
+>>  };
+> 
+> Other than those, looks like a significant improvement to me.
+> 
+> 
+> Thanks,
+> pq
+> 
+>>
+>> --
+>> 2.31.1
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
