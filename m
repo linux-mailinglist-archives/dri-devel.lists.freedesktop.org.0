@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF423697C2
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 19:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09293697C8
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 19:00:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52D36EC26;
-	Fri, 23 Apr 2021 17:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 919FD6EC1E;
+	Fri, 23 Apr 2021 17:00:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE7336EC18
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 16:59:59 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id q2so2499114pfk.9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 09:59:59 -0700 (PDT)
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C45906EC2C
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 17:00:00 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id p2so20147872pgh.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 10:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2irDBnkqmM3wv0GuRvBUKKKvXT4OqqpqCxXsJUDi0yY=;
- b=nY3NEiJjTVhYaqtF4JkoIDdonIMHogVty/rQuAsexe9F4i2Uhwz/XdA3pTBItC0bzq
- O62ca7z8DZ8y/Bjr8vjTyiwT2cmF4NCXYoGPgFaSCni0Y68OlxdULfQFsPTmFEEZP/mK
- NcMkrdksVuMVbn9LSzJ4n66ujsp1NyKYNVX1M=
+ bh=vN5od8em+5FKe5XxLDBfqxHA4H7++ijxC9/2y7ssun0=;
+ b=PbMi+Tmz6a3EpvJ9X3Y9FXr95RRXZ4WgYEkkFrYH8DG3I9WXhyCde+nuxI9ZYVJL5m
+ dpxwDpU6JhRXyHgwP6P4TkEmQCsf7BHAh+TtGCZr51NdhdfE7GjjXZtF76870E8VeXbG
+ RSiv0/YdYeqcTbVH9s2F5nMI8pbO99Lz5yBp4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2irDBnkqmM3wv0GuRvBUKKKvXT4OqqpqCxXsJUDi0yY=;
- b=rUPE2dCQRP2d8liuOuv29fjpcKmwZK25ZczyKAzr9d/GpL0Edv9DlLgB5FokLenGHR
- ND55jdIkS/B+m3blD/cg6gLFSt3sLCd/FK+cMdsNF7CFmbZzFbF0AjvvGmYjcFRSl2rt
- b0WYiKhCV0WTUTReF15FTpFurhLC5QO3AvJJdpVbzxFdBvLkY4a/sFJYR0Cv9JCeGXtM
- op4x+Jt5YQyDI+shfXICGZDFQL94VfOn4M3GD7nrjQJ6pcQcTSPmKgkKmTsuvqaA/zUD
- aAYrlNzNVLWVmkzL4nEc3H+8qxI2GQXaSvqFTK8kEPo9wcPruME+he4ZY/uXu0QHZwr7
- /ldA==
-X-Gm-Message-State: AOAM533jbelFAo/baobWlq2E1Sf5ZS0pn4AsV9ZOVTNzdMB3yinjTK9U
- l5M15iJaS1zzgS6xKK+hkkAEmA==
-X-Google-Smtp-Source: ABdhPJyNRywKHcTfgakgp2CqXZs7wKXnf4eben+Fiu78mA2c8AJYA0KF0c2Abkct8V8f1il2rA20/Q==
-X-Received: by 2002:a05:6a00:2bb:b029:25d:92b:bf3b with SMTP id
- q27-20020a056a0002bbb029025d092bbf3bmr4694708pfs.52.1619197199276; 
- Fri, 23 Apr 2021 09:59:59 -0700 (PDT)
+ bh=vN5od8em+5FKe5XxLDBfqxHA4H7++ijxC9/2y7ssun0=;
+ b=kRzaI5q92Lk38pdW6s+gU4cDY2OaUzHwCcYsgPSGnrV6Wk4WK7y5tZnN9TaES2qfh+
+ 9lpzsP3hdEW5WWNsAXWHxJl/MVLHTnsE2sN5qP5F40gprFyRCYWOZ/V39XRjW4Ek4wfG
+ IWRAmKG+F6lOW/d6Wu5wf+CVjCKMhmglneQNH35EnoPz8cyoD8esv1NTeZQBPPhYnGX9
+ a0dIJRj/dxSmL38mwkYajfsN9pJZpNdPoagLBReY3v8MYPxVHxuZhgsNtRL7yq5lrtiu
+ 9uThDQ+XbdYShwRziRaEI5X1kf6GUNGdgr8z28EzS7562uFtb4AKhhIVEYe+syf2mDgI
+ W16w==
+X-Gm-Message-State: AOAM531FBdVBvKhw1PMFoNv5CGKlf+aZ6NDhD4qUeiUhaY83OXU/fH2j
+ dFXQm8XS/TEDN9qCCwE1GlX9Xw==
+X-Google-Smtp-Source: ABdhPJwINQl5crpxyRVfX+jrNNrO5VsTiefR+FBPJxIt4U/f6GB7qHJwNiBie9Tl+LA3r9E8NJRtlg==
+X-Received: by 2002:a63:f303:: with SMTP id l3mr4753122pgh.263.1619197200372; 
+ Fri, 23 Apr 2021 10:00:00 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:6d86:663d:71f8:6a11])
- by smtp.gmail.com with ESMTPSA id v8sm5123607pfm.128.2021.04.23.09.59.58
+ by smtp.gmail.com with ESMTPSA id v8sm5123607pfm.128.2021.04.23.09.59.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 09:59:58 -0700 (PDT)
+ Fri, 23 Apr 2021 10:00:00 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
  Sam Ravnborg <sam@ravnborg.org>, Wolfram Sang <wsa@kernel.org>
-Subject: [PATCH v5 17/20] drm/panel: panel-simple: Power the panel when
- reading the EDID
-Date: Fri, 23 Apr 2021 09:59:03 -0700
-Message-Id: <20210423095743.v5.17.Ibd31b8f7c73255d68c5c9f5b611b4bfaa036f727@changeid>
+Subject: [PATCH v5 18/20] drm/panel: panel-simple: Cache the EDID as long as
+ we retain power
+Date: Fri, 23 Apr 2021 09:59:04 -0700
+Message-Id: <20210423095743.v5.18.If050957eaa85cf45b10bcf61e6f7fa61c9750ebf@changeid>
 X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
 In-Reply-To: <20210423165906.2504169-1-dianders@chromium.org>
 References: <20210423165906.2504169-1-dianders@chromium.org>
@@ -82,21 +81,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I don't believe that it ever makes sense to read the EDID when a panel
-is not powered and the powering on of the panel is the job of
-prepare(). Let's make sure that this happens before we try to read the
-EDID. We use the pm_runtime functions directly rather than directly
-calling the normal prepare() function because the pm_runtime functions
-are definitely refcounted whereas it's less clear if the prepare() one
-is.
-
-NOTE: I'm not 100% sure how EDID reading was working for folks in the
-past, but I can only assume that it was failing on the initial attempt
-and then working only later. This patch, presumably, will fix that. If
-some panel out there really can read the EDID without powering up and
-it's a big advantage to preserve the old behavior we can add a
-per-panel flag. It appears that providing the DDC bus to the panel in
-the past was somewhat uncommon in any case.
+It doesn't make sense to go out to the bus and read the EDID over and
+over again. Let's cache it and throw away the cache when we turn power
+off from the panel. Autosuspend means that even if there are several
+calls to read the EDID before we officially turn the power on then we
+should get good use out of this cache.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
@@ -104,33 +93,53 @@ Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 (no changes since v1)
 
- drivers/gpu/drm/panel/panel-simple.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-simple.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 4de33c929a59..a12dfe8b8d90 100644
+index a12dfe8b8d90..9be050ab372f 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -510,12 +510,18 @@ static int panel_simple_get_modes(struct drm_panel *panel,
+@@ -189,6 +189,8 @@ struct panel_simple {
+ 	struct gpio_desc *enable_gpio;
+ 	struct gpio_desc *hpd_gpio;
+ 
++	struct edid *edid;
++
+ 	struct drm_display_mode override_mode;
+ 
+ 	enum drm_panel_orientation orientation;
+@@ -345,6 +347,9 @@ static int panel_simple_suspend(struct device *dev)
+ 	regulator_disable(p->supply);
+ 	p->unprepared_time = ktime_get();
+ 
++	kfree(p->edid);
++	p->edid = NULL;
++
+ 	return 0;
+ }
+ 
+@@ -510,15 +515,13 @@ static int panel_simple_get_modes(struct drm_panel *panel,
  
  	/* probe EDID if a DDC bus is available */
  	if (p->ddc) {
--		struct edid *edid = drm_get_edid(connector, p->ddc);
-+		struct edid *edid;
+-		struct edid *edid;
+-
+ 		pm_runtime_get_sync(panel->dev);
  
-+		pm_runtime_get_sync(panel->dev);
+-		edid = drm_get_edid(connector, p->ddc);
+-		if (edid) {
+-			num += drm_add_edid_modes(connector, edid);
+-			kfree(edid);
+-		}
++		if (!p->edid)
++			p->edid = drm_get_edid(connector, p->ddc);
 +
-+		edid = drm_get_edid(connector, p->ddc);
- 		if (edid) {
- 			num += drm_add_edid_modes(connector, edid);
- 			kfree(edid);
- 		}
-+
-+		pm_runtime_mark_last_busy(panel->dev);
-+		pm_runtime_put_autosuspend(panel->dev);
- 	}
++		if (p->edid)
++			num += drm_add_edid_modes(connector, p->edid);
  
- 	/* add hard-coded panel modes */
+ 		pm_runtime_mark_last_busy(panel->dev);
+ 		pm_runtime_put_autosuspend(panel->dev);
 -- 
 2.31.1.498.g6c1eba8ee3d-goog
 
