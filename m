@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3795368D1B
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 08:24:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64448368D19
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 08:24:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 684916EB3F;
-	Fri, 23 Apr 2021 06:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E59D76E09E;
+	Fri, 23 Apr 2021 06:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7309A6EA9D
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 13:51:07 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id x11so46238254qkp.11
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 06:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cs-cmu-edu.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=sc812S/XH0xi1daedR2N2rrASOXlL4IU8Kqiol/mJyg=;
- b=ilf7MiKPmuLDCJimMx6HY09IjE0RtI8ZvwvdH6B6zfOQjt3XpT5zeEzYvZWEpLAdYN
- HgsytpNQ77VJrUr18k2RiREzJkRdWu0QpLA0tkuRNsG9RJNB3q1uAdrnsyEo+VtE/bkz
- B2jsPuMqREtLJPtddAk+Uo17G2/m8PXB2rUUgxU0rvhBi59tk2mXxC2MGCjH0Pjpp+VT
- mX7+laaPBOMCRKCQqV4hxZwgrlInehA3Gism8b/RZbMqm7co4BAjldanO0P5uXETbut4
- mzMIosKNAMoPho12DmysXBBsk5jjrFMiiqQDcmOd/Ypwjfkh2IjEZ9SeT0+ozvuXOA6A
- QC1g==
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7996C6EB1F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 02:03:47 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id f29so34147592pgm.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 19:03:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pjxat++qid3Snrnv9iGB86a7fL2TIKbO8d9d/vb9leA=;
+ b=uSMoZqinrID/ieHXwKegfwYKAseNeYetW4oKipjMDtL7lt96m6nkhdJvXR14ZADRXG
+ nnXq+MAfnd8XUyyOaYF2QVKvMoFDBH4nWAMBLJwhBF7PJIs7uqIr8lcITTF78Wr89k7b
+ ytRh1NkCjYVAeFsTKhFY3oLtVIW2J++Yudi641j746Tnv8j8l0WT3m2NCClMbCBjiQaF
+ f4xO8XsYfhnQRu72jgGXxhITeFxGdKcYRyFHYRt/S48zPTfcimkLtUsGSGM5ss0Zoc1A
+ heMH2FKNOWpW8QecS/Xw3tul+sQI+WlCcSezPOZmVzvZONM1m/ui1SWtmimA8kVjzM4p
+ /hWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=sc812S/XH0xi1daedR2N2rrASOXlL4IU8Kqiol/mJyg=;
- b=enHBxt9CHSV1t5iJCa2ni+yK0Dxkw+z3K/B7jfFY76CA8O05xl+dnAe/ZPX4aw3cYv
- sKkKlbfBBjWfT9s/Rk+DtEaJs0CCcufgf+1ZpCDeQfW2aVJafsIJyn+o+zP3tJl76H0R
- t9KfK0MDuEGEgeUazspYdu6IstWnu9MRaFeKQhoY6+QXbC3pAUlfjJNQ8UwdJ0fp76t0
- eFt3UgAX+hdxObXr1VsBLO13x/vZk+do5jefe1aARWQ8ZhgFQdVJs3m/OnjbiEWcHCgP
- se1Erm01lKFpMZoTQrdBw5bZZMK9nbrAv7NfdkpVlk+O63xJTQA50ktVuCnaCSsjk6mb
- KtGg==
-X-Gm-Message-State: AOAM530XHaInseCEJvIjy3PTaRlM1MLO/asAm3POM4LxJgPhosYYFl5J
- GDK0c+e+vYTGBFsEF7Bz4ea4vw==
-X-Google-Smtp-Source: ABdhPJzopgVvvshO8HCJDMmm2d3/Wi7iBmogcMm1rcCSeWXZCE8qQJSe7zD8nyMnJxcAF1H8ro/U3g==
-X-Received: by 2002:a37:c202:: with SMTP id i2mr3647788qkm.296.1619099466408; 
- Thu, 22 Apr 2021 06:51:06 -0700 (PDT)
-Received: from cs.cmu.edu (tunnel29655-pt.tunnel.tserv13.ash1.ipv6.he.net.
- [2001:470:7:582::2])
- by smtp.gmail.com with ESMTPSA id g1sm2207278qth.69.2021.04.22.06.51.05
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pjxat++qid3Snrnv9iGB86a7fL2TIKbO8d9d/vb9leA=;
+ b=ZS0JFeNJPPU+A+rRHg2uiCORtKRpFyEIR2poAtg/cqXoItYMMi0SOcHgHq+cuLh3L9
+ dbklJf1QXF5vaD9osPEFImMyaOYsS/5Y6uyUtogTY3xk0L0VydmSpeq2RyGEKCEbSjSJ
+ xGJpAtzbmThpfAJoExyysieJiih+Xy4OusJKYCE/v4hVfsIVr6WGsuxL5wRZPQDEUPTJ
+ MMRmjUirSmMgTvCbTeXO0zEZ5lH4z7b2FnmkGPIWixD2jHs1XMr5Ra+4dnIA0omxErQZ
+ 7el/pSjTv06PawG8JCgOgTLQoL3DrvnOMZBJp1WFFGBwjRZ3suyK3svuGa+fXyh4mWjb
+ rZLg==
+X-Gm-Message-State: AOAM533xuWV04d3NQWyDmvKko04XrKRRQkii1av34LnBcGCF8Lf6N2B4
+ IMsdCSvB7l0Vnid9qUAJyAkOhXZ8ckybBQKC
+X-Google-Smtp-Source: ABdhPJyUxN5+Xro+cKXAV0dg3AGpybmeTsnMPdRYlEH91ytAHk49COs6fwJMH9a3LWNVHs4i9a02kA==
+X-Received: by 2002:a63:f451:: with SMTP id p17mr1537169pgk.150.1619143426734; 
+ Thu, 22 Apr 2021 19:03:46 -0700 (PDT)
+Received: from localhost.localdomain (097-094-025-122.res.spectrum.com.
+ [97.94.25.122])
+ by smtp.gmail.com with ESMTPSA id u25sm3067793pgk.34.2021.04.22.19.03.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 06:51:05 -0700 (PDT)
-Date: Thu, 22 Apr 2021 09:51:03 -0400
-From: Jan Harkes <jaharkes@cs.cmu.edu>
-To: Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 1/2] coda: fix reference counting in coda_file_mmap error
- path
-Message-ID: <20210422135103.hif4a5znhzt4pc6f@cs.cmu.edu>
-References: <20210421132012.82354-1-christian.koenig@amd.com>
- <91292A4A-5F97-4FF8-ABAD-42392A0756B5@cs.cmu.edu>
- <f603f59b-ec52-7ad7-475a-fcf95902e145@gmail.com>
+ Thu, 22 Apr 2021 19:03:46 -0700 (PDT)
+From: Joseph Kogut <joseph.kogut@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm: remove usage of drm_pci_alloc/free
+Date: Thu, 22 Apr 2021 19:02:43 -0700
+Message-Id: <20210423020248.3427369-1-joseph.kogut@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <f603f59b-ec52-7ad7-475a-fcf95902e145@gmail.com>
-User-Agent: NeoMutt/20180716
 X-Mailman-Approved-At: Fri, 23 Apr 2021 06:24:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,61 +66,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jgg@ziepe.ca, miklos@szeredi.hu, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-unionfs@vger.kernel.org,
- coda@cs.cmu.edu, akpm@linux-foundation.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Joseph Kogut <joseph.kogut@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 22, 2021 at 02:39:41PM +0200, Christian K=F6nig wrote:
-> Am 22.04.21 um 14:27 schrieb Jan Harkes:
-> > Looks good to me.
-> > =
+Remove usage of legacy dma-api abstraction in preparation for removal
 
-> > I'm also maintaining an out of tree coda module build that people somet=
-imes use, which has workarounds for differences between the various kernel =
-versions.
-> > =
+Signed-off-by: Joseph Kogut <joseph.kogut@gmail.com>
+---
+Checkpatch warns here that r128 is marked obsolete, and asks for no
+unnecessary modifications.
 
-> > Do you have a reference to the corresponding mmap_region change? If it =
-is merged already I'll probably be able to find it. Is this mmap_region cha=
-nge expected to be backported to any lts kernels?
-> =
+This series aims to address the FIXME in drivers/gpu/drm/drm_pci.c
+explaining that drm_pci_alloc/free is a needless abstraction of the
+dma-api, and it should be removed. Unfortunately, doing this requires
+removing the usage from an obsolete driver as well.
 
-> That is the following upstream commit in Linus tree:
-> =
+If this patch is rejected for modifying an obsolete driver, would it be
+appropriate to follow up removing the FIXME from drm_pci?
 
-> commit 1527f926fd04490f648c42f42b45218a04754f87
-> Author: Christian K=F6nig <christian.koenig@amd.com>
-> Date:=A0=A0 Fri Oct 9 15:08:55 2020 +0200
-> =
+ drivers/gpu/drm/drm_bufs.c         | 19 ++++++++++++++++---
+ drivers/gpu/drm/drm_dma.c          |  8 +++++++-
+ drivers/gpu/drm/r128/ati_pcigart.c | 22 ++++++++++++++++++----
+ 3 files changed, 41 insertions(+), 8 deletions(-)
 
-> =A0=A0=A0 mm: mmap: fix fput in error path v2
-> =
-
-> But I don't think we should backport that.
-> =
-
-> And sorry for the noise. We had so many places which expected different
-> behavior that I didn't noticed that two occasions in the fs code actually
-> rely on the current behavior.
-> =
-
-> For your out of tree module you could make the code version independent by
-> setting the vma back to the original file in case of an error. That should
-> work with both behaviors in mmap_region.
-
-Awesome, I'll give that a try, it may very well be a cleaner solution
-either way.
-
-And thank you for following up after your original patch and finding
-the filesystems that mess around with those mappings. I'm sure it would
-have taken me a while to figure out why file refcounts would go weird
-for some people, especially because this only happens in the error path.
-
-Jan
+diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+index e3d77dfefb0a..94bc1f6049c9 100644
+--- a/drivers/gpu/drm/drm_bufs.c
++++ b/drivers/gpu/drm/drm_bufs.c
+@@ -674,12 +674,17 @@ int drm_legacy_rmmap_ioctl(struct drm_device *dev, void *data,
+ static void drm_cleanup_buf_error(struct drm_device *dev,
+ 				  struct drm_buf_entry *entry)
+ {
++	drm_dma_handle_t *dmah;
+ 	int i;
+ 
+ 	if (entry->seg_count) {
+ 		for (i = 0; i < entry->seg_count; i++) {
+ 			if (entry->seglist[i]) {
+-				drm_pci_free(dev, entry->seglist[i]);
++				dmah = entry->seglist[i];
++				dma_free_coherent(dev->dev,
++						  dmah->size,
++						  dmah->vaddr,
++						  dmah->busaddr);
+ 			}
+ 		}
+ 		kfree(entry->seglist);
+@@ -978,10 +983,18 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
+ 	page_count = 0;
+ 
+ 	while (entry->buf_count < count) {
++		dmah = kmalloc(sizeof(drm_dma_handle_t), GFP_KERNEL);
++		if (!dmah)
++			return -ENOMEM;
+ 
+-		dmah = drm_pci_alloc(dev, PAGE_SIZE << page_order, 0x1000);
++		dmah->size = total;
++		dmah->vaddr = dma_alloc_coherent(dev->dev,
++						 dmah->size,
++						 &dmah->busaddr,
++						 GFP_KERNEL);
++		if (!dmah->vaddr) {
++			kfree(dmah);
+ 
+-		if (!dmah) {
+ 			/* Set count correctly so we free the proper amount. */
+ 			entry->buf_count = count;
+ 			entry->seg_count = count;
+diff --git a/drivers/gpu/drm/drm_dma.c b/drivers/gpu/drm/drm_dma.c
+index d07ba54ec945..eb6b741a6f99 100644
+--- a/drivers/gpu/drm/drm_dma.c
++++ b/drivers/gpu/drm/drm_dma.c
+@@ -81,6 +81,7 @@ int drm_legacy_dma_setup(struct drm_device *dev)
+ void drm_legacy_dma_takedown(struct drm_device *dev)
+ {
+ 	struct drm_device_dma *dma = dev->dma;
++	drm_dma_handle_t *dmah;
+ 	int i, j;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_HAVE_DMA) ||
+@@ -100,7 +101,12 @@ void drm_legacy_dma_takedown(struct drm_device *dev)
+ 				  dma->bufs[i].seg_count);
+ 			for (j = 0; j < dma->bufs[i].seg_count; j++) {
+ 				if (dma->bufs[i].seglist[j]) {
+-					drm_pci_free(dev, dma->bufs[i].seglist[j]);
++					dmah = dma->bufs[i].seglist[j];
++					dma_free_coherent(dev->dev,
++							  dmah->size,
++							  dmah->vaddr,
++							  dmah->busaddr);
++					kfree(dmah);
+ 				}
+ 			}
+ 			kfree(dma->bufs[i].seglist);
+diff --git a/drivers/gpu/drm/r128/ati_pcigart.c b/drivers/gpu/drm/r128/ati_pcigart.c
+index 1234ec60c0af..fbb0cfd79758 100644
+--- a/drivers/gpu/drm/r128/ati_pcigart.c
++++ b/drivers/gpu/drm/r128/ati_pcigart.c
+@@ -45,18 +45,32 @@
+ static int drm_ati_alloc_pcigart_table(struct drm_device *dev,
+ 				       struct drm_ati_pcigart_info *gart_info)
+ {
+-	gart_info->table_handle = drm_pci_alloc(dev, gart_info->table_size,
+-						PAGE_SIZE);
+-	if (gart_info->table_handle == NULL)
++	drm_dma_handle_t *dmah = kmalloc(sizeof(drm_dma_handle_t), GFP_KERNEL);
++
++	if (!dmah)
++		return -ENOMEM;
++
++	dmah->size = gart_info->table_size;
++	dmah->vaddr = dma_alloc_coherent(dev->dev,
++					 dmah->size,
++					 &dmah->busaddr,
++					 GFP_KERNEL);
++
++	if (!dmah->vaddr) {
++		kfree(dmah);
+ 		return -ENOMEM;
++	}
+ 
++	gart_info->table_handle = dmah;
+ 	return 0;
+ }
+ 
+ static void drm_ati_free_pcigart_table(struct drm_device *dev,
+ 				       struct drm_ati_pcigart_info *gart_info)
+ {
+-	drm_pci_free(dev, gart_info->table_handle);
++	drm_dma_handle_t *dmah = gart_info->table_handle;
++
++	dma_free_coherent(dev->dev, dmah->size, dmah->vaddr, dmah->busaddr);
+ 	gart_info->table_handle = NULL;
+ }
+ 
+-- 
+2.31.1
 
 _______________________________________________
 dri-devel mailing list
