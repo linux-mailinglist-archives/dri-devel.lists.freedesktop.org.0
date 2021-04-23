@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6515369CA5
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 00:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C17F369CA3
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 00:32:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA12A6ECB1;
-	Fri, 23 Apr 2021 22:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13E366ECB2;
+	Fri, 23 Apr 2021 22:31:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0B86ECAE
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 22:31:45 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- y22-20020a17090a8b16b0290150ae1a6d2bso2058086pjn.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 15:31:45 -0700 (PDT)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D78ED6ECAB
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 22:31:46 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id m11so34975775pfc.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 15:31:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UrRm9spOzXE6ZClL6gzVWoFIkgKDchq90IbhdcwDmnw=;
- b=bXMqWOILqd3JDAS/VorDiiseg/I3GqDVhSF9+RvFWZmWk3cDxW3m1+KYeN6+BbPhDa
- 2phOtpACrYQAbB+f6p2oh17sNaywLeUoAvuKMn64071aGWYdCuTqQK/IGOt2c85IaA94
- zsgNb88bK6sW2XkngMJijI0JoEY/aWPZAco1E9a8My2jClOr3XH80vJo23cIyzRN943r
- I7FHB+lN51YfGwI4eQ+VNQvTW7e6u0ZfjXEhcUd3ULcja8pBHZFQkIk+Oh93f8QxtcX5
- bpgPZFps+t8ROJ7/hRs2M7J2XQRTByUDwcrkGtBrVlL26iUW9UcKEG8MzjyuELIXehcd
- d8Sg==
+ bh=/i3TjgiFgKtmiEefAjw6hXE7Lu1ZwY2eDE/tGEb2mto=;
+ b=AA1Lx2E/T6KOo8sOgbP8i0JGCp/Dc4hJ1vQzqfWykmwaRXGRdaVy7/f/SojXXaqxPW
+ QhHC0k2gk52rkASCM+o3Upmrwyq30Ogt8pXQQ9NJWsU3YWcBV9LjwfUhbfhcCRk+Cyg3
+ VWC74ZvD1OaSFav5ZS7/LoeVr83Ch38BscwHO3bJk8lLGt+taWGRT5DgwI4UJiYO9VJe
+ rS/oFCcTQcs9d/NdSXwxy2/2oCRdPWlKBFr+YklTNtWCK0zAs1Axie3aCUyJCNJhn5nf
+ DfQoPuiox3pwuQT5S+fHlnLWLUu7NFeipmqo1u4S0NNidqcUB6kqjo+mheZ2bsKyalXk
+ 7L1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UrRm9spOzXE6ZClL6gzVWoFIkgKDchq90IbhdcwDmnw=;
- b=pM87jzKrC3fHwcVqrhkgS2LW837L0ISqNunlwIvWZ2CIUJNi6r5iUG4bOwNcplf4m7
- JE86fJe9d/QszyZzlVOeocGkwRzARjPp/ClDPjIw5C7geZQWva7G80F3yBLQLUuljGKs
- i2reRms2cB86Mn+yJajLM0aEM1TXT0BLRf4UljTqeL35N/uDQhGV+R3/U6ZpTGsctJbu
- p5iLutXazAlOs17DcE2R2C8IYWpOk2zAp2EFnirKUUsoDTTISX6UadwaygFfNYdiIQla
- /Qpb0+AFwQ2EjWFJeBGeLWCBscPsM8bddaCRQpCo5wGgNpMVVK3uFNUyP3Dwmsloex2s
- yrCA==
-X-Gm-Message-State: AOAM531RIdExkPFPMPBSJTC3znwQaKCTrJ5amfFEUTuaHXuTt4hcYfKf
- 03lwClMQJK5yJ+LOIannb2xW3Q==
-X-Google-Smtp-Source: ABdhPJz8NYTep7e4cJTEmnWRiuAYURxKrepNiKUBxqyNyL5qSLPfCU923O8Wv379wjIzLN12pYhcJw==
-X-Received: by 2002:a17:90a:d082:: with SMTP id
- k2mr8052318pju.28.1619217104566; 
- Fri, 23 Apr 2021 15:31:44 -0700 (PDT)
+ bh=/i3TjgiFgKtmiEefAjw6hXE7Lu1ZwY2eDE/tGEb2mto=;
+ b=Bs6hkNgjATFan/OHPCJb68XPhDOL//K3LMALUq0kV4KNoEldflME01vRp1k3R6wHL0
+ GzvaSy6tiVyDa9rqo0ug8yK5KA+BiN20YldeuURI9HKqSmFjrACqPwFyjze4nj+3fIoW
+ NsVsHlqzMyFjTYjgPjdXe7RRfTKx5Xnpo4oefhIAy8n+0QRiXJLftSyxnGYElH48U9id
+ /FWc3G6aSm+0wouyc+hti3O5KbGlX63yyDYD74cK6DCzHvbhj8UkMBpiM1rP1ZuROxGw
+ ZOL6Gk4iQzQdq9c2Tc/lJkmXZyObMdauUQM94FLW0R0kC6mZaGRdYTCht90/she5rd/v
+ +wcg==
+X-Gm-Message-State: AOAM530CnZ8S5GbarRDelRMSAGuMo0oK2woWkVOKUgQxrNRqWG2LgECJ
+ OpKrvdK8FuRYP6evWH2V7m7yZw==
+X-Google-Smtp-Source: ABdhPJyDPgDJ9YEuRWicffRG+3vfUGB8ukgFUPTDHb5oN/6L3BAMwOcEEyy8AtLKm4Ten+V0BwAsdw==
+X-Received: by 2002:a63:4a1a:: with SMTP id x26mr5912198pga.429.1619217106342; 
+ Fri, 23 Apr 2021 15:31:46 -0700 (PDT)
 Received: from omlet.com ([134.134.139.76])
- by smtp.gmail.com with ESMTPSA id z12sm5523420pfn.195.2021.04.23.15.31.43
+ by smtp.gmail.com with ESMTPSA id z12sm5523420pfn.195.2021.04.23.15.31.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 15:31:43 -0700 (PDT)
+ Fri, 23 Apr 2021 15:31:45 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 05/21] drm/i915: Drop the CONTEXT_CLONE API
-Date: Fri, 23 Apr 2021 17:31:15 -0500
-Message-Id: <20210423223131.879208-6-jason@jlekstrand.net>
+Subject: [PATCH 06/21] drm/i915: Implement SINGLE_TIMELINE with a syncobj (v3)
+Date: Fri, 23 Apr 2021 17:31:16 -0500
+Message-Id: <20210423223131.879208-7-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210423223131.879208-1-jason@jlekstrand.net>
 References: <20210423223131.879208-1-jason@jlekstrand.net>
@@ -70,279 +68,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This API allows one context to grab bits out of another context upon
-creation.  It can be used as a short-cut for setparam(getparam()) for
-things like I915_CONTEXT_PARAM_VM.  However, it's never been used by any
-real userspace.  It's used by a few IGT tests and that's it.  Since it
-doesn't add any real value (most of the stuff you can CLONE you can copy
-in other ways), drop it.
+This API is entirely unnecessary and I'd love to get rid of it.  If
+userspace wants a single timeline across multiple contexts, they can
+either use implicit synchronization or a syncobj, both of which existed
+at the time this feature landed.  The justification given at the time
+was that it would help GL drivers which are inherently single-timeline.
+However, neither of our GL drivers actually wanted the feature.  i965
+was already in maintenance mode at the time and iris uses syncobj for
+everything.
 
-There is one thing that this API allows you to clone which you cannot
-clone via getparam/setparam: timelines.  However, timelines are an
-implementation detail of i915 and not really something that needs to be
-exposed to userspace.  Also, sharing timelines between contexts isn't
-obviously useful and supporting it has the potential to complicate i915
-internally.  It also doesn't add any functionality that the client can't
-get in other ways.  If a client really wants a shared timeline, they can
-use a syncobj and set it as an in and out fence on every submit.
+Unfortunately, as much as I'd love to get rid of it, it is used by the
+media driver so we can't do that.  We can, however, do the next-best
+thing which is to embed a syncobj in the context and do exactly what
+we'd expect from userspace internally.  This isn't an entirely identical
+implementation because it's no longer atomic if userspace races with
+itself by calling execbuffer2 twice simultaneously from different
+threads.  It won't crash in that case; it just doesn't guarantee any
+ordering between those two submits.
+
+Moving SINGLE_TIMELINE to a syncobj emulation has a couple of technical
+advantages beyond mere annoyance.  One is that intel_timeline is no
+longer an api-visible object and can remain entirely an implementation
+detail.  This may be advantageous as we make scheduler changes going
+forward.  Second is that, together with deleting the CLONE_CONTEXT API,
+we should now have a 1:1 mapping between intel_context and
+intel_timeline which may help us reduce locking.
+
+v2 (Jason Ekstrand):
+ - Update the comment on i915_gem_context::syncobj to mention that it's
+   an emulation and the possible race if userspace calls execbuffer2
+   twice on the same context concurrently.
+ - Wrap the checks for eb.gem_context->syncobj in unlikely()
+ - Drop the dma_fence reference
+ - Improved commit message
+
+v3 (Jason Ekstrand):
+ - Move the dma_fence_put() to before the error exit
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 199 +-------------------
- include/uapi/drm/i915_drm.h                 |  16 +-
- 2 files changed, 6 insertions(+), 209 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 49 +++++--------------
+ .../gpu/drm/i915/gem/i915_gem_context_types.h | 14 +++++-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 16 ++++++
+ 3 files changed, 40 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 8a77855123cec..2c2fefa912805 100644
+index 2c2fefa912805..a72c9b256723b 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1958,207 +1958,14 @@ static int create_setparam(struct i915_user_extension __user *ext, void *data)
- 	return ctx_setparam(arg->fpriv, arg->ctx, &local.param);
+@@ -67,6 +67,8 @@
+ #include <linux/log2.h>
+ #include <linux/nospec.h>
+ 
++#include <drm/drm_syncobj.h>
++
+ #include "gt/gen6_ppgtt.h"
+ #include "gt/intel_context.h"
+ #include "gt/intel_context_param.h"
+@@ -225,10 +227,6 @@ static void intel_context_set_gem(struct intel_context *ce,
+ 		ce->vm = vm;
+ 	}
+ 
+-	GEM_BUG_ON(ce->timeline);
+-	if (ctx->timeline)
+-		ce->timeline = intel_timeline_get(ctx->timeline);
+-
+ 	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
+ 	    intel_engine_has_timeslices(ce->engine))
+ 		__set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
+@@ -351,9 +349,6 @@ void i915_gem_context_release(struct kref *ref)
+ 	mutex_destroy(&ctx->engines_mutex);
+ 	mutex_destroy(&ctx->lut_mutex);
+ 
+-	if (ctx->timeline)
+-		intel_timeline_put(ctx->timeline);
+-
+ 	put_pid(ctx->pid);
+ 	mutex_destroy(&ctx->mutex);
+ 
+@@ -570,6 +565,9 @@ static void context_close(struct i915_gem_context *ctx)
+ 	if (vm)
+ 		i915_vm_close(vm);
+ 
++	if (ctx->syncobj)
++		drm_syncobj_put(ctx->syncobj);
++
+ 	ctx->file_priv = ERR_PTR(-EBADF);
+ 
+ 	/*
+@@ -765,33 +763,11 @@ static void __assign_ppgtt(struct i915_gem_context *ctx,
+ 		i915_vm_close(vm);
  }
  
--static int clone_engines(struct i915_gem_context *dst,
--			 struct i915_gem_context *src)
-+static int invalid_ext(struct i915_user_extension __user *ext, void *data)
+-static void __set_timeline(struct intel_timeline **dst,
+-			   struct intel_timeline *src)
+-{
+-	struct intel_timeline *old = *dst;
+-
+-	*dst = src ? intel_timeline_get(src) : NULL;
+-
+-	if (old)
+-		intel_timeline_put(old);
+-}
+-
+-static void __apply_timeline(struct intel_context *ce, void *timeline)
+-{
+-	__set_timeline(&ce->timeline, timeline);
+-}
+-
+-static void __assign_timeline(struct i915_gem_context *ctx,
+-			      struct intel_timeline *timeline)
+-{
+-	__set_timeline(&ctx->timeline, timeline);
+-	context_apply_all(ctx, __apply_timeline, timeline);
+-}
+-
+ static struct i915_gem_context *
+ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
  {
--	struct i915_gem_engines *clone, *e;
--	bool user_engines;
--	unsigned long n;
--
--	e = __context_engines_await(src, &user_engines);
--	if (!e)
--		return -ENOENT;
--
--	clone = alloc_engines(e->num_engines);
--	if (!clone)
--		goto err_unlock;
--
--	for (n = 0; n < e->num_engines; n++) {
--		struct intel_engine_cs *engine;
--
--		if (!e->engines[n]) {
--			clone->engines[n] = NULL;
--			continue;
--		}
--		engine = e->engines[n]->engine;
--
--		/*
--		 * Virtual engines are singletons; they can only exist
--		 * inside a single context, because they embed their
--		 * HW context... As each virtual context implies a single
--		 * timeline (each engine can only dequeue a single request
--		 * at any time), it would be surprising for two contexts
--		 * to use the same engine. So let's create a copy of
--		 * the virtual engine instead.
--		 */
--		if (intel_engine_is_virtual(engine))
--			clone->engines[n] =
--				intel_execlists_clone_virtual(engine);
--		else
--			clone->engines[n] = intel_context_create(engine);
--		if (IS_ERR_OR_NULL(clone->engines[n])) {
--			__free_engines(clone, n);
--			goto err_unlock;
--		}
--
--		intel_context_set_gem(clone->engines[n], dst);
--	}
--	clone->num_engines = n;
--	i915_sw_fence_complete(&e->fence);
--
--	/* Serialised by constructor */
--	engines_idle_release(dst, rcu_replace_pointer(dst->engines, clone, 1));
--	if (user_engines)
--		i915_gem_context_set_user_engines(dst);
--	else
--		i915_gem_context_clear_user_engines(dst);
--	return 0;
--
--err_unlock:
--	i915_sw_fence_complete(&e->fence);
--	return -ENOMEM;
--}
--
--static int clone_flags(struct i915_gem_context *dst,
--		       struct i915_gem_context *src)
--{
--	dst->user_flags = src->user_flags;
--	return 0;
--}
--
--static int clone_schedattr(struct i915_gem_context *dst,
--			   struct i915_gem_context *src)
--{
--	dst->sched = src->sched;
--	return 0;
--}
--
--static int clone_sseu(struct i915_gem_context *dst,
--		      struct i915_gem_context *src)
--{
--	struct i915_gem_engines *e = i915_gem_context_lock_engines(src);
--	struct i915_gem_engines *clone;
--	unsigned long n;
--	int err;
--
--	/* no locking required; sole access under constructor*/
--	clone = __context_engines_static(dst);
--	if (e->num_engines != clone->num_engines) {
--		err = -EINVAL;
--		goto unlock;
--	}
--
--	for (n = 0; n < e->num_engines; n++) {
--		struct intel_context *ce = e->engines[n];
--
--		if (clone->engines[n]->engine->class != ce->engine->class) {
--			/* Must have compatible engine maps! */
--			err = -EINVAL;
--			goto unlock;
--		}
--
--		/* serialises with set_sseu */
--		err = intel_context_lock_pinned(ce);
--		if (err)
--			goto unlock;
--
--		clone->engines[n]->sseu = ce->sseu;
--		intel_context_unlock_pinned(ce);
--	}
--
--	err = 0;
--unlock:
--	i915_gem_context_unlock_engines(src);
--	return err;
--}
--
--static int clone_timeline(struct i915_gem_context *dst,
--			  struct i915_gem_context *src)
--{
--	if (src->timeline)
--		__assign_timeline(dst, src->timeline);
--
--	return 0;
--}
--
--static int clone_vm(struct i915_gem_context *dst,
--		    struct i915_gem_context *src)
--{
--	struct i915_address_space *vm;
--	int err = 0;
--
--	if (!rcu_access_pointer(src->vm))
--		return 0;
--
--	rcu_read_lock();
--	vm = context_get_vm_rcu(src);
--	rcu_read_unlock();
--
--	if (!mutex_lock_interruptible(&dst->mutex)) {
--		__assign_ppgtt(dst, vm);
--		mutex_unlock(&dst->mutex);
--	} else {
--		err = -EINTR;
--	}
--
--	i915_vm_put(vm);
--	return err;
--}
--
--static int create_clone(struct i915_user_extension __user *ext, void *data)
--{
--	static int (* const fn[])(struct i915_gem_context *dst,
--				  struct i915_gem_context *src) = {
--#define MAP(x, y) [ilog2(I915_CONTEXT_CLONE_##x)] = y
--		MAP(ENGINES, clone_engines),
--		MAP(FLAGS, clone_flags),
--		MAP(SCHEDATTR, clone_schedattr),
--		MAP(SSEU, clone_sseu),
--		MAP(TIMELINE, clone_timeline),
--		MAP(VM, clone_vm),
--#undef MAP
--	};
--	struct drm_i915_gem_context_create_ext_clone local;
--	const struct create_ext *arg = data;
--	struct i915_gem_context *dst = arg->ctx;
--	struct i915_gem_context *src;
--	int err, bit;
--
--	if (copy_from_user(&local, ext, sizeof(local)))
--		return -EFAULT;
--
--	BUILD_BUG_ON(GENMASK(BITS_PER_TYPE(local.flags) - 1, ARRAY_SIZE(fn)) !=
--		     I915_CONTEXT_CLONE_UNKNOWN);
--
--	if (local.flags & I915_CONTEXT_CLONE_UNKNOWN)
--		return -EINVAL;
--
--	if (local.rsvd)
--		return -EINVAL;
--
--	rcu_read_lock();
--	src = __i915_gem_context_lookup_rcu(arg->fpriv, local.clone_id);
--	rcu_read_unlock();
--	if (!src)
--		return -ENOENT;
--
--	GEM_BUG_ON(src == dst);
--
--	for (bit = 0; bit < ARRAY_SIZE(fn); bit++) {
--		if (!(local.flags & BIT(bit)))
--			continue;
--
--		err = fn[bit](dst, src);
--		if (err)
--			return err;
--	}
--
--	return 0;
-+	return -EINVAL;
- }
+ 	struct i915_gem_context *ctx;
++	int ret;
  
- static const i915_user_extension_fn create_extensions[] = {
- 	[I915_CONTEXT_CREATE_EXT_SETPARAM] = create_setparam,
--	[I915_CONTEXT_CREATE_EXT_CLONE] = create_clone,
-+	[I915_CONTEXT_CREATE_EXT_CLONE] = invalid_ext,
- };
+ 	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE &&
+ 	    !HAS_EXECLISTS(i915))
+@@ -820,16 +796,13 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
+ 	}
  
- static bool client_is_banned(struct drm_i915_file_private *file_priv)
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index a0aaa8298f28d..75a71b6756ed8 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -1887,20 +1887,10 @@ struct drm_i915_gem_context_create_ext_setparam {
- 	struct drm_i915_gem_context_param param;
- };
+ 	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
+-		struct intel_timeline *timeline;
+-
+-		timeline = intel_timeline_create(&i915->gt);
+-		if (IS_ERR(timeline)) {
++		ret = drm_syncobj_create(&ctx->syncobj,
++					 DRM_SYNCOBJ_CREATE_SIGNALED,
++					 NULL);
++		if (ret) {
+ 			context_close(ctx);
+-			return ERR_CAST(timeline);
++			return ERR_PTR(ret);
+ 		}
+-
+-		__assign_timeline(ctx, timeline);
+-		intel_timeline_put(timeline);
+ 	}
  
--struct drm_i915_gem_context_create_ext_clone {
-+/* This API has been removed.  On the off chance someone somewhere has
-+ * attempted to use it, never re-use this extension number.
-+ */
- #define I915_CONTEXT_CREATE_EXT_CLONE 1
--	struct i915_user_extension base;
--	__u32 clone_id;
--	__u32 flags;
--#define I915_CONTEXT_CLONE_ENGINES	(1u << 0)
--#define I915_CONTEXT_CLONE_FLAGS	(1u << 1)
--#define I915_CONTEXT_CLONE_SCHEDATTR	(1u << 2)
--#define I915_CONTEXT_CLONE_SSEU		(1u << 3)
--#define I915_CONTEXT_CLONE_TIMELINE	(1u << 4)
--#define I915_CONTEXT_CLONE_VM		(1u << 5)
--#define I915_CONTEXT_CLONE_UNKNOWN -(I915_CONTEXT_CLONE_VM << 1)
--	__u64 rsvd;
--};
+ 	trace_i915_context_create(ctx);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+index 676592e27e7d2..df76767f0c41b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+@@ -83,7 +83,19 @@ struct i915_gem_context {
+ 	struct i915_gem_engines __rcu *engines;
+ 	struct mutex engines_mutex; /* guards writes to engines */
  
- struct drm_i915_gem_context_destroy {
- 	__u32 ctx_id;
+-	struct intel_timeline *timeline;
++	/**
++	 * @syncobj: Shared timeline syncobj
++	 *
++	 * When the SHARED_TIMELINE flag is set on context creation, we
++	 * emulate a single timeline across all engines using this syncobj.
++	 * For every execbuffer2 call, this syncobj is used as both an in-
++	 * and out-fence.  Unlike the real intel_timeline, this doesn't
++	 * provide perfect atomic in-order guarantees if the client races
++	 * with itself by calling execbuffer2 twice concurrently.  However,
++	 * if userspace races with itself, that's not likely to yield well-
++	 * defined results anyway so we choose to not care.
++	 */
++	struct drm_syncobj *syncobj;
+ 
+ 	/**
+ 	 * @vm: unique address space (GTT)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index b812f313422a9..d640bba6ad9ab 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -3460,6 +3460,16 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+ 		goto err_vma;
+ 	}
+ 
++	if (unlikely(eb.gem_context->syncobj)) {
++		struct dma_fence *fence;
++
++		fence = drm_syncobj_fence_get(eb.gem_context->syncobj);
++		err = i915_request_await_dma_fence(eb.request, fence);
++		dma_fence_put(fence);
++		if (err)
++			goto err_ext;
++	}
++
+ 	if (in_fence) {
+ 		if (args->flags & I915_EXEC_FENCE_SUBMIT)
+ 			err = i915_request_await_execution(eb.request,
+@@ -3517,6 +3527,12 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+ 			fput(out_fence->file);
+ 		}
+ 	}
++
++	if (unlikely(eb.gem_context->syncobj)) {
++		drm_syncobj_replace_fence(eb.gem_context->syncobj,
++					  &eb.request->fence);
++	}
++
+ 	i915_request_put(eb.request);
+ 
+ err_vma:
 -- 
 2.31.1
 
