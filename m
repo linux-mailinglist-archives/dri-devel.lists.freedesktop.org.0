@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEFF36904A
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 12:25:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 952CF36907C
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 12:42:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1F46EB6C;
-	Fri, 23 Apr 2021 10:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA0276EB6A;
+	Fri, 23 Apr 2021 10:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 976706EB6A;
- Fri, 23 Apr 2021 10:25:41 +0000 (UTC)
-IronPort-SDR: jQbp6j471mOjctQk8vP9WXC2+tCJrTyeU/QAUpkQZj5PhzkgYK+6UjB4nUUd/xLbNSy/anzckt
- cwK2CoTBhmjg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9962"; a="183177981"
-X-IronPort-AV: E=Sophos;i="5.82,245,1613462400"; d="scan'208";a="183177981"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23B056E0CC;
+ Fri, 23 Apr 2021 10:42:50 +0000 (UTC)
+IronPort-SDR: hqcd4gHEEbZEatnYyv+qKFTqjgIPk8ZZZG8/fFt64+7E/iref96YZZhGOm+y2eUaEdlJNZKVV/
+ JcoCgNkyMhfw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9962"; a="183530130"
+X-IronPort-AV: E=Sophos;i="5.82,245,1613462400"; d="scan'208";a="183530130"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2021 03:25:40 -0700
-IronPort-SDR: eZhKDjuhol7YhiGYVlQp6dOphKMesg1EmOkeIZu+aVLlv44TY2eDllCzO1Pdu+2lmBQa7ff03S
- shiLlf0zzt0A==
-X-IronPort-AV: E=Sophos;i="5.82,245,1613462400"; d="scan'208";a="421717672"
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2021 03:42:49 -0700
+IronPort-SDR: OFvfsEuRHTPydfmUcqvE5J8CtjeZ5m+DI0+d83IXL+oSepixEHVJfrp2r+/n7kbANnF2OPj4r5
+ WUydTKqGd6Dw==
+X-IronPort-AV: E=Sophos;i="5.82,245,1613462400"; d="scan'208";a="421721849"
 Received: from gbocanex-mobl.ger.corp.intel.com (HELO [10.252.49.5])
  ([10.252.49.5])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2021 03:25:38 -0700
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm: Rename DP_PSR_SELECTIVE_UPDATE to
- better mach eDP spec
-To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Souza, Jose" <jose.souza@intel.com>
-References: <20210421220224.200729-1-jose.souza@intel.com>
- <c59186be4be98826c8fe5e88e0032cdf6a16025b.camel@intel.com>
+ 23 Apr 2021 03:42:47 -0700
+Subject: Re: [PATCH] drm/i915: Fix docbook descriptions for i915_cmd_parser
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ DRI <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210421120353.544518-1-maarten.lankhorst@linux.intel.com>
+ <CAKMK7uFpoY7YMEMbftjq+P5XHR6L+F0KwFtbK7CtuUFy7HsLkQ@mail.gmail.com>
+ <9ae96fa1-6c91-4ec1-422d-8e0a95251bb7@linux.intel.com>
+ <YIExRAHQvZmgL5S+@phenom.ffwll.local>
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <b250e029-2b10-baa6-5822-42df586c6477@linux.intel.com>
-Date: Fri, 23 Apr 2021 12:25:36 +0200
+Message-ID: <20c93c9a-9aca-0057-23bf-463e7946e1c8@linux.intel.com>
+Date: Fri, 23 Apr 2021 12:42:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <c59186be4be98826c8fe5e88e0032cdf6a16025b.camel@intel.com>
+In-Reply-To: <YIExRAHQvZmgL5S+@phenom.ffwll.local>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,66 +55,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T3AgMjItMDQtMjAyMSBvbSAxMzowMCBzY2hyZWVmIE11biwgR3dhbi1neWVvbmc6Cj4gVGhlIGNo
-YW5nZWQgbmFtZSBsb29rcyBtb3JlIGFjY3VyYXRlIHRvIHRoZSBlZHAgMS40YiBzcGVjLgo+IExv
-b2tzIGdvb2QgdG8gbWUuCj4KPiBSZXZpZXdlZC1ieTogR3dhbi1neWVvbmcgTXVuIDxnd2FuLWd5
-ZW9uZy5tdW5AaW50ZWwuY29tPgo+Cj4gT24gV2VkLCAyMDIxLTA0LTIxIGF0IDE1OjAyIC0wNzAw
-LCBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIHdyb3RlOgo+PiBEUF9QU1JfRU5fQ0ZHIGJpdCA1IGFr
-YSAiU2VsZWN0aXZlIFVwZGF0ZSBSZWdpb24gU2NhbiBMaW5lIENhcHR1cmUKPj4gSW5kaWNhdGlv
-biIgaW4gZURQIHNwZWMgaGFzIGEgYW1iaWd1b3VzIG5hbWUsIHNvIHJlbmFtaW5nIHRvIGJldHRl
-cgo+PiBtYXRjaCBzcGVjaWZpY2F0aW9uLgo+Pgo+PiBXaGlsZSBhdCBpdCwgcmVwbGFjaW5nIGJp
-dCBzaGl0IGJ5IEJJVCgpIG1hY3JvIGFuZCBhZGRpbmcgdGhlIHZlcnNpb24KPj4gc29tZSByZWdp
-c3RlcnMgd2VyZSBhZGRlZCB0byBlRFAgc3BlY2lmaWNhdGlvbi4KPj4KPj4gQ2M6IDxkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPgo+PiBDYzogUm9kcmlnbyBWaXZpIDxyb2RyaWdvLnZp
-dmlAaW50ZWwuY29tPgo+PiBDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4K
-Pj4gQ2M6IEd3YW4tZ3llb25nIE11biA8Z3dhbi1neWVvbmcubXVuQGludGVsLmNvbT4KPj4gU2ln
-bmVkLW9mZi1ieTogSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8am9zZS5zb3V6YUBpbnRlbC5jb20+
-Cj4+IC0tLQo+PiDCoGluY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCB8IDE2ICsrKysrKysrLS0t
-LS0tLS0KPj4gwqAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygt
-KQo+Pgo+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oIGIvaW5jbHVk
-ZS9kcm0vZHJtX2RwX2hlbHBlci5oCj4+IGluZGV4IDFlODVjMjAyMWYyZi4uZDZmNmEwODRhMTkw
-IDEwMDY0NAo+PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmgKPj4gKysrIGIvaW5j
-bHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oCj4+IEBAIC02ODcsMTQgKzY4NywxNCBAQCBzdHJ1Y3Qg
-ZHJtX2RldmljZTsKPj4gwqAjZGVmaW5lIERQX0RTQ19FTkFCTEXCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDE2MMKgwqAgLyogRFAgMS40ICovCj4+IMKgIyBk
-ZWZpbmUgRFBfREVDT01QUkVTU0lPTl9FTsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAo
-MSA8PCAwKQo+PiDCoAo+PiAtI2RlZmluZSBEUF9QU1JfRU5fQ0ZHwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDB4MTcwwqDCoCAvKiBYWFggMS4yPyAqLwo+PiAtIyBk
-ZWZpbmUgRFBfUFNSX0VOQUJMRcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgKDEgPDwgMCkKPj4gLSMgZGVmaW5lIERQX1BTUl9NQUlOX0xJTktfQUNUSVZFwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgKDEgPDwgMSkKPj4gLSMgZGVmaW5lIERQX1BTUl9DUkNfVkVSSUZJQ0FUSU9O
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwgMikKPj4gLSMgZGVmaW5lIERQX1BTUl9GUkFNRV9D
-QVBUVVJFwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwgMykKPj4gLSMgZGVmaW5lIERQ
-X1BTUl9TRUxFQ1RJVkVfVVBEQVRFwqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwgNCkKPj4gLSMg
-ZGVmaW5lIERQX1BTUl9JUlFfSFBEX1dJVEhfQ1JDX0VSUk9SU8KgwqDCoMKgICgxIDw8IDUpCj4+
-IC0jIGRlZmluZSBEUF9QU1JfRU5BQkxFX1BTUjLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgKDEgPDwgNikgLyogZURQIDEuNGEgKi8KPj4gKyNkZWZpbmUgRFBfUFNSX0VOX0NGR8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDE3MMKgwqAg
-LyogWFhYIDEuMj8gKi8KPj4gKyMgZGVmaW5lIERQX1BTUl9FTkFCTEXCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoEJJVCgwKQo+PiArIyBkZWZpbmUgRFBf
-UFNSX01BSU5fTElOS19BQ1RJVkXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBCSVQoMSkK
-Pj4gKyMgZGVmaW5lIERQX1BTUl9DUkNfVkVSSUZJQ0FUSU9OwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgQklUKDIpCj4+ICsjIGRlZmluZSBEUF9QU1JfRlJBTUVfQ0FQVFVSRcKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoEJJVCgzKQo+PiArIyBkZWZpbmUgRFBfUFNSX1NV
-X1JFR0lPTl9TQ0FOTElORV9DQVBUVVJFwqDCoMKgwqDCoEJJVCg0KSAvKiBlRFAgMS40YSAqLwo+
-PiArIyBkZWZpbmUgRFBfUFNSX0lSUV9IUERfV0lUSF9DUkNfRVJST1JTwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBCSVQoNSkgLyogZURQCj4+IDEuNGEgKi8KPj4gKyMgZGVmaW5lIERQ
-X1BTUl9FTkFCTEVfUFNSMsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBC
-SVQoNikgLyogZURQIDEuNGEgKi8KPj4gwqAKPj4gwqAjZGVmaW5lIERQX0FEQVBURVJfQ1RSTMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDFh
-MAo+PiDCoCMgZGVmaW5lIERQX0FEQVBURVJfQ1RSTF9GT1JDRV9MT0FEX1NFTlNFwqDCoCAoMSA8
-PCAwKQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4g
-SW50ZWwtZ2Z4IG1haWxpbmcgbGlzdAo+IEludGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2ludGVsLWdm
-eAoKVGhpcyBzaG91bGQgcHJvYmFibHkgZ28gdGhyb3VoIGRybS1taXNjLW5leHQsIEkgZG9uJ3Qg
-c2VlIHRoZSBuZXh0IHBhdGNoIGRlcGVuZGluZyBvbiB0aGlzPwoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Op 22-04-2021 om 10:18 schreef Daniel Vetter:
+> On Wed, Apr 21, 2021 at 04:39:10PM +0200, Maarten Lankhorst wrote:
+>> Op 21-04-2021 om 16:32 schreef Daniel Vetter:
+>>> On Wed, Apr 21, 2021 at 2:03 PM Maarten Lankhorst
+>>> <maarten.lankhorst@linux.intel.com> wrote:
+>>>> Fixes the following htmldocs warnings:
+>>>> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess function parameter 'trampoline' description in 'intel_engine_cmd_parser'
+>>>> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'jump_whitelist' not described in 'intel_engine_cmd_parser'
+>>>> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'shadow_map' not described in 'intel_engine_cmd_parser'
+>>>> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Function parameter or member 'batch_map' not described in 'intel_engine_cmd_parser'
+>>>> drivers/gpu/drm/i915/i915_cmd_parser.c:1420: warning: Excess function parameter 'trampoline' description in 'intel_engine_cmd_parser'
+>>>>
+>>>> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+>>>> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>>> ---
+>>>>  drivers/gpu/drm/i915/i915_cmd_parser.c | 16 +++++++++++++++-
+>>>>  1 file changed, 15 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/i915_cmd_parser.c b/drivers/gpu/drm/i915/i915_cmd_parser.c
+>>>> index e6f1e93abbbb..afb9b7516999 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_cmd_parser.c
+>>>> +++ b/drivers/gpu/drm/i915/i915_cmd_parser.c
+>>>> @@ -1369,6 +1369,18 @@ static int check_bbstart(u32 *cmd, u32 offset, u32 length,
+>>>>         return 0;
+>>>>  }
+>>>>
+>>>> +/**
+>>>> + * intel_engine_cmd_parser_alloc_jump_whitelist() - preallocate jump whitelist for intel_engine_cmd_parser()
+>>>> + * @batch_length: length of the commands in batch_obj
+>>>> + * @trampoline: Whether jump trampolines are used.
+>>>> + *
+>>>> + * Preallocates a jump whitelist for parsing the cmd buffer in intel_engine_cmd_parser().
+>>>> + * This has to be preallocated, because the command parser runs in signaling context,
+>>>> + * and may not allocate any memory.
+>>>> + *
+>>>> + * Return: NULL or pointer to a jump whitelist, or ERR_PTR() on failure. Use
+>>>> + * IS_ERR() to check for errors. Must bre freed() with kfree().
+>>> IS_ERR_OR_NULL or needs an actual bugfix in the code since we're not
+>>> consistent. Also s/bre/be/
+>> We're sort of consistent, NULL is a valid return code. IS_ERR is only on faliure. :)
+> Maybe explain that and then Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> Cheers, Daniel
+>
+>>> -Daniel
+>>>
+>>>> + */
+>>>>  unsigned long *intel_engine_cmd_parser_alloc_jump_whitelist(u32 batch_length,
+>>>>                                                             bool trampoline)
+>>>>  {
+>>>> @@ -1401,7 +1413,9 @@ unsigned long *intel_engine_cmd_parser_alloc_jump_whitelist(u32 batch_length,
+>>>>   * @batch_offset: byte offset in the batch at which execution starts
+>>>>   * @batch_length: length of the commands in batch_obj
+>>>>   * @shadow: validated copy of the batch buffer in question
+>>>> - * @trampoline: whether to emit a conditional trampoline at the end of the batch
+>>>> + * @jump_whitelist: buffer preallocated with intel_engine_cmd_parser_alloc_jump_whitelist()
+>>>> + * @shadow_map: mapping to @shadow vma
+>>>> + * @batch_map: mapping to @batch vma
+>>>>   *
+>>>>   * Parses the specified batch buffer looking for privilege violations as
+>>>>   * described in the overview.
+>>>> --
+>>>> 2.31.0
+>>>>
+Updated and pushed both, thanks. :)
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
