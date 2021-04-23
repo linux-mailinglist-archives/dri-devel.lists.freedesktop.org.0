@@ -2,40 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8BC369C66
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 00:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976BD369C97
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 00:31:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F9F56EC9A;
-	Fri, 23 Apr 2021 22:05:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 880D96ECA3;
+	Fri, 23 Apr 2021 22:31:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 659B96EC9A
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 22:05:11 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5FF0BEE;
- Sat, 24 Apr 2021 00:05:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1619215509;
- bh=0BDFbBpkwMEvoaPYProOGdPMsK+mtQelk+lasuSOp+U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JEz0mjkA+ekx/wwerrhW/qPTgtQ8KnJLZqWgQwMUtRLtB4BmAn1MrSSEDfr01rLvD
- eQi13SuzQiEqJeli7AIqlkDVtnL/SZmZzBCHvwClldTCnJkJrtxtZ3LZrFeUOVqs5q
- AL2YDlUlOU+qIH4P8ebj1ncDqFqAnsH7viyxsOR4=
-Date: Sat, 24 Apr 2021 01:05:04 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] drm: rcar-du: fix linker undefined references
-Message-ID: <YINEkLqT6keqhzKX@pendragon.ideasonboard.com>
-References: <20210423213727.27751-1-rdunlap@infradead.org>
- <YINAJP1iPwsukLah@pendragon.ideasonboard.com>
- <dca3ea68-9259-25f9-3d89-983783f9f7da@infradead.org>
- <a1096c8e-65ef-042c-5293-0785e1e21dba@infradead.org>
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11F856ECA2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 22:31:37 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id g16so292666pfq.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 15:31:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5EMEkpkVEstMhYksGq8DQqkutZRbwL7brOaHT20UxUI=;
+ b=l3UqTo1VYfe5ZFxMMmHXF2AKrcuDM/Yp/S9g4NpxD4UjhVkUdw7GhAN+Fyqix0S4rn
+ RVIiQlpXXT7mVzz1a9wwyxxhdfrdOhtNwolitYQh1j1fXfiPR+tWjfzFqvrzY8CHgTP5
+ ON0YVwNRcHv3vyA6cY6zSbIJEr4HSYWV3c7UuMR9d0oHM8orDbQPI/C0+PAhO/7luU87
+ 1OPX+o3aWJ1avoTjBrFFH3wT2u+mjL5iVInExrjsHxLomg+lyo7rtgBPskIVHoms2eJ8
+ sNEjVwwantVIGICGhUfJ0BIEFf6nEPeUsv/wACoNnHhIuISFpnCnRhp3n4QhUFi6Q2t0
+ Q0eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5EMEkpkVEstMhYksGq8DQqkutZRbwL7brOaHT20UxUI=;
+ b=rPjxq2zm0twUenpVsRoV8kSx38tiRQTS/uLGvCVLwu4QxH7IUY31r1c/Wi4IuraN88
+ 0GXddKYvKtHUHDS9UvvIKEBWIJdCEVPu31Lqfp7RGnqEeXp51KKfBVO2aBkenRGKbdSF
+ s9OCiJhxnT7e6NJWlFF6O0Uynu3ApVj/CVJhkcE9kpRvW1cXJtgayP9OPnnAWWycvW0l
+ TEFRxzGlAWu56idNAbKVhLHX3hq2Iz1SxLKN81Ykn01yD/y6e5kdsLfeB52gp1Sr+hCc
+ QBwcVQZZ1FqaztCEizR4U8OUwxe7/FYgl8WK2wplCOZf4gu34LPpxqKtgPu5WKuzwklY
+ q3AA==
+X-Gm-Message-State: AOAM530IVjGev+eOA6un407PH1y18YTIAjahpNmF0frLUok71roLagnH
+ i89rbhnBnUpZ/7vltlrEr/yzgA==
+X-Google-Smtp-Source: ABdhPJxWEAnOlStxXBMwfPa14POP6J5FgKRbsz5jGX/EclehNNRlfZvwxhpQqx2bnJ81B8cixrGAog==
+X-Received: by 2002:a63:3c59:: with SMTP id i25mr5724453pgn.366.1619217096438; 
+ Fri, 23 Apr 2021 15:31:36 -0700 (PDT)
+Received: from omlet.com ([134.134.139.76])
+ by smtp.gmail.com with ESMTPSA id z12sm5523420pfn.195.2021.04.23.15.31.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Apr 2021 15:31:35 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/21] drm/i915/gem: ioctl clean-ups
+Date: Fri, 23 Apr 2021 17:31:10 -0500
+Message-Id: <20210423223131.879208-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a1096c8e-65ef-042c-5293-0785e1e21dba@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,105 +66,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUmFuZHksCgpPbiBGcmksIEFwciAyMywgMjAyMSBhdCAwMzowMjoyN1BNIC0wNzAwLCBSYW5k
-eSBEdW5sYXAgd3JvdGU6Cj4gT24gNC8yMy8yMSAyOjU2IFBNLCBSYW5keSBEdW5sYXAgd3JvdGU6
-Cj4gPiBPbiA0LzIzLzIxIDI6NDYgUE0sIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6Cj4gPj4gT24g
-RnJpLCBBcHIgMjMsIDIwMjEgYXQgMDI6Mzc6MjdQTSAtMDcwMCwgUmFuZHkgRHVubGFwIHdyb3Rl
-Ogo+ID4+PiBXaGVuIERSTV9SQ0FSX0RVPXkgYW5kIERSTV9SQ0FSX0xWRFM9bSwgdGhlcmUgYXJl
-IHNldmVyYWwgYnVpbGQgZXJyb3JzCj4gPj4+IGFzIHJlcG9ydGVkIGJ5ICdrZXJuZWwgdGVzdCBy
-b2JvdCcuIFRoZXNlIGNhbiBiZSBjb3JyZWN0ZWQgYnkgY2hhbmdpbmcKPiA+Pj4gImltcGx5IiB0
-byAic2VsZWN0Ii4KPiA+Pj4KPiA+Pj4gSW4gbG9va2luZyBhdCB0aGlzLCB0aGUgc2FtZSBwcm9i
-bGVtIChidWlsZCBlcnJvcnMpIGhhcHBlbnMgd2hlbgo+ID4+PiBEUk1fUkNBUl9EVT15IGFuZCBE
-Uk1fUkNBUl9DTU09bSwgc28gYWdhaW4gY2hhbmdlIHRoZSAiaW1wbHkiIHRvCj4gPj4+ICJzZWxl
-Y3QiIGhlcmUgYXMgd2VsbC4KPiA+Pj4KPiA+Pj4gVGhlc2UgMiBjaGFuZ2VzIGZpeCB0aGUgZm9s
-bG93aW5nIDggYnVpbGQvbGluayBlcnJvcnM6Cj4gPj4+Cj4gPj4+IGFhcmNoNjQtbGludXgtbGQ6
-IGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfY3J0Yy5vOiBpbiBmdW5jdGlvbiAKPiA+
-Pj4gYHJjYXJfZHVfY3J0Y19hdG9taWNfZW5hYmxlJzoKPiA+Pj4gcmNhcl9kdV9jcnRjLmM6KC50
-ZXh0KzB4MWJlOCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gCj4gPj4+IGByY2FyX2x2ZHNfY2xr
-X2VuYWJsZScKPiA+Pj4gYWFyY2g2NC1saW51eC1sZDogZHJpdmVycy9ncHUvZHJtL3JjYXItZHUv
-cmNhcl9kdV9jcnRjLm86IGluIGZ1bmN0aW9uIAo+ID4+PiBgcmNhcl9kdV9jcnRjX2F0b21pY19k
-aXNhYmxlJzoKPiA+Pj4gcmNhcl9kdV9jcnRjLmM6KC50ZXh0KzB4MjQzOCk6IHVuZGVmaW5lZCBy
-ZWZlcmVuY2UgdG8gCj4gPj4+IGByY2FyX2x2ZHNfY2xrX2Rpc2FibGUnCj4gPj4+IGFhcmNoNjQt
-bGludXgtbGQ6IGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfZHJ2Lm86IGluIGZ1bmN0
-aW9uIAo+ID4+PiBgcmNhcl9kdV9pbml0JzoKPiA+Pj4gcmNhcl9kdV9kcnYuYzooLmluaXQudGV4
-dCsweDE0KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byAKPiA+Pj4gYHJjYXJfZHVfb2ZfaW5pdCcK
-PiA+Pj4gYWFyY2g2NC1saW51eC1sZDogZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9l
-bmNvZGVyLm86IGluIAo+ID4+PiBmdW5jdGlvbiBgcmNhcl9kdV9lbmNvZGVyX2luaXQnOgo+ID4+
-PiByY2FyX2R1X2VuY29kZXIuYzooLnRleHQrMHgxZDQpOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRv
-IAo+ID4+PiBgcmNhcl9sdmRzX2R1YWxfbGluaycKPiA+Pj4KPiA+Pj4gYWFyY2g2NC1saW51eC1s
-ZDogZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9jcnRjLm86IGluIGZ1bmN0aW9uIAo+
-ID4+PiBgcmNhcl9kdV9jbW1fc2V0dXAnOgo+ID4+PiByY2FyX2R1X2NydGMuYzooLnRleHQrMHgz
-ODApOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGByY2FyX2NtbV9zZXR1cCcKPiA+Pj4gYWFyY2g2
-NC1saW51eC1sZDogZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9jcnRjLm86IGluIGZ1
-bmN0aW9uIAo+ID4+PiBgcmNhcl9kdV9jcnRjX2F0b21pY19lbmFibGUnOgo+ID4+PiByY2FyX2R1
-X2NydGMuYzooLnRleHQrMHgxYzA4KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgcmNhcl9jbW1f
-ZW5hYmxlJwo+ID4+PiBhYXJjaDY0LWxpbnV4LWxkOiBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9y
-Y2FyX2R1X2NydGMubzogaW4gZnVuY3Rpb24gCj4gPj4+IGByY2FyX2R1X2NydGNfYXRvbWljX2Rp
-c2FibGUnOgo+ID4+PiByY2FyX2R1X2NydGMuYzooLnRleHQrMHgyMzFjKTogdW5kZWZpbmVkIHJl
-ZmVyZW5jZSB0byBgcmNhcl9jbW1fZGlzYWJsZScKPiA+Pj4gYWFyY2g2NC1saW51eC1sZDogZHJp
-dmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9rbXMubzogaW4gZnVuY3Rpb24gCj4gPj4+IGBy
-Y2FyX2R1X21vZGVzZXRfaW5pdCc6Cj4gPj4+IHJjYXJfZHVfa21zLmM6KC50ZXh0KzB4ZDA4KTog
-dW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgcmNhcl9jbW1faW5pdCcKPiA+Pj4KPiA+Pj4gRml4ZXM6
-IGUwOGU5MzRkNmMyOCAoImRybTogcmNhci1kdTogQWRkIHN1cHBvcnQgZm9yIENNTSIpCj4gPj4+
-IEZpeGVzOiAwMmYyYjMwMDMyYzEgKCJkcm06IHJjYXItZHU6IGx2ZHM6IEFkZCBBUEkgdG8gZW5h
-YmxlL2Rpc2FibGUgCj4gPj4+IGNsb2NrIG91dHB1dCIpCj4gPj4+IFNpZ25lZC1vZmYtYnk6IFJh
-bmR5IER1bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQub3JnPgo+ID4+PiBSZXBvcnRlZC1ieToga2Vy
-bmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4gPj4+IENjOiBNYXNhaGlybyBZYW1hZGEg
-PG1hc2FoaXJveUBrZXJuZWwub3JnPgo+ID4+PiBDYzogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVu
-dC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+ID4+PiBDYzogS2llcmFuIEJpbmdoYW0gPGtp
-ZXJhbi5iaW5naGFtK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KPiA+Pj4gQ2M6IGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+Pj4gQ2M6IGxpbnV4LXJlbmVzYXMtc29jQHZnZXIu
-a2VybmVsLm9yZwo+ID4+PiBDYzogSmFjb3BvIE1vbmRpIDxqYWNvcG8rcmVuZXNhc0BqbW9uZGku
-b3JnPgo+ID4+PiAtLS0KPiA+Pj4gwqAgZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvS2NvbmZpZyB8
-wqDCoMKgIDQgKystLQo+ID4+PiDCoCAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAy
-IGRlbGV0aW9ucygtKQo+ID4+Pgo+ID4+PiAtLS0gbGludXgtbmV4dC0yMDIxMDQyMC5vcmlnL2Ry
-aXZlcnMvZ3B1L2RybS9yY2FyLWR1L0tjb25maWcKPiA+Pj4gKysrIGxpbnV4LW5leHQtMjAyMTA0
-MjAvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvS2NvbmZpZwo+ID4+PiBAQCAtNCw4ICs0LDggQEAg
-Y29uZmlnIERSTV9SQ0FSX0RVCj4gPj4+IMKgwqDCoMKgwqAgZGVwZW5kcyBvbiBEUk0gJiYgT0YK
-PiA+Pj4gwqDCoMKgwqDCoCBkZXBlbmRzIG9uIEFSTSB8fCBBUk02NAo+ID4+PiDCoMKgwqDCoMKg
-IGRlcGVuZHMgb24gQVJDSF9SRU5FU0FTIHx8IENPTVBJTEVfVEVTVAo+ID4+PiAtwqDCoMKgIGlt
-cGx5IERSTV9SQ0FSX0NNTQo+ID4+PiAtwqDCoMKgIGltcGx5IERSTV9SQ0FSX0xWRFMKPiA+Pj4g
-K8KgwqDCoCBzZWxlY3QgRFJNX1JDQVJfQ01NCj4gPj4+ICvCoMKgwqAgc2VsZWN0IERSTV9SQ0FS
-X0xWRFMKPiA+Pgo+ID4+IE5vIGFsbCBwbGF0Zm9ybXMgdGhhdCBpbnRlZ3JhdGUgYSBEVSBoYXZl
-IENNTSBhbmQvb3IgTFZEUyBzdXBwb3J0LCBzbyB3ZQo+ID4+IHNob3VsZG4ndCBzZWxlY3QgdGhl
-IGF1dG9tYXRpY2FsbHkuCj4gPj4KPiA+PiBXb3VsZAo+ID4+Cj4gPj4gwqDCoMKgwqBkZXBlbmRz
-IG9uIERSTV9SQ0FSX0NNTSB8fCBEUk1fUkNBUl9DTU09bgo+ID4+IMKgwqDCoMKgZGVwZW5kcyBv
-biBEUk1fUkNBUl9MVkRTIHx8IERSTV9SQ0FSX0xWRFM9bgo+ID4gCj4gPiBMb29rcyBnb29kOyBJ
-IGxpa2UgaXQsIGJ1dCBrY29uZmlnIGRvZXMgbm90Ogo+ID4gCj4gPiAkIHhidWlsZF9hcm02NC5z
-aMKgIG9sZGNvbmZpZwo+ID4gbWFrZVsxXTogRW50ZXJpbmcgZGlyZWN0b3J5IAo+ID4gJy9ob21l
-L3JkdW5sYXAvbG54L25leHQvbGludXgtbmV4dC0yMDIxMDQyMC9BUk02NCcKPiA+ICDCoCBHRU7C
-oMKgwqDCoCBNYWtlZmlsZQo+ID4gZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvS2NvbmZpZzoyOmVy
-cm9yOiByZWN1cnNpdmUgZGVwZW5kZW5jeSBkZXRlY3RlZCEKPiA+IGRyaXZlcnMvZ3B1L2RybS9y
-Y2FyLWR1L0tjb25maWc6MjrCoMKgwqAgc3ltYm9sIERSTV9SQ0FSX0RVIGRlcGVuZHMgb24gCj4g
-PiBEUk1fUkNBUl9DTU0KPiA+IGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L0tjb25maWc6MTc6wqDC
-oMKgIHN5bWJvbCBEUk1fUkNBUl9DTU0gZGVwZW5kcyBvbiAKPiA+IERSTV9SQ0FSX0RVCj4gPiBG
-b3IgYSByZXNvbHV0aW9uIHJlZmVyIHRvIERvY3VtZW50YXRpb24va2J1aWxkL2tjb25maWctbGFu
-Z3VhZ2UucnN0Cj4gPiBzdWJzZWN0aW9uICJLY29uZmlnIHJlY3Vyc2l2ZSBkZXBlbmRlbmN5IGxp
-bWl0YXRpb25zIgo+ID4gCj4gPj4gd29yayA/IEkgdGhvdWdodCB0aGF0J3Mgd2hhdCAiaW1wbHki
-IG1lYW50LCBidXQgaXQgc2VlbXMgSSBnb3QgaXQgd3JvbmcuCj4gPj4KPiA+Pj4gwqDCoMKgwqDC
-oCBzZWxlY3QgRFJNX0tNU19IRUxQRVIKPiA+Pj4gwqDCoMKgwqDCoCBzZWxlY3QgRFJNX0tNU19D
-TUFfSEVMUEVSCj4gPj4+IMKgwqDCoMKgwqAgc2VsZWN0IERSTV9HRU1fQ01BX0hFTFBFUgo+IAo+
-IFRoZXJlIGlzIHNvbWUgZG9jdW1lbnRhdGlvbiAoa2NvbmZpZy1sYW5ndWFnZS5yc3QpIHRoYXQg
-c2F5cyB0aGF0IHdoZW4gYSAKPiBkcml2ZXIgS2NvbmZpZyBpcyB1c2luZyBtaXhlZCBidWlsdGlu
-IGFuZCBsb2FkYWJsZSBtb2R1bGVzLCB0aGUgZHJpdmVyIAo+IHNob3VsZCBiZSB1c2luZyBJU19S
-RUFDSEFCTEUoKS4gVGhlIGV4YW1wbGUgYWxzbyB1c2VzICJpbXBseSIsIHNvIG1heWJlCj4gd2Ug
-c2hvdWxkL2NvdWxkIHRyeSBzb21ldGhpbmcgbGlrZSB0aGF0Ogo+IElmIENNTSBpcyBSRUFDSEJM
-RSgpLCBtYWtlIHRoZSBjYWxscy4KPiBJZiBMVkRTIGlzIFJFQURBQkxFKCksIG1ha2UgdGhlIGNh
-bGxzLgo+IAo+IEkgY2FuIGxvb2sgaW50byB0aGF0IHNvbWUgbW9yZSBpZiB5b3Ugd2FudCBtZSB0
-by4KPiBPciBJJ2xsIGJlIGhhcHB5IHRvIGxldCB5b3UgZG8gc28uIDopCgpJZiB5b3UgaGF2ZSB0
-aW1lIHRvIGhhdmUgYSBsb29rLCBJJ2QgYmUgdmVyeSBoYXBweSBhYm91dCB0aGF0LiBJIGNhbid0
-CnByb21pc2UgdG8gcmVwYXkgaXQgd2l0aCBhIGRyaW5rIGF0IHRoZSBuZXh0IGNvbmZlcmVuY2Us
-IGJ1dCBJIGhvcGUgdGhhdAp3aWxsIGNoYW5nZSBzb29uZXIgdGhhbiBsYXRlciA6LSkKCi0tIApS
-ZWdhcmRzLAoKTGF1cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+Overview:
+---------
+
+This patch series attempts to clean up some of the IOCTL mess we've created
+over the last few years.  The most egregious bit being context mutability.
+In summary, this series:
+
+ 1. Drops two never-used context params: RINGSIZE and NO_ZEROMAP
+ 2. Drops the entire CONTEXT_CLONE API
+ 3. Implements SINGLE_TIMELINE with a syncobj instead of actually sharing
+    intel_timeline between engines.
+ 4. Adds a few sanity restrictions to the balancing/bonding API.
+ 5. Implements a proto-ctx mechanism so that the engine set and VM can only
+    be set early on in the lifetime of a context, before anything ever
+    executes on it.  This effectively makes the VM and engine set
+    immutable.
+
+This series has been tested with IGT as well as the Iris, ANV, and the
+Intel media driver doing an 8K decode (this uses bonding/balancing).  I've
+also done quite a bit of git archeology to ensure that nothing in here will
+break anything that's already shipped at some point in history.  It's
+possible I've missed something, but I've dug quite a bit.
+
+
+Details and motivation:
+-----------------------
+
+In very broad strokes, there's an effort going on right now within Intel to
+try and clean up and simplify i915 anywhere we can.  We obviously don't
+want to break any shipping userspace but, as can be seen by this series,
+there's a lot i915 theoretically supports which userspace doesn't actually
+need.  Some of this, like the two context params used here, were simply
+oversights where we went through the usual API review process and merged
+the i915 bits but the userspace bits never landed for some reason.
+
+Not all are so innocent, however.  For instance, there's an entire context
+cloning API which allows one to create a context with certain parameters
+"cloned" from some other context.  This entire API has never been used by
+any userspace except IGT and there were never patches to any other
+userspace to use it.  It never should have landed.  Also, when we added
+support for setting explicit engine sets and sharing VMs across contexts,
+people decided to do so via SET_CONTEXT_PARAM.  While this allowed them to
+re-use existing API, it did so at the cost of making those states mutable
+which leads to a plethora of potential race conditions.  There were even
+IGT tests merged to cover some of theses:
+
+ - gem_vm_create@async-destroy and gem_vm_create@destroy-race which test
+   swapping out the VM on a running context.
+
+ - gem_ctx_persistence@replace* which test whether a client can escape a
+   non-persistent context by submitting a hanging batch and then swapping
+   out the engine set before the hang is detected.
+
+ - api_intel_bb@bb-with-vm which tests the that intel_bb_assign_vm works
+   properly.  This API is never used by any other IGT test.
+
+There is also an entire deferred flush and set state framework in
+i915_gem_cotnext.c which exists for safely swapping out the VM while there
+is work in-flight on a context.
+
+So, clearly people knew that this API was inherently racy and difficult to
+implement but they landed it anyway.  Why?  The best explanation I've been
+given is because it makes the API more "unified" or "symmetric" for this
+stuff to go through SET_CONTEXT_PARAM.  It's not because any userspace
+actually wants to be able to swap out the VM or the set of engines on a
+running context.  That would be utterly insane.
+
+This patch series cleans up this particular mess by introducing the concept
+of a i915_gem_proto_context data structure which contains context creation
+information.  When you initially call GEM_CONTEXT_CREATE, a proto-context
+in created instead of an actual context.  Then, the first time something is
+done on the context besides SET_CONTEXT_PARAM, an actual context is
+created.  This allows us to keep the old drivers which use
+SET_CONTEXT_PARAM to set up the engine set (see also media) while ensuring
+that, once you have an i915_gem_context, the VM and the engine set are
+immutable state.
+
+Eventually, there are more clean-ups I'd like to do on top of this which
+should make working with contexts inside i915 simpler and safer:
+
+ 1. Move the GEM handle -> vma LUT from i915_gem_context into either
+    i915_ppgtt or drm_i915_file_private depending on whether or not the
+    hardware has a full PPGTT.
+
+ 2. Move the delayed context destruction code into intel_context or a
+    per-engine wrapper struct rather than i915_gem_context.
+
+ 3. Get rid of the separation between context close and context destroy
+
+ 4. Get rid of the RCU on i915_gem_context
+
+However, these should probably be done as a separate patch series as this
+one is already starting to get longish, especially if you consider the 89
+IGT patches that go along with it.
+
+Test-with: 20210423214853.876911-1-jason@jlekstrand.net
+
+Jason Ekstrand (21):
+  drm/i915: Drop I915_CONTEXT_PARAM_RINGSIZE
+  drm/i915: Drop I915_CONTEXT_PARAM_NO_ZEROMAP
+  drm/i915/gem: Set the watchdog timeout directly in
+    intel_context_set_gem
+  drm/i915/gem: Return void from context_apply_all
+  drm/i915: Drop the CONTEXT_CLONE API
+  drm/i915: Implement SINGLE_TIMELINE with a syncobj (v3)
+  drm/i915: Drop getparam support for I915_CONTEXT_PARAM_ENGINES
+  drm/i915/gem: Disallow bonding of virtual engines
+  drm/i915/gem: Disallow creating contexts with too many engines
+  drm/i915/request: Remove the hook from await_execution
+  drm/i915: Stop manually RCU banging in reset_stats_ioctl
+  drm/i915/gem: Add a separate validate_priority helper
+  drm/i915/gem: Add an intermediate proto_context struct
+  drm/i915/gem: Return an error ptr from context_lookup
+  drm/i915/gt: Drop i915_address_space::file
+  drm/i915/gem: Delay context creation
+  drm/i915/gem: Don't allow changing the VM on running contexts
+  drm/i915/gem: Don't allow changing the engine set on running contexts
+  drm/i915/selftests: Take a VM in kernel_context()
+  i915/gem/selftests: Assign the VM at context creation in
+    igt_shared_ctx_exec
+  drm/i915/gem: Roll all of context creation together
+
+ drivers/gpu/drm/i915/Makefile                 |    1 -
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 2967 +++++++----------
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |    3 +
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |   68 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   31 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c |  127 +-
+ .../gpu/drm/i915/gem/selftests/mock_context.c |   62 +-
+ .../gpu/drm/i915/gem/selftests/mock_context.h |    4 +-
+ drivers/gpu/drm/i915/gt/intel_context_param.c |   63 -
+ drivers/gpu/drm/i915/gt/intel_context_param.h |    6 +-
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |    7 -
+ .../drm/i915/gt/intel_execlists_submission.c  |  100 -
+ .../drm/i915/gt/intel_execlists_submission.h  |    4 -
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   10 -
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  249 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |    2 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   23 +-
+ drivers/gpu/drm/i915/i915_perf.c              |    4 +-
+ drivers/gpu/drm/i915/i915_request.c           |   42 +-
+ drivers/gpu/drm/i915/i915_request.h           |    4 +-
+ .../drm/i915/selftests/i915_mock_selftests.h  |    1 -
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |    1 -
+ include/uapi/drm/i915_drm.h                   |   40 +-
+ 23 files changed, 1438 insertions(+), 2381 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gt/intel_context_param.c
+
+-- 
+2.31.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
