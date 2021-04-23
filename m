@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A036C3694D5
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 16:35:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C483694DD
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 16:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1166E0F5;
-	Fri, 23 Apr 2021 14:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD1D6E101;
+	Fri, 23 Apr 2021 14:38:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F2FD6E0F5
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 14:35:43 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id v6so21560715oiv.3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 07:35:43 -0700 (PDT)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3C136E101
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 14:38:12 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ d3-20020a9d29030000b029027e8019067fso43561987otb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 07:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=jbbrFFl9vrwv+CdmCwQi0I7Ko+cX89wNgsv/KroPn5Y=;
- b=YND9y+oQTfNuuRE/WdvdMgAirwez9HFLRB+aG9BPoNMwQKu6aALut9FGPg2hbWqD6t
- F3EXvj2ltRdHT+rRBp5KxOD33T91Yf8+200STJMjqxjsGjtAT2Mco+qodmLFAK84pvTZ
- pUdgdf01v4YY3dlbpOm44wrP/0SBpj6zQ5/WiLmZJmaki+i6Gv7/e9AFprsIB+WFtIjs
- 7rXn6nIl+MnNEEJBeF1126DPKf+cgZHv1VOGm21NOMzYgtXYQUgVpTlQrebnqj2JMNJ5
- MqWqXre21JazMJNwKEZykbfpWbR7hKiVGO+XzEPwQhZnz6hHcZK2YnPvLk771yIzKt7j
- cbcA==
+ bh=NRE9QbrX/aDzI7BokRhqkKTHnKj1gy2yobJ+pmPUges=;
+ b=JnjnE8scoMKiMsn2WI2JJGApFjwHhkXV2h1hZ6aowI6ySX76qoFvwJEeJ5b8u3MHfO
+ DIeUi4Tp72ybADLKCPQwCAfW5e0KYT+TW7nLX/wTaFpY8DIyRIGOOFf9eNa+kewocn1y
+ fPGI1GPbbbkQPwQN2tJjZ23JgJi2jB+mgXEt2ZBVL+yRtxJIyBNW6uwqvgt2MBkj6iWJ
+ 65C0DcxS23+1iCUJkamBc1gdTDF1D05rxtam11/PJOx18XhXES1x45j1T5fTMe6oLyZo
+ lM/oTkbkS8PK+ILWbvqR7HJOzjQYnkOTaDC5+X51lz9dWoV/U2CnLG1TvtLVZ76pgqt1
+ nBaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=jbbrFFl9vrwv+CdmCwQi0I7Ko+cX89wNgsv/KroPn5Y=;
- b=IgKdYM+Pxl0U4yf6prKSl73Z4TUtc/kVOzL7HH17PlfbzLiclQs2HpWc19Rrwr4QNf
- OyfU8XvXQwynMiW09eE1/KIWxr8F/c9P3/plaBcVwKUDp07W7wLDBkE+ULPG3z6iT/bs
- y1q/ummQwNBfkbgzVj0d85BuRs/UcSvsY6XVyXJ7qqNP8TfSBlrjusJlaIswLoPi0nfn
- kw5iAObXbR/ijPNvKKXF+l6+eEPJtbeDwYrC3jb3gGOD236HYWOpg1wo0HM3BAc4thmV
- SXITWQiaRjDcjTvaOLDXqZ4SGZ4QwGYgo+0OcRw5Tl7qKnf/dvUp6o2SXaa0/d6fnMQC
- fA4A==
-X-Gm-Message-State: AOAM532hfH63WBu4HvUpi1qe9CzufH1icInus9hOgIeOy3QV5pne4RiO
- rtjRDG7aW6RZ01VKwrMombYIcQ==
-X-Google-Smtp-Source: ABdhPJxcCUZNBug881o1uVELe/LX/FF4rYn/YAsPBI0cQIVf5vzR30LNv6mS9V2fNTK1QZAX0+vB4w==
-X-Received: by 2002:a05:6808:f8e:: with SMTP id
- o14mr3036405oiw.56.1619188542856; 
- Fri, 23 Apr 2021 07:35:42 -0700 (PDT)
+ bh=NRE9QbrX/aDzI7BokRhqkKTHnKj1gy2yobJ+pmPUges=;
+ b=VeVJS1tXdSvbzgOkraK3kppNtmpzN1PkN4xXrhavOymmR9Lk5Q6ZHCCToq6kmjDJ5Q
+ ve9woQCxiN4w/0PFf9UpLsuvE7DTNrjHrSMad/57bWxgT7sVjr2dDj0CgXeqhZgU6pM+
+ 4mQ95uMoJzXUHg/oXPXpybJyuhQWCMxLbjkcKOCqJypFjqfe1t9oe17jKIe8wrOoxzcE
+ zaEaUE23vOmCw5hwTKhkKGS+HvsioDtoaJ+Voa3/pGpuy+US1R5u7FzZBkuS/Mp5qwYQ
+ EDhwhx0ey3tPfw962rK0bUJtGvBrafRYE3aJUTSvWl3q2U6XWyfUG7GxF7wIxERhYAQD
+ hCyA==
+X-Gm-Message-State: AOAM531Wfah6CD+Cb/5coMu4S/PvSfD9/CwuKT6ZU0bNzylk+5YWVR/7
+ Q9G2jYyAfC8wNGgbCIe1bTa8lg==
+X-Google-Smtp-Source: ABdhPJyIuk+s7BfatZ+LX3Jze2EUeAMDwGu3pEcnv7gx4wV+urxaFqMUx6OtitjHOT/734tTtUfVEA==
+X-Received: by 2002:a05:6830:1af7:: with SMTP id
+ c23mr3799532otd.3.1619188692103; 
+ Fri, 23 Apr 2021 07:38:12 -0700 (PDT)
 Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
  [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id c14sm1202484oov.21.2021.04.23.07.35.41
+ by smtp.gmail.com with ESMTPSA id w84sm1308335oig.20.2021.04.23.07.38.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 07:35:42 -0700 (PDT)
-Date: Fri, 23 Apr 2021 09:35:40 -0500
+ Fri, 23 Apr 2021 07:38:11 -0700 (PDT)
+Date: Fri, 23 Apr 2021 09:38:09 -0500
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v4 10/27] drm/bridge: ti-sn65dsi86: Clean debugfs code
-Message-ID: <YILbPCGC+Wk9Mdxx@builder.lan>
+Subject: Re: [PATCH v4 11/27] drm/bridge: ti-sn65dsi86: Add local var for
+ "dev" to simplify probe
+Message-ID: <YILb0Q79huUgGgd1@builder.lan>
 References: <20210416223950.3586967-1-dianders@chromium.org>
- <20210416153909.v4.10.I5fe072753290c6a77eda736ebd5778e17b7cb0fb@changeid>
+ <20210416153909.v4.11.I83925d8ca228bdc5f55b17854c90754efc6a470e@changeid>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210416153909.v4.10.I5fe072753290c6a77eda736ebd5778e17b7cb0fb@changeid>
+In-Reply-To: <20210416153909.v4.11.I83925d8ca228bdc5f55b17854c90754efc6a470e@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,103 +87,116 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri 16 Apr 17:39 CDT 2021, Douglas Anderson wrote:
 
-> Let's cleanup the debugfs code to:
-> - Check for errors.
-> - Use devm to manage freeing, which also means we don't need to store
->   a pointer in our structure.
+> Tiny cleanup for probe so we don't keep having to specify
+> "&client->dev" or "pdata->dev". No functional changes intended.
 > 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> 
-> (no changes since v1)
-> 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 32 +++++++++++++++++----------
->  1 file changed, 20 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 57574132e200..0c6aa99ddc99 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -118,7 +118,6 @@
->   * @aux:          Our aux channel.
->   * @bridge:       Our bridge.
->   * @connector:    Our connector.
-> - * @debugfs:      Used for managing our debugfs.
->   * @host_node:    Remote DSI node.
->   * @dsi:          Our MIPI DSI source.
->   * @edid:         Detected EDID of eDP panel.
-> @@ -146,7 +145,6 @@ struct ti_sn65dsi86 {
->  	struct drm_dp_aux		aux;
->  	struct drm_bridge		bridge;
->  	struct drm_connector		connector;
-> -	struct dentry			*debugfs;
->  	struct edid			*edid;
->  	struct device_node		*host_node;
->  	struct mipi_dsi_device		*dsi;
-> @@ -245,18 +243,30 @@ static int status_show(struct seq_file *s, void *data)
->  
->  DEFINE_SHOW_ATTRIBUTE(status);
->  
-> -static void ti_sn65dsi86_debugfs_init(struct ti_sn65dsi86 *pdata)
-> +static void ti_sn65dsi86_debugfs_remove(void *data)
->  {
-> -	pdata->debugfs = debugfs_create_dir(dev_name(pdata->dev), NULL);
-> -
-> -	debugfs_create_file("status", 0600, pdata->debugfs, pdata,
-> -			&status_fops);
-> +	debugfs_remove_recursive(data);
->  }
->  
-> -static void ti_sn65dsi86_debugfs_remove(struct ti_sn65dsi86 *pdata)
-> +static void ti_sn65dsi86_debugfs_init(struct ti_sn65dsi86 *pdata)
->  {
-> -	debugfs_remove_recursive(pdata->debugfs);
-> -	pdata->debugfs = NULL;
-> +	struct device *dev = pdata->dev;
-> +	struct dentry *debugfs;
-> +	int ret;
-> +
-> +	debugfs = debugfs_create_dir(dev_name(dev), NULL);
-> +	if (IS_ERR(debugfs))
-> +		ret = PTR_ERR(debugfs);
-> +	else
-> +		ret = devm_add_action_or_reset(dev, ti_sn65dsi86_debugfs_remove,
-> +					       debugfs);
-> +
-> +	if (ret) {
 
-You're not supposed to handle errors from debugfs_create_dir(), but I
-like what you're doing with devm here and that needs a check.
-
-Also worth mentioning is that at this point in the patch stack the
-debugfs "status" file will outlive the activation of pm_runtime, this is
-however taken care of in a later patch. Given that it's unlikely to
-cause a problem I don't mind this transient issue - but wanted to
-mention that I reviewed the end result in this regard.
-
+Nice
 
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 Regards,
 Bjorn
 
-> +		dev_warn(dev, "Failed to create debugfs (%d), skipping\n", ret);
-> +		return;
-> +	}
-> +
-> +	debugfs_create_file("status", 0600, debugfs, pdata, &status_fops);
->  }
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> 
+> (no changes since v1)
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 26 ++++++++++++--------------
+>  1 file changed, 12 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index 0c6aa99ddc99..2cbf619fbd27 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -1226,6 +1226,7 @@ static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
+>  static int ti_sn65dsi86_probe(struct i2c_client *client,
+>  			      const struct i2c_device_id *id)
+>  {
+> +	struct device *dev = &client->dev;
+>  	struct ti_sn65dsi86 *pdata;
+>  	int ret;
 >  
->  /* Connector funcs */
-> @@ -1310,8 +1320,6 @@ static int ti_sn65dsi86_remove(struct i2c_client *client)
+> @@ -1234,8 +1235,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
+>  		return -ENODEV;
+>  	}
 >  
->  	kfree(pdata->edid);
+> -	pdata = devm_kzalloc(&client->dev, sizeof(struct ti_sn65dsi86),
+> -			     GFP_KERNEL);
+> +	pdata = devm_kzalloc(dev, sizeof(struct ti_sn65dsi86), GFP_KERNEL);
+>  	if (!pdata)
+>  		return -ENOMEM;
 >  
-> -	ti_sn65dsi86_debugfs_remove(pdata);
-> -
->  	drm_bridge_remove(&pdata->bridge);
+> @@ -1246,26 +1246,24 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
+>  		return PTR_ERR(pdata->regmap);
+>  	}
 >  
->  	pm_runtime_disable(pdata->dev);
+> -	pdata->dev = &client->dev;
+> +	pdata->dev = dev;
+>  
+> -	ret = drm_of_find_panel_or_bridge(pdata->dev->of_node, 1, 0,
+> -					  &pdata->panel, NULL);
+> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &pdata->panel, NULL);
+>  	if (ret) {
+>  		DRM_ERROR("could not find any panel node\n");
+>  		return ret;
+>  	}
+>  
+> -	dev_set_drvdata(&client->dev, pdata);
+> +	dev_set_drvdata(dev, pdata);
+>  
+> -	pdata->enable_gpio = devm_gpiod_get(pdata->dev, "enable",
+> -					    GPIOD_OUT_LOW);
+> +	pdata->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+>  	if (IS_ERR(pdata->enable_gpio)) {
+>  		DRM_ERROR("failed to get enable gpio from DT\n");
+>  		ret = PTR_ERR(pdata->enable_gpio);
+>  		return ret;
+>  	}
+>  
+> -	ti_sn_bridge_parse_lanes(pdata, client->dev.of_node);
+> +	ti_sn_bridge_parse_lanes(pdata, dev->of_node);
+>  
+>  	ret = ti_sn65dsi86_parse_regulators(pdata);
+>  	if (ret) {
+> @@ -1273,7 +1271,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
+>  		return ret;
+>  	}
+>  
+> -	pdata->refclk = devm_clk_get_optional(pdata->dev, "refclk");
+> +	pdata->refclk = devm_clk_get_optional(dev, "refclk");
+>  	if (IS_ERR(pdata->refclk))
+>  		return PTR_ERR(pdata->refclk);
+>  
+> @@ -1281,23 +1279,23 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
+>  	if (ret)
+>  		return ret;
+>  
+> -	pm_runtime_enable(pdata->dev);
+> +	pm_runtime_enable(dev);
+>  
+>  	ret = ti_sn_setup_gpio_controller(pdata);
+>  	if (ret) {
+> -		pm_runtime_disable(pdata->dev);
+> +		pm_runtime_disable(dev);
+>  		return ret;
+>  	}
+>  
+>  	i2c_set_clientdata(client, pdata);
+>  
+>  	pdata->aux.name = "ti-sn65dsi86-aux";
+> -	pdata->aux.dev = pdata->dev;
+> +	pdata->aux.dev = dev;
+>  	pdata->aux.transfer = ti_sn_aux_transfer;
+>  	drm_dp_aux_init(&pdata->aux);
+>  
+>  	pdata->bridge.funcs = &ti_sn_bridge_funcs;
+> -	pdata->bridge.of_node = client->dev.of_node;
+> +	pdata->bridge.of_node = dev->of_node;
+>  
+>  	drm_bridge_add(&pdata->bridge);
+>  
 > -- 
 > 2.31.1.368.gbe11c130af-goog
 > 
