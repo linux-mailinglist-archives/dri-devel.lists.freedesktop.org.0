@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3063693B3
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 15:35:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0753693FC
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 15:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 064F06E0EB;
-	Fri, 23 Apr 2021 13:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 234B46EB94;
+	Fri, 23 Apr 2021 13:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 095946E0E8;
- Fri, 23 Apr 2021 13:35:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 70EAF6EB93;
+ Fri, 23 Apr 2021 13:46:35 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7FD1113A1;
- Fri, 23 Apr 2021 06:35:42 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9E1CE1063;
+ Fri, 23 Apr 2021 06:46:34 -0700 (PDT)
 Received: from [10.57.62.63] (unknown [10.57.62.63])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 492D03F73B;
- Fri, 23 Apr 2021 06:35:34 -0700 (PDT)
-Subject: Re: [PATCH v5 16/16] of: Add plumbing for restricted DMA pool
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 903A33F73B;
+ Fri, 23 Apr 2021 06:46:27 -0700 (PDT)
+Subject: Re: [PATCH v5 14/16] dma-direct: Allocate memory from restricted DMA
+ pool if available
 To: Claire Chang <tientzu@chromium.org>, Joerg Roedel <joro@8bytes.org>,
  Will Deacon <will@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
  jgross@suse.com, Christoph Hellwig <hch@lst.de>,
  Marek Szyprowski <m.szyprowski@samsung.com>
 References: <20210422081508.3942748-1-tientzu@chromium.org>
- <20210422081508.3942748-17-tientzu@chromium.org>
+ <20210422081508.3942748-15-tientzu@chromium.org>
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <03c5bc8a-3965-bf1d-01a4-97d074dfbe2b@arm.com>
-Date: Fri, 23 Apr 2021 14:35:32 +0100
+Message-ID: <70b895c2-4a39-bbbd-a719-5c8b6b922026@arm.com>
+Date: Fri, 23 Apr 2021 14:46:25 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210422081508.3942748-17-tientzu@chromium.org>
+In-Reply-To: <20210422081508.3942748-15-tientzu@chromium.org>
 Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,101 +73,123 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2021-04-22 09:15, Claire Chang wrote:
-> If a device is not behind an IOMMU, we look up the device node and set
-> up the restricted DMA when the restricted-dma-pool is presented.
+> The restricted DMA pool is preferred if available.
+> 
+> The restricted DMA pools provide a basic level of protection against the
+> DMA overwriting buffer contents at unexpected times. However, to protect
+> against general data leakage and system memory corruption, the system
+> needs to provide a way to lock down the memory access, e.g., MPU.
 > 
 > Signed-off-by: Claire Chang <tientzu@chromium.org>
 > ---
->   drivers/of/address.c    | 25 +++++++++++++++++++++++++
->   drivers/of/device.c     |  3 +++
->   drivers/of/of_private.h |  5 +++++
->   3 files changed, 33 insertions(+)
+>   kernel/dma/direct.c | 35 ++++++++++++++++++++++++++---------
+>   1 file changed, 26 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/of/address.c b/drivers/of/address.c
-> index 54f221dde267..fff3adfe4986 100644
-> --- a/drivers/of/address.c
-> +++ b/drivers/of/address.c
-> @@ -8,6 +8,7 @@
->   #include <linux/logic_pio.h>
->   #include <linux/module.h>
->   #include <linux/of_address.h>
-> +#include <linux/of_reserved_mem.h>
->   #include <linux/pci.h>
->   #include <linux/pci_regs.h>
->   #include <linux/sizes.h>
-> @@ -1109,6 +1110,30 @@ bool of_dma_is_coherent(struct device_node *np)
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index 7a27f0510fcc..29523d2a9845 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -78,6 +78,10 @@ static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
+>   static void __dma_direct_free_pages(struct device *dev, struct page *page,
+>   				    size_t size)
+>   {
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +	if (swiotlb_free(dev, page, size))
+> +		return;
+> +#endif
+>   	dma_free_contiguous(dev, page, size);
 >   }
->   EXPORT_SYMBOL_GPL(of_dma_is_coherent);
 >   
-> +int of_dma_set_restricted_buffer(struct device *dev)
-> +{
-> +	struct device_node *node;
-> +	int count, i;
+> @@ -92,7 +96,17 @@ static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+>   
+>   	gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
+>   					   &phys_limit);
+> -	page = dma_alloc_contiguous(dev, size, gfp);
 > +
-> +	if (!dev->of_node)
-> +		return 0;
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +	page = swiotlb_alloc(dev, size);
+> +	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
+> +		__dma_direct_free_pages(dev, page, size);
+> +		page = NULL;
+> +	}
+> +#endif
 > +
-> +	count = of_property_count_elems_of_size(dev->of_node, "memory-region",
-> +						sizeof(phandle));
-> +	for (i = 0; i < count; i++) {
-> +		node = of_parse_phandle(dev->of_node, "memory-region", i);
-> +		/* There might be multiple memory regions, but only one
-> +		 * restriced-dma-pool region is allowed.
-> +		 */
+> +	if (!page)
+> +		page = dma_alloc_contiguous(dev, size, gfp);
+>   	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
+>   		dma_free_contiguous(dev, page, size);
+>   		page = NULL;
+> @@ -148,7 +162,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>   		gfp |= __GFP_NOWARN;
+>   
+>   	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
+> -	    !force_dma_unencrypted(dev)) {
+> +	    !force_dma_unencrypted(dev) && !is_dev_swiotlb_force(dev)) {
+>   		page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
+>   		if (!page)
+>   			return NULL;
+> @@ -161,8 +175,8 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>   	}
+>   
+>   	if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
+> -	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
+> -	    !dev_is_dma_coherent(dev))
+> +	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev) &&
+> +	    !is_dev_swiotlb_force(dev))
+>   		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
+>   
+>   	/*
+> @@ -172,7 +186,9 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>   	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
+>   	    !gfpflags_allow_blocking(gfp) &&
+>   	    (force_dma_unencrypted(dev) ||
+> -	     (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev))))
+> +	     (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
+> +	      !dev_is_dma_coherent(dev))) &&
+> +	    !is_dev_swiotlb_force(dev))
+>   		return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
+>   
+>   	/* we always manually zero the memory once we are done */
+> @@ -253,15 +269,15 @@ void dma_direct_free(struct device *dev, size_t size,
+>   	unsigned int page_order = get_order(size);
+>   
+>   	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
+> -	    !force_dma_unencrypted(dev)) {
+> +	    !force_dma_unencrypted(dev) && !is_dev_swiotlb_force(dev)) {
+>   		/* cpu_addr is a struct page cookie, not a kernel address */
+>   		dma_free_contiguous(dev, cpu_addr, size);
+>   		return;
+>   	}
+>   
+>   	if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
+> -	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
+> -	    !dev_is_dma_coherent(dev)) {
+> +	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev) &&
+> +	    !is_dev_swiotlb_force(dev)) {
+>   		arch_dma_free(dev, size, cpu_addr, dma_addr, attrs);
+>   		return;
+>   	}
+> @@ -289,7 +305,8 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
+>   	void *ret;
+>   
+>   	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
+> -	    force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp))
+> +	    force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp) &&
+> +	    !is_dev_swiotlb_force(dev))
+>   		return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
 
-What's the use-case for having multiple regions if the restricted pool 
-is by definition the only one accessible?
+Wait, this seems broken for non-coherent devices - in that case we need 
+to return a non-cacheable address, but we can't simply fall through into 
+the remapping path below in GFP_ATOMIC context. That's why we need the 
+atomic pool concept in the first place :/
+
+Unless I've overlooked something, we're still using the regular 
+cacheable linear map address of the dma_io_tlb_mem buffer, no?
 
 Robin.
 
-> +		if (of_device_is_compatible(node, "restricted-dma-pool") &&
-> +		    of_device_is_available(node))
-> +			return of_reserved_mem_device_init_by_idx(
-> +				dev, dev->of_node, i);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   /**
->    * of_mmio_is_nonposted - Check if device uses non-posted MMIO
->    * @np:	device node
-> diff --git a/drivers/of/device.c b/drivers/of/device.c
-> index c5a9473a5fb1..d8d865223e51 100644
-> --- a/drivers/of/device.c
-> +++ b/drivers/of/device.c
-> @@ -165,6 +165,9 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
 >   
->   	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
->   
-> +	if (!iommu)
-> +		return of_dma_set_restricted_buffer(dev);
-> +
->   	return 0;
->   }
->   EXPORT_SYMBOL_GPL(of_dma_configure_id);
-> diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-> index d717efbd637d..e9237f5eff48 100644
-> --- a/drivers/of/of_private.h
-> +++ b/drivers/of/of_private.h
-> @@ -163,12 +163,17 @@ struct bus_dma_region;
->   #if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
->   int of_dma_get_range(struct device_node *np,
->   		const struct bus_dma_region **map);
-> +int of_dma_set_restricted_buffer(struct device *dev);
->   #else
->   static inline int of_dma_get_range(struct device_node *np,
->   		const struct bus_dma_region **map)
->   {
->   	return -ENODEV;
->   }
-> +static inline int of_dma_get_restricted_buffer(struct device *dev)
-> +{
-> +	return -ENODEV;
-> +}
->   #endif
->   
->   #endif /* _LINUX_OF_PRIVATE_H */
+>   	page = __dma_direct_alloc_pages(dev, size, gfp);
 > 
 _______________________________________________
 dri-devel mailing list
