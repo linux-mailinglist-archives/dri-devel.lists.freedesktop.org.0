@@ -1,55 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB703369414
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 15:53:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E87123694B3
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 16:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9128E6EB7B;
-	Fri, 23 Apr 2021 13:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 026866E0F2;
+	Fri, 23 Apr 2021 14:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
- [IPv6:2607:f8b0:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9E96E0E8
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 13:53:39 +0000 (UTC)
-Received: by mail-il1-x130.google.com with SMTP id c3so34625215ils.5
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 06:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=enxA0jDxQH8/90qRuPZ7QUhg+lPFtjYbIroTnbfeeGo=;
- b=HkKewWUBtZjysoTAN+6Napt2wK6vPpLfXArsR5jUF8bzLiOFZh5DHyYlQurNDqFCbg
- u9VdeqfbQoUhfKoZTsX9T0nXEybXc3mSuvKFfvsauiLZ8CULjE9pNibAvZAj5NrmlISi
- XA+qD0bBQqAtclwX8gCV+/RPZFVK1rpb099YEIutnqSfBUOe2WwOFW97MoHURyrShGMe
- An6gTkGr2o6fFCsLcarHTQF1jxVCQCpLXJSxx69SqflELDov2G3O7APVfjRGDr7u8/D0
- OO9l4OQ9mpA1HpRAiw2xXnkFZLf4PmelUEIZlZajQ09Y9SXbuvNLH+ENDaj3HHLbmehK
- 2Wlw==
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
+ [IPv6:2607:f8b0:4864:20::c2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 280B76E0F2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 14:28:27 +0000 (UTC)
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ c12-20020a4ae24c0000b02901bad05f40e4so10707970oot.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 07:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=wtbJVGM5y94hRYoKh+0s0hnjZf4JimAo+QXWJgDNM8U=;
+ b=FevsveuggHfAyjquo4WjsGYRLczs1GtYqUlsoBnHMGW6q+h5BxCRVj5dWjiUZUnfMn
+ Z8hHkWLcDODZtKlDP8usCYgIll48hkc+/O1tYAHlX3ZrV3TEFpkXECAE2wTikwc3jpZa
+ XBvNvXYkDJ8vQtVyrKhQTh+bLFAFse2tcZy8igmD70xaIjOhRqGWLhdrFFoDi5LJUpBG
+ JGTG3Bg/3+cITOYeW8doXVTx/xlwxbPO6z0u5ZwksM6NQ8PHKI4XkZk55hBnyD2CKdNu
+ 6Ob26ULI1VsNVDNm6oEIP7RQNaoUiurdEI3BKLxfFtDIZXjQYcO0cfYhc+0SeHPOwtWc
+ bavA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=enxA0jDxQH8/90qRuPZ7QUhg+lPFtjYbIroTnbfeeGo=;
- b=sVvLxqgOg2uvxcRbLP9+5mYSoLO7VuvFnTYeZrd6EAf5hpMbr+fSj9CrzcJJHnyH3h
- Y8+mjmPsoFi5QFIuCL87miuH6G85ZwTC2k4LEYvajk7dtC1y4U0LW7Ot7tGzNjtvuNlr
- L6eqWDzhPehbBcRy6TVsgCR7Uarsos15p5IraQ0wO2rp/sdq4GLyaL/aDUZN2jJJEUP6
- TbxtOWFjuehiaKmJq944OyDfiG0lJRMzYXKK5CxUpbn+KKQK8jTFf3LdqLslLYpgDiIn
- FyPkcFgU2OnH4O6ztf55P0LoT0fCJQkut5YFz7oQRWRvgnxQ1tmAWGoc7q8A1T0LYB0T
- Hjww==
-X-Gm-Message-State: AOAM533efOH1UJYgJmctxsRqiXpysi03o5R+BCMSDGGlmG2VfI3ymMe8
- U3AZaREqpLIndcCTlCPO0Uh7R77ipApTV4a7cI5s7w==
-X-Google-Smtp-Source: ABdhPJyRuOcgN27WEgv2EuvmfXzx9OGUw3RQE4cZsvSCn4IKNCKY5uXhpcMAGC9Jn9ndKqUvOZFtXJwVRcRQywlErEw=
-X-Received: by 2002:a05:6e02:1d06:: with SMTP id
- i6mr3030247ila.165.1619186018640; 
- Fri, 23 Apr 2021 06:53:38 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wtbJVGM5y94hRYoKh+0s0hnjZf4JimAo+QXWJgDNM8U=;
+ b=gM20uJYJBpZ3F2ZaqKtOwhsfskAAnFBtCHVIu/mLSvXefRqByxk/1yp7BNkHrzJkh6
+ eArJ3DhmQx173EcGYEHG6wfmrIrhpnXeXRtyS5RCz2RoQ0NypbEraNMoFm5AQkrt+ogj
+ phZCpQ+z2SqSABl0dLkn1i3rjiqJLhBv9wySKfuGBLFoV36H2jXJF+2r6tVSpE0ETL/s
+ YQhTb5AwHOFycFwiN0lC/B1/fOAyDJst7hvmtsfQrLtLQmnoPXO5sgaq9N0PUhZEd4vH
+ iHMBfNa4kEjW4e8ytAX3uJGenb0QpJsifCaoKBXewlRcSTB0HCP/lLRLiNOMokvhQ7mq
+ 27Rw==
+X-Gm-Message-State: AOAM533yXRiwRkBLepusDjZs/DYUmJwmRzSTrGK8OHy4yYe08KMgRf+e
+ Sw1Y5zXznUQuDXc0ylBFRiGE/w==
+X-Google-Smtp-Source: ABdhPJzPzezsRHHoBWEwFF32VPZnHqs6a9u5GA0GX8OndPXX3LPTc2g1FtKkzAk0KVp5QhU5/1TW5A==
+X-Received: by 2002:a05:6820:20a:: with SMTP id
+ i10mr3260801oob.6.1619188106248; 
+ Fri, 23 Apr 2021 07:28:26 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id y8sm1297785oie.28.2021.04.23.07.28.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Apr 2021 07:28:25 -0700 (PDT)
+Date: Fri, 23 Apr 2021 09:28:23 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v4 08/27] drm/bridge: ti-sn65dsi86: Rename the main
+ driver data structure
+Message-ID: <YILZh2QJrasCUScW@builder.lan>
+References: <20210416223950.3586967-1-dianders@chromium.org>
+ <20210416153909.v4.8.Ib03e88304a9ea1c503f1b9567be5cbf8b7c5761c@changeid>
 MIME-Version: 1.0
-References: <20210409045314.3420733-1-hsinyi@chromium.org>
-In-Reply-To: <20210409045314.3420733-1-hsinyi@chromium.org>
-From: Sean Paul <sean@poorly.run>
-Date: Fri, 23 Apr 2021 09:53:02 -0400
-Message-ID: <CAMavQKJUpYP8jo2JDGMYNBGtbPSSO7z9BAComm5JQoty=HPtJg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/mediatek: set panel orientation before
- drm_dev_register().
-To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Disposition: inline
+In-Reply-To: <20210416153909.v4.8.Ib03e88304a9ea1c503f1b9567be5cbf8b7c5761c@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,138 +71,407 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: robdclark@chromium.org, Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
+ Stephen Boyd <swboyd@chromium.org>, Wolfram Sang <wsa@kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robert Foss <robert.foss@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 9, 2021 at 12:53 AM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> drm_dev_register() sets connector->registration_state to
-> DRM_CONNECTOR_REGISTERED and dev->registered to true. If
-> drm_connector_set_panel_orientation() is first called after
-> drm_dev_register(), it will fail several checks and results in following
-> warning. So set panel orientation in dsi before drm_dev_register() is
-> called.
->
-> [    4.480976] ------------[ cut here ]------------
-> [    4.485603] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:45 __drm_mode_object_add+0xb4/0xbc
-> <snip>
-> [    4.609772] Call trace:
-> [    4.612208]  __drm_mode_object_add+0xb4/0xbc
-> [    4.616466]  drm_mode_object_add+0x20/0x2c
-> [    4.620552]  drm_property_create+0xdc/0x174
-> [    4.624723]  drm_property_create_enum+0x34/0x98
-> [    4.629241]  drm_connector_set_panel_orientation+0x64/0xa0
-> [    4.634716]  boe_panel_get_modes+0x88/0xd8
-> [    4.638802]  drm_panel_get_modes+0x2c/0x48
-> [    4.642887]  panel_bridge_get_modes+0x1c/0x28
-> [    4.647233]  drm_bridge_connector_get_modes+0xa0/0xd4
-> [    4.652273]  drm_helper_probe_single_connector_modes+0x218/0x700
-> [    4.658266]  drm_mode_getconnector+0x1b4/0x45c
-> [    4.662699]  drm_ioctl_kernel+0xac/0x128
-> [    4.666611]  drm_ioctl+0x268/0x410
-> [    4.670002]  drm_compat_ioctl+0xdc/0xf0
-> [    4.673829]  __arm64_compat_sys_ioctl+0xc8/0x100
-> [    4.678436]  el0_svc_common+0xf4/0x1c0
-> [    4.682174]  do_el0_svc_compat+0x28/0x3c
-> [    4.686088]  el0_svc_compat+0x10/0x1c
-> [    4.689738]  el0_sync_compat_handler+0xa8/0xcc
-> [    4.694171]  el0_sync_compat+0x178/0x180
-> [    4.698082] ---[ end trace b4f2db9d9c88610b ]---
-> [    4.702721] ------------[ cut here ]------------
-> [    4.707329] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:243 drm_object_attach_property+0x48/0xb8
-> <snip>
-> [    4.833830] Call trace:
-> [    4.836266]  drm_object_attach_property+0x48/0xb8
-> [    4.840958]  drm_connector_set_panel_orientation+0x84/0xa0
-> [    4.846432]  boe_panel_get_modes+0x88/0xd8
-> [    4.850516]  drm_panel_get_modes+0x2c/0x48
-> [    4.854600]  panel_bridge_get_modes+0x1c/0x28
-> [    4.858946]  drm_bridge_connector_get_modes+0xa0/0xd4
-> [    4.863984]  drm_helper_probe_single_connector_modes+0x218/0x700
-> [    4.869978]  drm_mode_getconnector+0x1b4/0x45c
-> [    4.874410]  drm_ioctl_kernel+0xac/0x128
-> [    4.878320]  drm_ioctl+0x268/0x410
-> [    4.881711]  drm_compat_ioctl+0xdc/0xf0
-> [    4.885536]  __arm64_compat_sys_ioctl+0xc8/0x100
-> [    4.890142]  el0_svc_common+0xf4/0x1c0
-> [    4.893879]  do_el0_svc_compat+0x28/0x3c
-> [    4.897791]  el0_svc_compat+0x10/0x1c
-> [    4.901441]  el0_sync_compat_handler+0xa8/0xcc
-> [    4.905873]  el0_sync_compat+0x178/0x180
-> [    4.909783] ---[ end trace b4f2db9d9c88610c ]---
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+On Fri 16 Apr 17:39 CDT 2021, Douglas Anderson wrote:
+
+> In preparation for splitting this driver into sub-drivers, let's
+> rename the main data structure so it's clear that it's holding data
+> for the whole device and not just the MIPI-eDP bridge part.
+> 
+> This is a no-op change.
+> 
+
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+
+Regards,
+Bjorn
+
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index ae403c67cbd9..45a702ee09f3 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -205,6 +205,7 @@ struct mtk_dsi {
->         u32 irq_data;
->         wait_queue_head_t irq_wait_queue;
->         const struct mtk_dsi_driver_data *driver_data;
-> +       enum drm_panel_orientation orientation;
+> 
+> (no changes since v1)
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 86 +++++++++++++--------------
+>  1 file changed, 43 insertions(+), 43 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index 51db30d573c1..f00ceb9dda29 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -112,7 +112,7 @@
+>  #define SN_LINK_TRAINING_TRIES		10
+>  
+>  /**
+> - * struct ti_sn_bridge - Platform data for ti-sn65dsi86 driver.
+> + * struct ti_sn65dsi86 - Platform data for ti-sn65dsi86 driver.
+>   * @dev:          Pointer to our device.
+>   * @regmap:       Regmap for accessing i2c.
+>   * @aux:          Our aux channel.
+> @@ -140,7 +140,7 @@
+>   *                lock so concurrent users of our 4 GPIOs don't stomp on
+>   *                each other's read-modify-write.
+>   */
+> -struct ti_sn_bridge {
+> +struct ti_sn65dsi86 {
+>  	struct device			*dev;
+>  	struct regmap			*regmap;
+>  	struct drm_dp_aux		aux;
+> @@ -180,7 +180,7 @@ static const struct regmap_config ti_sn_bridge_regmap_config = {
+>  	.cache_type = REGCACHE_NONE,
 >  };
->
->  static inline struct mtk_dsi *bridge_to_dsi(struct drm_bridge *b)
-> @@ -966,6 +967,8 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
->         }
->         drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
->
-> +       drm_connector_set_panel_orientation(dsi->connector, dsi->orientation);
-> +
->         return 0;
->
->  err_cleanup_encoder:
-> @@ -1029,6 +1032,12 @@ static int mtk_dsi_probe(struct platform_device *pdev)
->                         ret = PTR_ERR(dsi->next_bridge);
->                         goto err_unregister_host;
->                 }
-> +
-> +               ret = of_drm_get_panel_orientation(panel->dev->of_node, &dsi->orientation);
-> +               if (ret) {
-> +                       dev_err(dev, "failed to get panel orientation %d\n", ret);
-> +                       return ret;
-> +               }
-
-I don't think this is the right place to mine orientation since it
-duplicates the call from the panel driver.
-
-Instead, how about splitting out
-property_create_enum/attach_orientation_property from
-set_panel_orientation such that you can attach the property (with
-UNKNOWN value) in the connector init and then leave the panel to set
-it properly in get_modes (I kind of disagree with populating this in
-get_modes as well, but I don't think there's anywhere else to stick it
-right now)?
-
-AFAICT orientation is the only property which has the create/attach
-calls in the set function which seems like a perfect recipe for this
-type of failure.
-
-
-Sean
-
->         }
->
->         dsi->driver_data = of_device_get_match_data(dev);
-> --
-> 2.31.1.295.g9ea45b61b8-goog
->
+>  
+> -static void ti_sn_bridge_write_u16(struct ti_sn_bridge *pdata,
+> +static void ti_sn_bridge_write_u16(struct ti_sn65dsi86 *pdata,
+>  				   unsigned int reg, u16 val)
+>  {
+>  	regmap_write(pdata->regmap, reg, val & 0xFF);
+> @@ -189,7 +189,7 @@ static void ti_sn_bridge_write_u16(struct ti_sn_bridge *pdata,
+>  
+>  static int __maybe_unused ti_sn_bridge_resume(struct device *dev)
+>  {
+> -	struct ti_sn_bridge *pdata = dev_get_drvdata(dev);
+> +	struct ti_sn65dsi86 *pdata = dev_get_drvdata(dev);
+>  	int ret;
+>  
+>  	ret = regulator_bulk_enable(SN_REGULATOR_SUPPLY_NUM, pdata->supplies);
+> @@ -205,7 +205,7 @@ static int __maybe_unused ti_sn_bridge_resume(struct device *dev)
+>  
+>  static int __maybe_unused ti_sn_bridge_suspend(struct device *dev)
+>  {
+> -	struct ti_sn_bridge *pdata = dev_get_drvdata(dev);
+> +	struct ti_sn65dsi86 *pdata = dev_get_drvdata(dev);
+>  	int ret;
+>  
+>  	gpiod_set_value(pdata->enable_gpio, 0);
+> @@ -225,7 +225,7 @@ static const struct dev_pm_ops ti_sn_bridge_pm_ops = {
+>  
+>  static int status_show(struct seq_file *s, void *data)
+>  {
+> -	struct ti_sn_bridge *pdata = s->private;
+> +	struct ti_sn65dsi86 *pdata = s->private;
+>  	unsigned int reg, val;
+>  
+>  	seq_puts(s, "STATUS REGISTERS:\n");
+> @@ -245,7 +245,7 @@ static int status_show(struct seq_file *s, void *data)
+>  
+>  DEFINE_SHOW_ATTRIBUTE(status);
+>  
+> -static void ti_sn_debugfs_init(struct ti_sn_bridge *pdata)
+> +static void ti_sn_debugfs_init(struct ti_sn65dsi86 *pdata)
+>  {
+>  	pdata->debugfs = debugfs_create_dir(dev_name(pdata->dev), NULL);
+>  
+> @@ -253,22 +253,22 @@ static void ti_sn_debugfs_init(struct ti_sn_bridge *pdata)
+>  			&status_fops);
+>  }
+>  
+> -static void ti_sn_debugfs_remove(struct ti_sn_bridge *pdata)
+> +static void ti_sn_debugfs_remove(struct ti_sn65dsi86 *pdata)
+>  {
+>  	debugfs_remove_recursive(pdata->debugfs);
+>  	pdata->debugfs = NULL;
+>  }
+>  
+>  /* Connector funcs */
+> -static struct ti_sn_bridge *
+> +static struct ti_sn65dsi86 *
+>  connector_to_ti_sn_bridge(struct drm_connector *connector)
+>  {
+> -	return container_of(connector, struct ti_sn_bridge, connector);
+> +	return container_of(connector, struct ti_sn65dsi86, connector);
+>  }
+>  
+>  static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+>  {
+> -	struct ti_sn_bridge *pdata = connector_to_ti_sn_bridge(connector);
+> +	struct ti_sn65dsi86 *pdata = connector_to_ti_sn_bridge(connector);
+>  	struct edid *edid = pdata->edid;
+>  	int num, ret;
+>  
+> @@ -314,12 +314,12 @@ static const struct drm_connector_funcs ti_sn_bridge_connector_funcs = {
+>  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>  };
+>  
+> -static struct ti_sn_bridge *bridge_to_ti_sn_bridge(struct drm_bridge *bridge)
+> +static struct ti_sn65dsi86 *bridge_to_ti_sn_bridge(struct drm_bridge *bridge)
+>  {
+> -	return container_of(bridge, struct ti_sn_bridge, bridge);
+> +	return container_of(bridge, struct ti_sn65dsi86, bridge);
+>  }
+>  
+> -static int ti_sn_bridge_parse_regulators(struct ti_sn_bridge *pdata)
+> +static int ti_sn_bridge_parse_regulators(struct ti_sn65dsi86 *pdata)
+>  {
+>  	unsigned int i;
+>  	const char * const ti_sn_bridge_supply_names[] = {
+> @@ -337,7 +337,7 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+>  			       enum drm_bridge_attach_flags flags)
+>  {
+>  	int ret, val;
+> -	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn_bridge(bridge);
+>  	struct mipi_dsi_host *host;
+>  	struct mipi_dsi_device *dsi;
+>  	const struct mipi_dsi_device_info info = { .type = "ti_sn_bridge",
+> @@ -430,7 +430,7 @@ static void ti_sn_bridge_detach(struct drm_bridge *bridge)
+>  
+>  static void ti_sn_bridge_disable(struct drm_bridge *bridge)
+>  {
+> -	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn_bridge(bridge);
+>  
+>  	drm_panel_disable(pdata->panel);
+>  
+> @@ -442,7 +442,7 @@ static void ti_sn_bridge_disable(struct drm_bridge *bridge)
+>  	regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 0);
+>  }
+>  
+> -static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn_bridge *pdata)
+> +static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata)
+>  {
+>  	u32 bit_rate_khz, clk_freq_khz;
+>  	struct drm_display_mode *mode =
+> @@ -473,7 +473,7 @@ static const u32 ti_sn_bridge_dsiclk_lut[] = {
+>  	460800000,
+>  };
+>  
+> -static void ti_sn_bridge_set_refclk_freq(struct ti_sn_bridge *pdata)
+> +static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
+>  {
+>  	int i;
+>  	u32 refclk_rate;
+> @@ -500,7 +500,7 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn_bridge *pdata)
+>  			   REFCLK_FREQ(i));
+>  }
+>  
+> -static void ti_sn_bridge_set_dsi_rate(struct ti_sn_bridge *pdata)
+> +static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
+>  {
+>  	unsigned int bit_rate_mhz, clk_freq_mhz;
+>  	unsigned int val;
+> @@ -518,7 +518,7 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn_bridge *pdata)
+>  	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
+>  }
+>  
+> -static unsigned int ti_sn_bridge_get_bpp(struct ti_sn_bridge *pdata)
+> +static unsigned int ti_sn_bridge_get_bpp(struct ti_sn65dsi86 *pdata)
+>  {
+>  	if (pdata->connector.display_info.bpc <= 6)
+>  		return 18;
+> @@ -535,7 +535,7 @@ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
+>  	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
+>  };
+>  
+> -static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn_bridge *pdata)
+> +static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata)
+>  {
+>  	unsigned int bit_rate_khz, dp_rate_mhz;
+>  	unsigned int i;
+> @@ -556,7 +556,7 @@ static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn_bridge *pdata)
+>  	return i;
+>  }
+>  
+> -static void ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata,
+> +static void ti_sn_bridge_read_valid_rates(struct ti_sn65dsi86 *pdata,
+>  					  bool rate_valid[])
+>  {
+>  	unsigned int rate_per_200khz;
+> @@ -637,7 +637,7 @@ static void ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata,
+>  	}
+>  }
+>  
+> -static void ti_sn_bridge_set_video_timings(struct ti_sn_bridge *pdata)
+> +static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
+>  {
+>  	struct drm_display_mode *mode =
+>  		&pdata->bridge.encoder->crtc->state->adjusted_mode;
+> @@ -676,7 +676,7 @@ static void ti_sn_bridge_set_video_timings(struct ti_sn_bridge *pdata)
+>  	usleep_range(10000, 10500); /* 10ms delay recommended by spec */
+>  }
+>  
+> -static unsigned int ti_sn_get_max_lanes(struct ti_sn_bridge *pdata)
+> +static unsigned int ti_sn_get_max_lanes(struct ti_sn65dsi86 *pdata)
+>  {
+>  	u8 data;
+>  	int ret;
+> @@ -691,7 +691,7 @@ static unsigned int ti_sn_get_max_lanes(struct ti_sn_bridge *pdata)
+>  	return data & DP_LANE_COUNT_MASK;
+>  }
+>  
+> -static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
+> +static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
+>  			       const char **last_err_str)
+>  {
+>  	unsigned int val;
+> @@ -751,7 +751,7 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
+>  
+>  static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+>  {
+> -	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn_bridge(bridge);
+>  	bool rate_valid[ARRAY_SIZE(ti_sn_bridge_dp_rate_lut)] = { };
+>  	const char *last_err_str = "No supported DP rate";
+>  	int dp_rate_idx;
+> @@ -822,7 +822,7 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+>  
+>  static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+>  {
+> -	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn_bridge(bridge);
+>  
+>  	pm_runtime_get_sync(pdata->dev);
+>  
+> @@ -853,7 +853,7 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+>  
+>  static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+>  {
+> -	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn_bridge(bridge);
+>  
+>  	drm_panel_unprepare(pdata->panel);
+>  
+> @@ -871,15 +871,15 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+>  	.post_disable = ti_sn_bridge_post_disable,
+>  };
+>  
+> -static struct ti_sn_bridge *aux_to_ti_sn_bridge(struct drm_dp_aux *aux)
+> +static struct ti_sn65dsi86 *aux_to_ti_sn_bridge(struct drm_dp_aux *aux)
+>  {
+> -	return container_of(aux, struct ti_sn_bridge, aux);
+> +	return container_of(aux, struct ti_sn65dsi86, aux);
+>  }
+>  
+>  static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+>  				  struct drm_dp_aux_msg *msg)
+>  {
+> -	struct ti_sn_bridge *pdata = aux_to_ti_sn_bridge(aux);
+> +	struct ti_sn65dsi86 *pdata = aux_to_ti_sn_bridge(aux);
+>  	u32 request = msg->request & ~(DP_AUX_I2C_MOT | DP_AUX_I2C_WRITE_STATUS_UPDATE);
+>  	u32 request_val = AUX_CMD_REQ(msg->request);
+>  	u8 *buf = msg->buffer;
+> @@ -969,7 +969,7 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+>  	return len;
+>  }
+>  
+> -static int ti_sn_bridge_parse_dsi_host(struct ti_sn_bridge *pdata)
+> +static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
+>  {
+>  	struct device_node *np = pdata->dev->of_node;
+>  
+> @@ -1004,7 +1004,7 @@ static int tn_sn_bridge_of_xlate(struct gpio_chip *chip,
+>  static int ti_sn_bridge_gpio_get_direction(struct gpio_chip *chip,
+>  					   unsigned int offset)
+>  {
+> -	struct ti_sn_bridge *pdata = gpiochip_get_data(chip);
+> +	struct ti_sn65dsi86 *pdata = gpiochip_get_data(chip);
+>  
+>  	/*
+>  	 * We already have to keep track of the direction because we use
+> @@ -1018,7 +1018,7 @@ static int ti_sn_bridge_gpio_get_direction(struct gpio_chip *chip,
+>  
+>  static int ti_sn_bridge_gpio_get(struct gpio_chip *chip, unsigned int offset)
+>  {
+> -	struct ti_sn_bridge *pdata = gpiochip_get_data(chip);
+> +	struct ti_sn65dsi86 *pdata = gpiochip_get_data(chip);
+>  	unsigned int val;
+>  	int ret;
+>  
+> @@ -1043,7 +1043,7 @@ static int ti_sn_bridge_gpio_get(struct gpio_chip *chip, unsigned int offset)
+>  static void ti_sn_bridge_gpio_set(struct gpio_chip *chip, unsigned int offset,
+>  				  int val)
+>  {
+> -	struct ti_sn_bridge *pdata = gpiochip_get_data(chip);
+> +	struct ti_sn65dsi86 *pdata = gpiochip_get_data(chip);
+>  	int ret;
+>  
+>  	if (!test_bit(offset, pdata->gchip_output)) {
+> @@ -1063,7 +1063,7 @@ static void ti_sn_bridge_gpio_set(struct gpio_chip *chip, unsigned int offset,
+>  static int ti_sn_bridge_gpio_direction_input(struct gpio_chip *chip,
+>  					     unsigned int offset)
+>  {
+> -	struct ti_sn_bridge *pdata = gpiochip_get_data(chip);
+> +	struct ti_sn65dsi86 *pdata = gpiochip_get_data(chip);
+>  	int shift = offset * 2;
+>  	int ret;
+>  
+> @@ -1091,7 +1091,7 @@ static int ti_sn_bridge_gpio_direction_input(struct gpio_chip *chip,
+>  static int ti_sn_bridge_gpio_direction_output(struct gpio_chip *chip,
+>  					      unsigned int offset, int val)
+>  {
+> -	struct ti_sn_bridge *pdata = gpiochip_get_data(chip);
+> +	struct ti_sn65dsi86 *pdata = gpiochip_get_data(chip);
+>  	int shift = offset * 2;
+>  	int ret;
+>  
+> @@ -1125,7 +1125,7 @@ static const char * const ti_sn_bridge_gpio_names[SN_NUM_GPIOS] = {
+>  	"GPIO1", "GPIO2", "GPIO3", "GPIO4"
+>  };
+>  
+> -static int ti_sn_setup_gpio_controller(struct ti_sn_bridge *pdata)
+> +static int ti_sn_setup_gpio_controller(struct ti_sn65dsi86 *pdata)
+>  {
+>  	int ret;
+>  
+> @@ -1157,14 +1157,14 @@ static int ti_sn_setup_gpio_controller(struct ti_sn_bridge *pdata)
+>  
+>  #else
+>  
+> -static inline int ti_sn_setup_gpio_controller(struct ti_sn_bridge *pdata)
+> +static inline int ti_sn_setup_gpio_controller(struct ti_sn65dsi86 *pdata)
+>  {
+>  	return 0;
+>  }
+>  
+>  #endif
+>  
+> -static void ti_sn_bridge_parse_lanes(struct ti_sn_bridge *pdata,
+> +static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
+>  				     struct device_node *np)
+>  {
+>  	u32 lane_assignments[SN_MAX_DP_LANES] = { 0, 1, 2, 3 };
+> @@ -1216,7 +1216,7 @@ static void ti_sn_bridge_parse_lanes(struct ti_sn_bridge *pdata,
+>  static int ti_sn_bridge_probe(struct i2c_client *client,
+>  			      const struct i2c_device_id *id)
+>  {
+> -	struct ti_sn_bridge *pdata;
+> +	struct ti_sn65dsi86 *pdata;
+>  	int ret;
+>  
+>  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+> @@ -1224,7 +1224,7 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+>  		return -ENODEV;
+>  	}
+>  
+> -	pdata = devm_kzalloc(&client->dev, sizeof(struct ti_sn_bridge),
+> +	pdata = devm_kzalloc(&client->dev, sizeof(struct ti_sn65dsi86),
+>  			     GFP_KERNEL);
+>  	if (!pdata)
+>  		return -ENOMEM;
+> @@ -1298,7 +1298,7 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+>  
+>  static int ti_sn_bridge_remove(struct i2c_client *client)
+>  {
+> -	struct ti_sn_bridge *pdata = i2c_get_clientdata(client);
+> +	struct ti_sn65dsi86 *pdata = i2c_get_clientdata(client);
+>  
+>  	if (!pdata)
+>  		return -EINVAL;
+> -- 
+> 2.31.1.368.gbe11c130af-goog
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
