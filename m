@@ -1,40 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0753693FC
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 15:46:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB703369414
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 15:53:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 234B46EB94;
-	Fri, 23 Apr 2021 13:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9128E6EB7B;
+	Fri, 23 Apr 2021 13:53:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 70EAF6EB93;
- Fri, 23 Apr 2021 13:46:35 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9E1CE1063;
- Fri, 23 Apr 2021 06:46:34 -0700 (PDT)
-Received: from [10.57.62.63] (unknown [10.57.62.63])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 903A33F73B;
- Fri, 23 Apr 2021 06:46:27 -0700 (PDT)
-Subject: Re: [PATCH v5 14/16] dma-direct: Allocate memory from restricted DMA
- pool if available
-To: Claire Chang <tientzu@chromium.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
- jgross@suse.com, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-References: <20210422081508.3942748-1-tientzu@chromium.org>
- <20210422081508.3942748-15-tientzu@chromium.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <70b895c2-4a39-bbbd-a719-5c8b6b922026@arm.com>
-Date: Fri, 23 Apr 2021 14:46:25 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
+ [IPv6:2607:f8b0:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9E96E0E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 13:53:39 +0000 (UTC)
+Received: by mail-il1-x130.google.com with SMTP id c3so34625215ils.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 06:53:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=enxA0jDxQH8/90qRuPZ7QUhg+lPFtjYbIroTnbfeeGo=;
+ b=HkKewWUBtZjysoTAN+6Napt2wK6vPpLfXArsR5jUF8bzLiOFZh5DHyYlQurNDqFCbg
+ u9VdeqfbQoUhfKoZTsX9T0nXEybXc3mSuvKFfvsauiLZ8CULjE9pNibAvZAj5NrmlISi
+ XA+qD0bBQqAtclwX8gCV+/RPZFVK1rpb099YEIutnqSfBUOe2WwOFW97MoHURyrShGMe
+ An6gTkGr2o6fFCsLcarHTQF1jxVCQCpLXJSxx69SqflELDov2G3O7APVfjRGDr7u8/D0
+ OO9l4OQ9mpA1HpRAiw2xXnkFZLf4PmelUEIZlZajQ09Y9SXbuvNLH+ENDaj3HHLbmehK
+ 2Wlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=enxA0jDxQH8/90qRuPZ7QUhg+lPFtjYbIroTnbfeeGo=;
+ b=sVvLxqgOg2uvxcRbLP9+5mYSoLO7VuvFnTYeZrd6EAf5hpMbr+fSj9CrzcJJHnyH3h
+ Y8+mjmPsoFi5QFIuCL87miuH6G85ZwTC2k4LEYvajk7dtC1y4U0LW7Ot7tGzNjtvuNlr
+ L6eqWDzhPehbBcRy6TVsgCR7Uarsos15p5IraQ0wO2rp/sdq4GLyaL/aDUZN2jJJEUP6
+ TbxtOWFjuehiaKmJq944OyDfiG0lJRMzYXKK5CxUpbn+KKQK8jTFf3LdqLslLYpgDiIn
+ FyPkcFgU2OnH4O6ztf55P0LoT0fCJQkut5YFz7oQRWRvgnxQ1tmAWGoc7q8A1T0LYB0T
+ Hjww==
+X-Gm-Message-State: AOAM533efOH1UJYgJmctxsRqiXpysi03o5R+BCMSDGGlmG2VfI3ymMe8
+ U3AZaREqpLIndcCTlCPO0Uh7R77ipApTV4a7cI5s7w==
+X-Google-Smtp-Source: ABdhPJyRuOcgN27WEgv2EuvmfXzx9OGUw3RQE4cZsvSCn4IKNCKY5uXhpcMAGC9Jn9ndKqUvOZFtXJwVRcRQywlErEw=
+X-Received: by 2002:a05:6e02:1d06:: with SMTP id
+ i6mr3030247ila.165.1619186018640; 
+ Fri, 23 Apr 2021 06:53:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210422081508.3942748-15-tientzu@chromium.org>
-Content-Language: en-GB
+References: <20210409045314.3420733-1-hsinyi@chromium.org>
+In-Reply-To: <20210409045314.3420733-1-hsinyi@chromium.org>
+From: Sean Paul <sean@poorly.run>
+Date: Fri, 23 Apr 2021 09:53:02 -0400
+Message-ID: <CAMavQKJUpYP8jo2JDGMYNBGtbPSSO7z9BAComm5JQoty=HPtJg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/mediatek: set panel orientation before
+ drm_dev_register().
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,150 +62,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- airlied@linux.ie, Nicolas Boichat <drinkcat@chromium.org>,
- rodrigo.vivi@intel.com, bhelgaas@google.com,
- Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- nouveau@lists.freedesktop.org, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
- tfiga@chromium.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
- bauerman@linux.ibm.com
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-04-22 09:15, Claire Chang wrote:
-> The restricted DMA pool is preferred if available.
-> 
-> The restricted DMA pools provide a basic level of protection against the
-> DMA overwriting buffer contents at unexpected times. However, to protect
-> against general data leakage and system memory corruption, the system
-> needs to provide a way to lock down the memory access, e.g., MPU.
-> 
-> Signed-off-by: Claire Chang <tientzu@chromium.org>
+On Fri, Apr 9, 2021 at 12:53 AM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> drm_dev_register() sets connector->registration_state to
+> DRM_CONNECTOR_REGISTERED and dev->registered to true. If
+> drm_connector_set_panel_orientation() is first called after
+> drm_dev_register(), it will fail several checks and results in following
+> warning. So set panel orientation in dsi before drm_dev_register() is
+> called.
+>
+> [    4.480976] ------------[ cut here ]------------
+> [    4.485603] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:45 __drm_mode_object_add+0xb4/0xbc
+> <snip>
+> [    4.609772] Call trace:
+> [    4.612208]  __drm_mode_object_add+0xb4/0xbc
+> [    4.616466]  drm_mode_object_add+0x20/0x2c
+> [    4.620552]  drm_property_create+0xdc/0x174
+> [    4.624723]  drm_property_create_enum+0x34/0x98
+> [    4.629241]  drm_connector_set_panel_orientation+0x64/0xa0
+> [    4.634716]  boe_panel_get_modes+0x88/0xd8
+> [    4.638802]  drm_panel_get_modes+0x2c/0x48
+> [    4.642887]  panel_bridge_get_modes+0x1c/0x28
+> [    4.647233]  drm_bridge_connector_get_modes+0xa0/0xd4
+> [    4.652273]  drm_helper_probe_single_connector_modes+0x218/0x700
+> [    4.658266]  drm_mode_getconnector+0x1b4/0x45c
+> [    4.662699]  drm_ioctl_kernel+0xac/0x128
+> [    4.666611]  drm_ioctl+0x268/0x410
+> [    4.670002]  drm_compat_ioctl+0xdc/0xf0
+> [    4.673829]  __arm64_compat_sys_ioctl+0xc8/0x100
+> [    4.678436]  el0_svc_common+0xf4/0x1c0
+> [    4.682174]  do_el0_svc_compat+0x28/0x3c
+> [    4.686088]  el0_svc_compat+0x10/0x1c
+> [    4.689738]  el0_sync_compat_handler+0xa8/0xcc
+> [    4.694171]  el0_sync_compat+0x178/0x180
+> [    4.698082] ---[ end trace b4f2db9d9c88610b ]---
+> [    4.702721] ------------[ cut here ]------------
+> [    4.707329] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:243 drm_object_attach_property+0x48/0xb8
+> <snip>
+> [    4.833830] Call trace:
+> [    4.836266]  drm_object_attach_property+0x48/0xb8
+> [    4.840958]  drm_connector_set_panel_orientation+0x84/0xa0
+> [    4.846432]  boe_panel_get_modes+0x88/0xd8
+> [    4.850516]  drm_panel_get_modes+0x2c/0x48
+> [    4.854600]  panel_bridge_get_modes+0x1c/0x28
+> [    4.858946]  drm_bridge_connector_get_modes+0xa0/0xd4
+> [    4.863984]  drm_helper_probe_single_connector_modes+0x218/0x700
+> [    4.869978]  drm_mode_getconnector+0x1b4/0x45c
+> [    4.874410]  drm_ioctl_kernel+0xac/0x128
+> [    4.878320]  drm_ioctl+0x268/0x410
+> [    4.881711]  drm_compat_ioctl+0xdc/0xf0
+> [    4.885536]  __arm64_compat_sys_ioctl+0xc8/0x100
+> [    4.890142]  el0_svc_common+0xf4/0x1c0
+> [    4.893879]  do_el0_svc_compat+0x28/0x3c
+> [    4.897791]  el0_svc_compat+0x10/0x1c
+> [    4.901441]  el0_sync_compat_handler+0xa8/0xcc
+> [    4.905873]  el0_sync_compat+0x178/0x180
+> [    4.909783] ---[ end trace b4f2db9d9c88610c ]---
+>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
->   kernel/dma/direct.c | 35 ++++++++++++++++++++++++++---------
->   1 file changed, 26 insertions(+), 9 deletions(-)
-> 
-> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index 7a27f0510fcc..29523d2a9845 100644
-> --- a/kernel/dma/direct.c
-> +++ b/kernel/dma/direct.c
-> @@ -78,6 +78,10 @@ static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
->   static void __dma_direct_free_pages(struct device *dev, struct page *page,
->   				    size_t size)
->   {
-> +#ifdef CONFIG_DMA_RESTRICTED_POOL
-> +	if (swiotlb_free(dev, page, size))
-> +		return;
-> +#endif
->   	dma_free_contiguous(dev, page, size);
->   }
->   
-> @@ -92,7 +96,17 @@ static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
->   
->   	gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
->   					   &phys_limit);
-> -	page = dma_alloc_contiguous(dev, size, gfp);
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index ae403c67cbd9..45a702ee09f3 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -205,6 +205,7 @@ struct mtk_dsi {
+>         u32 irq_data;
+>         wait_queue_head_t irq_wait_queue;
+>         const struct mtk_dsi_driver_data *driver_data;
+> +       enum drm_panel_orientation orientation;
+>  };
+>
+>  static inline struct mtk_dsi *bridge_to_dsi(struct drm_bridge *b)
+> @@ -966,6 +967,8 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+>         }
+>         drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
+>
+> +       drm_connector_set_panel_orientation(dsi->connector, dsi->orientation);
 > +
-> +#ifdef CONFIG_DMA_RESTRICTED_POOL
-> +	page = swiotlb_alloc(dev, size);
-> +	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
-> +		__dma_direct_free_pages(dev, page, size);
-> +		page = NULL;
-> +	}
-> +#endif
+>         return 0;
+>
+>  err_cleanup_encoder:
+> @@ -1029,6 +1032,12 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+>                         ret = PTR_ERR(dsi->next_bridge);
+>                         goto err_unregister_host;
+>                 }
 > +
-> +	if (!page)
-> +		page = dma_alloc_contiguous(dev, size, gfp);
->   	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
->   		dma_free_contiguous(dev, page, size);
->   		page = NULL;
-> @@ -148,7 +162,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
->   		gfp |= __GFP_NOWARN;
->   
->   	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
-> -	    !force_dma_unencrypted(dev)) {
-> +	    !force_dma_unencrypted(dev) && !is_dev_swiotlb_force(dev)) {
->   		page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
->   		if (!page)
->   			return NULL;
-> @@ -161,8 +175,8 @@ void *dma_direct_alloc(struct device *dev, size_t size,
->   	}
->   
->   	if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
-> -	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
-> -	    !dev_is_dma_coherent(dev))
-> +	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev) &&
-> +	    !is_dev_swiotlb_force(dev))
->   		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
->   
->   	/*
-> @@ -172,7 +186,9 @@ void *dma_direct_alloc(struct device *dev, size_t size,
->   	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
->   	    !gfpflags_allow_blocking(gfp) &&
->   	    (force_dma_unencrypted(dev) ||
-> -	     (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev))))
-> +	     (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
-> +	      !dev_is_dma_coherent(dev))) &&
-> +	    !is_dev_swiotlb_force(dev))
->   		return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
->   
->   	/* we always manually zero the memory once we are done */
-> @@ -253,15 +269,15 @@ void dma_direct_free(struct device *dev, size_t size,
->   	unsigned int page_order = get_order(size);
->   
->   	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
-> -	    !force_dma_unencrypted(dev)) {
-> +	    !force_dma_unencrypted(dev) && !is_dev_swiotlb_force(dev)) {
->   		/* cpu_addr is a struct page cookie, not a kernel address */
->   		dma_free_contiguous(dev, cpu_addr, size);
->   		return;
->   	}
->   
->   	if (!IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
-> -	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
-> -	    !dev_is_dma_coherent(dev)) {
-> +	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) && !dev_is_dma_coherent(dev) &&
-> +	    !is_dev_swiotlb_force(dev)) {
->   		arch_dma_free(dev, size, cpu_addr, dma_addr, attrs);
->   		return;
->   	}
-> @@ -289,7 +305,8 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
->   	void *ret;
->   
->   	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
-> -	    force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp))
-> +	    force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp) &&
-> +	    !is_dev_swiotlb_force(dev))
->   		return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
+> +               ret = of_drm_get_panel_orientation(panel->dev->of_node, &dsi->orientation);
+> +               if (ret) {
+> +                       dev_err(dev, "failed to get panel orientation %d\n", ret);
+> +                       return ret;
+> +               }
 
-Wait, this seems broken for non-coherent devices - in that case we need 
-to return a non-cacheable address, but we can't simply fall through into 
-the remapping path below in GFP_ATOMIC context. That's why we need the 
-atomic pool concept in the first place :/
+I don't think this is the right place to mine orientation since it
+duplicates the call from the panel driver.
 
-Unless I've overlooked something, we're still using the regular 
-cacheable linear map address of the dma_io_tlb_mem buffer, no?
+Instead, how about splitting out
+property_create_enum/attach_orientation_property from
+set_panel_orientation such that you can attach the property (with
+UNKNOWN value) in the connector init and then leave the panel to set
+it properly in get_modes (I kind of disagree with populating this in
+get_modes as well, but I don't think there's anywhere else to stick it
+right now)?
 
-Robin.
+AFAICT orientation is the only property which has the create/attach
+calls in the set function which seems like a perfect recipe for this
+type of failure.
 
->   
->   	page = __dma_direct_alloc_pages(dev, size, gfp);
-> 
+
+Sean
+
+>         }
+>
+>         dsi->driver_data = of_device_get_match_data(dev);
+> --
+> 2.31.1.295.g9ea45b61b8-goog
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
