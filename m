@@ -1,67 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF16D368B55
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 04:58:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A0D368BAE
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 05:43:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D8856E069;
-	Fri, 23 Apr 2021 02:58:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8454D6EB36;
+	Fri, 23 Apr 2021 03:42:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA43E6E069
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 02:58:24 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id u11so18714282pjr.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 19:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=40nhsz+kltJTf7tq6pLLkes92lT1dy5Rll207DlKzWM=;
- b=HdsQJQRkixDre+dpQSVR58nl8K7T4MbrI4XmlnSivkYb875qGKmhwngqhS/XX43exh
- bg5Ne9Oub0puKLH8FRaSSn/FCuQxwpgf1ynisAFuTF4Wvjhe+t5iF+WotV6g96hB8Oro
- fWaQA0hAXWZxawu4WTORJsnwcVbFEg+0cCZO8=
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2246D6EB36
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 03:42:57 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ f6-20020a17090a6546b029015088cf4a1eso524096pjs.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 20:42:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fgzCopNHGoCj4O3S/7aTjWQg4EKw2Q7WuBQ98y/Dhzk=;
+ b=asqmV/Ie4/YiUXsaMIXBsglbP+sd3m1BS0J6xISjim/mzxmroOGKGBIiFrzLiaC0/v
+ RqPvY7oKTSwi1MD9lhkv9FDqHtbtXEV3iMonv315h8XBNuMau+FS9U0VPQiHmUkMUxWO
+ 6Y6sy8hFErBKzTR8auoIXJLbreupjKKHJcEKFMmzTCQcNKsozvXTAkZ2xELgoqNUkIX/
+ DW4hBZ22PFqDzAk0Riu78fcotBOtZ0oH2HcpknhDaK4AJhyjEKeFI4XZ2WdUOAO9IPCv
+ nwJXXmyl+ZhN76+Wya4WT7KroUuL6xu2YeIBliTsXLhRoMHl25j8TlQrJucrI2GkMgYA
+ UG0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=40nhsz+kltJTf7tq6pLLkes92lT1dy5Rll207DlKzWM=;
- b=Huo9HyKkzBVMGE/3yXIncYsEZOJvTFzD13g6+ueB1EAY3U2HzBHwk7aiq6fcNM/ZPn
- TeNAonzxxpeHvlvHuoQ3m+7Ucm5A0HMpXeuw3enM3y7Hrl5RbGGpoXAq9hl9WZZzVv7I
- Jv+hPUTl0+zrrn9bVm3WZAk3sPaPgUxjqa6C9ZrCNM6gYmOfFtkQC4pdb+j4wDf3qQn9
- jBmwO6vUhHIJAnX+/tOLGhTkddiKSJUakl/PpIlG0+2R0BtQrBuZndsXZC0Wmby5bQLW
- e68QoZScpPfPTNCJi12dV1qh8pJTXtqcgCW0i+eKWxgAMjoaIYFQuq1fOCIqBaTKbfYs
- PHLg==
-X-Gm-Message-State: AOAM532HNJKy/QhfhS+kw74CtpaBDvTHNECPD6wpfm50BkmdQiLTSQ1t
- OorqfMDZqhXfz7TzQgH3B7qLnF414ivJkg==
-X-Google-Smtp-Source: ABdhPJyRAiIzWs8AuSBlqrmr3IratesYGzu6KLSm7gpjPIUTjrj4ruqkVp39AcU4CUrd8aM9M6F+Uw==
-X-Received: by 2002:a17:90a:1b4b:: with SMTP id
- q69mr3226984pjq.188.1619146704024; 
- Thu, 22 Apr 2021 19:58:24 -0700 (PDT)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com.
- [209.85.210.171])
- by smtp.gmail.com with ESMTPSA id v8sm3059143pfu.205.2021.04.22.19.58.23
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Apr 2021 19:58:23 -0700 (PDT)
-Received: by mail-pf1-f171.google.com with SMTP id q2so1172854pfk.9
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 19:58:23 -0700 (PDT)
-X-Received: by 2002:a6b:c913:: with SMTP id z19mr1627785iof.50.1619146389385; 
- Thu, 22 Apr 2021 19:53:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fgzCopNHGoCj4O3S/7aTjWQg4EKw2Q7WuBQ98y/Dhzk=;
+ b=ZSI+YuG0dPsbKaCk64dcKFsHv/M5BZODoHyM1+mq67mm+TGGH3LsOKHbvdcHZ+xJke
+ e7ZVDp4rXuDQ7n9LbgEo70r3wsyl0YY/GzI4hDWfRbaLvN0qKWn18k+kDzI8ZIO3nqAB
+ fhP/XvaNS+FG32CODtRO13bykkZdQffHiSCD+yonhoWWLRj7aBvE9lqDSb2M9a5ZCBnX
+ upjq4M6KuexfIGcNosqUexECjBfWrsKuoraMrSTL29kAyoBm/V3NnVGRLnagyCTWp4/j
+ 46qdgXiVbAdqyQLMZjoRNDAKCKH5d8uUpfUIJnCZ2Ii2yL59iGOY6C20aEPo+2UiFZ9y
+ OBEA==
+X-Gm-Message-State: AOAM531uvkhZaMc/09ZWiuzx7v6DGT6vpMV2XHKzrOU9oa+pQVxAkIvL
+ FuTiECK73thrlNhdH3+1Jlk=
+X-Google-Smtp-Source: ABdhPJwV3UCwfUsdE+Vjwv61FcGaA++89VvrXwdYocb2uJ71/siMK3uFbgucYqiVGf/PRk6pC1NIZQ==
+X-Received: by 2002:a17:90a:150e:: with SMTP id
+ l14mr3516106pja.208.1619149376869; 
+ Thu, 22 Apr 2021 20:42:56 -0700 (PDT)
+Received: from localhost.localdomain (80.251.221.29.16clouds.com.
+ [80.251.221.29])
+ by smtp.gmail.com with ESMTPSA id l22sm6002505pjc.13.2021.04.22.20.42.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Apr 2021 20:42:56 -0700 (PDT)
+From: Artem Lapkin <email2tema@gmail.com>
+X-Google-Original-From: Artem Lapkin <art@khadas.com>
+To: narmstrong@baylibre.com
+Subject: [PATCH] SPI: meson-spifc add missed calls to remove function
+Date: Fri, 23 Apr 2021 11:42:47 +0800
+Message-Id: <20210423034247.992052-1-art@khadas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210422081508.3942748-1-tientzu@chromium.org>
- <20210422081508.3942748-17-tientzu@chromium.org>
-In-Reply-To: <20210422081508.3942748-17-tientzu@chromium.org>
-From: Claire Chang <tientzu@chromium.org>
-Date: Fri, 23 Apr 2021 10:52:58 +0800
-X-Gmail-Original-Message-ID: <CALiNf29NzRTRB-0JbCL7=0qF0SAiER_pJ_-SCtVRA7DHCsSpEg@mail.gmail.com>
-Message-ID: <CALiNf29NzRTRB-0JbCL7=0qF0SAiER_pJ_-SCtVRA7DHCsSpEg@mail.gmail.com>
-Subject: Re: [PATCH v5 16/16] of: Add plumbing for restricted DMA pool
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Frank Rowand <frowand.list@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, 
- boris.ostrovsky@oracle.com, jgross@suse.com, Christoph Hellwig <hch@lst.de>, 
- Marek Szyprowski <m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,128 +68,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
- Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
- bhelgaas@google.com, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- nouveau@lists.freedesktop.org, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
- Tomasz Figa <tfiga@chromium.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
- bauerman@linux.ibm.com
+Cc: gouwa@khadas.com, martin.blumenstingl@googlemail.com, khilman@baylibre.com,
+ christianshewitt@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org, broonie@kernel.org,
+ nick@khadas.com, linux-amlogic@lists.infradead.org, art@khadas.com,
+ linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 22, 2021 at 4:17 PM Claire Chang <tientzu@chromium.org> wrote:
->
-> If a device is not behind an IOMMU, we look up the device node and set
-> up the restricted DMA when the restricted-dma-pool is presented.
->
-> Signed-off-by: Claire Chang <tientzu@chromium.org>
-> ---
->  drivers/of/address.c    | 25 +++++++++++++++++++++++++
->  drivers/of/device.c     |  3 +++
->  drivers/of/of_private.h |  5 +++++
->  3 files changed, 33 insertions(+)
->
-> diff --git a/drivers/of/address.c b/drivers/of/address.c
-> index 54f221dde267..fff3adfe4986 100644
-> --- a/drivers/of/address.c
-> +++ b/drivers/of/address.c
-> @@ -8,6 +8,7 @@
->  #include <linux/logic_pio.h>
->  #include <linux/module.h>
->  #include <linux/of_address.h>
-> +#include <linux/of_reserved_mem.h>
->  #include <linux/pci.h>
->  #include <linux/pci_regs.h>
->  #include <linux/sizes.h>
-> @@ -1109,6 +1110,30 @@ bool of_dma_is_coherent(struct device_node *np)
->  }
->  EXPORT_SYMBOL_GPL(of_dma_is_coherent);
->
-> +int of_dma_set_restricted_buffer(struct device *dev)
-> +{
-> +       struct device_node *node;
-> +       int count, i;
-> +
-> +       if (!dev->of_node)
-> +               return 0;
-> +
-> +       count = of_property_count_elems_of_size(dev->of_node, "memory-region",
-> +                                               sizeof(phandle));
-> +       for (i = 0; i < count; i++) {
-> +               node = of_parse_phandle(dev->of_node, "memory-region", i);
-> +               /* There might be multiple memory regions, but only one
-> +                * restriced-dma-pool region is allowed.
-> +                */
-> +               if (of_device_is_compatible(node, "restricted-dma-pool") &&
-> +                   of_device_is_available(node))
-> +                       return of_reserved_mem_device_init_by_idx(
-> +                               dev, dev->of_node, i);
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  /**
->   * of_mmio_is_nonposted - Check if device uses non-posted MMIO
->   * @np:        device node
-> diff --git a/drivers/of/device.c b/drivers/of/device.c
-> index c5a9473a5fb1..d8d865223e51 100644
-> --- a/drivers/of/device.c
-> +++ b/drivers/of/device.c
-> @@ -165,6 +165,9 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
->
->         arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
->
-> +       if (!iommu)
-> +               return of_dma_set_restricted_buffer(dev);
-> +
->         return 0;
->  }
->  EXPORT_SYMBOL_GPL(of_dma_configure_id);
-> diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-> index d717efbd637d..e9237f5eff48 100644
-> --- a/drivers/of/of_private.h
-> +++ b/drivers/of/of_private.h
-> @@ -163,12 +163,17 @@ struct bus_dma_region;
->  #if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
->  int of_dma_get_range(struct device_node *np,
->                 const struct bus_dma_region **map);
-> +int of_dma_set_restricted_buffer(struct device *dev);
->  #else
->  static inline int of_dma_get_range(struct device_node *np,
->                 const struct bus_dma_region **map)
->  {
->         return -ENODEV;
->  }
-> +static inline int of_dma_get_restricted_buffer(struct device *dev)
+Problem: rmmod meson_gx_mmc - not stable without spi_master_suspend call
+and we can get stuck when try unload this module
 
-This one should be of_dma_set_restricted_buffer. Sorry for the typo.
+rmmod meson_gx_mmc
+...
+[  421.108614] Deleting MTD partitions on "spi0.0":
+[  424.219862] spi_master spi0: Failed to power device: -13
+...
+lsmod | grep spi
+spi_meson_spifc        16384 -1
 
-> +{
-> +       return -ENODEV;
-> +}
->  #endif
->
->  #endif /* _LINUX_OF_PRIVATE_H */
-> --
-> 2.31.1.368.gbe11c130af-goog
->
+Solution: just add spi_master_suspend(master) call
+
+Signed-off-by: Artem Lapkin <art@khadas.com>
+---
+ drivers/spi/spi-meson-spifc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/spi/spi-meson-spifc.c b/drivers/spi/spi-meson-spifc.c
+index 8eca6f24c..8a97a6dbf 100644
+--- a/drivers/spi/spi-meson-spifc.c
++++ b/drivers/spi/spi-meson-spifc.c
+@@ -359,6 +359,7 @@ static int meson_spifc_remove(struct platform_device *pdev)
+ 	struct spi_master *master = platform_get_drvdata(pdev);
+ 	struct meson_spifc *spifc = spi_master_get_devdata(master);
+ 
++	spi_master_suspend(master);
+ 	pm_runtime_get_sync(&pdev->dev);
+ 	clk_disable_unprepare(spifc->clk);
+ 	pm_runtime_disable(&pdev->dev);
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
