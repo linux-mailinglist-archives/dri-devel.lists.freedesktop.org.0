@@ -2,63 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297903690E8
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 13:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 225B8369121
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 13:34:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD6076EB70;
-	Fri, 23 Apr 2021 11:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9566E6EB7D;
+	Fri, 23 Apr 2021 11:34:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA98A6EB70
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 11:13:35 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id r12so73342479ejr.5
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 04:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=YHPMnwS1dURi5l1HSs6lXsnAbBpe7PxogTJiMBTEHvw=;
- b=oEpBq1Fuo/AIN23HrnGCnNKX5gSh7n0HPo0mODmYYtxzr9Ug6D8ohXWugDTsei9Gdz
- iCgi5Q+CjmdJ4CV+di6aM6JAitf4mEUPccE8ISW87TwaJYu8Mtsiqttmr+cBOQoUY6CT
- mHVJuLLG6wmiP/DRq0xg1NOtEHPoSlxJD0uQg/AWRiS+Kw7xVuJ5kuoZYDrp/01G57+K
- 1l8Tz3/pFGyCVageS2m6O29dxm+gr8XR+Akfn6WA97Y4OTG5rLhAB39NQelwkwE75Zov
- QSSMbHwrBBkTjWiHdlR4BlQ3lKZRENOMC85hiaQqFtT22BoEm7ET3sZC1dIVHbdduiz+
- CXMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=YHPMnwS1dURi5l1HSs6lXsnAbBpe7PxogTJiMBTEHvw=;
- b=QIOa9v3DtG2hQ6khKxKt5Iuo7/Fi1B0liJDLYMEJbnYygDVIbS4DiaHETdQcR5SOqa
- qZz6WnbZBdxGD0XVyUZ7Gu1hmx3SPatZ9KAKn7Zy0T9UN8k6QVm8U/oopwlC8iVQmvdG
- HS421boAXfRGg4Bwi8fxrqTcMpMT0rT2stPZxKQcwDzaer+LOXmzULZqIbdwXBKMGLby
- SPJtC9zXsA4c9HA52RECZxaTOaJFUtqr7D2kMbKPz/O7GisIzzH4rYL6zRNDRVt53fY8
- 5S1jKf4icFeYcCh2P/jBySRs9eT4Tn0gXuHDe1yuGZ0oWMwdCYtStQTPuBPHFUiCLmPR
- IUdQ==
-X-Gm-Message-State: AOAM531upxW5q13iPyf8t03DMMIv1ufadLh6ecyY+biU+Vce+Hw3oxnZ
- 8uOfBMd1b6tHdO/fK/Y2axU=
-X-Google-Smtp-Source: ABdhPJzZgn3hc4mNrhwnJScJOT2r7t49AdvgebRp7aJZ9kjR/Un/7sPJtoB3t7RWb5jaaIofvaQ1aw==
-X-Received: by 2002:a17:906:c297:: with SMTP id
- r23mr3731783ejz.48.1619176414380; 
- Fri, 23 Apr 2021 04:13:34 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id g12sm4521920edr.83.2021.04.23.04.13.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 04:13:32 -0700 (PDT)
-Date: Fri, 23 Apr 2021 13:14:22 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [RFC PATCH 1/3] dt-bindings: display: simple: Add the panel on
- sc7180-trogdor-pompom
-Message-ID: <YIKsDtjcIHGNvW0u@orome.fritz.box>
-References: <20210316140707.RFC.1.I3a21995726282f1e9fcb70da5eb96f19ed96634f@changeid>
- <20210326000907.GA1965415@robh.at.kernel.org>
- <CAD=FV=XqG8oH5HCttKSNYJV2eHwLxq-tm1C+UFLn+cAHUrBaHg@mail.gmail.com>
- <CAD=FV=VZYOMPwQZzWdhJGh5cjJWw_EcM-wQVEivZ-bdGXjPrEQ@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 35AA26EB82;
+ Fri, 23 Apr 2021 11:34:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 204A413A1;
+ Fri, 23 Apr 2021 04:34:39 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D48233F694;
+ Fri, 23 Apr 2021 04:34:32 -0700 (PDT)
+Subject: Re: [PATCH v5 05/16] swiotlb: Add restricted DMA pool initialization
+To: Claire Chang <tientzu@chromium.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
+ jgross@suse.com, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+References: <20210422081508.3942748-1-tientzu@chromium.org>
+ <20210422081508.3942748-6-tientzu@chromium.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <c9abca62-328d-d0d6-a8a6-a67475171f92@arm.com>
+Date: Fri, 23 Apr 2021 12:34:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=VZYOMPwQZzWdhJGh5cjJWw_EcM-wQVEivZ-bdGXjPrEQ@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
+In-Reply-To: <20210422081508.3942748-6-tientzu@chromium.org>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,206 +46,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Nicolas Boichat <drinkcat@chromium.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Steev Klimaszewski <steev@kali.org>, Stephen Boyd <swboyd@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: multipart/mixed; boundary="===============0759489297=="
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
+ Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
+ bhelgaas@google.com, Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ nouveau@lists.freedesktop.org, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
+ tfiga@chromium.org,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
+ bauerman@linux.ibm.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 22/04/2021 09:14, Claire Chang wrote:
+> Add the initialization function to create restricted DMA pools from
+> matching reserved-memory nodes.
+> 
+> Signed-off-by: Claire Chang <tientzu@chromium.org>
+> ---
+>   include/linux/device.h  |  4 +++
+>   include/linux/swiotlb.h |  3 +-
+>   kernel/dma/swiotlb.c    | 80 +++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 86 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 38a2071cf776..4987608ea4ff 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -416,6 +416,7 @@ struct dev_links_info {
+>    * @dma_pools:	Dma pools (if dma'ble device).
+>    * @dma_mem:	Internal for coherent mem override.
+>    * @cma_area:	Contiguous memory area for dma allocations
+> + * @dma_io_tlb_mem: Internal for swiotlb io_tlb_mem override.
+>    * @archdata:	For arch-specific additions.
+>    * @of_node:	Associated device tree node.
+>    * @fwnode:	Associated device node supplied by platform firmware.
+> @@ -521,6 +522,9 @@ struct device {
+>   #ifdef CONFIG_DMA_CMA
+>   	struct cma *cma_area;		/* contiguous memory area for dma
+>   					   allocations */
+> +#endif
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +	struct io_tlb_mem *dma_io_tlb_mem;
+>   #endif
+>   	/* arch specific additions */
+>   	struct dev_archdata	archdata;
+> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+> index 216854a5e513..03ad6e3b4056 100644
+> --- a/include/linux/swiotlb.h
+> +++ b/include/linux/swiotlb.h
+> @@ -72,7 +72,8 @@ extern enum swiotlb_force swiotlb_force;
+>    *		range check to see if the memory was in fact allocated by this
+>    *		API.
+>    * @nslabs:	The number of IO TLB blocks (in groups of 64) between @start and
+> - *		@end. This is command line adjustable via setup_io_tlb_npages.
+> + *		@end. For default swiotlb, this is command line adjustable via
+> + *		setup_io_tlb_npages.
+>    * @used:	The number of used IO TLB block.
+>    * @list:	The free list describing the number of free entries available
+>    *		from each index.
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index 57a9adb920bf..ffbb8724e06c 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -39,6 +39,13 @@
+>   #ifdef CONFIG_DEBUG_FS
+>   #include <linux/debugfs.h>
+>   #endif
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +#include <linux/io.h>
+> +#include <linux/of.h>
+> +#include <linux/of_fdt.h>
+> +#include <linux/of_reserved_mem.h>
+> +#include <linux/slab.h>
+> +#endif
+>   
+>   #include <asm/io.h>
+>   #include <asm/dma.h>
+> @@ -681,3 +688,76 @@ static int __init swiotlb_create_default_debugfs(void)
+>   late_initcall(swiotlb_create_default_debugfs);
+>   
+>   #endif
+> +
+> +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> +static int rmem_swiotlb_device_init(struct reserved_mem *rmem,
+> +				    struct device *dev)
+> +{
+> +	struct io_tlb_mem *mem = rmem->priv;
+> +	unsigned long nslabs = rmem->size >> IO_TLB_SHIFT;
+> +
+> +	if (dev->dma_io_tlb_mem)
+> +		return 0;
+> +
+> +	/* Since multiple devices can share the same pool, the private data,
+> +	 * io_tlb_mem struct, will be initialized by the first device attached
+> +	 * to it.
+> +	 */
+> +	if (!mem) {
+> +		mem = kzalloc(struct_size(mem, slots, nslabs), GFP_KERNEL);
+> +		if (!mem)
+> +			return -ENOMEM;
+> +#ifdef CONFIG_ARM
+> +		if (!PageHighMem(pfn_to_page(PHYS_PFN(rmem->base)))) {
+> +			kfree(mem);
+> +			return -EINVAL;
+> +		}
+> +#endif /* CONFIG_ARM */
+> +		swiotlb_init_io_tlb_mem(mem, rmem->base, nslabs, false);
+> +
+> +		rmem->priv = mem;
+> +	}
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	if (!io_tlb_default_mem->debugfs)
+> +		io_tlb_default_mem->debugfs =
+> +			debugfs_create_dir("swiotlb", NULL);
 
---===============0759489297==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pwwIyjYU7zT6YQlm"
-Content-Disposition: inline
+At this point it's possible for io_tlb_default_mem to be NULL, leading 
+to a splat.
 
+But even then if it's not and we have the situation where debugfs==NULL 
+then the debugfs_create_dir() here will cause a subsequent attempt in 
+swiotlb_create_debugfs() to fail (directory already exists) leading to 
+mem->debugfs being assigned an error value. I suspect the creation of 
+the debugfs directory needs to be separated from io_tlb_default_mem 
+being set.
 
---pwwIyjYU7zT6YQlm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Other than that I gave this series a go with our prototype of Arm's 
+Confidential Computer Architecture[1] - since the majority of the 
+guest's memory is protected from the host the restricted DMA pool allows 
+(only) a small area to be shared with the host.
 
-On Thu, Apr 22, 2021 at 03:08:48PM -0700, Doug Anderson wrote:
-> Hi,
->=20
-> On Mon, Mar 29, 2021 at 9:25 AM Doug Anderson <dianders@chromium.org> wro=
-te:
-> >
-> > Hi,
-> >
-> > On Thu, Mar 25, 2021 at 5:09 PM Rob Herring <robh@kernel.org> wrote:
-> > >
-> > > On Tue, Mar 16, 2021 at 02:08:19PM -0700, Douglas Anderson wrote:
-> > > > The sc7180-trogdor-pompom board might be attached to any number of a
-> > > > pile of eDP panels. At the moment I'm told that the list might incl=
-ude:
-> > > > - KD KD116N21-30NV-A010
-> > > > - KD KD116N09-30NH-A016
-> > > > - Starry 2081116HHD028001-51D
-> > > > - Sharp LQ116M1JW10
-> > > >
-> > > > It should be noted that while the EDID programmed in the first 3
-> > > > panels indicates that they should run with exactly the same timing =
-(to
-> > > > keep things simple), the 4th panel not only needs different timing =
-but
-> > > > has a different resolution.
-> > > >
-> > > > As is true in general with eDP panels, we can figure out which panel
-> > > > we have and all the info needed to drive its pixel clock by reading
-> > > > the EDID. However, we can do this only after we've powered the panel
-> > > > on. Powering on the panels requires following the timing diagram in
-> > > > each panel's datasheet which specifies delays between certain
-> > > > actions. This means that, while we can be quite dynamic about handl=
-ing
-> > > > things we can't just totally skip out on describing the panel like =
-we
-> > > > could do if it was connected to an external-facing DP port.
-> > >
-> > > Is this a 'standard' eDP connector? AFAICT, there does seem to be
-> > > such a thing.
-> >
-> > To answer this one: there's not any "standard" physical plug as far as
-> > I can tell. There's a connector on the board side for the LCD that has
-> > a whole hodgepodge of signals on it. Maybe USB for a camera. Some
-> > power signals. Maybe a PWM for a backlight. Maybe some DMIC signals.
-> > eDP signals which might be anywhere from 1 to 4 lanes. HPD (which is
-> > really a "panel ready" signal for eDP). The size / style of connector
-> > and the exact set of signals (and their ordering) is board specific.
-> > You then get a board-specific cable that splits things out. Some might
-> > go to a camera/MIC sub board. Some go to the panel and hook onto a
-> > panel-specific connector which has pin count and orderings defined by
-> > that panel. :-P
-> >
-> >
-> > > I've said in the past I'd be okay with a edp-connector
-> > > node. If that needs just the "HPD absent delay" property, I think that
-> > > would be okay. It's just a never ending stream of new properties with
-> > > each new panel that I don't want to see.
-> >
-> > Thinking about this we'd need at least one other property right now
-> > which is an enable delay. Specifically at least one panel I've
-> > supported recently lied about HPD for a short period after bootup.
-> > Specifically see commit 667d73d72f31 ("drm: panel: simple: Delay HPD
-> > checking on boe_nv133fhm_n61 for 15 ms"). ...and, of course, the
-> > existing power supply / enable signals that "simple-panel" already
-> > has.
-> >
-> > Also: if we weren't going to add the other delay properties in the
-> > device tree, we'd have to add the code right away that used the EDID
-> > to set other delays. That wouldn't be the end of the world, but it
-> > would be code to write.
-> >
-> >
-> > One last thought to add: I've looked at ~10 panels specs recently.
-> > Though they are all a little different from each other, I will say
-> > that almost every one of them seems to have the exact same timing
-> > diagram in it just with different numbers filled in. To me that backs
-> > up the idea that you can/should do the power sequence with a fairly
-> > standard (parameterized) driver. I can't link the datasheets I have
-> > but searching for "edp panel datasheet" finds me this random
-> > datasheet:
-> >
-> > https://www.data-modul.com/sites/default/files/products/NV156QUM-N72_sp=
-ecification_12039472.pdf
-> >
-> > See "8.0 POWER SEQUENCE" in that document. All the panels have a
-> > nearly identical diagram with different numbers filled in. You can
-> > kinda tell it was copied from some other panel since some numbers
-> > (like T4) aren't even defined.
->=20
-> So this thread has been quiet for a while, but the problem still exists.
->=20
-> Here's my current plan, but please yell if you disagree:
->=20
-> 1. See about adding a generic "eDP connector" node. Having stewed on
-> this for a while I think I'm convinced that even though there's not
-> really a single standard physical connector that is used everywhere
-> that there are at least a set of signals that can be collectively
-> thought about as the "eDP signals". Certainly I have a set of very
-> different panels from very different manufacturers that I can
-> "interchange" and they work fine assuming I have the right cable
-> "adapting" them from the connector on my board to the connector on the
-> panel. While different panels have different timings that they care
-> are enforced, there is a way to express it in a relatively common way
-> as evidenced by the fact that all panel datasheet timing diagrams look
-> similar and the fact that panel-simple handles so many different
-> panels (yes, we periodically add more timing constraints to handle
-> there but mostly that's because the code wasn't able to handle every
-> constraint that could be expressed in those standard-looking timing
-> diagrams in the datasheets).
->=20
->=20
-> 2. The "eDP connector" node will have all the same properties as
-> today's "panel-simple.yaml" with the addition of:
->=20
-> enable-delay
-> hpd-absent-delay
->=20
-> The idea is that you power on the panel, hardcode an enable-delay (to
-> handle early HPD glitches), and then wait for HPD (or wait
-> hpd-absent-delay if HPD isn't provided).
->=20
-> Note that "ddc-i2c-bus" will be a required node instead of optional.
->=20
->=20
-> 3. Once we power the panel on then we will query the EDID and set the
-> rest of the panel timings / modes based on the model specified in the
-> EDID. Potentially it could update the "enable-delay" and
-> "hpd-absent-delay" at this point too.
+After fixing (well hacking round) the above it all seems to be working 
+fine with virtio drivers.
 
-I think that sounds good. If ddc-i2c-bus is required, this basically
-implies that EDID needs to be available for these panels, too. If that's
-the case we can identify the panel based on information from the EDID.
-That would make panels "discoverable", so that we can describe them with
-a more generic compatible string that basically describes the interface
-needed to get at the discoverable information, much like we would do for
-a bus like PCI.
+Thanks,
 
-I don't know if the manufacturer ID and product code are enough to
-uniquely identify every panel, but maybe something like the DisplayID
-extension can be used to gather more identification data.
+Steve
 
-Thierry
-
---pwwIyjYU7zT6YQlm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmCCrAsACgkQ3SOs138+
-s6FPTBAArVUbY8SmP4Hz12t546ddjfozLRZRVqY0+m8gwjjm74D4y6SfGyd47wKI
-Euy1fK+faHgm7J94Wc3e2dqe757ApzBw4vhRxgqGR6AwBIoovRE3MWdvgib+FFuj
-2f+/D9sYfsluGvHkWYUkgrnZ1VPGw9WjGK3L2VfnqE3jC42uZp7GBVaNqeQBDTVN
-vNY7sraJhyy62GLwQ0AWK+MZbDfauMTWJGhby4I2gyQpgID7JWEPiWrz0hEng5Px
-950+BAa0TltM/7aAt+KURkkJmjWGj5+LdKEBweQmyxancmi4vx4LSFQCNe+x0yEg
-G/uWVTH+71C5GJT+PA1JiSNP9ctartxRklIOak7GpBJlkz/aO56iDxbNQBFriFWW
-z/cneIzmi9H+f3zvg2Tq/NUqXZSFHxu2guu5dKJ7voRPyoIWMDQcSCsAI/9dIIxt
-mzc9hSX3wjD2uGB6Q7TGoLRFBrswTjMiMDmig/8xg7O/4evgmok4wWYLVo4dc82C
-C4U/2dxwAYd/Jg7iRQvWdewvCcz7U+T0WXZwuGV4OmQpDTPGf1V7U5m04anpiEXU
-Sk+WeJAdbd/kwo/JM0krqLeUnp28OUzJoTbQFH8aMR9XGPZ+Scu3rAVEG9TmIr9R
-LBKS5GaNib5Gnhmw6X+7NxCm8JZlEA22Qrf3K2BB1r2rX7FmpqQ=
-=XnhE
------END PGP SIGNATURE-----
-
---pwwIyjYU7zT6YQlm--
-
---===============0759489297==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+[1] 
+https://www.arm.com/why-arm/architecture/security-features/arm-confidential-compute-architecture
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0759489297==--
