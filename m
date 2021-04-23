@@ -1,47 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908A2369D91
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 01:50:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE05D369D9D
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 01:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 776316ECBE;
-	Fri, 23 Apr 2021 23:50:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB0F56EC98;
+	Fri, 23 Apr 2021 23:57:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C1F6ECBE
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 23:50:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9188E6147F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 23:50:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619221819;
- bh=ztQ6BB47y5pg5s5XIXQqZ3xaTwRQkbGaRUPw9y7VJVo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=r+YzHc/0eGDg4hwwB3cYiV49KICfpmWTjscSSChhp1hV5Vp/6IQ8zeD5bUKlSThji
- z5+OItSlKRar+wz1Rs2X95GRyma8bLcyOPGJDKaEkNtjz3JbBjdR8J8mSCI63chQej
- cgZga8jXru0D2gmdMXea1ZkdDVB9krzXfz6jKW9buMpXW20FipCReVj+/BpBwsOO2U
- U4Otj5Zvx3M8SKv1qrkGIvlDiREReUY6vfx7UnoepHb3MmDb3wmsXXCNXmPyLn4oYs
- XZQ6jNJ3iabzEB1tZIsxr54OUD5rFQdV6f8xdIeFEXgzmC4amvF0RMhsYLM36qEucG
- Y8UUklQNk/n+g==
-Received: by mail-ed1-f54.google.com with SMTP id z5so22694111edr.11
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 16:50:19 -0700 (PDT)
-X-Gm-Message-State: AOAM5308d28P6YN4WrscRrQhqYtyoCH4V4bpyoC6ZZJhzPlHXD4D96Fo
- rjmWaOxsrbgaTrlRNSRS8P+f8NDcJHXpEUGwHA==
-X-Google-Smtp-Source: ABdhPJzlVD28y0pYvsLPGGp62BNLpS8yONHuPO054avTUO5tWEZi+o/N9PFsuZ2V+7mlxrPRRUsealY34YDjmiFn7cA=
-X-Received: by 2002:a05:6402:1157:: with SMTP id
- g23mr7364478edw.303.1619221818075; 
- Fri, 23 Apr 2021 16:50:18 -0700 (PDT)
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
+ [IPv6:2607:f8b0:4864:20::d2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B696EC98
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 23:57:31 +0000 (UTC)
+Received: by mail-io1-xd2f.google.com with SMTP id b10so50445381iot.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 16:57:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Fr0r8Ldj7zHAa8Bb+IOp3NdGHz8mauAOIu/faRDcCKk=;
+ b=AfR6xzU+coOFxhW7mOLDXXm9eII3uQ2v/HDyV4StrsjULOhPUex+A7+FQs/onbrEz9
+ H4orsdl5fKofIGPOhlIMqSdGm/gA0zUhKsb8YsHAqFHnBst8mlpbo1HUB96gyOCwzac+
+ 4EbtwJFEYmcaZ2LGnkWwHUtkN/cjRq7iumJ9i5fC9kmSx6kYd4WihRKfOK5PQXYqLmoD
+ mEtNzypOcyE1YQ8gQN2sYmsOCjWqr9tXncNqsdykVGoE/Klgt9zf0foSggP8C1dI6s2m
+ PmEh8hBmMq0sf47FyUbF9N2dJYpCeYPd5h6sSDtdkEoat0vWpp9gcoMXGBaOMeI2DzB3
+ dEAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Fr0r8Ldj7zHAa8Bb+IOp3NdGHz8mauAOIu/faRDcCKk=;
+ b=V4/elco//eUjMXPF5tQWeS9xzutmkFJiTWWirU7QvpOZ7E6doMpFhHYDTh8Svo6qDD
+ DWYdpT9EEHBgvsO7keaG8rynK62KZJK2o/IWlxs0R/hTuX0B+PIC53GIRL8iisFqaFbm
+ oUDjVDwttSs362UtSt66d4wdPSg39z0oclUPXS+shb/ko+wQ6zBMOWrPgBKA6m3UmrEe
+ 02pNKK51sBRZ1MB3q0UEF9OnK0lUuuM8Rd1FukD/FPqMUusByeQyEH+4TCNSRmslU6bk
+ 9FEwq75yzPjWmrcD60nZ6t6O3O85k6vBBnRaL/xwTO2Cjr86B7gildYMx8k73HFWXgC2
+ XIIQ==
+X-Gm-Message-State: AOAM533KvVocGwp0hgvqjZa4PmIFFwMKS6Ct0Kdmpgww/nRY3iFhFArT
+ N6Hc1l+7fVwkpVzpabU2AaEoWPEONI3vHy9OOQE=
+X-Google-Smtp-Source: ABdhPJxCqNCWAhQp9kz4Af33UCWgvP/g3qF17GJYutrPUK1/qPkq4pBOkGlYbPYJ8bbaS+8AHY8NcWD3vw8OBbBvHps=
+X-Received: by 2002:a6b:5819:: with SMTP id m25mr4949480iob.99.1619222250759; 
+ Fri, 23 Apr 2021 16:57:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210420132614.150242-1-jitao.shi@mediatek.com>
- <20210420132614.150242-4-jitao.shi@mediatek.com>
-In-Reply-To: <20210420132614.150242-4-jitao.shi@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 24 Apr 2021 07:50:07 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__JZsAmGtX-+hNu0123xKoEdP2CgGxmQK2bqa-i+3dr6Q@mail.gmail.com>
-Message-ID: <CAAOTY__JZsAmGtX-+hNu0123xKoEdP2CgGxmQK2bqa-i+3dr6Q@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/mediatek: add dsi module reset driver
-To: Jitao Shi <jitao.shi@mediatek.com>
+References: <20210423034247.992052-1-art@khadas.com>
+ <20210423114735.GA5507@sirena.org.uk>
+In-Reply-To: <20210423114735.GA5507@sirena.org.uk>
+From: Art Nikpal <email2tema@gmail.com>
+Date: Sat, 24 Apr 2021 07:57:19 +0800
+Message-ID: <CAKaHn9+d5crmmG-aKyLuvyxk+A7aC9qqfX_3wuMXm50pg+pZ4w@mail.gmail.com>
+Subject: Re: [PATCH] SPI: meson-spifc add missed calls to remove function
+To: Mark Brown <broonie@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,92 +61,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- srv_heupstream <srv_heupstream@mediatek.com>, David Airlie <airlied@linux.ie>,
- huijuan.xie@mediatek.com, stonea168@163.com,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Cawa Cheng <cawa.cheng@mediatek.com>, Rex-BC Chen <rex-bc.chen@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
- eddie.huang@mediatek.com, Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Gouwa Wang <gouwa@khadas.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Christian Hewitt <christianshewitt@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org, nick@khadas.com,
+ linux-amlogic@lists.infradead.org, Artem Lapkin <art@khadas.com>,
+ linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
+Content-Type: multipart/mixed; boundary="===============0858681840=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEppdGFvOgoKSml0YW8gU2hpIDxqaXRhby5zaGlAbWVkaWF0ZWsuY29tPiDmlrwgMjAyMeW5
-tDTmnIgyMOaXpSDpgLHkuowg5LiL5Y2IOToyNuWvq+mBk++8mgo+Cj4gUmVzZXQgZHNpIEhXIHRv
-IGRlZmF1bHQgd2hlbiBwb3dlciBvbi4gUHJldmVudCB0aGUgc2V0dGluZyBkaWZmZXJldAo+IGJl
-dHdlZW4gYm9vdGxvYWRlciBhbmQga2VybmVsLgo+Cj4gU2lnbmVkLW9mZi1ieTogSml0YW8gU2hp
-IDxqaXRhby5zaGlAbWVkaWF0ZWsuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
-ZWsvbXRrX2RzaS5jIHwgMzYgKysrKysrKysrKysrKysrKysrKysrKysrKysrKystCj4gIDEgZmls
-ZSBjaGFuZ2VkLCAzNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4KPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyBiL2RyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZHNpLmMKPiBpbmRleCA0NTVmZTU4MmM2YjUuLjExMzQzOGRkZDRjYyAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+IEBAIC03LDEwICs3LDEyIEBACj4gICNp
-bmNsdWRlIDxsaW51eC9jb21wb25lbnQuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L2lvcG9sbC5oPgo+
-ICAjaW5jbHVkZSA8bGludXgvaXJxLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9tZmQvc3lzY29uLmg+
-Cj4gICNpbmNsdWRlIDxsaW51eC9vZi5oPgo+ICAjaW5jbHVkZSA8bGludXgvb2ZfcGxhdGZvcm0u
-aD4KPiAgI2luY2x1ZGUgPGxpbnV4L3BoeS9waHkuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3BsYXRm
-b3JtX2RldmljZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvcmVnbWFwLmg+Cj4KPiAgI2luY2x1ZGUg
-PHZpZGVvL21pcGlfZGlzcGxheS5oPgo+ICAjaW5jbHVkZSA8dmlkZW8vdmlkZW9tb2RlLmg+Cj4g
-QEAgLTE0Myw2ICsxNDUsOCBAQAo+ICAjZGVmaW5lIERBVEFfMCAgICAgICAgICAgICAgICAgICAg
-ICAgICAoMHhmZiA8PCAxNikKPiAgI2RlZmluZSBEQVRBXzEgICAgICAgICAgICAgICAgICAgICAg
-ICAgKDB4ZmYgPDwgMjQpCj4KPiArI2RlZmluZSBNTVNZU19TV19SU1RfRFNJX0IgQklUKDI1KQo+
-ICsKPiAgI2RlZmluZSBOU19UT19DWUNMRShuLCBjKSAgICAoKG4pIC8gKGMpICsgKCgobikgJSAo
-YykpID8gMSA6IDApKQo+Cj4gICNkZWZpbmUgTVRLX0RTSV9IT1NUX0lTX1JFQUQodHlwZSkgXAo+
-IEBAIC0xODYsNyArMTkwLDggQEAgc3RydWN0IG10a19kc2kgewo+ICAgICAgICAgc3RydWN0IGRy
-bV9icmlkZ2UgKm5leHRfYnJpZGdlOwo+ICAgICAgICAgc3RydWN0IGRybV9jb25uZWN0b3IgKmNv
-bm5lY3RvcjsKPiAgICAgICAgIHN0cnVjdCBwaHkgKnBoeTsKPiAtCj4gKyAgICAgICBzdHJ1Y3Qg
-cmVnbWFwICptbXN5c19zd19yc3RfYjsKPiArICAgICAgIHUzMiBzd19yc3RfYjsKPiAgICAgICAg
-IHZvaWQgX19pb21lbSAqcmVnczsKPgo+ICAgICAgICAgc3RydWN0IGNsayAqZW5naW5lX2NsazsK
-PiBAQCAtMjcyLDYgKzI3NywxNiBAQCBzdGF0aWMgdm9pZCBtdGtfZHNpX2Rpc2FibGUoc3RydWN0
-IG10a19kc2kgKmRzaSkKPiAgICAgICAgIG10a19kc2lfbWFzayhkc2ksIERTSV9DT05fQ1RSTCwg
-RFNJX0VOLCAwKTsKPiAgfQo+Cj4gK3N0YXRpYyB2b2lkIG10a19kc2lfcmVzZXRfYWxsKHN0cnVj
-dCBtdGtfZHNpICpkc2kpCj4gK3sKPiArICAgICAgIHJlZ21hcF91cGRhdGVfYml0cyhkc2ktPm1t
-c3lzX3N3X3JzdF9iLCBkc2ktPnN3X3JzdF9iLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
-IE1NU1lTX1NXX1JTVF9EU0lfQiwgMCk7Cj4gKyAgICAgICB1c2xlZXBfcmFuZ2UoMTAwMCwgMTEw
-MCk7Cj4gKwo+ICsgICAgICAgcmVnbWFwX3VwZGF0ZV9iaXRzKGRzaS0+bW1zeXNfc3dfcnN0X2Is
-IGRzaS0+c3dfcnN0X2IsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgTU1TWVNfU1dfUlNU
-X0RTSV9CLCBNTVNZU19TV19SU1RfRFNJX0IpOwo+ICt9Cj4gKwo+ICBzdGF0aWMgdm9pZCBtdGtf
-ZHNpX3Jlc2V0X2VuZ2luZShzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+ICB7Cj4gICAgICAgICBtdGtf
-ZHNpX21hc2soZHNpLCBEU0lfQ09OX0NUUkwsIERTSV9SRVNFVCwgRFNJX1JFU0VUKTsKPiBAQCAt
-OTg1LDYgKzEwMDAsOCBAQCBzdGF0aWMgaW50IG10a19kc2lfYmluZChzdHJ1Y3QgZGV2aWNlICpk
-ZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3Rlciwgdm9pZCAqZGF0YSkKPgo+ICAgICAgICAgcmV0ID0g
-bXRrX2RzaV9lbmNvZGVyX2luaXQoZHJtLCBkc2kpOwo+Cj4gKyAgICAgICBtdGtfZHNpX3Jlc2V0
-X2FsbChkc2kpOwo+ICsKPiAgICAgICAgIHJldHVybiByZXQ7Cj4gIH0KPgo+IEBAIC0xMDA3LDYg
-KzEwMjQsNyBAQCBzdGF0aWMgaW50IG10a19kc2lfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2Rldmlj
-ZSAqcGRldikKPiAgICAgICAgIHN0cnVjdCBkZXZpY2UgKmRldiA9ICZwZGV2LT5kZXY7Cj4gICAg
-ICAgICBzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbDsKPiAgICAgICAgIHN0cnVjdCByZXNvdXJjZSAq
-cmVnczsKPiArICAgICAgIHN0cnVjdCByZWdtYXAgKnJlZ21hcDsKPiAgICAgICAgIGludCBpcnFf
-bnVtOwo+ICAgICAgICAgaW50IHJldDsKPgo+IEBAIC0xMDIyLDYgKzEwNDAsMjIgQEAgc3RhdGlj
-IGludCBtdGtfZHNpX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gICAgICAg
-ICAgICAgICAgIHJldHVybiByZXQ7Cj4gICAgICAgICB9Cj4KPiArICAgICAgIHJlZ21hcCA9IHN5
-c2Nvbl9yZWdtYXBfbG9va3VwX2J5X3BoYW5kbGUoZGV2LT5vZl9ub2RlLAo+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAibWVkaWF0ZWssc3lzY29uLWRz
-aSIpOwo+ICsgICAgICAgcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91MzJfaW5kZXgoZGV2LT5vZl9u
-b2RlLCAibWVkaWF0ZWssc3lzY29uLWRzaSIsIDEsCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAmZHNpLT5zd19yc3RfYik7Cj4gKwo+ICsgICAgICAgaWYgKElTX0VS
-UihyZWdtYXApKQo+ICsgICAgICAgICAgICAgICByZXQgPSBQVFJfRVJSKHJlZ21hcCk7Cj4gKwo+
-ICsgICAgICAgaWYgKHJldCkgewo+ICsgICAgICAgICAgICAgICByZXQgPSBQVFJfRVJSKHJlZ21h
-cCk7Cj4gKyAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIGdldCBtbXN5cyBy
-ZWdpc3RlcnM6ICVkXG4iLCByZXQpOwo+ICsgICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ICsg
-ICAgICAgfQo+ICsKPiArICAgICAgIGRzaS0+bW1zeXNfc3dfcnN0X2IgPSByZWdtYXA7Cj4gKwoK
-SXQgbG9va3MgbGlrZSB0aGF0IG10ay1tbXN5cyBpcyB0aGUgcmVzZXQgY29udHJvbGxlciBhbmQg
-bXRrLWRzaSBpcwpyZXNldCBjb25zdW1lci4gUGxlYXNlIHJlZmVyIHRvIFsxXSwgWzJdIHRvIGlt
-cGxlbWVudC4KClsxXSBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL2xhdGVzdC9kcml2
-ZXItYXBpL3Jlc2V0Lmh0bWwKWzJdIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51
-eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9yZXNldC9yZXNldC50eHQ/aD12NS4xMi1yYzgKClJlZ2FyZHMsCkNodW4t
-S3VhbmcuCgo+ICAgICAgICAgcmV0ID0gZHJtX29mX2ZpbmRfcGFuZWxfb3JfYnJpZGdlKGRldi0+
-b2Zfbm9kZSwgMCwgMCwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAmcGFuZWwsICZkc2ktPm5leHRfYnJpZGdlKTsKPiAgICAgICAgIGlmIChyZXQpCj4gLS0KPiAy
-LjI1LjEKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+--===============0858681840==
+Content-Type: multipart/alternative; boundary="00000000000011a9d605c0ac8f78"
+
+--00000000000011a9d605c0ac8f78
+Content-Type: text/plain; charset="UTF-8"
+
+> I would expect the driver to unregister the controller at the start of
+> the remove function, suspend doesn't really make sense here
+
+It's strange - But without spi_master_suspend i have randomly stucks when i
+try unload this module - as was written before
+i was test it (load/unload module in loop) and for me suspend make sense
+here
+
+If anybody has another solution - or real problem not here - please write
+to me the right way!
+
+PS: i have another way for solve this problem (may be it can help us fix
+problem in kernel)
+
+# before unload module need
+echo -n spi0.0 > /sys/bus/spi/drivers/spi-nor/unbind
+# after unbind driver we can unload module without problem
+rmmod spi_meson_spifc # can stuck without unbind driver before ...
+
+
+On Fri, Apr 23, 2021 at 7:48 PM Mark Brown <broonie@kernel.org> wrote:
+
+> On Fri, Apr 23, 2021 at 11:42:47AM +0800, Artem Lapkin wrote:
+> > Problem: rmmod meson_gx_mmc - not stable without spi_master_suspend call
+> > and we can get stuck when try unload this module
+>
+> > +++ b/drivers/spi/spi-meson-spifc.c
+> > @@ -359,6 +359,7 @@ static int meson_spifc_remove(struct platform_device
+> *pdev)
+> >       struct spi_master *master = platform_get_drvdata(pdev);
+> >       struct meson_spifc *spifc = spi_master_get_devdata(master);
+> >
+> > +     spi_master_suspend(master);
+> >       pm_runtime_get_sync(&pdev->dev);
+> >       clk_disable_unprepare(spifc->clk);
+> >       pm_runtime_disable(&pdev->dev);
+>
+> I would expect the driver to unregister the controller at the start of
+> the remove function, suspend doesn't really make sense here.
+>
+
+--00000000000011a9d605c0ac8f78
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">&gt; I would expect the driver to unregis=
+ter the controller at the start of<br><div>
+&gt; the remove function, suspend doesn&#39;t really make sense here</div><=
+div><br></div><div>It&#39;s strange - But without <span>spi_master_suspend =
+i have randomly stucks when i try unload this module - as was written befor=
+e</span></div><div><span>i was test it (load/unload module in loop) and for=
+ me suspend make sense here</span></div><div><span><br></span></div><div><s=
+pan>If anybody has another solution - or real problem not here - please wri=
+te to me the right way!</span></div><div><span><br></span></div><div><span>=
+PS: i have another way for solve this problem (may be it can help us fix pr=
+oblem in kernel)<br></span><div><br></div><div># before unload module need =
+<br></div><div>echo -n spi0.0 &gt; /sys/bus/spi/drivers/spi-nor/unbind</div=
+><div># after unbind driver we can unload module without problem</div>rmmod=
+ spi_meson_spifc # can stuck without unbind driver before ...</div><div><sp=
+an><br></span></div></div><br></div><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr">On Fri, Apr 23, 2021 at 7:48 PM Mark Brown &lt;<a=
+ href=3D"mailto:broonie@kernel.org" target=3D"_blank">broonie@kernel.org</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
+Fri, Apr 23, 2021 at 11:42:47AM +0800, Artem Lapkin wrote:<br>
+&gt; Problem: rmmod meson_gx_mmc - not stable without spi_master_suspend ca=
+ll<br>
+&gt; and we can get stuck when try unload this module<br>
+<br>
+&gt; +++ b/drivers/spi/spi-meson-spifc.c<br>
+&gt; @@ -359,6 +359,7 @@ static int meson_spifc_remove(struct platform_devi=
+ce *pdev)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct spi_master *master =3D platform_get_d=
+rvdata(pdev);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct meson_spifc *spifc =3D spi_master_get=
+_devdata(master);<br>
+&gt;=C2=A0 <br>
+&gt; +=C2=A0 =C2=A0 =C2=A0spi_master_suspend(master);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0pm_runtime_get_sync(&amp;pdev-&gt;dev);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0clk_disable_unprepare(spifc-&gt;clk);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0pm_runtime_disable(&amp;pdev-&gt;dev);<br>
+<br>
+I would expect the driver to unregister the controller at the start of<br>
+the remove function, suspend doesn&#39;t really make sense here.<br>
+</blockquote></div>
+
+--00000000000011a9d605c0ac8f78--
+
+--===============0858681840==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0858681840==--
