@@ -1,65 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4713A3696E1
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 18:30:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C1B36972F
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 18:37:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A47C6EC0A;
-	Fri, 23 Apr 2021 16:30:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B6D6E11A;
+	Fri, 23 Apr 2021 16:37:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7208C6EC0A
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 16:30:52 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id i12so18626257qke.3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 09:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bnPkOae3N3QNLfW2JXPw4qTg19P7LS7x3meffpeNsUc=;
- b=oOWzIy3mWuS6BWg8Zy0+TynqeZAiE3ZSt8ELRuOz1uAEN4ySjH+jCi7+4wq42lLCf6
- pWI21DpyBztpl1GpAjQ0VdUrs+7dOsKKgaUwYt3s0vy5q2UZ1TNduOSnPD4SoxJHEWfY
- 5OltXJXVHWMShT/LiT6ZbueZcaIHry68371Iw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bnPkOae3N3QNLfW2JXPw4qTg19P7LS7x3meffpeNsUc=;
- b=Bug47kjwK4Q/cHLVrw6oruGCSXIKL9n5yPIObS11LEhWT+E0E6jkHVzcnvtFmVZQ2S
- hzZZjvQCJT5HVCgHYGNm05Yo496eMnh+1ndfQCUYUX3GGlkBNGPANxr5QxsQlF/Lzgu8
- w117Knvht7Qn+8b/loQw4jsPaEZwJglD/9DpJ6rQWm9gnsco32NCcC9vl3DV5s3neHR/
- GIZee6G6FyoJF+sAblVbKXfGgMxXwvkFWCYorlOYqDmCU3MDGFYil68HIkH10U9uw1wY
- TsW/9800heM1/RPNMT7ZVWiyfwVqtGDV4dnCpcoZ8ZrEa4m/X9nSkXnWWj1opksVB3nA
- zI0w==
-X-Gm-Message-State: AOAM530768ROfi2sd5oBWQRv5vp2HYaqiLCp+MTm0Fli5+45lH7wP9QS
- Oy9zQudlo6QbdNm+P+74Os898bzVhGodTw==
-X-Google-Smtp-Source: ABdhPJxct1EnS1VxoR8K72np9FFpcOqPdPb21rDUGbWLJ/V09ta1vCNR295G3qEGWBGMbMCRjUi9uQ==
-X-Received: by 2002:a05:620a:7d4:: with SMTP id
- 20mr4850889qkb.58.1619195450244; 
- Fri, 23 Apr 2021 09:30:50 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com.
- [209.85.219.172])
- by smtp.gmail.com with ESMTPSA id c2sm4709539qkk.2.2021.04.23.09.30.48
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Apr 2021 09:30:49 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 130so12484307ybd.10
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 09:30:48 -0700 (PDT)
-X-Received: by 2002:a25:2d0b:: with SMTP id t11mr2980774ybt.79.1619195448418; 
- Fri, 23 Apr 2021 09:30:48 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA83C6E11A
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 16:37:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C95BA6147F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 16:37:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619195828;
+ bh=9IS9zneuy8LMByWB8zTbcL7UU0JhQG+Ou0Dnf6+9DWI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mVgcggccvzb5Q58UbDiH1LkySMqv79Q0ezFdDHa9YV7pgIsYnxGZqfsUJcRJc6QZV
+ ZYSvR6/2IFozhh+DXQhOUmILYWpfvzt4R8iyF0yZhyhulaNj6dFjiKsV8Ndd/qXLmj
+ GW/zvOnb7aOdEj2ES9uE7ITO4X3CmF8RvhaVMgBShq8F4kFHln8tWv861rOgmlvt4Z
+ D2Oi1UzAr1GrTcH3dR3MSQg43Qcm6PFPXoFkffi3cT9tsvVu3W36tckpvHlMHjL4se
+ QV5iCqII5/U1Z/OH7pqiU7b4YNdhJm5Grt1Znz4Y1xKyi4U3GYj+xibZ95aulFox9+
+ oJ9bLrvt7by5g==
+Received: by mail-ej1-f45.google.com with SMTP id u21so74796810ejo.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 09:37:08 -0700 (PDT)
+X-Gm-Message-State: AOAM530nHBI4tU6E4hTNdLaBCefhIahaynwDEWaEI+6TjQz1jm+rK96S
+ cIY/HxcOwXi0EKTAAoe8mVjp6RnuZiiplMp9AQ==
+X-Google-Smtp-Source: ABdhPJyNr2Rj271SQjBJ1jzoPOY6Dqp88cO1kkQkphXe731CRxVMAIBAK4M/UFgprXi5ElqtV9WjSX3y7vxRK5ErxHg=
+X-Received: by 2002:a17:906:2c4a:: with SMTP id
+ f10mr5235234ejh.63.1619195826695; 
+ Fri, 23 Apr 2021 09:37:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210416223950.3586967-1-dianders@chromium.org>
- <20210416153909.v4.24.If050957eaa85cf45b10bcf61e6f7fa61c9750ebf@changeid>
- <YILx/iODs+DFWWwm@builder.lan>
-In-Reply-To: <YILx/iODs+DFWWwm@builder.lan>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 23 Apr 2021 09:30:36 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UhOKcSC5FPPZgXiqfFCYOu4iFGrhtrgfGz_ovT8Qi-6w@mail.gmail.com>
-Message-ID: <CAD=FV=UhOKcSC5FPPZgXiqfFCYOu4iFGrhtrgfGz_ovT8Qi-6w@mail.gmail.com>
-Subject: Re: [PATCH v4 24/27] drm/panel: panel-simple: Cache the EDID as long
- as we retain power
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
+References: <20210420132614.150242-1-jitao.shi@mediatek.com>
+ <20210420132614.150242-3-jitao.shi@mediatek.com>
+In-Reply-To: <20210420132614.150242-3-jitao.shi@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 24 Apr 2021 00:36:55 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-SKcX+4U5hKOgRaip-vk+ofEWe_g4VNUxFjN7LCprq1w@mail.gmail.com>
+Message-ID: <CAAOTY_-SKcX+4U5hKOgRaip-vk+ofEWe_g4VNUxFjN7LCprq1w@mail.gmail.com>
+Subject: Re: [PATCH 3/4] drm/mediatek: fine tune the dsi panel's power sequence
+To: Jitao Shi <jitao.shi@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,75 +54,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- Steev Klimaszewski <steev@kali.org>, Stephen Boyd <swboyd@chromium.org>,
- Wolfram Sang <wsa@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ srv_heupstream <srv_heupstream@mediatek.com>, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Cawa Cheng <cawa.cheng@mediatek.com>, Rex-BC Chen <rex-bc.chen@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, Apr 23, 2021 at 9:12 AM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> On Fri 16 Apr 17:39 CDT 2021, Douglas Anderson wrote:
->
-> > It doesn't make sense to go out to the bus and read the EDID over and
-> > over again. Let's cache it and throw away the cache when we turn power
-> > off from the panel. Autosuspend means that even if there are several
-> > calls to read the EDID before we officially turn the power on then we
-> > should get good use out of this cache.
-> >
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >  drivers/gpu/drm/panel/panel-simple.c | 17 ++++++++++-------
-> >  1 file changed, 10 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> > index 40382c1be692..5a2953c4ca44 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -189,6 +189,8 @@ struct panel_simple {
-> >       struct gpio_desc *enable_gpio;
-> >       struct gpio_desc *hpd_gpio;
-> >
-> > +     struct edid *edid;
-> > +
-> >       struct drm_display_mode override_mode;
-> >
-> >       enum drm_panel_orientation orientation;
-> > @@ -345,6 +347,9 @@ static int panel_simple_suspend(struct device *dev)
-> >       regulator_disable(p->supply);
-> >       p->unprepared_time = ktime_get();
-> >
-> > +     kfree(p->edid);
-> > +     p->edid = NULL;
->
-> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
->
->
-> But separate of this, shouldn't the driver have a pm_runtime_disable()
-> in the remove path to synchronize the autosleep? Or is that not how that
-> works?
-
-Indeed! I'll add a patch to the start of my v5 (coming shortly) that
-fixes this. Thanks for catching!
-
--Doug
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEppdGFvOgoKSml0YW8gU2hpIDxqaXRhby5zaGlAbWVkaWF0ZWsuY29tPiDmlrwgMjAyMeW5
+tDTmnIgyMOaXpSDpgLHkuowg5LiL5Y2IOToyNuWvq+mBk++8mgo+Cj4gQWRkIHRoZSBkcm1fcGFu
+ZWxfcHJlcGFyZV9wb3dlciBhbmQgZHJtX3BhbmVsX3VucHJlcGFyZV9wb3dlciBjb250cm9sLgo+
+IFR1cm4gb24gcGFuZWwgcG93ZXIoZHJtX3BhbmVsX3ByZXBhcmVfcG93ZXIpIGFuZCBjb250cm9s
+IGJlZm9yZSBkc2kKPiBlbmFibGUuIEFuZCB0aGVuIGRzaSBlbmFibGUsIHNlbmQgZGNzIGNtZCBp
+biBkcm1fcGFuZWxfcHJlcGFyZSwgbGFzdAo+IHR1cm4gb24gYmFja2xpZ2h0LgoKUGxlYXNlIGRl
+c2NyaWJlIFdIWSBkbyB5b3UgbmVlZCB0aGlzIHBhdGNoPyBGaXggYW55IGJ1Zz8KCj4KPiBTaWdu
+ZWQtb2ZmLWJ5OiBKaXRhbyBTaGkgPGppdGFvLnNoaUBtZWRpYXRlay5jb20+Cj4gLS0tCj4gIGRy
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgfCAxMiArKysrKysrKysrLS0KPiAgMSBm
+aWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHNpLmMKPiBpbmRleCBhMWZmMTUyZWY0NjguLjQ1NWZlNTgyYzZiNSAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+IEBAIC02MTUsMTAgKzYxNSwxMyBA
+QCBzdGF0aWMgaW50IG10a19kc2lfcG93ZXJvbihzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+ICAgICAg
+ICAgZHNpLT5kYXRhX3JhdGUgPSBESVZfUk9VTkRfVVBfVUxMKGRzaS0+dm0ucGl4ZWxjbG9jayAq
+IGJpdF9wZXJfcGl4ZWwsCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgZHNpLT5sYW5lcyk7Cj4KPiArICAgICAgIGlmIChwYW5lbF9icmlkZ2VfcHJlcGFyZV9wb3dl
+cihkc2ktPm5leHRfYnJpZGdlKSkKCnJldCA9IHBhbmVsX2JyaWRnZV9wcmVwYXJlX3Bvd2VyKGRz
+aS0+bmV4dF9icmlkZ2UpOwppZiAocmV0KQoKPiArICAgICAgICAgICAgICAgRFJNX0lORk8oImNh
+bid0IHByZXBhcmUgcG93ZXIgdGhlIHBhbmVsXG4iKTsKCkkgdGhpbmsgeW91IHNob3VsZCBnb3Rv
+IGVycl9yZWZjb3VudDsKCj4gKwo+ICAgICAgICAgcmV0ID0gY2xrX3NldF9yYXRlKGRzaS0+aHNf
+Y2xrLCBkc2ktPmRhdGFfcmF0ZSk7Cj4gICAgICAgICBpZiAocmV0IDwgMCkgewo+ICAgICAgICAg
+ICAgICAgICBkZXZfZXJyKGRldiwgIkZhaWxlZCB0byBzZXQgZGF0YSByYXRlOiAlZFxuIiwgcmV0
+KTsKPiAtICAgICAgICAgICAgICAgZ290byBlcnJfcmVmY291bnQ7Cj4gKyAgICAgICAgICAgICAg
+IGdvdG8gZXJyX3ByZXBhcmVfcG93ZXI7Cj4gICAgICAgICB9Cj4KPiAgICAgICAgIHBoeV9wb3dl
+cl9vbihkc2ktPnBoeSk7Cj4gQEAgLTY2MSw3ICs2NjQsOSBAQCBzdGF0aWMgaW50IG10a19kc2lf
+cG93ZXJvbihzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+ICAgICAgICAgY2xrX2Rpc2FibGVfdW5wcmVw
+YXJlKGRzaS0+ZW5naW5lX2Nsayk7Cj4gIGVycl9waHlfcG93ZXJfb2ZmOgo+ICAgICAgICAgcGh5
+X3Bvd2VyX29mZihkc2ktPnBoeSk7Cj4gLWVycl9yZWZjb3VudDoKPiArZXJyX3ByZXBhcmVfcG93
+ZXI6Cj4gKyAgICAgICBpZiAocGFuZWxfYnJpZGdlX3VucHJlcGFyZV9wb3dlcihkc2ktPm5leHRf
+YnJpZGdlKSkKCnJldCA9IHBhbmVsX2JyaWRnZV91bnByZXBhcmVfcG93ZXIoZHNpLT5uZXh0X2Jy
+aWRnZSk7Cgo+ICsgICAgICAgICAgICAgICBEUk1fSU5GTygiQ2FuJ3QgdW5wcmVwYXJlIHBvd2Vy
+IHRoZSBwYW5lbFxuIik7Cj4gICAgICAgICBkc2ktPnJlZmNvdW50LS07Cj4gICAgICAgICByZXR1
+cm4gcmV0Owo+ICB9Cj4gQEAgLTY5NCw2ICs2OTksOSBAQCBzdGF0aWMgdm9pZCBtdGtfZHNpX3Bv
+d2Vyb2ZmKHN0cnVjdCBtdGtfZHNpICpkc2kpCj4gICAgICAgICBjbGtfZGlzYWJsZV91bnByZXBh
+cmUoZHNpLT5kaWdpdGFsX2Nsayk7Cj4KPiAgICAgICAgIHBoeV9wb3dlcl9vZmYoZHNpLT5waHkp
+Owo+ICsKPiArICAgICAgIGlmIChwYW5lbF9icmlkZ2VfdW5wcmVwYXJlX3Bvd2VyKGRzaS0+bmV4
+dF9icmlkZ2UpKQoKcmV0ID0gcGFuZWxfYnJpZGdlX3VucHJlcGFyZV9wb3dlcihkc2ktPm5leHRf
+YnJpZGdlKTsKCj4gKyAgICAgICAgICAgICAgIERSTV9JTkZPKCJDYW4ndCB1bnByZXBhcmUgcG93
+ZXIgdGhlIHBhbmVsXG4iKTsKPiAgfQo+Cj4gIHN0YXRpYyB2b2lkIG10a19vdXRwdXRfZHNpX2Vu
+YWJsZShzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+IC0tCj4gMi4yNS4xCj4gX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
