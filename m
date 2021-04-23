@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466CF369C48
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 23:55:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6EA9369C4D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 23:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDC256EC97;
-	Fri, 23 Apr 2021 21:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A256EC99;
+	Fri, 23 Apr 2021 21:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 569E16EC95;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B227B6EC95;
  Fri, 23 Apr 2021 21:55:46 +0000 (UTC)
 Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 23 Apr 2021 14:55:45 -0700
+ by alexa-out.qualcomm.com with ESMTP; 23 Apr 2021 14:55:46 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 23 Apr 2021 14:55:44 -0700
+ 23 Apr 2021 14:55:45 -0700
 X-QCInternal: smtphost
 Received: from rajeevny-linux.qualcomm.com ([10.204.66.121])
- by ironmsg02-blr.qualcomm.com with ESMTP; 24 Apr 2021 03:25:12 +0530
+ by ironmsg02-blr.qualcomm.com with ESMTP; 24 Apr 2021 03:25:15 +0530
 Received: by rajeevny-linux.qualcomm.com (Postfix, from userid 2363605)
- id 7ED1D212C3; Sat, 24 Apr 2021 03:25:11 +0530 (IST)
+ id E4AC2212C3; Sat, 24 Apr 2021 03:25:13 +0530 (IST)
 From: Rajeev Nandan <rajeevny@codeaurora.org>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v2 0/2] drm: Add support for backlight control of eDP panel on
- ti-sn65dsi86 bridge
-Date: Sat, 24 Apr 2021 03:25:02 +0530
-Message-Id: <1619214904-10218-1-git-send-email-rajeevny@codeaurora.org>
+Subject: [v2 1/2] dt-bindings: backlight: add DisplayPort aux backlight
+Date: Sat, 24 Apr 2021 03:25:03 +0530
+Message-Id: <1619214904-10218-2-git-send-email-rajeevny@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1619214904-10218-1-git-send-email-rajeevny@codeaurora.org>
+References: <1619214904-10218-1-git-send-email-rajeevny@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,39 +53,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The backlight level of an eDP panel can be controlled through the AUX
-channel using DPCD registers of the panel.
-
-The capability for the Source device to adjust backlight characteristics
-within the panel, using the Sink device DPCD registers is indicated by
-the TCON_BACKLIGHT_ADJUSTMENT_CAPABLE bit in the EDP_GENERAL_CAPABILITY_1
-register (DPCD Address 701h, bit0). In this configuration, the eDP TCON
-receives the backlight level information from the host, through the AUX
-channel.
-
-Anderson's patch series [1] exposed the DDC bus from ti-sn65dsi86 bridge,
-that gives an option to move the backlight control out of the bridge and
-to create a separate backlight driver.
+Add bindings for DisplayPort aux backlight driver.
 
 Changes in v2:
-- Created a new DisplayPort aux backlight driver and moved the code from
-  drm_dp_aux_backlight.c (v1) to the new driver.
-- Removed the changes done in ti-sn65dsi86 bridge. (Rob Herring)
+- New
 
-[1] https://lore.kernel.org/dri-devel/20210416223950.3586967-1-dianders@chromium.org/
-
-Rajeev Nandan (2):
-  dt-bindings: backlight: add DisplayPort aux backlight
-  backlight: Add DisplayPort aux backlight driver
-
- .../bindings/leds/backlight/dp-aux-backlight.yaml  |  49 +++++
- drivers/video/backlight/Kconfig                    |   7 +
- drivers/video/backlight/Makefile                   |   1 +
- drivers/video/backlight/dp_aux_backlight.c         | 245 +++++++++++++++++++++
- 4 files changed, 302 insertions(+)
+Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
+---
+ .../bindings/leds/backlight/dp-aux-backlight.yaml  | 49 ++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml
- create mode 100644 drivers/video/backlight/dp_aux_backlight.c
 
+diff --git a/Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml
+new file mode 100644
+index 00000000..0fa8bf0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml
+@@ -0,0 +1,49 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/dp-aux-backlight.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: DisplayPort aux backlight driver bindings
++
++maintainers:
++  - Rajeev Nandan <rajeevny@codeaurora.org>
++
++description:
++  Backlight driver to control the brightness over DisplayPort aux channel.
++
++allOf:
++  - $ref: common.yaml#
++
++properties:
++  compatible:
++    const: dp-aux-backlight
++
++  ddc-i2c-bus:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      A phandle to the system I2C controller connected to the DDC bus used
++      for the DisplayPort AUX channel.
++
++  enable-gpios:
++    maxItems: 1
++    description: GPIO specifier for backlight enable pin.
++
++  max-brightness: true
++
++required:
++  - compatible
++  - ddc-i2c-bus
++
++additionalProperties: false
++
++examples:
++  - |
++    backlight {
++        compatible = "dp-aux-backlight";
++        ddc-i2c-bus = <&sn65dsi86_bridge>;
++        enable-gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
++        max-brightness = <2047>;
++    };
++
++...
 -- 
 2.7.4
 
