@@ -1,64 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E54369135
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 13:38:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB3F369179
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 13:48:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89F256E0D4;
-	Fri, 23 Apr 2021 11:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCBB96E0D7;
+	Fri, 23 Apr 2021 11:48:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6EBB6E0D4
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 11:38:52 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id r20so23679864ejo.11
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 04:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tfwQKZxXdDYllkxh+HP2o7b8Xma124w7u9YX5ihdThk=;
- b=B0suzuxifCcOfPo/dFqrCu+ZPlTvcWsFMBQ3qhXvoW30sjRxdGR3uDnk/8bKkUgmVp
- buVA60RHa7KMqBACHOi6zaxbTshOmcTRfmMPt/piPoz7R+qrvjdSxzFG+G35R/nZ4w4f
- VnYgbrGVEJdI8+FtAJ0H4kjzb5QQb3erUWGy7jo39EfgtBo3/wT4K0hejCrl325etzB2
- 2GZE10id4/elX95fiEsvqTzyWWWECUSIJstXZWnQKBbTbf3lOGmHILZDTQyHS2kLGHK2
- ieYXAE63EEkMTgHVR4XzNSUYguPHBJjsoeJPG791p+N64ZMW/pMHBdpFVPB3R7j2GRUV
- UAlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tfwQKZxXdDYllkxh+HP2o7b8Xma124w7u9YX5ihdThk=;
- b=eoRBg2/wHadsJDg7hvN8OXlYKLj+caFgx94H++ECgkPyUhMbodmG8cW8Rh6amRJtrO
- dEO8Vp8rL4mJl2nYF+7+xLkE9cmk7gK+QbWEnexqrEg4ty+4QGqj5dK9g7vwtk39kAoU
- Crcf/GdRj50RwMGu88aw2d36zWkvYBRUwXgI2KrekO2GMXL6EZVOF6SjBAmK+Xi+TN6e
- DFJlLslmUKbkTqQQQsdOlLBxSZhTXRXxv0uREF0v9YQCxhLApk2wo5jjprOeHgvv46Sv
- Re4ZQYeGeqMrH6T4EKHXLJwjdmsusd1mzzZewbYbjoHO1eq9gH1C0/RGqlp8ReH1zW/t
- epzQ==
-X-Gm-Message-State: AOAM530dBBzzEs/C2jxHptaFSGAPoQV5ZhXj+NQsRjpEbsaCHTD2r8oU
- SGeihlw5eGgCmyheTAC6qVU=
-X-Google-Smtp-Source: ABdhPJzH545joyry0k/7hTklhyZPWuXssioV+PCVrPHxjHBczU9IqrubsxlPdlzQYMgfZb8vZiJJpA==
-X-Received: by 2002:a17:907:2662:: with SMTP id
- ci2mr3628395ejc.467.1619177931579; 
- Fri, 23 Apr 2021 04:38:51 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it.
- [79.52.107.152])
- by smtp.gmail.com with ESMTPSA id bm26sm3804553ejb.82.2021.04.23.04.38.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 04:38:51 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/amd/amdgpu: Fix errors in documentation of function
- parameters
-Date: Fri, 23 Apr 2021 13:38:46 +0200
-Message-Id: <20210423113846.29651-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDB16E0D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 11:48:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 760D86144D;
+ Fri, 23 Apr 2021 11:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619178484;
+ bh=Nso+Npc+3ue078XmTC6Z8rq554dlaIy0y0IZvc0L4j0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YgrhGeDWQKDwDgzc0U2oo8W0xIXto5ga2sHax46ojxl9XfDadv1hoilzWHf31hy/a
+ xkLmuksSJ6XrwYcyuOD+SYMirF10GO5vlvm+G2rHAL8fxhtkeCT3ImmsMb3r5zvxdD
+ nOUOF+LBuBWBOcU090MKOwS7kzhDWv0RhtXAHX5o6Mq3rTirfpRN3SR1Un7PcTHhh5
+ yEH9o7OrhS/2Vq5OcKQr7OnUf8hwHB0yRF5OZnxMA/+IOUAYiczj+9hHoPFIDB9Yrw
+ Yyu5mubFhx9y3GNT5UuG7CGYpYGvskajIn9kq6gybJuO48AqDQYFNNIL8ErFXsz+Sa
+ W0R4winzEm41w==
+Date: Fri, 23 Apr 2021 12:47:35 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Artem Lapkin <email2tema@gmail.com>
+Subject: Re: [PATCH] SPI: meson-spifc add missed calls to remove function
+Message-ID: <20210423114735.GA5507@sirena.org.uk>
+References: <20210423034247.992052-1-art@khadas.com>
 MIME-Version: 1.0
+In-Reply-To: <20210423034247.992052-1-art@khadas.com>
+X-Cookie: This is now.  Later is later.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,142 +46,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: gouwa@khadas.com, narmstrong@baylibre.com,
+ martin.blumenstingl@googlemail.com, khilman@baylibre.com,
+ christianshewitt@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org, nick@khadas.com,
+ linux-amlogic@lists.infradead.org, art@khadas.com,
+ linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
+Content-Type: multipart/mixed; boundary="===============0360869110=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the function documentation, I removed the excess parameters,
-described the undocumented ones, and fixed the syntax errors.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c          | 12 ++++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  4 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c |  8 ++++----
- 3 files changed, 13 insertions(+), 11 deletions(-)
+--===============0360869110==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wac7ysb48OaltWcw"
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-index 2e9b16fb3fcd..bf2939b6eb43 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -76,7 +76,7 @@ struct amdgpu_atif {
- /**
-  * amdgpu_atif_call - call an ATIF method
-  *
-- * @handle: acpi handle
-+ * @atif: acpi handle
-  * @function: the ATIF function to execute
-  * @params: ATIF function params
-  *
-@@ -166,7 +166,6 @@ static void amdgpu_atif_parse_functions(struct amdgpu_atif_functions *f, u32 mas
- /**
-  * amdgpu_atif_verify_interface - verify ATIF
-  *
-- * @handle: acpi handle
-  * @atif: amdgpu atif struct
-  *
-  * Execute the ATIF_FUNCTION_VERIFY_INTERFACE ATIF function
-@@ -240,8 +239,7 @@ static acpi_handle amdgpu_atif_probe_handle(acpi_handle dhandle)
- /**
-  * amdgpu_atif_get_notification_params - determine notify configuration
-  *
-- * @handle: acpi handle
-- * @n: atif notification configuration struct
-+ * @atif: acpi handle
-  *
-  * Execute the ATIF_FUNCTION_GET_SYSTEM_PARAMETERS ATIF function
-  * to determine if a notifier is used and if so which one
-@@ -304,7 +302,7 @@ static int amdgpu_atif_get_notification_params(struct amdgpu_atif *atif)
- /**
-  * amdgpu_atif_query_backlight_caps - get min and max backlight input signal
-  *
-- * @handle: acpi handle
-+ * @atif: acpi handle
-  *
-  * Execute the QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS ATIF function
-  * to determine the acceptable range of backlight values
-@@ -363,7 +361,7 @@ static int amdgpu_atif_query_backlight_caps(struct amdgpu_atif *atif)
- /**
-  * amdgpu_atif_get_sbios_requests - get requested sbios event
-  *
-- * @handle: acpi handle
-+ * @atif: acpi handle
-  * @req: atif sbios request struct
-  *
-  * Execute the ATIF_FUNCTION_GET_SYSTEM_BIOS_REQUESTS ATIF function
-@@ -899,6 +897,8 @@ void amdgpu_acpi_fini(struct amdgpu_device *adev)
- /**
-  * amdgpu_acpi_is_s0ix_supported
-  *
-+ * @adev: amdgpu_device_pointer
-+ *
-  * returns true if supported, false if not.
-  */
- bool amdgpu_acpi_is_s0ix_supported(struct amdgpu_device *adev)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-index 5af464933976..98d31ebad9ce 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-@@ -111,6 +111,8 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
-  *  a KFD BO and schedules a job to move the BO.
-  *  If fence is already signaled return true.
-  *  If fence is not signaled schedule a evict KFD process work item.
-+ *
-+ *  @f: dma_fence
-  */
- static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
- {
-@@ -131,7 +133,7 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
- /**
-  * amdkfd_fence_release - callback that fence can be freed
-  *
-- * @fence: fence
-+ * @f: dma_fence
-  *
-  * This function is called when the reference count becomes zero.
-  * Drops the mm_struct reference and RCU schedules freeing up the fence.
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-index b43e68fc1378..ed3014fbb563 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-@@ -719,7 +719,7 @@ static void unlock_spi_csq_mutexes(struct amdgpu_device *adev)
- }
- 
- /**
-- * @get_wave_count: Read device registers to get number of waves in flight for
-+ * get_wave_count: Read device registers to get number of waves in flight for
-  * a particular queue. The method also returns the VMID associated with the
-  * queue.
-  *
-@@ -755,19 +755,19 @@ static void get_wave_count(struct amdgpu_device *adev, int queue_idx,
- }
- 
- /**
-- * @kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
-+ * kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
-  * shader engine and aggregates the number of waves that are in flight for the
-  * process whose pasid is provided as a parameter. The process could have ZERO
-  * or more queues running and submitting waves to compute units.
-  *
-  * @kgd: Handle of device from which to get number of waves in flight
-  * @pasid: Identifies the process for which this query call is invoked
-- * @wave_cnt: Output parameter updated with number of waves in flight that
-+ * @pasid_wave_cnt: Output parameter updated with number of waves in flight that
-  * belong to process with given pasid
-  * @max_waves_per_cu: Output parameter updated with maximum number of waves
-  * possible per Compute Unit
-  *
-- * @note: It's possible that the device has too many queues (oversubscription)
-+ * Note: It's possible that the device has too many queues (oversubscription)
-  * in which case a VMID could be remapped to a different PASID. This could lead
-  * to an iaccurate wave count. Following is a high-level sequence:
-  *    Time T1: vmid = getVmid(); vmid is associated with Pasid P1
--- 
-2.31.1
+
+--wac7ysb48OaltWcw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Apr 23, 2021 at 11:42:47AM +0800, Artem Lapkin wrote:
+> Problem: rmmod meson_gx_mmc - not stable without spi_master_suspend call
+> and we can get stuck when try unload this module
+
+> +++ b/drivers/spi/spi-meson-spifc.c
+> @@ -359,6 +359,7 @@ static int meson_spifc_remove(struct platform_device =
+*pdev)
+>  	struct spi_master *master =3D platform_get_drvdata(pdev);
+>  	struct meson_spifc *spifc =3D spi_master_get_devdata(master);
+> =20
+> +	spi_master_suspend(master);
+>  	pm_runtime_get_sync(&pdev->dev);
+>  	clk_disable_unprepare(spifc->clk);
+>  	pm_runtime_disable(&pdev->dev);
+
+I would expect the driver to unregister the controller at the start of
+the remove function, suspend doesn't really make sense here.
+
+--wac7ysb48OaltWcw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmCCs9YACgkQJNaLcl1U
+h9AxQgf+NlVIXfo4DOWLGzUTZV9JpnM/W5ePWMfS5eiwLH2U4IkyBKd4pMwv590c
+P2VHkZMC+XNYg+5Awbqpx8ayhuD4qbKspg+px/r6HrJ0pdXL6hIKfQ5nx3yWn41w
+TSkY44nLWNKrKMWJo3moixzryzv+vVAXkaNYpNi5gRijEZnpLE4LbZihh0d6bIja
+uSKmBE0Q9KuXo83ENaVGjPofkSVrdHovWQb4cC7NnKqi6JX0/9ZqYEMX7FAxgh0p
+3ewJqVtXwbfapK2FwhufuRpwaMKN7cCMqqf0GAdLIDZ+jp4p2NsWjv9syeaQ6R5U
+yjmI4PA1Le3oAZFmU6ZMcsDP68YaLw==
+=AYVf
+-----END PGP SIGNATURE-----
+
+--wac7ysb48OaltWcw--
+
+--===============0360869110==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0360869110==--
