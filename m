@@ -1,52 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850F4368BB4
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 05:52:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6276368BDC
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Apr 2021 06:12:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C25F56EB34;
-	Fri, 23 Apr 2021 03:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05FD36EB3B;
+	Fri, 23 Apr 2021 04:12:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8C86EB34
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 03:52:41 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id s15so55943793edd.4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Apr 2021 20:52:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=AsQS2+WKWTfo1Jt7nW4OhF01pRbwMoQdzfJIXlY/3JE=;
- b=aEUrJRPr2CPm0gyMjMpJzsHaKhYyHhYeb/Cswp/opvqq+XH72jpl3dHSAP/SmCh9Qv
- CemRSb/oq0FwHDAcUoqY2GTOmwCE2geQNbwCHy8Wdn16Hv2gx2IvsVjkYuGMUhoVxidS
- p3uS9NsJMYShQLCnNQ+Koo2ZC7xgR0bJjRali0A6lft0xV/rZxDxIMorMO7uFBz4tsEm
- Th6GIeUxa9DgyB2XxpXOabM9VBUWvGkjlGVCRukWAVXEY7KLyAYGtn+al5srkJQ0EQhc
- W0QR2dYmzNF44+D8+6Yjm1uvy3Kn02Vw3fuXqEGTrFXozFYIZPOJQ2akf6tZ3wP4GaLu
- Y58w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=AsQS2+WKWTfo1Jt7nW4OhF01pRbwMoQdzfJIXlY/3JE=;
- b=rDdWw52h+LNeqMrT92Ru4Jt1ikUsb6BYP/Invaxas9waRTN7QuK/OaSuQn3/5qdStG
- b9pgzjf5W3Ad8t0G8FLBTMq6mWuIQi4noBaFb/N3GE9DE9bIY+uLXJs40YTkvy8zBrYy
- 6vzjKQMUt6Mcyfmnm9S+XaD8t81dVlI5Hw6M4O3g+KU0sJPYNcm6u3rbYj5TQ8aqYUGk
- qvCd78Y9w3L102s08Tr9xQ8Jv1KYgLzMucPQwCKARnYgCfHUDFwIwDIv14zj8DQu+9Su
- J7BSica6PTqkAMSl/WsQqISFIaVg2isviQz6N4+D8NlYw+xmJNr+HdLSaKm2Dl/4X9pH
- BhzQ==
-X-Gm-Message-State: AOAM53165Yqm6tTMQtU7LLMtu8YR8RXlHTvSd+0YOQ1b5wwrAw4eI11C
- bzUOenW5Dqu2beJnaowwlbDMznFMAXALdfiCggI=
-X-Google-Smtp-Source: ABdhPJyS3WSdMIZNgtRyHDciXIkP+vYLJyfArCej6T4gFVnL9UyqYnz3fiSbyNB1bw4RQthfqVa90ovzzv16Vv4BCvg=
-X-Received: by 2002:a05:6402:5113:: with SMTP id
- m19mr2037305edd.78.1619149960146; 
- Thu, 22 Apr 2021 20:52:40 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 228816EB3B;
+ Fri, 23 Apr 2021 04:12:41 +0000 (UTC)
+IronPort-SDR: +2sAoF/3uHiiE+Maa15l0o7RkbgHSTLIxJU3EZgyKoBjqUiUjIkzILuZg5rNkiRZsPN+5fy+V8
+ I4DmnfrS1O0Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9962"; a="281342201"
+X-IronPort-AV: E=Sophos;i="5.82,244,1613462400"; 
+ d="asc'?scan'208";a="281342201"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2021 21:12:40 -0700
+IronPort-SDR: nrk9t95tZ919uGBWhrlRupDvA67xEP9m+oDuc5Q6fst6eWRn+o8XlB4GQW2/9983TMqV2KZNxI
+ wPuZdhh+XM1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,244,1613462400"; 
+ d="asc'?scan'208";a="453469907"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
+ by FMSMGA003.fm.intel.com with ESMTP; 22 Apr 2021 21:12:35 -0700
+Date: Fri, 23 Apr 2021 11:54:26 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH] vfio/gvt: fix DRM_I915_GVT dependency on VFIO_MDEV
+Message-ID: <20210423035426.GG1551@zhen-hp.sh.intel.com>
+References: <20210422133547.1861063-1-arnd@kernel.org>
+ <20210422135810.GG2047089@ziepe.ca>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 23 Apr 2021 13:52:29 +1000
-Message-ID: <CAPM=9tyKdGHyiRLDooKrMf=02GtNn8U4YfF4dJtXdabnVAGdXQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.12 final
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <20210422135810.GG2047089@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,94 +48,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: Arnd Bergmann <arnd@kernel.org>, Kevin Tian <kevin.tian@intel.com>,
+ Cornelia Huck <cohuck@redhat.com>, dri-devel@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: multipart/mixed; boundary="===============0276901954=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
 
-Just some small i915 and amdgpu fixes this week, Should be all until
-you open the merge window.
+--===============0276901954==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7WMexqIhC8AwFtpM"
+Content-Disposition: inline
 
-Regards,
-Dave.
 
-drm-fixes-2021-04-23:
-drm fixes for 5.12 final
+--7WMexqIhC8AwFtpM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-amdgpu:
-- Fix gpuvm page table update issue
-- Modifier fixes
-- Register fix for dimgrey cavefish
+On 2021.04.22 10:58:10 -0300, Jason Gunthorpe wrote:
+> On Thu, Apr 22, 2021 at 03:35:33PM +0200, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >=20
+> > The Kconfig dependency is incomplete since DRM_I915_GVT is a 'bool'
+> > symbol that depends on the 'tristate' VFIO_MDEV. This allows a
+> > configuration with VFIO_MDEV=3Dm, DRM_I915_GVT=3Dy and DRM_I915=3Dy that
+> > causes a link failure:
+> >=20
+> > x86_64-linux-ld: drivers/gpu/drm/i915/gvt/gvt.o: in function `available=
+_instances_show':
+> > gvt.c:(.text+0x67a): undefined reference to `mtype_get_parent_dev'
+> > x86_64-linux-ld: gvt.c:(.text+0x6a5): undefined reference to `mtype_get=
+_type_group_id'
+> > x86_64-linux-ld: drivers/gpu/drm/i915/gvt/gvt.o: in function `descripti=
+on_show':
+> > gvt.c:(.text+0x76e): undefined reference to `mtype_get_parent_dev'
+> > x86_64-linux-ld: gvt.c:(.text+0x799): undefined reference to `mtype_get=
+_type_group_id'
+> >=20
+> > Clarify the dependency by specifically disallowing the broken
+> > configuration. If VFIO_MDEV is built-in, it will work, but if
+> > VFIO_MDEV=3Dm, the i915 driver cannot be built-in here.
+> >=20
+> > Fixes: 07e543f4f9d1 ("vfio/gvt: Make DRM_I915_GVT depend on VFIO_MDEV")
+> > Fixes: 9169cff168ff ("vfio/mdev: Correct the function signatures for th=
+e mdev_type_attributes")
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > ---
+> >  drivers/gpu/drm/i915/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> Oh kconfig stuff like this makes my head hurt, thanks for finding it
+>=20
+> I also can't see an alternative to this ugly thing, besides having the
+> i915 guys properly modularize this code someday
+>=20
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+>=20
 
-i915:
-- GVT's BDW regression fix for cmd parser
-- Fix modesetting in case of unexpected AUX timeouts
-The following changes since commit bf05bf16c76bb44ab5156223e1e58e26dfe30a88:
+I don't really want this mess to propagate further. We should move
+mdev related stuff to kvmgt module instead, so not pretend any more to
+possibly use that for other hypervisor..
 
-  Linux 5.12-rc8 (2021-04-18 14:45:32 -0700)
+Sorry that I didn't realize this issue when Jason proposed this. Let
+me do the left cleanup.
 
-are available in the Git repository at:
+Thanks
 
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-04-23
+--7WMexqIhC8AwFtpM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-for you to fetch changes up to aca38735ae624b93c71c055b68d5802b8f356ea5:
+-----BEGIN PGP SIGNATURE-----
 
-  Merge tag 'drm-intel-fixes-2021-04-22' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2021-04-23
-12:18:21 +1000)
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYIJE6gAKCRCxBBozTXgY
+J6G0AJ9jV+OfoH7vCSMZp4Y4fN0maPlC3gCaAwHGakKPCeQIPyHkDjbi9KCA64o=
+=i7Nt
+-----END PGP SIGNATURE-----
 
-----------------------------------------------------------------
-drm fixes for 5.12 final
+--7WMexqIhC8AwFtpM--
 
-amdgpu:
-- Fix gpuvm page table update issue
-- Modifier fixes
-- Register fix for dimgrey cavefish
+--===============0276901954==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-i915:
-- GVT's BDW regression fix for cmd parser
-- Fix modesetting in case of unexpected AUX timeouts
-
-----------------------------------------------------------------
-Dave Airlie (2):
-      Merge tag 'amd-drm-fixes-5.12-2021-04-21' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2021-04-22' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-
-Imre Deak (1):
-      drm/i915: Fix modesetting in case of unexpected AUX timeouts
-
-Jiansong Chen (1):
-      drm/amdgpu: fix GCR_GENERAL_CNTL offset for dimgrey_cavefish
-
-Philip Yang (1):
-      drm/amdgpu: reserve fence slot to update page table
-
-Qingqing Zhuo (1):
-      drm/amd/display: Update modifier list for gfx10_3
-
-Rodrigo Vivi (1):
-      Merge tag 'gvt-fixes-2021-04-20' of
-https://github.com/intel/gvt-linux into drm-intel-fixes
-
-Simon Ser (1):
-      amd/display: allow non-linear multi-planar formats
-
-Zhenyu Wang (1):
-      drm/i915/gvt: Fix BDW command parser regression
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c                | 10 ++++++++--
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c                |  2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c     | 15 ++++++---------
- drivers/gpu/drm/i915/display/intel_dp_link_training.c |  3 ++-
- drivers/gpu/drm/i915/gvt/cmd_parser.c                 | 19 +++++++++++++------
- 5 files changed, 30 insertions(+), 19 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0276901954==--
