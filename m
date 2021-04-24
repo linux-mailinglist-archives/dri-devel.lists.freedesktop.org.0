@@ -2,54 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC79369DA5
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 02:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA24369DA9
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 02:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE85F6ECCD;
-	Sat, 24 Apr 2021 00:09:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1AED6E039;
+	Sat, 24 Apr 2021 00:12:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18AA6ECCD
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Apr 2021 00:09:08 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id b10so50464066iot.4
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 17:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mUIgi8gr2tgzWKj4+8JDnT/+2+iJBvHpF1dlGi1xl7U=;
- b=eIVk3kWDGLkxI6e7AjS74LPf7mENaT1FX8HKi8JueWU4UuoHBig3oizGT1ntPq+hbt
- tFqvOi88/997OlaQMY6hKHbHb0cP7bLW4A31KySs7OgfFqPrP7xXw3Tf7xOvwuYRO7tN
- U8wMXMyT/rmbqquvTLIWV2Pge5r3gtI6p3XlGqMcqM2ZOvKqFNIWyPTRNYFA3jw9elb/
- gf/6N2VDaCiDyEDSBJooEq657o73WG9pD3kV8rb3dmsK5x3luSueweF7aDA6t2mKfM4Y
- c79p1OBa/DJdJCA0N+cTn4qi7jZkVZhOoj/bdrMrHAxn6wt7+lo8xhY/GJiJ6EsvOGfp
- TK9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mUIgi8gr2tgzWKj4+8JDnT/+2+iJBvHpF1dlGi1xl7U=;
- b=p1d/eFDLhFauSSEoAIUGRAQeSuIfPGCRjufzPmu4crdVKWsmBGG43g7iKCRPn/ToXk
- gdfk5h4XXGJ0bvECKWgM7kwMYqBbxLH62FftQr+lee+MWifBbPgAu4pOfAyikQjSQSH5
- miuX3OluwKNFnUMjtPdIW7xs0Ejvy0GIEutaQfrPhRiaon2wV8rZ2KPS8LdYwwA4zsF6
- WSgeu8Dj6dIDNlUjqjpZpHk1jjlmAg7ePtHj4xXiX5kHcW6fph0l7cPLep6k2lBQWm1A
- fAeo8P/J8bYGFSU5dtv/9TqGSnUGHOWuFV5gBarpakDnMWIVhqV9sviPt4DtREW7CQ3A
- R4xg==
-X-Gm-Message-State: AOAM532VFOTuOMQ8dbRTJQtMP4Uz/hTyekp8ejVRJ/Oai58812uECN5T
- Kc8yAhUO/x9mn8eCnmevsE/L715lFxUCiTzDEBlPmNH9qVMHnGNM
-X-Google-Smtp-Source: ABdhPJzpqEKzOQAznBrk9weKRq/P/QY2iIQeqtxS3bPY6W15AZaVS8+fIA29w7CgKa8lN9Gg4oFBEDPlkNfMCTJh7/8=
-X-Received: by 2002:a05:6602:22c9:: with SMTP id
- e9mr5125249ioe.73.1619222948139; 
- Fri, 23 Apr 2021 17:09:08 -0700 (PDT)
+Received: from desiato.infradead.org (desiato.infradead.org
+ [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 677B06E039
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Apr 2021 00:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+ :Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=sJ6mzEzOm3NtSuCM8j9or/o9X3YIjUZaA6m4E9jOXWA=; b=LJ2SxMxTYdweqHZvQfIx6eSPjD
+ 9ysOshNKGd/B6hZnOxqol5DT9WkZOvWzBei5+Qwgfco7CfTVjKx0nVFMxr7H3RR8IRmPlUMlRiCY7
+ itFWdiJpvfct0n97L4VzjALVGSX3iF+hCRSDX9mhfPw5tqhoSm0oHstmJs429HeXoIRs/r7Spnvt7
+ t4RAHO1JUqocmrl1pFNyCJuix6J0vm9ni/VeeKM27Op3nC4ICnKPJ/GwQ/QyOhwwTbKAi8O2aLzQy
+ gtBKqfGIYpJ/Lyy2KaSpJFCaGWPNvTc0ylpDlKyx9M096PiQtJIiZ0PUwUMma9mHO9A5OnWspjMNC
+ iCJu+uHA==;
+Received: from [2601:1c0:6280:3f0::df68] (helo=smtpauth.infradead.org)
+ by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1la5uD-002ds2-Rp; Sat, 24 Apr 2021 00:12:18 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm: rcar-du: fix linker undefined references
+Date: Fri, 23 Apr 2021 17:12:14 -0700
+Message-Id: <20210424001214.30642-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210423034247.992052-1-art@khadas.com>
- <20210423114735.GA5507@sirena.org.uk>
-In-Reply-To: <20210423114735.GA5507@sirena.org.uk>
-From: Art Nikpal <email2tema@gmail.com>
-Date: Sat, 24 Apr 2021 08:08:57 +0800
-Message-ID: <CAKaHn9LC19cduyrwxkDRAdM5pjgSPBCdZUjsEMgGqS7yVQS1-g@mail.gmail.com>
-Subject: Re: [PATCH] SPI: meson-spifc add missed calls to remove function
-To: Mark Brown <broonie@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,55 +45,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gouwa Wang <gouwa@khadas.com>, Neil Armstrong <narmstrong@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Christian Hewitt <christianshewitt@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org, nick@khadas.com,
- linux-amlogic@lists.infradead.org, Artem Lapkin <art@khadas.com>,
- linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
+Cc: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> I would expect the driver to unregister the controller at the start of
-> the remove function, suspend doesn't really make sense here
+When DRM_RCAR_DU=y and DRM_RCAR_LVDS=m, there are several build errors
+as reported by 'kernel test robot'. These can be corrected by changing
+source code occurrences of IS_ENABLED(...) to IS_REACHABLE(...).
 
-It's strange - But without spi_master_suspend i have randomly stucks
-when i try unload this module - as was written before
-i was test it (load/unload module in loop) and for me suspend make sense here
+In looking at this, the same problem (build errors) happens when
+DRM_RCAR_DU=y and DRM_RCAR_CMM=m, so again change an IS_ENABLED()
+to IS_REACHABLE() for this case as well.
 
-If anybody has another solution - or real problem not here - please
-help to find the right way!
+These changes fix the following 8 build/link errors:
 
-PS: i have another way for solve this problem (may be it can help us
-fix problem in kernel)
+aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
+rcar_du_crtc.c:(.text+0x1be8): undefined reference to `rcar_lvds_clk_enable'
+aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
+rcar_du_crtc.c:(.text+0x2438): undefined reference to `rcar_lvds_clk_disable'
+aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_drv.o: in function `rcar_du_init':
+rcar_du_drv.c:(.init.text+0x14): undefined reference to `rcar_du_of_init'
+aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_encoder.o: in function `rcar_du_encoder_init':
+rcar_du_encoder.c:(.text+0x1d4): undefined reference to `rcar_lvds_dual_link'
 
-# before unload module need
-echo -n spi0.0 > /sys/bus/spi/drivers/spi-nor/unbind
-# after unbind driver we can unload module without problem
-rmmod spi_meson_spifc # can stuck without unbind driver before ...
+aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_cmm_setup':
+rcar_du_crtc.c:(.text+0x380): undefined reference to `rcar_cmm_setup'
+aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
+rcar_du_crtc.c:(.text+0x1c08): undefined reference to `rcar_cmm_enable'
+aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
+rcar_du_crtc.c:(.text+0x231c): undefined reference to `rcar_cmm_disable'
+aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_kms.o: in function `rcar_du_modeset_init':
+rcar_du_kms.c:(.text+0xd08): undefined reference to `rcar_cmm_init'
 
+All RCAR kconfig combinations now build for me.
 
-On Fri, Apr 23, 2021 at 7:48 PM Mark Brown <broonie@kernel.org> wrote:
->
-> On Fri, Apr 23, 2021 at 11:42:47AM +0800, Artem Lapkin wrote:
-> > Problem: rmmod meson_gx_mmc - not stable without spi_master_suspend call
-> > and we can get stuck when try unload this module
->
-> > +++ b/drivers/spi/spi-meson-spifc.c
-> > @@ -359,6 +359,7 @@ static int meson_spifc_remove(struct platform_device *pdev)
-> >       struct spi_master *master = platform_get_drvdata(pdev);
-> >       struct meson_spifc *spifc = spi_master_get_devdata(master);
-> >
-> > +     spi_master_suspend(master);
-> >       pm_runtime_get_sync(&pdev->dev);
-> >       clk_disable_unprepare(spifc->clk);
-> >       pm_runtime_disable(&pdev->dev);
->
-> I would expect the driver to unregister the controller at the start of
-> the remove function, suspend doesn't really make sense here.
+Fixes: e08e934d6c28 ("drm: rcar-du: Add support for CMM")
+Fixes: 02f2b30032c1 ("drm: rcar-du: lvds: Add API to enable/disable clock output")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+v2: also send to LKML;
+    don't change Kconfig "imply" to "select" since not all platforms
+    with DU have CMM and/or LVDS support. Use IS_REACHABLE() instead.
+
+ drivers/gpu/drm/rcar-du/rcar_cmm.h   |    4 ++--
+ drivers/gpu/drm/rcar-du/rcar_du_of.h |    2 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds.h  |    2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+--- linux-next-20210420.orig/drivers/gpu/drm/rcar-du/rcar_lvds.h
++++ linux-next-20210420/drivers/gpu/drm/rcar-du/rcar_lvds.h
+@@ -12,7 +12,7 @@
+ 
+ struct drm_bridge;
+ 
+-#if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
++#if IS_REACHABLE(CONFIG_DRM_RCAR_LVDS)
+ int rcar_lvds_clk_enable(struct drm_bridge *bridge, unsigned long freq);
+ void rcar_lvds_clk_disable(struct drm_bridge *bridge);
+ bool rcar_lvds_dual_link(struct drm_bridge *bridge);
+--- linux-next-20210420.orig/drivers/gpu/drm/rcar-du/rcar_du_of.h
++++ linux-next-20210420/drivers/gpu/drm/rcar-du/rcar_du_of.h
+@@ -11,7 +11,7 @@
+ 
+ struct of_device_id;
+ 
+-#if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
++#if IS_REACHABLE(CONFIG_DRM_RCAR_LVDS)
+ void __init rcar_du_of_init(const struct of_device_id *of_ids);
+ #else
+ static inline void rcar_du_of_init(const struct of_device_id *of_ids) { }
+--- linux-next-20210420.orig/drivers/gpu/drm/rcar-du/rcar_cmm.h
++++ linux-next-20210420/drivers/gpu/drm/rcar-du/rcar_cmm.h
+@@ -25,7 +25,7 @@ struct rcar_cmm_config {
+ 	} lut;
+ };
+ 
+-#if IS_ENABLED(CONFIG_DRM_RCAR_CMM)
++#if IS_REACHABLE(CONFIG_DRM_RCAR_CMM)
+ int rcar_cmm_init(struct platform_device *pdev);
+ 
+ int rcar_cmm_enable(struct platform_device *pdev);
+@@ -53,6 +53,6 @@ static inline int rcar_cmm_setup(struct
+ {
+ 	return 0;
+ }
+-#endif /* IS_ENABLED(CONFIG_DRM_RCAR_CMM) */
++#endif /* IS_REACHABLE(CONFIG_DRM_RCAR_CMM) */
+ 
+ #endif /* __RCAR_CMM_H__ */
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
