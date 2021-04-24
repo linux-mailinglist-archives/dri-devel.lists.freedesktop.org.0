@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2A0369DA3
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 02:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC79369DA5
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 02:09:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 728306ECBA;
-	Sat, 24 Apr 2021 00:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE85F6ECCD;
+	Sat, 24 Apr 2021 00:09:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 503656E039;
- Sat, 24 Apr 2021 00:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=jZ0JGW4AdikCiQSQF+QylhizTZCJYUc5d0ULmwp16B8=; b=hzjWyBj0HLDPun/nggIhfnYrva
- W/nOYte1rH5HIK0GVaXIDplkgTTP+z5L2OMSQPJ3FYQg9YTi67XAq5s/zce8xIlPASCBA6njDVqQo
- rsLyEdPDXaS3DvrmupDDdXY2lBu7BEtQpGB3AKvCGimW9LPTQheJ9FtqGzLVBGrc5P83jJUj1BMhZ
- 2YZbetvu7mDmgxxqbKtF7wpyAjHqnah8s8PVBQ90B6Vt7drof2FU+X53+cUeFfmBL8E2y/CeaMe2y
- n7luXklZgzHXVQRcvJIrL+bOpgye5LzxzoveUr3i14QYbH0J2Ks5WoAQHKaYke5eMOu/VmFoBMDw4
- hCPX7uMA==;
-Received: from [2601:1c0:6280:3f0::df68]
- by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1la5qK-002dNr-O1; Sat, 24 Apr 2021 00:08:17 +0000
-Subject: Re: [PATCH 01/12] vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
-To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
- linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <1-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <d058f9ad-7ce1-c1b3-19cd-5f625ef4c670@infradead.org>
-Date: Fri, 23 Apr 2021 17:08:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C18AA6ECCD
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Apr 2021 00:09:08 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id b10so50464066iot.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Apr 2021 17:09:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mUIgi8gr2tgzWKj4+8JDnT/+2+iJBvHpF1dlGi1xl7U=;
+ b=eIVk3kWDGLkxI6e7AjS74LPf7mENaT1FX8HKi8JueWU4UuoHBig3oizGT1ntPq+hbt
+ tFqvOi88/997OlaQMY6hKHbHb0cP7bLW4A31KySs7OgfFqPrP7xXw3Tf7xOvwuYRO7tN
+ U8wMXMyT/rmbqquvTLIWV2Pge5r3gtI6p3XlGqMcqM2ZOvKqFNIWyPTRNYFA3jw9elb/
+ gf/6N2VDaCiDyEDSBJooEq657o73WG9pD3kV8rb3dmsK5x3luSueweF7aDA6t2mKfM4Y
+ c79p1OBa/DJdJCA0N+cTn4qi7jZkVZhOoj/bdrMrHAxn6wt7+lo8xhY/GJiJ6EsvOGfp
+ TK9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mUIgi8gr2tgzWKj4+8JDnT/+2+iJBvHpF1dlGi1xl7U=;
+ b=p1d/eFDLhFauSSEoAIUGRAQeSuIfPGCRjufzPmu4crdVKWsmBGG43g7iKCRPn/ToXk
+ gdfk5h4XXGJ0bvECKWgM7kwMYqBbxLH62FftQr+lee+MWifBbPgAu4pOfAyikQjSQSH5
+ miuX3OluwKNFnUMjtPdIW7xs0Ejvy0GIEutaQfrPhRiaon2wV8rZ2KPS8LdYwwA4zsF6
+ WSgeu8Dj6dIDNlUjqjpZpHk1jjlmAg7ePtHj4xXiX5kHcW6fph0l7cPLep6k2lBQWm1A
+ fAeo8P/J8bYGFSU5dtv/9TqGSnUGHOWuFV5gBarpakDnMWIVhqV9sviPt4DtREW7CQ3A
+ R4xg==
+X-Gm-Message-State: AOAM532VFOTuOMQ8dbRTJQtMP4Uz/hTyekp8ejVRJ/Oai58812uECN5T
+ Kc8yAhUO/x9mn8eCnmevsE/L715lFxUCiTzDEBlPmNH9qVMHnGNM
+X-Google-Smtp-Source: ABdhPJzpqEKzOQAznBrk9weKRq/P/QY2iIQeqtxS3bPY6W15AZaVS8+fIA29w7CgKa8lN9Gg4oFBEDPlkNfMCTJh7/8=
+X-Received: by 2002:a05:6602:22c9:: with SMTP id
+ e9mr5125249ioe.73.1619222948139; 
+ Fri, 23 Apr 2021 17:09:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
-Content-Language: en-US
+References: <20210423034247.992052-1-art@khadas.com>
+ <20210423114735.GA5507@sirena.org.uk>
+In-Reply-To: <20210423114735.GA5507@sirena.org.uk>
+From: Art Nikpal <email2tema@gmail.com>
+Date: Sat, 24 Apr 2021 08:08:57 +0800
+Message-ID: <CAKaHn9LC19cduyrwxkDRAdM5pjgSPBCdZUjsEMgGqS7yVQS1-g@mail.gmail.com>
+Subject: Re: [PATCH] SPI: meson-spifc add missed calls to remove function
+To: Mark Brown <broonie@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +62,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- Tarun Gupta <targupta@nvidia.com>, Dan Williams <dan.j.williams@intel.com>,
- Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>
+Cc: Gouwa Wang <gouwa@khadas.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Christian Hewitt <christianshewitt@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org, nick@khadas.com,
+ linux-amlogic@lists.infradead.org, Artem Lapkin <art@khadas.com>,
+ linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/23/21 4:02 PM, Jason Gunthorpe wrote:
-> @@ -171,7 +171,7 @@ config SAMPLE_VFIO_MDEV_MDPY_FB
->  
->  config SAMPLE_VFIO_MDEV_MBOCHS
->  	tristate "Build VFIO mdpy example mediated device sample code -- loadable modules only"
+> I would expect the driver to unregister the controller at the start of
+> the remove function, suspend doesn't really make sense here
 
-You can drop the ending of the prompt string.
+It's strange - But without spi_master_suspend i have randomly stucks
+when i try unload this module - as was written before
+i was test it (load/unload module in loop) and for me suspend make sense here
 
-> -	depends on VFIO_MDEV_DEVICE && m
-> +	depends on VFIO_MDEV
->  	select DMA_SHARED_BUFFER
->  	help
->  	  Build a virtual display sample driver for use as a VFIO
+If anybody has another solution - or real problem not here - please
+help to find the right way!
+
+PS: i have another way for solve this problem (may be it can help us
+fix problem in kernel)
+
+# before unload module need
+echo -n spi0.0 > /sys/bus/spi/drivers/spi-nor/unbind
+# after unbind driver we can unload module without problem
+rmmod spi_meson_spifc # can stuck without unbind driver before ...
 
 
--- 
-~Randy
-
+On Fri, Apr 23, 2021 at 7:48 PM Mark Brown <broonie@kernel.org> wrote:
+>
+> On Fri, Apr 23, 2021 at 11:42:47AM +0800, Artem Lapkin wrote:
+> > Problem: rmmod meson_gx_mmc - not stable without spi_master_suspend call
+> > and we can get stuck when try unload this module
+>
+> > +++ b/drivers/spi/spi-meson-spifc.c
+> > @@ -359,6 +359,7 @@ static int meson_spifc_remove(struct platform_device *pdev)
+> >       struct spi_master *master = platform_get_drvdata(pdev);
+> >       struct meson_spifc *spifc = spi_master_get_devdata(master);
+> >
+> > +     spi_master_suspend(master);
+> >       pm_runtime_get_sync(&pdev->dev);
+> >       clk_disable_unprepare(spifc->clk);
+> >       pm_runtime_disable(&pdev->dev);
+>
+> I would expect the driver to unregister the controller at the start of
+> the remove function, suspend doesn't really make sense here.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
