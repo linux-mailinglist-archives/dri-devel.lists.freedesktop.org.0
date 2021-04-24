@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ECE636A01B
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 10:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4882C36A01C
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Apr 2021 10:23:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 591D96E0CB;
-	Sat, 24 Apr 2021 08:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5696E1A7;
+	Sat, 24 Apr 2021 08:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5346E0CB
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Apr 2021 08:22:30 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id s7so50531547wru.6
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Apr 2021 01:22:29 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7088F6E1A7
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Apr 2021 08:23:35 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id x5so315104wrv.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Apr 2021 01:23:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=qN+v1Lct2njpZc/Y5ouNqPjL3TC5C9AdS4ToALawVG0=;
- b=gkKt+S8nVq48LlekXsBjz9ZpzUAq5ZLEVbvI59CjVXs30KZIq43PvcGFSqzlnulb+5
- /wC/Kot7nCX2m8/tswA4m3GUuNzdTfcEMAaVemb1/PnzRJnN0w2Y91gkHanGpIAHsBMV
- OYfwMBG9/IMcGP/pWAi/o1L3j6zLIIfg8fo+K2l7VvVwrBMnxo/D/v7RsDAJUFDCpGnl
- X0nFFMCEhSvyA2PIu5BeYHW9DCPY89OOJ1yznBZEmXzFFo1OsqhwZtT4lUFSklO3Hy73
- C10mpkrlZdSe7VkSY+7rINAcEAM1+PQmHPMu3fEIZGlqsv1iWxZiuY5dYwKr4AkxRZ3f
- 0gHw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=pzs9+l9dZGVv7oIFa2Vm2mSZNmaiUp4olXqSAZ7yZrA=;
+ b=sQfeVFZkg/uSBgcG3HkAoIYmL6W3E9CJg8UCSJIOWFktWUeLuySok+bSJdELyRNdmb
+ DF9+C64fe/2yMfrs0173lrbAlNuck0wq4A1gQueGKIuRCYyVt3kbwQAVod82wdt+Fr2f
+ s11uGT15+chHXaj1sukVk1gsHZVM7rgCHQCdpmXOSRYvGpOoO7FdavkWOlAZdSFBJJYS
+ IxZjRR3QxNuDpPnYIIYpri/oROune0Let0v9uw8C0FovsccZJJQP1Gb0NPYzFQEBqPvH
+ /W3ufHvcBEAPVExFq67Gc/4aek+MSBXPdzLyuA35gmEtujQjg+puhiP091eHufMDzXir
+ C9hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=qN+v1Lct2njpZc/Y5ouNqPjL3TC5C9AdS4ToALawVG0=;
- b=CWJRaM3zcHYbGW8DTKZ1urAVWDy2C0S5qPKTeRA3vgEfp+YVqSSUUmdEWSlS9YUCyS
- HI1dDQl9p8vz0qbiOgylFCPyA8m8KZvo6ZJcz83gjXylzINfyPcDJwvouTIjW9GWhbnL
- pne2xlJ2SMskY7MrKyocpsQPcJ8vtJo/M3AC1ApiFe5e2s8eRgGaQbJhXi9oi70tFFHt
- uIaZsdAE7MmdNyDm8Rfo8X5iCTxp1XQSyEgOAgVOEix/qDeFy8BtrZtwL8kz74ucys/J
- s5aFc5Fx+GdNVUIOH72h82My4wMahEZQeJu5yoXykU9imAFlI/dFrh66+vexwun35wpB
- n34Q==
-X-Gm-Message-State: AOAM531rZAP6NEvJHz+zvURyXeEUkLWAcp0HlCiX6TJD/lY5Q+mUlIcl
- 1ehnFX16i0QWBEggSQbVagpNwzxZOabxI4Kx
-X-Google-Smtp-Source: ABdhPJzS5nnNZmnBPoLSHigjLtMtK1kqwuiTtF0gjPKzzo9y44ORq5fuSWg/zUVYgY0bAL0TGN8ewA==
-X-Received: by 2002:adf:90f0:: with SMTP id i103mr9400669wri.318.1619252548421; 
- Sat, 24 Apr 2021 01:22:28 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pzs9+l9dZGVv7oIFa2Vm2mSZNmaiUp4olXqSAZ7yZrA=;
+ b=suk2IhHiSsdMhOkR9G5TuRnN8Z7XzHwcCEC4jY1thGRGgEHn6v+Xa2RHWUm0pjyIQj
+ fen2XnS8owQN+54rMzp6Jqjae6omvzr+sHS2Q18PfM73RVXb3p/KwKOZgbS8i97pAyyO
+ AOVWto1WJFxywnI/iXDeVpdvaUcSozIoDYublKrTD9AjqvXzumh0+HF1sJmZWJyUt5qG
+ fWwhYEGTodpPTuIXZIQu1EGie7RGVXNX8nJFKgQ1OLD9pSLgzLkXRlqPtqrigpJ8eiu/
+ fV0gv5kLkZ5HvTtQCnqFSv0MnNiJpG7mYBI3Zqx1jHiRJiRLymKXhQU+U0/g/eLdY+vd
+ qJOA==
+X-Gm-Message-State: AOAM5302OeVTkevQI6hobTYTAVsQapRPhJ5jvNEkdovfzg77ujGrem0z
+ IobsbMp4sKSemD4e/GSh3XNcDqh9ENyYEB1E
+X-Google-Smtp-Source: ABdhPJzDATLhO04D2rECmDadeEf0pmzAfgZUYDoFelIy14Cg4Bs9770Atu3yhcYouSaJmDypHj/sbw==
+X-Received: by 2002:adf:bbd2:: with SMTP id z18mr9585497wrg.274.1619252613880; 
+ Sat, 24 Apr 2021 01:23:33 -0700 (PDT)
 Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id b15sm11912729wrt.57.2021.04.24.01.22.27
+ by smtp.gmail.com with ESMTPSA id t20sm12653870wmi.35.2021.04.24.01.23.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Apr 2021 01:22:27 -0700 (PDT)
-Date: Sat, 24 Apr 2021 05:22:21 -0300
+ Sat, 24 Apr 2021 01:23:33 -0700 (PDT)
+Date: Sat, 24 Apr 2021 05:23:27 -0300
 From: Melissa Wen <melissa.srw@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 0/4] drm/vkms: add overlay plane support
-Message-ID: <cover.1619250933.git.melissa.srw@gmail.com>
+Subject: [PATCH v4 1/4] drm/vkms: init plane using drmm_universal_plane_alloc
+Message-ID: <3bbdabed0274d2d0917d1b829dd16f13d7b495f5.1619250933.git.melissa.srw@gmail.com>
+References: <cover.1619250933.git.melissa.srw@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <cover.1619250933.git.melissa.srw@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,62 +75,151 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding support to overlay type in addition to primary and cursor plane.
-The planes composition relies on the z order of the active planes and
-only occurs if there is a primary plane (as in the current behavior).
+By using drmm_universal_plane_alloc instead of
+drm_universal_plane_init, we let the DRM infrastructure handles
+resource allocation and cleanup. We can also get rid of some
+code repetitions for plane cleanup, improving code maintainability
+in vkms.
 
-The first patch switches the function of initializing planes from
-drm_universal_plane_init to drmm_universal_plane_alloc. It aims to
-improve aspects of allocation and cleanup operations, leaving it to the
-DRM infrastructure.
+Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/vkms/vkms_drv.h    |  8 ++++++--
+ drivers/gpu/drm/vkms/vkms_output.c | 19 +++++--------------
+ drivers/gpu/drm/vkms/vkms_plane.c  | 29 +++++++++++------------------
+ 3 files changed, 22 insertions(+), 34 deletions(-)
 
-The second patch generalizes variables and functions names to refer to
-any kind of plane, not only cursor. The goal is to reuse them for
-blending overlay and cursor planes to primary.
-
-The third patch enables the plane composition to select a pixel blend
-operation according to the plane format (XRGB8888 or ARGB8888).
-
-The last patch creates a module option to enable overlay, and includes
-overlay to supported types of plane. When the overlay option is enabled,
-one overlay plane is initialized (plus primary and cursor) and it is
-included in the planes composition.
-
-This work preserves the current results of IGT tests: kms_cursor_crc;
-kms_flip and kms_writeback. In addition, subtests related to overlay in
-kms_atomic and kms_plane_cursor start to pass (pointed out in the commit
-message).
-
-v2:
-
-- Drop unnecessary changes that init crtc without cursor (Daniel)
-- Replace function to initialize planes (Daniel)
-- Add proper pixel blending op according to the plane format (Daniel)
-
-v3:
-
-- Proper use of the variable funcs (kernel bot)
-- Adjust the patch series format
-
-v4:
-- use better names for functions of plane composition (Daniel)
-- clear alpha channel (0xff) after blend color values by pixel
-- improve comments on blend ops to reflect the current state
-- describe in the commit message future improvements for plane composition
-
-Melissa Wen (4):
-  drm/vkms: init plane using drmm_universal_plane_alloc
-  drm/vkms: rename cursor to plane on ops of planes composition
-  drm/vkms: add XRGB planes composition
-  drm/vkms: add overlay support
-
- drivers/gpu/drm/vkms/vkms_composer.c | 104 ++++++++++++++++++---------
- drivers/gpu/drm/vkms/vkms_drv.c      |   5 ++
- drivers/gpu/drm/vkms/vkms_drv.h      |   9 ++-
- drivers/gpu/drm/vkms/vkms_output.c   |  28 ++++----
- drivers/gpu/drm/vkms/vkms_plane.c    |  51 ++++++-------
- 5 files changed, 125 insertions(+), 72 deletions(-)
-
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 35540c7c4416..70fb79621617 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -37,6 +37,10 @@ struct vkms_plane_state {
+ 	struct vkms_composer *composer;
+ };
+ 
++struct vkms_plane {
++	struct drm_plane base;
++};
++
+ /**
+  * vkms_crtc_state - Driver specific CRTC state
+  * @base: base CRTC state
+@@ -114,8 +118,8 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+ 
+ int vkms_output_init(struct vkms_device *vkmsdev, int index);
+ 
+-struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+-				  enum drm_plane_type type, int index);
++struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
++				   enum drm_plane_type type, int index);
+ 
+ /* CRC Support */
+ const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index f5f6f15c362c..6979fbc7f821 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -39,7 +39,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	struct drm_connector *connector = &output->connector;
+ 	struct drm_encoder *encoder = &output->encoder;
+ 	struct drm_crtc *crtc = &output->crtc;
+-	struct drm_plane *primary, *cursor = NULL;
++	struct vkms_plane *primary, *cursor = NULL;
+ 	int ret;
+ 	int writeback;
+ 
+@@ -49,15 +49,13 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 
+ 	if (vkmsdev->config->cursor) {
+ 		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+-		if (IS_ERR(cursor)) {
+-			ret = PTR_ERR(cursor);
+-			goto err_cursor;
+-		}
++		if (IS_ERR(cursor))
++			return PTR_ERR(cursor);
+ 	}
+ 
+-	ret = vkms_crtc_init(dev, crtc, primary, cursor);
++	ret = vkms_crtc_init(dev, crtc, &primary->base, &cursor->base);
+ 	if (ret)
+-		goto err_crtc;
++		return ret;
+ 
+ 	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
+ 				 DRM_MODE_CONNECTOR_VIRTUAL);
+@@ -100,12 +98,5 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ err_connector:
+ 	drm_crtc_cleanup(crtc);
+ 
+-err_crtc:
+-	if (vkmsdev->config->cursor)
+-		drm_plane_cleanup(cursor);
+-
+-err_cursor:
+-	drm_plane_cleanup(primary);
+-
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index 6d310d31b75d..135140f8e87a 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -86,7 +86,6 @@ static void vkms_plane_reset(struct drm_plane *plane)
+ static const struct drm_plane_funcs vkms_plane_funcs = {
+ 	.update_plane		= drm_atomic_helper_update_plane,
+ 	.disable_plane		= drm_atomic_helper_disable_plane,
+-	.destroy		= drm_plane_cleanup,
+ 	.reset			= vkms_plane_reset,
+ 	.atomic_duplicate_state = vkms_plane_duplicate_state,
+ 	.atomic_destroy_state	= vkms_plane_destroy_state,
+@@ -191,18 +190,14 @@ static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
+ 	.cleanup_fb		= vkms_cleanup_fb,
+ };
+ 
+-struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+-				  enum drm_plane_type type, int index)
++struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
++				   enum drm_plane_type type, int index)
+ {
+ 	struct drm_device *dev = &vkmsdev->drm;
+ 	const struct drm_plane_helper_funcs *funcs;
+-	struct drm_plane *plane;
++	struct vkms_plane *plane;
+ 	const u32 *formats;
+-	int ret, nformats;
+-
+-	plane = kzalloc(sizeof(*plane), GFP_KERNEL);
+-	if (!plane)
+-		return ERR_PTR(-ENOMEM);
++	int nformats;
+ 
+ 	if (type == DRM_PLANE_TYPE_CURSOR) {
+ 		formats = vkms_cursor_formats;
+@@ -214,16 +209,14 @@ struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+ 		funcs = &vkms_primary_helper_funcs;
+ 	}
+ 
+-	ret = drm_universal_plane_init(dev, plane, 1 << index,
+-				       &vkms_plane_funcs,
+-				       formats, nformats,
+-				       NULL, type, NULL);
+-	if (ret) {
+-		kfree(plane);
+-		return ERR_PTR(ret);
+-	}
++	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
++					   &vkms_plane_funcs,
++					   formats, nformats,
++					   NULL, type, NULL);
++	if (IS_ERR(plane))
++		return plane;
+ 
+-	drm_plane_helper_add(plane, funcs);
++	drm_plane_helper_add(&plane->base, funcs);
+ 
+ 	return plane;
+ }
 -- 
 2.30.2
 
