@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD4336A37A
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Apr 2021 00:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A3136A43E
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Apr 2021 04:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA956E321;
-	Sat, 24 Apr 2021 22:19:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC3386E44F;
+	Sun, 25 Apr 2021 02:50:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E18406E321
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Apr 2021 22:19:06 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id l4so78814478ejc.10
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Apr 2021 15:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CNbQioG3qs9D9OD75FT58Wt8V8Q+f0usZXn7Mlw1T00=;
- b=dutWPL1lmY20INeIjwre/cBIbiaNwWZnrDZOcfBloksKj/qwutiAZNL/runJriVpvQ
- 1oyKXw0RiPYWRssPOc3Rdkz9gDovIEqbNYw00DGxAaqyEWEMqu6fdS8JTdmHzyU7qSes
- kTh+UtHxXA/eUL1eXuS8FwlFte6ZU29/rdlll/rqlL7EHJA6LHaQY1vlo/9tRvdUG5Iu
- 72rFCrU9udp5NrTluio2HGWK8V82umYCt1xqwG5aDbhnL5MVW6zVK2wPElhcuSdRRQZ3
- ZNsZL9519xvna0Pr6Ai57S9G6VtyWATF907vOSMs4ebUyxM1XQn4zkNF0slWexh7MjIG
- lmOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CNbQioG3qs9D9OD75FT58Wt8V8Q+f0usZXn7Mlw1T00=;
- b=ZcYmBPdO04iEHe/wWN7zgSM8WnXmKaaCzjLcTemjPeQNgyCH60oekecPRE7CE10T3A
- njkKrJ935k2TLAZHfxnwd2ZndAS4xu4YvDqFtK7BrAjyKSjntm8kzQGxtSwmhyDnw0VD
- h51xDvT+eA0MBh2gghjqfn82JZ+T46SwbyT2E51SCKqB6WGRLe6x+3tjb+H/heGg69uS
- DGiNL9yCQrBqKccb1htYR8QXSfru2jLNHZosOeFAu2pMfEcPfTy1dThhdPgzOgEdMbGJ
- kSq/Gvncgh4Fry0iMDbhDbies/M2m1V5dx1B70MrO2txv1AEuF01dl9GJ9MLq/t5+XGY
- 2pCA==
-X-Gm-Message-State: AOAM530NPNqPfrM840NnUxfKr8t90mWh9S75uzRO8a318BuTfEet9mjm
- B+TFPlT9FOJKoILbsmf71Mc=
-X-Google-Smtp-Source: ABdhPJxHRRNKyJYMP1wXxSZMdp57bDHTqGgcd7KZX+6Tok+M3UIGUHLV4fL3sVq7IbpAiYKobYkq8g==
-X-Received: by 2002:a17:906:c099:: with SMTP id
- f25mr10653101ejz.499.1619302745368; 
- Sat, 24 Apr 2021 15:19:05 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it.
- [79.52.107.152])
- by smtp.gmail.com with ESMTPSA id f19sm10034174edu.12.2021.04.24.15.19.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Apr 2021 15:19:04 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com, dri-devel@lists.freedesktop.org,
- Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/amd/pm/powerplay/hwmgr: Fix kernel-doc syntax in
- documentation
-Date: Sun, 25 Apr 2021 00:19:00 +0200
-Message-Id: <20210424221900.9725-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABDCA6E44F
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Apr 2021 02:50:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id D606461494
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Apr 2021 02:50:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619319022;
+ bh=CIllmY6Jm8/CkV9zbJ4tTZhEFTsFo6xGm9dH7oEOSEo=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=TEBwuNw2+PJ3DMAVYRidODNpRs1I5Yqfu9ztI32FPZpS2S7Dwo/4QDHmk88rkyZen
+ edZgHtTi7220ytdtqDJpZJ+JePgklZEA+YS4UpK5TZS5iI03/RdMg4IYsBGP624r1i
+ pi/6Q/JTq9x73ctOYuvEbSvD1865Oy10Yvs/2MmQpYCR45Y0dv/7hevKYlYtHNAZvJ
+ Q5lBTJAM01+DmKClUkByY/bmigCUF7SAs5PVt3i5AXQr1pkzUOoca3VZKKJ9X+FYpX
+ mRMbu1zIZ+sqfWYPdlK32niJjUC+o1I/n0uzE3qk1L733ivXTTRpOq09H8/CSc1UGK
+ d7lCvPJ6zF7gA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id CF95761156; Sun, 25 Apr 2021 02:50:22 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
+ 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
+Date: Sun, 25 Apr 2021 02:50:22 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: naon@disroot.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211807-2300-kCtENfOcCW@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
+References: <bug-211807-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,65 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixed kernel-doc syntax errors in documentation of functions.
+https://bugzilla.kernel.org/show_bug.cgi?id=211807
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+naon@disroot.org changed:
 
-Changes from v1: Reword both the subject and the log message
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |naon@disroot.org
 
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--- Comment #1 from naon@disroot.org ---
+I have just discovered after months of searching that I recieve this same
+error. I have a desktop computer than uses both a AMD WX3100 and a AMD RX570.
+When I turn off my monitor connected to either of my graphics cards (an
+effective hotplug), then turn my monitor back on, I recieve the error
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c
-index b1038d30c8dc..f503e61faa60 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c
-@@ -275,7 +275,7 @@ static const ATOM_VOLTAGE_OBJECT_V3 *atomctrl_lookup_voltage_type_v3(
- }
- 
- /**
-- * atomctrl_get_memory_pll_dividers_si().
-+ * atomctrl_get_memory_pll_dividers_si
-  *
-  * @hwmgr:           input parameter: pointer to HwMgr
-  * @clock_value:     input parameter: memory clock
-@@ -328,7 +328,7 @@ int atomctrl_get_memory_pll_dividers_si(
- }
- 
- /**
-- * atomctrl_get_memory_pll_dividers_vi().
-+ * atomctrl_get_memory_pll_dividers_vi
-  *
-  * @hwmgr:                 input parameter: pointer to HwMgr
-  * @clock_value:           input parameter: memory clock
-@@ -1104,7 +1104,7 @@ int atomctrl_calculate_voltage_evv_on_sclk(
- }
- 
- /**
-- * atomctrl_get_voltage_evv_on_sclk gets voltage via call to ATOM COMMAND table.
-+ * atomctrl_get_voltage_evv_on_sclk: gets voltage via call to ATOM COMMAND table.
-  * @hwmgr:              input: pointer to hwManager
-  * @voltage_type:       input: type of EVV voltage VDDC or VDDGFX
-  * @sclk:               input: in 10Khz unit. DPM state SCLK frequency
-@@ -1144,7 +1144,7 @@ int atomctrl_get_voltage_evv_on_sclk(
- }
- 
- /**
-- * atomctrl_get_voltage_evv gets voltage via call to ATOM COMMAND table.
-+ * atomctrl_get_voltage_evv: gets voltage via call to ATOM COMMAND table.
-  * @hwmgr:              input: pointer to hwManager
-  * @virtual_voltage_id: input: voltage id which match per voltage DPM state: 0xff01, 0xff02.. 0xff08
-  * @voltage: 	       output: real voltage level in unit of mv
+[drm:drm_dp_mst_dpcd_read [drm_kms_helper]] *ERROR* mstb 000000008ff61da7 port
+8: DPCD read on addr 0x60 for 1 bytes NAKed
+
+xorg crashes, I recieve the message
+
+[drm:drm_dp_check_act_status [drm_kms_helper]] *ERROR* Failed to get ACT after
+3000ms, last status: 01
+
+and it takes up to 40 seconds for display of the vt to resume. The longer the
+monitor remains off, the higher the chance that display of the vt will never
+resume after the monitor is turned on, needing a hard restart. This error has
+persisted for about 3 months, ever since i've first installed linux on this
+computer, on every kernel variation and build I have tried to date. Currently
+reproduceable on 5.11.16.
+
 -- 
-2.31.1
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
