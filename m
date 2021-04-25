@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D4E36A46D
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Apr 2021 05:42:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B367236A58E
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Apr 2021 09:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E006D6E479;
-	Sun, 25 Apr 2021 03:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D39FA6E0F6;
+	Sun, 25 Apr 2021 07:34:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD396E471;
- Sun, 25 Apr 2021 03:42:17 +0000 (UTC)
-IronPort-SDR: M5Fh93PvTcXNvPeUaMXlOHXYdnGeNV0/Cr9bwHLApIwABYSeZ+c+qAKnvZ92wIciNtzKxw2AUA
- rLKspsCsa9lA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9964"; a="196321350"
-X-IronPort-AV: E=Sophos;i="5.82,249,1613462400"; 
- d="asc'?scan'208";a="196321350"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2021 20:42:15 -0700
-IronPort-SDR: QY+nLf0PEWY6cNSFN4RpP9DwEuiGKVLwBwo6DaVrQ0Rl8wa1eRn/mnEEQu87wF/AN5Gzv8NFap
- rq3xkJNGEjXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,249,1613462400"; 
- d="asc'?scan'208";a="453924991"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
- by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2021 20:42:11 -0700
-Date: Sun, 25 Apr 2021 11:23:56 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH] vfio/gvt: fix DRM_I915_GVT dependency on VFIO_MDEV
-Message-ID: <20210425032356.GH1551@zhen-hp.sh.intel.com>
-References: <20210422133547.1861063-1-arnd@kernel.org>
- <20210422135810.GG2047089@ziepe.ca>
- <20210423035426.GG1551@zhen-hp.sh.intel.com>
- <20210423120709.GH2047089@ziepe.ca>
- <20210423092009.45fb4567@redhat.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA8FC6E0F6
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Apr 2021 07:34:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D18D961245;
+ Sun, 25 Apr 2021 07:34:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619336046;
+ bh=WCsSHB91cvmf5ZeAXu+txZXJ3S/cP/GNMzA77rjuNbE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=q1XswQI3mxMpGcDvpMyZljYfgw5fSLCE1OaoEPKuANpgRNF/l1ND6Se160hAmXY2V
+ WXsK309I7CYtICtk/SZ1nvEJRBpn1+vyAb/P6rKYKnqt7swUW4G1LM16V7f3Ki5hGL
+ 6jIWwzqr2Uat6+NgotfFX1qhL914GSyag3QNQK8d6Fq1ux1vwZjFNqhCT53YkaLdTE
+ TS2qfTejBqCr4vVDIHrt8whLwMVintjtCjDUVJJmyRNx/cBFyrNVGMPw+2ZKkhqhxJ
+ c/I7P/Zd+iGUvrgWXjnwivWQGUZ9oTtanEw8H5/Digtge9jnfpQm/dvW+lGWyo3VLQ
+ i6HJsRhSlKs+g==
+Date: Sun, 25 Apr 2021 10:33:57 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Peter.Enderborg@sony.com
+Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Message-ID: <YIUbZWm+jW21vYJ9@kernel.org>
+References: <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
+ <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
+ <YH63iPzbGWzb676T@phenom.ffwll.local>
+ <a60d1eaf-f9f8-e0f3-d214-15ce2c0635c2@sony.com>
+ <YH/tHFBtIawBfGBl@phenom.ffwll.local>
+ <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
+ <YIBFbh4Dd1XaDbto@kernel.org>
+ <84e0c6d9-74c6-5fa8-f75a-45c8ec995ac2@sony.com>
+ <YIEugg9RIVSReN97@kernel.org>
+ <ae091d3d-623b-ce18-e0f2-1591be6db83e@sony.com>
 MIME-Version: 1.0
-In-Reply-To: <20210423092009.45fb4567@redhat.com>
+Content-Disposition: inline
+In-Reply-To: <ae091d3d-623b-ce18-e0f2-1591be6db83e@sony.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,118 +54,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Kevin Tian <kevin.tian@intel.com>,
- Cornelia Huck <cohuck@redhat.com>, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Content-Type: multipart/mixed; boundary="===============0449114256=="
+Cc: mhocko@suse.com, neilb@suse.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, adobriyan@gmail.com,
+ linaro-mm-sig@lists.linaro.org, shakeelb@google.com, willy@infradead.org,
+ samitolvanen@google.com, songmuchun@bytedance.com,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ christian.koenig@amd.com, guro@fb.com, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Apr 22, 2021 at 02:08:51PM +0000, Peter.Enderborg@sony.com wrote:
+> On 4/22/21 10:06 AM, Mike Rapoport wrote:
+> > So the flow is like this:
+> >
+> > * a user has a problem and reports it to an application developer; at b=
+est
+> >   the user runs simple and limited app to collect some data
+> > * if the application developer considers this issue as a system related
+> >   they can open adb and collect some more information about the system
+> >   using non-root shell with selinux policy restrictions and send this
+> >   information to the device manufacturer.
+> > * the manufacturer continues to debug the issue and at this point as mu=
+ch
+> >   information is possible would have been useful.
+> >
+> > In this flow I still fail to understand why the manufacturer cannot pro=
+vide
+> > userspace tools that will be able to collect the required information.
+> > These tools not necessarily need to target the end user, they may be on=
+ly
+> > intended for the application developers, e.g. policy could allow such t=
+ool
+> > to access some of the system data only when the system is in developer
+> > mode.
+> >
+> The manufacture is trying to get the tool to work. This is what the
+> patch is about. Even for a application developer a commercial
+> phone is locked down.
 
---===============0449114256==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="HSHpc5A+GJc9BHcd"
-Content-Disposition: inline
+Right, but it's still in full control of the manufacturer what's flashed
+there, isn't it?
+So there could be some tools that are only available in the developer mode?
+These tools could have different permissions etc.
 
+> Many vendors allow that you flash some other software like a AOSP.=A0 But
+> that can be very different. Like installing a ubuntu on a PC to debug a
+> Fedora issue.
+> =
 
---HSHpc5A+GJc9BHcd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> And sure we can pickup parts of what using the dma-buf. But
+> we can not get the total and be sure that is the total without a
+> proper counter.
 
-On 2021.04.23 09:20:09 -0600, Alex Williamson wrote:
-> On Fri, 23 Apr 2021 09:07:09 -0300
-> Jason Gunthorpe <jgg@ziepe.ca> wrote:
->=20
-> > On Fri, Apr 23, 2021 at 11:54:26AM +0800, Zhenyu Wang wrote:
-> > > On 2021.04.22 10:58:10 -0300, Jason Gunthorpe wrote: =20
-> > > > On Thu, Apr 22, 2021 at 03:35:33PM +0200, Arnd Bergmann wrote: =20
-> > > > > From: Arnd Bergmann <arnd@arndb.de>
-> > > > >=20
-> > > > > The Kconfig dependency is incomplete since DRM_I915_GVT is a 'boo=
-l'
-> > > > > symbol that depends on the 'tristate' VFIO_MDEV. This allows a
-> > > > > configuration with VFIO_MDEV=3Dm, DRM_I915_GVT=3Dy and DRM_I915=
-=3Dy that
-> > > > > causes a link failure:
-> > > > >=20
-> > > > > x86_64-linux-ld: drivers/gpu/drm/i915/gvt/gvt.o: in function `ava=
-ilable_instances_show':
-> > > > > gvt.c:(.text+0x67a): undefined reference to `mtype_get_parent_dev'
-> > > > > x86_64-linux-ld: gvt.c:(.text+0x6a5): undefined reference to `mty=
-pe_get_type_group_id'
-> > > > > x86_64-linux-ld: drivers/gpu/drm/i915/gvt/gvt.o: in function `des=
-cription_show':
-> > > > > gvt.c:(.text+0x76e): undefined reference to `mtype_get_parent_dev'
-> > > > > x86_64-linux-ld: gvt.c:(.text+0x799): undefined reference to `mty=
-pe_get_type_group_id'
-> > > > >=20
-> > > > > Clarify the dependency by specifically disallowing the broken
-> > > > > configuration. If VFIO_MDEV is built-in, it will work, but if
-> > > > > VFIO_MDEV=3Dm, the i915 driver cannot be built-in here.
-> > > > >=20
-> > > > > Fixes: 07e543f4f9d1 ("vfio/gvt: Make DRM_I915_GVT depend on VFIO_=
-MDEV")
-> > > > > Fixes: 9169cff168ff ("vfio/mdev: Correct the function signatures =
-for the mdev_type_attributes")
-> > > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > > > >  drivers/gpu/drm/i915/Kconfig | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-) =20
-> > > >=20
-> > > > Oh kconfig stuff like this makes my head hurt, thanks for finding it
-> > > >=20
-> > > > I also can't see an alternative to this ugly thing, besides having =
-the
-> > > > i915 guys properly modularize this code someday
-> > > >=20
-> > > > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > >  =20
-> > >=20
-> > > I don't really want this mess to propagate further. We should move
-> > > mdev related stuff to kvmgt module instead, so not pretend any more to
-> > > possibly use that for other hypervisor..
-> > >=20
-> > > Sorry that I didn't realize this issue when Jason proposed this. Let
-> > > me do the left cleanup. =20
-> >=20
-> > It would be good, but Alex should still take this patch for the
-> > upcoming merge window, you can revert it when you do all the cleanups
->=20
-> I can include it, but I'll wait for confirmation from Zhenyu.  Thanks,
->=20
+If I understand you correctly, a user space tool that scans fdinfo and
+accumulates dma-buf size from there is not accurate enough, that's why an
+atomic counter exposed by kernel is a must.
 
-I'm ok with this, future cleanup fixes would still go through i915 pull,
-it only lefts for some tests, will send that for next kernel.
+But if the changes in consumption of dma-bufs are that frequent, I cannot
+see how a global counter will help to identify an issue.
 
-Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+And if this counter is needed to see if there is a memory leak, summing
+sizes of dma-bufs from fdinfo will identify a leak.
 
-thanks
+What am I missing?
 
---HSHpc5A+GJc9BHcd
-Content-Type: application/pgp-signature; name="signature.asc"
+-- =
 
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYITgxwAKCRCxBBozTXgY
-J2T7AJ9yDlnQ6y9aVF3WKqEHYjs1IkyqqgCeNScoYKrtNTN0zqHTDzyDwpsQZZ4=
-=gRew
------END PGP SIGNATURE-----
-
---HSHpc5A+GJc9BHcd--
-
---===============0449114256==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Sincerely yours,
+Mike.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0449114256==--
