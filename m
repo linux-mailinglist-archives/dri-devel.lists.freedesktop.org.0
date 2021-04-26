@@ -2,31 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221E736B1DA
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 12:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E564336B1DE
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 12:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE85F6E1B8;
-	Mon, 26 Apr 2021 10:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14E5F6E216;
+	Mon, 26 Apr 2021 10:50:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB3F6E1B8;
- Mon, 26 Apr 2021 10:50:11 +0000 (UTC)
-Received: from 1-171-221-133.dynamic-ip.hinet.net ([1.171.221.133]
- helo=localhost) by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <kai.heng.feng@canonical.com>)
- id 1layoa-0008C2-78; Mon, 26 Apr 2021 10:50:09 +0000
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: alexander.deucher@amd.com,
-	christian.koenig@amd.com
-Subject: [PATCH v2] drm/amdgpu: Register VGA clients after init can no longer
- fail
-Date: Mon, 26 Apr 2021 18:50:00 +0800
-Message-Id: <20210426105002.332935-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 046C56E216
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 10:50:29 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id x20so57281030lfu.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 03:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=liqi5FsD5cM7tPT6eP/6jHy/oHunqM3YiydXA1FG9JU=;
+ b=fsY8FjuXVfrZqSYjgY+KhyBZOxGtxHfbsf8hcDVWjb0dQrPICp8mER6gkpbptMsLGH
+ +073LRhLww1IKpugbUFN4satcakNyI+HAyXjee+TEtWxRJlbCbGvfOn1ik5oWP6KLAnQ
+ KYWwywBbG8a2bagpv77HPAvFrDs6G4GPbGa++gxsOdoTuWOCcZJyKhQVCMzUEJtyFPEQ
+ 5HwrSJF4YXjY5Y7QfZ/ywqurOW/dDl/wdcEmYomCbWe3ti9KkClxhhH3/45zYlIqYVw2
+ 3aVp/OhZVtWjj4wrQ9cTB3B4h6McW4WWQJ+YP/5kaewlXX46di7ODZBa+qSY8EoUlMYm
+ vv0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=liqi5FsD5cM7tPT6eP/6jHy/oHunqM3YiydXA1FG9JU=;
+ b=SzWLNavi4XwX+/xEcdAhvxBamatJpYRt5edmD0lfRpHp32YXAPF24RLwziCGDHjYVX
+ foG+7LeTzW+cPxsMvsQxNaKQwrrBvmr3pxYBvWFHmwVjG89jR2Fb2gsmqCvO/fQfLgYS
+ iaAkSpKzbgGsOQrnFCMVXhg7DMUxXqFztcgCB4CWoc5eVw+AYG4SmoCOpETqqA3eIpAl
+ DRf44Pd1rZWhaTAsIj5lEwyQ839khVEJujT/1QS+a7JIeFvUAK+kvuunOcUDo2zxHmOZ
+ 7DufV1n7TDglkNHbqqYfpjbpj8+m3Wwkw1hlU5CkXzKWbVYoESsem/P5BhgVdi69xmEJ
+ K9Ow==
+X-Gm-Message-State: AOAM530y92mHV/gpGo9EKSaesF1fJz1of9lvmLv2LUyhneGWqQw0IzOf
+ rgyBSoBcEUkYEpCB4fh6EPcgvglhrkMIvz0mKS8=
+X-Google-Smtp-Source: ABdhPJxXaBli/4qy+O0K4m6qEGRvea6p7H65wZvL/NayD+TIB0Hroj4rg+AyWGGctaA+tLotR0jxc6yshTALvk6n150=
+X-Received: by 2002:a05:6512:131c:: with SMTP id
+ x28mr12328260lfu.638.1619434227251; 
+ Mon, 26 Apr 2021 03:50:27 -0700 (PDT)
 MIME-Version: 1.0
+References: <1619421491-31494-1-git-send-email-u0084500@gmail.com>
+ <1619421491-31494-4-git-send-email-u0084500@gmail.com>
+ <20210426101955.uvuzzsiig27xyuxc@maple.lan>
+In-Reply-To: <20210426101955.uvuzzsiig27xyuxc@maple.lan>
+From: ChiYuan Huang <u0084500@gmail.com>
+Date: Mon, 26 Apr 2021 18:50:15 +0800
+Message-ID: <CADiBU39F8+GM4z7xJPpDVS7riPGi02BrurvMmnHMEPeKBQJ_tg@mail.gmail.com>
+Subject: Re: [RESEND PATCH v6 4/4] backlight: rt4831: Adds support for Richtek
+ RT4831 backlight
+To: Daniel Thompson <daniel.thompson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,142 +65,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Huang Rui <ray.huang@amd.com>, open list <linux-kernel@vger.kernel.org>,
- Wenhui Sheng <Wenhui.Sheng@amd.com>, shaoyunl <shaoyun.liu@amd.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- Evan Quan <evan.quan@amd.com>, Dennis Li <Dennis.Li@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ b.zolnierkie@samsung.com, jingoohan1@gmail.com, lgirdwood@gmail.com,
+ Rob Herring <robh+dt@kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+ cy_huang <cy_huang@richtek.com>, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When an amdgpu device fails to init, it makes another VGA device cause
-kernel splat:
-kernel: amdgpu 0000:08:00.0: amdgpu: amdgpu_device_ip_init failed
-kernel: amdgpu 0000:08:00.0: amdgpu: Fatal error during GPU init
-kernel: amdgpu: probe of 0000:08:00.0 failed with error -110
-...
-kernel: amdgpu 0000:01:00.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=none:owns=none
-kernel: BUG: kernel NULL pointer dereference, address: 0000000000000018
-kernel: #PF: supervisor read access in kernel mode
-kernel: #PF: error_code(0x0000) - not-present page
-kernel: PGD 0 P4D 0
-kernel: Oops: 0000 [#1] SMP NOPTI
-kernel: CPU: 6 PID: 1080 Comm: Xorg Tainted: G        W         5.12.0-rc8+ #12
-kernel: Hardware name: HP HP EliteDesk 805 G6/872B, BIOS S09 Ver. 02.02.00 12/30/2020
-kernel: RIP: 0010:amdgpu_device_vga_set_decode+0x13/0x30 [amdgpu]
-kernel: Code: 06 31 c0 c3 b8 ea ff ff ff 5d c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 0f 1f 44 00 00 55 48 8b 87 90 06 00 00 48 89 e5 53 89 f3 <48> 8b 40 18 40 0f b6 f6 e8 40 58 39 fd 80 fb 01 5b 5d 19 c0 83 e0
-kernel: RSP: 0018:ffffae3c0246bd68 EFLAGS: 00010002
-kernel: RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-kernel: RDX: ffff8dd1af5a8560 RSI: 0000000000000000 RDI: ffff8dce8c160000
-kernel: RBP: ffffae3c0246bd70 R08: ffff8dd1af5985c0 R09: ffffae3c0246ba38
-kernel: R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000246
-kernel: R13: 0000000000000000 R14: 0000000000000003 R15: ffff8dce81490000
-kernel: FS:  00007f9303d8fa40(0000) GS:ffff8dd1af580000(0000) knlGS:0000000000000000
-kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-kernel: CR2: 0000000000000018 CR3: 0000000103cfa000 CR4: 0000000000350ee0
-kernel: Call Trace:
-kernel:  vga_arbiter_notify_clients.part.0+0x4a/0x80
-kernel:  vga_get+0x17f/0x1c0
-kernel:  vga_arb_write+0x121/0x6a0
-kernel:  ? apparmor_file_permission+0x1c/0x20
-kernel:  ? security_file_permission+0x30/0x180
-kernel:  vfs_write+0xca/0x280
-kernel:  ksys_write+0x67/0xe0
-kernel:  __x64_sys_write+0x1a/0x20
-kernel:  do_syscall_64+0x38/0x90
-kernel:  entry_SYSCALL_64_after_hwframe+0x44/0xae
-kernel: RIP: 0033:0x7f93041e02f7
-kernel: Code: 75 05 48 83 c4 58 c3 e8 f7 33 ff ff 0f 1f 80 00 00 00 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
-kernel: RSP: 002b:00007fff60e49b28 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-kernel: RAX: ffffffffffffffda RBX: 000000000000000b RCX: 00007f93041e02f7
-kernel: RDX: 000000000000000b RSI: 00007fff60e49b40 RDI: 000000000000000f
-kernel: RBP: 00007fff60e49b40 R08: 00000000ffffffff R09: 00007fff60e499d0
-kernel: R10: 00007f93049350b5 R11: 0000000000000246 R12: 000056111d45e808
-kernel: R13: 0000000000000000 R14: 000056111d45e7f8 R15: 000056111d46c980
-kernel: Modules linked in: nls_iso8859_1 snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hwdep snd_hda_core snd_pcm snd_seq input_leds snd_seq_device snd_timer snd soundcore joydev kvm_amd serio_raw k10temp mac_hid hp_wmi ccp kvm sparse_keymap wmi_bmof ucsi_acpi efi_pstore typec_ucsi rapl typec video wmi sch_fq_codel parport_pc ppdev lp parport ip_tables x_tables autofs4 btrfs blake2b_generic zstd_compress raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx libcrc32c xor raid6_pq raid1 raid0 multipath linear dm_mirror dm_region_hash dm_log hid_generic usbhid hid amdgpu drm_ttm_helper ttm iommu_v2 gpu_sched i2c_algo_bit drm_kms_helper syscopyarea sysfillrect crct10dif_pclmul sysimgblt crc32_pclmul fb_sys_fops ghash_clmulni_intel cec rc_core aesni_intel crypto_simd psmouse cryptd r8169 i2c_piix4 drm ahci xhci_pci realtek libahci xhci_pci_renesas gpio_amdpt gpio_generic
-kernel: CR2: 0000000000000018
-kernel: ---[ end trace 76d04313d4214c51 ]---
-
-Commit 4192f7b57689 ("drm/amdgpu: unmap register bar on device init
-failure") makes amdgpu_driver_unload_kms() skips amdgpu_device_fini(),
-so the VGA clients remain registered. So when
-vga_arbiter_notify_clients() iterates over registered clients, it causes
-NULL pointer dereference.
-
-Since there's no reason to register VGA clients that early, so solve
-the issue by putting them after all the goto cleanups.
-
-v2:
- - Remove redundant vga_switcheroo cleanup in failed: label.
-
-Fixes: 4192f7b57689 ("drm/amdgpu: unmap register bar on device init failure")
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 28 ++++++++++------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index b4ad1c055c70..7d3b54615147 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3410,19 +3410,6 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	/* doorbell bar mapping and doorbell index init*/
- 	amdgpu_device_doorbell_init(adev);
- 
--	/* if we have > 1 VGA cards, then disable the amdgpu VGA resources */
--	/* this will fail for cards that aren't VGA class devices, just
--	 * ignore it */
--	if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
--		vga_client_register(adev->pdev, adev, NULL, amdgpu_device_vga_set_decode);
--
--	if (amdgpu_device_supports_px(ddev)) {
--		px = true;
--		vga_switcheroo_register_client(adev->pdev,
--					       &amdgpu_switcheroo_ops, px);
--		vga_switcheroo_init_domain_pm_ops(adev->dev, &adev->vga_pm_domain);
--	}
--
- 	if (amdgpu_emu_mode == 1) {
- 		/* post the asic on emulation mode */
- 		emu_soc_asic_init(adev);
-@@ -3619,6 +3606,19 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	if (amdgpu_device_cache_pci_state(adev->pdev))
- 		pci_restore_state(pdev);
- 
-+	/* if we have > 1 VGA cards, then disable the amdgpu VGA resources */
-+	/* this will fail for cards that aren't VGA class devices, just
-+	 * ignore it */
-+	if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
-+		vga_client_register(adev->pdev, adev, NULL, amdgpu_device_vga_set_decode);
-+
-+	if (amdgpu_device_supports_px(ddev)) {
-+		px = true;
-+		vga_switcheroo_register_client(adev->pdev,
-+					       &amdgpu_switcheroo_ops, px);
-+		vga_switcheroo_init_domain_pm_ops(adev->dev, &adev->vga_pm_domain);
-+	}
-+
- 	if (adev->gmc.xgmi.pending_reset)
- 		queue_delayed_work(system_wq, &mgpu_info.delayed_reset_work,
- 				   msecs_to_jiffies(AMDGPU_RESUME_MS));
-@@ -3630,8 +3630,6 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 
- failed:
- 	amdgpu_vf_error_trans_all(adev);
--	if (px)
--		vga_switcheroo_fini_domain_pm_ops(adev->dev);
- 
- failed_unmap:
- 	iounmap(adev->rmmio);
--- 
-2.30.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpEYW5pZWwgVGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3JnPiDmlrwgMjAy
+MeW5tDTmnIgyNuaXpSDpgLHkuIAg5LiL5Y2INjoxOeWvq+mBk++8mgo+Cj4gT24gTW9uLCBBcHIg
+MjYsIDIwMjEgYXQgMDM6MTg6MTFQTSArMDgwMCwgY3lfaHVhbmcgd3JvdGU6Cj4gPiBGcm9tOiBD
+aGlZdWFuIEh1YW5nIDxjeV9odWFuZ0ByaWNodGVrLmNvbT4KPiA+Cj4gPiBBZGRzIHN1cHBvcnQg
+Zm9yIFJpY2h0ZWsgUlQ0ODMxIGJhY2tsaWdodC4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBDaGlZ
+dWFuIEh1YW5nIDxjeV9odWFuZ0ByaWNodGVrLmNvbT4KPiA+IFJldmlld2VkLWJ5OiBEYW5pZWwg
+VGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3JnPgo+ID4gLS0tCj4gPiBSZXNlbmQg
+dGhpcyB2NiBwYXRjaCBzZXJpZXMgdG8gbG9vcCBkZXZpY2V0cmVlIHJldmlld2Vycy4KPiA+Cj4g
+PiBGb3IgbmV4dCwgaWYgdGhlIHR5cG8gaW4gS2NvbmZpZyAnY29tbW9uJyB0byAnY29tbW9ubHkn
+IGNhbiBiZSBhZGRlZCB0aGUgYmVsb3cgbGluZQo+ID4gUmV2aWV3ZWQtYnk6IERhbmllbCBUaG9t
+cHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+Cj4gPiAtLS0KPgo+IFRoaXMgaXNuJ3Qg
+dGhlIGJlc3Qgd2F5IHRvIGhhbmRsZSBmZWVkYmFjayBmcm9tIG11bHRpcGxlIG1haW50YWluZXJz
+Lgo+Cj4gSXQgaXMgZ3JlYXQgdG8gc2VlIHlvdSBhcmUga2VlcGluZyB0cmFjayBvZiBmZWVkYmFj
+ay4gSG93ZXZlciBpdCBkb2Vzbid0Cj4gbWFrZSBzZW5zZSB0byBSRVNFTkQgYW4gb2xkIHBhdGNo
+c2V0IGFuZCBhY2tub3dsZWRnZSB0aGF0IHlvdSBoYXZlbid0Cj4gZml4ZWQgYSB0eXBvIHlldC4K
+Pgo+IEl0IHdvdWxkIGJlIGJldHRlciB0byBmaXggdGhlIHR5cG8gYW5kIHRvIHJlc2VuZCBhIHY3
+Lgo+CllvdSBjYW4gcmVmZXIgdG8gdGhlIGJlbG93IHJlcGx5Cmh0dHBzOi8vbGttbC5vcmcvbGtt
+bC8yMDIxLzQvMjMvMjI5Cgo+Cj4gRGFuaWVsLgo+Cj4KPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2ts
+aWdodC9LY29uZmlnICAgICAgICAgICAgfCAgIDggKysKPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2ts
+aWdodC9NYWtlZmlsZSAgICAgICAgICAgfCAgIDEgKwo+ID4gIGRyaXZlcnMvdmlkZW8vYmFja2xp
+Z2h0L3J0NDgzMS1iYWNrbGlnaHQuYyB8IDIwMyArKysrKysrKysrKysrKysrKysrKysrKysrKysr
+Kwo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMjEyIGluc2VydGlvbnMoKykKPiA+ICBjcmVhdGUgbW9k
+ZSAxMDA2NDQgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcnQ0ODMxLWJhY2tsaWdodC5jCj4gPgo+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L0tjb25maWcgYi9kcml2ZXJz
+L3ZpZGVvL2JhY2tsaWdodC9LY29uZmlnCj4gPiBpbmRleCBkODNjODdiLi5kZTk2NDQxIDEwMDY0
+NAo+ID4gLS0tIGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvS2NvbmZpZwo+ID4gKysrIGIvZHJp
+dmVycy92aWRlby9iYWNrbGlnaHQvS2NvbmZpZwo+ID4gQEAgLTI4OSw2ICsyODksMTQgQEAgY29u
+ZmlnIEJBQ0tMSUdIVF9RQ09NX1dMRUQKPiA+ICAgICAgICAgSWYgeW91IGhhdmUgdGhlIFF1YWxj
+b21tIFBNSUMsIHNheSBZIHRvIGVuYWJsZSBhIGRyaXZlciBmb3IgdGhlCj4gPiAgICAgICAgIFdM
+RUQgYmxvY2suIEN1cnJlbnRseSBpdCBzdXBwb3J0cyBQTTg5NDEgYW5kIFBNSTg5OTguCj4gPgo+
+ID4gK2NvbmZpZyBCQUNLTElHSFRfUlQ0ODMxCj4gPiArICAgICB0cmlzdGF0ZSAiUmljaHRlayBS
+VDQ4MzEgQmFja2xpZ2h0IERyaXZlciIKPiA+ICsgICAgIGRlcGVuZHMgb24gTUZEX1JUNDgzMQo+
+ID4gKyAgICAgaGVscAo+ID4gKyAgICAgICBUaGlzIGVuYWJsZXMgc3VwcG9ydCBmb3IgUmljaHRl
+ayBSVDQ4MzEgQmFja2xpZ2h0IGRyaXZlci4KPiA+ICsgICAgICAgSXQncyBjb21tb24gdXNlZCB0
+byBkcml2ZSB0aGUgZGlzcGxheSBXTEVELiBUaGVyZSdyZSBmb3VyIGNoYW5uZWxzCj4gPiArICAg
+ICAgIGluaXNkZSwgYW5kIGVhY2ggY2hhbm5lbCBjYW4gcHJvdmlkZSB1cCB0byAzMG1BIGN1cnJl
+bnQuCj4gPiArCj4gPiAgY29uZmlnIEJBQ0tMSUdIVF9TQUhBUkEKPiA+ICAgICAgIHRyaXN0YXRl
+ICJUYWJsZXRraW9zayBTYWhhcmEgVG91Y2gtaVQgQmFja2xpZ2h0IERyaXZlciIKPiA+ICAgICAg
+IGRlcGVuZHMgb24gWDg2Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQv
+TWFrZWZpbGUgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9NYWtlZmlsZQo+ID4gaW5kZXggNjg1
+ZjNmMS4uY2FlMmM4MyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L01h
+a2VmaWxlCj4gPiArKysgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9NYWtlZmlsZQo+ID4gQEAg
+LTQ5LDYgKzQ5LDcgQEAgb2JqLSQoQ09ORklHX0JBQ0tMSUdIVF9QQU5ET1JBKSAgICAgICAgICAg
+ICArPSBwYW5kb3JhX2JsLm8KPiA+ICBvYmotJChDT05GSUdfQkFDS0xJR0hUX1BDRjUwNjMzKSAg
+ICAgKz0gcGNmNTA2MzMtYmFja2xpZ2h0Lm8KPiA+ICBvYmotJChDT05GSUdfQkFDS0xJR0hUX1BX
+TSkgICAgICAgICAgKz0gcHdtX2JsLm8KPiA+ICBvYmotJChDT05GSUdfQkFDS0xJR0hUX1FDT01f
+V0xFRCkgICAgKz0gcWNvbS13bGVkLm8KPiA+ICtvYmotJChDT05GSUdfQkFDS0xJR0hUX1JUNDgz
+MSkgICAgICAgICAgICAgICArPSBydDQ4MzEtYmFja2xpZ2h0Lm8KPiA+ICBvYmotJChDT05GSUdf
+QkFDS0xJR0hUX1NBSEFSQSkgICAgICAgICAgICAgICArPSBrYjM4ODZfYmwubwo+ID4gIG9iai0k
+KENPTkZJR19CQUNLTElHSFRfU0tZODE0NTIpICAgICArPSBza3k4MTQ1Mi1iYWNrbGlnaHQubwo+
+ID4gIG9iai0kKENPTkZJR19CQUNLTElHSFRfVE9TQSkgICAgICAgICArPSB0b3NhX2JsLm8KPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9ydDQ4MzEtYmFja2xpZ2h0LmMg
+Yi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9ydDQ4MzEtYmFja2xpZ2h0LmMKPiA+IG5ldyBmaWxl
+IG1vZGUgMTAwNjQ0Cj4gPiBpbmRleCAwMDAwMDAwMC4uNDIxNTVjNwo+ID4gLS0tIC9kZXYvbnVs
+bAo+ID4gKysrIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcnQ0ODMxLWJhY2tsaWdodC5jCj4g
+PiBAQCAtMCwwICsxLDIwMyBAQAo+ID4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwt
+Mi4wLW9ubHkKPiA+ICsKPiA+ICsjaW5jbHVkZSA8ZHQtYmluZGluZ3MvbGVkcy9ydDQ4MzEtYmFj
+a2xpZ2h0Lmg+Cj4gPiArI2luY2x1ZGUgPGxpbnV4L2JhY2tsaWdodC5oPgo+ID4gKyNpbmNsdWRl
+IDxsaW51eC9iaXRvcHMuaD4KPiA+ICsjaW5jbHVkZSA8bGludXgva2VybmVsLmg+Cj4gPiArI2lu
+Y2x1ZGUgPGxpbnV4L21vZHVsZS5oPgo+ID4gKyNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZp
+Y2UuaD4KPiA+ICsjaW5jbHVkZSA8bGludXgvcHJvcGVydHkuaD4KPiA+ICsjaW5jbHVkZSA8bGlu
+dXgvcmVnbWFwLmg+Cj4gPiArCj4gPiArI2RlZmluZSBSVDQ4MzFfUkVHX0JMQ0ZHICAgICAweDAy
+Cj4gPiArI2RlZmluZSBSVDQ4MzFfUkVHX0JMRElNTCAgICAweDA0Cj4gPiArI2RlZmluZSBSVDQ4
+MzFfUkVHX0VOQUJMRSAgICAweDA4Cj4gPiArCj4gPiArI2RlZmluZSBSVDQ4MzFfQkxNQVhfQlJJ
+R0hUTkVTUyAgICAgIDIwNDgKPiA+ICsKPiA+ICsjZGVmaW5lIFJUNDgzMV9CTE9WUF9NQVNLICAg
+IEdFTk1BU0soNywgNSkKPiA+ICsjZGVmaW5lIFJUNDgzMV9CTE9WUF9TSElGVCAgIDUKPiA+ICsj
+ZGVmaW5lIFJUNDgzMV9CTFBXTUVOX01BU0sgIEJJVCgwKQo+ID4gKyNkZWZpbmUgUlQ0ODMxX0JM
+RU5fTUFTSyAgICAgQklUKDQpCj4gPiArI2RlZmluZSBSVDQ4MzFfQkxDSF9NQVNLICAgICBHRU5N
+QVNLKDMsIDApCj4gPiArI2RlZmluZSBSVDQ4MzFfQkxESU1MX01BU0sgICBHRU5NQVNLKDIsIDAp
+Cj4gPiArI2RlZmluZSBSVDQ4MzFfQkxESU1IX01BU0sgICBHRU5NQVNLKDEwLCAzKQo+ID4gKyNk
+ZWZpbmUgUlQ0ODMxX0JMRElNSF9TSElGVCAgMwo+ID4gKwo+ID4gK3N0cnVjdCBydDQ4MzFfcHJp
+diB7Cj4gPiArICAgICBzdHJ1Y3QgZGV2aWNlICpkZXY7Cj4gPiArICAgICBzdHJ1Y3QgcmVnbWFw
+ICpyZWdtYXA7Cj4gPiArICAgICBzdHJ1Y3QgYmFja2xpZ2h0X2RldmljZSAqYmw7Cj4gPiArfTsK
+PiA+ICsKPiA+ICtzdGF0aWMgaW50IHJ0NDgzMV9ibF91cGRhdGVfc3RhdHVzKHN0cnVjdCBiYWNr
+bGlnaHRfZGV2aWNlICpibF9kZXYpCj4gPiArewo+ID4gKyAgICAgc3RydWN0IHJ0NDgzMV9wcml2
+ICpwcml2ID0gYmxfZ2V0X2RhdGEoYmxfZGV2KTsKPiA+ICsgICAgIGludCBicmlnaHRuZXNzID0g
+YmFja2xpZ2h0X2dldF9icmlnaHRuZXNzKGJsX2Rldik7Cj4gPiArICAgICB1bnNpZ25lZCBpbnQg
+ZW5hYmxlID0gYnJpZ2h0bmVzcyA/IFJUNDgzMV9CTEVOX01BU0sgOiAwOwo+ID4gKyAgICAgdTgg
+dlsyXTsKPiA+ICsgICAgIGludCByZXQ7Cj4gPiArCj4gPiArICAgICBpZiAoYnJpZ2h0bmVzcykg
+ewo+ID4gKyAgICAgICAgICAgICB2WzBdID0gKGJyaWdodG5lc3MgLSAxKSAmIFJUNDgzMV9CTERJ
+TUxfTUFTSzsKPiA+ICsgICAgICAgICAgICAgdlsxXSA9ICgoYnJpZ2h0bmVzcyAtIDEpICYgUlQ0
+ODMxX0JMRElNSF9NQVNLKSA+PiBSVDQ4MzFfQkxESU1IX1NISUZUOwo+ID4gKwo+ID4gKyAgICAg
+ICAgICAgICByZXQgPSByZWdtYXBfcmF3X3dyaXRlKHByaXYtPnJlZ21hcCwgUlQ0ODMxX1JFR19C
+TERJTUwsIHYsIHNpemVvZih2KSk7Cj4gPiArICAgICAgICAgICAgIGlmIChyZXQpCj4gPiArICAg
+ICAgICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPiA+ICsgICAgIH0KPiA+ICsKPiA+ICsgICAg
+IHJldHVybiByZWdtYXBfdXBkYXRlX2JpdHMocHJpdi0+cmVnbWFwLCBSVDQ4MzFfUkVHX0VOQUJM
+RSwgUlQ0ODMxX0JMRU5fTUFTSywgZW5hYmxlKTsKPiA+ICsKPiA+ICt9Cj4gPiArCj4gPiArc3Rh
+dGljIGludCBydDQ4MzFfYmxfZ2V0X2JyaWdodG5lc3Moc3RydWN0IGJhY2tsaWdodF9kZXZpY2Ug
+KmJsX2RldikKPiA+ICt7Cj4gPiArICAgICBzdHJ1Y3QgcnQ0ODMxX3ByaXYgKnByaXYgPSBibF9n
+ZXRfZGF0YShibF9kZXYpOwo+ID4gKyAgICAgdW5zaWduZWQgaW50IHZhbDsKPiA+ICsgICAgIHU4
+IHZbMl07Cj4gPiArICAgICBpbnQgcmV0Owo+ID4gKwo+ID4gKyAgICAgcmV0ID0gcmVnbWFwX3Jl
+YWQocHJpdi0+cmVnbWFwLCBSVDQ4MzFfUkVHX0VOQUJMRSwgJnZhbCk7Cj4gPiArICAgICBpZiAo
+cmV0KQo+ID4gKyAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ID4gKwo+ID4gKyAgICAgaWYgKCEo
+dmFsICYgUlQ0ODMxX0JMRU5fTUFTSykpCj4gPiArICAgICAgICAgICAgIHJldHVybiAwOwo+ID4g
+Kwo+ID4gKyAgICAgcmV0ID0gcmVnbWFwX3Jhd19yZWFkKHByaXYtPnJlZ21hcCwgUlQ0ODMxX1JF
+R19CTERJTUwsIHYsIHNpemVvZih2KSk7Cj4gPiArICAgICBpZiAocmV0KQo+ID4gKyAgICAgICAg
+ICAgICByZXR1cm4gcmV0Owo+ID4gKwo+ID4gKyAgICAgcmV0ID0gKHZbMV0gPDwgUlQ0ODMxX0JM
+RElNSF9TSElGVCkgKyAodlswXSAmIFJUNDgzMV9CTERJTUxfTUFTSykgKyAxOwo+ID4gKwo+ID4g
+KyAgICAgcmV0dXJuIHJldDsKPiA+ICt9Cj4gPiArCj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBi
+YWNrbGlnaHRfb3BzIHJ0NDgzMV9ibF9vcHMgPSB7Cj4gPiArICAgICAub3B0aW9ucyA9IEJMX0NP
+UkVfU1VTUEVORFJFU1VNRSwKPiA+ICsgICAgIC51cGRhdGVfc3RhdHVzID0gcnQ0ODMxX2JsX3Vw
+ZGF0ZV9zdGF0dXMsCj4gPiArICAgICAuZ2V0X2JyaWdodG5lc3MgPSBydDQ4MzFfYmxfZ2V0X2Jy
+aWdodG5lc3MsCj4gPiArfTsKPiA+ICsKPiA+ICtzdGF0aWMgaW50IHJ0NDgzMV9wYXJzZV9iYWNr
+bGlnaHRfcHJvcGVydGllcyhzdHJ1Y3QgcnQ0ODMxX3ByaXYgKnByaXYsCj4gPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGJhY2tsaWdodF9wcm9wZXJ0
+aWVzICpibF9wcm9wcykKPiA+ICt7Cj4gPiArICAgICBzdHJ1Y3QgZGV2aWNlICpkZXYgPSBwcml2
+LT5kZXY7Cj4gPiArICAgICB1OCBwcm9wdmFsOwo+ID4gKyAgICAgdTMyIGJyaWdodG5lc3M7Cj4g
+PiArICAgICB1bnNpZ25lZCBpbnQgdmFsID0gMDsKPiA+ICsgICAgIGludCByZXQ7Cj4gPiArCj4g
+PiArICAgICAvKiBjb21tb24gcHJvcGVydGllcyAqLwo+ID4gKyAgICAgcmV0ID0gZGV2aWNlX3By
+b3BlcnR5X3JlYWRfdTMyKGRldiwgIm1heC1icmlnaHRuZXNzIiwgJmJyaWdodG5lc3MpOwo+ID4g
+KyAgICAgaWYgKHJldCkKPiA+ICsgICAgICAgICAgICAgYnJpZ2h0bmVzcyA9IFJUNDgzMV9CTE1B
+WF9CUklHSFRORVNTOwo+ID4gKwo+ID4gKyAgICAgYmxfcHJvcHMtPm1heF9icmlnaHRuZXNzID0g
+bWluX3QodTMyLCBicmlnaHRuZXNzLCBSVDQ4MzFfQkxNQVhfQlJJR0hUTkVTUyk7Cj4gPiArCj4g
+PiArICAgICByZXQgPSBkZXZpY2VfcHJvcGVydHlfcmVhZF91MzIoZGV2LCAiZGVmYXVsdC1icmln
+aHRuZXNzIiwgJmJyaWdodG5lc3MpOwo+ID4gKyAgICAgaWYgKHJldCkKPiA+ICsgICAgICAgICAg
+ICAgYnJpZ2h0bmVzcyA9IGJsX3Byb3BzLT5tYXhfYnJpZ2h0bmVzczsKPiA+ICsKPiA+ICsgICAg
+IGJsX3Byb3BzLT5icmlnaHRuZXNzID0gbWluX3QodTMyLCBicmlnaHRuZXNzLCBibF9wcm9wcy0+
+bWF4X2JyaWdodG5lc3MpOwo+ID4gKwo+ID4gKyAgICAgLyogdmVuZG9yIHByb3BlcnRpZXMgKi8K
+PiA+ICsgICAgIGlmIChkZXZpY2VfcHJvcGVydHlfcmVhZF9ib29sKGRldiwgInJpY2h0ZWsscHdt
+LWVuYWJsZSIpKQo+ID4gKyAgICAgICAgICAgICB2YWwgPSBSVDQ4MzFfQkxQV01FTl9NQVNLOwo+
+ID4gKwo+ID4gKyAgICAgcmV0ID0gcmVnbWFwX3VwZGF0ZV9iaXRzKHByaXYtPnJlZ21hcCwgUlQ0
+ODMxX1JFR19CTENGRywgUlQ0ODMxX0JMUFdNRU5fTUFTSywgdmFsKTsKPiA+ICsgICAgIGlmIChy
+ZXQpCj4gPiArICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gPiArCj4gPiArICAgICByZXQgPSBk
+ZXZpY2VfcHJvcGVydHlfcmVhZF91OChkZXYsICJyaWNodGVrLGJsZWQtb3ZwLXNlbCIsICZwcm9w
+dmFsKTsKPiA+ICsgICAgIGlmIChyZXQpCj4gPiArICAgICAgICAgICAgIHByb3B2YWwgPSBSVDQ4
+MzFfQkxPVlBMVkxfMjFWOwo+ID4gKwo+ID4gKyAgICAgcHJvcHZhbCA9IG1pbl90KHU4LCBwcm9w
+dmFsLCBSVDQ4MzFfQkxPVlBMVkxfMjlWKTsKPiA+ICsgICAgIHJldCA9IHJlZ21hcF91cGRhdGVf
+Yml0cyhwcml2LT5yZWdtYXAsIFJUNDgzMV9SRUdfQkxDRkcsIFJUNDgzMV9CTE9WUF9NQVNLLAo+
+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHByb3B2YWwgPDwgUlQ0ODMxX0JMT1ZQ
+X1NISUZUKTsKPiA+ICsgICAgIGlmIChyZXQpCj4gPiArICAgICAgICAgICAgIHJldHVybiByZXQ7
+Cj4gPiArCj4gPiArICAgICByZXQgPSBkZXZpY2VfcHJvcGVydHlfcmVhZF91OChkZXYsICJyaWNo
+dGVrLGNoYW5uZWwtdXNlIiwgJnByb3B2YWwpOwo+ID4gKyAgICAgaWYgKHJldCkgewo+ID4gKyAg
+ICAgICAgICAgICBkZXZfZXJyKGRldiwgInJpY2h0ZWssY2hhbm5lbC11c2UgRFQgcHJvcGVydHkg
+bWlzc2luZ1xuIik7Cj4gPiArICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gPiArICAgICB9Cj4g
+PiArCj4gPiArICAgICBpZiAoIShwcm9wdmFsICYgUlQ0ODMxX0JMQ0hfTUFTSykpIHsKPiA+ICsg
+ICAgICAgICAgICAgZGV2X2VycihkZXYsICJObyBjaGFubmVsIHNwZWNpZmllZFxuIik7Cj4gPiAr
+ICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+ID4gKyAgICAgfQo+ID4gKwo+ID4gKyAgICAg
+cmV0dXJuIHJlZ21hcF91cGRhdGVfYml0cyhwcml2LT5yZWdtYXAsIFJUNDgzMV9SRUdfRU5BQkxF
+LCBSVDQ4MzFfQkxDSF9NQVNLLCBwcm9wdmFsKTsKPiA+ICt9Cj4gPiArCj4gPiArc3RhdGljIGlu
+dCBydDQ4MzFfYmxfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiA+ICt7Cj4g
+PiArICAgICBzdHJ1Y3QgcnQ0ODMxX3ByaXYgKnByaXY7Cj4gPiArICAgICBzdHJ1Y3QgYmFja2xp
+Z2h0X3Byb3BlcnRpZXMgYmxfcHJvcHMgPSB7IC50eXBlID0gQkFDS0xJR0hUX1JBVywKPiA+ICsg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLnNjYWxlID0gQkFD
+S0xJR0hUX1NDQUxFX0xJTkVBUiB9Owo+ID4gKyAgICAgaW50IHJldDsKPiA+ICsKPiA+ICsgICAg
+IHByaXYgPSBkZXZtX2t6YWxsb2MoJnBkZXYtPmRldiwgc2l6ZW9mKCpwcml2KSwgR0ZQX0tFUk5F
+TCk7Cj4gPiArICAgICBpZiAoIXByaXYpCj4gPiArICAgICAgICAgICAgIHJldHVybiAtRU5PTUVN
+Owo+ID4gKwo+ID4gKyAgICAgcHJpdi0+ZGV2ID0gJnBkZXYtPmRldjsKPiA+ICsKPiA+ICsgICAg
+IHByaXYtPnJlZ21hcCA9IGRldl9nZXRfcmVnbWFwKHBkZXYtPmRldi5wYXJlbnQsIE5VTEwpOwo+
+ID4gKyAgICAgaWYgKCFwcml2LT5yZWdtYXApIHsKPiA+ICsgICAgICAgICAgICAgZGV2X2Vycigm
+cGRldi0+ZGV2LCAiRmFpbGVkIHRvIGluaXQgcmVnbWFwXG4iKTsKPiA+ICsgICAgICAgICAgICAg
+cmV0dXJuIC1FTk9ERVY7Cj4gPiArICAgICB9Cj4gPiArCj4gPiArICAgICByZXQgPSBydDQ4MzFf
+cGFyc2VfYmFja2xpZ2h0X3Byb3BlcnRpZXMocHJpdiwgJmJsX3Byb3BzKTsKPiA+ICsgICAgIGlm
+IChyZXQpIHsKPiA+ICsgICAgICAgICAgICAgZGV2X2VycigmcGRldi0+ZGV2LCAiRmFpbGVkIHRv
+IHBhcnNlIGJhY2tsaWdodCBwcm9wZXJ0aWVzXG4iKTsKPiA+ICsgICAgICAgICAgICAgcmV0dXJu
+IHJldDsKPiA+ICsgICAgIH0KPiA+ICsKPiA+ICsgICAgIHByaXYtPmJsID0gZGV2bV9iYWNrbGln
+aHRfZGV2aWNlX3JlZ2lzdGVyKCZwZGV2LT5kZXYsIHBkZXYtPm5hbWUsICZwZGV2LT5kZXYsIHBy
+aXYsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAm
+cnQ0ODMxX2JsX29wcywgJmJsX3Byb3BzKTsKPiA+ICsgICAgIGlmIChJU19FUlIocHJpdi0+Ymwp
+KSB7Cj4gPiArICAgICAgICAgICAgIGRldl9lcnIoJnBkZXYtPmRldiwgIkZhaWxlZCB0byByZWdp
+c3RlciBiYWNrbGlnaHRcbiIpOwo+ID4gKyAgICAgICAgICAgICByZXR1cm4gUFRSX0VSUihwcml2
+LT5ibCk7Cj4gPiArICAgICB9Cj4gPiArCj4gPiArICAgICBiYWNrbGlnaHRfdXBkYXRlX3N0YXR1
+cyhwcml2LT5ibCk7Cj4gPiArICAgICBwbGF0Zm9ybV9zZXRfZHJ2ZGF0YShwZGV2LCBwcml2KTsK
+PiA+ICsKPiA+ICsgICAgIHJldHVybiAwOwo+ID4gK30KPiA+ICsKPiA+ICtzdGF0aWMgaW50IHJ0
+NDgzMV9ibF9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiA+ICt7Cj4gPiAr
+ICAgICBzdHJ1Y3QgcnQ0ODMxX3ByaXYgKnByaXYgPSBwbGF0Zm9ybV9nZXRfZHJ2ZGF0YShwZGV2
+KTsKPiA+ICsgICAgIHN0cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpibF9kZXYgPSBwcml2LT5ibDsK
+PiA+ICsKPiA+ICsgICAgIGJsX2Rldi0+cHJvcHMuYnJpZ2h0bmVzcyA9IDA7Cj4gPiArICAgICBi
+YWNrbGlnaHRfdXBkYXRlX3N0YXR1cyhwcml2LT5ibCk7Cj4gPiArCj4gPiArICAgICByZXR1cm4g
+MDsKPiA+ICt9Cj4gPiArCj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgX19t
+YXliZV91bnVzZWQgcnQ0ODMxX2JsX29mX21hdGNoW10gPSB7Cj4gPiArICAgICB7IC5jb21wYXRp
+YmxlID0gInJpY2h0ZWsscnQ0ODMxLWJhY2tsaWdodCIsIH0sCj4gPiArICAgICB7fQo+ID4gK307
+Cj4gPiArTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgcnQ0ODMxX2JsX29mX21hdGNoKTsKPiA+ICsK
+PiA+ICtzdGF0aWMgc3RydWN0IHBsYXRmb3JtX2RyaXZlciBydDQ4MzFfYmxfZHJpdmVyID0gewo+
+ID4gKyAgICAgLmRyaXZlciA9IHsKPiA+ICsgICAgICAgICAgICAgLm5hbWUgPSAicnQ0ODMxLWJh
+Y2tsaWdodCIsCj4gPiArICAgICAgICAgICAgIC5vZl9tYXRjaF90YWJsZSA9IHJ0NDgzMV9ibF9v
+Zl9tYXRjaCwKPiA+ICsgICAgIH0sCj4gPiArICAgICAucHJvYmUgPSBydDQ4MzFfYmxfcHJvYmUs
+Cj4gPiArICAgICAucmVtb3ZlID0gcnQ0ODMxX2JsX3JlbW92ZSwKPiA+ICt9Owo+ID4gK21vZHVs
+ZV9wbGF0Zm9ybV9kcml2ZXIocnQ0ODMxX2JsX2RyaXZlcik7Cj4gPiArCj4gPiArTU9EVUxFX0FV
+VEhPUigiQ2hpWXVhbiBIdWFuZyA8Y3lfaHVhbmdAcmljaHRlay5jb20+Iik7Cj4gPiArTU9EVUxF
+X0xJQ0VOU0UoIkdQTCB2MiIpOwo+ID4gLS0KPiA+IDIuNy40Cj4gPgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
