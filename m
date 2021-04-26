@@ -1,113 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307BB36B603
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 17:44:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF5D36B682
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 18:09:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B884E6E842;
-	Mon, 26 Apr 2021 15:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C7666E84D;
+	Mon, 26 Apr 2021 16:09:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2087.outbound.protection.outlook.com [40.107.94.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E58C46E842;
- Mon, 26 Apr 2021 15:44:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J2HYuBbtm6Hgq8RrYdsVhtZzciB0snUyCGVs0Z/rE1IBT5zH9iTOKu6gvB/iyI2fg2CCH5W2OpM2zCk6H1lulCFTzhu2Pgnt3g0Vn6AzW3M2Z4GYWEPXtC97aksmiEfpd/u4IaGGTNwmJuoOsAf3aHgHaaahuFMBVLALQ4d7KG2Bjo6zV4vNob+BH3EOqRKNdsI/nRmWuxu4ZRx1ntUe8FHuayhPXSmu05Dzg4w2GDaTCKY6e8WEZPqLszyygWPEqf6XB8DzXVRl9pKGwSueMfELsIT5bxhUFuh+5sXkKmdN82cjlhCcfe3lqZN8ilp4q68rjvWqUetXT/9Cp8vfUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0y4JaG9QIb+vOTWA79zzXaeGiMaEER3inXUOAfSrmGU=;
- b=b/EQtyo09LUas14p4G42iY9CbBZ68ZfzgO5nC4wfmLQODVt1tAiYQkRX+N+hS2kic035Qmu9GWfDsiDptO+VPPZPR8N1+2Iuetpbc8TRTwFcSjTPmJGCmlQtaWBHynmxMzih1ecvqws0++Xh1z71uF9g7gXwj9IqrQEWdx+YZ9H5KmdvGbaI0g6Rq9SEvw0CC2XO7X1BilhlRAtPq+WUuLchEsMKBIhUqjD9f7N7I6XJk3e8sgL9Gd87jg1gyQbnzXULLhGsUpToOjumOswQeyObbWVjLgRKXcR/s+y9ehm/sSeIu3QI6Wr5z3xpSu4qNEfWnrZQgzKxXHW0AyIRmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0y4JaG9QIb+vOTWA79zzXaeGiMaEER3inXUOAfSrmGU=;
- b=hBW/kqxGKwtzD1mzVya9FTaplJFxGBme7/GAx4ebVS09ZzMpnGygRNZCB8E2z4Uot1QtRQnRTty4P9ThzZkJewRYWfoT0s4vaV1wPlcwg615xWSXt/UiLq5TtJmclAaMoIfiiwRO2pNfkWqNxzhAf2IxXnlnw/jWgaPJry84Zg8SjjJb9x/ZsbHhi8ssCWh7aQUQOsGTZAPvbO4tQO/TlETJr4BgMAj/nM3+I//6Du+u0bJg68Zpxp3LcL36pp//wvwWST6NbH1HXfls/Gg5V/tKW0CSrCGQ1sk5gk1SusrKM79fjBtWnWCvaxxM5WjeR4/Jad/kZa+K5Lif3D04KQ==
-Authentication-Results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB4057.namprd12.prod.outlook.com (2603:10b6:5:213::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Mon, 26 Apr
- 2021 15:44:17 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.4065.026; Mon, 26 Apr 2021
- 15:44:17 +0000
-Date: Mon, 26 Apr 2021 12:44:16 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 08/12] vfio/gvt: Convert to use vfio_register_group_dev()
-Message-ID: <20210426154416.GV1370958@nvidia.com>
-References: <0-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
- <8-v1-d88406ed308e+418-vfio3_jgg@nvidia.com>
- <20210426141355.GF15209@lst.de>
-Content-Disposition: inline
-In-Reply-To: <20210426141355.GF15209@lst.de>
-X-Originating-IP: [47.55.113.94]
-X-ClientProxiedBy: MN2PR16CA0013.namprd16.prod.outlook.com
- (2603:10b6:208:134::26) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB1936E849
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 16:09:03 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id m9so43724159wrx.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 09:09:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=E+mHAInWmbrQo9QXL3PF/VKL1eGyA5adx/6sf3p1QaA=;
+ b=V+mpC32PGYVK3yBkROS6PzN2GW3EPmguv/gaAlCzFifycLDkftldUQWeweKJo/1wv7
+ PXE6CFCzsXmUU3JFJu7T6e6XhhOam9XpeKdmX//VJXsMoiEsSNelIANTeC7fT450bvQH
+ /Pp9oRHOEeL1ehJyaaTF0eUSmvtXr3yl+9n6c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=E+mHAInWmbrQo9QXL3PF/VKL1eGyA5adx/6sf3p1QaA=;
+ b=QkxBYeIZV7M+noJe7k+S9xux+FBGocij9I+7xIcZ6aYK9enT1c4c7pv70Fhb0XoZhB
+ cLHgKfHxSNS6RxjwAP7PhMtSetX6MXed+b0cbQByS44llFP3vm+1GBsms8/yWz3tXvuT
+ iyP32f+4exgfXWEV9ts3YFOi58+V7zmgesHi/hlpWYjnPfe1Sj4vRXfikEMZNf2Kj+1a
+ jgmQcRMWxWrWoNgWVhnzHnzPh2LE8enO/XZ+RRP6sGleeSYkZSi4QLGmzyyjtxkE+lYJ
+ /qABMsCiPRjhF/n4+J64ln2bMxey1/hGigIJh76NsRXpXBLPG2Q2FKGGyFV3dz15Fi1o
+ 5NrQ==
+X-Gm-Message-State: AOAM5327Jz6e7NUaToXQgBzdTH3ynfk6ZAObP5ByIkP4uK+MeOUlhBuH
+ qGngqnC8Kqy3KhIQRFJ5hLMahA==
+X-Google-Smtp-Source: ABdhPJzXDkZyI1QsusCP/9E2gcMwH99XR+Gk+JAuZtxeG2VLOsmtkG8ZLfZZknZqIbcjwCfpNWq5Ig==
+X-Received: by 2002:adf:fdca:: with SMTP id i10mr23820626wrs.55.1619453342274; 
+ Mon, 26 Apr 2021 09:09:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c18sm566244wrn.92.2021.04.26.09.09.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Apr 2021 09:09:01 -0700 (PDT)
+Date: Mon, 26 Apr 2021 18:08:59 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915: Rewrite CL/CTG L-shaped memory
+ detection
+Message-ID: <YIblm7BAj6fnQiq+@phenom.ffwll.local>
+References: <20210421153401.13847-1-ville.syrjala@linux.intel.com>
+ <20210421153401.13847-5-ville.syrjala@linux.intel.com>
+ <YIFGt+I8LMckYyVG@phenom.ffwll.local> <YIF1+mhbWO7UD/yN@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (47.55.113.94) by
- MN2PR16CA0013.namprd16.prod.outlook.com (2603:10b6:208:134::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22 via Frontend
- Transport; Mon, 26 Apr 2021 15:44:17 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1lb3PE-00D5ka-7e; Mon, 26 Apr 2021 12:44:16 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 082c3f0c-49d6-48f4-3809-08d908ca26b8
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4057:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB40573599C255FFF82DBF21EEC2429@DM6PR12MB4057.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mrfHN6M9RCco+7AnuD2phxo1w8092QXhyvjpXL73hrmIwhtYjlfjMJeYoRcIUzbw7n3QK/nsGTxwgOl9FpFIcJQyOfSEjVp0b1naCW67pYd3jOyBTw61aO6wWzmxhO2gfb/CipDRuWIr9wRooELgdSzthIpncti77k34vDu/UU8wJJn7Vqtjha0GAiAPCYlnU5WPZeSXKTvmcwKeVHX9LLkz5zcU4LJ+ymtxeZ9nFZG8O8LIYRwmvn7ri6fk3qiakpj8Mrhj7f2yPHlbacsOFM+ly7KslIUW0PyeMatw8mVO5XrKZvDemam7WLhgib92Pw+jKq5qo+ESfgkU0HGYbH7HMo0n/jC/PH7hMigsNGIFwNJsZLxV1I0XRWhsvbaxo4Lx5S1RXBE9sLmCtsMjcnlNhPZOlcCe8GKuN35lgBPTiFSKArsd1Lp/54rUsOC2OrkfB7UIJP8IaUdGXyaRUgsAv03Z8x22VQcVom4cPthU6o5t6NtghUZJme2dPEUKusaTSyNYAXvTq7vb2XS7iy3Wk2SgDc3Pw/VnvQdcJvykl9ZHNNc7j91Ca7xBsuJThkS2aixf2yA2HB+7LMYldK/kcKHfkyl45GAOnE6aqrg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(136003)(346002)(39860400002)(366004)(26005)(2616005)(107886003)(38100700002)(66946007)(9786002)(36756003)(186003)(54906003)(478600001)(9746002)(4326008)(426003)(83380400001)(316002)(33656002)(86362001)(2906002)(8676002)(8936002)(6916009)(7416002)(66556008)(66476007)(1076003)(5660300002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?iiQlTC0yWPVm0KtvHpu7GDGpqIEG2eSrL//m/jYmMaZys7DGOQjIKYkl+Wxf?=
- =?us-ascii?Q?2wnx3gAwFFN9aFWZwTV/uHG4LR67cEOFu3EYD1Ae3NSGrViCqoApr2sIiW2k?=
- =?us-ascii?Q?FVqGlJgO7lOr9YSg0kYY6ky3RLJfIWzuvZQcyjbt2r17/pNKr9+A01IAGtuL?=
- =?us-ascii?Q?l5J1fnpO8WepabnVmcNuuhCNcZY1QC4U6yQfJLJAlrLHluasphZu/SNmUUVg?=
- =?us-ascii?Q?9Jttt8jfhSKZQF+mPIm28ORPYe7vaQaaVU24j4FHBkz2c5N79v4F6A0M8bop?=
- =?us-ascii?Q?TJvTk6ujRJ8GwgN6lqdINs1Tz9Zi89F1bw7BcEwPVyX9MaEjtsys0gtEbipZ?=
- =?us-ascii?Q?TTelFv49QuB/GLHTsaml7JAP6bQ99y9CHCjmFPNwulkjt3WjqnccsCYIrjQd?=
- =?us-ascii?Q?dwHTxnnxbkiezwvMjOhSzzi/kZ1aftIIOfHyjxYtr4fgnF16jQhLiPKKETjL?=
- =?us-ascii?Q?z3tNJiH1xiJYHXACYAEsJRF3rcZ4cbS593fP06Y62YV0oP6i98ufHKovpEhC?=
- =?us-ascii?Q?ozfKEeT4mQqTNMQBn+Be/nm20Z8TgxtH/fVTfet2m8Nlo9oFRXDEs+WZun96?=
- =?us-ascii?Q?uSM4DNj9QvtDk/ePWEuf4UrmvEpAp1YdmbwvfYA4iVHWnPBbrnGjpTJrNNrj?=
- =?us-ascii?Q?RST02FQQW8V8qqTyjaXm/ElmaGR2+JmOyCGePdc/rWR5w1HD1bMNAJGCS7th?=
- =?us-ascii?Q?stgsCX+VxRuu8lwBVkVxvq/U07qiy5AgNN/OBD1H2RNBTyVOA5YDzcigTXY+?=
- =?us-ascii?Q?TCm4dIpmbDwoNvEVssGff1eBaCA9yk5bkvVGej7TKZCsykmh5QdlaWU3IEsW?=
- =?us-ascii?Q?j0peN+WacUL77QpRNP88CXB6rySHIU0jKxgv4Uc3mOOWEMOKCmmzMrSrdEA5?=
- =?us-ascii?Q?lq8SZptAg3Q3Gu9Uh8WnU1KtWZ8rmdF0D6j5uMh4wnMdsQnzjFYPgHQlmaSv?=
- =?us-ascii?Q?7+r1APRuoKKTGpnkFDwddtdc3GocesM0h7Ul/Va5JV9/MoEKlFThkJDUf7fM?=
- =?us-ascii?Q?T/wQ2AwFwmFgWw8sKvymcgok96OsYxFgUfFEEMhcB72f4zQcVzbpSl1NtD9O?=
- =?us-ascii?Q?u9dYxYJ9S5PARAeiApf2NTE2WA/d3BCrB71s+JYv2ex8KKY+3KqWyNdezghm?=
- =?us-ascii?Q?SraXJbiF1xXlV04c/jQhSa/NmfRnXaR5suxDsAOEja5SsiwbZjJY5pBrJFgQ?=
- =?us-ascii?Q?F74Dj1yHvtWvnKuy16vcb3Ga033vXc7DuwiPMKQguFxj0vqjPLWsfD1benQB?=
- =?us-ascii?Q?i6iUWHNtnk12C5y3wP7hKuxVGTqOXU3JCvzrqjn3P3RXbqME9gBPERQIh4F4?=
- =?us-ascii?Q?OFVMtQgcn3QT3dAuwqPvs5a2?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 082c3f0c-49d6-48f4-3809-08d908ca26b8
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2021 15:44:17.8177 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v2dGIAAahNnGirakqEfgKKh+EQLfB49OMZBONE2rfBxfQSAO9D7bkH0zN3erDVCL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4057
+Content-Disposition: inline
+In-Reply-To: <YIF1+mhbWO7UD/yN@intel.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,122 +68,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Leon Romanovsky <leonro@nvidia.com>,
- intel-gfx@lists.freedesktop.org, Cornelia Huck <cohuck@redhat.com>,
- linux-doc@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
- dri-devel@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dan Williams <dan.j.williams@intel.com>,
- intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Tarun Gupta <targupta@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 26, 2021 at 04:13:55PM +0200, Christoph Hellwig wrote:
-> > diff --git a/drivers/vfio/mdev/Makefile b/drivers/vfio/mdev/Makefile
-> > index ff9ecd80212503..7c236ba1b90eb1 100644
-> > +++ b/drivers/vfio/mdev/Makefile
-> > @@ -1,5 +1,5 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  
-> > -mdev-y := mdev_core.o mdev_sysfs.o mdev_driver.o vfio_mdev.o
-> > +mdev-y := mdev_core.o mdev_sysfs.o mdev_driver.o
-> >  
-> >  obj-$(CONFIG_VFIO_MDEV) += mdev.o
-> > diff --git a/drivers/vfio/mdev/mdev_core.c b/drivers/vfio/mdev/mdev_core.c
-> > index 51b8a9fcf866ad..f95d01b57fb168 100644
-> > +++ b/drivers/vfio/mdev/mdev_core.c
-> 
-> I think all these mdev core changes belong into a separate commit with a
-> separate commit log.
+On Thu, Apr 22, 2021 at 04:11:22PM +0300, Ville Syrj=E4l=E4 wrote:
+> On Thu, Apr 22, 2021 at 11:49:43AM +0200, Daniel Vetter wrote:
+> > On Wed, Apr 21, 2021 at 06:34:01PM +0300, Ville Syrjala wrote:
+> > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > =
 
-Gah, they were split, I must have flubbed up a rebase on Friday :\
+> > > Currently we try to detect a symmetric memory configurations
+> > > using a magic DCC2_MODIFIED_ENHANCED_DISABLE bit. That bit is
+> > > either only set on a very specific subset of machines or it
+> > > just does not exist (it's not mentioned in any public chipset
+> > > datasheets I've found). As it happens my CL/CTG machines never
+> > > set said bit, even if I populate the channels with identical
+> > > sticks.
+> > > =
 
-commit daeb9dd3a152e21d11960805b55e34967987e8cf
+> > > So let's do the L-shaped memory detection the same way as the
+> > > desktop variants, ie. just look at the DRAM rank boundary
+> > > registers to see if both channels have an identical size.
+> > > =
 
-    vfio/mdev: Remove vfio_mdev.c
-    
-    Now that all mdev drivers directly create their own mdev_device driver and
-    directly register with the vfio core's vfio_device_ops this is all dead
-    code.
-    
-    Delete vfio_mdev.c and the mdev_parent_ops members that are connected to
-    it.
-    
-    Preserve VFIO's design of allowing mdev drivers to be !GPL by allowing the
-    three functions that replace this module for !GPL usage. This goes along
-    with the other 19 symbols that are already marked !GPL in VFIO.
-    
-    Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > > With this my CL/CTG no longer claim L-shaped memory when I use
+> > > identical sticks. Also tested with non-matching sticks just to
+> > > make sure the L-shaped memory is still properly detected.
+> > > =
 
-I'll fix it
+> > > And for completeness let's update the debugfs code to dump
+> > > the correct set of registers on each platform.
+> > > =
 
-> >  static int __init mdev_init(void)
-> >  {
-> > -	int rc;
-> > -
-> > -	rc = mdev_bus_register();
-> > -	if (rc)
-> > -		return rc;
-> > -	rc = mdev_register_driver(&vfio_mdev_driver);
-> > -	if (rc)
-> > -		goto err_bus;
-> > -	return 0;
-> > -err_bus:
-> > -	mdev_bus_unregister();
-> > -	return rc;
-> > +	return  mdev_bus_register();
-> 
-> Weird indentation.  But I think it would be best to just kill off the
-> mdev_init wrapper anyway.
+> > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > =
 
-Oh, right good point
+> > Did you check this with the swapping igt? I have some vague memories of
+> > bug reports where somehow the machine was acting like it's L-shaped mem=
+ory
+> > despite that banks were populated equally. I've iirc tried all kinds of
+> > tricks to figure it out, all to absolutely no avail.
+> =
 
-> > diff --git a/drivers/vfio/mdev/mdev_driver.c b/drivers/vfio/mdev/mdev_driver.c
-> > index 6e96c023d7823d..0012a9ee7cb0a4 100644
-> > +++ b/drivers/vfio/mdev/mdev_driver.c
-> > @@ -74,15 +74,8 @@ static int mdev_remove(struct device *dev)
-> >  static int mdev_match(struct device *dev, struct device_driver *drv)
-> >  {
-> >  	struct mdev_device *mdev = to_mdev_device(dev);
-> > +
-> > +	return drv == &mdev->type->parent->ops->device_driver->driver;
-> >  }
-> 
-> Btw, I think we don't even need ->match with the switch to use
-> device_bind_driver that I suggested.
+> Did you have a specific test in mind? I ran a bunch of things
+> that seemed swizzle related. All passed just fine.
 
-See my other email for why it is like this..
- 
-> > -EXPORT_SYMBOL_GPL(vfio_init_group_dev);
-> > +EXPORT_SYMBOL(vfio_init_group_dev);
-> 
-> > -EXPORT_SYMBOL_GPL(vfio_register_group_dev);
-> > +EXPORT_SYMBOL(vfio_register_group_dev);
-> 
-> > -EXPORT_SYMBOL_GPL(vfio_unregister_group_dev);
-> > +EXPORT_SYMBOL(vfio_unregister_group_dev); 
-> 
-> Err, no.  vfio should remain EXPORT_SYMBOL_GPL, just because the weird
-> mdev "GPL condom" that should never have been merged in that form went away.
+gem_tiled_swapping should be the one. It tries to cycle your entire system
+memory through tiled buffers into swap and out of it.
+-Daniel
 
-VFIO is already !GPL - there are 19 symbols supporting this
-today. What happened here is that this patch make all of those symbols
-unusable !GPL by changing how registration works so you can't get the
-vfio_device argument to use with the API family.
+> =
 
-So, either the two registration functions need to be !GPL to make the
-other 19 symbols make sense, or the entire !GPL needs to be ripped
-out. The lost commit message above was explaining this.
+> Chris did have similar concerns and suggested we should have
+> better tests. I guess what I should try to do is some selftests
+> which make sure we test both high and low physical addresses
+> and check the swizzle pattern is as expected. But haven't =
 
-Since it is predominately !GPL today, I'd prefer a discussion on
-changing VFIO to be GPL only to be in its own patch proposing removing
-all 22 !GPL symbols. Those are always fun threads..
+> found the time to do that yet.
+> =
 
-Jason
+> > =
+
+> > tbh I'd just not touch this, not really worth it.
+> =
+
+> It's totally worth it to get gen4 machines working again.
+> =
+
+> =
+
+> > -Daniel
+> > > ---
+> > >  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 15 ++++++++-------
+> > >  drivers/gpu/drm/i915/i915_debugfs.c          | 16 ++++++++++++----
+> > >  drivers/gpu/drm/i915/i915_reg.h              |  4 ++++
+> > >  3 files changed, 24 insertions(+), 11 deletions(-)
+> > > =
+
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/g=
+pu/drm/i915/gt/intel_ggtt_fencing.c
+> > > index 0fa6c38893f7..754f20768de5 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > > @@ -693,14 +693,15 @@ static void detect_bit_6_swizzle(struct i915_gg=
+tt *ggtt)
+> > >  				swizzle_x =3D I915_BIT_6_SWIZZLE_9_10_17;
+> > >  				swizzle_y =3D I915_BIT_6_SWIZZLE_9_17;
+> > >  			}
+> > > -			break;
+> > > -		}
+> > >  =
+
+> > > -		/* check for L-shaped memory aka modified enhanced addressing */
+> > > -		if (IS_GEN(i915, 4) &&
+> > > -		    !(intel_uncore_read(uncore, DCC2) & DCC2_MODIFIED_ENHANCED_DIS=
+ABLE)) {
+> > > -			swizzle_x =3D I915_BIT_6_SWIZZLE_UNKNOWN;
+> > > -			swizzle_y =3D I915_BIT_6_SWIZZLE_UNKNOWN;
+> > > +			/* check for L-shaped memory aka modified enhanced addressing */
+> > > +			if (IS_GEN(i915, 4) &&
+> > > +			    intel_uncore_read16(uncore, C0DRB3_CL) !=3D
+> > > +			    intel_uncore_read16(uncore, C1DRB3_CL)) {
+> > > +				swizzle_x =3D I915_BIT_6_SWIZZLE_UNKNOWN;
+> > > +				swizzle_y =3D I915_BIT_6_SWIZZLE_UNKNOWN;
+> > > +			}
+> > > +			break;
+> > >  		}
+> > >  =
+
+> > >  		if (dcc =3D=3D 0xffffffff) {
+> > > diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i9=
+15/i915_debugfs.c
+> > > index 8dd374691102..6de11ffcde38 100644
+> > > --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> > > +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> > > @@ -621,10 +621,18 @@ static int i915_swizzle_info(struct seq_file *m=
+, void *data)
+> > >  			   intel_uncore_read(uncore, DCC));
+> > >  		seq_printf(m, "DDC2 =3D 0x%08x\n",
+> > >  			   intel_uncore_read(uncore, DCC2));
+> > > -		seq_printf(m, "C0DRB3 =3D 0x%04x\n",
+> > > -			   intel_uncore_read16(uncore, C0DRB3_BW));
+> > > -		seq_printf(m, "C1DRB3 =3D 0x%04x\n",
+> > > -			   intel_uncore_read16(uncore, C1DRB3_BW));
+> > > +
+> > > +		if (IS_G45(dev_priv) || IS_I965G(dev_priv) || IS_G33(dev_priv)) {
+> > > +			seq_printf(m, "C0DRB3 =3D 0x%04x\n",
+> > > +				   intel_uncore_read16(uncore, C0DRB3_BW));
+> > > +			seq_printf(m, "C1DRB3 =3D 0x%04x\n",
+> > > +				   intel_uncore_read16(uncore, C1DRB3_BW));
+> > > +		} else if (IS_GEN(dev_priv, 4)) {
+> > > +			seq_printf(m, "C0DRB3 =3D 0x%04x\n",
+> > > +				   intel_uncore_read16(uncore, C0DRB3_CL));
+> > > +			seq_printf(m, "C1DRB3 =3D 0x%04x\n",
+> > > +				   intel_uncore_read16(uncore, C1DRB3_CL));
+> > > +		}
+> > >  	} else if (INTEL_GEN(dev_priv) >=3D 6) {
+> > >  		seq_printf(m, "MAD_DIMM_C0 =3D 0x%08x\n",
+> > >  			   intel_uncore_read(uncore, MAD_DIMM_C0));
+> > > diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i=
+915_reg.h
+> > > index 0587b2455ea1..055c258179a1 100644
+> > > --- a/drivers/gpu/drm/i915/i915_reg.h
+> > > +++ b/drivers/gpu/drm/i915/i915_reg.h
+> > > @@ -3790,6 +3790,10 @@ static inline bool i915_mmio_reg_valid(i915_re=
+g_t reg)
+> > >  #define C0DRB3_BW		_MMIO(MCHBAR_MIRROR_BASE + 0x206)
+> > >  #define C1DRB3_BW		_MMIO(MCHBAR_MIRROR_BASE + 0x606)
+> > >  =
+
+> > > +/* 965gm,ctg DRAM channel configuration */
+> > > +#define C0DRB3_CL		_MMIO(MCHBAR_MIRROR_BASE + 0x1206)
+> > > +#define C1DRB3_CL		_MMIO(MCHBAR_MIRROR_BASE + 0x1306)
+> > > +
+> > >  /* snb MCH registers for reading the DRAM channel configuration */
+> > >  #define MAD_DIMM_C0			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5004)
+> > >  #define MAD_DIMM_C1			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5008)
+> > > -- =
+
+> > > 2.26.3
+> > > =
+
+> > > _______________________________________________
+> > > Intel-gfx mailing list
+> > > Intel-gfx@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> > =
+
+> > -- =
+
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> =
+
+> -- =
+
+> Ville Syrj=E4l=E4
+> Intel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
