@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDE536BB69
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 00:03:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB4236BB86
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 00:14:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE4F6E884;
-	Mon, 26 Apr 2021 22:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA74D6E883;
+	Mon, 26 Apr 2021 22:14:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3EF6E884
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 22:03:45 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1619474625; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=fNkvJIi7nqeDP4njjWFlWARPTKqKmZagHe+yI5YMjh0=;
- b=tFJc2biMqf/hDuywPKedwCLMb1+y1k3jcCQBAv1toV8Enlkzzst4oDXjyuRO4RpFACp/7oI7
- lWjmtgppMJzjqs3dR3GuFLFmuw0Xjo7kxs8q9gJph+6dHzfZFmrLxvlZ6SOVseGXPU/o0IO5
- geknFrrcqNg0Au0Yr3VwzyLs6CY=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 608738c02cc44d3aeaac1d5a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 26 Apr 2021 22:03:44
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 3D388C433D3; Mon, 26 Apr 2021 22:03:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 38804C4338A;
- Mon, 26 Apr 2021 22:03:42 +0000 (UTC)
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 068D16E883
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 22:14:50 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id j19so2539866qtx.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 15:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3RAq8My4wjRjemL6tqurAH0uK5r/Dek/9oOnAphO7Mc=;
+ b=r7xTgbZOI8GNfclq/Lx7WRVw8ehrBu21S2md+JyeYuMN2dRjESxlMHeeJAAW7Lyk3k
+ 43huRjVahswCdnHKejezj9B+VKEMF93fGkHXB7lCUz3tmGz6BQAaNMHYGXftOUftGUCj
+ N6RWbOIsuCoYQ82tKobLwPEO27v3uTQkwivrToqOPWtJOeNs3YRFSWljmPTcIQgJAD2h
+ YgwPxSjuP2BwHleENg177kTntzVHZuxTa9f9gOPXoLx/sXdrExDfgp/u5yCsaQ6cIsVV
+ 9yDkyt2LbLwMZ84beM5HHBBUcKVS500EOXE8TxQr8pxelFWdNr42+k6dRIcEKcHovLU/
+ Po3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3RAq8My4wjRjemL6tqurAH0uK5r/Dek/9oOnAphO7Mc=;
+ b=mBVDMrsToMTdF0XcsM4N0ZIa5Knykh2AStvPwp/sByVFz+ZBGxpIttf0oXxh7xVPKT
+ Yu+pVMXUJnaK2YLerttT6EOnxaWNVCVYdeb8NXZotJyu1TKhTU82bKruoAx/59L0nFUo
+ fCN7vqjPjp+yGrMw51k5k9zrOCiEVCG0FmvG3NjDwV2UWpOsKguOORr+ocA2ES1o+CTI
+ iftWTqt3Xm9xC0X8eW1K2gBgkI68AaU3rbvvm1BkaQOaluWPij8vqcErgMIHuMPFuBGG
+ GqCfMRoW35ovKnumVCG0kycZlhJS3kESarLjSzKUYQq2AOzsf2ooDEkJPT4i15whYa6Q
+ R0aQ==
+X-Gm-Message-State: AOAM532Coa+1vYRqBPWH7h9qP6p2tOKkY3EvFzlM72HSEnjZvCVTO6OK
+ qNaTqmJBVrI0dJUFU4K3AzgKviYOckS/SNH7fTgpNQ==
+X-Google-Smtp-Source: ABdhPJx+sbe+uIOgPmhI1UbrKb3qThOGoq3eXEEXslwcgK0UnFwFG2oOwnzXTNb3MyCtn21e4VBbdV3YzqDi3RCY1ec=
+X-Received: by 2002:a05:622a:54a:: with SMTP id
+ m10mr19205883qtx.298.1619475288999; 
+ Mon, 26 Apr 2021 15:14:48 -0700 (PDT)
 MIME-Version: 1.0
-Date: Mon, 26 Apr 2021 15:03:42 -0700
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH 2/2] drm/msm: make msm_disp_state transient
- data struct
-In-Reply-To: <a88fbf4c-aaa1-a144-dd08-0dd4890818bb@linaro.org>
 References: <20210425160800.1201337-1-dmitry.baryshkov@linaro.org>
  <20210425160800.1201337-3-dmitry.baryshkov@linaro.org>
  <30ed3860d33681e7904005265892f689@codeaurora.org>
  <a88fbf4c-aaa1-a144-dd08-0dd4890818bb@linaro.org>
-Message-ID: <1c465b53e200d0f07959d776ce8e1c10@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+ <1c465b53e200d0f07959d776ce8e1c10@codeaurora.org>
+In-Reply-To: <1c465b53e200d0f07959d776ce8e1c10@codeaurora.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 27 Apr 2021 01:14:37 +0300
+Message-ID: <CAA8EJpqaRx8gHOW4S6gvR0Xdwv4FeS_bRguLPDYDK_wbrGJpgQ@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 2/2] drm/msm: make msm_disp_state transient
+ data struct
+To: Abhinav Kumar <abhinavk@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,238 +67,388 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ Stephen Boyd <sboyd@kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie <airlied@linux.ie>,
+ freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMS0wNC0yNiAxNDoyMywgRG1pdHJ5IEJhcnlzaGtvdiB3cm90ZToKPiBPbiAyNi8wNC8y
-MDIxIDIzOjUwLCBhYmhpbmF2a0Bjb2RlYXVyb3JhLm9yZyB3cm90ZToKPj4gT24gMjAyMS0wNC0y
-NSAwOTowOCwgRG1pdHJ5IEJhcnlzaGtvdiB3cm90ZToKPj4+IEluc3RlYWQgb2YgYWxsb2NhdGlu
-ZyBzbmFwc2hvdHRpbmcgc3RydWN0dXJlIGF0IHRoZSBkcml2ZXIgcHJvYmUgdGltZQo+Pj4gYW5k
-IGxhdGVyIGhhbmRsaW5nIGNvbmN1cnJlbnQgYWNjZXNzLCBhY3R1YWwgc3RhdGUsIGV0YywgbWFr
-ZQo+Pj4gbXNtX2Rpc3Bfc3RhdGUgdHJhbnNpZW50IHN0cnVjdC4gQWxsb2NhdGUgb25lIHdoZW4g
-c25hcHNob3R0aW5nIAo+Pj4gaGFwcGVucwo+Pj4gYW5kIGZyZWUgaXQgYWZ0ZXIgY29yZWR1bXAg
-ZGF0YSBpcyByZWFkIGJ5IHVzZXJzcGFjZS4KPj4gCj4+IHRoZSBwdXJwb3NlIG9mIHRoZSBtdXRl
-eCBpcyB0aGF0IHdoZW4gdGhlcmUgYXJlIHR3byBjb3JlZHVtcHMgYmVpbmcgCj4+IHRyaWdnZXJl
-ZAo+PiBieSB0d28gY29uc2VjdXRpdmUgZXJyb3JzLCB3ZSB3YW50IHRvIG1ha2Ugc3VyZSB0aGF0
-IHRpbGwgb25lIGNvcmVkdW1wIAo+PiBpcyBjb21wbGV0ZWx5Cj4+IHJlYWQgYW5kL29yIHByb2Nl
-c3NlZCwgd2UgZG8gbm90IGFsbG93IHRyaWdnZXJpbmcgb2YgYW5vdGhlciBvbmUgYXMgd2UgCj4+
-IHdhbnQgdG8gY2FwdHVyZQo+PiB0aGUgYWNjdXJhdGUgaGFyZHdhcmUvc29mdHdhcmUgc3RhdGUu
-Cj4+IAo+PiBTbyBtb3ZpbmcgZGlzcF9zdGF0ZSBvdXQgb2Yga21zIG1pZ2h0IGJlIG9rYXkgYW5k
-IGp1c3QgYWxsb2NhdGVkIGl0IAo+PiB3aGVuIGFjdHVhbGx5IGNhcHR1cmluZyB0aGUgc3RhdGUK
-Pj4gYnV0IHdlIHdpbGwgbmVlZCB0aGUgbXV0ZXggYW5kIHNvbWUgc29ydCBvZiBwZW5kaW5nIGZs
-YWcgaW4gbXkgCj4+IG9waW5pb24uCj4gCj4gSSdsbCByZXR1cm4gdGhlIG11dGV4IHRvIHRoZSBr
-bXMgc3RydWN0LCBzbyB0aGF0IHdlIHdvbid0IHN0YXJ0Cj4gYW5vdGhlciBzbmFwc2hvdCB1bnRp
-bGwgcHJldmlvdXMgb25lIGlzIGNvbXBsZXRlLgoKSSB0aGluayBtdXRleCBzaG91bGQgcmVtYWlu
-IGFzIHBhcnQgb2Ygc25hcHNob3Qgc28gdGhhdCB0aGV5IGdvIAp0b2dldGhlci4gU2luY2UgdGhp
-cyBtdXRleCBpcyBub3QgdXNlZApieSBhbnkgb3RoZXIgbW9kdWxlLCBJIHRob3VnaHQgaXRzIGJl
-dHRlciB0byBrZWVwIGl0IHRoZXJlLgoKPiAKPiBDb25jZXJuaW5nIHRoZSBwZW5kaW5nIGZsYWcs
-IEkgdGhpbmsgaXQgaXMgYWxzbyBoYW5kbGVkIGJ5IHRoZQo+IGNvcmVkdW1wIGNvZGU6IGRldl9j
-b3JlZHVtcG0oKSB3aWxsIG5vdCBjcmVhdGUgYW5vdGhlciBkZXZpY2UgaWYgdGhlcmUKPiBpcyBv
-bmUgYWxyZWFkeSBhc3NvY2lhdGVkIHdpdGggdGhlIGRldmljZSBiZWluZyBkdW1wZWQuIEkgc2hv
-dWxkCj4gcHJvYmFibHkgbWVudGlvbiB0aGlzIGluIHRoZSBjb21taXQgbWVzc2FnZS4KClRoYXRz
-IGEgZ29vZCBwb2ludCwgSSBjaGVja2VkIHRoYXQgbm93IGFzIHdlbGwgYnV0IEkgc3RpbGwgdGhp
-bmsgd2UgbmVlZCAKdGhpcyBmbGFnIGJlY2F1c2UKaXQgYWxzbyBtYWtlcyBzdXJlIGRldmNvcmVk
-dW1wIGlzIHRha2VuIGFuZCByZWFkIHRvZ2V0aGVyIHdpdGhpbiBvdXIgCmRyaXZlciBpdHNlbGYg
-aW5zdGVhZCBvZiByZWx5aW5nCm9uIHRoZSBkZXZjb3JlZHVtcC4gSXRzIG5vdCBhIHN0cm9uZyBw
-cmVmZXJlbmNlLgoKQnV0IGlmIHlvdSB3b3VsZCBsaWtlIHRvIGdvIGFoZWFkIHdpdGggdGhpcywg
-bWlnaHQgaGF2ZSB0byByZXRlc3QgaXRzIApyb2J1c3RuZXNzLgpXaXRoIHRoZSBvbGRlciBsb2dp
-YyBob3cgaSB2ZXJpZmllZCB0aGlzIHdhcyB0aGF0IEkgcmVsYXhlZCB0aGUgdW5kZXJydW4gCmNu
-dCBjaGVjayBpbiB0aGlzIHBhdGNoCiggaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3Jn
-L3BhdGNoLzQyOTExMi8/c2VyaWVzPTg5MTgxJnJldj0xICkgCmhlcmUgYW5kIHNpbXVsYXRlZCBh
-biBlcnJvcjoKCkBAIC0xMzM2LDYgKzEzMzcsMTEgQEAgIHN0YXRpYyB2b2lkIGRwdV9lbmNvZGVy
-X3VuZGVycnVuX2NhbGxiYWNrKHN0cnVjdCAKZHJtX2VuY29kZXIgKmRybV9lbmMsCgogIAlEUFVf
-QVRSQUNFX0JFR0lOKCJlbmNvZGVyX3VuZGVycnVuX2NhbGxiYWNrIik7CiAgCWF0b21pY19pbmMo
-JnBoeV9lbmMtPnVuZGVycnVuX2NudCk7CisKKwkvKiB0cmlnZ2VyIGR1bXAgb25seSBvbiB0aGUg
-Zmlyc3QgdW5kZXJydW4gKi8KKwlpZiAoYXRvbWljX3JlYWQoJnBoeV9lbmMtPnVuZGVycnVuX2Nu
-dCkgPT0gMSkKKwkJbXNtX2Rpc3Bfc25hcHNob3Rfc3RhdGUoZHJtX2VuYy0+ZGV2KTsKKwoKQW5k
-IHZlcmlmaWVkIHRoYXQgYWNyb3NzIHZhcmlvdXMgdW5kZXJydW4gaW50ZXJydXB0cywgdGhlIGRl
-dmNvcmVkdW1wIGlzIApzdGFibGUuCgo+IAo+IElmIHlvdSBhZ3JlZSB3aXRoIHRoaXMsIEknbGwg
-c2VuZCB2MiB0aGVuIChhbHNvIGFkZGluZyBwbGxzIGR1bXBpbmcpLgpMb29raW5nIGZ3ZCB0byBz
-ZWVpbmcgdGhlIHBsbCBkdW1waW5nLCB0aGF0IHdpbGwgYmUgYSBncmVhdCBhZGRpdGlvbiB0byAK
-dGhpcy4KPiAKPj4gCj4+PiAKPj4+IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBCYXJ5c2hrb3YgPGRt
-aXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9yZz4KPj4+IC0tLQo+Pj4gwqBkcml2ZXJzL2dwdS9kcm0v
-bXNtL2Rpc3AvbXNtX2Rpc3Bfc25hcHNob3QuY8KgIHwgODcgCj4+PiArKysrLS0tLS0tLS0tLS0t
-LS0tCj4+PiDCoGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tc21fZGlzcF9zbmFwc2hvdC5owqAg
-fCAxMyArLS0KPj4+IMKgLi4uL2dwdS9kcm0vbXNtL2Rpc3AvbXNtX2Rpc3Bfc25hcHNob3RfdXRp
-bC5jIHzCoCA1ICstCj4+PiDCoGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2ttcy5owqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDUgKy0KPj4+IMKgNCBmaWxlcyBjaGFuZ2VkLCAy
-OCBpbnNlcnRpb25zKCspLCA4MiBkZWxldGlvbnMoLSkKPj4+IAo+Pj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tc21fZGlzcF9zbmFwc2hvdC5jCj4+PiBiL2RyaXZlcnMv
-Z3B1L2RybS9tc20vZGlzcC9tc21fZGlzcF9zbmFwc2hvdC5jCj4+PiBpbmRleCA3MGZkNWExZmUx
-M2UuLjM3MTM1ODg5MzcxNiAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlz
-cC9tc21fZGlzcF9zbmFwc2hvdC5jCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3Av
-bXNtX2Rpc3Bfc25hcHNob3QuYwo+Pj4gQEAgLTcsOCArNyw3IEBACj4+PiAKPj4+IMKgI2luY2x1
-ZGUgIm1zbV9kaXNwX3NuYXBzaG90LmgiCj4+PiAKPj4+IC0jaWZkZWYgQ09ORklHX0RFVl9DT1JF
-RFVNUAo+Pj4gLXN0YXRpYyBzc2l6ZV90IGRpc3BfZGV2Y29yZWR1bXBfcmVhZChjaGFyICpidWZm
-ZXIsIGxvZmZfdCBvZmZzZXQsCj4+PiArc3RhdGljIHNzaXplX3QgX19tYXliZV91bnVzZWQgZGlz
-cF9kZXZjb3JlZHVtcF9yZWFkKGNoYXIgKmJ1ZmZlciwKPj4+IGxvZmZfdCBvZmZzZXQsCj4+PiDC
-oMKgwqDCoMKgwqDCoMKgIHNpemVfdCBjb3VudCwgdm9pZCAqZGF0YSwgc2l6ZV90IGRhdGFsZW4p
-Cj4+PiDCoHsKPj4+IMKgwqDCoMKgIHN0cnVjdCBkcm1fcHJpbnRfaXRlcmF0b3IgaXRlcjsKPj4+
-IEBAIC0yOSwyNCArMjgsMjEgQEAgc3RhdGljIHNzaXplX3QgZGlzcF9kZXZjb3JlZHVtcF9yZWFk
-KGNoYXIgCj4+PiAqYnVmZmVyLAo+Pj4gbG9mZl90IG9mZnNldCwKPj4+IMKgwqDCoMKgIHJldHVy
-biBjb3VudCAtIGl0ZXIucmVtYWluOwo+Pj4gwqB9Cj4+PiAKPj4+IC1zdGF0aWMgdm9pZCBkaXNw
-X2RldmNvcmVkdW1wX2ZyZWUodm9pZCAqZGF0YSkKPj4+ICtzdGF0aWMgdm9pZCBfbXNtX2Rpc3Bf
-c25hcHNob3Rfd29yayhzdHJ1Y3Qga3RocmVhZF93b3JrICp3b3JrKQo+Pj4gwqB7Cj4+PiArwqDC
-oMKgIHN0cnVjdCBtc21fa21zICptc21fa21zID0gY29udGFpbmVyX29mKHdvcmssIHN0cnVjdCBt
-c21fa21zLCAKPj4+IGR1bXBfd29yayk7Cj4+PiArwqDCoMKgIHN0cnVjdCBkcm1fZGV2aWNlICpk
-cm1fZGV2ID0gbXNtX2ttcy0+ZGV2Owo+Pj4gwqDCoMKgwqAgc3RydWN0IG1zbV9kaXNwX3N0YXRl
-ICpkaXNwX3N0YXRlOwo+Pj4gK8KgwqDCoCBzdHJ1Y3QgZHJtX3ByaW50ZXIgcDsKPj4+IAo+Pj4g
-LcKgwqDCoCBkaXNwX3N0YXRlID0gZGF0YTsKPj4+IC0KPj4+IC3CoMKgwqAgbXNtX2Rpc3Bfc3Rh
-dGVfZnJlZShkaXNwX3N0YXRlKTsKPj4+IC0KPj4+IC3CoMKgwqAgZGlzcF9zdGF0ZS0+Y29yZWR1
-bXBfcGVuZGluZyA9IGZhbHNlOwo+Pj4gLX0KPj4+IC0jZW5kaWYgLyogQ09ORklHX0RFVl9DT1JF
-RFVNUCAqLwo+Pj4gK8KgwqDCoCBkaXNwX3N0YXRlID0ga3phbGxvYyhzaXplb2Yoc3RydWN0IG1z
-bV9kaXNwX3N0YXRlKSwgR0ZQX0tFUk5FTCk7Cj4+PiArwqDCoMKgIGlmICghZGlzcF9zdGF0ZSkK
-Pj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm47Cj4+PiAKPj4+IC1zdGF0aWMgdm9pZCBfbXNtX2Rp
-c3Bfc25hcHNob3Rfd29yayhzdHJ1Y3Qga3RocmVhZF93b3JrICp3b3JrKQo+Pj4gLXsKPj4+IC3C
-oMKgwqAgc3RydWN0IG1zbV9kaXNwX3N0YXRlICpkaXNwX3N0YXRlID0gY29udGFpbmVyX29mKHdv
-cmssIHN0cnVjdAo+Pj4gbXNtX2Rpc3Bfc3RhdGUsIGR1bXBfd29yayk7Cj4+PiAtwqDCoMKgIHN0
-cnVjdCBkcm1fcHJpbnRlciBwOwo+Pj4gK8KgwqDCoCBkaXNwX3N0YXRlLT5kZXYgPSBkcm1fZGV2
-LT5kZXY7Cj4+PiArwqDCoMKgIGRpc3Bfc3RhdGUtPmRybV9kZXYgPSBkcm1fZGV2Owo+Pj4gCj4+
-PiAtwqDCoMKgIG11dGV4X2xvY2soJmRpc3Bfc3RhdGUtPm11dGV4KTsKPj4+ICvCoMKgwqAgSU5J
-VF9MSVNUX0hFQUQoJmRpc3Bfc3RhdGUtPmJsb2Nrcyk7Cj4+PiAKPj4+IMKgwqDCoMKgIG1zbV9k
-aXNwX3NuYXBzaG90X2NhcHR1cmVfc3RhdGUoZGlzcF9zdGF0ZSk7Cj4+PiAKPj4+IEBAIC01NSwy
-NiArNTEsMTUgQEAgc3RhdGljIHZvaWQgX21zbV9kaXNwX3NuYXBzaG90X3dvcmsoc3RydWN0Cj4+
-PiBrdGhyZWFkX3dvcmsgKndvcmspCj4+PiDCoMKgwqDCoMKgwqDCoMKgIG1zbV9kaXNwX3N0YXRl
-X3ByaW50KGRpc3Bfc3RhdGUsICZwKTsKPj4+IMKgwqDCoMKgIH0KPj4+IAo+Pj4gLcKgwqDCoCAv
-Kgo+Pj4gLcKgwqDCoMKgICogaWYgZGV2Y29yZWR1bXAgaXMgbm90IGRlZmluZWQgZnJlZSB0aGUg
-c3RhdGUgaW1tZWRpYXRlbHkKPj4+IC3CoMKgwqDCoCAqIG90aGVyd2lzZSBpdCB3aWxsIGJlIGZy
-ZWVkIGluIHRoZSBmcmVlIGhhbmRsZXIuCj4+PiAtwqDCoMKgwqAgKi8KPj4+IC0jaWZkZWYgQ09O
-RklHX0RFVl9DT1JFRFVNUAo+Pj4gK8KgwqDCoCAvKiBJZiBDT1JFRFVNUCBpcyBkaXNhYmxlZCwg
-dGhlIHN0dWIgd2lsbCBjYWxsIHRoZSBmcmVlIAo+Pj4gZnVuY3Rpb24uICovCj4+IFRoaXMgaXMg
-YSBnb29kIGNsZWFudXAsIEkganVzdCBjaGVja2VkIHRoYXQgdGhlIGZyZWUoKSBpcyBjYWxsZWQg
-ZXZlbiAKPj4gaWYgdGhlIGNvbmZpZyBpcyBub3QgZW5hYmxlZAo+Pj4gwqDCoMKgwqAgZGV2X2Nv
-cmVkdW1wbShkaXNwX3N0YXRlLT5kZXYsIFRISVNfTU9EVUxFLCBkaXNwX3N0YXRlLCAwLCAKPj4+
-IEdGUF9LRVJORUwsCj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkaXNwX2RldmNvcmVkdW1w
-X3JlYWQsIGRpc3BfZGV2Y29yZWR1bXBfZnJlZSk7Cj4+PiAtwqDCoMKgIGRpc3Bfc3RhdGUtPmNv
-cmVkdW1wX3BlbmRpbmcgPSB0cnVlOwo+Pj4gLSNlbHNlCj4+PiAtwqDCoMKgIG1zbV9kaXNwX3N0
-YXRlX2ZyZWUoZGlzcF9zdGF0ZSk7Cj4+PiAtI2VuZGlmCj4+PiAtCj4+PiAtwqDCoMKgIG11dGV4
-X3VubG9jaygmZGlzcF9zdGF0ZS0+bXV0ZXgpOwo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-ZGlzcF9kZXZjb3JlZHVtcF9yZWFkLCBtc21fZGlzcF9zdGF0ZV9mcmVlKTsKPj4+IMKgfQo+Pj4g
-Cj4+PiDCoHZvaWQgbXNtX2Rpc3Bfc25hcHNob3Rfc3RhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRy
-bV9kZXYpCj4+PiDCoHsKPj4+IMKgwqDCoMKgIHN0cnVjdCBtc21fZHJtX3ByaXZhdGUgKnByaXY7
-Cj4+PiDCoMKgwqDCoCBzdHJ1Y3QgbXNtX2ttcyAqa21zOwo+Pj4gLcKgwqDCoCBzdHJ1Y3QgbXNt
-X2Rpc3Bfc3RhdGUgKmRpc3Bfc3RhdGU7Cj4+PiAKPj4+IMKgwqDCoMKgIGlmICghZHJtX2Rldikg
-ewo+Pj4gwqDCoMKgwqDCoMKgwqDCoCBEUk1fRVJST1IoImludmFsaWQgcGFyYW1zXG4iKTsKPj4+
-IEBAIC04MywzMCArNjgsMTMgQEAgdm9pZCBtc21fZGlzcF9zbmFwc2hvdF9zdGF0ZShzdHJ1Y3Qg
-ZHJtX2RldmljZSAKPj4+ICpkcm1fZGV2KQo+Pj4gCj4+PiDCoMKgwqDCoCBwcml2ID0gZHJtX2Rl
-di0+ZGV2X3ByaXZhdGU7Cj4+PiDCoMKgwqDCoCBrbXMgPSBwcml2LT5rbXM7Cj4+PiAtwqDCoMKg
-IGRpc3Bfc3RhdGUgPSBrbXMtPmRpc3Bfc3RhdGU7Cj4+PiAtCj4+PiAtwqDCoMKgIGlmICghZGlz
-cF9zdGF0ZSkgewo+Pj4gLcKgwqDCoMKgwqDCoMKgIERSTV9FUlJPUigiaW52YWxpZCBwYXJhbXNc
-biIpOwo+Pj4gLcKgwqDCoMKgwqDCoMKgIHJldHVybjsKPj4+IC3CoMKgwqAgfQo+Pj4gLQo+Pj4g
-LcKgwqDCoCAvKgo+Pj4gLcKgwqDCoMKgICogaWYgdGhlcmUgaXMgYSBjb3JlZHVtcCBwZW5kaW5n
-IHJldHVybiBpbW1lZGlhdGVseSB0aWxsIGR1bXAKPj4+IC3CoMKgwqDCoCAqIGlmIHJlYWQgYnkg
-dXNlcnNwYWNlIG9yIHRpbWVvdXQgaGFwcGVucwo+Pj4gLcKgwqDCoMKgICovCj4+PiAtwqDCoMKg
-IGlmIChkaXNwX3N0YXRlLT5jb3JlZHVtcF9wZW5kaW5nKSB7Cj4+PiAtwqDCoMKgwqDCoMKgwqAg
-RFJNX0RFQlVHKCJjb3JlZHVtcCBpcyBwZW5kaW5nIHJlYWRcbiIpOwo+Pj4gLcKgwqDCoMKgwqDC
-oMKgIHJldHVybjsKPj4+IC3CoMKgwqAgfQo+Pj4gCj4+PiAtwqDCoMKgIGt0aHJlYWRfcXVldWVf
-d29yayhkaXNwX3N0YXRlLT5kdW1wX3dvcmtlciwKPj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-ICZkaXNwX3N0YXRlLT5kdW1wX3dvcmspOwo+Pj4gK8KgwqDCoCBrdGhyZWFkX3F1ZXVlX3dvcmso
-a21zLT5kdW1wX3dvcmtlciwgJmttcy0+ZHVtcF93b3JrKTsKPj4+IMKgfQo+Pj4gCj4+PiDCoGlu
-dCBtc21fZGlzcF9zbmFwc2hvdF9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm1fZGV2KQo+Pj4g
-wqB7Cj4+PiDCoMKgwqDCoCBzdHJ1Y3QgbXNtX2RybV9wcml2YXRlICpwcml2Owo+Pj4gLcKgwqDC
-oCBzdHJ1Y3QgbXNtX2Rpc3Bfc3RhdGUgKmRpc3Bfc3RhdGU7Cj4+PiDCoMKgwqDCoCBzdHJ1Y3Qg
-bXNtX2ttcyAqa21zOwo+Pj4gCj4+PiDCoMKgwqDCoCBpZiAoIWRybV9kZXYpIHsKPj4+IEBAIC0x
-MTcsMjIgKzg1LDExIEBAIGludCBtc21fZGlzcF9zbmFwc2hvdF9pbml0KHN0cnVjdCBkcm1fZGV2
-aWNlIAo+Pj4gKmRybV9kZXYpCj4+PiDCoMKgwqDCoCBwcml2ID0gZHJtX2Rldi0+ZGV2X3ByaXZh
-dGU7Cj4+PiDCoMKgwqDCoCBrbXMgPSBwcml2LT5rbXM7Cj4+PiAKPj4+IC3CoMKgwqAgZGlzcF9z
-dGF0ZSA9IGRldm1fa3phbGxvYyhkcm1fZGV2LT5kZXYsIHNpemVvZihzdHJ1Y3QKPj4+IG1zbV9k
-aXNwX3N0YXRlKSwgR0ZQX0tFUk5FTCk7Cj4+PiAtCj4+PiAtwqDCoMKgIG11dGV4X2luaXQoJmRp
-c3Bfc3RhdGUtPm11dGV4KTsKPj4+IC0KPj4+IC3CoMKgwqAgZGlzcF9zdGF0ZS0+ZGV2ID0gZHJt
-X2Rldi0+ZGV2Owo+Pj4gLcKgwqDCoCBkaXNwX3N0YXRlLT5kcm1fZGV2ID0gZHJtX2RldjsKPj4+
-IC0KPj4+IC3CoMKgwqAgSU5JVF9MSVNUX0hFQUQoJmRpc3Bfc3RhdGUtPmJsb2Nrcyk7Cj4+PiAt
-Cj4+PiAtwqDCoMKgIGRpc3Bfc3RhdGUtPmR1bXBfd29ya2VyID0ga3RocmVhZF9jcmVhdGVfd29y
-a2VyKDAsICIlcyIsIAo+Pj4gImRpc3Bfc25hcHNob3QiKTsKPj4+IC3CoMKgwqAgaWYgKElTX0VS
-UihkaXNwX3N0YXRlLT5kdW1wX3dvcmtlcikpCj4+PiArwqDCoMKgIGttcy0+ZHVtcF93b3JrZXIg
-PSBrdGhyZWFkX2NyZWF0ZV93b3JrZXIoMCwgIiVzIiwgCj4+PiAiZGlzcF9zbmFwc2hvdCIpOwo+
-Pj4gK8KgwqDCoCBpZiAoSVNfRVJSKGttcy0+ZHVtcF93b3JrZXIpKQo+Pj4gwqDCoMKgwqDCoMKg
-wqDCoCBEUk1fRVJST1IoImZhaWxlZCB0byBjcmVhdGUgZGlzcCBzdGF0ZSB0YXNrXG4iKTsKPj4+
-IAo+Pj4gLcKgwqDCoCBrdGhyZWFkX2luaXRfd29yaygmZGlzcF9zdGF0ZS0+ZHVtcF93b3JrLCAK
-Pj4+IF9tc21fZGlzcF9zbmFwc2hvdF93b3JrKTsKPj4+IC0KPj4+IC3CoMKgwqAga21zLT5kaXNw
-X3N0YXRlID0gZGlzcF9zdGF0ZTsKPj4+ICvCoMKgwqAga3RocmVhZF9pbml0X3dvcmsoJmttcy0+
-ZHVtcF93b3JrLCBfbXNtX2Rpc3Bfc25hcHNob3Rfd29yayk7Cj4+PiAKPj4+IMKgwqDCoMKgIHJl
-dHVybiAwOwo+Pj4gwqB9Cj4+PiBAQCAtMTQxLDcgKzk4LDYgQEAgdm9pZCBtc21fZGlzcF9zbmFw
-c2hvdF9kZXN0cm95KHN0cnVjdCBkcm1fZGV2aWNlIAo+Pj4gKmRybV9kZXYpCj4+PiDCoHsKPj4+
-IMKgwqDCoMKgIHN0cnVjdCBtc21fa21zICprbXM7Cj4+PiDCoMKgwqDCoCBzdHJ1Y3QgbXNtX2Ry
-bV9wcml2YXRlICpwcml2Owo+Pj4gLcKgwqDCoCBzdHJ1Y3QgbXNtX2Rpc3Bfc3RhdGUgKmRpc3Bf
-c3RhdGU7Cj4+PiAKPj4+IMKgwqDCoMKgIGlmICghZHJtX2Rldikgewo+Pj4gwqDCoMKgwqDCoMKg
-wqDCoCBEUk1fRVJST1IoImludmFsaWQgcGFyYW1zXG4iKTsKPj4+IEBAIC0xNTAsMTIgKzEwNiw3
-IEBAIHZvaWQgbXNtX2Rpc3Bfc25hcHNob3RfZGVzdHJveShzdHJ1Y3QgZHJtX2RldmljZSAKPj4+
-ICpkcm1fZGV2KQo+Pj4gCj4+PiDCoMKgwqDCoCBwcml2ID0gZHJtX2Rldi0+ZGV2X3ByaXZhdGU7
-Cj4+PiDCoMKgwqDCoCBrbXMgPSBwcml2LT5rbXM7Cj4+PiAtwqDCoMKgIGRpc3Bfc3RhdGUgPSBr
-bXMtPmRpc3Bfc3RhdGU7Cj4+PiAtCj4+PiAtwqDCoMKgIGlmIChkaXNwX3N0YXRlLT5kdW1wX3dv
-cmtlcikKPj4+IC3CoMKgwqDCoMKgwqDCoCBrdGhyZWFkX2Rlc3Ryb3lfd29ya2VyKGRpc3Bfc3Rh
-dGUtPmR1bXBfd29ya2VyKTsKPj4+IC0KPj4+IC3CoMKgwqAgbGlzdF9kZWwoJmRpc3Bfc3RhdGUt
-PmJsb2Nrcyk7Cj4+PiAKPj4+IC3CoMKgwqAgbXV0ZXhfZGVzdHJveSgmZGlzcF9zdGF0ZS0+bXV0
-ZXgpOwo+Pj4gK8KgwqDCoCBpZiAoa21zLT5kdW1wX3dvcmtlcikKPj4+ICvCoMKgwqDCoMKgwqDC
-oCBrdGhyZWFkX2Rlc3Ryb3lfd29ya2VyKGttcy0+ZHVtcF93b3JrZXIpOwo+Pj4gwqB9Cj4+PiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21zbV9kaXNwX3NuYXBzaG90LmgK
-Pj4+IGIvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21zbV9kaXNwX3NuYXBzaG90LmgKPj4+IGlu
-ZGV4IDMyZjUyNzk5YTFiYS4uYzYxNzRhMzY2MDk1IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL21zbS9kaXNwL21zbV9kaXNwX3NuYXBzaG90LmgKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9tc20vZGlzcC9tc21fZGlzcF9zbmFwc2hvdC5oCj4+PiBAQCAtNDEsMjYgKzQxLDE3IEBA
-Cj4+PiDCoCAqIHN0cnVjdCBtc21fZGlzcF9zdGF0ZSAtIHN0cnVjdHVyZSB0byBzdG9yZSBjdXJy
-ZW50IGRwdSBzdGF0ZQo+Pj4gwqAgKiBAZGV2OiBkZXZpY2UgcG9pbnRlcgo+Pj4gwqAgKiBAZHJt
-X2RldjogZHJtIGRldmljZSBwb2ludGVyCj4+PiAtICogQG11dGV4OiBtdXRleCB0byBzZXJpYWxp
-emUgYWNjZXNzIHRvIHNlcmlhbHplIGR1bXBzLCBkZWJ1Z2ZzIAo+Pj4gYWNjZXNzCj4+PiAtICog
-QGNvcmVkdW1wX3BlbmRpbmc6IGNvcmVkdW1wIGlzIHBlbmRpbmcgcmVhZCBmcm9tIHVzZXJzcGFj
-ZQo+Pj4gwqAgKiBAYXRvbWljX3N0YXRlOiBhdG9taWMgc3RhdGUgZHVwbGljYXRlZCBhdCB0aGUg
-dGltZSBvZiB0aGUgZXJyb3IKPj4+IC0gKiBAZHVtcF93b3JrZXI6IGt3b3JrZXIgdGhyZWFkIHdo
-aWNoIHJ1bnMgdGhlIGR1bXAgd29yawo+Pj4gLSAqIEBkdW1wX3dvcms6IGt3b3JrIHdoaWNoIGR1
-bXBzIHRoZSByZWdpc3RlcnMgYW5kIGRybSBzdGF0ZQo+Pj4gwqAgKiBAdGltZXN0YW1wOiB0aW1l
-c3RhbXAgYXQgd2hpY2ggdGhlIGNvcmVkdW1wIHdhcyBjYXB0dXJlZAo+Pj4gwqAgKi8KPj4+IMKg
-c3RydWN0IG1zbV9kaXNwX3N0YXRlIHsKPj4+IMKgwqDCoMKgIHN0cnVjdCBkZXZpY2UgKmRldjsK
-Pj4+IMKgwqDCoMKgIHN0cnVjdCBkcm1fZGV2aWNlICpkcm1fZGV2Owo+Pj4gLcKgwqDCoCBzdHJ1
-Y3QgbXV0ZXggbXV0ZXg7Cj4+PiAtCj4+PiAtwqDCoMKgIGJvb2wgY29yZWR1bXBfcGVuZGluZzsK
-Pj4+IAo+Pj4gwqDCoMKgwqAgc3RydWN0IGxpc3RfaGVhZCBibG9ja3M7Cj4+PiAKPj4+IMKgwqDC
-oMKgIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICphdG9taWNfc3RhdGU7Cj4+PiAKPj4+IC3CoMKg
-wqAgc3RydWN0IGt0aHJlYWRfd29ya2VyICpkdW1wX3dvcmtlcjsKPj4+IC3CoMKgwqAgc3RydWN0
-IGt0aHJlYWRfd29yayBkdW1wX3dvcms7Cj4+PiDCoMKgwqDCoCBrdGltZV90IHRpbWVzdGFtcDsK
-Pj4+IMKgfTsKPj4+IAo+Pj4gQEAgLTEyMywxMSArMTE0LDExIEBAIHZvaWQgbXNtX2Rpc3Bfc25h
-cHNob3RfY2FwdHVyZV9zdGF0ZShzdHJ1Y3QKPj4+IG1zbV9kaXNwX3N0YXRlICpkaXNwX3N0YXRl
-KTsKPj4+IAo+Pj4gwqAvKioKPj4+IMKgICogbXNtX2Rpc3Bfc3RhdGVfZnJlZSAtIGZyZWUgdGhl
-IG1lbW9yeSBhZnRlciB0aGUgY29yZWR1bXAgaGFzIGJlZW4gCj4+PiByZWFkCj4+PiAtICogQGRp
-c3Bfc3RhdGU6wqDCoMKgwqDCoMKgwqAgaGFuZGxlIHRvIHN0cnVjdCBtc21fZGlzcF9zdGF0ZQo+
-Pj4gKyAqIEBkYXRhOsKgwqDCoMKgwqDCoMKgIGhhbmRsZSB0byBzdHJ1Y3QgbXNtX2Rpc3Bfc3Rh
-dGUKPj4+IAo+Pj4gwqAgKiBSZXR1cm5zOiBub25lCj4+PiDCoCAqLwo+Pj4gLXZvaWQgbXNtX2Rp
-c3Bfc3RhdGVfZnJlZShzdHJ1Y3QgbXNtX2Rpc3Bfc3RhdGUgKmRpc3Bfc3RhdGUpOwo+Pj4gK3Zv
-aWQgbXNtX2Rpc3Bfc3RhdGVfZnJlZSh2b2lkICpkYXRhKTsKPj4+IAo+Pj4gwqAvKioKPj4+IMKg
-ICogbXNtX2Rpc3Bfc25hcHNob3RfYWRkX2Jsb2NrIC0gYWRkIGEgaGFyZHdhcmUgYmxvY2sgd2l0
-aCBpdHMgCj4+PiByZWdpc3RlciBkdW1wCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L21zbS9kaXNwL21zbV9kaXNwX3NuYXBzaG90X3V0aWwuYwo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0v
-bXNtL2Rpc3AvbXNtX2Rpc3Bfc25hcHNob3RfdXRpbC5jCj4+PiBpbmRleCBjYTY2MzI1NTAzMzcu
-LmNhYmUxNTE5MGVjMSAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9t
-c21fZGlzcF9zbmFwc2hvdF91dGlsLmMKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlz
-cC9tc21fZGlzcF9zbmFwc2hvdF91dGlsLmMKPj4+IEBAIC0xNDIsOCArMTQyLDkgQEAgdm9pZCBt
-c21fZGlzcF9zbmFwc2hvdF9jYXB0dXJlX3N0YXRlKHN0cnVjdAo+Pj4gbXNtX2Rpc3Bfc3RhdGUg
-KmRpc3Bfc3RhdGUpCj4+PiDCoMKgwqDCoCBtc21fZGlzcF9jYXB0dXJlX2F0b21pY19zdGF0ZShk
-aXNwX3N0YXRlKTsKPj4+IMKgfQo+Pj4gCj4+PiAtdm9pZCBtc21fZGlzcF9zdGF0ZV9mcmVlKHN0
-cnVjdCBtc21fZGlzcF9zdGF0ZSAqZGlzcF9zdGF0ZSkKPj4+ICt2b2lkIG1zbV9kaXNwX3N0YXRl
-X2ZyZWUodm9pZCAqZGF0YSkKPj4+IMKgewo+Pj4gK8KgwqDCoCBzdHJ1Y3QgbXNtX2Rpc3Bfc3Rh
-dGUgKmRpc3Bfc3RhdGUgPSBkYXRhOwo+Pj4gwqDCoMKgwqAgc3RydWN0IG1zbV9kaXNwX3N0YXRl
-X2Jsb2NrICpibG9jaywgKnRtcDsKPj4+IAo+Pj4gwqDCoMKgwqAgaWYgKGRpc3Bfc3RhdGUtPmF0
-b21pY19zdGF0ZSkgewo+Pj4gQEAgLTE1Niw2ICsxNTcsOCBAQCB2b2lkIG1zbV9kaXNwX3N0YXRl
-X2ZyZWUoc3RydWN0IG1zbV9kaXNwX3N0YXRlIAo+Pj4gKmRpc3Bfc3RhdGUpCj4+PiDCoMKgwqDC
-oMKgwqDCoMKgIGtmcmVlKGJsb2NrLT5zdGF0ZSk7Cj4+PiDCoMKgwqDCoMKgwqDCoMKgIGtmcmVl
-KGJsb2NrKTsKPj4+IMKgwqDCoMKgIH0KPj4+ICsKPj4+ICvCoMKgwqAga2ZyZWUoZGlzcF9zdGF0
-ZSk7Cj4+PiDCoH0KPj4+IAo+Pj4gwqB2b2lkIG1zbV9kaXNwX3NuYXBzaG90X2FkZF9ibG9jayhz
-dHJ1Y3QgbXNtX2Rpc3Bfc3RhdGUgKmRpc3Bfc3RhdGUsIAo+Pj4gdTMyIGxlbiwKPj4+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9rbXMuaCAKPj4+IGIvZHJpdmVycy9ncHUv
-ZHJtL21zbS9tc21fa21zLmgKPj4+IGluZGV4IDE0NmRjYWIxMjNmNC4uNTI5YjlkYWNmN2NhIDEw
-MDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fa21zLmgKPj4+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9tc20vbXNtX2ttcy5oCj4+PiBAQCAtMTU2LDggKzE1Niw5IEBAIHN0cnVj
-dCBtc21fa21zIHsKPj4+IMKgwqDCoMKgIC8qIG1hcHBlci1pZCB1c2VkIHRvIHJlcXVlc3QgR0VN
-IGJ1ZmZlciBtYXBwZWQgZm9yIHNjYW5vdXQ6ICovCj4+PiDCoMKgwqDCoCBzdHJ1Y3QgbXNtX2dl
-bV9hZGRyZXNzX3NwYWNlICphc3BhY2U7Cj4+PiAKPj4+IC3CoMKgwqAgLyogaGFuZGxlIHRvIGRp
-c3Agc25hcHNob3Qgc3RhdGUgKi8KPj4+IC3CoMKgwqAgc3RydWN0IG1zbV9kaXNwX3N0YXRlICpk
-aXNwX3N0YXRlOwo+Pj4gK8KgwqDCoCAvKiBkaXNwIHNuYXBzaG90IHN1cHBvcnQgKi8KPj4+ICvC
-oMKgwqAgc3RydWN0IGt0aHJlYWRfd29ya2VyICpkdW1wX3dvcmtlcjsKPj4+ICvCoMKgwqAgc3Ry
-dWN0IGt0aHJlYWRfd29yayBkdW1wX3dvcms7Cj4+PiAKPj4+IMKgwqDCoMKgIC8qCj4+PiDCoMKg
-wqDCoMKgICogRm9yIGFzeW5jIGNvbW1pdCwgd2hlcmUgLT5mbHVzaF9jb21taXQoKSBhbmQgbGF0
-ZXIgaGFwcGVucwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, 27 Apr 2021 at 01:03, <abhinavk@codeaurora.org> wrote:
+>
+> On 2021-04-26 14:23, Dmitry Baryshkov wrote:
+> > On 26/04/2021 23:50, abhinavk@codeaurora.org wrote:
+> >> On 2021-04-25 09:08, Dmitry Baryshkov wrote:
+> >>> Instead of allocating snapshotting structure at the driver probe time
+> >>> and later handling concurrent access, actual state, etc, make
+> >>> msm_disp_state transient struct. Allocate one when snapshotting
+> >>> happens
+> >>> and free it after coredump data is read by userspace.
+> >>
+> >> the purpose of the mutex is that when there are two coredumps being
+> >> triggered
+> >> by two consecutive errors, we want to make sure that till one coredump
+> >> is completely
+> >> read and/or processed, we do not allow triggering of another one as we
+> >> want to capture
+> >> the accurate hardware/software state.
+> >>
+> >> So moving disp_state out of kms might be okay and just allocated it
+> >> when actually capturing the state
+> >> but we will need the mutex and some sort of pending flag in my
+> >> opinion.
+> >
+> > I'll return the mutex to the kms struct, so that we won't start
+> > another snapshot untill previous one is complete.
+>
+> I think mutex should remain as part of snapshot so that they go
+> together. Since this mutex is not used
+> by any other module, I thought its better to keep it there.
+
+I don't think so: we will serialize access to the snapshot, but not
+dumping between snapshots. Note, that your code also serializes
+writing to snapshot, not reading from it.
+With disp_state being allocated on demand we do not have to protect
+its contents (since it is not available before registration using
+dev_codedumpm).
+I thought that you wanted to be sure that one snapshot is fully
+captured before next error triggers the next snapshot. And for  this
+we'd need 'global' mutex (in kms).
+
+> > Concerning the pending flag, I think it is also handled by the
+> > coredump code: dev_coredumpm() will not create another device if there
+> > is one already associated with the device being dumped. I should
+> > probably mention this in the commit message.
+>
+> Thats a good point, I checked that now as well but I still think we need
+> this flag because
+> it also makes sure devcoredump is taken and read together within our
+> driver itself instead of relying
+> on the devcoredump. Its not a strong preference.
+>
+> But if you would like to go ahead with this, might have to retest its
+> robustness.
+> With the older logic how i verified this was that I relaxed the underrun
+> cnt check in this patch
+> ( https://patchwork.freedesktop.org/patch/429112/?series=89181&rev=1 )
+> here and simulated an error:
+>
+> @@ -1336,6 +1337,11 @@  static void dpu_encoder_underrun_callback(struct
+> drm_encoder *drm_enc,
+>
+>         DPU_ATRACE_BEGIN("encoder_underrun_callback");
+>         atomic_inc(&phy_enc->underrun_cnt);
+> +
+> +       /* trigger dump only on the first underrun */
+> +       if (atomic_read(&phy_enc->underrun_cnt) == 1)
+> +               msm_disp_snapshot_state(drm_enc->dev);
+> +
+>
+> And verified that across various underrun interrupts, the devcoredump is
+> stable.
+
+I'll try testing it this way, thank you for the pointer!
+
+>
+> >
+> > If you agree with this, I'll send v2 then (also adding plls dumping).
+> Looking fwd to seeing the pll dumping, that will be a great addition to
+> this.
+> >
+> >>
+> >>>
+> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>> ---
+> >>>  drivers/gpu/drm/msm/disp/msm_disp_snapshot.c  | 87
+> >>> ++++---------------
+> >>>  drivers/gpu/drm/msm/disp/msm_disp_snapshot.h  | 13 +--
+> >>>  .../gpu/drm/msm/disp/msm_disp_snapshot_util.c |  5 +-
+> >>>  drivers/gpu/drm/msm/msm_kms.h                 |  5 +-
+> >>>  4 files changed, 28 insertions(+), 82 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+> >>> b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+> >>> index 70fd5a1fe13e..371358893716 100644
+> >>> --- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+> >>> +++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+> >>> @@ -7,8 +7,7 @@
+> >>>
+> >>>  #include "msm_disp_snapshot.h"
+> >>>
+> >>> -#ifdef CONFIG_DEV_COREDUMP
+> >>> -static ssize_t disp_devcoredump_read(char *buffer, loff_t offset,
+> >>> +static ssize_t __maybe_unused disp_devcoredump_read(char *buffer,
+> >>> loff_t offset,
+> >>>          size_t count, void *data, size_t datalen)
+> >>>  {
+> >>>      struct drm_print_iterator iter;
+> >>> @@ -29,24 +28,21 @@ static ssize_t disp_devcoredump_read(char
+> >>> *buffer,
+> >>> loff_t offset,
+> >>>      return count - iter.remain;
+> >>>  }
+> >>>
+> >>> -static void disp_devcoredump_free(void *data)
+> >>> +static void _msm_disp_snapshot_work(struct kthread_work *work)
+> >>>  {
+> >>> +    struct msm_kms *msm_kms = container_of(work, struct msm_kms,
+> >>> dump_work);
+> >>> +    struct drm_device *drm_dev = msm_kms->dev;
+> >>>      struct msm_disp_state *disp_state;
+> >>> +    struct drm_printer p;
+> >>>
+> >>> -    disp_state = data;
+> >>> -
+> >>> -    msm_disp_state_free(disp_state);
+> >>> -
+> >>> -    disp_state->coredump_pending = false;
+> >>> -}
+> >>> -#endif /* CONFIG_DEV_COREDUMP */
+> >>> +    disp_state = kzalloc(sizeof(struct msm_disp_state), GFP_KERNEL);
+> >>> +    if (!disp_state)
+> >>> +        return;
+> >>>
+> >>> -static void _msm_disp_snapshot_work(struct kthread_work *work)
+> >>> -{
+> >>> -    struct msm_disp_state *disp_state = container_of(work, struct
+> >>> msm_disp_state, dump_work);
+> >>> -    struct drm_printer p;
+> >>> +    disp_state->dev = drm_dev->dev;
+> >>> +    disp_state->drm_dev = drm_dev;
+> >>>
+> >>> -    mutex_lock(&disp_state->mutex);
+> >>> +    INIT_LIST_HEAD(&disp_state->blocks);
+> >>>
+> >>>      msm_disp_snapshot_capture_state(disp_state);
+> >>>
+> >>> @@ -55,26 +51,15 @@ static void _msm_disp_snapshot_work(struct
+> >>> kthread_work *work)
+> >>>          msm_disp_state_print(disp_state, &p);
+> >>>      }
+> >>>
+> >>> -    /*
+> >>> -     * if devcoredump is not defined free the state immediately
+> >>> -     * otherwise it will be freed in the free handler.
+> >>> -     */
+> >>> -#ifdef CONFIG_DEV_COREDUMP
+> >>> +    /* If COREDUMP is disabled, the stub will call the free
+> >>> function. */
+> >> This is a good cleanup, I just checked that the free() is called even
+> >> if the config is not enabled
+> >>>      dev_coredumpm(disp_state->dev, THIS_MODULE, disp_state, 0,
+> >>> GFP_KERNEL,
+> >>> -            disp_devcoredump_read, disp_devcoredump_free);
+> >>> -    disp_state->coredump_pending = true;
+> >>> -#else
+> >>> -    msm_disp_state_free(disp_state);
+> >>> -#endif
+> >>> -
+> >>> -    mutex_unlock(&disp_state->mutex);
+> >>> +            disp_devcoredump_read, msm_disp_state_free);
+> >>>  }
+> >>>
+> >>>  void msm_disp_snapshot_state(struct drm_device *drm_dev)
+> >>>  {
+> >>>      struct msm_drm_private *priv;
+> >>>      struct msm_kms *kms;
+> >>> -    struct msm_disp_state *disp_state;
+> >>>
+> >>>      if (!drm_dev) {
+> >>>          DRM_ERROR("invalid params\n");
+> >>> @@ -83,30 +68,13 @@ void msm_disp_snapshot_state(struct drm_device
+> >>> *drm_dev)
+> >>>
+> >>>      priv = drm_dev->dev_private;
+> >>>      kms = priv->kms;
+> >>> -    disp_state = kms->disp_state;
+> >>> -
+> >>> -    if (!disp_state) {
+> >>> -        DRM_ERROR("invalid params\n");
+> >>> -        return;
+> >>> -    }
+> >>> -
+> >>> -    /*
+> >>> -     * if there is a coredump pending return immediately till dump
+> >>> -     * if read by userspace or timeout happens
+> >>> -     */
+> >>> -    if (disp_state->coredump_pending) {
+> >>> -        DRM_DEBUG("coredump is pending read\n");
+> >>> -        return;
+> >>> -    }
+> >>>
+> >>> -    kthread_queue_work(disp_state->dump_worker,
+> >>> -            &disp_state->dump_work);
+> >>> +    kthread_queue_work(kms->dump_worker, &kms->dump_work);
+> >>>  }
+> >>>
+> >>>  int msm_disp_snapshot_init(struct drm_device *drm_dev)
+> >>>  {
+> >>>      struct msm_drm_private *priv;
+> >>> -    struct msm_disp_state *disp_state;
+> >>>      struct msm_kms *kms;
+> >>>
+> >>>      if (!drm_dev) {
+> >>> @@ -117,22 +85,11 @@ int msm_disp_snapshot_init(struct drm_device
+> >>> *drm_dev)
+> >>>      priv = drm_dev->dev_private;
+> >>>      kms = priv->kms;
+> >>>
+> >>> -    disp_state = devm_kzalloc(drm_dev->dev, sizeof(struct
+> >>> msm_disp_state), GFP_KERNEL);
+> >>> -
+> >>> -    mutex_init(&disp_state->mutex);
+> >>> -
+> >>> -    disp_state->dev = drm_dev->dev;
+> >>> -    disp_state->drm_dev = drm_dev;
+> >>> -
+> >>> -    INIT_LIST_HEAD(&disp_state->blocks);
+> >>> -
+> >>> -    disp_state->dump_worker = kthread_create_worker(0, "%s",
+> >>> "disp_snapshot");
+> >>> -    if (IS_ERR(disp_state->dump_worker))
+> >>> +    kms->dump_worker = kthread_create_worker(0, "%s",
+> >>> "disp_snapshot");
+> >>> +    if (IS_ERR(kms->dump_worker))
+> >>>          DRM_ERROR("failed to create disp state task\n");
+> >>>
+> >>> -    kthread_init_work(&disp_state->dump_work,
+> >>> _msm_disp_snapshot_work);
+> >>> -
+> >>> -    kms->disp_state = disp_state;
+> >>> +    kthread_init_work(&kms->dump_work, _msm_disp_snapshot_work);
+> >>>
+> >>>      return 0;
+> >>>  }
+> >>> @@ -141,7 +98,6 @@ void msm_disp_snapshot_destroy(struct drm_device
+> >>> *drm_dev)
+> >>>  {
+> >>>      struct msm_kms *kms;
+> >>>      struct msm_drm_private *priv;
+> >>> -    struct msm_disp_state *disp_state;
+> >>>
+> >>>      if (!drm_dev) {
+> >>>          DRM_ERROR("invalid params\n");
+> >>> @@ -150,12 +106,7 @@ void msm_disp_snapshot_destroy(struct drm_device
+> >>> *drm_dev)
+> >>>
+> >>>      priv = drm_dev->dev_private;
+> >>>      kms = priv->kms;
+> >>> -    disp_state = kms->disp_state;
+> >>> -
+> >>> -    if (disp_state->dump_worker)
+> >>> -        kthread_destroy_worker(disp_state->dump_worker);
+> >>> -
+> >>> -    list_del(&disp_state->blocks);
+> >>>
+> >>> -    mutex_destroy(&disp_state->mutex);
+> >>> +    if (kms->dump_worker)
+> >>> +        kthread_destroy_worker(kms->dump_worker);
+> >>>  }
+> >>> diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+> >>> b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+> >>> index 32f52799a1ba..c6174a366095 100644
+> >>> --- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+> >>> +++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+> >>> @@ -41,26 +41,17 @@
+> >>>   * struct msm_disp_state - structure to store current dpu state
+> >>>   * @dev: device pointer
+> >>>   * @drm_dev: drm device pointer
+> >>> - * @mutex: mutex to serialize access to serialze dumps, debugfs
+> >>> access
+> >>> - * @coredump_pending: coredump is pending read from userspace
+> >>>   * @atomic_state: atomic state duplicated at the time of the error
+> >>> - * @dump_worker: kworker thread which runs the dump work
+> >>> - * @dump_work: kwork which dumps the registers and drm state
+> >>>   * @timestamp: timestamp at which the coredump was captured
+> >>>   */
+> >>>  struct msm_disp_state {
+> >>>      struct device *dev;
+> >>>      struct drm_device *drm_dev;
+> >>> -    struct mutex mutex;
+> >>> -
+> >>> -    bool coredump_pending;
+> >>>
+> >>>      struct list_head blocks;
+> >>>
+> >>>      struct drm_atomic_state *atomic_state;
+> >>>
+> >>> -    struct kthread_worker *dump_worker;
+> >>> -    struct kthread_work dump_work;
+> >>>      ktime_t timestamp;
+> >>>  };
+> >>>
+> >>> @@ -123,11 +114,11 @@ void msm_disp_snapshot_capture_state(struct
+> >>> msm_disp_state *disp_state);
+> >>>
+> >>>  /**
+> >>>   * msm_disp_state_free - free the memory after the coredump has been
+> >>> read
+> >>> - * @disp_state:        handle to struct msm_disp_state
+> >>> + * @data:        handle to struct msm_disp_state
+> >>>
+> >>>   * Returns: none
+> >>>   */
+> >>> -void msm_disp_state_free(struct msm_disp_state *disp_state);
+> >>> +void msm_disp_state_free(void *data);
+> >>>
+> >>>  /**
+> >>>   * msm_disp_snapshot_add_block - add a hardware block with its
+> >>> register dump
+> >>> diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+> >>> b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+> >>> index ca6632550337..cabe15190ec1 100644
+> >>> --- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+> >>> +++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+> >>> @@ -142,8 +142,9 @@ void msm_disp_snapshot_capture_state(struct
+> >>> msm_disp_state *disp_state)
+> >>>      msm_disp_capture_atomic_state(disp_state);
+> >>>  }
+> >>>
+> >>> -void msm_disp_state_free(struct msm_disp_state *disp_state)
+> >>> +void msm_disp_state_free(void *data)
+> >>>  {
+> >>> +    struct msm_disp_state *disp_state = data;
+> >>>      struct msm_disp_state_block *block, *tmp;
+> >>>
+> >>>      if (disp_state->atomic_state) {
+> >>> @@ -156,6 +157,8 @@ void msm_disp_state_free(struct msm_disp_state
+> >>> *disp_state)
+> >>>          kfree(block->state);
+> >>>          kfree(block);
+> >>>      }
+> >>> +
+> >>> +    kfree(disp_state);
+> >>>  }
+> >>>
+> >>>  void msm_disp_snapshot_add_block(struct msm_disp_state *disp_state,
+> >>> u32 len,
+> >>> diff --git a/drivers/gpu/drm/msm/msm_kms.h
+> >>> b/drivers/gpu/drm/msm/msm_kms.h
+> >>> index 146dcab123f4..529b9dacf7ca 100644
+> >>> --- a/drivers/gpu/drm/msm/msm_kms.h
+> >>> +++ b/drivers/gpu/drm/msm/msm_kms.h
+> >>> @@ -156,8 +156,9 @@ struct msm_kms {
+> >>>      /* mapper-id used to request GEM buffer mapped for scanout: */
+> >>>      struct msm_gem_address_space *aspace;
+> >>>
+> >>> -    /* handle to disp snapshot state */
+> >>> -    struct msm_disp_state *disp_state;
+> >>> +    /* disp snapshot support */
+> >>> +    struct kthread_worker *dump_worker;
+> >>> +    struct kthread_work dump_work;
+> >>>
+> >>>      /*
+> >>>       * For async commit, where ->flush_commit() and later happens
+
+
+
+-- 
+With best wishes
+Dmitry
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
