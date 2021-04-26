@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E14636AD7F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 09:37:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C0036AE04
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 09:41:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42BDF6E0FC;
-	Mon, 26 Apr 2021 07:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2104C89BD4;
+	Mon, 26 Apr 2021 07:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D27B46E0FC
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 07:37:07 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id 12so86545870lfq.13
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 00:37:07 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E9CF89BD4
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 07:41:34 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id zg3so1329242ejb.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 00:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=obuBE1Nj5gcikOw1FBXmgvsh45uDNDUzOX/vUTXvcvw=;
- b=pcWFHC6W7PezjJIaNABnxr5Ot/ohPdk5c+YvymEycDybtDT1HD4LxXdn8KsRI9D/Gk
- qfP4WSpsiiAKBY247YGqp7Kmmvfn00ZY8spdDFQSiqM63k1q5A4cqn22haILQqkkBaAr
- S7hcnN8w7tP4NR3MxFWYngn6FDFP0ZRYf4iac4YD76xQ0N/0X1wUh6qUOULMZsW5PsXJ
- 9Ou0ADeS7t564qS8pHjuCNXF5X/gDTuMCATUQbJ8BXV782ijpBrFJNSjYR25BDvy1oIs
- Lfr7HLLDBJHbtgg/OV+idEf5IwFD4UZs/pcxAyJ0j6bTW/8EAc3f3KQ0kLSmh5jKa8Wl
- 1i9Q==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=c1vBPck8JU0pwgwWsq/snACpybxqrhklsB99FqhjoPI=;
+ b=btKhBB/tFIdFQPgrpPpl6N2mY5cxZFwqPqUxdsGBx0wugCltKIgoZqNWemwLRzgn67
+ XUBVcPTHxLGLYObb4I2rb5wpvfnA0eFEJTdsdUvrkheQyp/h4Q5sz9YT9cHnVLGPkX9d
+ Nh09oHnBnL0EYqayiSih9K7q7UtSXotDlmfEUjeaGEx9mo2XZvS51H8KuePo4zoc9WV6
+ I/s8zOAgoMPQ4UXlwFA1sC1tUmBiFfvq8ruQ6T/HSlBLEwpxkNBlWEwp0FPVQWEwTuPC
+ hCyRmKntWEx0JzG0yFTnUAfDOmVRnhoUNgKAaWdz8oZUWpg7rBly/txd7ozzKO5etZkQ
+ v92w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=obuBE1Nj5gcikOw1FBXmgvsh45uDNDUzOX/vUTXvcvw=;
- b=TgtO0WZLGRFnUL419mborZxAj/rirsexEnZb/zUpehO7sMdVvCo1SHy3EuBrtSoKSb
- xSjS6/06+CSjizNAHwfYUNIQBxDNzgPsoxVwmtLeTLbzacGDycJGcEGXw/rQB6f3Wfja
- 3eZqzIST6RYeUEYKwDuQtXFUMHk9GTITScwK5spS0iB2ERWKKeMR4egmIw8xd1qOL1GX
- nSmMF4rQlYcYqYZ5GUtrSwzrZdx4+YDayNmh4x1wcSm53mJIg/8Pi3KmxqndX7oCDwx0
- 4rUx/VsTlqqHogO21lfQ/XKIYSNCrjetaln3R3pCLXmuFIPthSG4WfGPoFWcAn3iXJhx
- lKXA==
-X-Gm-Message-State: AOAM5339bcOPe57/QMOa3R1V0VtwedLsqflEF3Q360Xb5v5+S2anZaNO
- EL1hHRzaKZgsyao/ksPmGyw=
-X-Google-Smtp-Source: ABdhPJx1/aEcICa8qOJuT33yRnQF0GKQgmrJEwMWJVhq0l71+eoWgf+5GSnTu8BxRmMOQp6KB6CFfA==
-X-Received: by 2002:a19:6a0c:: with SMTP id u12mr12112063lfu.391.1619422626178; 
- Mon, 26 Apr 2021 00:37:06 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id z145sm1320092lfc.169.2021.04.26.00.37.05
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=c1vBPck8JU0pwgwWsq/snACpybxqrhklsB99FqhjoPI=;
+ b=tA4AMFK3DMCiiJnwlIKaSQNoEDwssl1uQdpCrOctjKd7aVKzTnTM6k0d/DZrWYrmwJ
+ LucN7Vz9XMJrHavZno4Etl8zs+mf7c8eRnbpFwsnnhrAdu1+UADz7vJHw51caA+EV/kH
+ QpbIImhBArw7tb++ix9RZBdVIKJjoiTT88yNyTOc/wbiLqri0COr5OWfsGIdJ6z6zaL9
+ 2HcfAdpTREFrxTF39Lgh5ns3Oe34P6sdEeeQEh1pMTVMJKgUeyA55iG0DK5SRYuEqg+L
+ BeF1XkqtlBrPn2+G0IaI1INFWecDnC+qpoqAZ1Jh93+1JdxYX34dUR7PSbbJsuoLYZ+1
+ YPTA==
+X-Gm-Message-State: AOAM5336QX5TgpXMUH4rSTzhGkymX0FKEgW3XgzUQvdc4dRRhXkc9efT
+ IM+LmmQ3wp88CHFqODCsRbY=
+X-Google-Smtp-Source: ABdhPJxUjB9yH2Enni4Q3e63AZXAGAWmsaB5WN2KunBgTRUHiE0T+mMvnnHhosoIzZ83Pa89llj2OQ==
+X-Received: by 2002:a17:906:524f:: with SMTP id
+ y15mr16985419ejm.65.1619422892867; 
+ Mon, 26 Apr 2021 00:41:32 -0700 (PDT)
+Received: from localhost (p2e5be10e.dip0.t-ipconnect.de. [46.91.225.14])
+ by smtp.gmail.com with ESMTPSA id c19sm13506940edu.20.2021.04.26.00.41.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 00:37:05 -0700 (PDT)
-Date: Mon, 26 Apr 2021 10:36:56 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Subject: Re: [PATCH v2 1/1] drm/doc: document drm_mode_get_plane
-Message-ID: <20210426103656.0a212089@eldfell>
-In-Reply-To: <3c3a5d35-10bf-4b32-1970-aed4bc1d6488@collabora.com>
-References: <20210422181004.34247-1-leandro.ribeiro@collabora.com>
- <20210422181004.34247-2-leandro.ribeiro@collabora.com>
- <20210423141126.308d4145@eldfell>
- <3c3a5d35-10bf-4b32-1970-aed4bc1d6488@collabora.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ Mon, 26 Apr 2021 00:41:31 -0700 (PDT)
+Date: Mon, 26 Apr 2021 09:42:24 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH 1/2] drm/tegra: Get ref for DP AUX channel, not its ddc
+ adapter
+Message-ID: <YIZu4PD6BmlGYXuc@orome.fritz.box>
+References: <20210423182146.185633-1-lyude@redhat.com>
+ <20210423182146.185633-2-lyude@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210423182146.185633-2-lyude@redhat.com>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,148 +69,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, kernel@collabora.com, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1416688411=="
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ linux-tegra@vger.kernel.org, Thierry Reding <treding@nvidia.com>
+Content-Type: multipart/mixed; boundary="===============0545663583=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1416688411==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/TdWp0rzrssZgQMA0+c41Uxc"; protocol="application/pgp-signature"
 
---Sig_/TdWp0rzrssZgQMA0+c41Uxc
-Content-Type: text/plain; charset=US-ASCII
+--===============0545663583==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="cyYgln7x2rIbz3eF"
+Content-Disposition: inline
+
+
+--cyYgln7x2rIbz3eF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 23 Apr 2021 18:30:33 -0300
-Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
-
-> On 4/23/21 8:11 AM, Pekka Paalanen wrote:
-> > On Thu, 22 Apr 2021 15:10:04 -0300
-> > Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
-> >  =20
-> >> Add a small description and document struct fields of
-> >> drm_mode_get_plane.
-> >>
-> >> Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-> >> ---
-> >>  include/uapi/drm/drm_mode.h | 16 ++++++++++++++++
-> >>  1 file changed, 16 insertions(+)
-> >>
-> >> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> >> index a5e76aa06ad5..3e85de928db9 100644
-> >> --- a/include/uapi/drm/drm_mode.h
-> >> +++ b/include/uapi/drm/drm_mode.h
-> >> @@ -312,16 +312,32 @@ struct drm_mode_set_plane {
-> >>  	__u32 src_w;
-> >>  };
-> >>
-> >> +/**
-> >> + * struct drm_mode_get_plane - Get plane metadata.
-> >> + *
-> >> + * Userspace can perform a GETPLANE ioctl to retrieve information abo=
-ut a
-> >> + * plane.
-> >> + */
-> >>  struct drm_mode_get_plane {
-> >> +	/** @plane_id: Object ID of the plane. */
-> >>  	__u32 plane_id;
-> >>
-> >> +	/** @crtc_id: Object ID of the current CRTC. */
-> >>  	__u32 crtc_id;
-> >> +	/** @fb_id: Object ID of the current fb. */
-> >>  	__u32 fb_id;
-> >>
-> >> +	/** @possible_crtcs: Bitmask of CRTC's compatible with the plane. */=
- =20
-> >=20
-> > This should probably explain what the bits in the mask correspond to.
-> > As in, which CRTC does bit 0 refer to, and so on.
-> >  =20
+On Fri, Apr 23, 2021 at 02:21:45PM -0400, Lyude Paul wrote:
+> While we're taking a reference of the DDC adapter for a DP AUX channel in
+> tegra_sor_probe() because we're going to be using that adapter with the
+> SOR, now that we've moved where AUX registration happens the actual device
+> structure for the DDC adapter isn't initialized yet. Which means that we
+> can't really take a reference from it to try to keep it around anymore.
 >=20
-> What about:
+> This should be fine though, because we can just take a reference of its
+> parent instead.
 >=20
-> "possible_crtcs: Bitmask of CRTC's compatible with the plane. CRTC's are
-> created and they receive an index, which corresponds to their position
-> in the bitmask. CRTC with index 0 will be in bit 0, and so on."
-
-This would still need to explain where can I find this index.
-
-> >>  	__u32 possible_crtcs;
-> >> +	/** @gamma_size: Size of the legacy gamma table. */ =20
-> >=20
-> > What are the units? Entries? Bytes?
-> >  =20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Fixes: 39c17ae60ea9 ("drm/tegra: Don't register DP AUX channels before co=
+nnectors")
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-tegra@vger.kernel.org
+> ---
+>  drivers/gpu/drm/tegra/sor.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >=20
-> The number of entries. I'll update to "gamma_size: Number of entries of
-> the legacy gamma lookup table" in the next version.
+> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> index 7b88261f57bb..4e0e3a63e586 100644
+> --- a/drivers/gpu/drm/tegra/sor.c
+> +++ b/drivers/gpu/drm/tegra/sor.c
+> @@ -3739,11 +3739,11 @@ static int tegra_sor_probe(struct platform_device=
+ *pdev)
+>  		if (!sor->aux)
+>  			return -EPROBE_DEFER;
+> =20
+> -		if (get_device(&sor->aux->ddc.dev)) {
+> -			if (try_module_get(sor->aux->ddc.owner))
+> +		if (get_device(sor->aux->dev)) {
+> +			if (try_module_get(sor->aux->dev->driver->owner))
+>  				sor->output.ddc =3D &sor->aux->ddc;
+>  			else
+> -				put_device(&sor->aux->ddc.dev);
+> +				put_device(sor->aux->dev);
+>  		}
+>  	}
 
-Sounds good!
+Unfortunately, I think it's a bit more subtle than that. The reason for
+this get_device()/try_module_get() dance was to mirror the behaviour of
+of_get_i2c_adapter_by_node() so that when we call i2c_put_adapter() in
+tegra_output_remove() we correctly decrease the reference count.
 
+The above will increase the reference on the I2C adapter's parent while
+i2c_put_adapter() will then only decrease the reference on the I2C
+adapter, so I think effectively we'd be leaking a reference to the I2C
+adapter's parent.
 
-Thanks,
-pq
+Also, since we didn't take a reference on the I2C adapter explicitly,
+releasing that reference in tegra_output_remove() might free the I2C
+adapter too early.
 
-> >>  	__u32 gamma_size;
-> >>
-> >> +	/** @count_format_types: Number of formats. */
-> >>  	__u32 count_format_types;
-> >> +	/**
-> >> +	 * @format_type_ptr: Pointer to ``__u32`` array of formats that are
-> >> +	 * supported by the plane. These formats do not require modifiers. =
-=20
-> >=20
-> > I wonder if the "do not require modifiers" is again going too far in
-> > making a difference between this list and IN_FORMATS?
-> >  =20
->=20
-> Yes that's true, I'll drop this phrase.
->=20
-> >> +	 */
-> >>  	__u64 format_type_ptr;
-> >>  }; =20
-> >=20
-> > Other than those, looks like a significant improvement to me.
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >  =20
-> >>
-> >> --
-> >> 2.31.1
-> >>
-> >> _______________________________________________
-> >> dri-devel mailing list
-> >> dri-devel@lists.freedesktop.org
-> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel =20
-> >  =20
+I wonder if perhaps it'd be easier to get rid of the struct tegra_output
+abstraction altogether and push this down into the individual drivers,
+even if that means a bit more code duplication. That's not the kind of
+quick fix to resolve this current situation, so perhaps as a stop-gap we
+just need to sprinkle a few more conditionals throughout tegra_output
+code. We could, for example, avoid calling i2c_put_adapter() in
+tegra_output_remove() for the DisplayPort cases and instead manually
+release the reference to the I2C adapter's parent in tegra_sor_remove().
+On top of your patch above that /should/ fix things properly for now.
 
+Thierry
 
---Sig_/TdWp0rzrssZgQMA0+c41Uxc
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--cyYgln7x2rIbz3eF
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCGbZgACgkQI1/ltBGq
-qqe5Gg//XOOtVR2qLd7usF8O88eTDKtJ5NvFl48AOjEe2CfK+pXZ75Irg88smV7E
-aHRT4Met3Uwvz/46zpCd5m7kuHvpHeUnpVylEYu+sXBTXabFlav8/91xsJzN+KJ7
-qOGCpHb6HmWZhiJCJckJrdGWDvc7IWdqinvawKaXKQpsd8Ynd7Q2NFulavRTbarR
-j49XuQezMyZCb6wMWENchdnm7O3nNrc6MYjKYqHQXRPvoZ5CYRADKwJrbfuCqwy7
-cKy7mDkICmMEUnkaqKTlcjZWabLoPhEJhEQJe+Z8fDhfCV7juDmefsWo0SjGNNHT
-VudtT4reUuMC9TxHiwi8ma1LUmkJHEYJqJ/LJVvB9YHF7WB9YXudYlWbchSJ8Qgx
-JVc6Tm4ZpXwIHKBUp26bPn7TwsxYn76EM4HfQwV74DVO6DB+n0GJsezyZ1WUAqu2
-b0ij1QAB03uht0IfZn6pEMpXLfKwFI1Tg/ogKTUvUPR9pgiFYF8UK/dyw0zsv8vN
-M0x14X8yoCImIfeK4cs2utJ9tpKtfg+0otJ2OkNPmhDG26ax2H4YZPZKoZJuiIde
-7HvLA51lzy4DBaGyOEap1p9+rXEENY/gGqoEPYEqK9Z4qZ56NtVbaccKve9QViPR
-0mfEBe9NJlIdeNovH+VD1ja+KOyZC6a8dt06QVRvRHjZ4sPVJvY=
-=4rnR
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmCGbtgACgkQ3SOs138+
+s6GwRg/9Fz0mMHegO0rimUIpYL7RJ0L1F7bH0RxDPapEknjZ3xf3NxdDOZT1Z92l
+5ZhInuo9EkAwfUm7MyFoatuRV2hc/Xk3ZXAcNaMHjuzhhZ/ixfAWllpOsk1lY5X6
+7NsXyALSj7U0FP+/gZaPsztz5xomCojRdmW0EsBKxGJNCP3ttcPUimx6zPr9ASkJ
+LHFVV3isrxA9cGIiM6qAPNLE/Gwp17++aME0sdjboqzXHINXCjgk7n55DJp8Ou2x
+LOJFq62NGbZqLYkKDuQq3A0hF08xpVMMvcONwtlJkgO0dIwH5LaDbhyC7Xaxv/zU
+TuBEcYDVijaLZxH7deQdVqSFeS8U/NWebN6hO4MWzZuVy8vVIzYXyH4ordrsUITQ
+N6x0c1tx2O+vEGJiNzVn35J9gxGIc2NjfH5JBVddszwNBLeZSs4ReAejpVa2E0Sk
+S55SnjSm/1B9UpPxmaic3p2cMRz0nS/GvdJ8i5uRDyC1fIRDLujPuoDA/p52AKNd
+pLCzK/4OFOd6akh4mhm0cjfB8SWwVqxvWqsGLsjeZNZSu74hz9xMaP4yPdzGsmJ7
+W94YOpvqEfLw5uFK1b8NdXlPEe5VVjj9yzQLocvbtobws9N6j1ydRh3zTtisd0RU
+y7DBKuFNGtaYWslW0zUhwGQbIbfv3vW8EeJ796x1iF+MFdAwV+4=
+=wpO5
 -----END PGP SIGNATURE-----
 
---Sig_/TdWp0rzrssZgQMA0+c41Uxc--
+--cyYgln7x2rIbz3eF--
 
---===============1416688411==
+--===============0545663583==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -220,4 +189,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1416688411==--
+--===============0545663583==--
