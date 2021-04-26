@@ -1,60 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7705E36AF6F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 10:07:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F8636B010
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 10:57:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77D426E523;
-	Mon, 26 Apr 2021 08:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB7A689CFA;
+	Mon, 26 Apr 2021 08:57:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8EDC6E516
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 08:07:09 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id 12so86660653lfq.13
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 01:07:09 -0700 (PDT)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E3F689C33;
+ Mon, 26 Apr 2021 08:57:36 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id q136so34802549qka.7;
+ Mon, 26 Apr 2021 01:57:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=jYu1Yrfku7Ee6V8Q74M53VO7n4n7OYYQE3Z8eL9yVmU=;
- b=aKhy0RyleqPYkcLTtIlR1zY+YKRg6TJ1CpGHuNG8E9F9EVh5VYIVwfbbpBCNSUaZv1
- 4ohvSZaxBLzK2qcpgthWSRHZQ3aFxDfN5gbh0UlJt/TZ1OnlpHCsLwyokosHCD6d8kUo
- IyxIzWkZB2dTvvQ4D4S5KbDpGYwREY6ZB1Mmzi7RyJoROywodvzwOyvx2t763ZUWCBrr
- XnwM9LWGk6HLgFOfQTCkTtf+X9U1mKNqeJoUyZSLTlDyS+WC5Nq3xbYNxBsir4u389sP
- LqyhltthMdg3hRM5mVR0zmrEmE5Yi0BYjTcSbcOgcP7MwX3iPATOihBioGVys1ULaqOF
- /zDg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q/4Fl7Drs6rFtI/+7je+ruPIsDHDZcNr2kBRxWdfxAM=;
+ b=L0nvMG8/qy0Ax2++BtWYTbpZhl09FSvTJylm1AffNbfRIafygFhpHMGiEGv5pakthv
+ E3s2SSv3vki2nmKbP+vmaPtq0zJ9vSDS/I++M4nGawGK70IbLSNPV5fcFp9y+uHQpaD9
+ aYxNCfxC4HeCyOqAj/EQc5IMjZH8hZ/Re/CXefPQKfvVDK68I+Q76AfPH0mD0ciLR7lh
+ bfoZqSuXX10Xy8h0nqaElYDprWe/Gpd3aJfGl1Tn765xGIl8shZBHWZ3fnV1ZvCg3T9S
+ NaG9/u0JQaXRQBq9JZ2l2ZqH7yl8fe1VaDb1kb52IDTD3OKllLSDVIweO97KcDvlpIZW
+ w5kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=jYu1Yrfku7Ee6V8Q74M53VO7n4n7OYYQE3Z8eL9yVmU=;
- b=ChJ/ZTdPvW2DVEBj9vq87mKb/OW+3VS8dlSuCJd/hiD15OPUuIR/peTIENgcE8w3CA
- /l5U8pJ6G3gMS5w2rC5cq5RRwSfWr2zxXALN3FeXE6q8LqfFvhprei9hbPAlT6VPl0nV
- 8SXdvjB4fuOcd2SbcfUG+kmGISOyKwWFjOZenRdMGGW86R65oNfdwUBxi0poIx0o2+0o
- 6hCY0mLC3lGxrwFPSb0mumkMSG33D4tiby3W8X5P6h02uAeRhUtJKzBvireU3SV2rOPC
- b1ptr54yN1YyYnwdcn3DVmPYDwa0LyZ5FTqabv03bVm/QftpDfHgWCCBi/HxFGrRowQI
- PPgA==
-X-Gm-Message-State: AOAM531UUgbl0gTp0GIe8yH0az8IMClnZxD++BKmkXSOMNE/pytEESxn
- vmpeotL44oVxqVP6yFRI6LE=
-X-Google-Smtp-Source: ABdhPJx3mQv8B4pxCSjYLFkiF1wBA4BrPg+GJT14Xc41YhB7fXb4pfN+B8uPJFvjo9yx8jZLLcRVNg==
-X-Received: by 2002:a05:6512:3094:: with SMTP id
- z20mr12513994lfd.354.1619424427840; 
- Mon, 26 Apr 2021 01:07:07 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id n15sm1327937lfh.237.2021.04.26.01.07.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 01:07:07 -0700 (PDT)
-Date: Mon, 26 Apr 2021 11:07:04 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Melissa Wen <melissa.srw@gmail.com>
-Subject: Re: [PATCH v4 4/4] drm/vkms: add overlay support
-Message-ID: <20210426110704.7cde8c1a@eldfell>
-In-Reply-To: <8261bf93d8a0e3ffaf81d8e7c9b3e9c229116be3.1619250933.git.melissa.srw@gmail.com>
-References: <cover.1619250933.git.melissa.srw@gmail.com>
- <8261bf93d8a0e3ffaf81d8e7c9b3e9c229116be3.1619250933.git.melissa.srw@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=q/4Fl7Drs6rFtI/+7je+ruPIsDHDZcNr2kBRxWdfxAM=;
+ b=WvfWT7+nMKZHVA6s2fCylDjxiBmPO1ncao+cDagTcGQ7wgmGpduwaf0ZZnNaiYrkjB
+ KDMaBr+q6Oke4E1smWbmBlMJFhyIUEDimutdcABFEkXIR8JGGTC+wgjv5RT1ueyxVjO/
+ DOk3zgShrlMvJJ/UICbn2Ho6A2bdi/ESgdkkF3H/wpqzGdZOocCZkeobihEPuY7IXDVy
+ 9zRgN9Rt9aKXyuSXeyjbMrA+xzR4p8ddCWT5CssFzdG7MaqveYbfzsYZMWxdHJnSXP23
+ mqrGirXCn4J9YtvS9l+ija5o2el1AKO2VOFGRUmQEmochkw3eRl1pB4rjc9pNbVR0hp8
+ JXUg==
+X-Gm-Message-State: AOAM531pRTbBVClSDFlZBeSkuj/x53y466ZCHu6YfssfjNjtft6Td8CD
+ fkQZdXfUfYSal+81H53pCogJiIvuynV3AjZelSU=
+X-Google-Smtp-Source: ABdhPJyawl4IMIpsag6f+2rdlqV4IuwMdv0r2TfkDpZD35Rkh5ZEyrIREeagUYRq+Ts5UuZqAyOFV2S+L3uJ6RhmqO0=
+X-Received: by 2002:ae9:e00e:: with SMTP id m14mr2847690qkk.460.1619427455479; 
+ Mon, 26 Apr 2021 01:57:35 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210412090526.30547-1-matthew.auld@intel.com>
+ <20210412090526.30547-12-matthew.auld@intel.com>
+ <7bc2a663-fbc0-6486-341a-7dca980c2440@linux.intel.com>
+ <CAM0jSHNhWcscW9txPDyKActTiTWjzhASJb5xC8XPzHeN+Y18QA@mail.gmail.com>
+ <9aca524c-3710-dfaa-bfec-aef76aee7b26@linux.intel.com>
+ <CAM0jSHN57bwK6f=tH59iAO5R5WpWfZOw56tsjzxVuJf8SkM+vw@mail.gmail.com>
+ <ed521b72-4dd0-2b0f-e313-5fc31c37fae1@linux.intel.com>
+ <55e16b78-d9ee-a0ad-5877-9901cf74669f@intel.com>
+ <5701f034-3da9-55d2-e966-33afb7236b8b@linux.intel.com>
+ <0b1b88db-da62-841d-23cd-7902c9a78b77@intel.com>
+ <7b108dc9-b03c-2f9c-0d44-cb672daec9ae@linux.intel.com>
+ <f0e1ad21-397b-5c32-a368-febfd877f5f3@intel.com>
+ <0be7012c-c889-c5c5-6624-2f63b9daf46b@linux.intel.com>
+ <CAM0jSHMBTFuO8Th6NDQpGhzr9XtP_zczKSjDiD3Q5onV5MLdYA@mail.gmail.com>
+In-Reply-To: <CAM0jSHMBTFuO8Th6NDQpGhzr9XtP_zczKSjDiD3Q5onV5MLdYA@mail.gmail.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Mon, 26 Apr 2021 09:57:08 +0100
+Message-ID: <CAM0jSHN=08bmcZ+BgmEkZkZu8-1VwzEi_tSgkWv88We5rAm=xw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 11/19] drm/i915: Update the helper to set
+ correct mapping
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,279 +74,484 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Sumera Priyadarsini <sylphrenadin@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1649962386=="
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1649962386==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/Oi2/AIvfCNK0.HfvvhG35Ml"; protocol="application/pgp-signature"
+On Wed, 21 Apr 2021 at 20:13, Matthew Auld
+<matthew.william.auld@gmail.com> wrote:
+>
+> On Wed, 21 Apr 2021 at 16:41, Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+> >
+> >
+> > On 21/04/2021 12:42, Matthew Auld wrote:
+> > > On 19/04/2021 16:01, Tvrtko Ursulin wrote:
+> > >>
+> > >> On 19/04/2021 15:37, Matthew Auld wrote:
+> > >>> On 19/04/2021 15:07, Tvrtko Ursulin wrote:
+> > >>>>
+> > >>>> On 19/04/2021 12:30, Matthew Auld wrote:
+> > >>>>> On 15/04/2021 12:05, Tvrtko Ursulin wrote:
+> > >>>>>>
+> > >>>>>> On 15/04/2021 10:23, Matthew Auld wrote:
+> > >>>>>>> On Thu, 15 Apr 2021 at 09:21, Tvrtko Ursulin
+> > >>>>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+> > >>>>>>>>
+> > >>>>>>>>
+> > >>>>>>>> On 14/04/2021 17:20, Matthew Auld wrote:
+> > >>>>>>>>> On Wed, 14 Apr 2021 at 16:22, Tvrtko Ursulin
+> > >>>>>>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+> > >>>>>>>>>>
+> > >>>>>>>>>>
+> > >>>>>>>>>> On 12/04/2021 10:05, Matthew Auld wrote:
+> > >>>>>>>>>>> From: Venkata Sandeep Dhanalakota
+> > >>>>>>>>>>> <venkata.s.dhanalakota@intel.com>
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> Determine the possible coherent map type based on object
+> > >>>>>>>>>>> location,
+> > >>>>>>>>>>> and if target has llc or if user requires an always coherent
+> > >>>>>>>>>>> mapping.
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> Cc: Matthew Auld <matthew.auld@intel.com>
+> > >>>>>>>>>>> Cc: CQ Tang <cq.tang@intel.com>
+> > >>>>>>>>>>> Suggested-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > >>>>>>>>>>> Signed-off-by: Venkata Sandeep Dhanalakota
+> > >>>>>>>>>>> <venkata.s.dhanalakota@intel.com>
+> > >>>>>>>>>>> ---
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/gt/intel_engine_cs.c    |  3 ++-
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/gt/intel_engine_pm.c    |  2 +-
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/gt/intel_lrc.c          |  4 +++-
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/gt/intel_ring.c         |  9 ++++++---
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/gt/selftest_context.c   |  3 ++-
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/gt/selftest_hangcheck.c |  4 ++--
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/gt/selftest_lrc.c       |  4 +++-
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/gt/uc/intel_guc.c       |  4 +++-
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/gt/uc/intel_huc.c       |  4 +++-
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/i915_drv.h              | 11
+> > >>>>>>>>>>> +++++++++--
+> > >>>>>>>>>>>     drivers/gpu/drm/i915/selftests/igt_spinner.c |  4 ++--
+> > >>>>>>>>>>>     11 files changed, 36 insertions(+), 16 deletions(-)
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > >>>>>>>>>>> index efe935f80c1a..b79568d370f5 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > >>>>>>>>>>> @@ -664,7 +664,8 @@ static int init_status_page(struct
+> > >>>>>>>>>>> intel_engine_cs *engine)
+> > >>>>>>>>>>>         if (ret)
+> > >>>>>>>>>>>                 goto err;
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> -     vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
+> > >>>>>>>>>>> +     vaddr = i915_gem_object_pin_map(obj,
+> > >>>>>>>>>>> + i915_coherent_map_type(engine->i915, obj, true));
+> > >>>>>>>>>>>         if (IS_ERR(vaddr)) {
+> > >>>>>>>>>>>                 ret = PTR_ERR(vaddr);
+> > >>>>>>>>>>>                 goto err_unpin;
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> > >>>>>>>>>>> index 7c9af86fdb1e..47f4397095e5 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> > >>>>>>>>>>> @@ -23,7 +23,7 @@ static void dbg_poison_ce(struct
+> > >>>>>>>>>>> intel_context *ce)
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>         if (ce->state) {
+> > >>>>>>>>>>>                 struct drm_i915_gem_object *obj =
+> > >>>>>>>>>>> ce->state->obj;
+> > >>>>>>>>>>> -             int type =
+> > >>>>>>>>>>> i915_coherent_map_type(ce->engine->i915);
+> > >>>>>>>>>>> +             int type =
+> > >>>>>>>>>>> i915_coherent_map_type(ce->engine->i915, obj, true);
+> > >>>>>>>>>>>                 void *map;
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>                 if (!i915_gem_object_trylock(obj))
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > >>>>>>>>>>> index e86897cde984..aafe2a4df496 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > >>>>>>>>>>> @@ -903,7 +903,9 @@ lrc_pre_pin(struct intel_context *ce,
+> > >>>>>>>>>>>         GEM_BUG_ON(!i915_vma_is_pinned(ce->state));
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>         *vaddr = i915_gem_object_pin_map(ce->state->obj,
+> > >>>>>>>>>>> - i915_coherent_map_type(ce->engine->i915) |
+> > >>>>>>>>>>> + i915_coherent_map_type(ce->engine->i915,
+> > >>>>>>>>>>> + ce->state->obj,
+> > >>>>>>>>>>> + false) |
+> > >>>>>>>>>>>                                          I915_MAP_OVERRIDE);
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>         return PTR_ERR_OR_ZERO(*vaddr);
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_ring.c
+> > >>>>>>>>>>> index aee0a77c77e0..3cf6c7e68108 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_ring.c
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_ring.c
+> > >>>>>>>>>>> @@ -53,9 +53,12 @@ int intel_ring_pin(struct intel_ring
+> > >>>>>>>>>>> *ring, struct i915_gem_ww_ctx *ww)
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>         if (i915_vma_is_map_and_fenceable(vma))
+> > >>>>>>>>>>>                 addr = (void __force *)i915_vma_pin_iomap(vma);
+> > >>>>>>>>>>> -     else
+> > >>>>>>>>>>> -             addr = i915_gem_object_pin_map(vma->obj,
+> > >>>>>>>>>>> - i915_coherent_map_type(vma->vm->i915));
+> > >>>>>>>>>>> +     else {
+> > >>>>>>>>>>> +             int type =
+> > >>>>>>>>>>> i915_coherent_map_type(vma->vm->i915, vma->obj, false);
+> > >>>>>>>>>>> +
+> > >>>>>>>>>>> +             addr = i915_gem_object_pin_map(vma->obj, type);
+> > >>>>>>>>>>> +     }
+> > >>>>>>>>>>> +
+> > >>>>>>>>>>>         if (IS_ERR(addr)) {
+> > >>>>>>>>>>>                 ret = PTR_ERR(addr);
+> > >>>>>>>>>>>                 goto err_ring;
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/gt/selftest_context.c
+> > >>>>>>>>>>> index b9bdd1d23243..26685b927169 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/selftest_context.c
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/selftest_context.c
+> > >>>>>>>>>>> @@ -88,7 +88,8 @@ static int __live_context_size(struct
+> > >>>>>>>>>>> intel_engine_cs *engine)
+> > >>>>>>>>>>>                 goto err;
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>         vaddr = i915_gem_object_pin_map_unlocked(ce->state->obj,
+> > >>>>>>>>>>> - i915_coherent_map_type(engine->i915));
+> > >>>>>>>>>>> + i915_coherent_map_type(engine->i915,
+> > >>>>>>>>>>> + ce->state->obj, false));
+> > >>>>>>>>>>>         if (IS_ERR(vaddr)) {
+> > >>>>>>>>>>>                 err = PTR_ERR(vaddr);
+> > >>>>>>>>>>>                 intel_context_unpin(ce);
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > >>>>>>>>>>> index 746985971c3a..5b63d4df8c93 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > >>>>>>>>>>> @@ -69,7 +69,7 @@ static int hang_init(struct hang *h, struct
+> > >>>>>>>>>>> intel_gt *gt)
+> > >>>>>>>>>>>         h->seqno = memset(vaddr, 0xff, PAGE_SIZE);
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>         vaddr = i915_gem_object_pin_map_unlocked(h->obj,
+> > >>>>>>>>>>> - i915_coherent_map_type(gt->i915));
+> > >>>>>>>>>>> + i915_coherent_map_type(gt->i915, h->obj, false));
+> > >>>>>>>>>>>         if (IS_ERR(vaddr)) {
+> > >>>>>>>>>>>                 err = PTR_ERR(vaddr);
+> > >>>>>>>>>>>                 goto err_unpin_hws;
+> > >>>>>>>>>>> @@ -130,7 +130,7 @@ hang_create_request(struct hang *h,
+> > >>>>>>>>>>> struct intel_engine_cs *engine)
+> > >>>>>>>>>>>                 return ERR_CAST(obj);
+> > >>>>>>>>>>>         }
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> -     vaddr = i915_gem_object_pin_map_unlocked(obj,
+> > >>>>>>>>>>> i915_coherent_map_type(gt->i915));
+> > >>>>>>>>>>> +     vaddr = i915_gem_object_pin_map_unlocked(obj,
+> > >>>>>>>>>>> i915_coherent_map_type(gt->i915, obj, false));
+> > >>>>>>>>>>>         if (IS_ERR(vaddr)) {
+> > >>>>>>>>>>>                 i915_gem_object_put(obj);
+> > >>>>>>>>>>>                 i915_vm_put(vm);
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> > >>>>>>>>>>> index 85e7df6a5123..d8f6623524e8 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> > >>>>>>>>>>> @@ -1221,7 +1221,9 @@ static int compare_isolation(struct
+> > >>>>>>>>>>> intel_engine_cs *engine,
+> > >>>>>>>>>>>         }
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>         lrc = i915_gem_object_pin_map_unlocked(ce->state->obj,
+> > >>>>>>>>>>> - i915_coherent_map_type(engine->i915));
+> > >>>>>>>>>>> + i915_coherent_map_type(engine->i915,
+> > >>>>>>>>>>> + ce->state->obj,
+> > >>>>>>>>>>> + false));
+> > >>>>>>>>>>>         if (IS_ERR(lrc)) {
+> > >>>>>>>>>>>                 err = PTR_ERR(lrc);
+> > >>>>>>>>>>>                 goto err_B1;
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > >>>>>>>>>>> index 78305b2ec89d..adae04c47aab 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > >>>>>>>>>>> @@ -682,7 +682,9 @@ int intel_guc_allocate_and_map_vma(struct
+> > >>>>>>>>>>> intel_guc *guc, u32 size,
+> > >>>>>>>>>>>         if (IS_ERR(vma))
+> > >>>>>>>>>>>                 return PTR_ERR(vma);
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> -     vaddr = i915_gem_object_pin_map_unlocked(vma->obj,
+> > >>>>>>>>>>> I915_MAP_WB);
+> > >>>>>>>>>>> +     vaddr = i915_gem_object_pin_map_unlocked(vma->obj,
+> > >>>>>>>>>>> + i915_coherent_map_type(guc_to_gt(guc)->i915,
+> > >>>>>>>>>>> + vma->obj, true));
+> > >>>>>>>>>>>         if (IS_ERR(vaddr)) {
+> > >>>>>>>>>>>                 i915_vma_unpin_and_release(&vma, 0);
+> > >>>>>>>>>>>                 return PTR_ERR(vaddr);
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> > >>>>>>>>>>> index 2126dd81ac38..56d2144dc6a0 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> > >>>>>>>>>>> @@ -82,7 +82,9 @@ static int intel_huc_rsa_data_create(struct
+> > >>>>>>>>>>> intel_huc *huc)
+> > >>>>>>>>>>>         if (IS_ERR(vma))
+> > >>>>>>>>>>>                 return PTR_ERR(vma);
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> -     vaddr = i915_gem_object_pin_map_unlocked(vma->obj,
+> > >>>>>>>>>>> I915_MAP_WB);
+> > >>>>>>>>>>> +     vaddr = i915_gem_object_pin_map_unlocked(vma->obj,
+> > >>>>>>>>>>> + i915_coherent_map_type(gt->i915,
+> > >>>>>>>>>>> + vma->obj, true));
+> > >>>>>>>>>>>         if (IS_ERR(vaddr)) {
+> > >>>>>>>>>>>                 i915_vma_unpin_and_release(&vma, 0);
+> > >>>>>>>>>>>                 return PTR_ERR(vaddr);
+> > >>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h
+> > >>>>>>>>>>> b/drivers/gpu/drm/i915/i915_drv.h
+> > >>>>>>>>>>> index 69e43bf91a15..2abbc06712a4 100644
+> > >>>>>>>>>>> --- a/drivers/gpu/drm/i915/i915_drv.h
+> > >>>>>>>>>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> > >>>>>>>>>>> @@ -78,6 +78,7 @@
+> > >>>>>>>>>>>     #include "gem/i915_gem_context_types.h"
+> > >>>>>>>>>>>     #include "gem/i915_gem_shrinker.h"
+> > >>>>>>>>>>>     #include "gem/i915_gem_stolen.h"
+> > >>>>>>>>>>> +#include "gem/i915_gem_lmem.h"
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>     #include "gt/intel_engine.h"
+> > >>>>>>>>>>>     #include "gt/intel_gt_types.h"
+> > >>>>>>>>>>> @@ -1921,9 +1922,15 @@ static inline int
+> > >>>>>>>>>>> intel_hws_csb_write_index(struct drm_i915_private *i915)
+> > >>>>>>>>>>>     }
+> > >>>>>>>>>>>
+> > >>>>>>>>>>>     static inline enum i915_map_type
+> > >>>>>>>>>>> -i915_coherent_map_type(struct drm_i915_private *i915)
+> > >>>>>>>>>>> +i915_coherent_map_type(struct drm_i915_private *i915,
+> > >>>>>>>>>>> +                    struct drm_i915_gem_object *obj, bool
+> > >>>>>>>>>>> always_coherent)
+> > >>>>>>>>>>>     {
+> > >>>>>>>>>>> -     return HAS_LLC(i915) ? I915_MAP_WB : I915_MAP_WC;
+> > >>>>>>>>>>> +     if (i915_gem_object_is_lmem(obj))
+> > >>>>>>>>>>> +             return I915_MAP_WC;
+> > >>>>>>>>>>> +     if (HAS_LLC(i915) || always_coherent)
+> > >>>>>>>>>>> +             return I915_MAP_WB;
+> > >>>>>>>>>>> +     else
+> > >>>>>>>>>>> +             return I915_MAP_WC;
+> > >>>>>>>>>>
+> > >>>>>>>>>> Seems this patch is doing two things.
+> > >>>>>>>>>>
+> > >>>>>>>>>> First it is adding lmem support to this helper by always
+> > >>>>>>>>>> returning WC
+> > >>>>>>>>>> for lmem objects.
+> > >>>>>>>>>>
+> > >>>>>>>>>> Secondly it is introducing an idea of "always coherent" in a
+> > >>>>>>>>>> helper
+> > >>>>>>>>>> called i915_coherent_map_type. Could someone explain what is
+> > >>>>>>>>>> coherent vs
+> > >>>>>>>>>> always coherent?
+> > >>>>>>>>>>
+> > >>>>>>>>>> And also, why is always coherent happy with WB? Sounds counter
+> > >>>>>>>>>> intuitive
+> > >>>>>>>>>> to me.
+> > >>>>>>>>>
+> > >>>>>>>>> All this does is try to keep the existing behaviour intact, whilst
+> > >>>>>>>>> also ensuring that all lmem objects are mapped using only WC, no
+> > >>>>>>>>> matter what. The always_coherent=true thing is for the existing
+> > >>>>>>>>> places
+> > >>>>>>>>> where we sometimes map the object using WB, without first
+> > >>>>>>>>> considering
+> > >>>>>>>>> whether the device has the fast shared LLC vs snooping. Yes, it's
+> > >>>>>>>>> slightly ugly :)
+> > >>>>>>>>
+> > >>>>>>>> Not fully following - if we had to write kerneldoc for
+> > >>>>>>>> always_coherent
+> > >>>>>>>> input argument - what it would say?
+> > >>>>>>>
+> > >>>>>>> @always_coherent - If true we should always try to map the object
+> > >>>>>>> using WB. If false we should only map as WB if the device
+> > >>>>>>> supports the
+> > >>>>>>> fast shared LLC, in the case of snooped devices we will map use WC.
+> > >>>>>>> Note that If the resource is lmem then we will always map as WC,
+> > >>>>>>> regardless of the value of always_coherent, since that's all we
+> > >>>>>>> currently support.
+> > >>>>>>>
+> > >>>>>>> Maybe the naming is poor?
+> > >>>>>>
+> > >>>>>> Maybe just confusing to me, not sure yet.
+> > >>>>>>
+> > >>>>>> So always_coherent is not about how the callers wants to use it,
+> > >>>>>> but about platform knowledge? Or a performance concern for LLC vs
+> > >>>>>> snooping cases? Does WB works (coherently) on snooping platforms?
+> > >>>>>
+> > >>>>> The always_coherent=true is for the existing callers that want WB,
+> > >>>>> regardless of LLC vs snooping.
+> > >>>>>
+> > >>>>> The other callers use the existing i915_coherent_map_type() which
+> > >>>>> only gives out WB for LLC platforms.
+> > >>>>>
+> > >>>>> AFAIK, LLC vs snooping should offer the same in terms of coherency,
+> > >>>>> but in terms of performance the shared LLC is much faster, and so
+> > >>>>> for snooping platforms we choose to not enable WB everywhere.
+> > >>>>>
+> > >>>>> On top of that we now have lmem, but for that we only allow WC.
+> > >>>>> This patch just rolls all of that into one helper, while keeping
+> > >>>>> the existing behaviour unchanged.
+> > >>>>
+> > >>>> Thanks. But I am still struggling with the API. :(
+> > >>>>
+> > >>>> Is the introduction of always_coherent flag in the context of DG1
+> > >>>> required even? AFAICT for lmem objects the flag is ignored so no?
+> > >>>
+> > >>> If we drop the flag/helper thing, then we need something like:
+> > >>>
+> > >>> type = WB;
+> > >>> if (i915_gem_object_is_lmem(obj))
+> > >>>      type = WC;
+> > >>>
+> > >>> vaddr = i915_gem_object_pin_map(obj, type);
+> > >>>
+> > >>> In all the places where we currently do:
+> > >>>
+> > >>> vaddr = i915_gem_object_pin_map(obj, WB);
+> > >>>
+> > >>> Where obj can be lmem, so ctx, ring, guc etc. Is that better or
+> > >>> worse? The existing i915_coherent_map_type() callers should work
+> > >>> as-is, since DG1 is snooped. And this patch just extends that to
+> > >>> cover all cases.
+> > >>>
+> > >>> Perhaps we need a new helper instead? Maybe you have a better idea?
+> > >>
+> > >> Not yet. Would it make sense to put something in kerneldoc about when
+> > >> callers might choose always_coherent true vs false? In terms of
+> > >> expected usage (frequency, simplicity?) and any rules with regards
+> > >> when callers need to worry about flushing/ordering when there are
+> > >> mixed read and writes?
+> > >
+> > > Hmmm, looking at this again, maybe for now we should just go with:
+> > >
+> > > type = WB;
+> > > if (i915_gem_object_is_lmem(obj))
+> > >        type = WC;
+> > >
+> > > vaddr = i915_gem_object_pin_map(obj, type)
+> > >
+> > > Which is way less confusing, plus there are only a handful of places
+> > > where we need this, so doesn't seem too bad?
+> > >
+> > > Alternatively, we could wrap that in something like:
+> > >
+> > > /* Returns WB for system memory, or WC for local memory */
+> > > void *i915_gem_object_pin_map_default(obj);
+> > >
+> > > Thoughts?
+> >
+> > I went and looked at the use sites to try and figure it out.
+> >
+> > First thing, the bool always_coherent story is only relevant when we
+> > decide to place some object in system memory. Otherwise mapping is
+> > always WC so I guess our code needs to handle it anyway. Well, if the
+> > assumption is that we can change the location of the objects and it all
+> > just keeps working? Or that is not the goal?
+>
+> I guess your concern is that mapping as WC has different semantics,
+> and that might somehow break the caller?
+>
+> >
+> > Let see about the users (ignoring selftests):
+> >
+> > 1) lrc_reg_state and ring; always_coherent=false
+> >
+> > Update frequency medium and mostly write from the CPU side.
+> >
+> > They say always_coherent=false - which means they have to handle being
+> > given a WC mapping anyway.
+> >
+> > What is the benefit of ever selecting WB here?
+> >
+> > 2) Engine status page; always_coherent=true
+> >
+> > Frequently read and written from the CPU and GPU so cost of snooping is
+> > therefore fine? Apart from having to be ready to deal with WC anyway.
+> >
+> > 3) dbg_poison_ce; always_coherent=true
+> >
+> > Writes to lrc_reg_state once - meh. Could just as well always ask for WC.
+> >
+> > 4) intel_guc_allocate_and_map_vma; always_coherent=true
+> >
+> > This one has three users:
+> >
+> > a) guc_stage_desc_pool_create stage_desc_pool_vaddr
+> >
+> > This one seems write once at init.
+> >
+> > b) intel_guc_ct_init
+> >
+> > Use for CT communication so similar to CSB on engine status page in
+> > principle. But code also has to deal with WC when object is in lmem.
+> >
+> > c) intel_guc_ads_create
+> >
+> > CPU appears to only write on init and GPU reset.
+> >
+> > 5) intel_huc_rsa_data_create; always_coheret=true
+> >
+> > Called from intel_huc_init so it appears write once from CPU. Not sure
+> > why it would need a coherent mapping if that is correct.
+> >
+> > I think this exercise left me equally confused. Because flushing and
+> > read-write ordering rules are different between WB and WC. And code
+> > which accesses all these mappings either has to know which one is in
+> > use, or does not care. For the latter case we have to be sure about for
+> > every path.
+>
+> Users of pin_map() are generally meant to call flush_map() where
+> appropriate, which should do the right thing for us. For WC it only
+> needs to flush the wcb. For WB it's more complicated since that
+> depends on if the object is considered coherent or not, if it is then
+> we don't need to do anything, otherwise we need to clflush.
+>
+> Also note that we If we just map the buffer as WB, that by itself
+> doesn't magically enable snooping for the pages AFAIK. We still have
+> to tell the GPU that these pages are meant to be coherent, which we
+> always do for LLC platforms I think, since the shared LLC is
+> considered fast, whereas on snooping platforms, we don't enable this
+> by default, and have this as CACHE_NONE instead(see shmem_object_init
+> for example), and incur the cost of additional clflushing.  Doing an
+> explicit i915_gem_object_set_coherency(I915_CACHE_LLC) I think will
+> mark the object as coherent for us. I think there are also some
+> matching GTT bits for caching.
+>
+> Also for DG1 you apparently can't disable snooping, as per what Daniel
+> was saying in another thread.
+>
+> >
+> > The write on init / reset ones are easy enough and it doesn't really
+> > matter for them to use the coherent helper.
+> >
+> > Lrc_reg_state as well I think can be WC with explicit flushing - it has
+> > to on lmem, no?
+>
+> I doubt it has to be, since the GPU still just accesses it through the GTT.
+>
+> >
+> > This leaves the status page (CSB, etc) and GuC CT. Those are frequent
+> > R/W but also code has to be able to handle WC so what is the benefit of
+> > WB? It ends up faster than if it was WC, considering explicit
+> > flushes/barriers are still in there?
+>
+> No idea for GuC, but for the hwsp it's still in system memory, and is
+> WB, even for discrete. Chris measured this to be more performant with
+> our execlists submission path than say just sticking it in lmem, and
+> mapping it as WC.
 
---Sig_/Oi2/AIvfCNK0.HfvvhG35Ml
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Ping? How should we proceed with this patch?
 
-On Sat, 24 Apr 2021 05:26:10 -0300
-Melissa Wen <melissa.srw@gmail.com> wrote:
-
-> Add support to overlay plane, in addition to primary and cursor
-> planes. In this approach, the plane composition still requires an
-> active primary plane and planes are composed associatively in the
-> order: (primary <- overlay) <- cursor
->=20
-> It enables to run the following IGT tests successfully:
-> - kms_plane_cursor:
->   - pipe-A-[overlay, primary, viewport]-size-[64, 128, 256]
-> - kms_atomic:
->   - plane-overlay-legacy
-> and preserves the successful execution of kms_cursor_crc,
-> kms_writeback and kms_flip
->=20
-> Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Hi,
-
-just curious, when you need to compute a CRC without having a writeback
-connector output, where do you write the blended result in order to
-compute CRC?
-
-
-Thanks,
-pq
-
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++----------
->  drivers/gpu/drm/vkms/vkms_drv.c      |  5 +++++
->  drivers/gpu/drm/vkms/vkms_drv.h      |  1 +
->  drivers/gpu/drm/vkms/vkms_output.c   | 11 ++++++++++-
->  drivers/gpu/drm/vkms/vkms_plane.c    | 15 ++++++++++++---
->  5 files changed, 45 insertions(+), 14 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index 7e01bc39d2a1..1b510f3dbcbf 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -176,11 +176,12 @@ static void compose_plane(struct vkms_composer *pri=
-mary_composer,
-> =20
->  static int compose_active_planes(void **vaddr_out,
->  				 struct vkms_composer *primary_composer,
-> -				 struct vkms_composer *cursor_composer)
-> +				 struct vkms_crtc_state *crtc_state)
->  {
->  	struct drm_framebuffer *fb =3D &primary_composer->fb;
->  	struct drm_gem_object *gem_obj =3D drm_gem_fb_get_obj(fb, 0);
->  	struct drm_gem_shmem_object *shmem_obj =3D to_drm_gem_shmem_obj(gem_obj=
-);
-> +	int i;
-> =20
->  	if (!*vaddr_out) {
->  		*vaddr_out =3D kzalloc(shmem_obj->base.size, GFP_KERNEL);
-> @@ -195,8 +196,14 @@ static int compose_active_planes(void **vaddr_out,
-> =20
->  	memcpy(*vaddr_out, shmem_obj->vaddr, shmem_obj->base.size);
-> =20
-> -	if (cursor_composer)
-> -		compose_plane(primary_composer, cursor_composer, *vaddr_out);
-> +	/* If there are other planes besides primary, we consider the active
-> +	 * planes should be in z-order and compose them associatively:
-> +	 * ((primary <- overlay) <- cursor)
-> +	 */
-> +	for (i =3D 1; i < crtc_state->num_active_planes; i++)
-> +		compose_plane(primary_composer,
-> +			      crtc_state->active_planes[i]->composer,
-> +			      *vaddr_out);
-> =20
->  	return 0;
->  }
-> @@ -218,7 +225,7 @@ void vkms_composer_worker(struct work_struct *work)
->  	struct drm_crtc *crtc =3D crtc_state->base.crtc;
->  	struct vkms_output *out =3D drm_crtc_to_vkms_output(crtc);
->  	struct vkms_composer *primary_composer =3D NULL;
-> -	struct vkms_composer *cursor_composer =3D NULL;
-> +	struct vkms_plane_state *act_plane =3D NULL;
->  	bool crc_pending, wb_pending;
->  	void *vaddr_out =3D NULL;
->  	u32 crc32 =3D 0;
-> @@ -242,11 +249,11 @@ void vkms_composer_worker(struct work_struct *work)
->  	if (!crc_pending)
->  		return;
-> =20
-> -	if (crtc_state->num_active_planes >=3D 1)
-> -		primary_composer =3D crtc_state->active_planes[0]->composer;
-> -
-> -	if (crtc_state->num_active_planes =3D=3D 2)
-> -		cursor_composer =3D crtc_state->active_planes[1]->composer;
-> +	if (crtc_state->num_active_planes >=3D 1) {
-> +		act_plane =3D crtc_state->active_planes[0];
-> +		if (act_plane->base.plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY)
-> +			primary_composer =3D act_plane->composer;
-> +	}
-> =20
->  	if (!primary_composer)
->  		return;
-> @@ -255,7 +262,7 @@ void vkms_composer_worker(struct work_struct *work)
->  		vaddr_out =3D crtc_state->active_writeback;
-> =20
->  	ret =3D compose_active_planes(&vaddr_out, primary_composer,
-> -				    cursor_composer);
-> +				    crtc_state);
->  	if (ret) {
->  		if (ret =3D=3D -EINVAL && !wb_pending)
->  			kfree(vaddr_out);
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
-drv.c
-> index 2173b82606f6..027ffe759440 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -44,6 +44,10 @@ static bool enable_writeback =3D true;
->  module_param_named(enable_writeback, enable_writeback, bool, 0444);
->  MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector s=
-upport");
-> =20
-> +static bool enable_overlay;
-> +module_param_named(enable_overlay, enable_overlay, bool, 0444);
-> +MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
-> +
->  DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
-> =20
->  static void vkms_release(struct drm_device *dev)
-> @@ -198,6 +202,7 @@ static int __init vkms_init(void)
-> =20
->  	config->cursor =3D enable_cursor;
->  	config->writeback =3D enable_writeback;
-> +	config->overlay =3D enable_overlay;
-> =20
->  	return vkms_create(config);
->  }
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index 70fb79621617..ac8c9c2fa4ed 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -89,6 +89,7 @@ struct vkms_device;
->  struct vkms_config {
->  	bool writeback;
->  	bool cursor;
-> +	bool overlay;
->  	/* only set when instantiated */
->  	struct vkms_device *dev;
->  };
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vk=
-ms_output.c
-> index 6979fbc7f821..04406bd3ff02 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -39,7 +39,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int i=
-ndex)
->  	struct drm_connector *connector =3D &output->connector;
->  	struct drm_encoder *encoder =3D &output->encoder;
->  	struct drm_crtc *crtc =3D &output->crtc;
-> -	struct vkms_plane *primary, *cursor =3D NULL;
-> +	struct vkms_plane *primary, *cursor =3D NULL, *overlay =3D NULL;
->  	int ret;
->  	int writeback;
-> =20
-> @@ -47,6 +47,15 @@ int vkms_output_init(struct vkms_device *vkmsdev, int =
-index)
->  	if (IS_ERR(primary))
->  		return PTR_ERR(primary);
-> =20
-> +	if (vkmsdev->config->overlay) {
-> +		overlay =3D vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-> +		if (IS_ERR(overlay))
-> +			return PTR_ERR(overlay);
-> +
-> +		if (!overlay->base.possible_crtcs)
-> +			overlay->base.possible_crtcs =3D drm_crtc_mask(crtc);
-> +	}
-> +
->  	if (vkmsdev->config->cursor) {
->  		cursor =3D vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
->  		if (IS_ERR(cursor))
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
-s_plane.c
-> index da4251aff67f..107521ace597 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -133,7 +133,7 @@ static int vkms_plane_atomic_check(struct drm_plane *=
-plane,
->  	if (IS_ERR(crtc_state))
->  		return PTR_ERR(crtc_state);
-> =20
-> -	if (plane->type =3D=3D DRM_PLANE_TYPE_CURSOR)
-> +	if (plane->type !=3D DRM_PLANE_TYPE_PRIMARY)
->  		can_position =3D true;
-> =20
->  	ret =3D drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
-> @@ -200,14 +200,23 @@ struct vkms_plane *vkms_plane_init(struct vkms_devi=
-ce *vkmsdev,
->  	const u32 *formats;
->  	int nformats;
-> =20
-> -	if (type =3D=3D DRM_PLANE_TYPE_CURSOR) {
-> +	switch (type) {
-> +	case DRM_PLANE_TYPE_PRIMARY:
-> +		formats =3D vkms_formats;
-> +		nformats =3D ARRAY_SIZE(vkms_formats);
-> +		funcs =3D &vkms_primary_helper_funcs;
-> +		break;
-> +	case DRM_PLANE_TYPE_CURSOR:
-> +	case DRM_PLANE_TYPE_OVERLAY:
->  		formats =3D vkms_plane_formats;
->  		nformats =3D ARRAY_SIZE(vkms_plane_formats);
->  		funcs =3D &vkms_primary_helper_funcs;
-> -	} else {
-> +		break;
-> +	default:
->  		formats =3D vkms_formats;
->  		nformats =3D ARRAY_SIZE(vkms_formats);
->  		funcs =3D &vkms_primary_helper_funcs;
-> +		break;
->  	}
-> =20
->  	plane =3D drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 <<=
- index,
-
-
---Sig_/Oi2/AIvfCNK0.HfvvhG35Ml
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCGdKgACgkQI1/ltBGq
-qqe/ohAAs/bp9c+mCWpjwM2W3vBCjHtjKefyr+6Y3EKSYWcya0QV+C/2aFg/go8A
-lD5QAYkf7Tech+vgiYNETLBhMAXvq2aSx2r9JKLd4HtFjtQXLDP5Et+jzFYPZxJf
-vWXs5Tg+UM15Sj6KSAv4iQQM5j5eqyglCDcn63LLV3K1s9pUCNnwjRsWZd8fVaS2
-BaIev0D5t/z+0EIJbVUhsg0zaSCARrLpfbkTHp81EIWkBrGl4XxthEy0+Ls0piXJ
-tyz/XMBcgo6E7+cOX+4i4PKXhgXURyWiy1QC6vH8RCE/LaFzV4TmIugiypiA9HZ7
-MvhE0MF23IAfdbXr6HzdFtxn7fuVidlpehXoR/iH6WV1Ly3JOVp2iizSQaek22wl
-JoTeqV/os+4XFgddgXK/HhG5tdaEBjphkRmsYsEOku8VthtXovQRvZ4fK+hVfnQ3
-crVoontsTUMe+CXe6nwi/JmHF3X0VCWdzoESi2xxRoEBC1zZTa4FFn0zczoFPrEO
-qfXzT15/esfHzH3pe7Pzyv8+SGSYFgIqZs8pPLyvuqeafTo8ZcuJp1piEXpVRbck
-jk7WmsRT/guz/Ho3t1atUvxkqD9dN4vVNBNiQi6hTb1qB0egzCJUcOlW1VHGJOjE
-lMVGuV7g2Fl2+bgI3fSXQm19gB1Li4C1WgbAU5Wa8JY5AaDb0gc=
-=h6+j
------END PGP SIGNATURE-----
-
---Sig_/Oi2/AIvfCNK0.HfvvhG35Ml--
-
---===============1649962386==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>
+> >
+> > Regards,
+> >
+> > Tvrtko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1649962386==--
