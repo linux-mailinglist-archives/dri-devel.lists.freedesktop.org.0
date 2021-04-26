@@ -2,43 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F55236B59A
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 17:20:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D929236B5A4
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 17:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11F1A6E20E;
-	Mon, 26 Apr 2021 15:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1206E83A;
+	Mon, 26 Apr 2021 15:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95DA96E20E;
- Mon, 26 Apr 2021 15:20:48 +0000 (UTC)
-IronPort-SDR: 6B9Uh5fWR0o4bklma5BcxKPCZ5POLh8pWHIAu+raOtixSWKA5+JX5h2PVSSazjsbPGzWPK2cGL
- 8Ibxzg3a0H6w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="196462168"
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="196462168"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2021 08:20:45 -0700
-IronPort-SDR: 54rGgCYyU97uXa3SYCZmQ6eHSnJjcmRpStq2EbaxolmpSsjQR+S5HMx4HB1evoI2SUry0nlMDS
- Q+hDjVZ1j6zQ==
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="465149137"
-Received: from mrontion-mobl1.ger.corp.intel.com (HELO [10.213.223.230])
- ([10.213.223.230])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2021 08:20:44 -0700
-Subject: Re: [PATCH 3/7] drm/i915/gtt: map the PD up front
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20210426101821.42147-1-matthew.auld@intel.com>
- <20210426101821.42147-3-matthew.auld@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <1a7f36f6-0d7c-ea35-0af9-757768a43213@linux.intel.com>
-Date: Mon, 26 Apr 2021 16:20:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9AFC6E835
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 15:22:33 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id zg3so3418761ejb.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 08:22:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=THfQT9sSuBB1ts1GzB0cs5toJ/Am/MCJiMUt8Jd6Df8=;
+ b=A1K1UxAn0T2qup5GdLp1rF7DC60YP594y7L2KdNeINYzD+NgjmGnooKBQcTZZ32yww
+ rEYN9rNkA/PDlLaJsByP1P3MrcwhdjnEyJXv+2VSSnha7PTs9z7Ez38wzeBBcmg3SU5e
+ Nj2fq/dAdSTb+I6APi7dfjL8Bg8WJzqHcMiGJTMiCVuHyhqeYcWPaa86GmYA4fGrP7yM
+ m8+ZtkPnY8ZWpAHcNEBUXpAAaYMry6qeM55am3jxOY8GwQMkFTl5cfnhqJfY939FVUSV
+ wZZtO9O7dFmn/keFSrSbZIBQ8uGMTLm4kmwLX17om9vvqWrfCQqrURjUAa0vEeoO0/OW
+ jBYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=THfQT9sSuBB1ts1GzB0cs5toJ/Am/MCJiMUt8Jd6Df8=;
+ b=c435JyStAq+wuAkSeEBaTpWLthzrmv/PoziHyCJHyMNwNtRI15vltVwXV6bzGvE0Li
+ GfNjY10V1KITCGhc+zXaj3aAtyvesD1ncuFRc3lpToN+Dr3Wdhkgx3K6d159J50v8xoy
+ GkzC3+EisQsjSH7LLmha9beyOo6xzZabB51HLfNFVDlxQ++aaCYU6JGRscYuns+h3DAe
+ hxQF47lcZNGAxGT32UZnLS2ueRThoYQ9XChDqZTXHFFacR1ihLtwIEG6o4me85lgPj68
+ K/teEdqH0uAXyOYFbChL24QCPToHAmjchRUkpfmfmoRWeMVLmpWUsd60gGckeS5zEY0l
+ dtZA==
+X-Gm-Message-State: AOAM533Z80MugZGgFt1QKJoLGKcsGouDwuDT4tN6Lv7ORrkOUZvboH6e
+ Ss1i3ijiDefg3s5PF9qswrnLpdXqdunTyTgyObJKFA==
+X-Google-Smtp-Source: ABdhPJxi7+HHWMlxSjD1k5PvewlJmWyK/MOz6jb0gUtIHPppCtOloBKrFYnRe+EMFzqdKWl8AMNfqOynPGRUuszKCgM=
+X-Received: by 2002:a17:906:dc90:: with SMTP id
+ cs16mr18880241ejc.210.1619450552132; 
+ Mon, 26 Apr 2021 08:22:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210426101821.42147-3-matthew.auld@intel.com>
-Content-Language: en-US
+References: <20210415155958.391624-1-matthew.auld@intel.com>
+ <20210415155958.391624-4-matthew.auld@intel.com>
+ <CAOFGe96QALJa4FbWkVxczTdOA6b41zk1GxdYwRsrP7GwSZ4zvw@mail.gmail.com>
+ <6cf790c7-84bf-4d35-c1c3-4cf826655faf@intel.com>
+ <CAOFGe95gMUuqXX=Yn_xMRVxQmcwiqNEN0m3PgyNACcm0iNTyKg@mail.gmail.com>
+ <5a412489-75ed-e971-0e0b-388f0f964fac@linux.intel.com>
+ <CAOFGe97HuFOe08ttq7yyuiTVphjvwRB2542at6uEEb5YX671Rw@mail.gmail.com>
+ <db6f3015-654b-17fa-0d72-4339c4ab338d@linux.intel.com>
+ <CAOFGe95FqvMnnH82o_uQtffpFNKarB0Gvs+vLkhQ-UKjiXO0Mg@mail.gmail.com>
+ <5c572f88-dac8-5b00-e75b-209a772e4082@linux.intel.com>
+ <CAOFGe97BCf8YKUkJcXHFumv4aF44N91Y19CX4XUhOcLu-9gWyA@mail.gmail.com>
+ <9841933a-e3ae-eabf-bcbe-88602378c88f@linux.intel.com>
+ <CAKMK7uG+7we_mtTs7TDDWTecqbzzha8UBPVuhZm0EwrGpiCC7A@mail.gmail.com>
+In-Reply-To: <CAKMK7uG+7we_mtTs7TDDWTecqbzzha8UBPVuhZm0EwrGpiCC7A@mail.gmail.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Mon, 26 Apr 2021 10:22:20 -0500
+Message-ID: <CAOFGe96K5KLbXVe8mFSPgg=4-WOXyJx0f6YF6c-aSG+iYh7kog@mail.gmail.com>
+Subject: Re: [Mesa-dev] [PATCH v3 4/4] drm/doc/rfc: i915 DG1 uAPI
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,531 +74,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Kenneth Graunke <kenneth@whitecape.org>, Matthew Auld <matthew.auld@intel.com>,
+ ML mesa-dev <mesa-dev@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Apr 21, 2021 at 2:23 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Wed, Apr 21, 2021 at 8:28 PM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+> > On 21/04/2021 18:17, Jason Ekstrand wrote:
+> > > On Wed, Apr 21, 2021 at 9:25 AM Tvrtko Ursulin
+> > > <tvrtko.ursulin@linux.intel.com> wrote:
+> > >> On 21/04/2021 14:54, Jason Ekstrand wrote:
+> > >>> On Wed, Apr 21, 2021 at 3:22 AM Tvrtko Ursulin
+> > >>> <tvrtko.ursulin@linux.intel.com> wrote:
+> > >>>> On 20/04/2021 18:00, Jason Ekstrand wrote:
+> > >>>> I am not claiming to know memory region query will end up the same, and
+> > >>>> I definitely agree we cannot guess the future. I am just saying rsvd
+> > >>>> fields are inconsequential really in terms of maintenance burden and
+> > >>>> have been proven useful in the past. So I disagree with the drive to
+> > >>>> kick them all out.
+> > >>>
+> > >>> Sure, it doesn't cost anything to have extra zeros in the struct.
+> > >>> However, if/when the API grows using rsvd fields, we end up with "if
+> > >>> CAP_FOO is set, rsvd[5] means blah" which makes for a horribly
+> > >>> confusing API.  As a userspace person who has to remember how to use
+> > >>> this stuff, I'd rather make another call or chain in a struct than try
+> > >>> to remember and/or figure out what all 8 rsvd fields mean.
+> > >>
+> > >> Well it's not called rsvd in the uapi which is aware of the new field
+> > >> but has a new name.
+> > >
+> > > Are we allowed to do that?  This is a genuine question.  When I've
+> > > tried in the past (cliprects), I was told we couldn't rename it even
+> > > though literally no one had used it in code for years.
+> >
+> > Well we did the union for pad_to_size so I thought we are allowed that
+> > trick at least. From my experience backward source level compatibility
+> > is not always there even with things like glibc. Despite that, are we
+> > generally required to stay backward source compatible I will not claim
+> > either way.
 
-On 26/04/2021 11:18, Matthew Auld wrote:
-> We need to general our accessor for the page directories and tables from
+I'm starting to lose the will to care about this particular bike shed.
+I think I'm fine with keeping some RSVD fields as long as:
 
-Generalise?
+ 1. We're very clear in the docs with flags and caps about what things
+are inputs and what things are outputs and how they interact.
+Preferably, everything is an output.
+ 2. If we already know that caps is useless without supported_caps,
+let's either add supported_caps in now or throw out both and use some
+rsvd for them when they begin to be needed.
+ 3. We have a plan for how we're going to use them in a
+backwards-compatible way.
 
-> using the simple kmap_atomic to support local memory, and this setup
-> must be done on acquisition of the backing storage prior to entering
-> fence execution contexts. Here we replace the kmap with the object
-> maping code that for simple single page shmemfs object will return a
-> plain kmap, that is then kept for the lifetime of the page directory.
+On 3, it sounds like we have a rough sketch of a plan but I'm still
+unclear on some details.  In particular, we have an rsvd[8] at the end
+but, if we're going to replace individual bits of it, we can't ever
+shorten or re-name that array.  We could, potentially, do
 
-How big are the address spaces used for mapping types? On 32-bit?
+union {
+    __u32 rsvd[8];
+    struct {
+        __u32 new_field;
+    };
+};
 
-Do we have a mechanism to free something up if there is address space 
-pressure in there and is that a concern if we do not?
+and trust C to put all the fields of our anonymous struct at the top.
+Otherwise, we've got to fill out our struct with more rsvd and that
+gets to be a mess.
 
-Regards,
+Another option would be to have
 
-Tvrtko
+__u32 rsvd1;
+__u32 rsvd2;
+__u32 rsvd3;
+/* etc... */
 
-> v2: (Thomas) Rebase on dma_resv and obj->mm.lock removal.
-> 
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> ---
->   .../drm/i915/gem/selftests/i915_gem_context.c | 11 +----
->   drivers/gpu/drm/i915/gt/gen6_ppgtt.c          | 11 ++---
->   drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 26 ++++------
->   drivers/gpu/drm/i915/gt/intel_ggtt.c          |  2 +-
->   drivers/gpu/drm/i915/gt/intel_gtt.c           | 48 +++++++++----------
->   drivers/gpu/drm/i915/gt/intel_gtt.h           | 11 +++--
->   drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  7 ++-
->   drivers/gpu/drm/i915/i915_vma.c               |  3 +-
->   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 10 ++--
->   drivers/gpu/drm/i915/selftests/i915_perf.c    |  3 +-
->   10 files changed, 54 insertions(+), 78 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> index 5fef592390cb..ce70d0a3afb2 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> @@ -1740,7 +1740,6 @@ static int read_from_scratch(struct i915_gem_context *ctx,
->   static int check_scratch_page(struct i915_gem_context *ctx, u32 *out)
->   {
->   	struct i915_address_space *vm;
-> -	struct page *page;
->   	u32 *vaddr;
->   	int err = 0;
->   
-> @@ -1748,24 +1747,18 @@ static int check_scratch_page(struct i915_gem_context *ctx, u32 *out)
->   	if (!vm)
->   		return -ENODEV;
->   
-> -	page = __px_page(vm->scratch[0]);
-> -	if (!page) {
-> +	if (!vm->scratch[0]) {
->   		pr_err("No scratch page!\n");
->   		return -EINVAL;
->   	}
->   
-> -	vaddr = kmap(page);
-> -	if (!vaddr) {
-> -		pr_err("No (mappable) scratch page!\n");
-> -		return -EINVAL;
-> -	}
-> +	vaddr = __px_vaddr(vm->scratch[0]);
->   
->   	memcpy(out, vaddr, sizeof(*out));
->   	if (memchr_inv(vaddr, *out, PAGE_SIZE)) {
->   		pr_err("Inconsistent initial state of scratch page!\n");
->   		err = -EINVAL;
->   	}
-> -	kunmap(page);
->   
->   	return err;
->   }
-> diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> index e08dff376339..21b1085769be 100644
-> --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> @@ -96,9 +96,8 @@ static void gen6_ppgtt_clear_range(struct i915_address_space *vm,
->   		 * entries back to scratch.
->   		 */
->   
-> -		vaddr = kmap_atomic_px(pt);
-> +		vaddr = px_vaddr(pt);
->   		memset32(vaddr + pte, scratch_pte, count);
-> -		kunmap_atomic(vaddr);
->   
->   		pte = 0;
->   	}
-> @@ -120,7 +119,7 @@ static void gen6_ppgtt_insert_entries(struct i915_address_space *vm,
->   
->   	GEM_BUG_ON(!pd->entry[act_pt]);
->   
-> -	vaddr = kmap_atomic_px(i915_pt_entry(pd, act_pt));
-> +	vaddr = px_vaddr(i915_pt_entry(pd, act_pt));
->   	do {
->   		GEM_BUG_ON(sg_dma_len(iter.sg) < I915_GTT_PAGE_SIZE);
->   		vaddr[act_pte] = pte_encode | GEN6_PTE_ADDR_ENCODE(iter.dma);
-> @@ -136,12 +135,10 @@ static void gen6_ppgtt_insert_entries(struct i915_address_space *vm,
->   		}
->   
->   		if (++act_pte == GEN6_PTES) {
-> -			kunmap_atomic(vaddr);
-> -			vaddr = kmap_atomic_px(i915_pt_entry(pd, ++act_pt));
-> +			vaddr = px_vaddr(i915_pt_entry(pd, ++act_pt));
->   			act_pte = 0;
->   		}
->   	} while (1);
-> -	kunmap_atomic(vaddr);
->   
->   	vma->page_sizes.gtt = I915_GTT_PAGE_SIZE;
->   }
-> @@ -235,7 +232,7 @@ static int gen6_ppgtt_init_scratch(struct gen6_ppgtt *ppgtt)
->   		goto err_scratch0;
->   	}
->   
-> -	ret = pin_pt_dma(vm, vm->scratch[1]);
-> +	ret = map_pt_dma(vm, vm->scratch[1]);
->   	if (ret)
->   		goto err_scratch1;
->   
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> index 176c19633412..f83496836f0f 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> @@ -242,11 +242,10 @@ static u64 __gen8_ppgtt_clear(struct i915_address_space * const vm,
->   			    atomic_read(&pt->used));
->   			GEM_BUG_ON(!count || count >= atomic_read(&pt->used));
->   
-> -			vaddr = kmap_atomic_px(pt);
-> +			vaddr = px_vaddr(pt);
->   			memset64(vaddr + gen8_pd_index(start, 0),
->   				 vm->scratch[0]->encode,
->   				 count);
-> -			kunmap_atomic(vaddr);
->   
->   			atomic_sub(count, &pt->used);
->   			start += count;
-> @@ -375,7 +374,7 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
->   	gen8_pte_t *vaddr;
->   
->   	pd = i915_pd_entry(pdp, gen8_pd_index(idx, 2));
-> -	vaddr = kmap_atomic_px(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
-> +	vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
->   	do {
->   		GEM_BUG_ON(sg_dma_len(iter->sg) < I915_GTT_PAGE_SIZE);
->   		vaddr[gen8_pd_index(idx, 0)] = pte_encode | iter->dma;
-> @@ -402,12 +401,10 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
->   			}
->   
->   			clflush_cache_range(vaddr, PAGE_SIZE);
-> -			kunmap_atomic(vaddr);
-> -			vaddr = kmap_atomic_px(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
-> +			vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
->   		}
->   	} while (1);
->   	clflush_cache_range(vaddr, PAGE_SIZE);
-> -	kunmap_atomic(vaddr);
->   
->   	return idx;
->   }
-> @@ -442,7 +439,7 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
->   			encode |= GEN8_PDE_PS_2M;
->   			page_size = I915_GTT_PAGE_SIZE_2M;
->   
-> -			vaddr = kmap_atomic_px(pd);
-> +			vaddr = px_vaddr(pd);
->   		} else {
->   			struct i915_page_table *pt =
->   				i915_pt_entry(pd, __gen8_pte_index(start, 1));
-> @@ -457,7 +454,7 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
->   			     rem >= (I915_PDES - index) * I915_GTT_PAGE_SIZE))
->   				maybe_64K = __gen8_pte_index(start, 1);
->   
-> -			vaddr = kmap_atomic_px(pt);
-> +			vaddr = px_vaddr(pt);
->   		}
->   
->   		do {
-> @@ -491,7 +488,6 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
->   		} while (rem >= page_size && index < I915_PDES);
->   
->   		clflush_cache_range(vaddr, PAGE_SIZE);
-> -		kunmap_atomic(vaddr);
->   
->   		/*
->   		 * Is it safe to mark the 2M block as 64K? -- Either we have
-> @@ -505,9 +501,8 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
->   		      !iter->sg && IS_ALIGNED(vma->node.start +
->   					      vma->node.size,
->   					      I915_GTT_PAGE_SIZE_2M)))) {
-> -			vaddr = kmap_atomic_px(pd);
-> +			vaddr = px_vaddr(pd);
->   			vaddr[maybe_64K] |= GEN8_PDE_IPS_64K;
-> -			kunmap_atomic(vaddr);
->   			page_size = I915_GTT_PAGE_SIZE_64K;
->   
->   			/*
-> @@ -523,12 +518,11 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
->   				u16 i;
->   
->   				encode = vma->vm->scratch[0]->encode;
-> -				vaddr = kmap_atomic_px(i915_pt_entry(pd, maybe_64K));
-> +				vaddr = px_vaddr(i915_pt_entry(pd, maybe_64K));
->   
->   				for (i = 1; i < index; i += 16)
->   					memset64(vaddr + i, encode, 15);
->   
-> -				kunmap_atomic(vaddr);
->   			}
->   		}
->   
-> @@ -602,7 +596,7 @@ static int gen8_init_scratch(struct i915_address_space *vm)
->   		if (IS_ERR(obj))
->   			goto free_scratch;
->   
-> -		ret = pin_pt_dma(vm, obj);
-> +		ret = map_pt_dma(vm, obj);
->   		if (ret) {
->   			i915_gem_object_put(obj);
->   			goto free_scratch;
-> @@ -639,7 +633,7 @@ static int gen8_preallocate_top_level_pdp(struct i915_ppgtt *ppgtt)
->   		if (IS_ERR(pde))
->   			return PTR_ERR(pde);
->   
-> -		err = pin_pt_dma(vm, pde->pt.base);
-> +		err = map_pt_dma(vm, pde->pt.base);
->   		if (err) {
->   			i915_gem_object_put(pde->pt.base);
->   			free_pd(vm, pde);
-> @@ -675,7 +669,7 @@ gen8_alloc_top_pd(struct i915_address_space *vm)
->   		goto err_pd;
->   	}
->   
-> -	err = pin_pt_dma(vm, pd->pt.base);
-> +	err = map_pt_dma(vm, pd->pt.base);
->   	if (err)
->   		goto err_pd;
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 670c1271e7d5..d94628b9d89e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -657,7 +657,7 @@ static int init_aliasing_ppgtt(struct i915_ggtt *ggtt)
->   		goto err_ppgtt;
->   
->   	i915_gem_object_lock(ppgtt->vm.scratch[0], NULL);
-> -	err = i915_vm_pin_pt_stash(&ppgtt->vm, &stash);
-> +	err = i915_vm_map_pt_stash(&ppgtt->vm, &stash);
->   	i915_gem_object_unlock(ppgtt->vm.scratch[0]);
->   	if (err)
->   		goto err_stash;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> index 941f8af016d6..d386b89e2758 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> @@ -25,27 +25,25 @@ struct drm_i915_gem_object *alloc_pt_dma(struct i915_address_space *vm, int sz)
->   	return obj;
->   }
->   
-> -int pin_pt_dma(struct i915_address_space *vm, struct drm_i915_gem_object *obj)
-> +int map_pt_dma(struct i915_address_space *vm, struct drm_i915_gem_object *obj)
->   {
-> -	int err;
-> +	void *vaddr;
->   
-> -	i915_gem_object_lock(obj, NULL);
-> -	err = i915_gem_object_pin_pages(obj);
-> -	i915_gem_object_unlock(obj);
-> -	if (err)
-> -		return err;
-> +	vaddr = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
-> +	if (IS_ERR(vaddr))
-> +		return PTR_ERR(vaddr);
->   
->   	i915_gem_object_make_unshrinkable(obj);
->   	return 0;
->   }
->   
-> -int pin_pt_dma_locked(struct i915_address_space *vm, struct drm_i915_gem_object *obj)
-> +int map_pt_dma_locked(struct i915_address_space *vm, struct drm_i915_gem_object *obj)
->   {
-> -	int err;
-> +	void *vaddr;
->   
-> -	err = i915_gem_object_pin_pages(obj);
-> -	if (err)
-> -		return err;
-> +	vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
-> +	if (IS_ERR(vaddr))
-> +		return PTR_ERR(vaddr);
->   
->   	i915_gem_object_make_unshrinkable(obj);
->   	return 0;
-> @@ -155,6 +153,14 @@ void clear_pages(struct i915_vma *vma)
->   	memset(&vma->page_sizes, 0, sizeof(vma->page_sizes));
->   }
->   
-> +void *__px_vaddr(struct drm_i915_gem_object *p)
-> +{
-> +	enum i915_map_type type;
-> +
-> +	GEM_BUG_ON(!i915_gem_object_has_pages(p));
-> +	return page_unpack_bits(p->mm.mapping, &type);
-> +}
-> +
->   dma_addr_t __px_dma(struct drm_i915_gem_object *p)
->   {
->   	GEM_BUG_ON(!i915_gem_object_has_pages(p));
-> @@ -170,32 +176,22 @@ struct page *__px_page(struct drm_i915_gem_object *p)
->   void
->   fill_page_dma(struct drm_i915_gem_object *p, const u64 val, unsigned int count)
->   {
-> -	struct page *page = __px_page(p);
-> -	void *vaddr;
-> +	void *vaddr = __px_vaddr(p);
->   
-> -	vaddr = kmap(page);
->   	memset64(vaddr, val, count);
->   	clflush_cache_range(vaddr, PAGE_SIZE);
-> -	kunmap(page);
->   }
->   
->   static void poison_scratch_page(struct drm_i915_gem_object *scratch)
->   {
-> -	struct sgt_iter sgt;
-> -	struct page *page;
-> +	void *vaddr = __px_vaddr(scratch);
->   	u8 val;
->   
->   	val = 0;
->   	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
->   		val = POISON_FREE;
->   
-> -	for_each_sgt_page(page, sgt, scratch->mm.pages) {
-> -		void *vaddr;
-> -
-> -		vaddr = kmap(page);
-> -		memset(vaddr, val, PAGE_SIZE);
-> -		kunmap(page);
-> -	}
-> +	memset(vaddr, val, scratch->base.size);
->   }
->   
->   int setup_scratch_page(struct i915_address_space *vm)
-> @@ -225,7 +221,7 @@ int setup_scratch_page(struct i915_address_space *vm)
->   		if (IS_ERR(obj))
->   			goto skip;
->   
-> -		if (pin_pt_dma(vm, obj))
-> +		if (map_pt_dma(vm, obj))
->   			goto skip_obj;
->   
->   		/* We need a single contiguous page for our scratch */
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> index e67e34e17913..40e486704558 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> @@ -180,6 +180,9 @@ struct page *__px_page(struct drm_i915_gem_object *p);
->   dma_addr_t __px_dma(struct drm_i915_gem_object *p);
->   #define px_dma(px) (__px_dma(px_base(px)))
->   
-> +void *__px_vaddr(struct drm_i915_gem_object *p);
-> +#define px_vaddr(px) (__px_vaddr(px_base(px)))
-> +
->   #define px_pt(px) \
->   	__px_choose_expr(px, struct i915_page_table *, __x, \
->   	__px_choose_expr(px, struct i915_page_directory *, &__x->pt, \
-> @@ -511,8 +514,6 @@ struct i915_ppgtt *i915_ppgtt_create(struct intel_gt *gt);
->   void i915_ggtt_suspend(struct i915_ggtt *gtt);
->   void i915_ggtt_resume(struct i915_ggtt *ggtt);
->   
-> -#define kmap_atomic_px(px) kmap_atomic(__px_page(px_base(px)))
-> -
->   void
->   fill_page_dma(struct drm_i915_gem_object *p, const u64 val, unsigned int count);
->   
-> @@ -530,8 +531,8 @@ struct i915_page_table *alloc_pt(struct i915_address_space *vm);
->   struct i915_page_directory *alloc_pd(struct i915_address_space *vm);
->   struct i915_page_directory *__alloc_pd(int npde);
->   
-> -int pin_pt_dma(struct i915_address_space *vm, struct drm_i915_gem_object *obj);
-> -int pin_pt_dma_locked(struct i915_address_space *vm, struct drm_i915_gem_object *obj);
-> +int map_pt_dma(struct i915_address_space *vm, struct drm_i915_gem_object *obj);
-> +int map_pt_dma_locked(struct i915_address_space *vm, struct drm_i915_gem_object *obj);
->   
->   void free_px(struct i915_address_space *vm,
->   	     struct i915_page_table *pt, int lvl);
-> @@ -578,7 +579,7 @@ void setup_private_pat(struct intel_uncore *uncore);
->   int i915_vm_alloc_pt_stash(struct i915_address_space *vm,
->   			   struct i915_vm_pt_stash *stash,
->   			   u64 size);
-> -int i915_vm_pin_pt_stash(struct i915_address_space *vm,
-> +int i915_vm_map_pt_stash(struct i915_address_space *vm,
->   			 struct i915_vm_pt_stash *stash);
->   void i915_vm_free_pt_stash(struct i915_address_space *vm,
->   			   struct i915_vm_pt_stash *stash);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-> index 014ae8ac4480..4e3d80c2295c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-> @@ -87,11 +87,10 @@ write_dma_entry(struct drm_i915_gem_object * const pdma,
->   		const unsigned short idx,
->   		const u64 encoded_entry)
->   {
-> -	u64 * const vaddr = kmap_atomic(__px_page(pdma));
-> +	u64 * const vaddr = __px_vaddr(pdma);
->   
->   	vaddr[idx] = encoded_entry;
->   	clflush_cache_range(&vaddr[idx], sizeof(u64));
-> -	kunmap_atomic(vaddr);
->   }
->   
->   void
-> @@ -258,7 +257,7 @@ int i915_vm_alloc_pt_stash(struct i915_address_space *vm,
->   	return 0;
->   }
->   
-> -int i915_vm_pin_pt_stash(struct i915_address_space *vm,
-> +int i915_vm_map_pt_stash(struct i915_address_space *vm,
->   			 struct i915_vm_pt_stash *stash)
->   {
->   	struct i915_page_table *pt;
-> @@ -266,7 +265,7 @@ int i915_vm_pin_pt_stash(struct i915_address_space *vm,
->   
->   	for (n = 0; n < ARRAY_SIZE(stash->pt); n++) {
->   		for (pt = stash->pt[n]; pt; pt = pt->stash) {
-> -			err = pin_pt_dma_locked(vm, pt->base);
-> +			err = map_pt_dma_locked(vm, pt->base);
->   			if (err)
->   				return err;
->   		}
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index 07490db51cdc..eb01899ac6b7 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -905,8 +905,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   			if (err)
->   				goto err_fence;
->   
-> -			err = i915_vm_pin_pt_stash(vma->vm,
-> -						   &work->stash);
-> +			err = i915_vm_map_pt_stash(vma->vm, &work->stash);
->   			if (err)
->   				goto err_fence;
->   		}
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> index 2e4f06eaacc1..e060e455e9f6 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> @@ -186,7 +186,7 @@ static int igt_ppgtt_alloc(void *arg)
->   		if (err)
->   			goto err_ppgtt_cleanup;
->   
-> -		err = i915_vm_pin_pt_stash(&ppgtt->vm, &stash);
-> +		err = i915_vm_map_pt_stash(&ppgtt->vm, &stash);
->   		if (err) {
->   			i915_vm_free_pt_stash(&ppgtt->vm, &stash);
->   			goto err_ppgtt_cleanup;
-> @@ -208,7 +208,7 @@ static int igt_ppgtt_alloc(void *arg)
->   		if (err)
->   			goto err_ppgtt_cleanup;
->   
-> -		err = i915_vm_pin_pt_stash(&ppgtt->vm, &stash);
-> +		err = i915_vm_map_pt_stash(&ppgtt->vm, &stash);
->   		if (err) {
->   			i915_vm_free_pt_stash(&ppgtt->vm, &stash);
->   			goto err_ppgtt_cleanup;
-> @@ -325,11 +325,10 @@ static int lowlevel_hole(struct i915_address_space *vm,
->   							   BIT_ULL(size)))
->   					goto alloc_vm_end;
->   
-> -				err = i915_vm_pin_pt_stash(vm, &stash);
-> +				err = i915_vm_map_pt_stash(vm, &stash);
->   				if (!err)
->   					vm->allocate_va_range(vm, &stash,
->   							      addr, BIT_ULL(size));
-> -
->   				i915_vm_free_pt_stash(vm, &stash);
->   alloc_vm_end:
->   				if (err == -EDEADLK) {
-> @@ -1967,10 +1966,9 @@ static int igt_cs_tlb(void *arg)
->   			if (err)
->   				goto end_ww;
->   
-> -			err = i915_vm_pin_pt_stash(vm, &stash);
-> +			err = i915_vm_map_pt_stash(vm, &stash);
->   			if (!err)
->   				vm->allocate_va_range(vm, &stash, offset, chunk_size);
-> -
->   			i915_vm_free_pt_stash(vm, &stash);
->   end_ww:
->   			if (err == -EDEADLK) {
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_perf.c b/drivers/gpu/drm/i915/selftests/i915_perf.c
-> index e9d86dab8677..bfb0290967a1 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_perf.c
-> @@ -307,7 +307,7 @@ static int live_noa_gpr(void *arg)
->   	}
->   
->   	/* Poison the ce->vm so we detect writes not to the GGTT gt->scratch */
-> -	scratch = kmap(__px_page(ce->vm->scratch[0]));
-> +	scratch = __px_vaddr(ce->vm->scratch[0]);
->   	memset(scratch, POISON_FREE, PAGE_SIZE);
->   
->   	rq = intel_context_create_request(ce);
-> @@ -405,7 +405,6 @@ static int live_noa_gpr(void *arg)
->   out_rq:
->   	i915_request_put(rq);
->   out_ce:
-> -	kunmap(__px_page(ce->vm->scratch[0]));
->   	intel_context_put(ce);
->   out:
->   	stream_destroy(stream);
-> 
+and we can replace them one at a time.
+
+Again, my big point is that I want us to have a PLAN and not end up in
+a scenario where we end up with rsvd[5] having magical meaning.  What
+I see in DII does not give me confidence.  However, I do believe that
+such a plan can exist.
+
+--Jason
+
+> I think the anonymous union with exactly same sized field is ok. We
+> also try hard to be source compatible, but we have screwed up in the
+> past and shrugged it off. The one example that comes to mind is
+> extended structures at the bottom with new field, which the kernel
+> automatically zero-extends for old userspace. But when you recompile,
+> your new-old userspace might no longer clear the new fields because
+> the ioctl code didn't start out by memset()ing the entire struct.
+
+Also, we need to ensure that we memset everything to 0. :-)
+
+--Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
