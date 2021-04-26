@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B5C36B0DD
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 11:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514D136B0DF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 11:43:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA456E817;
-	Mon, 26 Apr 2021 09:43:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3F1B6E7DA;
+	Mon, 26 Apr 2021 09:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E106E7D2;
- Mon, 26 Apr 2021 09:43:06 +0000 (UTC)
-IronPort-SDR: A8nGKVgCB2lhxknTZSkAL5ZethFkjMTVQhmDw92+b06hu60Y0F/iNRD5RAGwlUa5oVBtgoiv1X
- 1E+jNmilUREA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195861034"
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="195861034"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7DE6E7FE;
+ Mon, 26 Apr 2021 09:43:09 +0000 (UTC)
+IronPort-SDR: fBp/mX0FcmtH5ANFfuI4AEcGVDhkdL8eabdXP1Gmfg/oFQss+oz3WWYxLVcdvCMqlTaaaZoYtE
+ r5MqcNUyiwCg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195861038"
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="195861038"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2021 02:43:06 -0700
-IronPort-SDR: 8tOTEGKPE4HClqyO3lxgIhWgA3vH86EPPDzXRz8RTJtCR5lwz6VHmjf6UygKbHrLqkt0RftJpi
- CigNX5vB9vpw==
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="429334174"
+ 26 Apr 2021 02:43:09 -0700
+IronPort-SDR: VyywMMXX/0/W/T2Npj1KdAN6DY+0UnrjP4y0Pm32p9pMem6YBm/38x18i1fHuDx8pHk7T6Koae
+ XZswbTN58Sgw==
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="429334181"
 Received: from rgunnin1-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.252.12.201])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2021 02:43:03 -0700
+ 26 Apr 2021 02:43:06 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 6/9] drm/i915/uapi: implement object placement extension
-Date: Mon, 26 Apr 2021 10:38:58 +0100
-Message-Id: <20210426093901.28937-6-matthew.auld@intel.com>
+Subject: [PATCH 7/9] drm/i915/lmem: support optional CPU clearing for special
+ internal use
+Date: Mon, 26 Apr 2021 10:38:59 +0100
+Message-Id: <20210426093901.28937-7-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210426093901.28937-1-matthew.auld@intel.com>
 References: <20210426093901.28937-1-matthew.auld@intel.com>
@@ -48,587 +49,128 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Kenneth Graunke <kenneth@whitecape.org>, dri-devel@lists.freedesktop.org,
- CQ Tang <cq.tang@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
+ Kenneth Graunke <kenneth@whitecape.org>,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
  Jason Ekstrand <jason@jlekstrand.net>, mesa-dev@lists.freedesktop.org,
  Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new extension to support setting an immutable-priority-list of
-potential placements, at creation time.
-
-If we use the normal gem_create or gem_create_ext without the
-extensions/placements then we still get the old behaviour with only
-placing the object in system memory.
-
-v2(Daniel & Jason):
-    - Add a bunch of kernel-doc
-    - Simplify design for placements extension
-
-Testcase: igt/gem_create/create-ext-placement-sanity-check
-Testcase: igt/gem_create/create-ext-placement-each
-Testcase: igt/gem_create/create-ext-placement-all
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: CQ Tang <cq.tang@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Dave Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: mesa-dev@lists.freedesktop.org
----
- drivers/gpu/drm/i915/gem/i915_gem_create.c    | 215 ++++++++++++++++--
- drivers/gpu/drm/i915/gem/i915_gem_object.c    |   3 +
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |   6 +
- .../drm/i915/gem/selftests/i915_gem_mman.c    |  26 +++
- drivers/gpu/drm/i915/intel_memory_region.c    |  16 ++
- drivers/gpu/drm/i915/intel_memory_region.h    |   4 +
- include/uapi/drm/i915_drm.h                   |  62 +++++
- 7 files changed, 315 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index 90e9eb6601b5..895f1666a8d3 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -4,12 +4,47 @@
-  */
- 
- #include "gem/i915_gem_ioctls.h"
-+#include "gem/i915_gem_lmem.h"
- #include "gem/i915_gem_region.h"
- 
- #include "i915_drv.h"
- #include "i915_trace.h"
- #include "i915_user_extensions.h"
- 
-+static u32 object_max_page_size(struct drm_i915_gem_object *obj)
-+{
-+	u32 max_page_size = 0;
-+	int i;
-+
-+	for (i = 0; i < obj->mm.n_placements; i++) {
-+		struct intel_memory_region *mr = obj->mm.placements[i];
-+
-+		GEM_BUG_ON(!is_power_of_2(mr->min_page_size));
-+		max_page_size = max_t(u32, max_page_size, mr->min_page_size);
-+	}
-+
-+	GEM_BUG_ON(!max_page_size);
-+	return max_page_size;
-+}
-+
-+static void object_set_placements(struct drm_i915_gem_object *obj,
-+				  struct intel_memory_region **placements,
-+				  unsigned int n_placements)
-+{
-+	GEM_BUG_ON(!n_placements);
-+
-+	if (n_placements == 1) {
-+		struct intel_memory_region *mr = placements[0];
-+		struct drm_i915_private *i915 = mr->i915;
-+
-+		obj->mm.placements = &i915->mm.regions[mr->id];
-+		obj->mm.n_placements = 1;
-+	} else {
-+		obj->mm.placements = placements;
-+		obj->mm.n_placements = n_placements;
-+	}
-+}
-+
- static int i915_gem_publish(struct drm_i915_gem_object *obj,
- 			    struct drm_file *file,
- 			    u64 *size_p,
-@@ -29,14 +64,12 @@ static int i915_gem_publish(struct drm_i915_gem_object *obj,
- }
- 
- static int
--i915_gem_setup(struct drm_i915_gem_object *obj,
--	       struct intel_memory_region *mr,
--	       u64 size)
-+i915_gem_setup(struct drm_i915_gem_object *obj, u64 size)
- {
-+	struct intel_memory_region *mr = obj->mm.placements[0];
- 	int ret;
- 
--	GEM_BUG_ON(!is_power_of_2(mr->min_page_size));
--	size = round_up(size, mr->min_page_size);
-+	size = round_up(size, object_max_page_size(obj));
- 	if (size == 0)
- 		return -EINVAL;
- 
-@@ -53,6 +86,7 @@ i915_gem_setup(struct drm_i915_gem_object *obj,
- 	GEM_BUG_ON(size != obj->base.size);
- 
- 	trace_i915_gem_object_create(obj);
-+
- 	return 0;
- }
- 
-@@ -62,6 +96,7 @@ i915_gem_dumb_create(struct drm_file *file,
- 		     struct drm_mode_create_dumb *args)
- {
- 	struct drm_i915_gem_object *obj;
-+	struct intel_memory_region *mr;
- 	enum intel_memory_type mem_type;
- 	int cpp = DIV_ROUND_UP(args->bpp, 8);
- 	u32 format;
-@@ -102,10 +137,10 @@ i915_gem_dumb_create(struct drm_file *file,
- 	if (!obj)
- 		return -ENOMEM;
- 
--	ret = i915_gem_setup(obj,
--			     intel_memory_region_by_type(to_i915(dev),
--							      mem_type),
--			     args->size);
-+	mr = intel_memory_region_by_type(to_i915(dev), mem_type);
-+	object_set_placements(obj, &mr, 1);
-+
-+	ret = i915_gem_setup(obj, args->size);
- 	if (ret)
- 		goto object_free;
- 
-@@ -129,6 +164,7 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
- 	struct drm_i915_private *i915 = to_i915(dev);
- 	struct drm_i915_gem_create *args = data;
- 	struct drm_i915_gem_object *obj;
-+	struct intel_memory_region *mr;
- 	int ret;
- 
- 	i915_gem_flush_free_objects(i915);
-@@ -137,10 +173,10 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
- 	if (!obj)
- 		return -ENOMEM;
- 
--	ret = i915_gem_setup(obj,
--			     intel_memory_region_by_type(i915,
--							 INTEL_MEMORY_SYSTEM),
--			     args->size);
-+	mr = intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
-+	object_set_placements(obj, &mr, 1);
-+
-+	ret = i915_gem_setup(obj, args->size);
- 	if (ret)
- 		goto object_free;
- 
-@@ -156,7 +192,144 @@ struct create_ext {
- 	struct drm_i915_gem_object *vanilla_object;
- };
- 
-+static void repr_placements(char *buf, size_t size,
-+			    struct intel_memory_region **placements,
-+			    int n_placements)
-+{
-+	int i;
-+
-+	buf[0] = '\0';
-+
-+	for (i = 0; i < n_placements; i++) {
-+		struct intel_memory_region *mr = placements[i];
-+		int r;
-+
-+		r = snprintf(buf, size, "\n  %s -> { class: %d, inst: %d }",
-+			     mr->name, mr->type, mr->instance);
-+		if (r >= size)
-+			return;
-+
-+		buf += r;
-+		size -= r;
-+	}
-+}
-+
-+static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
-+			  struct create_ext *ext_data)
-+{
-+	struct drm_i915_private *i915 = ext_data->i915;
-+	struct drm_i915_gem_memory_class_instance __user *uregions =
-+		u64_to_user_ptr(args->regions);
-+	struct drm_i915_gem_object *obj = ext_data->vanilla_object;
-+	struct intel_memory_region **placements;
-+	u32 mask;
-+	int i, ret = 0;
-+
-+	if (args->pad) {
-+		drm_dbg(&i915->drm, "pad should be zero\n");
-+		ret = -EINVAL;
-+	}
-+
-+	if (!args->num_regions) {
-+		drm_dbg(&i915->drm, "num_regions is zero\n");
-+		ret = -EINVAL;
-+	}
-+
-+	if (args->num_regions > ARRAY_SIZE(i915->mm.regions)) {
-+		drm_dbg(&i915->drm, "num_regions is too large\n");
-+		ret = -EINVAL;
-+	}
-+
-+	if (ret)
-+		return ret;
-+
-+	placements = kmalloc_array(args->num_regions,
-+				   sizeof(struct intel_memory_region *),
-+				   GFP_KERNEL);
-+	if (!placements)
-+		return -ENOMEM;
-+
-+	mask = 0;
-+	for (i = 0; i < args->num_regions; i++) {
-+		struct drm_i915_gem_memory_class_instance region;
-+		struct intel_memory_region *mr;
-+
-+		if (copy_from_user(&region, uregions, sizeof(region))) {
-+			ret = -EFAULT;
-+			goto out_free;
-+		}
-+
-+		mr = intel_memory_region_lookup(i915,
-+						region.memory_class,
-+						region.memory_instance);
-+		if (!mr || mr->private) {
-+			drm_dbg(&i915->drm, "Device is missing region { class: %d, inst: %d } at index = %d\n",
-+				region.memory_class, region.memory_instance, i);
-+			ret = -EINVAL;
-+			goto out_dump;
-+		}
-+
-+		if (mask & BIT(mr->id)) {
-+			drm_dbg(&i915->drm, "Found duplicate placement %s -> { class: %d, inst: %d } at index = %d\n",
-+				mr->name, region.memory_class,
-+				region.memory_instance, i);
-+			ret = -EINVAL;
-+			goto out_dump;
-+		}
-+
-+		placements[i] = mr;
-+		mask |= BIT(mr->id);
-+
-+		++uregions;
-+	}
-+
-+	if (obj->mm.placements) {
-+		ret = -EINVAL;
-+		goto out_dump;
-+	}
-+
-+	object_set_placements(obj, placements, args->num_regions);
-+	if (args->num_regions == 1)
-+		kfree(placements);
-+
-+	return 0;
-+
-+out_dump:
-+	if (1) {
-+		char buf[256];
-+
-+		if (obj->mm.placements) {
-+			repr_placements(buf,
-+					sizeof(buf),
-+					obj->mm.placements,
-+					obj->mm.n_placements);
-+			drm_dbg(&i915->drm,
-+				"Placements were already set in previous EXT. Existing placements: %s\n",
-+				buf);
-+		}
-+
-+		repr_placements(buf, sizeof(buf), placements, i);
-+		drm_dbg(&i915->drm, "New placements(so far validated): %s\n", buf);
-+	}
-+
-+out_free:
-+	kfree(placements);
-+	return ret;
-+}
-+
-+static int ext_set_placements(struct i915_user_extension __user *base,
-+			      void *data)
-+{
-+	struct drm_i915_gem_create_ext_memory_regions ext;
-+
-+	if (copy_from_user(&ext, base, sizeof(ext)))
-+		return -EFAULT;
-+
-+	return set_placements(&ext, data);
-+}
-+
- static const i915_user_extension_fn create_extensions[] = {
-+	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
- };
- 
- /**
-@@ -172,6 +345,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 	struct drm_i915_private *i915 = to_i915(dev);
- 	struct drm_i915_gem_create_ext *args = data;
- 	struct create_ext ext_data = { .i915 = i915 };
-+	struct intel_memory_region **placements_ext;
- 	struct drm_i915_gem_object *obj;
- 	int ret;
- 
-@@ -189,19 +363,26 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 				   create_extensions,
- 				   ARRAY_SIZE(create_extensions),
- 				   &ext_data);
-+	placements_ext = obj->mm.placements;
- 	if (ret)
- 		goto object_free;
- 
--	ret = i915_gem_setup(obj,
--			     intel_memory_region_by_type(i915,
--							 INTEL_MEMORY_SYSTEM),
--			     args->size);
-+	if (!placements_ext) {
-+		struct intel_memory_region *mr =
-+			intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
-+
-+		object_set_placements(obj, &mr, 1);
-+	}
-+
-+	ret = i915_gem_setup(obj, args->size);
- 	if (ret)
- 		goto object_free;
- 
- 	return i915_gem_publish(obj, file, &args->size, &args->handle);
- 
- object_free:
-+	if (obj->mm.n_placements > 1)
-+		kfree(placements_ext);
- 	i915_gem_object_free(obj);
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index ea74cbca95be..28144410df86 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -249,6 +249,9 @@ static void __i915_gem_free_objects(struct drm_i915_private *i915,
- 		if (obj->ops->release)
- 			obj->ops->release(obj);
- 
-+		if (obj->mm.n_placements > 1)
-+			kfree(obj->mm.placements);
-+
- 		/* But keep the pointer alive for RCU-protected lookups */
- 		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
- 		cond_resched();
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 8e485cb3343c..69d6e54bc569 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -219,6 +219,12 @@ struct drm_i915_gem_object {
- 		atomic_t pages_pin_count;
- 		atomic_t shrink_pin;
- 
-+		/**
-+		 * Priority list of potential placements for this object.
-+		 */
-+		struct intel_memory_region **placements;
-+		int n_placements;
-+
- 		/**
- 		 * Memory region for this object.
- 		 */
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-index 5cf6df49c333..05a3b29f545e 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-@@ -842,6 +842,24 @@ static bool can_mmap(struct drm_i915_gem_object *obj, enum i915_mmap_type type)
- 	return true;
- }
- 
-+static void object_set_placements(struct drm_i915_gem_object *obj,
-+				  struct intel_memory_region **placements,
-+				  unsigned int n_placements)
-+{
-+	GEM_BUG_ON(!n_placements);
-+
-+	if (n_placements == 1) {
-+		struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+		struct intel_memory_region *mr = placements[0];
-+
-+		obj->mm.placements = &i915->mm.regions[mr->id];
-+		obj->mm.n_placements = 1;
-+	} else {
-+		obj->mm.placements = placements;
-+		obj->mm.n_placements = n_placements;
-+	}
-+}
-+
- #define expand32(x) (((x) << 0) | ((x) << 8) | ((x) << 16) | ((x) << 24))
- static int __igt_mmap(struct drm_i915_private *i915,
- 		      struct drm_i915_gem_object *obj,
-@@ -950,6 +968,8 @@ static int igt_mmap(void *arg)
- 			if (IS_ERR(obj))
- 				return PTR_ERR(obj);
- 
-+			object_set_placements(obj, &mr, 1);
-+
- 			err = __igt_mmap(i915, obj, I915_MMAP_TYPE_GTT);
- 			if (err == 0)
- 				err = __igt_mmap(i915, obj, I915_MMAP_TYPE_WC);
-@@ -1068,6 +1088,8 @@ static int igt_mmap_access(void *arg)
- 		if (IS_ERR(obj))
- 			return PTR_ERR(obj);
- 
-+		object_set_placements(obj, &mr, 1);
-+
- 		err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_GTT);
- 		if (err == 0)
- 			err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_WB);
-@@ -1211,6 +1233,8 @@ static int igt_mmap_gpu(void *arg)
- 		if (IS_ERR(obj))
- 			return PTR_ERR(obj);
- 
-+		object_set_placements(obj, &mr, 1);
-+
- 		err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_GTT);
- 		if (err == 0)
- 			err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_WC);
-@@ -1354,6 +1378,8 @@ static int igt_mmap_revoke(void *arg)
- 		if (IS_ERR(obj))
- 			return PTR_ERR(obj);
- 
-+		object_set_placements(obj, &mr, 1);
-+
- 		err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_GTT);
- 		if (err == 0)
- 			err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_WC);
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-index 481a487faca6..d98e8b81d322 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/intel_memory_region.c
-@@ -28,6 +28,22 @@ static const struct {
- 	},
- };
- 
-+struct intel_memory_region *
-+intel_memory_region_lookup(struct drm_i915_private *i915,
-+			   u16 class, u16 instance)
-+{
-+	struct intel_memory_region *mr;
-+	int id;
-+
-+	/* XXX: consider maybe converting to an rb tree at some point */
-+	for_each_memory_region(mr, i915, id) {
-+		if (mr->type == class && mr->instance == instance)
-+			return mr;
-+	}
-+
-+	return NULL;
-+}
-+
- struct intel_memory_region *
- intel_memory_region_by_type(struct drm_i915_private *i915,
- 			    enum intel_memory_type mem_type)
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-index 7cd8e3d66a7f..d24ce5a0b30b 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -97,6 +97,10 @@ struct intel_memory_region {
- 	} objects;
- };
- 
-+struct intel_memory_region *
-+intel_memory_region_lookup(struct drm_i915_private *i915,
-+			   u16 class, u16 instance);
-+
- int intel_memory_region_init_buddy(struct intel_memory_region *mem);
- void intel_memory_region_release_buddy(struct intel_memory_region *mem);
- 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 47a47b87380f..d025f7da2735 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -2591,6 +2591,11 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * The (page-aligned) allocated size for the object will be returned.
- 	 *
-+	 * Note that for some devices we have might have further minimum
-+	 * page-size restrictions(larger than 4K), like for device local-memory.
-+	 * However in general the final size here should always reflect any
-+	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
-+	 * extension to place the object in device local-memory.
- 	 */
- 	__u64 size;
- 	/**
-@@ -2611,10 +2616,67 @@ struct drm_i915_gem_create_ext {
- 	 * If we don't supply any extensions then we get the same old gem_create
- 	 * behaviour.
- 	 *
-+	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
-+	 * struct drm_i915_gem_create_ext_memory_regions.
- 	 */
-+#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
- 	__u64 extensions;
- };
- 
-+/**
-+ * struct drm_i915_gem_create_ext_memory_regions - The
-+ * I915_GEM_CREATE_EXT_MEMORY_REGIONS extension.
-+ *
-+ * Set the object with the desired set of placements/regions in priority
-+ * order. Each entry must be unique and supported by the device.
-+ *
-+ * This is provided as an array of struct drm_i915_gem_memory_class_instance, or
-+ * an equivalent layout of class:instance pair encodings. See struct
-+ * drm_i915_query_memory_regions and DRM_I915_QUERY_MEMORY_REGIONS for how to
-+ * query the supported regions for a device.
-+ *
-+ * As an example, on discrete devices, if we wish to set the placement as
-+ * device local-memory we can do something like:
-+ *
-+ * .. code-block:: C
-+ *
-+ *	struct drm_i915_gem_memory_class_instance region_lmem = {
-+ *              .memory_class = I915_MEMORY_CLASS_DEVICE,
-+ *              .memory_instance = 0,
-+ *      };
-+ *      struct drm_i915_gem_create_ext_memory_regions regions = {
-+ *              .base = { .name = I915_GEM_CREATE_EXT_MEMORY_REGIONS },
-+ *              .regions = (uintptr_t)&region_lmem,
-+ *              .num_regions = 1,
-+ *      };
-+ *      struct drm_i915_gem_create_ext create_ext = {
-+ *              .size = 16 * PAGE_SIZE,
-+ *              .extensions = (uintptr_t)&regions,
-+ *      };
-+ *
-+ *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
-+ *      if (err) ...
-+ *
-+ * At which point we get the object handle in &drm_i915_gem_create_ext.handle,
-+ * along with the final object size in &drm_i915_gem_create_ext.size, which
-+ * should account for any rounding up, if required.
-+ */
-+struct drm_i915_gem_create_ext_memory_regions {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+
-+	/** @pad: MBZ */
-+	__u32 pad;
-+	/** @num_regions: Number of elements in the @regions array. */
-+	__u32 num_regions;
-+	/**
-+	 * @regions: The regions/placements array.
-+	 *
-+	 * An array of struct drm_i915_gem_memory_class_instance.
-+	 */
-+	__u64 regions;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
--- 
-2.26.3
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rm9yIHNvbWUgaW50ZXJuYWwgZGV2aWNlIGxvY2FsLW1lbW9yeSBvYmplY3RzIGl0IHdvdWxkIGJl
+IHVzZWZ1bCB0byBoYXZlCmFuIG9wdGlvbiB0byBDUFUgY2xlYXIgdGhlIHBhZ2VzIHVwb24gZ2F0
+aGVyaW5nIHRoZSBiYWNraW5nIHN0b3JlLiBOb3RlCnRoYXQgdGhpcyBtaWdodCBiZSBiZWZvcmUg
+dGhlIGJsaXR0ZXIgaXMgdXNlYWJsZSwgd2hpY2ggaXMgdGhlIGNhc2UgZm9yCnNvbWUgaW50ZXJu
+YWwgR3VDIG9iamVjdHMuCgpTaWduZWQtb2ZmLWJ5OiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVs
+ZEBpbnRlbC5jb20+CkNjOiBKb29uYXMgTGFodGluZW4gPGpvb25hcy5sYWh0aW5lbkBsaW51eC5p
+bnRlbC5jb20+CkNjOiBUaG9tYXMgSGVsbHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5p
+bnRlbC5jb20+CkNjOiBEYW5pZWxlIENlcmFvbG8gU3B1cmlvIDxkYW5pZWxlLmNlcmFvbG9zcHVy
+aW9AaW50ZWwuY29tPgpDYzogTGlvbmVsIExhbmR3ZXJsaW4gPGxpb25lbC5nLmxhbmR3ZXJsaW5A
+bGludXguaW50ZWwuY29tPgpDYzogSm9uIEJsb29tZmllbGQgPGpvbi5ibG9vbWZpZWxkQGludGVs
+LmNvbT4KQ2M6IEpvcmRhbiBKdXN0ZW4gPGpvcmRhbi5sLmp1c3RlbkBpbnRlbC5jb20+CkNjOiBE
+YW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6IEtlbm5ldGggR3JhdW5r
+ZSA8a2VubmV0aEB3aGl0ZWNhcGUub3JnPgpDYzogSmFzb24gRWtzdHJhbmQgPGphc29uQGpsZWtz
+dHJhbmQubmV0PgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPgpDYzogZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogbWVzYS1kZXZAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCi0tLQogLi4uL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fb2JqZWN0X3R5cGVzLmggIHwg
+IDggKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9yZWdpb24uYyAgICB8IDIy
+ICsrKysrCiAuLi4vZHJtL2k5MTUvc2VsZnRlc3RzL2ludGVsX21lbW9yeV9yZWdpb24uYyAgfCA4
+NyArKysrKysrKysrKysrKysrKystCiAzIGZpbGVzIGNoYW5nZWQsIDExMyBpbnNlcnRpb25zKCsp
+LCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9p
+OTE1X2dlbV9vYmplY3RfdHlwZXMuaCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dl
+bV9vYmplY3RfdHlwZXMuaAppbmRleCA2OWQ2ZTU0YmM1NjkuLjA3MjdkMGM3NmFhMCAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdF90eXBlcy5oCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9vYmplY3RfdHlwZXMuaApAQCAt
+MTcyLDExICsxNzIsMTMgQEAgc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgewogI2RlZmluZSBJ
+OTE1X0JPX0FMTE9DX0NPTlRJR1VPVVMgQklUKDApCiAjZGVmaW5lIEk5MTVfQk9fQUxMT0NfVk9M
+QVRJTEUgICBCSVQoMSkKICNkZWZpbmUgSTkxNV9CT19BTExPQ19TVFJVQ1RfUEFHRSBCSVQoMikK
+KyNkZWZpbmUgSTkxNV9CT19BTExPQ19DUFVfQ0xFQVIgIEJJVCgzKQogI2RlZmluZSBJOTE1X0JP
+X0FMTE9DX0ZMQUdTIChJOTE1X0JPX0FMTE9DX0NPTlRJR1VPVVMgfCBcCiAJCQkgICAgIEk5MTVf
+Qk9fQUxMT0NfVk9MQVRJTEUgfCBcCi0JCQkgICAgIEk5MTVfQk9fQUxMT0NfU1RSVUNUX1BBR0Up
+Ci0jZGVmaW5lIEk5MTVfQk9fUkVBRE9OTFkgICAgICAgICBCSVQoMykKLSNkZWZpbmUgSTkxNV9U
+SUxJTkdfUVVJUktfQklUICAgIDQgLyogdW5rbm93biBzd2l6emxpbmc7IGRvIG5vdCByZWxlYXNl
+ISAqLworCQkJICAgICBJOTE1X0JPX0FMTE9DX1NUUlVDVF9QQUdFIHwgXAorCQkJICAgICBJOTE1
+X0JPX0FMTE9DX0NQVV9DTEVBUikKKyNkZWZpbmUgSTkxNV9CT19SRUFET05MWSAgICAgICAgIEJJ
+VCg0KQorI2RlZmluZSBJOTE1X1RJTElOR19RVUlSS19CSVQgICAgNSAvKiB1bmtub3duIHN3aXp6
+bGluZzsgZG8gbm90IHJlbGVhc2UhICovCiAKIAkvKgogCSAqIElzIHRoZSBvYmplY3QgdG8gYmUg
+bWFwcGVkIGFzIHJlYWQtb25seSB0byB0aGUgR1BVCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vaTkxNS9nZW0vaTkxNV9nZW1fcmVnaW9uLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0v
+aTkxNV9nZW1fcmVnaW9uLmMKaW5kZXggNmE4NGZiNmRkZTI0Li41ZDYwMzA5OGRhNTcgMTAwNjQ0
+Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9yZWdpb24uYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fcmVnaW9uLmMKQEAgLTk1LDYgKzk1LDI4
+IEBAIGk5MTVfZ2VtX29iamVjdF9nZXRfcGFnZXNfYnVkZHkoc3RydWN0IGRybV9pOTE1X2dlbV9v
+YmplY3QgKm9iaikKIAlzZ19tYXJrX2VuZChzZyk7CiAJaTkxNV9zZ190cmltKHN0KTsKIAorCS8q
+IEludGVuZGVkIGZvciBrZXJuZWwgaW50ZXJuYWwgdXNlIG9ubHkgKi8KKwlpZiAob2JqLT5mbGFn
+cyAmIEk5MTVfQk9fQUxMT0NfQ1BVX0NMRUFSKSB7CisJCXN0cnVjdCBzY2F0dGVybGlzdCAqc2c7
+CisJCXVuc2lnbmVkIGxvbmcgaTsKKworCQlmb3JfZWFjaF9zZyhzdC0+c2dsLCBzZywgc3QtPm5l
+bnRzLCBpKSB7CisJCQl1bnNpZ25lZCBpbnQgbGVuZ3RoOworCQkJdm9pZCBfX2lvbWVtICp2YWRk
+cjsKKwkJCWRtYV9hZGRyX3QgZGFkZHI7CisKKwkJCWRhZGRyID0gc2dfZG1hX2FkZHJlc3Moc2cp
+OworCQkJZGFkZHIgLT0gbWVtLT5yZWdpb24uc3RhcnQ7CisJCQlsZW5ndGggPSBzZ19kbWFfbGVu
+KHNnKTsKKworCQkJdmFkZHIgPSBpb19tYXBwaW5nX21hcF93YygmbWVtLT5pb21hcCwgZGFkZHIs
+IGxlbmd0aCk7CisJCQltZW1zZXQ2NCh2YWRkciwgMCwgbGVuZ3RoIC8gc2l6ZW9mKHU2NCkpOwor
+CQkJaW9fbWFwcGluZ191bm1hcCh2YWRkcik7CisJCX0KKworCQl3bWIoKTsKKwl9CisKIAlfX2k5
+MTVfZ2VtX29iamVjdF9zZXRfcGFnZXMob2JqLCBzdCwgc2dfcGFnZV9zaXplcyk7CiAKIAlyZXR1
+cm4gMDsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3NlbGZ0ZXN0cy9pbnRlbF9t
+ZW1vcnlfcmVnaW9uLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9zZWxmdGVzdHMvaW50ZWxfbWVt
+b3J5X3JlZ2lvbi5jCmluZGV4IGE1ZmMwYmYzZmViOS4uMGZlNGM4MWY3NTg5IDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9zZWxmdGVzdHMvaW50ZWxfbWVtb3J5X3JlZ2lvbi5jCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3NlbGZ0ZXN0cy9pbnRlbF9tZW1vcnlfcmVnaW9uLmMK
+QEAgLTUxMyw3ICs1MTMsNyBAQCBzdGF0aWMgaW50IGlndF9jcHVfY2hlY2soc3RydWN0IGRybV9p
+OTE1X2dlbV9vYmplY3QgKm9iaiwgdTMyIGR3b3JkLCB1MzIgdmFsKQogCWlmIChlcnIpCiAJCXJl
+dHVybiBlcnI7CiAKLQlwdHIgPSBpOTE1X2dlbV9vYmplY3RfcGluX21hcF91bmxvY2tlZChvYmos
+IEk5MTVfTUFQX1dDKTsKKwlwdHIgPSBpOTE1X2dlbV9vYmplY3RfcGluX21hcChvYmosIEk5MTVf
+TUFQX1dDKTsKIAlpZiAoSVNfRVJSKHB0cikpCiAJCXJldHVybiBQVFJfRVJSKHB0cik7CiAKQEAg
+LTU5Myw3ICs1OTMsOSBAQCBzdGF0aWMgaW50IGlndF9ncHVfd3JpdGUoc3RydWN0IGk5MTVfZ2Vt
+X2NvbnRleHQgKmN0eCwKIAkJaWYgKGVycikKIAkJCWJyZWFrOwogCisJCWk5MTVfZ2VtX29iamVj
+dF9sb2NrKG9iaiwgTlVMTCk7CiAJCWVyciA9IGlndF9jcHVfY2hlY2sob2JqLCBkd29yZCwgcm5n
+KTsKKwkJaTkxNV9nZW1fb2JqZWN0X3VubG9jayhvYmopOwogCQlpZiAoZXJyKQogCQkJYnJlYWs7
+CiAJfSB3aGlsZSAoIV9faWd0X3RpbWVvdXQoZW5kX3RpbWUsIE5VTEwpKTsKQEAgLTYyOSw2ICs2
+MzEsODggQEAgc3RhdGljIGludCBpZ3RfbG1lbV9jcmVhdGUodm9pZCAqYXJnKQogCXJldHVybiBl
+cnI7CiB9CiAKK3N0YXRpYyBpbnQgaWd0X2xtZW1fY3JlYXRlX2NsZWFyZWRfY3B1KHZvaWQgKmFy
+ZykKK3sKKwlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IGFyZzsKKwlJOTE1X1JORF9T
+VEFURShwcm5nKTsKKwlJR1RfVElNRU9VVChlbmRfdGltZSk7CisJdTMyIHNpemUsIGk7CisJaW50
+IGVycjsKKworCWk5MTVfZ2VtX2RyYWluX2ZyZWVkX29iamVjdHMoaTkxNSk7CisKKwlzaXplID0g
+bWF4X3QodTMyLCBQQUdFX1NJWkUsIGk5MTVfcHJhbmRvbV91MzJfbWF4X3N0YXRlKFNaXzMyTSwg
+JnBybmcpKTsKKwlzaXplID0gcm91bmRfdXAoc2l6ZSwgUEFHRV9TSVpFKTsKKwlpID0gMDsKKwor
+CWRvIHsKKwkJc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iajsKKwkJdm9pZCBfX2lvbWVt
+ICp2YWRkcjsKKwkJdW5zaWduZWQgaW50IGZsYWdzOworCQl1MzIgZHdvcmQsIHZhbDsKKworCQkv
+KgorCQkgKiBBbHRlcm5hdGUgYmV0d2VlbiBjbGVhcmVkIGFuZCB1bmNsZWFyZWQgYWxsb2NhdGlv
+bnMsIHdoaWxlCisJCSAqIGFsc28gZGlydHlpbmcgdGhlIHBhZ2VzIGVhY2ggdGltZSB0byBjaGVj
+ayB0aGF0IHRoZSBwYWdlcyBhcmUKKwkJICogYWx3YXlzIGNsZWFyZWQgaWYgcmVxdWVzdGVkLCBz
+aW5jZSB3ZSBzaG91bGQgZ2V0IHNvbWUgb3ZlcmxhcAorCQkgKiBvZiB0aGUgdW5kZXJseWluZyBw
+YWdlcywgaWYgbm90IGFsbCwgc2luY2Ugd2UgYXJlIHRoZSBvbmx5CisJCSAqIHVzZXIuCisJCSAq
+LworCisJCWZsYWdzID0gSTkxNV9CT19BTExPQ19DUFVfQ0xFQVI7CisJCWlmIChpICYgMSkKKwkJ
+CWZsYWdzID0gMDsKKworCQlvYmogPSBpOTE1X2dlbV9vYmplY3RfY3JlYXRlX2xtZW0oaTkxNSwg
+c2l6ZSwgZmxhZ3MpOworCQlpZiAoSVNfRVJSKG9iaikpCisJCQlyZXR1cm4gUFRSX0VSUihvYmop
+OworCisJCWk5MTVfZ2VtX29iamVjdF9sb2NrKG9iaiwgTlVMTCk7CisJCWVyciA9IGk5MTVfZ2Vt
+X29iamVjdF9waW5fcGFnZXMob2JqKTsKKwkJaWYgKGVycikKKwkJCWdvdG8gb3V0X3B1dDsKKwor
+CQlkd29yZCA9IGk5MTVfcHJhbmRvbV91MzJfbWF4X3N0YXRlKFBBR0VfU0laRSAvIHNpemVvZih1
+MzIpLAorCQkJCQkJICAgJnBybmcpOworCisJCWlmIChmbGFncyAmIEk5MTVfQk9fQUxMT0NfQ1BV
+X0NMRUFSKSB7CisJCQllcnIgPSBpZ3RfY3B1X2NoZWNrKG9iaiwgZHdvcmQsIDApOworCQkJaWYg
+KGVycikgeworCQkJCXByX2VycigiJXMgZmFpbGVkIHdpdGggc2l6ZT0ldSwgZmxhZ3M9JXVcbiIs
+CisJCQkJICAgICAgIF9fZnVuY19fLCBzaXplLCBmbGFncyk7CisJCQkJZ290byBvdXRfdW5waW47
+CisJCQl9CisJCX0KKworCQl2YWRkciA9IGk5MTVfZ2VtX29iamVjdF9waW5fbWFwKG9iaiwgSTkx
+NV9NQVBfV0MpOworCQlpZiAoSVNfRVJSKHZhZGRyKSkgeworCQkJZXJyID0gUFRSX0VSUih2YWRk
+cik7CisJCQlnb3RvIG91dF91bnBpbjsKKwkJfQorCisJCXZhbCA9IHByYW5kb21fdTMyX3N0YXRl
+KCZwcm5nKTsKKworCQltZW1zZXQzMih2YWRkciwgdmFsLCBvYmotPmJhc2Uuc2l6ZSAvIHNpemVv
+Zih1MzIpKTsKKworCQlpOTE1X2dlbV9vYmplY3RfZmx1c2hfbWFwKG9iaik7CisJCWk5MTVfZ2Vt
+X29iamVjdF91bnBpbl9tYXAob2JqKTsKK291dF91bnBpbjoKKwkJaTkxNV9nZW1fb2JqZWN0X3Vu
+cGluX3BhZ2VzKG9iaik7CisJCV9faTkxNV9nZW1fb2JqZWN0X3B1dF9wYWdlcyhvYmopOworb3V0
+X3B1dDoKKwkJaTkxNV9nZW1fb2JqZWN0X3VubG9jayhvYmopOworCQlpOTE1X2dlbV9vYmplY3Rf
+cHV0KG9iaik7CisKKwkJaWYgKGVycikKKwkJCWJyZWFrOworCQkrK2k7CisJfSB3aGlsZSAoIV9f
+aWd0X3RpbWVvdXQoZW5kX3RpbWUsIE5VTEwpKTsKKworCXByX2luZm8oIiVzIGNvbXBsZXRlZCAo
+JXUpIGl0ZXJhdGlvbnNcbiIsIF9fZnVuY19fLCBpKTsKKworCXJldHVybiBlcnI7Cit9CisKIHN0
+YXRpYyBpbnQgaWd0X2xtZW1fd3JpdGVfZ3B1KHZvaWQgKmFyZykKIHsKIAlzdHJ1Y3QgZHJtX2k5
+MTVfcHJpdmF0ZSAqaTkxNSA9IGFyZzsKQEAgLTEwNDMsNiArMTEyNyw3IEBAIGludCBpbnRlbF9t
+ZW1vcnlfcmVnaW9uX2xpdmVfc2VsZnRlc3RzKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1
+KQogewogCXN0YXRpYyBjb25zdCBzdHJ1Y3QgaTkxNV9zdWJ0ZXN0IHRlc3RzW10gPSB7CiAJCVNV
+QlRFU1QoaWd0X2xtZW1fY3JlYXRlKSwKKwkJU1VCVEVTVChpZ3RfbG1lbV9jcmVhdGVfY2xlYXJl
+ZF9jcHUpLAogCQlTVUJURVNUKGlndF9sbWVtX3dyaXRlX2NwdSksCiAJCVNVQlRFU1QoaWd0X2xt
+ZW1fd3JpdGVfZ3B1KSwKIAl9OwotLSAKMi4yNi4zCgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwK
