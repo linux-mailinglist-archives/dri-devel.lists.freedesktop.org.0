@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3C136B0D8
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 11:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8514E36B0DB
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 11:43:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B15E6E42F;
-	Mon, 26 Apr 2021 09:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C586E7D1;
+	Mon, 26 Apr 2021 09:43:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE2B6E42F;
- Mon, 26 Apr 2021 09:43:00 +0000 (UTC)
-IronPort-SDR: McDyNUXVQqRxrtiUz25Bd/ROgF7dZW/Km+jetMMSxeLpH8tfTbN1deIMgSleOeIq37X/Cxm1uw
- 77OckkSLqG7w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195861024"
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="195861024"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 130BA6E7D7;
+ Mon, 26 Apr 2021 09:43:03 +0000 (UTC)
+IronPort-SDR: Z8IXsflPquNQwXcIn1gWUWKZx0TEwGzG8WOCE3W33Fva++DecdXd5iI3DxwMoL4rkuX47RyjVf
+ NW0FN+6KuTxg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195861031"
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="195861031"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2021 02:42:59 -0700
-IronPort-SDR: fQPxb+HmgzDvp5CoAgAGY9qCaHczj80rmBBYhWBoX/Lar1c7I/FB3+rbdFaFxQQ4V3tx6lOtNQ
- 9OHDiyH9hoCA==
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="429334140"
+ 26 Apr 2021 02:43:02 -0700
+IronPort-SDR: sDDjSG/XqK0Oqj7//vaUtDp3k/tXYxhDYHt/Fxdr7ZFMSMJXPIr7NlvG7RcbS6M/FEEC5nlvmO
+ 4ObVVRFZ0urA==
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="429334164"
 Received: from rgunnin1-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.252.12.201])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2021 02:42:56 -0700
+ 26 Apr 2021 02:42:59 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/9] drm/i915: rework gem_create flow for upcoming extensions
-Date: Mon, 26 Apr 2021 10:38:56 +0100
-Message-Id: <20210426093901.28937-4-matthew.auld@intel.com>
+Subject: [PATCH 5/9] drm/i915/uapi: introduce drm_i915_gem_create_ext
+Date: Mon, 26 Apr 2021 10:38:57 +0100
+Message-Id: <20210426093901.28937-5-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210426093901.28937-1-matthew.auld@intel.com>
 References: <20210426093901.28937-1-matthew.auld@intel.com>
@@ -48,100 +48,222 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
+ Jordan Justen <jordan.l.justen@intel.com>,
+ Kenneth Graunke <kenneth@whitecape.org>, dri-devel@lists.freedesktop.org,
+ CQ Tang <cq.tang@intel.com>,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
  Jason Ekstrand <jason@jlekstrand.net>, mesa-dev@lists.freedesktop.org,
  Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2l0aCB0aGUgdXBjb21pbmcgZ2VtX2NyZWF0ZV9leHQgd2Ugd2FudCB0byBiZSBhYmxlIGNyZWF0
-ZSBhICJ2YW5pbGxhIgpvYmplY3QgdXBmcm9udCBhbmQgcGFzcyB0aGF0IGRpcmVjdGx5IHRvIHRo
-ZSBleHRlbnNpb25zLCBiZWZvcmUgYWN0dWFsbHkKaW5pdGlhbGlzaW5nIHRoZSBvYmplY3QuIEZ1
-bmN0aW9uYWxseSB0aGlzIHNob3VsZCBiZSB0aGUgc2FtZSBleHBlY3Qgd2UKbm93IGZlZWQgdGhl
-IG9iamVjdCBpbnRvIHRoZSBsb3dlci1sZXZlbCByZWdpb24gc3BlY2lmaWMgaW5pdF9vYmplY3Qu
-CgpTaWduZWQtb2ZmLWJ5OiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVsZEBpbnRlbC5jb20+CkNj
-OiBKb29uYXMgTGFodGluZW4gPGpvb25hcy5sYWh0aW5lbkBsaW51eC5pbnRlbC5jb20+CkNjOiBU
-aG9tYXMgSGVsbHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+CkNjOiBE
-YW5pZWxlIENlcmFvbG8gU3B1cmlvIDxkYW5pZWxlLmNlcmFvbG9zcHVyaW9AaW50ZWwuY29tPgpD
-YzogTGlvbmVsIExhbmR3ZXJsaW4gPGxpb25lbC5nLmxhbmR3ZXJsaW5AbGludXguaW50ZWwuY29t
-PgpDYzogSm9uIEJsb29tZmllbGQgPGpvbi5ibG9vbWZpZWxkQGludGVsLmNvbT4KQ2M6IEpvcmRh
-biBKdXN0ZW4gPGpvcmRhbi5sLmp1c3RlbkBpbnRlbC5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxk
-YW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6IEtlbm5ldGggR3JhdW5rZSA8a2VubmV0aEB3aGl0
-ZWNhcGUub3JnPgpDYzogSmFzb24gRWtzdHJhbmQgPGphc29uQGpsZWtzdHJhbmQubmV0PgpDYzog
-RGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpDYzogbWVzYS1kZXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCi0tLQogZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2NyZWF0ZS5jIHwgOTIgKysrKysrKysrKysrKysr
-LS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDY1IGluc2VydGlvbnMoKyksIDI3IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9jcmVhdGUu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9jcmVhdGUuYwppbmRleCA0NWQ2
-MGUzZDk4ZTMuLjczZjI5MjI0ZjVmZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-Z2VtL2k5MTVfZ2VtX2NyZWF0ZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1
-X2dlbV9jcmVhdGUuYwpAQCAtNyw0MSArNyw1MSBAQAogI2luY2x1ZGUgImdlbS9pOTE1X2dlbV9y
-ZWdpb24uaCIKIAogI2luY2x1ZGUgImk5MTVfZHJ2LmgiCisjaW5jbHVkZSAiaTkxNV90cmFjZS5o
-IgorCitzdGF0aWMgaW50IGk5MTVfZ2VtX3B1Ymxpc2goc3RydWN0IGRybV9pOTE1X2dlbV9vYmpl
-Y3QgKm9iaiwKKwkJCSAgICBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUsCisJCQkgICAgdTY0ICpzaXpl
-X3AsCisJCQkgICAgdTMyICpoYW5kbGVfcCkKK3sKKwl1NjQgc2l6ZSA9IG9iai0+YmFzZS5zaXpl
-OworCWludCByZXQ7CisKKwlyZXQgPSBkcm1fZ2VtX2hhbmRsZV9jcmVhdGUoZmlsZSwgJm9iai0+
-YmFzZSwgaGFuZGxlX3ApOworCS8qIGRyb3AgcmVmZXJlbmNlIGZyb20gYWxsb2NhdGUgLSBoYW5k
-bGUgaG9sZHMgaXQgbm93ICovCisJaTkxNV9nZW1fb2JqZWN0X3B1dChvYmopOworCWlmIChyZXQp
-CisJCXJldHVybiByZXQ7CisKKwkqc2l6ZV9wID0gc2l6ZTsKKwlyZXR1cm4gMDsKK30KIAogc3Rh
-dGljIGludAotaTkxNV9nZW1fY3JlYXRlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwKLQkJc3RydWN0
-IGludGVsX21lbW9yeV9yZWdpb24gKm1yLAotCQl1NjQgKnNpemVfcCwKLQkJdTMyICpoYW5kbGVf
-cCkKK2k5MTVfZ2VtX3NldHVwKHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmosCisJICAg
-ICAgIHN0cnVjdCBpbnRlbF9tZW1vcnlfcmVnaW9uICptciwKKwkgICAgICAgdTY0IHNpemUpCiB7
-Ci0Jc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iajsKLQl1MzIgaGFuZGxlOwotCXU2NCBz
-aXplOwogCWludCByZXQ7CiAKIAlHRU1fQlVHX09OKCFpc19wb3dlcl9vZl8yKG1yLT5taW5fcGFn
-ZV9zaXplKSk7Ci0Jc2l6ZSA9IHJvdW5kX3VwKCpzaXplX3AsIG1yLT5taW5fcGFnZV9zaXplKTsK
-KwlzaXplID0gcm91bmRfdXAoc2l6ZSwgbXItPm1pbl9wYWdlX3NpemUpOwogCWlmIChzaXplID09
-IDApCiAJCXJldHVybiAtRUlOVkFMOwogCiAJLyogRm9yIG1vc3Qgb2YgdGhlIEFCSSAoZS5nLiBt
-bWFwKSB3ZSB0aGluayBpbiBzeXN0ZW0gcGFnZXMgKi8KIAlHRU1fQlVHX09OKCFJU19BTElHTkVE
-KHNpemUsIFBBR0VfU0laRSkpOwogCi0JLyogQWxsb2NhdGUgdGhlIG5ldyBvYmplY3QgKi8KLQlv
-YmogPSBpOTE1X2dlbV9vYmplY3RfY3JlYXRlX3JlZ2lvbihtciwgc2l6ZSwgMCk7Ci0JaWYgKElT
-X0VSUihvYmopKQotCQlyZXR1cm4gUFRSX0VSUihvYmopOwotCi0JR0VNX0JVR19PTihzaXplICE9
-IG9iai0+YmFzZS5zaXplKTsKKwlpZiAoaTkxNV9nZW1fb2JqZWN0X3NpemVfMmJpZyhzaXplKSkK
-KwkJcmV0dXJuIC1FMkJJRzsKIAotCXJldCA9IGRybV9nZW1faGFuZGxlX2NyZWF0ZShmaWxlLCAm
-b2JqLT5iYXNlLCAmaGFuZGxlKTsKLQkvKiBkcm9wIHJlZmVyZW5jZSBmcm9tIGFsbG9jYXRlIC0g
-aGFuZGxlIGhvbGRzIGl0IG5vdyAqLwotCWk5MTVfZ2VtX29iamVjdF9wdXQob2JqKTsKKwlyZXQg
-PSBtci0+b3BzLT5pbml0X29iamVjdChtciwgb2JqLCBzaXplLCAwKTsKIAlpZiAocmV0KQogCQly
-ZXR1cm4gcmV0OwogCi0JKmhhbmRsZV9wID0gaGFuZGxlOwotCSpzaXplX3AgPSBzaXplOworCUdF
-TV9CVUdfT04oc2l6ZSAhPSBvYmotPmJhc2Uuc2l6ZSk7CisKKwl0cmFjZV9pOTE1X2dlbV9vYmpl
-Y3RfY3JlYXRlKG9iaik7CiAJcmV0dXJuIDA7CiB9CiAKQEAgLTUwLDkgKzYwLDExIEBAIGk5MTVf
-Z2VtX2R1bWJfY3JlYXRlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwKIAkJICAgICBzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2LAogCQkgICAgIHN0cnVjdCBkcm1fbW9kZV9jcmVhdGVfZHVtYiAqYXJncykK
-IHsKKwlzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqOwogCWVudW0gaW50ZWxfbWVtb3J5
-X3R5cGUgbWVtX3R5cGU7CiAJaW50IGNwcCA9IERJVl9ST1VORF9VUChhcmdzLT5icHAsIDgpOwog
-CXUzMiBmb3JtYXQ7CisJaW50IHJldDsKIAogCXN3aXRjaCAoY3BwKSB7CiAJY2FzZSAxOgpAQCAt
-ODUsMTAgKzk3LDIyIEBAIGk5MTVfZ2VtX2R1bWJfY3JlYXRlKHN0cnVjdCBkcm1fZmlsZSAqZmls
-ZSwKIAlpZiAoSEFTX0xNRU0odG9faTkxNShkZXYpKSkKIAkJbWVtX3R5cGUgPSBJTlRFTF9NRU1P
-UllfTE9DQUw7CiAKLQlyZXR1cm4gaTkxNV9nZW1fY3JlYXRlKGZpbGUsCi0JCQkgICAgICAgaW50
-ZWxfbWVtb3J5X3JlZ2lvbl9ieV90eXBlKHRvX2k5MTUoZGV2KSwKLQkJCQkJCQkgICBtZW1fdHlw
-ZSksCi0JCQkgICAgICAgJmFyZ3MtPnNpemUsICZhcmdzLT5oYW5kbGUpOworCW9iaiA9IGk5MTVf
-Z2VtX29iamVjdF9hbGxvYygpOworCWlmICghb2JqKQorCQlyZXR1cm4gLUVOT01FTTsKKworCXJl
-dCA9IGk5MTVfZ2VtX3NldHVwKG9iaiwKKwkJCSAgICAgaW50ZWxfbWVtb3J5X3JlZ2lvbl9ieV90
-eXBlKHRvX2k5MTUoZGV2KSwKKwkJCQkJCQkgICAgICBtZW1fdHlwZSksCisJCQkgICAgIGFyZ3Mt
-PnNpemUpOworCWlmIChyZXQpCisJCWdvdG8gb2JqZWN0X2ZyZWU7CisKKwlyZXR1cm4gaTkxNV9n
-ZW1fcHVibGlzaChvYmosIGZpbGUsICZhcmdzLT5zaXplLCAmYXJncy0+aGFuZGxlKTsKKworb2Jq
-ZWN0X2ZyZWU6CisJaTkxNV9nZW1fb2JqZWN0X2ZyZWUob2JqKTsKKwlyZXR1cm4gcmV0OwogfQog
-CiAvKioKQEAgLTEwMywxMSArMTI3LDI1IEBAIGk5MTVfZ2VtX2NyZWF0ZV9pb2N0bChzdHJ1Y3Qg
-ZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogewogCXN0cnVjdCBkcm1faTkxNV9wcml2YXRl
-ICppOTE1ID0gdG9faTkxNShkZXYpOwogCXN0cnVjdCBkcm1faTkxNV9nZW1fY3JlYXRlICphcmdz
-ID0gZGF0YTsKKwlzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqOworCWludCByZXQ7CiAK
-IAlpOTE1X2dlbV9mbHVzaF9mcmVlX29iamVjdHMoaTkxNSk7CiAKLQlyZXR1cm4gaTkxNV9nZW1f
-Y3JlYXRlKGZpbGUsCi0JCQkgICAgICAgaW50ZWxfbWVtb3J5X3JlZ2lvbl9ieV90eXBlKGk5MTUs
-Ci0JCQkJCQkJICAgSU5URUxfTUVNT1JZX1NZU1RFTSksCi0JCQkgICAgICAgJmFyZ3MtPnNpemUs
-ICZhcmdzLT5oYW5kbGUpOworCW9iaiA9IGk5MTVfZ2VtX29iamVjdF9hbGxvYygpOworCWlmICgh
-b2JqKQorCQlyZXR1cm4gLUVOT01FTTsKKworCXJldCA9IGk5MTVfZ2VtX3NldHVwKG9iaiwKKwkJ
-CSAgICAgaW50ZWxfbWVtb3J5X3JlZ2lvbl9ieV90eXBlKGk5MTUsCisJCQkJCQkJIElOVEVMX01F
-TU9SWV9TWVNURU0pLAorCQkJICAgICBhcmdzLT5zaXplKTsKKwlpZiAocmV0KQorCQlnb3RvIG9i
-amVjdF9mcmVlOworCisJcmV0dXJuIGk5MTVfZ2VtX3B1Ymxpc2gob2JqLCBmaWxlLCAmYXJncy0+
-c2l6ZSwgJmFyZ3MtPmhhbmRsZSk7CisKK29iamVjdF9mcmVlOgorCWk5MTVfZ2VtX29iamVjdF9m
-cmVlKG9iaik7CisJcmV0dXJuIHJldDsKIH0KLS0gCjIuMjYuMwoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Same old gem_create but with now with extensions support. This is needed
+to support various upcoming usecases.
+
+v2:(Chris)
+    - Use separate ioctl number for gem_create_ext, instead of hijacking
+      the existing gem_create ioctl, otherwise we run into the issue
+      with being unable to detect if the kernel supports the new extension
+      behaviour.
+    - We now have gem_create_ext.flags, which should be zeroed.
+    - I915_GEM_CREATE_EXT_SETPARAM value is now zero, since this is the
+      index into our array of extensions.
+    - Setup a "vanilla" object which we can directly apply our extensions
+      to.
+v3:(Daniel & Jason)
+    - drop I915_GEM_CREATE_EXT_SETPARAM. Instead just have each extension
+      do one thing only, instead of generic setparam which can cover
+      various use cases.
+    - add some kernel-doc.
+
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: CQ Tang <cq.tang@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
+Cc: Jordan Justen <jordan.l.justen@intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Kenneth Graunke <kenneth@whitecape.org>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: mesa-dev@lists.freedesktop.org
+---
+ drivers/gpu/drm/i915/gem/i915_gem_create.c | 56 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h |  2 +
+ drivers/gpu/drm/i915/i915_drv.c            |  1 +
+ include/uapi/drm/i915_drm.h                | 42 ++++++++++++++++
+ 4 files changed, 101 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+index 73f29224f5fe..90e9eb6601b5 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+@@ -8,6 +8,7 @@
+ 
+ #include "i915_drv.h"
+ #include "i915_trace.h"
++#include "i915_user_extensions.h"
+ 
+ static int i915_gem_publish(struct drm_i915_gem_object *obj,
+ 			    struct drm_file *file,
+@@ -149,3 +150,58 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
+ 	i915_gem_object_free(obj);
+ 	return ret;
+ }
++
++struct create_ext {
++	struct drm_i915_private *i915;
++	struct drm_i915_gem_object *vanilla_object;
++};
++
++static const i915_user_extension_fn create_extensions[] = {
++};
++
++/**
++ * Creates a new mm object and returns a handle to it.
++ * @dev: drm device pointer
++ * @data: ioctl data blob
++ * @file: drm file pointer
++ */
++int
++i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
++			  struct drm_file *file)
++{
++	struct drm_i915_private *i915 = to_i915(dev);
++	struct drm_i915_gem_create_ext *args = data;
++	struct create_ext ext_data = { .i915 = i915 };
++	struct drm_i915_gem_object *obj;
++	int ret;
++
++	if (args->flags)
++		return -EINVAL;
++
++	i915_gem_flush_free_objects(i915);
++
++	obj = i915_gem_object_alloc();
++	if (!obj)
++		return -ENOMEM;
++
++	ext_data.vanilla_object = obj;
++	ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
++				   create_extensions,
++				   ARRAY_SIZE(create_extensions),
++				   &ext_data);
++	if (ret)
++		goto object_free;
++
++	ret = i915_gem_setup(obj,
++			     intel_memory_region_by_type(i915,
++							 INTEL_MEMORY_SYSTEM),
++			     args->size);
++	if (ret)
++		goto object_free;
++
++	return i915_gem_publish(obj, file, &args->size, &args->handle);
++
++object_free:
++	i915_gem_object_free(obj);
++	return ret;
++}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+index 7fd22f3efbef..28d6526e32ab 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+@@ -14,6 +14,8 @@ int i915_gem_busy_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file);
+ int i915_gem_create_ioctl(struct drm_device *dev, void *data,
+ 			  struct drm_file *file);
++int i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
++			      struct drm_file *file);
+ int i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+ 			       struct drm_file *file);
+ int i915_gem_get_aperture_ioctl(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index 785dcf20c77b..b5878c089830 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -1728,6 +1728,7 @@ static const struct drm_ioctl_desc i915_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_ENTERVT, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_LEAVEVT, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_CREATE, i915_gem_create_ioctl, DRM_RENDER_ALLOW),
++	DRM_IOCTL_DEF_DRV(I915_GEM_CREATE_EXT, i915_gem_create_ext_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_PREAD, i915_gem_pread_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_PWRITE, i915_gem_pwrite_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_MMAP, i915_gem_mmap_ioctl, DRM_RENDER_ALLOW),
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index c5e9c68c310d..47a47b87380f 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -406,6 +406,7 @@ typedef struct _drm_i915_sarea {
+ #define DRM_I915_QUERY			0x39
+ #define DRM_I915_GEM_VM_CREATE		0x3a
+ #define DRM_I915_GEM_VM_DESTROY		0x3b
++#define DRM_I915_GEM_CREATE_EXT		0x3c
+ /* Must be kept compact -- no holes */
+ 
+ #define DRM_IOCTL_I915_INIT		DRM_IOW( DRM_COMMAND_BASE + DRM_I915_INIT, drm_i915_init_t)
+@@ -438,6 +439,7 @@ typedef struct _drm_i915_sarea {
+ #define DRM_IOCTL_I915_GEM_ENTERVT	DRM_IO(DRM_COMMAND_BASE + DRM_I915_GEM_ENTERVT)
+ #define DRM_IOCTL_I915_GEM_LEAVEVT	DRM_IO(DRM_COMMAND_BASE + DRM_I915_GEM_LEAVEVT)
+ #define DRM_IOCTL_I915_GEM_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_CREATE, struct drm_i915_gem_create)
++#define DRM_IOCTL_I915_GEM_CREATE_EXT	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_CREATE_EXT, struct drm_i915_gem_create_ext)
+ #define DRM_IOCTL_I915_GEM_PREAD	DRM_IOW (DRM_COMMAND_BASE + DRM_I915_GEM_PREAD, struct drm_i915_gem_pread)
+ #define DRM_IOCTL_I915_GEM_PWRITE	DRM_IOW (DRM_COMMAND_BASE + DRM_I915_GEM_PWRITE, struct drm_i915_gem_pwrite)
+ #define DRM_IOCTL_I915_GEM_MMAP		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_MMAP, struct drm_i915_gem_mmap)
+@@ -2573,6 +2575,46 @@ struct drm_i915_query_memory_regions {
+ 	struct drm_i915_memory_region_info regions[];
+ };
+ 
++/**
++ * struct drm_i915_gem_create_ext - Existing gem_create behaviour, with added
++ * extension support using struct i915_user_extension.
++ *
++ * Note that in the future we want to have our buffer flags here, at least for
++ * the stuff that is immutable. Previously we would have two ioctls, one to
++ * create the object with gem_create, and another to apply various parameters,
++ * however this creates some ambiguity for the params which are considered
++ * immutable. Also in general we're phasing out the various SET/GET ioctls.
++ */
++struct drm_i915_gem_create_ext {
++	/**
++	 * @size: Requested size for the object.
++	 *
++	 * The (page-aligned) allocated size for the object will be returned.
++	 *
++	 */
++	__u64 size;
++	/**
++	 * @handle: Returned handle for the object.
++	 *
++	 * Object handles are nonzero.
++	 */
++	__u32 handle;
++	/** @flags: MBZ */
++	__u32 flags;
++	/**
++	 * @extensions: The chain of extensions to apply to this object.
++	 *
++	 * This will be useful in the future when we need to support several
++	 * different extensions, and we need to apply more than one when
++	 * creating the object. See struct i915_user_extension.
++	 *
++	 * If we don't supply any extensions then we get the same old gem_create
++	 * behaviour.
++	 *
++	 */
++	__u64 extensions;
++};
++
+ #if defined(__cplusplus)
+ }
+ #endif
+-- 
+2.26.3
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
