@@ -1,72 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5713136AD29
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 09:35:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E14636AD7F
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 09:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A158D6E17B;
-	Mon, 26 Apr 2021 07:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42BDF6E0FC;
+	Mon, 26 Apr 2021 07:37:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE856E0FC;
- Mon, 26 Apr 2021 07:35:23 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 775665C00D0;
- Mon, 26 Apr 2021 03:35:18 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 26 Apr 2021 03:35:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=OdI3mT4nMejbMpZ4hAkqACsHiXa
- PqAYoek1WZFxJpho=; b=upKlhD9xTVYZyn59mfOOwqgtyHCwNWDGbbenXdxek5O
- cpRBNhL40ZWF0uUYclZkJBIvGji4DtO3E3elvk+f0ehESYwe9nbo+CZNpTzgLap8
- NZ/IJYpGgsaMdx+s8IpZM4I3mxs7z60Rtwaa3AVFSdPeuMLaD/BRj1aN9UJl4fkP
- jMf2xgKGjf0tmmtRAzbqPSVH1Zn+uU4dyZyHH0zO4L1OemdxyhWAxcMx6tMjmP1m
- bCnkE6g1JDLnBft0tLo26NztKXaLyd3Dj44YR2ES1DCzw2rGb/AstSDSuP8IaZOh
- EpzI6NcXNO3EQkukY27qe+Oa9x9qbyKZrn7Zf526wHg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=OdI3mT
- 4nMejbMpZ4hAkqACsHiXaPqAYoek1WZFxJpho=; b=iqWwaHAlgLB7xEiK3dvDEt
- JFg9n3eHG55FOQ/GcnXBVeBQh87z34IZc4JYe7y9IlnPj9jgXi1Q8rzSa8Qx162z
- LYi15XHr+a69ARRqJHZSg13SIe1qkFKgInrnKN2R3aBASCkqMX49GdQuL3MAtsRY
- DtunjgioMlRrtU4u213JDZkCnbVggEO9Ze740JQIalA6Z9iK65ns6UMKJy+YiRPa
- afuhL+/KF1YK8d9ouwjPfysCTw/5d9UWVCRZU19/sAg7HzUqRkWJauIgXPmp8SjC
- 6b7jybGBKZLLjfJ3Rm5Bia5f5N05cMl//4ZXycKYasN4eNzaAuxlZSkb7ofYDl1Q
- ==
-X-ME-Sender: <xms:NW2GYLtu85wtpsF8KF7jZmlp4jTzdlTw_pSauQztMGDS_l00LdAmbA>
- <xme:NW2GYMdDfA9RF2UZz88ePNDuBGdNoXaODlHrB9P2SXE0InfXr-mi9COi0BhM1xJOH
- YBbH_dVz6fLL07sprI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddujedguddvudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejuddvhfekkefhtdegiefhledutdevtdfhkedtleefjefgleduhfetudev
- jeehhfenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
- fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:NW2GYOz9oUGvY4RVlLOc3zW2z_6JX9Ax-Nuw3zQvD_Ta5UTSCJ4BQw>
- <xmx:NW2GYKORjn70z-ucxeZvY7M3CDODFFzlKLNGl3Lziz8wZKnaiq4trg>
- <xmx:NW2GYL84FNKCAb5jEWC62UuqWb6QprPIhSoF87yqZ6GQVDzeeIsYEg>
- <xmx:Nm2GYGnB3YxH1GMqrNK7i-HMHslbA2Mb53IimoBZw_o_eJ2U1S1WYg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 385001080066;
- Mon, 26 Apr 2021 03:35:17 -0400 (EDT)
-Date: Mon, 26 Apr 2021 09:35:15 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PULL] drm-misc-next-fixes
-Message-ID: <20210426073515.5lxw64eota7usaq4@gilmour>
-References: <20210422163329.dvbuwre3akwdmzjt@gilmour>
- <CADnq5_O39XAV+EF=CeKGK3UEG6E_6Gt_goW6u1+5siC5ROtz4Q@mail.gmail.com>
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D27B46E0FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 07:37:07 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id 12so86545870lfq.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 00:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=obuBE1Nj5gcikOw1FBXmgvsh45uDNDUzOX/vUTXvcvw=;
+ b=pcWFHC6W7PezjJIaNABnxr5Ot/ohPdk5c+YvymEycDybtDT1HD4LxXdn8KsRI9D/Gk
+ qfP4WSpsiiAKBY247YGqp7Kmmvfn00ZY8spdDFQSiqM63k1q5A4cqn22haILQqkkBaAr
+ S7hcnN8w7tP4NR3MxFWYngn6FDFP0ZRYf4iac4YD76xQ0N/0X1wUh6qUOULMZsW5PsXJ
+ 9Ou0ADeS7t564qS8pHjuCNXF5X/gDTuMCATUQbJ8BXV782ijpBrFJNSjYR25BDvy1oIs
+ Lfr7HLLDBJHbtgg/OV+idEf5IwFD4UZs/pcxAyJ0j6bTW/8EAc3f3KQ0kLSmh5jKa8Wl
+ 1i9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=obuBE1Nj5gcikOw1FBXmgvsh45uDNDUzOX/vUTXvcvw=;
+ b=TgtO0WZLGRFnUL419mborZxAj/rirsexEnZb/zUpehO7sMdVvCo1SHy3EuBrtSoKSb
+ xSjS6/06+CSjizNAHwfYUNIQBxDNzgPsoxVwmtLeTLbzacGDycJGcEGXw/rQB6f3Wfja
+ 3eZqzIST6RYeUEYKwDuQtXFUMHk9GTITScwK5spS0iB2ERWKKeMR4egmIw8xd1qOL1GX
+ nSmMF4rQlYcYqYZ5GUtrSwzrZdx4+YDayNmh4x1wcSm53mJIg/8Pi3KmxqndX7oCDwx0
+ 4rUx/VsTlqqHogO21lfQ/XKIYSNCrjetaln3R3pCLXmuFIPthSG4WfGPoFWcAn3iXJhx
+ lKXA==
+X-Gm-Message-State: AOAM5339bcOPe57/QMOa3R1V0VtwedLsqflEF3Q360Xb5v5+S2anZaNO
+ EL1hHRzaKZgsyao/ksPmGyw=
+X-Google-Smtp-Source: ABdhPJx1/aEcICa8qOJuT33yRnQF0GKQgmrJEwMWJVhq0l71+eoWgf+5GSnTu8BxRmMOQp6KB6CFfA==
+X-Received: by 2002:a19:6a0c:: with SMTP id u12mr12112063lfu.391.1619422626178; 
+ Mon, 26 Apr 2021 00:37:06 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id z145sm1320092lfc.169.2021.04.26.00.37.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Apr 2021 00:37:05 -0700 (PDT)
+Date: Mon, 26 Apr 2021 10:36:56 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Subject: Re: [PATCH v2 1/1] drm/doc: document drm_mode_get_plane
+Message-ID: <20210426103656.0a212089@eldfell>
+In-Reply-To: <3c3a5d35-10bf-4b32-1970-aed4bc1d6488@collabora.com>
+References: <20210422181004.34247-1-leandro.ribeiro@collabora.com>
+ <20210422181004.34247-2-leandro.ribeiro@collabora.com>
+ <20210423141126.308d4145@eldfell>
+ <3c3a5d35-10bf-4b32-1970-aed4bc1d6488@collabora.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CADnq5_O39XAV+EF=CeKGK3UEG6E_6Gt_goW6u1+5siC5ROtz4Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,60 +68,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1478916835=="
+Cc: airlied@linux.ie, kernel@collabora.com, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1416688411=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1478916835==
+--===============1416688411==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="r5fddzlgqdb46266"
-Content-Disposition: inline
+ boundary="Sig_/TdWp0rzrssZgQMA0+c41Uxc"; protocol="application/pgp-signature"
 
-
---r5fddzlgqdb46266
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/TdWp0rzrssZgQMA0+c41Uxc
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,
+On Fri, 23 Apr 2021 18:30:33 -0300
+Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
 
-On Thu, Apr 22, 2021 at 12:40:10PM -0400, Alex Deucher wrote:
-> On Thu, Apr 22, 2021 at 12:33 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Hi Dave, Daniel,
-> >
-> > Here's this week drm-misc-next-fixes PR, for the next merge window
-> >
+> On 4/23/21 8:11 AM, Pekka Paalanen wrote:
+> > On Thu, 22 Apr 2021 15:10:04 -0300
+> > Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
+> >  =20
+> >> Add a small description and document struct fields of
+> >> drm_mode_get_plane.
+> >>
+> >> Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+> >> ---
+> >>  include/uapi/drm/drm_mode.h | 16 ++++++++++++++++
+> >>  1 file changed, 16 insertions(+)
+> >>
+> >> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> >> index a5e76aa06ad5..3e85de928db9 100644
+> >> --- a/include/uapi/drm/drm_mode.h
+> >> +++ b/include/uapi/drm/drm_mode.h
+> >> @@ -312,16 +312,32 @@ struct drm_mode_set_plane {
+> >>  	__u32 src_w;
+> >>  };
+> >>
+> >> +/**
+> >> + * struct drm_mode_get_plane - Get plane metadata.
+> >> + *
+> >> + * Userspace can perform a GETPLANE ioctl to retrieve information abo=
+ut a
+> >> + * plane.
+> >> + */
+> >>  struct drm_mode_get_plane {
+> >> +	/** @plane_id: Object ID of the plane. */
+> >>  	__u32 plane_id;
+> >>
+> >> +	/** @crtc_id: Object ID of the current CRTC. */
+> >>  	__u32 crtc_id;
+> >> +	/** @fb_id: Object ID of the current fb. */
+> >>  	__u32 fb_id;
+> >>
+> >> +	/** @possible_crtcs: Bitmask of CRTC's compatible with the plane. */=
+ =20
+> >=20
+> > This should probably explain what the bits in the mask correspond to.
+> > As in, which CRTC does bit 0 refer to, and so on.
+> >  =20
 >=20
-> Can we also cherry-pick this patch:
-> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3Dd510c88cfbb294d2b1=
-e2d0b71576e9b79d0e2e83
-> It should have really gone into drm-misc-next-fixes rather than
-> drm-misc-next, but I misjudged the timing.
+> What about:
+>=20
+> "possible_crtcs: Bitmask of CRTC's compatible with the plane. CRTC's are
+> created and they receive an index, which corresponds to their position
+> in the bitmask. CRTC with index 0 will be in bit 0, and so on."
 
-Yeah, just cherry-pick it, I'll keep sending PR during the merge window :)
+This would still need to explain where can I find this index.
 
-Maxime
+> >>  	__u32 possible_crtcs;
+> >> +	/** @gamma_size: Size of the legacy gamma table. */ =20
+> >=20
+> > What are the units? Entries? Bytes?
+> >  =20
+>=20
+> The number of entries. I'll update to "gamma_size: Number of entries of
+> the legacy gamma lookup table" in the next version.
 
---r5fddzlgqdb46266
-Content-Type: application/pgp-signature; name="signature.asc"
+Sounds good!
+
+
+Thanks,
+pq
+
+> >>  	__u32 gamma_size;
+> >>
+> >> +	/** @count_format_types: Number of formats. */
+> >>  	__u32 count_format_types;
+> >> +	/**
+> >> +	 * @format_type_ptr: Pointer to ``__u32`` array of formats that are
+> >> +	 * supported by the plane. These formats do not require modifiers. =
+=20
+> >=20
+> > I wonder if the "do not require modifiers" is again going too far in
+> > making a difference between this list and IN_FORMATS?
+> >  =20
+>=20
+> Yes that's true, I'll drop this phrase.
+>=20
+> >> +	 */
+> >>  	__u64 format_type_ptr;
+> >>  }; =20
+> >=20
+> > Other than those, looks like a significant improvement to me.
+> >=20
+> >=20
+> > Thanks,
+> > pq
+> >  =20
+> >>
+> >> --
+> >> 2.31.1
+> >>
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel =20
+> >  =20
+
+
+--Sig_/TdWp0rzrssZgQMA0+c41Uxc
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYIZtMgAKCRDj7w1vZxhR
-xbUiAQDhhuAKN0P7lzbziyqYqMmqiG2uyNI4NWL2l794nzy3AAD+MrvGQSDY861W
-574SZxHUwFTaz5EiyAs5icoYz4G3hgY=
-=rEV2
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCGbZgACgkQI1/ltBGq
+qqe5Gg//XOOtVR2qLd7usF8O88eTDKtJ5NvFl48AOjEe2CfK+pXZ75Irg88smV7E
+aHRT4Met3Uwvz/46zpCd5m7kuHvpHeUnpVylEYu+sXBTXabFlav8/91xsJzN+KJ7
+qOGCpHb6HmWZhiJCJckJrdGWDvc7IWdqinvawKaXKQpsd8Ynd7Q2NFulavRTbarR
+j49XuQezMyZCb6wMWENchdnm7O3nNrc6MYjKYqHQXRPvoZ5CYRADKwJrbfuCqwy7
+cKy7mDkICmMEUnkaqKTlcjZWabLoPhEJhEQJe+Z8fDhfCV7juDmefsWo0SjGNNHT
+VudtT4reUuMC9TxHiwi8ma1LUmkJHEYJqJ/LJVvB9YHF7WB9YXudYlWbchSJ8Qgx
+JVc6Tm4ZpXwIHKBUp26bPn7TwsxYn76EM4HfQwV74DVO6DB+n0GJsezyZ1WUAqu2
+b0ij1QAB03uht0IfZn6pEMpXLfKwFI1Tg/ogKTUvUPR9pgiFYF8UK/dyw0zsv8vN
+M0x14X8yoCImIfeK4cs2utJ9tpKtfg+0otJ2OkNPmhDG26ax2H4YZPZKoZJuiIde
+7HvLA51lzy4DBaGyOEap1p9+rXEENY/gGqoEPYEqK9Z4qZ56NtVbaccKve9QViPR
+0mfEBe9NJlIdeNovH+VD1ja+KOyZC6a8dt06QVRvRHjZ4sPVJvY=
+=4rnR
 -----END PGP SIGNATURE-----
 
---r5fddzlgqdb46266--
+--Sig_/TdWp0rzrssZgQMA0+c41Uxc--
 
---===============1478916835==
+--===============1416688411==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -143,4 +220,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1478916835==--
+--===============1416688411==--
