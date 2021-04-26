@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC58136B9FE
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 21:29:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D04136BA1D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 21:36:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5152E6E870;
-	Mon, 26 Apr 2021 19:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFBCE6E872;
+	Mon, 26 Apr 2021 19:36:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2FB6E870
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 19:28:58 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id zg3so4514508ejb.8
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 12:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uPSGYcihSYfm5NnA+nu9YTkGLMVNgdMxJvMX/B7FahE=;
- b=ctXrYWq3oz6pjzAXmFpyJd/LoD0/v+4tl7HlYy8uF5CLLgpv6M8UmNUPLsPomE0iA1
- IbJjJZ6tjjLS4sM55IgbpW9yDGZzZn9pJHHIFxfMVa2gbPU25sdhChZCVgJUZyDvH62f
- IvusHlYK/dmNk4ddrQjOcQclx+tRkOIOBAOx5eh9z4GyeD7KsOwiwr6GEsOB2U1r1ZLy
- fu9vfUQP3WT+EHM1aJ8f2ZuYcJbO63u9p+9s7HLJ/tKORD6z95KhytxfMmgWW55FD4dh
- hCnTI5CqbHAR0XGbUSFIdUl+yXW3JUsNHGjIphoFg2dAlbppxLp6deUJSN56Ovvet3sx
- xZCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uPSGYcihSYfm5NnA+nu9YTkGLMVNgdMxJvMX/B7FahE=;
- b=IUUGaFohCjEOTW01neDh2uLGn79bOKWHs38x/7DR6NzVee2e8s3QKlrHUUgd/rN4lG
- 0aa1Iz50Dd6mf1iYhnLpFwUFc5ve3NRPN68uKuLdi/Rwk9ThZpoDzTQazIX3Z+hHeuOv
- PiGJ/FZKEgHKvV3LYk4IBZsWFZB2Z/l8I+gkBte9altJGk31JUVRbSkAG5a/BzGdk0pQ
- wdZ9XKbT4bgaW1R11WIXxUUUw23nYjDD7lY/1pL0qD3vpSZcEp7pK2xKeNc3uv2cuxGM
- lEGenNGIRjRjGBqILG0Ib7PRTJqBM3kn2Sag+2M5QXj/Chtzc4bHILn6RxM8H4DNSMLw
- vJwg==
-X-Gm-Message-State: AOAM530tgDhW1rke6raC0dpsF9jTINLwad4cqrZYi0ne+lpeZLYv+zC8
- Y0sERKfs24o0KcBxwZJOX3c=
-X-Google-Smtp-Source: ABdhPJxt5ijbkx1gr5nMUoX4S1ZPQTXA4JCK9wk3uzykoQlBO5tcNsIlVyD2cNLLFRGveTBeQRClDg==
-X-Received: by 2002:a17:906:cb88:: with SMTP id
- mf8mr20576558ejb.541.1619465336843; 
- Mon, 26 Apr 2021 12:28:56 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it.
- [79.52.107.152])
- by smtp.gmail.com with ESMTPSA id p4sm807568ejr.81.2021.04.26.12.28.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 12:28:55 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Huang Rui <ray.huang@amd.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v3] drm/amd/amdgpu: Replace drm_modeset_lock_all with
- drm_modeset_lock
-Date: Mon, 26 Apr 2021 21:28:51 +0200
-Message-Id: <20210426192851.30155-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E2B36E872
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 19:36:29 +0000 (UTC)
+IronPort-SDR: sdN+qVg/QUXiSZeTepWsnFVng/AR+q3efyZublpgO8r59po64nWzsv0Av105u7EvoHpyXO1ljP
+ ieKn/T18eDrQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="194277620"
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="194277620"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2021 12:36:28 -0700
+IronPort-SDR: XQTrgscm5tNW5gFxDMKD1GvKX7blSFnkgGy7vexmvA2IxfKminafIalM8DgG28eRK4PZ6SNfp6
+ RIQVr4w5pKjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="429514217"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by orsmga008.jf.intel.com with ESMTP; 26 Apr 2021 12:36:28 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 26 Apr 2021 12:36:28 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 26 Apr 2021 12:36:27 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2106.013;
+ Mon, 26 Apr 2021 12:36:27 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/ttm: cleanup ttm_agp_backend
+Thread-Topic: [PATCH] drm/ttm: cleanup ttm_agp_backend
+Thread-Index: AQHXOsXOgcFCnWUHB0Wz2or/npJj+arHL4BQ
+Date: Mon, 26 Apr 2021 19:36:27 +0000
+Message-ID: <f245337776cb4949b2f36e1bb2d24c51@intel.com>
+References: <20210426175824.122557-1-christian.koenig@amd.com>
+In-Reply-To: <20210426175824.122557-1-christian.koenig@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.0.76
+x-originating-ip: [10.1.200.100]
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,60 +67,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "bskeggs@redhat.com" <bskeggs@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_modeset_lock_all() is not needed here, so it is replaced with
-drm_modeset_lock(). The crtc list around which we are looping never
-changes, therefore the only lock we need is to protect access to
-crtc->state.
-
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
-
-Changes from v2: Drop file name from the Subject. Cc'ed all maintainers.
-Changes from v1: Removed unnecessary braces around single statement
-block.
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 671ec1002230..adfeec2b17c0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -1439,17 +1439,15 @@ static int amdgpu_pmops_runtime_idle(struct device *dev)
- 	if (amdgpu_device_has_dc_support(adev)) {
- 		struct drm_crtc *crtc;
- 
--		drm_modeset_lock_all(drm_dev);
--
- 		drm_for_each_crtc(crtc, drm_dev) {
--			if (crtc->state->active) {
-+			drm_modeset_lock(&crtc->mutex, NULL);
-+			if (crtc->state->active)
- 				ret = -EBUSY;
-+			drm_modeset_unlock(&crtc->mutex);
-+			if (ret < 0)
- 				break;
--			}
- 		}
- 
--		drm_modeset_unlock_all(drm_dev);
--
- 	} else {
- 		struct drm_connector *list_connector;
- 		struct drm_connector_list_iter iter;
--- 
-2.31.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogZHJpLWRldmVsIDxkcmktZGV2ZWwt
+Ym91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZg0KPkNocmlzdGlhbiBL
+w7ZuaWcNCj5TZW50OiBNb25kYXksIEFwcmlsIDI2LCAyMDIxIDE6NTggUE0NCj5UbzogZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPkNjOiBic2tlZ2dzQHJlZGhhdC5jb20NCj5TdWJq
+ZWN0OiBbUEFUQ0hdIGRybS90dG06IGNsZWFudXAgdHRtX2FncF9iYWNrZW5kDQo+DQo+QXVkaXQg
+dGhlIGluY2x1ZGVzIGFuZCBzdG9wIGFjY2Vzc2luZyB0aGUgaW50ZXJuYWwgZHJtX21tX25vZGUu
+DQo+DQo+VGhlIHR0bV9yZXNvdXJjZTo6c3RhcnQgc2hvdWxkIGJlIHRoZSBzYW1lIHZhbHVlIGFz
+IHRoZQ0KPmRybV9tbV9ub2RlOjpzdGFydC4NCg0KInNob3VsZCBiZSI/DQoNCkFyZSB5b3Ugc3Vy
+ZT8gIPCfmIoNCg0KSWYgaXQgaXNuJ3QsIGlzIHRoZXJlIGFuIGlzc3VlPw0KDQpJZiB0aGV5IGFy
+ZSB0aGUgc2FtZSAoc2V0IGluIHR0bV9yYW5nZV9tYW5fYWxsb2M/KSwgbWF5YmU6DQoNClRoZSB0
+dG1fcmVzb3VyY2U6OnN0YXJ0IGlzIHRoZSBzYW1lIHZhbHVlIGFzIHRoZSBkcm1fbW1fbm9kZTo6
+c3RhcnQuDQoNCldpdGggdGhhdCBjaGFuZ2U6DQoNClJldmlld2VkLWJ5OiBNaWNoYWVsIEouIFJ1
+aGwgPG1pY2hhZWwuai5ydWhsQGludGVsLmNvbT4NCg0KTQ0KDQo+U2lnbmVkLW9mZi1ieTogQ2hy
+aXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPi0tLQ0KPiBkcml2ZXJz
+L2dwdS9kcm0vdHRtL3R0bV9hZ3BfYmFja2VuZC5jIHwgOCArKysrLS0tLQ0KPiAxIGZpbGUgY2hh
+bmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPg0KPmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9hZ3BfYmFja2VuZC5jDQo+Yi9kcml2ZXJzL2dwdS9kcm0v
+dHRtL3R0bV9hZ3BfYmFja2VuZC5jDQo+aW5kZXggMDIyNmFlNjlkM2FiLi42ZGRjMTZmMGZlMmIg
+MTAwNjQ0DQo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYWdwX2JhY2tlbmQuYw0KPisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2FncF9iYWNrZW5kLmMNCj5AQCAtMzIsOCArMzIs
+OSBAQA0KPg0KPiAjZGVmaW5lIHByX2ZtdChmbXQpICJbVFRNXSAiIGZtdA0KPg0KPi0jaW5jbHVk
+ZSA8ZHJtL3R0bS90dG1fYm9fZHJpdmVyLmg+DQo+LSNpbmNsdWRlIDxkcm0vdHRtL3R0bV9wbGFj
+ZW1lbnQuaD4NCj4rI2luY2x1ZGUgPGRybS90dG0vdHRtX2RldmljZS5oPg0KPisjaW5jbHVkZSA8
+ZHJtL3R0bS90dG1fdHQuaD4NCj4rI2luY2x1ZGUgPGRybS90dG0vdHRtX3Jlc291cmNlLmg+DQo+
+ICNpbmNsdWRlIDxsaW51eC9hZ3BfYmFja2VuZC5oPg0KPiAjaW5jbHVkZSA8bGludXgvbW9kdWxl
+Lmg+DQo+ICNpbmNsdWRlIDxsaW51eC9zbGFiLmg+DQo+QEAgLTUwLDcgKzUxLDYgQEAgaW50IHR0
+bV9hZ3BfYmluZChzdHJ1Y3QgdHRtX3R0ICp0dG0sIHN0cnVjdA0KPnR0bV9yZXNvdXJjZSAqYm9f
+bWVtKQ0KPiB7DQo+IAlzdHJ1Y3QgdHRtX2FncF9iYWNrZW5kICphZ3BfYmUgPSBjb250YWluZXJf
+b2YodHRtLCBzdHJ1Y3QNCj50dG1fYWdwX2JhY2tlbmQsIHR0bSk7DQo+IAlzdHJ1Y3QgcGFnZSAq
+ZHVtbXlfcmVhZF9wYWdlID0gdHRtX2dsb2IuZHVtbXlfcmVhZF9wYWdlOw0KPi0Jc3RydWN0IGRy
+bV9tbV9ub2RlICpub2RlID0gYm9fbWVtLT5tbV9ub2RlOw0KPiAJc3RydWN0IGFncF9tZW1vcnkg
+Km1lbTsNCj4gCWludCByZXQsIGNhY2hlZCA9IHR0bS0+Y2FjaGluZyA9PSB0dG1fY2FjaGVkOw0K
+PiAJdW5zaWduZWQgaTsNCj5AQCAtNzYsNyArNzYsNyBAQCBpbnQgdHRtX2FncF9iaW5kKHN0cnVj
+dCB0dG1fdHQgKnR0bSwgc3RydWN0DQo+dHRtX3Jlc291cmNlICpib19tZW0pDQo+IAltZW0tPmlz
+X2ZsdXNoZWQgPSAxOw0KPiAJbWVtLT50eXBlID0gKGNhY2hlZCkgPyBBR1BfVVNFUl9DQUNIRURf
+TUVNT1JZIDoNCj5BR1BfVVNFUl9NRU1PUlk7DQo+DQo+LQlyZXQgPSBhZ3BfYmluZF9tZW1vcnko
+bWVtLCBub2RlLT5zdGFydCk7DQo+KwlyZXQgPSBhZ3BfYmluZF9tZW1vcnkobWVtLCBib19tZW0t
+PnN0YXJ0KTsNCj4gCWlmIChyZXQpDQo+IAkJcHJfZXJyKCJBR1AgQmluZCBtZW1vcnkgZmFpbGVk
+XG4iKTsNCj4NCj4tLQ0KPjIuMjUuMQ0KPg0KPl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fDQo+ZHJpLWRldmVsIG1haWxpbmcgbGlzdA0KPmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcNCj5odHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
