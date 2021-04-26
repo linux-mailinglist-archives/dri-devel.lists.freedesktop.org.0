@@ -2,54 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B30F36AE06
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 09:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5109C36AE07
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 09:43:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82D96E16D;
-	Mon, 26 Apr 2021 07:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65DB989CE1;
+	Mon, 26 Apr 2021 07:43:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B72AE6E16D
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 07:42:37 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id q10so39505830pgj.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 00:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L+b4pKpndDlcj08YUiVSBY817s4wlekLWlsTVk0g6EU=;
- b=lUK/M9SqhxbCgHIORv3I+iUo86GjFpJYfBlPrxAcrP7YfPIOkf/WF4rzJN+SMBVJZ0
- s260soqgttbuepcQEws4HEAIPLrK+8JaO2S/PPwaTZFBPZPA1IWs+9wyv7OfW9Dk0W3m
- 1Q+n6S2VCvK2ZrAF3vH5rY5U8OikXTvTbWxWsf+EKO2sv+uLi1xkAhO+FYR3657TIrqi
- xwsC4zE6ONm48NoRT+0f8Avq2qsSyyb4JlesejK5HK5unXcFYfgOiR/U3X240G0U3E9M
- 03X7FgrZgp/EpI8P3f6TYvowgGcH9HAndm7Lv3TLj/s8P7MRPibO+hhQyEDyBE8NaWoS
- cygg==
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5987B89CE1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 07:43:28 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id e5so26033296wrg.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 00:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:references:from:organization:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1Fin73hcxy3kBBfVgnkmMWT6xQYSFk6lSSZMuPRL9LA=;
+ b=RH+o+1mp+wiqCJ7YrwwwRMYZd/LobHVRQYCoanA6cmddoSSQx+v97heWBT34+0QiwS
+ ZcjjSiWE+0t3pvVF3LLTHcDltiNOIXmI3w9cBxMlync5idVrjLWYx6y5UXFdn48UMqfa
+ 9QvNfHQB3EU8tLrxMkKpAtV+2lkQfg6FLre4xw1icvogh/SL8q2PgRkHMgjuim1D+2W0
+ MhJciPUsmX1TuyuxmkNTu4HTv+SXWfp7UsmJb1g6FXFxMiE38YJ/V/gnQELhkfGAySP8
+ G7kMSD335Et9Q1eEoAi5XCmuV+9UCFYDTkmoDeJqnbibhhYKCtNxEDGschx8vEoVaev5
+ 5MSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L+b4pKpndDlcj08YUiVSBY817s4wlekLWlsTVk0g6EU=;
- b=m2YId6x+lahpUmDMWHtDCk8XVD/OLTGvS7MAdnGzWaXJJEQd/8Zs6vXr5ZfGQ5F7Ku
- 79yXqj6JgYgspPyZ1tEuDcfQafBfhPw26DoFXlCXU3kLuxFSv9SwgSiEE5mJrv0YiAU6
- YBdLa5G9FKIA78VYmNpnRPjNIIqdnabdKSACwhrJE0ZUgyZ72wdcxy0vUlGskbfkMe4+
- uyGfi1xG+DpBnYAmcdif7cl0nTu5T/bvxY7/tznfr8YgdEKcWU1lWdS98ZT2v+Hz/6Hj
- qOHmbKO5fcyf59tk6ZKFxb5ixIb7kTLkTiW9h8EdEGZ96fobBZrJPRwTQufjMnyAQpBP
- 7qpA==
-X-Gm-Message-State: AOAM531EvY1/I57jLk5brj/DTHOhv4wa1js/v7BUNEoZWEwRypldTxe0
- KFutLx+3OSj20l32c/OV7n6yK/KuH8QZggzQP16R3w==
-X-Google-Smtp-Source: ABdhPJwm03gb1ADF12Vm13FdZoOskiD3kKLb5q8urWkUENw6vUNfn0LPTa4pP+WvzxsTDgD8TB1iN6MwltnHYsM6Y50=
-X-Received: by 2002:a05:6a00:88a:b029:261:6d37:dac6 with SMTP id
- q10-20020a056a00088ab02902616d37dac6mr16426252pfj.18.1619422957429; Mon, 26
- Apr 2021 00:42:37 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=1Fin73hcxy3kBBfVgnkmMWT6xQYSFk6lSSZMuPRL9LA=;
+ b=iAkq7MeCn6k/Ew/n+N1KNAFnaMx2vMoSuQ3D/Re0aYPYDbfz/tMTlquweEJ3vWKkg1
+ hTb+697eq3YZhzrKGt6CJTWGwtSiz+fbxzCGqmtrSaMzPDnD/uh7ccFibIF0AC6g2JX6
+ cwe2DNqcD8ABJKgaji8pF9aBB6As3te2eN6WFRAhpmDzIfz6Wd9x0q9iGsDcOkBHc1PG
+ zN2zQJH6SZT8mlufc2Or/MT15CsIik0Guoi7Kk9jQRiRtaEdhdwJVgIlqnXEMAZbT6Lh
+ BkSsMOwNlLugmvUZsHBTaWIbO3Gvx0NVPH4miQJBgLAPbMHsNCnASIT3e+7tfF4AGlSe
+ eGWg==
+X-Gm-Message-State: AOAM530gi/qK1KbXxYVkmidxnLf8/n7245GvHuk0IZD890c3df+y1PYi
+ tMSKBn//ZB2R8VJUbnQGTzrnUqHyYxi3iPq4
+X-Google-Smtp-Source: ABdhPJxQigD5WWLBHcOUSAPkTIYQ/Xp6yUEhNoyUXXVle0tD9Y3bPwggSuVCqVXZLcMyXR8iba6CnQ==
+X-Received: by 2002:a5d:55cf:: with SMTP id i15mr20677893wrw.289.1619423006494; 
+ Mon, 26 Apr 2021 00:43:26 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:90c:e290:b76e:7362:77c0:ddc3?
+ ([2a01:e0a:90c:e290:b76e:7362:77c0:ddc3])
+ by smtp.gmail.com with ESMTPSA id d5sm1731692wrv.43.2021.04.26.00.43.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Apr 2021 00:43:26 -0700 (PDT)
+Subject: Re: [PATCH v3 0/3] drm/bridge: nwl-dsi: Get MIPI DSI controller and
+ PHY ready in ->mode_set()
+To: dri-devel@lists.freedesktop.org
+References: <1619170003-4817-1-git-send-email-victor.liu@nxp.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <ba9a73d3-09ef-9cf5-ccf3-5cb6ab764cd7@baylibre.com>
+Date: Mon, 26 Apr 2021 09:43:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210424061817.7339-1-rdunlap@infradead.org>
- <ecbe576f-1a96-a873-3716-6fa478a8269e@baylibre.com>
-In-Reply-To: <ecbe576f-1a96-a873-3716-6fa478a8269e@baylibre.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 26 Apr 2021 09:42:26 +0200
-Message-ID: <CAG3jFyv1kc3+B6SkVwdV7gNV+HUEWMAjmH8GSXaw8rDcHLadeQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: bridge: add missing word in Analogix help text
-To: Neil Armstrong <narmstrong@baylibre.com>
+In-Reply-To: <1619170003-4817-1-git-send-email-victor.liu@nxp.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,147 +74,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Torsten Duwe <duwe@suse.de>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Maxime Ripard <maxime@cerno.tech>, Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============1800937290=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1800937290==
-Content-Type: multipart/alternative; boundary="0000000000001e798805c0db4a21"
+Hi,
 
---0000000000001e798805c0db4a21
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 23/04/2021 11:26, Liu Ying wrote:
+> Hi,
+> 
+> This series aims to make the nwl-dsi bridge be able to connect with
+> more MIPI DSI panels.  Some MIPI DSI panel drivers like 'raydium,rm68200'
+> send MIPI_DCS_SET_DISPLAY_ON commands in panel_funcs->prepare(), which
+> requires the MIPI DSI controller and PHY to be ready beforehand.
+> However, the existing nwl-dsi driver gets the MIPI DSI controller and
+> PHY ready in bridge_funcs->pre_enable(), which happens after the
+> panel_funcs->prepare().  So, this series shifts the bridge operation
+> ealier from bridge_funcs->pre_enable() to bridge_funcs->mode_set().
+> 
+> Patch 3/3 does the essential bridge operation shift.
+> 
+> Patch 1/3 and 2/3 are split from the original single patch in v2 and
+> are needed by patch 3/3.  This split-up helps clarify changes better.
+> The split-up is done in this way:
+> 
+> 1) Patch 1/3 forces a full modeset when crtc_state->active is changed to
+>    be true(which implies only connector's DPMS is brought out of "Off"
+>    status, though not necessarily).  This makes sure ->mode_set() and
+>    ->atomic_disable() will be called in pairs.
+> 2) Patch 2/3 removes a check on unchanged HS clock rate from ->mode_set(),
+>    to make sure MIPI DSI controller and PHY are brought up and taken down
+>    in pairs.
+> 3) Patch 3/3 shifts the bridge operation as the last step.
+> 
+> 
+> v2->v3:
+> * Split the single patch in v2 into 3 patches. (Neil)
+> 
+> v1->v2:
+> * Fix a typo in commit message - s/unchange/unchanged/
+> 
+> 
+> Liu Ying (3):
+>   drm/bridge: nwl-dsi: Force a full modeset when crtc_state->active is
+>     changed to be true
+>   drm/bridge: nwl-dsi: Remove a check on unchanged HS clock rate from
+>     ->mode_set()
+>   drm/bridge: nwl-dsi: Get MIPI DSI controller and PHY ready in
+>     ->mode_set()
+> 
+>  drivers/gpu/drm/bridge/nwl-dsi.c | 86 +++++++++++++++++---------------
+>  1 file changed, 46 insertions(+), 40 deletions(-)
+> 
 
-On Mon, Apr 26, 2021, 09:15 Neil Armstrong <narmstrong@baylibre.com> wrote:
+The patchset looks fine, I'll leave a few days for Laurent or Rob to eventually comment.
 
->
->
-> Le 24/04/2021 =C3=A0 08:18, Randy Dunlap a =C3=A9crit :
-> > Insert a missing word "power" in Kconfig help text.
-> >
-> > Fixes: 6aa192698089 ("drm/bridge: Add Analogix anx6345 support")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Andrzej Hajda <a.hajda@samsung.com>
-> > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > Cc: Robert Foss <robert.foss@linaro.org>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: Icenowy Zheng <icenowy@aosc.io>
-> > Cc: Vasily Khoruzhick <anarsoul@gmail.com>
-> > Cc: Torsten Duwe <duwe@suse.de>
-> > Cc: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  drivers/gpu/drm/bridge/analogix/Kconfig |    2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > --- linux-next-20210423.orig/drivers/gpu/drm/bridge/analogix/Kconfig
-> > +++ linux-next-20210423/drivers/gpu/drm/bridge/analogix/Kconfig
-> > @@ -6,7 +6,7 @@ config DRM_ANALOGIX_ANX6345
-> >       select DRM_KMS_HELPER
-> >       select REGMAP_I2C
-> >       help
-> > -       ANX6345 is an ultra-low Full-HD DisplayPort/eDP
-> > +       ANX6345 is an ultra-low power Full-HD DisplayPort/eDP
-> >         transmitter designed for portable devices. The
-> >         ANX6345 transforms the LVTTL RGB output of an
-> >         application processor to eDP or DisplayPort.
-> >
->
-> Reviewed-by: Neil Armstrong <narmstrongt@baylibre.com>
->
-
-I think a typo in the email snuck in ;)
-
->
-
---0000000000001e798805c0db4a21
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Apr 26, 2021, 09:15 Neil Armstrong &lt;<a href=
-=3D"mailto:narmstrong@baylibre.com" target=3D"_blank" rel=3D"noreferrer">na=
-rmstrong@baylibre.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><br>
-<br>
-Le 24/04/2021 =C3=A0 08:18, Randy Dunlap a =C3=A9crit=C2=A0:<br>
-&gt; Insert a missing word &quot;power&quot; in Kconfig help text.<br>
-&gt; <br>
-&gt; Fixes: 6aa192698089 (&quot;drm/bridge: Add Analogix anx6345 support&qu=
-ot;)<br>
-&gt; Signed-off-by: Randy Dunlap &lt;<a href=3D"mailto:rdunlap@infradead.or=
-g" rel=3D"noreferrer noreferrer" target=3D"_blank">rdunlap@infradead.org</a=
->&gt;<br>
-&gt; Cc: Andrzej Hajda &lt;<a href=3D"mailto:a.hajda@samsung.com" rel=3D"no=
-referrer noreferrer" target=3D"_blank">a.hajda@samsung.com</a>&gt;<br>
-&gt; Cc: Neil Armstrong &lt;<a href=3D"mailto:narmstrong@baylibre.com" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">narmstrong@baylibre.com</a>&gt=
-;<br>
-&gt; Cc: Robert Foss &lt;<a href=3D"mailto:robert.foss@linaro.org" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">robert.foss@linaro.org</a>&gt;<br>
-&gt; Cc: David Airlie &lt;<a href=3D"mailto:airlied@linux.ie" rel=3D"norefe=
-rrer noreferrer" target=3D"_blank">airlied@linux.ie</a>&gt;<br>
-&gt; Cc: Daniel Vetter &lt;<a href=3D"mailto:daniel@ffwll.ch" rel=3D"norefe=
-rrer noreferrer" target=3D"_blank">daniel@ffwll.ch</a>&gt;<br>
-&gt; Cc: <a href=3D"mailto:dri-devel@lists.freedesktop.org" rel=3D"noreferr=
-er noreferrer" target=3D"_blank">dri-devel@lists.freedesktop.org</a><br>
-&gt; Cc: Icenowy Zheng &lt;<a href=3D"mailto:icenowy@aosc.io" rel=3D"norefe=
-rrer noreferrer" target=3D"_blank">icenowy@aosc.io</a>&gt;<br>
-&gt; Cc: Vasily Khoruzhick &lt;<a href=3D"mailto:anarsoul@gmail.com" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">anarsoul@gmail.com</a>&gt;<br>
-&gt; Cc: Torsten Duwe &lt;<a href=3D"mailto:duwe@suse.de" rel=3D"noreferrer=
- noreferrer" target=3D"_blank">duwe@suse.de</a>&gt;<br>
-&gt; Cc: Maxime Ripard &lt;maxime@cerno.tech&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/bridge/analogix/Kconfig |=C2=A0 =C2=A0 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; --- linux-next-20210423.orig/drivers/gpu/drm/bridge/analogix/Kconfig<b=
-r>
-&gt; +++ linux-next-20210423/drivers/gpu/drm/bridge/analogix/Kconfig<br>
-&gt; @@ -6,7 +6,7 @@ config DRM_ANALOGIX_ANX6345<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_KMS_HELPER<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0select REGMAP_I2C<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0help<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0ANX6345 is an ultra-low Full-HD DisplayPor=
-t/eDP<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0ANX6345 is an ultra-low power Full-HD Disp=
-layPort/eDP<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0transmitter designed for portable dev=
-ices. The<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ANX6345 transforms the LVTTL RGB outp=
-ut of an<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0application processor to eDP or Displ=
-ayPort.<br>
-&gt; <br>
-<br>
-Reviewed-by: Neil Armstrong &lt;<a href=3D"mailto:narmstrongt@baylibre.com"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">narmstrongt@baylibre.com</=
-a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">I think a typo in the email snuck in ;)</div><div dir=3D"auto"><div c=
-lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---0000000000001e798805c0db4a21--
-
---===============1800937290==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks,
+Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1800937290==--
