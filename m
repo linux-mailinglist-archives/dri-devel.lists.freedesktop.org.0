@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E24D36B78D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 19:07:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0EB36B7EB
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 19:19:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D2C06E84F;
-	Mon, 26 Apr 2021 17:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3CE689DEC;
+	Mon, 26 Apr 2021 17:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC2B6E84F
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 17:07:17 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- n3-20020a05600c4f83b02901425630b2c2so1104058wmq.1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 10:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=KMiuVtAIt8OEvQ/GhD7mvmDRjEyffclDOrg63gQHZfs=;
- b=AEmm27lvpv1bPPwOi6BKBO7dFCq6GAAepnMIcqnUItUz9T/jIQxemr+hFzP8EPY0Qx
- kF3SxcgMABdNiGlzSJuw1rB+JqxIF0E2di/gRvyuLVuLi75OfPhuXA9zM0Kqe5k//17s
- 4cD6BlwxrRE0tAiuOK0qPghXeBd1lIVt1q50HY940YdbYKZe/1FCNy4OtR4Wvymbixle
- d2fref6nI1zg0didXGIqOeY3rPSWEW7DniBM99HmEYRyEtxzIAE+RJpGSeInCqfbQuxh
- GcBacOyEkg3x2adpW0YlOmY2fmrbnjbDfhF232epHFFOXvyx6SFQeoULOj8Z2pIAKteu
- svDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KMiuVtAIt8OEvQ/GhD7mvmDRjEyffclDOrg63gQHZfs=;
- b=BkdZCRwHN9zoW6D7gdxVdejEWLoBkrSUfWo1B1v8FxINGFvkGIDqcqQC6uxyQR5GD2
- DO/ADYV3/Ma/ou3wrA9eiTr/42Dg8wqJgzebkxbF4cv/C7jXkFB7fl48kK667rpwFpkZ
- W/9JGsJhExR9NhvaR1M3pxm4cv/cM11O3YVq/Vnf2zq75ycivm4hbIf7nLj9zYdY2oZQ
- C5SjgFEQKdDA2mSCwvQuFWQmA3IX3MeOW9KQpijV4v8OKMgpR0woZhIsCmUJ3yAhSSCC
- j/Ldl/gqZleO+KrMXcCFpwt9i/8lz+ybS/uVCSOyYMpiEh0YKTQiDlVMKp4PlOkfKnyF
- 71Lw==
-X-Gm-Message-State: AOAM531M3RWj9f5zJp5DSXj2cyx/hVP4qphYM7T5pLSvZ49rSkj6T/2K
- wNF74XnRsIoPqUzdz2/VJV0=
-X-Google-Smtp-Source: ABdhPJzwGcO8UAcYlevtAz1y6aBhTZDaCk9sLShbiaLaMu4DPwS2GNTFyGFYAmYTfwpH1YbZMkSymQ==
-X-Received: by 2002:a1c:1f4f:: with SMTP id f76mr8976312wmf.14.1619456836268; 
- Mon, 26 Apr 2021 10:07:16 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id t2sm40603wmg.38.2021.04.26.10.07.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 10:07:15 -0700 (PDT)
-Date: Mon, 26 Apr 2021 14:07:07 -0300
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH v4 4/4] drm/vkms: add overlay support
-Message-ID: <20210426170707.cdt7wmczbmksqupo@smtp.gmail.com>
-References: <cover.1619250933.git.melissa.srw@gmail.com>
- <8261bf93d8a0e3ffaf81d8e7c9b3e9c229116be3.1619250933.git.melissa.srw@gmail.com>
- <20210426110704.7cde8c1a@eldfell>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0698289DEC;
+ Mon, 26 Apr 2021 17:19:09 +0000 (UTC)
+IronPort-SDR: 0fP8KFh3OdRZ2mUm+OgRQO/bjc2PehcKJI7szQfyRBoUZEVNCC9ouSUuIe5L8BwbLVyW3TQfxi
+ JiixxXDp2Edg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="281703523"
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="281703523"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2021 10:18:44 -0700
+IronPort-SDR: AyMfC91s2Gh7760M+K8XfmTeSVhXZTdWKLaSBImHNG05XDWjbQ9Lr+H3e/7i1oCCav5+Xd4OdD
+ T8gNPW4OcDsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="457263823"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga002.fm.intel.com with SMTP; 26 Apr 2021 10:18:39 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 26 Apr 2021 20:18:39 +0300
+Date: Mon, 26 Apr 2021 20:18:39 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915: Rewrite CL/CTG L-shaped memory
+ detection
+Message-ID: <YIb178CssrxSSSk6@intel.com>
+References: <20210421153401.13847-1-ville.syrjala@linux.intel.com>
+ <20210421153401.13847-5-ville.syrjala@linux.intel.com>
+ <YIFGt+I8LMckYyVG@phenom.ffwll.local> <YIF1+mhbWO7UD/yN@intel.com>
+ <YIblm7BAj6fnQiq+@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210426110704.7cde8c1a@eldfell>
+In-Reply-To: <YIblm7BAj6fnQiq+@phenom.ffwll.local>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,238 +53,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Sumera Priyadarsini <sylphrenadin@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/26, Pekka Paalanen wrote:
-> On Sat, 24 Apr 2021 05:26:10 -0300
-> Melissa Wen <melissa.srw@gmail.com> wrote:
-> 
-> > Add support to overlay plane, in addition to primary and cursor
-> > planes. In this approach, the plane composition still requires an
-> > active primary plane and planes are composed associatively in the
-> > order: (primary <- overlay) <- cursor
-> > 
-> > It enables to run the following IGT tests successfully:
-> > - kms_plane_cursor:
-> >   - pipe-A-[overlay, primary, viewport]-size-[64, 128, 256]
-> > - kms_atomic:
-> >   - plane-overlay-legacy
-> > and preserves the successful execution of kms_cursor_crc,
-> > kms_writeback and kms_flip
-> > 
-> > Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> Hi,
-> 
-> just curious, when you need to compute a CRC without having a writeback
-> connector output, where do you write the blended result in order to
-> compute CRC?
+On Mon, Apr 26, 2021 at 06:08:59PM +0200, Daniel Vetter wrote:
+> On Thu, Apr 22, 2021 at 04:11:22PM +0300, Ville Syrj=E4l=E4 wrote:
+> > On Thu, Apr 22, 2021 at 11:49:43AM +0200, Daniel Vetter wrote:
+> > > On Wed, Apr 21, 2021 at 06:34:01PM +0300, Ville Syrjala wrote:
+> > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > =
 
-Hi,
+> > > > Currently we try to detect a symmetric memory configurations
+> > > > using a magic DCC2_MODIFIED_ENHANCED_DISABLE bit. That bit is
+> > > > either only set on a very specific subset of machines or it
+> > > > just does not exist (it's not mentioned in any public chipset
+> > > > datasheets I've found). As it happens my CL/CTG machines never
+> > > > set said bit, even if I populate the channels with identical
+> > > > sticks.
+> > > > =
 
-so, when no writeback output, an output frame is allocated in the
-compose_planes functions to get the plane composition there, as shown
-here: https://lkml.org/lkml/2020/8/30/163
+> > > > So let's do the L-shaped memory detection the same way as the
+> > > > desktop variants, ie. just look at the DRAM rank boundary
+> > > > registers to see if both channels have an identical size.
+> > > > =
 
-Melissa
+> > > > With this my CL/CTG no longer claim L-shaped memory when I use
+> > > > identical sticks. Also tested with non-matching sticks just to
+> > > > make sure the L-shaped memory is still properly detected.
+> > > > =
 
-> 
-> 
-> Thanks,
-> pq
-> 
-> > ---
-> >  drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++----------
-> >  drivers/gpu/drm/vkms/vkms_drv.c      |  5 +++++
-> >  drivers/gpu/drm/vkms/vkms_drv.h      |  1 +
-> >  drivers/gpu/drm/vkms/vkms_output.c   | 11 ++++++++++-
-> >  drivers/gpu/drm/vkms/vkms_plane.c    | 15 ++++++++++++---
-> >  5 files changed, 45 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> > index 7e01bc39d2a1..1b510f3dbcbf 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> > @@ -176,11 +176,12 @@ static void compose_plane(struct vkms_composer *primary_composer,
-> >  
-> >  static int compose_active_planes(void **vaddr_out,
-> >  				 struct vkms_composer *primary_composer,
-> > -				 struct vkms_composer *cursor_composer)
-> > +				 struct vkms_crtc_state *crtc_state)
-> >  {
-> >  	struct drm_framebuffer *fb = &primary_composer->fb;
-> >  	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
-> >  	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(gem_obj);
-> > +	int i;
-> >  
-> >  	if (!*vaddr_out) {
-> >  		*vaddr_out = kzalloc(shmem_obj->base.size, GFP_KERNEL);
-> > @@ -195,8 +196,14 @@ static int compose_active_planes(void **vaddr_out,
-> >  
-> >  	memcpy(*vaddr_out, shmem_obj->vaddr, shmem_obj->base.size);
-> >  
-> > -	if (cursor_composer)
-> > -		compose_plane(primary_composer, cursor_composer, *vaddr_out);
-> > +	/* If there are other planes besides primary, we consider the active
-> > +	 * planes should be in z-order and compose them associatively:
-> > +	 * ((primary <- overlay) <- cursor)
-> > +	 */
-> > +	for (i = 1; i < crtc_state->num_active_planes; i++)
-> > +		compose_plane(primary_composer,
-> > +			      crtc_state->active_planes[i]->composer,
-> > +			      *vaddr_out);
-> >  
-> >  	return 0;
-> >  }
-> > @@ -218,7 +225,7 @@ void vkms_composer_worker(struct work_struct *work)
-> >  	struct drm_crtc *crtc = crtc_state->base.crtc;
-> >  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-> >  	struct vkms_composer *primary_composer = NULL;
-> > -	struct vkms_composer *cursor_composer = NULL;
-> > +	struct vkms_plane_state *act_plane = NULL;
-> >  	bool crc_pending, wb_pending;
-> >  	void *vaddr_out = NULL;
-> >  	u32 crc32 = 0;
-> > @@ -242,11 +249,11 @@ void vkms_composer_worker(struct work_struct *work)
-> >  	if (!crc_pending)
-> >  		return;
-> >  
-> > -	if (crtc_state->num_active_planes >= 1)
-> > -		primary_composer = crtc_state->active_planes[0]->composer;
-> > -
-> > -	if (crtc_state->num_active_planes == 2)
-> > -		cursor_composer = crtc_state->active_planes[1]->composer;
-> > +	if (crtc_state->num_active_planes >= 1) {
-> > +		act_plane = crtc_state->active_planes[0];
-> > +		if (act_plane->base.plane->type == DRM_PLANE_TYPE_PRIMARY)
-> > +			primary_composer = act_plane->composer;
-> > +	}
-> >  
-> >  	if (!primary_composer)
-> >  		return;
-> > @@ -255,7 +262,7 @@ void vkms_composer_worker(struct work_struct *work)
-> >  		vaddr_out = crtc_state->active_writeback;
-> >  
-> >  	ret = compose_active_planes(&vaddr_out, primary_composer,
-> > -				    cursor_composer);
-> > +				    crtc_state);
-> >  	if (ret) {
-> >  		if (ret == -EINVAL && !wb_pending)
-> >  			kfree(vaddr_out);
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> > index 2173b82606f6..027ffe759440 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> > @@ -44,6 +44,10 @@ static bool enable_writeback = true;
-> >  module_param_named(enable_writeback, enable_writeback, bool, 0444);
-> >  MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector support");
-> >  
-> > +static bool enable_overlay;
-> > +module_param_named(enable_overlay, enable_overlay, bool, 0444);
-> > +MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
-> > +
-> >  DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
-> >  
-> >  static void vkms_release(struct drm_device *dev)
-> > @@ -198,6 +202,7 @@ static int __init vkms_init(void)
-> >  
-> >  	config->cursor = enable_cursor;
-> >  	config->writeback = enable_writeback;
-> > +	config->overlay = enable_overlay;
-> >  
-> >  	return vkms_create(config);
-> >  }
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> > index 70fb79621617..ac8c9c2fa4ed 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> > @@ -89,6 +89,7 @@ struct vkms_device;
-> >  struct vkms_config {
-> >  	bool writeback;
-> >  	bool cursor;
-> > +	bool overlay;
-> >  	/* only set when instantiated */
-> >  	struct vkms_device *dev;
-> >  };
-> > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> > index 6979fbc7f821..04406bd3ff02 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_output.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> > @@ -39,7 +39,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> >  	struct drm_connector *connector = &output->connector;
-> >  	struct drm_encoder *encoder = &output->encoder;
-> >  	struct drm_crtc *crtc = &output->crtc;
-> > -	struct vkms_plane *primary, *cursor = NULL;
-> > +	struct vkms_plane *primary, *cursor = NULL, *overlay = NULL;
-> >  	int ret;
-> >  	int writeback;
-> >  
-> > @@ -47,6 +47,15 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> >  	if (IS_ERR(primary))
-> >  		return PTR_ERR(primary);
-> >  
-> > +	if (vkmsdev->config->overlay) {
-> > +		overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-> > +		if (IS_ERR(overlay))
-> > +			return PTR_ERR(overlay);
-> > +
-> > +		if (!overlay->base.possible_crtcs)
-> > +			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-> > +	}
-> > +
-> >  	if (vkmsdev->config->cursor) {
-> >  		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
-> >  		if (IS_ERR(cursor))
-> > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> > index da4251aff67f..107521ace597 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> > @@ -133,7 +133,7 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
-> >  	if (IS_ERR(crtc_state))
-> >  		return PTR_ERR(crtc_state);
-> >  
-> > -	if (plane->type == DRM_PLANE_TYPE_CURSOR)
-> > +	if (plane->type != DRM_PLANE_TYPE_PRIMARY)
-> >  		can_position = true;
-> >  
-> >  	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
-> > @@ -200,14 +200,23 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> >  	const u32 *formats;
-> >  	int nformats;
-> >  
-> > -	if (type == DRM_PLANE_TYPE_CURSOR) {
-> > +	switch (type) {
-> > +	case DRM_PLANE_TYPE_PRIMARY:
-> > +		formats = vkms_formats;
-> > +		nformats = ARRAY_SIZE(vkms_formats);
-> > +		funcs = &vkms_primary_helper_funcs;
-> > +		break;
-> > +	case DRM_PLANE_TYPE_CURSOR:
-> > +	case DRM_PLANE_TYPE_OVERLAY:
-> >  		formats = vkms_plane_formats;
-> >  		nformats = ARRAY_SIZE(vkms_plane_formats);
-> >  		funcs = &vkms_primary_helper_funcs;
-> > -	} else {
-> > +		break;
-> > +	default:
-> >  		formats = vkms_formats;
-> >  		nformats = ARRAY_SIZE(vkms_formats);
-> >  		funcs = &vkms_primary_helper_funcs;
-> > +		break;
-> >  	}
-> >  
-> >  	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
-> 
+> > > > And for completeness let's update the debugfs code to dump
+> > > > the correct set of registers on each platform.
+> > > > =
 
+> > > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > =
 
+> > > Did you check this with the swapping igt? I have some vague memories =
+of
+> > > bug reports where somehow the machine was acting like it's L-shaped m=
+emory
+> > > despite that banks were populated equally. I've iirc tried all kinds =
+of
+> > > tricks to figure it out, all to absolutely no avail.
+> > =
+
+> > Did you have a specific test in mind? I ran a bunch of things
+> > that seemed swizzle related. All passed just fine.
+> =
+
+> gem_tiled_swapping should be the one. It tries to cycle your entire system
+> memory through tiled buffers into swap and out of it.
+
+Passes with symmetric config, fails with L-shaped config (if I hack
+out the L-shape detection of course). So seems pretty solid.
+
+A kernel based self test that looks at the physical address would
+still be nice I suppose. Though depending on the size of your RAM
+sticks figuring out where exactly the switchover from two channels
+to one channels happens probably requires a bit of work due to
+the PCI hole/etc.
+
+Both my cl and ctg report this btw:
+ bit6 swizzle for X-tiling =3D bit9/bit10/bit11
+ bit6 swizzle for Y-tiling =3D bit9/bit11
+so unfortunately can't be sure the other swizzle modes would be
+correctly detected.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
