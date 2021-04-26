@@ -1,64 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4390736B722
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 18:44:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4241B36B717
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 18:42:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A921E6E83E;
-	Mon, 26 Apr 2021 16:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 434456E084;
+	Mon, 26 Apr 2021 16:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
- [IPv6:2607:f8b0:4864:20::833])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC5FA6E84F
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 16:44:18 +0000 (UTC)
-Received: by mail-qt1-x833.google.com with SMTP id g1so368967qtq.6
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 09:44:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KlgosoMJOAaR/ET01AhknsNf3mj6gtcliiDg0dLL1e0=;
- b=FfxC6YTfTyKRjULzScvZeh080rowzObsgfkNkB6PbFU85WK18TorFZb3nTplFpotQN
- FCzKzeHFiWHC6SAAz0H1ZvobWir4E6RenbNbEqtrFbyTUyimRczwWol0BDixJHUTha+x
- eXWW6lC9g26ZhTBX/V5pk140gf+3zGj/JaWxQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KlgosoMJOAaR/ET01AhknsNf3mj6gtcliiDg0dLL1e0=;
- b=m12Vja+9FRIyBEtzRdJZPRbJ4bI/aw5z80NBZ7+fIB9HxmdaEShz8eGa6w6gIVUagd
- U6i/hXEhmBMcA/fpi5SgPBNk6K8rdWoRruMSv5riFzoLAiA6Vl1rHn6GXyPQ59kC9XKq
- sYmNPN6piQ2abdVMz99Ue+0v+kERu6bMPf/g9vopDHqZ7TyRVgj9x04F1w945paW4RNQ
- WcVTYsUBJtc+49JmlgzitEpgp14psMZ1iMPF2vEk1BhY6sSDZ5oM/tNQOX5xNGQKEdE7
- Xg83ocxIQfQCTPWn/033VwxY0u8DMC/v3RP3KsxxZtr37RoUzf+Lcar4g3TnPXAQ1J/O
- q55w==
-X-Gm-Message-State: AOAM533AO3lKf+qE4miqLwjTqi+SqEx7Jft5S9cd4b6SfZE49H+qJH73
- SJg3yVaLTAKVUulk6DtMqBPkpfVb+khlxQ==
-X-Google-Smtp-Source: ABdhPJzu0cuyf7HYLHB7x8aP36nsKEZnYymy4Y7k3IBcezEYeUQNAioftkf2jvVS0sVHSlJXMWJXEw==
-X-Received: by 2002:ac8:76d0:: with SMTP id q16mr17899731qtr.269.1619455457534; 
- Mon, 26 Apr 2021 09:44:17 -0700 (PDT)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com.
- [209.85.160.176])
- by smtp.gmail.com with ESMTPSA id h193sm470439qke.90.2021.04.26.09.44.17
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Apr 2021 09:44:17 -0700 (PDT)
-Received: by mail-qt1-f176.google.com with SMTP id o21so13938854qtp.7
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 09:44:17 -0700 (PDT)
-X-Received: by 2002:a05:6638:68b:: with SMTP id
- i11mr17242768jab.90.1619455099476; 
- Mon, 26 Apr 2021 09:38:19 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF6B6E084;
+ Mon, 26 Apr 2021 16:42:24 +0000 (UTC)
+IronPort-SDR: KQyRRnYjZtL+QuWNacBpr6YjlUVAl8qffDLr3dbbxu2KJskhRfmCfPAF+jiTVSg0MSRtSsfegM
+ +KWJ4UapFG5g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="195919411"
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="195919411"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2021 09:42:23 -0700
+IronPort-SDR: 30BwvzU3X47wuIA3iJWIOVTKrl8qQdOWaKItp0G29pZ7KoZmkPsRDeM2hUNcbA43WZwLUCeiC/
+ klX22Mi5YdkQ==
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="429457856"
+Received: from rgunnin1-mobl.ger.corp.intel.com (HELO [10.252.12.201])
+ ([10.252.12.201])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2021 09:42:22 -0700
+Subject: Re: [PATCH 4/7] drm/i915/gtt/dgfx: place the PD in LMEM
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20210426101821.42147-1-matthew.auld@intel.com>
+ <20210426101821.42147-4-matthew.auld@intel.com>
+ <b3c9bfe6-2e05-67e3-becf-982e9fae4b8e@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <5d1db760-9783-d014-380b-7c57700ced81@intel.com>
+Date: Mon, 26 Apr 2021 17:42:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210422081508.3942748-1-tientzu@chromium.org>
- <20210422081508.3942748-17-tientzu@chromium.org>
- <03c5bc8a-3965-bf1d-01a4-97d074dfbe2b@arm.com>
-In-Reply-To: <03c5bc8a-3965-bf1d-01a4-97d074dfbe2b@arm.com>
-From: Claire Chang <tientzu@chromium.org>
-Date: Tue, 27 Apr 2021 00:38:08 +0800
-X-Gmail-Original-Message-ID: <CALiNf28ExE8OLsuDaN9nC=eAi-iG0rct_TJCCxAcWW4+_pdj2g@mail.gmail.com>
-Message-ID: <CALiNf28ExE8OLsuDaN9nC=eAi-iG0rct_TJCCxAcWW4+_pdj2g@mail.gmail.com>
-Subject: Re: [PATCH v5 16/16] of: Add plumbing for restricted DMA pool
-To: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <b3c9bfe6-2e05-67e3-becf-982e9fae4b8e@linux.intel.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,145 +52,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- lkml <linux-kernel@vger.kernel.org>, grant.likely@arm.com, paulus@samba.org,
- Will Deacon <will@kernel.org>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- Jianxiong Gao <jxgao@google.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
- Dan Williams <dan.j.williams@intel.com>,
- Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
- Bjorn Helgaas <bhelgaas@google.com>, boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- chris@chris-wilson.co.uk, nouveau@lists.freedesktop.org,
- Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- Frank Rowand <frowand.list@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, linuxppc-dev@lists.ozlabs.org,
- bauerman@linux.ibm.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 23, 2021 at 9:35 PM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2021-04-22 09:15, Claire Chang wrote:
-> > If a device is not behind an IOMMU, we look up the device node and set
-> > up the restricted DMA when the restricted-dma-pool is presented.
-> >
-> > Signed-off-by: Claire Chang <tientzu@chromium.org>
-> > ---
-> >   drivers/of/address.c    | 25 +++++++++++++++++++++++++
-> >   drivers/of/device.c     |  3 +++
-> >   drivers/of/of_private.h |  5 +++++
-> >   3 files changed, 33 insertions(+)
-> >
-> > diff --git a/drivers/of/address.c b/drivers/of/address.c
-> > index 54f221dde267..fff3adfe4986 100644
-> > --- a/drivers/of/address.c
-> > +++ b/drivers/of/address.c
-> > @@ -8,6 +8,7 @@
-> >   #include <linux/logic_pio.h>
-> >   #include <linux/module.h>
-> >   #include <linux/of_address.h>
-> > +#include <linux/of_reserved_mem.h>
-> >   #include <linux/pci.h>
-> >   #include <linux/pci_regs.h>
-> >   #include <linux/sizes.h>
-> > @@ -1109,6 +1110,30 @@ bool of_dma_is_coherent(struct device_node *np)
-> >   }
-> >   EXPORT_SYMBOL_GPL(of_dma_is_coherent);
-> >
-> > +int of_dma_set_restricted_buffer(struct device *dev)
-> > +{
-> > +     struct device_node *node;
-> > +     int count, i;
-> > +
-> > +     if (!dev->of_node)
-> > +             return 0;
-> > +
-> > +     count = of_property_count_elems_of_size(dev->of_node, "memory-region",
-> > +                                             sizeof(phandle));
-> > +     for (i = 0; i < count; i++) {
-> > +             node = of_parse_phandle(dev->of_node, "memory-region", i);
-> > +             /* There might be multiple memory regions, but only one
-> > +              * restriced-dma-pool region is allowed.
-> > +              */
->
-> What's the use-case for having multiple regions if the restricted pool
-> is by definition the only one accessible?
-
-There might be a device coherent pool (shared-dma-pool) and
-dma_alloc_attrs might allocate memory from that pool [1].
-I'm not sure if it makes sense to have another device coherent pool
-while using restricted DMA pool though.
-
-[1] https://elixir.bootlin.com/linux/v5.12/source/kernel/dma/mapping.c#L435
-
-
->
-> Robin.
->
-> > +             if (of_device_is_compatible(node, "restricted-dma-pool") &&
-> > +                 of_device_is_available(node))
-> > +                     return of_reserved_mem_device_init_by_idx(
-> > +                             dev, dev->of_node, i);
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> >   /**
-> >    * of_mmio_is_nonposted - Check if device uses non-posted MMIO
-> >    * @np:     device node
-> > diff --git a/drivers/of/device.c b/drivers/of/device.c
-> > index c5a9473a5fb1..d8d865223e51 100644
-> > --- a/drivers/of/device.c
-> > +++ b/drivers/of/device.c
-> > @@ -165,6 +165,9 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
-> >
-> >       arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
-> >
-> > +     if (!iommu)
-> > +             return of_dma_set_restricted_buffer(dev);
-> > +
-> >       return 0;
-> >   }
-> >   EXPORT_SYMBOL_GPL(of_dma_configure_id);
-> > diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-> > index d717efbd637d..e9237f5eff48 100644
-> > --- a/drivers/of/of_private.h
-> > +++ b/drivers/of/of_private.h
-> > @@ -163,12 +163,17 @@ struct bus_dma_region;
-> >   #if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
-> >   int of_dma_get_range(struct device_node *np,
-> >               const struct bus_dma_region **map);
-> > +int of_dma_set_restricted_buffer(struct device *dev);
-> >   #else
-> >   static inline int of_dma_get_range(struct device_node *np,
-> >               const struct bus_dma_region **map)
-> >   {
-> >       return -ENODEV;
-> >   }
-> > +static inline int of_dma_get_restricted_buffer(struct device *dev)
-> > +{
-> > +     return -ENODEV;
-> > +}
-> >   #endif
-> >
-> >   #endif /* _LINUX_OF_PRIVATE_H */
-> >
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjYvMDQvMjAyMSAxNjoyMiwgVHZydGtvIFVyc3VsaW4gd3JvdGU6Cj4gCj4gT24gMjYvMDQv
+MjAyMSAxMToxOCwgTWF0dGhldyBBdWxkIHdyb3RlOgo+PiBJdCdzIGEgcmVxdWlyZW1lbnQgdGhh
+dCBmb3IgZGdmeCB3ZSBwbGFjZSBhbGwgdGhlIHBhZ2luZyBzdHJ1Y3R1cmVzIGluCj4+IGRldmlj
+ZSBsb2NhbC1tZW1vcnkuCj4+Cj4+IHYyOiB1c2UgaTkxNV9jb2hlcmVudF9tYXBfdHlwZSgpCj4+
+Cj4+IFNpZ25lZC1vZmYtYnk6IE1hdHRoZXcgQXVsZCA8bWF0dGhldy5hdWxkQGludGVsLmNvbT4K
+Pj4gQ2M6IFR2cnRrbyBVcnN1bGluIDx0dnJ0a28udXJzdWxpbkBsaW51eC5pbnRlbC5jb20+Cj4+
+IC0tLQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9nZW44X3BwZ3R0LmMgfMKgIDUgKysr
+Ky0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3R0LmPCoCB8IDIxICsrKysr
+KysrKysrKysrKysrKystLQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9ndHQu
+aMKgIHzCoCAxICsKPj4gwqAgMyBmaWxlcyBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCspLCAzIGRl
+bGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvZ2Vu
+OF9wcGd0dC5jIAo+PiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2dlbjhfcHBndHQuYwo+PiBp
+bmRleCBmODM0OTY4MzZmMGYuLjExZmI1ZGY0NWEwZiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZ3QvZ2VuOF9wcGd0dC5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2d0L2dlbjhfcHBndHQuYwo+PiBAQCAtNzEyLDcgKzcxMiwxMCBAQCBzdHJ1Y3QgaTkxNV9wcGd0
+dCAqZ2VuOF9wcGd0dF9jcmVhdGUoc3RydWN0IAo+PiBpbnRlbF9ndCAqZ3QpCj4+IMKgwqDCoMKg
+wqDCoCAqLwo+PiDCoMKgwqDCoMKgIHBwZ3R0LT52bS5oYXNfcmVhZF9vbmx5ID0gIUlTX0dFTl9S
+QU5HRShndC0+aTkxNSwgMTEsIDEyKTsKPj4gLcKgwqDCoCBwcGd0dC0+dm0uYWxsb2NfcHRfZG1h
+ID0gYWxsb2NfcHRfZG1hOwo+PiArwqDCoMKgIGlmIChIQVNfTE1FTShndC0+aTkxNSkpCj4+ICvC
+oMKgwqDCoMKgwqDCoCBwcGd0dC0+dm0uYWxsb2NfcHRfZG1hID0gYWxsb2NfcHRfbG1lbTsKPj4g
+K8KgwqDCoCBlbHNlCj4+ICvCoMKgwqDCoMKgwqDCoCBwcGd0dC0+dm0uYWxsb2NfcHRfZG1hID0g
+YWxsb2NfcHRfZG1hOwo+PiDCoMKgwqDCoMKgIGVyciA9IGdlbjhfaW5pdF9zY3JhdGNoKCZwcGd0
+dC0+dm0pOwo+PiDCoMKgwqDCoMKgIGlmIChlcnIpCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9ndC9pbnRlbF9ndHQuYyAKPj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9p
+bnRlbF9ndHQuYwo+PiBpbmRleCBkMzg2Yjg5ZTI3NTguLmJiZTViMDllNTllYyAxMDA2NDQKPj4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3R0LmMKPj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3R0LmMKPj4gQEAgLTcsMTAgKzcsMjMgQEAKPj4gwqAg
+I2luY2x1ZGUgPGxpbnV4L2ZhdWx0LWluamVjdC5oPgo+PiArI2luY2x1ZGUgImdlbS9pOTE1X2dl
+bV9sbWVtLmgiCj4+IMKgICNpbmNsdWRlICJpOTE1X3RyYWNlLmgiCj4+IMKgICNpbmNsdWRlICJp
+bnRlbF9ndC5oIgo+PiDCoCAjaW5jbHVkZSAiaW50ZWxfZ3R0LmgiCj4+ICtzdHJ1Y3QgZHJtX2k5
+MTVfZ2VtX29iamVjdCAqYWxsb2NfcHRfbG1lbShzdHJ1Y3QgaTkxNV9hZGRyZXNzX3NwYWNlIAo+
+PiAqdm0sIGludCBzeikKPj4gK3sKPj4gK8KgwqDCoCBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVj
+dCAqb2JqOwo+PiArCj4+ICvCoMKgwqAgb2JqID0gaTkxNV9nZW1fb2JqZWN0X2NyZWF0ZV9sbWVt
+KHZtLT5pOTE1LCBzeiwgMCk7Cj4+ICsKPj4gK8KgwqDCoCAvKiBlbnN1cmUgYWxsIGRtYSBvYmpl
+Y3RzIGhhdmUgdGhlIHNhbWUgcmVzZXJ2YXRpb24gY2xhc3MgKi8KPiAKPiBDbGFzcyBvciBhY3R1
+YWwgb2JqZWN0PyBBbmQgY291bGQgdGhlIGNvbW1lbnQgc2F5IHdoeSB0aGlzIGlzIGltcG9ydGFu
+dD8KCkl0J3MgdGhlIGRtYS1yZXN2IG9iamVjdC4gVGhlIHBhZ2luZyBzdHJ1Y3R1cmVzIGZvciB0
+aGlzIHZtIHNoYXJlIHRoZSAKc2FtZSBkbWEtcmVzdiBvYmplY3QgdW5kZXJuZWF0aCwgd2l0aCB0
+aGUgaWRlYSB0aGF0IG9uZSBvYmplY3RfbG9jaygpIAp3aWxsIGxvY2sgdGhlbSBhbGwgYXQgb25j
+ZS4gSSBjYW4gdHJ5IHRvIGltcHJvdmUgdGhlIGNvbW1lbnQuCgo+IAo+IFJlZ2FyZHMsCj4gCj4g
+VHZydGtvCj4gCj4+ICvCoMKgwqAgaWYgKCFJU19FUlIob2JqKSkKPj4gK8KgwqDCoMKgwqDCoMKg
+IG9iai0+YmFzZS5yZXN2ID0gJnZtLT5yZXN2Owo+PiArwqDCoMKgIHJldHVybiBvYmo7Cj4+ICt9
+Cj4+ICsKPj4gwqAgc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKmFsbG9jX3B0X2RtYShzdHJ1
+Y3QgaTkxNV9hZGRyZXNzX3NwYWNlIAo+PiAqdm0sIGludCBzeikKPj4gwqAgewo+PiDCoMKgwqDC
+oMKgIHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmo7Cj4+IEBAIC0yNyw5ICs0MCwxMSBA
+QCBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqYWxsb2NfcHRfZG1hKHN0cnVjdCAKPj4gaTkx
+NV9hZGRyZXNzX3NwYWNlICp2bSwgaW50IHN6KQo+PiDCoCBpbnQgbWFwX3B0X2RtYShzdHJ1Y3Qg
+aTkxNV9hZGRyZXNzX3NwYWNlICp2bSwgc3RydWN0IAo+PiBkcm1faTkxNV9nZW1fb2JqZWN0ICpv
+YmopCj4+IMKgIHsKPj4gK8KgwqDCoCBlbnVtIGk5MTVfbWFwX3R5cGUgdHlwZTsKPj4gwqDCoMKg
+wqDCoCB2b2lkICp2YWRkcjsKPj4gLcKgwqDCoCB2YWRkciA9IGk5MTVfZ2VtX29iamVjdF9waW5f
+bWFwX3VubG9ja2VkKG9iaiwgSTkxNV9NQVBfV0IpOwo+PiArwqDCoMKgIHR5cGUgPSBpOTE1X2Nv
+aGVyZW50X21hcF90eXBlKHZtLT5pOTE1LCBvYmosIHRydWUpOwo+PiArwqDCoMKgIHZhZGRyID0g
+aTkxNV9nZW1fb2JqZWN0X3Bpbl9tYXBfdW5sb2NrZWQob2JqLCB0eXBlKTsKPj4gwqDCoMKgwqDC
+oCBpZiAoSVNfRVJSKHZhZGRyKSkKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBQVFJfRVJS
+KHZhZGRyKTsKPj4gQEAgLTM5LDkgKzU0LDExIEBAIGludCBtYXBfcHRfZG1hKHN0cnVjdCBpOTE1
+X2FkZHJlc3Nfc3BhY2UgKnZtLCAKPj4gc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaikK
+Pj4gwqAgaW50IG1hcF9wdF9kbWFfbG9ja2VkKHN0cnVjdCBpOTE1X2FkZHJlc3Nfc3BhY2UgKnZt
+LCBzdHJ1Y3QgCj4+IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaikKPj4gwqAgewo+PiArwqDCoMKg
+IGVudW0gaTkxNV9tYXBfdHlwZSB0eXBlOwo+PiDCoMKgwqDCoMKgIHZvaWQgKnZhZGRyOwo+PiAt
+wqDCoMKgIHZhZGRyID0gaTkxNV9nZW1fb2JqZWN0X3Bpbl9tYXAob2JqLCBJOTE1X01BUF9XQik7
+Cj4+ICvCoMKgwqAgdHlwZSA9IGk5MTVfY29oZXJlbnRfbWFwX3R5cGUodm0tPmk5MTUsIG9iaiwg
+dHJ1ZSk7Cj4+ICvCoMKgwqAgdmFkZHIgPSBpOTE1X2dlbV9vYmplY3RfcGluX21hcChvYmosIHR5
+cGUpOwo+PiDCoMKgwqDCoMKgIGlmIChJU19FUlIodmFkZHIpKQo+PiDCoMKgwqDCoMKgwqDCoMKg
+wqAgcmV0dXJuIFBUUl9FUlIodmFkZHIpOwo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZ3QvaW50ZWxfZ3R0LmggCj4+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxf
+Z3R0LmgKPj4gaW5kZXggNDBlNDg2NzA0NTU4Li40NGNlMjdjNTE2MzEgMTAwNjQ0Cj4+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0dC5oCj4+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L2d0L2ludGVsX2d0dC5oCj4+IEBAIC01MjcsNiArNTI3LDcgQEAgaW50IHNldHVw
+X3NjcmF0Y2hfcGFnZShzdHJ1Y3QgaTkxNV9hZGRyZXNzX3NwYWNlIAo+PiAqdm0pOwo+PiDCoCB2
+b2lkIGZyZWVfc2NyYXRjaChzdHJ1Y3QgaTkxNV9hZGRyZXNzX3NwYWNlICp2bSk7Cj4+IMKgIHN0
+cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICphbGxvY19wdF9kbWEoc3RydWN0IGk5MTVfYWRkcmVz
+c19zcGFjZSAKPj4gKnZtLCBpbnQgc3opOwo+PiArc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3Qg
+KmFsbG9jX3B0X2xtZW0oc3RydWN0IGk5MTVfYWRkcmVzc19zcGFjZSAKPj4gKnZtLCBpbnQgc3op
+Owo+PiDCoCBzdHJ1Y3QgaTkxNV9wYWdlX3RhYmxlICphbGxvY19wdChzdHJ1Y3QgaTkxNV9hZGRy
+ZXNzX3NwYWNlICp2bSk7Cj4+IMKgIHN0cnVjdCBpOTE1X3BhZ2VfZGlyZWN0b3J5ICphbGxvY19w
+ZChzdHJ1Y3QgaTkxNV9hZGRyZXNzX3NwYWNlICp2bSk7Cj4+IMKgIHN0cnVjdCBpOTE1X3BhZ2Vf
+ZGlyZWN0b3J5ICpfX2FsbG9jX3BkKGludCBucGRlKTsKPj4KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
