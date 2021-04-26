@@ -2,115 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159CE36BA75
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 22:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E958036BA76
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 22:00:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3546E879;
-	Mon, 26 Apr 2021 20:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F13646E87E;
+	Mon, 26 Apr 2021 20:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2050.outbound.protection.outlook.com [40.107.223.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFAF66E878;
- Mon, 26 Apr 2021 20:00:23 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2064.outbound.protection.outlook.com [40.107.100.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CE656E878;
+ Mon, 26 Apr 2021 20:00:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gPscZ7EQvGneEggQ2HasOkMGjAA0vMPte632soH2cpRIcaVKs1xuKl8kuHOkLIboVRmvN0bLHchekXsHaJV8BLBdgSCWd5FhIqdqosW0Tp+pRKtxLDs18Rt4Vk9+fYcokledVHC4DxOc5CRZubelWIBxCUZK8qQyQ/EYkXnj/LF1/5oPIS8P4Dpixf5utQL3DTk38kcdrGbYJhuMDVNkumYzZstXT36nGnCcqg9/rFncNwB/5h69BlLqbW7LVG7MInISAM4hOva6P/GUxcJpQ9rXwVIOfZYeB/ksNmzh6tZrufjQiUp4goJqlJUHgpviAaI2VVS0e9cSkdex6qIqpw==
+ b=UMybCx5we8S17H7319DXEq4UIzIUXocXbExGpGKA4uzieqyigejvZygg3ns3MWlNpih19jsOQ3JLHzITBqBSI7bci2ZdkkHbiWF08uGRFh3cr3Tc5WQHuiqX+aIs2ksUfjf2JH9YLGS3/0p7oC2CKBx6KmkemEkJQFsL8QGB1JcullUea2n3WWMED8K/ukn+Nxeb8v1l/Ch5WaH4Kas0Z/c6hPkhdvD/mt2DwGERAKs686WcCkUQIvHPLjeGsbd9gbjFyUEvMdOzcEqG6u0DnJhQQt0HPxJvr1pbMSnEvfQek51tu8KG5RVBryYdB15O/pPFuJM8uAKSWA2h3RPCMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WFfUB8BG8cYSs1EqxrHJrhnYlnU3GiZG0sOZhyhDLqI=;
- b=F3xI0sh/gf3wF09ymw+5VVDj4WI0Cro24nNJCs8jSzF3PvyJR8wNgRXJCFcRujb0pT751hOA6UeiO6q5lGTLix9ds06OSyD3gtcMeh1DnIvcrd81tKZLqI2GGajhtMqWsloj3y+CHWrRhJCxwYzzterI3lTcTOasacX8kX1L34Fd/awF9msH6xJZsrgXf60qkfJFKZgs5S+z64DOsIvs69knFsnq/LGdTl5J31GIPjBl0Y1R9gkEQh7qVP13bc0z8cr+VSRAm0rbblovaY581N5jKAgdRV/hJSuNTBw/2LUaM/TUFWbh8LDI1k/TeOz/9dnIeFqikhRHUPzwoQrS1A==
+ bh=Ui6Og269Se97lo2DPmiHQraGWQEXfL4ylWpFw8Muxxo=;
+ b=T000Lu37NXRVD9yIhe0ZvJjUVPqF2dduLBCnxUIreiwl7i/PYRVURBu7P5Ncf22c+oTDR3xu/AdcSohHlgFOmQWkW2WWOThOBhkQM4YUByFXa3T8INOPT7Y5lYqFy8sZW21/dkrgA5bAyqJimjsjSGHrUqOXqfkT5Ol1/GNUmI77DXIX4Sy7rUYLfRZFi9IkTDNNGcWb7SIXeUkDTGTc1ES7NujGcbK6X1z7mypTYmD4D8l3JTS9SWgT2Qqt46ULOs9/LUFCJkd+PfAHMhkQS9qtxtnN2a6ip7JOr5pFMMBVP/ju6yXEPJZtSEHrIZFiX1Ek6CVd+b04IoTP22usYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WFfUB8BG8cYSs1EqxrHJrhnYlnU3GiZG0sOZhyhDLqI=;
- b=m7t3fvkY+0/7V61ReSRHo1QgCI1RDytIJb0bgik7lLmBqZs3qIT+ChRUhE13LzKoOCxZe4+l5asdEHa/P/BxmqoMy1gQ0fqGVPudK8Lau4zd9fu0tAciy8mFPyAYziYRqtyY/By0O2b0f/IqZXZksAx4baMhlxPF+IK5YBMSRx1ggKfXuewe+x3xG1UDFLZmOlcuNJc1Ejx6u7087hFXmAWO4EotBQ4NGElnMUK/Eieq2pTw8Pilh1OG79PC8CoS8PLtOsUKRtRcevKo9nQtvFEkOk4Za7gGM+sQ5JIzPJevbXk9uVwbp4ZH+yh7wg7fiEWdhoeJfmHRPo0vhBJwtg==
+ bh=Ui6Og269Se97lo2DPmiHQraGWQEXfL4ylWpFw8Muxxo=;
+ b=P/9I6qOeRADbJm8Vp0d5kwv0/bJC1UQbYhO9d1G3ZKFMc0OJaKM7TkDbsmdG+9UoUuiX7FBZPz2ma/GaEo9YxuuZ8gRBGRj/tSYyrmT/giMl2kKf/LNamNMsHb7HJBcrOTz0F8GmgVID1FNyosYmQAQvIksWzWeXPYX7I7JV2Obp5D1JwhuiJso9MSBrzLtrbtxjV1yChFucfDGDCiG+Uf3a8k6eHUW4aPmRVFO/gsKAYayeihEo1xwwUuLFfQaswRvgFBSzwShmhC3Qo6/CL/3YCEZ0OEfhbJgfSQqTW5W4fiy1VVUZy2IzZXdMTM1FveBas2qldlUyQrf/q/eAWg==
 Authentication-Results: linux.ie; dkim=none (message not signed)
  header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB1659.namprd12.prod.outlook.com (2603:10b6:4:11::12) with
+ by DM6PR12MB3740.namprd12.prod.outlook.com (2603:10b6:5:1c3::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Mon, 26 Apr
- 2021 20:00:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.24; Mon, 26 Apr
+ 2021 20:00:20 +0000
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.4065.026; Mon, 26 Apr 2021
- 20:00:22 +0000
+ 20:00:20 +0000
 From: Jason Gunthorpe <jgg@nvidia.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org,
+To: David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Eric Farman <farman@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-s390@vger.kernel.org, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
  Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
-Subject: [PATCH v2 08/13] vfio/gvt: Convert to use vfio_register_group_dev()
-Date: Mon, 26 Apr 2021 17:00:10 -0300
-Message-Id: <8-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
+Subject: [PATCH v2 11/13] vfio/mdev: Remove mdev_parent_ops
+Date: Mon, 26 Apr 2021 17:00:13 -0300
+Message-Id: <11-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
 In-Reply-To: <0-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
 References: 
 X-Originating-IP: [47.55.113.94]
-X-ClientProxiedBy: BLAPR03CA0029.namprd03.prod.outlook.com
- (2603:10b6:208:32b::34) To DM6PR12MB3834.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR14CA0006.namprd14.prod.outlook.com
+ (2603:10b6:208:23e::11) To DM6PR12MB3834.namprd12.prod.outlook.com
  (2603:10b6:5:14a::12)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from mlx.ziepe.ca (47.55.113.94) by
- BLAPR03CA0029.namprd03.prod.outlook.com (2603:10b6:208:32b::34) with
+ MN2PR14CA0006.namprd14.prod.outlook.com (2603:10b6:208:23e::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22 via Frontend
- Transport; Mon, 26 Apr 2021 20:00:18 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20 via Frontend
+ Transport; Mon, 26 Apr 2021 20:00:17 +0000
 Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1lb7Oy-00DFZU-1m; Mon, 26 Apr 2021 17:00:16 -0300
+ <jgg@nvidia.com>)	id 1lb7Oy-00DFZg-57; Mon, 26 Apr 2021 17:00:16 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7298a0ce-64ea-457f-4503-08d908edeaa9
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1659:
+X-MS-Office365-Filtering-Correlation-Id: e3bee208-d0ab-4ed3-6853-08d908ede9e2
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3740:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1659C7AFC576F99CF6083EF6C2429@DM5PR12MB1659.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3740F1553522E5AF1DC97BDAC2429@DM6PR12MB3740.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WaYFvdvSy3rSl83Qu0hmoNj3U3Dr7afD79LfvF1s38TwjAVxM1hUQ5LQL/rQSPTtJ+uJ+UbdkjYIxLOt9EuytqeJz7Ubipx22et+ee18NL3kFQWXfBN/2sMjZxm764tt/f5mDOxjmWBhyreMcbOEWmrHIKqbyPjQCXVOArQT2HCAHyxbmdCDoL+wci6m/cr82vYr2J8QegdsrVCUjKzR+wXzpxV4uRA9H3pt/KM/ZnUF31iY3VKk/ecHbKHX/vY2aMqyZiwYkSc7Kc4xBgMI1fHhuz3K5dNYssgzQ9KYQKNmfWOmqpqrN3XY0jGwBWmMrN0io8yrF4HPJbyNVQE2209Ixut2Ur/C5P/amhfXdRsJ9CkR+lfjlXqeVMZndB+sUXHRmYsFjuXdnI0QlMDEDQB/yTeYXp3yuODyWwGJllL4ENmYZg2kUbIl2yjcsfRPAThgALf06SQorD33iwl/VWkDdf8oFUpqYFaQlzPBYZb0peI3H/EsB2dxQU2GCjcIg+TXoovYVYs5AgQjPxz9xZkzhjSucmkAi59H6HUERKVoLFntf1c0oHqkHwC2xTqG61nBcxHMLfS3u+RSi3twfJ/F77Q8lQGMCzzr4lhOO3leciueDsixywuMSjxSANe5a300WsEuE8B1SuUOrM3FZDnZc7YPX7YzZNwR6KMz+S4=
+X-Microsoft-Antispam-Message-Info: It1cvD3pCDsaNIdFWnPBC6ZhgP2ek2Z1J/+6a5TKu0KAO6lYPR8Aesvgk6jgaFaSx1bwJFZACyPgHPFLVzfmeXBRRvLzTLJhNrL4dT/2mgPYyBYchwj64I3XB2zH8lJtp/1a6o2OFhKj84kLfQg6bwj0HAJqFyntBa5Ww/achyyBC1FXqfp9gPVZhf4pAtQ/j4MQAlLF4hQJdlTgvpVHCnXMhB3C54RUAKvtRRa8Edyfcy+Sp3rJGMk27uoV17JiVpYZhW1C4Hj5Ao2Leui634X2vBe+ywaHlOcaHGpRlkmXGywMEwSM+/Hz8mOXxJXziADvvu6r9ap5SquVVi/C6u+j5qO2bnf8l6W1nbZ2WQ7CqHd6ig0ufmTYmCdsCicVIKSsUMN/R/T1o3ai6whJt3vhji9tr21nIbyAGlk5OFfEGokjzCtYIfWhkblKVuWM8tpsaYJXJymAVjNJ9QBBXnLAqIU7yPv9uO8vBQbOv7EOAcB/n3WEUZLfwQ4iXVC+ZBWWPZP/LxDLlta6LZSgISChhtPZgBcTcJmZvTh88DHNc+I8IsJtsLtUbejAw/OUZiBXo9+NyOxC4K2BGQX6MwU2kShK+hDsPprydJMNFQxIieVJI9m//01Zh09fSHuiR1Dl6dgXsQR+qVgdvGIxVQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(396003)(366004)(39860400002)(376002)(66946007)(36756003)(66556008)(66476007)(8676002)(2906002)(86362001)(6666004)(7416002)(2616005)(8936002)(478600001)(30864003)(426003)(83380400001)(5660300002)(4326008)(38100700002)(9786002)(107886003)(110136005)(9746002)(186003)(316002)(921005)(54906003)(26005)(4216001);
+ SFS:(4636009)(366004)(39860400002)(346002)(136003)(396003)(376002)(66476007)(66556008)(9746002)(54906003)(426003)(110136005)(107886003)(186003)(26005)(921005)(6666004)(36756003)(316002)(2906002)(30864003)(2616005)(478600001)(9786002)(8936002)(83380400001)(38100700002)(86362001)(8676002)(5660300002)(7416002)(4326008)(66946007);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?al8cEkkLw+OL2PwHT2pXTvhnRru9bvzErWrtjaYIW3adZWT63x+FbQBhWPg9?=
- =?us-ascii?Q?RmL6Eks+ys3xRkReibiIQHr+wHRWvMEcPxIuT4GJPfsBL7d0EK1IJnRNWqlA?=
- =?us-ascii?Q?boECKVwgzqJ2q+b4i9e8FCkG+iXM073cUlH3M14anGl9Pdm+PDyT55fT9AYK?=
- =?us-ascii?Q?tFJrRp15S0QzjI5JcwYvHh2MNrgdEX11lvn20ZaWvR1D37iyMctUvme5hs2T?=
- =?us-ascii?Q?zRU+vEKiLr2cVJX95rknrKXXOoIwQKKmU0MN4c+VSeJI5Q7Pdo9u9De6BL3v?=
- =?us-ascii?Q?00RJYTeKbkL2g1iqG2CKQLMqwgJJx6c5qWnkXsLCcym4+DPvR7CuzN3l2EUg?=
- =?us-ascii?Q?/wj/dqXCsNlVX5uTsOilaTamizNK4KR2+NeVp3lxamvd9O+AfljNjmbZpJ9N?=
- =?us-ascii?Q?NjWrKqNZ550RUG4ZG9IoqvpBLJhu1JfjSWFour6xWEv/I1DGWafnOLuiqZnA?=
- =?us-ascii?Q?yiyVW95DBOZOXdmPG6nLtMqc66ywIolfl+saZ+GDhPzneOfPP9etQG+6vSNE?=
- =?us-ascii?Q?sdp523MpZQ07X0ZjKSlDRUyjOZ1z7rkqli68OcHLYUnoDuoB9Ix+AYsHPs3P?=
- =?us-ascii?Q?s5ZIThZBj8e1waiGTnLdffFVmcHDblxIpnyc4TjaefemqpNd+FuI5UewJWnV?=
- =?us-ascii?Q?iV/jzdJ6qunXRF0bJnA+mfqFZVTEJEwLnfbBZ7/FQeDMMpH7LhT0QIqSQNSK?=
- =?us-ascii?Q?yOEe/OJhSUW0U1TtNz2DabpZutM93U1U/rcM6g2VBWD6imr6GWrzDeI0XF3x?=
- =?us-ascii?Q?qhxyuL1q+U2kfxCcKeGDpxTvTiBmOa6PDfa5rUZOKKTvx//UgKrxibClwmHz?=
- =?us-ascii?Q?Z3QhuijODhmGoELeLt3BVXymXHMY6ZKEcXka42qmYlzkoRxhp6M64Ryi5zhd?=
- =?us-ascii?Q?h15GdqjqrcLZjiZ4VW/W5NXwUOgwz+qF3TOzQedINofYIgXyQrcBLvTPO1Ba?=
- =?us-ascii?Q?BvQrUWvI0JFoT+vO//nJhE1qzSTttvvwgYPdWrFNm2QnHekaLUh0u4Kq5LRx?=
- =?us-ascii?Q?JbVJOEki85xZBE8cuS83gmgJw4p+whr8cunVBdDX93/+d/pVZCsylDMZgEo0?=
- =?us-ascii?Q?s2T0lV4nksJxIAf1hZWybguLDPN6hQaOqMH8pthDKdp1rHnXw48vPuQCMPRe?=
- =?us-ascii?Q?qK2rTbXmTz6Y8eaOG+exWDorrcanT22kmVTqOX24T4nUnPYPhc6cX+AX0y8N?=
- =?us-ascii?Q?gd1LnwcMep04P13jkq8M3smjmnxEsg7bDG1yWQyDdsKeB3+c1TNSchMzylc5?=
- =?us-ascii?Q?FijhsN75uqIxuyXpLNi4Hcbk8CL4Gb776oVOrKTVtTNvM2LatDyTaVHlgAuV?=
- =?us-ascii?Q?5Jak4FzNTq2bXYpeUxLXVfZi?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?2DqjvMu8/qPGzI0qBDgqIjq8Zaq2DGe8iCgppJexVso/o6cuh5717D3L9uUZ?=
+ =?us-ascii?Q?pGdHO/NurSFS5RBU9FDCcgb08Op8AF744WtI9Inxz2Zue9ggAr2Ouieisqkw?=
+ =?us-ascii?Q?sWPXFCAhM3D+ZTR3lWyvyHn++IGzo3EnpG4uxKJL6hPDRMFQff3/jjwuYnFn?=
+ =?us-ascii?Q?QegATa6fPlYqq4YpmMLo86Jj8ft31MKO94ed2RmFzUZWhQHHysFrNG71tXLC?=
+ =?us-ascii?Q?E/T4XEzsl6Q1XFJT3N2kPCgZAmZ+fBNZbU/YntP7sbuXBxJmyA14BN6kgcgp?=
+ =?us-ascii?Q?X/zsrTWzUMEW8WLcnHvMAdeo0ary9iLFeGJGaieHhwkW3VVyFrr666iBgr4+?=
+ =?us-ascii?Q?LYS9m1zZIxkc7mXQVrTfAUgYRikogguOOpT/eG2B+KNMHSj/vN9I9hinOi8J?=
+ =?us-ascii?Q?1STf2ytZkR8jBlExLqkGSQhnNgOQPSPck02vgcKd2JvQ5xqz47HPZrfw+7ZU?=
+ =?us-ascii?Q?AzXNn09p2dlhzX/rCGf93HNxKwFTKKFmkqnT1t5tngwjxZULnQffxbCTccn8?=
+ =?us-ascii?Q?vFP6HyANXA+Hq7ihCTmXGaOHA2gdWqkDh86cNVHAwWvIH+y/ihTweI7JYUre?=
+ =?us-ascii?Q?YPEi1nl524NHs5KwVSdTlTEG9UCkQhmPy0pRJO/X5X9ROODcJkORkT757Wy6?=
+ =?us-ascii?Q?BjCRxZNeFKEz7O+G37dlfdjZab6zfYtneaRGfp4YNNd0CVYo/bzpVEAftBNe?=
+ =?us-ascii?Q?qDvPuEQ7qVl2sMLiC6Eil3AyjZxoL2F8QfyUwa97B7GdUa3nwn3KmxuCJ/ey?=
+ =?us-ascii?Q?tXQuxKe/bo+Ip0Fj3S7rf6wxL5ckjr415RDvZBcyPWt6JToHCGQ6dQhB1Zat?=
+ =?us-ascii?Q?S/aijUSb0vbCbn7+gIIYVK0sb2ZVqKj6jCR91bRskpjAoZsMYn2XpGD/KFx2?=
+ =?us-ascii?Q?zK2oJLVOAM2QV2BrvRcJqXCoZSrOPChsxnxe7EyOergXTR4mPlS+ICrYujTJ?=
+ =?us-ascii?Q?abU178R8Mc18CWBjiyN8ndE4/WRbjXoYJyRWTscUV2e6W7Taaz0iR/89biLp?=
+ =?us-ascii?Q?mKF9ItkotSpM4Ytcj9Fiu/dCr8X1d7VT0051/TAcerU3dOqTZkfqHBRd55rW?=
+ =?us-ascii?Q?m+pCiZp7AualSePMdNd2q2aUWHICZtLM2uDBwPmnZBF2/PuG2oNp6N4zqkzX?=
+ =?us-ascii?Q?HcWBNmPpOo6vOwKdp8LzvWVpDpM7qhT774brmh2Z4j5gRq6lOnynth3GUVPE?=
+ =?us-ascii?Q?OtrZq6v2j4pcVU8Z3+c6upqi0woSUdrjZjvdBh2cS5dlIxTTzPYNu3z2q3in?=
+ =?us-ascii?Q?DtdP0hPgcGFGruf2z1oOY21feHzk6hzX9bCzvP40l6Ll9ZXswSXKeHu+np0v?=
+ =?us-ascii?Q?eWlu8rZJcf6N2FomVA5rBTdq?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7298a0ce-64ea-457f-4503-08d908edeaa9
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3bee208-d0ab-4ed3-6853-08d908ede9e2
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2021 20:00:18.9367 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2021 20:00:17.8043 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ouXLH6qL4YnScKI8q4iJbidVEOtI/BSwDsd++80rKv9AnuuJQB4oy9oTC8AaWHUW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1659
+X-MS-Exchange-CrossTenant-UserPrincipalName: PCPotONK0O933CuaZtVgUf2gRXGjnuZrqhFKVO9POkXHZXSLoTqjHYaJPf04EE6c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3740
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,526 +141,422 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While there is a confusing mess of pointers and structs in this driver,
-the struct kvmgt_vdev (which in turn is 1:1 with a struct intel_vgpu) is
-what holds the vfio_device. Replace all the drvdata's and weird
-derivations of vgpu and vdev with container_of() or vdev->vgpu.
+The last useful member in this struct is the supported_type_groups, move
+it to the mdev_driver and delete mdev_parent_ops.
 
+Replace it with mdev_driver as an argument to mdev_register_device()
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/gpu/drm/i915/gvt/kvmgt.c | 208 +++++++++++++++++--------------
- 1 file changed, 111 insertions(+), 97 deletions(-)
+ .../driver-api/vfio-mediated-device.rst       | 37 +++++++------------
+ drivers/gpu/drm/i915/gvt/kvmgt.c              |  8 +---
+ drivers/s390/cio/vfio_ccw_ops.c               |  7 +---
+ drivers/s390/crypto/vfio_ap_ops.c             |  9 +----
+ drivers/vfio/mdev/mdev_core.c                 | 13 +++----
+ drivers/vfio/mdev/mdev_driver.c               |  2 +-
+ drivers/vfio/mdev/mdev_private.h              |  2 +-
+ drivers/vfio/mdev/mdev_sysfs.c                |  6 +--
+ include/linux/mdev.h                          | 24 ++----------
+ samples/vfio-mdev/mbochs.c                    |  9 +----
+ samples/vfio-mdev/mdpy.c                      |  9 +----
+ samples/vfio-mdev/mtty.c                      |  9 +----
+ 12 files changed, 39 insertions(+), 96 deletions(-)
 
+diff --git a/Documentation/driver-api/vfio-mediated-device.rst b/Documentation/driver-api/vfio-mediated-device.rst
+index 5f866b17c93e69..a073d0bb06e7fd 100644
+--- a/Documentation/driver-api/vfio-mediated-device.rst
++++ b/Documentation/driver-api/vfio-mediated-device.rst
+@@ -93,7 +93,7 @@ interfaces:
+ Registration Interface for a Mediated Bus Driver
+ ------------------------------------------------
+ 
+-The registration interface for a mediated bus driver provides the following
++The registration interface for a mediated device driver provides the following
+ structure to represent a mediated device's driver::
+ 
+      /*
+@@ -105,6 +105,7 @@ structure to represent a mediated device's driver::
+      struct mdev_driver {
+ 	     int  (*probe)  (struct mdev_device *dev);
+ 	     void (*remove) (struct mdev_device *dev);
++	     struct attribute_group **supported_type_groups;
+ 	     struct device_driver    driver;
+      };
+ 
+@@ -119,35 +120,25 @@ to register and unregister itself with the core driver:
+ 
+     extern void mdev_unregister_driver(struct mdev_driver *drv);
+ 
+-The mediated bus driver is responsible for adding mediated devices to the VFIO
+-group when devices are bound to the driver and removing mediated devices from
+-the VFIO when devices are unbound from the driver.
++The mediated bus driver's probe function should create a vfio_device on top of
++the mdev_device and connect it to an appropriate implementation of
++vfio_device_ops.
+ 
+-
+-Physical Device Driver Interface
+---------------------------------
+-
+-The physical device driver interface provides the mdev_parent_ops[3] structure
+-to define the APIs to manage work in the mediated core driver that is related
+-to the physical device.
+-
+-The structures in the mdev_parent_ops structure are as follows:
+-
+-* dev_attr_groups: attributes of the parent device
+-* mdev_attr_groups: attributes of the mediated device
+-* supported_config: attributes to define supported configurations
+-
+-A driver should use the mdev_parent_ops structure in the function call to
+-register itself with the mdev core driver::
++When a driver wants to add the GUID creation sysfs to an existing device it has
++probe'd to then it should call:
+ 
+ 	extern int  mdev_register_device(struct device *dev,
+-	                                 const struct mdev_parent_ops *ops);
++	                                 struct mdev_driver *mdev_driver);
++
++This will provide the 'mdev_supported_types/XX/create' files which can then be
++used to trigger the creation of a mdev_device. The created mdev_device will be
++attached to the specified driver.
+ 
+-However, the mdev_parent_ops structure is not required in the function call
+-that a driver should use to unregister itself with the mdev core driver::
++When the driver needs to remove itself it calls:
+ 
+ 	extern void mdev_unregister_device(struct device *dev);
+ 
++Which will unbind and destroy all the created mdevs and remove the sysfs files.
+ 
+ Mediated Device Management Interface Through sysfs
+ ==================================================
 diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index 6bf176e8426e63..85ef300087e091 100644
+index 85ef300087e091..02089efd15bb92 100644
 --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
 +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -50,6 +50,7 @@
- #include "gvt.h"
- 
- static const struct intel_gvt_ops *intel_gvt_ops;
-+static const struct vfio_device_ops intel_vgpu_dev_ops;
- 
- /* helper macros copied from vfio-pci */
- #define VFIO_PCI_OFFSET_SHIFT   40
-@@ -109,8 +110,8 @@ struct gvt_dma {
- };
- 
- struct kvmgt_vdev {
-+	struct vfio_device vfio_device;
- 	struct intel_vgpu *vgpu;
--	struct mdev_device *mdev;
- 	struct vfio_region *region;
- 	int num_regions;
- 	struct eventfd_ctx *intx_trigger;
-@@ -130,7 +131,6 @@ struct kvmgt_vdev {
- 	struct kvm *kvm;
- 	struct work_struct release_work;
- 	atomic_t released;
--	struct vfio_device *vfio_device;
- 	struct vfio_group *vfio_group;
- };
- 
-@@ -144,7 +144,7 @@ static inline bool handle_valid(unsigned long handle)
- 	return !!(handle & ~0xff);
- }
- 
--static int kvmgt_guest_init(struct mdev_device *mdev);
-+static int kvmgt_guest_init(struct kvmgt_vdev *vdev);
- static void intel_vgpu_release_work(struct work_struct *work);
- static bool kvmgt_guest_exit(struct kvmgt_guest_info *info);
- 
-@@ -611,12 +611,7 @@ static int kvmgt_get_vfio_device(void *p_vgpu)
- 	struct intel_vgpu *vgpu = (struct intel_vgpu *)p_vgpu;
- 	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
- 
--	vdev->vfio_device = vfio_device_get_from_dev(
--		mdev_dev(vdev->mdev));
--	if (!vdev->vfio_device) {
--		gvt_vgpu_err("failed to get vfio device\n");
--		return -ENODEV;
--	}
-+	vfio_device_get(&vdev->vfio_device);
- 	return 0;
- }
- 
-@@ -683,16 +678,14 @@ static void kvmgt_put_vfio_device(void *vgpu)
- {
- 	struct kvmgt_vdev *vdev = kvmgt_vdev((struct intel_vgpu *)vgpu);
- 
--	if (WARN_ON(!vdev->vfio_device))
--		return;
--
--	vfio_device_put(vdev->vfio_device);
-+	vfio_device_put(&vdev->vfio_device);
- }
- 
--static int intel_vgpu_create(struct mdev_device *mdev)
-+static int intel_vgpu_probe(struct mdev_device *mdev)
- {
- 	struct intel_vgpu *vgpu = NULL;
- 	struct intel_vgpu_type *type;
-+	struct kvmgt_vdev *vdev;
- 	struct device *pdev;
- 	void *gvt;
- 	int ret;
-@@ -702,40 +695,40 @@ static int intel_vgpu_create(struct mdev_device *mdev)
- 
- 	type = intel_gvt_ops->gvt_find_vgpu_type(gvt,
- 						 mdev_get_type_group_id(mdev));
--	if (!type) {
--		ret = -EINVAL;
--		goto out;
--	}
-+	if (!type)
-+		return -EINVAL;
- 
- 	vgpu = intel_gvt_ops->vgpu_create(gvt, type);
- 	if (IS_ERR_OR_NULL(vgpu)) {
--		ret = vgpu == NULL ? -EFAULT : PTR_ERR(vgpu);
- 		gvt_err("failed to create intel vgpu: %d\n", ret);
--		goto out;
-+		return vgpu == NULL ? -EFAULT : PTR_ERR(vgpu);
- 	}
- 
--	INIT_WORK(&kvmgt_vdev(vgpu)->release_work, intel_vgpu_release_work);
-+	vdev = kvmgt_vdev(vgpu);
-+	INIT_WORK(&vdev->release_work, intel_vgpu_release_work);
-+	vfio_init_group_dev(&vdev->vfio_device, &mdev->dev,
-+			    &intel_vgpu_dev_ops);
- 
--	kvmgt_vdev(vgpu)->mdev = mdev;
--	mdev_set_drvdata(mdev, vgpu);
-+	ret = vfio_register_group_dev(&vdev->vfio_device);
-+	if (ret) {
-+		intel_gvt_ops->vgpu_destroy(vgpu);
-+		return ret;
-+	}
-+	dev_set_drvdata(&mdev->dev, vdev);
- 
- 	gvt_dbg_core("intel_vgpu_create succeeded for mdev: %s\n",
- 		     dev_name(mdev_dev(mdev)));
--	ret = 0;
--
--out:
--	return ret;
-+	return 0;
- }
- 
--static int intel_vgpu_remove(struct mdev_device *mdev)
-+static void intel_vgpu_remove(struct mdev_device *mdev)
- {
--	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
--
--	if (handle_valid(vgpu->handle))
--		return -EBUSY;
-+	struct kvmgt_vdev *vdev = dev_get_drvdata(&mdev->dev);
-+	struct intel_vgpu *vgpu = vdev->vgpu;
- 
-+	if (WARN_ON(handle_valid(vgpu->handle)))
-+		return;
- 	intel_gvt_ops->vgpu_destroy(vgpu);
--	return 0;
- }
- 
- static int intel_vgpu_iommu_notifier(struct notifier_block *nb,
-@@ -788,10 +781,11 @@ static int intel_vgpu_group_notifier(struct notifier_block *nb,
- 	return NOTIFY_OK;
- }
- 
--static int intel_vgpu_open(struct mdev_device *mdev)
-+static int intel_vgpu_open(struct vfio_device *vfio_dev)
- {
--	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
--	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
-+	struct kvmgt_vdev *vdev =
-+		container_of(vfio_dev, struct kvmgt_vdev, vfio_device);
-+	struct intel_vgpu *vgpu = vdev->vgpu;
- 	unsigned long events;
- 	int ret;
- 	struct vfio_group *vfio_group;
-@@ -800,7 +794,7 @@ static int intel_vgpu_open(struct mdev_device *mdev)
- 	vdev->group_notifier.notifier_call = intel_vgpu_group_notifier;
- 
- 	events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
--	ret = vfio_register_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY, &events,
-+	ret = vfio_register_notifier(vfio_dev->dev, VFIO_IOMMU_NOTIFY, &events,
- 				&vdev->iommu_notifier);
- 	if (ret != 0) {
- 		gvt_vgpu_err("vfio_register_notifier for iommu failed: %d\n",
-@@ -809,7 +803,7 @@ static int intel_vgpu_open(struct mdev_device *mdev)
- 	}
- 
- 	events = VFIO_GROUP_NOTIFY_SET_KVM;
--	ret = vfio_register_notifier(mdev_dev(mdev), VFIO_GROUP_NOTIFY, &events,
-+	ret = vfio_register_notifier(vfio_dev->dev, VFIO_GROUP_NOTIFY, &events,
- 				&vdev->group_notifier);
- 	if (ret != 0) {
- 		gvt_vgpu_err("vfio_register_notifier for group failed: %d\n",
-@@ -817,7 +811,7 @@ static int intel_vgpu_open(struct mdev_device *mdev)
- 		goto undo_iommu;
- 	}
- 
--	vfio_group = vfio_group_get_external_user_from_dev(mdev_dev(mdev));
-+	vfio_group = vfio_group_get_external_user_from_dev(vfio_dev->dev);
- 	if (IS_ERR_OR_NULL(vfio_group)) {
- 		ret = !vfio_group ? -EFAULT : PTR_ERR(vfio_group);
- 		gvt_vgpu_err("vfio_group_get_external_user_from_dev failed\n");
-@@ -833,11 +827,11 @@ static int intel_vgpu_open(struct mdev_device *mdev)
- 		goto undo_group;
- 	}
- 
--	ret = kvmgt_guest_init(mdev);
-+	ret = kvmgt_guest_init(vdev);
- 	if (ret)
- 		goto undo_group;
- 
--	intel_gvt_ops->vgpu_activate(vgpu);
-+	intel_gvt_ops->vgpu_activate(vdev->vgpu);
- 
- 	atomic_set(&vdev->released, 0);
- 	return ret;
-@@ -847,11 +841,11 @@ static int intel_vgpu_open(struct mdev_device *mdev)
- 	vdev->vfio_group = NULL;
- 
- undo_register:
--	vfio_unregister_notifier(mdev_dev(mdev), VFIO_GROUP_NOTIFY,
-+	vfio_unregister_notifier(vfio_dev->dev, VFIO_GROUP_NOTIFY,
- 					&vdev->group_notifier);
- 
- undo_iommu:
--	vfio_unregister_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY,
-+	vfio_unregister_notifier(vfio_dev->dev, VFIO_IOMMU_NOTIFY,
- 					&vdev->iommu_notifier);
- out:
- 	return ret;
-@@ -884,12 +878,12 @@ static void __intel_vgpu_release(struct intel_vgpu *vgpu)
- 
- 	intel_gvt_ops->vgpu_release(vgpu);
- 
--	ret = vfio_unregister_notifier(mdev_dev(vdev->mdev), VFIO_IOMMU_NOTIFY,
-+	ret = vfio_unregister_notifier(vdev->vfio_device.dev, VFIO_IOMMU_NOTIFY,
- 					&vdev->iommu_notifier);
- 	drm_WARN(&i915->drm, ret,
- 		 "vfio_unregister_notifier for iommu failed: %d\n", ret);
- 
--	ret = vfio_unregister_notifier(mdev_dev(vdev->mdev), VFIO_GROUP_NOTIFY,
-+	ret = vfio_unregister_notifier(vdev->vfio_device.dev, VFIO_GROUP_NOTIFY,
- 					&vdev->group_notifier);
- 	drm_WARN(&i915->drm, ret,
- 		 "vfio_unregister_notifier for group failed: %d\n", ret);
-@@ -907,11 +901,12 @@ static void __intel_vgpu_release(struct intel_vgpu *vgpu)
- 	vgpu->handle = 0;
- }
- 
--static void intel_vgpu_release(struct mdev_device *mdev)
-+static void intel_vgpu_release(struct vfio_device *vfio_dev)
- {
--	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
-+	struct kvmgt_vdev *vdev =
-+		container_of(vfio_dev, struct kvmgt_vdev, vfio_device);
- 
--	__intel_vgpu_release(vgpu);
-+	__intel_vgpu_release(vdev->vgpu);
- }
- 
- static void intel_vgpu_release_work(struct work_struct *work)
-@@ -997,11 +992,10 @@ static int intel_vgpu_aperture_rw(struct intel_vgpu *vgpu, u64 off,
- 	return 0;
- }
- 
--static ssize_t intel_vgpu_rw(struct mdev_device *mdev, char *buf,
-+static ssize_t intel_vgpu_rw(struct kvmgt_vdev *vdev, char *buf,
- 			size_t count, loff_t *ppos, bool is_write)
- {
--	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
--	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
-+	struct intel_vgpu *vgpu = vdev->vgpu;
- 	unsigned int index = VFIO_PCI_OFFSET_TO_INDEX(*ppos);
- 	u64 pos = *ppos & VFIO_PCI_OFFSET_MASK;
- 	int ret = -EINVAL;
-@@ -1047,9 +1041,9 @@ static ssize_t intel_vgpu_rw(struct mdev_device *mdev, char *buf,
- 	return ret == 0 ? count : ret;
- }
- 
--static bool gtt_entry(struct mdev_device *mdev, loff_t *ppos)
-+static bool gtt_entry(struct kvmgt_vdev *vdev, loff_t *ppos)
- {
--	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
-+	struct intel_vgpu *vgpu = vdev->vgpu;
- 	unsigned int index = VFIO_PCI_OFFSET_TO_INDEX(*ppos);
- 	struct intel_gvt *gvt = vgpu->gvt;
- 	int offset;
-@@ -1066,9 +1060,11 @@ static bool gtt_entry(struct mdev_device *mdev, loff_t *ppos)
- 			true : false;
- }
- 
--static ssize_t intel_vgpu_read(struct mdev_device *mdev, char __user *buf,
-+static ssize_t intel_vgpu_read(struct vfio_device *vfio_dev, char __user *buf,
- 			size_t count, loff_t *ppos)
- {
-+	struct kvmgt_vdev *vdev =
-+		container_of(vfio_dev, struct kvmgt_vdev, vfio_device);
- 	unsigned int done = 0;
- 	int ret;
- 
-@@ -1077,10 +1073,10 @@ static ssize_t intel_vgpu_read(struct mdev_device *mdev, char __user *buf,
- 
- 		/* Only support GGTT entry 8 bytes read */
- 		if (count >= 8 && !(*ppos % 8) &&
--			gtt_entry(mdev, ppos)) {
-+			gtt_entry(vdev, ppos)) {
- 			u64 val;
- 
--			ret = intel_vgpu_rw(mdev, (char *)&val, sizeof(val),
-+			ret = intel_vgpu_rw(vdev, (char *)&val, sizeof(val),
- 					ppos, false);
- 			if (ret <= 0)
- 				goto read_err;
-@@ -1092,7 +1088,7 @@ static ssize_t intel_vgpu_read(struct mdev_device *mdev, char __user *buf,
- 		} else if (count >= 4 && !(*ppos % 4)) {
- 			u32 val;
- 
--			ret = intel_vgpu_rw(mdev, (char *)&val, sizeof(val),
-+			ret = intel_vgpu_rw(vdev, (char *)&val, sizeof(val),
- 					ppos, false);
- 			if (ret <= 0)
- 				goto read_err;
-@@ -1104,7 +1100,7 @@ static ssize_t intel_vgpu_read(struct mdev_device *mdev, char __user *buf,
- 		} else if (count >= 2 && !(*ppos % 2)) {
- 			u16 val;
- 
--			ret = intel_vgpu_rw(mdev, (char *)&val, sizeof(val),
-+			ret = intel_vgpu_rw(vdev, (char *)&val, sizeof(val),
- 					ppos, false);
- 			if (ret <= 0)
- 				goto read_err;
-@@ -1116,7 +1112,7 @@ static ssize_t intel_vgpu_read(struct mdev_device *mdev, char __user *buf,
- 		} else {
- 			u8 val;
- 
--			ret = intel_vgpu_rw(mdev, &val, sizeof(val), ppos,
-+			ret = intel_vgpu_rw(vdev, &val, sizeof(val), ppos,
- 					false);
- 			if (ret <= 0)
- 				goto read_err;
-@@ -1139,10 +1135,12 @@ static ssize_t intel_vgpu_read(struct mdev_device *mdev, char __user *buf,
- 	return -EFAULT;
- }
- 
--static ssize_t intel_vgpu_write(struct mdev_device *mdev,
-+static ssize_t intel_vgpu_write(struct vfio_device *vfio_dev,
- 				const char __user *buf,
- 				size_t count, loff_t *ppos)
- {
-+	struct kvmgt_vdev *vdev =
-+		container_of(vfio_dev, struct kvmgt_vdev, vfio_device);
- 	unsigned int done = 0;
- 	int ret;
- 
-@@ -1151,13 +1149,13 @@ static ssize_t intel_vgpu_write(struct mdev_device *mdev,
- 
- 		/* Only support GGTT entry 8 bytes write */
- 		if (count >= 8 && !(*ppos % 8) &&
--			gtt_entry(mdev, ppos)) {
-+			gtt_entry(vdev, ppos)) {
- 			u64 val;
- 
- 			if (copy_from_user(&val, buf, sizeof(val)))
- 				goto write_err;
- 
--			ret = intel_vgpu_rw(mdev, (char *)&val, sizeof(val),
-+			ret = intel_vgpu_rw(vdev, (char *)&val, sizeof(val),
- 					ppos, true);
- 			if (ret <= 0)
- 				goto write_err;
-@@ -1169,7 +1167,7 @@ static ssize_t intel_vgpu_write(struct mdev_device *mdev,
- 			if (copy_from_user(&val, buf, sizeof(val)))
- 				goto write_err;
- 
--			ret = intel_vgpu_rw(mdev, (char *)&val, sizeof(val),
-+			ret = intel_vgpu_rw(vdev, (char *)&val, sizeof(val),
- 					ppos, true);
- 			if (ret <= 0)
- 				goto write_err;
-@@ -1181,7 +1179,7 @@ static ssize_t intel_vgpu_write(struct mdev_device *mdev,
- 			if (copy_from_user(&val, buf, sizeof(val)))
- 				goto write_err;
- 
--			ret = intel_vgpu_rw(mdev, (char *)&val,
-+			ret = intel_vgpu_rw(vdev, (char *)&val,
- 					sizeof(val), ppos, true);
- 			if (ret <= 0)
- 				goto write_err;
-@@ -1193,7 +1191,7 @@ static ssize_t intel_vgpu_write(struct mdev_device *mdev,
- 			if (copy_from_user(&val, buf, sizeof(val)))
- 				goto write_err;
- 
--			ret = intel_vgpu_rw(mdev, &val, sizeof(val),
-+			ret = intel_vgpu_rw(vdev, &val, sizeof(val),
- 					ppos, true);
- 			if (ret <= 0)
- 				goto write_err;
-@@ -1212,13 +1210,16 @@ static ssize_t intel_vgpu_write(struct mdev_device *mdev,
- 	return -EFAULT;
- }
- 
--static int intel_vgpu_mmap(struct mdev_device *mdev, struct vm_area_struct *vma)
-+static int intel_vgpu_mmap(struct vfio_device *vfio_dev,
-+			   struct vm_area_struct *vma)
- {
-+	struct kvmgt_vdev *vdev =
-+		container_of(vfio_dev, struct kvmgt_vdev, vfio_device);
- 	unsigned int index;
- 	u64 virtaddr;
- 	unsigned long req_size, pgoff, req_start;
- 	pgprot_t pg_prot;
--	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
-+	struct intel_vgpu *vgpu = vdev->vgpu;
- 
- 	index = vma->vm_pgoff >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
- 	if (index >= VFIO_PCI_ROM_REGION_INDEX)
-@@ -1341,11 +1342,12 @@ static int intel_vgpu_set_irqs(struct intel_vgpu *vgpu, u32 flags,
- 	return func(vgpu, index, start, count, flags, data);
- }
- 
--static long intel_vgpu_ioctl(struct mdev_device *mdev, unsigned int cmd,
-+static long intel_vgpu_ioctl(struct vfio_device *vfio_dev, unsigned int cmd,
- 			     unsigned long arg)
- {
--	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
--	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
-+	struct kvmgt_vdev *vdev =
-+		container_of(vfio_dev, struct kvmgt_vdev, vfio_device);
-+	struct intel_vgpu *vgpu = vdev->vgpu;
- 	unsigned long minsz;
- 
- 	gvt_dbg_core("vgpu%d ioctl, cmd: %d\n", vgpu->id, cmd);
-@@ -1624,14 +1626,10 @@ static ssize_t
- vgpu_id_show(struct device *dev, struct device_attribute *attr,
- 	     char *buf)
- {
--	struct mdev_device *mdev = mdev_from_dev(dev);
-+	struct kvmgt_vdev *vdev = dev_get_drvdata(dev);
-+	struct intel_vgpu *vgpu = vdev->vgpu;
- 
--	if (mdev) {
--		struct intel_vgpu *vgpu = (struct intel_vgpu *)
--			mdev_get_drvdata(mdev);
--		return sprintf(buf, "%d\n", vgpu->id);
--	}
--	return sprintf(buf, "\n");
-+	return sprintf(buf, "%d\n", vgpu->id);
- }
- 
- static DEVICE_ATTR_RO(vgpu_id);
-@@ -1651,18 +1649,28 @@ static const struct attribute_group *intel_vgpu_groups[] = {
- 	NULL,
+@@ -1669,10 +1669,6 @@ static struct mdev_driver intel_vgpu_mdev_driver = {
+ 	.remove	= intel_vgpu_remove,
  };
  
 -static struct mdev_parent_ops intel_vgpu_ops = {
--	.mdev_attr_groups       = intel_vgpu_groups,
--	.create			= intel_vgpu_create,
--	.remove			= intel_vgpu_remove,
-+static const struct vfio_device_ops intel_vgpu_dev_ops = {
-+	.open = intel_vgpu_open,
-+	.release = intel_vgpu_release,
-+	.read = intel_vgpu_read,
-+	.write = intel_vgpu_write,
-+	.mmap = intel_vgpu_mmap,
-+	.ioctl = intel_vgpu_ioctl,
-+};
+-	.device_driver		= &intel_vgpu_mdev_driver,
+-};
+-
+ static int kvmgt_host_init(struct device *dev, void *gvt, const void *ops)
+ {
+ 	struct attribute_group **kvm_vgpu_type_groups;
+@@ -1680,9 +1676,9 @@ static int kvmgt_host_init(struct device *dev, void *gvt, const void *ops)
+ 	intel_gvt_ops = ops;
+ 	if (!intel_gvt_ops->get_gvt_attrs(&kvm_vgpu_type_groups))
+ 		return -EFAULT;
+-	intel_vgpu_ops.supported_type_groups = kvm_vgpu_type_groups;
++	intel_vgpu_mdev_driver.supported_type_groups = kvm_vgpu_type_groups;
  
--	.open			= intel_vgpu_open,
--	.release		= intel_vgpu_release,
-+static struct mdev_driver intel_vgpu_mdev_driver = {
-+	.driver = {
-+		.name = "intel_vgpu_mdev",
-+		.owner = THIS_MODULE,
-+		.mod_name = KBUILD_MODNAME,
-+		.dev_groups = intel_vgpu_groups,
-+	},
-+	.probe = intel_vgpu_probe,
-+	.remove	= intel_vgpu_remove,
-+};
+-	return mdev_register_device(dev, &intel_vgpu_ops);
++	return mdev_register_device(dev, &intel_vgpu_mdev_driver);
+ }
  
--	.read			= intel_vgpu_read,
--	.write			= intel_vgpu_write,
--	.mmap			= intel_vgpu_mmap,
--	.ioctl			= intel_vgpu_ioctl,
-+static struct mdev_parent_ops intel_vgpu_ops = {
-+	.device_driver		= &intel_vgpu_mdev_driver,
+ static void kvmgt_host_exit(struct device *dev)
+diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
+index 0fcf46031d3821..161697529dcc41 100644
+--- a/drivers/s390/cio/vfio_ccw_ops.c
++++ b/drivers/s390/cio/vfio_ccw_ops.c
+@@ -655,17 +655,12 @@ struct mdev_driver vfio_ccw_mdev_driver = {
+ 	},
+ 	.probe = vfio_ccw_mdev_probe,
+ 	.remove = vfio_ccw_mdev_remove,
+-};
+-
+-static const struct mdev_parent_ops vfio_ccw_mdev_ops = {
+-	.owner			= THIS_MODULE,
+-	.device_driver		= &vfio_ccw_mdev_driver,
+ 	.supported_type_groups  = mdev_type_groups,
  };
  
- static int kvmgt_host_init(struct device *dev, void *gvt, const void *ops)
-@@ -1806,18 +1814,12 @@ static bool __kvmgt_vgpu_exist(struct intel_vgpu *vgpu, struct kvm *kvm)
- 	return ret;
+ int vfio_ccw_mdev_reg(struct subchannel *sch)
+ {
+-	return mdev_register_device(&sch->dev, &vfio_ccw_mdev_ops);
++	return mdev_register_device(&sch->dev, &vfio_ccw_mdev_driver);
  }
  
--static int kvmgt_guest_init(struct mdev_device *mdev)
-+static int kvmgt_guest_init(struct kvmgt_vdev *vdev)
- {
- 	struct kvmgt_guest_info *info;
--	struct intel_vgpu *vgpu;
--	struct kvmgt_vdev *vdev;
-+	struct intel_vgpu *vgpu = vdev->vgpu;
- 	struct kvm *kvm;
- 
--	vgpu = mdev_get_drvdata(mdev);
--	if (handle_valid(vgpu->handle))
--		return -EEXIST;
+ void vfio_ccw_mdev_unreg(struct subchannel *sch)
+diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
+index 79872c857dd522..92789257c87639 100644
+--- a/drivers/s390/crypto/vfio_ap_ops.c
++++ b/drivers/s390/crypto/vfio_ap_ops.c
+@@ -1339,12 +1339,7 @@ static struct mdev_driver vfio_ap_matrix_driver = {
+ 	},
+ 	.probe = vfio_ap_mdev_probe,
+ 	.remove = vfio_ap_mdev_remove,
+-};
 -
--	vdev = kvmgt_vdev(vgpu);
- 	kvm = vdev->kvm;
- 	if (!kvm || kvm->mm != current->mm) {
- 		gvt_vgpu_err("KVM is required to use Intel vGPU\n");
-@@ -2125,13 +2127,25 @@ static const struct intel_gvt_mpt kvmgt_mpt = {
+-static const struct mdev_parent_ops vfio_ap_matrix_ops = {
+-	.owner			= THIS_MODULE,
+-	.device_driver		= &vfio_ap_matrix_driver,
+-	.supported_type_groups	= vfio_ap_mdev_type_groups,
++	.supported_type_groups = vfio_ap_mdev_type_groups,
+ };
  
- static int __init kvmgt_init(void)
- {
--	if (intel_gvt_register_hypervisor(&kvmgt_mpt) < 0)
--		return -ENODEV;
-+	int ret;
-+
-+	ret = mdev_register_driver(&intel_vgpu_mdev_driver);
-+	if (ret)
-+		return ret;
-+
-+	if (intel_gvt_register_hypervisor(&kvmgt_mpt) < 0) {
-+		ret = -ENODEV;
-+		goto err_driver;
-+	}
+ int vfio_ap_mdev_register(void)
+@@ -1357,7 +1352,7 @@ int vfio_ap_mdev_register(void)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = mdev_register_device(&matrix_dev->device, &vfio_ap_matrix_ops);
++	ret = mdev_register_device(&matrix_dev->device, &vfio_ap_matrix_driver);
+ 	if (ret)
+ 		goto err_driver;
  	return 0;
-+err_driver:
-+	mdev_unregister_driver(&intel_vgpu_mdev_driver);
-+	return ret;
+diff --git a/drivers/vfio/mdev/mdev_core.c b/drivers/vfio/mdev/mdev_core.c
+index d507047e6ecf4a..cd1ab9fe299445 100644
+--- a/drivers/vfio/mdev/mdev_core.c
++++ b/drivers/vfio/mdev/mdev_core.c
+@@ -109,12 +109,12 @@ static int mdev_device_remove_cb(struct device *dev, void *data)
+ /*
+  * mdev_register_device : Register a device
+  * @dev: device structure representing parent device.
+- * @ops: Parent device operation structure to be registered.
++ * @mdev_driver: Device driver to bind to the newly created mdev
+  *
+  * Add device to list of registered parent devices.
+  * Returns a negative value on error, otherwise 0.
+  */
+-int mdev_register_device(struct device *dev, const struct mdev_parent_ops *ops)
++int mdev_register_device(struct device *dev, struct mdev_driver *mdev_driver)
+ {
+ 	int ret;
+ 	struct mdev_parent *parent;
+@@ -122,9 +122,7 @@ int mdev_register_device(struct device *dev, const struct mdev_parent_ops *ops)
+ 	char *envp[] = { env_string, NULL };
+ 
+ 	/* check for mandatory ops */
+-	if (!ops || !ops->supported_type_groups)
+-		return -EINVAL;
+-	if (!ops->device_driver)
++	if (!mdev_driver->supported_type_groups)
+ 		return -EINVAL;
+ 
+ 	dev = get_device(dev);
+@@ -151,7 +149,7 @@ int mdev_register_device(struct device *dev, const struct mdev_parent_ops *ops)
+ 	init_rwsem(&parent->unreg_sem);
+ 
+ 	parent->dev = dev;
+-	parent->ops = ops;
++	parent->mdev_driver = mdev_driver;
+ 
+ 	if (!mdev_bus_compat_class) {
+ 		mdev_bus_compat_class = class_compat_register("mdev_bus");
+@@ -257,7 +255,7 @@ static int mdev_bind_driver(struct mdev_device *mdev)
+ 	while (1) {
+ 		device_lock(&mdev->dev);
+ 		if (mdev->dev.driver ==
+-		    &mdev->type->parent->ops->device_driver->driver) {
++		    &mdev->type->parent->mdev_driver->driver) {
+ 			ret = 0;
+ 			goto out_unlock;
+ 		}
+@@ -304,7 +302,6 @@ int mdev_device_create(struct mdev_type *type, const guid_t *uuid)
+ 	mdev->dev.parent  = parent->dev;
+ 	mdev->dev.bus = &mdev_bus_type;
+ 	mdev->dev.release = mdev_device_release;
+-	mdev->dev.groups = parent->ops->mdev_attr_groups;
+ 	mdev->type = type;
+ 	/* Pairs with the put in mdev_device_release() */
+ 	kobject_get(&type->kobj);
+diff --git a/drivers/vfio/mdev/mdev_driver.c b/drivers/vfio/mdev/mdev_driver.c
+index 07ada55efd6228..d743a9f51f4c90 100644
+--- a/drivers/vfio/mdev/mdev_driver.c
++++ b/drivers/vfio/mdev/mdev_driver.c
+@@ -75,7 +75,7 @@ static int mdev_match(struct device *dev, struct device_driver *drv)
+ {
+ 	struct mdev_device *mdev = to_mdev_device(dev);
+ 
+-	return drv == &mdev->type->parent->ops->device_driver->driver;
++	return drv == &mdev->type->parent->mdev_driver->driver;
  }
  
- static void __exit kvmgt_exit(void)
+ struct bus_type mdev_bus_type = {
+diff --git a/drivers/vfio/mdev/mdev_private.h b/drivers/vfio/mdev/mdev_private.h
+index a656cfe0346c33..839567d059a07d 100644
+--- a/drivers/vfio/mdev/mdev_private.h
++++ b/drivers/vfio/mdev/mdev_private.h
+@@ -15,7 +15,7 @@ void mdev_bus_unregister(void);
+ 
+ struct mdev_parent {
+ 	struct device *dev;
+-	const struct mdev_parent_ops *ops;
++	const struct mdev_driver *mdev_driver;
+ 	struct kref ref;
+ 	struct list_head next;
+ 	struct kset *mdev_types_kset;
+diff --git a/drivers/vfio/mdev/mdev_sysfs.c b/drivers/vfio/mdev/mdev_sysfs.c
+index 66eef08833a4ef..5a3873d1a275ae 100644
+--- a/drivers/vfio/mdev/mdev_sysfs.c
++++ b/drivers/vfio/mdev/mdev_sysfs.c
+@@ -97,7 +97,7 @@ static struct mdev_type *add_mdev_supported_type(struct mdev_parent *parent,
  {
-+	mdev_unregister_driver(&intel_vgpu_mdev_driver);
- 	intel_gvt_unregister_hypervisor();
- }
+ 	struct mdev_type *type;
+ 	struct attribute_group *group =
+-		parent->ops->supported_type_groups[type_group_id];
++		parent->mdev_driver->supported_type_groups[type_group_id];
+ 	int ret;
+ 
+ 	if (!group->name) {
+@@ -154,7 +154,7 @@ static struct mdev_type *add_mdev_supported_type(struct mdev_parent *parent,
+ static void remove_mdev_supported_type(struct mdev_type *type)
+ {
+ 	struct attribute_group *group =
+-		type->parent->ops->supported_type_groups[type->type_group_id];
++		type->parent->mdev_driver->supported_type_groups[type->type_group_id];
+ 
+ 	sysfs_remove_files(&type->kobj,
+ 			   (const struct attribute **)group->attrs);
+@@ -168,7 +168,7 @@ static int add_mdev_supported_type_groups(struct mdev_parent *parent)
+ {
+ 	int i;
+ 
+-	for (i = 0; parent->ops->supported_type_groups[i]; i++) {
++	for (i = 0; parent->mdev_driver->supported_type_groups[i]; i++) {
+ 		struct mdev_type *type;
+ 
+ 		type = add_mdev_supported_type(parent, i);
+diff --git a/include/linux/mdev.h b/include/linux/mdev.h
+index fd9fe1dcf0e230..af807c77c1e0f5 100644
+--- a/include/linux/mdev.h
++++ b/include/linux/mdev.h
+@@ -51,25 +51,6 @@ unsigned int mdev_get_type_group_id(struct mdev_device *mdev);
+ unsigned int mtype_get_type_group_id(struct mdev_type *mtype);
+ struct device *mtype_get_parent_dev(struct mdev_type *mtype);
+ 
+-/**
+- * struct mdev_parent_ops - Structure to be registered for each parent device to
+- * register the device to mdev module.
+- *
+- * @owner:		The module owner.
+- * @device_driver:	Which device driver to probe() on newly created devices
+- * @mdev_attr_groups:	Attributes of the mediated device.
+- * @supported_type_groups: Attributes to define supported types. It is mandatory
+- *			to provide supported types.
+- * Parent device that support mediated device should be registered with mdev
+- * module with mdev_parent_ops structure.
+- **/
+-struct mdev_parent_ops {
+-	struct module   *owner;
+-	struct mdev_driver *device_driver;
+-	const struct attribute_group **mdev_attr_groups;
+-	struct attribute_group **supported_type_groups;
+-};
+-
+ /* interface for exporting mdev supported type attributes */
+ struct mdev_type_attribute {
+ 	struct attribute attr;
+@@ -94,12 +75,15 @@ struct mdev_type_attribute mdev_type_attr_##_name =		\
+  * struct mdev_driver - Mediated device driver
+  * @probe: called when new device created
+  * @remove: called when device removed
++ * @supported_type_groups: Attributes to define supported types. It is mandatory
++ *			to provide supported types.
+  * @driver: device driver structure
+  *
+  **/
+ struct mdev_driver {
+ 	int (*probe)(struct mdev_device *dev);
+ 	void (*remove)(struct mdev_device *dev);
++	struct attribute_group **supported_type_groups;
+ 	struct device_driver driver;
+ };
+ 
+@@ -118,7 +102,7 @@ static inline const guid_t *mdev_uuid(struct mdev_device *mdev)
+ 
+ extern struct bus_type mdev_bus_type;
+ 
+-int mdev_register_device(struct device *dev, const struct mdev_parent_ops *ops);
++int mdev_register_device(struct device *dev, struct mdev_driver *mdev_driver);
+ void mdev_unregister_device(struct device *dev);
+ 
+ int mdev_register_driver(struct mdev_driver *drv);
+diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
+index e18821a8a6beb8..c76ceec584b41b 100644
+--- a/samples/vfio-mdev/mbochs.c
++++ b/samples/vfio-mdev/mbochs.c
+@@ -1418,12 +1418,7 @@ static struct mdev_driver mbochs_driver = {
+ 	},
+ 	.probe = mbochs_probe,
+ 	.remove	= mbochs_remove,
+-};
+-
+-static const struct mdev_parent_ops mdev_fops = {
+-	.owner			= THIS_MODULE,
+-	.device_driver		= &mbochs_driver,
+-	.supported_type_groups	= mdev_type_groups,
++	.supported_type_groups = mdev_type_groups,
+ };
+ 
+ static const struct file_operations vd_fops = {
+@@ -1466,7 +1461,7 @@ static int __init mbochs_dev_init(void)
+ 	if (ret)
+ 		goto err_class;
+ 
+-	ret = mdev_register_device(&mbochs_dev, &mdev_fops);
++	ret = mdev_register_device(&mbochs_dev, &mbochs_driver);
+ 	if (ret)
+ 		goto err_device;
+ 
+diff --git a/samples/vfio-mdev/mdpy.c b/samples/vfio-mdev/mdpy.c
+index 82638de333330d..c22b2c808d132d 100644
+--- a/samples/vfio-mdev/mdpy.c
++++ b/samples/vfio-mdev/mdpy.c
+@@ -735,12 +735,7 @@ static struct mdev_driver mdpy_driver = {
+ 	},
+ 	.probe = mdpy_probe,
+ 	.remove	= mdpy_remove,
+-};
+-
+-static const struct mdev_parent_ops mdev_fops = {
+-	.owner			= THIS_MODULE,
+-	.device_driver          = &mdpy_driver,
+-	.supported_type_groups	= mdev_type_groups,
++	.supported_type_groups = mdev_type_groups,
+ };
+ 
+ static const struct file_operations vd_fops = {
+@@ -783,7 +778,7 @@ static int __init mdpy_dev_init(void)
+ 	if (ret)
+ 		goto err_class;
+ 
+-	ret = mdev_register_device(&mdpy_dev, &mdev_fops);
++	ret = mdev_register_device(&mdpy_dev, &mdpy_driver);
+ 	if (ret)
+ 		goto err_device;
+ 
+diff --git a/samples/vfio-mdev/mtty.c b/samples/vfio-mdev/mtty.c
+index 31eec76bc553ce..87f5ba12a230e3 100644
+--- a/samples/vfio-mdev/mtty.c
++++ b/samples/vfio-mdev/mtty.c
+@@ -1308,12 +1308,7 @@ static struct mdev_driver mtty_driver = {
+ 	},
+ 	.probe = mtty_probe,
+ 	.remove	= mtty_remove,
+-};
+-
+-static const struct mdev_parent_ops mdev_fops = {
+-	.owner                  = THIS_MODULE,
+-	.device_driver		= &mtty_driver,
+-	.supported_type_groups  = mdev_type_groups,
++	.supported_type_groups = mdev_type_groups,
+ };
+ 
+ static void mtty_device_release(struct device *dev)
+@@ -1364,7 +1359,7 @@ static int __init mtty_dev_init(void)
+ 	if (ret)
+ 		goto err_class;
+ 
+-	ret = mdev_register_device(&mtty_dev.dev, &mdev_fops);
++	ret = mdev_register_device(&mtty_dev.dev, &mtty_driver);
+ 	if (ret)
+ 		goto err_device;
  
 -- 
 2.31.1
