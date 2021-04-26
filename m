@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F063436B5D7
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 17:33:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D21E736B5E8
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Apr 2021 17:37:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCA916E83D;
-	Mon, 26 Apr 2021 15:33:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59CAD89D66;
+	Mon, 26 Apr 2021 15:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF3F46E83D
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 15:33:33 +0000 (UTC)
-IronPort-SDR: emXEqYbllBjR3imXnHt3gDx1JjxBb534Tr8UpBN6pxNNel10H/d1EPwyEtY1FvDhy+5pxj+Dj2
- QYWe70kMsnvw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="175836215"
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="175836215"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2021 08:33:23 -0700
-IronPort-SDR: u5UbAlc/iLH+5DnGDngndvxBpa4w15K1qC8094iscTGEiRcuExLiQ8FOfd5rw/QS5eNkvOgY45
- 8HH//XYxDYXQ==
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EBA889D66;
+ Mon, 26 Apr 2021 15:37:34 +0000 (UTC)
+IronPort-SDR: tgRvpPZLU9f72P+MbwCXGFdl/mKt8dPVe/RtLAC8UI0eafJ+Fel5e/G0ZisT0kMHMl85R9mJPV
+ 8CeAqYRZrLDQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="176470731"
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="176470731"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2021 08:37:32 -0700
+IronPort-SDR: xbpSw5gqLmsvik3kUAvICs6QTJ8iOjAx+3jhnjyKWKR1Zq0EvL4hrJJfNsMCyiavtIARNI+cLT
+ b/GHLOZwtzfg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="457220251"
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="422699105"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga002.fm.intel.com with SMTP; 26 Apr 2021 08:33:19 -0700
+ by fmsmga008.fm.intel.com with SMTP; 26 Apr 2021 08:37:26 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 26 Apr 2021 18:33:18 +0300
-Date: Mon, 26 Apr 2021 18:33:18 +0300
+ Mon, 26 Apr 2021 18:37:25 +0300
+Date: Mon, 26 Apr 2021 18:37:25 +0300
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Subject: Re: [PATCH v2 1/2] gpu: drm: init set panel orientation property
- earlier
-Message-ID: <YIbdPqolop6cBnYH@intel.com>
-References: <20210426051848.2600890-1-hsinyi@chromium.org>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: Re: [PATCH v2] drm/i915: Invoke BXT _DSM to enable MUX on HP
+ Workstation laptops
+Message-ID: <YIbeNYRbNsVcmyZi@intel.com>
+References: <20210423044700.247359-1-kai.heng.feng@canonical.com>
+ <YILAc6EhoWWhENq8@intel.com>
+ <CAAd53p72Y8Rda0Hk3WReLKPGJe8rwc5X-Pi5cyCpRPAm8sVEzg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210426051848.2600890-1-hsinyi@chromium.org>
+In-Reply-To: <CAAd53p72Y8Rda0Hk3WReLKPGJe8rwc5X-Pi5cyCpRPAm8sVEzg@mail.gmail.com>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,179 +52,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 26, 2021 at 01:18:47PM +0800, Hsin-Yi Wang wrote:
-> drm_dev_register() sets connector->registration_state to
-> DRM_CONNECTOR_REGISTERED and dev->registered to true. If
-> drm_connector_set_panel_orientation() is first called after
-> drm_dev_register(), it will fail several checks and results in following
-> warning.
-> =
-
-> Create panel orientation property in drm_connector_init()
-> and set default value to UNKNOWN. Let the panel set the real value
-> later.
-> =
-
-> [    4.480976] ------------[ cut here ]------------
-> [    4.485603] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_objec=
-t.c:45 __drm_mode_object_add+0xb4/0xbc
-> <snip>
-> [    4.609772] Call trace:
-> [    4.612208]  __drm_mode_object_add+0xb4/0xbc
-> [    4.616466]  drm_mode_object_add+0x20/0x2c
-> [    4.620552]  drm_property_create+0xdc/0x174
-> [    4.624723]  drm_property_create_enum+0x34/0x98
-> [    4.629241]  drm_connector_set_panel_orientation+0x64/0xa0
-> [    4.634716]  boe_panel_get_modes+0x88/0xd8
-> [    4.638802]  drm_panel_get_modes+0x2c/0x48
-> [    4.642887]  panel_bridge_get_modes+0x1c/0x28
-> [    4.647233]  drm_bridge_connector_get_modes+0xa0/0xd4
-> [    4.652273]  drm_helper_probe_single_connector_modes+0x218/0x700
-> [    4.658266]  drm_mode_getconnector+0x1b4/0x45c
-> [    4.662699]  drm_ioctl_kernel+0xac/0x128
-> [    4.666611]  drm_ioctl+0x268/0x410
-> [    4.670002]  drm_compat_ioctl+0xdc/0xf0
-> [    4.673829]  __arm64_compat_sys_ioctl+0xc8/0x100
-> [    4.678436]  el0_svc_common+0xf4/0x1c0
-> [    4.682174]  do_el0_svc_compat+0x28/0x3c
-> [    4.686088]  el0_svc_compat+0x10/0x1c
-> [    4.689738]  el0_sync_compat_handler+0xa8/0xcc
-> [    4.694171]  el0_sync_compat+0x178/0x180
-> [    4.698082] ---[ end trace b4f2db9d9c88610b ]---
-> [    4.702721] ------------[ cut here ]------------
-> [    4.707329] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_objec=
-t.c:243 drm_object_attach_property+0x48/0xb8
-> <snip>
-> [    4.833830] Call trace:
-> [    4.836266]  drm_object_attach_property+0x48/0xb8
-> [    4.840958]  drm_connector_set_panel_orientation+0x84/0xa0
-> [    4.846432]  boe_panel_get_modes+0x88/0xd8
-> [    4.850516]  drm_panel_get_modes+0x2c/0x48
-> [    4.854600]  panel_bridge_get_modes+0x1c/0x28
-> [    4.858946]  drm_bridge_connector_get_modes+0xa0/0xd4
-> [    4.863984]  drm_helper_probe_single_connector_modes+0x218/0x700
-> [    4.869978]  drm_mode_getconnector+0x1b4/0x45c
-> [    4.874410]  drm_ioctl_kernel+0xac/0x128
-> [    4.878320]  drm_ioctl+0x268/0x410
-> [    4.881711]  drm_compat_ioctl+0xdc/0xf0
-> [    4.885536]  __arm64_compat_sys_ioctl+0xc8/0x100
-> [    4.890142]  el0_svc_common+0xf4/0x1c0
-> [    4.893879]  do_el0_svc_compat+0x28/0x3c
-> [    4.897791]  el0_svc_compat+0x10/0x1c
-> [    4.901441]  el0_sync_compat_handler+0xa8/0xcc
-> [    4.905873]  el0_sync_compat+0x178/0x180
-> [    4.909783] ---[ end trace b4f2db9d9c88610c ]---
-> =
-
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
-> v1:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20210409045314.=
-3420733-1-hsinyi@chromium.org/
-> ---
->  drivers/gpu/drm/drm_connector.c | 28 +++++++++++++++-------------
->  1 file changed, 15 insertions(+), 13 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 7631f76e7f34..a1acb4af0ef4 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -303,6 +303,10 @@ int drm_connector_init(struct drm_device *dev,
->  				   config->tile_property,
->  				   0);
->  =
-
-> +	drm_object_attach_property(&connector->base,
-> +				   config->panel_orientation_property,
-> +				   DRM_MODE_PANEL_ORIENTATION_UNKNOWN);
-> +
-
-A bit silly to add this to every connector. I think you should just
-fix the driver/bridge stuff to set up the orientaion earlier.
-
->  	if (drm_core_check_feature(dev, DRIVER_ATOMIC)) {
->  		drm_object_attach_property(&connector->base, config->prop_crtc_id, 0);
->  	}
-> @@ -1210,7 +1214,7 @@ static const struct drm_prop_enum_list dp_colorspac=
-es[] =3D {
->   *	INPUT_PROP_DIRECT) will still map 1:1 to the actual LCD panel
->   *	coordinates, so if userspace rotates the picture to adjust for
->   *	the orientation it must also apply the same transformation to the
-> - *	touchscreen input coordinates. This property is initialized by calling
-> + *	touchscreen input coordinates. This property value is set by calling
->   *	drm_connector_set_panel_orientation() or
->   *	drm_connector_set_panel_orientation_with_quirk()
->   *
-> @@ -1298,6 +1302,14 @@ int drm_connector_create_standard_properties(struc=
-t drm_device *dev)
->  		return -ENOMEM;
->  	dev->mode_config.hdr_output_metadata_property =3D prop;
->  =
-
-> +	prop =3D drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
-> +					"panel orientation",
-> +					drm_panel_orientation_enum_list,
-> +					ARRAY_SIZE(drm_panel_orientation_enum_list));
-> +	if (!prop)
-> +		return -ENOMEM;
-> +	dev->mode_config.panel_orientation_property =3D prop;
-> +
->  	return 0;
->  }
->  =
-
-> @@ -2205,19 +2217,9 @@ int drm_connector_set_panel_orientation(
->  	info->panel_orientation =3D panel_orientation;
->  =
-
->  	prop =3D dev->mode_config.panel_orientation_property;
-> -	if (!prop) {
-> -		prop =3D drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
-> -				"panel orientation",
-> -				drm_panel_orientation_enum_list,
-> -				ARRAY_SIZE(drm_panel_orientation_enum_list));
-> -		if (!prop)
-> -			return -ENOMEM;
-> -
-> -		dev->mode_config.panel_orientation_property =3D prop;
-> -	}
->  =
-
-> -	drm_object_attach_property(&connector->base, prop,
-> -				   info->panel_orientation);
-> +	drm_object_property_set_value(&connector->base, prop,
-> +				      info->panel_orientation);
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_connector_set_panel_orientation);
-> -- =
-
-> 2.31.1.498.g6c1eba8ee3d-goog
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBBcHIgMjYsIDIwMjEgYXQgMDc6MTA6MDZQTSArMDgwMCwgS2FpLUhlbmcgRmVuZyB3
+cm90ZToKPiBPbiBGcmksIEFwciAyMywgMjAyMSBhdCA4OjQxIFBNIFZpbGxlIFN5cmrDpGzDpAo+
+IDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4gPgo+ID4gT24gRnJpLCBB
+cHIgMjMsIDIwMjEgYXQgMTI6NDY6NTRQTSArMDgwMCwgS2FpLUhlbmcgRmVuZyB3cm90ZToKPiA+
+ID4gT24gSFAgRnVyeSBHNyBXb3Jrc3RhdGlvbnMsIGdyYXBoaWNzIG91dHB1dCBpcyByZS1yb3V0
+ZWQgZnJvbSBJbnRlbCBHRlgKPiA+ID4gdG8gZGlzY3JldGUgR0ZYIGFmdGVyIFMzLiBUaGlzIGlz
+IG5vdCBkZXNpcmFibGUsIGJlY2F1c2UgdXNlcnNwYWNlIHdpbGwKPiA+ID4gdHJlYXQgY29ubmVj
+dGVkIGRpc3BsYXkgYXMgYSBuZXcgb25lLCBsb3NpbmcgZGlzcGxheSBzZXR0aW5ncy4KPiA+ID4K
+PiA+ID4gVGhlIGV4cGVjdGVkIGJlaGF2aW9yIGlzIHRvIGxldCBkaXNjcmV0ZSBHRlggZHJpdmVz
+IGFsbCBleHRlcm5hbAo+ID4gPiBkaXNwbGF5cy4KPiA+ID4KPiA+ID4gVGhlIHBsYXRmb3JtIGlu
+IHF1ZXN0aW9uIHVzZXMgQUNQSSBtZXRob2QgXF9TQi5QQ0kwLkhHTUUgdG8gZW5hYmxlIE1VWC4K
+PiA+ID4gVGhlIG1ldGhvZCBpcyBpbnNpZGUgdGhlIEJYVCBfRFNNLCBzbyBhZGQgdGhlIF9EU00g
+YW5kIGNhbGwgaXQKPiA+ID4gYWNjb3JkaW5nbHkuCj4gPiA+Cj4gPiA+IEkgYWxzbyB0ZXN0ZWQg
+c29tZSBNVVgtbGVzcyBhbmQgaUdQVSBvbmx5IGxhcHRvcHMgd2l0aCB0aGUgQlhUIF9EU00sIG5v
+Cj4gPiA+IHJlZ3Jlc3Npb24gd2FzIGZvdW5kLgo+ID4gPgo+ID4gPiB2MjoKPiA+ID4gIC0gRm9y
+d2FyZCBkZWNsYXJlIHN0cnVjdCBwY2lfZGV2Lgo+ID4gPgo+ID4gPiBDbG9zZXM6IGh0dHBzOi8v
+Z2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vaW50ZWwvLS9pc3N1ZXMvMzExMwo+ID4gPiBSZWZl
+cmVuY2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9pbnRlbC1nZngvMTQ2MDA0MDczMi0zMTQx
+Ny00LWdpdC1zZW5kLWVtYWlsLWFuaW1lc2gubWFubmFAaW50ZWwuY29tLwo+ID4gPiBTaWduZWQt
+b2ZmLWJ5OiBLYWktSGVuZyBGZW5nIDxrYWkuaGVuZy5mZW5nQGNhbm9uaWNhbC5jb20+Cj4gPiA+
+IC0tLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hY3BpLmMgfCAx
+NyArKysrKysrKysrKysrKysrKwo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9hY3BpLmggfCAgMyArKysKPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2
+LmMgICAgICAgICAgIHwgIDUgKysrKysKPiA+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMjUgaW5zZXJ0
+aW9ucygrKQo+ID4gPgo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
+cGxheS9pbnRlbF9hY3BpLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Fj
+cGkuYwo+ID4gPiBpbmRleCA4MzNkMGMxYmU0ZjEuLmM3YjU3YzIyZGNlMyAxMDA2NDQKPiA+ID4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hY3BpLmMKPiA+ID4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hY3BpLmMKPiA+ID4gQEAgLTE0
+LDExICsxNCwxNiBAQAo+ID4gPgo+ID4gPiAgI2RlZmluZSBJTlRFTF9EU01fUkVWSVNJT05fSUQg
+MSAvKiBGb3IgQ2FscGVsbGEgYW55d2F5Li4uICovCj4gPiA+ICAjZGVmaW5lIElOVEVMX0RTTV9G
+Tl9QTEFURk9STV9NVVhfSU5GTyAxIC8qIE5vIGFyZ3MgKi8KPiA+ID4gKyNkZWZpbmUgSU5URUxf
+RFNNX0ZOX1BMQVRGT1JNX0JYVF9NVVhfSU5GTyAwIC8qIE5vIGFyZ3MgKi8KPiA+ID4KPiA+ID4g
+IHN0YXRpYyBjb25zdCBndWlkX3QgaW50ZWxfZHNtX2d1aWQgPQo+ID4gPiAgICAgICBHVUlEX0lO
+SVQoMHg3ZWQ4NzNkMywgMHhjMmQwLCAweDRlNGYsCj4gPiA+ICAgICAgICAgICAgICAgICAweGE4
+LCAweDU0LCAweDBmLCAweDEzLCAweDE3LCAweGIwLCAweDFjLCAweDJjKTsKPiA+ID4KPiA+ID4g
+K3N0YXRpYyBjb25zdCBndWlkX3QgaW50ZWxfYnh0X2RzbV9ndWlkID0KPiA+ID4gKyAgICAgR1VJ
+RF9JTklUKDB4M2U1YjQxYzYsIDB4ZWIxZCwgMHg0MjYwLAo+ID4gPiArICAgICAgICAgICAgICAg
+MHg5ZCwgMHgxNSwgMHhjNywgMHgxZiwgMHhiYSwgMHhkYSwgMHhlNCwgMHgxNCk7Cj4gPiA+ICsK
+PiA+Cj4gPiBJIHRoaW5rIHRoaXMgZHNtIGlzIGp1c3Qgc3VwcG9zZWQgdG8gYmUgbW9yZSBvciBs
+ZXNzIGFuCj4gPiBhbHRlcm5hdGl2ZSB0byB0aGUgb3ByZWdpb24gU0NJIHN0dWZmLiBXaHkgdGhl
+cmUgYXJlIHR3bwo+ID4gd2F5cyB0byBkbyB0aGUgc2FtZSB0aGluZ3MgSSBoYXZlIG5vIGlkZWEu
+IFRoZSBvcHJlZ2lvbgo+ID4gc3BlYyBkb2VzIG5vdCB0ZWxsIHVzIHN1Y2ggbXVuZGFuZSBkZXRh
+aWxzLgo+IAo+IFJpZ2h0IG5vdyBJIHRoaW5rIGl0J3MgSFAgc3BlY2lmaWMgYW5kIGZyb20gd2hh
+dCBJIGNhbiBzZWUgaXQgZG9lc24ndAo+IHRvdWNoIG9wcmVnaW9uLgoKSXQncyBwYXJ0IG9mIHRo
+ZSBvcHJlZ2lvbiBzcGVjLgoKPiAKPiA+Cj4gPiBJdCdzIGFsc28gbm90IGRvY3VtZW50ZWQgdG8g
+ZG8gYW55dGhpbmcgZXhjZXB0IGxpc3QgdGhlCj4gPiBzdXBwb3J0ZWQgZnVuY3Rpb25zOgo+ID4g
+IkdldCBCSU9TIERhdGEgRnVuY3Rpb25zIFN1cHBvcnRlZCDigJxGdW5jdGlvbiAjMCIKPiA+ICBU
+aGlzIGZ1bmN0aW9uIGNhbiBiZSBjYWxsZWQgdG8gZGlzY292ZXIgd2hpY2gg4oCcX0RTTeKAnSBG
+dW5jdGlvbnMgYXJlCj4gPiAgc3VwcG9ydGVkLiBJdCBtYXkgb25seSByZXR1cm4gc3VjY2VzcyBp
+ZiB0aGUgcmV0dXJuIHZhbHVlIGFjY3VyYXRlbHkKPiA+ICBsaXN0cyBzdXBwb3J0ZWQgRnVuY3Rp
+b25zLiIKPiA+Cj4gPiBCdXQgd2hhdCB5b3UncmUgYXBwYXJlbnRseSBzYXlpbmcgaXMgdGhhdCBj
+YWxsaW5nIHRoaXMgY2hhbmdlcwo+ID4gdGhlIGJlaGF2aW91ciBvZiB0aGUgc3lzdGVtIHNvbWVo
+b3c/IFRoYXQgaXMgdHJvdWJsaW5nLgo+IAo+IEl0IGZsaXBzIGEgYml0IGluIEJJT1MtcmVzZXJ2
+ZWQgSW50ZWwgR1BJTywgYW5kIEVDL2hhcmR3YXJlIHdpbGwKPiBjaGFuZ2UgdGhlIE1VWCBiYXNl
+ZCBvbiB0aGUgR1BJTyBiaXQuCj4gCj4gV2UgY2FuIGFkZCBhIERNSSBjaGVjayB0byBtYXRjaCAi
+SFAiIHRvIG1pbmltaXplIHRoZSBwb3RlbnRpYWwKPiByZWdyZXNzaW9uIGZhY3Rvci4KCkknbSBy
+YXRoZXIgdGhpbmtpbmcgdGhhdCBjYWxsaW5nIGl0IGFsd2F5cyBtYXkgYmUgdGhlIHJpZ2h0IHRo
+aW5nIHRvIGRvLAphc3N1bWluZyBXaW5kb3dzIGRvZXMgaXQgYXMgd2VsbC4gTWF5YmUgbW9yZSB2
+ZW5kb3JzIHVzZSBpdCB0byBiYWNrZG9vciBpbgpyYW5kb20ganVuayBsaWtlIHRoaXMgOigKCi0t
+IApWaWxsZSBTeXJqw6Rsw6QKSW50ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
