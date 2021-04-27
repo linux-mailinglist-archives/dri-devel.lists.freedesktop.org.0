@@ -1,73 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC56936CE3B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 23:59:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E68E336CE74
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 00:11:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 452EA6E9EE;
-	Tue, 27 Apr 2021 21:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18F046E9EB;
+	Tue, 27 Apr 2021 22:11:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C75C89216;
- Tue, 27 Apr 2021 21:59:11 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id t13so5608140pji.4;
- Tue, 27 Apr 2021 14:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Wf4X81qR2aiWxM5zUbzpTONU9wKsCdZqn3KtL0vPTV8=;
- b=Mp6lL22nLI6mFgmw5ijRAGBXvnERils3KcPmR06Cxv3IliKr9KSoL8W4nMCYLOH4XA
- AVFo24oTNDXjW6hjDJcPUgmtEgBjo391GVwJKRQKlLfFTg474cHwsTRJwANvFGJu7FFf
- pPEgj9dysNtVy/SpszV1PYmYrG0Ot63G92zknzuWsY6csxAIzv2bOKZg9jgemmCMkidb
- SlOd+oix+xRPjrKKCOaOXu68bAwCWxVeRXR1BBrHnEjcs2sN1T1Sz0ilRnkKB5vNC210
- fvFCCiwCCv5Uom4s75buBsPB9DUUS7jEXxsA43VfXVUthNuX1uwAvVPBjK0HJP7LnUzE
- XgDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Wf4X81qR2aiWxM5zUbzpTONU9wKsCdZqn3KtL0vPTV8=;
- b=MHVuCdFD3SCmm5rops1E9J5ReXThSWZKTKiwFTXbjSEYvZTHY3rTzlxYPpNfyFn9ll
- 9mVql8r3Xl7Fh7MlNAEevghJxxfMSBHvIX1JMLspz8UKZ54xn9LZ0wEjkBCwddNkCJkO
- U+NhWqZkphbTHskdfbeH4/fDox2uiiVKybErscW697ezZ2ctbUyKTKavDC/RRFen682m
- Ykuca3wUe/nSpPASukc14eCAoj77gEYXvSu+IQqbT8KyXOl4LDCC5wXwDWZiBZdS5Pqz
- MYC1N3SUI0SQSbgp+rVypXcH7MK4eUktbmeiULuo6yaYjnRYOS4hMHf934Hba9Q+WuZV
- oSRA==
-X-Gm-Message-State: AOAM533V7n0fn9D/aqEXXAZLeQvTH6BrMXrS9p/efahB94iPMUd8EDXL
- Q89IoReRoaFs2WDFxBqj+jrp9AneJ40VrpZ3Zl5tH3BUFGk=
-X-Google-Smtp-Source: ABdhPJw6d7lf2V6XTPIGy50rs0BIGxwQgMhNG7zEmX74Kr3NjAbudMcWYoImVikm5Wv1vGndKOEdlBDu/wQnN9Vpbeg=
-X-Received: by 2002:a17:90b:3796:: with SMTP id
- mz22mr450166pjb.80.1619560750730; 
- Tue, 27 Apr 2021 14:59:10 -0700 (PDT)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7FEF6E9EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 22:11:35 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1619561495; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=t+FiMvec7pN8/ZASnZaDrlvx3QrMD6pR45D++jJAF6c=;
+ b=KT+892TWkwyE48M9+Ba1eQSbBNthsPc5Avy3q6LF+hXMKCLrzJVUW9P8NR2cJhivP5C4UVHZ
+ 06K4VF3jqR3f/mAZ5R0aw2Ca7xn+lb384k8XF4nyhprEp1RZuKZMqLAOFK1274srX1A+anCF
+ OFtXQbdc/212nV71kxPxiXcLXrw=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 60888c162cc44d3aea714771 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 27 Apr 2021 22:11:34
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 7A0DEC433F1; Tue, 27 Apr 2021 22:11:34 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id B7A5CC433D3;
+ Tue, 27 Apr 2021 22:11:32 +0000 (UTC)
 MIME-Version: 1.0
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
- <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
- <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
- <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
- <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
- <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
- <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
- <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
- <YIfFC3YST0cfzd3l@phenom.ffwll.local>
- <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
- <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
- <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
- <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
- <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
- <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
- <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
- <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
- <CAOFGe95C78mqV-8-o7PgZ1RZu-OJATVzK4wsS2k9ojXh6ba-tA@mail.gmail.com>
-In-Reply-To: <CAOFGe95C78mqV-8-o7PgZ1RZu-OJATVzK4wsS2k9ojXh6ba-tA@mail.gmail.com>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Tue, 27 Apr 2021 17:58:40 -0400
-Message-ID: <CAAxE2A7EwWqOVhKGEMhA3tvSUH-_J=tKf97kHa2VDEaRTfOxTA@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: Jason Ekstrand <jason@jlekstrand.net>
+Date: Tue, 27 Apr 2021 15:11:32 -0700
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [Freedreno] [PATCH v2 2/4] drm/msm: make msm_disp_state transient
+ data struct
+In-Reply-To: <CAA8EJpqpHqjWups3_fQfxjJhFXO+Z1Zr0LVwEy+8C-2GMj8oyw@mail.gmail.com>
+References: <20210427001828.2375555-1-dmitry.baryshkov@linaro.org>
+ <20210427001828.2375555-3-dmitry.baryshkov@linaro.org>
+ <64eb1a3343cc9530eecea6816d298ae0@codeaurora.org>
+ <CAA8EJpqpHqjWups3_fQfxjJhFXO+Z1Zr0LVwEy+8C-2GMj8oyw@mail.gmail.com>
+Message-ID: <e2d378fb49b344724277f2e65794af46@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,214 +66,340 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0581931641=="
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ "open list:DRM DRIVER
+ FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>, "open list:DRM DRIVER
+ FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0581931641==
-Content-Type: multipart/alternative; boundary="0000000000003d514905c0fb5f40"
+On 2021-04-27 13:29, Dmitry Baryshkov wrote:
+> On Tue, 27 Apr 2021 at 22:19, <abhinavk@codeaurora.org> wrote:
+>> 
+>> Hi Dmitry
+>> 
+>> On 2021-04-26 17:18, Dmitry Baryshkov wrote:
+>> > Instead of allocating snapshotting structure at the driver probe time
+>> > and later handling concurrent access, actual state, etc, make
+>> > msm_disp_state transient struct. Allocate one when snapshotting happens
+>> > and free it after coredump data is read by userspace.
+>> >
+>> Can you please check my previous comment on coredump_pending?
+>> 
+>> https://lore.kernel.org/dri-devel/186825e2fb7bea8d45f33b5c1fa3509f@codeaurora.org/T/#u
+>> 
+>> That helps to serialize read/write of coredump.
+> 
+> Regarding the serialization of read/write. As the disp_state becomes
+> the transient object, the need for such serialization vanishes:
+>  - Before the snapshot is complete, the object is not linked outside
+> of msm_disp_snapshot functions.
+>  - When the snapshot is complete, it becomes linked from the codedump
+> subsystem. After this it is only read by the coredump, nobody will
+> write to it.
+>  - Next snapshot will allocate a new disp_state structure.
+>  - If dev_coredumpm is called when the previous snapshot is still
+> referenced (the device exists), the new snapshot is silently freed.
+> 
+> Thus there is no need to sync the read/write operations. They are now
+> naturally serialized.
+Alright, just make sure to validate the robustness of this using the 
+method mentioned earlier.
+Apart from that,
 
---0000000000003d514905c0fb5f40
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Jason, both memory-based signalling as well as interrupt-based signalling
-to the CPU would be supported by amdgpu. External devices don't need to
-support memory-based sync objects. The only limitation is that they can't
-convert amdgpu sync objects to dma_fence.
-
-The sad thing is that "external -> amdgpu" dependencies are really
-"external <-> amdgpu" dependencies due to mutually-exclusive access
-required by non-explicitly-sync'd buffers, so amdgpu-amdgpu interop is the
-only interop that would initially work with those buffers. Explicitly
-sync'd buffers also won't work if other drivers convert explicit fences to
-dma_fence. Thus, both implicit sync and explicit sync might not work with
-other drivers at all. The only interop that would initially work is
-explicit fences with memory-based waiting and signalling on the external
-device to keep the kernel out of the picture.
-
-Marek
-
-
-On Tue, Apr 27, 2021 at 3:41 PM Jason Ekstrand <jason@jlekstrand.net> wrote=
-:
-
-> Trying to figure out which e-mail in this mess is the right one to reply
-> to....
->
-> On Tue, Apr 27, 2021 at 12:31 PM Lucas Stach <l.stach@pengutronix.de>
-> wrote:
-> >
-> > Hi,
-> >
-> > Am Dienstag, dem 27.04.2021 um 09:26 -0400 schrieb Marek Ol=C5=A1=C3=A1=
-k:
-> > > Ok. So that would only make the following use cases broken for now:
-> > > - amd render -> external gpu
->
-> Assuming said external GPU doesn't support memory fences.  If we do
-> amdgpu and i915 at the same time, that covers basically most of the
-> external GPU use-cases.  Of course, we'd want to convert nouveau as
-> well for the rest.
->
-> > > - amd video encode -> network device
-> >
-> > FWIW, "only" breaking amd render -> external gpu will make us pretty
-> > unhappy, as we have some cases where we are combining an AMD APU with a
-> > FPGA based graphics card. I can't go into the specifics of this use-
-> > case too much but basically the AMD graphics is rendering content that
-> > gets composited on top of a live video pipeline running through the
-> > FPGA.
->
-> I think it's worth taking a step back and asking what's being here
-> before we freak out too much.  If we do go this route, it doesn't mean
-> that your FPGA use-case can't work, it just means it won't work
-> out-of-the box anymore.  You'll have to separate execution and memory
-> dependencies inside your FPGA driver.  That's still not great but it's
-> not as bad as you maybe made it sound.
->
-> > > What about the case when we get a buffer from an external device and
-> > > we're supposed to make it "busy" when we are using it, and the
-> > > external device wants to wait until we stop using it? Is it something
-> > > that can happen, thus turning "external -> amd" into "external <->
-> > > amd"?
-> >
-> > Zero-copy texture sampling from a video input certainly appreciates
-> > this very much. Trying to pass the render fence through the various
-> > layers of userspace to be able to tell when the video input can reuse a
-> > buffer is a great experience in yak shaving. Allowing the video input
-> > to reuse the buffer as soon as the read dma_fence from the GPU is
-> > signaled is much more straight forward.
->
-> Oh, it's definitely worse than that.  Every window system interaction
-> is bi-directional.  The X server has to wait on the client before
-> compositing from it and the client has to wait on X before re-using
-> that back-buffer.  Of course, we can break that later dependency by
-> doing a full CPU wait but that's going to mean either more latency or
-> reserving more back buffers.  There's no good clean way to claim that
-> any of this is one-directional.
->
-> --Jason
->
-
---0000000000003d514905c0fb5f40
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Jason, both memory-based signalling as well as interr=
-upt-based signalling to the CPU would be supported by amdgpu. External devi=
-ces don&#39;t need to support memory-based sync objects. The only limitatio=
-n is that they can&#39;t convert amdgpu sync objects to dma_fence.<br></div=
-><div><br></div><div>The sad thing is that &quot;external -&gt; amdgpu&quot=
-; dependencies are really &quot;external &lt;-&gt; amdgpu&quot; dependencie=
-s due to mutually-exclusive access required by non-explicitly-sync&#39;d bu=
-ffers, so amdgpu-amdgpu interop is the only interop that would initially wo=
-rk with those buffers. Explicitly sync&#39;d buffers also won&#39;t work if=
- other drivers convert explicit fences to dma_fence. Thus, both implicit sy=
-nc and explicit sync might not work with other drivers at all. The only int=
-erop that would initially work is explicit fences with memory-based waiting=
- and signalling on the external device to keep the kernel out of the pictur=
-e.<br></div><div></div><div></div><div><br></div><div>Marek<br></div><br></=
-div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Tue, Apr 27, 2021 at 3:41 PM Jason Ekstrand &lt;<a href=3D"mailto:jason@jl=
-ekstrand.net">jason@jlekstrand.net</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">Trying to figure out which e-mail in this=
- mess is the right one to reply to....<br>
-<br>
-On Tue, Apr 27, 2021 at 12:31 PM Lucas Stach &lt;<a href=3D"mailto:l.stach@=
-pengutronix.de" target=3D"_blank">l.stach@pengutronix.de</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Hi,<br>
-&gt;<br>
-&gt; Am Dienstag, dem 27.04.2021 um 09:26 -0400 schrieb Marek Ol=C5=A1=C3=
-=A1k:<br>
-&gt; &gt; Ok. So that would only make the following use cases broken for no=
-w:<br>
-&gt; &gt; - amd render -&gt; external gpu<br>
-<br>
-Assuming said external GPU doesn&#39;t support memory fences.=C2=A0 If we d=
-o<br>
-amdgpu and i915 at the same time, that covers basically most of the<br>
-external GPU use-cases.=C2=A0 Of course, we&#39;d want to convert nouveau a=
-s<br>
-well for the rest.<br>
-<br>
-&gt; &gt; - amd video encode -&gt; network device<br>
-&gt;<br>
-&gt; FWIW, &quot;only&quot; breaking amd render -&gt; external gpu will mak=
-e us pretty<br>
-&gt; unhappy, as we have some cases where we are combining an AMD APU with =
-a<br>
-&gt; FPGA based graphics card. I can&#39;t go into the specifics of this us=
-e-<br>
-&gt; case too much but basically the AMD graphics is rendering content that=
-<br>
-&gt; gets composited on top of a live video pipeline running through the<br=
->
-&gt; FPGA.<br>
-<br>
-I think it&#39;s worth taking a step back and asking what&#39;s being here<=
-br>
-before we freak out too much.=C2=A0 If we do go this route, it doesn&#39;t =
-mean<br>
-that your FPGA use-case can&#39;t work, it just means it won&#39;t work<br>
-out-of-the box anymore.=C2=A0 You&#39;ll have to separate execution and mem=
-ory<br>
-dependencies inside your FPGA driver.=C2=A0 That&#39;s still not great but =
-it&#39;s<br>
-not as bad as you maybe made it sound.<br>
-<br>
-&gt; &gt; What about the case when we get a buffer from an external device =
-and<br>
-&gt; &gt; we&#39;re supposed to make it &quot;busy&quot; when we are using =
-it, and the<br>
-&gt; &gt; external device wants to wait until we stop using it? Is it somet=
-hing<br>
-&gt; &gt; that can happen, thus turning &quot;external -&gt; amd&quot; into=
- &quot;external &lt;-&gt;<br>
-&gt; &gt; amd&quot;?<br>
-&gt;<br>
-&gt; Zero-copy texture sampling from a video input certainly appreciates<br=
->
-&gt; this very much. Trying to pass the render fence through the various<br=
->
-&gt; layers of userspace to be able to tell when the video input can reuse =
-a<br>
-&gt; buffer is a great experience in yak shaving. Allowing the video input<=
-br>
-&gt; to reuse the buffer as soon as the read dma_fence from the GPU is<br>
-&gt; signaled is much more straight forward.<br>
-<br>
-Oh, it&#39;s definitely worse than that.=C2=A0 Every window system interact=
-ion<br>
-is bi-directional.=C2=A0 The X server has to wait on the client before<br>
-compositing from it and the client has to wait on X before re-using<br>
-that back-buffer.=C2=A0 Of course, we can break that later dependency by<br=
->
-doing a full CPU wait but that&#39;s going to mean either more latency or<b=
-r>
-reserving more back buffers.=C2=A0 There&#39;s no good clean way to claim t=
-hat<br>
-any of this is one-directional.<br>
-<br>
---Jason<br>
-</blockquote></div>
-
---0000000000003d514905c0fb5f40--
-
---===============0581931641==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> 
+>> 
+>> Rest of the changes on this one look fine to me.
+>> 
+>> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> > ---
+>> >  drivers/gpu/drm/msm/disp/msm_disp_snapshot.c  | 90 ++++++-------------
+>> >  drivers/gpu/drm/msm/disp/msm_disp_snapshot.h  | 13 +--
+>> >  .../gpu/drm/msm/disp/msm_disp_snapshot_util.c |  5 +-
+>> >  drivers/gpu/drm/msm/msm_kms.h                 |  6 +-
+>> >  4 files changed, 37 insertions(+), 77 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+>> > b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+>> > index 70fd5a1fe13e..a4a7cb06bc87 100644
+>> > --- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+>> > +++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+>> > @@ -7,8 +7,7 @@
+>> >
+>> >  #include "msm_disp_snapshot.h"
+>> >
+>> > -#ifdef CONFIG_DEV_COREDUMP
+>> > -static ssize_t disp_devcoredump_read(char *buffer, loff_t offset,
+>> > +static ssize_t __maybe_unused disp_devcoredump_read(char *buffer,
+>> > loff_t offset,
+>> >               size_t count, void *data, size_t datalen)
+>> >  {
+>> >       struct drm_print_iterator iter;
+>> > @@ -29,52 +28,47 @@ static ssize_t disp_devcoredump_read(char *buffer,
+>> > loff_t offset,
+>> >       return count - iter.remain;
+>> >  }
+>> >
+>> > -static void disp_devcoredump_free(void *data)
+>> > +static void _msm_disp_snapshot_work(struct kthread_work *work)
+>> >  {
+>> > +     struct msm_kms *kms = container_of(work, struct msm_kms, dump_work);
+>> > +     struct drm_device *drm_dev = kms->dev;
+>> >       struct msm_disp_state *disp_state;
+>> > +     struct drm_printer p;
+>> >
+>> > -     disp_state = data;
+>> > -
+>> > -     msm_disp_state_free(disp_state);
+>> > +     disp_state = kzalloc(sizeof(struct msm_disp_state), GFP_KERNEL);
+>> > +     if (!disp_state)
+>> > +             return;
+>> >
+>> > -     disp_state->coredump_pending = false;
+>> > -}
+>> > -#endif /* CONFIG_DEV_COREDUMP */
+>> > +     disp_state->dev = drm_dev->dev;
+>> > +     disp_state->drm_dev = drm_dev;
+>> >
+>> > -static void _msm_disp_snapshot_work(struct kthread_work *work)
+>> > -{
+>> > -     struct msm_disp_state *disp_state = container_of(work, struct
+>> > msm_disp_state, dump_work);
+>> > -     struct drm_printer p;
+>> > +     INIT_LIST_HEAD(&disp_state->blocks);
+>> >
+>> > -     mutex_lock(&disp_state->mutex);
+>> > +     /* Serialize dumping here */
+>> > +     mutex_lock(&kms->dump_mutex);
+>> >
+>> >       msm_disp_snapshot_capture_state(disp_state);
+>> >
+>> > +     mutex_unlock(&kms->dump_mutex);
+>> > +
+>> >       if (MSM_DISP_SNAPSHOT_DUMP_IN_CONSOLE) {
+>> >               p = drm_info_printer(disp_state->drm_dev->dev);
+>> >               msm_disp_state_print(disp_state, &p);
+>> >       }
+>> >
+>> >       /*
+>> > -      * if devcoredump is not defined free the state immediately
+>> > -      * otherwise it will be freed in the free handler.
+>> > +      * If COREDUMP is disabled, the stub will call the free function.
+>> > +      * If there is a codedump pending for the device, the dev_coredumpm()
+>> > +      * will also free new coredump state.
+>> >        */
+>> > -#ifdef CONFIG_DEV_COREDUMP
+>> >       dev_coredumpm(disp_state->dev, THIS_MODULE, disp_state, 0,
+>> > GFP_KERNEL,
+>> > -                     disp_devcoredump_read, disp_devcoredump_free);
+>> > -     disp_state->coredump_pending = true;
+>> > -#else
+>> > -     msm_disp_state_free(disp_state);
+>> > -#endif
+>> > -
+>> > -     mutex_unlock(&disp_state->mutex);
+>> > +                     disp_devcoredump_read, msm_disp_state_free);
+>> >  }
+>> >
+>> >  void msm_disp_snapshot_state(struct drm_device *drm_dev)
+>> >  {
+>> >       struct msm_drm_private *priv;
+>> >       struct msm_kms *kms;
+>> > -     struct msm_disp_state *disp_state;
+>> >
+>> >       if (!drm_dev) {
+>> >               DRM_ERROR("invalid params\n");
+>> > @@ -83,30 +77,13 @@ void msm_disp_snapshot_state(struct drm_device
+>> > *drm_dev)
+>> >
+>> >       priv = drm_dev->dev_private;
+>> >       kms = priv->kms;
+>> > -     disp_state = kms->disp_state;
+>> > -
+>> > -     if (!disp_state) {
+>> > -             DRM_ERROR("invalid params\n");
+>> > -             return;
+>> > -     }
+>> >
+>> > -     /*
+>> > -      * if there is a coredump pending return immediately till dump
+>> > -      * if read by userspace or timeout happens
+>> > -      */
+>> > -     if (disp_state->coredump_pending) {
+>> > -             DRM_DEBUG("coredump is pending read\n");
+>> > -             return;
+>> > -     }
+>> > -
+>> > -     kthread_queue_work(disp_state->dump_worker,
+>> > -                     &disp_state->dump_work);
+>> > +     kthread_queue_work(kms->dump_worker, &kms->dump_work);
+>> >  }
+>> >
+>> >  int msm_disp_snapshot_init(struct drm_device *drm_dev)
+>> >  {
+>> >       struct msm_drm_private *priv;
+>> > -     struct msm_disp_state *disp_state;
+>> >       struct msm_kms *kms;
+>> >
+>> >       if (!drm_dev) {
+>> > @@ -117,22 +94,13 @@ int msm_disp_snapshot_init(struct drm_device
+>> > *drm_dev)
+>> >       priv = drm_dev->dev_private;
+>> >       kms = priv->kms;
+>> >
+>> > -     disp_state = devm_kzalloc(drm_dev->dev, sizeof(struct
+>> > msm_disp_state), GFP_KERNEL);
+>> > -
+>> > -     mutex_init(&disp_state->mutex);
+>> > +     mutex_init(&kms->dump_mutex);
+>> >
+>> > -     disp_state->dev = drm_dev->dev;
+>> > -     disp_state->drm_dev = drm_dev;
+>> > -
+>> > -     INIT_LIST_HEAD(&disp_state->blocks);
+>> > -
+>> > -     disp_state->dump_worker = kthread_create_worker(0, "%s",
+>> > "disp_snapshot");
+>> > -     if (IS_ERR(disp_state->dump_worker))
+>> > +     kms->dump_worker = kthread_create_worker(0, "%s", "disp_snapshot");
+>> > +     if (IS_ERR(kms->dump_worker))
+>> >               DRM_ERROR("failed to create disp state task\n");
+>> >
+>> > -     kthread_init_work(&disp_state->dump_work, _msm_disp_snapshot_work);
+>> > -
+>> > -     kms->disp_state = disp_state;
+>> > +     kthread_init_work(&kms->dump_work, _msm_disp_snapshot_work);
+>> >
+>> >       return 0;
+>> >  }
+>> > @@ -141,7 +109,6 @@ void msm_disp_snapshot_destroy(struct drm_device
+>> > *drm_dev)
+>> >  {
+>> >       struct msm_kms *kms;
+>> >       struct msm_drm_private *priv;
+>> > -     struct msm_disp_state *disp_state;
+>> >
+>> >       if (!drm_dev) {
+>> >               DRM_ERROR("invalid params\n");
+>> > @@ -150,12 +117,9 @@ void msm_disp_snapshot_destroy(struct drm_device
+>> > *drm_dev)
+>> >
+>> >       priv = drm_dev->dev_private;
+>> >       kms = priv->kms;
+>> > -     disp_state = kms->disp_state;
+>> > -
+>> > -     if (disp_state->dump_worker)
+>> > -             kthread_destroy_worker(disp_state->dump_worker);
+>> >
+>> > -     list_del(&disp_state->blocks);
+>> > +     if (kms->dump_worker)
+>> > +             kthread_destroy_worker(kms->dump_worker);
+>> >
+>> > -     mutex_destroy(&disp_state->mutex);
+>> > +     mutex_destroy(&kms->dump_mutex);
+>> >  }
+>> > diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+>> > b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+>> > index 32f52799a1ba..c6174a366095 100644
+>> > --- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+>> > +++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+>> > @@ -41,26 +41,17 @@
+>> >   * struct msm_disp_state - structure to store current dpu state
+>> >   * @dev: device pointer
+>> >   * @drm_dev: drm device pointer
+>> > - * @mutex: mutex to serialize access to serialze dumps, debugfs access
+>> > - * @coredump_pending: coredump is pending read from userspace
+>> >   * @atomic_state: atomic state duplicated at the time of the error
+>> > - * @dump_worker: kworker thread which runs the dump work
+>> > - * @dump_work: kwork which dumps the registers and drm state
+>> >   * @timestamp: timestamp at which the coredump was captured
+>> >   */
+>> >  struct msm_disp_state {
+>> >       struct device *dev;
+>> >       struct drm_device *drm_dev;
+>> > -     struct mutex mutex;
+>> > -
+>> > -     bool coredump_pending;
+>> >
+>> >       struct list_head blocks;
+>> >
+>> >       struct drm_atomic_state *atomic_state;
+>> >
+>> > -     struct kthread_worker *dump_worker;
+>> > -     struct kthread_work dump_work;
+>> >       ktime_t timestamp;
+>> >  };
+>> >
+>> > @@ -123,11 +114,11 @@ void msm_disp_snapshot_capture_state(struct
+>> > msm_disp_state *disp_state);
+>> >
+>> >  /**
+>> >   * msm_disp_state_free - free the memory after the coredump has been
+>> > read
+>> > - * @disp_state:          handle to struct msm_disp_state
+>> > + * @data:        handle to struct msm_disp_state
+>> >
+>> >   * Returns: none
+>> >   */
+>> > -void msm_disp_state_free(struct msm_disp_state *disp_state);
+>> > +void msm_disp_state_free(void *data);
+>> >
+>> >  /**
+>> >   * msm_disp_snapshot_add_block - add a hardware block with its
+>> > register dump
+>> > diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+>> > b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+>> > index ca6632550337..cabe15190ec1 100644
+>> > --- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+>> > +++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+>> > @@ -142,8 +142,9 @@ void msm_disp_snapshot_capture_state(struct
+>> > msm_disp_state *disp_state)
+>> >       msm_disp_capture_atomic_state(disp_state);
+>> >  }
+>> >
+>> > -void msm_disp_state_free(struct msm_disp_state *disp_state)
+>> > +void msm_disp_state_free(void *data)
+>> >  {
+>> > +     struct msm_disp_state *disp_state = data;
+>> >       struct msm_disp_state_block *block, *tmp;
+>> >
+>> >       if (disp_state->atomic_state) {
+>> > @@ -156,6 +157,8 @@ void msm_disp_state_free(struct msm_disp_state
+>> > *disp_state)
+>> >               kfree(block->state);
+>> >               kfree(block);
+>> >       }
+>> > +
+>> > +     kfree(disp_state);
+>> >  }
+>> >
+>> >  void msm_disp_snapshot_add_block(struct msm_disp_state *disp_state,
+>> > u32 len,
+>> > diff --git a/drivers/gpu/drm/msm/msm_kms.h
+>> > b/drivers/gpu/drm/msm/msm_kms.h
+>> > index 146dcab123f4..086a2d59b8c8 100644
+>> > --- a/drivers/gpu/drm/msm/msm_kms.h
+>> > +++ b/drivers/gpu/drm/msm/msm_kms.h
+>> > @@ -156,8 +156,10 @@ struct msm_kms {
+>> >       /* mapper-id used to request GEM buffer mapped for scanout: */
+>> >       struct msm_gem_address_space *aspace;
+>> >
+>> > -     /* handle to disp snapshot state */
+>> > -     struct msm_disp_state *disp_state;
+>> > +     /* disp snapshot support */
+>> > +     struct kthread_worker *dump_worker;
+>> > +     struct kthread_work dump_work;
+>> > +     struct mutex dump_mutex;
+>> >
+>> >       /*
+>> >        * For async commit, where ->flush_commit() and later happens
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0581931641==--
