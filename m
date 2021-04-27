@@ -1,77 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46B936CEBB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 00:45:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 034E636CEC2
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 00:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABE1C6E9FA;
-	Tue, 27 Apr 2021 22:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4636E9FE;
+	Tue, 27 Apr 2021 22:50:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 455E36E9FA
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 22:44:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD6396E9FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 22:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619563497;
+ s=mimecast20190719; t=1619563805;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EgiXRmMXa3NJldt/X/DsEnucIqp2KsWziXQ4O//7F28=;
- b=OnbQToJ2D1OqGzX9zBaJ5KS++0p5Gyo4OTHEwTtgUOWto+NSYtRR6b9aULVJlmb750abX6
- I9fPxxEOFw1FO3kU2KisbtY6UnfpiDzhJy3qaW7Sc6VNnIu1n8hrKNhmbEHtZVp+fPyo7m
- oNKGLr6/uRsFBJpPlxkvN//JkkpCZJo=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-RCB2vVDQNH6tL5iRU_z7TQ-1; Tue, 27 Apr 2021 18:44:54 -0400
-X-MC-Unique: RCB2vVDQNH6tL5iRU_z7TQ-1
-Received: by mail-qt1-f200.google.com with SMTP id
- p8-20020a05622a0488b02901bab8dfa0c5so4345181qtx.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 15:44:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=EgiXRmMXa3NJldt/X/DsEnucIqp2KsWziXQ4O//7F28=;
- b=QBO/J1DE13f1VwfwZPv8+4hCxrciifAEUqL3dJMOxHH2UDojL2fXITBgIr3YOUP98e
- qO+NkrmkJRhF417CpR6Hvo1spgJ5+XNwe7uevy1zrhq1+X/0GlboUFpzEl093nqLUoxj
- so87ugqYxeue6yRDID/maZTUs1WgZKIjN0NQqjv387P+mTcMVf4JJT3i/vj+FayYFaFO
- rIfvUcEuarXLiaY8D9fsO3b2s1ci41MN/lQj3wTcmh7eBc25FBB7X9TF0bI9zr4+HrVy
- Uj1PU5M1aFryo0SwiX/mxlj/hjSA/RBMahDWMJD7U5vhWK1fklezCbcvstf5Zfdy80ba
- kDnw==
-X-Gm-Message-State: AOAM533TOnkC+BgVmm0RzoGG51Er4yv7HbNZaUvluyCCf9Nh9K1uc1x9
- 3JxyXixjHJN00EQPaQPXLIv4pgMBHPnJlSpGr9mm2hdG0xI1MOQ314xziQ+mDcOMix/ef1aGcEu
- xFaSo7wKncX3b1Hi/ADw+sdc15fyA
-X-Received: by 2002:ac8:7761:: with SMTP id h1mr4639166qtu.226.1619563494342; 
- Tue, 27 Apr 2021 15:44:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyW8E9WJQ40Y3UXOfq1mqkdZDksWBoxiI9VSIOGaYGWFbfX2Oo6ApE9CxLBPAUrNQWKTWwdjA==
-X-Received: by 2002:ac8:7761:: with SMTP id h1mr4639146qtu.226.1619563494109; 
- Tue, 27 Apr 2021 15:44:54 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id n15sm917482qti.51.2021.04.27.15.44.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 15:44:53 -0700 (PDT)
-Message-ID: <43482b904ef0150b6577044668dd651684590ab0.camel@redhat.com>
-Subject: Re: [PATCH 1/2] drm/tegra: Get ref for DP AUX channel, not its ddc
- adapter
-From: Lyude Paul <lyude@redhat.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Date: Tue, 27 Apr 2021 18:44:52 -0400
-In-Reply-To: <YIZu4PD6BmlGYXuc@orome.fritz.box>
-References: <20210423182146.185633-1-lyude@redhat.com>
- <20210423182146.185633-2-lyude@redhat.com>
- <YIZu4PD6BmlGYXuc@orome.fritz.box>
-Organization: Red Hat
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
+ bh=cO8rq0W/UXy84srQ0IqQ4LM9BXhfScB/i6+15e8JVlQ=;
+ b=SuYzGomZ+qxkLuyoratHMCEt+Xv6a3Kb0HWEjlWsB2N2AyFezd5iC9Yy6cn4ulLOGd2vqA
+ iQXT9glkOW9cOdx5yzlvFwOzvSheT3NFs4zZ10MWj+Vu0uf7seM4D66iqyijnEHrQ58m7p
+ EgZ0Ouy6z3kNb0isiuw1bM8mvvy0GL8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-CSLUtTQ9PMOJSlhk6jA_JQ-1; Tue, 27 Apr 2021 18:50:03 -0400
+X-MC-Unique: CSLUtTQ9PMOJSlhk6jA_JQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19B9A803620;
+ Tue, 27 Apr 2021 22:49:59 +0000 (UTC)
+Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1845D5D9F2;
+ Tue, 27 Apr 2021 22:49:57 +0000 (UTC)
+Date: Tue, 27 Apr 2021 16:49:56 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 00/13] Remove vfio_mdev.c, mdev_parent_ops and more
+Message-ID: <20210427164956.750aea67@redhat.com>
+In-Reply-To: <20210427222026.GL1370958@nvidia.com>
+References: <0-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
+ <20210427153042.103e12ab@redhat.com>
+ <20210427222026.GL1370958@nvidia.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,79 +59,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-tegra@vger.kernel.org, Thierry Reding <treding@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ linux-s390@vger.kernel.org, "Raj, Ashok" <ashok.raj@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Tarun Gupta <targupta@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ Zhi Wang <zhi.a.wang@intel.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Eric Farman <farman@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Dan Williams <dan.j.williams@intel.com>,
+ intel-gvt-dev@lists.freedesktop.org, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIxLTA0LTI2IGF0IDA5OjQyICswMjAwLCBUaGllcnJ5IFJlZGluZyB3cm90ZToK
-PiBPbiBGcmksIEFwciAyMywgMjAyMSBhdCAwMjoyMTo0NVBNIC0wNDAwLCBMeXVkZSBQYXVsIHdy
-b3RlOgo+ID4gV2hpbGUgd2UncmUgdGFraW5nIGEgcmVmZXJlbmNlIG9mIHRoZSBEREMgYWRhcHRl
-ciBmb3IgYSBEUCBBVVggY2hhbm5lbCBpbgo+ID4gdGVncmFfc29yX3Byb2JlKCkgYmVjYXVzZSB3
-ZSdyZSBnb2luZyB0byBiZSB1c2luZyB0aGF0IGFkYXB0ZXIgd2l0aCB0aGUKPiA+IFNPUiwgbm93
-IHRoYXQgd2UndmUgbW92ZWQgd2hlcmUgQVVYIHJlZ2lzdHJhdGlvbiBoYXBwZW5zIHRoZSBhY3R1
-YWwgZGV2aWNlCj4gPiBzdHJ1Y3R1cmUgZm9yIHRoZSBEREMgYWRhcHRlciBpc24ndCBpbml0aWFs
-aXplZCB5ZXQuIFdoaWNoIG1lYW5zIHRoYXQgd2UKPiA+IGNhbid0IHJlYWxseSB0YWtlIGEgcmVm
-ZXJlbmNlIGZyb20gaXQgdG8gdHJ5IHRvIGtlZXAgaXQgYXJvdW5kIGFueW1vcmUuCj4gPiAKPiA+
-IFRoaXMgc2hvdWxkIGJlIGZpbmUgdGhvdWdoLCBiZWNhdXNlIHdlIGNhbiBqdXN0IHRha2UgYSBy
-ZWZlcmVuY2Ugb2YgaXRzCj4gPiBwYXJlbnQgaW5zdGVhZC4KPiA+IAo+ID4gU2lnbmVkLW9mZi1i
-eTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiA+IEZpeGVzOiAzOWMxN2FlNjBlYTkg
-KCJkcm0vdGVncmE6IERvbid0IHJlZ2lzdGVyIERQIEFVWCBjaGFubmVscyBiZWZvcmUKPiA+IGNv
-bm5lY3RvcnMiKQo+ID4gQ2M6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gPiBDYzog
-VGhpZXJyeSBSZWRpbmcgPHRoaWVycnkucmVkaW5nQGdtYWlsLmNvbT4KPiA+IENjOiBKb25hdGhh
-biBIdW50ZXIgPGpvbmF0aGFuaEBudmlkaWEuY29tPgo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKPiA+IENjOiBsaW51eC10ZWdyYUB2Z2VyLmtlcm5lbC5vcmcKPiA+IC0t
-LQo+ID4gwqBkcml2ZXJzL2dwdS9kcm0vdGVncmEvc29yLmMgfCA2ICsrKy0tLQo+ID4gwqAxIGZp
-bGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3Nvci5jIGIvZHJpdmVycy9ncHUvZHJtL3Rl
-Z3JhL3Nvci5jCj4gPiBpbmRleCA3Yjg4MjYxZjU3YmIuLjRlMGUzYTYzZTU4NiAxMDA2NDQKPiA+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3RlZ3JhL3Nvci5jCj4gPiBAQCAtMzczOSwxMSArMzczOSwxMSBAQCBzdGF0aWMgaW50IHRl
-Z3JhX3Nvcl9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlCj4gPiAqcGRldikKPiA+IMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKCFzb3ItPmF1eCkKPiA+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAtRVBST0JFX0RFRkVS
-Owo+ID4gwqAKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoZ2V0X2Rldmlj
-ZSgmc29yLT5hdXgtPmRkYy5kZXYpKSB7Cj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoGlmICh0cnlfbW9kdWxlX2dldChzb3ItPmF1eC0+ZGRjLm93bmVy
-KSkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoZ2V0X2RldmljZShzb3It
-PmF1eC0+ZGV2KSkgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBpZiAodHJ5X21vZHVsZV9nZXQoc29yLT5hdXgtPmRldi0+ZHJpdmVyLT5vd25lcikp
-Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgc29yLT5vdXRwdXQuZGRjID0gJnNvci0+YXV4LT5kZGM7Cj4gPiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlbHNlCj4gPiAtwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBw
-dXRfZGV2aWNlKCZzb3ItPmF1eC0+ZGRjLmRldik7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwdXRfZGV2aWNlKHNvci0+
-YXV4LT5kZXYpOwo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Cj4gPiDCoMKg
-wqDCoMKgwqDCoMKgfQo+IAo+IFVuZm9ydHVuYXRlbHksIEkgdGhpbmsgaXQncyBhIGJpdCBtb3Jl
-IHN1YnRsZSB0aGFuIHRoYXQuIFRoZSByZWFzb24gZm9yCj4gdGhpcyBnZXRfZGV2aWNlKCkvdHJ5
-X21vZHVsZV9nZXQoKSBkYW5jZSB3YXMgdG8gbWlycm9yIHRoZSBiZWhhdmlvdXIgb2YKPiBvZl9n
-ZXRfaTJjX2FkYXB0ZXJfYnlfbm9kZSgpIHNvIHRoYXQgd2hlbiB3ZSBjYWxsIGkyY19wdXRfYWRh
-cHRlcigpIGluCj4gdGVncmFfb3V0cHV0X3JlbW92ZSgpIHdlIGNvcnJlY3RseSBkZWNyZWFzZSB0
-aGUgcmVmZXJlbmNlIGNvdW50Lgo+IAo+IFRoZSBhYm92ZSB3aWxsIGluY3JlYXNlIHRoZSByZWZl
-cmVuY2Ugb24gdGhlIEkyQyBhZGFwdGVyJ3MgcGFyZW50IHdoaWxlCj4gaTJjX3B1dF9hZGFwdGVy
-KCkgd2lsbCB0aGVuIG9ubHkgZGVjcmVhc2UgdGhlIHJlZmVyZW5jZSBvbiB0aGUgSTJDCj4gYWRh
-cHRlciwgc28gSSB0aGluayBlZmZlY3RpdmVseSB3ZSdkIGJlIGxlYWtpbmcgYSByZWZlcmVuY2Ug
-dG8gdGhlIEkyQwo+IGFkYXB0ZXIncyBwYXJlbnQuCj4gCj4gQWxzbywgc2luY2Ugd2UgZGlkbid0
-IHRha2UgYSByZWZlcmVuY2Ugb24gdGhlIEkyQyBhZGFwdGVyIGV4cGxpY2l0bHksCj4gcmVsZWFz
-aW5nIHRoYXQgcmVmZXJlbmNlIGluIHRlZ3JhX291dHB1dF9yZW1vdmUoKSBtaWdodCBmcmVlIHRo
-ZSBJMkMKPiBhZGFwdGVyIHRvbyBlYXJseS4KPiAKPiBJIHdvbmRlciBpZiBwZXJoYXBzIGl0J2Qg
-YmUgZWFzaWVyIHRvIGdldCByaWQgb2YgdGhlIHN0cnVjdCB0ZWdyYV9vdXRwdXQKPiBhYnN0cmFj
-dGlvbiBhbHRvZ2V0aGVyIGFuZCBwdXNoIHRoaXMgZG93biBpbnRvIHRoZSBpbmRpdmlkdWFsIGRy
-aXZlcnMsCj4gZXZlbiBpZiB0aGF0IG1lYW5zIGEgYml0IG1vcmUgY29kZSBkdXBsaWNhdGlvbi4g
-VGhhdCdzIG5vdCB0aGUga2luZCBvZgo+IHF1aWNrIGZpeCB0byByZXNvbHZlIHRoaXMgY3VycmVu
-dCBzaXR1YXRpb24sIHNvIHBlcmhhcHMgYXMgYSBzdG9wLWdhcCB3ZQo+IGp1c3QgbmVlZCB0byBz
-cHJpbmtsZSBhIGZldyBtb3JlIGNvbmRpdGlvbmFscyB0aHJvdWdob3V0IHRlZ3JhX291dHB1dAo+
-IGNvZGUuIFdlIGNvdWxkLCBmb3IgZXhhbXBsZSwgYXZvaWQgY2FsbGluZyBpMmNfcHV0X2FkYXB0
-ZXIoKSBpbgo+IHRlZ3JhX291dHB1dF9yZW1vdmUoKSBmb3IgdGhlIERpc3BsYXlQb3J0IGNhc2Vz
-IGFuZCBpbnN0ZWFkIG1hbnVhbGx5Cj4gcmVsZWFzZSB0aGUgcmVmZXJlbmNlIHRvIHRoZSBJMkMg
-YWRhcHRlcidzIHBhcmVudCBpbiB0ZWdyYV9zb3JfcmVtb3ZlKCkuCj4gT24gdG9wIG9mIHlvdXIg
-cGF0Y2ggYWJvdmUgdGhhdCAvc2hvdWxkLyBmaXggdGhpbmdzIHByb3Blcmx5IGZvciBub3cuCgpB
-bHJpZ2h0IC0gSSB3aWxsIHRyeSB0byBnZXQgdG8gdGhpcyB0b21vcnJvdwoKPiAKPiBUaGllcnJ5
-CgotLSAKQ2hlZXJzLAogTHl1ZGUgUGF1bCAoc2hlL2hlcikKIFNvZnR3YXJlIEVuZ2luZWVyIGF0
-IFJlZCBIYXQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, 27 Apr 2021 19:20:26 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+
+> On Tue, Apr 27, 2021 at 03:30:42PM -0600, Alex Williamson wrote:
+>  
+> > It'd be really helpful if you could consistently copy at least one
+> > list, preferably one monitored by patchwork, for an entire series.  The
+> > kvm list is missing patches 06 and 08.  I can find the latter hopping
+> > over to the intel-gfx or dri-devel projects as I did for the last
+> > series, but 06 only copied linux-s390, where I need to use lore and
+> > can't find a patchwork.  Thanks,  
+> 
+> Oh wow, that is not intentional, sorry! Thanks for pointing it out
+> 
+> I didn't notice this was happening, basically a side effect of having
+> so many different people and lists to get on this series - kvm should
+> have been CC on them all, I fixed it up going forward.
+> 
+> FWIW you may be interested in b4 if you haven't seen it before, it is
+> a good alternative if there isn't an offical patchworks.
+
+I'm sold!  Thanks,
+
+Alex
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
