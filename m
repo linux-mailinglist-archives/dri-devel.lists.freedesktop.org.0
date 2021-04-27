@@ -1,49 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366B336CA6E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 19:35:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F0536CA90
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 19:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 068F16E9A9;
-	Tue, 27 Apr 2021 17:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECF0F6E90F;
+	Tue, 27 Apr 2021 17:46:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EA876E9A9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 17:35:24 +0000 (UTC)
-Date: Tue, 27 Apr 2021 17:35:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1619544922;
- bh=QNrbECCQvl+CPyFFyO5xFKvOf7MIlAPdvHg7GH/dlfE=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=fjo2mMBbwEAJoY5qWcpkPJPf9NoOPcuU0J2zeLLPW0Dq1ZlgaTek9JQnJ+vkGuni5
- fpVVdAhSbbSXKGwj3AMEi2FSwq6QBeofgdLvniiCQVLZPdyH+FMm3IJ1zbM7wMMvfX
- q/uzsWWcqK/28ullUbMmrum8CtffgpvvWx5caOe0/GJtvb8hepGMz6Ow7v9cnKDeYl
- W0gJOijGB3+u/758Mm083o+L7oSrh0JGWqwTSmEE1r+GvSlq3JfZgj5VRG1+5AZhKh
- +mFyxClc/Bk4V/QwlMfPy4dC5EYVnVBr6pqn8NK+wIifAzr/oT9JmLTcNGIMQg/9Q5
- eRjzYRy+Vjo5w==
-To: Lucas Stach <l.stach@pengutronix.de>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-Message-ID: <s8QVKcJeMhEBcoOS9h7UzE_fUG-VKfgso3HbaM37xGhbBu6i966cTiD_UY1lBbiOMl-VbGyu7r0eBS3vTY8DWSUItsLrf_ISzDuT9vbRs8I=@emersion.fr>
-In-Reply-To: <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
- <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
- <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
- <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
- <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
- <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
- <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
- <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 381696E90F;
+ Tue, 27 Apr 2021 17:46:07 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 8D62BB216;
+ Tue, 27 Apr 2021 17:46:05 +0000 (UTC)
+Subject: Re: [PATCH] drm/i915/gem: Remove reference to struct drm_device.pdev
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "airlied@linux.ie"
+ <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "Auld, Matthew" <matthew.auld@intel.com>
+References: <20210427110747.2065-1-tzimmermann@suse.de>
+ <c4ee56d253784b2081891908423c4389@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <e062e7e6-b8d0-85c8-38df-6301145a0214@suse.de>
+Date: Tue, 27 Apr 2021 19:46:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+In-Reply-To: <c4ee56d253784b2081891908423c4389@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,33 +44,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?utf-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, "Tang, CQ" <cq.tang@intel.com>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, "Liu, Xinyun" <xinyun.liu@intel.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: multipart/mixed; boundary="===============0082219222=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, April 27th, 2021 at 7:31 PM, Lucas Stach <l.stach@pengutronix.de> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0082219222==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="irJTV5jsQI2KdLbryK1vmShkMCBYYlJtQ"
 
-> > Ok. So that would only make the following use cases broken for now:
-> >
-> > - amd render -> external gpu
-> > - amd video encode -> network device
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--irJTV5jsQI2KdLbryK1vmShkMCBYYlJtQ
+Content-Type: multipart/mixed; boundary="OrOBpi1OPaNWS5tAa59ua7mq9TqRQe8It";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "airlied@linux.ie"
+ <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "Auld, Matthew" <matthew.auld@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, "Tang, CQ" <cq.tang@intel.com>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, "Liu, Xinyun"
+ <xinyun.liu@intel.com>, Dan Carpenter <dan.carpenter@oracle.com>
+Message-ID: <e062e7e6-b8d0-85c8-38df-6301145a0214@suse.de>
+Subject: Re: [PATCH] drm/i915/gem: Remove reference to struct drm_device.pdev
+References: <20210427110747.2065-1-tzimmermann@suse.de>
+ <c4ee56d253784b2081891908423c4389@intel.com>
+In-Reply-To: <c4ee56d253784b2081891908423c4389@intel.com>
+
+--OrOBpi1OPaNWS5tAa59ua7mq9TqRQe8It
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 27.04.21 um 16:39 schrieb Ruhl, Michael J:
+>=20
+>> -----Original Message-----
+>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of=
+
+>> Thomas Zimmermann
+>> Sent: Tuesday, April 27, 2021 7:08 AM
+>> To: jani.nikula@linux.intel.com; joonas.lahtinen@linux.intel.com; Vivi=
+, Rodrigo
+>> <rodrigo.vivi@intel.com>; airlied@linux.ie; daniel@ffwll.ch; Auld, Mat=
+thew
+>> <matthew.auld@intel.com>
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>; Ursulin, Tvrtko
+>> <tvrtko.ursulin@intel.com>; Mika Kuoppala
+>> <mika.kuoppala@linux.intel.com>; intel-gfx@lists.freedesktop.org; Gust=
+avo
+>> A. R. Silva <gustavoars@kernel.org>; dri-devel@lists.freedesktop.org; =
+Chris
+>> Wilson <chris@chris-wilson.co.uk>; Tang, CQ <cq.tang@intel.com>; Hells=
+trom,
+>> Thomas <thomas.hellstrom@intel.com>; Thomas Zimmermann
+>> <tzimmermann@suse.de>; Daniel Vetter <daniel.vetter@ffwll.ch>; Liu,
+>> Xinyun <xinyun.liu@intel.com>; Dan Carpenter <dan.carpenter@oracle.com=
 >
-> FWIW, "only" breaking amd render -> external gpu will make us pretty
-> unhappy
+>> Subject: [PATCH] drm/i915/gem: Remove reference to struct
+>> drm_device.pdev
+>>
+>> References to struct drm_device.pdev should be used any longer as
+>=20
+> should not be used
+>               ^^^
+> ?
 
-I concur. I have quite a few users with a multi-GPU setup involving
-AMD hardware.
+Oh, indeed.
 
-Note, if this brokenness can't be avoided, I'd prefer a to get a clear
-error, and not bad results on screen because nothing is synchronized
-anymore.
+>=20
+> m
+>=20
+>> the field will be moved into the struct's legacy section. Add a fix
+>> for the rsp commit.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: d57d4a1daf5e ("drm/i915: Create stolen memory region from local=
+
+>> memory")
+>> Cc: CQ Tang <cq.tang@intel.com>
+>> Cc: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>> Cc: Xinyun Liu <xinyun.liu@intel.com>
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@intel.com>
+>> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+>> Cc: Dan Carpenter <dan.carpenter@oracle.com>
+>> Cc: intel-gfx@lists.freedesktop.org
+>> ---
+>> drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>> b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>> index c5b64b2400e8..e1a32672bbe8 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>> @@ -773,7 +773,7 @@ struct intel_memory_region *
+>> i915_gem_stolen_lmem_setup(struct drm_i915_private *i915)
+>> {
+>> 	struct intel_uncore *uncore =3D &i915->uncore;
+>> -	struct pci_dev *pdev =3D i915->drm.pdev;
+>> +	struct pci_dev *pdev =3D to_pci_dev(i915->drm.dev);
+>> 	struct intel_memory_region *mem;
+>> 	resource_size_t io_start;
+>> 	resource_size_t lmem_size;
+>> --
+>> 2.31.1
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--OrOBpi1OPaNWS5tAa59ua7mq9TqRQe8It--
+
+--irJTV5jsQI2KdLbryK1vmShkMCBYYlJtQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCITdsFAwAAAAAACgkQlh/E3EQov+Dw
+Ug//TURcL4KO+JO6ZlIScGQ2tbzcmah5/zhAC75i0Gdb7FKC8K3NPre7uz6/Ng9c03+a5rl8Lm7t
+n5l8gRqQZqzc/9d81jEKKL87WpBRswm/hor9GBB/a2q4Gi3WCsyLYwJLLkHll+g4av8S5Rr5Ntlv
+5A+N9jFgmwih928gJIin2xbb+lvrwMaNGk2BIbNIjJEj82OMXjDnxuT8tyR75UtDi42OlC6t/N/e
+PEAqCXb3JMpRlg6LInp34ddPqZ1+lq/77gBRSFCIHLP14cnCTABC81XVOn64dHp0WmvCnoL+yWKS
+/OGG8X1QJ7hW6WEHyLXcgsSqWtGXJfTaSLeNCikUJEqPMHzAdyUwUV/TomWJrmLNgBY36cenmgL7
+8URmn4tE4bRHqnDitmxHtZpdqp1U0mnIFQK3+CJN+d1N5+ntUedcrmXDRjb938buXa2QhrvRDEqz
+9jzFt4hV9MwJ5qBf7UWyLkMxZf2QaDj7+2MKrlD6LxEGafxW6Kcxld+HwkdkDaE3VZ8v2l1j/NgL
+5x4TnXuNJPRcsITYMlQWlEcf5wU0UOMYkdu2pijgB+OWaxm/E7q1BOeFXpPt9521FVPEamqRAMOz
+YD38SX8Rj0jMI9nG4hZM4L+3OTewhWuMD0mEIou9W0qQQ5yQofkKygEbx0zztQ4uG6/JrtvzQRi1
+57g=
+=JkrZ
+-----END PGP SIGNATURE-----
+
+--irJTV5jsQI2KdLbryK1vmShkMCBYYlJtQ--
+
+--===============0082219222==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0082219222==--
