@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115A736C50E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 13:28:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF4E36C525
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 13:32:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3358B6E083;
-	Tue, 27 Apr 2021 11:28:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F1E689D4F;
+	Tue, 27 Apr 2021 11:32:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA8B6E083;
- Tue, 27 Apr 2021 11:28:32 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id z5so33012223edr.11;
- Tue, 27 Apr 2021 04:28:32 -0700 (PDT)
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
+ [IPv6:2607:f8b0:4864:20::e33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBC389D4F;
+ Tue, 27 Apr 2021 11:32:31 +0000 (UTC)
+Received: by mail-vs1-xe33.google.com with SMTP id z4so1636701vsp.10;
+ Tue, 27 Apr 2021 04:32:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5e4pUnGmjwBjpM3egCyMiRzisI5IaXSt+bAblq6W2uU=;
- b=RnraFxqJkiPQMzJNr8t0w7mxcfm/3ssX/7lX7A+A3mKGCkLmIbugEFFBG+J4yzr3/P
- 5fbLaGICgdjZlkuZAP8NUJciqcvzrkI46+rXQoQms2CAV3GF4l/tMYjukegnUHpJzGe+
- 96hB0Fsbe6cOm/E+OBvFhgBml21+VbY+vYm5rptglsBZ+dTdFIbIbjm3U03DeXb3Jcv4
- qEbtTS+9YSYQoFjMy+O3CQ25judIuFr2ijRMyAc9HIsmNrqjF1mwcin5CIfBwyUJf6Ky
- cE0XySzy9Iy+HPKan/GbXauUv6qqmZJkNhA7kg9KVLAAvJc+vvL0XN/w/BVVJoCzoEPz
- +dyw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pcbDrIRHoZNTDhiSsH+5tM2giZXAQMRnOQ5q6Gp9XQE=;
+ b=WSu9xNqmWmzwB2C3irLRmRyn1pYUoazRkG8T1iQ74R2P64BYoMmJaXb9AnbjEThDl4
+ nTYZ/jR7GTa6AhgMPjehv0jzy1P/jeHxTNcMX2FIour4Dlgbb9fD0uTX1SCqcAB8Ed3D
+ xql5Fth+FJgSrdTrF1bJIr24m9QHB3gRTv7yNOro3G4mil/050nfL8jQ8M0RydJuJeRa
+ 4Z8b8OsDGNHr3mQpR4/NFVgJ4WvZ3j/j7yw5QG/J+QHvWH9uPMmuecVIBnONulsNLCGz
+ VtSe30OQrYIg7hrhGwYqLc0K7MOzMLvhmf/kP99gyJ1akoMGNiqwT3sIYPklJslTpK7f
+ F71Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5e4pUnGmjwBjpM3egCyMiRzisI5IaXSt+bAblq6W2uU=;
- b=jzyza573dkW1r+pouilGWY2TFLIgHeGWvCkfu1dEpWh/9XEWf6n+6jCZPxdo2BUg9I
- ye+tmTU8AF+exGf2cY9RmZJCTmAlGXFwBzJLvrBnkzURijKg55FszC4PXBHKQutk4XPw
- 3Jh5QxUi8LM6J7b0AnKTNZIZOzIkTSE2/1o2qVOIBg1PvIzxcQ9Y1gBmGsZykWDq93b/
- t8Tk0CW6LuhPRSMK/BSZeABCf9pJCMXxnzLYXxbn85vFcweveBD+3RWKoaJ8TPMZiupG
- 0yTbJ5wQ2JX/8QQcfSjK1gaLpras62eHuf7milfxwQa/ROCrJxEtRRsAx6GkQ3CwxcB0
- dqdQ==
-X-Gm-Message-State: AOAM532iZHzrI36Rrh7zKDeonsBxV4N61xcaJcdemxx/p36WNgGWQCmz
- LsmUCpQ751w8v1p7oL7bQ/I=
-X-Google-Smtp-Source: ABdhPJwAlvAc83hkcmnnbDFZpe21+5I69oLRO+jNncyvzjqewAB2UplGV8Evt7hygV8STRi6HhCZgQ==
-X-Received: by 2002:a05:6402:31b3:: with SMTP id
- dj19mr3679883edb.180.1619522911396; 
- Tue, 27 Apr 2021 04:28:31 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it.
- [79.52.107.152])
- by smtp.gmail.com with ESMTPSA id e11sm899479edq.76.2021.04.27.04.28.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 04:28:30 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- amd-gfx@lists.freedesktop.org (open list:AMD KFD),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list),
- linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
- linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK)
-Subject: [PATCH v2] drm/amd/amdgpu: Fix errors in documentation of function
- parameters
-Date: Tue, 27 Apr 2021 13:27:38 +0200
-Message-Id: <20210427112738.15869-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pcbDrIRHoZNTDhiSsH+5tM2giZXAQMRnOQ5q6Gp9XQE=;
+ b=eg9YZ1H2jZaRIgb/IIqOKQr3vvyhn/9KmyoC+Tjudo7WghilTNJyQ+tQqlRxWPAO1s
+ roJOCZkgaST5SeglN03f3JEayHBQn0c49BOvyXQhLTkWKX2dvRE5vb1xjIrCNOOSfieP
+ b+2Cb43y5udSzT4htTttXdga5A8M8iVc2Ip+98OxKQe6giS/M4h9CptTxSjthTG9a7L3
+ yFQDD/acMclk6OoWSUfiZSZLD3WPKguYBb6PkNzYv1AthkBiVGtyq+8YvdPCwdNwrDcM
+ D0nF+krzYFBb2CqJg41f2ljFp8/1SJNRVwPzo04fXpHPpSPOtPVKkm/gaJn9pJnc//Q3
+ nc5g==
+X-Gm-Message-State: AOAM531KZFoDF8ER4jlrarsPay7DkUF4S8YxBgxrXVXacWd9yyRvHd7h
+ yCIY2t1ZO61KqDzlpHtOwPhomr7ca/YjFGvumc0=
+X-Google-Smtp-Source: ABdhPJzhTAwhGn/frmLLc3DPwXZAfD2Ulx0Tg0lTbb7Rbnnt+sDAPiecjJnC8vikHj3WA6c226VeoVWZ7iyI+IzM0VU=
+X-Received: by 2002:a05:6102:21d1:: with SMTP id
+ r17mr16858521vsg.19.1619523150694; 
+ Tue, 27 Apr 2021 04:32:30 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210427092018.832258-1-daniel.vetter@ffwll.ch>
+ <20210427092018.832258-8-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210427092018.832258-8-daniel.vetter@ffwll.ch>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 27 Apr 2021 12:32:19 +0100
+Message-ID: <CACvgo51rQJmHc1K-MSq-WLZkwVt34MY73csgEyxorrYsKPwQiA@mail.gmail.com>
+Subject: Re: [PATCH 8/8] drm/modifiers: Enforce consistency between the cap an
+ IN_FORMATS
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,144 +63,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the documentation of functions, removed excess parameters, described
-undocumented ones, and fixed syntax errors.
+Hi Daniel,
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+On Tue, 27 Apr 2021 at 10:20, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 
-Changes from v1: Cc'ed all the maintainers.
+> @@ -360,6 +373,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+>   * drm_universal_plane_init() to let the DRM managed resource infrastructure
+>   * take care of cleanup and deallocation.
+>   *
+> + * Drivers supporting modifiers must set @format_modifiers on all their planes,
+> + * even those that only support DRM_FORMAT_MOD_LINEAR.
+> + *
+The comment says "must", yet we have an "if (format_modifiers)" in the codebase.
+Shouldn't we add a WARN_ON() + return -EINVAL (or similar) so people
+can see and fix their drivers?
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c          | 12 ++++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  4 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c |  8 ++++----
- 3 files changed, 13 insertions(+), 11 deletions(-)
+As a follow-up one could even go a step further, by erroring out when
+the driver hasn't provided valid modifier(s) and even removing
+config::allow_fb_modifiers all together.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-index 2e9b16fb3fcd..bf2939b6eb43 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -76,7 +76,7 @@ struct amdgpu_atif {
- /**
-  * amdgpu_atif_call - call an ATIF method
-  *
-- * @handle: acpi handle
-+ * @atif: acpi handle
-  * @function: the ATIF function to execute
-  * @params: ATIF function params
-  *
-@@ -166,7 +166,6 @@ static void amdgpu_atif_parse_functions(struct amdgpu_atif_functions *f, u32 mas
- /**
-  * amdgpu_atif_verify_interface - verify ATIF
-  *
-- * @handle: acpi handle
-  * @atif: amdgpu atif struct
-  *
-  * Execute the ATIF_FUNCTION_VERIFY_INTERFACE ATIF function
-@@ -240,8 +239,7 @@ static acpi_handle amdgpu_atif_probe_handle(acpi_handle dhandle)
- /**
-  * amdgpu_atif_get_notification_params - determine notify configuration
-  *
-- * @handle: acpi handle
-- * @n: atif notification configuration struct
-+ * @atif: acpi handle
-  *
-  * Execute the ATIF_FUNCTION_GET_SYSTEM_PARAMETERS ATIF function
-  * to determine if a notifier is used and if so which one
-@@ -304,7 +302,7 @@ static int amdgpu_atif_get_notification_params(struct amdgpu_atif *atif)
- /**
-  * amdgpu_atif_query_backlight_caps - get min and max backlight input signal
-  *
-- * @handle: acpi handle
-+ * @atif: acpi handle
-  *
-  * Execute the QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS ATIF function
-  * to determine the acceptable range of backlight values
-@@ -363,7 +361,7 @@ static int amdgpu_atif_query_backlight_caps(struct amdgpu_atif *atif)
- /**
-  * amdgpu_atif_get_sbios_requests - get requested sbios event
-  *
-- * @handle: acpi handle
-+ * @atif: acpi handle
-  * @req: atif sbios request struct
-  *
-  * Execute the ATIF_FUNCTION_GET_SYSTEM_BIOS_REQUESTS ATIF function
-@@ -899,6 +897,8 @@ void amdgpu_acpi_fini(struct amdgpu_device *adev)
- /**
-  * amdgpu_acpi_is_s0ix_supported
-  *
-+ * @adev: amdgpu_device_pointer
-+ *
-  * returns true if supported, false if not.
-  */
- bool amdgpu_acpi_is_s0ix_supported(struct amdgpu_device *adev)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-index 5af464933976..98d31ebad9ce 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-@@ -111,6 +111,8 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
-  *  a KFD BO and schedules a job to move the BO.
-  *  If fence is already signaled return true.
-  *  If fence is not signaled schedule a evict KFD process work item.
-+ *
-+ *  @f: dma_fence
-  */
- static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
- {
-@@ -131,7 +133,7 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
- /**
-  * amdkfd_fence_release - callback that fence can be freed
-  *
-- * @fence: fence
-+ * @f: dma_fence
-  *
-  * This function is called when the reference count becomes zero.
-  * Drops the mm_struct reference and RCU schedules freeing up the fence.
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-index b43e68fc1378..ed3014fbb563 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-@@ -719,7 +719,7 @@ static void unlock_spi_csq_mutexes(struct amdgpu_device *adev)
- }
- 
- /**
-- * @get_wave_count: Read device registers to get number of waves in flight for
-+ * get_wave_count: Read device registers to get number of waves in flight for
-  * a particular queue. The method also returns the VMID associated with the
-  * queue.
-  *
-@@ -755,19 +755,19 @@ static void get_wave_count(struct amdgpu_device *adev, int queue_idx,
- }
- 
- /**
-- * @kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
-+ * kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
-  * shader engine and aggregates the number of waves that are in flight for the
-  * process whose pasid is provided as a parameter. The process could have ZERO
-  * or more queues running and submitting waves to compute units.
-  *
-  * @kgd: Handle of device from which to get number of waves in flight
-  * @pasid: Identifies the process for which this query call is invoked
-- * @wave_cnt: Output parameter updated with number of waves in flight that
-+ * @pasid_wave_cnt: Output parameter updated with number of waves in flight that
-  * belong to process with given pasid
-  * @max_waves_per_cu: Output parameter updated with maximum number of waves
-  * possible per Compute Unit
-  *
-- * @note: It's possible that the device has too many queues (oversubscription)
-+ * Note: It's possible that the device has too many queues (oversubscription)
-  * in which case a VMID could be remapped to a different PASID. This could lead
-  * to an iaccurate wave count. Following is a high-level sequence:
-  *    Time T1: vmid = getVmid(); vmid is associated with Pasid P1
--- 
-2.31.1
+Although for stable - this series + WARN_ON (no return since it might
+break buggy drivers) sounds good.
 
+> @@ -909,6 +909,8 @@ struct drm_mode_config {
+>          * @allow_fb_modifiers:
+>          *
+>          * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
+> +        * Note that drivers should not set this directly, it is automatically
+> +        * set in drm_universal_plane_init().
+>          *
+>          * IMPORTANT:
+>          *
+The new note and the existing IMPORTANT are in a weird mix.
+Quoting the latter since it doesn't show in the diff.
+
+If this is set the driver must fill out the full implicit modifier
+information in their &drm_mode_config_funcs.fb_create hook for legacy
+userspace which does not set modifiers. Otherwise the GETFB2 ioctl is
+broken for modifier aware userspace.
+
+In particular:
+As the new note says "don't set it" and the existing note one says "if
+it's set". Yet no drivers do "if (config->allow_fb_modifiers)".
+
+Sadly, nothing comes to mind atm wrt alternative wording.
+
+With the WARN_ON() added or s/must/should/ in the documentation, the series is:
+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+
+HTH
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
