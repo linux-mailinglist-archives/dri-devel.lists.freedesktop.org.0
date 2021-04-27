@@ -1,63 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB5736C16F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 11:04:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4ACC36C176
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 11:09:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF59C89EB8;
-	Tue, 27 Apr 2021 09:04:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D716E919;
+	Tue, 27 Apr 2021 09:09:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A834E89EB8
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 09:04:27 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id g65so2195875wmg.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 02:04:27 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A87656E911
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 09:09:40 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id k14so8740086wrv.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 02:09:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=qqfhZ0XmW2+wcCpHKUWVRzR9/rJ8/fHgEQaxNBCpW+0=;
- b=GQmmpBHlVr/NHVtvd8Z/EY8Grz2yR8TTIdksCOa+1JjBJVOvQoGuxpcVEBYvMKdMVL
- Xsp+GRBYDHTXobbldHc2FIcJRfhY4/4HrftFsMI+HiB+Fj70QXm5HHCh1DJUHXJd+2Nm
- Y44XrhG8Cl0UqZk7w5/JmquBLYl/dGr9hz89c=
+ bh=8I7VjfcBSSUhsqKVLIGAKWuS9MBy00j3fhu7r3yQtXA=;
+ b=k88xjZmPTOtzFulp/TpAM9qUH/bP6QpceM+9BL6I2/X3/fssikp3RmCuWZtFe7i94x
+ 7B+j7aweLyEmk+e6rtmVGveJTumzkWtgDjZlEXg6aNV0QJll1GhtNtha3kAi00Co++fI
+ yyQww9siVMS30H9v2SwhdZrm6WU2VsNhYWdYo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=qqfhZ0XmW2+wcCpHKUWVRzR9/rJ8/fHgEQaxNBCpW+0=;
- b=YHBom2I+6Ny2ojOk3krKffUlCcWegoKfc5R7g0510+RgznKxqqrkh4FlmPcfy3HF+x
- 49GlwtiW1K3PSc9qUgRFeKUjyiicTc4GJXARPI8/IQyzaHrs+2OaXX77vp4StGYB2TA+
- viEYCDhOfz1lhZT7464brGwovO+GiU53JSAC6lKmnZ4LE5DNxHy83XtfXmq/jzF+bEOB
- Ifq3uMWhTmE2TWPLLVP1IB641Uz89wX5pqQ+Y4wrfmx/Is6Rf/VJzvd2f8jG7SrvlPYU
- C4Y5b+a5v+PKRfzDPYpBX7/lWZdmVshwZ48eT2//lCrSUSktUzyzMWbtVHZTEVqyP9vS
- CeOA==
-X-Gm-Message-State: AOAM530Y+PC87U5JrPGBu6mMdd0Da6fzhAoeNIwRrNw68tAdefjgTOyz
- aQ/g1laYpUxxkO4o7JKYgfHaRw==
-X-Google-Smtp-Source: ABdhPJy+BpTdRyR2kR9iLb7UlXcux46C4LjQuQNv6CgaS6S2L5dDyunO+/2z0WiajKyOq04beXAaAQ==
-X-Received: by 2002:a05:600c:d4:: with SMTP id
- u20mr3197821wmm.164.1619514266144; 
- Tue, 27 Apr 2021 02:04:26 -0700 (PDT)
+ bh=8I7VjfcBSSUhsqKVLIGAKWuS9MBy00j3fhu7r3yQtXA=;
+ b=nLoQe5QXsVrsG+Irwb8IKL/sjY/wJMvqkQhByj2bdYjwVrYEBJvBB1gCjumSQ2WazW
+ GvEU3DjUXevZPL9RW/uFKpHmE7Yi1VwzaMcY5BD6LF4RGpZb6+NrzrxpcxFGB3Jm1+HY
+ lTpS9w+WU/sdbX4teW6OXdqEns+fIwG8712OdaDklWjdQBSWieyPzV/vrpqNtVQ3SZbI
+ TsX7OVkr2yjSXmnw/ZD8dn5ubYj2SFpmTJ2ItkBu3jbRiVs2WXo2MTljBgsWLzslgvLE
+ J3UpRc1sM3lUwhF7cjwhmxlOcyNAotEuW6k4CzzXBSDwESushbJeu9uykFBlplcM+Y8q
+ 0ZIw==
+X-Gm-Message-State: AOAM531zEmZd6SiyUut+W+hHugLQarRMWYeRgPRrwoFF2OMj3/TF7iUa
+ 5czAID/ZcAXD8WpuaGuHqu4Zrw==
+X-Google-Smtp-Source: ABdhPJyy9htBgSrDpuY+Wk/j6ozijxAl7lWtyLBLZo2BJowGtvPQLwStfo3r5V147NvTQvPNSqkDjw==
+X-Received: by 2002:a5d:6607:: with SMTP id n7mr28936533wru.146.1619514579281; 
+ Tue, 27 Apr 2021 02:09:39 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v4sm23031306wme.14.2021.04.27.02.04.25
+ by smtp.gmail.com with ESMTPSA id b202sm1918209wmb.5.2021.04.27.02.09.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 02:04:25 -0700 (PDT)
-Date: Tue, 27 Apr 2021 11:04:23 +0200
+ Tue, 27 Apr 2021 02:09:38 -0700 (PDT)
+Date: Tue, 27 Apr 2021 11:09:36 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH v4 3/4] drm/vkms: add XRGB planes composition
-Message-ID: <YIfTl6n17jdTpdNa@phenom.ffwll.local>
-References: <cover.1619250933.git.melissa.srw@gmail.com>
- <07bcf4643d11da9480599fe1b165e478bff58b25.1619250933.git.melissa.srw@gmail.com>
- <20210426110315.4e64d589@eldfell>
- <YIbqF5IqofybM4k8@phenom.ffwll.local>
- <20210426173128.ybryk3taqf6usppv@smtp.gmail.com>
- <20210427111059.3b04a319@eldfell>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC PATCH 0/3] A drm_plane API to support HDR planes
+Message-ID: <YIfU0HovESDle8Tg@phenom.ffwll.local>
+References: <20210426173852.484368-1-harry.wentland@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210427111059.3b04a319@eldfell>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <20210426173852.484368-1-harry.wentland@amd.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,316 +64,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Sumera Priyadarsini <sylphrenadin@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Melissa Wen <melissa.srw@gmail.com>
+Cc: Deepak.Sharma@amd.com, Krunoslav.Kovac@amd.com, mcasas@google.com,
+ Shashank.Sharma@amd.com, dri-devel@lists.freedesktop.org, Shirish.S@amd.com,
+ sebastian@sebastianwick.net, hersenxs.wu@amd.com,
+ amd-gfx@lists.freedesktop.org, laurentiu.palcu@oss.nxp.com,
+ Bhawanpreet.Lakha@amd.com, Nicholas.Kazlauskas@amd.com, Vitaly.Prosyak@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 27, 2021 at 11:10:59AM +0300, Pekka Paalanen wrote:
-> On Mon, 26 Apr 2021 14:31:28 -0300
-> Melissa Wen <melissa.srw@gmail.com> wrote:
+On Mon, Apr 26, 2021 at 01:38:49PM -0400, Harry Wentland wrote:
 > 
-> > On 04/26, Daniel Vetter wrote:
-> > > On Mon, Apr 26, 2021 at 11:03:15AM +0300, Pekka Paalanen wrote:  
-> > > > On Sat, 24 Apr 2021 05:25:31 -0300
-> > > > Melissa Wen <melissa.srw@gmail.com> wrote:
-> > > >   
-> > > > > Add support for composing XRGB888 planes in addition to the ARGB8888
-> > > > > format. In the case of an XRGB plane at the top, the composition consists
-> > > > > of copying the RGB values of a pixel from src to dst and clearing alpha
-> > > > > channel, without the need for alpha blending operations for each pixel.
-> > > > > 
-> > > > > Blend equations assume a completely opaque background, i.e., primary plane
-> > > > > is not cleared before pixel blending but alpha channel is explicitly
-> > > > > opaque (a = 0xff). Also, there is room for performance evaluation in
-> > > > > switching pixel blend operation according to the plane format.
-> > > > > 
-> > > > > v4:
-> > > > > - clear alpha channel (0xff) after blend color values by pixel
-> > > > > - improve comments on blend ops to reflect the current state
-> > > > > - describe in the commit message future improvements for plane composition
-> > > > > 
-> > > > > Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-> > > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > > ---
-> > > > >  drivers/gpu/drm/vkms/vkms_composer.c | 56 ++++++++++++++++++++++------
-> > > > >  drivers/gpu/drm/vkms/vkms_plane.c    |  7 ++--
-> > > > >  2 files changed, 48 insertions(+), 15 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> > > > > index 02642801735d..7e01bc39d2a1 100644
-> > > > > --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> > > > > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> > > > > @@ -4,6 +4,7 @@
-> > > > >  
-> > > > >  #include <drm/drm_atomic.h>
-> > > > >  #include <drm/drm_atomic_helper.h>
-> > > > > +#include <drm/drm_fourcc.h>
-> > > > >  #include <drm/drm_gem_framebuffer_helper.h>
-> > > > >  #include <drm/drm_gem_shmem_helper.h>
-> > > > >  #include <drm/drm_vblank.h>
-> > > > > @@ -64,7 +65,17 @@ static u8 blend_channel(u8 src, u8 dst, u8 alpha)
-> > > > >  	return new_color;
-> > > > >  }
-> > > > >  
-> > > > > -static void alpha_blending(const u8 *argb_src, u8 *argb_dst)
-> > > > > +/**
-> > > > > + * alpha_blend - alpha blending equation
-> > > > > + * @argb_src: src pixel on premultiplied alpha mode
-> > > > > + * @argb_dst: dst pixel completely opaque
-> > > > > + *
-> > > > > + * blend pixels using premultiplied blend formula. The current DRM assumption
-> > > > > + * is that pixel color values have been already pre-multiplied with the alpha
-> > > > > + * channel values. See more drm_plane_create_blend_mode_property(). Also, this
-> > > > > + * formula assumes a completely opaque background.
-> > > > > + */
-> > > > > +static void alpha_blend(const u8 *argb_src, u8 *argb_dst)
-> > > > >  {
-> > > > >  	u8 alpha;
-> > > > >  
-> > > > > @@ -72,8 +83,16 @@ static void alpha_blending(const u8 *argb_src, u8 *argb_dst)
-> > > > >  	argb_dst[0] = blend_channel(argb_src[0], argb_dst[0], alpha);
-> > > > >  	argb_dst[1] = blend_channel(argb_src[1], argb_dst[1], alpha);
-> > > > >  	argb_dst[2] = blend_channel(argb_src[2], argb_dst[2], alpha);
-> > > > > -	/* Opaque primary */
-> > > > > -	argb_dst[3] = 0xFF;
-> > > > > +}
-> > > > > +
-> > > > > +/**
-> > > > > + * x_blend - blending equation that ignores the pixel alpha
-> > > > > + *
-> > > > > + * overwrites RGB color value from src pixel to dst pixel.
-> > > > > + */
-> > > > > +static void x_blend(const u8 *xrgb_src, u8 *xrgb_dst)
-> > > > > +{
-> > > > > +	memcpy(xrgb_dst, xrgb_src, sizeof(u8) * 3);  
-> > > > 
-> > > > Hi,
-> > > > 
-> > > > this function very clearly assumes a very specific pixel format on both
-> > > > source and destination. I think it would be good if the code comments
-> > > > called out exactly which DRM_FORMAT_* they assume. This would be good
-> > > > to do on almost every function that makes such assumptions. I believe that
-> > > > would help code readability, and also point out explicitly which things
-> > > > need to be fixed when you add support for even more pixel formats.
-> > > > 
-> > > > "xrgb" and "argb" are IMO too vague. You might be referring to
-> > > > DRM_FORMAT_XRGB* and DRM_FORMAT_ARGB*, or maybe you are referring to any
-> > > > pixel format that happens to have or not have an alpha channel in
-> > > > addition to the three RGB channels in some order and width.
-> > > > 
-> > > > Being explicit that these refer to specific DRM_FORMAT_* should also
-> > > > help understanding how things work on big-endian CPUs. My current
-> > > > understanding is that this memcpy is correct also on big-endian, given
-> > > > DRM_FORMAT_XRGB8888.  
-> > 
-> > This endianess issue seems a little tricky to me. I remember we have
-> > already discussed something similar when introducing alpha blend ops.  I
-> > took little endian as default by a code comment on
-> > include/drm/drm_fourcc.h: DRM formats are little endian. But also, I am
-> > not sure if I got it well.
+> ## Introduction
 > 
-> DRM format *definitions* are written on a little-endian CPU. When you
-> have a big-endian CPU, the byte-to-byte memory contents still remain
-> the same. That means if you have a uint32_t pixel in a certain
-> DRM_FORMAT_*, you must always access the bits of it like a
-> little-endian CPU would.
-> 
-> I think this was the "recently" agreed definition, and drivers who do
-> not follow this still exist because fixing them would break userspace?
+> We are looking to enable HDR support for a couple of single-plane and
+> multi-plane scenarios. To do this effectively we recommend new
+> interfaces to drm_plane. Below I'll give a bit of background on HDR and
+> why we propose these interfaces.
 
-Legacy AddFb might give you a big endia drm_fourcc on some drivers. AddFb2
-will not play such tricks.
+I think this is on of the topics that would tremendously benefit from the
+uapi rfc process, with lots of compositor people involved.
 
-Also big-endian is dead, imo if someone cares enough about it they could
-make "fix vkms for big-endian" a nice project :-)
+https://dri.freedesktop.org/docs/drm/gpu/rfc/
+
+Also for this I think we really do need a pretty solid understanding of
+the involve compositor protocols, otherwise the kernel uapi is going to be
+for naught.
 -Daniel
 
-> So if you make the assumption that your machine is little-endian, you
-> have no worries, but you might want to document that you are making
-> this assumption, so that people know it might not be correct on
-> big-endian. It is important to document that it is *unknown* if the
-> code is correct on big-endian, to make people think rather than blindly
-> add a #ifdef big-endian then swap bytes, because the code might be
-> correct already - you just don't know yet.
-> 
-> I wouldn't personally bother thinking about big-endian, other than
-> acknowledging that I don't think about big-endian when writing code, and
-> noticing places where it might make a difference (prime example:
-> accessing pixel components via bytes vs. bits-of-uint32).
-> 
-> > > > Hmm, or rather, is this particular function intended to be general in
-> > > > the sense that the order of RGB channels does not matter as long as it's
-> > > > the same in both source and destination? Which would mean I had a wrong
-> > > > assumption from the start.  
-> > > 
-> > > Atm all vkms supports is X/ARGB8888, and even there we throw around random
-> > > limits. Add support for more pixel formats is definitely on the list, and
-> > > then all the blend/compose stuff needs to be quite drastically
-> > > rearchitected.  
-> 
-> If there are arbitrary limitations, then IMO those are especially
-> important to mention.
-> 
-> > yes, currently, we only have on vkms these two formats listed as
-> > supported (X/ARGB8888), so, I think it is ok, since we do not expected
-> > anything other than these two.
-> > 
-> > > 
-> > > I think until we're there documenting what's already documented in the
-> > > todo list feels like overkill.
-> 
-> I'm literally asking for single-sentence comments added, like:
-> 
-> 	/* DRM_FORMAT_XRGB8888 */
-> 
-> It makes all the difference to anyone seeing the code for the first
-> time. Particularly if people want to review patches into this area,
-> because patches are sent via email and therefore completely lack the
-> context of the surrounding code at large and knowledge of which kernel
-> tree they apply to (I'm not a kernel dev), not to mention the trouble
-> of having to apply a patch to be able to look at more context.
-> 
-> Thanks for mentioning https://lkml.org/lkml/2020/8/30/163 in the other
-> email!
 > 
 > 
-> Thanks,
-> pq
+> ## Defining a pixel's luminance
+> 
+> Currently the luminance space of pixels in a framebuffer/plane presented to the display is not well defined. It's usually assumed to be in a 2.2 or 2.4 gamma space and has no mapping to an absolute luminance value but is interpreted in relative terms.
+> 
+> Luminance can be measured and described in absolute terms as candela per meter squared, or cd/m2, or nits. Even though a pixel value can be mapped to luminance in a linear fashion to do so without losing a lot of detail requires 16-bpc color depth. The reason for this is that human perception can distinguish roughly between a 0.5-1% luminance delta. A linear representation is suboptimal, wasting precision in the highlights and losing precision in the shadows.
+> 
+> A gamma curve is a decent approximation to a human's perception of luminance, but the PQ (perceptual quantizer) function [1] improves on it. It also defines the luminance values in absolute terms, with the highest value being 10,000 nits and the lowest 0.0005 nits.
+> 
+> Using a content that's defined in PQ space we can approximate the real world in a much better way.
+> 
+> Here are some examples of real-life objects and their approximate luminance values:
+> 
+> | Object            | Luminance in nits |
+> | ----------------- | ----------------- |
+> | Sun               | 1.6 million       |
+> | Fluorescent light | 10,000            |
+> | Highlights        | 1,000 - sunlight  |
+> | White Objects     | 250 - 1,000       |
+> | Typical objects   | 1 - 250           |
+> | Shadows           | 0.01 - 1          |
+> | Ultra Blacks      | 0 - 0.0005        |
 > 
 > 
-> > > -Daniel
-> > >   
-> > > >   
-> > > > >  }
-> > > > >  
-> > > > >  /**
-> > > > > @@ -82,16 +101,20 @@ static void alpha_blending(const u8 *argb_src, u8 *argb_dst)
-> > > > >   * @vaddr_src: source address
-> > > > >   * @dst_composer: destination framebuffer's metadata
-> > > > >   * @src_composer: source framebuffer's metadata
-> > > > > + * @pixel_blend: blending equation based on plane format
-> > > > >   *
-> > > > > - * Blend the vaddr_src value with the vaddr_dst value using the pre-multiplied
-> > > > > - * alpha blending equation, since DRM currently assumes that the pixel color
-> > > > > - * values have already been pre-multiplied with the alpha channel values. See
-> > > > > - * more drm_plane_create_blend_mode_property(). This function uses buffer's
-> > > > > - * metadata to locate the new composite values at vaddr_dst.
-> > > > > + * Blend the vaddr_src value with the vaddr_dst value using a pixel blend
-> > > > > + * equation according to the plane format and clearing alpha channel to an
-> > > > > + * completely opaque background. This function uses buffer's metadata to locate
-> > > > > + * the new composite values at vaddr_dst.
-> > > > > + *
-> > > > > + * TODO: completely clear the primary plane (a = 0xff) before starting to blend
-> > > > > + * pixel color values
-> > > > >   */
-> > > > >  static void blend(void *vaddr_dst, void *vaddr_src,
-> > > > >  		  struct vkms_composer *dst_composer,
-> > > > > -		  struct vkms_composer *src_composer)
-> > > > > +		  struct vkms_composer *src_composer,
-> > > > > +		  void (*pixel_blend)(const u8 *, u8 *))
-> > > > >  {
-> > > > >  	int i, j, j_dst, i_dst;
-> > > > >  	int offset_src, offset_dst;
-> > > > > @@ -119,7 +142,9 @@ static void blend(void *vaddr_dst, void *vaddr_src,
-> > > > >  
-> > > > >  			pixel_src = (u8 *)(vaddr_src + offset_src);
-> > > > >  			pixel_dst = (u8 *)(vaddr_dst + offset_dst);
-> > > > > -			alpha_blending(pixel_src, pixel_dst);
-> > > > > +			pixel_blend(pixel_src, pixel_dst);
-> > > > > +			/* clearing alpha channel (0xff)*/
-> > > > > +			memset(vaddr_dst + offset_dst + 3, 0xff, 1);  
-> > > > 
-> > > > A one byte memset?
-> > > > 
-> > > > Wouldn't pixel_dst[3] = 0xff; be more clear?  
-> > 
-> > yes, I will change it.
-> > 
-> > Thanks for these suggestions,
-> > 
-> > Melissa
-> > > > 
-> > > > 
-> > > > Thanks,
-> > > > pq
-> > > >   
-> > > > >  		}
-> > > > >  		i_dst++;
-> > > > >  	}
-> > > > > @@ -131,6 +156,8 @@ static void compose_plane(struct vkms_composer *primary_composer,
-> > > > >  {
-> > > > >  	struct drm_gem_object *plane_obj;
-> > > > >  	struct drm_gem_shmem_object *plane_shmem_obj;
-> > > > > +	struct drm_framebuffer *fb = &plane_composer->fb;
-> > > > > +	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
-> > > > >  
-> > > > >  	plane_obj = drm_gem_fb_get_obj(&plane_composer->fb, 0);
-> > > > >  	plane_shmem_obj = to_drm_gem_shmem_obj(plane_obj);
-> > > > > @@ -138,8 +165,13 @@ static void compose_plane(struct vkms_composer *primary_composer,
-> > > > >  	if (WARN_ON(!plane_shmem_obj->vaddr))
-> > > > >  		return;
-> > > > >  
-> > > > > -	blend(vaddr_out, plane_shmem_obj->vaddr,
-> > > > > -	      primary_composer, plane_composer);
-> > > > > +	if (fb->format->format == DRM_FORMAT_ARGB8888)
-> > > > > +		pixel_blend = &alpha_blend;
-> > > > > +	else
-> > > > > +		pixel_blend = &x_blend;
-> > > > > +
-> > > > > +	blend(vaddr_out, plane_shmem_obj->vaddr, primary_composer,
-> > > > > +	      plane_composer, pixel_blend);
-> > > > >  }
-> > > > >  
-> > > > >  static int compose_active_planes(void **vaddr_out,
-> > > > > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> > > > > index 135140f8e87a..da4251aff67f 100644
-> > > > > --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> > > > > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> > > > > @@ -16,8 +16,9 @@ static const u32 vkms_formats[] = {
-> > > > >  	DRM_FORMAT_XRGB8888,
-> > > > >  };
-> > > > >  
-> > > > > -static const u32 vkms_cursor_formats[] = {
-> > > > > +static const u32 vkms_plane_formats[] = {
-> > > > >  	DRM_FORMAT_ARGB8888,
-> > > > > +	DRM_FORMAT_XRGB8888
-> > > > >  };
-> > > > >  
-> > > > >  static struct drm_plane_state *
-> > > > > @@ -200,8 +201,8 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> > > > >  	int nformats;
-> > > > >  
-> > > > >  	if (type == DRM_PLANE_TYPE_CURSOR) {
-> > > > > -		formats = vkms_cursor_formats;
-> > > > > -		nformats = ARRAY_SIZE(vkms_cursor_formats);
-> > > > > +		formats = vkms_plane_formats;
-> > > > > +		nformats = ARRAY_SIZE(vkms_plane_formats);
-> > > > >  		funcs = &vkms_primary_helper_funcs;
-> > > > >  	} else {
-> > > > >  		formats = vkms_formats;  
-> > > >   
-> > > 
-> > > 
-> > >   
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel  
-> > > 
-> > > 
-> > > -- 
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch  
+> ## Describing the luminance space
 > 
-
-
+> **We propose a new drm_plane property to describe the Eletro-Optical Transfer Function (EOTF) with which its framebuffer was composed.** Examples of EOTF are:
+> 
+> | EOTF      | Description                                                               |
+> | --------- |:------------------------------------------------------------------------- |
+> | Gamma 2.2 | a simple 2.2 gamma                                                        |
+> | sRGB      | 2.4 gamma with small initial linear section                               |
+> | PQ 2084   | SMPTE ST 2084; used for HDR video and allows for up to 10,000 nit support |
+> | Linear    | Linear relationship between pixel value and luminance value               |
+> 
+> 
+> ## Mastering Luminances
+> 
+> Now we are able to use the PQ 2084 EOTF to define the luminance of pixels in absolute terms. Unfortunately we're again presented with physical limitations of the display technologies on the market today. Here are a few examples of luminance ranges of displays.
+> 
+> | Display                  | Luminance range in nits |
+> | ------------------------ | ----------------------- |
+> | Typical PC display       | 0.3 - 200               |
+> | Excellent LCD HDTV       | 0.3 - 400               |
+> | HDR LCD w/ local dimming | 0.05 - 1,500            |
+> 
+> Since no display can currently show the full 0.0005 to 10,000 nits luminance range the display will need to tonemap the HDR content, i.e to fit the content within a display's capabilities. To assist with tonemapping HDR content is usually accompanied with a metadata that describes (among other things) the minimum and maximum mastering luminance, i.e. the maximum and minimum luminance of the display that was used to master the HDR content.
+> 
+> The HDR metadata is currently defined on the drm_connector via the hdr_output_metadata blob property.
+> 
+> It might be useful to define per-plane hdr metadata, as different planes might have been mastered differently.
+> 
+> 
+> ## SDR Luminance
+> 
+> Since SDR covers a smaller luminance range than HDR, an SDR plane might look dark when blended with HDR content. Since the max HDR luminance can be quite variable (200-1,500 nits on actual displays) it is best to make the SDR maximum luminance value configurable.
+> 
+> **We propose a drm_plane property to specfy the desired maximum luminance of the SDR plane in nits.** This allows us to map the SDR content predictably into HDR's absolute luminance space.
+> 
+> 
+> ## Let There Be Color
+> 
+> So far we've only talked about luminance, ignoring colors altogether. Just like in the luminance space, traditionally the color space of display outputs has not been well defined. Similar to how an EOTF defines a mapping of pixel data to an absolute luminance value, the color space maps color information for each pixel onto the CIE 1931 chromaticity space. This can be thought of as a mapping to an absolute, real-life, color value.
+> 
+> A color space is defined by its primaries and white point. The primaries and white point are expressed as coordinates in the CIE 1931 color space. Think of the red primary as the reddest red that can be displayed within the color space. Same for green and blue.
+> 
+> Examples of color spaces are:
+> 
+> | Color Space | Description                                |
+> | ----------- | ------------------------------------------ |
+> | BT 601      | similar to BT 709                          |
+> | BT 709      | used by sRGB content; ~53% of BT 2020      |
+> | DCI-P3      | used by most HDR displays; ~72% of BT 2020 |
+> | BT 2020     | standard for most HDR content              |
+> 
+> The color space is defined in DRM for YCbCr planes via the color_encoding property of the drm_plane. 
+> 
+> **We propose to add definitions for the RGB variants of the BT color spaces.**
+> 
+> 
+> ## Color Primaries and White Point
+> 
+> Just like displays can currently not represent the entire 0.0005 - 10,000 nits HDR range of the PQ 2084 EOTF, they are currently not capable of representing the entire BT.2020 color Gamut. For this reason video content will often specify the color primaries and white point used to master the video, in order to allow displays to be able to map the image as best as possible onto the display's gamut.
+> 
+> 
+> ## Displays and Tonemapping
+> 
+> External displays are able to do their own tone and color mapping, based on the mastering luminance, color primaries, and white space defined in the HDR metadata.
+> 
+> Internal panels (which are currently few and far between) usually don't include the complex HW to do tone and color mapping on their own and will require the display driver to perform appropriate mapping.
+> 
+> 
+> ## Pixel Formats
+> 
+> The pixel formats, such as ARGB8888, ARGB2101010, P010, or FP16 are unrelated to color space and EOTF definitions. HDR pixels can be formatted in different ways but in order to not lose precision HDR content requires at least 10 bpc precision. For this reason ARGB2101010, P010, and FP16 are the obvious candidates for HDR. ARGB2101010 and P010 have the advantage of requiring only half the bandwidth as FP16, while FP16 has the advantage of enough precision to operate in a linear space, i.e. without EOTF.
+> 
+> 
+> ## Proposed use-cases
+> 
+> Although the userspace side of this work is still in the early stages it is clear that we will want to support the following two use-cases:
+> 
+> **One XRGB2101010 HDR Plane:** A single, composited plane of HDR content. The use-case is a video player on a desktop with the compositor owning the composition of SDR and HDR content. The content shall be PQ BT.2020 formatted. The drm_connector's hdr_output_metadata shall be set.
+> 
+> **One ARGB8888 SDR Plane + One P010 HDR Plane:** A normal 8bpc desktop plane, with a P010 HDR video plane underlayed. The HDR plane shall be PQ BT.2020 formatted. The desktop plane shall specify an SDR boost value. The drm_connector's hdr_output_metadata shall be set.
+> 
+> **One XRGB8888 SDR Plane - HDR output:** In order to support a smooth transition we recommend an OS that supports HDR output to provide the hdr_output_metadata on the drm_connector to configure the output for HDR, even when the content is only SDR. This will allow for a smooth transition between SDR-only and HDR content. In this use-case the SDR max luminance value should be provided on the drm_plane.
+> 
+> In DCN we will de-PQ or de-Gamma all input in order to blend in linear space. For SDR content we will also apply any desired boost before blending. After blending we will then re-apply the PQ EOTF and do RGB to YCbCr conversion if needed.
+> 
+> 
+> ## Summary of proposed interface changes
+> 
+> per drm_plane:
+> - new RGB color space definitions, mirroring the existing YUV color space definitions
+> - new transfer function property
+> - new SDR maximum white level property
+> 
+> 
+> ## References
+> 
+> [1] https://en.wikipedia.org/wiki/High-dynamic-range_video#Perceptual_Quantizer
+> 
+> 
+> ## Further Reading
+> 
+> https://gitlab.freedesktop.org/swick/wayland-protocols/-/blob/color/unstable/color-management/color.rst
+> http://downloads.bbc.co.uk/rd/pubs/whp/whp-pdf-files/WHP309.pdf
+> https://app.spectracal.com/Documents/White%20Papers/HDR_Demystified.pdf
+> 
+> 
+> Bhawanpreet Lakha (3):
+>   drm/color: Add RGB Color encodings
+>   drm/color: Add Color transfer functions for HDR/SDR
+>   drm/color: Add sdr boost property
+> 
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 +-
+>  .../gpu/drm/arm/display/komeda/komeda_plane.c |  4 +-
+>  drivers/gpu/drm/arm/malidp_planes.c           |  4 +-
+>  drivers/gpu/drm/armada/armada_overlay.c       |  4 +-
+>  drivers/gpu/drm/drm_atomic_uapi.c             |  8 ++
+>  drivers/gpu/drm/drm_color_mgmt.c              | 84 +++++++++++++++++--
+>  drivers/gpu/drm/i915/display/intel_sprite.c   |  4 +-
+>  .../drm/i915/display/skl_universal_plane.c    |  4 +-
+>  drivers/gpu/drm/nouveau/dispnv04/overlay.c    |  4 +-
+>  drivers/gpu/drm/omapdrm/omap_plane.c          |  4 +-
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  4 +-
+>  drivers/gpu/drm/tidss/tidss_plane.c           |  6 +-
+>  include/drm/drm_color_mgmt.h                  | 25 +++++-
+>  include/drm/drm_plane.h                       | 30 +++++++
+>  14 files changed, 173 insertions(+), 16 deletions(-)
+> 
+> -- 
+> 2.31.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 Daniel Vetter
