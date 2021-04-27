@@ -2,68 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2648A36CD27
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 22:49:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6AD36CDE2
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 23:31:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4376E5CA;
-	Tue, 27 Apr 2021 20:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0599F6E9CF;
+	Tue, 27 Apr 2021 21:31:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF5E98828C
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 20:49:36 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id i3so45887878edt.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 13:49:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=XOcwmE4CZ2i/OA6V2pBhMJSK0Q0BLwEVp/hRAR1lChE=;
- b=0TLlfP8WalgbwsJwzEV6MZkCzdo/RSVfx4HN1qd8l1dbV9BaC3gCkbdRrN32kYHwLj
- fVGeQ7lJj5dh5Q1lSmJ+IIfcjy9Ir6H5+9Jb5q6Y2+w1tRN/ABOkqv4xF85XG08nrqgY
- FQ+wFO8hGuaAQ0EBoAzOQlFqOWPFsLe/RG4UYu5Rf9f8wUI+TOHe72A2GZRIrtIiLVi5
- ZqhWmA0jAUe1Ngak9kE/ZL6h5WdgnCsyrv3cU4+SrDJTBsDeO09rxUSXkIhd29QrgXJg
- veZnLAjHf5++zwchGH1fymAr8/SaDEb3IERZmFi3jejyoU6KbKRfVwlIJnINsbyEQMQX
- Tt7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=XOcwmE4CZ2i/OA6V2pBhMJSK0Q0BLwEVp/hRAR1lChE=;
- b=Lu0syUA8Hm4KdXBk6dr89Dj9HoU1xCw/EJQHEEawNmlrQ0tN2SRFDYaaCQO/pvldQQ
- IaSH9w5HEV9pKKzW+RZeexcsj/HoLuP1Ca5oUnLME1BLVToptRrvScxe8PG3rOETUv8R
- kViD2HJYdqbsUtSP7piRlK63nNh/dCfIwrEUs3LCsQf/STCpxivk/+lXF6B66Cm3ck/+
- x2xz5EE/zR88CUOn5Xq47BdjtTIAQiCN2K9UqEqgl+SqVNk7BTB/pTDsh8P3eTQmE5kS
- R0sOMYx/QLxxRNh7VS5aRr7gTSPfN2/zn/8DHEqGDaDnGQ8SUlDDusPl/1xZeu//EIDs
- Y1rw==
-X-Gm-Message-State: AOAM531ABoMw04d/4mIFm+NPFlQfwtNZ1ypQiioifAi0AEHcwZnezks9
- VAflgnaBiCXk1JUlY3zjTi34bcQAwfh49w6xulJqOA==
-X-Google-Smtp-Source: ABdhPJxVCQDFHRf01px9GPaO6ewsCwJT4RJVJ1GU8V7pkNQ4gm3iBdthcQxrm3XHXGTYJVwNl/OcOmYfBuKjSSsGP9o=
-X-Received: by 2002:a05:6402:1013:: with SMTP id
- c19mr6683819edu.213.1619556575595; 
- Tue, 27 Apr 2021 13:49:35 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B71866E9CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 21:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619559058;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=owSuX0IYYbKuOWpVt2C5gN4EPBjP7c56j/CsuTAmQZ4=;
+ b=aLpJUCPpQ1Py8FiKkFMj6DPugHAhmo/Z5PxJix82mI7+DSxNQYt0/F16FBEvBAUmVgNyAa
+ iklRh3fZEgcyVZwII+hHKNC38G3R2jP3plKrjfdVt4Iv8eeHiAZWlswoXDNTFQcFyixgE+
+ 0dwPxbazYZOt9Z8Ejy7GcZg+9kXPj2Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-zx3zw6DRMkeCyWY8RxI5DA-1; Tue, 27 Apr 2021 17:30:49 -0400
+X-MC-Unique: zx3zw6DRMkeCyWY8RxI5DA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C41CC7400;
+ Tue, 27 Apr 2021 21:30:45 +0000 (UTC)
+Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E6761042A90;
+ Tue, 27 Apr 2021 21:30:43 +0000 (UTC)
+Date: Tue, 27 Apr 2021 15:30:42 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 00/13] Remove vfio_mdev.c, mdev_parent_ops and more
+Message-ID: <20210427153042.103e12ab@redhat.com>
+In-Reply-To: <0-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
+References: <0-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com>
 MIME-Version: 1.0
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
- <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
- <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
- <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
- <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
- <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
- <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
- <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
- <YIfFC3YST0cfzd3l@phenom.ffwll.local>
- <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
- <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
- <CAPM=9tzz2u_qUXU9LMvtH_NDr1_wzunPo7Mt6NkrwAuowWTp7Q@mail.gmail.com>
-In-Reply-To: <CAPM=9tzz2u_qUXU9LMvtH_NDr1_wzunPo7Mt6NkrwAuowWTp7Q@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Tue, 27 Apr 2021 15:49:24 -0500
-Message-ID: <CAOFGe97PXSK3NXjquG+it65qomuhVKEK9ktny56P9XZ9wzd6vg@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: Dave Airlie <airlied@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,38 +57,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ linux-s390@vger.kernel.org, "Raj, Ashok" <ashok.raj@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Tarun Gupta <targupta@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ Zhi Wang <zhi.a.wang@intel.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Eric Farman <farman@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Dan Williams <dan.j.williams@intel.com>,
+ intel-gvt-dev@lists.freedesktop.org, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgMjcsIDIwMjEgYXQgMTozOCBQTSBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFp
-bC5jb20+IHdyb3RlOgo+Cj4gT24gVHVlLCAyNyBBcHIgMjAyMSBhdCAyMjowNiwgQ2hyaXN0aWFu
-IEvDtm5pZwo+IDxja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPgo+
-ID4gQ29ycmVjdCwgd2Ugd291bGRuJ3QgaGF2ZSBzeW5jaHJvbml6YXRpb24gYmV0d2VlbiBkZXZp
-Y2Ugd2l0aCBhbmQgd2l0aG91dCB1c2VyIHF1ZXVlcyBhbnkgbW9yZS4KPiA+Cj4gPiBUaGF0IGNv
-dWxkIG9ubHkgYmUgYSBwcm9ibGVtIGZvciBBK0kgTGFwdG9wcy4KPgo+IFNpbmNlIEkgdGhpbmsg
-eW91IG1lbnRpb25lZCB5b3UnZCBvbmx5IGJlIGVuYWJsaW5nIHRoaXMgb24gbmV3ZXIKPiBjaGlw
-c2V0cywgd29uJ3QgaXQgYmUgYSBwcm9ibGVtIGZvciBBK0Egd2hlcmUgb25lIEEgaXMgYSBnZW5l
-cmF0aW9uCj4gYmVoaW5kIHRoZSBvdGhlcj8KPgo+IEknbSBub3QgcmVhbGx5IGxpa2luZyB3aGVy
-ZSB0aGlzIGlzIGdvaW5nIGJ0dywgc2VlbXMgbGlrZSBhIGlsbAo+IHRob3VnaHQgb3V0IGNvbmNl
-cHQsIGlmIEFNRCBpcyByZWFsbHkgZ29pbmcgZG93biB0aGUgcm9hZCBvZiBkZXNpZ25pbmcKPiBo
-dyB0aGF0IGlzIGN1cnJlbnRseSBMaW51eCBpbmNvbXBhdGlibGUsIHlvdSBhcmUgZ29pbmcgdG8g
-aGF2ZSB0bwo+IGFjY2VwdCBhIGJpZyBwYXJ0IG9mIHRoZSBidXJkZW4gaW4gYnJpbmdpbmcgdGhp
-cyBzdXBwb3J0IGluIHRvIG1vcmUKPiB0aGFuIGp1c3QgYW1kIGRyaXZlcnMgZm9yIHVwY29taW5n
-IGdlbmVyYXRpb25zIG9mIGdwdS4KCkluIGNhc2UgbXkgcHJldmlvdXMgZS1tYWlsIHNvdW5kZWQg
-dG9vIGVudGh1c2lhc3RpYywgSSdtIGFsc28gcGVuc2l2ZQphYm91dCB0aGlzIGRpcmVjdGlvbi4g
-IEknbSBub3Qgc3VyZSBJJ20gcmVhZHkgdG8gdG90YWxseSBnaXZlIHVwIG9uCmFsbCBvZiBMaW51
-eCBXU0kganVzdCB5ZXQuICBXZSBkZWZpbml0ZWx5IHdhbnQgdG8gaGVhZCB0b3dhcmRzIG1lbW9y
-eQpmZW5jZXMgYW5kIGRpcmVjdCBzdWJtaXNzaW9uIGJ1dCBJJ20gbm90IGNvbnZpbmNlZCB0aGF0
-IHRocm93aW5nIG91dAphbGwgb2YgaW50ZXJvcCBpcyBuZWNlc3NhcnkuICBJdCdzIGNlcnRhaW5s
-eSBhIHZlcnkgYmlnIGhhbW1lciBhbmQgd2UKc2hvdWxkIHRyeSB0byBmaWd1cmUgb3V0IHNvbWV0
-aGluZyBsZXNzIGRlc3RydWN0aXZlLCBpZiB0aGF0J3MKcG9zc2libGUuICAoSSBkb24ndCBrbm93
-IGZvciBzdXJlIHRoYXQgaXQgaXMuKQoKLS1KYXNvbgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, 26 Apr 2021 17:00:02 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+
+> The mdev bus's core part for managing the lifecycle of devices is mostly
+> as one would expect for a driver core bus subsystem.
+> 
+> However instead of having a normal 'struct device_driver' and binding the
+> actual mdev drivers through the standard driver core mechanisms it open
+> codes this with the struct mdev_parent_ops and provides a single driver
+> that shims between the VFIO core and the actual device driver.
+> 
+> Make every one of the mdev drivers implement an actual struct mdev_driver
+> and directly call vfio_register_group_dev() in the probe() function for
+> the mdev.
+> 
+> Squash what is left of the mdev_parent_ops into the mdev_driver and remap
+> create(), remove() and mdev_attr_groups to their driver core
+> equivalents. Arrange to bind the created mdev_device to the mdev_driver
+> that is provided by the end driver.
+> 
+> The actual execution flow doesn't change much, eg what was
+> parent_ops->create is now device_driver->probe and it is called at almost
+> the exact same time - except under the normal control of the driver core.
+> 
+> This allows deleting the entire mdev_drvdata, and tidying some of the
+> sysfs. Many places in the drivers start using container_of()
+> 
+> This cleanly splits the mdev sysfs GUID lifecycle management stuff from
+> the vfio_device implementation part, the only VFIO special part of mdev
+> that remains is the mdev specific iommu intervention.
+> 
+> v2:
+>  - Keep && m in samples kconfig
+>  - Restore accidently squashed removeal of vfio_mdev.c
+>  - Remove indirections to call bus_register()/bus_unregister()
+>  - Reflow long doc lines
+> v1: https://lore.kernel.org/r/0-v1-d88406ed308e+418-vfio3_jgg@nvidia.com
+> 
+> Jason
+> 
+> Cc: Leon Romanovsky <leonro@nvidia.com>
+> Cc: "Raj, Ashok" <ashok.raj@intel.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Max Gurtovoy <mgurtovoy@nvidia.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Tarun Gupta <targupta@nvidia.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> 
+> 
+> Jason Gunthorpe (13):
+>   vfio/mdev: Remove CONFIG_VFIO_MDEV_DEVICE
+>   vfio/mdev: Allow the mdev_parent_ops to specify the device driver to
+>     bind
+>   vfio/mtty: Convert to use vfio_register_group_dev()
+>   vfio/mdpy: Convert to use vfio_register_group_dev()
+>   vfio/mbochs: Convert to use vfio_register_group_dev()
+>   vfio/ap_ops: Convert to use vfio_register_group_dev()
+>   vfio/ccw: Convert to use vfio_register_group_dev()
+>   vfio/gvt: Convert to use vfio_register_group_dev()
+>   vfio/mdev: Remove vfio_mdev.c
+>   vfio/mdev: Remove mdev_parent_ops dev_attr_groups
+>   vfio/mdev: Remove mdev_parent_ops
+>   vfio/mdev: Use the driver core to create the 'remove' file
+>   vfio/mdev: Remove mdev drvdata
+
+It'd be really helpful if you could consistently copy at least one
+list, preferably one monitored by patchwork, for an entire series.  The
+kvm list is missing patches 06 and 08.  I can find the latter hopping
+over to the intel-gfx or dri-devel projects as I did for the last
+series, but 06 only copied linux-s390, where I need to use lore and
+can't find a patchwork.  Thanks,
+
+Alex
+
+> 
+>  .../driver-api/vfio-mediated-device.rst       |  56 ++---
+>  Documentation/s390/vfio-ap.rst                |   1 -
+>  arch/s390/Kconfig                             |   2 +-
+>  drivers/gpu/drm/i915/Kconfig                  |   2 +-
+>  drivers/gpu/drm/i915/gvt/kvmgt.c              | 210 +++++++++--------
+>  drivers/s390/cio/vfio_ccw_drv.c               |  21 +-
+>  drivers/s390/cio/vfio_ccw_ops.c               | 136 ++++++-----
+>  drivers/s390/cio/vfio_ccw_private.h           |   5 +
+>  drivers/s390/crypto/vfio_ap_ops.c             | 138 ++++++-----
+>  drivers/s390/crypto/vfio_ap_private.h         |   2 +
+>  drivers/vfio/mdev/Kconfig                     |   7 -
+>  drivers/vfio/mdev/Makefile                    |   1 -
+>  drivers/vfio/mdev/mdev_core.c                 |  67 ++++--
+>  drivers/vfio/mdev/mdev_driver.c               |  20 +-
+>  drivers/vfio/mdev/mdev_private.h              |   4 +-
+>  drivers/vfio/mdev/mdev_sysfs.c                |  37 ++-
+>  drivers/vfio/mdev/vfio_mdev.c                 | 180 ---------------
+>  drivers/vfio/vfio.c                           |   6 +-
+>  include/linux/mdev.h                          |  86 +------
+>  include/linux/vfio.h                          |   4 +
+>  samples/Kconfig                               |   6 +-
+>  samples/vfio-mdev/mbochs.c                    | 166 +++++++------
+>  samples/vfio-mdev/mdpy.c                      | 162 +++++++------
+>  samples/vfio-mdev/mtty.c                      | 218 +++++++-----------
+>  24 files changed, 651 insertions(+), 886 deletions(-)
+>  delete mode 100644 drivers/vfio/mdev/vfio_mdev.c
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
