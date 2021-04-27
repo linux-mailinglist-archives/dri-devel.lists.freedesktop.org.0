@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5224436C12F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 10:46:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B0136C131
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 10:47:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1E406E907;
-	Tue, 27 Apr 2021 08:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26E5B89CDE;
+	Tue, 27 Apr 2021 08:47:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21CEA6E151;
- Tue, 27 Apr 2021 08:46:51 +0000 (UTC)
-IronPort-SDR: AgM2h4HW0Pbx96yrKsU2sKCRibPJ9bl31WtqkQXOvuiScJpwFwZHJ0WmwS1ZdYyT7Pim4K+QH0
- kIvnK5Iq0nLg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="281805602"
-X-IronPort-AV: E=Sophos;i="5.82,254,1613462400"; d="scan'208";a="281805602"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2021 01:46:50 -0700
-IronPort-SDR: Y3p9ILhLNvo8IK9B2aXTwihxDDjpRbc7otbEbp/Vw0gbRR2eTgKq1O85Ok4bgpEqtf83vfcZID
- OYDRcyep8nqw==
-X-IronPort-AV: E=Sophos;i="5.82,254,1613462400"; d="scan'208";a="429732584"
-Received: from aalbarra-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.41.45])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2021 01:46:46 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-next-fixes for the merge window
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Tue, 27 Apr 2021 11:46:43 +0300
-Message-ID: <871raw5d3g.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5601A89CDE
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 08:47:27 +0000 (UTC)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
+ [91.157.208.71])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A54EE9;
+ Tue, 27 Apr 2021 10:47:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1619513245;
+ bh=7TGn+2lQ5iUH5+gWfDkN9ad+SwyQsgv3tvhAd5pw/iA=;
+ h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+ b=W6GnmYaPULBGfNIqcSyiMB+48tf47k5avfv70cXQhWEjPEo8pkpSB4yrBTHZE/PSI
+ /8zOFiW/7z1T+ou3dDyplIeN2M/96WPIMFQmopJG2yFy5j6LDllO3a4DiPak9NdvK1
+ jVylDtsSOO88QuU7vlwY+DSPDca1LqAEVx/AD3Vw=
+To: Tony Lindgren <tony@atomide.com>
+References: <20210426141241.51985-1-tony@atomide.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH] drm/omap: Fix issue with clocks left on after resume
+Message-ID: <0963c9fa-1b45-b742-ed9b-5c48d3a97987@ideasonboard.com>
+Date: Tue, 27 Apr 2021 11:47:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210426141241.51985-1-tony@atomide.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,69 +47,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-omap@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIERhdmUgJiBEYW5pZWwgLQoKU29tZSBmaXhlcyB0byB0aGUgZHJtLW5leHQgZmVhdHVyZSBw
-dWxsLgoKZHJtLWludGVsLW5leHQtZml4ZXMtMjAyMS0wNC0yNzoKZHJtL2k5MTUgZml4ZXMgZm9y
-IHY1LjEzLXJjMToKLSBTZXZlcmFsIGZpeGVzIHRvIEdMSyBoYW5kbGluZyBpbiByZWNlbnQgZGlz
-cGxheSByZWZhY3RvcmluZyAoVmlsbGUpCi0gUmFyZSB3YXRjaGRvZyB0aW1lciByYWNlIGZpeCAo
-VHZydGtvKQotIENwcGNoZWNrIHJlZHVuZGFudCBjb25kaXRpb24gZml4IChKb3PDqSkKLSBPdmVy
-bGF5IGVycm9yIGNvZGUgcHJvcGFnYXRpb24gZml4IChEYW4gQ2FycGVudGVyKQotIERvY3VtZW50
-YXRpb24gZml4IChNYWFydGVuKQoKU2VlbXMgSSBmb3Jnb3QgdG8gbWVudGlvbiBHVlQgZml4ZXMg
-aW4gdGhlIGFubm90YXRlZCB0YWcsIGNvcHktcGFzdGluZwpoZXJlIGZyb20gdGhlaXIgcHVsbDoK
-CiAgICBndnQtbmV4dC1maXhlcy0yMDIxLTA0LTIxCiAgICAKICAgIC0gUmVtb3ZlIG9uZSB1bnVz
-ZWQgZnVuY3Rpb24gd2FybmluZyAoSmlhcGVuZykKICAgIC0gRml4IGludGVsX2d2dF9pbml0X2Rl
-dmljZSgpIHJldHVybiB0eXBlIChEYW4pCiAgICAtIFJlbW92ZSBvbmUgZHVwbGljYXRlZCByZWdp
-c3RlciBhY2Nlc3NpYmxlIGNoZWNrIChaaGVueXUpCgoKQlIsCkphbmkuCgpUaGUgZm9sbG93aW5n
-IGNoYW5nZXMgc2luY2UgY29tbWl0IGFmODM1MmYxZmY1NGM0ZmVjZjg0ZTM2MzE1ZmQxOTI4ODA5
-YTU4MGI6CgogIE1lcmdlIHRhZyAnZHJtLW1zbS1uZXh0LTIwMjEtMDQtMTEnIG9mIGh0dHBzOi8v
-Z2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vbXNtIGludG8gZHJtLW5leHQgKDIwMjEtMDQtMTMg
-MjM6MzU6NTQgKzAyMDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoK
-CiAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1pbnRlbCB0YWdzL2RybS1p
-bnRlbC1uZXh0LWZpeGVzLTIwMjEtMDQtMjcKCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0
-byAyNzBlM2NjNWFhMzgyZjYzZWEyMGI5M2MzZDIwMTYyYTg5MWRjNjM4OgoKICBkcm0vaTkxNTog
-Rml4IGRvY2Jvb2sgZGVzY3JpcHRpb25zIGZvciBpOTE1X2dlbV9zaHJpbmtlciAoMjAyMS0wNC0y
-NiAxMTo1NDozMyArMDMwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KZHJtL2k5MTUgZml4ZXMgZm9yIHY1LjEzLXJjMToK
-LSBTZXZlcmFsIGZpeGVzIHRvIEdMSyBoYW5kbGluZyBpbiByZWNlbnQgZGlzcGxheSByZWZhY3Rv
-cmluZyAoVmlsbGUpCi0gUmFyZSB3YXRjaGRvZyB0aW1lciByYWNlIGZpeCAoVHZydGtvKQotIENw
-cGNoZWNrIHJlZHVuZGFudCBjb25kaXRpb24gZml4IChKb3PDqSkKLSBPdmVybGF5IGVycm9yIGNv
-ZGUgcHJvcGFnYXRpb24gZml4IChEYW4gQ2FycGVudGVyKQotIERvY3VtZW50YXRpb24gZml4IChN
-YWFydGVuKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQpEYW4gQ2FycGVudGVyICgyKToKICAgICAgZHJtL2k5MTUvZ3Z0OiBG
-aXggZXJyb3IgY29kZSBpbiBpbnRlbF9ndnRfaW5pdF9kZXZpY2UoKQogICAgICBkcm0vaTkxNTog
-Zml4IGFuIGVycm9yIGNvZGUgaW4gaW50ZWxfb3ZlcmxheV9kb19wdXRfaW1hZ2UoKQoKSmFuaSBO
-aWt1bGEgKDEpOgogICAgICBNZXJnZSB0YWcgJ2d2dC1uZXh0LWZpeGVzLTIwMjEtMDQtMjEnIG9m
-IGh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC9ndnQtbGludXggaW50byBkcm0taW50ZWwtbmV4dC1m
-aXhlcwoKSmlhcGVuZyBDaG9uZyAoMSk6CiAgICAgIGRybS9pOTE1L2d2dDogcmVtb3ZlIHVzZWxl
-c3MgZnVuY3Rpb24KCkpvc8OpIFJvYmVydG8gZGUgU291emEgKDEpOgogICAgICBkcm0vaTkxNS9k
-aXNwbGF5L3BzcjogRml4IGNwcGNoZWNrIHdhcm5pbmdzCgpNYWFydGVuIExhbmtob3JzdCAoMSk6
-CiAgICAgIGRybS9pOTE1OiBGaXggZG9jYm9vayBkZXNjcmlwdGlvbnMgZm9yIGk5MTVfZ2VtX3No
-cmlua2VyCgpUdnJ0a28gVXJzdWxpbiAoMSk6CiAgICAgIGRybS9pOTE1OiBUYWtlIHJlcXVlc3Qg
-cmVmZXJlbmNlIGJlZm9yZSBhcm1pbmcgdGhlIHdhdGNoZG9nIHRpbWVyCgpWaWxsZSBTeXJqw6Rs
-w6QgKDMpOgogICAgICBkcm0vaTkxNTogUmVzdG9yZSBsb3N0IGdsayBGQkMgMTZicHAgdy9hCiAg
-ICAgIGRybS9pOTE1OiBSZXN0b3JlIGxvc3QgZ2xrIGNjcyB3L2EKICAgICAgZHJtL2k5MTU6IERp
-c2FibGUgTFRUUFIgZGV0ZWN0aW9uIG9uIEdMSyBvbmNlIGFnYWluCgpaaGVueXUgV2FuZyAoMSk6
-CiAgICAgIGRybS9pOTE1L2d2dDogUmVtb3ZlIGR1cGxpY2F0ZWQgcmVnaXN0ZXIgYWNjZXNzaWJs
-ZSBjaGVjawoKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jICAg
-ICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfbGlu
-a190cmFpbmluZy5jIHwgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9m
-YmMuYyAgICAgICAgICAgICAgfCAyICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX292ZXJsYXkuYyAgICAgICAgICB8IDQgKysrLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9wc3IuYyAgICAgICAgICAgICAgfCAzICstLQogZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZ2VtL2k5MTVfZ2VtX3Nocmlua2VyLmMgICAgICAgICAgfCAxICsKIGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2d2dC9jbWRfcGFyc2VyLmMgICAgICAgICAgICAgICAgIHwgNSAtLS0tLQogZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ3Z0L2d0dC5jICAgICAgICAgICAgICAgICAgICAgICAgfCA2IC0tLS0t
-LQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L2d2dC5jICAgICAgICAgICAgICAgICAgICAgICAg
-fCA4ICsrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlcXVlc3QuYyAgICAgICAg
-ICAgICAgICAgICB8IDMgKystCiAxMCBmaWxlcyBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAy
-MiBkZWxldGlvbnMoLSkKCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhp
-Y3MgQ2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Tony,
+
+On 26/04/2021 17:12, Tony Lindgren wrote:
+> On resume, dispc pm_runtime_force_resume() is not enabling the hardware
+> as we pass the pm_runtime_need_not_resume() test as the device is suspended
+> with no child devices.
+> 
+> As the resume continues, omap_atomic_comit_tail() calls dispc_runtime_get()
+> that calls rpm_resume() enabling the hardware, and increasing child_count
+> for it's parent device.
+> 
+> But at this point device_complete() has not yet been called for dispc. So
+> when omap_atomic_comit_tail() calls dispc_runtime_get(), it won't idle
+
+Is that supposed to be dispc_runtime_put()?
+
+> the hardware, and the clocks are left on after resume.
+> 
+> This can be easily seen for example after suspending Beagleboard-X15 with
+> no displays connected, and by reading the CM_DSS_DSS_CLKCTRL register at
+> 0x4a009120 after resume. After a suspend and resume cycle, it shows a
+> value of 0x00040102 instead of 0x00070000 like it should.
+> 
+> Let's fix the issue by calling dispc_runtime_suspend() and
+> dispc_runtime_resume() directly from dispc_suspend() and dispc_resume().
+> This leaves out the PM runtime related issues for system suspend.
+> 
+> See also earlier commit 88d26136a256 ("PM: Prevent runtime suspend during
+> system resume") and commit ca8199f13498 ("drm/msm/dpu: ensure device
+> suspend happens during PM sleep") for more information.
+> 
+> Fixes: ecfdedd7da5d ("drm/omap: force runtime PM suspend on system suspend")
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
+
+Why is this only needed for dispc, and not the other dss submodules 
+which were handled in ecfdedd7da5d?
+
+I have to say I'm pretty confused (maybe partly because it's been a 
+while since I debugged this =). Aren't the 
+pm_runtime_force_suspend/resume made explicitly for this use case? At 
+least that is how I read the documentation.
+
+If I understand right, this is only an issue when the dss was not 
+enabled before the system suspend? And as the dispc is not enabled at 
+suspend, pm_runtime_force_suspend and pm_runtime_force_resume don't 
+really do anything. At resume, the DRM resume functionality causes 
+omapdrm to call pm_runtime_get and put, and this somehow causes the dss 
+to stay enabled.
+
+I think I'm missing something here, but this patch feels like a hack 
+fix. But continuing with the hack mindset, as the PM apparently needs 
+DSS to be enabled at suspend for it to work correctly, lets give that to 
+the PM. This seems to work also:
+
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c 
+b/drivers/gpu/drm/omapdrm/omap_drv.c
+index 28bbad1353ee..0fd9d80d3e12 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -695,6 +695,8 @@ static int omap_drm_suspend(struct device *dev)
+         struct omap_drm_private *priv = dev_get_drvdata(dev);
+         struct drm_device *drm_dev = priv->ddev;
+
++       dispc_runtime_get(priv->dispc);
++
+         return drm_mode_config_helper_suspend(drm_dev);
+  }
+
+@@ -705,6 +707,8 @@ static int omap_drm_resume(struct device *dev)
+
+         drm_mode_config_helper_resume(drm_dev);
+
++       dispc_runtime_put(priv->dispc);
++
+         return omap_gem_resume(drm_dev);
+  }
+  #endif
+
+But I don't think that helps with the other dss submodules either.
+
+  Tomi
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
