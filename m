@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A894136CAAB
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 19:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2AD36CAC7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 20:01:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2790689D60;
-	Tue, 27 Apr 2021 17:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25DC86E52A;
+	Tue, 27 Apr 2021 18:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09D5989D73;
- Tue, 27 Apr 2021 17:52:38 +0000 (UTC)
-IronPort-SDR: aNZ47Ro6G9F4vDx//cCbtKx81SCNn96O5ZBvK6dmBkqREs0AXmgTU+Yqzn2Tyd+s2mNBGMPcv/
- 0F5+s3t155uQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9967"; a="176042811"
-X-IronPort-AV: E=Sophos;i="5.82,255,1613462400"; d="scan'208";a="176042811"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2021 10:52:37 -0700
-IronPort-SDR: m2w124wBHKGikUkK/Vsed2CwAX1tf2e/6aYYSxoMvwu3YMhMvqqcJjTyxlEOKOVeiQYxl1+1Q9
- LvbR0S7RqBCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,255,1613462400"; d="scan'208";a="618999318"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga005.fm.intel.com with ESMTP; 27 Apr 2021 10:52:37 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 27 Apr 2021 10:52:36 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 27 Apr 2021 10:52:35 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2106.013;
- Tue, 27 Apr 2021 10:52:35 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "jani.nikula@linux.intel.com"
- <jani.nikula@linux.intel.com>, "joonas.lahtinen@linux.intel.com"
- <joonas.lahtinen@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "Auld, Matthew" <matthew.auld@intel.com>
-Subject: RE: [PATCH v2] drm/i915/gem: Remove reference to struct
- drm_device.pdev
-Thread-Topic: [PATCH v2] drm/i915/gem: Remove reference to struct
- drm_device.pdev
-Thread-Index: AQHXO42h6nBiwPJrHU+RREehwR9FJKrIpLpA
-Date: Tue, 27 Apr 2021 17:52:35 +0000
-Message-ID: <5e1934e6761646f7993801c2e43e5ed8@intel.com>
-References: <20210427174857.7862-1-tzimmermann@suse.de>
-In-Reply-To: <20210427174857.7862-1-tzimmermann@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.0.76
-x-originating-ip: [10.1.200.100]
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE4386E0FE;
+ Tue, 27 Apr 2021 18:01:32 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ d3-20020a9d29030000b029027e8019067fso54192098otb.13; 
+ Tue, 27 Apr 2021 11:01:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pu56kuPoUg3CtxjLA5zm06km84+P26QyPuxVzLoO3fc=;
+ b=boxvEng40YkCg0LkSLREGdnQ8qodNL00EwgSh3QMro5Ygdq8OFVZkcuZcYOEFj9GrG
+ KgHXSQpB5amK/CzhJY0rajz0Hg+i5vRlQs4zxvZD+RIb6K9JY2X8HGYQYvWYJCieS8ay
+ ut7du5yFFnvTN83T2xKtpZBu/yk/H6nY2G7dZ7nYr8AhHzM8jYL1dC0AZOUw7Qgye7UK
+ eV7AGgY8TIZi53Akzyyvr71jGBqWNOUB1imhNKOKmu9FtlNcK3o14Ce5Jm4GAr0zDFo/
+ +zLEFvYPX3nuigQgF3/lcUJYo6ildpcEyMoJyetsmfTgWXK5H6jbfUR3nAiqcovzGwYM
+ c2AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pu56kuPoUg3CtxjLA5zm06km84+P26QyPuxVzLoO3fc=;
+ b=inPHqneqQjSEFkmyrDgVcYFbtmVieorMoJd8NXu1mb686LuBsn5Dx/biaFABHdeRTz
+ Znu6f2CrfqiBgPsophRVwsKltYNsNFGh6/Qtxg9ihwyyJCyoO1IMfpSvidKtpq8UAPYx
+ vH22T53QT7TxAdSSwweH6wTILNWA/9WE+HOw4KruCyFibhlo3vEMiQJW9OOO9rkfHNJU
+ EF3iY7VJvCSwkF923NER81HkldxSOpVWiMLwn/fC3P8/N9Y5GX6n8k1lExbw/ai1mShM
+ FS9qQCP4j6NQU4/LqB5mi2tCshOZZ5zRjFqCk90dsCnVIQXqmIhZuK1y1mULnuYJoEzW
+ AWxA==
+X-Gm-Message-State: AOAM5308vLfImT1xn+VbZsT7bhcVHiFmBLZWvZQ1Chkdu3CXN9NgsVbl
+ bPBQCTCXfCcqD/EGJfe44BbIp6DapsIbKsimZDSLFcJyFrYNlyHg
+X-Google-Smtp-Source: ABdhPJyH1ysWzXrllHpkkPFrit3i00E0Qq95LYICkliJFKppM+pmSWbrpFhUKZOKD4hDi20LEnV9cAsyh5T+MSz73UQ=
+X-Received: by 2002:a05:6830:18d0:: with SMTP id
+ v16mr6783255ote.311.1619546492007; 
+ Tue, 27 Apr 2021 11:01:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+ <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
+ <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
+ <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
+ <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
+ <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
+ <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
+ <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
+ <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
+ <s8QVKcJeMhEBcoOS9h7UzE_fUG-VKfgso3HbaM37xGhbBu6i966cTiD_UY1lBbiOMl-VbGyu7r0eBS3vTY8DWSUItsLrf_ISzDuT9vbRs8I=@emersion.fr>
+In-Reply-To: <s8QVKcJeMhEBcoOS9h7UzE_fUG-VKfgso3HbaM37xGhbBu6i966cTiD_UY1lBbiOMl-VbGyu7r0eBS3vTY8DWSUItsLrf_ISzDuT9vbRs8I=@emersion.fr>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 27 Apr 2021 14:01:20 -0400
+Message-ID: <CADnq5_PEMvF7Gd4qug=FjfTtxOtygw7SO73HjhSh5AyEramtkA@mail.gmail.com>
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: Simon Ser <contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,76 +72,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>, "Nikula, 
- Jani" <jani.nikula@intel.com>, Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, "Tang, CQ" <cq.tang@intel.com>,
- "Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, "Liu, Xinyun" <xinyun.liu@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9tOiBUaG9tYXMgWmltbWVybWFubiA8
-dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj5TZW50OiBUdWVzZGF5LCBBcHJpbCAyNywgMjAyMSAxOjQ5
-IFBNDQo+VG86IGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbTsgam9vbmFzLmxhaHRpbmVuQGxp
-bnV4LmludGVsLmNvbTsgVml2aSwgUm9kcmlnbw0KPjxyb2RyaWdvLnZpdmlAaW50ZWwuY29tPjsg
-YWlybGllZEBsaW51eC5pZTsgZGFuaWVsQGZmd2xsLmNoOyBBdWxkLCBNYXR0aGV3DQo+PG1hdHRo
-ZXcuYXVsZEBpbnRlbC5jb20+OyBSdWhsLCBNaWNoYWVsIEogPG1pY2hhZWwuai5ydWhsQGludGVs
-LmNvbT4NCj5DYzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZzsgVGhvbWFzDQo+WmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
-ZS5kZT47IE5pa3VsYSwgSmFuaQ0KPjxqYW5pLm5pa3VsYUBpbnRlbC5jb20+OyBUYW5nLCBDUSA8
-Y3EudGFuZ0BpbnRlbC5jb20+OyBUdnJ0a28gVXJzdWxpbg0KPjx0dnJ0a28udXJzdWxpbkBsaW51
-eC5pbnRlbC5jb20+OyBMaXUsIFhpbnl1biA8eGlueXVuLmxpdUBpbnRlbC5jb20+OyBVcnN1bGlu
-LA0KPlR2cnRrbyA8dHZydGtvLnVyc3VsaW5AaW50ZWwuY29tPjsgQ2hyaXMgV2lsc29uIDxjaHJp
-c0BjaHJpcy13aWxzb24uY28udWs+Ow0KPk1pa2EgS3VvcHBhbGEgPG1pa2Eua3VvcHBhbGFAbGlu
-dXguaW50ZWwuY29tPjsgRGFuaWVsIFZldHRlcg0KPjxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPjsg
-TWFhcnRlbiBMYW5raG9yc3QNCj48bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPjsg
-SGVsbHN0cm9tLCBUaG9tYXMNCj48dGhvbWFzLmhlbGxzdHJvbUBpbnRlbC5jb20+OyBHdXN0YXZv
-IEEuIFIuIFNpbHZhDQo+PGd1c3Rhdm9hcnNAa2VybmVsLm9yZz47IERhbiBDYXJwZW50ZXIgPGRh
-bi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4NCj5TdWJqZWN0OiBbUEFUQ0ggdjJdIGRybS9pOTE1L2dl
-bTogUmVtb3ZlIHJlZmVyZW5jZSB0byBzdHJ1Y3QNCj5kcm1fZGV2aWNlLnBkZXYNCj4NCj5SZWZl
-cmVuY2VzIHRvIHN0cnVjdCBkcm1fZGV2aWNlLnBkZXYgc2hvdWxkIG5vdCBiZSB1c2VkIGFueSBs
-b25nZXIgYXMNCj50aGUgZmllbGQgd2lsbCBiZSBtb3ZlZCBpbnRvIHRoZSBzdHJ1Y3QncyBsZWdh
-Y3kgc2VjdGlvbi4gQWRkIGEgZml4DQo+Zm9yIHRoZSByc3AgY29tbWl0Lg0KDQpDb21taXQgbWVz
-c2FnZSBtYXRjaCB0aGUgcGF0Y2guDQoNClJldmlld2VkLWJ5OiBNaWNoYWVsIEouIFJ1aGwgPG1p
-Y2hhZWwuai5ydWhsQGludGVsLmNvbQ0KDQpNDQoNCj52MjoNCj4JKiBmaXggYW4gZXJyb3IgaW4g
-dGhlIGNvbW1pdCBkZXNjcmlwdGlvbiAoTWljaGFlbCkNCj4NCj5TaWduZWQtb2ZmLWJ5OiBUaG9t
-YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj5SZXZpZXdlZC1ieTogSmFuaSBO
-aWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4NCj5GaXhlczogZDU3ZDRhMWRhZjVlICgiZHJt
-L2k5MTU6IENyZWF0ZSBzdG9sZW4gbWVtb3J5IHJlZ2lvbiBmcm9tIGxvY2FsDQo+bWVtb3J5IikN
-Cj5DYzogQ1EgVGFuZyA8Y3EudGFuZ0BpbnRlbC5jb20+DQo+Q2M6IE1hdHRoZXcgQXVsZCA8bWF0
-dGhldy5hdWxkQGludGVsLmNvbT4NCj5DYzogVHZydGtvIFVyc3VsaW4gPHR2cnRrby51cnN1bGlu
-QGxpbnV4LmludGVsLmNvbT4NCj5DYzogWGlueXVuIExpdSA8eGlueXVuLmxpdUBpbnRlbC5jb20+
-DQo+Q2M6IFR2cnRrbyBVcnN1bGluIDx0dnJ0a28udXJzdWxpbkBpbnRlbC5jb20+DQo+Q2M6IEph
-bmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+DQo+Q2M6IEpvb25hcyBMYWh0
-aW5lbiA8am9vbmFzLmxhaHRpbmVuQGxpbnV4LmludGVsLmNvbT4NCj5DYzogUm9kcmlnbyBWaXZp
-IDxyb2RyaWdvLnZpdmlAaW50ZWwuY29tPg0KPkNjOiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlz
-LXdpbHNvbi5jby51az4NCj5DYzogTWlrYSBLdW9wcGFsYSA8bWlrYS5rdW9wcGFsYUBsaW51eC5p
-bnRlbC5jb20+DQo+Q2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+DQo+
-Q2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+
-DQo+Q2M6ICJUaG9tYXMgSGVsbHN0csO2bSIgPHRob21hcy5oZWxsc3Ryb21AaW50ZWwuY29tPg0K
-PkNjOiAiR3VzdGF2byBBLiBSLiBTaWx2YSIgPGd1c3Rhdm9hcnNAa2VybmVsLm9yZz4NCj5DYzog
-RGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUuY29tPg0KPkNjOiBpbnRlbC1nZnhA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+LS0tDQo+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9p
-OTE1X2dlbV9zdG9sZW4uYyB8IDIgKy0NCj4gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pDQo+DQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dl
-bS9pOTE1X2dlbV9zdG9sZW4uYw0KPmIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2Vt
-X3N0b2xlbi5jDQo+aW5kZXggYzViNjRiMjQwMGU4Li5lMWEzMjY3MmJiZTggMTAwNjQ0DQo+LS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xlbi5jDQo+KysrIGIvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xlbi5jDQo+QEAgLTc3Myw3ICs3NzMs
-NyBAQCBzdHJ1Y3QgaW50ZWxfbWVtb3J5X3JlZ2lvbiAqDQo+IGk5MTVfZ2VtX3N0b2xlbl9sbWVt
-X3NldHVwKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1KQ0KPiB7DQo+IAlzdHJ1Y3QgaW50
-ZWxfdW5jb3JlICp1bmNvcmUgPSAmaTkxNS0+dW5jb3JlOw0KPi0Jc3RydWN0IHBjaV9kZXYgKnBk
-ZXYgPSBpOTE1LT5kcm0ucGRldjsNCj4rCXN0cnVjdCBwY2lfZGV2ICpwZGV2ID0gdG9fcGNpX2Rl
-dihpOTE1LT5kcm0uZGV2KTsNCj4gCXN0cnVjdCBpbnRlbF9tZW1vcnlfcmVnaW9uICptZW07DQo+
-IAlyZXNvdXJjZV9zaXplX3QgaW9fc3RhcnQ7DQo+IAlyZXNvdXJjZV9zaXplX3QgbG1lbV9zaXpl
-Ow0KPi0tDQo+Mi4zMS4xDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+On Tue, Apr 27, 2021 at 1:35 PM Simon Ser <contact@emersion.fr> wrote:
+>
+> On Tuesday, April 27th, 2021 at 7:31 PM, Lucas Stach <l.stach@pengutronix.de> wrote:
+>
+> > > Ok. So that would only make the following use cases broken for now:
+> > >
+> > > - amd render -> external gpu
+> > > - amd video encode -> network device
+> >
+> > FWIW, "only" breaking amd render -> external gpu will make us pretty
+> > unhappy
+>
+> I concur. I have quite a few users with a multi-GPU setup involving
+> AMD hardware.
+>
+> Note, if this brokenness can't be avoided, I'd prefer a to get a clear
+> error, and not bad results on screen because nothing is synchronized
+> anymore.
+
+It's an upcoming requirement for windows[1], so you are likely to
+start seeing this across all GPU vendors that support windows.  I
+think the timing depends on how quickly the legacy hardware support
+sticks around for each vendor.
+
+Alex
+
+
+[1] - https://devblogs.microsoft.com/directx/hardware-accelerated-gpu-scheduling/
+
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
