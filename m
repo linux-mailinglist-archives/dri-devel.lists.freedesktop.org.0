@@ -1,64 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D62836C5E7
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 14:16:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4FE36C5FA
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 14:21:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 728E86E94F;
-	Tue, 27 Apr 2021 12:15:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAD856E198;
+	Tue, 27 Apr 2021 12:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84AB96E957
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 12:15:57 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id e25so29556348oii.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 05:15:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2TRzev2RM+LMzob97hrfQLBIaGqMkZsQP5zHAkPuoHs=;
- b=VSpOx8SWpWe02NAZHe5f0tsL1xsIrFlvrygbp0DH0y+SdVmyb35cADy2OXSTETYe6D
- rewsliEdcBMw3dCoW8v6i8gyDYBCnXWN/ByRtEXcrwndmkzBnM6VNn6FpmGe6B5HzrXX
- C5yb3A62s2AFGXcNHmlcT0DOIOeiapwIjxmJo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2TRzev2RM+LMzob97hrfQLBIaGqMkZsQP5zHAkPuoHs=;
- b=j7HAUvSB1CcvDvxD5QcfTk1epFeYadDMaMAZvM3XWZZObeAd44OXL4Wml/nUBx25m3
- qD5i+hewSQvY9OQtOnQt+bIAT9vXBJ/0GdUWVbBVW5D8E3OI2PwrcUmeGZaXCmPpJxVM
- xhjj+Q9AnLEzGgO6GmTbMnCfVDfVI/YbFekSafypTQCE+WOv+bbilT8/pIF8PmyqDMn3
- LPC7mZeIx5tCtaQdcLtrxR543Lwn4X4e9I4CkqM+xggsORsOLMnnq/aG3SOc+xTL8vrJ
- NAHSj4R2zwuGp8aKCk7FNOZ7qq0LNYRy0mxn72NeMueyzIAbeHBIhmKjTKVkYTw1vcBC
- JMPw==
-X-Gm-Message-State: AOAM532F5valMmE4KJaliTRWDEf6EV9G2BcBMPAIXPjs+wSoGF+XFffE
- 4R+wGm/nW0wmKc7gIT9fvZ9Y1atTmDu8EjbsCZvQGw==
-X-Google-Smtp-Source: ABdhPJw46OFD+kpBhtd0kEKg1p1wyk1s8NJDs1uGJd1ajIdsk7OYoFn07dvVLOYnA6Uiht210Gadjl5qD2D2NPkt12s=
-X-Received: by 2002:aca:2219:: with SMTP id b25mr2993011oic.14.1619525756733; 
- Tue, 27 Apr 2021 05:15:56 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A8946E198
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 12:21:03 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id F408DB190;
+ Tue, 27 Apr 2021 12:21:01 +0000 (UTC)
+Subject: Re: [PATCH v2] drm/bochs: Add screen blanking support
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210421080859.14869-1-tiwai@suse.de>
+ <d1b1fa01-2254-f5cf-0ed0-f8e9c1c3f9ae@suse.de> <s5hk0oo1c9d.wl-tiwai@suse.de>
+ <a557e727-d866-3dd3-ec96-741e7da7cf62@suse.de>
+ <20210427095604.razo3nrqbfhcjrmd@sirius.home.kraxel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <1a16dde0-1120-e271-22d9-2bd7b0b90417@suse.de>
+Date: Tue, 27 Apr 2021 14:21:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
- <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
- <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
- <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
- <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
- <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
- <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
- <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
- <YIfFC3YST0cfzd3l@phenom.ffwll.local>
- <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
- <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
- <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
-In-Reply-To: <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 27 Apr 2021 14:15:45 +0200
-Message-ID: <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+In-Reply-To: <20210427095604.razo3nrqbfhcjrmd@sirius.home.kraxel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,126 +41,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Content-Type: multipart/mixed; boundary="===============1520565807=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgMjcsIDIwMjEgYXQgMjoxMSBQTSBNYXJlayBPbMWhw6FrIDxtYXJhZW9AZ21h
-aWwuY29tPiB3cm90ZToKPiBPay4gSSdsbCBpbnRlcnByZXQgdGhpcyBhcyAieWVzLCBpdCB3aWxs
-IHdvcmssIGxldCdzIGRvIGl0Ii4KCkl0IHdvcmtzIGlmIGFsbCB5b3UgY2FyZSBhYm91dCBpcyBk
-cm0vYW1kZ3B1LiBJJ20gbm90IHN1cmUgdGhhdCdzIGEKcmVhc29uYWJsZSBhcHByb2FjaCBmb3Ig
-dXBzdHJlYW0sIGJ1dCBpdCBkZWZpbml0ZWx5IGlzIGFuIGFwcHJvYWNoIDotKQoKV2UndmUgYWxy
-ZWFkeSBnb25lIHNvbWV3aGF0IHRocm91Z2ggdGhlIHBhaW4gb2YgZHJtL2FtZGdwdSByZWRlZmlu
-aW5nCmhvdyBpbXBsaWNpdCBzeW5jIHdvcmtzIHdpdGhvdXQgc3VmZmljaWVudGx5IHRhbGtpbmcg
-d2l0aCBvdGhlcgpwZW9wbGUsIG1heWJlIHdlIHNob3VsZCBhdm9pZCBhIHJlcGVhdCBvZiB0aGlz
-IC4uLgotRGFuaWVsCgo+Cj4gTWFyZWsKPgo+IE9uIFR1ZS4sIEFwci4gMjcsIDIwMjEsIDA4OjA2
-IENocmlzdGlhbiBLw7ZuaWcsIDxja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3Jv
-dGU6Cj4+Cj4+IENvcnJlY3QsIHdlIHdvdWxkbid0IGhhdmUgc3luY2hyb25pemF0aW9uIGJldHdl
-ZW4gZGV2aWNlIHdpdGggYW5kIHdpdGhvdXQgdXNlciBxdWV1ZXMgYW55IG1vcmUuCj4+Cj4+IFRo
-YXQgY291bGQgb25seSBiZSBhIHByb2JsZW0gZm9yIEErSSBMYXB0b3BzLgo+Pgo+PiBNZW1vcnkg
-bWFuYWdlbWVudCB3aWxsIGp1c3Qgd29yayB3aXRoIHByZWVtcHRpb24gZmVuY2VzIHdoaWNoIHBh
-dXNlIHRoZSB1c2VyIHF1ZXVlcyBvZiBhIHByb2Nlc3MgYmVmb3JlIGV2aWN0aW5nIHNvbWV0aGlu
-Zy4gVGhhdCB3aWxsIGJlIGEgZG1hX2ZlbmNlLCBidXQgYWxzbyBhIHdlbGwga25vd24gYXBwcm9h
-Y2guCj4+Cj4+IENocmlzdGlhbi4KPj4KPj4gQW0gMjcuMDQuMjEgdW0gMTM6NDkgc2NocmllYiBN
-YXJlayBPbMWhw6FrOgo+Pgo+PiBJZiB3ZSBkb24ndCB1c2UgZnV0dXJlIGZlbmNlcyBmb3IgRE1B
-IGZlbmNlcyBhdCBhbGwsIGUuZy4gd2UgZG9uJ3QgdXNlIHRoZW0gZm9yIG1lbW9yeSBtYW5hZ2Vt
-ZW50LCBpdCBjYW4gd29yaywgcmlnaHQ/IE1lbW9yeSBtYW5hZ2VtZW50IGNhbiBzdXNwZW5kIHVz
-ZXIgcXVldWVzIGFueXRpbWUuIEl0IGRvZXNuJ3QgbmVlZCB0byB1c2UgRE1BIGZlbmNlcy4gVGhl
-cmUgbWlnaHQgYmUgc29tZXRoaW5nIHRoYXQgSSdtIG1pc3NpbmcgaGVyZS4KPj4KPj4gV2hhdCB3
-b3VsZCB3ZSBsb3NlIHdpdGhvdXQgRE1BIGZlbmNlcz8gSnVzdCBpbnRlci1kZXZpY2Ugc3luY2hy
-b25pemF0aW9uPyBJIHRoaW5rIHRoYXQgbWlnaHQgYmUgYWNjZXB0YWJsZS4KPj4KPj4gVGhlIG9u
-bHkgY2FzZSB3aGVuIHRoZSBrZXJuZWwgd2lsbCB3YWl0IG9uIGEgZnV0dXJlIGZlbmNlIGlzIGJl
-Zm9yZSBhIHBhZ2UgZmxpcC4gRXZlcnl0aGluZyB0b2RheSBhbHJlYWR5IGRlcGVuZHMgb24gdXNl
-cnNwYWNlIG5vdCBoYW5naW5nIHRoZSBncHUsIHdoaWNoIG1ha2VzIGV2ZXJ5dGhpbmcgYSBmdXR1
-cmUgZmVuY2UuCj4+Cj4+IE1hcmVrCj4+Cj4+IE9uIFR1ZS4sIEFwci4gMjcsIDIwMjEsIDA0OjAy
-IERhbmllbCBWZXR0ZXIsIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+Pj4KPj4+IE9uIE1vbiwg
-QXByIDI2LCAyMDIxIGF0IDA0OjU5OjI4UE0gLTA0MDAsIE1hcmVrIE9sxaHDoWsgd3JvdGU6Cj4+
-PiA+IFRoYW5rcyBldmVyeWJvZHkuIFRoZSBpbml0aWFsIHByb3Bvc2FsIGlzIGRlYWQuIEhlcmUg
-YXJlIHNvbWUgdGhvdWdodHMgb24KPj4+ID4gaG93IHRvIGRvIGl0IGRpZmZlcmVudGx5Lgo+Pj4g
-Pgo+Pj4gPiBJIHRoaW5rIHdlIGNhbiBoYXZlIGRpcmVjdCBjb21tYW5kIHN1Ym1pc3Npb24gZnJv
-bSB1c2Vyc3BhY2UgdmlhCj4+PiA+IG1lbW9yeS1tYXBwZWQgcXVldWVzICgidXNlciBxdWV1ZXMi
-KSB3aXRob3V0IGNoYW5naW5nIHdpbmRvdyBzeXN0ZW1zLgo+Pj4gPgo+Pj4gPiBUaGUgbWVtb3J5
-IG1hbmFnZW1lbnQgZG9lc24ndCBoYXZlIHRvIHVzZSBHUFUgcGFnZSBmYXVsdHMgbGlrZSBITU0u
-Cj4+PiA+IEluc3RlYWQsIGl0IGNhbiB3YWl0IGZvciB1c2VyIHF1ZXVlcyBvZiBhIHNwZWNpZmlj
-IHByb2Nlc3MgdG8gZ28gaWRsZSBhbmQKPj4+ID4gdGhlbiB1bm1hcCB0aGUgcXVldWVzLCBzbyB0
-aGF0IHVzZXJzcGFjZSBjYW4ndCBzdWJtaXQgYW55dGhpbmcuIEJ1ZmZlcgo+Pj4gPiBldmljdGlv
-bnMsIHBpbm5pbmcsIGV0Yy4gY2FuIGJlIGV4ZWN1dGVkIHdoZW4gYWxsIHF1ZXVlcyBhcmUgdW5t
-YXBwZWQKPj4+ID4gKHN1c3BlbmRlZCkuIFRodXMsIG5vIEJPIGZlbmNlcyBhbmQgcGFnZSBmYXVs
-dHMgYXJlIG5lZWRlZC4KPj4+ID4KPj4+ID4gSW50ZXItcHJvY2VzcyBzeW5jaHJvbml6YXRpb24g
-Y2FuIHVzZSB0aW1lbGluZSBzZW1hcGhvcmVzLiBVc2Vyc3BhY2Ugd2lsbAo+Pj4gPiBxdWVyeSB0
-aGUgd2FpdCBhbmQgc2lnbmFsIHZhbHVlIGZvciBhIHNoYXJlZCBidWZmZXIgZnJvbSB0aGUga2Vy
-bmVsLiBUaGUKPj4+ID4ga2VybmVsIHdpbGwga2VlcCBhIGhpc3Rvcnkgb2YgdGhvc2UgcXVlcmll
-cyB0byBrbm93IHdoaWNoIHByb2Nlc3MgaXMKPj4+ID4gcmVzcG9uc2libGUgZm9yIHNpZ25hbGxp
-bmcgd2hpY2ggYnVmZmVyLiBUaGVyZSBpcyBvbmx5IHRoZSB3YWl0LXRpbWVvdXQKPj4+ID4gaXNz
-dWUgYW5kIGhvdyB0byBpZGVudGlmeSB0aGUgY3VscHJpdC4gT25lIG9mIHRoZSBzb2x1dGlvbnMg
-aXMgdG8gaGF2ZSB0aGUKPj4+ID4gR1BVIHNlbmQgYWxsIEdQVSBzaWduYWwgY29tbWFuZHMgYW5k
-IGFsbCB0aW1lZCBvdXQgd2FpdCBjb21tYW5kcyB2aWEgYW4KPj4+ID4gaW50ZXJydXB0IHRvIHRo
-ZSBrZXJuZWwgZHJpdmVyIHRvIG1vbml0b3IgYW5kIHZhbGlkYXRlIHVzZXJzcGFjZSBiZWhhdmlv
-ci4KPj4+ID4gV2l0aCB0aGF0LCBpdCBjYW4gYmUgaWRlbnRpZmllZCB3aGV0aGVyIHRoZSBjdWxw
-cml0IGlzIHRoZSB3YWl0aW5nIHByb2Nlc3MKPj4+ID4gb3IgdGhlIHNpZ25hbGxpbmcgcHJvY2Vz
-cyBhbmQgd2hpY2ggb25lLiBJbnZhbGlkIHNpZ25hbC93YWl0IHBhcmFtZXRlcnMgY2FuCj4+PiA+
-IGFsc28gYmUgZGV0ZWN0ZWQuIFRoZSBrZXJuZWwgY2FuIGZvcmNlLXNpZ25hbCBvbmx5IHRoZSBz
-ZW1hcGhvcmVzIHRoYXQgdGltZQo+Pj4gPiBvdXQsIGFuZCBwdW5pc2ggdGhlIHByb2Nlc3NlcyB3
-aGljaCBjYXVzZWQgdGhlIHRpbWVvdXQgb3IgdXNlZCBpbnZhbGlkCj4+PiA+IHNpZ25hbC93YWl0
-IHBhcmFtZXRlcnMuCj4+PiA+Cj4+PiA+IFRoZSBxdWVzdGlvbiBpcyB3aGV0aGVyIHRoaXMgc3lu
-Y2hyb25pemF0aW9uIHNvbHV0aW9uIGlzIHJvYnVzdCBlbm91Z2ggZm9yCj4+PiA+IGRtYV9mZW5j
-ZSBhbmQgd2hhdGV2ZXIgdGhlIGtlcm5lbCBhbmQgd2luZG93IHN5c3RlbXMgbmVlZC4KPj4+Cj4+
-PiBUaGUgcHJvcGVyIG1vZGVsIGhlcmUgaXMgdGhlIHByZWVtcHQtY3R4IGRtYV9mZW5jZSB0aGF0
-IGFtZGtmZCB1c2VzCj4+PiAod2l0aG91dCBwYWdlIGZhdWx0cykuIFRoYXQgbWVhbnMgZG1hX2Zl
-bmNlIGZvciBzeW5jaHJvbml6YXRpb24gaXMgZG9hLCBhdAo+Pj4gbGVhc3QgYXMtaXMsIGFuZCB3
-ZSdyZSBiYWNrIHRvIGZpZ3VyaW5nIG91dCB0aGUgd2luc3lzIHByb2JsZW0uCj4+Pgo+Pj4gIldl
-J2xsIHNvbHZlIGl0IHdpdGggdGltZW91dHMiIGlzIHZlcnkgdGVtcHRpbmcsIGJ1dCBkb2Vzbid0
-IHdvcmsuIEl0J3MKPj4+IGFraW4gdG8gc2F5aW5nIHRoYXQgd2UncmUgc29sdmluZyBkZWFkbG9j
-ayBpc3N1ZXMgaW4gYSBsb2NraW5nIGRlc2lnbiBieQo+Pj4gZG9pbmcgYSBnbG9iYWwgcy9tdXRl
-eF9sb2NrL211dGV4X2xvY2tfdGltZW91dC8gaW4gdGhlIGtlcm5lbC4gU3VyZSBpdAo+Pj4gYXZv
-aWRzIGhhdmluZyB0byByZWFjaCB0aGUgcmVzZXQgYnV0dG9uLCBidXQgdGhhdCdzIGFib3V0IGl0
-Lgo+Pj4KPj4+IEFuZCB0aGUgZnVuZGFtZW50YWwgcHJvYmxlbSBpcyB0aGF0IG9uY2UgeW91IHRo
-cm93IGluIHVzZXJzcGFjZSBjb21tYW5kCj4+PiBzdWJtaXNzaW9uIChhbmQgc3luY2luZywgYXQg
-bGVhc3Qgd2l0aGluIHRoZSB1c2Vyc3BhY2UgZHJpdmVyLCBvdGhlcndpc2UKPj4+IHRoZXJlJ3Mg
-a2luZGEgbm8gcG9pbnQgaWYgeW91IHN0aWxsIG5lZWQgdGhlIGtlcm5lbCBmb3IgY3Jvc3MtZW5n
-aW5lIHN5bmMpCj4+PiBtZWFucyB5b3UgZ2V0IGRlYWRsb2NrcyBpZiB5b3Ugc3RpbGwgdXNlIGRt
-YV9mZW5jZSBmb3Igc3luYyB1bmRlcgo+Pj4gcGVyZmVjdGx5IGxlZ2l0IHVzZS1jYXNlLiBXZSd2
-ZSBkaXNjdXNzZWQgdGhhdCBvbmUgYWQgbmF1c2VhbSBsYXN0IHN1bW1lcjoKPj4+Cj4+PiBodHRw
-czovL2RyaS5mcmVlZGVza3RvcC5vcmcvZG9jcy9kcm0vZHJpdmVyLWFwaS9kbWEtYnVmLmh0bWw/
-aGlnaGxpZ2h0PWRtYV9mZW5jZSNpbmRlZmluaXRlLWRtYS1mZW5jZXMKPj4+Cj4+PiBTZWUgc2ls
-bHkgZGlhZ3JhbW0gYXQgdGhlIGJvdHRvbS4KPj4+Cj4+PiBOb3cgSSB0aGluayBhbGwgaXNuJ3Qg
-bG9zdCwgYmVjYXVzZSBpbW8gdGhlIGZpcnN0IHN0ZXAgdG8gZ2V0dGluZyB0byB0aGlzCj4+PiBi
-cmF2ZSBuZXcgd29ybGQgaXMgcmVidWlsZGluZyB0aGUgZHJpdmVyIG9uIHRvcCBvZiB1c2Vyc3Bh
-Y2UgZmVuY2VzLCBhbmQKPj4+IHdpdGggdGhlIGFkanVzdGVkIGNtZCBzdWJtaXQgbW9kZWwuIFlv
-dSBwcm9iYWJseSBkb24ndCB3YW50IHRvIHVzZSBhbWRrZmQsCj4+PiBidXQgcG9ydCB0aGF0IGFz
-IGEgY29udGV4dCBmbGFnIG9yIHNpbWlsYXIgdG8gcmVuZGVyIG5vZGVzIGZvciBnbC92ay4gT2YK
-Pj4+IGNvdXJzZSB0aGF0IG1lYW5zIHlvdSBjYW4gb25seSB1c2UgdGhpcyBtb2RlIGluIGhlYWRs
-ZXNzLCB3aXRob3V0Cj4+PiBnbHgvd2F5bGFuZCB3aW5zeXMgc3VwcG9ydCwgYnV0IGl0J3MgYSBz
-dGFydC4KPj4+IC1EYW5pZWwKPj4+Cj4+PiA+Cj4+PiA+IE1hcmVrCj4+PiA+Cj4+PiA+IE9uIFR1
-ZSwgQXByIDIwLCAyMDIxIGF0IDQ6MzQgUE0gRGFuaWVsIFN0b25lIDxkYW5pZWxAZm9vaXNoYmFy
-Lm9yZz4gd3JvdGU6Cj4+PiA+Cj4+PiA+ID4gSGksCj4+PiA+ID4KPj4+ID4gPiBPbiBUdWUsIDIw
-IEFwciAyMDIxIGF0IDIwOjMwLCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3Rl
-Ogo+Pj4gPiA+Cj4+PiA+ID4+IFRoZSB0aGluZyBpcywgeW91IGNhbid0IGRvIHRoaXMgaW4gZHJt
-L3NjaGVkdWxlci4gQXQgbGVhc3Qgbm90IHdpdGhvdXQKPj4+ID4gPj4gc3BsaXR0aW5nIHVwIHRo
-ZSBkbWFfZmVuY2UgaW4gdGhlIGtlcm5lbCBpbnRvIHNlcGFyYXRlIG1lbW9yeSBmZW5jZXMKPj4+
-ID4gPj4gYW5kIHN5bmMgZmVuY2VzCj4+PiA+ID4KPj4+ID4gPgo+Pj4gPiA+IEknbSBzdGFydGlu
-ZyB0byB0aGluayB0aGlzIHRocmVhZCBuZWVkcyBpdHMgb3duIGdsb3NzYXJ5IC4uLgo+Pj4gPiA+
-Cj4+PiA+ID4gSSBwcm9wb3NlIHdlIHVzZSAncmVzaWRlbmN5IGZlbmNlJyBmb3IgZXhlY3V0aW9u
-IGZlbmNlcyB3aGljaCBlbmFjdAo+Pj4gPiA+IG1lbW9yeS1yZXNpZGVuY3kgb3BlcmF0aW9ucywg
-ZS5nLiBmYXVsdGluZyBpbiBhIHBhZ2UgdWx0aW1hdGVseSBkZXBlbmRpbmcKPj4+ID4gPiBvbiBH
-UFUgd29yayByZXRpcmluZy4KPj4+ID4gPgo+Pj4gPiA+IEFuZCAndmFsdWUgZmVuY2UnIGZvciB0
-aGUgcHVyZS11c2Vyc3BhY2UgbW9kZWwgc3VnZ2VzdGVkIGJ5IHRpbWVsaW5lCj4+PiA+ID4gc2Vt
-YXBob3JlcywgaS5lLiBmZW5jZXMgYmVpbmcgKCphZGRyID09IHZhbCkgcmF0aGVyIHRoYW4gYmVp
-bmcgYWJsZSB0byBsb29rCj4+PiA+ID4gYXQgY3R4IHNlcW5vLgo+Pj4gPiA+Cj4+PiA+ID4gQ2hl
-ZXJzLAo+Pj4gPiA+IERhbmllbAo+Pj4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCj4+PiA+ID4gbWVzYS1kZXYgbWFpbGluZyBsaXN0Cj4+PiA+ID4g
-bWVzYS1kZXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+PiA+ID4gaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9tZXNhLWRldgo+Pj4gPiA+Cj4+Pgo+Pj4gLS0K
-Pj4+IERhbmllbCBWZXR0ZXIKPj4+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlv
-bgo+Pj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKPj4KPj4KPj4gX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KPj4gbWVzYS1kZXYgbWFpbGluZyBsaXN0Cj4+IG1l
-c2EtZGV2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL21lc2EtZGV2Cj4+Cj4+CgoKLS0gCkRhbmllbCBWZXR0ZXIK
-U29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNo
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1520565807==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="eLC8cuCHdSDqorpH5Pmuo86STy6qQpDGX"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--eLC8cuCHdSDqorpH5Pmuo86STy6qQpDGX
+Content-Type: multipart/mixed; boundary="z5s2LaZeCszjDlDVbFVB9KJnbDv8V686s";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Message-ID: <1a16dde0-1120-e271-22d9-2bd7b0b90417@suse.de>
+Subject: Re: [PATCH v2] drm/bochs: Add screen blanking support
+References: <20210421080859.14869-1-tiwai@suse.de>
+ <d1b1fa01-2254-f5cf-0ed0-f8e9c1c3f9ae@suse.de> <s5hk0oo1c9d.wl-tiwai@suse.de>
+ <a557e727-d866-3dd3-ec96-741e7da7cf62@suse.de>
+ <20210427095604.razo3nrqbfhcjrmd@sirius.home.kraxel.org>
+In-Reply-To: <20210427095604.razo3nrqbfhcjrmd@sirius.home.kraxel.org>
+
+--z5s2LaZeCszjDlDVbFVB9KJnbDv8V686s
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 27.04.21 um 11:56 schrieb Gerd Hoffmann:
+>>> I'm fine to change in any better way, of course, so feel free to
+>>> modify the patch.
+>>
+>> If no one objects, I'll merge it as-is. It's somewhat wrong wrt to VGA=
+, but
+>> apparently what qemu wants.
+>=20
+> No objections.
+>=20
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Great. Merged now. Thanks everyone.
+
+>=20
+> FYI: cirrus is in the same situation, the modesetting works with qemu
+> but is possibly incomplete and might not work on cirrus real hardware
+> (it only binds to the qemu subsystem id for that reason).
+>=20
+> take care,
+>    Gerd
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--z5s2LaZeCszjDlDVbFVB9KJnbDv8V686s--
+
+--eLC8cuCHdSDqorpH5Pmuo86STy6qQpDGX
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCIAa0FAwAAAAAACgkQlh/E3EQov+DK
+ZQ/8D98N8lvdBtKvjRWyf2CphBqM/RIWZxYaHHKk2EZDdznwRBBTWaYiu+2v0Wih0Px/E227gVQZ
+XDPMKK5tloxwHQ8H6cCAyJJaLia4bId0cwZDqfO3iWecwJqVa5Z2CHQ7jGtD1v0dsbVSJ02P66tY
+IXNn7So7/c1CQRytJMLbmSeh+L73wR3eodIhTxCYhwIt1GHMI/QAq6R2nW4XkFKvMdvyYjxOnm4p
+vjuJ5ylaUNvH4y+ZW3shUdQWqi0HVu+auepckt/H5eBm1dqn48lwscnLKxaAdaxe/yUIqpy04P9+
+ZzKjbDqk4fnCLX8KRHedIDzxt6KYC3iOUeRt9dsQBp4ZBILggXsYmwUqXO15ZK1XyvO+x9wmdfYz
+AGARVay0WCdyLs2MRnlse9Mf7XyKN0qCkg1FEMz9Q7IVDoW5VBSgY6bODZj0OavgbFnS1hA6yARI
+5TVpSJNH2WZ2oPX1qQr/URWtdbmYcHmS9ZT4dH8Pk1c/h6ZYxGdMU6l5RFug1CIFdHVXQMT6wh0t
+pAn0j4++PuBIhLurgF8ghj5l0u5twrGSKU7kCaeCPZSE2+610X6qIDYXgZKuJwCyQHK/6ChKDCrM
+ghPWJyA3xVqxhlg23IWsx4xb5GNBan5jjKeHcrAAh2VlAQe0kV9BxuwQhiUx1A1nfsuoVOGLAAgb
+0Fs=
+=ZS0w
+-----END PGP SIGNATURE-----
+
+--eLC8cuCHdSDqorpH5Pmuo86STy6qQpDGX--
+
+--===============1520565807==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1520565807==--
