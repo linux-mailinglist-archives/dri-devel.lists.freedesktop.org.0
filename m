@@ -1,43 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC67136C8AF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 17:32:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1858636C8B5
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 17:34:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD0A6E983;
-	Tue, 27 Apr 2021 15:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB5689079;
+	Tue, 27 Apr 2021 15:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 717F96E0C8;
- Tue, 27 Apr 2021 15:32:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=LQWA5Vj4/vDTbjcIAJB1lIQbwCbGR7wOkwAKtHeU/fo=; b=LiBcd29YiOroBKZ3tf8wjAoMRx
- R7P9hHXyjzfRMPScN8KiVdQh1Fl4P/Vb3LNki7eNFchPrLYs+pAB/s8J5J7cghN5CQ2K1PCHOyryG
- D7TmrFM1yuBYk9EP7bZhOB7MsQb/qMaICJfzYsVRMMu034YNqKBmOiR2xCt9tkWv685bDt2JE1HLF
- H8TXCSrueLo9mxh8BJhmYc48h+ftoLHfd0EWmhjRpKo4HxuTymO/z6XzF8KF6kKKKQua7Pvs3RF5I
- Ng7kmJ2apAX9UOSaeY6AIAH2UXD1GcUNt24K55lxson17SN2gxeRKRbHPSNTZ+K5qnrIiJg+7y96q
- qLUHFS4Q==;
-Received: from [2601:1c0:6280:3f0::df68]
- by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lbPgt-0074eB-GM; Tue, 27 Apr 2021 15:32:10 +0000
-Subject: Re: [PATCH] drm: i915: fix build when ACPI is disabled and BACKLIGHT=m
-To: Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org
-References: <20210426183516.18957-1-rdunlap@infradead.org>
- <874kfs5f3d.fsf@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <866940af-bbbf-a1cd-b1e3-aafe94686a22@infradead.org>
-Date: Tue, 27 Apr 2021 08:31:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4EB489079
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 15:34:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A9360613EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 15:34:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619537653;
+ bh=nRjupLfRtOC1jx4QARvFWp92/DopAWZE+CYvOd1QYs4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Xf7xrFh15+85qDBGqvjtGZcA6XAk5idTyN4iVWB48cXzrK1wlXyVc9fouKZpB7AjH
+ Jju0aYIUHCE1wy6WooMwCPVUeU0XUTFgWWc2B6rxq66IPYL0EjamfS70sXohNoCjQu
+ NnnZvlExEMa0rr0Gn+7tchsamcn0byq8AZWrmucpVvK6eA+nRoQriSQi2F5cDM7ZSD
+ WRrLRplQZVpE/CgPnxzjtuGINBoM4Kj4DmyYSlEj2Fphte4bBeR/TcFlnXQ17+WxLD
+ LZYSucpWRR0mxfQQWuN/FQm/zphGSBo/NYdKMb7+S+x6RRgGZwtIsbY9qUJpjY3tTI
+ 1eeJ5KyxyiIFg==
+Received: by mail-ej1-f50.google.com with SMTP id r9so90136096ejj.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 08:34:13 -0700 (PDT)
+X-Gm-Message-State: AOAM533dKyDlCyjbsRDuzbJaWgzN4rXe0fX+4Tb7+JLQtSMZc9UnfpJd
+ V2fuzlQ5UAx4JvRd1CoB6w090vJVx4NH/4mUSQ==
+X-Google-Smtp-Source: ABdhPJwN/fh94a1wvQ0KAftdjjUovYxqjRpSBzYoykWjVdlI+hza7uurmQ86UUDbKXyp07MoytDPBVCc0xoBWlV1ncY=
+X-Received: by 2002:a17:906:b0cb:: with SMTP id
+ bk11mr2818134ejb.310.1619537652286; 
+ Tue, 27 Apr 2021 08:34:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <874kfs5f3d.fsf@intel.com>
-Content-Language: en-US
+References: <20210427044948.12596-1-hsinyi@chromium.org>
+ <20210427044948.12596-2-hsinyi@chromium.org>
+In-Reply-To: <20210427044948.12596-2-hsinyi@chromium.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 27 Apr 2021 23:34:01 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__6agGjApVEkAyhPdV46qTjWdHODBGD_VQcYf5PRhF-hA@mail.gmail.com>
+Message-ID: <CAAOTY__6agGjApVEkAyhPdV46qTjWdHODBGD_VQcYf5PRhF-hA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] drm/mediatek: init panel orientation property
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,72 +54,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Damien Lespiau <damien.lespiau@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/27/21 1:03 AM, Jani Nikula wrote:
-> On Mon, 26 Apr 2021, Randy Dunlap <rdunlap@infradead.org> wrote:
->> When CONFIG_DRM_I915=y, CONFIG_ACPI is not set, and
->> CONFIG_BACKLIGHT_CLASS_DEVICE=m, not due to I915 config,
->> there are build errors trying to reference backlight_device_{un}register().
->>
->> Changing the use of IS_ENABLED() to IS_REACHABLE() in intel_panel.[ch]
->> fixes this.
-> 
-> I feel like a broken record...
-
-Thanks! :)
-
-I'll leave it b0rken as well.
-
-
-> CONFIG_DRM_I915=y and CONFIG_BACKLIGHT_CLASS_DEVICE=m is an invalid
-> configuration. The patch at hand just silently hides the problem,
-> leaving you without backlight.
-> 
-> i915 should *depend* on backlight, not select it. It would express the
-> dependency without chances for invalid configuration.
-> 
-> However, i915 alone can't depend on backlight, all users of backlight
-> should depend on backlight, not select it. Otherwise, you end up with
-> other configuration problems, circular dependencies and
-> whatnot. Everyone should change. See also (*) why select is not a good
-> idea here.
-> 
-> I've sent patches to this effect before, got rejected, and the same
-> thing gets repeated ad infinitum.
-> 
-> Accepting this patch would stop the inflow of these reports and similar
-> patches, but it does not fix the root cause. It just sweeps the problem
-> under the rug.
-> 
-> 
-> BR,
-> Jani.
-> 
-> (*) Documentation/kbuild/kconfig-language.rst:
-> 
-> 	select should be used with care. select will force
-> 	a symbol to a value without visiting the dependencies.
-> 	By abusing select you are able to select a symbol FOO even
-> 	if FOO depends on BAR that is not set.
-> 	In general use select only for non-visible symbols
-> 	(no prompts anywhere) and for symbols with no dependencies.
-> 	That will limit the usefulness but on the other hand avoid
-> 	the illegal configurations all over.
-
-Yes, I'm well aware of that.
-
-ta.
--- 
-~Randy
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEhzaW4tWWk6CgpIc2luLVlpIFdhbmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+IOaWvCAyMDIx
+5bm0NOaciDI35pelIOmAseS6jCDkuIvljYgxMjo0OeWvq+mBk++8mgo+Cj4gSW5pdCBwYW5lbCBv
+cmllbnRhdGlvbiBwcm9wZXJ0eSBhZnRlciBjb25uZWN0b3IgaXMgaW5pdGlhbGl6ZWQuIExldCB0
+aGUKPiBwYW5lbCBkcml2ZXIgZGVjaWRlcyB0aGUgb3JpZW50YXRpb24gdmFsdWUgbGF0ZXIuCj4K
+PiBTaWduZWQtb2ZmLWJ5OiBIc2luLVlpIFdhbmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+Cj4gLS0t
+Cj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgfCAxICsKPiAgMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kc2kuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMKPiBp
+bmRleCBhZTQwM2M2N2NiZDkuLjBiZDI3ODcyZjJhNCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19kc2kuYwo+IEBAIC05NjQsNiArOTY0LDcgQEAgc3RhdGljIGludCBtdGtfZHNpX2VuY29k
+ZXJfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLCBzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+ICAg
+ICAgICAgICAgICAgICByZXQgPSBQVFJfRVJSKGRzaS0+Y29ubmVjdG9yKTsKPiAgICAgICAgICAg
+ICAgICAgZ290byBlcnJfY2xlYW51cF9lbmNvZGVyOwo+ICAgICAgICAgfQo+ICsgICAgICAgZHJt
+X2Nvbm5lY3Rvcl9pbml0X3BhbmVsX29yaWVudGF0aW9uX3Byb3BlcnR5KGRzaS0+Y29ubmVjdG9y
+KTsKClByb2Nlc3MgdGhlIHJldHVybiB2YWx1ZS4KClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+ICAg
+ICAgICAgZHJtX2Nvbm5lY3Rvcl9hdHRhY2hfZW5jb2Rlcihkc2ktPmNvbm5lY3RvciwgJmRzaS0+
+ZW5jb2Rlcik7Cj4KPiAgICAgICAgIHJldHVybiAwOwo+IC0tCj4gMi4zMS4xLjQ5OC5nNmMxZWJh
+OGVlM2QtZ29vZwo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
