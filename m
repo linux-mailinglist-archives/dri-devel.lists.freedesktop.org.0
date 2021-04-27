@@ -1,65 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20D436C167
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 11:00:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB5736C16F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 11:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 428DD6E1D5;
-	Tue, 27 Apr 2021 09:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF59C89EB8;
+	Tue, 27 Apr 2021 09:04:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACB26E1D5
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 09:00:28 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- o21-20020a1c4d150000b029012e52898006so6414650wmh.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 02:00:28 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A834E89EB8
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 09:04:27 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id g65so2195875wmg.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 02:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=YnyQgClMJa8zUpRY1j1Z9j+k6TvN0F/fGISFfHntLGM=;
- b=HK7EdI37rpcrtw9My/d8q8NicKubGGSBsxDavFQnnBRdTnRI4SANXAptZYGGNLXhqB
- NNMEauJRYuUJx1YRTRDO7O3VZ+Td+ekQs8gcK8meWHGC/hCOvfVlaZ11pESlCxg/qgz6
- grF/O8ypQe3xY7ku+KlsGemXJndDeQmS/NkeI=
+ bh=qqfhZ0XmW2+wcCpHKUWVRzR9/rJ8/fHgEQaxNBCpW+0=;
+ b=GQmmpBHlVr/NHVtvd8Z/EY8Grz2yR8TTIdksCOa+1JjBJVOvQoGuxpcVEBYvMKdMVL
+ Xsp+GRBYDHTXobbldHc2FIcJRfhY4/4HrftFsMI+HiB+Fj70QXm5HHCh1DJUHXJd+2Nm
+ Y44XrhG8Cl0UqZk7w5/JmquBLYl/dGr9hz89c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=YnyQgClMJa8zUpRY1j1Z9j+k6TvN0F/fGISFfHntLGM=;
- b=mbFauxi414zhHYP7RhsQ5uv5Jvm3cvG3C3Wq8uDB/Al/K01+yfVNRvtrRNTUBq9LZG
- zHqsEnJr4rr5+71koq80LcfNKSTyU6CS1sORwnxfNhGtFejZQbgZ0GWyiHS3UcEobYRT
- S+wNYvSMWWBti250lP9nu872Qvly5W4b73sJbQApiydUGNeRfQe6y5+qwh5Y98eUzi2L
- 4TMi5lierFQ3m3F04M5CMrhN/ngOrI0TVuIEo9TnRnQw33gFsLokLqaTHTe1nBdx0Bnc
- G8M4qDshkcGRj9uXa+zyF/NToof3m8Kw2+uBg+J2H3rKiYDv4fdFoFCID2lOL8oWGsMD
- xl4A==
-X-Gm-Message-State: AOAM530EIRvLKhcbDTxGNFU1k5OUea21Efu15OTtopXwYnxuHRZBkr1y
- I9TTV4IQ2Kv0+sExS1iAFl9AKEn5M4xIyw==
-X-Google-Smtp-Source: ABdhPJwOZ7mks+KYajoXklPn8nHgjJJSpFK5fAwmx3CCrlt3RNyeCyQebdwqXs+z814w4R6G9bVkdQ==
-X-Received: by 2002:a05:600c:4f15:: with SMTP id
- l21mr24197677wmq.34.1619514027320; 
- Tue, 27 Apr 2021 02:00:27 -0700 (PDT)
+ bh=qqfhZ0XmW2+wcCpHKUWVRzR9/rJ8/fHgEQaxNBCpW+0=;
+ b=YHBom2I+6Ny2ojOk3krKffUlCcWegoKfc5R7g0510+RgznKxqqrkh4FlmPcfy3HF+x
+ 49GlwtiW1K3PSc9qUgRFeKUjyiicTc4GJXARPI8/IQyzaHrs+2OaXX77vp4StGYB2TA+
+ viEYCDhOfz1lhZT7464brGwovO+GiU53JSAC6lKmnZ4LE5DNxHy83XtfXmq/jzF+bEOB
+ Ifq3uMWhTmE2TWPLLVP1IB641Uz89wX5pqQ+Y4wrfmx/Is6Rf/VJzvd2f8jG7SrvlPYU
+ C4Y5b+a5v+PKRfzDPYpBX7/lWZdmVshwZ48eT2//lCrSUSktUzyzMWbtVHZTEVqyP9vS
+ CeOA==
+X-Gm-Message-State: AOAM530Y+PC87U5JrPGBu6mMdd0Da6fzhAoeNIwRrNw68tAdefjgTOyz
+ aQ/g1laYpUxxkO4o7JKYgfHaRw==
+X-Google-Smtp-Source: ABdhPJy+BpTdRyR2kR9iLb7UlXcux46C4LjQuQNv6CgaS6S2L5dDyunO+/2z0WiajKyOq04beXAaAQ==
+X-Received: by 2002:a05:600c:d4:: with SMTP id
+ u20mr3197821wmm.164.1619514266144; 
+ Tue, 27 Apr 2021 02:04:26 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t206sm20090432wmb.11.2021.04.27.02.00.26
+ by smtp.gmail.com with ESMTPSA id v4sm23031306wme.14.2021.04.27.02.04.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 02:00:26 -0700 (PDT)
-Date: Tue, 27 Apr 2021 11:00:24 +0200
+ Tue, 27 Apr 2021 02:04:25 -0700 (PDT)
+Date: Tue, 27 Apr 2021 11:04:23 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH v2 1/1] drm/doc: document drm_mode_get_plane
-Message-ID: <YIfSqPq6J4sI6PyI@phenom.ffwll.local>
-References: <20210422181004.34247-1-leandro.ribeiro@collabora.com>
- <20210422181004.34247-2-leandro.ribeiro@collabora.com>
- <20210423141126.308d4145@eldfell>
- <3c3a5d35-10bf-4b32-1970-aed4bc1d6488@collabora.com>
- <20210426103656.0a212089@eldfell>
- <UucmifK8H9QRiWjD9XezmvdKmY-gXYG2c5LcJlAtmZDvpmvX3dqiNqzng6EPm6Kj_1_1nKi4S2vzFPTpKYoou_ARj-27xlxSoeMtrcpxLUk=@emersion.fr>
- <550b87d0-d180-32cb-349e-1ff000c0530f@collabora.com>
- <20210427104024.4e8aa086@eldfell>
+Subject: Re: [PATCH v4 3/4] drm/vkms: add XRGB planes composition
+Message-ID: <YIfTl6n17jdTpdNa@phenom.ffwll.local>
+References: <cover.1619250933.git.melissa.srw@gmail.com>
+ <07bcf4643d11da9480599fe1b165e478bff58b25.1619250933.git.melissa.srw@gmail.com>
+ <20210426110315.4e64d589@eldfell>
+ <YIbqF5IqofybM4k8@phenom.ffwll.local>
+ <20210426173128.ybryk3taqf6usppv@smtp.gmail.com>
+ <20210427111059.3b04a319@eldfell>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210427104024.4e8aa086@eldfell>
+In-Reply-To: <20210427111059.3b04a319@eldfell>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,65 +70,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, kernel@collabora.com, dri-devel@lists.freedesktop.org,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Sumera Priyadarsini <sylphrenadin@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Melissa Wen <melissa.srw@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 27, 2021 at 10:40:24AM +0300, Pekka Paalanen wrote:
-> On Mon, 26 Apr 2021 14:30:53 -0300
-> Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
+On Tue, Apr 27, 2021 at 11:10:59AM +0300, Pekka Paalanen wrote:
+> On Mon, 26 Apr 2021 14:31:28 -0300
+> Melissa Wen <melissa.srw@gmail.com> wrote:
 > 
-> > On 4/26/21 7:58 AM, Simon Ser wrote:
-> > > On Monday, April 26th, 2021 at 9:36 AM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > >   
-> > >>>> This should probably explain what the bits in the mask correspond to.
-> > >>>> As in, which CRTC does bit 0 refer to, and so on.  
-> > >>>
-> > >>> What about:
-> > >>>
-> > >>> "possible_crtcs: Bitmask of CRTC's compatible with the plane. CRTC's are
-> > >>> created and they receive an index, which corresponds to their position
-> > >>> in the bitmask. CRTC with index 0 will be in bit 0, and so on."  
-> > >>
-> > >> This would still need to explain where can I find this index.  
-> > >   
+> > On 04/26, Daniel Vetter wrote:
+> > > On Mon, Apr 26, 2021 at 11:03:15AM +0300, Pekka Paalanen wrote:  
+> > > > On Sat, 24 Apr 2021 05:25:31 -0300
+> > > > Melissa Wen <melissa.srw@gmail.com> wrote:
+> > > >   
+> > > > > Add support for composing XRGB888 planes in addition to the ARGB8888
+> > > > > format. In the case of an XRGB plane at the top, the composition consists
+> > > > > of copying the RGB values of a pixel from src to dst and clearing alpha
+> > > > > channel, without the need for alpha blending operations for each pixel.
+> > > > > 
+> > > > > Blend equations assume a completely opaque background, i.e., primary plane
+> > > > > is not cleared before pixel blending but alpha channel is explicitly
+> > > > > opaque (a = 0xff). Also, there is room for performance evaluation in
+> > > > > switching pixel blend operation according to the plane format.
+> > > > > 
+> > > > > v4:
+> > > > > - clear alpha channel (0xff) after blend color values by pixel
+> > > > > - improve comments on blend ops to reflect the current state
+> > > > > - describe in the commit message future improvements for plane composition
+> > > > > 
+> > > > > Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
+> > > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > > > ---
+> > > > >  drivers/gpu/drm/vkms/vkms_composer.c | 56 ++++++++++++++++++++++------
+> > > > >  drivers/gpu/drm/vkms/vkms_plane.c    |  7 ++--
+> > > > >  2 files changed, 48 insertions(+), 15 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> > > > > index 02642801735d..7e01bc39d2a1 100644
+> > > > > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > > > > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> > > > > @@ -4,6 +4,7 @@
+> > > > >  
+> > > > >  #include <drm/drm_atomic.h>
+> > > > >  #include <drm/drm_atomic_helper.h>
+> > > > > +#include <drm/drm_fourcc.h>
+> > > > >  #include <drm/drm_gem_framebuffer_helper.h>
+> > > > >  #include <drm/drm_gem_shmem_helper.h>
+> > > > >  #include <drm/drm_vblank.h>
+> > > > > @@ -64,7 +65,17 @@ static u8 blend_channel(u8 src, u8 dst, u8 alpha)
+> > > > >  	return new_color;
+> > > > >  }
+> > > > >  
+> > > > > -static void alpha_blending(const u8 *argb_src, u8 *argb_dst)
+> > > > > +/**
+> > > > > + * alpha_blend - alpha blending equation
+> > > > > + * @argb_src: src pixel on premultiplied alpha mode
+> > > > > + * @argb_dst: dst pixel completely opaque
+> > > > > + *
+> > > > > + * blend pixels using premultiplied blend formula. The current DRM assumption
+> > > > > + * is that pixel color values have been already pre-multiplied with the alpha
+> > > > > + * channel values. See more drm_plane_create_blend_mode_property(). Also, this
+> > > > > + * formula assumes a completely opaque background.
+> > > > > + */
+> > > > > +static void alpha_blend(const u8 *argb_src, u8 *argb_dst)
+> > > > >  {
+> > > > >  	u8 alpha;
+> > > > >  
+> > > > > @@ -72,8 +83,16 @@ static void alpha_blending(const u8 *argb_src, u8 *argb_dst)
+> > > > >  	argb_dst[0] = blend_channel(argb_src[0], argb_dst[0], alpha);
+> > > > >  	argb_dst[1] = blend_channel(argb_src[1], argb_dst[1], alpha);
+> > > > >  	argb_dst[2] = blend_channel(argb_src[2], argb_dst[2], alpha);
+> > > > > -	/* Opaque primary */
+> > > > > -	argb_dst[3] = 0xFF;
+> > > > > +}
+> > > > > +
+> > > > > +/**
+> > > > > + * x_blend - blending equation that ignores the pixel alpha
+> > > > > + *
+> > > > > + * overwrites RGB color value from src pixel to dst pixel.
+> > > > > + */
+> > > > > +static void x_blend(const u8 *xrgb_src, u8 *xrgb_dst)
+> > > > > +{
+> > > > > +	memcpy(xrgb_dst, xrgb_src, sizeof(u8) * 3);  
+> > > > 
+> > > > Hi,
+> > > > 
+> > > > this function very clearly assumes a very specific pixel format on both
+> > > > source and destination. I think it would be good if the code comments
+> > > > called out exactly which DRM_FORMAT_* they assume. This would be good
+> > > > to do on almost every function that makes such assumptions. I believe that
+> > > > would help code readability, and also point out explicitly which things
+> > > > need to be fixed when you add support for even more pixel formats.
+> > > > 
+> > > > "xrgb" and "argb" are IMO too vague. You might be referring to
+> > > > DRM_FORMAT_XRGB* and DRM_FORMAT_ARGB*, or maybe you are referring to any
+> > > > pixel format that happens to have or not have an alpha channel in
+> > > > addition to the three RGB channels in some order and width.
+> > > > 
+> > > > Being explicit that these refer to specific DRM_FORMAT_* should also
+> > > > help understanding how things work on big-endian CPUs. My current
+> > > > understanding is that this memcpy is correct also on big-endian, given
+> > > > DRM_FORMAT_XRGB8888.  
 > > 
-> > What do you mean?
-> > 
-> > > This closed merge request had some docs about possible CRTCs:
-> > > 
-> > > https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/102
-> > >   
-> > I'm afraid I don't know exactly what you expect to be documented here
-> > that is still missing. Could you please elaborate?
-> > 
-> > Thanks a lot!
+> > This endianess issue seems a little tricky to me. I remember we have
+> > already discussed something similar when introducing alpha blend ops.  I
+> > took little endian as default by a code comment on
+> > include/drm/drm_fourcc.h: DRM formats are little endian. But also, I am
+> > not sure if I got it well.
 > 
-> The documentation you add is talking about "CRTC index". What defines a
-> CRTC object's index? How do I determine what index a CRTC object has?
+> DRM format *definitions* are written on a little-endian CPU. When you
+> have a big-endian CPU, the byte-to-byte memory contents still remain
+> the same. That means if you have a uint32_t pixel in a certain
+> DRM_FORMAT_*, you must always access the bits of it like a
+> little-endian CPU would.
 > 
-> The answer is, AFAIK, that the index is never stored explicitly
-> anywhere. You have to get the DRM resources structure, which has an
-> array for CRTC IDs. The index is the index to that array, IIRC. So if
-> one does not already know this, it is going to be really hard to figure
-> out what the "index" is. It might even be confused with the object ID,
-> which it is not but the ID might by complete accident be less than 32
-> so it would look ok at first glance.
-> 
-> If the index is already explained somewhere else, a reference to that
-> documentation would be enough.
+> I think this was the "recently" agreed definition, and drivers who do
+> not follow this still exist because fixing them would break userspace?
 
-I think if we do this we should have a DOC: section in the drm_mode.h uapi
-header which explains how the index is computed, and then we reference
-that everywhere. Because otherwise there's going to be a _lot_ of
-duplication of this all over. Kernel-internally we solve this by just
-referencing drm_foo_index() family of functions, but for the uapi there's
-really nothing, so needs text.
+Legacy AddFb might give you a big endia drm_fourcc on some drivers. AddFb2
+will not play such tricks.
 
+Also big-endian is dead, imo if someone cares enough about it they could
+make "fix vkms for big-endian" a nice project :-)
 -Daniel
+
+> So if you make the assumption that your machine is little-endian, you
+> have no worries, but you might want to document that you are making
+> this assumption, so that people know it might not be correct on
+> big-endian. It is important to document that it is *unknown* if the
+> code is correct on big-endian, to make people think rather than blindly
+> add a #ifdef big-endian then swap bytes, because the code might be
+> correct already - you just don't know yet.
+> 
+> I wouldn't personally bother thinking about big-endian, other than
+> acknowledging that I don't think about big-endian when writing code, and
+> noticing places where it might make a difference (prime example:
+> accessing pixel components via bytes vs. bits-of-uint32).
+> 
+> > > > Hmm, or rather, is this particular function intended to be general in
+> > > > the sense that the order of RGB channels does not matter as long as it's
+> > > > the same in both source and destination? Which would mean I had a wrong
+> > > > assumption from the start.  
+> > > 
+> > > Atm all vkms supports is X/ARGB8888, and even there we throw around random
+> > > limits. Add support for more pixel formats is definitely on the list, and
+> > > then all the blend/compose stuff needs to be quite drastically
+> > > rearchitected.  
+> 
+> If there are arbitrary limitations, then IMO those are especially
+> important to mention.
+> 
+> > yes, currently, we only have on vkms these two formats listed as
+> > supported (X/ARGB8888), so, I think it is ok, since we do not expected
+> > anything other than these two.
+> > 
+> > > 
+> > > I think until we're there documenting what's already documented in the
+> > > todo list feels like overkill.
+> 
+> I'm literally asking for single-sentence comments added, like:
+> 
+> 	/* DRM_FORMAT_XRGB8888 */
+> 
+> It makes all the difference to anyone seeing the code for the first
+> time. Particularly if people want to review patches into this area,
+> because patches are sent via email and therefore completely lack the
+> context of the surrounding code at large and knowledge of which kernel
+> tree they apply to (I'm not a kernel dev), not to mention the trouble
+> of having to apply a patch to be able to look at more context.
+> 
+> Thanks for mentioning https://lkml.org/lkml/2020/8/30/163 in the other
+> email!
+> 
+> 
+> Thanks,
+> pq
+> 
+> 
+> > > -Daniel
+> > >   
+> > > >   
+> > > > >  }
+> > > > >  
+> > > > >  /**
+> > > > > @@ -82,16 +101,20 @@ static void alpha_blending(const u8 *argb_src, u8 *argb_dst)
+> > > > >   * @vaddr_src: source address
+> > > > >   * @dst_composer: destination framebuffer's metadata
+> > > > >   * @src_composer: source framebuffer's metadata
+> > > > > + * @pixel_blend: blending equation based on plane format
+> > > > >   *
+> > > > > - * Blend the vaddr_src value with the vaddr_dst value using the pre-multiplied
+> > > > > - * alpha blending equation, since DRM currently assumes that the pixel color
+> > > > > - * values have already been pre-multiplied with the alpha channel values. See
+> > > > > - * more drm_plane_create_blend_mode_property(). This function uses buffer's
+> > > > > - * metadata to locate the new composite values at vaddr_dst.
+> > > > > + * Blend the vaddr_src value with the vaddr_dst value using a pixel blend
+> > > > > + * equation according to the plane format and clearing alpha channel to an
+> > > > > + * completely opaque background. This function uses buffer's metadata to locate
+> > > > > + * the new composite values at vaddr_dst.
+> > > > > + *
+> > > > > + * TODO: completely clear the primary plane (a = 0xff) before starting to blend
+> > > > > + * pixel color values
+> > > > >   */
+> > > > >  static void blend(void *vaddr_dst, void *vaddr_src,
+> > > > >  		  struct vkms_composer *dst_composer,
+> > > > > -		  struct vkms_composer *src_composer)
+> > > > > +		  struct vkms_composer *src_composer,
+> > > > > +		  void (*pixel_blend)(const u8 *, u8 *))
+> > > > >  {
+> > > > >  	int i, j, j_dst, i_dst;
+> > > > >  	int offset_src, offset_dst;
+> > > > > @@ -119,7 +142,9 @@ static void blend(void *vaddr_dst, void *vaddr_src,
+> > > > >  
+> > > > >  			pixel_src = (u8 *)(vaddr_src + offset_src);
+> > > > >  			pixel_dst = (u8 *)(vaddr_dst + offset_dst);
+> > > > > -			alpha_blending(pixel_src, pixel_dst);
+> > > > > +			pixel_blend(pixel_src, pixel_dst);
+> > > > > +			/* clearing alpha channel (0xff)*/
+> > > > > +			memset(vaddr_dst + offset_dst + 3, 0xff, 1);  
+> > > > 
+> > > > A one byte memset?
+> > > > 
+> > > > Wouldn't pixel_dst[3] = 0xff; be more clear?  
+> > 
+> > yes, I will change it.
+> > 
+> > Thanks for these suggestions,
+> > 
+> > Melissa
+> > > > 
+> > > > 
+> > > > Thanks,
+> > > > pq
+> > > >   
+> > > > >  		}
+> > > > >  		i_dst++;
+> > > > >  	}
+> > > > > @@ -131,6 +156,8 @@ static void compose_plane(struct vkms_composer *primary_composer,
+> > > > >  {
+> > > > >  	struct drm_gem_object *plane_obj;
+> > > > >  	struct drm_gem_shmem_object *plane_shmem_obj;
+> > > > > +	struct drm_framebuffer *fb = &plane_composer->fb;
+> > > > > +	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
+> > > > >  
+> > > > >  	plane_obj = drm_gem_fb_get_obj(&plane_composer->fb, 0);
+> > > > >  	plane_shmem_obj = to_drm_gem_shmem_obj(plane_obj);
+> > > > > @@ -138,8 +165,13 @@ static void compose_plane(struct vkms_composer *primary_composer,
+> > > > >  	if (WARN_ON(!plane_shmem_obj->vaddr))
+> > > > >  		return;
+> > > > >  
+> > > > > -	blend(vaddr_out, plane_shmem_obj->vaddr,
+> > > > > -	      primary_composer, plane_composer);
+> > > > > +	if (fb->format->format == DRM_FORMAT_ARGB8888)
+> > > > > +		pixel_blend = &alpha_blend;
+> > > > > +	else
+> > > > > +		pixel_blend = &x_blend;
+> > > > > +
+> > > > > +	blend(vaddr_out, plane_shmem_obj->vaddr, primary_composer,
+> > > > > +	      plane_composer, pixel_blend);
+> > > > >  }
+> > > > >  
+> > > > >  static int compose_active_planes(void **vaddr_out,
+> > > > > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> > > > > index 135140f8e87a..da4251aff67f 100644
+> > > > > --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> > > > > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> > > > > @@ -16,8 +16,9 @@ static const u32 vkms_formats[] = {
+> > > > >  	DRM_FORMAT_XRGB8888,
+> > > > >  };
+> > > > >  
+> > > > > -static const u32 vkms_cursor_formats[] = {
+> > > > > +static const u32 vkms_plane_formats[] = {
+> > > > >  	DRM_FORMAT_ARGB8888,
+> > > > > +	DRM_FORMAT_XRGB8888
+> > > > >  };
+> > > > >  
+> > > > >  static struct drm_plane_state *
+> > > > > @@ -200,8 +201,8 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+> > > > >  	int nformats;
+> > > > >  
+> > > > >  	if (type == DRM_PLANE_TYPE_CURSOR) {
+> > > > > -		formats = vkms_cursor_formats;
+> > > > > -		nformats = ARRAY_SIZE(vkms_cursor_formats);
+> > > > > +		formats = vkms_plane_formats;
+> > > > > +		nformats = ARRAY_SIZE(vkms_plane_formats);
+> > > > >  		funcs = &vkms_primary_helper_funcs;
+> > > > >  	} else {
+> > > > >  		formats = vkms_formats;  
+> > > >   
+> > > 
+> > > 
+> > >   
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel  
+> > > 
+> > > 
+> > > -- 
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch  
+> 
+
+
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
