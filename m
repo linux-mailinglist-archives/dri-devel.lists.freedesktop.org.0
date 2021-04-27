@@ -2,55 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB33636CBAB
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 21:30:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3242036CBD2
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 21:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5A176E9BD;
-	Tue, 27 Apr 2021 19:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A456E9C5;
+	Tue, 27 Apr 2021 19:41:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB6D6E9BD
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 19:30:05 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1619551807; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=4NRfExpJ8kID4r71hp3WbLS78R3BpUa+03CEb54sMuQ=;
- b=Aw6NIxD5YxJgdZPyReSFtypB/nfBKFUaBeWcZqGSrHTsKMoc7tlD3t8rUgdBDXzm4TB/OJoS
- wCCpQ18Fe5cRwbekhKEV55iNT1GYdCrX0FgotXV6xb0E1loIC9yJtDo4uUflGEQyVV8LmvgC
- U1/CY0SIFJz8sHOU3B2emrTxHWE=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 6088663474f773a664f89f4b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 27 Apr 2021 19:29:56
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 65614C433F1; Tue, 27 Apr 2021 19:29:55 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 72605C433D3;
- Tue, 27 Apr 2021 19:29:53 +0000 (UTC)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 403D66E9BC
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 19:41:54 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id i24so11785615edy.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 12:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=q7b75r3LUOYsDlkB01o8ziHA86zvHGuBm+tIXfSHuHI=;
+ b=zUMpjw3LVLPxLJm7OACGak7kh3YaooA8gosFyZBZyHgz3xeant4YJPf5I5wrP+3GOD
+ 6Bd5eQD3EbnZQv8tHlhcXCR4k7FkHUUgQwrCCHCscblfSq9ljI0dIJvYHJlLs/3VWNCT
+ x6wRM7h6tcgcGCZSeZTzoNbbqV4rhjoiMZdF4sxaqYHyOyCZX/pseyaIe0QvH64RNu73
+ o2I06+DS7x/r+rDxhmcw+PGOsfqGCTtgsu8HDJoyDTcaZMhNXA8+EToz84YHFavAJl+z
+ bYx6N+ZtAi89cD6B+ztqInS9EsAVh0/tsGMIXX3Dt7Wu3qg7wxDTDpyUGr0EinS2R/wz
+ wicw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=q7b75r3LUOYsDlkB01o8ziHA86zvHGuBm+tIXfSHuHI=;
+ b=MhiYLt5vCQ0T5AgmcuBC3mpJSPxt5J12J7ae7rts+67El5dvbNAYa1g+czM97/UOMX
+ 0E3NZNd3fQNXZWJGcUWWatQQfr5CUUoPTVQdYgyOg8bdGlb44pGJLhNaamVbf+ExeiT1
+ ZeZjWz/dfWLIyhcoFIdV3VYtHdeDPfyxY4b1kVW2APac8aI9RM/hvUprnuyxnSxh/bF0
+ KRLVCEIE6I3Ad78vIOhae4SGsuAFva5OI4sMZ88xFQgkdFTTtcITkJ0LpkFsW9HzYpWn
+ A6ODVH/HBjN3F6347pi0gzeKHKXYuaGxC3vB3btg8oHcyPUT7HeqIcgl9+M3FpceApf2
+ q9Rw==
+X-Gm-Message-State: AOAM530+ShWMq1O7vEuV942dVqv977YgN7JyH5kMNPFbrSkxV4ONjXCM
+ pJpiXgGkS/d600ETFkFcVVLIO2c8dSIBmd35Up4hGA==
+X-Google-Smtp-Source: ABdhPJxN3hzAuVRjS1EwQDI9UF8XyyAM/WQgOAUMsNR2s93y+WTfyCk8lC21jbyrmbmcFXCRSg4LtsBYe01tTAyy2Dw=
+X-Received: by 2002:a05:6402:1013:: with SMTP id
+ c19mr6430002edu.213.1619552512696; 
+ Tue, 27 Apr 2021 12:41:52 -0700 (PDT)
 MIME-Version: 1.0
-Date: Tue, 27 Apr 2021 12:29:53 -0700
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH v2 3/4] drm/msm: get rid of msm_iomap_size
-In-Reply-To: <20210427001828.2375555-4-dmitry.baryshkov@linaro.org>
-References: <20210427001828.2375555-1-dmitry.baryshkov@linaro.org>
- <20210427001828.2375555-4-dmitry.baryshkov@linaro.org>
-Message-ID: <f4a6a51ea5cc5bfbf747eb5544951076@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+ <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
+ <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
+ <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
+ <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
+ <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
+ <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
+ <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
+ <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
+ <YIfFC3YST0cfzd3l@phenom.ffwll.local>
+ <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
+ <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
+ <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
+ <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
+ <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
+ <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
+ <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
+ <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
+In-Reply-To: <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Tue, 27 Apr 2021 14:41:41 -0500
+Message-ID: <CAOFGe95C78mqV-8-o7PgZ1RZu-OJATVzK4wsS2k9ojXh6ba-tA@mail.gmail.com>
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,164 +81,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry
-
-On 2021-04-26 17:18, Dmitry Baryshkov wrote:
-> Instead of looping throught the resources each time to get the DSI CTRL
-> area size, get it at the ioremap time.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-We will have to call into the individual modules anyway everytime we
-take a snapshot as only they have access to the required clocks and the 
-base address.
-
-So even though there is nothing wrong with this change, it still adds a 
-size member
-which can be avoided because we have to call into the module anyway.
-
-Any strong preference to store the size as opposed to just getting it 
-when we take
-the snapshot?
-
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c |  5 +++--
->  drivers/gpu/drm/msm/msm_drv.c      | 27 +++++++++------------------
->  drivers/gpu/drm/msm/msm_drv.h      |  3 ++-
->  3 files changed, 14 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 1a63368c3912..b3ee5c0bce12 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -102,6 +102,7 @@ struct msm_dsi_host {
->  	int id;
-> 
->  	void __iomem *ctrl_base;
-> +	phys_addr_t ctrl_size;
->  	struct regulator_bulk_data supplies[DSI_DEV_REGULATOR_MAX];
-> 
->  	struct clk *bus_clks[DSI_BUS_CLK_MAX];
-> @@ -1839,7 +1840,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
->  		goto fail;
->  	}
-> 
-> -	msm_host->ctrl_base = msm_ioremap(pdev, "dsi_ctrl", "DSI CTRL");
-> +	msm_host->ctrl_base = msm_ioremap_size(pdev, "dsi_ctrl", "DSI CTRL",
-> &msm_host->ctrl_size);
->  	if (IS_ERR(msm_host->ctrl_base)) {
->  		pr_err("%s: unable to map Dsi ctrl base\n", __func__);
->  		ret = PTR_ERR(msm_host->ctrl_base);
-> @@ -2494,7 +2495,7 @@ void msm_dsi_host_snapshot(struct msm_disp_state
-> *disp_state, struct mipi_dsi_ho
-> 
->  	pm_runtime_get_sync(&msm_host->pdev->dev);
-> 
-> -	msm_disp_snapshot_add_block(disp_state,
-> msm_iomap_size(msm_host->pdev, "dsi_ctrl"),
-> +	msm_disp_snapshot_add_block(disp_state, msm_host->ctrl_size,
->  			msm_host->ctrl_base, "dsi%d_ctrl", msm_host->id);
-> 
->  	pm_runtime_put_sync(&msm_host->pdev->dev);
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c 
-> b/drivers/gpu/drm/msm/msm_drv.c
-> index 92fe844b517b..be578fc4e54f 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -124,7 +124,7 @@ struct clk *msm_clk_get(struct platform_device
-> *pdev, const char *name)
->  }
-> 
->  static void __iomem *_msm_ioremap(struct platform_device *pdev, const
-> char *name,
-> -				  const char *dbgname, bool quiet)
-> +				  const char *dbgname, bool quiet, phys_addr_t *psize)
->  {
->  	struct resource *res;
->  	unsigned long size;
-> @@ -153,37 +153,28 @@ static void __iomem *_msm_ioremap(struct
-> platform_device *pdev, const char *name
->  	if (reglog)
->  		printk(KERN_DEBUG "IO:region %s %p %08lx\n", dbgname, ptr, size);
-> 
-> +	if (psize)
-> +		*psize = size;
-> +
->  	return ptr;
->  }
-> 
->  void __iomem *msm_ioremap(struct platform_device *pdev, const char 
-> *name,
->  			  const char *dbgname)
->  {
-> -	return _msm_ioremap(pdev, name, dbgname, false);
-> +	return _msm_ioremap(pdev, name, dbgname, false, NULL);
->  }
-> 
->  void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const 
-> char *name,
->  				const char *dbgname)
->  {
-> -	return _msm_ioremap(pdev, name, dbgname, true);
-> +	return _msm_ioremap(pdev, name, dbgname, true, NULL);
->  }
-> 
-> -unsigned long msm_iomap_size(struct platform_device *pdev, const char 
-> *name)
-> +void __iomem *msm_ioremap_size(struct platform_device *pdev, const 
-> char *name,
-> +			  const char *dbgname, phys_addr_t *psize)
->  {
-> -	struct resource *res;
-> -
-> -	if (name)
-> -		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, name);
-> -	else
-> -		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -
-> -	if (!res) {
-> -		dev_dbg(&pdev->dev, "failed to get memory resource: %s\n",
-> -				name);
-> -		return 0;
-> -	}
-> -
-> -	return resource_size(res);
-> +	return _msm_ioremap(pdev, name, dbgname, false, psize);
->  }
-> 
->  void msm_writel(u32 data, void __iomem *addr)
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h 
-> b/drivers/gpu/drm/msm/msm_drv.h
-> index 15cb34451ded..c33fc1293789 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -450,9 +450,10 @@ struct clk *msm_clk_bulk_get_clock(struct
-> clk_bulk_data *bulk, int count,
->  	const char *name);
->  void __iomem *msm_ioremap(struct platform_device *pdev, const char 
-> *name,
->  		const char *dbgname);
-> +void __iomem *msm_ioremap_size(struct platform_device *pdev, const 
-> char *name,
-> +		const char *dbgname, phys_addr_t *size);
->  void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const 
-> char *name,
->  		const char *dbgname);
-> -unsigned long msm_iomap_size(struct platform_device *pdev, const char 
-> *name);
->  void msm_writel(u32 data, void __iomem *addr);
->  u32 msm_readl(const void __iomem *addr);
->  void msm_rmw(void __iomem *addr, u32 mask, u32 or);
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VHJ5aW5nIHRvIGZpZ3VyZSBvdXQgd2hpY2ggZS1tYWlsIGluIHRoaXMgbWVzcyBpcyB0aGUgcmln
+aHQgb25lIHRvIHJlcGx5IHRvLi4uLgoKT24gVHVlLCBBcHIgMjcsIDIwMjEgYXQgMTI6MzEgUE0g
+THVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+IHdyb3RlOgo+Cj4gSGksCj4KPiBB
+bSBEaWVuc3RhZywgZGVtIDI3LjA0LjIwMjEgdW0gMDk6MjYgLTA0MDAgc2NocmllYiBNYXJlayBP
+bMWhw6FrOgo+ID4gT2suIFNvIHRoYXQgd291bGQgb25seSBtYWtlIHRoZSBmb2xsb3dpbmcgdXNl
+IGNhc2VzIGJyb2tlbiBmb3Igbm93Ogo+ID4gLSBhbWQgcmVuZGVyIC0+IGV4dGVybmFsIGdwdQoK
+QXNzdW1pbmcgc2FpZCBleHRlcm5hbCBHUFUgZG9lc24ndCBzdXBwb3J0IG1lbW9yeSBmZW5jZXMu
+ICBJZiB3ZSBkbwphbWRncHUgYW5kIGk5MTUgYXQgdGhlIHNhbWUgdGltZSwgdGhhdCBjb3ZlcnMg
+YmFzaWNhbGx5IG1vc3Qgb2YgdGhlCmV4dGVybmFsIEdQVSB1c2UtY2FzZXMuICBPZiBjb3Vyc2Us
+IHdlJ2Qgd2FudCB0byBjb252ZXJ0IG5vdXZlYXUgYXMKd2VsbCBmb3IgdGhlIHJlc3QuCgo+ID4g
+LSBhbWQgdmlkZW8gZW5jb2RlIC0+IG5ldHdvcmsgZGV2aWNlCj4KPiBGV0lXLCAib25seSIgYnJl
+YWtpbmcgYW1kIHJlbmRlciAtPiBleHRlcm5hbCBncHUgd2lsbCBtYWtlIHVzIHByZXR0eQo+IHVu
+aGFwcHksIGFzIHdlIGhhdmUgc29tZSBjYXNlcyB3aGVyZSB3ZSBhcmUgY29tYmluaW5nIGFuIEFN
+RCBBUFUgd2l0aCBhCj4gRlBHQSBiYXNlZCBncmFwaGljcyBjYXJkLiBJIGNhbid0IGdvIGludG8g
+dGhlIHNwZWNpZmljcyBvZiB0aGlzIHVzZS0KPiBjYXNlIHRvbyBtdWNoIGJ1dCBiYXNpY2FsbHkg
+dGhlIEFNRCBncmFwaGljcyBpcyByZW5kZXJpbmcgY29udGVudCB0aGF0Cj4gZ2V0cyBjb21wb3Np
+dGVkIG9uIHRvcCBvZiBhIGxpdmUgdmlkZW8gcGlwZWxpbmUgcnVubmluZyB0aHJvdWdoIHRoZQo+
+IEZQR0EuCgpJIHRoaW5rIGl0J3Mgd29ydGggdGFraW5nIGEgc3RlcCBiYWNrIGFuZCBhc2tpbmcg
+d2hhdCdzIGJlaW5nIGhlcmUKYmVmb3JlIHdlIGZyZWFrIG91dCB0b28gbXVjaC4gIElmIHdlIGRv
+IGdvIHRoaXMgcm91dGUsIGl0IGRvZXNuJ3QgbWVhbgp0aGF0IHlvdXIgRlBHQSB1c2UtY2FzZSBj
+YW4ndCB3b3JrLCBpdCBqdXN0IG1lYW5zIGl0IHdvbid0IHdvcmsKb3V0LW9mLXRoZSBib3ggYW55
+bW9yZS4gIFlvdSdsbCBoYXZlIHRvIHNlcGFyYXRlIGV4ZWN1dGlvbiBhbmQgbWVtb3J5CmRlcGVu
+ZGVuY2llcyBpbnNpZGUgeW91ciBGUEdBIGRyaXZlci4gIFRoYXQncyBzdGlsbCBub3QgZ3JlYXQg
+YnV0IGl0J3MKbm90IGFzIGJhZCBhcyB5b3UgbWF5YmUgbWFkZSBpdCBzb3VuZC4KCj4gPiBXaGF0
+IGFib3V0IHRoZSBjYXNlIHdoZW4gd2UgZ2V0IGEgYnVmZmVyIGZyb20gYW4gZXh0ZXJuYWwgZGV2
+aWNlIGFuZAo+ID4gd2UncmUgc3VwcG9zZWQgdG8gbWFrZSBpdCAiYnVzeSIgd2hlbiB3ZSBhcmUg
+dXNpbmcgaXQsIGFuZCB0aGUKPiA+IGV4dGVybmFsIGRldmljZSB3YW50cyB0byB3YWl0IHVudGls
+IHdlIHN0b3AgdXNpbmcgaXQ/IElzIGl0IHNvbWV0aGluZwo+ID4gdGhhdCBjYW4gaGFwcGVuLCB0
+aHVzIHR1cm5pbmcgImV4dGVybmFsIC0+IGFtZCIgaW50byAiZXh0ZXJuYWwgPC0+Cj4gPiBhbWQi
+Pwo+Cj4gWmVyby1jb3B5IHRleHR1cmUgc2FtcGxpbmcgZnJvbSBhIHZpZGVvIGlucHV0IGNlcnRh
+aW5seSBhcHByZWNpYXRlcwo+IHRoaXMgdmVyeSBtdWNoLiBUcnlpbmcgdG8gcGFzcyB0aGUgcmVu
+ZGVyIGZlbmNlIHRocm91Z2ggdGhlIHZhcmlvdXMKPiBsYXllcnMgb2YgdXNlcnNwYWNlIHRvIGJl
+IGFibGUgdG8gdGVsbCB3aGVuIHRoZSB2aWRlbyBpbnB1dCBjYW4gcmV1c2UgYQo+IGJ1ZmZlciBp
+cyBhIGdyZWF0IGV4cGVyaWVuY2UgaW4geWFrIHNoYXZpbmcuIEFsbG93aW5nIHRoZSB2aWRlbyBp
+bnB1dAo+IHRvIHJldXNlIHRoZSBidWZmZXIgYXMgc29vbiBhcyB0aGUgcmVhZCBkbWFfZmVuY2Ug
+ZnJvbSB0aGUgR1BVIGlzCj4gc2lnbmFsZWQgaXMgbXVjaCBtb3JlIHN0cmFpZ2h0IGZvcndhcmQu
+CgpPaCwgaXQncyBkZWZpbml0ZWx5IHdvcnNlIHRoYW4gdGhhdC4gIEV2ZXJ5IHdpbmRvdyBzeXN0
+ZW0gaW50ZXJhY3Rpb24KaXMgYmktZGlyZWN0aW9uYWwuICBUaGUgWCBzZXJ2ZXIgaGFzIHRvIHdh
+aXQgb24gdGhlIGNsaWVudCBiZWZvcmUKY29tcG9zaXRpbmcgZnJvbSBpdCBhbmQgdGhlIGNsaWVu
+dCBoYXMgdG8gd2FpdCBvbiBYIGJlZm9yZSByZS11c2luZwp0aGF0IGJhY2stYnVmZmVyLiAgT2Yg
+Y291cnNlLCB3ZSBjYW4gYnJlYWsgdGhhdCBsYXRlciBkZXBlbmRlbmN5IGJ5CmRvaW5nIGEgZnVs
+bCBDUFUgd2FpdCBidXQgdGhhdCdzIGdvaW5nIHRvIG1lYW4gZWl0aGVyIG1vcmUgbGF0ZW5jeSBv
+cgpyZXNlcnZpbmcgbW9yZSBiYWNrIGJ1ZmZlcnMuICBUaGVyZSdzIG5vIGdvb2QgY2xlYW4gd2F5
+IHRvIGNsYWltIHRoYXQKYW55IG9mIHRoaXMgaXMgb25lLWRpcmVjdGlvbmFsLgoKLS1KYXNvbgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
