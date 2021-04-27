@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A14736BE9D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 06:50:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9EB36BE9C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 06:50:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9794D6E8F3;
-	Tue, 27 Apr 2021 04:49:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0F56E8F4;
+	Tue, 27 Apr 2021 04:50:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB6A6E8F3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 04:49:56 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id d124so40491902pfa.13
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 21:49:56 -0700 (PDT)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 821526E8F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 04:49:58 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ f11-20020a17090a638bb02901524d3a3d48so6443227pjj.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Apr 2021 21:49:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xF3OHVoJNfqjglnjvTxLJPf73tywjjNrGA26Syn00bg=;
- b=aQkvabnsOYdSCbCI2Ahu8FMyIfugOfrAzX9FIMQJY9p2Czzu7GnXrtexTRQGyfcOXA
- zDUfD3J608v/yBPJ2tYvQStQjwqcURK8qXNGNtV4GnpwVVbXvHFDGHX/0e46PhgnQLJf
- wBihdkVOueiHhJkVMUT6VOim5Rl9dRrc7EZgY=
+ bh=gt4pb5bT5mW/MToENIuo4Jt8VqUlSnyGRgKvmw6yKp0=;
+ b=c+K89QY/gVhAeVZ0+WRtE2V6947IE8xTms8pbQvd+uhFOHJ2x/QLZl0aO54BBy9N6x
+ PKAshJvy/RwX8BXEYR/ej2DI9gs6jXQHgNoUnvesfJ/1BNnYbIKLNyWO1Sy/lViJxzBo
+ TkXU0r6xkpSpA841HlW63vUTSlXIbr7Kf5iLE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xF3OHVoJNfqjglnjvTxLJPf73tywjjNrGA26Syn00bg=;
- b=de8ic5UAXP4lBDkMMeDMcNGgVHacq/qiY5eqCDsgzkGSbUO0vxnfcBI+5uEWbbmZbD
- l2vKqra5ARktuLANT3Jy16QLQ/W+6TeR+xobcHwO7ZScDzkxReEkntoJwRgSxoXult/l
- RU/edBUzzUyV3wgjtAq+sOrQ8DR2EsTmrsR2cUJdthKKsCxynNAEwStSv4cVc4cf/8pc
- 3k7lNAHRx3iolimGz/frF0WTawKej+sGtzPPKBQXstxIv2dcdNwxnnUoQLiVJBcih55C
- wWAuYMbijhOS8/dfVZgZlg7o7FeqeHtyikiCFogbTgSpCTow/rnEv86sMU1puwgMgglg
- //Eg==
-X-Gm-Message-State: AOAM5334vYrigL+U9XAeJuPMLjSIDg0R2PiG/oT1tx0kcd3IQYYkHvcT
- w5x1wbSu0iDFB5kRjwJIzgGMeK8x+spMuQ==
-X-Google-Smtp-Source: ABdhPJwPPm4u4tg6YSG/bq6wlqozKqdTA0jRIW6pE9ln5m9hymH+OexWOCKpW5EL+vxYFzyZxE6Yrw==
-X-Received: by 2002:a62:bd13:0:b029:25c:5ec4:c2f3 with SMTP id
- a19-20020a62bd130000b029025c5ec4c2f3mr20817479pff.35.1619498995453; 
- Mon, 26 Apr 2021 21:49:55 -0700 (PDT)
+ bh=gt4pb5bT5mW/MToENIuo4Jt8VqUlSnyGRgKvmw6yKp0=;
+ b=pN2l6rwD7g8hb0CB3I5tr3Rldt8uXGrJeIenzkRgomkN+2PJhyQpO+YbQN3bVXc9jz
+ bXL9cicSkWU1UyDQ4nps8pQnbAswxntH+HP68nG/lQ3mxnXpRAXy4Ama+RCJvazWmh5j
+ hB9D2Q4nCfowzVQjiIYEv3niAIXssHHcCFYpYzynRLaBzMCUPQLayFL95pztIkOSFU2U
+ 1ReF/TcoX3mrC5s8xpT1odUP2arCM11OBPhdAQu3ZwIylxI6Uio9TEETh4xwfC6yESCU
+ kj/H+Ya3BYXyJpR/XN80a/UQljJrM9mgn7pYZNZ0VtEM7DnmAF5xcZBddHXiPBDah1La
+ BllQ==
+X-Gm-Message-State: AOAM533y9MumXj0zo+T921wvfhUsXGR5JslBbPZr6q1gJ9p1Q19I4jsK
+ n+PR104xL2uxF/xMPUu7sIt4bI6cUsbiiQ==
+X-Google-Smtp-Source: ABdhPJy1BUt6+R21LCxa4D+U5Ie0p/vfRjiqUmnUX6m/JmeuU/QU2wgLbY7MTc98UD0cppxqB/jq0A==
+X-Received: by 2002:a17:90a:b78f:: with SMTP id
+ m15mr15823564pjr.131.1619498998028; 
+ Mon, 26 Apr 2021 21:49:58 -0700 (PDT)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:3984:c4f5:8612:6b3e])
- by smtp.gmail.com with ESMTPSA id c125sm1151517pfa.74.2021.04.26.21.49.53
+ by smtp.gmail.com with ESMTPSA id c125sm1151517pfa.74.2021.04.26.21.49.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 21:49:55 -0700 (PDT)
+ Mon, 26 Apr 2021 21:49:57 -0700 (PDT)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/3] drm/mediatek: init panel orientation property
-Date: Tue, 27 Apr 2021 12:49:47 +0800
-Message-Id: <20210427044948.12596-2-hsinyi@chromium.org>
+Subject: [PATCH v3 3/3] arm64: dts: mt8183: Add panel rotation
+Date: Tue, 27 Apr 2021 12:49:48 +0800
+Message-Id: <20210427044948.12596-3-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
 In-Reply-To: <20210427044948.12596-1-hsinyi@chromium.org>
 References: <20210427044948.12596-1-hsinyi@chromium.org>
@@ -76,26 +77,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Init panel orientation property after connector is initialized. Let the
-panel driver decides the orientation value later.
+krane, kakadu, and kodama boards have a default panel rotation.
 
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 1 +
+ arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index ae403c67cbd9..0bd27872f2a4 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -964,6 +964,7 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		ret = PTR_ERR(dsi->connector);
- 		goto err_cleanup_encoder;
- 	}
-+	drm_connector_init_panel_orientation_property(dsi->connector);
- 	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
- 
- 	return 0;
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+index ff56bcfa3370..793cc9501337 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+@@ -263,6 +263,7 @@ panel: panel@0 {
+ 		avee-supply = <&ppvarp_lcd>;
+ 		pp1800-supply = <&pp1800_lcd>;
+ 		backlight = <&backlight_lcd0>;
++		rotation = <270>;
+ 		port {
+ 			panel_in: endpoint {
+ 				remote-endpoint = <&dsi_out>;
 -- 
 2.31.1.498.g6c1eba8ee3d-goog
 
