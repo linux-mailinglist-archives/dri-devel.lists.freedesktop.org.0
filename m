@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0344436C234
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 11:56:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A51636C23A
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 11:58:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F3BA6E199;
-	Tue, 27 Apr 2021 09:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1543D6E932;
+	Tue, 27 Apr 2021 09:58:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7150B6E199
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 09:56:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619517373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CqBHus7kNunXCOzNNE8SVUvJLOs32xdLfSR01IvYTjU=;
- b=BiznsfwDgMkZoZblpkOuf2XPQ5/exrMKBG3NRCL0YkusPCDnSqk/ufDpXTXIdDRjpnF2t8
- QA/bE2X3YyH0I4zLda0ht/TyaBQ1CJK6rkdIgxRhJdpgobD7Y4KLTUZScd9rSC8wT0QagO
- /VYd6WCjNpD6u1PG7SMd8BqarC3yUYQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-FkEAHZAiN6iRONCgF87vEA-1; Tue, 27 Apr 2021 05:56:09 -0400
-X-MC-Unique: FkEAHZAiN6iRONCgF87vEA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C10C96D241;
- Tue, 27 Apr 2021 09:56:07 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
- [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63C7D5D9C0;
- Tue, 27 Apr 2021 09:56:07 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4A7B61800393; Tue, 27 Apr 2021 11:56:04 +0200 (CEST)
-Date: Tue, 27 Apr 2021 11:56:04 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2] drm/bochs: Add screen blanking support
-Message-ID: <20210427095604.razo3nrqbfhcjrmd@sirius.home.kraxel.org>
-References: <20210421080859.14869-1-tiwai@suse.de>
- <d1b1fa01-2254-f5cf-0ed0-f8e9c1c3f9ae@suse.de>
- <s5hk0oo1c9d.wl-tiwai@suse.de>
- <a557e727-d866-3dd3-ec96-741e7da7cf62@suse.de>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1DE46E933
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 09:58:24 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id l2so6474075wrm.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 02:58:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XwXY8n/czaUq1OHTjHbFEF5ZZk0Q0pDoTELmzQRdAsw=;
+ b=jtX+lEY3jIRHxAItF898AMHdWdotkWBwgc73c1CUn1+dSxtAQ9bIRjCSspFZUCSeHc
+ 1/yi5Qj8X+KaPCwsKkkWn83onNhxF9vWvWMxIIdSoetxW5vDh3sNZTQnoBCk8u8xbAni
+ mdrfg3ymvRPdLKt6IC2FgWFQ6OKsAiKLcUB24=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XwXY8n/czaUq1OHTjHbFEF5ZZk0Q0pDoTELmzQRdAsw=;
+ b=PPTA9WzzMTgipdFovafxbjc1FzYmRYnLnH7K5u4rLeZgyjqKEpQh+s1G8RvX2ySqqX
+ ac8PdVurdLhBD0n8rzCfScIdt48plHAUETrimxxPW11SXlLjjf+QXJ1+y4ecQ8s41aE5
+ eZTaIsZAFoWrA/wk/MlVEwSqGzKeCwWZYJOp6v7EVzjyq3RbKEsn6XY4uhXR4zucbpbI
+ IvX5Zp4U+dZl3DGifAN9cDlA+XmhTH6095pwiw/Kstmv5tTY3+R7QHsasq5HFTWrTh80
+ h5KHNLXKX1lpZdre8NVaZLNcLWtpI0GM3mVcPo8Ar7X+q9IV3lQtJ24yEybNBWM9/M2f
+ IO8g==
+X-Gm-Message-State: AOAM533372pHHfwQQXSH1HK/cQus3cY+uIj6cWUP3eC6K8OcX7qhXvlp
+ n/86GvhKsXnXEIjpRYeIyiHdDQ==
+X-Google-Smtp-Source: ABdhPJwjQz76ax3yUhmcN9Y8y1XprHOjMqkF0jGxJlSel6Z6DXa4lmJnKkk2mZUbjMcVmtfhjokU+Q==
+X-Received: by 2002:a5d:4845:: with SMTP id n5mr8466203wrs.290.1619517503410; 
+ Tue, 27 Apr 2021 02:58:23 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v13sm1054124wrr.5.2021.04.27.02.58.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Apr 2021 02:58:22 -0700 (PDT)
+Date: Tue, 27 Apr 2021 11:58:20 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [PATCH 07/21] drm/i915: Drop getparam support for
+ I915_CONTEXT_PARAM_ENGINES
+Message-ID: <YIfgPG+ySbH4hUH6@phenom.ffwll.local>
+References: <20210423223131.879208-1-jason@jlekstrand.net>
+ <20210423223131.879208-8-jason@jlekstrand.net>
 MIME-Version: 1.0
-In-Reply-To: <a557e727-d866-3dd3-ec96-741e7da7cf62@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
+In-Reply-To: <20210423223131.879208-8-jason@jlekstrand.net>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,29 +66,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > I'm fine to change in any better way, of course, so feel free to
-> > modify the patch.
+On Fri, Apr 23, 2021 at 05:31:17PM -0500, Jason Ekstrand wrote:
+> This has never been used by any userspace except IGT and provides no
+> real functionality beyond parroting back parameters userspace passed in
+> as part of context creation or via setparam.  If the context is in
+> legacy mode (where you use I915_EXEC_RENDER and friends), it returns
+> success with zero data so it's not useful for discovering what engines
+> are in the context.  It's also not a replacement for the recently
+> removed I915_CONTEXT_CLONE_ENGINES because it doesn't return any of the
+> balancing or bonding information.
 > 
-> If no one objects, I'll merge it as-is. It's somewhat wrong wrt to VGA, but
-> apparently what qemu wants.
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c | 77 +--------------------
+>  1 file changed, 1 insertion(+), 76 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index a72c9b256723b..e8179918fa306 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -1725,78 +1725,6 @@ set_engines(struct i915_gem_context *ctx,
+>  	return 0;
+>  }
+>  
+> -static int
+> -get_engines(struct i915_gem_context *ctx,
+> -	    struct drm_i915_gem_context_param *args)
+> -{
+> -	struct i915_context_param_engines __user *user;
+> -	struct i915_gem_engines *e;
+> -	size_t n, count, size;
+> -	bool user_engines;
+> -	int err = 0;
+> -
+> -	e = __context_engines_await(ctx, &user_engines);
+> -	if (!e)
+> -		return -ENOENT;
+> -
+> -	if (!user_engines) {
+> -		i915_sw_fence_complete(&e->fence);
+> -		args->size = 0;
+> -		return 0;
+> -	}
+> -
+> -	count = e->num_engines;
+> -
+> -	/* Be paranoid in case we have an impedance mismatch */
+> -	if (!check_struct_size(user, engines, count, &size)) {
+> -		err = -EINVAL;
+> -		goto err_free;
+> -	}
+> -	if (overflows_type(size, args->size)) {
+> -		err = -EINVAL;
+> -		goto err_free;
+> -	}
+> -
+> -	if (!args->size) {
+> -		args->size = size;
+> -		goto err_free;
+> -	}
+> -
+> -	if (args->size < size) {
+> -		err = -EINVAL;
+> -		goto err_free;
+> -	}
+> -
+> -	user = u64_to_user_ptr(args->value);
+> -	if (put_user(0, &user->extensions)) {
+> -		err = -EFAULT;
+> -		goto err_free;
+> -	}
+> -
+> -	for (n = 0; n < count; n++) {
+> -		struct i915_engine_class_instance ci = {
+> -			.engine_class = I915_ENGINE_CLASS_INVALID,
+> -			.engine_instance = I915_ENGINE_CLASS_INVALID_NONE,
+> -		};
+> -
+> -		if (e->engines[n]) {
+> -			ci.engine_class = e->engines[n]->engine->uabi_class;
+> -			ci.engine_instance = e->engines[n]->engine->uabi_instance;
+> -		}
+> -
+> -		if (copy_to_user(&user->engines[n], &ci, sizeof(ci))) {
+> -			err = -EFAULT;
+> -			goto err_free;
+> -		}
+> -	}
+> -
+> -	args->size = size;
+> -
+> -err_free:
+> -	i915_sw_fence_complete(&e->fence);
+> -	return err;
+> -}
+> -
+>  static int
+>  set_persistence(struct i915_gem_context *ctx,
+>  		const struct drm_i915_gem_context_param *args)
+> @@ -2127,10 +2055,6 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
+>  		ret = get_ppgtt(file_priv, ctx, args);
+>  		break;
+>  
+> -	case I915_CONTEXT_PARAM_ENGINES:
+> -		ret = get_engines(ctx, args);
+> -		break;
+> -
+>  	case I915_CONTEXT_PARAM_PERSISTENCE:
+>  		args->size = 0;
+>  		args->value = i915_gem_context_is_persistent(ctx);
+> @@ -2138,6 +2062,7 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
+>  
+>  	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+>  	case I915_CONTEXT_PARAM_BAN_PERIOD:
+> +	case I915_CONTEXT_PARAM_ENGINES:
+>  	case I915_CONTEXT_PARAM_RINGSIZE:
 
-No objections.
+I like how this list keeps growing. Same thing as usual about "pls check
+igt coverage".
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-FYI: cirrus is in the same situation, the modesetting works with qemu
-but is possibly incomplete and might not work on cirrus real hardware
-(it only binds to the qemu subsystem id for that reason).
+>  	default:
+>  		ret = -EINVAL;
+> -- 
+> 2.31.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-take care,
-  Gerd
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
