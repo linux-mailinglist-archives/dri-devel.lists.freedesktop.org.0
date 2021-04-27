@@ -2,29 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1C136C25B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 12:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C2936C441
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 12:36:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D764B89E69;
-	Tue, 27 Apr 2021 10:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 737E96E071;
+	Tue, 27 Apr 2021 10:36:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id A76BC89E69
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 10:12:42 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 4BDE980EB;
- Tue, 27 Apr 2021 10:12:41 +0000 (UTC)
-Date: Tue, 27 Apr 2021 13:12:37 +0300
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH] drm/omap: Fix issue with clocks left on after resume
-Message-ID: <YIfjlVaiGa2sz8qW@atomide.com>
-References: <20210426141241.51985-1-tony@atomide.com>
- <0963c9fa-1b45-b742-ed9b-5c48d3a97987@ideasonboard.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB106E06E;
+ Tue, 27 Apr 2021 10:36:51 +0000 (UTC)
+IronPort-SDR: nHsSUBTYYjMCieNAZiDJZ9WjsEhZegBTRADgpyzBgwsxxtQPrf6bHgsOdVD9BRXHwvQJnsFnCl
+ TFm1HcbdER3g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="260439425"
+X-IronPort-AV: E=Sophos;i="5.82,254,1613462400"; d="scan'208";a="260439425"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2021 03:36:50 -0700
+IronPort-SDR: nyo85TTh9L9gINK/3xcPOQV4ImIBQQFZ/hj5Og1RLrMnwtS9KU8QGl+IwIEv4D1p5uHVU7GB/T
+ xRhCq3vKdVzA==
+X-IronPort-AV: E=Sophos;i="5.82,254,1613462400"; d="scan'208";a="429764168"
+Received: from fnygreen-mobl1.ger.corp.intel.com (HELO
+ thellst-mobl1.intel.com) ([10.249.254.213])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2021 03:36:48 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: 
+Subject: [PATCH] drm/i915: Simplify userptr locking
+Date: Tue, 27 Apr 2021 12:36:20 +0200
+Message-Id: <20210427103620.402437-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0963c9fa-1b45-b742-ed9b-5c48d3a97987@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,136 +45,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-omap@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-* Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> [210427 08:47]:
-> Hi Tony,
-> 
-> On 26/04/2021 17:12, Tony Lindgren wrote:
-> > On resume, dispc pm_runtime_force_resume() is not enabling the hardware
-> > as we pass the pm_runtime_need_not_resume() test as the device is suspended
-> > with no child devices.
-> > 
-> > As the resume continues, omap_atomic_comit_tail() calls dispc_runtime_get()
-> > that calls rpm_resume() enabling the hardware, and increasing child_count
-> > for it's parent device.
-> > 
-> > But at this point device_complete() has not yet been called for dispc. So
-> > when omap_atomic_comit_tail() calls dispc_runtime_get(), it won't idle
-> 
-> Is that supposed to be dispc_runtime_put()?
-
-Oops that's right, yes it should have dispc_runtime_put() there.
-
-> > the hardware, and the clocks are left on after resume.
-> > 
-> > This can be easily seen for example after suspending Beagleboard-X15 with
-> > no displays connected, and by reading the CM_DSS_DSS_CLKCTRL register at
-> > 0x4a009120 after resume. After a suspend and resume cycle, it shows a
-> > value of 0x00040102 instead of 0x00070000 like it should.
-> > 
-> > Let's fix the issue by calling dispc_runtime_suspend() and
-> > dispc_runtime_resume() directly from dispc_suspend() and dispc_resume().
-> > This leaves out the PM runtime related issues for system suspend.
-> > 
-> > See also earlier commit 88d26136a256 ("PM: Prevent runtime suspend during
-> > system resume") and commit ca8199f13498 ("drm/msm/dpu: ensure device
-> > suspend happens during PM sleep") for more information.
-> > 
-> > Fixes: ecfdedd7da5d ("drm/omap: force runtime PM suspend on system suspend")
-> > Signed-off-by: Tony Lindgren <tony@atomide.com>
-> 
-> Why is this only needed for dispc, and not the other dss submodules which
-> were handled in ecfdedd7da5d?
-
-For dispc, the other components are also calling dispc_runtime_get() and
-dispc_runtime_put(). I don't think the other parts have such dss cross
-component calls happening during system suspend and resume.
-
-> I have to say I'm pretty confused (maybe partly because it's been a while
-> since I debugged this =). Aren't the pm_runtime_force_suspend/resume made
-> explicitly for this use case? At least that is how I read the documentation.
-
-IMO using pm_runtime_force_suspend() and pm_runtime_force_resume() in the
-system suspend and resume path is a big hack. In the long run it's best to
-just use the same device internal functions for both PM runtime and system
-suspend and leave out the unnecessary PM runtime calls for system suspend.
-
-> If I understand right, this is only an issue when the dss was not enabled
-> before the system suspend? And as the dispc is not enabled at suspend,
-> pm_runtime_force_suspend and pm_runtime_force_resume don't really do
-> anything. At resume, the DRM resume functionality causes omapdrm to call
-> pm_runtime_get and put, and this somehow causes the dss to stay enabled.
-
-We do have dss enabled at system suspend from omap_atomic_comit_tail()
-until pm_runtime_force_suspend(). Then we have pm_runtime_force_resume()
-enable it.
-
-Then on resume PM runtime prevents disable of the hardware on resume path
-until after device_complete(). Until then we have rpm_suspend() return
--EBUSY, and so the parent child_count is not going to get decreased.
-Something would have to handle the -EBUSY error here it seems.
-
-> I think I'm missing something here, but this patch feels like a hack fix.
-
-Probably the lack of handling for rpm_suspend() -EBUSY is the missing
-part :)
-
-> But continuing with the hack mindset, as the PM apparently needs DSS to be
-> enabled at suspend for it to work correctly, lets give that to the PM. This
-> seems to work also:
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c
-> b/drivers/gpu/drm/omapdrm/omap_drv.c
-> index 28bbad1353ee..0fd9d80d3e12 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-> @@ -695,6 +695,8 @@ static int omap_drm_suspend(struct device *dev)
->         struct omap_drm_private *priv = dev_get_drvdata(dev);
->         struct drm_device *drm_dev = priv->ddev;
-> 
-> +       dispc_runtime_get(priv->dispc);
-> +
->         return drm_mode_config_helper_suspend(drm_dev);
->  }
-> 
-> @@ -705,6 +707,8 @@ static int omap_drm_resume(struct device *dev)
-> 
->         drm_mode_config_helper_resume(drm_dev);
-> 
-> +       dispc_runtime_put(priv->dispc);
-> +
->         return omap_gem_resume(drm_dev);
->  }
->  #endif
-
-Yeah sure this works too.. That is if you want to keep the dependency
-around for pm_runtime_force_suspend(), cause some extra PM runtime
-calls, and also add few more dss cross-component calls to dispc PM
-runtime while saving a few lines of code :)
-
-Naturally removing the dependency to pm_runtime_force_suspend() can
-be done separately later on too, up to you.
-
-> But I don't think that helps with the other dss submodules either.
-
-I don't think we have other dss components call other components'
-PM runtime functions during system suspend and resume like we have
-for dispc. But yeah similar issues could be lurking there for the
-other components.
-
-Regards,
-
-Tony
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VXNlIGFuIHJ3bG9jayBpbnN0ZWFkIG9mIHNwaW5sb2NrIGZvciB0aGUgZ2xvYmFsIG5vdGlmaWVy
+IGxvY2sKdG8gcmVkdWNlIHJpc2sgb2YgY29udGVudGlvbiBpbiBleGVjYnVmLgoKUHJvdGVjdCBv
+YmplY3Qgc3RhdGUgd2l0aCB0aGUgb2JqZWN0IGxvY2sgd2hlbmV2ZXIgcG9zc2libGUgcmF0aGVy
+CnRoYW4gd2l0aCB0aGUgZ2xvYmFsIG5vdGlmaWVyIGxvY2sKCkRvbid0IHRha2UgYW4gZXhwbGlj
+aXQgcGFnZV9yZWYgaW4gdXNlcnB0cl9zdWJtaXRfaW5pdCgpIGJ1dCByYXRoZXIKY2FsbCBnZXRf
+cGFnZXMoKSBhZnRlciBvYnRhaW5pbmcgdGhlIHBhZ2UgbGlzdCBzbyB0aGF0CmdldF9wYWdlcygp
+IGhvbGRzIHRoZSBwYWdlX3JlZi4gVGhpcyBtZWFucyB3ZSBkb24ndCBuZWVkIHRvIGNhbGwKdXNl
+cnB0cl9zdWJtaXRfZmluaSgpLCB3aGljaCBpcyBuZWVkZWQgdG8gYXZvaWQgYXdrd2FyZCBsb2Nr
+aW5nCmluIG91ciB1cGNvbWluZyBWTV9CSU5EIGNvZGUuCgpDYzogTWFhcnRlbiBMYW5raG9yc3Qg
+PG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRh
+bmllbEBmZndsbC5jaD4KQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQGdtYWlsLmNvbT4KQ2M6IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IEludGVsIEdyYXBoaWNzIERldmVsb3Bt
+ZW50IDxpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPgpTaWduZWQtb2ZmLWJ5OiBUaG9t
+YXMgSGVsbHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+Ci0tLQogLi4u
+L2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jICAgIHwgMjEgKysrLS0tCiBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fb2JqZWN0LmggICAgfCAgMiAtCiBkcml2
+ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fdXNlcnB0ci5jICAgfCA3MiArKysrKystLS0t
+LS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5oICAgICAgICAgICAgICAg
+fCAgMiArLQogNCBmaWxlcyBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspLCA2NiBkZWxldGlvbnMo
+LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1
+ZmZlci5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYwpp
+bmRleCAyOTcxNDM1MTFmOTkuLjQwN2FkMGYyMjNlMyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
+aTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jCkBAIC05OTQsNyArOTk0LDcgQEAgZWJfZ2V0
+X3ZtYShjb25zdCBzdHJ1Y3QgaTkxNV9leGVjYnVmZmVyICplYiwgdW5zaWduZWQgbG9uZyBoYW5k
+bGUpCiAJfQogfQogCi1zdGF0aWMgdm9pZCBlYl9yZWxlYXNlX3ZtYXMoc3RydWN0IGk5MTVfZXhl
+Y2J1ZmZlciAqZWIsIGJvb2wgZmluYWwsIGJvb2wgcmVsZWFzZV91c2VycHRyKQorc3RhdGljIHZv
+aWQgZWJfcmVsZWFzZV92bWFzKHN0cnVjdCBpOTE1X2V4ZWNidWZmZXIgKmViLCBib29sIGZpbmFs
+KQogewogCWNvbnN0IHVuc2lnbmVkIGludCBjb3VudCA9IGViLT5idWZmZXJfY291bnQ7CiAJdW5z
+aWduZWQgaW50IGk7CkBAIC0xMDA4LDExICsxMDA4LDYgQEAgc3RhdGljIHZvaWQgZWJfcmVsZWFz
+ZV92bWFzKHN0cnVjdCBpOTE1X2V4ZWNidWZmZXIgKmViLCBib29sIGZpbmFsLCBib29sIHJlbGVh
+c2UKIAogCQllYl91bnJlc2VydmVfdm1hKGV2KTsKIAotCQlpZiAocmVsZWFzZV91c2VycHRyICYm
+IGV2LT5mbGFncyAmIF9fRVhFQ19PQkpFQ1RfVVNFUlBUUl9JTklUKSB7Ci0JCQlldi0+ZmxhZ3Mg
+Jj0gfl9fRVhFQ19PQkpFQ1RfVVNFUlBUUl9JTklUOwotCQkJaTkxNV9nZW1fb2JqZWN0X3VzZXJw
+dHJfc3VibWl0X2Zpbmkodm1hLT5vYmopOwotCQl9Ci0KIAkJaWYgKGZpbmFsKQogCQkJaTkxNV92
+bWFfcHV0KHZtYSk7CiAJfQpAQCAtMTk5MCw3ICsxOTg1LDcgQEAgc3RhdGljIG5vaW5saW5lIGlu
+dCBlYl9yZWxvY2F0ZV9wYXJzZV9zbG93KHN0cnVjdCBpOTE1X2V4ZWNidWZmZXIgKmViLAogCX0K
+IAogCS8qIFdlIG1heSBwcm9jZXNzIGFub3RoZXIgZXhlY2J1ZmZlciBkdXJpbmcgdGhlIHVubG9j
+ay4uLiAqLwotCWViX3JlbGVhc2Vfdm1hcyhlYiwgZmFsc2UsIHRydWUpOworCWViX3JlbGVhc2Vf
+dm1hcyhlYiwgZmFsc2UpOwogCWk5MTVfZ2VtX3d3X2N0eF9maW5pKCZlYi0+d3cpOwogCiAJaWYg
+KHJxKSB7CkBAIC0yMDk0LDcgKzIwODksNyBAQCBzdGF0aWMgbm9pbmxpbmUgaW50IGViX3JlbG9j
+YXRlX3BhcnNlX3Nsb3coc3RydWN0IGk5MTVfZXhlY2J1ZmZlciAqZWIsCiAKIGVycjoKIAlpZiAo
+ZXJyID09IC1FREVBRExLKSB7Ci0JCWViX3JlbGVhc2Vfdm1hcyhlYiwgZmFsc2UsIGZhbHNlKTsK
+KwkJZWJfcmVsZWFzZV92bWFzKGViLCBmYWxzZSk7CiAJCWVyciA9IGk5MTVfZ2VtX3d3X2N0eF9i
+YWNrb2ZmKCZlYi0+d3cpOwogCQlpZiAoIWVycikKIAkJCWdvdG8gcmVwZWF0X3ZhbGlkYXRlOwpA
+QCAtMjE5MSw3ICsyMTg2LDcgQEAgc3RhdGljIGludCBlYl9yZWxvY2F0ZV9wYXJzZShzdHJ1Y3Qg
+aTkxNV9leGVjYnVmZmVyICplYikKIAogZXJyOgogCWlmIChlcnIgPT0gLUVERUFETEspIHsKLQkJ
+ZWJfcmVsZWFzZV92bWFzKGViLCBmYWxzZSwgZmFsc2UpOworCQllYl9yZWxlYXNlX3ZtYXMoZWIs
+IGZhbHNlKTsKIAkJZXJyID0gaTkxNV9nZW1fd3dfY3R4X2JhY2tvZmYoJmViLT53dyk7CiAJCWlm
+ICghZXJyKQogCQkJZ290byByZXRyeTsKQEAgLTIyNjgsNyArMjI2Myw3IEBAIHN0YXRpYyBpbnQg
+ZWJfbW92ZV90b19ncHUoc3RydWN0IGk5MTVfZXhlY2J1ZmZlciAqZWIpCiAKICNpZmRlZiBDT05G
+SUdfTU1VX05PVElGSUVSCiAJaWYgKCFlcnIgJiYgKGViLT5hcmdzLT5mbGFncyAmIF9fRVhFQ19V
+U0VSUFRSX1VTRUQpKSB7Ci0JCXNwaW5fbG9jaygmZWItPmk5MTUtPm1tLm5vdGlmaWVyX2xvY2sp
+OworCQlyZWFkX2xvY2soJmViLT5pOTE1LT5tbS5ub3RpZmllcl9sb2NrKTsKIAogCQkvKgogCQkg
+KiBjb3VudCBpcyBhbHdheXMgYXQgbGVhc3QgMSwgb3RoZXJ3aXNlIF9fRVhFQ19VU0VSUFRSX1VT
+RUQKQEAgLTIyODYsNyArMjI4MSw3IEBAIHN0YXRpYyBpbnQgZWJfbW92ZV90b19ncHUoc3RydWN0
+IGk5MTVfZXhlY2J1ZmZlciAqZWIpCiAJCQkJYnJlYWs7CiAJCX0KIAotCQlzcGluX3VubG9jaygm
+ZWItPmk5MTUtPm1tLm5vdGlmaWVyX2xvY2spOworCQlyZWFkX3VubG9jaygmZWItPmk5MTUtPm1t
+Lm5vdGlmaWVyX2xvY2spOwogCX0KICNlbmRpZgogCkBAIC0zNDM1LDcgKzM0MzAsNyBAQCBpOTE1
+X2dlbV9kb19leGVjYnVmZmVyKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAKIAllcnIgPSBlYl9s
+b29rdXBfdm1hcygmZWIpOwogCWlmIChlcnIpIHsKLQkJZWJfcmVsZWFzZV92bWFzKCZlYiwgdHJ1
+ZSwgdHJ1ZSk7CisJCWViX3JlbGVhc2Vfdm1hcygmZWIsIHRydWUpOwogCQlnb3RvIGVycl9lbmdp
+bmU7CiAJfQogCkBAIC0zNTI4LDcgKzM1MjMsNyBAQCBpOTE1X2dlbV9kb19leGVjYnVmZmVyKHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJaTkxNV9yZXF1ZXN0X3B1dChlYi5yZXF1ZXN0KTsKIAog
+ZXJyX3ZtYToKLQllYl9yZWxlYXNlX3ZtYXMoJmViLCB0cnVlLCB0cnVlKTsKKwllYl9yZWxlYXNl
+X3ZtYXMoJmViLCB0cnVlKTsKIAlpZiAoZWIudHJhbXBvbGluZSkKIAkJaTkxNV92bWFfdW5waW4o
+ZWIudHJhbXBvbGluZSk7CiAJV0FSTl9PTihlcnIgPT0gLUVERUFETEspOwpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdC5oIGIvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdC5oCmluZGV4IDRhNzM4OGNlNDcyZS4uYjZkYmFm
+ZDg4YTJlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fb2Jq
+ZWN0LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdC5oCkBA
+IC02MDYsMTQgKzYwNiwxMiBAQCBpOTE1X2dlbV9vYmplY3RfaXNfdXNlcnB0cihzdHJ1Y3QgZHJt
+X2k5MTVfZ2VtX29iamVjdCAqb2JqKQogCiBpbnQgaTkxNV9nZW1fb2JqZWN0X3VzZXJwdHJfc3Vi
+bWl0X2luaXQoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaik7CiBpbnQgaTkxNV9nZW1f
+b2JqZWN0X3VzZXJwdHJfc3VibWl0X2RvbmUoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9i
+aik7Ci12b2lkIGk5MTVfZ2VtX29iamVjdF91c2VycHRyX3N1Ym1pdF9maW5pKHN0cnVjdCBkcm1f
+aTkxNV9nZW1fb2JqZWN0ICpvYmopOwogaW50IGk5MTVfZ2VtX29iamVjdF91c2VycHRyX3ZhbGlk
+YXRlKHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmopOwogI2Vsc2UKIHN0YXRpYyBpbmxp
+bmUgYm9vbCBpOTE1X2dlbV9vYmplY3RfaXNfdXNlcnB0cihzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29i
+amVjdCAqb2JqKSB7IHJldHVybiBmYWxzZTsgfQogCiBzdGF0aWMgaW5saW5lIGludCBpOTE1X2dl
+bV9vYmplY3RfdXNlcnB0cl9zdWJtaXRfaW5pdChzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAq
+b2JqKSB7IEdFTV9CVUdfT04oMSk7IHJldHVybiAtRU5PREVWOyB9CiBzdGF0aWMgaW5saW5lIGlu
+dCBpOTE1X2dlbV9vYmplY3RfdXNlcnB0cl9zdWJtaXRfZG9uZShzdHJ1Y3QgZHJtX2k5MTVfZ2Vt
+X29iamVjdCAqb2JqKSB7IEdFTV9CVUdfT04oMSk7IHJldHVybiAtRU5PREVWOyB9Ci1zdGF0aWMg
+aW5saW5lIHZvaWQgaTkxNV9nZW1fb2JqZWN0X3VzZXJwdHJfc3VibWl0X2Zpbmkoc3RydWN0IGRy
+bV9pOTE1X2dlbV9vYmplY3QgKm9iaikgeyBHRU1fQlVHX09OKDEpOyB9CiBzdGF0aWMgaW5saW5l
+IGludCBpOTE1X2dlbV9vYmplY3RfdXNlcnB0cl92YWxpZGF0ZShzdHJ1Y3QgZHJtX2k5MTVfZ2Vt
+X29iamVjdCAqb2JqKSB7IEdFTV9CVUdfT04oMSk7IHJldHVybiAtRU5PREVWOyB9CiAKICNlbmRp
+ZgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3VzZXJwdHIu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV91c2VycHRyLmMKaW5kZXggYTY1
+N2I5OWVjNzYwLi5jMzYxNjY5YTU0OTEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2dlbS9pOTE1X2dlbV91c2VycHRyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5
+MTVfZ2VtX3VzZXJwdHIuYwpAQCAtNjcsMTEgKzY3LDExIEBAIHN0YXRpYyBib29sIGk5MTVfZ2Vt
+X3VzZXJwdHJfaW52YWxpZGF0ZShzdHJ1Y3QgbW11X2ludGVydmFsX25vdGlmaWVyICptbmksCiAJ
+aWYgKCFtbXVfbm90aWZpZXJfcmFuZ2VfYmxvY2thYmxlKHJhbmdlKSkKIAkJcmV0dXJuIGZhbHNl
+OwogCi0Jc3Bpbl9sb2NrKCZpOTE1LT5tbS5ub3RpZmllcl9sb2NrKTsKKwl3cml0ZV9sb2NrKCZp
+OTE1LT5tbS5ub3RpZmllcl9sb2NrKTsKIAogCW1tdV9pbnRlcnZhbF9zZXRfc2VxKG1uaSwgY3Vy
+X3NlcSk7CiAKLQlzcGluX3VubG9jaygmaTkxNS0+bW0ubm90aWZpZXJfbG9jayk7CisJd3JpdGVf
+dW5sb2NrKCZpOTE1LT5tbS5ub3RpZmllcl9sb2NrKTsKIAogCS8qCiAJICogV2UgZG9uJ3Qgd2Fp
+dCB3aGVuIHRoZSBwcm9jZXNzIGlzIGV4aXRpbmcuIFRoaXMgaXMgdmFsaWQKQEAgLTEwNywxNiAr
+MTA3LDE1IEBAIGk5MTVfZ2VtX3VzZXJwdHJfaW5pdF9fbW11X25vdGlmaWVyKHN0cnVjdCBkcm1f
+aTkxNV9nZW1fb2JqZWN0ICpvYmopCiAKIHN0YXRpYyB2b2lkIGk5MTVfZ2VtX29iamVjdF91c2Vy
+cHRyX2Ryb3BfcmVmKHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmopCiB7Ci0Jc3RydWN0
+IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUgPSB0b19pOTE1KG9iai0+YmFzZS5kZXYpOwogCXN0cnVj
+dCBwYWdlICoqcHZlYyA9IE5VTEw7CiAKLQlzcGluX2xvY2soJmk5MTUtPm1tLm5vdGlmaWVyX2xv
+Y2spOworCWFzc2VydF9vYmplY3RfaGVsZF9zaGFyZWQob2JqKTsKKwogCWlmICghLS1vYmotPnVz
+ZXJwdHIucGFnZV9yZWYpIHsKIAkJcHZlYyA9IG9iai0+dXNlcnB0ci5wdmVjOwogCQlvYmotPnVz
+ZXJwdHIucHZlYyA9IE5VTEw7CiAJfQogCUdFTV9CVUdfT04ob2JqLT51c2VycHRyLnBhZ2VfcmVm
+IDwgMCk7Ci0Jc3Bpbl91bmxvY2soJmk5MTUtPm1tLm5vdGlmaWVyX2xvY2spOwogCiAJaWYgKHB2
+ZWMpIHsKIAkJY29uc3QgdW5zaWduZWQgbG9uZyBudW1fcGFnZXMgPSBvYmotPmJhc2Uuc2l6ZSA+
+PiBQQUdFX1NISUZUOwpAQCAtMTI4LDcgKzEyNyw2IEBAIHN0YXRpYyB2b2lkIGk5MTVfZ2VtX29i
+amVjdF91c2VycHRyX2Ryb3BfcmVmKHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmopCiAK
+IHN0YXRpYyBpbnQgaTkxNV9nZW1fdXNlcnB0cl9nZXRfcGFnZXMoc3RydWN0IGRybV9pOTE1X2dl
+bV9vYmplY3QgKm9iaikKIHsKLQlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IHRvX2k5
+MTUob2JqLT5iYXNlLmRldik7CiAJY29uc3QgdW5zaWduZWQgbG9uZyBudW1fcGFnZXMgPSBvYmot
+PmJhc2Uuc2l6ZSA+PiBQQUdFX1NISUZUOwogCXVuc2lnbmVkIGludCBtYXhfc2VnbWVudCA9IGk5
+MTVfc2dfc2VnbWVudF9zaXplKCk7CiAJc3RydWN0IHNnX3RhYmxlICpzdDsKQEAgLTE0MSwxNiAr
+MTM5LDEzIEBAIHN0YXRpYyBpbnQgaTkxNV9nZW1fdXNlcnB0cl9nZXRfcGFnZXMoc3RydWN0IGRy
+bV9pOTE1X2dlbV9vYmplY3QgKm9iaikKIAlpZiAoIXN0KQogCQlyZXR1cm4gLUVOT01FTTsKIAot
+CXNwaW5fbG9jaygmaTkxNS0+bW0ubm90aWZpZXJfbG9jayk7Ci0JaWYgKEdFTV9XQVJOX09OKCFv
+YmotPnVzZXJwdHIucGFnZV9yZWYpKSB7Ci0JCXNwaW5fdW5sb2NrKCZpOTE1LT5tbS5ub3RpZmll
+cl9sb2NrKTsKLQkJcmV0ID0gLUVGQVVMVDsKKwlpZiAoIW9iai0+dXNlcnB0ci5wYWdlX3JlZikg
+eworCQlyZXQgPSAtRUFHQUlOOwogCQlnb3RvIGVycl9mcmVlOwogCX0KIAogCW9iai0+dXNlcnB0
+ci5wYWdlX3JlZisrOwogCXB2ZWMgPSBvYmotPnVzZXJwdHIucHZlYzsKLQlzcGluX3VubG9jaygm
+aTkxNS0+bW0ubm90aWZpZXJfbG9jayk7CiAKIGFsbG9jX3RhYmxlOgogCXNnID0gX19zZ19hbGxv
+Y190YWJsZV9mcm9tX3BhZ2VzKHN0LCBwdmVjLCBudW1fcGFnZXMsIDAsCkBAIC0yNDEsNyArMjM2
+LDcgQEAgaTkxNV9nZW1fdXNlcnB0cl9wdXRfcGFnZXMoc3RydWN0IGRybV9pOTE1X2dlbV9vYmpl
+Y3QgKm9iaiwKIAlpOTE1X2dlbV9vYmplY3RfdXNlcnB0cl9kcm9wX3JlZihvYmopOwogfQogCi1z
+dGF0aWMgaW50IGk5MTVfZ2VtX29iamVjdF91c2VycHRyX3VuYmluZChzdHJ1Y3QgZHJtX2k5MTVf
+Z2VtX29iamVjdCAqb2JqLCBib29sIGdldF9wYWdlcykKK3N0YXRpYyBpbnQgaTkxNV9nZW1fb2Jq
+ZWN0X3VzZXJwdHJfdW5iaW5kKHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmopCiB7CiAJ
+c3RydWN0IHNnX3RhYmxlICpwYWdlczsKIAlpbnQgZXJyOwpAQCAtMjU5LDE1ICsyNTQsMTEgQEAg
+c3RhdGljIGludCBpOTE1X2dlbV9vYmplY3RfdXNlcnB0cl91bmJpbmQoc3RydWN0IGRybV9pOTE1
+X2dlbV9vYmplY3QgKm9iaiwgYm9vbAogCWlmICghSVNfRVJSX09SX05VTEwocGFnZXMpKQogCQlp
+OTE1X2dlbV91c2VycHRyX3B1dF9wYWdlcyhvYmosIHBhZ2VzKTsKIAotCWlmIChnZXRfcGFnZXMp
+Ci0JCWVyciA9IF9fX19pOTE1X2dlbV9vYmplY3RfZ2V0X3BhZ2VzKG9iaik7Ci0KIAlyZXR1cm4g
+ZXJyOwogfQogCiBpbnQgaTkxNV9nZW1fb2JqZWN0X3VzZXJwdHJfc3VibWl0X2luaXQoc3RydWN0
+IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaikKIHsKLQlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAq
+aTkxNSA9IHRvX2k5MTUob2JqLT5iYXNlLmRldik7CiAJY29uc3QgdW5zaWduZWQgbG9uZyBudW1f
+cGFnZXMgPSBvYmotPmJhc2Uuc2l6ZSA+PiBQQUdFX1NISUZUOwogCXN0cnVjdCBwYWdlICoqcHZl
+YzsKIAl1bnNpZ25lZCBpbnQgZ3VwX2ZsYWdzID0gMDsKQEAgLTI3NywzOSArMjY4LDIyIEBAIGlu
+dCBpOTE1X2dlbV9vYmplY3RfdXNlcnB0cl9zdWJtaXRfaW5pdChzdHJ1Y3QgZHJtX2k5MTVfZ2Vt
+X29iamVjdCAqb2JqKQogCWlmIChvYmotPnVzZXJwdHIubm90aWZpZXIubW0gIT0gY3VycmVudC0+
+bW0pCiAJCXJldHVybiAtRUZBVUxUOwogCisJbm90aWZpZXJfc2VxID0gbW11X2ludGVydmFsX3Jl
+YWRfYmVnaW4oJm9iai0+dXNlcnB0ci5ub3RpZmllcik7CisKIAlyZXQgPSBpOTE1X2dlbV9vYmpl
+Y3RfbG9ja19pbnRlcnJ1cHRpYmxlKG9iaiwgTlVMTCk7CiAJaWYgKHJldCkKIAkJcmV0dXJuIHJl
+dDsKIAotCS8qIG9wdGltaXN0aWNhbGx5IHRyeSB0byBwcmVzZXJ2ZSBjdXJyZW50IHBhZ2VzIHdo
+aWxlIHVubG9ja2VkICovCi0JaWYgKGk5MTVfZ2VtX29iamVjdF9oYXNfcGFnZXMob2JqKSAmJgot
+CSAgICAhbW11X2ludGVydmFsX2NoZWNrX3JldHJ5KCZvYmotPnVzZXJwdHIubm90aWZpZXIsCi0J
+CQkJICAgICAgb2JqLT51c2VycHRyLm5vdGlmaWVyX3NlcSkpIHsKLQkJc3Bpbl9sb2NrKCZpOTE1
+LT5tbS5ub3RpZmllcl9sb2NrKTsKLQkJaWYgKG9iai0+dXNlcnB0ci5wdmVjICYmCi0JCSAgICAh
+bW11X2ludGVydmFsX3JlYWRfcmV0cnkoJm9iai0+dXNlcnB0ci5ub3RpZmllciwKLQkJCQkJICAg
+ICBvYmotPnVzZXJwdHIubm90aWZpZXJfc2VxKSkgewotCQkJb2JqLT51c2VycHRyLnBhZ2VfcmVm
+Kys7Ci0KLQkJCS8qIFdlIGNhbiBrZWVwIHVzaW5nIHRoZSBjdXJyZW50IGJpbmRpbmcsIHRoaXMg
+aXMgdGhlIGZhc3RwYXRoICovCi0JCQlyZXQgPSAxOwotCQl9Ci0JCXNwaW5fdW5sb2NrKCZpOTE1
+LT5tbS5ub3RpZmllcl9sb2NrKTsKKwlpZiAobm90aWZpZXJfc2VxID09IG9iai0+dXNlcnB0ci5u
+b3RpZmllcl9zZXEgJiYgb2JqLT51c2VycHRyLnB2ZWMpIHsKKwkJaTkxNV9nZW1fb2JqZWN0X3Vu
+bG9jayhvYmopOworCQlyZXR1cm4gMDsKIAl9CiAKLQlpZiAoIXJldCkgewotCQkvKiBNYWtlIHN1
+cmUgdXNlcnB0ciBpcyB1bmJvdW5kIGZvciBuZXh0IGF0dGVtcHQsIHNvIHdlIGRvbid0IHVzZSBz
+dGFsZSBwYWdlcy4gKi8KLQkJcmV0ID0gaTkxNV9nZW1fb2JqZWN0X3VzZXJwdHJfdW5iaW5kKG9i
+aiwgZmFsc2UpOwotCX0KKwlyZXQgPSBpOTE1X2dlbV9vYmplY3RfdXNlcnB0cl91bmJpbmQob2Jq
+KTsKIAlpOTE1X2dlbV9vYmplY3RfdW5sb2NrKG9iaik7Ci0JaWYgKHJldCA8IDApCisJaWYgKHJl
+dCkKIAkJcmV0dXJuIHJldDsKIAotCWlmIChyZXQgPiAwKQotCQlyZXR1cm4gMDsKLQotCW5vdGlm
+aWVyX3NlcSA9IG1tdV9pbnRlcnZhbF9yZWFkX2JlZ2luKCZvYmotPnVzZXJwdHIubm90aWZpZXIp
+OwotCiAJcHZlYyA9IGt2bWFsbG9jX2FycmF5KG51bV9wYWdlcywgc2l6ZW9mKHN0cnVjdCBwYWdl
+ICopLCBHRlBfS0VSTkVMKTsKIAlpZiAoIXB2ZWMpCiAJCXJldHVybiAtRU5PTUVNOwpAQCAtMzI5
+LDcgKzMwMyw5IEBAIGludCBpOTE1X2dlbV9vYmplY3RfdXNlcnB0cl9zdWJtaXRfaW5pdChzdHJ1
+Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQogCX0KIAlyZXQgPSAwOwogCi0Jc3Bpbl9sb2Nr
+KCZpOTE1LT5tbS5ub3RpZmllcl9sb2NrKTsKKwlyZXQgPSBpOTE1X2dlbV9vYmplY3RfbG9ja19p
+bnRlcnJ1cHRpYmxlKG9iaiwgTlVMTCk7CisJaWYgKHJldCkKKwkJZ290byBvdXQ7CiAKIAlpZiAo
+bW11X2ludGVydmFsX3JlYWRfcmV0cnkoJm9iai0+dXNlcnB0ci5ub3RpZmllciwKIAkJIW9iai0+
+dXNlcnB0ci5wYWdlX3JlZiA/IG5vdGlmaWVyX3NlcSA6CkBAIC0zNDEsMTIgKzMxNywxNCBAQCBp
+bnQgaTkxNV9nZW1fb2JqZWN0X3VzZXJwdHJfc3VibWl0X2luaXQoc3RydWN0IGRybV9pOTE1X2dl
+bV9vYmplY3QgKm9iaikKIAlpZiAoIW9iai0+dXNlcnB0ci5wYWdlX3JlZisrKSB7CiAJCW9iai0+
+dXNlcnB0ci5wdmVjID0gcHZlYzsKIAkJb2JqLT51c2VycHRyLm5vdGlmaWVyX3NlcSA9IG5vdGlm
+aWVyX3NlcTsKLQogCQlwdmVjID0gTlVMTDsKKwkJcmV0ID0gX19fX2k5MTVfZ2VtX29iamVjdF9n
+ZXRfcGFnZXMob2JqKTsKIAl9CiAKKwlvYmotPnVzZXJwdHIucGFnZV9yZWYtLTsKKwogb3V0X3Vu
+bG9jazoKLQlzcGluX3VubG9jaygmaTkxNS0+bW0ubm90aWZpZXJfbG9jayk7CisJaTkxNV9nZW1f
+b2JqZWN0X3VubG9jayhvYmopOwogCiBvdXQ6CiAJaWYgKHB2ZWMpIHsKQEAgLTM2OSwxMSArMzQ3
+LDYgQEAgaW50IGk5MTVfZ2VtX29iamVjdF91c2VycHRyX3N1Ym1pdF9kb25lKHN0cnVjdCBkcm1f
+aTkxNV9nZW1fb2JqZWN0ICpvYmopCiAJcmV0dXJuIDA7CiB9CiAKLXZvaWQgaTkxNV9nZW1fb2Jq
+ZWN0X3VzZXJwdHJfc3VibWl0X2Zpbmkoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaikK
+LXsKLQlpOTE1X2dlbV9vYmplY3RfdXNlcnB0cl9kcm9wX3JlZihvYmopOwotfQotCiBpbnQgaTkx
+NV9nZW1fb2JqZWN0X3VzZXJwdHJfdmFsaWRhdGUoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3Qg
+Km9iaikKIHsKIAlpbnQgZXJyOwpAQCAtMzk2LDcgKzM2OSw2IEBAIGludCBpOTE1X2dlbV9vYmpl
+Y3RfdXNlcnB0cl92YWxpZGF0ZShzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQogCQlp
+OTE1X2dlbV9vYmplY3RfdW5sb2NrKG9iaik7CiAJfQogCi0JaTkxNV9nZW1fb2JqZWN0X3VzZXJw
+dHJfc3VibWl0X2Zpbmkob2JqKTsKIAlyZXR1cm4gZXJyOwogfQogCkBAIC01NzIsNyArNTQ0LDcg
+QEAgaTkxNV9nZW1fdXNlcnB0cl9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogaW50IGk5
+MTVfZ2VtX2luaXRfdXNlcnB0cihzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpCiB7
+CiAjaWZkZWYgQ09ORklHX01NVV9OT1RJRklFUgotCXNwaW5fbG9ja19pbml0KCZkZXZfcHJpdi0+
+bW0ubm90aWZpZXJfbG9jayk7CisJcndsb2NrX2luaXQoJmRldl9wcml2LT5tbS5ub3RpZmllcl9s
+b2NrKTsKICNlbmRpZgogCiAJcmV0dXJuIDA7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+aTkxNS9pOTE1X2Rydi5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuaAppbmRleCBm
+NWFhMzNhMmJiNzAuLjExMTRhNDBmNTA0ZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5
+MTUvaTkxNV9kcnYuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5oCkBAIC01
+NjIsNyArNTYyLDcgQEAgc3RydWN0IGk5MTVfZ2VtX21tIHsKIAkgKiBub3RpZmllcl9sb2NrIGZv
+ciBtbXUgbm90aWZpZXJzLCBtZW1vcnkgbWF5IG5vdCBiZSBhbGxvY2F0ZWQKIAkgKiB3aGlsZSBo
+b2xkaW5nIHRoaXMgbG9jay4KIAkgKi8KLQlzcGlubG9ja190IG5vdGlmaWVyX2xvY2s7CisJcnds
+b2NrX3Qgbm90aWZpZXJfbG9jazsKICNlbmRpZgogCiAJLyogc2hyaW5rZXIgYWNjb3VudGluZywg
+YWxzbyB1c2VmdWwgZm9yIHVzZXJsYW5kIGRlYnVnZ2luZyAqLwotLSAKMi4zMC4yCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
