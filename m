@@ -1,123 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C490936C857
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 17:09:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF84136C874
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Apr 2021 17:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F6C890AB;
-	Tue, 27 Apr 2021 15:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B90726E980;
+	Tue, 27 Apr 2021 15:13:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2070.outbound.protection.outlook.com [40.107.223.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F146C890AB;
- Tue, 27 Apr 2021 15:08:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DxT0VmgFpzYMB3/pUrhpPUSD67/d7sqQS/P4AnI0IO8a8X+TlIuZpTuTkGCD8J5oy+RTUNrick1KGY0MjK+9V9IDtHFEEMkFbIwkmDgp2oSRr7CL3oj3zB7o9LMR7MW7ZIi44DwlSn8PBGRNir5E5R2EebmfBWel+amzP5TTZJ7hBZVnInGMXVoHLJu7VJlghiaki5nGSpDe6rzv6GX2Ba5UEYn44rhmp1Xj+Z5J9/2MoOESRxQNtKMrcn6MNYNYAzzjhLdC2dA5EYfupgwZs95JZYRZtnNw6azcTBo+b8fEsOlnYmmJjMymTkYbExuWTNQxiGxnRnInnTjx/g4FTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UXfebf6iiY1qt/gd6tVoCogcub4e7yBfpiA3CXdNRlc=;
- b=FB/siZxUS5FPE5BxG/5QZjLy9L/hXhnzNoUSDOwgHRQKib8YxJlvBVBN4JJ4JPU+Kty9120eALKICTY6kJoaXcixxKvv/T2lb3ur+en0PaacUTjIgJWvFqzGQdt3K+CJS2EuKmKiWib7Pn5baUXmUG8BvkhFIBo3h9yA5lchDPb9ul0a1GVkiPGimlsk1Oooy84AHF8FQgC7Okvwk6rqLvObYkIylBKCwkjcgbownMTCYwsfey7XGKfpzGyFiZbj96vBT7k6UXYoazWS5K9Fo9EyLcutv4s0HixkI2Mpnq3j3LKYVufmxxFk+GSakU3zV0sFDM9mzZ9LFdJCLWfnUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UXfebf6iiY1qt/gd6tVoCogcub4e7yBfpiA3CXdNRlc=;
- b=WYU1k80ramx+KHFwla3UutEx16EikmzNIm278IxCmbHE74tW83oWo80LDvnUqbYDCDoeeEmuj/8vKPZ8FnuQFvaj+0c23J3J82i2EZWkxcC7GnVELNRmMHxKxz0e4UViuuA5XXdskbpBcSNZ7byk0ic4M9dxHDU9GtOtc4Ur5Rc=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
- by MN2PR12MB4535.namprd12.prod.outlook.com (2603:10b6:208:267::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.25; Tue, 27 Apr
- 2021 15:08:54 +0000
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::70f5:99ed:65a1:c033%7]) with mapi id 15.20.3933.040; Tue, 27 Apr 2021
- 15:08:54 +0000
-Subject: Re: [PATCH v2 08/10] drm/amdgpu: Add DMA mapping of GTT BOs
-To: "Zeng, Oak" <Oak.Zeng@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20210422013058.6305-1-Felix.Kuehling@amd.com>
- <20210422013058.6305-9-Felix.Kuehling@amd.com>
- <41596C42-CA28-4912-A47A-741916D6A4D9@amd.com>
- <27dddbf0-b609-e314-4d02-892250e82acf@amd.com>
- <F12962EC-07B1-4750-BA1B-1E8C413244BC@amd.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <b3d0897a-dd3a-a135-2aa0-7502977707ab@amd.com>
-Date: Tue, 27 Apr 2021 11:08:52 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3903E6E980;
+ Tue, 27 Apr 2021 15:13:58 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id d14so6562684edc.12;
+ Tue, 27 Apr 2021 08:13:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=bVuS4X5EUNfIJq7ABQX5lsoe3IhAOvWxBjOv7xGrfE0=;
+ b=tmZ0NZDH3TGI+2CsNld3jHYjH7qPFZ8t96dBUgav/I12jt7mGce24O5Mxjh3XMH044
+ OyJBTjZCeRKFQ13v/2CH4VzwVBaIjp4bZWRjv0qcWHuUChzvsVPj0OBVSGG7/iySQ0am
+ dAjWlrWYTDPRVbL90IChXP/gIwa+MLexWh7pwpEuDTjFWjwPuBpfslkwp7m0mn/JBzxO
+ 9TmxwG7QMStOXn1+6w9ctgavv2ZV6Gjq0xQ3Esqm98/gy7/XdN+HwRzWY3NGs1pKqG90
+ UEo81RKZ01zueuPaI4S3aYgGOP/Qq8esywy1cqBWKHqWiMmI0wiKjmiP/jzJujizcTti
+ 7i6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=bVuS4X5EUNfIJq7ABQX5lsoe3IhAOvWxBjOv7xGrfE0=;
+ b=rULiVR1yLnTcGd4RlQZ1xLdiGXh+V0kTrfrj4YNfnbaa1hP7nonN5gnwPgTlAy9oiS
+ 7Xelw1CGym3okipKcgTBXuIOhQ+lPP2Hie1553i5t9kwG+Oqr+M+TfQiAMuNqbFICOcE
+ brGcN/dJNl7kV0JT34q8hbzl9wNmx9/+lYn7dloHTx8jQaVsFp9k0cYb6MV6qHMEZ6XP
+ I4A1h787PsSGgQDlIVYxDJHj2t6iY7o+VvR25qH2/iHVYAOFrYkZyRbm/8qs528ANzdr
+ DtddxOwp9nBPq6omwZHg+m5rBwbiXww2YHgTVFcSmYXsDjksNik3GHfoHjAc5S7DnRoT
+ 2yVQ==
+X-Gm-Message-State: AOAM530NXZlgsB/4Bpxv/Tw3safkVEWTy5joFRstoQJPejMblJLRCvF0
+ KFlKi7ZdrlZFOborE+dHnqVZii+0DYM=
+X-Google-Smtp-Source: ABdhPJyeqWNqJMhaCo2brJkaw0OlvWN8RnVqz8J99GaEZYFrFMaCFcGsT+qv4SXybsGMvoJNgfUZZg==
+X-Received: by 2002:aa7:db95:: with SMTP id u21mr4966398edt.152.1619536436953; 
+ Tue, 27 Apr 2021 08:13:56 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:5565:6656:893b:2618?
+ ([2a02:908:1252:fb60:5565:6656:893b:2618])
+ by smtp.gmail.com with ESMTPSA id i8sm2631532edu.64.2021.04.27.08.13.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Apr 2021 08:13:56 -0700 (PDT)
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+ <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
+ <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
+ <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
+ <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
+ <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
+ <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
+ <YIfFC3YST0cfzd3l@phenom.ffwll.local>
+ <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
+ <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
+ <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
+ <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
+ <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
+ <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
+ <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <78a45197-1563-6ad7-5e54-a2ed1d1332bd@gmail.com>
+Date: Tue, 27 Apr 2021 17:13:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
-In-Reply-To: <F12962EC-07B1-4750-BA1B-1E8C413244BC@amd.com>
-Content-Language: en-US
-X-Originating-IP: [142.182.183.69]
-X-ClientProxiedBy: YT1PR01CA0037.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2e::6) To BL0PR12MB4948.namprd12.prod.outlook.com
- (2603:10b6:208:1cc::20)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.182.183.69) by
- YT1PR01CA0037.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.25 via Frontend Transport; Tue, 27 Apr 2021 15:08:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 960329e0-a263-4d9b-b3e1-08d9098e5fb2
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4535:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB45356241CB7EAB419AB0248492419@MN2PR12MB4535.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PI6253CUPfku91Ggkm9lxYkHzoU4zI0NXeg4THBrPeiyqY5+2YQCfnyxKCrr5umGh1cEOAz7xxZcIPbDylSD/mCFeMaenhHrdB/smhXy2dZdLB5Hexan014OsgMiCpJlL3GJA3tH782Q3NKtesVah+jt50Tfj7E9RboShNFwtBgAKTAT8hGg7+fIrqk1j/vzsmfdAj4R3QoTmmCxqvm1FSs3BWvJwRAy58q70n4keONC9MVxjjWguYMKVeARBluDay1+5aWkJPpIOLz4WU9XF6iddd3/RvVMCgNguAQRX2FFjjjIQWwcUV+cxP5numfAPqdgJzNz7WeuGbScbu0OHlyBNg88uusTXoV/WUl5Jr5450KYBJ1SWRqBW2xrSokdu7DdajnY4rKqMXfWehwAolls4OH/mnXe5BVOvcZ3SJXWSurzDeWivlhSenBVdzQAH0Qc2It4k8/A7TVgVERuycsJTR6uIIfi9WVow14HSaKn3w3iM+aCZ5fWLXq4oWGF6tPJ+K29QaTwcH01uV9+u2vGhWPmKA5bYWbLiOhnWiVaHWSm99pGoxmLF3lM4AiyC+af0DC792C0Jt3H3fBysViIMiOXdaa1CS1kgB4X2MWu7Zj6M9ENdAsygpE6rPUPrtRDk6eeq0qzI6i2CeoqqMpU3p3RV52MsH58BEmMWHBcJiqIWqm1x3rN3n5AShqLnecY1PtBNoNv51ZuM8flsnW4kVxr5cX0zWL60yuLZOA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(376002)(39860400002)(346002)(366004)(83380400001)(8936002)(2616005)(478600001)(6486002)(2906002)(956004)(31696002)(36756003)(450100002)(5660300002)(26005)(966005)(86362001)(38100700002)(8676002)(16576012)(44832011)(110136005)(66476007)(66556008)(66946007)(31686004)(16526019)(316002)(186003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?NVV3Q0tiOTA1UlV3MW96R3l2T2pNMVUyNkxJcDhmeVVMS2xYY3l4T3V5ajNU?=
- =?utf-8?B?YnZJSm9Cdm43YlNTdWU1a3VETE4zR2hKbHR0YmxYVFUxcTNVNGRFYWhKKzFQ?=
- =?utf-8?B?Yk50bURadU1VVDYrNC95UE9jeGFUTEpqZStMclFUWFdjanc4dWhuR0FORXh3?=
- =?utf-8?B?Ynhod29qK3ZzdjVOUkJVWFNIWU5hTEc2RGpVK3BzZG1VS254dUZBTFYvQWRF?=
- =?utf-8?B?eTlYUXF1T0o4TEROenNBcEl6QnVKVVlrZVR0M0NqY1NxVlZxM2lsRDdZL2Q4?=
- =?utf-8?B?aUF4SjNHK3J1eFVsbEpSM2oyaVoyOHdDRmEvRWUrMHFIb2xxaERpTlVKYm9T?=
- =?utf-8?B?TjgzamowTDVJSXdla1loNG1yMnhPOG9kL2srRFlZZXRRQU1KQXNzUEMwbjM1?=
- =?utf-8?B?OEdHSzR5WFUwckt6MUFBQjV2REFWRzQ5ZityaHg3SjV6QXdqNUhiQk1hNnUv?=
- =?utf-8?B?MmtDNzhXV2tMSklDZmNHSExNSEUrR3NkVWtocVh5SVFZdWd3S2VBcG9rS2F1?=
- =?utf-8?B?WE85b2NaNTRhOXJvbzE5eS9oOFk1Skh1K1B2bVVkc0grcDd3bW14dUcrUitr?=
- =?utf-8?B?YkY5SlhDRGxpVGFlckgvdWxJNE42c2F2TVJDTjF1dWJ1bVBRenF6RkNrTDF2?=
- =?utf-8?B?dHgvVzRhdkkyK0prdUNjWENRaytxUlpiNFdGUkhMZHRHcC9TVnAzaDRhaUJv?=
- =?utf-8?B?cmUreTc5bVhRMmg3VTFRSjBPRktxek1IUVNHTzVDMWk0akNPOE14clJZMUhC?=
- =?utf-8?B?NlFMeFlZNnpkN2NBSU02OXhWT1cxN2hBNWR1Ym8rY25TVFMydUpQTi81VVov?=
- =?utf-8?B?VkxlbWFlUUlMTE5VZFF5WUdMd2htRHVEQUM2K3VpWWRoZ0VGSmZ2enBNWEpE?=
- =?utf-8?B?TXk3aE9HTzc5NVZWUjdkNEJ2a2JSczhDK0JWREVwRm1nSHl5STVMRHJ4QXZS?=
- =?utf-8?B?b2UzcnhETlFiTnArYk5qN0xuTFBQWXVhUmVoSUVTN0NxNkxybkl0VWtjS1h1?=
- =?utf-8?B?UDlIR3ZVUWVWRWl6a2NOb1ZBUTMyRTBQWGpNV29wcTJ0eW1TdTBrUlUwYjdZ?=
- =?utf-8?B?ZWxqcmZxN3IySEtaYXRYZEltVDJuaHdsOG5EeEZnSUw3aWE5Q1VtbVhHcHM5?=
- =?utf-8?B?S3huRFZaMnZiQ2NEVE9YSU01MVZnVlR1ZE9IV2RidEJZQXVoQ29XZXpGa3k3?=
- =?utf-8?B?OVEzQzBCcTJ1MnhKSGMwYnFpdFgzNEJSQ1JkWmdjVWZyZFVwWk54STBabzIy?=
- =?utf-8?B?SndQZkhxUloxdjNDZkFuc212eFlsa3pIVFdpR2wrWnRNM0s5V1hXZFZTdUxW?=
- =?utf-8?B?a0RpQ1RLVmVvZXg4SlBtWXZrenhpM294U3MyTytzZkNIVWNaeUhjbk5EQXpz?=
- =?utf-8?B?aFgxWVYrMk0vMWttRC9sK3MxaHF6c0Q1dy8yL0xxTTVuaWI2ZVhmUDRja29R?=
- =?utf-8?B?dHd3bW51L3ZBMkh5aGdHcmk0bTIrQ2Y5VG9nRHR3ajB4b3I1TUJXbFl0S1Jn?=
- =?utf-8?B?SnZBU0cwR2JkZ0xMSHRCelBmMHB6QW1GQVN2dzg3Q1QwTFVkSmd3Tlp3RFFa?=
- =?utf-8?B?NGNkL045OVRiUXhRMkVsdnlBY2hRcGhqODdwMWxrV1FUZjF0OUE2ZXNDZTJu?=
- =?utf-8?B?YVd5dUtrK3hiUnd4M0V6TFd0SnZpWktCNEVGSXBhRWhvdFc2WkQwM1B5eHJY?=
- =?utf-8?B?RWYxU3I3R2t0ZXZqc1owWDk4ZVduTlpnMlpwRkJyRHBvcGhBVVVFWUdUczhj?=
- =?utf-8?Q?b37FoIDqLugp45Pi7dN1pXpJc8RPD9+5+AK/Vum?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 960329e0-a263-4d9b-b3e1-08d9098e5fb2
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 15:08:54.6622 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CJhEHaFV15TPom2L0/AdD6Iq0BPrbnS7rvON9OQ08zvEH8AgY7gW0L44teIi6UdwRZXJHM6zN/oZpN8HtRgVcw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4535
+In-Reply-To: <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,207 +84,685 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============2090817872=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjAyMS0wNC0yNyB1bSAxMDoyOSBhLm0uIHNjaHJpZWIgWmVuZywgT2FrOgo+IFJlZ2FyZHMs
-Cj4gT2FrIAo+Cj4gIAo+Cj4g77u/T24gMjAyMS0wNC0yNiwgMTE6NTYgUE0sICJLdWVobGluZywg
-RmVsaXgiIDxGZWxpeC5LdWVobGluZ0BhbWQuY29tPiB3cm90ZToKPgo+ICAgICBBbSAyMDIxLTA0
-LTI2IHVtIDg6MzUgcC5tLiBzY2hyaWViIFplbmcsIE9hazoKPiAgICAgPiBSZWdhcmRzLAo+ICAg
-ICA+IE9hayAKPiAgICAgPgo+ICAgICA+ICAKPiAgICAgPgo+ICAgICA+IE9uIDIwMjEtMDQtMjEs
-IDk6MzEgUE0sICJhbWQtZ2Z4IG9uIGJlaGFsZiBvZiBGZWxpeCBLdWVobGluZyIgPGFtZC1nZngt
-Ym91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmcgb24gYmVoYWxmIG9mIEZlbGl4Lkt1ZWhsaW5n
-QGFtZC5jb20+IHdyb3RlOgo+ICAgICA+Cj4gICAgID4gICAgIFVzZSBETUFCdWZzIHdpdGggZHlu
-YW1pYyBhdHRhY2htZW50IHRvIERNQS1tYXAgR1RUIEJPcyBvbiBvdGhlciBHUFVzLgo+ICAgICA+
-Cj4gICAgID4gICAgIFNpZ25lZC1vZmYtYnk6IEZlbGl4IEt1ZWhsaW5nIDxGZWxpeC5LdWVobGlu
-Z0BhbWQuY29tPgo+ICAgICA+ICAgICAtLS0KPiAgICAgPiAgICAgIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmQuaCAgICB8ICAyICsKPiAgICAgPiAgICAgIC4uLi9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jICB8IDc2ICsrKysrKysrKysrKysr
-KysrKy0KPiAgICAgPiAgICAgIDIgZmlsZXMgY2hhbmdlZCwgNzcgaW5zZXJ0aW9ucygrKSwgMSBk
-ZWxldGlvbigtKQo+ICAgICA+Cj4gICAgID4gICAgIGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkLmggYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
-dS9hbWRncHVfYW1ka2ZkLmgKPiAgICAgPiAgICAgaW5kZXggNjM2Njg0MzNmNWE2Li5iNzA2ZTVh
-NTQ3ODIgMTAwNjQ0Cj4gICAgID4gICAgIC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L2FtZGdwdV9hbWRrZmQuaAo+ICAgICA+ICAgICArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfYW1ka2ZkLmgKPiAgICAgPiAgICAgQEAgLTQxLDYgKzQxLDcgQEAgc3RydWN0
-IGFtZGdwdV9kZXZpY2U7Cj4gICAgID4gICAgICBlbnVtIGtmZF9tZW1fYXR0YWNobWVudF90eXBl
-IHsKPiAgICAgPiAgICAgIAlLRkRfTUVNX0FUVF9TSEFSRUQsCS8qIFNoYXJlIGtnZF9tZW0tPmJv
-IG9yIGFub3RoZXIgYXR0YWNobWVudCdzICovCj4gICAgID4gICAgICAJS0ZEX01FTV9BVFRfVVNF
-UlBUUiwJLyogU0cgYm8gdG8gRE1BIG1hcCBwYWdlcyBmcm9tIGEgdXNlcnB0ciBibyAqLwo+ICAg
-ICA+ICAgICArCUtGRF9NRU1fQVRUX0RNQUJVRiwJLyogRE1BYnVmIHRvIERNQSBtYXAgVFRNIEJP
-cyAqLwo+ICAgICA+ICAgICAgfTsKPiAgICAgPgo+ICAgICA+ICAgICAgc3RydWN0IGtmZF9tZW1f
-YXR0YWNobWVudCB7Cj4gICAgID4gICAgIEBAIC01Niw2ICs1Nyw3IEBAIHN0cnVjdCBrZmRfbWVt
-X2F0dGFjaG1lbnQgewo+ICAgICA+ICAgICAgc3RydWN0IGtnZF9tZW0gewo+ICAgICA+ICAgICAg
-CXN0cnVjdCBtdXRleCBsb2NrOwo+ICAgICA+ICAgICAgCXN0cnVjdCBhbWRncHVfYm8gKmJvOwo+
-ICAgICA+ICAgICArCXN0cnVjdCBkbWFfYnVmICpkbWFidWY7Cj4gICAgID4gICAgICAJc3RydWN0
-IGxpc3RfaGVhZCBhdHRhY2htZW50czsKPiAgICAgPiAgICAgIAkvKiBwcm90ZWN0ZWQgYnkgYW1k
-a2ZkX3Byb2Nlc3NfaW5mby5sb2NrICovCj4gICAgID4gICAgICAJc3RydWN0IHR0bV92YWxpZGF0
-ZV9idWZmZXIgdmFsaWRhdGVfbGlzdDsKPiAgICAgPiAgICAgZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmRfZ3B1dm0uYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmRfZ3B1dm0uYwo+ICAgICA+ICAgICBpbmRleCA5ZWVl
-ZGQwYzc5MjAuLjE4YTFmOTIyMmE1OSAxMDA2NDQKPiAgICAgPiAgICAgLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jCj4gICAgID4gICAgICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmRfZ3B1dm0uYwo+ICAgICA+
-ICAgICBAQCAtNTI0LDYgKzUyNCwxNiBAQCBrZmRfbWVtX2RtYW1hcF91c2VycHRyKHN0cnVjdCBr
-Z2RfbWVtICptZW0sCj4gICAgID4gICAgICAJcmV0dXJuIHJldDsKPiAgICAgPiAgICAgIH0KPiAg
-ICAgPgo+ICAgICA+ICAgICArc3RhdGljIGludAo+ICAgICA+ICAgICAra2ZkX21lbV9kbWFtYXBf
-ZG1hYnVmKHN0cnVjdCBrZmRfbWVtX2F0dGFjaG1lbnQgKmF0dGFjaG1lbnQpCj4gICAgID4gICAg
-ICt7Cj4gICAgID4gICAgICsJc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4IGN0eCA9IHsuaW50ZXJy
-dXB0aWJsZSA9IHRydWV9Owo+ICAgICA+ICAgICArCXN0cnVjdCBhbWRncHVfYm8gKmJvID0gYXR0
-YWNobWVudC0+Ym9fdmEtPmJhc2UuYm87Cj4gICAgID4gICAgICsKPiAgICAgPiAgICAgKwlhbWRn
-cHVfYm9fcGxhY2VtZW50X2Zyb21fZG9tYWluKGJvLCBBTURHUFVfR0VNX0RPTUFJTl9HVFQpOwo+
-ICAgICA+ICAgICArCXJldHVybiB0dG1fYm9fdmFsaWRhdGUoJmJvLT50Ym8sICZiby0+cGxhY2Vt
-ZW50LCAmY3R4KTsKPiAgICAgPiBIb3cgZG9lcyB0aGlzIHdvcms/IFRoZSBmdW5jdGlvbiBuYW1l
-IHNheXMgdGhpcyBpcyBkbWEgbWFwcGluZyBhIGJ1ZmZlciBidXQgZnJvbSB0aGUgaW1wbGVtZW50
-YXRpb24sIGl0IGlzIGp1c3QgYSBwbGFjZW1lbnQgYW5kIHZhbGlkYXRpb24KPgo+ICAgICBDb25j
-ZXB0dWFsbHksIGNhbGxpbmcgdHRtX2JvX3ZhbGlkYXRlIGVuc3VyZXMgdGhhdCB0aGUgQk8gaXMg
-aW4gdGhlCj4gICAgIHNwZWNpZmllZCBkb21haW4sIGluIHRoaXMgY2FzZSBHVFQuIEJlZm9yZSBj
-YWxsaW5nIHZhbGlkYXRlLCBpdCBjYW4gYmUKPiAgICAgaW4gdGhlIENQVSBkb21haW4sIHdoaWNo
-IG1lYW5zIGl0IG1heSBiZSBzd2FwcGVkIHRvIGRpc2sgc28gaXQncyBub3QgR1BVCj4gICAgIGFj
-Y2Vzc2libGUuIEZvciBhIERNQUJ1ZiBhdHRhY2htZW50LCB0aGUgQ1BVIGRvbWFpbiBtZWFucywg
-dGhhdCB0aGUKPiAgICAgRE1BQnVmIGlzIG5vdCBhdHRhY2hlZCBiZWNhdXNlIHRoZSB1bmRlcmx5
-aW5nIG1lbW9yeSBvYmplY3QgbWF5IGJlIG9uCj4gICAgIHRoZSBtb3ZlIG9yIHN3YXBwZWQgb3V0
-Lgo+Cj4gICAgIFRoZSBhY3R1YWwgaW1wbGVtZW50YXRpb24gb2YgdGhlIGRtYWJ1ZiBhdHRhY2ht
-ZW50IGlzIGN1cnJlbnRseSBpbgo+ICAgICBhbWRncHVfdHRtX3BvcHVsYXRlL3VucG9wdWxhdGUu
-IFRoaXMgaXMgaW5jb3JyZWN0LiBQYXRjaCAxMCBpbiB0aGlzCj4gICAgIHNlcmllcyBmaXhlcyB0
-aGF0IHRvIG1vdmUgdGhlIGFjdHVhbCBkbWFidWYgYXR0YWNobWVudCBpbnRvCj4gICAgIGFtZGdw
-dV90dG1fYmFja2VuZF9iaW5kL3VuYmluZCwgd2hpY2ggaXMgY2FsbGVkIGZyb20gYW1kZ3B1X2Jv
-X21vdmUgd2hlbgo+ICAgICBhIEJPIGlzIG1vdmVkIGJldHdlZW4gdGhlIENQVSBhbmQgR1RUIGRv
-bWFpbnMuCj4KPiBUaGFua3MgZm9yIHRoZSBleHBsYW5hdGlvbi4gT25lIG1vcmUgdGhpbmcgSSBk
-b24ndCBxdWl0ZSB1bmRlcnN0YW5kOiBiZWZvcmUgdGhpcyBzZXJpZXMsIEdUVCBtZW1vcnkgc2hv
-dWxkIGFscmVhZHkgaGFzIGJlZW4gdmFsaWRhdGVkIHNvbWV3aGVyZSBiZWZvcmUgR1RUIG1lbW9y
-eSBpcyBtYXBwZWQgdG8gR1BVLiBZb3UgYWRkZWQgR1RUIG1lbW9yeSB2YWxpZGF0aW9uIGhlcmUg
-LSB3aWxsIHRoaXMgdmFsaWRhdGlvbiBiZSBkdXBsaWNhdGVkPwoKV2hlbiB5b3UgaGF2ZSBOIEdQ
-VXMgdGhlcmUgYXJlIG5vdyBOIEJPcyBpbnZvbHZlZC4gRWFjaCBHUFUgbmVlZHMgaXRzCm93biBC
-TyBiZWNhdXNlIGl0IG5lZWRzIGl0cyBvd24gRE1BIG1hcHBpbmcuIFRoZXJlIHdpbGwgYmUgb25l
-IGFjdHVhbApHVFQgQk8gdGhhdCBhbGxvY2F0ZXMgcGh5c2ljYWwgcGFnZXMgaW4gVFRNLiBUaGUg
-b3RoZXIgQk9zIGFyZSBkbWFidWYKaW1wb3J0cyB0aGF0IERNQS1tYXAgdGhlIHNhbWUgcGh5c2lj
-YWwgcGFnZXMgZm9yIGFjY2VzcyBieSB0aGUgb3RoZXIgR1BVcy4KClRoZSB2YWxpZGF0ZSBjYWxs
-IGhlcmUgdmFsaWRhdGVzIG9uZSBvZiB0aGUgZG1hYnVmIGltcG9ydHMuIFRoaXMgZG9lcwpub3Qg
-ZHVwbGljYXRlIHRoZSB2YWxpZGF0aW9uIG9mIHRoZSB1bmRlcmx5aW5nIFRUTSBCTyB3aXRoIHRo
-ZSBhY3R1YWwKcGh5c2ljYWwgbWVtb3J5IGFsbG9jYXRpb24uCgoKPgo+IFRoZSBmdW5jdGlvbiBu
-YW1pbmcga2ZkX21lbV9kbWFtYXBfZG1hYnVmIGlzIHN0aWxsIGNvbmZ1c2luZyBzaW5jZSBpdCBz
-ZWVtcyB0byBtZSBpdCBpcyBvbmx5IHNvbWUgcHJlcGFyYXRpb24gd29yayBiZWZvcmUgZHluYW1p
-Y2FsbHkgZG1hLW1hcCBhIEdUVCBtZW1vcnkuCgpObywgdGhpcyBzZXJpZXMgaXMgbm90IGp1c3Qg
-cHJlcGFyYXRpb24uIEl0IGltcGxlbWVudHMgRE1BIG1hcHBpbmcgb2YKQk9zIGZvciBtdWx0aXBs
-ZSBHUFVzLiBUVE0gYWxyZWFkeSBoYW5kbGVzIERNQSBtYXBwaW5nIG9mIHRoZSBtZW1vcnkgZm9y
-CnRoZSBkZXZpY2Ugd2hlcmUgdGhlIG1lbW9yeSB3YXMgYWxsb2NhdGVkLiAoWWVzLCBldmVuIEdU
-VCBtZW1vcnkgaXMKYXNzb2NpYXRlZCB3aXRoIGEgc3BlY2lmaWMgR1BVIGV2ZW4gdGhvdWdoIGl0
-J3MgcGh5c2ljYWxseSBpbiBzeXN0ZW0KbWVtb3J5KS4gV2hhdCB0aGlzIHBhdGNoIHNlcmllcyBh
-ZGRzLCBpcyBhZGRpdGlvbmFsIERNQSBtYXBwaW5ncyBmb3IgdGhlCm90aGVyIEdQVXMuIFdpdGhv
-dXQgdGhpcyBwYXRjaCwgd2Ugd2VyZSB1c2luZyB0aGUgRE1BIG1hcHBpbmcgZm9yIEdQVS0xCmlu
-IHRoZSBwYWdlIHRhYmxlIG9mIEdQVS1YLCB3aGljaCBpcyBpbmNvcnJlY3QuIEl0IHdvcmtzIGlu
-IG1hbnkgY2FzZXMKd2hlcmUgdGhlIERNQSBtYXBwaW5nIGlzIGEgZGlyZWN0IG1hcHBpbmc6Cgog
-ICogSU9NTVUgZGlzYWJsZWQKICAqIElPTU1VIGluIHBhc3N0aHJvdWdoIG1vZGUKCkJ1dCBpdCBi
-cmVha3Mgd2hlbiB5b3UgaGF2ZSBtdWx0aXBsZSBHUFVzIHdpdGggYW4gSU9NTVUgdGhhdCdzIG5v
-dApkaXNhYmxlZCBvciBpbiBwYXNzdGhyb3VnaCBtb2RlLgoKCj4gIEJ1dCBJIHVuZGVyc3RhbmQg
-ZnJvbSB0aGlzIHNlcmllcycgcGVyc3BlY3RpdmUsIGNvbXBhcmVkIHRvIHVzcnB0ciAod2hlcmUg
-eW91IGFjdHVhbGx5IGRvIHRoZSBkbWEtbWFwcGluZyBpbiBmdW5jdGlvbiBrZmRfbWVtX2RtYW1h
-cF91c3JwdHIpLCBmb3IgZ3R0IG1lbW9yeSB5b3UgbGV2ZXJhZ2VkIHRoZSBhbWRncHUgdHRtIGZ1
-bmN0aW9uIG9mIGR5bmFtaWMgZG1hLW1hcHBpbmcuIFNvIG1heWJlIHRoZSBuYW1pbmcgaGVyZSBt
-YWtlcyBzZW5zZSBmcm9tIHRoYXQgcGVyc3BlY3RpdmUuCgpZZXMuCgoKPgo+IEFub3RoZXIgdGhp
-bmcgcmVsYXRlZCBidXQgbm90IGRpcmVjdGx5IHRvIHRoaXMgc2VyaWVzOiBmb3IgR1RUIG1lbW9y
-eSwgaXQgaXMgZG1hLW1hcHBlZCB3aGVuIGl0IGlzIGFsbG9jYXRlZC4gU2VlIGZ1bmN0aW9uIHR0
-bV9wb3B1bGF0ZV9hbmRfbWFwX3BhZ2VzIGNhbGxpbmcgZG1hX21hcF9wYWdlLiBUaGUgcXVlc3Rp
-b24gaXMsIHdpbGwgZ3R0IGJlIGZpcnN0IGRtYS11bm1hcHBpbmcgYmVmb3JlIGl0IGlzIG1hcHBl
-ZCBpbiBhbWRncHVfdHRtX2JhY2tlbmRfYmluZD8gSXQgaXMgZXhpc3Rpbmcgd29yaywgbm90IGZy
-b20geW91ciBzZXJpZXMuIE1heWJlIHRoZXJlIGlzIG5vdCBpc3N1ZSBidXQgSSBqdXN0IHdhbnQg
-dG8gbWFrZSBzdXJlIHdoaWxlIHdlIGFyZSBsb29raW5nIGF0IHRoaXMgYXJlYS4gCgpSaWdodC4g
-VGhlIHByb2JsZW0gaXMsIHRoYXQgdGhlIERNQSBtYXBwaW5ncyBvbmx5IHdvcmsgZm9yIGEgc3Bl
-Y2lmaWMKZGV2aWNlLiBVc2luZyB0aGUgc2FtZSBETUEgbWFwcGluZyBvbiBtdWx0aXBsZSBkZXZp
-Y2VzIGlzIGJyb2tlbi4gVGhlCnJlYXNvbiB3ZSBnb3QgYXdheSB3aXRoIGl0IGZvciBhIGxvbmcg
-dGltZSBpcywgdGhhdCB3ZSB3ZXJlIHJ1bm5pbmcgd2l0aApJT01NVSBkaXNhYmxlZCBvciBpbiBw
-YXNzdGhyb3VnaCBtb2RlLgoKUmVnYXJkcywKwqAgRmVsaXgKCgo+Cj4gICAgIFJlZ2FyZHMsCj4g
-ICAgICAgRmVsaXgKPgo+Cj4gICAgID4gICAgICt9Cj4gICAgID4gICAgICsKPiAgICAgPiAgICAg
-IHN0YXRpYyBpbnQKPiAgICAgPiAgICAgIGtmZF9tZW1fZG1hbWFwX2F0dGFjaG1lbnQoc3RydWN0
-IGtnZF9tZW0gKm1lbSwKPiAgICAgPiAgICAgIAkJCSAgc3RydWN0IGtmZF9tZW1fYXR0YWNobWVu
-dCAqYXR0YWNobWVudCkKPiAgICAgPiAgICAgQEAgLTUzMyw2ICs1NDMsOCBAQCBrZmRfbWVtX2Rt
-YW1hcF9hdHRhY2htZW50KHN0cnVjdCBrZ2RfbWVtICptZW0sCj4gICAgID4gICAgICAJCXJldHVy
-biAwOwo+ICAgICA+ICAgICAgCWNhc2UgS0ZEX01FTV9BVFRfVVNFUlBUUjoKPiAgICAgPiAgICAg
-IAkJcmV0dXJuIGtmZF9tZW1fZG1hbWFwX3VzZXJwdHIobWVtLCBhdHRhY2htZW50KTsKPiAgICAg
-PiAgICAgKwljYXNlIEtGRF9NRU1fQVRUX0RNQUJVRjoKPiAgICAgPiAgICAgKwkJcmV0dXJuIGtm
-ZF9tZW1fZG1hbWFwX2RtYWJ1ZihhdHRhY2htZW50KTsKPiAgICAgPiAgICAgIAlkZWZhdWx0Ogo+
-ICAgICA+ICAgICAgCQlXQVJOX09OX09OQ0UoMSk7Cj4gICAgID4gICAgICAJfQo+ICAgICA+ICAg
-ICBAQCAtNTYyLDYgKzU3NCwxOSBAQCBrZmRfbWVtX2RtYXVubWFwX3VzZXJwdHIoc3RydWN0IGtn
-ZF9tZW0gKm1lbSwKPiAgICAgPiAgICAgIAl0dG0tPnNnID0gTlVMTDsKPiAgICAgPiAgICAgIH0K
-PiAgICAgPgo+ICAgICA+ICAgICArc3RhdGljIHZvaWQKPiAgICAgPiAgICAgK2tmZF9tZW1fZG1h
-dW5tYXBfZG1hYnVmKHN0cnVjdCBrZmRfbWVtX2F0dGFjaG1lbnQgKmF0dGFjaG1lbnQpCj4gICAg
-ID4gICAgICt7Cj4gICAgID4gICAgICsJc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4IGN0eCA9IHsu
-aW50ZXJydXB0aWJsZSA9IHRydWV9Owo+ICAgICA+ICAgICArCXN0cnVjdCBhbWRncHVfYm8gKmJv
-ID0gYXR0YWNobWVudC0+Ym9fdmEtPmJhc2UuYm87Cj4gICAgID4gICAgICsKPiAgICAgPiAgICAg
-KwlhbWRncHVfYm9fcGxhY2VtZW50X2Zyb21fZG9tYWluKGJvLCBBTURHUFVfR0VNX0RPTUFJTl9D
-UFUpOwo+ICAgICA+ICAgICArCXR0bV9ib192YWxpZGF0ZSgmYm8tPnRibywgJmJvLT5wbGFjZW1l
-bnQsICZjdHgpOwo+ICAgICA+ICAgICArCS8qIEZJWE1FOiBUaGlzIGRvZXMgbm90IGd1YXJhbnRl
-ZSB0aGF0IGFtZGdwdV90dG1fdHRfdW5wb3B1bGF0ZSBpcwo+ICAgICA+ICAgICArCSAqIGNhbGxl
-ZAo+ICAgICA+ICAgICArCSAqLwo+ICAgICA+ICAgICArfQo+ICAgICA+ICAgICArCj4gICAgID4g
-ICAgICBzdGF0aWMgdm9pZAo+ICAgICA+ICAgICAga2ZkX21lbV9kbWF1bm1hcF9hdHRhY2htZW50
-KHN0cnVjdCBrZ2RfbWVtICptZW0sCj4gICAgID4gICAgICAJCQkgICAgc3RydWN0IGtmZF9tZW1f
-YXR0YWNobWVudCAqYXR0YWNobWVudCkKPiAgICAgPiAgICAgQEAgLTU3Miw2ICs1OTcsOSBAQCBr
-ZmRfbWVtX2RtYXVubWFwX2F0dGFjaG1lbnQoc3RydWN0IGtnZF9tZW0gKm1lbSwKPiAgICAgPiAg
-ICAgIAljYXNlIEtGRF9NRU1fQVRUX1VTRVJQVFI6Cj4gICAgID4gICAgICAJCWtmZF9tZW1fZG1h
-dW5tYXBfdXNlcnB0cihtZW0sIGF0dGFjaG1lbnQpOwo+ICAgICA+ICAgICAgCQlicmVhazsKPiAg
-ICAgPiAgICAgKwljYXNlIEtGRF9NRU1fQVRUX0RNQUJVRjoKPiAgICAgPiAgICAgKwkJa2ZkX21l
-bV9kbWF1bm1hcF9kbWFidWYoYXR0YWNobWVudCk7Cj4gICAgID4gICAgICsJCWJyZWFrOwo+ICAg
-ICA+ICAgICAgCWRlZmF1bHQ6Cj4gICAgID4gICAgICAJCVdBUk5fT05fT05DRSgxKTsKPiAgICAg
-PiAgICAgIAl9Cj4gICAgID4gICAgIEBAIC02MDUsNiArNjMzLDM4IEBAIGtmZF9tZW1fYXR0YWNo
-X3VzZXJwdHIoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHN0cnVjdCBrZ2RfbWVtICptZW0s
-Cj4gICAgID4gICAgICAJcmV0dXJuIDA7Cj4gICAgID4gICAgICB9Cj4gICAgID4KPiAgICAgPiAg
-ICAgK3N0YXRpYyBpbnQKPiAgICAgPiAgICAgK2tmZF9tZW1fYXR0YWNoX2RtYWJ1ZihzdHJ1Y3Qg
-YW1kZ3B1X2RldmljZSAqYWRldiwgc3RydWN0IGtnZF9tZW0gKm1lbSwKPiAgICAgPiAgICAgKwkJ
-ICAgICAgc3RydWN0IGFtZGdwdV9ibyAqKmJvKQo+ICAgICA+ICAgICArewo+ICAgICA+ICAgICAr
-CXN0cnVjdCBkcm1fZ2VtX29iamVjdCAqZ29iajsKPiAgICAgPiAgICAgKwo+ICAgICA+ICAgICAr
-CWlmICghbWVtLT5kbWFidWYpIHsKPiAgICAgPiAgICAgKwkJbWVtLT5kbWFidWYgPSBhbWRncHVf
-Z2VtX3ByaW1lX2V4cG9ydCgmbWVtLT5iby0+dGJvLmJhc2UsCj4gICAgID4gICAgICsJCQltZW0t
-PmFsbG9jX2ZsYWdzICYgS0ZEX0lPQ19BTExPQ19NRU1fRkxBR1NfV1JJVEFCTEUgPwo+ICAgICA+
-ICAgICArCQkJCURSTV9SRFdSIDogMCk7Cj4gICAgID4gICAgICsJCWlmIChJU19FUlIobWVtLT5k
-bWFidWYpKSB7Cj4gICAgID4gICAgICsJCQltZW0tPmRtYWJ1ZiA9IE5VTEw7Cj4gICAgID4gICAg
-ICsJCQlyZXR1cm4gUFRSX0VSUihtZW0tPmRtYWJ1Zik7Cj4gICAgID4gICAgICsJCX0KPiAgICAg
-PiAgICAgKwl9Cj4gICAgID4gICAgICsKPiAgICAgPiAgICAgKwlnb2JqID0gYW1kZ3B1X2dlbV9w
-cmltZV9pbXBvcnQoJmFkZXYtPmRkZXYsIG1lbS0+ZG1hYnVmKTsKPiAgICAgPiAgICAgKwlpZiAo
-SVNfRVJSKGdvYmopKQo+ICAgICA+ICAgICArCQlyZXR1cm4gUFRSX0VSUihnb2JqKTsKPiAgICAg
-PiAgICAgKwo+ICAgICA+ICAgICArCS8qIEltcG9ydCB0YWtlcyBhbiBleHRyYSByZWZlcmVuY2Ug
-b24gdGhlIGRtYWJ1Zi4gRHJvcCBpdCBub3cgdG8KPiAgICAgPiAgICAgKwkgKiBhdm9pZCBsZWFr
-aW5nIGl0LiBXZSBvbmx5IG5lZWQgdGhlIG9uZSByZWZlcmVuY2UgaW4KPiAgICAgPiAgICAgKwkg
-KiBrZ2RfbWVtLT5kbWFidWYuCj4gICAgID4gICAgICsJICovCj4gICAgID4gICAgICsJZG1hX2J1
-Zl9wdXQobWVtLT5kbWFidWYpOwo+ICAgICA+ICAgICArCj4gICAgID4gICAgICsJKmJvID0gZ2Vt
-X3RvX2FtZGdwdV9ibyhnb2JqKTsKPiAgICAgPiAgICAgKwkoKmJvKS0+cGFyZW50ID0gYW1kZ3B1
-X2JvX3JlZihtZW0tPmJvKTsKPiAgICAgPiAgICAgKwo+ICAgICA+ICAgICArCXJldHVybiAwOwo+
-ICAgICA+ICAgICArfQo+ICAgICA+ICAgICArCj4gICAgID4gICAgICAvKiBrZmRfbWVtX2F0dGFj
-aCAtIEFkZCBhIEJPIHRvIGEgVk0KPiAgICAgPiAgICAgICAqCj4gICAgID4gICAgICAgKiBFdmVy
-eXRoaW5nIHRoYXQgbmVlZHMgdG8gYm8gZG9uZSBvbmx5IG9uY2Ugd2hlbiBhIEJPIGlzIGZpcnN0
-IGFkZGVkCj4gICAgID4gICAgIEBAIC02NjIsOCArNzIyLDIwIEBAIHN0YXRpYyBpbnQga2ZkX21l
-bV9hdHRhY2goc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHN0cnVjdCBrZ2RfbWVtICptZW0s
-Cj4gICAgID4gICAgICAJCQlyZXQgPSBrZmRfbWVtX2F0dGFjaF91c2VycHRyKGFkZXYsIG1lbSwg
-JmJvW2ldKTsKPiAgICAgPiAgICAgIAkJCWlmIChyZXQpCj4gICAgID4gICAgICAJCQkJZ290byB1
-bndpbmQ7Cj4gICAgID4gICAgICsJCX0gZWxzZSBpZiAobWVtLT5kb21haW4gPT0gQU1ER1BVX0dF
-TV9ET01BSU5fR1RUICYmCj4gICAgID4gICAgICsJCQkgICBtZW0tPmJvLT50Ym8udHlwZSAhPSB0
-dG1fYm9fdHlwZV9zZykgewo+ICAgICA+ICAgICArCQkJLyogR1RUIEJPcyB1c2UgRE1BLW1hcHBp
-bmcgYWJpbGl0eSBvZiBkeW5hbWljLWF0dGFjaAo+ICAgICA+ICAgICArCQkJICogRE1BIGJ1ZnMu
-IFRPRE86IFRoZSBzYW1lIHNob3VsZCB3b3JrIGZvciBWUkFNIG9uCj4gICAgID4gICAgICsJCQkg
-KiBsYXJnZS1CQVIgR1BVcy4KPiAgICAgPiAgICAgKwkJCSAqLwo+ICAgICA+ICAgICArCQkJYXR0
-YWNobWVudFtpXS0+dHlwZSA9IEtGRF9NRU1fQVRUX0RNQUJVRjsKPiAgICAgPiAgICAgKwkJCXJl
-dCA9IGtmZF9tZW1fYXR0YWNoX2RtYWJ1ZihhZGV2LCBtZW0sICZib1tpXSk7Cj4gICAgID4gICAg
-ICsJCQlpZiAocmV0KQo+ICAgICA+ICAgICArCQkJCWdvdG8gdW53aW5kOwo+ICAgICA+ICAgICAg
-CQl9IGVsc2Ugewo+ICAgICA+ICAgICAtCQkJLyogRklYTUU6IE5lZWQgdG8gRE1BLW1hcCBvdGhl
-ciBCTyB0eXBlcyAqLwo+ICAgICA+ICAgICArCQkJLyogRklYTUU6IE5lZWQgdG8gRE1BLW1hcCBv
-dGhlciBCTyB0eXBlczoKPiAgICAgPiAgICAgKwkJCSAqIGxhcmdlLUJBUiBWUkFNLCBkb29yYmVs
-bHMsIE1NSU8gcmVtYXAKPiAgICAgPiAgICAgKwkJCSAqLwo+ICAgICA+ICAgICAgCQkJYXR0YWNo
-bWVudFtpXS0+dHlwZSA9IEtGRF9NRU1fQVRUX1NIQVJFRDsKPiAgICAgPiAgICAgIAkJCWJvW2ld
-ID0gbWVtLT5ibzsKPiAgICAgPiAgICAgIAkJCWRybV9nZW1fb2JqZWN0X2dldCgmYm9baV0tPnRi
-by5iYXNlKTsKPiAgICAgPiAgICAgQEAgLTE1MjIsNiArMTU5NCw4IEBAIGludCBhbWRncHVfYW1k
-a2ZkX2dwdXZtX2ZyZWVfbWVtb3J5X29mX2dwdSgKPiAgICAgPgo+ICAgICA+ICAgICAgCS8qIEZy
-ZWUgdGhlIEJPKi8KPiAgICAgPiAgICAgIAlkcm1fdm1hX25vZGVfcmV2b2tlKCZtZW0tPmJvLT50
-Ym8uYmFzZS52bWFfbm9kZSwgZHJtX3ByaXYpOwo+ICAgICA+ICAgICArCWlmIChtZW0tPmRtYWJ1
-ZikKPiAgICAgPiAgICAgKwkJZG1hX2J1Zl9wdXQobWVtLT5kbWFidWYpOwo+ICAgICA+ICAgICAg
-CWRybV9nZW1fb2JqZWN0X3B1dCgmbWVtLT5iby0+dGJvLmJhc2UpOwo+ICAgICA+ICAgICAgCW11
-dGV4X2Rlc3Ryb3koJm1lbS0+bG9jayk7Cj4gICAgID4gICAgICAJa2ZyZWUobWVtKTsKPiAgICAg
-PiAgICAgLS0gCj4gICAgID4gICAgIDIuMzEuMQo+ICAgICA+Cj4gICAgID4gICAgIF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gICAgID4gICAgIGFtZC1n
-ZnggbWFpbGluZyBsaXN0Cj4gICAgID4gICAgIGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cj4gICAgID4gICAgIGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vYW1kLWdmeAo+ICAgICA+Cj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+This is a multi-part message in MIME format.
+--===============2090817872==
+Content-Type: multipart/alternative;
+ boundary="------------04D7232B639FE7EDDFB40D7A"
+Content-Language: en-US
+
+This is a multi-part message in MIME format.
+--------------04D7232B639FE7EDDFB40D7A
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Uff good question. DMA-buf certainly supports that use case, but I have 
+no idea if that is actually used somewhere.
+
+Daniel do you know any case?
+
+Christian.
+
+Am 27.04.21 um 15:26 schrieb Marek Olšák:
+> Ok. So that would only make the following use cases broken for now:
+> - amd render -> external gpu
+> - amd video encode -> network device
+>
+> What about the case when we get a buffer from an external device and 
+> we're supposed to make it "busy" when we are using it, and the 
+> external device wants to wait until we stop using it? Is it something 
+> that can happen, thus turning "external -> amd" into "external <-> amd"?
+>
+> Marek
+>
+> On Tue., Apr. 27, 2021, 08:50 Christian König, 
+> <ckoenig.leichtzumerken@gmail.com 
+> <mailto:ckoenig.leichtzumerken@gmail.com>> wrote:
+>
+>     Only amd -> external.
+>
+>     We can easily install something in an user queue which waits for a
+>     dma_fence in the kernel.
+>
+>     But we can't easily wait for an user queue as dependency of a
+>     dma_fence.
+>
+>     The good thing is we have this wait before signal case on Vulkan
+>     timeline semaphores which have the same problem in the kernel.
+>
+>     The good news is I think we can relatively easily convert i915 and
+>     older amdgpu device to something which is compatible with user fences.
+>
+>     So yes, getting that fixed case by case should work.
+>
+>     Christian
+>
+>     Am 27.04.21 um 14:46 schrieb Marek Olšák:
+>>     I'll defer to Christian and Alex to decide whether dropping sync
+>>     with non-amd devices (GPUs, cameras etc.) is acceptable.
+>>
+>>     Rewriting those drivers to this new sync model could be done on a
+>>     case by case basis.
+>>
+>>     For now, would we only lose the "amd -> external" dependency? Or
+>>     the "external -> amd" dependency too?
+>>
+>>     Marek
+>>
+>>     On Tue., Apr. 27, 2021, 08:15 Daniel Vetter, <daniel@ffwll.ch
+>>     <mailto:daniel@ffwll.ch>> wrote:
+>>
+>>         On Tue, Apr 27, 2021 at 2:11 PM Marek Olšák <maraeo@gmail.com
+>>         <mailto:maraeo@gmail.com>> wrote:
+>>         > Ok. I'll interpret this as "yes, it will work, let's do it".
+>>
+>>         It works if all you care about is drm/amdgpu. I'm not sure
+>>         that's a
+>>         reasonable approach for upstream, but it definitely is an
+>>         approach :-)
+>>
+>>         We've already gone somewhat through the pain of drm/amdgpu
+>>         redefining
+>>         how implicit sync works without sufficiently talking with other
+>>         people, maybe we should avoid a repeat of this ...
+>>         -Daniel
+>>
+>>         >
+>>         > Marek
+>>         >
+>>         > On Tue., Apr. 27, 2021, 08:06 Christian König,
+>>         <ckoenig.leichtzumerken@gmail.com
+>>         <mailto:ckoenig.leichtzumerken@gmail.com>> wrote:
+>>         >>
+>>         >> Correct, we wouldn't have synchronization between device
+>>         with and without user queues any more.
+>>         >>
+>>         >> That could only be a problem for A+I Laptops.
+>>         >>
+>>         >> Memory management will just work with preemption fences
+>>         which pause the user queues of a process before evicting
+>>         something. That will be a dma_fence, but also a well known
+>>         approach.
+>>         >>
+>>         >> Christian.
+>>         >>
+>>         >> Am 27.04.21 um 13:49 schrieb Marek Olšák:
+>>         >>
+>>         >> If we don't use future fences for DMA fences at all, e.g.
+>>         we don't use them for memory management, it can work, right?
+>>         Memory management can suspend user queues anytime. It doesn't
+>>         need to use DMA fences. There might be something that I'm
+>>         missing here.
+>>         >>
+>>         >> What would we lose without DMA fences? Just inter-device
+>>         synchronization? I think that might be acceptable.
+>>         >>
+>>         >> The only case when the kernel will wait on a future fence
+>>         is before a page flip. Everything today already depends on
+>>         userspace not hanging the gpu, which makes everything a
+>>         future fence.
+>>         >>
+>>         >> Marek
+>>         >>
+>>         >> On Tue., Apr. 27, 2021, 04:02 Daniel Vetter,
+>>         <daniel@ffwll.ch <mailto:daniel@ffwll.ch>> wrote:
+>>         >>>
+>>         >>> On Mon, Apr 26, 2021 at 04:59:28PM -0400, Marek Olšák wrote:
+>>         >>> > Thanks everybody. The initial proposal is dead. Here
+>>         are some thoughts on
+>>         >>> > how to do it differently.
+>>         >>> >
+>>         >>> > I think we can have direct command submission from
+>>         userspace via
+>>         >>> > memory-mapped queues ("user queues") without changing
+>>         window systems.
+>>         >>> >
+>>         >>> > The memory management doesn't have to use GPU page
+>>         faults like HMM.
+>>         >>> > Instead, it can wait for user queues of a specific
+>>         process to go idle and
+>>         >>> > then unmap the queues, so that userspace can't submit
+>>         anything. Buffer
+>>         >>> > evictions, pinning, etc. can be executed when all
+>>         queues are unmapped
+>>         >>> > (suspended). Thus, no BO fences and page faults are needed.
+>>         >>> >
+>>         >>> > Inter-process synchronization can use timeline
+>>         semaphores. Userspace will
+>>         >>> > query the wait and signal value for a shared buffer
+>>         from the kernel. The
+>>         >>> > kernel will keep a history of those queries to know
+>>         which process is
+>>         >>> > responsible for signalling which buffer. There is only
+>>         the wait-timeout
+>>         >>> > issue and how to identify the culprit. One of the
+>>         solutions is to have the
+>>         >>> > GPU send all GPU signal commands and all timed out wait
+>>         commands via an
+>>         >>> > interrupt to the kernel driver to monitor and validate
+>>         userspace behavior.
+>>         >>> > With that, it can be identified whether the culprit is
+>>         the waiting process
+>>         >>> > or the signalling process and which one. Invalid
+>>         signal/wait parameters can
+>>         >>> > also be detected. The kernel can force-signal only the
+>>         semaphores that time
+>>         >>> > out, and punish the processes which caused the timeout
+>>         or used invalid
+>>         >>> > signal/wait parameters.
+>>         >>> >
+>>         >>> > The question is whether this synchronization solution
+>>         is robust enough for
+>>         >>> > dma_fence and whatever the kernel and window systems need.
+>>         >>>
+>>         >>> The proper model here is the preempt-ctx dma_fence that
+>>         amdkfd uses
+>>         >>> (without page faults). That means dma_fence for
+>>         synchronization is doa, at
+>>         >>> least as-is, and we're back to figuring out the winsys
+>>         problem.
+>>         >>>
+>>         >>> "We'll solve it with timeouts" is very tempting, but
+>>         doesn't work. It's
+>>         >>> akin to saying that we're solving deadlock issues in a
+>>         locking design by
+>>         >>> doing a global s/mutex_lock/mutex_lock_timeout/ in the
+>>         kernel. Sure it
+>>         >>> avoids having to reach the reset button, but that's about it.
+>>         >>>
+>>         >>> And the fundamental problem is that once you throw in
+>>         userspace command
+>>         >>> submission (and syncing, at least within the userspace
+>>         driver, otherwise
+>>         >>> there's kinda no point if you still need the kernel for
+>>         cross-engine sync)
+>>         >>> means you get deadlocks if you still use dma_fence for
+>>         sync under
+>>         >>> perfectly legit use-case. We've discussed that one ad
+>>         nauseam last summer:
+>>         >>>
+>>         >>>
+>>         https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_fence#indefinite-dma-fences
+>>         <https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_fence#indefinite-dma-fences>
+>>         >>>
+>>         >>> See silly diagramm at the bottom.
+>>         >>>
+>>         >>> Now I think all isn't lost, because imo the first step to
+>>         getting to this
+>>         >>> brave new world is rebuilding the driver on top of
+>>         userspace fences, and
+>>         >>> with the adjusted cmd submit model. You probably don't
+>>         want to use amdkfd,
+>>         >>> but port that as a context flag or similar to render
+>>         nodes for gl/vk. Of
+>>         >>> course that means you can only use this mode in headless,
+>>         without
+>>         >>> glx/wayland winsys support, but it's a start.
+>>         >>> -Daniel
+>>         >>>
+>>         >>> >
+>>         >>> > Marek
+>>         >>> >
+>>         >>> > On Tue, Apr 20, 2021 at 4:34 PM Daniel Stone
+>>         <daniel@fooishbar.org <mailto:daniel@fooishbar.org>> wrote:
+>>         >>> >
+>>         >>> > > Hi,
+>>         >>> > >
+>>         >>> > > On Tue, 20 Apr 2021 at 20:30, Daniel Vetter
+>>         <daniel@ffwll.ch <mailto:daniel@ffwll.ch>> wrote:
+>>         >>> > >
+>>         >>> > >> The thing is, you can't do this in drm/scheduler. At
+>>         least not without
+>>         >>> > >> splitting up the dma_fence in the kernel into
+>>         separate memory fences
+>>         >>> > >> and sync fences
+>>         >>> > >
+>>         >>> > >
+>>         >>> > > I'm starting to think this thread needs its own
+>>         glossary ...
+>>         >>> > >
+>>         >>> > > I propose we use 'residency fence' for execution
+>>         fences which enact
+>>         >>> > > memory-residency operations, e.g. faulting in a page
+>>         ultimately depending
+>>         >>> > > on GPU work retiring.
+>>         >>> > >
+>>         >>> > > And 'value fence' for the pure-userspace model
+>>         suggested by timeline
+>>         >>> > > semaphores, i.e. fences being (*addr == val) rather
+>>         than being able to look
+>>         >>> > > at ctx seqno.
+>>         >>> > >
+>>         >>> > > Cheers,
+>>         >>> > > Daniel
+>>         >>> > > _______________________________________________
+>>         >>> > > mesa-dev mailing list
+>>         >>> > > mesa-dev@lists.freedesktop.org
+>>         <mailto:mesa-dev@lists.freedesktop.org>
+>>         >>> > >
+>>         https://lists.freedesktop.org/mailman/listinfo/mesa-dev
+>>         <https://lists.freedesktop.org/mailman/listinfo/mesa-dev>
+>>         >>> > >
+>>         >>>
+>>         >>> --
+>>         >>> Daniel Vetter
+>>         >>> Software Engineer, Intel Corporation
+>>         >>> http://blog.ffwll.ch <http://blog.ffwll.ch>
+>>         >>
+>>         >>
+>>         >> _______________________________________________
+>>         >> mesa-dev mailing list
+>>         >> mesa-dev@lists.freedesktop.org
+>>         <mailto:mesa-dev@lists.freedesktop.org>
+>>         >> https://lists.freedesktop.org/mailman/listinfo/mesa-dev
+>>         <https://lists.freedesktop.org/mailman/listinfo/mesa-dev>
+>>         >>
+>>         >>
+>>
+>>
+>>         -- 
+>>         Daniel Vetter
+>>         Software Engineer, Intel Corporation
+>>         http://blog.ffwll.ch <http://blog.ffwll.ch>
+>>
+>
+
+
+--------------04D7232B639FE7EDDFB40D7A
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Uff good question. DMA-buf certainly supports that use case, but I
+    have no idea if that is actually used somewhere.<br>
+    <br>
+    Daniel do you know any case?<br>
+    <br>
+    Christian.<br>
+    <br>
+    <div class="moz-cite-prefix">Am 27.04.21 um 15:26 schrieb Marek
+      Olšák:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="auto">Ok. So that would only make the following use
+        cases broken for now:
+        <div dir="auto">- amd render -&gt; external gpu</div>
+        <div dir="auto">- amd video encode -&gt; network device</div>
+        <div dir="auto"><br>
+        </div>
+        <div dir="auto">What about the case when we get a buffer from an
+          external device and we're supposed to make it "busy" when we
+          are using it, and the external device wants to wait until we
+          stop using it? Is it something that can happen, thus turning
+          "external -&gt; amd" into "external &lt;-&gt; amd"?</div>
+        <div dir="auto"><br>
+        </div>
+        <div dir="auto">Marek</div>
+      </div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Tue., Apr. 27, 2021, 08:50
+          Christian König, &lt;<a
+            href="mailto:ckoenig.leichtzumerken@gmail.com"
+            moz-do-not-send="true">ckoenig.leichtzumerken@gmail.com</a>&gt;
+          wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0 0 0
+          .8ex;border-left:1px #ccc solid;padding-left:1ex">
+          <div> Only amd -&gt; external.<br>
+            <br>
+            We can easily install something in an user queue which waits
+            for a dma_fence in the kernel.<br>
+            <br>
+            But we can't easily wait for an user queue as dependency of
+            a dma_fence.<br>
+            <br>
+            The good thing is we have this wait before signal case on
+            Vulkan timeline semaphores which have the same problem in
+            the kernel.<br>
+            <br>
+            The good news is I think we can relatively easily convert
+            i915 and older amdgpu device to something which is
+            compatible with user fences.<br>
+            <br>
+            So yes, getting that fixed case by case should work.<br>
+            <br>
+            Christian<br>
+            <br>
+            <div>Am 27.04.21 um 14:46 schrieb Marek Olšák:<br>
+            </div>
+            <blockquote type="cite">
+              <div dir="auto">
+                <div>I'll defer to Christian and Alex to decide whether
+                  dropping sync with non-amd devices (GPUs, cameras
+                  etc.) is acceptable.</div>
+                <div dir="auto"><br>
+                </div>
+                <div dir="auto">Rewriting those drivers to this new sync
+                  model could be done on a case by case basis.</div>
+                <div dir="auto"><br>
+                </div>
+                <div dir="auto">For now, would we only lose the "amd
+                  -&gt; external" dependency? Or the "external -&gt;
+                  amd" dependency too?</div>
+                <div dir="auto"><br>
+                </div>
+                <div dir="auto">Marek</div>
+                <div dir="auto"><br>
+                  <div class="gmail_quote" dir="auto">
+                    <div dir="ltr" class="gmail_attr">On Tue., Apr. 27,
+                      2021, 08:15 Daniel Vetter, &lt;<a
+                        href="mailto:daniel@ffwll.ch" rel="noreferrer
+                        noreferrer noreferrer" target="_blank"
+                        moz-do-not-send="true">daniel@ffwll.ch</a>&gt;
+                      wrote:<br>
+                    </div>
+                    <blockquote class="gmail_quote" style="margin:0 0 0
+                      .8ex;border-left:1px #ccc solid;padding-left:1ex">On
+                      Tue, Apr 27, 2021 at 2:11 PM Marek Olšák &lt;<a
+                        href="mailto:maraeo@gmail.com" rel="noreferrer
+                        noreferrer noreferrer noreferrer"
+                        target="_blank" moz-do-not-send="true">maraeo@gmail.com</a>&gt;
+                      wrote:<br>
+                      &gt; Ok. I'll interpret this as "yes, it will
+                      work, let's do it".<br>
+                      <br>
+                      It works if all you care about is drm/amdgpu. I'm
+                      not sure that's a<br>
+                      reasonable approach for upstream, but it
+                      definitely is an approach :-)<br>
+                      <br>
+                      We've already gone somewhat through the pain of
+                      drm/amdgpu redefining<br>
+                      how implicit sync works without sufficiently
+                      talking with other<br>
+                      people, maybe we should avoid a repeat of this ...<br>
+                      -Daniel<br>
+                      <br>
+                      &gt;<br>
+                      &gt; Marek<br>
+                      &gt;<br>
+                      &gt; On Tue., Apr. 27, 2021, 08:06 Christian
+                      König, &lt;<a
+                        href="mailto:ckoenig.leichtzumerken@gmail.com"
+                        rel="noreferrer noreferrer noreferrer
+                        noreferrer" target="_blank"
+                        moz-do-not-send="true">ckoenig.leichtzumerken@gmail.com</a>&gt;
+                      wrote:<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; Correct, we wouldn't have synchronization
+                      between device with and without user queues any
+                      more.<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; That could only be a problem for A+I
+                      Laptops.<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; Memory management will just work with
+                      preemption fences which pause the user queues of a
+                      process before evicting something. That will be a
+                      dma_fence, but also a well known approach.<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; Christian.<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; Am 27.04.21 um 13:49 schrieb Marek Olšák:<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; If we don't use future fences for DMA
+                      fences at all, e.g. we don't use them for memory
+                      management, it can work, right? Memory management
+                      can suspend user queues anytime. It doesn't need
+                      to use DMA fences. There might be something that
+                      I'm missing here.<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; What would we lose without DMA fences?
+                      Just inter-device synchronization? I think that
+                      might be acceptable.<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; The only case when the kernel will wait
+                      on a future fence is before a page flip.
+                      Everything today already depends on userspace not
+                      hanging the gpu, which makes everything a future
+                      fence.<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; Marek<br>
+                      &gt;&gt;<br>
+                      &gt;&gt; On Tue., Apr. 27, 2021, 04:02 Daniel
+                      Vetter, &lt;<a href="mailto:daniel@ffwll.ch"
+                        rel="noreferrer noreferrer noreferrer
+                        noreferrer" target="_blank"
+                        moz-do-not-send="true">daniel@ffwll.ch</a>&gt;
+                      wrote:<br>
+                      &gt;&gt;&gt;<br>
+                      &gt;&gt;&gt; On Mon, Apr 26, 2021 at 04:59:28PM
+                      -0400, Marek Olšák wrote:<br>
+                      &gt;&gt;&gt; &gt; Thanks everybody. The initial
+                      proposal is dead. Here are some thoughts on<br>
+                      &gt;&gt;&gt; &gt; how to do it differently.<br>
+                      &gt;&gt;&gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; I think we can have direct
+                      command submission from userspace via<br>
+                      &gt;&gt;&gt; &gt; memory-mapped queues ("user
+                      queues") without changing window systems.<br>
+                      &gt;&gt;&gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; The memory management doesn't
+                      have to use GPU page faults like HMM.<br>
+                      &gt;&gt;&gt; &gt; Instead, it can wait for user
+                      queues of a specific process to go idle and<br>
+                      &gt;&gt;&gt; &gt; then unmap the queues, so that
+                      userspace can't submit anything. Buffer<br>
+                      &gt;&gt;&gt; &gt; evictions, pinning, etc. can be
+                      executed when all queues are unmapped<br>
+                      &gt;&gt;&gt; &gt; (suspended). Thus, no BO fences
+                      and page faults are needed.<br>
+                      &gt;&gt;&gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; Inter-process synchronization
+                      can use timeline semaphores. Userspace will<br>
+                      &gt;&gt;&gt; &gt; query the wait and signal value
+                      for a shared buffer from the kernel. The<br>
+                      &gt;&gt;&gt; &gt; kernel will keep a history of
+                      those queries to know which process is<br>
+                      &gt;&gt;&gt; &gt; responsible for signalling which
+                      buffer. There is only the wait-timeout<br>
+                      &gt;&gt;&gt; &gt; issue and how to identify the
+                      culprit. One of the solutions is to have the<br>
+                      &gt;&gt;&gt; &gt; GPU send all GPU signal commands
+                      and all timed out wait commands via an<br>
+                      &gt;&gt;&gt; &gt; interrupt to the kernel driver
+                      to monitor and validate userspace behavior.<br>
+                      &gt;&gt;&gt; &gt; With that, it can be identified
+                      whether the culprit is the waiting process<br>
+                      &gt;&gt;&gt; &gt; or the signalling process and
+                      which one. Invalid signal/wait parameters can<br>
+                      &gt;&gt;&gt; &gt; also be detected. The kernel can
+                      force-signal only the semaphores that time<br>
+                      &gt;&gt;&gt; &gt; out, and punish the processes
+                      which caused the timeout or used invalid<br>
+                      &gt;&gt;&gt; &gt; signal/wait parameters.<br>
+                      &gt;&gt;&gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; The question is whether this
+                      synchronization solution is robust enough for<br>
+                      &gt;&gt;&gt; &gt; dma_fence and whatever the
+                      kernel and window systems need.<br>
+                      &gt;&gt;&gt;<br>
+                      &gt;&gt;&gt; The proper model here is the
+                      preempt-ctx dma_fence that amdkfd uses<br>
+                      &gt;&gt;&gt; (without page faults). That means
+                      dma_fence for synchronization is doa, at<br>
+                      &gt;&gt;&gt; least as-is, and we're back to
+                      figuring out the winsys problem.<br>
+                      &gt;&gt;&gt;<br>
+                      &gt;&gt;&gt; "We'll solve it with timeouts" is
+                      very tempting, but doesn't work. It's<br>
+                      &gt;&gt;&gt; akin to saying that we're solving
+                      deadlock issues in a locking design by<br>
+                      &gt;&gt;&gt; doing a global
+                      s/mutex_lock/mutex_lock_timeout/ in the kernel.
+                      Sure it<br>
+                      &gt;&gt;&gt; avoids having to reach the reset
+                      button, but that's about it.<br>
+                      &gt;&gt;&gt;<br>
+                      &gt;&gt;&gt; And the fundamental problem is that
+                      once you throw in userspace command<br>
+                      &gt;&gt;&gt; submission (and syncing, at least
+                      within the userspace driver, otherwise<br>
+                      &gt;&gt;&gt; there's kinda no point if you still
+                      need the kernel for cross-engine sync)<br>
+                      &gt;&gt;&gt; means you get deadlocks if you still
+                      use dma_fence for sync under<br>
+                      &gt;&gt;&gt; perfectly legit use-case. We've
+                      discussed that one ad nauseam last summer:<br>
+                      &gt;&gt;&gt;<br>
+                      &gt;&gt;&gt; <a
+href="https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_fence#indefinite-dma-fences"
+                        rel="noreferrer noreferrer noreferrer noreferrer
+                        noreferrer" target="_blank"
+                        moz-do-not-send="true">https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_fence#indefinite-dma-fences</a><br>
+                      &gt;&gt;&gt;<br>
+                      &gt;&gt;&gt; See silly diagramm at the bottom.<br>
+                      &gt;&gt;&gt;<br>
+                      &gt;&gt;&gt; Now I think all isn't lost, because
+                      imo the first step to getting to this<br>
+                      &gt;&gt;&gt; brave new world is rebuilding the
+                      driver on top of userspace fences, and<br>
+                      &gt;&gt;&gt; with the adjusted cmd submit model.
+                      You probably don't want to use amdkfd,<br>
+                      &gt;&gt;&gt; but port that as a context flag or
+                      similar to render nodes for gl/vk. Of<br>
+                      &gt;&gt;&gt; course that means you can only use
+                      this mode in headless, without<br>
+                      &gt;&gt;&gt; glx/wayland winsys support, but it's
+                      a start.<br>
+                      &gt;&gt;&gt; -Daniel<br>
+                      &gt;&gt;&gt;<br>
+                      &gt;&gt;&gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; Marek<br>
+                      &gt;&gt;&gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; On Tue, Apr 20, 2021 at 4:34 PM
+                      Daniel Stone &lt;<a
+                        href="mailto:daniel@fooishbar.org"
+                        rel="noreferrer noreferrer noreferrer
+                        noreferrer" target="_blank"
+                        moz-do-not-send="true">daniel@fooishbar.org</a>&gt;
+                      wrote:<br>
+                      &gt;&gt;&gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; &gt; Hi,<br>
+                      &gt;&gt;&gt; &gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; &gt; On Tue, 20 Apr 2021 at
+                      20:30, Daniel Vetter &lt;<a
+                        href="mailto:daniel@ffwll.ch" rel="noreferrer
+                        noreferrer noreferrer noreferrer"
+                        target="_blank" moz-do-not-send="true">daniel@ffwll.ch</a>&gt;
+                      wrote:<br>
+                      &gt;&gt;&gt; &gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; &gt;&gt; The thing is, you can't
+                      do this in drm/scheduler. At least not without<br>
+                      &gt;&gt;&gt; &gt; &gt;&gt; splitting up the
+                      dma_fence in the kernel into separate memory
+                      fences<br>
+                      &gt;&gt;&gt; &gt; &gt;&gt; and sync fences<br>
+                      &gt;&gt;&gt; &gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; &gt; I'm starting to think this
+                      thread needs its own glossary ...<br>
+                      &gt;&gt;&gt; &gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; &gt; I propose we use 'residency
+                      fence' for execution fences which enact<br>
+                      &gt;&gt;&gt; &gt; &gt; memory-residency
+                      operations, e.g. faulting in a page ultimately
+                      depending<br>
+                      &gt;&gt;&gt; &gt; &gt; on GPU work retiring.<br>
+                      &gt;&gt;&gt; &gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; &gt; And 'value fence' for the
+                      pure-userspace model suggested by timeline<br>
+                      &gt;&gt;&gt; &gt; &gt; semaphores, i.e. fences
+                      being (*addr == val) rather than being able to
+                      look<br>
+                      &gt;&gt;&gt; &gt; &gt; at ctx seqno.<br>
+                      &gt;&gt;&gt; &gt; &gt;<br>
+                      &gt;&gt;&gt; &gt; &gt; Cheers,<br>
+                      &gt;&gt;&gt; &gt; &gt; Daniel<br>
+                      &gt;&gt;&gt; &gt; &gt;
+                      _______________________________________________<br>
+                      &gt;&gt;&gt; &gt; &gt; mesa-dev mailing list<br>
+                      &gt;&gt;&gt; &gt; &gt; <a
+                        href="mailto:mesa-dev@lists.freedesktop.org"
+                        rel="noreferrer noreferrer noreferrer
+                        noreferrer" target="_blank"
+                        moz-do-not-send="true">mesa-dev@lists.freedesktop.org</a><br>
+                      &gt;&gt;&gt; &gt; &gt; <a
+                        href="https://lists.freedesktop.org/mailman/listinfo/mesa-dev"
+                        rel="noreferrer noreferrer noreferrer noreferrer
+                        noreferrer" target="_blank"
+                        moz-do-not-send="true">https://lists.freedesktop.org/mailman/listinfo/mesa-dev</a><br>
+                      &gt;&gt;&gt; &gt; &gt;<br>
+                      &gt;&gt;&gt;<br>
+                      &gt;&gt;&gt; --<br>
+                      &gt;&gt;&gt; Daniel Vetter<br>
+                      &gt;&gt;&gt; Software Engineer, Intel Corporation<br>
+                      &gt;&gt;&gt; <a href="http://blog.ffwll.ch"
+                        rel="noreferrer noreferrer noreferrer noreferrer
+                        noreferrer" target="_blank"
+                        moz-do-not-send="true">http://blog.ffwll.ch</a><br>
+                      &gt;&gt;<br>
+                      &gt;&gt;<br>
+                      &gt;&gt;
+                      _______________________________________________<br>
+                      &gt;&gt; mesa-dev mailing list<br>
+                      &gt;&gt; <a
+                        href="mailto:mesa-dev@lists.freedesktop.org"
+                        rel="noreferrer noreferrer noreferrer
+                        noreferrer" target="_blank"
+                        moz-do-not-send="true">mesa-dev@lists.freedesktop.org</a><br>
+                      &gt;&gt; <a
+                        href="https://lists.freedesktop.org/mailman/listinfo/mesa-dev"
+                        rel="noreferrer noreferrer noreferrer noreferrer
+                        noreferrer" target="_blank"
+                        moz-do-not-send="true">https://lists.freedesktop.org/mailman/listinfo/mesa-dev</a><br>
+                      &gt;&gt;<br>
+                      &gt;&gt;<br>
+                      <br>
+                      <br>
+                      -- <br>
+                      Daniel Vetter<br>
+                      Software Engineer, Intel Corporation<br>
+                      <a href="http://blog.ffwll.ch" rel="noreferrer
+                        noreferrer noreferrer noreferrer noreferrer"
+                        target="_blank" moz-do-not-send="true">http://blog.ffwll.ch</a><br>
+                    </blockquote>
+                  </div>
+                </div>
+              </div>
+            </blockquote>
+            <br>
+          </div>
+        </blockquote>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------04D7232B639FE7EDDFB40D7A--
+
+--===============2090817872==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2090817872==--
