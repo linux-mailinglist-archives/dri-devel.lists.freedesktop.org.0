@@ -1,74 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D9736D818
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:11:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFEA836D842
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:26:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F22F6EB3C;
-	Wed, 28 Apr 2021 13:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6224C6EB3A;
+	Wed, 28 Apr 2021 13:25:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9FB6EB37;
- Wed, 28 Apr 2021 13:11:30 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id gx5so2461121ejb.11;
- Wed, 28 Apr 2021 06:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=1qVgqcKXfsLXWOeZww6KjjGWWdm0OupZQAyimWNFCRA=;
- b=Szgdog5nirVnUfLbwZmd0xZ9vPUoAIMAa9klmY2cCX6hrGtddCfi1vHeNqk7IpnG8R
- gHyBUBoPelEl40lV64fNtkKY61R07E/wQKMPNkiiQsekL1GTu1yYyOR2IAaVWglYGIca
- xE/YAQ2iqlIneEymtR7flxUC5apt/MMBstEKegDjOB2D8KYIJs4N9awxaaQ/HfoXyZqj
- we1PImG6xW91KN7U35qiCl08YEoGWZQR9m/jQcXoazj44zNd+rrMUOOdDFAKMPHwrIYX
- KEoaH05ptg52TkV7ei+hpR4lOtt9n7qFx0gJbBvzTSAOjl1+kkkq6JLIm56sTsY1dp5T
- gqLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=1qVgqcKXfsLXWOeZww6KjjGWWdm0OupZQAyimWNFCRA=;
- b=AmM7xJtSZM9kbtHCxO0WXKVxe8dlHqJicmap+LjahjqNsAMY1jSc9Ns69LnTb3BzhP
- brUopE0ycypUu0uesbBp3UsAK3ezYmx+jU3vIlXSSe04ShCxEJhmT6hQ1ZGOMG0L1JuV
- OS5GFLOrc9X3HpDj7BmadmK9nLeFt4cSOd2OtjjxK3WuWNx6UKJ/MY4kiwo0vpuK+LQb
- 05EbgGDY22grMYnz7c2WbZQsubeOL0RDr4q6bNGcQR61khRVhiClBjSmNVsSRHilTjV8
- kBNSwcsUU01aDbiEla4qmz+mTr2AqKo9d5GRqu0cHFWFypkgnIYrQEPzzTke6xKsJp7g
- OV5Q==
-X-Gm-Message-State: AOAM531PyfQ7ZOufmqk/8b7DTIOaVACdudH3fs5PmV8VYCvV4uUQE5yH
- pJef9YLsY+ahjg380a8SakwMxHLVzug=
-X-Google-Smtp-Source: ABdhPJxuuLgbM0evavl2fCedTSlsd+n3L7sVNqMq43hLhdm/AC0t0daeA2PfdJvM/Ih03Jf2fPkWuA==
-X-Received: by 2002:a17:906:ecb8:: with SMTP id
- qh24mr29914338ejb.162.1619615488721; 
- Wed, 28 Apr 2021 06:11:28 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:3f0d:4946:a7a8:ad7c?
- ([2a02:908:1252:fb60:3f0d:4946:a7a8:ad7c])
- by smtp.gmail.com with ESMTPSA id v16sm4896290edt.53.2021.04.28.06.11.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 06:11:28 -0700 (PDT)
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
- <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
- <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
- <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
- <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
- <s8QVKcJeMhEBcoOS9h7UzE_fUG-VKfgso3HbaM37xGhbBu6i966cTiD_UY1lBbiOMl-VbGyu7r0eBS3vTY8DWSUItsLrf_ISzDuT9vbRs8I=@emersion.fr>
- <CADnq5_PEMvF7Gd4qug=FjfTtxOtygw7SO73HjhSh5AyEramtkA@mail.gmail.com>
- <YIkzewghZOdMXwfi@phenom.ffwll.local>
- <19ca36c3-306e-5021-0243-3289c38ef067@gmail.com>
- <YIlTYjNv5RI5GuiN@phenom.ffwll.local> <YIlUWdxyXGQgHFj+@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <72f21ab9-9376-b366-2b69-94ea65e332c1@gmail.com>
-Date: Wed, 28 Apr 2021 15:11:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from lb3-smtp-cloud9.xs4all.net (lb3-smtp-cloud9.xs4all.net
+ [194.109.24.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC9566EB38
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:25:51 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud9.xs4all.net with ESMTPA
+ id bkCIlVh38k1MGbkCLlOQ1x; Wed, 28 Apr 2021 15:25:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+ t=1619616349; bh=UthuXpu8NhLcMlzJKzArkxx5H5x53BP0fzOHl8ytWwA=;
+ h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+ b=awMipbD+9Iz/++v9cna/2Zw5HM5w5mUW084MrZjIlBpdgT0/SsaZQJnxu1HT54exg
+ GqNaktbPPTZDjV2wfsz8Oq1Qx/Lo9J9Yn+rZnq6qXU1nqpP72VbqZhZAByQhL67nQR
+ nmrfLuqlrLBlQ5vEbsyBJYpMPU/dQklmp+K0pOsXShjoFB/v5E3O+VPz8UIelZakht
+ 5mwB9S2gTIm/rZAqBA0Eu1cK5YP8pGtAmywqTwKZBUk6aKp5IdRTXq1MGCp4KKYMbi
+ pi7YopC2dvlsrBX6dTnmo/LLqWUSUzBvav1f/1zSi9l8LXslOFw46gOxVMVXsIyRyF
+ JMt7EDS08jYFw==
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: [PATCHv3 0/6] drm/omap: hdmi: improve hdmi4 CEC, add CEC for hdmi5
+Date: Wed, 28 Apr 2021 15:25:39 +0200
+Message-Id: <20210428132545.1205162-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <YIlUWdxyXGQgHFj+@phenom.ffwll.local>
-Content-Language: en-US
+X-CMAE-Envelope: MS4xfNcxjyqcG4pJNs1Tk8nDvJ3/ZamesNQP5Hi8QpIBONjn0playxL7JoP3ip4juMQSEgVMXQQB+V255EzLLy4U6GjT5JMAxOqJ8HqEaqTWCHnf58gC5NgC
+ GBTAcJGrdQ3qCz0p14/dlAedeK+FTFrEVTgEYGWsVRM9MB5AVrnrEakLXdLSOpXAYUYXRyY0KIWFfgikgi9DPJJvw9lsiPKaLsW8N9KrLwrLOPyFRCc/jt6g
+ bKLAiBXI2CyXjNUX32Tc8kvzPSftCjfbHYgqg7wes/Fo5aQEYr5E2GFZHLLRHiUr4aiwX0lHjwFyoqaY1XParIFF19Z3rjkBifN95XbkTcB133MKU+u6yiT6
+ r5JY+4pqZmB7USCPxD5UvicFP1Ggng==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,114 +48,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Tony Lindgren <tony@atomide.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjguMDQuMjEgdW0gMTQ6MjYgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFdlZCwgQXBy
-IDI4LCAyMDIxIGF0IDAyOjIxOjU0UE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4+IE9u
-IFdlZCwgQXByIDI4LCAyMDIxIGF0IDEyOjMxOjA5UE0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcg
-d3JvdGU6Cj4+PiBBbSAyOC4wNC4yMSB1bSAxMjowNSBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4+
-Pj4gT24gVHVlLCBBcHIgMjcsIDIwMjEgYXQgMDI6MDE6MjBQTSAtMDQwMCwgQWxleCBEZXVjaGVy
-IHdyb3RlOgo+Pj4+PiBPbiBUdWUsIEFwciAyNywgMjAyMSBhdCAxOjM1IFBNIFNpbW9uIFNlciA8
-Y29udGFjdEBlbWVyc2lvbi5mcj4gd3JvdGU6Cj4+Pj4+PiBPbiBUdWVzZGF5LCBBcHJpbCAyN3Ro
-LCAyMDIxIGF0IDc6MzEgUE0sIEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPiB3
-cm90ZToKPj4+Pj4+Cj4+Pj4+Pj4+IE9rLiBTbyB0aGF0IHdvdWxkIG9ubHkgbWFrZSB0aGUgZm9s
-bG93aW5nIHVzZSBjYXNlcyBicm9rZW4gZm9yIG5vdzoKPj4+Pj4+Pj4KPj4+Pj4+Pj4gLSBhbWQg
-cmVuZGVyIC0+IGV4dGVybmFsIGdwdQo+Pj4+Pj4+PiAtIGFtZCB2aWRlbyBlbmNvZGUgLT4gbmV0
-d29yayBkZXZpY2UKPj4+Pj4+PiBGV0lXLCAib25seSIgYnJlYWtpbmcgYW1kIHJlbmRlciAtPiBl
-eHRlcm5hbCBncHUgd2lsbCBtYWtlIHVzIHByZXR0eQo+Pj4+Pj4+IHVuaGFwcHkKPj4+Pj4+IEkg
-Y29uY3VyLiBJIGhhdmUgcXVpdGUgYSBmZXcgdXNlcnMgd2l0aCBhIG11bHRpLUdQVSBzZXR1cCBp
-bnZvbHZpbmcKPj4+Pj4+IEFNRCBoYXJkd2FyZS4KPj4+Pj4+Cj4+Pj4+PiBOb3RlLCBpZiB0aGlz
-IGJyb2tlbm5lc3MgY2FuJ3QgYmUgYXZvaWRlZCwgSSdkIHByZWZlciBhIHRvIGdldCBhIGNsZWFy
-Cj4+Pj4+PiBlcnJvciwgYW5kIG5vdCBiYWQgcmVzdWx0cyBvbiBzY3JlZW4gYmVjYXVzZSBub3Ro
-aW5nIGlzIHN5bmNocm9uaXplZAo+Pj4+Pj4gYW55bW9yZS4KPj4+Pj4gSXQncyBhbiB1cGNvbWlu
-ZyByZXF1aXJlbWVudCBmb3Igd2luZG93c1sxXSwgc28geW91IGFyZSBsaWtlbHkgdG8KPj4+Pj4g
-c3RhcnQgc2VlaW5nIHRoaXMgYWNyb3NzIGFsbCBHUFUgdmVuZG9ycyB0aGF0IHN1cHBvcnQgd2lu
-ZG93cy4gIEkKPj4+Pj4gdGhpbmsgdGhlIHRpbWluZyBkZXBlbmRzIG9uIGhvdyBxdWlja2x5IHRo
-ZSBsZWdhY3kgaGFyZHdhcmUgc3VwcG9ydAo+Pj4+PiBzdGlja3MgYXJvdW5kIGZvciBlYWNoIHZl
-bmRvci4KPj4+PiBZZWFoIGJ1dCBodyBzY2hlZHVsaW5nIGRvZXNuJ3QgbWVhbiB0aGUgaHcgaGFz
-IHRvIGJlIGNvbnN0cnVjdGVkIHRvIG5vdAo+Pj4+IHN1cHBvcnQgaXNvbGF0aW5nIHRoZSByaW5n
-YnVmZmVyIGF0IGFsbC4KPj4+Pgo+Pj4+IEUuZy4gZXZlbiBpZiB0aGUgaHcgbG9zZXMgdGhlIGJp
-dCB0byBwdXQgdGhlIHJpbmdidWZmZXIgb3V0c2lkZSBvZiB0aGUKPj4+PiB1c2Vyc3BhY2UgZ3B1
-IHZtLCBpZiB5b3UgaGF2ZSBwYWdldGFibGVzIEknbSBzZXJpb3VzbHkgaG9waW5nIHlvdSBoYXZl
-IHIvbwo+Pj4+IHB0ZSBmbGFncy4gT3RoZXJ3aXNlIHRoZSBlbnRpcmUgInNoYXJlIGFkZHJlc3Mg
-c3BhY2Ugd2l0aCBjcHUgc2lkZSwKPj4+PiBzZWFtbGVzc2x5IiB0aGluZyBpcyBvdXQgb2YgdGhl
-IHdpbmRvdy4KPj4+Pgo+Pj4+IEFuZCB3aXRoIHRoYXQgci9vIGJpdCBvbiB0aGUgcmluZ2J1ZmZl
-ciB5b3UgY2FuIG9uY2UgbW9yZSBmb3JjZSBzdWJtaXQKPj4+PiB0aHJvdWdoIGtlcm5lbCBzcGFj
-ZSwgYW5kIGFsbCB0aGUgbGVnYWN5IGRtYV9mZW5jZSBiYXNlZCBzdHVmZiBrZWVwcwo+Pj4+IHdv
-cmtpbmcuIEFuZCB3ZSBkb24ndCBoYXZlIHRvIGludmVudCBzb21lIGhvcnJlbmRvdXMgdXNlcnNw
-YWNlIGZlbmNlIGJhc2VkCj4+Pj4gaW1wbGljaXQgc3luYyBtZWNoYW5pc20gaW4gdGhlIGtlcm5l
-bCwgYnV0IGNhbiBpbnN0ZWFkIGRvIHRoaXMgdHJhbnNpdGlvbgo+Pj4+IHByb3Blcmx5IHdpdGgg
-ZHJtX3N5bmNvYmogdGltZWxpbmUgZXhwbGljaXQgc3luYyBhbmQgcHJvdG9jb2wgcmV2aW5nLgo+
-Pj4+Cj4+Pj4gQXQgbGVhc3QgSSB0aGluayB5b3UnZCBoYXZlIHRvIHdvcmsgZXh0cmEgaGFyZCB0
-byBjcmVhdGUgYSBncHUgd2hpY2gKPj4+PiBjYW5ub3QgcG9zc2libHkgYmUgaW50ZXJjZXB0ZWQg
-YnkgdGhlIGtlcm5lbCwgZXZlbiB3aGVuIGl0J3MgZGVzaWduZWQgdG8KPj4+PiBzdXBwb3J0IHVz
-ZXJzcGFjZSBkaXJlY3Qgc3VibWl0IG9ubHkuCj4+Pj4KPj4+PiBPciBhcmUgeW91ciBodyBlbmdp
-bmVlcnMgbW9yZSBjcmVhdGl2ZSBoZXJlIGFuZCB3ZSdyZSBzY3Jld2VkPwo+Pj4gVGhlIHVwY29t
-bWluZyBoYXJkd2FyZSBnZW5lcmF0aW9uIHdpbGwgaGF2ZSB0aGlzIGhhcmR3YXJlIHNjaGVkdWxl
-ciBhcyBhCj4+PiBtdXN0IGhhdmUsIGJ1dCB0aGVyZSBhcmUgY2VydGFpbiB3YXlzIHdlIGNhbiBz
-dGlsbCBzdGljayB0byB0aGUgb2xkCj4+PiBhcHByb2FjaDoKPj4+Cj4+PiAxLiBUaGUgbmV3IGhh
-cmR3YXJlIHNjaGVkdWxlciBjdXJyZW50bHkgc3RpbGwgc3VwcG9ydHMga2VybmVsIHF1ZXVlcyB3
-aGljaAo+Pj4gZXNzZW50aWFsbHkgaXMgdGhlIHNhbWUgYXMgdGhlIG9sZCBoYXJkd2FyZSByaW5n
-IGJ1ZmZlci4KPj4+Cj4+PiAyLiBNYXBwaW5nIHRoZSB0b3AgbGV2ZWwgcmluZyBidWZmZXIgaW50
-byB0aGUgVk0gYXQgbGVhc3QgcGFydGlhbGx5IHNvbHZlcwo+Pj4gdGhlIHByb2JsZW0uIFRoaXMg
-d2F5IHlvdSBjYW4ndCBtYW5pcHVsYXRlIHRoZSByaW5nIGJ1ZmZlciBjb250ZW50LCBidXQgdGhl
-Cj4+PiBsb2NhdGlvbiBmb3IgdGhlIGZlbmNlIG11c3Qgc3RpbGwgYmUgd3JpdGVhYmxlLgo+PiBZ
-ZWFoIGFsbG93aW5nIHVzZXJzcGFjZSB0byBsaWUgYWJvdXQgY29tcGxldGlvbiBmZW5jZXMgaW4g
-dGhpcyBtb2RlbCBpcwo+PiBvay4gVGhvdWdoIEkgaGF2ZW4ndCB0aG91Z2h0IHRocm91Z2ggZnVs
-bCBjb25zZXF1ZW5jZXMgb2YgdGhhdCwgYnV0IEkKPj4gdGhpbmsgaXQncyBub3QgYW55IHdvcnNl
-IHRoYW4gdXNlcnNwYWNlIGx5aW5nIGFib3V0IHdoaWNoIGJ1ZmZlcnMvYWRkcmVzcwo+PiBpdCB1
-c2VzIGluIHRoZSBjdXJyZW50IG1vZGVsIC0gd2UgcmVseSBvbiBodyB2bSBwdGVzIHRvIGNhdGNo
-IHRoYXQgc3R1ZmYuCj4+Cj4+IEFsc28gaXQgbWlnaHQgYmUgZ29vZCB0byBzd2l0Y2ggdG8gYSBu
-b24tcmVjb3ZlcmFibGUgY3R4IG1vZGVsIGZvciB0aGVzZS4KPj4gVGhhdCdzIGFscmVhZHkgd2hh
-dCB3ZSBkbyBpbiBpOTE1IChvcHQtaW4sIGJ1dCBhbGwgY3VycmVudCB1bWQgdXNlIHRoYXQKPj4g
-bW9kZSkuIFNvIGFueSBoYW5nL3dhdGNoZG9nIGp1c3Qga2lsbHMgdGhlIGVudGlyZSBjdHggYW5k
-IHlvdSBkb24ndCBoYXZlCj4+IHRvIHdvcnJ5IGFib3V0IHVzZXJzcGFjZSBkb2luZyBzb21ldGhp
-bmcgZnVubnkgd2l0aCBpdCdzIHJpbmdidWZmZXIuCj4+IFNpbXBsaWZpZXMgZXZlcnl0aGluZy4K
-Pj4KPj4gQWxzbyBvZmMgdXNlcnNwYWNlIGZlbmNpbmcgc3RpbGwgZGlzYWxsb3dlZCwgYnV0IHNp
-bmNlIHVzZXJzcGFjZSB3b3VsZAo+PiBxdWV1IHVwIGFsbCB3cml0ZXMgdG8gaXRzIHJpbmdidWZm
-ZXIgdGhyb3VnaCB0aGUgZHJtL3NjaGVkdWxlciwgd2UnZAo+PiBoYW5kbGUgZGVwZW5kZW5jaWVz
-IHRocm91Z2ggdGhhdCBzdGlsbC4gTm90IGdyZWF0LCBidXQgd29ya2FibGUuCj4+Cj4+IFRoaW5r
-aW5nIGFib3V0IHRoaXMsIG5vdCBldmVuIG1hcHBpbmcgdGhlIHJpbmdidWZmZXIgci9vIGlzIHJl
-cXVpcmVkLCBpdCdzCj4+IGp1c3QgdGhhdCB3ZSBtdXN0IHF1ZXVlIHRoaW5ncyB0aHJvdWcgdGhl
-IGtlcm5lbCB0byByZXNvbHZlIGRlcGVuZGVuY2llcwo+PiBhbmQgZXZlcnl0aGluZyB3aXRob3V0
-IGJyZWFraW5nIGRtYV9mZW5jZS4gSWYgdXNlcnNwYWNlIGxpZXMsIHRkciB3aWxsCj4+IHNob290
-IGl0IGFuZCB0aGUga2VybmVsIHN0b3BzIHJ1bm5pbmcgdGhhdCBjb250ZXh0IGVudGlyZWx5LgoK
-VGhpbmtpbmcgbW9yZSBhYm91dCB0aGF0IGFwcHJvYWNoIEkgZG9uJ3QgdGhpbmsgdGhhdCBpdCB3
-aWxsIHdvcmsgY29ycmVjdGx5LgoKU2VlIHdlIG5vdCBvbmx5IG5lZWQgdG8gd3JpdGUgdGhlIGZl
-bmNlIGFzIHNpZ25hbCB0aGF0IGFuIElCIGlzIApzdWJtaXR0ZWQsIGJ1dCBhbHNvIGFkanVzdCBh
-IGJ1bmNoIG9mIHByaXZpbGVnZWQgaGFyZHdhcmUgcmVnaXN0ZXJzLgoKV2hlbiB1c2Vyc3BhY2Ug
-Y291bGQgZG8gdGhhdCBmcm9tIGl0cyBJQnMgYXMgd2VsbCB0aGVuIHRoZXJlIGlzIG5vdGhpbmcg
-CmJsb2NraW5nIGl0IGZyb20gcmVwcm9ncmFtbWluZyB0aGUgcGFnZSB0YWJsZSBiYXNlIGFkZHJl
-c3MgZm9yIGV4YW1wbGUuCgpXZSBjb3VsZCBkbyB0aG9zZSB3cml0ZXMgd2l0aCB0aGUgQ1BVIGFz
-IHdlbGwsIGJ1dCB0aGF0IHdvdWxkIGJlIGEgaHVnZSAKcGVyZm9ybWFuY2UgZHJvcCBiZWNhdXNl
-IG9mIHRoZSBhZGRpdGlvbmFsIGxhdGVuY3kuCgpDaHJpc3RpYW4uCgo+Pgo+PiBTbyBJIHRoaW5r
-IGV2ZW4gaWYgd2UgaGF2ZSBodyB3aXRoIDEwMCUgdXNlcnNwYWNlIHN1Ym1pdCBtb2RlbCBvbmx5
-IHdlCj4+IHNob3VsZCBiZSBzdGlsbCBmaW5lLiBJdCdzIG9mYyBzaWxseSwgYmVjYXVzZSBpbnN0
-ZWFkIG9mIHVzaW5nIHVzZXJzcGFjZQo+PiBmZW5jZXMgYW5kIGdwdSBzZW1hcGhvcmVzIHRoZSBo
-dyBzY2hlZHVsZXIgdW5kZXJzdGFuZHMgd2Ugc3RpbGwgdGFrZSB0aGUKPj4gZGV0b3VyIHRocm91
-Z2ggZHJtL3NjaGVkdWxlciwgYnV0IGF0IGxlYXN0IGl0J3Mgbm90IGEgYnJlYWstdGhlLXdvcmxk
-Cj4+IGV2ZW50Lgo+IEFsc28gbm8gcGFnZSBmYXVsdCBzdXBwb3J0LCB1c2VycHRyIGludmFsaWRh
-dGVzIHN0aWxsIHN0YWxsIHVudGlsCj4gZW5kLW9mLWJhdGNoIGluc3RlYWQgb2YganVzdCBwcmVl
-bXB0aW5nIGl0LCBhbmQgYWxsIHRoYXQgdG9vLiBCdXQgSSBtZWFuCj4gdGhlcmUgbmVlZHMgdG8g
-YmUgc29tZSBtb3RpdmF0aW9uIHRvIGZpeCB0aGlzIGFuZCByb2xsIG91dCBleHBsaWNpdCBzeW5j
-Cj4gOi0pCj4gLURhbmllbAo+Cj4+IE9yIGRvIEkgbWlzcyBzb21ldGhpbmcgaGVyZT8KPj4KPj4+
-IEZvciBub3cgYW5kIHRoZSBuZXh0IGhhcmR3YXJlIHdlIGFyZSBzYXZlIHRvIHN1cHBvcnQgdGhl
-IG9sZCBzdWJtaXNzaW9uCj4+PiBtb2RlbCwgYnV0IHRoZSBmdW5jdGlvbmFsaXR5IG9mIGtlcm5l
-bCBxdWV1ZXMgd2lsbCBzb29uZXIgb3IgbGF0ZXIgZ28gYXdheQo+Pj4gaWYgaXQgaXMgb25seSBm
-b3IgTGludXguCj4+Pgo+Pj4gU28gd2UgbmVlZCB0byB3b3JrIG9uIHNvbWV0aGluZyB3aGljaCB3
-b3JrcyBpbiB0aGUgbG9uZyB0ZXJtIGFuZCBnZXQgdXMgYXdheQo+Pj4gZnJvbSB0aGlzIGltcGxp
-Y2l0IHN5bmMuCj4+IFllYWggSSB0aGluayB3ZSBoYXZlIHByZXR0eSBjbGVhciBjb25zZW5zdXMg
-b24gdGhhdCBnb2FsLCBqdXN0IG5vIG9uZSB5ZXQKPj4gdm9sdW50ZWVyZWQgdG8gZ2V0IGdvaW5n
-IHdpdGggdGhlIHdpbnN5cy93YXlsYW5kIHdvcmsgdG8gcGx1bWIgZHJtX3N5bmNvYmoKPj4gdGhy
-b3VnaCwgYW5kIHRoZSBrZXJuZWwvbWVzYSB3b3JrIHRvIG1ha2UgdGhhdCBvcHRpb25hbGx5IGEg
-dXNlcnNwYWNlCj4+IGZlbmNlIHVuZGVybmVhdGguIEFuZCBpdCdzIGZvciBhIHN1cmUgYSBsb3Qg
-b2Ygd29yay4KPj4gLURhbmllbAo+PiAtLSAKPj4gRGFuaWVsIFZldHRlcgo+PiBTb2Z0d2FyZSBF
-bmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This series improves the drm_bridge support for CEC by introducing two
+new bridge ops in the first patch, and using those in the second patch.
+
+This makes it possible to call cec_s_conn_info() and set
+CEC_CAP_CONNECTOR_INFO for the CEC adapter, so userspace can associate
+the CEC adapter with the corresponding DRM connector.
+
+The third patch simplifies CEC physical address handling by using the
+cec_s_phys_addr_from_edid helper function that didn't exist when this
+code was originally written.
+
+The fourth patch adds the cec clock to ti,omap5-dss.txt.
+
+The fifth patch the missing cec clock to the dra7 and omap5 device tree,
+and the last patch adds CEC support to the OMAP5 driver.
+
+Tested with a Pandaboard and a Beagle X15 board.
+
+Regards,
+
+	Hans
+
+Changes since v2:
+
+- connector_attach can now return an error. If an error is
+  returned then connector_detach is called in reverse order
+  to clean up any previous connector_attach calls.
+
+- connector_attach in hdmi4 and hdmi5 now return 0.
+
+Changes since v1:
+
+- as per suggestion from Laurent, changed cec_init/exit to
+  connector_attach/_detach which are just called for all
+  bridges. The DRM_BRIDGE_OP_CEC was dropped.
+
+- added patch to add the cec clock to ti,omap5-dss.txt
+
+- swapped the order of the last two patches
+
+- incorporated Tomi's suggestions for the hdmi5 CEC support.
+
+Hans Verkuil (6):
+  drm: drm_bridge: add connector_attach/detach bridge ops
+  drm/omapdrm/dss/hdmi4: switch to the connector bridge ops
+  drm/omapdrm/dss/hdmi4: simplify CEC Phys Addr handling
+  dt-bindings: display: ti: ti,omap5-dss.txt: add cec clock
+  dra7.dtsi/omap5.dtsi: add cec clock
+  drm/omapdrm/dss/hdmi5: add CEC support
+
+ .../bindings/display/ti/ti,omap5-dss.txt      |   4 +-
+ arch/arm/boot/dts/dra7.dtsi                   |   5 +-
+ arch/arm/boot/dts/omap5.dtsi                  |   5 +-
+ drivers/gpu/drm/drm_bridge_connector.c        |  25 ++-
+ drivers/gpu/drm/omapdrm/Kconfig               |   8 +
+ drivers/gpu/drm/omapdrm/Makefile              |   1 +
+ drivers/gpu/drm/omapdrm/dss/hdmi.h            |   1 +
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c           |  41 ++--
+ drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c       |  13 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h       |  12 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c           |  64 +++++-
+ drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c       | 209 ++++++++++++++++++
+ drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h       |  42 ++++
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.c      |  35 ++-
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.h      |  33 ++-
+ include/drm/drm_bridge.h                      |  27 +++
+ 16 files changed, 470 insertions(+), 55 deletions(-)
+ create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c
+ create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h
+
+-- 
+2.30.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
