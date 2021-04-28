@@ -2,33 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9079136E49C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 07:49:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B4236E49B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 07:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 189F66EC78;
-	Thu, 29 Apr 2021 05:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 080646EC77;
+	Thu, 29 Apr 2021 05:49:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp112.ord1c.emailsrvr.com (smtp112.ord1c.emailsrvr.com
- [108.166.43.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FDD16E10F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 17:12:19 +0000 (UTC)
+Received: from smtp89.ord1c.emailsrvr.com (smtp89.ord1c.emailsrvr.com
+ [108.166.43.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50CF26E153
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 17:28:05 +0000 (UTC)
 X-Auth-ID: kenneth@whitecape.org
-Received: by smtp15.relay.ord1c.emailsrvr.com (Authenticated sender:
- kenneth-AT-whitecape.org) with ESMTPSA id 8203320199; 
- Wed, 28 Apr 2021 13:12:17 -0400 (EDT)
+Received: by smtp28.relay.ord1c.emailsrvr.com (Authenticated sender:
+ kenneth-AT-whitecape.org) with ESMTPSA id A47B740238; 
+ Wed, 28 Apr 2021 13:28:03 -0400 (EDT)
 From: Kenneth Graunke <kenneth@whitecape.org>
-To: Matthew Auld <matthew.auld@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [PATCH 1/9] drm/doc/rfc: i915 DG1 uAPI
-Date: Wed, 28 Apr 2021 10:12:12 -0700
-Message-ID: <8049200.4jvIBUede8@mizzik>
-In-Reply-To: <CAOFGe95sNTYu3YSZf7eP16ssz=goMVxtoZx2yKiY9xJMS7A3Ew@mail.gmail.com>
+To: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [PATCH 6/9] drm/i915/uapi: implement object placement extension
+Date: Wed, 28 Apr 2021 10:28:03 -0700
+Message-ID: <6803385.KsXFIaTQHz@mizzik>
+In-Reply-To: <20210426093901.28937-6-matthew.auld@intel.com>
 References: <20210426093901.28937-1-matthew.auld@intel.com>
- <bf868000-6a97-ec98-e154-548782a9a865@intel.com>
- <CAOFGe95sNTYu3YSZf7eP16ssz=goMVxtoZx2yKiY9xJMS7A3Ew@mail.gmail.com>
+ <20210426093901.28937-6-matthew.auld@intel.com>
 MIME-Version: 1.0
-X-Classification-ID: ccb12a51-a55f-46d5-888a-2a59a742c0d9-1-1
+X-Classification-ID: e11d4714-109f-44ce-a4b1-fc7f70a79440-1-1
 X-Mailman-Approved-At: Thu, 29 Apr 2021 05:49:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,85 +41,164 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>,
- Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Dave Airlie <airlied@redhat.com>, Jordan Justen <jordan.l.justen@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
+ CQ Tang <cq.tang@intel.com>,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>, mesa-dev@lists.freedesktop.org,
  Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============1546316292=="
+Content-Type: multipart/mixed; boundary="===============0748599179=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1546316292==
-Content-Type: multipart/signed; boundary="nextPart5263843.F5xLCIcnGf"; micalg="pgp-sha256"; protocol="application/pgp-signature"
+--===============0748599179==
+Content-Type: multipart/signed; boundary="nextPart3923341.ekzWyWCOrY"; micalg="pgp-sha256"; protocol="application/pgp-signature"
 
---nextPart5263843.F5xLCIcnGf
+--nextPart3923341.ekzWyWCOrY
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
 From: Kenneth Graunke <kenneth@whitecape.org>
-To: Matthew Auld <matthew.auld@intel.com>, Jason Ekstrand <jason@jlekstrand.net>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>, Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>, Jon Bloomfield <jon.bloomfield@intel.com>, Jordan Justen <jordan.l.justen@intel.com>, Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@gmail.com>, Maling list - DRI developers <dri-devel@lists.freedesktop.org>, ML mesa-dev <mesa-dev@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH 1/9] drm/doc/rfc: i915 DG1 uAPI
-Date: Wed, 28 Apr 2021 10:12:12 -0700
-Message-ID: <8049200.4jvIBUede8@mizzik>
-In-Reply-To: <CAOFGe95sNTYu3YSZf7eP16ssz=goMVxtoZx2yKiY9xJMS7A3Ew@mail.gmail.com>
-References: <20210426093901.28937-1-matthew.auld@intel.com> <bf868000-6a97-ec98-e154-548782a9a865@intel.com> <CAOFGe95sNTYu3YSZf7eP16ssz=goMVxtoZx2yKiY9xJMS7A3Ew@mail.gmail.com>
+To: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Cc: CQ Tang <cq.tang@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>, Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>, Jordan Justen <jordan.l.justen@intel.com>, Daniel Vetter <daniel.vetter@intel.com>, Jason Ekstrand <jason@jlekstrand.net>, Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org
+Subject: Re: [PATCH 6/9] drm/i915/uapi: implement object placement extension
+Date: Wed, 28 Apr 2021 10:28:03 -0700
+Message-ID: <6803385.KsXFIaTQHz@mizzik>
+In-Reply-To: <20210426093901.28937-6-matthew.auld@intel.com>
+References: <20210426093901.28937-1-matthew.auld@intel.com> <20210426093901.28937-6-matthew.auld@intel.com>
 
-On Wednesday, April 28, 2021 9:56:25 AM PDT Jason Ekstrand wrote:
-> On Wed, Apr 28, 2021 at 11:41 AM Matthew Auld <matthew.auld@intel.com> wrote:
-[snip]
-> > Slightly orthogonal: what does Mesa do here for snooped vs LLC
-> > platforms? Does it make such a distinction? Just curious.
+On Monday, April 26, 2021 2:38:58 AM PDT Matthew Auld wrote:
+> Add new extension to support setting an immutable-priority-list of
+> potential placements, at creation time.
 > 
-> In Vulkan on non-LLC platforms, we only enable snooping for things
-> that are going to be mapped: staging buffers, state buffers, batches,
-> etc.  For anything that's not mapped (tiled images, etc.) we leave
-> snooping off on non-LLC platforms so we don't take a hit from it.  In
-> GL, I think it works out to be effectively the same but it's a less
-> obvious decision there.
+> If we use the normal gem_create or gem_create_ext without the
+> extensions/placements then we still get the old behaviour with only
+> placing the object in system memory.
 > 
-> --Jason
+> v2(Daniel & Jason):
+>     - Add a bunch of kernel-doc
+>     - Simplify design for placements extension
+> 
+> Testcase: igt/gem_create/create-ext-placement-sanity-check
+> Testcase: igt/gem_create/create-ext-placement-each
+> Testcase: igt/gem_create/create-ext-placement-all
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: CQ Tang <cq.tang@intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: mesa-dev@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_create.c    | 215 ++++++++++++++++--
+>  drivers/gpu/drm/i915/gem/i915_gem_object.c    |   3 +
+>  .../gpu/drm/i915/gem/i915_gem_object_types.h  |   6 +
+>  .../drm/i915/gem/selftests/i915_gem_mman.c    |  26 +++
+>  drivers/gpu/drm/i915/intel_memory_region.c    |  16 ++
+>  drivers/gpu/drm/i915/intel_memory_region.h    |   4 +
+>  include/uapi/drm/i915_drm.h                   |  62 +++++
+>  7 files changed, 315 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> index 90e9eb6601b5..895f1666a8d3 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> @@ -4,12 +4,47 @@
+>   */
+>  
+>  #include "gem/i915_gem_ioctls.h"
+> +#include "gem/i915_gem_lmem.h"
+>  #include "gem/i915_gem_region.h"
+>  
+>  #include "i915_drv.h"
+>  #include "i915_trace.h"
+>  #include "i915_user_extensions.h"
+>  
+> +static u32 object_max_page_size(struct drm_i915_gem_object *obj)
+> +{
+> +	u32 max_page_size = 0;
+> +	int i;
+> +
+> +	for (i = 0; i < obj->mm.n_placements; i++) {
+> +		struct intel_memory_region *mr = obj->mm.placements[i];
+> +
+> +		GEM_BUG_ON(!is_power_of_2(mr->min_page_size));
+> +		max_page_size = max_t(u32, max_page_size, mr->min_page_size);
+> +	}
+> +
+> +	GEM_BUG_ON(!max_page_size);
+> +	return max_page_size;
+> +}
+> +
+> +static void object_set_placements(struct drm_i915_gem_object *obj,
+> +				  struct intel_memory_region **placements,
+> +				  unsigned int n_placements)
+> +{
+> +	GEM_BUG_ON(!n_placements);
+> +
+> +	if (n_placements == 1) {
+> +		struct intel_memory_region *mr = placements[0];
+> +		struct drm_i915_private *i915 = mr->i915;
+> +
+> +		obj->mm.placements = &i915->mm.regions[mr->id];
+> +		obj->mm.n_placements = 1;
+> +	} else {
+> +		obj->mm.placements = placements;
+> +		obj->mm.n_placements = n_placements;
+> +	}
+> +}
+> +
 
-iris currently enables snooping on non-LLC platforms when Gallium marks
-a resource as PIPE_USAGE_STAGING, which generally means it's going to be
-mapped and "fast CPU access" is desired.  Most buffers are not snooped.
+I found this helper function rather odd looking at first.  In the
+general case, it simply sets fields based on the parameters...but in
+the n == 1 case, it goes and uses something else as the array.
 
-I don't believe i965 uses snooping at all, surprisingly.
+On further inspection, this makes sense: normally, we have an array
+of multiple placements in priority order.  That array is (essentially)
+malloc'd.  But if there's only 1 item, having a malloc'd array of 1
+thing is pretty silly.  We can just point at it directly.  Which means
+the callers can kfree the array, and the object destructor should not.
 
---Ken
+Maybe a comment saying
 
---nextPart5263843.F5xLCIcnGf
+   /* 
+    * For the common case of one memory region, skip storing an
+    * allocated array and just point at the region directly.
+    */
+
+would be helpful?
+
+--nextPart3923341.ekzWyWCOrY
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part.
 Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmCJl2wACgkQW1vaBx1J
-zDhR1A//af0oss4ddalEUbGfV/ijKqW7P0rwnKTXdPHTiGmL7HujWklUSAzIENOu
-0wwfEvy42+fOftoDeo9sMMkuChT732rQX6OrwYw766UYwOTWySbKei87te7jLEGQ
-EGb/hUYhq99LFq043Oxeuyy4HhXTQEQafNVj8isCk2WNQWbcCZl/gO03LF9iC9Y9
-OjU7sYWlWPHkUCBPdcL0o31qiBaunZrJv8RbjVm4Csr+MsI3zRLdzZ0SiUVKFvIn
-sIonBFw2JqMSUugWqLKJwqs5z/dVz/xJCVds8/mOic4V2g+d6nP5jkLWUTTNFXkF
-jDZSTxrMwkjAj2GxhgBpBQc22wViTlaIi3vVx7KFFba5hF4yrEhkN5msUJoxqQME
-DWNFW1H1DjV77lierhsowW5ucZ12DaVSAcubGUp6rUKc5oYFXOZgPVyZksj5sqJs
-9vYA72Bb6WYq095vkoZcNSOXr2XqmiGCx7rqVogWLtMhfr0ynPAxHwvwB54F9UJS
-ndm9qR6GwNo0mbSF7tZ+042AlPN0W+7dFaegXszj2NQCkrFI7ZzWpEuWOe5spFV4
-p0YIw7ec7jQluOmmC3WUYj1eQO+IqmfZpYD76fMkt9WqHpJ2uoONzrKWpDmDvyt3
-P/7/xJER+ALIrVU53y75dAKosHC+i3Lq63NjDkGcFhHFVm1+ZDg=
-=VfQU
+iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmCJmyMACgkQW1vaBx1J
+zDh6vQ//T82IVQ+sBnzPdBGTPBuvs1Bwy4gFkRW7+pebcAIZOA2J3aw41Yyo7qT1
+YwVElEoiO8nTEoDTMLetQx//SSYftdXSU6AvicX1xF+6YKu2P1bu/cU53+Dcfm69
+5qxUQ3Eme0Rw1szuKM0XQoMLhj6jPsSNOu0njrng+R/iVv/A2QJKzE3TiEwUkdzY
+lRTT9tjarGxuw8sx9B36QetwFsxHlkXbbrutxcP6yPO/GBzkXxcIkuAqJCvRX44V
+gBr/IMNA8HG4ZASxCsb/trl32fK9nGOR40buHb71ynrqVljpxsMoDp0/c3VXmLyJ
+6GLNQaF1p49pftW64TmSBxVQJxDxNrC9v71E/BXICSHJw2Fze8mTdUelDU+m43WX
+gbFQQ50xoHIM5mSS3lKZNyadDjRT3PpF8WbAoLKT/d6gWmDo9LIjDPZYgRQXkzHP
+sk6rHuc3TYAMVJJHSOFfYRCHQXNqHnkpYGzmci30l3u6MIwoVylNlXtZwOXIkCKG
+9rvH1lP1GHs1Gq4oq7zi31glejCeIrGiwSMju4QamP4y6Xbu1Ll83jMyPPw/TOHs
+xjYm1GeUH3fLhIl1jCU1U+nmcXmTNrQVP14RDs85eaar+Dim6gX+2uupKH5obdhW
+kX/csN0Vwwls6dpIF/D8HhFPs92nwM9VDvO2XpxOVe+fm5qd97g=
+=nDg0
 -----END PGP SIGNATURE-----
 
---nextPart5263843.F5xLCIcnGf--
+--nextPart3923341.ekzWyWCOrY--
 
 
 
 
---===============1546316292==
+--===============0748599179==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -132,7 +209,7 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1546316292==--
+--===============0748599179==--
 
 
 
