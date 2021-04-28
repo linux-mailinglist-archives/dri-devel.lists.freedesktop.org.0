@@ -1,67 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC90536CF9F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 01:44:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5C736CFCE
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 02:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09AE6EA0B;
-	Tue, 27 Apr 2021 23:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C396B6EA3E;
+	Wed, 28 Apr 2021 00:00:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50F0F6EA0B
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 23:44:12 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id o16so70141263ljp.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 16:44:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YMIKC4vGdsxVos4+dsOTGyTHqSG6nUUAUOhU3oyN/ps=;
- b=bE/qvBzvsqd13cF2iCpY7hfzDbKrnY6CNusCIOktVq1TlPDP5ySyTrXE4scETMF1Yk
- RZF/mcPHW/b4gjNOkyS0/vu3e8EdOAITFv0Mz4JXtF1+7YGK6vUAavmRL96jW2Dq0OTk
- 48M/UC638Q9pU9+j6yatiqAseW9vI30ZWExPo=
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
+ [IPv6:2607:f8b0:4864:20::c2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4316EA3B
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 00:00:51 +0000 (UTC)
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ i9-20020a4ad0890000b02901efee2118aaso5888592oor.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 17:00:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=4Obf/VhcHMC/s7ut1qxAeuquFWikXplkAVq56/wcC+Q=;
+ b=L1jvMavzSKgEbkxWU0B7FE0fs8+hysy4W4ESPKY7Xw2JDG8HjSQfFaujI9XvkPeC15
+ jusdZuhJJ1/X9Hbk0QT/dq6D63zM5V3UFyArwMhhK+dhLSQp43ZJYHM3wUyZUUh94+yX
+ +MkhiViWH6ks4o1FGh+L0pCjQFIixGw+bN2BA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YMIKC4vGdsxVos4+dsOTGyTHqSG6nUUAUOhU3oyN/ps=;
- b=a/j4TpE9HNKGZbYLpcAf7/f8/KNjHysaQ8/3xUJnKJKAhIKRTUunvKpJxEFWWJKyJm
- NDuA2+GNuEfJl536zDrH4d3HZmrOYVQLPHQxyjEdQOwW2X0+F50Vgd4zewVYs47LGoZO
- ExCBvuXgSMqultiBYV89NstoHJ+WpsqogmVAicqHjTk6YK5dJn48h2lGufBQkhwyMS9h
- 6lsn1Iaoc0YMxixMp9TiYHHSDxWVpA58RoVGWTbkMwFBZhZCfs2PhAnlDwsQMGz+4yAO
- RSpDCfBZmYfiLi6Y3w26wKTYmFprGD1lUMn77HcZ2m3IKqkP/off2Jj2uC/hJ1nynUVs
- qkEw==
-X-Gm-Message-State: AOAM532V69Mj2M7OoVYs+sU6oBiiNq6CLxO31shozOGkcgoVOZWOAaR9
- vKwEtSZTdWGIqPTOax9dPrqay2L0eTOSbXFQ
-X-Google-Smtp-Source: ABdhPJxhIXLZ8RmDvlBazXeobXwYZcRkB4v8P3S19QOPPSxM76r1EdslVcDmEseQrHawjimOiyTy8Q==
-X-Received: by 2002:a05:651c:399:: with SMTP id
- e25mr18638928ljp.187.1619567050576; 
- Tue, 27 Apr 2021 16:44:10 -0700 (PDT)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
- [209.85.167.46])
- by smtp.gmail.com with ESMTPSA id m10sm285660lfr.189.2021.04.27.16.44.10
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 16:44:10 -0700 (PDT)
-Received: by mail-lf1-f46.google.com with SMTP id 2so3547033lft.4
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 16:44:10 -0700 (PDT)
-X-Received: by 2002:a19:7504:: with SMTP id y4mr2737571lfe.41.1619567049911;
- Tue, 27 Apr 2021 16:44:09 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=4Obf/VhcHMC/s7ut1qxAeuquFWikXplkAVq56/wcC+Q=;
+ b=O1wxIqr7OtIksHBfi/zFx9/+iCn0LhSo+St9qCmKmU5y4DN9rWdfBupPYroP6sGlX9
+ eEzmk26+/QluoEJyCcN9m8qjDAYaBC805acwFd4QO/MFR8TDQaTpIvgZJxeYHh7wiFPg
+ 1C6ncpAyxJRUcImAph9q8KFF6Fq6C80s5lX8l2qnxO35WDE3IdvxznUetkTsU0R2BkqK
+ ++r/d3OiMyQzA+5yZWUkxmIrpsr4F1NZQYYKzwubq+M22tN9kqX73Eu/hpqlY68uQZZ9
+ 9xYJgWDd1pJtA2fqQ5GfdjHgmDSHOgNNRafm1smUGhIeg3Gk1xn7WDenZCLbQDeu3pJ1
+ C1gg==
+X-Gm-Message-State: AOAM531AcrT4vZcmJFZoGQc4vDO1UQb7OK0tGdGXnHXki7A80nLO/VAD
+ t4Y4wypvHX+0kBhJovUXbMaqdpBh9ivVk/ZdNJNfWA==
+X-Google-Smtp-Source: ABdhPJxZ/xayODb65B6TGi1x/D/08+OMUde7MGVwhOypaY+FO8rLDYgXzftNprJXZXTSM2cjylJY0nwXjNBXBdRKUXg=
+X-Received: by 2002:a05:6820:381:: with SMTP id
+ r1mr19990436ooj.79.1619568050218; 
+ Tue, 27 Apr 2021 17:00:50 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 27 Apr 2021 17:00:49 -0700
 MIME-Version: 1.0
-References: <CAPM=9tyKdGHyiRLDooKrMf=02GtNn8U4YfF4dJtXdabnVAGdXQ@mail.gmail.com>
-In-Reply-To: <CAPM=9tyKdGHyiRLDooKrMf=02GtNn8U4YfF4dJtXdabnVAGdXQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 27 Apr 2021 16:43:54 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whOOVBBuQceJ9D9uZrv-QOUWGMQ4aZe2K+2X24o7xA8cg@mail.gmail.com>
-Message-ID: <CAHk-=whOOVBBuQceJ9D9uZrv-QOUWGMQ4aZe2K+2X24o7xA8cg@mail.gmail.com>
-Subject: New warnings with gcc-11
-To: Dave Airlie <airlied@gmail.com>, Jani Nikula <jani.nikula@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+In-Reply-To: <ddc1e372c5f864cd62c4e056ef2e6404@codeaurora.org>
+References: <1618604877-28297-1-git-send-email-khsieh@codeaurora.org>
+ <161895606268.46595.2841353121480638642@swboyd.mtv.corp.google.com>
+ <e3c3ef96ac507da6f138106f70c78ed2@codeaurora.org>
+ <ddc1e372c5f864cd62c4e056ef2e6404@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Tue, 27 Apr 2021 17:00:49 -0700
+Message-ID: <CAE-0n53JNCc3JdONogGNArnsYLDr9E2fXZ2ODKBy7Jy3yVMr6g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm/dp: service only one irq_hpd if there are
+ multiple irq_hpd pending
+To: aravindh@codeaurora.org, khsieh@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,31 +67,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, dri-devel@lists.freedesktop.org, sean@poorly.run
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SSd2ZSB1cGRhdGVkIHRvIEZlZG9yYSAzNCBvbiBvbmUgb2YgbXkgbWFjaGluZXMsIGFuZCBpdCBj
-YXVzZXMgYSBsb3QKb2YgaTkxNSB3YXJuaW5ncyBsaWtlCgogIGRyaXZlcnMvZ3B1L2RybS9pOTE1
-L2ludGVsX3BtLmM6IEluIGZ1bmN0aW9uIOKAmGlsa19zZXR1cF93bV9sYXRlbmN54oCZOgogIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3BtLmM6MzA1OTo5OiBub3RlOiByZWZlcmVuY2luZyBh
-cmd1bWVudCAzCm9mIHR5cGUg4oCYY29uc3QgdTE2ICrigJkge2FrYSDigJhjb25zdCBzaG9ydCB1
-bnNpZ25lZCBpbnQgKuKAmX0KICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9wbS5jOjI5OTQ6
-MTM6IG5vdGU6IGluIGEgY2FsbCB0byBmdW5jdGlvbgrigJhpbnRlbF9wcmludF93bV9sYXRlbmN5
-4oCZCgphbmQgdGhlIHJlYXNvbiBpcyB0aGF0IGdjYyBub3cgc2VlbXMgdG8gbG9vayBhdCB0aGUg
-YXJndW1lbnQgYXJyYXkKc2l6ZSBtb3JlLCBhbmQgbm90aWNlcyB0aGF0CgogKGEpIGludGVsX3By
-aW50X3dtX2xhdGVuY3koKSB0YWtlcyBhICJjb25zdCB1MTYgd21bOF0iIGFyZ3VtZW50CgpidXQK
-CiAoYikgbW9zdCBvZiB0aGUgYXJyYXlzIHBhc3NlZCBpbiB0ZW5kIHRvIGxvb2sgbGlrZSAndTE2
-IHByaV9sYXRlbmN5WzVdJwoKSSB0aGluayBJIHdpbGwgbWFrZSB0aGUgYXJndW1lbnQgdHlwZSB0
-byBpbnRlbF9wcmludF93bV9sYXRlbmN5KCkgYmUKanVzdCAiY29uc3QgdTE2IHdtW10iIGZvciBu
-b3csIGp1c3QgdG8gYXZvaWQgc2VlaW5nIGEgdG9uIG9mIHNpbGx5Cndhcm5pbmdzLgoKSSdtIG5v
-dCBzdXJlIGlmIHRoZXJlIGlzIGEgYmV0dGVyIHNvbHV0aW9uIChsaWtlIG1ha2luZyBhbGwgb2Yg
-dGhvc2UKbGF0ZW5jeSBhcnJheXMgYmUgOCBlbnRyaWVzIGluIHNpemUpLCBzbyBJJ20ganVzdCBs
-ZXR0aW5nIHlvdSBrbm93CmFib3V0IG15IGNoYW5nZSBpbiB0aGlzIGFyZWEgaW4gY2FzZSBhbnli
-b2R5IGhhcyBhIGJldHRlciBpZGVhLgoKICAgICAgICAgICAgIExpbnVzCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Quoting aravindh@codeaurora.org (2021-04-21 11:55:21)
+> On 2021-04-21 10:26, khsieh@codeaurora.org wrote:
+> >>
+> >>> +
+> >>>         mutex_unlock(&dp->event_mutex);
+> >>>
+> >>>         return 0;
+> >>> @@ -1496,6 +1502,9 @@ int msm_dp_display_disable(struct msm_dp *dp,
+> >>> struct drm_encoder *encoder)
+> >>>         /* stop sentinel checking */
+> >>>         dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
+> >>>
+> >>> +       /* link is down, delete pending irq_hdps */
+> >>> +       dp_del_event(dp_display, EV_IRQ_HPD_INT);
+> >>> +
+> >>
+> >> I'm becoming convinced that the whole kthread design and event queue
+> >> is
+> >> broken. These sorts of patches are working around the larger problem
+> >> that the kthread is running independently of the driver and irqs can
+> >> come in at any time but the event queue is not checked from the irq
+> >> handler to debounce the irq event. Is the event queue necessary at
+> >> all?
+> >> I wonder if it would be simpler to just use an irq thread and process
+> >> the hpd signal from there. Then we're guaranteed to not get an irq
+> >> again
+> >> until the irq thread is done processing the event. This would
+> >> naturally
+> >> debounce the irq hpd event that way.
+> > event q just like bottom half of irq handler. it turns irq into event
+> > and handle them sequentially.
+> > irq_hpd is asynchronous event from panel to bring up attention of hsot
+> > during run time of operation.
+> > Here, the dongle is unplugged and main link had teared down so that no
+> > need to service pending irq_hpd if any.
+> >
+>
+> As Kuogee mentioned, IRQ_HPD is a message received from the panel and is
+> not like your typical HW generated IRQ. There is no guarantee that we
+> will not receive an IRQ_HPD until we are finished with processing of an
+> earlier HPD message or an IRQ_HPD message. For example - when you run
+> the protocol compliance, when we get a HPD from the sink, we are
+> expected to start reading DPCD, EDID and proceed with link training. As
+> soon as link training is finished (which is marked by a specific DPCD
+> register write), the sink is going to issue an IRQ_HPD. At this point,
+> we may not done with processing the HPD high as after link training we
+> would typically notify the user mode of the newly connected display,
+> etc.
+
+Given that the irq comes in and is then forked off to processing at a
+later time implies that IRQ_HPD can come in at practically anytime. Case
+in point, this patch, which is trying to selectively search through the
+"event queue" and then remove the event that is no longer relevant
+because the display is being turned off either by userspace or because
+HPD has gone away. If we got rid of the queue and kthread and processed
+irqs in a threaded irq handler I suspect the code would be simpler and
+not have to search through an event queue when we disable the display.
+Instead while disabling the display we would make sure that the irq
+thread isn't running anymore with synchronize_irq() or even disable the
+irq entirely, but really it would be better to just disable the irq in
+the hardware with a register write to some irq mask register.
+
+This pushes more of the logic for HPD and connect/disconnect into the
+hardware and avoids reimplementing that in software: searching through
+the queue, checking for duplicate events, etc.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
