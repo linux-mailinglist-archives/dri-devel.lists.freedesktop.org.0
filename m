@@ -2,108 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E959636D1A4
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 07:34:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475A536D2B7
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 08:59:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8906C6EA9C;
-	Wed, 28 Apr 2021 05:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB716EAA5;
+	Wed, 28 Apr 2021 06:59:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2077.outbound.protection.outlook.com [40.107.244.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8106EA9C;
- Wed, 28 Apr 2021 05:34:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RR+F2xZVZjy7/qJS616QS+agIPROBfa/3gSI/5EbjRPtwaRaPJQ+leY5lSJvEfFbyNg4d1KS3cZDNMMkpNmTgtN23sRT8bCJgBrc/1Oyve5wCAih2+E7GXCN+kQ8I4ajkVCv1qNw2l0DBD+EqTZE+0WtkXTbBV/crCoudtN+EQN8/cLx9yZQfREr+vqigcVWqNCiZIwlKJIdv5B1YGeimsqQ5ehYQuZI7pYtM5pOIIkhirvrkT3uNCqcgC1pYo0CkjpiOiNWZDdv2Xye7IgP664mEvtuSnOLA8AU5X6vqHGx7jJFjafdvB4KsbA1nISX2RZ88h6er9zpoTVt20icQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UAc6+8fNR1J9OMnFgPjI2aeW3K0qXH1tUl24SAG5vQ8=;
- b=g0IAbaVicYy6P3Dy/F34ahuB/34NHWntYIBpBJRrdwd4e6Reg1DRXONX0m48KJ1xr85KovkuP62I/kZiN6eELsZLX2wO3J7gGet6kOEvnxkMsPBVwDCM7VL35xWmUZTvUkRvYbUfaqqHxd3jBEaS1zaLAdmCr2qjs2mKVsNOFZwzsCsbxHHTpOSdu3cF4VubOMtLzWOcbdTtemRTdspVkKnu4MElBT1OEFFfdLrMKoCxFyBcV1Ys6si5Y9WCEvcLbu7dMtWx8k5SbHrKOxFwbn/qqD1sZUzAbs0C727yUcEL/ivo1IjPMNZnGHpx00uZMHmn11l/wLFHFfoZB03xBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UAc6+8fNR1J9OMnFgPjI2aeW3K0qXH1tUl24SAG5vQ8=;
- b=SO3Qi3A+ql6FxJ8CioAueB0p2KpFmSWpha/QyC5HMC2NxkPLIjxU5mi4LBBpbtVW6l74ZKJfaCzws5BwvwIp9dJUqXQEaTnmQpb7609FeQFR2hUVQjGXP4bRvRj/0BIIgWspmSB097XTW730Gliaah653AW10PYYntp4sA2PQco=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
- by BL0PR12MB4916.namprd12.prod.outlook.com (2603:10b6:208:1ce::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Wed, 28 Apr
- 2021 05:34:03 +0000
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::70f5:99ed:65a1:c033%7]) with mapi id 15.20.3933.040; Wed, 28 Apr 2021
- 05:34:03 +0000
-From: Felix Kuehling <Felix.Kuehling@amd.com>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/ttm: Fix swapout in ttm_tt_populate
-Date: Wed, 28 Apr 2021 01:33:38 -0400
-Message-Id: <20210428053338.11560-2-Felix.Kuehling@amd.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210428053338.11560-1-Felix.Kuehling@amd.com>
-References: <20210428053338.11560-1-Felix.Kuehling@amd.com>
-X-Originating-IP: [165.204.55.251]
-X-ClientProxiedBy: YTXPR0101CA0040.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::17) To BL0PR12MB4948.namprd12.prod.outlook.com
- (2603:10b6:208:1cc::20)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C37176EAA4;
+ Wed, 28 Apr 2021 06:59:49 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id h10so72845714edt.13;
+ Tue, 27 Apr 2021 23:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=vz8gvrfPui7057I9u7mhs9oOFT7FJnZuQGBjXC6vdW0=;
+ b=MaMUzZJvitnNFHp7wvpPxWpItKIzWrwNCWTEWFNDrRqtGr4zpM/UzlotcGETFzKOl9
+ Glr3bAhtPzwsmR1BtxwWaZuc/oVu4UaGcEzAlx3z4XrXygeuCo8+E6urPsE9GwfBQU5m
+ GZRULIv6GSLA1DZIq7C3+3KQwkMc3BX44d34fLECcRcyc3nn9nngxaXeQ+AVHVRVezwH
+ g2dVXe8JjxtxRA0XcFVyGFgb6wzZ2xoJ15lQbCDFowGTqWXl+T1kRd+3Abczw4pMLMVH
+ VtqVzQFocqsIb099//1ev1aURfaFvllWEJu7xBgDJQnxwrPLptW/Kxy+u9ibLfZ/TSEW
+ YurQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=vz8gvrfPui7057I9u7mhs9oOFT7FJnZuQGBjXC6vdW0=;
+ b=P+LjrqYO+Ev6hLCHKaGv/AffaUgDB9SRKTC/dyYrI3mwrSaZsKZu7wtd4WD+aUYA7k
+ 78uThRNP/WbiULJ4Bbv8r/9X6Di6l55MsaI9wWvwRMROskjZ5qcWmdBa64fy2SocSD/F
+ UbDWWzltKOTjg+dYwYu4z7AUGFDSAoat0foXcPgQ/HrtEwUtvuypmQdG01PCkrU6HA2e
+ 7Rq8XI87qwpQ+mUJiOi16zZV7Kn0dIY5W2IN8kKv/xKvYTV/yKiikyKGXBg1AkWA+iAE
+ iEwFaY1rkLFZHCgoaGPVjPnH6WK9KMA4E7ILEm5hBiQiIN6B8LJ0tZkOsfAIU4UFceNK
+ NMYA==
+X-Gm-Message-State: AOAM5322lzwMCCkEnYBqZb7UwDp4wY7jzPkLj5JlWXzRt75MiqoTIWi5
+ s2rVZbmLObl4VGYPYwKlQoWxc+Q15Uk=
+X-Google-Smtp-Source: ABdhPJxIS5eApfV5xKNR8pD8BvLpuqi7iK/qFrtoqJ8nWRu0JuS2/mh4BE2HPc2I60zUr6G8gmo0jQ==
+X-Received: by 2002:a50:ed0a:: with SMTP id j10mr8911432eds.22.1619593188459; 
+ Tue, 27 Apr 2021 23:59:48 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:5565:6656:893b:2618?
+ ([2a02:908:1252:fb60:5565:6656:893b:2618])
+ by smtp.gmail.com with ESMTPSA id um2sm1332348ejb.4.2021.04.27.23.59.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Apr 2021 23:59:47 -0700 (PDT)
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+ <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
+ <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
+ <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
+ <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
+ <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
+ <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
+ <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
+ <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
+ <YIfFC3YST0cfzd3l@phenom.ffwll.local>
+ <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
+ <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
+ <CAPM=9tzz2u_qUXU9LMvtH_NDr1_wzunPo7Mt6NkrwAuowWTp7Q@mail.gmail.com>
+ <CAAxE2A55Te6DjabYH8ELyfM03x2ZDaLsCsNC4Zqkrq0ExdpeHA@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <153487a3-082b-faf7-2a4d-ae15993b2a5d@gmail.com>
+Date: Wed, 28 Apr 2021 08:59:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Harpoon.amd.com (165.204.55.251) by
- YTXPR0101CA0040.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.24 via Frontend
- Transport; Wed, 28 Apr 2021 05:34:02 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65895508-7b2c-48cb-e9b0-08d90a073b45
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4916:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4916E98C77C30289BA6D360592409@BL0PR12MB4916.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:962;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2e4pFtgqOEOM0HvtJxXlzrLXepXYuFDAvGbCSAf1DxDlRE4VYy+V91+tgEunVRRHlbpx04gs5CMRgrzfQLh4LYI8gjpXXf5uU8LBzgMlB0GJ3pKt+aAAZ8K5baYwCaqdlhzdVjaDhxQhsrjyfdA2gy4Iscb3ieIwtfEshOem8fRVcTWeGUXF4w4hxt0XyH4PvEE6lTSs+GjQlgF9+OQwEo5VOg4whISHEEGB06dA9DhnvAVO20NBTqfdpEKjmYBv0zefz9zoV3Teu4Mnp2oY+XMmMpPdebmBH+xc3O5dquk288XBeMMYEAWpwym3xqtV4owqJ+zAMghdicCWjplkmp7lm96abwlsPrCAktLHjI9FR3OvjGvnEecvG5kfR8pOj3sQyL/3Cd3MT8yVb1jkJAkVLMIKoKCAmhGlt+FKA1jVy6mVHcYfeCsV8Ht71hFEde/nuCo4cFHRpkiLYlFUdwye/tIRQQIyPJ3+7S5SFQRHLxMvmWTkTPZE2YlwZ72j9OLlGkeSjfAc1K/RzV0EMITDixYFEGVdtEe7U/NDNYfVOAOcwkJXwMG0U9noOOjS482po78CYGBN5o55pAY93BNAN+Y/pQMtF0HVWeaJzWEzum3j69/TaoF5iiN15MdH3pT4ysGCt81yoT2sLWV9wyrToxSNZwZT0ZQeeRuCJVU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(366004)(346002)(376002)(39860400002)(83380400001)(66946007)(66476007)(66556008)(16526019)(316002)(36756003)(6666004)(8676002)(478600001)(2616005)(4744005)(86362001)(1076003)(5660300002)(8936002)(38100700002)(956004)(26005)(6486002)(38350700002)(7696005)(2906002)(186003)(52116002)(450100002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?zCe4tlYwj9AMcLtbZA/GsP1014K4XFaG6wi9F2OdDgA/WxO7z52NaO07WWMJ?=
- =?us-ascii?Q?6hn0CZshc3BhDtABfLPCwgXETD5mgGsp/zcWyXrQmkCum17c2wXWwao+5tt1?=
- =?us-ascii?Q?ApEy9t6Fn2l5vD90Um2XL72Kcaz6f7+a4LRiwx3X8PdspgV99ylwtB+oiE1X?=
- =?us-ascii?Q?F15snlCs9qPU7CSdXAm99w+3r2oOgAoBPqC0YnDlnAny1DGBwF34uNRk7vQ4?=
- =?us-ascii?Q?lOM4ElrGGYnEY27kyDEVY7gCX2Rlyz6ye3j3VV2zrb9mEdz0VXS7oIuAE5/8?=
- =?us-ascii?Q?Rf0Mnnmiuejj6Dfg4bPfyV1iKk7wjgnInRuiueV9iqpbeooy+ZkdLEgFCoUV?=
- =?us-ascii?Q?lxxu6cytVr9tLGfpQ4GxqIPhFZe5fRht5g2I22xJYL+6bH/f1qOnpeb0C2IJ?=
- =?us-ascii?Q?jaUtDSx0yAwtm0YS4h3lmKjVlGTcas7mRE7s++Zt5GGGeTsqzfT7X0f5y813?=
- =?us-ascii?Q?/KPKVsRIjLG6pbv0B7eJ+pcb5EIL83rFy6xAHrXSt92SlbVmtCsRczSpcPG1?=
- =?us-ascii?Q?3KYXTxyMbOkmZkL/lJtv97CPVR8PLrGMtFFFunD7oeFZDtV0jRfsIffhH72L?=
- =?us-ascii?Q?h5pMqNPBjkikTokkSrWvbZfiAilCLykj2Fq4S45X/NeeOzAKqF70oXB/BLgL?=
- =?us-ascii?Q?8d5GiRO+YTG1v8ZemhbxCouGUtCbQ62gWRNHqhcpd6a1opWUzQ+abz901cPX?=
- =?us-ascii?Q?Fq3OMFV8IdqGg1D9a0btGBLug6CvJIpKtH+//67UCFPMcfWAFN/A9hdj0uvd?=
- =?us-ascii?Q?koUgyPMQP/Wd1A/0qGGWG9QfQPyMCkmF0cOEjyYWKJl9wIM3A2Ez051Ib9pN?=
- =?us-ascii?Q?W8smubOSx/lvg55DOU56e80oOk/h8UTJomEnfuYWk3YLs3I1adsu62mFFWI+?=
- =?us-ascii?Q?Xoks+sYUW/nIyM1lYOgPONDffVW9L5xwUZPW5H1/evob598P2VYXTmHeVkoC?=
- =?us-ascii?Q?uB42kIMfyzlcjh3giBYhW7ncfrgWkT43d6qgAw2Q6vAzdy0TO0KwfUiQ5x0U?=
- =?us-ascii?Q?t7+M9YH5/1kzggAnjFAwOJ0+K1hi37u29mzXxBry8fe3CR2pWt5UkmHZ87uF?=
- =?us-ascii?Q?qPYVwNEoELr/GVUqv53jTDe+HvmdJoTI6zrKY7ax2vvVDIIxWvxRfxkSgmG0?=
- =?us-ascii?Q?8coDL4Deg0HFZnW+iofcFqK+/+TZf6rtR4IXhkhOSHlRaN91q/KeZDepc9Yh?=
- =?us-ascii?Q?KXBoiSqVP12+v06N3YIqBeJlQoav1LzthYLa6o+MvS89dEk1ixILJvI6UXke?=
- =?us-ascii?Q?jBJcNeEWXwSgYuCMMv0C/YT/sPo7sBtm16zbqVVlUqZ3qBT1JbQetZjty02U?=
- =?us-ascii?Q?YF8CpfIB79HcsCCzYyZUc9z3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65895508-7b2c-48cb-e9b0-08d90a073b45
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 05:34:02.8985 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nS8PeVo82Dr/OFDIwVLeHHhmwkqYwF2CZY6ETTmXlrgYJbRLorVV3PzUU17W2DhLzW2C3fF6ypW5dvAbb1TDXg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4916
+In-Reply-To: <CAAxE2A55Te6DjabYH8ELyfM03x2ZDaLsCsNC4Zqkrq0ExdpeHA@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,36 +84,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0718983671=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ttm_bo_swapout returns a non-0 value on success. Don't treat that as an
-error in ttm_tt_populate.
+This is a multi-part message in MIME format.
+--===============0718983671==
+Content-Type: multipart/alternative;
+ boundary="------------43F2F73D9288E69891373973"
+Content-Language: en-US
 
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
- drivers/gpu/drm/ttm/ttm_tt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is a multi-part message in MIME format.
+--------------43F2F73D9288E69891373973
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-index 5d8820725b75..1858a7fb9169 100644
---- a/drivers/gpu/drm/ttm/ttm_tt.c
-+++ b/drivers/gpu/drm/ttm/ttm_tt.c
-@@ -326,7 +326,7 @@ int ttm_tt_populate(struct ttm_device *bdev,
- 	       ttm_dma32_pages_limit) {
- 
- 		ret = ttm_bo_swapout(ctx, GFP_KERNEL);
--		if (ret)
-+		if (ret < 0)
- 			goto error;
- 	}
- 
--- 
-2.31.1
+Hi Dave,
+
+Am 27.04.21 um 21:23 schrieb Marek Olšák:
+> Supporting interop with any device is always possible. It depends on 
+> which drivers we need to interoperate with and update them. We've 
+> already found the path forward for amdgpu. We just need to find out 
+> how many other drivers need to be updated and evaluate the 
+> cost/benefit aspect.
+>
+> Marek
+>
+> On Tue, Apr 27, 2021 at 2:38 PM Dave Airlie <airlied@gmail.com 
+> <mailto:airlied@gmail.com>> wrote:
+>
+>     On Tue, 27 Apr 2021 at 22:06, Christian König
+>     <ckoenig.leichtzumerken@gmail.com
+>     <mailto:ckoenig.leichtzumerken@gmail.com>> wrote:
+>     >
+>     > Correct, we wouldn't have synchronization between device with
+>     and without user queues any more.
+>     >
+>     > That could only be a problem for A+I Laptops.
+>
+>     Since I think you mentioned you'd only be enabling this on newer
+>     chipsets, won't it be a problem for A+A where one A is a generation
+>     behind the other?
+>
+
+Crap, that is a good point as well.
+
+>
+>     I'm not really liking where this is going btw, seems like a ill
+>     thought out concept, if AMD is really going down the road of designing
+>     hw that is currently Linux incompatible, you are going to have to
+>     accept a big part of the burden in bringing this support in to more
+>     than just amd drivers for upcoming generations of gpu.
+>
+
+Well we don't really like that either, but we have no other option as 
+far as I can see.
+
+I have a couple of ideas how to handle this in the kernel without 
+dma_fences, but it always require more or less changes to all existing 
+drivers.
+
+Christian.
+
+>
+>     Dave.
+>
+
+
+--------------43F2F73D9288E69891373973
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Hi Dave,<br>
+    <br>
+    <div class="moz-cite-prefix">Am 27.04.21 um 21:23 schrieb Marek
+      Olšák:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAAxE2A55Te6DjabYH8ELyfM03x2ZDaLsCsNC4Zqkrq0ExdpeHA@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div>Supporting interop with any device is always possible. It
+          depends on which drivers we need to interoperate with and
+          update them. We've already found the path forward for amdgpu.
+          We just need to find out how many other drivers need to be
+          updated and evaluate the cost/benefit aspect.<br>
+        </div>
+        <div><br>
+        </div>
+        <div>Marek<br>
+        </div>
+      </div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Tue, Apr 27, 2021 at 2:38
+          PM Dave Airlie &lt;<a href="mailto:airlied@gmail.com"
+            moz-do-not-send="true">airlied@gmail.com</a>&gt; wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On
+          Tue, 27 Apr 2021 at 22:06, Christian König<br>
+          &lt;<a href="mailto:ckoenig.leichtzumerken@gmail.com"
+            target="_blank" moz-do-not-send="true">ckoenig.leichtzumerken@gmail.com</a>&gt;
+          wrote:<br>
+          &gt;<br>
+          &gt; Correct, we wouldn't have synchronization between device
+          with and without user queues any more.<br>
+          &gt;<br>
+          &gt; That could only be a problem for A+I Laptops.<br>
+          <br>
+          Since I think you mentioned you'd only be enabling this on
+          newer<br>
+          chipsets, won't it be a problem for A+A where one A is a
+          generation<br>
+          behind the other?<br>
+        </blockquote>
+      </div>
+    </blockquote>
+    <br>
+    Crap, that is a good point as well.<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CAAxE2A55Te6DjabYH8ELyfM03x2ZDaLsCsNC4Zqkrq0ExdpeHA@mail.gmail.com">
+      <div class="gmail_quote">
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+          <br>
+          I'm not really liking where this is going btw, seems like a
+          ill<br>
+          thought out concept, if AMD is really going down the road of
+          designing<br>
+          hw that is currently Linux incompatible, you are going to have
+          to<br>
+          accept a big part of the burden in bringing this support in to
+          more<br>
+          than just amd drivers for upcoming generations of gpu.<br>
+        </blockquote>
+      </div>
+    </blockquote>
+    <br>
+    Well we don't really like that either, but we have no other option
+    as far as I can see.<br>
+    <br>
+    I have a couple of ideas how to handle this in the kernel without
+    dma_fences, but it always require more or less changes to all
+    existing drivers.<br>
+    <br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CAAxE2A55Te6DjabYH8ELyfM03x2ZDaLsCsNC4Zqkrq0ExdpeHA@mail.gmail.com">
+      <div class="gmail_quote">
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+          <br>
+          Dave.<br>
+        </blockquote>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------43F2F73D9288E69891373973--
+
+--===============0718983671==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0718983671==--
