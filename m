@@ -2,75 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F78E36D107
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 06:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA0236D171
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 06:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC3066E069;
-	Wed, 28 Apr 2021 04:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C70BF6EA86;
+	Wed, 28 Apr 2021 04:55:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68EBF6E069
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 04:01:19 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id mu3so1427531ejc.6
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 21:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NSH6uk4R6Gtn+iq9cZHBThYsb/SFznJiQG82gPgqGMw=;
- b=oNGXPg+j2JpGW7y0Ha9IEj3g56QUXtrE1sH+UiqJVV7ADUDz9kldDfMQb4cwujB8+Q
- MNMXUDll5KqaP9xuNq+5LjkifG1yC6bhqtqE9sUnW9Q0/FgIUFO/qZHLXb1R8fjt6Ffm
- uZJzRxxyGyRERSJqZPk+GQhtynW8DE6MyD4fGjxUFmEkuO2fUvahaO2eg2hrchfaPUKe
- GflQjmLbmMAA9MtFW/zG2Szcn/Hy5KirZID1ywktMYAkaBBL6wfjNRm92kq3IXuirp9m
- CYc67faBBbhg5xYeX5QnTuSL7AKi1bgjWtgTXfMEI1hR65Re3JG7O4NFaM26DeMw4uGc
- RgRQ==
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 109766EA85
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 04:55:39 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id h20so32130565plr.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 21:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3Ko03dSA+L2ZYJTy14tghnDjMB7R5pl3DSAEhsmhWkY=;
+ b=mwgsHeQklAlZimUGKCkOjIrlNjn2iiELa+8437BG4ZoNCKVz+E61nnpldl6GomdbUV
+ zgJyqRUL/cIW8DqN1Z0JrgcCaw2B7Dc5mgHsRibnks045oG8Q4CQaf8G4vL98zzv1j0J
+ JNYS22xQz+aF68B4+NjHvtRUa1dPPqrsUjlmY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NSH6uk4R6Gtn+iq9cZHBThYsb/SFznJiQG82gPgqGMw=;
- b=c973vCrSCqlJ9va0z/y7srZXaWpR39dh0K9HEtbYok6ABqiVM8zOb0aN6rS4WBGMes
- o83yjOLakvZVbCRd5RNwu1x0+5FJgb572QABBew4Ocwt9jvVfwNZNvEp2F6hVwilOtbh
- Puwxj0v4+mifPiyY25VYMk7tZ/BIRiNB1l8ljIkTOgE0l2K2aum4GCnlRqsqw0pZ7urX
- WtFTz7cGIF58KC5GfFt1pWbJLodhabo1kW2zpkE19xjAVCsC1DfDbQJTFptPO8BjPXwo
- K4AYZofvhdf+taKmfq27fJ8/QXX2BG+GjZ301cdDkaO1qI4Dqo5R6dps8ls8TG2oDjT/
- DWHg==
-X-Gm-Message-State: AOAM530jye0mdA12A/lokehaDeO2vzFenPUIFSwxuG/a2Kla7ExetmKt
- 5TsWqD0SpVLUPZfH+5GJ7Gur9hwOQlHRGzVBPTc7Cg==
-X-Google-Smtp-Source: ABdhPJyblKvdvAC9SROoDr2JIKRoYncx3GnDJ99ohdUm3ZX+llu2vnnMoMD/H7JDPxduE7yj6HtfDWpd+04AiScNEUs=
-X-Received: by 2002:a17:906:eb43:: with SMTP id
- mc3mr25794380ejb.78.1619582477945; 
- Tue, 27 Apr 2021 21:01:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3Ko03dSA+L2ZYJTy14tghnDjMB7R5pl3DSAEhsmhWkY=;
+ b=PgCgUbaE/+YofLKa81DvWH5x9E+DReLMs3V+rOmYHuLauKy8oXCVOy+G980x6KBy4l
+ XuOLBl5ipfN4C4iMNBO2zJjhH9zp8UgGlO9gZPEO0C+3Sk4gkV4jhlNR5QjqODZpGDIv
+ e6bc00ec/sCZIayCKE09jRc23KoZCIonGRUwRa17EhGL3YtBYivnn+K99tYdgLFJXo1c
+ tG+57ejHPgZ3krEek0tpcNbLM/jT7vgU3MsYv7Q+DnXeinj6ddSqbJ5BAQLOLdFsMZub
+ x9JnyBZ3s29VnnkeGaWzjQlJbBi5GksqBiITUT5WHLO5hp5pGBEq8PT9J4/2lIFUwWaV
+ YuJg==
+X-Gm-Message-State: AOAM530fDJRPIe8flY2+Kdx81GaZtnRNwEt3vaaNKAK+HHw1fggnJjeC
+ h8LpBnbcgKk6qW6s/Z6n1OzduIZ/YLOHgw==
+X-Google-Smtp-Source: ABdhPJyzBM03jAqIDxHWn9axn0xnm4HgXlLhHTGDzlJcsdtSKEp5v3x5LeZkV3GXspsMmxIOEEzZ8g==
+X-Received: by 2002:a17:90b:e0d:: with SMTP id
+ ge13mr30471403pjb.189.1619585738086; 
+ Tue, 27 Apr 2021 21:55:38 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:8076:36e5:2db0:967])
+ by smtp.gmail.com with ESMTPSA id x13sm1193170pgf.13.2021.04.27.21.55.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Apr 2021 21:55:37 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 1/3] gpu: drm: separate panel orientation property creating
+ and value setting
+Date: Wed, 28 Apr 2021 12:55:31 +0800
+Message-Id: <20210428045533.564724-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
 MIME-Version: 1.0
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
- <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
- <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
- <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
- <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
- <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
- <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
- <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
- <YIfFC3YST0cfzd3l@phenom.ffwll.local>
- <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
- <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
- <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
- <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
- <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
- <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
- <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
- <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
- <CAOFGe95C78mqV-8-o7PgZ1RZu-OJATVzK4wsS2k9ojXh6ba-tA@mail.gmail.com>
- <CAAxE2A7EwWqOVhKGEMhA3tvSUH-_J=tKf97kHa2VDEaRTfOxTA@mail.gmail.com>
-In-Reply-To: <CAAxE2A7EwWqOVhKGEMhA3tvSUH-_J=tKf97kHa2VDEaRTfOxTA@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Tue, 27 Apr 2021 23:01:06 -0500
-Message-ID: <CAOFGe94axHAg8aboDx5tmoVU7CpnspfKwOqdq_+PkDxhoiHTkg@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,114 +64,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgMjcsIDIwMjEgYXQgNDo1OSBQTSBNYXJlayBPbMWhw6FrIDxtYXJhZW9AZ21h
-aWwuY29tPiB3cm90ZToKPgo+IEphc29uLCBib3RoIG1lbW9yeS1iYXNlZCBzaWduYWxsaW5nIGFz
-IHdlbGwgYXMgaW50ZXJydXB0LWJhc2VkIHNpZ25hbGxpbmcgdG8gdGhlIENQVSB3b3VsZCBiZSBz
-dXBwb3J0ZWQgYnkgYW1kZ3B1LiBFeHRlcm5hbCBkZXZpY2VzIGRvbid0IG5lZWQgdG8gc3VwcG9y
-dCBtZW1vcnktYmFzZWQgc3luYyBvYmplY3RzLiBUaGUgb25seSBsaW1pdGF0aW9uIGlzIHRoYXQg
-dGhleSBjYW4ndCBjb252ZXJ0IGFtZGdwdSBzeW5jIG9iamVjdHMgdG8gZG1hX2ZlbmNlLgoKU3Vy
-ZS4gIEknbSBub3Qgd29ycmllZCBhYm91dCB0aGUgbWVjaGFuaXNtLiAgV2UganVzdCBuZWVkIGEg
-d29yZCB0aGF0Cm1lYW5zICJ0aGUgbmV3IGZlbmNlIHRoaW5nIiBhbmQgSSd2ZSBiZWVuIHRocm93
-aW5nICJtZW1vcnkgZmVuY2UiCmFyb3VuZCBmb3IgdGhhdC4gIE90aGVyIG1lY2hhbmlzbXMgbWF5
-IHdvcmsgYXMgd2VsbC4KCj4gVGhlIHNhZCB0aGluZyBpcyB0aGF0ICJleHRlcm5hbCAtPiBhbWRn
-cHUiIGRlcGVuZGVuY2llcyBhcmUgcmVhbGx5ICJleHRlcm5hbCA8LT4gYW1kZ3B1IiBkZXBlbmRl
-bmNpZXMgZHVlIHRvIG11dHVhbGx5LWV4Y2x1c2l2ZSBhY2Nlc3MgcmVxdWlyZWQgYnkgbm9uLWV4
-cGxpY2l0bHktc3luYydkIGJ1ZmZlcnMsIHNvIGFtZGdwdS1hbWRncHUgaW50ZXJvcCBpcyB0aGUg
-b25seSBpbnRlcm9wIHRoYXQgd291bGQgaW5pdGlhbGx5IHdvcmsgd2l0aCB0aG9zZSBidWZmZXJz
-LiBFeHBsaWNpdGx5IHN5bmMnZCBidWZmZXJzIGFsc28gd29uJ3Qgd29yayBpZiBvdGhlciBkcml2
-ZXJzIGNvbnZlcnQgZXhwbGljaXQgZmVuY2VzIHRvIGRtYV9mZW5jZS4gVGh1cywgYm90aCBpbXBs
-aWNpdCBzeW5jIGFuZCBleHBsaWNpdCBzeW5jIG1pZ2h0IG5vdCB3b3JrIHdpdGggb3RoZXIgZHJp
-dmVycyBhdCBhbGwuIFRoZSBvbmx5IGludGVyb3AgdGhhdCB3b3VsZCBpbml0aWFsbHkgd29yayBp
-cyBleHBsaWNpdCBmZW5jZXMgd2l0aCBtZW1vcnktYmFzZWQgd2FpdGluZyBhbmQgc2lnbmFsbGlu
-ZyBvbiB0aGUgZXh0ZXJuYWwgZGV2aWNlIHRvIGtlZXAgdGhlIGtlcm5lbCBvdXQgb2YgdGhlIHBp
-Y3R1cmUuCgpZdXAuICBUaGlzIGlzIHdoZXJlIHRoaW5ncyBnZXQgaGFyZC4gIFRoYXQgc2FpZCwg
-SSdtIG5vdCBxdWl0ZSByZWFkeQp0byBnaXZlIHVwIG9uIG1lbW9yeS9pbnRlcnJ1cHQgZmVuY2Vz
-IGp1c3QgeWV0LgoKT25lIHRob3VnaHQgdGhhdCBjYW1lIHRvIG1pbmQgd2hpY2ggbWlnaHQgaGVs
-cCB3b3VsZCBiZSBpZiB3ZSBhZGRlZCBhbgpleHRyZW1lbHkgc3RyaWN0IGNvbmNlcHQgb2YgbWVt
-b3J5IG93bmVyc2hpcC4gIFRoZSBpZGVhIHdvdWxkIGJlIHRoYXQKYW55IGdpdmVuIEJPIHdvdWxk
-IGJlIGluIG9uZSBvZiB0d28gc3RhdGVzIGF0IGFueSBnaXZlbiB0aW1lOgoKIDEuIGxlZ2FjeTog
-ZG1hX2ZlbmNlcyBhbmQgaW1wbGljaXQgc3luYyB3b3JrcyBhcyBub3JtYWwgYnV0IGl0IGNhbm5v
-dApiZSByZXNpZGVudCBpbiBhbnkgIm1vZGVybiIgKGRpcmVjdCBzdWJtaXNzaW9uLCBVTExTLCB3
-aGF0ZXZlciB5b3UKd2FudCB0byBjYWxsIGl0KSBjb250ZXh0CgogMi4gbW9kZXJuOiBJbiB0aGlz
-IG1vZGUgdGhleSBzaG91bGQgbm90IGJlIHVzZWQgYnkgYW55IGxlZ2FjeQpjb250ZXh0LiAgV2Ug
-Y2FuJ3Qgc3RyaWN0bHkgcHJldmVudCB0aGlzLCB1bmZvcnR1bmF0ZWx5LCBidXQgbWF5YmUgd2UK
-Y2FuIHNheSByZWFkaW5nIHByb2R1Y2VzIGdhcmJhZ2UgYW5kIHdyaXRlcyBtYXkgYmUgZGlzY2Fy
-ZGVkLiAgSW4gdGhpcwptb2RlLCB0aGV5IGNhbiBiZSBib3VuZCB0byBtb2Rlcm4gY29udGV4dHMu
-CgpJbiB0aGVvcnksIHdoZW4gaW4gIm1vZGVybiIgbW9kZSwgeW91IGNvdWxkIGJpbmQgdGhlIHNh
-bWUgYnVmZmVyIGluCm11bHRpcGxlIG1vZGVybiBjb250ZXh0cyBhdCBhIHRpbWUuICBIb3dldmVy
-LCB3aGVuIHRoYXQncyB0aGUgY2FzZSwgaXQKbWFrZXMgb3duZXJzaGlwIHJlYWxseSB0cmlja3kg
-dG8gdHJhY2suICBUaGVyZWZvcmUsIHdlIG1pZ2h0IHdhbnQgc29tZQpzb3J0IG9mIGRtYS1idWYg
-Y3JlYXRlIGZsYWcgZm9yICJhbHdheXMgbW9kZXJuIiB2cy4gInN3aXRjaGFibGUiIGFuZApvbmx5
-IGFsbG93IGJpbmRpbmcgdG8gb25lIG1vZGVybiBjb250ZXh0IGF0IGEgdGltZSB3aGVuIGl0J3MK
-c3dpdGNoYWJsZS4KCklmIHdlIGRpZCB0aGlzLCB3ZSBtYXkgYmUgYWJsZSB0byBtb3ZlIGFueSBk
-bWFfZmVuY2Ugc2hlbmFuaWdhbnMgdG8KdGhlIG93bmVyc2hpcCB0cmFuc2l0aW9uIHBvaW50cy4g
-IFdlJ2Qgc3RpbGwgbmVlZCBzb21lIHNvcnQgb2YgIndhaXQKZm9yIGZlbmNlIGFuZCB0cmFuc2l0
-aW9uIiB3aGljaCBoYXMgYSB0aW1lb3V0LiAgSG93ZXZlciwgdGhlbiB3ZSdkIGJlCmZhaXJseSB3
-ZWxsIGd1YXJhbnRlZWQgdGhhdCB0aGUgYXBwbGljYXRpb24gKG5vdCBqdXN0IE1lc2EhKSBoYXMK
-cmVhbGx5IGFuZCB0cnVseSBkZWNpZGVkIGl0J3MgZG9uZSB3aXRoIHRoZSBidWZmZXIgYW5kIHdl
-IHdvdWxkbid0IChJCmhvcGUhKSBlbmQgdXAgd2l0aCB0aGUgYWNjaWRlbnRhbCBlZGdlcyBpbiB0
-aGUgZGVwZW5kZW5jeSBncmFwaC4KCk9mIGNvdXJzZSwgSSd2ZSBub3QgeWV0IHByb3ZlbiBhbnkg
-b2YgdGhpcyBjb3JyZWN0IHNvIGZlZWwgZnJlZSB0bwp0ZWxsIG1lIHdoeSBpdCB3b24ndCB3b3Jr
-LiA6LSkgIEl0IHdhcyBqdXN0IG9uZSBvZiB0aG9zZSAiYWJvdXQgdG8gZ28KdG8gYmVkIGFuZCBo
-YWQgYSB0aHVuayIgdHlwZSB0aG91Z2h0cy4KCi0tSmFzb24KClAuUy4gIERhbmllbCB3YXMgMTAw
-JSByaWdodCB3aGVuIGhlIHNhaWQgdGhpcyBkaXNjdXNzaW9uIG5lZWRzIGEgZ2xvc3NhcnkuCgoK
-PiBNYXJlawo+Cj4KPiBPbiBUdWUsIEFwciAyNywgMjAyMSBhdCAzOjQxIFBNIEphc29uIEVrc3Ry
-YW5kIDxqYXNvbkBqbGVrc3RyYW5kLm5ldD4gd3JvdGU6Cj4+Cj4+IFRyeWluZyB0byBmaWd1cmUg
-b3V0IHdoaWNoIGUtbWFpbCBpbiB0aGlzIG1lc3MgaXMgdGhlIHJpZ2h0IG9uZSB0byByZXBseSB0
-by4uLi4KPj4KPj4gT24gVHVlLCBBcHIgMjcsIDIwMjEgYXQgMTI6MzEgUE0gTHVjYXMgU3RhY2gg
-PGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+IHdyb3RlOgo+PiA+Cj4+ID4gSGksCj4+ID4KPj4gPiBB
-bSBEaWVuc3RhZywgZGVtIDI3LjA0LjIwMjEgdW0gMDk6MjYgLTA0MDAgc2NocmllYiBNYXJlayBP
-bMWhw6FrOgo+PiA+ID4gT2suIFNvIHRoYXQgd291bGQgb25seSBtYWtlIHRoZSBmb2xsb3dpbmcg
-dXNlIGNhc2VzIGJyb2tlbiBmb3Igbm93Ogo+PiA+ID4gLSBhbWQgcmVuZGVyIC0+IGV4dGVybmFs
-IGdwdQo+Pgo+PiBBc3N1bWluZyBzYWlkIGV4dGVybmFsIEdQVSBkb2Vzbid0IHN1cHBvcnQgbWVt
-b3J5IGZlbmNlcy4gIElmIHdlIGRvCj4+IGFtZGdwdSBhbmQgaTkxNSBhdCB0aGUgc2FtZSB0aW1l
-LCB0aGF0IGNvdmVycyBiYXNpY2FsbHkgbW9zdCBvZiB0aGUKPj4gZXh0ZXJuYWwgR1BVIHVzZS1j
-YXNlcy4gIE9mIGNvdXJzZSwgd2UnZCB3YW50IHRvIGNvbnZlcnQgbm91dmVhdSBhcwo+PiB3ZWxs
-IGZvciB0aGUgcmVzdC4KPj4KPj4gPiA+IC0gYW1kIHZpZGVvIGVuY29kZSAtPiBuZXR3b3JrIGRl
-dmljZQo+PiA+Cj4+ID4gRldJVywgIm9ubHkiIGJyZWFraW5nIGFtZCByZW5kZXIgLT4gZXh0ZXJu
-YWwgZ3B1IHdpbGwgbWFrZSB1cyBwcmV0dHkKPj4gPiB1bmhhcHB5LCBhcyB3ZSBoYXZlIHNvbWUg
-Y2FzZXMgd2hlcmUgd2UgYXJlIGNvbWJpbmluZyBhbiBBTUQgQVBVIHdpdGggYQo+PiA+IEZQR0Eg
-YmFzZWQgZ3JhcGhpY3MgY2FyZC4gSSBjYW4ndCBnbyBpbnRvIHRoZSBzcGVjaWZpY3Mgb2YgdGhp
-cyB1c2UtCj4+ID4gY2FzZSB0b28gbXVjaCBidXQgYmFzaWNhbGx5IHRoZSBBTUQgZ3JhcGhpY3Mg
-aXMgcmVuZGVyaW5nIGNvbnRlbnQgdGhhdAo+PiA+IGdldHMgY29tcG9zaXRlZCBvbiB0b3Agb2Yg
-YSBsaXZlIHZpZGVvIHBpcGVsaW5lIHJ1bm5pbmcgdGhyb3VnaCB0aGUKPj4gPiBGUEdBLgo+Pgo+
-PiBJIHRoaW5rIGl0J3Mgd29ydGggdGFraW5nIGEgc3RlcCBiYWNrIGFuZCBhc2tpbmcgd2hhdCdz
-IGJlaW5nIGhlcmUKPj4gYmVmb3JlIHdlIGZyZWFrIG91dCB0b28gbXVjaC4gIElmIHdlIGRvIGdv
-IHRoaXMgcm91dGUsIGl0IGRvZXNuJ3QgbWVhbgo+PiB0aGF0IHlvdXIgRlBHQSB1c2UtY2FzZSBj
-YW4ndCB3b3JrLCBpdCBqdXN0IG1lYW5zIGl0IHdvbid0IHdvcmsKPj4gb3V0LW9mLXRoZSBib3gg
-YW55bW9yZS4gIFlvdSdsbCBoYXZlIHRvIHNlcGFyYXRlIGV4ZWN1dGlvbiBhbmQgbWVtb3J5Cj4+
-IGRlcGVuZGVuY2llcyBpbnNpZGUgeW91ciBGUEdBIGRyaXZlci4gIFRoYXQncyBzdGlsbCBub3Qg
-Z3JlYXQgYnV0IGl0J3MKPj4gbm90IGFzIGJhZCBhcyB5b3UgbWF5YmUgbWFkZSBpdCBzb3VuZC4K
-Pj4KPj4gPiA+IFdoYXQgYWJvdXQgdGhlIGNhc2Ugd2hlbiB3ZSBnZXQgYSBidWZmZXIgZnJvbSBh
-biBleHRlcm5hbCBkZXZpY2UgYW5kCj4+ID4gPiB3ZSdyZSBzdXBwb3NlZCB0byBtYWtlIGl0ICJi
-dXN5IiB3aGVuIHdlIGFyZSB1c2luZyBpdCwgYW5kIHRoZQo+PiA+ID4gZXh0ZXJuYWwgZGV2aWNl
-IHdhbnRzIHRvIHdhaXQgdW50aWwgd2Ugc3RvcCB1c2luZyBpdD8gSXMgaXQgc29tZXRoaW5nCj4+
-ID4gPiB0aGF0IGNhbiBoYXBwZW4sIHRodXMgdHVybmluZyAiZXh0ZXJuYWwgLT4gYW1kIiBpbnRv
-ICJleHRlcm5hbCA8LT4KPj4gPiA+IGFtZCI/Cj4+ID4KPj4gPiBaZXJvLWNvcHkgdGV4dHVyZSBz
-YW1wbGluZyBmcm9tIGEgdmlkZW8gaW5wdXQgY2VydGFpbmx5IGFwcHJlY2lhdGVzCj4+ID4gdGhp
-cyB2ZXJ5IG11Y2guIFRyeWluZyB0byBwYXNzIHRoZSByZW5kZXIgZmVuY2UgdGhyb3VnaCB0aGUg
-dmFyaW91cwo+PiA+IGxheWVycyBvZiB1c2Vyc3BhY2UgdG8gYmUgYWJsZSB0byB0ZWxsIHdoZW4g
-dGhlIHZpZGVvIGlucHV0IGNhbiByZXVzZSBhCj4+ID4gYnVmZmVyIGlzIGEgZ3JlYXQgZXhwZXJp
-ZW5jZSBpbiB5YWsgc2hhdmluZy4gQWxsb3dpbmcgdGhlIHZpZGVvIGlucHV0Cj4+ID4gdG8gcmV1
-c2UgdGhlIGJ1ZmZlciBhcyBzb29uIGFzIHRoZSByZWFkIGRtYV9mZW5jZSBmcm9tIHRoZSBHUFUg
-aXMKPj4gPiBzaWduYWxlZCBpcyBtdWNoIG1vcmUgc3RyYWlnaHQgZm9yd2FyZC4KPj4KPj4gT2gs
-IGl0J3MgZGVmaW5pdGVseSB3b3JzZSB0aGFuIHRoYXQuICBFdmVyeSB3aW5kb3cgc3lzdGVtIGlu
-dGVyYWN0aW9uCj4+IGlzIGJpLWRpcmVjdGlvbmFsLiAgVGhlIFggc2VydmVyIGhhcyB0byB3YWl0
-IG9uIHRoZSBjbGllbnQgYmVmb3JlCj4+IGNvbXBvc2l0aW5nIGZyb20gaXQgYW5kIHRoZSBjbGll
-bnQgaGFzIHRvIHdhaXQgb24gWCBiZWZvcmUgcmUtdXNpbmcKPj4gdGhhdCBiYWNrLWJ1ZmZlci4g
-IE9mIGNvdXJzZSwgd2UgY2FuIGJyZWFrIHRoYXQgbGF0ZXIgZGVwZW5kZW5jeSBieQo+PiBkb2lu
-ZyBhIGZ1bGwgQ1BVIHdhaXQgYnV0IHRoYXQncyBnb2luZyB0byBtZWFuIGVpdGhlciBtb3JlIGxh
-dGVuY3kgb3IKPj4gcmVzZXJ2aW5nIG1vcmUgYmFjayBidWZmZXJzLiAgVGhlcmUncyBubyBnb29k
-IGNsZWFuIHdheSB0byBjbGFpbSB0aGF0Cj4+IGFueSBvZiB0aGlzIGlzIG9uZS1kaXJlY3Rpb25h
-bC4KPj4KPj4gLS1KYXNvbgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+drm_dev_register() sets connector->registration_state to
+DRM_CONNECTOR_REGISTERED and dev->registered to true. If
+drm_connector_set_panel_orientation() is first called after
+drm_dev_register(), it will fail several checks and results in following
+warning.
+
+Add a function to create panel orientation property and set default value
+to UNKNOWN, so drivers can call this function to init the property earlier
+, and let the panel set the real value later.
+
+[    4.480976] ------------[ cut here ]------------
+[    4.485603] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:45 __drm_mode_object_add+0xb4/0xbc
+<snip>
+[    4.609772] Call trace:
+[    4.612208]  __drm_mode_object_add+0xb4/0xbc
+[    4.616466]  drm_mode_object_add+0x20/0x2c
+[    4.620552]  drm_property_create+0xdc/0x174
+[    4.624723]  drm_property_create_enum+0x34/0x98
+[    4.629241]  drm_connector_set_panel_orientation+0x64/0xa0
+[    4.634716]  boe_panel_get_modes+0x88/0xd8
+[    4.638802]  drm_panel_get_modes+0x2c/0x48
+[    4.642887]  panel_bridge_get_modes+0x1c/0x28
+[    4.647233]  drm_bridge_connector_get_modes+0xa0/0xd4
+[    4.652273]  drm_helper_probe_single_connector_modes+0x218/0x700
+[    4.658266]  drm_mode_getconnector+0x1b4/0x45c
+[    4.662699]  drm_ioctl_kernel+0xac/0x128
+[    4.666611]  drm_ioctl+0x268/0x410
+[    4.670002]  drm_compat_ioctl+0xdc/0xf0
+[    4.673829]  __arm64_compat_sys_ioctl+0xc8/0x100
+[    4.678436]  el0_svc_common+0xf4/0x1c0
+[    4.682174]  do_el0_svc_compat+0x28/0x3c
+[    4.686088]  el0_svc_compat+0x10/0x1c
+[    4.689738]  el0_sync_compat_handler+0xa8/0xcc
+[    4.694171]  el0_sync_compat+0x178/0x180
+[    4.698082] ---[ end trace b4f2db9d9c88610b ]---
+[    4.702721] ------------[ cut here ]------------
+[    4.707329] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:243 drm_object_attach_property+0x48/0xb8
+<snip>
+[    4.833830] Call trace:
+[    4.836266]  drm_object_attach_property+0x48/0xb8
+[    4.840958]  drm_connector_set_panel_orientation+0x84/0xa0
+[    4.846432]  boe_panel_get_modes+0x88/0xd8
+[    4.850516]  drm_panel_get_modes+0x2c/0x48
+[    4.854600]  panel_bridge_get_modes+0x1c/0x28
+[    4.858946]  drm_bridge_connector_get_modes+0xa0/0xd4
+[    4.863984]  drm_helper_probe_single_connector_modes+0x218/0x700
+[    4.869978]  drm_mode_getconnector+0x1b4/0x45c
+[    4.874410]  drm_ioctl_kernel+0xac/0x128
+[    4.878320]  drm_ioctl+0x268/0x410
+[    4.881711]  drm_compat_ioctl+0xdc/0xf0
+[    4.885536]  __arm64_compat_sys_ioctl+0xc8/0x100
+[    4.890142]  el0_svc_common+0xf4/0x1c0
+[    4.893879]  do_el0_svc_compat+0x28/0x3c
+[    4.897791]  el0_svc_compat+0x10/0x1c
+[    4.901441]  el0_sync_compat_handler+0xa8/0xcc
+[    4.905873]  el0_sync_compat+0x178/0x180
+[    4.909783] ---[ end trace b4f2db9d9c88610c ]---
+
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+v4, v3:
+create property in dsi driver and set value in panel.
+
+v2:
+create property in connector init
+https://patchwork.kernel.org/project/linux-mediatek/patch/20210426051848.2600890-1-hsinyi@chromium.org/
+
+v1:
+set panel orientation in dsi driver
+https://patchwork.kernel.org/project/linux-mediatek/patch/20210409045314.3420733-1-hsinyi@chromium.org/
+---
+ drivers/gpu/drm/drm_connector.c | 58 +++++++++++++++++++++++++--------
+ include/drm/drm_connector.h     |  2 ++
+ 2 files changed, 47 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 7631f76e7f34..cda83314d7ad 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -1210,7 +1210,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  *	INPUT_PROP_DIRECT) will still map 1:1 to the actual LCD panel
+  *	coordinates, so if userspace rotates the picture to adjust for
+  *	the orientation it must also apply the same transformation to the
+- *	touchscreen input coordinates. This property is initialized by calling
++ *	touchscreen input coordinates. This property value is set by calling
+  *	drm_connector_set_panel_orientation() or
+  *	drm_connector_set_panel_orientation_with_quirk()
+  *
+@@ -2173,8 +2173,8 @@ EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
+  * @connector: connector for which to set the panel-orientation property.
+  * @panel_orientation: drm_panel_orientation value to set
+  *
+- * This function sets the connector's panel_orientation and attaches
+- * a "panel orientation" property to the connector.
++ * This function sets the connector's panel_orientation value. If the property
++ * doesn't exist, it will create one first.
+  *
+  * Calling this function on a connector where the panel_orientation has
+  * already been set is a no-op (e.g. the orientation has been overridden with
+@@ -2206,18 +2206,16 @@ int drm_connector_set_panel_orientation(
+ 
+ 	prop = dev->mode_config.panel_orientation_property;
+ 	if (!prop) {
+-		prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
+-				"panel orientation",
+-				drm_panel_orientation_enum_list,
+-				ARRAY_SIZE(drm_panel_orientation_enum_list));
+-		if (!prop)
+-			return -ENOMEM;
++		int ret;
+ 
+-		dev->mode_config.panel_orientation_property = prop;
++		ret = drm_connector_init_panel_orientation_property(connector);
++		if (ret)
++			return ret;
++		prop = dev->mode_config.panel_orientation_property;
+ 	}
+ 
+-	drm_object_attach_property(&connector->base, prop,
+-				   info->panel_orientation);
++	drm_object_property_set_value(&connector->base, prop,
++				      info->panel_orientation);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
+@@ -2225,7 +2223,7 @@ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
+ /**
+  * drm_connector_set_panel_orientation_with_quirk -
+  *	set the connector's panel_orientation after checking for quirks
+- * @connector: connector for which to init the panel-orientation property.
++ * @connector: connector for which to set the panel-orientation property.
+  * @panel_orientation: drm_panel_orientation value to set
+  * @width: width in pixels of the panel, used for panel quirk detection
+  * @height: height in pixels of the panel, used for panel quirk detection
+@@ -2252,6 +2250,40 @@ int drm_connector_set_panel_orientation_with_quirk(
+ }
+ EXPORT_SYMBOL(drm_connector_set_panel_orientation_with_quirk);
+ 
++/**
++ * drm_connector_init_panel_orientation_property -
++ * 	create the connector's panel orientation property
++ *
++ * This function attaches a "panel orientation" property to the connector
++ * and initializes its value to DRM_MODE_PANEL_ORIENTATION_UNKNOWN.
++ *
++ * The value of the property can be set by drm_connector_set_panel_orientation()
++ * or drm_connector_set_panel_orientation_with_quirk() later.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
++ */
++int drm_connector_init_panel_orientation_property(
++	struct drm_connector *connector)
++{
++	struct drm_device *dev = connector->dev;
++	struct drm_property *prop;
++
++	prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
++			"panel orientation",
++			drm_panel_orientation_enum_list,
++			ARRAY_SIZE(drm_panel_orientation_enum_list));
++	if (!prop)
++		return -ENOMEM;
++
++	dev->mode_config.panel_orientation_property = prop;
++	drm_object_attach_property(&connector->base, prop,
++				   DRM_MODE_PANEL_ORIENTATION_UNKNOWN);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_connector_init_panel_orientation_property);
++
+ int drm_connector_set_obj_prop(struct drm_mode_object *obj,
+ 				    struct drm_property *property,
+ 				    uint64_t value)
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 1922b278ffad..4396c1c4a5db 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1696,6 +1696,8 @@ int drm_connector_set_panel_orientation_with_quirk(
+ 	struct drm_connector *connector,
+ 	enum drm_panel_orientation panel_orientation,
+ 	int width, int height);
++int drm_connector_init_panel_orientation_property(
++	struct drm_connector *connector);
+ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
+ 					  int min, int max);
+ 
+-- 
+2.31.1.498.g6c1eba8ee3d-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
