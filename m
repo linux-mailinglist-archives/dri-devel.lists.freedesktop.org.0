@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997AC36E0B7
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 23:08:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D1F36E0CD
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 23:12:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A63A89135;
-	Wed, 28 Apr 2021 21:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0351C6EC3F;
+	Wed, 28 Apr 2021 21:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30F6889135
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 21:08:36 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- f75-20020a9d03d10000b0290280def9ab76so54522083otf.12
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 14:08:36 -0700 (PDT)
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 244036EC3F;
+ Wed, 28 Apr 2021 21:12:32 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id
+ g4-20020a9d6b040000b029029debbbb3ecso26668972otp.7; 
+ Wed, 28 Apr 2021 14:12:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PWrDorBDKcU1kGiZJfgkn3NJ/gIa+8Z+zkyVLhd+hzI=;
- b=TzXXMJJXM9Jiv06VoIb9Y3TR836KwuhlgK7BfrRJRA7y/FGxDH79oN4RCLxod2AR8J
- sjwmRf8ZeykKqhkFOmd47UYF2yShdGxVtVI43Sc2yATfg/OseAKqOgm56q6yp9gRAGI2
- REoCDj6dWZq40S081XF/0E8lkipavEoaYETfJp/SSE5GpYAqtx7JqRbPvBkwO4zv19ft
- j8FINrXPLX7TmMvndbn6nfXpMeWPpK54PnZsLn3337CEEnclzbAxjEijIVMx1sYa/r8k
- CU2VzoFmglRD/qxgEIsAdeanxzwzPWl1DwHClo3yrfm3EZd+hp+I3vRUYzEj4cOPpaa2
- E4yg==
+ :cc:content-transfer-encoding;
+ bh=6XU5TqBnwnYkFFfBZmHfV+hocGp4E/+zJAvsfnEXySw=;
+ b=UEvWG2H4M5sx14vlbmVSleox1eEjQw+3YaiVNov2QtMyh3sO4ZBC3Tx81G+gmURyLk
+ KHP6SOlWWq0SCdw4J77Xq7flfHxfIyLEnCMHmzzztaV2hYU1Y6+znQ4o4Wff77E2WPD5
+ AHr5jlgQgtVadv43SsbZodxbOhgirC9aFlzrbpDAT+34x2c6rF80Ru8jvZ5ACANyczDp
+ IquWTUEvzDhkIFugCSi1kQ7OztvuyEuo2WX2Qj5r26Z213HefdRf5jT1nCQvODq1t/Nk
+ EofhvSmGWGkmRjRhgB08kYLYv5AICx3UblqJH4W4ZZfmCywCGeuXThiCwZbSS3piBPMQ
+ 2eNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PWrDorBDKcU1kGiZJfgkn3NJ/gIa+8Z+zkyVLhd+hzI=;
- b=GUpEto36HLL4fCCbqFFdf17G/i4WZS/H96X51XoB+vaB+GBDe9SGLpupr/LpNONJIY
- BISPIZasjMSSe0UynXeSubzJxy7KKzc1kXvsA5qV+x39zDMFHo38fkv6cHnh4BlfyDzw
- UAFhCkcK+KS8kvxoRlwXdhkNw+/kZZSn9/N2CRGhM4j/twJICYLV/8DkguIsYzFm/U0Z
- MqP3oZ/FXbjXXzJ2YENE3l8z8FATyxQrimA5P9w352n+iG+bQY291YbQTQePPLMd/skW
- lOfa6gzBJuSTSnR7rkRXfmdokl87/KVAbxfKYyufgMV/vYzW0xAxl3U8J095iksQkUe9
- 61Aw==
-X-Gm-Message-State: AOAM530Oi3OgTQ+XOzrsrPwb6Ok5dq3lSJmTLI6rFE2M7Sh9K2Tgorzw
- SubQ2iuoAlMu9nkzuGMP2PqjQAQkSREAMtKuLMM=
-X-Google-Smtp-Source: ABdhPJx5Sp4rXgvLAFt4EJDF6mG3tjYN4+vt1f7JNZb46kYCthNRHqWTh5Uspr1FuaLFDR8h+UVjLC41TWH+xEjBGiQ=
-X-Received: by 2002:a05:6830:1f12:: with SMTP id
- u18mr26275848otg.132.1619644115496; 
- Wed, 28 Apr 2021 14:08:35 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6XU5TqBnwnYkFFfBZmHfV+hocGp4E/+zJAvsfnEXySw=;
+ b=nCcISs9m6B4vypNE6+tZsIDvKviFqiQTWbLZjkh2aw6RQ+qkgsmpQmZ7ELyo/pa/Mk
+ T4wlkwRVQ+2omSGEntM6Y6Lwn1unfPZ3ThFIJWBRMoQ9e/9jvGry9DkBdK8KPn8+d6gS
+ vOQlh1db7G6lO+watjn0pPzJ1E9o5uv3i73qOU3UzMUM9KIKQj4jJjFHefHrYlHmKc5O
+ q/XUMyYN8zddubS7HUD5OMzeqnnGwT0s6Ted7Zb6eXtRfh0G3zFIj9xgRv7swIjZ6egu
+ 2iapAZzySjmsUHa1hGXmw2OHCE4R9ybJxWnBM7PGz7XFDMgC1etefhB2Vy8IJAKLArSS
+ 5mLg==
+X-Gm-Message-State: AOAM5333ferQ0USX9kYAz6EuEFWEiQZEY5VPPUJRK3h6/wHTaPKJj1WL
+ qpEbEYKsezjrC7y4qvy/986hcrSEIQsP8nZryuQ=
+X-Google-Smtp-Source: ABdhPJw8IHCW+SvKtLYTe0mFP+jS7ieH+m64iNY23YQxYGvsJQAmRWkpLpVSvVdKSt71RkLqgs0FMIyq9+ASvUTIzgI=
+X-Received: by 2002:a9d:8d1:: with SMTP id 75mr7786542otf.23.1619644351452;
+ Wed, 28 Apr 2021 14:12:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210423113846.29651-1-fmdefrancesco@gmail.com>
-In-Reply-To: <20210423113846.29651-1-fmdefrancesco@gmail.com>
+References: <20210421161802.175639-1-linux@roeck-us.net>
+In-Reply-To: <20210421161802.175639-1-linux@roeck-us.net>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 28 Apr 2021 17:08:24 -0400
-Message-ID: <CADnq5_OQEA7+fm4u5nxopJBdXku-cKHeMbr8uekeF+fFVZYH0w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/amdgpu: Fix errors in documentation of function
- parameters
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Date: Wed, 28 Apr 2021 17:12:20 -0400
+Message-ID: <CADnq5_MQoqjYO8-UPWZeg-F98kRH46a0J+AgN2hEho0Qn=FMMA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix build warnings
+To: Guenter Roeck <linux@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,155 +62,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, outreachy-kernel@googlegroups.com,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Fri, Apr 23, 2021 at 7:38 AM Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
->
-> In the function documentation, I removed the excess parameters,
-> described the undocumented ones, and fixed the syntax errors.
->
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c          | 12 ++++++------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  4 +++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c |  8 ++++----
->  3 files changed, 13 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> index 2e9b16fb3fcd..bf2939b6eb43 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> @@ -76,7 +76,7 @@ struct amdgpu_atif {
->  /**
->   * amdgpu_atif_call - call an ATIF method
->   *
-> - * @handle: acpi handle
-> + * @atif: acpi handle
->   * @function: the ATIF function to execute
->   * @params: ATIF function params
->   *
-> @@ -166,7 +166,6 @@ static void amdgpu_atif_parse_functions(struct amdgpu_atif_functions *f, u32 mas
->  /**
->   * amdgpu_atif_verify_interface - verify ATIF
->   *
-> - * @handle: acpi handle
->   * @atif: amdgpu atif struct
->   *
->   * Execute the ATIF_FUNCTION_VERIFY_INTERFACE ATIF function
-> @@ -240,8 +239,7 @@ static acpi_handle amdgpu_atif_probe_handle(acpi_handle dhandle)
->  /**
->   * amdgpu_atif_get_notification_params - determine notify configuration
->   *
-> - * @handle: acpi handle
-> - * @n: atif notification configuration struct
-> + * @atif: acpi handle
->   *
->   * Execute the ATIF_FUNCTION_GET_SYSTEM_PARAMETERS ATIF function
->   * to determine if a notifier is used and if so which one
-> @@ -304,7 +302,7 @@ static int amdgpu_atif_get_notification_params(struct amdgpu_atif *atif)
->  /**
->   * amdgpu_atif_query_backlight_caps - get min and max backlight input signal
->   *
-> - * @handle: acpi handle
-> + * @atif: acpi handle
->   *
->   * Execute the QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS ATIF function
->   * to determine the acceptable range of backlight values
-> @@ -363,7 +361,7 @@ static int amdgpu_atif_query_backlight_caps(struct amdgpu_atif *atif)
->  /**
->   * amdgpu_atif_get_sbios_requests - get requested sbios event
->   *
-> - * @handle: acpi handle
-> + * @atif: acpi handle
->   * @req: atif sbios request struct
->   *
->   * Execute the ATIF_FUNCTION_GET_SYSTEM_BIOS_REQUESTS ATIF function
-> @@ -899,6 +897,8 @@ void amdgpu_acpi_fini(struct amdgpu_device *adev)
->  /**
->   * amdgpu_acpi_is_s0ix_supported
->   *
-> + * @adev: amdgpu_device_pointer
-> + *
->   * returns true if supported, false if not.
->   */
->  bool amdgpu_acpi_is_s0ix_supported(struct amdgpu_device *adev)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-> index 5af464933976..98d31ebad9ce 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-> @@ -111,6 +111,8 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
->   *  a KFD BO and schedules a job to move the BO.
->   *  If fence is already signaled return true.
->   *  If fence is not signaled schedule a evict KFD process work item.
-> + *
-> + *  @f: dma_fence
->   */
->  static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
->  {
-> @@ -131,7 +133,7 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
->  /**
->   * amdkfd_fence_release - callback that fence can be freed
->   *
-> - * @fence: fence
-> + * @f: dma_fence
->   *
->   * This function is called when the reference count becomes zero.
->   * Drops the mm_struct reference and RCU schedules freeing up the fence.
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> index b43e68fc1378..ed3014fbb563 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> @@ -719,7 +719,7 @@ static void unlock_spi_csq_mutexes(struct amdgpu_device *adev)
->  }
->
->  /**
-> - * @get_wave_count: Read device registers to get number of waves in flight for
-> + * get_wave_count: Read device registers to get number of waves in flight for
->   * a particular queue. The method also returns the VMID associated with the
->   * queue.
->   *
-> @@ -755,19 +755,19 @@ static void get_wave_count(struct amdgpu_device *adev, int queue_idx,
->  }
->
->  /**
-> - * @kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
-> + * kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
->   * shader engine and aggregates the number of waves that are in flight for the
->   * process whose pasid is provided as a parameter. The process could have ZERO
->   * or more queues running and submitting waves to compute units.
->   *
->   * @kgd: Handle of device from which to get number of waves in flight
->   * @pasid: Identifies the process for which this query call is invoked
-> - * @wave_cnt: Output parameter updated with number of waves in flight that
-> + * @pasid_wave_cnt: Output parameter updated with number of waves in flight that
->   * belong to process with given pasid
->   * @max_waves_per_cu: Output parameter updated with maximum number of waves
->   * possible per Compute Unit
->   *
-> - * @note: It's possible that the device has too many queues (oversubscription)
-> + * Note: It's possible that the device has too many queues (oversubscription)
->   * in which case a VMID could be remapped to a different PASID. This could lead
->   * to an iaccurate wave count. Following is a high-level sequence:
->   *    Time T1: vmid = getVmid(); vmid is associated with Pasid P1
-> --
-> 2.31.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBBcHIgMjEsIDIwMjEgYXQgMTI6MTggUE0gR3VlbnRlciBSb2VjayA8bGludXhAcm9l
+Y2stdXMubmV0PiB3cm90ZToKPgo+IEZpeCB0aGUgZm9sbG93aW5nIGJ1aWxkIHdhcm5pbmdzLgo+
+Cj4gZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1
+X2RtLmM6Cj4gICAgICAgICBJbiBmdW5jdGlvbiDigJhkbV91cGRhdGVfbXN0X3ZjcGlfc2xvdHNf
+Zm9yX2RzY+KAmToKPiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2FtZGdw
+dV9kbS9hbWRncHVfZG0uYzo2MjQyOjQ2Ogo+ICAgICAgICAgd2FybmluZzogdmFyaWFibGUg4oCY
+b2xkX2Nvbl9zdGF0ZeKAmSBzZXQgYnV0IG5vdCB1c2VkCj4KPiBkcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS8uLi9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYzoKPiAgICAgICAgIEluIGZ1
+bmN0aW9uIOKAmGFtZGdwdV9kbV9jb21taXRfY3Vyc29yc+KAmToKPiBkcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS8uLi9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYzo3NzA5OjQ0Ogo+ICAg
+ICAgICAgd2FybmluZzogdmFyaWFibGUg4oCYbmV3X3BsYW5lX3N0YXRl4oCZIHNldCBidXQgbm90
+IHVzZWQKPgo+IFRoZSB2YXJpYWJsZXMgd2VyZSBpbnRyb2R1Y2VkIHRvIGJlIHVzZWQgaW4gaXRl
+cmF0b3JzLCBidXQgbm90IHVzZWQuCj4gVXNlIG90aGVyIGl0ZXJhdG9ycyB3aGljaCBkb24ndCBy
+ZXF1aXJlIHRoZSB1bnVzZWQgdmFyaWFibGVzLgo+Cj4gRml4ZXM6IDhhZDI3ODA2MmRlNGUgKCJk
+cm0vYW1kL2Rpc3BsYXk6IERpc2FibGUgY3Vyc29ycyBiZWZvcmUgZGlzYWJsaW5nIHBsYW5lcyIp
+Cj4gRml4ZXM6IDI5YjliYTc0ZjYzODQgKCJkcm0vYW1kL2Rpc3BsYXk6IFJlY2FsY3VsYXRlIFZD
+UEkgc2xvdHMgZm9yIG5ldyBEU0MgY29ubmVjdG9ycyIpCj4gU2lnbmVkLW9mZi1ieTogR3VlbnRl
+ciBSb2VjayA8bGludXhAcm9lY2stdXMubmV0PgoKQXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCj4g
+LS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMg
+fCA5ICsrKystLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA1IGRlbGV0
+aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRn
+cHVfZG0vYW1kZ3B1X2RtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2Rt
+L2FtZGdwdV9kbS5jCj4gaW5kZXggNTczY2YxNzI2MmRhLi5mOWI4N2YxZjQyNGIgMTAwNjQ0Cj4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMK
+PiBAQCAtNjIzOSwxMyArNjIzOSwxMyBAQCBzdGF0aWMgaW50IGRtX3VwZGF0ZV9tc3RfdmNwaV9z
+bG90c19mb3JfZHNjKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKPiAgewo+ICAgICAg
+ICAgc3RydWN0IGRjX3N0cmVhbV9zdGF0ZSAqc3RyZWFtID0gTlVMTDsKPiAgICAgICAgIHN0cnVj
+dCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3I7Cj4gLSAgICAgICBzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
+cl9zdGF0ZSAqbmV3X2Nvbl9zdGF0ZSwgKm9sZF9jb25fc3RhdGU7Cj4gKyAgICAgICBzdHJ1Y3Qg
+ZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqbmV3X2Nvbl9zdGF0ZTsKPiAgICAgICAgIHN0cnVjdCBhbWRn
+cHVfZG1fY29ubmVjdG9yICphY29ubmVjdG9yOwo+ICAgICAgICAgc3RydWN0IGRtX2Nvbm5lY3Rv
+cl9zdGF0ZSAqZG1fY29ubl9zdGF0ZTsKPiAgICAgICAgIGludCBpLCBqLCBjbG9jaywgYnBwOwo+
+ICAgICAgICAgaW50IHZjcGksIHBibl9kaXYsIHBibiA9IDA7Cj4KPiAtICAgICAgIGZvcl9lYWNo
+X29sZG5ld19jb25uZWN0b3JfaW5fc3RhdGUoc3RhdGUsIGNvbm5lY3Rvciwgb2xkX2Nvbl9zdGF0
+ZSwgbmV3X2Nvbl9zdGF0ZSwgaSkgewo+ICsgICAgICAgZm9yX2VhY2hfbmV3X2Nvbm5lY3Rvcl9p
+bl9zdGF0ZShzdGF0ZSwgY29ubmVjdG9yLCBuZXdfY29uX3N0YXRlLCBpKSB7Cj4KPiAgICAgICAg
+ICAgICAgICAgYWNvbm5lY3RvciA9IHRvX2FtZGdwdV9kbV9jb25uZWN0b3IoY29ubmVjdG9yKTsK
+Pgo+IEBAIC03NzA2LDE1ICs3NzA2LDE0IEBAIHN0YXRpYyB2b2lkIGFtZGdwdV9kbV9oYW5kbGVf
+dnJyX3RyYW5zaXRpb24oc3RydWN0IGRtX2NydGNfc3RhdGUgKm9sZF9zdGF0ZSwKPiAgc3RhdGlj
+IHZvaWQgYW1kZ3B1X2RtX2NvbW1pdF9jdXJzb3JzKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpz
+dGF0ZSkKPiAgewo+ICAgICAgICAgc3RydWN0IGRybV9wbGFuZSAqcGxhbmU7Cj4gLSAgICAgICBz
+dHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRfcGxhbmVfc3RhdGUsICpuZXdfcGxhbmVfc3RhdGU7
+Cj4gKyAgICAgICBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRfcGxhbmVfc3RhdGU7Cj4gICAg
+ICAgICBpbnQgaTsKPgo+ICAgICAgICAgLyoKPiAgICAgICAgICAqIFRPRE86IE1ha2UgdGhpcyBw
+ZXItc3RyZWFtIHNvIHdlIGRvbid0IGlzc3VlIHJlZHVuZGFudCB1cGRhdGVzIGZvcgo+ICAgICAg
+ICAgICogY29tbWl0cyB3aXRoIG11bHRpcGxlIHN0cmVhbXMuCj4gICAgICAgICAgKi8KPiAtICAg
+ICAgIGZvcl9lYWNoX29sZG5ld19wbGFuZV9pbl9zdGF0ZShzdGF0ZSwgcGxhbmUsIG9sZF9wbGFu
+ZV9zdGF0ZSwKPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBuZXdfcGxh
+bmVfc3RhdGUsIGkpCj4gKyAgICAgICBmb3JfZWFjaF9vbGRfcGxhbmVfaW5fc3RhdGUoc3RhdGUs
+IHBsYW5lLCBvbGRfcGxhbmVfc3RhdGUsIGkpCj4gICAgICAgICAgICAgICAgIGlmIChwbGFuZS0+
+dHlwZSA9PSBEUk1fUExBTkVfVFlQRV9DVVJTT1IpCj4gICAgICAgICAgICAgICAgICAgICAgICAg
+aGFuZGxlX2N1cnNvcl91cGRhdGUocGxhbmUsIG9sZF9wbGFuZV9zdGF0ZSk7Cj4gIH0KPiAtLQo+
+IDIuMTcuMQo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
