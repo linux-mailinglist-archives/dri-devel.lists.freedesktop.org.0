@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7E336D79F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 14:46:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 064C336D7A5
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 14:48:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB23D6EB19;
-	Wed, 28 Apr 2021 12:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2DDE6EB27;
+	Wed, 28 Apr 2021 12:48:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30EC86EB19
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 12:46:04 +0000 (UTC)
-Date: Wed, 28 Apr 2021 12:45:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1619613961;
- bh=Qv0PWpGXYJy6PsM/2F2SxytW28WHtmPrNGxI+tH48HE=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=WEjHpEeLxa4+lp53R5zKnineHjAO2YoXIIELZTAU2RBsLgaFQ7kRURTFTfU1iA3On
- jN32bojVES/wBHfttEN7KfPRxscxVZxGe6WkieHjCk4MUrqf8qXMNh8+dDuHy+oMw3
- k/SADMz2vtKjdv5vThtZr8XOZNwcuD4+lj+x/82YarG0qJRqU/ZhpkQvgMWMch5/ZS
- wK7rge4onWskbXH8hNR+EY6Ch8SFTVb5UQimJFEOpxWZo0K0SNIRY/oFmhWQqvQSDq
- 8UbUJta7xqARPeQhYegPsOYINHFu4U+3PBcFxEFw1pckdiyZiBqFHPHs/MhRz/CEq5
- QmHN8s2bOt3oQ==
-To: Daniel Vetter <daniel@ffwll.ch>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-Message-ID: <_e1Ehagje93sjqgZPL8ZAGGADig6Kz46cPioyDMGLgVrl-9yBpY_mmhUZX4RgSkRvsonzSshylWcdwPiwpX0Kof1CbkQOu6ztFK8daZ-VSY=@emersion.fr>
-In-Reply-To: <YIlTYjNv5RI5GuiN@phenom.ffwll.local>
-References: <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
- <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
- <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
- <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
- <s8QVKcJeMhEBcoOS9h7UzE_fUG-VKfgso3HbaM37xGhbBu6i966cTiD_UY1lBbiOMl-VbGyu7r0eBS3vTY8DWSUItsLrf_ISzDuT9vbRs8I=@emersion.fr>
- <CADnq5_PEMvF7Gd4qug=FjfTtxOtygw7SO73HjhSh5AyEramtkA@mail.gmail.com>
- <YIkzewghZOdMXwfi@phenom.ffwll.local>
- <19ca36c3-306e-5021-0243-3289c38ef067@gmail.com>
- <YIlTYjNv5RI5GuiN@phenom.ffwll.local>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E87556EB27
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 12:48:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id AD8EF61289
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 12:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619614123;
+ bh=j/zUEXqVXeu8Nw1hXtleoUR0US7d/gN9I/BPgXeqOqA=;
+ h=From:To:Subject:Date:From;
+ b=LBmuzUXO7n9tMdXouNH/vw2E9n+a7Largu1ededkeBku9hrewaB1odTgGXdYjZ/+K
+ w84oHVqICaXmzqz/tpoLxWNprSAnNhLLMIZ6dHdd0ejF2QWZmqobqRoNavcdXueqs7
+ yHBGyJXKE4TBkNRX6xEkfJN1nhgteEg9yOtxiKGljcjEx81SWSKgkJaLE5frl7Ptne
+ bPXTNYTwpwdPFxx6RnNsICam93AnuAryIANz4VHDaKSeYtniP0rTt4jYBWqsczzdXB
+ 4Gl4uU2akpCFnnRCLnh7ZHqDoUjJIPObxzaIbWkZX9t8eYujbuWEkD6BmaKPefSGUy
+ GgL8AJ3tCIMqw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id A6A8261289; Wed, 28 Apr 2021 12:48:43 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212871] New: AMD Radeon Pro VEGA 20 (Aka Vega12) - Glitch and
+ freeze on any kernel and/or distro.
+Date: Wed, 28 Apr 2021 12:48:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: rodrigo.luglio@icloud.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-212871-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,43 +64,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, April 28th, 2021 at 2:21 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=212871
 
-> Yeah I think we have pretty clear consensus on that goal, just no one yet
-> volunteered to get going with the winsys/wayland work to plumb drm_syncobj
-> through, and the kernel/mesa work to make that optionally a userspace
-> fence underneath. And it's for a sure a lot of work.
+            Bug ID: 212871
+           Summary: AMD Radeon Pro VEGA 20 (Aka Vega12) - Glitch and
+                    freeze on any kernel and/or distro.
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: Any
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: blocking
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: rodrigo.luglio@icloud.com
+        Regression: No
 
-I'm interested in helping with the winsys/wayland bits, assuming the
-following:
+I have a macbook pro with vega 20 which uses the amdgpu firmware vega12 and
+when i boot any distro the graphics glitch and the computer freezes.
+ If i install amdgpu pro on ubuntu it works flawlessly. Would you guys help me
+debug this and fix for upstream? 
 
-- We are pretty confident that drm_syncobj won't be superseded by
-  something else in the near future. It seems to me like a lot of
-  effort has gone into plumbing sync_file stuff all over, and it
-  already needs replacing (I mean, it'll keep working, but we have a
-  better replacement now. So compositors which have decided to ignore
-  explicit sync for all this time won't have to do the work twice.)
-- Plumbing drm_syncobj solves the synchronization issues with upcoming
-  AMD hardware, and all of this works fine in cross-vendor multi-GPU
-  setups.
-- Someone is willing to spend a bit of time bearing with me and
-  explaining how this all works. (I only know about sync_file for now,
-  I'll start reading the Vulkan bits.)
+Let me know what can I send to complement the information required for
+analysis, like logs or dmesg. I would be very happy to help and participate on
+this.
 
-Are these points something we can agree on?
+Please, excuse me if this is not the right place for me to ask this kind of
+thing, and please if you can, kindly redirect me to the right place.
 
-Thanks,
+-- 
+You may reply to this email to add a comment.
 
-Simon
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
