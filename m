@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F5236E18B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 00:30:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D83E436E18A
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 00:30:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8536EC4B;
-	Wed, 28 Apr 2021 22:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D49026E0C1;
+	Wed, 28 Apr 2021 22:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 757066E0C1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1822A6EC5D
  for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 22:29:57 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id CB09B1F42CA9
+ with ESMTPSA id A881D1F42CA4
 Received: by jupiter.universe (Postfix, from userid 1000)
- id A85244800C3; Thu, 29 Apr 2021 00:29:53 +0200 (CEST)
+ id ABF604800C6; Thu, 29 Apr 2021 00:29:53 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sebastian.reichel@collabora.com>,
  Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
-Subject: [PATCHv2 1/5] rtc: m41t80: add support for fixed clock
-Date: Thu, 29 Apr 2021 00:29:49 +0200
-Message-Id: <20210428222953.235280-2-sebastian.reichel@collabora.com>
+Subject: [PATCHv2 2/5] drm/imx: Add 8 pixel alignment fix
+Date: Thu, 29 Apr 2021 00:29:50 +0200
+Message-Id: <20210428222953.235280-3-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210428222953.235280-1-sebastian.reichel@collabora.com>
 References: <20210428222953.235280-1-sebastian.reichel@collabora.com>
@@ -47,93 +47,202 @@ Cc: linux-rtc@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
  David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
  linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Congatec's QMX6 system on module (SoM) uses a m41t62 as RTC. The
-modules SQW clock output defaults to 32768 Hz. This behaviour is
-used to provide the i.MX6 CKIL clock. Once the RTC driver is probed,
-the clock is disabled and all i.MX6 functionality depending on
-the 32 KHz clock has undefined behaviour. For example when using
-the hardware watchdog the system will likely do arbitrary reboots.
+Some standard resolutions like 1366x768 do not work properly with
+i.MX6 SoCs, since the horizontal resolution needs to be aligned
+to 8 pixels (so 1360x768 or 1368x768 would work).
 
-Referencing the m41t62 directly results in a deadlock. The kernel
-will see, that i.MX6 system clock needs the RTC clock and do probe
-deferral. But the i.MX6 I2C module never becomes usable without the
-i.MX6 CKIL clock and thus the RTC's clock will not be probed. So
-from the kernel's perspective this is a chicken-and-egg problem.
+This patch allocates framebuffers allocated to 8 pixels. The extra
+time required to send the extra pixels are removed from the blank
+time. In order to expose the correct display size to userspace,
+the stride is increased without increasing the width.
 
-Technically everything is fine by not touching anything, since
-the RTC clock correctly enables the clock on reset (i.e. on
-battery backup power loss) and also the bootloader enables it
-in case an something (e.g. an unpatched kernel) disabled this
-incorrectly.
+Without this patch systems with this display resolution hang
+indefinitely during boot up.
 
-A workaround for this issue is describing the square wave pin
-as fixed-clock, which is registered early and basically how
-this pin is used on the i.MX6.
-
-Suggested-by: Saravana Kannan <saravanak@google.com>
+Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- Documentation/devicetree/bindings/rtc/rtc-m41t80.txt |  9 +++++++++
- drivers/rtc/rtc-m41t80.c                             | 12 ++++++++++++
- 2 files changed, 21 insertions(+)
+ drivers/gpu/drm/imx/imx-drm-core.c | 19 ++++++++++++++++++-
+ drivers/gpu/drm/imx/imx-ldb.c      |  5 +++++
+ drivers/gpu/drm/imx/ipuv3-crtc.c   | 11 ++++++++++-
+ drivers/gpu/drm/imx/ipuv3-plane.c  | 19 +++++++++++++++----
+ drivers/gpu/ipu-v3/ipu-dc.c        |  5 +++++
+ drivers/gpu/ipu-v3/ipu-di.c        |  7 +++++++
+ 6 files changed, 60 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/rtc/rtc-m41t80.txt b/Documentation/devicetree/bindings/rtc/rtc-m41t80.txt
-index c746cb221210..cdd196b1e9bd 100644
---- a/Documentation/devicetree/bindings/rtc/rtc-m41t80.txt
-+++ b/Documentation/devicetree/bindings/rtc/rtc-m41t80.txt
-@@ -21,10 +21,19 @@ Optional properties:
-                       clock name
- - wakeup-source: Enables wake up of host system on alarm
+diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+index e6a88c8cbd69..8457b9788cda 100644
+--- a/drivers/gpu/drm/imx/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/imx-drm-core.c
+@@ -145,9 +145,26 @@ static const struct drm_ioctl_desc imx_drm_ioctls[] = {
+ 	/* none so far */
+ };
  
-+Optional child node:
-+- clock: Provide this if the square wave pin is used as boot-enabled fixed clock.
++static int imx_drm_dumb_create(struct drm_file *file_priv,
++			       struct drm_device *drm,
++			       struct drm_mode_create_dumb *args)
++{
++	u32 width = args->width;
++	int ret;
 +
- Example:
- 	rtc@68 {
- 		compatible = "st,m41t80";
- 		reg = <0x68>;
- 		interrupt-parent = <&UIC0>;
- 		interrupts = <0x9 0x8>;
++	args->width = ALIGN(width, 8);
 +
-+		clock {
-+			compatible = "fixed-clock";
-+			#clock-cells = <0>;
-+			clock-frequency = <32768>;
-+		};
- 	};
-diff --git a/drivers/rtc/rtc-m41t80.c b/drivers/rtc/rtc-m41t80.c
-index 89128fc29ccc..b3ece42b6f90 100644
---- a/drivers/rtc/rtc-m41t80.c
-+++ b/drivers/rtc/rtc-m41t80.c
-@@ -544,10 +544,22 @@ static struct clk *m41t80_sqw_register_clk(struct m41t80_data *m41t80)
- {
- 	struct i2c_client *client = m41t80->client;
- 	struct device_node *node = client->dev.of_node;
-+	struct device_node *fixed_clock;
- 	struct clk *clk;
- 	struct clk_init_data init;
- 	int ret;
++	ret = drm_gem_cma_dumb_create(file_priv, drm, args);
++	if (ret)
++		return ret;
++
++	args->width = width;
++	return ret;
++}
++
+ static const struct drm_driver imx_drm_driver = {
+ 	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+-	DRM_GEM_CMA_DRIVER_OPS,
++	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(imx_drm_dumb_create),
+ 	.ioctls			= imx_drm_ioctls,
+ 	.num_ioctls		= ARRAY_SIZE(imx_drm_ioctls),
+ 	.fops			= &imx_drm_driver_fops,
+diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+index ffdc492c5bc5..53132ddf9587 100644
+--- a/drivers/gpu/drm/imx/imx-ldb.c
++++ b/drivers/gpu/drm/imx/imx-ldb.c
+@@ -274,6 +274,11 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 			 "%s: mode exceeds 85 MHz pixel clock\n", __func__);
+ 	}
  
-+	fixed_clock = of_get_child_by_name(node, "clock");
-+	if (fixed_clock) {
-+		/*
-+		 * skip registering square wave clock when a fixed
-+		 * clock has been registered. The fixed clock is
-+		 * registered automatically when being referenced.
-+		 */
-+		of_node_put(fixed_clock);
-+		return 0;
++	if (!IS_ALIGNED(mode->hdisplay, 8)) {
++		dev_warn(ldb->dev,
++			 "%s: hdisplay does not align to 8 byte\n", __func__);
 +	}
 +
- 	/* First disable the clock */
- 	ret = i2c_smbus_read_byte_data(client, M41T80_REG_ALARM_MON);
- 	if (ret < 0)
+ 	if (dual) {
+ 		serial_clk = 3500UL * mode->clock;
+ 		imx_ldb_set_clock(ldb, mux, 0, serial_clk, di_clk);
+diff --git a/drivers/gpu/drm/imx/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3-crtc.c
+index e6431a227feb..9c8829f945b2 100644
+--- a/drivers/gpu/drm/imx/ipuv3-crtc.c
++++ b/drivers/gpu/drm/imx/ipuv3-crtc.c
+@@ -305,10 +305,19 @@ static void ipu_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 	sig_cfg.vsync_pin = imx_crtc_state->di_vsync_pin;
+ 
+ 	drm_display_mode_to_videomode(mode, &sig_cfg.mode);
++	if (!IS_ALIGNED(sig_cfg.mode.hactive, 8)) {
++		unsigned int new_hactive = ALIGN(sig_cfg.mode.hactive, 8);
++
++		dev_warn(ipu_crtc->dev, "8-pixel align hactive %d -> %d\n",
++			 sig_cfg.mode.hactive, new_hactive);
++
++		sig_cfg.mode.hfront_porch = new_hactive - sig_cfg.mode.hactive;
++		sig_cfg.mode.hactive = new_hactive;
++	}
+ 
+ 	ipu_dc_init_sync(ipu_crtc->dc, ipu_crtc->di,
+ 			 mode->flags & DRM_MODE_FLAG_INTERLACE,
+-			 imx_crtc_state->bus_format, mode->hdisplay);
++			 imx_crtc_state->bus_format, sig_cfg.mode.hactive);
+ 	ipu_di_init_sync_panel(ipu_crtc->di, &sig_cfg);
+ }
+ 
+diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
+index fa5009705365..06ad6dece61f 100644
+--- a/drivers/gpu/drm/imx/ipuv3-plane.c
++++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+@@ -30,6 +30,11 @@ to_ipu_plane_state(struct drm_plane_state *p)
+ 	return container_of(p, struct ipu_plane_state, base);
+ }
+ 
++static unsigned int ipu_src_rect_width(const struct drm_plane_state *state)
++{
++	return ALIGN(drm_rect_width(&state->src) >> 16, 8);
++}
++
+ static inline struct ipu_plane *to_ipu_plane(struct drm_plane *p)
+ {
+ 	return container_of(p, struct ipu_plane, base);
+@@ -415,6 +420,12 @@ static int ipu_plane_atomic_check(struct drm_plane *plane,
+ 	if (old_fb && fb->pitches[0] != old_fb->pitches[0])
+ 		crtc_state->mode_changed = true;
+ 
++	if (ALIGN(fb->width, 8) * fb->format->cpp[0] >
++	    fb->pitches[0] + fb->offsets[0]) {
++		dev_warn(dev, "pitch is not big enough for 8 pixels alignment");
++		return -EINVAL;
++	}
++
+ 	switch (fb->format->format) {
+ 	case DRM_FORMAT_YUV420:
+ 	case DRM_FORMAT_YVU420:
+@@ -590,7 +601,7 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
+ 	if (ipu_state->use_pre) {
+ 		axi_id = ipu_chan_assign_axi_id(ipu_plane->dma);
+ 		ipu_prg_channel_configure(ipu_plane->ipu_ch, axi_id,
+-					  drm_rect_width(&new_state->src) >> 16,
++					  ipu_src_rect_width(new_state),
+ 					  drm_rect_height(&new_state->src) >> 16,
+ 					  fb->pitches[0], fb->format->format,
+ 					  fb->modifier, &eba);
+@@ -623,9 +634,9 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
+ 		break;
+ 	}
+ 
+-	ipu_dmfc_config_wait4eot(ipu_plane->dmfc, drm_rect_width(dst));
++	ipu_dmfc_config_wait4eot(ipu_plane->dmfc, ALIGN(drm_rect_width(dst), 8));
+ 
+-	width = drm_rect_width(&new_state->src) >> 16;
++	width = ipu_src_rect_width(new_state);
+ 	height = drm_rect_height(&new_state->src) >> 16;
+ 	info = drm_format_info(fb->format->format);
+ 	ipu_calculate_bursts(width, info->cpp[0], fb->pitches[0],
+@@ -690,7 +701,7 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
+ 
+ 		ipu_cpmem_zero(ipu_plane->alpha_ch);
+ 		ipu_cpmem_set_resolution(ipu_plane->alpha_ch,
+-					 drm_rect_width(&new_state->src) >> 16,
++					 ipu_src_rect_width(new_state),
+ 					 drm_rect_height(&new_state->src) >> 16);
+ 		ipu_cpmem_set_format_passthrough(ipu_plane->alpha_ch, 8);
+ 		ipu_cpmem_set_high_priority(ipu_plane->alpha_ch);
+diff --git a/drivers/gpu/ipu-v3/ipu-dc.c b/drivers/gpu/ipu-v3/ipu-dc.c
+index 34b4075a6a8e..ca96b235491a 100644
+--- a/drivers/gpu/ipu-v3/ipu-dc.c
++++ b/drivers/gpu/ipu-v3/ipu-dc.c
+@@ -167,6 +167,11 @@ int ipu_dc_init_sync(struct ipu_dc *dc, struct ipu_di *di, bool interlaced,
+ 
+ 	dc->di = ipu_di_get_num(di);
+ 
++	if (!IS_ALIGNED(width, 8)) {
++		dev_warn(priv->dev,
++			 "%s: hactive does not align to 8 byte\n", __func__);
++	}
++
+ 	map = ipu_bus_format_to_map(bus_format);
+ 
+ 	/*
+diff --git a/drivers/gpu/ipu-v3/ipu-di.c b/drivers/gpu/ipu-v3/ipu-di.c
+index e617f60afeea..666223c6bec4 100644
+--- a/drivers/gpu/ipu-v3/ipu-di.c
++++ b/drivers/gpu/ipu-v3/ipu-di.c
+@@ -506,6 +506,13 @@ int ipu_di_adjust_videomode(struct ipu_di *di, struct videomode *mode)
+ {
+ 	u32 diff;
+ 
++	if (!IS_ALIGNED(mode->hactive, 8) &&
++	    mode->hfront_porch < ALIGN(mode->hactive, 8) - mode->hactive) {
++		dev_err(di->ipu->dev, "hactive %d is not aligned to 8 and front porch is too small to compensate\n",
++			mode->hactive);
++		return -EINVAL;
++	}
++
+ 	if (mode->vfront_porch >= 2)
+ 		return 0;
+ 
 -- 
 2.30.2
 
