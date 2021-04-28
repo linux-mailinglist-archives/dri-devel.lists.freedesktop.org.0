@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD0936DB01
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 17:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497A236DB14
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 17:14:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBEE26EB7C;
-	Wed, 28 Apr 2021 15:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D8D86EB92;
+	Wed, 28 Apr 2021 15:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com
  (mail-co1nam11on2042.outbound.protection.outlook.com [40.107.220.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BBB96EB68;
- Wed, 28 Apr 2021 15:13:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F01486EB69;
+ Wed, 28 Apr 2021 15:13:08 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XE+cHfmXKX7vww9G+py3rHn0Ib/DeeA1yQwkREsSWMqbgLxsS+C0tphZzBZ6lmfaZ/X5Tn4mud7uWWPAN16Lyu5dwAAnyie7w9qJTjYmKSNZbotP28nQDwm+WcrQYWXveLxEepZJDNm/0ihOsy0z/ptva0cFKqYrsneRBLl8Cpsl4B7byQt0AqsxQAOZfNxABKnHRBxPz6WNHBX2h8Ca38KgcIRkqZgCQZEF+IsfMcafSfc7p9BIfCuIvTZy6wnDIV+1M3PUlHHDwUjvdtwNCFSFlQD9YRvNvRJN774wJ+TtnOufuo+W7QNsyX8mv1m7uMjaorNSIcgsghM5K/6NEA==
+ b=ELMxuyldqXmLpEaQzn5CmeMnESTpBpxRecHpOurLecQnAZV13yMA093UlSR19Ko/KIiy2OuvV2PX4JCCRi1Ltm+JBV0Qfnc19BioE2mjhx4FIAWkJa8ywKS05qdhXCjDCRcGsk1M3mIsaZgwTJ0yCtiIpWQaj3jX60PnwOMMy5Znw5iJxg/Fgj6C1P7QiD1hXcz3XHr84UxEiWjanWZ575zgKH0VWjrMVGZ3gWlW5fNx3CcWly98unM7e25sO1QXznhZ9jHCLYcpfjm+deEfFGeCChtFYGs/hKf4giTJfRj6Y00ceeZloHMgpZkwIFtO15V1nVWivy3V1EAuI1u5OQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N3YplCOTsOWVEPBM0hbZ9GublLwFAwkekCPXORZYxoI=;
- b=fIE3XsP01OG3w/ikvyV7Ph1rps9OgVPWulcPr8KbHLwFDKrfGQ7o3GwFJSL2Bh77imBhCUwBPX6XUyu1jsBSG5i4A3GJ98bxNfHHL2hIibU8tfOFinlfZGjKGOAaqr3OiVLtSAu6Hpnzaa8XMJeFM+fLmklRLw5GLM1pfzb1jvt4FVqP+LVqpVz7mmOro+SRvD/CSS6+O0KATSy6uD0dPyNLIGCvfcQJCkQvtFPdH0c3gIQBuCBdB9i6mLZ9/1IfQtrl7nkm5kC3DVHZXCk0vT0bFFg+kxs0NnJ4LZcjKBMjl6egXBfsPiBy8FSD9Xt+7ZjZWynvYs32NePlrY/7Fg==
+ bh=AGvjbVIrpRahh6cQMEYqaY7OXbk4P1Q0/vRMuCFVhNM=;
+ b=PfsAunDy2OPDyMDsWv6GeIukGL2XMPHB1tlIinwdGe79Rz7tts9Is5uCyO9WPy074zMoLXW2JHXl21tncdUOsFB5rp2fGMJmsY1wmVht0fYweD0DXs+Tkk5UX4DDjbBjajuyVUokiv1mIy8Smh4rZYTr70cSbB6TjoTBJBtg9LQwGNLP4CC2EvruTp9vBa6gFNGkVVm+Vz1mGQoYrGOds33KOVCiwMdN4+eRI1ZKh4ZtYzKw14rOFtY+E20rcr74THHK0OeA0hzhidmhXhZekbnuZmLpLzk0prGCKjJW6BU9nAvsmKFXRlXJPy/ZPa7Oc6QAAqKVOYTiBXJsejPYRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N3YplCOTsOWVEPBM0hbZ9GublLwFAwkekCPXORZYxoI=;
- b=NwG0H3rEz/3kUb21CT+AtPRE5p8ALskS/ca1f3ueE8kmyyMdNyfhziumVzTaG0PtjKBK3Sg2VFCp4aUY1yFow0eF04dNk8dC6jSZ6H+JkStUaHAC4WsSq+Afpe8W8Bc7aGHUfXvaU8qn0PLGB6j3qCb4CJV6ciTqL8gMx0aUzec=
+ bh=AGvjbVIrpRahh6cQMEYqaY7OXbk4P1Q0/vRMuCFVhNM=;
+ b=3Ao7XekyC9Uyyntktt4bTgH+wyMWFy08CDA8eIQM+WVA8cP3zOBwdmkY5ZKT52Sy8L0yGtvanUbr/ZAh5aaoY1GJHpLXIeb29AgpSE6/VJJGjP798Wjd1ysNEnb6kabWZtaONgDW3I/LqsgVJGIy0LfTGG/bvOlIyLI9Su5Ozms=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,18 +34,18 @@ Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
  by SN6PR12MB2749.namprd12.prod.outlook.com (2603:10b6:805:6d::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22; Wed, 28 Apr
- 2021 15:13:04 +0000
+ 2021 15:13:06 +0000
 Received: from SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4065.026; Wed, 28 Apr 2021
- 15:13:04 +0000
+ 15:13:06 +0000
 From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-pci@vger.kernel.org, ckoenig.leichtzumerken@gmail.com,
  daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
-Subject: [PATCH v5 18/27] drm/sched: Expose drm_sched_entity_kill_jobs
-Date: Wed, 28 Apr 2021 11:11:58 -0400
-Message-Id: <20210428151207.1212258-19-andrey.grodzovsky@amd.com>
+Subject: [PATCH v5 19/27] drm/amdgpu: Finilise device fences on device remove.
+Date: Wed, 28 Apr 2021 11:11:59 -0400
+Message-Id: <20210428151207.1212258-20-andrey.grodzovsky@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210428151207.1212258-1-andrey.grodzovsky@amd.com>
 References: <20210428151207.1212258-1-andrey.grodzovsky@amd.com>
@@ -59,53 +59,53 @@ Received: from agrodzovsky-All-Series.hitronhub.home
  (2607:fea8:3edf:49b0:7212:f93a:73b0:8f23) by
  YT1PR01CA0142.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2f::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.25 via Frontend Transport; Wed, 28 Apr 2021 15:13:03 +0000
+ 15.20.4065.25 via Frontend Transport; Wed, 28 Apr 2021 15:13:05 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 74a03a83-73e7-4550-6a4d-08d90a581f3a
+X-MS-Office365-Filtering-Correlation-Id: 1582cf64-1891-42d5-549c-08d90a582038
 X-MS-TrafficTypeDiagnostic: SN6PR12MB2749:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB2749ADD6332C8BDB610BC076EA409@SN6PR12MB2749.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:83;
+X-Microsoft-Antispam-PRVS: <SN6PR12MB274979F790C4DB40E317E7CDEA409@SN6PR12MB2749.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oyeokwACEEb6kYJgJffPwFT0HVC7SzZV/XFCJZXXs66KcELWOq4z+PYmoBhAhTu81vOXSqsCV9Y21rcGs3iw0cYiQvMgoM8167BkMmpffmhfbO/0vahae4wdJBKOE7oWYonUeE6JcCVYlRDJO6HYp9fYnAiTwdtVRnOaZSAKU1kmdACM+mGFnV0Q75jw6ct8LyBV88K8Jsi9s7ur0cmv41JsYzNh2yrfZ8wWy11lEhizmlRb8iPQ8ZOhv9MAlo3MPSJix/xo0PGJNTIIUdlMvQx+d2yTuC85hxFKBrYLN1rowhOjAYJVxgrjvFQ4TAR4b0nStEKWl3zNKwqIpSmlBqTv1ONLIh2rQBzgRhVvQValSQHUchIV55W3MS80UDK8AHl3AFlSsxsL0DRGtOwpn1f38oexFDHU3A5he2XNBJ6H+6+QXVw7AovxCMJMhm58iwI+ad+dDz7i6hroGkWPjQ34cEwjG1r6a7OvgvcOFjtmxc3cOB+rVDu4uBUziCekkSd+CMIE4x6CkQagywC3v8+agDHVKnF4crLJjk3rVLnuIC5VWGWNv/XrvPXOf0MxZkiTFLcVyvxGPYK5j2I/MOWKhlvIQTf7TLWTx118Wn0=
+X-Microsoft-Antispam-Message-Info: zBz1a9VD2XnAxFSeD0LOOFbFfEkN387mnxOX6pAEG0369FJt6fT4TW2SaVfSdS15uSFy3fTbccQY0ubVwvN0MSi0EoEKlHW6FXnfysMjoeUNI6MTrD0faL0TDKC325buNN//JqVCmFKloxq9jZX2tGJKjgeQuPJXVxWMT2uXGDPCRe/pypZqvosaiBXNAUGoZmnaFqAB5xWnIxyIG/Ca/IdUxTVoVU8oY9D/C7/7uEgBXQ9DBDTEMBPuCAlZ/gHl8sUL8TKiVQSgsYzGd6A0p/ysNvgFlibglnlrcPMOB4XBEBHwRyYpKVUxATlrWjsHrSHOyonIeUd46My/iD2U5ERcj94VLZ6/S554R/+hMUu0cZp4DsVXS7iijHhZIgxfwwGezdL2+RLlQ85vN8UGf19vM2MsQLauoVkQWruGe9ytWJ8FianFKOBPkpgNIBCAGfCbpZZ1H+L39eA2DQznO+Egd1rwLOS+IKKVTIeUn4eSdBmHu34ZLyuND8rCD3EGvlLHJumaLLIOKCK5Sja5eZmw4vTYKIzPMWbId3b+sFIwJCm8pWfMiqMebF3nBWcYBT9WTNt9LNKtPFo8t83IeQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(346002)(39860400002)(136003)(396003)(366004)(16526019)(6666004)(6512007)(2616005)(1076003)(2906002)(6636002)(66556008)(186003)(86362001)(5660300002)(8936002)(83380400001)(6486002)(478600001)(44832011)(38100700002)(66946007)(52116002)(6506007)(66476007)(8676002)(4326008)(36756003)(316002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?vR3MRUO9FSYjh55ZIaebNLDKLjRUdudpps6nyfy3N+BO0SidzKShVPOAT4qs?=
- =?us-ascii?Q?A6gULmZBb9cfGIrGDiv6IvTXbgW45vbXzNK2rr24sk3tgSc7kKpNY6yGF+2p?=
- =?us-ascii?Q?MHVOSqmENvOMb4XpA+m9kgby9D0XHim65QTwD1gCtFwdee6oCrDyk2HtyaQi?=
- =?us-ascii?Q?7uE57FgK4MkxkuO6z51yu2mnFPNH4XZyOM59RrNAMbeoFrAg0TnyPtGKtQzX?=
- =?us-ascii?Q?rMLHRlZUJsdx/XN37IrZqr9ybnoUHsruF+vx0gOCSIP/OBXuZ/vcQijEVL/G?=
- =?us-ascii?Q?B1pQRvzK0B0FiK0zAG5vyIRgLR5olvOqSt92P9ARLGJTmwCd8KlNg/J0G8m3?=
- =?us-ascii?Q?pz+D9h2mPFeZhEkcCanivj//NdkRhCLNJkfgdX0Npj4iRneYhx2etR35z15o?=
- =?us-ascii?Q?GZosjxhoQ2+Yrm9UiIW5C9HcDIHVtkJM+9GndjuBBiiio6emkRjlWo7pCxVS?=
- =?us-ascii?Q?RgYEuwqUNwBFYKd+RqRg2l0korBxGxpxpry7h96WBRjSaM1xq1lol3vLhn4V?=
- =?us-ascii?Q?zbxHIYo5yWgmH9P7VLgTG+l/SKzw+fuV8cjBNGendzIJJkai3lvN4xumjDKB?=
- =?us-ascii?Q?GWwqfBSCLjKB0aybWWnqHR6XQ/D3ObYTlbB15ILAorM5JD5saA/2Qh/QqL67?=
- =?us-ascii?Q?+vETC3vLrRLk+krdWoyXUexnIHYp//BkNbxKGHHkDjKXsecGQCBIR5Pl1Hnn?=
- =?us-ascii?Q?V0YOK5MiWNvm9TevqmsTmTvJECdYmINvwrmVzIrQYPtvUQ92jY1NB5a9Ph18?=
- =?us-ascii?Q?dDD34a7a/OFgpiHKy5C4M04j3Qd0OzzPJkjSXSLS7whizCDXF4uRLGIYoFh9?=
- =?us-ascii?Q?bS40K8d/GAcqcAN7ifg/xiZNUkjcDYtVphi+KY0RQXqSJsDc10XZwuzL1QZh?=
- =?us-ascii?Q?ihoDRcyiNPovUo3bTJ4jBMBOya8EXL9TuTMuo9ZUf/mF4UXkQY1IGKnIdgQe?=
- =?us-ascii?Q?hZ5HS8wmsfXCMkUb3O6iI4mdx+qA59ouVNoT5DYcLhC/L8qTEECDaOI1ABb2?=
- =?us-ascii?Q?WQ+0c2Vy2vPqrEPby/h0T6Nf89hLXZlczjytrwGNoa4UMakoMQUCdYPErnOp?=
- =?us-ascii?Q?mywUDXar0EeFn8rnPwJpDd3NIN+A2vXEfI9tG+/9SQt3rE0bztGzC/rBX88V?=
- =?us-ascii?Q?USt18CJVthYAAiBMl27Gyco7corWRwUsOIbuJWtGRRLZZVJpSxm2ns3e0iGv?=
- =?us-ascii?Q?/PfelFsoeNl9qVsNw5ZrxrEIDPFxgD0c6U3f0J0VzUL0HTC8MKuF/sDEIGTz?=
- =?us-ascii?Q?uQBVqzuXqeRErEbrvObwA+hxWrCvANKrC1phgZUkRxGOxicc7+p826xh+Zan?=
- =?us-ascii?Q?BdXOc+RpaGmR75/UqJeDSAIvTgld9IcPaZ1F5AxezeAy0YNryncdEWejLCx3?=
- =?us-ascii?Q?aR7/E1zGxgDph52T0vO/frALQoAX?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?QCtLlIkVtH45As2v4d4JwIe8sxP3HCuzg+Fc5oJMCuhp/us+f9Z9zVU6abaI?=
+ =?us-ascii?Q?RJTJIOiyq7XjtHZXhH8tj+BSnazvrhjcaafHtaXJPtb4cdQK60S43g4PvuLR?=
+ =?us-ascii?Q?ld6JXaIfLX7IDzNtY8nODoIPq7WlfAe9h6HCslUXwlJfUjw9GUv12KkwNAh+?=
+ =?us-ascii?Q?oFqz2bAOQNQ5x8fI9k9+3VmqwYdJJ/6Tm1kaNE75amQvb06AEwg8YySWFoHy?=
+ =?us-ascii?Q?Sr4evvZXfPwKz8K51BDN62RzjazzqeDJERvzpscYa0la70uIZocbejuYE57e?=
+ =?us-ascii?Q?ebrCP6sf9GkzESnuVSmVam1R1ct8BkrDGCKQ5kallAwqIkTi55UHNHBz/Qgi?=
+ =?us-ascii?Q?oi0/TmU81dEMp2WDJ+xbrROYksS61npDRzobycae0JcnrrUEV914NOaF0trg?=
+ =?us-ascii?Q?Oap3EgFZgChibOsWjeso3O8kRXGYUOyE42IacMmnSVdWiqsUcDPb4g+i2Jex?=
+ =?us-ascii?Q?GCc1Phf7BEOKKKtupuwjWpIdsLhOy1WRosaMY2Z5sQn4GaCl8P1yYv5XwYym?=
+ =?us-ascii?Q?yUEnGdoQs5uQyPp/5zi7wp91U2mKnz/Vgs92icBaa/qUVVjezDTHqNXSagSY?=
+ =?us-ascii?Q?ig6xgvFjc88DXzKYRZards5uYaDMnVSPVgv6mLPJkZrENTEmuvun6vmCjHif?=
+ =?us-ascii?Q?XvKDR1z5yAeRr8ewHgNgYgvcqQvT6Z/pkJNKMoJ/yDAo4qQ4CWYEdA+aGpT+?=
+ =?us-ascii?Q?7iIYpkxNtRscxMGHemEkEaHy7nSRZ58/GMT2iYlz/tOh5NGhXPOx2bxdz9lu?=
+ =?us-ascii?Q?gcxlivSf3Gj9Ryi0w3+mqLfspkdskEfSHzus9632QfvBlct/XgI+WKBKZXsv?=
+ =?us-ascii?Q?moZm13xXN6h3hqca+jGUfD7xBwojCaNhA8oROl22zcxvRB6HC922Mmoj+ijf?=
+ =?us-ascii?Q?yHzHJyuOwt34wsp1+wdoywvwxdyWqlrh/u12LtAAXkCv8b+nJQL2zKMdVKr5?=
+ =?us-ascii?Q?ytNAMzP5MK27OOL5L4fR1djJmf6PGsWEVvsqwbv//XE9Bzjk8P6owxhikQSo?=
+ =?us-ascii?Q?tMkNWBWYPdkpv7huCIVuSDj8iPw7g9Ult60E4FIjJGOoQzWM0H/PLqTyjXuI?=
+ =?us-ascii?Q?avH9B6iuLwyHeGXp+vxY5voRril4omsekG9JbIocNhaMed5ZYiE7U341unK3?=
+ =?us-ascii?Q?8VUx2bqKWAZR3HQXnNCWcoyE05cyihQBGOnRoLpEUK5v5Tnwrh1lzPAzuLmc?=
+ =?us-ascii?Q?+Ctx4QdfWtc6/sGooUrropbD0bBJcJgwvb9QjqwPt2nkRyo4DLZ3aT0h8MO1?=
+ =?us-ascii?Q?i3mHi5kC1imI+7/zD+xV9ubPJl7mzRX7tgzGzqNNa793x8/u668vaavelJ8x?=
+ =?us-ascii?Q?mgl7dzA5MvSMyKWc4joQdsGqHYBTCvWUD9/UDqyimwjQlb6xBLz5clLDFldj?=
+ =?us-ascii?Q?H4Efy01SHVafSbObt2xnhYu18k+O?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74a03a83-73e7-4550-6a4d-08d90a581f3a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1582cf64-1891-42d5-549c-08d90a582038
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 15:13:04.7997 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 15:13:06.4757 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IoLXhihCyaR7tl77E5y300I92pfiL3P6qjPrsSC508aX/Ul616d6Vyn0QoyGWXE4zh+xJFbO6RPTgG5j7AGSNQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0ZYhqjxWnwR8zvB9JI7dnQuAgZ8QSY1Vbj5N50jzcjMBlMELmEHRTK9vczHWRNUgMXh2P4QckgUxmfXmHeYCiA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2749
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,48 +126,215 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Will be used to complete all schedulte fences on device
-remove
+Make sure all fecens dependent on HW present are force signaled
+when handling device removal. This helpes later to scope all HW
+accesing code such as IOCTLs in drm_dev_enter/exit and use
+drm_dev_unplug as synchronization point past which we know HW
+will not be accessed anymore outside of pci remove driver callback.
 
 Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
- include/drm/gpu_scheduler.h              | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 98 ++++++++++++++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  6 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  | 12 +--
+ 4 files changed, 103 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index cb58f692dad9..9ff4bfd8f548 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -219,7 +219,7 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-  * Makes sure that all remaining jobs in an entity are killed before it is
-  * destroyed.
-  */
--static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
-+void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
- {
- 	struct drm_sched_job *job;
- 	int r;
-@@ -249,6 +249,7 @@ static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
- 			DRM_ERROR("fence add callback failed (%d)\n", r);
- 	}
- }
-+EXPORT_SYMBOL(drm_sched_entity_kill_jobs);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 0db0ba4fba89..df6c5ed676b1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -1374,6 +1374,8 @@ void amdgpu_pci_resume(struct pci_dev *pdev);
+ bool amdgpu_device_cache_pci_state(struct pci_dev *pdev);
+ bool amdgpu_device_load_pci_state(struct pci_dev *pdev);
  
- /**
-  * drm_sched_entity_cleanup - Destroy a context entity
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index f888b5e9583a..9601d5b966ba 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -339,6 +339,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
- 			  unsigned int num_sched_list,
- 			  atomic_t *guilty);
- long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout);
-+void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity);
- void drm_sched_entity_fini(struct drm_sched_entity *entity);
- void drm_sched_entity_destroy(struct drm_sched_entity *entity);
- void drm_sched_entity_select_rq(struct drm_sched_entity *entity);
++void amdgpu_finilize_device_fences(struct drm_device *dev);
++
+ #include "amdgpu_object.h"
+ 
+ static inline bool amdgpu_is_tmz(struct amdgpu_device *adev)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 33e8e9e1d1fe..55afc11c17e6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -3692,15 +3692,12 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+ 		amdgpu_virt_fini_data_exchange(adev);
+ 	}
+ 
+-	/* disable all interrupts */
+-	amdgpu_irq_disable_all(adev);
+ 	if (adev->mode_info.mode_config_initialized){
+ 		if (!amdgpu_device_has_dc_support(adev))
+ 			drm_helper_force_disable_all(adev_to_drm(adev));
+ 		else
+ 			drm_atomic_helper_shutdown(adev_to_drm(adev));
+ 	}
+-	amdgpu_fence_driver_fini_hw(adev);
+ 
+ 	if (adev->pm_sysfs_en)
+ 		amdgpu_pm_sysfs_fini(adev);
+@@ -4567,14 +4564,19 @@ static bool amdgpu_device_lock_adev(struct amdgpu_device *adev,
+ 	return true;
+ }
+ 
+-static void amdgpu_device_unlock_adev(struct amdgpu_device *adev)
++static void amdgpu_device_unlock_adev_imp(struct amdgpu_device *adev, bool skip_in_gpu_reset)
+ {
+ 	amdgpu_vf_error_trans_all(adev);
+ 	adev->mp1_state = PP_MP1_STATE_NONE;
+-	atomic_set(&adev->in_gpu_reset, 0);
++	!skip_in_gpu_reset ? atomic_set(&adev->in_gpu_reset, 0) : 0;
+ 	up_write(&adev->reset_sem);
+ }
+ 
++static void amdgpu_device_unlock_adev(struct amdgpu_device *adev)
++{
++	amdgpu_device_unlock_adev_imp(adev, false);
++}
++
+ /*
+  * to lockup a list of amdgpu devices in a hive safely, if not a hive
+  * with multiple nodes, it will be similar as amdgpu_device_lock_adev.
+@@ -5321,3 +5323,89 @@ bool amdgpu_device_load_pci_state(struct pci_dev *pdev)
+ }
+ 
+ 
++static void amdgpu_finilize_schedulded_fences(struct amdgpu_ctx_mgr *mgr)
++{
++	struct amdgpu_ctx *ctx;
++	struct idr *idp;
++	uint32_t id, i, j;
++
++	idp = &mgr->ctx_handles;
++
++	idr_for_each_entry(idp, ctx, id) {
++		for (i = 0; i < AMDGPU_HW_IP_NUM; ++i) {
++			for (j = 0; j < amdgpu_ctx_num_entities[i]; ++j) {
++				struct drm_sched_entity *entity;
++
++				if (!ctx->entities[i][j])
++					continue;
++
++				entity = &ctx->entities[i][j]->entity;
++				drm_sched_entity_kill_jobs(entity);
++			}
++		}
++	}
++}
++
++/**
++ * amdgpu_finilize_device_fences() - Finilize all device fences
++ * @pdev: pointer to PCI device
++ *
++ * Will disable and finilise ISRs and will signal all fences
++ * that might hang if HW is gone
++ */
++void amdgpu_finilize_device_fences(struct drm_device *dev)
++{
++	struct amdgpu_device *adev = drm_to_adev(dev);
++	struct drm_file *file;
++
++	/*
++	 *  Block TDRs from further execution by setting adev->in_gpu_reset
++	 *  instead of holding full reset lock in order to not deadlock
++	 *  further ahead against any thread locking the reset lock when we
++	 *  wait for it's completion
++	 */
++	while (!amdgpu_device_lock_adev(adev, NULL))
++		amdgpu_cancel_all_tdr(adev);
++	amdgpu_device_unlock_adev_imp(adev, true);
++
++
++	/* disable all HW interrupts */
++	amdgpu_irq_disable_all(adev);
++
++	/* stop and flush all in flight HW interrupts handlers */
++	disable_irq(pci_irq_vector(adev->pdev, 0));
++
++	/*
++	 * Stop SW GPU schedulers and force completion on all HW fences. Since
++	 * in the prev. step all ISRs were disabled and completed the
++	 * HW fence array is idle (no insertions or extractions) and so it's
++	 * safe to iterate it bellow.
++	 * After this step all HW fences in the system are signaled. As a result
++	 * also all the scheduler 'finished' fences are also signaled.
++	 */
++	amdgpu_fence_driver_fini_hw(adev);
++
++	/*
++	 * Reject any further jobs to any scheduler entity queue. After this
++	 * step no new insertions and because schedulers are stopped also no
++	 * new extractions.
++	 */
++	down_read(&adev->sched_fence_completion_sem);
++	adev->stop_job_submissions = true;
++	up_read(&adev->sched_fence_completion_sem);
++
++	/*
++	 * Complete all scheduler 'scheduled' fences currently pending.
++	 * It's OK if new contexts and sched entities are concurrently
++	 * still created as they will fail in pushing jobs to SW queues
++	 * and their schedule fences will be signaled with error
++	 */
++	mutex_lock(&adev->ddev.filelist_mutex);
++	list_for_each_entry(file, &adev->ddev.filelist, lhead) {
++		struct amdgpu_fpriv *fpriv = file->driver_priv;
++		amdgpu_finilize_schedulded_fences(&fpriv->ctx_mgr);
++	}
++	mutex_unlock(&adev->ddev.filelist_mutex);
++}
++
++
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index f799c40d7e72..8a19b8dd02ee 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -1249,6 +1249,12 @@ amdgpu_pci_remove(struct pci_dev *pdev)
+ {
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
+ 
++	/*
++	 * Force completion of all device related fences that might hang us when
++	 * synchronizing SRCU in the following step.
++	 */
++	amdgpu_finilize_device_fences(dev);
++
+ 	drm_dev_unplug(dev);
+ 	amdgpu_driver_unload_kms(dev);
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+index 2670201e78d3..af592b28cd35 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+@@ -526,7 +526,7 @@ int amdgpu_fence_driver_init(struct amdgpu_device *adev)
+  */
+ void amdgpu_fence_driver_fini_hw(struct amdgpu_device *adev)
+ {
+-	int i, r;
++	int i;
+ 
+ 	for (i = 0; i < AMDGPU_MAX_RINGS; i++) {
+ 		struct amdgpu_ring *ring = adev->rings[i];
+@@ -535,18 +535,10 @@ void amdgpu_fence_driver_fini_hw(struct amdgpu_device *adev)
+ 			continue;
+ 
+ 		/* Stop any new job submissions from sched before flushing the ring */
+-		/* TODO Handle amdgpu_job_submit_direct and amdgpu_amdkfd_submit_ib */
+ 		if (!ring->no_scheduler)
+ 			drm_sched_fini(&ring->sched);
+ 
+-		/* You can't wait for HW to signal if it's gone */
+-		if (!drm_dev_is_unplugged(&adev->ddev))
+-			r = amdgpu_fence_wait_empty(ring);
+-		else
+-			r = -ENODEV;
+-		/* no need to trigger GPU reset as we are unloading */
+-		if (r)
+-			amdgpu_fence_driver_force_completion(ring);
++		amdgpu_fence_driver_force_completion(ring);
+ 
+ 		if (ring->fence_drv.irq_src)
+ 			amdgpu_irq_put(adev, ring->fence_drv.irq_src,
 -- 
 2.25.1
 
