@@ -1,60 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796DC36D5C9
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 12:27:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 646A236D5D6
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 12:31:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0448A6E0AA;
-	Wed, 28 Apr 2021 10:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68E326EB0C;
+	Wed, 28 Apr 2021 10:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70E8F6E08A
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 10:27:41 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- n4-20020a05600c4f84b029013151278decso8489253wmq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 03:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=UqWIQEo2ISG2YbntxG4VDqsNdsTJRz+EP3ztYwpOKqg=;
- b=QoxoGHfsGu/iAKgHdK4HVK/ix0osYct+ejhxBa5m7s6hnv1FfGhfXmuoAIth7Qg7tu
- 4vp2DW2RJgdyrBfqAUvJNd24drbtZ64w636mS8lEr5Opvl3IUskLmjpchVXjkSk95n8N
- nllCx+fIGSykl6CzY2rwfNZIo5+TrkChQtUZk=
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 413436E08A;
+ Wed, 28 Apr 2021 10:31:12 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id u3so15178457eja.12;
+ Wed, 28 Apr 2021 03:31:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=joTCEohNslveZzr+oPjM5Jv8Vwdj9WSb/UsT64SABK4=;
+ b=a5RPbm3kcfUxQxVEncfzLqN1V00neO4b1R2XQRDuvj0SrcxWnp5m7sMkPUfaI13W67
+ dQ+xllw9gLdQCHeiFtEQdW6/5QciColUhOLOCui0z3nD/EUaNxPnE98bjtCCXLwPPtFz
+ ac1u348zNbcwKq4Xkj6l/EfyiVorb3PBFbdwTq9DG7Yb8jG7+0SY+Lwwmq1d6hipXkLL
+ 0C+g+Qi6KaJRWmAJUVw+tNUAv5/t9ZALO0DsJcdbV+IMrMEEozWsc0ddCMQ0z52RCVak
+ m4QOEstO/P8dmDWFv5mL/ZnnTBKAvf2YPWWtZJcpAPWVBjmmro5VXjUy+rTT38fbZ4lN
+ jeng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UqWIQEo2ISG2YbntxG4VDqsNdsTJRz+EP3ztYwpOKqg=;
- b=GqQ/h2TzY1RACT+djyVud01w3n226buAZ4Hx+3rqfl6srRc/B+lxhoA8HCP8n5ecmL
- qpBR1rkoGN5X8PmC3l7TO17Qc6sG004k5Pb9u2MvmQF6b55z0X0Bik4+Tno3UOc6XWPa
- vhyhY7ZxIVwIoKGMSquBiNaAUJcKLaSjjojllDno9sZrexWyK8Pef5BOMl3mhmikNDM0
- AvclQvr8dTHbCMAGl9Me+OEsJ4ew4u8lb3WDWxb4oQ2QRFthHUO6vE7DGIQVL1qer4wx
- 8p382Uv/+uMJXQ0DrtC4/3gRhSofUk8zeHC0SnZrYtBHAtIRan3TgaRHUkSl0v4Urmaq
- CMyA==
-X-Gm-Message-State: AOAM530VMkPTAUqq1BdvVddbm5fzTYjeliM+3nnG4bWpEST2IrRK9UvD
- IZauIgFIDaoVJ1vBFIluEfoRKg==
-X-Google-Smtp-Source: ABdhPJz8MloVYLB2dO4kddPzJxe1xCBp+4SnZrUsj6oamcfsBW/kv7dvZstxBe1u+cbPMmUEbH1sNA==
-X-Received: by 2002:a1c:55ca:: with SMTP id j193mr3651617wmb.58.1619605660197; 
- Wed, 28 Apr 2021 03:27:40 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s16sm5661395wmh.11.2021.04.28.03.27.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 03:27:39 -0700 (PDT)
-Date: Wed, 28 Apr 2021 12:27:37 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [PATCH 11/21] drm/i915: Stop manually RCU banging in
- reset_stats_ioctl
-Message-ID: <YIk4mcKOjRUKuHVB@phenom.ffwll.local>
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-12-jason@jlekstrand.net>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=joTCEohNslveZzr+oPjM5Jv8Vwdj9WSb/UsT64SABK4=;
+ b=PI6xs3d5srRPRX6OrssEagIuO8AnBNmWPNspFBQ7GhesLRRBDeVm/woEzcIeMp56J4
+ FYmvG6Yxdw4PM7Y9TUN/EdkfJvK9kBXGFmYwApXSOoPq60EpRxy0We/NSRj467DfZPJy
+ R1/ER6PUQ1QvjiFXRHmVhP5Sw5coJ8TF+AbBLdcimXSTIbGxCLREbTvDUHeAmLOUv6tO
+ H3PH6OMy8dQuajjsDya0gonzB9kObHg5Rg+pSb2mRaWn4lYm32Uq5FNKWb3yWNOEIMFn
+ k8Nny7mwpOdTOOa07gYyLLQkkMbH1mNkOdq85Z9uePO97LB15fcQ3RtbjdErmMt7pLOD
+ p5gA==
+X-Gm-Message-State: AOAM5337z1mi9zEI3kdCskXVpfZgrAjrMSSKQ5F1EeitL3USMzKou/Wi
+ 2vTL7ucnuTQRBb2/I23n33ugH+mRgNo=
+X-Google-Smtp-Source: ABdhPJw/YL0nyxRCsy7LW5N0aQhzJLqOJhMvGVH7g/wWKlL2HXw+6qLqcB+3V8PRCszq5iCEi5K0Gg==
+X-Received: by 2002:a17:906:c453:: with SMTP id
+ ck19mr1994768ejb.439.1619605870926; 
+ Wed, 28 Apr 2021 03:31:10 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:3f0d:4946:a7a8:ad7c?
+ ([2a02:908:1252:fb60:3f0d:4946:a7a8:ad7c])
+ by smtp.gmail.com with ESMTPSA id s20sm4434906edu.93.2021.04.28.03.31.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Apr 2021 03:31:10 -0700 (PDT)
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>
+References: <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
+ <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
+ <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
+ <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
+ <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
+ <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
+ <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
+ <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
+ <s8QVKcJeMhEBcoOS9h7UzE_fUG-VKfgso3HbaM37xGhbBu6i966cTiD_UY1lBbiOMl-VbGyu7r0eBS3vTY8DWSUItsLrf_ISzDuT9vbRs8I=@emersion.fr>
+ <CADnq5_PEMvF7Gd4qug=FjfTtxOtygw7SO73HjhSh5AyEramtkA@mail.gmail.com>
+ <YIkzewghZOdMXwfi@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <19ca36c3-306e-5021-0243-3289c38ef067@gmail.com>
+Date: Wed, 28 Apr 2021 12:31:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210423223131.879208-12-jason@jlekstrand.net>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <YIkzewghZOdMXwfi@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,111 +82,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 23, 2021 at 05:31:21PM -0500, Jason Ekstrand wrote:
-> As far as I can tell, the only real reason for this is to avoid taking a
-> reference to the i915_gem_context.  The cost of those two atomics
-> probably pales in comparison to the cost of the ioctl itself so we're
-> really not buying ourselves anything here.  We're about to make context
-> lookup a tiny bit more complicated, so let's get rid of the one hand-
-> rolled case.
+Am 28.04.21 um 12:05 schrieb Daniel Vetter:
+> On Tue, Apr 27, 2021 at 02:01:20PM -0400, Alex Deucher wrote:
+>> On Tue, Apr 27, 2021 at 1:35 PM Simon Ser <contact@emersion.fr> wrote:
+>>> On Tuesday, April 27th, 2021 at 7:31 PM, Lucas Stach <l.stach@pengutronix.de> wrote:
+>>>
+>>>>> Ok. So that would only make the following use cases broken for now:
+>>>>>
+>>>>> - amd render -> external gpu
+>>>>> - amd video encode -> network device
+>>>> FWIW, "only" breaking amd render -> external gpu will make us pretty
+>>>> unhappy
+>>> I concur. I have quite a few users with a multi-GPU setup involving
+>>> AMD hardware.
+>>>
+>>> Note, if this brokenness can't be avoided, I'd prefer a to get a clear
+>>> error, and not bad results on screen because nothing is synchronized
+>>> anymore.
+>> It's an upcoming requirement for windows[1], so you are likely to
+>> start seeing this across all GPU vendors that support windows.  I
+>> think the timing depends on how quickly the legacy hardware support
+>> sticks around for each vendor.
+> Yeah but hw scheduling doesn't mean the hw has to be constructed to not
+> support isolating the ringbuffer at all.
+>
+> E.g. even if the hw loses the bit to put the ringbuffer outside of the
+> userspace gpu vm, if you have pagetables I'm seriously hoping you have r/o
+> pte flags. Otherwise the entire "share address space with cpu side,
+> seamlessly" thing is out of the window.
+>
+> And with that r/o bit on the ringbuffer you can once more force submit
+> through kernel space, and all the legacy dma_fence based stuff keeps
+> working. And we don't have to invent some horrendous userspace fence based
+> implicit sync mechanism in the kernel, but can instead do this transition
+> properly with drm_syncobj timeline explicit sync and protocol reving.
+>
+> At least I think you'd have to work extra hard to create a gpu which
+> cannot possibly be intercepted by the kernel, even when it's designed to
+> support userspace direct submit only.
+>
+> Or are your hw engineers more creative here and we're screwed?
 
-I think the historical reason here is that i965_brw checks this before
-every execbuf call, at least for arb_robustness contexts with the right
-flag. But we've fixed that hotpath problem by adding non-recoverable
-contexts. The kernel will tell you now automatically, for proper userspace
-at least (I checked iris and anv, assuming I got it correct), and
-reset_stats ioctl isn't a hot path worth micro-optimizing anymore.
+The upcomming hardware generation will have this hardware scheduler as a 
+must have, but there are certain ways we can still stick to the old 
+approach:
 
-With that bit of more context added to the commit message:
+1. The new hardware scheduler currently still supports kernel queues 
+which essentially is the same as the old hardware ring buffer.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+2. Mapping the top level ring buffer into the VM at least partially 
+solves the problem. This way you can't manipulate the ring buffer 
+content, but the location for the fence must still be writeable.
 
-> 
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c | 13 ++++---------
->  drivers/gpu/drm/i915/i915_drv.h             |  8 +-------
->  2 files changed, 5 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index ecb3bf5369857..941fbf78267b4 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -2090,16 +2090,13 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
->  	struct drm_i915_private *i915 = to_i915(dev);
->  	struct drm_i915_reset_stats *args = data;
->  	struct i915_gem_context *ctx;
-> -	int ret;
->  
->  	if (args->flags || args->pad)
->  		return -EINVAL;
->  
-> -	ret = -ENOENT;
-> -	rcu_read_lock();
-> -	ctx = __i915_gem_context_lookup_rcu(file->driver_priv, args->ctx_id);
-> +	ctx = i915_gem_context_lookup(file->driver_priv, args->ctx_id);
->  	if (!ctx)
-> -		goto out;
-> +		return -ENOENT;
->  
->  	/*
->  	 * We opt for unserialised reads here. This may result in tearing
-> @@ -2116,10 +2113,8 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
->  	args->batch_active = atomic_read(&ctx->guilty_count);
->  	args->batch_pending = atomic_read(&ctx->active_count);
->  
-> -	ret = 0;
-> -out:
-> -	rcu_read_unlock();
-> -	return ret;
-> +	i915_gem_context_put(ctx);
-> +	return 0;
->  }
->  
->  /* GEM context-engines iterator: for_each_gem_engine() */
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 0b44333eb7033..8571c5c1509a7 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1840,19 +1840,13 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
->  
->  struct dma_buf *i915_gem_prime_export(struct drm_gem_object *gem_obj, int flags);
->  
-> -static inline struct i915_gem_context *
-> -__i915_gem_context_lookup_rcu(struct drm_i915_file_private *file_priv, u32 id)
-> -{
-> -	return xa_load(&file_priv->context_xa, id);
-> -}
-> -
->  static inline struct i915_gem_context *
->  i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
->  {
->  	struct i915_gem_context *ctx;
->  
->  	rcu_read_lock();
-> -	ctx = __i915_gem_context_lookup_rcu(file_priv, id);
-> +	ctx = xa_load(&file_priv->context_xa, id);
->  	if (ctx && !kref_get_unless_zero(&ctx->ref))
->  		ctx = NULL;
->  	rcu_read_unlock();
-> -- 
-> 2.31.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+For now and the next hardware we are save to support the old submission 
+model, but the functionality of kernel queues will sooner or later go 
+away if it is only for Linux.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+So we need to work on something which works in the long term and get us 
+away from this implicit sync.
+
+Christian.
+
+> -Daniel
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
