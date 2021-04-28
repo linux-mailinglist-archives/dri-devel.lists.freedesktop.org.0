@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D3E36D96F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 16:19:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BED36D989
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 16:26:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAB836EB4E;
-	Wed, 28 Apr 2021 14:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 158F76EB51;
+	Wed, 28 Apr 2021 14:26:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA8A66EB4E
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 14:19:35 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id E210F82CBF;
- Wed, 28 Apr 2021 16:19:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1619619574;
- bh=1fjocKqDCefoo06SVSV8OVk190gPYOhs/98ZA4jjQoc=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=m4jmP/mmZXIViVgc5gST/ZCdllYOb37MwjZJEe7aSDeb9LEZROjrCVOSckPhYJWbj
- EZxZ/gCkvPM3H2OYEeVVjUQ82hIS4Hj/Fm/gOsntWbFiuBba5bBXTIrdyQLtDb3obP
- 8TdWU2/RAIT7UngU/OmSBGTI8yNt1EJ0YQH2SjUlPAPocW6wroHW4tMVVgYLTYTRQZ
- Rj11GSPkqS69EazjIltlTzUGy6mArKa2G2kcPSEfahtVgXMDYQWAGMXsIbcL0EOyAr
- sqWIgajUtG4AP/BczXDIHK96AVAUEc1qKliFxgN6mwFb0LFCNIGMqRRN6394J99q60
- p8H7xfVXAnr2A==
-Subject: Re: [PATCH V2 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add TI
- SN65DSI83 and SN65DSI84 bindings
-To: Frieder Schrempf <frieder.schrempf@kontron.de>,
- dri-devel@lists.freedesktop.org
-References: <20210421223122.112736-1-marex@denx.de>
- <a39a107e-284d-2f4a-8b69-ff507a6a0d62@kontron.de>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <6126a450-e42e-8341-37c9-bd1832a6c78e@denx.de>
-Date: Wed, 28 Apr 2021 16:19:33 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 420046EB51;
+ Wed, 28 Apr 2021 14:26:42 +0000 (UTC)
+IronPort-SDR: 7ZJKdd6Q2uj5PiBgNt1xYpkjsg1HJwj9utmcqt+PCqsXX4+UGu63Qu3xXeo8/PmZ10/swWkIjO
+ l5tN8Zjp39Dg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="194640015"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="194640015"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2021 07:26:39 -0700
+IronPort-SDR: TjEX1jMSWPWaijcTSZHVWGIBeGLE+5qhY5uiYjbRF2cV2VMEV3zate9kXuEgrLhggrIj7f1pTJ
+ xh7N/waIaVVw==
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="387730800"
+Received: from akuligox-mobl.ger.corp.intel.com (HELO [10.213.207.221])
+ ([10.213.207.221])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2021 07:26:37 -0700
+Subject: Re: [Intel-gfx] [PATCH 09/21] drm/i915/gem: Disallow creating
+ contexts with too many engines
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210423223131.879208-1-jason@jlekstrand.net>
+ <20210423223131.879208-10-jason@jlekstrand.net>
+ <YIk14zVfa8Mw4rUF@phenom.ffwll.local>
+ <6b388d4d-1d50-94f3-344a-5b6b3639e8ad@linux.intel.com>
+ <YIlrCmvC10oAiRcL@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <27db8ded-3b17-748e-f602-a8c1aef7367f@linux.intel.com>
+Date: Wed, 28 Apr 2021 15:26:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <a39a107e-284d-2f4a-8b69-ff507a6a0d62@kontron.de>
+In-Reply-To: <YIlrCmvC10oAiRcL@phenom.ffwll.local>
 Content-Language: en-US
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,23 +55,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, ch@denx.de,
- Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNC8yOC8yMSA5OjU2IEFNLCBGcmllZGVyIFNjaHJlbXBmIHdyb3RlOgpbLi4uXQo+PiArcHJv
-cGVydGllczoKPj4gK8KgIGNvbXBhdGlibGU6Cj4+ICvCoMKgwqAgb25lT2Y6Cj4+ICvCoMKgwqDC
-oMKgIC0gY29uc3Q6IHRpLHNuNjVkc2k4Mwo+PiArwqDCoMKgwqDCoCAtIGNvbnN0OiB0aSxzbjY1
-ZHNpODQKPj4gKwo+PiArwqAgcmVnOgo+PiArwqDCoMKgIGNvbnN0OiAweDJkCj4gCj4gVGhlcmUg
-aXMgYSBzdHJhcHBpbmcgcGluIHRvIHNlbGVjdCB0aGUgbGFzdCBiaXQgb2YgdGhlIGFkZHJlc3Ms
-IHNvIGFwYXJ0IAo+IGZyb20gMHgyZCBhbHNvIDB4MmMgaXMgdmFsaWQgaGVyZS4KCkZpeGVkLCBh
-bG9uZyB3aXRoIHRoZSBvdGhlciBEVCBkZXRhaWxzIHBvaW50ZWQgb3V0IGJ5IExhdXJlbnQsIHRo
-YW5rcy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+On 28/04/2021 15:02, Daniel Vetter wrote:
+> On Wed, Apr 28, 2021 at 11:42:31AM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 28/04/2021 11:16, Daniel Vetter wrote:
+>>> On Fri, Apr 23, 2021 at 05:31:19PM -0500, Jason Ekstrand wrote:
+>>>> There's no sense in allowing userspace to create more engines than it
+>>>> can possibly access via execbuf.
+>>>>
+>>>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+>>>> ---
+>>>>    drivers/gpu/drm/i915/gem/i915_gem_context.c | 7 +++----
+>>>>    1 file changed, 3 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>>> index 5f8d0faf783aa..ecb3bf5369857 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>>> @@ -1640,11 +1640,10 @@ set_engines(struct i915_gem_context *ctx,
+>>>>    		return -EINVAL;
+>>>>    	}
+>>>> -	/*
+>>>> -	 * Note that I915_EXEC_RING_MASK limits execbuf to only using the
+>>>> -	 * first 64 engines defined here.
+>>>> -	 */
+>>>>    	num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
+>>>
+>>> Maybe add a comment like /* RING_MASK has not shift, so can be used
+>>> directly here */ since I had to check that :-)
+>>>
+>>> Same story about igt testcases needed, just to be sure.
+>>>
+>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>
+>> I am not sure about the churn vs benefit ratio here. There are also patches
+>> which extend the engine selection field in execbuf2 over the unused
+>> constants bits (with an explicit flag). So churn upstream and churn in
+>> internal (if interesting) for not much benefit.
+> 
+> This isn't churn.
+> 
+> This is "lock done uapi properly".
+
+IMO it is a "meh" patch. Doesn't fix any problems and will create work 
+for other people and man hours spent which no one will ever properly 
+account against.
+
+Number of contexts in the engine map should not really be tied to 
+execbuf2. As is demonstrated by the incoming work to address more than 
+63 engines, either as an extension to execbuf2 or future execbuf3.
+
+Regards,
+
+Tvrtko
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
