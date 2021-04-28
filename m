@@ -1,67 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AEB36D7E7
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:03:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 531F536D7F3
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:04:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 159116EB28;
-	Wed, 28 Apr 2021 13:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 223076EB2B;
+	Wed, 28 Apr 2021 13:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA0026EB28;
- Wed, 28 Apr 2021 13:03:20 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id d25so25442014oij.5;
- Wed, 28 Apr 2021 06:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NqKvqi8fkP6gkk64gfeYbbCqBxoed13CDJSXY5IZ0Mk=;
- b=s+D0pcxylIqu8j1BeqVLHL7jvu4r9AO41BB7kL/mAHJ6pufzonmkTfj5k3PtAt/yeB
- ZycM8XeWKBT3X6OF7nNhSpkVU7o8QvzHry03cTCJ5Dvm0dEmdSFdBkN4/Hghpe8T8ufv
- TDcKJzwqUUPC5M7MpJYwDWo04g/4dNppphICHY5fNt5lENhD60ZgYHEbjUdEsjbjTk2b
- OcTUPqJxZpmShxZiqaSzp4Y6fe3Ltr7H/W0o2Z0dGErylcGxcCbqilhmZ7o+Qc+CDDSW
- e9kR63nY/Qe2UoJNP6xSaPQFJ78oGJIIsHj5pwQvaP5L7SDsmUrJmbiqMFO9vJ+uVsf5
- /Mrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NqKvqi8fkP6gkk64gfeYbbCqBxoed13CDJSXY5IZ0Mk=;
- b=nVH09EPNQHoYh4JyrZPc4IiaULMw1LOqjwehVZt8WDG5gTnaDSYsAIl99/zA59RuZR
- ov9a5/unWiffuUpXQiCeIqoBn6UUNQfCs7V19M2vx9Ul4kgiFRjZ/uVCErFnv6eAs7Cc
- XH7OWTeEJRVKa65rEXvqv8eYfCwz44yLIu7D6+K3DpKW0kcRgITQvzqEXgbf2FNSugD6
- LFfa293XK3uH+PwKwqZKBAtzqwWK5LXU4PqiUsH4iUF2z7TE61FaVMKQ9bbASiUu2Qru
- wPCgu9hB8OmuJ4qRNf53RtEgupOdFP+gWFiSyqYNUDdq3Kh2TEC29zpXGxlCydP8hEhJ
- fQBA==
-X-Gm-Message-State: AOAM532FLV6tbsnPWpq/2iHRekZpvRlsiP9KErYVFnrYeHL2rR3Tdiwe
- /OUjn7d8JvuVwoVvdVtwrjMx3fUjGcFg0hliayc=
-X-Google-Smtp-Source: ABdhPJzOEkBAXHWL7ixsu1fduG7rywtdLbTNlbEz7gadbd43NVm29VdGn2Nn7iH7m3x+uaQdAkS/ORg2woJnijOH+Mk=
-X-Received: by 2002:a05:6808:68a:: with SMTP id
- k10mr20029842oig.120.1619615000206; 
- Wed, 28 Apr 2021 06:03:20 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D706EB2E
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:04:33 +0000 (UTC)
+IronPort-SDR: 2z7KDMLpP1ReXLYPYWHK6wm9+S92xSGRZWl/yP1L1ObfxLArOt93mI4acBXmD4IsI3frW6BGSm
+ uUjO6/hTSc8w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="176214722"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="176214722"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2021 06:04:10 -0700
+IronPort-SDR: 3QGh9xcon7o8Mp/hrhfZkbayi1BOBXSAL7vus/SsVtZ6XM3u9KH4XiYSHzy6btL+rwkJAgkd40
+ DGI50JdUwa4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="536952502"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orsmga004.jf.intel.com with ESMTP; 28 Apr 2021 06:04:06 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id B29843C8; Wed, 28 Apr 2021 16:04:22 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Phil Reid <preid@electromag.com.au>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] staging: fbtft: Fixing GPIO handling issues
+Date: Wed, 28 Apr 2021 16:04:11 +0300
+Message-Id: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
- <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
- <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
- <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
- <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
- <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
- <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
- <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
- <s8QVKcJeMhEBcoOS9h7UzE_fUG-VKfgso3HbaM37xGhbBu6i966cTiD_UY1lBbiOMl-VbGyu7r0eBS3vTY8DWSUItsLrf_ISzDuT9vbRs8I=@emersion.fr>
- <CADnq5_PEMvF7Gd4qug=FjfTtxOtygw7SO73HjhSh5AyEramtkA@mail.gmail.com>
- <YIkzewghZOdMXwfi@phenom.ffwll.local>
- <19ca36c3-306e-5021-0243-3289c38ef067@gmail.com>
-In-Reply-To: <19ca36c3-306e-5021-0243-3289c38ef067@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 28 Apr 2021 09:03:08 -0400
-Message-ID: <CADnq5_NxdfkZiH=JNezV2qhu3Nh6gvJ4+Xa+=rVpf4WNCSpdug@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,79 +49,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBcHIgMjgsIDIwMjEgYXQgNjozMSBBTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
-LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAyOC4wNC4yMSB1bSAxMjow
-NSBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPiBPbiBUdWUsIEFwciAyNywgMjAyMSBhdCAwMjow
-MToyMFBNIC0wNDAwLCBBbGV4IERldWNoZXIgd3JvdGU6Cj4gPj4gT24gVHVlLCBBcHIgMjcsIDIw
-MjEgYXQgMTozNSBQTSBTaW1vbiBTZXIgPGNvbnRhY3RAZW1lcnNpb24uZnI+IHdyb3RlOgo+ID4+
-PiBPbiBUdWVzZGF5LCBBcHJpbCAyN3RoLCAyMDIxIGF0IDc6MzEgUE0sIEx1Y2FzIFN0YWNoIDxs
-LnN0YWNoQHBlbmd1dHJvbml4LmRlPiB3cm90ZToKPiA+Pj4KPiA+Pj4+PiBPay4gU28gdGhhdCB3
-b3VsZCBvbmx5IG1ha2UgdGhlIGZvbGxvd2luZyB1c2UgY2FzZXMgYnJva2VuIGZvciBub3c6Cj4g
-Pj4+Pj4KPiA+Pj4+PiAtIGFtZCByZW5kZXIgLT4gZXh0ZXJuYWwgZ3B1Cj4gPj4+Pj4gLSBhbWQg
-dmlkZW8gZW5jb2RlIC0+IG5ldHdvcmsgZGV2aWNlCj4gPj4+PiBGV0lXLCAib25seSIgYnJlYWtp
-bmcgYW1kIHJlbmRlciAtPiBleHRlcm5hbCBncHUgd2lsbCBtYWtlIHVzIHByZXR0eQo+ID4+Pj4g
-dW5oYXBweQo+ID4+PiBJIGNvbmN1ci4gSSBoYXZlIHF1aXRlIGEgZmV3IHVzZXJzIHdpdGggYSBt
-dWx0aS1HUFUgc2V0dXAgaW52b2x2aW5nCj4gPj4+IEFNRCBoYXJkd2FyZS4KPiA+Pj4KPiA+Pj4g
-Tm90ZSwgaWYgdGhpcyBicm9rZW5uZXNzIGNhbid0IGJlIGF2b2lkZWQsIEknZCBwcmVmZXIgYSB0
-byBnZXQgYSBjbGVhcgo+ID4+PiBlcnJvciwgYW5kIG5vdCBiYWQgcmVzdWx0cyBvbiBzY3JlZW4g
-YmVjYXVzZSBub3RoaW5nIGlzIHN5bmNocm9uaXplZAo+ID4+PiBhbnltb3JlLgo+ID4+IEl0J3Mg
-YW4gdXBjb21pbmcgcmVxdWlyZW1lbnQgZm9yIHdpbmRvd3NbMV0sIHNvIHlvdSBhcmUgbGlrZWx5
-IHRvCj4gPj4gc3RhcnQgc2VlaW5nIHRoaXMgYWNyb3NzIGFsbCBHUFUgdmVuZG9ycyB0aGF0IHN1
-cHBvcnQgd2luZG93cy4gIEkKPiA+PiB0aGluayB0aGUgdGltaW5nIGRlcGVuZHMgb24gaG93IHF1
-aWNrbHkgdGhlIGxlZ2FjeSBoYXJkd2FyZSBzdXBwb3J0Cj4gPj4gc3RpY2tzIGFyb3VuZCBmb3Ig
-ZWFjaCB2ZW5kb3IuCj4gPiBZZWFoIGJ1dCBodyBzY2hlZHVsaW5nIGRvZXNuJ3QgbWVhbiB0aGUg
-aHcgaGFzIHRvIGJlIGNvbnN0cnVjdGVkIHRvIG5vdAo+ID4gc3VwcG9ydCBpc29sYXRpbmcgdGhl
-IHJpbmdidWZmZXIgYXQgYWxsLgo+ID4KPiA+IEUuZy4gZXZlbiBpZiB0aGUgaHcgbG9zZXMgdGhl
-IGJpdCB0byBwdXQgdGhlIHJpbmdidWZmZXIgb3V0c2lkZSBvZiB0aGUKPiA+IHVzZXJzcGFjZSBn
-cHUgdm0sIGlmIHlvdSBoYXZlIHBhZ2V0YWJsZXMgSSdtIHNlcmlvdXNseSBob3BpbmcgeW91IGhh
-dmUgci9vCj4gPiBwdGUgZmxhZ3MuIE90aGVyd2lzZSB0aGUgZW50aXJlICJzaGFyZSBhZGRyZXNz
-IHNwYWNlIHdpdGggY3B1IHNpZGUsCj4gPiBzZWFtbGVzc2x5IiB0aGluZyBpcyBvdXQgb2YgdGhl
-IHdpbmRvdy4KPiA+Cj4gPiBBbmQgd2l0aCB0aGF0IHIvbyBiaXQgb24gdGhlIHJpbmdidWZmZXIg
-eW91IGNhbiBvbmNlIG1vcmUgZm9yY2Ugc3VibWl0Cj4gPiB0aHJvdWdoIGtlcm5lbCBzcGFjZSwg
-YW5kIGFsbCB0aGUgbGVnYWN5IGRtYV9mZW5jZSBiYXNlZCBzdHVmZiBrZWVwcwo+ID4gd29ya2lu
-Zy4gQW5kIHdlIGRvbid0IGhhdmUgdG8gaW52ZW50IHNvbWUgaG9ycmVuZG91cyB1c2Vyc3BhY2Ug
-ZmVuY2UgYmFzZWQKPiA+IGltcGxpY2l0IHN5bmMgbWVjaGFuaXNtIGluIHRoZSBrZXJuZWwsIGJ1
-dCBjYW4gaW5zdGVhZCBkbyB0aGlzIHRyYW5zaXRpb24KPiA+IHByb3Blcmx5IHdpdGggZHJtX3N5
-bmNvYmogdGltZWxpbmUgZXhwbGljaXQgc3luYyBhbmQgcHJvdG9jb2wgcmV2aW5nLgo+ID4KPiA+
-IEF0IGxlYXN0IEkgdGhpbmsgeW91J2QgaGF2ZSB0byB3b3JrIGV4dHJhIGhhcmQgdG8gY3JlYXRl
-IGEgZ3B1IHdoaWNoCj4gPiBjYW5ub3QgcG9zc2libHkgYmUgaW50ZXJjZXB0ZWQgYnkgdGhlIGtl
-cm5lbCwgZXZlbiB3aGVuIGl0J3MgZGVzaWduZWQgdG8KPiA+IHN1cHBvcnQgdXNlcnNwYWNlIGRp
-cmVjdCBzdWJtaXQgb25seS4KPiA+Cj4gPiBPciBhcmUgeW91ciBodyBlbmdpbmVlcnMgbW9yZSBj
-cmVhdGl2ZSBoZXJlIGFuZCB3ZSdyZSBzY3Jld2VkPwo+Cj4gVGhlIHVwY29tbWluZyBoYXJkd2Fy
-ZSBnZW5lcmF0aW9uIHdpbGwgaGF2ZSB0aGlzIGhhcmR3YXJlIHNjaGVkdWxlciBhcyBhCj4gbXVz
-dCBoYXZlLCBidXQgdGhlcmUgYXJlIGNlcnRhaW4gd2F5cyB3ZSBjYW4gc3RpbGwgc3RpY2sgdG8g
-dGhlIG9sZAo+IGFwcHJvYWNoOgo+Cj4gMS4gVGhlIG5ldyBoYXJkd2FyZSBzY2hlZHVsZXIgY3Vy
-cmVudGx5IHN0aWxsIHN1cHBvcnRzIGtlcm5lbCBxdWV1ZXMKPiB3aGljaCBlc3NlbnRpYWxseSBp
-cyB0aGUgc2FtZSBhcyB0aGUgb2xkIGhhcmR3YXJlIHJpbmcgYnVmZmVyLgo+Cj4gMi4gTWFwcGlu
-ZyB0aGUgdG9wIGxldmVsIHJpbmcgYnVmZmVyIGludG8gdGhlIFZNIGF0IGxlYXN0IHBhcnRpYWxs
-eQo+IHNvbHZlcyB0aGUgcHJvYmxlbS4gVGhpcyB3YXkgeW91IGNhbid0IG1hbmlwdWxhdGUgdGhl
-IHJpbmcgYnVmZmVyCj4gY29udGVudCwgYnV0IHRoZSBsb2NhdGlvbiBmb3IgdGhlIGZlbmNlIG11
-c3Qgc3RpbGwgYmUgd3JpdGVhYmxlLgo+Cj4gRm9yIG5vdyBhbmQgdGhlIG5leHQgaGFyZHdhcmUg
-d2UgYXJlIHNhdmUgdG8gc3VwcG9ydCB0aGUgb2xkIHN1Ym1pc3Npb24KPiBtb2RlbCwgYnV0IHRo
-ZSBmdW5jdGlvbmFsaXR5IG9mIGtlcm5lbCBxdWV1ZXMgd2lsbCBzb29uZXIgb3IgbGF0ZXIgZ28K
-PiBhd2F5IGlmIGl0IGlzIG9ubHkgZm9yIExpbnV4LgoKRXZlbiBpZiBpdCBkaWRuJ3QgZ28gYXdh
-eSBjb21wbGV0ZWx5LCBubyBvbmUgZWxzZSB3aWxsIGJlIHVzaW5nIGl0LgpUaGlzIGxlYXZlcyBh
-IGxvdCBvZiB1bmRlci12YWxpZGF0ZWQgZXhlY3V0aW9uIHBhdGhzIHRoYXQgbGVhZCB0bwpzdWJ0
-bGUgYnVncy4gIFdoZW4gZXZlcnlvbmUgZWxzZSBtb3ZlZCB0byBLSVEgZm9yIHF1ZXVlIG1hbmFn
-ZW1lbnQsIHdlCnN0dWNrIHdpdGggTU1JTyBmb3IgYSB3aGlsZSBpbiBMaW51eCBhbmQgd2UgcmFu
-IGludG8gdG9ucyBvZiBzdWJ0bGUKYnVncyB0aGF0IGRpc2FwcGVhcmVkIHdoZW4gd2UgbW92ZWQg
-dG8gS0lRLiAgVGhlcmUgd2VyZSBsb3RzIG9mCmFzc3VtcHRpb25zIGFib3V0IGhvdyBzb2Z0d2Fy
-ZSB3b3VsZCB1c2UgZGlmZmVyZW50IGZpcm13YXJlIGludGVyZmFjZXMKb3Igbm90IHdoaWNoIGlt
-cGFjdGVkIGxvdHMgb2YgaW50ZXJhY3Rpb25zIHdpdGggY2xvY2sgYW5kIHBvd2VyZ2F0aW5nCnRv
-IG5hbWUgYSBmZXcuICBPbiB0b3Agb2YgdGhhdCwgeW91IG5lZWQgdG8gdXNlIHRoZSBzY2hlZHVs
-ZXIgdG8KdXRpbGl6ZSBzdHVmZiBsaWtlIHByZWVtcHRpb24gcHJvcGVybHkuICBBbHNvLCBpZiB5
-b3Ugd2FudCB0byBkbyBzdHVmZgpsaWtlIGdhbmcgc2NoZWR1bGluZyAoVU1EIHNjaGVkdWxpbmcg
-bXVsdGlwbGUgcXVldWVzIHRvZ2V0aGVyKSwgaXQncwpyZWFsbHkgaGFyZCB0byBkbyB3aXRoIGtl
-cm5lbCBzb2Z0d2FyZSBzY2hlZHVsZXJzLgoKQWxleAoKPgo+IFNvIHdlIG5lZWQgdG8gd29yayBv
-biBzb21ldGhpbmcgd2hpY2ggd29ya3MgaW4gdGhlIGxvbmcgdGVybSBhbmQgZ2V0IHVzCj4gYXdh
-eSBmcm9tIHRoaXMgaW1wbGljaXQgc3luYy4KPgo+IENocmlzdGlhbi4KPgo+ID4gLURhbmllbAo+
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This series fixes a number of GPIO handling issues after converting this driver
+to use descriptors.
+
+The series has been tested on HX8347d display with parallel interface. Without
+first patch it's not working.
+
+In v3:
+ - added staging prefix (Fabio)
+ - slightly amended commit message in the patch 1
+ - added Rb tag (Phil)
+ - dropped Fixes tag from the patch 2 (Greg)
+
+Andy Shevchenko (4):
+  staging: fbtft: Rectify GPIO handling
+  staging: fbtft: Replace custom ->reset() with generic one
+  staging: fbtft: Don't spam logs when probe is deferred
+  staging: fbtft: Update TODO
+
+ drivers/staging/fbtft/TODO             |  5 -----
+ drivers/staging/fbtft/fb_agm1264k-fl.c | 30 +++++++-------------------
+ drivers/staging/fbtft/fb_bd663474.c    |  4 ----
+ drivers/staging/fbtft/fb_ili9163.c     |  4 ----
+ drivers/staging/fbtft/fb_ili9320.c     |  1 -
+ drivers/staging/fbtft/fb_ili9325.c     |  4 ----
+ drivers/staging/fbtft/fb_ili9340.c     |  1 -
+ drivers/staging/fbtft/fb_s6d1121.c     |  4 ----
+ drivers/staging/fbtft/fb_sh1106.c      |  1 -
+ drivers/staging/fbtft/fb_ssd1289.c     |  4 ----
+ drivers/staging/fbtft/fb_ssd1325.c     |  2 --
+ drivers/staging/fbtft/fb_ssd1331.c     |  6 ++----
+ drivers/staging/fbtft/fb_ssd1351.c     |  1 -
+ drivers/staging/fbtft/fb_upd161704.c   |  4 ----
+ drivers/staging/fbtft/fb_watterott.c   |  1 -
+ drivers/staging/fbtft/fbtft-bus.c      |  3 +--
+ drivers/staging/fbtft/fbtft-core.c     | 25 +++++++++------------
+ drivers/staging/fbtft/fbtft-io.c       | 12 +++++------
+ 18 files changed, 27 insertions(+), 85 deletions(-)
+
+-- 
+2.30.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
