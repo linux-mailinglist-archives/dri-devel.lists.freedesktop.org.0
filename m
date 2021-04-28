@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D1F36E0CD
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 23:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BC136E0DD
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 23:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0351C6EC3F;
-	Wed, 28 Apr 2021 21:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 988596EC48;
+	Wed, 28 Apr 2021 21:18:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 244036EC3F;
- Wed, 28 Apr 2021 21:12:32 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- g4-20020a9d6b040000b029029debbbb3ecso26668972otp.7; 
- Wed, 28 Apr 2021 14:12:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6XU5TqBnwnYkFFfBZmHfV+hocGp4E/+zJAvsfnEXySw=;
- b=UEvWG2H4M5sx14vlbmVSleox1eEjQw+3YaiVNov2QtMyh3sO4ZBC3Tx81G+gmURyLk
- KHP6SOlWWq0SCdw4J77Xq7flfHxfIyLEnCMHmzzztaV2hYU1Y6+znQ4o4Wff77E2WPD5
- AHr5jlgQgtVadv43SsbZodxbOhgirC9aFlzrbpDAT+34x2c6rF80Ru8jvZ5ACANyczDp
- IquWTUEvzDhkIFugCSi1kQ7OztvuyEuo2WX2Qj5r26Z213HefdRf5jT1nCQvODq1t/Nk
- EofhvSmGWGkmRjRhgB08kYLYv5AICx3UblqJH4W4ZZfmCywCGeuXThiCwZbSS3piBPMQ
- 2eNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6XU5TqBnwnYkFFfBZmHfV+hocGp4E/+zJAvsfnEXySw=;
- b=nCcISs9m6B4vypNE6+tZsIDvKviFqiQTWbLZjkh2aw6RQ+qkgsmpQmZ7ELyo/pa/Mk
- T4wlkwRVQ+2omSGEntM6Y6Lwn1unfPZ3ThFIJWBRMoQ9e/9jvGry9DkBdK8KPn8+d6gS
- vOQlh1db7G6lO+watjn0pPzJ1E9o5uv3i73qOU3UzMUM9KIKQj4jJjFHefHrYlHmKc5O
- q/XUMyYN8zddubS7HUD5OMzeqnnGwT0s6Ted7Zb6eXtRfh0G3zFIj9xgRv7swIjZ6egu
- 2iapAZzySjmsUHa1hGXmw2OHCE4R9ybJxWnBM7PGz7XFDMgC1etefhB2Vy8IJAKLArSS
- 5mLg==
-X-Gm-Message-State: AOAM5333ferQ0USX9kYAz6EuEFWEiQZEY5VPPUJRK3h6/wHTaPKJj1WL
- qpEbEYKsezjrC7y4qvy/986hcrSEIQsP8nZryuQ=
-X-Google-Smtp-Source: ABdhPJw8IHCW+SvKtLYTe0mFP+jS7ieH+m64iNY23YQxYGvsJQAmRWkpLpVSvVdKSt71RkLqgs0FMIyq9+ASvUTIzgI=
-X-Received: by 2002:a9d:8d1:: with SMTP id 75mr7786542otf.23.1619644351452;
- Wed, 28 Apr 2021 14:12:31 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3FD46EC43;
+ Wed, 28 Apr 2021 21:18:40 +0000 (UTC)
+IronPort-SDR: w9XwOP33SP/gNsKmDGlU+xGwXMoKwitzZaQ746Iw8BCiDK21zjM7197lMgDdSxxCM+a/wmKxod
+ FQLrGe6iyxeg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="196413031"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="196413031"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2021 14:18:39 -0700
+IronPort-SDR: 8AiZQ3gxVnLy1Qwt5H2eP8bjvreUcKNrP5x1qJObPVJQDd2CRqWXD7q0eTtSCMCt8zwnPJdsuz
+ OHtNLaZrXsVA==
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="430511027"
+Received: from janneoja-mobl.ger.corp.intel.com (HELO [10.252.52.73])
+ ([10.252.52.73])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2021 14:18:37 -0700
+Subject: Re: [PATCH 1/1] i915/query: Correlate engine and cpu timestamps with
+ better accuracy
+To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20210427214913.46956-1-umesh.nerlige.ramappa@intel.com>
+ <20210427214913.46956-2-umesh.nerlige.ramappa@intel.com>
+ <875z064x5h.fsf@intel.com>
+ <CAOFGe94kk9N-MPKMF-T+5BCRiXuY7p1iQRquQx38pRQiqvazWg@mail.gmail.com>
+ <c776bb7d-4d35-1e1d-18f4-020b88fdf805@intel.com>
+ <CAOFGe95MKaqoGeTaFCtatR6YcysOiC2=wcYaoz72dw+KnPRXSQ@mail.gmail.com>
+ <6efdf140-4144-d688-16e0-4089beffce0e@intel.com>
+ <CAOFGe94+qx-DDo=LiBZjY2=vXZsWpPZ-bRD+OdMJkta4VHsTng@mail.gmail.com>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Message-ID: <5f2efded-bb37-3692-e209-27845c20fa42@intel.com>
+Date: Thu, 29 Apr 2021 00:18:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210421161802.175639-1-linux@roeck-us.net>
-In-Reply-To: <20210421161802.175639-1-linux@roeck-us.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 28 Apr 2021 17:12:20 -0400
-Message-ID: <CADnq5_MQoqjYO8-UPWZeg-F98kRH46a0J+AgN2hEho0Qn=FMMA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix build warnings
-To: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAOFGe94+qx-DDo=LiBZjY2=vXZsWpPZ-bRD+OdMJkta4VHsTng@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,71 +59,416 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBcHIgMjEsIDIwMjEgYXQgMTI6MTggUE0gR3VlbnRlciBSb2VjayA8bGludXhAcm9l
-Y2stdXMubmV0PiB3cm90ZToKPgo+IEZpeCB0aGUgZm9sbG93aW5nIGJ1aWxkIHdhcm5pbmdzLgo+
-Cj4gZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1
-X2RtLmM6Cj4gICAgICAgICBJbiBmdW5jdGlvbiDigJhkbV91cGRhdGVfbXN0X3ZjcGlfc2xvdHNf
-Zm9yX2RzY+KAmToKPiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2FtZGdw
-dV9kbS9hbWRncHVfZG0uYzo2MjQyOjQ2Ogo+ICAgICAgICAgd2FybmluZzogdmFyaWFibGUg4oCY
-b2xkX2Nvbl9zdGF0ZeKAmSBzZXQgYnV0IG5vdCB1c2VkCj4KPiBkcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGdwdS8uLi9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYzoKPiAgICAgICAgIEluIGZ1
-bmN0aW9uIOKAmGFtZGdwdV9kbV9jb21taXRfY3Vyc29yc+KAmToKPiBkcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS8uLi9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYzo3NzA5OjQ0Ogo+ICAg
-ICAgICAgd2FybmluZzogdmFyaWFibGUg4oCYbmV3X3BsYW5lX3N0YXRl4oCZIHNldCBidXQgbm90
-IHVzZWQKPgo+IFRoZSB2YXJpYWJsZXMgd2VyZSBpbnRyb2R1Y2VkIHRvIGJlIHVzZWQgaW4gaXRl
-cmF0b3JzLCBidXQgbm90IHVzZWQuCj4gVXNlIG90aGVyIGl0ZXJhdG9ycyB3aGljaCBkb24ndCBy
-ZXF1aXJlIHRoZSB1bnVzZWQgdmFyaWFibGVzLgo+Cj4gRml4ZXM6IDhhZDI3ODA2MmRlNGUgKCJk
-cm0vYW1kL2Rpc3BsYXk6IERpc2FibGUgY3Vyc29ycyBiZWZvcmUgZGlzYWJsaW5nIHBsYW5lcyIp
-Cj4gRml4ZXM6IDI5YjliYTc0ZjYzODQgKCJkcm0vYW1kL2Rpc3BsYXk6IFJlY2FsY3VsYXRlIFZD
-UEkgc2xvdHMgZm9yIG5ldyBEU0MgY29ubmVjdG9ycyIpCj4gU2lnbmVkLW9mZi1ieTogR3VlbnRl
-ciBSb2VjayA8bGludXhAcm9lY2stdXMubmV0PgoKQXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCj4g
-LS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMg
-fCA5ICsrKystLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA1IGRlbGV0
-aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRn
-cHVfZG0vYW1kZ3B1X2RtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2Rt
-L2FtZGdwdV9kbS5jCj4gaW5kZXggNTczY2YxNzI2MmRhLi5mOWI4N2YxZjQyNGIgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwo+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMK
-PiBAQCAtNjIzOSwxMyArNjIzOSwxMyBAQCBzdGF0aWMgaW50IGRtX3VwZGF0ZV9tc3RfdmNwaV9z
-bG90c19mb3JfZHNjKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKPiAgewo+ICAgICAg
-ICAgc3RydWN0IGRjX3N0cmVhbV9zdGF0ZSAqc3RyZWFtID0gTlVMTDsKPiAgICAgICAgIHN0cnVj
-dCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3I7Cj4gLSAgICAgICBzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
-cl9zdGF0ZSAqbmV3X2Nvbl9zdGF0ZSwgKm9sZF9jb25fc3RhdGU7Cj4gKyAgICAgICBzdHJ1Y3Qg
-ZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqbmV3X2Nvbl9zdGF0ZTsKPiAgICAgICAgIHN0cnVjdCBhbWRn
-cHVfZG1fY29ubmVjdG9yICphY29ubmVjdG9yOwo+ICAgICAgICAgc3RydWN0IGRtX2Nvbm5lY3Rv
-cl9zdGF0ZSAqZG1fY29ubl9zdGF0ZTsKPiAgICAgICAgIGludCBpLCBqLCBjbG9jaywgYnBwOwo+
-ICAgICAgICAgaW50IHZjcGksIHBibl9kaXYsIHBibiA9IDA7Cj4KPiAtICAgICAgIGZvcl9lYWNo
-X29sZG5ld19jb25uZWN0b3JfaW5fc3RhdGUoc3RhdGUsIGNvbm5lY3Rvciwgb2xkX2Nvbl9zdGF0
-ZSwgbmV3X2Nvbl9zdGF0ZSwgaSkgewo+ICsgICAgICAgZm9yX2VhY2hfbmV3X2Nvbm5lY3Rvcl9p
-bl9zdGF0ZShzdGF0ZSwgY29ubmVjdG9yLCBuZXdfY29uX3N0YXRlLCBpKSB7Cj4KPiAgICAgICAg
-ICAgICAgICAgYWNvbm5lY3RvciA9IHRvX2FtZGdwdV9kbV9jb25uZWN0b3IoY29ubmVjdG9yKTsK
-Pgo+IEBAIC03NzA2LDE1ICs3NzA2LDE0IEBAIHN0YXRpYyB2b2lkIGFtZGdwdV9kbV9oYW5kbGVf
-dnJyX3RyYW5zaXRpb24oc3RydWN0IGRtX2NydGNfc3RhdGUgKm9sZF9zdGF0ZSwKPiAgc3RhdGlj
-IHZvaWQgYW1kZ3B1X2RtX2NvbW1pdF9jdXJzb3JzKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpz
-dGF0ZSkKPiAgewo+ICAgICAgICAgc3RydWN0IGRybV9wbGFuZSAqcGxhbmU7Cj4gLSAgICAgICBz
-dHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRfcGxhbmVfc3RhdGUsICpuZXdfcGxhbmVfc3RhdGU7
-Cj4gKyAgICAgICBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRfcGxhbmVfc3RhdGU7Cj4gICAg
-ICAgICBpbnQgaTsKPgo+ICAgICAgICAgLyoKPiAgICAgICAgICAqIFRPRE86IE1ha2UgdGhpcyBw
-ZXItc3RyZWFtIHNvIHdlIGRvbid0IGlzc3VlIHJlZHVuZGFudCB1cGRhdGVzIGZvcgo+ICAgICAg
-ICAgICogY29tbWl0cyB3aXRoIG11bHRpcGxlIHN0cmVhbXMuCj4gICAgICAgICAgKi8KPiAtICAg
-ICAgIGZvcl9lYWNoX29sZG5ld19wbGFuZV9pbl9zdGF0ZShzdGF0ZSwgcGxhbmUsIG9sZF9wbGFu
-ZV9zdGF0ZSwKPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBuZXdfcGxh
-bmVfc3RhdGUsIGkpCj4gKyAgICAgICBmb3JfZWFjaF9vbGRfcGxhbmVfaW5fc3RhdGUoc3RhdGUs
-IHBsYW5lLCBvbGRfcGxhbmVfc3RhdGUsIGkpCj4gICAgICAgICAgICAgICAgIGlmIChwbGFuZS0+
-dHlwZSA9PSBEUk1fUExBTkVfVFlQRV9DVVJTT1IpCj4gICAgICAgICAgICAgICAgICAgICAgICAg
-aGFuZGxlX2N1cnNvcl91cGRhdGUocGxhbmUsIG9sZF9wbGFuZV9zdGF0ZSk7Cj4gIH0KPiAtLQo+
-IDIuMTcuMQo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 28/04/2021 23:45, Jason Ekstrand wrote:
+> On Wed, Apr 28, 2021 at 3:14 PM Lionel Landwerlin
+> <lionel.g.landwerlin@intel.com> wrote:
+>> On 28/04/2021 22:54, Jason Ekstrand wrote:
+>>> On Wed, Apr 28, 2021 at 2:50 PM Lionel Landwerlin
+>>> <lionel.g.landwerlin@intel.com> wrote:
+>>>> On 28/04/2021 22:24, Jason Ekstrand wrote:
+>>>>
+>>>> On Wed, Apr 28, 2021 at 3:43 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>>>>
+>>>> On Tue, 27 Apr 2021, Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com> wrote:
+>>>>
+>>>> Perf measurements rely on CPU and engine timestamps to correlate
+>>>> events of interest across these time domains. Current mechanisms get
+>>>> these timestamps separately and the calculated delta between these
+>>>> timestamps lack enough accuracy.
+>>>>
+>>>> To improve the accuracy of these time measurements to within a few us,
+>>>> add a query that returns the engine and cpu timestamps captured as
+>>>> close to each other as possible.
+>>>>
+>>>> Cc: dri-devel, Jason and Daniel for review.
+>>>>
+>>>> Thanks!
+>>>>
+>>>> v2: (Tvrtko)
+>>>> - document clock reference used
+>>>> - return cpu timestamp always
+>>>> - capture cpu time just before lower dword of cs timestamp
+>>>>
+>>>> v3: (Chris)
+>>>> - use uncore-rpm
+>>>> - use __query_cs_timestamp helper
+>>>>
+>>>> v4: (Lionel)
+>>>> - Kernel perf subsytem allows users to specify the clock id to be used
+>>>>     in perf_event_open. This clock id is used by the perf subsystem to
+>>>>     return the appropriate cpu timestamp in perf events. Similarly, let
+>>>>     the user pass the clockid to this query so that cpu timestamp
+>>>>     corresponds to the clock id requested.
+>>>>
+>>>> v5: (Tvrtko)
+>>>> - Use normal ktime accessors instead of fast versions
+>>>> - Add more uApi documentation
+>>>>
+>>>> v6: (Lionel)
+>>>> - Move switch out of spinlock
+>>>>
+>>>> v7: (Chris)
+>>>> - cs_timestamp is a misnomer, use cs_cycles instead
+>>>> - return the cs cycle frequency as well in the query
+>>>>
+>>>> v8:
+>>>> - Add platform and engine specific checks
+>>>>
+>>>> v9: (Lionel)
+>>>> - Return 2 cpu timestamps in the query - captured before and after the
+>>>>     register read
+>>>>
+>>>> v10: (Chris)
+>>>> - Use local_clock() to measure time taken to read lower dword of
+>>>>     register and return it to user.
+>>>>
+>>>> v11: (Jani)
+>>>> - IS_GEN deprecated. User GRAPHICS_VER instead.
+>>>>
+>>>> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+>>>> ---
+>>>>    drivers/gpu/drm/i915/i915_query.c | 145 ++++++++++++++++++++++++++++++
+>>>>    include/uapi/drm/i915_drm.h       |  48 ++++++++++
+>>>>    2 files changed, 193 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+>>>> index fed337ad7b68..2594b93901ac 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_query.c
+>>>> +++ b/drivers/gpu/drm/i915/i915_query.c
+>>>> @@ -6,6 +6,8 @@
+>>>>
+>>>>    #include <linux/nospec.h>
+>>>>
+>>>> +#include "gt/intel_engine_pm.h"
+>>>> +#include "gt/intel_engine_user.h"
+>>>>    #include "i915_drv.h"
+>>>>    #include "i915_perf.h"
+>>>>    #include "i915_query.h"
+>>>> @@ -90,6 +92,148 @@ static int query_topology_info(struct drm_i915_private *dev_priv,
+>>>>         return total_length;
+>>>>    }
+>>>>
+>>>> +typedef u64 (*__ktime_func_t)(void);
+>>>> +static __ktime_func_t __clock_id_to_func(clockid_t clk_id)
+>>>> +{
+>>>> +     /*
+>>>> +      * Use logic same as the perf subsystem to allow user to select the
+>>>> +      * reference clock id to be used for timestamps.
+>>>> +      */
+>>>> +     switch (clk_id) {
+>>>> +     case CLOCK_MONOTONIC:
+>>>> +             return &ktime_get_ns;
+>>>> +     case CLOCK_MONOTONIC_RAW:
+>>>> +             return &ktime_get_raw_ns;
+>>>> +     case CLOCK_REALTIME:
+>>>> +             return &ktime_get_real_ns;
+>>>> +     case CLOCK_BOOTTIME:
+>>>> +             return &ktime_get_boottime_ns;
+>>>> +     case CLOCK_TAI:
+>>>> +             return &ktime_get_clocktai_ns;
+>>>> +     default:
+>>>> +             return NULL;
+>>>> +     }
+>>>> +}
+>>>> +
+>>>> +static inline int
+>>>> +__read_timestamps(struct intel_uncore *uncore,
+>>>> +               i915_reg_t lower_reg,
+>>>> +               i915_reg_t upper_reg,
+>>>> +               u64 *cs_ts,
+>>>> +               u64 *cpu_ts,
+>>>> +               __ktime_func_t cpu_clock)
+>>>> +{
+>>>> +     u32 upper, lower, old_upper, loop = 0;
+>>>> +
+>>>> +     upper = intel_uncore_read_fw(uncore, upper_reg);
+>>>> +     do {
+>>>> +             cpu_ts[1] = local_clock();
+>>>> +             cpu_ts[0] = cpu_clock();
+>>>> +             lower = intel_uncore_read_fw(uncore, lower_reg);
+>>>> +             cpu_ts[1] = local_clock() - cpu_ts[1];
+>>>> +             old_upper = upper;
+>>>> +             upper = intel_uncore_read_fw(uncore, upper_reg);
+>>>> +     } while (upper != old_upper && loop++ < 2);
+>>>> +
+>>>> +     *cs_ts = (u64)upper << 32 | lower;
+>>>> +
+>>>> +     return 0;
+>>>> +}
+>>>> +
+>>>> +static int
+>>>> +__query_cs_cycles(struct intel_engine_cs *engine,
+>>>> +               u64 *cs_ts, u64 *cpu_ts,
+>>>> +               __ktime_func_t cpu_clock)
+>>>> +{
+>>>> +     struct intel_uncore *uncore = engine->uncore;
+>>>> +     enum forcewake_domains fw_domains;
+>>>> +     u32 base = engine->mmio_base;
+>>>> +     intel_wakeref_t wakeref;
+>>>> +     int ret;
+>>>> +
+>>>> +     fw_domains = intel_uncore_forcewake_for_reg(uncore,
+>>>> +                                                 RING_TIMESTAMP(base),
+>>>> +                                                 FW_REG_READ);
+>>>> +
+>>>> +     with_intel_runtime_pm(uncore->rpm, wakeref) {
+>>>> +             spin_lock_irq(&uncore->lock);
+>>>> +             intel_uncore_forcewake_get__locked(uncore, fw_domains);
+>>>> +
+>>>> +             ret = __read_timestamps(uncore,
+>>>> +                                     RING_TIMESTAMP(base),
+>>>> +                                     RING_TIMESTAMP_UDW(base),
+>>>> +                                     cs_ts,
+>>>> +                                     cpu_ts,
+>>>> +                                     cpu_clock);
+>>>> +
+>>>> +             intel_uncore_forcewake_put__locked(uncore, fw_domains);
+>>>> +             spin_unlock_irq(&uncore->lock);
+>>>> +     }
+>>>> +
+>>>> +     return ret;
+>>>> +}
+>>>> +
+>>>> +static int
+>>>> +query_cs_cycles(struct drm_i915_private *i915,
+>>>> +             struct drm_i915_query_item *query_item)
+>>>> +{
+>>>> +     struct drm_i915_query_cs_cycles __user *query_ptr;
+>>>> +     struct drm_i915_query_cs_cycles query;
+>>>> +     struct intel_engine_cs *engine;
+>>>> +     __ktime_func_t cpu_clock;
+>>>> +     int ret;
+>>>> +
+>>>> +     if (GRAPHICS_VER(i915) < 6)
+>>>> +             return -ENODEV;
+>>>> +
+>>>> +     query_ptr = u64_to_user_ptr(query_item->data_ptr);
+>>>> +     ret = copy_query_item(&query, sizeof(query), sizeof(query), query_item);
+>>>> +     if (ret != 0)
+>>>> +             return ret;
+>>>> +
+>>>> +     if (query.flags)
+>>>> +             return -EINVAL;
+>>>> +
+>>>> +     if (query.rsvd)
+>>>> +             return -EINVAL;
+>>>> +
+>>>> +     cpu_clock = __clock_id_to_func(query.clockid);
+>>>> +     if (!cpu_clock)
+>>>> +             return -EINVAL;
+>>>> +
+>>>> +     engine = intel_engine_lookup_user(i915,
+>>>> +                                       query.engine.engine_class,
+>>>> +                                       query.engine.engine_instance);
+>>>> +     if (!engine)
+>>>> +             return -EINVAL;
+>>>> +
+>>>> +     if (GRAPHICS_VER(i915) == 6 &&
+>>>> +         query.engine.engine_class != I915_ENGINE_CLASS_RENDER)
+>>>> +             return -ENODEV;
+>>>> +
+>>>> +     query.cs_frequency = engine->gt->clock_frequency;
+>>>> +     ret = __query_cs_cycles(engine,
+>>>> +                             &query.cs_cycles,
+>>>> +                             query.cpu_timestamp,
+>>>> +                             cpu_clock);
+>>>> +     if (ret)
+>>>> +             return ret;
+>>>> +
+>>>> +     if (put_user(query.cs_frequency, &query_ptr->cs_frequency))
+>>>> +             return -EFAULT;
+>>>> +
+>>>> +     if (put_user(query.cpu_timestamp[0], &query_ptr->cpu_timestamp[0]))
+>>>> +             return -EFAULT;
+>>>> +
+>>>> +     if (put_user(query.cpu_timestamp[1], &query_ptr->cpu_timestamp[1]))
+>>>> +             return -EFAULT;
+>>>> +
+>>>> +     if (put_user(query.cs_cycles, &query_ptr->cs_cycles))
+>>>> +             return -EFAULT;
+>>>> +
+>>>> +     return sizeof(query);
+>>>> +}
+>>>> +
+>>>>    static int
+>>>>    query_engine_info(struct drm_i915_private *i915,
+>>>>                   struct drm_i915_query_item *query_item)
+>>>> @@ -424,6 +568,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
+>>>>         query_topology_info,
+>>>>         query_engine_info,
+>>>>         query_perf_config,
+>>>> +     query_cs_cycles,
+>>>>    };
+>>>>
+>>>>    int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>>>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>>>> index 6a34243a7646..08b00f1709b5 100644
+>>>> --- a/include/uapi/drm/i915_drm.h
+>>>> +++ b/include/uapi/drm/i915_drm.h
+>>>> @@ -2230,6 +2230,10 @@ struct drm_i915_query_item {
+>>>>    #define DRM_I915_QUERY_TOPOLOGY_INFO    1
+>>>>    #define DRM_I915_QUERY_ENGINE_INFO   2
+>>>>    #define DRM_I915_QUERY_PERF_CONFIG      3
+>>>> +     /**
+>>>> +      * Query Command Streamer timestamp register.
+>>>> +      */
+>>>> +#define DRM_I915_QUERY_CS_CYCLES     4
+>>>>    /* Must be kept compact -- no holes and well documented */
+>>>>
+>>>>         /**
+>>>> @@ -2397,6 +2401,50 @@ struct drm_i915_engine_info {
+>>>>         __u64 rsvd1[4];
+>>>>    };
+>>>>
+>>>> +/**
+>>>> + * struct drm_i915_query_cs_cycles
+>>>> + *
+>>>> + * The query returns the command streamer cycles and the frequency that can be
+>>>> + * used to calculate the command streamer timestamp. In addition the query
+>>>> + * returns a set of cpu timestamps that indicate when the command streamer cycle
+>>>> + * count was captured.
+>>>> + */
+>>>> +struct drm_i915_query_cs_cycles {
+>>>> +     /** Engine for which command streamer cycles is queried. */
+>>>> +     struct i915_engine_class_instance engine;
+>>>>
+>>>> Why is this per-engine?  Do we actually expect it to change between
+>>>> engines?
+>>>>
+>>>>
+>>>> Each engine has its own timestamp register.
+>>>>
+>>>>
+>>>>     If so, we may have a problem because Vulkan expects a
+>>>> unified timestamp domain for all command streamer timestamp queries.
+>>>>
+>>>>
+>>>> I don't think it does : "
+>>>>
+>>>> Timestamps may only be meaningfully compared if they are written by commands submitted to the same queue.
+>>> Yes but vkGetCalibratedTimestampsEXT() doesn't take a queue or even a
+>>> queue family.
+>>
+>> I know, I brought up the issue recently. See khronos issue 2551.
+> I guess this is what I get for not attending the Vulkan SI call
+> anymore.  Small price to pay....
+>
+> So the answer is that we just stop exposing the DEVICE time domain as
+> soon as we start using anything other than RENDER?  Seems a bit rough
+> but should be doable.
+>
+>> You might not like the resolution... I did propose to do a rev2 of the
+>> extension to let the user specify the queue.
+>>
+>> We can still do that in the future.
+> Yeah, I think we'll want to do something if we care about this
+> extension.  One option would be to make it take a queue family.
+> Another would be to expose it as one domain per queue family.
+> Anyway... that's a discussion for another forum.
+>
+>>>     Also, VkPhysicalDeviceLimits::timestampPeriod gives a
+>>> single timestampPeriod for all queues.
+>>
+>> That is fine for us, we should have the same period on all command
+>> streamers.
+> I guess I've got no problem returning the period as part of this
+> query.  ANV should probably assert that it's what it expects, though.
+>
+>> -Lionel
+>>
+>>
+>>>     It's possible that Vulkan
+>>> messed up real bad there but I thought we did a HW survey at the time
+>>> and determined that it was ok.
+>>>
+>>> --Jason
+>>>
+>>>
+>>>> " [1]
+>>>>
+>>>>
+>>>> [1] : https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkCmdWriteTimestamp.html
+>>>>
+>>>>
+>>>> -Lionel
+>>>>
+>>>>
+>>>>
+>>>> --Jason
+>>>>
+>>>>
+>>>> +     /** Must be zero. */
+>>>> +     __u32 flags;
+>>>> +
+>>>> +     /**
+>>>> +      * Command streamer cycles as read from the command streamer
+>>>> +      * register at 0x358 offset.
+>>>> +      */
+>>>> +     __u64 cs_cycles;
+>>>> +
+>>>> +     /** Frequency of the cs cycles in Hz. */
+>>>> +     __u64 cs_frequency;
+>>>> +
+>>>> +     /**
+>>>> +      * CPU timestamps in ns. cpu_timestamp[0] is captured before reading the
+>>>> +      * cs_cycles register using the reference clockid set by the user.
+>>>> +      * cpu_timestamp[1] is the time taken in ns to read the lower dword of
+>>>> +      * the cs_cycles register.
+>>>> +      */
+>>>> +     __u64 cpu_timestamp[2];
+> I think the API would be more clear if we had separate cpu_timestamp
+> and cpu_delta fields or something like that.  That or make
+> cpu_timestamp[1] the end time rather than a delta.  It's weird to have
+> an array where the first entry is absolute and the second entry is a
+> delta.
+
+
+Oh dear... I did not notice that :(
+
+I thought that was just a little dance to save local variable...
+
+Agreed, 2 different names or 2 snapshots.
+
+
+-Lionel
+
+
+>
+> --Jason
+>
+>
+>>>> +
+>>>> +     /**
+>>>> +      * Reference clock id for CPU timestamp. For definition, see
+>>>> +      * clock_gettime(2) and perf_event_open(2). Supported clock ids are
+>>>> +      * CLOCK_MONOTONIC, CLOCK_MONOTONIC_RAW, CLOCK_REALTIME, CLOCK_BOOTTIME,
+>>>> +      * CLOCK_TAI.
+>>>> +      */
+>>>> +     __s32 clockid;
+>>>> +
+>>>> +     /** Must be zero. */
+>>>> +     __u32 rsvd;
+>>>> +};
+>>>> +
+>>>>    /**
+>>>>     * struct drm_i915_query_engine_info
+>>>>     *
+>>>>
+>>>> --
+>>>> Jani Nikula, Intel Open Source Graphics Center
+>>>>
+>>>>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
