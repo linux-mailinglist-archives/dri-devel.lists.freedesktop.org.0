@@ -1,55 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3317736DC4B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 17:47:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C56A36DC58
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 17:49:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEF2688FDD;
-	Wed, 28 Apr 2021 15:47:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFF116E117;
+	Wed, 28 Apr 2021 15:49:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B03D6E111
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 15:47:08 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- l10-20020a17090a850ab0290155b06f6267so3145223pjn.5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 08:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FR4VebHJb51xCPyIYHwDlPXBLlPi9HnbG6Ct8peaY2k=;
- b=pa0Dt5H3GtN3dXiSJu/8K3iibwIyRBRb2PS8cC82+QX4EUK1GDjf/XSwzV+sstKU4A
- evlP8lqeosCXknvxdSbcJ7fMTBJAA+hLmegYAQV+WDcXkdb4L1HJ+bjfghlgmKbz5UtS
- IariBHzBCMzLkMuaxTjeNVAXjcul8KomK7/pBfdrP+ku1trJY33+R9n2fAzCgl4ZY5Nt
- NbaC+cuiMkQyRBOO3jtBuA0b6Jl5tvIzBl45RIRvPnhXE0qYi99C3dIbMsgvUPCCaXdL
- LFeuv0lem6DcNlWfgD/mTRtCPUZbb2kF4q5aUyV5CvREeELbldOtTkPzt56j8NZcmfrd
- phzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FR4VebHJb51xCPyIYHwDlPXBLlPi9HnbG6Ct8peaY2k=;
- b=pEuNPaTauiPJ3ox15eysilK+wQnE1xWTs/JD7kRREFQOOXw7UDIkFEEJpa+6NtxzZo
- J18nM0AbHV5XCAe+WL7MaWIOLCrkeKT96HU5gtnO53OCZkbMT0zImlK80UabxmLyKPVs
- DaizPOPSJ11vcIGFsaD9aPEmQbjm8SjoLZsJPJPdxb23aO/vLlZ+XM7RzrVhCi2odQcC
- j5w9Q6XsioJ5gExdwCsVXLZXnS4cjrjCh/sbrAdmkm5NuD/0BZLvazIakKS87L/k6dfy
- xbWIIgPdMifIzA3gLIl2Ofx1+GK8YaPUdRooj3/ICnL/Ivo576Viy4QETUtBgQAvfjIc
- 9YTw==
-X-Gm-Message-State: AOAM5328QywIOuYvR6O6ulhJwSmdmvFxqJ0HVTDzXOuBIcssa3/p/A4X
- C0zDcK7ipjNK/lQR/hYGcjd/rN/37WKx9H06E+O0cA==
-X-Google-Smtp-Source: ABdhPJye0QKIyaf0M7+v5Y7xHFw1H6cygyY4UoYiSfc3SapgV38stH2k8ZYtnt7r1sw1UQQ7rbOJ6iZ1k0CEPXn8JsQ=
-X-Received: by 2002:a17:90a:6687:: with SMTP id
- m7mr1966973pjj.75.1619624814266; 
- Wed, 28 Apr 2021 08:46:54 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0131F6EB98;
+ Wed, 28 Apr 2021 15:49:14 +0000 (UTC)
+IronPort-SDR: aNGMnqW/baG83qLzeowxmggDQARsEzGcJWZK/TQyBvKTA1iDlodMm341REZ/QZ14r4OezE7O3A
+ 1RUV5Ukaw0Yw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282111668"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="282111668"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2021 08:49:14 -0700
+IronPort-SDR: tmNBYSr36d6R+Khrm249HoWVDtZBBaSWl2Y8Cukhs7YsztzcO/GUfC8p9lX4chhs4Z/1fs1vRE
+ aqbD5BrORqUA==
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="387762882"
+Received: from akuligox-mobl.ger.corp.intel.com (HELO [10.213.207.221])
+ ([10.213.207.221])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2021 08:49:12 -0700
+Subject: Re: [Intel-gfx] [PATCH 06/21] drm/i915: Implement SINGLE_TIMELINE
+ with a syncobj (v3)
+To: Jason Ekstrand <jason@jlekstrand.net>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20210423223131.879208-1-jason@jlekstrand.net>
+ <20210423223131.879208-7-jason@jlekstrand.net>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <a1561dbe-a109-9a1d-df1d-bf91fd67e3f6@linux.intel.com>
+Date: Wed, 28 Apr 2021 16:49:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210428115116.931328-1-hsinyi@chromium.org>
-In-Reply-To: <20210428115116.931328-1-hsinyi@chromium.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 28 Apr 2021 17:46:43 +0200
-Message-ID: <CAG3jFyvg-7qxDMkoWVgaqqt7wsDSafqrp8QXvYNWRJH98XMK2g@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: anx7625: Fix power on delay
-To: Hsin-Yi Wang <hsinyi@chromium.org>
+In-Reply-To: <20210423223131.879208-7-jason@jlekstrand.net>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,124 +53,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
-Content-Type: multipart/mixed; boundary="===============0330717949=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0330717949==
-Content-Type: multipart/alternative; boundary="000000000000458c2a05c10a4ad1"
 
---000000000000458c2a05c10a4ad1
-Content-Type: text/plain; charset="UTF-8"
+On 23/04/2021 23:31, Jason Ekstrand wrote:
+> This API is entirely unnecessary and I'd love to get rid of it.  If
+> userspace wants a single timeline across multiple contexts, they can
+> either use implicit synchronization or a syncobj, both of which existed
+> at the time this feature landed.  The justification given at the time
+> was that it would help GL drivers which are inherently single-timeline.
+> However, neither of our GL drivers actually wanted the feature.  i965
+> was already in maintenance mode at the time and iris uses syncobj for
+> everything.
+> 
+> Unfortunately, as much as I'd love to get rid of it, it is used by the
+> media driver so we can't do that.  We can, however, do the next-best
+> thing which is to embed a syncobj in the context and do exactly what
+> we'd expect from userspace internally.  This isn't an entirely identical
+> implementation because it's no longer atomic if userspace races with
+> itself by calling execbuffer2 twice simultaneously from different
+> threads.  It won't crash in that case; it just doesn't guarantee any
+> ordering between those two submits.
 
-Merged.
+1)
 
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1fcf24fb07e254ca69001ab14adc8cf567127c44
+Please also mention the difference in context/timeline name when 
+observed via the sync file API.
 
-On Wed, 28 Apr 2021 at 13:51, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+2)
 
-> From anx7625 spec, the delay between powering on power supplies and gpio
-> should be larger than 10ms.
->
-> Fixes: 6c744983004e ("drm/bridge: anx7625: disable regulators when power
-> off")
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+I don't remember what we have concluded in terms of observable effects 
+in sync_file_merge?
+
+Regards,
+
+Tvrtko
+
+> Moving SINGLE_TIMELINE to a syncobj emulation has a couple of technical
+> advantages beyond mere annoyance.  One is that intel_timeline is no
+> longer an api-visible object and can remain entirely an implementation
+> detail.  This may be advantageous as we make scheduler changes going
+> forward.  Second is that, together with deleting the CLONE_CONTEXT API,
+> we should now have a 1:1 mapping between intel_context and
+> intel_timeline which may help us reduce locking.
+> 
+> v2 (Jason Ekstrand):
+>   - Update the comment on i915_gem_context::syncobj to mention that it's
+>     an emulation and the possible race if userspace calls execbuffer2
+>     twice on the same context concurrently.
+>   - Wrap the checks for eb.gem_context->syncobj in unlikely()
+>   - Drop the dma_fence reference
+>   - Improved commit message
+> 
+> v3 (Jason Ekstrand):
+>   - Move the dma_fence_put() to before the error exit
+> 
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
 > ---
-> v1->v2: Extend sleep range a bit as the regulator on some device takes
-> more time to be powered on after regulator_enable() is called.
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 23283ba0c4f9..b4e349ca38fe 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -893,7 +893,7 @@ static void anx7625_power_on(struct anx7625_data *ctx)
->                 usleep_range(2000, 2100);
->         }
->
-> -       usleep_range(4000, 4100);
-> +       usleep_range(11000, 12000);
->
->         /* Power on pin enable */
->         gpiod_set_value(ctx->pdata.gpio_p_on, 1);
-> --
-> 2.31.1.498.g6c1eba8ee3d-goog
->
->
-
---000000000000458c2a05c10a4ad1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Merged.<br><br><a href=3D"https://cgit.freedesktop.org/drm=
-/drm-misc/commit/?id=3D1fcf24fb07e254ca69001ab14adc8cf567127c44">https://cg=
-it.freedesktop.org/drm/drm-misc/commit/?id=3D1fcf24fb07e254ca69001ab14adc8c=
-f567127c44</a></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, 28 Apr 2021 at 13:51, Hsin-Yi Wang &lt;<a href=3D"m=
-ailto:hsinyi@chromium.org">hsinyi@chromium.org</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">From anx7625 spec, the delay =
-between powering on power supplies and gpio<br>
-should be larger than 10ms.<br>
-<br>
-Fixes: 6c744983004e (&quot;drm/bridge: anx7625: disable regulators when pow=
-er off&quot;)<br>
-Signed-off-by: Hsin-Yi Wang &lt;<a href=3D"mailto:hsinyi@chromium.org" targ=
-et=3D"_blank">hsinyi@chromium.org</a>&gt;<br>
-Reviewed-by: Neil Armstrong &lt;<a href=3D"mailto:narmstrong@baylibre.com" =
-target=3D"_blank">narmstrong@baylibre.com</a>&gt;<br>
----<br>
-v1-&gt;v2: Extend sleep range a bit as the regulator on some device takes<b=
-r>
-more time to be powered on after regulator_enable() is called.<br>
----<br>
-=C2=A0drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/br=
-idge/analogix/anx7625.c<br>
-index 23283ba0c4f9..b4e349ca38fe 100644<br>
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c<br>
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c<br>
-@@ -893,7 +893,7 @@ static void anx7625_power_on(struct anx7625_data *ctx)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 usleep_range(2000, =
-2100);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0usleep_range(4000, 4100);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0usleep_range(11000, 12000);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Power on pin enable */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gpiod_set_value(ctx-&gt;pdata.gpio_p_on, 1);<br=
->
--- <br>
-2.31.1.498.g6c1eba8ee3d-goog<br>
-<br>
-</blockquote></div>
-
---000000000000458c2a05c10a4ad1--
-
---===============0330717949==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 49 +++++--------------
+>   .../gpu/drm/i915/gem/i915_gem_context_types.h | 14 +++++-
+>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 16 ++++++
+>   3 files changed, 40 insertions(+), 39 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 2c2fefa912805..a72c9b256723b 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -67,6 +67,8 @@
+>   #include <linux/log2.h>
+>   #include <linux/nospec.h>
+>   
+> +#include <drm/drm_syncobj.h>
+> +
+>   #include "gt/gen6_ppgtt.h"
+>   #include "gt/intel_context.h"
+>   #include "gt/intel_context_param.h"
+> @@ -225,10 +227,6 @@ static void intel_context_set_gem(struct intel_context *ce,
+>   		ce->vm = vm;
+>   	}
+>   
+> -	GEM_BUG_ON(ce->timeline);
+> -	if (ctx->timeline)
+> -		ce->timeline = intel_timeline_get(ctx->timeline);
+> -
+>   	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
+>   	    intel_engine_has_timeslices(ce->engine))
+>   		__set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
+> @@ -351,9 +349,6 @@ void i915_gem_context_release(struct kref *ref)
+>   	mutex_destroy(&ctx->engines_mutex);
+>   	mutex_destroy(&ctx->lut_mutex);
+>   
+> -	if (ctx->timeline)
+> -		intel_timeline_put(ctx->timeline);
+> -
+>   	put_pid(ctx->pid);
+>   	mutex_destroy(&ctx->mutex);
+>   
+> @@ -570,6 +565,9 @@ static void context_close(struct i915_gem_context *ctx)
+>   	if (vm)
+>   		i915_vm_close(vm);
+>   
+> +	if (ctx->syncobj)
+> +		drm_syncobj_put(ctx->syncobj);
+> +
+>   	ctx->file_priv = ERR_PTR(-EBADF);
+>   
+>   	/*
+> @@ -765,33 +763,11 @@ static void __assign_ppgtt(struct i915_gem_context *ctx,
+>   		i915_vm_close(vm);
+>   }
+>   
+> -static void __set_timeline(struct intel_timeline **dst,
+> -			   struct intel_timeline *src)
+> -{
+> -	struct intel_timeline *old = *dst;
+> -
+> -	*dst = src ? intel_timeline_get(src) : NULL;
+> -
+> -	if (old)
+> -		intel_timeline_put(old);
+> -}
+> -
+> -static void __apply_timeline(struct intel_context *ce, void *timeline)
+> -{
+> -	__set_timeline(&ce->timeline, timeline);
+> -}
+> -
+> -static void __assign_timeline(struct i915_gem_context *ctx,
+> -			      struct intel_timeline *timeline)
+> -{
+> -	__set_timeline(&ctx->timeline, timeline);
+> -	context_apply_all(ctx, __apply_timeline, timeline);
+> -}
+> -
+>   static struct i915_gem_context *
+>   i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
+>   {
+>   	struct i915_gem_context *ctx;
+> +	int ret;
+>   
+>   	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE &&
+>   	    !HAS_EXECLISTS(i915))
+> @@ -820,16 +796,13 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
+>   	}
+>   
+>   	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
+> -		struct intel_timeline *timeline;
+> -
+> -		timeline = intel_timeline_create(&i915->gt);
+> -		if (IS_ERR(timeline)) {
+> +		ret = drm_syncobj_create(&ctx->syncobj,
+> +					 DRM_SYNCOBJ_CREATE_SIGNALED,
+> +					 NULL);
+> +		if (ret) {
+>   			context_close(ctx);
+> -			return ERR_CAST(timeline);
+> +			return ERR_PTR(ret);
+>   		}
+> -
+> -		__assign_timeline(ctx, timeline);
+> -		intel_timeline_put(timeline);
+>   	}
+>   
+>   	trace_i915_context_create(ctx);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> index 676592e27e7d2..df76767f0c41b 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> @@ -83,7 +83,19 @@ struct i915_gem_context {
+>   	struct i915_gem_engines __rcu *engines;
+>   	struct mutex engines_mutex; /* guards writes to engines */
+>   
+> -	struct intel_timeline *timeline;
+> +	/**
+> +	 * @syncobj: Shared timeline syncobj
+> +	 *
+> +	 * When the SHARED_TIMELINE flag is set on context creation, we
+> +	 * emulate a single timeline across all engines using this syncobj.
+> +	 * For every execbuffer2 call, this syncobj is used as both an in-
+> +	 * and out-fence.  Unlike the real intel_timeline, this doesn't
+> +	 * provide perfect atomic in-order guarantees if the client races
+> +	 * with itself by calling execbuffer2 twice concurrently.  However,
+> +	 * if userspace races with itself, that's not likely to yield well-
+> +	 * defined results anyway so we choose to not care.
+> +	 */
+> +	struct drm_syncobj *syncobj;
+>   
+>   	/**
+>   	 * @vm: unique address space (GTT)
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index b812f313422a9..d640bba6ad9ab 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -3460,6 +3460,16 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+>   		goto err_vma;
+>   	}
+>   
+> +	if (unlikely(eb.gem_context->syncobj)) {
+> +		struct dma_fence *fence;
+> +
+> +		fence = drm_syncobj_fence_get(eb.gem_context->syncobj);
+> +		err = i915_request_await_dma_fence(eb.request, fence);
+> +		dma_fence_put(fence);
+> +		if (err)
+> +			goto err_ext;
+> +	}
+> +
+>   	if (in_fence) {
+>   		if (args->flags & I915_EXEC_FENCE_SUBMIT)
+>   			err = i915_request_await_execution(eb.request,
+> @@ -3517,6 +3527,12 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+>   			fput(out_fence->file);
+>   		}
+>   	}
+> +
+> +	if (unlikely(eb.gem_context->syncobj)) {
+> +		drm_syncobj_replace_fence(eb.gem_context->syncobj,
+> +					  &eb.request->fence);
+> +	}
+> +
+>   	i915_request_put(eb.request);
+>   
+>   err_vma:
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0330717949==--
