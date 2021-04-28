@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FAA36D80B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7137F36D80F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF786EB33;
-	Wed, 28 Apr 2021 13:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBA96EB34;
+	Wed, 28 Apr 2021 13:10:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65C306EB33
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:09:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 1123361419
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:09:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D90586EB34
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:10:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7BCDF60E0B
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:10:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619615345;
- bh=pdakhA+0UozZQ0BnDGwD5CyfWR2hm8xfojp/DB4ZtOU=;
+ s=k20201202; t=1619615416;
+ bh=m6+gOxAi66hqo1LwkMkmzEmEI1I5eRwVd/ijKaq73xY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=pEbqmyVnlZwAtrmCX2rc7BlhLxMAB/31kVHRST86MmDeT+t7iXhIrZ3cvC2NDn9PF
- F7kiwBLn4bx2qpl/WxQO32+sLQQb/A5mul4D3VhblUi5eOw074QBjY/Ld5A+Io9PPG
- UEYmFpfn3uEVItLC3AyRIJ7HVMG9Kh2r1EgKXGfncTyMInXoNsHq5gDs0IdOVXPCZ9
- fOVhMZReR040vB/g+r5JNvLV+TbH3UiKoE01lt2JmgSJu4tcAHLiSseh/XatNeV5G2
- It8N5BbDBxu+mI+DgEiJ3NQzagn/QG946lQOraGrRL44N3gL5+9VG1FkSOWYnLJbgz
- /9jvcZWgtRy4w==
+ b=KlndHuYKEHNu4z/liMnTadOgNGGi8sRtSM1obnVfdDGfTkvzppFM5mpeTdVTLZdab
+ HKcJiOQ+N43Dk0G7HVsYGzoCbYG/88SN0q0OujLQjSjEmc1LBTx9nWcf8GaTjZpgEE
+ NtO4hUQZViXZCbT/MmKVvQpjPOloTa2CMOa4k3eR+RK1qKCyBjb5q2sL3UpL3sGN1U
+ 8Cb4SGlL76T89MVqA/30h/i1x16yQMt/9qrd4JI0af6nn7J3jJ1V2t66rAxWH2FOIG
+ TeebI+D/gMI1eGTERvzQEDW6aWALQ4Jd56lwDAdyK9bpBpcg4ldSWswbczZC9Hbsc4
+ HEqQYS56fOoQQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 0A45761287; Wed, 28 Apr 2021 13:09:05 +0000 (UTC)
+ id 7A94E6127B; Wed, 28 Apr 2021 13:10:16 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212871] AMD Radeon Pro VEGA 20 (Aka Vega12) - Glitch and freeze
  on any kernel and/or distro.
-Date: Wed, 28 Apr 2021 13:09:04 +0000
+Date: Wed, 28 Apr 2021 13:10:16 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-212871-2300-2OTvRcrS4C@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-212871-2300-UDbGmbm61B@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212871-2300@https.bugzilla.kernel.org/>
 References: <bug-212871-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,17 +71,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212871
 
-Alex Deucher (alexdeucher@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
-
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-amdgpu pro uses the same driver as upstream, just packaged so that you can
-install it on enterprise distros, so the code is the same.  What driver package
-version did you use?  What upstream kernels have you tried?  Please include the
-dmesg output from the working and non-working cases.
+--- Comment #2 from Alex Deucher (alexdeucher@gmail.com) ---
+Also filed as: https://gitlab.freedesktop.org/drm/amd/-/issues/1582
 
 -- 
 You may reply to this email to add a comment.
