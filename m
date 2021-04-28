@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8624236DDCD
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 19:04:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6DD36DDC9
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 19:04:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CED286EC82;
-	Wed, 28 Apr 2021 17:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ADA06ED04;
+	Wed, 28 Apr 2021 17:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D61336EC82
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 17:04:24 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id y32so45173964pga.11
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 10:04:24 -0700 (PDT)
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFAE6EC71
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 17:04:27 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id t13so7084358pji.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 10:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q5arbhYfGXT82qjQUTN0xccKMerRCIU7+UPVnm07W9Y=;
- b=Oh1pOQY3nDNpYWg6CBPvoxbwz9Lp5/mgbvExVmkdIhmJlVZGash3DmwrmBb4CIKHon
- qhIf723E2NT3KLDzilpKerGauzvnOHbY+s/nFoAFNFIGUDyS721zHl0d0K2csd5vwIJO
- eIVQuYBad9ZmHQ0iSC96gsmAMu/m1PJWWkJCU=
+ bh=fUBR0WopHj0WR6JMHf2d83zcvjlEdxgAs9fymIBITzo=;
+ b=CZh4ewpebCFcAjzU4EibSFFnrvhXZVPNRc4wOzEuTvrh0wTnh9QHrTxtcPEp03msf7
+ p7qFTJYHHFvKYz9uDrzBQ+Qy+3fq16YM4Kqd8u0m6gWqZLA9Q5vHC5ZZ5f6tWNAMjifU
+ mPdOOxsXHBf119G0QvEHwNweX9sC3c6CawxkM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q5arbhYfGXT82qjQUTN0xccKMerRCIU7+UPVnm07W9Y=;
- b=eRUHcWD7L34e/pqvM/YjHDw0A6Ya+PNOUVo01JjXdgMP5M5Sj4coRhOkKeTbH6aktB
- nsX4M/zJcE1LZ9pKZYMjWZE1BC+D8+ki4WHQxp5Zp60JIeYhenXbQPD+xWSqzZAaCPU7
- X1tqNz2NMgpUwrqXbDNDzUW0Hjv/67AghvJeYhnNyJ+GKMriRy1om524rnHTSaMJsB5U
- e8RtgOK7uTAqqaTZ+1XbsU/c4Kl5OllUE0KtnG0nj+I1uPVD3K4lJ3BJzXr15vusFUUu
- KKYVhCHhqn9xZmsCXIFXcfOFaLmZ2HmqHsmb1b++c1vgyXZ1qL04V152Fj0DFUJ0SI4P
- hh5w==
-X-Gm-Message-State: AOAM533gBnlgps5IlqgLB10mzSN8LO0UiqGMd5Wu5W6KsNK0yaA4P3nm
- YkI3+YBUtvaZQo8C/mMkIwhbFzL/vv/zLw==
-X-Google-Smtp-Source: ABdhPJxErM53epytFNpIJdI3/a9zdSqFrICBlsEBiJkNLoECwWzSEjPVpUQPi64CmaQN2g4Kj9Mq2A==
-X-Received: by 2002:a63:1921:: with SMTP id z33mr28455929pgl.211.1619629464253; 
- Wed, 28 Apr 2021 10:04:24 -0700 (PDT)
+ bh=fUBR0WopHj0WR6JMHf2d83zcvjlEdxgAs9fymIBITzo=;
+ b=EPf9Acs+V/LpZS9avwz5BVBVBVZn/UJ3x9UX07QiMmLDRav7Ng34uAh7Te5ihoRjM6
+ YaIvbtRtXBfTfrTIiVw+7yahhOZVUxJrKvMcBOHDYOpm6wZ3brHkhTs8Tq46z9N+Cgyu
+ dVSeDSZGP/LSWjSUHOTjNOoNjJdTHAj40oy9s8L4LkhtHmzZWRU/XnOzATJPBzqC3V1I
+ IhG/LXr14hkuH25LU2d/XVuPS8oBS8jIh+5jPMlS4aDnFr2TdlMx+I1h8cEaAAGlFbwQ
+ mpt+KGejbHkns1BJK1Oyk/COcQb8Im3mbReV//ZMeIMcsrCHzLHxQM5hOEaNBA/yYpa7
+ lc+Q==
+X-Gm-Message-State: AOAM530NgoiQUaB6Yu6mvHJh95DPp68V/yLMqPNlS2OjIHefktGOm7Ed
+ SXcpbkGEM+zsnrhK2MzfIaRKMomOTfvUlA==
+X-Google-Smtp-Source: ABdhPJxVuaBy5Crg4238Rnf+mjDK9f2leKWDPf3f+mhW2AoCjVsaiScJhXB+4Y2JkeULZDYrLebEmA==
+X-Received: by 2002:a17:90a:e298:: with SMTP id
+ d24mr10097975pjz.144.1619629466765; 
+ Wed, 28 Apr 2021 10:04:26 -0700 (PDT)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:1faf:c32e:8742:d913])
- by smtp.gmail.com with ESMTPSA id c8sm244351pfp.160.2021.04.28.10.04.21
+ by smtp.gmail.com with ESMTPSA id c8sm244351pfp.160.2021.04.28.10.04.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 10:04:23 -0700 (PDT)
+ Wed, 28 Apr 2021 10:04:26 -0700 (PDT)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 2/4] drm/mediatek: init panel orientation property
-Date: Thu, 29 Apr 2021 01:04:14 +0800
-Message-Id: <20210428170416.1027484-2-hsinyi@chromium.org>
+Subject: [PATCH v5 3/4] drm/i915: init panel orientation property
+Date: Thu, 29 Apr 2021 01:04:15 +0800
+Message-Id: <20210428170416.1027484-3-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
 In-Reply-To: <20210428170416.1027484-1-hsinyi@chromium.org>
 References: <20210428170416.1027484-1-hsinyi@chromium.org>
@@ -75,32 +76,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Init panel orientation property after connector is initialized. Let the
-panel driver decides the orientation value later.
+Creating the panel orientation property first since we separate the
+property creating and value setting.
 
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/i915/display/icl_dsi.c  | 1 +
+ drivers/gpu/drm/i915/display/intel_dp.c | 1 +
+ drivers/gpu/drm/i915/display/vlv_dsi.c  | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index ae403c67cbd9..9da1fd649131 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -964,6 +964,13 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		ret = PTR_ERR(dsi->connector);
- 		goto err_cleanup_encoder;
- 	}
-+
-+	ret = drm_connector_init_panel_orientation_property(dsi->connector);
-+	if (ret) {
-+		DRM_ERROR("Unable to init panel orientation\n");
-+		goto err_cleanup_encoder;
-+	}
-+
- 	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
+diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
+index 9282978060b0..162fb3cf0f5a 100644
+--- a/drivers/gpu/drm/i915/display/icl_dsi.c
++++ b/drivers/gpu/drm/i915/display/icl_dsi.c
+@@ -1903,6 +1903,7 @@ static void icl_dsi_add_properties(struct intel_connector *connector)
  
- 	return 0;
+ 	connector->base.state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+ 
++	drm_connector_attach_scaling_mode_property(&connector->base);
+ 	drm_connector_set_panel_orientation_with_quirk(&connector->base,
+ 				intel_dsi_get_panel_orientation(connector),
+ 				connector->panel.fixed_mode->hdisplay,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index a5231ac3443a..f1d664e5abb2 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5263,6 +5263,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+ 	intel_panel_setup_backlight(connector, pipe);
+ 
+ 	if (fixed_mode) {
++		drm_connector_init_panel_orientation_property(connector);
+ 		drm_connector_set_panel_orientation_with_quirk(connector,
+ 				dev_priv->vbt.orientation,
+ 				fixed_mode->hdisplay, fixed_mode->vdisplay);
+diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+index 9bee99fe5495..853855482af1 100644
+--- a/drivers/gpu/drm/i915/display/vlv_dsi.c
++++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+@@ -1632,6 +1632,7 @@ static void vlv_dsi_add_properties(struct intel_connector *connector)
+ 
+ 		connector->base.state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+ 
++		drm_connector_init_panel_orientation_property(&connector->base);
+ 		drm_connector_set_panel_orientation_with_quirk(
+ 				&connector->base,
+ 				intel_dsi_get_panel_orientation(connector),
 -- 
 2.31.1.498.g6c1eba8ee3d-goog
 
