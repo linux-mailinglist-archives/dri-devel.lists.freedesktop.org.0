@@ -1,43 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C391336D7ED
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:04:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FAA36D80B
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:09:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB236EB2A;
-	Wed, 28 Apr 2021 13:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF786EB33;
+	Wed, 28 Apr 2021 13:09:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17AB6EB2A
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:04:08 +0000 (UTC)
-IronPort-SDR: p06rE+3VL854gDCTuzwm/SS1LCmoc93nFDpCNlNUns9rpvug2ssYJAIg9mU29yOFPb3JkhlgZS
- BaRPPgmprvrg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="176847628"
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="176847628"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2021 06:04:06 -0700
-IronPort-SDR: NOx7yMHWmUOBBhSfjgXFCr4RtpmHQL/jCo43+MfUW2KfSPQEA9VmwK+iDeH2chmIpaDhrVoIb6
- 3vmQtcQ450aQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="386509052"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga003.jf.intel.com with ESMTP; 28 Apr 2021 06:04:04 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id E1AE752A; Wed, 28 Apr 2021 16:04:22 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Phil Reid <preid@electromag.com.au>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/4] staging: fbtft: Update TODO
-Date: Wed, 28 Apr 2021 16:04:15 +0300
-Message-Id: <20210428130415.55406-5-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
-References: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C306EB33
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:09:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 1123361419
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619615345;
+ bh=pdakhA+0UozZQ0BnDGwD5CyfWR2hm8xfojp/DB4ZtOU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=pEbqmyVnlZwAtrmCX2rc7BlhLxMAB/31kVHRST86MmDeT+t7iXhIrZ3cvC2NDn9PF
+ F7kiwBLn4bx2qpl/WxQO32+sLQQb/A5mul4D3VhblUi5eOw074QBjY/Ld5A+Io9PPG
+ UEYmFpfn3uEVItLC3AyRIJ7HVMG9Kh2r1EgKXGfncTyMInXoNsHq5gDs0IdOVXPCZ9
+ fOVhMZReR040vB/g+r5JNvLV+TbH3UiKoE01lt2JmgSJu4tcAHLiSseh/XatNeV5G2
+ It8N5BbDBxu+mI+DgEiJ3NQzagn/QG946lQOraGrRL44N3gL5+9VG1FkSOWYnLJbgz
+ /9jvcZWgtRy4w==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 0A45761287; Wed, 28 Apr 2021 13:09:05 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212871] AMD Radeon Pro VEGA 20 (Aka Vega12) - Glitch and freeze
+ on any kernel and/or distro.
+Date: Wed, 28 Apr 2021 13:09:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-212871-2300-2OTvRcrS4C@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212871-2300@https.bugzilla.kernel.org/>
+References: <bug-212871-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,36 +64,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now, after a few fixes we may consider the conversion to
-the GPIO descriptor API is done.
+https://bugzilla.kernel.org/show_bug.cgi?id=212871
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/staging/fbtft/TODO | 5 -----
- 1 file changed, 5 deletions(-)
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-diff --git a/drivers/staging/fbtft/TODO b/drivers/staging/fbtft/TODO
-index a9f4802bb6be..e72a08bf221c 100644
---- a/drivers/staging/fbtft/TODO
-+++ b/drivers/staging/fbtft/TODO
-@@ -1,8 +1,3 @@
--* convert all uses of the old GPIO API from <linux/gpio.h> to the
--  GPIO descriptor API in <linux/gpio/consumer.h> and look up GPIO
--  lines from device tree, ACPI or board files, board files should
--  use <linux/gpio/machine.h>
--
- * convert all these over to drm_simple_display_pipe and submit for inclusion
-   into the DRM subsystem under drivers/gpu/drm - fbdev doesn't take any new
-   drivers anymore.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
+
+--- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
+amdgpu pro uses the same driver as upstream, just packaged so that you can
+install it on enterprise distros, so the code is the same.  What driver package
+version did you use?  What upstream kernels have you tried?  Please include the
+dmesg output from the working and non-working cases.
+
 -- 
-2.30.2
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
