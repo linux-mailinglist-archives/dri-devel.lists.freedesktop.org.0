@@ -1,31 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6600236E18D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 00:31:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F5236E18B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 00:30:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62C096EC5D;
-	Wed, 28 Apr 2021 22:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8536EC4B;
+	Wed, 28 Apr 2021 22:30:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE1E96ECE6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 757066E0C1
  for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 22:29:57 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id C9C991F42CA8
+ with ESMTPSA id CB09B1F42CA9
 Received: by jupiter.universe (Postfix, from userid 1000)
- id A528F4800BA; Thu, 29 Apr 2021 00:29:53 +0200 (CEST)
+ id A85244800C3; Thu, 29 Apr 2021 00:29:53 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sebastian.reichel@collabora.com>,
  Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
-Subject: [PATCHv2 0/5] Support for GE B1x5v2 and B1x5Pv2
-Date: Thu, 29 Apr 2021 00:29:48 +0200
-Message-Id: <20210428222953.235280-1-sebastian.reichel@collabora.com>
+Subject: [PATCHv2 1/5] rtc: m41t80: add support for fixed clock
+Date: Thu, 29 Apr 2021 00:29:49 +0200
+Message-Id: <20210428222953.235280-2-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210428222953.235280-1-sebastian.reichel@collabora.com>
+References: <20210428222953.235280-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,85 +53,87 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Congatec's QMX6 system on module (SoM) uses a m41t62 as RTC. The
+modules SQW clock output defaults to 32768 Hz. This behaviour is
+used to provide the i.MX6 CKIL clock. Once the RTC driver is probed,
+the clock is disabled and all i.MX6 functionality depending on
+the 32 KHz clock has undefined behaviour. For example when using
+the hardware watchdog the system will likely do arbitrary reboots.
 
-This series adds support for another General Electric patient
-monitor series (similar to existing Bx50v3), which is based on
-i.MX6DL using Congatec's QMX6 module.
+Referencing the m41t62 directly results in a deadlock. The kernel
+will see, that i.MX6 system clock needs the RTC clock and do probe
+deferral. But the i.MX6 I2C module never becomes usable without the
+i.MX6 CKIL clock and thus the RTC's clock will not be probed. So
+from the kernel's perspective this is a chicken-and-egg problem.
 
-The module uses an I2C RTC to provide the i.MX6 32768 Hz clock,
-so it's important to keep it enabled. Not doing so results in
-incorrect timings of watchdog and i.MX6 RTC. The bootloader
-enables the watchdog, so disabling the clock results in system
-reboot. [0]
+Technically everything is fine by not touching anything, since
+the RTC clock correctly enables the clock on reset (i.e. on
+battery backup power loss) and also the bootloader enables it
+in case an something (e.g. an unpatched kernel) disabled this
+incorrectly.
 
-The second patch is required for B155v2, which uses a 1366x768
-G156XTN01 panel. The 1366 width is not supported by the display
-pipeline and result in boot hanging without the patch. [1]
+A workaround for this issue is describing the square wave pin
+as fixed-clock, which is registered early and basically how
+this pin is used on the i.MX6.
 
-Patches 3+4 are updating DT bindings for the new board compatible
-values.
+Suggested-by: Saravana Kannan <saravanak@google.com>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ Documentation/devicetree/bindings/rtc/rtc-m41t80.txt |  9 +++++++++
+ drivers/rtc/rtc-m41t80.c                             | 12 ++++++++++++
+ 2 files changed, 21 insertions(+)
 
-Patch 5 adds the board files.
-
-Changes since PATCHv1:
- * https://lore.kernel.org/lkml/20210222171247.97609-1-sebastian.reichel@collabora.com/
- * drop patch 5 (applied)
- * instead of using 'protected-clocks' in RTC node, add fixed-clock
-   node as suggested by Saravana Kannan
- * rebased to current master (68a32ba14177)
-
-Thanks,
-
-[0] There has been a discussion for the problem on the mailinglists
-last year. The discussion died off, when I told people their ideas
-don't work. I hope using protected-clocks is fine for this usecase.
-
-https://lore.kernel.org/linux-clk/20191108170135.9053-1-sebastian.reichel@collabora.com/
-
-[1] I've sent this before as a separate patch in September, but
-nobody seemed to care. This adds full context for the problem.
-
-https://lore.kernel.org/dri-devel/20200910162831.321556-1-sebastian.reichel@collabora.com/
-
--- Sebastian
-
-Sebastian Reichel (5):
-  rtc: m41t80: add support for fixed clock
-  drm/imx: Add 8 pixel alignment fix
-  dt-bindings: vendor-prefixes: add congatec
-  dt-bindings: arm: fsl: add GE B1x5pv2 boards
-  ARM: dts: imx6: Add GE B1x5v2
-
- .../devicetree/bindings/arm/fsl.yaml          |  11 +
- .../devicetree/bindings/rtc/rtc-m41t80.txt    |   9 +
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- arch/arm/boot/dts/Makefile                    |   5 +
- arch/arm/boot/dts/imx6dl-b105pv2.dts          |  35 +
- arch/arm/boot/dts/imx6dl-b105v2.dts           |  35 +
- arch/arm/boot/dts/imx6dl-b125pv2.dts          |  33 +
- arch/arm/boot/dts/imx6dl-b125v2.dts           |  33 +
- arch/arm/boot/dts/imx6dl-b155v2.dts           |  36 +
- arch/arm/boot/dts/imx6dl-b1x5pv2.dtsi         | 434 ++++++++++++
- arch/arm/boot/dts/imx6dl-b1x5v2.dtsi          |  61 ++
- arch/arm/boot/dts/imx6dl-qmx6.dtsi            | 624 ++++++++++++++++++
- drivers/gpu/drm/imx/imx-drm-core.c            |  19 +-
- drivers/gpu/drm/imx/imx-ldb.c                 |   5 +
- drivers/gpu/drm/imx/ipuv3-crtc.c              |  11 +-
- drivers/gpu/drm/imx/ipuv3-plane.c             |  19 +-
- drivers/gpu/ipu-v3/ipu-dc.c                   |   5 +
- drivers/gpu/ipu-v3/ipu-di.c                   |   7 +
- drivers/rtc/rtc-m41t80.c                      |  12 +
- 19 files changed, 1390 insertions(+), 6 deletions(-)
- create mode 100644 arch/arm/boot/dts/imx6dl-b105pv2.dts
- create mode 100644 arch/arm/boot/dts/imx6dl-b105v2.dts
- create mode 100644 arch/arm/boot/dts/imx6dl-b125pv2.dts
- create mode 100644 arch/arm/boot/dts/imx6dl-b125v2.dts
- create mode 100644 arch/arm/boot/dts/imx6dl-b155v2.dts
- create mode 100644 arch/arm/boot/dts/imx6dl-b1x5pv2.dtsi
- create mode 100644 arch/arm/boot/dts/imx6dl-b1x5v2.dtsi
- create mode 100644 arch/arm/boot/dts/imx6dl-qmx6.dtsi
-
+diff --git a/Documentation/devicetree/bindings/rtc/rtc-m41t80.txt b/Documentation/devicetree/bindings/rtc/rtc-m41t80.txt
+index c746cb221210..cdd196b1e9bd 100644
+--- a/Documentation/devicetree/bindings/rtc/rtc-m41t80.txt
++++ b/Documentation/devicetree/bindings/rtc/rtc-m41t80.txt
+@@ -21,10 +21,19 @@ Optional properties:
+                       clock name
+ - wakeup-source: Enables wake up of host system on alarm
+ 
++Optional child node:
++- clock: Provide this if the square wave pin is used as boot-enabled fixed clock.
++
+ Example:
+ 	rtc@68 {
+ 		compatible = "st,m41t80";
+ 		reg = <0x68>;
+ 		interrupt-parent = <&UIC0>;
+ 		interrupts = <0x9 0x8>;
++
++		clock {
++			compatible = "fixed-clock";
++			#clock-cells = <0>;
++			clock-frequency = <32768>;
++		};
+ 	};
+diff --git a/drivers/rtc/rtc-m41t80.c b/drivers/rtc/rtc-m41t80.c
+index 89128fc29ccc..b3ece42b6f90 100644
+--- a/drivers/rtc/rtc-m41t80.c
++++ b/drivers/rtc/rtc-m41t80.c
+@@ -544,10 +544,22 @@ static struct clk *m41t80_sqw_register_clk(struct m41t80_data *m41t80)
+ {
+ 	struct i2c_client *client = m41t80->client;
+ 	struct device_node *node = client->dev.of_node;
++	struct device_node *fixed_clock;
+ 	struct clk *clk;
+ 	struct clk_init_data init;
+ 	int ret;
+ 
++	fixed_clock = of_get_child_by_name(node, "clock");
++	if (fixed_clock) {
++		/*
++		 * skip registering square wave clock when a fixed
++		 * clock has been registered. The fixed clock is
++		 * registered automatically when being referenced.
++		 */
++		of_node_put(fixed_clock);
++		return 0;
++	}
++
+ 	/* First disable the clock */
+ 	ret = i2c_smbus_read_byte_data(client, M41T80_REG_ALARM_MON);
+ 	if (ret < 0)
 -- 
 2.30.2
 
