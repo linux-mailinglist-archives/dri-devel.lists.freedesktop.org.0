@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3261736D590
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 12:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796DC36D5C9
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 12:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBFC6EB0F;
-	Wed, 28 Apr 2021 10:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0448A6E0AA;
+	Wed, 28 Apr 2021 10:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 523676EB0D
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 10:16:07 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- a22-20020a05600c2256b029014294520f18so4139166wmm.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 03:16:07 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70E8F6E08A
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 10:27:41 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n4-20020a05600c4f84b029013151278decso8489253wmq.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 03:27:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=uOe+N+c5K6O3uq5CbTn5rAb8QuLRjU8n5kOdij1gBug=;
- b=M4HeYxuM89a7YgEKBWnwMZWFLL8q1Ba0yoLDdeEQ7Q46HtvGgBFY/kQUaKWAuQ42bk
- fU4B8kSBScZvy24gFLNOt6kyePI5iYNI9YDgDLbPuVM6nWemnUwaHaLw76YsbpdsKtoB
- x34jzyTi1YhL+ZEMlS0T4hTbu7qSPkTa5L/Lg=
+ bh=UqWIQEo2ISG2YbntxG4VDqsNdsTJRz+EP3ztYwpOKqg=;
+ b=QoxoGHfsGu/iAKgHdK4HVK/ix0osYct+ejhxBa5m7s6hnv1FfGhfXmuoAIth7Qg7tu
+ 4vp2DW2RJgdyrBfqAUvJNd24drbtZ64w636mS8lEr5Opvl3IUskLmjpchVXjkSk95n8N
+ nllCx+fIGSykl6CzY2rwfNZIo5+TrkChQtUZk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=uOe+N+c5K6O3uq5CbTn5rAb8QuLRjU8n5kOdij1gBug=;
- b=QN5elPWjIwvwYwnE2jEMY1elr3RnVpLxRw5soBFW2DtnJhcgMYTnn9+9PcYmPm4Rkt
- b7ExdLuK6ghMC25BWS59HpbhE5vG6QYSo0ziUAJaRRxNRp48bajtf/xiDfK5+tkWafU4
- b9Q9FO7OPKkko6LzkN9aYcPeQx7y1E2tQA6SWPiiQOYtgdv1K1qsASMkIO18xPt2PT9m
- 77bXbehIJdsS/MoVmW5n1yHeftDABqohGsv51Usg5tfQum/E58vW2RJ9ucv2kMwDZ3V4
- MF5Xy5cqO6SAIXWYJnka0awLWMkDghPMuuUZuQ+TN9OVaFefIy9fjpIIv7dFyBCQRsvr
- LI1A==
-X-Gm-Message-State: AOAM530yeeehlq4HeJjL2rNCZPdl/UkMbxTOOzRAISxZatfGFLik8XD0
- v9Bw0nh6Jnj4B8r70PwNAvieAg==
-X-Google-Smtp-Source: ABdhPJze9tAmYWkN9PpjByBDUhstnKFzTfm01HJwTR4FBIbRiPMNOLxTx49dRjUhYC8OI2AZIj5klQ==
-X-Received: by 2002:a7b:c4da:: with SMTP id g26mr5701526wmk.43.1619604965986; 
- Wed, 28 Apr 2021 03:16:05 -0700 (PDT)
+ bh=UqWIQEo2ISG2YbntxG4VDqsNdsTJRz+EP3ztYwpOKqg=;
+ b=GqQ/h2TzY1RACT+djyVud01w3n226buAZ4Hx+3rqfl6srRc/B+lxhoA8HCP8n5ecmL
+ qpBR1rkoGN5X8PmC3l7TO17Qc6sG004k5Pb9u2MvmQF6b55z0X0Bik4+Tno3UOc6XWPa
+ vhyhY7ZxIVwIoKGMSquBiNaAUJcKLaSjjojllDno9sZrexWyK8Pef5BOMl3mhmikNDM0
+ AvclQvr8dTHbCMAGl9Me+OEsJ4ew4u8lb3WDWxb4oQ2QRFthHUO6vE7DGIQVL1qer4wx
+ 8p382Uv/+uMJXQ0DrtC4/3gRhSofUk8zeHC0SnZrYtBHAtIRan3TgaRHUkSl0v4Urmaq
+ CMyA==
+X-Gm-Message-State: AOAM530VMkPTAUqq1BdvVddbm5fzTYjeliM+3nnG4bWpEST2IrRK9UvD
+ IZauIgFIDaoVJ1vBFIluEfoRKg==
+X-Google-Smtp-Source: ABdhPJz8MloVYLB2dO4kddPzJxe1xCBp+4SnZrUsj6oamcfsBW/kv7dvZstxBe1u+cbPMmUEbH1sNA==
+X-Received: by 2002:a1c:55ca:: with SMTP id j193mr3651617wmb.58.1619605660197; 
+ Wed, 28 Apr 2021 03:27:40 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h10sm7722715wrt.40.2021.04.28.03.16.04
+ by smtp.gmail.com with ESMTPSA id s16sm5661395wmh.11.2021.04.28.03.27.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 03:16:05 -0700 (PDT)
-Date: Wed, 28 Apr 2021 12:16:03 +0200
+ Wed, 28 Apr 2021 03:27:39 -0700 (PDT)
+Date: Wed, 28 Apr 2021 12:27:37 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [Intel-gfx] [PATCH 09/21] drm/i915/gem: Disallow creating
- contexts with too many engines
-Message-ID: <YIk14zVfa8Mw4rUF@phenom.ffwll.local>
+Subject: Re: [PATCH 11/21] drm/i915: Stop manually RCU banging in
+ reset_stats_ioctl
+Message-ID: <YIk4mcKOjRUKuHVB@phenom.ffwll.local>
 References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-10-jason@jlekstrand.net>
+ <20210423223131.879208-12-jason@jlekstrand.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210423223131.879208-10-jason@jlekstrand.net>
+In-Reply-To: <20210423223131.879208-12-jason@jlekstrand.net>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,49 +73,100 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 23, 2021 at 05:31:19PM -0500, Jason Ekstrand wrote:
-> There's no sense in allowing userspace to create more engines than it
-> can possibly access via execbuf.
-> 
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 5f8d0faf783aa..ecb3bf5369857 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -1640,11 +1640,10 @@ set_engines(struct i915_gem_context *ctx,
->  		return -EINVAL;
->  	}
->  
-> -	/*
-> -	 * Note that I915_EXEC_RING_MASK limits execbuf to only using the
-> -	 * first 64 engines defined here.
-> -	 */
->  	num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
+On Fri, Apr 23, 2021 at 05:31:21PM -0500, Jason Ekstrand wrote:
+> As far as I can tell, the only real reason for this is to avoid taking a
+> reference to the i915_gem_context.  The cost of those two atomics
+> probably pales in comparison to the cost of the ioctl itself so we're
+> really not buying ourselves anything here.  We're about to make context
+> lookup a tiny bit more complicated, so let's get rid of the one hand-
+> rolled case.
 
-Maybe add a comment like /* RING_MASK has not shift, so can be used
-directly here */ since I had to check that :-)
+I think the historical reason here is that i965_brw checks this before
+every execbuf call, at least for arb_robustness contexts with the right
+flag. But we've fixed that hotpath problem by adding non-recoverable
+contexts. The kernel will tell you now automatically, for proper userspace
+at least (I checked iris and anv, assuming I got it correct), and
+reset_stats ioctl isn't a hot path worth micro-optimizing anymore.
 
-Same story about igt testcases needed, just to be sure.
+With that bit of more context added to the commit message:
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> +	if (num_engines > I915_EXEC_RING_MASK + 1)
-> +		return -EINVAL;
-> +
->  	set.engines = alloc_engines(num_engines);
->  	if (!set.engines)
->  		return -ENOMEM;
+> 
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c | 13 ++++---------
+>  drivers/gpu/drm/i915/i915_drv.h             |  8 +-------
+>  2 files changed, 5 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index ecb3bf5369857..941fbf78267b4 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -2090,16 +2090,13 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
+>  	struct drm_i915_private *i915 = to_i915(dev);
+>  	struct drm_i915_reset_stats *args = data;
+>  	struct i915_gem_context *ctx;
+> -	int ret;
+>  
+>  	if (args->flags || args->pad)
+>  		return -EINVAL;
+>  
+> -	ret = -ENOENT;
+> -	rcu_read_lock();
+> -	ctx = __i915_gem_context_lookup_rcu(file->driver_priv, args->ctx_id);
+> +	ctx = i915_gem_context_lookup(file->driver_priv, args->ctx_id);
+>  	if (!ctx)
+> -		goto out;
+> +		return -ENOENT;
+>  
+>  	/*
+>  	 * We opt for unserialised reads here. This may result in tearing
+> @@ -2116,10 +2113,8 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
+>  	args->batch_active = atomic_read(&ctx->guilty_count);
+>  	args->batch_pending = atomic_read(&ctx->active_count);
+>  
+> -	ret = 0;
+> -out:
+> -	rcu_read_unlock();
+> -	return ret;
+> +	i915_gem_context_put(ctx);
+> +	return 0;
+>  }
+>  
+>  /* GEM context-engines iterator: for_each_gem_engine() */
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 0b44333eb7033..8571c5c1509a7 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1840,19 +1840,13 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
+>  
+>  struct dma_buf *i915_gem_prime_export(struct drm_gem_object *gem_obj, int flags);
+>  
+> -static inline struct i915_gem_context *
+> -__i915_gem_context_lookup_rcu(struct drm_i915_file_private *file_priv, u32 id)
+> -{
+> -	return xa_load(&file_priv->context_xa, id);
+> -}
+> -
+>  static inline struct i915_gem_context *
+>  i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
+>  {
+>  	struct i915_gem_context *ctx;
+>  
+>  	rcu_read_lock();
+> -	ctx = __i915_gem_context_lookup_rcu(file_priv, id);
+> +	ctx = xa_load(&file_priv->context_xa, id);
+>  	if (ctx && !kref_get_unless_zero(&ctx->ref))
+>  		ctx = NULL;
+>  	rcu_read_unlock();
 > -- 
 > 2.31.1
 > 
 > _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 Daniel Vetter
