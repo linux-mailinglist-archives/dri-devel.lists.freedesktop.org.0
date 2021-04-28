@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A97936DAE3
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 17:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0511B36DAF5
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 17:13:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A716E0F2;
-	Wed, 28 Apr 2021 15:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D28416EB70;
+	Wed, 28 Apr 2021 15:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2042.outbound.protection.outlook.com [40.107.93.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 481ED6E0F5;
- Wed, 28 Apr 2021 15:12:33 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2078.outbound.protection.outlook.com [40.107.243.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 076B26EB55;
+ Wed, 28 Apr 2021 15:12:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gax63yzIUwXNj82rbF84YS5Q2yE46NM4ZIIZgaFW4J53P02vOUvEQrLtSqkm6vQpyS0T+fsBznjFzKaCk4FKaNyWkEdqixaicqSqFVw8nUJRUi2QVpdryeWF48n2yqGZW6MUpNsEzJi2THLOSfHGJqXrrrSuRpS7WUwvbsO73lT0JbP+KVgVAH5jo5gGOB6GAElP4kFFac3mkYrFSMPGQnwjqwscs0f2cUfvHuQkU51K5/XGOOjgeS0KV8C1PeXKDM3P7Tnf06mhSo9d//HJocMBGd5HVZDSZCytuUtk4UV7t/y/1/45CEoh/SX+pcEqtXeZm67YLoELvNBPDAKgjw==
+ b=Gsj1pPvRprMSwVizi+GoKLIEv1R4L8ZZ9VCzuYFAE1ojNMOHKiLcG3VcD6ab1BYHKibrp31bSqUFY3feQ1QJ73vbdtisYQNQkFIv2GM7ma6vs3cTZKgDj7gZCUVCumHeBSv4hxC5UcWhAFAn6M94weHaSLW/GgiEteYSP1zE9XzSqkUxFuwnThXT8VDpHXE9AYd73ec7/5RsgmBqC5CYcgB0WPiH/Ra4QDsEiQenCfKim4vyi9HRhMJ4TfXQoZjUlbDCA7m9YthBI8LQHPEfvGZL6cnL1GQDVujxFX1TeuRmkN3IqZlnqzslq1L5fHExz+Zd7qxZffL1ufCRwtOTHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TlP3Nu2/Ly3UoGYGggWI0PsQaIUgQbOHVqqtihMisbw=;
- b=j3BllWKmgC1OlrBbzsJFFBA4f/eBz1K8aVVnXWnyoh5bjCjjdiMest2+bA7ubAIzjfOFZZCqS1IcUB7Z4mSty9KMf4hvZYNC/BMcz/NLW82Uk4umCx/WRDCervut5mpB3BzTFxoXWOoeD5mEHehz8BGsDRtzy3Bd5KnToI6SSjw8rD7371IKLw8UIp0BcI+9wP9z2khfRAjpEqFqg+7Ysb2IUaCgNmqh8IPZqQadVVT3w4dPOvyvEWgfyNj8N9biVUUK2JF8UvIWwF61IZ8KXa8fMO4/s9PctVRkJapuPjvXonRg16GKJyfPO7NlZIR0a1dncQAexeT1B9zfek++dQ==
+ bh=39EB68ov2WeP48MIIJQjZulb+ZIqexUKl7RSS3dV+VQ=;
+ b=Y4HX33ynxIgI2oF+xKlwr11dj54xeLgkZVuRlzV8LevKuI/I1SZtaIGHW7HqvFg3KUgC7UqaCQfR2WKNy0Cao3HAgjSy5jE0pfF3Ve0CGYjbZK5Pak0F4E6ujFn1A2OscpUfQCTBCC2fccaFB6oQ+WkAxjggaJQ2fapkkTwflVgYsRwCwMTngG8nLHeZVY4R56C0RDXFqwAp2/aNpCwiOpZFCc53eB3oanMJRciMhQ/Y87zo9C6VSFLaCa/STchL2aknDi3Yi3juPjwRbjKTwjWO3Xzgf0TDpQDWa3VQHjGXO8LiSf8ndwxl6pZwlNhOg26+ZLwLWSK4Gcu2KmK2gg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TlP3Nu2/Ly3UoGYGggWI0PsQaIUgQbOHVqqtihMisbw=;
- b=a59HyWdIx1cCYB0nIS8oXzO2GArsUZDvPiO9n6DWXtRxeYUPmowYYGdTs56z7of1VuU9QCI7aJBCLE8Z9N9eqa6pd0pRsCdvWYWnEYM1xtNCm/veXudR9ei9A+zqY75brl2tCL+x10YmuTuldIfbGbwg3wg4wl6ivgxUU4H+hWo=
+ bh=39EB68ov2WeP48MIIJQjZulb+ZIqexUKl7RSS3dV+VQ=;
+ b=HVwqscvA5q8BPA0CV+hz4Q6rJ+S5LPLvGykTKfRXdsL1o0k2Y+mb3wqztFf1lbi7hkea/CY9gwIzXRuVDYMMgavx6yj1IQ/ckAYXxgphmFKjh8Mx32EiGvpPJqHSwUFmEcjpECoEYLRFqrc/e/oVDLEMEDu5XJvxmmXlPK0xI3s=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
 Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SN6PR12MB2799.namprd12.prod.outlook.com (2603:10b6:805:77::32)
+ by SA0PR12MB4462.namprd12.prod.outlook.com (2603:10b6:806:95::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.24; Wed, 28 Apr
- 2021 15:12:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Wed, 28 Apr
+ 2021 15:12:35 +0000
 Received: from SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4065.026; Wed, 28 Apr 2021
- 15:12:30 +0000
+ 15:12:35 +0000
 From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-pci@vger.kernel.org, ckoenig.leichtzumerken@gmail.com,
  daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
-Subject: [PATCH v5 01/27] drm/ttm: Remap all page faults to per process dummy
- page.
-Date: Wed, 28 Apr 2021 11:11:41 -0400
-Message-Id: <20210428151207.1212258-2-andrey.grodzovsky@amd.com>
+Subject: [PATCH v5 02/27] drm/ttm: Expose ttm_tt_unpopulate for driver use
+Date: Wed, 28 Apr 2021 11:11:42 -0400
+Message-Id: <20210428151207.1212258-3-andrey.grodzovsky@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210428151207.1212258-1-andrey.grodzovsky@amd.com>
 References: <20210428151207.1212258-1-andrey.grodzovsky@amd.com>
@@ -60,54 +59,54 @@ Received: from agrodzovsky-All-Series.hitronhub.home
  (2607:fea8:3edf:49b0:7212:f93a:73b0:8f23) by
  YT1PR01CA0142.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2f::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.25 via Frontend Transport; Wed, 28 Apr 2021 15:12:29 +0000
+ 15.20.4065.25 via Frontend Transport; Wed, 28 Apr 2021 15:12:34 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 414672ba-0f1c-48ae-4d27-08d90a580add
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2799:
+X-MS-Office365-Filtering-Correlation-Id: 1fdb6af6-e36b-4e19-c60e-08d90a580d9e
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4462:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB2799E63D23506DF182B12512EA409@SN6PR12MB2799.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4462DF01F6226EA6BF6DD791EA409@SA0PR12MB4462.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:489;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4ADg1QtPNE3XzaVlhQ924t6MA6L34ecz5daDp7YorUjaSGFtPfT2NjphYv5SW8S+UANI9tqcExVKxuQEGQ0jdTXwlSz2jTStT4DgJed4WWy5pBNlvo/d/2eKZDVPG8EyAQhnx5STp7eratQHCQAkqPZtxEhUITCOG6MkplQNuUwiVmufJGGtPIdiT4uAK77hR9t6paXe1WfBXytgDQYpOBoTRV1Rens+m1kRGWGICt+zK3zqK0ElKSLV2kbvlumluNCkUb4YQrbyFCJqrpl25Ox0SOPIOv9PD6PpSP405OAcRGXiTN032f5EzTQzJlZHnlgKAYOSZSq1/Aj5EofaE5XUuodVzLxHBUdrib9s3XzgRTdd7Dqs/UVgGICEtoTnax5J/oWoMFA3yOB9dyOh6Zc19UdgjQJLryWJA4Pg7dnN5JW37FmQSYmFEthqbOqvdpDnuPRfdjLWkpzClVU7+5R599oFITddt1CcLtbqlHr4w5ovXl8EpDnVkm91BPp/sjqHMhKrP8Ddd4FCsb92KDs5Z1u1Dhf9GXcy9uw0XkefbNwPkOwqx8gKmc5HGayZXg8/2deuNIpch3SKfkMKT2auYh7JAdjkD2OGE2QQUmE=
+X-Microsoft-Antispam-Message-Info: 9eoGq5gV1NGpVSSWWjNBncmwJbQflVQsFk5KlIe0mWtcR3kuyjoQBd17cdIe47r0VCuEBDOlhTuzVHRg+86wpJczjIjO2WjnslXWX8EQ0jgvZDc63Y2BhXFT2hwUJ5AJoRF07RWoqx20lB0Z9WQf0+aWHF7qWa/aQ61fuJxdvx7uare0LUP6C5xrAo4gLvysMpm+KHwm69j+0XNcv/KvBHIElt7Zwa1/R0dTI0adz1JH1rmBGPxMrxOdU4O6tx8K4xTxYKTZT28rPEI2IlT00dZtrqRgF/mMDpX0D7nxnSPqFnnjWNPJb82GwYCpOfaXqZJ/Jl5jw8tU5EE8mda8+0kgZjViCI0/Aco2uEi81u0136Q8Q63uPzV31gVqkm/33ysKi+yx7HN9RmTv8udisgLN79h4f/0EW/0IMkWKWaQX+CjmUV8DWRnwRk4zKHPixkqxHQoGQAx0HKZ8j7pB6DMv8eszNQDHiORdBvppq8S7crR6nYDh7j4MBAZUdjvNBRj5akoOpageF1Pc6Qoz47+rowaSDxfB9MF2lyD1PrMWD6VMwgGODBTErJCeB4qJWzLK0q8nLbgdpOr259FPHeAuq/pyKrWZlcFfpKeNkuo=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(366004)(136003)(346002)(396003)(16526019)(8676002)(4326008)(478600001)(66556008)(66476007)(2616005)(66946007)(86362001)(44832011)(186003)(83380400001)(36756003)(8936002)(316002)(6666004)(1076003)(6636002)(6506007)(52116002)(38100700002)(6512007)(5660300002)(2906002)(6486002);
+ SFS:(4636009)(346002)(396003)(136003)(39860400002)(376002)(366004)(6512007)(6636002)(66946007)(316002)(186003)(44832011)(2906002)(16526019)(36756003)(83380400001)(6506007)(4326008)(52116002)(8676002)(66476007)(5660300002)(66556008)(1076003)(2616005)(6666004)(478600001)(86362001)(38100700002)(4744005)(8936002)(6486002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?9eI4x7Io/+A1yXNTjMa/I0SywTfCyRY7tc3XoHBTgeQxChfh42koAwI3hqAI?=
- =?us-ascii?Q?CuJz1IqhM3sEWGcsgyiPkQfE4J3hYjhdfR23ZDTPiU81Dha30F1B8UIgQvNp?=
- =?us-ascii?Q?PXeZ7geNfoNkrdDdqAdFsLcioMpEgUCIv74Ug8wpyJSCkjM9wV+LqGz2l/a5?=
- =?us-ascii?Q?kk2T18qzDaNcsrpz5yjD8uGe4lPl+IVxHvdz3Ey15KyNmLnz2rnI/eKiqc0I?=
- =?us-ascii?Q?wGSncpzb6Wadg9BNiggcW2fa14aZA5etkPTFXDoM0EpXTEo82zAB+ZW3kIcA?=
- =?us-ascii?Q?mF+zTdDp/TAZvLLZRTSJM7ijpgL3e2kpnojYqPtLtJzdXko6lmT699wAMFs+?=
- =?us-ascii?Q?4hWfIfgDna1Bk9HcDvo1yoG/PjsztAgKjLgBSx+GTIMWVpqsUN6VFPdvlGTh?=
- =?us-ascii?Q?RsfV6/SqRrLjeaalEfDrit6uGUFt/MXWrDDsDK6b32R2LoKG3ZELqfCkx22I?=
- =?us-ascii?Q?sLyRdze6RIjrQaNPtPHhSYUZlqeoswtC9exRuytNUORYkM4DyTfKOYvvygxu?=
- =?us-ascii?Q?NCbpGeOQbsVCr3X9UpYsGOKIew676SBwxRZMxNmUPl7jeYVDfWuuRh6u9jyU?=
- =?us-ascii?Q?HxdLMLICcGi1A9KbP01AmOf7jkrm+y1Vb/i4DIMF4CO21ouIgM0JVD8+LDTO?=
- =?us-ascii?Q?ATMIS9lI2d/HKQ2gqRoVoLLAiRkYS3kNbFJIbsr+z/AJYFNZZAsk+ZGsYl1W?=
- =?us-ascii?Q?xiHz3PUqIBWEMKM9ADGRyJdwNy4G1u8vqeIzpUjAAV/fBO9HiWTpvi63ollS?=
- =?us-ascii?Q?wb1kOrsUylGStiq/+pBz7HGDEhTjWGIA3sH9PCxRehXIjqfiyVsgL767OwsF?=
- =?us-ascii?Q?egX16t7ZVwHNw3Drk9BxFT3BTaQJoOtTARDSz0F+JmbzJU14Dv+QEDfbWHJW?=
- =?us-ascii?Q?foHgI04hqxMIiJpeGIk/TFxEdwRAtUfdzsV1io6ZjzNii8cUud49I+oAaKzL?=
- =?us-ascii?Q?MSMUq4D+L7whCGgr/oBiySb71zT6Ezi6QfcXq+cJoFOwBex52pl1AtpHWQTv?=
- =?us-ascii?Q?1xqzMKjnhESELzxzvRvJZqyWs8ACFR5XM2h97ks7VdEh61KadAzBh/yDaIto?=
- =?us-ascii?Q?nAgZCCIFKHPMlWdhkMjvFPpDERiyH3ckBXILOGDDEk6DYI+O5Ja1ZEWzaZ1A?=
- =?us-ascii?Q?kCq7a9odFFNQOfmv/3fkA6MjM8yoXASfn5vR7qZ2GoGodNhDXfA3JgHbS83t?=
- =?us-ascii?Q?bxrMCrtX2bCEA0MpprltyvkAIcYBNSwTMLrmLwf5ho/avQau7/1h8LJy0f4Q?=
- =?us-ascii?Q?S3VRm5o1gZGZbHI/zPOQEpRcAEQ8sQxfx0aeX83W2NTNY2Q6CCMRZ7/RG9Ps?=
- =?us-ascii?Q?TpprYl/7z+NpGSeJcYe7ZdrpPYEUsMmutZB6QOtkG0FA2qoYupYjH5xlCIR0?=
- =?us-ascii?Q?n0J9KemLw3liwGs7SUVDUdTSSzGf?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?pCddA1drrOZxjMlkM/TEmOWLbi+EvFQE4LVRMcb0/AjBPAdT3COOGLuqHRpL?=
+ =?us-ascii?Q?gET64uzgh1A0ci0hcyJGwOXJRwRIdb6UORM/iS8A84wS1XmlR8nzobwyeIze?=
+ =?us-ascii?Q?fcuKXwRRPbkjVD85ppfmjH0sNToTAsXS3Ngiz9xTQmk1Oe+JCBiOYAVUH1X0?=
+ =?us-ascii?Q?oUr/Zoi2AbCots8kV9qPhxLEg1f2TjNB0fgVKZdPCNFj86kJyJaNEAR3Lhd2?=
+ =?us-ascii?Q?Aw7We1kfH/9XsKqAn0pf2LHT69AXVW90u5X0rQoVSOlv1KU5i48V2inwiYVW?=
+ =?us-ascii?Q?Y3XGAvDu1eSEp4aru+KHq9xXHggTQGxGSXj2k0WSTqYvwITBreCPEF1YJMR5?=
+ =?us-ascii?Q?a32+R8Y5W0kFNxWrflldMX8ccooSxiXTnWj7wxCvCiCeu2Hzu8qrPAkAHEPt?=
+ =?us-ascii?Q?2zt05w0URXVtXehV6MqMIgicmEd5MHQaAY9MqtekbGTG1GUUiMVr6NkC+/8x?=
+ =?us-ascii?Q?8NSkIZfZ5wFrcnMasIvARshCuNSR2coDfROSrWgPANT7nWMprJdq87Q+DdnV?=
+ =?us-ascii?Q?swTvvz+LlWl+hd+aJcHO4UK2P4B/aLCmHpUf9PKdnQY0GSZ2+JHfY2zc8Jb9?=
+ =?us-ascii?Q?Sr+Gya54Sqb2iFugQpNCPHM40bVOCshSk1Q1Pzr/d2nQ274LoCHuzU+tM1uf?=
+ =?us-ascii?Q?26IN3BqfkH3b9t6VOumLxRmvgD8y3Xja2+DBrx867HmECBpRPM8uh1ZzCvVw?=
+ =?us-ascii?Q?ocG2T/0iywxnoaUiutHP4OBUzE0d2JYIE0vK3iQvU3b7rkWLi0xhnXcCENAF?=
+ =?us-ascii?Q?bcdosK46UfLl7QekXFNq+81ELKQ3NZAIJRY+uY3x2JAPARcdC4u96seEMuH3?=
+ =?us-ascii?Q?TqqGozw/M62qDD8NgIon1Omi0fpqloiH4k7N/VnVa7t4m8zIBlMt15nMzXTh?=
+ =?us-ascii?Q?zaU2yfdOHvDzRxgyWPQLUFSkwlr8wnKsmKdKxoEeBrnKONXFi4OjEyiwIvyu?=
+ =?us-ascii?Q?Y5D33P75UQ2vUVMegRTcYA44dakfb28StCBgIrLS/4MX8nj+4eh3xAMcch13?=
+ =?us-ascii?Q?NmikUtraxCWg062EKyAt91yssxx9tsDQ9fyacEspyWV9/UiC4PqELBvYoi+2?=
+ =?us-ascii?Q?95l1VwtItbSF+7KX/Uwk/E5SE9md91G7wr16l2BvFPr6Oc7nHBiO/BHnz3+/?=
+ =?us-ascii?Q?wKPiGyotSvLKFbrOHoGZT1OXKW9rKeyL0MmFtbXUocXjTRXR9SDYXPpC8F3A?=
+ =?us-ascii?Q?iCYPgKeIiOy44JjLc7qeIxBQC77B92uy6OGxBLVNCDSyTR+PDz1yJmKR8ur7?=
+ =?us-ascii?Q?k5hEGBp1j+vzG97YGnaJLr24lS1IuB6EYGqz3/WH48wXYpN/5e4hYQSaG/fF?=
+ =?us-ascii?Q?N/wjHVO7Cpwbkh7WGm4pUBHws1mCYzzQk1kv4kT0icaCuwlqGkAveVqv77WU?=
+ =?us-ascii?Q?keH9WC6zqlFJ+g+gQm77t7mCEfxI?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 414672ba-0f1c-48ae-4d27-08d90a580add
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fdb6af6-e36b-4e19-c60e-08d90a580d9e
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 15:12:30.6340 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 15:12:35.3203 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PMd9UMXpoWBl4rCsAPw1xZLOM1J6Vg0nrI4hh0OLmfUHc8d/fjBsl0QNwz5NsTIqlTie3IgsacFYsN43ByOkgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2799
+X-MS-Exchange-CrossTenant-UserPrincipalName: WI5m1BNmQVVtIVGny6N4ah5Ic6VABG/N9/6dPRf1Luo/0bxBdWlN/NgjahyM8XKSeIgUFAXLjGJQ0lanFqt9Jg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4462
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,145 +126,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On device removal reroute all CPU mappings to dummy page.
-
-v3:
-Remove loop to find DRM file and instead access it
-by vma->vm_file->private_data. Move dummy page installation
-into a separate function.
-
-v4:
-Map the entire BOs VA space into on demand allocated dummy page
-on the first fault for that BO.
-
-v5: Remove duplicate return.
+It's needed to drop iommu backed pages on device unplug
+before device's IOMMU group is released.
 
 Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo_vm.c | 79 ++++++++++++++++++++++++++++++++-
- include/drm/ttm/ttm_bo_api.h    |  2 +
- 2 files changed, 80 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_tt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index b31b18058965..8b8300551a7f 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -34,6 +34,8 @@
- #include <drm/ttm/ttm_bo_driver.h>
- #include <drm/ttm/ttm_placement.h>
- #include <drm/drm_vma_manager.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_managed.h>
- #include <linux/mm.h>
- #include <linux/pfn_t.h>
- #include <linux/rbtree.h>
-@@ -380,19 +382,94 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 48c407cff112..f2ce1b372096 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -431,3 +431,4 @@ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages)
+ 	if (!ttm_dma32_pages_limit)
+ 		ttm_dma32_pages_limit = num_dma32_pages;
  }
- EXPORT_SYMBOL(ttm_bo_vm_fault_reserved);
- 
-+static void ttm_bo_release_dummy_page(struct drm_device *dev, void *res)
-+{
-+	struct page *dummy_page = (struct page *)res;
-+
-+	__free_page(dummy_page);
-+}
-+
-+vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot)
-+{
-+	struct vm_area_struct *vma = vmf->vma;
-+	struct ttm_buffer_object *bo = vma->vm_private_data;
-+	struct drm_device *ddev = bo->base.dev;
-+	vm_fault_t ret = VM_FAULT_NOPAGE;
-+	unsigned long address = vma->vm_start;
-+	unsigned long num_prefault = (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
-+	unsigned long pfn;
-+	struct page *page;
-+	int i;
-+
-+	/*
-+	 * Wait for buffer data in transit, due to a pipelined
-+	 * move.
-+	 */
-+	ret = ttm_bo_vm_fault_idle(bo, vmf);
-+	if (unlikely(ret != 0))
-+		return ret;
-+
-+	/* Allocate new dummy page to map all the VA range in this VMA to it*/
-+	page = alloc_page(GFP_KERNEL | __GFP_ZERO);
-+	if (!page)
-+		return VM_FAULT_OOM;
-+
-+	pfn = page_to_pfn(page);
-+
-+	/*
-+	 * Prefault the entire VMA range right away to avoid further faults
-+	 */
-+	for (i = 0; i < num_prefault; ++i) {
-+
-+		if (unlikely(address >= vma->vm_end))
-+			break;
-+
-+		if (vma->vm_flags & VM_MIXEDMAP)
-+			ret = vmf_insert_mixed_prot(vma, address,
-+						    __pfn_to_pfn_t(pfn, PFN_DEV),
-+						    prot);
-+		else
-+			ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
-+
-+		/* Never error on prefaulted PTEs */
-+		if (unlikely((ret & VM_FAULT_ERROR))) {
-+			if (i == 0)
-+				return VM_FAULT_NOPAGE;
-+			else
-+				break;
-+		}
-+
-+		address += PAGE_SIZE;
-+	}
-+
-+	/* Set the page to be freed using drmm release action */
-+	if (drmm_add_action_or_reset(ddev, ttm_bo_release_dummy_page, page))
-+		return VM_FAULT_OOM;
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(ttm_bo_vm_dummy_page);
-+
- vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
- {
- 	struct vm_area_struct *vma = vmf->vma;
- 	pgprot_t prot;
- 	struct ttm_buffer_object *bo = vma->vm_private_data;
-+	struct drm_device *ddev = bo->base.dev;
- 	vm_fault_t ret;
-+	int idx;
- 
- 	ret = ttm_bo_vm_reserve(bo, vmf);
- 	if (ret)
- 		return ret;
- 
- 	prot = vma->vm_page_prot;
--	ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
-+	if (drm_dev_enter(ddev, &idx)) {
-+		ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
-+		drm_dev_exit(idx);
-+	} else {
-+		ret = ttm_bo_vm_dummy_page(vmf, prot);
-+	}
- 	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
- 		return ret;
- 
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index 3587f660e8f4..dbb00e495cb4 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -635,4 +635,6 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
- 		     void *buf, int len, int write);
- bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
- 
-+vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot);
-+
- #endif
++EXPORT_SYMBOL(ttm_tt_unpopulate);
 -- 
 2.25.1
 
