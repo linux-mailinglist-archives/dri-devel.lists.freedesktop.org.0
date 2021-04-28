@@ -1,58 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E354636DDCA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 19:04:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A7736DDDB
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 19:07:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 598FA6ECDE;
-	Wed, 28 Apr 2021 17:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3C506E103;
+	Wed, 28 Apr 2021 17:07:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECEC06EC86
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 17:04:29 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id t22so9935529pgu.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 10:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gt4pb5bT5mW/MToENIuo4Jt8VqUlSnyGRgKvmw6yKp0=;
- b=ZBABP32kAKUkL73RzLrs/VZTLUwl6tRRR4kreJjVivIQnqrLTx++PGkZdghCv6A51h
- i5wfgs4sj08UJWCJZAhmuB1UPJXH2+qBGrDT9VrYMuWAyEi9ipQ4WYYmOIrBtCW1JSTT
- xZT0g/d1wPha/HFRrZyfSi4R5Ae53TxzQP2kU=
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E28C76E103
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 17:07:42 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id d15so21842691ljo.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 10:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GR7hKf7fNw0ovTS2B9IbzWhvenIGzwzqI1E/3AF1PEQ=;
+ b=d9UvkCg1CeyvhE04LX7mXGh/zBDp0cwiO6q/gaRpc3WOVY+ojFQvZg7EjBeX/Jiu9R
+ FTmZgbbYJ1YAsydfpOaxChtbOug8NpVgZzd0UUybISU9QkPB1GK2Qz2kycmp3p95KxCn
+ k0NxpghCv9KA+nBMtxK9jfsBLB6zFZZYyp2Bo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gt4pb5bT5mW/MToENIuo4Jt8VqUlSnyGRgKvmw6yKp0=;
- b=Yu16D3/A24vrCvPMJsJmW8//s4KFDPbcOzUs5D0X3oPH6QSUc9vlW1hatsLU3cS9Dj
- yMtBAxNwbawj7kDF9d5FbZV6HVS4AO2z6HndvdVl3NOvnlIn4fANxfEcmumJ296Oc+4A
- Z+/HWWeF7cPUbGLCyjZMEOf5GIEvZet/NXYAD3AVQKusoJVBUTC2aAj1S4bpG4biHyrq
- YxwgFcK4zyTdbsHGn49hYuqTul9wYG7AaosWizBXJ2xqFA9sFhHNIfVM1V2nIF624H2U
- nJoFouVYi+KhKn6cmCnkaSkUhh7npjj0sl+BKkYVdT/BN27wRkbDFVYl0uzYr9DuacM1
- KvqA==
-X-Gm-Message-State: AOAM530nmj6lAGvDivYTCyii7LxN7iaD2IIOPOZQjjou7OKKU3F9dcoU
- LRc8ar4QeEMynnQKdlIf+Xlg8UA8evAmfQ==
-X-Google-Smtp-Source: ABdhPJxmrYhCyqvJ9YcpCKMIp11Js7eA8QUCI7vGyyUeKC4ER8oO8PiDoUeETkQrLQ/8pN+UBHWhJg==
-X-Received: by 2002:aa7:92cb:0:b029:1f1:542f:2b2b with SMTP id
- k11-20020aa792cb0000b02901f1542f2b2bmr28418795pfa.31.1619629469280; 
- Wed, 28 Apr 2021 10:04:29 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:1faf:c32e:8742:d913])
- by smtp.gmail.com with ESMTPSA id c8sm244351pfp.160.2021.04.28.10.04.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 10:04:28 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 4/4] arm64: dts: mt8183: Add panel rotation
-Date: Thu, 29 Apr 2021 01:04:16 +0800
-Message-Id: <20210428170416.1027484-4-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
-In-Reply-To: <20210428170416.1027484-1-hsinyi@chromium.org>
-References: <20210428170416.1027484-1-hsinyi@chromium.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GR7hKf7fNw0ovTS2B9IbzWhvenIGzwzqI1E/3AF1PEQ=;
+ b=X+/syXINsHg1Zq5HrG0RAtxBo1ruT5PGJ3dYBfjxkRLsN8tWyUvhvtuHx5lAb9bLTz
+ xtz7bR4lSL5lEAWPCV2zQbUsU6UEnmLLCo0SJ9mFVtnHiYjoMrUOeFH5zh9ePr/lvZbV
+ ve2FBVGE6XAi+cg/r/XjUzM26IDS+z19TDCRHHPu+z3x3Hii/Rh7C4nfhPuBl0qKlQhW
+ VxhsFeyYuBia+86ISKKbC08PmYLPNti1wabqz47M491djprYZR8sXTh853WQs+XFyn6o
+ GwK8q2w6/zgnQSGd07NJ+ftTIMMCqHC6EtPgMfnjS2PnVWpOkpZLWOVlPvz5lm1JW2jV
+ aUrg==
+X-Gm-Message-State: AOAM5301EyRpPgBM9HVkQ7yvh91wwWo4yV0m7EjB5abKOCOqgvVtQ1Qr
+ 6V5MhmbKcgrVIX08jpj279MXN7tZyLvMJcMV
+X-Google-Smtp-Source: ABdhPJzwpaKIu10liu5L+ZL/xfXNFe7vxPtzc+QQ82GOcRdPx+PrwS66lr/UJHReeq/PD0qeq4odlg==
+X-Received: by 2002:a2e:90d1:: with SMTP id o17mr20875655ljg.92.1619629660990; 
+ Wed, 28 Apr 2021 10:07:40 -0700 (PDT)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com.
+ [209.85.208.178])
+ by smtp.gmail.com with ESMTPSA id b35sm67623ljf.124.2021.04.28.10.07.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Apr 2021 10:07:39 -0700 (PDT)
+Received: by mail-lj1-f178.google.com with SMTP id l22so65735034ljc.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 10:07:39 -0700 (PDT)
+X-Received: by 2002:a05:651c:44f:: with SMTP id
+ g15mr20755418ljg.48.1619629659309; 
+ Wed, 28 Apr 2021 10:07:39 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAPM=9txMo5f9QvPqdzt8g3CmUpyDFf2Q_0XS4V1FyjHX8WQPRA@mail.gmail.com>
+In-Reply-To: <CAPM=9txMo5f9QvPqdzt8g3CmUpyDFf2Q_0XS4V1FyjHX8WQPRA@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 28 Apr 2021 10:07:23 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh22MOMM5Paw-dHVvkp6W+UKx8mv_TNJ1TY9iaAMS1rLQ@mail.gmail.com>
+Message-ID: <CAHk-=wh22MOMM5Paw-dHVvkp6W+UKx8mv_TNJ1TY9iaAMS1rLQ@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.13-rc1
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,39 +70,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-krane, kakadu, and kodama boards have a default panel rotation.
+On Tue, Apr 27, 2021 at 8:32 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> There aren't a massive amount of conflicts, only with vmwgfx when I
+> did a test merge into your master yesterday, I think you should be
+> able to handle them yourself, but let me know if you want me to push a
+> merged tree somewhere (or if I missed something).
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+The conflict was easy enough to resolve, but was unusual in that my
+tree had vmwgfx fixes that weren't in the development tree (ie that
+commit 2ef4fb92363c: "drm/vmwgfx: Make sure bo's are unpinned before
+putting them back").
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-index ff56bcfa3370..793cc9501337 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-@@ -263,6 +263,7 @@ panel: panel@0 {
- 		avee-supply = <&ppvarp_lcd>;
- 		pp1800-supply = <&pp1800_lcd>;
- 		backlight = <&backlight_lcd0>;
-+		rotation = <270>;
- 		port {
- 			panel_in: endpoint {
- 				remote-endpoint = <&dsi_out>;
--- 
-2.31.1.498.g6c1eba8ee3d-goog
+Usually when I merge stuff, I can see that the fixes that were pushed
+to my tree are also in the development branch. Not so this time.
 
+          Linus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
