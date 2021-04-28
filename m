@@ -1,63 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1268B36D903
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:59:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DCE36D912
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 16:03:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41F436E2C0;
-	Wed, 28 Apr 2021 13:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89ED56EB47;
+	Wed, 28 Apr 2021 14:02:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 111196EB44
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:59:05 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id z7so10911059oix.9
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 06:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5E46E114
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 14:02:54 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id n84so6703738wma.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 07:02:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=hkp8JPyq7iKOdx3agaKyk/nZwtc1iq2iKAqgAsmLo9o=;
- b=zkOrRMTj8vr++X/SyozrLDvCSxZvoFs44VJYVqI5/yijoEx0jC6XQpJZiFruyQT8Ah
- 6QKKhJ8ox2SRg/T/O6428Iz9lC44qlHr5PTIyvx7Y0K6m4DdRNsnwT2TrdwUuPPwsHkC
- SMXZZmQSUTWS5HjM9vExRNvBxPArcV06t05tGm7WNcPMAsRy+1stb3wY9oxw4oGNIn4y
- rFkc+1MdwDxPW5Qcgve6MZ3GfZpErllMTncvT63GhchY9NGtmkE5ldrVoWKH9VCp0P0I
- e0vQgrWKC2b8ZCPWg4z+StCfsmb5JGE861cc6Hn3OlR1ENpJ8/+sGdHi98MrEuDuhXbm
- MVzg==
+ bh=q1sJQrOGswfuP11SFg57M6H5H5P7N/Jx6RMhuzkUD2M=;
+ b=Xrdt4/hsdA8NxJlHD7y7o8k3nzNv4pOXFSRZKzLg8QTpTq5wtywjKsf1gwmSc06y89
+ mk6amtxglhCDnLA2qt1x40+78leArMOMbavsLRf6gu5+ZV1NHr2mTPZy2RwhCOBihKxB
+ WNWOxjaJbRYBz3wwhdhCsxu07dzlwy5S7wJQA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=hkp8JPyq7iKOdx3agaKyk/nZwtc1iq2iKAqgAsmLo9o=;
- b=gZoKuOYE7PkFZ5RP4Kr5Ut/ac8ud1Jsl8cAP0nQsTraj4h10LqFfDsGyREl6DzB7AZ
- fsxkn1kpK13JkmMe1B9jRNGk7RP8zCd1JTywTgAhu/4G7EMOXbgTqCoLv61ruBZCXnw1
- 7YMldzsLfBvCG8R6FgE4kQ8Jw3oIxjpKE3yal1k/nrFr4bnxqLXzffJOc5PMP15UskXk
- H5Ddynhn1fz+Vnv+Q8fmJ7A1xAl9ILTeKiTiQvrXdb8KozU/IAonPXAWhwhfWjVyBN/d
- gq1JK6L1c7ptETHi7x1bo5Ibib+myyhG9QJ453Z8+015xNKq+JduCLT6lcBUmktJyUDL
- mIlw==
-X-Gm-Message-State: AOAM531lxS4mBggllmoqD+ZHiTw2EKNWvNWk6UGsUYptZs4ytJjglsfa
- xNBiTA5yUnsyZ1RHyxZ1EkJFdg==
-X-Google-Smtp-Source: ABdhPJyvGFX8lyxoyrN/Yr95YZIBqU4KcCqXVw71nLljBeqX2mob8YGKbLikMcFtRl/YDjTPxSs9oA==
-X-Received: by 2002:aca:4157:: with SMTP id o84mr2920512oia.65.1619618344263; 
- Wed, 28 Apr 2021 06:59:04 -0700 (PDT)
-Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id i9sm11330otr.19.2021.04.28.06.59.03
+ bh=q1sJQrOGswfuP11SFg57M6H5H5P7N/Jx6RMhuzkUD2M=;
+ b=ctWkqY5lSFFTSBzBiJbKuRkcJPkRzNuXggnf/RkGxuxr/H7flRDgaXTWvD/xwdYOc6
+ qfWstzOzxjB32BPUx8UfQDMgCL1Qd+hlvj0DxEcj1Ev/o/29NbyOzCZAuxEa40lXtDjl
+ EetTzoWVIaDlcecLQ5fDeLIg78VSATr/wncnB3UqUKHrh53OAW28RkwHSWg7r6isx25J
+ +nF0MzB50cRI+uRraoXkE8ZaeQH1X5/ITUsL+9UsiTO+nCwl/1kooriEyFk/b8yTeqp1
+ mx3YaYRW8MdCVzsTleeIhFiqtEwuUZBRbYFKdZpzuNV4qURSIFcFN3rZ5BBsc0eLeO+Z
+ U3zA==
+X-Gm-Message-State: AOAM531OZDHaDFNTlorA1qv4CgL38y5/n9o5NgF1BgUqJ87a/mTVxA27
+ e5rT6x6Q6l0SuNjopYO1MGagHPZTWnkYrQ==
+X-Google-Smtp-Source: ABdhPJwzt7Vq+P398t8cIrCwf0yZqQexNtzX9KcJJDmd7Bm1rIvuvHv5RJdhbIrg1lFZAHnx1T/BgQ==
+X-Received: by 2002:a1c:1bc1:: with SMTP id b184mr4626781wmb.119.1619618573134; 
+ Wed, 28 Apr 2021 07:02:53 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u2sm6328937wmc.22.2021.04.28.07.02.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 06:59:03 -0700 (PDT)
-Date: Wed, 28 Apr 2021 08:59:01 -0500
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 3/4] drm/msm: get rid of msm_iomap_size
-Message-ID: <20210428135901.GK1908499@yoga>
-References: <20210427001828.2375555-1-dmitry.baryshkov@linaro.org>
- <20210427001828.2375555-4-dmitry.baryshkov@linaro.org>
- <20210428024755.GJ1908499@yoga>
- <80622cc2-5585-abaa-42e0-cc6969ed6ae3@linaro.org>
+ Wed, 28 Apr 2021 07:02:52 -0700 (PDT)
+Date: Wed, 28 Apr 2021 16:02:50 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 09/21] drm/i915/gem: Disallow creating
+ contexts with too many engines
+Message-ID: <YIlrCmvC10oAiRcL@phenom.ffwll.local>
+References: <20210423223131.879208-1-jason@jlekstrand.net>
+ <20210423223131.879208-10-jason@jlekstrand.net>
+ <YIk14zVfa8Mw4rUF@phenom.ffwll.local>
+ <6b388d4d-1d50-94f3-344a-5b6b3639e8ad@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <80622cc2-5585-abaa-42e0-cc6969ed6ae3@linaro.org>
+In-Reply-To: <6b388d4d-1d50-94f3-344a-5b6b3639e8ad@linux.intel.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,43 +68,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 28 Apr 08:41 CDT 2021, Dmitry Baryshkov wrote:
-
-> On 28/04/2021 05:47, Bjorn Andersson wrote:
-> > On Mon 26 Apr 19:18 CDT 2021, Dmitry Baryshkov wrote:
-> > [..]
-> > > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> > > index 92fe844b517b..be578fc4e54f 100644
-> > > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > > @@ -124,7 +124,7 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name)
-> > >   }
-> > >   static void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
-> > > -				  const char *dbgname, bool quiet)
-> > > +				  const char *dbgname, bool quiet, phys_addr_t *psize)
+On Wed, Apr 28, 2021 at 11:42:31AM +0100, Tvrtko Ursulin wrote:
+> 
+> On 28/04/2021 11:16, Daniel Vetter wrote:
+> > On Fri, Apr 23, 2021 at 05:31:19PM -0500, Jason Ekstrand wrote:
+> > > There's no sense in allowing userspace to create more engines than it
+> > > can possibly access via execbuf.
+> > > 
+> > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > > ---
+> > >   drivers/gpu/drm/i915/gem/i915_gem_context.c | 7 +++----
+> > >   1 file changed, 3 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > index 5f8d0faf783aa..ecb3bf5369857 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > @@ -1640,11 +1640,10 @@ set_engines(struct i915_gem_context *ctx,
+> > >   		return -EINVAL;
+> > >   	}
+> > > -	/*
+> > > -	 * Note that I915_EXEC_RING_MASK limits execbuf to only using the
+> > > -	 * first 64 engines defined here.
+> > > -	 */
+> > >   	num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
 > > 
-> > size_t sounds like a better fit for psize...
+> > Maybe add a comment like /* RING_MASK has not shift, so can be used
+> > directly here */ since I had to check that :-)
+> > 
+> > Same story about igt testcases needed, just to be sure.
+> > 
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > 
-> I was trying to select between size_t and phys_addr_t, settling on the
-> latter one because it is used for resource size.
-> 
+> I am not sure about the churn vs benefit ratio here. There are also patches
+> which extend the engine selection field in execbuf2 over the unused
+> constants bits (with an explicit flag). So churn upstream and churn in
+> internal (if interesting) for not much benefit.
 
-I always thought resource_size_t was an alias for size_t, now I know :)
+This isn't churn.
 
-That said, I still think that size_t (in line with resource_size_t)
-gives a better hint about what the parameter represents...
-
-Regards,
-Bjorn
+This is "lock done uapi properly".
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
