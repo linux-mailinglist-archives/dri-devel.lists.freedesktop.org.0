@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7137F36D80F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D5536D810
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:10:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBA96EB34;
-	Wed, 28 Apr 2021 13:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7E16EB36;
+	Wed, 28 Apr 2021 13:10:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D90586EB34
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:10:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7BCDF60E0B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:10:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B209B6EB36
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:10:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6B23960241
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 13:10:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619615416;
- bh=m6+gOxAi66hqo1LwkMkmzEmEI1I5eRwVd/ijKaq73xY=;
+ s=k20201202; t=1619615444;
+ bh=rhQoWUo0U7zqcLy5347RNMd7YjdUFhabGvFHFuBaiHM=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=KlndHuYKEHNu4z/liMnTadOgNGGi8sRtSM1obnVfdDGfTkvzppFM5mpeTdVTLZdab
- HKcJiOQ+N43Dk0G7HVsYGzoCbYG/88SN0q0OujLQjSjEmc1LBTx9nWcf8GaTjZpgEE
- NtO4hUQZViXZCbT/MmKVvQpjPOloTa2CMOa4k3eR+RK1qKCyBjb5q2sL3UpL3sGN1U
- 8Cb4SGlL76T89MVqA/30h/i1x16yQMt/9qrd4JI0af6nn7J3jJ1V2t66rAxWH2FOIG
- TeebI+D/gMI1eGTERvzQEDW6aWALQ4Jd56lwDAdyK9bpBpcg4ldSWswbczZC9Hbsc4
- HEqQYS56fOoQQ==
+ b=VNyCa3PQFQ9X043tifEkJOYXCXebumik1St8AM4DLYiGoHVs9EUI+TdRAK2ZO2txu
+ tan3Frefqq/U5SqVcJcL2VCsLXeaPcTZPGCETe1IumF/f+lhkvyszglJWuNP0V+dww
+ qlha6qRZVy9UUI8olebpxtWjDLQ9NmNM3Ss6zZEUIs3EpFSR4ZfWdnDjKYRNSf8DWb
+ 8uJz/qi2k3BCC9/NCtunF/F9Tld6KV5+mXTsEC4BqBOcXGDkbHMK8SNNslv4oyshra
+ RuTDqzbco3M1epgBRg/477sz81eyxz4sxWKlCItoGu1TgmLzZucaGvcjE4z4aASGz5
+ 1UIesPsYOD8qQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 7A94E6127B; Wed, 28 Apr 2021 13:10:16 +0000 (UTC)
+ id 6990561288; Wed, 28 Apr 2021 13:10:44 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212871] AMD Radeon Pro VEGA 20 (Aka Vega12) - Glitch and freeze
  on any kernel and/or distro.
-Date: Wed, 28 Apr 2021 13:10:16 +0000
+Date: Wed, 28 Apr 2021 13:10:44 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,7 +46,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212871-2300-UDbGmbm61B@https.bugzilla.kernel.org/>
+Message-ID: <bug-212871-2300-jhpw3qIcRQ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212871-2300@https.bugzilla.kernel.org/>
 References: <bug-212871-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,8 +71,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=212871
 
---- Comment #2 from Alex Deucher (alexdeucher@gmail.com) ---
-Also filed as: https://gitlab.freedesktop.org/drm/amd/-/issues/1582
+--- Comment #3 from Alex Deucher (alexdeucher@gmail.com) ---
+Note that you don't need to file two bugs.
 
 -- 
 You may reply to this email to add a comment.
