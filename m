@@ -2,64 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4647636E17E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 00:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6600236E18D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 00:31:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B36D76ECFD;
-	Wed, 28 Apr 2021 22:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62C096EC5D;
+	Wed, 28 Apr 2021 22:30:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C97C96ECFD
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 22:22:16 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id 4so41813655lfp.11
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 15:22:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8rY2O6I8V9olhtWB9b4/RtsHeRlI9151ci1isDXaebA=;
- b=D+vRDauZOJdt3mAK066Dxx+uj5KyRs+qmiKOMPZC9S/2G5C+tru2w9J4y2E8JNeasO
- +5HA2gsch9GyiZ783mgiJPhJ7Fh4Qwyh/TT5QHc/F5NDfPzNCp3R615E/jBxQxl0/kHd
- NxZkr4cC8HiIq4i8kmhALYx9My1iGo3NNacdw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8rY2O6I8V9olhtWB9b4/RtsHeRlI9151ci1isDXaebA=;
- b=KkCsfFJhys1KQb4WJOV+2wcscOCRGSeZTEnPvM8FdDRNErdfztm24XugkMDPlAoZxo
- EUXreiI9O85CIhF/wQ3CITyyeNej2rIpvqJt1XK7/G39vh3fVzOSBEpavM2RSk2fIq7x
- 7/nAkSIgb678JbLP8dDN0C7sOSxRqWy1Vqtyna9IfG4dSwU09Lk12KOAnQnEj46cg3KZ
- Nf6JOoW5Niz0nexKlOzf/AJhSlrpiwSRrtIXH2g6nUOB9eq5rpSpCGbKEI5SAHU0hFyZ
- 19fM3jwNWJ96QS6H+IST5c5Zc1t+geXtMzycH62Ge7yaeJtbOi8V+fJHM62YFb6K4ZBy
- ZVXA==
-X-Gm-Message-State: AOAM530gVscT0ZRZicuvr23FzUcalr9MAfRrfzCc2NT83IeSkiJs9er1
- /dGNTy5IHIuXNeu8xib4MMFchmEo4pftAIfT
-X-Google-Smtp-Source: ABdhPJxxol6HftyxEOg28G5E9QNXbXexuKJJ1B1f4kW1LIIAKoK3082yStS9p7ZM77oGj5T15WhWoQ==
-X-Received: by 2002:a05:6512:2089:: with SMTP id
- t9mr22700869lfr.378.1619648535045; 
- Wed, 28 Apr 2021 15:22:15 -0700 (PDT)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com.
- [209.85.167.52])
- by smtp.gmail.com with ESMTPSA id n7sm261404lft.65.2021.04.28.15.22.13
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 15:22:14 -0700 (PDT)
-Received: by mail-lf1-f52.google.com with SMTP id 2so8988634lft.4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 15:22:13 -0700 (PDT)
-X-Received: by 2002:ac2:5f97:: with SMTP id r23mr2129654lfe.377.1619648533751; 
- Wed, 28 Apr 2021 15:22:13 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE1E96ECE6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 22:29:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
+ with ESMTPSA id C9C991F42CA8
+Received: by jupiter.universe (Postfix, from userid 1000)
+ id A528F4800BA; Thu, 29 Apr 2021 00:29:53 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
+Subject: [PATCHv2 0/5] Support for GE B1x5v2 and B1x5Pv2
+Date: Thu, 29 Apr 2021 00:29:48 +0200
+Message-Id: <20210428222953.235280-1-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <CAPM=9txMo5f9QvPqdzt8g3CmUpyDFf2Q_0XS4V1FyjHX8WQPRA@mail.gmail.com>
-In-Reply-To: <CAPM=9txMo5f9QvPqdzt8g3CmUpyDFf2Q_0XS4V1FyjHX8WQPRA@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 28 Apr 2021 15:21:57 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh3x4Q4pCkYe7__OAnvOyPqdZLN5ha0z4U035FwT5G57w@mail.gmail.com>
-Message-ID: <CAHk-=wh3x4Q4pCkYe7__OAnvOyPqdZLN5ha0z4U035FwT5G57w@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.13-rc1
-To: Dave Airlie <airlied@gmail.com>, Mikita Lipski <mikita.lipski@amd.com>, 
- Sun peng Li <Sunpeng.Li@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,39 +39,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-rtc@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 27, 2021 at 8:32 PM Dave Airlie <airlied@gmail.com> wrote:
->
-> This is the main drm pull request for 5.13. The usual lots of work all
-> over the place. [...]
->
-> Mikita Lipski:
->       drm/amd/display: Add MST capability to trigger_hotplug interface
+Hi,
 
-Hmm. I've already merged this, but my clang build shows that this looks buggy:
+This series adds support for another General Electric patient
+monitor series (similar to existing Bx50v3), which is based on
+i.MX6DL using Congatec's QMX6 module.
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_dm/amdgpu_dm_debugfs.c:3015:53:
-warning: address of 'aconnector->mst_port->mst_mgr' will always
-evaluate to 'true' [-Wpointer-bool-conversion]
-                        if (!(aconnector->port &&
-&aconnector->mst_port->mst_mgr))
-                                               ~~  ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+The module uses an I2C RTC to provide the i.MX6 32768 Hz clock,
+so it's important to keep it enabled. Not doing so results in
+incorrect timings of watchdog and i.MX6 RTC. The bootloader
+enables the watchdog, so disabling the clock results in system
+reboot. [0]
 
-and yeah, checking for the address of a member of a structure benign
-NULL doesn't really work.
+The second patch is required for B155v2, which uses a 1366x768
+G156XTN01 panel. The 1366 width is not supported by the display
+pipeline and result in boot hanging without the patch. [1]
 
-I'm assuming the '&' is just a left-over cut-and-paste error or something.
+Patches 3+4 are updating DT bindings for the new board compatible
+values.
 
-Please fix after reviewing (I'm not going to blindly just remove the
-'&' just to silence the warning, since I don't know the code).
+Patch 5 adds the board files.
 
-                Linus
+Changes since PATCHv1:
+ * https://lore.kernel.org/lkml/20210222171247.97609-1-sebastian.reichel@collabora.com/
+ * drop patch 5 (applied)
+ * instead of using 'protected-clocks' in RTC node, add fixed-clock
+   node as suggested by Saravana Kannan
+ * rebased to current master (68a32ba14177)
+
+Thanks,
+
+[0] There has been a discussion for the problem on the mailinglists
+last year. The discussion died off, when I told people their ideas
+don't work. I hope using protected-clocks is fine for this usecase.
+
+https://lore.kernel.org/linux-clk/20191108170135.9053-1-sebastian.reichel@collabora.com/
+
+[1] I've sent this before as a separate patch in September, but
+nobody seemed to care. This adds full context for the problem.
+
+https://lore.kernel.org/dri-devel/20200910162831.321556-1-sebastian.reichel@collabora.com/
+
+-- Sebastian
+
+Sebastian Reichel (5):
+  rtc: m41t80: add support for fixed clock
+  drm/imx: Add 8 pixel alignment fix
+  dt-bindings: vendor-prefixes: add congatec
+  dt-bindings: arm: fsl: add GE B1x5pv2 boards
+  ARM: dts: imx6: Add GE B1x5v2
+
+ .../devicetree/bindings/arm/fsl.yaml          |  11 +
+ .../devicetree/bindings/rtc/rtc-m41t80.txt    |   9 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm/boot/dts/Makefile                    |   5 +
+ arch/arm/boot/dts/imx6dl-b105pv2.dts          |  35 +
+ arch/arm/boot/dts/imx6dl-b105v2.dts           |  35 +
+ arch/arm/boot/dts/imx6dl-b125pv2.dts          |  33 +
+ arch/arm/boot/dts/imx6dl-b125v2.dts           |  33 +
+ arch/arm/boot/dts/imx6dl-b155v2.dts           |  36 +
+ arch/arm/boot/dts/imx6dl-b1x5pv2.dtsi         | 434 ++++++++++++
+ arch/arm/boot/dts/imx6dl-b1x5v2.dtsi          |  61 ++
+ arch/arm/boot/dts/imx6dl-qmx6.dtsi            | 624 ++++++++++++++++++
+ drivers/gpu/drm/imx/imx-drm-core.c            |  19 +-
+ drivers/gpu/drm/imx/imx-ldb.c                 |   5 +
+ drivers/gpu/drm/imx/ipuv3-crtc.c              |  11 +-
+ drivers/gpu/drm/imx/ipuv3-plane.c             |  19 +-
+ drivers/gpu/ipu-v3/ipu-dc.c                   |   5 +
+ drivers/gpu/ipu-v3/ipu-di.c                   |   7 +
+ drivers/rtc/rtc-m41t80.c                      |  12 +
+ 19 files changed, 1390 insertions(+), 6 deletions(-)
+ create mode 100644 arch/arm/boot/dts/imx6dl-b105pv2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b105v2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b125pv2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b125v2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b155v2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-b1x5pv2.dtsi
+ create mode 100644 arch/arm/boot/dts/imx6dl-b1x5v2.dtsi
+ create mode 100644 arch/arm/boot/dts/imx6dl-qmx6.dtsi
+
+-- 
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
