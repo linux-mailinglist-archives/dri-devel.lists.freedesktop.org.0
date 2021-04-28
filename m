@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA5B36DF92
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 21:33:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B0736DF94
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 21:33:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5DE6E171;
-	Wed, 28 Apr 2021 19:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1298A6E17A;
+	Wed, 28 Apr 2021 19:33:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A696E171;
- Wed, 28 Apr 2021 19:33:33 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- y22-20020a17090a8b16b0290150ae1a6d2bso9698396pjn.0; 
- Wed, 28 Apr 2021 12:33:33 -0700 (PDT)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D496F6E17A;
+ Wed, 28 Apr 2021 19:33:37 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id m37so2911306pgb.8;
+ Wed, 28 Apr 2021 12:33:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tHyKA/c627E+DwGyeUfIZ1QItPIfz0VDyJzjzlVcfiM=;
- b=pID33Lw/tKPo6F7e2OUh0qUiAHOKaPkeMJJBqyKac+TpqtuROmy6A+2Cn4i7xmNuHo
- 11gZvwbHI9mcQqgMqQiVt/gzsTmk77n+grXj0DZvvVIiaN2pTNohh8uJKj4VF19YtgWK
- SavFQPTQXlF2MEOzCoKZZ4Kb2ep2jIVnQczHSstnYgQUu84jcFbnVK/TsC9A1SzVkh8W
- 0zV2uDyKv0WZOzWVvln0/fAf3ZnK1L3EQe17k8l1C+6zObJDrdKLZWqykSO/qn2E96Al
- pELUG+S3eUIsIN8WHWl+cbPNV2D+N2ld/f1wGwIWUPbxj35BQwFzNJatW8pEFhavki49
- AXjg==
+ bh=X+lmKItKrAdr+h8p3ruijedafGbkKyueE2AuvEgRCac=;
+ b=qYlJ2VEfyrAilXphT6LMQZseZ/Mg5kUYyif7CDgmad4LP/HJ5+wcOaAQkc5NDGURjj
+ R52xjlsMLr7H2z9n5xEwCwH5MSeTB+4dpzmp4xGb8/cvthxXyfHxscgjrbVSuWw7A9i1
+ JpzZzs/l9Gy0Qwb3CYGlq3rKu7pkOl+kK7c4NagP5txwplWxLwDXg1mKrItHBPZZu3Jq
+ TOI1VIjZQLRhC/eMvL9jlH06pHqnkir3g2UVjekzfcAHewCkWYwxf/k8ldFM1qZGcbHA
+ iP50zMau4LdHci3cGkpE5XdPPYJbi5LuzTq+T0xuP6oncccsBJovio4KBKqkn7iHkiGP
+ ky2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tHyKA/c627E+DwGyeUfIZ1QItPIfz0VDyJzjzlVcfiM=;
- b=rQiDtEGO8fGtHLhSaAbVd+J9EzRhgLCMiDCs95LNxpFauknBl7Q7WP+pyjBYvKdJ65
- h7BcnobYSIuNrUrjUcbkbsn/HwmZinwkXHOhZ/5RpY2CHuOuL2kQf6bnTfXcaBWQhrq7
- KgE8ePLMxsiU+ssk1XW58t6yv9JBYBq8FoNdgrZtvtx8jFO2QSt218blln5gy+QAmfM9
- viqHC6pFNclnJpOKxzi7p/5XEIgu352P2yt0wEszlKk4y33ZNSXSFn07/38/O6k2kAko
- L/gs45/zFWlY70K16+CZPK1HHXdduSOdl3HZBWGNu5W4Q+C6o9YrYYebsP5DF5zbFWM7
- s6Qw==
-X-Gm-Message-State: AOAM533+rvEVSTuCmAvY4FPvhlVwYB2LOs3H54vmlyRDSYMKDDxoYzIv
- RMBmZPxDD5mwUsGY5Yq6TMdJrDGM0R8=
-X-Google-Smtp-Source: ABdhPJxaQuJh3H+yrpkJC7lrVgzdxfKzMBDfOSlK7PNpjK0FjYtIdAYiv9DBO7Mzm9706DDfVRLATg==
-X-Received: by 2002:a17:903:248e:b029:ec:b399:7d75 with SMTP id
- p14-20020a170903248eb02900ecb3997d75mr30868529plw.35.1619638412162; 
- Wed, 28 Apr 2021 12:33:32 -0700 (PDT)
+ bh=X+lmKItKrAdr+h8p3ruijedafGbkKyueE2AuvEgRCac=;
+ b=EZifQGVmuDoWRhxQruI+d/IQ7VG+O9DuPwuNYRoA4M7svz/gnBKUZ9Hm5lJxvJl9jl
+ sx7NVuX7FhJrx9lm+ZLq+pP43buN7D+sQTgLkIGoVITgGoXsE0pL/bqa/WC377V++ckx
+ upxuO1nn1xnSqdyz8nXeoBSmvsYboOtfvCQAna5CiasdFdIfm7DHyLpKhrNMRG16QOkx
+ mrQJQPbYhTCE5wzbDBiNojTsr05HBs7XYnI3aPC/VGoj2L9OAoI1cey2J47/yS7BFtt7
+ zZsfgTJ9Ccg1pzS9c3MGWXKU9TfVyRQ7t20q5PtzqQMqRUSruT5CFCvAFFAAYtgxEFm+
+ TFkA==
+X-Gm-Message-State: AOAM532g5mrnlNPSSxjHhMi+igoXiFhqAiKQCMi9nio2X/2CmonBLFml
+ kbBtUAIWYIbE4jGferUPWenJIAeQoes=
+X-Google-Smtp-Source: ABdhPJxTpx9iewlg3qxXZInGbpx750+kJ4lEWx5U3rs4GnaYqWU+mLe6Y8bPLPpkBeW+Zg8TLah2Ow==
+X-Received: by 2002:a05:6a00:2389:b029:261:abe:184 with SMTP id
+ f9-20020a056a002389b02902610abe0184mr30234121pfc.52.1619638416806; 
+ Wed, 28 Apr 2021 12:33:36 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- r3sm414934pfl.159.2021.04.28.12.33.31
+ nh10sm266238pjb.49.2021.04.28.12.33.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 12:33:31 -0700 (PDT)
+ Wed, 28 Apr 2021 12:33:35 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/msm: Handle ringbuffer overflow
-Date: Wed, 28 Apr 2021 12:36:48 -0700
-Message-Id: <20210428193654.1498482-2-robdclark@gmail.com>
+Subject: [PATCH 2/2] drm/msm: Periodically update RPTR shadow
+Date: Wed, 28 Apr 2021 12:36:49 -0700
+Message-Id: <20210428193654.1498482-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210428193654.1498482-1-robdclark@gmail.com>
 References: <20210428193654.1498482-1-robdclark@gmail.com>
@@ -73,8 +72,8 @@ Cc: Rob Clark <robdclark@chromium.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU"
  <freedreno@lists.freedesktop.org>,
  Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>, Dave Airlie <airlied@redhat.com>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ Douglas Anderson <dianders@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
  Sharat Masetty <smasetty@codeaurora.org>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -91,215 +90,137 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Currently if userspace manages to fill up the ring faster than the GPU
-can consume we (a) spin for up to 1sec, and then (b) overwrite the
-ringbuffer contents from previous submits that the GPU is still busy
-executing.  Which predictably goes rather badly.
-
-Instead, just skip flushing (updating WPTR) and reset ring->next back to
-where it was before we tried writing the submit into the ringbuffer, and
-return an error to userspace (which can then try again).
+On a5xx and a6xx devices that are using CP_WHERE_AM_I to update a
+ringbuffer read-ptr shadow value, periodically emit a CP_WHERE_AM_I
+every 32 commands, so that a later submit waiting for ringbuffer
+space to become available sees partial progress, rather than not
+seeing rptr advance at all until the GPU gets to the end of the
+submit that it is currently chewing on.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |  3 +++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  3 +++
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 24 +++++++++++++++++-
- drivers/gpu/drm/msm/msm_gem_submit.c    |  7 +++++-
- drivers/gpu/drm/msm/msm_gpu.c           | 33 +++++++++++++++++++++++--
- drivers/gpu/drm/msm/msm_gpu.h           |  2 +-
- drivers/gpu/drm/msm/msm_ringbuffer.h    |  5 ++++
- 7 files changed, 72 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 29 ++++++++++++++++++++++-----
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 27 +++++++++++++++++++------
+ 2 files changed, 45 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index ce13d49e615b..0c8faad3b328 100644
+index 0c8faad3b328..5202f1498a48 100644
 --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -36,6 +36,9 @@ void a5xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 		OUT_RING(ring, upper_32_bits(shadowptr(a5xx_gpu, ring)));
- 	}
+@@ -18,6 +18,18 @@ static void a5xx_dump(struct msm_gpu *gpu);
  
-+	if (unlikely(ring->overflow))
-+		return;
-+
- 	spin_lock_irqsave(&ring->preempt_lock, flags);
+ #define GPU_PAS_ID 13
  
- 	/* Copy the shadow to the actual register */
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index d553f62f4eeb..4a4728a774c0 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -68,6 +68,9 @@ static void a6xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- 		OUT_RING(ring, upper_32_bits(shadowptr(a6xx_gpu, ring)));
- 	}
- 
-+	if (unlikely(ring->overflow))
-+		return;
-+
- 	spin_lock_irqsave(&ring->preempt_lock, flags);
- 
- 	/* Copy the shadow to the actual register */
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 0f184c3dd9d9..a658777e07b1 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -467,6 +467,9 @@ void adreno_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring, u32 reg)
- {
- 	uint32_t wptr;
- 
-+	if (unlikely(ring->overflow))
-+		return;
-+
- 	/* Copy the shadow to the actual register */
- 	ring->cur = ring->next;
- 
-@@ -788,12 +791,31 @@ static uint32_t ring_freewords(struct msm_ringbuffer *ring)
- 	return (rptr + (size - 1) - wptr) % size;
- }
- 
-+static bool space_avail(struct msm_ringbuffer *ring, uint32_t ndwords)
++static void update_shadow_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
 +{
-+	if (ring_freewords(ring) >= ndwords)
-+		return true;
++	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
++	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
 +
-+	/* We don't have a good way to know in general when the RPTR has
-+	 * advanced.. newer things that use CP_WHERE_AM_I to update the
-+	 * shadow rptr could possibly insert a packet to generate an irq.
-+	 * But that doesn't cover older GPUs.  But if the ringbuffer is
-+	 * full, it could take a while before it is empty again, so just
-+	 * insert a blind sleep to avoid a busy loop.
-+	 */
-+	msleep(1);
-+
-+	return false;
++	if (a5xx_gpu->has_whereami) {
++		OUT_PKT7(ring, CP_WHERE_AM_I, 2);
++		OUT_RING(ring, lower_32_bits(shadowptr(a5xx_gpu, ring)));
++		OUT_RING(ring, upper_32_bits(shadowptr(a5xx_gpu, ring)));
++	}
 +}
 +
- void adreno_wait_ring(struct msm_ringbuffer *ring, uint32_t ndwords)
+ void a5xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+ 		bool sync)
  {
--	if (spin_until(ring_freewords(ring) >= ndwords))
-+	if (spin_until(space_avail(ring, ndwords))) {
- 		DRM_DEV_ERROR(ring->gpu->dev->dev,
- 			"timeout waiting for space in ringbuffer %d\n",
- 			ring->id);
-+		ring->overflow = true;
-+	}
- }
+@@ -30,11 +42,8 @@ void a5xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+ 	 * Most flush operations need to issue a WHERE_AM_I opcode to sync up
+ 	 * the rptr shadow
+ 	 */
+-	if (a5xx_gpu->has_whereami && sync) {
+-		OUT_PKT7(ring, CP_WHERE_AM_I, 2);
+-		OUT_RING(ring, lower_32_bits(shadowptr(a5xx_gpu, ring)));
+-		OUT_RING(ring, upper_32_bits(shadowptr(a5xx_gpu, ring)));
+-	}
++	if (sync)
++		update_shadow_rptr(gpu, ring);
  
- /* Get legacy powerlevels from qcom,gpu-pwrlevels and populate the opp table */
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 5480852bdeda..4bc669460fda 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -683,6 +683,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	submitid = atomic_inc_return(&ident) - 1;
- 
- 	ring = gpu->rb[queue->prio];
-+
-+	GEM_WARN_ON(ring->overflow);
-+
- 	trace_msm_gpu_submit(pid_nr(pid), ring->id, submitid,
- 		args->nr_bos, args->nr_cmds);
- 
-@@ -829,7 +832,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	if (unlikely(ring->overflow))
+ 		return;
+@@ -171,6 +180,16 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 			ibs++;
+ 			break;
  		}
++
++		/*
++		 * Periodically update shadow-wptr if needed, so that we
++		 * can see partial progress of submits with large # of
++		 * cmds.. otherwise we could needlessly stall waiting for
++		 * ringbuffer state, simply due to looking at a shadow
++		 * rptr value that has not been updated
++		 */
++		if ((ibs % 32) == 0)
++			update_shadow_rptr(gpu, ring);
  	}
  
--	msm_gpu_submit(gpu, submit);
-+	ret = msm_gpu_submit(gpu, submit);
-+	if (ret)
-+		goto out;
- 
- 	args->fence = submit->fence->seqno;
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index ab7c167b0623..7655ad9108c8 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -787,7 +787,7 @@ void msm_gpu_retire(struct msm_gpu *gpu)
+ 	/*
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 4a4728a774c0..2986e36ffd8d 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -52,21 +52,25 @@ static bool a6xx_idle(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+ 	return true;
  }
  
- /* add bo's to gpu's ring, and kick gpu: */
--void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
-+int msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+-static void a6xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
++static void update_shadow_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
  {
- 	struct drm_device *dev = gpu->dev;
- 	struct msm_drm_private *priv = dev->dev_private;
-@@ -834,9 +834,38 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	spin_unlock(&ring->submit_lock);
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+-	uint32_t wptr;
+-	unsigned long flags;
  
- 	gpu->funcs->submit(gpu, submit);
--	priv->lastctx = submit->queue->ctx;
- 
- 	hangcheck_timer_reset(gpu);
+ 	/* Expanded APRIV doesn't need to issue the WHERE_AM_I opcode */
+ 	if (a6xx_gpu->has_whereami && !adreno_gpu->base.hw_apriv) {
+-		struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+-
+ 		OUT_PKT7(ring, CP_WHERE_AM_I, 2);
+ 		OUT_RING(ring, lower_32_bits(shadowptr(a6xx_gpu, ring)));
+ 		OUT_RING(ring, upper_32_bits(shadowptr(a6xx_gpu, ring)));
+ 	}
++}
 +
-+	if (unlikely(ring->overflow)) {
++static void a6xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
++{
++	uint32_t wptr;
++	unsigned long flags;
++
++	update_shadow_rptr(gpu, ring);
+ 
+ 	if (unlikely(ring->overflow))
+ 		return;
+@@ -148,7 +152,7 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+ 	struct msm_ringbuffer *ring = submit->ring;
+-	unsigned int i;
++	unsigned int i, ibs = 0;
+ 
+ 	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
+ 
+@@ -184,8 +188,19 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 			OUT_RING(ring, lower_32_bits(submit->cmd[i].iova));
+ 			OUT_RING(ring, upper_32_bits(submit->cmd[i].iova));
+ 			OUT_RING(ring, submit->cmd[i].size);
++			ibs++;
+ 			break;
+ 		}
++
 +		/*
-+		 * Reset the ptr back to before the submit, so the GPU
-+		 * doesn't see a partial submit:
++		 * Periodically update shadow-wptr if needed, so that we
++		 * can see partial progress of submits with large # of
++		 * cmds.. otherwise we could needlessly stall waiting for
++		 * ringbuffer state, simply due to looking at a shadow
++		 * rptr value that has not been updated
 +		 */
-+		ring->next = ring->cur;
-+
-+		/*
-+		 * Clear the overflow flag, hopefully the next submit on
-+		 * the ring actually fits
-+		 */
-+		ring->overflow = false;
-+
-+		/*
-+		 * One might be tempted to remove the submit from the
-+		 * submits list, and drop it's reference (and drop the
-+		 * active reference for all the bos).  But we can't
-+		 * really signal the fence attached to obj->resv without
-+		 * disturbing other fences on the timeline.  So instead
-+		 * just leave it and let it retire normally when a
-+		 * later submit completes.
-+		 */
-+
-+		return -ENOSPC;
-+	}
-+
-+	priv->lastctx = submit->queue->ctx;
-+
-+	return 0;
- }
++		if ((ibs % 32) == 0)
++			update_shadow_rptr(gpu, ring);
+ 	}
  
- /*
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index d7cd02cd2109..2dd2ef1f8328 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -302,7 +302,7 @@ int msm_gpu_perfcntr_sample(struct msm_gpu *gpu, uint32_t *activetime,
- 		uint32_t *totaltime, uint32_t ncntrs, uint32_t *cntrs);
- 
- void msm_gpu_retire(struct msm_gpu *gpu);
--void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit);
-+int msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit);
- 
- int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 		struct msm_gpu *gpu, const struct msm_gpu_funcs *funcs,
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-index fe55d4a1aa16..d8ad9818c389 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-@@ -40,6 +40,8 @@ struct msm_ringbuffer {
- 	struct drm_gem_object *bo;
- 	uint32_t *start, *end, *cur, *next;
- 
-+	bool overflow;
-+
- 	/*
- 	 * List of in-flight submits on this ring.  Protected by submit_lock.
- 	 */
-@@ -69,6 +71,9 @@ void msm_ringbuffer_destroy(struct msm_ringbuffer *ring);
- static inline void
- OUT_RING(struct msm_ringbuffer *ring, uint32_t data)
- {
-+	if (ring->overflow)
-+		return;
-+
- 	/*
- 	 * ring->next points to the current command being written - it won't be
- 	 * committed as ring->cur until the flush
+ 	get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP_0_LO,
 -- 
 2.30.2
 
