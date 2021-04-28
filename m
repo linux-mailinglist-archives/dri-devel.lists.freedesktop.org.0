@@ -2,66 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD4C36CFFA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 02:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1747A36D074
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 04:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0ADC6EA3B;
-	Wed, 28 Apr 2021 00:27:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4456EA77;
+	Wed, 28 Apr 2021 02:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEA076EA3B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 00:27:11 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id u20so70248192lja.13
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 17:27:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2a4y88/F8W7qUoEwL5UNyDw7aPSVIQ4F7yZZlcOOYM8=;
- b=HaEd5IVFmRBlWEGN2OKvouixEKl8O4cOmn9sjZ16iCZMBhMBTb/8hTEWv3vcfrg9V3
- GSTO7KXJTl0M/ClGPkiRNrjkMlcF25Pul2TK+um4uf/geHFKoZRmzaiA1kCZOJ1TWtGm
- VocidabqBjm2Tzgp2nKgm+xe/krglqpHpwy9Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2a4y88/F8W7qUoEwL5UNyDw7aPSVIQ4F7yZZlcOOYM8=;
- b=XYY8ptdHhNBQUFPkGvIYXb7nikG9ZIY0y12pWdK3MnN/UwcPpK87BpTbdNCVzCR0Hg
- Tcl5xVbBHJiFWvKgQ05XUXgxj0yBfMbf30X2+TvGz6SYR1eQxQfgVv3BId59+cFEESpm
- wECoVwUw86naXvAlt2yEooPPY9L9CuH+OpTW5D62IfUhpo+dR2xmAi/62Z/veOGXcIXj
- S4dNFBilCuSYNLXoUagzeRAUmrUaD0tDbHHB3Ix3523AvXZwnzY0j+VpxwNxw1Ds0/g1
- WnXZNyjUMLhp6ZFb0BoGJG5b8S8KqL5MyOb0r3/1SFRBIyrUqdoJT+liIougcE53FTiK
- eNIw==
-X-Gm-Message-State: AOAM53188HiHKA0WxRu+Dy3Y4zRM9CPY86Lvx15T0mGjAYwVUSvAsqXK
- 9MxBNnLUaHi1OwaO+tXlmPUVKwBB4zvXRa32
-X-Google-Smtp-Source: ABdhPJwWNQw6N80Pzbad2DF4Z0xv4ntDZAtnYCka8nMUc8C96NiU3p3KSY1lBkpR6YuLH3nURimf8w==
-X-Received: by 2002:a2e:a71e:: with SMTP id s30mr17985868lje.137.1619569629836; 
- Tue, 27 Apr 2021 17:27:09 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
- [209.85.167.47])
- by smtp.gmail.com with ESMTPSA id j16sm310636lfk.199.2021.04.27.17.27.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 17:27:09 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id j10so3243688lfb.12
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Apr 2021 17:27:09 -0700 (PDT)
-X-Received: by 2002:ac2:51ae:: with SMTP id f14mr13482160lfk.377.1619569629081; 
- Tue, 27 Apr 2021 17:27:09 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 109786EA74
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 02:09:18 +0000 (UTC)
+X-UUID: 3f093d49dbf848679c7199f17b9aa5fe-20210428
+X-UUID: 3f093d49dbf848679c7199f17b9aa5fe-20210428
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 864058796; Wed, 28 Apr 2021 10:08:57 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 28 Apr 2021 10:08:55 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 28 Apr 2021 10:08:53 +0800
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v1] MTK_MMSYS tristrate support
+Date: Wed, 28 Apr 2021 10:08:50 +0800
+Message-ID: <1619575731-23388-1-git-send-email-yongqiang.niu@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
 MIME-Version: 1.0
-References: <CAPM=9tyKdGHyiRLDooKrMf=02GtNn8U4YfF4dJtXdabnVAGdXQ@mail.gmail.com>
- <CAHk-=whOOVBBuQceJ9D9uZrv-QOUWGMQ4aZe2K+2X24o7xA8cg@mail.gmail.com>
-In-Reply-To: <CAHk-=whOOVBBuQceJ9D9uZrv-QOUWGMQ4aZe2K+2X24o7xA8cg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 27 Apr 2021 17:26:53 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whZN6zfnOTYmrUvur-+Mw8UOBpQxuhCJQ-R7J9zwsGwBA@mail.gmail.com>
-Message-ID: <CAHk-=whZN6zfnOTYmrUvur-+Mw8UOBpQxuhCJQ-R7J9zwsGwBA@mail.gmail.com>
-Subject: Re: New warnings with gcc-11
-To: Dave Airlie <airlied@gmail.com>, Jani Nikula <jani.nikula@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,41 +44,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Chun-Hung Wu <chun-hung.wu@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgMjcsIDIwMjEgYXQgNDo0MyBQTSBMaW51cyBUb3J2YWxkcwo8dG9ydmFsZHNA
-bGludXgtZm91bmRhdGlvbi5vcmc+IHdyb3RlOgo+Cj4gSSB0aGluayBJIHdpbGwgbWFrZSB0aGUg
-YXJndW1lbnQgdHlwZSB0byBpbnRlbF9wcmludF93bV9sYXRlbmN5KCkgYmUKPiBqdXN0ICJjb25z
-dCB1MTYgd21bXSIgZm9yIG5vdywganVzdCB0byBhdm9pZCBzZWVpbmcgYSB0b24gb2Ygc2lsbHkK
-PiB3YXJuaW5ncy4KCkFmdGVyIGZpeGluZyB0aGUgdHJpdmlhbCBvbmVzLCB0aGlzIG9uZSByZW1h
-aW5zOgoKICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmM6IEluIGZ1bmN0
-aW9uCuKAmGludGVsX2RwX2NoZWNrX21zdF9zdGF0dXPigJk6CiAgZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kcC5jOjQ1NTQ6MjI6IHdhcm5pbmc6CuKAmGRybV9kcF9jaGFubmVs
-X2VxX29r4oCZIHJlYWRpbmcgNiBieXRlcyBmcm9tIGEgcmVnaW9uIG9mIHNpemUgNApbLVdzdHJp
-bmdvcC1vdmVycmVhZF0KICAgNDU1NCB8ICAgICAgICAgICAgICAgICAgICAgIWRybV9kcF9jaGFu
-bmVsX2VxX29rKCZlc2lbMTBdLAppbnRlbF9kcC0+bGFuZV9jb3VudCkpIHsKICAgICAgICB8Cl5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KICBkcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmM6NDU1NDoyMjogbm90ZTogcmVmZXJl
-bmNpbmcKYXJndW1lbnQgMSBvZiB0eXBlIOKAmGNvbnN0IHU4ICrigJkge2FrYSDigJhjb25zdCB1
-bnNpZ25lZCBjaGFyICrigJl9CiAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYzozODoKICAuL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxw
-ZXIuaDoxNDU5OjY6IG5vdGU6IGluIGEgY2FsbCB0byBmdW5jdGlvbgrigJhkcm1fZHBfY2hhbm5l
-bF9lcV9va+KAmQogICAxNDU5IHwgYm9vbCBkcm1fZHBfY2hhbm5lbF9lcV9vayhjb25zdCB1OCBs
-aW5rX3N0YXR1c1tEUF9MSU5LX1NUQVRVU19TSVpFXSwKICAgICAgICB8ICAgICAgXn5+fn5+fn5+
-fn5+fn5+fn5+fn4KCmFuZCBJJ20gbm90IGZpeGluZyB0aGF0IG9uZSwgYmVjYXVzZSBpdCBhY3R1
-YWxseSBsb29rcyBsaWtlIGEgdmFsaWQKd2FybmluZywgYW5kIGRvZXNuJ3QgaGF2ZSBhbiBvYnZp
-b3VzIGZpeC4KClRoYXQgImVzaVtdIiBhcnJheSBpcyAxNCBieXRlcyBpbiBzaXplIChEUF9EUFJY
-X0VTSV9MRU4pLiBTbyB3aGVuIGl0CmRvZXMgdGhhdCAiJmVzaVsxMF0iIGFuZCBwYXNzZXMgaXQg
-aW4gYXMgYW4gYXJndW1lbnQsIHRoZW4gb25seSA0CmJ5dGVzIHJlbWFpbiBvZiB0aGUgYXJyYXku
-CgpBbmQgZHJtX2RwX2NoYW5uZWxfZXFfb2soKSBzdXBwb3NlZGx5IHRha2VzIGEgImNvbnN0IHU4
-Cmxpbmtfc3RhdHVzW0RQX0xJTktfU1RBVFVTX1NJWkVdIiwgd2hpY2ggaXMgNiBieXRlcy4KClRo
-ZXJlIG1heSBiZSBzb21lIHJlYXNvbiB0aGlzIGlzIG9rLCBidXQgaXQgZG9lcyBsb29rIGEgYml0
-IGZpc2h5LCBhbmQKdGhlIGNvbXBpbGVyIHdhcm5pbmcgaXMgYXBwcm9wcmlhdGUuCgogICAgICAg
-ICAgICBMaW51cwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+MTK_MMSYS tristrate support
+
+Chun-Hung Wu (1):
+  [ALPS05103552] soc: mediatek: MTK_MMSYS tristrate support
+
+ drivers/soc/mediatek/Kconfig     | 2 +-
+ drivers/soc/mediatek/mtk-mmsys.c | 7 ++++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+-- 
+1.8.1.1.dirty
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
