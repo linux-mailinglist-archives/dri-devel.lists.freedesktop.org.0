@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99EE436D808
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6AEB36D7E7
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 15:03:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63F136EB30;
-	Wed, 28 Apr 2021 13:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 159116EB28;
+	Wed, 28 Apr 2021 13:03:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5720D6EB10
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 12:28:06 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id m37so2018517pgb.8
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 05:28:06 -0700 (PDT)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA0026EB28;
+ Wed, 28 Apr 2021 13:03:20 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id d25so25442014oij.5;
+ Wed, 28 Apr 2021 06:03:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :user-agent; bh=FCc5BZu5iRztXIUiSt2+3FhaGtDlfucfxXcqT01eExc=;
- b=s1ybdI7WecLYnVPXzIG8r2ufsshTyUG6UBIgf5iZ9rQliaO9QErsrYXIa/i4JeqNQF
- NTu9m1+eajP/7Ozit9TFqR+4pw8P2Ja2s3PWyb+f91pWvvAARcpkSa+HnfVT/C/YVfvh
- n1crgTzs3K/MEAN/PW2chwCa1hS4loARDIabSVxomFETp3p/GHQ6A7vKf+mCo2pRHjPk
- iP54a/IAcobV9YjClrPOCz7bYoxN5yAG9KY9zz4dLEAwBwpm4yB+RkP4st+duj5Hhhcm
- mIXNDw134CsfCAfh/20N4PNaO70pYYZV7Z7MtExQtmJLlziHJgb6W+q0lVqgn0RcmV85
- /Olg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=NqKvqi8fkP6gkk64gfeYbbCqBxoed13CDJSXY5IZ0Mk=;
+ b=s+D0pcxylIqu8j1BeqVLHL7jvu4r9AO41BB7kL/mAHJ6pufzonmkTfj5k3PtAt/yeB
+ ZycM8XeWKBT3X6OF7nNhSpkVU7o8QvzHry03cTCJ5Dvm0dEmdSFdBkN4/Hghpe8T8ufv
+ TDcKJzwqUUPC5M7MpJYwDWo04g/4dNppphICHY5fNt5lENhD60ZgYHEbjUdEsjbjTk2b
+ OcTUPqJxZpmShxZiqaSzp4Y6fe3Ltr7H/W0o2Z0dGErylcGxcCbqilhmZ7o+Qc+CDDSW
+ e9kR63nY/Qe2UoJNP6xSaPQFJ78oGJIIsHj5pwQvaP5L7SDsmUrJmbiqMFO9vJ+uVsf5
+ /Mrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=FCc5BZu5iRztXIUiSt2+3FhaGtDlfucfxXcqT01eExc=;
- b=merTkw9P+a9wvew332S4Eu2ZHMTtyehCUws8XNyzjVenO2X5H5mXh+2k5oFiCCMX0h
- r3U1HkkpiujuCvxu+nZrQs+5X48ZG5Hz47FC2RTOMCFLS6Ixp4Xe/l0rpV6i1PVkNWSh
- tW+bxb044UgNYMSjMkdr1rjmYrGovIizu5MsspYPvpPlh5Iloa+xaX1JsrTGoMyUHoPh
- dLTvnGP1rEbvZaV2DLLMhsKN+7/J7p1f3BcMg3m602fwWLS84Iml+XyHEOQ0kvQ69Kc7
- tNfeJV+VLbnTaDburdXl1/fTqKzn7Y3ba4BwIs629qNN8QEZ3C+v5kv8pNUJxSTuisic
- zahQ==
-X-Gm-Message-State: AOAM533KfBE2t7AZi0nCXXgYNCxKG5XJ6r9fnKjq0Q8rvRf53IO4Yi34
- dqP8w/MdYhdgMYK155Rdyoc=
-X-Google-Smtp-Source: ABdhPJzFwvuMniv8ai0SvEHoZynqHjurs4c0D6rOCMpJ54ptB8lK6dKuU/popa6Id15ZLDpegNO2ww==
-X-Received: by 2002:a65:6085:: with SMTP id t5mr26835510pgu.201.1619612884496; 
- Wed, 28 Apr 2021 05:28:04 -0700 (PDT)
-Received: from localhost ([157.45.56.196])
- by smtp.gmail.com with ESMTPSA id l3sm4868719pju.44.2021.04.28.05.28.02
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 28 Apr 2021 05:28:03 -0700 (PDT)
-Date: Wed, 28 Apr 2021 17:57:55 +0530
-From: Shubhankar Kuranagatti <shubhankarvk@gmail.com>
-To: wsa@kernel.org
-Subject: [PATCH] drivers: i2c: i2c-core-smbus.c: Fix alignment of comment
-Message-ID: <20210428122755.2s56uotb225rezcw@kewl-virtual-machine>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NqKvqi8fkP6gkk64gfeYbbCqBxoed13CDJSXY5IZ0Mk=;
+ b=nVH09EPNQHoYh4JyrZPc4IiaULMw1LOqjwehVZt8WDG5gTnaDSYsAIl99/zA59RuZR
+ ov9a5/unWiffuUpXQiCeIqoBn6UUNQfCs7V19M2vx9Ul4kgiFRjZ/uVCErFnv6eAs7Cc
+ XH7OWTeEJRVKa65rEXvqv8eYfCwz44yLIu7D6+K3DpKW0kcRgITQvzqEXgbf2FNSugD6
+ LFfa293XK3uH+PwKwqZKBAtzqwWK5LXU4PqiUsH4iUF2z7TE61FaVMKQ9bbASiUu2Qru
+ wPCgu9hB8OmuJ4qRNf53RtEgupOdFP+gWFiSyqYNUDdq3Kh2TEC29zpXGxlCydP8hEhJ
+ fQBA==
+X-Gm-Message-State: AOAM532FLV6tbsnPWpq/2iHRekZpvRlsiP9KErYVFnrYeHL2rR3Tdiwe
+ /OUjn7d8JvuVwoVvdVtwrjMx3fUjGcFg0hliayc=
+X-Google-Smtp-Source: ABdhPJzOEkBAXHWL7ixsu1fduG7rywtdLbTNlbEz7gadbd43NVm29VdGn2Nn7iH7m3x+uaQdAkS/ORg2woJnijOH+Mk=
+X-Received: by 2002:a05:6808:68a:: with SMTP id
+ k10mr20029842oig.120.1619615000206; 
+ Wed, 28 Apr 2021 06:03:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: NeoMutt/20171215
-X-Mailman-Approved-At: Wed, 28 Apr 2021 13:07:41 +0000
+References: <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
+ <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
+ <CAAxE2A7a5+q2j1txN-FxWBvKOoPSRKAZ9iPPeTSjMZDbgJCU-A@mail.gmail.com>
+ <CAKMK7uHXSnDetsK1VG-X4ZwUZdA819wUKd=YMgqF=yvAQ6Y2vw@mail.gmail.com>
+ <CAAxE2A4BhDZL2rrV1KEXPzmKnOq4DXmkFm=4K5XZoY-Cj0uT=Q@mail.gmail.com>
+ <735e0d2e-f2c9-c546-ea6c-b5bbb0fe03a6@gmail.com>
+ <CAAxE2A4FwZ11_opL++TPUViTOD6ZpV5b3MR+rTDUPvzqYz-oeQ@mail.gmail.com>
+ <23ea06c825279c7a9f7678b335c7f89437d387ed.camel@pengutronix.de>
+ <s8QVKcJeMhEBcoOS9h7UzE_fUG-VKfgso3HbaM37xGhbBu6i966cTiD_UY1lBbiOMl-VbGyu7r0eBS3vTY8DWSUItsLrf_ISzDuT9vbRs8I=@emersion.fr>
+ <CADnq5_PEMvF7Gd4qug=FjfTtxOtygw7SO73HjhSh5AyEramtkA@mail.gmail.com>
+ <YIkzewghZOdMXwfi@phenom.ffwll.local>
+ <19ca36c3-306e-5021-0243-3289c38ef067@gmail.com>
+In-Reply-To: <19ca36c3-306e-5021-0243-3289c38ef067@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 28 Apr 2021 09:03:08 -0400
+Message-ID: <CADnq5_NxdfkZiH=JNezV2qhu3Nh6gvJ4+Xa+=rVpf4WNCSpdug@mail.gmail.com>
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,77 +74,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Multi line comment have been aligned starting with a *
-The closing */ has been shifted to a new line.
-Single space replaced with tab space
-This is done to maintain code uniformity.
-
-Signed-off-by: Shubhankar Kuranagatti <shubhankarvk@gmail.com>
----
- drivers/i2c/i2c-core-smbus.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/i2c/i2c-core-smbus.c b/drivers/i2c/i2c-core-smbus.c
-index d2d32c0fd8c3..205750518c21 100644
---- a/drivers/i2c/i2c-core-smbus.c
-+++ b/drivers/i2c/i2c-core-smbus.c
-@@ -66,10 +66,11 @@ static inline void i2c_smbus_add_pec(struct i2c_msg *msg)
- }
- 
- /* Return <0 on CRC error
--   If there was a write before this read (most cases) we need to take the
--   partial CRC from the write part into account.
--   Note that this function does modify the message (we need to decrease the
--   message length to hide the CRC byte from the caller). */
-+ * If there was a write before this read (most cases) we need to take the
-+ * partial CRC from the write part into account.
-+ * Note that this function does modify the message (we need to decrease the
-+ * message length to hide the CRC byte from the caller).
-+ */
- static int i2c_smbus_check_pec(u8 cpec, struct i2c_msg *msg)
- {
- 	u8 rpec = msg->buf[--msg->len];
-@@ -113,7 +114,7 @@ EXPORT_SYMBOL(i2c_smbus_read_byte);
- s32 i2c_smbus_write_byte(const struct i2c_client *client, u8 value)
- {
- 	return i2c_smbus_xfer(client->adapter, client->addr, client->flags,
--	                      I2C_SMBUS_WRITE, value, I2C_SMBUS_BYTE, NULL);
-+			I2C_SMBUS_WRITE, value, I2C_SMBUS_BYTE, NULL);
- }
- EXPORT_SYMBOL(i2c_smbus_write_byte);
- 
-@@ -387,7 +388,8 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
- 		if (read_write == I2C_SMBUS_READ) {
- 			msg[1].flags |= I2C_M_RECV_LEN;
- 			msg[1].len = 1; /* block length will be added by
--					   the underlying bus driver */
-+					 * the underlying bus driver
-+					 */
- 			i2c_smbus_try_get_dmabuf(&msg[1], 0);
- 		} else {
- 			msg[0].len = data->block[0] + 2;
-@@ -418,7 +420,8 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
- 
- 		msg[1].flags |= I2C_M_RECV_LEN;
- 		msg[1].len = 1; /* block length will be added by
--				   the underlying bus driver */
-+				 * the underlying bus driver
-+				 */
- 		i2c_smbus_try_get_dmabuf(&msg[1], 0);
- 		break;
- 	case I2C_SMBUS_I2C_BLOCK_DATA:
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBBcHIgMjgsIDIwMjEgYXQgNjozMSBBTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
+LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAyOC4wNC4yMSB1bSAxMjow
+NSBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPiBPbiBUdWUsIEFwciAyNywgMjAyMSBhdCAwMjow
+MToyMFBNIC0wNDAwLCBBbGV4IERldWNoZXIgd3JvdGU6Cj4gPj4gT24gVHVlLCBBcHIgMjcsIDIw
+MjEgYXQgMTozNSBQTSBTaW1vbiBTZXIgPGNvbnRhY3RAZW1lcnNpb24uZnI+IHdyb3RlOgo+ID4+
+PiBPbiBUdWVzZGF5LCBBcHJpbCAyN3RoLCAyMDIxIGF0IDc6MzEgUE0sIEx1Y2FzIFN0YWNoIDxs
+LnN0YWNoQHBlbmd1dHJvbml4LmRlPiB3cm90ZToKPiA+Pj4KPiA+Pj4+PiBPay4gU28gdGhhdCB3
+b3VsZCBvbmx5IG1ha2UgdGhlIGZvbGxvd2luZyB1c2UgY2FzZXMgYnJva2VuIGZvciBub3c6Cj4g
+Pj4+Pj4KPiA+Pj4+PiAtIGFtZCByZW5kZXIgLT4gZXh0ZXJuYWwgZ3B1Cj4gPj4+Pj4gLSBhbWQg
+dmlkZW8gZW5jb2RlIC0+IG5ldHdvcmsgZGV2aWNlCj4gPj4+PiBGV0lXLCAib25seSIgYnJlYWtp
+bmcgYW1kIHJlbmRlciAtPiBleHRlcm5hbCBncHUgd2lsbCBtYWtlIHVzIHByZXR0eQo+ID4+Pj4g
+dW5oYXBweQo+ID4+PiBJIGNvbmN1ci4gSSBoYXZlIHF1aXRlIGEgZmV3IHVzZXJzIHdpdGggYSBt
+dWx0aS1HUFUgc2V0dXAgaW52b2x2aW5nCj4gPj4+IEFNRCBoYXJkd2FyZS4KPiA+Pj4KPiA+Pj4g
+Tm90ZSwgaWYgdGhpcyBicm9rZW5uZXNzIGNhbid0IGJlIGF2b2lkZWQsIEknZCBwcmVmZXIgYSB0
+byBnZXQgYSBjbGVhcgo+ID4+PiBlcnJvciwgYW5kIG5vdCBiYWQgcmVzdWx0cyBvbiBzY3JlZW4g
+YmVjYXVzZSBub3RoaW5nIGlzIHN5bmNocm9uaXplZAo+ID4+PiBhbnltb3JlLgo+ID4+IEl0J3Mg
+YW4gdXBjb21pbmcgcmVxdWlyZW1lbnQgZm9yIHdpbmRvd3NbMV0sIHNvIHlvdSBhcmUgbGlrZWx5
+IHRvCj4gPj4gc3RhcnQgc2VlaW5nIHRoaXMgYWNyb3NzIGFsbCBHUFUgdmVuZG9ycyB0aGF0IHN1
+cHBvcnQgd2luZG93cy4gIEkKPiA+PiB0aGluayB0aGUgdGltaW5nIGRlcGVuZHMgb24gaG93IHF1
+aWNrbHkgdGhlIGxlZ2FjeSBoYXJkd2FyZSBzdXBwb3J0Cj4gPj4gc3RpY2tzIGFyb3VuZCBmb3Ig
+ZWFjaCB2ZW5kb3IuCj4gPiBZZWFoIGJ1dCBodyBzY2hlZHVsaW5nIGRvZXNuJ3QgbWVhbiB0aGUg
+aHcgaGFzIHRvIGJlIGNvbnN0cnVjdGVkIHRvIG5vdAo+ID4gc3VwcG9ydCBpc29sYXRpbmcgdGhl
+IHJpbmdidWZmZXIgYXQgYWxsLgo+ID4KPiA+IEUuZy4gZXZlbiBpZiB0aGUgaHcgbG9zZXMgdGhl
+IGJpdCB0byBwdXQgdGhlIHJpbmdidWZmZXIgb3V0c2lkZSBvZiB0aGUKPiA+IHVzZXJzcGFjZSBn
+cHUgdm0sIGlmIHlvdSBoYXZlIHBhZ2V0YWJsZXMgSSdtIHNlcmlvdXNseSBob3BpbmcgeW91IGhh
+dmUgci9vCj4gPiBwdGUgZmxhZ3MuIE90aGVyd2lzZSB0aGUgZW50aXJlICJzaGFyZSBhZGRyZXNz
+IHNwYWNlIHdpdGggY3B1IHNpZGUsCj4gPiBzZWFtbGVzc2x5IiB0aGluZyBpcyBvdXQgb2YgdGhl
+IHdpbmRvdy4KPiA+Cj4gPiBBbmQgd2l0aCB0aGF0IHIvbyBiaXQgb24gdGhlIHJpbmdidWZmZXIg
+eW91IGNhbiBvbmNlIG1vcmUgZm9yY2Ugc3VibWl0Cj4gPiB0aHJvdWdoIGtlcm5lbCBzcGFjZSwg
+YW5kIGFsbCB0aGUgbGVnYWN5IGRtYV9mZW5jZSBiYXNlZCBzdHVmZiBrZWVwcwo+ID4gd29ya2lu
+Zy4gQW5kIHdlIGRvbid0IGhhdmUgdG8gaW52ZW50IHNvbWUgaG9ycmVuZG91cyB1c2Vyc3BhY2Ug
+ZmVuY2UgYmFzZWQKPiA+IGltcGxpY2l0IHN5bmMgbWVjaGFuaXNtIGluIHRoZSBrZXJuZWwsIGJ1
+dCBjYW4gaW5zdGVhZCBkbyB0aGlzIHRyYW5zaXRpb24KPiA+IHByb3Blcmx5IHdpdGggZHJtX3N5
+bmNvYmogdGltZWxpbmUgZXhwbGljaXQgc3luYyBhbmQgcHJvdG9jb2wgcmV2aW5nLgo+ID4KPiA+
+IEF0IGxlYXN0IEkgdGhpbmsgeW91J2QgaGF2ZSB0byB3b3JrIGV4dHJhIGhhcmQgdG8gY3JlYXRl
+IGEgZ3B1IHdoaWNoCj4gPiBjYW5ub3QgcG9zc2libHkgYmUgaW50ZXJjZXB0ZWQgYnkgdGhlIGtl
+cm5lbCwgZXZlbiB3aGVuIGl0J3MgZGVzaWduZWQgdG8KPiA+IHN1cHBvcnQgdXNlcnNwYWNlIGRp
+cmVjdCBzdWJtaXQgb25seS4KPiA+Cj4gPiBPciBhcmUgeW91ciBodyBlbmdpbmVlcnMgbW9yZSBj
+cmVhdGl2ZSBoZXJlIGFuZCB3ZSdyZSBzY3Jld2VkPwo+Cj4gVGhlIHVwY29tbWluZyBoYXJkd2Fy
+ZSBnZW5lcmF0aW9uIHdpbGwgaGF2ZSB0aGlzIGhhcmR3YXJlIHNjaGVkdWxlciBhcyBhCj4gbXVz
+dCBoYXZlLCBidXQgdGhlcmUgYXJlIGNlcnRhaW4gd2F5cyB3ZSBjYW4gc3RpbGwgc3RpY2sgdG8g
+dGhlIG9sZAo+IGFwcHJvYWNoOgo+Cj4gMS4gVGhlIG5ldyBoYXJkd2FyZSBzY2hlZHVsZXIgY3Vy
+cmVudGx5IHN0aWxsIHN1cHBvcnRzIGtlcm5lbCBxdWV1ZXMKPiB3aGljaCBlc3NlbnRpYWxseSBp
+cyB0aGUgc2FtZSBhcyB0aGUgb2xkIGhhcmR3YXJlIHJpbmcgYnVmZmVyLgo+Cj4gMi4gTWFwcGlu
+ZyB0aGUgdG9wIGxldmVsIHJpbmcgYnVmZmVyIGludG8gdGhlIFZNIGF0IGxlYXN0IHBhcnRpYWxs
+eQo+IHNvbHZlcyB0aGUgcHJvYmxlbS4gVGhpcyB3YXkgeW91IGNhbid0IG1hbmlwdWxhdGUgdGhl
+IHJpbmcgYnVmZmVyCj4gY29udGVudCwgYnV0IHRoZSBsb2NhdGlvbiBmb3IgdGhlIGZlbmNlIG11
+c3Qgc3RpbGwgYmUgd3JpdGVhYmxlLgo+Cj4gRm9yIG5vdyBhbmQgdGhlIG5leHQgaGFyZHdhcmUg
+d2UgYXJlIHNhdmUgdG8gc3VwcG9ydCB0aGUgb2xkIHN1Ym1pc3Npb24KPiBtb2RlbCwgYnV0IHRo
+ZSBmdW5jdGlvbmFsaXR5IG9mIGtlcm5lbCBxdWV1ZXMgd2lsbCBzb29uZXIgb3IgbGF0ZXIgZ28K
+PiBhd2F5IGlmIGl0IGlzIG9ubHkgZm9yIExpbnV4LgoKRXZlbiBpZiBpdCBkaWRuJ3QgZ28gYXdh
+eSBjb21wbGV0ZWx5LCBubyBvbmUgZWxzZSB3aWxsIGJlIHVzaW5nIGl0LgpUaGlzIGxlYXZlcyBh
+IGxvdCBvZiB1bmRlci12YWxpZGF0ZWQgZXhlY3V0aW9uIHBhdGhzIHRoYXQgbGVhZCB0bwpzdWJ0
+bGUgYnVncy4gIFdoZW4gZXZlcnlvbmUgZWxzZSBtb3ZlZCB0byBLSVEgZm9yIHF1ZXVlIG1hbmFn
+ZW1lbnQsIHdlCnN0dWNrIHdpdGggTU1JTyBmb3IgYSB3aGlsZSBpbiBMaW51eCBhbmQgd2UgcmFu
+IGludG8gdG9ucyBvZiBzdWJ0bGUKYnVncyB0aGF0IGRpc2FwcGVhcmVkIHdoZW4gd2UgbW92ZWQg
+dG8gS0lRLiAgVGhlcmUgd2VyZSBsb3RzIG9mCmFzc3VtcHRpb25zIGFib3V0IGhvdyBzb2Z0d2Fy
+ZSB3b3VsZCB1c2UgZGlmZmVyZW50IGZpcm13YXJlIGludGVyZmFjZXMKb3Igbm90IHdoaWNoIGlt
+cGFjdGVkIGxvdHMgb2YgaW50ZXJhY3Rpb25zIHdpdGggY2xvY2sgYW5kIHBvd2VyZ2F0aW5nCnRv
+IG5hbWUgYSBmZXcuICBPbiB0b3Agb2YgdGhhdCwgeW91IG5lZWQgdG8gdXNlIHRoZSBzY2hlZHVs
+ZXIgdG8KdXRpbGl6ZSBzdHVmZiBsaWtlIHByZWVtcHRpb24gcHJvcGVybHkuICBBbHNvLCBpZiB5
+b3Ugd2FudCB0byBkbyBzdHVmZgpsaWtlIGdhbmcgc2NoZWR1bGluZyAoVU1EIHNjaGVkdWxpbmcg
+bXVsdGlwbGUgcXVldWVzIHRvZ2V0aGVyKSwgaXQncwpyZWFsbHkgaGFyZCB0byBkbyB3aXRoIGtl
+cm5lbCBzb2Z0d2FyZSBzY2hlZHVsZXJzLgoKQWxleAoKPgo+IFNvIHdlIG5lZWQgdG8gd29yayBv
+biBzb21ldGhpbmcgd2hpY2ggd29ya3MgaW4gdGhlIGxvbmcgdGVybSBhbmQgZ2V0IHVzCj4gYXdh
+eSBmcm9tIHRoaXMgaW1wbGljaXQgc3luYy4KPgo+IENocmlzdGlhbi4KPgo+ID4gLURhbmllbAo+
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
