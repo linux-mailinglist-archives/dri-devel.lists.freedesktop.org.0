@@ -2,37 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA61F36DE54
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 19:32:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5A936DE5A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 19:34:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2756E153;
-	Wed, 28 Apr 2021 17:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1F9E6E11A;
+	Wed, 28 Apr 2021 17:33:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 206636E153;
- Wed, 28 Apr 2021 17:32:38 +0000 (UTC)
-IronPort-SDR: Cm8omRjS9a+GfjzWQjBcb9jq7tBuPO627Z3yl0LZpKJqcU57l0yio0Lf05Maq7VAk+xnA1lxxi
- y2LcRRJb1yHA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="196361200"
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="196361200"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2021 10:32:38 -0700
-IronPort-SDR: EmXh6xiYmiUP1mmuPSRArhdxX2bXu64mdkT7O8S6LS92/qFws5pNhmQDCxJEF3Q7kOs/RDbwHN
- ZP5TAwm/Tt7Q==
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="430411281"
-Received: from mpawliki-mobl.amr.corp.intel.com (HELO
- zkempczy-mobl2.ger.corp.intel.com) ([10.213.23.190])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2021 10:32:36 -0700
-From: =?UTF-8?q?Zbigniew=20Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Add relocation exceptions for two other platforms
-Date: Wed, 28 Apr 2021 19:30:21 +0200
-Message-Id: <20210428173021.38241-1-zbigniew.kempczynski@intel.com>
-X-Mailer: git-send-email 2.26.0
-MIME-Version: 1.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 875CE6E11A
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 17:33:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 2CA796143A;
+ Wed, 28 Apr 2021 17:33:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619631236;
+ bh=0Si3F/7AQsY27gb25npKxX+YjDcEKtnnK2Wq89glGQk=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=PiF8YqnO46DWh3EDfhekTdfiNh3wedKbC3EJVAEVALnVMh53exy/LeiuoMvO2QDz6
+ CtPjd5WOjoj6UQl/He1Bkg7GfAG3KSTmyTuZdMx+zHS7RYIdAAK3pDUUDYBFAYYQjj
+ 4+bL1Zo5XCMIJboTyBp9sDUSixu7M+S2EcACb+rdnR+ZMQbhtsJb90RUzBDo9LsnOd
+ clSJDm4XXmD/A5bl6Y9gh3GWyXhsWP2LvBKaythLKFaSg+ILg2pgg6VrAY1knrvZAj
+ SznAWmuBgeSsa9aKCPbkJNLBrnjmZ6THgmoeNRnlo/vhXdaAKCL7/hcId56KYFJQgc
+ IXvJM/P2tClRg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
+ [127.0.0.1])
+ by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 265EB60A36;
+ Wed, 28 Apr 2021 17:33:56 +0000 (UTC)
+Subject: Re: [git pull] drm for 5.13-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9txMo5f9QvPqdzt8g3CmUpyDFf2Q_0XS4V1FyjHX8WQPRA@mail.gmail.com>
+References: <CAPM=9txMo5f9QvPqdzt8g3CmUpyDFf2Q_0XS4V1FyjHX8WQPRA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9txMo5f9QvPqdzt8g3CmUpyDFf2Q_0XS4V1FyjHX8WQPRA@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-next-2021-04-28
+X-PR-Tracked-Commit-Id: a1a1ca70deb3ec600eeabb21de7f3f48aaae5695
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 68a32ba14177d4a21c4a9a941cf1d7aea86d436f
+Message-Id: <161963123615.29190.4484357306581976086.pr-tracker-bot@kernel.org>
+Date: Wed, 28 Apr 2021 17:33:56 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,45 +55,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
- =?UTF-8?q?Zbigniew=20Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgaGF2ZSBlc3RhYmxpc2hlZCBwcmV2aW91c2x5IHdlIHN0b3AgdXNpbmcgcmVsb2NhdGlvbnMg
-c3RhcnRpbmcKZnJvbSBnZW4xMiBwbGF0Zm9ybXMgd2l0aCBUaWdlcmxha2UgYXMgYW4gZXhjZXB0
-aW9uLiBVbmZvcnR1bmF0ZWx5CndlIG5lZWQgZXh0ZW5kIHRyYW5zaXRpb24gcGVyaW9kIGFuZCBz
-dXBwb3J0IHJlbG9jYXRpb25zIGZvciB0d28Kb3RoZXIgaWdmeCBwbGF0Zm9ybXMgLSBSb2NrZXRs
-YWtlIGFuZCBBbGRlcmxha2UuCgpBcyBBbGRlcmxha2UgaXMgY29taW5nIGluIHR3byB2YXJpYW50
-cyAtIFMgYW5kIFAgYW5kIG9ubHkgUyBsYW5kZWQKdXBzdHJlYW0gYWxyZWFkeSB3ZSB3aWxsIG5l
-ZWQgdG8gZXh0ZW5kIHRoZSByZWxvY2F0aW9uIGVuYWJsaW5nCmNvbmRpdGlvbiBvbmUgbW9yZSB0
-aW1lIGZvciBQIHZlcnNpb24gaW4gdGhlIGZ1dHVyZS4KClNpZ25lZC1vZmYtYnk6IFpiaWduaWV3
-IEtlbXBjennFhHNraSA8emJpZ25pZXcua2VtcGN6eW5za2lAaW50ZWwuY29tPgpDYzogRGF2ZSBB
-aXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0
-ZXJAaW50ZWwuY29tPgpDYzogSmFzb24gRWtzdHJhbmQgPGphc29uQGpsZWtzdHJhbmQubmV0Pgot
-LS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9leGVjYnVmZmVyLmMgfCA5ICsr
-KysrKy0tLQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZl
-ci5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYwppbmRl
-eCAyOTcxNDM1MTFmOTkuLjZkNjIxODk4Njk4ZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jCkBAIC00OTYsMTEgKzQ5NiwxNCBAQCBlYl92YWxp
-ZGF0ZV92bWEoc3RydWN0IGk5MTVfZXhlY2J1ZmZlciAqZWIsCiAJCXN0cnVjdCBkcm1faTkxNV9n
-ZW1fZXhlY19vYmplY3QyICplbnRyeSwKIAkJc3RydWN0IGk5MTVfdm1hICp2bWEpCiB7Ci0JLyog
-UmVsb2NhdGlvbnMgYXJlIGRpc2FsbG93ZWQgZm9yIGFsbCBwbGF0Zm9ybXMgYWZ0ZXIgVEdMLUxQ
-LiAgVGhpcwotCSAqIGFsc28gY292ZXJzIGFsbCBwbGF0Zm9ybXMgd2l0aCBsb2NhbCBtZW1vcnku
-CisJLyoKKwkgKiBSZWxvY2F0aW9ucyBhcmUgZGlzYWxsb3dlZCBzdGFydGluZyBmcm9tIGdlbjEy
-IHdpdGggc29tZSBleGNlcHRpb25zCisJICogLSBUR0wvUktML0FETC4KIAkgKi8KIAlpZiAoZW50
-cnktPnJlbG9jYXRpb25fY291bnQgJiYKLQkgICAgSU5URUxfR0VOKGViLT5pOTE1KSA+PSAxMiAm
-JiAhSVNfVElHRVJMQUtFKGViLT5pOTE1KSkKKwkgICAgSU5URUxfR0VOKGViLT5pOTE1KSA+PSAx
-MiAmJiAhKElTX1RJR0VSTEFLRShlYi0+aTkxNSkgfHwKKwkJCQkJICAgSVNfUk9DS0VUTEFLRShl
-Yi0+aTkxNSkgfHwKKwkJCQkJICAgSVNfQUxERVJMQUtFX1MoZWItPmk5MTUpKSkKIAkJcmV0dXJu
-IC1FSU5WQUw7CiAKIAlpZiAodW5saWtlbHkoZW50cnktPmZsYWdzICYgZWItPmludmFsaWRfZmxh
-Z3MpKQotLSAKMi4yNi4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+The pull request you sent on Wed, 28 Apr 2021 13:31:59 +1000:
+
+> git://anongit.freedesktop.org/drm/drm tags/drm-next-2021-04-28
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/68a32ba14177d4a21c4a9a941cf1d7aea86d436f
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
