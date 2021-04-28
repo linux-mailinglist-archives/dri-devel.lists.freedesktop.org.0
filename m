@@ -2,40 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0710736E119
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 23:42:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B39E36E129
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Apr 2021 23:53:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAB4C89D39;
-	Wed, 28 Apr 2021 21:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB87D6EC59;
+	Wed, 28 Apr 2021 21:53:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AF5889D39
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 21:42:14 +0000 (UTC)
-Received: from [IPv6:2804:431:e7dd:b215:2a57:79ce:97d1:4a15] (unknown
- [IPv6:2804:431:e7dd:b215:2a57:79ce:97d1:4a15])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: leandrohrb)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D0AAD1F42C94;
- Wed, 28 Apr 2021 22:42:11 +0100 (BST)
-Subject: Re: [PATCH v2 1/1] drm/doc: document drm_mode_get_plane
-To: Daniel Vetter <daniel@ffwll.ch>, Pekka Paalanen <ppaalanen@gmail.com>
-References: <20210422181004.34247-1-leandro.ribeiro@collabora.com>
- <20210422181004.34247-2-leandro.ribeiro@collabora.com>
- <20210423141126.308d4145@eldfell>
- <3c3a5d35-10bf-4b32-1970-aed4bc1d6488@collabora.com>
- <20210426103656.0a212089@eldfell>
- <UucmifK8H9QRiWjD9XezmvdKmY-gXYG2c5LcJlAtmZDvpmvX3dqiNqzng6EPm6Kj_1_1nKi4S2vzFPTpKYoou_ARj-27xlxSoeMtrcpxLUk=@emersion.fr>
- <550b87d0-d180-32cb-349e-1ff000c0530f@collabora.com>
- <20210427104024.4e8aa086@eldfell> <YIfSqPq6J4sI6PyI@phenom.ffwll.local>
-From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Message-ID: <818eeecf-591b-dae8-8565-3f6214c343c6@collabora.com>
-Date: Wed, 28 Apr 2021 18:42:07 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D04DB6EC59
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 21:53:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619646789;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4FeRx+7tZAzW3f2aXiTu45Velasn4q92EatUtQzE+0w=;
+ b=bkiU0TQnQxNlFZ7EQ7QMjZXz//DMf2qQdCCHRBQpaxWBssksyhfp9Vpo8o1xsG4cH8Gtho
+ BnaiF0djF29BoK83lj6xN68mJTZJcnOM1Weykpvg15OfIxLTHPzyLI6ZDGt8tkATBH3wyf
+ Bodjdr/4/z4EeBKrH2zXKdVdBy4DwQs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-HFr7J55yMx-rNcHhbKruSQ-1; Wed, 28 Apr 2021 17:53:05 -0400
+X-MC-Unique: HFr7J55yMx-rNcHhbKruSQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40586801F98;
+ Wed, 28 Apr 2021 21:53:03 +0000 (UTC)
+Received: from x1.localdomain (ovpn-115-166.ams2.redhat.com [10.36.115.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 910095C1BB;
+ Wed, 28 Apr 2021 21:52:58 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [PATCH 0/9] drm + usb-type-c: Add support for out-of-band hotplug
+ notification
+Date: Wed, 28 Apr 2021 23:52:48 +0200
+Message-Id: <20210428215257.500088-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YIfSqPq6J4sI6PyI@phenom.ffwll.local>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,74 +63,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, kernel@collabora.com, dri-devel@lists.freedesktop.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi All,
+
+Here is a new attempt to make DP over Type-C work on devices where the
+Type-C controller does not drive the HPD pin on the GPU, but instead
+we need to forward HPD events from the Type-C controller to the DRM driver.
+
+For anyone interested here are the old (2019!) patches for this:
+
+https://patchwork.freedesktop.org/patch/288491/
+https://patchwork.freedesktop.org/patch/288493/
+https://patchwork.freedesktop.org/patch/288495/
+
+Last time I posted this the biggest change requested was for more info to
+be included in the event send to the DRM-subsystem, specifically sending
+the following info was requested:
+
+1. Which DP connector on the GPU the event is for
+2. How many lanes are available
+3. Connector orientation
+
+This series is basically an entirely new approach, which no longer
+uses the notifier framework at all. Instead the Type-C code looksup
+a connector based on a fwnode (this was suggested by Heikki Krogerus)
+and then calls a new oob_hotplug_event drm_connector_func directly
+on the connector, passing the requested info as argument.
+
+This series not only touches drm subsys files but it also touches
+drivers/usb/typec/altmodes/typec_displayport.c, that file usually
+does not see a whole lot of changes. So I believe it would be best
+to just merge the entire series through drm-misc, Assuming we can
+get an ack from Greg for merging the typec_displayport.c changes
+this way.
+
+Regards,
+
+Hans
 
 
-On 4/27/21 6:00 AM, Daniel Vetter wrote:
-> On Tue, Apr 27, 2021 at 10:40:24AM +0300, Pekka Paalanen wrote:
->> On Mon, 26 Apr 2021 14:30:53 -0300
->> Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
->>
->>> On 4/26/21 7:58 AM, Simon Ser wrote:
->>>> On Monday, April 26th, 2021 at 9:36 AM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>>>   
->>>>>>> This should probably explain what the bits in the mask correspond to.
->>>>>>> As in, which CRTC does bit 0 refer to, and so on.  
->>>>>>
->>>>>> What about:
->>>>>>
->>>>>> "possible_crtcs: Bitmask of CRTC's compatible with the plane. CRTC's are
->>>>>> created and they receive an index, which corresponds to their position
->>>>>> in the bitmask. CRTC with index 0 will be in bit 0, and so on."  
->>>>>
->>>>> This would still need to explain where can I find this index.  
->>>>   
->>>
->>> What do you mean?
->>>
->>>> This closed merge request had some docs about possible CRTCs:
->>>>
->>>> https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/102
->>>>   
->>> I'm afraid I don't know exactly what you expect to be documented here
->>> that is still missing. Could you please elaborate?
->>>
->>> Thanks a lot!
->>
->> The documentation you add is talking about "CRTC index". What defines a
->> CRTC object's index? How do I determine what index a CRTC object has?
->>
->> The answer is, AFAIK, that the index is never stored explicitly
->> anywhere. You have to get the DRM resources structure, which has an
->> array for CRTC IDs. The index is the index to that array, IIRC. So if
->> one does not already know this, it is going to be really hard to figure
->> out what the "index" is. It might even be confused with the object ID,
->> which it is not but the ID might by complete accident be less than 32
->> so it would look ok at first glance.
->>
->> If the index is already explained somewhere else, a reference to that
->> documentation would be enough.
-> 
-> I think if we do this we should have a DOC: section in the drm_mode.h uapi
-> header which explains how the index is computed, and then we reference
-> that everywhere. Because otherwise there's going to be a _lot_ of
-> duplication of this all over. Kernel-internally we solve this by just
-> referencing drm_foo_index() family of functions, but for the uapi there's
-> really nothing, so needs text.
-> 
-> -Daniel
->
-Ok, I've sent a v3 with a small section to document how to get the index
-of a CRTC object from userspace perspective. But I could only find two
-comments that would benefit from it (at least in "Userland interfaces"
-page).
+Hans de Goede (8):
+  drm/connector: Make the drm_sysfs connector->kdev device hold a
+    reference to the connector
+  drm/connector: Add a fwnode pointer to drm_connector and register with
+    ACPI
+  drm/connector: Add drm_connector_find_by_fwnode() function
+  drm/connector: Add support for out-of-band hotplug notification
+  drm/i915/dp: Add support for out-of-bound hotplug events
+  usb: typec: altmodes/displayport: Make dp_altmode_notify() more
+    generic
+  usb: typec: altmodes/displayport: Notify drm subsys of hotplug events
+  platform/x86/intel_cht_int33fe: Correct "displayport" fwnode reference
 
-Thanks!
+Heikki Krogerus (1):
+  drm/i915: Associate ACPI connector nodes with connector entries
+
+ drivers/gpu/drm/drm_connector.c               |  20 +++
+ drivers/gpu/drm/drm_sysfs.c                   | 129 ++++++++++++++++--
+ drivers/gpu/drm/i915/display/intel_acpi.c     |  40 ++++++
+ drivers/gpu/drm/i915/display/intel_acpi.h     |   3 +
+ drivers/gpu/drm/i915/display/intel_display.c  |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       |  13 ++
+ .../platform/x86/intel_cht_int33fe_typec.c    |   4 +-
+ drivers/usb/typec/altmodes/displayport.c      |  78 ++++++++---
+ include/drm/drm_connector.h                   |  36 +++++
+ 9 files changed, 292 insertions(+), 32 deletions(-)
+
+-- 
+2.31.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
