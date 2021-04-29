@@ -2,56 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C80B36EA9C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 14:38:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8B036EAA2
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 14:39:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC906EE94;
-	Thu, 29 Apr 2021 12:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F21F96EE95;
+	Thu, 29 Apr 2021 12:39:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4EF06EE94
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 12:38:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7BBA3613F7
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 12:38:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619699884;
- bh=E3GMJnAqeFUy4YHKoi9Y624OXxItgBff2cmLJ5kbmzs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ZylpzhnVx1FVesFQ7+Pn8LuOm2TFWatr9/TLGwI6fsXPd+PODnq+7+MOX/qmVyFOx
- ynSpzJSehby8Hjkd7Sq8/nGsNA2KzwC7z3Hh8Ho5ZUX6zzebGUIGzwlHyR9N6b8nw+
- PPSB61ee1RncY3/OylLxX5lAFx+CuVhY3lVmH7QtgPzi31b+/T7up/SDQ0Ere3NdKX
- hd/6jvoQumG/3jFa7Dpb6aGSHbZ3BwiafZhB8YDRJAomdO5CasNNuaPH/I4ZfdGfI8
- dkXcLPB/TuEQbhTT45+VJUG23MsJimnSqt5a4HnDGZ7L8xWaQU7lm/RKxWw4g2Vf8i
- 2J5q8UPlz/YfA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 793C161057; Thu, 29 Apr 2021 12:38:04 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212881] nouveau: BUG: kernel NULL pointer dereference in
- nouveau_bo_sync_for_device
-Date: Thu, 29 Apr 2021 12:38:04 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: dave.mueller@gmx.ch
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_regression
-Message-ID: <bug-212881-2300-qsLeCAK4Ll@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212881-2300@https.bugzilla.kernel.org/>
-References: <bug-212881-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-m176218.qiye.163.com (mail-m176218.qiye.163.com
+ [59.111.176.218])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDC86EE95;
+ Thu, 29 Apr 2021 12:39:11 +0000 (UTC)
+Received: from wanjb-virtual-machine.localdomain (unknown [36.152.145.182])
+ by mail-m176218.qiye.163.com (Hmail) with ESMTPA id 1208F320114;
+ Thu, 29 Apr 2021 20:39:09 +0800 (CST)
+From: Wan Jiabing <wanjiabing@vivo.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Aric Cyr <aric.cyr@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Jacky Liao <ziyu.liao@amd.com>,
+ Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] drm/amd/display: Remove duplicate declaration of dc_state
+Date: Thu, 29 Apr 2021 20:38:36 +0800
+Message-Id: <20210429123900.25156-1-wanjiabing@vivo.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZGUhKHlZMS0kaGRhJHhkaTR1VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+ hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MVE6CDo5Hz8IPEgvOD0KFT1C
+ SDkKChRVSlVKTUpCTUJCQk9CQkJDVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlI
+ TVVKTklVSk9OVUpDSVlXWQgBWUFJQ0hKNwY+
+X-HM-Tid: 0a791da3e029d978kuws1208f320114
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,24 +54,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kael_w@yeah.net, Wan Jiabing <wanjiabing@vivo.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212881
+There are two declarations of struct dc_state here.
+Remove the later duplicate more secure.
 
-dave.mueller@gmx.ch changed:
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+---
+Changelog:
+v2:
+- Remove the later duplicate instead of the former.
+---
+ drivers/gpu/drm/amd/display/dc/dc.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Regression|No                          |Yes
-
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 8108b82bac60..6f3c95b5d1a2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -594,7 +594,6 @@ struct dc_bounding_box_overrides {
+ 	int min_dcfclk_mhz;
+ };
+ 
+-struct dc_state;
+ struct resource_pool;
+ struct dce_hwseq;
+ struct gpu_info_soc_bounding_box_v1_0;
 -- 
-You may reply to this email to add a comment.
+2.25.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
