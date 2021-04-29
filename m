@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDA936EFE7
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 21:04:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B200036EFE9
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 21:04:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56EC6F456;
-	Thu, 29 Apr 2021 19:03:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A975A6F453;
+	Thu, 29 Apr 2021 19:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36C646F451
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 19:03:49 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- m6-20020a17090a8586b02901507e1acf0fso409791pjn.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 12:03:49 -0700 (PDT)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F26AC6F457
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 19:03:50 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id 20so31344570pll.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 12:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5yyb/YNSoB7qsJI0gtnRn4yFC1/HgiSlGgAEsSwot2c=;
- b=LGqrMr9D6hoIMm3plfFkWBid7D8K+LFuzpyt1HzlQZ4IATRHtoAIgkMfeDUSqEMXWr
- /L1ikkVd9raijNK0xivnxMCA2sgcEmL/7MNZ3hqWCxOEmmw3sjOSOdHfj9X+Vpi9nIbO
- zPHOkcS5A6Sp597xO5gvUWpR5FeTlOge2+88sUhjx3Ja0kI+zh0PGUEQpw6Zd92SvkZ8
- wDsaL+52yb7+d6RdtC+/oby6YQy1R6RNTqq2WLfr45Lojaywy9KBSDvNvAUYb6gL7Nfx
- vNyDOmaABC7Kmn9tSvK5xqfw4C1iN084/83+i0ZzY8vTYADBZ7H49qVEdDvUD/MO5sq8
- b7bQ==
+ bh=qziqsrXwpx637F+JaujdobbbJt3r1OgWV/IogN58Qn8=;
+ b=gA/6Ox1jb4Xxj6w2IFzeqNeCdDB8ykRCd5WhMyL4rQ4gLZkHOqFXCPX2K17NjrCyr5
+ C95MbrDovHobpmxlcE7c/vYTB/vK3RfVCfbr0rJJc8AaNXIeUOj78ISSMvxddf9ypRfS
+ pOLVd4/F2mBNpqOjQp8mYOjF8ex06Vco4yVMbMuD/kXwzg/lAorllLNlGjECClDQ8i2z
+ yK8Ai1hqP4PVlrDigATt/PDHgJmrV7QGKpKeQ32gPiQCZY6FATTXV20pSLaHFn0dxHks
+ nYc/jcfAQ+BWPvsOOvLTPCptSxkbrveDk4/WTYTgSMhK/6BChHT7KWDJ42F6qu+nmX4a
+ OYcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5yyb/YNSoB7qsJI0gtnRn4yFC1/HgiSlGgAEsSwot2c=;
- b=Nxsuc2e6x6/4Ks19Csl3AG7tDllJb0FVOodlnnU0go3Q32vV2+uiVmoVbkQGa20ect
- Vn1H1A9XFj15Nqq+R9411vRJLAyDiflNhhtojhwfAvIAzDYbLEUdCVeIFKuQaVRi9EFS
- pF347Wn6aeEbkIHDaoXTonvbqHrCUH+ulYx0rQUo0q8ItX4TCB0CT5TlWeb5VHHYbUtI
- KpFIRXVPISTtPQlV2/JRYPrbfEY9hh6MHbCxAUCv5cSRqOcWvLc8KZraMB24zMwzdCGv
- gH/2+6WNeM/DX9OQEu8JgPJHdgIWPWsMK2YadjxQIa02ObtjKSuBHpn0jxKvHwE5NX7U
- uvCg==
-X-Gm-Message-State: AOAM533cUF9P8iR3BXVm9cXoljid1cTd/f092XpJsPhMr5HkTkbGHWLP
- HsKALtHSI6tmdBF4GRoOcGTwDkKUFTtyqQ==
-X-Google-Smtp-Source: ABdhPJyAj4z1uR7hs05qSoAcDMF97zj1w5uO/OP5pP7BbEMYrro542uwB90XvoS66RRJ4sXkQZQFiQ==
-X-Received: by 2002:a17:903:31c9:b029:ed:6f56:9d1e with SMTP id
- v9-20020a17090331c9b02900ed6f569d1emr1327058ple.46.1619723028677; 
- Thu, 29 Apr 2021 12:03:48 -0700 (PDT)
+ bh=qziqsrXwpx637F+JaujdobbbJt3r1OgWV/IogN58Qn8=;
+ b=UX/AkUU8U8qXYC1N6lC9hZXIes9tew86O1c1rKMuanBdwWES3vDVk8kMYrKI8+8dz8
+ 576j5ya6meeTaO9KLPFJcHK6XTFYdDhFcTzc6lhacLy9OZQJQBaKqYWhujq8wGH5wG7u
+ Q/Svi6P62XM/IMStGBOmNuSoUmjcYOZwH5vstlbs97MXgFmF1b6G4/LG56HgkWWKwAe/
+ rIj8zE809BRyA79xwxt1E+k9vsje3nYKuhDR7MQVT2C0PWTuUwUQbXDJUejU4vAGEKb9
+ /C/LtNVJyE+TRhLdBahssRNWRIziCZz3XbkAkOKvJ5w3vO/mrj3jwodgcQXauxLJ/ITn
+ k5fQ==
+X-Gm-Message-State: AOAM531o3zXjiHBd1ZuAOLh/vw7RgiKyGQUa4xjAKC74qggj2v3qjFjW
+ Gq8bcz2NsIIECmsM/Hb4zRBhIA==
+X-Google-Smtp-Source: ABdhPJyHXo6hmUF1IGfJFwhP8MdzJiq9UnI9tpG/xAiY/aCsV8hdcPqWTkgqjJS7S8DdJfdyrYMGHw==
+X-Received: by 2002:a17:902:ce89:b029:ed:3aeb:2c50 with SMTP id
+ f9-20020a170902ce89b02900ed3aeb2c50mr1169305plg.43.1619723030456; 
+ Thu, 29 Apr 2021 12:03:50 -0700 (PDT)
 Received: from omlet.lan ([134.134.139.83])
- by smtp.gmail.com with ESMTPSA id b21sm3114405pji.39.2021.04.29.12.03.47
+ by smtp.gmail.com with ESMTPSA id b21sm3114405pji.39.2021.04.29.12.03.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 12:03:48 -0700 (PDT)
+ Thu, 29 Apr 2021 12:03:49 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/25] drm/i915: Stop storing the ring size in the ring pointer
-Date: Thu, 29 Apr 2021 14:03:17 -0500
-Message-Id: <20210429190340.1555632-3-jason@jlekstrand.net>
+Subject: [PATCH 03/25] drm/i915: Drop I915_CONTEXT_PARAM_NO_ZEROMAP
+Date: Thu, 29 Apr 2021 14:03:18 -0500
+Message-Id: <20210429190340.1555632-4-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210429190340.1555632-1-jason@jlekstrand.net>
 References: <20210429190340.1555632-1-jason@jlekstrand.net>
@@ -76,145 +75,135 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The idea behind this param is to support OpenCL drivers with relocations
+because OpenCL reserves 0x0 for NULL and, if we placed memory there, it
+would confuse CL kernels.  It was originally sent out as part of a patch
+series including libdrm [1] and Beignet [2] support.  However, the
+libdrm and Beignet patches never landed in their respective upstream
+projects so this API has never been used.  It's never been used in Mesa
+or any other driver, either.
+
+Dropping this API allows us to delete a small bit of code.
+
+[1]: https://lists.freedesktop.org/archives/intel-gfx/2015-May/067030.html
+[2]: https://lists.freedesktop.org/archives/intel-gfx/2015-May/067031.html
+
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 3 +--
- drivers/gpu/drm/i915/gt/intel_context.c       | 3 ++-
- drivers/gpu/drm/i915/gt/intel_context.h       | 5 -----
- drivers/gpu/drm/i915/gt/intel_context_types.h | 1 +
- drivers/gpu/drm/i915/gt/intel_lrc.c           | 2 +-
- drivers/gpu/drm/i915/gt/selftest_execlists.c  | 2 +-
- drivers/gpu/drm/i915/gt/selftest_mocs.c       | 2 +-
- drivers/gpu/drm/i915/gt/selftest_timeline.c   | 2 +-
- drivers/gpu/drm/i915/gvt/scheduler.c          | 7 ++-----
- 9 files changed, 10 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c      | 16 ++--------------
+ .../gpu/drm/i915/gem/i915_gem_context_types.h    |  1 -
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c   |  8 --------
+ include/uapi/drm/i915_drm.h                      |  4 ++++
+ 4 files changed, 6 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index e52b85b8f923d..2ba4c7e4011b4 100644
+index 2ba4c7e4011b4..44841db04301b 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -211,8 +211,7 @@ static void intel_context_set_gem(struct intel_context *ce,
- 	GEM_BUG_ON(rcu_access_pointer(ce->gem_context));
- 	RCU_INIT_POINTER(ce->gem_context, ctx);
+@@ -1921,15 +1921,6 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
+ 	int ret = 0;
  
--	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags))
--		ce->ring = __intel_context_ring_size(SZ_16K);
-+	ce->ring_size = SZ_16K;
- 
- 	if (rcu_access_pointer(ctx->vm)) {
- 		struct i915_address_space *vm;
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 17cf2640b082b..342fa7daa08b5 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -372,7 +372,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
- 	ce->engine = engine;
- 	ce->ops = engine->cops;
- 	ce->sseu = engine->sseu;
--	ce->ring = __intel_context_ring_size(SZ_4K);
-+	ce->ring = NULL;
-+	ce->ring_size = SZ_4K;
- 
- 	ewma_runtime_init(&ce->runtime.avg);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-index f83a73a2b39fc..b10cbe8fee992 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context.h
-@@ -175,11 +175,6 @@ int intel_context_prepare_remote_request(struct intel_context *ce,
- 
- struct i915_request *intel_context_create_request(struct intel_context *ce);
- 
--static inline struct intel_ring *__intel_context_ring_size(u64 sz)
--{
--	return u64_to_ptr(struct intel_ring, sz);
--}
+ 	switch (args->param) {
+-	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+-		if (args->size)
+-			ret = -EINVAL;
+-		else if (args->value)
+-			set_bit(UCONTEXT_NO_ZEROMAP, &ctx->user_flags);
+-		else
+-			clear_bit(UCONTEXT_NO_ZEROMAP, &ctx->user_flags);
+-		break;
 -
- static inline bool intel_context_is_barrier(const struct intel_context *ce)
- {
- 	return test_bit(CONTEXT_BARRIER_BIT, &ce->flags);
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index ed8c447a7346b..90026c1771055 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -82,6 +82,7 @@ struct intel_context {
- 	spinlock_t signal_lock; /* protects signals, the list of requests */
+ 	case I915_CONTEXT_PARAM_NO_ERROR_CAPTURE:
+ 		if (args->size)
+ 			ret = -EINVAL;
+@@ -1979,6 +1970,7 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
+ 		ret = set_persistence(ctx, args);
+ 		break;
  
- 	struct i915_vma *state;
-+	u32 ring_size;
- 	struct intel_ring *ring;
- 	struct intel_timeline *timeline;
++	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+ 	case I915_CONTEXT_PARAM_BAN_PERIOD:
+ 	case I915_CONTEXT_PARAM_RINGSIZE:
+ 	default:
+@@ -2359,11 +2351,6 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
+ 		return -ENOENT;
  
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index e86897cde9846..63193c80fb117 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -845,7 +845,7 @@ int lrc_alloc(struct intel_context *ce, struct intel_engine_cs *engine)
- 	if (IS_ERR(vma))
- 		return PTR_ERR(vma);
- 
--	ring = intel_engine_create_ring(engine, (unsigned long)ce->ring);
-+	ring = intel_engine_create_ring(engine, ce->ring_size);
- 	if (IS_ERR(ring)) {
- 		err = PTR_ERR(ring);
- 		goto err_vma;
-diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-index 1081cd36a2bd3..01d9896dd4844 100644
---- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-@@ -2793,7 +2793,7 @@ static int __live_preempt_ring(struct intel_engine_cs *engine,
- 			goto err_ce;
- 		}
- 
--		tmp->ring = __intel_context_ring_size(ring_sz);
-+		tmp->ring_size = ring_sz;
- 
- 		err = intel_context_pin(tmp);
- 		if (err) {
-diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-index e55a887d11e2b..f343fa5fd986f 100644
---- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-@@ -28,7 +28,7 @@ static struct intel_context *mocs_context_create(struct intel_engine_cs *engine)
- 		return ce;
- 
- 	/* We build large requests to read the registers from the ring */
--	ce->ring = __intel_context_ring_size(SZ_16K);
-+	ce->ring_size = SZ_16K;
- 
- 	return ce;
- }
-diff --git a/drivers/gpu/drm/i915/gt/selftest_timeline.c b/drivers/gpu/drm/i915/gt/selftest_timeline.c
-index 9adbd9d147bea..7eedecfb86e59 100644
---- a/drivers/gpu/drm/i915/gt/selftest_timeline.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_timeline.c
-@@ -874,7 +874,7 @@ static int create_watcher(struct hwsp_watcher *w,
- 	if (IS_ERR(ce))
- 		return PTR_ERR(ce);
- 
--	ce->ring = __intel_context_ring_size(ringsz);
-+	ce->ring_size = ringsz;
- 	w->rq = intel_context_create_request(ce);
- 	intel_context_put(ce);
- 	if (IS_ERR(w->rq))
-diff --git a/drivers/gpu/drm/i915/gvt/scheduler.c b/drivers/gpu/drm/i915/gvt/scheduler.c
-index fc735692f21fb..99bc9fed6fbb6 100644
---- a/drivers/gpu/drm/i915/gvt/scheduler.c
-+++ b/drivers/gpu/drm/i915/gvt/scheduler.c
-@@ -1409,11 +1409,8 @@ int intel_vgpu_setup_submission(struct intel_vgpu *vgpu)
- 		intel_context_set_single_submission(ce);
- 
- 		/* Max ring buffer size */
--		if (!intel_uc_wants_guc_submission(&engine->gt->uc)) {
--			const unsigned int ring_size = 512 * SZ_4K;
+ 	switch (args->param) {
+-	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+-		args->size = 0;
+-		args->value = test_bit(UCONTEXT_NO_ZEROMAP, &ctx->user_flags);
+-		break;
 -
--			ce->ring = __intel_context_ring_size(ring_size);
--		}
-+		if (!intel_uc_wants_guc_submission(&engine->gt->uc))
-+			ce->ring_size = 512 * SZ_4K;
+ 	case I915_CONTEXT_PARAM_GTT_SIZE:
+ 		args->size = 0;
+ 		rcu_read_lock();
+@@ -2411,6 +2398,7 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
+ 		args->value = i915_gem_context_is_persistent(ctx);
+ 		break;
  
- 		s->shadow[i] = ce;
++	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+ 	case I915_CONTEXT_PARAM_BAN_PERIOD:
+ 	case I915_CONTEXT_PARAM_RINGSIZE:
+ 	default:
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+index 340473aa70de0..5ae71ec936f7c 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+@@ -129,7 +129,6 @@ struct i915_gem_context {
+ 	 * @user_flags: small set of booleans controlled by the user
+ 	 */
+ 	unsigned long user_flags;
+-#define UCONTEXT_NO_ZEROMAP		0
+ #define UCONTEXT_NO_ERROR_CAPTURE	1
+ #define UCONTEXT_BANNABLE		2
+ #define UCONTEXT_RECOVERABLE		3
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 297143511f99b..b812f313422a9 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -290,7 +290,6 @@ struct i915_execbuffer {
+ 	struct intel_context *reloc_context;
+ 
+ 	u64 invalid_flags; /** Set of execobj.flags that are invalid */
+-	u32 context_flags; /** Set of execobj.flags to insert from the ctx */
+ 
+ 	u64 batch_len; /** Length of batch within object */
+ 	u32 batch_start_offset; /** Location within object of batch */
+@@ -541,9 +540,6 @@ eb_validate_vma(struct i915_execbuffer *eb,
+ 			entry->flags |= EXEC_OBJECT_NEEDS_GTT | __EXEC_OBJECT_NEEDS_MAP;
  	}
+ 
+-	if (!(entry->flags & EXEC_OBJECT_PINNED))
+-		entry->flags |= eb->context_flags;
+-
+ 	return 0;
+ }
+ 
+@@ -750,10 +746,6 @@ static int eb_select_context(struct i915_execbuffer *eb)
+ 	if (rcu_access_pointer(ctx->vm))
+ 		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
+ 
+-	eb->context_flags = 0;
+-	if (test_bit(UCONTEXT_NO_ZEROMAP, &ctx->user_flags))
+-		eb->context_flags |= __EXEC_OBJECT_NEEDS_BIAS;
+-
+ 	return 0;
+ }
+ 
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 6eefbc6dec01f..a0aaa8298f28d 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -1637,6 +1637,10 @@ struct drm_i915_gem_context_param {
+ 	__u32 size;
+ 	__u64 param;
+ #define I915_CONTEXT_PARAM_BAN_PERIOD	0x1
++/* I915_CONTEXT_PARAM_NO_ZEROMAP has been removed.  On the off chance
++ * someone somewhere has attempted to use it, never re-use this context
++ * param number.
++ */
+ #define I915_CONTEXT_PARAM_NO_ZEROMAP	0x2
+ #define I915_CONTEXT_PARAM_GTT_SIZE	0x3
+ #define I915_CONTEXT_PARAM_NO_ERROR_CAPTURE	0x4
 -- 
 2.31.1
 
