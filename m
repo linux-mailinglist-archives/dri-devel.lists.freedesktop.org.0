@@ -1,57 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424C936F01E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 21:08:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEAA136F023
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 21:09:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4AC6F472;
-	Thu, 29 Apr 2021 19:08:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACDE16F493;
+	Thu, 29 Apr 2021 19:09:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E286F48F
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 19:08:11 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id j28so15846292edy.9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 12:08:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W5Hs0re1FZ8w2FwsECXqX1v5aoT2Bewo2Ve18UXHXpQ=;
- b=HUZrImpxLHRvqvAfzyYqz2A6Fb5/ECZkTqNFFQr8YVuAl6ElIdZpt178GQdX5TwbU+
- Dy3wp/xVyR5VFLX7ON18FvVYSOCi5mimG7ox2sAjjH8IcB2X98LRHr5r4HnowPXw+x+D
- xIeewlwwOIl8mlgWC00ZMQiJZTNZP7tc4gD732u0IwEXJHVSTd43yoY3qzLfLRrU0HXC
- jBg6Q9BHyXb9G+3amIH+u1Vtt10geOKXnwg29yUxIbeU14IQZIXz5UTnQiv5ps3Faq/t
- Ia5H/P4DAvxhcQBtToJ8v8tFbXI9MzYAiwI8I+wEFXzbWmMsL22Z+ntbPplY34kSEczu
- p41A==
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49BE26F493
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 19:09:52 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id l2so15696934wrm.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 12:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1dmo5Wmh/ugIBygOrQPFARR/Rc5riBKotg0rKsNd/fk=;
+ b=PPtwmHEckRIBUH8hQOzBxajX3TdRoTA+lpU9blquQ+gpggdOqsBiyeO6vAuNR39SWT
+ MUpTHvhvJz3qHnwbNoCSFLBkB6Cn3faK3Ct6UdCPmH4S7Hx5MA2PPBuAU9r3hUY1dEeA
+ lkpoT+R6uCrjzxEM95uLBoygM7AlIq0XZx4oI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W5Hs0re1FZ8w2FwsECXqX1v5aoT2Bewo2Ve18UXHXpQ=;
- b=smmsJRfz1X3fTffwe3uIRPsGsaJOhrwCct3kis9gKNYW9VKP6K8TuedAZqOvC+ix1n
- 6blbhF7FtCmZDs9F3nHJbeGrqFEera/FONOcxcRrDmnFJahozgCGcPS7Yg5V8MAanTNS
- O27FLsQaoKMcvIqiWysC/zcY93gJQshzWay0BViVq+gNrb8GBSUQL9HgcNpsAYQbxJ/U
- HRZ/Rk7wSaSufsgifALhcQLFf6IjCYl318iCMK+Z3S95BaQvJiToQTcDvv2gCs/BK/yT
- EorIedKsRymsqsWoVRAz56Qtz8Yzei2XwXrkiC2i8/OdbXRodzNCJB579QG799VauWvg
- o+GQ==
-X-Gm-Message-State: AOAM530EJc9txgGZdJ2cCyS1QMriFxEkqvYumGPcKN1MXRPrapLCFTw5
- 0IxOZTyfnDpJIKhYfrDs1DPlNsnuZ3BeaOPDBUqkXA==
-X-Google-Smtp-Source: ABdhPJx2mvAU3AfavdDp1Is71FPIeLAi/vnpyNhm+QzMXTBLE2En70BTeed7uBzICjPeCIMfzsA8YoIgBlh3daLLIrA=
-X-Received: by 2002:a05:6402:1013:: with SMTP id
- c19mr1354910edu.213.1619723289490; 
- Thu, 29 Apr 2021 12:08:09 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1dmo5Wmh/ugIBygOrQPFARR/Rc5riBKotg0rKsNd/fk=;
+ b=b1Z0TnQc35QQZMgSnc6IDAfHbYgTc5DpJJvVYXpUhAenfEP3qJIg1wRT/GDavJJ4FV
+ Xs4JlPFxWpfBw7B39g6+bpEqitx17kXw7lDWEILm7H9e+AqtVZN7dklXdT5iIuEpTIs1
+ VAYIUg/a33ZBAaQPiF6Lh8jB5oZXRA/BezvL8hlWyAJmth2Vg1z4r+KhMEht3u7QI8d2
+ lbBwg6gJ/Xp7gJ5SHdfQT9yTZVKgL+DO2fiP67q8a50fEMxmc9Y0UG0VvGMf7lvFoNeB
+ Ov6XsJzqjAz8s0JQXy2h+JlH+CmgTa6AfkBkY1/zhhK/jwxfarae7na3m0nkQev17zNn
+ HYLQ==
+X-Gm-Message-State: AOAM5311CQjcyhs5MiF6J2EgWEg//lsznW03L/HqciwghVIOE1lwmyxg
+ +7SO5R6qYjgY0qWXBrcdAFGHRQ==
+X-Google-Smtp-Source: ABdhPJyY4KyyQAlwKgbmUY3ebe0VTq4Ebh9Ea/4USdywIkju0V7arqiGrMXzluPAlCUiCDuzrhydlQ==
+X-Received: by 2002:adf:f192:: with SMTP id h18mr1447610wro.270.1619723391031; 
+ Thu, 29 Apr 2021 12:09:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p14sm6320337wrx.88.2021.04.29.12.09.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Apr 2021 12:09:50 -0700 (PDT)
+Date: Thu, 29 Apr 2021 21:09:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 1/9] drm/connector: Make the drm_sysfs connector->kdev
+ device hold a reference to the connector
+Message-ID: <YIsEfAjFthAyHxUi@phenom.ffwll.local>
+References: <20210428215257.500088-1-hdegoede@redhat.com>
+ <20210428215257.500088-2-hdegoede@redhat.com>
+ <YIqbLDIeGXNSjSTS@phenom.ffwll.local> <YIqehmw+kG53LF3t@kroah.com>
+ <YIqg59yageIUwiwy@phenom.ffwll.local>
+ <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
 MIME-Version: 1.0
-References: <20210429003410.69754-1-umesh.nerlige.ramappa@intel.com>
- <20210429003410.69754-2-umesh.nerlige.ramappa@intel.com>
-In-Reply-To: <20210429003410.69754-2-umesh.nerlige.ramappa@intel.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 29 Apr 2021 14:07:58 -0500
-Message-ID: <CAOFGe95O_Q09p4c5Sru0_5E-tBG3DFGm+f-uX-_YHx-UHLOBUA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] i915/query: Correlate engine and cpu timestamps with
- better accuracy
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Content-Disposition: inline
+In-Reply-To: <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,330 +69,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 28, 2021 at 7:34 PM Umesh Nerlige Ramappa
-<umesh.nerlige.ramappa@intel.com> wrote:
->
-> Perf measurements rely on CPU and engine timestamps to correlate
-> events of interest across these time domains. Current mechanisms get
-> these timestamps separately and the calculated delta between these
-> timestamps lack enough accuracy.
->
-> To improve the accuracy of these time measurements to within a few us,
-> add a query that returns the engine and cpu timestamps captured as
-> close to each other as possible.
->
-> v2: (Tvrtko)
-> - document clock reference used
-> - return cpu timestamp always
-> - capture cpu time just before lower dword of cs timestamp
->
-> v3: (Chris)
-> - use uncore-rpm
-> - use __query_cs_timestamp helper
->
-> v4: (Lionel)
-> - Kernel perf subsytem allows users to specify the clock id to be used
->   in perf_event_open. This clock id is used by the perf subsystem to
->   return the appropriate cpu timestamp in perf events. Similarly, let
->   the user pass the clockid to this query so that cpu timestamp
->   corresponds to the clock id requested.
->
-> v5: (Tvrtko)
-> - Use normal ktime accessors instead of fast versions
-> - Add more uApi documentation
->
-> v6: (Lionel)
-> - Move switch out of spinlock
->
-> v7: (Chris)
-> - cs_timestamp is a misnomer, use cs_cycles instead
-> - return the cs cycle frequency as well in the query
->
-> v8:
-> - Add platform and engine specific checks
->
-> v9: (Lionel)
-> - Return 2 cpu timestamps in the query - captured before and after the
->   register read
->
-> v10: (Chris)
-> - Use local_clock() to measure time taken to read lower dword of
->   register and return it to user.
->
-> v11: (Jani)
-> - IS_GEN deprecated. User GRAPHICS_VER instead.
->
-> v12: (Jason)
-> - Split cpu timestamp array into timestamp and delta for cleaner API
->
-> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-> Reviewed-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_query.c | 148 ++++++++++++++++++++++++++++++
->  include/uapi/drm/i915_drm.h       |  52 +++++++++++
->  2 files changed, 200 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> index fed337ad7b68..357c44e8177c 100644
-> --- a/drivers/gpu/drm/i915/i915_query.c
-> +++ b/drivers/gpu/drm/i915/i915_query.c
-> @@ -6,6 +6,8 @@
->
->  #include <linux/nospec.h>
->
-> +#include "gt/intel_engine_pm.h"
-> +#include "gt/intel_engine_user.h"
->  #include "i915_drv.h"
->  #include "i915_perf.h"
->  #include "i915_query.h"
-> @@ -90,6 +92,151 @@ static int query_topology_info(struct drm_i915_private *dev_priv,
->         return total_length;
->  }
->
-> +typedef u64 (*__ktime_func_t)(void);
-> +static __ktime_func_t __clock_id_to_func(clockid_t clk_id)
-> +{
-> +       /*
-> +        * Use logic same as the perf subsystem to allow user to select the
-> +        * reference clock id to be used for timestamps.
-> +        */
-> +       switch (clk_id) {
-> +       case CLOCK_MONOTONIC:
-> +               return &ktime_get_ns;
-> +       case CLOCK_MONOTONIC_RAW:
-> +               return &ktime_get_raw_ns;
-> +       case CLOCK_REALTIME:
-> +               return &ktime_get_real_ns;
-> +       case CLOCK_BOOTTIME:
-> +               return &ktime_get_boottime_ns;
-> +       case CLOCK_TAI:
-> +               return &ktime_get_clocktai_ns;
-> +       default:
-> +               return NULL;
-> +       }
-> +}
-> +
-> +static inline int
-> +__read_timestamps(struct intel_uncore *uncore,
-> +                 i915_reg_t lower_reg,
-> +                 i915_reg_t upper_reg,
-> +                 u64 *cs_ts,
-> +                 u64 *cpu_ts,
-> +                 u64 *cpu_delta,
-> +                 __ktime_func_t cpu_clock)
-> +{
-> +       u32 upper, lower, old_upper, loop = 0;
-> +
-> +       upper = intel_uncore_read_fw(uncore, upper_reg);
-> +       do {
-> +               *cpu_delta = local_clock();
-> +               *cpu_ts = cpu_clock();
-> +               lower = intel_uncore_read_fw(uncore, lower_reg);
-> +               *cpu_delta = local_clock() - *cpu_delta;
-> +               old_upper = upper;
-> +               upper = intel_uncore_read_fw(uncore, upper_reg);
-> +       } while (upper != old_upper && loop++ < 2);
-> +
-> +       *cs_ts = (u64)upper << 32 | lower;
-> +
-> +       return 0;
-> +}
-> +
-> +static int
-> +__query_cs_cycles(struct intel_engine_cs *engine,
-> +                 u64 *cs_ts, u64 *cpu_ts, u64 *cpu_delta,
-> +                 __ktime_func_t cpu_clock)
-> +{
-> +       struct intel_uncore *uncore = engine->uncore;
-> +       enum forcewake_domains fw_domains;
-> +       u32 base = engine->mmio_base;
-> +       intel_wakeref_t wakeref;
-> +       int ret;
-> +
-> +       fw_domains = intel_uncore_forcewake_for_reg(uncore,
-> +                                                   RING_TIMESTAMP(base),
-> +                                                   FW_REG_READ);
-> +
-> +       with_intel_runtime_pm(uncore->rpm, wakeref) {
-> +               spin_lock_irq(&uncore->lock);
-> +               intel_uncore_forcewake_get__locked(uncore, fw_domains);
-> +
-> +               ret = __read_timestamps(uncore,
-> +                                       RING_TIMESTAMP(base),
-> +                                       RING_TIMESTAMP_UDW(base),
-> +                                       cs_ts,
-> +                                       cpu_ts,
-> +                                       cpu_delta,
-> +                                       cpu_clock);
-> +
-> +               intel_uncore_forcewake_put__locked(uncore, fw_domains);
-> +               spin_unlock_irq(&uncore->lock);
-> +       }
-> +
-> +       return ret;
-> +}
-> +
-> +static int
-> +query_cs_cycles(struct drm_i915_private *i915,
-> +               struct drm_i915_query_item *query_item)
-> +{
-> +       struct drm_i915_query_cs_cycles __user *query_ptr;
-> +       struct drm_i915_query_cs_cycles query;
-> +       struct intel_engine_cs *engine;
-> +       __ktime_func_t cpu_clock;
-> +       int ret;
-> +
-> +       if (GRAPHICS_VER(i915) < 6)
-> +               return -ENODEV;
-> +
-> +       query_ptr = u64_to_user_ptr(query_item->data_ptr);
-> +       ret = copy_query_item(&query, sizeof(query), sizeof(query), query_item);
-> +       if (ret != 0)
-> +               return ret;
-> +
-> +       if (query.flags)
-> +               return -EINVAL;
-> +
-> +       if (query.rsvd)
-> +               return -EINVAL;
-> +
-> +       cpu_clock = __clock_id_to_func(query.clockid);
-> +       if (!cpu_clock)
-> +               return -EINVAL;
-> +
-> +       engine = intel_engine_lookup_user(i915,
-> +                                         query.engine.engine_class,
-> +                                         query.engine.engine_instance);
-> +       if (!engine)
-> +               return -EINVAL;
-> +
-> +       if (GRAPHICS_VER(i915) == 6 &&
-> +           query.engine.engine_class != I915_ENGINE_CLASS_RENDER)
-> +               return -ENODEV;
-> +
-> +       query.cs_frequency = engine->gt->clock_frequency;
-> +       ret = __query_cs_cycles(engine,
-> +                               &query.cs_cycles,
-> +                               &query.cpu_timestamp,
-> +                               &query.cpu_delta,
-> +                               cpu_clock);
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (put_user(query.cs_frequency, &query_ptr->cs_frequency))
-> +               return -EFAULT;
-> +
-> +       if (put_user(query.cpu_timestamp, &query_ptr->cpu_timestamp))
-> +               return -EFAULT;
-> +
-> +       if (put_user(query.cpu_delta, &query_ptr->cpu_delta))
-> +               return -EFAULT;
-> +
-> +       if (put_user(query.cs_cycles, &query_ptr->cs_cycles))
-> +               return -EFAULT;
-> +
-> +       return sizeof(query);
-> +}
-> +
->  static int
->  query_engine_info(struct drm_i915_private *i915,
->                   struct drm_i915_query_item *query_item)
-> @@ -424,6 +571,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
->         query_topology_info,
->         query_engine_info,
->         query_perf_config,
-> +       query_cs_cycles,
->  };
->
->  int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 6a34243a7646..0b4c27092d41 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -2230,6 +2230,10 @@ struct drm_i915_query_item {
->  #define DRM_I915_QUERY_TOPOLOGY_INFO    1
->  #define DRM_I915_QUERY_ENGINE_INFO     2
->  #define DRM_I915_QUERY_PERF_CONFIG      3
-> +       /**
-> +        * Query Command Streamer timestamp register.
-> +        */
-> +#define DRM_I915_QUERY_CS_CYCLES       4
->  /* Must be kept compact -- no holes and well documented */
->
->         /**
-> @@ -2397,6 +2401,54 @@ struct drm_i915_engine_info {
->         __u64 rsvd1[4];
->  };
->
-> +/**
-> + * struct drm_i915_query_cs_cycles
-> + *
-> + * The query returns the command streamer cycles and the frequency that can be
-> + * used to calculate the command streamer timestamp. In addition the query
-> + * returns a set of cpu timestamps that indicate when the command streamer cycle
-> + * count was captured.
-> + */
-> +struct drm_i915_query_cs_cycles {
-> +       /** Engine for which command streamer cycles is queried. */
-> +       struct i915_engine_class_instance engine;
+On Thu, Apr 29, 2021 at 02:33:17PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 4/29/21 2:04 PM, Daniel Vetter wrote:
+> > On Thu, Apr 29, 2021 at 01:54:46PM +0200, Greg Kroah-Hartman wrote:
+> >> On Thu, Apr 29, 2021 at 01:40:28PM +0200, Daniel Vetter wrote:
+> >>> On Wed, Apr 28, 2021 at 11:52:49PM +0200, Hans de Goede wrote:
+> >>>> Userspace could hold open a reference to the connector->kdev device,
+> >>>> through e.g. holding a sysfs-atrtribute open after
+> >>>> drm_sysfs_connector_remove() has been called. In this case the connector
+> >>>> could be free-ed while the connector->kdev device's drvdata is still
+> >>>> pointing to it.
+> >>>>
+> >>>> Give drm_connector devices there own device type, which allows
+> >>>> us to specify our own release function and make drm_sysfs_connector_add()
+> >>>> take a reference on the connector object, and have the new release
+> >>>> function put the reference when the device is released.
+> >>>>
+> >>>> Giving drm_connector devices there own device type, will also allow
+> >>>> checking if a device is a drm_connector device with a
+> >>>> "if (device->type == &drm_sysfs_device_connector)" check.
+> >>>>
+> >>>> Note that the setting of the name member of the device_type struct will
+> >>>> cause udev events for drm_connector-s to now contain DEVTYPE=drm_connector
+> >>>> as extra info. So this extends the uevent part of the userspace API.
+> >>>>
+> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >>>
+> >>> Are you sure? I thought sysfs is supposed to flush out any pending
+> >>> operations (they complete fast) and handle open fd internally?
+> >>
+> >> Yes, it "should" :)
+> > 
+> > Thanks for confirming my vague memories :-)
+> > 
+> > Hans, pls drop this one.
+> 
+> Please see my earlier reply to your review of this patch, it is
+> still needed but for a different reason:
+> 
+> """
+> We still need this change though to make sure that the 
+> "drm/connector: Add drm_connector_find_by_fwnode() function"
+> does not end up following a dangling drvdat pointer from one
+> if the drm_connector kdev-s.
+> 
+> The class_dev_iter_init() in drm_connector_find_by_fwnode() gets
+> a reference on all devices and between getting that reference
+> and it calling drm_connector_get() - drm_connector_unregister()
+> may run and drop the possibly last reference to the
+> drm_connector object, freeing it and leaving the kdev's
+> drvdata as a dangling pointer.
+> """
+> 
+> This is actually why I added it initially, and while adding it
+> I came up with this wrong theory of why it was necessary independently
+> of the drm_connector_find_by_fwnode() addition, sorry about that.
 
-I've checked with HW engineers and they're claiming that all CS
-timestamp registers should report the same time modulo minor drift.
-You're CC'd on the internal e-mail.  If this is really the case, then
-I don't think we want to put an engine in this query.
+Generally that's handled by a kref_get_unless_zero under the protection of
+the lock which protects the weak reference. Which I think is the right
+model here (at a glance at least) since this is a lookup function.
 
---Jason
-
-> +
-> +       /** Must be zero. */
-> +       __u32 flags;
-> +
-> +       /**
-> +        * Command streamer cycles as read from the command streamer
-> +        * register at 0x358 offset.
-> +        */
-> +       __u64 cs_cycles;
-> +
-> +       /** Frequency of the cs cycles in Hz. */
-> +       __u64 cs_frequency;
-> +
-> +       /**
-> +        * CPU timestamp in ns. The timestamp is captured before reading the
-> +        * cs_cycles register using the reference clockid set by the user.
-> +        */
-> +       __u64 cpu_timestamp;
-> +
-> +       /**
-> +        * Time delta in ns captured around reading the lower dword of the
-> +        * cs_cycles register.
-> +        */
-> +       __u64 cpu_delta;
-> +
-> +       /**
-> +        * Reference clock id for CPU timestamp. For definition, see
-> +        * clock_gettime(2) and perf_event_open(2). Supported clock ids are
-> +        * CLOCK_MONOTONIC, CLOCK_MONOTONIC_RAW, CLOCK_REALTIME, CLOCK_BOOTTIME,
-> +        * CLOCK_TAI.
-> +        */
-> +       __s32 clockid;
-> +
-> +       /** Must be zero. */
-> +       __u32 rsvd;
-> +};
-> +
->  /**
->   * struct drm_i915_query_engine_info
->   *
-> --
-> 2.20.1
->
+Lookup tables holding full references tends to lead to all kinds of bad
+side effects.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
