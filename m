@@ -1,61 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7933636E7F1
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 11:26:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7044336E807
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 11:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2596EDC6;
-	Thu, 29 Apr 2021 09:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81F4F6EDC5;
+	Thu, 29 Apr 2021 09:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33A1E6EDC5
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 09:26:53 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- y14-20020a056830208eb02902a1c9fa4c64so24343321otq.9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 02:26:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=/xAiHztyUuN/FsmpHQ3gXXUPKCX34aNrHw1aDjDoTfU=;
- b=chPP59Nu2SbTsV3p4ulH+kzrGlUYHaBQAFZpjruV7uaEABaxFfDEz9AhkpwJ0KPeRP
- l9YrQ9wfTNo4a8tWiq+TO1RrYtly7U5JCgvTrn1xE5G9/yjMtL+Rqls+kexugKlt+qc1
- XrYcRH3l4lDuDZuZPeY3kk2QjimgTJSmTQ9ok=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=/xAiHztyUuN/FsmpHQ3gXXUPKCX34aNrHw1aDjDoTfU=;
- b=AIr8AmBbGaq3Kon3K140qALHK/hMQytwrnbvOQE0it94N0FgFsYIhW/WGV4gNKRD0s
- jE/wLZlg8z4clvMInUbU/uGacEB3i2/fmVQC8X+Q3QBiMJPv7FX5xjUZ+yb2yi+IpnA8
- 1Dhki8dIStRuy+lsgSjc2jIIcVzDbAay9Rzf5Zky4ogoT+mIyMuaAtkAxWs1Bih9dmAa
- ZLOkiyvtNPhUGlPnQwbSg8PMA4LlLYgKa3XcTa9bNTWlio10c2tc36MhiTTCTeVh/o8X
- q+I4zMjW2aHRy34s/rUnvA4yBjCYpMb4XG8L083yxRj0K1G1Msvo2ykzTIUl7WztgLwz
- d01A==
-X-Gm-Message-State: AOAM530MzwG0mxU+eTWVvrIPgGi9GgeltHtGYm7QGgAvnwLvvnPYc0Dv
- 7lCW9YcwhV+z41y7ZRH8zIyFgr+UeVLDBIosetak5g==
-X-Google-Smtp-Source: ABdhPJwMdo9sTU3ZFF0d1RMCRrisFLkJhIb73t4yUXRRMw+EIrmzJCVcRYLC9lPzjtJuWZmWVz6bDANSRalp++kUmpE=
-X-Received: by 2002:a9d:5e19:: with SMTP id d25mr9296287oti.308.1619688412449; 
- Thu, 29 Apr 2021 02:26:52 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 29 Apr 2021 11:26:51 +0200
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15EB96EDC5;
+ Thu, 29 Apr 2021 09:32:48 +0000 (UTC)
+IronPort-SDR: FV+hQBex7bTjGkVbW8gdN3GTsr5QRKPMVCkRVs2dazo1yhATVHR+Ip6W/pfbciuVOvJHPlA2HY
+ X8ort/QggGLw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282305234"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="282305234"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2021 02:32:47 -0700
+IronPort-SDR: hRVi9EXSQJIuRNPiu7Oy1q78+Drbr+tEdeFRAM/EkQ0ORFY1ZJMh/QvmcqfWmE7uYYYDfLA6tC
+ Nibv9hmFgEUQ==
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="430757820"
+Received: from auchter-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.38.190])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2021 02:32:40 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Ruhl\, Michael J" <michael.j.ruhl@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "joonas.lahtinen\@linux.intel.com" <joonas.lahtinen@linux.intel.com>, "Vivi\,
+ Rodrigo" <rodrigo.vivi@intel.com>, "airlied\@linux.ie" <airlied@linux.ie>,
+ "daniel\@ffwll.ch" <daniel@ffwll.ch>, "Auld\,
+ Matthew" <matthew.auld@intel.com>
+Subject: RE: [PATCH v2] drm/i915/gem: Remove reference to struct
+ drm_device.pdev
+In-Reply-To: <5e1934e6761646f7993801c2e43e5ed8@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210427174857.7862-1-tzimmermann@suse.de>
+ <5e1934e6761646f7993801c2e43e5ed8@intel.com>
+Date: Thu, 29 Apr 2021 12:32:37 +0300
+Message-ID: <87k0ol307e.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <9ccdef6e1a1b47bd8d99594831f51094@codeaurora.org>
-References: <1618604877-28297-1-git-send-email-khsieh@codeaurora.org>
- <161895606268.46595.2841353121480638642@swboyd.mtv.corp.google.com>
- <e3c3ef96ac507da6f138106f70c78ed2@codeaurora.org>
- <ddc1e372c5f864cd62c4e056ef2e6404@codeaurora.org>
- <CAE-0n53JNCc3JdONogGNArnsYLDr9E2fXZ2ODKBy7Jy3yVMr6g@mail.gmail.com>
- <9ccdef6e1a1b47bd8d99594831f51094@codeaurora.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Thu, 29 Apr 2021 11:26:51 +0200
-Message-ID: <CAE-0n533ZCaQkP7+XN+Ee9CG-r7vJD7LHG7_H8v7sVpimmQabg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/msm/dp: service only one irq_hpd if there are
- multiple irq_hpd pending
-To: khsieh@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,173 +54,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, dri-devel@lists.freedesktop.org,
- aravindh@codeaurora.org, sean@poorly.run
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, "Tang, CQ" <cq.tang@intel.com>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, "Liu, Xinyun" <xinyun.liu@intel.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting khsieh@codeaurora.org (2021-04-28 10:38:11)
-> On 2021-04-27 17:00, Stephen Boyd wrote:
-> > Quoting aravindh@codeaurora.org (2021-04-21 11:55:21)
-> >> On 2021-04-21 10:26, khsieh@codeaurora.org wrote:
-> >> >>
-> >> >>> +
-> >> >>>         mutex_unlock(&dp->event_mutex);
-> >> >>>
-> >> >>>         return 0;
-> >> >>> @@ -1496,6 +1502,9 @@ int msm_dp_display_disable(struct msm_dp *dp,
-> >> >>> struct drm_encoder *encoder)
-> >> >>>         /* stop sentinel checking */
-> >> >>>         dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
-> >> >>>
-> >> >>> +       /* link is down, delete pending irq_hdps */
-> >> >>> +       dp_del_event(dp_display, EV_IRQ_HPD_INT);
-> >> >>> +
-> >> >>
-> >> >> I'm becoming convinced that the whole kthread design and event queue
-> >> >> is
-> >> >> broken. These sorts of patches are working around the larger problem
-> >> >> that the kthread is running independently of the driver and irqs can
-> >> >> come in at any time but the event queue is not checked from the irq
-> >> >> handler to debounce the irq event. Is the event queue necessary at
-> >> >> all?
-> >> >> I wonder if it would be simpler to just use an irq thread and process
-> >> >> the hpd signal from there. Then we're guaranteed to not get an irq
-> >> >> again
-> >> >> until the irq thread is done processing the event. This would
-> >> >> naturally
-> >> >> debounce the irq hpd event that way.
-> >> > event q just like bottom half of irq handler. it turns irq into event
-> >> > and handle them sequentially.
-> >> > irq_hpd is asynchronous event from panel to bring up attention of hsot
-> >> > during run time of operation.
-> >> > Here, the dongle is unplugged and main link had teared down so that no
-> >> > need to service pending irq_hpd if any.
-> >> >
-> >>
-> >> As Kuogee mentioned, IRQ_HPD is a message received from the panel and
-> >> is
-> >> not like your typical HW generated IRQ. There is no guarantee that we
-> >> will not receive an IRQ_HPD until we are finished with processing of
-> >> an
-> >> earlier HPD message or an IRQ_HPD message. For example - when you run
-> >> the protocol compliance, when we get a HPD from the sink, we are
-> >> expected to start reading DPCD, EDID and proceed with link training.
-> >> As
-> >> soon as link training is finished (which is marked by a specific DPCD
-> >> register write), the sink is going to issue an IRQ_HPD. At this point,
-> >> we may not done with processing the HPD high as after link training we
-> >> would typically notify the user mode of the newly connected display,
-> >> etc.
-> >
-> > Given that the irq comes in and is then forked off to processing at a
-> > later time implies that IRQ_HPD can come in at practically anytime.
-> > Case
-> > in point, this patch, which is trying to selectively search through the
-> > "event queue" and then remove the event that is no longer relevant
-> > because the display is being turned off either by userspace or because
-> > HPD has gone away. If we got rid of the queue and kthread and processed
-> > irqs in a threaded irq handler I suspect the code would be simpler and
-> > not have to search through an event queue when we disable the display.
-> > Instead while disabling the display we would make sure that the irq
-> > thread isn't running anymore with synchronize_irq() or even disable the
-> > irq entirely, but really it would be better to just disable the irq in
-> > the hardware with a register write to some irq mask register.
-> >
-> > This pushes more of the logic for HPD and connect/disconnect into the
-> > hardware and avoids reimplementing that in software: searching through
-> > the queue, checking for duplicate events, etc.
->
-> I wish we can implemented as you suggested. but it more complicate than
-> that.
-> Let me explain below,
-> we have 3 transactions defined as below,
->
-> plugin transaction: irq handle do host dp ctrl initialization and link
-> training. If sink_count = 0 or link train failed, then transaction
-> ended. otherwise send display up uevent to frame work and wait for frame
-> work thread to do mode set, start pixel clock and start video to end
-> transaction.
-
-Why do we need to wait for userspace to start video? HPD is indicating
-that we have something connected, so shouldn't we merely signal to
-userspace that something is ready to display and then enable the irq for
-IRQ_HPD?
-
->
-> unplugged transaction: irq handle send display off uevent to frame
-> work and wait for frame work to disable pixel clock ,tear down main
-> link and dp ctrl host de initialization.
-
-What do we do if userspace is slow and doesn't disable the display
-before the cable is physically plugged in again?
-
->
-> irq_hpd transaction: This only happen after plugin transaction and
-> before unplug transaction. irq handle read panel dpcd register and
-> perform requesting action. Action including perform dp compliant
-> phy/link testing.
->
-> since dongle can be plugged/unplugged at ant time, three conditions have
-> to be met to avoid race condition,
-> 1) no irq lost
-> 2) irq happen timing order enforced at execution
-> 3) no irq handle done in the middle transaction
->
-> for example we do not want to see
-> plugin --> unplug --> plugin --> unplug become plugin --> plugin-->
-> unplug
->
-> The purpose of this patch is to not handle pending irq_hpd after either
-> dongle or monitor had been unplugged until next plug in.
->
-
-I'm not suggesting to block irq handling entirely for long running
-actions. A plug irq due to HPD could still notify userspace that the
-display is connected but when an IRQ_HPD comes in we process it in the
-irq thread instead of trying to figure out what sort of action is
-necessary to quickly fork it off to a kthread to process later.
-
-The problem seems to be that this quick forking off of the real IRQ_HPD
-processing is letting the event come in, and then an unplug to come in
-after that, and then a plug in to come in after that, leading to the
-event queue getting full of events that are no longer relevant but still
-need to be processed. If this used a workqueue instead of an open-coded
-one, I'd say we should cancel any work items on the queue if an unplug
-irq came in. That way we would make sure that we're not trying to do
-anything with the link when it isn't present anymore.
-
-But even then it doesn't make much sense. Userspace could be heavily
-delayed after the plug in irq, when HPD is asserted, and not display
-anything. The user could physically unplug and plug during that time so
-we really need to not wait at all or do anything besides note the state
-of the HPD when this happens. The IRQ_HPD irq is different. I don't
-think we care to keep getting them if we're not done processing the
-previous irq. I view it as basically an "edge" irq that we see, process,
-and then if another one comes in during the processing time we ignore
-it. There's only so much we can do, hence the suggestion to use a
-threaded irq.
-
-This is why IRQ_HPD is yanking the HPD line down to get the attention of
-the source, but HPD high and HPD low for an extended period of time
-means the cable has been plugged or unplugged. We really do care if the
-line goes low for a long time, but if it only temporarily goes low for
-an IRQ_HPD then we either saw it or we didn't have time to process it
-yet.
-
-It's like a person at your door ringing the doorbell. They're there (HPD
-high), and they're ringing the doorbell over and over (IRQ_HPD) and
-eventually they go away when you don't answer (HPD low). We don't have
-to keep track of every single doorbell/IRQ_HPD event because it's mostly
-a ping from the sink telling us we need to go do something, i.e. a
-transitory event. The IRQ_HPD should always work once HPD is there, but
-once HPD is gone we should mask it and ignore that irq until we see an
-HPD high again.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAyNyBBcHIgMjAyMSwgIlJ1aGwsIE1pY2hhZWwgSiIgPG1pY2hhZWwuai5ydWhsQGlu
+dGVsLmNvbT4gd3JvdGU6Cj4+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0KPj5Gcm9tOiBUaG9t
+YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPj5TZW50OiBUdWVzZGF5LCBBcHJp
+bCAyNywgMjAyMSAxOjQ5IFBNCj4+VG86IGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbTsgam9v
+bmFzLmxhaHRpbmVuQGxpbnV4LmludGVsLmNvbTsgVml2aSwgUm9kcmlnbwo+Pjxyb2RyaWdvLnZp
+dmlAaW50ZWwuY29tPjsgYWlybGllZEBsaW51eC5pZTsgZGFuaWVsQGZmd2xsLmNoOyBBdWxkLCBN
+YXR0aGV3Cj4+PG1hdHRoZXcuYXVsZEBpbnRlbC5jb20+OyBSdWhsLCBNaWNoYWVsIEogPG1pY2hh
+ZWwuai5ydWhsQGludGVsLmNvbT4KPj5DYzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgVGhvbWFzCj4+WmltbWVybWFubiA8
+dHppbW1lcm1hbm5Ac3VzZS5kZT47IE5pa3VsYSwgSmFuaQo+PjxqYW5pLm5pa3VsYUBpbnRlbC5j
+b20+OyBUYW5nLCBDUSA8Y3EudGFuZ0BpbnRlbC5jb20+OyBUdnJ0a28gVXJzdWxpbgo+Pjx0dnJ0
+a28udXJzdWxpbkBsaW51eC5pbnRlbC5jb20+OyBMaXUsIFhpbnl1biA8eGlueXVuLmxpdUBpbnRl
+bC5jb20+OyBVcnN1bGluLAo+PlR2cnRrbyA8dHZydGtvLnVyc3VsaW5AaW50ZWwuY29tPjsgQ2hy
+aXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Owo+Pk1pa2EgS3VvcHBhbGEgPG1p
+a2Eua3VvcHBhbGFAbGludXguaW50ZWwuY29tPjsgRGFuaWVsIFZldHRlcgo+PjxkYW5pZWwudmV0
+dGVyQGZmd2xsLmNoPjsgTWFhcnRlbiBMYW5raG9yc3QKPj48bWFhcnRlbi5sYW5raG9yc3RAbGlu
+dXguaW50ZWwuY29tPjsgSGVsbHN0cm9tLCBUaG9tYXMKPj48dGhvbWFzLmhlbGxzdHJvbUBpbnRl
+bC5jb20+OyBHdXN0YXZvIEEuIFIuIFNpbHZhCj4+PGd1c3Rhdm9hcnNAa2VybmVsLm9yZz47IERh
+biBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KPj5TdWJqZWN0OiBbUEFUQ0gg
+djJdIGRybS9pOTE1L2dlbTogUmVtb3ZlIHJlZmVyZW5jZSB0byBzdHJ1Y3QKPj5kcm1fZGV2aWNl
+LnBkZXYKPj4KPj5SZWZlcmVuY2VzIHRvIHN0cnVjdCBkcm1fZGV2aWNlLnBkZXYgc2hvdWxkIG5v
+dCBiZSB1c2VkIGFueSBsb25nZXIgYXMKPj50aGUgZmllbGQgd2lsbCBiZSBtb3ZlZCBpbnRvIHRo
+ZSBzdHJ1Y3QncyBsZWdhY3kgc2VjdGlvbi4gQWRkIGEgZml4Cj4+Zm9yIHRoZSByc3AgY29tbWl0
+Lgo+Cj4gQ29tbWl0IG1lc3NhZ2UgbWF0Y2ggdGhlIHBhdGNoLgo+Cj4gUmV2aWV3ZWQtYnk6IE1p
+Y2hhZWwgSi4gUnVobCA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tCgpUaGFua3MgZm9yIHRoZSBw
+YXRjaCBhbmQgcmV2aWV3LCBwdXNoZWQgdG8gZHJtLWludGVsLWd0LW5leHQuCgpCUiwKSmFuaS4K
+Cj4KPiBNCj4KPj52MjoKPj4JKiBmaXggYW4gZXJyb3IgaW4gdGhlIGNvbW1pdCBkZXNjcmlwdGlv
+biAoTWljaGFlbCkKPj4KPj5TaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4KPj5SZXZpZXdlZC1ieTogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGlu
+dGVsLmNvbT4KPj5GaXhlczogZDU3ZDRhMWRhZjVlICgiZHJtL2k5MTU6IENyZWF0ZSBzdG9sZW4g
+bWVtb3J5IHJlZ2lvbiBmcm9tIGxvY2FsCj4+bWVtb3J5IikKPj5DYzogQ1EgVGFuZyA8Y3EudGFu
+Z0BpbnRlbC5jb20+Cj4+Q2M6IE1hdHRoZXcgQXVsZCA8bWF0dGhldy5hdWxkQGludGVsLmNvbT4K
+Pj5DYzogVHZydGtvIFVyc3VsaW4gPHR2cnRrby51cnN1bGluQGxpbnV4LmludGVsLmNvbT4KPj5D
+YzogWGlueXVuIExpdSA8eGlueXVuLmxpdUBpbnRlbC5jb20+Cj4+Q2M6IFR2cnRrbyBVcnN1bGlu
+IDx0dnJ0a28udXJzdWxpbkBpbnRlbC5jb20+Cj4+Q2M6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3Vs
+YUBsaW51eC5pbnRlbC5jb20+Cj4+Q2M6IEpvb25hcyBMYWh0aW5lbiA8am9vbmFzLmxhaHRpbmVu
+QGxpbnV4LmludGVsLmNvbT4KPj5DYzogUm9kcmlnbyBWaXZpIDxyb2RyaWdvLnZpdmlAaW50ZWwu
+Y29tPgo+PkNjOiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPj5DYzog
+TWlrYSBLdW9wcGFsYSA8bWlrYS5rdW9wcGFsYUBsaW51eC5pbnRlbC5jb20+Cj4+Q2M6IERhbmll
+bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4+Q2M6IE1hYXJ0ZW4gTGFua2hvcnN0
+IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4+Q2M6ICJUaG9tYXMgSGVsbHN0
+csO2bSIgPHRob21hcy5oZWxsc3Ryb21AaW50ZWwuY29tPgo+PkNjOiAiR3VzdGF2byBBLiBSLiBT
+aWx2YSIgPGd1c3Rhdm9hcnNAa2VybmVsLm9yZz4KPj5DYzogRGFuIENhcnBlbnRlciA8ZGFuLmNh
+cnBlbnRlckBvcmFjbGUuY29tPgo+PkNjOiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cj4+LS0tCj4+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zdG9sZW4uYyB8IDIg
+Ky0KPj4gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4+Cj4+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zdG9sZW4uYwo+
+PmIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3N0b2xlbi5jCj4+aW5kZXggYzVi
+NjRiMjQwMGU4Li5lMWEzMjY3MmJiZTggMTAwNjQ0Cj4+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZ2VtL2k5MTVfZ2VtX3N0b2xlbi5jCj4+KysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2Vt
+L2k5MTVfZ2VtX3N0b2xlbi5jCj4+QEAgLTc3Myw3ICs3NzMsNyBAQCBzdHJ1Y3QgaW50ZWxfbWVt
+b3J5X3JlZ2lvbiAqCj4+IGk5MTVfZ2VtX3N0b2xlbl9sbWVtX3NldHVwKHN0cnVjdCBkcm1faTkx
+NV9wcml2YXRlICppOTE1KQo+PiB7Cj4+IAlzdHJ1Y3QgaW50ZWxfdW5jb3JlICp1bmNvcmUgPSAm
+aTkxNS0+dW5jb3JlOwo+Pi0Jc3RydWN0IHBjaV9kZXYgKnBkZXYgPSBpOTE1LT5kcm0ucGRldjsK
+Pj4rCXN0cnVjdCBwY2lfZGV2ICpwZGV2ID0gdG9fcGNpX2RldihpOTE1LT5kcm0uZGV2KTsKPj4g
+CXN0cnVjdCBpbnRlbF9tZW1vcnlfcmVnaW9uICptZW07Cj4+IAlyZXNvdXJjZV9zaXplX3QgaW9f
+c3RhcnQ7Cj4+IAlyZXNvdXJjZV9zaXplX3QgbG1lbV9zaXplOwo+Pi0tCj4+Mi4zMS4xCj4KCi0t
+IApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
