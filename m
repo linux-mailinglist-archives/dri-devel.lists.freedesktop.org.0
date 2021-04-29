@@ -2,69 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CD936F08B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 21:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925BB36F0CA
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 22:06:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1636F49E;
-	Thu, 29 Apr 2021 19:51:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8F46F4A4;
+	Thu, 29 Apr 2021 20:06:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 959 seconds by postgrey-1.36 at gabe;
- Thu, 29 Apr 2021 19:51:42 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3CA6F49C;
- Thu, 29 Apr 2021 19:51:41 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13TJR4GQ024136; Thu, 29 Apr 2021 21:35:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=selector1;
- bh=3zQLdHcnEWGyhtLuQpbU3SHnLEubUwQwtUzeib+iKvQ=;
- b=oUjCEHsfeQzUedgmbllHpCzup7Ot/SHbYn55A2FcqegnUyshJx6hEJFKtRmpV6qZKb3k
- GRCiVT8vBHOXGawqntV2yx6M5wUecD13Dz8XH189QMm3/QF4LpI1i05SH2wDoWfIyw+U
- yJe/zJlpV3AYvyrFlKphGQMXPaRWy7BgY57r/VHP6bvSIuogbuK8Sh0cU5u5KfSfsS2v
- DZ62AG1A7cMYltTUIcRRurLXaQ7U8uA4WTzigMPbqQNUjX0VThPdcGM4uH7ass5zRhCF
- wTBXa3pwPliZholY3Ktby/TmZ00ijYU+R2+ZAeyYWetYbBd6IuEa5qXMYn9rz462qlmv NA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 387f926ft5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Apr 2021 21:35:34 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6FC9610002A;
- Thu, 29 Apr 2021 21:35:31 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4AA54225F80;
- Thu, 29 Apr 2021 21:35:31 +0200 (CEST)
-Received: from SFHDAG2NODE3.st.com (10.75.127.6) by SFHDAG2NODE3.st.com
- (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 29 Apr
- 2021 21:35:30 +0200
-Received: from SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c]) by
- SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c%20]) with mapi id
- 15.00.1497.012; Thu, 29 Apr 2021 21:35:30 +0200
-From: Philippe CORNU - foss <philippe.cornu@foss.st.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 7/8] drm/stm: Don't set allow_fb_modifiers explicitly
-Thread-Topic: [PATCH 7/8] drm/stm: Don't set allow_fb_modifiers explicitly
-Thread-Index: AQHXO0aRxUV/UT4OhU6BH8EyeQFaRqrL5lA8
-Date: Thu, 29 Apr 2021 19:35:30 +0000
-Message-ID: <1619724930873.72167@foss.st.com>
-References: <20210427092018.832258-1-daniel.vetter@ffwll.ch>,
- <20210427092018.832258-7-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210427092018.832258-7-daniel.vetter@ffwll.ch>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.46]
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED8D6F4A4;
+ Thu, 29 Apr 2021 20:06:47 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ c8-20020a9d78480000b0290289e9d1b7bcso48417361otm.4; 
+ Thu, 29 Apr 2021 13:06:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zpBPDRcCRB4YxTEvwemy+iKlTGhooWps70WY0dARJHk=;
+ b=uv5WKOSb0n9+PSbwiZF9C7R5OItIFXVmQzEgvQPbML11er6OCcLvYx9Iy7kvH6+2DR
+ IFGHm+BC0SdAJW26T0arODEv3n/DoMpnCOPFTBVJ3ZjWRy+oexH6W6szK3dZpctkquFM
+ CoZtrpCrO3UFDlAPdFGd9iidNr2sTmWmoJuzh3Q/cOeVk4FKabrpO6Qty7eIKlfR6gUD
+ kg1jefsCRnqoG6vRE5x2DOfd0A4NFRMuN+enDyl1Bz/1BTxGGMbIrD2v+dw5I6GHZpfb
+ tvsNTbH0lqmTXHf1+urJ4PDMiS0ZZSviLOIbEYkHWFO/e2AJFn44atiX1P/bbccQB7tc
+ CuBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zpBPDRcCRB4YxTEvwemy+iKlTGhooWps70WY0dARJHk=;
+ b=lj34Jrq7zncdo/MyWhbTvtxMzQTwcrj7UtWrzbX1OlREc194JdBSD8HWq/WsEZUXia
+ yddJXQwAgmq/sZPNKu9KjKpxB24Qn1oxe3hCneUGkmHbPniix1kCt80Cr9SYhGE3+g75
+ eUHpoDdkwyUDpRpjktk75NpZLO/nQ8Cd8B6vsRaVHavFtMp/k5byiTBqwK4rgCHW/pZC
+ r5RbAgo69UNSCnTgYmhO/QRk0ApOCJ9NTRC/5nFM51voa5sb5sjN0CMIaV8ikKd8WND6
+ hXzmXzY5FmrreI9yI1wMyGEdNycI2pvSnHX0yGGjeNK16trwLvKA7p9+OQgcYuPkEExf
+ 29EQ==
+X-Gm-Message-State: AOAM531pePWl/cDCMwlJJycHgni2UzoU99vUZqOhAZ8QrsyTYGWd8scj
+ Vauyv1n5iD1qKUYkVYldVRY/duoAEmf39ARV70o=
+X-Google-Smtp-Source: ABdhPJwfjLb/OyZmfEzUeN61AK09kq3wPPmkA4+QKlDFRCyea1X6NeJdVv16cVWd6Rr6GcOWNVG2u4zC+8amG+95JXs=
+X-Received: by 2002:a9d:63d1:: with SMTP id e17mr635034otl.311.1619726806738; 
+ Thu, 29 Apr 2021 13:06:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-29_10:2021-04-28,
- 2021-04-29 signatures=0
+References: <20210429133941.531730-1-kai.heng.feng@canonical.com>
+In-Reply-To: <20210429133941.531730-1-kai.heng.feng@canonical.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 29 Apr 2021 16:06:35 -0400
+Message-ID: <CADnq5_MGhFTUOafo_Prjxgek7ufP-9uo59a+_R0=DKZBQayX0Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon/dpm: Disable sclk switching when two 4K 60Hz
+ monitors are connected
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,74 +62,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Daniel
- Vetter <daniel.vetter@intel.com>,
- Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-Many thanks for your patch,
-Acked-by: Philippe Cornu <philippe.cornu@st.com>
-Philippe :-)
+On Thu, Apr 29, 2021 at 9:40 AM Kai-Heng Feng
+<kai.heng.feng@canonical.com> wrote:
+>
+> Screen flickers rapidly when two 4K 60Hz monitors are connected to an
+> Oland card. This issue doesn't happen when one monitor is 4K 60Hz
+> (pixelclock 594MHz) and another one is 4K 30Hz (pixelclock 297MHz).
+>
+> The issue is gone after setting "power_dpm_force_performance_level" to
+> "high". Following the lead, we found that the issue only occurs when
+> sclk is too low.
+>
+> So resolve the issue by disabling sclk switching when there are two
+> monitors that requires high pixelclock (> 297MHz).
+>
+> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> ---
+>  drivers/gpu/drm/radeon/radeon.h    | 1 +
+>  drivers/gpu/drm/radeon/radeon_pm.c | 8 ++++++++
+>  drivers/gpu/drm/radeon/si_dpm.c    | 3 +++
+>  3 files changed, 12 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+> index 42281fce552e6..56ed5634cebef 100644
+> --- a/drivers/gpu/drm/radeon/radeon.h
+> +++ b/drivers/gpu/drm/radeon/radeon.h
+> @@ -1549,6 +1549,7 @@ struct radeon_dpm {
+>         void                    *priv;
+>         u32                     new_active_crtcs;
+>         int                     new_active_crtc_count;
+> +       int                     high_pixelclock_count;
+>         u32                     current_active_crtcs;
+>         int                     current_active_crtc_count;
+>         bool single_display;
+> diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/radeon_pm.c
+> index 0c1950f4e146f..3861c0b98fcf3 100644
+> --- a/drivers/gpu/drm/radeon/radeon_pm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_pm.c
+> @@ -1767,6 +1767,7 @@ static void radeon_pm_compute_clocks_dpm(struct radeon_device *rdev)
+>         struct drm_device *ddev = rdev->ddev;
+>         struct drm_crtc *crtc;
+>         struct radeon_crtc *radeon_crtc;
+> +       struct radeon_connector *radeon_connector;
+>
+>         if (!rdev->pm.dpm_enabled)
+>                 return;
+> @@ -1776,6 +1777,7 @@ static void radeon_pm_compute_clocks_dpm(struct radeon_device *rdev)
+>         /* update active crtc counts */
+>         rdev->pm.dpm.new_active_crtcs = 0;
+>         rdev->pm.dpm.new_active_crtc_count = 0;
+> +       rdev->pm.dpm.high_pixelclock_count = 0;
+>         if (rdev->num_crtc && rdev->mode_info.mode_config_initialized) {
+>                 list_for_each_entry(crtc,
+>                                     &ddev->mode_config.crtc_list, head) {
+> @@ -1783,6 +1785,12 @@ static void radeon_pm_compute_clocks_dpm(struct radeon_device *rdev)
+>                         if (crtc->enabled) {
+>                                 rdev->pm.dpm.new_active_crtcs |= (1 << radeon_crtc->crtc_id);
+>                                 rdev->pm.dpm.new_active_crtc_count++;
+> +                               if (!radeon_crtc->connector)
+> +                                       continue;
+> +
+> +                               radeon_connector = to_radeon_connector(radeon_crtc->connector);
+> +                               if (radeon_connector->pixelclock_for_modeset > 297000)
+> +                                       rdev->pm.dpm.high_pixelclock_count++;
+>                         }
+>                 }
+>         }
+> diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dpm.c
+> index 9186095518047..be6fa3257d1bc 100644
+> --- a/drivers/gpu/drm/radeon/si_dpm.c
+> +++ b/drivers/gpu/drm/radeon/si_dpm.c
+> @@ -2995,6 +2995,9 @@ static void si_apply_state_adjust_rules(struct radeon_device *rdev,
+>             ni_dpm_vblank_too_short(rdev))
+>                 disable_mclk_switching = true;
+>
+> +       if (rdev->pm.dpm.high_pixelclock_count > 1)
+> +               disable_sclk_switching = true;
+> +
 
-________________________________________
-De : Daniel Vetter <daniel.vetter@ffwll.ch>
-Envoy=E9 : mardi 27 avril 2021 11:20
-=C0 : DRI Development
-Cc : Intel Graphics Development; Daniel Vetter; Daniel Vetter; Yannick FERT=
-RE - foss; Philippe CORNU - foss; Benjamin Gaignard; Maxime Coquelin; Alexa=
-ndre TORGUE - foss; linux-stm32@st-md-mailman.stormreply.com; linux-arm-ker=
-nel@lists.infradead.org
-Objet : [PATCH 7/8] drm/stm: Don't set allow_fb_modifiers explicitly
+I would suggest limiting this to just Oland.
 
-Since
+Alex
 
-commit 890880ddfdbe256083170866e49c87618b706ac7
-Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Date:   Fri Jan 4 09:56:10 2019 +0100
 
-    drm: Auto-set allow_fb_modifiers when given modifiers at plane init
-
-this is done automatically as part of plane init, if drivers set the
-modifier list correctly. Which is the case here.
-
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-stm32@st-md-mailman.stormreply.com
-Cc: linux-arm-kernel@lists.infradead.org
----
- drivers/gpu/drm/stm/ltdc.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 65c3c79ad1d5..e99771b947b6 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -1326,8 +1326,6 @@ int ltdc_load(struct drm_device *ddev)
-                goto err;
-        }
-
--       ddev->mode_config.allow_fb_modifiers =3D true;
--
-        ret =3D ltdc_crtc_init(ddev, crtc);
-        if (ret) {
-                DRM_ERROR("Failed to init crtc\n");
---
-2.31.0
-
+>         if (rps->vclk || rps->dclk) {
+>                 disable_mclk_switching = true;
+>                 disable_sclk_switching = true;
+> --
+> 2.30.2
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
