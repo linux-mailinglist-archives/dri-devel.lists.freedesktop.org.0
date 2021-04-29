@@ -1,39 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B2136E8EB
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 12:35:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF42F36E90F
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 12:50:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE2126EE0B;
-	Thu, 29 Apr 2021 10:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D747B6E20B;
+	Thu, 29 Apr 2021 10:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 499A26EE06;
- Thu, 29 Apr 2021 10:35:21 +0000 (UTC)
-IronPort-SDR: zo5rYmrcjqCtJeaiqdFI2MSZ5rBHgDhjItZ+aJXgA0fyPitaU6nFz1PHp5l5LFWK2jNLBo4W0m
- Cu9bnqW9KogQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="184449732"
-X-IronPort-AV: E=Sophos;i="5.82,259,1613462400"; d="scan'208";a="184449732"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 03:35:21 -0700
-IronPort-SDR: v8ZLVjXIzAMRDmxusAL1m+Bzjc2HbtdXdJM8elDSkomuRLNMA9BvzjSv6zMYRpf9M+G2hBIqB0
- 6wXXpryob9Ng==
-X-IronPort-AV: E=Sophos;i="5.82,259,1613462400"; d="scan'208";a="458694255"
-Received: from sbfennel-mobl.ger.corp.intel.com (HELO
- mwauld-desk1.ger.corp.intel.com) ([10.252.12.78])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 03:35:17 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 9/9] drm/i915/gem: hide new uAPI behind CONFIG_BROKEN
-Date: Thu, 29 Apr 2021 11:30:56 +0100
-Message-Id: <20210429103056.407067-9-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210429103056.407067-1-matthew.auld@intel.com>
-References: <20210429103056.407067-1-matthew.auld@intel.com>
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB7246E20A;
+ Thu, 29 Apr 2021 10:50:10 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id l22so68535226ljc.9;
+ Thu, 29 Apr 2021 03:50:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=fBz2hTypJluSjziKv7GgA1OX9KQuEuDahZYz6wgVbV4=;
+ b=YXwoqfXY6XhKailBMEwyTqgvGcwttrIvQT8rYv5Sm6vVwAeTvmqPzBoifXPL0AdjXi
+ R5o0QlZ5JJ2irXROA9a5ad6FRwz6Y04yCurAX22X7zCFu+rVxdM15irI2APRP4KYJ3c8
+ XZF3MzFbC3h+dcdIujfVmCdirB134ebMZCDskDrbePNAD5n2kLlIpaq8iFtGU8LfdRVA
+ SZ2wugQGvCM9a1x8+w94PVZTc3Lz/k5YKnTWEy5XvZzOVrYDp10me+6HD4Oj81aEajvM
+ kvpDvrsY3vzHzeiqnou3hmsAg65MCbSXjOx6LOfXTlBwsPvtNYVvvSeTObBdk0oGpsht
+ 6K/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=fBz2hTypJluSjziKv7GgA1OX9KQuEuDahZYz6wgVbV4=;
+ b=ejJiqIspldLzOnewsI9vzia6FTuC2xgoD64ilkQJkDHoIDuzig9fp8P/wBXMgZNHFf
+ ftE7EsfzRt0s/zrwLRZKl0teRbRRGjSUL6sxyEvek5jUl4i+GdZnZFJiYfVTxQSUlyvM
+ E838zpKjX5haG7ahVA3uTSaF7NWMfWl35sJ8XWd/mw8C0vq/XoA2PNGDc4Cp15FLLteb
+ iPfD2GYqRCW42uJBPJH2EaA5FFhfk7PmEYnJE5vqWhxc/A+jBmN+PTrQVZWxqcrbZgr2
+ tftqAfzHoNiYhMCc9ws7q16ZujSlva2LRv6gPmdiCIWJnsYesINY0Rz8BVWBmrpEwO4N
+ RHrA==
+X-Gm-Message-State: AOAM531dK8hQwtsgm0nbQrB2+FhoxfQF1BrGOnzY07pmyNrlTiN3Kr+u
+ xeLsHXN5lEUAoOq2Ea2X8r4=
+X-Google-Smtp-Source: ABdhPJwlRk9qDnL1ZGovlBVym9JL/cqVIFEi/RknzkvZxo7opMN02x95e5/dBlbs07lVEk73rRKkqQ==
+X-Received: by 2002:a05:651c:211e:: with SMTP id
+ a30mr24801066ljq.18.1619693409402; 
+ Thu, 29 Apr 2021 03:50:09 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id e20sm482647lja.68.2021.04.29.03.50.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Apr 2021 03:50:08 -0700 (PDT)
+Date: Thu, 29 Apr 2021 13:49:58 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Subject: Re: Independent EDID parsing library
+Message-ID: <20210429134958.446ef8c6@eldfell>
+In-Reply-To: <BYAPR12MB31265E45A92C468AC1660EB6F25F9@BYAPR12MB3126.namprd12.prod.outlook.com>
+References: <BYAPR12MB31265E45A92C468AC1660EB6F25F9@BYAPR12MB3126.namprd12.prod.outlook.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,55 +66,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>, mesa-dev@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: xorg-devel@lists.x.org, dri-devel@lists.freedesktop.org,
+ "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1995005582=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VHJlYXQgaXQgdGhlIHNhbWUgYXMgdGhlIGZha2UgbG9jYWwtbWVtb3J5IHN0dWZmLCB3aGVyZSBp
-dCBpcyBkaXNhYmxlZApmb3Igbm9ybWFsIGtlcm5lbHMsIGluIGNhc2Ugc29tZSByYW5kb20gVU1E
-IGlzIHRlbXB0ZWQgdG8gdXNlIHRoaXMuIE9uY2UKd2UgaGF2ZSBhbGwgdGhlIG90aGVyIGJpdHMg
-YW5kIHBpZWNlcyBpbiBwbGFjZSwgbGlrZSB0aGUgVFRNIGNvbnZlcnNpb24sCndlIGNhbiB0dXJu
-IHRoaXMgb24gZm9yIHJlYWwuCgpTaWduZWQtb2ZmLWJ5OiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcu
-YXVsZEBpbnRlbC5jb20+CkNjOiBKb29uYXMgTGFodGluZW4gPGpvb25hcy5sYWh0aW5lbkBsaW51
-eC5pbnRlbC5jb20+CkNjOiBUaG9tYXMgSGVsbHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBsaW51
-eC5pbnRlbC5jb20+CkNjOiBEYW5pZWxlIENlcmFvbG8gU3B1cmlvIDxkYW5pZWxlLmNlcmFvbG9z
-cHVyaW9AaW50ZWwuY29tPgpDYzogTGlvbmVsIExhbmR3ZXJsaW4gPGxpb25lbC5nLmxhbmR3ZXJs
-aW5AbGludXguaW50ZWwuY29tPgpDYzogSm9uIEJsb29tZmllbGQgPGpvbi5ibG9vbWZpZWxkQGlu
-dGVsLmNvbT4KQ2M6IEpvcmRhbiBKdXN0ZW4gPGpvcmRhbi5sLmp1c3RlbkBpbnRlbC5jb20+CkNj
-OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6IEtlbm5ldGggR3Jh
-dW5rZSA8a2VubmV0aEB3aGl0ZWNhcGUub3JnPgpDYzogSmFzb24gRWtzdHJhbmQgPGphc29uQGps
-ZWtzdHJhbmQubmV0PgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPgpDYzogZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogbWVzYS1kZXZAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnClJldmlld2VkLWJ5OiBLZW5uZXRoIEdyYXVua2UgPGtlbm5ldGhAd2hpdGVjYXBlLm9y
-Zz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fY3JlYXRlLmMgfCAzICsr
-KwogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9xdWVyeS5jICAgICAgICAgIHwgMyArKysKIDIg
-ZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2NyZWF0ZS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2Vt
-L2k5MTVfZ2VtX2NyZWF0ZS5jCmluZGV4IGY2NzI5ZmVhZTU4Mi4uNTQ4ZGRmMzlkODUzIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fY3JlYXRlLmMKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2NyZWF0ZS5jCkBAIC0zMzUsNiArMzM1
-LDkgQEAgc3RhdGljIGludCBleHRfc2V0X3BsYWNlbWVudHMoc3RydWN0IGk5MTVfdXNlcl9leHRl
-bnNpb24gX191c2VyICpiYXNlLAogewogCXN0cnVjdCBkcm1faTkxNV9nZW1fY3JlYXRlX2V4dF9t
-ZW1vcnlfcmVnaW9ucyBleHQ7CiAKKwlpZiAoIUlTX0VOQUJMRUQoQ09ORklHX0RSTV9JOTE1X1VO
-U1RBQkxFX0ZBS0VfTE1FTSkpCisJCXJldHVybiAtRU5PREVWOworCiAJaWYgKGNvcHlfZnJvbV91
-c2VyKCZleHQsIGJhc2UsIHNpemVvZihleHQpKSkKIAkJcmV0dXJuIC1FRkFVTFQ7CiAKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcXVlcnkuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2k5MTVfcXVlcnkuYwppbmRleCA1ZTJiOTA5ODI3ZjQuLmU0OWRhMzZjNjJmYiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9xdWVyeS5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2k5MTVfcXVlcnkuYwpAQCAtNDMyLDYgKzQzMiw5IEBAIHN0YXRpYyBpbnQg
-cXVlcnlfbWVtcmVnaW9uX2luZm8oc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUsCiAJdTMy
-IHRvdGFsX2xlbmd0aDsKIAlpbnQgcmV0LCBpZCwgaTsKIAorCWlmICghSVNfRU5BQkxFRChDT05G
-SUdfRFJNX0k5MTVfVU5TVEFCTEVfRkFLRV9MTUVNKSkKKwkJcmV0dXJuIC1FTk9ERVY7CisKIAlp
-ZiAocXVlcnlfaXRlbS0+ZmxhZ3MgIT0gMCkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKLS0gCjIuMjYu
-MwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+--===============1995005582==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/p_hvVg0gKYWJI7Iznl+uf7D"; protocol="application/pgp-signature"
+
+--Sig_/p_hvVg0gKYWJI7Iznl+uf7D
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Adding the previous list of CCs.
+
+On Thu, 29 Apr 2021 10:32:58 +0000
+"Sharma, Shashank" <Shashank.Sharma@amd.com> wrote:
+
+> Hello Pekka, Daniel
+>=20
+> As discussed over IRC, I have prepared the first version of the EDID pars=
+ing library, which is hosted here:
+> https://github.com/contactshashanksharma/libedid/tree/master
+>=20
+> This is a simple C library, and I have created this library keeping a com=
+positor's context in mind, so its easy for a compositor to use it.
+> There are only 2 APIs in this library:
+>               - libedid_process_edid_info: Get EDID information from raw_=
+edid, returns filled struct edid_info ptr
+>               - libedid_destroy_edid_info: Free the EDID information
+>=20
+> I have provided much information in the README file, and have also added =
+two simple test apps, with sample EDID, to test it.
+> Please have a look and let me know your opinion on this.
+>=20
+> Regards
+> Shashank
+
+
+--Sig_/p_hvVg0gKYWJI7Iznl+uf7D
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCKj1YACgkQI1/ltBGq
+qqcdDQ/9HSU3stmuAhcaQ7858GfGoyYe1DQKLc/dzQJHFhRXPB17qrQxrtWIPIL6
+6lJeCKHVUBKTWpy/a7kgGMye1is5dDSk6mq0YkM4RT2gshLOpzcKM3z8hAMqJM1U
+2vFOKhP26xWue4I5RcI7m21bK8p8LNcfpZVOd81pFxLwwEbHMiLhibbUhS/+XEx0
+PgezX+Mug5tz8zI+VK3he4pvpJ8GHMrpD+nXT5cM0ylVJc1HvtGp3fXOHScVXJhc
+JCO8L1aglbzQ7kMfIZ2En9FzpLwqtnT6wTdZVXj5496Lgp2tsix9xW6A17gSiRTb
+JwAD8b4pmD8rJ0BUP2wkGhVk0OFuWk/cfThF66fvTTdM/Qd9mh8EoxcjRdMpJZer
+oZysZuZydLtVGS9gEH8oSFN//wINPxDKQkAPqCzHSbrRepw5c0IlowT643peHni1
+xeX0AK/HhKshg9bzV70rmlLcBA4QOXt5MY+g3Ktkj3fbqOKMRv8P0r+zqyvOXMud
+utZ0A6y/RGnIF3u3zthlD8lAN2LT/uEcqWlA/BfLCvtwmPLE2twf3zQa8helrl2H
+Fgsjmo9tzhg+cY4sHNBHXkd1cpNZiJ4UYLzi3hBx+gfPmh7F7XQ9krNu2yYYajpI
+6A0/URISJwIH7j26FrIcrdHfMINQ3634ydRLdTFzXA9p2/2oNBI=
+=dP8T
+-----END PGP SIGNATURE-----
+
+--Sig_/p_hvVg0gKYWJI7Iznl+uf7D--
+
+--===============1995005582==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1995005582==--
