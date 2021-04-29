@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B0136E7BD
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 11:13:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A1B36E7BE
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 11:13:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4A706EDCA;
-	Thu, 29 Apr 2021 09:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 266F26EDCF;
+	Thu, 29 Apr 2021 09:13:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3CC06E1A7;
- Thu, 29 Apr 2021 09:13:07 +0000 (UTC)
-IronPort-SDR: Q+Jk6EVnnsbPJoPrtv+K6+2cByLxh4Ph25262/MqQqY9V6PgJUu7tHti+vlpKDd11K2Hs/S5CZ
- 4LjTSv36ibDw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="197011312"
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="197011312"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FCB56E1F7;
+ Thu, 29 Apr 2021 09:13:09 +0000 (UTC)
+IronPort-SDR: RNO0E70EXb+WGg0WnlRP/8BN95vGWLgjtbOhxHslNizzLvjDbX9lePkGHXDKV+wpFHbmn555x/
+ vqDi3TF0d8TA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="197011313"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="197011313"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 02:13:07 -0700
-IronPort-SDR: mV26fsgb/uE6BmvjbqHYul0hFxA9Cqdwx4kEIDlmaHwsSB/n0kQeNFNHJRmuTVPnfWT+5A991M
- X+9BC8X5Za8w==
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="537298816"
+ 29 Apr 2021 02:13:08 -0700
+IronPort-SDR: ItxURtprWcBJYL9iAPCax8Jh86ScTwTG+knmoJHvLSjnNenmLk5RTAcxGjvrDasbLPntdafIsI
+ L8xjZ+t5iXpA==
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="537298821"
 Received: from gwaise-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
  ([10.213.208.64])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 02:13:06 -0700
+ 29 Apr 2021 02:13:07 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/6] drm/i915/icl: Stop conflating mask and readback verify
-Date: Thu, 29 Apr 2021 10:12:53 +0100
-Message-Id: <20210429091254.855248-6-tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH 6/6] drm/i915: Add more checks when building workaround lists
+Date: Thu, 29 Apr 2021 10:12:54 +0100
+Message-Id: <20210429091254.855248-7-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210429091254.855248-1-tvrtko.ursulin@linux.intel.com>
 References: <20210429091254.855248-1-tvrtko.ursulin@linux.intel.com>
@@ -47,7 +47,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Andres Calderon Jaramillo <andrescj@google.com>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -55,45 +56,205 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Add a new helper wa_write_no_verify for Wa_1604278689:icl,ehl which is
-a write only register. This allows the mask to correctly reflect what
-bits the workaround writes versus which bits it will verify during read-
-back. In turn this will allow more safety checks to be added in a
-following patch.
+In current code we check that a workaround is not completely
+overwriting the existing one, but for instance partial conflict in some
+bits would get missed, as would problems involving masked registers,
+courtesy of the mask (wa->clr) being forced to zero for such registers and
+also being conflated with the readback verification.
+
+Now that previous patches have separated write masks from readback masks,
+and ensured all masked registers are correctly tagged as such, we can
+improve the verification checks to also detect partial conflicts, wrong
+masks and inconsistent register usage.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Reported-by: Andres Calderon Jaramillo <andrescj@google.com>
 ---
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 81 +++++++++++++++----
+ .../gpu/drm/i915/gt/intel_workarounds_types.h |  4 +
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  4 +-
+ 3 files changed, 72 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 07579bb9b6a7..cd84c2a86787 100644
+index cd84c2a86787..c82f165bdd8b 100644
 --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
 +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -186,6 +186,12 @@ wa_write(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
- 	wa_write_clr_set(wal, reg, ~0, set);
+@@ -52,8 +52,11 @@
+  * - Public functions to init or apply the given workaround type.
+  */
+ 
+-static void wa_init_start(struct i915_wa_list *wal, const char *name, const char *engine_name)
++static void
++wa_init_start(struct drm_i915_private *i915, struct i915_wa_list *wal,
++	      const char *name, const char *engine_name)
+ {
++	wal->i915 = i915;
+ 	wal->name = name;
+ 	wal->engine_name = engine_name;
+ }
+@@ -81,6 +84,59 @@ static void wa_init_finish(struct i915_wa_list *wal)
+ 			 wal->wa_count, wal->name, wal->engine_name);
  }
  
 +static void
-+wa_write_no_verify(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
++log_bad_wa(const struct i915_wa_list *wal, const struct i915_wa *wa,
++	   const char *msg)
 +{
-+	wa_add(wal, reg, ~0, set, 0);
++	drm_err(&wal->i915->drm,
++		"Discarding %s workaround! (reg=%x %s=%x set=%x)\n",
++		msg, i915_mmio_reg_offset(wa->reg), wa->clr ? "clear" : "mask",
++		wa->clr ?: wa->set >> 16, wa->set);
 +}
 +
- static void
- wa_write_or(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
++static bool
++check_conflict(const struct i915_wa_list *wal,
++	       const struct i915_wa *old,
++	       const struct i915_wa *new)
++{
++	u32 new_mask, old_mask, common, new_set, old_set;
++
++	if (new->clr && !old->clr) {
++		log_bad_wa(wal, new, "mixed masked and regular");
++		return true;
++	}
++
++	if (new->clr) {
++		new_mask = new->clr;
++		old_mask = old->clr;
++		new_set = new->set;
++		old_set = old->set;
++	} else {
++		new_mask = new->set >> 16;
++		old_mask = old->set >> 16;
++		new_set = new->set & 0xffff;
++		old_set = old->set & 0xffff;
++	}
++
++	if (new_set && (new_set & ~new_mask)) {
++		log_bad_wa(wal, new, "write outside the mask");
++		return true;
++	}
++
++	common = new_mask & old_mask;
++	if (common) {
++		if ((new_set & common) != (old_set & common)) {
++			log_bad_wa(wal, new, "conflicting");
++			return true;
++		} else if (new_mask == old_mask) {
++			log_bad_wa(wal, new, "duplicate");
++			return true;
++		}
++	}
++
++	return false;
++}
++
+ static void _wa_add(struct i915_wa_list *wal, const struct i915_wa *wa)
  {
-@@ -616,9 +622,7 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
+ 	unsigned int addr = i915_mmio_reg_offset(wa->reg);
+@@ -118,18 +174,13 @@ static void _wa_add(struct i915_wa_list *wal, const struct i915_wa *wa)
+ 		} else {
+ 			wa_ = &wal->list[mid];
  
- 	/* Wa_1604278689:icl,ehl */
- 	wa_write(wal, IVB_FBC_RT_BASE, 0xFFFFFFFF & ~ILK_FBC_RT_VALID);
--	wa_write_clr_set(wal, IVB_FBC_RT_BASE_UPPER,
--			 0, /* write-only register; skip validation */
--			 0xFFFFFFFF);
-+	wa_write_no_verify(wal, IVB_FBC_RT_BASE_UPPER, 0xFFFFFFFF);
+-			if ((wa->clr | wa_->clr) && !(wa->clr & ~wa_->clr)) {
+-				DRM_ERROR("Discarding overwritten w/a for reg %04x (clear: %08x, set: %08x)\n",
+-					  i915_mmio_reg_offset(wa_->reg),
+-					  wa_->clr, wa_->set);
+-
+-				wa_->set &= ~wa->clr;
++			if (!check_conflict(wal, wa_, wa)) {
++				wal->wa_count++;
++				wa_->set |= wa->set;
++				wa_->clr |= wa->clr;
++				wa_->read |= wa->read;
+ 			}
  
- 	/* Wa_1406306137:icl,ehl */
- 	wa_masked_en(wal, GEN9_ROW_CHICKEN4, GEN11_DIS_PICK_2ND_EU);
+-			wal->wa_count++;
+-			wa_->set |= wa->set;
+-			wa_->clr |= wa->clr;
+-			wa_->read |= wa->read;
+ 			return;
+ 		}
+ 	}
+@@ -716,7 +767,7 @@ __intel_engine_init_ctx_wa(struct intel_engine_cs *engine,
+ 	if (engine->class != RENDER_CLASS)
+ 		return;
+ 
+-	wa_init_start(wal, name, engine->name);
++	wa_init_start(engine->i915, wal, name, engine->name);
+ 
+ 	if (IS_DG1(i915))
+ 		dg1_ctx_workarounds_init(engine, wal);
+@@ -1232,7 +1283,7 @@ void intel_gt_init_workarounds(struct drm_i915_private *i915)
+ {
+ 	struct i915_wa_list *wal = &i915->gt_wa_list;
+ 
+-	wa_init_start(wal, "GT", "global");
++	wa_init_start(i915, wal, "GT", "global");
+ 	gt_init_workarounds(i915, wal);
+ 	wa_init_finish(wal);
+ }
+@@ -1575,7 +1626,7 @@ void intel_engine_init_whitelist(struct intel_engine_cs *engine)
+ 	struct drm_i915_private *i915 = engine->i915;
+ 	struct i915_wa_list *w = &engine->whitelist;
+ 
+-	wa_init_start(w, "whitelist", engine->name);
++	wa_init_start(engine->i915, w, "whitelist", engine->name);
+ 
+ 	if (IS_DG1(i915))
+ 		dg1_whitelist_build(engine);
+@@ -2095,7 +2146,7 @@ void intel_engine_init_workarounds(struct intel_engine_cs *engine)
+ 	if (INTEL_GEN(engine->i915) < 4)
+ 		return;
+ 
+-	wa_init_start(wal, "engine", engine->name);
++	wa_init_start(engine->i915, wal, "engine", engine->name);
+ 	engine_init_workarounds(engine, wal);
+ 	wa_init_finish(wal);
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds_types.h b/drivers/gpu/drm/i915/gt/intel_workarounds_types.h
+index c214111ea367..b6a9d1582a5c 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds_types.h
+@@ -10,6 +10,8 @@
+ 
+ #include "i915_reg.h"
+ 
++struct drm_i915_private;
++
+ struct i915_wa {
+ 	i915_reg_t	reg;
+ 	u32		clr;
+@@ -18,6 +20,8 @@ struct i915_wa {
+ };
+ 
+ struct i915_wa_list {
++	struct drm_i915_private *i915;
++
+ 	const char	*name;
+ 	const char	*engine_name;
+ 	struct i915_wa	*list;
+diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+index 64937ec3f2dc..536cbe7889cc 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+@@ -64,14 +64,14 @@ reference_lists_init(struct intel_gt *gt, struct wa_lists *lists)
+ 
+ 	memset(lists, 0, sizeof(*lists));
+ 
+-	wa_init_start(&lists->gt_wa_list, "GT_REF", "global");
++	wa_init_start(gt->i915, &lists->gt_wa_list, "GT_REF", "global");
+ 	gt_init_workarounds(gt->i915, &lists->gt_wa_list);
+ 	wa_init_finish(&lists->gt_wa_list);
+ 
+ 	for_each_engine(engine, gt, id) {
+ 		struct i915_wa_list *wal = &lists->engine[id].wa_list;
+ 
+-		wa_init_start(wal, "REF", engine->name);
++		wa_init_start(gt->i915, wal, "REF", engine->name);
+ 		engine_init_workarounds(engine, wal);
+ 		wa_init_finish(wal);
+ 
 -- 
 2.30.2
 
