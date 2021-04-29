@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAA136F023
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 21:09:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7DF36F02A
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 21:17:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACDE16F493;
-	Thu, 29 Apr 2021 19:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF1276E2E1;
+	Thu, 29 Apr 2021 19:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49BE26F493
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 19:09:52 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id l2so15696934wrm.9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 12:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1dmo5Wmh/ugIBygOrQPFARR/Rc5riBKotg0rKsNd/fk=;
- b=PPtwmHEckRIBUH8hQOzBxajX3TdRoTA+lpU9blquQ+gpggdOqsBiyeO6vAuNR39SWT
- MUpTHvhvJz3qHnwbNoCSFLBkB6Cn3faK3Ct6UdCPmH4S7Hx5MA2PPBuAU9r3hUY1dEeA
- lkpoT+R6uCrjzxEM95uLBoygM7AlIq0XZx4oI=
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD6E6E500
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 19:17:07 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id j28so15877487edy.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 12:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eIC8M6IL/ou732ZPdfiIpNrSNDycEPi1eZMZv4RXVF4=;
+ b=GNngvPf9C/MSWvql+4B6rRIS/eGEEF0RclaClXcemei4YB2wdHTt1SAWmP6a+E8v0M
+ 57Wg2v/YqDeIqEMpw7ND2+Yq5eTIU/ksXRlzUMVpTM1USmOR2r/GxLMe/R/heNzIH3Cy
+ XIcfL/knNTEMOPmR79mVfKxlPx4QS8mt86RpQ94jntNT4xPktScg4cIazeUmUz0MmR3z
+ pKsSL1b0XcpH3QZM2l0IaM3qOQfhkpOgpdZuwQATu199/6o2eKG8ouv/IaMRqkqJYQsp
+ 9XSo6ecHZqAXcqNuJ0LBO+CFeRncShdCbOk/wSlU7OT+jncob0u/aiFK+OW4aDZR/njJ
+ Lx4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1dmo5Wmh/ugIBygOrQPFARR/Rc5riBKotg0rKsNd/fk=;
- b=b1Z0TnQc35QQZMgSnc6IDAfHbYgTc5DpJJvVYXpUhAenfEP3qJIg1wRT/GDavJJ4FV
- Xs4JlPFxWpfBw7B39g6+bpEqitx17kXw7lDWEILm7H9e+AqtVZN7dklXdT5iIuEpTIs1
- VAYIUg/a33ZBAaQPiF6Lh8jB5oZXRA/BezvL8hlWyAJmth2Vg1z4r+KhMEht3u7QI8d2
- lbBwg6gJ/Xp7gJ5SHdfQT9yTZVKgL+DO2fiP67q8a50fEMxmc9Y0UG0VvGMf7lvFoNeB
- Ov6XsJzqjAz8s0JQXy2h+JlH+CmgTa6AfkBkY1/zhhK/jwxfarae7na3m0nkQev17zNn
- HYLQ==
-X-Gm-Message-State: AOAM5311CQjcyhs5MiF6J2EgWEg//lsznW03L/HqciwghVIOE1lwmyxg
- +7SO5R6qYjgY0qWXBrcdAFGHRQ==
-X-Google-Smtp-Source: ABdhPJyY4KyyQAlwKgbmUY3ebe0VTq4Ebh9Ea/4USdywIkju0V7arqiGrMXzluPAlCUiCDuzrhydlQ==
-X-Received: by 2002:adf:f192:: with SMTP id h18mr1447610wro.270.1619723391031; 
- Thu, 29 Apr 2021 12:09:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p14sm6320337wrx.88.2021.04.29.12.09.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 12:09:50 -0700 (PDT)
-Date: Thu, 29 Apr 2021 21:09:48 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 1/9] drm/connector: Make the drm_sysfs connector->kdev
- device hold a reference to the connector
-Message-ID: <YIsEfAjFthAyHxUi@phenom.ffwll.local>
-References: <20210428215257.500088-1-hdegoede@redhat.com>
- <20210428215257.500088-2-hdegoede@redhat.com>
- <YIqbLDIeGXNSjSTS@phenom.ffwll.local> <YIqehmw+kG53LF3t@kroah.com>
- <YIqg59yageIUwiwy@phenom.ffwll.local>
- <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eIC8M6IL/ou732ZPdfiIpNrSNDycEPi1eZMZv4RXVF4=;
+ b=CyzpvvVmqJbchJ+9Zfg84fLK7ncgmOm2eNAPuP++WrVlDSJzKTuCVTgHP+EaLmNtqK
+ 9EQKZ9ZZmAcq0Kxz7fdJ22i2MZ0mXwYNArm743ue0asq9WIpYTyqqh+5nKD2+fp7qO/r
+ wkJEcpzTaFkH5KujlM7xFk5a0EiUO67+x62iAccvD8gKa4ECKvSCaFeN1psSvTueIvHm
+ MGRorp2QxSqG6hGw9F5mROi0/Mo2OR+BHVvgIlOF7wwVcPKOifDe6GjG3yX+Ui4KUAt7
+ eQnJ/LW6zDT2NhPfDnfho38QvEBBWlgn7PvCJwTQ6Mv/5zbpBeyutZjLEP+aNct+chrc
+ ecNg==
+X-Gm-Message-State: AOAM530/tHpn1h8z+vpcw+XX923lc7kZz7/pjYa0FbrcVaIF0eoWgZ50
+ ImPXDHvn9irdNOevxh5gVMRjU4kEsZZ4UbzreOKKyg==
+X-Google-Smtp-Source: ABdhPJyc9GyFfE3B7NfBKfJOG7ODbJDwkcd4/9nil3SVC2B5nqgD/T36uSsI3mzB0qFrOSctk7UBnwUSPvjgpyaw6WE=
+X-Received: by 2002:a05:6402:b88:: with SMTP id
+ cf8mr1387187edb.227.1619723825796; 
+ Thu, 29 Apr 2021 12:17:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+References: <20210423223131.879208-1-jason@jlekstrand.net>
+ <20210423223131.879208-10-jason@jlekstrand.net>
+ <YIk14zVfa8Mw4rUF@phenom.ffwll.local>
+ <6b388d4d-1d50-94f3-344a-5b6b3639e8ad@linux.intel.com>
+ <YIlrCmvC10oAiRcL@phenom.ffwll.local>
+ <27db8ded-3b17-748e-f602-a8c1aef7367f@linux.intel.com>
+ <CAOFGe94czhE=SHZLOWmH6vPRs1ujhsP9BBxc6i+N_bkPZ+6UHw@mail.gmail.com>
+ <8a1e496c-683d-0a26-03a7-14993ba82acf@linux.intel.com>
+In-Reply-To: <8a1e496c-683d-0a26-03a7-14993ba82acf@linux.intel.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Thu, 29 Apr 2021 14:16:54 -0500
+Message-ID: <CAOFGe97mDV4RqgWSQTKq5jhGJEMCT+QAwNsoDduD-rRmd=1nBw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 09/21] drm/i915/gem: Disallow creating
+ contexts with too many engines
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,87 +70,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 29, 2021 at 02:33:17PM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 4/29/21 2:04 PM, Daniel Vetter wrote:
-> > On Thu, Apr 29, 2021 at 01:54:46PM +0200, Greg Kroah-Hartman wrote:
-> >> On Thu, Apr 29, 2021 at 01:40:28PM +0200, Daniel Vetter wrote:
-> >>> On Wed, Apr 28, 2021 at 11:52:49PM +0200, Hans de Goede wrote:
-> >>>> Userspace could hold open a reference to the connector->kdev device,
-> >>>> through e.g. holding a sysfs-atrtribute open after
-> >>>> drm_sysfs_connector_remove() has been called. In this case the connector
-> >>>> could be free-ed while the connector->kdev device's drvdata is still
-> >>>> pointing to it.
+On Thu, Apr 29, 2021 at 3:01 AM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 28/04/2021 18:09, Jason Ekstrand wrote:
+> > On Wed, Apr 28, 2021 at 9:26 AM Tvrtko Ursulin
+> > <tvrtko.ursulin@linux.intel.com> wrote:
+> >> On 28/04/2021 15:02, Daniel Vetter wrote:
+> >>> On Wed, Apr 28, 2021 at 11:42:31AM +0100, Tvrtko Ursulin wrote:
 > >>>>
-> >>>> Give drm_connector devices there own device type, which allows
-> >>>> us to specify our own release function and make drm_sysfs_connector_add()
-> >>>> take a reference on the connector object, and have the new release
-> >>>> function put the reference when the device is released.
+> >>>> On 28/04/2021 11:16, Daniel Vetter wrote:
+> >>>>> On Fri, Apr 23, 2021 at 05:31:19PM -0500, Jason Ekstrand wrote:
+> >>>>>> There's no sense in allowing userspace to create more engines than it
+> >>>>>> can possibly access via execbuf.
+> >>>>>>
+> >>>>>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> >>>>>> ---
+> >>>>>>     drivers/gpu/drm/i915/gem/i915_gem_context.c | 7 +++----
+> >>>>>>     1 file changed, 3 insertions(+), 4 deletions(-)
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>>> index 5f8d0faf783aa..ecb3bf5369857 100644
+> >>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>>> @@ -1640,11 +1640,10 @@ set_engines(struct i915_gem_context *ctx,
+> >>>>>>                     return -EINVAL;
+> >>>>>>             }
+> >>>>>> -  /*
+> >>>>>> -   * Note that I915_EXEC_RING_MASK limits execbuf to only using the
+> >>>>>> -   * first 64 engines defined here.
+> >>>>>> -   */
+> >>>>>>             num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
+> >>>>>
+> >>>>> Maybe add a comment like /* RING_MASK has not shift, so can be used
+> >>>>> directly here */ since I had to check that :-)
+> >>>>>
+> >>>>> Same story about igt testcases needed, just to be sure.
+> >>>>>
+> >>>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > >>>>
-> >>>> Giving drm_connector devices there own device type, will also allow
-> >>>> checking if a device is a drm_connector device with a
-> >>>> "if (device->type == &drm_sysfs_device_connector)" check.
-> >>>>
-> >>>> Note that the setting of the name member of the device_type struct will
-> >>>> cause udev events for drm_connector-s to now contain DEVTYPE=drm_connector
-> >>>> as extra info. So this extends the uevent part of the userspace API.
-> >>>>
-> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >>>> I am not sure about the churn vs benefit ratio here. There are also patches
+> >>>> which extend the engine selection field in execbuf2 over the unused
+> >>>> constants bits (with an explicit flag). So churn upstream and churn in
+> >>>> internal (if interesting) for not much benefit.
 > >>>
-> >>> Are you sure? I thought sysfs is supposed to flush out any pending
-> >>> operations (they complete fast) and handle open fd internally?
+> >>> This isn't churn.
+> >>>
+> >>> This is "lock done uapi properly".
+> >
+> > Pretty much.
+>
+> Still haven't heard what concrete problems it solves.
+>
+> >> IMO it is a "meh" patch. Doesn't fix any problems and will create work
+> >> for other people and man hours spent which no one will ever properly
+> >> account against.
 > >>
-> >> Yes, it "should" :)
-> > 
-> > Thanks for confirming my vague memories :-)
-> > 
-> > Hans, pls drop this one.
-> 
-> Please see my earlier reply to your review of this patch, it is
-> still needed but for a different reason:
-> 
-> """
-> We still need this change though to make sure that the 
-> "drm/connector: Add drm_connector_find_by_fwnode() function"
-> does not end up following a dangling drvdat pointer from one
-> if the drm_connector kdev-s.
-> 
-> The class_dev_iter_init() in drm_connector_find_by_fwnode() gets
-> a reference on all devices and between getting that reference
-> and it calling drm_connector_get() - drm_connector_unregister()
-> may run and drop the possibly last reference to the
-> drm_connector object, freeing it and leaving the kdev's
-> drvdata as a dangling pointer.
-> """
-> 
-> This is actually why I added it initially, and while adding it
-> I came up with this wrong theory of why it was necessary independently
-> of the drm_connector_find_by_fwnode() addition, sorry about that.
+> >> Number of contexts in the engine map should not really be tied to
+> >> execbuf2. As is demonstrated by the incoming work to address more than
+> >> 63 engines, either as an extension to execbuf2 or future execbuf3.
+> >
+> > Which userspace driver has requested more than 64 engines in a single context?
+>
+> No need to artificially limit hardware capabilities in the uapi by
+> implementing a policy in the kernel. Which will need to be
+> removed/changed shortly anyway. This particular patch is work and
+> creates more work (which other people who will get to fix the fallout
+> will spend man hours to figure out what and why broke) for no benefit.
+> Or you are yet to explain what the benefit is in concrete terms.
 
-Generally that's handled by a kref_get_unless_zero under the protection of
-the lock which protects the weak reference. Which I think is the right
-model here (at a glance at least) since this is a lookup function.
+You keep complaining about how much work it takes and yet I've spent
+more time replying to your e-mails on this patch than I spent writing
+the patch and the IGT test.  Also, if it takes so much time to add a
+restriction, then why are we spending time figuring out how to modify
+the uAPI to allow you to execbuf on a context with more than 64
+engines?  If we're worried about engineering man-hours, then limiting
+to 64 IS the pragmatic solution.
 
-Lookup tables holding full references tends to lead to all kinds of bad
-side effects.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Why don't you limit it to number of physical engines then? Why don't you
+> filter out duplicates? Why not limit the number of buffer objects per
+> client or global based on available RAM + swap relative to minimum
+> object size? Reductio ad absurdum yes, but illustrating the, in this
+> case, a thin line between "locking down uapi" and adding too much policy
+> where it is not appropriate.
+
+All this patch does is say that  you're not allowed to create a
+context with more engines than the execbuf API will let you use.  We
+already have an artificial limit.  All this does is push the error
+handling further up the stack.  If someone comes up with a mechanism
+to execbuf on engine 65 (they'd better have an open-source user if it
+involves changing API), I'm very happy for them to bump this limit at
+the same time.  It'll take them 5 minutes and it'll be something they
+find while writing the IGT test.
+
+> > Also, for execbuf3, I'd like to get rid of contexts entirely and have
+> > engines be their own userspace-visible object.  If we go this
+> > direction, you can have UINT32_MAX of them.  Problem solved.
+>
+> Not the problem I am pointing at though.
+
+You listed two ways that accessing engine 65 can happen: Extending
+execbuf2 and adding a new execbuf3.  When/if execbuf3 happens, as I
+pointed out above, it'll hopefully be a non-issue.  If someone extends
+execbuf2 to support more than 64 engines and does not have a userspace
+customer that wants said new API change, I will NAK the patch.  If
+you've got a 3rd way that someone can get at engine 65 such that this
+is a problem, I'd love to hear about it.
+
+--Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
