@@ -2,57 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20BD636EE57
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 18:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA2B36EE69
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 18:53:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 138D56F3D8;
-	Thu, 29 Apr 2021 16:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8625D6F3E8;
+	Thu, 29 Apr 2021 16:53:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E68E6F3D8
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 16:44:55 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id u21so100897174ejo.13
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 09:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BGV47WTM/j8WfTmpHYDxeyV3Z4HDjbm+WVzMAp7srWw=;
- b=BqcC0bUIvXJIhvxziJncdqxQnv+5tPiH1r8rUF6+ajR4zTASu4A+HmSNkkosHnH5Su
- e77uiTsEuKhG/KVs4c6BwQrMAVwMSlhDMfQRUKBbHlAI6gWeaIX94vpE0BRd2+KqcJUv
- GdLoGfkM7eVQfeZeEy9IuDWeL/mqNk44M/+Y5G2WrmfxhUrw5EgnhGpXadJ3BEGso21Q
- 16cfd9ePRRoDJjMkn6rDY//64fDc9wSOnObJcGGc/u03xVYWL013I/4eLEvpaSUlWW5H
- VIj0H1+vJmZYou11lA/j9P+28BZOGEaPTDL3dXaWeEiq3CgIld2QGaw6weqdBsgaC+Ly
- kq0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BGV47WTM/j8WfTmpHYDxeyV3Z4HDjbm+WVzMAp7srWw=;
- b=hoKDJFWhwLgi3gI8tqIdiCee/OXAw2Jd03b2onBS7RLrOSBvYpqCHgbtyDLLDcskGj
- Al0yjX19zZVae4VrrAWWZ1WI9c+V0iI3t0AretpEBecPFS2RNYZSS2nSDYsRA0biIns4
- WcNa4KuBd+PjFO6AxqTqwaaleR1bybMvKBHRovD4MhwCjFSBJdX6iQHQBZ1VYOHLCW2P
- ERmqTfg84OMta16xSJVNraAPUvsvHCZFxIhQJgH9VZuuMdhETd6bmpYHl09lroi11EjG
- qnZrn0Chfa0E8JZJVK79fpb8hsBLxkE/0cKwXpLhVP4cjQfN2xQiBDnTzM3qjU7JM8Rw
- IOpg==
-X-Gm-Message-State: AOAM533TYCCQ+xbbRjlqywWyK1uCA89Diyk6a05pyyydEYhI08lfYacC
- Mhyq0d9rgt9J7DM7DipWk+UvBxDiNsyh7MtqC3Pi28hvBuw=
-X-Google-Smtp-Source: ABdhPJy+hAUou88jccUhWRsB6pKK1TgHoWynWQBwT1jQXDy681WwBe+vK+Q18x6HkER9Ltvvy5/3u1hJ4Cc/LoQhIQw=
-X-Received: by 2002:a17:906:5a96:: with SMTP id
- l22mr817239ejq.450.1619714693869; 
- Thu, 29 Apr 2021 09:44:53 -0700 (PDT)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2059.outbound.protection.outlook.com [40.107.92.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B13C86F3E3;
+ Thu, 29 Apr 2021 16:53:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZXk1MGQHjXHHMKkOrxfyT/Ydc2uvrsmME2soUy1CTYpBRjPIbJU74HEgosbgAAf9oQ+fDHX94M7CQNNxYprjxdb8euiPJma1odk3SwGpZ04i/803vnV20UM1jijgWVFLzyIZiS/IWDstcONp/rGggZbngnV8JJbD6ctWjF26sV6VBb6OyNZ9ZDrP8pgoFu0zrUd11GeX+ZUQ+kY2J4vANS5Abua3UMEvCRjhq9iOYWIixKGu1qOFptC68ZGtJCsPc/IuLFiMUnb/EG6hCQdEZwHAGKgXWfIdrCefDlRVVcjnAOo0CyZ72LmWAtBFQzje3JonXeORitNVqfOzuZLWfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZpHqKnirgNXhDdFzYnK1KvP47iLbjC8Uf+Z/wBROuvY=;
+ b=GlFewf8HGO6wECrGgfh/63cmwWxUBV0Xnq4+4oq9mLJdL8vp5Qu/Na26ECe6ZHAl2XfJYzPfc0BX5Gx40IdRmRAte+dDhI/NwtnTwPg9tBZGTgjXVgbhUW8Dj0aU3dQ4B3Q5K1tgNOPXmfJBmsSrWL2mWlhlsPJ1l/fsjIoE7rYllEqWab+mAizqeX/Xnmc75/Nl9d9c9oLbmioOxc2kKH10nRwHtpG59lNoGYrW4qjw14PxxS3dZ162SPc2ICCt7diY9S30k4AP/GgVQDe4TUgUuYv66XjTPS4Fk/bviRnqSyHG0SsP47J5PzCAPY2VYIcBDNPyoVnGsdBbYxR/fA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZpHqKnirgNXhDdFzYnK1KvP47iLbjC8Uf+Z/wBROuvY=;
+ b=OLg5jXAqL42CLn+B5PNMHp7uyznXiREqLTdA2PpeiCm/nrFr6SjAgG1c02ymeFzfj/5yYlHcNohxLZXjf57K3YvpV3ZBXHLupb0+cUvFUeo3g09nN22ytUdeMypeEDxVnVOQlUeXHxgEvFvnIoLWhCLPDOQ9qJthR0w3LwF+mII=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
+ by SN6PR12MB2847.namprd12.prod.outlook.com (2603:10b6:805:76::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22; Thu, 29 Apr
+ 2021 16:53:18 +0000
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4065.026; Thu, 29 Apr 2021
+ 16:53:18 +0000
+Subject: Re: [PATCH v5 08/27] PCI: add support for dev_groups to struct
+ pci_device_driver
+To: Bjorn Helgaas <helgaas@kernel.org>
+References: <20210428165318.GA239081@bjorn-Precision-5520>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Message-ID: <c315d0d0-6fd8-0510-99c6-dd72bd583c0a@amd.com>
+Date: Thu, 29 Apr 2021 12:53:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <20210428165318.GA239081@bjorn-Precision-5520>
+Content-Language: en-US
+X-Originating-IP: [2607:fea8:3edf:49b0:497:888:9bb9:54f1]
+X-ClientProxiedBy: YTXPR0101CA0022.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00::35) To SN6PR12MB4623.namprd12.prod.outlook.com
+ (2603:10b6:805:e9::17)
 MIME-Version: 1.0
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-14-jason@jlekstrand.net>
- <YIqufo0AsyRndhav@phenom.ffwll.local>
-In-Reply-To: <YIqufo0AsyRndhav@phenom.ffwll.local>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 29 Apr 2021 11:44:42 -0500
-Message-ID: <CAOFGe94qNkG-8bUSMB0PudXQcs7C22mQqZR=NoPtSG6EHh0rpQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 13/21] drm/i915/gem: Add an intermediate
- proto_context struct
-To: Daniel Vetter <daniel@ffwll.ch>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2607:fea8:3edf:49b0:497:888:9bb9:54f1]
+ (2607:fea8:3edf:49b0:497:888:9bb9:54f1) by
+ YTXPR0101CA0022.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00::35) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.25 via Frontend Transport; Thu, 29 Apr 2021 16:53:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 51db99fa-b40f-47b7-aa03-08d90b2f49f8
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2847:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB284769D7B829A88D5333D4DAEA5F9@SN6PR12MB2847.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uH+FBmLZt+1xz+5kEPMXl/jQoVjj0RNQpwvgFP2BBaJJdorQrDaUOHsuOqO7b1kNMGcHC1Xvo2jYgGhmrpMuNAShrcYrvcH4Fu20mcRpgeIlvCxblugZ8pfu057HMW0opNsK3MdKsRPoM9fXhxc1t9k453DQJrjnd4Qe/IYVQXyLoU4suXe5pyf+5AoOvMPFHUx97wKKktsc5ftKMTVctISGeMxOFPLjcPaOvfnG1EOQYHdTEjk/xpe8hVUyXXzf/o8uO7KX+44WbQ9+x/SXlwT/Z789KaVfVRWVP08s5deADzzV37dJ0hHnUXgRo7cTb7B3Dd7RKmQBTV+tMT6ru5+GutxB3rcOc8N9V8yefubJL1wqOcoHq50h2vZM1GZEzTy9vZbSWCfKNFGSlsH3pmZ8RoF43uHYOVZ/R+rhbml7+YPiMGV0ZWJFoJmG0cJCVBz/8Qba2OazDb/a1Ql3lCiZ3EINx75SiGgwtTfInB3RGm0UJvCn/hkvxisaTAoQXkvI9O7AqVWgA7l3hOCuYQwbTKK3DVBEr3JcABxCOlOW2aiZcRlUQJozWzZ77yxk/cy/G4QnHCrht0Vc+DQKkeg93gOjlh/3K5k23tM9HuXlpZZebZCwC9UBNR8TODu/ZMCs+1MWuEhwSBibJha27FJ9Cj4PwRzFVKSjApXEpcE+TCsy5eJ8DOKkXbMnOohH
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(346002)(396003)(39860400002)(366004)(2616005)(316002)(478600001)(66946007)(36756003)(8936002)(8676002)(66476007)(66556008)(44832011)(38100700002)(31686004)(86362001)(52116002)(6916009)(53546011)(5660300002)(4326008)(186003)(6486002)(31696002)(2906002)(16526019)(83380400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cUQ0L1Yya3BGNEIxTi9DbloyelJYUTl6d2o5bmxSTzRER2NlbERLbWdZMDg1?=
+ =?utf-8?B?Y0h3QTZUeThYbWZIQkZOQUt1ZHpvMjBBMGlVWkgyMmZrM0pqSDNFRXRLdi8x?=
+ =?utf-8?B?OVJEUVk0aSt2Uy84NlhzZkxudFV0R3huUmxlZVBFSCs1UklqL1F4NDZhZTR2?=
+ =?utf-8?B?YXNYRmJETUtpcEFEd0Jid0VOMGZTaVBWZm5RLzNtYTJRRW50eUYzWnZldDlS?=
+ =?utf-8?B?RFczbkNpTW1SN1N4VHVXemNYTHgrdk9lNnFkUjRGd1BNWkNWQ1U2U3AvSXJw?=
+ =?utf-8?B?c29MT0tMSnhiNkpGZ2tSVTdCdzlkRzdIdzh5ZWZ5bHhqTUJEcXQ3aU5zck9C?=
+ =?utf-8?B?T05zWVlNTmpNd0o1L1hLbGZPTDlwZFFtcjgvbk8yNUJoRDIzUXM3N0VRdGNF?=
+ =?utf-8?B?SDl0U2ZuTUQ2TldMRHZWVWlZS3owUDFoVDRITFgxYTBuTW9Fc05xaFhwYVU2?=
+ =?utf-8?B?bjNHOVpXMUpvSWRTMmtvTzJub3ZwQWdTTGNobHhnNThaZWdjb1p0cHNIbGJF?=
+ =?utf-8?B?Y3laVUlDcTZJRE9aUzc2WkNRR2cyMlhzMFVWcHFhRklpOHVYdkhYL3I5dDhh?=
+ =?utf-8?B?YStFWWdVVytaai9kZVZCcFhDTUJvREU5b1crNlorKzBHTlNLZHIzMXNpU0Jq?=
+ =?utf-8?B?TW9DSnhlYXEzQ2hRT25lelpCamRKMGx0R3RsWUtENE1MbCsyVzN5RUd0ZjRF?=
+ =?utf-8?B?cHJZbEdLbkNRZTFxS1c1OWR2dUdsQXFNNjVEWnVkZ3I5ZkppR1BjY001clRL?=
+ =?utf-8?B?NHdLVmoxTDZnOFRYdUpRTkFhSmlrbHZ1NDRkbXZHZjdhRWtWekxQSCtCMGRt?=
+ =?utf-8?B?dkxMRk1aWVpqYlJHaUlsTGU1amgvZE9wMkhlRGZRQTFoRzhoWmlGUlE4K3c5?=
+ =?utf-8?B?TlB2K2pwcit3d0l1Ri9ac2UyWkpkUjN6dlordEo4MmtiOUVraVZyTU9IZ3Rr?=
+ =?utf-8?B?RmVQckFaK1ZRUzF4QnFjSkNLbEs2WW1xTEFycVVucU1iR1lZaDd6L3NJSEZr?=
+ =?utf-8?B?cDgydU91T3VXeXBYcmJqUnhTNzBKRng2K0xhN0pZbjBiT2RlTkpCZFMxd0RO?=
+ =?utf-8?B?bXRBZWV1akJIOVhpYUhFMUlEUnZISndIUU9tWGFLSWpCTFNONDBZaFcxOGk1?=
+ =?utf-8?B?WThzdnRhSGg4czZVZ0RUWlliQUM0bkUzamxKc2JMWjAzUnBhT3M3WVU2bVZG?=
+ =?utf-8?B?T3hGcC9NWW9Gc3B1SVFUbGcxTDBPT3pWWkRacEtvSGVTKzkzRjRadXR1NjRv?=
+ =?utf-8?B?MnFhcE4vTWw0Z1RVVXZqQnBYY0g0MWdNS2EzYmZhbXpXSjdRWXY2bzU5Yjht?=
+ =?utf-8?B?dG5PQWk5ckU1NGp5WU5OSEVmSXJXdHNYYzJhREZncjVZQ0xoS2VvS0dGL3RW?=
+ =?utf-8?B?eGNjRVpRSFlvcGJvMElZZDRpbDdLdkcrcE9xU1ZxOVhZaVVBbGVlemNES2lO?=
+ =?utf-8?B?dThLeFpqbEhWdE51anorS3A3ZEhOZmc4dDZMRitvdStCanlSeFdDU1VqMWNO?=
+ =?utf-8?B?WVEvc1FpdWJxSEZWd2RPWW5oUWlOa3cyZFVORThnVVRKRi9tUWJ3aWg4ZDFk?=
+ =?utf-8?B?SFZvcnRkREcydUw0eW5BeTNMUFJEVld1QjF4SHRsYVZhZVM1b3ZlOWIrVGZE?=
+ =?utf-8?B?am9Ga2h4VzBYYU1vTmxYcmV2OVJYMGFJUXJTZGxHYUpMa21IQXMxNE44MjA0?=
+ =?utf-8?B?N2Vza2JoQllQOWlJVWVNQWJLTnE4K3BRaWRvcUVET3FtMU9zZzNSZHNQa2ZX?=
+ =?utf-8?B?TitYekdlR05VM3pDVENsNkVlUWNnM1E0a25nUVkzaXcrUVpOOE42R1pOeGlz?=
+ =?utf-8?B?L1IyMkhQT1Mra1grRXA0VExNKy9ESklvTGI2Umk2dlU0YWhYN1pXZWFKMTU2?=
+ =?utf-8?Q?zQpF67LfTuQgj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51db99fa-b40f-47b7-aa03-08d90b2f49f8
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2021 16:53:18.4925 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r1Mp8+jeSVYYGdr38cEDp4law4Uqmds9gTgxs83t6Tfi4SMFx7MYicn4wZgKbTUJPUbVJFd1xRmrrwLNQlcJsw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2847
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,404 +127,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: ckoenig.leichtzumerken@gmail.com, gregkh@linuxfoundation.org,
+ daniel.vetter@ffwll.ch, Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org,
+ Alexander.Deucher@amd.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 29, 2021 at 8:02 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> The commit introducing a new data structure really should have a solid
-> intro in the commit message about. Please cover
->
-> - that ctx really should be immutable, safe for exceptions like priority
->
-> - that unfortunately we butchered the uapi with setparam and sharing
->   setparams between create_ext and setparam
->
-> - and how exactly proto ctx fixes this (with stuff like locking design
->   used)
->
-> Maybe also dupe the kerneldoc into here for completeness.
-> On Fri, Apr 23, 2021 at 05:31:23PM -0500, Jason Ekstrand wrote:
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 143 ++++++++++++++----
-> >  .../gpu/drm/i915/gem/i915_gem_context_types.h |  21 +++
-> >  .../gpu/drm/i915/gem/selftests/mock_context.c |  16 +-
->
-> I'm wondering whether in the end we should split out the proto_ctx into
-> its own file, with the struct private only to itself. But I guess
-> impossible during the transition, and also maybe afterwards?
->
-> >  3 files changed, 150 insertions(+), 30 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > index e5efd22c89ba2..3e883daab93bf 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > @@ -191,6 +191,95 @@ static int validate_priority(struct drm_i915_private *i915,
-> >       return 0;
-> >  }
-> >
-> > +static void proto_context_close(struct i915_gem_proto_context *pc)
-> > +{
-> > +     if (pc->vm)
-> > +             i915_vm_put(pc->vm);
-> > +     kfree(pc);
-> > +}
-> > +
-> > +static int proto_context_set_persistence(struct drm_i915_private *i915,
-> > +                                      struct i915_gem_proto_context *pc,
-> > +                                      bool persist)
-> > +{
-> > +     if (test_bit(UCONTEXT_PERSISTENCE, &pc->user_flags) == persist)
-> > +             return 0;
->
-> We have compilers to optimize this kind of stuff, pls remove :-)
-> Especially with the non-atomic bitops there's no point.
 
-I thought at one point that this did have a purpose.  However, now
-that I look at it harder, I'm pretty sure it doesn't.  Will drop.
 
-> > +
-> > +     if (persist) {
-> > +             /*
-> > +              * Only contexts that are short-lived [that will expire or be
-> > +              * reset] are allowed to survive past termination. We require
-> > +              * hangcheck to ensure that the persistent requests are healthy.
-> > +              */
-> > +             if (!i915->params.enable_hangcheck)
-> > +                     return -EINVAL;
-> > +
-> > +             set_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
->
-> It's a bit entetaining, but the bitops in the kernel are atomic. Which is
-> hella confusing here.
->
-> I think open coding is the standard for truly normal bitops.
+On 2021-04-28 12:53 p.m., Bjorn Helgaas wrote:
+> In subject:
+> 
+> s/PCI: add support/PCI: Add support/
+> 
+> to match convention ("git log --oneline drivers/pci/pci-driver.c" to
+> learn this).
+> 
+> On Wed, Apr 28, 2021 at 11:11:48AM -0400, Andrey Grodzovsky wrote:
+>> This is exact copy of 'USB: add support for dev_groups to
+>> struct usb_device_driver' patch by Greg but just for
+>> the PCI case.
+> 
+> Ideally this would be an imperative sentence telling us what the patch
+> *does*, not just that it's a copy of something else.
+> 
+> I'd also like a brief comment about why this is useful, i.e., why you
+> need this and what you're going to use it for.
+> 
+> The usual commit citation format is 7d9c1d2f7aca ("USB: add support
+> for dev_groups to struct usb_device_driver") so it's easier to locate
+> the commit.
+> 
+> I see there is also b71b283e3d6d ("USB: add support for dev_groups to
+> struct usb_driver").  I don't know enough about USB to know whether
+> 7d9c1d2f7aca or b71b283e3d6d is a closer analogue to what you're doing
+> here, but I do see that struct usb_driver is far more common than
+> struct usb_device_driver.
+> 
+> PCI has struct pci_driver, but doesn't have the concept of a struct
+> pci_device_driver.
 
-There's __set_bit if you'd rather I use that.
+Since we don't have pci_device_driver then pci_driver is the best place
+for it then, no ?
 
-> > +     } else {
-> > +             /* To cancel a context we use "preempt-to-idle" */
-> > +             if (!(i915->caps.scheduler & I915_SCHEDULER_CAP_PREEMPTION))
-> > +                     return -ENODEV;
-> > +
-> > +             /*
-> > +              * If the cancel fails, we then need to reset, cleanly!
-> > +              *
-> > +              * If the per-engine reset fails, all hope is lost! We resort
-> > +              * to a full GPU reset in that unlikely case, but realistically
-> > +              * if the engine could not reset, the full reset does not fare
-> > +              * much better. The damage has been done.
-> > +              *
-> > +              * However, if we cannot reset an engine by itself, we cannot
-> > +              * cleanup a hanging persistent context without causing
-> > +              * colateral damage, and we should not pretend we can by
-> > +              * exposing the interface.
-> > +              */
-> > +             if (!intel_has_reset_engine(&i915->gt))
-> > +                     return -ENODEV;
-> > +
-> > +             clear_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
->
-> Same here.
->
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static struct i915_gem_proto_context *
-> > +proto_context_create(struct drm_i915_private *i915, unsigned int flags)
-> > +{
-> > +     struct i915_gem_proto_context *pc;
-> > +
-> > +     if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE &&
-> > +         !HAS_EXECLISTS(i915))
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     pc = kzalloc(sizeof(*pc), GFP_KERNEL);
-> > +     if (!pc)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     if (HAS_FULL_PPGTT(i915)) {
-> > +             struct i915_ppgtt *ppgtt;
-> > +
-> > +             ppgtt = i915_ppgtt_create(&i915->gt);
-> > +             if (IS_ERR(ppgtt)) {
-> > +                     drm_dbg(&i915->drm, "PPGTT setup failed (%ld)\n",
-> > +                             PTR_ERR(ppgtt));
-> > +                     proto_context_close(pc);
-> > +                     return ERR_CAST(ppgtt);
-> > +             }
-> > +             pc->vm = &ppgtt->vm;
-> > +     }
-> > +
-> > +     pc->user_flags = 0;
-> > +     set_bit(UCONTEXT_BANNABLE, &pc->user_flags);
-> > +     set_bit(UCONTEXT_RECOVERABLE, &pc->user_flags);
->
-> Same about atomic bitops here.
+Andrey
 
-Changed to just initialize to BANNABLE | RECOVERABLE.
-
-> > +     proto_context_set_persistence(i915, pc, true);
-> > +     pc->sched.priority = I915_PRIORITY_NORMAL;
-> > +
-> > +     if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE)
-> > +             pc->single_timeline = true;
->
-> bit a bikeshed, but I'd put the error checking in here too and deal with
-> the unwind pain with the usual goto proto_close. That should also make the
-> ppgtt unwind path a bit clearer because it sticks out in the standard way.
-
-Sure.  Can do.
-
-> > +
-> > +     return pc;
-> > +}
-> > +
-> >  static struct i915_address_space *
-> >  context_get_vm_rcu(struct i915_gem_context *ctx)
-> >  {
-> > @@ -660,7 +749,8 @@ static int __context_set_persistence(struct i915_gem_context *ctx, bool state)
-> >  }
-> >
-> >  static struct i915_gem_context *
-> > -__create_context(struct drm_i915_private *i915)
-> > +__create_context(struct drm_i915_private *i915,
-> > +              const struct i915_gem_proto_context *pc)
-> >  {
-> >       struct i915_gem_context *ctx;
-> >       struct i915_gem_engines *e;
-> > @@ -673,7 +763,7 @@ __create_context(struct drm_i915_private *i915)
-> >
-> >       kref_init(&ctx->ref);
-> >       ctx->i915 = i915;
-> > -     ctx->sched.priority = I915_PRIORITY_NORMAL;
-> > +     ctx->sched = pc->sched;
-> >       mutex_init(&ctx->mutex);
-> >       INIT_LIST_HEAD(&ctx->link);
-> >
-> > @@ -696,9 +786,7 @@ __create_context(struct drm_i915_private *i915)
-> >        * is no remap info, it will be a NOP. */
-> >       ctx->remap_slice = ALL_L3_SLICES(i915);
-> >
-> > -     i915_gem_context_set_bannable(ctx);
-> > -     i915_gem_context_set_recoverable(ctx);
-> > -     __context_set_persistence(ctx, true /* cgroup hook? */);
-> > +     ctx->user_flags = pc->user_flags;
-> >
-> >       for (i = 0; i < ARRAY_SIZE(ctx->hang_timestamp); i++)
-> >               ctx->hang_timestamp[i] = jiffies - CONTEXT_FAST_HANG_JIFFIES;
-> > @@ -786,38 +874,23 @@ static void __assign_ppgtt(struct i915_gem_context *ctx,
-> >  }
-> >
-> >  static struct i915_gem_context *
-> > -i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
-> > +i915_gem_create_context(struct drm_i915_private *i915,
-> > +                     const struct i915_gem_proto_context *pc)
-> >  {
-> >       struct i915_gem_context *ctx;
-> >       int ret;
-> >
-> > -     if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE &&
-> > -         !HAS_EXECLISTS(i915))
-> > -             return ERR_PTR(-EINVAL);
-> > -
-> > -     ctx = __create_context(i915);
-> > +     ctx = __create_context(i915, pc);
-> >       if (IS_ERR(ctx))
-> >               return ctx;
-> >
-> > -     if (HAS_FULL_PPGTT(i915)) {
-> > -             struct i915_ppgtt *ppgtt;
-> > -
-> > -             ppgtt = i915_ppgtt_create(&i915->gt);
-> > -             if (IS_ERR(ppgtt)) {
-> > -                     drm_dbg(&i915->drm, "PPGTT setup failed (%ld)\n",
-> > -                             PTR_ERR(ppgtt));
-> > -                     context_close(ctx);
-> > -                     return ERR_CAST(ppgtt);
-> > -             }
-> > -
-> > +     if (pc->vm) {
-> >               mutex_lock(&ctx->mutex);
->
-> I guess this dies later, but this mutex_lock here is superflous since
-> right now no one else can get at our ctx struct. And nothing in
-> __assign_ppgtt checks for us holding the lock.
->
-> But fine if it only gets remove in the vm immutable patch.
-
-Yeah, I think it gets dropped in the immutable patch.  I just didn't
-want to perturb things more than necessary in this one.
-
-> > -             __assign_ppgtt(ctx, &ppgtt->vm);
-> > +             __assign_ppgtt(ctx, pc->vm);
-> >               mutex_unlock(&ctx->mutex);
-> > -
-> > -             i915_vm_put(&ppgtt->vm);
-> >       }
-> >
-> > -     if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
-> > +     if (pc->single_timeline) {
-> >               ret = drm_syncobj_create(&ctx->syncobj,
-> >                                        DRM_SYNCOBJ_CREATE_SIGNALED,
-> >                                        NULL);
-> > @@ -883,6 +956,7 @@ int i915_gem_context_open(struct drm_i915_private *i915,
-> >                         struct drm_file *file)
-> >  {
-> >       struct drm_i915_file_private *file_priv = file->driver_priv;
-> > +     struct i915_gem_proto_context *pc;
-> >       struct i915_gem_context *ctx;
-> >       int err;
-> >       u32 id;
-> > @@ -892,7 +966,14 @@ int i915_gem_context_open(struct drm_i915_private *i915,
-> >       /* 0 reserved for invalid/unassigned ppgtt */
-> >       xa_init_flags(&file_priv->vm_xa, XA_FLAGS_ALLOC1);
-> >
-> > -     ctx = i915_gem_create_context(i915, 0);
-> > +     pc = proto_context_create(i915, 0);
-> > +     if (IS_ERR(pc)) {
-> > +             err = PTR_ERR(pc);
-> > +             goto err;
-> > +     }
-> > +
-> > +     ctx = i915_gem_create_context(i915, pc);
-> > +     proto_context_close(pc);
-> >       if (IS_ERR(ctx)) {
-> >               err = PTR_ERR(ctx);
-> >               goto err;
-> > @@ -1884,6 +1965,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
-> >  {
-> >       struct drm_i915_private *i915 = to_i915(dev);
-> >       struct drm_i915_gem_context_create_ext *args = data;
-> > +     struct i915_gem_proto_context *pc;
-> >       struct create_ext ext_data;
-> >       int ret;
-> >       u32 id;
-> > @@ -1906,7 +1988,12 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
-> >               return -EIO;
-> >       }
-> >
-> > -     ext_data.ctx = i915_gem_create_context(i915, args->flags);
-> > +     pc = proto_context_create(i915, args->flags);
-> > +     if (IS_ERR(pc))
-> > +             return PTR_ERR(pc);
-> > +
-> > +     ext_data.ctx = i915_gem_create_context(i915, pc);
-> > +     proto_context_close(pc);
-> >       if (IS_ERR(ext_data.ctx))
-> >               return PTR_ERR(ext_data.ctx);
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > index df76767f0c41b..a42c429f94577 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > @@ -46,6 +46,27 @@ struct i915_gem_engines_iter {
-> >       const struct i915_gem_engines *engines;
-> >  };
-> >
-> > +/**
-> > + * struct i915_gem_proto_context - prototype context
-> > + *
-> > + * The struct i915_gem_proto_context represents the creation parameters for
-> > + * an i915_gem_context.  This is used to gather parameters provided either
-> > + * through creation flags or via SET_CONTEXT_PARAM so that, when we create
-> > + * the final i915_gem_context, those parameters can be immutable.
->
-> The patch that puts them on an xa should explain how the locking here
-> works, even if it's rather trivial.
->
-> > + */
-> > +struct i915_gem_proto_context {
-> > +     /** @vm: See i915_gem_context::vm */
-> > +     struct i915_address_space *vm;
-> > +
-> > +     /** @user_flags: See i915_gem_context::user_flags */
-> > +     unsigned long user_flags;
-> > +
-> > +     /** @sched: See i915_gem_context::sched */
-> > +     struct i915_sched_attr sched;
-> > +
->
-> To avoid the kerneldoc warning point at your emulated syncobj here.
-
-Done.
-
-> Also this file isn't included in the i915 context docs (why would it, the
-> docs have been left dead for years after all :-/). Please fix that in a
-> prep patch.
-
-Will do.
-
---Jason
-
-> > +     bool single_timeline;
-> > +};
-> > +
-> >  /**
-> >   * struct i915_gem_context - client state
-> >   *
-> > diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_context.c b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
-> > index 51b5a3421b400..e0f512ef7f3c6 100644
-> > --- a/drivers/gpu/drm/i915/gem/selftests/mock_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
-> > @@ -80,11 +80,17 @@ void mock_init_contexts(struct drm_i915_private *i915)
-> >  struct i915_gem_context *
-> >  live_context(struct drm_i915_private *i915, struct file *file)
-> >  {
-> > +     struct i915_gem_proto_context *pc;
-> >       struct i915_gem_context *ctx;
-> >       int err;
-> >       u32 id;
-> >
-> > -     ctx = i915_gem_create_context(i915, 0);
-> > +     pc = proto_context_create(i915, 0);
-> > +     if (IS_ERR(pc))
-> > +             return ERR_CAST(pc);
-> > +
-> > +     ctx = i915_gem_create_context(i915, pc);
-> > +     proto_context_close(pc);
-> >       if (IS_ERR(ctx))
-> >               return ctx;
-> >
-> > @@ -142,8 +148,14 @@ struct i915_gem_context *
-> >  kernel_context(struct drm_i915_private *i915)
-> >  {
-> >       struct i915_gem_context *ctx;
-> > +     struct i915_gem_proto_context *pc;
-> > +
-> > +     pc = proto_context_create(i915, 0);
-> > +     if (IS_ERR(pc))
-> > +             return ERR_CAST(pc);
-> >
-> > -     ctx = i915_gem_create_context(i915, 0);
-> > +     ctx = i915_gem_create_context(i915, pc);
-> > +     proto_context_close(pc);
-> >       if (IS_ERR(ctx))
-> >               return ctx;
->
-> With all comments addressed: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> >
-> > --
-> > 2.31.1
-> >
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> 
+>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> ---
+>>   drivers/pci/pci-driver.c | 1 +
+>>   include/linux/pci.h      | 3 +++
+>>   2 files changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+>> index ec44a79e951a..3a72352aa5cf 100644
+>> --- a/drivers/pci/pci-driver.c
+>> +++ b/drivers/pci/pci-driver.c
+>> @@ -1385,6 +1385,7 @@ int __pci_register_driver(struct pci_driver *drv, struct module *owner,
+>>   	drv->driver.owner = owner;
+>>   	drv->driver.mod_name = mod_name;
+>>   	drv->driver.groups = drv->groups;
+>> +	drv->driver.dev_groups = drv->dev_groups;
+>>   
+>>   	spin_lock_init(&drv->dynids.lock);
+>>   	INIT_LIST_HEAD(&drv->dynids.list);
+>> diff --git a/include/linux/pci.h b/include/linux/pci.h
+>> index 86c799c97b77..b57755b03009 100644
+>> --- a/include/linux/pci.h
+>> +++ b/include/linux/pci.h
+>> @@ -858,6 +858,8 @@ struct module;
+>>    *		number of VFs to enable via sysfs "sriov_numvfs" file.
+>>    * @err_handler: See Documentation/PCI/pci-error-recovery.rst
+>>    * @groups:	Sysfs attribute groups.
+>> + * @dev_groups: Attributes attached to the device that will be
+>> + *              created once it is bound to the driver.
+>>    * @driver:	Driver model structure.
+>>    * @dynids:	List of dynamically added device IDs.
+>>    */
+>> @@ -873,6 +875,7 @@ struct pci_driver {
+>>   	int  (*sriov_configure)(struct pci_dev *dev, int num_vfs); /* On PF */
+>>   	const struct pci_error_handlers *err_handler;
+>>   	const struct attribute_group **groups;
+>> +	const struct attribute_group **dev_groups;
+>>   	struct device_driver	driver;
+>>   	struct pci_dynids	dynids;
+>>   };
+>> -- 
+>> 2.25.1
+>>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
