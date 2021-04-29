@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A10436ED6C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 17:30:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5401836ED84
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 17:40:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A38C6F382;
-	Thu, 29 Apr 2021 15:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F206F37F;
+	Thu, 29 Apr 2021 15:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07FE86F381
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 15:30:04 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id j28so15051888edy.9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 08:30:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6myubVssAw7lXkBZnLQFsXUBp/1Vkzd2EgxiGxWvdnQ=;
- b=SRj8V17ilWzWaK3nNaggXmUCxyGYY1kIc6QJ2uaf6e9YycUXjWbMmyY1WrBsdLS5Kk
- XBt8M5nxe6cf1aSSmZpYhg5dQOQ0Qu/4vLsYNhnbXK2ZqErDiU4XByXmLxuEsYDODep8
- P/KaDynAq42UI3JE4AppFdR/sxSzR04/OJzHSEX/5m+RPbB4KngJQOjF1BHewa5I3Dx6
- vdpS1GW5KywHlIqTvYynUbtrD5tRud64IgBzzPf2jTHbWEeCTKc5Gek5jgPFUOKjqb8d
- aweGU+mlbLM2hKEqUKk+zNyDTIb9d1oc2RsBMqoDI8ul+JFatT98Gy2Ci1uI05FGOCzq
- lI/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6myubVssAw7lXkBZnLQFsXUBp/1Vkzd2EgxiGxWvdnQ=;
- b=eeu0+VWDW5CN0lnoaE2RYfEIVjp/4d1cYCyOMLalP0TMC7ocsuYu6Ks9h5Sbne2P7c
- XRxJSfjfq9VurJZH/jjKeS1QDasJf8PkcpW0A39opHHZsFflFdaG1uKDofPrdr5i21YX
- c+AKOKyCK9bHeA9eKF9CrciRv1j9mx7gjtD3A9MYjYx77V7fYM0eUEz3f3ywLZUnIELr
- wjd9YhpHp7yIn8jGufOOQwIXk3jtjSCM+jktLm2NuP5Hcxai/3/P76YwSheOZZXjZKZ5
- t8JF7QEX/0/xyBlEwK3bJ5wjJcafre/X6PNW3bXSMcnY79x2/791negRZt2WvlGhQbyu
- 5+qw==
-X-Gm-Message-State: AOAM531fic+kxSjuS92fW2bmvU+2Ji4M29GZpl/1yAZgw8iraw3gedrc
- lIQoa5eB6oPViZpqcbj7aXrYCID7Fj2QmDmJgs+v6A==
-X-Google-Smtp-Source: ABdhPJwf28p8ZByF94cnscZwNdYiaOLHujI4rhp01F66ZlTvb9hfp1zAOQpARIr02aNQ3uTSbnXRw6Ly4QFHEnTZiHs=
-X-Received: by 2002:a05:6402:1013:: with SMTP id
- c19mr95156edu.213.1619710202457; 
- Thu, 29 Apr 2021 08:30:02 -0700 (PDT)
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 023AA6F37F
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 15:40:19 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TFKUW4076424;
+ Thu, 29 Apr 2021 15:40:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=BQbkytA+PXtTY5YfGP8M5DIYUuBz3K7V5eP2VQDmhNM=;
+ b=S9FvGfccgLwiYVaHfVT6jvYI9xpZP3PWhPZeOaPVxfS3KNgYbpuPJI2hbw3XraqSnlyZ
+ 505RkaClU9/iT4OKzTQ+bczYv+vuWzeaRFjuhq2fmVFED06dzd/eeSqY9SuPEFcM/3MS
+ ERuk9MX5h8FdEkgC/Kr+/xCjP9neVJ77JuoK5y731Wr7wGmQsr2F4kEAXslZKd76GOSp
+ 9MvMREJ777cCo/B9Mf3X/o1koMgac30wg/QmrFyrwm+ecG4h0NZgIwNU+0JVm+LiECek
+ pktom7ZUB3L7zljVNBR46D79YXmni3Rp6+sgziRygTzJE1IWbuuyhZG6ln3IogIs75HN Hg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 385aeq4uva-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 29 Apr 2021 15:40:12 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TFEule086153;
+ Thu, 29 Apr 2021 15:40:11 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3030.oracle.com with ESMTP id 3874d3pt3x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 29 Apr 2021 15:40:11 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TFYBrO173166;
+ Thu, 29 Apr 2021 15:40:10 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 3874d3pt3a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 29 Apr 2021 15:40:10 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13TFe9MK014179;
+ Thu, 29 Apr 2021 15:40:09 GMT
+Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 29 Apr 2021 08:40:08 -0700
+Date: Thu, 29 Apr 2021 18:40:02 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v3 3/4] staging: fbtft: Don't spam logs when probe is
+ deferred
+Message-ID: <20210429154002.GF21598@kadam>
+References: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
+ <20210428130415.55406-4-andriy.shevchenko@linux.intel.com>
+ <20210429144244.GE1981@kadam>
 MIME-Version: 1.0
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-15-jason@jlekstrand.net>
- <YIq0QnVG5gn4cOOR@phenom.ffwll.local>
-In-Reply-To: <YIq0QnVG5gn4cOOR@phenom.ffwll.local>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 29 Apr 2021 10:29:51 -0500
-Message-ID: <CAOFGe97MtMe3OnkYpy4oyLDCLugo5U=orQeONZCBNLiJmX-P5g@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 14/21] drm/i915/gem: Return an error ptr from
- context_lookup
-To: Daniel Vetter <daniel@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20210429144244.GE1981@kadam>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: rKOQ23DLMGvFxRqmwpwTIydtrzopqg3E
+X-Proofpoint-GUID: rKOQ23DLMGvFxRqmwpwTIydtrzopqg3E
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9969
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ impostorscore=0
+ phishscore=0 spamscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 malwarescore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104290097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,145 +83,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Phil Reid <preid@electromag.com.au>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 29, 2021 at 8:27 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Apr 23, 2021 at 05:31:24PM -0500, Jason Ekstrand wrote:
-> > We're about to start doing lazy context creation which means contexts
-> > get created in i915_gem_context_lookup and we may start having more
-> > errors than -ENOENT.
-> >
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_context.c    | 12 ++++++------
-> >  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  4 ++--
-> >  drivers/gpu/drm/i915/i915_drv.h                |  2 +-
-> >  drivers/gpu/drm/i915/i915_perf.c               |  4 ++--
-> >  4 files changed, 11 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > index 3e883daab93bf..7929d5a8be449 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > @@ -2105,8 +2105,8 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
-> >       int ret = 0;
-> >
-> >       ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
-> > -     if (!ctx)
-> > -             return -ENOENT;
-> > +     if (IS_ERR(ctx))
-> > +             return PTR_ERR(ctx);
-> >
-> >       switch (args->param) {
-> >       case I915_CONTEXT_PARAM_GTT_SIZE:
-> > @@ -2174,8 +2174,8 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
-> >       int ret;
-> >
-> >       ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
-> > -     if (!ctx)
-> > -             return -ENOENT;
-> > +     if (IS_ERR(ctx))
-> > +             return PTR_ERR(ctx);
-> >
-> >       ret = ctx_setparam(file_priv, ctx, args);
-> >
-> > @@ -2194,8 +2194,8 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
-> >               return -EINVAL;
-> >
-> >       ctx = i915_gem_context_lookup(file->driver_priv, args->ctx_id);
-> > -     if (!ctx)
-> > -             return -ENOENT;
-> > +     if (IS_ERR(ctx))
-> > +             return PTR_ERR(ctx);
-> >
-> >       /*
-> >        * We opt for unserialised reads here. This may result in tearing
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > index 7024adcd5cf15..de14b26f3b2d5 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > @@ -739,8 +739,8 @@ static int eb_select_context(struct i915_execbuffer *eb)
-> >       struct i915_gem_context *ctx;
-> >
-> >       ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->rsvd1);
-> > -     if (unlikely(!ctx))
-> > -             return -ENOENT;
-> > +     if (unlikely(IS_ERR(ctx)))
-> > +             return PTR_ERR(ctx);
-> >
-> >       eb->gem_context = ctx;
-> >       if (rcu_access_pointer(ctx->vm))
-> > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> > index 8571c5c1509a7..004ed0e59c999 100644
-> > --- a/drivers/gpu/drm/i915/i915_drv.h
-> > +++ b/drivers/gpu/drm/i915/i915_drv.h
->
-> I just realized that I think __i915_gem_context_lookup_rcu doesn't have
-> users anymore. Please make sure it's deleted.
+On Thu, Apr 29, 2021 at 05:42:44PM +0300, Dan Carpenter wrote:
+> On Wed, Apr 28, 2021 at 04:04:14PM +0300, Andy Shevchenko wrote:
+> > @@ -75,20 +75,16 @@ static int fbtft_request_one_gpio(struct fbtft_par *par,
+> >  				  struct gpio_desc **gpiop)
+> >  {
+> >  	struct device *dev = par->info->device;
+> > -	int ret = 0;
+> >  
+> >  	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
+> >  					       GPIOD_OUT_LOW);
+> > -	if (IS_ERR(*gpiop)) {
+> > -		ret = PTR_ERR(*gpiop);
+> > -		dev_err(dev,
+> > -			"Failed to request %s GPIO: %d\n", name, ret);
+> > -		return ret;
+> > -	}
+> > +	if (IS_ERR(*gpiop))
+> > +		dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
+> 
+> This should be a return statement:
+> 
+> 		return dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
+> 
 
-I deleted it in "drm/i915: Stop manually RCU banging in reset_stats_ioctl"
+I've created a new Smatch check for these:
 
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:2890 mcp251xfd_probe() warn: pointer error 'PTR_ERR(clk)' not handled
 
-> > @@ -1851,7 +1851,7 @@ i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
-> >               ctx = NULL;
-> >       rcu_read_unlock();
-> >
-> > -     return ctx;
-> > +     return ctx ? ctx : ERR_PTR(-ENOENT);
-> >  }
-> >
-> >  /* i915_gem_evict.c */
-> > diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> > index 85ad62dbabfab..b86ed03f6a705 100644
-> > --- a/drivers/gpu/drm/i915/i915_perf.c
-> > +++ b/drivers/gpu/drm/i915/i915_perf.c
-> > @@ -3414,10 +3414,10 @@ i915_perf_open_ioctl_locked(struct i915_perf *perf,
-> >               struct drm_i915_file_private *file_priv = file->driver_priv;
-> >
-> >               specific_ctx = i915_gem_context_lookup(file_priv, ctx_handle);
-> > -             if (!specific_ctx) {
-> > +             if (IS_ERR(specific_ctx)) {
-> >                       DRM_DEBUG("Failed to look up context with ID %u for opening perf stream\n",
-> >                                 ctx_handle);
-> > -                     ret = -ENOENT;
-> > +                     ret = PTR_ERR(specific_ctx);
->
-> Yeah this looks like a nice place to integrate this.
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> One thing we need to make sure in the next patch or thereabouts is that
-> lookup can only return ENOENT or ENOMEM, but never EINVAL. I'll drop some
-> bikesheds on that :-)
+There aren't that many bugs...  Anyway, I'm running a test now and I
+guess we'll see tomorrow how it goes.
 
-I believe that is the case.  All -EINVAL should be handled in the
-proto-context code.
+regards,
+dan carpenter
 
---Jason
-
-> -Daniel
->
-> >                       goto err;
-> >               }
-> >       }
-> > --
-> > 2.31.1
-> >
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
