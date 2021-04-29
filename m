@@ -1,59 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFDA836EB53
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 15:27:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D098836EB6E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 15:39:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 531D96E270;
-	Thu, 29 Apr 2021 13:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C44456EE9E;
+	Thu, 29 Apr 2021 13:39:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E98A26E270
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 13:27:33 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id x7so66906907wrw.10
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 06:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=nHqTpn1xdX0FS5YaOTe7fvRBjAOby8HWf6qD8HlB2Wk=;
- b=YdJcmPIBArsuPOOuivLwreiuHYSm+kGok7f4lj7CLJ6+gKzzc8NnGhZxc6DyJvPeMj
- xQ0fUevJC62ekAzDz22xcUnR7o0gcWUHVyuqRuJLWCvEXVMd9axt/TYT5qsgZeqYXwT/
- PWnuO3Xeeio4rUxzc/no1/en57w/RkQTcfQhE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nHqTpn1xdX0FS5YaOTe7fvRBjAOby8HWf6qD8HlB2Wk=;
- b=b7oXNfdYCxB2+7tSygo/0Qw++3VTvUifY914+q9lFBVFdmhsDgu8t6liU3SVdyOcZ2
- HKN0ZpkOmll7RCh7Rq5AA8vTXyPFxvXGhLJH0RHxKx7nWvXnH0qPCU2Zl0+27Er2hY/n
- 3Ale6SxZWZQbiVPgmt7ZQslHMtAeUpdA9ay3zEYZ1NnRLOaVM/rMOsTSvZ99V8ZRPoKf
- OuDIsr1yX7rFY+MSmfZpQ8pFKEKiOZDDSiVwzGTeXJTSpqhupEi1mTN+XozsbBLGAw6y
- 7y6xiommnJ7a+b8Q1uN6u4W3RI1pmE21uGzFo7Cu8JaqTC6HleeYPJqQ4lCc6je/6d6n
- 036g==
-X-Gm-Message-State: AOAM5331uk+cyR8z/BIabybfdUROKeWXb6UW/buaqb6HPSh6MeyhohrR
- h7SEX6Ffi+OtPXxVXVXyGG4ObisyliW2wQ==
-X-Google-Smtp-Source: ABdhPJyzzKSMduHQ3wI6tZpIBowroSJUQNEpsVMkjxQekOl7XfiCpYme9Wzs9KiLJ0WMjocRmbLM1g==
-X-Received: by 2002:a5d:59af:: with SMTP id p15mr9179272wrr.19.1619702852613; 
- Thu, 29 Apr 2021 06:27:32 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q16sm3721061wmj.24.2021.04.29.06.27.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 06:27:32 -0700 (PDT)
-Date: Thu, 29 Apr 2021 15:27:30 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [Intel-gfx] [PATCH 14/21] drm/i915/gem: Return an error ptr from
- context_lookup
-Message-ID: <YIq0QnVG5gn4cOOR@phenom.ffwll.local>
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-15-jason@jlekstrand.net>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DDA36EE9E;
+ Thu, 29 Apr 2021 13:39:54 +0000 (UTC)
+Received: from 1-171-217-32.dynamic-ip.hinet.net ([1.171.217.32]
+ helo=localhost) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>)
+ id 1lc6tS-00049f-TU; Thu, 29 Apr 2021 13:39:51 +0000
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: alexander.deucher@amd.com,
+	christian.koenig@amd.com
+Subject: [PATCH] drm/radeon/dpm: Disable sclk switching when two 4K 60Hz
+ monitors are connected
+Date: Thu, 29 Apr 2021 21:39:40 +0800
+Message-Id: <20210429133941.531730-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210423223131.879208-15-jason@jlekstrand.net>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,133 +39,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 23, 2021 at 05:31:24PM -0500, Jason Ekstrand wrote:
-> We're about to start doing lazy context creation which means contexts
-> get created in i915_gem_context_lookup and we may start having more
-> errors than -ENOENT.
-> 
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c    | 12 ++++++------
->  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  4 ++--
->  drivers/gpu/drm/i915/i915_drv.h                |  2 +-
->  drivers/gpu/drm/i915/i915_perf.c               |  4 ++--
->  4 files changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 3e883daab93bf..7929d5a8be449 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -2105,8 +2105,8 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
->  	int ret = 0;
->  
->  	ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
-> -	if (!ctx)
-> -		return -ENOENT;
-> +	if (IS_ERR(ctx))
-> +		return PTR_ERR(ctx);
->  
->  	switch (args->param) {
->  	case I915_CONTEXT_PARAM_GTT_SIZE:
-> @@ -2174,8 +2174,8 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
->  	int ret;
->  
->  	ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
-> -	if (!ctx)
-> -		return -ENOENT;
-> +	if (IS_ERR(ctx))
-> +		return PTR_ERR(ctx);
->  
->  	ret = ctx_setparam(file_priv, ctx, args);
->  
-> @@ -2194,8 +2194,8 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
->  		return -EINVAL;
->  
->  	ctx = i915_gem_context_lookup(file->driver_priv, args->ctx_id);
-> -	if (!ctx)
-> -		return -ENOENT;
-> +	if (IS_ERR(ctx))
-> +		return PTR_ERR(ctx);
->  
->  	/*
->  	 * We opt for unserialised reads here. This may result in tearing
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 7024adcd5cf15..de14b26f3b2d5 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -739,8 +739,8 @@ static int eb_select_context(struct i915_execbuffer *eb)
->  	struct i915_gem_context *ctx;
->  
->  	ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->rsvd1);
-> -	if (unlikely(!ctx))
-> -		return -ENOENT;
-> +	if (unlikely(IS_ERR(ctx)))
-> +		return PTR_ERR(ctx);
->  
->  	eb->gem_context = ctx;
->  	if (rcu_access_pointer(ctx->vm))
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 8571c5c1509a7..004ed0e59c999 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
+Screen flickers rapidly when two 4K 60Hz monitors are connected to an
+Oland card. This issue doesn't happen when one monitor is 4K 60Hz
+(pixelclock 594MHz) and another one is 4K 30Hz (pixelclock 297MHz).
 
-I just realized that I think __i915_gem_context_lookup_rcu doesn't have
-users anymore. Please make sure it's deleted.
+The issue is gone after setting "power_dpm_force_performance_level" to
+"high". Following the lead, we found that the issue only occurs when
+sclk is too low.
 
-> @@ -1851,7 +1851,7 @@ i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
->  		ctx = NULL;
->  	rcu_read_unlock();
->  
-> -	return ctx;
-> +	return ctx ? ctx : ERR_PTR(-ENOENT);
->  }
->  
->  /* i915_gem_evict.c */
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index 85ad62dbabfab..b86ed03f6a705 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -3414,10 +3414,10 @@ i915_perf_open_ioctl_locked(struct i915_perf *perf,
->  		struct drm_i915_file_private *file_priv = file->driver_priv;
->  
->  		specific_ctx = i915_gem_context_lookup(file_priv, ctx_handle);
-> -		if (!specific_ctx) {
-> +		if (IS_ERR(specific_ctx)) {
->  			DRM_DEBUG("Failed to look up context with ID %u for opening perf stream\n",
->  				  ctx_handle);
-> -			ret = -ENOENT;
-> +			ret = PTR_ERR(specific_ctx);
+So resolve the issue by disabling sclk switching when there are two
+monitors that requires high pixelclock (> 297MHz).
 
-Yeah this looks like a nice place to integrate this.
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+ drivers/gpu/drm/radeon/radeon.h    | 1 +
+ drivers/gpu/drm/radeon/radeon_pm.c | 8 ++++++++
+ drivers/gpu/drm/radeon/si_dpm.c    | 3 +++
+ 3 files changed, 12 insertions(+)
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-One thing we need to make sure in the next patch or thereabouts is that
-lookup can only return ENOENT or ENOMEM, but never EINVAL. I'll drop some
-bikesheds on that :-)
--Daniel
-
->  			goto err;
->  		}
->  	}
-> -- 
-> 2.31.1
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
+diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+index 42281fce552e6..56ed5634cebef 100644
+--- a/drivers/gpu/drm/radeon/radeon.h
++++ b/drivers/gpu/drm/radeon/radeon.h
+@@ -1549,6 +1549,7 @@ struct radeon_dpm {
+ 	void                    *priv;
+ 	u32			new_active_crtcs;
+ 	int			new_active_crtc_count;
++	int			high_pixelclock_count;
+ 	u32			current_active_crtcs;
+ 	int			current_active_crtc_count;
+ 	bool single_display;
+diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/radeon_pm.c
+index 0c1950f4e146f..3861c0b98fcf3 100644
+--- a/drivers/gpu/drm/radeon/radeon_pm.c
++++ b/drivers/gpu/drm/radeon/radeon_pm.c
+@@ -1767,6 +1767,7 @@ static void radeon_pm_compute_clocks_dpm(struct radeon_device *rdev)
+ 	struct drm_device *ddev = rdev->ddev;
+ 	struct drm_crtc *crtc;
+ 	struct radeon_crtc *radeon_crtc;
++	struct radeon_connector *radeon_connector;
+ 
+ 	if (!rdev->pm.dpm_enabled)
+ 		return;
+@@ -1776,6 +1777,7 @@ static void radeon_pm_compute_clocks_dpm(struct radeon_device *rdev)
+ 	/* update active crtc counts */
+ 	rdev->pm.dpm.new_active_crtcs = 0;
+ 	rdev->pm.dpm.new_active_crtc_count = 0;
++	rdev->pm.dpm.high_pixelclock_count = 0;
+ 	if (rdev->num_crtc && rdev->mode_info.mode_config_initialized) {
+ 		list_for_each_entry(crtc,
+ 				    &ddev->mode_config.crtc_list, head) {
+@@ -1783,6 +1785,12 @@ static void radeon_pm_compute_clocks_dpm(struct radeon_device *rdev)
+ 			if (crtc->enabled) {
+ 				rdev->pm.dpm.new_active_crtcs |= (1 << radeon_crtc->crtc_id);
+ 				rdev->pm.dpm.new_active_crtc_count++;
++				if (!radeon_crtc->connector)
++					continue;
++
++				radeon_connector = to_radeon_connector(radeon_crtc->connector);
++				if (radeon_connector->pixelclock_for_modeset > 297000)
++					rdev->pm.dpm.high_pixelclock_count++;
+ 			}
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dpm.c
+index 9186095518047..be6fa3257d1bc 100644
+--- a/drivers/gpu/drm/radeon/si_dpm.c
++++ b/drivers/gpu/drm/radeon/si_dpm.c
+@@ -2995,6 +2995,9 @@ static void si_apply_state_adjust_rules(struct radeon_device *rdev,
+ 	    ni_dpm_vblank_too_short(rdev))
+ 		disable_mclk_switching = true;
+ 
++	if (rdev->pm.dpm.high_pixelclock_count > 1)
++		disable_sclk_switching = true;
++
+ 	if (rps->vclk || rps->dclk) {
+ 		disable_mclk_switching = true;
+ 		disable_sclk_switching = true;
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
