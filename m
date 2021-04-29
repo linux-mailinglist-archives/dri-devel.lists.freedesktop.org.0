@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0B636E68D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 10:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9683C36E711
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 10:34:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED626ED92;
-	Thu, 29 Apr 2021 08:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA846EDB4;
+	Thu, 29 Apr 2021 08:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07C2B6ED92;
- Thu, 29 Apr 2021 08:06:50 +0000 (UTC)
-IronPort-SDR: IhOoqRTz65pBOQpygiK2guGn7MrMotrdLr/JNW9426HA18bEgVXDPsPVAxM6Snx+0nt349F5iu
- fYNiCFIc5Lew==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="258241507"
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="258241507"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 01:06:50 -0700
-IronPort-SDR: kDLm3GjbocTY7uQBsW/+mqpI2CgO/XddxyEusQdizq9YQaVnaIfMkTkYpFpJg0X95pSrG5Sh6y
- wKNUeVVDKJcw==
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="458635017"
-Received: from gwaise-mobl1.ger.corp.intel.com (HELO [10.213.208.64])
- ([10.213.208.64])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 01:06:49 -0700
-Subject: Re: [Intel-gfx] [PATCH 06/21] drm/i915: Implement SINGLE_TIMELINE
- with a syncobj (v3)
-To: Jason Ekstrand <jason@jlekstrand.net>
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-7-jason@jlekstrand.net>
- <a1561dbe-a109-9a1d-df1d-bf91fd67e3f6@linux.intel.com>
- <CAOFGe96wvRvxKMczMwfJL7naQZs1tp9owj7xte9+0QnhxVEhag@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <4d16e4ec-2167-965d-12a5-6b766a2a110a@linux.intel.com>
-Date: Thu, 29 Apr 2021 09:06:47 +0100
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 985796EDB2;
+ Thu, 29 Apr 2021 08:34:34 +0000 (UTC)
+IronPort-SDR: xx8t5FZVxfcR2IJqFrnjauA8+6J5VBc2T4o3k47oLHFJdnkBRlHBVveI/IetktGue3cVLRspEj
+ HoSDq0TrQ7yw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="197005300"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="197005300"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2021 01:34:33 -0700
+IronPort-SDR: tz/Rtk61MU5x5L21iO4Zaw2PbwZStd4joVnaxY0T1oIKEXpMZ1meovRbfN2tr7oTLL8SUBDkIn
+ QyD+n5zp2ijw==
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="430740914"
+Received: from ssuryana-mobl.ger.corp.intel.com (HELO [10.249.44.155])
+ ([10.249.44.155])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2021 01:34:32 -0700
+Subject: Re: [PATCH 1/1] i915/query: Correlate engine and cpu timestamps with
+ better accuracy
+To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20210429003410.69754-1-umesh.nerlige.ramappa@intel.com>
+ <20210429003410.69754-2-umesh.nerlige.ramappa@intel.com>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Message-ID: <5b2218d4-10b5-11b8-699b-5564e89d3295@intel.com>
+Date: Thu, 29 Apr 2021 11:34:30 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe96wvRvxKMczMwfJL7naQZs1tp9owj7xte9+0QnhxVEhag@mail.gmail.com>
+In-Reply-To: <20210429003410.69754-2-umesh.nerlige.ramappa@intel.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,261 +54,326 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, jason@jlekstrand.net
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 29/04/2021 03:34, Umesh Nerlige Ramappa wrote:
+> Perf measurements rely on CPU and engine timestamps to correlate
+> events of interest across these time domains. Current mechanisms get
+> these timestamps separately and the calculated delta between these
+> timestamps lack enough accuracy.
+>
+> To improve the accuracy of these time measurements to within a few us,
+> add a query that returns the engine and cpu timestamps captured as
+> close to each other as possible.
+>
+> v2: (Tvrtko)
+> - document clock reference used
+> - return cpu timestamp always
+> - capture cpu time just before lower dword of cs timestamp
+>
+> v3: (Chris)
+> - use uncore-rpm
+> - use __query_cs_timestamp helper
+>
+> v4: (Lionel)
+> - Kernel perf subsytem allows users to specify the clock id to be used
+>    in perf_event_open. This clock id is used by the perf subsystem to
+>    return the appropriate cpu timestamp in perf events. Similarly, let
+>    the user pass the clockid to this query so that cpu timestamp
+>    corresponds to the clock id requested.
+>
+> v5: (Tvrtko)
+> - Use normal ktime accessors instead of fast versions
+> - Add more uApi documentation
+>
+> v6: (Lionel)
+> - Move switch out of spinlock
+>
+> v7: (Chris)
+> - cs_timestamp is a misnomer, use cs_cycles instead
+> - return the cs cycle frequency as well in the query
+>
+> v8:
+> - Add platform and engine specific checks
+>
+> v9: (Lionel)
+> - Return 2 cpu timestamps in the query - captured before and after the
+>    register read
+>
+> v10: (Chris)
+> - Use local_clock() to measure time taken to read lower dword of
+>    register and return it to user.
+>
+> v11: (Jani)
+> - IS_GEN deprecated. User GRAPHICS_VER instead.
+>
+> v12: (Jason)
+> - Split cpu timestamp array into timestamp and delta for cleaner API
+>
+> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+> Reviewed-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 
-On 28/04/2021 18:26, Jason Ekstrand wrote:
-> On Wed, Apr 28, 2021 at 10:49 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->>
->> On 23/04/2021 23:31, Jason Ekstrand wrote:
->>> This API is entirely unnecessary and I'd love to get rid of it.  If
->>> userspace wants a single timeline across multiple contexts, they can
->>> either use implicit synchronization or a syncobj, both of which existed
->>> at the time this feature landed.  The justification given at the time
->>> was that it would help GL drivers which are inherently single-timeline.
->>> However, neither of our GL drivers actually wanted the feature.  i965
->>> was already in maintenance mode at the time and iris uses syncobj for
->>> everything.
->>>
->>> Unfortunately, as much as I'd love to get rid of it, it is used by the
->>> media driver so we can't do that.  We can, however, do the next-best
->>> thing which is to embed a syncobj in the context and do exactly what
->>> we'd expect from userspace internally.  This isn't an entirely identical
->>> implementation because it's no longer atomic if userspace races with
->>> itself by calling execbuffer2 twice simultaneously from different
->>> threads.  It won't crash in that case; it just doesn't guarantee any
->>> ordering between those two submits.
->>
->> 1)
->>
->> Please also mention the difference in context/timeline name when
->> observed via the sync file API.
->>
->> 2)
->>
->> I don't remember what we have concluded in terms of observable effects
->> in sync_file_merge?
-> 
-> I don't see how either of these are observable since this syncobj is
-> never exposed to userspace in any way.  Please help me understand what
-> I'm missing here.
 
-Single timeline context - two execbufs - return two out fences.
+Thanks for the update :
 
-Before the patch those two had the same fence context, with the patch 
-they have different ones.
 
-Fence context is visible to userspace via sync file info (timeline name 
-at least) and rules in sync_file_merge.
+Reviewed-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 
-Regards,
 
-Tvrtko
+> ---
+>   drivers/gpu/drm/i915/i915_query.c | 148 ++++++++++++++++++++++++++++++
+>   include/uapi/drm/i915_drm.h       |  52 +++++++++++
+>   2 files changed, 200 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+> index fed337ad7b68..357c44e8177c 100644
+> --- a/drivers/gpu/drm/i915/i915_query.c
+> +++ b/drivers/gpu/drm/i915/i915_query.c
+> @@ -6,6 +6,8 @@
+>   
+>   #include <linux/nospec.h>
+>   
+> +#include "gt/intel_engine_pm.h"
+> +#include "gt/intel_engine_user.h"
+>   #include "i915_drv.h"
+>   #include "i915_perf.h"
+>   #include "i915_query.h"
+> @@ -90,6 +92,151 @@ static int query_topology_info(struct drm_i915_private *dev_priv,
+>   	return total_length;
+>   }
+>   
+> +typedef u64 (*__ktime_func_t)(void);
+> +static __ktime_func_t __clock_id_to_func(clockid_t clk_id)
+> +{
+> +	/*
+> +	 * Use logic same as the perf subsystem to allow user to select the
+> +	 * reference clock id to be used for timestamps.
+> +	 */
+> +	switch (clk_id) {
+> +	case CLOCK_MONOTONIC:
+> +		return &ktime_get_ns;
+> +	case CLOCK_MONOTONIC_RAW:
+> +		return &ktime_get_raw_ns;
+> +	case CLOCK_REALTIME:
+> +		return &ktime_get_real_ns;
+> +	case CLOCK_BOOTTIME:
+> +		return &ktime_get_boottime_ns;
+> +	case CLOCK_TAI:
+> +		return &ktime_get_clocktai_ns;
+> +	default:
+> +		return NULL;
+> +	}
+> +}
+> +
+> +static inline int
+> +__read_timestamps(struct intel_uncore *uncore,
+> +		  i915_reg_t lower_reg,
+> +		  i915_reg_t upper_reg,
+> +		  u64 *cs_ts,
+> +		  u64 *cpu_ts,
+> +		  u64 *cpu_delta,
+> +		  __ktime_func_t cpu_clock)
+> +{
+> +	u32 upper, lower, old_upper, loop = 0;
+> +
+> +	upper = intel_uncore_read_fw(uncore, upper_reg);
+> +	do {
+> +		*cpu_delta = local_clock();
+> +		*cpu_ts = cpu_clock();
+> +		lower = intel_uncore_read_fw(uncore, lower_reg);
+> +		*cpu_delta = local_clock() - *cpu_delta;
+> +		old_upper = upper;
+> +		upper = intel_uncore_read_fw(uncore, upper_reg);
+> +	} while (upper != old_upper && loop++ < 2);
+> +
+> +	*cs_ts = (u64)upper << 32 | lower;
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +__query_cs_cycles(struct intel_engine_cs *engine,
+> +		  u64 *cs_ts, u64 *cpu_ts, u64 *cpu_delta,
+> +		  __ktime_func_t cpu_clock)
+> +{
+> +	struct intel_uncore *uncore = engine->uncore;
+> +	enum forcewake_domains fw_domains;
+> +	u32 base = engine->mmio_base;
+> +	intel_wakeref_t wakeref;
+> +	int ret;
+> +
+> +	fw_domains = intel_uncore_forcewake_for_reg(uncore,
+> +						    RING_TIMESTAMP(base),
+> +						    FW_REG_READ);
+> +
+> +	with_intel_runtime_pm(uncore->rpm, wakeref) {
+> +		spin_lock_irq(&uncore->lock);
+> +		intel_uncore_forcewake_get__locked(uncore, fw_domains);
+> +
+> +		ret = __read_timestamps(uncore,
+> +					RING_TIMESTAMP(base),
+> +					RING_TIMESTAMP_UDW(base),
+> +					cs_ts,
+> +					cpu_ts,
+> +					cpu_delta,
+> +					cpu_clock);
+> +
+> +		intel_uncore_forcewake_put__locked(uncore, fw_domains);
+> +		spin_unlock_irq(&uncore->lock);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int
+> +query_cs_cycles(struct drm_i915_private *i915,
+> +		struct drm_i915_query_item *query_item)
+> +{
+> +	struct drm_i915_query_cs_cycles __user *query_ptr;
+> +	struct drm_i915_query_cs_cycles query;
+> +	struct intel_engine_cs *engine;
+> +	__ktime_func_t cpu_clock;
+> +	int ret;
+> +
+> +	if (GRAPHICS_VER(i915) < 6)
+> +		return -ENODEV;
+> +
+> +	query_ptr = u64_to_user_ptr(query_item->data_ptr);
+> +	ret = copy_query_item(&query, sizeof(query), sizeof(query), query_item);
+> +	if (ret != 0)
+> +		return ret;
+> +
+> +	if (query.flags)
+> +		return -EINVAL;
+> +
+> +	if (query.rsvd)
+> +		return -EINVAL;
+> +
+> +	cpu_clock = __clock_id_to_func(query.clockid);
+> +	if (!cpu_clock)
+> +		return -EINVAL;
+> +
+> +	engine = intel_engine_lookup_user(i915,
+> +					  query.engine.engine_class,
+> +					  query.engine.engine_instance);
+> +	if (!engine)
+> +		return -EINVAL;
+> +
+> +	if (GRAPHICS_VER(i915) == 6 &&
+> +	    query.engine.engine_class != I915_ENGINE_CLASS_RENDER)
+> +		return -ENODEV;
+> +
+> +	query.cs_frequency = engine->gt->clock_frequency;
+> +	ret = __query_cs_cycles(engine,
+> +				&query.cs_cycles,
+> +				&query.cpu_timestamp,
+> +				&query.cpu_delta,
+> +				cpu_clock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (put_user(query.cs_frequency, &query_ptr->cs_frequency))
+> +		return -EFAULT;
+> +
+> +	if (put_user(query.cpu_timestamp, &query_ptr->cpu_timestamp))
+> +		return -EFAULT;
+> +
+> +	if (put_user(query.cpu_delta, &query_ptr->cpu_delta))
+> +		return -EFAULT;
+> +
+> +	if (put_user(query.cs_cycles, &query_ptr->cs_cycles))
+> +		return -EFAULT;
+> +
+> +	return sizeof(query);
+> +}
+> +
+>   static int
+>   query_engine_info(struct drm_i915_private *i915,
+>   		  struct drm_i915_query_item *query_item)
+> @@ -424,6 +571,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
+>   	query_topology_info,
+>   	query_engine_info,
+>   	query_perf_config,
+> +	query_cs_cycles,
+>   };
+>   
+>   int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 6a34243a7646..0b4c27092d41 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -2230,6 +2230,10 @@ struct drm_i915_query_item {
+>   #define DRM_I915_QUERY_TOPOLOGY_INFO    1
+>   #define DRM_I915_QUERY_ENGINE_INFO	2
+>   #define DRM_I915_QUERY_PERF_CONFIG      3
+> +	/**
+> +	 * Query Command Streamer timestamp register.
+> +	 */
+> +#define DRM_I915_QUERY_CS_CYCLES	4
+>   /* Must be kept compact -- no holes and well documented */
+>   
+>   	/**
+> @@ -2397,6 +2401,54 @@ struct drm_i915_engine_info {
+>   	__u64 rsvd1[4];
+>   };
+>   
+> +/**
+> + * struct drm_i915_query_cs_cycles
+> + *
+> + * The query returns the command streamer cycles and the frequency that can be
+> + * used to calculate the command streamer timestamp. In addition the query
+> + * returns a set of cpu timestamps that indicate when the command streamer cycle
+> + * count was captured.
+> + */
+> +struct drm_i915_query_cs_cycles {
+> +	/** Engine for which command streamer cycles is queried. */
+> +	struct i915_engine_class_instance engine;
+> +
+> +	/** Must be zero. */
+> +	__u32 flags;
+> +
+> +	/**
+> +	 * Command streamer cycles as read from the command streamer
+> +	 * register at 0x358 offset.
+> +	 */
+> +	__u64 cs_cycles;
+> +
+> +	/** Frequency of the cs cycles in Hz. */
+> +	__u64 cs_frequency;
+> +
+> +	/**
+> +	 * CPU timestamp in ns. The timestamp is captured before reading the
+> +	 * cs_cycles register using the reference clockid set by the user.
+> +	 */
+> +	__u64 cpu_timestamp;
+> +
+> +	/**
+> +	 * Time delta in ns captured around reading the lower dword of the
+> +	 * cs_cycles register.
+> +	 */
+> +	__u64 cpu_delta;
+> +
+> +	/**
+> +	 * Reference clock id for CPU timestamp. For definition, see
+> +	 * clock_gettime(2) and perf_event_open(2). Supported clock ids are
+> +	 * CLOCK_MONOTONIC, CLOCK_MONOTONIC_RAW, CLOCK_REALTIME, CLOCK_BOOTTIME,
+> +	 * CLOCK_TAI.
+> +	 */
+> +	__s32 clockid;
+> +
+> +	/** Must be zero. */
+> +	__u32 rsvd;
+> +};
+> +
+>   /**
+>    * struct drm_i915_query_engine_info
+>    *
 
-> 
-> --Jason
-> 
-> 
->> Regards,
->>
->> Tvrtko
->>
->>> Moving SINGLE_TIMELINE to a syncobj emulation has a couple of technical
->>> advantages beyond mere annoyance.  One is that intel_timeline is no
->>> longer an api-visible object and can remain entirely an implementation
->>> detail.  This may be advantageous as we make scheduler changes going
->>> forward.  Second is that, together with deleting the CLONE_CONTEXT API,
->>> we should now have a 1:1 mapping between intel_context and
->>> intel_timeline which may help us reduce locking.
->>>
->>> v2 (Jason Ekstrand):
->>>    - Update the comment on i915_gem_context::syncobj to mention that it's
->>>      an emulation and the possible race if userspace calls execbuffer2
->>>      twice on the same context concurrently.
->>>    - Wrap the checks for eb.gem_context->syncobj in unlikely()
->>>    - Drop the dma_fence reference
->>>    - Improved commit message
->>>
->>> v3 (Jason Ekstrand):
->>>    - Move the dma_fence_put() to before the error exit
->>>
->>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>    drivers/gpu/drm/i915/gem/i915_gem_context.c   | 49 +++++--------------
->>>    .../gpu/drm/i915/gem/i915_gem_context_types.h | 14 +++++-
->>>    .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 16 ++++++
->>>    3 files changed, 40 insertions(+), 39 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> index 2c2fefa912805..a72c9b256723b 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> @@ -67,6 +67,8 @@
->>>    #include <linux/log2.h>
->>>    #include <linux/nospec.h>
->>>
->>> +#include <drm/drm_syncobj.h>
->>> +
->>>    #include "gt/gen6_ppgtt.h"
->>>    #include "gt/intel_context.h"
->>>    #include "gt/intel_context_param.h"
->>> @@ -225,10 +227,6 @@ static void intel_context_set_gem(struct intel_context *ce,
->>>                ce->vm = vm;
->>>        }
->>>
->>> -     GEM_BUG_ON(ce->timeline);
->>> -     if (ctx->timeline)
->>> -             ce->timeline = intel_timeline_get(ctx->timeline);
->>> -
->>>        if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
->>>            intel_engine_has_timeslices(ce->engine))
->>>                __set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
->>> @@ -351,9 +349,6 @@ void i915_gem_context_release(struct kref *ref)
->>>        mutex_destroy(&ctx->engines_mutex);
->>>        mutex_destroy(&ctx->lut_mutex);
->>>
->>> -     if (ctx->timeline)
->>> -             intel_timeline_put(ctx->timeline);
->>> -
->>>        put_pid(ctx->pid);
->>>        mutex_destroy(&ctx->mutex);
->>>
->>> @@ -570,6 +565,9 @@ static void context_close(struct i915_gem_context *ctx)
->>>        if (vm)
->>>                i915_vm_close(vm);
->>>
->>> +     if (ctx->syncobj)
->>> +             drm_syncobj_put(ctx->syncobj);
->>> +
->>>        ctx->file_priv = ERR_PTR(-EBADF);
->>>
->>>        /*
->>> @@ -765,33 +763,11 @@ static void __assign_ppgtt(struct i915_gem_context *ctx,
->>>                i915_vm_close(vm);
->>>    }
->>>
->>> -static void __set_timeline(struct intel_timeline **dst,
->>> -                        struct intel_timeline *src)
->>> -{
->>> -     struct intel_timeline *old = *dst;
->>> -
->>> -     *dst = src ? intel_timeline_get(src) : NULL;
->>> -
->>> -     if (old)
->>> -             intel_timeline_put(old);
->>> -}
->>> -
->>> -static void __apply_timeline(struct intel_context *ce, void *timeline)
->>> -{
->>> -     __set_timeline(&ce->timeline, timeline);
->>> -}
->>> -
->>> -static void __assign_timeline(struct i915_gem_context *ctx,
->>> -                           struct intel_timeline *timeline)
->>> -{
->>> -     __set_timeline(&ctx->timeline, timeline);
->>> -     context_apply_all(ctx, __apply_timeline, timeline);
->>> -}
->>> -
->>>    static struct i915_gem_context *
->>>    i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
->>>    {
->>>        struct i915_gem_context *ctx;
->>> +     int ret;
->>>
->>>        if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE &&
->>>            !HAS_EXECLISTS(i915))
->>> @@ -820,16 +796,13 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
->>>        }
->>>
->>>        if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
->>> -             struct intel_timeline *timeline;
->>> -
->>> -             timeline = intel_timeline_create(&i915->gt);
->>> -             if (IS_ERR(timeline)) {
->>> +             ret = drm_syncobj_create(&ctx->syncobj,
->>> +                                      DRM_SYNCOBJ_CREATE_SIGNALED,
->>> +                                      NULL);
->>> +             if (ret) {
->>>                        context_close(ctx);
->>> -                     return ERR_CAST(timeline);
->>> +                     return ERR_PTR(ret);
->>>                }
->>> -
->>> -             __assign_timeline(ctx, timeline);
->>> -             intel_timeline_put(timeline);
->>>        }
->>>
->>>        trace_i915_context_create(ctx);
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
->>> index 676592e27e7d2..df76767f0c41b 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
->>> @@ -83,7 +83,19 @@ struct i915_gem_context {
->>>        struct i915_gem_engines __rcu *engines;
->>>        struct mutex engines_mutex; /* guards writes to engines */
->>>
->>> -     struct intel_timeline *timeline;
->>> +     /**
->>> +      * @syncobj: Shared timeline syncobj
->>> +      *
->>> +      * When the SHARED_TIMELINE flag is set on context creation, we
->>> +      * emulate a single timeline across all engines using this syncobj.
->>> +      * For every execbuffer2 call, this syncobj is used as both an in-
->>> +      * and out-fence.  Unlike the real intel_timeline, this doesn't
->>> +      * provide perfect atomic in-order guarantees if the client races
->>> +      * with itself by calling execbuffer2 twice concurrently.  However,
->>> +      * if userspace races with itself, that's not likely to yield well-
->>> +      * defined results anyway so we choose to not care.
->>> +      */
->>> +     struct drm_syncobj *syncobj;
->>>
->>>        /**
->>>         * @vm: unique address space (GTT)
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>> index b812f313422a9..d640bba6ad9ab 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>> @@ -3460,6 +3460,16 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->>>                goto err_vma;
->>>        }
->>>
->>> +     if (unlikely(eb.gem_context->syncobj)) {
->>> +             struct dma_fence *fence;
->>> +
->>> +             fence = drm_syncobj_fence_get(eb.gem_context->syncobj);
->>> +             err = i915_request_await_dma_fence(eb.request, fence);
->>> +             dma_fence_put(fence);
->>> +             if (err)
->>> +                     goto err_ext;
->>> +     }
->>> +
->>>        if (in_fence) {
->>>                if (args->flags & I915_EXEC_FENCE_SUBMIT)
->>>                        err = i915_request_await_execution(eb.request,
->>> @@ -3517,6 +3527,12 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->>>                        fput(out_fence->file);
->>>                }
->>>        }
->>> +
->>> +     if (unlikely(eb.gem_context->syncobj)) {
->>> +             drm_syncobj_replace_fence(eb.gem_context->syncobj,
->>> +                                       &eb.request->fence);
->>> +     }
->>> +
->>>        i915_request_put(eb.request);
->>>
->>>    err_vma:
->>>
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
