@@ -2,65 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E09136E782
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 11:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E7636E7B1
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 11:13:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6FED6E1BD;
-	Thu, 29 Apr 2021 09:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84BBD6E1BC;
+	Thu, 29 Apr 2021 09:13:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B08C6E1B2;
- Thu, 29 Apr 2021 09:03:16 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id DC9C6580723;
- Thu, 29 Apr 2021 05:03:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 29 Apr 2021 05:03:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm2; bh=L1zO+2WghJ7tccfuc/GcUqzQQOiz4lVwM6uCcotL9Vo=; b=lcnuBmyD
- 9Y3QmK7eaWTn7n0gEnr4k3HW5L62pQunmIbs7Xk3Z/qED5t+TXgQXads2D2mT9aE
- C/t7smx8qemniW+7ULAB0mDBQnv5jBqj3Lm8fOpGhQV/V1pw0UgmuDHa7VECoEQJ
- 4963vdVJe1dGiBRqtEbbjrB1X42Uxs91mAI5Yi9LfOWNlm73EHRVqlu6tEnRCZNb
- /mfAeETq2KS3xX5ZIlGtnjfyB1M2XFXuyqcWyjWkR23wXqJqnO7fqcWNuECeDEhL
- 3mL3dqnaIMNY9kumXEf5QoZ/YTXiQU3IiBS5ptfqYYBtJqEP++LjkItdeuGlJH9R
- sfBzcPhM/L/TqQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; bh=L1zO+2WghJ7tccfuc/GcUqzQQOiz4
- lVwM6uCcotL9Vo=; b=pL92EWbDV84aMAQ+8yGL9eI0YJXSIwx8+HdI6OFgPmush
- oJCDgiZJvPpta2EIx/AIwdRIkNyah1T4y2tbZMaRnJ2ma2AkP3ZBqxW044ukRQBF
- XujBc1M7Tdz3QlSGOBAWeROXqY3OwNg8EMMtUjVSoMSMV03IMvCmkavcxIrDluxN
- Cd6Oq9WwLcBH3zKJCwd4sCnvphW287NDm1L4wROxFKtFrOY5SPNKLB3QQsBZOm7Z
- aZTux3HrzPy7mn1MtdLQ6feN5tMHhU8WAgltVE8odi7bk5cZIclyzy93LhhKgQrS
- pNPhN5WR/cPpwKwETFIipuV6b0/sDzICnGHeCMwcw==
-X-ME-Sender: <xms:T3aKYO2pr8txvaTf5YEST8nLbXkNDZbiH3_2OqQmUteOFaA7KO_WMQ>
- <xme:T3aKYBFk6ACaoF3k5vV1xiGLtm3uxre90KtrDDpjVvojrsKaVEPWVSr0dGDGi__zf
- V4AI-3G38mUzRNX5QI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvgedgudduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepgeeuvddtheeggeehhfeigeetffeufeelveeggfekveegieevudeljeeugedviefg
- necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeltddrkeelrd
- eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
- mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:T3aKYG455iFt6wnq5VsKR3f8TxOhuv2m2edBJesEIlcqobReT9WeJQ>
- <xmx:T3aKYP2z6uAM4FHyKkUlrsrzlPoEtIbrNnP41_uDiH1c_49qdVmFeg>
- <xmx:T3aKYBG1IzHrVlQYaIPNRE6bEVMLu_ivZmceqZuWoK3gTgF5CQKmPg>
- <xmx:UXaKYHZZbuX8NZLU6fuGS6t4LJ1vlWhU202hytS5WDbRW4NIt04DWg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Thu, 29 Apr 2021 05:03:10 -0400 (EDT)
-Date: Thu, 29 Apr 2021 11:03:08 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20210429090308.k3fuqvenf6vupfmg@gilmour>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D41D6E1BC;
+ Thu, 29 Apr 2021 09:13:02 +0000 (UTC)
+IronPort-SDR: ZNYAF9ez9a7i6zS6HGYllTGicTDCpGv1DpevVG9xLbn/W7flIVQhH/E3743LWsVBQJXj5o/6dy
+ 2OL+PZF2X4kQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="197011291"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="197011291"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2021 02:13:01 -0700
+IronPort-SDR: 2kjDPsjb5v70aD7/twL6J079dNnN8ajzzmdYt5+0pDPB6YqbzVpgXPWZiIShLggxM5K+cXmeTO
+ A//aaoXYlOPQ==
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="537298784"
+Received: from gwaise-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.208.64])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2021 02:13:00 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/6] Workaround building improvements
+Date: Thu, 29 Apr 2021 10:12:48 +0100
+Message-Id: <20210429091254.855248-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,86 +45,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0043736729=="
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
---===============0043736729==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xm3p6rrwvxpkauem"
-Content-Disposition: inline
+Some cleanups and improvements to checks being done when building workaround
+lists. First five patches are small cleanups while the last one contains the
+actual story of what gets improved.
 
+Test-with: 20210429084130.850426-1-tvrtko.ursulin@linux.intel.com
 
---xm3p6rrwvxpkauem
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Tvrtko Ursulin (6):
+  drm/i915: Drop duplicate WaDisable4x2SubspanOptimization:hsw
+  drm/i915/debugfs: Expose read mask in i915_wa_registers
+  drm/i915: Add a separate low-level helper for masked workarounds
+  drm/i915/icl: Use appropriate helper for a masked workaround
+  drm/i915/icl: Stop conflating mask and readback verify
+  drm/i915: Add more checks when building workaround lists
 
-Hi Dave, Daniel,
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 163 +++++++++++++-----
+ .../gpu/drm/i915/gt/intel_workarounds_types.h |   4 +
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |   4 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |   4 +-
+ 4 files changed, 124 insertions(+), 51 deletions(-)
 
-Here's this week drm-misc-next-fixes PR
-
-Maxime
-
-drm-misc-next-fixes-2021-04-29:
-Two patches in drm-misc-next-fixes this week, one to fix the error
-handling in TTM when a BO can't be swapped out and one to prevent a
-wrong dereference in efifb.
-The following changes since commit a4394b6d0a273941a75ebe86a86d6416d536ed0f:
-
-  drm/ttm: Don't count pages in SG BOs against pages_limit (2021-04-21 15:35:20 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2021-04-29
-
-for you to fetch changes up to 74deef03a44ae77db85dd80e7ef95777a902e0b3:
-
-  efifb: Check efifb_pci_dev before using it (2021-04-26 17:33:03 -0400)
-
-----------------------------------------------------------------
-Two patches in drm-misc-next-fixes this week, one to fix the error
-handling in TTM when a BO can't be swapped out and one to prevent a
-wrong dereference in efifb.
-
-----------------------------------------------------------------
-Kai-Heng Feng (1):
-      efifb: Check efifb_pci_dev before using it
-
-Shiwu Zhang (1):
-      drm/ttm: fix error handling if no BO can be swapped out v4
-
- drivers/gpu/drm/ttm/ttm_device.c    | 2 +-
- drivers/gpu/drm/ttm/ttm_tt.c        | 2 ++
- drivers/gpu/drm/vmwgfx/ttm_memory.c | 2 +-
- drivers/video/fbdev/efifb.c         | 6 ++++--
- 4 files changed, 8 insertions(+), 4 deletions(-)
-
---xm3p6rrwvxpkauem
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYIp2TAAKCRDj7w1vZxhR
-xcXeAP4gfyACcp11N6TmZ2t+9mJU9ZdogB1kxBSMaTuzxRwLhgD/f3+Kbx84IxaH
-PfyxzsnaAlqfwRkIeyZTjQS0fK5IfAo=
-=7Kgu
------END PGP SIGNATURE-----
-
---xm3p6rrwvxpkauem--
-
---===============0043736729==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.30.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0043736729==--
