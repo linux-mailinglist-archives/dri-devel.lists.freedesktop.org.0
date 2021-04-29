@@ -1,58 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D0736E442
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 06:29:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8443036E44E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 06:46:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE56D6ED14;
-	Thu, 29 Apr 2021 04:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7F1A6E0FB;
+	Thu, 29 Apr 2021 04:46:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F396E0FB
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 04:28:45 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id s20so18230694plr.13
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Apr 2021 21:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gt4pb5bT5mW/MToENIuo4Jt8VqUlSnyGRgKvmw6yKp0=;
- b=m2YPwqx7aeh6V4lUo0oHObJCqs1T+6ImiIjbJPb/XrFOXsS88GT0/U1TDgdJ1tlgtf
- vjjBBMfm1Eh2YmwOe5/fcnlTizd+eytKYuLtVI0Gxm72V5zal5FgLmjsqqeYmBs89pTu
- fubvjuXh/iVeU7gxgntYYq/wNSGAnKMhvhb1Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gt4pb5bT5mW/MToENIuo4Jt8VqUlSnyGRgKvmw6yKp0=;
- b=Ig71BdOwbSNfZeDoj7ZXtByXBYDsLhP+/bC+WkqnWn4BOIRgyblSPC/Gn85w2hG8jl
- v6dXb4aAmXbDab5MyvwKvf5bRdBACZsgBhhX1D4aaXMez0ULRQzuC/65IA2OLNbU1yBB
- vsfOo2Mvx3xT7U+TJ4NzVUbQPKCjDhlju0dWGOybh5xZnbEGFt1MOoNfNeLmN/SSQJPh
- wz+ublNNeoNZhBVGm+38iaHZHegMEG39tDhCm3rONwZNQKb1utL7nYt0ezjAADWt01Uz
- VYkmGvDcXdoGobUQbvE17SxyEDkUGh7j7tcAlxBgp0my7Ji8V0++kP+3oHojCe8qJBrI
- jAMg==
-X-Gm-Message-State: AOAM5323QxitiJWSqeatbBkUro6ORTo77/RAk2GFjdOoAIBdf4NISV5S
- clIwXlFgeoTxpcr82P5nqGb5zBaigyPBww==
-X-Google-Smtp-Source: ABdhPJx0CF0XSmcRjIoO/yWcAnjTe7hR6m9+xUw2Ts97CHJGvHusZESHQqWarI1X5miU9uUBrAavWQ==
-X-Received: by 2002:a17:90a:dd45:: with SMTP id
- u5mr7845750pjv.15.1619670524616; 
- Wed, 28 Apr 2021 21:28:44 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:f701:2ca2:56ba:8e83])
- by smtp.gmail.com with ESMTPSA id w124sm1069390pfb.73.2021.04.28.21.28.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 21:28:44 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 3/3] arm64: dts: mt8183: Add panel rotation
-Date: Thu, 29 Apr 2021 12:28:34 +0800
-Message-Id: <20210429042834.1127456-3-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
-In-Reply-To: <20210429042834.1127456-1-hsinyi@chromium.org>
-References: <20210429042834.1127456-1-hsinyi@chromium.org>
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BF8F06E0FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 04:46:08 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id EEC9B80AA;
+ Thu, 29 Apr 2021 04:46:06 +0000 (UTC)
+Date: Thu, 29 Apr 2021 07:46:03 +0300
+From: Tony Lindgren <tony@atomide.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCHv2] drm/omap: Fix issue with clocks left on after resume
+Message-ID: <YIo6CzsU4JRvAdpb@atomide.com>
+References: <20210428092500.23521-1-tony@atomide.com>
+ <YIlsy4mOkLcbMKwr@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <YIlsy4mOkLcbMKwr@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,39 +37,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-krane, kakadu, and kodama boards have a default panel rotation.
+Hi,
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+* Laurent Pinchart <laurent.pinchart@ideasonboard.com> [210428 14:10]:
+> Based on my experience on the camera and display side with devices that
+> are made of multiple components, suspend and resume are best handled in
+> a controlled way by the top-level driver. Otherwise you end up having
+> different components suspending and resuming in random orders, and
+> that's a recipe for failure.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-index ff56bcfa3370..793cc9501337 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-@@ -263,6 +263,7 @@ panel: panel@0 {
- 		avee-supply = <&ppvarp_lcd>;
- 		pp1800-supply = <&pp1800_lcd>;
- 		backlight = <&backlight_lcd0>;
-+		rotation = <270>;
- 		port {
- 			panel_in: endpoint {
- 				remote-endpoint = <&dsi_out>;
--- 
-2.31.1.498.g6c1eba8ee3d-goog
+Manually suspending and resuming the components should be doable based
+on the registered components. However, I'm not sure it buys much in
+this case since we do have Linux driver module take care of things for
+us for most part :)
 
+The dss hardware is really a private interconnect with a control module,
+and a collection of various mostly independent display output device
+modules.
+
+We also have the interconnect target module to deal with for each
+module, and have the interconnect hierachy mapped in the devicetree.
+So we already have Linux driver module take care of the device
+hierarchy.
+
+Because the child components are mostly independent, it should not
+matter in which order they suspend and resume related to each other.
+
+I think the remaining issue is how dispc should provide services to
+the other components.
+
+If dispc needs to be enabled to provide services to the other modules,
+maybe there's some better Linux generic framework dispc could implement?
+That is other than PM runtime calls for routing the signals to the
+output modules? Then PM runtime can be handled private to the dispc
+module.
+
+Decoupling the system suspend and resume from PM runtime calls for
+all the other dss components should still also be done IMO. But that
+can be done as a separate clean-up patches after we have fixed the
+$subject issue.
+
+> Can we get the omapdrm suspend/resume to run first/last, and
+> stop/restart the whole device from there ?
+
+This is already the case since commit ecfdedd7da5d ("drm/omap: force
+runtime PM suspend on system suspend"). We have omap_drv use
+SIMPLE_DEV_PM_OPS, and the components use SET_LATE_SYSTEM_SLEEP_PM_OPS.
+So omap_drv suspends first and resumes last. The order should not
+matter for other components. Well that is as long as we can deal
+with dispc providing resources.
+
+I think we really should also change omap_drv use prepare/complete ops,
+and have the components use standard SIMPLE_DEV_PM_OPS. That still
+won't help with PM runtime related issues for system suspend and
+resume though, but leaves out the need for late pm ops.
+
+Regards,
+
+Tony
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
