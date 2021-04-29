@@ -1,116 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 872CA36E7D3
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 11:21:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7933636E7F1
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 11:26:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F91E6E1ED;
-	Thu, 29 Apr 2021 09:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2596EDC6;
+	Thu, 29 Apr 2021 09:26:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-eopbgr1300138.outbound.protection.outlook.com [40.107.130.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AABF66E1ED
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 09:21:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=itoPbK+cyRNhvFkxj+q0ePkmMMaCszpdgMTQG9pOTGPhXM6Odwtda9NGWnkDnyoXdEwTHXYKU8unolR4lFIbixFjPFF3+aQeefu55x8VRJ3lWv+/rHBUIwMRAkLxUjT4nH8jdG02b2EwhaC1DoiFA8CiwE6dA7Feh6US8nmag6nWLO6EPL0EKLQAQuMQLM3LU7yncz/qjGVBCmLigYBCxN7PBQwlMNVkXjci3UidBKneRWIQeezb/oGOkKRor1cFfx79g5e16EFti18cRlEU2WyAftZFtJ5rotc8P9fOEUY9MDcOeucijaXVocacOY7yCNITjiZA9gxkoJ/d1BJTkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GRz/J8r3CcMbnsxAzGnflAjYHej5hXrKzw1tDUm5c4g=;
- b=YTNL91BqIWH5NFIBhGYdDklvuYEhwHe/coweJWR0oO8Qyg5e/EQRN82q4MCQV0PnvSf36DWJJMi21Suje5N88BvJ29z7gETTycaBD4ygxiIax0vCPk1TKPDIbO1fkzWihsub6U2CB3Cq0e1yal8D9EYJWPkjM6XiL/xHiZy6G+kualu32pvjm1reixSkGiYpZrtVnYz6rRcRBGCAVD5FguunPb8rzLYalLvCLg5brRbOp3zF0ke9mNB9IIrGjLNabLFPuCFDjvmBwi73AC6kOa2zbC3EZezsvezC8Z/nAmrcnUylI5n08nTTxT4GMqjOd77b5zdWTTA5Rz+rR4DZ/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GRz/J8r3CcMbnsxAzGnflAjYHej5hXrKzw1tDUm5c4g=;
- b=KIxGDQkqGxhnkGTPpG9swfd1EsvmfvEyZzmXYm3irrc3pYsrTnv5MKAmIFu0kxY7lHpgO1Jkxsp/hsJV6LopY+20MaMTcOdeJyCGlwoZCRvvibJKdFVpAXs5pf/IzsSiPlvCHXZ+3Y0QPzVmXnYAaWTgW2k5mWYn2f8MtfFqKmAXdYlWMVr5bcTA4m5x78K5SbQEVfM60DUrPunGU4u9oNGXRcoq6F5U4zZFs9MODBVmJiRY4hWvBz3kYvmjbs2zEcpdMZYxMT1XgNC439REKAhDLle22VSOTbJh7nafoi2xCCQpYWD8WQ7WXC3lp4i9/KoMYuhp2gNCq+387EyBNw==
-Received: from HK2PR06MB3300.apcprd06.prod.outlook.com (2603:1096:202:34::18)
- by HK0PR06MB2081.apcprd06.prod.outlook.com (2603:1096:203:4c::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Thu, 29 Apr
- 2021 09:21:26 +0000
-Received: from HK2PR06MB3300.apcprd06.prod.outlook.com
- ([fe80::35ef:121f:1516:19cf]) by HK2PR06MB3300.apcprd06.prod.outlook.com
- ([fe80::35ef:121f:1516:19cf%6]) with mapi id 15.20.4065.027; Thu, 29 Apr 2021
- 09:21:25 +0000
-From: Kuo-Hsiang Chou <kuohsiang_chou@aspeedtech.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v5] drm/ast: Fixed CVE for DP501
-Thread-Topic: [PATCH v5] drm/ast: Fixed CVE for DP501
-Thread-Index: AQHXNoyWYwZZ2uXGjUqOZ47iYsMUI6rIPE6AgALc7dA=
-Date: Thu, 29 Apr 2021 09:21:25 +0000
-Message-ID: <HK2PR06MB3300831DB8F41525C92B28708C5F9@HK2PR06MB3300.apcprd06.prod.outlook.com>
-References: <214f1451-2406-b298-e233-4939cae9e1f2@suse.de>
- <20210421085859.17761-1-kuohsiang_chou@aspeedtech.com>
- <2662b502-edbe-b79b-b458-dbabafe6ca3c@suse.de>
-In-Reply-To: <2662b502-edbe-b79b-b458-dbabafe6ca3c@suse.de>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=none action=none header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8d883327-c623-49f9-4cc0-08d90af029b3
-x-ms-traffictypediagnostic: HK0PR06MB2081:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0PR06MB20815B4EEF64C8576136077D8C5F9@HK0PR06MB2081.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: iFpI8Y0gkm8ebCnBgYKSz5Bo3HXV8V57QklJWnnCOZFXH4t9RaNCz1DOP1Vs4uO1fIIxxLk7pZx7J2KkcFwtREYkOqOPv6xDm60yAOOC+zybYis8IungPOBgExUvLI0zR06kSWCqGnO0IUhlv3xsMpofXC+issQ8ripHjfuibuIMDkE2IdB85bbOhiRponCo8AgR97wB4zCZO+HEEivfapyGBAeE0RB3BYMgbo7LymdYa5rJqoTmbGCxUcH60ObR2V3ijfP6tZ5eyMFVzFuqiAw0PYEvf067GSj57tWTOKLbRGg5+SBB9meqmGAZo2FKeX8dpN+noMScLaouBsHnVQbIE6dlqN2qjbFv4V3o6Zrf8waS9dd8uBhk8DFPHctRDIFYV7yeKIW0+Cal5NPsYGdS+tTeiv5krzLTIuanVisYHCoK2Y4s76RsFVJg4cvOYctLc7ZnGGKpGuMsFaq7XD5UJUyUbv5RziAipD+gSJyA2YTmjNQzTkpXg82giSE4sAKUV369VOZ1N8yynIjGZvNIt5usAG+d5Y+GkA9jtcefqPqC3z8GBp/zXksQR5f9bRUgAkKtsjxIS6L74LeubP1rMATD641gTKonyym9dhDNL5IeRCradNh95uq4oAlB1dtnjWUcs2+DCZS/IL4r4g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK2PR06MB3300.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(376002)(346002)(366004)(396003)(39850400004)(2906002)(53546011)(66574015)(8676002)(83380400001)(8936002)(33656002)(316002)(66556008)(110136005)(55236004)(966005)(7696005)(71200400001)(54906003)(66446008)(66476007)(76116006)(26005)(6506007)(64756008)(52536014)(38100700002)(9686003)(186003)(55016002)(66946007)(86362001)(4326008)(107886003)(5660300002)(478600001)(122000001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?dFFhK0NZajlxZGhsSWdBL1FGVisvQTk2V0R0RVZpaEFQaTZLSjJ6eklORjMz?=
- =?utf-8?B?aStVRnJtZzBCYjczYUorU2ttaW4wRDU2OXp3T01tUFdFeXlSZG1STHlidUJt?=
- =?utf-8?B?dFliNENoS1BXd3Y3K0dwcDYzVFo3SzFad3BTV01qS1M2WDUyUjFNbGsyVWli?=
- =?utf-8?B?M2l1aUg1Y0luUXJWcGZTRmlhcFhrWVlDdUtBeEhiMzBTYjBUQ1pyYnZkVUNM?=
- =?utf-8?B?dDNwRzk1bldYenZNU1JpM3o3R3crOVVkUFZFM1lGTk5YY0ZCb1paOWVRNm11?=
- =?utf-8?B?bjc0d0k2V2Nzc0JyT2dmV0JnbWVjbFN6Q2lSbys2RmxNWnAzM3g2ZTFxWnlr?=
- =?utf-8?B?c2t2WDVkS2lJRnFzNkIwNnN4SWJNWnVJdGM2RFR2L1Vab3kyY3hBbS9vZEM5?=
- =?utf-8?B?UEZ0VzUzbnpYOWk3OGJqNlJ4ZFY4WVEwbFRocWZhRVhod3pDT0tHV3N5RWhJ?=
- =?utf-8?B?TGRLZENjeWhLZndJYmtwUS9tYlI0Q2NPdU1lN2IvV3ZQRzVlUm9vemJnQ2Rj?=
- =?utf-8?B?WVp1NWNsUW1WQlVGZmZMUUR4dlpmY0pWMk9EVGRXWDJCa3AxMEdhbm5Kd1FD?=
- =?utf-8?B?OW5zN3RWVFZwL2lGckVCYytKcmhETWtrcjArZnd0RzMwL2Fxc05ieVJkTEIz?=
- =?utf-8?B?eEc5dXFEM3pBandzYXFHa0xKNzZmYVBGeC9GeU5vWGVtRW1kQWRQUkh4QWRt?=
- =?utf-8?B?VGdLbGFWdEk3T0RHQVNOdTQva1pmNkc3TnpudGd5M1RqRlJKejVaSGNDaWUz?=
- =?utf-8?B?V1VINGpWZUphNjlNb3NiNVd3SHJRaEdpZ3ZlZWplOHZ0b1ZuL2NGWWt6YmI3?=
- =?utf-8?B?a2hibWVPVHhTSThRcnZsY1lGbmVHWURvbmgwSWVPOE1CcTB6NDE1VHM0UEJz?=
- =?utf-8?B?dE13M2tGMk92SHhZVEVnNGt0L243bW1YaVVhbUR5dEhUWk81bkhFcHdaeDJm?=
- =?utf-8?B?TC9SZlMrR2xaSDFoeHpTL2hWMGFQbWlwQWprWkdZYWlTMjJGczZqaHpQdW1G?=
- =?utf-8?B?S1diUEZmZU9Ddit3aTZwTDVUdHdvNXlLaVgyODV2QVBHT1dHci9oZ25qaTd1?=
- =?utf-8?B?dkdkL2kvaHE5TGs1TmZsY1lFbHFKdllOb3NiWnBtVjBZRm14Q3puVFM5WVhT?=
- =?utf-8?B?SCtwTFNTVWZ6d3p1dmxLalJIMUlNMCs0MjV3bWxNNUJDRkZ5TU5YeVVrTHJY?=
- =?utf-8?B?TGcxVDMxZER1ajdSdnVhRWRFd0lXWFMwSUdiSERPMmdCWWF2QzBQVHhLbm5P?=
- =?utf-8?B?d3F4VGY1M3NCa1ROc1BZNDVOeUVxYjE3QTQvYUZqYmgrSkdNOFRlYXBRTC9U?=
- =?utf-8?B?cXVBdGdIMFVNNkg3YktFSFRxTTgrT3paaTV2Sk83Q0tOYlRJUjJkMVFrVFZZ?=
- =?utf-8?B?TUpSSzhUZlcxdW1yYWJPazY4TEsxWmJzMzFLUEo1QzY5QjVBb1lCVGYyS2Qw?=
- =?utf-8?B?RVBVeDkyMkRDSDFVckwwazF6azRuaTE5VW5rNGl1NkRyVGYvZ1FUNDB0ZXhq?=
- =?utf-8?B?bGdhSGpRMzRCOFNWMGVXUUpGQWhGQncxaCt6SUlCd3NUeCs0cHRmUTIwU2I3?=
- =?utf-8?B?VHM2MmtkSUpOYlBNNmM3Tk8wM1F1aXROcmNmMTArMnR2YTBuMlUzc29GdnVl?=
- =?utf-8?B?OXAvMzdNUGhZK2pIRElnTkxpN1JJa201TC9EdW16alBCTytiaEExYUNpMmFv?=
- =?utf-8?B?RUx2SzNxeHg4QXd6anhETDVWeklZRVBMdnVTVWl6MFhJWXd1RFA1azFmZWxQ?=
- =?utf-8?Q?eAnbqf14XnZ/7N7tafsoY9/nJ25VGjvsE+FLtY+?=
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33A1E6EDC5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 09:26:53 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ y14-20020a056830208eb02902a1c9fa4c64so24343321otq.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 02:26:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=/xAiHztyUuN/FsmpHQ3gXXUPKCX34aNrHw1aDjDoTfU=;
+ b=chPP59Nu2SbTsV3p4ulH+kzrGlUYHaBQAFZpjruV7uaEABaxFfDEz9AhkpwJ0KPeRP
+ l9YrQ9wfTNo4a8tWiq+TO1RrYtly7U5JCgvTrn1xE5G9/yjMtL+Rqls+kexugKlt+qc1
+ XrYcRH3l4lDuDZuZPeY3kk2QjimgTJSmTQ9ok=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=/xAiHztyUuN/FsmpHQ3gXXUPKCX34aNrHw1aDjDoTfU=;
+ b=AIr8AmBbGaq3Kon3K140qALHK/hMQytwrnbvOQE0it94N0FgFsYIhW/WGV4gNKRD0s
+ jE/wLZlg8z4clvMInUbU/uGacEB3i2/fmVQC8X+Q3QBiMJPv7FX5xjUZ+yb2yi+IpnA8
+ 1Dhki8dIStRuy+lsgSjc2jIIcVzDbAay9Rzf5Zky4ogoT+mIyMuaAtkAxWs1Bih9dmAa
+ ZLOkiyvtNPhUGlPnQwbSg8PMA4LlLYgKa3XcTa9bNTWlio10c2tc36MhiTTCTeVh/o8X
+ q+I4zMjW2aHRy34s/rUnvA4yBjCYpMb4XG8L083yxRj0K1G1Msvo2ykzTIUl7WztgLwz
+ d01A==
+X-Gm-Message-State: AOAM530MzwG0mxU+eTWVvrIPgGi9GgeltHtGYm7QGgAvnwLvvnPYc0Dv
+ 7lCW9YcwhV+z41y7ZRH8zIyFgr+UeVLDBIosetak5g==
+X-Google-Smtp-Source: ABdhPJwMdo9sTU3ZFF0d1RMCRrisFLkJhIb73t4yUXRRMw+EIrmzJCVcRYLC9lPzjtJuWZmWVz6bDANSRalp++kUmpE=
+X-Received: by 2002:a9d:5e19:: with SMTP id d25mr9296287oti.308.1619688412449; 
+ Thu, 29 Apr 2021 02:26:52 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 29 Apr 2021 11:26:51 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK2PR06MB3300.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d883327-c623-49f9-4cc0-08d90af029b3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2021 09:21:25.6151 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NlxawGrJSPdjH3ir7KcgUI4lg4wpQ2dvEwud0zSDQoO7qgNt/2oWweFdeR9JzxjUC0mJY6W65SSi0+zU2zWRXo0p3/n3U+y4M6hUYE2YlIo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2081
+In-Reply-To: <9ccdef6e1a1b47bd8d99594831f51094@codeaurora.org>
+References: <1618604877-28297-1-git-send-email-khsieh@codeaurora.org>
+ <161895606268.46595.2841353121480638642@swboyd.mtv.corp.google.com>
+ <e3c3ef96ac507da6f138106f70c78ed2@codeaurora.org>
+ <ddc1e372c5f864cd62c4e056ef2e6404@codeaurora.org>
+ <CAE-0n53JNCc3JdONogGNArnsYLDr9E2fXZ2ODKBy7Jy3yVMr6g@mail.gmail.com>
+ <9ccdef6e1a1b47bd8d99594831f51094@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Thu, 29 Apr 2021 11:26:51 +0200
+Message-ID: <CAE-0n533ZCaQkP7+XN+Ee9CG-r7vJD7LHG7_H8v7sVpimmQabg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm/dp: service only one irq_hpd if there are
+ multiple irq_hpd pending
+To: khsieh@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,196 +68,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- Jenmin Yuan <jenmin_yuan@aspeedtech.com>, Arc Sung <arc_sung@aspeedtech.com>,
- "airlied@redhat.com" <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, dri-devel@lists.freedesktop.org,
+ aravindh@codeaurora.org, sean@poorly.run
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiBb
-bWFpbHRvOnR6aW1tZXJtYW5uQHN1c2UuZGVdIA0KU2VudDogVHVlc2RheSwgQXByaWwgMjcsIDIw
-MjEgNzowMiBQTQ0KVG86IEt1by1Ic2lhbmcgQ2hvdSA8a3VvaHNpYW5nX2Nob3VAYXNwZWVkdGVj
-aC5jb20+OyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBsaW51eC1rZXJuZWxAdmdl
-ci5rZXJuZWwub3JnDQoNClN1YmplY3Q6IFJlOiBbUEFUQ0ggdjVdIGRybS9hc3Q6IEZpeGVkIENW
-RSBmb3IgRFA1MDENCg0KSGkgVGhvbWFzLA0KSGkNCg0KQW0gMjEuMDQuMjEgdW0gMTA6NTggc2No
-cmllYiBLdW9Ic2lhbmcgQ2hvdToNCj4gW0J1Z11bRFA1MDFdDQo+IElmIEFTUEVFRCBQMkEgKFBD
-SSB0byBBSEIpIGJyaWRnZSBpcyBkaXNhYmxlZCBhbmQgZGlzYWxsb3dlZCBmb3INCj4gQ1ZFXzIw
-MTlfNjI2MCBpdGVtMywgYW5kIHRoZW4gdGhlIG1vbml0b3IncyBFRElEIGlzIHVuYWJsZSByZWFk
-IA0KPiB0aHJvdWdoIFBhcmFkZSBEUDUwMS4NCj4gVGhlIHJlYXNvbiBpcyB0aGUgRFA1MDEncyBG
-VyBpcyBtYXBwZWQgdG8gQk1DIGFkZHJlc3Npbmcgc3BhY2UgcmF0aGVyIA0KPiB0aGFuIEhvc3Qg
-YWRkcmVzc2luZyBzcGFjZS4NCj4gVGhlIHJlc29sdXRpb24gaXMgdGhhdCB1c2luZyAicGNpX2lv
-bWFwX3JhbmdlKCkiIG1hcHMgdG8gRFA1MDEncyBGVyANCj4gdGhhdCBzdG9yZWQgb24gdGhlIGVu
-ZCBvZiBGQiAoRnJhbWUgQnVmZmVyKS4NCj4gSW4gdGhpcyBjYXNlLCBGcmFtZUJ1ZmZlciByZXNl
-cnZlcyB0aGUgbGFzdCAyTUIgdXNlZCBmb3IgdGhlIGltYWdlIG9mIA0KPiBEUDUwMS4NCj4gDQoN
-CllvdXIgcGF0Y2hlcyBhcmUgbWlzc2luZyBhIHNob3J0IGNoYW5nZWxvZywgc28gdGhhdCByZXZp
-ZXdlcnMgY2FuIHNlZSB3aGF0IGNoYW5nZWQgYmV0d2VlbiB2ZXJzaW9ucy4gQW55d2F5LCBJIG1l
-cmdlZCB5b3VyIHBhdGNoIGludG8gZHJtLW1pc2MtbmV4dCBub3cuIFRoYW5rcyBmb3IgdGhlIGZp
-eC4NCg0KVGhhbmtzLCBJIG11c3Qga2VlcCB0aGlzIHJ1bGUgYWJvdXQgdGhlIHNob3J0IGNoYW5n
-ZWxvZy4NCg0KTW9yZSBnZW5lcmFsbHkgc3BlYWtpbmcsIHRoZSBEUDUwMSBjb2RlIG5lZWRzIGEg
-bWFqb3IgcmVmYWN0b3JpbmcuIEl0J3MgY3VycmVudGx5IGJvbHRlZCBvbnRvIHRoZSByZWd1bGFy
-IFZHQSBjb25uZWN0b3IgY29kZS4gSXQgc2hvdWxkIHJhdGhlciBiZSBhIHNlcGFyYXRlIGNvbm5l
-Y3RvciBvciBhIERSTSBicmlkZ2UuIEkgYWx3YXlzIHdhbnRlZCB0byB3b3JrIG9uIHRoaXMsIGJ1
-dCBkb24ndCBoYXZlIGEgZGV2aWNlIGZvciB0ZXN0aW5nLiBJZiBJJ2QgcHJvdmlkZSBwYXRjaGVz
-LCB3b3VsZCB5b3UgYmUgaW4gYSBwb3NpdGlvbiB0byB0ZXN0IHRoZW0/DQoNCk5PLCBJIGNhbid0
-LiBUaGUgcGF0Y2ggd2FzIHZlcmlmaWVkIG9uIEFTVDI1MDArRFA1MDEgYmVmb3JlLCBzbyB0aGUg
-Y29ycmVjdG5lc3Mgb2YgdGhpcyBwYXRjaCBpcyBwcm9taXNlZC4gQnV0IGN1c3RvbWVyIGFsd2F5
-cyByZXF1ZXN0ZWQgdG8gc2VuZCB0aGUgcGxhdGZvcm0gYmFjayBhZnRlciBidWcgZml4ZWQuIE5v
-dywgbm8gRFA1MDEgcGxhdGZvcm0gb24gbXkgaGFuZCwgYnV0IEkgdHJ5IHRvIGNvbnZpbmNlIGN1
-c3RvbSB0byBnZXQgdGhlIHNvbWVvbmUgcGxhdGZvcm0uDQoNCkJlc3QgUmVnYXJkcywNCglLdW8t
-SHNpYW5nIENob3UNCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KDQo+IFNpZ25lZC1vZmYtYnk6
-IEt1b0hzaWFuZyBDaG91IDxrdW9oc2lhbmdfY2hvdUBhc3BlZWR0ZWNoLmNvbT4NCj4gUmVwb3J0
-ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiAtLS0NCj4gICBkcml2
-ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcDUwMS5jIHwgMTM5ICsrKysrKysrKysrKysrKysrKysrKysr
-LS0tLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmggICB8ICAxMiArKysN
-Cj4gICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMgIHwgIDExICsrLQ0KPiAgIDMgZmls
-ZXMgY2hhbmdlZCwgMTI1IGluc2VydGlvbnMoKyksIDM3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2RwNTAxLmMgDQo+IGIvZHJpdmVycy9n
-cHUvZHJtL2FzdC9hc3RfZHA1MDEuYyBpbmRleCA4ODEyMWMwZTAuLmNkOTNjNDRmMiAxMDA2NDQN
-Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHA1MDEuYw0KPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vYXN0L2FzdF9kcDUwMS5jDQo+IEBAIC0xODksNiArMTg5LDkgQEAgYm9vbCBhc3Rf
-YmFja3VwX2Z3KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHU4ICphZGRyLCB1MzIgc2l6ZSkNCj4g
-ICAJdTMyIGksIGRhdGE7DQo+ICAgCXUzMiBib290X2FkZHJlc3M7DQo+IA0KPiArCWlmIChhc3Qt
-PmNvbmZpZ19tb2RlICE9IGFzdF91c2VfcDJhKQ0KPiArCQlyZXR1cm4gZmFsc2U7DQo+ICsNCj4g
-ICAJZGF0YSA9IGFzdF9taW5kd20oYXN0LCAweDFlNmUyMTAwKSAmIDB4MDE7DQo+ICAgCWlmIChk
-YXRhKSB7DQo+ICAgCQlib290X2FkZHJlc3MgPSBnZXRfZndfYmFzZShhc3QpOw0KPiBAQCAtMjA3
-LDYgKzIxMCw5IEBAIHN0YXRpYyBib29sIGFzdF9sYXVuY2hfbTY4ayhzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2KQ0KPiAgIAl1OCAqZndfYWRkciA9IE5VTEw7DQo+ICAgCXU4IGpyZWc7DQo+IA0KPiAr
-CWlmIChhc3QtPmNvbmZpZ19tb2RlICE9IGFzdF91c2VfcDJhKQ0KPiArCQlyZXR1cm4gZmFsc2U7
-DQo+ICsNCj4gICAJZGF0YSA9IGFzdF9taW5kd20oYXN0LCAweDFlNmUyMTAwKSAmIDB4MDE7DQo+
-ICAgCWlmICghZGF0YSkgew0KPiANCj4gQEAgLTI3MSwyNSArMjc3LDU1IEBAIHU4IGFzdF9nZXRf
-ZHA1MDFfbWF4X2NsayhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPiAgIAlzdHJ1Y3QgYXN0X3By
-aXZhdGUgKmFzdCA9IHRvX2FzdF9wcml2YXRlKGRldik7DQo+ICAgCXUzMiBib290X2FkZHJlc3Ms
-IG9mZnNldCwgZGF0YTsNCj4gICAJdTggbGlua2NhcFs0XSwgbGlua3JhdGUsIGxpbmtsYW5lcywg
-bWF4Y2xrID0gMHhmZjsNCj4gKwl1MzIgKnBsaW5rY2FwOw0KPiANCj4gLQlib290X2FkZHJlc3Mg
-PSBnZXRfZndfYmFzZShhc3QpOw0KPiAtDQo+IC0JLyogdmFsaWRhdGUgRlcgdmVyc2lvbiAqLw0K
-PiAtCW9mZnNldCA9IDB4ZjAwMDsNCj4gLQlkYXRhID0gYXN0X21pbmR3bShhc3QsIGJvb3RfYWRk
-cmVzcyArIG9mZnNldCk7DQo+IC0JaWYgKChkYXRhICYgMHhmMCkgIT0gMHgxMCkgLyogdmVyc2lv
-bjogMXggKi8NCj4gLQkJcmV0dXJuIG1heGNsazsNCj4gLQ0KPiAtCS8qIFJlYWQgTGluayBDYXBh
-YmlsaXR5ICovDQo+IC0Jb2Zmc2V0ICA9IDB4ZjAxNDsNCj4gLQkqKHUzMiAqKWxpbmtjYXAgPSBh
-c3RfbWluZHdtKGFzdCwgYm9vdF9hZGRyZXNzICsgb2Zmc2V0KTsNCj4gLQlpZiAobGlua2NhcFsy
-XSA9PSAwKSB7DQo+IC0JCWxpbmtyYXRlID0gbGlua2NhcFswXTsNCj4gLQkJbGlua2xhbmVzID0g
-bGlua2NhcFsxXTsNCj4gLQkJZGF0YSA9IChsaW5rcmF0ZSA9PSAweDBhKSA/ICg5MCAqIGxpbmts
-YW5lcykgOiAoNTQgKiBsaW5rbGFuZXMpOw0KPiAtCQlpZiAoZGF0YSA+IDB4ZmYpDQo+IC0JCQlk
-YXRhID0gMHhmZjsNCj4gLQkJbWF4Y2xrID0gKHU4KWRhdGE7DQo+ICsJaWYgKGFzdC0+Y29uZmln
-X21vZGUgPT0gYXN0X3VzZV9wMmEpIHsNCj4gKwkJYm9vdF9hZGRyZXNzID0gZ2V0X2Z3X2Jhc2Uo
-YXN0KTsNCj4gKw0KPiArCQkvKiB2YWxpZGF0ZSBGVyB2ZXJzaW9uICovDQo+ICsJCW9mZnNldCA9
-IEFTVF9EUDUwMV9HQkxfVkVSU0lPTjsNCj4gKwkJZGF0YSA9IGFzdF9taW5kd20oYXN0LCBib290
-X2FkZHJlc3MgKyBvZmZzZXQpOw0KPiArCQlpZiAoKGRhdGEgJiBBU1RfRFA1MDFfRldfVkVSU0lP
-Tl9NQVNLKSAhPSBBU1RfRFA1MDFfRldfVkVSU0lPTl8xKSAvKiB2ZXJzaW9uOiAxeCAqLw0KPiAr
-CQkJcmV0dXJuIG1heGNsazsNCj4gKw0KPiArCQkvKiBSZWFkIExpbmsgQ2FwYWJpbGl0eSAqLw0K
-PiArCQlvZmZzZXQgID0gQVNUX0RQNTAxX0xJTktSQVRFOw0KPiArCQlwbGlua2NhcCA9ICh1MzIg
-KilsaW5rY2FwOw0KPiArCQkqcGxpbmtjYXAgID0gYXN0X21pbmR3bShhc3QsIGJvb3RfYWRkcmVz
-cyArIG9mZnNldCk7DQo+ICsJCWlmIChsaW5rY2FwWzJdID09IDApIHsNCj4gKwkJCWxpbmtyYXRl
-ID0gbGlua2NhcFswXTsNCj4gKwkJCWxpbmtsYW5lcyA9IGxpbmtjYXBbMV07DQo+ICsJCQlkYXRh
-ID0gKGxpbmtyYXRlID09IDB4MGEpID8gKDkwICogbGlua2xhbmVzKSA6ICg1NCAqIGxpbmtsYW5l
-cyk7DQo+ICsJCQlpZiAoZGF0YSA+IDB4ZmYpDQo+ICsJCQkJZGF0YSA9IDB4ZmY7DQo+ICsJCQlt
-YXhjbGsgPSAodTgpZGF0YTsNCj4gKwkJfQ0KPiArCX0gZWxzZSB7DQo+ICsJCWlmICghYXN0LT5k
-cDUwMV9md19idWYpDQo+ICsJCQlyZXR1cm4gQVNUX0RQNTAxX0RFRkFVTFRfRENMSzsJLyogMTAy
-NHg3NjggYXMgZGVmYXVsdCAqLw0KPiArDQo+ICsJCS8qIGR1bW15IHJlYWQgKi8NCj4gKwkJb2Zm
-c2V0ID0gMHgwMDAwOw0KPiArCQlkYXRhID0gcmVhZGwoYXN0LT5kcDUwMV9md19idWYgKyBvZmZz
-ZXQpOw0KPiArDQo+ICsJCS8qIHZhbGlkYXRlIEZXIHZlcnNpb24gKi8NCj4gKwkJb2Zmc2V0ID0g
-QVNUX0RQNTAxX0dCTF9WRVJTSU9OOw0KPiArCQlkYXRhID0gcmVhZGwoYXN0LT5kcDUwMV9md19i
-dWYgKyBvZmZzZXQpOw0KPiArCQlpZiAoKGRhdGEgJiBBU1RfRFA1MDFfRldfVkVSU0lPTl9NQVNL
-KSAhPSBBU1RfRFA1MDFfRldfVkVSU0lPTl8xKSAvKiB2ZXJzaW9uOiAxeCAqLw0KPiArCQkJcmV0
-dXJuIG1heGNsazsNCj4gKw0KPiArCQkvKiBSZWFkIExpbmsgQ2FwYWJpbGl0eSAqLw0KPiArCQlv
-ZmZzZXQgPSBBU1RfRFA1MDFfTElOS1JBVEU7DQo+ICsJCXBsaW5rY2FwID0gKHUzMiAqKWxpbmtj
-YXA7DQo+ICsJCSpwbGlua2NhcCA9IHJlYWRsKGFzdC0+ZHA1MDFfZndfYnVmICsgb2Zmc2V0KTsN
-Cj4gKwkJaWYgKGxpbmtjYXBbMl0gPT0gMCkgew0KPiArCQkJbGlua3JhdGUgPSBsaW5rY2FwWzBd
-Ow0KPiArCQkJbGlua2xhbmVzID0gbGlua2NhcFsxXTsNCj4gKwkJCWRhdGEgPSAobGlua3JhdGUg
-PT0gMHgwYSkgPyAoOTAgKiBsaW5rbGFuZXMpIDogKDU0ICogbGlua2xhbmVzKTsNCj4gKwkJCWlm
-IChkYXRhID4gMHhmZikNCj4gKwkJCQlkYXRhID0gMHhmZjsNCj4gKwkJCW1heGNsayA9ICh1OClk
-YXRhOw0KPiArCQl9DQo+ICAgCX0NCj4gICAJcmV0dXJuIG1heGNsazsNCj4gICB9DQo+IEBAIC0y
-OTgsMjYgKzMzNCw1NyBAQCBib29sIGFzdF9kcDUwMV9yZWFkX2VkaWQoc3RydWN0IGRybV9kZXZp
-Y2UgKmRldiwgdTggKmVkaWRkYXRhKQ0KPiAgIHsNCj4gICAJc3RydWN0IGFzdF9wcml2YXRlICph
-c3QgPSB0b19hc3RfcHJpdmF0ZShkZXYpOw0KPiAgIAl1MzIgaSwgYm9vdF9hZGRyZXNzLCBvZmZz
-ZXQsIGRhdGE7DQo+ICsJdTMyICpwRURJRGlkeDsNCj4gDQo+IC0JYm9vdF9hZGRyZXNzID0gZ2V0
-X2Z3X2Jhc2UoYXN0KTsNCj4gLQ0KPiAtCS8qIHZhbGlkYXRlIEZXIHZlcnNpb24gKi8NCj4gLQlv
-ZmZzZXQgPSAweGYwMDA7DQo+IC0JZGF0YSA9IGFzdF9taW5kd20oYXN0LCBib290X2FkZHJlc3Mg
-KyBvZmZzZXQpOw0KPiAtCWlmICgoZGF0YSAmIDB4ZjApICE9IDB4MTApDQo+IC0JCXJldHVybiBm
-YWxzZTsNCj4gLQ0KPiAtCS8qIHZhbGlkYXRlIFBuUCBNb25pdG9yICovDQo+IC0Jb2Zmc2V0ID0g
-MHhmMDEwOw0KPiAtCWRhdGEgPSBhc3RfbWluZHdtKGFzdCwgYm9vdF9hZGRyZXNzICsgb2Zmc2V0
-KTsNCj4gLQlpZiAoIShkYXRhICYgMHgwMSkpDQo+IC0JCXJldHVybiBmYWxzZTsNCj4gKwlpZiAo
-YXN0LT5jb25maWdfbW9kZSA9PSBhc3RfdXNlX3AyYSkgew0KPiArCQlib290X2FkZHJlc3MgPSBn
-ZXRfZndfYmFzZShhc3QpOw0KPiANCj4gLQkvKiBSZWFkIEVESUQgKi8NCj4gLQlvZmZzZXQgPSAw
-eGYwMjA7DQo+IC0JZm9yIChpID0gMDsgaSA8IDEyODsgaSArPSA0KSB7DQo+IC0JCWRhdGEgPSBh
-c3RfbWluZHdtKGFzdCwgYm9vdF9hZGRyZXNzICsgb2Zmc2V0ICsgaSk7DQo+IC0JCSoodTMyICop
-KGVkaWRkYXRhICsgaSkgPSBkYXRhOw0KPiArCQkvKiB2YWxpZGF0ZSBGVyB2ZXJzaW9uICovDQo+
-ICsJCW9mZnNldCA9IEFTVF9EUDUwMV9HQkxfVkVSU0lPTjsNCj4gKwkJZGF0YSA9IGFzdF9taW5k
-d20oYXN0LCBib290X2FkZHJlc3MgKyBvZmZzZXQpOw0KPiArCQlpZiAoKGRhdGEgJiBBU1RfRFA1
-MDFfRldfVkVSU0lPTl9NQVNLKSAhPSBBU1RfRFA1MDFfRldfVkVSU0lPTl8xKQ0KPiArCQkJcmV0
-dXJuIGZhbHNlOw0KPiArDQo+ICsJCS8qIHZhbGlkYXRlIFBuUCBNb25pdG9yICovDQo+ICsJCW9m
-ZnNldCA9IEFTVF9EUDUwMV9QTlBNT05JVE9SOw0KPiArCQlkYXRhID0gYXN0X21pbmR3bShhc3Qs
-IGJvb3RfYWRkcmVzcyArIG9mZnNldCk7DQo+ICsJCWlmICghKGRhdGEgJiBBU1RfRFA1MDFfUE5Q
-X0NPTk5FQ1RFRCkpDQo+ICsJCQlyZXR1cm4gZmFsc2U7DQo+ICsNCj4gKwkJLyogUmVhZCBFRElE
-ICovDQo+ICsJCW9mZnNldCA9IEFTVF9EUDUwMV9FRElEX0RBVEE7DQo+ICsJCWZvciAoaSA9IDA7
-IGkgPCAxMjg7IGkgKz0gNCkgew0KPiArCQkJZGF0YSA9IGFzdF9taW5kd20oYXN0LCBib290X2Fk
-ZHJlc3MgKyBvZmZzZXQgKyBpKTsNCj4gKwkJCXBFRElEaWR4ID0gKHUzMiAqKShlZGlkZGF0YSAr
-IGkpOw0KPiArCQkJKnBFRElEaWR4ID0gZGF0YTsNCj4gKwkJfQ0KPiArCX0gZWxzZSB7DQo+ICsJ
-CWlmICghYXN0LT5kcDUwMV9md19idWYpDQo+ICsJCQlyZXR1cm4gZmFsc2U7DQo+ICsNCj4gKwkJ
-LyogZHVtbXkgcmVhZCAqLw0KPiArCQlvZmZzZXQgPSAweDAwMDA7DQo+ICsJCWRhdGEgPSByZWFk
-bChhc3QtPmRwNTAxX2Z3X2J1ZiArIG9mZnNldCk7DQo+ICsNCj4gKwkJLyogdmFsaWRhdGUgRlcg
-dmVyc2lvbiAqLw0KPiArCQlvZmZzZXQgPSBBU1RfRFA1MDFfR0JMX1ZFUlNJT047DQo+ICsJCWRh
-dGEgPSByZWFkbChhc3QtPmRwNTAxX2Z3X2J1ZiArIG9mZnNldCk7DQo+ICsJCWlmICgoZGF0YSAm
-IEFTVF9EUDUwMV9GV19WRVJTSU9OX01BU0spICE9IEFTVF9EUDUwMV9GV19WRVJTSU9OXzEpDQo+
-ICsJCQlyZXR1cm4gZmFsc2U7DQo+ICsNCj4gKwkJLyogdmFsaWRhdGUgUG5QIE1vbml0b3IgKi8N
-Cj4gKwkJb2Zmc2V0ID0gQVNUX0RQNTAxX1BOUE1PTklUT1I7DQo+ICsJCWRhdGEgPSByZWFkbChh
-c3QtPmRwNTAxX2Z3X2J1ZiArIG9mZnNldCk7DQo+ICsJCWlmICghKGRhdGEgJiBBU1RfRFA1MDFf
-UE5QX0NPTk5FQ1RFRCkpDQo+ICsJCQlyZXR1cm4gZmFsc2U7DQo+ICsNCj4gKwkJLyogUmVhZCBF
-RElEICovDQo+ICsJCW9mZnNldCA9IEFTVF9EUDUwMV9FRElEX0RBVEE7DQo+ICsJCWZvciAoaSA9
-IDA7IGkgPCAxMjg7IGkgKz0gNCkgew0KPiArCQkJZGF0YSA9IHJlYWRsKGFzdC0+ZHA1MDFfZndf
-YnVmICsgb2Zmc2V0ICsgaSk7DQo+ICsJCQlwRURJRGlkeCA9ICh1MzIgKikoZWRpZGRhdGEgKyBp
-KTsNCj4gKwkJCSpwRURJRGlkeCA9IGRhdGE7DQo+ICsJCX0NCj4gICAJfQ0KPiANCj4gICAJcmV0
-dXJuIHRydWU7DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCAN
-Cj4gYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCBpbmRleCBlODJhYjg2MjguLjkxMWY5
-ZjQxNCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmgNCj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmgNCj4gQEAgLTE1MCw2ICsxNTAsNyBAQCBz
-dHJ1Y3QgYXN0X3ByaXZhdGUgew0KPiANCj4gICAJdm9pZCBfX2lvbWVtICpyZWdzOw0KPiAgIAl2
-b2lkIF9faW9tZW0gKmlvcmVnczsNCj4gKwl2b2lkIF9faW9tZW0gKmRwNTAxX2Z3X2J1ZjsNCj4g
-DQo+ICAgCWVudW0gYXN0X2NoaXAgY2hpcDsNCj4gICAJYm9vbCB2Z2EyX2Nsb25lOw0KPiBAQCAt
-MzI1LDYgKzMyNiwxNyBAQCBpbnQgYXN0X21vZGVfY29uZmlnX2luaXQoc3RydWN0IGFzdF9wcml2
-YXRlICphc3QpOw0KPiAgICNkZWZpbmUgQVNUX01NX0FMSUdOX1NISUZUIDQNCj4gICAjZGVmaW5l
-IEFTVF9NTV9BTElHTl9NQVNLICgoMSA8PCBBU1RfTU1fQUxJR05fU0hJRlQpIC0gMSkNCj4gDQo+
-ICsjZGVmaW5lIEFTVF9EUDUwMV9GV19WRVJTSU9OX01BU0sJR0VOTUFTSyg3LCA0KQ0KPiArI2Rl
-ZmluZSBBU1RfRFA1MDFfRldfVkVSU0lPTl8xCQlCSVQoNCkNCj4gKyNkZWZpbmUgQVNUX0RQNTAx
-X1BOUF9DT05ORUNURUQJCUJJVCgxKQ0KPiArDQo+ICsjZGVmaW5lIEFTVF9EUDUwMV9ERUZBVUxU
-X0RDTEsJNjUNCj4gKw0KPiArI2RlZmluZSBBU1RfRFA1MDFfR0JMX1ZFUlNJT04JMHhmMDAwDQo+
-ICsjZGVmaW5lIEFTVF9EUDUwMV9QTlBNT05JVE9SCTB4ZjAxMA0KPiArI2RlZmluZSBBU1RfRFA1
-MDFfTElOS1JBVEUJMHhmMDE0DQo+ICsjZGVmaW5lIEFTVF9EUDUwMV9FRElEX0RBVEEJMHhmMDIw
-DQo+ICsNCj4gICBpbnQgYXN0X21tX2luaXQoc3RydWN0IGFzdF9wcml2YXRlICphc3QpOw0KPiAN
-Cj4gICAvKiBhc3QgcG9zdCAqLw0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9h
-c3RfbWFpbi5jIA0KPiBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYyBpbmRleCAwYWMz
-YzIwMzkuLjM5NzZhMjU4NyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3Rf
-bWFpbi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYw0KPiBAQCAtOTks
-NyArOTksNyBAQCBzdGF0aWMgdm9pZCBhc3RfZGV0ZWN0X2NvbmZpZ19tb2RlKHN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYsIHUzMiAqc2N1X3JldikNCj4gICAJaWYgKCEoanJlZ2QwICYgMHg4MCkgfHwg
-IShqcmVnZDEgJiAweDEwKSkgew0KPiAgIAkJLyogRG91YmxlIGNoZWNrIGl0J3MgYWN0dWFsbHkg
-d29ya2luZyAqLw0KPiAgIAkJZGF0YSA9IGFzdF9yZWFkMzIoYXN0LCAweGYwMDQpOw0KPiAtCQlp
-ZiAoZGF0YSAhPSAweEZGRkZGRkZGKSB7DQo+ICsJCWlmICgoZGF0YSAhPSAweEZGRkZGRkZGKSAm
-JiAoZGF0YSAhPSAweDAwKSkgew0KPiAgIAkJCS8qIFAyQSB3b3JrcywgZ3JhYiBzaWxpY29uIHJl
-dmlzaW9uICovDQo+ICAgCQkJYXN0LT5jb25maWdfbW9kZSA9IGFzdF91c2VfcDJhOw0KPiANCj4g
-QEAgLTQxMSw2ICs0MTEsNyBAQCBzdHJ1Y3QgYXN0X3ByaXZhdGUgKmFzdF9kZXZpY2VfY3JlYXRl
-KGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyICpkcnYsDQo+ICAgCQlyZXR1cm4gYXN0Ow0KPiAgIAlk
-ZXYgPSAmYXN0LT5iYXNlOw0KPiANCj4gKwlkZXYtPnBkZXYgPSBwZGV2Ow0KPiAgIAlwY2lfc2V0
-X2RydmRhdGEocGRldiwgZGV2KTsNCj4gDQo+ICAgCWFzdC0+cmVncyA9IHBjaV9pb21hcChwZGV2
-LCAxLCAwKTsNCj4gQEAgLTQ1MCw2ICs0NTEsMTQgQEAgc3RydWN0IGFzdF9wcml2YXRlICphc3Rf
-ZGV2aWNlX2NyZWF0ZShjb25zdCANCj4gc3RydWN0DQpkcm1fZHJpdmVyICpkcnYsDQo+ICAgCWlm
-IChyZXQpDQo+ICAgCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiANCj4gKwkvKiBtYXAgcmVzZXJ2
-ZWQgYnVmZmVyICovDQo+ICsJYXN0LT5kcDUwMV9md19idWYgPSBOVUxMOw0KPiArCWlmIChkZXYt
-PnZyYW1fbW0tPnZyYW1fc2l6ZSA8IHBjaV9yZXNvdXJjZV9sZW4oZGV2LT5wZGV2LCAwKSkgew0K
-PiArCQlhc3QtPmRwNTAxX2Z3X2J1ZiA9IHBjaV9pb21hcF9yYW5nZShkZXYtPnBkZXYsIDAsIGRl
-di0+dnJhbV9tbS0+dnJhbV9zaXplLCAwKTsNCj4gKwkJaWYgKCFhc3QtPmRwNTAxX2Z3X2J1ZikN
-Cj4gKwkJCWRybV9pbmZvKGRldiwgImZhaWxlZCB0byBtYXAgcmVzZXJ2ZWQgYnVmZmVyIVxuIik7
-DQo+ICsJfQ0KPiArDQo+ICAgCXJldCA9IGFzdF9tb2RlX2NvbmZpZ19pbml0KGFzdCk7DQo+ICAg
-CWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiAtLQ0KPiAyLjE4LjQNCj4g
-DQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IGRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QNCj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0K
-PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA0KPiANCg0KLS0NClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkw
-NDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jD
-pGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcg0KDQpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Quoting khsieh@codeaurora.org (2021-04-28 10:38:11)
+> On 2021-04-27 17:00, Stephen Boyd wrote:
+> > Quoting aravindh@codeaurora.org (2021-04-21 11:55:21)
+> >> On 2021-04-21 10:26, khsieh@codeaurora.org wrote:
+> >> >>
+> >> >>> +
+> >> >>>         mutex_unlock(&dp->event_mutex);
+> >> >>>
+> >> >>>         return 0;
+> >> >>> @@ -1496,6 +1502,9 @@ int msm_dp_display_disable(struct msm_dp *dp,
+> >> >>> struct drm_encoder *encoder)
+> >> >>>         /* stop sentinel checking */
+> >> >>>         dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
+> >> >>>
+> >> >>> +       /* link is down, delete pending irq_hdps */
+> >> >>> +       dp_del_event(dp_display, EV_IRQ_HPD_INT);
+> >> >>> +
+> >> >>
+> >> >> I'm becoming convinced that the whole kthread design and event queue
+> >> >> is
+> >> >> broken. These sorts of patches are working around the larger problem
+> >> >> that the kthread is running independently of the driver and irqs can
+> >> >> come in at any time but the event queue is not checked from the irq
+> >> >> handler to debounce the irq event. Is the event queue necessary at
+> >> >> all?
+> >> >> I wonder if it would be simpler to just use an irq thread and process
+> >> >> the hpd signal from there. Then we're guaranteed to not get an irq
+> >> >> again
+> >> >> until the irq thread is done processing the event. This would
+> >> >> naturally
+> >> >> debounce the irq hpd event that way.
+> >> > event q just like bottom half of irq handler. it turns irq into event
+> >> > and handle them sequentially.
+> >> > irq_hpd is asynchronous event from panel to bring up attention of hsot
+> >> > during run time of operation.
+> >> > Here, the dongle is unplugged and main link had teared down so that no
+> >> > need to service pending irq_hpd if any.
+> >> >
+> >>
+> >> As Kuogee mentioned, IRQ_HPD is a message received from the panel and
+> >> is
+> >> not like your typical HW generated IRQ. There is no guarantee that we
+> >> will not receive an IRQ_HPD until we are finished with processing of
+> >> an
+> >> earlier HPD message or an IRQ_HPD message. For example - when you run
+> >> the protocol compliance, when we get a HPD from the sink, we are
+> >> expected to start reading DPCD, EDID and proceed with link training.
+> >> As
+> >> soon as link training is finished (which is marked by a specific DPCD
+> >> register write), the sink is going to issue an IRQ_HPD. At this point,
+> >> we may not done with processing the HPD high as after link training we
+> >> would typically notify the user mode of the newly connected display,
+> >> etc.
+> >
+> > Given that the irq comes in and is then forked off to processing at a
+> > later time implies that IRQ_HPD can come in at practically anytime.
+> > Case
+> > in point, this patch, which is trying to selectively search through the
+> > "event queue" and then remove the event that is no longer relevant
+> > because the display is being turned off either by userspace or because
+> > HPD has gone away. If we got rid of the queue and kthread and processed
+> > irqs in a threaded irq handler I suspect the code would be simpler and
+> > not have to search through an event queue when we disable the display.
+> > Instead while disabling the display we would make sure that the irq
+> > thread isn't running anymore with synchronize_irq() or even disable the
+> > irq entirely, but really it would be better to just disable the irq in
+> > the hardware with a register write to some irq mask register.
+> >
+> > This pushes more of the logic for HPD and connect/disconnect into the
+> > hardware and avoids reimplementing that in software: searching through
+> > the queue, checking for duplicate events, etc.
+>
+> I wish we can implemented as you suggested. but it more complicate than
+> that.
+> Let me explain below,
+> we have 3 transactions defined as below,
+>
+> plugin transaction: irq handle do host dp ctrl initialization and link
+> training. If sink_count = 0 or link train failed, then transaction
+> ended. otherwise send display up uevent to frame work and wait for frame
+> work thread to do mode set, start pixel clock and start video to end
+> transaction.
+
+Why do we need to wait for userspace to start video? HPD is indicating
+that we have something connected, so shouldn't we merely signal to
+userspace that something is ready to display and then enable the irq for
+IRQ_HPD?
+
+>
+> unplugged transaction: irq handle send display off uevent to frame
+> work and wait for frame work to disable pixel clock ,tear down main
+> link and dp ctrl host de initialization.
+
+What do we do if userspace is slow and doesn't disable the display
+before the cable is physically plugged in again?
+
+>
+> irq_hpd transaction: This only happen after plugin transaction and
+> before unplug transaction. irq handle read panel dpcd register and
+> perform requesting action. Action including perform dp compliant
+> phy/link testing.
+>
+> since dongle can be plugged/unplugged at ant time, three conditions have
+> to be met to avoid race condition,
+> 1) no irq lost
+> 2) irq happen timing order enforced at execution
+> 3) no irq handle done in the middle transaction
+>
+> for example we do not want to see
+> plugin --> unplug --> plugin --> unplug become plugin --> plugin-->
+> unplug
+>
+> The purpose of this patch is to not handle pending irq_hpd after either
+> dongle or monitor had been unplugged until next plug in.
+>
+
+I'm not suggesting to block irq handling entirely for long running
+actions. A plug irq due to HPD could still notify userspace that the
+display is connected but when an IRQ_HPD comes in we process it in the
+irq thread instead of trying to figure out what sort of action is
+necessary to quickly fork it off to a kthread to process later.
+
+The problem seems to be that this quick forking off of the real IRQ_HPD
+processing is letting the event come in, and then an unplug to come in
+after that, and then a plug in to come in after that, leading to the
+event queue getting full of events that are no longer relevant but still
+need to be processed. If this used a workqueue instead of an open-coded
+one, I'd say we should cancel any work items on the queue if an unplug
+irq came in. That way we would make sure that we're not trying to do
+anything with the link when it isn't present anymore.
+
+But even then it doesn't make much sense. Userspace could be heavily
+delayed after the plug in irq, when HPD is asserted, and not display
+anything. The user could physically unplug and plug during that time so
+we really need to not wait at all or do anything besides note the state
+of the HPD when this happens. The IRQ_HPD irq is different. I don't
+think we care to keep getting them if we're not done processing the
+previous irq. I view it as basically an "edge" irq that we see, process,
+and then if another one comes in during the processing time we ignore
+it. There's only so much we can do, hence the suggestion to use a
+threaded irq.
+
+This is why IRQ_HPD is yanking the HPD line down to get the attention of
+the source, but HPD high and HPD low for an extended period of time
+means the cable has been plugged or unplugged. We really do care if the
+line goes low for a long time, but if it only temporarily goes low for
+an IRQ_HPD then we either saw it or we didn't have time to process it
+yet.
+
+It's like a person at your door ringing the doorbell. They're there (HPD
+high), and they're ringing the doorbell over and over (IRQ_HPD) and
+eventually they go away when you don't answer (HPD low). We don't have
+to keep track of every single doorbell/IRQ_HPD event because it's mostly
+a ping from the sink telling us we need to go do something, i.e. a
+transitory event. The IRQ_HPD should always work once HPD is there, but
+once HPD is gone we should mask it and ignore that irq until we see an
+HPD high again.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
