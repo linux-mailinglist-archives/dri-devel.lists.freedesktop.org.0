@@ -1,120 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6707536F113
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 22:36:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C51836F184
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 23:03:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1234B6F4DB;
-	Thu, 29 Apr 2021 20:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458456F4BE;
+	Thu, 29 Apr 2021 21:03:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2076.outbound.protection.outlook.com [40.107.92.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFA86F4BE;
- Thu, 29 Apr 2021 20:36:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D1KyteKDrnIeqY7Oqyx0dZdYCGOXSvogqmJ7HsMJyY6LTaNajc2+d+6PXXtpYZQqshjtywfBkmJ0Qut7DGxAlIRPwpJ4cASUHwXWEXXxq8sG5WBBNkevP5TC0KOjuGSSCJdODWx7wz6D3Vek9fqcoNGRW8dUUD6+d55ywTjqrmqrDHva5PvbcIsPrV3u8PqetFeCDyeKl7k7baWqCQbGSNYVVDaEbJOxUFCMhcJxtKmBi42uzv+wW8uPImOw2C5IvLHr1H0g/PeQkXaQbteovdBV9Fwi3pG1n/ZRsnrQNx1Mp1yHXhSIvp9wwdm2s/RTqeG5t/MIKivLnkVFBWeZ0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ba8bByW6fxSFhUO7QsLX8+WosYRa6kiMw1tWYLTCbxU=;
- b=BswxO0IJjnMEakAb9mx0EHenDmH2Z7O+aEs84r4hYaA3OMIvRjN3ds8P5IofELxQbV6ych8NnWbm1LSgi59N+0r/Q+ftCgHCktTQWs+IsZMZZVuntw1dqI0Uz0X/EETn0ysLrMbLU5wHFkWE9DB8AtRLgOclJZlbHZfrsD+OIFDa9hb+OnSW1nhNMZtLPnfYLE+V2zMz1brQY0eVfTXah9qPbLZ5k0wZ+dxo5pnRu75eieskkYPmiGyMDVMo/WfmYHmRlNEunwBKD/Fn8iF1xq8Hl+OCp49VY4gCpmTQeNfj3SHfTRDwOm+STyxZouuzMEUVg1O9WS05IMEoCy+5KQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ba8bByW6fxSFhUO7QsLX8+WosYRa6kiMw1tWYLTCbxU=;
- b=AcJ+Dasx60HOHsr5wkSEudWjzAVufVQKGo5/1rKXxtA5ibaE0gSE+oCVT4wAOITUtczhC1dlww4xjNEqMMoyM0u/rLuCuiXe5Hzlc+Aim5LV9n7IcVi7DkIzP/u7pevFijm8vG7wS9LQV4q5ZysS5I98fDZcDXgE0VIFWGZa5OQ=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SN6PR12MB2703.namprd12.prod.outlook.com (2603:10b6:805:75::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Thu, 29 Apr
- 2021 20:36:51 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4065.026; Thu, 29 Apr 2021
- 20:36:50 +0000
-Subject: Re: [PATCH v5 08/27] PCI: add support for dev_groups to struct
- pci_device_driver
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20210429192308.GA510492@bjorn-Precision-5520>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Message-ID: <d95139ed-ac2f-6006-c5db-78e67bb7edc3@amd.com>
-Date: Thu, 29 Apr 2021 16:36:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <20210429192308.GA510492@bjorn-Precision-5520>
-Content-Language: en-US
-X-Originating-IP: [2607:fea8:3edf:49b0:497:888:9bb9:54f1]
-X-ClientProxiedBy: YT1PR01CA0119.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::28) To SN6PR12MB4623.namprd12.prod.outlook.com
- (2603:10b6:805:e9::17)
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D701B6F4BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 21:03:32 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id i17so3172112qki.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 14:03:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xRU2yBtauvlwmgJ+pf3kg4KpnBtBpDuxDmDITGaelXM=;
+ b=MxcB5px72C8+5vJCXXHc+ftOlbOvLaOIZCcSYXwDudiJ5T6uRWCF3IbA/q7i0v05H4
+ b5+Xhyg/FMAavwP1EiO0TTX+zk0MdwRoYHVLZbsieoDElYIszlwp9kC2cL2arlNwdmht
+ 5eSBc+Cb7eohKUohNBZmGo0StBZWqhQKL+4x4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xRU2yBtauvlwmgJ+pf3kg4KpnBtBpDuxDmDITGaelXM=;
+ b=OKl3HLEONG87o5vAjRksTBMqZX4DyDJrb3BASIC+oM0Iaz+CtWHGJSZmYHJvjr0gK4
+ bnuK7lAPcv9SEiM8gY4aTa2KBcRzOvh7d1KaIS1HhZL/7zuoICTQzBgb0NqwSI+4g+ce
+ qgZln4UPDhkZaqTznPnY8r3lVLmUbvtKnUeUQbpcX2ywRsRyiPbf9VOd0LzrIui/gSiG
+ bu8wMt9PPzxUBS/X8Ekv/oH2BD7spU/GP9Ol58+tRvuNaj80Q0QKuoaoTJxPgpK9UP1T
+ PxlEQn0zrJqBHPe9GvUqseFiZUR2elmTgmJ19ep4okMgcy76FoZA//wvvB7CP4hDxUKn
+ SJIg==
+X-Gm-Message-State: AOAM533zt1WjSjPcNKAQinsIQSBUWCHZWaFmJoMQ4XuNUpFrlwfKdRCl
+ 81L7K54BBU/ADK/jUY2wdwtRJ2siCfpfJg==
+X-Google-Smtp-Source: ABdhPJzTK23yo7s0ePRXG5YKjfAWPVtB9mJETE4+zTT5NHdA8J/V3dhHIo0JUCEJ6pVie8/qncdHTQ==
+X-Received: by 2002:ae9:e508:: with SMTP id w8mr1794452qkf.262.1619730211696; 
+ Thu, 29 Apr 2021 14:03:31 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
+ [209.85.219.176])
+ by smtp.gmail.com with ESMTPSA id l9sm796918qtu.70.2021.04.29.14.03.30
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Apr 2021 14:03:30 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id p126so26699764yba.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 14:03:30 -0700 (PDT)
+X-Received: by 2002:a05:6902:4e2:: with SMTP id
+ w2mr2101815ybs.79.1619730210214; 
+ Thu, 29 Apr 2021 14:03:30 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:497:888:9bb9:54f1]
- (2607:fea8:3edf:49b0:497:888:9bb9:54f1) by
- YT1PR01CA0119.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.25 via Frontend Transport; Thu, 29 Apr 2021 20:36:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 741795f4-6d90-44b9-a98c-08d90b4e8460
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2703:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB27030D99312FFAAF1A6C07E7EA5F9@SN6PR12MB2703.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:549;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z7EmnEStXTXSytvgs4dKI6uqd2Tv8+/E+u2HaWE9GRdo9Q3fUZtmIT8q5a46JuzFLVkMTECsaxFyLGDyNI5L28JKaSunAcBj+C6KCKclTcm0QhbC3zk/egCEN/cMzvy9iWbiRtoi+YAVa3250vQegyslWaq+RBG1hj6vWobxIbLcYSIyImM3U3f3oPJGdFGXeEGbdU18qtRnwuwKEvwjvOooXOeK4GeoXIIKTXRxHL9f3JvEcJsUUvgwXoAeyk5NehLhh+Tbx8IDT+mL7EhjKUPFc/3x57MLZe/URpihNafkqooVg9EaQMndB5Qs6sKqVyFgJBuO0X737I3NueyGAMojFK1kAggxAKGhS2PiovjptZecJXd4+JugpXHB1LANJ/KE0fH62tky3nWtKJo3yFQqcxFY1GIuMQ2w3sPe6VAREL6b0vjpJiihisyQpjnLjkgwxQo+7diV3Go5uiXsvtbQI2qbXeV3Svg3Ug6UF/cVBg1NPAWVK59DUXpO6B63ns/2ZIEVSIuyS8nnxZuL4CQv+6egIRib8PggcZ0EZ8sOSOG9M5l+WGFGKyBvZeN6w2oMOmlvm11XU8sJqtQpS1e54U0ye2/sA/g3fB5cBYbyF3GS6BRnFMafhMZ8dJeIj2BzMU7DSKVXB4nBgUSirhdEsNEernT/jdoJbL2vOFFWrHFM1OYk17yFDWKTnLhUhROtRNv+AaZfRS1rjqj1PHixLikJIAYy6lsoWNuRLdE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(346002)(376002)(39860400002)(136003)(66476007)(45080400002)(316002)(38100700002)(2906002)(2616005)(966005)(66556008)(66946007)(83380400001)(8936002)(6916009)(31696002)(53546011)(478600001)(52116002)(4326008)(6486002)(8676002)(16526019)(44832011)(86362001)(31686004)(36756003)(186003)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MEU3RVdIMzF5NVJDbHRpYzh3MWU5S1Z4MjB6YTNwK0RVYmFJRWN4bzBIQVlB?=
- =?utf-8?B?TGlPWTZjbHdEZXdUSG9kd3NuSGVpb0ZBTXlLVXJ0NStVV3BFM0xHYnFlSSs5?=
- =?utf-8?B?Zm1WcGxqWmtFdzBWUm4vcDhuRlJaSnl2VDFCT1RwclgxVUFUeVJ3MW5CM0Y2?=
- =?utf-8?B?YUV3azBLRFRDYnhPZU9Lc3BMeUFsSGpXME5DaFg2WUpMWTk5eG9JWnN6STFB?=
- =?utf-8?B?UzRTZ1R4dDVDay83UnB1UHNGOTl0a0dKT29LcDRncWdpM1ZPTzlHU01DSXYx?=
- =?utf-8?B?SGRkZERsNCtGaFR6OEFtMHEzNDYrTDF1dkhPQmlVcnZCbW4wZTdkZEpGN040?=
- =?utf-8?B?WWhVTmwyTHVIOTB3MG5MU3FKMW9aYXlxZXpjcWI1MHp2LzFYWUdLU3BZd2tO?=
- =?utf-8?B?cFJkRkJpdmRNMHZSRHUva1lsTUYxRDIyRndsV0plS3FMMmNnYnliQUtpUGRL?=
- =?utf-8?B?cTF0L3A0MHp1R2krU3dYY2ZjbUhnNnl6MWI0SmdHZ2loUldtNmNuZHpBRjhv?=
- =?utf-8?B?RWc5ZGVnbmNDNCs4UEw0NVY4bU5vdWdSS3N2M3RMakRuQmt5bFNvaGxJQmdK?=
- =?utf-8?B?YkgzR2xMM3htWXR6UmVTMEF5TTgvSEtTVmJqMnNOd0tZOUxjMTJocWxzVDRp?=
- =?utf-8?B?OUluSVAxcTlXdW1aUHpody9wNWRtZjIrTXBmVXBReDJxRWNYSEZqVkdYNzdm?=
- =?utf-8?B?RUYydjVBQm5hclQzWGovNWRKZ0N2bjdhVGR3dXdzRGxOM2FydUdIaU1QQytz?=
- =?utf-8?B?MklLOVJNejZoVVJiT3lkNWtBcjR6WHNsT2pSc29YNGFFdWowK0FnY3hZWGd0?=
- =?utf-8?B?TStqSHBRYWFBRXFJcFpuU3o0UE8vYnFxa0NqbU1IOXBpbkhYdm9PRGl1MHFC?=
- =?utf-8?B?VXNtNTRRMDErdE1kMnNMY0licHBEcHpqRWsrSVM5S09ZeDR5R25udHRLd2pP?=
- =?utf-8?B?VkU3Vkp3N1Q1RkpCZXl1dnV0RmJRTVZRdW9VVkpTNUkxSkxLV0o5WjZIZ0ND?=
- =?utf-8?B?cEVZYXVpMFgzaGQxNXFPM2FlMFRsbThtL0xTd1JobkRRZER6ZUk1ckpGVVRi?=
- =?utf-8?B?Vk9QeEFCRUpZdVNWblYwWTJPNFBpYUZTQm01blBpa1Nlb01RMTFmNDNKVEhU?=
- =?utf-8?B?QUNodjNxM2lwajU0SHN2b01xM1Y4UTJpc3N5cjhMOHF0L3dIejdpaXV0OFNx?=
- =?utf-8?B?ZnFiSlN3b213a2NYeHkxSGJiTHVXU0ttSitmMFlLempqdmNaRXg4TnF4SDNh?=
- =?utf-8?B?STNKRDc4bUcwL0JhUHJYd01rSEZ4SmxtY0pqY01kVDRxRURselVaenpIRDZx?=
- =?utf-8?B?ZnB3ZnZIbVVvb3JNVEZxcTgyZCtKSWIrek43V1NnaXRsRTdBaHBFOEIrWWpC?=
- =?utf-8?B?eXp2Rm5XRzJRclZMRUJhM0F1QTJPUGV5UHErZnBybzNjQ09FU3NXdGFJZ240?=
- =?utf-8?B?Q2pXbG14MlZpejExNWRIeUFaVkRSR3p6MWRER0YyNnpjRG5DZ002NHhKTTZO?=
- =?utf-8?B?ejUzOFVFTDdDbDdacG5PWDJ2ZkJMeFRtVjhyd0Fvd05UVG9EcnF4T05CeHQ2?=
- =?utf-8?B?VVpDWTZtWUo4VkNINmlLS0NuUUJiQkFWVDJPd1hvT0x0S0lqSW9XVWJCbnNt?=
- =?utf-8?B?aDdpT2ROUVR2eFFGekd4OVdzVnNBL0VWR3VDUzR2RjY1TzBKNDBYa3Fhc1Bz?=
- =?utf-8?B?WSttN2pZSTVCVHVyeE9oNmt6dDFJOHlxTXdHc2c1UzdJVzhSS2dpWmNZeEFt?=
- =?utf-8?B?ejRHbngyUkFtcFZsTm1LemxTQ3R2VW9ycHRjaW9UdVkyZlFLc2F4dnloaWkx?=
- =?utf-8?B?VjNtaytKelI4Q2xSa2FObnBkbEt4UXVnVzdLK1VBNWhHMFJncDlTS3NLWVoy?=
- =?utf-8?Q?OTfXhjCmdiCJ9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 741795f4-6d90-44b9-a98c-08d90b4e8460
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2021 20:36:50.8566 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8GQXA5vDDP9z7+5twHHrgd11C6Z+VK8oAmfhD6t2EmTC252pWm3peBuVLpqKLMveUr42tTfNOJaBn3v0eAGHZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2703
+References: <1619416756-3533-1-git-send-email-rajeevny@codeaurora.org>
+ <1619416756-3533-2-git-send-email-rajeevny@codeaurora.org>
+ <20210429180435.GA1385465@robh.at.kernel.org>
+In-Reply-To: <20210429180435.GA1385465@robh.at.kernel.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 29 Apr 2021 14:03:18 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V-kdySH5Pp-Fb-PRYk60Ha_UOTXJHcvMp+uV3P1oo7Uw@mail.gmail.com>
+Message-ID: <CAD=FV=V-kdySH5Pp-Fb-PRYk60Ha_UOTXJHcvMp+uV3P1oo7Uw@mail.gmail.com>
+Subject: Re: [v3 1/2] dt-bindings: backlight: add DisplayPort aux backlight
+To: Rob Herring <robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,58 +71,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch, Felix.Kuehling@amd.com,
- linux-pci@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com,
- Alexander.Deucher@amd.com
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Rajeev Nandan <rajeevny@codeaurora.org>,
+ mkrishn@codeaurora.org, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On Thu, Apr 29, 2021 at 11:04 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Mon, Apr 26, 2021 at 11:29:15AM +0530, Rajeev Nandan wrote:
+> > Add bindings for DisplayPort aux backlight driver.
+> >
+> > Changes in v2:
+> > - New
+> >
+> > Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
+> > ---
+> >  .../bindings/leds/backlight/dp-aux-backlight.yaml  | 49 ++++++++++++++++++++++
+> >  1 file changed, 49 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml
+> > new file mode 100644
+> > index 00000000..0fa8bf0
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml
+> > @@ -0,0 +1,49 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/backlight/dp-aux-backlight.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: DisplayPort aux backlight driver bindings
+> > +
+> > +maintainers:
+> > +  - Rajeev Nandan <rajeevny@codeaurora.org>
+> > +
+> > +description:
+> > +  Backlight driver to control the brightness over DisplayPort aux channel.
+> > +
+> > +allOf:
+> > +  - $ref: common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: dp-aux-backlight
+> > +
+> > +  ddc-i2c-bus:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      A phandle to the system I2C controller connected to the DDC bus used
+> > +      for the DisplayPort AUX channel.
+> > +
+> > +  enable-gpios:
+> > +    maxItems: 1
+> > +    description: GPIO specifier for backlight enable pin.
+> > +
+> > +  max-brightness: true
+> > +
+> > +required:
+> > +  - compatible
+> > +  - ddc-i2c-bus
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    backlight {
+> > +        compatible = "dp-aux-backlight";
+> > +        ddc-i2c-bus = <&sn65dsi86_bridge>;
+> > +        enable-gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
+>
+> So the DDC bus is connected to a backlight and also a panel? This
+> binding is not reflecting the h/w, but rather what you want for some
+> driver.
+>
+> There's only one thing here and that's an eDP panel which supports
+> backlight control via DP aux channel. You can figure all that out from
+> the panel's compatible and/or reading the EDID.
+>
+> You might also be interested in this thread:
+>
+> https://lore.kernel.org/lkml/YIKsDtjcIHGNvW0u@orome.fritz.box/
 
-On 2021-04-29 3:23 p.m., Bjorn Helgaas wrote:
-> On Thu, Apr 29, 2021 at 12:53:15PM -0400, Andrey Grodzovsky wrote:
->> On 2021-04-28 12:53 p.m., Bjorn Helgaas wrote:
->>> On Wed, Apr 28, 2021 at 11:11:48AM -0400, Andrey Grodzovsky wrote:
->>>> This is exact copy of 'USB: add support for dev_groups to
->>>> struct usb_device_driver' patch by Greg but just for
->>>> the PCI case.
-> 
->>> ...
->>> The usual commit citation format is 7d9c1d2f7aca ("USB: add support
->>> for dev_groups to struct usb_device_driver") so it's easier to locate
->>> the commit.
->>>
->>> I see there is also b71b283e3d6d ("USB: add support for dev_groups to
->>> struct usb_driver").  I don't know enough about USB to know whether
->>> 7d9c1d2f7aca or b71b283e3d6d is a closer analogue to what you're doing
->>> here, but I do see that struct usb_driver is far more common than
->>> struct usb_device_driver.
->>>
->>> PCI has struct pci_driver, but doesn't have the concept of a struct
->>> pci_device_driver.
->>
->> Since we don't have pci_device_driver then pci_driver is the best place
->> for it then, no ?
-> 
-> Of course.  My point was just that maybe you should say this is
-> similar to b71b283e3d6d ("USB: add support for dev_groups to struct
-> usb_driver"), not similar to 7d9c1d2f7aca ("USB: add support for
-> dev_groups to struct usb_device_driver").
+I think Rajeev needs to rework everything anyway as per:
 
-Got it.
+https://lore.kernel.org/r/87zgxl5qar.fsf@intel.com
 
-Andrey
+...but you're right that it makes sense not to model the backlight as
+a separate node in the device tree. The panel driver can handle
+setting up the backlight.
 
-> 
-> Bjorn
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=04%7C01%7Candrey.grodzovsky%40amd.com%7C9778eea1c3164f9fbc5f08d90b443ba6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637553209952825202%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=tkycS4EST1Q%2BkEWlmzocPjCxaONVk5sPzPnWmrmbfcg%3D&amp;reserved=0
-> 
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
