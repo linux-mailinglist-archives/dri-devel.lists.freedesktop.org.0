@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C52D36E668
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 10:01:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397CE36E67B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 10:04:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F0756ED8F;
-	Thu, 29 Apr 2021 08:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692A36ED99;
+	Thu, 29 Apr 2021 08:04:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0866ED8F;
- Thu, 29 Apr 2021 08:01:26 +0000 (UTC)
-IronPort-SDR: 2QZfFc4OCdwqjG3aqSrQGjHZx2ReFXeeewV8C0qY2oRuK/Q4c90tFXGNVDYqiEzCET5Zf1RVGh
- hYfJbtZTRQhA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="196506374"
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="196506374"
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E56F46ED94;
+ Thu, 29 Apr 2021 08:04:21 +0000 (UTC)
+IronPort-SDR: JDBjYt6tyMmU4fh9+ROYeh4RbrNH9lTdIOptf2jxqwucEuS+up3lavpGiuH9tAiW+gf0a0ytYI
+ 8ycto1270cKg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="197000955"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="197000955"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 01:01:23 -0700
-IronPort-SDR: 1zNokl+0kAVzKLwJO6m8td0ANbprZbVmYSiqqTZPbbdz6SMc9D+ijrVYMm7PBKQA+yr/eOte6a
- 9HFFicopgApA==
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="458631444"
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2021 01:04:20 -0700
+IronPort-SDR: MagjEL/Vq+QwYP6AkIA24Xe54V08W5VnppKPCJyg0tlw+jL0CdzrgU+b9iJH0VI+Ynq9ZdJA+T
+ /YrFspuNrBfg==
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; d="scan'208";a="458633480"
 Received: from gwaise-mobl1.ger.corp.intel.com (HELO [10.213.208.64])
  ([10.213.208.64])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 01:01:21 -0700
-Subject: Re: [Intel-gfx] [PATCH 09/21] drm/i915/gem: Disallow creating
- contexts with too many engines
+ 29 Apr 2021 01:04:19 -0700
+Subject: Re: [Intel-gfx] [PATCH 03/21] drm/i915/gem: Set the watchdog timeout
+ directly in intel_context_set_gem
 To: Jason Ekstrand <jason@jlekstrand.net>
 References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-10-jason@jlekstrand.net>
- <YIk14zVfa8Mw4rUF@phenom.ffwll.local>
- <6b388d4d-1d50-94f3-344a-5b6b3639e8ad@linux.intel.com>
- <YIlrCmvC10oAiRcL@phenom.ffwll.local>
- <27db8ded-3b17-748e-f602-a8c1aef7367f@linux.intel.com>
- <CAOFGe94czhE=SHZLOWmH6vPRs1ujhsP9BBxc6i+N_bkPZ+6UHw@mail.gmail.com>
+ <20210423223131.879208-4-jason@jlekstrand.net>
+ <417fe44a-61f9-c90a-c255-309db5bb48ab@linux.intel.com>
+ <CAOFGe96jXtyx2-hiYBmZPFqSx1G32Ph7SGguJQ=ZD4im=ZPJ5A@mail.gmail.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <8a1e496c-683d-0a26-03a7-14993ba82acf@linux.intel.com>
-Date: Thu, 29 Apr 2021 09:01:19 +0100
+Message-ID: <19ee110c-f251-20b1-5ca8-d280b724ccbf@linux.intel.com>
+Date: Thu, 29 Apr 2021 09:04:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe94czhE=SHZLOWmH6vPRs1ujhsP9BBxc6i+N_bkPZ+6UHw@mail.gmail.com>
+In-Reply-To: <CAOFGe96jXtyx2-hiYBmZPFqSx1G32Ph7SGguJQ=ZD4im=ZPJ5A@mail.gmail.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,88 +62,152 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 28/04/2021 18:09, Jason Ekstrand wrote:
-> On Wed, Apr 28, 2021 at 9:26 AM Tvrtko Ursulin
+On 28/04/2021 18:24, Jason Ekstrand wrote:
+> On Wed, Apr 28, 2021 at 10:55 AM Tvrtko Ursulin
 > <tvrtko.ursulin@linux.intel.com> wrote:
->> On 28/04/2021 15:02, Daniel Vetter wrote:
->>> On Wed, Apr 28, 2021 at 11:42:31AM +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 28/04/2021 11:16, Daniel Vetter wrote:
->>>>> On Fri, Apr 23, 2021 at 05:31:19PM -0500, Jason Ekstrand wrote:
->>>>>> There's no sense in allowing userspace to create more engines than it
->>>>>> can possibly access via execbuf.
->>>>>>
->>>>>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
->>>>>> ---
->>>>>>     drivers/gpu/drm/i915/gem/i915_gem_context.c | 7 +++----
->>>>>>     1 file changed, 3 insertions(+), 4 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>>>>> index 5f8d0faf783aa..ecb3bf5369857 100644
->>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>>>>> @@ -1640,11 +1640,10 @@ set_engines(struct i915_gem_context *ctx,
->>>>>>                     return -EINVAL;
->>>>>>             }
->>>>>> -  /*
->>>>>> -   * Note that I915_EXEC_RING_MASK limits execbuf to only using the
->>>>>> -   * first 64 engines defined here.
->>>>>> -   */
->>>>>>             num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
->>>>>
->>>>> Maybe add a comment like /* RING_MASK has not shift, so can be used
->>>>> directly here */ since I had to check that :-)
->>>>>
->>>>> Same story about igt testcases needed, just to be sure.
->>>>>
->>>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>>
->>>> I am not sure about the churn vs benefit ratio here. There are also patches
->>>> which extend the engine selection field in execbuf2 over the unused
->>>> constants bits (with an explicit flag). So churn upstream and churn in
->>>> internal (if interesting) for not much benefit.
+>> On 23/04/2021 23:31, Jason Ekstrand wrote:
+>>> Instead of handling it like a context param, unconditionally set it when
+>>> intel_contexts are created.  This doesn't fix anything but does simplify
+>>> the code a bit.
 >>>
->>> This isn't churn.
+>>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+>>> ---
+>>>    drivers/gpu/drm/i915/gem/i915_gem_context.c   | 43 +++----------------
+>>>    .../gpu/drm/i915/gem/i915_gem_context_types.h |  4 --
+>>>    drivers/gpu/drm/i915/gt/intel_context_param.h |  3 +-
+>>>    3 files changed, 6 insertions(+), 44 deletions(-)
 >>>
->>> This is "lock done uapi properly".
-> 
-> Pretty much.
-
-Still haven't heard what concrete problems it solves.
-
->> IMO it is a "meh" patch. Doesn't fix any problems and will create work
->> for other people and man hours spent which no one will ever properly
->> account against.
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> index 35bcdeddfbf3f..1091cc04a242a 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> @@ -233,7 +233,11 @@ static void intel_context_set_gem(struct intel_context *ce,
+>>>            intel_engine_has_timeslices(ce->engine))
+>>>                __set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
+>>>
+>>> -     intel_context_set_watchdog_us(ce, ctx->watchdog.timeout_us);
+>>> +     if (IS_ACTIVE(CONFIG_DRM_I915_REQUEST_TIMEOUT) &&
+>>> +         ctx->i915->params.request_timeout_ms) {
+>>> +             unsigned int timeout_ms = ctx->i915->params.request_timeout_ms;
+>>> +             intel_context_set_watchdog_us(ce, (u64)timeout_ms * 1000);
 >>
->> Number of contexts in the engine map should not really be tied to
->> execbuf2. As is demonstrated by the incoming work to address more than
->> 63 engines, either as an extension to execbuf2 or future execbuf3.
+>> Blank line between declarations and code please, or just lose the local.
+>>
+>> Otherwise looks okay. Slight change that same GEM context can now have a
+>> mix of different request expirations isn't interesting I think. At least
+>> the change goes away by the end of the series.
 > 
-> Which userspace driver has requested more than 64 engines in a single context?
+> In order for that to happen, I think you'd have to have a race between
+> CREATE_CONTEXT and someone smashing the request_timeout_ms param via
+> sysfs.  Or am I missing something?  Given that timeouts are really
+> per-engine anyway, I don't think we need to care too much about that.
 
-No need to artificially limit hardware capabilities in the uapi by 
-implementing a policy in the kernel. Which will need to be 
-removed/changed shortly anyway. This particular patch is work and 
-creates more work (which other people who will get to fix the fallout 
-will spend man hours to figure out what and why broke) for no benefit. 
-Or you are yet to explain what the benefit is in concrete terms.
+We don't care, no.
 
-Why don't you limit it to number of physical engines then? Why don't you 
-filter out duplicates? Why not limit the number of buffer objects per 
-client or global based on available RAM + swap relative to minimum 
-object size? Reductio ad absurdum yes, but illustrating the, in this 
-case, a thin line between "locking down uapi" and adding too much policy 
-where it is not appropriate.
-
-> Also, for execbuf3, I'd like to get rid of contexts entirely and have
-> engines be their own userspace-visible object.  If we go this
-> direction, you can have UINT32_MAX of them.  Problem solved.
-
-Not the problem I am pointing at though.
+For completeness only - by the end of the series it is what you say. But 
+at _this_ point in the series though it is if modparam changes at any 
+point between context create and replacing engines. Which is a change 
+compared to before this patch, since modparam was cached in the GEM 
+context so far. So one GEM context was a single request_timeout_ms.
 
 Regards,
 
 Tvrtko
+
+> --Jason
+> 
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> +     }
+>>>    }
+>>>
+>>>    static void __free_engines(struct i915_gem_engines *e, unsigned int count)
+>>> @@ -792,41 +796,6 @@ static void __assign_timeline(struct i915_gem_context *ctx,
+>>>        context_apply_all(ctx, __apply_timeline, timeline);
+>>>    }
+>>>
+>>> -static int __apply_watchdog(struct intel_context *ce, void *timeout_us)
+>>> -{
+>>> -     return intel_context_set_watchdog_us(ce, (uintptr_t)timeout_us);
+>>> -}
+>>> -
+>>> -static int
+>>> -__set_watchdog(struct i915_gem_context *ctx, unsigned long timeout_us)
+>>> -{
+>>> -     int ret;
+>>> -
+>>> -     ret = context_apply_all(ctx, __apply_watchdog,
+>>> -                             (void *)(uintptr_t)timeout_us);
+>>> -     if (!ret)
+>>> -             ctx->watchdog.timeout_us = timeout_us;
+>>> -
+>>> -     return ret;
+>>> -}
+>>> -
+>>> -static void __set_default_fence_expiry(struct i915_gem_context *ctx)
+>>> -{
+>>> -     struct drm_i915_private *i915 = ctx->i915;
+>>> -     int ret;
+>>> -
+>>> -     if (!IS_ACTIVE(CONFIG_DRM_I915_REQUEST_TIMEOUT) ||
+>>> -         !i915->params.request_timeout_ms)
+>>> -             return;
+>>> -
+>>> -     /* Default expiry for user fences. */
+>>> -     ret = __set_watchdog(ctx, i915->params.request_timeout_ms * 1000);
+>>> -     if (ret)
+>>> -             drm_notice(&i915->drm,
+>>> -                        "Failed to configure default fence expiry! (%d)",
+>>> -                        ret);
+>>> -}
+>>> -
+>>>    static struct i915_gem_context *
+>>>    i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
+>>>    {
+>>> @@ -871,8 +840,6 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
+>>>                intel_timeline_put(timeline);
+>>>        }
+>>>
+>>> -     __set_default_fence_expiry(ctx);
+>>> -
+>>>        trace_i915_context_create(ctx);
+>>>
+>>>        return ctx;
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+>>> index 5ae71ec936f7c..676592e27e7d2 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+>>> @@ -153,10 +153,6 @@ struct i915_gem_context {
+>>>         */
+>>>        atomic_t active_count;
+>>>
+>>> -     struct {
+>>> -             u64 timeout_us;
+>>> -     } watchdog;
+>>> -
+>>>        /**
+>>>         * @hang_timestamp: The last time(s) this context caused a GPU hang
+>>>         */
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_param.h b/drivers/gpu/drm/i915/gt/intel_context_param.h
+>>> index dffedd983693d..0c69cb42d075c 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_context_param.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_context_param.h
+>>> @@ -10,11 +10,10 @@
+>>>
+>>>    #include "intel_context.h"
+>>>
+>>> -static inline int
+>>> +static inline void
+>>>    intel_context_set_watchdog_us(struct intel_context *ce, u64 timeout_us)
+>>>    {
+>>>        ce->watchdog.timeout_us = timeout_us;
+>>> -     return 0;
+>>>    }
+>>>
+>>>    #endif /* INTEL_CONTEXT_PARAM_H */
+>>>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
