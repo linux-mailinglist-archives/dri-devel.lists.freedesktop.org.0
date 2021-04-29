@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C1A36ED5E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 17:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB2636ED61
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Apr 2021 17:26:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6386E283;
-	Thu, 29 Apr 2021 15:26:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6E676EF38;
+	Thu, 29 Apr 2021 15:26:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49A546EF2E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 15:26:23 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id w3so100527625ejc.4
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 08:26:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E7BE6EF2E;
+ Thu, 29 Apr 2021 15:26:50 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ n32-20020a9d1ea30000b02902a53d6ad4bdso6694296otn.3; 
+ Thu, 29 Apr 2021 08:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Pf/h3mnOYat+nNcpGwM91u4ZkeyrExIWmARWxp9oEto=;
- b=xoPSHv+bK5e6yG7rx82qEwX6XBGOGZXBWb4NxawZO+PRU4oPU9SSSoLSdyhZmhh3xY
- gvMjL//iQpuLSMerhfoWFDfjn4JBxl3L5PTR+kZCpxxXlBRlK0dNTnzHsTJ0rqJuiaSV
- NV59b3Za9Wu9kDpO82ylpTZaG8WCOfi7rF8ZC8ZqI4Sre5/LKX7Gmt5DqrwGpcnIihNq
- 92PPWzbsUwAi04mGaEegkUmdaz4MubKB5ix1l0Kl+vTNF0Zcn/KMrtnRNB4B2EI592lq
- 1k66eLnLQ9llaQfvNA72pw3IUMlnqoE06Pg85B22vy4LAwXfsDpvXyOLs8bJAF6QY5x0
- 6H1A==
+ :cc; bh=vbo4pKW3eCIThjMyIy6wsscOAdK3OJqwzPMbrwiTzTg=;
+ b=Srmr0fVOgjkykvlE3qdpkc3N3K5sktCMj6v1OgxqDJL0bljoIWUSciurSzygMcC6+n
+ Kvfe48eZrFMI4Vezxk+6d1SmAwUj3O8KStWxJ7C6QQj643wUL1pTlFt1cIl+3EPJlog8
+ Wjz7r5pur/St1BB4WjvL2c+1TRfSExFtimoriLOUN5bhVZxRQ7ceQ7l6u1U35bjVvgYO
+ G+U3UQmd+zdqnS/9c59d2vTHPjnfybGBOMlKvgo2G6yt/3QwDjhtTZtb/DN7njCxMlfl
+ Z+5BoYbOdcY8gHWg1rB52LVWnrX7HAjpecCdA5JJdAmydYP8GXTBu8hDuNRA/byDUNS0
+ rQAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Pf/h3mnOYat+nNcpGwM91u4ZkeyrExIWmARWxp9oEto=;
- b=lAwRdH5WiwIRkbioXvj7v9LU1jtTr2TLeFWEHocRctKfcmjdopOeCSUXxDX6oh5oMI
- K1eJ/PcJdNDRpolIP+XTNrnJcHu/p6iNqZAiIiEajnvqT9RNbXYBBIzCi4q1jL826WwH
- h64zyp+FpXFVY0p4RdB2d4eFLxCIqwTt0jAmD4rxbvzBGuYzs8OPr2hRrEXwI7bYn5Xj
- /h/Zh+jpRDbPPBiQmUPPya+TUG065qyhlWl2Qp25LE+7+VRp99WK29eCWSSaGPL6Jyv1
- 5pBkLDs1MJFjX6f8zwlBmtIBUd1hRZV7AYjaLuqdXjGppQ8TuExypCLmopnl48u2dQza
- 44lw==
-X-Gm-Message-State: AOAM533moV90VjDm/DShgCpy/q6TeK1wetJ3kplJaemphxOPsSGDIsIu
- K4YJ0YNJr1p9O7pvqnlItF8K6o8arzBucvB8dWEtcw==
-X-Google-Smtp-Source: ABdhPJx4o80yIyAuDbPbCaYRas6U932ZHMTBpMbG29sOE205mK5DC82Gz9kTifq0vuV9DEL6s4ig3MgiP49c6h//GUg=
-X-Received: by 2002:a17:906:dc90:: with SMTP id
- cs16mr411619ejc.210.1619709980644; 
- Thu, 29 Apr 2021 08:26:20 -0700 (PDT)
+ bh=vbo4pKW3eCIThjMyIy6wsscOAdK3OJqwzPMbrwiTzTg=;
+ b=dJpkaF0CAuZL2Ae9vfPg9qpXYg31sHxCw+RKN/2WSi2bbYogRM5PcOG28aPixQ4HUt
+ sMvj6KWCM4/Dni7gHOS4cS9ks/nDfRvmHH5pXK/0HNUUsrl2ATDEl9mKEGye03012Gki
+ KzxEYgLexumKkF3UYzT9J1hWhmf+qv0Jeh/TCyal6nqAFcjdoh/VvvTBG8J1VJfJbHUu
+ SK61THgF6YamVVZTRw0kv6GxOwfug3n+nnBF/EddwSC6n5VB9qnD473JfvAHlT7eTcAR
+ /xH4y2DcgUn5XKe77hyvuLD52j8mCIL6wCk2338dbKF7nDMVan3ITGXu/aX5qD0gByWW
+ WcAA==
+X-Gm-Message-State: AOAM530cBOTrd52nnU20rnew6casrDcI5dP3RrBd0UyaHiH34Ir558Dz
+ BfC0fyE1YRRFbXmmej4jNneqzRMFQCZCFasVrU8=
+X-Google-Smtp-Source: ABdhPJx/VF42MwLva6s4z6QCvKeFfwbdS1g8a6UEzyk0r2NtvE1jU5KzdNDQMYGiG9P9g6IxZOwxNN7a3OAYwulPFs8=
+X-Received: by 2002:a9d:63d1:: with SMTP id e17mr1296573otl.311.1619710009654; 
+ Thu, 29 Apr 2021 08:26:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-16-jason@jlekstrand.net>
- <YIqook/gsI/w9OXf@phenom.ffwll.local>
-In-Reply-To: <YIqook/gsI/w9OXf@phenom.ffwll.local>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 29 Apr 2021 10:26:08 -0500
-Message-ID: <CAOFGe97zKtvD8y_v_cZM8FYHmP1AkuP6im6XeSPYFpSe4af4Rg@mail.gmail.com>
-Subject: Re: [PATCH 15/21] drm/i915/gt: Drop i915_address_space::file
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210427112738.15869-1-fmdefrancesco@gmail.com>
+ <ef0a9c9d-4a7e-b1ce-05ef-29dca0c020a7@amd.com>
+In-Reply-To: <ef0a9c9d-4a7e-b1ce-05ef-29dca0c020a7@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 29 Apr 2021 11:26:38 -0400
+Message-ID: <CADnq5_NGxHweFv_Cqwn1em5erGeUH_WJ_6KugJ+iKEUsKtuaYg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amd/amdgpu: Fix errors in documentation of
+ function parameters
+To: Felix Kuehling <felix.kuehling@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,149 +63,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:AMD KFD" <amd-gfx@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 29, 2021 at 7:37 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Thu, Apr 29, 2021 at 2:44 AM Felix Kuehling <felix.kuehling@amd.com> wrote:
 >
-> On Fri, Apr 23, 2021 at 05:31:25PM -0500, Jason Ekstrand wrote:
-> > There's a big comment saying how useful it is but no one is using this
-> > for anything.
+> On 2021-04-27 7:27, Fabio M. De Francesco wrote:
+> > In the documentation of functions, removed excess parameters, described
+> > undocumented ones, and fixed syntax errors.
 > >
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
->
-> I was trying to find anything before all your deletions, but alas nothing.
-> I did spent a bit of time on this, and discovered that the debugfs use was
-> nuked in
->
-> db80a1294c23 ("drm/i915/gem: Remove per-client stats from debugfs/i915_gem_objects")
->
-> After going through quite a few iterations, e.g.
->
-> 5b5efdf79abf ("drm/i915: Make debugfs/per_file_stats scale better")
-> f6e8aa387171 ("drm/i915: Report the number of closed vma held by each context in debugfs")
->
-> The above removed the need for vm->file because stats debugfs file
-> filtered using stats->vm instead of stats->file.
->
-> History goes on until the original introduction of this (again for
-> debugfs) in
->
-> 2bfa996e031b ("drm/i915: Store owning file on the i915_address_space")
-
-I've added the following to the commit message:
-
-    It was added in 2bfa996e031b ("drm/i915: Store owning file on the
-    i915_address_space") and used for debugfs at the time as well as telling
-    the difference between the global GTT and a PPGTT.  In f6e8aa387171
-    ("drm/i915: Report the number of closed vma held by each context in
-    debugfs") we removed one use of it by switching to a context walk and
-    comparing with the VM in the context.  Finally, VM stats for debugfs
-    were entirely nuked in db80a1294c23 ("drm/i915/gem: Remove per-client
-    stats from debugfs/i915_gem_objects")
-
-
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_context.c |  9 ---------
-> >  drivers/gpu/drm/i915/gt/intel_gtt.h         | 10 ----------
-> >  drivers/gpu/drm/i915/selftests/mock_gtt.c   |  1 -
-> >  3 files changed, 20 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > index 7929d5a8be449..db9153e0f85a7 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > @@ -921,17 +921,10 @@ static int gem_context_register(struct i915_gem_context *ctx,
-> >                               u32 *id)
-> >  {
-> >       struct drm_i915_private *i915 = ctx->i915;
-> > -     struct i915_address_space *vm;
-> >       int ret;
-> >
-> >       ctx->file_priv = fpriv;
-> >
-> > -     mutex_lock(&ctx->mutex);
-> > -     vm = i915_gem_context_vm(ctx);
-> > -     if (vm)
-> > -             WRITE_ONCE(vm->file, fpriv); /* XXX */
-> > -     mutex_unlock(&ctx->mutex);
-> > -
-> >       ctx->pid = get_task_pid(current, PIDTYPE_PID);
-> >       snprintf(ctx->name, sizeof(ctx->name), "%s[%d]",
-> >                current->comm, pid_nr(ctx->pid));
-> > @@ -1030,8 +1023,6 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
-> >       if (IS_ERR(ppgtt))
-> >               return PTR_ERR(ppgtt);
-> >
-> > -     ppgtt->vm.file = file_priv;
-> > -
-> >       if (args->extensions) {
-> >               err = i915_user_extensions(u64_to_user_ptr(args->extensions),
-> >                                          NULL, 0,
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> > index e67e34e179131..4c46068e63c9d 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> > @@ -217,16 +217,6 @@ struct i915_address_space {
+> > Changes from v1: Cc'ed all the maintainers.
 >
-> Pls also delete the drm_i915_file_private pre-dcl in this file.
+> Looks like Alex already applied V1. So this one doesn't apply. "git am
+> -3" tells me:
 
-Done!
+Ah sorry, I didn't see the v2 patch.
 
-> With this added and the history adequately covered in the commit message:
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Thanks
-
---Jason
+Alex
 
 
 >
-> >       struct intel_gt *gt;
-> >       struct drm_i915_private *i915;
-> >       struct device *dma;
-> > -     /*
-> > -      * Every address space belongs to a struct file - except for the global
-> > -      * GTT that is owned by the driver (and so @file is set to NULL). In
-> > -      * principle, no information should leak from one context to another
-> > -      * (or between files/processes etc) unless explicitly shared by the
-> > -      * owner. Tracking the owner is important in order to free up per-file
-> > -      * objects along with the file, to aide resource tracking, and to
-> > -      * assign blame.
-> > -      */
-> > -     struct drm_i915_file_private *file;
-> >       u64 total;              /* size addr space maps (ex. 2GB for ggtt) */
-> >       u64 reserved;           /* size addr space reserved */
-> >
-> > diff --git a/drivers/gpu/drm/i915/selftests/mock_gtt.c b/drivers/gpu/drm/i915/selftests/mock_gtt.c
-> > index 5c7ae40bba634..cc047ec594f93 100644
-> > --- a/drivers/gpu/drm/i915/selftests/mock_gtt.c
-> > +++ b/drivers/gpu/drm/i915/selftests/mock_gtt.c
-> > @@ -73,7 +73,6 @@ struct i915_ppgtt *mock_ppgtt(struct drm_i915_private *i915, const char *name)
-> >       ppgtt->vm.gt = &i915->gt;
-> >       ppgtt->vm.i915 = i915;
-> >       ppgtt->vm.total = round_down(U64_MAX, PAGE_SIZE);
-> > -     ppgtt->vm.file = ERR_PTR(-ENODEV);
-> >       ppgtt->vm.dma = i915->drm.dev;
-> >
-> >       i915_address_space_init(&ppgtt->vm, VM_CLASS_PPGTT);
-> > --
-> > 2.31.1
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Applying: drm/amd/amdgpu: Fix errors in documentation of function parameters
+> Using index info to reconstruct a base tree...
+> M       drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> M       drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> M       drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+> Falling back to patching base and 3-way merge...
+> No changes -- Patch already applied.
 >
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> Regards,
+>    Felix
+>
+>
+> >
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c          | 12 ++++++------
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  4 +++-
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c |  8 ++++----
+> >   3 files changed, 13 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > index 2e9b16fb3fcd..bf2939b6eb43 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > @@ -76,7 +76,7 @@ struct amdgpu_atif {
+> >   /**
+> >    * amdgpu_atif_call - call an ATIF method
+> >    *
+> > - * @handle: acpi handle
+> > + * @atif: acpi handle
+> >    * @function: the ATIF function to execute
+> >    * @params: ATIF function params
+> >    *
+> > @@ -166,7 +166,6 @@ static void amdgpu_atif_parse_functions(struct amdgpu_atif_functions *f, u32 mas
+> >   /**
+> >    * amdgpu_atif_verify_interface - verify ATIF
+> >    *
+> > - * @handle: acpi handle
+> >    * @atif: amdgpu atif struct
+> >    *
+> >    * Execute the ATIF_FUNCTION_VERIFY_INTERFACE ATIF function
+> > @@ -240,8 +239,7 @@ static acpi_handle amdgpu_atif_probe_handle(acpi_handle dhandle)
+> >   /**
+> >    * amdgpu_atif_get_notification_params - determine notify configuration
+> >    *
+> > - * @handle: acpi handle
+> > - * @n: atif notification configuration struct
+> > + * @atif: acpi handle
+> >    *
+> >    * Execute the ATIF_FUNCTION_GET_SYSTEM_PARAMETERS ATIF function
+> >    * to determine if a notifier is used and if so which one
+> > @@ -304,7 +302,7 @@ static int amdgpu_atif_get_notification_params(struct amdgpu_atif *atif)
+> >   /**
+> >    * amdgpu_atif_query_backlight_caps - get min and max backlight input signal
+> >    *
+> > - * @handle: acpi handle
+> > + * @atif: acpi handle
+> >    *
+> >    * Execute the QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS ATIF function
+> >    * to determine the acceptable range of backlight values
+> > @@ -363,7 +361,7 @@ static int amdgpu_atif_query_backlight_caps(struct amdgpu_atif *atif)
+> >   /**
+> >    * amdgpu_atif_get_sbios_requests - get requested sbios event
+> >    *
+> > - * @handle: acpi handle
+> > + * @atif: acpi handle
+> >    * @req: atif sbios request struct
+> >    *
+> >    * Execute the ATIF_FUNCTION_GET_SYSTEM_BIOS_REQUESTS ATIF function
+> > @@ -899,6 +897,8 @@ void amdgpu_acpi_fini(struct amdgpu_device *adev)
+> >   /**
+> >    * amdgpu_acpi_is_s0ix_supported
+> >    *
+> > + * @adev: amdgpu_device_pointer
+> > + *
+> >    * returns true if supported, false if not.
+> >    */
+> >   bool amdgpu_acpi_is_s0ix_supported(struct amdgpu_device *adev)
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> > index 5af464933976..98d31ebad9ce 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> > @@ -111,6 +111,8 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
+> >    *  a KFD BO and schedules a job to move the BO.
+> >    *  If fence is already signaled return true.
+> >    *  If fence is not signaled schedule a evict KFD process work item.
+> > + *
+> > + *  @f: dma_fence
+> >    */
+> >   static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
+> >   {
+> > @@ -131,7 +133,7 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
+> >   /**
+> >    * amdkfd_fence_release - callback that fence can be freed
+> >    *
+> > - * @fence: fence
+> > + * @f: dma_fence
+> >    *
+> >    * This function is called when the reference count becomes zero.
+> >    * Drops the mm_struct reference and RCU schedules freeing up the fence.
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+> > index b43e68fc1378..ed3014fbb563 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+> > @@ -719,7 +719,7 @@ static void unlock_spi_csq_mutexes(struct amdgpu_device *adev)
+> >   }
+> >
+> >   /**
+> > - * @get_wave_count: Read device registers to get number of waves in flight for
+> > + * get_wave_count: Read device registers to get number of waves in flight for
+> >    * a particular queue. The method also returns the VMID associated with the
+> >    * queue.
+> >    *
+> > @@ -755,19 +755,19 @@ static void get_wave_count(struct amdgpu_device *adev, int queue_idx,
+> >   }
+> >
+> >   /**
+> > - * @kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
+> > + * kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
+> >    * shader engine and aggregates the number of waves that are in flight for the
+> >    * process whose pasid is provided as a parameter. The process could have ZERO
+> >    * or more queues running and submitting waves to compute units.
+> >    *
+> >    * @kgd: Handle of device from which to get number of waves in flight
+> >    * @pasid: Identifies the process for which this query call is invoked
+> > - * @wave_cnt: Output parameter updated with number of waves in flight that
+> > + * @pasid_wave_cnt: Output parameter updated with number of waves in flight that
+> >    * belong to process with given pasid
+> >    * @max_waves_per_cu: Output parameter updated with maximum number of waves
+> >    * possible per Compute Unit
+> >    *
+> > - * @note: It's possible that the device has too many queues (oversubscription)
+> > + * Note: It's possible that the device has too many queues (oversubscription)
+> >    * in which case a VMID could be remapped to a different PASID. This could lead
+> >    * to an iaccurate wave count. Following is a high-level sequence:
+> >    *    Time T1: vmid = getVmid(); vmid is associated with Pasid P1
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
