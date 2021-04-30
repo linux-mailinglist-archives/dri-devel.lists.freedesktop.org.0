@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0BF536F772
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 10:58:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F96436F77E
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 11:04:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA6EA6F46B;
-	Fri, 30 Apr 2021 08:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B8766E0FF;
+	Fri, 30 Apr 2021 09:04:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED7166F46B
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 08:58:34 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id k25so69330021oic.4
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 01:58:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mvGD3xj7wqrPgbf3oc0RND0ErOCW/NirS0c9nDM3RFQ=;
- b=Dg5rgCVg55wRaYXysfQb7n7CEjo99Lr5Xuz214W7nPUkEXQ8Fu/oGvbhK3XeEEqLXm
- VSA2iyeHHr1/lMPFQFStTz17DpjSx0a12/uHjx18cG71aYbWLNuLuaB6rvkNnu32Qnjq
- czx5TOTh6qCSJIjxNt+2pNLG5IdlhJ/uGclrE=
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D0906E0FF;
+ Fri, 30 Apr 2021 09:04:08 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id x20so78765479lfu.6;
+ Fri, 30 Apr 2021 02:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=bWoSIvmqNouaYrrX2B0CeKDibOVTi6dzlaqzLPONybE=;
+ b=RT+UMbMUcArODrdFsbgn3ysQk03NLnU1bUZoyeQ07eI2cGmLyWLzNU1dYHuK+H9pYd
+ 9eq0Q119U+Nv4Qmop9wvns+Wd3zrKoexsJlKDRCicTbHqy6h2yfL4pR7aPNW70YW6Yzm
+ qHkBoGP6qinRc7zup5Yqx8TZEEg84QIQyvYBFLWExRioCq/qCDWjW2zK9S3eq7XcvwQ5
+ H0CA9uBDrWQJM9McZMl+etTuGxAq4W0sCpJAcDK+XxCV7V6RRGDCdSRSTQzdudSCqfqY
+ 7j5Ms9QKpheD249FFUuYl/tqCSw9bvXU/riK5glSgflUqeaP+9CfHPLeuAxsB2AcR3kI
+ Vj5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mvGD3xj7wqrPgbf3oc0RND0ErOCW/NirS0c9nDM3RFQ=;
- b=sZ57mDN9X0YEIVWdnHtV2BLyxk0q7Hu6p8yOMEc1J6Ansegv2jX65cqxdHpcyr1oub
- 3HFzGYsCNMKDYqTJDUlclmMrPNujKLnEBixKrg4AHpdtDfIKlOweHDkxkL2R/O0nsF0O
- gNtJFY+LU+ByMBC3qKYDaEdW/ia17AwWt0HuXEzuJufQq+arUwieNkkx8xuYBeDAx5vB
- 9hX6xp4uhvcwPWTHPdVfjVXtOIbbXTlMFWMVjQoN0tQ9Us4jQHie4wEc7iTAfuCSY2IJ
- FEAECi7+792AXZY8D3sb4Ky24GiatL/gNTHletKQ1e5VGMewIG+WYCjw1lOCWG7V/S7A
- gaUQ==
-X-Gm-Message-State: AOAM532xyaqLQFCnX7jiPw11sUAkw/3ApqLcAxZ5gRlYdKNt6GtkRBf9
- 7iMAF73knboEGV55JY65pwXrXEg/PSugbNglGF4hIQ==
-X-Google-Smtp-Source: ABdhPJyv5A+amCnCqE9x03tjSIQT7jk1jsg7QHl1LcLF2So6DnfRUYEhMckbf05B6RLVnBzlWK6nd/6HqpdAd7Wc1vA=
-X-Received: by 2002:a05:6808:699:: with SMTP id
- k25mr10049226oig.101.1619773114129; 
- Fri, 30 Apr 2021 01:58:34 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=bWoSIvmqNouaYrrX2B0CeKDibOVTi6dzlaqzLPONybE=;
+ b=AWgHlhZJdTIFgSK+GVsHSyzdGD01UmXWp4o07PXYW8lqxREqSyS40ggSGAM5txJEnw
+ IBoEcdPZyB3FLfI5jhFToexxFaKZFRxqMdnNWaYXH2tGbTXNv4ajp9wR8tghgnR9HEzg
+ ccnUnckay2j9MWaG4yU7gm7BZ3KcCTXOTaHImGpJKoea1GhaL1rOuptqgmllBAmxqGt4
+ +mJjn4fhLHdW04Ix3ren9HC+kzEthL92By3FaNguMGbavCchMZn5IfF0IEettBE8yK/s
+ 0LkYdMgCFRQgIXJuf6wMtGrvPfZJDg5gLwGrfqweW1JKi3XjkOtk+QN+qzzcTM+ZCwDX
+ +q5g==
+X-Gm-Message-State: AOAM531NZAyJaQNJmwhGo2gVuQUsbHCDwsAUvJGxA4Ph966Mln9AhaFl
+ ybHBg4TLOAMfU1fTgz20sPE=
+X-Google-Smtp-Source: ABdhPJw1QRo2LZepRA24lgFb/1wBnA0h5MOlImJEM3uCUnsXO6Ycm2hyiujCeRGEPWM0s/wImfMewg==
+X-Received: by 2002:a05:6512:2245:: with SMTP id
+ i5mr2645040lfu.448.1619773446508; 
+ Fri, 30 Apr 2021 02:04:06 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id t14sm169067ljj.49.2021.04.30.02.04.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Apr 2021 02:04:06 -0700 (PDT)
+Date: Fri, 30 Apr 2021 12:04:02 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC PATCH 1/3] drm/color: Add RGB Color encodings
+Message-ID: <20210430120402.7aa014ec@eldfell>
+In-Reply-To: <YIcPx6ozxPN7BbEU@intel.com>
+References: <20210426173852.484368-1-harry.wentland@amd.com>
+ <20210426173852.484368-2-harry.wentland@amd.com>
+ <YIcBUl+94sHJsT8B@intel.com>
+ <0090ce07-6102-59e7-bc8c-3528297aa5ae@amd.com>
+ <YIcPx6ozxPN7BbEU@intel.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <CADnq5_PEMvF7Gd4qug=FjfTtxOtygw7SO73HjhSh5AyEramtkA@mail.gmail.com>
- <YIkzewghZOdMXwfi@phenom.ffwll.local>
- <19ca36c3-306e-5021-0243-3289c38ef067@gmail.com>
- <YIlTYjNv5RI5GuiN@phenom.ffwll.local> <YIlUWdxyXGQgHFj+@phenom.ffwll.local>
- <72f21ab9-9376-b366-2b69-94ea65e332c1@gmail.com>
- <YIlkgRDQDe+E558E@phenom.ffwll.local>
- <f6ec3ce6-2efe-cd76-4a54-aba6c8d0cc4c@gmail.com>
- <YIlykcjDV9ckeyyG@phenom.ffwll.local>
- <CADnq5_MJgq40-YscW8bDmUkb_WyuZOXPtdm2ErEyvmnv=2pBHQ@mail.gmail.com>
- <YIqUp6WpkbHJltZm@phenom.ffwll.local>
-In-Reply-To: <YIqUp6WpkbHJltZm@phenom.ffwll.local>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 30 Apr 2021 10:58:22 +0200
-Message-ID: <CAKMK7uHQ44O_yyuveqYAwTejezJ3HC84fcosnq-bSgBWy_ShOw@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,244 +70,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Deepak.Sharma@amd.com, Krunoslav.Kovac@amd.com, mcasas@google.com,
+ Shashank.Sharma@amd.com, dri-devel@lists.freedesktop.org, Shirish.S@amd.com,
+ sebastian@sebastianwick.net, Uma Shankar <uma.shankar@intel.com>,
+ hersenxs.wu@amd.com, amd-gfx@lists.freedesktop.org,
+ laurentiu.palcu@oss.nxp.com, Bhawanpreet.Lakha@amd.com,
+ Nicholas.Kazlauskas@amd.com, Vitaly.Prosyak@amd.com
+Content-Type: multipart/mixed; boundary="===============1165730396=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBcHIgMjksIDIwMjEgYXQgMToxMiBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+IHdyb3RlOgo+Cj4gT24gV2VkLCBBcHIgMjgsIDIwMjEgYXQgMDQ6Mzk6MjRQTSAtMDQw
-MCwgQWxleCBEZXVjaGVyIHdyb3RlOgo+ID4gT24gV2VkLCBBcHIgMjgsIDIwMjEgYXQgMTA6MzUg
-QU0gRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+ID4KPiA+ID4gT24g
-V2VkLCBBcHIgMjgsIDIwMjEgYXQgMDM6Mzc6NDlQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3
-cm90ZToKPiA+ID4gPiBBbSAyOC4wNC4yMSB1bSAxNTozNCBzY2hyaWViIERhbmllbCBWZXR0ZXI6
-Cj4gPiA+ID4gPiBPbiBXZWQsIEFwciAyOCwgMjAyMSBhdCAwMzoxMToyN1BNICswMjAwLCBDaHJp
-c3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4gPiA+ID4gPiBBbSAyOC4wNC4yMSB1bSAxNDoyNiBzY2hy
-aWViIERhbmllbCBWZXR0ZXI6Cj4gPiA+ID4gPiA+ID4gT24gV2VkLCBBcHIgMjgsIDIwMjEgYXQg
-MDI6MjE6NTRQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+ID4gPiA+ID4gPiA+IE9u
-IFdlZCwgQXByIDI4LCAyMDIxIGF0IDEyOjMxOjA5UE0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcg
-d3JvdGU6Cj4gPiA+ID4gPiA+ID4gPiA+IEFtIDI4LjA0LjIxIHVtIDEyOjA1IHNjaHJpZWIgRGFu
-aWVsIFZldHRlcjoKPiA+ID4gPiA+ID4gPiA+ID4gPiBPbiBUdWUsIEFwciAyNywgMjAyMSBhdCAw
-MjowMToyMFBNIC0wNDAwLCBBbGV4IERldWNoZXIgd3JvdGU6Cj4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiBPbiBUdWUsIEFwciAyNywgMjAyMSBhdCAxOjM1IFBNIFNpbW9uIFNlciA8Y29udGFjdEBlbWVy
-c2lvbi5mcj4gd3JvdGU6Cj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IE9uIFR1ZXNkYXksIEFwcmls
-IDI3dGgsIDIwMjEgYXQgNzozMSBQTSwgTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXgu
-ZGU+IHdyb3RlOgo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gT2suIFNvIHRoYXQgd291bGQgb25seSBtYWtlIHRoZSBmb2xsb3dpbmcgdXNlIGNhc2Vz
-IGJyb2tlbiBmb3Igbm93Ogo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IC0gYW1kIHJlbmRlciAtPiBleHRlcm5hbCBncHUKPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IC0gYW1kIHZpZGVvIGVuY29kZSAtPiBuZXR3b3JrIGRldmljZQo+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+IEZXSVcsICJvbmx5IiBicmVha2luZyBhbWQgcmVuZGVyIC0+
-IGV4dGVybmFsIGdwdSB3aWxsIG1ha2UgdXMgcHJldHR5Cj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gdW5oYXBweQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBJIGNvbmN1ci4gSSBoYXZlIHF1aXRl
-IGEgZmV3IHVzZXJzIHdpdGggYSBtdWx0aS1HUFUgc2V0dXAgaW52b2x2aW5nCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+IEFNRCBoYXJkd2FyZS4KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gTm90ZSwgaWYgdGhpcyBicm9rZW5uZXNzIGNhbid0IGJlIGF2b2lk
-ZWQsIEknZCBwcmVmZXIgYSB0byBnZXQgYSBjbGVhcgo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBl
-cnJvciwgYW5kIG5vdCBiYWQgcmVzdWx0cyBvbiBzY3JlZW4gYmVjYXVzZSBub3RoaW5nIGlzIHN5
-bmNocm9uaXplZAo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBhbnltb3JlLgo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gSXQncyBhbiB1cGNvbWluZyByZXF1aXJlbWVudCBmb3Igd2luZG93c1sxXSwgc28g
-eW91IGFyZSBsaWtlbHkgdG8KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHN0YXJ0IHNlZWluZyB0aGlz
-IGFjcm9zcyBhbGwgR1BVIHZlbmRvcnMgdGhhdCBzdXBwb3J0IHdpbmRvd3MuICBJCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiB0aGluayB0aGUgdGltaW5nIGRlcGVuZHMgb24gaG93IHF1aWNrbHkgdGhl
-IGxlZ2FjeSBoYXJkd2FyZSBzdXBwb3J0Cj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBzdGlja3MgYXJv
-dW5kIGZvciBlYWNoIHZlbmRvci4KPiA+ID4gPiA+ID4gPiA+ID4gPiBZZWFoIGJ1dCBodyBzY2hl
-ZHVsaW5nIGRvZXNuJ3QgbWVhbiB0aGUgaHcgaGFzIHRvIGJlIGNvbnN0cnVjdGVkIHRvIG5vdAo+
-ID4gPiA+ID4gPiA+ID4gPiA+IHN1cHBvcnQgaXNvbGF0aW5nIHRoZSByaW5nYnVmZmVyIGF0IGFs
-bC4KPiA+ID4gPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+ID4gPiA+IEUuZy4gZXZlbiBpZiB0
-aGUgaHcgbG9zZXMgdGhlIGJpdCB0byBwdXQgdGhlIHJpbmdidWZmZXIgb3V0c2lkZSBvZiB0aGUK
-PiA+ID4gPiA+ID4gPiA+ID4gPiB1c2Vyc3BhY2UgZ3B1IHZtLCBpZiB5b3UgaGF2ZSBwYWdldGFi
-bGVzIEknbSBzZXJpb3VzbHkgaG9waW5nIHlvdSBoYXZlIHIvbwo+ID4gPiA+ID4gPiA+ID4gPiA+
-IHB0ZSBmbGFncy4gT3RoZXJ3aXNlIHRoZSBlbnRpcmUgInNoYXJlIGFkZHJlc3Mgc3BhY2Ugd2l0
-aCBjcHUgc2lkZSwKPiA+ID4gPiA+ID4gPiA+ID4gPiBzZWFtbGVzc2x5IiB0aGluZyBpcyBvdXQg
-b2YgdGhlIHdpbmRvdy4KPiA+ID4gPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+ID4gPiA+IEFu
-ZCB3aXRoIHRoYXQgci9vIGJpdCBvbiB0aGUgcmluZ2J1ZmZlciB5b3UgY2FuIG9uY2UgbW9yZSBm
-b3JjZSBzdWJtaXQKPiA+ID4gPiA+ID4gPiA+ID4gPiB0aHJvdWdoIGtlcm5lbCBzcGFjZSwgYW5k
-IGFsbCB0aGUgbGVnYWN5IGRtYV9mZW5jZSBiYXNlZCBzdHVmZiBrZWVwcwo+ID4gPiA+ID4gPiA+
-ID4gPiA+IHdvcmtpbmcuIEFuZCB3ZSBkb24ndCBoYXZlIHRvIGludmVudCBzb21lIGhvcnJlbmRv
-dXMgdXNlcnNwYWNlIGZlbmNlIGJhc2VkCj4gPiA+ID4gPiA+ID4gPiA+ID4gaW1wbGljaXQgc3lu
-YyBtZWNoYW5pc20gaW4gdGhlIGtlcm5lbCwgYnV0IGNhbiBpbnN0ZWFkIGRvIHRoaXMgdHJhbnNp
-dGlvbgo+ID4gPiA+ID4gPiA+ID4gPiA+IHByb3Blcmx5IHdpdGggZHJtX3N5bmNvYmogdGltZWxp
-bmUgZXhwbGljaXQgc3luYyBhbmQgcHJvdG9jb2wgcmV2aW5nLgo+ID4gPiA+ID4gPiA+ID4gPiA+
-Cj4gPiA+ID4gPiA+ID4gPiA+ID4gQXQgbGVhc3QgSSB0aGluayB5b3UnZCBoYXZlIHRvIHdvcmsg
-ZXh0cmEgaGFyZCB0byBjcmVhdGUgYSBncHUgd2hpY2gKPiA+ID4gPiA+ID4gPiA+ID4gPiBjYW5u
-b3QgcG9zc2libHkgYmUgaW50ZXJjZXB0ZWQgYnkgdGhlIGtlcm5lbCwgZXZlbiB3aGVuIGl0J3Mg
-ZGVzaWduZWQgdG8KPiA+ID4gPiA+ID4gPiA+ID4gPiBzdXBwb3J0IHVzZXJzcGFjZSBkaXJlY3Qg
-c3VibWl0IG9ubHkuCj4gPiA+ID4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiA+ID4gPiBPciBh
-cmUgeW91ciBodyBlbmdpbmVlcnMgbW9yZSBjcmVhdGl2ZSBoZXJlIGFuZCB3ZSdyZSBzY3Jld2Vk
-Pwo+ID4gPiA+ID4gPiA+ID4gPiBUaGUgdXBjb21taW5nIGhhcmR3YXJlIGdlbmVyYXRpb24gd2ls
-bCBoYXZlIHRoaXMgaGFyZHdhcmUgc2NoZWR1bGVyIGFzIGEKPiA+ID4gPiA+ID4gPiA+ID4gbXVz
-dCBoYXZlLCBidXQgdGhlcmUgYXJlIGNlcnRhaW4gd2F5cyB3ZSBjYW4gc3RpbGwgc3RpY2sgdG8g
-dGhlIG9sZAo+ID4gPiA+ID4gPiA+ID4gPiBhcHByb2FjaDoKPiA+ID4gPiA+ID4gPiA+ID4KPiA+
-ID4gPiA+ID4gPiA+ID4gMS4gVGhlIG5ldyBoYXJkd2FyZSBzY2hlZHVsZXIgY3VycmVudGx5IHN0
-aWxsIHN1cHBvcnRzIGtlcm5lbCBxdWV1ZXMgd2hpY2gKPiA+ID4gPiA+ID4gPiA+ID4gZXNzZW50
-aWFsbHkgaXMgdGhlIHNhbWUgYXMgdGhlIG9sZCBoYXJkd2FyZSByaW5nIGJ1ZmZlci4KPiA+ID4g
-PiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiA+ID4gMi4gTWFwcGluZyB0aGUgdG9wIGxldmVsIHJp
-bmcgYnVmZmVyIGludG8gdGhlIFZNIGF0IGxlYXN0IHBhcnRpYWxseSBzb2x2ZXMKPiA+ID4gPiA+
-ID4gPiA+ID4gdGhlIHByb2JsZW0uIFRoaXMgd2F5IHlvdSBjYW4ndCBtYW5pcHVsYXRlIHRoZSBy
-aW5nIGJ1ZmZlciBjb250ZW50LCBidXQgdGhlCj4gPiA+ID4gPiA+ID4gPiA+IGxvY2F0aW9uIGZv
-ciB0aGUgZmVuY2UgbXVzdCBzdGlsbCBiZSB3cml0ZWFibGUuCj4gPiA+ID4gPiA+ID4gPiBZZWFo
-IGFsbG93aW5nIHVzZXJzcGFjZSB0byBsaWUgYWJvdXQgY29tcGxldGlvbiBmZW5jZXMgaW4gdGhp
-cyBtb2RlbCBpcwo+ID4gPiA+ID4gPiA+ID4gb2suIFRob3VnaCBJIGhhdmVuJ3QgdGhvdWdodCB0
-aHJvdWdoIGZ1bGwgY29uc2VxdWVuY2VzIG9mIHRoYXQsIGJ1dCBJCj4gPiA+ID4gPiA+ID4gPiB0
-aGluayBpdCdzIG5vdCBhbnkgd29yc2UgdGhhbiB1c2Vyc3BhY2UgbHlpbmcgYWJvdXQgd2hpY2gg
-YnVmZmVycy9hZGRyZXNzCj4gPiA+ID4gPiA+ID4gPiBpdCB1c2VzIGluIHRoZSBjdXJyZW50IG1v
-ZGVsIC0gd2UgcmVseSBvbiBodyB2bSBwdGVzIHRvIGNhdGNoIHRoYXQgc3R1ZmYuCj4gPiA+ID4g
-PiA+ID4gPgo+ID4gPiA+ID4gPiA+ID4gQWxzbyBpdCBtaWdodCBiZSBnb29kIHRvIHN3aXRjaCB0
-byBhIG5vbi1yZWNvdmVyYWJsZSBjdHggbW9kZWwgZm9yIHRoZXNlLgo+ID4gPiA+ID4gPiA+ID4g
-VGhhdCdzIGFscmVhZHkgd2hhdCB3ZSBkbyBpbiBpOTE1IChvcHQtaW4sIGJ1dCBhbGwgY3VycmVu
-dCB1bWQgdXNlIHRoYXQKPiA+ID4gPiA+ID4gPiA+IG1vZGUpLiBTbyBhbnkgaGFuZy93YXRjaGRv
-ZyBqdXN0IGtpbGxzIHRoZSBlbnRpcmUgY3R4IGFuZCB5b3UgZG9uJ3QgaGF2ZQo+ID4gPiA+ID4g
-PiA+ID4gdG8gd29ycnkgYWJvdXQgdXNlcnNwYWNlIGRvaW5nIHNvbWV0aGluZyBmdW5ueSB3aXRo
-IGl0J3MgcmluZ2J1ZmZlci4KPiA+ID4gPiA+ID4gPiA+IFNpbXBsaWZpZXMgZXZlcnl0aGluZy4K
-PiA+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4gPiBBbHNvIG9mYyB1c2Vyc3BhY2UgZmVuY2lu
-ZyBzdGlsbCBkaXNhbGxvd2VkLCBidXQgc2luY2UgdXNlcnNwYWNlIHdvdWxkCj4gPiA+ID4gPiA+
-ID4gPiBxdWV1IHVwIGFsbCB3cml0ZXMgdG8gaXRzIHJpbmdidWZmZXIgdGhyb3VnaCB0aGUgZHJt
-L3NjaGVkdWxlciwgd2UnZAo+ID4gPiA+ID4gPiA+ID4gaGFuZGxlIGRlcGVuZGVuY2llcyB0aHJv
-dWdoIHRoYXQgc3RpbGwuIE5vdCBncmVhdCwgYnV0IHdvcmthYmxlLgo+ID4gPiA+ID4gPiA+ID4K
-PiA+ID4gPiA+ID4gPiA+IFRoaW5raW5nIGFib3V0IHRoaXMsIG5vdCBldmVuIG1hcHBpbmcgdGhl
-IHJpbmdidWZmZXIgci9vIGlzIHJlcXVpcmVkLCBpdCdzCj4gPiA+ID4gPiA+ID4gPiBqdXN0IHRo
-YXQgd2UgbXVzdCBxdWV1ZSB0aGluZ3MgdGhyb3VnIHRoZSBrZXJuZWwgdG8gcmVzb2x2ZSBkZXBl
-bmRlbmNpZXMKPiA+ID4gPiA+ID4gPiA+IGFuZCBldmVyeXRoaW5nIHdpdGhvdXQgYnJlYWtpbmcg
-ZG1hX2ZlbmNlLiBJZiB1c2Vyc3BhY2UgbGllcywgdGRyIHdpbGwKPiA+ID4gPiA+ID4gPiA+IHNo
-b290IGl0IGFuZCB0aGUga2VybmVsIHN0b3BzIHJ1bm5pbmcgdGhhdCBjb250ZXh0IGVudGlyZWx5
-Lgo+ID4gPiA+ID4gPiBUaGlua2luZyBtb3JlIGFib3V0IHRoYXQgYXBwcm9hY2ggSSBkb24ndCB0
-aGluayB0aGF0IGl0IHdpbGwgd29yayBjb3JyZWN0bHkuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+
-IFNlZSB3ZSBub3Qgb25seSBuZWVkIHRvIHdyaXRlIHRoZSBmZW5jZSBhcyBzaWduYWwgdGhhdCBh
-biBJQiBpcyBzdWJtaXR0ZWQsCj4gPiA+ID4gPiA+IGJ1dCBhbHNvIGFkanVzdCBhIGJ1bmNoIG9m
-IHByaXZpbGVnZWQgaGFyZHdhcmUgcmVnaXN0ZXJzLgo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiBX
-aGVuIHVzZXJzcGFjZSBjb3VsZCBkbyB0aGF0IGZyb20gaXRzIElCcyBhcyB3ZWxsIHRoZW4gdGhl
-cmUgaXMgbm90aGluZwo+ID4gPiA+ID4gPiBibG9ja2luZyBpdCBmcm9tIHJlcHJvZ3JhbW1pbmcg
-dGhlIHBhZ2UgdGFibGUgYmFzZSBhZGRyZXNzIGZvciBleGFtcGxlLgo+ID4gPiA+ID4gPgo+ID4g
-PiA+ID4gPiBXZSBjb3VsZCBkbyB0aG9zZSB3cml0ZXMgd2l0aCB0aGUgQ1BVIGFzIHdlbGwsIGJ1
-dCB0aGF0IHdvdWxkIGJlIGEgaHVnZQo+ID4gPiA+ID4gPiBwZXJmb3JtYW5jZSBkcm9wIGJlY2F1
-c2Ugb2YgdGhlIGFkZGl0aW9uYWwgbGF0ZW5jeS4KPiA+ID4gPiA+IFRoYXQncyBub3Qgd2hhdCBJ
-J20gc3VnZ2VzdGluZy4gSSdtIHN1Z2dlc3RpbmcgeW91IGhhdmUgdGhlIHF1ZXVlIGFuZAo+ID4g
-PiA+ID4gZXZlcnl0aGluZyBpbiB1c2Vyc3BhY2UsIGxpa2UgaW4gd29uZG93cy4gRmVuY2VzIGFy
-ZSBleGFjdGx5IGhhbmRsZWQgbGlrZQo+ID4gPiA+ID4gb24gd2luZG93cyB0b28uIFRoZSBkaWZm
-ZXJlbmNlIGlzOgo+ID4gPiA+ID4KPiA+ID4gPiA+IC0gQWxsIG5ldyBhZGRpdGlvbnMgdG8gdGhl
-IHJpbmdidWZmZXIgYXJlIGRvbmUgdGhyb3VnaCBhIGtlcm5lbCBpb2N0bAo+ID4gPiA+ID4gICAg
-Y2FsbCwgdXNpbmcgdGhlIGRybS9zY2hlZHVsZXIgdG8gcmVzb2x2ZSBkZXBlbmRlbmNpZXMuCj4g
-PiA+ID4gPgo+ID4gPiA+ID4gLSBNZW1vcnkgbWFuYWdlbWVudCBpcyBhbHNvIGRvbmUgbGlrZSB0
-b2RheSBpbnQgdGhhdCBpb2N0bC4KPiA+ID4gPiA+Cj4gPiA+ID4gPiAtIFREUiBtYWtlcyBzdXJl
-IHRoYXQgaWYgdXNlcnNwYWNlIGFidXNlcyB0aGUgY29udHJhY3QgKHdoaWNoIGl0IGNhbiwgYnV0
-Cj4gPiA+ID4gPiAgICBpdCBjYW4gZG8gdGhhdCBhbHJlYWR5IHRvZGF5IGJlY2F1c2UgdGhlcmUn
-cyBhbHNvIG5vIGNvbW1hbmQgcGFyc2VyIHRvCj4gPiA+ID4gPiAgICBlLmcuIHN0b3AgZ3B1IHNl
-bWFwaG9yZXMpIHRoZSBlbnRpcmUgY29udGV4dCBpcyBzaG90IGFuZCB0ZXJtaW5hbGx5Cj4gPiA+
-ID4gPiAgICBraWxsZWQuIFVzZXJzcGFjZSBoYXMgdG8gdGhlbiBzZXQgdXAgYSBuZXcgb25lLiBU
-aGlzIGlzbid0IGhvdyBhbWRncHUKPiA+ID4gPiA+ICAgIHJlY292ZXJ5IHdvcmtzIHJpZ2h0IG5v
-dywgYnV0IGk5MTUgc3VwcG9ydHMgaXQgYW5kIEkgdGhpbmsgaXQncyBhbHNvIHRoZQo+ID4gPiA+
-ID4gICAgYmV0dGVyIG1vZGVsIGZvciB1c2Vyc3BhY2UgZXJyb3IgcmVjb3ZlcnkgYW55d2F5Lgo+
-ID4gPiA+ID4KPiA+ID4gPiA+IFNvIGZyb20gaHcgcG92IHRoaXMgd2lsbCBsb29rIF9leGFjdGx5
-XyBsaWtlIHdpbmRvd3MsIGV4Y2VwdCB3ZSBuZXZlciBwYWdlCj4gPiA+ID4gPiBmYXVsdC4KPiA+
-ID4gPiA+Cj4gPiA+ID4gPiAgRnJvbSBzdyBwb3YgdGhpcyB3aWxsIGxvb2sgX2V4YWN0bHlfIGxp
-a2UgY3VycmVudCBrZXJuZWwgcmluZ2J1ZiBtb2RlbCwKPiA+ID4gPiA+IHdpdGggZXhhY3RseSBz
-YW1lIGRtYV9mZW5jZSBzZW1hbnRpY3MuIElmIHVzZXJzcGFjZSBsaWVzLCBkb2VzIHNvbWV0aGlu
-Zwo+ID4gPiA+ID4gc3R1cGlkIG9yIG90aGVyd2lzZSBicmVha3MgdGhlIHVhcGkgY29udHJhY3Qs
-IHZtIHB0ZXMgc3RvcCBpbnZhbGlkIGFjY2Vzcwo+ID4gPiA+ID4gYW5kIHRkciBraWxscyBpdCBp
-ZiBpdCB0YWtlcyB0b28gbG9uZy4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBXaGVyZSBkbyB5b3UgbmVl
-ZCBwcml2aWxlZGdlIElCIHdyaXRlcyBvciBhbnl0aGluZyBsaWtlIHRoYXQ/Cj4gPiA+ID4KPiA+
-ID4gPiBGb3Igd3JpdGluZyB0aGUgZmVuY2UgdmFsdWUgYW5kIHNldHRpbmcgdXAgdGhlIHByaW9y
-aXR5IGFuZCBWTSByZWdpc3RlcnMuCj4gPiA+Cj4gPiA+IEknbSBjb25mdXNlZC4gSG93IGRvZXMg
-dGhpcyB3b3JrIG9uIHdpbmRvd3MgdGhlbiB3aXRoIHB1cmUgdXNlcnNwYWNlCj4gPiA+IHN1Ym1p
-dD8gV2luZG93cyB1c2Vyc3BhY2Ugc2V0cyBpdHMgcHJpb3J0aWVzIGFuZCB2bSByZWdpc3RlcnMg
-aXRzZWxmIGZyb20KPiA+ID4gdXNlcnNwYWNlPwo+ID4KPiA+IFdoZW4gdGhlIHVzZXIgYWxsb2Nh
-dGVzIHVzZXJtb2RlIHF1ZXVlcywgdGhlIGtlcm5lbCBkcml2ZXIgc2V0cyB1cCBhCj4gPiBxdWV1
-ZSBkZXNjcmlwdG9yIGluIHRoZSBrZXJuZWwgd2hpY2ggZGVmaW5lcyB0aGUgbG9jYXRpb24gb2Yg
-dGhlIHF1ZXVlCj4gPiBpbiBtZW1vcnksIHdoYXQgcHJpb3JpdHkgaXQgaGFzLCB3aGF0IHBhZ2Ug
-dGFibGVzIGl0IHNob3VsZCB1c2UsIGV0Yy4KPiA+IFVzZXIgbW9kZSBjYW4gdGhlbiBzdGFydCB3
-cml0aW5nIGNvbW1hbmRzIHRvIGl0cyBxdWV1ZXMuICBXaGVuIHRoZXkKPiA+IGFyZSByZWFkeSBm
-b3IgdGhlIGhhcmR3YXJlIHRvIHN0YXJ0IGV4ZWN1dGluZyB0aGVtLCB0aGV5IHJpbmcgYQo+ID4g
-ZG9vcmJlbGwgd2hpY2ggc2lnbmFscyB0aGUgc2NoZWR1bGVyIGFuZCBpdCBtYXBzIHRoZSBxdWV1
-ZSBkZXNjcmlwdG9ycwo+ID4gdG8gSFcgcXVldWUgc2xvdHMgYW5kIHRoZXkgc3RhcnQgZXhlY3V0
-aW5nLiAgVGhlIHVzZXIgb25seSBoYXMgYWNjZXNzCj4gPiB0byBpdCdzIHF1ZXVlcyBhbmQgYW55
-IGJ1ZmZlcnMgaXQgaGFzIG1hcHBlZCBpbiBpdCdzIEdQVSB2aXJ0dWFsCj4gPiBhZGRyZXNzIHNw
-YWNlLiAgV2hpbGUgdGhlIHF1ZXVlcyBhcmUgc2NoZWR1bGVkLCB0aGUgdXNlciBjYW4ga2VlcAo+
-ID4gc3VibWl0dGluZyB3b3JrIHRvIHRoZW0gYW5kIHRoZXkgd2lsbCBrZWVwIGV4ZWN1dGluZyB1
-bmxlc3MgdGhleSBnZXQKPiA+IHByZWVtcHRlZCBieSB0aGUgc2NoZWR1bGVyIGR1ZSB0byBvdmVy
-c3Vic2NyaXB0aW9uIG9yIGEgcHJpb3JpdHkgY2FsbAo+ID4gb3IgYSByZXF1ZXN0IGZyb20gdGhl
-IGtlcm5lbCBkcml2ZXIgdG8gcHJlZW1wdCwgZXRjLgo+Cj4gWWVhaCwgd29ya3MgbGlrZSB3aXRo
-IG91ciBzdHVmZi4KPgo+IEkgZG9uJ3Qgc2VlIGEgcHJvYmxlbSB0YmguIEl0J3Mgc2xpZ2h0bHkg
-c2lsbHkgZ29pbmcgdGhlIGRldG91ciB3aXRoIHRoZQo+IGtlcm5lbCBpb2N0bCwgYW5kIGl0J3Mg
-YW5ub3lpbmcgdGhhdCB5b3Ugc3RpbGwgaGF2ZSB0byB1c2UgZHJtL3NjaGVkdWxlcgo+IHRvIHJl
-c29sdmUgZGVwZW5kZW5jaWVzIGluc3RlYWQgb2YgZ3B1IHNlbWFwaG9yZXMgYW5kIGFsbCB0aGF0
-LiBCdXQgdGhpcwo+IG9ubHkgYXBwbGllcyB0byBsZWdhY3kgd2luc3lzIG1vZGUsIGNvbXB1dGUg
-KGUuZy4gdmsgd2l0aG91dCB3aW5zeXMpIGNhbgo+IHVzZSB0aGUgZnVsbCBwb3dlci4gSnVzdCBu
-ZWVkcyBhIGZsYWcgb3Igc29tZXRoaW5nIHdoZW4gc2V0dGluZyB1cCB0aGUKPiBjb250ZXh0Lgo+
-Cj4gQW5kIGJlc3QgcGFydCBpcyB0aGF0IGZyb20gaHcgcG92IHRoaXMgcmVhbGx5IGlzIGluZGlz
-dGluZ3Vpc2hhYmxlIGZyb20KPiB0aGUgZnVsbCBvbiB1c2Vyc3BhY2Ugc3VibWl0IG1vZGVsLgo+
-Cj4gVGhlIHRoaW5nIHdoZXJlIGl0IGdldHMgYW5ub3lpbmcgaXMgd2hlbiB5b3UgdXNlIG9uZSBv
-ZiB0aGVzZSBuZXcgY3B1Cj4gaW5zdHJ1Y3Rpb25zIHdoaWNoIGRvIGRpcmVjdCBzdWJtaXQgdG8g
-aHcgYW5kIHBhc3MgYWxvbmcgdGhlIHBhc2lkIGlkCj4gYmVoaW5kIHRoZSBzY2VuZXMuIFRoYXQn
-cyB0cnVseSBzb21ldGhpbmcgeW91IGNhbid0IGludGVyY2VwdCBhbnltb3JlIGluCj4gdGhlIGtl
-cm5lbCBhbmQgZmFrZSB0aGUgbGVnYWN5IGRtYV9mZW5jZSB3b3JsZC4KPgo+IEJ1dCB3aGF0IHlv
-dSdyZSBkZXNjcmliaW5nIGhlcmUgc291bmRzIGxpa2UgYm9nIHN0YW5kYXJkIHN0dWZmLCBhbmQg
-YWxzbwo+IHByZXR0eSBlYXN5IHRvIGtlZXAgd29ya2luZyB3aXRoIGV4YWN0bHkgdGhlIGN1cnJl
-bnQgbW9kZWwuCj4KPiBPZmMgd2UnbGwgd2FudCB0byBwdXNoIGZvcndhcmQgYSBtb3JlIG1vZGVy
-biBtb2RlbCB0aGF0IGJldHRlciBzdWl0cwo+IG1vZGVybiBncHVzLCBidXQgSSBkb24ndCBzZWUg
-YW55IGhhcmQgcmVxdWlyZW1lbnQgaGVyZSBmcm9tIHRoZSBodyBzaWRlLgoKQWRkaW5nIGEgYml0
-IG1vcmUgZGV0YWlsIG9uIHdoYXQgSSBoYXZlIGluIG1pbmQ6CgotIG1lbW9yeSBtYW5hZ2VtZW50
-IHdvcmtzIGxpa2UgYW1kZ3B1IGRvZXMgdG9kYXksIHNvIGFsbCBidWZmZXJzIGFyZQpwcmUtYm91
-bmQgdG8gdGhlIGdwdSB2bSwgd2Uga2VlcCB0aGUgZW50aXJlIGJvIHNldCBtYXJrZWQgYXMgYnVz
-eSB3aXRoCnRoZSBidWxrIGxydSB0cmljayBmb3IgZXZlcnkgY29tbWFuZCBzdWJtaXNzaW9uLgoK
-LSBmb3IgdGhlIHJpbmdidWZmZXIsIHVzZXJzcGFjZSBhbGxjb2F0ZXMgYSBzdWl0YWJseSBzaXpl
-ZCBibyBmb3IKcmluZ2J1ZmZlciwgcmluZy90YWlsL3NlcW5vIGFuZCB3aGF0ZXZlciBlbHNlIGl0
-IG5lZWRzCgotIHVzZXJzcGFjZSB0aGVuIGFza3MgdGhlIGtlcm5lbCB0byBtYWtlIHRoYXQgaW50
-byBhIGh3IGNvbnRleHQsIHdpdGgKYWxsIHRoZSBwcml2aWxlZGdlcyBzZXR1cC4gRG9vcmJlbGwg
-d2lsbCBvbmx5IGJlIG1hcHBlZCBpbnRvIGtlcm5lbAooaHcgY2FuJ3QgdGVsbCB0aGUgZGlmZmVy
-ZW5jZSBhbnl3YXkpLCBidXQgaWYgaXQgaGFwcGVucyB0byBhbHNvIGJlCnZpc2libGUgdG8gdXNl
-cnNwYWNlIHRoYXQncyBubyBwcm9ibGVtLiBXZSBhc3N1bWUgdXNlcnNwYWNlIGNhbiByaW5nCnRo
-ZSBkb29yYmVsbCBhbnl0aW1lIGl0IHdhbnRzIHRvLgoKLSB3ZSBkbyBkb3VibGUgbWVtb3J5IG1h
-bmFnZW1lbnQ6IE9uZSBkbWFfZmVuY2Ugd29ya3Mgc2ltaWxhciB0byB0aGUKYW1ka2ZkIHByZWVt
-cHQgZmVuY2UsIGV4Y2VwdCBpdCBkb2Vzbid0IHByZWVtcHQgYnV0IGRvZXMgYW55dGhpbmcKcmVx
-dWlyZWQgdG8gbWFrZSB0aGUgaHcgY29udGV4dCB1bnJ1bm5hYmxlIGFuZCB0YWtlIGl0IG91dCBv
-ZiB0aGUgaHcKc2NoZWR1bGVyIGVudGlyZWx5LiBUaGlzIG1pZ2h0IGludm9sdmUgdW5tYXBwaW5n
-IHRoZSBkb29yYmVsbCBpZgp1c2Vyc3BhY2UgaGFzIGFjY2VzcyB0byBpdC4KCi0gYnV0IHdlIGFs
-c28gZG8gY2xhc3NpYyBlbmQtb2YtYmF0Y2ggZmVuY2VzLCBzbyB0aGF0IGltcGxpY2l0IGZlbmNp
-bmcKYW5kIGFsbCB0aGF0IGtlZXBzIHdvcmtpbmcuIFRoZSAibWFrZSBodyBjdHggdW5ydW5uYWJs
-ZSIgZmVuY2UgbXVzdAphbHNvIHdhaXQgZm9yIGFsbCBvZiB0aGVzZSBwZW5kaW5nIHN1Ym1pc3Np
-b25zIHRvIGNvbXBsZXRlLgoKLSBmb3IgdGhlIGFjdHVhbCBlbmQtb2YtYmF0Y2hidWZmZXIgZG1h
-X2ZlbmNlIGl0J3MgYWxtb3N0IGFsbCBmYWtlZCwKYnV0IHdpdGggc29tZSBjaGVja3MgaW4gdGhl
-IGtlcm5lbCB0byBrZWVwIHVwIHRoZSBndWFyYW50ZWVzLiBjcyBmbG93CmlzIHJvdWdobHkKCjEu
-IHVzZXJzcGFjZSBkaXJlY3RseSB3cml0ZXMgaW50byB0aGUgdXNlcnNwYWNlIHJpbmdidWZmZXIu
-IEl0IG5lZWRzCnRvIGZvbGxvdyB0aGUga2VybmVsJ3MgcnVsZSBmb3IgdGhpcyBpZiBpdCB3YW50
-cyB0aGluZ3MgdG8gd29yawpjb3JyZWN0bHksIGJ1dCB3ZSBhc3N1bWUgZXZpbCB1c2Vyc3BhY2Ug
-aXMgYWxsb3dlZCB0byB3cml0ZSB3aGF0ZXZlcgppdCB3YW50cyB0byB0aGUgcmluZywgYW5kIGNo
-YW5nZSB0aGF0IHdoZW5ldmVyIGl0IHdhbnRzLiBVc2Vyc3BhY2UKZG9lcyBub3QgdXBkYXRlIHJp
-bmcgaGVhZC90YWlsIHBvaW50ZXJzLgoKMi4gY3MgaW9jdGwganVzdCBjb250YWluczogYSkgaGVh
-ZCAodGhlIHRoaW5nIHVzZXJzcGFjZSBhZHZhbmNlcywgdGFpbAppcyB3aGVyZSB0aGUgZ3B1IGNv
-bnN1bWVzKSBwb2ludGVyIHZhbHVlIHRvIHdyaXRlIHRvIGtpY2sgb2YgdGhpcyBuZXcKYmF0Y2gg
-YikgaW4tZmVuY2VzIGIpIG91dC1mZW5jZS4KCjMuIGtlcm5lbCBkcm0vc2NoZWR1bGVyIGhhbmRs
-ZXMgdGhpcyBsaWtlIGFueSBvdGhlciByZXF1ZXN0IGFuZCBmaXJzdAp3YWl0cyBmb3IgdGhlIGlu
-LWZlbmNlcyB0byBhbGwgc2lnbmFsLCB0aGVuIGl0IGV4ZWN1dGVzIHRoZSBDUy4gRm9yCmV4ZWN1
-dGlvbiBpdCBzaW1wbHkgd3JpdGVzIHRoZSBwcm92aWRlZCBoZWFkIHZhbHVlIGludG8gdGhlIHJp
-bmcncwptZXRhZGF0YSwgYW5kIHJpbmdzIHRoZSBkb29yYmVsbHMuIE5vIGNoZWNrcy4gV2UgYXNz
-dW1lIHVzZXJzcGFjZSBjYW4KdXBkYXRlIHRoZSB0YWlsIHdoZW5ldmVyIGl0IGZlZWxzIGxpa2Us
-IHNvIGNoZWNraW5nIHRoZSBoZWFkIHZhbHVlIGlzCnBvaW50bGVzcyBhbnl3YXkuCgo0LiB0aGUg
-ZW50aXJlIGNvcnJlY3RuZXNzIGlzIG9ubHkgZGVwZW5kaW5nIHVwb24gdGhlIGRtYV9mZW5jZXMK
-d29ya2luZyBhcyB0aGV5IHNob3VsZC4gRm9yIHRoYXQgd2UgbmVlZCBzb21lIHZlcnkgc3RyaWN0
-IHJ1bGVzIG9uCndoZW4gdGhlIGVuZC1vZi1iYXRjaGJ1ZmZlciBkbWFfZmVuY2Ugc2lnbmFsczoK
-LSB0aGUgZHJtL3NjaGVkdWxlciBtdXN0IGhhdmUgbWFya2VkIHRoZSByZXF1ZXN0IGFzIHJ1bm5h
-YmxlIGFscmVhZHksCmkuZS4gYWxsIGRlcGVuZGVuY2llcyBhcmUgZnVsbGZpbGxlZC4gVGhpcyBp
-cyB0byBwcmV2ZW50IHRoZSBmZW5jZXMKZnJvbSBzaWduYWxsaW5nIGluIHRoZSB3cm9uZyBvcmRl
-ci4KLSB0aGUgZmVuY2UgZnJvbSB0aGUgcHJldmlvdXMgYmF0Y2ggbXVzdCBoYXZlIHNpZ25hbGxl
-ZCBhbHJlYWR5LCBhZ2Fpbgp0byBndWFyYW50ZWUgaW4tb3JkZXIgc2lnbmFsbGluZyAoZXZlbiBp
-ZiB1c2Vyc3BhY2UgZG9lcyBzb21ldGhpbmcKc3R1cGlkIGFuZCByZW9yZGVycyBob3cgdGhpbmdz
-IGNvbXBsZXRlKQotIHRoZSBmZW5jZSBtdXN0IG5ldmVyIGp1bXAgYmFjayB0byB1bnNpZ25hbGxl
-ZCwgc28gdGhlIGxvY2tsZXNzCmZhc3RwYXRoIHRoYXQganVzdCBjaGVja3MgdGhlIHNlcW5vIGlz
-IGEgbm8tZ28KCjUuIGlmIGRybS9zY2hlZHVsZXIgdGRyIGRlY2lkZXMgaXQncyB0YWtpbmcgdG9v
-IGxvbmcgd2UgdGhyb3cgdGhlCmVudGlyZSBjb250ZXh0IGF3YXksIGZvcmJpdCBmdXJ0aGVyIGNv
-bW1hbmQgc3VibWlzc2lvbiBvbiBpdCAodGhyb3VnaAp0aGUgaW9jdGwsIHVzZXJzcGFjZSBjYW4g
-a2VlcCB3cml0aW5nIHRvIHRoZSByaW5nIHdoYXRldmVyIGl0IHdhbnRzKQphbmQgZmFpbCBhbGwg
-aW4tZmxpZ2h0IGJ1ZmZlcnMgd2l0aCBhbiBlcnJvci4gTm9uLWV2aWwgdXNlcnNwYWNlIGNhbgp0
-aGVuIHJlY292ZXIgYnkgcmUtY3JlYXRpbmcgYSBuZXcgcmluZ2J1ZmZlciB3aXRoIGV2ZXJ5dGhp
-bmcuCgpJJ3ZlIHBvbmRlcmVkIHRoaXMgbm93IGZvciBhIGJpdCBhbmQgSSByZWFsbHkgY2FuJ3Qg
-c3BvdCB0aGUgaG9sZXMuCkFuZCBJIHRoaW5rIGl0IHNob3VsZCBhbGwgd29yaywgYm90aCBmb3Ig
-aHcgYW5kIGtlcm5lbC9sZWdhY3kKZG1hX2ZlbmNlIHVzZS1jYXNlLgotRGFuaWVsCi0tIApEYW5p
-ZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxv
-Zy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+--===============1165730396==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/EjcagME61b9pLKqTnYEsSkE"; protocol="application/pgp-signature"
+
+--Sig_/EjcagME61b9pLKqTnYEsSkE
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 26 Apr 2021 22:08:55 +0300
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+
+> On Mon, Apr 26, 2021 at 02:56:26PM -0400, Harry Wentland wrote:
+> > On 2021-04-26 2:07 p.m., Ville Syrj=C3=A4l=C3=A4 wrote: =20
+> > > On Mon, Apr 26, 2021 at 01:38:50PM -0400, Harry Wentland wrote: =20
+> > >> From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+> > >>
+> > >> Add the following color encodings
+> > >> - RGB versions for BT601, BT709, BT2020
+> > >> - DCI-P3: Used for digital movies
+> > >>
+> > >> Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+> > >> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > >> ---
+> > >>   drivers/gpu/drm/drm_color_mgmt.c | 4 ++++
+> > >>   include/drm/drm_color_mgmt.h     | 4 ++++
+> > >>   2 files changed, 8 insertions(+)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_=
+color_mgmt.c
+> > >> index bb14f488c8f6..a183ebae2941 100644
+> > >> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> > >> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> > >> @@ -469,6 +469,10 @@ static const char * const color_encoding_name[]=
+ =3D {
+> > >>   	[DRM_COLOR_YCBCR_BT601] =3D "ITU-R BT.601 YCbCr",
+> > >>   	[DRM_COLOR_YCBCR_BT709] =3D "ITU-R BT.709 YCbCr",
+> > >>   	[DRM_COLOR_YCBCR_BT2020] =3D "ITU-R BT.2020 YCbCr",
+> > >> +	[DRM_COLOR_RGB_BT601] =3D "ITU-R BT.601 RGB",
+> > >> +	[DRM_COLOR_RGB_BT709] =3D "ITU-R BT.709 RGB",
+> > >> +	[DRM_COLOR_RGB_BT2020] =3D "ITU-R BT.2020 RGB",
+> > >> +	[DRM_COLOR_P3] =3D "DCI-P3", =20
+> > >=20
+> > > These are a totally different thing than the YCbCr stuff.
+> > > The YCbCr stuff just specifies the YCbCr<->RGB converison matrix,
+> > > whereas these are I guess supposed to specify the primaries/whitepoin=
+t?
+> > > But without specifying what we're converting *to* these mean absolute=
+ly
+> > > nothing. Ie. I don't think they belong in this property.
+> > >  =20
+> >=20
+> > If this is the intention I don't see it documented.
+> >=20
+> > I might have overlooked something but do we have a way to explicitly=20
+> > specify today what *to* format the YCbCr color encodings convert into? =
+ =20
+>=20
+> These just specific which YCbCr<->RGB matrix to use as specificed
+> in the relevant standards. The primaries/whitepoint/etc. don't
+> change at all.
+
+Ville is correct here.
+
+> > Would that be a combination of the output color encoding specified via=
+=20
+> > colorspace_property and the color space encoded in the primaries and=20
+> > whitepoint of the hdr_output_metadata? =20
+
+Conversion between YCbCR and RGB is not a color space conversion in the
+sense of color spaces (chromaticity of primaries and white point). It
+is a color model conversion or a color encoding conversion more like.
+
+A benefit of YCbCr is that you can use less bandwidth to transmit the
+same image and people won't realise that you lost anything: chroma
+sub-sampling. Sub-sampling with RGB wouldn't work that well. It's a
+lossy compression technique, but different standards use different
+compression algorithms (well, matrices) to balance what gets lost.
+
+> Those propertis only affect the infoframes. They don't apply any
+> color processing to the data.
+
+Indeed.
+
+An example:
+
+You start with YUV video you want to display. That means you have YCbCr
+data using color space X and EOTF Foo. When you convert that to RGB,
+the RGB data still has color space X and EOTF Foo. Then you use the
+infoframe to tell your monitor that the data is in color space X and
+using EOTF Foo.
+
+At no point in that pipeline there is a color space transformation,
+until the data actually reaches the monitor which may do magic things
+to map color space X and EOTF Foo into what it can actually make as
+light.
+
+Or as with the traditional way, you don't care what color space or EOTF
+your video uses or your monitor has. You just hope they are close
+enough to look good enough that people don't see anything wrong. Close
+your eyes and sing a happy song. With HDR and WCG, that totally breaks
+down.
+
+> > Fundamentally I don't see how the use of this property differs, whether=
+=20
+> > you translate from YCbCr or from RGB. In either case you're converting=
+=20
+> > from the defined input color space and pixel format to an output color=
+=20
+> > space and pixel format. =20
+>=20
+> The gamut does not change when you do YCbCr<->RGB conversion.
+
+Right. Neither does dynamic range.
+
+> > > The previous proposals around this topic have suggested a new
+> > > property to specify a conversion matrix either explicitly, or
+> > > via a separate enum (which would specify both the src and dst
+> > > colorspaces). I've always argued the enum approach is needed
+> > > anyway since not all hardware has a programmable matrix for
+> > > this. But a fully programmable matrix could be nice for tone
+> > > mapping purposes/etc, so we may want to make sure both are
+> > > possible.
+> > >=20
+> > > As for the transfer func, the proposals so far have mostly just
+> > > been to expose a programmable degamma/gamma LUTs for each plane.
+> > > But considering how poor the current gamma uapi is we've thrown
+> > > around some ideas how to allow the kernel to properly expose the
+> > > hw capabilities. This is one of those ideas:
+> > > https://lists.freedesktop.org/archives/dri-devel/2019-April/212886.ht=
+ml>> I think that basic idea could be also be extended to allow fixed
+> > > curves in case the hw doesn't have a fully programmable LUT. But
+> > > dunno if that's relevant for your hw.
+> > >  =20
+> >=20
+> > The problem with exposing gamma, whether per-plane or per-crtc, is that=
+=20
+> > it is hard to define an API that works for all the HW out there. The=20
+> > capabilities for different HW differ a lot, not just between vendors bu=
+t=20
+> > also between generations of a vendor's HW.
+> >=20
+> > Another reason I'm proposing to define the color space (and gamma) of a=
+=20
+> > plane is to make this explicit. Up until the color space and gamma of a=
+=20
+> > plane or framebuffer are not well defined, which leads to drivers=20
+> > assuming the color space and gamma of a buffer (for blending and other=
+=20
+> > purposes) and might lead to sub-optimal outcomes. =20
+>=20
+> The current state is that things just get passed through as is
+> (apart from the crtc LUTs/CTM).
+
+Right. I would claim that the kernel does not even want to know about
+color spaces or EOTFs. Instead, the kernel should offer userspace ways
+to program the hardware to do the color *transformations* it wants to
+do. The color_encoding KMS property is already like this: it defines
+the conversion matrix, not what the input or output are.
+
+Infoframes being sent to displays are a different thing. They just tell
+the monitor what kind of image data userspace has configured KMS to
+send it, but does not change what KMS actually does with pixels.
+
+
+Also, please, let's talk about EOTF and EOTF^-1 instead of gamma when
+appropriate.
+
+Electro-optical transfer function (EOTF) is very clear in what it
+means: it is the mapping from electrical values (the non-linear pixel
+values you are used to, good for storage and transmission) to optical
+values (values that are linear in light intensity, therefore good for
+things like blending and filtering).
+
+Gamma is kind of the same, but when you use it in sentences it easily
+becomes ambiguous. Like if you have "gamma corrected pixels", what does
+that mean. Are they electrical values or optical values or maybe
+electrical values with a different EOTF. What EOTF.
+
+However, in KMS "gamma LUT" is kind of standardised terminology, and it
+does not need to be an EOTF or inverse-EOTF. One can use a gamma LUT
+for EETF, mapping from one EOTF to another, e.g. from data with content
+EOTF to data with monitor EOTF.
+
+
+Thanks,
+pq
+
+--Sig_/EjcagME61b9pLKqTnYEsSkE
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCLyAIACgkQI1/ltBGq
+qqegFg/+IsGrjhmUuTQJr1njzpbLEjFAx723foWf8MeRADktmuOAXnXgG3YA7RT2
+bA4xO8jUFVMGKWt9A7e0vDZ9Fy8RkYe0cANIqKee3sYV+8QkCIt1eGdGSB6mJYIH
+ObuIbIebQidJV11dW95T0QmBLtIo8hZ/ryG7Ud7fR99cEiASGj7AeIkzuyhdHp38
+JJZUIiSIf6u+NBMcyDfJe4jrlMV8KFbLO5TdFI17283GO9sc1YERZfkaCH9EgHT3
+6JtiCeoXi8LVPEtiRGwpZiXAfH8jH11AibS/CHR9g1gJBOzKBGRHBvi3hKej/7xe
+42Jg+QZmekQdrfch1pLBOwH9lmRrBA7N6sy4cuo1zMS7TJh0vp0G5z7HHEI9bZHD
+3/wH9PfslOaovExbTJf6bcazlrdTrD0VIHNOHzJHvMAU2Sui6gYlZjNJ7JcmnWpA
+4AOF2QdBtsOp/dJw/KU2KMhDQ4hTCnF92cSE21sJ+QBySrNIXpKm5sztf54VWRXH
+J4vpfiiulnHGV0KQ35BfIIfSLF/qIPIphYxGeBimTAwhsNwGjeBO14HIHvNZDZNF
+9oLXQXQ7anIGiy4NgC5WlCX31S+h9SmihKu4AvzpR65fIJuXz01W3YkrhM41nKjb
+j+Yy3aWbdvmg62pk5Wx1ujWPgIg6slDpiVK2OXtrBgOPx0t3RDM=
+=7yvI
+-----END PGP SIGNATURE-----
+
+--Sig_/EjcagME61b9pLKqTnYEsSkE--
+
+--===============1165730396==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1165730396==--
