@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A0536F976
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 13:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17FE36F97A
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 13:40:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05E676EE5C;
-	Fri, 30 Apr 2021 11:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22B1C6EE78;
+	Fri, 30 Apr 2021 11:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1395F6EE4D
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 11:39:02 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- b5-20020a9d5d050000b02902a5883b0f4bso835125oti.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 04:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iCEXz/yaxYBT/FshpzlIrzQLK04AK7mC76pDdEPQ8/E=;
- b=jTFs6Ygb5gdbje8oWB9YHArP9jIqk5llWrjliDwHnL1dPABD2I1fuU06jlleJ0GPuD
- yt3CS2jg4F/ehoeJGukE+WW2GkNUAtHtObj4pgArLnJRKljqCdyET5f6GHwzNDUMeed7
- efRia80oFUziPIm+EIHOY2VsaVWTgj6CYumL8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iCEXz/yaxYBT/FshpzlIrzQLK04AK7mC76pDdEPQ8/E=;
- b=YMSDlmI9yYz3ynbB4JSPH5kpnQMIYv0VzBSva7hm9lwZNYVUOuNXboULFSg6CHkYm5
- yPFZmXkaBiSm92djY2hoDzu0oZzpYV27s50rOByvnArSbaReT+27vcyDfPr26tYWfoNR
- 2VThraOo7UGl7XyN8jLkSlTq16emiG0uT45w8nUic80gnvklxAwvsSZqkJIaviLbIwMj
- Lg5i5byyji5DYVlB957EmQg20om/VZ8wgeGJIA2OAPi2PH7RRB8QeCW/CL472KYq0CtU
- Sebu/WVcJ03rlDXk9MIQZ4z/zNVYd0A3sMWf2lmY/j5OEUdgf+sCHR8h1S9AmICl5NEx
- qn1g==
-X-Gm-Message-State: AOAM533Pm8TN6ndS/gMqhCld6MUyDRrvDwMgSRT7YQgGOgm1mPE1cvQN
- xMKx+pEWIFGaCZXIR85nxV/eFyMNCADEx3D6hdyAhA==
-X-Google-Smtp-Source: ABdhPJyXfDzTj/Hp5TwOz9Yr1HlSkJoBEYod0CqWLP9ktLIpQN6SATRaQVjnSrT/eSNfbx2VChv3bBS7bCXLlOX0Jl0=
-X-Received: by 2002:a9d:10a:: with SMTP id 10mr3349443otu.188.1619782741979;
- Fri, 30 Apr 2021 04:39:01 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA846EE4D;
+ Fri, 30 Apr 2021 11:40:06 +0000 (UTC)
+IronPort-SDR: 50nGMgd0jMs+tKP0H73vT3f7tpKDizB0XLMtkBPYW7nKV9oS0438TGJnxP8EDLm1K5yQ1qIyuy
+ lCS4u9hM40KQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="261202921"
+X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; d="scan'208";a="261202921"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2021 04:40:05 -0700
+IronPort-SDR: pV1dx9YWyUpCqa1j0GfhK/bXOV+cMudtWkxqP3INtDWimEuuFq2DBGF/m8ckdrj3YoMWURD5RK
+ QFoOwC9+i79g==
+X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; d="scan'208";a="527605050"
+Received: from redickin-mobl2.ger.corp.intel.com (HELO [10.213.208.173])
+ ([10.213.208.173])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2021 04:40:03 -0700
+Subject: Re: [Intel-gfx] [PATCH 09/21] drm/i915/gem: Disallow creating
+ contexts with too many engines
+To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20210423223131.879208-1-jason@jlekstrand.net>
+ <20210423223131.879208-10-jason@jlekstrand.net>
+ <YIk14zVfa8Mw4rUF@phenom.ffwll.local>
+ <6b388d4d-1d50-94f3-344a-5b6b3639e8ad@linux.intel.com>
+ <YIlrCmvC10oAiRcL@phenom.ffwll.local>
+ <27db8ded-3b17-748e-f602-a8c1aef7367f@linux.intel.com>
+ <CAOFGe94czhE=SHZLOWmH6vPRs1ujhsP9BBxc6i+N_bkPZ+6UHw@mail.gmail.com>
+ <8a1e496c-683d-0a26-03a7-14993ba82acf@linux.intel.com>
+ <CAOFGe97mDV4RqgWSQTKq5jhGJEMCT+QAwNsoDduD-rRmd=1nBw@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <e1ae064c-6eec-85f5-e267-5987929da7d9@linux.intel.com>
+Date: Fri, 30 Apr 2021 12:40:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210428215257.500088-1-hdegoede@redhat.com>
- <20210428215257.500088-2-hdegoede@redhat.com>
- <YIqbLDIeGXNSjSTS@phenom.ffwll.local> <YIqehmw+kG53LF3t@kroah.com>
- <YIqg59yageIUwiwy@phenom.ffwll.local>
- <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
- <YIsEfAjFthAyHxUi@phenom.ffwll.local>
- <43ee221e-7151-c0c2-cc52-37b191778221@redhat.com>
-In-Reply-To: <43ee221e-7151-c0c2-cc52-37b191778221@redhat.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 30 Apr 2021 13:38:51 +0200
-Message-ID: <CAKMK7uFf8n6QfRdSXeB6J+L7NPGbeEyJKhx1Vu7x8env=_7tkA@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm/connector: Make the drm_sysfs connector->kdev
- device hold a reference to the connector
-To: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAOFGe97mDV4RqgWSQTKq5jhGJEMCT+QAwNsoDduD-rRmd=1nBw@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,184 +59,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>,
- USB list <linux-usb@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 30, 2021 at 1:28 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 4/29/21 9:09 PM, Daniel Vetter wrote:
-> > On Thu, Apr 29, 2021 at 02:33:17PM +0200, Hans de Goede wrote:
-> >> Hi,
-> >>
-> >> On 4/29/21 2:04 PM, Daniel Vetter wrote:
-> >>> On Thu, Apr 29, 2021 at 01:54:46PM +0200, Greg Kroah-Hartman wrote:
-> >>>> On Thu, Apr 29, 2021 at 01:40:28PM +0200, Daniel Vetter wrote:
-> >>>>> On Wed, Apr 28, 2021 at 11:52:49PM +0200, Hans de Goede wrote:
-> >>>>>> Userspace could hold open a reference to the connector->kdev device,
-> >>>>>> through e.g. holding a sysfs-atrtribute open after
-> >>>>>> drm_sysfs_connector_remove() has been called. In this case the connector
-> >>>>>> could be free-ed while the connector->kdev device's drvdata is still
-> >>>>>> pointing to it.
-> >>>>>>
-> >>>>>> Give drm_connector devices there own device type, which allows
-> >>>>>> us to specify our own release function and make drm_sysfs_connector_add()
-> >>>>>> take a reference on the connector object, and have the new release
-> >>>>>> function put the reference when the device is released.
-> >>>>>>
-> >>>>>> Giving drm_connector devices there own device type, will also allow
-> >>>>>> checking if a device is a drm_connector device with a
-> >>>>>> "if (device->type == &drm_sysfs_device_connector)" check.
-> >>>>>>
-> >>>>>> Note that the setting of the name member of the device_type struct will
-> >>>>>> cause udev events for drm_connector-s to now contain DEVTYPE=drm_connector
-> >>>>>> as extra info. So this extends the uevent part of the userspace API.
-> >>>>>>
-> >>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>>>>
-> >>>>> Are you sure? I thought sysfs is supposed to flush out any pending
-> >>>>> operations (they complete fast) and handle open fd internally?
-> >>>>
-> >>>> Yes, it "should" :)
-> >>>
-> >>> Thanks for confirming my vague memories :-)
-> >>>
-> >>> Hans, pls drop this one.
-> >>
-> >> Please see my earlier reply to your review of this patch, it is
-> >> still needed but for a different reason:
-> >>
-> >> """
-> >> We still need this change though to make sure that the
-> >> "drm/connector: Add drm_connector_find_by_fwnode() function"
-> >> does not end up following a dangling drvdat pointer from one
-> >> if the drm_connector kdev-s.
-> >>
-> >> The class_dev_iter_init() in drm_connector_find_by_fwnode() gets
-> >> a reference on all devices and between getting that reference
-> >> and it calling drm_connector_get() - drm_connector_unregister()
-> >> may run and drop the possibly last reference to the
-> >> drm_connector object, freeing it and leaving the kdev's
-> >> drvdata as a dangling pointer.
-> >> """
-> >>
-> >> This is actually why I added it initially, and while adding it
-> >> I came up with this wrong theory of why it was necessary independently
-> >> of the drm_connector_find_by_fwnode() addition, sorry about that.
-> >
-> > Generally that's handled by a kref_get_unless_zero under the protection of
-> > the lock which protects the weak reference. Which I think is the right
-> > model here (at a glance at least) since this is a lookup function.
->
-> I'm afraid that things are a bit more complicated here. The idea here
-> is that we have a subsystem outside of the DRM subsystem which received
-> a hotplug event for a drm-connector.  The only info which this subsystem
-> has is a reference on the fwnode level (either through device-tree or
-> to platform-code instantiating software-fwnode-s + links for this).
->
-> So in order to deliver the hotplug event to the connector we need
-> to lookup the connector by fwnode.
->
-> I've chosen to implement this by iterating over all drm_class
-> devices with a dev_type of drm_connector using class_dev_iter_init()
-> and friends. This makes sure that we either get a reference to
-> the device, or that we skip the device if it is being deleted.
->
-> But this just gives us a reference to the connector->kdev, not
-> to the connector itself. A pointer to the connector itself is stored
-> as drvdata inside the device, but without taking a reference as
-> this patch does, there is no guarantee that that pointer does not
-> point to possibly free-ed mem.
->
-> We could set drvdata to 0 from drm_sysfs_connector_remove()
-> Before calling device_unregister(connector->kdev) and then do
-> something like this inside drm_connector_find_by_fwnode():
->
-> /*
->  * Lock the device to ensure we either see the drvdata == NULL
->  * set by drm_sysfs_connector_remove(); or we block the removal
->  * from continuing until we are done with the device.
->  */
-> device_lock(dev);
-> connector = dev_get_drvdata(dev);
-> if (connector && connector->fwnode == fwnode) {
->         drm_connector_get(connector);
->         found = connector;
-> }
-> device_unlock(dev);
 
-Yes this is what I mean. Except not a drm_connector_get, but a
-kref_get_unless_zero. The connector might already be on it's way out,
-but the drvdata not yet cleared.
+On 29/04/2021 20:16, Jason Ekstrand wrote:
+> On Thu, Apr 29, 2021 at 3:01 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>> On 28/04/2021 18:09, Jason Ekstrand wrote:
+>>> On Wed, Apr 28, 2021 at 9:26 AM Tvrtko Ursulin
+>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>> On 28/04/2021 15:02, Daniel Vetter wrote:
+>>>>> On Wed, Apr 28, 2021 at 11:42:31AM +0100, Tvrtko Ursulin wrote:
+>>>>>>
+>>>>>> On 28/04/2021 11:16, Daniel Vetter wrote:
+>>>>>>> On Fri, Apr 23, 2021 at 05:31:19PM -0500, Jason Ekstrand wrote:
+>>>>>>>> There's no sense in allowing userspace to create more engines than it
+>>>>>>>> can possibly access via execbuf.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+>>>>>>>> ---
+>>>>>>>>      drivers/gpu/drm/i915/gem/i915_gem_context.c | 7 +++----
+>>>>>>>>      1 file changed, 3 insertions(+), 4 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>>>>>>> index 5f8d0faf783aa..ecb3bf5369857 100644
+>>>>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>>>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>>>>>>> @@ -1640,11 +1640,10 @@ set_engines(struct i915_gem_context *ctx,
+>>>>>>>>                      return -EINVAL;
+>>>>>>>>              }
+>>>>>>>> -  /*
+>>>>>>>> -   * Note that I915_EXEC_RING_MASK limits execbuf to only using the
+>>>>>>>> -   * first 64 engines defined here.
+>>>>>>>> -   */
+>>>>>>>>              num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
+>>>>>>>
+>>>>>>> Maybe add a comment like /* RING_MASK has not shift, so can be used
+>>>>>>> directly here */ since I had to check that :-)
+>>>>>>>
+>>>>>>> Same story about igt testcases needed, just to be sure.
+>>>>>>>
+>>>>>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>>>>
+>>>>>> I am not sure about the churn vs benefit ratio here. There are also patches
+>>>>>> which extend the engine selection field in execbuf2 over the unused
+>>>>>> constants bits (with an explicit flag). So churn upstream and churn in
+>>>>>> internal (if interesting) for not much benefit.
+>>>>>
+>>>>> This isn't churn.
+>>>>>
+>>>>> This is "lock done uapi properly".
+>>>
+>>> Pretty much.
+>>
+>> Still haven't heard what concrete problems it solves.
+>>
+>>>> IMO it is a "meh" patch. Doesn't fix any problems and will create work
+>>>> for other people and man hours spent which no one will ever properly
+>>>> account against.
+>>>>
+>>>> Number of contexts in the engine map should not really be tied to
+>>>> execbuf2. As is demonstrated by the incoming work to address more than
+>>>> 63 engines, either as an extension to execbuf2 or future execbuf3.
+>>>
+>>> Which userspace driver has requested more than 64 engines in a single context?
+>>
+>> No need to artificially limit hardware capabilities in the uapi by
+>> implementing a policy in the kernel. Which will need to be
+>> removed/changed shortly anyway. This particular patch is work and
+>> creates more work (which other people who will get to fix the fallout
+>> will spend man hours to figure out what and why broke) for no benefit.
+>> Or you are yet to explain what the benefit is in concrete terms.
+> 
+> You keep complaining about how much work it takes and yet I've spent
+> more time replying to your e-mails on this patch than I spent writing
+> the patch and the IGT test.  Also, if it takes so much time to add a
+> restriction, then why are we spending time figuring out how to modify
+> the uAPI to allow you to execbuf on a context with more than 64
+> engines?  If we're worried about engineering man-hours, then limiting
+> to 64 IS the pragmatic solution.
 
-> With the device_lock() synchronizing against the device_lock()
-> in device_unregister(connector->kdev). So that we either see
-> drvdata == NULL if we race with unregistering; or we get
-> a reference on the drm_connector obj before its ref-count can
-> drop to 0.
+a)
 
-The trouble is that most connectors aren't full drivers on their kdev.
-So this isn't the right lock. We need another lock which protects the
-drvdata pointer appropriately for drm connectors.
+Question of what problem does the patch fix is still unanswered.
 
-> There might be places though where we call code take the device_lock
-> while holding a lock necessary for the drm_connector_get() , so
-> this approach might lead to an AB BA deadlock. As such I think
-> my original approach is better (also see below).
->
-> > Lookup tables holding full references tends to lead to all kinds of bad
-> > side effects.
->
-> The proposed reference is not part of a lookup list, it is a
-> reference from the kdev on the drm_connector object which gets
-> dropped as soon as the kdev's refcount hits 0, which normally
-> happens directly after drm_connector_unregister() has run.
+b)
 
-Yeah but the way you use it is for lookup purposes. What we're
-implementing is the "get me the drm_connector for this fwnode"
-functionality, and that _is_ a lookup. How its implemented is an
-internal detail really, and somehow using full references for lookup
-functionality isn't great.
+You miss the point. I'll continue in the next paragraph..
 
-I'm also not sure why we have to use the kdev stuff here. For other
-random objects we need to look up we're building that functionality on
-that object. It means you need to keep another list_head around for
-that lookup, but that's really not a big cost. E.g. drm_bridge/panel
-work like that.
+> 
+>> Why don't you limit it to number of physical engines then? Why don't you
+>> filter out duplicates? Why not limit the number of buffer objects per
+>> client or global based on available RAM + swap relative to minimum
+>> object size? Reductio ad absurdum yes, but illustrating the, in this
+>> case, a thin line between "locking down uapi" and adding too much policy
+>> where it is not appropriate.
+> 
+> All this patch does is say that  you're not allowed to create a
+> context with more engines than the execbuf API will let you use.  We
+> already have an artificial limit.  All this does is push the error
+> handling further up the stack.  If someone comes up with a mechanism
+> to execbuf on engine 65 (they'd better have an open-source user if it
+> involves changing API), I'm very happy for them to bump this limit at
+> the same time.  It'll take them 5 minutes and it'll be something they
+> find while writing the IGT test.
 
-> In many other places in the kernel problems like this are
-> solved by embedding the device struct inside the containing
-> data struct (so the drm_connector struct) and using the
-> device_struct's refcounting for all refcounting and using
-> the device struct's release callback as the release callback for
-> the entire object.
->
-> That is not doable here since the drm_object code has its own
-> refcounting going on. What this patch is in essence doing is
-> simulating having only 1 refcount, by making sure the
-> main-object release callback does not get run until
-> the drm_objects' refcount and the device's refcount have
-> both reached 0 (by keeping the drm_object's refcount at
-> a minimum of 1 as long as there are references to the
-> device).
+.. no it won't take five minutes.
 
-Uh yeah that sounds bad. If you really need the full refcount we
-should really only have one.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+If I need to spell everything out - you will put this patch in, which 
+fixes nothing, and it will propagate to the internal kernel at some 
+point. Then a bunch of tests will start failing in a strange manner. 
+Which will result in people triaging them, then assigning them, then 
+reserving machines, setting them up, running the repro, then digging 
+into the code, and eventually figuring out what happened.
+
+It will take hours not five minutes. And there will likely be multiple 
+bug reports which most likely won't be joined so mutliple people will be 
+doing multi hour debug. All for nothing. So it is rather uninteresting 
+how small the change is. Interesting part is how much pointless effort 
+it will create across the organisation.
+
+Of course you may not care that much about that side of things, or you 
+are just not familiar in how it works in practice since you haven't been 
+involved in the past years. I don't know really, but I have to raise the 
+point it makes no sense to do this. Cost vs benefit is simply not nearly 
+there.
+
+>>> Also, for execbuf3, I'd like to get rid of contexts entirely and have
+>>> engines be their own userspace-visible object.  If we go this
+>>> direction, you can have UINT32_MAX of them.  Problem solved.
+>>
+>> Not the problem I am pointing at though.
+> 
+> You listed two ways that accessing engine 65 can happen: Extending
+> execbuf2 and adding a new execbuf3.  When/if execbuf3 happens, as I
+> pointed out above, it'll hopefully be a non-issue.  If someone extends
+> execbuf2 to support more than 64 engines and does not have a userspace
+> customer that wants said new API change, I will NAK the patch.  If
+> you've got a 3rd way that someone can get at engine 65 such that this
+> is a problem, I'd love to hear about it.
+
+It's ever so easy to take a black and white stance but the world is more 
+like shades of grey. I too am totally perplexed why we have to spend 
+time arguing on a inconsequential patch.
+
+Context create is not called "create execbuf2 context" so why be so 
+wedded to adding execbuf2 restrictions into it I have no idea. If you 
+were fixing some vulnerability or something I'd understand but all I've 
+heard so far is along the lines of "This is proper locking down of uapi 
+- end of". And endless waste of time discussion follows. We don't have 
+to agree on everything anyway and I have raised my concern enough times 
+now. Up to you guys to re-figure out the cost benefit on your own then.
+
+Regards,
+
+Tvrtko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
