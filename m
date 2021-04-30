@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6085036F811
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 11:45:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E099636F818
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 11:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE746E12A;
-	Fri, 30 Apr 2021 09:45:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB2A6F51B;
+	Fri, 30 Apr 2021 09:45:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE5B6E12A;
- Fri, 30 Apr 2021 09:45:02 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id B437C5800D2;
- Fri, 30 Apr 2021 05:45:01 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Fri, 30 Apr 2021 05:45:01 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04AE16F51B;
+ Fri, 30 Apr 2021 09:45:06 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 64E7A5800D9;
+ Fri, 30 Apr 2021 05:45:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Fri, 30 Apr 2021 05:45:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=eN39p5vJIbDjb
- RQbd/mDCmrw3PQfz6DlV2YEYmhqxaI=; b=iYkebr/qoDHsczTDn+mKPJtqKwIg3
- MDSuR848zw4nfrxmB3JYG1TWF6xMqSQt+bKHVhnRj6K4nNurQMp1wuitRtUkcxzT
- Oy94mnfGZW8lnqlRGdO4VlFaSGNABUOu43TTD/pvhItGU38jCrsDfYvC+jKDVwOz
- CHDgZakNfVS9wAsQ6ec/x6wgIANgN/TXi4rSwg4s83nAHBYrd8UwOxnv7AY4d6J3
- wRLQxH2lQfRcmrMrdWGcqyR6AYeHyB2JQrMNaL6oFesuBhkK20iTlVYAPB/LjsXP
- 9l02Woi4dB0W6i45+HaWny9roLsxwCTRXblUl1Q22WnjhwDfJvJsEEVjA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=g1BJUGcYOQszK
+ bZyYiA0HlUiX34Sk1HkvempqJC1Nr8=; b=Ebrql6ibOhoc2d6p+N4ZRBGwUlpa5
+ jcXsX81Nq3v05SkXCByzC2BlJE36tUntFmkxPGv7a7r1SaMjckgXMn6uYz5E6ll6
+ YzQO0/jYKiMEY21esRlfL7wo5++H+GMX2UbuE/jhB+1SkCQ3JHp+NShR3O/pHlp0
+ 1ldhtvuB0YAAE9GkEiGxSrJlYnMd+ZZvfPMig5iWoeGFxh6UgXsuHJOkm7upcUZN
+ IveTVbXNyojhu5hUP02ln0ZJxRkzXGgkkRn/mxXHpAIbGtjBsss1xOz+6ZsF+CbL
+ xWrpe/VnpTC1eXY0lFqZlmcOfSQOci6wtyLaLJy7o8YehNAod/qWNyi9A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=eN39p5vJIbDjbRQbd/mDCmrw3PQfz6DlV2YEYmhqxaI=; b=L6IL6WXH
- RBCbidMFBS4n/IyJMSMIJGmXgFYEF8xZz9NBWwWpu/a9uIYASuayQcxlUiz8Dg4z
- QIobWLDCKHaVdACcwl4l5Hvhhl5gbfkJXFJlCUk0Lms9nOI+y5d2NLGkuQ2vE1xO
- xXIXZ+dKkcffwuLxUtXOOQjRuRyDFbYQnBSiR1g9r+WRLoMSzQDdKGq9LFr2hcar
- xznW9bXrA9EqlJOzPWF6KitjMqWWQIhzsdlk8t6hFszbCr5ATA28ml+OUvptDOJv
- aIV81J0RlC+isHv7V0aVZrIMMuCcjVQUw93Sb/mzbspfkrWPpRGilKGs71qhf0X7
- 9kl6JiSUHxzqlw==
-X-ME-Sender: <xms:m9GLYP_g0waDU8hZjrPsPs52N3GIDY1Ojc3DrgcPponO1I23VPZyhg>
- <xme:m9GLYLsCZhlZLQ3RFSIiBQrvi7-FiVXl5jtTJQ_teDJ32ImYOV97cw3Dk_2GbzbyN
- 1_IhNlHaeDuz95NV5w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddviedgudekucetufdoteggodetrfdotf
+ fm2; bh=g1BJUGcYOQszKbZyYiA0HlUiX34Sk1HkvempqJC1Nr8=; b=kYfgNMRo
+ 7MuVgZ7RqVCI4Gr6xTfkfUVbbb62OcTo3YzJdtp7ALKXRIyhUHSOIRMWzdfEL/eK
+ AbiKrF2rALMaAXVVN24Ar8Ebi1yw6eNBk0gTBNy9bVE/BWB3DB7y0HbQnevTgKf4
+ TS4RkVAfUUhYe8H8Hajv816P8MV7Y8vBrQxLAdiHgcMw5POFeEbes0FAzmtlQMsc
+ qNXL42AngQTMey/wVKdRXTF0hyInbHopIL+zYJYnp3h2+KQjSp+FC5DIaHhhDzYe
+ vTBfUk5bLQaHRztCSh2RNQ5Xym0cPIZqGrL2T03ELpIiWMEVYAV7hmKiAy6KlNvg
+ 6GYYy849kYAk2Q==
+X-ME-Sender: <xms:oNGLYAylZAKIk2uePGbQFgOso7YShxRdi8QFnRn0YNMsu9K7jzdTYw>
+ <xme:oNGLYEQqKUiGUeeJaoAUZ_2nyFR2541dPk93eBywio9lgeNMgP1gxo9QMUSq6TzjL
+ 2tT6K-mZDKwbf3Cn9Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddviedgudelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
@@ -49,21 +49,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddviedgudekucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:m9GLYNCDpxwVkvKX3WXprhd_CbtdbwVB3nzHSJBgv6vHgNm0kvlGOQ>
- <xmx:m9GLYLdrY9zS0JArdzOXD0leT64ZB7bKt_4MrVw_R80lWcbQilS7Tw>
- <xmx:m9GLYEMLE2SuamLzhqr-eWmXDF2D7um1UH52SjQFIDkTd5v7Oz2cYg>
- <xmx:ndGLYHhM8MbzOXuq8ZjHEdvZfKGf0__hAeuOyESuNZmxyUJxmANbHA>
+X-ME-Proxy: <xmx:oNGLYCVvkJuvhgyJN4ECsEOjpOglFSLkM9tyl4PtOUHEeXmQ4HMrJQ>
+ <xmx:oNGLYOj8WdErp2X02tZfhPi7TdZQdwQaYWVHnfTDDzJdC3sMhWjK8g>
+ <xmx:oNGLYCDjrI4dtqQ_7glun28Yn2Ojau9-6uBzoudCfs36lSyDTyY8EQ>
+ <xmx:otGLYNVW7Hz0RciTPNFmzbr7_XIalFcSM0SQ8cIxi9rtJQghYRkdlg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Fri, 30 Apr 2021 05:44:59 -0400 (EDT)
+ Fri, 30 Apr 2021 05:45:03 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v3 2/5] drm/connector: Add helper to compare HDR metadata
-Date: Fri, 30 Apr 2021 11:44:48 +0200
-Message-Id: <20210430094451.2145002-2-maxime@cerno.tech>
+Subject: [PATCH v3 3/5] drm/vc4: Add HDR metadata property to the VC5 HDMI
+ connectors
+Date: Fri, 30 Apr 2021 11:44:49 +0200
+Message-Id: <20210430094451.2145002-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210430094451.2145002-1-maxime@cerno.tech>
 References: <20210430094451.2145002-1-maxime@cerno.tech>
@@ -96,15 +97,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All the drivers that support the HDR metadata property have a similar
-function to compare the metadata from one connector state to the next,
-and force a mode change if they differ.
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-All these functions run pretty much the same code, so let's turn it into
-an helper that can be shared across those drivers.
+Now that we can export deeper colour depths, add in the signalling
+for HDR metadata.
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 ---
@@ -114,182 +112,138 @@ Changes from v2:
 
 Changes from v1:
   - Rebased on latest drm-misc-next tag
-  - Added the tags
-  - Fix build breakage on amdgpu
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 23 ++-------------
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 17 +----------
- drivers/gpu/drm/drm_connector.c               | 28 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_atomic.c   | 13 +--------
- include/drm/drm_connector.h                   |  2 ++
- 5 files changed, 34 insertions(+), 49 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 53 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  3 ++
+ 2 files changed, 56 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index c8d7e7dbc05e..296704ce3768 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6275,25 +6275,6 @@ static int fill_hdr_info_packet(const struct drm_connector_state *state,
- 	return 0;
- }
- 
--static bool
--is_hdr_metadata_different(const struct drm_connector_state *old_state,
--			  const struct drm_connector_state *new_state)
--{
--	struct drm_property_blob *old_blob = old_state->hdr_output_metadata;
--	struct drm_property_blob *new_blob = new_state->hdr_output_metadata;
--
--	if (old_blob != new_blob) {
--		if (old_blob && new_blob &&
--		    old_blob->length == new_blob->length)
--			return memcmp(old_blob->data, new_blob->data,
--				      old_blob->length);
--
--		return true;
--	}
--
--	return false;
--}
--
- static int
- amdgpu_dm_connector_atomic_check(struct drm_connector *conn,
- 				 struct drm_atomic_state *state)
-@@ -6311,7 +6292,7 @@ amdgpu_dm_connector_atomic_check(struct drm_connector *conn,
- 	if (!crtc)
- 		return 0;
- 
--	if (is_hdr_metadata_different(old_con_state, new_con_state)) {
-+	if (!drm_connector_atomic_hdr_metadata_equal(old_con_state, new_con_state)) {
- 		struct dc_info_packet hdr_infopacket;
- 
- 		ret = fill_hdr_info_packet(new_con_state, &hdr_infopacket);
-@@ -8803,7 +8784,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 			      dm_old_crtc_state->abm_level;
- 
- 		hdr_changed =
--			is_hdr_metadata_different(old_con_state, new_con_state);
-+			!drm_connector_atomic_hdr_metadata_equal(old_con_state, new_con_state);
- 
- 		if (!scaling_changed && !abm_changed && !hdr_changed)
- 			continue;
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index dd7f6eda2ce2..e7c7c9b9c646 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2395,21 +2395,6 @@ static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 1fda574579af..a33fa1662588 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -214,6 +214,31 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
  	return ret;
  }
  
--static bool hdr_metadata_equal(const struct drm_connector_state *old_state,
--			       const struct drm_connector_state *new_state)
--{
--	struct drm_property_blob *old_blob = old_state->hdr_output_metadata;
--	struct drm_property_blob *new_blob = new_state->hdr_output_metadata;
--
--	if (!old_blob || !new_blob)
--		return old_blob == new_blob;
--
--	if (old_blob->length != new_blob->length)
--		return false;
--
--	return !memcmp(old_blob->data, new_blob->data, old_blob->length);
--}
--
- static int dw_hdmi_connector_atomic_check(struct drm_connector *connector,
- 					  struct drm_atomic_state *state)
- {
-@@ -2423,7 +2408,7 @@ static int dw_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	if (!crtc)
- 		return 0;
- 
--	if (!hdr_metadata_equal(old_state, new_state)) {
-+	if (!drm_connector_atomic_hdr_metadata_equal(old_state, new_state)) {
- 		crtc_state = drm_atomic_get_crtc_state(state, crtc);
- 		if (IS_ERR(crtc_state))
- 			return PTR_ERR(crtc_state);
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index c5e2f642acd9..eed9cd05c94e 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2172,6 +2172,34 @@ int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *conn
- }
- EXPORT_SYMBOL(drm_connector_attach_hdr_output_metadata_property);
- 
-+/**
-+ * drm_connector_atomic_hdr_metadata_equal - checks if the hdr metadata changed
-+ * @old_state: old connector state to compare
-+ * @new_state: new connector state to compare
-+ *
-+ * This is used by HDR-enabled drivers to test whether the HDR metadata
-+ * have changed between two different connector state (and thus probably
-+ * requires a full blown mode change).
-+ *
-+ * Returns:
-+ * True if the metadata are equal, False otherwise
-+ */
-+bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state *old_state,
-+					     struct drm_connector_state *new_state)
++static int vc4_hdmi_connector_atomic_check(struct drm_connector *connector,
++					  struct drm_atomic_state *state)
 +{
-+	struct drm_property_blob *old_blob = old_state->hdr_output_metadata;
-+	struct drm_property_blob *new_blob = new_state->hdr_output_metadata;
++	struct drm_connector_state *old_state =
++		drm_atomic_get_old_connector_state(state, connector);
++	struct drm_connector_state *new_state =
++		drm_atomic_get_new_connector_state(state, connector);
++	struct drm_crtc *crtc = new_state->crtc;
 +
-+	if (!old_blob || !new_blob)
-+		return old_blob == new_blob;
++	if (!crtc)
++		return 0;
 +
-+	if (old_blob->length != new_blob->length)
-+		return false;
++	if (!drm_connector_atomic_hdr_metadata_equal(old_state, new_state)) {
++		struct drm_crtc_state *crtc_state;
 +
-+	return !memcmp(old_blob->data, new_blob->data, old_blob->length);
++		crtc_state = drm_atomic_get_crtc_state(state, crtc);
++		if (IS_ERR(crtc_state))
++			return PTR_ERR(crtc_state);
++
++		crtc_state->mode_changed = true;
++	}
++
++	return 0;
 +}
-+EXPORT_SYMBOL(drm_connector_atomic_hdr_metadata_equal);
 +
- /**
-  * drm_connector_set_vrr_capable_property - sets the variable refresh rate
-  * capable property for a connector
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
-index 4fa389fce8cb..084da7a76b1c 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-@@ -109,16 +109,6 @@ int intel_digital_connector_atomic_set_property(struct drm_connector *connector,
- 	return -EINVAL;
- }
- 
--static bool blob_equal(const struct drm_property_blob *a,
--		       const struct drm_property_blob *b)
--{
--	if (a && b)
--		return a->length == b->length &&
--			!memcmp(a->data, b->data, a->length);
--
--	return !a == !b;
--}
--
- int intel_digital_connector_atomic_check(struct drm_connector *conn,
- 					 struct drm_atomic_state *state)
+ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
  {
-@@ -149,8 +139,7 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
- 	    new_conn_state->base.picture_aspect_ratio != old_conn_state->base.picture_aspect_ratio ||
- 	    new_conn_state->base.content_type != old_conn_state->base.content_type ||
- 	    new_conn_state->base.scaling_mode != old_conn_state->base.scaling_mode ||
--	    !blob_equal(new_conn_state->base.hdr_output_metadata,
--			old_conn_state->base.hdr_output_metadata))
-+	    !drm_connector_atomic_hdr_metadata_equal(old_state, new_state))
- 		crtc_state->mode_changed = true;
+ 	struct vc4_hdmi_connector_state *old_state =
+@@ -263,6 +288,7 @@ static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
+ 
+ static const struct drm_connector_helper_funcs vc4_hdmi_connector_helper_funcs = {
+ 	.get_modes = vc4_hdmi_connector_get_modes,
++	.atomic_check = vc4_hdmi_connector_atomic_check,
+ };
+ 
+ static int vc4_hdmi_connector_init(struct drm_device *dev,
+@@ -299,6 +325,9 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
+ 	connector->interlace_allowed = 1;
+ 	connector->doublescan_allowed = 0;
+ 
++	if (vc4_hdmi->variant->supports_hdr)
++		drm_connector_attach_hdr_output_metadata_property(connector);
++
+ 	drm_connector_attach_encoder(connector, encoder);
  
  	return 0;
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 32172dab8427..1f51d73ca715 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1672,6 +1672,8 @@ int drm_connector_attach_scaling_mode_property(struct drm_connector *connector,
- int drm_connector_attach_vrr_capable_property(
- 		struct drm_connector *connector);
- int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *connector);
-+bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state *old_state,
-+					     struct drm_connector_state *new_state);
- int drm_mode_create_aspect_ratio_property(struct drm_device *dev);
- int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector);
- int drm_mode_create_dp_colorspace_property(struct drm_connector *connector);
+@@ -432,6 +461,25 @@ static void vc4_hdmi_set_audio_infoframe(struct drm_encoder *encoder)
+ 	vc4_hdmi_write_infoframe(encoder, &frame);
+ }
+ 
++static void vc4_hdmi_set_hdr_infoframe(struct drm_encoder *encoder)
++{
++	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
++	struct drm_connector *connector = &vc4_hdmi->connector;
++	struct drm_connector_state *conn_state = connector->state;
++	union hdmi_infoframe frame;
++
++	if (!vc4_hdmi->variant->supports_hdr)
++		return;
++
++	if (!conn_state->hdr_output_metadata)
++		return;
++
++	if (drm_hdmi_infoframe_set_hdr_metadata(&frame.drm, conn_state))
++		return;
++
++	vc4_hdmi_write_infoframe(encoder, &frame);
++}
++
+ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+@@ -444,6 +492,8 @@ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
+ 	 */
+ 	if (vc4_hdmi->audio.streaming)
+ 		vc4_hdmi_set_audio_infoframe(encoder);
++
++	vc4_hdmi_set_hdr_infoframe(encoder);
+ }
+ 
+ static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder,
+@@ -2102,6 +2152,7 @@ static const struct vc4_hdmi_variant bcm2835_variant = {
+ 	.phy_rng_enable		= vc4_hdmi_phy_rng_enable,
+ 	.phy_rng_disable	= vc4_hdmi_phy_rng_disable,
+ 	.channel_map		= vc4_hdmi_channel_map,
++	.supports_hdr		= false,
+ };
+ 
+ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
+@@ -2129,6 +2180,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
+ 	.phy_rng_enable		= vc5_hdmi_phy_rng_enable,
+ 	.phy_rng_disable	= vc5_hdmi_phy_rng_disable,
+ 	.channel_map		= vc5_hdmi_channel_map,
++	.supports_hdr		= true,
+ };
+ 
+ static const struct vc4_hdmi_variant bcm2711_hdmi1_variant = {
+@@ -2156,6 +2208,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi1_variant = {
+ 	.phy_rng_enable		= vc5_hdmi_phy_rng_enable,
+ 	.phy_rng_disable	= vc5_hdmi_phy_rng_disable,
+ 	.channel_map		= vc5_hdmi_channel_map,
++	.supports_hdr		= true,
+ };
+ 
+ static const struct of_device_id vc4_hdmi_dt_match[] = {
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index 3cebd1fd00fc..060bcaefbeb5 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -99,6 +99,9 @@ struct vc4_hdmi_variant {
+ 
+ 	/* Callback to get channel map */
+ 	u32 (*channel_map)(struct vc4_hdmi *vc4_hdmi, u32 channel_mask);
++
++	/* Enables HDR metadata */
++	bool supports_hdr;
+ };
+ 
+ /* HDMI audio information */
 -- 
 2.31.1
 
