@@ -2,126 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18AF336FE4A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 18:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8086636FE77
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 18:28:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCE5B6F562;
-	Fri, 30 Apr 2021 16:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C71516E4D7;
+	Fri, 30 Apr 2021 16:27:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam07on2049.outbound.protection.outlook.com [40.107.212.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6BC66F55C;
- Fri, 30 Apr 2021 16:11:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=imEHx81Vh2V48KsA9UZ4vFcY4cRycd6EOWVP6ubze59HqKY4fnmg0uzrRbzqQCQ2Qy04gcsdLI6vhVV+JeN7HMP6G+bm0hEsMosHBmemGASyn+F4iXwbvUvV23DlUPP9sLfYKkFPhCfzQdeX7vhUAZ49ET8+GLni0bYrK+LJorVtC1NFkRrV5e+D6H6npw+pZyY6PAls07Y6JiwEAbKuB4W/YKPR/3I9VdJkTrI4gaLomhMbws2dSrBx8eagX/cT6hRIPr6aXVy3pBz1hj7iAODeUZ5imMHSheDMnwpcAp2n1NAsqZf/jAU2YJo29POuiRdjOoW5mWdRpKqF8dDU3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xeG/S8C2nbztHwYZfZ0eWBMLcqrBY9UsOCfrthgI5rQ=;
- b=JRlHvxjgONJxqt7A0gcNBTRE5i80k2y9TneUbxaLohCw0RYTI+nRNDwdrASlSPJys3As5gK75NzFEukQlvwSofJCUdgHYiwm5OnCmlAGJxDkJ8BvtJQVbmYvWjYk9YTXWBXXBXoLX8j30jim70h8+ZUj1DXUz/lvmI94qf9EZVqsgasmXTa01K0vLp6sEoKPM18SpuTNa68y8Bt2yWjWJFMLuG3XGlbegRd3RKU3NLJvDGFebw58vCe5XuT3An+Dm6g+ioV3oITQA4Hk2+cagsFDPwdY+0ld9ntJy6+5I/9BnXCXdxvCM5X1VfMeAt1i8PC4wNfiF7/wuHR8gwbCBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xeG/S8C2nbztHwYZfZ0eWBMLcqrBY9UsOCfrthgI5rQ=;
- b=b9dDPmScTXNkHwWipZJYUJC1uu7EUkLzHF1/Xdt3dNsNQ/yB4CaOQdU0bMfFdb2+LBdLdYSH5bCbFkAx1TpG5gpWqoFLAFI3qQ6APkP5wveiwkQzvcSgDvX55lVIQLG3dkLYgD70fS5kdtwjcj6nSnUqtKByBGXNyF1nrdcrFvU=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SN6PR12MB2815.namprd12.prod.outlook.com (2603:10b6:805:78::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20; Fri, 30 Apr
- 2021 16:11:00 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4065.033; Fri, 30 Apr 2021
- 16:11:00 +0000
-Subject: Re: [PATCH v5 15/27] drm/scheduler: Fix hang when sched_entity
- released
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-pci@vger.kernel.org, daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
-References: <20210428151207.1212258-1-andrey.grodzovsky@amd.com>
- <20210428151207.1212258-16-andrey.grodzovsky@amd.com>
- <a8314d77-578f-e0df-5c49-77d5f10c76c7@amd.com>
- <9cb771f2-d52f-f14e-f3d4-b9488b353ae3@amd.com>
- <0c598888-d7d4-451a-3d4a-01c46ddda397@gmail.com>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Message-ID: <a704880d-8e27-3cca-f42b-1320d39ac503@amd.com>
-Date: Fri, 30 Apr 2021 12:10:57 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <0c598888-d7d4-451a-3d4a-01c46ddda397@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2607:fea8:3edf:49b0:28bc:ce08:83b6:6c00]
-X-ClientProxiedBy: YT2PR01CA0022.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:38::27) To SN6PR12MB4623.namprd12.prod.outlook.com
- (2603:10b6:805:e9::17)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3718F6E4CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 16:27:55 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id j28so19302519edy.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 09:27:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oY9fC45Xsb0/sA4k49RVDS/k+0bknDFnLsF1idXp8j8=;
+ b=rNkbQSGjMwL2oTexW9E76gg30t7EioGtNbaFsOuWw0WwbQhT4VZN/YrFbMjW0ief/M
+ smWavaUUwmih7gMXfL3XakxRmjLqlLWlQUYztOA4p2ziItsXXw0wACUmOJQ4xa8uz7wW
+ CjNaj9Hv5i62ncNR16M5OMh4Vx3giiqZnK2lITUHeUJChgrCBmXMiYSMFEiwe9dTERte
+ txFXHSXZFvBYcG3vrGOpXXI21LzDoSvKSdEu9u8XxNbXmcaJq1AY4vlurfBQlF+1TrsI
+ lyMRngDcL8oGBKVQry3ydN7kmQMGnpCjNaG7Ap0PMt+Mi5c4kkK+F0eV0gJeXIN1hEm4
+ ip8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oY9fC45Xsb0/sA4k49RVDS/k+0bknDFnLsF1idXp8j8=;
+ b=Kvkj2l656KZMh+KnUzNw/WyIQhjA/EWRkj7aO29PHL+SvF/bregZWOMYV8CpBZtqGO
+ reZoTzfrMFN47LGcBUs8spxwci1Xeq5drCKpDWJjwyuVZ1iN0WPSujILMzWe0cCzyqiO
+ rnAJlu422A++cxsP718AeLp0LKaeU4B9egp7gh7gfDXvO+aemDE62fwg5tIcNwjRM6r5
+ 9N7CNOlmtbeaJ8mC7idBn7DnZoR4+ajE0kai1zqUUCbPgLPZyuAam1HHrbjLH70dHT21
+ 8KHruQNLSUzYmVGkkxz0+APYj6tO2crEFAe1cnr8biTi465FCRaxzlIUn7paDpiE++S1
+ z2qg==
+X-Gm-Message-State: AOAM531K4bJJ/Yj0ttjobpowSD2uuDi/a9rMFdKieUVx8kPXDtca0VZF
+ OqNBpZa2Pzw/yaWLAWI83MZX4FPdRcTCGF93b9DmcA==
+X-Google-Smtp-Source: ABdhPJy6qIEbR7qaVYJ8EhPjOGrLtktVA/pdTOy9kvrkZmdS6b7h8pvtXDIr0VQQNpdy7e7zjHwWKgP0vr9Iuc+G9A0=
+X-Received: by 2002:aa7:dd01:: with SMTP id i1mr6978207edv.232.1619800073660; 
+ Fri, 30 Apr 2021 09:27:53 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:28bc:ce08:83b6:6c00]
- (2607:fea8:3edf:49b0:28bc:ce08:83b6:6c00) by
- YT2PR01CA0022.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:38::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.25 via Frontend Transport; Fri, 30 Apr 2021 16:10:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d117d2b5-72ab-47ab-26f7-08d90bf28b45
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2815:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB2815664446CAACD9330BB40CEA5E9@SN6PR12MB2815.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zKiSQVLfbNd33BQ5yezNENgUrx9g1aEMotH2/GL0RSCnpo4I/t2F0VhuU+HO/743cmzd4H20ngpnyjz80MfgClmhk5udVG5gkkbf8bDYVuugAbwwJ9R9gan8sdrDVOuZZUDG4u0RD9wH9CelS/vcHort7c6T7qzdiE7FviRcgQwsJ7dM6FfRPt2gafxDs8AUkKWXsh7P10fTJ+W7KKaJtGDiSElAMgVY0KO+U8ffojvlkvQ7yBudq5vgK+oulAtgZkIwD51ZmECu98XCFHomwjw8d3vxObcN8H5EWS8ayrtRsR4Vl+jr3mVcuwF49F3E30bpBnu11x3v8w/nfJNsdiJwfaZRP9DPBnzxz1DCXIDG8eFNqL2KUT4xMWfHUjSsXC8NoR8k+g32n8xc68xs7focSk2CtEYB99NrhoS9+zQ1yI8u0QN8JlDynMhFz7yUoRGXaZL0eqfj3BDB5WIijuvUufq0z6b0HVwe0uG9Jr5pI03qqZ5D87QOmqM8JmNia+Fomc2fuTGnn77VyTBlnsQqWpEECZNYy5+07l1N0MrlRKckPN7Dbrzt00vBgbLPXVkhwcZGODJ/rQ8Mtj60U9oY9az64A6ConR+ihDlT1F7+xeSGe2dx+LjCvjabx9S6y200fP7YX9eNN9keysvyTgVvnxtZTipMps/tnx/GeoaCCgCo1LGIrqo1EBQaooP
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(136003)(346002)(366004)(39860400002)(66476007)(8676002)(66946007)(66574015)(66556008)(38100700002)(110136005)(31686004)(478600001)(53546011)(316002)(6486002)(36756003)(4326008)(86362001)(16526019)(186003)(52116002)(5660300002)(8936002)(83380400001)(6636002)(44832011)(2906002)(31696002)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bEZmVHk4MXVvMkVjUSthREUyYXNkVGtjV1hMbDlaYzQ4OG40L3BxUVJuNW04?=
- =?utf-8?B?ejFjeGNpUG43WWZpdVNUZ2xFMXBEN3RQWlIzQU5hWi9pL0Y2cVNEeXBNbDdr?=
- =?utf-8?B?b1E4TXhVSDV5bzBvTVpnaGNxWkhnTkswak5hcnpQMW8vcmkxZTgrUjBBTmQ1?=
- =?utf-8?B?V2RqcXBBWndjNVNWS3hPZWhWV3NJUUx3ZXI2VGtVc05PWERTWjVjY1hUZEo1?=
- =?utf-8?B?SU5mT2diaFRYOGM3L0x0a1cwNWQvU2xGdDcySEY4V01xZjJleUkwbDNvejR1?=
- =?utf-8?B?S0JqVG55RUx2eXZDVXR2M21nVlVObS9nNVNnNUdPbmtjMnlnenJoQUFJY0Q1?=
- =?utf-8?B?UktjOHlrVE02MmZhTnBBSFU0YUZRMjVwMHM2L24yZ2NrNi9DNTJMUndRODZz?=
- =?utf-8?B?Rk1Fb1RKMXVQcnFSaXFoRzQ2eFg0cXlzZVBhdi9TUlJSR01rWEFhZllIYmhY?=
- =?utf-8?B?U1BoeDgyOGY3Y3hCNWVCS2l3WFNNWkFvZDl5bjlRQU9JWTBDcHo5SmhKYUI0?=
- =?utf-8?B?dkdIUUk2YTRXcXlWUGF6cTJEQ243M2ZqeDBMM3NQNnU2UlRjMjN4c202U0tv?=
- =?utf-8?B?QUM2MFh5WVkvT2wreUYvQ2JIZmVJRWRHdnZhQlFUMkMxMGJWUTlJT1Y3QUNZ?=
- =?utf-8?B?NW0yVHBNOWw1Q1c3U1hrVEpRRG1RVnlTMGpGS3ZkL2hiWFFTR3dSVklocHI5?=
- =?utf-8?B?di9WUmpBQXJPMHRHRzBPRkh1N3BHQWtaRXlwWVlpejFYQXBScmx1VitOY2R5?=
- =?utf-8?B?Tk1ONkJOdkJZRUNPK25YUVkzTU9FUW1jVSsxL2dLb0JRYXJYY1VnYUR0c2FK?=
- =?utf-8?B?ODFieWRKZ0FhZjN4aEs4OG81a2hMUXgvMGZ0Ymd0NUl0cDliNnNGK0NvL25L?=
- =?utf-8?B?bGg4cUx0a1l4eDZBemc3Wmc0NE94QlQ3bDBkdkViRy9YNjlQWU1kKzY1UVc2?=
- =?utf-8?B?MmEveGlGOVc5K01uV1c0aisxSTZseG1JUXhYUVBpWHpGNkt2K0t3aGJVUjlH?=
- =?utf-8?B?U1Q5bmZjVEFWcmJPald4ZWVtNSt0R2ErZ3Q5ZXMzczVSa1lLTzRORDlDdUhG?=
- =?utf-8?B?SGJKN3FJSDYxQkxMQWwvOW40WjhzZDBxOUpXWEVQNFkvd1EwYklISmFLQjNs?=
- =?utf-8?B?VTVqY1NzYjNGMVl5dDhMaDVVRGFDKzJxVUtRcEpLTStJeVBReW1HTXoreFg2?=
- =?utf-8?B?bTVKaGNObGtneVF5ZGRKVTg5YnNjNU9lSlJxNVVkcGRLOUZCZkZwbVM0dWhO?=
- =?utf-8?B?YXRJOHlicmpIdFIxMHdiVVdHRDJTYmFoRG44aGQ0ZmdPMEFLWmdMVWRtVTBO?=
- =?utf-8?B?RVNjdnFZRmUxdHE3MDBTMWEvVnJTYW84ZzA4bUpQM3BZZEFmdUlQM0hJQll6?=
- =?utf-8?B?RlJseHlBU3RVZVhhSmJjYitmWlBwLzQ4aGxBTUdxZmxkSUtHbHppWUZEYm1w?=
- =?utf-8?B?Q3JTOGoyWTQzWWpraWYzTG9qR0xwV25NZlpWd2RBZ2hqWVNZRmdDRkxqM0Ev?=
- =?utf-8?B?enU4UENCeTlvZXlobXFjeGpiWC84djhOUWZhSG9BREZpU2F1ZkZ1aXNoV1hK?=
- =?utf-8?B?aFcrdUEvV29uY3pmZVo2alNCRDJ1YVBWYjNsczR2QzJJazhKdDF4aGZaaHZD?=
- =?utf-8?B?Ukh6eUd1S05BbXh0WGx5R1Ztb0t1emJvU1hYV1loUm93R2FLWnVkNDh2VnV4?=
- =?utf-8?B?Z2dKcjRzdEFBbFp4cTBsUVI5K1JDOHdvQ2R5aVJTZHFieGFnMnRjczROQnpG?=
- =?utf-8?B?WUIrRlpBUlY1TDd1ZWhaSmpqUGRLVFBHNEh4anZZRTIyeTJPY3pEZ0JCQWQz?=
- =?utf-8?B?ZWszMk5qbVpjOEgranZIL0ZmMXNSTnpZSWtrLy9nU3NjcXh4MjJicHN2c2xy?=
- =?utf-8?Q?+1OzJIBVv8X91?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d117d2b5-72ab-47ab-26f7-08d90bf28b45
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2021 16:10:59.9100 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tqq1363qkyYf1wr7aRUhGSVqLGLy/eJafNsi/EnnvLbhzKswtsGObASrN5yLAgZFTmANBpY7Ci9FPnclHsCfsw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2815
+References: <20210423223131.879208-1-jason@jlekstrand.net>
+ <20210423223131.879208-17-jason@jlekstrand.net>
+ <YIrWB3fX3TseroSh@phenom.ffwll.local>
+ <CAOFGe97b_LSGfrLo3LBhBuvx8wduVJLf0ySC=gG7Z+L6v2dPzQ@mail.gmail.com>
+ <YIsBSRwNGiiF/kxE@phenom.ffwll.local>
+ <CAOFGe97qi=jB+MGPtJyX-QYmjvTe2QPeijsNCeJ2z+E19x6ZNg@mail.gmail.com>
+ <YIsD8OSFdLnjz5cL@phenom.ffwll.local>
+ <CAOFGe96DXzFVX77f5qVMrCzJq2Cuco1pOyCfYmo_1v6rmxpMKg@mail.gmail.com>
+ <CAKMK7uGzAGDS97hoj0xjzw8EJoPZazsLF=wxUz90cswjPSHthQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uGzAGDS97hoj0xjzw8EJoPZazsLF=wxUz90cswjPSHthQ@mail.gmail.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Fri, 30 Apr 2021 11:27:42 -0500
+Message-ID: <CAOFGe94EQ5Q61FPwJgnv8Y5DpMhvaDGSxTjBwm2T7mXHX9fkOQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 16/21] drm/i915/gem: Delay context creation
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,105 +69,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org, helgaas@kernel.org,
- Felix.Kuehling@amd.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiAyMDIxLTA0LTMwIDI6NDcgYS5tLiwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiAKPiAK
-PiBBbSAyOS4wNC4yMSB1bSAxOTowNiBzY2hyaWViIEFuZHJleSBHcm9kem92c2t5Ogo+Pgo+Pgo+
-PiBPbiAyMDIxLTA0LTI5IDM6MTggYS5tLiwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4+IEkg
-bmVlZCB0byB0YWtlIGFub3RoZXIgbG9vayBhdCB0aGlzIHBhcnQgd2hlbiBJIGRvbid0IGhhdmUg
-YSBtYXNzaXZlIAo+Pj4gaGVhZGFjaGUgYW55IG1vcmUuCj4+Pgo+Pj4gTWF5YmUgc3BsaXQgdGhl
-IHBhdGNoIHNldCB1cCBpbnRvIGRpZmZlcmVudCBwYXJ0cywgc29tZXRoaW5nIGxpa2U6Cj4+PiAx
-LiBBZGRpbmcgZ2VuZXJhbCBpbmZyYXN0cnVjdHVyZS4KPj4+IDIuIE1ha2luZyBzdXJlIGFsbCBt
-ZW1vcnkgaXMgdW5wb2xhdGVkLgo+Pj4gMy4gSm9iIGFuZCBmZW5jZSBoYW5kbGluZwo+Pgo+PiBJ
-IGFtIG5vdCBzdXJlIHlvdSBtZWFuIHRoaXMgcGF0Y2ggaGVyZSwgbWF5YmUgYW5vdGhlciBvbmUg
-Pwo+PiBBbHNvIG5vdGUgeW91IGFscmVhZHkgUkJlZCBpdC4KPiAKPiBObyB3aGF0IEkgbWVhbnQg
-d2FzIHRvIHNlbmQgb3V0IHRoZSBwYXRjaGVzIGJlZm9yZSB0aGlzIG9uZSBhcyAjMSBhbmQgIzIu
-Cj4gCj4gVGhhdCBpcyB0aGUgZWFzaWVyIHN0dWZmIHdoaWNoIGNhbiBlYXNpbHkgZ28gaW50byB0
-aGUgZHJtLW1pc2MtbmV4dCBvciAKPiBhbWQtc3RhZ2luZy1kcm0tbmV4dCBicmFuY2guCj4gCj4g
-VGhlIHNjaGVkdWxlciBzdHVmZiBjZXJ0YWlubHkgbmVlZCB0byBnbyBpbnRvIGRybS1taXNjLW5l
-eHQuCj4gCj4gQ2hyaXN0aWFuLgoKR290IHlvdS4gSSBhbSBmaW5lIHdpdGggaXQuIFdoYXQgd2Ug
-aGF2ZSBoZXJlIGlzIGEgd29ya2luZyBob3QtdW5wbHVnCmNvZGUgYnV0LCBvbmUgd2l0aCBwb3Rl
-bnRpYWwgdXNlIGFmdGVyIGZyZWUgTU1JTyByYW5nZXMgZnJwb20gdGhlIHpvbWJpZQpkZXZpY2Uu
-IFRoZSBmb2xsb3d1cCBwYXRjaGVzIGFmdGVyIHRoaXMgcGF0Y2ggYXJlIGFsbCBhYm91dCBwcmV2
-ZW50aW5nCnRoaXMgYW5kIHNvIHRoZSBwYXRjaC1zZXQgdXAgdW50aWwgdGhpcyBwYXRjaCBpbmNs
-dWRpbmcsIGlzIGZ1bmN0aW9uYWwKb24gaXQncyBvd24uIFdoaWxlIGl0J3MgbmVjZXNzYXJ5IHRv
-IHNvbHZlIHRoZSBhYm92ZSBpc3N1ZSwgaXQncyBoYXMKY29tcGxpY2F0aW9ucyBhcyBjYW4gYmUg
-c2VlbiBmcm9tIHRoZSBkaXNjdXNzaW9uIHdpdGggRGFuaWVsIG9uIGxhdGVyCnBhdGNoIGluIHRo
-aXMgc2VyaWVzLiBTdGlsbCwgaW4gbXkgb3BpbmlvbiBpdCdzIGJldHRlciB0byByb2xsb3V0IHNv
-bWUKaW5pdGlhbCBzdXBwb3J0IHRvIGhvdC11bnBsdWcgd2l0aG91dCB1c2UgYWZ0ZXIgZnJlZSBw
-cm90ZWN0aW9uIHRoZW4KaGF2aW5nIG5vIHN1cHBvcnQgZm9yIGhvdC11bnBsdWcgYXQgYWxsLiBJ
-dCB3aWxsIGFsc28gbWFrZSB0aGUgbWVyZ2UKd29yayBlYXNpZXIgYXMgSSBuZWVkIHRvIGNvbnN0
-YW50bHkgcmViYXNlIHRoZSBwYXRjaGVzIG9uIHRvcCBsYXRlc3QKa2VybmVsIGFuZCBzb2x2ZSBu
-ZXcgcmVncmVzc2lvbnMuCgpEYW5pZWwgLSBnaXZlbiB0aGUgYXJndW1lbnRzIGFib3ZlIGNhbiB5
-b3Ugc291bmQgeW91ciBvcGluaW9uIG9uIHRoaXMKYXBwcm9hY2ggPwoKQW5kcmV5Cj4gCj4+Cj4+
-IEFuZHJleQo+Pgo+Pj4KPj4+IENocmlzdGlhbi4KPj4+Cj4+PiBBbSAyOC4wNC4yMSB1bSAxNzox
-MSBzY2hyaWViIEFuZHJleSBHcm9kem92c2t5Ogo+Pj4+IFByb2JsZW06IElmIHNjaGVkdWxlciBp
-cyBhbHJlYWR5IHN0b3BwZWQgYnkgdGhlIHRpbWUgc2NoZWRfZW50aXR5Cj4+Pj4gaXMgcmVsZWFz
-ZWQgYW5kIGVudGl0eSdzIGpvYl9xdWV1ZSBub3QgZW1wdHkgSSBlbmNvdW50cmVkCj4+Pj4gYSBo
-YW5nIGluIGRybV9zY2hlZF9lbnRpdHlfZmx1c2guIFRoaXMgaXMgYmVjYXVzZSAKPj4+PiBkcm1f
-c2NoZWRfZW50aXR5X2lzX2lkbGUKPj4+PiBuZXZlciBiZWNvbWVzIGZhbHNlLgo+Pj4+Cj4+Pj4g
-Rml4OiBJbiBkcm1fc2NoZWRfZmluaSBkZXRhY2ggYWxsIHNjaGVkX2VudGl0aWVzIGZyb20gdGhl
-Cj4+Pj4gc2NoZWR1bGVyJ3MgcnVuIHF1ZXVlcy4gVGhpcyB3aWxsIHNhdGlzZnkgZHJtX3NjaGVk
-X2VudGl0eV9pc19pZGxlLgo+Pj4+IEFsc28gd2FrZXVwIGFsbCB0aG9zZSBwcm9jZXNzZXMgc3R1
-Y2sgaW4gc2NoZWRfZW50aXR5IGZsdXNoaW5nCj4+Pj4gYXMgdGhlIHNjaGVkdWxlciBtYWluIHRo
-cmVhZCB3aGljaCB3YWtlcyB0aGVtIHVwIGlzIHN0b3BwZWQgYnkgbm93Lgo+Pj4+Cj4+Pj4gdjI6
-Cj4+Pj4gUmV2ZXJzZSBvcmRlciBvZiBkcm1fc2NoZWRfcnFfcmVtb3ZlX2VudGl0eSBhbmQgbWFy
-a2luZwo+Pj4+IHNfZW50aXR5IGFzIHN0b3BwZWQgdG8gcHJldmVudCByZWluc2VyaW9uIGJhY2sg
-dG8gcnEgZHVlCj4+Pj4gdG8gcmFjZS4KPj4+Pgo+Pj4+IHYzOgo+Pj4+IERyb3AgZHJtX3NjaGVk
-X3JxX3JlbW92ZV9lbnRpdHksIG9ubHkgbW9kaWZ5IGVudGl0eS0+c3RvcHBlZAo+Pj4+IGFuZCBj
-aGVjayBmb3IgaXQgaW4gZHJtX3NjaGVkX2VudGl0eV9pc19pZGxlCj4+Pj4KPj4+PiBTaWduZWQt
-b2ZmLWJ5OiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5Lmdyb2R6b3Zza3lAYW1kLmNvbT4KPj4+
-PiBSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
-Pgo+Pj4+IC0tLQo+Pj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfZW50aXR5
-LmMgfMKgIDMgKystCj4+Pj4gwqAgZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWlu
-LmPCoMKgIHwgMjQgCj4+Pj4gKysrKysrKysrKysrKysrKysrKysrKysrCj4+Pj4gwqAgMiBmaWxl
-cyBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4+Pj4KPj4+PiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9lbnRpdHkuYyAKPj4+PiBi
-L2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfZW50aXR5LmMKPj4+PiBpbmRleCBmMDc5
-MGU5NDcxZDEuLmNiNThmNjkyZGFkOSAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-c2NoZWR1bGVyL3NjaGVkX2VudGl0eS5jCj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVk
-dWxlci9zY2hlZF9lbnRpdHkuYwo+Pj4+IEBAIC0xMTYsNyArMTE2LDggQEAgc3RhdGljIGJvb2wg
-ZHJtX3NjaGVkX2VudGl0eV9pc19pZGxlKHN0cnVjdCAKPj4+PiBkcm1fc2NoZWRfZW50aXR5ICpl
-bnRpdHkpCj4+Pj4gwqDCoMKgwqDCoCBybWIoKTsgLyogZm9yIGxpc3RfZW1wdHkgdG8gd29yayB3
-aXRob3V0IGxvY2sgKi8KPj4+PiDCoMKgwqDCoMKgIGlmIChsaXN0X2VtcHR5KCZlbnRpdHktPmxp
-c3QpIHx8Cj4+Pj4gLcKgwqDCoMKgwqDCoMKgIHNwc2NfcXVldWVfY291bnQoJmVudGl0eS0+am9i
-X3F1ZXVlKSA9PSAwKQo+Pj4+ICvCoMKgwqDCoMKgwqDCoCBzcHNjX3F1ZXVlX2NvdW50KCZlbnRp
-dHktPmpvYl9xdWV1ZSkgPT0gMCB8fAo+Pj4+ICvCoMKgwqDCoMKgwqDCoCBlbnRpdHktPnN0b3Bw
-ZWQpCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiB0cnVlOwo+Pj4+IMKgwqDCoMKgwqAg
-cmV0dXJuIGZhbHNlOwo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVy
-L3NjaGVkX21haW4uYyAKPj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFp
-bi5jCj4+Pj4gaW5kZXggOTA4YjBiNTYwMzJkLi5iYTA4NzM1NGQwYTggMTAwNjQ0Cj4+Pj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKPj4+PiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYwo+Pj4+IEBAIC04OTcsOSArODk3LDMz
-IEBAIEVYUE9SVF9TWU1CT0woZHJtX3NjaGVkX2luaXQpOwo+Pj4+IMKgwqAgKi8KPj4+PiDCoCB2
-b2lkIGRybV9zY2hlZF9maW5pKHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQpCj4+Pj4g
-wqAgewo+Pj4+ICvCoMKgwqAgc3RydWN0IGRybV9zY2hlZF9lbnRpdHkgKnNfZW50aXR5Owo+Pj4+
-ICvCoMKgwqAgaW50IGk7Cj4+Pj4gKwo+Pj4+IMKgwqDCoMKgwqAgaWYgKHNjaGVkLT50aHJlYWQp
-Cj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIGt0aHJlYWRfc3RvcChzY2hlZC0+dGhyZWFkKTsKPj4+
-PiArwqDCoMKgIGZvciAoaSA9IERSTV9TQ0hFRF9QUklPUklUWV9DT1VOVCAtIDE7IGkgPj0gCj4+
-Pj4gRFJNX1NDSEVEX1BSSU9SSVRZX01JTjsgaS0tKSB7Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIHN0
-cnVjdCBkcm1fc2NoZWRfcnEgKnJxID0gJnNjaGVkLT5zY2hlZF9ycVtpXTsKPj4+PiArCj4+Pj4g
-K8KgwqDCoMKgwqDCoMKgIGlmICghcnEpCj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29u
-dGludWU7Cj4+Pj4gKwo+Pj4+ICvCoMKgwqDCoMKgwqDCoCBzcGluX2xvY2soJnJxLT5sb2NrKTsK
-Pj4+PiArwqDCoMKgwqDCoMKgwqAgbGlzdF9mb3JfZWFjaF9lbnRyeShzX2VudGl0eSwgJnJxLT5l
-bnRpdGllcywgbGlzdCkKPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKgo+Pj4+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBQcmV2ZW50cyByZWluc2VydGlvbiBhbmQgbWFya3Mgam9i
-X3F1ZXVlIGFzIGlkbGUsCj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIGl0IHdpbGwg
-cmVtb3ZlZCBmcm9tIHJxIGluIGRybV9zY2hlZF9lbnRpdHlfZmluaQo+Pj4+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgKiBldmVudHVhbGx5Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAqLwo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNfZW50aXR5LT5zdG9wcGVkID0gdHJ1
-ZTsKPj4+PiArwqDCoMKgwqDCoMKgwqAgc3Bpbl91bmxvY2soJnJxLT5sb2NrKTsKPj4+PiArCj4+
-Pj4gK8KgwqDCoCB9Cj4+Pj4gKwo+Pj4+ICvCoMKgwqAgLyogV2FrZXVwIGV2ZXJ5b25lIHN0dWNr
-IGluIGRybV9zY2hlZF9lbnRpdHlfZmx1c2ggZm9yIHRoaXMgCj4+Pj4gc2NoZWR1bGVyICovCj4+
-Pj4gK8KgwqDCoCB3YWtlX3VwX2FsbCgmc2NoZWQtPmpvYl9zY2hlZHVsZWQpOwo+Pj4+ICsKPj4+
-PiDCoMKgwqDCoMKgIC8qIENvbmZpcm0gbm8gd29yayBsZWZ0IGJlaGluZCBhY2Nlc3NpbmcgZGV2
-aWNlIHN0cnVjdHVyZXMgKi8KPj4+PiDCoMKgwqDCoMKgIGNhbmNlbF9kZWxheWVkX3dvcmtfc3lu
-Yygmc2NoZWQtPndvcmtfdGRyKTsKPj4+Cj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Apr 30, 2021 at 1:53 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Apr 29, 2021 at 11:35 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+> >
+> > On Thu, Apr 29, 2021 at 2:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Thu, Apr 29, 2021 at 02:01:16PM -0500, Jason Ekstrand wrote:
+> > > > On Thu, Apr 29, 2021 at 1:56 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > On Thu, Apr 29, 2021 at 01:16:04PM -0500, Jason Ekstrand wrote:
+> > > > > > On Thu, Apr 29, 2021 at 10:51 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > > > +     ret = set_proto_ctx_param(file_priv, pc, args);
+> > > > > > >
+> > > > > > > I think we should have a FIXME here of not allowing this on some future
+> > > > > > > platforms because just use CTX_CREATE_EXT.
+> > > > > >
+> > > > > > Done.
+> > > > > >
+> > > > > > > > +     if (ret == -ENOTSUPP) {
+> > > > > > > > +             /* Some params, specifically SSEU, can only be set on fully
+> > > > > > >
+> > > > > > > I think this needs a FIXME: that this only holds during the conversion?
+> > > > > > > Otherwise we kinda have a bit a problem me thinks ...
+> > > > > >
+> > > > > > I'm not sure what you mean by that.
+> > > > >
+> > > > > Well I'm at least assuming that we wont have this case anymore, i.e.
+> > > > > there's only two kinds of parameters:
+> > > > > - those which are valid only on proto context
+> > > > > - those which are valid on both (like priority)
+> > > > >
+> > > > > This SSEU thing looks like a 3rd parameter, which is only valid on
+> > > > > finalized context. That feels all kinds of wrong. Will it stay? If yes
+> > > > > *ugh* and why?
+> > > >
+> > > > Because I was being lazy.  The SSEU stuff is a fairly complex param to
+> > > > parse and it's always set live.  I can factor out the SSEU parsing
+> > > > code if you want and it shouldn't be too bad in the end.
+> > >
+> > > Yeah I think the special case here is a bit too jarring.
+> >
+> > I rolled a v5 that allows you to set SSEU as a create param.  I'm not
+> > a huge fan of that much code duplication for the SSEU set but I guess
+> > that's what we get for deciding to "unify" our context creation
+> > parameter path with our on-the-fly parameter path....
+> >
+> > You can look at it here:
+> >
+> > https://gitlab.freedesktop.org/jekstrand/linux/-/commit/c805f424a3374b2de405b7fc651eab551df2cdaf#474deb1194892a272db022ff175872d42004dfda_283_588
+>
+> Hm yeah the duplication of the render engine check is a bit annoying.
+> What's worse, if you tthrow another set_engines on top it's probably
+> all wrong then. The old thing solved that by just throwing that
+> intel_context away.
+
+I think that's already mostly taken care of.  When set_engines
+happens, we throw away the old array of engines and start with a new
+one where everything has been memset to 0.  The one remaining problem
+is that, if userspace resets the engine set, we need to memset
+legacy_rcs_sseu to 0.  I've added that.
+
+> You're also not keeping the engine id in the proto ctx for this, so
+> there's probably some gaps there. We'd need to clear the SSEU if
+> userspace puts another context there. But also no userspace does that.
+
+Again, I think that's handled.  See above.
+
+> Plus cursory review of userspace show
+> - mesa doesn't set this
+> - compute sets its right before running the batch
+> - media sets it as the last thing of context creation
+>
+> So it's kinda not needed. But also we're asking umd to switch over to
+> CTX_CREATE_EXT, and if sseu doesn't work for that media team will be
+> puzzled. And we've confused them enough already with our uapis.
+>
+> Another idea: proto_set_sseu just stores the uapi struct and a note
+> that it's set, and checks nothing. To validate sseu on proto context
+> we do (but only when an sseu parameter is set):
+> 1. finalize the context
+> 2. call the real set_sseu for validation
+> 3. throw the finalized context away again, it was just for validating
+> the overall thing
+>
+> That way we don't have to consider all the interactions of setting
+> sseu and engines in any order on proto context, validation code is
+> guaranteed shared. Only downside is that there's a slight chance in
+> behaviour: SSEU, then setting another engine in that slot will fail
+> instead of throwing the sseu parameters away. That's the right thing
+> for CTX_CREATE_EXT anyway, and current userspace doesn't care.
+>
+> Thoughts?
+
+I thought about that.  The problem is that they can set_sseu multiple
+times on different engines.  This means we'd have to effectively build
+up an arbitrary list of SSEU set operations and replay it.  I'm not
+sure how I feel about building up a big data structure.
+
+> > I'm also going to send it to trybot.
+>
+> If you resend pls include all my r-b, I think some got lost in v4.
+
+I'll try and dig those up.
+
+> Also, in the kernel at least we expect minimal commit message with a
+> bit of context, there's no Part-of: link pointing at the entire MR
+> with overview and discussion, the patchwork Link: we add is a pretty
+> bad substitute. Some of the new patches in v4 are a bit too terse on
+> that.
+
+Yup.  I can try to expand things a bit more.
+
+> And finally I'm still not a big fan of the add/remove split over
+> patches, but oh well.
+
+I'm not either but working through all this reminded me of why I
+didn't do it more gradual.  The problem is ordering.  If add and
+remove at the same time and do it one param at a time, we'll end up
+with a situation in the middle where some params will only be allowed
+to be set on the proto-ctx and others will force a proto-ctx ->
+context conversion.  If, for instance, one UMD sets engines first and
+then VMs and another sets VMs first and then engines, there's no way
+to do a gradual transition without breaking one of them.  Also, we
+need to handle basically all the setparam complexity in order to
+handle creation structs and, again, those can come in any order.
+
+I hate it, I just don't see another way. :-(
+
+--Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
