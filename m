@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204E036FF2F
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 19:08:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E55936FF4C
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 19:14:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAFAC6F570;
-	Fri, 30 Apr 2021 17:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3506F576;
+	Fri, 30 Apr 2021 17:14:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2950A6F572
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 17:08:14 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id e25so40679855oii.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 10:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Gfr5lVaI0bCQzTUtkPp3EpnOpb/pstDHaEYjSd2cpb4=;
- b=FmSNaVu8p9lUNXuJg9uSm0S21EVx/AYi1+ThHQLbgDLpPBWNokcZouXSR4lgusDSU7
- BXmJj7LiC6vMqweSXsbBf1jxgcEJlwexxQ0/LVepV9T3TDY4nxJe5LEb50N40b9xu+XJ
- 0ex4Nx8Wqkw9d8DoMzTWSIlpW3NnMY5a+T1A0=
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9BDB6F573;
+ Fri, 30 Apr 2021 17:14:10 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id e2so32640907plh.8;
+ Fri, 30 Apr 2021 10:14:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ruRmdj//+BrtUTRZyXXenuD+b8S/L8NONyW8idiiQuk=;
+ b=Ub8kSGGmxhpGXKFXcqsHa6ydl4thXJFh+bzi40S1hfj/bv9cckLfwspKB85RLYBVMG
+ nSody6AIH4eP3yjzJErq+smvpAvJoQTxxLo7AXCTyMdtaKNBTIolxDZTk3z3DvGi0/jW
+ 9peJujZYZVVBDqcRqCoYs+VKV9hvy2Y/oNZVTvlh3xaA2SkRe0UBE4kueab13d/Kj6aw
+ sKD1wbbxn/vBOIrRIp5TaWXd42GtCgwjEVVnmjAjbSrG6w/LI1WdVCMf2C4N2FdT793H
+ 8l7JFGKJindN17KCychIFimTUVbN7x6xR5gIoePqZysbiA7j4SM8zJAW4mTwVBil/dqP
+ 2ZZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Gfr5lVaI0bCQzTUtkPp3EpnOpb/pstDHaEYjSd2cpb4=;
- b=Y48LLXMUvF9zPaOOrTbyFTo2bZ4sicIN+fngXHgJi7bz9gEIr8i6pU+8GhT3yUBEVC
- 51YTsvh8Z439+gonrcvPr5s6QGYxj8HRXkJfR5CZcruh/a7zYnYmcRIjG6T6pQ0e9o5x
- Or6JUddZWj93McHBocblgjFZjvVfxwDynYTBLT2gjVhLnBHh3bEZAEVLjDr1s1bXycV6
- 5aBedJrX+F9n6DCgwGIB1Lg2Bxnkzp8AOED7elYSxjC7oaZQonpnBIseGqnHCXdaqjo2
- aSRAD4xWmTnmt+moIZibpYjMDsY8aps/ZfT3iB0RS4Wr7m72OUy6VJntLoP/T3N+iIsb
- jvsg==
-X-Gm-Message-State: AOAM533EnAHEs2MO4hloHDYwReFBXzYwc30bvs1m2ymD3ZUSj5me9qTX
- WygHHyUnwXUoXZgJtTBVv6yMRK0xCchLZhVTUJt0F8c+5Ls=
-X-Google-Smtp-Source: ABdhPJxxUYtkFx761unOTwxTUxor41KzlCnpQl8tEQRMqSWZ9XKACpDWNC6oRwYDolCfHXri1b9kQlHwc8rK6QrqDis=
-X-Received: by 2002:aca:2219:: with SMTP id b25mr11130209oic.14.1619802493252; 
- Fri, 30 Apr 2021 10:08:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ruRmdj//+BrtUTRZyXXenuD+b8S/L8NONyW8idiiQuk=;
+ b=nQoHYu3uMEupdeEOLvyG4t9oshn9dgBZAJQFTQn4fg1c5uGYMUTU6jWdFBrSHopZWD
+ vbwH8yj2LnR98n5vJEOtaCj4S5dNZZxTkUtZx/LCmOzI7rgKx6N5OgAQP0VB1N5n/Sbl
+ 0GawLG9RaatSkcfIqai6BBO1HzfpHzBkVcv1oC3+XlBrn1DoRA3XPq5NJ9eQ3JVmG1M/
+ ByFV7AII//Gw0VoJ9113KBpOGESfB9EwE1Ve69sWi0/JbYztx0gyenoMtCrDZrZMDy14
+ b/j5z3f4hmMFjR3Z2lMoB9XrWpfnxgq7LvSDi4YIT5WCcbSYxDRfUwV34IP1egPiWrqG
+ 7Uog==
+X-Gm-Message-State: AOAM530pRNXzgFLfPc2M8lv6byjOUjUcaFuaD88gCfCI8C5DeFE64oHr
+ N5bdDvef9RGSaV25sNsWw3iDEvdzFRw=
+X-Google-Smtp-Source: ABdhPJz+cZSHpX+PdTPhqIGtB2aPmDQ09HYhfW+2OH0h0BJgZA7/+WE+RaHv6jFvAEEk7KDeC/BV5Q==
+X-Received: by 2002:a17:902:b609:b029:ec:e80d:7ebd with SMTP id
+ b9-20020a170902b609b02900ece80d7ebdmr6252857pls.75.1619802849785; 
+ Fri, 30 Apr 2021 10:14:09 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id b13sm2878096pjl.38.2021.04.30.10.14.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Apr 2021 10:14:08 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/dpu: Delete bonkers code
+Date: Fri, 30 Apr 2021 10:17:39 -0700
+Message-Id: <20210430171744.1721408-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-17-jason@jlekstrand.net>
- <YIrWB3fX3TseroSh@phenom.ffwll.local>
- <CAOFGe97b_LSGfrLo3LBhBuvx8wduVJLf0ySC=gG7Z+L6v2dPzQ@mail.gmail.com>
- <YIsBSRwNGiiF/kxE@phenom.ffwll.local>
- <CAOFGe97qi=jB+MGPtJyX-QYmjvTe2QPeijsNCeJ2z+E19x6ZNg@mail.gmail.com>
- <YIsD8OSFdLnjz5cL@phenom.ffwll.local>
- <CAOFGe96DXzFVX77f5qVMrCzJq2Cuco1pOyCfYmo_1v6rmxpMKg@mail.gmail.com>
- <CAKMK7uGzAGDS97hoj0xjzw8EJoPZazsLF=wxUz90cswjPSHthQ@mail.gmail.com>
- <CAOFGe94EQ5Q61FPwJgnv8Y5DpMhvaDGSxTjBwm2T7mXHX9fkOQ@mail.gmail.com>
- <CAKMK7uEnoM5CpCA8x0RiBH2F3WJSBz6pANVdZFdWfejL1ARDvA@mail.gmail.com>
- <CAOFGe94m503Pz7JV_OqHaMkPxkED1ZB_p-hzDU9Zoe-_9r71ow@mail.gmail.com>
-In-Reply-To: <CAOFGe94m503Pz7JV_OqHaMkPxkED1ZB_p-hzDU9Zoe-_9r71ow@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 30 Apr 2021 19:08:02 +0200
-Message-ID: <CAKMK7uFSft5K73cqjA60FfmGz_c8Ch7b6i3+ZrzxCSYoFTv8Vw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 16/21] drm/i915/gem: Delay context creation
-To: Jason Ekstrand <jason@jlekstrand.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,202 +65,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Stephen Boyd <sboyd@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Hongbo Yao <yaohongbo@huawei.com>, open list <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ David Airlie <airlied@linux.ie>, Qinglang Miao <miaoqinglang@huawei.com>,
+ Maxime Ripard <maxime@cerno.tech>, Kalyan Thota <kalyan_t@codeaurora.org>,
+ Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 30, 2021 at 6:57 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
->
-> On Fri, Apr 30, 2021 at 11:33 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Fri, Apr 30, 2021 at 6:27 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
-> > >
-> > > On Fri, Apr 30, 2021 at 1:53 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Thu, Apr 29, 2021 at 11:35 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
-> > > > >
-> > > > > On Thu, Apr 29, 2021 at 2:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > >
-> > > > > > On Thu, Apr 29, 2021 at 02:01:16PM -0500, Jason Ekstrand wrote:
-> > > > > > > On Thu, Apr 29, 2021 at 1:56 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > > On Thu, Apr 29, 2021 at 01:16:04PM -0500, Jason Ekstrand wrote:
-> > > > > > > > > On Thu, Apr 29, 2021 at 10:51 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > > > > > +     ret = set_proto_ctx_param(file_priv, pc, args);
-> > > > > > > > > >
-> > > > > > > > > > I think we should have a FIXME here of not allowing this on some future
-> > > > > > > > > > platforms because just use CTX_CREATE_EXT.
-> > > > > > > > >
-> > > > > > > > > Done.
-> > > > > > > > >
-> > > > > > > > > > > +     if (ret == -ENOTSUPP) {
-> > > > > > > > > > > +             /* Some params, specifically SSEU, can only be set on fully
-> > > > > > > > > >
-> > > > > > > > > > I think this needs a FIXME: that this only holds during the conversion?
-> > > > > > > > > > Otherwise we kinda have a bit a problem me thinks ...
-> > > > > > > > >
-> > > > > > > > > I'm not sure what you mean by that.
-> > > > > > > >
-> > > > > > > > Well I'm at least assuming that we wont have this case anymore, i.e.
-> > > > > > > > there's only two kinds of parameters:
-> > > > > > > > - those which are valid only on proto context
-> > > > > > > > - those which are valid on both (like priority)
-> > > > > > > >
-> > > > > > > > This SSEU thing looks like a 3rd parameter, which is only valid on
-> > > > > > > > finalized context. That feels all kinds of wrong. Will it stay? If yes
-> > > > > > > > *ugh* and why?
-> > > > > > >
-> > > > > > > Because I was being lazy.  The SSEU stuff is a fairly complex param to
-> > > > > > > parse and it's always set live.  I can factor out the SSEU parsing
-> > > > > > > code if you want and it shouldn't be too bad in the end.
-> > > > > >
-> > > > > > Yeah I think the special case here is a bit too jarring.
-> > > > >
-> > > > > I rolled a v5 that allows you to set SSEU as a create param.  I'm not
-> > > > > a huge fan of that much code duplication for the SSEU set but I guess
-> > > > > that's what we get for deciding to "unify" our context creation
-> > > > > parameter path with our on-the-fly parameter path....
-> > > > >
-> > > > > You can look at it here:
-> > > > >
-> > > > > https://gitlab.freedesktop.org/jekstrand/linux/-/commit/c805f424a3374b2de405b7fc651eab551df2cdaf#474deb1194892a272db022ff175872d42004dfda_283_588
-> > > >
-> > > > Hm yeah the duplication of the render engine check is a bit annoying.
-> > > > What's worse, if you tthrow another set_engines on top it's probably
-> > > > all wrong then. The old thing solved that by just throwing that
-> > > > intel_context away.
-> > >
-> > > I think that's already mostly taken care of.  When set_engines
-> > > happens, we throw away the old array of engines and start with a new
-> > > one where everything has been memset to 0.  The one remaining problem
-> > > is that, if userspace resets the engine set, we need to memset
-> > > legacy_rcs_sseu to 0.  I've added that.
-> > >
-> > > > You're also not keeping the engine id in the proto ctx for this, so
-> > > > there's probably some gaps there. We'd need to clear the SSEU if
-> > > > userspace puts another context there. But also no userspace does that.
-> > >
-> > > Again, I think that's handled.  See above.
-> > >
-> > > > Plus cursory review of userspace show
-> > > > - mesa doesn't set this
-> > > > - compute sets its right before running the batch
-> > > > - media sets it as the last thing of context creation
-> > > >
-> > > > So it's kinda not needed. But also we're asking umd to switch over to
-> > > > CTX_CREATE_EXT, and if sseu doesn't work for that media team will be
-> > > > puzzled. And we've confused them enough already with our uapis.
-> > > >
-> > > > Another idea: proto_set_sseu just stores the uapi struct and a note
-> > > > that it's set, and checks nothing. To validate sseu on proto context
-> > > > we do (but only when an sseu parameter is set):
-> > > > 1. finalize the context
-> > > > 2. call the real set_sseu for validation
-> > > > 3. throw the finalized context away again, it was just for validating
-> > > > the overall thing
-> > > >
-> > > > That way we don't have to consider all the interactions of setting
-> > > > sseu and engines in any order on proto context, validation code is
-> > > > guaranteed shared. Only downside is that there's a slight chance in
-> > > > behaviour: SSEU, then setting another engine in that slot will fail
-> > > > instead of throwing the sseu parameters away. That's the right thing
-> > > > for CTX_CREATE_EXT anyway, and current userspace doesn't care.
-> > > >
-> > > > Thoughts?
-> > >
-> > > I thought about that.  The problem is that they can set_sseu multiple
-> > > times on different engines.  This means we'd have to effectively build
-> > > up an arbitrary list of SSEU set operations and replay it.  I'm not
-> > > sure how I feel about building up a big data structure.
-> >
-> > Hm, but how does this work with proto ctx then? I've only seen a
-> > single sseu param set in the patch you linked.
->
-> It works roughly the same as it works now:
->
->  - If set_sseu is called, it always overwrites whatever was there
-> before.  If it's called for a legacy (no user-specified engines)
-> context, it overwrites legacy_rcs_sseu.  If it's called on a user
-> engine context, it overwrites the sseu on the given engine.
->  - When set_engines is called, it throws away all the user engine data
-> (if any) and memsets legacy_rcu_sseu to 0.  The end result is that
-> everything gets reset.
+From: Rob Clark <robdclark@chromium.org>
 
-I think I need to review this carefully in the new version. Definitely
-too much w/e here already for tricky stuff :-)
+dpu_crtc_atomic_flush() was directly poking it's attached planes in a
+code path that ended up in dpu_plane_atomic_update(), even if the plane
+was not involved in the current atomic update.  While a bit dubious,
+this worked before because plane->state would always point to something
+valid.  But now using drm_atomic_get_new_plane_state() we could get a
+NULL state pointer instead, leading to:
 
-> > > > > I'm also going to send it to trybot.
-> > > >
-> > > > If you resend pls include all my r-b, I think some got lost in v4.
-> > >
-> > > I'll try and dig those up.
-> > >
-> > > > Also, in the kernel at least we expect minimal commit message with a
-> > > > bit of context, there's no Part-of: link pointing at the entire MR
-> > > > with overview and discussion, the patchwork Link: we add is a pretty
-> > > > bad substitute. Some of the new patches in v4 are a bit too terse on
-> > > > that.
-> > >
-> > > Yup.  I can try to expand things a bit more.
-> > >
-> > > > And finally I'm still not a big fan of the add/remove split over
-> > > > patches, but oh well.
-> > >
-> > > I'm not either but working through all this reminded me of why I
-> > > didn't do it more gradual.  The problem is ordering.  If add and
-> > > remove at the same time and do it one param at a time, we'll end up
-> > > with a situation in the middle where some params will only be allowed
-> > > to be set on the proto-ctx and others will force a proto-ctx ->
-> > > context conversion.  If, for instance, one UMD sets engines first and
-> > > then VMs and another sets VMs first and then engines, there's no way
-> > > to do a gradual transition without breaking one of them.  Also, we
-> > > need to handle basically all the setparam complexity in order to
-> > > handle creation structs and, again, those can come in any order.
-> >
-> > Yeah I know, but I considered that. I think compute-runtime uses
-> > CTX_CREATE_EXT, it's only media.
->
-> That doesn't really matter because both go through the same path.
-> Anything that uses CONTEXT_CREATE_EXT is identical to something which
-> creates the context and then calls SET_CONTEXT_PARAM in the same order
-> as the structs in the extension chain.
->
-> Incidentally, this also means that if we do it gradually, we have to
-> handle finalizing the proto-ctx mid-way through handling the chain of
-> create extensions.  That should be possible to handle if a bit tricky.
-> It'll also mean we'll have a (small) range of kernels where the
-> CONTEXT_CREATE_EXT method is broken if you get it in the wrong order.
->
-> > So we need to order the patches in
-> > exactly the order media calls setparam. And then we're good.
->
-> Mesa only ever sets engines.  Upstream compute only ever sets the VM.
-> Media always sets the VM first.  So, if we handle VM first, we should
-> be good-to-go, I think.
->
-> > Worst case it's exactly as useful in bisecting as your approach here
-> > (you add dead code first, then use it,
->
-> It's not dead.  At the time it's added, it's used for all
-> CONTEXT_CREATE_EXT.  Then, later, it becomes used for everything.
->
-> > so might as well just squash it
-> > all down to one), but if we get the ordering right it's substantially
-> > better.
->
-> I can try to spin a v5 and see how bad it ends up being.  I don't
-> really like breaking CONTEXT_CREATE_EXT in the middle, though.
+   [   20.873273] Call trace:
+   [   20.875740]  dpu_plane_atomic_update+0x5c/0xed0
+   [   20.880311]  dpu_plane_restore+0x40/0x88
+   [   20.884266]  dpu_crtc_atomic_flush+0xf4/0x208
+   [   20.888660]  drm_atomic_helper_commit_planes+0x150/0x238
+   [   20.894014]  msm_atomic_commit_tail+0x1d4/0x7a0
+   [   20.898579]  commit_tail+0xa4/0x168
+   [   20.902102]  drm_atomic_helper_commit+0x164/0x178
+   [   20.906841]  drm_atomic_commit+0x54/0x60
+   [   20.910798]  drm_atomic_connector_commit_dpms+0x10c/0x118
+   [   20.916236]  drm_mode_obj_set_property_ioctl+0x1e4/0x440
+   [   20.921588]  drm_connector_property_set_ioctl+0x60/0x88
+   [   20.926852]  drm_ioctl_kernel+0xd0/0x120
+   [   20.930807]  drm_ioctl+0x21c/0x478
+   [   20.934235]  __arm64_sys_ioctl+0xa8/0xe0
+   [   20.938193]  invoke_syscall+0x64/0x130
+   [   20.941977]  el0_svc_common.constprop.3+0x5c/0xe0
+   [   20.946716]  do_el0_svc+0x80/0xa0
+   [   20.950058]  el0_svc+0x20/0x30
+   [   20.953145]  el0_sync_handler+0x88/0xb0
+   [   20.957014]  el0_sync+0x13c/0x140
 
-Hm right, I forgot that we also de-proto in the middle of
-CONTEXT_CREATE_EXT while the conversion is going on. This really is
-annoying.
--Daniel
+The reason for the codepath seems dubious, the atomic suspend/resume
+heplers should handle the power-collapse case.  If not, the CRTC's
+atomic_check() should be adding the planes to the atomic update.
+
+Reported-by: Stephen Boyd <sboyd@kernel.org>
+Reported-by: John Stultz <john.stultz@linaro.org>
+Fixes: 37418bf14c13 drm: Use state helper instead of the plane state pointer
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 10 ----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 16 ----------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  6 ------
+ 3 files changed, 32 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 7c29976be243..18bc76b7f1a3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -648,16 +648,6 @@ static void dpu_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	if (unlikely(!cstate->num_mixers))
+ 		return;
+ 
+-	/*
+-	 * For planes without commit update, drm framework will not add
+-	 * those planes to current state since hardware update is not
+-	 * required. However, if those planes were power collapsed since
+-	 * last commit cycle, driver has to restore the hardware state
+-	 * of those planes explicitly here prior to plane flush.
+-	 */
+-	drm_atomic_crtc_for_each_plane(plane, crtc)
+-		dpu_plane_restore(plane, state);
+-
+ 	/* update performance setting before crtc kickoff */
+ 	dpu_core_perf_crtc_update(crtc, 1, false);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index df7f3d3afd8b..7a993547eb75 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -1258,22 +1258,6 @@ static void dpu_plane_atomic_update(struct drm_plane *plane,
+ 	}
+ }
+ 
+-void dpu_plane_restore(struct drm_plane *plane, struct drm_atomic_state *state)
+-{
+-	struct dpu_plane *pdpu;
+-
+-	if (!plane || !plane->state) {
+-		DPU_ERROR("invalid plane\n");
+-		return;
+-	}
+-
+-	pdpu = to_dpu_plane(plane);
+-
+-	DPU_DEBUG_PLANE(pdpu, "\n");
+-
+-	dpu_plane_atomic_update(plane, state);
+-}
+-
+ static void dpu_plane_destroy(struct drm_plane *plane)
+ {
+ 	struct dpu_plane *pdpu = plane ? to_dpu_plane(plane) : NULL;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+index 03b6365a750c..34e03ac05f4a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+@@ -84,12 +84,6 @@ bool is_dpu_plane_virtual(struct drm_plane *plane);
+ void dpu_plane_get_ctl_flush(struct drm_plane *plane, struct dpu_hw_ctl *ctl,
+ 		u32 *flush_sspp);
+ 
+-/**
+- * dpu_plane_restore - restore hw state if previously power collapsed
+- * @plane: Pointer to drm plane structure
+- */
+-void dpu_plane_restore(struct drm_plane *plane, struct drm_atomic_state *state);
+-
+ /**
+  * dpu_plane_flush - final plane operations before commit flush
+  * @plane: Pointer to drm plane structure
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
