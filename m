@@ -2,49 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C2C36F4C7
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 06:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE3536F53D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 06:57:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DC46E455;
-	Fri, 30 Apr 2021 04:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42DE56E45D;
+	Fri, 30 Apr 2021 04:57:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7006E455;
- Fri, 30 Apr 2021 04:11:19 +0000 (UTC)
-IronPort-SDR: iuD6L89Iuzmxi2ZGNlg+wN28ySh9BtZIx02CkL4PWIuKh9NsTEycEKDg3aTy6LWed80bqg6WrX
- Gppny1xCEdxg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="197238345"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="197238345"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 21:11:17 -0700
-IronPort-SDR: BR8pofiamQLjBz0PrMKvuhXMhmszYARRSae1g29YS8fNCy7xKHShqQ8ejBz/3R/9C7e4fHKgly
- KLwbk6CVdFoA==
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="424670486"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 21:11:17 -0700
-Date: Thu, 29 Apr 2021 21:03:48 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH 08/21] drm/i915/gem: Disallow bonding of
- virtual engines
-Message-ID: <20210430040348.GA27630@sdutt-i7>
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-9-jason@jlekstrand.net>
- <CAOFGe958Y6eq1qcPPS-h8Swca8kMy39Vp-gGv6irXdS_8xje5w@mail.gmail.com>
- <YIk1YEXjvaDN+feW@phenom.ffwll.local>
- <CAOFGe97PUT8Ns0bVhHi6D+21yA3=v0QkhdmmKBm=dCn4CizwiA@mail.gmail.com>
- <20210428171853.GA3260@sdutt-i7>
- <CAOFGe96Qy8hXsJCemgDJtZYCbwqxvUS4j-SEKKnLQjE6dmRP2w@mail.gmail.com>
- <20210428175525.GA7224@sdutt-i7>
- <CAOFGe96i7GPvQ8yDreTGF-K5pr_GRNkofQhH7W6Wxr-F8qmxrQ@mail.gmail.com>
- <YIqjG9l30ZmuN1Wg@phenom.ffwll.local>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8F66E45D;
+ Fri, 30 Apr 2021 04:57:07 +0000 (UTC)
+Received: from 1-171-217-32.dynamic-ip.hinet.net ([1.171.217.32]
+ helo=localhost) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>)
+ id 1lcLD6-0003dM-4f; Fri, 30 Apr 2021 04:57:04 +0000
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: alexander.deucher@amd.com,
+	christian.koenig@amd.com
+Subject: [PATCH v2] drm/radeon/dpm: Disable sclk switching on Oland when two
+ 4K 60Hz monitors are connected
+Date: Fri, 30 Apr 2021 12:56:56 +0800
+Message-Id: <20210430045656.577395-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YIqjG9l30ZmuN1Wg@phenom.ffwll.local>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,114 +39,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 29, 2021 at 02:14:19PM +0200, Daniel Vetter wrote:
-> On Wed, Apr 28, 2021 at 01:17:27PM -0500, Jason Ekstrand wrote:
-> > On Wed, Apr 28, 2021 at 1:02 PM Matthew Brost <matthew.brost@intel.com> wrote:
-> > >
-> > > On Wed, Apr 28, 2021 at 12:46:07PM -0500, Jason Ekstrand wrote:
-> > > > On Wed, Apr 28, 2021 at 12:26 PM Matthew Brost <matthew.brost@intel.com> wrote:
-> > > > > Jumping on here mid-thread. For what is is worth to make execlists work
-> > > > > with the upcoming parallel submission extension I leveraged some of the
-> > > > > existing bonding code so I wouldn't be too eager to delete this code
-> > > > > until that lands.
-> > > >
-> > > > Mind being a bit more specific about that?  The motivation for this
-> > > > patch is that the current bonding handling and uAPI is, well, very odd
-> > > > and confusing IMO.  It doesn't let you create sets of bonded engines.
-> > > > Instead you create engines and then bond them together after the fact.
-> > > > I didn't want to blindly duplicate those oddities with the proto-ctx
-> > > > stuff unless they were useful.  With parallel submit, I would expect
-> > > > we want a more explicit API where you specify a set of engine
-> > > > class/instance pairs to bond together into a single engine similar to
-> > > > how the current balancing API works.
-> > > >
-> > > > Of course, that's all focused on the API and not the internals.  But,
-> > > > again, I'm not sure how we want things to look internally.  What we've
-> > > > got now doesn't seem great for the GuC submission model but I'm very
-> > > > much not the expert there.  I don't want to be working at cross
-> > > > purposes to you and I'm happy to leave bits if you think they're
-> > > > useful.  But I thought I was clearing things away so that you can put
-> > > > in what you actually want for GuC/parallel submit.
-> > > >
-> > >
-> > > Removing all the UAPI things are fine but I wouldn't delete some of the
-> > > internal stuff (e.g. intel_virtual_engine_attach_bond, bond
-> > > intel_context_ops, the hook for a submit fence, etc...) as that will
-> > > still likely be used for the new parallel submission interface with
-> > > execlists. As you say the new UAPI wont allow crazy configurations,
-> > > only simple ones.
-> > 
-> > I'm fine with leaving some of the internal bits for a little while if
-> > it makes pulling the GuC scheduler in easier.  I'm just a bit
-> > skeptical of why you'd care about SUBMIT_FENCE. :-)  Daniel, any
-> > thoughts?
-> 
-> Yeah I'm also wondering why we need this. Essentially your insight (and
-> Tony Ye from media team confirmed) is that media umd never uses bonded on
-> virtual engines.
->
+Screen flickers rapidly when two 4K 60Hz monitors are in use. This issue
+doesn't happen when one monitor is 4K 60Hz (pixelclock 594MHz) and
+another one is 4K 30Hz (pixelclock 297MHz).
 
-Well you should use virtual engines with parallel submission interface 
-if are you using it correctly.
+The issue is gone after setting "power_dpm_force_performance_level" to
+"high". Following the indication, we found that the issue occurs when
+sclk is too low.
 
-e.g. You want a 2 wide parallel submission and there are 4 engine
-instances.
+So resolve the issue by disabling sclk switching when there are two
+monitors requires high pixelclock (> 297MHz).
 
-You'd create 2 VEs:
+v2:
+ - Only apply the fix to Oland.
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+ drivers/gpu/drm/radeon/radeon.h    | 1 +
+ drivers/gpu/drm/radeon/radeon_pm.c | 8 ++++++++
+ drivers/gpu/drm/radeon/si_dpm.c    | 3 +++
+ 3 files changed, 12 insertions(+)
 
-A: 0, 2
-B: 1, 3
-set_parallel
-
-For GuC submission we just configure context and the GuC load balances
-it.
-
-For execlists we'd need to create bonds.
-
-Also likely the reason virtual engines wasn't used with the old
-interface was we only had 2 instances max per class so no need for
-virtual engines. If they used it for my above example if they were using
-the interface correctly they would have to use virtual engines too.
+diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+index 42281fce552e6..56ed5634cebef 100644
+--- a/drivers/gpu/drm/radeon/radeon.h
++++ b/drivers/gpu/drm/radeon/radeon.h
+@@ -1549,6 +1549,7 @@ struct radeon_dpm {
+ 	void                    *priv;
+ 	u32			new_active_crtcs;
+ 	int			new_active_crtc_count;
++	int			high_pixelclock_count;
+ 	u32			current_active_crtcs;
+ 	int			current_active_crtc_count;
+ 	bool single_display;
+diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/radeon_pm.c
+index 0c1950f4e146f..3861c0b98fcf3 100644
+--- a/drivers/gpu/drm/radeon/radeon_pm.c
++++ b/drivers/gpu/drm/radeon/radeon_pm.c
+@@ -1767,6 +1767,7 @@ static void radeon_pm_compute_clocks_dpm(struct radeon_device *rdev)
+ 	struct drm_device *ddev = rdev->ddev;
+ 	struct drm_crtc *crtc;
+ 	struct radeon_crtc *radeon_crtc;
++	struct radeon_connector *radeon_connector;
  
-> So the only thing we need is the await_fence submit_fence logic to stall
-> the subsequent patches just long enough. I think that stays.
->
+ 	if (!rdev->pm.dpm_enabled)
+ 		return;
+@@ -1776,6 +1777,7 @@ static void radeon_pm_compute_clocks_dpm(struct radeon_device *rdev)
+ 	/* update active crtc counts */
+ 	rdev->pm.dpm.new_active_crtcs = 0;
+ 	rdev->pm.dpm.new_active_crtc_count = 0;
++	rdev->pm.dpm.high_pixelclock_count = 0;
+ 	if (rdev->num_crtc && rdev->mode_info.mode_config_initialized) {
+ 		list_for_each_entry(crtc,
+ 				    &ddev->mode_config.crtc_list, head) {
+@@ -1783,6 +1785,12 @@ static void radeon_pm_compute_clocks_dpm(struct radeon_device *rdev)
+ 			if (crtc->enabled) {
+ 				rdev->pm.dpm.new_active_crtcs |= (1 << radeon_crtc->crtc_id);
+ 				rdev->pm.dpm.new_active_crtc_count++;
++				if (!radeon_crtc->connector)
++					continue;
++
++				radeon_connector = to_radeon_connector(radeon_crtc->connector);
++				if (radeon_connector->pixelclock_for_modeset > 297000)
++					rdev->pm.dpm.high_pixelclock_count++;
+ 			}
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dpm.c
+index 9186095518047..3cc2b96a7f368 100644
+--- a/drivers/gpu/drm/radeon/si_dpm.c
++++ b/drivers/gpu/drm/radeon/si_dpm.c
+@@ -2979,6 +2979,9 @@ static void si_apply_state_adjust_rules(struct radeon_device *rdev,
+ 		    (rdev->pdev->device == 0x6605)) {
+ 			max_sclk = 75000;
+ 		}
++
++		if (rdev->pm.dpm.high_pixelclock_count > 1)
++			disable_sclk_switching = true;
+ 	}
+ 
+ 	if (rps->vce_active) {
+-- 
+2.30.2
 
-My implementation, for the new parallel submission interface, with
-execlists used a bonds + priority boosts to ensure both are present at
-the same time. This was used for both non-virtual and virtual engines.
-This was never reviewed though and the code died on the list.
-
-> All the additional logic with the cmpxchg lockless trickery and all that
-> isn't needed, because we _never_ have to select an engine for bonded
-> submission: It's always the single one available.
-> 
-> This would mean that for execlist parallel submit we can apply a
-> limitation (beyond what GuC supports perhaps) and it's all ok. With that
-> everything except the submit fence await logic itself can go I think.
-> 
-> Also one for Matt: We decided to ZBB implementing parallel submit on
-> execlist, it's going to be just for GuC. At least until someone starts
-> screaming really loudly.
-
-If this is the case, then bonds can be deleted.
-
-Matt
-
-> 
-> Cheers, Daniel
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
