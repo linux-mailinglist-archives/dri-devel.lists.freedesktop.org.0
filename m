@@ -1,86 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6571C36FBAD
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 15:45:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A827836FBE9
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 16:11:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD2986E0AC;
-	Fri, 30 Apr 2021 13:45:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C38DB6F52D;
+	Fri, 30 Apr 2021 14:11:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5406A6F49B
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 13:45:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619790342;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ngr4LyEkdELa/6PdIZcv+wXD2znntuZQwvgVg8NJ51s=;
- b=FgiaOWUFkQjCcc1gdjlv8LcnaxW564qOWMoFGs0DHAZbKwyITnkE70iBWeFzA3ncpkbWgx
- GwL6gplhNxepPPJX8cxyRTo2JGCG9Y7U+LMXHWRxu1Hj39txx67gGZq1nxygAWovIVgUqV
- ZN8ZaV70xi88h9GX0KL9CxHxzcU60YY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-4AUFu3YpMBqgGwGXmc6ZZg-1; Fri, 30 Apr 2021 09:45:36 -0400
-X-MC-Unique: 4AUFu3YpMBqgGwGXmc6ZZg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- g17-20020aa7dd910000b029038843570b67so1613949edv.9
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 06:45:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ngr4LyEkdELa/6PdIZcv+wXD2znntuZQwvgVg8NJ51s=;
- b=KZRIjmeJBu1sU1o135j8YCvptjIVuYJL2cxvVPxFUb3ooXu9CgQGZhWvQikGn49tWn
- 7dZSfzEH5ZfMC3TMtbZJ9bkODoNnkBgz/Qs1Oyd8GlD8y7bdK+MgxtKD8dxuLMwbxbg+
- 0pZ+G8kw85IfjWFsBPrKLaZa4kaY2vLI2SMaeyATqAPf8SLqA4NN7TYkDEhNbAenqHAu
- Y24cl+DtTFgNNd0+96vikeBXAxVw6ju+P3lPvqrlGt1iWg6/nRltc58rOWxabyD8v7aU
- Hy4KxusHkWicrmOPNO+jPyjO28h2DhxGLxWL5dfqVKkhGmNNnYWq6u4LxiPfztDbyrDx
- kMfw==
-X-Gm-Message-State: AOAM530dhpq0Emt6DiZ6mQkvGwWjRm54ciXSC+AmXdi+TXVBHO+Wb/ug
- ey199kUe32QcnmeRlhmFzG78qZY2mIqxQOj2svUolQPwCFlK5eO0mfqApWnzqbkYFvM5F+n95m3
- geqx93TKXM3NOOlo4eh28kZIlycu8
-X-Received: by 2002:a05:6402:40d6:: with SMTP id
- z22mr6005346edb.275.1619790335077; 
- Fri, 30 Apr 2021 06:45:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyVgln2PsbGBWtD0Y9vGbxqHA4KEKia8ZfjelCngqnsAV0j0ddhk9OZLNm9FE8nL8viwO/OZw==
-X-Received: by 2002:a05:6402:40d6:: with SMTP id
- z22mr6005318edb.275.1619790334881; 
- Fri, 30 Apr 2021 06:45:34 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id n10sm1933338ejg.124.2021.04.30.06.45.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Apr 2021 06:45:34 -0700 (PDT)
-Subject: Re: [PATCH 1/9] drm/connector: Make the drm_sysfs connector->kdev
- device hold a reference to the connector
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210428215257.500088-1-hdegoede@redhat.com>
- <20210428215257.500088-2-hdegoede@redhat.com>
- <YIqbLDIeGXNSjSTS@phenom.ffwll.local> <YIqehmw+kG53LF3t@kroah.com>
- <YIqg59yageIUwiwy@phenom.ffwll.local>
- <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
- <YIsEfAjFthAyHxUi@phenom.ffwll.local>
- <43ee221e-7151-c0c2-cc52-37b191778221@redhat.com>
- <CAKMK7uFf8n6QfRdSXeB6J+L7NPGbeEyJKhx1Vu7x8env=_7tkA@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <9c6d5361-c435-521e-d7d7-f8976927f9de@redhat.com>
-Date: Fri, 30 Apr 2021 15:45:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88E636F52D;
+ Fri, 30 Apr 2021 14:11:03 +0000 (UTC)
+IronPort-SDR: JSWGsMvI9I2uRVVW/CarGYrHR3jefV823h9lxHgbmKfK5rTt2SpTx4Su2QbXxDFXDrZqit2ERg
+ XYZ21hpfBSbw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9970"; a="184754591"
+X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; d="scan'208";a="184754591"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2021 07:11:02 -0700
+IronPort-SDR: ANoXQRbwtgWbA3aoO2EI8Kh0y9zwoeIKAN5IEDAlmq7Whm8DxtRVp323qUnJX1TDS82vM8dGGG
+ jcNXHPBHLVJA==
+X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; d="scan'208";a="425020807"
+Received: from redickin-mobl2.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.208.173])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2021 07:11:00 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915: Be more gentle with exiting non-persistent
+ context
+Date: Fri, 30 Apr 2021 15:10:51 +0100
+Message-Id: <20210430141051.1138439-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210429094640.859825-1-tvrtko.ursulin@linux.intel.com>
+References: <20210429094640.859825-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFf8n6QfRdSXeB6J+L7NPGbeEyJKhx1Vu7x8env=_7tkA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,50 +48,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>,
- USB list <linux-usb@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: Zhen Han <zhen.han@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-p.s.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-On 4/30/21 1:38 PM, Daniel Vetter wrote:
+When a non-persistent context exits we currently mark it as banned in
+order to trigger fast termination of any outstanding GPU jobs it may have
+left running.
 
-Offtopic:
+In doing so we apply a very strict 1ms limit in which the left over job
+has to preempt before we issues an engine resets.
 
-> I'm also not sure why we have to use the kdev stuff here. For other
-> random objects we need to look up we're building that functionality on
-> that object. It means you need to keep another list_head around for
-> that lookup, but that's really not a big cost. E.g. drm_bridge/panel
-> work like that.
+Some workloads are not able to cleanly preempt in that time window and it
+can be argued that it would instead be better to give them a bit more
+grace since avoiding engine resets is generally preferrable.
 
-So I took a peek at the bridge/panel code and that actually seems to
-have an issue with removal vs lookup. It is not even just a race,
-it seems a lookup does not take a reference and there is nothing
-stopping a user from doing an unbind or rmmod causing the panel
-to be removed while other code which got a pointer to the panel
-through of_drm_find_panel() will not be prepared to deal with
-that pointer all of a sudden no longer being valid.
+To achieve this the patch splits handling of banned contexts from simply
+exited non-persistent ones and then applies different timeouts for both
+and also extends the criteria which determines if a request should be
+scheduled back in after preemption or not.
 
-Now this would be a case of the user shooting his-self in the
-foot (where as connectors can actually dynamically disappear
-under normal circumstances), but ideally we really should do
-better here.
+15ms preempt timeout grace is given to exited non-persistent contexts
+which have been empirically tested to satisfy customers requirements
+and still provides reasonably quick cleanup post exit.
 
-Is there a TODO list somewhere for issues like this ?  Or shall
-I submit a patch adding a FIXME comment, or is this considered
-not worth the trouble of fixing it?
+v2:
+ * Streamline fast path checks.
 
-Regards,
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Zhen Han <zhen.han@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 16 +++++++++------
+ drivers/gpu/drm/i915/gt/intel_context.c       |  2 ++
+ drivers/gpu/drm/i915/gt/intel_context.h       | 20 +++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  2 ++
+ .../drm/i915/gt/intel_execlists_submission.c  | 11 ++++++++--
+ drivers/gpu/drm/i915/i915_request.c           |  2 +-
+ 6 files changed, 44 insertions(+), 9 deletions(-)
 
-Hans
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index fd8ee52e17a4..090c891f029b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -426,7 +426,8 @@ static struct intel_engine_cs *active_engine(struct intel_context *ce)
+ 	return engine;
+ }
+ 
+-static void kill_engines(struct i915_gem_engines *engines, bool ban)
++static void
++kill_engines(struct i915_gem_engines *engines, bool ban, bool persistent)
+ {
+ 	struct i915_gem_engines_iter it;
+ 	struct intel_context *ce;
+@@ -443,6 +444,9 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+ 
+ 		if (ban && intel_context_set_banned(ce))
+ 			continue;
++		else if (!persistent &&
++			 intel_context_set_closed_non_persistent(ce))
++			continue;
+ 
+ 		/*
+ 		 * Check the current active state of this context; if we
+@@ -454,7 +458,7 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+ 		engine = active_engine(ce);
+ 
+ 		/* First attempt to gracefully cancel the context */
+-		if (engine && !__cancel_engine(engine) && ban)
++		if (engine && !__cancel_engine(engine) && (ban || !persistent))
+ 			/*
+ 			 * If we are unable to send a preemptive pulse to bump
+ 			 * the context from the GPU, we have to resort to a full
+@@ -466,8 +470,6 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+ 
+ static void kill_context(struct i915_gem_context *ctx)
+ {
+-	bool ban = (!i915_gem_context_is_persistent(ctx) ||
+-		    !ctx->i915->params.enable_hangcheck);
+ 	struct i915_gem_engines *pos, *next;
+ 
+ 	spin_lock_irq(&ctx->stale.lock);
+@@ -480,7 +482,8 @@ static void kill_context(struct i915_gem_context *ctx)
+ 
+ 		spin_unlock_irq(&ctx->stale.lock);
+ 
+-		kill_engines(pos, ban);
++		kill_engines(pos, !ctx->i915->params.enable_hangcheck,
++			     i915_gem_context_is_persistent(ctx));
+ 
+ 		spin_lock_irq(&ctx->stale.lock);
+ 		GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
+@@ -526,7 +529,8 @@ static void engines_idle_release(struct i915_gem_context *ctx,
+ 
+ kill:
+ 	if (list_empty(&engines->link)) /* raced, already closed */
+-		kill_engines(engines, true);
++		kill_engines(engines, true,
++			     i915_gem_context_is_persistent(ctx));
+ 
+ 	i915_sw_fence_commit(&engines->fence);
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+index 17cf2640b082..efbda677a0a8 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.c
++++ b/drivers/gpu/drm/i915/gt/intel_context.c
+@@ -374,6 +374,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+ 	ce->sseu = engine->sseu;
+ 	ce->ring = __intel_context_ring_size(SZ_4K);
+ 
++	__set_bit(CONTEXT_SCHEDULABLE, &ce->flags);
++
+ 	ewma_runtime_init(&ce->runtime.avg);
+ 
+ 	ce->vm = i915_vm_get(engine->gt->vm);
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+index f83a73a2b39f..a6d4c2d7f2f5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.h
++++ b/drivers/gpu/drm/i915/gt/intel_context.h
+@@ -217,9 +217,29 @@ static inline bool intel_context_is_banned(const struct intel_context *ce)
+ 
+ static inline bool intel_context_set_banned(struct intel_context *ce)
+ {
++	clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
+ 	return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
+ }
+ 
++static inline bool
++intel_context_is_closed_non_persistent(const struct intel_context *ce)
++{
++	return test_bit(CONTEXT_NON_PERSISTENT, &ce->flags);
++}
++
++static inline bool
++intel_context_set_closed_non_persistent(struct intel_context *ce)
++{
++	GEM_BUG_ON(!intel_context_is_closed(ce));
++	clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
++	return test_and_set_bit(CONTEXT_NON_PERSISTENT, &ce->flags);
++}
++
++static inline bool intel_context_is_schedulable(const struct intel_context *ce)
++{
++	return test_bit(CONTEXT_SCHEDULABLE, &ce->flags);
++}
++
+ static inline bool
+ intel_context_force_single_submission(const struct intel_context *ce)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+index ed8c447a7346..2d07b821a20e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+@@ -95,6 +95,8 @@ struct intel_context {
+ #define CONTEXT_BANNED			6
+ #define CONTEXT_FORCE_SINGLE_SUBMISSION	7
+ #define CONTEXT_NOPREEMPT		8
++#define CONTEXT_SCHEDULABLE		9  /* Unless banned or non-persistent closed. */
++#define CONTEXT_NON_PERSISTENT		10 /* Only if also closed. */
+ 
+ 	struct {
+ 		u64 timeout_us;
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index de124870af44..3f3e2ee6a24d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -478,7 +478,7 @@ __execlists_schedule_in(struct i915_request *rq)
+ 		     !intel_engine_has_heartbeat(engine)))
+ 		intel_context_set_banned(ce);
+ 
+-	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
++	if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
+ 		reset_active(rq, engine);
+ 
+ 	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+@@ -1204,12 +1204,19 @@ static void record_preemption(struct intel_engine_execlists *execlists)
+ static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
+ 					    const struct i915_request *rq)
+ {
++	struct intel_context *ce;
++
+ 	if (!rq)
+ 		return 0;
+ 
++	ce = rq->context;
++
+ 	/* Force a fast reset for terminated contexts (ignoring sysfs!) */
+-	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
++	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
+ 		return 1;
++	/* Longer grace for closed non-persistent contexts to avoid resets. */
++	else if (unlikely(intel_context_is_closed_non_persistent(ce)))
++		return 15;
+ 
+ 	return READ_ONCE(engine->props.preempt_timeout_ms);
+ }
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index bec9c3652188..bbac87535923 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -660,7 +660,7 @@ bool __i915_request_submit(struct i915_request *request)
+ 		goto active;
+ 	}
+ 
+-	if (unlikely(intel_context_is_banned(request->context)))
++	if (unlikely(!intel_context_is_schedulable(request->context)))
+ 		i915_request_set_error_once(request, -EIO);
+ 
+ 	if (unlikely(fatal_error(request->fence.error)))
+-- 
+2.30.2
 
 _______________________________________________
 dri-devel mailing list
