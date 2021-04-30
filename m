@@ -2,51 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E17FE36F97A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 13:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF9D36F98B
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 13:46:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22B1C6EE78;
-	Fri, 30 Apr 2021 11:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E85C6EE7D;
+	Fri, 30 Apr 2021 11:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA846EE4D;
- Fri, 30 Apr 2021 11:40:06 +0000 (UTC)
-IronPort-SDR: 50nGMgd0jMs+tKP0H73vT3f7tpKDizB0XLMtkBPYW7nKV9oS0438TGJnxP8EDLm1K5yQ1qIyuy
- lCS4u9hM40KQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="261202921"
-X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; d="scan'208";a="261202921"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2021 04:40:05 -0700
-IronPort-SDR: pV1dx9YWyUpCqa1j0GfhK/bXOV+cMudtWkxqP3INtDWimEuuFq2DBGF/m8ckdrj3YoMWURD5RK
- QFoOwC9+i79g==
-X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; d="scan'208";a="527605050"
-Received: from redickin-mobl2.ger.corp.intel.com (HELO [10.213.208.173])
- ([10.213.208.173])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2021 04:40:03 -0700
-Subject: Re: [Intel-gfx] [PATCH 09/21] drm/i915/gem: Disallow creating
- contexts with too many engines
-To: Jason Ekstrand <jason@jlekstrand.net>
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-10-jason@jlekstrand.net>
- <YIk14zVfa8Mw4rUF@phenom.ffwll.local>
- <6b388d4d-1d50-94f3-344a-5b6b3639e8ad@linux.intel.com>
- <YIlrCmvC10oAiRcL@phenom.ffwll.local>
- <27db8ded-3b17-748e-f602-a8c1aef7367f@linux.intel.com>
- <CAOFGe94czhE=SHZLOWmH6vPRs1ujhsP9BBxc6i+N_bkPZ+6UHw@mail.gmail.com>
- <8a1e496c-683d-0a26-03a7-14993ba82acf@linux.intel.com>
- <CAOFGe97mDV4RqgWSQTKq5jhGJEMCT+QAwNsoDduD-rRmd=1nBw@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <e1ae064c-6eec-85f5-e267-5987929da7d9@linux.intel.com>
-Date: Fri, 30 Apr 2021 12:40:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr00082.outbound.protection.outlook.com [40.107.0.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA5296EE7D
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 11:46:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R7pnXYdVs/Puz6oUk0qUwosJgD9rGFXUAnnS0Ledx0cvdrsvBdac6n7ubPMZ7bdS9acNp9qfullUGZ7iLW8M4HqpuZNdj+B25FNXhx5NSgn+Kj64y1/NWa3iHzJASlTFxSvJAGHzl9c9HV+jY5ZOaoPaLbtECa9ImKnVNd1p+dOT0kqjl1NzLZjOt1GjLAFmBAIni9vDKEPlVeWLdTSSLV1UC2EtPL19l/bjlk5AfMAnVX29XBMf8M+jMVR6QuwNgBJOPfl5L+CTW4gFEY0y/pJGb01eBxXg6Sv7S9TQoPDmUOltSVEoowEZCylc4fUmkpru+WjJm9CpvlgVUlpRjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k+4sQ1wAGfHOCoQk+axzzgUK/OGnFL0GxN7zDfhzUS8=;
+ b=HPflPaYH0QUI/vB+fD2z5LtxXiNFi2HRqb2M8RjL3kKDtptKw0xXzl2bh6tuivVSefKMr5SPklkKxcVx3eaZqS/sQFBnB0iAOw/tfbxO1zsCZVvu4ucVnOs6/FcTBrAimqJbjfO+GPcP2pJ9jCzpamfkEJ0hgrUSSpCw8Vtm0JLYbb9NEBMGFXnfm1GIoDSsLwCD0V7Ce5K8kpwpIMhmvkWgT3OsyDRrYHalzF20PhmLzz1ykDmM7F0oi+om3TodlFsD1WLFEiRZh4N3824jCtVjnkFxedm9jHUreabLBOsLStfV6MHc8jYpCUaj1LdiqsbPDIfQ9gIyD0Pj6/SbCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k+4sQ1wAGfHOCoQk+axzzgUK/OGnFL0GxN7zDfhzUS8=;
+ b=Hr7BlOozeBXd65PkgF82J+FunVeuzt+VWH2zL/5xJ1UVL/KHNZ2uwSmGLdtGinA53tMhhqUvZvN8zmXRv47Q12/ZnvU6HM1Q7EwHYxB72+UPfsFuSPOV2KsIW/r7BUDU+gFErK2TrKfCP0U9QdPRuEY4ET+Q+tQT3H1/YGyh2AY=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AM6PR0402MB3671.eurprd04.prod.outlook.com (2603:10a6:209:19::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.35; Fri, 30 Apr
+ 2021 11:46:24 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::20f0:2b28:70c3:fb0]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::20f0:2b28:70c3:fb0%4]) with mapi id 15.20.4065.031; Fri, 30 Apr 2021
+ 11:46:24 +0000
+Message-ID: <95db401a341b857289f2bec7c03b694eb7df8ce3.camel@nxp.com>
+Subject: Re: [PATCH v3 1/3] drm/bridge: nwl-dsi: Force a full modeset when
+ crtc_state->active is changed to be true
+From: Liu Ying <victor.liu@nxp.com>
+To: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 30 Apr 2021 19:45:53 +0800
+In-Reply-To: <CAG3jFytcPzo81t8hubAf4Gb1zrVzZVB5D6qP-Dnchef6Zus25Q@mail.gmail.com>
+References: <1619170003-4817-1-git-send-email-victor.liu@nxp.com>
+ <1619170003-4817-2-git-send-email-victor.liu@nxp.com>
+ <CAG3jFytcPzo81t8hubAf4Gb1zrVzZVB5D6qP-Dnchef6Zus25Q@mail.gmail.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-Originating-IP: [116.232.209.249]
+X-ClientProxiedBy: HKAPR03CA0012.apcprd03.prod.outlook.com
+ (2603:1096:203:c8::17) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe97mDV4RqgWSQTKq5jhGJEMCT+QAwNsoDduD-rRmd=1nBw@mail.gmail.com>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from vbox (116.232.209.249) by
+ HKAPR03CA0012.apcprd03.prod.outlook.com (2603:1096:203:c8::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4108.10 via Frontend Transport; Fri, 30 Apr 2021 11:46:20 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7b7e1362-30ee-4e5a-48f0-08d90bcd94e9
+X-MS-TrafficTypeDiagnostic: AM6PR0402MB3671:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR0402MB3671FDBD0DBBD5EC9522D66E985E9@AM6PR0402MB3671.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:813;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cygljGn/z4afXN6aS+TvrAqAimTMBjLCWX+yJ4uLSqhwaTzFxgKcokZ+WbUqAFEpQDXRRqjQ1WmYZrgRvHPYVPmJqe2tgphqL1BJabVNrPKE9JO8jJNkNMgrbZLuTJGRUcc6s9sAiELSdLRLLQDgUdRitJlrXCIAqfp/GvOF6iTuXwt/nDSytO/4Te/NCbePRLyt9SqPG/q17MtJYbFWKNM7IBF3z0QzCM2u+tu0kBbd4t9iaj2+HeVx3o7W4qgBCs6pE0odF7iQmd1sB+UzFZUbzfomJYZiBwr3txUjCkOnjfT0oTMNFunheMLDbF90wOSNAPngU81q9UWbBAh+oyqEQACXCJLt2uWpEXRBKH+417c4AmM69DamERLhb/jvrw9S0FOPnbYG17v6exAuRC7EY/WCfDlQvr+uG4Z0xRYY67J2rC4DX0ybm7nCqK0+G3gJaZt6pPJMGmr/t8B5uOGYuKI+D5U6Pf2pue3T/qIpaXvd0MtwGn5N8iFviKUC47IwLoIsZgJkeWzXP5vGA06xVtIEcXCB9CJ7INV6N2BNCBaqQc6McEBifb8qX3TgKOMcAsi5yw+0KDk6eLDf+fje0x50ivOydPaBsyn/oHlqGzDTDfnqY+GXUIBHI9yvUqLPB+u5UHeW30NnQjovfqHHrQ371anOQu4dXXyb93HfCzUhpUgxVP8A6IA6gl3FB81Wega1CQizL6luSITQow==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39830400003)(396003)(376002)(366004)(136003)(346002)(54906003)(4326008)(52116002)(66946007)(83380400001)(66556008)(7416002)(16526019)(66476007)(8676002)(186003)(316002)(26005)(6486002)(38100700002)(6496006)(5660300002)(6916009)(38350700002)(966005)(8936002)(478600001)(2906002)(86362001)(36756003)(2616005)(956004)(6666004)(99106002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Rno3SDJvVkpiTTB3cWJ2Z3hqeWRpZnVuU3N2TStDd0txTGtEYlVXS3dwT3A5?=
+ =?utf-8?B?VVhsSHFDd2tRZTBuVWx0aDVYTm16WVFUOER5ckI0bGNVTDRvSHJHb1hVajRi?=
+ =?utf-8?B?QWhya0dZa0Q1bFdoNmlRZ1lBbkxiRk9Xbml1T2h3SEdTQWxJSmduTjFFSXlP?=
+ =?utf-8?B?MnM1Y0xvWktUNmlwYmdqYVk1RnVWQS94SExCbmwvWi8yKytKUXlEdlJFYm1L?=
+ =?utf-8?B?VW5PbnlaQThuMHcvQzRnSG9mWFZXd0pEZUllNzgxWjhuL1A2UU9UeWQ5YWgx?=
+ =?utf-8?B?U2luNnVzM2xDYnMvYklQTE9tdEZBSDcwejBzTEEwejZ3KzRKM1lSdEI5UWlu?=
+ =?utf-8?B?SkxqNnpQeTZyTDNFVEs5RHJvMjBpamc2dXMySFQ4TmJCenFlVTRWQmtCNzlN?=
+ =?utf-8?B?ajBES24rNDQ5V3ROSDdsOE5ab05ack4vSkhQS2cwckdDNGZFMTRKbFpUWHpN?=
+ =?utf-8?B?bkpmSHRNL1JLSi95dS9WYXQzMk1LZUFkb2Q1TzBVVXZUd09qZFRYNDcvQzdX?=
+ =?utf-8?B?OGU1ME1wRTdKTU1OS1VjZGFtMDlOVjMrdTN3eGlQbW5meEN1LzRCLzBZM1lk?=
+ =?utf-8?B?c0QyNWxMam5PTVpXK3Vma1lCM21TVVdYellocXE3M1dnTFh2U1JlNTJORzZY?=
+ =?utf-8?B?MjJBVHFNQWwwNGRPUmVpUWhleGFpODVHTkUzNDNzRXprN01MeE1ZMkEwZGZk?=
+ =?utf-8?B?SHRIVUxFUE5RdDZZdnE0UGQ4WXcrRVMrZlpFdVdpeDlENkg0ZTFjV1B4ckZq?=
+ =?utf-8?B?OXIvUlhiakZ3RHBQaWtONTcrR2pDeFRYYm1NSzlrMTJGWmRwb2kzRjVQR0N5?=
+ =?utf-8?B?Ris0Ri9qekdrMlljNkYwVy9rMVdESHdhWkRvK0hSaGJhTllCMHUwcVowZmNY?=
+ =?utf-8?B?RGlhdU8xL3RXbTAzL01jYlhVR2hjOFloMmZMajhvcTdKb2FYdUxPNWY0cTNq?=
+ =?utf-8?B?WDRBTmpaOHpvUmk0SVN2SC9iVjVxRE9XRjdldVkxUHRYN2tGMFI5VytDNUxI?=
+ =?utf-8?B?WkpmYkpmMlc3Y1VhcVJFY29ySDlwRnNCNjlHd0JKUURLcGtjVGxzQU9BVUJS?=
+ =?utf-8?B?UFdhVGR5eVJTd3NlVkc5QmN6VERFaDBIdmtZQ21zTVBRTWZzalhUb1JMM0x6?=
+ =?utf-8?B?ck1MR1BIV3JuQ094YmdjTEttdTVYcm5vMlRscnpWQXpmREhzcnhubkRrUlY5?=
+ =?utf-8?B?STI3UWczUmY0SnlnYk1CenVLTFZnNEpNZlNaM0tlc3lINlBzOS93TTRhM2JH?=
+ =?utf-8?B?UVNwTk5TYTNBOEFzMUhqZ0xHaENMcVJOYnhaU1FnYjF4dHU1Vlh3Vkg2bXdn?=
+ =?utf-8?B?bytWTnVERDRhRHRVa0ZydjM2TDA4YjZJSitUS0tTWXhxWTF2bW54MUFXOFlY?=
+ =?utf-8?B?TmV5L3dnTnI3b0VCSVpCRzV2Z3pleWM3aEd6VnZGbHV6K2d2UkZtRzhxTXhv?=
+ =?utf-8?B?b2wyQzJtQTdKZTZiN1BaOGRvYUlMUVA5WUlkemFEVmdGdFRFVEEvb04vNVh6?=
+ =?utf-8?B?a0R5NHpnbk9reWh5UndTODgzWTJmTUtGUG56azgwSGNqRFdJc3o0dHZXQWh2?=
+ =?utf-8?B?Qmx1aUJQYmJYMlpnd3d5dldjWWlNdlg3RmNHU1RyeWllL1VGcHpLeUJzM1dO?=
+ =?utf-8?B?ZXdWK0UwZlozTkZVU1BuRGxMZUo3Z2owK2hwOHRkR3IzZDA1ekZCUHJUUkp1?=
+ =?utf-8?B?dXMxZzFpbFdyb2dSNEhWZUpuQUphZUlSK0R3cm1kV1N6ZlFNSm5xcmFLUzJu?=
+ =?utf-8?Q?ySj8Sz/n2XotSO+wmve0/q5czoSUkGD3aqQ4YMP?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b7e1362-30ee-4e5a-48f0-08d90bcd94e9
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2021 11:46:24.7259 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c4CrNh5or4yN3xNVFBrmv/HwHj0rOhmpOTDnnsPI8FDizZ7kF6wDpY10RjmMd6e5MCyMTNGiC6quUU+hEhI+SA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0402MB3671
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,167 +124,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, agx@sigxcpu.org,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, robert.chiras@nxp.com,
+ linux-imx@nxp.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 29/04/2021 20:16, Jason Ekstrand wrote:
-> On Thu, Apr 29, 2021 at 3:01 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->> On 28/04/2021 18:09, Jason Ekstrand wrote:
->>> On Wed, Apr 28, 2021 at 9:26 AM Tvrtko Ursulin
->>> <tvrtko.ursulin@linux.intel.com> wrote:
->>>> On 28/04/2021 15:02, Daniel Vetter wrote:
->>>>> On Wed, Apr 28, 2021 at 11:42:31AM +0100, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> On 28/04/2021 11:16, Daniel Vetter wrote:
->>>>>>> On Fri, Apr 23, 2021 at 05:31:19PM -0500, Jason Ekstrand wrote:
->>>>>>>> There's no sense in allowing userspace to create more engines than it
->>>>>>>> can possibly access via execbuf.
->>>>>>>>
->>>>>>>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
->>>>>>>> ---
->>>>>>>>      drivers/gpu/drm/i915/gem/i915_gem_context.c | 7 +++----
->>>>>>>>      1 file changed, 3 insertions(+), 4 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>>>>>>> index 5f8d0faf783aa..ecb3bf5369857 100644
->>>>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>>>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>>>>>>> @@ -1640,11 +1640,10 @@ set_engines(struct i915_gem_context *ctx,
->>>>>>>>                      return -EINVAL;
->>>>>>>>              }
->>>>>>>> -  /*
->>>>>>>> -   * Note that I915_EXEC_RING_MASK limits execbuf to only using the
->>>>>>>> -   * first 64 engines defined here.
->>>>>>>> -   */
->>>>>>>>              num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
->>>>>>>
->>>>>>> Maybe add a comment like /* RING_MASK has not shift, so can be used
->>>>>>> directly here */ since I had to check that :-)
->>>>>>>
->>>>>>> Same story about igt testcases needed, just to be sure.
->>>>>>>
->>>>>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>>>>
->>>>>> I am not sure about the churn vs benefit ratio here. There are also patches
->>>>>> which extend the engine selection field in execbuf2 over the unused
->>>>>> constants bits (with an explicit flag). So churn upstream and churn in
->>>>>> internal (if interesting) for not much benefit.
->>>>>
->>>>> This isn't churn.
->>>>>
->>>>> This is "lock done uapi properly".
->>>
->>> Pretty much.
->>
->> Still haven't heard what concrete problems it solves.
->>
->>>> IMO it is a "meh" patch. Doesn't fix any problems and will create work
->>>> for other people and man hours spent which no one will ever properly
->>>> account against.
->>>>
->>>> Number of contexts in the engine map should not really be tied to
->>>> execbuf2. As is demonstrated by the incoming work to address more than
->>>> 63 engines, either as an extension to execbuf2 or future execbuf3.
->>>
->>> Which userspace driver has requested more than 64 engines in a single context?
->>
->> No need to artificially limit hardware capabilities in the uapi by
->> implementing a policy in the kernel. Which will need to be
->> removed/changed shortly anyway. This particular patch is work and
->> creates more work (which other people who will get to fix the fallout
->> will spend man hours to figure out what and why broke) for no benefit.
->> Or you are yet to explain what the benefit is in concrete terms.
-> 
-> You keep complaining about how much work it takes and yet I've spent
-> more time replying to your e-mails on this patch than I spent writing
-> the patch and the IGT test.  Also, if it takes so much time to add a
-> restriction, then why are we spending time figuring out how to modify
-> the uAPI to allow you to execbuf on a context with more than 64
-> engines?  If we're worried about engineering man-hours, then limiting
-> to 64 IS the pragmatic solution.
-
-a)
-
-Question of what problem does the patch fix is still unanswered.
-
-b)
-
-You miss the point. I'll continue in the next paragraph..
-
-> 
->> Why don't you limit it to number of physical engines then? Why don't you
->> filter out duplicates? Why not limit the number of buffer objects per
->> client or global based on available RAM + swap relative to minimum
->> object size? Reductio ad absurdum yes, but illustrating the, in this
->> case, a thin line between "locking down uapi" and adding too much policy
->> where it is not appropriate.
-> 
-> All this patch does is say that  you're not allowed to create a
-> context with more engines than the execbuf API will let you use.  We
-> already have an artificial limit.  All this does is push the error
-> handling further up the stack.  If someone comes up with a mechanism
-> to execbuf on engine 65 (they'd better have an open-source user if it
-> involves changing API), I'm very happy for them to bump this limit at
-> the same time.  It'll take them 5 minutes and it'll be something they
-> find while writing the IGT test.
-
-.. no it won't take five minutes.
-
-If I need to spell everything out - you will put this patch in, which 
-fixes nothing, and it will propagate to the internal kernel at some 
-point. Then a bunch of tests will start failing in a strange manner. 
-Which will result in people triaging them, then assigning them, then 
-reserving machines, setting them up, running the repro, then digging 
-into the code, and eventually figuring out what happened.
-
-It will take hours not five minutes. And there will likely be multiple 
-bug reports which most likely won't be joined so mutliple people will be 
-doing multi hour debug. All for nothing. So it is rather uninteresting 
-how small the change is. Interesting part is how much pointless effort 
-it will create across the organisation.
-
-Of course you may not care that much about that side of things, or you 
-are just not familiar in how it works in practice since you haven't been 
-involved in the past years. I don't know really, but I have to raise the 
-point it makes no sense to do this. Cost vs benefit is simply not nearly 
-there.
-
->>> Also, for execbuf3, I'd like to get rid of contexts entirely and have
->>> engines be their own userspace-visible object.  If we go this
->>> direction, you can have UINT32_MAX of them.  Problem solved.
->>
->> Not the problem I am pointing at though.
-> 
-> You listed two ways that accessing engine 65 can happen: Extending
-> execbuf2 and adding a new execbuf3.  When/if execbuf3 happens, as I
-> pointed out above, it'll hopefully be a non-issue.  If someone extends
-> execbuf2 to support more than 64 engines and does not have a userspace
-> customer that wants said new API change, I will NAK the patch.  If
-> you've got a 3rd way that someone can get at engine 65 such that this
-> is a problem, I'd love to hear about it.
-
-It's ever so easy to take a black and white stance but the world is more 
-like shades of grey. I too am totally perplexed why we have to spend 
-time arguing on a inconsequential patch.
-
-Context create is not called "create execbuf2 context" so why be so 
-wedded to adding execbuf2 restrictions into it I have no idea. If you 
-were fixing some vulnerability or something I'd understand but all I've 
-heard so far is along the lines of "This is proper locking down of uapi 
-- end of". And endless waste of time discussion follows. We don't have 
-to agree on everything anyway and I have raised my concern enough times 
-now. Up to you guys to re-figure out the cost benefit on your own then.
-
-Regards,
-
-Tvrtko
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgUm9iZXJ0LAoKT24gRnJpLCAyMDIxLTA0LTMwIGF0IDExOjU2ICswMjAwLCBSb2JlcnQgRm9z
+cyB3cm90ZToKPiBIZXkgTGl1LAo+IAo+IFRoaXMgcGF0Y2ggZG9lcyBub3QgYXBwbHkgb24gdXBz
+dHJlYW0tZHJtLW1pc2MvZHJtLW1pc2MtbmV4dC4gV2hlbiBpdAo+IHBhc3NlcyBsb2NhbCB0ZXN0
+aW5nICYgYnVpbGRpbmcsIEknbSByZWFkeSB0byBtZXJnZSBpdC4KCkkgc2VlIE5laWwgaGFzIGFs
+cmVhZHkgcHVzaGVkIHRoaXMgZW50aXJlIHBhdGNoIHNlcmllcyB0bwpkcm0tbWlzYy1uZXh0LgoK
+Cmh0dHBzOi8vY2dpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1taXNjL2NvbW1pdC8/aWQ9ODg1
+ODExMzcyZmUxMDFjNDI5OWM1M2VlY2M5ZmVlNzJjZjkyN2EwYwoKSSBhbHNvIHNlZSBHdWlkbydz
+IFItYiBhbmQgVC1iIHRhZ3Mgb24gdGhpcyBzZXJpZXMsIHRob3VnaCB0aGV5IGNvbWVzCmFmdGVy
+IE5laWwncyBwdXNoIHBlcmhhcHMuCgpUaGFua3MsCkxpdSBZaW5nCgo+IAo+IE9uIEZyaSwgMjMg
+QXByIDIwMjEgYXQgMTE6NDIsIExpdSBZaW5nIDx2aWN0b3IubGl1QG54cC5jb20+IHdyb3RlOgo+
+ID4gVGhpcyBwYXRjaCByZXBsYWNlcyAtPm1vZGVfZml4dXAoKSB3aXRoIC0+YXRvbWljX2NoZWNr
+KCkgc28gdGhhdAo+ID4gYSBmdWxsIG1vZGVzZXQgY2FuIGJlIHJlcXVlc3RlZCBmcm9tIHRoZXJl
+IHdoZW4gY3J0Y19zdGF0ZS0+YWN0aXZlCj4gPiBpcyBjaGFuZ2VkIHRvIGJlIHRydWUod2hpY2gg
+aW1wbGllcyBvbmx5IGNvbm5lY3RvcidzIERQTVMgaXMKPiA+IGJyb3VnaHQKPiA+IG91dCBvZiAi
+T2ZmIiBzdGF0dXMsIHRob3VnaCBub3QgbmVjZXNzYXJpbHkpLiAgQnJpZGdlIGZ1bmN0aW9ucyBh
+cmUKPiA+IGFkZGVkIG9yIGNoYW5nZWQgdG8gYWNjb21tb2RhdGUgdGhlIC0+YXRvbWljX2NoZWNr
+KCkgY2FsbGJhY2suIAo+ID4gVGhhdAo+ID4gZnVsbCBtb2Rlc2V0IGlzIG5lZWRlZCBieSB0aGUg
+dXAtY29taW5nIHBhdGNoIHdoaWNoIGdldHMgTUlQSSBEU0kKPiA+IGNvbnRyb2xsZXIgYW5kIFBI
+WSByZWFkeSBpbiAtPm1vZGVfc2V0KCksIGJlY2F1c2UgaXQgbWFrZXMgc3VyZQo+ID4gLT5tb2Rl
+X3NldCgpIGFuZCAtPmF0b21pY19kaXNhYmxlKCkgYXJlIGNhbGxlZCBpbiBwYWlycy4KPiA+IAo+
+ID4gQ2M6IEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+Cj4gPiBDYzogTmVpbCBB
+cm1zdHJvbmcgPG5hcm1zdHJvbmdAYmF5bGlicmUuY29tPgo+ID4gQ2M6IFJvYmVydCBGb3NzIDxy
+b2JlcnQuZm9zc0BsaW5hcm8ub3JnPgo+ID4gQ2M6IExhdXJlbnQgUGluY2hhcnQgPExhdXJlbnQu
+cGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KPiA+IENjOiBKb25hcyBLYXJsbWFuIDxqb25hc0Br
+d2lib28uc2U+Cj4gPiBDYzogSmVybmVqIFNrcmFiZWMgPGplcm5lai5za3JhYmVjQHNpb2wubmV0
+Pgo+ID4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiA+IENjOiBEYW5pZWwg
+VmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gPiBDYzogR3VpZG8gR8O8bnRoZXIgPGFneEBzaWd4
+Y3B1Lm9yZz4KPiA+IENjOiBSb2JlcnQgQ2hpcmFzIDxyb2JlcnQuY2hpcmFzQG54cC5jb20+Cj4g
+PiBDYzogTlhQIExpbnV4IFRlYW0gPGxpbnV4LWlteEBueHAuY29tPgo+ID4gU2lnbmVkLW9mZi1i
+eTogTGl1IFlpbmcgPHZpY3Rvci5saXVAbnhwLmNvbT4KPiA+IC0tLQo+ID4gdjItPnYzOgo+ID4g
+KiBTcGxpdCBmcm9tIHRoZSBzaW5nbGUgcGF0Y2ggaW4gdjIgdG8gY2xhcmlmeSBjaGFuZ2VzLiAo
+TmVpbCkKPiA+IAo+ID4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbndsLWRzaS5jIHwgNjEgKysr
+KysrKysrKysrKysrKysrKystLS0tLS0KPiA+IC0tLS0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAz
+OSBpbnNlcnRpb25zKCspLCAyMiBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9icmlkZ2UvbndsLWRzaS5jCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9icmlk
+Z2UvbndsLWRzaS5jCj4gPiBpbmRleCA2NmI2NzQwMmYxYWNkLi5jNjVjYTg2MDcxMmQyIDEwMDY0
+NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9ud2wtZHNpLmMKPiA+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9icmlkZ2UvbndsLWRzaS5jCj4gPiBAQCAtMjEsNiArMjEsNyBAQAo+ID4g
+ICNpbmNsdWRlIDxsaW51eC9zeXNfc29jLmg+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L3RpbWU2NC5o
+Pgo+ID4gCj4gPiArI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljX3N0YXRlX2hlbHBlci5oPgo+ID4g
+ICNpbmNsdWRlIDxkcm0vZHJtX2JyaWRnZS5oPgo+ID4gICNpbmNsdWRlIDxkcm0vZHJtX21pcGlf
+ZHNpLmg+Cj4gPiAgI2luY2x1ZGUgPGRybS9kcm1fb2YuaD4KPiA+IEBAIC03NDIsNyArNzQzLDkg
+QEAgc3RhdGljIGludCBud2xfZHNpX2Rpc2FibGUoc3RydWN0IG53bF9kc2kgKmRzaSkKPiA+ICAg
+ICAgICAgcmV0dXJuIDA7Cj4gPiAgfQo+ID4gCj4gPiAtc3RhdGljIHZvaWQgbndsX2RzaV9icmlk
+Z2VfZGlzYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ID4gK3N0YXRpYyB2b2lkCj4g
+PiArbndsX2RzaV9icmlkZ2VfYXRvbWljX2Rpc2FibGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRn
+ZSwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fYnJpZGdlX3N0
+YXRlCj4gPiAqb2xkX2JyaWRnZV9zdGF0ZSkKPiA+ICB7Cj4gPiAgICAgICAgIHN0cnVjdCBud2xf
+ZHNpICpkc2kgPSBicmlkZ2VfdG9fZHNpKGJyaWRnZSk7Cj4gPiAgICAgICAgIGludCByZXQ7Cj4g
+PiBAQCAtODAzLDE3ICs4MDYsNiBAQCBzdGF0aWMgaW50IG53bF9kc2lfZ2V0X2RwaHlfcGFyYW1z
+KHN0cnVjdAo+ID4gbndsX2RzaSAqZHNpLAo+ID4gICAgICAgICByZXR1cm4gMDsKPiA+ICB9Cj4g
+PiAKPiA+IC1zdGF0aWMgYm9vbCBud2xfZHNpX2JyaWRnZV9tb2RlX2ZpeHVwKHN0cnVjdCBkcm1f
+YnJpZGdlICpicmlkZ2UsCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlCj4gPiAqbW9kZSwKPiA+IC0gICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUKPiA+ICph
+ZGp1c3RlZF9tb2RlKQo+ID4gLXsKPiA+IC0gICAgICAgLyogQXQgbGVhc3QgTENESUYgKyBOV0wg
+bmVlZHMgYWN0aXZlIGhpZ2ggc3luYyAqLwo+ID4gLSAgICAgICBhZGp1c3RlZF9tb2RlLT5mbGFn
+cyB8PSAoRFJNX01PREVfRkxBR19QSFNZTkMgfAo+ID4gRFJNX01PREVfRkxBR19QVlNZTkMpOwo+
+ID4gLSAgICAgICBhZGp1c3RlZF9tb2RlLT5mbGFncyAmPSB+KERSTV9NT0RFX0ZMQUdfTkhTWU5D
+IHwKPiA+IERSTV9NT0RFX0ZMQUdfTlZTWU5DKTsKPiA+IC0KPiA+IC0gICAgICAgcmV0dXJuIHRy
+dWU7Cj4gPiAtfQo+ID4gLQo+ID4gIHN0YXRpYyBlbnVtIGRybV9tb2RlX3N0YXR1cwo+ID4gIG53
+bF9kc2lfYnJpZGdlX21vZGVfdmFsaWQoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwKPiA+ICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X2luZm8gKmlu
+Zm8sCj4gPiBAQCAtODMxLDYgKzgyMywyNCBAQCBud2xfZHNpX2JyaWRnZV9tb2RlX3ZhbGlkKHN0
+cnVjdCBkcm1fYnJpZGdlCj4gPiAqYnJpZGdlLAo+ID4gICAgICAgICByZXR1cm4gTU9ERV9PSzsK
+PiA+ICB9Cj4gPiAKPiA+ICtzdGF0aWMgaW50IG53bF9kc2lfYnJpZGdlX2F0b21pY19jaGVjayhz
+dHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgc3RydWN0IGRybV9icmlkZ2Vfc3RhdGUKPiA+ICpicmlkZ2Vfc3RhdGUsCj4g
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX2NydGNf
+c3RhdGUKPiA+ICpjcnRjX3N0YXRlLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUKPiA+ICpjb25uX3N0YXRlKQo+ID4g
+K3sKPiA+ICsgICAgICAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKmFkanVzdGVkX21vZGUgPSAm
+Y3J0Y19zdGF0ZS0KPiA+ID5hZGp1c3RlZF9tb2RlOwo+ID4gKwo+ID4gKyAgICAgICAvKiBBdCBs
+ZWFzdCBMQ0RJRiArIE5XTCBuZWVkcyBhY3RpdmUgaGlnaCBzeW5jICovCj4gPiArICAgICAgIGFk
+anVzdGVkX21vZGUtPmZsYWdzIHw9IChEUk1fTU9ERV9GTEFHX1BIU1lOQyB8Cj4gPiBEUk1fTU9E
+RV9GTEFHX1BWU1lOQyk7Cj4gPiArICAgICAgIGFkanVzdGVkX21vZGUtPmZsYWdzICY9IH4oRFJN
+X01PREVfRkxBR19OSFNZTkMgfAo+ID4gRFJNX01PREVfRkxBR19OVlNZTkMpOwo+ID4gKwo+ID4g
+KyAgICAgICAvKiBEbyBhIGZ1bGwgbW9kZXNldCBpZiBjcnRjX3N0YXRlLT5hY3RpdmUgaXMgY2hh
+bmdlZCB0byBiZQo+ID4gdHJ1ZS4gKi8KPiA+ICsgICAgICAgaWYgKGNydGNfc3RhdGUtPmFjdGl2
+ZV9jaGFuZ2VkICYmIGNydGNfc3RhdGUtPmFjdGl2ZSkKPiA+ICsgICAgICAgICAgICAgICBjcnRj
+X3N0YXRlLT5tb2RlX2NoYW5nZWQgPSB0cnVlOwo+ID4gKwo+ID4gKyAgICAgICByZXR1cm4gMDsK
+PiA+ICt9Cj4gPiArCj4gPiAgc3RhdGljIHZvaWQKPiA+ICBud2xfZHNpX2JyaWRnZV9tb2RlX3Nl
+dChzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAg
+Y29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUsCj4gPiBAQCAtODYyLDcgKzg3Miw5
+IEBAIG53bF9kc2lfYnJpZGdlX21vZGVfc2V0KHN0cnVjdCBkcm1fYnJpZGdlCj4gPiAqYnJpZGdl
+LAo+ID4gICAgICAgICBkcm1fbW9kZV9kZWJ1Z19wcmludG1vZGVsaW5lKGFkanVzdGVkX21vZGUp
+Owo+ID4gIH0KPiA+IAo+ID4gLXN0YXRpYyB2b2lkIG53bF9kc2lfYnJpZGdlX3ByZV9lbmFibGUo
+c3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSkKPiA+ICtzdGF0aWMgdm9pZAo+ID4gK253bF9kc2lf
+YnJpZGdlX2F0b21pY19wcmVfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gPiAr
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZQo+
+ID4gKm9sZF9icmlkZ2Vfc3RhdGUpCj4gPiAgewo+ID4gICAgICAgICBzdHJ1Y3QgbndsX2RzaSAq
+ZHNpID0gYnJpZGdlX3RvX2RzaShicmlkZ2UpOwo+ID4gICAgICAgICBpbnQgcmV0Owo+ID4gQEAg
+LTg5Nyw3ICs5MDksOSBAQCBzdGF0aWMgdm9pZCBud2xfZHNpX2JyaWRnZV9wcmVfZW5hYmxlKHN0
+cnVjdAo+ID4gZHJtX2JyaWRnZSAqYnJpZGdlKQo+ID4gICAgICAgICB9Cj4gPiAgfQo+ID4gCj4g
+PiAtc3RhdGljIHZvaWQgbndsX2RzaV9icmlkZ2VfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpi
+cmlkZ2UpCj4gPiArc3RhdGljIHZvaWQKPiA+ICtud2xfZHNpX2JyaWRnZV9hdG9taWNfZW5hYmxl
+KHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHN0cnVjdCBkcm1fYnJpZGdlX3N0YXRlCj4gPiAqb2xkX2JyaWRnZV9zdGF0ZSkKPiA+ICB7
+Cj4gPiAgICAgICAgIHN0cnVjdCBud2xfZHNpICpkc2kgPSBicmlkZ2VfdG9fZHNpKGJyaWRnZSk7
+Cj4gPiAgICAgICAgIGludCByZXQ7Cj4gPiBAQCAtOTQyLDE0ICs5NTYsMTcgQEAgc3RhdGljIHZv
+aWQgbndsX2RzaV9icmlkZ2VfZGV0YWNoKHN0cnVjdAo+ID4gZHJtX2JyaWRnZSAqYnJpZGdlKQo+
+ID4gIH0KPiA+IAo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2JyaWRnZV9mdW5jcyBud2xf
+ZHNpX2JyaWRnZV9mdW5jcyA9IHsKPiA+IC0gICAgICAgLnByZV9lbmFibGUgPSBud2xfZHNpX2Jy
+aWRnZV9wcmVfZW5hYmxlLAo+ID4gLSAgICAgICAuZW5hYmxlICAgICA9IG53bF9kc2lfYnJpZGdl
+X2VuYWJsZSwKPiA+IC0gICAgICAgLmRpc2FibGUgICAgPSBud2xfZHNpX2JyaWRnZV9kaXNhYmxl
+LAo+ID4gLSAgICAgICAubW9kZV9maXh1cCA9IG53bF9kc2lfYnJpZGdlX21vZGVfZml4dXAsCj4g
+PiAtICAgICAgIC5tb2RlX3NldCAgID0gbndsX2RzaV9icmlkZ2VfbW9kZV9zZXQsCj4gPiAtICAg
+ICAgIC5tb2RlX3ZhbGlkID0gbndsX2RzaV9icmlkZ2VfbW9kZV92YWxpZCwKPiA+IC0gICAgICAg
+LmF0dGFjaCAgICAgPSBud2xfZHNpX2JyaWRnZV9hdHRhY2gsCj4gPiAtICAgICAgIC5kZXRhY2gg
+ICAgID0gbndsX2RzaV9icmlkZ2VfZGV0YWNoLAo+ID4gKyAgICAgICAuYXRvbWljX2R1cGxpY2F0
+ZV9zdGF0ZSA9Cj4gPiBkcm1fYXRvbWljX2hlbHBlcl9icmlkZ2VfZHVwbGljYXRlX3N0YXRlLAo+
+ID4gKyAgICAgICAuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgICA9Cj4gPiBkcm1fYXRvbWljX2hlbHBl
+cl9icmlkZ2VfZGVzdHJveV9zdGF0ZSwKPiA+ICsgICAgICAgLmF0b21pY19yZXNldCAgICAgICAg
+ICAgPSBkcm1fYXRvbWljX2hlbHBlcl9icmlkZ2VfcmVzZXQsCj4gPiArICAgICAgIC5hdG9taWNf
+Y2hlY2sgICAgICAgICAgID0gbndsX2RzaV9icmlkZ2VfYXRvbWljX2NoZWNrLAo+ID4gKyAgICAg
+ICAuYXRvbWljX3ByZV9lbmFibGUgICAgICA9IG53bF9kc2lfYnJpZGdlX2F0b21pY19wcmVfZW5h
+YmxlLAo+ID4gKyAgICAgICAuYXRvbWljX2VuYWJsZSAgICAgICAgICA9IG53bF9kc2lfYnJpZGdl
+X2F0b21pY19lbmFibGUsCj4gPiArICAgICAgIC5hdG9taWNfZGlzYWJsZSAgICAgICAgID0gbnds
+X2RzaV9icmlkZ2VfYXRvbWljX2Rpc2FibGUsCj4gPiArICAgICAgIC5tb2RlX3NldCAgICAgICAg
+ICAgICAgID0gbndsX2RzaV9icmlkZ2VfbW9kZV9zZXQsCj4gPiArICAgICAgIC5tb2RlX3ZhbGlk
+ICAgICAgICAgICAgID0gbndsX2RzaV9icmlkZ2VfbW9kZV92YWxpZCwKPiA+ICsgICAgICAgLmF0
+dGFjaCAgICAgICAgICAgICAgICAgPSBud2xfZHNpX2JyaWRnZV9hdHRhY2gsCj4gPiArICAgICAg
+IC5kZXRhY2ggICAgICAgICAgICAgICAgID0gbndsX2RzaV9icmlkZ2VfZGV0YWNoLAo+ID4gIH07
+Cj4gPiAKPiA+ICBzdGF0aWMgaW50IG53bF9kc2lfcGFyc2VfZHQoc3RydWN0IG53bF9kc2kgKmRz
+aSkKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
