@@ -1,61 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C3D36FC74
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 16:30:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBA436FC7F
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 16:34:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E627D6E4AE;
-	Fri, 30 Apr 2021 14:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC14B6F53D;
+	Fri, 30 Apr 2021 14:34:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8232E6F53F
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 14:30:39 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- z25-20020a9d65d90000b02902a560806ca7so5865782oth.11
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 07:30:39 -0700 (PDT)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDE96F53D
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 14:34:20 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id i11so8202038oig.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 07:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=trAT8TcE7p3ZrrSRRjP/Q3RuAn4aGdDSPB1cgjN0nFk=;
- b=emTnw/EIK3P9aUftxM4rwPHi8NaUrhnbS9DKZyBhMEqvwMV1vDRLr3eDOqMZrSXxfP
- xlH1ybhw2FcLSDVHLzJlUpXpJ+mo+wdfI+nZPnG0AIc4IyL2mTSddp1asU4F/kWgiNve
- 9sK2EF7ZNPQPApUtIyGPA464JBKcgh9txijMg=
+ :cc; bh=N6Q3c3jpy2+E1gNQo8BFVyq88Mx6CmSrRneFTgKfSZE=;
+ b=bcNk4ZnZQvzQTQ74/VW3KZD/nV7xpCySyNY8HVJm5BaybUeqevXczfonX44HwDVvEr
+ TWykTwEkDejrRMOxgsx3kTbgfsGHXpkqi1bGySPpk2Wv8yRQ1PTZrPNIAkbVwI62fsvh
+ kjZTGRJYUMlm20nc2/UmlfFBgFz3A/7tHll9U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=trAT8TcE7p3ZrrSRRjP/Q3RuAn4aGdDSPB1cgjN0nFk=;
- b=lykMcShBnxL70Ev3qVB4hlCKGq9ucKDxtlxMKs5tdEyUvtoIcfUo55Vtt9lYxz5TD2
- edLilrnf8EdrDAr5xag5hPn4uNT382vvUsGlcfoYA/2pgo7NaEqhZpawYrFelxmSBFPv
- GqDt4BR8Tw11PCDd+B81HIrlc//JAIWfqLcHIgv7+4KXGW4batr64J0cGtU/Rxw89q+D
- GnSyyQtGiaSBZEUoulW+BdXGiIv9h3d8A5Wdiv8Xdjky+Wj/MYqUUr9vpyk3VwDJGTNY
- I1iZF3Cvxeddt1BWJFMmTBVvmW5bsydQ7Uev1B+giBA9sCoekNeKfOznFz3ZTwS5vWp6
- +mTg==
-X-Gm-Message-State: AOAM530nVITt5ff8V+LNTC7tp9/Nx45XHzCM8krDK1AWO2lLGU/n3ZR8
- Ljc1P7YGGgsA8a3/J0z0R2ildTuVVBylbFZs4qC5LA==
-X-Google-Smtp-Source: ABdhPJyn1Dl1UqcgtWJiDpgbP2cGV8443KK8rEnmOhw8fRTJi6XE7RXOpPD6EratTK9gGNkphUty8HuXmUeTzUzpJx0=
-X-Received: by 2002:a05:6830:1398:: with SMTP id
- d24mr3712169otq.281.1619793038721; 
- Fri, 30 Apr 2021 07:30:38 -0700 (PDT)
+ bh=N6Q3c3jpy2+E1gNQo8BFVyq88Mx6CmSrRneFTgKfSZE=;
+ b=Swt6KwgTI6JiqOVi6cbJbo/2Kzds8U4ncNQdGJ2iG8+1CbEM52/mA1t++P8tTx7qYC
+ DlUK/MW/xFPunDolhCNOiObs3ed8uGWIkpbjvUF0WilH8Pm+ys/sCOrc1slHumwipmtq
+ WeMfe7v0XhbrZs3tdk+0oa7llXTz0yeUr0AxQgRJCXhuLcfXXI9Y0qF2JJKCIcD+bWw8
+ XztmXbTaNYSJL+1qBkKh/9Op61Eyu6U0lVXYa2Hncm1yOLYDXb9wl+hrtbYwDH4Iolyz
+ CmyFybfUdNghldJnhNVjDA4LfL51ksbocKFzehJG1ppJEAaJ1RMuudGWgI4oIoZZ0i2e
+ 3AAg==
+X-Gm-Message-State: AOAM532v7zijdj0+34rFLyd9vw/ePRwA9jCZOp72u44lrRPukMXkeTg1
+ Zg9YVeOT0jEVg+gZHMYtLiJhmeMKnk9HF8fMH8URVw==
+X-Google-Smtp-Source: ABdhPJxdRbv2S9gVHAk6jsjFspMYRN8/v+Ke34tMoW25+kFAIMglrVipabYx6Mc3rQ4cW0bLXSzD2hascXbI2dfuLbY=
+X-Received: by 2002:a05:6808:699:: with SMTP id
+ k25mr11022541oig.101.1619793259993; 
+ Fri, 30 Apr 2021 07:34:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210428215257.500088-1-hdegoede@redhat.com>
- <20210428215257.500088-2-hdegoede@redhat.com>
- <YIqbLDIeGXNSjSTS@phenom.ffwll.local> <YIqehmw+kG53LF3t@kroah.com>
- <YIqg59yageIUwiwy@phenom.ffwll.local>
- <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
- <YIsEfAjFthAyHxUi@phenom.ffwll.local>
- <43ee221e-7151-c0c2-cc52-37b191778221@redhat.com>
- <CAKMK7uFf8n6QfRdSXeB6J+L7NPGbeEyJKhx1Vu7x8env=_7tkA@mail.gmail.com>
- <5a6fc5d6-a218-8566-6b19-b4ae7d763210@redhat.com>
-In-Reply-To: <5a6fc5d6-a218-8566-6b19-b4ae7d763210@redhat.com>
+References: <20210429094640.859825-1-tvrtko.ursulin@linux.intel.com>
+ <YIvuhBHBmUesp0G1@phenom.ffwll.local>
+ <e09d56de-ac10-f2ac-1c15-35e42b8f129d@linux.intel.com>
+In-Reply-To: <e09d56de-ac10-f2ac-1c15-35e42b8f129d@linux.intel.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 30 Apr 2021 16:30:27 +0200
-Message-ID: <CAKMK7uGB=+ztEVLwkp_LZuG9Ka_o7oOZasEUGDV19Wj4p1Gfig@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm/connector: Make the drm_sysfs connector->kdev
- device hold a reference to the connector
-To: Hans de Goede <hdegoede@redhat.com>
+Date: Fri, 30 Apr 2021 16:34:09 +0200
+Message-ID: <CAKMK7uEGgyTq=8Hr4gdPOXb3rqaESJ2Ka8epVcHEaGd2GJYRmg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Be more gentle with exiting
+ non-persistent context
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,260 +61,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>,
- USB list <linux-usb@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: intel-gfx <Intel-gfx@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Zhen Han <zhen.han@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 30, 2021 at 3:32 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 4/30/21 1:38 PM, Daniel Vetter wrote:
-> > On Fri, Apr 30, 2021 at 1:28 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On Fri, Apr 30, 2021 at 3:27 PM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+> On 30/04/2021 12:48, Daniel Vetter wrote:
+> > On Thu, Apr 29, 2021 at 10:46:40AM +0100, Tvrtko Ursulin wrote:
+> >> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 > >>
-> >> Hi,
+> >> When a non-persistent context exits we currently mark it as banned in
+> >> order to trigger fast termination of any outstanding GPU jobs it may have
+> >> left running.
 > >>
-> >> On 4/29/21 9:09 PM, Daniel Vetter wrote:
-> >>> On Thu, Apr 29, 2021 at 02:33:17PM +0200, Hans de Goede wrote:
-> >>>> Hi,
-> >>>>
-> >>>> On 4/29/21 2:04 PM, Daniel Vetter wrote:
-> >>>>> On Thu, Apr 29, 2021 at 01:54:46PM +0200, Greg Kroah-Hartman wrote:
-> >>>>>> On Thu, Apr 29, 2021 at 01:40:28PM +0200, Daniel Vetter wrote:
-> >>>>>>> On Wed, Apr 28, 2021 at 11:52:49PM +0200, Hans de Goede wrote:
-> >>>>>>>> Userspace could hold open a reference to the connector->kdev device,
-> >>>>>>>> through e.g. holding a sysfs-atrtribute open after
-> >>>>>>>> drm_sysfs_connector_remove() has been called. In this case the connector
-> >>>>>>>> could be free-ed while the connector->kdev device's drvdata is still
-> >>>>>>>> pointing to it.
-> >>>>>>>>
-> >>>>>>>> Give drm_connector devices there own device type, which allows
-> >>>>>>>> us to specify our own release function and make drm_sysfs_connector_add()
-> >>>>>>>> take a reference on the connector object, and have the new release
-> >>>>>>>> function put the reference when the device is released.
-> >>>>>>>>
-> >>>>>>>> Giving drm_connector devices there own device type, will also allow
-> >>>>>>>> checking if a device is a drm_connector device with a
-> >>>>>>>> "if (device->type == &drm_sysfs_device_connector)" check.
-> >>>>>>>>
-> >>>>>>>> Note that the setting of the name member of the device_type struct will
-> >>>>>>>> cause udev events for drm_connector-s to now contain DEVTYPE=drm_connector
-> >>>>>>>> as extra info. So this extends the uevent part of the userspace API.
-> >>>>>>>>
-> >>>>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>>>>>>
-> >>>>>>> Are you sure? I thought sysfs is supposed to flush out any pending
-> >>>>>>> operations (they complete fast) and handle open fd internally?
-> >>>>>>
-> >>>>>> Yes, it "should" :)
-> >>>>>
-> >>>>> Thanks for confirming my vague memories :-)
-> >>>>>
-> >>>>> Hans, pls drop this one.
-> >>>>
-> >>>> Please see my earlier reply to your review of this patch, it is
-> >>>> still needed but for a different reason:
-> >>>>
-> >>>> """
-> >>>> We still need this change though to make sure that the
-> >>>> "drm/connector: Add drm_connector_find_by_fwnode() function"
-> >>>> does not end up following a dangling drvdat pointer from one
-> >>>> if the drm_connector kdev-s.
-> >>>>
-> >>>> The class_dev_iter_init() in drm_connector_find_by_fwnode() gets
-> >>>> a reference on all devices and between getting that reference
-> >>>> and it calling drm_connector_get() - drm_connector_unregister()
-> >>>> may run and drop the possibly last reference to the
-> >>>> drm_connector object, freeing it and leaving the kdev's
-> >>>> drvdata as a dangling pointer.
-> >>>> """
-> >>>>
-> >>>> This is actually why I added it initially, and while adding it
-> >>>> I came up with this wrong theory of why it was necessary independently
-> >>>> of the drm_connector_find_by_fwnode() addition, sorry about that.
-> >>>
-> >>> Generally that's handled by a kref_get_unless_zero under the protection of
-> >>> the lock which protects the weak reference. Which I think is the right
-> >>> model here (at a glance at least) since this is a lookup function.
+> >> In doing so we apply a very strict 1ms limit in which the left over job
+> >> has to preempt before we issues an engine resets.
 > >>
-> >> I'm afraid that things are a bit more complicated here. The idea here
-> >> is that we have a subsystem outside of the DRM subsystem which received
-> >> a hotplug event for a drm-connector.  The only info which this subsystem
-> >> has is a reference on the fwnode level (either through device-tree or
-> >> to platform-code instantiating software-fwnode-s + links for this).
-> >>
-> >> So in order to deliver the hotplug event to the connector we need
-> >> to lookup the connector by fwnode.
-> >>
-> >> I've chosen to implement this by iterating over all drm_class
-> >> devices with a dev_type of drm_connector using class_dev_iter_init()
-> >> and friends. This makes sure that we either get a reference to
-> >> the device, or that we skip the device if it is being deleted.
-> >>
-> >> But this just gives us a reference to the connector->kdev, not
-> >> to the connector itself. A pointer to the connector itself is stored
-> >> as drvdata inside the device, but without taking a reference as
-> >> this patch does, there is no guarantee that that pointer does not
-> >> point to possibly free-ed mem.
-> >>
-> >> We could set drvdata to 0 from drm_sysfs_connector_remove()
-> >> Before calling device_unregister(connector->kdev) and then do
-> >> something like this inside drm_connector_find_by_fwnode():
-> >>
-> >> /*
-> >>  * Lock the device to ensure we either see the drvdata == NULL
-> >>  * set by drm_sysfs_connector_remove(); or we block the removal
-> >>  * from continuing until we are done with the device.
-> >>  */
-> >> device_lock(dev);
-> >> connector = dev_get_drvdata(dev);
-> >> if (connector && connector->fwnode == fwnode) {
-> >>         drm_connector_get(connector);
-> >>         found = connector;
-> >> }
-> >> device_unlock(dev);
+> >> Some workloads are not able to cleanly preempt in that time window and it
+> >> can be argued that it would instead be better to give them a bit more
+> >> grace since avoiding engine resets is generally preferrable.
 > >
-> > Yes this is what I mean. Except not a drm_connector_get, but a
-> > kref_get_unless_zero. The connector might already be on it's way out,
-> > but the drvdata not yet cleared.
+> > Can you pls explain here why this is preferrable?
 >
-> The function we race with is drm_sysfs_connector_remove() and either:
+> I think there's always the risk of an innocent request getting axed with
+> preempt to busy being very asynchronous and also engine reset can
+> sometimes fail as well.
 >
-> 1. The lookup wins the race in which case drm_sysfs_connector_remove()
->    can only complete after the drm_connector_get(); and the connector
->    kref won't drop to 0 before drm_sysfs_connector_remove() completes; or
-> 2. drm_sysfs_connector_remove() wins the race in which case drvdata will
->    be 0.
->
-> So using kref_get_unless_zero here will not make a difference and
-> requires poking inside the drm_connector internals.
->
-> Note I will probably go with your suggestion below, so whether or
-> not to use kref_get_unless_zero here is likely no longer relevant.
-
-Ah I missed that nuance, it's what I get for not reading the patchset
-:-/ I was assuming that this is a lookup function which races rather
-freely. The way you explain it's wired up here it's clear that we
-remove the lookup entry as part of hotunplug, not as part of final
-drm_connector cleanup.
-
-So in that special case the additional refcount due to the lookup
-entry isn't a problem, but it's still better to aim for something
-where we only deal with a single refcount for drm_connector.
-
-> >> With the device_lock() synchronizing against the device_lock()
-> >> in device_unregister(connector->kdev). So that we either see
-> >> drvdata == NULL if we race with unregistering; or we get
-> >> a reference on the drm_connector obj before its ref-count can
-> >> drop to 0.
-> >
-> > The trouble is that most connectors aren't full drivers on their kdev.
-> > So this isn't the right lock. We need another lock which protects the
-> > drvdata pointer appropriately for drm connectors.
-> >
-> >> There might be places though where we call code take the device_lock
-> >> while holding a lock necessary for the drm_connector_get() , so
-> >> this approach might lead to an AB BA deadlock. As such I think
-> >> my original approach is better (also see below).
+> >> To achieve this the patch splits handling of banned contexts from simply
+> >> exited non-persistent ones and then applies different timeouts for both
+> >> and also extends the criteria which determines if a request should be
+> >> scheduled back in after preemption or not.
 > >>
-> >>> Lookup tables holding full references tends to lead to all kinds of bad
-> >>> side effects.
-> >>
-> >> The proposed reference is not part of a lookup list, it is a
-> >> reference from the kdev on the drm_connector object which gets
-> >> dropped as soon as the kdev's refcount hits 0, which normally
-> >> happens directly after drm_connector_unregister() has run.
+> >> 15ms preempt timeout grace is given to exited non-persistent contexts
+> >> which have been empirically tested to satisfy customers requirements
+> >> and still provides reasonably quick cleanup post exit.
 > >
-> > Yeah but the way you use it is for lookup purposes. What we're
-> > implementing is the "get me the drm_connector for this fwnode"
-> > functionality, and that _is_ a lookup.
+> > Same here, a bit more detail on what exactly was the problem to be fixed
+> > is needed.
 >
-> Ack.
+> It is a bit multi-faceted. Start with how in some cultures errors
+> messages are much bigger error flags than in others and much more
+> difficult to hand-wave "oh that's not a problem really". The the
+> previous considerations about why not avoid engine reset if we can. Add
+> on top how non-persistent context exiting is not really an error worthy
+> of a reset, *if* it exits cleanly reasonably quickly.
 >
-> > How its implemented is an
-> > internal detail really, and somehow using full references for lookup
-> > functionality isn't great.
->
-> Ok, note that the caller of this only needs the reference for a
-> short while, what the caller does is:
->
->         connector = drm_connector_find_by_fwnode(dp->connector_fwnode);
->         if (connector) {
->                 drm_connector_oob_hotplug_event(connector, &data);
->                 drm_connector_put(connector);
->         }
->
-> As a result of out discussion I have been thinking about enforcing this
-> short-lifetime of the reference by changing:
->
-> void drm_connector_oob_hotplug_event(struct drm_connector *connector,
->                                      struct drm_connector_oob_hotplug_event_data *data);
->
-> to:
->
-> void drm_connector_oob_hotplug_event(struct fwnode_handle connector_fwnode,
->                                      struct drm_connector_oob_hotplug_event_data *data);
->
-> And making that do the lookup (+ almost immediate put) internally, making
-> the connector-lookup a purely drm-subsys internal thing and enforcing code
-> outside of the drm-subsys not holding a long-time reference to the connector
-> this way.
->
-> Please let me know if you prefer the variant where the connector lookup
-> details are hidden from the callers ?
+> You could say make it clean up for itself before it exits, not a kernel
+> problem. But on the balance of everything, to me it sounds saleable to
+> just give it some longer time compared to banned contexts, which are the
+> unquestionably naughty/dangerous ones. Also, how fast non-persistent
+> contexts will be cleaned up hasn't been defined really. As long as 15ms
+> is an order of magnitude, plus some, shorter than the normal preempt
+> timeout I think it is fine.
 
-Yeah I think that's a very nice idea. The kref_get_unless_zero is for
-when the lookup entry is really decoupled from the lifetime of the
-object, and you want to be able to get a long term access. If we can
-outright hide the refcounting, even better.
+Yeah I think makes all sense, I just asked since the commit message
+hinted at reasons but didn't explain any of them. I also assume that
+generally the full reset flow is also on the order of 1ms (haven't
+checked, but it's not cheap), so not being aggressive with engaging
+that hammer is imo itself a very good reason to be a notch more lax
+here.
+-Danie
 
-Also this preps us for a world where v4l would also want to get these
-oob hotplug event, so that's a nice bonus. It's just the function name
-that would need to loose the drm_ prefix for that case maybe.
-
-> Then I can change this for for v2 of this patch/series.
 >
-> > I'm also not sure why we have to use the kdev stuff here. For other
-> > random objects we need to look up we're building that functionality on
-> > that object. It means you need to keep another list_head around for
-> > that lookup, but that's really not a big cost. E.g. drm_bridge/panel
-> > work like that.
+> Regards,
 >
-> Using class_for_each_dev seemed like a good way to iterate over all
-> the connectors. But given the discussion this has caused, just adding
-> a new static list + mutex for this to drivers/gpu/drm/drm_connector.c
-> sounds like it might be a better approach indeed.
+> Tvrtko
+>
+> P.S. Otherwise I plan to respin v2 with consolidated CONTEXT_SCHEDULABLE
+> flag so fast paths do not have to do too many individual checks.
+>
+> > -Daniel
+> >
+> >>
+> >> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> >> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> >> Cc: Zhen Han <zhen.han@intel.com>
+> >> ---
+> >>   drivers/gpu/drm/i915/gem/i915_gem_context.c     | 15 +++++++++------
+> >>   drivers/gpu/drm/i915/gt/intel_context.h         | 17 +++++++++++++++++
+> >>   drivers/gpu/drm/i915/gt/intel_context_types.h   |  1 +
+> >>   .../drm/i915/gt/intel_execlists_submission.c    | 12 ++++++++++--
+> >>   drivers/gpu/drm/i915/i915_request.c             |  2 +-
+> >>   5 files changed, 38 insertions(+), 9 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >> index fd8ee52e17a4..5a6eba1232cd 100644
+> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >> @@ -426,7 +426,8 @@ static struct intel_engine_cs *active_engine(struct intel_context *ce)
+> >>      return engine;
+> >>   }
+> >>
+> >> -static void kill_engines(struct i915_gem_engines *engines, bool ban)
+> >> +static void
+> >> +kill_engines(struct i915_gem_engines *engines, bool ban, bool persistent)
+> >>   {
+> >>      struct i915_gem_engines_iter it;
+> >>      struct intel_context *ce;
+> >> @@ -443,6 +444,8 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+> >>
+> >>              if (ban && intel_context_set_banned(ce))
+> >>                      continue;
+> >> +            else if (!persistent && intel_context_set_non_persistent(ce))
+> >> +                    continue;
+> >>
+> >>              /*
+> >>               * Check the current active state of this context; if we
+> >> @@ -454,7 +457,7 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+> >>              engine = active_engine(ce);
+> >>
+> >>              /* First attempt to gracefully cancel the context */
+> >> -            if (engine && !__cancel_engine(engine) && ban)
+> >> +            if (engine && !__cancel_engine(engine) && (ban || !persistent))
+> >>                      /*
+> >>                       * If we are unable to send a preemptive pulse to bump
+> >>                       * the context from the GPU, we have to resort to a full
+> >> @@ -466,8 +469,6 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+> >>
+> >>   static void kill_context(struct i915_gem_context *ctx)
+> >>   {
+> >> -    bool ban = (!i915_gem_context_is_persistent(ctx) ||
+> >> -                !ctx->i915->params.enable_hangcheck);
+> >>      struct i915_gem_engines *pos, *next;
+> >>
+> >>      spin_lock_irq(&ctx->stale.lock);
+> >> @@ -480,7 +481,8 @@ static void kill_context(struct i915_gem_context *ctx)
+> >>
+> >>              spin_unlock_irq(&ctx->stale.lock);
+> >>
+> >> -            kill_engines(pos, ban);
+> >> +            kill_engines(pos, !ctx->i915->params.enable_hangcheck,
+> >> +                         i915_gem_context_is_persistent(ctx));
+> >>
+> >>              spin_lock_irq(&ctx->stale.lock);
+> >>              GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
+> >> @@ -526,7 +528,8 @@ static void engines_idle_release(struct i915_gem_context *ctx,
+> >>
+> >>   kill:
+> >>      if (list_empty(&engines->link)) /* raced, already closed */
+> >> -            kill_engines(engines, true);
+> >> +            kill_engines(engines, true,
+> >> +                         i915_gem_context_is_persistent(ctx));
+> >>
+> >>      i915_sw_fence_commit(&engines->fence);
+> >>   }
+> >> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+> >> index f83a73a2b39f..b0e812b8ce39 100644
+> >> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+> >> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+> >> @@ -220,6 +220,23 @@ static inline bool intel_context_set_banned(struct intel_context *ce)
+> >>      return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
+> >>   }
+> >>
+> >> +static inline bool intel_context_is_non_persistent(const struct intel_context *ce)
+> >> +{
+> >> +    return test_bit(CONTEXT_NON_PERSISTENT, &ce->flags);
+> >> +}
+> >> +
+> >> +static inline bool intel_context_set_non_persistent(struct intel_context *ce)
+> >> +{
+> >> +    return test_and_set_bit(CONTEXT_NON_PERSISTENT, &ce->flags);
+> >> +}
+> >> +
+> >> +static inline bool intel_context_is_schedulable(const struct intel_context *ce)
+> >> +{
+> >> +    return !intel_context_is_banned(ce) &&
+> >> +           !(intel_context_is_closed(ce) &&
+> >> +             intel_context_is_non_persistent(ce));
+> >> +}
+> >> +
+> >>   static inline bool
+> >>   intel_context_force_single_submission(const struct intel_context *ce)
+> >>   {
+> >> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >> index ed8c447a7346..aa949c539e93 100644
+> >> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >> @@ -95,6 +95,7 @@ struct intel_context {
+> >>   #define CONTEXT_BANNED                     6
+> >>   #define CONTEXT_FORCE_SINGLE_SUBMISSION    7
+> >>   #define CONTEXT_NOPREEMPT          8
+> >> +#define CONTEXT_NON_PERSISTENT              9 /* Only if also closed. */
+> >>
+> >>      struct {
+> >>              u64 timeout_us;
+> >> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >> index de124870af44..5ad7272fbbc4 100644
+> >> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >> @@ -478,7 +478,7 @@ __execlists_schedule_in(struct i915_request *rq)
+> >>                   !intel_engine_has_heartbeat(engine)))
+> >>              intel_context_set_banned(ce);
+> >>
+> >> -    if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
+> >> +    if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
+> >>              reset_active(rq, engine);
+> >>
+> >>      if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+> >> @@ -1204,12 +1204,20 @@ static void record_preemption(struct intel_engine_execlists *execlists)
+> >>   static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
+> >>                                          const struct i915_request *rq)
+> >>   {
+> >> +    struct intel_context *ce;
+> >> +
+> >>      if (!rq)
+> >>              return 0;
+> >>
+> >> +    ce = rq->context;
+> >> +
+> >>      /* Force a fast reset for terminated contexts (ignoring sysfs!) */
+> >> -    if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
+> >> +    if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
+> >>              return 1;
+> >> +    /* Longer grace for closed non-persistent contexts to avoid resets. */
+> >> +    else if (unlikely(intel_context_is_closed(ce) &&
+> >> +                      intel_context_is_non_persistent(ce)))
+> >> +            return 15;
+> >>
+> >>      return READ_ONCE(engine->props.preempt_timeout_ms);
+> >>   }
+> >> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> >> index bec9c3652188..bbac87535923 100644
+> >> --- a/drivers/gpu/drm/i915/i915_request.c
+> >> +++ b/drivers/gpu/drm/i915/i915_request.c
+> >> @@ -660,7 +660,7 @@ bool __i915_request_submit(struct i915_request *request)
+> >>              goto active;
+> >>      }
+> >>
+> >> -    if (unlikely(intel_context_is_banned(request->context)))
+> >> +    if (unlikely(!intel_context_is_schedulable(request->context)))
+> >>              i915_request_set_error_once(request, -EIO);
+> >>
+> >>      if (unlikely(fatal_error(request->fence.error)))
+> >> --
+> >> 2.30.2
+> >>
+> >> _______________________________________________
+> >> Intel-gfx mailing list
+> >> Intel-gfx@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> >
 
-Yeah I think kobject lifetimes are complex enough already that if
-there is no need to tie ourselves to the driver model lifetime rules,
-our own notifier list with our own locking is better.
 
-Also before Greg rolls in: This imo only applies for notifiers like
-we're talking about here. When we want actual references to
-drivers/devices and all that, then it's better to deal with all the
-kobject model and use it correctly. Because a lot of thought has been
-put into handling all the corner cases there. E.g. drm_bridge is
-hitting a lot of the problems which the driver model has solutions
-for, similarly component.c is also a bit awkward.
 
-Anyway, we still need the refcount dance because calling the oob
-hotplug with the lock held could deadlock with hotunplug processing
-and removal of the drm_connector, which needs the same lock. So it's
-still tricky.
-
-> So shall I change thing over to this approach for v2 of this patch/series?
-
-Yeah I think we've explored all the options and found something that
-fits neatly now for v2.
--Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
