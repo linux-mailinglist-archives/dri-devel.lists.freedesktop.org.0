@@ -2,53 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5696A36F84E
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 12:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327E436F850
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 12:11:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42F816E122;
-	Fri, 30 Apr 2021 10:10:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 105DD6E4B5;
+	Fri, 30 Apr 2021 10:11:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
- [IPv6:2607:f8b0:4864:20::f31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A32166E122
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 10:10:10 +0000 (UTC)
-Received: by mail-qv1-xf31.google.com with SMTP id l2so16175261qvb.7
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 03:10:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Q/V9EdCv3z6js9ZHIRU99QR9bZyHhj9u8utoIhwPhbM=;
- b=Kn8Zirl5JPrERYzMLK1u5JDmb6u3MVNqM5pbUS5UMyRQnBPphpojP67U8tBQsg90Ee
- yy8XC6nDnIm1aZfAksbEyY5WE5aqtV7Ry/5Jxjv2b2MA3VQYX7ODWsacw0p9Uzzi4ptn
- MWDpeHUspZsB6HEHKBkskmYZJ2hWn79U3VU+gnWlcSlA7i42KMekEUFexCRcd3clSG2r
- QEzlSzGG3/t8X14CL0thL+W4vK31UE5s5rKSLd85vSDjLAvS0mxZwQ7eE+9501H6gpr4
- 9C9+rZ/7Tg0+r+Uu0rX+htH8QgNA4FTS6D9hIhOOIUV/cSx3hZSPA/vB0U6HMi/R6qMc
- /6aw==
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0911E6F525
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 10:11:11 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so1392569wmy.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 03:11:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=b7gyMVk2CZpK9PPSUyZ0v8rMVyzKuhNMCqCiHneAUzY=;
+ b=C+rMrD4kGkz99eT6K+LYNMm9QkmNNuZIMb9pYn/SGiXPZF+NE3oW8ajoF+yVR4wpxZ
+ mToHxe13ufhfHJq83+1lAUzKYdKZdsF9JUsK6y5oBqHpjoPy5NZR19wOpU9ekiHyUEkI
+ pSjBiRm3Hc6ivchhLe1Dp2YckKKqJJ2N0YJGM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Q/V9EdCv3z6js9ZHIRU99QR9bZyHhj9u8utoIhwPhbM=;
- b=UVXpc6MWOT+MMqKOjM/DIN0B768sn8OZ3ImrdwCBjBJly49Gqy4U7jTOvHairPvD8V
- tzt5tbfMQANesKcExQlnBwWoCLE51FO832NXzBR6JxexCQzc7tlbTM26z0bzrNjWED1e
- tuRti150w54THLgWcfYhieJwhHfW1c+ZLxvzJCIfC+gKOvHAe8qQa9fsAr2Ec1BU3pLE
- OznT+EoOEWnEISXuDe8GPK+KCr0efhhWWrw1UHaOJY7yHxr2EVF8Ia51slzNiXw5tMvy
- +xwxIvytDIsBhKPAeLl6CIy2oNLCj7UT+fsrky/e33eWZOrqyuSvmhW8rYLbMLNPQ0tK
- 7tsQ==
-X-Gm-Message-State: AOAM531az/00B597skSGHwYwYtRoEmS+Ao5vDdgcgm/a3/wyVuhnHpZM
- OAT8sILqwws1d/QkpwVC1CmqRvfuXgyjb2MunkI=
-X-Google-Smtp-Source: ABdhPJyp+eBs8kqjNP8LYpIKZwQ9x35+d631Tdvljew1hrWxfFswNxfXjvp0samKtPyObP8BHPO9pS1zZTS4Pv+bp+8=
-X-Received: by 2002:ad4:4c49:: with SMTP id cs9mr4406689qvb.43.1619777409766; 
- Fri, 30 Apr 2021 03:10:09 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=b7gyMVk2CZpK9PPSUyZ0v8rMVyzKuhNMCqCiHneAUzY=;
+ b=JNR9HjBWVzRQOV7sR3S6i+30+FQ9IJu4gVgGxlBI5obYT5BpueLgf5bJM9+jNJPTAj
+ Y7DIo9+vl567mEHnfvH1IsTCtD5IzaTRl3trl5HPadI69TOvpoivgjfucpF9bQZLsDsv
+ cuLQJXhcmhBL64N122b+EeGcNgawFWMVKqnA+vqaPTYRGWvW7ixXTe2O0cMEkJdr9VDW
+ KgmYHbqRxsmoP0pOqXRxsqZA0h6Zbp9O1RH3usJHS5AU4QVNj2xPCRh/vzWY107A9P9t
+ P2IrnvofcGvycPVV9R4rn6f36+izzK0bS7TjHqep6xUUwRpDLydUrYGcwFqYl+22Ci8J
+ DcTQ==
+X-Gm-Message-State: AOAM530BjDakH2B9GGSfPZciibEb6lhI42Tq3QrVTOsEA7cNrYC/TKOC
+ dH3hJPSb4t+9Mzq7zAu2nQnh0Q==
+X-Google-Smtp-Source: ABdhPJwI9jBltEpucaBXYcChojN/y0/JbYdYTfb7h37PzQkHaO7rvDUHVn5DBtPSizXPnclaAvcQiA==
+X-Received: by 2002:a1c:60c2:: with SMTP id u185mr5229818wmb.157.1619777469682; 
+ Fri, 30 Apr 2021 03:11:09 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b8sm1815587wrx.15.2021.04.30.03.11.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Apr 2021 03:11:09 -0700 (PDT)
+Date: Fri, 30 Apr 2021 12:11:07 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 08/21] drm/i915/gem: Disallow bonding of
+ virtual engines
+Message-ID: <YIvXuwPpr+gMW1vL@phenom.ffwll.local>
+References: <20210423223131.879208-9-jason@jlekstrand.net>
+ <CAOFGe958Y6eq1qcPPS-h8Swca8kMy39Vp-gGv6irXdS_8xje5w@mail.gmail.com>
+ <YIk1YEXjvaDN+feW@phenom.ffwll.local>
+ <CAOFGe97PUT8Ns0bVhHi6D+21yA3=v0QkhdmmKBm=dCn4CizwiA@mail.gmail.com>
+ <20210428171853.GA3260@sdutt-i7>
+ <CAOFGe96Qy8hXsJCemgDJtZYCbwqxvUS4j-SEKKnLQjE6dmRP2w@mail.gmail.com>
+ <20210428175525.GA7224@sdutt-i7>
+ <CAOFGe96i7GPvQ8yDreTGF-K5pr_GRNkofQhH7W6Wxr-F8qmxrQ@mail.gmail.com>
+ <YIqjG9l30ZmuN1Wg@phenom.ffwll.local>
+ <20210430040348.GA27630@sdutt-i7>
 MIME-Version: 1.0
-References: <20210430092508.60710-1-christian.koenig@amd.com>
-In-Reply-To: <20210430092508.60710-1-christian.koenig@amd.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Fri, 30 Apr 2021 11:09:43 +0100
-Message-ID: <CAM0jSHPGHP_5gLBt_onFbaN=2saT2TVEnrvv2PMb5zB35mMs_g@mail.gmail.com>
-Subject: Re: [PATCH 01/13] drm/ttm: add ttm_sys_manager v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20210430040348.GA27630@sdutt-i7>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,118 +75,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAzMCBBcHIgMjAyMSBhdCAxMDoyNSwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
-ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQWRkIGEgc2VwYXJhdGUgbWFuYWdl
-ciBmb3IgdGhlIHN5c3RlbSBkb21haW4gYW5kIG1ha2UgZnVuY3Rpb24gdGFibGVzCj4gbWFuZGF0
-b3J5Lgo+Cj4gdjI6IGRlYnVnIGlzIHN0aWxsIG9wdGlvbmFsCj4KPiBTaWduZWQtb2ZmLWJ5OiBD
-aHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gLS0tCj4gIGRyaXZl
-cnMvZ3B1L2RybS90dG0vTWFrZWZpbGUgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJzL2dwdS9k
-cm0vdHRtL3R0bV9kZXZpY2UuYyAgICAgIHwgMTcgKy0tLS0tLS0tLS0tCj4gIGRyaXZlcnMvZ3B1
-L2RybS90dG0vdHRtX21vZHVsZS5oICAgICAgfCAgMyArKwo+ICBkcml2ZXJzL2dwdS9kcm0vdHRt
-L3R0bV9yZXNvdXJjZS5jICAgIHwgMTEgKystLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL3R0bS90
-dG1fc3lzX21hbmFnZXIuYyB8IDQwICsrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICA1IGZp
-bGVzIGNoYW5nZWQsIDQ4IGluc2VydGlvbnMoKyksIDI1IGRlbGV0aW9ucygtKQo+ICBjcmVhdGUg
-bW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fc3lzX21hbmFnZXIuYwo+Cj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vTWFrZWZpbGUgYi9kcml2ZXJzL2dwdS9kcm0v
-dHRtL01ha2VmaWxlCj4gaW5kZXggNDBlNWU5ZGE3OTUzLi5mOTA2YjIyOTU5Y2YgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS9NYWtlZmlsZQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS90dG0vTWFrZWZpbGUKPiBAQCAtNCw3ICs0LDcgQEAKPgo+ICB0dG0teSA6PSB0dG1fdHQubyB0
-dG1fYm8ubyB0dG1fYm9fdXRpbC5vIHR0bV9ib192bS5vIHR0bV9tb2R1bGUubyBcCj4gICAgICAg
-ICB0dG1fZXhlY2J1Zl91dGlsLm8gdHRtX3JhbmdlX21hbmFnZXIubyB0dG1fcmVzb3VyY2UubyB0
-dG1fcG9vbC5vIFwKPiAtICAgICAgIHR0bV9kZXZpY2Uubwo+ICsgICAgICAgdHRtX2RldmljZS5v
-IHR0bV9zeXNfbWFuYWdlci5vCj4gIHR0bS0kKENPTkZJR19BR1ApICs9IHR0bV9hZ3BfYmFja2Vu
-ZC5vCj4KPiAgb2JqLSQoQ09ORklHX0RSTV9UVE0pICs9IHR0bS5vCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS90dG0vdHRtX2RldmljZS5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
-ZGV2aWNlLmMKPiBpbmRleCBiMTY5ZTlhNGY1ZDQuLjQ2MDk1M2RjYWQxMSAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9kZXZpY2UuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS90dG0vdHRtX2RldmljZS5jCj4gQEAgLTE2NSwyMSArMTY1LDYgQEAgaW50IHR0bV9kZXZpY2Vf
-c3dhcG91dChzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4
-ICpjdHgsCj4gIH0KPiAgRVhQT1JUX1NZTUJPTCh0dG1fZGV2aWNlX3N3YXBvdXQpOwo+Cj4gLXN0
-YXRpYyB2b2lkIHR0bV9pbml0X3N5c21hbihzdHJ1Y3QgdHRtX2RldmljZSAqYmRldikKPiAtewo+
-IC0gICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4gPSAmYmRldi0+c3lzbWFu
-Owo+IC0KPiAtICAgICAgIC8qCj4gLSAgICAgICAgKiBJbml0aWFsaXplIHRoZSBzeXN0ZW0gbWVt
-b3J5IGJ1ZmZlciB0eXBlLgo+IC0gICAgICAgICogT3RoZXIgdHlwZXMgbmVlZCB0byBiZSBkcml2
-ZXIgLyBJT0NUTCBpbml0aWFsaXplZC4KPiAtICAgICAgICAqLwo+IC0gICAgICAgbWFuLT51c2Vf
-dHQgPSB0cnVlOwo+IC0KPiAtICAgICAgIHR0bV9yZXNvdXJjZV9tYW5hZ2VyX2luaXQobWFuLCAw
-KTsKPiAtICAgICAgIHR0bV9zZXRfZHJpdmVyX21hbmFnZXIoYmRldiwgVFRNX1BMX1NZU1RFTSwg
-bWFuKTsKPiAtICAgICAgIHR0bV9yZXNvdXJjZV9tYW5hZ2VyX3NldF91c2VkKG1hbiwgdHJ1ZSk7
-Cj4gLX0KPiAtCj4gIHN0YXRpYyB2b2lkIHR0bV9kZXZpY2VfZGVsYXllZF93b3JrcXVldWUoc3Ry
-dWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgdHRtX2RldmljZSAq
-YmRldiA9Cj4gQEAgLTIyMiw3ICsyMDcsNyBAQCBpbnQgdHRtX2RldmljZV9pbml0KHN0cnVjdCB0
-dG1fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX2RldmljZV9mdW5jcyAqZnVuY3MsCj4KPiAgICAg
-ICAgIGJkZXYtPmZ1bmNzID0gZnVuY3M7Cj4KPiAtICAgICAgIHR0bV9pbml0X3N5c21hbihiZGV2
-KTsKPiArICAgICAgIHR0bV9zeXNfbWFuX2luaXQoYmRldik7Cj4gICAgICAgICB0dG1fcG9vbF9p
-bml0KCZiZGV2LT5wb29sLCBkZXYsIHVzZV9kbWFfYWxsb2MsIHVzZV9kbWEzMik7Cj4KPiAgICAg
-ICAgIGJkZXYtPnZtYV9tYW5hZ2VyID0gdm1hX21hbmFnZXI7Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS90dG0vdHRtX21vZHVsZS5oIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fbW9k
-dWxlLmgKPiBpbmRleCBkN2NhYzVkNGI4MzUuLjI2NTY0YTk4OTU4ZiAxMDA2NDQKPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9tb2R1bGUuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90
-dG0vdHRtX21vZHVsZS5oCj4gQEAgLTM0LDcgKzM0LDEwIEBACj4gICNkZWZpbmUgVFRNX1BGWCAi
-W1RUTV0gIgo+Cj4gIHN0cnVjdCBkZW50cnk7Cj4gK3N0cnVjdCB0dG1fZGV2aWNlOwo+Cj4gIGV4
-dGVybiBzdHJ1Y3QgZGVudHJ5ICp0dG1fZGVidWdmc19yb290Owo+Cj4gK2ludCB0dG1fc3lzX21h
-bl9pbml0KHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2KTsKPiArCj4gICNlbmRpZiAvKiBfVFRNX01P
-RFVMRV9IXyAqLwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9yZXNvdXJj
-ZS5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcmVzb3VyY2UuYwo+IGluZGV4IDA0ZjJlZWY2
-NTNhYi4uZmMzNTE3MDBkMDM1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRt
-X3Jlc291cmNlLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9yZXNvdXJjZS5jCj4g
-QEAgLTMzLDkgKzMzLDYgQEAgaW50IHR0bV9yZXNvdXJjZV9hbGxvYyhzdHJ1Y3QgdHRtX2J1ZmZl
-cl9vYmplY3QgKmJvLAo+ICAgICAgICAgICAgICAgICB0dG1fbWFuYWdlcl90eXBlKGJvLT5iZGV2
-LCByZXMtPm1lbV90eXBlKTsKPgo+ICAgICAgICAgcmVzLT5tbV9ub2RlID0gTlVMTDsKPiAtICAg
-ICAgIGlmICghbWFuLT5mdW5jIHx8ICFtYW4tPmZ1bmMtPmFsbG9jKQo+IC0gICAgICAgICAgICAg
-ICByZXR1cm4gMDsKPiAtCj4gICAgICAgICByZXR1cm4gbWFuLT5mdW5jLT5hbGxvYyhtYW4sIGJv
-LCBwbGFjZSwgcmVzKTsKPiAgfQo+Cj4gQEAgLTQ0LDkgKzQxLDcgQEAgdm9pZCB0dG1fcmVzb3Vy
-Y2VfZnJlZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3QgdHRtX3Jlc291cmNl
-ICpyZXMpCj4gICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbiA9Cj4gICAg
-ICAgICAgICAgICAgIHR0bV9tYW5hZ2VyX3R5cGUoYm8tPmJkZXYsIHJlcy0+bWVtX3R5cGUpOwo+
-Cj4gLSAgICAgICBpZiAobWFuLT5mdW5jICYmIG1hbi0+ZnVuYy0+ZnJlZSkKPiAtICAgICAgICAg
-ICAgICAgbWFuLT5mdW5jLT5mcmVlKG1hbiwgcmVzKTsKPiAtCj4gKyAgICAgICBtYW4tPmZ1bmMt
-PmZyZWUobWFuLCByZXMpOwo+ICAgICAgICAgcmVzLT5tbV9ub2RlID0gTlVMTDsKPiAgICAgICAg
-IHJlcy0+bWVtX3R5cGUgPSBUVE1fUExfU1lTVEVNOwo+ICB9Cj4gQEAgLTEzOSw3ICsxMzQsNyBA
-QCB2b2lkIHR0bV9yZXNvdXJjZV9tYW5hZ2VyX2RlYnVnKHN0cnVjdCB0dG1fcmVzb3VyY2VfbWFu
-YWdlciAqbWFuLAo+ICAgICAgICAgZHJtX3ByaW50ZihwLCAiICB1c2VfdHlwZTogJWRcbiIsIG1h
-bi0+dXNlX3R5cGUpOwo+ICAgICAgICAgZHJtX3ByaW50ZihwLCAiICB1c2VfdHQ6ICVkXG4iLCBt
-YW4tPnVzZV90dCk7Cj4gICAgICAgICBkcm1fcHJpbnRmKHAsICIgIHNpemU6ICVsbHVcbiIsIG1h
-bi0+c2l6ZSk7Cj4gLSAgICAgICBpZiAobWFuLT5mdW5jICYmIG1hbi0+ZnVuYy0+ZGVidWcpCj4g
-LSAgICAgICAgICAgICAgICgqbWFuLT5mdW5jLT5kZWJ1ZykobWFuLCBwKTsKPiArICAgICAgIGlm
-IChtYW4tPmZ1bmMtPmRlYnVnKQo+ICsgICAgICAgICAgICAgICBtYW4tPmZ1bmMtPmRlYnVnKG1h
-biwgcCk7Cj4gIH0KPiAgRVhQT1JUX1NZTUJPTCh0dG1fcmVzb3VyY2VfbWFuYWdlcl9kZWJ1Zyk7
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3N5c19tYW5hZ2VyLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9zeXNfbWFuYWdlci5jCj4gbmV3IGZpbGUgbW9kZSAxMDA2
-NDQKPiBpbmRleCAwMDAwMDAwMDAwMDAuLmVkOTI2MTUyMTRlMwo+IC0tLSAvZGV2L251bGwKPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9zeXNfbWFuYWdlci5jCj4gQEAgLTAsMCArMSw0
-MCBAQAo+ICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCBPUiBNSVQgKi8KPiAr
-Cj4gKyNpbmNsdWRlIDxkcm0vdHRtL3R0bV9yZXNvdXJjZS5oPgo+ICsjaW5jbHVkZSA8ZHJtL3R0
-bS90dG1fZGV2aWNlLmg+Cj4gKyNpbmNsdWRlIDxkcm0vdHRtL3R0bV9wbGFjZW1lbnQuaD4KPiAr
-Cj4gK3N0YXRpYyBpbnQgdHRtX3N5c19tYW5fYWxsb2Moc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5h
-Z2VyICptYW4sCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX2J1ZmZl
-cl9vYmplY3QgKmJvLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0
-IHR0bV9wbGFjZSAqcGxhY2UsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3Qg
-dHRtX3Jlc291cmNlICptZW0pCj4gK3sKPiArICAgICAgIHJldHVybiAwOwo+ICt9Cj4gKwo+ICtz
-dGF0aWMgdm9pZCB0dG1fc3lzX21hbl9mcmVlKHN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAq
-bWFuLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZSAq
-bWVtKQo+ICt7Cj4gK30KPiArCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgdHRtX3Jlc291cmNlX21h
-bmFnZXJfZnVuYyB0dG1fc3lzX21hbmFnZXJfZnVuYyA9IHsKPiArICAgICAgIC5hbGxvYyA9IHR0
-bV9zeXNfbWFuX2FsbG9jLAo+ICsgICAgICAgLmZyZWUgPSB0dG1fc3lzX21hbl9mcmVlLAo+ICt9
-Owo+ICsKPiAraW50IHR0bV9zeXNfbWFuX2luaXQoc3RydWN0IHR0bV9kZXZpY2UgKmJkZXYpCj4g
-K3sKPiArICAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuID0gJmJkZXYtPnN5
-c21hbjsKPiArCj4gKyAgICAgICAvKgo+ICsgICAgICAgICogSW5pdGlhbGl6ZSB0aGUgc3lzdGVt
-IG1lbW9yeSBidWZmZXIgdHlwZS4KPiArICAgICAgICAqIE90aGVyIHR5cGVzIG5lZWQgdG8gYmUg
-ZHJpdmVyIC8gSU9DVEwgaW5pdGlhbGl6ZWQuCj4gKyAgICAgICAgKi8KPiArICAgICAgIG1hbi0+
-dXNlX3R0ID0gdHJ1ZTsKPiArICAgICAgIG1hbi0+ZnVuYyA9ICZ0dG1fc3lzX21hbmFnZXJfZnVu
-YzsKPiArCj4gKyAgICAgICB0dG1fcmVzb3VyY2VfbWFuYWdlcl9pbml0KG1hbiwgMCk7Cj4gKyAg
-ICAgICB0dG1fc2V0X2RyaXZlcl9tYW5hZ2VyKGJkZXYsIFRUTV9QTF9TWVNURU0sIG1hbik7Cj4g
-KyAgICAgICB0dG1fcmVzb3VyY2VfbWFuYWdlcl9zZXRfdXNlZChtYW4sIHRydWUpOwo+ICsgICAg
-ICAgcmV0dXJuIDA7Cj4gK30KCkNhbiB0aGlzIHJldHVybiBub24temVybyB2YWx1ZSBsYXRlciBp
-biB0aGUgc2VyaWVzPyBJZiBub3QsIHdlIGNhbgptYXliZSBqdXN0IG1ha2UgdGhpcyB2b2lkLgoK
-RWl0aGVyIHdheSwKUmV2aWV3ZWQtYnk6IE1hdHRoZXcgQXVsZCA8bWF0dGhldy5hdWxkQGludGVs
-LmNvbT4KCj4gLS0KPiAyLjI1LjEKPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+On Thu, Apr 29, 2021 at 09:03:48PM -0700, Matthew Brost wrote:
+> On Thu, Apr 29, 2021 at 02:14:19PM +0200, Daniel Vetter wrote:
+> > On Wed, Apr 28, 2021 at 01:17:27PM -0500, Jason Ekstrand wrote:
+> > > On Wed, Apr 28, 2021 at 1:02 PM Matthew Brost <matthew.brost@intel.com> wrote:
+> > > >
+> > > > On Wed, Apr 28, 2021 at 12:46:07PM -0500, Jason Ekstrand wrote:
+> > > > > On Wed, Apr 28, 2021 at 12:26 PM Matthew Brost <matthew.brost@intel.com> wrote:
+> > > > > > Jumping on here mid-thread. For what is is worth to make execlists work
+> > > > > > with the upcoming parallel submission extension I leveraged some of the
+> > > > > > existing bonding code so I wouldn't be too eager to delete this code
+> > > > > > until that lands.
+> > > > >
+> > > > > Mind being a bit more specific about that?  The motivation for this
+> > > > > patch is that the current bonding handling and uAPI is, well, very odd
+> > > > > and confusing IMO.  It doesn't let you create sets of bonded engines.
+> > > > > Instead you create engines and then bond them together after the fact.
+> > > > > I didn't want to blindly duplicate those oddities with the proto-ctx
+> > > > > stuff unless they were useful.  With parallel submit, I would expect
+> > > > > we want a more explicit API where you specify a set of engine
+> > > > > class/instance pairs to bond together into a single engine similar to
+> > > > > how the current balancing API works.
+> > > > >
+> > > > > Of course, that's all focused on the API and not the internals.  But,
+> > > > > again, I'm not sure how we want things to look internally.  What we've
+> > > > > got now doesn't seem great for the GuC submission model but I'm very
+> > > > > much not the expert there.  I don't want to be working at cross
+> > > > > purposes to you and I'm happy to leave bits if you think they're
+> > > > > useful.  But I thought I was clearing things away so that you can put
+> > > > > in what you actually want for GuC/parallel submit.
+> > > > >
+> > > >
+> > > > Removing all the UAPI things are fine but I wouldn't delete some of the
+> > > > internal stuff (e.g. intel_virtual_engine_attach_bond, bond
+> > > > intel_context_ops, the hook for a submit fence, etc...) as that will
+> > > > still likely be used for the new parallel submission interface with
+> > > > execlists. As you say the new UAPI wont allow crazy configurations,
+> > > > only simple ones.
+> > > 
+> > > I'm fine with leaving some of the internal bits for a little while if
+> > > it makes pulling the GuC scheduler in easier.  I'm just a bit
+> > > skeptical of why you'd care about SUBMIT_FENCE. :-)  Daniel, any
+> > > thoughts?
+> > 
+> > Yeah I'm also wondering why we need this. Essentially your insight (and
+> > Tony Ye from media team confirmed) is that media umd never uses bonded on
+> > virtual engines.
+> >
+> 
+> Well you should use virtual engines with parallel submission interface 
+> if are you using it correctly.
+> 
+> e.g. You want a 2 wide parallel submission and there are 4 engine
+> instances.
+> 
+> You'd create 2 VEs:
+> 
+> A: 0, 2
+> B: 1, 3
+> set_parallel
+
+So tbh I'm not really liking this part. At least my understanding is that
+with GuC this is really one overall virtual engine, backed by a multi-lrc.
+
+So it should fill one engine slot, not fill multiple virtual engines and
+then be an awkward thing wrapped on top.
+
+I think (but maybe my understanding of GuC and the parallel submit execbuf
+interface is wrong) that the parallel engine should occupy a single VE
+slot, not require additional VE just for fun (maybe the execlist backend
+would require that internally, but that should not leak into the higher
+levels, much less the uapi). And you submit your multi-batch execbuf on
+that single parallel VE, which then gets passed to GuC as a multi-LRC.
+Internally in the backend there's a bit of fan-out to put the right
+MI_BB_START into the right rings and all that, but again I think that
+should be backend concerns.
+
+Or am I missing something big here?
+
+> For GuC submission we just configure context and the GuC load balances
+> it.
+> 
+> For execlists we'd need to create bonds.
+> 
+> Also likely the reason virtual engines wasn't used with the old
+> interface was we only had 2 instances max per class so no need for
+> virtual engines. If they used it for my above example if they were using
+> the interface correctly they would have to use virtual engines too.
+
+They do actually use virtual engines, it's just the virtual engine only
+contains a single one, and internally i915 folds that into the hw engine
+directly. So we can take away the entire implementation complexity.
+
+Also I still think for execlist we shouldn't bother with trying to enable
+parallel submit. Or at least only way down if there's no other reasonable
+option.
+
+> > So the only thing we need is the await_fence submit_fence logic to stall
+> > the subsequent patches just long enough. I think that stays.
+> >
+> 
+> My implementation, for the new parallel submission interface, with
+> execlists used a bonds + priority boosts to ensure both are present at
+> the same time. This was used for both non-virtual and virtual engines.
+> This was never reviewed though and the code died on the list.
+
+:-(
+
+> > All the additional logic with the cmpxchg lockless trickery and all that
+> > isn't needed, because we _never_ have to select an engine for bonded
+> > submission: It's always the single one available.
+> > 
+> > This would mean that for execlist parallel submit we can apply a
+> > limitation (beyond what GuC supports perhaps) and it's all ok. With that
+> > everything except the submit fence await logic itself can go I think.
+> > 
+> > Also one for Matt: We decided to ZBB implementing parallel submit on
+> > execlist, it's going to be just for GuC. At least until someone starts
+> > screaming really loudly.
+> 
+> If this is the case, then bonds can be deleted.
+
+Yeah that's the goal we're aiming for.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
