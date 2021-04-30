@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DC73701D4
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 22:11:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2562137028A
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 22:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 490F26F5B8;
-	Fri, 30 Apr 2021 20:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D94D96F5BF;
+	Fri, 30 Apr 2021 20:59:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
- [209.85.167.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA916F5B8
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 20:10:57 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id m13so71143169oiw.13
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 13:10:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TQ39G9eWDsOl7sqJoYVutkae5eYvscnE8x+ZtLW1WuU=;
- b=BKasSct8QXdIBpiNA/PaV+ZxC5MJtexzW64bb/9V/QPxrA+wph+nhTW4x7iPW1TG33
- EFiswaDiwCpIWjuapWzCGOXpaC5vPhCdyuwuG0xUBcOH/SueX1ffWbFxVS1AvuQcEfKG
- hfRWQLKOTjDNgTzARsRhV7yj+3NaiqOW5LCBrAQ2GsVuV28Eu0MJ4zqFirNaKeIg5iuT
- xtSwsGTAxFdOjXcGeGfCLGcQBNFGtNx0MzEZqy9CWYuQ8OQTGbHuTFwMTi++ZH7kGBgR
- 0yPGJOgqOqEFDGd+45eJBYdFWO4CQcuzNtmUxRSYKRZrBu0+879OB1xK4nx1YZSlaIiO
- prkA==
-X-Gm-Message-State: AOAM530i0hqwH+FolQPDhi2hwU9Btps7ZCNtBMMs0E7EdkAOhQ/s5jHr
- 5/6EAUTvlx/Tv+M/r//YTA==
-X-Google-Smtp-Source: ABdhPJyUY7X2RUi39DJ7DAkgG1ZZWRwUThEejPKruSWn2yZoGsiWv4NM6qjHAXTs3lUPU1MrBlUdFw==
-X-Received: by 2002:aca:5a45:: with SMTP id o66mr12542922oib.121.1619813456838; 
- Fri, 30 Apr 2021 13:10:56 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id c7sm966221oot.42.2021.04.30.13.10.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 13:10:55 -0700 (PDT)
-Received: (nullmailer pid 3805175 invoked by uid 1000);
- Fri, 30 Apr 2021 20:10:54 -0000
-Date: Fri, 30 Apr 2021 15:10:54 -0500
-From: Rob Herring <robh@kernel.org>
-To: cy_huang <u0084500@gmail.com>
-Subject: Re: [RESEND PATCH v6 3/4] mfd: rt4831: Adds DT binding document for
- Richtek RT4831
-Message-ID: <20210430201054.GA3805118@robh.at.kernel.org>
-References: <1619421491-31494-1-git-send-email-u0084500@gmail.com>
- <1619421491-31494-3-git-send-email-u0084500@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDFC06F5BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 20:59:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A1E4B6145B;
+ Fri, 30 Apr 2021 20:59:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619816380;
+ bh=sTjsy5WOTgX1u10dfsQUQso5+PDbD5rVnV7Ng/jVLM8=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=ME0A2FUs/7EEXR/1WE1FVH20j5QwRXH6s5oOgVgmA3+1TjSlUolDTVZwf06KP0KUp
+ ccEJLBYxYSkacxlf7II9BhkeyFw+La9xa1hqId3OBHRe8Qj3Dg7ieL0u+yzQC0re8+
+ rVr7e9lfHNMhd5pkBnof+krnJtPW2psJWFRH63Ngdd+0rdSwpsbbp3ZXiRikiapMN0
+ WfMF65ECWeocstXBAiC4SYpy9uNnyf6gJPBxzVCb+ds/CJAu25+oVqjIowRxRaocl5
+ DPuygzxixHJzObbq6Sf7dV8xcN42YjaKqJ2OwaeGu+c/6MssC5Oq7lWn6IDGbmOfor
+ OTDMGKIm6AhMw==
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1619421491-31494-3-git-send-email-u0084500@gmail.com>
+In-Reply-To: <20210413101320.321584-1-maxime@cerno.tech>
+References: <20210413101320.321584-1-maxime@cerno.tech>
+Subject: Re: [PATCH 0/2] clk: Implement a clock request API
+From: Stephen Boyd <sboyd@kernel.org>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <maxime@cerno.tech>, Mike Turquette <mturquette@baylibre.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Date: Fri, 30 Apr 2021 13:59:39 -0700
+Message-ID: <161981637939.1363782.4943687720432536625@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,31 +48,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, daniel.thompson@linaro.org, robh+dt@kernel.org,
- b.zolnierkie@samsung.com, jingoohan1@gmail.com, lgirdwood@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- cy_huang@richtek.com, linux-fbdev@vger.kernel.org, broonie@kernel.org,
- pavel@ucw.cz, lee.jones@linaro.org, linux-leds@vger.kernel.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Phil Elwell <phil@raspberrypi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Apr 2021 15:18:10 +0800, cy_huang wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
+Quoting Maxime Ripard (2021-04-13 03:13:18)
+> Hi,
 > 
-> Adds DT binding document for Richtek RT4831.
+> This is a follow-up of the discussion here:
+> https://lore.kernel.org/linux-clk/20210319150355.xzw7ikwdaga2dwhv@gilmour/
 > 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
-> Resend this v6 patch series to loop devicetree reviewers.
-> ---
->  .../devicetree/bindings/mfd/richtek,rt4831.yaml    | 90 ++++++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt4831.yaml
+> This implements a mechanism to raise and lower clock rates based on consumer
+> workloads, with an example of such an implementation for the RaspberryPi4 HDMI
+> controller.
 > 
+> There's a couple of things worth discussing:
+> 
+>   - The name is in conflict with clk_request_rate, and even though it feels
+>     like the right name to me, we should probably avoid any confusion
+> 
+>   - The code so far implements a policy of always going for the lowest rate
+>     possible. While we don't have an use-case for something else, this should
+>     maybe be made more flexible?
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+I'm definitely confused how it is different from the
+clk_set_rate_exclusive() API and associated
+clk_rate_exclusive_get()/clk_rate_exclusive_put(). Can you explain
+further the differences in the cover letter here?
+
+> 
+> Let me know what you think
+> Maxime
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
