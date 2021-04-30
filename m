@@ -1,70 +1,107 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750AF37029A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 23:05:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0451B3702E9
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 23:22:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5319D6F5C0;
-	Fri, 30 Apr 2021 21:04:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C2DB6F5D9;
+	Fri, 30 Apr 2021 21:22:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F6216F5C0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 21:04:55 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id d19so36471133qkk.12
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 14:04:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ydzc/UQSfGeVQNFG/QnxGDWnpFhecwtLoJxqG8ZG8Cg=;
- b=Ov5R523poXhFI1+DTO58fwJyVG5rNJSwtnBjJkc2d0NfuddPNjyjVNuQDvPuV3xvSz
- HvpREttduQPxVSPQAOIyOYBQxfZyhIf/3wphxaf8asWM5RUMbVBRfrz5KxXU54bvlJws
- Xz7/VHZ58xLOEFJrCnt8mUt8eX7GqtBE7DXmA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ydzc/UQSfGeVQNFG/QnxGDWnpFhecwtLoJxqG8ZG8Cg=;
- b=nYeqzvVqCyb9rxDbanmZJaKQDTNDFsMePySCTv8s6TB90TikG69qks0mIEDuujpNMn
- qtg9QBfp91AAxbVyBnOn2/5nBKr0J3c23yxxBXM0k0q68XmyNinpW+WAwyBDKxE0JGaU
- tljP+9/ZplxgQolD6M5045fTJ0CYSM360ZWorUO/4iInmNbw2jKp5O0pOlbG+3FmJNdv
- lxspQ3BnHh+ijHrwXoVnu2iz7WYkrBywUPxB/TnoRWijHchV4w7wVB+SW4EwJUpUKNuG
- sA0/aJfCbBgRZSESGAJO9Ne/vo3OFCAI/CSokumtp/N6mt6khzv8eegkfoN1jR5jz8Xw
- 1qvw==
-X-Gm-Message-State: AOAM530L4RXjNQiGCA0eIMgQz2IYy9z4SCJXOW844/p6+GWYXLYJergh
- ABdJLEHZFDJWLzZ1qPBb1ZdhwJeG6IelLA==
-X-Google-Smtp-Source: ABdhPJw0k13r87GagwqxJWbF/QS8xAN8xDt1TpqJXYT4uV6drPa2KmrUjE1heIezmBYSO72UgNMtdA==
-X-Received: by 2002:a37:2e87:: with SMTP id u129mr7569136qkh.316.1619816693995; 
- Fri, 30 Apr 2021 14:04:53 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
- [209.85.219.171])
- by smtp.gmail.com with ESMTPSA id o12sm3201339qtg.14.2021.04.30.14.04.52
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Apr 2021 14:04:52 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 130so41025456ybd.10
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 14:04:52 -0700 (PDT)
-X-Received: by 2002:a25:6088:: with SMTP id
- u130mr10217798ybb.257.1619816691670; 
- Fri, 30 Apr 2021 14:04:51 -0700 (PDT)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2089.outbound.protection.outlook.com [40.107.94.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09A936F5D9;
+ Fri, 30 Apr 2021 21:22:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QYadA9zbdE0hkw0PEVX5ffV8gV8MZrKiAfje49yuVM0cAm25g73Dla2Mmq/87zvP/1NWlmS7raEUJ7Eyxw3E68pH8kfRxPDCNvUUnYy3fMLoz1FJTRyqm6h6tmGikEdRJ9DO5yj9z3jZ3YbewC4aedAcQgNIr6n266xvye0tfuN0qxX1ZUnGBpEUECTV0D6HAVSSYoolw8XvV1W/tFNMxCAVMXMQ7LKuXX6UHKIhjiD2vBYuLrCbMg3gwew43bbepjLU4ycPKnQ/soNTexy8cxKkIxPJ4EGSZyW7WU5hhytd2DpQq3VFFmI0LEhJMYvLKJY5G3ynXB+1gLgSZSYmug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q7PjPElEJTmGwcG//Oh12kv8xeKZtz2lWgOVrq2MHOU=;
+ b=lgStLtcNc7D1WrQQclx9pzT4Y0b2CxCNrwvDhk+vLaT2LomvCS8uYbjVv6QbOmfNtGpFbTvt2f6bJCJ+R2B824kCufCvPSSb4ywokEWZZYr4pPyYYKBk3/z90U40RNtFiXrfOoRtZE0wUVOY85qyJT9B+kQJwoEuUrys9PEZfB6PdU+fsu05aEOGK9Jh2iUSmqUrZuQq+Km8uK6uipQpvN/Ja3+zRe8hdLxpl8NkV8uzKysqnsr3lS5p99zHWedWp9Wv2lrf0/kh+wfm3dNja5/o3SKHzU8KBsmKIVMlcF12Ie5HIcAwZ0p8pgD7tsotshsur9sbLoKraEsXrSaGbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q7PjPElEJTmGwcG//Oh12kv8xeKZtz2lWgOVrq2MHOU=;
+ b=jtZI0EfvrGVfVy5PxzDd3FuLskqs7MsxQi+TLY2tlQhQgcD/hk0xHM1umT6oXrqK/XuaNUesqur4vHFobEbwqdcE/AXxfukUqVO/w2h5eOaoj4oDXGCv3strxodyUfyVoCtVulc5xLGGGYQBKma8YXH+r/RZLGBWLvBT6bHZcn4=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB4679.namprd12.prod.outlook.com (2603:10b6:4:a2::37) by
+ DM5PR1201MB0122.namprd12.prod.outlook.com (2603:10b6:4:57::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.23; Fri, 30 Apr 2021 21:22:38 +0000
+Received: from DM5PR12MB4679.namprd12.prod.outlook.com
+ ([fe80::595e:20a2:f658:a7a5]) by DM5PR12MB4679.namprd12.prod.outlook.com
+ ([fe80::595e:20a2:f658:a7a5%5]) with mapi id 15.20.4065.034; Fri, 30 Apr 2021
+ 21:22:38 +0000
+From: Nikola Cornij <nikola.cornij@amd.com>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH v1 0/1] drm/dp_mst: Use the correct max source link rate for
+ i915
+Date: Fri, 30 Apr 2021 17:22:23 -0400
+Message-Id: <20210430212224.21588-1-nikola.cornij@amd.com>
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [165.204.55.250]
+X-ClientProxiedBy: YT1PR01CA0151.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2f::30) To DM5PR12MB4679.namprd12.prod.outlook.com
+ (2603:10b6:4:a2::37)
 MIME-Version: 1.0
-References: <20210423165906.2504169-1-dianders@chromium.org>
- <20210423095743.v5.1.I9e6af2529d6c61e5daf86a15a1211121c5223b9a@changeid>
- <CACRpkdYkRFLvCRPSYNzYQG58QgPfhvjtHb+FBQZadyrnjC8=1A@mail.gmail.com>
- <CAD=FV=UX683grZ=poTwKXxSqYBCLdLAOCxOPhE_xVVgKbe36Mw@mail.gmail.com>
- <CACRpkdYfugrJ4WGn=w+viGXE6s5cdHjLC++jHPLVy_QH09KA8Q@mail.gmail.com>
-In-Reply-To: <CACRpkdYfugrJ4WGn=w+viGXE6s5cdHjLC++jHPLVy_QH09KA8Q@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 30 Apr 2021 14:04:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XXxTz8hi92y6p3hX7iVEHuqKHsrKPSnX_a__WCEQRAKw@mail.gmail.com>
-Message-ID: <CAD=FV=XXxTz8hi92y6p3hX7iVEHuqKHsrKPSnX_a__WCEQRAKw@mail.gmail.com>
-Subject: Re: [PATCH v5 01/20] drm/panel: panel-simple: Add missing
- pm_runtime_disable() calls
-To: Linus Walleij <linus.walleij@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Bjorn Andersson <bjorn.andersson@linaro.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ubuntu.localdomain (165.204.55.250) by
+ YT1PR01CA0151.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2f::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.25 via Frontend Transport; Fri, 30 Apr 2021 21:22:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dec0247f-405b-4c89-4914-08d90c1e14b1
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0122:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB012269042B449A8DE81D91F3EE5E9@DM5PR1201MB0122.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NPr1DkvGdSs+TtyFOpqae48gGHPxyJOgJ71iERmy3ew8zcXoY4C7VENhcDQLsofk440O9vtCfpqZd7dnpCs3HwMWZ/W0QTB5OLtaupmYKGwtlxTHlrdPqFkNnfj7E25/0ndD0ST0KXb2vbIHiSPk3E2d7PcxT46nVNsVRVNoher0rxumsmnftlaGtxZenKORJpRAoQC5UEK9OCz92LoytImCfgjxGRqIs2mGZFUEatuaaQPsd5kQtsgePPWKb9bFeXLM5Vm7Err9Isoi4ONborqtlk1GB9kWhvG3HPyRsLmAqo1kPoDtvNNmHio1a1yg3zP415Qu/+iuYYQHUJX94/1PMqOCUUxGX5HcFDD6lCdvevdfuqMTajtDd8RWUA+EXNyspVKM9SS8heUZvsxOBVokrxlVSBkApQF/YM20pJQYj+xj1aUnSzTdPR9QK5Ox9lngsY4rGhcx2sbbubY6ZJFWSCL3Z384EFTYF5kAinD4p5oisgUcKw3MFhSIlyfi/fF5WGu6LAlGDk9qVx6beCC+QB5zI9DZ4mhiclydLAjSm2BWPrKk04by/8fCabdD+oUlqEC7Cce2aeZKrwPtgySAkKQxfwSDCec+glIBEE7bA19EymQmszdmxNmnGF5YGkfMbGnnC8BCQ693rPPJzk8R5PmhB19FE+m2zw9urMs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB4679.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(956004)(6486002)(44832011)(52116002)(38100700002)(6506007)(2906002)(36756003)(316002)(86362001)(5660300002)(66946007)(8936002)(4326008)(83380400001)(66476007)(66556008)(1076003)(6916009)(16526019)(8676002)(4744005)(26005)(2616005)(6666004)(186003)(478600001)(6512007)(38350700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?1/rAZxJJoXSbxY3sgjajpyH/U6CcalLRsBR+WHLNiwUOsnE/MBTxMykDRu4T?=
+ =?us-ascii?Q?cSpN0bmDHLgW4lDXpasuT+YXswiLWsw23+u4oCsXQP15G39NLF4U9heJDfch?=
+ =?us-ascii?Q?6SRjTVXEWL6WrMBlpDEYXsu6Vr/E+C63mA4pvXGkdMefpKBbozyDoAR4cO7g?=
+ =?us-ascii?Q?9qnGiqgkZqkzxy9Pkc4Vfo9U7/gTuVggfI1hmEvD++kFVcaGyp1/+OoTB6pS?=
+ =?us-ascii?Q?g8S/08aJgvVg45pGDP+OteZgmpINU+mslV23sIIAtT2/UK7rxoiif1znhGIK?=
+ =?us-ascii?Q?qvnHO/5usSF8NcnuNIpfVMM5FsDjnAe8ZCcoYs93pmNJszusqvo0l45YxcLF?=
+ =?us-ascii?Q?mzOPVluANybSEr9htgEiZ1+D3PmzGs3RtCGJr8eAWsxX4b7brZmNAalmEBia?=
+ =?us-ascii?Q?jjxDJKzApJM1qs3BWO4YFmNFcwp1lP38jVtXojX5Y0SJYUOyTPnYhtQ0Yjaj?=
+ =?us-ascii?Q?pVAeGbzdvV4dMgr94cUCGaBRySzv3ckmwQ2yFpmBcL1wq35xp4QEgs1sqqrX?=
+ =?us-ascii?Q?rGY/j844ShoOvwjJWpsQEuqnLXGUT9D7b0P4Jt4gxawG/az0sJIajr1Dh14/?=
+ =?us-ascii?Q?zNuYavIE29dF044iwgvIb1YKBAD9veAgJUukwLFcyr4O8LV6XWSit0FCeUTy?=
+ =?us-ascii?Q?P/eAsBXbA3Juj7k0nMKmUkHVTlyNdLPzP+odJlebWeqV/6Neroqad51Qeu+s?=
+ =?us-ascii?Q?WjRUqTp/zTT0kgT5w7AwYWPdqn4S+m7u5vsngN+WVM6TIC2vnen+1iZBURDn?=
+ =?us-ascii?Q?cqFOHLtXIv3p1ke2z38lmSOkqEv3Wzy0d3vCygSmAk4KnB/t8CwmP1BDRhT0?=
+ =?us-ascii?Q?uRK6/iNmdQsb9FoG7y0Nm2o7WEPBtu8GWHLu6bGBYv9FtB3gezLM3DUg0cz6?=
+ =?us-ascii?Q?q6LdYggHCgokEHVj3mnOV6TJFIS1J44ebRHHWWg8AP1x6PkS8tAXY+qq3cg2?=
+ =?us-ascii?Q?bLKuMLicqngg0u71Wwlba4FI7DZ9nEKCE1yOm+Tj70yPA3K2MBQGgkJ2SoX/?=
+ =?us-ascii?Q?Sm5sKN+HimJXCdQAYRspwCfGRgSE/deMwk7iixHoSL10Fbvn7+YlXWIm/XDs?=
+ =?us-ascii?Q?YT+mWT9/Yfsy7I3TkXmXDaMJkhpaZ1tZkN/PCXCr5l4gyaXgoVwaaoM74xDW?=
+ =?us-ascii?Q?8JVlB2ESE5cnHYlNUgQ9saPnLCQL235C1i2uqZHBAnPSqviSdu3gRBgpH7VK?=
+ =?us-ascii?Q?9xFlPEyc/RClI/srsKDPio0bAMff6dhXcEre/Fwota7uPn9WsCdhE2Maei/z?=
+ =?us-ascii?Q?ocL5iZ7uwt9X+fy6m+zM01pUHGJTeW8HDcdBxNe9SY1louxwoS2Uph0RUn1v?=
+ =?us-ascii?Q?3kLwRuDUZnqssiUKWHBv0Lae?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dec0247f-405b-4c89-4914-08d90c1e14b1
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB4679.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2021 21:22:38.6840 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JoKxW843Urhd0BoNV5ngSP5DdytqBv9Rs+Qi5E6NunbrINfBmxcRhvCBqgKf/0wJ3wgVj9BSK+ZBC5fD4/RDUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,111 +114,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Steev Klimaszewski <steev@kali.org>, Stephen Boyd <swboyd@chromium.org>,
- Wolfram Sang <wsa@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- linux-i2c <linux-i2c@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Nikola Cornij <nikola.cornij@amd.com>, koba.ko@canonical.com,
+ aurabindo.pillai@amd.com, mikita.lipski@amd.com, bskeggs@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is a follow-up change to fix incorrectly used max link rate source
+capability at MST init time.
 
-On Thu, Apr 29, 2021 at 6:28 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Fri, Apr 30, 2021 at 3:25 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> > > I think pm_runtime_disable(); need to be added there?
-> >
-> > I'm a bit confused. You're saying that I need to add
-> > pm_runtime_disable() to panel_simple_remove()? Doesn't this patch do
-> > that?
->
-> It does, sorry, too late at night :D
->
-> I was looking at the previous patch and mixed up which was the
-> patch and the patch to the patch...
->
-> Thanks, apply this!
+Change history:
 
-Pushed this one patch. Rest of the series is pending adult
-supervision. Overall summary:
+v1:
+  - Initial
 
-1. I could probably push some of the early sn65dsi86 cleanup patches
-in this series since they have Bjorn's review and are pretty much
-no-ops / simple cleanups, but there's probably not tons gained for
-shoving those in early.
+Nikola Cornij (1):
+  drm/dp_mst: Use the correct max source link rate for i915
 
-2. The whole concept of breaking up the patch into sub-drivers has no
-official Reviewed-by tags yet. Presumably Bjorn will give those a
-re-review when he has time again. Assuming nobody is really upset
-about it, I could land those which might unblock some of Bjorn's
-future PWM work. It would probably be good to get an extra set of eyes
-on them, though, just so someone else agrees that they're not "too
-hacky" or anything. IMO it's actually a pretty nice solution, but I'm
-biased!
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-3. Laurent and I had a big discussion on #dri-devel yesterday about
-the EDID reading. He's not totally convinced with the idea of doing
-this in the panel when the bridge could just do it by itself, but it
-sounded like he might be coming around. Right now this is waiting on
-Laurent to have time to get back to this.
+-- 
+2.25.1
 
-My summary of the IRC discussion with Laurent (please correct if I got
-this wrong):
-
-a) In general I argued that it was important to be able to provide the
-EDID and the DDC bus to the panel driver. Providing the EDID to the
-panel driver allows the panel driver is one of the prerequisites for
-my proposal for solving the "panel second sourcing" problem [1]. Being
-able to provide the DDC bus to the panel will likely be important in
-the eventual solution to Rajeev's problem [2].
-
-b) Today, if we provide the DDC bus to simple-panel then simple-panel
-will assume it's in charge of reading the EDID.
-
-c) Having the panel driver involved in reading the EDID feels like it
-makes sense to me. The panel driver knows how to power the panel on
-enough to read the EDID. It also might know extra quirks needed to
-read the EDID on a given panel. This feels a little cleaner (to me)
-than just re-using the panel's "prepare" and assuming that a prepared
-panel was ready for EDID read, though I can see that both may have
-their advantages.
-
-d) Laurent proposed that some eDP controllers might have special ways
-to read an EDID but might not be able to provide a DDC bus or an i2c
-bus. If we run into controllers like this then we would be painted
-into a corner and we'd have to come up with a new solution. This is
-definitely a good point, though it remains to be seen if this is
-common with eDP (like Laurent says it is for HDMI). Some eDP panels
-need custom DDC commands in order to be configured and so hopefully
-all eDP bridges out there at least provide a DDC bus. It does feel
-like this could be solved later, though. My patch series is leveraging
-the existing concept that the panel driver is in charge of reading the
-EDID if it's given the DDC bus, so it's not creating a new mechanism
-but instead just continuing to use the existing mechanism. If the
-existing mechanism doesn't work then it can be improved when there is
-a need.
-
-e) Laurent worried about circular dependencies and wanted to see my
-solution to the problem before deciding if it was too big of a hack.
-Hopefully it looks OK since it solves not only this problem but also
-the HPD GPIO problem and will be important for when Bjorn exports the
-PWM from the bridge chip.
-
-[1] https://lore.kernel.org/lkml/CAD=FV=VZYOMPwQZzWdhJGh5cjJWw_EcM-wQVEivZ-bdGXjPrEQ@mail.gmail.com/
-[2] https://lore.kernel.org/r/78c4bd291bd4a17ae2a1d02d0217de43@codeaurora.org
-
-OK, I'll shut up now. ;-)
-
--Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
