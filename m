@@ -2,48 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF1836F91D
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 13:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76AD36F922
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 13:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C71A46ED0F;
-	Fri, 30 Apr 2021 11:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD9616EDC7;
+	Fri, 30 Apr 2021 11:20:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 078ED6E43F;
- Fri, 30 Apr 2021 11:18:48 +0000 (UTC)
-IronPort-SDR: AKAc2X2LPo559ewc1T26vRnsTteMehKIQ99mAGlynzAMGOvBxO7SvM6kpkPxgfAwlCykmATyzm
- i3ClqJG3jWuQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194066992"
-X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; d="scan'208";a="194066992"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2021 04:18:48 -0700
-IronPort-SDR: UpIevm7+xTcJaJBx2eG9zACUJUlbqogROJdMbRCWY3nNc9+C35KhRVp3qdAOruKjSgbIy1pp2N
- CQ/b9tAgCC6g==
-X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; d="scan'208";a="527598692"
-Received: from redickin-mobl2.ger.corp.intel.com (HELO [10.213.208.173])
- ([10.213.208.173])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2021 04:18:47 -0700
-Subject: Re: [Intel-gfx] [PATCH 03/21] drm/i915/gem: Set the watchdog timeout
- directly in intel_context_set_gem
-To: Jason Ekstrand <jason@jlekstrand.net>
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-4-jason@jlekstrand.net>
- <417fe44a-61f9-c90a-c255-309db5bb48ab@linux.intel.com>
- <CAOFGe96jXtyx2-hiYBmZPFqSx1G32Ph7SGguJQ=ZD4im=ZPJ5A@mail.gmail.com>
- <19ee110c-f251-20b1-5ca8-d280b724ccbf@linux.intel.com>
- <CAOFGe95D81vvT1AQPF_sbqWQMZAJeZmr92xgd2m=GZY4TxGYUw@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <40869b1c-411a-31aa-0065-8b5f4fa8bd47@linux.intel.com>
-Date: Fri, 30 Apr 2021 12:18:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 806B16EDC7
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 11:20:26 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id i17so4686261qki.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 04:20:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Z1PNVG666jcLtq55IcWriPqrDYq5aW0wREBlA1cG8YQ=;
+ b=bxYRnzV9X1hDYplfFAZAQtW8Kls711RrHiFYY57Ig5r+di+62h4DD3nR/zfBU1No8g
+ zkR6EYgh2qlTVz5CMg5swUSF82tnrWWRXgcUsnkex0Bu5yII0R0cfbjU/qFivNMoJ/+o
+ KgyWaebO1e94cJbSzqu4OdX6/Wyx+HzLUfFYM0+xsHUU1PDe8snZDXTb4J/Imrrfh3iZ
+ keI0SH+OM2N1a2hL6LBZFCaf/YWd1iTCowLihhhviSv7O4UIw7nbH8367Bylp4sQQ1WL
+ r6QcfzQQyk7t50CAXiEGSCh1shxR2NceW2o/nJAgY9J9RVp9/M/EofjM86rZEmx3cRv4
+ u8WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Z1PNVG666jcLtq55IcWriPqrDYq5aW0wREBlA1cG8YQ=;
+ b=rKSqoiZL9HxJGIOeFiJX3H5H4SbGQ5JgPi1pWcJ9wHKHwvrvn/lYFxs9nVVopehz2R
+ oRbhTR50adVLUVSyksmz4r6aZcZi5Y/pLkcQJQWoJrj2UxZfztzQqFWTorjw4AOODBfr
+ FEEt5ZTS8l/gbwjo/+4PjducvOObwe2ESzCJolKAjah8gnE4lMhQSm26v4FJZaJQ0DBu
+ dP+p8IzRweqM9wFCypKq5u8ZctHFjfyx2s6FbSVWihxhHvkWnImUV6GWND+bdLtajGMC
+ unP1uQxQ5XnCvpsHjF7X0pw1nPX57wVv+4sQse6178oaNAW+n0TpKZxXBtsn64OfEu5H
+ jueA==
+X-Gm-Message-State: AOAM530akj/wgyTZnFaJMRkWmr6dYrt2XTeJZVcrC0QHD+qGXmkPuizB
+ mLOOKdLDTZ+eaf+QEJYBjqyR+79W/XNsgypZ4K4=
+X-Google-Smtp-Source: ABdhPJzqtODJ85bWcEnIs9h7b7AfK6f84nxNcIP0SNb7Dcm7p9eyr+gpS+2Eqxcx6IsH0C94d6x9Qabmd2Q6c1gQLwo=
+X-Received: by 2002:a05:620a:411:: with SMTP id
+ 17mr4575944qkp.481.1619781625607; 
+ Fri, 30 Apr 2021 04:20:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe95D81vvT1AQPF_sbqWQMZAJeZmr92xgd2m=GZY4TxGYUw@mail.gmail.com>
-Content-Language: en-US
+References: <20210430092508.60710-1-christian.koenig@amd.com>
+ <20210430092508.60710-5-christian.koenig@amd.com>
+In-Reply-To: <20210430092508.60710-5-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Fri, 30 Apr 2021 12:19:59 +0100
+Message-ID: <CAM0jSHNg_ZyAByYb71BWrWjJsP-CNa6nXv_o6=8AC3b4WONWzw@mail.gmail.com>
+Subject: Re: [PATCH 05/13] drm/ttm: allocate resource object instead of
+ embedding it
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,87 +64,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 29/04/2021 15:54, Jason Ekstrand wrote:
-> On Thu, Apr 29, 2021 at 3:04 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->>
->> On 28/04/2021 18:24, Jason Ekstrand wrote:
->>> On Wed, Apr 28, 2021 at 10:55 AM Tvrtko Ursulin
->>> <tvrtko.ursulin@linux.intel.com> wrote:
->>>> On 23/04/2021 23:31, Jason Ekstrand wrote:
->>>>> Instead of handling it like a context param, unconditionally set it when
->>>>> intel_contexts are created.  This doesn't fix anything but does simplify
->>>>> the code a bit.
->>>>>
->>>>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
->>>>> ---
->>>>>     drivers/gpu/drm/i915/gem/i915_gem_context.c   | 43 +++----------------
->>>>>     .../gpu/drm/i915/gem/i915_gem_context_types.h |  4 --
->>>>>     drivers/gpu/drm/i915/gt/intel_context_param.h |  3 +-
->>>>>     3 files changed, 6 insertions(+), 44 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>>>> index 35bcdeddfbf3f..1091cc04a242a 100644
->>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>>>> @@ -233,7 +233,11 @@ static void intel_context_set_gem(struct intel_context *ce,
->>>>>             intel_engine_has_timeslices(ce->engine))
->>>>>                 __set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
->>>>>
->>>>> -     intel_context_set_watchdog_us(ce, ctx->watchdog.timeout_us);
->>>>> +     if (IS_ACTIVE(CONFIG_DRM_I915_REQUEST_TIMEOUT) &&
->>>>> +         ctx->i915->params.request_timeout_ms) {
->>>>> +             unsigned int timeout_ms = ctx->i915->params.request_timeout_ms;
->>>>> +             intel_context_set_watchdog_us(ce, (u64)timeout_ms * 1000);
->>>>
->>>> Blank line between declarations and code please, or just lose the local.
->>>>
->>>> Otherwise looks okay. Slight change that same GEM context can now have a
->>>> mix of different request expirations isn't interesting I think. At least
->>>> the change goes away by the end of the series.
->>>
->>> In order for that to happen, I think you'd have to have a race between
->>> CREATE_CONTEXT and someone smashing the request_timeout_ms param via
->>> sysfs.  Or am I missing something?  Given that timeouts are really
->>> per-engine anyway, I don't think we need to care too much about that.
->>
->> We don't care, no.
->>
->> For completeness only - by the end of the series it is what you say. But
->> at _this_ point in the series though it is if modparam changes at any
->> point between context create and replacing engines. Which is a change
->> compared to before this patch, since modparam was cached in the GEM
->> context so far. So one GEM context was a single request_timeout_ms.
-> 
-> I've added the following to the commit message:
-> 
-> It also means that sync files exported from different engines on a
-> SINGLE_TIMELINE context will have different fence contexts.  This is
-> visible to userspace if it looks at the obj_name field of
-> sync_fence_info.
-> 
-> How's that sound?
-
-Wrong thread but sounds good.
-
-I haven't looked into the fence merge logic apart from noticing context 
-is used there. So I'd suggest a quick look there on top, just to make 
-sure merging logic does not hold any surprises if contexts start to 
-differ. Probably just results with more inefficiency somewhere, in theory.
-
-Regards,
-
-Tvrtko
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCAzMCBBcHIgMjAyMSBhdCAxMDoyNSwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
+ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gVG8gaW1wcm92ZSB0aGUgaGFuZGxp
+bmcgd2Ugd2FudCB0aGUgZXN0YWJsaXNoIHRoZSByZXNvdXJjZSBvYmplY3QgYXMgYmFzZQo+IGNs
+YXNzIGZvciB0aGUgYmFja2VuZCBhbGxvY2F0aW9ucy4KPgo+IFNpZ25lZC1vZmYtYnk6IENocmlz
+dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5jIHwgIDQgKy0KPiAgZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jICAgIHwgNTQgKysrKysrKy0tLS0tLS0tCj4gIGRy
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYyAgICAgICB8ICAyICstCj4gIGRyaXZl
+cnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jICAgICAgICB8ICAyICstCj4gIGRyaXZlcnMv
+Z3B1L2RybS90dG0vdHRtX2JvLmMgICAgICAgICAgICAgICB8IDc2ICsrKysrKystLS0tLS0tLS0t
+LS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jICAgICAgICAgIHwgNDEg
+KysrKysrLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Jlc291cmNlLmMgICAgICAg
+ICB8IDMwICsrKysrKy0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVm
+ZmVyLmMgfCAgMiArLQo+ICBpbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oICAgICAgICAgICAg
+ICAgfCAgMSAtCj4gIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggICAgICAgICAgICB8
+IDEwICsrLQo+ICBpbmNsdWRlL2RybS90dG0vdHRtX3Jlc291cmNlLmggICAgICAgICAgICAgfCAg
+NCArLQo+ICAxMSBmaWxlcyBjaGFuZ2VkLCAxMDEgaW5zZXJ0aW9ucygrKSwgMTI1IGRlbGV0aW9u
+cygtKQo+Cgo8c25pcD4KCj4KPiAgaW50IHR0bV9yZXNvdXJjZV9hbGxvYyhzdHJ1Y3QgdHRtX2J1
+ZmZlcl9vYmplY3QgKmJvLAo+ICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IHR0
+bV9wbGFjZSAqcGxhY2UsCj4gLSAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291
+cmNlICpyZXMpCj4gKyAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICoq
+cmVzX3B0cikKPiAgewo+ICAgICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4g
+PQo+IC0gICAgICAgICAgICAgICB0dG1fbWFuYWdlcl90eXBlKGJvLT5iZGV2LCByZXMtPm1lbV90
+eXBlKTsKPiArICAgICAgICAgICAgICAgdHRtX21hbmFnZXJfdHlwZShiby0+YmRldiwgcGxhY2Ut
+Pm1lbV90eXBlKTsKPiArICAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgKnJlczsKPiArICAgICAg
+IGludCByOwo+Cj4gKyAgICAgICByZXMgPSBrbWFsbG9jKHNpemVvZigqcmVzKSwgR0ZQX0tFUk5F
+TCk7CgppZiAoIXJlcykKICAgICAgICByZXR1cm4gLUVOT01FTTsKCkFsc28gdGhlcmUgYXJlIHN0
+aWxsIHNvbWUgcGxhY2VzIHdoZXJlIHdlIGFyZSBub3QgY2hlY2tpbmcgaWYKdHRtX3Jlc291cmNl
+X2FsbG9jIHJldHVybnMgYW4gZXJyb3IuIEkgZ3Vlc3MgdGhvc2UgYXJlIG9ubHkgZm9yIHRoZQpT
+WVMgY2FzZXMgd2hlcmUgdGhlIC0+YWxsb2MgZGlkIG5vdGhpbmcgc28gaXQgY291bGRuJ3QgcmVh
+bGx5IGZhaWwsCmJ1dCBub3cgdGhlcmUgaXMgYSBiaWcgc2Nhcnkga21hbGxvYyBsdXJraW5nIGlu
+IGhlcmU/IElzIHRoaXMgbm90IGEKY29uY2Vybj8KCj4gICAgICAgICByZXMtPm1tX25vZGUgPSBO
+VUxMOwo+ICAgICAgICAgcmVzLT5zdGFydCA9IDA7Cj4gICAgICAgICByZXMtPm51bV9wYWdlcyA9
+IFBGTl9VUChiby0+YmFzZS5zaXplKTsKPiBAQCAtNDEsMTggKzQ0LDI3IEBAIGludCB0dG1fcmVz
+b3VyY2VfYWxsb2Moc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgICAgICAgIHJlcy0+
+YnVzLm9mZnNldCA9IDA7Cj4gICAgICAgICByZXMtPmJ1cy5pc19pb21lbSA9IGZhbHNlOwo+ICAg
+ICAgICAgcmVzLT5idXMuY2FjaGluZyA9IHR0bV9jYWNoZWQ7Cj4gKyAgICAgICByID0gbWFuLT5m
+dW5jLT5hbGxvYyhtYW4sIGJvLCBwbGFjZSwgcmVzKTsKPiArICAgICAgIGlmIChyKSB7Cj4gKyAg
+ICAgICAgICAgICAgIGtmcmVlKHJlcyk7Cj4gKyAgICAgICAgICAgICAgIHJldHVybiByOwo+ICsg
+ICAgICAgfQo+Cj4gLSAgICAgICByZXR1cm4gbWFuLT5mdW5jLT5hbGxvYyhtYW4sIGJvLCBwbGFj
+ZSwgcmVzKTsKPiArICAgICAgICpyZXNfcHRyID0gcmVzOwo+ICsgICAgICAgcmV0dXJuIDA7Cj4g
+IH0KPgo+IC12b2lkIHR0bV9yZXNvdXJjZV9mcmVlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAq
+Ym8sIHN0cnVjdCB0dG1fcmVzb3VyY2UgKnJlcykKPiArdm9pZCB0dG1fcmVzb3VyY2VfZnJlZShz
+dHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3QgdHRtX3Jlc291cmNlICoqcmVzKQo+
+ICB7Cj4gLSAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbiA9Cj4gLSAgICAg
+ICAgICAgICAgIHR0bV9tYW5hZ2VyX3R5cGUoYm8tPmJkZXYsIHJlcy0+bWVtX3R5cGUpOwo+ICsg
+ICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW47Cj4KPiAtICAgICAgIG1hbi0+
+ZnVuYy0+ZnJlZShtYW4sIHJlcyk7Cj4gLSAgICAgICByZXMtPm1tX25vZGUgPSBOVUxMOwo+IC0g
+ICAgICAgcmVzLT5tZW1fdHlwZSA9IFRUTV9QTF9TWVNURU07Cj4gKyAgICAgICBpZiAoISpyZXMp
+Cj4gKyAgICAgICAgICAgICAgIHJldHVybjsKPiArCj4gKyAgICAgICBtYW4gPSB0dG1fbWFuYWdl
+cl90eXBlKGJvLT5iZGV2LCAoKnJlcyktPm1lbV90eXBlKTsKPiArICAgICAgIG1hbi0+ZnVuYy0+
+ZnJlZShtYW4sICpyZXMpOwo+ICsgICAgICAga2ZyZWUoKnJlcyk7Cj4gKyAgICAgICAqcmVzID0g
+TlVMTDsKPiAgfQo+ICBFWFBPUlRfU1lNQk9MKHR0bV9yZXNvdXJjZV9mcmVlKTsKPgo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMKPiBpbmRleCBiYjFkNDUzZjdj
+YTYuLjRjMzQyMTZhOWFiOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Zt
+d2dmeF90dG1fYnVmZmVyLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90
+dG1fYnVmZmVyLmMKPiBAQCAtNzQ2LDcgKzc0Niw3IEBAIHN0YXRpYyBpbnQgdm13X21vdmUoc3Ry
+dWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgICAgICAgICAgICAgICAgICAgICAgICBnb3Rv
+IGZhaWw7Cj4KPiAgICAgICAgICAgICAgICAgdm13X3R0bV91bmJpbmQoYm8tPmJkZXYsIGJvLT50
+dG0pOwo+IC0gICAgICAgICAgICAgICB0dG1fcmVzb3VyY2VfZnJlZShibywgYm8tPnJlc291cmNl
+KTsKPiArICAgICAgICAgICAgICAgdHRtX3Jlc291cmNlX2ZyZWUoYm8sICZiby0+cmVzb3VyY2Up
+Owo+ICAgICAgICAgICAgICAgICB0dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gICAg
+ICAgICAgICAgICAgIHJldHVybiAwOwo+ICAgICAgICAgfSBlbHNlIHsKPiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBp
+LmgKPiBpbmRleCAxODc2YTNkNmRmNzMuLmQ4YmI0NjIyOGNjNyAxMDA2NDQKPiAtLS0gYS9pbmNs
+dWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19h
+cGkuaAo+IEBAIC0xMzcsNyArMTM3LDYgQEAgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0IHsKPiAg
+ICAgICAgICAqLwo+Cj4gICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpyZXNvdXJjZTsKPiAt
+ICAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgX21lbTsKPiAgICAgICAgIHN0cnVjdCB0dG1fdHQg
+KnR0bTsKPiAgICAgICAgIGJvb2wgZGVsZXRlZDsKPgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2Ry
+bS90dG0vdHRtX2JvX2RyaXZlci5oIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+
+IGluZGV4IDFhOWJhMGIxMzYyMi4uZWFkMGVmNzEzNmM4IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUv
+ZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKPiArKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2Ry
+aXZlci5oCj4gQEAgLTk2LDcgKzk2LDcgQEAgc3RydWN0IHR0bV9scnVfYnVsa19tb3ZlIHsKPiAg
+ICovCj4gIGludCB0dG1fYm9fbWVtX3NwYWNlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8s
+Cj4gICAgICAgICAgICAgICAgICAgICAgc3RydWN0IHR0bV9wbGFjZW1lbnQgKnBsYWNlbWVudCwK
+PiAtICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICptZW0sCj4gKyAgICAg
+ICAgICAgICAgICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZSAqKm1lbSwKPiAgICAgICAgICAgICAg
+ICAgICAgICBzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHggKmN0eCk7Cj4KPiAgLyoqCj4gQEAgLTE4
+OCw4ICsxODgsOCBAQCB0dG1fYm9fbW92ZV90b19scnVfdGFpbF91bmxvY2tlZChzdHJ1Y3QgdHRt
+X2J1ZmZlcl9vYmplY3QgKmJvKQo+ICBzdGF0aWMgaW5saW5lIHZvaWQgdHRtX2JvX2Fzc2lnbl9t
+ZW0oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkKPiAgewo+IC0gICAg
+ICAgYm8tPl9tZW0gPSAqbmV3X21lbTsKPiAtICAgICAgIG5ld19tZW0tPm1tX25vZGUgPSBOVUxM
+Owo+ICsgICAgICAgV0FSTl9PTihiby0+cmVzb3VyY2UpOwo+ICsgICAgICAgYm8tPnJlc291cmNl
+ID0gbmV3X21lbTsKPiAgfQo+Cj4gIC8qKgo+IEBAIC0yMDIsOSArMjAyLDcgQEAgc3RhdGljIGlu
+bGluZSB2b2lkIHR0bV9ib19hc3NpZ25fbWVtKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8s
+Cj4gIHN0YXRpYyBpbmxpbmUgdm9pZCB0dG1fYm9fbW92ZV9udWxsKHN0cnVjdCB0dG1fYnVmZmVy
+X29iamVjdCAqYm8sCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0
+IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkKPiAgewo+IC0gICAgICAgc3RydWN0IHR0bV9yZXNvdXJj
+ZSAqb2xkX21lbSA9IGJvLT5yZXNvdXJjZTsKPiAtCj4gLSAgICAgICBXQVJOX09OKG9sZF9tZW0t
+Pm1tX25vZGUgIT0gTlVMTCk7Cj4gKyAgICAgICB0dG1fcmVzb3VyY2VfZnJlZShibywgJmJvLT5y
+ZXNvdXJjZSk7Cj4gICAgICAgICB0dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gIH0K
+Pgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX3Jlc291cmNlLmggYi9pbmNsdWRl
+L2RybS90dG0vdHRtX3Jlc291cmNlLmgKPiBpbmRleCA4OTBiOWQzNjk1MTkuLmMxN2MxYTUyMDcw
+ZCAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX3Jlc291cmNlLmgKPiArKysgYi9p
+bmNsdWRlL2RybS90dG0vdHRtX3Jlc291cmNlLmgKPiBAQCAtMjI1LDggKzIyNSw4IEBAIHR0bV9y
+ZXNvdXJjZV9tYW5hZ2VyX2NsZWFudXAoc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4p
+Cj4KPiAgaW50IHR0bV9yZXNvdXJjZV9hbGxvYyhzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJv
+LAo+ICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IHR0bV9wbGFjZSAqcGxhY2Us
+Cj4gLSAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpyZXMpOwo+IC12
+b2lkIHR0bV9yZXNvdXJjZV9mcmVlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIHN0cnVj
+dCB0dG1fcmVzb3VyY2UgKnJlcyk7Cj4gKyAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRt
+X3Jlc291cmNlICoqcmVzKTsKPiArdm9pZCB0dG1fcmVzb3VyY2VfZnJlZShzdHJ1Y3QgdHRtX2J1
+ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3QgdHRtX3Jlc291cmNlICoqcmVzKTsKPgo+ICB2b2lkIHR0
+bV9yZXNvdXJjZV9tYW5hZ2VyX2luaXQoc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4s
+Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgcF9zaXplKTsK
+PiAtLQo+IDIuMjUuMQo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
