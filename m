@@ -2,56 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76AD36F922
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 13:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E190236F951
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 13:28:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD9616EDC7;
-	Fri, 30 Apr 2021 11:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6EB26EE0F;
+	Fri, 30 Apr 2021 11:28:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 806B16EDC7
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 11:20:26 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id i17so4686261qki.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 04:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Z1PNVG666jcLtq55IcWriPqrDYq5aW0wREBlA1cG8YQ=;
- b=bxYRnzV9X1hDYplfFAZAQtW8Kls711RrHiFYY57Ig5r+di+62h4DD3nR/zfBU1No8g
- zkR6EYgh2qlTVz5CMg5swUSF82tnrWWRXgcUsnkex0Bu5yII0R0cfbjU/qFivNMoJ/+o
- KgyWaebO1e94cJbSzqu4OdX6/Wyx+HzLUfFYM0+xsHUU1PDe8snZDXTb4J/Imrrfh3iZ
- keI0SH+OM2N1a2hL6LBZFCaf/YWd1iTCowLihhhviSv7O4UIw7nbH8367Bylp4sQQ1WL
- r6QcfzQQyk7t50CAXiEGSCh1shxR2NceW2o/nJAgY9J9RVp9/M/EofjM86rZEmx3cRv4
- u8WQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD0CB6EE0F
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 11:28:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619782106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3JFK72s4WgeXjVN5drGeID+sVQaIvMBZBVHsbJFKuQM=;
+ b=R2ePpR2m0ExRg0asa7967gKus58yaU+xKEN4x4xXBbXnNOQxCYozhpy+YuwnWaOYAyIDSX
+ u780ww/w2PAzOlqF9DKdPV5KsHOJXABIErhDFkjlPlDWXArMp3PRHWHsms0ImYNtKudwOz
+ 6Ww6llhpVM/oL310NlCsRWa8jlkjbv8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-GSnsqlkgN6y_K514BJ8f_A-1; Fri, 30 Apr 2021 07:28:23 -0400
+X-MC-Unique: GSnsqlkgN6y_K514BJ8f_A-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ yh1-20020a17090706e1b029038d0f848c7aso5575680ejb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 04:28:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Z1PNVG666jcLtq55IcWriPqrDYq5aW0wREBlA1cG8YQ=;
- b=rKSqoiZL9HxJGIOeFiJX3H5H4SbGQ5JgPi1pWcJ9wHKHwvrvn/lYFxs9nVVopehz2R
- oRbhTR50adVLUVSyksmz4r6aZcZi5Y/pLkcQJQWoJrj2UxZfztzQqFWTorjw4AOODBfr
- FEEt5ZTS8l/gbwjo/+4PjducvOObwe2ESzCJolKAjah8gnE4lMhQSm26v4FJZaJQ0DBu
- dP+p8IzRweqM9wFCypKq5u8ZctHFjfyx2s6FbSVWihxhHvkWnImUV6GWND+bdLtajGMC
- unP1uQxQ5XnCvpsHjF7X0pw1nPX57wVv+4sQse6178oaNAW+n0TpKZxXBtsn64OfEu5H
- jueA==
-X-Gm-Message-State: AOAM530akj/wgyTZnFaJMRkWmr6dYrt2XTeJZVcrC0QHD+qGXmkPuizB
- mLOOKdLDTZ+eaf+QEJYBjqyR+79W/XNsgypZ4K4=
-X-Google-Smtp-Source: ABdhPJzqtODJ85bWcEnIs9h7b7AfK6f84nxNcIP0SNb7Dcm7p9eyr+gpS+2Eqxcx6IsH0C94d6x9Qabmd2Q6c1gQLwo=
-X-Received: by 2002:a05:620a:411:: with SMTP id
- 17mr4575944qkp.481.1619781625607; 
- Fri, 30 Apr 2021 04:20:25 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3JFK72s4WgeXjVN5drGeID+sVQaIvMBZBVHsbJFKuQM=;
+ b=IBnWO/M+ns/dge5whytQhtXmkWaRSqDoId9EYFS/NBmabSQNRtmLMAjTwjuvGPosT4
+ 0IfS20UH6WwkN7JqHTBWo2Qo0wkdNiec84rcbd/BHfjpdsXixo6EkO8ro6hF1kYFXTY7
+ nj6vJ1CJea5Sv0WdcHD22GJvx41uFD2FDw9Q993EIRugzneKE+YhtET+lFok3PH6D0f/
+ qD9AhCynbVGULXGov1JWUG3VnB5ylZ5jBmiRXdEEfW6sziSCypAHsZkFAJn5M+r0BbzI
+ 3l5cZClY9wLYr7byhGvo+JtTaWhAyBSuzZpJbqVojMWWtP+LLtS7wz8M1l1AgEkW1oOt
+ PKuA==
+X-Gm-Message-State: AOAM533A3CX13Jrs3XGFSz0VjWIer0hvwZNsbQUZGLK2piN1KBOkbkMN
+ oapJ2IrsFWbpTDgmgzPLpeg1sQ5q6zj8s6fxi+JEVChHkGA0Jbn+z7ar4kr1JF9Mt87xlagzF/K
+ m8vH3muwtUmwStTgBWCYj4oJvOVjN
+X-Received: by 2002:a05:6402:17ca:: with SMTP id
+ s10mr5400544edy.198.1619782101753; 
+ Fri, 30 Apr 2021 04:28:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfriSPaxv9UxvbfohsO7UTlieySCqCsfHiHvrzZKh1PX0V5hf98r7px+MwLMq3tT8LQ09Orw==
+X-Received: by 2002:a05:6402:17ca:: with SMTP id
+ s10mr5400531edy.198.1619782101508; 
+ Fri, 30 Apr 2021 04:28:21 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+ by smtp.gmail.com with ESMTPSA id k9sm1841855eje.102.2021.04.30.04.28.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Apr 2021 04:28:21 -0700 (PDT)
+Subject: Re: [PATCH 1/9] drm/connector: Make the drm_sysfs connector->kdev
+ device hold a reference to the connector
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210428215257.500088-1-hdegoede@redhat.com>
+ <20210428215257.500088-2-hdegoede@redhat.com>
+ <YIqbLDIeGXNSjSTS@phenom.ffwll.local> <YIqehmw+kG53LF3t@kroah.com>
+ <YIqg59yageIUwiwy@phenom.ffwll.local>
+ <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
+ <YIsEfAjFthAyHxUi@phenom.ffwll.local>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <43ee221e-7151-c0c2-cc52-37b191778221@redhat.com>
+Date: Fri, 30 Apr 2021 13:28:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210430092508.60710-1-christian.koenig@amd.com>
- <20210430092508.60710-5-christian.koenig@amd.com>
-In-Reply-To: <20210430092508.60710-5-christian.koenig@amd.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Fri, 30 Apr 2021 12:19:59 +0100
-Message-ID: <CAM0jSHNg_ZyAByYb71BWrWjJsP-CNa6nXv_o6=8AC3b4WONWzw@mail.gmail.com>
-Subject: Re: [PATCH 05/13] drm/ttm: allocate resource object instead of
- embedding it
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <YIsEfAjFthAyHxUi@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,122 +91,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAzMCBBcHIgMjAyMSBhdCAxMDoyNSwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
-ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gVG8gaW1wcm92ZSB0aGUgaGFuZGxp
-bmcgd2Ugd2FudCB0aGUgZXN0YWJsaXNoIHRoZSByZXNvdXJjZSBvYmplY3QgYXMgYmFzZQo+IGNs
-YXNzIGZvciB0aGUgYmFja2VuZCBhbGxvY2F0aW9ucy4KPgo+IFNpZ25lZC1vZmYtYnk6IENocmlz
-dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5jIHwgIDQgKy0KPiAgZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jICAgIHwgNTQgKysrKysrKy0tLS0tLS0tCj4gIGRy
-aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYyAgICAgICB8ICAyICstCj4gIGRyaXZl
-cnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jICAgICAgICB8ICAyICstCj4gIGRyaXZlcnMv
-Z3B1L2RybS90dG0vdHRtX2JvLmMgICAgICAgICAgICAgICB8IDc2ICsrKysrKystLS0tLS0tLS0t
-LS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jICAgICAgICAgIHwgNDEg
-KysrKysrLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Jlc291cmNlLmMgICAgICAg
-ICB8IDMwICsrKysrKy0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVm
-ZmVyLmMgfCAgMiArLQo+ICBpbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oICAgICAgICAgICAg
-ICAgfCAgMSAtCj4gIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggICAgICAgICAgICB8
-IDEwICsrLQo+ICBpbmNsdWRlL2RybS90dG0vdHRtX3Jlc291cmNlLmggICAgICAgICAgICAgfCAg
-NCArLQo+ICAxMSBmaWxlcyBjaGFuZ2VkLCAxMDEgaW5zZXJ0aW9ucygrKSwgMTI1IGRlbGV0aW9u
-cygtKQo+Cgo8c25pcD4KCj4KPiAgaW50IHR0bV9yZXNvdXJjZV9hbGxvYyhzdHJ1Y3QgdHRtX2J1
-ZmZlcl9vYmplY3QgKmJvLAo+ICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IHR0
-bV9wbGFjZSAqcGxhY2UsCj4gLSAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291
-cmNlICpyZXMpCj4gKyAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICoq
-cmVzX3B0cikKPiAgewo+ICAgICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4g
-PQo+IC0gICAgICAgICAgICAgICB0dG1fbWFuYWdlcl90eXBlKGJvLT5iZGV2LCByZXMtPm1lbV90
-eXBlKTsKPiArICAgICAgICAgICAgICAgdHRtX21hbmFnZXJfdHlwZShiby0+YmRldiwgcGxhY2Ut
-Pm1lbV90eXBlKTsKPiArICAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgKnJlczsKPiArICAgICAg
-IGludCByOwo+Cj4gKyAgICAgICByZXMgPSBrbWFsbG9jKHNpemVvZigqcmVzKSwgR0ZQX0tFUk5F
-TCk7CgppZiAoIXJlcykKICAgICAgICByZXR1cm4gLUVOT01FTTsKCkFsc28gdGhlcmUgYXJlIHN0
-aWxsIHNvbWUgcGxhY2VzIHdoZXJlIHdlIGFyZSBub3QgY2hlY2tpbmcgaWYKdHRtX3Jlc291cmNl
-X2FsbG9jIHJldHVybnMgYW4gZXJyb3IuIEkgZ3Vlc3MgdGhvc2UgYXJlIG9ubHkgZm9yIHRoZQpT
-WVMgY2FzZXMgd2hlcmUgdGhlIC0+YWxsb2MgZGlkIG5vdGhpbmcgc28gaXQgY291bGRuJ3QgcmVh
-bGx5IGZhaWwsCmJ1dCBub3cgdGhlcmUgaXMgYSBiaWcgc2Nhcnkga21hbGxvYyBsdXJraW5nIGlu
-IGhlcmU/IElzIHRoaXMgbm90IGEKY29uY2Vybj8KCj4gICAgICAgICByZXMtPm1tX25vZGUgPSBO
-VUxMOwo+ICAgICAgICAgcmVzLT5zdGFydCA9IDA7Cj4gICAgICAgICByZXMtPm51bV9wYWdlcyA9
-IFBGTl9VUChiby0+YmFzZS5zaXplKTsKPiBAQCAtNDEsMTggKzQ0LDI3IEBAIGludCB0dG1fcmVz
-b3VyY2VfYWxsb2Moc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgICAgICAgIHJlcy0+
-YnVzLm9mZnNldCA9IDA7Cj4gICAgICAgICByZXMtPmJ1cy5pc19pb21lbSA9IGZhbHNlOwo+ICAg
-ICAgICAgcmVzLT5idXMuY2FjaGluZyA9IHR0bV9jYWNoZWQ7Cj4gKyAgICAgICByID0gbWFuLT5m
-dW5jLT5hbGxvYyhtYW4sIGJvLCBwbGFjZSwgcmVzKTsKPiArICAgICAgIGlmIChyKSB7Cj4gKyAg
-ICAgICAgICAgICAgIGtmcmVlKHJlcyk7Cj4gKyAgICAgICAgICAgICAgIHJldHVybiByOwo+ICsg
-ICAgICAgfQo+Cj4gLSAgICAgICByZXR1cm4gbWFuLT5mdW5jLT5hbGxvYyhtYW4sIGJvLCBwbGFj
-ZSwgcmVzKTsKPiArICAgICAgICpyZXNfcHRyID0gcmVzOwo+ICsgICAgICAgcmV0dXJuIDA7Cj4g
-IH0KPgo+IC12b2lkIHR0bV9yZXNvdXJjZV9mcmVlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAq
-Ym8sIHN0cnVjdCB0dG1fcmVzb3VyY2UgKnJlcykKPiArdm9pZCB0dG1fcmVzb3VyY2VfZnJlZShz
-dHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3QgdHRtX3Jlc291cmNlICoqcmVzKQo+
-ICB7Cj4gLSAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbiA9Cj4gLSAgICAg
-ICAgICAgICAgIHR0bV9tYW5hZ2VyX3R5cGUoYm8tPmJkZXYsIHJlcy0+bWVtX3R5cGUpOwo+ICsg
-ICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW47Cj4KPiAtICAgICAgIG1hbi0+
-ZnVuYy0+ZnJlZShtYW4sIHJlcyk7Cj4gLSAgICAgICByZXMtPm1tX25vZGUgPSBOVUxMOwo+IC0g
-ICAgICAgcmVzLT5tZW1fdHlwZSA9IFRUTV9QTF9TWVNURU07Cj4gKyAgICAgICBpZiAoISpyZXMp
-Cj4gKyAgICAgICAgICAgICAgIHJldHVybjsKPiArCj4gKyAgICAgICBtYW4gPSB0dG1fbWFuYWdl
-cl90eXBlKGJvLT5iZGV2LCAoKnJlcyktPm1lbV90eXBlKTsKPiArICAgICAgIG1hbi0+ZnVuYy0+
-ZnJlZShtYW4sICpyZXMpOwo+ICsgICAgICAga2ZyZWUoKnJlcyk7Cj4gKyAgICAgICAqcmVzID0g
-TlVMTDsKPiAgfQo+ICBFWFBPUlRfU1lNQk9MKHR0bV9yZXNvdXJjZV9mcmVlKTsKPgo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMKPiBpbmRleCBiYjFkNDUzZjdj
-YTYuLjRjMzQyMTZhOWFiOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Zt
-d2dmeF90dG1fYnVmZmVyLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90
-dG1fYnVmZmVyLmMKPiBAQCAtNzQ2LDcgKzc0Niw3IEBAIHN0YXRpYyBpbnQgdm13X21vdmUoc3Ry
-dWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgICAgICAgICAgICAgICAgICAgICAgICBnb3Rv
-IGZhaWw7Cj4KPiAgICAgICAgICAgICAgICAgdm13X3R0bV91bmJpbmQoYm8tPmJkZXYsIGJvLT50
-dG0pOwo+IC0gICAgICAgICAgICAgICB0dG1fcmVzb3VyY2VfZnJlZShibywgYm8tPnJlc291cmNl
-KTsKPiArICAgICAgICAgICAgICAgdHRtX3Jlc291cmNlX2ZyZWUoYm8sICZiby0+cmVzb3VyY2Up
-Owo+ICAgICAgICAgICAgICAgICB0dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gICAg
-ICAgICAgICAgICAgIHJldHVybiAwOwo+ICAgICAgICAgfSBlbHNlIHsKPiBkaWZmIC0tZ2l0IGEv
-aW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBp
-LmgKPiBpbmRleCAxODc2YTNkNmRmNzMuLmQ4YmI0NjIyOGNjNyAxMDA2NDQKPiAtLS0gYS9pbmNs
-dWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19h
-cGkuaAo+IEBAIC0xMzcsNyArMTM3LDYgQEAgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0IHsKPiAg
-ICAgICAgICAqLwo+Cj4gICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpyZXNvdXJjZTsKPiAt
-ICAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgX21lbTsKPiAgICAgICAgIHN0cnVjdCB0dG1fdHQg
-KnR0bTsKPiAgICAgICAgIGJvb2wgZGVsZXRlZDsKPgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2Ry
-bS90dG0vdHRtX2JvX2RyaXZlci5oIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+
-IGluZGV4IDFhOWJhMGIxMzYyMi4uZWFkMGVmNzEzNmM4IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUv
-ZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKPiArKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2Ry
-aXZlci5oCj4gQEAgLTk2LDcgKzk2LDcgQEAgc3RydWN0IHR0bV9scnVfYnVsa19tb3ZlIHsKPiAg
-ICovCj4gIGludCB0dG1fYm9fbWVtX3NwYWNlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8s
-Cj4gICAgICAgICAgICAgICAgICAgICAgc3RydWN0IHR0bV9wbGFjZW1lbnQgKnBsYWNlbWVudCwK
-PiAtICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICptZW0sCj4gKyAgICAg
-ICAgICAgICAgICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZSAqKm1lbSwKPiAgICAgICAgICAgICAg
-ICAgICAgICBzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHggKmN0eCk7Cj4KPiAgLyoqCj4gQEAgLTE4
-OCw4ICsxODgsOCBAQCB0dG1fYm9fbW92ZV90b19scnVfdGFpbF91bmxvY2tlZChzdHJ1Y3QgdHRt
-X2J1ZmZlcl9vYmplY3QgKmJvKQo+ICBzdGF0aWMgaW5saW5lIHZvaWQgdHRtX2JvX2Fzc2lnbl9t
-ZW0oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkKPiAgewo+IC0gICAg
-ICAgYm8tPl9tZW0gPSAqbmV3X21lbTsKPiAtICAgICAgIG5ld19tZW0tPm1tX25vZGUgPSBOVUxM
-Owo+ICsgICAgICAgV0FSTl9PTihiby0+cmVzb3VyY2UpOwo+ICsgICAgICAgYm8tPnJlc291cmNl
-ID0gbmV3X21lbTsKPiAgfQo+Cj4gIC8qKgo+IEBAIC0yMDIsOSArMjAyLDcgQEAgc3RhdGljIGlu
-bGluZSB2b2lkIHR0bV9ib19hc3NpZ25fbWVtKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8s
-Cj4gIHN0YXRpYyBpbmxpbmUgdm9pZCB0dG1fYm9fbW92ZV9udWxsKHN0cnVjdCB0dG1fYnVmZmVy
-X29iamVjdCAqYm8sCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0
-IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkKPiAgewo+IC0gICAgICAgc3RydWN0IHR0bV9yZXNvdXJj
-ZSAqb2xkX21lbSA9IGJvLT5yZXNvdXJjZTsKPiAtCj4gLSAgICAgICBXQVJOX09OKG9sZF9tZW0t
-Pm1tX25vZGUgIT0gTlVMTCk7Cj4gKyAgICAgICB0dG1fcmVzb3VyY2VfZnJlZShibywgJmJvLT5y
-ZXNvdXJjZSk7Cj4gICAgICAgICB0dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gIH0K
-Pgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX3Jlc291cmNlLmggYi9pbmNsdWRl
-L2RybS90dG0vdHRtX3Jlc291cmNlLmgKPiBpbmRleCA4OTBiOWQzNjk1MTkuLmMxN2MxYTUyMDcw
-ZCAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX3Jlc291cmNlLmgKPiArKysgYi9p
-bmNsdWRlL2RybS90dG0vdHRtX3Jlc291cmNlLmgKPiBAQCAtMjI1LDggKzIyNSw4IEBAIHR0bV9y
-ZXNvdXJjZV9tYW5hZ2VyX2NsZWFudXAoc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4p
-Cj4KPiAgaW50IHR0bV9yZXNvdXJjZV9hbGxvYyhzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJv
-LAo+ICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IHR0bV9wbGFjZSAqcGxhY2Us
-Cj4gLSAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpyZXMpOwo+IC12
-b2lkIHR0bV9yZXNvdXJjZV9mcmVlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIHN0cnVj
-dCB0dG1fcmVzb3VyY2UgKnJlcyk7Cj4gKyAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRt
-X3Jlc291cmNlICoqcmVzKTsKPiArdm9pZCB0dG1fcmVzb3VyY2VfZnJlZShzdHJ1Y3QgdHRtX2J1
-ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3QgdHRtX3Jlc291cmNlICoqcmVzKTsKPgo+ICB2b2lkIHR0
-bV9yZXNvdXJjZV9tYW5hZ2VyX2luaXQoc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4s
-Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgcF9zaXplKTsK
-PiAtLQo+IDIuMjUuMQo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+Hi,
+
+On 4/29/21 9:09 PM, Daniel Vetter wrote:
+> On Thu, Apr 29, 2021 at 02:33:17PM +0200, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 4/29/21 2:04 PM, Daniel Vetter wrote:
+>>> On Thu, Apr 29, 2021 at 01:54:46PM +0200, Greg Kroah-Hartman wrote:
+>>>> On Thu, Apr 29, 2021 at 01:40:28PM +0200, Daniel Vetter wrote:
+>>>>> On Wed, Apr 28, 2021 at 11:52:49PM +0200, Hans de Goede wrote:
+>>>>>> Userspace could hold open a reference to the connector->kdev device,
+>>>>>> through e.g. holding a sysfs-atrtribute open after
+>>>>>> drm_sysfs_connector_remove() has been called. In this case the connector
+>>>>>> could be free-ed while the connector->kdev device's drvdata is still
+>>>>>> pointing to it.
+>>>>>>
+>>>>>> Give drm_connector devices there own device type, which allows
+>>>>>> us to specify our own release function and make drm_sysfs_connector_add()
+>>>>>> take a reference on the connector object, and have the new release
+>>>>>> function put the reference when the device is released.
+>>>>>>
+>>>>>> Giving drm_connector devices there own device type, will also allow
+>>>>>> checking if a device is a drm_connector device with a
+>>>>>> "if (device->type == &drm_sysfs_device_connector)" check.
+>>>>>>
+>>>>>> Note that the setting of the name member of the device_type struct will
+>>>>>> cause udev events for drm_connector-s to now contain DEVTYPE=drm_connector
+>>>>>> as extra info. So this extends the uevent part of the userspace API.
+>>>>>>
+>>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>>>
+>>>>> Are you sure? I thought sysfs is supposed to flush out any pending
+>>>>> operations (they complete fast) and handle open fd internally?
+>>>>
+>>>> Yes, it "should" :)
+>>>
+>>> Thanks for confirming my vague memories :-)
+>>>
+>>> Hans, pls drop this one.
+>>
+>> Please see my earlier reply to your review of this patch, it is
+>> still needed but for a different reason:
+>>
+>> """
+>> We still need this change though to make sure that the 
+>> "drm/connector: Add drm_connector_find_by_fwnode() function"
+>> does not end up following a dangling drvdat pointer from one
+>> if the drm_connector kdev-s.
+>>
+>> The class_dev_iter_init() in drm_connector_find_by_fwnode() gets
+>> a reference on all devices and between getting that reference
+>> and it calling drm_connector_get() - drm_connector_unregister()
+>> may run and drop the possibly last reference to the
+>> drm_connector object, freeing it and leaving the kdev's
+>> drvdata as a dangling pointer.
+>> """
+>>
+>> This is actually why I added it initially, and while adding it
+>> I came up with this wrong theory of why it was necessary independently
+>> of the drm_connector_find_by_fwnode() addition, sorry about that.
+> 
+> Generally that's handled by a kref_get_unless_zero under the protection of
+> the lock which protects the weak reference. Which I think is the right
+> model here (at a glance at least) since this is a lookup function.
+
+I'm afraid that things are a bit more complicated here. The idea here
+is that we have a subsystem outside of the DRM subsystem which received
+a hotplug event for a drm-connector.  The only info which this subsystem
+has is a reference on the fwnode level (either through device-tree or
+to platform-code instantiating software-fwnode-s + links for this).
+
+So in order to deliver the hotplug event to the connector we need
+to lookup the connector by fwnode.
+
+I've chosen to implement this by iterating over all drm_class
+devices with a dev_type of drm_connector using class_dev_iter_init()
+and friends. This makes sure that we either get a reference to
+the device, or that we skip the device if it is being deleted.
+
+But this just gives us a reference to the connector->kdev, not
+to the connector itself. A pointer to the connector itself is stored
+as drvdata inside the device, but without taking a reference as
+this patch does, there is no guarantee that that pointer does not
+point to possibly free-ed mem.
+
+We could set drvdata to 0 from drm_sysfs_connector_remove()
+Before calling device_unregister(connector->kdev) and then do
+something like this inside drm_connector_find_by_fwnode():
+
+/*
+ * Lock the device to ensure we either see the drvdata == NULL
+ * set by drm_sysfs_connector_remove(); or we block the removal
+ * from continuing until we are done with the device.
+ */
+device_lock(dev);
+connector = dev_get_drvdata(dev);
+if (connector && connector->fwnode == fwnode) {
+	drm_connector_get(connector);
+	found = connector;
+}
+device_unlock(dev);
+
+With the device_lock() synchronizing against the device_lock()
+in device_unregister(connector->kdev). So that we either see
+drvdata == NULL if we race with unregistering; or we get
+a reference on the drm_connector obj before its ref-count can
+drop to 0.
+
+There might be places though where we call code take the device_lock
+while holding a lock necessary for the drm_connector_get() , so
+this approach might lead to an AB BA deadlock. As such I think
+my original approach is better (also see below).
+
+> Lookup tables holding full references tends to lead to all kinds of bad
+> side effects.
+
+The proposed reference is not part of a lookup list, it is a
+reference from the kdev on the drm_connector object which gets
+dropped as soon as the kdev's refcount hits 0, which normally
+happens directly after drm_connector_unregister() has run.
+
+In many other places in the kernel problems like this are
+solved by embedding the device struct inside the containing
+data struct (so the drm_connector struct) and using the
+device_struct's refcounting for all refcounting and using
+the device struct's release callback as the release callback for
+the entire object.
+
+That is not doable here since the drm_object code has its own
+refcounting going on. What this patch is in essence doing is
+simulating having only 1 refcount, by making sure the
+main-object release callback does not get run until
+the drm_objects' refcount and the device's refcount have
+both reached 0 (by keeping the drm_object's refcount at
+a minimum of 1 as long as there are references to the
+device).
+
+Regards,
+
+Hans
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
