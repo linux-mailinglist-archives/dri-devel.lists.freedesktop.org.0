@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE75B37013B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 21:31:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C97B5370141
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 21:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 245856F5A7;
-	Fri, 30 Apr 2021 19:31:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA0976F5B2;
+	Fri, 30 Apr 2021 19:31:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73E896F5AC
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 19:31:12 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id i14so5586241pgk.5
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 12:31:12 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD36D6F5AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 19:31:13 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id d124so6402356pfa.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 12:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zoyc92td/lrE+1cEtuWT2gS23XHAVp7Jh+/xM6e703E=;
- b=I7NSjPjcc21r8BP/rzm9f+bbrdMrSfdOl1GG7A81BEWaP0eiPpYbOjNGk04Ui5rJTG
- /eJftYzh6EbB1TLCDCYovgIRxImMDyaBvtXHbZGYrTi7TpyW3dhW15ajxXC6WM4+kmQI
- BD+z0XK9QOaHRLs6w0I3P6ck8mPCG4Qp1zfWw=
+ bh=Urj1XE+1F6yAFNCUDgU91r4ZNGlYqjnW6rnubxUZ/yE=;
+ b=RIbofK/CTF1RYM7BcxB1/evEUuxa07mCe9q9YrTdpdXTJbT2jlUG+xyoSRjmn3KfEm
+ Ac0EoK0+CbY1WeJos6+fh7cey4GVJifNnmFxHV7jQBmvhQF+CfxruNTy3oa8pm699CLf
+ 7ElmSed3V0/YzDBh7D55C79BfNYfEnd914Ybc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zoyc92td/lrE+1cEtuWT2gS23XHAVp7Jh+/xM6e703E=;
- b=h2+lXixQYdRVG1GG2q/lejPjckhUQNOsl7FVJu/dZSccD5hotbqym+k69R4UTbuf0H
- vcYfCl6BWykHiDiPvRRQ2UaKwDrhqg6uXP0HNiJ6sQU+a51fVbHAtK1dnmWJ5GyGN6u/
- IXjXL5uyKVMxqFugxh7ZZVG8812OnuPI3nq6747t5taZk7VxTWMxK6GcU8UbQGe1aXmX
- eqSMDxunF+KaI+C8lJF0KSheenJrw1dojEq4uvX4kA8mSUPNRNFKqhauydBib8utv1NZ
- e5KVCRT5VmD1eQd4MRpyKSBVWGgYKso4TuLZ5mRQnNrUNSAzJgYgsV4FQ5/bIEVERYuG
- aaQw==
-X-Gm-Message-State: AOAM533IqFaGtNvL9dpszCnGLtgKC9FazMAf8GUmxOaWeboxxthqBZdd
- plN21ZSAtBkjvRjzNQ/u7c1QIA==
-X-Google-Smtp-Source: ABdhPJw36DyEYB6yLssWTFLdRf6MVS2ZLnjGsTHpD+bVS+765gw4Cq3zqa8hvb03GUCQ6sTh+x1KJA==
-X-Received: by 2002:a05:6a00:b82:b029:27f:dffe:214c with SMTP id
- g2-20020a056a000b82b029027fdffe214cmr6546945pfj.57.1619811072112; 
- Fri, 30 Apr 2021 12:31:12 -0700 (PDT)
+ bh=Urj1XE+1F6yAFNCUDgU91r4ZNGlYqjnW6rnubxUZ/yE=;
+ b=bHLgidJ/DefhrDgKluq0Er6xutRd7B3Mz5iU7aYHGZmqLDDklyIXJGhBSdcsbnohE4
+ +UCxDX9HzFLcLmb0Sj6T8XQNjpPdhUScsTDalS+W0CkcX7Pr9od8v1wafhrgvSf2AwQC
+ 6poTyfxaIePLIYxVawgaZx4LUB0vss7HAjLvVUr2j+0EAKdNibSfOWbFY4z2q0zHPPXU
+ CRD2cnv9TZddq7mHY4BZVFtshaTXDp8DgXXSCGdbwtgAoYmCCg954HoQJJW5rSm7GTb9
+ k45jQJaFfzqBre3ni+7UYlvUUDaxclyFyy8lIOzg1M5iBjDUcXjvzrjEocCwN0MjUBcq
+ TqRA==
+X-Gm-Message-State: AOAM530swqckabABT7+u3d8sMphm4q9LvD+YQuqNDERPHSDDV1iroE8z
+ LjsHKj9iK6ncsRnJ1+9+w3DLbA==
+X-Google-Smtp-Source: ABdhPJzTG27OclHXpsrA9pzx9fwtSBaSynh85Rw/qBOYXiO9dM2I+2dHRiWFcZ6AvyyMiL+2a0HYjw==
+X-Received: by 2002:aa7:824e:0:b029:20a:3a1:eeda with SMTP id
+ e14-20020aa7824e0000b029020a03a1eedamr6104381pfn.71.1619811073296; 
+ Fri, 30 Apr 2021 12:31:13 -0700 (PDT)
 Received: from smtp.gmail.com ([2620:15c:202:201:dacb:8fee:a41f:12ac])
- by smtp.gmail.com with ESMTPSA id t6sm3143500pjl.57.2021.04.30.12.31.11
+ by smtp.gmail.com with ESMTPSA id t6sm3143500pjl.57.2021.04.30.12.31.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 12:31:11 -0700 (PDT)
+ Fri, 30 Apr 2021 12:31:12 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH 5/6] drm/msm/disp: Use plane debug print helper
-Date: Fri, 30 Apr 2021 12:31:03 -0700
-Message-Id: <20210430193104.1770538-6-swboyd@chromium.org>
+Subject: [PATCH 6/6] drm/msm/disp: Move various debug logs to atomic bucket
+Date: Fri, 30 Apr 2021 12:31:04 -0700
+Message-Id: <20210430193104.1770538-7-swboyd@chromium.org>
 X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
 In-Reply-To: <20210430193104.1770538-1-swboyd@chromium.org>
 References: <20210430193104.1770538-1-swboyd@chromium.org>
@@ -74,8 +74,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the DPU_DEBUG_PLANE() helper to print the plane number instead of
-open coding it.
+These prints flood the logs with drm debugging set to enable kms and
+driver logging (DRM_UT_KMS and DRM_UT_DRIVER). Let's move these prints
+to the atomic bucket (DRM_UT_ATOMIC) as they're related to the atomic
+paths.
 
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Abhinav Kumar <abhinavk@codeaurora.org>
@@ -84,65 +86,429 @@ Cc: aravindh@codeaurora.org
 Cc: Sean Paul <sean@poorly.run>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 22 +++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 38 +++++++++----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 10 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |  6 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c      | 14 +++----
+ 6 files changed, 44 insertions(+), 48 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+index b6b3bbab0333..8bbba5a44d82 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+@@ -132,7 +132,7 @@ static void _dpu_core_perf_calc_crtc(struct dpu_kms *kms,
+ 		perf->core_clk_rate = _dpu_core_perf_calc_clk(kms, crtc, state);
+ 	}
+ 
+-	DPU_DEBUG(
++	DRM_DEBUG_ATOMIC(
+ 		"crtc=%d clk_rate=%llu core_ib=%llu core_ab=%llu\n",
+ 			crtc->base.id, perf->core_clk_rate,
+ 			perf->max_per_pipe_ib, perf->bw_ctl);
+@@ -178,7 +178,7 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+ 			struct dpu_crtc_state *tmp_cstate =
+ 				to_dpu_crtc_state(tmp_crtc->state);
+ 
+-			DPU_DEBUG("crtc:%d bw:%llu ctrl:%d\n",
++			DRM_DEBUG_ATOMIC("crtc:%d bw:%llu ctrl:%d\n",
+ 				tmp_crtc->base.id, tmp_cstate->new_perf.bw_ctl,
+ 				tmp_cstate->bw_control);
+ 
+@@ -187,11 +187,11 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+ 
+ 		/* convert bandwidth to kb */
+ 		bw = DIV_ROUND_UP_ULL(bw_sum_of_intfs, 1000);
+-		DPU_DEBUG("calculated bandwidth=%uk\n", bw);
++		DRM_DEBUG_ATOMIC("calculated bandwidth=%uk\n", bw);
+ 
+ 		threshold = kms->catalog->perf.max_bw_high;
+ 
+-		DPU_DEBUG("final threshold bw limit = %d\n", threshold);
++		DRM_DEBUG_ATOMIC("final threshold bw limit = %d\n", threshold);
+ 
+ 		if (!threshold) {
+ 			DPU_ERROR("no bandwidth limits specified\n");
+@@ -228,7 +228,7 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+ 
+ 			perf.bw_ctl += dpu_cstate->new_perf.bw_ctl;
+ 
+-			DPU_DEBUG("crtc=%d bw=%llu paths:%d\n",
++			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu paths:%d\n",
+ 				  tmp_crtc->base.id,
+ 				  dpu_cstate->new_perf.bw_ctl, kms->num_paths);
+ 		}
+@@ -278,7 +278,7 @@ void dpu_core_perf_crtc_release_bw(struct drm_crtc *crtc)
+ 	/* Release the bandwidth */
+ 	if (kms->perf.enable_bw_release) {
+ 		trace_dpu_cmd_release_bw(crtc->base.id);
+-		DPU_DEBUG("Release BW crtc=%d\n", crtc->base.id);
++		DRM_DEBUG_ATOMIC("Release BW crtc=%d\n", crtc->base.id);
+ 		dpu_crtc->cur_perf.bw_ctl = 0;
+ 		_dpu_core_perf_crtc_update_bus(kms, crtc);
+ 	}
+@@ -314,7 +314,7 @@ static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
+ 	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_FIXED)
+ 		clk_rate = kms->perf.fix_core_clk_rate;
+ 
+-	DPU_DEBUG("clk:%llu\n", clk_rate);
++	DRM_DEBUG_ATOMIC("clk:%llu\n", clk_rate);
+ 
+ 	return clk_rate;
+ }
+@@ -344,7 +344,7 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
+ 	dpu_crtc = to_dpu_crtc(crtc);
+ 	dpu_cstate = to_dpu_crtc_state(crtc->state);
+ 
+-	DPU_DEBUG("crtc:%d stop_req:%d core_clk:%llu\n",
++	DRM_DEBUG_ATOMIC("crtc:%d stop_req:%d core_clk:%llu\n",
+ 			crtc->base.id, stop_req, kms->perf.core_clk_rate);
+ 
+ 	old = &dpu_crtc->cur_perf;
+@@ -362,7 +362,7 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
+ 			(new->max_per_pipe_ib > old->max_per_pipe_ib)))	||
+ 			(!params_changed && ((new->bw_ctl < old->bw_ctl) ||
+ 			(new->max_per_pipe_ib < old->max_per_pipe_ib)))) {
+-			DPU_DEBUG("crtc=%d p=%d new_bw=%llu,old_bw=%llu\n",
++			DRM_DEBUG_ATOMIC("crtc=%d p=%d new_bw=%llu,old_bw=%llu\n",
+ 				crtc->base.id, params_changed,
+ 				new->bw_ctl, old->bw_ctl);
+ 			old->bw_ctl = new->bw_ctl;
+@@ -378,7 +378,7 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
+ 			update_clk = true;
+ 		}
+ 	} else {
+-		DPU_DEBUG("crtc=%d disable\n", crtc->base.id);
++		DRM_DEBUG_ATOMIC("crtc=%d disable\n", crtc->base.id);
+ 		memset(old, 0, sizeof(*old));
+ 		memset(new, 0, sizeof(*new));
+ 		update_bus = true;
+@@ -414,7 +414,7 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
+ 		}
+ 
+ 		kms->perf.core_clk_rate = clk_rate;
+-		DPU_DEBUG("update clk rate = %lld HZ\n", clk_rate);
++		DRM_DEBUG_ATOMIC("update clk rate = %lld HZ\n", clk_rate);
+ 	}
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 56eb22554197..2bce1e9a3cda 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -57,8 +57,6 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
+ {
+ 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
+ 
+-	DPU_DEBUG("\n");
+-
+ 	if (!crtc)
+ 		return;
+ 
+@@ -87,7 +85,7 @@ static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
+ 	lm->ops.setup_blend_config(lm, pstate->stage,
+ 				0xFF, 0, blend_op);
+ 
+-	DPU_DEBUG("format:%s, alpha_en:%u blend_op:0x%x\n",
++	DRM_DEBUG_ATOMIC("format:%s, alpha_en:%u blend_op:0x%x\n",
+ 		drm_get_format_name(format->base.pixel_format, &format_name),
+ 		format->alpha_enable, blend_op);
+ }
+@@ -143,7 +141,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+ 
+ 		dpu_plane_get_ctl_flush(plane, ctl, &flush_mask);
+ 
+-		DPU_DEBUG("crtc %d stage:%d - plane %d sspp %d fb %d\n",
++		DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d\n",
+ 				crtc->base.id,
+ 				pstate->stage,
+ 				plane->base.id,
+@@ -198,7 +196,7 @@ static void _dpu_crtc_blend_setup(struct drm_crtc *crtc)
+ 	struct dpu_hw_mixer *lm;
+ 	int i;
+ 
+-	DPU_DEBUG("%s\n", dpu_crtc->name);
++	DRM_DEBUG_ATOMIC("%s\n", dpu_crtc->name);
+ 
+ 	for (i = 0; i < cstate->num_mixers; i++) {
+ 		mixer[i].mixer_op_mode = 0;
+@@ -225,7 +223,7 @@ static void _dpu_crtc_blend_setup(struct drm_crtc *crtc)
+ 		/* stage config flush mask */
+ 		ctl->ops.update_pending_flush(ctl, mixer[i].flush_mask);
+ 
+-		DPU_DEBUG("lm %d, op_mode 0x%X, ctl %d, flush mask 0x%x\n",
++		DRM_DEBUG_ATOMIC("lm %d, op_mode 0x%X, ctl %d, flush mask 0x%x\n",
+ 			mixer[i].hw_lm->idx - LM_0,
+ 			mixer[i].mixer_op_mode,
+ 			ctl->idx - CTL_0,
+@@ -308,7 +306,7 @@ static void dpu_crtc_frame_event_work(struct kthread_work *work)
+ 
+ 	DPU_ATRACE_BEGIN("crtc_frame_event");
+ 
+-	DRM_DEBUG_KMS("crtc%d event:%u ts:%lld\n", crtc->base.id, fevent->event,
++	DRM_DEBUG_ATOMIC("crtc%d event:%u ts:%lld\n", crtc->base.id, fevent->event,
+ 			ktime_to_ns(fevent->ts));
+ 
+ 	if (fevent->event & (DPU_ENCODER_FRAME_EVENT_DONE
+@@ -478,7 +476,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+ 		/* stage config flush mask */
+ 		ctl->ops.update_pending_flush(ctl, mixer[i].flush_mask);
+ 
+-		DPU_DEBUG("lm %d, ctl %d, flush mask 0x%x\n",
++		DRM_DEBUG_ATOMIC("lm %d, ctl %d, flush mask 0x%x\n",
+ 			mixer[i].hw_lm->idx - DSPP_0,
+ 			ctl->idx - CTL_0,
+ 			mixer[i].flush_mask);
+@@ -492,12 +490,12 @@ static void dpu_crtc_atomic_begin(struct drm_crtc *crtc,
+ 	struct drm_encoder *encoder;
+ 
+ 	if (!crtc->state->enable) {
+-		DPU_DEBUG("crtc%d -> enable %d, skip atomic_begin\n",
++		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, skip atomic_begin\n",
+ 				crtc->base.id, crtc->state->enable);
+ 		return;
+ 	}
+ 
+-	DPU_DEBUG("crtc%d\n", crtc->base.id);
++	DRM_DEBUG_ATOMIC("crtc%d\n", crtc->base.id);
+ 
+ 	_dpu_crtc_setup_lm_bounds(crtc, crtc->state);
+ 
+@@ -537,12 +535,12 @@ static void dpu_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	struct dpu_crtc_state *cstate;
+ 
+ 	if (!crtc->state->enable) {
+-		DPU_DEBUG("crtc%d -> enable %d, skip atomic_flush\n",
++		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, skip atomic_flush\n",
+ 				crtc->base.id, crtc->state->enable);
+ 		return;
+ 	}
+ 
+-	DPU_DEBUG("crtc%d\n", crtc->base.id);
++	DRM_DEBUG_ATOMIC("crtc%d\n", crtc->base.id);
+ 
+ 	dpu_crtc = to_dpu_crtc(crtc);
+ 	cstate = to_dpu_crtc_state(crtc->state);
+@@ -605,7 +603,7 @@ static void dpu_crtc_destroy_state(struct drm_crtc *crtc,
+ {
+ 	struct dpu_crtc_state *cstate = to_dpu_crtc_state(state);
+ 
+-	DPU_DEBUG("crtc%d\n", crtc->base.id);
++	DRM_DEBUG_ATOMIC("crtc%d\n", crtc->base.id);
+ 
+ 	__drm_atomic_helper_crtc_destroy_state(state);
+ 
+@@ -618,7 +616,7 @@ static int _dpu_crtc_wait_for_frame_done(struct drm_crtc *crtc)
+ 	int ret, rc = 0;
+ 
+ 	if (!atomic_read(&dpu_crtc->frame_pending)) {
+-		DPU_DEBUG("no frames pending\n");
++		DRM_DEBUG_ATOMIC("no frames pending\n");
+ 		return 0;
+ 	}
+ 
+@@ -661,9 +659,9 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
+ 
+ 	if (atomic_inc_return(&dpu_crtc->frame_pending) == 1) {
+ 		/* acquire bandwidth and other resources */
+-		DPU_DEBUG("crtc%d first commit\n", crtc->base.id);
++		DRM_DEBUG_ATOMIC("crtc%d first commit\n", crtc->base.id);
+ 	} else
+-		DPU_DEBUG("crtc%d commit\n", crtc->base.id);
++		DRM_DEBUG_ATOMIC("crtc%d commit\n", crtc->base.id);
+ 
+ 	dpu_crtc->play_count++;
+ 
+@@ -838,14 +836,14 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 	pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
+ 
+ 	if (!crtc_state->enable || !crtc_state->active) {
+-		DPU_DEBUG("crtc%d -> enable %d, active %d, skip atomic_check\n",
++		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
+ 				crtc->base.id, crtc_state->enable,
+ 				crtc_state->active);
+ 		goto end;
+ 	}
+ 
+ 	mode = &crtc_state->adjusted_mode;
+-	DPU_DEBUG("%s: check\n", dpu_crtc->name);
++	DRM_DEBUG_ATOMIC("%s: check\n", dpu_crtc->name);
+ 
+ 	/* force a full mode set if active state changed */
+ 	if (crtc_state->active_changed)
+@@ -953,7 +951,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 		}
+ 
+ 		pstates[i].dpu_pstate->stage = z_pos + DPU_STAGE_0;
+-		DPU_DEBUG("%s: zpos %d\n", dpu_crtc->name, z_pos);
++		DRM_DEBUG_ATOMIC("%s: zpos %d\n", dpu_crtc->name, z_pos);
+ 	}
+ 
+ 	for (i = 0; i < multirect_count; i++) {
+@@ -1302,6 +1300,6 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+ 	/* initialize event handling */
+ 	spin_lock_init(&dpu_crtc->event_lock);
+ 
+-	DPU_DEBUG("%s: successfully initialized crtc\n", dpu_crtc->name);
++	DRM_DEBUG_KMS("%s: successfully initialized crtc\n", dpu_crtc->name);
+ 	return crtc;
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 288e95ee8e1d..4f8bc7a3dde3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -27,13 +27,13 @@
+ #include "dpu_trace.h"
+ #include "dpu_core_irq.h"
+ 
+-#define DPU_DEBUG_ENC(e, fmt, ...) DPU_DEBUG("enc%d " fmt,\
++#define DPU_DEBUG_ENC(e, fmt, ...) DRM_DEBUG_ATOMIC("enc%d " fmt,\
+ 		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
+ 
+ #define DPU_ERROR_ENC(e, fmt, ...) DPU_ERROR("enc%d " fmt,\
+ 		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
+ 
+-#define DPU_DEBUG_PHYS(p, fmt, ...) DPU_DEBUG("enc%d intf%d pp%d " fmt,\
++#define DPU_DEBUG_PHYS(p, fmt, ...) DRM_DEBUG_ATOMIC("enc%d intf%d pp%d " fmt,\
+ 		(p) ? (p)->parent->base.id : -1, \
+ 		(p) ? (p)->intf_idx - INTF_0 : -1, \
+ 		(p) ? ((p)->hw_pp ? (p)->hw_pp->idx - PINGPONG_0 : -1) : -1, \
+@@ -790,13 +790,13 @@ static int dpu_encoder_resource_control(struct drm_encoder *drm_enc,
+ 
+ 		/* return if the resource control is already in ON state */
+ 		if (dpu_enc->rc_state == DPU_ENC_RC_STATE_ON) {
+-			DRM_DEBUG_KMS("id;%u, sw_event:%d, rc in ON state\n",
++			DRM_DEBUG_ATOMIC("id;%u, sw_event:%d, rc in ON state\n",
+ 				      DRMID(drm_enc), sw_event);
+ 			mutex_unlock(&dpu_enc->rc_lock);
+ 			return 0;
+ 		} else if (dpu_enc->rc_state != DPU_ENC_RC_STATE_OFF &&
+ 				dpu_enc->rc_state != DPU_ENC_RC_STATE_IDLE) {
+-			DRM_DEBUG_KMS("id;%u, sw_event:%d, rc in state %d\n",
++			DRM_DEBUG_ATOMIC("id;%u, sw_event:%d, rc in state %d\n",
+ 				      DRMID(drm_enc), sw_event,
+ 				      dpu_enc->rc_state);
+ 			mutex_unlock(&dpu_enc->rc_lock);
+@@ -2038,8 +2038,6 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+ 	phys_params.parent_ops = &dpu_encoder_parent_ops;
+ 	phys_params.enc_spinlock = &dpu_enc->enc_spinlock;
+ 
+-	DPU_DEBUG("\n");
+-
+ 	switch (disp_info->intf_type) {
+ 	case DRM_MODE_ENCODER_DSI:
+ 		intf_type = INTF_DSI;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+index 21ff8f9e5dfd..440ae93d7bd1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+@@ -992,7 +992,7 @@ const struct dpu_format *dpu_get_dpu_format_ext(
+ 	 * Currently only support exactly zero or one modifier.
+ 	 * All planes use the same modifier.
+ 	 */
+-	DPU_DEBUG("plane format modifier 0x%llX\n", modifier);
++	DRM_DEBUG_ATOMIC("plane format modifier 0x%llX\n", modifier);
+ 
+ 	switch (modifier) {
+ 	case 0:
+@@ -1002,7 +1002,7 @@ const struct dpu_format *dpu_get_dpu_format_ext(
+ 	case DRM_FORMAT_MOD_QCOM_COMPRESSED:
+ 		map = dpu_format_map_ubwc;
+ 		map_size = ARRAY_SIZE(dpu_format_map_ubwc);
+-		DPU_DEBUG("found fmt: %4.4s  DRM_FORMAT_MOD_QCOM_COMPRESSED\n",
++		DRM_DEBUG_ATOMIC("found fmt: %4.4s  DRM_FORMAT_MOD_QCOM_COMPRESSED\n",
+ 				(char *)&format);
+ 		break;
+ 	default:
+@@ -1021,7 +1021,7 @@ const struct dpu_format *dpu_get_dpu_format_ext(
+ 		DPU_ERROR("unsupported fmt: %4.4s modifier 0x%llX\n",
+ 			(char *)&format, modifier);
+ 	else
+-		DPU_DEBUG("fmt %4.4s mod 0x%llX ubwc %d yuv %d\n",
++		DRM_DEBUG_ATOMIC("fmt %4.4s mod 0x%llX ubwc %d yuv %d\n",
+ 				(char *)&format, modifier,
+ 				DPU_FORMAT_IS_UBWC(fmt),
+ 				DPU_FORMAT_IS_YUV(fmt));
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index f898a8f67b7f..3f5626832c9e 100644
+index 3f5626832c9e..e7b75cf414ef 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -283,8 +283,8 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
+@@ -24,7 +24,7 @@
+ #include "dpu_vbif.h"
+ #include "dpu_plane.h"
+ 
+-#define DPU_DEBUG_PLANE(pl, fmt, ...) DPU_DEBUG("plane%d " fmt,\
++#define DPU_DEBUG_PLANE(pl, fmt, ...) DRM_DEBUG_ATOMIC("plane%d " fmt,\
+ 		(pl) ? (pl)->base.base.id : -1, ##__VA_ARGS__)
+ 
+ #define DPU_ERROR_PLANE(pl, fmt, ...) DPU_ERROR("plane%d " fmt,\
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+index 7e08f40e7e6f..21d20373eb8b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+@@ -46,7 +46,7 @@ static int _dpu_vbif_wait_for_xin_halt(struct dpu_hw_vbif *vbif, u32 xin_id)
+ 				vbif->idx - VBIF_0, xin_id);
+ 	} else {
+ 		rc = 0;
+-		DPU_DEBUG("VBIF %d client %d is halted\n",
++		DRM_DEBUG_ATOMIC("VBIF %d client %d is halted\n",
+ 				vbif->idx - VBIF_0, xin_id);
+ 	}
+ 
+@@ -87,7 +87,7 @@ static void _dpu_vbif_apply_dynamic_ot_limit(struct dpu_hw_vbif *vbif,
  		}
  	}
  
--	DPU_DEBUG("plane%u: pnum:%d fmt: %4.4s w:%u fl:%u\n",
--			plane->base.id, pdpu->pipe - SSPP_VIG0,
-+	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %4.4s w:%u fl:%u\n",
-+			pdpu->pipe - SSPP_VIG0,
- 			(char *)&fmt->base.pixel_format,
- 			src_width, total_fl);
- 
-@@ -353,8 +353,7 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
- 			(fmt) ? fmt->base.pixel_format : 0,
- 			pdpu->is_rt_pipe, total_fl, qos_lut, lut_usage);
- 
--	DPU_DEBUG("plane%u: pnum:%d fmt: %4.4s rt:%d fl:%u lut:0x%llx\n",
--			plane->base.id,
-+	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %4.4s rt:%d fl:%u lut:0x%llx\n",
- 			pdpu->pipe - SSPP_VIG0,
- 			fmt ? (char *)&fmt->base.pixel_format : NULL,
- 			pdpu->is_rt_pipe, total_fl, qos_lut);
-@@ -406,8 +405,7 @@ static void _dpu_plane_set_danger_lut(struct drm_plane *plane,
- 			pdpu->pipe_qos_cfg.danger_lut,
- 			pdpu->pipe_qos_cfg.safe_lut);
- 
--	DPU_DEBUG("plane%u: pnum:%d fmt: %4.4s mode:%d luts[0x%x, 0x%x]\n",
--		plane->base.id,
-+	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %4.4s mode:%d luts[0x%x, 0x%x]\n",
- 		pdpu->pipe - SSPP_VIG0,
- 		fmt ? (char *)&fmt->base.pixel_format : NULL,
- 		fmt ? fmt->fetch_mode : -1,
-@@ -450,8 +448,7 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
- 		pdpu->pipe_qos_cfg.danger_safe_en = false;
+-	DPU_DEBUG("vbif:%d xin:%d w:%d h:%d fps:%d pps:%llu ot:%u\n",
++	DRM_DEBUG_ATOMIC("vbif:%d xin:%d w:%d h:%d fps:%d pps:%llu ot:%u\n",
+ 			vbif->idx - VBIF_0, params->xin_id,
+ 			params->width, params->height, params->frame_rate,
+ 			pps, *ot_lim);
+@@ -133,7 +133,7 @@ static u32 _dpu_vbif_get_ot_limit(struct dpu_hw_vbif *vbif,
  	}
  
--	DPU_DEBUG("plane%u: pnum:%d ds:%d vb:%d pri[0x%x, 0x%x] is_rt:%d\n",
--		plane->base.id,
-+	DPU_DEBUG_PLANE(pdpu, "pnum:%d ds:%d vb:%d pri[0x%x, 0x%x] is_rt:%d\n",
- 		pdpu->pipe - SSPP_VIG0,
- 		pdpu->pipe_qos_cfg.danger_safe_en,
- 		pdpu->pipe_qos_cfg.vblank_en,
-@@ -506,8 +503,8 @@ static void _dpu_plane_set_qos_remap(struct drm_plane *plane)
- 	qos_params.num = pdpu->pipe_hw->idx - SSPP_VIG0;
- 	qos_params.is_rt = pdpu->is_rt_pipe;
+ exit:
+-	DPU_DEBUG("vbif:%d xin:%d ot_lim:%d\n",
++	DRM_DEBUG_ATOMIC("vbif:%d xin:%d ot_lim:%d\n",
+ 			vbif->idx - VBIF_0, params->xin_id, ot_lim);
+ 	return ot_lim;
+ }
+@@ -163,7 +163,7 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
+ 	}
  
--	DPU_DEBUG("plane%d pipe:%d vbif:%d xin:%d rt:%d, clk_ctrl:%d\n",
--			plane->base.id, qos_params.num,
-+	DPU_DEBUG_PLANE(pdpu, "pipe:%d vbif:%d xin:%d rt:%d, clk_ctrl:%d\n",
-+			qos_params.num,
- 			qos_params.vbif_idx,
- 			qos_params.xin_id, qos_params.is_rt,
- 			qos_params.clk_ctrl);
+ 	if (!vbif || !mdp) {
+-		DPU_DEBUG("invalid arguments vbif %d mdp %d\n",
++		DRM_DEBUG_ATOMIC("invalid arguments vbif %d mdp %d\n",
+ 				vbif != NULL, mdp != NULL);
+ 		return;
+ 	}
+@@ -230,7 +230,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+ 	}
+ 
+ 	if (!vbif->ops.set_qos_remap || !mdp->ops.setup_clk_force_ctrl) {
+-		DPU_DEBUG("qos remap not supported\n");
++		DRM_DEBUG_ATOMIC("qos remap not supported\n");
+ 		return;
+ 	}
+ 
+@@ -238,14 +238,14 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+ 			&vbif->cap->qos_nrt_tbl;
+ 
+ 	if (!qos_tbl->npriority_lvl || !qos_tbl->priority_lvl) {
+-		DPU_DEBUG("qos tbl not defined\n");
++		DRM_DEBUG_ATOMIC("qos tbl not defined\n");
+ 		return;
+ 	}
+ 
+ 	forced_on = mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
+ 
+ 	for (i = 0; i < qos_tbl->npriority_lvl; i++) {
+-		DPU_DEBUG("vbif:%d xin:%d lvl:%d/%d\n",
++		DRM_DEBUG_ATOMIC("vbif:%d xin:%d lvl:%d/%d\n",
+ 				params->vbif_idx, params->xin_id, i,
+ 				qos_tbl->priority_lvl[i]);
+ 		vbif->ops.set_qos_remap(vbif, params->xin_id, i,
 -- 
 https://chromeos.dev
 
