@@ -1,59 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5BB36F80C
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 11:44:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D74636F80E
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 11:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 136626E105;
-	Fri, 30 Apr 2021 09:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9687E6E108;
+	Fri, 30 Apr 2021 09:44:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 224026E0EC;
- Fri, 30 Apr 2021 09:44:05 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id o16so80022372ljp.3;
- Fri, 30 Apr 2021 02:44:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Fs02BtOhyd5FC7gJVvuNNnKp3USLnWgaJaXUagMKFBA=;
- b=dK8zYu4P/DGIh50k5SZYSjv+Xqltz7NenlES4ey5LWVVtIsQU6LbbQOPlkSayienEe
- XJ4/uLpsfg78jfkDJADARkTy3NOE+7Z10ynUOABeH+y3us5ZmyGTdg1c/bYv+xKlmedO
- q5/c8DRDN5RrnwCVXISqoR62bmxb85YWtNO+jUmsmycoj7Tyd78Nj+veIMgxcDnmuv+d
- NAbew1YO7cdMnvRdcTNC4mvWZ+JbfW9is1fdO2sZv3osGS8OLqPlY39BF/FU17sIgJLX
- XJcVJoD36qi0BB9vO9FyoKe9tw2jq5gZDQWkjsXWYysxlI81q6f4INGWoowaBhzLVbAa
- DjLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Fs02BtOhyd5FC7gJVvuNNnKp3USLnWgaJaXUagMKFBA=;
- b=NDd7guKGPIxAuAQOXF9CRDTCEAEoLfWbdJuvR4HGqpYHEwfD8AfbbB7qK/k/f12d0M
- 0MkgtJNbwVgZThNfRdm2URQsW+KiCWxWQSgjl/vecVWEmQ+XvK8lLbjpaNc/t31/b7aJ
- qQgt7gDlKWRdWXnbRethQxEH2rneAOM3wWw01MFQmYOTTcauYmUdfwVde0AgmGEPyKH/
- RWvKE2zv6fgb0FAScsf25o3sTFioeHeCRPXRHaI5pvOf4Pf3HkkW1MiwOL2aaPftxkcS
- 697TBhwVeiJvjVGiNTImc0iV/oRgjEqrcb3ltmGvy4YOGXKms2fotQtc/EOu1Fjj5WBj
- P8Hw==
-X-Gm-Message-State: AOAM5306sJWAyPZCPkccyQiNAmw3h+Aj9X5L/CX/U2IeFtWlfvkeA64+
- 3dQ29fLw6f6th4RDfoftPkk=
-X-Google-Smtp-Source: ABdhPJzwx4zzWO2ON86GfiGdWFlSwks7GUnSyoTWT76KXl+8v665hOTFhdptLorEWAxDGUqF+HrZlg==
-X-Received: by 2002:a2e:99ce:: with SMTP id l14mr3245758ljj.114.1619775843536; 
- Fri, 30 Apr 2021 02:44:03 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id h12sm181977ljh.21.2021.04.30.02.44.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 02:44:03 -0700 (PDT)
-Date: Fri, 30 Apr 2021 12:43:58 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Shashank Sharma <shashank.sharma@amd.com>
-Subject: Re: [RFC PATCH 0/3] A drm_plane API to support HDR planes
-Message-ID: <20210430124358.1f5ac6ec@eldfell>
-In-Reply-To: <ba369002-69e9-15d5-323c-1923ecdeda63@amd.com>
-References: <20210426173852.484368-1-harry.wentland@amd.com>
- <20210427175005.5b92badc@eldfell>
- <ba369002-69e9-15d5-323c-1923ecdeda63@amd.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F806E108;
+ Fri, 30 Apr 2021 09:44:58 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4ECFF5800D2;
+ Fri, 30 Apr 2021 05:44:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Fri, 30 Apr 2021 05:44:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=JjDK5rsfeA5jH5e+etU6Pjpkhk
+ 5S/nK7Bq9hIE+7SHU=; b=G5MH0nX64Vc+BlpsE/u9dRxE1C6dnn3jwLCFHfECQ/
+ 8XlmOIUFxm+sq5y0KYFfgwJGWctYEA0s6uBf6kXYVWap6VYI2G6Sljm2MdUHyKlA
+ u90Yl96iuXZAEoGu9SUGwV137vbEEUSdWbMSpgIZmt4kmXF53UCHB7HFLqQo5JFI
+ vIyBaEHMzYjeihmNFweOywkyVF4/6/nMRdhPhGeOTuPxk6S+5SpXYu6GTDdNtmLi
+ s1qwyiIlfAwtDZruHg3XdfSwql2CH4J36qRbY8OvjMUGWifFxau/uPARZOoEcerN
+ Io7pZgM2EwxLr+6I+aVBlXUAqAj0p9NiNh5hZEPpDmBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=JjDK5rsfeA5jH5e+e
+ tU6Pjpkhk5S/nK7Bq9hIE+7SHU=; b=UJglAWk0rRtYWZAZLgRbvJx9FnQ5lbdNz
+ 7KZ4+XVUMTl13prIFGYFNwQ7D4l6fzGCWZJ/g1wxw9K/+ABJh3kRs837G3emdAGQ
+ z18MoxjsetTK6C+n9c+ASwDpMmfWyFIhfPjcgA/AecwBNVLrlG8P3xORJDK8dcdJ
+ oeZWq5x6/EZM5R01W3uZR+u0ngQ98tDjEAV3zSlAIG7zEpEZ9PUBB8Xdf4dBPPOq
+ bNxWAkjLbmAU7O7gKhfJS5jffZdn/YosfBaS8/ZlPSfL5x+JHx5I+Uqd4I3JkliL
+ YTuYO0HqMfHC57phBRWaPCCqz46+TBDFOGpjF6RRUyTQ9P0I7cVWw==
+X-ME-Sender: <xms:ldGLYLSerNBh-o4lywZ1Cz1VnibcKv7q1hieaV6I45Bvv8AilN8cjQ>
+ <xme:ldGLYMxm-52eCYndB86eOsHJsfjNPfZilrHx6amR6PRguSo0jwX-qXn2it_-RM-QW
+ -6w9DwfeQMK3vw-040>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddviedgudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepjeffheduvddvvdelhfegleelfffgieejvdehgfeijedtieeuteejteefueekjeeg
+ necukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:ldGLYA1l1sXHtFTRftReJWdUVlRraNwZpMqSO3Ovq57YZWtxgj5eog>
+ <xmx:ldGLYLAg8o2HANlsMtTTpKzSGWuFGCF66KOCaH7oKVx13iFWUF479g>
+ <xmx:ldGLYEjP-fd0CYaW48f0ZBtRIDgbNJwb9tV3OznUDVlVOV-KKCQ8ug>
+ <xmx:mdGLYP12KsAXGI3Ms69GBKfN_60GlRVcMsyxxKRuYQCEuZWyJTPqWA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Fri, 30 Apr 2021 05:44:53 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH v3 1/5] drm/connector: Create a helper to attach the
+ hdr_output_metadata property
+Date: Fri, 30 Apr 2021 11:44:47 +0200
+Message-Id: <20210430094451.2145002-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,163 +78,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak.Sharma@amd.com, Krunoslav.Kovac@amd.com, mcasas@google.com,
- Bhawanpreet.Lakha@amd.com, dri-devel@lists.freedesktop.org, Shirish.S@amd.com,
- sebastian@sebastianwick.net, hersenxs.wu@amd.com,
- amd-gfx@lists.freedesktop.org, laurentiu.palcu@oss.nxp.com,
- Nicholas.Kazlauskas@amd.com, Vitaly.Prosyak@amd.com
-Content-Type: multipart/mixed; boundary="===============1967785141=="
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, amd-gfx@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, Leo Li <sunpeng.li@amd.com>,
+ intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Dom Cobley <dom@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1967785141==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/jF0/5g5+Pu5KXVUetVMNU5x"; protocol="application/pgp-signature"
+All the drivers that implement HDR output call pretty much the same
+function to initialise the hdr_output_metadata property, and while the
+creation of that property is in a helper, every driver uses the same
+code to attach it.
 
---Sig_/jF0/5g5+Pu5KXVUetVMNU5x
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Provide a helper for it as well
 
-On Wed, 28 Apr 2021 13:24:27 +0530
-Shashank Sharma <shashank.sharma@amd.com> wrote:
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-> Assuming these details, A compositor will look for DRM color properties l=
-ike these:
->=20
-> 1. Degamma plane property : To make buffers linear for Gamut mapping
->=20
-> 2. Gamut mapping plane property:=C2=A0 To gamut map SRGB buffer to BT2020=
- colorspace
->=20
-> 3. Color space conversion plane property: To convert from YCBCR->RGB
->=20
-> 4. Tone mapping plane property: To tone map SDR buffer S2H and HDR buffer=
- H2H
->=20
-> 5. Gamma plane/CRTC property: to re-apply the output ST2084 curve
->=20
->=20
+---
 
-...
+Changes from v2:
+  - Rebased on current drm-misc-next
+  - Fixed a merge conflict with i915
 
-> =C2=A0*
-> =C2=A0*
-> =C2=A0*
-> =C2=A0*=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=90=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=90
-> =C2=A0* HDR 600 Nits=E2=94=82=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82HDR 600 Nit=
-s =E2=94=82=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82HDR600=C2=A0=C2=A0=C2=A0=C2=A0 =
-=E2=94=82=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82HDR500 =E2=94=82=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-=E2=94=82 HDR500
-> =C2=A0*=C2=A0=C2=A0 =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=96=BA =E2=94=82=C2=A0 Degamma=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=96=BA=
-=E2=94=82=C2=A0 Color space=C2=A0=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=96=BA=E2=94=82=C2=A0 Tone mapping=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=96=BA=E2=94=82=C2=A0 Gamma=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82
-> =C2=A0* BT2020=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82=C2=A0 OETF ST2084=
-=C2=A0=C2=A0=C2=A0 =E2=94=82 BT2020=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82=
-=C2=A0 conversion=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82BT2020=C2=A0=C2=A0=C2=A0=
-=C2=A0 =E2=94=82=C2=A0=C2=A0 H2H=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 =E2=94=82BT2020 =E2=94=82=C2=A0 ST2084=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82 BT2020
-> =C2=A0* YCBCR420=C2=A0=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=
-=94=82 YCBCR420=C2=A0=C2=A0=C2=A0 =E2=94=82 YCBCR->RGB=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 =E2=94=82RGB88=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=
-=A0 600->500=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=82RGB888 =E2=94=82=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 =E2=94=82 RGB888
-> =C2=A0* Non Linear=C2=A0 =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98 Linear=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=98Linear=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=
-=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=98Linear =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=98 ST2084
-> =C2=A0*/
+Changes from v1:
+  - Rebased on latest drm-misc-next tag
+  - Added the tags
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 +---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  3 +--
+ drivers/gpu/drm/drm_connector.c               | 21 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  3 +--
+ include/drm/drm_connector.h                   |  1 +
+ 5 files changed, 25 insertions(+), 7 deletions(-)
 
-Hi Shashank,
-
-I think you might have degamma and color model conversion reversed, or
-is that a new thing in the HDR specs?
-
-Usually the YCbCr/RGB conversion matrix applies to non-linear values
-AFAIU.
-
-There is also confusion with OETF vs. EOTF. I got that initially wrong
-too. OETF is not just a name for inverse-EOTF but it is used in a
-different context. Though here it seems to be just a typo.
-
-OETF is inherent to a camera when it converts light into
-electrical signals. EOTF is inherent to a monitor when it converts
-electrical signals to light. Depending on what the electrical signals
-have been defined to be in each step of a broadcasting chain, you might
-need OETF or EOTF or their inverse or a different OETF or EOTF or their
-inverse.
-
-As we are talking about displays and likely assuming display-referred
-content (not scene-referred content), we probably have no use for OETF,
-but we could have several different EOTFs.
-
-
-Thanks,
-pq
-
---Sig_/jF0/5g5+Pu5KXVUetVMNU5x
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIyBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCL0V4ACgkQI1/ltBGq
-qqfEsA/4p4kXQf6b4g3jDgoJdIGiubNpMyuFWQPCStvjnPHv8g3KIk6uTTh725LA
-fE20hqzLxMn/pw+UbFkz+ELK9kcUG9lI0ih4DRCIgdiHWyznJPzl+p0lxJKCLVrC
-ZscDhcm8v0hjmzzD5R24DqKj2IdEwyqH7mM0hpzxyd0oSaR4ToFcvFhNZmT14qqY
-bql+U1UtndPio2KkI96/owTLMNHHSBIidV4kTrQY69qJeKBGcftfg790Y1YKjjXm
-ZKd+pamZmN1ovZru2aoDnCQ9jO65SUd32aD7F241sXU5UKH6UUIXLI9yfiJUcO45
-QU3zsRnYBo3rHBtYc2xC7h/36pooPlYlz9ECEyBRjb6mKmwOv/xIAyiG43Kx4SjY
-UmASFIybtV65KZhVub8yQ5XPDR+RCulU30poR6Jb8ivtKChjCAyrzDbiYoD6h+Hb
-WNbcMlH9xCBizo2uP+7PFxLD0ZD13rJkvowZKVAGjnnvIghuIAhaGIt3/d7FLUWO
-5KRtvaAaZx0AagRqUAXel25C+5mFimo1caPJ1rEk7Hpp6+yQoB/gfWAtJddV2GT5
-+4bDmCNRFWID/viBAONgFI+IaBZIsSnVSK6C8aUql1qIy8wAP6wHeuFIhd8hbDBh
-DSj6oy5m2+sTbumokHrUE6n2AbukKj0sT0g7JL3OANjWB/uFKA==
-=25O5
------END PGP SIGNATURE-----
-
---Sig_/jF0/5g5+Pu5KXVUetVMNU5x--
-
---===============1967785141==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index a0c8c41e4e57..c8d7e7dbc05e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7498,9 +7498,7 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+ 	if (connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+ 	    connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
+ 	    connector_type == DRM_MODE_CONNECTOR_eDP) {
+-		drm_object_attach_property(
+-			&aconnector->base.base,
+-			dm->ddev->mode_config.hdr_output_metadata_property, 0);
++		drm_connector_attach_hdr_output_metadata_property(&aconnector->base);
+ 
+ 		if (!aconnector->mst_port)
+ 			drm_connector_attach_vrr_capable_property(&aconnector->base);
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index ae97513ef886..dd7f6eda2ce2 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2492,8 +2492,7 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+ 	drm_connector_attach_max_bpc_property(connector, 8, 16);
+ 
+ 	if (hdmi->version >= 0x200a && hdmi->plat_data->use_drm_infoframe)
+-		drm_object_attach_property(&connector->base,
+-			connector->dev->mode_config.hdr_output_metadata_property, 0);
++		drm_connector_attach_hdr_output_metadata_property(connector);
+ 
+ 	drm_connector_attach_encoder(connector, hdmi->bridge.encoder);
+ 
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index eab8c0b82de2..c5e2f642acd9 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -2151,6 +2151,27 @@ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
+ }
+ EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
+ 
++/**
++ * drm_connector_attach_hdr_output_metadata_property - attach "HDR_OUTPUT_METADA" property
++ * @connector: connector to attach the property on.
++ *
++ * This is used to allow the userspace to send HDR Metadata to the
++ * driver.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
++ */
++int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *connector)
++{
++	struct drm_device *dev = connector->dev;
++	struct drm_property *prop = dev->mode_config.hdr_output_metadata_property;
++
++	drm_object_attach_property(&connector->base, prop, 0);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_connector_attach_hdr_output_metadata_property);
++
+ /**
+  * drm_connector_set_vrr_capable_property - sets the variable refresh rate
+  * capable property for a connector
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 9c172dd6fb5b..3c767bcc47b1 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -2459,8 +2459,7 @@ intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *c
+ 	drm_connector_attach_content_type_property(connector);
+ 
+ 	if (DISPLAY_VER(dev_priv) >= 10)
+-		drm_object_attach_property(&connector->base,
+-			connector->dev->mode_config.hdr_output_metadata_property, 0);
++		drm_connector_attach_hdr_output_metadata_property(connector);
+ 
+ 	if (!HAS_GMCH(dev_priv))
+ 		drm_connector_attach_max_bpc_property(connector, 8, 12);
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 1922b278ffad..32172dab8427 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1671,6 +1671,7 @@ int drm_connector_attach_scaling_mode_property(struct drm_connector *connector,
+ 					       u32 scaling_mode_mask);
+ int drm_connector_attach_vrr_capable_property(
+ 		struct drm_connector *connector);
++int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *connector);
+ int drm_mode_create_aspect_ratio_property(struct drm_device *dev);
+ int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector);
+ int drm_mode_create_dp_colorspace_property(struct drm_connector *connector);
+-- 
+2.31.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1967785141==--
