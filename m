@@ -2,67 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DAD36FFC9
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 19:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC43E36FFDB
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 19:44:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63BBE6F57D;
-	Fri, 30 Apr 2021 17:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE636F581;
+	Fri, 30 Apr 2021 17:44:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88E7B6F57B
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 17:42:24 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id l4so106429988ejc.10
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 10:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=m6XRCfyd1sWEB+fFN+giyD+trqUKGzlWK2yo8Go96QU=;
- b=SLpmW4OTB3LG+4ygGNIuhVDWx1yiktvAKSGgTwm+rDfLZSUffW5kUQrs4/QCo7rmpL
- 98ERI1r2BbIFBPXLoHDIkNeonzKH4XIAyoH/Yfnzo+vuXW9sOqXyC9XNIfKR23wnCXXB
- 2GcnNPlPHH0RaZujrIibm7QhPbiZpSlkALgCE=
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
+ [IPv6:2607:f8b0:4864:20::c2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45F1B6F585
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 17:44:55 +0000 (UTC)
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ s1-20020a4ac1010000b02901cfd9170ce2so15666091oop.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 10:44:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=6g0Wub32949zlUmpDO6orwMigbfoDepmWih+zxo6Gik=;
+ b=Hwdg91N23Pzm+MhntYiriTtK3LzxwTdtud93fhi+6PsD2MGghl+QzB5fD/KE4E/UOH
+ rA+vVIVjaVzTOFbRvMMXkHYiDCWmryuId1VhGqaeOkuCUsxD1zdaAp83XrllM50f554B
+ YII/rfNuz5fJX4CecLZUPgYKNcAoSrTUw9Yg0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=m6XRCfyd1sWEB+fFN+giyD+trqUKGzlWK2yo8Go96QU=;
- b=cUeZUR4TfJeoVDkX28hhOS36t8hzn6sYObEZ86yGyBVM2+X4cwBVPcgBQmDKcXDBj6
- rhwJJWQ/YmbaKI9VPepEc9RZuA1fyhITE8iAEphpLt3F39RIeumEkLrVvXipltdchGti
- 901NaO0jYQU8x2SVn8w8SvxSrEaQ9LC68XTJtpNr8SlKJVgTbYlJwb/Lb7o08MBnN11c
- DBWXOC0Gbluya3AOnH+OzkmBhrDf0XfR8jtJOHbGcxKKNVPc/D7BCqBf/Ut3MYCTGe1z
- HuAneIFUZt8pExwQwH6dPL1de5WEBYRVf93TcCrO6fpogdMLsMkIDiuJq/duWuM8TtSt
- CiVQ==
-X-Gm-Message-State: AOAM530IWi5IpjGKz+rIzGMqZzTuq1PrRqGMsQHwa5XVy4poUmQsqIkc
- NN18h+qlRIbejkJw8zcWGJn6nA==
-X-Google-Smtp-Source: ABdhPJyG/LGvN/gXpgR1joI/FT5exj2RMZlCjVCMRiv6H1m9f0mh6m55PbrKcqLw14tRZSsGhLYd3Q==
-X-Received: by 2002:a17:907:174a:: with SMTP id
- lf10mr5876970ejc.433.1619804543070; 
- Fri, 30 Apr 2021 10:42:23 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u1sm1864523edv.90.2021.04.30.10.42.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 10:42:22 -0700 (PDT)
-Date: Fri, 30 Apr 2021 19:42:20 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] drm/i915: Use might_alloc()
-Message-ID: <YIxBfNnwA/7nEenj@phenom.ffwll.local>
-Mail-Followup-To: kernel test robot <lkp@intel.com>,
- Bernard Zhao <bernard@vivo.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kbuild-all@lists.01.org
-References: <20210429024211.58245-1-bernard@vivo.com>
- <202104300054.AZxXGIKu-lkp@intel.com>
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=6g0Wub32949zlUmpDO6orwMigbfoDepmWih+zxo6Gik=;
+ b=f8ujLIGEpuV5jKfy+4o9yCTjpDvcimJzs4q8YV9uWI6yFa+bHqEkIIydrwoU2ZUQht
+ 4vpy8OugrOGGB+VrKpxKQSovFKkshvac2JJQIc8j1jO4iHWvLpzVLkjq0lZgImCClZE4
+ OdNT3iyOyxIIDQBsqdKkv4Xm0lZtPA5E+okVmp5AA91G18KjxTPKuBt8eewCaCKLAwGs
+ a+c+RO3quZ9BnuRkrFAWYNsXJChc45dsigFbtO6vnaUk4q8XBGjwfi9iuceR6bYu8vNu
+ sIfXS3qov3mQAg43//9ZHZVronBoGzxUuYp+2eCZHcWZ9oKuTfFopg4D6j/x8/35woID
+ Ms6g==
+X-Gm-Message-State: AOAM533r1MT5oe+/SeMMxkohf07v327ZCh+0oPMZYZaW2puO+p3yDwGz
+ FkXELxdZhPH1ak0WPPdoY1b+wImuWQpYvAfzWPurKg==
+X-Google-Smtp-Source: ABdhPJyPyi4DIgMeRBNFsN/86pplbHjCV4+mrcMiD+kOFc0aF1HRvCFr6LF5hBxDNhe7lCnbhKeHNkeCcL52ICW+GsQ=
+X-Received: by 2002:a05:6820:381:: with SMTP id
+ r1mr5451224ooj.79.1619804694545; 
+ Fri, 30 Apr 2021 10:44:54 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 30 Apr 2021 10:44:54 -0700
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <202104300054.AZxXGIKu-lkp@intel.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <20210430171744.1721408-1-robdclark@gmail.com>
+References: <20210430171744.1721408-1-robdclark@gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Fri, 30 Apr 2021 10:44:53 -0700
+Message-ID: <CAE-0n513cwqs1c89PZpn0ojuDQ44nwxbRfaYssKHcGwKxK8JdA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: Delete bonkers code
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,127 +63,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- Bernard Zhao <bernard@vivo.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Lee Jones <lee.jones@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Hongbo Yao <yaohongbo@huawei.com>, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Maxime Ripard <maxime@cerno.tech>,
+ Kalyan Thota <kalyan_t@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 30, 2021 at 12:31:27AM +0800, kernel test robot wrote:
-> Hi Bernard,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on drm-intel/for-linux-next]
-> [also build test ERROR on v5.12 next-20210429]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Bernard-Zhao/drm-i915-Use-might_alloc/20210429-104516
-> base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-> config: x86_64-rhel-8.3-kselftests (attached as .config)
-> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/0day-ci/linux/commit/9fbd0c1741ce06241105d753ff3432ab55f3e94a
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Bernard-Zhao/drm-i915-Use-might_alloc/20210429-104516
->         git checkout 9fbd0c1741ce06241105d753ff3432ab55f3e94a
->         # save the attached .config to linux build tree
->         make W=1 W=1 ARCH=x86_64 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/gpu/drm/i915/i915_sw_fence.c: In function '__i915_sw_fence_await_sw_fence':
-> >> drivers/gpu/drm/i915/i915_sw_fence.c:344:2: error: implicit declaration of function 'might_alloc'; did you mean 'might_lock'? [-Werror=implicit-function-declaration]
->      344 |  might_alloc(gfp);
->          |  ^~~~~~~~~~~
->          |  might_lock
->    cc1: some warnings being treated as errors
+Quoting Rob Clark (2021-04-30 10:17:39)
+> From: Rob Clark <robdclark@chromium.org>
+>
+> dpu_crtc_atomic_flush() was directly poking it's attached planes in a
+> code path that ended up in dpu_plane_atomic_update(), even if the plane
+> was not involved in the current atomic update.  While a bit dubious,
+> this worked before because plane->state would always point to something
+> valid.  But now using drm_atomic_get_new_plane_state() we could get a
+> NULL state pointer instead, leading to:
+>
+>    [   20.873273] Call trace:
+>    [   20.875740]  dpu_plane_atomic_update+0x5c/0xed0
+>    [   20.880311]  dpu_plane_restore+0x40/0x88
+>    [   20.884266]  dpu_crtc_atomic_flush+0xf4/0x208
+>    [   20.888660]  drm_atomic_helper_commit_planes+0x150/0x238
+>    [   20.894014]  msm_atomic_commit_tail+0x1d4/0x7a0
+>    [   20.898579]  commit_tail+0xa4/0x168
+>    [   20.902102]  drm_atomic_helper_commit+0x164/0x178
+>    [   20.906841]  drm_atomic_commit+0x54/0x60
+>    [   20.910798]  drm_atomic_connector_commit_dpms+0x10c/0x118
+>    [   20.916236]  drm_mode_obj_set_property_ioctl+0x1e4/0x440
+>    [   20.921588]  drm_connector_property_set_ioctl+0x60/0x88
+>    [   20.926852]  drm_ioctl_kernel+0xd0/0x120
+>    [   20.930807]  drm_ioctl+0x21c/0x478
+>    [   20.934235]  __arm64_sys_ioctl+0xa8/0xe0
+>    [   20.938193]  invoke_syscall+0x64/0x130
+>    [   20.941977]  el0_svc_common.constprop.3+0x5c/0xe0
+>    [   20.946716]  do_el0_svc+0x80/0xa0
+>    [   20.950058]  el0_svc+0x20/0x30
+>    [   20.953145]  el0_sync_handler+0x88/0xb0
+>    [   20.957014]  el0_sync+0x13c/0x140
+>
+> The reason for the codepath seems dubious, the atomic suspend/resume
+> heplers should handle the power-collapse case.  If not, the CRTC's
+> atomic_check() should be adding the planes to the atomic update.
+>
+> Reported-by: Stephen Boyd <sboyd@kernel.org>
 
-I think you're missing an include or something. The other patch you've
-done seems good, I queued that up in drm-intel-gt-next for 5.14.
+Maybe better to use swboyd@chromium.org for this one.
 
-Thanks, Daniel
+> Reported-by: John Stultz <john.stultz@linaro.org>
+> Fixes: 37418bf14c13 drm: Use state helper instead of the plane state pointer
 
-> 
-> 
-> vim +344 drivers/gpu/drm/i915/i915_sw_fence.c
-> 
->    335	
->    336	static int __i915_sw_fence_await_sw_fence(struct i915_sw_fence *fence,
->    337						  struct i915_sw_fence *signaler,
->    338						  wait_queue_entry_t *wq, gfp_t gfp)
->    339	{
->    340		unsigned int pending;
->    341		unsigned long flags;
->    342	
->    343		debug_fence_assert(fence);
->  > 344		might_alloc(gfp);
->    345	
->    346		if (i915_sw_fence_done(signaler)) {
->    347			i915_sw_fence_set_error_once(fence, signaler->error);
->    348			return 0;
->    349		}
->    350	
->    351		debug_fence_assert(signaler);
->    352	
->    353		/* The dependency graph must be acyclic. */
->    354		if (unlikely(i915_sw_fence_check_if_after(fence, signaler)))
->    355			return -EINVAL;
->    356	
->    357		pending = I915_SW_FENCE_FLAG_FENCE;
->    358		if (!wq) {
->    359			wq = kmalloc(sizeof(*wq), gfp);
->    360			if (!wq) {
->    361				if (!gfpflags_allow_blocking(gfp))
->    362					return -ENOMEM;
->    363	
->    364				i915_sw_fence_wait(signaler);
->    365				i915_sw_fence_set_error_once(fence, signaler->error);
->    366				return 0;
->    367			}
->    368	
->    369			pending |= I915_SW_FENCE_FLAG_ALLOC;
->    370		}
->    371	
->    372		INIT_LIST_HEAD(&wq->entry);
->    373		wq->flags = pending;
->    374		wq->func = i915_sw_fence_wake;
->    375		wq->private = fence;
->    376	
->    377		i915_sw_fence_await(fence);
->    378	
->    379		spin_lock_irqsave(&signaler->wait.lock, flags);
->    380		if (likely(!i915_sw_fence_done(signaler))) {
->    381			__add_wait_queue_entry_tail(&signaler->wait, wq);
->    382			pending = 1;
->    383		} else {
->    384			i915_sw_fence_wake(wq, 0, signaler->error, NULL);
->    385			pending = 0;
->    386		}
->    387		spin_unlock_irqrestore(&signaler->wait.lock, flags);
->    388	
->    389		return pending;
->    390	}
->    391	
-> 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Should be
 
+Fixes: 37418bf14c13 ("drm: Use state helper instead of the plane state pointer")
 
+to match the preferred format.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+
+Otherwise looks good, thanks.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
