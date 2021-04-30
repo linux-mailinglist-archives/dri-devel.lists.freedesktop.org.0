@@ -1,67 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E150736F736
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 10:35:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2374036F759
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 10:48:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03EBA6F458;
-	Fri, 30 Apr 2021 08:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 022756E0D0;
+	Fri, 30 Apr 2021 08:48:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9B5A6F458
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 08:35:51 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id k14so19684326wrv.5
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 01:35:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0Xn+KDZ1hNBBYXuNpXrEWWhuM2EQc3gWTNVgIKK2wDg=;
- b=TXow1sF/QThOFfrsD8BjNqhVcrz6rkPFDJFQ/mgmEFd5sVoncRUaC4fIZ9GyOF4Wit
- qcqkTGxXIym6P48ZRKuX1E5L7LbTu+ynEOo1IM91iXPPdFcUn2b0TTRRNY3pBsMZZc16
- thQOFo3aJn8sqKj8RVliWu/2yZ/VcKjcmggsoGI8oAjekvhIKP7d4tELkpujYwCmaNBh
- F1MblNjGw4tS07ACM4HV7mDY0ZtnBYEUPb5HZfyL9lyNrbkY3xial+dQNMGeN+8xqIx5
- YqXg9AUnRFwXmrmbhyx7xz3fnuWXd/gnZ5q4YZThxNnoN+RkL8/6LZPv45S7EtqKtK3x
- 8I3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=0Xn+KDZ1hNBBYXuNpXrEWWhuM2EQc3gWTNVgIKK2wDg=;
- b=Ocv1q2XE0vnLx079XYHGSxvSQFA9u1doJZIKQgvPKsJQbEvP/hBTHfcUtFOKybP5Ri
- jCPzjl/jVqgZwlVPgc9y8lPjiVF1j5tuzJJ85PyJSnuXLTb1A9kSR/cws+h1Qap9cGKw
- d6owYKgwe3uQ1RcIHsHPcVtseORlnlCtmPr5yhv57biAz4hoNFewnF6PWSU/yV3dUFUp
- r193yT2C0C+t7z2JXa8pcDV98UNaHqLU0wpg/8TiLs5VhpB7/Wr3TCIenEUwagFCGRPO
- ZAfHHXmLraHttG5cRcr0QywtQSk2KrDDRFHz8TBfyCqMD5VYYrDbb1K2jC/bs9KVos3N
- MgfA==
-X-Gm-Message-State: AOAM53298k/RsdBb44csQPiCkFie17TcsnsDcQx/RwXHZXI/3Fu/bzgz
- 7bAgBIJm6SuH11oJoZbREp33MA==
-X-Google-Smtp-Source: ABdhPJzcUSXLkLOLvpCukvUVXymQ9PtTmf9/a9LT8PMH7XFE2jhs9qfYHmTi10DiT/0WcPX33DSOfQ==
-X-Received: by 2002:a5d:6207:: with SMTP id y7mr3530550wru.39.1619771750428;
- Fri, 30 Apr 2021 01:35:50 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:90c:e290:4a89:8c32:4adc:fc67?
- ([2a01:e0a:90c:e290:4a89:8c32:4adc:fc67])
- by smtp.gmail.com with ESMTPSA id b12sm1471523wro.28.2021.04.30.01.35.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Apr 2021 01:35:50 -0700 (PDT)
-Subject: Re: [PATCH v3 0/3] drm/bridge: nwl-dsi: Get MIPI DSI controller and
- PHY ready in ->mode_set()
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
-References: <1619170003-4817-1-git-send-email-victor.liu@nxp.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <e877868f-c5b4-ae8b-9871-c0633781e8e4@baylibre.com>
-Date: Fri, 30 Apr 2021 10:35:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A866E0D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 08:48:47 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 474F258097D;
+ Fri, 30 Apr 2021 04:48:44 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 30 Apr 2021 04:48:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=oUiXz1OlQ54S4d1LeQRnI53gSCx
+ TXESTKHtOkdxho+A=; b=hoCQdFtxDSK6UbfCGFYvv4TufwxJgDZL4/9hZpTmt3G
+ IDyRQW6DeUtd3QE8zRgKO1tTCnqZ1qI2WUsnXYFQUJGf2IYSAvPiMBY18vAS/I/9
+ xz4NsAEZqwL+JWXVYYq6sinO5hc5NbLREH3sW5oJDQW9EeNk6odbXD4nqOUvG4Ls
+ xjw9yFS12w+/F60Ysq95IatfYDFZAvz5UmDqMtU+AW2D+NNHUUfZPRnlPV+bbX5c
+ MdoHHNq0dWanAT4CNqQwjH0ssse5Mq2o2qL6HQywLqEA2tQeuFGHYXpO8+g8rkB6
+ ESylDPQz7LHNdntBdNqYw5iU/N0Du5/Y0b3huDggSfw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=oUiXz1
+ OlQ54S4d1LeQRnI53gSCxTXESTKHtOkdxho+A=; b=KsarDeBnF2RCHx6yUzdD+Z
+ Kt4Th+wOYTKmjc6DGrVr1aMJFrYKSfS7IBBh6BWQPIEOqn8x279iLr2hja+A+FuG
+ P5JkTxAdjfJHv4k5TCmlNWdB+59cPrwQSgnDxDsG8LCwsA2qTwUk13HWIpphZeYZ
+ aRJUIbC7V0mWVziFOnofqdQ6sTZyTqAHYY2gV7R0cCqP1AzT9c8w54zT5PSAxsec
+ DjVGdAA6gLEGXH8VACvJeyJhKbba61RK0juLx+S8QrhS4cBUXCacWcUu4CTwu5W0
+ DTbZ2APp50nnR7Dys9jxS2jO0kDaq+Wp9qvVzignIl2Y0j0Hlmm8G6imSlOih1qA
+ ==
+X-ME-Sender: <xms:asSLYGFkuaoda_aUdWnWjDa4fXG4YFA1lHvHY4X-T5yO_gnGge7nPg>
+ <xme:asSLYHX_gDBnCAg15Saed0wEQ4NRiKlqEJUYAX3QRJyylkT_pMyEtn2uuR8rJN4az
+ IknHLMavSNtKptfG9I>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddviedgtdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
+ jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrieekrd
+ ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
+ rgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:asSLYAI7rHlydogoT6wgI4x4S5i6HNCIkZh3EKqIyOMtsmhj0jwKuA>
+ <xmx:asSLYAFYFPIl788caQs-jmqj9ybujWnoKXDydLJbgdl-w14nIRyy8A>
+ <xmx:asSLYMUi6pSeFPncrAJAUWYFrC9n4lGs6fMo4DurcrwHI7YjSHvJzQ>
+ <xmx:bMSLYNVcx537Xg1x5xiBD_bP8UltEDfoKFcpB1iuFu9Ww8_eeDip8w>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Fri, 30 Apr 2021 04:48:42 -0400 (EDT)
+Date: Fri, 30 Apr 2021 10:48:39 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mike Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/2] clk: Implement a clock request API
+Message-ID: <20210430084839.dwjey7qobtc7vi5q@gilmour>
+References: <20210413101320.321584-1-maxime@cerno.tech>
 MIME-Version: 1.0
-In-Reply-To: <1619170003-4817-1-git-send-email-victor.liu@nxp.com>
-Content-Language: en-US
+In-Reply-To: <20210413101320.321584-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,66 +81,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, airlied@linux.ie, agx@sigxcpu.org,
- linux-kernel@vger.kernel.org, robert.foss@linaro.org, a.hajda@samsung.com,
- Laurent.pinchart@ideasonboard.com, robert.chiras@nxp.com, linux-imx@nxp.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Phil Elwell <phil@raspberrypi.com>
+Content-Type: multipart/mixed; boundary="===============1186720713=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/04/2021 11:26, Liu Ying wrote:
+
+--===============1186720713==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="lsyads3gv67wbw5p"
+Content-Disposition: inline
+
+
+--lsyads3gv67wbw5p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Mike, Stephen,
+
+On Tue, Apr 13, 2021 at 12:13:18PM +0200, Maxime Ripard wrote:
 > Hi,
-> 
-> This series aims to make the nwl-dsi bridge be able to connect with
-> more MIPI DSI panels.  Some MIPI DSI panel drivers like 'raydium,rm68200'
-> send MIPI_DCS_SET_DISPLAY_ON commands in panel_funcs->prepare(), which
-> requires the MIPI DSI controller and PHY to be ready beforehand.
-> However, the existing nwl-dsi driver gets the MIPI DSI controller and
-> PHY ready in bridge_funcs->pre_enable(), which happens after the
-> panel_funcs->prepare().  So, this series shifts the bridge operation
-> ealier from bridge_funcs->pre_enable() to bridge_funcs->mode_set().
-> 
-> Patch 3/3 does the essential bridge operation shift.
-> 
-> Patch 1/3 and 2/3 are split from the original single patch in v2 and
-> are needed by patch 3/3.  This split-up helps clarify changes better.
-> The split-up is done in this way:
-> 
-> 1) Patch 1/3 forces a full modeset when crtc_state->active is changed to
->    be true(which implies only connector's DPMS is brought out of "Off"
->    status, though not necessarily).  This makes sure ->mode_set() and
->    ->atomic_disable() will be called in pairs.
-> 2) Patch 2/3 removes a check on unchanged HS clock rate from ->mode_set(),
->    to make sure MIPI DSI controller and PHY are brought up and taken down
->    in pairs.
-> 3) Patch 3/3 shifts the bridge operation as the last step.
-> 
-> 
-> v2->v3:
-> * Split the single patch in v2 into 3 patches. (Neil)
-> 
-> v1->v2:
-> * Fix a typo in commit message - s/unchange/unchanged/
-> 
-> 
-> Liu Ying (3):
->   drm/bridge: nwl-dsi: Force a full modeset when crtc_state->active is
->     changed to be true
->   drm/bridge: nwl-dsi: Remove a check on unchanged HS clock rate from
->     ->mode_set()
->   drm/bridge: nwl-dsi: Get MIPI DSI controller and PHY ready in
->     ->mode_set()
-> 
->  drivers/gpu/drm/bridge/nwl-dsi.c | 86 +++++++++++++++++---------------
->  1 file changed, 46 insertions(+), 40 deletions(-)
-> 
+>=20
+> This is a follow-up of the discussion here:
+> https://lore.kernel.org/linux-clk/20210319150355.xzw7ikwdaga2dwhv@gilmour/
+>=20
+> This implements a mechanism to raise and lower clock rates based on consu=
+mer
+> workloads, with an example of such an implementation for the RaspberryPi4=
+ HDMI
+> controller.
+>=20
+> There's a couple of things worth discussing:
+>=20
+>   - The name is in conflict with clk_request_rate, and even though it fee=
+ls
+>     like the right name to me, we should probably avoid any confusion
+>=20
+>   - The code so far implements a policy of always going for the lowest ra=
+te
+>     possible. While we don't have an use-case for something else, this sh=
+ould
+>     maybe be made more flexible?
 
-Applying to drm-misc-next
+Ping?
 
-Thanks,
-Neil
+Maxime
+
+--lsyads3gv67wbw5p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYIvEWgAKCRDj7w1vZxhR
+xagEAP9KnN1cSuEGzs5QoVF1FGdo8VaW24bbM0i/ttjNxkFH+AD/TWU3q0YuBFlL
+6g93rwgyrmu9GDsqBS06BEr+FVlJgQk=
+=oTRU
+-----END PGP SIGNATURE-----
+
+--lsyads3gv67wbw5p--
+
+--===============1186720713==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1186720713==--
