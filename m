@@ -2,61 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8086636FE77
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 18:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0F736FF0E
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 19:00:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C71516E4D7;
-	Fri, 30 Apr 2021 16:27:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A296E4E8;
+	Fri, 30 Apr 2021 17:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3718F6E4CA
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 16:27:55 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id j28so19302519edy.9
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 09:27:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oY9fC45Xsb0/sA4k49RVDS/k+0bknDFnLsF1idXp8j8=;
- b=rNkbQSGjMwL2oTexW9E76gg30t7EioGtNbaFsOuWw0WwbQhT4VZN/YrFbMjW0ief/M
- smWavaUUwmih7gMXfL3XakxRmjLqlLWlQUYztOA4p2ziItsXXw0wACUmOJQ4xa8uz7wW
- CjNaj9Hv5i62ncNR16M5OMh4Vx3giiqZnK2lITUHeUJChgrCBmXMiYSMFEiwe9dTERte
- txFXHSXZFvBYcG3vrGOpXXI21LzDoSvKSdEu9u8XxNbXmcaJq1AY4vlurfBQlF+1TrsI
- lyMRngDcL8oGBKVQry3ydN7kmQMGnpCjNaG7Ap0PMt+Mi5c4kkK+F0eV0gJeXIN1hEm4
- ip8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oY9fC45Xsb0/sA4k49RVDS/k+0bknDFnLsF1idXp8j8=;
- b=Kvkj2l656KZMh+KnUzNw/WyIQhjA/EWRkj7aO29PHL+SvF/bregZWOMYV8CpBZtqGO
- reZoTzfrMFN47LGcBUs8spxwci1Xeq5drCKpDWJjwyuVZ1iN0WPSujILMzWe0cCzyqiO
- rnAJlu422A++cxsP718AeLp0LKaeU4B9egp7gh7gfDXvO+aemDE62fwg5tIcNwjRM6r5
- 9N7CNOlmtbeaJ8mC7idBn7DnZoR4+ajE0kai1zqUUCbPgLPZyuAam1HHrbjLH70dHT21
- 8KHruQNLSUzYmVGkkxz0+APYj6tO2crEFAe1cnr8biTi465FCRaxzlIUn7paDpiE++S1
- z2qg==
-X-Gm-Message-State: AOAM531K4bJJ/Yj0ttjobpowSD2uuDi/a9rMFdKieUVx8kPXDtca0VZF
- OqNBpZa2Pzw/yaWLAWI83MZX4FPdRcTCGF93b9DmcA==
-X-Google-Smtp-Source: ABdhPJy6qIEbR7qaVYJ8EhPjOGrLtktVA/pdTOy9kvrkZmdS6b7h8pvtXDIr0VQQNpdy7e7zjHwWKgP0vr9Iuc+G9A0=
-X-Received: by 2002:aa7:dd01:: with SMTP id i1mr6978207edv.232.1619800073660; 
- Fri, 30 Apr 2021 09:27:53 -0700 (PDT)
+X-Greylist: delayed 1954 seconds by postgrey-1.36 at gabe;
+ Fri, 30 Apr 2021 17:00:27 UTC
+Received: from gateway20.websitewelcome.com (gateway20.websitewelcome.com
+ [192.185.68.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5380E6E4E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 17:00:27 +0000 (UTC)
+Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
+ by gateway20.websitewelcome.com (Postfix) with ESMTP id 0C0D5400C4BE7
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 10:44:47 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id cVV3l8uGG1cHecVV3l97pZ; Fri, 30 Apr 2021 10:56:17 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Om4ZY5IbR19QUfg7UpptCRqjveQax7WqnKvkVNKEw60=; b=DkVi50Avya1CiFlM/pC74kdFZb
+ DC5++rKV2ax2Pj+xzqzHZIp0+MzKKyA9u7coLXcUQ3S19AIyxbS0UXXkenkHuhghE9mjzRyNElVzb
+ EiaXYAIefqo22e44jo5Gt+BnoZvFiKQexMpOdYL2Gpx6qKIf7NvSfKP4QpDKFy/cRyS/ceK4t5zEf
+ BP9mJydmEVVwIpXm1EDvjEoi2yb5IKBzilP4xtQpAMKV4YmyS99k14k00wozGpCM2zZKA6DyabKj9
+ VutcrxfmfxU+t2FWRHBzUllg6XvZdWWynd3nL20MWZjruty9oOVOR1tBUtFfUzvE1BpiWCdJn8bWs
+ A9j85RSg==;
+Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:33768
+ helo=[192.168.15.8])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1lcVUy-003wNy-PP; Fri, 30 Apr 2021 10:56:12 -0500
+Subject: Re: Radeon NI: GIT kernel with the nislands_smc commit doesn't boot
+ on a Freescale P5040 board and P.A.Semi Nemo board
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ Christian Zigotzky <chzigotzky@xenosoft.de>,
+ "gustavoars@kernel.org" <gustavoars@kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+References: <3eedbe78-1fbd-4763-a7f3-ac5665e76a4a@xenosoft.de>
+ <MN2PR12MB44881C5F5E24888E2590BF74F75E9@MN2PR12MB4488.namprd12.prod.outlook.com>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-ID: <eaf27853-916c-e095-7b7a-afb5256a6f67@embeddedor.com>
+Date: Fri, 30 Apr 2021 10:56:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-17-jason@jlekstrand.net>
- <YIrWB3fX3TseroSh@phenom.ffwll.local>
- <CAOFGe97b_LSGfrLo3LBhBuvx8wduVJLf0ySC=gG7Z+L6v2dPzQ@mail.gmail.com>
- <YIsBSRwNGiiF/kxE@phenom.ffwll.local>
- <CAOFGe97qi=jB+MGPtJyX-QYmjvTe2QPeijsNCeJ2z+E19x6ZNg@mail.gmail.com>
- <YIsD8OSFdLnjz5cL@phenom.ffwll.local>
- <CAOFGe96DXzFVX77f5qVMrCzJq2Cuco1pOyCfYmo_1v6rmxpMKg@mail.gmail.com>
- <CAKMK7uGzAGDS97hoj0xjzw8EJoPZazsLF=wxUz90cswjPSHthQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uGzAGDS97hoj0xjzw8EJoPZazsLF=wxUz90cswjPSHthQ@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 30 Apr 2021 11:27:42 -0500
-Message-ID: <CAOFGe94EQ5Q61FPwJgnv8Y5DpMhvaDGSxTjBwm2T7mXHX9fkOQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 16/21] drm/i915/gem: Delay context creation
-To: Daniel Vetter <daniel@ffwll.ch>
+In-Reply-To: <MN2PR12MB44881C5F5E24888E2590BF74F75E9@MN2PR12MB4488.namprd12.prod.outlook.com>
+Content-Language: en-US
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.31.110
+X-Source-L: No
+X-Exim-ID: 1lcVUy-003wNy-PP
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8])
+ [187.162.31.110]:33768
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 10
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,142 +86,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ mad skateman <madskateman@gmail.com>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Christian Zigotzky <info@xenosoft.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 30, 2021 at 1:53 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Thu, Apr 29, 2021 at 11:35 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
-> >
-> > On Thu, Apr 29, 2021 at 2:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Thu, Apr 29, 2021 at 02:01:16PM -0500, Jason Ekstrand wrote:
-> > > > On Thu, Apr 29, 2021 at 1:56 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > On Thu, Apr 29, 2021 at 01:16:04PM -0500, Jason Ekstrand wrote:
-> > > > > > On Thu, Apr 29, 2021 at 10:51 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > > +     ret = set_proto_ctx_param(file_priv, pc, args);
-> > > > > > >
-> > > > > > > I think we should have a FIXME here of not allowing this on some future
-> > > > > > > platforms because just use CTX_CREATE_EXT.
-> > > > > >
-> > > > > > Done.
-> > > > > >
-> > > > > > > > +     if (ret == -ENOTSUPP) {
-> > > > > > > > +             /* Some params, specifically SSEU, can only be set on fully
-> > > > > > >
-> > > > > > > I think this needs a FIXME: that this only holds during the conversion?
-> > > > > > > Otherwise we kinda have a bit a problem me thinks ...
-> > > > > >
-> > > > > > I'm not sure what you mean by that.
-> > > > >
-> > > > > Well I'm at least assuming that we wont have this case anymore, i.e.
-> > > > > there's only two kinds of parameters:
-> > > > > - those which are valid only on proto context
-> > > > > - those which are valid on both (like priority)
-> > > > >
-> > > > > This SSEU thing looks like a 3rd parameter, which is only valid on
-> > > > > finalized context. That feels all kinds of wrong. Will it stay? If yes
-> > > > > *ugh* and why?
-> > > >
-> > > > Because I was being lazy.  The SSEU stuff is a fairly complex param to
-> > > > parse and it's always set live.  I can factor out the SSEU parsing
-> > > > code if you want and it shouldn't be too bad in the end.
-> > >
-> > > Yeah I think the special case here is a bit too jarring.
-> >
-> > I rolled a v5 that allows you to set SSEU as a create param.  I'm not
-> > a huge fan of that much code duplication for the SSEU set but I guess
-> > that's what we get for deciding to "unify" our context creation
-> > parameter path with our on-the-fly parameter path....
-> >
-> > You can look at it here:
-> >
-> > https://gitlab.freedesktop.org/jekstrand/linux/-/commit/c805f424a3374b2de405b7fc651eab551df2cdaf#474deb1194892a272db022ff175872d42004dfda_283_588
->
-> Hm yeah the duplication of the render engine check is a bit annoying.
-> What's worse, if you tthrow another set_engines on top it's probably
-> all wrong then. The old thing solved that by just throwing that
-> intel_context away.
-
-I think that's already mostly taken care of.  When set_engines
-happens, we throw away the old array of engines and start with a new
-one where everything has been memset to 0.  The one remaining problem
-is that, if userspace resets the engine set, we need to memset
-legacy_rcs_sseu to 0.  I've added that.
-
-> You're also not keeping the engine id in the proto ctx for this, so
-> there's probably some gaps there. We'd need to clear the SSEU if
-> userspace puts another context there. But also no userspace does that.
-
-Again, I think that's handled.  See above.
-
-> Plus cursory review of userspace show
-> - mesa doesn't set this
-> - compute sets its right before running the batch
-> - media sets it as the last thing of context creation
->
-> So it's kinda not needed. But also we're asking umd to switch over to
-> CTX_CREATE_EXT, and if sseu doesn't work for that media team will be
-> puzzled. And we've confused them enough already with our uapis.
->
-> Another idea: proto_set_sseu just stores the uapi struct and a note
-> that it's set, and checks nothing. To validate sseu on proto context
-> we do (but only when an sseu parameter is set):
-> 1. finalize the context
-> 2. call the real set_sseu for validation
-> 3. throw the finalized context away again, it was just for validating
-> the overall thing
->
-> That way we don't have to consider all the interactions of setting
-> sseu and engines in any order on proto context, validation code is
-> guaranteed shared. Only downside is that there's a slight chance in
-> behaviour: SSEU, then setting another engine in that slot will fail
-> instead of throwing the sseu parameters away. That's the right thing
-> for CTX_CREATE_EXT anyway, and current userspace doesn't care.
->
-> Thoughts?
-
-I thought about that.  The problem is that they can set_sseu multiple
-times on different engines.  This means we'd have to effectively build
-up an arbitrary list of SSEU set operations and replay it.  I'm not
-sure how I feel about building up a big data structure.
-
-> > I'm also going to send it to trybot.
->
-> If you resend pls include all my r-b, I think some got lost in v4.
-
-I'll try and dig those up.
-
-> Also, in the kernel at least we expect minimal commit message with a
-> bit of context, there's no Part-of: link pointing at the entire MR
-> with overview and discussion, the patchwork Link: we add is a pretty
-> bad substitute. Some of the new patches in v4 are a bit too terse on
-> that.
-
-Yup.  I can try to expand things a bit more.
-
-> And finally I'm still not a big fan of the add/remove split over
-> patches, but oh well.
-
-I'm not either but working through all this reminded me of why I
-didn't do it more gradual.  The problem is ordering.  If add and
-remove at the same time and do it one param at a time, we'll end up
-with a situation in the middle where some params will only be allowed
-to be set on the proto-ctx and others will force a proto-ctx ->
-context conversion.  If, for instance, one UMD sets engines first and
-then VMs and another sets VMs first and then engines, there's no way
-to do a gradual transition without breaking one of them.  Also, we
-need to handle basically all the setparam complexity in order to
-handle creation structs and, again, those can come in any order.
-
-I hate it, I just don't see another way. :-(
-
---Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiA0LzMwLzIxIDEwOjI2LCBEZXVjaGVyLCBBbGV4YW5kZXIgd3JvdGU6Cj4gW0FNRCBQdWJs
+aWMgVXNlXQo+IAo+ICsgR3VzdGF2bywgYW1kLWdmeAo+IAo+PiAtLS0tLU9yaWdpbmFsIE1lc3Nh
+Z2UtLS0tLQo+PiBGcm9tOiBDaHJpc3RpYW4gWmlnb3R6a3kgPGNoemlnb3R6a3lAeGVub3NvZnQu
+ZGU+Cj4+IFNlbnQ6IEZyaWRheSwgQXByaWwgMzAsIDIwMjEgODowMCBBTQo+PiBUbzogZ3VzdGF2
+b2Fyc0BrZXJuZWwub3JnOyBEZXVjaGVyLCBBbGV4YW5kZXIgCj4+IDxBbGV4YW5kZXIuRGV1Y2hl
+ckBhbWQuY29tPgo+PiBDYzogUi5ULkRpY2tpbnNvbiA8cnRkMkB4dHJhLmNvLm56PjsgRGFycmVu
+IFN0ZXZlbnMgPGRhcnJlbkBzdGV2ZW5zLSAKPj4gem9uZS5uZXQ+OyBtYWQgc2thdGVtYW4gPG1h
+ZHNrYXRlbWFuQGdtYWlsLmNvbT47IGxpbnV4cHBjLWRldiAKPj4gPGxpbnV4cHBjLWRldkBsaXN0
+cy5vemxhYnMub3JnPjsgT2xvZiBKb2hhbnNzb24gPG9sb2ZAbGl4b20ubmV0PjsgCj4+IE1hbGlu
+ZyBsaXN0IC0gRFJJIGRldmVsb3BlcnMgPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+
+OyBNaWNoZWwgCj4+IETDpG56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD47IENocmlzdGlhbiBaaWdv
+dHpreSA8aW5mb0B4ZW5vc29mdC5kZT4KPj4gU3ViamVjdDogUmFkZW9uIE5JOiBHSVQga2VybmVs
+IHdpdGggdGhlIG5pc2xhbmRzX3NtYyBjb21taXQgZG9lc24ndCAKPj4gYm9vdCBvbiBhIEZyZWVz
+Y2FsZSBQNTA0MCBib2FyZCBhbmQgUC5BLlNlbWkgTmVtbyBib2FyZAo+Pgo+PiBIZWxsbywKPj4K
+Pj4gVGhlIE5lbW8gYm9hcmQgKEEtRU9OIEFtaWdhT25lIFgxMDAwKSBbMV0gYW5kIHRoZSBGU0wg
+UDUwNDAgQ3lydXMrIAo+PiBib2FyZCAoQS1FT04gQW1pZ2FPbmUgWDUwMDApIFsyXSB3aXRoIGlu
+c3RhbGxlZCBBTUQgUmFkZW9uIEhENjk3MCBOSSAKPj4gZ3JhcGhpY3MgY2FyZHMgKENheW1hbiBY
+VCkgWzNdIGRvbid0IGJvb3Qgd2l0aCB0aGUgbGF0ZXN0IGdpdCBrZXJuZWwgCj4+IGFueW1vcmUg
+YWZ0ZXIgdGhlIGNvbW1pdCAiZHJtL3JhZGVvbi9uaXNsYW5kc19zbWMuaDogUmVwbGFjZSAKPj4g
+b25lLWVsZW1lbnQgYXJyYXkgd2l0aCBmbGV4aWJsZS1hcnJheSBtZW1iZXIgaW4gc3RydWN0IE5J
+U0xBTkRTX1NNQ19TV1NUQVRFIGJyYW5jaCIgWzRdLgo+PiBUaGlzIGdpdCBrZXJuZWwgYm9vdHMg
+aW4gYSB2aXJ0dWFsIGU1NTAwIFFFTVUgbWFjaGluZSB3aXRoIGEgVmlydElPLUdQVSBbNV0uCj4+
+Cj4+IEkgYmlzZWN0ZWQgdG9kYXkgWzZdLgo+Pgo+PiBSZXN1bHQ6IGRybS9yYWRlb24vbmlzbGFu
+ZHNfc21jLmg6IFJlcGxhY2Ugb25lLWVsZW1lbnQgYXJyYXkgd2l0aCAKPj4gZmxleGlibGUtYXJy
+YXkgbWVtYmVyIGluIHN0cnVjdCBOSVNMQU5EU19TTUNfU1dTVEFURSBicmFuY2gKPj4gKDQzNGZi
+MWU3NDQ0YTJlZmMzYTRlYmQ5NTBjN2Y3NzFlYmZjZmZhMzEpIFs0XSBpcyB0aGUgZmlyc3QgYmFk
+IGNvbW1pdC4KPj4KPj4gSSB3YXMgYWJsZSB0byByZXZlcnQgdGhpcyBjb21taXQgWzddIGFuZCBh
+ZnRlciBhIG5ldyBjb21waWxpbmcsIHRoZSAKPj4ga2VybmVsIGJvb3RzIHdpdGhvdXQgYW55IHBy
+b2JsZW1zIG9uIG15IEFtaWdhT25lcy4KPj4KPj4gQWZ0ZXIgdGhhdCBJIGNyZWF0ZWQgYSBwYXRj
+aCBmb3IgcmV2ZXJ0aW5nIHRoaXMgY29tbWl0IGZvciBuZXcgZ2l0IHRlc3Qga2VybmVscy4KPj4g
+WzNdCj4+Cj4+IFRoZSBrZXJuZWwgY29tcGlsZXMgYW5kIGJvb3RzIHdpdGggdGhpcyBwYXRjaCBv
+biBteSBBbWlnYU9uZXMuIFBsZWFzZSAKPj4gZmluZCBhdHRhY2hlZCB0aGUga2VybmVsIGNvbmZp
+ZyBmaWxlcy4KPj4KPj4gUGxlYXNlIGNoZWNrIHRoZSBmaXJzdCBiYWQgY29tbWl0LgoKSSdsbCBo
+YXZlIGEgbG9vay4KClRoYW5rcyBmb3IgdGhlIHJlcG9ydCEKLS0KR3VzdGF2bwoKPj4KPj4gVGhh
+bmtzLAo+PiBDaHJpc3RpYW4KPj4KPj4gWzFdCj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnBy
+b3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmVuLgo+PiB3aWtpcGVkaWEu
+b3JnJTJGd2lraSUyRkFtaWdhT25lX1gxMDAwJmFtcDtkYXRhPTA0JTdDMDElN0NhbGV4YW5kCj4+
+IGVyLmRldWNoZXIlNDBhbWQuY29tJTdDMDYyMjU0OTM4M2ZiNDMyMDM0NmIwOGQ5MGJjZjdiZTEl
+N0MzZGQ4OQo+PiA2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzU1Mzgw
+ODY3MDE2MTY1MSU3Q1Vua24KPj4gb3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01E
+QWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJawo+PiAxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEw
+MDAmYW1wO3NkYXRhPVBOU3JBcFVkTXJrdTIwaEg3ZEVLbEpKCj4+IFRCaTdRcDVKT2txcEE0TXZL
+cWRFJTNEJmFtcDtyZXNlcnZlZD0wCj4+IFsyXQo+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5w
+cm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cCUzQSUyRiUyRndpa2kuCj4+IGEgbWlnYS5v
+cmclMkZpbmRleC5waHAlM0Z0aXRsZSUzRFg1MDAwJmFtcDtkYXRhPTA0JTdDMDElN0NhbGV4YW5k
+ZXIKPj4gLmRldWNoZXIlNDBhbWQuY29tJTdDMDYyMjU0OTM4M2ZiNDMyMDM0NmIwOGQ5MGJjZjdi
+ZTElN0MzZGQ4OTYxZgo+PiBlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzU1
+MzgwODY3MDE2MTY1MSU3Q1Vua25vdwo+PiBuJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpB
+d01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazFoYQo+PiBXd2lMQ0pYVkNJNk1uMCUzRCU3
+QzEwMDAmYW1wO3NkYXRhPUI4VXZoczI1JTJGUDNSZm5MMUFnSUNOM1k0Cj4+IENFWGVDRTF5SW9p
+M3Z2d3ZHdG8lM0QmYW1wO3Jlc2VydmVkPTAKPj4gWzNdCj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxp
+bmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmZvcnUKPj4gbS5o
+eXBlcmlvbi0KPj4gZW50ZXJ0YWlubWVudC5jb20lMkZ2aWV3dG9waWMucGhwJTNGZiUzRDM1JTI2
+dCUzRDQzNzcmYW1wO2RhdGE9Cj4+IDA0JTdDMDElN0NhbGV4YW5kZXIuZGV1Y2hlciU0MGFtZC5j
+b20lN0MwNjIyNTQ5MzgzZmI0MzIwMzQ2YjA4ZAo+PiA5MGJjZjdiZTElN0MzZGQ4OTYxZmU0ODg0
+ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NTUzODAKPj4gODY3MDE2MTY1MSU3Q1Vu
+a25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJago+PiBvaVYybHVN
+eklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9VG9rWHBs
+RAo+PiBUdmczJTJCWk1QTENnUjFmcyUyQk4yWDlNSWZMWExXNjdNQU0yUXNrJTNEJmFtcDtyZXNl
+cnZlZD0wCj4+IFs0XQo+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxv
+b2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZnaXQuCj4+IGsgZXJuZWwub3JnJTJGcHViJTJGc2Nt
+JTJGbGludXglMkZrZXJuZWwlMkZnaXQlMkZ0b3J2YWxkcyUyRmxpbnV4LmdpdCUKPj4gMkZjb21t
+aXQlMkYlM0ZpZCUzRDQzNGZiMWU3NDQ0YTJlZmMzYTRlYmQ5NTBjN2Y3NzFlYmZjZmZhMzEmYW1w
+O2QKPj4gYXRhPTA0JTdDMDElN0NhbGV4YW5kZXIuZGV1Y2hlciU0MGFtZC5jb20lN0MwNjIyNTQ5
+MzgzZmI0MzIwMzQ2Cj4+IGIwOGQ5MGJjZjdiZTElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5
+OTRlMTgzZCU3QzAlN0MwJTdDNjM3NQo+PiA1MzgwODY3MDE2MTY1MSU3Q1Vua25vd24lN0NUV0Zw
+Ykdac2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUwKPj4gQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJ
+azFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9SkMKPj4gTTR4dlBFbldkY2tj
+VFBiUTJVanYlMkZBaU1Nc0ZNenpsNFByJTJGUlBsY01RJTNEJmFtcDtyZXNlcnZlCj4+IGQ9MAo+
+PiBbNV0gcWVtdS1zeXN0ZW0tcHBjNjQgLU0gcHBjZTUwMCAtY3B1IGU1NTAwIC1tIDEwMjQgLWtl
+cm5lbCB1SW1hZ2UgLSAKPj4gZHJpdmUgZm9ybWF0PXJhdyxmaWxlPU1pbnRQUEMzMi1YNTAwMC5p
+bWcsaW5kZXg9MCxpZj12aXJ0aW8gLW5ldGRldgo+PiB1c2VyLGlkPW15bmV0MCAtZGV2aWNlIHZp
+cnRpby1uZXQtcGNpLG5ldGRldj1teW5ldDAgLWFwcGVuZCAicncgCj4+IHJvb3Q9L2Rldi92ZGEi
+IC1kZXZpY2UgdmlydGlvLXZnYSAtdXNiIC1kZXZpY2UgdXNiLWVoY2ksaWQ9ZWhjaSAKPj4gLWRl
+dmljZSB1c2ItIHRhYmxldCAtZGV2aWNlIHZpcnRpby1rZXlib2FyZC1wY2kgLXNtcCA0IC12bmMg
+OjEgWzZdIAo+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29t
+Lz91cmw9aHR0cHMlM0ElMkYlMkZmb3J1Cj4+IG0uaHlwZXJpb24tCj4+IGVudGVydGFpbm1lbnQu
+Y29tJTJGdmlld3RvcGljLnBocCUzRnAlM0Q1MzA3NCUyM3A1MzA3NCZhbXA7ZGF0YQo+PiA9MDQl
+N0MwMSU3Q2FsZXhhbmRlci5kZXVjaGVyJTQwYW1kLmNvbSU3QzA2MjI1NDkzODNmYjQzMjAzNDZi
+MDgKPj4gZDkwYmNmN2JlMSU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3
+QzAlN0M2Mzc1NTM4Cj4+IDA4NjcwMTYxNjUxJTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJ
+am9pTUM0d0xqQXdNREFpTENKUQo+PiBJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZD
+STZNbjAlM0QlN0MxMDAwJmFtcDtzZGF0YT1SWGZTbFkKPj4gQTNiREVGYXMwJTJGazJ2TVdzbDJs
+MG51aFMyZWNqWmdTQkxjJTJCczQlM0QmYW1wO3Jlc2VydmVkPTAKPj4gWzddIGdpdCByZXZlcnQg
+NDM0ZmIxZTc0NDRhMmVmYzNhNGViZDk1MGM3Zjc3MWViZmNmZmEzCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
