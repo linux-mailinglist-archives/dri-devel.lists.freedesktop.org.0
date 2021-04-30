@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC0136F5FB
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 08:53:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 009D636F713
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 10:27:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79C3F6E49A;
-	Fri, 30 Apr 2021 06:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D14176ECF3;
+	Fri, 30 Apr 2021 08:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B8EC6E4A5
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 06:53:56 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- n32-20020a9d1ea30000b02902a53d6ad4bdso8612534otn.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Apr 2021 23:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0Y2/iKIxefnWjf6wfHJ4c5SeCUOaB5vn8tA3HVMD29g=;
- b=BKBPD58RauGb7ZY3cIcg+NhIHbl19B3KrVf0b9MY/7sLCCgoDxYskz8l5DTo0Jmqns
- I6XG3k++2lTZ1k6sr/UnmfUOJwIKAN7LqWp6o4ZIGpqEb/9ui8wGyfqcw9efQgd3gq8k
- dM1Y9kFAvol2MBQ8Y/Rgy2k2M4FCLMdT8CdYE=
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8DD76ECF1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 08:27:50 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id d11so11737325wrw.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 01:27:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x12D1fSgMXo84/StrNDXFY95BOlA8w3dEtySPm5wCgQ=;
+ b=q5RkY2TEzEE6oWZZbW+87d2glkkz6bArkK6G7aeyOTL/H6i5S97xaGLHvQ7feTUwKC
+ 1yaM5gV/avDemn8LUsrGG4ttN8Njingl5hDQcXiFweWa77q5BSlgh8DTBXxWlaQQXQ4k
+ r1lSJznmcSEPRoyRX6erX7SDkpU6d2SLI6M8bWaGqGtY1ruPepci6ZZIwFNRYe5YKJa3
+ yjAHDDUPwDNtlN2+gWew99O3ATqgPaq1drQVwYnfKrBxevD6IPejzjmuF6NGbn7gSLsS
+ uOmK0IYiYEIpsf4jXL+Yqb+Qsa02G5V/KRmeYGuii/TEAavD6FHr3X7gsIieEtzPeQj7
+ wX1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0Y2/iKIxefnWjf6wfHJ4c5SeCUOaB5vn8tA3HVMD29g=;
- b=gylsTvVhERqjSIEHSr0PMnFkNl0czg7z+bL/sNene7xoSjZ5RMwrksGFWbMEe4Vh/l
- UQZbaJERauggYGBOT/lGOv/mVqGcLlIRVF+dfraz6MhIpZx0lsv6iv/x4Wa76UvyhaED
- zvHD9dWlwabO7l6BsassvkQMyo/TgYZ3sNkEKrSLvqUew7uH29fdWrxhF4qm7TsAMjxn
- uj7eJpbZQuZC5f4ativfTjTOiIYZdrcxlvltTt4fyZ1pPThYDIq69ALTJ7v0akdtjko+
- mm0Dp4ODBOKCI2JnxCAL4WZHWuqNlX7zUaHO4eJXU1cw3XZyQMUTg/1e+/nHnZwj5HZt
- JHNA==
-X-Gm-Message-State: AOAM532iLOQld1S/4xx8DRA5RFRqB2Ou/hHqZHmFcqyxZBrTvvAIQ8Z2
- BydBi6Wep/yyQobFfaIDU8t86svc0vDby/XLoKsUDYucxHg=
-X-Google-Smtp-Source: ABdhPJzE/PmWPpr4XDno34RT2mh5T2RZj1t28aVKutPUqbJTeVvq7zV9aIVqLC8KIJSF4jQe4PAPFXQpBIr47kYQqsg=
-X-Received: by 2002:a05:6830:1398:: with SMTP id
- d24mr2330338otq.281.1619765635623; 
- Thu, 29 Apr 2021 23:53:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x12D1fSgMXo84/StrNDXFY95BOlA8w3dEtySPm5wCgQ=;
+ b=Sv0PpV8e+khHuSU8Ep882y+Ydp1DQBLrG4OCpVVS1PoXTXi0CYlOKHja0+alPGPw2m
+ ys1zVlylDLxsqHGiFhrQNwnvI2GmuZAomByhB3z7GrZOkN+uxgMv8CouHE2bl8nNMDBR
+ oFOXs/eoDdbWfogF9JFYKTOkR1w9L3d2cBLvSDAllIlW4ZXXv6WOsmvCCDun7TXmtE9B
+ HobALrDV4d8FWOEezqD7q9OKIbNDIzo2+f6HGrxcieB1STjG8SW7+lH45JZPPzReieoq
+ k5VNP5WHzmRUBjQ+XoiT1PT/0zE7VOb15EvsyARmBS+qEOntMz+YgcutzPALgtD9vxsA
+ Pe+A==
+X-Gm-Message-State: AOAM530lPlG8NeRS9HuCg18q6jriWYtG3JQivbCCIIKuPML7q/FImgSV
+ cOOg2kQI5izzcw8ZJxKj5KZbUcUSuV39hT1W
+X-Google-Smtp-Source: ABdhPJxGoyaka1SwUgXjXPuWPXVdSHHYtgAfq3tVpjG7MANHxCuZPbgUWnsHDmVM463gHiGYmCPtyg==
+X-Received: by 2002:adf:efca:: with SMTP id i10mr1630979wrp.284.1619771268768; 
+ Fri, 30 Apr 2021 01:27:48 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:90c:e290:4a89:8c32:4adc:fc67])
+ by smtp.gmail.com with ESMTPSA id
+ e12sm1336677wrt.51.2021.04.30.01.27.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Apr 2021 01:27:47 -0700 (PDT)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/meson: fix shutdown crash when component not probed
+Date: Fri, 30 Apr 2021 10:27:44 +0200
+Message-Id: <20210430082744.3638743-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210423223131.879208-1-jason@jlekstrand.net>
- <20210423223131.879208-17-jason@jlekstrand.net>
- <YIrWB3fX3TseroSh@phenom.ffwll.local>
- <CAOFGe97b_LSGfrLo3LBhBuvx8wduVJLf0ySC=gG7Z+L6v2dPzQ@mail.gmail.com>
- <YIsBSRwNGiiF/kxE@phenom.ffwll.local>
- <CAOFGe97qi=jB+MGPtJyX-QYmjvTe2QPeijsNCeJ2z+E19x6ZNg@mail.gmail.com>
- <YIsD8OSFdLnjz5cL@phenom.ffwll.local>
- <CAOFGe96DXzFVX77f5qVMrCzJq2Cuco1pOyCfYmo_1v6rmxpMKg@mail.gmail.com>
-In-Reply-To: <CAOFGe96DXzFVX77f5qVMrCzJq2Cuco1pOyCfYmo_1v6rmxpMKg@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 30 Apr 2021 08:53:44 +0200
-Message-ID: <CAKMK7uGzAGDS97hoj0xjzw8EJoPZazsLF=wxUz90cswjPSHthQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 16/21] drm/i915/gem: Delay context creation
-To: Jason Ekstrand <jason@jlekstrand.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,111 +66,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 29, 2021 at 11:35 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
->
-> On Thu, Apr 29, 2021 at 2:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Thu, Apr 29, 2021 at 02:01:16PM -0500, Jason Ekstrand wrote:
-> > > On Thu, Apr 29, 2021 at 1:56 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > On Thu, Apr 29, 2021 at 01:16:04PM -0500, Jason Ekstrand wrote:
-> > > > > On Thu, Apr 29, 2021 at 10:51 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > +     ret = set_proto_ctx_param(file_priv, pc, args);
-> > > > > >
-> > > > > > I think we should have a FIXME here of not allowing this on some future
-> > > > > > platforms because just use CTX_CREATE_EXT.
-> > > > >
-> > > > > Done.
-> > > > >
-> > > > > > > +     if (ret == -ENOTSUPP) {
-> > > > > > > +             /* Some params, specifically SSEU, can only be set on fully
-> > > > > >
-> > > > > > I think this needs a FIXME: that this only holds during the conversion?
-> > > > > > Otherwise we kinda have a bit a problem me thinks ...
-> > > > >
-> > > > > I'm not sure what you mean by that.
-> > > >
-> > > > Well I'm at least assuming that we wont have this case anymore, i.e.
-> > > > there's only two kinds of parameters:
-> > > > - those which are valid only on proto context
-> > > > - those which are valid on both (like priority)
-> > > >
-> > > > This SSEU thing looks like a 3rd parameter, which is only valid on
-> > > > finalized context. That feels all kinds of wrong. Will it stay? If yes
-> > > > *ugh* and why?
-> > >
-> > > Because I was being lazy.  The SSEU stuff is a fairly complex param to
-> > > parse and it's always set live.  I can factor out the SSEU parsing
-> > > code if you want and it shouldn't be too bad in the end.
-> >
-> > Yeah I think the special case here is a bit too jarring.
->
-> I rolled a v5 that allows you to set SSEU as a create param.  I'm not
-> a huge fan of that much code duplication for the SSEU set but I guess
-> that's what we get for deciding to "unify" our context creation
-> parameter path with our on-the-fly parameter path....
->
-> You can look at it here:
->
-> https://gitlab.freedesktop.org/jekstrand/linux/-/commit/c805f424a3374b2de405b7fc651eab551df2cdaf#474deb1194892a272db022ff175872d42004dfda_283_588
+When main component is not probed, by example when the dw-hdmi module is
+not loaded yet or in probe defer, the following crash appears on shutdown:
 
-Hm yeah the duplication of the render engine check is a bit annoying.
-What's worse, if you tthrow another set_engines on top it's probably
-all wrong then. The old thing solved that by just throwing that
-intel_context away.
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000038
+...
+pc : meson_drv_shutdown+0x24/0x50
+lr : platform_drv_shutdown+0x20/0x30
+...
+Call trace:
+meson_drv_shutdown+0x24/0x50
+platform_drv_shutdown+0x20/0x30
+device_shutdown+0x158/0x360
+kernel_restart_prepare+0x38/0x48
+kernel_restart+0x18/0x68
+__do_sys_reboot+0x224/0x250
+__arm64_sys_reboot+0x24/0x30
+...
 
-You're also not keeping the engine id in the proto ctx for this, so
-there's probably some gaps there. We'd need to clear the SSEU if
-userspace puts another context there. But also no userspace does that.
+Simply check if the priv struct has been allocated before using it.
 
-Plus cursory review of userspace show
-- mesa doesn't set this
-- compute sets its right before running the batch
-- media sets it as the last thing of context creation
+Fixes: fa0c16caf3d7 ("drm: meson_drv add shutdown function")
+Reported-by: Stefan Agner <stefan@agner.ch>
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ drivers/gpu/drm/meson/meson_drv.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-So it's kinda not needed. But also we're asking umd to switch over to
-CTX_CREATE_EXT, and if sseu doesn't work for that media team will be
-puzzled. And we've confused them enough already with our uapis.
-
-Another idea: proto_set_sseu just stores the uapi struct and a note
-that it's set, and checks nothing. To validate sseu on proto context
-we do (but only when an sseu parameter is set):
-1. finalize the context
-2. call the real set_sseu for validation
-3. throw the finalized context away again, it was just for validating
-the overall thing
-
-That way we don't have to consider all the interactions of setting
-sseu and engines in any order on proto context, validation code is
-guaranteed shared. Only downside is that there's a slight chance in
-behaviour: SSEU, then setting another engine in that slot will fail
-instead of throwing the sseu parameters away. That's the right thing
-for CTX_CREATE_EXT anyway, and current userspace doesn't care.
-
-Thoughts?
-
-> I'm also going to send it to trybot.
-
-If you resend pls include all my r-b, I think some got lost in v4.
-Also, in the kernel at least we expect minimal commit message with a
-bit of context, there's no Part-of: link pointing at the entire MR
-with overview and discussion, the patchwork Link: we add is a pretty
-bad substitute. Some of the new patches in v4 are a bit too terse on
-that.
-
-And finally I'm still not a big fan of the add/remove split over
-patches, but oh well.
--Daniel
+diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+index 453d8b4c5763..07fcd12dca16 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -485,11 +485,12 @@ static int meson_probe_remote(struct platform_device *pdev,
+ static void meson_drv_shutdown(struct platform_device *pdev)
+ {
+ 	struct meson_drm *priv = dev_get_drvdata(&pdev->dev);
+-	struct drm_device *drm = priv->drm;
+ 
+-	DRM_DEBUG_DRIVER("\n");
+-	drm_kms_helper_poll_fini(drm);
+-	drm_atomic_helper_shutdown(drm);
++	if (!priv)
++		return;
++
++	drm_kms_helper_poll_fini(priv->drm);
++	drm_atomic_helper_shutdown(priv->drm);
+ }
+ 
+ static int meson_drv_probe(struct platform_device *pdev)
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
