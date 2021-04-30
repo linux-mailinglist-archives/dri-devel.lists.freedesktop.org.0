@@ -2,38 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24E436FC9A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 16:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C632936FCA1
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Apr 2021 16:43:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E572A6F546;
-	Fri, 30 Apr 2021 14:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B06746F543;
+	Fri, 30 Apr 2021 14:43:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
- [185.70.40.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0901A6F543
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 14:40:07 +0000 (UTC)
-Date: Fri, 30 Apr 2021 14:40:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1619793604;
- bh=fSLec87iegryPgjrOUODvz2OysQjnjA+xnQ6m8z4xd8=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=KmFbHHyAyWluF5+3MnNA0uf7I9YQNEePPKXHRDy09W16ucEG+W8IFcXDV69wPF7g0
- RUupRh2t6sqi4QHffmTi4+DdVNfOAJFXBmYM7n26FVp2pI79gDwmeoiuAWQg5Lx0Na
- 2x86lJFp1CPHab9NMmFtPDaR4B6CP9f3ieMxeOZQjLgusvn5rms5iXXm+8rUNwmNdr
- /5Z58n48ppFjP6JLoaHpqJUZbKv/NwBxNwxe3D7OsJngLxGs+bUnPfDeRFtAHn3FVT
- EfK3N2ToHOjzHPBN/9VKYzYSaZW2yXzUi8UK4TZ4dexnXjiN3HCn+OWkkvXNPqVdvq
- Z+kS6xUL2H8Gg==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm: log errors in drm_gem_fb_init_with_funcs
-Message-ID: <R359hIfrDhyN2VBgiSyQ1ogbifYmn7KwIuMUqS3u3A@cp4-web-032.plabs.ch>
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F09016F543
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 14:43:29 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id u1so2864932qvg.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 07:43:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6DA+iWuarwewxIHCjN3w/dR8eNfYqdFSJS7dMZFghBI=;
+ b=GFC77jcw+TJsYBydMDeK0nlny9x+A+Pdb3UO2UArIkriJ7tpYXJne/sJkt5kxbcTRX
+ Uyvpd092IOpkWE7ts91mAz5DBVNrxNqyWw8Jy3KeF7JDWEHUQ3ZfetManJJ3cGs7l/EZ
+ BzB576kMJsZQPstxKSWkIx/GB3G8VkqSF4CtUrnLc4sbApxE3n8XbBf8Qlzjc86xFu1J
+ mAQaqZ1EFlf5GDEgitPxNS0ACbe8gvCvqmG/YwffmyM+nl/yB7Kk7PLkoe2lVgGxv23e
+ lVS+nweUUFeW23VbKzlB3ysFaArVhyOv+11/+ioRs9s9So2pUiZsUzxJ4zHQ1lXhq5O5
+ 1CQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6DA+iWuarwewxIHCjN3w/dR8eNfYqdFSJS7dMZFghBI=;
+ b=GqLGLhoI2GyKq4OSGZyoq3fAYWhQ3A/bVbGKdybu1izWIqYogY9NmISrxaBHWeIy+u
+ HQMjD1hUvA3pK1SZ8rgrEgKsj0/k05yOpCPSWMGItMzNrYVQ4JbmiN2r+v5jvdmDYHKE
+ cyO4ueFFL/c+g69ChB7as8JDJNu2f/ejClolAITv/dcl/Ip27aU6SUk6vASZQoZMsye2
+ oSR03nYRqPLia0wLa8J8pnrs8mJQ6JgXSmCbUYNVYo3hcBflDcTiNAvLMu/+5Yuv9E4P
+ pJaq4iBw0WUTlGk+3fosuMIUmou/HRhgA1AEsVUSAPnmRKkybYq8Ia7gKZu+bIVDdkku
+ lQGw==
+X-Gm-Message-State: AOAM533OhHHlhl0YhAn6Xh2Xkha0HCFBzXyrpX+TImI53lAeDlIAQz2Y
+ WLUpFdgdZVD0dACz8EMWSxLjIoTmolE2D0cugfQ=
+X-Google-Smtp-Source: ABdhPJxLUItUtNH5Ta0DUzE+goisl24lBKrTb498xcPYGtvra5S9niLr9uUN7r6kNrSasyaFnn1xQ+GOcbR3ll5Lu6Y=
+X-Received: by 2002:ad4:4109:: with SMTP id i9mr6039149qvp.30.1619793809034;
+ Fri, 30 Apr 2021 07:43:29 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+References: <20210430092508.60710-1-christian.koenig@amd.com>
+ <20210430092508.60710-9-christian.koenig@amd.com>
+In-Reply-To: <20210430092508.60710-9-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Fri, 30 Apr 2021 15:43:01 +0100
+Message-ID: <CAM0jSHM5LBtgdL0ht4gwpg==CPk9x1g6iDKZ49YfKbeOJyWcWg@mail.gmail.com>
+Subject: Re: [PATCH 09/13] drm/amdgpu: switch the GTT backend to self alloc
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,41 +62,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGV0IHRoZSB1c2VyIGtub3cgd2hhdCB3ZW50IHdyb25nIGluIGRybV9nZW1fZmJfaW5pdF93aXRo
-X2Z1bmNzCmZhaWx1cmUgcGF0aHMuCgpTaWduZWQtb2ZmLWJ5OiBTaW1vbiBTZXIgPGNvbnRhY3RA
-ZW1lcnNpb24uZnI+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpD
-YzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpDYzogTm9yYWxmIFRyw7hubmVzIDxu
-b3JhbGZAdHJvbm5lcy5vcmc+CkNjOiBBbmRyemVqIFBpZXRyYXNpZXdpY3ogPGFuZHJ6ZWoucEBj
-b2xsYWJvcmEuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hl
-bHBlci5jIHwgNyArKysrKystCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxIGRl
-bGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fZnJhbWVidWZm
-ZXJfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFtZWJ1ZmZlcl9oZWxwZXIu
-YwppbmRleCAxMDlkMTFmYjRjZDQuLmU0YTNjN2ViNDNiMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmMKQEAgLTE1NSw4ICsxNTUsMTAgQEAgaW50IGRy
-bV9nZW1fZmJfaW5pdF93aXRoX2Z1bmNzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJaW50IHJl
-dCwgaTsKIAogCWluZm8gPSBkcm1fZ2V0X2Zvcm1hdF9pbmZvKGRldiwgbW9kZV9jbWQpOwotCWlm
-ICghaW5mbykKKwlpZiAoIWluZm8pIHsKKwkJZHJtX2RiZ19rbXMoZGV2LCAiRmFpbGVkIHRvIGdl
-dCBGQiBmb3JtYXQgaW5mb1xuIik7CiAJCXJldHVybiAtRUlOVkFMOworCX0KIAogCWZvciAoaSA9
-IDA7IGkgPCBpbmZvLT5udW1fcGxhbmVzOyBpKyspIHsKIAkJdW5zaWduZWQgaW50IHdpZHRoID0g
-bW9kZV9jbWQtPndpZHRoIC8gKGkgPyBpbmZvLT5oc3ViIDogMSk7CkBAIC0xNzUsNiArMTc3LDkg
-QEAgaW50IGRybV9nZW1fZmJfaW5pdF93aXRoX2Z1bmNzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
-CiAJCQkgKyBtb2RlX2NtZC0+b2Zmc2V0c1tpXTsKIAogCQlpZiAob2Jqc1tpXS0+c2l6ZSA8IG1p
-bl9zaXplKSB7CisJCQlkcm1fZGJnX2ttcyhkZXYsCisJCQkJICAgICJHRU0gb2JqZWN0IHNpemUg
-KCV1KSBzbWFsbGVyIHRoYW4gbWluaW11bSBzaXplICgldSkgZm9yIHBsYW5lICVkXG4iLAorCQkJ
-CSAgICBvYmpzW2ldLT5zaXplLCBtaW5fc2l6ZSwgaSk7CiAJCQlkcm1fZ2VtX29iamVjdF9wdXQo
-b2Jqc1tpXSk7CiAJCQlyZXQgPSAtRUlOVkFMOwogCQkJZ290byBlcnJfZ2VtX29iamVjdF9wdXQ7
-Ci0tIAoyLjMxLjEKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+T24gRnJpLCAzMCBBcHIgMjAyMSBhdCAxMDoyNSwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
+ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gU2ltaWxhciB0byB0aGUgVFRNIHJh
+bmdlIG1hbmFnZXIuCj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+ClJldmlld2VkLWJ5OiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVs
+ZEBpbnRlbC5jb20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
