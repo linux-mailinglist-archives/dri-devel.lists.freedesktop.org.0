@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9333B3704C3
-	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 03:58:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C093704C8
+	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 03:58:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA426F621;
-	Sat,  1 May 2021 01:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52C246F627;
+	Sat,  1 May 2021 01:58:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06C2E6F621;
- Sat,  1 May 2021 01:58:20 +0000 (UTC)
+ (mail-bn7nam10on2059.outbound.protection.outlook.com [40.107.92.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0DC6F624;
+ Sat,  1 May 2021 01:58:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A+DiHdNcQgzvxCMi0c9d8vU29UpNZY4cFqUWP6W0iTPJPU/uXoAcaVU1RNoHUDl65cIznmAcQ/oB/N9uLfeCnOylVd3K+1U76kT4KmEIeAHYTmA3CqIu3+dO0Ope2+kzly5226VbxqfCyI/hOZXkTayp+i6BaAFRSy0MfjXLe1ooyttj6i5gzIn7Awkx3yKpOB0Ju8eEUMRmT1+BGnInf/lNSAq+UCknS7wx6OkGQVfRMpDxa09St63OFXjb02VGuDmAih9W8gKjcA/MnNfrHEVIhrYMgJaRdURZEJbjpW/TI2Yn6uJlYzQW4mpLAHo/FTZBeoux83w0UZFN6Nhv2w==
+ b=K3rmGNt2cXa1iIrV9+RWh+dqtGMqt38ECGuXO6qKLO7TwTw4NoI4kBgtVaj2ai/aoBgb1tDpiFskEL1AJCShL7FWz7xRkilVnDtKd4+Lr6YriVeGWjuRomWnd+Pmyye/8DgxnY5vvKxqusnnd0BQD6ibAqTUTtjFt7zyD+IX8UzB3BRLBzmC9Uqa9F48E+1vho/WvCDI2vfAER6RTBD37SXizWLLe+oBvF2HUWIMa7b5x/y7qBFjuezUTJFR4TZu6KEvpkJ4I2wL5LAHijC9e7VT4qOtFaEaozKh62sTjUj7rpWN9kS6zh1pYA4yRTYy9nGQ+r5xeMZXzxQmnKAhnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=In+qYMWsP5Vd8vY02PjeYxA4bphaUOxBsuGP0Kfs2b4=;
- b=KhrY8258BTXM+2lxWl7+nKsToxCaVfAqaaw9iB8b8qfHpP0vjwOng6TK7V7TRiJKsFf+jnyCUiA26o1VBLuk2YT6aftlAY+BdeOZIEWC++udVpmiYp4lfPzhBeexbbDooRhz+j9EdBOvMUu7OO9k2JjZi6+jcQwNIHNirn5wBQS8kDGNiem2jHdgj81UNEP8xnkN6rJOKgd7m02WRBE7xQaCCZPsCPOosDyTTAG62iTtZJ8UVmhH18xFjgdpGYOMZ4vzoM4qQlUwDLdVMalCvMWkCYWWQD4xHTniD0hXaHwoq5j16OwjM1RWi6N7NmFRQ4QMBEsrQVQayWo1JMsefw==
+ bh=PZtBg1o6o4VoLsm3mvQqAex5ekmH5ZeWXTZahq+fP5o=;
+ b=S2hwC5rfwVi6mhK2M78w3YVKWsJuvCsLu3CRxWE0zcJZcnVBvziwNQS3+aanw3Nn5sPyy9u5bJ8BeC8dM4br+/EN3aSSaT03yDJBvLIGtRblPd5/QWINXUUvtcGivado9v//J8Z2HlY1ohut0+Ce2syXzdLNWGP/CEg4yl21hOqgfwXQ5eDPvALBctqMYbEMuKErxjqVb/3vCC4nZYFowEjKRyhZBNoYEgV7YO3YRSeOA3yynvUd+6nCelMhp5OB7FlxO9LIOcWG3JoGKDXu0Fbn4PU7iamdyAlhMVEwOsUA+Ail2D6zAmrz8hUw5XrHjmeiBwsDo9rJkU3PmIZ8Rg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=In+qYMWsP5Vd8vY02PjeYxA4bphaUOxBsuGP0Kfs2b4=;
- b=oKJQTdjAJtGvnfkyJIAMjmHVUtI+zVeRIhH2quU6SarGzRRKSXAyKb8nW8vkCPHo1Jcd4+wgIChrmoNKoH4HPHkr1pexSp4pH08McFA8zkiqF9s8I2HMo6O0qR4UO96G3qNsq/aLfbYzzFgF/Cd2LRxRTmFSODIuQ1L/8CWqOlQ=
+ bh=PZtBg1o6o4VoLsm3mvQqAex5ekmH5ZeWXTZahq+fP5o=;
+ b=S7if88dS3Drd5CCVI6YNQAld1oi65u/wOTVc8hlZnZ4xNLWI1KJC2QEQrnw8hc5j3h9gimA4E/rKrJ/b10nT/CzozenEL1qLv/gsdVsv6lPZytOjRf6s0Nq7KLDTdJlbJ6Ot0WOM+CUhqzy7LUoLLM70Bjv0n2QKrl3iPvBcuHU=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
 Received: from BL0PR12MB4948.namprd12.prod.outlook.com (52.135.46.212) by
  MN2PR12MB4142.namprd12.prod.outlook.com (52.135.51.19) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.25; Sat, 1 May 2021 01:58:19 +0000
+ 15.20.4065.25; Sat, 1 May 2021 01:58:20 +0000
 Received: from BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033%5]) with mapi id 15.20.4065.027; Sat, 1 May 2021
- 01:58:19 +0000
+ 01:58:20 +0000
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 02/17] x86/configs: CRIU update debug rock defconfig
-Date: Fri, 30 Apr 2021 21:57:37 -0400
-Message-Id: <20210501015752.888-3-Felix.Kuehling@amd.com>
+Subject: [RFC PATCH 03/17] drm/amdkfd: CRIU Introduce Checkpoint-Restore APIs
+Date: Fri, 30 Apr 2021 21:57:38 -0400
+Message-Id: <20210501015752.888-4-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210501015752.888-1-Felix.Kuehling@amd.com>
 References: <20210501015752.888-1-Felix.Kuehling@amd.com>
@@ -56,52 +56,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (165.204.54.211) by
  YT1PR01CA0037.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::6) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.25 via Frontend Transport; Sat, 1 May 2021 01:58:18 +0000
+ 15.20.4065.25 via Frontend Transport; Sat, 1 May 2021 01:58:19 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 29435bf7-11da-4162-da4c-08d90c4497b9
+X-MS-Office365-Filtering-Correlation-Id: 51b3a221-f570-478b-e815-08d90c449847
 X-MS-TrafficTypeDiagnostic: MN2PR12MB4142:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4142C023BD92AB1A01E29171925D9@MN2PR12MB4142.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB41423E447DA3C1D46FCE47F0925D9@MN2PR12MB4142.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:475;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FbL+H24mCIU5LeR6o1UistdDhklj/0K8yNFp5KZFu61CEVaI8BnxbyXFC7rBSz1qxXFv3I+xpYMgXx+5KmrMr6GX6u/jSS8aZnkPCCq5r3Prza/h6PLrAygQ1jUrKSP9vkxaAdEw7bqsoAznFWoEs1OTtLt+J5t6kaove2KFKeqnNOgSJ/s1WLpxHoJXxRwfr6BvCuLxMSc9yaS7fp/25MLwx3TSxKhTtafNMW41TBq98CaxRJl7/Ofqv+vIMPIz1LuBCJCGKnK+7wTTSy+Ic2mMvWaTSo+HDWpldS18wwxwRm1jfQk7x4TyQPcrWaU4pBP52XdfdvkldEBMQI2E+Ei3jQD8jBkqfutAzPMmukjcVDF+sFFAZhacoCw36PkHBSfizdPupzgQ3wVmfAsvhTHdVYzLKThpGnPvXSkc47A/9V/Ur5oiEcTickqzfpSrWQOlM2Vt23IeLVEgpjcgtNFVDQEFZUinUCjx0sJOViZm44tMWLlhMypaoAVoiQyaTR2D2UrKnSBce0rSd+GvMIp+Lq0xeknM/Vzztwx4FjtAxhvAxOmfExqPJQO+pdd66DqXLLzVgbhxyMnHwPnPDmJFsYIayuw6WdEMR7RSiXuL88zgBhj9TjpT9+/Jok85yOMPFsJXXN5BOXUiK3iqRVWQ+XTJ4UWftPhPEbW0igOZQGPzbYWT56wcM/SC1r2/
+X-Microsoft-Antispam-Message-Info: +wIisM7NDG19Qy9CUbkOWQNs8J/ktocR1RZtHKPljCf2UEGE8ltle3CCtXiOOZMlT9Prge48F7R5xHuI4WQgOOLdi08KzA9z/9fNbibdZpGRA4ex8esAg3IU6TPAPqjPMl06OJadEYMA/i7P4tmJ/ZMUgYthcSkeC5ItTI2Mgm/nnEUgj53SPlHKOc9XfO64Z1Duv4JqQMJ0KFx9hZcZ1DyXYz9Adpj7tVTU5f3kkbm5VTnraykwftgmG/VrdtPOH8MuDYB1WiI8AKf3Y7ROs3t5ILNSbmuUoCOCKvLA90W/lj7al+VPIdzhJWLiILwH3nKFSYfFNcWuMli7CQNj/nIzYSOFpRwA+e586+smAMJNWRHAqFeDycTb7BiPRKFyUjH39XsnMcK+7709Zr9j0cdEbV1TRr0sbOcCDUveHmyBIPPH4qg8z/4ZPa2Pe8M/pI95MSAXOkWcu5XxJB/eHsdczIeQbEorro4E9n53BT3EOhBBpSJ004cBk6nh9zjRdnK13mJg3LJr1MbecbV/InnK7d0Uo2mw6a5f3dS7u2UkMpEUeF5TwEdWLAlk3YQsSMTH0SKJ7WWZWnymcKpqSfI26FqW1STtWwFInmv/VmsVfpjNQU3yK3uwI7Di9TgcMtCto3gAA+mW4DgeHA+T3VGHIo+pNMJm8l3dEeqxNcT+8r4Z9yHJq9MCU97c/gIl
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(15650500001)(66556008)(6506007)(66574015)(2616005)(66946007)(66476007)(52116002)(956004)(38100700002)(6512007)(450100002)(4326008)(8676002)(8936002)(478600001)(2906002)(6486002)(86362001)(26005)(186003)(16526019)(83380400001)(5660300002)(1076003)(36756003)(6666004)(316002)(38350700002)(69590400013);
+ SFS:(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(66556008)(6506007)(54906003)(2616005)(66946007)(66476007)(52116002)(956004)(38100700002)(6512007)(450100002)(4326008)(8676002)(8936002)(478600001)(2906002)(6486002)(86362001)(26005)(186003)(16526019)(83380400001)(5660300002)(1076003)(36756003)(6666004)(316002)(38350700002)(69590400013);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ATNJQEA4FwEpTSMGQcWvoBb/Z8sD8xqA5eSOt88OoM7olliGoKcK9wM8kVW4?=
- =?us-ascii?Q?bRlqn/ba4ju8CjQTFgpzT2OcI+EJ6DNhS6XYlM7ksoA/rmooZZ1mTL27tMZv?=
- =?us-ascii?Q?kgBMGdAsVZikmg3HNlgQOBHL0epk2CAYpT+6rUtzaV0sa01Ev/fwsFR14Tdz?=
- =?us-ascii?Q?Gcv3/jRgwxsjGzueuP95vG0QvEcC28jRXRmzFIjhpo8V5LmyvPbEo2TGQ/jG?=
- =?us-ascii?Q?uVkisGRqsFcxSg7w3o5PI/X5Bm5xdw343sCA/5BerwjA9sy/Y6ZQ9PG6dO+W?=
- =?us-ascii?Q?f2ylpAnOY9yER4OGk9DxbKDJj/hcb7VcXdXUqQ55+UGZyy9izvQ6cloX3+OI?=
- =?us-ascii?Q?TTohKsN2zBonleiO5TSIoWd9ztnPfibNdRBV2qLuwu4BvPMvpvp3zt2XeClh?=
- =?us-ascii?Q?S8WfUFMesVcSPFxBVNlJu4SFA8vxVwwZxVxaunOlmw72jj1x8HOFKV4wz1ZN?=
- =?us-ascii?Q?65RsLU8D/GzhhauMTUSZsVTyGfpRHyidHTb6hpbpVUeGlL/UIRRC4iuJJ7MK?=
- =?us-ascii?Q?0IqlSTHAF1C2F8BfGK3S3xbPe0vur+nw2T9hncN+vJWSVS8RnMoAmM29NvVa?=
- =?us-ascii?Q?mGwGO7tL7ks0Y4dVsVX945OdSDIXg0owWDJot8jtRWre3pkJp3xwF2S3r8mi?=
- =?us-ascii?Q?B5Q4+n5IOwk4OlsSvee3HWWzkvhv3KHqoViT041IO/NdZ70PbPgHFndMbuXY?=
- =?us-ascii?Q?gGEJf3BRbYIeupyGrgnrvKsfPnrrPX2cHLNX3IMjV4B3cMFUhFiO1HKZq8sM?=
- =?us-ascii?Q?5Ol6TiDqRcTtXI7vtcdtJrSYH2P9RMPUv+vLDTOXqKv9t0FQD+8Aiy9Fh6c1?=
- =?us-ascii?Q?1ZOzVTNwvNa5QHlzLoMeCfvXQIOK2xoXqxGkig0OCPxAV40Nj4IOrLs4N4S7?=
- =?us-ascii?Q?yVF4/1w9VwAEJ/B+0X+JxyO2+zJZAtykqIZrZgXyjDGz5/9FGF+CxWiB9nX/?=
- =?us-ascii?Q?d6W3pvYj1JnGqfPQ5CQX/QU0713NmHbf+mIsk7ju+1b11HT5ONaaZPeV9gcZ?=
- =?us-ascii?Q?zdbCctnET04Hy17kkb3gzgFFZVAA6f8utQ18B8GcQt2BfL13P2RnWhSGKgto?=
- =?us-ascii?Q?izeOMbAXLX6XUnbBSpyQVg65MRCV1s50AyUR69w64edhE2fnonHBN12bBUJm?=
- =?us-ascii?Q?idBwY+l03DmZi86zTESgYBdC5necOz7Fg123bDn2tsLNg8/BSRKiU/Grfjj4?=
- =?us-ascii?Q?/sdPzUQv9ZlK9f6Nu1+apYABZtyEcwAAavmblWoPJj+bayeK15rj4Qfg6KMW?=
- =?us-ascii?Q?lyBpjNG80Z0+ul9zaRBR/XuPCJXnvBjkCBG/2oX6l5vozuDdDbIPEatLUP9M?=
- =?us-ascii?Q?A7zO5u5ykAN2h9qod2LjRSIe?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?PLj6MVzJd7aY2/Zngos6326drFZ3/ijehLwjNX83DyGtKmpt7fREvFHjqpe1?=
+ =?us-ascii?Q?pP/6FzPis7DpvMr9nR6jJQL/gTFY4oze2jMb0MkpFZW4Vw5Ey+vvkMVtccq4?=
+ =?us-ascii?Q?HTS8/2Bq1V6U0PqJyR3SEYAnt6LvXaufCVR2lPVAIWXeJIwkCzi6H3bvprO9?=
+ =?us-ascii?Q?OyhFOI1i+o+req2ain/Gad2h0v0gNJEtC4jkzMTfvCJtRJo8AZlaP1BrqKkB?=
+ =?us-ascii?Q?QoduuLW6iaUh2lnDarwsdR937A/wJ1UhnYfL7ZdJwQjuroouDj/OFRsj/uQp?=
+ =?us-ascii?Q?gLLwq5YlDKbrmLFtlfQWjFK3iOo8uC0tZa2t6fHd0FgXNJv7g9RrOORfqBpa?=
+ =?us-ascii?Q?KIexTdBG6UTXq+CfzBBqVJ2aFytLrtzllSseE7rU/UCM9mYZSTPABrSN+JBG?=
+ =?us-ascii?Q?VjI+aJxbJJ0eRiUj0eiSRKuivodoZdw+MIkYcdLWZoObe6b/qWFWMcPr9TB7?=
+ =?us-ascii?Q?TQDsONAKYnU6bFf4vB34FpSYtZh1xv1ie8N0oXZC5lxyvub/hhmWtiX7peEl?=
+ =?us-ascii?Q?59v3BrjXCmnE/Ko+7lvy9oLqmhZY+MQZmRbdDdNfAojRLP5D2DYq1iM7LhS9?=
+ =?us-ascii?Q?Qebr/WTAaxRaZbBpl+y7WXtqENZ5yLGmqPqd8HqtSoMnoc3PTuqJZUkcSkqH?=
+ =?us-ascii?Q?afwea2OP7j9I5P9Uqu4Qt8Etwpmg3jXGE4S6kO0yuLYQgshbb7Br3/ofLxfo?=
+ =?us-ascii?Q?XQZoY73D1wChlbE3ISPKJi85Bw9D+BXo3kyU/HvY8Kphu5CQlj7T7kwl/K8H?=
+ =?us-ascii?Q?6YAWotiXVx/1QxTV20kacXCxraHKMmyJYn20/Dltd6IZ+SYfVm5XrFl1AKhW?=
+ =?us-ascii?Q?Xxgw122qdE5KB5W6SiTrP9WAyFzaoF5lz5mxjsT8p4suty6tC5HUOukZ1iDm?=
+ =?us-ascii?Q?wgr4JPYzM2vjs6G1wBfbvOOtZMDeCQt6QlX0GSsBoMVsPlcHpsKhRhY96K6l?=
+ =?us-ascii?Q?QVfi30ldlyaG5M5Zu3iZjj9NtCTeSYiSykFjIq0Q8OKszpEoUNT1WgyBUMld?=
+ =?us-ascii?Q?Iif1ISphhpviAnX9dU4nREF3l8DvQ3qDWQyfAut+JMPqRiayFimFNgeWyIrU?=
+ =?us-ascii?Q?4DDW+1yx3EALViIKcpyrVJ1EIsr/iNlJiryeDbte7JZPgSm9Xp3nK6hSR1c4?=
+ =?us-ascii?Q?QAugqfpRqdCyx/b9XlXu6aZRN8w8NuCyHbJi1psizwnKu/7yr3y1W5tn3txF?=
+ =?us-ascii?Q?HDzyCAfvRRYgEPSeO73rsEAxBUz7cVdnDnVzOx5wBi5/bd5SLCC8POERGuQQ?=
+ =?us-ascii?Q?RL4g01MQ3qcvUMoLh05BFR6Vi4gv7nysLbLCIYFLcCl7LMEmb53DqKLs/T2H?=
+ =?us-ascii?Q?K2c/xrM1/iJtKxWl+fPsze5D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29435bf7-11da-4162-da4c-08d90c4497b9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51b3a221-f570-478b-e815-08d90c449847
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2021 01:58:19.4157 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2021 01:58:20.5627 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k9T6LSRofrCwVPONYEzVQp6Qb2J48C5mF4VWADWcHUpx4ePhoCFrqlV+peqz7eiY2EHYnVYz9INbhBllkxMlIQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: wssZp2olIJkgU2q1a+L4OmnvRz3sMllG91qVTUDINqoW5/Nx0p19Vgm8ZBzExTcPS75KxiutM8UXpve+yj2OMA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,7 +115,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+Cc: David Yat Sin <david.yatsin@amd.com>,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -123,121 +124,308 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
 
- - Update debug config for Checkpoint-Restore (CR) support
- - Also include necessary options for CR with docker containers.
+Checkpoint-Restore in userspace (CRIU) is a powerful tool that can
+snapshot a running process and later restore it on same or a remote
+machine but expects the processes that have a device file (e.g. GPU)
+associated with them, provide necessary driver support to assist CRIU
+and its extensible plugin interface. Thus, In order to support the
+Checkpoint-Restore of any ROCm process, the AMD Radeon Open Compute
+Kernel driver, needs to provide a set of new APIs that provide
+necessary VRAM metadata and its contents to a userspace component
+(CRIU plugin) that can store it in form of image files.
 
+This introduces some new ioctls which will be used to checkpoint-Restore
+any KFD bound user process. KFD doesn't allow any arbitrary ioctl call
+unless it is called by the group leader process. Since these ioctls are
+expected to be called from a KFD criu plugin which has elevated ptrace
+attached priviledges and CAP_SYS_ADMIN capabilities attached with the file
+descriptors so modify KFD to allow such calls.
+
+Signed-off-by: David Yat Sin <david.yatsin@amd.com>
 Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
-Change-Id: Ie993f9b99553d46c48c60a5a1c054de0d923bc86
+(cherry picked from commit 72f4907135aed9c037b9f442a6055b51733b518a)
+(cherry picked from commit 33ff4953c5352f51d57a77ba8ae6614b7993e70d)
+Change-Id: I1b25f6f65ad44b897752ac2c771a95157d0b1130
 ---
- arch/x86/configs/rock-dbg_defconfig | 53 ++++++++++++++++++-----------
- 1 file changed, 34 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c |  60 ++++++++++++-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |  28 ++++++
+ include/uapi/linux/kfd_ioctl.h           | 110 ++++++++++++++++++++++-
+ 3 files changed, 196 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/configs/rock-dbg_defconfig b/arch/x86/configs/rock-dbg_defconfig
-index 54688993d6e2..87951da7de6a 100644
---- a/arch/x86/configs/rock-dbg_defconfig
-+++ b/arch/x86/configs/rock-dbg_defconfig
-@@ -236,6 +236,7 @@ CONFIG_BPF_SYSCALL=y
- CONFIG_ARCH_WANT_DEFAULT_BPF_JIT=y
- # CONFIG_BPF_PRELOAD is not set
- # CONFIG_USERFAULTFD is not set
-+CONFIG_USERFAULTFD=y
- CONFIG_ARCH_HAS_MEMBARRIER_SYNC_CORE=y
- CONFIG_KCMP=y
- CONFIG_RSEQ=y
-@@ -994,6 +995,11 @@ CONFIG_PACKET_DIAG=y
- CONFIG_UNIX=y
- CONFIG_UNIX_SCM=y
- CONFIG_UNIX_DIAG=y
-+CONFIG_SMC_DIAG=y
-+CONFIG_XDP_SOCKETS_DIAG=y
-+CONFIG_INET_MPTCP_DIAG=y
-+CONFIG_TIPC_DIAG=y
-+CONFIG_VSOCKETS_DIAG=y
- # CONFIG_TLS is not set
- CONFIG_XFRM=y
- CONFIG_XFRM_ALGO=y
-@@ -1031,15 +1037,17 @@ CONFIG_SYN_COOKIES=y
- # CONFIG_NET_IPVTI is not set
- # CONFIG_NET_FOU is not set
- # CONFIG_NET_FOU_IP_TUNNELS is not set
--# CONFIG_INET_AH is not set
--# CONFIG_INET_ESP is not set
--# CONFIG_INET_IPCOMP is not set
--CONFIG_INET_TUNNEL=y
--CONFIG_INET_DIAG=y
--CONFIG_INET_TCP_DIAG=y
--# CONFIG_INET_UDP_DIAG is not set
--# CONFIG_INET_RAW_DIAG is not set
--# CONFIG_INET_DIAG_DESTROY is not set
-+CONFIG_INET_AH=m
-+CONFIG_INET_ESP=m
-+CONFIG_INET_IPCOMP=m
-+CONFIG_INET_ESP_OFFLOAD=m
-+CONFIG_INET_TUNNEL=m
-+CONFIG_INET_XFRM_TUNNEL=m
-+CONFIG_INET_DIAG=m
-+CONFIG_INET_TCP_DIAG=m
-+CONFIG_INET_UDP_DIAG=m
-+CONFIG_INET_RAW_DIAG=m
-+CONFIG_INET_DIAG_DESTROY=y
- CONFIG_TCP_CONG_ADVANCED=y
- # CONFIG_TCP_CONG_BIC is not set
- CONFIG_TCP_CONG_CUBIC=y
-@@ -1064,12 +1072,14 @@ CONFIG_TCP_MD5SIG=y
- CONFIG_IPV6=y
- # CONFIG_IPV6_ROUTER_PREF is not set
- # CONFIG_IPV6_OPTIMISTIC_DAD is not set
--CONFIG_INET6_AH=y
--CONFIG_INET6_ESP=y
--# CONFIG_INET6_ESP_OFFLOAD is not set
--# CONFIG_INET6_ESPINTCP is not set
--# CONFIG_INET6_IPCOMP is not set
--# CONFIG_IPV6_MIP6 is not set
-+CONFIG_INET6_AH=m
-+CONFIG_INET6_ESP=m
-+CONFIG_INET6_ESP_OFFLOAD=m
-+CONFIG_INET6_IPCOMP=m
-+CONFIG_IPV6_MIP6=m
-+CONFIG_INET6_XFRM_TUNNEL=m
-+CONFIG_INET_DCCP_DIAG=m
-+CONFIG_INET_SCTP_DIAG=m
- # CONFIG_IPV6_ILA is not set
- # CONFIG_IPV6_VTI is not set
- CONFIG_IPV6_SIT=y
-@@ -1126,8 +1136,13 @@ CONFIG_NF_CT_PROTO_UDPLITE=y
- # CONFIG_NF_CONNTRACK_SANE is not set
- # CONFIG_NF_CONNTRACK_SIP is not set
- # CONFIG_NF_CONNTRACK_TFTP is not set
--# CONFIG_NF_CT_NETLINK is not set
--# CONFIG_NF_CT_NETLINK_TIMEOUT is not set
-+CONFIG_COMPAT_NETLINK_MESSAGES=y
-+CONFIG_NF_CT_NETLINK=m
-+CONFIG_NF_CT_NETLINK_TIMEOUT=m
-+CONFIG_NF_CT_NETLINK_HELPER=m
-+CONFIG_NETFILTER_NETLINK_GLUE_CT=y
-+CONFIG_SCSI_NETLINK=y
-+CONFIG_QUOTA_NETLINK_INTERFACE=y
- CONFIG_NF_NAT=m
- CONFIG_NF_NAT_REDIRECT=y
- CONFIG_NF_NAT_MASQUERADE=y
-@@ -1971,7 +1986,7 @@ CONFIG_NETCONSOLE_DYNAMIC=y
- CONFIG_NETPOLL=y
- CONFIG_NET_POLL_CONTROLLER=y
- # CONFIG_RIONET is not set
--# CONFIG_TUN is not set
-+CONFIG_TUN=y
- # CONFIG_TUN_VNET_CROSS_LE is not set
- CONFIG_VETH=y
- # CONFIG_NLMON is not set
-@@ -3955,7 +3970,7 @@ CONFIG_MANDATORY_FILE_LOCKING=y
- CONFIG_FSNOTIFY=y
- CONFIG_DNOTIFY=y
- CONFIG_INOTIFY_USER=y
--# CONFIG_FANOTIFY is not set
-+CONFIG_FANOTIFY=y
- CONFIG_QUOTA=y
- CONFIG_QUOTA_NETLINK_INTERFACE=y
- # CONFIG_PRINT_QUOTA_WARNING is not set
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index 059c3f1ca27d..1fa2ba34a429 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -33,6 +33,7 @@
+ #include <linux/time.h>
+ #include <linux/mm.h>
+ #include <linux/mman.h>
++#include <linux/ptrace.h>
+ #include <linux/dma-buf.h>
+ #include <asm/processor.h>
+ #include "kfd_priv.h"
+@@ -1802,6 +1803,37 @@ static int kfd_ioctl_svm(struct file *filep, struct kfd_process *p, void *data)
+ 	return -EPERM;
+ }
+ #endif
++static int kfd_ioctl_criu_dumper(struct file *filep,
++				struct kfd_process *p, void *data)
++{
++	pr_info("Inside %s\n",__func__);
++
++	return 0;
++}
++
++static int kfd_ioctl_criu_restorer(struct file *filep,
++				struct kfd_process *p, void *data)
++{
++	pr_info("Inside %s\n",__func__);
++
++	return 0;
++}
++
++static int kfd_ioctl_criu_helper(struct file *filep,
++				struct kfd_process *p, void *data)
++{
++	pr_info("Inside %s\n",__func__);
++
++	return 0;
++}
++
++static int kfd_ioctl_criu_resume(struct file *filep,
++				struct kfd_process *p, void *data)
++{
++	pr_info("Inside %s\n",__func__);
++
++	return 0;
++}
+ 
+ #define AMDKFD_IOCTL_DEF(ioctl, _func, _flags) \
+ 	[_IOC_NR(ioctl)] = {.cmd = ioctl, .func = _func, .flags = _flags, \
+@@ -1906,6 +1938,18 @@ static const struct amdkfd_ioctl_desc amdkfd_ioctls[] = {
+ 
+ 	AMDKFD_IOCTL_DEF(AMDKFD_IOC_SET_XNACK_MODE,
+ 			kfd_ioctl_set_xnack_mode, 0),
++
++	AMDKFD_IOCTL_DEF(AMDKFD_IOC_CRIU_DUMPER,
++			 kfd_ioctl_criu_dumper, KFD_IOC_FLAG_PTRACE_ATTACHED),
++
++	AMDKFD_IOCTL_DEF(AMDKFD_IOC_CRIU_RESTORER,
++			 kfd_ioctl_criu_restorer, KFD_IOC_FLAG_ROOT_ONLY),
++
++	AMDKFD_IOCTL_DEF(AMDKFD_IOC_CRIU_HELPER,
++			 kfd_ioctl_criu_helper, KFD_IOC_FLAG_PTRACE_ATTACHED),
++
++	AMDKFD_IOCTL_DEF(AMDKFD_IOC_CRIU_RESUME,
++			 kfd_ioctl_criu_resume, KFD_IOC_FLAG_ROOT_ONLY),
+ };
+ 
+ #define AMDKFD_CORE_IOCTL_COUNT	ARRAY_SIZE(amdkfd_ioctls)
+@@ -1920,6 +1964,7 @@ static long kfd_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+ 	char *kdata = NULL;
+ 	unsigned int usize, asize;
+ 	int retcode = -EINVAL;
++	bool ptrace_attached = false;
+ 
+ 	if (nr >= AMDKFD_CORE_IOCTL_COUNT)
+ 		goto err_i1;
+@@ -1945,7 +1990,15 @@ static long kfd_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+ 	 * processes need to create their own KFD device context.
+ 	 */
+ 	process = filep->private_data;
+-	if (process->lead_thread != current->group_leader) {
++
++	rcu_read_lock();
++	if ((ioctl->flags & KFD_IOC_FLAG_PTRACE_ATTACHED) &&
++	    ptrace_parent(process->lead_thread) == current)
++		ptrace_attached = true;
++	rcu_read_unlock();
++
++	if (process->lead_thread != current->group_leader
++	    && !ptrace_attached) {
+ 		dev_dbg(kfd_device, "Using KFD FD in wrong process\n");
+ 		retcode = -EBADF;
+ 		goto err_i1;
+@@ -1960,6 +2013,11 @@ static long kfd_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+ 		goto err_i1;
+ 	}
+ 
++	/* KFD_IOC_FLAG_ROOT_ONLY is only for CAP_SYS_ADMIN */
++	if (unlikely((ioctl->flags & KFD_IOC_FLAG_ROOT_ONLY) &&
++		     !capable(CAP_SYS_ADMIN)))
++		return -EACCES;
++
+ 	if (cmd & (IOC_IN | IOC_OUT)) {
+ 		if (asize <= sizeof(stack_kdata)) {
+ 			kdata = stack_kdata;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index 64552f6b8ba4..a494d61543af 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -121,7 +121,35 @@
+  */
+ #define KFD_QUEUE_DOORBELL_MIRROR_OFFSET 512
+ 
++/**
++ * enum kfd_ioctl_flags - KFD ioctl flags
++ * Various flags that can be set in &amdkfd_ioctl_desc.flags to control how
++ * userspace can use a given ioctl.
++ */
++enum kfd_ioctl_flags {
++	/**
++	 * @KFD_IOC_FLAG_ROOT_ONLY:
++	 * Certain KFD ioctls such as AMDKFD_IOC_CRIU_RESTORER can potentially
++	 * perform privileged operations and load arbitrary data into MQDs and
++	 * eventually HQD registers when the queue is mapped by HWS. In order to
++	 * prevent this we should perform additional security checks. In other
++	 * cases, certain ioctls such as AMDKFD_IOC_CRIU_RESUME might be called
++	 * by an external process e.g. CRIU restore process, for each resuming
++	 * tasks and thus require elevated privileges.
++	 *
++	 * This is equivalent to callers with the SYSADMIN capability.
++	 */
++	KFD_IOC_FLAG_ROOT_ONLY = BIT(0),
++	/**
++	 * @KFD_IOC_FLAG_PTRACE_ATTACHED:
++	 * Certain KFD ioctls such as AMDKFD_IOC_CRIU_HELPER and
++	 * AMDKFD_IOC_CRIU_DUMPER are expected to be called during a Checkpoint
++	 * operation triggered by CRIU. Since, these are expected to be called
++	 * from a PTRACE attched context, we must authenticate these.
++	 */
++	KFD_IOC_FLAG_PTRACE_ATTACHED = BIT(1),
+ 
++};
+ /*
+  * Kernel module parameter to specify maximum number of supported queues per
+  * device
+diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
+index 3cb5b5dd9f77..9c8a77a0ce0a 100644
+--- a/include/uapi/linux/kfd_ioctl.h
++++ b/include/uapi/linux/kfd_ioctl.h
+@@ -467,6 +467,102 @@ struct kfd_ioctl_smi_events_args {
+ 	__u32 anon_fd;	/* from KFD */
+ };
+ 
++struct kfd_criu_devinfo_bucket {
++	__u32 user_gpu_id;
++	__u32 actual_gpu_id;
++	__u32 drm_fd;
++};
++
++struct kfd_criu_bo_buckets {
++	__u64 bo_addr;  /* from KFD */
++	__u64 bo_size;  /* from KFD */
++	__u64 bo_offset;/* from KFD */
++	__u64 user_addr; /* from KFD */
++	__u32 bo_alloc_flags;/* from KFD */
++	__u32 gpu_id;/* from KFD */
++	__u32 idr_handle;/* from KFD */
++};
++
++struct kfd_criu_q_bucket {
++	__u64 q_address;
++	__u64 q_size;
++	__u64 read_ptr_addr;
++	__u64 write_ptr_addr;
++	__u64 doorbell_off;
++	__u64 eop_ring_buffer_address;		/* Relevant only for VI */
++	__u64 ctx_save_restore_area_address;	/* Relevant only for VI */
++	__u64 queues_data_offset;
++	__u32 gpu_id;
++	__u32 type;
++	__u32 format;
++	__u32 q_id;
++	__u32 priority;
++	__u32 q_percent;
++	__u32 doorbell_id;
++	__u32 is_gws;				/* TODO Implement me */
++	__u32 sdma_id;			/* Relevant only for sdma queues*/
++	__u32 eop_ring_buffer_size;		/* Relevant only for VI */
++	__u32 ctx_save_restore_area_size;	/* Relevant only for VI */
++	__u32 ctl_stack_size;			/* Relevant only for VI */
++	__u32 cu_mask_size;
++	__u32 mqd_size;
++};
++
++struct kfd_criu_ev_bucket {
++	__u32 event_id;
++	__u32 auto_reset;
++	__u32 type;
++	__u32 signaled;
++
++	union {
++		struct kfd_hsa_memory_exception_data memory_exception_data;
++		struct kfd_hsa_hw_exception_data hw_exception_data;
++	};
++};
++
++struct kfd_ioctl_criu_dumper_args {
++	__u64 num_of_bos;
++	__u64 kfd_criu_bo_buckets_ptr;
++	__u64 kfd_criu_q_buckets_ptr;
++	__u64 kfd_criu_ev_buckets_ptr;
++	__u64 kfd_criu_devinfo_buckets_ptr;
++	__u64 queues_data_size;
++	__u64 queues_data_ptr;
++	__u64 event_page_offset;
++	__u32 num_of_queues;
++	__u32 num_of_devices;
++	__u32 num_of_events;
++};
++
++struct kfd_ioctl_criu_restorer_args {
++	__u64 handle;   /* from KFD */
++	__u64 num_of_bos;
++	__u64 kfd_criu_bo_buckets_ptr;
++	__u64 restored_bo_array_ptr;
++	__u64 kfd_criu_q_buckets_ptr;
++	__u64 kfd_criu_ev_buckets_ptr;
++	__u64 kfd_criu_devinfo_buckets_ptr;
++	__u64 queues_data_size;
++	__u64 queues_data_ptr;
++	__u64 event_page_offset;
++	__u32 num_of_devices;
++	__u32 num_of_queues;
++	__u32 num_of_events;
++};
++
++struct kfd_ioctl_criu_helper_args {
++	__u64 num_of_bos;	/* from KFD */
++	__u64 queues_data_size;
++	__u32 task_pid;
++	__u32 num_of_devices;
++	__u32 num_of_queues;    /* from KFD */
++	__u32 num_of_events;	/* from KFD */
++};
++
++struct kfd_ioctl_criu_resume_args {
++	__u32 pid;	/* to KFD */
++};
++
+ /* Register offset inside the remapped mmio page
+  */
+ enum kfd_mmio_remap {
+@@ -740,7 +836,19 @@ struct kfd_ioctl_set_xnack_mode_args {
+ #define AMDKFD_IOC_SET_XNACK_MODE		\
+ 		AMDKFD_IOWR(0x21, struct kfd_ioctl_set_xnack_mode_args)
+ 
++#define AMDKFD_IOC_CRIU_DUMPER			\
++		AMDKFD_IOWR(0x22, struct kfd_ioctl_criu_dumper_args)
++
++#define AMDKFD_IOC_CRIU_RESTORER			\
++		AMDKFD_IOWR(0x23, struct kfd_ioctl_criu_restorer_args)
++
++#define AMDKFD_IOC_CRIU_HELPER			\
++		AMDKFD_IOWR(0x24, struct kfd_ioctl_criu_helper_args)
++
++#define AMDKFD_IOC_CRIU_RESUME			\
++		AMDKFD_IOWR(0x25, struct kfd_ioctl_criu_resume_args)
++
+ #define AMDKFD_COMMAND_START		0x01
+-#define AMDKFD_COMMAND_END		0x22
++#define AMDKFD_COMMAND_END		0x26
+ 
+ #endif
 -- 
 2.17.1
 
