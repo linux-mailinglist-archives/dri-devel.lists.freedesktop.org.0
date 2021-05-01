@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA93F3705F5
-	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 08:45:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2BE37060C
+	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 08:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB3CD6E038;
-	Sat,  1 May 2021 06:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB386F89B;
+	Sat,  1 May 2021 06:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 369 seconds by postgrey-1.36 at gabe;
- Sat, 01 May 2021 01:00:17 UTC
-Received: from h1954565.stratoserver.net (sebastianwick.net
- [IPv6:2a01:238:4226:4f00:79f5:2d39:beca:3cf1])
- by gabe.freedesktop.org (Postfix) with ESMTP id 019FD6F618;
- Sat,  1 May 2021 01:00:16 +0000 (UTC)
-Received: by h1954565.stratoserver.net (Postfix, from userid 117)
- id CB870163CB1; Sat,  1 May 2021 02:54:05 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
- h1954565.stratoserver.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED
- autolearn=unavailable autolearn_force=no version=3.4.2
-Received: from mail.sebastianwick.net (localhost [IPv6:::1])
- by h1954565.stratoserver.net (Postfix) with ESMTP id E97AB1639D8;
- Sat,  1 May 2021 02:53:58 +0200 (CEST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51E1A6F89B;
+ Sat,  1 May 2021 06:55:34 +0000 (UTC)
+IronPort-SDR: TXwl62RnKw61hwLzlTRv6qmeN3g41J+EaWu2Vc2ECReCByTNxJtxRuaoAuoetqcZKfweh5QOeL
+ coGdoFUxSwZA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9970"; a="197485758"
+X-IronPort-AV: E=Sophos;i="5.82,264,1613462400"; d="scan'208";a="197485758"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2021 23:55:33 -0700
+IronPort-SDR: Dff6kkpMT7GQZxjibBDlUU7u6Yve0BaDDlVAMNnzIhNEGb1DQmAWqfAykD/UZvXFvLf/IgxINE
+ IyBQk7jGGZug==
+X-IronPort-AV: E=Sophos;i="5.82,264,1613462400"; d="scan'208";a="431785115"
+Received: from rong2-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.254.36.10])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2021 23:55:33 -0700
+Date: Fri, 30 Apr 2021 23:55:32 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH 3/6] drm/i915: Add a separate low-level helper for masked
+ workarounds
+Message-ID: <20210501065532.sfgeq5ainzpnnlpg@ldmartin-desk2>
+References: <20210429091254.855248-1-tvrtko.ursulin@linux.intel.com>
+ <20210429091254.855248-4-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-Date: Sat, 01 May 2021 02:53:58 +0200
-From: Sebastian Wick <sebastian@sebastianwick.net>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH 1/3] drm/color: Add RGB Color encodings
-In-Reply-To: <0090ce07-6102-59e7-bc8c-3528297aa5ae@amd.com>
-References: <20210426173852.484368-1-harry.wentland@amd.com>
- <20210426173852.484368-2-harry.wentland@amd.com>
- <YIcBUl+94sHJsT8B@intel.com> <0090ce07-6102-59e7-bc8c-3528297aa5ae@amd.com>
-Message-ID: <a49e967a0082727757143828770bd671@sebastianwick.net>
-X-Sender: sebastian@sebastianwick.net
-User-Agent: Roundcube Webmail/1.3.4
-X-Mailman-Approved-At: Sat, 01 May 2021 06:45:24 +0000
+Content-Disposition: inline
+In-Reply-To: <20210429091254.855248-4-tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,103 +49,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak.Sharma@amd.com, Krunoslav.Kovac@amd.com, mcasas@google.com,
- Shashank.Sharma@amd.com, dri-devel@lists.freedesktop.org, Shirish.S@amd.com,
- Uma Shankar <uma.shankar@intel.com>, hersenxs.wu@amd.com,
- amd-gfx@lists.freedesktop.org, laurentiu.palcu@oss.nxp.com,
- Bhawanpreet.Lakha@amd.com, Nicholas.Kazlauskas@amd.com, Vitaly.Prosyak@amd.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMS0wNC0yNiAyMDo1NiwgSGFycnkgV2VudGxhbmQgd3JvdGU6Cj4gT24gMjAyMS0wNC0y
-NiAyOjA3IHAubS4sIFZpbGxlIFN5cmrDpGzDpCB3cm90ZToKPj4gT24gTW9uLCBBcHIgMjYsIDIw
-MjEgYXQgMDE6Mzg6NTBQTSAtMDQwMCwgSGFycnkgV2VudGxhbmQgd3JvdGU6Cj4+PiBGcm9tOiBC
-aGF3YW5wcmVldCBMYWtoYSA8Qmhhd2FucHJlZXQuTGFraGFAYW1kLmNvbT4KPj4+IAo+Pj4gQWRk
-IHRoZSBmb2xsb3dpbmcgY29sb3IgZW5jb2RpbmdzCj4+PiAtIFJHQiB2ZXJzaW9ucyBmb3IgQlQ2
-MDEsIEJUNzA5LCBCVDIwMjAKPj4+IC0gRENJLVAzOiBVc2VkIGZvciBkaWdpdGFsIG1vdmllcwo+
-Pj4gCj4+PiBTaWduZWQtb2ZmLWJ5OiBCaGF3YW5wcmVldCBMYWtoYSA8Qmhhd2FucHJlZXQuTGFr
-aGFAYW1kLmNvbT4KPj4+IFNpZ25lZC1vZmYtYnk6IEhhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50
-bGFuZEBhbWQuY29tPgo+Pj4gLS0tCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdt
-dC5jIHwgNCArKysrCj4+PiAgIGluY2x1ZGUvZHJtL2RybV9jb2xvcl9tZ210LmggICAgIHwgNCAr
-KysrCj4+PiAgIDIgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspCj4+PiAKPj4+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NvbG9yX21nbXQuYyAKPj4+IGIvZHJpdmVycy9n
-cHUvZHJtL2RybV9jb2xvcl9tZ210LmMKPj4+IGluZGV4IGJiMTRmNDg4YzhmNi4uYTE4M2ViYWUy
-OTQxIDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9jb2xvcl9tZ210LmMKPj4+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jCj4+PiBAQCAtNDY5LDYgKzQ2
-OSwxMCBAQCBzdGF0aWMgY29uc3QgY2hhciAqIGNvbnN0IGNvbG9yX2VuY29kaW5nX25hbWVbXSAK
-Pj4+ID0gewo+Pj4gICAJW0RSTV9DT0xPUl9ZQ0JDUl9CVDYwMV0gPSAiSVRVLVIgQlQuNjAxIFlD
-YkNyIiwKPj4+ICAgCVtEUk1fQ09MT1JfWUNCQ1JfQlQ3MDldID0gIklUVS1SIEJULjcwOSBZQ2JD
-ciIsCj4+PiAgIAlbRFJNX0NPTE9SX1lDQkNSX0JUMjAyMF0gPSAiSVRVLVIgQlQuMjAyMCBZQ2JD
-ciIsCj4+PiArCVtEUk1fQ09MT1JfUkdCX0JUNjAxXSA9ICJJVFUtUiBCVC42MDEgUkdCIiwKPj4+
-ICsJW0RSTV9DT0xPUl9SR0JfQlQ3MDldID0gIklUVS1SIEJULjcwOSBSR0IiLAo+Pj4gKwlbRFJN
-X0NPTE9SX1JHQl9CVDIwMjBdID0gIklUVS1SIEJULjIwMjAgUkdCIiwKPj4+ICsJW0RSTV9DT0xP
-Ul9QM10gPSAiRENJLVAzIiwKPj4gCj4+IFRoZXNlIGFyZSBhIHRvdGFsbHkgZGlmZmVyZW50IHRo
-aW5nIHRoYW4gdGhlIFlDYkNyIHN0dWZmLgo+PiBUaGUgWUNiQ3Igc3R1ZmYganVzdCBzcGVjaWZp
-ZXMgdGhlIFlDYkNyPC0+UkdCIGNvbnZlcmlzb24gbWF0cml4LAo+PiB3aGVyZWFzIHRoZXNlIGFy
-ZSBJIGd1ZXNzIHN1cHBvc2VkIHRvIHNwZWNpZnkgdGhlIAo+PiBwcmltYXJpZXMvd2hpdGVwb2lu
-dD8KPj4gQnV0IHdpdGhvdXQgc3BlY2lmeWluZyB3aGF0IHdlJ3JlIGNvbnZlcnRpbmcgKnRvKiB0
-aGVzZSBtZWFuIAo+PiBhYnNvbHV0ZWx5Cj4+IG5vdGhpbmcuIEllLiBJIGRvbid0IHRoaW5rIHRo
-ZXkgYmVsb25nIGluIHRoaXMgcHJvcGVydHkuCj4+IAo+IAo+IElmIHRoaXMgaXMgdGhlIGludGVu
-dGlvbiBJIGRvbid0IHNlZSBpdCBkb2N1bWVudGVkLgo+IAo+IEkgbWlnaHQgaGF2ZSBvdmVybG9v
-a2VkIHNvbWV0aGluZyBidXQgZG8gd2UgaGF2ZSBhIHdheSB0byBleHBsaWNpdGx5Cj4gc3BlY2lm
-eSB0b2RheSB3aGF0ICp0byogZm9ybWF0IHRoZSBZQ2JDciBjb2xvciBlbmNvZGluZ3MgY29udmVy
-dCBpbnRvPwo+IFdvdWxkIHRoYXQgYmUgYSBjb21iaW5hdGlvbiBvZiB0aGUgb3V0cHV0IGNvbG9y
-IGVuY29kaW5nIHNwZWNpZmllZCB2aWEKPiBjb2xvcnNwYWNlX3Byb3BlcnR5IGFuZCB0aGUgY29s
-b3Igc3BhY2UgZW5jb2RlZCBpbiB0aGUgcHJpbWFyaWVzIGFuZAo+IHdoaXRlcG9pbnQgb2YgdGhl
-IGhkcl9vdXRwdXRfbWV0YWRhdGE/Cj4gCj4gRnVuZGFtZW50YWxseSBJIGRvbid0IHNlZSBob3cg
-dGhlIHVzZSBvZiB0aGlzIHByb3BlcnR5IGRpZmZlcnMsCj4gd2hldGhlciB5b3UgdHJhbnNsYXRl
-IGZyb20gWUNiQ3Igb3IgZnJvbSBSR0IuIEluIGVpdGhlciBjYXNlIHlvdSdyZQo+IGNvbnZlcnRp
-bmcgZnJvbSB0aGUgZGVmaW5lZCBpbnB1dCBjb2xvciBzcGFjZSBhbmQgcGl4ZWwgZm9ybWF0IHRv
-IGFuCj4gb3V0cHV0IGNvbG9yIHNwYWNlIGFuZCBwaXhlbCBmb3JtYXQuCj4gCj4+IFRoZSBwcmV2
-aW91cyBwcm9wb3NhbHMgYXJvdW5kIHRoaXMgdG9waWMgaGF2ZSBzdWdnZXN0ZWQgYSBuZXcKPj4g
-cHJvcGVydHkgdG8gc3BlY2lmeSBhIGNvbnZlcnNpb24gbWF0cml4IGVpdGhlciBleHBsaWNpdGx5
-LCBvcgo+PiB2aWEgYSBzZXBhcmF0ZSBlbnVtICh3aGljaCB3b3VsZCBzcGVjaWZ5IGJvdGggdGhl
-IHNyYyBhbmQgZHN0Cj4+IGNvbG9yc3BhY2VzKS4gSSd2ZSBhbHdheXMgYXJndWVkIHRoZSBlbnVt
-IGFwcHJvYWNoIGlzIG5lZWRlZAo+PiBhbnl3YXkgc2luY2Ugbm90IGFsbCBoYXJkd2FyZSBoYXMg
-YSBwcm9ncmFtbWFibGUgbWF0cml4IGZvcgo+PiB0aGlzLiBCdXQgYSBmdWxseSBwcm9ncmFtbWFi
-bGUgbWF0cml4IGNvdWxkIGJlIG5pY2UgZm9yIHRvbmUKPj4gbWFwcGluZyBwdXJwb3Nlcy9ldGMs
-IHNvIHdlIG1heSB3YW50IHRvIG1ha2Ugc3VyZSBib3RoIGFyZQo+PiBwb3NzaWJsZS4KPj4gCj4+
-IEFzIGZvciB0aGUgdHJhbnNmZXIgZnVuYywgdGhlIHByb3Bvc2FscyBzbyBmYXIgaGF2ZSBtb3N0
-bHkganVzdAo+PiBiZWVuIHRvIGV4cG9zZSBhIHByb2dyYW1tYWJsZSBkZWdhbW1hL2dhbW1hIExV
-VHMgZm9yIGVhY2ggcGxhbmUuCj4+IEJ1dCBjb25zaWRlcmluZyBob3cgcG9vciB0aGUgY3VycmVu
-dCBnYW1tYSB1YXBpIGlzIHdlJ3ZlIHRocm93bgo+PiBhcm91bmQgc29tZSBpZGVhcyBob3cgdG8g
-YWxsb3cgdGhlIGtlcm5lbCB0byBwcm9wZXJseSBleHBvc2UgdGhlCj4+IGh3IGNhcGFiaWxpdGll
-cy4gVGhpcyBpcyBvbmUgb2YgdGhvc2UgaWRlYXM6Cj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUFwcmlsLzIxMjg4Ni5odG1sPj4gCj4+IEkg
-dGhpbmsgdGhhdCBiYXNpYyBpZGVhIGNvdWxkIGJlIGFsc28gYmUgZXh0ZW5kZWQgdG8gYWxsb3cg
-Zml4ZWQKPj4gY3VydmVzIGluIGNhc2UgdGhlIGh3IGRvZXNuJ3QgaGF2ZSBhIGZ1bGx5IHByb2dy
-YW1tYWJsZSBMVVQuIEJ1dAo+PiBkdW5ubyBpZiB0aGF0J3MgcmVsZXZhbnQgZm9yIHlvdXIgaHcu
-Cj4+IAo+IAo+IFRoZSBwcm9ibGVtIHdpdGggZXhwb3NpbmcgZ2FtbWEsIHdoZXRoZXIgcGVyLXBs
-YW5lIG9yIHBlci1jcnRjLCBpcwo+IHRoYXQgaXQgaXMgaGFyZCB0byBkZWZpbmUgYW4gQVBJIHRo
-YXQgd29ya3MgZm9yIGFsbCB0aGUgSFcgb3V0IHRoZXJlLgo+IFRoZSBjYXBhYmlsaXRpZXMgZm9y
-IGRpZmZlcmVudCBIVyBkaWZmZXIgYSBsb3QsIG5vdCBqdXN0IGJldHdlZW4KPiB2ZW5kb3JzIGJ1
-dCBhbHNvIGJldHdlZW4gZ2VuZXJhdGlvbnMgb2YgYSB2ZW5kb3IncyBIVy4KCkludHJvZHVjaW5n
-IGFub3RoZXIgQVBJIGlmIGhhcmR3YXJlIGlzIHN1ZmZpY2llbnRseSBkaWZmZXJlbnQgZG9lc24n
-dApzZWVtIGxpa2UgdGhlIHdvcnN0IGlkZWEuIEF0IGxlYXN0IGl0IHNvdW5kcyBhIGxvdCBtb3Jl
-IHRyYWN0YWJsZSB0aGFuCnRlYWNoaW5nIHRoZSBrZXJuZWwgYWJvdXQgYWxsIHRoZSBkaWZmZXJl
-bnQgdXNlIGNhc2VzLCBvcGluaW9ucyBhbmQKbnVhbmNlcyB0aGF0IGFyaXNlIGZyb20gY29sb3Ig
-bWFuYWdlbWVudC4KCkluIHRoZSBlbmQgZ2VuZXJpYyB1c2VyIHNwYWNlIG11c3QgYWx3YXlzIGJl
-IGFibGUgdG8gZmFsbCBiYWNrIHRvCnNvZnR3YXJlIHNvIHRoZSB3b3JzdCBjYXNlIGlzIHRoYXQg
-aXQgd29uJ3QgYmUgYWJsZSB0byBvZmZsb2FkIGFuCm9wZXJhdGlvbiBpZiBpdCBkb2Vzbid0IGtu
-b3cgYWJvdXQgYSBuZXcgQVBJLgoKPiBBbm90aGVyIHJlYXNvbiBJJ20gcHJvcG9zaW5nIHRvIGRl
-ZmluZSB0aGUgY29sb3Igc3BhY2UgKGFuZCBnYW1tYSkgb2YKPiBhIHBsYW5lIGlzIHRvIG1ha2Ug
-dGhpcyBleHBsaWNpdC4gVXAgdW50aWwgdGhlIGNvbG9yIHNwYWNlIGFuZCBnYW1tYQo+IG9mIGEg
-cGxhbmUgb3IgZnJhbWVidWZmZXIgYXJlIG5vdCB3ZWxsIGRlZmluZWQsIHdoaWNoIGxlYWRzIHRv
-IGRyaXZlcnMKPiBhc3N1bWluZyB0aGUgY29sb3Igc3BhY2UgYW5kIGdhbW1hIG9mIGEgYnVmZmVy
-IChmb3IgYmxlbmRpbmcgYW5kIG90aGVyCj4gcHVycG9zZXMpIGFuZCBtaWdodCBsZWFkIHRvIHN1
-Yi1vcHRpbWFsIG91dGNvbWVzLgoKQmxlbmRpbmcgb25seSBpcyAiY29ycmVjdCIgd2l0aCBsaW5l
-YXIgbGlnaHQgc28gdGhhdCBwcm9wZXJ0eSBvZiB0aGUKY29sb3Igc3BhY2UgaXMgaW1wb3J0YW50
-LiBIb3dldmVyLCB3aHkgZG9lcyB0aGUga2VybmVsIGhhdmUgdG8gYmUKaW52b2x2ZWQgaGVyZT8g
-QXMgbG9uZyBhcyB1c2VyIHNwYWNlIGtub3dzIHRoYXQgZm9yIGNvcnJlY3QgYmxlbmRpbmcgdGhl
-CmRhdGEgbXVzdCByZXByZXNlbnQgbGluZWFyIGxpZ2h0IGFuZCBrbm93cyB3aGVuIGluIHRoZSBw
-aXBlbGluZSBibGVuZGluZwpoYXBwZW5zIGl0IGNhbiBtYWtlIHN1cmUgdGhhdCB0aGUgZGF0YSBh
-dCB0aGF0IHBvaW50IGluIHRoZSBwaXBlbGluZQpjb250YWlucyBsaW5lYXIgbGlnaHQuCgpXaGF0
-IG90aGVyIHB1cnBvc2VzIGFyZSB0aGVyZT8KCkluIGdlbmVyYWwgSSBhZ3JlZSB3aXRoIHRoZSBv
-dGhlcnMgdGhhdCB1c2VyIHNwYWNlIG9ubHkgd2FudHMgYSBwaXBlbGluZQpvZiB0cmFuc2Zvcm1h
-dGlvbnMgd2hlcmUgdGhlIG1lY2hhbmlzbSwgdGhlIG9yZGVyIGFuZCBpZGVhbGx5IHRoZQpwcmVj
-aXNpb24gaXMgZGVmaW5lZC4KCj4gSGFycnkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+On Thu, Apr 29, 2021 at 10:12:51AM +0100, Tvrtko Ursulin wrote:
+>From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>
+>We distinguish masked registers from other workarounds by the mask (clr)
+>being zero for the former.
+
+the difference is more on the fact that those calls used _MASKED_*
+macros to prepare the upper 16 bits than the fact the clr is 0.
+
+clr is zero only because for masked registers we don't care about
+clearing the value since all the bits in the mask will be written.
+More below.
+
+>
+>To avoid callers of the low-level wa_add having to know that, and be
+>passing this zero explicitly, add a wa_masked_add low-level helper
+>which embeds this knowledge.
+>
+>Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>---
+> drivers/gpu/drm/i915/gt/intel_workarounds.c | 56 +++++++++++++--------
+> 1 file changed, 34 insertions(+), 22 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+>index 62cb9ee5bfc3..a7abf9ca78ec 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+>+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+>@@ -162,6 +162,18 @@ static void wa_add(struct i915_wa_list *wal, i915_reg_t reg,
+> 	_wa_add(wal, &wa);
+> }
+>
+>+static void wa_masked_add(struct i915_wa_list *wal, i915_reg_t reg,
+>+			  u32 set, u32 read_mask)
+>+{
+>+	struct i915_wa wa = {
+>+		.reg  = reg,
+>+		.set  = set,
+>+		.read = read_mask,
+>+	};
+>+
+>+	_wa_add(wal, &wa);
+>+}
+
+I think this would be better together with the other wa_masked_*
+functions. If not only by the name, but also because we have a comment
+there:
+
+/*
+  * WA operations on "masked register". A masked register has the upper 16 bits
+  * documented as "masked" in b-spec. Its purpose is to allow writing to just a
+  * portion of the register without a rmw: you simply write in the upper 16 bits
+  * the mask of bits you are going to modify.
+  *
+  * The wa_masked_* family of functions already does the necessary operations to
+  * calculate the mask based on the parameters passed, so user only has to
+  * provide the lower 16 bits of that register.
+  */
+
+
+>+
+> static void
+> wa_write_clr_set(struct i915_wa_list *wal, i915_reg_t reg, u32 clear, u32 set)
+> {
+>@@ -200,20 +212,20 @@ wa_write_clr(struct i915_wa_list *wal, i915_reg_t reg, u32 clr)
+> static void
+> wa_masked_en(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
+> {
+>-	wa_add(wal, reg, 0, _MASKED_BIT_ENABLE(val), val);
+>+	wa_masked_add(wal, reg, _MASKED_BIT_ENABLE(val), val);
+
+for me it feels weird that now we have to use wa_masked_add() *and* at the
+same time use _MASKED_BIT_ENABLE(). This is not the case for when we are
+using wa_masked_en() for example.
+
+and as I said, the clr bits could be anything since they don't really
+matter. The biggest value added by the wa_masked_* variant is the use of
+_MASKED_* where needed.
+
+Lucas De Marchi
+
+> }
+>
+> static void
+> wa_masked_dis(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
+> {
+>-	wa_add(wal, reg, 0, _MASKED_BIT_DISABLE(val), val);
+>+	wa_masked_add(wal, reg, _MASKED_BIT_DISABLE(val), val);
+> }
+>
+> static void
+> wa_masked_field_set(struct i915_wa_list *wal, i915_reg_t reg,
+> 		    u32 mask, u32 val)
+> {
+>-	wa_add(wal, reg, 0, _MASKED_FIELD(mask, val), mask);
+>+	wa_masked_add(wal, reg, _MASKED_FIELD(mask, val), mask);
+> }
+>
+> static void gen6_ctx_workarounds_init(struct intel_engine_cs *engine,
+>@@ -836,10 +848,10 @@ hsw_gt_workarounds_init(struct drm_i915_private *i915, struct i915_wa_list *wal)
+> 	/* L3 caching of data atomics doesn't work -- disable it. */
+> 	wa_write(wal, HSW_SCRATCH1, HSW_SCRATCH1_L3_DATA_ATOMICS_DISABLE);
+>
+>-	wa_add(wal,
+>-	       HSW_ROW_CHICKEN3, 0,
+>-	       _MASKED_BIT_ENABLE(HSW_ROW_CHICKEN3_L3_GLOBAL_ATOMICS_DISABLE),
+>-		0 /* XXX does this reg exist? */);
+>+	wa_masked_add(wal,
+>+		      HSW_ROW_CHICKEN3,
+>+		      _MASKED_BIT_ENABLE(HSW_ROW_CHICKEN3_L3_GLOBAL_ATOMICS_DISABLE),
+>+		      0 /* XXX does this reg exist? */);
+>
+> 	/* WaVSRefCountFullforceMissDisable:hsw */
+> 	wa_write_clr(wal, GEN7_FF_THREAD_MODE, GEN7_FF_VS_REF_CNT_FFME);
+>@@ -1947,10 +1959,10 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+> 		 * disable bit, which we don't touch here, but it's good
+> 		 * to keep in mind (see 3DSTATE_PS and 3DSTATE_WM).
+> 		 */
+>-		wa_add(wal, GEN7_GT_MODE, 0,
+>-		       _MASKED_FIELD(GEN6_WIZ_HASHING_MASK,
+>-				     GEN6_WIZ_HASHING_16x4),
+>-		       GEN6_WIZ_HASHING_16x4);
+>+		wa_masked_field_set(wal,
+>+				    GEN7_GT_MODE,
+>+				    GEN6_WIZ_HASHING_MASK,
+>+				    GEN6_WIZ_HASHING_16x4);
+> 	}
+>
+> 	if (IS_GEN_RANGE(i915, 6, 7))
+>@@ -2000,10 +2012,10 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+> 		 * disable bit, which we don't touch here, but it's good
+> 		 * to keep in mind (see 3DSTATE_PS and 3DSTATE_WM).
+> 		 */
+>-		wa_add(wal,
+>-		       GEN6_GT_MODE, 0,
+>-		       _MASKED_FIELD(GEN6_WIZ_HASHING_MASK, GEN6_WIZ_HASHING_16x4),
+>-		       GEN6_WIZ_HASHING_16x4);
+>+		wa_masked_field_set(wal,
+>+				    GEN6_GT_MODE,
+>+				    GEN6_WIZ_HASHING_MASK,
+>+				    GEN6_WIZ_HASHING_16x4);
+>
+> 		/* WaDisable_RenderCache_OperationalFlush:snb */
+> 		wa_masked_dis(wal, CACHE_MODE_0, RC_OP_FLUSH_ENABLE);
+>@@ -2021,10 +2033,10 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+>
+> 	if (IS_GEN_RANGE(i915, 4, 6))
+> 		/* WaTimedSingleVertexDispatch:cl,bw,ctg,elk,ilk,snb */
+>-		wa_add(wal, MI_MODE,
+>-		       0, _MASKED_BIT_ENABLE(VS_TIMER_DISPATCH),
+>-		       /* XXX bit doesn't stick on Broadwater */
+>-		       IS_I965G(i915) ? 0 : VS_TIMER_DISPATCH);
+>+		wa_masked_add(wal, MI_MODE,
+>+			      _MASKED_BIT_ENABLE(VS_TIMER_DISPATCH),
+>+			      /* XXX bit doesn't stick on Broadwater */
+>+			      IS_I965G(i915) ? 0 : VS_TIMER_DISPATCH);
+>
+> 	if (IS_GEN(i915, 4))
+> 		/*
+>@@ -2037,9 +2049,9 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+> 		 * they are already accustomed to from before contexts were
+> 		 * enabled.
+> 		 */
+>-		wa_add(wal, ECOSKPD,
+>-		       0, _MASKED_BIT_ENABLE(ECO_CONSTANT_BUFFER_SR_DISABLE),
+>-		       0 /* XXX bit doesn't stick on Broadwater */);
+>+		wa_masked_add(wal, ECOSKPD,
+>+			      _MASKED_BIT_ENABLE(ECO_CONSTANT_BUFFER_SR_DISABLE),
+>+			      0 /* XXX bit doesn't stick on Broadwater */);
+> }
+>
+> static void
+>-- 
+>2.30.2
+>
+>_______________________________________________
+>dri-devel mailing list
+>dri-devel@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
