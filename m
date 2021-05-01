@@ -2,113 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E0B3704BE
-	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 03:57:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7414D3704D4
+	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 03:58:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 155E06F618;
-	Sat,  1 May 2021 01:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 194416F637;
+	Sat,  1 May 2021 01:58:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2081.outbound.protection.outlook.com [40.107.102.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CAF46E0BE;
- Sat,  1 May 2021 01:57:52 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B17956F636;
+ Sat,  1 May 2021 01:58:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MLZu8owsKmfS3WSSkTKKwxomreV/9wNzFjhNlm8igmmHclR3EE4bff6uP+lzTSfonAX5jbNlzZm+kz6QSSAbNa/IVzNfx/7SL92/3ARPLw6Id2jDqXwyhFbSkDf7pIkjFMNlW3jt79tMoWRojsNVwoef5khURDeHWmn9wzRa8fk110sTbEiUHvlyDdgowcCkWEZkDaoHywEsypkT7+epj/QVMtutR/6lOpL+q7g/tPvAmJZpBTY+6eMvjAKwg6QQLCz7XssacFu9CsWQx/MvTSbibzietnJAOGVUnQWenN9/B5MBnte4riCY+1qep0TJ/Af43Dc1KmlCsZfmdPomag==
+ b=lnFrHVi+qam7t0yeEEeG+v5+cXgcGpyR5D8kcLWfpw6yAdLxtAPkLo2iV4Am2twOWaoIrzfRuOC1c9jX8fD2CxwmQLOcy6QtNoRnjD8bsh/cnYjYjSlcocPBy6UlVrRP6xwCN0enN9/3zDKbfAU81e/FfWAHEZKu49rHFZ9gy8X5AJFjjdeIGwdc7TZm+ge/fIZtHxzVmg9tov85uDu4AtZnva3W3GTElVErVMA1BU00SmGJ9/r8YNhvhqRMvn2k/7DM2LzwXRoVhxdXTeJmK6RiTejLP9YS+Si9PzhV7A1if96kfjbi+e7hJOS542H/vYa+S9RQL8S7SXlytZ6EUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9BL/5h87C7OPWCEpllXvfXCmYLcak1hEVe6Y2EQVVFM=;
- b=lMEbJ2j7L6Kri9QcexIfs5UE+cOQXAJHqbpGUJpxtKza+6N8gE62u5nWKy45HciftmszhM31I1O47ecnGqFHsVcSSVGucQbALIPe7F/bazZT0/MC9j1l7wR/YOlftlipJM0vKJmYC3yGIjTGBaFOOTm+PxTEvuQ6hGFuuqcM9oAcraFQLE2GCyp+wvFVJtdKp1gbdPJcacPO/GGy+b1/dwoCIC5R4ojapPtTxvB45ueIPyzs9iW24LgZ65k1QF89ZyKFnGnO2hG38DIAfjuR/0ebbwGfWqLk6aIKgR0HLN62JleH27mzobXUYRpb7zfVqFj1nwJ1enhDTFbK1JT0/A==
+ bh=e3q/MjEL1tMUIjXd7tzk38queuoj3wKPes59TV2J/J8=;
+ b=L7n1lbVXZqB6SZeWwQHm+Xi1yNFe5Vo46eKplfG4pwO+jzmPCDsbtv881D3uqRGg5+QDvZ+ojEWHbQ+nUgq0LEEMAXBzx4fXNJLdIjEoL6CUNC3kSh7O2YTCVu1vwerhgwF/85B1DMu1996bB/2oJLAMbzTqxd/5e8aaovUW7PpTQLVCh+m9ggjcUK4Dvlfn33fX1BADUFOvQDbpIZ5rqUvWODTGhQU9dnHj3rR+s+yt4pd7CRURlBcGFSjkkQ78bAjJ86W6KmJnzvUz8Y6ktXoLYphm0I8ZAFt45froiayORrl4zdUYCtcN565WODXS02qpILStc2YhkJRqeNUXUw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9BL/5h87C7OPWCEpllXvfXCmYLcak1hEVe6Y2EQVVFM=;
- b=OqLOD677oyVKACR8/NXNGm/sPf3/ywKDp5qO0USjVloeH0dopKifkmmKr0kC4BfTFFzckuDN1I464aPSBZegM65T5eTNvuwftFxbJASqELXeN7wqIUO88IXbh9OLGJNM5OMYLGxuuSpa5WWbxahyzaL2IWEOyzZRmxkGL3V+qVE=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com (52.135.46.212) by
- MN2PR12MB4142.namprd12.prod.outlook.com (52.135.51.19) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.25; Sat, 1 May 2021 01:57:48 +0000
+ bh=e3q/MjEL1tMUIjXd7tzk38queuoj3wKPes59TV2J/J8=;
+ b=aGSpeGyDcYeFGZ6i6Rhd8PXDi8CNTIwDFLrPEHFetfV+gYqZ+oX643LrWJptfpHjveKAP1TO53oYSn9KjGdLY9bQx/K++gKQW9Y7UIUtEy53pJ0zAIT5Ul6Y/O8lPOTtR7O1nrhMo/wPu8f/uGi/HS2Zyxu2Sfi5PpFvOowx2sQ=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
+ by BL0PR12MB4898.namprd12.prod.outlook.com (2603:10b6:208:1c7::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.26; Sat, 1 May
+ 2021 01:58:27 +0000
 Received: from BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::70f5:99ed:65a1:c033%5]) with mapi id 15.20.4065.027; Sat, 1 May 2021
- 01:57:48 +0000
-From: Felix Kuehling <felix.kuehling@amd.com>
-Subject: [RFC] CRIU support for ROCm
-To: criu@openvz.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Message-ID: <9245171d-ecc9-1bdf-3ecd-cf776dc17855@amd.com>
+ 01:58:27 +0000
+From: Felix Kuehling <Felix.Kuehling@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH 10/17] drm/amdkfd: CRIU restore sdma id for queues
 Date: Fri, 30 Apr 2021 21:57:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-Content-Language: en-US
-X-Originating-IP: [142.182.183.69]
-X-ClientProxiedBy: YT1PR01CA0005.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::18)
- To BL0PR12MB4948.namprd12.prod.outlook.com
+Message-Id: <20210501015752.888-11-Felix.Kuehling@amd.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210501015752.888-1-Felix.Kuehling@amd.com>
+References: <20210501015752.888-1-Felix.Kuehling@amd.com>
+X-Originating-IP: [165.204.54.211]
+X-ClientProxiedBy: YT1PR01CA0037.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::6) To BL0PR12MB4948.namprd12.prod.outlook.com
  (2603:10b6:208:1cc::20)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.182.183.69) by
- YT1PR01CA0005.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::18) with Microsoft
+Received: from localhost.localdomain (165.204.54.211) by
+ YT1PR01CA0037.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::6) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.25 via Frontend Transport; Sat, 1 May 2021 01:57:47 +0000
+ 15.20.4065.25 via Frontend Transport; Sat, 1 May 2021 01:58:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 163ba344-b312-493f-dc1f-08d90c4484ff
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4142:
+X-MS-Office365-Filtering-Correlation-Id: 17f07178-386d-47d0-7130-08d90c449c91
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4898:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB41420694E9EB3D50D807567B925D9@MN2PR12MB4142.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <BL0PR12MB48989319777DE30507BF78E3925D9@BL0PR12MB4898.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r1xYGPJ2zJEHx9L7Xb36gtGBuqKgE0LGf8RHE8wLFbXNqxqbPQTzUUd2zcHxLn7ovni9qLLoMeHZn7BM7Yu0lJXHgwMTZBkP9aLf4N1EmRob0nclxT/NE01CV9AnBODg5eH4qrsgeKM8xhhOFeOT5UWVj9zLi1e/OUQCNftakzV/Mbwt19QUTkZye4FY9t8ZWTLRB2/YIo1Y0VWLo+FwSuv5805b3EcVwrjWEndpxUOdbBW7oXiUIOra+JcWLEYXtW6ME3NwN9a+9G2gJyTZWJMGrNro5sO8Z8xufBtooEYjTKOPgfm/6PjSs6oGqzZGTD1xUXWSmGlrtCjq+NSGG8FWgFQIRKMv0zDW+qmCQMpFQ8uNFF+5PQMLmVY/RYLRwSxOwmHGxnr3ZQbsv0CgLBoz0ObnGwMebRqs6OZ8GaMzIUL+nQSzdzvqHTQVf+IyUiNvH+LYkdvpYtz0jLYi2tce/ASKJtA2x0NNYgxzPVxY/zLfUVpdpUJKz1CeVH3RhPTLxIXNLJPEjQsTUfb0zBpOo29Aj4vKA0naS5FvO5snUcUnvmYRjKYnXwe8tJ2jmh96X9BW43fNlwKMxbpH1sl4HRy8dPdPhfle5uVXlliCQhCzyqE2cfjRa3QPgdtHz87eyTNXmb5hUrmjZHcx0T3Lk3w2CnmooiL4lumA/HNUsjuodNQsN3RgZ6UnDtbgdmMaIlcsp11S2QNnAKKqFNZVaOqKKZBzm1n4ourtspJHoOYc8Duu0YWESGlijwuH4XCmnz6PLI57aUIs1SLcRA==
+X-Microsoft-Antispam-Message-Info: fNPOffaSKZ8sGgdkH/+778IBgicE/8AoHp4nT6ILXuRtG9B3oMA1BBQ6Fe0F6vE1Ctlr77MDZDIlLjPNoDxpt8LShgrJEGSMjZweb5YiytWUdMwB5w0DsFvGVwDSNw4kFDb30LAozLfJWkBqNmQ1/bnB/AJRyZmjWP7pCOP8TEmmo0Kvkh89wNbZKmxWRq5c3lu7LxL5YdD3TfNuc6fbTPUuJF9g1PJ1aXHEkiPXrQxcy8XmlZLcHFM+j88lTaQMQQvovjjro4RkUj+nvSXzz91a/Ejq+/wSXWDsKn9RCCtf5fy+YR/LHZVART4QQRvx4TLwJOYeDgrta0DI+NkFaZVofMpi/c8DE41ATe6whdPDVEs6SacCacVZKCWVbWm47qBbZGILNV74Vx+UjDqvJhc1iwUFVCo8LO7bdq/7XEs8gkubvvEufCeHfdnIcGHHG/oelchTvMK1jQAxTn1V4BYoMm9xu9NiQoqGJg4GashKxYZPgHFGURIl0/fa0y+8u4zO3ck3HmPZV6f/fTeIJK4iUiP58TURT2UYNh1d9fRzw6j6gC+qIgjpd9kirh3WazF8WT3AH/Vnuxs9ZNy+MI2igazYzK6vC4/GF3hbVWEv5Xq9ZUG9El6YkPwsexo7WpoRoQ3aLC9+G0ux5eDP+TaO79wSK0f2zliE6MB60VRw5MwAGhCLim7gcY7GKbK6
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(66556008)(54906003)(2616005)(66946007)(66476007)(956004)(31686004)(38100700002)(4326008)(16576012)(8676002)(8936002)(478600001)(110136005)(2906002)(6486002)(86362001)(26005)(186003)(44832011)(16526019)(83380400001)(5660300002)(31696002)(36756003)(966005)(316002)(45980500001)(43740500002);
+ SFS:(4636009)(376002)(136003)(346002)(39860400002)(396003)(366004)(36756003)(66556008)(66476007)(66946007)(6512007)(86362001)(8936002)(52116002)(478600001)(5660300002)(8676002)(6506007)(6666004)(38350700002)(38100700002)(2616005)(450100002)(4326008)(83380400001)(1076003)(2906002)(26005)(16526019)(6486002)(956004)(316002)(186003)(69590400013);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Q0Z3QWxJZHoxdkxDQnk0eUF5MXZvcDJYczZaNFZXS0gzS0g1eUZ4OVN2WWpY?=
- =?utf-8?B?Z1NHNW9kUll5a2hYVU5XeDAwWCtHNXc2dG1HbjlEcXNOVmJ0YlQ0aWM0N2hp?=
- =?utf-8?B?dU1YdXBOUGJLakMvdVN1ejhxcHhOTDRUdnZRMTRjdk9HOGZjaDRJckJVakJi?=
- =?utf-8?B?TzA2cG4rUG9wVCtXZ1FIVnhxakFYT1RSYVUzSVczbnhlUFFtdXh2Q3VOYlRj?=
- =?utf-8?B?cU9iWk1ncExld0x2b084RG5NVjl5RjlFS1dURzByKzRPM3ZOL3lXTWMveGwz?=
- =?utf-8?B?ejEvdENRVUNsTjNDM3JoOFIrclpicytWVnB6bFVwOGQ1bUllWDRWVVFIejBh?=
- =?utf-8?B?bU9KaWhxRXFsTm92aFJCcXhjVVQ0cGtOOWo2QkZWREhsL2xsM09NMHliRFRk?=
- =?utf-8?B?K3l0aUVJRm9jT04rTmgwZmsxVGJDUTc4dVVldnlqMm1DYTc4aTNQTC9LbE1o?=
- =?utf-8?B?YmdCTGNxd3Uzb3VEczM4MU15UkhGY0VXanJGdWVUTnZ1bDFySlRjbUVEZTl4?=
- =?utf-8?B?WXd2VlNGQWgvcDNpbExrbVFraVdnQ0RGOVR4aXpyYnhKRDBQYUpTR0lKZjdj?=
- =?utf-8?B?bDVLNnkrMkVpNU1XdjVWN0p2Mys0dzA3TEljWWlzc0NPRUx5Y0FURG1hbVFS?=
- =?utf-8?B?bDdmbGpPazhmZmlvdDZaSi9pMDVqMkRuT2ZkSFBWZXlLMFlVOEEvQVR0clBM?=
- =?utf-8?B?UjNYL0dOR0ZGVlVKRHhrdG5QNEIrS3ozTlhkVTZocU5oekJ6ZkRoaXE3OEFT?=
- =?utf-8?B?aWRIandicmpPVUpDR1ptN2YwVjYzWU5mWit0bkJpL3l0aTY3cDlOeXAvcDcy?=
- =?utf-8?B?NDZmRjVnL0RVWFZrd0xXNGg3YUJxWkMwOXdUZWdKTXV4UUVHWmY2WFNpSVJm?=
- =?utf-8?B?aVZTR0NSMUZzQlJVN2NvRXp0ZEdVSGZBblg4ZWZRNmtMditEYlJYNlpYSjAw?=
- =?utf-8?B?OXIwNUM1Q3NhbWRvRXBZNS8zbGhId1VlNlh5THdqSmxPRVk3Z0RoRDRoVE05?=
- =?utf-8?B?R0l4cW8vNzJsSmI3RUpGTkkybnhwdGJMbTJ3aFdNN3ljY1hYUmtSQ0g4aVVt?=
- =?utf-8?B?MnhSSGhqaG9iaDNBZEJTUHROUUhGdG5iY0tHclYvVW8vYkNwTGlFWlNydnpO?=
- =?utf-8?B?WCtFdmhxL1ZlMkhldmRYeUFkSVkzMFk0eVZUald4d1JEbVcrQnowTElzUXYw?=
- =?utf-8?B?cm51cHR3QnlLVUt5VG1Pa2hQRGNRYzNNcXRyM3dVZUcwRDlRdUlaK053VjJw?=
- =?utf-8?B?M054Wk9pRUZMVzFZZVZlUjdVdEpQRGhDeDV2V0UveS9hc0krRTlLYm9TdkU2?=
- =?utf-8?B?V2I1WmpEYWZObmE1MWVUaVY2eWx5VVJxMTF1YU4rK0ZRUUtFWDErSENvMWVv?=
- =?utf-8?B?VjhRU3NwQUZjNnd0MkVjOERyMUtPTEhOSGxaU1ZGbHYya2dUTDVuV2dsbzhK?=
- =?utf-8?B?QUdPQWtoaitTbzB6WkZUL2FGdzJkQVdFV3RlVFlnb3hzVUJtNk5YNkRjd2VS?=
- =?utf-8?B?Y3NDQzZ0VTB0ZkVRSzd4ckU4WFBRUlM5VDNsdWlld25KSUExYlEzNnRzVzJa?=
- =?utf-8?B?K05DVFFpRlZndnhicjBLQy9aMHU0emZEWmMzdGJWbGxCeHVZZit4YVlaM0cv?=
- =?utf-8?B?OG81cjdSRGhNTmhsa1BGYW1zVGxvN1p2eVlQcG9yMC9BMUthcHpQWXFYbjhM?=
- =?utf-8?B?V0NYVXpqSmxOS1FiT2NNYUVSZXZVdlBhb1RTWGxpOE5RUzhRdUVxbUQ1bTVr?=
- =?utf-8?Q?d9WVopbUoe5KgSkTOOOROqs/4FSTdrEVSdxjjLj?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?aCjfFLHuB2SgN9suZ9y0nbIRi8yZpeyChLejRnBRN/+mqQGyOQh0eF6ljX1o?=
+ =?us-ascii?Q?czLmyMdaVVQ8jK1WuSMdr+LdGt1SNDykVKi5TfQGMT3QjlRdQS5oOBIH6l+E?=
+ =?us-ascii?Q?mwf16Myi7pCIzRI6n/sWNhwOnQRRNEhJH+Ef6rflEWt/qcaR39YxnFhuNJZ+?=
+ =?us-ascii?Q?B7wgitGANb/CJ1izalGLK+RlxGx8/eS7n2lXfcnKlayHeI5fHYWa03AyC4/h?=
+ =?us-ascii?Q?3ezNDpA92GUyBY3a+yVSuPfKypbYNnVf+glW9k3yu3SH7NSWhXbm7OZmQZHc?=
+ =?us-ascii?Q?Cv8mtEO6/FibR4DWZzaPvHMOCarjPmDkTCGCJET05ZmlYr968xQHUPhbSFhK?=
+ =?us-ascii?Q?XhvCtzQWHvrMlOu/GAGdmrtzkg8PM8DrLcU9Tpt3DX1QSDdHTHnXZiFAxEuu?=
+ =?us-ascii?Q?LzI59xnfWTXWNg4aq9RLg7s/PGZ2eSmKbYN2NFPpE2RZW+wcCbA6okWdP73z?=
+ =?us-ascii?Q?jUiOpeeKRXsjaWgdSHB9bNdQGqubWr4jg+XaYtXAhK/sZCvMtoWXg5pJFv90?=
+ =?us-ascii?Q?ZR9UuAKZr0LnX1VRkWQvIRrakWZYelG336KRPslPNyPCYO2QviV6d9S9nwYW?=
+ =?us-ascii?Q?qFspLn1Jsh9h6VNPVU9klPwJ+s43CqpyOvGLByb1WJ7Z6aUwcz9GNESurUBw?=
+ =?us-ascii?Q?U5bUKKeL9ijUiKs1V72E5ruKtmYYrFsgLSgBmECh8JoNPvwZH26h77qjA31S?=
+ =?us-ascii?Q?TmC8tgc6fhKZPlgICWZWIJ1kN39pwM/z6y3V/omxRLz5zHVeBEISYvhCn/Du?=
+ =?us-ascii?Q?+gECWz9YI/zfyYpo7IuZwEDM0D3+PCJskMaY7U+FG7Ccwdbg+KYiCcOkSkQM?=
+ =?us-ascii?Q?HEnBUmSkGhU+JPt9qKkJEyNlBrWd1Dm/odYmkPz8jjDWb7Mk2IA02nCLBe0x?=
+ =?us-ascii?Q?Rif+Uifli9EbpaHI3ozEDQhPinLnFEsIGjDymr7tzISsnrQU2O5jPMqeelwy?=
+ =?us-ascii?Q?S5IOlwwFRcIdr6wLNRBPBbd600WQxWkguVzkrzBtBa5JHqwrgr4axkAGPkh7?=
+ =?us-ascii?Q?sSO0UntfZHWN8lXNyh4PM0gmaNF4WRb8Th4skErqo+hxp4w/NfMHOGfiE9sa?=
+ =?us-ascii?Q?Ccv/yqw0hB35GvMOVhaXuOZsXKyF359eaB9cW+ZU1XEI2Tzb5GZ2JIcPvCUD?=
+ =?us-ascii?Q?bG8zXKgnFax3+HfcrtevFRIysJLCpezDbZ3o3DiLuLsNYv/73F4dGr5MrccZ?=
+ =?us-ascii?Q?i85DcXkozSNvCvqdI8FKNlL58/F5SJ1AJC4BEX7OtYs8t/VQrU3OMIj3Gtju?=
+ =?us-ascii?Q?24dZ1Ex6qcXW3nUmrlMxmetC86jAVtClbBqqyFUDxHJ4Gz2eqdUDOC4bwUvo?=
+ =?us-ascii?Q?+0Qi1xLbEHYyM+z4ultxxp4E?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 163ba344-b312-493f-dc1f-08d90c4484ff
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17f07178-386d-47d0-7130-08d90c449c91
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2021 01:57:47.9829 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2021 01:58:27.7376 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hl/Hsj6rrFE+o0J0LY7IkoYP1xPtkmz9gqZWIrNl9WXi0BihH+tmFy/iJF4PPoNtDZmzfwWgzxX798ulcqmkfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4142
+X-MS-Exchange-CrossTenant-UserPrincipalName: PWi5aBEJd3ssFFYiELKC/yGTd4wkM7AU3kOWjECshoFVMuJt8QDHCZcAWSnbbtYuFNnP6AOFLp72I8sT6MVWQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4898
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,56 +116,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Mihalicyn <alexander@mihalicyn.com>,
- Pavel Emelyanov <ovzxemul@gmail.com>, "Bhardwaj,
- Rajneesh" <Rajneesh.Bhardwaj@amd.com>, Pavel Tikhomirov <snorcht@gmail.com>,
- "Yat Sin, David" <David.YatSin@amd.com>, Adrian Reber <adrian@lisas.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Yat Sin <david.yatsin@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgaGF2ZSBiZWVuIHdvcmtpbmcgb24gYSBwcm90b3R5cGUgc3VwcG9ydGluZyBDUklVIChDaGVj
-a3BvaW50L1Jlc3RvcmUKSW4gVXNlcnNwYWNlKSBmb3IgYWNjZWxlcmF0ZWQgY29tcHV0ZSBhcHBs
-aWNhdGlvbnMgcnVubmluZyBvbiBBTUQgR1BVcwp1c2luZyBST0NtIChSYWRlb24gT3BlbiBDb21w
-dXRlIFBsYXRmb3JtKS4gV2UncmUgaGFwcHkgdG8gZmluYWxseSBzaGFyZQp0aGlzIHdvcmsgcHVi
-bGljbHkgdG8gc29saWNpdCBmZWVkYmFjayBhbmQgYWR2aWNlLiBUaGUgZW5kLWdvYWwgaXMgdG8K
-Z2V0IHRoaXMgd29yayBpbmNsdWRlZCB1cHN0cmVhbSBpbiBMaW51eCBhbmQgQ1JJVS4gQSBzaG9y
-dCB3aGl0ZXBhcGVyCmRlc2NyaWJpbmcgb3VyIGRlc2lnbiBhbmQgaW50ZW50aW9uIGNhbiBiZSBm
-b3VuZCBvbiBHaXRodWI6Cmh0dHBzOi8vZ2l0aHViLmNvbS9SYWRlb25PcGVuQ29tcHV0ZS9jcml1
-L3RyZWUvY3JpdS1kZXYvdGVzdC9vdGhlcnMvZXh0LWtmZC9SRUFETUUubWQuCgpXZSBoYXZlIFJG
-QyBwYXRjaCBzZXJpZXMgZm9yIHRoZSBrZXJuZWwgKGJhc2VkIG9uIEFsZXggRGV1Y2hlcidzCmFt
-ZC1zdGFnaW5nLWRybS1uZXh0IGJyYW5jaCkgYW5kIGZvciBDUklVIGluY2x1ZGluZyBhIG5ldyBw
-bHVnaW4gYW5kIGEKZmV3IGNvcmUgQ1JJVSBjaGFuZ2VzLiBJIHdpbGwgc2VuZCB0aG9zZSB0byB0
-aGUgcmVzcGVjdGl2ZSBtYWlsaW5nIGxpc3RzCnNlcGFyYXRlbHkgaW4gYSBtaW51dGUuIFRoZXkg
-Y2FuIGFsc28gYmUgZm91bmQgb24gR2l0aHViLgoKICAgIENSSVUrcGx1Z2luOiBodHRwczovL2dp
-dGh1Yi5jb20vUmFkZW9uT3BlbkNvbXB1dGUvY3JpdS9jb21taXRzL2NyaXUtZGV2CiAgICBLZXJu
-ZWwgKEtGRCk6CiAgICBodHRwczovL2dpdGh1Yi5jb20vUmFkZW9uT3BlbkNvbXB1dGUvUk9DSy1L
-ZXJuZWwtRHJpdmVyL2NvbW1pdHMvZnhrYW1kL2NyaXUtd2lwCgpBdCB0aGlzIHBvaW50IHRoaXMg
-aXMgdmVyeSBtdWNoIGEgd29yayBpbiBwcm9ncmVzcyBhbmQgbm90IHJlYWR5IGZvcgp1cHN0cmVh
-bSBpbmNsdXNpb24uIFRoZXJlIGFyZSBzdGlsbCBzZXZlcmFsIG1pc3NpbmcgZmVhdHVyZXMsIGtu
-b3duCmlzc3VlcywgYW5kIG9wZW4gcXVlc3Rpb25zIHRoYXQgd2Ugd291bGQgbGlrZSB0byBzdGFy
-dCBhZGRyZXNzaW5nIHdpdGgKeW91ciBmZWVkYmFjay4KCldoYXQncyB3b3JraW5nIGFuZCB0ZXN0
-ZWQgYXQgdGhpcyBwb2ludDoKCiAgKiBDaGVja3BvaW50IGFuZCByZXN0b3JlIGFjY2VsZXJhdGVk
-IG1hY2hpbmUgbGVhcm5pbmcgYXBwczogUHlUb3JjaAogICAgcnVubmluZyBCZXJ0IG9uIHN5c3Rl
-bXMgd2l0aCAxIG9yIDIgR1BVcyAoTUk1MCBvciBNSTEwMCksIDEwMCUKICAgIHVubW9kaWZpZWQg
-dXNlciBtb2RlIHN0YWNrCiAgKiBDaGVja3BvaW50IG9uIG9uZSBzeXN0ZW0sIHJlc3RvcmUgb24g
-YSBkaWZmZXJlbnQgc3lzdGVtCiAgKiBDaGVja3BvaW50IG9uIG9uZSBHUFUsIHJlc3RvcmUgb24g
-YSBkaWZmZXJlbnQgR1BVCgpNYWpvciBLbm93biBpc3N1ZXM6CgogICogVGhlIEtGRCBpb2N0bCBB
-UEkgaXMgbm90IGZpbmFsOiBOZWVkcyBhIGNvbXBsZXRlIHJlZGVzaWduIHRvIGFsbG93CiAgICBm
-dXR1cmUgZXh0ZW5zaW9uIHdpdGhvdXQgYnJlYWtpbmcgdGhlIEFCSQogICogVmVyeSBzbG93OiBO
-ZWVkIHRvIGltcGxlbWVudCBETUEgdG8gZHVtcCBWUkFNIGNvbnRlbnRzCgpNaXNzaW5nIG9yIGlu
-Y29tcGxldGUgZmVhdHVyZXM6CgogICogU3VwcG9ydCBmb3IgdGhlIG5ldyBLRkQgU1ZNIEFQSQog
-ICogQ2hlY2sgZGV2aWNlIHRvcG9sb2d5IGR1cmluZyByZXN0b3JlCiAgKiBDaGVja3BvaW50IGFu
-ZCByZXN0b3JlIG11bHRpcGxlIHByb2Nlc3NlcwogICogU3VwcG9ydCBmb3IgYXBwbGljYXRpb25z
-IHVzaW5nIE1lc2EgZm9yIHZpZGVvIGRlY29kZS9lbmNvZGUKICAqIFRlc3Rpbmcgd2l0aCBtb3Jl
-IGRpZmZlcmVudCBHUFVzIGFuZCB3b3JrbG9hZHMKCkJpZyBPcGVuIHF1ZXN0aW9uczoKCiAgKiBX
-aGF0J3MgdGhlIHByZWZlcnJlZCB3YXkgdG8gcHVibGlzaCBvdXIgQ1JJVSBwbHVnaW4/IEluLXRy
-ZWUgb3IKICAgIG91dC1vZi10cmVlPwogICogV2hhdCdzIHRoZSBwcmVmZXJyZWQgd2F5IHRvIGRp
-c3RyaWJ1dGUgb3VyIENSSVUgcGx1Z2luPyBTb3VyY2U/CiAgICBCaW5hcnkgLnNvPyBXaG9sZSBD
-UklVPyBKdXN0IGluLWJveCBzdXBwb3J0PwogICogSWYgb3VyIHBsdWdpbiBjYW4gYmUgdXBzdHJl
-YW1lZCBpbiB0aGUgQ1JJVSB0cmVlLCB3aGF0IHdvdWxkIGJlIHRoZQogICAgcmlnaHQgZGlyZWN0
-b3J5PwoKQmVzdCByZWdhcmRzLArCoCBGZWxpeAoKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: David Yat Sin <david.yatsin@amd.com>
+
+When re-creating queues during CRIU restore, restore the queue with the
+same sdma id value used during CRIU dump.
+
+Signed-off-by: David Yat Sin <david.yatsin@amd.com>
+Change-Id: I8ed667edb8b9b7b5089e59b78de9be80493a2808
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  1 +
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c | 48 ++++++++++++++-----
+ .../drm/amd/amdkfd/kfd_device_queue_manager.h |  3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |  1 +
+ .../amd/amdkfd/kfd_process_queue_manager.c    |  4 +-
+ 5 files changed, 42 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index a21d32ff0730..afcbdae436fa 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -2152,6 +2152,7 @@ int criu_restore_queue(struct kfd_process *p,
+ 	print_queue_properties(&qp);
+ 
+ 	qrd->qid = q_bucket->q_id;
++	qrd->sdma_id = q_bucket->sdma_id;
+ 
+ 	ret = pqm_create_queue(&p->pqm, dev, NULL, &qp, &queue_id, qrd, NULL);
+ 	if (ret) {
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index 98c2046c7331..cabdfbacce37 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -58,7 +58,7 @@ static inline void deallocate_hqd(struct device_queue_manager *dqm,
+ 				struct queue *q);
+ static int allocate_hqd(struct device_queue_manager *dqm, struct queue *q);
+ static int allocate_sdma_queue(struct device_queue_manager *dqm,
+-				struct queue *q);
++				struct queue *q, const uint32_t *restore_sdma_id);
+ static void kfd_process_hw_exception(struct work_struct *work);
+ 
+ static inline
+@@ -296,7 +296,8 @@ static void deallocate_vmid(struct device_queue_manager *dqm,
+ 
+ static int create_queue_nocpsch(struct device_queue_manager *dqm,
+ 				struct queue *q,
+-				struct qcm_process_device *qpd)
++				struct qcm_process_device *qpd,
++				const struct queue_restore_data *qrd)
+ {
+ 	struct mqd_manager *mqd_mgr;
+ 	int retval;
+@@ -336,7 +337,7 @@ static int create_queue_nocpsch(struct device_queue_manager *dqm,
+ 			q->pipe, q->queue);
+ 	} else if (q->properties.type == KFD_QUEUE_TYPE_SDMA ||
+ 		q->properties.type == KFD_QUEUE_TYPE_SDMA_XGMI) {
+-		retval = allocate_sdma_queue(dqm, q);
++		retval = allocate_sdma_queue(dqm, q, qrd ? &qrd->sdma_id : NULL);
+ 		if (retval)
+ 			goto deallocate_vmid;
+ 		dqm->asic_ops.init_sdma_vm(dqm, q, qpd);
+@@ -1022,7 +1023,7 @@ static void pre_reset(struct device_queue_manager *dqm)
+ }
+ 
+ static int allocate_sdma_queue(struct device_queue_manager *dqm,
+-				struct queue *q)
++				struct queue *q, const uint32_t *restore_sdma_id)
+ {
+ 	int bit;
+ 
+@@ -1032,9 +1033,21 @@ static int allocate_sdma_queue(struct device_queue_manager *dqm,
+ 			return -ENOMEM;
+ 		}
+ 
+-		bit = __ffs64(dqm->sdma_bitmap);
+-		dqm->sdma_bitmap &= ~(1ULL << bit);
+-		q->sdma_id = bit;
++		if (restore_sdma_id) {
++			/* Re-use existing sdma_id */
++			if (!(dqm->sdma_bitmap & (1ULL << *restore_sdma_id))) {
++				pr_err("SDMA queue already in use\n");
++				return -EBUSY;
++			}
++			dqm->sdma_bitmap &= ~(1ULL << *restore_sdma_id);
++			q->sdma_id = *restore_sdma_id;
++		} else {
++			/* Find first available sdma_id */
++			bit = __ffs64(dqm->sdma_bitmap);
++			dqm->sdma_bitmap &= ~(1ULL << bit);
++			q->sdma_id = bit;
++		}
++
+ 		q->properties.sdma_engine_id = q->sdma_id %
+ 				get_num_sdma_engines(dqm);
+ 		q->properties.sdma_queue_id = q->sdma_id /
+@@ -1044,9 +1057,19 @@ static int allocate_sdma_queue(struct device_queue_manager *dqm,
+ 			pr_err("No more XGMI SDMA queue to allocate\n");
+ 			return -ENOMEM;
+ 		}
+-		bit = __ffs64(dqm->xgmi_sdma_bitmap);
+-		dqm->xgmi_sdma_bitmap &= ~(1ULL << bit);
+-		q->sdma_id = bit;
++		if (restore_sdma_id) {
++			/* Re-use existing sdma_id */
++			if (!(dqm->xgmi_sdma_bitmap & (1ULL << *restore_sdma_id))) {
++				pr_err("SDMA queue already in use\n");
++				return -EBUSY;
++			}
++			dqm->xgmi_sdma_bitmap &= ~(1ULL << *restore_sdma_id);
++			q->sdma_id = *restore_sdma_id;
++		} else {
++			bit = __ffs64(dqm->xgmi_sdma_bitmap);
++			dqm->xgmi_sdma_bitmap &= ~(1ULL << bit);
++			q->sdma_id = bit;
++		}
+ 		/* sdma_engine_id is sdma id including
+ 		 * both PCIe-optimized SDMAs and XGMI-
+ 		 * optimized SDMAs. The calculation below
+@@ -1269,7 +1292,8 @@ static void destroy_kernel_queue_cpsch(struct device_queue_manager *dqm,
+ }
+ 
+ static int create_queue_cpsch(struct device_queue_manager *dqm, struct queue *q,
+-			struct qcm_process_device *qpd)
++			struct qcm_process_device *qpd,
++			const struct queue_restore_data *qrd)
+ {
+ 	int retval;
+ 	struct mqd_manager *mqd_mgr;
+@@ -1284,7 +1308,7 @@ static int create_queue_cpsch(struct device_queue_manager *dqm, struct queue *q,
+ 	if (q->properties.type == KFD_QUEUE_TYPE_SDMA ||
+ 		q->properties.type == KFD_QUEUE_TYPE_SDMA_XGMI) {
+ 		dqm_lock(dqm);
+-		retval = allocate_sdma_queue(dqm, q);
++		retval = allocate_sdma_queue(dqm, q, qrd ? &qrd->sdma_id : NULL);
+ 		dqm_unlock(dqm);
+ 		if (retval)
+ 			goto out;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
+index 71e2fde56b2b..a5baf50fd6dc 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
+@@ -86,7 +86,8 @@ struct device_process_node {
+ struct device_queue_manager_ops {
+ 	int	(*create_queue)(struct device_queue_manager *dqm,
+ 				struct queue *q,
+-				struct qcm_process_device *qpd);
++				struct qcm_process_device *qpd,
++				const struct queue_restore_data* qrd);
+ 
+ 	int	(*destroy_queue)(struct device_queue_manager *dqm,
+ 				struct qcm_process_device *qpd,
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index d21b7eb08a76..bd518340c38c 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -471,6 +471,7 @@ enum KFD_QUEUE_PRIORITY {
+ 
+ struct queue_restore_data {
+ 	uint32_t qid;
++	uint32_t sdma_id;
+ };
+ 
+ struct queue_properties {
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+index cb136e13baff..0ca7db288b9f 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+@@ -272,7 +272,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
+ 			goto err_create_queue;
+ 		pqn->q = q;
+ 		pqn->kq = NULL;
+-		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd);
++		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, qrd);
+ 		print_queue(q);
+ 		break;
+ 
+@@ -292,7 +292,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
+ 			goto err_create_queue;
+ 		pqn->q = q;
+ 		pqn->kq = NULL;
+-		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd);
++		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, qrd);
+ 		print_queue(q);
+ 		break;
+ 	case KFD_QUEUE_TYPE_DIQ:
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
