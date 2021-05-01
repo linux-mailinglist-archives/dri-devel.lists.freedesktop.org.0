@@ -1,68 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995B9370477
-	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 02:35:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC963704BF
+	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 03:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 686306F61C;
-	Sat,  1 May 2021 00:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA9AD6F61F;
+	Sat,  1 May 2021 01:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 341986F616
- for <dri-devel@lists.freedesktop.org>; Sat,  1 May 2021 00:35:45 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- y14-20020a056830208eb02902a1c9fa4c64so86686otq.9
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Apr 2021 17:35:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:date:message-id:in-reply-to:references:user-agent
- :subject:mime-version;
- bh=lQRYmgCaPlyiQPSqhkt/k7ys2QwwAU2JroYC2TvH5sg=;
- b=iDq/OAMgq1+bYj3cx4hL4Gty3kzsK9P+6LgdZA0aO0rDJV03YmfLGuJW4mWexFiR/L
- /5oGvTXLsDdJ7HSZUv9Hkf24emWesFRGwzQa6rEjIzVM/XxJB3mxt5io39L7qFBm1qSx
- TcI7KyIUBC1gb6qhJZjDxZ7gyXjSOqw618RlvPnsw1PVtvZ0kGTW4gDd6EX5Sx5ngJwE
- kdVWw+NWH7dBz0d78XNTBQbK1ooG6oYeyFGp2VBlxVmdmWLIHfj4/xAESr2fQ3ozFR2n
- d56nUBMs32j1Yf84AGGGWz1/KE5grBjpszxZm+AxUV8NXz9PxGdWHBXGYKPsjfJ82WG3
- bxWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:date:message-id:in-reply-to
- :references:user-agent:subject:mime-version;
- bh=lQRYmgCaPlyiQPSqhkt/k7ys2QwwAU2JroYC2TvH5sg=;
- b=qMDJGGy3n5Mm9KympxM7QKYL+Qay2JRoNINJPtOxfDHmNeHO6QRhpKXQXd7ReozlgU
- 8H0y5kcYmxQ5rcyGKKLIFdRDZCB218yBkjJ2eu1Lr87h4y9lRN3gd/e1LhfRDq7F3OVY
- OKHnJ2bX+dUxpOxQstF8cs6W2LPlAM/uHOGhKqHVD0qmfZ9e1NLlYSYO8EaEpbg00rJT
- 4ey1rYmIpMj7duwJ0/9wyh9JvgmyCuEYFqxFv0+tiu2P9w8n1u03tHzzCh6p5BGUvWPT
- F8h0A4Jmuqs5ia6xB3Ns+zonrQ5hQQ2LO7fReUPUq7oDQSLE1JDGVQIto6IAyzAVWZId
- mCyQ==
-X-Gm-Message-State: AOAM530oUeGnZV+LIyfa6vIF0YaxKxQMrnZ5HODKAVx1w9iX7W9U39Gu
- Afxg2spVmvyWNjuufRLiGmJ1hA==
-X-Google-Smtp-Source: ABdhPJzuLHVoBS6Rdsx5oVjdZ2PDdSbRZd0RQz50RCqtY31pa4tU6xDtrhGT5pNZAUm6M6rmxcL5HA==
-X-Received: by 2002:a05:6830:2e1:: with SMTP id
- r1mr5778764ote.195.1619829344166; 
- Fri, 30 Apr 2021 17:35:44 -0700 (PDT)
-Received: from [100.64.196.46] ([209.107.186.11])
- by smtp.gmail.com with ESMTPSA id a4sm514615oib.17.2021.04.30.17.35.42
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 30 Apr 2021 17:35:43 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Date: Fri, 30 Apr 2021 19:35:41 -0500
-Message-ID: <179255a3b48.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
-In-Reply-To: <87czubbco1.wl-ashutosh.dixit@intel.com>
-References: <20210429003410.69754-1-umesh.nerlige.ramappa@intel.com>
- <20210429003410.69754-2-umesh.nerlige.ramappa@intel.com>
- <CAOFGe95O_Q09p4c5Sru0_5E-tBG3DFGm+f-uX-_YHx-UHLOBUA@mail.gmail.com>
- <20210430222609.GC38093@orsosgc001.ra.intel.com>
- <87czubbco1.wl-ashutosh.dixit@intel.com>
-User-Agent: AquaMail/1.29.1-1808 (build: 102900007)
-Subject: Re: [PATCH 1/1] i915/query: Correlate engine and cpu timestamps with
- better accuracy
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2081.outbound.protection.outlook.com [40.107.92.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE3686F61E;
+ Sat,  1 May 2021 01:58:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mW1f7TgUOBov/ZrJO+GRT43ASnA06uhJyxp/zIW8MLa2QV3cgD0Gl6XlUC0WRUtXz3z3qziAF29037MEw2Lmw6QSAbSSMqlWwPJPcwKHdMssHCfr6UjpI35P8Nxx3IRzPnne1LEHGLgubyjdHUXYVch+oieKq3dQ0s1vWz5pxPzAYwG3pdOu83nPL5EIKLLjOdhltwQZuSv2usSHurVvJ24YvtIltjPS5zlyDOa+d7I+Jn0XjRMYkDaO/0/ZSNTP1OG7+NzfCu3feimBU/w9v9/BcksqZXLQ9LksmPFWfpVNTBc8xC/0H3bDi2S/yC4GY9h2pAA42S0NdHEORn2p5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7WD7VWQ3pj0w4KpbOcExTfBatHLSqycd4a2gs1m0R/c=;
+ b=UQRO7p6CD8GrKcR6bgYlhKt2qIhjAgo4ezLfjfDHzOGfBDrs6ifuLLalyEGykYKYFeAlopI36ULxpjabvzzKfAP/TGgJE44gNcv+ysMwpzHhjyRCU9+p5ANWKLy6cKHrHp9HFZTKlkxjL8gYGCc69OlOWoNVrt3zk9Af8KJAyzMHY3U6ghSdUOwxRkM35C7kD5+w4ljI9fxSJAQG+VUM3jLRhY9pa2ucNRzhmyt30VMSj4ctdC/7IASCbR/bl66mhSf4GdvcBNTie1G+WsrmCPyhUxZ+8d1zZ334P319v28ysNeZ872qjiPXPj/NDrMtNJWuj/h9nJUdvhhSoDS/Yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7WD7VWQ3pj0w4KpbOcExTfBatHLSqycd4a2gs1m0R/c=;
+ b=IClecwmQp1rDrRQJibkGkXsLBCuy+PDiIoBAOxKfL4aehqGKZKf9AK/+fozZJUf+37V3zXHqmbicp25RA7v5oWSiohHNK6PJ1RvCor0p8BFkM7eV5x6msP034+JW8kvTNUYF35rszG/OGn4Rj/WZzBP5fqOUf9konnisCcY4cy4=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from BL0PR12MB4948.namprd12.prod.outlook.com (52.135.46.212) by
+ MN2PR12MB4142.namprd12.prod.outlook.com (52.135.51.19) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.25; Sat, 1 May 2021 01:58:17 +0000
+Received: from BL0PR12MB4948.namprd12.prod.outlook.com
+ ([fe80::70f5:99ed:65a1:c033]) by BL0PR12MB4948.namprd12.prod.outlook.com
+ ([fe80::70f5:99ed:65a1:c033%5]) with mapi id 15.20.4065.027; Sat, 1 May 2021
+ 01:58:17 +0000
+From: Felix Kuehling <Felix.Kuehling@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH 00/17] CRIU support for ROCm
+Date: Fri, 30 Apr 2021 21:57:35 -0400
+Message-Id: <20210501015752.888-1-Felix.Kuehling@amd.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [165.204.54.211]
+X-ClientProxiedBy: YT1PR01CA0037.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::6) To BL0PR12MB4948.namprd12.prod.outlook.com
+ (2603:10b6:208:1cc::20)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (165.204.54.211) by
+ YT1PR01CA0037.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.25 via Frontend Transport; Sat, 1 May 2021 01:58:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d8e57780-3e7c-41d7-4028-08d90c44969a
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4142:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4142CF54F9C5ED051073F6A1925D9@MN2PR12MB4142.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: R2/A2rheOFcCA6/Y0DPVDTWwsi+9vYHQEy8fc/9TuvYw42OvGXxm+8Qkm4Xne4kLvxjLBWhqom1TTSdH3NQESsUTPHCQO0cY9jcIpVsPHPLVjJV1TABhB46Mt7h+QBYwBRX1hZyQL5iQOWHaciD3YhYwola8DN56DppFO/ZT4RyHIopv1hwY9CeJ0qJz/RyVHpH7ZTacw17W1UpL5Rh3vtrl2lRJva74aFo20yRYJWpbxtwI846y5Ly9s2Gf7DFpttUFwwRmFcyRAbz7/8GF23JE/hp1XTh0WPS0oVXMlYQfp7LNcaP5txUkkW1VXhBwzUZj3iIZo52BwEH65oNpKZ1nMBPBuMJC19MgUrljJtDiS8rTGizh/euL8maX2kGeBi84Zzi/2vPHz+gD0t3Gk+dvaWS+ob4FMzrrxIOi05MEn4ipyukShqCyBPIG+9kiBAA0/77OfiexmWfx/wsD+Cq4kn+LY5BcqNAkEUTN/Zr8fU7t2DWRYRAvQo8tTO6p2Zl3fiEO0zehe1XC3VSlcfI1Cn50Vc0Xa2wE8C24yMI92Fewpdqt21yh8fb9/LiVKln/aikpz/5IKDd3864yi9fXsptGdGIJKHZ476Q+rYnv7qFL8MrhwTpbWh0OOT9zQNxpRzxEH8rIg3Ss2WBoiSi6iE2aMNyFzHm0gKhNBzUFyS5S8bWcjQpLXkpSrkGWR2NaavKACFgr7c2sDhtBtoGNtxv+h/ww6aUMCx8lqMu7iIA4heRTcVo3ZWaDT7OpRAKxfdUbm2E0sdrRQvqUSQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(66556008)(6506007)(2616005)(66946007)(66476007)(52116002)(956004)(38100700002)(6512007)(450100002)(8676002)(8936002)(478600001)(2906002)(6486002)(86362001)(26005)(186003)(16526019)(83380400001)(5660300002)(1076003)(36756003)(966005)(6666004)(316002)(38350700002)(69590400013);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?r8pbuflNfR34cp6F5jgurXLNpGleMLuHvlU8Ath29paf1GlX27/nQw4z5pIh?=
+ =?us-ascii?Q?JIlCc1mmlT2Pei/ttpRxQmagHbI4aHUY2i8RCvt8F6K/Ju4iu5YvKYoX4MxU?=
+ =?us-ascii?Q?e+ZtaCroOucIRDUimvEeulZpTTBKBKUV0FoTxEnph+cIJ8O303FTJ1pkcvv5?=
+ =?us-ascii?Q?VkNGQQ/6f2RPXoNHOTWMsCrUlwm9cmx14zzzrqB1jkXxH4EeTqeriVBvNmec?=
+ =?us-ascii?Q?4odrzE9+DbuC3CqqNXDUMPoGpmaLOUyRtevYFMMHq1Kz1QBZfnULSzk2wdNT?=
+ =?us-ascii?Q?mDnniGiSssoZpA3VKRzo7ZxSCFBK2HrMqA/pH2TEfbYtpk7DrnV7kqnAb5A1?=
+ =?us-ascii?Q?Oxt7uDif+D+o3zuIdBhe08h1ZAmT8FJinWLXELRTgdyMNrbsroxRYwhjI4Kz?=
+ =?us-ascii?Q?RY0TiRI0aqq0DWA8vlSkmCd41E4hzdfTLIdWKmzYj2m6rAHhoYkrRG/smP4D?=
+ =?us-ascii?Q?KemXff0kRjkZ6IVeQHuqo0TIAHXsyuOXVEPvKDUYiROmZB8HdOSg7Ar/U8mK?=
+ =?us-ascii?Q?HdNQUKO9a959JySiMGEAymTUzWEbZwPsP/Nm3qjCJeTfSi5heNx3qDLyFR9C?=
+ =?us-ascii?Q?NfvLutR2nI7PYlpp62pi+t343puJjXB2BOB5lPZWmv6KkY7P2ribYd7X54rJ?=
+ =?us-ascii?Q?cI9xIYFevoEYrOmw6gWzBWgBYT5VJUJhUAhOQzXpphcp105wpXa7F6+mzD9t?=
+ =?us-ascii?Q?9gAFyAJ+aPoPhsVfk/ymtHI7bnxYQI29CxV0BIa7Zu/AxR6lPccy+EBA/1xv?=
+ =?us-ascii?Q?2qY4IQc/TLEVliove3eokAeTFoHeIc5UcvjNKNQOLpxKT9r6sh1yGtZeMQ2I?=
+ =?us-ascii?Q?GRiOOLgNiyCZQGkVNv4UowyAcr4TNXQB5IDWe7jqwydb+wj5ySyoKRM4cWxa?=
+ =?us-ascii?Q?8QKmFZ93CuN8RFtirZt5hCWNV8402DRVeXaU0eptC7WRRHfJgUNfU5gIoNal?=
+ =?us-ascii?Q?/69g75lDzjRKOC1TQUexX9ReWT/whtKw9MT1ikifH1AsMEMgbvb3B4BA/zlC?=
+ =?us-ascii?Q?Og487EAGY104lN1lNsugkdVuMn+Cou6AOzApf+yqpnSj36ZpABZe9EbfjhxP?=
+ =?us-ascii?Q?Jz+srovsN38Uof2ZKLsDkWyOj2H3auPsw0PYpjtggBEGxiSukclRo7O6fKiX?=
+ =?us-ascii?Q?g9uLKLDcIssCMb8gE+6/wE3cm0J+3ALlc91o2qLoLdoUVJXThj5co+Duodhc?=
+ =?us-ascii?Q?aQVUEmsWoN14Ig1MheVQL4N314IwInpFkvdEK3fDlySPHE9bqsfqbkPMwbTz?=
+ =?us-ascii?Q?tk5hGPPXzmUqAy3ATe4cTnNedsg5OllZjiWSJH98HjxNeq6mOmfNx5eSZYyO?=
+ =?us-ascii?Q?7jbt9rmaugOys0IciJwcKbyd?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8e57780-3e7c-41d7-4028-08d90c44969a
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2021 01:58:17.5219 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: swAHU8zCH/lL1mRD/ZJu5t0ozyBZjQGf1p+VR5v1P5zvNB3lwOp5tnn7m07bYKnmeBeOB2MNl99N8oPJgI+O7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,121 +112,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0641137119=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---===============0641137119==
-Content-Type: multipart/alternative; boundary="179255a3cb05f6d28177d11c5a"
+This patch series is a prototype for supporting CRIU for ROCm
+applications. More work is needed before this can be upstreamed and
+released, including a new ioctl API that is extensible without breaking
+the ABI.
 
-This is a multi-part message in MIME format.
---179255a3cb05f6d28177d11c5a
-Content-Type: text/plain; format=flowed; charset="us-ascii"
-Content-Transfer-Encoding: 8bit
+The user mode code to go with this can be found at
+https://github.com/RadeonOpenCompute/criu/tree/criu-dev/test/others/ext-kfd
+It will be discussed with the CRIU community on criu@openvz.org and
+evolve together with this patch series.
 
-On April 30, 2021 18:00:58 "Dixit, Ashutosh" <ashutosh.dixit@intel.com> wrote:
+This patch series is also available on github:
+https://github.com/RadeonOpenCompute/ROCK-Kernel-Driver/commits/fxkamd/criu-wip
 
-> On Fri, 30 Apr 2021 15:26:09 -0700, Umesh Nerlige Ramappa wrote:
->>
->> Looks like the engine can be dropped since all timestamps are in sync. I
->> just have one more question here. The timestamp itself is 36 bits.  Should
->> the uapi also report the timestamp width to the user OR should I just
->> return the lower 32 bits of the timestamp?
+David Yat Sin (9):
+  drm/amdkfd: CRIU add queues support
+  drm/amdkfd: CRIU restore queue ids
+  drm/amdkfd: CRIU restore sdma id for queues
+  drm/amdkfd: CRIU restore queue doorbell id
+  drm/amdkfd: CRIU restore CU mask for queues
+  drm/amdkfd: CRIU dump and restore queue mqds
+  drm/amdkfd: CRIU dump/restore queue control stack
+  drm/amdkfd: CRIU dump and restore events
+  drm/amdkfd: CRIU implement gpu_id remapping
 
-Yeah, I think reporting the timestamp width is a good idea since we're 
-reporting the period/frequency here.
+Rajneesh Bhardwaj (8):
+  x86/configs: CRIU update release defconfig
+  x86/configs: CRIU update debug rock defconfig
+  drm/amdkfd: CRIU Introduce Checkpoint-Restore APIs
+  drm/amdkfd: CRIU Implement KFD helper ioctl
+  drm/amdkfd: CRIU Implement KFD dumper ioctl
+  drm/amdkfd: CRIU Implement KFD restore ioctl
+  drm/amdkfd: CRIU Implement KFD resume ioctl
+  Revert "drm/amdgpu: Remove verify_access shortcut for KFD BOs"
 
->>
-> How would exposing only the lower 32 bits of the timestamp work?
->
-> The way to avoid exposing the width would be to expose the timestamp as a
-> regular 64 bit value. In the kernel engine state, have a variable for the
-> counter and keep on accumulating that (on each query) to full 64 bits in
-> spite of the 36 bit HW counter overflow.
+ arch/x86/configs/rock-dbg_defconfig           |   53 +-
+ arch/x86/configs/rock-rel_defconfig           |   13 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |    5 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |   51 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   27 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |    2 +
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      | 1445 ++++++++++++++---
+ drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c       |    2 +-
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c |  178 +-
+ .../drm/amd/amdkfd/kfd_device_queue_manager.h |   11 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_events.c       |  163 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h  |   11 +
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_cik.c  |   74 +
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c  |   75 +
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c   |   86 +
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_vi.c   |   75 +
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |   72 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c      |   68 +-
+ .../amd/amdkfd/kfd_process_queue_manager.c    |   68 +-
+ include/uapi/linux/kfd_ioctl.h                |  110 +-
+ 20 files changed, 2304 insertions(+), 285 deletions(-)
 
-That's doesn't actually work since you can query the 64-bit timestamp value 
-from the GPU. The way this is handled in Vulkan is that the number of 
-timestamp bits is reported to the application as a queue property.
-
---Jason
->
-
-
-
---179255a3cb05f6d28177d11c5a
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
-w3.org/TR/html4/loose.dtd">
-<html>
-<body>
-<div dir=3D"auto">
-<div dir=3D"auto"><span style=3D"font-size: 12pt;">On April 30, 2021 18:00:=
-58 "Dixit, Ashutosh" &lt;ashutosh.dixit@intel.com&gt; wrote:</span></div><d=
-iv id=3D"aqm-original" style=3D"color: black;">
-<div><br></div>
-<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin: 0 0 0 0.75=
-ex; border-left: 1px solid #808080; padding-left: 0.75ex;">
-<div dir=3D"auto">On Fri, 30 Apr 2021 15:26:09 -0700, Umesh Nerlige Ramappa=
- wrote:</div>
-<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin: 0 0 0 0.75=
-ex; border-left: 1px solid #0099CC; padding-left: 0.75ex;">
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">Looks like the engine can be dropped since all timestamps=
- are in sync. I</div>
-<div dir=3D"auto">just have one more question here. The timestamp itself is=
- 36 bits. &nbsp;Should</div>
-<div dir=3D"auto">the uapi also report the timestamp width to the user OR s=
-hould I just</div>
-<div dir=3D"auto">return the lower 32 bits of the timestamp?</div></blockqu=
-ote></blockquote></div><div dir=3D"auto"><br></div><div dir=3D"auto">Yeah, =
-I think reporting the timestamp width is a good idea since we're reporting =
-the period/frequency here.</div><div dir=3D"auto"><br></div><div id=3D"aqm-=
-original" style=3D"color: black;" dir=3D"auto"><blockquote type=3D"cite" cl=
-ass=3D"gmail_quote" style=3D"margin: 0 0 0 0.75ex; border-left: 1px solid #=
-808080; padding-left: 0.75ex;"><blockquote type=3D"cite" class=3D"gmail_quo=
-te" style=3D"margin: 0 0 0 0.75ex; border-left: 1px solid #0099CC; padding-=
-left: 0.75ex;"><div dir=3D"auto"></div></blockquote>
-<div dir=3D"auto">How would exposing only the lower 32 bits of the timestam=
-p work?</div>
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">The way to avoid exposing the width would be to expose th=
-e timestamp as a</div>
-<div dir=3D"auto">regular 64 bit value. In the kernel engine state, have a =
-variable for the</div>
-<div dir=3D"auto">counter and keep on accumulating that (on each query) to =
-full 64 bits in</div>
-<div dir=3D"auto">spite of the 36 bit HW counter overflow.</div></blockquot=
-e></div><div dir=3D"auto"><br></div><div dir=3D"auto">That's doesn't actual=
-ly work since you can query the 64-bit timestamp value from the GPU. The wa=
-y this is handled in Vulkan is that the number of timestamp bits is reporte=
-d to the application as a queue property.</div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto">--Jason</div><div id=3D"aqm-original" style=3D"color: bla=
-ck;" dir=3D"auto"><blockquote type=3D"cite" class=3D"gmail_quote" style=3D"=
-margin: 0 0 0 0.75ex; border-left: 1px solid #808080; padding-left: 0.75ex;=
-">
-</blockquote>
-</div><div dir=3D"auto"><br></div>
-</div></body>
-</html>
-
---179255a3cb05f6d28177d11c5a--
-
-
---===============0641137119==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0641137119==--
-
