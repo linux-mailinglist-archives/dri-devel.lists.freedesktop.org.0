@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1F0370677
-	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 10:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75276370719
+	for <lists+dri-devel@lfdr.de>; Sat,  1 May 2021 13:59:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0186E07D;
-	Sat,  1 May 2021 08:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE6406E192;
+	Sat,  1 May 2021 11:59:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2064 seconds by postgrey-1.36 at gabe;
- Sat, 01 May 2021 08:50:18 UTC
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0E0C6E07D;
- Sat,  1 May 2021 08:50:18 +0000 (UTC)
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4FXMWC5W4fz9sRs;
- Sat,  1 May 2021 10:15:51 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
- by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fg9IUuAJTwT6; Sat,  1 May 2021 10:15:51 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4FXMWC4ZYsz9sRq;
- Sat,  1 May 2021 10:15:51 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 6D55F8B76F;
- Sat,  1 May 2021 10:15:51 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id y1IqsAiUoALE; Sat,  1 May 2021 10:15:51 +0200 (CEST)
-Received: from po15610vm.idsi0.si.c-s.fr (unknown [192.168.4.90])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 25D8D8B763;
- Sat,  1 May 2021 10:15:51 +0200 (CEST)
-Received: by po15610vm.idsi0.si.c-s.fr (Postfix, from userid 0)
- id 04197642A5; Sat,  1 May 2021 08:15:50 +0000 (UTC)
-Message-Id: <1acb97f184bf08078ebe0ba8a20b41937949a5a8.1619856556.git.christophe.leroy@csgroup.eu>
-In-Reply-To: <f148cffa418ca0e6e4d79657fc8a9108917291ce.1619856556.git.christophe.leroy@csgroup.eu>
-References: <f148cffa418ca0e6e4d79657fc8a9108917291ce.1619856556.git.christophe.leroy@csgroup.eu>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: [PATCH RESEND] drm/i915/gem: Use user_write_access_begin() instead of
- user_access_begin()
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>
-Date: Sat,  1 May 2021 08:15:51 +0000 (UTC)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5ECA6E192
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 May 2021 11:59:18 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id 2so1103316lft.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 May 2021 04:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QLxSp/ePlciHnCzVMGdXgyEZo0R6BmfwYtxDKjI/pqU=;
+ b=jcIi+kb7+jywxzREwePLOZyikDcoPK0Z0M1f/JhBnLif3jWV6ATJl0nXzhuKTa72Qm
+ PQMeKbrrwBH5qU6RcI+NNhRgPjaBrwIYgPMpQvGGv4MtxK1r7IIEWX/CQ02RVRl1iFbP
+ P42ki89fVr+tczmJUY02sjARyeOt/wHldYK1fffQ9dF5dcWQqYv7a03b2KoKkb/yXUB7
+ czOvMyriPuA18ukQogxg9Z3Yk57cksDHyHt43PE/7IA3zPwZH4HW8aFNpNk1EGarsOXl
+ pUjfQOfyivF2OAuny4eJEDvj7wVkpPBX0oatWIhPAKVSouQyEufzyxJr1bzere5HjMFs
+ edJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QLxSp/ePlciHnCzVMGdXgyEZo0R6BmfwYtxDKjI/pqU=;
+ b=G1tpgGBZ1nS2oop7NAFf4iwpOhsFQNxNw20/PTruvozVbWoWb5Jz/TtWvUC5Vkj4yF
+ S6g6YqHp0P2UIBEmD/tpfr6NNUTwhcDDUEARvCS4JJ8c5QX69tkI5KxKV0ENUb5UF5+p
+ JiXWy0YTX/kUfcyXiomVodtJtVrIrRK5USybxZwA8G6q1q1vWDW0yHTPFw9ybVw+2yKA
+ zmPlprbOEE2YK/GuF0Cb92f4N6q2UGpriLMBvINN09P1a3+vBP1fZQzdQ2alsggUfpgQ
+ 7vVWjwKNKW1fwNUlGRYXEWrlIX1WJF4sjtmzKtReVNGxoBTBpeCxTz+3mJfnIN4ig9a0
+ WRTg==
+X-Gm-Message-State: AOAM530g6GaDKYhhsgbU2xklkd7fc6UGXDxjEaJ8kMfQzJ+5VM2Q1o1l
+ ntfSQ9LhcXidRhXEuyfT4i9h1ndg7jyYQuASgPGUCA==
+X-Google-Smtp-Source: ABdhPJw+F9WmElJwhUk24Nw7bpvwEd3U15o9b5hWV9qrpBy3C0X7Zj7MCbUNd4hF1kIE4C9w9FMOjoMDoXiThg28GGk=
+X-Received: by 2002:a05:6512:3e1f:: with SMTP id
+ i31mr6880595lfv.29.1619870357179; 
+ Sat, 01 May 2021 04:59:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210423165906.2504169-1-dianders@chromium.org>
+ <20210423095743.v5.9.I3e68fa38c4ccbdbdf145cad2b01e83a1e5eac302@changeid>
+In-Reply-To: <20210423095743.v5.9.I3e68fa38c4ccbdbdf145cad2b01e83a1e5eac302@changeid>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 1 May 2021 13:59:06 +0200
+Message-ID: <CACRpkdbZxauBFLvR_MMx4WD+K6DftK19Fivt_mkE=+Xr2EPUvQ@mail.gmail.com>
+Subject: Re: [PATCH v5 09/20] drm/bridge: ti-sn65dsi86: Break GPIO and
+ MIPI-to-eDP bridge into sub-drivers
+To: Douglas Anderson <dianders@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,59 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mm@kvack.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: Rob Clark <robdclark@chromium.org>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Steev Klimaszewski <steev@kali.org>, Stephen Boyd <swboyd@chromium.org>,
+ Wolfram Sang <wsa@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Robert Foss <robert.foss@linaro.org>, linux-i2c <linux-i2c@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-eb_copy_relocations() only do unsafe_put_user(), it only
-requires write access to user.
+On Fri, Apr 23, 2021 at 6:59 PM Douglas Anderson <dianders@chromium.org> wrote:
 
-Use user_write_access_begin() instead of user_access_begin().
+> Let's use the newly minted aux bus to break up the driver into sub
+> drivers. We're not doing a full breakup here: all the code is still in
+> the same file and remains largely untouched. The big goal here of
+> using sub-drivers is to allow part of our code to finish probing even
+> if some other code needs to defer. This can solve some chicken-and-egg
+> problems. Specifically:
+> - In commit 48834e6084f1 ("drm/panel-simple: Support hpd-gpios for
+>   delaying prepare()") we had to add a bit of a hack to simpel-panel
+>   to support HPD showing up late. We can get rid of that hack now
+>   since the GPIO part of our driver can finish probing early.
+> - We have a desire to expose our DDC bus to simple-panel (and perhaps
+>   to a backlight driver?). That will end up with the same
+>   chicken-and-egg problem. A future patch to move this to a sub-driver
+>   will fix it.
+> - If/when we support the PWM functionality present in the bridge chip
+>   for a backlight we'll end up with another chicken-and-egg
+>   problem. If we allow the PWM to be a sub-driver too then it solves
+>   this problem.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+> Changes in v5:
+> - Fix module compile problems (Bjorn + kbuild bot)
+> - Remove useless MODULE_DEVICE_TABLE (Bjorn).
 
-Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
----
-Resending with mm list in addition
+This is generally a good idea. I have no idea when to use
+auxbus or MFD but I trust that you researched that so:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 5964e67c7d36..f7a7bb45274b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -1907,14 +1907,14 @@ static int eb_copy_relocations(const struct i915_execbuffer *eb)
- 		 * happened we would make the mistake of assuming that the
- 		 * relocations were valid.
- 		 */
--		if (!user_access_begin(urelocs, size))
-+		if (!user_write_access_begin(urelocs, size))
- 			goto end;
- 
- 		for (copied = 0; copied < nreloc; copied++)
- 			unsafe_put_user(-1,
- 					&urelocs[copied].presumed_offset,
- 					end_user);
--		user_access_end();
-+		user_write_access_end();
- 
- 		eb->exec[i].relocs_ptr = (uintptr_t)relocs;
- 	}
-@@ -1922,7 +1922,7 @@ static int eb_copy_relocations(const struct i915_execbuffer *eb)
- 	return 0;
- 
- end_user:
--	user_access_end();
-+	user_write_access_end();
- end:
- 	kvfree(relocs);
- 	err = -EFAULT;
--- 
-2.25.0
-
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
