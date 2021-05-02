@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C178370B2D
-	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 12:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9F4370B28
+	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 12:50:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBBBF6E7E5;
-	Sun,  2 May 2021 10:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A87996E1D5;
+	Sun,  2 May 2021 10:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAC2C6E1D5
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED3226E210
  for <dri-devel@lists.freedesktop.org>; Sun,  2 May 2021 10:49:57 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 48AA2B0B3;
+ by mx2.suse.de (Postfix) with ESMTP id 83BCAB11D;
  Sun,  2 May 2021 10:49:56 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch
-Subject: [PATCH 2/7] drm/mga: Remove references to struct drm_device.pdev
-Date: Sun,  2 May 2021 12:49:48 +0200
-Message-Id: <20210502104953.21768-3-tzimmermann@suse.de>
+Subject: [PATCH 3/7] drm/r128: Remove references to struct drm_device.pdev
+Date: Sun,  2 May 2021 12:49:49 +0200
+Message-Id: <20210502104953.21768-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210502104953.21768-1-tzimmermann@suse.de>
 References: <20210502104953.21768-1-tzimmermann@suse.de>
@@ -49,70 +49,98 @@ an upcast from dev.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mga/mga_dma.c   | 13 +++++++------
- drivers/gpu/drm/mga/mga_state.c |  3 ++-
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/r128/ati_pcigart.c | 11 ++++++-----
+ drivers/gpu/drm/r128/r128_drv.c    |  4 +++-
+ drivers/gpu/drm/r128/r128_state.c  |  3 ++-
+ 3 files changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/mga/mga_dma.c b/drivers/gpu/drm/mga/mga_dma.c
-index 1cb7d120d18f..53a119a761df 100644
---- a/drivers/gpu/drm/mga/mga_dma.c
-+++ b/drivers/gpu/drm/mga/mga_dma.c
-@@ -389,6 +389,7 @@ int mga_freelist_put(struct drm_device *dev, struct drm_buf *buf)
- 
- int mga_driver_load(struct drm_device *dev, unsigned long flags)
+diff --git a/drivers/gpu/drm/r128/ati_pcigart.c b/drivers/gpu/drm/r128/ati_pcigart.c
+index fbb0cfd79758..5d73043446e3 100644
+--- a/drivers/gpu/drm/r128/ati_pcigart.c
++++ b/drivers/gpu/drm/r128/ati_pcigart.c
+@@ -77,6 +77,7 @@ static void drm_ati_free_pcigart_table(struct drm_device *dev,
+ int drm_ati_pcigart_cleanup(struct drm_device *dev, struct drm_ati_pcigart_info *gart_info)
  {
+ 	struct drm_sg_mem *entry = dev->sg;
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	drm_mga_private_t *dev_priv;
- 	int ret;
+ 	unsigned long pages;
+ 	int i;
+ 	int max_pages;
+@@ -96,8 +97,7 @@ int drm_ati_pcigart_cleanup(struct drm_device *dev, struct drm_ati_pcigart_info
+ 		for (i = 0; i < pages; i++) {
+ 			if (!entry->busaddr[i])
+ 				break;
+-			pci_unmap_page(dev->pdev, entry->busaddr[i],
+-					 PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
++			pci_unmap_page(pdev, entry->busaddr[i], PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
+ 		}
  
-@@ -400,9 +401,9 @@ int mga_driver_load(struct drm_device *dev, unsigned long flags)
- 	 * device is 0x0021 (HB6 Universal PCI-PCI bridge), we reject the
- 	 * device.
- 	 */
--	if ((dev->pdev->device == 0x0525) && dev->pdev->bus->self
--	    && (dev->pdev->bus->self->vendor == 0x3388)
--	    && (dev->pdev->bus->self->device == 0x0021)
-+	if ((pdev->device == 0x0525) && pdev->bus->self
-+	    && (pdev->bus->self->vendor == 0x3388)
-+	    && (pdev->bus->self->device == 0x0021)
- 	    && dev->agp) {
- 		/* FIXME: This should be quirked in the pci core, but oh well
- 		 * the hw probably stopped existing. */
-@@ -419,10 +420,10 @@ int mga_driver_load(struct drm_device *dev, unsigned long flags)
- 	dev_priv->usec_timeout = MGA_DEFAULT_USEC_TIMEOUT;
- 	dev_priv->chipset = flags;
- 
--	pci_set_master(dev->pdev);
-+	pci_set_master(pdev);
- 
--	dev_priv->mmio_base = pci_resource_start(dev->pdev, 1);
--	dev_priv->mmio_size = pci_resource_len(dev->pdev, 1);
-+	dev_priv->mmio_base = pci_resource_start(pdev, 1);
-+	dev_priv->mmio_size = pci_resource_len(pdev, 1);
- 
- 	ret = drm_vblank_init(dev, 1);
- 
-diff --git a/drivers/gpu/drm/mga/mga_state.c b/drivers/gpu/drm/mga/mga_state.c
-index 0dec4062e5a2..5b7247b58451 100644
---- a/drivers/gpu/drm/mga/mga_state.c
-+++ b/drivers/gpu/drm/mga/mga_state.c
-@@ -1005,6 +1005,7 @@ int mga_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ 		if (gart_info->gart_table_location == DRM_ATI_GART_MAIN)
+@@ -116,6 +116,7 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
  {
- 	drm_mga_private_t *dev_priv = dev->dev_private;
- 	drm_mga_getparam_t *param = data;
+ 	struct drm_local_map *map = &gart_info->mapping;
+ 	struct drm_sg_mem *entry = dev->sg;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	void *address = NULL;
+ 	unsigned long pages;
+ 	u32 *pci_gart = NULL, page_base, gart_idx;
+@@ -131,7 +132,7 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
+ 	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN) {
+ 		DRM_DEBUG("PCI: no table in VRAM: using normal RAM\n");
+ 
+-		if (pci_set_dma_mask(dev->pdev, gart_info->table_mask)) {
++		if (pci_set_dma_mask(pdev, gart_info->table_mask)) {
+ 			DRM_ERROR("fail to set dma mask to 0x%Lx\n",
+ 				  (unsigned long long)gart_info->table_mask);
+ 			ret = -EFAULT;
+@@ -170,9 +171,9 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
+ 	gart_idx = 0;
+ 	for (i = 0; i < pages; i++) {
+ 		/* we need to support large memory configurations */
+-		entry->busaddr[i] = pci_map_page(dev->pdev, entry->pagelist[i],
++		entry->busaddr[i] = pci_map_page(pdev, entry->pagelist[i],
+ 						 0, PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
+-		if (pci_dma_mapping_error(dev->pdev, entry->busaddr[i])) {
++		if (pci_dma_mapping_error(pdev, entry->busaddr[i])) {
+ 			DRM_ERROR("unable to map PCIGART pages!\n");
+ 			drm_ati_pcigart_cleanup(dev, gart_info);
+ 			address = NULL;
+diff --git a/drivers/gpu/drm/r128/r128_drv.c b/drivers/gpu/drm/r128/r128_drv.c
+index b7a5f162ebae..e35a3a1449bd 100644
+--- a/drivers/gpu/drm/r128/r128_drv.c
++++ b/drivers/gpu/drm/r128/r128_drv.c
+@@ -85,7 +85,9 @@ static struct drm_driver driver = {
+ 
+ int r128_driver_load(struct drm_device *dev, unsigned long flags)
+ {
+-	pci_set_master(dev->pdev);
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++
++	pci_set_master(pdev);
+ 	return drm_vblank_init(dev, 1);
+ }
+ 
+diff --git a/drivers/gpu/drm/r128/r128_state.c b/drivers/gpu/drm/r128/r128_state.c
+index 9d74c9d914cb..ac13fc2a0214 100644
+--- a/drivers/gpu/drm/r128/r128_state.c
++++ b/drivers/gpu/drm/r128/r128_state.c
+@@ -1582,6 +1582,7 @@ int r128_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv
+ {
+ 	drm_r128_private_t *dev_priv = dev->dev_private;
+ 	drm_r128_getparam_t *param = data;
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
  	int value;
  
- 	if (!dev_priv) {
-@@ -1016,7 +1017,7 @@ int mga_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ 	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+@@ -1590,7 +1591,7 @@ int r128_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv
  
  	switch (param->param) {
- 	case MGA_PARAM_IRQ_NR:
+ 	case R128_PARAM_IRQ_NR:
 -		value = dev->pdev->irq;
 +		value = pdev->irq;
  		break;
- 	case MGA_PARAM_CARD_TYPE:
- 		value = dev_priv->chipset;
+ 	default:
+ 		return -EINVAL;
 -- 
 2.31.1
 
