@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9F4370B28
-	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 12:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E51370B29
+	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 12:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A87996E1D5;
-	Sun,  2 May 2021 10:49:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A326E529;
+	Sun,  2 May 2021 10:49:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED3226E210
- for <dri-devel@lists.freedesktop.org>; Sun,  2 May 2021 10:49:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4BF6E05F
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 May 2021 10:49:58 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 83BCAB11D;
+ by mx2.suse.de (Postfix) with ESMTP id BDD37B121;
  Sun,  2 May 2021 10:49:56 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch
-Subject: [PATCH 3/7] drm/r128: Remove references to struct drm_device.pdev
-Date: Sun,  2 May 2021 12:49:49 +0200
-Message-Id: <20210502104953.21768-4-tzimmermann@suse.de>
+Subject: [PATCH 4/7] drm/savage: Remove references to struct drm_device.pdev
+Date: Sun,  2 May 2021 12:49:50 +0200
+Message-Id: <20210502104953.21768-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210502104953.21768-1-tzimmermann@suse.de>
 References: <20210502104953.21768-1-tzimmermann@suse.de>
@@ -49,98 +49,90 @@ an upcast from dev.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/r128/ati_pcigart.c | 11 ++++++-----
- drivers/gpu/drm/r128/r128_drv.c    |  4 +++-
- drivers/gpu/drm/r128/r128_state.c  |  3 ++-
- 3 files changed, 11 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/savage/savage_bci.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/r128/ati_pcigart.c b/drivers/gpu/drm/r128/ati_pcigart.c
-index fbb0cfd79758..5d73043446e3 100644
---- a/drivers/gpu/drm/r128/ati_pcigart.c
-+++ b/drivers/gpu/drm/r128/ati_pcigart.c
-@@ -77,6 +77,7 @@ static void drm_ati_free_pcigart_table(struct drm_device *dev,
- int drm_ati_pcigart_cleanup(struct drm_device *dev, struct drm_ati_pcigart_info *gart_info)
+diff --git a/drivers/gpu/drm/savage/savage_bci.c b/drivers/gpu/drm/savage/savage_bci.c
+index 606e5b807a6e..e33385dfe3ed 100644
+--- a/drivers/gpu/drm/savage/savage_bci.c
++++ b/drivers/gpu/drm/savage/savage_bci.c
+@@ -547,6 +547,7 @@ static void savage_fake_dma_flush(drm_savage_private_t * dev_priv)
+ 
+ int savage_driver_load(struct drm_device *dev, unsigned long chipset)
  {
- 	struct drm_sg_mem *entry = dev->sg;
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	unsigned long pages;
- 	int i;
- 	int max_pages;
-@@ -96,8 +97,7 @@ int drm_ati_pcigart_cleanup(struct drm_device *dev, struct drm_ati_pcigart_info
- 		for (i = 0; i < pages; i++) {
- 			if (!entry->busaddr[i])
- 				break;
--			pci_unmap_page(dev->pdev, entry->busaddr[i],
--					 PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
-+			pci_unmap_page(pdev, entry->busaddr[i], PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
- 		}
+ 	drm_savage_private_t *dev_priv;
  
- 		if (gart_info->gart_table_location == DRM_ATI_GART_MAIN)
-@@ -116,6 +116,7 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
- {
- 	struct drm_local_map *map = &gart_info->mapping;
- 	struct drm_sg_mem *entry = dev->sg;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	void *address = NULL;
- 	unsigned long pages;
- 	u32 *pci_gart = NULL, page_base, gart_idx;
-@@ -131,7 +132,7 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
- 	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN) {
- 		DRM_DEBUG("PCI: no table in VRAM: using normal RAM\n");
+ 	dev_priv = kzalloc(sizeof(drm_savage_private_t), GFP_KERNEL);
+@@ -557,7 +558,7 @@ int savage_driver_load(struct drm_device *dev, unsigned long chipset)
  
--		if (pci_set_dma_mask(dev->pdev, gart_info->table_mask)) {
-+		if (pci_set_dma_mask(pdev, gart_info->table_mask)) {
- 			DRM_ERROR("fail to set dma mask to 0x%Lx\n",
- 				  (unsigned long long)gart_info->table_mask);
- 			ret = -EFAULT;
-@@ -170,9 +171,9 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
- 	gart_idx = 0;
- 	for (i = 0; i < pages; i++) {
- 		/* we need to support large memory configurations */
--		entry->busaddr[i] = pci_map_page(dev->pdev, entry->pagelist[i],
-+		entry->busaddr[i] = pci_map_page(pdev, entry->pagelist[i],
- 						 0, PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
--		if (pci_dma_mapping_error(dev->pdev, entry->busaddr[i])) {
-+		if (pci_dma_mapping_error(pdev, entry->busaddr[i])) {
- 			DRM_ERROR("unable to map PCIGART pages!\n");
- 			drm_ati_pcigart_cleanup(dev, gart_info);
- 			address = NULL;
-diff --git a/drivers/gpu/drm/r128/r128_drv.c b/drivers/gpu/drm/r128/r128_drv.c
-index b7a5f162ebae..e35a3a1449bd 100644
---- a/drivers/gpu/drm/r128/r128_drv.c
-+++ b/drivers/gpu/drm/r128/r128_drv.c
-@@ -85,7 +85,9 @@ static struct drm_driver driver = {
+ 	dev_priv->chipset = (enum savage_family)chipset;
  
- int r128_driver_load(struct drm_device *dev, unsigned long flags)
- {
 -	pci_set_master(dev->pdev);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+
 +	pci_set_master(pdev);
- 	return drm_vblank_init(dev, 1);
+ 
+ 	return 0;
  }
- 
-diff --git a/drivers/gpu/drm/r128/r128_state.c b/drivers/gpu/drm/r128/r128_state.c
-index 9d74c9d914cb..ac13fc2a0214 100644
---- a/drivers/gpu/drm/r128/r128_state.c
-+++ b/drivers/gpu/drm/r128/r128_state.c
-@@ -1582,6 +1582,7 @@ int r128_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv
+@@ -572,16 +573,17 @@ int savage_driver_load(struct drm_device *dev, unsigned long chipset)
+ int savage_driver_firstopen(struct drm_device *dev)
  {
- 	drm_r128_private_t *dev_priv = dev->dev_private;
- 	drm_r128_getparam_t *param = data;
+ 	drm_savage_private_t *dev_priv = dev->dev_private;
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int value;
+ 	unsigned long mmio_base, fb_base, fb_size, aperture_base;
+ 	int ret = 0;
  
- 	DEV_INIT_TEST_WITH_RETURN(dev_priv);
-@@ -1590,7 +1591,7 @@ int r128_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv
+ 	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		fb_base = pci_resource_start(dev->pdev, 0);
++		fb_base = pci_resource_start(pdev, 0);
+ 		fb_size = SAVAGE_FB_SIZE_S3;
+ 		mmio_base = fb_base + SAVAGE_FB_SIZE_S3;
+ 		aperture_base = fb_base + SAVAGE_APERTURE_OFFSET;
+ 		/* this should always be true */
+-		if (pci_resource_len(dev->pdev, 0) == 0x08000000) {
++		if (pci_resource_len(pdev, 0) == 0x08000000) {
+ 			/* Don't make MMIO write-cobining! We need 3
+ 			 * MTRRs. */
+ 			dev_priv->mtrr_handles[0] =
+@@ -595,16 +597,16 @@ int savage_driver_firstopen(struct drm_device *dev)
+ 		} else {
+ 			DRM_ERROR("strange pci_resource_len %08llx\n",
+ 				  (unsigned long long)
+-				  pci_resource_len(dev->pdev, 0));
++				  pci_resource_len(pdev, 0));
+ 		}
+ 	} else if (dev_priv->chipset != S3_SUPERSAVAGE &&
+ 		   dev_priv->chipset != S3_SAVAGE2000) {
+-		mmio_base = pci_resource_start(dev->pdev, 0);
+-		fb_base = pci_resource_start(dev->pdev, 1);
++		mmio_base = pci_resource_start(pdev, 0);
++		fb_base = pci_resource_start(pdev, 1);
+ 		fb_size = SAVAGE_FB_SIZE_S4;
+ 		aperture_base = fb_base + SAVAGE_APERTURE_OFFSET;
+ 		/* this should always be true */
+-		if (pci_resource_len(dev->pdev, 1) == 0x08000000) {
++		if (pci_resource_len(pdev, 1) == 0x08000000) {
+ 			/* Can use one MTRR to cover both fb and
+ 			 * aperture. */
+ 			dev_priv->mtrr_handles[0] =
+@@ -613,13 +615,13 @@ int savage_driver_firstopen(struct drm_device *dev)
+ 		} else {
+ 			DRM_ERROR("strange pci_resource_len %08llx\n",
+ 				  (unsigned long long)
+-				  pci_resource_len(dev->pdev, 1));
++				  pci_resource_len(pdev, 1));
+ 		}
+ 	} else {
+-		mmio_base = pci_resource_start(dev->pdev, 0);
+-		fb_base = pci_resource_start(dev->pdev, 1);
+-		fb_size = pci_resource_len(dev->pdev, 1);
+-		aperture_base = pci_resource_start(dev->pdev, 2);
++		mmio_base = pci_resource_start(pdev, 0);
++		fb_base = pci_resource_start(pdev, 1);
++		fb_size = pci_resource_len(pdev, 1);
++		aperture_base = pci_resource_start(pdev, 2);
+ 		/* Automatic MTRR setup will do the right thing. */
+ 	}
  
- 	switch (param->param) {
- 	case R128_PARAM_IRQ_NR:
--		value = dev->pdev->irq;
-+		value = pdev->irq;
- 		break;
- 	default:
- 		return -EINVAL;
 -- 
 2.31.1
 
