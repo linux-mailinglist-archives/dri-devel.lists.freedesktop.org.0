@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E51370B29
-	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 12:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FEE370B2C
+	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 12:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60A326E529;
-	Sun,  2 May 2021 10:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C5E76E05F;
+	Sun,  2 May 2021 10:50:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4BF6E05F
- for <dri-devel@lists.freedesktop.org>; Sun,  2 May 2021 10:49:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 346006E210
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 May 2021 10:49:59 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BDD37B121;
- Sun,  2 May 2021 10:49:56 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 07B89B125;
+ Sun,  2 May 2021 10:49:57 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch
-Subject: [PATCH 4/7] drm/savage: Remove references to struct drm_device.pdev
-Date: Sun,  2 May 2021 12:49:50 +0200
-Message-Id: <20210502104953.21768-5-tzimmermann@suse.de>
+Subject: [PATCH 5/7] drm/sis: Remove references to struct drm_device.pdev
+Date: Sun,  2 May 2021 12:49:51 +0200
+Message-Id: <20210502104953.21768-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210502104953.21768-1-tzimmermann@suse.de>
 References: <20210502104953.21768-1-tzimmermann@suse.de>
@@ -49,90 +49,25 @@ an upcast from dev.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/savage/savage_bci.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/sis/sis_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/savage/savage_bci.c b/drivers/gpu/drm/savage/savage_bci.c
-index 606e5b807a6e..e33385dfe3ed 100644
---- a/drivers/gpu/drm/savage/savage_bci.c
-+++ b/drivers/gpu/drm/savage/savage_bci.c
-@@ -547,6 +547,7 @@ static void savage_fake_dma_flush(drm_savage_private_t * dev_priv)
+diff --git a/drivers/gpu/drm/sis/sis_drv.c b/drivers/gpu/drm/sis/sis_drv.c
+index 2c54b33abb54..e35e719cf315 100644
+--- a/drivers/gpu/drm/sis/sis_drv.c
++++ b/drivers/gpu/drm/sis/sis_drv.c
+@@ -41,9 +41,10 @@ static struct pci_device_id pciidlist[] = {
  
- int savage_driver_load(struct drm_device *dev, unsigned long chipset)
+ static int sis_driver_load(struct drm_device *dev, unsigned long chipset)
  {
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	drm_savage_private_t *dev_priv;
- 
- 	dev_priv = kzalloc(sizeof(drm_savage_private_t), GFP_KERNEL);
-@@ -557,7 +558,7 @@ int savage_driver_load(struct drm_device *dev, unsigned long chipset)
- 
- 	dev_priv->chipset = (enum savage_family)chipset;
+ 	drm_sis_private_t *dev_priv;
  
 -	pci_set_master(dev->pdev);
 +	pci_set_master(pdev);
  
- 	return 0;
- }
-@@ -572,16 +573,17 @@ int savage_driver_load(struct drm_device *dev, unsigned long chipset)
- int savage_driver_firstopen(struct drm_device *dev)
- {
- 	drm_savage_private_t *dev_priv = dev->dev_private;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	unsigned long mmio_base, fb_base, fb_size, aperture_base;
- 	int ret = 0;
- 
- 	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
--		fb_base = pci_resource_start(dev->pdev, 0);
-+		fb_base = pci_resource_start(pdev, 0);
- 		fb_size = SAVAGE_FB_SIZE_S3;
- 		mmio_base = fb_base + SAVAGE_FB_SIZE_S3;
- 		aperture_base = fb_base + SAVAGE_APERTURE_OFFSET;
- 		/* this should always be true */
--		if (pci_resource_len(dev->pdev, 0) == 0x08000000) {
-+		if (pci_resource_len(pdev, 0) == 0x08000000) {
- 			/* Don't make MMIO write-cobining! We need 3
- 			 * MTRRs. */
- 			dev_priv->mtrr_handles[0] =
-@@ -595,16 +597,16 @@ int savage_driver_firstopen(struct drm_device *dev)
- 		} else {
- 			DRM_ERROR("strange pci_resource_len %08llx\n",
- 				  (unsigned long long)
--				  pci_resource_len(dev->pdev, 0));
-+				  pci_resource_len(pdev, 0));
- 		}
- 	} else if (dev_priv->chipset != S3_SUPERSAVAGE &&
- 		   dev_priv->chipset != S3_SAVAGE2000) {
--		mmio_base = pci_resource_start(dev->pdev, 0);
--		fb_base = pci_resource_start(dev->pdev, 1);
-+		mmio_base = pci_resource_start(pdev, 0);
-+		fb_base = pci_resource_start(pdev, 1);
- 		fb_size = SAVAGE_FB_SIZE_S4;
- 		aperture_base = fb_base + SAVAGE_APERTURE_OFFSET;
- 		/* this should always be true */
--		if (pci_resource_len(dev->pdev, 1) == 0x08000000) {
-+		if (pci_resource_len(pdev, 1) == 0x08000000) {
- 			/* Can use one MTRR to cover both fb and
- 			 * aperture. */
- 			dev_priv->mtrr_handles[0] =
-@@ -613,13 +615,13 @@ int savage_driver_firstopen(struct drm_device *dev)
- 		} else {
- 			DRM_ERROR("strange pci_resource_len %08llx\n",
- 				  (unsigned long long)
--				  pci_resource_len(dev->pdev, 1));
-+				  pci_resource_len(pdev, 1));
- 		}
- 	} else {
--		mmio_base = pci_resource_start(dev->pdev, 0);
--		fb_base = pci_resource_start(dev->pdev, 1);
--		fb_size = pci_resource_len(dev->pdev, 1);
--		aperture_base = pci_resource_start(dev->pdev, 2);
-+		mmio_base = pci_resource_start(pdev, 0);
-+		fb_base = pci_resource_start(pdev, 1);
-+		fb_size = pci_resource_len(pdev, 1);
-+		aperture_base = pci_resource_start(pdev, 2);
- 		/* Automatic MTRR setup will do the right thing. */
- 	}
- 
+ 	dev_priv = kzalloc(sizeof(drm_sis_private_t), GFP_KERNEL);
+ 	if (dev_priv == NULL)
 -- 
 2.31.1
 
