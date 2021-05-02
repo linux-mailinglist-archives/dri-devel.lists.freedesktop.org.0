@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A4B370B27
-	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 12:50:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C178370B2D
+	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 12:50:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 726206E151;
-	Sun,  2 May 2021 10:49:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBBBF6E7E5;
+	Sun,  2 May 2021 10:50:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B38F76E151
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAC2C6E1D5
  for <dri-devel@lists.freedesktop.org>; Sun,  2 May 2021 10:49:57 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 17BABB08C;
+ by mx2.suse.de (Postfix) with ESMTP id 48AA2B0B3;
  Sun,  2 May 2021 10:49:56 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch
-Subject: [PATCH 1/7] drm/i810: Remove references to struct drm_device.pdev
-Date: Sun,  2 May 2021 12:49:47 +0200
-Message-Id: <20210502104953.21768-2-tzimmermann@suse.de>
+Subject: [PATCH 2/7] drm/mga: Remove references to struct drm_device.pdev
+Date: Sun,  2 May 2021 12:49:48 +0200
+Message-Id: <20210502104953.21768-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210502104953.21768-1-tzimmermann@suse.de>
 References: <20210502104953.21768-1-tzimmermann@suse.de>
@@ -49,49 +49,70 @@ an upcast from dev.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/i810/i810_dma.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mga/mga_dma.c   | 13 +++++++------
+ drivers/gpu/drm/mga/mga_state.c |  3 ++-
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i810/i810_dma.c b/drivers/gpu/drm/i810/i810_dma.c
-index 88250860f8e4..8a728273d625 100644
---- a/drivers/gpu/drm/i810/i810_dma.c
-+++ b/drivers/gpu/drm/i810/i810_dma.c
-@@ -220,7 +220,7 @@ static int i810_dma_cleanup(struct drm_device *dev)
- 		if (dev_priv->ring.virtual_start)
- 			drm_legacy_ioremapfree(&dev_priv->ring.map, dev);
- 		if (dev_priv->hw_status_page) {
--			dma_free_coherent(&dev->pdev->dev, PAGE_SIZE,
-+			dma_free_coherent(dev->dev, PAGE_SIZE,
- 					  dev_priv->hw_status_page,
- 					  dev_priv->dma_status_page);
- 		}
-@@ -398,7 +398,7 @@ static int i810_dma_initialize(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/mga/mga_dma.c b/drivers/gpu/drm/mga/mga_dma.c
+index 1cb7d120d18f..53a119a761df 100644
+--- a/drivers/gpu/drm/mga/mga_dma.c
++++ b/drivers/gpu/drm/mga/mga_dma.c
+@@ -389,6 +389,7 @@ int mga_freelist_put(struct drm_device *dev, struct drm_buf *buf)
  
- 	/* Program Hardware Status Page */
- 	dev_priv->hw_status_page =
--		dma_alloc_coherent(&dev->pdev->dev, PAGE_SIZE,
-+		dma_alloc_coherent(dev->dev, PAGE_SIZE,
- 				   &dev_priv->dma_status_page, GFP_KERNEL);
- 	if (!dev_priv->hw_status_page) {
- 		dev->dev_private = (void *)dev_priv;
-@@ -1197,6 +1197,8 @@ static int i810_flip_bufs(struct drm_device *dev, void *data,
- 
- int i810_driver_load(struct drm_device *dev, unsigned long flags)
+ int mga_driver_load(struct drm_device *dev, unsigned long flags)
  {
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+
- 	dev->agp = drm_agp_init(dev);
- 	if (dev->agp) {
- 		dev->agp->agp_mtrr = arch_phys_wc_add(
-@@ -1209,7 +1211,7 @@ int i810_driver_load(struct drm_device *dev, unsigned long flags)
- 	if (!dev->agp)
- 		return -EINVAL;
+ 	drm_mga_private_t *dev_priv;
+ 	int ret;
+ 
+@@ -400,9 +401,9 @@ int mga_driver_load(struct drm_device *dev, unsigned long flags)
+ 	 * device is 0x0021 (HB6 Universal PCI-PCI bridge), we reject the
+ 	 * device.
+ 	 */
+-	if ((dev->pdev->device == 0x0525) && dev->pdev->bus->self
+-	    && (dev->pdev->bus->self->vendor == 0x3388)
+-	    && (dev->pdev->bus->self->device == 0x0021)
++	if ((pdev->device == 0x0525) && pdev->bus->self
++	    && (pdev->bus->self->vendor == 0x3388)
++	    && (pdev->bus->self->device == 0x0021)
+ 	    && dev->agp) {
+ 		/* FIXME: This should be quirked in the pci core, but oh well
+ 		 * the hw probably stopped existing. */
+@@ -419,10 +420,10 @@ int mga_driver_load(struct drm_device *dev, unsigned long flags)
+ 	dev_priv->usec_timeout = MGA_DEFAULT_USEC_TIMEOUT;
+ 	dev_priv->chipset = flags;
  
 -	pci_set_master(dev->pdev);
 +	pci_set_master(pdev);
  
- 	return 0;
- }
+-	dev_priv->mmio_base = pci_resource_start(dev->pdev, 1);
+-	dev_priv->mmio_size = pci_resource_len(dev->pdev, 1);
++	dev_priv->mmio_base = pci_resource_start(pdev, 1);
++	dev_priv->mmio_size = pci_resource_len(pdev, 1);
+ 
+ 	ret = drm_vblank_init(dev, 1);
+ 
+diff --git a/drivers/gpu/drm/mga/mga_state.c b/drivers/gpu/drm/mga/mga_state.c
+index 0dec4062e5a2..5b7247b58451 100644
+--- a/drivers/gpu/drm/mga/mga_state.c
++++ b/drivers/gpu/drm/mga/mga_state.c
+@@ -1005,6 +1005,7 @@ int mga_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ {
+ 	drm_mga_private_t *dev_priv = dev->dev_private;
+ 	drm_mga_getparam_t *param = data;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int value;
+ 
+ 	if (!dev_priv) {
+@@ -1016,7 +1017,7 @@ int mga_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ 
+ 	switch (param->param) {
+ 	case MGA_PARAM_IRQ_NR:
+-		value = dev->pdev->irq;
++		value = pdev->irq;
+ 		break;
+ 	case MGA_PARAM_CARD_TYPE:
+ 		value = dev_priv->chipset;
 -- 
 2.31.1
 
