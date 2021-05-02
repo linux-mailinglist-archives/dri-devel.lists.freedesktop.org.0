@@ -2,71 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F4D370EE8
-	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 21:57:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D505370F22
+	for <lists+dri-devel@lfdr.de>; Sun,  2 May 2021 22:50:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 175166E558;
-	Sun,  2 May 2021 19:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C200C6E580;
+	Sun,  2 May 2021 20:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
- [IPv6:2607:f8b0:4864:20::d29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 429D66E558
- for <dri-devel@lists.freedesktop.org>; Sun,  2 May 2021 19:57:01 +0000 (UTC)
-Received: by mail-io1-xd29.google.com with SMTP id v123so2498728ioe.10
- for <dri-devel@lists.freedesktop.org>; Sun, 02 May 2021 12:57:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cosmicpenguin-net.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=gPvAJZWsBKk4fZj6ZxVblFP0qVv/BbTQzC5g130CIKc=;
- b=djn7MnYka2JE6ZOVZTB7Eg6LXG95xsIJst2BFoo5N0tko2Rnadw7onBYUCOZakkPfP
- coDY82Ip6vwS1v0DxNpoYsM0iN6hgE62lfblpe+gvZXFPaSHOCMmuIjld8qzGGyEpe1C
- twUTjHRMETOlJyng0KYG5TjuYNozM4pwlIc1sMn8u3nq0Low+Pd9Dd48tF/XLmNqu1l2
- SCE9HQ5WO8DhhNxLpfHAl4/5yeGGp7kWwInyLK2xLQk21223e9dROz/KcJBKeqO2VOn0
- 4L6o0h1W8BIRnhlTVuj76POPbyDho9DUskwYNHU7v0/aA9CL2mM7tZZrLYH1iyrHIUDP
- 9byg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=gPvAJZWsBKk4fZj6ZxVblFP0qVv/BbTQzC5g130CIKc=;
- b=RceHkqlfXgwa4dOL8v43vlTQXWoyINq9ey8UFtudQD1e8aa3z98e4qZym912qTzwkK
- LK4hFksEV9AcwKa1yfQgxPXDud4BAJ2Txs5xeOwTSDO7ZAFNXf02EkEwGe/HswxIYSN8
- 48/bc55dE/6ci+EY8H2jZS3nEflYEkv5VnS3Uitdo1crvb8Xjg8OMxRyhfZLgAxH/Bxk
- TJjoW2LfzExq+G6CHA7iF4G9TwWmZ4KQ61vmA5OUryGnWOMwRt7V3lsuJY6uI/8PFBjU
- AgDGTU4+Hvw+nJkydKDh4IeDXqJiVCUZ9OBLSPvGLRxKp9J76FWJywVU9P79zgrz4ITD
- bArA==
-X-Gm-Message-State: AOAM532HxqP6wL/2KzHKLVYP3jKDDgXCDMFkiht3IdryASmuik3Qiw6B
- e6xurJQ6J1w9xL7sZudo9NKw9Q==
-X-Google-Smtp-Source: ABdhPJwA2XbIZCf4xVMYtaKt4mE+WndUq/OJuf7jI1g0LtSfmBA4vmYAF8D9Z55SteM5ydUUVMlbHw==
-X-Received: by 2002:a05:6638:f:: with SMTP id
- z15mr15105656jao.26.1619985420644; 
- Sun, 02 May 2021 12:57:00 -0700 (PDT)
-Received: from cosmicpenguin.net (c-71-237-100-236.hsd1.co.comcast.net.
- [71.237.100.236])
- by smtp.gmail.com with ESMTPSA id y10sm4468287ilv.73.2021.05.02.12.56.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 12:57:00 -0700 (PDT)
-Date: Sun, 2 May 2021 13:56:58 -0600
-From: Jordan Crouse <jordan@cosmicpenguin.net>
-To: Jonathan Marek <jonathan@marek.ca>
-Subject: Re: [Freedreno] [PATCH 5/5] drm/msm: deprecate MSM_BO_UNCACHED (map
- as writecombine instead)
-Message-ID: <20210502195658.ijhfpuadarlykduw@cosmicpenguin.net>
-Mail-Followup-To: Jonathan Marek <jonathan@marek.ca>,
- freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sean Paul <sean@poorly.run>
-References: <20210423190833.25319-1-jonathan@marek.ca>
- <20210423190833.25319-6-jonathan@marek.ca>
+Received: from smtpcmd15176.aruba.it (smtpcmd15176.aruba.it [62.149.156.176])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9164A6E580
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 May 2021 20:50:33 +0000 (UTC)
+Received: from [192.168.126.129] ([146.241.181.225])
+ by Aruba Outgoing Smtp  with ESMTPSA
+ id dJ2rlzK2pDFOPdJ2slHWTD; Sun, 02 May 2021 22:50:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+ t=1619988631; bh=UmC8cYWqWPtxo1qJPZXiF+uYGkCGWSWN2TXTowI2gtA=;
+ h=Subject:To:From:Date:MIME-Version:Content-Type;
+ b=W+Ftvsybk7YNALtW8he8l58l2dQZxxAr5Wv/wfy/ovhmMzcuAeUOEqH5O2Ge6lryl
+ JqOmcMxxtnTyCTtgB3UocJBhwfWQKTHwL4KIxJaFl4ao5APVDtS8kra0KjbK42cecp
+ oYuyGpOIhxxKEDkkI32HWpp8DgPiluX/FAyx2K16iLy8Go+nppBOD/JnToElFEq26t
+ oJ31x885tmRbl/6ZEOOeXISTWQzB+XI6YwZo+iNaaz0JpM//nH+aQ5VlzwSmB7xyad
+ o4HWJfT+nACCLry5Q7H6fKosOKvwsbiNulImLxN0WAhWxRzUaksl8QKYpjl/tX2U4t
+ rdXD2u6U7Uc0Q==
+Subject: Re: [PATCH v3 0/9] Add 4 Jenson simple panels
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20210305234427.572114-1-giulio.benetti@benettiengineering.com>
+ <20210401231720.2470869-1-giulio.benetti@benettiengineering.com>
+From: Giulio Benetti <giulio.benetti@benettiengineering.com>
+Message-ID: <b5685187-15f8-14da-386f-507ae518d22b@benettiengineering.com>
+Date: Sun, 2 May 2021 22:50:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210423190833.25319-6-jonathan@marek.ca>
+In-Reply-To: <20210401231720.2470869-1-giulio.benetti@benettiengineering.com>
+Content-Language: en-US
+X-CMAE-Envelope: MS4xfDmkwaDwQfqdqzrFwQ+mTdJP7fbwRWoGWZynIN/EozISlmaPt1edXmGyga4XoD5oAHpHm1qcNOqBi9uhHzyH2z94bbuAAjPL3V47hyvrRy/e7tbbU14n
+ ETH1UBHJKWOLG6p0ZmySFHHAB1gXQSoqtQ5+npeY3Vg5S2ExlX2SCYncs/+W7CZ18bLAkPqmMyVH9gMe0sCVltA2/3+/2xv+kFx5xt+ARYiAOUIdmuvywIB4
+ qcz0BvhI8JuAl3nlOZOz85D8IgQlESMtyYClABwECkyXYCSsIn1MTZrNqLtEipXlHgHoNCE+UeCwjsH5eiKIvIzWS7LKoKKLiq584Bd5b1IHONhBrvP4nGpS
+ WbHD1awHYqTnQcevnefZ0pgP+D5fFzDAbTYHjGo0lUJFVgx05qQWtN1iWw8VFwPfEzSdtaND
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,70 +52,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 23, 2021 at 03:08:21PM -0400, Jonathan Marek wrote:
-> There shouldn't be any reason to ever use uncached over writecombine,
-> so just use writecombine for MSM_BO_UNCACHED.
+Hello Thierry,
 
-Extremely correct.
+I've seen that this patchset [1] in DRI Patchwork has been archived, but 
+it's not been applied and all patches result as "New", so I've set them 
+as un-archived. Hope it's correct.
 
+[1]: https://patchwork.kernel.org/project/dri-devel/list/?series=459931
+[2]: https://patchwork.kernel.org/project/dri-devel/list/
+
+Best regards
+-- 
+Giulio Benetti
+Benetti Engineering sas
+
+On 4/2/21 1:17 AM, Giulio Benetti wrote:
+> This patchset introduce Jenson vendor and add 4 of its panels to
+> panel-simple driver.
 > 
-> Note: userspace never used MSM_BO_UNCACHED anyway
-> 
-
-Acked-by: Jordan Crouse <jordan@cosmicpenguin.net>
-
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 > ---
->  drivers/gpu/drm/msm/msm_gem.c | 4 +---
->  include/uapi/drm/msm_drm.h    | 2 +-
->  2 files changed, 2 insertions(+), 4 deletions(-)
+> V2-V3:
+> * changed my SoB and authorship
+> * added some forgotten acked-by
+> * fixed alpha-numeric order on adding bindings
+> ---
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> index 2e92e80009c8..56bca9178253 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -201,10 +201,8 @@ void msm_gem_put_pages(struct drm_gem_object *obj)
->  
->  static pgprot_t msm_gem_pgprot(struct msm_gem_object *msm_obj, pgprot_t prot)
->  {
-> -	if (msm_obj->flags & MSM_BO_WC)
-> +	if (msm_obj->flags & (MSM_BO_WC|MSM_BO_UNCACHED))
->  		return pgprot_writecombine(prot);
-> -	if (msm_obj->flags & MSM_BO_UNCACHED)
-> -		return pgprot_noncached(prot);
->  	return prot;
->  }
->  
-> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-> index a92d90a6d96f..f075851021c3 100644
-> --- a/include/uapi/drm/msm_drm.h
-> +++ b/include/uapi/drm/msm_drm.h
-> @@ -94,7 +94,7 @@ struct drm_msm_param {
->  /* cache modes */
->  #define MSM_BO_CACHED        0x00010000
->  #define MSM_BO_WC            0x00020000
-> -#define MSM_BO_UNCACHED      0x00040000
-> +#define MSM_BO_UNCACHED      0x00040000 /* deprecated, use MSM_BO_WC */
->  #define MSM_BO_CACHED_COHERENT 0x080000
->  
->  #define MSM_BO_FLAGS         (MSM_BO_SCANOUT | \
-> -- 
-> 2.26.1
+> Giulio Benetti (9):
+>    dt-bindings: Add Jenson Display vendor prefix
+>    dt-bindings: display/panel: add Jenson JT60245-01
+>    dt-bindings: display/panel: add Jenson JT60248-01
+>    dt-bindings: display/panel: add Jenson JT60249-01
+>    dt-bindings: display/panel: add Jenson JT60250-02
+>    drm/panel: simple: add Jenson JT60245-01
+>    drm/panel: simple: add Jenson JT60248-01
+>    drm/panel: simple: add Jenson JT60249-01
+>    drm/panel: simple: add Jenson JT60250-02
 > 
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+>   .../bindings/display/panel/panel-simple.yaml  |   8 ++
+>   .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>   drivers/gpu/drm/panel/panel-simple.c          | 108 ++++++++++++++++++
+>   3 files changed, 118 insertions(+)
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
