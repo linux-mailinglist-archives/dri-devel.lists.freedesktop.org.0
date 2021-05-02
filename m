@@ -1,72 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFFA371122
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 07:06:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB483711AE
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 08:40:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2775D6E874;
-	Mon,  3 May 2021 05:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF8FF6E876;
+	Mon,  3 May 2021 06:40:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C096E86F
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 05:06:12 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id s22so2844380pgk.6
- for <dri-devel@lists.freedesktop.org>; Sun, 02 May 2021 22:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vkwodlzPuswZX36UULvqpGAyXMlhiyqxqgMMR+wsn/g=;
- b=eqOPXZ405QGSAfKdidGpykTin6aOgHrzeqTfYQ4nV3CJHfysaWQhp/2XJDWj+mcrCu
- 3MZw3qM5sLPRMaRUEgJAwgPCFTa29MHcr0vqwAg1QcbhffE+Ejzi2bIN9hyVVY3C0YxG
- daeTW64oG6UhfoeyA4ejA/0PMIvicDM9Z4PAE=
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4F1F6E5A3
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 May 2021 23:04:21 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id gx5so5163447ejb.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 May 2021 16:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=groRywuNlEF2UBp2F0MI+2GBRzz6sWwtdyxWNmpmmRY=;
+ b=XlDPMzJXgrzyFIiIUejSgpr8siSc/rwclMr+de4rxvXJsRPZL9PIM7tbmtGascXm2n
+ oVfjQqFS/OXhX1J3QXgr8i/yhufjyXvVrdlGN/vjcVPguwxgyCBBbiUitB6idSZy7RtX
+ UUXg0ed+ZJF8e0VHN6v5VswddIAOVhHQn5wmXllUoRvnme867D4/+F/pvUAvxN6p+oZh
+ tq/H/SyQO6ZaY0wWpnbjLEpfnIy2KdmNZtDaTv/+Sh26sVrQ1xjVoYBhV/Fi8xumHqZd
+ TNEsfCmh9XyXZjF/bh8TWZaMAuEEu5P3oDFfhoy9rjHjMSM2abTsLsgPcQoDmxS7IqGR
+ DjAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vkwodlzPuswZX36UULvqpGAyXMlhiyqxqgMMR+wsn/g=;
- b=gX3J5aSl2Z1ykYPg7pCRkHNS0wkTniu1mJfPYrvN20fp4QK4io5rKHjE43m994+7C7
- qaprgYKUYT9ppv2yIA6AvXXQy4WjTcYoOkMmpY1VF/7LkHGJEbWbeyCV44cGa10WIRwO
- majdxoriatO+dqw8siF734AmdGkpSnLw9LMMjobJtsW+hLdDCuKVNV6091KZeYFzJ6AU
- H0iOEs8eJ56APPLWOiM3r0bdeD7lqLte3S3I+b7LDAebiIV7UDLkEzXUN+/ng8YrSUhj
- QN3E2tRT4fCpvFPWCAykAeAFXUFRsZynbh+wUBlMTVlO1FdHlvL+u1DxseKoUVX5umxD
- nNPA==
-X-Gm-Message-State: AOAM533BJl9VX7hhkC/FbsrsJayHzCK7yL1UfAIUqm4waIGAbf7H5Tny
- RrMEqkQp1SJiKjL2iqP1usA4Rw==
-X-Google-Smtp-Source: ABdhPJwrNT9OoQVR40I3+lYvVv4+9nyLd7c3AniqwdJ+4Wlqg7gno9fSObobRVa/3hiZPBFuzewOcA==
-X-Received: by 2002:aa7:864b:0:b029:272:947e:85d7 with SMTP id
- a11-20020aa7864b0000b0290272947e85d7mr16806869pfo.45.1620018372448; 
- Sun, 02 May 2021 22:06:12 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id l10sm7722053pjy.42.2021.05.02.22.06.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 22:06:11 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH 2/2] drm/radeon: Avoid power table parsing memory leaks
-Date: Sun,  2 May 2021 22:06:08 -0700
-Message-Id: <20210503050608.2158996-3-keescook@chromium.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210503050608.2158996-1-keescook@chromium.org>
-References: <20210503050608.2158996-1-keescook@chromium.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=groRywuNlEF2UBp2F0MI+2GBRzz6sWwtdyxWNmpmmRY=;
+ b=sh/DQL13Rk51EuAEv9GuqoZL73u9MsJyPqoBQ/CfA5kzHrMZzcKoqNkfv4tL2hsJdy
+ 3W4OkwLoBqsQs6juWA6W2sMVCiJHkU0EvR5mV533qMoL+VIRmv8Vikm7pqi6WecTbluP
+ RULmkxrSU4mioKJMWJ2M6ZGY/QJLxF4eCnO438m223e/1q16IwlzY88d/HRjBiuCzFjx
+ zjk1OxKQhA8beNraLoBtHnLIqNmOoLay/9/z0dBnd05L8sLU+m8jNxKbhLlUw7V+wNE2
+ SP6l4RDhdRp5ufMjzGdBvPt9EKQmx31vVD4BBwFTVdKDxe6GI8mtWfdq3tBoW51P3+/A
+ vDow==
+X-Gm-Message-State: AOAM532GR6tia3rHuYgeEEQpJsnjX4Vd6d3bKYDWpRcqRdPWKhf/M+xZ
+ hJLhbFuGkgkN0Go3HR2Qtiq7R8Mn5SQnpAwNNts=
+X-Google-Smtp-Source: ABdhPJx+3/RZteOj6iiJHEdVbJAzXt75ZO0LERj7jXAZI+xt67C1ubzHFuEe4f2afzlwisHDLxFMnwvdAptTlOq+hZc=
+X-Received: by 2002:a17:906:57c3:: with SMTP id
+ u3mr3607793ejr.162.1619996660335; 
+ Sun, 02 May 2021 16:04:20 -0700 (PDT)
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; g=5587411a193bf9edeee00e4cedc613b3ef4ab595;
- i=RLpnWS4N4EAN7vS2kSGJsC2/Z1bOXLnXB/5m+ZzGvSQ=;
- m=pxFMtRfS+5OYF3CVbar6V5LSKxDznZRhhtHzAGrKHyk=;
- p=Y3P6ZdBpqNetVNCsZST5lNppgqyKAxbk7rqUPN2j2Rg=
-X-Patch-Sig: m=pgp; i=keescook@chromium.org; s=0x0x8972F4DFDC6DC026;
- b=iQIzBAABCgAdFiEEpcP2jyKd1g9yPm4TiXL039xtwCYFAmCPhL8ACgkQiXL039xtwCY2zRAAqlP
- BnaPQIK2UkL4N+J8Uhn6rf1DwF1TCalirs9jwqPngXwYss6neOBwTG0T//WVb9QMr3BjtjbB3El+Q
- kJLWL+uRdkGC5WGVTTxB1Rt7CBODIQeVjpm2B8sxORQusgnG88c8xZD4i3Jn90st/270iUG+TWd7o
- sclb7HBIRr8pwjmqUeWNq5RjdJ069jrLmTJsn6xJUd+q/Hb4APCe9u3NrltjK8dPgwgv2q951nhk2
- jwP+1ToRJR5x4OISD9QGGGQsZ+AeJMOlQLzW0IDfONECA2/l6oiOz5PgaGJWIwzlrrxcmBIG6GfUr
- O8WfnoP147xN3CMVemI3aSR5Xxs2umK8vElvriITY2OGGE8WQ6ar/sE56bYQISGnWDfHT3MKhLDYU
- fnZO0AaZTvkXpP/iReTJfWb9yLsIXVz1QkbxQ8QfI00RLaU3rLpSAmNxgtWZbe09+sbgsifNbzKaN
- pa2FarA6u9sKQ+PeJi9LtsbVXQarDp4C97vxj+ZFDIo9FSrjEL1pzlQSo4amuKBvKbkRBfRKXCygd
- rafoxsTZjaFTlS1PycdtphI2NGWAndJKDOIw/dS3ixkPykFEJ+3mP/3Nf/qMOXyuu0KyKxs5MnrAc
- fzYxUrpYMH74s2EiOc/0ZSZBxFewKhTTy0F04ZfI3kF4GKndUDNE19uUpYJdiz6w=
+References: <20210430082744.3638743-1-narmstrong@baylibre.com>
+In-Reply-To: <20210430082744.3638743-1-narmstrong@baylibre.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Mon, 3 May 2021 01:04:09 +0200
+Message-ID: <CAFBinCC5piZDgyxezJp8Yi3Ny5B6WRD-XdWN7s2gm8_aqza=fg@mail.gmail.com>
+Subject: Re: [PATCH] drm/meson: fix shutdown crash when component not probed
+To: Neil Armstrong <narmstrong@baylibre.com>
+X-Mailman-Approved-At: Mon, 03 May 2021 06:40:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,67 +63,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Erhard F." <erhard_f@mailbox.org>, Kees Cook <keescook@chromium.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid leaving a hanging pre-allocated clock_info if last mode is
-invalid, and avoid heap corruption if no valid modes are found.
-
-Fixes: 6991b8f2a319 ("drm/radeon/kms: fix segfault in pm rework")
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/gpu/drm/radeon/radeon_atombios.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/radeon/radeon_atombios.c
-index f9f4efa1738c..28c4413f4dc8 100644
---- a/drivers/gpu/drm/radeon/radeon_atombios.c
-+++ b/drivers/gpu/drm/radeon/radeon_atombios.c
-@@ -2120,11 +2120,14 @@ static int radeon_atombios_parse_power_table_1_3(struct radeon_device *rdev)
- 		return state_index;
- 	/* last mode is usually default, array is low to high */
- 	for (i = 0; i < num_modes; i++) {
--		rdev->pm.power_state[state_index].clock_info =
--			kcalloc(1, sizeof(struct radeon_pm_clock_info),
--				GFP_KERNEL);
-+		/* avoid memory leaks from invalid modes or unknown frev. */
-+		if (!rdev->pm.power_state[state_index].clock_info) {
-+			rdev->pm.power_state[state_index].clock_info =
-+				kzalloc(sizeof(struct radeon_pm_clock_info),
-+					GFP_KERNEL);
-+		}
- 		if (!rdev->pm.power_state[state_index].clock_info)
--			return state_index;
-+			goto out;
- 		rdev->pm.power_state[state_index].num_clock_modes = 1;
- 		rdev->pm.power_state[state_index].clock_info[0].voltage.type = VOLTAGE_NONE;
- 		switch (frev) {
-@@ -2243,8 +2246,15 @@ static int radeon_atombios_parse_power_table_1_3(struct radeon_device *rdev)
- 			break;
- 		}
- 	}
-+out:
-+	/* free any unused clock_info allocation. */
-+	if (state_index && state_index < num_modes) {
-+		kfree(rdev->pm.power_state[state_index].clock_info);
-+		rdev->pm.power_state[state_index].clock_info = NULL;
-+	}
-+
- 	/* last mode is usually default */
--	if (rdev->pm.default_power_state_index == -1) {
-+	if (state_index && rdev->pm.default_power_state_index == -1) {
- 		rdev->pm.power_state[state_index - 1].type =
- 			POWER_STATE_TYPE_DEFAULT;
- 		rdev->pm.default_power_state_index = state_index - 1;
--- 
-2.25.1
-
+On Fri, Apr 30, 2021 at 10:28 AM Neil Armstrong <narmstrong@baylibre.com> wrote:
+>
+> When main component is not probed, by example when the dw-hdmi module is
+> not loaded yet or in probe defer, the following crash appears on shutdown:
+>
+> Unable to handle kernel NULL pointer dereference at virtual address 0000000000000038
+> ...
+> pc : meson_drv_shutdown+0x24/0x50
+> lr : platform_drv_shutdown+0x20/0x30
+> ...
+> Call trace:
+> meson_drv_shutdown+0x24/0x50
+> platform_drv_shutdown+0x20/0x30
+> device_shutdown+0x158/0x360
+> kernel_restart_prepare+0x38/0x48
+> kernel_restart+0x18/0x68
+> __do_sys_reboot+0x224/0x250
+> __arm64_sys_reboot+0x24/0x30
+> ...
+>
+> Simply check if the priv struct has been allocated before using it.
+>
+> Fixes: fa0c16caf3d7 ("drm: meson_drv add shutdown function")
+> Reported-by: Stefan Agner <stefan@agner.ch>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+Tested-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
