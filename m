@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D762371293
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 10:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CE73712C7
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 10:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A58B6E88B;
-	Mon,  3 May 2021 08:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58C746E88D;
+	Mon,  3 May 2021 08:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5F2C6E075;
- Mon,  3 May 2021 08:44:49 +0000 (UTC)
-IronPort-SDR: El/yz9nnWEW1LjzRnRFbBpuEOGcmoXAsyY+F9jpyjv95mm5h8kvC0vD6hGztnTXD/6ExWF6bWP
- 4ik4vqmjvIsA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9972"; a="197305479"
-X-IronPort-AV: E=Sophos;i="5.82,268,1613462400"; d="scan'208";a="197305479"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 01:44:48 -0700
-IronPort-SDR: xd2qe6U1Q/xAyIkxyzZeoM9XM2kr4OgipLQMoXq+fusHEHNLgIOPw6axHuvG73mxfbnACMrp39
- GPmZH6l4viyw==
-X-IronPort-AV: E=Sophos;i="5.82,268,1613462400"; d="scan'208";a="432633606"
-Received: from tbashir-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.51.126])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 01:44:44 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Cornij\, Nikola" <Nikola.Cornij@amd.com>,
- "lyude\@redhat.com" <lyude@redhat.com>,
- "amd-gfx\@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v2 1/1] drm/i915: Use the correct max source link rate for
- MST
-In-Reply-To: <DM5PR12MB4679215F5490F2D38E2A6C51EE5E9@DM5PR12MB4679.namprd12.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210430214531.24565-1-nikola.cornij@amd.com>
- <20210430214531.24565-2-nikola.cornij@amd.com>
- <20bfb456d1f05856ffdc4cd330e1155b99367a01.camel@redhat.com>
- <DM5PR12MB4679215F5490F2D38E2A6C51EE5E9@DM5PR12MB4679.namprd12.prod.outlook.com>
-Date: Mon, 03 May 2021 11:44:41 +0300
-Message-ID: <87h7jk1a12.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2A26E88D
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 08:59:10 +0000 (UTC)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
+ [91.157.208.71])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2767F6EE;
+ Mon,  3 May 2021 10:59:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1620032348;
+ bh=MuJcIfGOYQx67Ewx8atZkaPGiJLsQ9qfoe8/rTBAQFs=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=lxWDN3DR+UsrHxNX2iWPyTmkNrwVJe6boGalWcnfH5Wv43Hj4wCKLW2zo7QqVA5kk
+ fqSAqpdsw6tvTOd8Y95V6EmOvGksSqj8xVWlA/fgKdUMFNzWDcBreG0tbHlMenhYht
+ nHMD09sRnQ7ZnUlWfwgt7YqXd1ldwx/kr2j30HD4=
+Subject: Re: [PATCHv1] drm/omap: get fbdev working for manually updated display
+To: Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Sebastian Reichel <sre@kernel.org>, Tony Lindgren <tony@atomide.com>
+References: <20210501200050.410704-1-sebastian.reichel@collabora.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <1c816724-c9f8-04e8-9f77-5987e43b188f@ideasonboard.com>
+Date: Mon, 3 May 2021 11:59:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210501200050.410704-1-sebastian.reichel@collabora.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,38 +48,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "koba.ko@canonical.com" <koba.ko@canonical.com>, "Pillai,
- Aurabindo" <Aurabindo.Pillai@amd.com>,
- "bskeggs@redhat.com" <bskeggs@redhat.com>, "Lipski,
- Mikita" <Mikita.Lipski@amd.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Carl Philipp Klemm <philipp@uvos.xyz>, kernel@collabora.com,
+ David Airlie <airlied@linux.ie>, Merlijn Wajer <merlijn@wizzup.org>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 30 Apr 2021, "Cornij, Nikola" <Nikola.Cornij@amd.com> wrote:
-> I'll fix the dpcd part to use kHz on Monday
+On 01/05/2021 23:00, Sebastian Reichel wrote:
+> Running a legacy application, which directly uses /dev/fb0
+> currently results in display not being refreshed when the
+> application mmaps the memory instead of calling write().
+> 
+> Deferred IO support will also schedule dirty_work with the
+> damage collected from the mmap page writes and thus gets
+> some more legacy applications working.
+> 
+> Delay frequency settings have been taken over from
+> drm_fb_helper_generic_probe().
+> 
+> Reported-by: Carl Philipp Klemm <philipp@uvos.xyz>
+> Tested-by: Carl Philipp Klemm <philipp@uvos.xyz>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+> Hi,
+> 
+> I still need to fix my Droid 4, so I only compile tested this
+> myself.
+> 
+> -- Sebastian
+> ---
+>   drivers/gpu/drm/omapdrm/omap_fbdev.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+> index 42eac6ad12bd..fc3897d2d7cc 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+> @@ -87,6 +87,11 @@ static const struct fb_ops omap_fb_ops = {
+>   	.fb_imageblit = drm_fb_helper_sys_imageblit,
+>   };
+>   
+> +static struct fb_deferred_io omap_fb_defio = {
+> +	.delay		= HZ / 20,
+> +	.deferred_io	= drm_fb_helper_deferred_io,
+> +};
+> +
+>   static int omap_fbdev_create(struct drm_fb_helper *helper,
+>   		struct drm_fb_helper_surface_size *sizes)
+>   {
+> @@ -176,6 +181,9 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
+>   
+>   	drm_fb_helper_fill_info(fbi, helper, sizes);
+>   
+> +	fbi->fbdefio = &omap_fb_defio;
+> +	fb_deferred_io_init(fbi);
+> +
+>   	dev->mode_config.fb_base = dma_addr;
+>   
+>   	fbi->screen_buffer = omap_gem_vaddr(fbdev->bo);
+> 
+> base-commit: 152d32aa846835987966fd20ee1143b0e05036a0
+> 
 
-I'd appreciate that, thanks. I think it is the better interface.
+On DRA76 EVM, with parallel output, this causes cache-flush problem. 
+When I run my simple fbtest, which just draws to the fb, I see lots of 
+cache-line artifacts.
 
-> My apologies as well, not only for coming up with the wrong patch in
-> first place, but also for missing to CC all the maintainers.
+When I run kmstest (from kms++), I get a flood of list corruptions 
+somewhere in omap_gem. Is it related to "Deferred I/O is not compatible 
+with SHMEM"?
 
-The drivers we have are monsters, and it can be tricky to get the
-details right. All the more important to get the Cc's right; then at
-least you can blame us afterwards. ;)
-
-Thanks for reacting quickly, though.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+  Tomi
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
