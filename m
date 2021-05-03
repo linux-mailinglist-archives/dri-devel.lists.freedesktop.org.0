@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC01D371987
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34912371989
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:35:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E66BB6E91F;
-	Mon,  3 May 2021 16:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF8056E927;
+	Mon,  3 May 2021 16:35:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B9396E8F8;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8CC6E8FB;
+ Mon,  3 May 2021 16:35:45 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 563F9613BC;
  Mon,  3 May 2021 16:35:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AEE4561278;
- Mon,  3 May 2021 16:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059743;
- bh=/i7twi6+kmLwdQCEga9hbGTxL+7/51Mn2FVRvzRAG8Y=;
+ s=k20201202; t=1620059745;
+ bh=C/RaOZWprDkk/jUwgIW45mnSsIH0kSo1oa1cMF3YENw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DX11H9EoWxEpLs8w0elPh4LhQewljOVffAB0EvFMbIahdJuUzQCpb38pS40OkwIYl
- 52p1sW+II6D/EERTj2mvxlcMSY08GFQ6UzOgrb4pKpA78d1BIXAr5ZePldgUMpKuDP
- EmkFZ8ydqLr7ruwBMRhCgX1NrTlxi7n/y6OVlE+2IVZI79J/pPExdwIn2ax+1KHS21
- I0aSJXtOSf5a9ECei2ZUc9/jNF1jZfBwApkV4pbdA3ol+Sx8t5ODmk2EdY2U566l4a
- XSAamtWeDxBCSGNvE0FjBdbhkUXdqzPfcU0w/sHQ5E2Bi6DtmtoVejYKwKLJZ6Il/3
- 0n8Dvifl3ajKA==
+ b=rqt+qHB6u5v1BawhFVI+hhBx0CGupnrlwBE1PFgq6/darGwB5zjWsb/sNBh1OsRAJ
+ +Bg+J2OUSeVWm7T3nAymjDebQwfISI7SpF9dWh918VXIqr9SZJpRcxn9KA1DNA7xxj
+ 9I9Tpv6DM6JukTxoNn7v0kTTJarbIKIcRJr6W3B9HU8wWgzt7H/g+F9LqdmF45MMjB
+ /G3ax1VAXkii+G7CUIECkOyQq7ignpvO3OnDgBXrECnw1jk0IjL1Jh+/ytWpRVMMuZ
+ Q8rBkQYJQQogTUyeXZhzhKUR/jS3F55o7BmHB6+46FiHgUPhNiYfL4HysqAMa4Uk7s
+ VsYCs16BlsVOw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 019/134] drm/amd/pm/swsmu: clean up user profile
- function
-Date: Mon,  3 May 2021 12:33:18 -0400
-Message-Id: <20210503163513.2851510-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 020/134] drm/amdgpu: Fix some unload driver issues
+Date: Mon,  3 May 2021 12:33:19 -0400
+Message-Id: <20210503163513.2851510-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163513.2851510-1-sashal@kernel.org>
 References: <20210503163513.2851510-1-sashal@kernel.org>
@@ -49,154 +48,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Arunpravin <Arunpravin.PaneerSelvam@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Evan Quan <evan.quan@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Emily Deng <Emily.Deng@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
-
-[ Upstream commit d8cce9306801cfbf709055677f7896905094ff95 ]
-
-Remove unnecessary comments, enable restore mode using
-'|=' operator, fixes the alignment to improve the code
-readability.
-
-v2: Move all restoration flag check to bitwise '&' operator
-
-Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
-Reviewed-by: Evan Quan <evan.quan@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 34 ++++++++---------------
- 1 file changed, 12 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-index cd905e41080e..42c4dbe3e362 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-@@ -279,35 +279,25 @@ static void smu_set_user_clk_dependencies(struct smu_context *smu, enum smu_clk_
- 	if (smu->adev->in_suspend)
- 		return;
- 
--	/*
--	 * mclk, fclk and socclk are interdependent
--	 * on each other
--	 */
- 	if (clk == SMU_MCLK) {
--		/* reset clock dependency */
- 		smu->user_dpm_profile.clk_dependency = 0;
--		/* set mclk dependent clocks(fclk and socclk) */
- 		smu->user_dpm_profile.clk_dependency = BIT(SMU_FCLK) | BIT(SMU_SOCCLK);
- 	} else if (clk == SMU_FCLK) {
--		/* give priority to mclk, if mclk dependent clocks are set */
-+		/* MCLK takes precedence over FCLK */
- 		if (smu->user_dpm_profile.clk_dependency == (BIT(SMU_FCLK) | BIT(SMU_SOCCLK)))
- 			return;
- 
--		/* reset clock dependency */
- 		smu->user_dpm_profile.clk_dependency = 0;
--		/* set fclk dependent clocks(mclk and socclk) */
- 		smu->user_dpm_profile.clk_dependency = BIT(SMU_MCLK) | BIT(SMU_SOCCLK);
- 	} else if (clk == SMU_SOCCLK) {
--		/* give priority to mclk, if mclk dependent clocks are set */
-+		/* MCLK takes precedence over SOCCLK */
- 		if (smu->user_dpm_profile.clk_dependency == (BIT(SMU_FCLK) | BIT(SMU_SOCCLK)))
- 			return;
- 
--		/* reset clock dependency */
- 		smu->user_dpm_profile.clk_dependency = 0;
--		/* set socclk dependent clocks(mclk and fclk) */
- 		smu->user_dpm_profile.clk_dependency = BIT(SMU_MCLK) | BIT(SMU_FCLK);
- 	} else
--		/* add clk dependencies here, if any */
-+		/* Add clk dependencies here, if any */
- 		return;
- }
- 
-@@ -331,7 +321,7 @@ static void smu_restore_dpm_user_profile(struct smu_context *smu)
- 		return;
- 
- 	/* Enable restore flag */
--	smu->user_dpm_profile.flags = SMU_DPM_USER_PROFILE_RESTORE;
-+	smu->user_dpm_profile.flags |= SMU_DPM_USER_PROFILE_RESTORE;
- 
- 	/* set the user dpm power limit */
- 	if (smu->user_dpm_profile.power_limit) {
-@@ -354,8 +344,8 @@ static void smu_restore_dpm_user_profile(struct smu_context *smu)
- 				ret = smu_force_clk_levels(smu, clk_type,
- 						smu->user_dpm_profile.clk_mask[clk_type]);
- 				if (ret)
--					dev_err(smu->adev->dev, "Failed to set clock type = %d\n",
--							clk_type);
-+					dev_err(smu->adev->dev,
-+						"Failed to set clock type = %d\n", clk_type);
- 			}
- 		}
- 	}
-@@ -1777,7 +1767,7 @@ int smu_force_clk_levels(struct smu_context *smu,
- 
- 	if (smu->ppt_funcs && smu->ppt_funcs->force_clk_levels) {
- 		ret = smu->ppt_funcs->force_clk_levels(smu, clk_type, mask);
--		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE) {
-+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE)) {
- 			smu->user_dpm_profile.clk_mask[clk_type] = mask;
- 			smu_set_user_clk_dependencies(smu, clk_type);
- 		}
-@@ -2034,7 +2024,7 @@ int smu_set_fan_speed_rpm(struct smu_context *smu, uint32_t speed)
- 	if (smu->ppt_funcs->set_fan_speed_percent) {
- 		percent = speed * 100 / smu->fan_max_rpm;
- 		ret = smu->ppt_funcs->set_fan_speed_percent(smu, percent);
--		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
-+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
- 			smu->user_dpm_profile.fan_speed_percent = percent;
- 	}
- 
-@@ -2104,7 +2094,7 @@ int smu_set_power_limit(struct smu_context *smu, uint32_t limit)
- 
- 	if (smu->ppt_funcs->set_power_limit) {
- 		ret = smu->ppt_funcs->set_power_limit(smu, limit);
--		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
-+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
- 			smu->user_dpm_profile.power_limit = limit;
- 	}
- 
-@@ -2285,7 +2275,7 @@ int smu_set_fan_control_mode(struct smu_context *smu, int value)
- 
- 	if (smu->ppt_funcs->set_fan_control_mode) {
- 		ret = smu->ppt_funcs->set_fan_control_mode(smu, value);
--		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
-+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
- 			smu->user_dpm_profile.fan_mode = value;
- 	}
- 
-@@ -2293,7 +2283,7 @@ int smu_set_fan_control_mode(struct smu_context *smu, int value)
- 
- 	/* reset user dpm fan speed */
- 	if (!ret && value != AMD_FAN_CTRL_MANUAL &&
--			smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
-+			!(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
- 		smu->user_dpm_profile.fan_speed_percent = 0;
- 
- 	return ret;
-@@ -2335,7 +2325,7 @@ int smu_set_fan_speed_percent(struct smu_context *smu, uint32_t speed)
- 		if (speed > 100)
- 			speed = 100;
- 		ret = smu->ppt_funcs->set_fan_speed_percent(smu, speed);
--		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
-+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
- 			smu->user_dpm_profile.fan_speed_percent = speed;
- 	}
- 
--- 
-2.30.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogRW1pbHkgRGVuZyA8RW1pbHkuRGVuZ0BhbWQuY29tPgoKWyBVcHN0cmVhbSBjb21taXQg
+YmIwY2QwOWJlNDVlYTQ1N2YyNWZkY2JjYjNkNmNmMjIzMGYyNmM0NiBdCgpXaGVuIHVubG9hZGlu
+ZyBkcml2ZXIgYWZ0ZXIga2lsbGluZyBzb21lIGFwcGxpY2F0aW9ucywgaXQgd2lsbCBoaXQgc2Rt
+YQpmbHVzaCB0bGIgam9iIHRpbWVvdXQgd2hpY2ggaXMgY2FsbGVkIGJ5IHR0bV9ib19kZWxheV9k
+ZWxldGUuIFNvCnRvIGF2b2lkIHRoZSBqb2Igc3VibWl0IGFmdGVyIGZlbmNlIGRyaXZlciBmaW5p
+LCBjYWxsIHR0bV9ib19sb2NrX2RlbGF5ZWRfd29ya3F1ZXVlCmJlZm9yZSBmZW5jZSBkcml2ZXIg
+ZmluaS4gQW5kIGFsc28gcHV0IGRybV9zY2hlZF9maW5pIGJlZm9yZSB3YWl0aW5nIGZlbmNlLgoK
+U2lnbmVkLW9mZi1ieTogRW1pbHkgRGVuZyA8RW1pbHkuRGVuZ0BhbWQuY29tPgpSZXZpZXdlZC1i
+eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpTaWduZWQtb2Zm
+LWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+ClNpZ25lZC1vZmYt
+Ynk6IFNhc2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlLmMgfCAxICsKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV9mZW5jZS5jICB8IDUgKysrLS0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRp
+b25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV9kZXZpY2UuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9kZXZpY2UuYwppbmRleCA4YTVhOGZmNWQzNjIuLjVlZWUyNTFlMzMzNSAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYwpAQCAtMzYxMyw2ICszNjEzLDcgQEAg
+dm9pZCBhbWRncHVfZGV2aWNlX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCiB7CiAJ
+ZGV2X2luZm8oYWRldi0+ZGV2LCAiYW1kZ3B1OiBmaW5pc2hpbmcgZGV2aWNlLlxuIik7CiAJZmx1
+c2hfZGVsYXllZF93b3JrKCZhZGV2LT5kZWxheWVkX2luaXRfd29yayk7CisJdHRtX2JvX2xvY2tf
+ZGVsYXllZF93b3JrcXVldWUoJmFkZXYtPm1tYW4uYmRldik7CiAJYWRldi0+c2h1dGRvd24gPSB0
+cnVlOwogCiAJa2ZyZWUoYWRldi0+cGNpX3N0YXRlKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvYW1kZ3B1X2ZlbmNlLmMKaW5kZXggZDU2ZjQwMjNlYmIzLi43ZThlNDZjMzlkYmQgMTAwNjQ0
+Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jCisrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jCkBAIC01MzMsNiArNTMzLDgg
+QEAgdm9pZCBhbWRncHVfZmVuY2VfZHJpdmVyX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
+ZXYpCiAKIAkJaWYgKCFyaW5nIHx8ICFyaW5nLT5mZW5jZV9kcnYuaW5pdGlhbGl6ZWQpCiAJCQlj
+b250aW51ZTsKKwkJaWYgKCFyaW5nLT5ub19zY2hlZHVsZXIpCisJCQlkcm1fc2NoZWRfZmluaSgm
+cmluZy0+c2NoZWQpOwogCQlyID0gYW1kZ3B1X2ZlbmNlX3dhaXRfZW1wdHkocmluZyk7CiAJCWlm
+IChyKSB7CiAJCQkvKiBubyBuZWVkIHRvIHRyaWdnZXIgR1BVIHJlc2V0IGFzIHdlIGFyZSB1bmxv
+YWRpbmcgKi8KQEAgLTU0MSw4ICs1NDMsNyBAQCB2b2lkIGFtZGdwdV9mZW5jZV9kcml2ZXJfZmlu
+aShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKIAkJaWYgKHJpbmctPmZlbmNlX2Rydi5pcnFf
+c3JjKQogCQkJYW1kZ3B1X2lycV9wdXQoYWRldiwgcmluZy0+ZmVuY2VfZHJ2LmlycV9zcmMsCiAJ
+CQkJICAgICAgIHJpbmctPmZlbmNlX2Rydi5pcnFfdHlwZSk7Ci0JCWlmICghcmluZy0+bm9fc2No
+ZWR1bGVyKQotCQkJZHJtX3NjaGVkX2ZpbmkoJnJpbmctPnNjaGVkKTsKKwogCQlkZWxfdGltZXJf
+c3luYygmcmluZy0+ZmVuY2VfZHJ2LmZhbGxiYWNrX3RpbWVyKTsKIAkJZm9yIChqID0gMDsgaiA8
+PSByaW5nLT5mZW5jZV9kcnYubnVtX2ZlbmNlc19tYXNrOyArK2opCiAJCQlkbWFfZmVuY2VfcHV0
+KHJpbmctPmZlbmNlX2Rydi5mZW5jZXNbal0pOwotLSAKMi4zMC4yCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
