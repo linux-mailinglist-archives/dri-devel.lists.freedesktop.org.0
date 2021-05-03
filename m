@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D95C3719D3
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:37:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC1B3719D8
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:37:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BEA86E947;
-	Mon,  3 May 2021 16:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF246E945;
+	Mon,  3 May 2021 16:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA9066E945
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:37:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DB967613F0;
- Mon,  3 May 2021 16:37:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1F4E6E949;
+ Mon,  3 May 2021 16:37:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B11A6141D;
+ Mon,  3 May 2021 16:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059826;
- bh=tCP26YbwEpPEeLdj2qXeWKhdyg5mohmzE7NfUrQ93+I=;
+ s=k20201202; t=1620059828;
+ bh=1lF+p0wWKEydSjKxt8caoh1BWCJvhUgVNOheCC5uX6o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KWtgKSecPBCkTvm84YYctkp1v7DF19uBQ37sL9cmkO6VCBUsBYttU36jKPgZUSLZ3
- kDTaka/Q6hsb9JtqxHYlgzjuHUoIodtFvbluznMG6fs09aEX9/cp2gzoRVzkA5R8F9
- xxRS/2HrrngPaodSqAigQ6vMzMqbRhMhGIwNGGfY5A/a5CjB/wiONXvU9sBt5QhZfH
- lkaZfJipDYmbMqCYjHtNC9W1r6bISM59jB/haiwwaOjgOYzcVd47iH53Sw+KxeF7QE
- yltyVNUy1NpLNjWIMAaW7WMa9owXklgVOU8EgXw0w4iOwLKWUN2RIcXMnew6YOw9nR
- DrAIrXFVDd/bg==
+ b=X5Irqu/WxLrjPeB/bWLjd3XfGO5Ac4ksgbbtMtaaxfcWgBP6MLxrCA6nhupbwiv3B
+ TQCoqs7KOdrmzWXn83RkArRh2kEm5pdyPQUpspe7pcZv0H24PupyRP/2VFoedZKjEX
+ zIvzHdHAtrZ8mbWeAfDmhHxRCc7TBUH5ttzJZHArbZ7FzrfkJxEBVuRTsXO9HOY4Vk
+ SF4E6IDw5E7FEIJk+pXsOhwJe8ue2AxCHkXsGAB5XutR4bpNLHLGnWuuXwRDaXP7vr
+ Bd1KoElMIR8vgd4WckUFpvCL2W2A9E7qFW0/q4bCXm4vTKX1lKJnpTVbrTCKa31jyC
+ yn6O6t8SDgQ3Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 004/115] drm/ast: Fix invalid usage of
- AST_MAX_HWC_WIDTH in cursor atomic_check
-Date: Mon,  3 May 2021 12:35:08 -0400
-Message-Id: <20210503163700.2852194-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.11 005/115] drm/amd/display: changing sr exit latency
+Date: Mon,  3 May 2021 12:35:09 -0400
+Message-Id: <20210503163700.2852194-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163700.2852194-1-sashal@kernel.org>
 References: <20210503163700.2852194-1-sashal@kernel.org>
@@ -50,41 +49,49 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
+ Qingqing Zhuo <Qingqing.Zhuo@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Alvin Lee <Alvin.Lee2@amd.com>,
+ Martin Leung <martin.leung@amd.com>, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+From: Martin Leung <martin.leung@amd.com>
 
-[ Upstream commit ee4a92d690f30f3793df942939726bec0338e65b ]
+[ Upstream commit efe213e5a57e0cd92fa4f328dc1963d330549982 ]
 
-Use AST_MAX_HWC_HEIGHT for setting offset_y in the cursor plane's
-atomic_check. The code used AST_MAX_HWC_WIDTH instead. This worked
-because both constants has the same value.
+[Why]
+Hardware team remeasured, need to update timings
+to increase latency slightly and avoid intermittent
+underflows.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210209134632.12157-3-tzimmermann@suse.de
+[How]
+sr exit latency update.
+
+Signed-off-by: Martin Leung <martin.leung@amd.com>
+Reviewed-by: Alvin Lee <Alvin.Lee2@amd.com>
+Acked-by: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 2 +-
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 9db371f4054f..c86ed2ffb725 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -688,7 +688,7 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
- 	unsigned int offset_x, offset_y;
- 
- 	offset_x = AST_MAX_HWC_WIDTH - fb->width;
--	offset_y = AST_MAX_HWC_WIDTH - fb->height;
-+	offset_y = AST_MAX_HWC_HEIGHT - fb->height;
- 
- 	if (state->fb != old_state->fb) {
- 		/* A new cursor image was installed. */
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c
+index 7ec8936346b2..f90881f4458f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c
+@@ -181,7 +181,7 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_0_soc = {
+ 		},
+ 	.min_dcfclk = 500.0, /* TODO: set this to actual min DCFCLK */
+ 	.num_states = 1,
+-	.sr_exit_time_us = 12,
++	.sr_exit_time_us = 15.5,
+ 	.sr_enter_plus_exit_time_us = 20,
+ 	.urgent_latency_us = 4.0,
+ 	.urgent_latency_pixel_data_only_us = 4.0,
 -- 
 2.30.2
 
