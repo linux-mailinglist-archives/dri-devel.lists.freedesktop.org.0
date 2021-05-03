@@ -1,78 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEF5371762
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 17:03:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FB8371780
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 17:05:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DDCC6E862;
-	Mon,  3 May 2021 15:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5C666E89A;
+	Mon,  3 May 2021 15:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAC56E862;
- Mon,  3 May 2021 15:03:39 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id e7so6620798edu.10;
- Mon, 03 May 2021 08:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=LfKIoetCjQTgk5baXTuoWmKWk8qWnpV6ol60pVZBp1w=;
- b=HW39HgxG3mwRaMck3rSkgnQ69I+OUHFXD6MtRxwq6fMWsvcwOs+e5UPL+kFKzX/fjW
- tyYc+CcHXMyMlbtR9WotspaFx6tYZ2JxTWcnWsU1wkgaCmb9rz4VljjKPNPk8vMBX8li
- dSmZL8dAyoyb3eDxHqMgZmG0oXuUZi+nhg27hNtX9bcCyLE4KAyeMpR1JwBazDLUNmhn
- fjJgQNatY48stSPfOQvJdOseSsKA1buaWfE6iaMUns4kDSLp8rXBUBMd18bVh3qlm1W2
- MACmf+Ds7ltPCRWrGTxS0ulraFs0TBCjZSjtSIUZ7qlsadCjLLhg3NVmO+kxpYulHZEX
- ay6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=LfKIoetCjQTgk5baXTuoWmKWk8qWnpV6ol60pVZBp1w=;
- b=ecw99GOWyW6CLNAYorZDnTcTnyqBwbC13olxVyNuZwagai5q+6SdKrw0xvbHf19Q27
- SIU45GIobxX9EEOGNFXu+C//sAed6RDaxrGhH4kiMghhyojfHNgdl/Xa3fYqCjfzCeN6
- 1B4MQn2FTTR2d0RPKh2i3GXUgKVavy4HCId7FanQNNZZlIXtRLhKSRy2ZW66BlK+DbV9
- 36rKdl1A0FeIvsNWKf+Syht6RFeEUfWmQYrfki470pqYgk35Dp83DF8gtfRqKIzgRAZR
- 59WJD/7+FJlriZfmd+yuRJx0dTgCs8VPqfFR1CKN1A/Pe6hxF9Fza2J1Of1CEDzykQuT
- UJwA==
-X-Gm-Message-State: AOAM532l4QW5Fmwv/ihQkFp7efs4GbX8xCJvS9dSL4h9ShHzlU/S3mQl
- pKmLNwW7NYvFRoNxaRJo4CJA5gRCJh8=
-X-Google-Smtp-Source: ABdhPJxuwWjkOWmR0xi/TrJvcHmaBDX8ACCf0Ip84OPwNw5ZSFosQ9x95Y2PxGrp2B4Dgf/zp0Uapw==
-X-Received: by 2002:aa7:c850:: with SMTP id g16mr19948093edt.324.1620054217902; 
- Mon, 03 May 2021 08:03:37 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:3a91:af9f:fcbf:5d42?
- ([2a02:908:1252:fb60:3a91:af9f:fcbf:5d42])
- by smtp.gmail.com with ESMTPSA id d25sm6015054ejd.59.2021.05.03.08.03.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 08:03:37 -0700 (PDT)
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: Jason Ekstrand <jason@jlekstrand.net>, Alex Deucher <alexdeucher@gmail.com>
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
- <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
- <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
- <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
- <YIfFC3YST0cfzd3l@phenom.ffwll.local>
- <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
- <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
- <CAPM=9tzz2u_qUXU9LMvtH_NDr1_wzunPo7Mt6NkrwAuowWTp7Q@mail.gmail.com>
- <CAAxE2A55Te6DjabYH8ELyfM03x2ZDaLsCsNC4Zqkrq0ExdpeHA@mail.gmail.com>
- <153487a3-082b-faf7-2a4d-ae15993b2a5d@gmail.com>
- <d6fbc1a3-ee69-d53e-0a60-9a313be19cac@daenzer.net>
- <CAAxE2A5V2YPRnPSue6cjsMWiWHoabmBiFEAsPXykO5-CCyunwQ@mail.gmail.com>
- <CADnq5_N7Wi0qzMmyVMY_PqM=BBF8mH7o1jcGRYNYB-StsM4uOA@mail.gmail.com>
- <CAOFGe961tB38dE=gzte4OTGNMOpUsW2ikrB03+t=eh4pDYFh5g@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <f5fbf250-860a-1507-193b-76c93e650cf5@gmail.com>
-Date: Mon, 3 May 2021 17:03:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC5B6E887;
+ Mon,  3 May 2021 15:05:47 +0000 (UTC)
+IronPort-SDR: B6EDAx4eKwncjHn4q3OWdMho2iZjItAkLDL0wF3TF6xCo87iFBG9gbslxEkTnFdKasUI9snpc8
+ 2vzL3T3vCRRw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="259047544"
+X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; d="scan'208";a="259047544"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2021 08:05:46 -0700
+IronPort-SDR: B1DeOxGgmBP9vKILXtocflw5cECHBCijteH/+9roDteI3BMPGnfTMekWp/BBsiM7N1YkwU6sV7
+ 1yXU9dOt9nMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; d="scan'208";a="389617374"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga006.jf.intel.com with SMTP; 03 May 2021 08:05:43 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 03 May 2021 18:05:43 +0300
+Date: Mon, 3 May 2021 18:05:43 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Subject: Re: [PATCH] drm/i915/display Try YCbCr420 color when RGB fails
+Message-ID: <YJARR2sanRuiWByO@intel.com>
+References: <20210429120553.7823-1-wse@tuxedocomputers.com>
+ <YIw2q/aibOplo7b+@intel.com>
+ <c68865ea-a968-a0b2-e534-a97c51a42d16@tuxedocomputers.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe961tB38dE=gzte4OTGNMOpUsW2ikrB03+t=eh4pDYFh5g@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <c68865ea-a968-a0b2-e534-a97c51a42d16@tuxedocomputers.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,115 +51,411 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDMuMDUuMjEgdW0gMTY6NTkgc2NocmllYiBKYXNvbiBFa3N0cmFuZDoKPiBTb3JyeSBmb3Ig
-dGhlIHRvcC1wb3N0IGJ1dCB0aGVyZSdzIG5vIGdvb2QgdGhpbmcgdG8gcmVwbHkgdG8gaGVyZS4u
-Lgo+Cj4gT25lIG9mIHRoZSB0aGluZ3MgcG9pbnRlZCBvdXQgdG8gbWUgcmVjZW50bHkgYnkgRGFu
-aWVsIFZldHRlciB0aGF0IEkKPiBkaWRuJ3QgZnVsbHkgdW5kZXJzdGFuZCBiZWZvcmUgaXMgdGhh
-dCBkbWFfYnVmIGhhcyBhIHZlcnkgc3VidGxlCj4gc2Vjb25kIHJlcXVpcmVtZW50IGJleW9uZCBm
-aW5pdGUgdGltZSBjb21wbGV0aW9uOiAgTm90aGluZyByZXF1aXJlZAo+IGZvciBzaWduYWxpbmcg
-YSBkbWEtZmVuY2UgY2FuIGFsbG9jYXRlIG1lbW9yeS4gIFdoeT8gIEJlY2F1c2UgdGhlIGFjdAo+
-IG9mIGFsbG9jYXRpbmcgbWVtb3J5IG1heSB3YWl0IG9uIHlvdXIgZG1hLWZlbmNlLiAgVGhpcywg
-YXMgaXQgdHVybnMKPiBvdXQsIGlzIGEgbWFzc2l2ZWx5IG1vcmUgc3RyaWN0IHJlcXVpcmVtZW50
-IHRoYW4gZmluaXRlIHRpbWUKPiBjb21wbGV0aW9uIGFuZCwgSSB0aGluaywgdGhyb3dzIG91dCBh
-bGwgb2YgdGhlIHByb3Bvc2FscyB3ZSBoYXZlIHNvCj4gZmFyLgo+Cj4gVGFrZSwgZm9yIGluc3Rh
-bmNlLCBNYXJlaydzIHByb3Bvc2FsIGZvciB1c2Vyc3BhY2UgaW52b2x2ZW1lbnQgd2l0aAo+IGRt
-YS1mZW5jZSBieSBhc2tpbmcgdGhlIGtlcm5lbCBmb3IgYSBuZXh0IHNlcmlhbCBhbmQgdGhlIGtl
-cm5lbAo+IHRydXN0aW5nIHVzZXJzcGFjZSB0byBzaWduYWwgaXQuICBUaGF0IGRvZXNuJ3Qgd29y
-ayBhdCBhbGwgaWYKPiBhbGxvY2F0aW5nIG1lbW9yeSB0byB0cmlnZ2VyIGEgZG1hLWZlbmNlIGNh
-biBibG93IHVwLiAgVGhlcmUncyBzaW1wbHkKPiBubyB3YXkgZm9yIHRoZSBrZXJuZWwgdG8gdHJ1
-c3QgdXNlcnNwYWNlIHRvIG5vdCBkbyBBTllUSElORyB3aGljaAo+IG1pZ2h0IGFsbG9jYXRlIG1l
-bW9yeS4gIEkgZG9uJ3QgZXZlbiB0aGluayB0aGVyZSdzIGEgd2F5IHVzZXJzcGFjZSBjYW4KPiB0
-cnVzdCBpdHNlbGYgdGhlcmUuICBJdCBhbHNvIGJsb3dzIHVwIG15IHBsYW4gb2YgbW92aW5nIHRo
-ZSBmZW5jZXMgdG8KPiB0cmFuc2l0aW9uIGJvdW5kYXJpZXMuCj4KPiBOb3Qgc3VyZSB3aGVyZSB0
-aGF0IGxlYXZlcyB1cy4KCldlbGwgYXQgbGVhc3QgSSB3YXMgcGVyZmVjdGx5IGF3YXJlIG9mIHRo
-YXQgOikKCkknbSBjdXJyZW50bHkgZXhwZXJpbWVudGluZyB3aXRoIHNvbWUgc2FtcGxlIGNvZGUg
-d2hpY2ggd291bGQgYWxsb3cgCmltcGxpY2l0IHN5bmMgd2l0aCB1c2VyIGZlbmNlcy4KCk5vdCB0
-aGF0IEknbSBwdXNoaW5nIGhhcmQgaW50byB0aGF0IGRpcmVjdGx5LCBidXQgSSBqdXN0IHdhbnQg
-dG8gbWFrZSAKY2xlYXIgaG93IHNpbXBsZSBvciBjb21wbGV4IHRoZSB3aG9sZSB0aGluZyB3b3Vs
-ZCBiZS4KCkNocmlzdGlhbi4KCj4KPiAtLUphc29uCj4KPiBPbiBNb24sIE1heSAzLCAyMDIxIGF0
-IDk6NDIgQU0gQWxleCBEZXVjaGVyIDxhbGV4ZGV1Y2hlckBnbWFpbC5jb20+IHdyb3RlOgo+PiBP
-biBTYXQsIE1heSAxLCAyMDIxIGF0IDY6MjcgUE0gTWFyZWsgT2zFocOhayA8bWFyYWVvQGdtYWls
-LmNvbT4gd3JvdGU6Cj4+PiBPbiBXZWQsIEFwciAyOCwgMjAyMSBhdCA1OjA3IEFNIE1pY2hlbCBE
-w6RuemVyIDxtaWNoZWxAZGFlbnplci5uZXQ+IHdyb3RlOgo+Pj4+IE9uIDIwMjEtMDQtMjggODo1
-OSBhLm0uLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+Pj4+PiBIaSBEYXZlLAo+Pj4+Pgo+Pj4+
-PiBBbSAyNy4wNC4yMSB1bSAyMToyMyBzY2hyaWViIE1hcmVrIE9sxaHDoWs6Cj4+Pj4+PiBTdXBw
-b3J0aW5nIGludGVyb3Agd2l0aCBhbnkgZGV2aWNlIGlzIGFsd2F5cyBwb3NzaWJsZS4gSXQgZGVw
-ZW5kcyBvbiB3aGljaCBkcml2ZXJzIHdlIG5lZWQgdG8gaW50ZXJvcGVyYXRlIHdpdGggYW5kIHVw
-ZGF0ZSB0aGVtLiBXZSd2ZSBhbHJlYWR5IGZvdW5kIHRoZSBwYXRoIGZvcndhcmQgZm9yIGFtZGdw
-dS4gV2UganVzdCBuZWVkIHRvIGZpbmQgb3V0IGhvdyBtYW55IG90aGVyIGRyaXZlcnMgbmVlZCB0
-byBiZSB1cGRhdGVkIGFuZCBldmFsdWF0ZSB0aGUgY29zdC9iZW5lZml0IGFzcGVjdC4KPj4+Pj4+
-Cj4+Pj4+PiBNYXJlawo+Pj4+Pj4KPj4+Pj4+IE9uIFR1ZSwgQXByIDI3LCAyMDIxIGF0IDI6Mzgg
-UE0gRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tIDxtYWlsdG86YWlybGllZEBnbWFpbC5j
-b20+PiB3cm90ZToKPj4+Pj4+Cj4+Pj4+PiAgICAgIE9uIFR1ZSwgMjcgQXByIDIwMjEgYXQgMjI6
-MDYsIENocmlzdGlhbiBLw7ZuaWcKPj4+Pj4+ICAgICAgPGNrb2VuaWcubGVpY2h0enVtZXJrZW5A
-Z21haWwuY29tIDxtYWlsdG86Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+PiB3cm90
-ZToKPj4+Pj4+ICAgICAgPgo+Pj4+Pj4gICAgICA+IENvcnJlY3QsIHdlIHdvdWxkbid0IGhhdmUg
-c3luY2hyb25pemF0aW9uIGJldHdlZW4gZGV2aWNlIHdpdGggYW5kIHdpdGhvdXQgdXNlciBxdWV1
-ZXMgYW55IG1vcmUuCj4+Pj4+PiAgICAgID4KPj4+Pj4+ICAgICAgPiBUaGF0IGNvdWxkIG9ubHkg
-YmUgYSBwcm9ibGVtIGZvciBBK0kgTGFwdG9wcy4KPj4+Pj4+Cj4+Pj4+PiAgICAgIFNpbmNlIEkg
-dGhpbmsgeW91IG1lbnRpb25lZCB5b3UnZCBvbmx5IGJlIGVuYWJsaW5nIHRoaXMgb24gbmV3ZXIK
-Pj4+Pj4+ICAgICAgY2hpcHNldHMsIHdvbid0IGl0IGJlIGEgcHJvYmxlbSBmb3IgQStBIHdoZXJl
-IG9uZSBBIGlzIGEgZ2VuZXJhdGlvbgo+Pj4+Pj4gICAgICBiZWhpbmQgdGhlIG90aGVyPwo+Pj4+
-Pj4KPj4+Pj4gQ3JhcCwgdGhhdCBpcyBhIGdvb2QgcG9pbnQgYXMgd2VsbC4KPj4+Pj4KPj4+Pj4+
-ICAgICAgSSdtIG5vdCByZWFsbHkgbGlraW5nIHdoZXJlIHRoaXMgaXMgZ29pbmcgYnR3LCBzZWVt
-cyBsaWtlIGEgaWxsCj4+Pj4+PiAgICAgIHRob3VnaHQgb3V0IGNvbmNlcHQsIGlmIEFNRCBpcyBy
-ZWFsbHkgZ29pbmcgZG93biB0aGUgcm9hZCBvZiBkZXNpZ25pbmcKPj4+Pj4+ICAgICAgaHcgdGhh
-dCBpcyBjdXJyZW50bHkgTGludXggaW5jb21wYXRpYmxlLCB5b3UgYXJlIGdvaW5nIHRvIGhhdmUg
-dG8KPj4+Pj4+ICAgICAgYWNjZXB0IGEgYmlnIHBhcnQgb2YgdGhlIGJ1cmRlbiBpbiBicmluZ2lu
-ZyB0aGlzIHN1cHBvcnQgaW4gdG8gbW9yZQo+Pj4+Pj4gICAgICB0aGFuIGp1c3QgYW1kIGRyaXZl
-cnMgZm9yIHVwY29taW5nIGdlbmVyYXRpb25zIG9mIGdwdS4KPj4+Pj4+Cj4+Pj4+IFdlbGwgd2Ug
-ZG9uJ3QgcmVhbGx5IGxpa2UgdGhhdCBlaXRoZXIsIGJ1dCB3ZSBoYXZlIG5vIG90aGVyIG9wdGlv
-biBhcyBmYXIgYXMgSSBjYW4gc2VlLgo+Pj4+IEkgZG9uJ3QgcmVhbGx5IHVuZGVyc3RhbmQgd2hh
-dCAiZnV0dXJlIGh3IG1heSByZW1vdmUgc3VwcG9ydCBmb3Iga2VybmVsIHF1ZXVlcyIgbWVhbnMg
-ZXhhY3RseS4gV2hpbGUgdGhlIHBlci1jb250ZXh0IHF1ZXVlcyBjYW4gYmUgbWFwcGVkIHRvIHVz
-ZXJzcGFjZSBkaXJlY3RseSwgdGhleSBkb24ndCAqaGF2ZSogdG8gYmUsIGRvIHRoZXk/IEkuZS4g
-dGhlIGtlcm5lbCBkcml2ZXIgc2hvdWxkIGJlIGFibGUgdG8gZWl0aGVyIGludGVyY2VwdCB1c2Vy
-c3BhY2UgYWNjZXNzIHRvIHRoZSBxdWV1ZXMsIG9yIGluIHRoZSB3b3JzdCBjYXNlIGRvIGl0IGFs
-bCBpdHNlbGYsIGFuZCBwcm92aWRlIHRoZSBleGlzdGluZyBzeW5jaHJvbml6YXRpb24gc2VtYW50
-aWNzIGFzIG5lZWRlZD8KPj4+Pgo+Pj4+IFN1cmVseSB0aGVyZSBhcmUgcmVzb3VyY2UgbGltaXRz
-IGZvciB0aGUgcGVyLWNvbnRleHQgcXVldWVzLCBzbyB0aGUga2VybmVsIGRyaXZlciBuZWVkcyB0
-byBkbyBzb21lIGtpbmQgb2YgdmlydHVhbGl6YXRpb24gLyBtdWx0aS1wbGV4aW5nIGFueXdheSwg
-b3Igd2UnbGwgZ2V0IHNhZCB1c2VyIGZhY2VzIHdoZW4gdGhlcmUncyBubyBxdWV1ZSBhdmFpbGFi
-bGUgZm9yIDxjdXJyZW50IGhvdCBnYW1lPi4KPj4+Pgo+Pj4+IEknbSBwcm9iYWJseSBtaXNzaW5n
-IHNvbWV0aGluZyB0aG91Z2gsIGF3YWl0aW5nIGVubGlnaHRlbm1lbnQuIDopCj4+Pgo+Pj4gVGhl
-IGh3IGludGVyZmFjZSBmb3IgdXNlcnNwYWNlIGlzIHRoYXQgdGhlIHJpbmcgYnVmZmVyIGlzIG1h
-cHBlZCB0byB0aGUgcHJvY2VzcyBhZGRyZXNzIHNwYWNlIGFsb25nc2lkZSBhIGRvb3JiZWxsIGFw
-ZXJ0dXJlICg0SyBwYWdlKSB0aGF0IGlzbid0IHJlYWwgbWVtb3J5LCBidXQgd2hlbiB0aGUgQ1BV
-IHdyaXRlcyBpbnRvIGl0LCBpdCB0ZWxscyB0aGUgaHcgc2NoZWR1bGVyIHRoYXQgdGhlcmUgYXJl
-IG5ldyBHUFUgY29tbWFuZHMgaW4gdGhlIHJpbmcgYnVmZmVyLiBVc2Vyc3BhY2UgaW5zZXJ0cyBh
-bGwgdGhlIHdhaXQsIGRyYXcsIGFuZCBzaWduYWwgY29tbWFuZHMgaW50byB0aGUgcmluZyBidWZm
-ZXIgYW5kIHRoZW4gInJpbmdzIiB0aGUgZG9vcmJlbGwuIEl0J3MgbXkgdW5kZXJzdGFuZGluZyB0
-aGF0IHRoZSByaW5nIGJ1ZmZlciBhbmQgdGhlIGRvb3JiZWxsIGFyZSBhbHdheXMgbWFwcGVkIGlu
-IHRoZSBzYW1lIEdQVSBhZGRyZXNzIHNwYWNlIGFzIHRoZSBwcm9jZXNzLCB3aGljaCBtYWtlcyBp
-dCB2ZXJ5IGRpZmZpY3VsdCB0byBlbXVsYXRlIHRoZSBjdXJyZW50IHByb3RlY3RlZCByaW5nIGJ1
-ZmZlcnMgaW4gdGhlIGtlcm5lbC4gVGhlIFZNSUQgb2YgdGhlIHJpbmcgYnVmZmVyIGlzIGFsc28g
-bm90IGNoYW5nZWFibGUuCj4+Pgo+PiBUaGUgZG9vcmJlbGwgZG9lcyBub3QgaGF2ZSB0byBiZSBt
-YXBwZWQgaW50byB0aGUgcHJvY2VzcydzIEdQVSB2aXJ0dWFsCj4+IGFkZHJlc3Mgc3BhY2UuICBU
-aGUgQ1BVIGNvdWxkIHdyaXRlIHRvIGl0IGRpcmVjdGx5LiAgTWFwcGluZyBpdCBpbnRvCj4+IHRo
-ZSBHUFUncyB2aXJ0dWFsIGFkZHJlc3Mgc3BhY2Ugd291bGQgYWxsb3cgeW91IHRvIGhhdmUgYSBk
-ZXZpY2Uga2ljawo+PiBvZmYgd29yayBob3dldmVyIHJhdGhlciB0aGFuIHRoZSBDUFUuICBFLmcu
-LCB0aGUgR1BVIGNvdWxkIGtpY2sgb2ZmCj4+IGl0J3Mgb3duIHdvcmsgb3IgbXVsdGlwbGUgZGV2
-aWNlcyBjb3VsZCBraWNrIG9mZiB3b3JrIHdpdGhvdXQgQ1BVCj4+IGludm9sdmVtZW50Lgo+Pgo+
-PiBBbGV4Cj4+Cj4+Cj4+PiBUaGUgaHcgc2NoZWR1bGVyIGRvZXNuJ3QgZG8gYW55IHN5bmNocm9u
-aXphdGlvbiBhbmQgaXQgZG9lc24ndCBzZWUgYW55IGRlcGVuZGVuY2llcy4gSXQgb25seSBjaG9v
-c2VzIHdoaWNoIHF1ZXVlIHRvIGV4ZWN1dGUsIHNvIGl0J3MgcmVhbGx5IGp1c3QgYSBzaW1wbGUg
-cXVldWUgbWFuYWdlciBoYW5kbGluZyB0aGUgdmlydHVhbGl6YXRpb24gYXNwZWN0IGFuZCBub3Qg
-bXVjaCBlbHNlLgo+Pj4KPj4+IE1hcmVrCj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwo+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4gZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+Pj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPj4gX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KPj4gbWVzYS1kZXYgbWFpbGluZyBsaXN0Cj4+IG1lc2Et
-ZGV2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL21lc2EtZGV2CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Mon, May 03, 2021 at 01:39:04PM +0200, Werner Sembach wrote:
+> Thanks for the feedback. I got some questions below.
+> > On Thu, Apr 29, 2021 at 02:05:53PM +0200, Werner Sembach wrote:
+> >> When encoder validation of a display mode fails, retry with less bandw=
+idth
+> >> heavy YCbCr420 color mode, if available. This enables some HDMI 1.4 se=
+tups
+> >> to support 4k60Hz output, which previously failed silently.
+> >>
+> >> AMDGPU had nearly the exact same issue. This problem description is
+> >> therefore copied from my commit message of the AMDGPU patch.
+> >>
+> >> On some setups, while the monitor and the gpu support display modes wi=
+th
+> >> pixel clocks of up to 600MHz, the link encoder might not. This prevents
+> >> YCbCr444 and RGB encoding for 4k60Hz, but YCbCr420 encoding might stil=
+l be
+> >> possible. However, which color mode is used is decided before the link
+> >> encoder capabilities are checked. This patch fixes the problem by retr=
+ying
+> >> to find a display mode with YCbCr420 enforced and using it, if it is
+> >> valid.
+> >>
+> >> I'm not entierly sure if the second
+> >> "if (HAS_PCH_SPLIT(dev_priv) && !HAS_DDI(dev_priv))" check in
+> >> intel_hdmi_compute_config(...) after forcing ycbcr420 is necessary. I
+> >> included it to better be safe then sorry.
+> >>
+> >> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> >> Cc: <stable@vger.kernel.org>
+> >> ---
+> >> Rebased from 5.12 to drm-tip and resend to resolve merge conflict.
+> >>
+> >> >From 876c1c8d970ff2a411ee8d08651bd4edbe9ecb3d Mon Sep 17 00:00:00 2001
+> >> From: Werner Sembach <wse@tuxedocomputers.com>
+> >> Date: Thu, 29 Apr 2021 13:59:30 +0200
+> >> Subject: [PATCH] Retry using YCbCr420 encoding if clock setup for RGB =
+fails
+> >>
+> >> ---
+> >>  drivers/gpu/drm/i915/display/intel_hdmi.c | 80 +++++++++++++++++------
+> >>  1 file changed, 60 insertions(+), 20 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/d=
+rm/i915/display/intel_hdmi.c
+> >> index 46de56af33db..c9b5a7d7f9c6 100644
+> >> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> >> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> >> @@ -1861,6 +1861,30 @@ static int intel_hdmi_port_clock(int clock, int=
+ bpc)
+> >>  	return clock * bpc / 8;
+> >>  }
+> >>  =
+
+> >> +static enum drm_mode_status
+> >> +intel_hdmi_check_bpc(struct intel_hdmi *hdmi, int clock, bool has_hdm=
+i_sink, struct drm_i915_private *dev_priv)
+> > Don't pass dev_priv. It can be extracted from the intel_hdmi.
+> >
+> > The name of the function isn't really sitting super well with me.
+> > I guess I'd just call it something like intel_hdmi_mode_clock_valid().
+> >
+> > We should also split this big patch up into smaller parts. Just this
+> > mechanical extraction of this function without any functional changes
+> > could be a nice first patch in the series.
+> >
+> >> +{
+> >> +	enum drm_mode_status status;
+> >> +
+> >> +	/* check if we can do 8bpc */
+> >> +	status =3D hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, =
+8),
+> >> +				       true, has_hdmi_sink);
+> >> +
+> >> +	if (has_hdmi_sink) {
+> >> +		/* if we can't do 8bpc we may still be able to do 12bpc */
+> >> +		if (status !=3D MODE_OK && !HAS_GMCH(dev_priv))
+> >> +			status =3D hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock=
+, 12),
+> >> +						       true, has_hdmi_sink);
+> >> +
+> >> +		/* if we can't do 8,12bpc we may still be able to do 10bpc */
+> >> +		if (status !=3D MODE_OK && DISPLAY_VER(dev_priv) >=3D 11)
+> >> +			status =3D hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock=
+, 10),
+> >> +						       true, has_hdmi_sink);
+> >> +	}
+> >> +
+> >> +	return status;
+> >> +}
+> >> +
+> >>  static enum drm_mode_status
+> >>  intel_hdmi_mode_valid(struct drm_connector *connector,
+> >>  		      struct drm_display_mode *mode)
+> >> @@ -1891,23 +1915,18 @@ intel_hdmi_mode_valid(struct drm_connector *co=
+nnector,
+> >>  	if (drm_mode_is_420_only(&connector->display_info, mode))
+> >>  		clock /=3D 2;
+> >>  =
+
+> >> -	/* check if we can do 8bpc */
+> >> -	status =3D hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, =
+8),
+> >> -				       true, has_hdmi_sink);
+> >> +	status =3D intel_hdmi_check_bpc(hdmi, clock, has_hdmi_sink, dev_priv=
+);
+> >>  =
+
+> >> -	if (has_hdmi_sink) {
+> >> -		/* if we can't do 8bpc we may still be able to do 12bpc */
+> >> -		if (status !=3D MODE_OK && !HAS_GMCH(dev_priv))
+> >> -			status =3D hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock=
+, 12),
+> >> -						       true, has_hdmi_sink);
+> >> +	if (status !=3D MODE_OK) {
+> >> +		if (drm_mode_is_420_also(&connector->display_info, mode)) {
+> > We also need a connector->ycbcr_420_allowed check here.
+> >
+> >> +			/* if we can't do full color resolution we may still be able to do=
+ reduced color resolution */
+> >> +			clock /=3D 2;
+> >>  =
+
+> >> -		/* if we can't do 8,12bpc we may still be able to do 10bpc */
+> >> -		if (status !=3D MODE_OK && DISPLAY_VER(dev_priv) >=3D 11)
+> >> -			status =3D hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock=
+, 10),
+> >> -						       true, has_hdmi_sink);
+> >> +			status =3D intel_hdmi_check_bpc(hdmi, clock, has_hdmi_sink, dev_pr=
+iv);
+> >> +		}
+> >> +		if (status !=3D MODE_OK)
+> >> +			return status;
+> >>  	}
+> >> -	if (status !=3D MODE_OK)
+> >> -		return status;
+> >>  =
+
+> >>  	return intel_mode_valid_max_plane_size(dev_priv, mode, false);
+> >>  }
+> >> @@ -1990,14 +2009,17 @@ static bool hdmi_deep_color_possible(const str=
+uct intel_crtc_state *crtc_state,
+> >>  =
+
+> >>  static int
+> >>  intel_hdmi_ycbcr420_config(struct intel_crtc_state *crtc_state,
+> >> -			   const struct drm_connector_state *conn_state)
+> >> +			   const struct drm_connector_state *conn_state,
+> >> +			   const bool force_ycbcr420)
+> >>  {
+> >>  	struct drm_connector *connector =3D conn_state->connector;
+> >>  	struct drm_i915_private *i915 =3D to_i915(connector->dev);
+> >>  	const struct drm_display_mode *adjusted_mode =3D
+> >>  		&crtc_state->hw.adjusted_mode;
+> >>  =
+
+> >> -	if (!drm_mode_is_420_only(&connector->display_info, adjusted_mode))
+> >> +	if (!(drm_mode_is_420_only(&connector->display_info, adjusted_mode) =
+||
+> >> +			(force_ycbcr420 &&
+> >> +			drm_mode_is_420_also(&connector->display_info, adjusted_mode))))
+> >>  		return 0;
+> >>  =
+
+> > This function I think we just want to throw out and roll something
+> > a bit better.
+> >
+> > Something like this I believe should work nicely:
+> >
+> > intel_hdmi_compute_output_format()
+> > {
+> > 	if (drm_mode_is_420_only())
+> > 		crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_YCBCR420;
+> > 	else
+> > 		crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_RGB;
+> >
+> > 	ret =3D intel_hdmi_compute_clock();
+> > 	if (ret) {
+> > 		if (crtc_state->output_format =3D=3D INTEL_OUTPUT_FORMAT_YCBCR420)
+> > 			return ret;
+> >
+> > 		crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_YCBCR420;
+> >
+> > 		ret =3D intel_hdmi_compute_clock()
+> > 		if (ret)
+> > 			return ret;
+> > 	}
+> >
+> > 	return 0;
+> > }
+> =
+
+> Can you give clarification on the 3 checks coming in between intel_hdmi_y=
+cbcr420_config and intel_hdmi_compute_clock?
+> =
+
+> I guess this can be done before:
+> =
+
+> pipe_config->has_audio =3D
+> =A0=A0=A0 =A0=A0=A0 intel_hdmi_has_audio(encoder, pipe_config, conn_state=
+);
+> =
+
+> This one behaves differently whether or not RGB or YCbCr is used, but I g=
+uess does not change the required clock speed? I'm unsure about this howeve=
+r. If it has no effect on the clock I would call it after intel_hdmi_comput=
+e_clock:
+> =
+
+> pipe_config->limited_color_range =3D
+> =A0=A0=A0 =A0=A0=A0 intel_hdmi_limited_color_range(pipe_config, conn_stat=
+e);
+> =
+
+> I don't know what this actually does, but it doesn't seem to have to do s=
+omething with color encoding so, like the has_audio check, it can be done b=
+efore deciding on RGB or YCbCr420? Correct me if I'm wrong:
+
+limited_color_rage and has_audio we can do after the
+output_format/clock stuff.
+
+So basically I'm thinking the result should look like:
+
+...
+ret =3D intel_hdmi_compute_output_format(...);
+if (ret)
+	return ret;
+
+if (crtc_state->output_format =3D=3D INTEL_OUTPUT_FORMAT_YCBCR420) {
+	ret =3D intel_pch_panel_fitting(...);
+	if (ret)
+		return ret;
+}
+
+crtc_state->limited_color_range =3D intel_hdmi_limited_color_range(...);
+
+crtc_state->has_audio =3D intel_hdmi_has_audio(...);
+...
+
+Or I guess has_audio could be the first thing before
+intel_hdmi_compute_output_format(). Doesn't really matter atm. There
+may be some linkage between audio/clocks/etc. that we should be thinking
+about which may dictate what the order should be. But since we're not
+checking any of that anyway you don't have to worry about it right
+now.
+
+> =
+
+> if (HAS_PCH_SPLIT(dev_priv) && !HAS_DDI(dev_priv))
+> =A0=A0=A0 =A0=A0=A0 pipe_config->has_pch_encoder =3D true;
+
+This one doesn't really matter as long as it's done somewhere. We could
+just move it somewhere quite early so it doesn't confuse people so much.
+Just after the DRM_MODE_FLAG_DBLSCAN check could be a sane spot for it.
+
+> =
+
+> > assuming we make intel_hdmi_compute_clock() check whether 420 output
+> > is actually supported.
+> =
+
+> Currently it's check ycbcr420 then set. This would turn this around. Chec=
+k first is more logical for my brain however.
+> =
+
+> what about something like this?
+> =
+
+> intel_hdmi_compute_output_format()
+> {
+> =A0=A0=A0 if (drm_mode_is_420_only())
+> =A0=A0=A0 =A0=A0=A0 crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_YCB=
+CR420;
+> =A0=A0=A0 else
+> =A0=A0=A0 =A0=A0=A0 crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_RGB;
+> =
+
+> =A0=A0=A0 ret =3D intel_hdmi_compute_clock();
+> =A0=A0=A0 if (ret) {
+> =A0=A0=A0 =A0=A0=A0 if (crtc_state->output_format =3D=3D INTEL_OUTPUT_FOR=
+MAT_YCBCR420 ||
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 !drm_mode_is_420_also() ||
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 !connector->ycbcr_420_allowed)
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 return ret;
+> =
+
+> =A0=A0=A0 =A0=A0=A0 crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_YCB=
+CR420;
+> =
+
+> =A0=A0=A0 =A0=A0=A0 ret =3D intel_hdmi_compute_clock()
+> =A0=A0=A0 =A0=A0=A0 if (ret)
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 return ret;
+> =A0=A0=A0 }
+> =
+
+> =A0=A0=A0 return 0;
+> }
+
+Looks mostly OK. But I think we need a ycbcr_420_allowed check for the
+420_only case too.
+
+> =
+
+> > Could roll a small helper for that. Something along these lines perhaps:
+> > static bool intel_hdmi_ycbcr_420_supported()
+> > {
+> > 	return connector->ycbcr_420_allowed &&
+> > 	       (drm_mode_is_420_only() || drm_mode_is_420_also());
+> > }
+> >
+> > The intel_pch_panel_fitting() call should probably just be hoisted
+> > into intel_hdmi_compute_config() after we've called the new
+> > intel_hdmi_compute_output_format().
+> >
+> > I think a three patch series is probably what we want for this:
+> > patch 1: extract intel_hdmi_mode_clock_valid() without 420_also handling
+> > patch 2: introduce intel_hdmi_compute_output_format() without 420_also =
+handling
+> > patch 3: drop in the 420_also handling everywhere
+> >
+> > That way if there's any regression due to the 420_also stuff at least
+> > we won't have to revert the whole thing, and can then more easily work
+> > on fixing whatever needs fixing.
+> >
+> >>  	if (!connector->ycbcr_420_allowed) {
+> >> @@ -2126,7 +2148,7 @@ int intel_hdmi_compute_config(struct intel_encod=
+er *encoder,
+> >>  	struct drm_display_mode *adjusted_mode =3D &pipe_config->hw.adjusted=
+_mode;
+> >>  	struct drm_connector *connector =3D conn_state->connector;
+> >>  	struct drm_scdc *scdc =3D &connector->display_info.hdmi.scdc;
+> >> -	int ret;
+> >> +	int ret, ret_saved;
+> >>  =
+
+> >>  	if (adjusted_mode->flags & DRM_MODE_FLAG_DBLSCAN)
+> >>  		return -EINVAL;
+> >> @@ -2141,7 +2163,7 @@ int intel_hdmi_compute_config(struct intel_encod=
+er *encoder,
+> >>  	if (adjusted_mode->flags & DRM_MODE_FLAG_DBLCLK)
+> >>  		pipe_config->pixel_multiplier =3D 2;
+> >>  =
+
+> >> -	ret =3D intel_hdmi_ycbcr420_config(pipe_config, conn_state);
+> >> +	ret =3D intel_hdmi_ycbcr420_config(pipe_config, conn_state, false);
+> >>  	if (ret)
+> >>  		return ret;
+> >>  =
+
+> >> @@ -2155,8 +2177,26 @@ int intel_hdmi_compute_config(struct intel_enco=
+der *encoder,
+> >>  		intel_hdmi_has_audio(encoder, pipe_config, conn_state);
+> >>  =
+
+> >>  	ret =3D intel_hdmi_compute_clock(encoder, pipe_config);
+> >> -	if (ret)
+> >> -		return ret;
+> >> +	if (ret) {
+> >> +		ret_saved =3D ret;
+> >> +
+> >> +		ret =3D intel_hdmi_ycbcr420_config(pipe_config, conn_state, true);
+> >> +		if (ret)
+> >> +			return ret;
+> >> +
+> >> +		if (pipe_config->output_format !=3D INTEL_OUTPUT_FORMAT_YCBCR420)
+> >> +			return ret_saved;
+> >> +
+> >> +		pipe_config->limited_color_range =3D
+> >> +			intel_hdmi_limited_color_range(pipe_config, conn_state);
+> >> +
+> >> +		if (HAS_PCH_SPLIT(dev_priv) && !HAS_DDI(dev_priv))
+> >> +			pipe_config->has_pch_encoder =3D true;
+> >> +
+> >> +		ret =3D intel_hdmi_compute_clock(encoder, pipe_config);
+> >> +		if (ret)
+> >> +			return ret;
+> >> +	}
+> >>  =
+
+> >>  	if (conn_state->picture_aspect_ratio)
+> >>  		adjusted_mode->picture_aspect_ratio =3D
+> >> -- =
+
+> >> 2.25.1
+> >>
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
