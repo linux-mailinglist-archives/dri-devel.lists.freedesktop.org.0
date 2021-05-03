@@ -2,35 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3D9371A21
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09750371A91
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:39:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F8986E95B;
-	Mon,  3 May 2021 16:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBC16E992;
+	Mon,  3 May 2021 16:39:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55C86E95B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:38:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DE54961421;
- Mon,  3 May 2021 16:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1620059882;
- bh=FgwOJtjFCovh2pSSgcn5gjyb2W1gErUYbBBYra6B+qY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E720fjcPW794q/UQnyrNdOshzgpar64+cKHVg4hZqbCw+7bVwwyUkyk1kTU69Ghvu
- Pxf871kQGjthbpinZzqu7kKyA47le3kgit1sFkdhRFnIJqw8Y7PkH6Vc1MXmg+zxiz
- 9+mdDO/XtFi4B3JdBqaj7kzKz50y20YVltAH8G0c=
-Date: Mon, 3 May 2021 18:38:00 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v3 1/4] staging: fbtft: Rectify GPIO handling
-Message-ID: <YJAm6D2LUtVz1YNa@kroah.com>
-References: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
- <20210428130415.55406-2-andriy.shevchenko@linux.intel.com>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85E526E992
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:39:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 69E646162D;
+ Mon,  3 May 2021 16:39:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620059984;
+ bh=GECd6ZWGOLxXk6I6RpW1NsCGUbeOBhdBjmOBiu+231s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=XH42oCXmHdWcoOy1Im77xDZfHcHtqLKTWqEzjw3ryI4cIgBN9u5tHZTmLiOSeKdCN
+ zkt9AODXgmxeGz5zDtxqsBybXKdesNFlzeVtejefARvgVgYP6eJsaXL/ojJlzePVdi
+ 1f6XJ3Cz2d6hoMp5QVDKiOH9S1In1j3Ky/pSxQei28VVuLezytaUXAiAcJbFR6z6sQ
+ ywqWsXICyLrT9V8KZm5oWtjUcB1tCJehSTSAoIVrhVRZRlze1sxpbBjIMw8xJn/5gs
+ EzUKtcJ0QO/Ad7pgl2jNwMTvlAhL1e/aHqcOo5jUGzwcTEm/CxFHQvLR7xIgSC9lq3
+ WhBcyexyaiTfw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 01/57] drm: Added orientation quirk for OneGX1 Pro
+Date: Mon,  3 May 2021 12:38:45 -0400
+Message-Id: <20210503163941.2853291-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210428130415.55406-2-andriy.shevchenko@linux.intel.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,79 +46,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.net>,
- linux-fbdev@vger.kernel.org, Nishad Kamdar <nishadkamdar@gmail.com>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phil Reid <preid@electromag.com.au>
+Cc: Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Jared Baldridge <jrb@expunge.us>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 28, 2021 at 04:04:12PM +0300, Andy Shevchenko wrote:
-> The infamous commit c440eee1a7a1 ("Staging: staging: fbtft: Switch to
-> the GPIO descriptor interface") broke GPIO handling completely.
-> It has already four commits to rectify and it seems not enough.
-> In order to fix the mess here we:
-> 
->   1) Set default to "inactive" for all requested pins
-> 
->   2) Fix CS#, RD#, and WR# pins polarity since it's active low
->      and GPIO descriptor interface takes it into consideration
->      from the Device Tree or ACPI
-> 
->   3) Consolidate chip activation (CS# assertion) under default
->      ->reset() callback
-> 
-> To summarize the expectations about polarity for GPIOs:
-> 
->    RD#			Low
->    WR#			Low
->    CS#			Low
->    RESET#		Low
->    DC or RS		High
->    RW			High
->    Data	0 .. 15		High
-> 
-> See also Adafruit learning course [1] for the example of the schematics.
-> 
-> While at it, drop unneeded NULL checks, since GPIO API is tolerant to that.
-> 
-> [1]: https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/downloads
-> 
-> Fixes: 92e3e884887c ("Staging: staging: fbtft: Fix GPIO handling")
-> Fixes: b918d1c27066 ("Staging: staging: fbtft: Fix reset assertion when using gpio descriptor")
-> Fixes: dbc4f989c878 ("Staging: staging: fbtft: Fix probing of gpio descriptor")
-> Fixes: c440eee1a7a1 ("Staging: staging: fbtft: Switch to the gpio descriptor interface")
+From: Jared Baldridge <jrb@expunge.us>
 
-I get the following error when trying to apply this:
+[ Upstream commit 81ad7f9f78e4ff80e95be8282423f511b84f1166 ]
 
-	Fixes tag: Fixes: 92e3e884887c ("Staging: staging: fbtft: Fix GPIO handling")
-	Has these problem(s):
-	        - Subject does not match target commit subject
-	          Just use
-		                git log -1 --format='Fixes: %h ("%s")'
-	Fixes tag: Fixes: b918d1c27066 ("Staging: staging: fbtft: Fix reset assertion when using gpio descriptor")
-	Has these problem(s):
-	        - Subject does not match target commit subject
-	          Just use
-		                git log -1 --format='Fixes: %h ("%s")'
-	Fixes tag: Fixes: dbc4f989c878 ("Staging: staging: fbtft: Fix probing of gpio descriptor")
-	Has these problem(s):
-	        - Subject does not match target commit subject
-	          Just use
-		                git log -1 --format='Fixes: %h ("%s")'
-	Fixes tag: Fixes: c440eee1a7a1 ("Staging: staging: fbtft: Switch to the gpio descriptor interface")
-	Has these problem(s):
-	        - Subject does not match target commit subject
-	          Just use
-		                git log -1 --format='Fixes: %h ("%s")'
+The OneGX1 Pro has a fairly unique combination of generic strings,
+but we additionally match on the BIOS date just to be safe.
 
-Please fix up for your next version of this series.
+Signed-off-by: Jared Baldridge <jrb@expunge.us>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/41288ccb-1012-486b-81c1-a24c31850c91@www.fastmail.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-thanks,
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 58f5dc2f6dd5..f6bdec7fa925 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -84,6 +84,13 @@ static const struct drm_dmi_panel_orientation_data itworks_tw891 = {
+ 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+ };
+ 
++static const struct drm_dmi_panel_orientation_data onegx1_pro = {
++	.width = 1200,
++	.height = 1920,
++	.bios_dates = (const char * const []){ "12/17/2020", NULL },
++	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
++};
++
+ static const struct drm_dmi_panel_orientation_data lcd720x1280_rightside_up = {
+ 	.width = 720,
+ 	.height = 1280,
+@@ -211,6 +218,13 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGM"),
+ 		},
+ 		.driver_data = (void *)&lcd1200x1920_rightside_up,
++	}, {	/* OneGX1 Pro */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SYSTEM_MANUFACTURER"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "SYSTEM_PRODUCT_NAME"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Default string"),
++		},
++		.driver_data = (void *)&onegx1_pro,
+ 	}, {	/* VIOS LTH17 */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "VIOS"),
+-- 
+2.30.2
 
-greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
