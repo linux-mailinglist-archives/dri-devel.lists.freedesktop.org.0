@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A54371845
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 17:47:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF10371847
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 17:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08C8C6E8CF;
-	Mon,  3 May 2021 15:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD5546E8CD;
+	Mon,  3 May 2021 15:47:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6FDA6E8CD
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 15:46:59 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5838E6E8D0
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 15:47:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620056819;
+ s=mimecast20190719; t=1620056825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CgHoVj2Do5c60YV9kewvU6IPdrYpqujE4xzib8vNTY4=;
- b=euEFvok+6jaXZboQEYt6rLoFGV4I2l+AZ7Y5zWf4DnAhxxr46nACEiIkxGZSFt6qocSU8j
- oZNQBSzWfbZ6sB7hJe2auev5a2qIFyWW8SSIqyiA76gacvjU0x64WbXbucIOWx3xkdk7PE
- MSgl4p42fS3xSpWanbhCvTrxoJypXYw=
+ bh=2YpzZXtC800EVHW5pglD1kRww9nvy1A37XUBKTj8KAo=;
+ b=VlKvRUE5Xm0bnYyC+Phf0niwl+aTgc0yDmwmoF0O/7f8GFVFlNwho6ilmxYeg7xVe+1efv
+ ezB6v2GL1gvulU7J+3Es8c3eGWNFP3yGYUbtmAyLmhtJTXLOYbFUXO+sLuGWC/wVJQHiTd
+ eXIXwRWMWnNOmJsRgOwzK1YqTyrJ/JY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-ihzsOlkwMk-N4twsUsf0KQ-1; Mon, 03 May 2021 11:46:57 -0400
-X-MC-Unique: ihzsOlkwMk-N4twsUsf0KQ-1
+ us-mta-573-vKWxRQ1pNsmA8uK8pZQ5JQ-1; Mon, 03 May 2021 11:47:01 -0400
+X-MC-Unique: vKWxRQ1pNsmA8uK8pZQ5JQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F3291006C80;
- Mon,  3 May 2021 15:46:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 897AC800D62;
+ Mon,  3 May 2021 15:46:58 +0000 (UTC)
 Received: from x1.localdomain (ovpn-112-158.ams2.redhat.com [10.36.112.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 91E061048109;
- Mon,  3 May 2021 15:46:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C39C91007610;
+ Mon,  3 May 2021 15:46:55 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -46,10 +46,10 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Guenter Roeck <linux@roeck-us.net>,
  Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: [PATCH 1/9] drm/connector: Give connector sysfs devices there own
- device_type
-Date: Mon,  3 May 2021 17:46:39 +0200
-Message-Id: <20210503154647.142551-2-hdegoede@redhat.com>
+Subject: [PATCH 2/9] drm/connector: Add a fwnode pointer to drm_connector and
+ register with ACPI
+Date: Mon,  3 May 2021 17:46:40 +0200
+Message-Id: <20210503154647.142551-3-hdegoede@redhat.com>
 In-Reply-To: <20210503154647.142551-1-hdegoede@redhat.com>
 References: <20210503154647.142551-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -74,113 +74,109 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Give connector sysfs devices there own device_type, this allows us to
-check if a device passed to functions dealing with generic devices is
-a drm_connector or not.
+Add a fwnode pointer to struct drm_connector and register an acpi_bus_type
+for the connectors with the ACPI subsystem (when CONFIG_ACPI is enabled).
 
-A check like this is necessary in the drm_connector_acpi_bus_match()
-function added in the next patch in this series.
+The adding of the fwnode pointer allows drivers to associate a fwnode
+that represents a connector with that connector.
 
+When the new fwnode pointer points to an ACPI-companion, then the new
+acpi_bus_type will cause the ACPI subsys to bind the device instantiated
+for the connector with the fwnode by calling acpi_bind_one(). This will
+result in a firmware_node symlink under /sys/class/card#-<connecter-name>/
+which helps to verify that the fwnode-s and connectors are properly
+matched.
+
+Co-authored-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/drm_sysfs.c | 50 +++++++++++++++++++++++++++----------
- 1 file changed, 37 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/drm_sysfs.c | 37 +++++++++++++++++++++++++++++++++++++
+ include/drm/drm_connector.h |  2 ++
+ 2 files changed, 39 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index f0336c804639..553024bcda8a 100644
+index 553024bcda8a..12cc649c44f0 100644
 --- a/drivers/gpu/drm/drm_sysfs.c
 +++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -50,6 +50,10 @@ static struct device_type drm_sysfs_device_minor = {
- 	.name = "drm_minor"
- };
+@@ -10,6 +10,7 @@
+  * Copyright (c) 2003-2004 IBM Corp.
+  */
  
-+static struct device_type drm_sysfs_device_connector = {
-+	.name = "drm_connector",
-+};
-+
++#include <linux/acpi.h>
+ #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/export.h>
+@@ -56,6 +57,39 @@ static struct device_type drm_sysfs_device_connector = {
+ 
  struct class *drm_class;
  
- static char *drm_devnode(struct device *dev, umode_t *mode)
-@@ -102,6 +106,11 @@ void drm_sysfs_destroy(void)
- 	drm_class = NULL;
- }
- 
-+static void drm_sysfs_release(struct device *dev)
++#ifdef CONFIG_ACPI
++static bool drm_connector_acpi_bus_match(struct device *dev)
 +{
-+	kfree(dev);
++	return dev->type == &drm_sysfs_device_connector;
 +}
 +
- /*
-  * Connector properties
-  */
-@@ -274,27 +283,47 @@ static const struct attribute_group *connector_dev_groups[] = {
- int drm_sysfs_connector_add(struct drm_connector *connector)
++static struct acpi_device *drm_connector_acpi_find_companion(struct device *dev)
++{
++	struct drm_connector *connector = to_drm_connector(dev);
++
++	return to_acpi_device_node(connector->fwnode);
++}
++
++static struct acpi_bus_type drm_connector_acpi_bus = {
++	.name = "drm_connector",
++	.match = drm_connector_acpi_bus_match,
++	.find_companion = drm_connector_acpi_find_companion,
++};
++
++static void drm_sysfs_acpi_register(void)
++{
++	register_acpi_bus_type(&drm_connector_acpi_bus);
++}
++
++static void drm_sysfs_acpi_unregister(void)
++{
++	unregister_acpi_bus_type(&drm_connector_acpi_bus);
++}
++#else
++static void drm_sysfs_acpi_register(void) { }
++static void drm_sysfs_acpi_unregister(void) { }
++#endif
++
+ static char *drm_devnode(struct device *dev, umode_t *mode)
  {
- 	struct drm_device *dev = connector->dev;
-+	struct device *kdev;
-+	int r;
- 
- 	if (connector->kdev)
- 		return 0;
- 
--	connector->kdev =
--		device_create_with_groups(drm_class, dev->primary->kdev, 0,
--					  connector, connector_dev_groups,
--					  "card%d-%s", dev->primary->index,
--					  connector->name);
-+	kdev = kzalloc(sizeof(*kdev), GFP_KERNEL);
-+	if (!kdev)
-+		return -ENOMEM;
-+
-+	device_initialize(kdev);
-+	kdev->class = drm_class;
-+	kdev->type = &drm_sysfs_device_connector;
-+	kdev->parent = dev->primary->kdev;
-+	kdev->groups = connector_dev_groups;
-+	kdev->release = drm_sysfs_release;
-+	dev_set_drvdata(kdev, connector);
-+
-+	r = dev_set_name(kdev, "card%d-%s", dev->primary->index, connector->name);
-+	if (r)
-+		goto err_free;
-+
- 	DRM_DEBUG("adding \"%s\" to sysfs\n",
- 		  connector->name);
- 
--	if (IS_ERR(connector->kdev)) {
--		DRM_ERROR("failed to register connector device: %ld\n", PTR_ERR(connector->kdev));
--		return PTR_ERR(connector->kdev);
-+	r = device_add(kdev);
-+	if (r) {
-+		DRM_ERROR("failed to register connector device: %d\n", r);
-+		goto err_free;
+ 	return kasprintf(GFP_KERNEL, "dri/%s", dev_name(dev));
+@@ -89,6 +123,8 @@ int drm_sysfs_init(void)
  	}
  
-+	connector->kdev = kdev;
+ 	drm_class->devnode = drm_devnode;
 +
- 	if (connector->ddc)
- 		return sysfs_create_link(&connector->kdev->kobj,
- 				 &connector->ddc->dev.kobj, "ddc");
++	drm_sysfs_acpi_register();
  	return 0;
-+
-+err_free:
-+	put_device(kdev);
-+	return r;
  }
  
- void drm_sysfs_connector_remove(struct drm_connector *connector)
-@@ -375,11 +404,6 @@ void drm_sysfs_connector_status_event(struct drm_connector *connector,
- }
- EXPORT_SYMBOL(drm_sysfs_connector_status_event);
- 
--static void drm_sysfs_release(struct device *dev)
--{
--	kfree(dev);
--}
--
- struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+@@ -101,6 +137,7 @@ void drm_sysfs_destroy(void)
  {
- 	const char *minor_str;
+ 	if (IS_ERR_OR_NULL(drm_class))
+ 		return;
++	drm_sysfs_acpi_unregister();
+ 	class_remove_file(drm_class, &class_attr_version.attr);
+ 	class_destroy(drm_class);
+ 	drm_class = NULL;
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 0261801af62c..d20bfd7576ed 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1254,6 +1254,8 @@ struct drm_connector {
+ 	struct device *kdev;
+ 	/** @attr: sysfs attributes */
+ 	struct device_attribute *attr;
++	/** @fwnode: associated fwnode supplied by platform firmware */
++	struct fwnode_handle *fwnode;
+ 
+ 	/**
+ 	 * @head:
 -- 
 2.31.1
 
