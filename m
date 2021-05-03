@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2536F3722C5
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 23:59:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6593722C6
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 23:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8310B6E917;
-	Mon,  3 May 2021 21:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4A06EA32;
+	Mon,  3 May 2021 21:59:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9F566E429
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 21:59:21 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id d10so4785388pgf.12
- for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 14:59:21 -0700 (PDT)
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D05906EA32
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 21:59:23 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id y32so4789249pga.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 14:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W77IZHCnR8zsUGkGNcdPd69iBZZWTodBrQgHGoIvISw=;
- b=M7TZCmAyoUuDzEvPoOmNkr6tBJGvDOg1aR4s7KOllc0EReHc789CdHc4KLzYms9sUR
- 5Z3DYDxMXHvWz9wnmzsO7ur2w+WrdPQ52D5E2adcrhy4EhUKeKsS24hkgcqEMF3ndr6w
- o4dBqj+CG6w1Wz63Tlq4h2sjgbhp2vayV4yfM=
+ bh=cHNn6cgaHFiYsy23xxjcXeSja9Jq6oH8Rtx9Cw9p/us=;
+ b=QEOfc0k7hR4SGctu04la7uL23JKNBUOJfOGCTmjmOnfxC0g8y0/fHzqfA6Ibibmuqm
+ 4woEpzLA/LGcSVAaYpJv6Ude2Nhv0wZ++8hR1/XK5WOD7fZAhgyIXZ+57Z1Y5kpxhOIj
+ 4lD1S8NpX6cKWp9hJiBFqn/flOMgkjtxWCxDw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W77IZHCnR8zsUGkGNcdPd69iBZZWTodBrQgHGoIvISw=;
- b=Zb/O7+YrBFMTA9dJEuEgFzt435gEPMCyfaTN/yVxJ1NWOkcx0MsVUew2PKRcKJhH/4
- A74bywf/pjX66L4Gj9NzPKg8x7Eic0lqQj97C7uSWSlJRALxs2n87Ww+9oQu+/J2ao1Y
- nvJ/dwKYKhoROl6zybHJtupr0TN797xENzDusW++CxZwm8CXBpCFFWu0ox1qP6OSgrOM
- H023lWa3V/OTzVb9uytVGokQcP8eNs4W3Jfx4QeTYLHKWzQ/LFLyFCFKXLt3I0RRqP8M
- wk+yyX00mwq4kCMBbyPWY162qdvApFsj/XMncNA9qJLRKrrsSWS7e53q31dzFtIQxcrv
- K2ag==
-X-Gm-Message-State: AOAM53318BSQkwVftg3P8SJ0ImP1E/2Pl107HTIoMZH9tR6u6mfDxlLo
- LlHq3upJRRKyrhMj3uMs21jAMQ==
-X-Google-Smtp-Source: ABdhPJwUwZpD0ml7xZSSGB8YnVak9g4AclMeV/DUQkle3+bQBr3hT0aM54E9KH7HNRBu5lUO+G4fog==
-X-Received: by 2002:a17:90a:440f:: with SMTP id
- s15mr943884pjg.192.1620079161254; 
- Mon, 03 May 2021 14:59:21 -0700 (PDT)
+ bh=cHNn6cgaHFiYsy23xxjcXeSja9Jq6oH8Rtx9Cw9p/us=;
+ b=eAIYpaes+1HetWYxmpPCI1TwUxs7d9dWbqiaZdMwYiNIZQVv9E/qfXSWUFAHtnfYRX
+ SKs3sVsurISx0Hew6d2jFVryjnh2xLgtAzsXULYZCab0aFZBrDPOyQFnTvxYgDgqQmqA
+ nfILQR18Tf+8NbTQS+7lOw4n5w81QMOTI28vGv8AfGHLWNku4OefaJnon0hE0XuoKijB
+ jtUdfOpKM2NJH8fY+kybb2Qn8GODcS3+LXDtHq9obGnpA3/9IgoC+hPqIi/MRMar5kDH
+ dCHgxuOoD1Jqb9BDBR9zAS7nnyGCd3aJMPUUJTiGUyIy9sy+O0/3bgQpBRzmP4XGMfEk
+ 39Rg==
+X-Gm-Message-State: AOAM531ur6wMpFaYcrRCZj65+ecuk5hSKFEUXy/TQ5lEZFMD2PF0qGKv
+ XxIGxcu3vtJFxVg872PSoumaow==
+X-Google-Smtp-Source: ABdhPJw6xhJFWKXbx9yLrVAJoMM/0/yqDEDpABclbFcZqWO+E1l4nBR3JDgLgwwO9ZBlItrFlxJgVw==
+X-Received: by 2002:a63:591b:: with SMTP id n27mr20475986pgb.33.1620079163465; 
+ Mon, 03 May 2021 14:59:23 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:a592:ac50:b17b:5c43])
- by smtp.gmail.com with ESMTPSA id w1sm639186pgp.31.2021.05.03.14.59.19
+ by smtp.gmail.com with ESMTPSA id w1sm639186pgp.31.2021.05.03.14.59.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 14:59:20 -0700 (PDT)
+ Mon, 03 May 2021 14:59:23 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
  Sam Ravnborg <sam@ravnborg.org>, Wolfram Sang <wsa@kernel.org>
-Subject: [PATCH v6 3/5] drm/bridge: ti-sn65dsi86: Promote the AUX channel to
- its own sub-dev
-Date: Mon,  3 May 2021 14:58:42 -0700
-Message-Id: <20210503145750.v6.3.If89144992cb9d900f8c91a8d1817dbe00f543720@changeid>
+Subject: [PATCH v6 4/5] drm/bridge: ti-sn65dsi86: Don't read EDID blob over DDC
+Date: Mon,  3 May 2021 14:58:43 -0700
+Message-Id: <20210503145750.v6.4.I9330684c25f65bb318eff57f0616500f83eac3cc@changeid>
 X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
 In-Reply-To: <20210503215844.2996320-1-dianders@chromium.org>
 References: <20210503215844.2996320-1-dianders@chromium.org>
@@ -83,183 +81,111 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'd like to be able to expose the DDC-over-AUX channel bus to our
-panel. This gets into a chicken-and-egg problem because:
-- The panel wants to get its DDC bus at probe time.
-- The ti-sn65dsi86 MIPI-to-eDP bridge code, which provides the DDC
-  bus, wants to get the panel at probe time.
+This is really just a revert of commit 58074b08c04a ("drm/bridge:
+ti-sn65dsi86: Read EDID blob over DDC"), resolving conflicts.
 
-By using a sub device we can fully create the AUX channel bits so that
-the panel can get them. Then the panel can finish probing and the
-bridge can probe.
+The old code failed to read the EDID properly in a very important
+case: before the bridge's pre_enable() was called. The way things need
+to work:
+1. Read the EDID.
+2. Based on the EDID, decide on video settings and pixel clock.
+3. Enable the bridge w/ the desired settings.
 
-To accomplish this, we use the new functions introduced in ("drm/dp:
-Allow an early call to register DDC i2c bus") to register the i2c bus
-early.
+The way things were working:
+1. Try to read the EDID but fail; fall back to hardcoded values.
+2. Based on hardcoded values, decide on video settings and pixel clock.
+3. Enable the bridge w/ the desired settings.
+4. Try again to read the EDID, it works now!
+5. Realize that the hardcoded settings weren't quite right.
+6. Disable / reenable the bridge w/ the right settings.
 
-NOTE: there's a little bit of a trick here. Though the AUX channel can
-run without the MIPI-to-eDP bits of the code, the MIPI-to-eDP bits
-can't run without the AUX channel. We could come up a complicated
-signaling scheme (have the MIPI-to-eDP bits return EPROBE_DEFER for a
-while or wait on some sort of completion), but it seems simple enough
-to just not even bother creating the bridge device until the AUX
-channel probes. That's what we'll do.
+The reasons for the failures were twofold:
+a) Since we never ran the bridge chip's pre-enable then we never set
+   the bit to ignore HPD. This meant the bridge chip didn't even _try_
+   to go out on the bus and communicate with the panel.
+b) Even if we fixed things to ignore HPD, the EDID still wouldn't read
+   if the panel wasn't on.
 
+Instead of reverting the code, we could fix it to set the HPD bit and
+also power on the panel. However, it also works nicely to just let the
+panel code read the EDID. Now that we've split the driver up we can
+expose the DDC AUX channel bus to the panel node. The panel can take
+charge of reading the EDID.
+
+NOTE: in order for things to work, anyone that needs to read the EDID
+will need to add something that looks like this to their panel in the
+dts:
+  ddc-i2c-bus = <&sn65dsi86_bridge>;
+
+Presumably it's OK to land this without waiting for users to add the
+dts property since the EDID reading was a bit broken anyway, was
+"recently" added, and we know we must have the fallback mode to use
+(since the EDID reading was a bit broken).
+
+Suggested-by: Andrzej Hajda <a.hajda@samsung.com>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
-Commit 6cba3fe43341 ("drm/dp: Add backpointer to drm_device in
-drm_dp_aux") made it very explicit that it's not OK to fully register
-the aux device until we have the bridge, but hopefully just getting
-the i2c bits early is OK?
 
-Changes in v6:
-- Use new drm_dp_aux_register_ddc() calls.
+(no changes since v1)
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 77 +++++++++++++++++++++++----
- 1 file changed, 66 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 22 ----------------------
+ 1 file changed, 22 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index db027528febd..594aac57bdbc 100644
+index 594aac57bdbc..9f0f785f380d 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -116,6 +116,7 @@
-  * struct ti_sn65dsi86 - Platform data for ti-sn65dsi86 driver.
-  * @bridge_aux:   AUX-bus sub device for MIPI-to-eDP bridge functionality.
-  * @gpio_aux:     AUX-bus sub device for GPIO controller functionality.
-+ * @aux_aux:      AUX-bus sub device for eDP AUX channel functionality.
-  *
-  * @dev:          Pointer to the top level (i2c) device.
-  * @regmap:       Regmap for accessing i2c.
-@@ -148,6 +149,7 @@
- struct ti_sn65dsi86 {
- 	struct auxiliary_device		bridge_aux;
- 	struct auxiliary_device		gpio_aux;
-+	struct auxiliary_device		aux_aux;
- 
- 	struct device			*dev;
- 	struct regmap			*regmap;
-@@ -1331,11 +1333,6 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 	if (ret)
- 		return ret;
- 
--	pdata->aux.name = "ti-sn65dsi86-aux";
--	pdata->aux.dev = pdata->dev;
--	pdata->aux.transfer = ti_sn_aux_transfer;
--	drm_dp_aux_init(&pdata->aux);
+@@ -125,7 +125,6 @@
+  * @connector:    Our connector.
+  * @host_node:    Remote DSI node.
+  * @dsi:          Our MIPI DSI source.
+- * @edid:         Detected EDID of eDP panel.
+  * @refclk:       Our reference clock.
+  * @panel:        Our panel.
+  * @enable_gpio:  The GPIO we toggle to enable the bridge.
+@@ -156,7 +155,6 @@ struct ti_sn65dsi86 {
+ 	struct drm_dp_aux		aux;
+ 	struct drm_bridge		bridge;
+ 	struct drm_connector		connector;
+-	struct edid			*edid;
+ 	struct device_node		*host_node;
+ 	struct mipi_dsi_device		*dsi;
+ 	struct clk			*refclk;
+@@ -405,24 +403,6 @@ connector_to_ti_sn65dsi86(struct drm_connector *connector)
+ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct ti_sn65dsi86 *pdata = connector_to_ti_sn65dsi86(connector);
+-	struct edid *edid = pdata->edid;
+-	int num, ret;
 -
- 	pdata->bridge.funcs = &ti_sn_bridge_funcs;
- 	pdata->bridge.of_node = np;
- 
-@@ -1430,6 +1427,50 @@ static int ti_sn65dsi86_add_aux_device(struct ti_sn65dsi86 *pdata,
- 	return ret;
+-	if (!edid) {
+-		pm_runtime_get_sync(pdata->dev);
+-		edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
+-		pm_runtime_put_autosuspend(pdata->dev);
+-	}
+-
+-	if (edid && drm_edid_is_valid(edid)) {
+-		ret = drm_connector_update_edid_property(connector, edid);
+-		if (!ret) {
+-			num = drm_add_edid_modes(connector, edid);
+-			if (num)
+-				return num;
+-		}
+-	}
+-
+ 	return drm_panel_get_modes(pdata->panel, connector);
  }
  
-+static void ti_sn65dsi86_unregister_dp_aux_ddc(void *data)
-+{
-+	drm_dp_aux_unregister_ddc(data);
-+}
-+
-+static int ti_sn_aux_probe(struct auxiliary_device *adev,
-+			   const struct auxiliary_device_id *id)
-+{
-+	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
-+	int ret;
-+
-+	pdata->aux.name = "ti-sn65dsi86-aux";
-+	pdata->aux.dev = pdata->dev;
-+	pdata->aux.transfer = ti_sn_aux_transfer;
-+	drm_dp_aux_init(&pdata->aux);
-+
-+	ret = drm_dp_aux_register_ddc(&pdata->aux);
-+	if (ret < 0) {
-+		drm_err(pdata, "Failed to register AUX DDC channel: %d\n", ret);
-+		return ret;
-+	}
-+	ret = devm_add_action_or_reset(&adev->dev,
-+				       ti_sn65dsi86_unregister_dp_aux_ddc, &pdata->aux);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * The eDP to MIPI bridge parts don't work until the AUX channel is
-+	 * setup so we don't add it in the main driver probe, we add it now.
-+	 */
-+	return ti_sn65dsi86_add_aux_device(pdata, &pdata->bridge_aux, "bridge");
-+}
-+
-+static const struct auxiliary_device_id ti_sn_aux_id_table[] = {
-+	{ .name = "ti_sn65dsi86.aux", },
-+	{},
-+};
-+
-+static struct auxiliary_driver ti_sn_aux_driver = {
-+	.name = "aux",
-+	.probe = ti_sn_aux_probe,
-+	.id_table = ti_sn_aux_id_table,
-+};
-+
- static int ti_sn65dsi86_probe(struct i2c_client *client,
- 			      const struct i2c_device_id *id)
- {
-@@ -1488,10 +1529,11 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
- 	 * motiviation here is to solve the chicken-and-egg problem of probe
- 	 * ordering. The bridge wants the panel to be there when it probes.
- 	 * The panel wants its HPD GPIO (provided by sn65dsi86 on some boards)
--	 * when it probes. There will soon be other devices (DDC I2C bus, PWM)
--	 * that have the same problem. Having sub-devices allows the some sub
--	 * devices to finish probing even if others return -EPROBE_DEFER and
--	 * gets us around the problems.
-+	 * when it probes. The panel and maybe backlight might want the DDC
-+	 * bus. Soon the PWM provided by the bridge chip will have the same
-+	 * problem. Having sub-devices allows the some sub devices to finish
-+	 * probing even if others return -EPROBE_DEFER and gets us around the
-+	 * problems.
- 	 */
- 
- 	if (IS_ENABLED(CONFIG_OF_GPIO)) {
-@@ -1500,7 +1542,13 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
- 			return ret;
+@@ -1353,8 +1333,6 @@ static void ti_sn_bridge_remove(struct auxiliary_device *adev)
+ 		mipi_dsi_device_unregister(pdata->dsi);
  	}
  
--	return ti_sn65dsi86_add_aux_device(pdata, &pdata->bridge_aux, "bridge");
-+	/*
-+	 * NOTE: At the end of the AUX channel probe we'll add the aux device
-+	 * for the bridge. This is because the bridge can't be used until the
-+	 * AUX channel is there and this is a very simple solution to the
-+	 * dependency problem.
-+	 */
-+	return ti_sn65dsi86_add_aux_device(pdata, &pdata->aux_aux, "aux");
- }
+-	kfree(pdata->edid);
+-
+ 	drm_bridge_remove(&pdata->bridge);
  
- static struct i2c_device_id ti_sn65dsi86_id[] = {
-@@ -1537,12 +1585,18 @@ static int __init ti_sn65dsi86_init(void)
- 	if (ret)
- 		goto err_main_was_registered;
- 
--	ret = auxiliary_driver_register(&ti_sn_bridge_driver);
-+	ret = auxiliary_driver_register(&ti_sn_aux_driver);
- 	if (ret)
- 		goto err_gpio_was_registered;
- 
-+	ret = auxiliary_driver_register(&ti_sn_bridge_driver);
-+	if (ret)
-+		goto err_aux_was_registered;
-+
- 	return 0;
- 
-+err_aux_was_registered:
-+	auxiliary_driver_unregister(&ti_sn_aux_driver);
- err_gpio_was_registered:
- 	ti_sn_gpio_unregister();
- err_main_was_registered:
-@@ -1555,6 +1609,7 @@ module_init(ti_sn65dsi86_init);
- static void __exit ti_sn65dsi86_exit(void)
- {
- 	auxiliary_driver_unregister(&ti_sn_bridge_driver);
-+	auxiliary_driver_unregister(&ti_sn_aux_driver);
- 	ti_sn_gpio_unregister();
- 	i2c_del_driver(&ti_sn65dsi86_driver);
- }
+ 	of_node_put(pdata->host_node);
 -- 
 2.31.1.527.g47e6f16901-goog
 
