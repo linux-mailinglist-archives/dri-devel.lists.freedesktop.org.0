@@ -2,31 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10353713C0
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 12:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C11A3713FB
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 13:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 934DE6E1D8;
-	Mon,  3 May 2021 10:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5226E8A1;
+	Mon,  3 May 2021 11:08:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9D6216E1D8
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 10:45:54 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 9AC2C809F;
- Mon,  3 May 2021 10:45:54 +0000 (UTC)
-Date: Mon, 3 May 2021 13:45:50 +0300
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCHv2] drm/omap: Fix issue with clocks left on after resume
-Message-ID: <YI/UXqQbvdtC2HqI@atomide.com>
-References: <20210428092500.23521-1-tony@atomide.com>
- <YIlsy4mOkLcbMKwr@pendragon.ideasonboard.com>
- <YIo6CzsU4JRvAdpb@atomide.com>
- <79bea9b8-b2d2-11ec-87a3-34626347e122@ideasonboard.com>
+Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com
+ [IPv6:2607:f8b0:4864:20::934])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5056F6E8A1;
+ Mon,  3 May 2021 11:08:01 +0000 (UTC)
+Received: by mail-ua1-x934.google.com with SMTP id x22so1782432uav.8;
+ Mon, 03 May 2021 04:08:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Nd/tvd+BREgQ8+TItMl2enNb3kdsmIGNJMt10Lab01U=;
+ b=BLKNSv4NhMENnx75Xfs9RISYT4y1ofAQmjsKyDSC0DkTRcLllruyGE+baZzbqjO4b8
+ fziaTbH5Tm7wIn5fLQx3PAdTJ/cVI4WGD2Ei0n0S0UF96HMTK/Ik2FWeU4vbKgImMC8l
+ F3kaA0pmjiywDETOUkIWfkcPXSz2+nMaj+YMwjAMnYxZEJtw+QWNskuKFbTq9s2An7w6
+ fbm0U2v/DMz5dfa3+LeGEP8art94x5e9Zqv+QzKh9coZ3z3IXPwLUkeVe3EVaqwttdWE
+ 7fGljjgQjoV+ty8xBPZ9ooE/cEoNSAThaGhrZJKW6++gD+rgNzKO2LFPT9y5D/BC1+9V
+ jYlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Nd/tvd+BREgQ8+TItMl2enNb3kdsmIGNJMt10Lab01U=;
+ b=BhSos16pSwVV2yEFxTgeHoE10ds1OzSCdPfVtf93rfIdpne8f5cVbff3szhGzNBUBg
+ U71grxv79l1mJufqwm9xoamWBT4MzfLpbfoo0etnTBxpCC/51r21nIXUFrIQXGzTx6F3
+ 3vOhnt+6GBzGZP+5gXhWvp9eMy4ADFYOgiPImM6uwdiQV8+MRNv19JUeiT5yKvVNSH6L
+ UUW/OcxDc+vPc90+3vVfCyXfB/G07QQCN31gTZ2hLNKIhRvVc0GXfeKIe/9/nI9gT+wX
+ vM87e6NWotPsy6yChQ7VqDINhlCfBtvPmaSYTOqNsPa/3GyRZFjIxR26Xu4VC0sriHDf
+ MxGQ==
+X-Gm-Message-State: AOAM532sXzh0qKU0vKTphM1EpsHGpErAh1Kg+Nf7JCaW39U+S6O4Pvy2
+ 1jqqK7SXCq0TCFRQQkMTRkQhoP7jEK/0HI6M4mRHPXXctglfYw==
+X-Google-Smtp-Source: ABdhPJzcjnHLCz9H5DMwXo+wp/kfkXqblq4YQLm9V1X20dOFiC9GA8f0tPuMUPbYGs0mOCug6FNJ+3kwY3wXM5Floi8=
+X-Received: by 2002:ab0:1648:: with SMTP id l8mr13471321uae.124.1620040080385; 
+ Mon, 03 May 2021 04:08:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <79bea9b8-b2d2-11ec-87a3-34626347e122@ideasonboard.com>
+References: <20210503102422.1384502-1-l.stach@pengutronix.de>
+In-Reply-To: <20210503102422.1384502-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 3 May 2021 13:07:56 +0200
+Message-ID: <CAH9NwWfhM9hLcrUQCEieQzVG0Kh5XfjCBc3h3MLy693CpM=G7w@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: rework linear window offset calculation
+To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,89 +60,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-omap@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ patchwork-lst@pengutronix.de, Primoz Fiser <primoz.fiser@norik.com>,
+ Sascha Hauer <kernel@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> [210503 08:04]:
-> On 29/04/2021 07:46, Tony Lindgren wrote:
-> > I think the remaining issue is how dispc should provide services to
-> > the other components.
-> > 
-> > If dispc needs to be enabled to provide services to the other modules,
-> > maybe there's some better Linux generic framework dispc could implement?
-> > That is other than PM runtime calls for routing the signals to the
-> > output modules? Then PM runtime can be handled private to the dispc
-> > module.
-> 
-> What would be the difference? The dispc service would just call runtime get
-> and put, like it does now, wouldn't it?
+Am Mo., 3. Mai 2021 um 12:24 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> The current calculation based on the required_dma mask can be significantly
+> off, so that the linear window only overlaps a small part of the DRAM
+> address space. This can lead to the command buffer being unmappable, which
+> is obviously bad.
+>
+> Rework the linear window offset calculation to be based on the command buffer
+> physical address, making sure that the command buffer is always mappable.
+>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-I was thinking that we could have dispc always enabled when services from
-dispc have been requested. I'm not sure if we need to toggle dispc state,
-having it set to SYSC_IDLE_SMART mode might be enough. And I think the
-clocks are already on for dispc from the top level dss module if any of
-the dss components are active. I could be wrong though as I don't know
-enough about the dss hardware :)
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-> > Decoupling the system suspend and resume from PM runtime calls for
-> > all the other dss components should still also be done IMO. But that
-> > can be done as a separate clean-up patches after we have fixed the
-> > $subject issue.
-> 
-> I don't think I still really understand why all this is needed. I mean,
-> obviously things don't work correctly at the moment, so maybe this patch can
-> be applied to fix the system suspend. But it just feels like a big hack (the
-> current pm_runtime_force_suspend/resume work-around feels like a big hack
-> too).
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 52 +++++++++++++--------------
+>  1 file changed, 26 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index c6404b8d067f..a454b13e8106 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -27,10 +27,6 @@
+>  #include "state_hi.xml.h"
+>  #include "cmdstream.xml.h"
+>
+> -#ifndef PHYS_OFFSET
+> -#define PHYS_OFFSET 0
+> -#endif
+> -
+>  static const struct platform_device_id gpu_ids[] = {
+>         { .name = "etnaviv-gpu,2d" },
+>         { },
+> @@ -724,6 +720,7 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
+>  int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>  {
+>         struct etnaviv_drm_private *priv = gpu->drm->dev_private;
+> +       dma_addr_t cmdbuf_paddr;
+>         int ret, i;
+>
+>         ret = pm_runtime_get_sync(gpu->dev);
+> @@ -766,28 +763,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>         if (ret)
+>                 goto fail;
+>
+> -       /*
+> -        * Set the GPU linear window to be at the end of the DMA window, where
+> -        * the CMA area is likely to reside. This ensures that we are able to
+> -        * map the command buffers while having the linear window overlap as
+> -        * much RAM as possible, so we can optimize mappings for other buffers.
+> -        *
+> -        * For 3D cores only do this if MC2.0 is present, as with MC1.0 it leads
+> -        * to different views of the memory on the individual engines.
+> -        */
+> -       if (!(gpu->identity.features & chipFeatures_PIPE_3D) ||
+> -           (gpu->identity.minor_features0 & chipMinorFeatures0_MC20)) {
+> -               u32 dma_mask = (u32)dma_get_required_mask(gpu->dev);
+> -               if (dma_mask < PHYS_OFFSET + SZ_2G)
+> -                       priv->mmu_global->memory_base = PHYS_OFFSET;
+> -               else
+> -                       priv->mmu_global->memory_base = dma_mask - SZ_2G + 1;
+> -       } else if (PHYS_OFFSET >= SZ_2G) {
+> -               dev_info(gpu->dev, "Need to move linear window on MC1.0, disabling TS\n");
+> -               priv->mmu_global->memory_base = PHYS_OFFSET;
+> -               gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
+> -       }
+> -
+>         /*
+>          * If the GPU is part of a system with DMA addressing limitations,
+>          * request pages for our SHM backend buffers from the DMA32 zone to
+> @@ -804,6 +779,31 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>                 goto fail;
+>         }
+>
+> +       /*
+> +        * Set the GPU linear window to cover the cmdbuf region, as the GPU
+> +        * won't be able to start execution otherwise. The alignment to 128M is
+> +        * chosen arbitrarily but helps in debugging, as the MMU offset
+> +        * calculations are much more straight forward this way.
+> +        *
+> +        * On MC1.0 cores the linear window offset is ignored by the TS engine,
+> +        * leading to inconsistent memory views. Avoid using the offset on those
+> +        * cores if possible, otherwise disable the TS feature.
+> +        */
+> +       cmdbuf_paddr = ALIGN_DOWN(etnaviv_cmdbuf_get_pa(&gpu->buffer), SZ_128M);
+> +
+> +       if (!(gpu->identity.features & chipFeatures_PIPE_3D) ||
+> +           (gpu->identity.minor_features0 & chipMinorFeatures0_MC20)) {
+> +               if (cmdbuf_paddr >= SZ_2G)
+> +                       priv->mmu_global->memory_base = SZ_2G;
+> +               else
+> +                       priv->mmu_global->memory_base = cmdbuf_paddr;
+> +       } else if (cmdbuf_paddr + SZ_128M >= SZ_2G) {
+> +               dev_info(gpu->dev,
+> +                        "Need to move linear window on MC1.0, disabling TS\n");
+> +               gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
+> +               priv->mmu_global->memory_base = SZ_2G;
+> +       }
+> +
+>         /* Setup event management */
+>         spin_lock_init(&gpu->event_spinlock);
+>         init_completion(&gpu->event_free);
+> --
+> 2.29.2
+>
 
-Well omapdrm is not handling the -EBUSY error during system resume.
 
-> Why doesn't the suspend just work? Afaics, the runtime PM code in omapdrm is
-> fine: the dependencies work nicely, things get runtime suspended and resumes
-> correctly. And at system suspend, omapdrm will disable the whole display
-> pipeline (including bridges, panels) in a controlled manner, which results
-> in the appropriate runtime PM calls. I think this should just work. But it
-> doesn't, because... runtime PM and system suspend don't quite work well
-> together? Or something.
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-Right, PM runtime and system suspend should not be mixed together.
-
-> So is it something that omapdrm is doing in a wrong way, or is the PM
-> framework just messed up, and other drivers need to dance around the
-> problems too?
-
-I think we have omapdrm close to doing the right things. But trying to
-use PM runtime for system suspend is like using a Rube Goldberg machine
-to turn off the lights at night when you want to sleep :p
-
-> > I think we really should also change omap_drv use prepare/complete ops,
-> > and have the components use standard SIMPLE_DEV_PM_OPS. That still
-> > won't help with PM runtime related issues for system suspend and
-> > resume though, but leaves out the need for late pm ops.
-> 
-> Why do we need to do the above? What would omapdrm do in prepare & complete?
-> Why would we use SIMPLE_DEV_PM_OPS for the dss subcomponents?
-
-That would leave out the need to use late_pm_ops at all for the driver,
-we should suspend a bit earlier, and resume a bit later.
-
-> Slightly off topic, but I just noticed that we're using runtime_put_sync for
-> some reason. Found 0eaf9f52e94f756147dbfe1faf1f77a02378dbf9. I've been
-> fighting with system suspend for a long time =).
-> 
-> I wonder if using non-sync version would remove the EBUSY problem...
-
-Worth trying, but it will only help if the -EBUSY error from
-pm_runtime_put() is handled somewhere for a retry..
-
-Regards,
-
-Tony
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
