@@ -1,82 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8733716B2
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 16:35:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACEF3716D2
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 16:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70CB56E1B3;
-	Mon,  3 May 2021 14:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0DB26E21D;
+	Mon,  3 May 2021 14:42:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40F6A6E209
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 14:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620052534;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k5l9mji1oYztNVl+ToG36ApOd6oMuk+iglNseyqhqhM=;
- b=Ce+aS45lJzWrm+EDQV2lz3AqV/WSj7JxpQyRtJa3j6PClukJQ6STPnrX9wkNDiFGO5haxi
- H6RcK4GVcXvGgPlpNb8PQa6Do/9bxmRIE343FH9JguCPmG7o6QxxExZKbveb8A5so4UJh6
- /pMSdPUL7UvtCtC2TZjGqduhfsNu2mc=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-_OSQ_LhjMHGlqDw1Fn83bA-1; Mon, 03 May 2021 10:35:32 -0400
-X-MC-Unique: _OSQ_LhjMHGlqDw1Fn83bA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- i2-20020a0564020542b02903875c5e7a00so4633005edx.6
- for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 07:35:31 -0700 (PDT)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A966E0F0;
+ Mon,  3 May 2021 14:42:29 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id k25so5612972oic.4;
+ Mon, 03 May 2021 07:42:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=YLxp1UauBBKfYjeaIpjEwNSNyLvHafpTTtrsKLpKOcc=;
+ b=rKyRrY0+e/QtJwjnmnG1Xq2JFJLWGGs54VDZavBs8sEVfTQyMDQhq+SgkT2VdrKZgU
+ xgAHLYjupqpoNI19JZ8zx5Kth+gmSElJnT5ychLusdLTH39yMa0CAhxEUAsvLoMGakdB
+ GvlBfmU3sxgp/qYHOzkJl+GvrMTpV/eckp+q2LueoN0tYagIp7I+5L+aJ76AgmeLUWC/
+ fn6kpynN1ztLrwORU5z3xGCMu+Gt/un5C7QfsD70foasc76pFx3aIDDAjjtLb7DremJz
+ I8Vx6+HOPr+zzgZu/bkF6O/oYm072ltQl6U3wpIj3XrJewT05CqX3JN6UKhzhV5J+EV9
+ lzDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=k5l9mji1oYztNVl+ToG36ApOd6oMuk+iglNseyqhqhM=;
- b=rz/YwY2oqAHOzyTyvRBjOn/E3b+5DIZ3bVl0xzWg7Sl1Q2McJ71U0w2Fvc2BIDHur9
- xT/RYV0QWk+pcdSgSYi4XyN4ug6nCl6pbm9WsA1KgoaXR0xbH/huKhtxGXsoMXXRyowR
- WeCbCLpnSZeT1EPCniUJy9BQF2xhdWHo8aMukd44eb8exU450uvl5A3NdRm5mFy3bGA4
- QqehfLpu0fSM6lj95mToGKy/7QJzleULT+LDpA+i4QVKRMwXMbo3vrDQi53v0qqcrkeB
- /uO0cFpU2v4i4YzI0m5HpgnXEvD+kf1UUaPTZpNCdeHXwBlkZFpGIkdIMoOdwISClSSW
- wX/w==
-X-Gm-Message-State: AOAM533E+RBTgJ4Lx/xXd1x4NZ6AS0uPwM5Iv99xok7A+4hTWFXMlp8e
- 86GTOyTJ7bCTQBQ3sb5fQwqOqm9M6c0iSsxXwK0mhwvCoptrm1GaNJh8ZK1CXXIvZ0nrFFSy362
- oXo3JZtoMzKHJsax9dyhztNbOA57+
-X-Received: by 2002:a17:906:6a93:: with SMTP id
- p19mr17291192ejr.319.1620052530822; 
- Mon, 03 May 2021 07:35:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUvT+qkq3EqqF/+Zg6Vh+R8TnTUOqUDXXPQpBdiWawf3Ow/BHIM9//4R5/6uwXK5914Y8riw==
-X-Received: by 2002:a17:906:6a93:: with SMTP id
- p19mr17291172ejr.319.1620052530649; 
- Mon, 03 May 2021 07:35:30 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id q25sm12499548edt.51.2021.05.03.07.35.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 07:35:30 -0700 (PDT)
-Subject: Re: [PATCH 4/9] drm/connector: Add support for out-of-band hotplug
- notification
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Imre Deak <imre.deak@intel.com>
-References: <20210428215257.500088-1-hdegoede@redhat.com>
- <20210428215257.500088-5-hdegoede@redhat.com>
- <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <00e380b2-0376-0ddb-9b0e-342779b7fc06@redhat.com>
-Date: Mon, 3 May 2021 16:35:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YLxp1UauBBKfYjeaIpjEwNSNyLvHafpTTtrsKLpKOcc=;
+ b=VBRc9Kz1/x/5wLIDDcPqv//Lao5xxPgLLQsSV+HlIwZe7O6B1A98G09sxev7QQ+0Ad
+ XcHU78oG3iPo2U/k5wCuXD608hiek8+DkWorv+VsVaCVmfxa/3WhcQsxtoZULlSNNg43
+ wKQoiDlYtjA77rtOVSKp0RG8bV71acLKyAhAoIXScPY4hWXXco0nam4A/Zu4fb3c3hK5
+ aO7DCqfeeXBa7aJLAj7mdOJs/37lLz7IUDLcQCMYdvK9pKFsyv7M8FBYivBUlwWW5O34
+ l3a+Iaa363h0ipuWHD9xq8kh9COtGRCnuaRcLzxCevUrXu91uJSeNtmncPPi/JdUXcjP
+ +Icw==
+X-Gm-Message-State: AOAM5337R3Ac1GdnH3863oTSR6F83FqxMuJwS6OHwV3/q6DvMMauHKIp
+ R4jtSSwTVJaVH+ZZ/ZAzGHDoUJf02uNawuddrBIELi/S
+X-Google-Smtp-Source: ABdhPJxuH6e82BWnuUGv5alDAvrk0tZBD8fb4/A62rhGQ7m2sGM0bq1xJfuYHoEY0ouQ+2y5Xf/wYbIlZt8uQfQH7YA=
+X-Received: by 2002:aca:fc50:: with SMTP id a77mr8147446oii.123.1620052948659; 
+ Mon, 03 May 2021 07:42:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+ <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
+ <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
+ <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
+ <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
+ <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
+ <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
+ <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
+ <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
+ <YIfFC3YST0cfzd3l@phenom.ffwll.local>
+ <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
+ <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
+ <CAPM=9tzz2u_qUXU9LMvtH_NDr1_wzunPo7Mt6NkrwAuowWTp7Q@mail.gmail.com>
+ <CAAxE2A55Te6DjabYH8ELyfM03x2ZDaLsCsNC4Zqkrq0ExdpeHA@mail.gmail.com>
+ <153487a3-082b-faf7-2a4d-ae15993b2a5d@gmail.com>
+ <d6fbc1a3-ee69-d53e-0a60-9a313be19cac@daenzer.net>
+ <CAAxE2A5V2YPRnPSue6cjsMWiWHoabmBiFEAsPXykO5-CCyunwQ@mail.gmail.com>
+In-Reply-To: <CAAxE2A5V2YPRnPSue6cjsMWiWHoabmBiFEAsPXykO5-CCyunwQ@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 3 May 2021 10:42:17 -0400
+Message-ID: <CADnq5_N7Wi0qzMmyVMY_PqM=BBF8mH7o1jcGRYNYB-StsM4uOA@mail.gmail.com>
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,122 +78,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 5/3/21 10:00 AM, Heikki Krogerus wrote:
-> Hi Hans,
-> 
-> On Wed, Apr 28, 2021 at 11:52:52PM +0200, Hans de Goede wrote:
->> +/**
->> + * struct drm_connector_oob_hotplug_event_data: OOB hotplug event data
->> + *
->> + * Contains data about out-of-band hotplug events, signalled through
->> + * drm_connector_oob_hotplug_event().
->> + */
->> +struct drm_connector_oob_hotplug_event_data {
->> +	/**
->> +	 * @connected: New connected status for the connector.
->> +	 */
->> +	bool connected;
->> +	/**
->> +	 * @dp_lanes: Number of available displayport lanes, 0 if unknown.
->> +	 */
->> +	int dp_lanes;
->> +	/**
->> +	 * @orientation: Connector orientation.
->> +	 */
->> +	enum typec_orientation orientation;
->> +};
-> 
-> I don't think the orientation is relevant. It will always be "normal"
-> from DP PoW after muxing, no?
-
-That is what I thought to, but during the discussion of my previous attempt
-at this one of the i915 devs mentioned that in some cases the muxes manage
-to swap the lane order when the connector upside-down and at least the
-Intel GPUs can correct for this on the GPU side, so they asked for this
-info to be included.
-
-> I'm also not sure those deatils are enough in the long run. Based on
-> what I've understood from our graphics team guys, for example knowing
-> if multi-function is preferred may be important in some cases.
-
-The current data being passed is just intended as a starting point,
-this is purely a kernel internal API so we can easily add more
-data to the struct. As I mentioned in the cover-letter the current
-oob_hotplug handler which the i915 patch adds to the i915 driver does
-not actually do anything with the data.  ATM it is purely there to
-demonstrate that the ability to pass relevant data is there now
-(which was an issue with the previous attempt). I believe the current
-code is fine as a PoC of "pass event data" once GPU drivers actually
-start doing something with the data we can extend or outright replace
-it without issues.
-
-> +Imre.
-> 
-> All of that, and more, is already available in the Configuration VDO
-> Status VDO that the we have negotiated with the DP partner. Both those
-> VDOs are part of struct typec_displayport_data. I think we should
-> simply supply that structure to the DRM code instead of picking those
-> details out of it...
-
-I'm not sure I like the idea of passing the raw VDO, but if the
-DRM folks think that would be useful we can certainly add it.
-
-Regards,
-
-Hans
-
-
-> 
->>  /**
->>   * struct drm_tv_connector_state - TV connector related states
->>   * @subconnector: selected subconnector
->> @@ -1110,6 +1132,15 @@ struct drm_connector_funcs {
->>  	 */
->>  	void (*atomic_print_state)(struct drm_printer *p,
->>  				   const struct drm_connector_state *state);
->> +
->> +	/**
->> +	 * @oob_hotplug_event:
->> +	 *
->> +	 * This will get called when a hotplug-event for a drm-connector
->> +	 * has been received from a source outside the display driver / device.
->> +	 */
->> +	void (*oob_hotplug_event)(struct drm_connector *connector,
->> +				  struct drm_connector_oob_hotplug_event_data *data);
-> 
-> So I would not try to generalise this like that. This callback should
-> be USB Type-C DP altmode specific:
-> 
-> 	void (*oob_hotplug_event)(struct drm_connector *connector,
->                                   struct typec_displayport_data *data);
-> 
-> Or like this if the orientation can really be reversed after muxing:
-> 
-> 	void (*oob_hotplug_event)(struct drm_connector *connector,
-> 				  struct typec_altmode *altmode,
->                                   struct typec_displayport_data *data);
-> 
-> You can now check the orientation separately with
-> typec_altmode_get_orientation() if necessary.
-> 
-> 
-> thanks,
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCBNYXkgMSwgMjAyMSBhdCA2OjI3IFBNIE1hcmVrIE9sxaHDoWsgPG1hcmFlb0BnbWFp
+bC5jb20+IHdyb3RlOgo+Cj4gT24gV2VkLCBBcHIgMjgsIDIwMjEgYXQgNTowNyBBTSBNaWNoZWwg
+RMOkbnplciA8bWljaGVsQGRhZW56ZXIubmV0PiB3cm90ZToKPj4KPj4gT24gMjAyMS0wNC0yOCA4
+OjU5IGEubS4sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+ID4gSGkgRGF2ZSwKPj4gPgo+PiA+
+IEFtIDI3LjA0LjIxIHVtIDIxOjIzIHNjaHJpZWIgTWFyZWsgT2zFocOhazoKPj4gPj4gU3VwcG9y
+dGluZyBpbnRlcm9wIHdpdGggYW55IGRldmljZSBpcyBhbHdheXMgcG9zc2libGUuIEl0IGRlcGVu
+ZHMgb24gd2hpY2ggZHJpdmVycyB3ZSBuZWVkIHRvIGludGVyb3BlcmF0ZSB3aXRoIGFuZCB1cGRh
+dGUgdGhlbS4gV2UndmUgYWxyZWFkeSBmb3VuZCB0aGUgcGF0aCBmb3J3YXJkIGZvciBhbWRncHUu
+IFdlIGp1c3QgbmVlZCB0byBmaW5kIG91dCBob3cgbWFueSBvdGhlciBkcml2ZXJzIG5lZWQgdG8g
+YmUgdXBkYXRlZCBhbmQgZXZhbHVhdGUgdGhlIGNvc3QvYmVuZWZpdCBhc3BlY3QuCj4+ID4+Cj4+
+ID4+IE1hcmVrCj4+ID4+Cj4+ID4+IE9uIFR1ZSwgQXByIDI3LCAyMDIxIGF0IDI6MzggUE0gRGF2
+ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tIDxtYWlsdG86YWlybGllZEBnbWFpbC5jb20+PiB3
+cm90ZToKPj4gPj4KPj4gPj4gICAgIE9uIFR1ZSwgMjcgQXByIDIwMjEgYXQgMjI6MDYsIENocmlz
+dGlhbiBLw7ZuaWcKPj4gPj4gICAgIDxja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbSA8
+bWFpbHRvOmNrb2VuaWcubGVpY2h0enVtZXJrZW5AZ21haWwuY29tPj4gd3JvdGU6Cj4+ID4+ICAg
+ICA+Cj4+ID4+ICAgICA+IENvcnJlY3QsIHdlIHdvdWxkbid0IGhhdmUgc3luY2hyb25pemF0aW9u
+IGJldHdlZW4gZGV2aWNlIHdpdGggYW5kIHdpdGhvdXQgdXNlciBxdWV1ZXMgYW55IG1vcmUuCj4+
+ID4+ICAgICA+Cj4+ID4+ICAgICA+IFRoYXQgY291bGQgb25seSBiZSBhIHByb2JsZW0gZm9yIEEr
+SSBMYXB0b3BzLgo+PiA+Pgo+PiA+PiAgICAgU2luY2UgSSB0aGluayB5b3UgbWVudGlvbmVkIHlv
+dSdkIG9ubHkgYmUgZW5hYmxpbmcgdGhpcyBvbiBuZXdlcgo+PiA+PiAgICAgY2hpcHNldHMsIHdv
+bid0IGl0IGJlIGEgcHJvYmxlbSBmb3IgQStBIHdoZXJlIG9uZSBBIGlzIGEgZ2VuZXJhdGlvbgo+
+PiA+PiAgICAgYmVoaW5kIHRoZSBvdGhlcj8KPj4gPj4KPj4gPgo+PiA+IENyYXAsIHRoYXQgaXMg
+YSBnb29kIHBvaW50IGFzIHdlbGwuCj4+ID4KPj4gPj4KPj4gPj4gICAgIEknbSBub3QgcmVhbGx5
+IGxpa2luZyB3aGVyZSB0aGlzIGlzIGdvaW5nIGJ0dywgc2VlbXMgbGlrZSBhIGlsbAo+PiA+PiAg
+ICAgdGhvdWdodCBvdXQgY29uY2VwdCwgaWYgQU1EIGlzIHJlYWxseSBnb2luZyBkb3duIHRoZSBy
+b2FkIG9mIGRlc2lnbmluZwo+PiA+PiAgICAgaHcgdGhhdCBpcyBjdXJyZW50bHkgTGludXggaW5j
+b21wYXRpYmxlLCB5b3UgYXJlIGdvaW5nIHRvIGhhdmUgdG8KPj4gPj4gICAgIGFjY2VwdCBhIGJp
+ZyBwYXJ0IG9mIHRoZSBidXJkZW4gaW4gYnJpbmdpbmcgdGhpcyBzdXBwb3J0IGluIHRvIG1vcmUK
+Pj4gPj4gICAgIHRoYW4ganVzdCBhbWQgZHJpdmVycyBmb3IgdXBjb21pbmcgZ2VuZXJhdGlvbnMg
+b2YgZ3B1Lgo+PiA+Pgo+PiA+Cj4+ID4gV2VsbCB3ZSBkb24ndCByZWFsbHkgbGlrZSB0aGF0IGVp
+dGhlciwgYnV0IHdlIGhhdmUgbm8gb3RoZXIgb3B0aW9uIGFzIGZhciBhcyBJIGNhbiBzZWUuCj4+
+Cj4+IEkgZG9uJ3QgcmVhbGx5IHVuZGVyc3RhbmQgd2hhdCAiZnV0dXJlIGh3IG1heSByZW1vdmUg
+c3VwcG9ydCBmb3Iga2VybmVsIHF1ZXVlcyIgbWVhbnMgZXhhY3RseS4gV2hpbGUgdGhlIHBlci1j
+b250ZXh0IHF1ZXVlcyBjYW4gYmUgbWFwcGVkIHRvIHVzZXJzcGFjZSBkaXJlY3RseSwgdGhleSBk
+b24ndCAqaGF2ZSogdG8gYmUsIGRvIHRoZXk/IEkuZS4gdGhlIGtlcm5lbCBkcml2ZXIgc2hvdWxk
+IGJlIGFibGUgdG8gZWl0aGVyIGludGVyY2VwdCB1c2Vyc3BhY2UgYWNjZXNzIHRvIHRoZSBxdWV1
+ZXMsIG9yIGluIHRoZSB3b3JzdCBjYXNlIGRvIGl0IGFsbCBpdHNlbGYsIGFuZCBwcm92aWRlIHRo
+ZSBleGlzdGluZyBzeW5jaHJvbml6YXRpb24gc2VtYW50aWNzIGFzIG5lZWRlZD8KPj4KPj4gU3Vy
+ZWx5IHRoZXJlIGFyZSByZXNvdXJjZSBsaW1pdHMgZm9yIHRoZSBwZXItY29udGV4dCBxdWV1ZXMs
+IHNvIHRoZSBrZXJuZWwgZHJpdmVyIG5lZWRzIHRvIGRvIHNvbWUga2luZCBvZiB2aXJ0dWFsaXph
+dGlvbiAvIG11bHRpLXBsZXhpbmcgYW55d2F5LCBvciB3ZSdsbCBnZXQgc2FkIHVzZXIgZmFjZXMg
+d2hlbiB0aGVyZSdzIG5vIHF1ZXVlIGF2YWlsYWJsZSBmb3IgPGN1cnJlbnQgaG90IGdhbWU+Lgo+
+Pgo+PiBJJ20gcHJvYmFibHkgbWlzc2luZyBzb21ldGhpbmcgdGhvdWdoLCBhd2FpdGluZyBlbmxp
+Z2h0ZW5tZW50LiA6KQo+Cj4KPiBUaGUgaHcgaW50ZXJmYWNlIGZvciB1c2Vyc3BhY2UgaXMgdGhh
+dCB0aGUgcmluZyBidWZmZXIgaXMgbWFwcGVkIHRvIHRoZSBwcm9jZXNzIGFkZHJlc3Mgc3BhY2Ug
+YWxvbmdzaWRlIGEgZG9vcmJlbGwgYXBlcnR1cmUgKDRLIHBhZ2UpIHRoYXQgaXNuJ3QgcmVhbCBt
+ZW1vcnksIGJ1dCB3aGVuIHRoZSBDUFUgd3JpdGVzIGludG8gaXQsIGl0IHRlbGxzIHRoZSBodyBz
+Y2hlZHVsZXIgdGhhdCB0aGVyZSBhcmUgbmV3IEdQVSBjb21tYW5kcyBpbiB0aGUgcmluZyBidWZm
+ZXIuIFVzZXJzcGFjZSBpbnNlcnRzIGFsbCB0aGUgd2FpdCwgZHJhdywgYW5kIHNpZ25hbCBjb21t
+YW5kcyBpbnRvIHRoZSByaW5nIGJ1ZmZlciBhbmQgdGhlbiAicmluZ3MiIHRoZSBkb29yYmVsbC4g
+SXQncyBteSB1bmRlcnN0YW5kaW5nIHRoYXQgdGhlIHJpbmcgYnVmZmVyIGFuZCB0aGUgZG9vcmJl
+bGwgYXJlIGFsd2F5cyBtYXBwZWQgaW4gdGhlIHNhbWUgR1BVIGFkZHJlc3Mgc3BhY2UgYXMgdGhl
+IHByb2Nlc3MsIHdoaWNoIG1ha2VzIGl0IHZlcnkgZGlmZmljdWx0IHRvIGVtdWxhdGUgdGhlIGN1
+cnJlbnQgcHJvdGVjdGVkIHJpbmcgYnVmZmVycyBpbiB0aGUga2VybmVsLiBUaGUgVk1JRCBvZiB0
+aGUgcmluZyBidWZmZXIgaXMgYWxzbyBub3QgY2hhbmdlYWJsZS4KPgoKVGhlIGRvb3JiZWxsIGRv
+ZXMgbm90IGhhdmUgdG8gYmUgbWFwcGVkIGludG8gdGhlIHByb2Nlc3MncyBHUFUgdmlydHVhbAph
+ZGRyZXNzIHNwYWNlLiAgVGhlIENQVSBjb3VsZCB3cml0ZSB0byBpdCBkaXJlY3RseS4gIE1hcHBp
+bmcgaXQgaW50bwp0aGUgR1BVJ3MgdmlydHVhbCBhZGRyZXNzIHNwYWNlIHdvdWxkIGFsbG93IHlv
+dSB0byBoYXZlIGEgZGV2aWNlIGtpY2sKb2ZmIHdvcmsgaG93ZXZlciByYXRoZXIgdGhhbiB0aGUg
+Q1BVLiAgRS5nLiwgdGhlIEdQVSBjb3VsZCBraWNrIG9mZgppdCdzIG93biB3b3JrIG9yIG11bHRp
+cGxlIGRldmljZXMgY291bGQga2ljayBvZmYgd29yayB3aXRob3V0IENQVQppbnZvbHZlbWVudC4K
+CkFsZXgKCgo+IFRoZSBodyBzY2hlZHVsZXIgZG9lc24ndCBkbyBhbnkgc3luY2hyb25pemF0aW9u
+IGFuZCBpdCBkb2Vzbid0IHNlZSBhbnkgZGVwZW5kZW5jaWVzLiBJdCBvbmx5IGNob29zZXMgd2hp
+Y2ggcXVldWUgdG8gZXhlY3V0ZSwgc28gaXQncyByZWFsbHkganVzdCBhIHNpbXBsZSBxdWV1ZSBt
+YW5hZ2VyIGhhbmRsaW5nIHRoZSB2aXJ0dWFsaXphdGlvbiBhc3BlY3QgYW5kIG5vdCBtdWNoIGVs
+c2UuCj4KPiBNYXJlawo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
