@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7027A3719FA
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7992C371A16
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:38:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 724636E956;
-	Mon,  3 May 2021 16:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6942B6E957;
+	Mon,  3 May 2021 16:37:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B97A26E957
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:37:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 86C9C613DC;
- Mon,  3 May 2021 16:37:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 869166E957
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:37:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AEA0F6142D;
+ Mon,  3 May 2021 16:37:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059854;
- bh=VkO9kDar+T5480JzDWlIRMDbg+VsBAidXambrt3br0g=;
+ s=k20201202; t=1620059878;
+ bh=+8Ak/gQ7R3xd2xD7Jm1k0nim9o8CSWY+VD9ZmUUgU00=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=diwpN4CGqtDahLCHbD6Y01HRYmTMz+6tWgCmE9ZBO67/TjtSopSHtTVs476F0+PJ9
- RFywN0xmJWWHhL5CKg1qPC/sd1KF9anuoc1NHHFKDaeDegUQoCkUdiKTpB2+JP3M59
- xNihuJvOqR7vnH0IkFBUSEtcnbYPukrq0HR2+NtQihqVYVKMIBVsRWwCXNwJ4ZwLtJ
- itG9FCMUE8O/908lHA1b7JC3j6vJUoZGF1f7mDsD6xXRvn5DIowBQ8RX+B0FHLVe7V
- 63erRLJaCnqGG2j/el4WUQQCGsddSgaX1vS5ej7XoqGnm91QW6qXED3fkBD54kak8i
- W1Kpl/X4UcbgQ==
+ b=etCNnq+rKYlDte7VsOWRRQ+Zmmzbk4XNfw0xkL24FF8h1xebAaKH0UdeV5UU1IBCr
+ FvaLTSVzUWbtmSwyOxiD43HpYdWSrl+4SJEJ1IjrZwxrhphXeMDj0bvFQPLc33WbxC
+ B0cDFuFO7KU+DjYXSgrKWUBrkis9S9tsTdPIXupYoLTwl+N0OfNFdhY/MOQGWKKhU9
+ f3ckaW7bkjr0xuFoUOljTvT9cP8dbII3OG0oWyB5SStD76dT8vzDKO9YnDvLI5VXQa
+ GkZf5ONhsqdJfsdLNIJtfoBjTKq2LKbjuLhOaKjqtg76LVlqR8kfC5ADRAXj9C+2QV
+ dP1wionYSAmCg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 022/115] drm/virtio: fix possible leak/unlock
- virtio_gpu_object_array
-Date: Mon,  3 May 2021 12:35:26 -0400
-Message-Id: <20210503163700.2852194-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.11 038/115] backlight: qcom-wled: Use sink_addr for
+ sync toggle
+Date: Mon,  3 May 2021 12:35:42 -0400
+Message-Id: <20210503163700.2852194-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163700.2852194-1-sashal@kernel.org>
 References: <20210503163700.2852194-1-sashal@kernel.org>
@@ -49,55 +49,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xndcn <xndchn@gmail.com>, Sasha Levin <sashal@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Kiran Gunda <kgunda@codeaurora.org>,
+ Obeida Shamoun <oshmoun100@googlemail.com>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: xndcn <xndchn@gmail.com>
+From: Obeida Shamoun <oshmoun100@googlemail.com>
 
-[ Upstream commit 377f8331d0565e6f71ba081c894029a92d0c7e77 ]
+[ Upstream commit cdfd4c689e2a52c313b35ddfc1852ff274f91acb ]
 
-virtio_gpu_object array is not freed or unlocked in some
-failed cases.
+WLED3_SINK_REG_SYNC is, as the name implies, a sink register offset.
+Therefore, use the sink address as base instead of the ctrl address.
 
-Signed-off-by: xndcn <xndchn@gmail.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/20210305151819.14330-1-xndchn@gmail.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+This fixes the sync toggle on wled4, which can be observed by the fact
+that adjusting brightness now works.
+
+It has no effect on wled3 because sink and ctrl base addresses are the
+same.  This allows adjusting the brightness without having to disable
+then reenable the module.
+
+Signed-off-by: Obeida Shamoun <oshmoun100@googlemail.com>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Acked-by: Kiran Gunda <kgunda@codeaurora.org>
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 2 +-
- drivers/gpu/drm/virtio/virtgpu_object.c | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/video/backlight/qcom-wled.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index 23eb6d772e40..669f2ee39515 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -174,7 +174,7 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
- 		if (!sync_file) {
- 			dma_fence_put(&out_fence->f);
- 			ret = -ENOMEM;
--			goto out_memdup;
-+			goto out_unresv;
- 		}
+diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+index 3bc7800eb0a9..83a187fdaa1d 100644
+--- a/drivers/video/backlight/qcom-wled.c
++++ b/drivers/video/backlight/qcom-wled.c
+@@ -336,13 +336,13 @@ static int wled3_sync_toggle(struct wled *wled)
+ 	unsigned int mask = GENMASK(wled->max_string_count - 1, 0);
  
- 		exbuf->fence_fd = out_fence_fd;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index d69a5b6da553..4ff1ec28e630 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -248,6 +248,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 	rc = regmap_update_bits(wled->regmap,
+-				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
++				wled->sink_addr + WLED3_SINK_REG_SYNC,
+ 				mask, mask);
+ 	if (rc < 0)
+ 		return rc;
  
- 	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
- 	if (ret != 0) {
-+		virtio_gpu_array_put_free(objs);
- 		virtio_gpu_free_object(&shmem_obj->base);
- 		return ret;
- 	}
+ 	rc = regmap_update_bits(wled->regmap,
+-				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
++				wled->sink_addr + WLED3_SINK_REG_SYNC,
+ 				mask, WLED3_SINK_REG_SYNC_CLEAR);
+ 
+ 	return rc;
 -- 
 2.30.2
 
