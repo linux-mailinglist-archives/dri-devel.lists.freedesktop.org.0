@@ -1,53 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C11A3713FB
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 13:08:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDD03713FC
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 13:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5226E8A1;
-	Mon,  3 May 2021 11:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79E3B6E08A;
+	Mon,  3 May 2021 11:08:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com
- [IPv6:2607:f8b0:4864:20::934])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5056F6E8A1;
- Mon,  3 May 2021 11:08:01 +0000 (UTC)
-Received: by mail-ua1-x934.google.com with SMTP id x22so1782432uav.8;
- Mon, 03 May 2021 04:08:01 -0700 (PDT)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1443D6E08A
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 11:08:09 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id r9so7251895ejj.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 04:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Nd/tvd+BREgQ8+TItMl2enNb3kdsmIGNJMt10Lab01U=;
- b=BLKNSv4NhMENnx75Xfs9RISYT4y1ofAQmjsKyDSC0DkTRcLllruyGE+baZzbqjO4b8
- fziaTbH5Tm7wIn5fLQx3PAdTJ/cVI4WGD2Ei0n0S0UF96HMTK/Ik2FWeU4vbKgImMC8l
- F3kaA0pmjiywDETOUkIWfkcPXSz2+nMaj+YMwjAMnYxZEJtw+QWNskuKFbTq9s2An7w6
- fbm0U2v/DMz5dfa3+LeGEP8art94x5e9Zqv+QzKh9coZ3z3IXPwLUkeVe3EVaqwttdWE
- 7fGljjgQjoV+ty8xBPZ9ooE/cEoNSAThaGhrZJKW6++gD+rgNzKO2LFPT9y5D/BC1+9V
- jYlA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=us+m9UJvAbbJoBtZxbtXj0Ziq0X3oOalGL6IjJnVyco=;
+ b=U/15sIMVb90zZmbAq4o5lDH29M1wVicPtk0LDEuw0X+T7J9mFIQ6wgUVi+e8yFf1Dc
+ jSGczKJmgEmqL2kT96G0dim9L0Te7kWMAH2T8lh/30bekIfmN5JNDfRr8oT1ClTlWu/1
+ eNcmZaVaXZiO0GHTvgccfSa/t/U672/TAqgo48IQqPNlZqjj9003Ijg2EjGKMOGTp5gR
+ j73j/d5aPzTgxZWI7Iw3ju26+3oXJhf2H1ICfv2rgzpaF882k3Qdni+qq8OVQJXEwwKe
+ KEaJfUVfsWLRr1vke6okn4dw2ND1sBIydpuEtF4Z0pz4qz0yAOU77WyWMWheGdd2zRx+
+ PkxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Nd/tvd+BREgQ8+TItMl2enNb3kdsmIGNJMt10Lab01U=;
- b=BhSos16pSwVV2yEFxTgeHoE10ds1OzSCdPfVtf93rfIdpne8f5cVbff3szhGzNBUBg
- U71grxv79l1mJufqwm9xoamWBT4MzfLpbfoo0etnTBxpCC/51r21nIXUFrIQXGzTx6F3
- 3vOhnt+6GBzGZP+5gXhWvp9eMy4ADFYOgiPImM6uwdiQV8+MRNv19JUeiT5yKvVNSH6L
- UUW/OcxDc+vPc90+3vVfCyXfB/G07QQCN31gTZ2hLNKIhRvVc0GXfeKIe/9/nI9gT+wX
- vM87e6NWotPsy6yChQ7VqDINhlCfBtvPmaSYTOqNsPa/3GyRZFjIxR26Xu4VC0sriHDf
- MxGQ==
-X-Gm-Message-State: AOAM532sXzh0qKU0vKTphM1EpsHGpErAh1Kg+Nf7JCaW39U+S6O4Pvy2
- 1jqqK7SXCq0TCFRQQkMTRkQhoP7jEK/0HI6M4mRHPXXctglfYw==
-X-Google-Smtp-Source: ABdhPJzcjnHLCz9H5DMwXo+wp/kfkXqblq4YQLm9V1X20dOFiC9GA8f0tPuMUPbYGs0mOCug6FNJ+3kwY3wXM5Floi8=
-X-Received: by 2002:ab0:1648:: with SMTP id l8mr13471321uae.124.1620040080385; 
- Mon, 03 May 2021 04:08:00 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=us+m9UJvAbbJoBtZxbtXj0Ziq0X3oOalGL6IjJnVyco=;
+ b=iLWoOmb1WIZaLyK9+SOQAQ18YooVVNqcqgaEw+11EaBnUindMFB4O2PrmiZTAkqUTK
+ GTK7NU0vVCPNSD2mNnl2ZaINI0kFJpprqBsa7NRPRLVUhnGJNqbGkfcHFsJuEqy9FwjW
+ kYP7E9qVGRftRb7PbszsYVOFy8KeRp+WaELLgic0tsxQ9bO9vOSGDESg6rMJXIEAFVdf
+ smFxlSgp8OsRmqF0YjB9fJuJ1mMjK5IhbqzUSzAaEs7NqmCK7fmafxMgloyQayeKbp51
+ 9CU/ChHk+MvT++dbk9Agh9Y5fswau2/XPs9aPZGIZHrCfzi6pZkr2aZ7I1Xlyls7o8WT
+ QWew==
+X-Gm-Message-State: AOAM533u/l6kByPAY6NVvhVg+1v3FdZWvT0TMnHcmKHT99sT9gUoEeRL
+ bfuGRefIKmt6g84qPch8DJOgS6FPT7w=
+X-Google-Smtp-Source: ABdhPJyuuLV2XMIutnH0EY4XSblwIZBEurcxadxCYhuFfbjxZtBPVvpdfFJtTFti2AExQZGLhjcRUA==
+X-Received: by 2002:a17:907:3f08:: with SMTP id
+ hq8mr1869271ejc.240.1620040087766; 
+ Mon, 03 May 2021 04:08:07 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:3a91:af9f:fcbf:5d42?
+ ([2a02:908:1252:fb60:3a91:af9f:fcbf:5d42])
+ by smtp.gmail.com with ESMTPSA id gn36sm2961642ejc.23.2021.05.03.04.08.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 May 2021 04:08:06 -0700 (PDT)
+Subject: Re: [PATCH 07/13] drm/ttm: flip over the sys manager to self
+ allocated nodes
+To: Matthew Auld <matthew.william.auld@gmail.com>
+References: <20210430092508.60710-1-christian.koenig@amd.com>
+ <20210430092508.60710-7-christian.koenig@amd.com>
+ <CAM0jSHPX23up+orR+qqkBqsFTPsk1JO1Ds3zLxvjPTtR_WOmfg@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <be0d56cf-2001-48c0-62ed-bda3103b8436@gmail.com>
+Date: Mon, 3 May 2021 13:08:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210503102422.1384502-1-l.stach@pengutronix.de>
-In-Reply-To: <20210503102422.1384502-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 3 May 2021 13:07:56 +0200
-Message-ID: <CAH9NwWfhM9hLcrUQCEieQzVG0Kh5XfjCBc3h3MLy693CpM=G7w@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: rework linear window offset calculation
-To: Lucas Stach <l.stach@pengutronix.de>
+In-Reply-To: <CAM0jSHPX23up+orR+qqkBqsFTPsk1JO1Ds3zLxvjPTtR_WOmfg@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,130 +74,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- patchwork-lst@pengutronix.de, Primoz Fiser <primoz.fiser@norik.com>,
- Sascha Hauer <kernel@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mo., 3. Mai 2021 um 12:24 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> The current calculation based on the required_dma mask can be significantly
-> off, so that the linear window only overlaps a small part of the DRAM
-> address space. This can lead to the command buffer being unmappable, which
-> is obviously bad.
->
-> Rework the linear window offset calculation to be based on the command buffer
-> physical address, making sure that the command buffer is always mappable.
->
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 52 +++++++++++++--------------
->  1 file changed, 26 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index c6404b8d067f..a454b13e8106 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -27,10 +27,6 @@
->  #include "state_hi.xml.h"
->  #include "cmdstream.xml.h"
->
-> -#ifndef PHYS_OFFSET
-> -#define PHYS_OFFSET 0
-> -#endif
-> -
->  static const struct platform_device_id gpu_ids[] = {
->         { .name = "etnaviv-gpu,2d" },
->         { },
-> @@ -724,6 +720,7 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
->  int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->  {
->         struct etnaviv_drm_private *priv = gpu->drm->dev_private;
-> +       dma_addr_t cmdbuf_paddr;
->         int ret, i;
->
->         ret = pm_runtime_get_sync(gpu->dev);
-> @@ -766,28 +763,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->         if (ret)
->                 goto fail;
->
-> -       /*
-> -        * Set the GPU linear window to be at the end of the DMA window, where
-> -        * the CMA area is likely to reside. This ensures that we are able to
-> -        * map the command buffers while having the linear window overlap as
-> -        * much RAM as possible, so we can optimize mappings for other buffers.
-> -        *
-> -        * For 3D cores only do this if MC2.0 is present, as with MC1.0 it leads
-> -        * to different views of the memory on the individual engines.
-> -        */
-> -       if (!(gpu->identity.features & chipFeatures_PIPE_3D) ||
-> -           (gpu->identity.minor_features0 & chipMinorFeatures0_MC20)) {
-> -               u32 dma_mask = (u32)dma_get_required_mask(gpu->dev);
-> -               if (dma_mask < PHYS_OFFSET + SZ_2G)
-> -                       priv->mmu_global->memory_base = PHYS_OFFSET;
-> -               else
-> -                       priv->mmu_global->memory_base = dma_mask - SZ_2G + 1;
-> -       } else if (PHYS_OFFSET >= SZ_2G) {
-> -               dev_info(gpu->dev, "Need to move linear window on MC1.0, disabling TS\n");
-> -               priv->mmu_global->memory_base = PHYS_OFFSET;
-> -               gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
-> -       }
-> -
->         /*
->          * If the GPU is part of a system with DMA addressing limitations,
->          * request pages for our SHM backend buffers from the DMA32 zone to
-> @@ -804,6 +779,31 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->                 goto fail;
->         }
->
-> +       /*
-> +        * Set the GPU linear window to cover the cmdbuf region, as the GPU
-> +        * won't be able to start execution otherwise. The alignment to 128M is
-> +        * chosen arbitrarily but helps in debugging, as the MMU offset
-> +        * calculations are much more straight forward this way.
-> +        *
-> +        * On MC1.0 cores the linear window offset is ignored by the TS engine,
-> +        * leading to inconsistent memory views. Avoid using the offset on those
-> +        * cores if possible, otherwise disable the TS feature.
-> +        */
-> +       cmdbuf_paddr = ALIGN_DOWN(etnaviv_cmdbuf_get_pa(&gpu->buffer), SZ_128M);
-> +
-> +       if (!(gpu->identity.features & chipFeatures_PIPE_3D) ||
-> +           (gpu->identity.minor_features0 & chipMinorFeatures0_MC20)) {
-> +               if (cmdbuf_paddr >= SZ_2G)
-> +                       priv->mmu_global->memory_base = SZ_2G;
-> +               else
-> +                       priv->mmu_global->memory_base = cmdbuf_paddr;
-> +       } else if (cmdbuf_paddr + SZ_128M >= SZ_2G) {
-> +               dev_info(gpu->dev,
-> +                        "Need to move linear window on MC1.0, disabling TS\n");
-> +               gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
-> +               priv->mmu_global->memory_base = SZ_2G;
-> +       }
-> +
->         /* Setup event management */
->         spin_lock_init(&gpu->event_spinlock);
->         init_completion(&gpu->event_free);
-> --
-> 2.29.2
->
-
-
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMzAuMDQuMjEgdW0gMTc6MDQgc2NocmllYiBNYXR0aGV3IEF1bGQ6Cj4gT24gRnJpLCAzMCBB
+cHIgMjAyMSBhdCAxMDoyNSwgQ2hyaXN0aWFuIEvDtm5pZwo+IDxja29lbmlnLmxlaWNodHp1bWVy
+a2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4+IE1ha2Ugc3VyZSB0byBhbGxvY2F0ZSBhIHJlc291cmNl
+IG9iamVjdCBoZXJlLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
+c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4+IC0tLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRt
+X3N5c19tYW5hZ2VyLmMgfCA3ICsrKysrKysKPj4gICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRp
+b25zKCspCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9zeXNfbWFu
+YWdlci5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fc3lzX21hbmFnZXIuYwo+PiBpbmRleCBl
+ZDkyNjE1MjE0ZTMuLmE5MjYxMTRlZGZlNSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3R0bS90dG1fc3lzX21hbmFnZXIuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9z
+eXNfbWFuYWdlci5jCj4+IEBAIC0zLDE4ICszLDI1IEBACj4+ICAgI2luY2x1ZGUgPGRybS90dG0v
+dHRtX3Jlc291cmNlLmg+Cj4+ICAgI2luY2x1ZGUgPGRybS90dG0vdHRtX2RldmljZS5oPgo+PiAg
+ICNpbmNsdWRlIDxkcm0vdHRtL3R0bV9wbGFjZW1lbnQuaD4KPj4gKyNpbmNsdWRlIDxsaW51eC9z
+bGFiLmg+Cj4+Cj4+ICAgc3RhdGljIGludCB0dG1fc3lzX21hbl9hbGxvYyhzdHJ1Y3QgdHRtX3Jl
+c291cmNlX21hbmFnZXIgKm1hbiwKPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3Ry
+dWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgY29uc3Qgc3RydWN0IHR0bV9wbGFjZSAqcGxhY2UsCj4+ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgKm1lbSkKPj4gICB7Cj4+ICsgICAgICAgbWVt
+LT5tbV9ub2RlID0ga3phbGxvYyhzaXplb2YoKm1lbSksIEdGUF9LRVJORUwpOwo+PiArICAgICAg
+IGlmICghbWVtLT5tbV9ub2RlKQo+PiArICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9NRU07Cj4+
+ICsKPj4gKyAgICAgICB0dG1fcmVzb3VyY2VfaW5pdChibywgcGxhY2UsIG1lbS0+bW1fbm9kZSk7
+Cj4gWWVhaCwgd2h5IGFyZSB3ZSBwYXNzaW5nIHRoZSBtbV9ub2RlIGhlcmUsIGl0J3Mgbm90IHRo
+ZSB0dG1fcmVzb3VyY2U/CgpXZWxsIGl0IHRlbXBvcmFyeSBpcyB0aGUgdHRtX3Jlc291cmNlIG9i
+amVjdCB1bnRpbCBJIGZsaXAgdGhlIHN3aXRjaCBpbiAKdGhlIGxhc3QgcGF0Y2guCgpDaHJpc3Rp
+YW4uCgo+Cj4+ICAgICAgICAgIHJldHVybiAwOwo+PiAgIH0KPj4KPj4gICBzdGF0aWMgdm9pZCB0
+dG1fc3lzX21hbl9mcmVlKHN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuLAo+PiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICptZW0pCj4+ICAg
+ewo+PiArICAgICAgIGtmcmVlKG1lbS0+bW1fbm9kZSk7Cj4+ICAgfQo+Pgo+PiAgIHN0YXRpYyBj
+b25zdCBzdHJ1Y3QgdHRtX3Jlc291cmNlX21hbmFnZXJfZnVuYyB0dG1fc3lzX21hbmFnZXJfZnVu
+YyA9IHsKPj4gLS0KPj4gMi4yNS4xCj4+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
