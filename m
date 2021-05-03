@@ -2,42 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA14D3710A5
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 05:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1D0371124
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 07:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE5A6E861;
-	Mon,  3 May 2021 03:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8E36E877;
+	Mon,  3 May 2021 05:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 431F66E861;
- Mon,  3 May 2021 03:13:14 +0000 (UTC)
-IronPort-SDR: Oanb9atMp55jV4XK0oX/zqdwCGjjMoWIRArnuRoDcoJzAzpS9BHoDHiqKj7Siu+b3+Cz2wmteE
- XggAPQ/ZDrsw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9972"; a="258941310"
-X-IronPort-AV: E=Sophos;i="5.82,268,1613462400"; d="scan'208";a="258941310"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2021 20:13:12 -0700
-IronPort-SDR: DlWEuVc0GsZ3l2+sap/HNaJbO6bnemkBr3ic7xwnaYf3UstWJiIJgYMNDV7JDDnl61Yd449exs
- SRFm40MiPnQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,268,1613462400"; d="scan'208";a="389370171"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga006.jf.intel.com with SMTP; 02 May 2021 20:13:08 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 03 May 2021 06:13:08 +0300
-Date: Mon, 3 May 2021 06:13:08 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH 1/2] drm/dp: Handle zeroed port counts in
- drm_dp_read_downstream_info()
-Message-ID: <YI9qRPkSDGrLAaFg@intel.com>
-References: <20210430223428.10514-1-lyude@redhat.com>
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F5246E873
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 05:06:13 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id lp4so963114pjb.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 May 2021 22:06:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=E/FKJGJCQ2WFjnbO5YcetVVfi3vvMJqoARGeLl89eC8=;
+ b=lh4za3xaTooJfbOeXMng1u3MjSxWc2HhVsNObUs5jj06JlvMqZu/IWYTVsv7WRr8Yq
+ +RD6LF67WLbpj674PvIqT1c+mm/V/E9Y6qS42OeH3AGU8J9qCH45dPp4UrrKawDocPCT
+ TLlIKznAvXBe2BdyTkRGmnyhLxR8OoTvpJe8U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=E/FKJGJCQ2WFjnbO5YcetVVfi3vvMJqoARGeLl89eC8=;
+ b=ltPEKVNQTp3E8pweOwE/aVPrcRaZYafIPZah1F2FXITQtcTe3mjpnVzTXhV0eTcFtL
+ C94KSf1aPKLhLIJpTfnd84eIQwojUHRpjn1yFZ9p1LvD6I41aPgAPsjdM4j0r5yivZFa
+ OP5mWwjIKP0IbPWEd3vTKjSZRX0cs9YpzY6/fTk/HPtN7KB7Buy5CnFj1We+sAxDCT3y
+ nBUO8JqMm9/9vFyto7pwDqzwPay8uALBQkui2VuVGVIaNRflT04ph20JKBE83ZpvnvwV
+ 7o046OOPJ2nh1s07ftUmnT/17eLSWJcaldEQf7IZdc2weFOPT6DT9Dv2jsSd5oXfnFK4
+ iZhg==
+X-Gm-Message-State: AOAM533iBnEWdwZduTxahx2VWog8uyJyE5rqgJbZqV5Dy45Ro5ytYwYE
+ P92ocFHpRlM9smlBkcFcYJQ6PA==
+X-Google-Smtp-Source: ABdhPJzK7f9E96uhGaYj9Z8XDC4clhUq0a6o0CReg/QOI2eaar9BmY6biZNhpeflByLUdzTTvNXTMg==
+X-Received: by 2002:a17:902:a58b:b029:ee:d13a:2642 with SMTP id
+ az11-20020a170902a58bb02900eed13a2642mr5016303plb.35.1620018373006; 
+ Sun, 02 May 2021 22:06:13 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id q128sm7743860pfb.67.2021.05.02.22.06.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 02 May 2021 22:06:11 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH 0/2] drm/radeon: Fix off-by-one power_state index heap
+ overwrite
+Date: Sun,  2 May 2021 22:06:06 -0700
+Message-Id: <20210503050608.2158996-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210430223428.10514-1-lyude@redhat.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,81 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?iso-8859-1?B?Suly9G1l?= de Bretagne <jerome.debretagne@gmail.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: "Erhard F." <erhard_f@mailbox.org>, Kees Cook <keescook@chromium.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 30, 2021 at 06:34:27PM -0400, Lyude Paul wrote:
-> While the DP specification isn't entirely clear on if this should be
-> allowed or not, some branch devices report having downstream ports present
-> while also reporting a downstream port count of 0. So to avoid breaking
-> those devices, we need to handle this in drm_dp_read_downstream_info().
-> =
+Hi,
 
-> So, to do this we assume there's no downstream port info when the
-> downstream port count is 0.
-> =
+This is an attempt at fixing a bug[1] uncovered by the relocation of
+the slab freelist pointer offset, as well as some related clean-ups.
 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Tested-by: J=E9r=F4me de Bretagne <jerome.debretagne@gmail.com>
-> Bugzilla: https://gitlab.freedesktop.org/drm/intel/-/issues/3416
-> Fixes: 3d3721ccb18a ("drm/i915/dp: Extract drm_dp_read_downstream_info()")
-> Cc: <stable@vger.kernel.org> # v5.10+
-> ---
->  drivers/gpu/drm/drm_dp_helper.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> =
+I don't have hardware to do runtime testing, but it builds. ;)
 
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_hel=
-per.c
-> index cb56d74e9d38..27c8c5bdf7d9 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -682,7 +682,14 @@ int drm_dp_read_downstream_info(struct drm_dp_aux *a=
-ux,
->  	    !(dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DWN_STRM_PORT_PRESENT))
->  		return 0;
->  =
+-Kees
 
-> +	/* Some branches advertise having 0 downstream ports, despite also adve=
-rtising they have a
-> +	 * downstream port present. The DP spec isn't clear on if this is allow=
-ed or not, but since
-> +	 * some branches do it we need to handle it regardless.
-> +	 */
->  	len =3D drm_dp_downstream_port_count(dpcd);
-> +	if (!len)
-> +		return 0;
-> +
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=211537
 
-Seems sane enough.
+Kees Cook (2):
+  drm/radeon: Fix off-by-one power_state index heap overwrite
+  drm/radeon: Avoid power table parsing memory leaks
 
-Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+ drivers/gpu/drm/radeon/radeon_atombios.c | 26 ++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
->  	if (dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DETAILED_CAP_INFO_AVAILABLE)
->  		len *=3D 4;
->  =
+-- 
+2.25.1
 
-> -- =
-
-> 2.30.2
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
