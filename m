@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74373719C3
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:36:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 127DC3719CB
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:37:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAA6C6E940;
-	Mon,  3 May 2021 16:36:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 320C56E941;
+	Mon,  3 May 2021 16:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 165F06E940
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:36:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 689FC61403;
- Mon,  3 May 2021 16:36:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC5E96E941
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:37:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AD8C8613E1;
+ Mon,  3 May 2021 16:37:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059807;
- bh=vhNdZITQLLu1Vqwt/HaWW/3rsi9z4orMusNDvuWFim8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k0OwptcPvi8N4FiZjdmkdCdwX25YRI7KxzscRyNs5IpxxKFs0vTcjCDJRzoUpVyR6
- ++C/KaOMXK0UX4r7nwzDxYz5w9RuqNjgNLt3ljchqMCj2ClkmpYXKHrFJ+M75KQ8+I
- JTCWnlcAu/DW9uhn0s35dRLTdjuKoPl8NJu2+vTHXJ8ui0aXnnJ+ol/oT1ljFVZchW
- 0dXwJpoxMBfHRvnEjMvS++D27YA4VFQovoufzbvLdKdN2OGAZeIpqDP1eK8AsCUHvE
- 5r6t57BTBKSL1U4XybRiqCWgyCfJ25tMkCgacTjbL/bSSAkkUhcnOFDxVORZVntiF6
- TjgK39LunJSwA==
+ s=k20201202; t=1620059822;
+ bh=GECd6ZWGOLxXk6I6RpW1NsCGUbeOBhdBjmOBiu+231s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ELNVTVmhhcjWB3aoLeGmga0rpVzDq5mrjPBCvbNtLv35FCk5z13B6hiWHCtiaC8eB
+ qNy4y42+MtwTORZrY5RBnyklK2AbaAj8Oxs13tJ39NkyOKPym//oFb4K/+akfmhJPP
+ yMaYZHvPlTOHr5I1QRWHeqmIgWZo9N5XibXECul5UKVdv74NT5umql5SlB3kyTz288
+ vh/YyiJw3TefqRnZA65iBt4F7zi7ZMgXXZx1IfdpJuBTCh+ppML5kM4SbX2XUNwTxH
+ lVhKp5Ekbx4QBvraDUcoOeMR6Vjr0ktHm1ZBfKflh4m7ij+QE7dwWVjnxJd5IcbXAA
+ FhzCm5wXcQg8A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 060/134] drm/vkms: fix misuse of WARN_ON
-Date: Mon,  3 May 2021 12:33:59 -0400
-Message-Id: <20210503163513.2851510-60-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.11 001/115] drm: Added orientation quirk for OneGX1
+ Pro
+Date: Mon,  3 May 2021 12:35:05 -0400
+Message-Id: <20210503163700.2852194-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210503163513.2851510-1-sashal@kernel.org>
-References: <20210503163513.2851510-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,56 +47,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>,
- syzbot+4fc21a003c8332eb0bdd@syzkaller.appspotmail.com,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
- Dmitry Vyukov <dvyukov@google.com>
+Cc: Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Jared Baldridge <jrb@expunge.us>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Vyukov <dvyukov@google.com>
+From: Jared Baldridge <jrb@expunge.us>
 
-[ Upstream commit b4142fc4d52d051d4d8df1fb6c569e5b445d369e ]
+[ Upstream commit 81ad7f9f78e4ff80e95be8282423f511b84f1166 ]
 
-vkms_vblank_simulate() uses WARN_ON for timing-dependent condition
-(timer overrun). This is a mis-use of WARN_ON, WARN_ON must be used
-to denote kernel bugs. Use pr_warn() instead.
+The OneGX1 Pro has a fairly unique combination of generic strings,
+but we additionally match on the BIOS date just to be safe.
 
-Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
-Reported-by: syzbot+4fc21a003c8332eb0bdd@syzkaller.appspotmail.com
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Acked-by: Melissa Wen <melissa.srw@gmail.com>
-Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210320132840.1315853-1-dvyukov@google.com
+Signed-off-by: Jared Baldridge <jrb@expunge.us>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/41288ccb-1012-486b-81c1-a24c31850c91@www.fastmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vkms/vkms_crtc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 0443b7deeaef..758d8a98d96b 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -18,7 +18,8 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 58f5dc2f6dd5..f6bdec7fa925 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -84,6 +84,13 @@ static const struct drm_dmi_panel_orientation_data itworks_tw891 = {
+ 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+ };
  
- 	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
- 					  output->period_ns);
--	WARN_ON(ret_overrun != 1);
-+	if (ret_overrun != 1)
-+		pr_warn("%s: vblank timer overrun\n", __func__);
- 
- 	spin_lock(&output->lock);
- 	ret = drm_crtc_handle_vblank(crtc);
++static const struct drm_dmi_panel_orientation_data onegx1_pro = {
++	.width = 1200,
++	.height = 1920,
++	.bios_dates = (const char * const []){ "12/17/2020", NULL },
++	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
++};
++
+ static const struct drm_dmi_panel_orientation_data lcd720x1280_rightside_up = {
+ 	.width = 720,
+ 	.height = 1280,
+@@ -211,6 +218,13 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGM"),
+ 		},
+ 		.driver_data = (void *)&lcd1200x1920_rightside_up,
++	}, {	/* OneGX1 Pro */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SYSTEM_MANUFACTURER"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "SYSTEM_PRODUCT_NAME"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Default string"),
++		},
++		.driver_data = (void *)&onegx1_pro,
+ 	}, {	/* VIOS LTH17 */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "VIOS"),
 -- 
 2.30.2
 
