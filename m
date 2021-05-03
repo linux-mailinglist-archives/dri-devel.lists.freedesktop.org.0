@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0214371A66
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:38:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85000371A69
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:39:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A92256E982;
-	Mon,  3 May 2021 16:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90509892D5;
+	Mon,  3 May 2021 16:39:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 217236E983;
- Mon,  3 May 2021 16:38:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C2838613ED;
- Mon,  3 May 2021 16:38:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A543892D5
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:39:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B75D56161E;
+ Mon,  3 May 2021 16:39:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059929;
- bh=Lw6vE4UcBrY7WNNZ9dvZ6+mazSAp9vuX80l+b5VsBCo=;
+ s=k20201202; t=1620059952;
+ bh=+8Ak/gQ7R3xd2xD7Jm1k0nim9o8CSWY+VD9ZmUUgU00=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pZXPSpSFbjCDrsdM3gPgyI3eHcs7IOmg7W1m4vlmlU5WBmeF0HxlV3eIaEg6Pg1ed
- VLXs6128vJ1Xy2yxJNPEcQ+caRKA45a0ItA5HhMJlhsw3CvLChYk+htMgmkfrbIR0K
- FSa332T2V6wNWlPrOtRJg5V7bDOkG8GDPWkgXj9e48U9n8OMXn9dy7M/foUkk7zuKw
- ymjCTRc8QAYoUVt2WYO3RA0UrGpO1JCTKaHGeUuWX57zfC06q3m74+ns2I+FSedspl
- hF46kWrtjqYX1KJ//FxOzFxGhMUXE/4QS/BfMD0ABuU33kkyMIbFezyrzXf33GEICF
- lRtJqtTTNE42A==
+ b=R6bx7hAS1C1a3pP+xUIlnUhzYM8f2tGhy3cO6DfWAvqVxGIalL8ouDl5q1bPj2HGL
+ rOST2gT1rCyjSOydLH3+ktLBdikg50vnvAvFtrVwbaYfi50AMnFV7DcvtoQ5IUkH2J
+ 8v0dsq45z9MkSA3eh6EZgVgdjTcSe339lsPZzPomTrsNv8mzBItxO18VUl8lv6RU2D
+ ON6IA9CvJIyc4+k7EaJOn1Avv0SOL4oTarcQ7py6+6dkvfePX5GB+Kr9HVJI1ZcgkB
+ 30M/T1JNOH8p43iKypgiABmgzJfxGoEtxb3KfSsg06peDylYxt6hXxeX/yesZdthaj
+ rJpBY/xbkfrYw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 013/100] drm/amdgpu: Fix some unload driver issues
-Date: Mon,  3 May 2021 12:37:02 -0400
-Message-Id: <20210503163829.2852775-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 028/100] backlight: qcom-wled: Use sink_addr for
+ sync toggle
+Date: Mon,  3 May 2021 12:37:17 -0400
+Message-Id: <20210503163829.2852775-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163829.2852775-1-sashal@kernel.org>
 References: <20210503163829.2852775-1-sashal@kernel.org>
@@ -48,55 +49,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Emily Deng <Emily.Deng@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Kiran Gunda <kgunda@codeaurora.org>,
+ Obeida Shamoun <oshmoun100@googlemail.com>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRW1pbHkgRGVuZyA8RW1pbHkuRGVuZ0BhbWQuY29tPgoKWyBVcHN0cmVhbSBjb21taXQg
-YmIwY2QwOWJlNDVlYTQ1N2YyNWZkY2JjYjNkNmNmMjIzMGYyNmM0NiBdCgpXaGVuIHVubG9hZGlu
-ZyBkcml2ZXIgYWZ0ZXIga2lsbGluZyBzb21lIGFwcGxpY2F0aW9ucywgaXQgd2lsbCBoaXQgc2Rt
-YQpmbHVzaCB0bGIgam9iIHRpbWVvdXQgd2hpY2ggaXMgY2FsbGVkIGJ5IHR0bV9ib19kZWxheV9k
-ZWxldGUuIFNvCnRvIGF2b2lkIHRoZSBqb2Igc3VibWl0IGFmdGVyIGZlbmNlIGRyaXZlciBmaW5p
-LCBjYWxsIHR0bV9ib19sb2NrX2RlbGF5ZWRfd29ya3F1ZXVlCmJlZm9yZSBmZW5jZSBkcml2ZXIg
-ZmluaS4gQW5kIGFsc28gcHV0IGRybV9zY2hlZF9maW5pIGJlZm9yZSB3YWl0aW5nIGZlbmNlLgoK
-U2lnbmVkLW9mZi1ieTogRW1pbHkgRGVuZyA8RW1pbHkuRGVuZ0BhbWQuY29tPgpSZXZpZXdlZC1i
-eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpTaWduZWQtb2Zm
-LWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+ClNpZ25lZC1vZmYt
-Ynk6IFNhc2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlLmMgfCAxICsKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV9mZW5jZS5jICB8IDUgKysrLS0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRp
-b25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9kZXZpY2UuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
-dV9kZXZpY2UuYwppbmRleCA3NmQxMGYxYzU3OWIuLjdmMjY4OWQ0Yjg2ZCAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYwpAQCAtMzU1MSw2ICszNTUxLDcgQEAg
-dm9pZCBhbWRncHVfZGV2aWNlX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCiB7CiAJ
-ZGV2X2luZm8oYWRldi0+ZGV2LCAiYW1kZ3B1OiBmaW5pc2hpbmcgZGV2aWNlLlxuIik7CiAJZmx1
-c2hfZGVsYXllZF93b3JrKCZhZGV2LT5kZWxheWVkX2luaXRfd29yayk7CisJdHRtX2JvX2xvY2tf
-ZGVsYXllZF93b3JrcXVldWUoJmFkZXYtPm1tYW4uYmRldik7CiAJYWRldi0+c2h1dGRvd24gPSB0
-cnVlOwogCiAJa2ZyZWUoYWRldi0+cGNpX3N0YXRlKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X2ZlbmNlLmMKaW5kZXggZmUyZDQ5NWQwOGFiLi5kMDdjNDU4YzBiZWQgMTAwNjQ0
-Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jCisrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jCkBAIC01MzIsNiArNTMyLDgg
-QEAgdm9pZCBhbWRncHVfZmVuY2VfZHJpdmVyX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
-ZXYpCiAKIAkJaWYgKCFyaW5nIHx8ICFyaW5nLT5mZW5jZV9kcnYuaW5pdGlhbGl6ZWQpCiAJCQlj
-b250aW51ZTsKKwkJaWYgKCFyaW5nLT5ub19zY2hlZHVsZXIpCisJCQlkcm1fc2NoZWRfZmluaSgm
-cmluZy0+c2NoZWQpOwogCQlyID0gYW1kZ3B1X2ZlbmNlX3dhaXRfZW1wdHkocmluZyk7CiAJCWlm
-IChyKSB7CiAJCQkvKiBubyBuZWVkIHRvIHRyaWdnZXIgR1BVIHJlc2V0IGFzIHdlIGFyZSB1bmxv
-YWRpbmcgKi8KQEAgLTU0MCw4ICs1NDIsNyBAQCB2b2lkIGFtZGdwdV9mZW5jZV9kcml2ZXJfZmlu
-aShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKIAkJaWYgKHJpbmctPmZlbmNlX2Rydi5pcnFf
-c3JjKQogCQkJYW1kZ3B1X2lycV9wdXQoYWRldiwgcmluZy0+ZmVuY2VfZHJ2LmlycV9zcmMsCiAJ
-CQkJICAgICAgIHJpbmctPmZlbmNlX2Rydi5pcnFfdHlwZSk7Ci0JCWlmICghcmluZy0+bm9fc2No
-ZWR1bGVyKQotCQkJZHJtX3NjaGVkX2ZpbmkoJnJpbmctPnNjaGVkKTsKKwogCQlkZWxfdGltZXJf
-c3luYygmcmluZy0+ZmVuY2VfZHJ2LmZhbGxiYWNrX3RpbWVyKTsKIAkJZm9yIChqID0gMDsgaiA8
-PSByaW5nLT5mZW5jZV9kcnYubnVtX2ZlbmNlc19tYXNrOyArK2opCiAJCQlkbWFfZmVuY2VfcHV0
-KHJpbmctPmZlbmNlX2Rydi5mZW5jZXNbal0pOwotLSAKMi4zMC4yCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Obeida Shamoun <oshmoun100@googlemail.com>
+
+[ Upstream commit cdfd4c689e2a52c313b35ddfc1852ff274f91acb ]
+
+WLED3_SINK_REG_SYNC is, as the name implies, a sink register offset.
+Therefore, use the sink address as base instead of the ctrl address.
+
+This fixes the sync toggle on wled4, which can be observed by the fact
+that adjusting brightness now works.
+
+It has no effect on wled3 because sink and ctrl base addresses are the
+same.  This allows adjusting the brightness without having to disable
+then reenable the module.
+
+Signed-off-by: Obeida Shamoun <oshmoun100@googlemail.com>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Acked-by: Kiran Gunda <kgunda@codeaurora.org>
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/video/backlight/qcom-wled.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+index 3bc7800eb0a9..83a187fdaa1d 100644
+--- a/drivers/video/backlight/qcom-wled.c
++++ b/drivers/video/backlight/qcom-wled.c
+@@ -336,13 +336,13 @@ static int wled3_sync_toggle(struct wled *wled)
+ 	unsigned int mask = GENMASK(wled->max_string_count - 1, 0);
+ 
+ 	rc = regmap_update_bits(wled->regmap,
+-				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
++				wled->sink_addr + WLED3_SINK_REG_SYNC,
+ 				mask, mask);
+ 	if (rc < 0)
+ 		return rc;
+ 
+ 	rc = regmap_update_bits(wled->regmap,
+-				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
++				wled->sink_addr + WLED3_SINK_REG_SYNC,
+ 				mask, WLED3_SINK_REG_SYNC_CLEAR);
+ 
+ 	return rc;
+-- 
+2.30.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
