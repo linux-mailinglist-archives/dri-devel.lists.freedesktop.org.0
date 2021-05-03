@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61B8371ACE
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A48371AD1
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:41:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A078E6E9B8;
-	Mon,  3 May 2021 16:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5246E9AE;
+	Mon,  3 May 2021 16:41:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4EEE6E9B2;
- Mon,  3 May 2021 16:40:59 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8DA956193F;
- Mon,  3 May 2021 16:40:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46CA96E9AE
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:41:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E80961935;
+ Mon,  3 May 2021 16:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620060059;
- bh=xaY0MHIR9143KmI75c50pWTwSZOaC+O3togLGV+jeGo=;
+ s=k20201202; t=1620060087;
+ bh=YHj3TkN8BPSTi3dqMJV4QeO/TaCdPDNyt2ZpMxdt+Ms=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n+ckPV/3xMxVFYnNqD/XSRGzCnC0uJLw8HQFYSDH7eK9CsEmXWCcdy3lnHP0RW7+J
- itXPXCDzFFP5d8cYiRg2XEItN11/2d+dG8q/rQRrEs48put0mKR/Pv4iqAA9pxEWBp
- LygVnXvT8YA6KzdZWHfhbtklju550TWddyGa/f+bBAwoSu61Sl0wPQ9/eVnrAwUxo8
- qBpiACw2PZGkd/dwIi1DjEajnHTvdVSa9RO2fXH4/A5658bix8j87NJkAHuq7P/xTm
- Pfwdz/HeopGgxA8+CTvizVcCw+JzIDu6JXE8QHOf5BFAFgaxJAvg4V6exCrp/dDSM7
- vF0+flCV4z4hQ==
+ b=ECLVY//emdY3FHoU9JszjqXe4FpOjG9EtlPryGAYDQCI9V62i5Y4FBSt4bRzr4+4n
+ vJChuj+81Tg9WvOFW5EG1qAxVK8u576QTkgbcbggUy5jjkuMiCHo6ADLx9SoI9IArE
+ 17+U6BnGz+qDeIb95bYM0wP1DXcLG7bE9kKsVPlYvSqhlr5LKwn7C3e//u+ysAATVT
+ jh5D/jvQXq6voJq417N4heMvhaDnO59YWfB1weCkkHHn+MpdXtx0Lc8bsBcm9Gwqud
+ m1ZDx62nfAH54b+2yORGDA4I0VDiEFl05KOpc+hLj4A5ZsWIbf913gQwTqmatWjJO2
+ tRpMk9LrDlTHg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 51/57] drm/amdgpu: fix NULL pointer dereference
-Date: Mon,  3 May 2021 12:39:35 -0400
-Message-Id: <20210503163941.2853291-51-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 12/35] drm/bridge/analogix/anx78xx: Setup encoder
+ before registering connector
+Date: Mon,  3 May 2021 12:40:46 -0400
+Message-Id: <20210503164109.2853838-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210503163941.2853291-1-sashal@kernel.org>
-References: <20210503163941.2853291-1-sashal@kernel.org>
+In-Reply-To: <20210503164109.2853838-1-sashal@kernel.org>
+References: <20210503164109.2853838-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,52 +49,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Guchun Chen <guchun.chen@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Robert Foss <robert.foss@linaro.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogR3VjaHVuIENoZW4gPGd1Y2h1bi5jaGVuQGFtZC5jb20+CgpbIFVwc3RyZWFtIGNvbW1p
-dCAzYzNkYzY1NDMzM2Y2Mzg5ODAzY2RjYWYwMzkxMmU5NDE3M2FlNTEwIF0KCnR0bS0+c2cgbmVl
-ZHMgdG8gYmUgY2hlY2tlZCBiZWZvcmUgYWNjZXNzaW5nIGl0cyBjaGlsZCBtZW1iZXIuCgpDYWxs
-IFRyYWNlOgogYW1kZ3B1X3R0bV9iYWNrZW5kX2Rlc3Ryb3krMHgxMi8weDcwIFthbWRncHVdCiB0
-dG1fYm9fY2xlYW51cF9tZW10eXBlX3VzZSsweDNhLzB4NjAgW3R0bV0KIHR0bV9ib19yZWxlYXNl
-KzB4MTdkLzB4MzAwIFt0dG1dCiBhbWRncHVfYm9fdW5yZWYrMHgxYS8weDMwIFthbWRncHVdCiBh
-bWRncHVfYW1ka2ZkX2dwdXZtX2FsbG9jX21lbW9yeV9vZl9ncHUrMHg3OGIvMHg4YjAgW2FtZGdw
-dV0KIGtmZF9pb2N0bF9hbGxvY19tZW1vcnlfb2ZfZ3B1KzB4MTE4LzB4MjIwIFthbWRncHVdCiBr
-ZmRfaW9jdGwrMHgyMjIvMHg0MDAgW2FtZGdwdV0KID8ga2ZkX2Rldl9pc19sYXJnZV9iYXIrMHg5
-MC8weDkwIFthbWRncHVdCiBfX3g2NF9zeXNfaW9jdGwrMHg4ZS8weGQwCiA/IF9fY29udGV4dF90
-cmFja2luZ19leGl0KzB4NTIvMHg5MAogZG9fc3lzY2FsbF82NCsweDMzLzB4ODAKIGVudHJ5X1NZ
-U0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ0LzB4YTkKUklQOiAwMDMzOjB4N2Y5N2YyNjRkMzE3
-CkNvZGU6IGIzIDY2IDkwIDQ4IDhiIDA1IDcxIDRiIDJkIDAwIDY0IGM3IDAwIDI2IDAwIDAwIDAw
-IDQ4IGM3IGMwIGZmIGZmIGZmIGZmIGMzIDY2IDJlIDBmIDFmIDg0IDAwIDAwIDAwIDAwIDAwIGI4
-IDEwIDAwIDAwIDAwIDBmIDA1IDw0OD4gM2QgMDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggOGIgMGQg
-NDEgNGIgMmQgMDAgZjcgZDggNjQgODkgMDEgNDgKUlNQOiAwMDJiOjAwMDA3ZmZkYjQwMmMzMzgg
-RUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDogMDAwMDAwMDAwMDAwMDAxMApSQVg6IGZmZmZmZmZm
-ZmZmZmZmZGEgUkJYOiAwMDAwN2Y5N2YzY2M2M2EwIFJDWDogMDAwMDdmOTdmMjY0ZDMxNwpSRFg6
-IDAwMDA3ZmZkYjQwMmMzODAgUlNJOiAwMDAwMDAwMGMwMjg0YjE2IFJESTogMDAwMDAwMDAwMDAw
-MDAwMwpSQlA6IDAwMDA3ZmZkYjQwMmMzODAgUjA4OiAwMDAwN2ZmZGI0MDJjNDI4IFIwOTogMDAw
-MDAwMDBjNDAwMDAwNApSMTA6IDAwMDAwMDAwYzQwMDAwMDQgUjExOiAwMDAwMDAwMDAwMDAwMjQ2
-IFIxMjogMDAwMDAwMDBjMDI4NGIxNgpSMTM6IDAwMDAwMDAwMDAwMDAwMDMgUjE0OiAwMDAwN2Y5
-N2YzY2M2M2EwIFIxNTogMDAwMDdmODgzNjIwMDAwMAoKU2lnbmVkLW9mZi1ieTogR3VjaHVuIENo
-ZW4gPGd1Y2h1bi5jaGVuQGFtZC5jb20+CkFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
-c3RpYW4ua29lbmlnQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFu
-ZGVyLmRldWNoZXJAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBr
-ZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyBiL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYwppbmRleCBjNmExZGZlNzllODAuLjkx
-ZTNhODdiMWRlOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
-X3R0bS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYwpAQCAt
-OTg0LDcgKzk4NCw3IEBAIHN0YXRpYyB2b2lkIGFtZGdwdV90dG1fdHRfdW5waW5fdXNlcnB0cihz
-dHJ1Y3QgdHRtX3R0ICp0dG0pCiAJCURNQV9CSURJUkVDVElPTkFMIDogRE1BX1RPX0RFVklDRTsK
-IAogCS8qIGRvdWJsZSBjaGVjayB0aGF0IHdlIGRvbid0IGZyZWUgdGhlIHRhYmxlIHR3aWNlICov
-Ci0JaWYgKCF0dG0tPnNnLT5zZ2wpCisJaWYgKCF0dG0tPnNnIHx8ICF0dG0tPnNnLT5zZ2wpCiAJ
-CXJldHVybjsKIAogCS8qIHVubWFwIHRoZSBwYWdlcyBtYXBwZWQgdG8gdGhlIGRldmljZSAqLwot
-LSAKMi4zMC4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Lyude Paul <lyude@redhat.com>
+
+[ Upstream commit 9962849d0871f5e53d0e3b3d84561f8f2847fbf4 ]
+
+Since encoder mappings for connectors are exposed to userspace, we should
+be attaching the encoder before exposing the connector to userspace. Just a
+drive-by fix for an issue I noticed while fixing up usages of
+drm_dp_aux_init()/drm_dp_aux_register() across the tree.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210219215326.2227596-9-lyude@redhat.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/bridge/analogix-anx78xx.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix-anx78xx.c
+index cc820e9aea1d..9fa1610b237a 100644
+--- a/drivers/gpu/drm/bridge/analogix-anx78xx.c
++++ b/drivers/gpu/drm/bridge/analogix-anx78xx.c
+@@ -1042,12 +1042,6 @@ static int anx78xx_bridge_attach(struct drm_bridge *bridge)
+ 	drm_connector_helper_add(&anx78xx->connector,
+ 				 &anx78xx_connector_helper_funcs);
+ 
+-	err = drm_connector_register(&anx78xx->connector);
+-	if (err) {
+-		DRM_ERROR("Failed to register connector: %d\n", err);
+-		return err;
+-	}
+-
+ 	anx78xx->connector.polled = DRM_CONNECTOR_POLL_HPD;
+ 
+ 	err = drm_connector_attach_encoder(&anx78xx->connector,
+@@ -1057,6 +1051,12 @@ static int anx78xx_bridge_attach(struct drm_bridge *bridge)
+ 		return err;
+ 	}
+ 
++	err = drm_connector_register(&anx78xx->connector);
++	if (err) {
++		DRM_ERROR("Failed to register connector: %d\n", err);
++		return err;
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.30.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
