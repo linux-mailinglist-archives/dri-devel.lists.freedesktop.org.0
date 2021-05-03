@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2288737189A
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 17:58:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F6737189D
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 17:58:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49BD96E8E7;
-	Mon,  3 May 2021 15:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D5DF6E8EA;
+	Mon,  3 May 2021 15:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93B6F6E8E6
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 15:58:02 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id t4so2278195plc.6
- for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 08:58:02 -0700 (PDT)
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4904E6E8E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 15:58:04 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id i13so4493108pfu.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 08:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mMpbnGT/o5m6wwk1nLxzI+Eprezcne1I4H2Ud9FEvt0=;
- b=sySln7ovpbwznIc4BzDApcUSmaBDxXXrYI88SzNEaJOlbx6Tzh6KSlQJn0xxS6GOIO
- SKKJWX2U4dtuFerm/Wab3ishxN2WkHGmddoOP2wHcENFFc2E0ZAgGilSthMgSudAo3HJ
- FblJKCAJ+qqcsoWXbyjW1Er/ags0BvN5jlR+HgIkzVyrlUE+eRZvmF8b23VmQJ3vWykh
- I65YYR+bdRu+d8zws3B3n07ZAsamSqFhrc08uYBKASK3mBJR96iyr6qFAuXoO3x0TJh4
- 4+M20PtXmxmzHFTlBmYzinvb1yNNyxLXoZm1Z55XySCV7yQ2zktyWIcqEU6HLeWb6Cce
- 3Xpg==
+ bh=+kRTuwDNC4ils+7NiZYLhZ8grmBdiU9nKzwhxjTQvJI=;
+ b=j5nA1WEV0MW7nVoQGeNUyzdHvMuXYr4COXsiXnsrmxg/ErXLAnwHfYn5SFvmMPOLfP
+ sWFUiWBLa7dfWAosYUQH0JebWX5gUyKY2/LqR9gPhzdPs0Mfg6Xo1oBF3yh/GyXA1LEn
+ 0rB7Z2ie+Zu7WnhIqssG9pz9K3AYR9vxOcJBeynYn+yKr+aSA51SrdBApN5rI0uO1WFf
+ SBSi7/Icg8WMeA96v9NO5tOCZG0+ODSf6es8EBuPoAV8IHARZs5YuGxCsbv9h2XmLfMs
+ 17Bl/rfmUDHJ8j400YK9Ytsg6fQSkrgquiVQZqxx0Pi0xT+KPxgzOCrI1Ao9dJfeEwil
+ GjUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mMpbnGT/o5m6wwk1nLxzI+Eprezcne1I4H2Ud9FEvt0=;
- b=qTu7ZXJU65BdSqeSWDj8iPnOSqZmZRloTTTkOAflbOrDxqbsSq4qv8ISTVDJ7hKTjX
- rh1jI3r02zNxo164uNN0dvVmEGjsq/hRYCBOFHUKZp31iJbAS94w6uva/9fwoAakrkxB
- NDTzYEgHQc+GLNabF6zUxZjYhUhalPNoPU57SpnI5oIzSwgRRtq7aNLYaEJDJkUbbeJR
- ncKFuRy3y4E5pJsxTaIQZkGjCqxa4aSdRM/4Jp77UsqUITg40o/Khj3RBhq6NMSZ3Eoc
- FwE69yZygQp3xxj4qZKpQYjALtlUpPf8JA5oHL/51i0Oe29GarkGokeTn20+p/MB9/4k
- ZYRA==
-X-Gm-Message-State: AOAM531Gup3VWjVGDYvKE3MlLgTh+VOjzGtQQU3Pgu19/uqEHqW9JnGQ
- RhN2YUp6rucela0jLxkzI5FcYA==
-X-Google-Smtp-Source: ABdhPJwQRHJAPlPinEPekUAhz33hFuY1rC9w+CyqNTwCSPWOwlhmb1Vc+CwMlWBGxQ3t4UsgxR3M+g==
-X-Received: by 2002:a17:902:a9cb:b029:ed:61be:2cfb with SMTP id
- b11-20020a170902a9cbb02900ed61be2cfbmr21194446plr.9.1620057482092; 
- Mon, 03 May 2021 08:58:02 -0700 (PDT)
+ bh=+kRTuwDNC4ils+7NiZYLhZ8grmBdiU9nKzwhxjTQvJI=;
+ b=e1l4ryFA7AqnKPAQc4p5jqXa4fChsT8Y6VDvxn/Up4yMCUoI+mZWkhFaKkFmpbhkmx
+ GqHfgS1HB+3EQQwzgUURHDjeaHuWwsJXyOlnPLBYm85l+I5DI1GN1YIdhup4KS293Gs0
+ s4Ya22w0bBHQCJKdyAJds2U85YlWuzx6jv7n/LMJGt8O5a6kLJDjd8BzwmirTEWAP3c3
+ 6G8AnpZJW2K4BTLFVcyrppDAIn43fke/p/CURStfNC4nlSEf5mte8a5v4V7qmeoViUFc
+ k8TScjlFx3+W7sqRRrfQ7zvsE0VeYV043AJfKUu8MPVdIvutzKplwwDyTQOkgDOm1Ct/
+ f4sQ==
+X-Gm-Message-State: AOAM531IMaXlUAmREs9Fe+jrDJnbJv5eOFdbN+vS7B7DeK8jMNGNlhUg
+ LzCdelDNsg5wOE18q1oEaqHchA==
+X-Google-Smtp-Source: ABdhPJz31Ga6rX/kQKFnu4V2Hb4YUUxr1MNfvPM0/6o76v9yyJRCAC5RXRbQ60J3W/muCEQpFlhzSw==
+X-Received: by 2002:a63:930d:: with SMTP id b13mr19039427pge.213.1620057483854; 
+ Mon, 03 May 2021 08:58:03 -0700 (PDT)
 Received: from omlet.com (jfdmzpr05-ext.jf.intel.com. [134.134.139.74])
- by smtp.gmail.com with ESMTPSA id gf21sm9783296pjb.20.2021.05.03.08.58.00
+ by smtp.gmail.com with ESMTPSA id gf21sm9783296pjb.20.2021.05.03.08.58.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 08:58:01 -0700 (PDT)
+ Mon, 03 May 2021 08:58:03 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 04/27] drm/i915/gem: Set the watchdog timeout directly in
- intel_context_set_gem (v2)
-Date: Mon,  3 May 2021 10:57:25 -0500
-Message-Id: <20210503155748.1961781-5-jason@jlekstrand.net>
+Subject: [PATCH 05/27] drm/i915/gem: Return void from context_apply_all
+Date: Mon,  3 May 2021 10:57:26 -0500
+Message-Id: <20210503155748.1961781-6-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503155748.1961781-1-jason@jlekstrand.net>
 References: <20210503155748.1961781-1-jason@jlekstrand.net>
@@ -77,137 +75,91 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of handling it like a context param, unconditionally set it when
-intel_contexts are created.  For years we've had the idea of a watchdog
-uAPI floating about. The aim was for media, so that they could set very
-tight deadlines for their transcodes jobs, so that if you have a corrupt
-bitstream (especially for decoding) you don't hang your desktop too
-hard.  But it's been stuck in limbo since forever, and this simplifies
-things a bit in preparation for the proto-context work.  If we decide to
-actually make said uAPI a reality, we can do it through the proto-
-context easily enough.
-
-This does mean that we move from reading the request_timeout_ms param
-once per engine when engines are created instead of once at context
-creation.  If someone changes request_timeout_ms between creating a
-context and setting engines, it will mean that they get the new timeout.
-If someone races setting request_timeout_ms and context creation, they
-can theoretically end up with different timeouts.  However, since both
-of these are fairly harmless and require changing kernel params, we
-don't care.
-
-v2 (Tvrtko Ursulin):
- - Add a comment about races with request_timeout_ms
+None of the callbacks we use with it return an error code anymore; they
+all return 0 unconditionally.
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 44 +++----------------
- .../gpu/drm/i915/gem/i915_gem_context_types.h |  4 --
- drivers/gpu/drm/i915/gt/intel_context_param.h |  3 +-
- 3 files changed, 7 insertions(+), 44 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c | 26 +++++++--------------
+ 1 file changed, 8 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 44841db04301b..2207e8ea6f065 100644
+index 2207e8ea6f065..d6f342e605254 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -232,7 +232,12 @@ static void intel_context_set_gem(struct intel_context *ce,
- 	    intel_engine_has_timeslices(ce->engine))
- 		__set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
- 
--	intel_context_set_watchdog_us(ce, ctx->watchdog.timeout_us);
-+	if (IS_ACTIVE(CONFIG_DRM_I915_REQUEST_TIMEOUT) &&
-+	    ctx->i915->params.request_timeout_ms) {
-+		unsigned int timeout_ms = ctx->i915->params.request_timeout_ms;
-+
-+		intel_context_set_watchdog_us(ce, (u64)timeout_ms * 1000);
-+	}
+@@ -718,32 +718,25 @@ __context_engines_await(const struct i915_gem_context *ctx,
+ 	return engines;
  }
  
- static void __free_engines(struct i915_gem_engines *e, unsigned int count)
-@@ -791,41 +796,6 @@ static void __assign_timeline(struct i915_gem_context *ctx,
- 	context_apply_all(ctx, __apply_timeline, timeline);
- }
- 
--static int __apply_watchdog(struct intel_context *ce, void *timeout_us)
--{
--	return intel_context_set_watchdog_us(ce, (uintptr_t)timeout_us);
--}
--
 -static int
--__set_watchdog(struct i915_gem_context *ctx, unsigned long timeout_us)
--{
--	int ret;
--
--	ret = context_apply_all(ctx, __apply_watchdog,
--				(void *)(uintptr_t)timeout_us);
--	if (!ret)
--		ctx->watchdog.timeout_us = timeout_us;
--
--	return ret;
--}
--
--static void __set_default_fence_expiry(struct i915_gem_context *ctx)
--{
--	struct drm_i915_private *i915 = ctx->i915;
--	int ret;
--
--	if (!IS_ACTIVE(CONFIG_DRM_I915_REQUEST_TIMEOUT) ||
--	    !i915->params.request_timeout_ms)
--		return;
--
--	/* Default expiry for user fences. */
--	ret = __set_watchdog(ctx, i915->params.request_timeout_ms * 1000);
--	if (ret)
--		drm_notice(&i915->drm,
--			   "Failed to configure default fence expiry! (%d)",
--			   ret);
--}
--
- static struct i915_gem_context *
- i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
++static void
+ context_apply_all(struct i915_gem_context *ctx,
+-		  int (*fn)(struct intel_context *ce, void *data),
++		  void (*fn)(struct intel_context *ce, void *data),
+ 		  void *data)
  {
-@@ -870,8 +840,6 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
- 		intel_timeline_put(timeline);
- 	}
+ 	struct i915_gem_engines_iter it;
+ 	struct i915_gem_engines *e;
+ 	struct intel_context *ce;
+-	int err = 0;
  
--	__set_default_fence_expiry(ctx);
+ 	e = __context_engines_await(ctx, NULL);
+-	for_each_gem_engine(ce, e, it) {
+-		err = fn(ce, data);
+-		if (err)
+-			break;
+-	}
++	for_each_gem_engine(ce, e, it)
++		fn(ce, data);
+ 	i915_sw_fence_complete(&e->fence);
 -
- 	trace_i915_context_create(ctx);
+-	return err;
+ }
  
- 	return ctx;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-index 5ae71ec936f7c..676592e27e7d2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-@@ -153,10 +153,6 @@ struct i915_gem_context {
- 	 */
- 	atomic_t active_count;
- 
--	struct {
--		u64 timeout_us;
--	} watchdog;
--
- 	/**
- 	 * @hang_timestamp: The last time(s) this context caused a GPU hang
- 	 */
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_param.h b/drivers/gpu/drm/i915/gt/intel_context_param.h
-index dffedd983693d..0c69cb42d075c 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_param.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_param.h
-@@ -10,11 +10,10 @@
- 
- #include "intel_context.h"
- 
--static inline int
-+static inline void
- intel_context_set_watchdog_us(struct intel_context *ce, u64 timeout_us)
+-static int __apply_ppgtt(struct intel_context *ce, void *vm)
++static void __apply_ppgtt(struct intel_context *ce, void *vm)
  {
- 	ce->watchdog.timeout_us = timeout_us;
+ 	i915_vm_put(ce->vm);
+ 	ce->vm = i915_vm_get(vm);
 -	return 0;
  }
  
- #endif /* INTEL_CONTEXT_PARAM_H */
+ static struct i915_address_space *
+@@ -783,10 +776,9 @@ static void __set_timeline(struct intel_timeline **dst,
+ 		intel_timeline_put(old);
+ }
+ 
+-static int __apply_timeline(struct intel_context *ce, void *timeline)
++static void __apply_timeline(struct intel_context *ce, void *timeline)
+ {
+ 	__set_timeline(&ce->timeline, timeline);
+-	return 0;
+ }
+ 
+ static void __assign_timeline(struct i915_gem_context *ctx,
+@@ -1842,19 +1834,17 @@ set_persistence(struct i915_gem_context *ctx,
+ 	return __context_set_persistence(ctx, args->value);
+ }
+ 
+-static int __apply_priority(struct intel_context *ce, void *arg)
++static void __apply_priority(struct intel_context *ce, void *arg)
+ {
+ 	struct i915_gem_context *ctx = arg;
+ 
+ 	if (!intel_engine_has_timeslices(ce->engine))
+-		return 0;
++		return;
+ 
+ 	if (ctx->sched.priority >= I915_PRIORITY_NORMAL)
+ 		intel_context_set_use_semaphores(ce);
+ 	else
+ 		intel_context_clear_use_semaphores(ce);
+-
+-	return 0;
+ }
+ 
+ static int set_priority(struct i915_gem_context *ctx,
 -- 
 2.31.1
 
