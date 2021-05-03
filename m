@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D88F371F84
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 20:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 298EC371F87
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 20:22:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D9BF6E9FA;
-	Mon,  3 May 2021 18:21:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA5596E9FD;
+	Mon,  3 May 2021 18:22:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D583089B01;
- Mon,  3 May 2021 18:21:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28D1489B01;
+ Mon,  3 May 2021 18:21:55 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 9A563C800D2;
+ by srv6.fidu.org (Postfix) with ESMTP id CEFAFC800D4;
  Mon,  3 May 2021 20:21:53 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
 Received: from srv6.fidu.org ([127.0.0.1])
  by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
- with LMTP id 2roVKCChHMH2; Mon,  3 May 2021 20:21:53 +0200 (CEST)
+ with LMTP id uZQGOFwRhbT2; Mon,  3 May 2021 20:21:53 +0200 (CEST)
 Received: from wsembach-tuxedo.fritz.box
  (p200300E37f3986001A8B79e0b24CB29D.dip0.t-ipconnect.de
  [IPv6:2003:e3:7f39:8600:1a8b:79e0:b24c:b29d])
  (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPA id E2A21C800CE;
- Mon,  3 May 2021 20:21:52 +0200 (CEST)
+ by srv6.fidu.org (Postfix) with ESMTPA id 8079AC800D0;
+ Mon,  3 May 2021 20:21:53 +0200 (CEST)
 From: Werner Sembach <wse@tuxedocomputers.com>
 To: wse@tuxedocomputers.com, ville.syrjala@linux.intel.com, airlied@linux.ie,
  daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] drm/i915/display Try YCbCr420 color when RGB fails
-Date: Mon,  3 May 2021 20:21:44 +0200
-Message-Id: <20210503182148.851790-1-wse@tuxedocomputers.com>
+Subject: [PATCH 1/4] New function to avoid duplicate code in upcomming commits
+Date: Mon,  3 May 2021 20:21:45 +0200
+Message-Id: <20210503182148.851790-2-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210503182148.851790-1-wse@tuxedocomputers.com>
+References: <20210503182148.851790-1-wse@tuxedocomputers.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,27 +48,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hlbiBlbmNvZGVyIHZhbGlkYXRpb24gb2YgYSBkaXNwbGF5IG1vZGUgZmFpbHMsIHJldHJ5IHdp
-dGggbGVzcyBiYW5kd2lkdGgKaGVhdnkgWUNiQ3I0MjAgY29sb3IgbW9kZSwgaWYgYXZhaWxhYmxl
-LiBUaGlzIGVuYWJsZXMgc29tZSBIRE1JIDEuNCBzZXR1cHMKdG8gc3VwcG9ydCA0azYwSHogb3V0
-cHV0LCB3aGljaCBwcmV2aW91c2x5IGZhaWxlZCBzaWxlbnRseS4KCkFNREdQVSBoYWQgbmVhcmx5
-IHRoZSBleGFjdCBzYW1lIGlzc3VlLiBUaGlzIHByb2JsZW0gZGVzY3JpcHRpb24gaXMKdGhlcmVm
-b3JlIGNvcGllZCBmcm9tIG15IGNvbW1pdCBtZXNzYWdlIG9mIHRoZSBBTURHUFUgcGF0Y2guCgpP
-biBzb21lIHNldHVwcywgd2hpbGUgdGhlIG1vbml0b3IgYW5kIHRoZSBncHUgc3VwcG9ydCBkaXNw
-bGF5IG1vZGVzIHdpdGgKcGl4ZWwgY2xvY2tzIG9mIHVwIHRvIDYwME1IeiwgdGhlIGxpbmsgZW5j
-b2RlciBtaWdodCBub3QuIFRoaXMgcHJldmVudHMKWUNiQ3I0NDQgYW5kIFJHQiBlbmNvZGluZyBm
-b3IgNGs2MEh6LCBidXQgWUNiQ3I0MjAgZW5jb2RpbmcgbWlnaHQgc3RpbGwgYmUKcG9zc2libGUu
-IEhvd2V2ZXIsIHdoaWNoIGNvbG9yIG1vZGUgaXMgdXNlZCBpcyBkZWNpZGVkIGJlZm9yZSB0aGUg
-bGluawplbmNvZGVyIGNhcGFiaWxpdGllcyBhcmUgY2hlY2tlZC4gVGhpcyBwYXRjaCBmaXhlcyB0
-aGUgcHJvYmxlbSBieSByZXRyeWluZwp0byBmaW5kIGEgZGlzcGxheSBtb2RlIHdpdGggWUNiQ3I0
-MjAgZW5mb3JjZWQgYW5kIHVzaW5nIGl0LCBpZiBpdCBpcwp2YWxpZC4KClRoaXMgcGF0Y2hzZXQg
-aXMgcmV2aXNpb24gMiwgbm93IHNwbGl0IHVwIGluIG11bHRpcGxlIHBhcnRzIHdpdGggc29tZQpt
-aW5vciByZXN0cnVjdHVyaW5nIGFkZGVkIGbDvHIgYSBjbGVhbmVyIGltcGxlbWVudGF0aW9uLgoK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Moves some checks that later will be performed 2 times to an own fuction. This
+avoids duplicate code later on.
+
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+---
+
+From 1c529783eb2ec02099d1ed2ab9257b008cb6f040 Mon Sep 17 00:00:00 2001
+From: Werner Sembach <wse@tuxedocomputers.com>
+Date: Mon, 3 May 2021 14:35:39 +0200
+Subject: [PATCH 1/4] New function to avoid duplicate code in upcomming commits
+
+---
+ drivers/gpu/drm/i915/display/intel_hdmi.c | 41 ++++++++++++++---------
+ 1 file changed, 26 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 46de56af33db..576d3d910d06 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -1861,6 +1861,31 @@ static int intel_hdmi_port_clock(int clock, int bpc)
+ 	return clock * bpc / 8;
+ }
+ 
++static enum drm_mode_status
++intel_hdmi_mode_clock_valid(struct intel_hdmi *hdmi, int clock, bool has_hdmi_sink)
++{
++	struct drm_device *dev = intel_hdmi_to_dev(hdmi);
++	struct drm_i915_private *dev_priv = to_i915(dev);
++	enum drm_mode_status status;
++
++	/* check if we can do 8bpc */
++	status = hdmi_port_clock_valid(hdmi, clock, true, has_hdmi_sink);
++
++	if (has_hdmi_sink) {
++		/* if we can't do 8bpc we may still be able to do 12bpc */
++		if (status != MODE_OK && !HAS_GMCH(dev_priv))
++			status = hdmi_port_clock_valid(hdmi, clock * 3 / 2,
++						       true, has_hdmi_sink);
++
++		/* if we can't do 8,12bpc we may still be able to do 10bpc */
++		if (status != MODE_OK && INTEL_GEN(dev_priv) >= 11)
++			status = hdmi_port_clock_valid(hdmi, clock * 5 / 4,
++						       true, has_hdmi_sink);
++	}
++
++	return status;
++}
++
+ static enum drm_mode_status
+ intel_hdmi_mode_valid(struct drm_connector *connector,
+ 		      struct drm_display_mode *mode)
+@@ -1891,21 +1916,7 @@ intel_hdmi_mode_valid(struct drm_connector *connector,
+ 	if (drm_mode_is_420_only(&connector->display_info, mode))
+ 		clock /= 2;
+ 
+-	/* check if we can do 8bpc */
+-	status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 8),
+-				       true, has_hdmi_sink);
+-
+-	if (has_hdmi_sink) {
+-		/* if we can't do 8bpc we may still be able to do 12bpc */
+-		if (status != MODE_OK && !HAS_GMCH(dev_priv))
+-			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 12),
+-						       true, has_hdmi_sink);
+-
+-		/* if we can't do 8,12bpc we may still be able to do 10bpc */
+-		if (status != MODE_OK && DISPLAY_VER(dev_priv) >= 11)
+-			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 10),
+-						       true, has_hdmi_sink);
+-	}
++	status = intel_hdmi_mode_clock_valid(hdmi, clock, has_hdmi_sink);
+ 	if (status != MODE_OK)
+ 		return status;
+ 
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
