@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C457371A6E
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59F5371A70
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:39:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 008006E989;
-	Mon,  3 May 2021 16:39:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA406E98A;
+	Mon,  3 May 2021 16:39:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF786E988;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE4ED6E986;
+ Mon,  3 May 2021 16:39:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B9B761876;
  Mon,  3 May 2021 16:39:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E5B3B613E9;
- Mon,  3 May 2021 16:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059957;
- bh=pn463DpuLQ0mVp4jzjh8oJK03lZfNaaZKSbL1aWfd64=;
+ s=k20201202; t=1620059959;
+ bh=9DPveqMov/n1cxMWsJb513aDejn/IKzSpNcX7r7YSn4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tsqCFrhPt/HT/cB/5Yhvi6zDZSehV+LCBql3DBVffnSoaILYDQDWjZn4ppPRH6B59
- HPMrP3RIb/696Q8uxWVZ6kq5qTpC0RdO42LLq08TUSngJ9X00clHXbPSXfR1TvVxm4
- nlv5moJwbHNAKjvbuqakDFbfdJ1bxKM4hfcmmZtIF6UM861tFVV0UbsJ3VjskafaAA
- mo/q3PBr4Sum+b0+C0iyHUOmDQAWBAdtjtvrdWHq7Dmemk5HNTvirxnT3ahtVqRD0G
- zaElumO/dMQO8ZTOrHSakv5gXjaJKFeO7EPxmkujWDSPLdQxxHyPtLNKnb5gR2nJ5f
- hpNeeetM6X3Rg==
+ b=ks0ajlRVSJdfU7qDTZlmpyivAkpfhTGHYZLE168BDou5W+PLjWOLOsMwk4jSrBABU
+ DKoVdAcgJ7crd4DRk0VxHGqBnK6rG51yKeK+MLO2TiO6pBHAOpL15PRvU7/81OYOPV
+ 2/jHJMmY1Y0rtrALDw0NRnYzRVyiLUzxFyWlHuLrAhB1sdLG4o1tL2aCmC9DEENECR
+ CeVDIwfYcZOy1ewblb43jYmbl851Go6s4I1nllS0k+S9SDS8DNW4aTjTIMD5s4hhCg
+ H7rCuhoEm9t4BzLGkRmWNayQOpSwj0mC3QMUofjtcOVlpdEbEaLZgfca+QdKX+79np
+ /34NKzVQCNEqA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 032/100] drm/amdgpu: mask the xgmi number of hops
- reported from psp to kfd
-Date: Mon,  3 May 2021 12:37:21 -0400
-Message-Id: <20210503163829.2852775-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 033/100] drm/amdkfd: Fix UBSAN
+ shift-out-of-bounds warning
+Date: Mon,  3 May 2021 12:37:22 -0400
+Message-Id: <20210503163829.2852775-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163829.2852775-1-sashal@kernel.org>
 References: <20210503163829.2852775-1-sashal@kernel.org>
@@ -49,60 +49,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Kim <jonathan.kim@amd.com>,
- Amber Lin <amber.lin@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Anson Jacob <Anson.Jacob@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jonathan Kim <jonathan.kim@amd.com>
+From: Anson Jacob <Anson.Jacob@amd.com>
 
-[ Upstream commit 4ac5617c4b7d0f0a8f879997f8ceaa14636d7554 ]
+[ Upstream commit 50e2fc36e72d4ad672032ebf646cecb48656efe0 ]
 
-The psp supplies the link type in the upper 2 bits of the psp xgmi node
-information num_hops field.  With a new link type, Aldebaran has these
-bits set to a non-zero value (1 = xGMI3) so the KFD topology will report
-the incorrect IO link weights without proper masking.
-The actual number of hops is located in the 3 least significant bits of
-this field so mask if off accordingly before passing it to the KFD.
+If get_num_sdma_queues or get_num_xgmi_sdma_queues is 0, we end up
+doing a shift operation where the number of bits shifted equals
+number of bits in the operand. This behaviour is undefined.
 
-Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
-Reviewed-by: Amber Lin <amber.lin@amd.com>
+Set num_sdma_queues or num_xgmi_sdma_queues to ULLONG_MAX, if the
+count is >= number of bits in the operand.
+
+Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1472
+
+Reported-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Anson Jacob <Anson.Jacob@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Tested-by: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c   | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-index 1162913c8bf4..0526dec1d736 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-@@ -465,15 +465,22 @@ int amdgpu_xgmi_update_topology(struct amdgpu_hive_info *hive, struct amdgpu_dev
- }
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index 8e5cfb1f8a51..6ea8a4b6efde 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -1128,6 +1128,9 @@ static int set_sched_resources(struct device_queue_manager *dqm)
  
- 
-+/*
-+ * NOTE psp_xgmi_node_info.num_hops layout is as follows:
-+ * num_hops[7:6] = link type (0 = xGMI2, 1 = xGMI3, 2/3 = reserved)
-+ * num_hops[5:3] = reserved
-+ * num_hops[2:0] = number of hops
-+ */
- int amdgpu_xgmi_get_hops_count(struct amdgpu_device *adev,
- 		struct amdgpu_device *peer_adev)
+ static int initialize_cpsch(struct device_queue_manager *dqm)
  {
- 	struct psp_xgmi_topology_info *top = &adev->psp.xgmi_context.top_info;
-+	uint8_t num_hops_mask = 0x7;
- 	int i;
++	uint64_t num_sdma_queues;
++	uint64_t num_xgmi_sdma_queues;
++
+ 	pr_debug("num of pipes: %d\n", get_pipes_per_mec(dqm));
  
- 	for (i = 0 ; i < top->num_nodes; ++i)
- 		if (top->nodes[i].node_id == peer_adev->gmc.xgmi.node_id)
--			return top->nodes[i].num_hops;
-+			return top->nodes[i].num_hops & num_hops_mask;
- 	return	-EINVAL;
- }
+ 	mutex_init(&dqm->lock_hidden);
+@@ -1136,8 +1139,18 @@ static int initialize_cpsch(struct device_queue_manager *dqm)
+ 	dqm->active_cp_queue_count = 0;
+ 	dqm->gws_queue_count = 0;
+ 	dqm->active_runlist = false;
+-	dqm->sdma_bitmap = ~0ULL >> (64 - get_num_sdma_queues(dqm));
+-	dqm->xgmi_sdma_bitmap = ~0ULL >> (64 - get_num_xgmi_sdma_queues(dqm));
++
++	num_sdma_queues = get_num_sdma_queues(dqm);
++	if (num_sdma_queues >= BITS_PER_TYPE(dqm->sdma_bitmap))
++		dqm->sdma_bitmap = ULLONG_MAX;
++	else
++		dqm->sdma_bitmap = (BIT_ULL(num_sdma_queues) - 1);
++
++	num_xgmi_sdma_queues = get_num_xgmi_sdma_queues(dqm);
++	if (num_xgmi_sdma_queues >= BITS_PER_TYPE(dqm->xgmi_sdma_bitmap))
++		dqm->xgmi_sdma_bitmap = ULLONG_MAX;
++	else
++		dqm->xgmi_sdma_bitmap = (BIT_ULL(num_xgmi_sdma_queues) - 1);
+ 
+ 	INIT_WORK(&dqm->hw_exception_work, kfd_process_hw_exception);
  
 -- 
 2.30.2
