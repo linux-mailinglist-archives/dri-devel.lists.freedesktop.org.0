@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D4C371893
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 17:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44830371896
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 17:58:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 816F06E8C3;
-	Mon,  3 May 2021 15:57:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3B476E8DD;
+	Mon,  3 May 2021 15:57:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 101806E8CB
- for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 15:57:57 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- h14-20020a17090aea8eb02901553e1cc649so6041647pjz.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 08:57:57 -0700 (PDT)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2273A6E8DA
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 15:57:59 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id gj14so3366843pjb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 08:57:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZTGABhrxQdKdWeX6r5zJc+7HKoEmYqNkYxobyxptNsY=;
- b=E1voDLQ2WuzUo+eOTlvCfPB2S7hpAsWzgWM17IAnxLEGmoqArk3sOSxFubRVbaulLl
- m7zrKiBVDnyBvNqDd+i5MzUAasJHVKBQJTNuDObfRgVE/WzdttQuT0aEjR6/rDrppLkn
- jaU/g7WKPc9CAh91uSZZurJ/vJ6N9Rk7wWusf7SuGVlodbnfWdrgtHqjeKDlWmmIfmzP
- e++B3mIJFO/AL5hNNPYhe2R+ONT05c+/ESBybzvmkmyUCWt+KZq1UfBgXZ0bsE/f7jaR
- 22Hs/hDzXbMb8Qq1lVJiMllMXO+Pz7e9M2xFXCaGVgSnGfLweX1/8ItZfsWLSS2/CEXc
- WdAg==
+ bh=lOJc6Wbo+mGPM1Xn4HHj4tdptEl+2G1bmLy48WVpzrw=;
+ b=012+nApqKVXF4VC2mRZT14svXbiTf0RQHRGO6EMdcXVOG2/VxsysL9sx41epx5xWYo
+ 8WhOU/n9XXGyOEIgpCTx3JbpNT9JmwyEsDvtmZIFykxEPPwrS7SV7s20z1m/W2d9ZhXI
+ ly7xjfGltfGS+viMAe+G7UWrSeTLXwCd88aMXFBu6ibTVrfT5qeLXB0Avcu4M9VqwUs3
+ cqR5H0lNc6SvPDHJrINDo20nCf/vmNXZr6WQ3QqYq/TG4jr9lvnz8OzcfEAHAPJpIZWl
+ 3LNEIKg8+ZuEnX4NIsTFNhREq6VYCl4ifcE+BM3jzVVcwSAFhzgMiUqZ7TUtcOCc8vqH
+ WnpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZTGABhrxQdKdWeX6r5zJc+7HKoEmYqNkYxobyxptNsY=;
- b=GhEjxwX65VIsNT0oBIQxegGqTspoGwKl/uXV4Z7LDO3uYWOh3xvY+skPL6+kizNpTR
- 1T4H0RHiOdsDUxLTxHLa99hm5BJqjSqjBUolCVCGhVxUURqg/P0jXEEzKfjTCz7dkeA6
- q+Tow/JLEE9NqHuN7nhreHNZrKQUt+qUxoGbSNCuiaKUPz8pGrrFFHg2secNb+jKJoKz
- OfqeLplfRm6MM5EJcQUgJ3dzfsnze/etmauYGpaa0FFFOKcAT/MqBY4jItPWe3B8IAb5
- O6MU+YjKf07H8/2Sin5I0sOgmTBWNLMvN6cS03M1ntZt4U5FhQcGlKKs+gCqlGUnulLo
- lUpw==
-X-Gm-Message-State: AOAM531netffNKdfUQBdPvA7OvHGy+/WgvzY4u1M4FdhmO3TCY2SKbnL
- t72F6OHKedJfu3HOQ4d4N8l6Jw==
-X-Google-Smtp-Source: ABdhPJyK92Lo5yDvrl55gCyJkIh3tNrU8OxCDu2DLLMyqNYBdhyDwcgbRsBuy62pRx5/J0KJBr2YgQ==
-X-Received: by 2002:a17:902:7284:b029:ee:a57c:1dc9 with SMTP id
- d4-20020a1709027284b02900eea57c1dc9mr17413277pll.36.1620057476550; 
- Mon, 03 May 2021 08:57:56 -0700 (PDT)
+ bh=lOJc6Wbo+mGPM1Xn4HHj4tdptEl+2G1bmLy48WVpzrw=;
+ b=XeHYeAlLQVOGxlB8abMgc66z+QRIVyxLNPTDauV4uX4wW9d73DrLCy506BNoIeCbNb
+ gQdG2UWoVPLXKezYG7d2XGVbfdvbgxspqj4EIydi+NCmK/O+zbTDLtrdKWgMmsJHKgUO
+ +H0xxqV6eVzwk6pPPA5oookCFkXBjDHwlyXDjgemD78k0dwxHUARoOrcQHXAIiqA1xKo
+ amPuGXkeHh9hx1VUssraiCEpuoI0v4HKJ6BqX+KKqEsVdQOPDICcl2sEvzoQhq/qIVV3
+ Uw3/21qnrWUEqQap1RgEAS4tdlOxiv4+No257LuxJKVlsdnzDmCW5Ep25b8oYXXZCn81
+ vxZg==
+X-Gm-Message-State: AOAM531Kjk8CWGf7kE3l1iH0mp/HUPAz7Kde5dQCv/ExAvJUHltx6zEr
+ 18uoAuJLOhy4OzlUoABfyYQKlEpy+k5/CQ==
+X-Google-Smtp-Source: ABdhPJwhdDqbIso57TiLnBNPfPXSgVTG09quY+DGuJaozAvisiPsctBd0H95XnkuXQrOBBh6Oew6bA==
+X-Received: by 2002:a17:90a:7893:: with SMTP id
+ x19mr22544103pjk.3.1620057478540; 
+ Mon, 03 May 2021 08:57:58 -0700 (PDT)
 Received: from omlet.com (jfdmzpr05-ext.jf.intel.com. [134.134.139.74])
- by smtp.gmail.com with ESMTPSA id gf21sm9783296pjb.20.2021.05.03.08.57.54
+ by smtp.gmail.com with ESMTPSA id gf21sm9783296pjb.20.2021.05.03.08.57.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 08:57:55 -0700 (PDT)
+ Mon, 03 May 2021 08:57:57 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/27] drm/i915: Drop I915_CONTEXT_PARAM_RINGSIZE
-Date: Mon,  3 May 2021 10:57:22 -0500
-Message-Id: <20210503155748.1961781-2-jason@jlekstrand.net>
+Subject: [PATCH 02/27] drm/i915: Stop storing the ring size in the ring pointer
+Date: Mon,  3 May 2021 10:57:23 -0500
+Message-Id: <20210503155748.1961781-3-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503155748.1961781-1-jason@jlekstrand.net>
 References: <20210503155748.1961781-1-jason@jlekstrand.net>
@@ -70,173 +69,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyByZXZlcnRzIGNvbW1pdCA4OGJlNzZjZGFmYzcgKCJkcm0vaTkxNTogQWxsb3cgdXNlcnNw
-YWNlIHRvIHNwZWNpZnkKcmluZ3NpemUgb24gY29uc3RydWN0aW9uIikuICBUaGlzIEFQSSB3YXMg
-b3JpZ2luYWxseSBhZGRlZCBmb3IgT3BlbkNMCmJ1dCB0aGUgY29tcHV0ZS1ydW50aW1lIFBSIGhh
-cyBzYXQgb3BlbiBmb3IgYSB5ZWFyIHdpdGhvdXQgYWN0aW9uIHNvIHdlCmNhbiBzdGlsbCBwdWxs
-IGl0IG91dCBpZiB3ZSB3YW50LiAgSSBhcmd1ZSB3ZSBzaG91bGQgZHJvcCBpdCBmb3IgdGhyZWUK
-cmVhc29uczoKCiAxLiBJZiB0aGUgY29tcHV0ZS1ydW50aW1lIFBSIGhhcyBzYXQgb3BlbiBmb3Ig
-YSB5ZWFyLCB0aGlzIGNsZWFybHkKICAgIGlzbid0IHRoYXQgaW1wb3J0YW50LgoKIDIuIEl0J3Mg
-YSB2ZXJ5IGxlYWt5IEFQSS4gIFJpbmcgc2l6ZSBpcyBhbiBpbXBsZW1lbnRhdGlvbiBkZXRhaWwg
-b2YgdGhlCiAgICBjdXJyZW50IGV4ZWNsaXN0IHNjaGVkdWxlciBhbmQgcmVhbGx5IG9ubHkgbWFr
-ZXMgc2Vuc2UgdGhlcmUuICBJdAogICAgY2FuJ3QgYXBwbHkgdG8gdGhlIG9sZGVyIHJpbmctYnVm
-ZmVyIHNjaGVkdWxlciBvbiBwcmUtZXhlY2xpc3QKICAgIGhhcmR3YXJlIGJlY2F1c2UgdGhhdCdz
-IHNoYXJlZCBhY3Jvc3MgYWxsIGNvbnRleHRzIGFuZCBpdCB3b24ndAogICAgYXBwbHkgdG8gdGhl
-IEd1QyBzY2hlZHVsZXIgdGhhdCdzIGluIHRoZSBwaXBlbGluZS4KCiAzLiBIYXZpbmcgdXNlcnNw
-YWNlIHNldCBhIHJpbmcgc2l6ZSBpbiBieXRlcyBpcyBhIGJhZCBzb2x1dGlvbiB0byB0aGUKICAg
-IHByb2JsZW0gb2YgaGF2aW5nIHRvbyBzbWFsbCBhIHJpbmcuICBUaGVyZSBpcyBubyB3YXkgdGhh
-dCB1c2Vyc3BhY2UKICAgIGhhcyB0aGUgaW5mb3JtYXRpb24gdG8ga25vdyBob3cgdG8gcHJvcGVy
-bHkgc2V0IHRoZSByaW5nIHNpemUgc28KICAgIGl0J3MganVzdCBnb2luZyB0byBkZXRlY3QgdGhl
-IGZlYXR1cmUgYW5kIGFsd2F5cyBzZXQgaXQgdG8gdGhlCiAgICBtYXhpbXVtIG9mIDUxMksuICBU
-aGlzIGlzIHdoYXQgdGhlIGNvbXB1dGUtcnVudGltZSBQUiBkb2VzLiAgVGhlCiAgICBzY2hlZHVs
-ZXIgaW4gaTkxNSwgb24gdGhlIG90aGVyIGhhbmQsIGRvZXMgaGF2ZSB0aGUgaW5mb3JtYXRpb24g
-dG8KICAgIG1ha2UgYW4gaW5mb3JtZWQgY2hvaWNlLiAgSXQgY291bGQgZGV0ZWN0IGlmIHRoZSBy
-aW5nIHNpemUgaXMgYQogICAgcHJvYmxlbSBhbmQgZ3JvdyBpdCBpdHNlbGYuICBPciwgaWYgdGhh
-dCdzIHRvbyBoYXJkLCB3ZSBjb3VsZCBqdXN0CiAgICBpbmNyZWFzZSB0aGUgZGVmYXVsdCBzaXpl
-IGZyb20gMTZLIHRvIDMySyBvciBldmVuIDY0SyBpbnN0ZWFkIG9mCiAgICByZWx5aW5nIG9uIHVz
-ZXJzcGFjZSB0byBkbyBpdC4KCkxldCdzIGRyb3AgdGhpcyBBUEkgZm9yIG5vdyBhbmQsIGlmIHNv
-bWVvbmUgZGVjaWRlcyB0aGV5IHJlYWxseSBjYXJlCmFib3V0IHNvbHZpbmcgdGhpcyBwcm9ibGVt
-LCB0aGV5IGNhbiBkbyBpdCBwcm9wZXJseS4KClNpZ25lZC1vZmYtYnk6IEphc29uIEVrc3RyYW5k
-IDxqYXNvbkBqbGVrc3RyYW5kLm5ldD4KUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmll
-bC52ZXR0ZXJAZmZ3bGwuY2g+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvTWFrZWZpbGUgICAg
-ICAgICAgICAgICAgIHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2Nv
-bnRleHQuYyAgIHwgODUgKy0tLS0tLS0tLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUv
-Z3QvaW50ZWxfY29udGV4dF9wYXJhbS5jIHwgNjMgLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1
-L2RybS9pOTE1L2d0L2ludGVsX2NvbnRleHRfcGFyYW0uaCB8ICAzIC0KIGluY2x1ZGUvdWFwaS9k
-cm0vaTkxNV9kcm0uaCAgICAgICAgICAgICAgICAgICB8IDIwICstLS0tCiA1IGZpbGVzIGNoYW5n
-ZWQsIDQgaW5zZXJ0aW9ucygrKSwgMTY4IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0
-IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2NvbnRleHRfcGFyYW0uYwoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L01ha2VmaWxlIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-TWFrZWZpbGUKaW5kZXggZDBkOTM2ZDkxMzdiYy4uYWZhMjIzMzhmYTM0MyAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvTWFrZWZpbGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-TWFrZWZpbGUKQEAgLTg4LDcgKzg4LDYgQEAgZ3QteSArPSBcCiAJZ3QvZ2VuOF9wcGd0dC5vIFwK
-IAlndC9pbnRlbF9icmVhZGNydW1icy5vIFwKIAlndC9pbnRlbF9jb250ZXh0Lm8gXAotCWd0L2lu
-dGVsX2NvbnRleHRfcGFyYW0ubyBcCiAJZ3QvaW50ZWxfY29udGV4dF9zc2V1Lm8gXAogCWd0L2lu
-dGVsX2VuZ2luZV9jcy5vIFwKIAlndC9pbnRlbF9lbmdpbmVfaGVhcnRiZWF0Lm8gXApkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2NvbnRleHQuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9jb250ZXh0LmMKaW5kZXggZmQ4ZWU1MmUxN2E0
-Ny4uZTUyYjg1YjhmOTIzZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5
-MTVfZ2VtX2NvbnRleHQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1f
-Y29udGV4dC5jCkBAIC0xMzM1LDYzICsxMzM1LDYgQEAgc3RhdGljIGludCBzZXRfcHBndHQoc3Ry
-dWN0IGRybV9pOTE1X2ZpbGVfcHJpdmF0ZSAqZmlsZV9wcml2LAogCXJldHVybiBlcnI7CiB9CiAK
-LXN0YXRpYyBpbnQgX19hcHBseV9yaW5nc2l6ZShzdHJ1Y3QgaW50ZWxfY29udGV4dCAqY2UsIHZv
-aWQgKnN6KQotewotCXJldHVybiBpbnRlbF9jb250ZXh0X3NldF9yaW5nX3NpemUoY2UsICh1bnNp
-Z25lZCBsb25nKXN6KTsKLX0KLQotc3RhdGljIGludCBzZXRfcmluZ3NpemUoc3RydWN0IGk5MTVf
-Z2VtX2NvbnRleHQgKmN0eCwKLQkJCXN0cnVjdCBkcm1faTkxNV9nZW1fY29udGV4dF9wYXJhbSAq
-YXJncykKLXsKLQlpZiAoIUhBU19MT0dJQ0FMX1JJTkdfQ09OVEVYVFMoY3R4LT5pOTE1KSkKLQkJ
-cmV0dXJuIC1FTk9ERVY7Ci0KLQlpZiAoYXJncy0+c2l6ZSkKLQkJcmV0dXJuIC1FSU5WQUw7Ci0K
-LQlpZiAoIUlTX0FMSUdORUQoYXJncy0+dmFsdWUsIEk5MTVfR1RUX1BBR0VfU0laRSkpCi0JCXJl
-dHVybiAtRUlOVkFMOwotCi0JaWYgKGFyZ3MtPnZhbHVlIDwgSTkxNV9HVFRfUEFHRV9TSVpFKQot
-CQlyZXR1cm4gLUVJTlZBTDsKLQotCWlmIChhcmdzLT52YWx1ZSA+IDEyOCAqIEk5MTVfR1RUX1BB
-R0VfU0laRSkKLQkJcmV0dXJuIC1FSU5WQUw7Ci0KLQlyZXR1cm4gY29udGV4dF9hcHBseV9hbGwo
-Y3R4LAotCQkJCSBfX2FwcGx5X3JpbmdzaXplLAotCQkJCSBfX2ludGVsX2NvbnRleHRfcmluZ19z
-aXplKGFyZ3MtPnZhbHVlKSk7Ci19Ci0KLXN0YXRpYyBpbnQgX19nZXRfcmluZ3NpemUoc3RydWN0
-IGludGVsX2NvbnRleHQgKmNlLCB2b2lkICphcmcpCi17Ci0JbG9uZyBzejsKLQotCXN6ID0gaW50
-ZWxfY29udGV4dF9nZXRfcmluZ19zaXplKGNlKTsKLQlHRU1fQlVHX09OKHN6ID4gSU5UX01BWCk7
-Ci0KLQlyZXR1cm4gc3o7IC8qIHN0b3Agb24gZmlyc3QgZW5naW5lICovCi19Ci0KLXN0YXRpYyBp
-bnQgZ2V0X3JpbmdzaXplKHN0cnVjdCBpOTE1X2dlbV9jb250ZXh0ICpjdHgsCi0JCQlzdHJ1Y3Qg
-ZHJtX2k5MTVfZ2VtX2NvbnRleHRfcGFyYW0gKmFyZ3MpCi17Ci0JaW50IHN6OwotCi0JaWYgKCFI
-QVNfTE9HSUNBTF9SSU5HX0NPTlRFWFRTKGN0eC0+aTkxNSkpCi0JCXJldHVybiAtRU5PREVWOwot
-Ci0JaWYgKGFyZ3MtPnNpemUpCi0JCXJldHVybiAtRUlOVkFMOwotCi0Jc3ogPSBjb250ZXh0X2Fw
-cGx5X2FsbChjdHgsIF9fZ2V0X3JpbmdzaXplLCBOVUxMKTsKLQlpZiAoc3ogPCAwKQotCQlyZXR1
-cm4gc3o7Ci0KLQlhcmdzLT52YWx1ZSA9IHN6OwotCXJldHVybiAwOwotfQotCiBpbnQKIGk5MTVf
-Z2VtX3VzZXJfdG9fY29udGV4dF9zc2V1KHN0cnVjdCBpbnRlbF9ndCAqZ3QsCiAJCQkgICAgICBj
-b25zdCBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX2NvbnRleHRfcGFyYW1fc3NldSAqdXNlciwKQEAgLTIw
-MzcsMTEgKzE5ODAsOCBAQCBzdGF0aWMgaW50IGN0eF9zZXRwYXJhbShzdHJ1Y3QgZHJtX2k5MTVf
-ZmlsZV9wcml2YXRlICpmcHJpdiwKIAkJcmV0ID0gc2V0X3BlcnNpc3RlbmNlKGN0eCwgYXJncyk7
-CiAJCWJyZWFrOwogCi0JY2FzZSBJOTE1X0NPTlRFWFRfUEFSQU1fUklOR1NJWkU6Ci0JCXJldCA9
-IHNldF9yaW5nc2l6ZShjdHgsIGFyZ3MpOwotCQlicmVhazsKLQogCWNhc2UgSTkxNV9DT05URVhU
-X1BBUkFNX0JBTl9QRVJJT0Q6CisJY2FzZSBJOTE1X0NPTlRFWFRfUEFSQU1fUklOR1NJWkU6CiAJ
-ZGVmYXVsdDoKIAkJcmV0ID0gLUVJTlZBTDsKIAkJYnJlYWs7CkBAIC0yMDY5LDE4ICsyMDA5LDYg
-QEAgc3RhdGljIGludCBjcmVhdGVfc2V0cGFyYW0oc3RydWN0IGk5MTVfdXNlcl9leHRlbnNpb24g
-X191c2VyICpleHQsIHZvaWQgKmRhdGEpCiAJcmV0dXJuIGN0eF9zZXRwYXJhbShhcmctPmZwcml2
-LCBhcmctPmN0eCwgJmxvY2FsLnBhcmFtKTsKIH0KIAotc3RhdGljIGludCBjb3B5X3Jpbmdfc2l6
-ZShzdHJ1Y3QgaW50ZWxfY29udGV4dCAqZHN0LAotCQkJICBzdHJ1Y3QgaW50ZWxfY29udGV4dCAq
-c3JjKQotewotCWxvbmcgc3o7Ci0KLQlzeiA9IGludGVsX2NvbnRleHRfZ2V0X3Jpbmdfc2l6ZShz
-cmMpOwotCWlmIChzeiA8IDApCi0JCXJldHVybiBzejsKLQotCXJldHVybiBpbnRlbF9jb250ZXh0
-X3NldF9yaW5nX3NpemUoZHN0LCBzeik7Ci19Ci0KIHN0YXRpYyBpbnQgY2xvbmVfZW5naW5lcyhz
-dHJ1Y3QgaTkxNV9nZW1fY29udGV4dCAqZHN0LAogCQkJIHN0cnVjdCBpOTE1X2dlbV9jb250ZXh0
-ICpzcmMpCiB7CkBAIC0yMTI1LDEyICsyMDUzLDYgQEAgc3RhdGljIGludCBjbG9uZV9lbmdpbmVz
-KHN0cnVjdCBpOTE1X2dlbV9jb250ZXh0ICpkc3QsCiAJCX0KIAogCQlpbnRlbF9jb250ZXh0X3Nl
-dF9nZW0oY2xvbmUtPmVuZ2luZXNbbl0sIGRzdCk7Ci0KLQkJLyogQ29weSBhY3Jvc3MgdGhlIHBy
-ZWZlcnJlZCByaW5nc2l6ZSAqLwotCQlpZiAoY29weV9yaW5nX3NpemUoY2xvbmUtPmVuZ2luZXNb
-bl0sIGUtPmVuZ2luZXNbbl0pKSB7Ci0JCQlfX2ZyZWVfZW5naW5lcyhjbG9uZSwgbiArIDEpOwot
-CQkJZ290byBlcnJfdW5sb2NrOwotCQl9CiAJfQogCWNsb25lLT5udW1fZW5naW5lcyA9IG47CiAJ
-aTkxNV9zd19mZW5jZV9jb21wbGV0ZSgmZS0+ZmVuY2UpOwpAQCAtMjQ5MCwxMSArMjQxMiw4IEBA
-IGludCBpOTE1X2dlbV9jb250ZXh0X2dldHBhcmFtX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsIHZvaWQgKmRhdGEsCiAJCWFyZ3MtPnZhbHVlID0gaTkxNV9nZW1fY29udGV4dF9pc19wZXJz
-aXN0ZW50KGN0eCk7CiAJCWJyZWFrOwogCi0JY2FzZSBJOTE1X0NPTlRFWFRfUEFSQU1fUklOR1NJ
-WkU6Ci0JCXJldCA9IGdldF9yaW5nc2l6ZShjdHgsIGFyZ3MpOwotCQlicmVhazsKLQogCWNhc2Ug
-STkxNV9DT05URVhUX1BBUkFNX0JBTl9QRVJJT0Q6CisJY2FzZSBJOTE1X0NPTlRFWFRfUEFSQU1f
-UklOR1NJWkU6CiAJZGVmYXVsdDoKIAkJcmV0ID0gLUVJTlZBTDsKIAkJYnJlYWs7CmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9jb250ZXh0X3BhcmFtLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9jb250ZXh0X3BhcmFtLmMKZGVsZXRlZCBmaWxlIG1v
-ZGUgMTAwNjQ0CmluZGV4IDY1ZGNkMDkwMjQ1ZDYuLjAwMDAwMDAwMDAwMDAKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfY29udGV4dF9wYXJhbS5jCisrKyAvZGV2L251bGwKQEAg
-LTEsNjMgKzAsMCBAQAotLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IE1JVAotLyoKLSAqIENv
-cHlyaWdodCDCqSAyMDE5IEludGVsIENvcnBvcmF0aW9uCi0gKi8KLQotI2luY2x1ZGUgImk5MTVf
-YWN0aXZlLmgiCi0jaW5jbHVkZSAiaW50ZWxfY29udGV4dC5oIgotI2luY2x1ZGUgImludGVsX2Nv
-bnRleHRfcGFyYW0uaCIKLSNpbmNsdWRlICJpbnRlbF9yaW5nLmgiCi0KLWludCBpbnRlbF9jb250
-ZXh0X3NldF9yaW5nX3NpemUoc3RydWN0IGludGVsX2NvbnRleHQgKmNlLCBsb25nIHN6KQotewot
-CWludCBlcnI7Ci0KLQlpZiAoaW50ZWxfY29udGV4dF9sb2NrX3Bpbm5lZChjZSkpCi0JCXJldHVy
-biAtRUlOVFI7Ci0KLQllcnIgPSBpOTE1X2FjdGl2ZV93YWl0KCZjZS0+YWN0aXZlKTsKLQlpZiAo
-ZXJyIDwgMCkKLQkJZ290byB1bmxvY2s7Ci0KLQlpZiAoaW50ZWxfY29udGV4dF9pc19waW5uZWQo
-Y2UpKSB7Ci0JCWVyciA9IC1FQlVTWTsgLyogSW4gYWN0aXZlIHVzZSwgY29tZSBiYWNrIGxhdGVy
-ISAqLwotCQlnb3RvIHVubG9jazsKLQl9Ci0KLQlpZiAodGVzdF9iaXQoQ09OVEVYVF9BTExPQ19C
-SVQsICZjZS0+ZmxhZ3MpKSB7Ci0JCXN0cnVjdCBpbnRlbF9yaW5nICpyaW5nOwotCi0JCS8qIFJl
-cGxhY2UgdGhlIGV4aXN0aW5nIHJpbmdidWZmZXIgKi8KLQkJcmluZyA9IGludGVsX2VuZ2luZV9j
-cmVhdGVfcmluZyhjZS0+ZW5naW5lLCBzeik7Ci0JCWlmIChJU19FUlIocmluZykpIHsKLQkJCWVy
-ciA9IFBUUl9FUlIocmluZyk7Ci0JCQlnb3RvIHVubG9jazsKLQkJfQotCi0JCWludGVsX3Jpbmdf
-cHV0KGNlLT5yaW5nKTsKLQkJY2UtPnJpbmcgPSByaW5nOwotCi0JCS8qIENvbnRleHQgaW1hZ2Ug
-d2lsbCBiZSB1cGRhdGVkIG9uIG5leHQgcGluICovCi0JfSBlbHNlIHsKLQkJY2UtPnJpbmcgPSBf
-X2ludGVsX2NvbnRleHRfcmluZ19zaXplKHN6KTsKLQl9Ci0KLXVubG9jazoKLQlpbnRlbF9jb250
-ZXh0X3VubG9ja19waW5uZWQoY2UpOwotCXJldHVybiBlcnI7Ci19Ci0KLWxvbmcgaW50ZWxfY29u
-dGV4dF9nZXRfcmluZ19zaXplKHN0cnVjdCBpbnRlbF9jb250ZXh0ICpjZSkKLXsKLQlsb25nIHN6
-ID0gKHVuc2lnbmVkIGxvbmcpUkVBRF9PTkNFKGNlLT5yaW5nKTsKLQotCWlmICh0ZXN0X2JpdChD
-T05URVhUX0FMTE9DX0JJVCwgJmNlLT5mbGFncykpIHsKLQkJaWYgKGludGVsX2NvbnRleHRfbG9j
-a19waW5uZWQoY2UpKQotCQkJcmV0dXJuIC1FSU5UUjsKLQotCQlzeiA9IGNlLT5yaW5nLT5zaXpl
-OwotCQlpbnRlbF9jb250ZXh0X3VubG9ja19waW5uZWQoY2UpOwotCX0KLQotCXJldHVybiBzejsK
-LX0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2NvbnRleHRfcGFy
-YW0uaCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2NvbnRleHRfcGFyYW0uaAppbmRl
-eCAzZWNhY2M2NzVmNDE0Li5kZmZlZGQ5ODM2OTNkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9ndC9pbnRlbF9jb250ZXh0X3BhcmFtLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZ3QvaW50ZWxfY29udGV4dF9wYXJhbS5oCkBAIC0xMCw5ICsxMCw2IEBACiAKICNpbmNsdWRl
-ICJpbnRlbF9jb250ZXh0LmgiCiAKLWludCBpbnRlbF9jb250ZXh0X3NldF9yaW5nX3NpemUoc3Ry
-dWN0IGludGVsX2NvbnRleHQgKmNlLCBsb25nIHN6KTsKLWxvbmcgaW50ZWxfY29udGV4dF9nZXRf
-cmluZ19zaXplKHN0cnVjdCBpbnRlbF9jb250ZXh0ICpjZSk7Ci0KIHN0YXRpYyBpbmxpbmUgaW50
-CiBpbnRlbF9jb250ZXh0X3NldF93YXRjaGRvZ191cyhzdHJ1Y3QgaW50ZWxfY29udGV4dCAqY2Us
-IHU2NCB0aW1lb3V0X3VzKQogewpkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9pOTE1X2Ry
-bS5oIGIvaW5jbHVkZS91YXBpL2RybS9pOTE1X2RybS5oCmluZGV4IDZhMzQyNDNhNzY0NmEuLjZl
-ZWZiYzZkZWMwMWYgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vaTkxNV9kcm0uaAorKysg
-Yi9pbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmgKQEAgLTE3MjEsMjQgKzE3MjEsOCBAQCBzdHJ1
-Y3QgZHJtX2k5MTVfZ2VtX2NvbnRleHRfcGFyYW0gewogICovCiAjZGVmaW5lIEk5MTVfQ09OVEVY
-VF9QQVJBTV9QRVJTSVNURU5DRQkweGIKIAotLyoKLSAqIEk5MTVfQ09OVEVYVF9QQVJBTV9SSU5H
-U0laRToKLSAqCi0gKiBTZXRzIHRoZSBzaXplIG9mIHRoZSBDUyByaW5nYnVmZmVyIHRvIHVzZSBm
-b3IgbG9naWNhbCByaW5nIGNvbnRleHRzLiBUaGlzCi0gKiBhcHBsaWVzIGEgbGltaXQgb2YgaG93
-IG1hbnkgYmF0Y2hlcyBjYW4gYmUgcXVldWVkIHRvIEhXIGJlZm9yZSB0aGUgY2FsbGVyCi0gKiBp
-cyBibG9ja2VkIGR1ZSB0byBsYWNrIG9mIHNwYWNlIGZvciBtb3JlIGNvbW1hbmRzLgotICoKLSAq
-IE9ubHkgcmVsaWFibHkgcG9zc2libGUgdG8gYmUgc2V0IHByaW9yIHRvIGZpcnN0IHVzZSwgaS5l
-LiBkdXJpbmcKLSAqIGNvbnN0cnVjdGlvbi4gQXQgYW55IGxhdGVyIHBvaW50LCB0aGUgY3VycmVu
-dCBleGVjdXRpb24gbXVzdCBiZSBmbHVzaGVkIGFzCi0gKiB0aGUgcmluZyBjYW4gb25seSBiZSBj
-aGFuZ2VkIHdoaWxlIHRoZSBjb250ZXh0IGlzIGlkbGUuIE5vdGUsIHRoZSByaW5nc2l6ZQotICog
-Y2FuIGJlIHNwZWNpZmllZCBhcyBhIGNvbnN0cnVjdG9yIHByb3BlcnR5LCBzZWUKLSAqIEk5MTVf
-Q09OVEVYVF9DUkVBVEVfRVhUX1NFVFBBUkFNLCBidXQgY2FuIGFsc28gYmUgc2V0IGxhdGVyIGlm
-IHJlcXVpcmVkLgotICoKLSAqIE9ubHkgYXBwbGllcyB0byB0aGUgY3VycmVudCBzZXQgb2YgZW5n
-aW5lIGFuZCBsb3N0IHdoZW4gdGhvc2UgZW5naW5lcwotICogYXJlIHJlcGxhY2VkIGJ5IGEgbmV3
-IG1hcHBpbmcgKHNlZSBJOTE1X0NPTlRFWFRfUEFSQU1fRU5HSU5FUykuCi0gKgotICogTXVzdCBi
-ZSBiZXR3ZWVuIDQgLSA1MTIgS2lCLCBpbiBpbnRlcnZhbHMgb2YgcGFnZSBzaXplIFs0IEtpQl0u
-Ci0gKiBEZWZhdWx0IGlzIDE2IEtpQi4KKy8qIFRoaXMgQVBJIGhhcyBiZWVuIHJlbW92ZWQuICBP
-biB0aGUgb2ZmIGNoYW5jZSBzb21lb25lIHNvbWV3aGVyZSBoYXMKKyAqIGF0dGVtcHRlZCB0byB1
-c2UgaXQsIG5ldmVyIHJlLXVzZSB0aGlzIGNvbnRleHQgcGFyYW0gbnVtYmVyLgogICovCiAjZGVm
-aW5lIEk5MTVfQ09OVEVYVF9QQVJBTV9SSU5HU0laRQkweGMKIC8qIE11c3QgYmUga2VwdCBjb21w
-YWN0IC0tIG5vIGhvbGVzIGFuZCB3ZWxsIGRvY3VtZW50ZWQgKi8KLS0gCjIuMzEuMQoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Previously, we were storing the ring size in the ring pointer before it
+was actually allocated.  We would then guard setting the ring size on
+checking for CONTEXT_ALLOC_BIT.  This is error-prone at best and really
+only saves us a few bytes on something that already burns at least 4K.
+Instead, this patch adds a new ring_size field and makes everything use
+that.
+
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 3 +--
+ drivers/gpu/drm/i915/gt/intel_context.c       | 3 ++-
+ drivers/gpu/drm/i915/gt/intel_context.h       | 5 -----
+ drivers/gpu/drm/i915/gt/intel_context_types.h | 1 +
+ drivers/gpu/drm/i915/gt/intel_lrc.c           | 2 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  | 2 +-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       | 2 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   | 2 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c          | 7 ++-----
+ 9 files changed, 10 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index e52b85b8f923d..2ba4c7e4011b4 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -211,8 +211,7 @@ static void intel_context_set_gem(struct intel_context *ce,
+ 	GEM_BUG_ON(rcu_access_pointer(ce->gem_context));
+ 	RCU_INIT_POINTER(ce->gem_context, ctx);
+ 
+-	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags))
+-		ce->ring = __intel_context_ring_size(SZ_16K);
++	ce->ring_size = SZ_16K;
+ 
+ 	if (rcu_access_pointer(ctx->vm)) {
+ 		struct i915_address_space *vm;
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+index 17cf2640b082b..342fa7daa08b5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.c
++++ b/drivers/gpu/drm/i915/gt/intel_context.c
+@@ -372,7 +372,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+ 	ce->engine = engine;
+ 	ce->ops = engine->cops;
+ 	ce->sseu = engine->sseu;
+-	ce->ring = __intel_context_ring_size(SZ_4K);
++	ce->ring = NULL;
++	ce->ring_size = SZ_4K;
+ 
+ 	ewma_runtime_init(&ce->runtime.avg);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+index f83a73a2b39fc..b10cbe8fee992 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.h
++++ b/drivers/gpu/drm/i915/gt/intel_context.h
+@@ -175,11 +175,6 @@ int intel_context_prepare_remote_request(struct intel_context *ce,
+ 
+ struct i915_request *intel_context_create_request(struct intel_context *ce);
+ 
+-static inline struct intel_ring *__intel_context_ring_size(u64 sz)
+-{
+-	return u64_to_ptr(struct intel_ring, sz);
+-}
+-
+ static inline bool intel_context_is_barrier(const struct intel_context *ce)
+ {
+ 	return test_bit(CONTEXT_BARRIER_BIT, &ce->flags);
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+index ed8c447a7346b..90026c1771055 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+@@ -82,6 +82,7 @@ struct intel_context {
+ 	spinlock_t signal_lock; /* protects signals, the list of requests */
+ 
+ 	struct i915_vma *state;
++	u32 ring_size;
+ 	struct intel_ring *ring;
+ 	struct intel_timeline *timeline;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index e86897cde9846..63193c80fb117 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -845,7 +845,7 @@ int lrc_alloc(struct intel_context *ce, struct intel_engine_cs *engine)
+ 	if (IS_ERR(vma))
+ 		return PTR_ERR(vma);
+ 
+-	ring = intel_engine_create_ring(engine, (unsigned long)ce->ring);
++	ring = intel_engine_create_ring(engine, ce->ring_size);
+ 	if (IS_ERR(ring)) {
+ 		err = PTR_ERR(ring);
+ 		goto err_vma;
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index 1081cd36a2bd3..01d9896dd4844 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -2793,7 +2793,7 @@ static int __live_preempt_ring(struct intel_engine_cs *engine,
+ 			goto err_ce;
+ 		}
+ 
+-		tmp->ring = __intel_context_ring_size(ring_sz);
++		tmp->ring_size = ring_sz;
+ 
+ 		err = intel_context_pin(tmp);
+ 		if (err) {
+diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+index e55a887d11e2b..f343fa5fd986f 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
++++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+@@ -28,7 +28,7 @@ static struct intel_context *mocs_context_create(struct intel_engine_cs *engine)
+ 		return ce;
+ 
+ 	/* We build large requests to read the registers from the ring */
+-	ce->ring = __intel_context_ring_size(SZ_16K);
++	ce->ring_size = SZ_16K;
+ 
+ 	return ce;
+ }
+diff --git a/drivers/gpu/drm/i915/gt/selftest_timeline.c b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+index 9adbd9d147bea..7eedecfb86e59 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_timeline.c
++++ b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+@@ -874,7 +874,7 @@ static int create_watcher(struct hwsp_watcher *w,
+ 	if (IS_ERR(ce))
+ 		return PTR_ERR(ce);
+ 
+-	ce->ring = __intel_context_ring_size(ringsz);
++	ce->ring_size = ringsz;
+ 	w->rq = intel_context_create_request(ce);
+ 	intel_context_put(ce);
+ 	if (IS_ERR(w->rq))
+diff --git a/drivers/gpu/drm/i915/gvt/scheduler.c b/drivers/gpu/drm/i915/gvt/scheduler.c
+index fc735692f21fb..99bc9fed6fbb6 100644
+--- a/drivers/gpu/drm/i915/gvt/scheduler.c
++++ b/drivers/gpu/drm/i915/gvt/scheduler.c
+@@ -1409,11 +1409,8 @@ int intel_vgpu_setup_submission(struct intel_vgpu *vgpu)
+ 		intel_context_set_single_submission(ce);
+ 
+ 		/* Max ring buffer size */
+-		if (!intel_uc_wants_guc_submission(&engine->gt->uc)) {
+-			const unsigned int ring_size = 512 * SZ_4K;
+-
+-			ce->ring = __intel_context_ring_size(ring_size);
+-		}
++		if (!intel_uc_wants_guc_submission(&engine->gt->uc))
++			ce->ring_size = 512 * SZ_4K;
+ 
+ 		s->shadow[i] = ce;
+ 	}
+-- 
+2.31.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
