@@ -1,37 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298EC371F87
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 20:22:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8A2371F7F
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 20:22:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA5596E9FD;
-	Mon,  3 May 2021 18:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5E96E906;
+	Mon,  3 May 2021 18:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28D1489B01;
+X-Greylist: delayed 24167 seconds by postgrey-1.36 at gabe;
+ Mon, 03 May 2021 18:21:55 UTC
+Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 706396E8FF;
  Mon,  3 May 2021 18:21:55 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id CEFAFC800D4;
- Mon,  3 May 2021 20:21:53 +0200 (CEST)
+ by srv6.fidu.org (Postfix) with ESMTP id 0168BC800D5;
+ Mon,  3 May 2021 20:21:54 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
 Received: from srv6.fidu.org ([127.0.0.1])
  by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
- with LMTP id uZQGOFwRhbT2; Mon,  3 May 2021 20:21:53 +0200 (CEST)
+ with LMTP id qyb-wfgdHNVr; Mon,  3 May 2021 20:21:53 +0200 (CEST)
 Received: from wsembach-tuxedo.fritz.box
  (p200300E37f3986001A8B79e0b24CB29D.dip0.t-ipconnect.de
  [IPv6:2003:e3:7f39:8600:1a8b:79e0:b24c:b29d])
  (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPA id 8079AC800D0;
+ by srv6.fidu.org (Postfix) with ESMTPA id A300EC800CE;
  Mon,  3 May 2021 20:21:53 +0200 (CEST)
 From: Werner Sembach <wse@tuxedocomputers.com>
 To: wse@tuxedocomputers.com, ville.syrjala@linux.intel.com, airlied@linux.ie,
  daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] New function to avoid duplicate code in upcomming commits
-Date: Mon,  3 May 2021 20:21:45 +0200
-Message-Id: <20210503182148.851790-2-wse@tuxedocomputers.com>
+Subject: [PATCH 2/4] Add missing check
+Date: Mon,  3 May 2021 20:21:46 +0200
+Message-Id: <20210503182148.851790-3-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210503182148.851790-1-wse@tuxedocomputers.com>
 References: <20210503182148.851790-1-wse@tuxedocomputers.com>
@@ -53,80 +55,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Moves some checks that later will be performed 2 times to an own fuction. This
-avoids duplicate code later on.
+Add a missing check that could potentially lead to an unarchivable mode being
+validated.
 
 Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 ---
 
-From 1c529783eb2ec02099d1ed2ab9257b008cb6f040 Mon Sep 17 00:00:00 2001
+From 54fa706f0a5f260a32af5d18b9622ceebb94c12e Mon Sep 17 00:00:00 2001
 From: Werner Sembach <wse@tuxedocomputers.com>
-Date: Mon, 3 May 2021 14:35:39 +0200
-Subject: [PATCH 1/4] New function to avoid duplicate code in upcomming commits
+Date: Mon, 3 May 2021 14:42:36 +0200
+Subject: [PATCH 2/4] Add missing check
 
 ---
- drivers/gpu/drm/i915/display/intel_hdmi.c | 41 ++++++++++++++---------
- 1 file changed, 26 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/i915/display/intel_hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 46de56af33db..576d3d910d06 100644
+index 576d3d910d06..ce165ef28e88 100644
 --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
 +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -1861,6 +1861,31 @@ static int intel_hdmi_port_clock(int clock, int bpc)
- 	return clock * bpc / 8;
- }
+@@ -1913,7 +1913,7 @@ intel_hdmi_mode_valid(struct drm_connector *connector,
+ 		clock *= 2;
+ 	}
  
-+static enum drm_mode_status
-+intel_hdmi_mode_clock_valid(struct intel_hdmi *hdmi, int clock, bool has_hdmi_sink)
-+{
-+	struct drm_device *dev = intel_hdmi_to_dev(hdmi);
-+	struct drm_i915_private *dev_priv = to_i915(dev);
-+	enum drm_mode_status status;
-+
-+	/* check if we can do 8bpc */
-+	status = hdmi_port_clock_valid(hdmi, clock, true, has_hdmi_sink);
-+
-+	if (has_hdmi_sink) {
-+		/* if we can't do 8bpc we may still be able to do 12bpc */
-+		if (status != MODE_OK && !HAS_GMCH(dev_priv))
-+			status = hdmi_port_clock_valid(hdmi, clock * 3 / 2,
-+						       true, has_hdmi_sink);
-+
-+		/* if we can't do 8,12bpc we may still be able to do 10bpc */
-+		if (status != MODE_OK && INTEL_GEN(dev_priv) >= 11)
-+			status = hdmi_port_clock_valid(hdmi, clock * 5 / 4,
-+						       true, has_hdmi_sink);
-+	}
-+
-+	return status;
-+}
-+
- static enum drm_mode_status
- intel_hdmi_mode_valid(struct drm_connector *connector,
- 		      struct drm_display_mode *mode)
-@@ -1891,21 +1916,7 @@ intel_hdmi_mode_valid(struct drm_connector *connector,
- 	if (drm_mode_is_420_only(&connector->display_info, mode))
+-	if (drm_mode_is_420_only(&connector->display_info, mode))
++	if (connector->ycbcr_420_allowed && drm_mode_is_420_only(&connector->display_info, mode))
  		clock /= 2;
  
--	/* check if we can do 8bpc */
--	status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 8),
--				       true, has_hdmi_sink);
--
--	if (has_hdmi_sink) {
--		/* if we can't do 8bpc we may still be able to do 12bpc */
--		if (status != MODE_OK && !HAS_GMCH(dev_priv))
--			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 12),
--						       true, has_hdmi_sink);
--
--		/* if we can't do 8,12bpc we may still be able to do 10bpc */
--		if (status != MODE_OK && DISPLAY_VER(dev_priv) >= 11)
--			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 10),
--						       true, has_hdmi_sink);
--	}
-+	status = intel_hdmi_mode_clock_valid(hdmi, clock, has_hdmi_sink);
- 	if (status != MODE_OK)
- 		return status;
- 
+ 	status = intel_hdmi_mode_clock_valid(hdmi, clock, has_hdmi_sink);
 -- 
 2.25.1
 
