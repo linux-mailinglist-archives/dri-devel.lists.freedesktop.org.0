@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC16A371A97
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:39:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31566371A99
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:40:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 977D46E99C;
-	Mon,  3 May 2021 16:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25F846E99A;
+	Mon,  3 May 2021 16:40:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ECA26E99D;
- Mon,  3 May 2021 16:39:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BFB0061364;
- Mon,  3 May 2021 16:39:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2926E99A
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 16:40:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C96B613C1;
+ Mon,  3 May 2021 16:40:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059988;
- bh=gN9GJmqlsrU4t32+jfOOugZd3Z8iZ5ZBvoL4PeSYVpw=;
+ s=k20201202; t=1620060009;
+ bh=eS273gei3xGe9tYr+x2MWS0uD8ncESfNV9l6GnaN0yo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qBlI2Lj1aFIhSN+Es6zyYCYd3ybXMq3YMXaXlELiDW9/Y4lpQ5xo3pYKOjYQVWUB5
- hHGdF3lRPwZVZVZ+VIYbfVpw1oTraB+hyJA11XYDKYpoEAGTFbX2Ab+uAhhqUztVQF
- mYBkvugPCFlEQWKf5nLE0ZppQoTEjdh9HJpyewBFEM9j73lHKGn0Nkfnyd2fUL9asV
- /raKCMVttNt/Km9wVtan3FBHiia+HrtCtr08MjRdmqPwlx3MRY0zR9UivsfpNBkm5o
- jEFEmyyQ5ridHYjT15EpRyAqSGDr8DQtxvidkI8O1gcGvefeD97hrcpaYDM+OEsJXX
- OfuHNFoovb9mg==
+ b=Uh1fE10k4Noe0HTeefO6t+74tphJAlVwt2Fc1pu7k2WLS/97PFDtbGzdsw510Ms6H
+ DvgXRa/GhIJ7rCTB4yvWBTP/lBnuYAZj4hLxxFTXAXRwroFapoyNi0iKIFrlhsEcza
+ FoCgIf3MUmPeIgOTY/+VRwLs6C5V8Jgz/J8zEWUzNmrS2aNUei5i1uh0xAFYRswNT2
+ LZV2UOnV5twe5YFRvDZV4qb2PKK9jFyiOrwGjrUOZQgekfWmRjwX19myX9Keibi7R1
+ Fz0XjPSVds0tIr7M8xBufIB0Zr9KTEZrxAfOwb/SN5EZNaR9DufOywhbw6a9W1N4d9
+ iQ66dCMWpTdIQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 04/57] drm/amd/display: Don't optimize bandwidth
- before disabling planes
-Date: Mon,  3 May 2021 12:38:48 -0400
-Message-Id: <20210503163941.2853291-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 18/57] drm/bridge/analogix/anx78xx: Setup encoder
+ before registering connector
+Date: Mon,  3 May 2021 12:39:02 -0400
+Message-Id: <20210503163941.2853291-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163941.2853291-1-sashal@kernel.org>
 References: <20210503163941.2853291-1-sashal@kernel.org>
@@ -49,50 +49,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
- Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Bindu Ramamurthy <bindu.r@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Robert Foss <robert.foss@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aric Cyr <aric.cyr@amd.com>
+From: Lyude Paul <lyude@redhat.com>
 
-[ Upstream commit 6ad98e8aeb0106f453bb154933e8355849244990 ]
+[ Upstream commit 9962849d0871f5e53d0e3b3d84561f8f2847fbf4 ]
 
-[Why]
-There is a window of time where we optimize bandwidth due to no streams
-enabled will enable PSTATE changing but HUBPs are not disabled yet.
-This results in underflow counter increasing in some hotplug scenarios.
+Since encoder mappings for connectors are exposed to userspace, we should
+be attaching the encoder before exposing the connector to userspace. Just a
+drive-by fix for an issue I noticed while fixing up usages of
+drm_dp_aux_init()/drm_dp_aux_register() across the tree.
 
-[How]
-Set the optimize-bandwidth flag for later processing once all the HUBPs
-are properly disabled.
-
-Signed-off-by: Aric Cyr <aric.cyr@amd.com>
-Acked-by: Bindu Ramamurthy <bindu.r@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210219215326.2227596-9-lyude@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/analogix-anx78xx.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 68d56a91d44b..092db590087c 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -1961,7 +1961,8 @@ static void commit_planes_do_stream_update(struct dc *dc,
- 					if (pipe_ctx->stream_res.audio && !dc->debug.az_endpoint_mute_only)
- 						pipe_ctx->stream_res.audio->funcs->az_disable(pipe_ctx->stream_res.audio);
+diff --git a/drivers/gpu/drm/bridge/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix-anx78xx.c
+index 56df07cdab68..fcbad1ed865a 100644
+--- a/drivers/gpu/drm/bridge/analogix-anx78xx.c
++++ b/drivers/gpu/drm/bridge/analogix-anx78xx.c
+@@ -1032,12 +1032,6 @@ static int anx78xx_bridge_attach(struct drm_bridge *bridge)
+ 	drm_connector_helper_add(&anx78xx->connector,
+ 				 &anx78xx_connector_helper_funcs);
  
--					dc->hwss.optimize_bandwidth(dc, dc->current_state);
-+					dc->optimized_required = true;
+-	err = drm_connector_register(&anx78xx->connector);
+-	if (err) {
+-		DRM_ERROR("Failed to register connector: %d\n", err);
+-		return err;
+-	}
+-
+ 	anx78xx->connector.polled = DRM_CONNECTOR_POLL_HPD;
+ 
+ 	err = drm_connector_attach_encoder(&anx78xx->connector,
+@@ -1047,6 +1041,12 @@ static int anx78xx_bridge_attach(struct drm_bridge *bridge)
+ 		return err;
+ 	}
+ 
++	err = drm_connector_register(&anx78xx->connector);
++	if (err) {
++		DRM_ERROR("Failed to register connector: %d\n", err);
++		return err;
++	}
 +
- 				} else {
- 					if (!dc->optimize_seamless_boot)
- 						dc->hwss.prepare_bandwidth(dc, dc->current_state);
+ 	return 0;
+ }
+ 
 -- 
 2.30.2
 
