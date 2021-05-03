@@ -1,44 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9076371385
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 12:16:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 970CE371394
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 12:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 327FF6E0CA;
-	Mon,  3 May 2021 10:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 367796E897;
+	Mon,  3 May 2021 10:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9E76E87F;
- Mon,  3 May 2021 08:00:29 +0000 (UTC)
-IronPort-SDR: UAj9ZbMI8tpKbIlWdUa8xF9kyC9XLm595s7d9CbMQXQW3SvJU9Ct+Sy5Cie+T84fJuiDbehLI8
- 9ZQSq1vG2Y+Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,9972"; a="194546034"
-X-IronPort-AV: E=Sophos;i="5.82,268,1613462400"; d="scan'208";a="194546034"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 01:00:28 -0700
-IronPort-SDR: 0BtbVBvW4cKwxyUMXLuMNzqQR8eNMkGREOUVxBr1myj9cvQZmdyv3RaoH6saWoxMkb2gW4mAbU
- vEVYOaACypdg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,268,1613462400"; d="scan'208";a="530292089"
-Received: from kuha.fi.intel.com ([10.237.72.162])
- by fmsmga001.fm.intel.com with SMTP; 03 May 2021 01:00:21 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Mon, 03 May 2021 11:00:20 +0300
-Date: Mon, 3 May 2021 11:00:20 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>, Imre Deak <imre.deak@intel.com>
-Subject: Re: [PATCH 4/9] drm/connector: Add support for out-of-band hotplug
- notification
-Message-ID: <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
-References: <20210428215257.500088-1-hdegoede@redhat.com>
- <20210428215257.500088-5-hdegoede@redhat.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4FA6E896
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 May 2021 10:24:31 +0000 (UTC)
+Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1ldVkW-0006AK-Pe; Mon, 03 May 2021 12:24:24 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org,
+	Primoz Fiser <primoz.fiser@norik.com>
+Subject: [PATCH] drm/etnaviv: rework linear window offset calculation
+Date: Mon,  3 May 2021 12:24:22 +0200
+Message-Id: <20210503102422.1384502-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210428215257.500088-5-hdegoede@redhat.com>
-X-Mailman-Approved-At: Mon, 03 May 2021 10:16:50 +0000
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,93 +42,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
+The current calculation based on the required_dma mask can be significantly
+off, so that the linear window only overlaps a small part of the DRAM
+address space. This can lead to the command buffer being unmappable, which
+is obviously bad.
 
-On Wed, Apr 28, 2021 at 11:52:52PM +0200, Hans de Goede wrote:
-> +/**
-> + * struct drm_connector_oob_hotplug_event_data: OOB hotplug event data
-> + *
-> + * Contains data about out-of-band hotplug events, signalled through
-> + * drm_connector_oob_hotplug_event().
-> + */
-> +struct drm_connector_oob_hotplug_event_data {
-> +	/**
-> +	 * @connected: New connected status for the connector.
-> +	 */
-> +	bool connected;
-> +	/**
-> +	 * @dp_lanes: Number of available displayport lanes, 0 if unknown.
-> +	 */
-> +	int dp_lanes;
-> +	/**
-> +	 * @orientation: Connector orientation.
-> +	 */
-> +	enum typec_orientation orientation;
-> +};
+Rework the linear window offset calculation to be based on the command buffer
+physical address, making sure that the command buffer is always mappable.
 
-I don't think the orientation is relevant. It will always be "normal"
-from DP PoW after muxing, no?
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 52 +++++++++++++--------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
-I'm also not sure those deatils are enough in the long run. Based on
-what I've understood from our graphics team guys, for example knowing
-if multi-function is preferred may be important in some cases.
-
-+Imre.
-
-All of that, and more, is already available in the Configuration VDO
-Status VDO that the we have negotiated with the DP partner. Both those
-VDOs are part of struct typec_displayport_data. I think we should
-simply supply that structure to the DRM code instead of picking those
-details out of it...
-
->  /**
->   * struct drm_tv_connector_state - TV connector related states
->   * @subconnector: selected subconnector
-> @@ -1110,6 +1132,15 @@ struct drm_connector_funcs {
->  	 */
->  	void (*atomic_print_state)(struct drm_printer *p,
->  				   const struct drm_connector_state *state);
-> +
-> +	/**
-> +	 * @oob_hotplug_event:
-> +	 *
-> +	 * This will get called when a hotplug-event for a drm-connector
-> +	 * has been received from a source outside the display driver / device.
-> +	 */
-> +	void (*oob_hotplug_event)(struct drm_connector *connector,
-> +				  struct drm_connector_oob_hotplug_event_data *data);
-
-So I would not try to generalise this like that. This callback should
-be USB Type-C DP altmode specific:
-
-	void (*oob_hotplug_event)(struct drm_connector *connector,
-                                  struct typec_displayport_data *data);
-
-Or like this if the orientation can really be reversed after muxing:
-
-	void (*oob_hotplug_event)(struct drm_connector *connector,
-				  struct typec_altmode *altmode,
-                                  struct typec_displayport_data *data);
-
-You can now check the orientation separately with
-typec_altmode_get_orientation() if necessary.
-
-
-thanks,
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index c6404b8d067f..a454b13e8106 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -27,10 +27,6 @@
+ #include "state_hi.xml.h"
+ #include "cmdstream.xml.h"
+ 
+-#ifndef PHYS_OFFSET
+-#define PHYS_OFFSET 0
+-#endif
+-
+ static const struct platform_device_id gpu_ids[] = {
+ 	{ .name = "etnaviv-gpu,2d" },
+ 	{ },
+@@ -724,6 +720,7 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
+ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ {
+ 	struct etnaviv_drm_private *priv = gpu->drm->dev_private;
++	dma_addr_t cmdbuf_paddr;
+ 	int ret, i;
+ 
+ 	ret = pm_runtime_get_sync(gpu->dev);
+@@ -766,28 +763,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 	if (ret)
+ 		goto fail;
+ 
+-	/*
+-	 * Set the GPU linear window to be at the end of the DMA window, where
+-	 * the CMA area is likely to reside. This ensures that we are able to
+-	 * map the command buffers while having the linear window overlap as
+-	 * much RAM as possible, so we can optimize mappings for other buffers.
+-	 *
+-	 * For 3D cores only do this if MC2.0 is present, as with MC1.0 it leads
+-	 * to different views of the memory on the individual engines.
+-	 */
+-	if (!(gpu->identity.features & chipFeatures_PIPE_3D) ||
+-	    (gpu->identity.minor_features0 & chipMinorFeatures0_MC20)) {
+-		u32 dma_mask = (u32)dma_get_required_mask(gpu->dev);
+-		if (dma_mask < PHYS_OFFSET + SZ_2G)
+-			priv->mmu_global->memory_base = PHYS_OFFSET;
+-		else
+-			priv->mmu_global->memory_base = dma_mask - SZ_2G + 1;
+-	} else if (PHYS_OFFSET >= SZ_2G) {
+-		dev_info(gpu->dev, "Need to move linear window on MC1.0, disabling TS\n");
+-		priv->mmu_global->memory_base = PHYS_OFFSET;
+-		gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
+-	}
+-
+ 	/*
+ 	 * If the GPU is part of a system with DMA addressing limitations,
+ 	 * request pages for our SHM backend buffers from the DMA32 zone to
+@@ -804,6 +779,31 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 		goto fail;
+ 	}
+ 
++	/*
++	 * Set the GPU linear window to cover the cmdbuf region, as the GPU
++	 * won't be able to start execution otherwise. The alignment to 128M is
++	 * chosen arbitrarily but helps in debugging, as the MMU offset
++	 * calculations are much more straight forward this way.
++	 *
++	 * On MC1.0 cores the linear window offset is ignored by the TS engine,
++	 * leading to inconsistent memory views. Avoid using the offset on those
++	 * cores if possible, otherwise disable the TS feature.
++	 */
++	cmdbuf_paddr = ALIGN_DOWN(etnaviv_cmdbuf_get_pa(&gpu->buffer), SZ_128M);
++
++	if (!(gpu->identity.features & chipFeatures_PIPE_3D) ||
++	    (gpu->identity.minor_features0 & chipMinorFeatures0_MC20)) {
++		if (cmdbuf_paddr >= SZ_2G)
++			priv->mmu_global->memory_base = SZ_2G;
++		else
++			priv->mmu_global->memory_base = cmdbuf_paddr;
++	} else if (cmdbuf_paddr + SZ_128M >= SZ_2G) {
++		dev_info(gpu->dev,
++			 "Need to move linear window on MC1.0, disabling TS\n");
++		gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
++		priv->mmu_global->memory_base = SZ_2G;
++	}
++
+ 	/* Setup event management */
+ 	spin_lock_init(&gpu->event_spinlock);
+ 	init_completion(&gpu->event_free);
 -- 
-heikki
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
