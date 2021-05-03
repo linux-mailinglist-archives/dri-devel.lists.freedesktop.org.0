@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154673719BD
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:36:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5EBA3719C0
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31FC16E93D;
-	Mon,  3 May 2021 16:36:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 316106E93E;
+	Mon,  3 May 2021 16:36:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6B76E939;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9F36E936;
+ Mon,  3 May 2021 16:36:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8BB656054E;
  Mon,  3 May 2021 16:36:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF8C1613EC;
- Mon,  3 May 2021 16:36:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059801;
- bh=KprGEgi2SnO1s/mKEo8xVV/ncCKSK03eyLB1dOpN8Ro=;
+ s=k20201202; t=1620059802;
+ bh=rbzHGteRRXA+HYT6QScnhUlW7tlUz+0AaOJknEJ07EQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gNNLzxf8CJzwG2Yg3LaSYfR859s3OX3LHNZZYwnrNOu7rPWUqjxgQ+uA+ZHTLgvzL
- oVHZL90Njn6nwtYM2YYlRXQ6CgnN5LO0CA5rk9VaMs7sRryWr5TK17eOS4uCLAZRKr
- +eyPzZm0Hfi+WQZuP54JFgOZHH0qGjwQi2T7wSNia12JmRwiIgwLnSBD/d3WDBb3Zz
- BUMU2+2dIKedVJ8a2EsERIqX7BV9nBIv7NjHSzLC+6NVhsV68o48D9j6SLttrpMa6H
- xHNGQHghDDd0acM0h1SGqyc8TTPoDZe85NDAnbwyP1shexr12Lk1uA+rQ7H7ZJ5zK+
- yhBr1hG9PaQ9g==
+ b=dnz3DXCCuGTp3L/c/BwFg2+4JwTAU23Aw60SIT3dSWtGV2vA/gPwY13VJDnr5ZCRq
+ 98xtIDJP3tvXr2tuPLsRVJ2JssHePe+akOmtVbVdKPOPnbjRhNomt4E+e+K7RtTKCu
+ KeNoIOdNce+5y8ygDQuStiqRjriISdhvfNGMBJR+wXEPxcNuZBb0mzMMcuyNDfXjv1
+ wc9PzU0nYYdgyfQv9O5h8tbJoSy4kky8dGq4w8TvANKHmHuwQzyPn2YDHPXjeWEP/T
+ 6ff0ObSU+M5Pf8dPrB9tOuHbg2BAkaojnVCL+rmdMUg383qu42LkwggbzGwOnTylg+
+ luuiq1nSrIhkw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 056/134] drm/amd/display: fix dml prefetch
- validation
-Date: Mon,  3 May 2021 12:33:55 -0400
-Message-Id: <20210503163513.2851510-56-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 057/134] drm/amd/display: Fix potential memory
+ leak
+Date: Mon,  3 May 2021 12:33:56 -0400
+Message-Id: <20210503163513.2851510-57-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163513.2851510-1-sashal@kernel.org>
 References: <20210503163513.2851510-1-sashal@kernel.org>
@@ -49,57 +49,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
- Solomon Chiu <solomon.chiu@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- Eric Bernstein <Eric.Bernstein@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ amd-gfx@lists.freedesktop.org, Solomon Chiu <solomon.chiu@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+From: Qingqing Zhuo <qingqing.zhuo@amd.com>
 
-[ Upstream commit 8ee0fea4baf90e43efe2275de208a7809f9985bc ]
+[ Upstream commit 51ba691206e35464fd7ec33dd519d141c80b5dff ]
 
-Incorrect variable used, missing initialization during validation.
+[Why]
+vblank_workqueue is never released.
+
+[How]
+Free it upon dm finish.
 
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-Reviewed-by: Eric Bernstein <Eric.Bernstein@amd.com>
+Signed-off-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 Acked-by: Solomon Chiu <solomon.chiu@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c   | 1 +
- drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-index 0f3f510fd83b..9729cf292e84 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-@@ -3437,6 +3437,7 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 			mode_lib->vba.DCCEnabledInAnyPlane = true;
- 		}
- 	}
-+	mode_lib->vba.UrgentLatency = mode_lib->vba.UrgentLatencyPixelDataOnly;
- 	for (i = 0; i <= mode_lib->vba.soc.num_states; i++) {
- 		locals->FabricAndDRAMBandwidthPerState[i] = dml_min(
- 				mode_lib->vba.DRAMSpeedPerState[i] * mode_lib->vba.NumberOfChannels
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-index 210c96cd5b03..51098c2c9854 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-@@ -3544,6 +3544,7 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
- 			mode_lib->vba.DCCEnabledInAnyPlane = true;
- 		}
- 	}
-+	mode_lib->vba.UrgentLatency = mode_lib->vba.UrgentLatencyPixelDataOnly;
- 	for (i = 0; i <= mode_lib->vba.soc.num_states; i++) {
- 		locals->FabricAndDRAMBandwidthPerState[i] = dml_min(
- 				mode_lib->vba.DRAMSpeedPerState[i] * mode_lib->vba.NumberOfChannels
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 167e04ab9d5b..9c243f66867a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1191,6 +1191,15 @@ static void amdgpu_dm_fini(struct amdgpu_device *adev)
+ 	if (adev->dm.dc)
+ 		dc_deinit_callbacks(adev->dm.dc);
+ #endif
++
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	if (adev->dm.vblank_workqueue) {
++		adev->dm.vblank_workqueue->dm = NULL;
++		kfree(adev->dm.vblank_workqueue);
++		adev->dm.vblank_workqueue = NULL;
++	}
++#endif
++
+ 	if (adev->dm.dc->ctx->dmub_srv) {
+ 		dc_dmub_srv_destroy(&adev->dm.dc->ctx->dmub_srv);
+ 		adev->dm.dc->ctx->dmub_srv = NULL;
 -- 
 2.30.2
 
