@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A91371A72
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D577C371A74
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:39:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4E26E98E;
-	Mon,  3 May 2021 16:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 881326E98B;
+	Mon,  3 May 2021 16:39:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45EAF6E98A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C00F36E98B;
+ Mon,  3 May 2021 16:39:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7BFD5615FF;
  Mon,  3 May 2021 16:39:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D08B6162B;
- Mon,  3 May 2021 16:39:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059961;
- bh=o/l0lSsczpZLxrZMv/NdxfFKve3qOYESAWe0kB0foAU=;
+ s=k20201202; t=1620059962;
+ bh=Qz5Vk2Lrm8UtrZT+Y8M+F8gOAo823C+dZKCArcdc4Rg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZRFRzKFXFv2zUO9FPcVWYBrrngzM7p41TKJYI7ftLx692m5w0gfHACpP7Z/ohXBcQ
- vTI2mpuY2mJr4gQ9xkaj/nXxT+Ei9kTp9Bwh+heeppQ0wXx1A4OSxXnMCcnvp6S6ri
- EwGSr/qWcgicT0r4wT0QhhccfIuO/ga49zr+TuitTGAcgJLoPWapQ/F08lYAIMrPI0
- +8GrzHb31dvkAJajGbRqJkaSIcW50D0GJeJolfKAzFfglX6o8w5eMt6CoHy4vDV/Ko
- f/tVqey3awZMG0DhWFuMMyvQtA2HHFMq110a06pzWHp11WTpI2c5u8UnWmUVx84I2m
- B1N8omRsraWzw==
+ b=QwYZcMWu8kZRZC1c3b1dPgJjeOxkaCHH5beHtpktARIhEbz3Dukk1hHjYhxfrE2d8
+ JQ2xkAUU9DGJgba9xvVCo4lxVo7AEz18Z2zd1eAeyd3rJVbYERsDqffotOQlxN980R
+ EDGnAU19ImC2QcXOtM+fI5I9WUirtfA+8XelBLtgX45bxBO3axhR76/OMGbRYk44B2
+ JxWraU/WlbOzYr7FyD3PhgeykI4AmT6gndBx/hdb8AUG3/8ZyOQcrep6tK9oSP7TFe
+ xaOMBvVGV5kVohele2JYhUp2SOm+tmuGARLpIbIOQsANekM50fZAebJlQZLwc6KanZ
+ og6iUuXujYPsA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 034/100] drm/amdgpu : Fix asic reset regression
- issue introduce by 8f211fe8ac7c4f
-Date: Mon,  3 May 2021 12:37:23 -0400
-Message-Id: <20210503163829.2852775-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 035/100] drm/amd/pm: fix workload mismatch on
+ vega10
+Date: Mon,  3 May 2021 12:37:24 -0400
+Message-Id: <20210503163829.2852775-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163829.2852775-1-sashal@kernel.org>
 References: <20210503163829.2852775-1-sashal@kernel.org>
@@ -49,42 +49,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- shaoyunl <shaoyun.liu@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Kevin Wang <kevin1.wang@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Kenneth Feng <kenneth.feng@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: shaoyunl <shaoyun.liu@amd.com>
+From: Kenneth Feng <kenneth.feng@amd.com>
 
-[ Upstream commit c8941550aa66b2a90f4b32c45d59e8571e33336e ]
+[ Upstream commit 0979d43259e13846d86ba17e451e17fec185d240 ]
 
-This recent change introduce SDMA interrupt info printing with irq->process function.
-These functions do not require a set function to enable/disable the irq
+Workload number mapped to the correct one.
+This issue is only on vega10.
 
-Signed-off-by: shaoyunl <shaoyun.liu@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: Kenneth Feng <kenneth.feng@amd.com>
+Reviewed-by: Kevin Wang <kevin1.wang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 2 +-
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-index 300ac73b4738..2f70fdd6104f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-@@ -499,7 +499,7 @@ void amdgpu_irq_gpu_reset_resume_helper(struct amdgpu_device *adev)
- 		for (j = 0; j < AMDGPU_MAX_IRQ_SRC_ID; ++j) {
- 			struct amdgpu_irq_src *src = adev->irq.client[i].sources[j];
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+index ed4eafc744d3..132c269c7c89 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+@@ -5159,7 +5159,7 @@ static int vega10_set_power_profile_mode(struct pp_hwmgr *hwmgr, long *input, ui
  
--			if (!src)
-+			if (!src || !src->funcs || !src->funcs->set)
- 				continue;
- 			for (k = 0; k < src->num_types; k++)
- 				amdgpu_irq_update(adev, src, k);
+ out:
+ 	smum_send_msg_to_smc_with_parameter(hwmgr, PPSMC_MSG_SetWorkloadMask,
+-						1 << power_profile_mode,
++						(!power_profile_mode) ? 0 : 1 << (power_profile_mode - 1),
+ 						NULL);
+ 	hwmgr->power_profile_mode = power_profile_mode;
+ 
 -- 
 2.30.2
 
