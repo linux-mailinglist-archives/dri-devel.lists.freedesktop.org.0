@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52319371984
-	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:35:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC01D371987
+	for <lists+dri-devel@lfdr.de>; Mon,  3 May 2021 18:35:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD5866E919;
-	Mon,  3 May 2021 16:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E66BB6E91F;
+	Mon,  3 May 2021 16:35:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 228046E91F;
- Mon,  3 May 2021 16:35:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A1CC60D07;
- Mon,  3 May 2021 16:35:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B9396E8F8;
+ Mon,  3 May 2021 16:35:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AEE4561278;
+ Mon,  3 May 2021 16:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620059734;
- bh=EXK4iLNayhUOC3WWOSq/Lehhdmm+cANa20sK4cCvN84=;
+ s=k20201202; t=1620059743;
+ bh=/i7twi6+kmLwdQCEga9hbGTxL+7/51Mn2FVRvzRAG8Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=o76hE7NTumfWj1NHRDUkA01lI8BEGNmTXCc33d/k6jU4oFbG+EnFwF0GEXHXAVzGE
- 83L8ZHG0X6i2Ji85N3Fi+YN2nkvNjnGAZQuO/YWAqjnc1V1bKGXpZvpyzsnJNp9grN
- 5zxbLX7EeunYVg7LkP2hfJJIuFjjVTXdtrUQn1kwCVudz3nSEsxOel9IxM1T7XCipi
- r5tImRmY3wXpHs1RTRRfHDMWLJB8ud9WM6QDvz0F/nsPpzZaIMMNGlma86ZX51kfq8
- KPVmACPJy77n3zcoicawYDPMafIWtIkyMK/glRQN8gu7rWIwLLZU3+QTlliuXpEpQe
- PyyI9H8Xbs7Zw==
+ b=DX11H9EoWxEpLs8w0elPh4LhQewljOVffAB0EvFMbIahdJuUzQCpb38pS40OkwIYl
+ 52p1sW+II6D/EERTj2mvxlcMSY08GFQ6UzOgrb4pKpA78d1BIXAr5ZePldgUMpKuDP
+ EmkFZ8ydqLr7ruwBMRhCgX1NrTlxi7n/y6OVlE+2IVZI79J/pPExdwIn2ax+1KHS21
+ I0aSJXtOSf5a9ECei2ZUc9/jNF1jZfBwApkV4pbdA3ol+Sx8t5ODmk2EdY2U566l4a
+ XSAamtWeDxBCSGNvE0FjBdbhkUXdqzPfcU0w/sHQ5E2Bi6DtmtoVejYKwKLJZ6Il/3
+ 0n8Dvifl3ajKA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 013/134] drm/amd/display/dc/dce/dce_aux: Remove
- duplicate line causing 'field overwritten' issue
-Date: Mon,  3 May 2021 12:33:12 -0400
-Message-Id: <20210503163513.2851510-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 019/134] drm/amd/pm/swsmu: clean up user profile
+ function
+Date: Mon,  3 May 2021 12:33:18 -0400
+Message-Id: <20210503163513.2851510-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163513.2851510-1-sashal@kernel.org>
 References: <20210503163513.2851510-1-sashal@kernel.org>
@@ -49,77 +49,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Leo Li <sunpeng.li@amd.com>,
- Lee Jones <lee.jones@linaro.org>, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>,
+ Arunpravin <Arunpravin.PaneerSelvam@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Evan Quan <evan.quan@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KClsgVXBzdHJlYW0gY29tbWl0
-IDNlMzUyN2Y1Yjc2NWM2ZjQ3OWJhNTVlNWE1NzBlZTk1Mzg1ODlhNzQgXQoKRml4ZXMgdGhlIGZv
-bGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogSW4gZmlsZSBpbmNsdWRlZCBm
-cm9tIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvZGNlMTEyL2RjZTEx
-Ml9yZXNvdXJjZS5jOjU5OgogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vaW5jbHVkZS9h
-c2ljX3JlZy9kY2UvZGNlXzExXzJfc2hfbWFzay5oOjEwMDE0OjU4OiB3YXJuaW5nOiBpbml0aWFs
-aXplZCBmaWVsZCBvdmVyd3JpdHRlbiBbLVdvdmVycmlkZS1pbml0XQogZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvLi4vZGlzcGxheS9kYy9kY2UvZGNlX2F1eC5oOjIxNDoxNjogbm90ZTogaW4g
-ZXhwYW5zaW9uIG9mIG1hY3JvIOKAmEFVWF9TV19EQVRBX19BVVhfU1dfQVVUT0lOQ1JFTUVOVF9E
-SVNBQkxFX19TSElGVOKAmQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxheS9k
-Yy9kY2UvZGNlX2F1eC5oOjEyNzoyOiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8g4oCYQVVY
-X1NG4oCZCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjZTExMi9k
-Y2UxMTJfcmVzb3VyY2UuYzoxNzc6Mjogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmERD
-RV9BVVhfTUFTS19TSF9MSVNU4oCZCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9pbmNs
-dWRlL2FzaWNfcmVnL2RjZS9kY2VfMTFfMl9zaF9tYXNrLmg6MTAwMTQ6NTg6IG5vdGU6IChuZWFy
-IGluaXRpYWxpemF0aW9uIGZvciDigJhhdXhfc2hpZnQuQVVYX1NXX0FVVE9JTkNSRU1FTlRfRElT
-QUJMReKAmSkKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvZGNlL2Rj
-ZV9hdXguaDoyMTQ6MTY6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyDigJhBVVhfU1dfREFU
-QV9fQVVYX1NXX0FVVE9JTkNSRU1FTlRfRElTQUJMRV9fU0hJRlTigJkKIGRyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvZGNlL2RjZV9hdXguaDoxMjc6Mjogbm90ZTogaW4g
-ZXhwYW5zaW9uIG9mIG1hY3JvIOKAmEFVWF9TRuKAmQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvLi4vZGlzcGxheS9kYy9kY2UxMTIvZGNlMTEyX3Jlc291cmNlLmM6MTc3OjI6IG5vdGU6IGlu
-IGV4cGFuc2lvbiBvZiBtYWNybyDigJhEQ0VfQVVYX01BU0tfU0hfTElTVOKAmQogZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvLi4vaW5jbHVkZS9hc2ljX3JlZy9kY2UvZGNlXzExXzJfc2hfbWFz
-ay5oOjEwMDEzOjU2OiB3YXJuaW5nOiBpbml0aWFsaXplZCBmaWVsZCBvdmVyd3JpdHRlbiBbLVdv
-dmVycmlkZS1pbml0XQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxheS9kYy9k
-Y2UvZGNlX2F1eC5oOjIxNDoxNjogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmEFVWF9T
-V19EQVRBX19BVVhfU1dfQVVUT0lOQ1JFTUVOVF9ESVNBQkxFX01BU0vigJkKIGRyaXZlcnMvZ3B1
-L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvZGNlL2RjZV9hdXguaDoxMjc6Mjogbm90ZTog
-aW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmEFVWF9TRuKAmQogZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvLi4vZGlzcGxheS9kYy9kY2UxMTIvZGNlMTEyX3Jlc291cmNlLmM6MTgxOjI6IG5vdGU6
-IGluIGV4cGFuc2lvbiBvZiBtYWNybyDigJhEQ0VfQVVYX01BU0tfU0hfTElTVOKAmQogZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vaW5jbHVkZS9hc2ljX3JlZy9kY2UvZGNlXzExXzJfc2hf
-bWFzay5oOjEwMDEzOjU2OiBub3RlOiAobmVhciBpbml0aWFsaXphdGlvbiBmb3Ig4oCYYXV4X21h
-c2suQVVYX1NXX0FVVE9JTkNSRU1FTlRfRElTQUJMReKAmSkKIGRyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvZGNlL2RjZV9hdXguaDoyMTQ6MTY6IG5vdGU6IGluIGV4cGFu
-c2lvbiBvZiBtYWNybyDigJhBVVhfU1dfREFUQV9fQVVYX1NXX0FVVE9JTkNSRU1FTlRfRElTQUJM
-RV9NQVNL4oCZCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjZS9k
-Y2VfYXV4Lmg6MTI3OjI6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyDigJhBVVhfU0bigJkK
-CkNjOiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxhbmRAYW1kLmNvbT4KQ2M6IExlbyBMaSA8
-c3VucGVuZy5saUBhbWQuY29tPgpDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBh
-bWQuY29tPgpDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
-CkNjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwgVmV0dGVyIDxk
-YW5pZWxAZmZ3bGwuY2g+CkNjOiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxl
-ZS5qb25lc0BsaW5hcm8ub3JnPgpTaWduZWQtb2ZmLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRl
-ci5kZXVjaGVyQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IFNhc2hhIExldmluIDxzYXNoYWxAa2Vy
-bmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9hdXgu
-aCB8IDEgLQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9hdXguaCBiL2RyaXZlcnMvZ3B1L2Ry
-bS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX2F1eC5oCmluZGV4IDI3NzQ4NGNmODUzZS4uZDRiZTU5
-NTRkN2FhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2Rj
-ZV9hdXguaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9hdXgu
-aApAQCAtOTksNyArOTksNiBAQCBzdHJ1Y3QgZGNlMTEwX2F1eF9yZWdpc3RlcnMgewogCUFVWF9T
-RihBVVhfU1dfQ09OVFJPTCwgQVVYX1NXX0dPLCBtYXNrX3NoKSxcCiAJQVVYX1NGKEFVWF9TV19E
-QVRBLCBBVVhfU1dfQVVUT0lOQ1JFTUVOVF9ESVNBQkxFLCBtYXNrX3NoKSxcCiAJQVVYX1NGKEFV
-WF9TV19EQVRBLCBBVVhfU1dfREFUQV9SVywgbWFza19zaCksXAotCUFVWF9TRihBVVhfU1dfREFU
-QSwgQVVYX1NXX0FVVE9JTkNSRU1FTlRfRElTQUJMRSwgbWFza19zaCksXAogCUFVWF9TRihBVVhf
-U1dfREFUQSwgQVVYX1NXX0lOREVYLCBtYXNrX3NoKSxcCiAJQVVYX1NGKEFVWF9TV19EQVRBLCBB
-VVhfU1dfREFUQSwgbWFza19zaCksXAogCUFVWF9TRihBVVhfU1dfU1RBVFVTLCBBVVhfU1dfUkVQ
-TFlfQllURV9DT1VOVCwgbWFza19zaCksXAotLSAKMi4zMC4yCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+
+[ Upstream commit d8cce9306801cfbf709055677f7896905094ff95 ]
+
+Remove unnecessary comments, enable restore mode using
+'|=' operator, fixes the alignment to improve the code
+readability.
+
+v2: Move all restoration flag check to bitwise '&' operator
+
+Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+Reviewed-by: Evan Quan <evan.quan@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 34 ++++++++---------------
+ 1 file changed, 12 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+index cd905e41080e..42c4dbe3e362 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+@@ -279,35 +279,25 @@ static void smu_set_user_clk_dependencies(struct smu_context *smu, enum smu_clk_
+ 	if (smu->adev->in_suspend)
+ 		return;
+ 
+-	/*
+-	 * mclk, fclk and socclk are interdependent
+-	 * on each other
+-	 */
+ 	if (clk == SMU_MCLK) {
+-		/* reset clock dependency */
+ 		smu->user_dpm_profile.clk_dependency = 0;
+-		/* set mclk dependent clocks(fclk and socclk) */
+ 		smu->user_dpm_profile.clk_dependency = BIT(SMU_FCLK) | BIT(SMU_SOCCLK);
+ 	} else if (clk == SMU_FCLK) {
+-		/* give priority to mclk, if mclk dependent clocks are set */
++		/* MCLK takes precedence over FCLK */
+ 		if (smu->user_dpm_profile.clk_dependency == (BIT(SMU_FCLK) | BIT(SMU_SOCCLK)))
+ 			return;
+ 
+-		/* reset clock dependency */
+ 		smu->user_dpm_profile.clk_dependency = 0;
+-		/* set fclk dependent clocks(mclk and socclk) */
+ 		smu->user_dpm_profile.clk_dependency = BIT(SMU_MCLK) | BIT(SMU_SOCCLK);
+ 	} else if (clk == SMU_SOCCLK) {
+-		/* give priority to mclk, if mclk dependent clocks are set */
++		/* MCLK takes precedence over SOCCLK */
+ 		if (smu->user_dpm_profile.clk_dependency == (BIT(SMU_FCLK) | BIT(SMU_SOCCLK)))
+ 			return;
+ 
+-		/* reset clock dependency */
+ 		smu->user_dpm_profile.clk_dependency = 0;
+-		/* set socclk dependent clocks(mclk and fclk) */
+ 		smu->user_dpm_profile.clk_dependency = BIT(SMU_MCLK) | BIT(SMU_FCLK);
+ 	} else
+-		/* add clk dependencies here, if any */
++		/* Add clk dependencies here, if any */
+ 		return;
+ }
+ 
+@@ -331,7 +321,7 @@ static void smu_restore_dpm_user_profile(struct smu_context *smu)
+ 		return;
+ 
+ 	/* Enable restore flag */
+-	smu->user_dpm_profile.flags = SMU_DPM_USER_PROFILE_RESTORE;
++	smu->user_dpm_profile.flags |= SMU_DPM_USER_PROFILE_RESTORE;
+ 
+ 	/* set the user dpm power limit */
+ 	if (smu->user_dpm_profile.power_limit) {
+@@ -354,8 +344,8 @@ static void smu_restore_dpm_user_profile(struct smu_context *smu)
+ 				ret = smu_force_clk_levels(smu, clk_type,
+ 						smu->user_dpm_profile.clk_mask[clk_type]);
+ 				if (ret)
+-					dev_err(smu->adev->dev, "Failed to set clock type = %d\n",
+-							clk_type);
++					dev_err(smu->adev->dev,
++						"Failed to set clock type = %d\n", clk_type);
+ 			}
+ 		}
+ 	}
+@@ -1777,7 +1767,7 @@ int smu_force_clk_levels(struct smu_context *smu,
+ 
+ 	if (smu->ppt_funcs && smu->ppt_funcs->force_clk_levels) {
+ 		ret = smu->ppt_funcs->force_clk_levels(smu, clk_type, mask);
+-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE) {
++		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE)) {
+ 			smu->user_dpm_profile.clk_mask[clk_type] = mask;
+ 			smu_set_user_clk_dependencies(smu, clk_type);
+ 		}
+@@ -2034,7 +2024,7 @@ int smu_set_fan_speed_rpm(struct smu_context *smu, uint32_t speed)
+ 	if (smu->ppt_funcs->set_fan_speed_percent) {
+ 		percent = speed * 100 / smu->fan_max_rpm;
+ 		ret = smu->ppt_funcs->set_fan_speed_percent(smu, percent);
+-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
++		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
+ 			smu->user_dpm_profile.fan_speed_percent = percent;
+ 	}
+ 
+@@ -2104,7 +2094,7 @@ int smu_set_power_limit(struct smu_context *smu, uint32_t limit)
+ 
+ 	if (smu->ppt_funcs->set_power_limit) {
+ 		ret = smu->ppt_funcs->set_power_limit(smu, limit);
+-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
++		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
+ 			smu->user_dpm_profile.power_limit = limit;
+ 	}
+ 
+@@ -2285,7 +2275,7 @@ int smu_set_fan_control_mode(struct smu_context *smu, int value)
+ 
+ 	if (smu->ppt_funcs->set_fan_control_mode) {
+ 		ret = smu->ppt_funcs->set_fan_control_mode(smu, value);
+-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
++		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
+ 			smu->user_dpm_profile.fan_mode = value;
+ 	}
+ 
+@@ -2293,7 +2283,7 @@ int smu_set_fan_control_mode(struct smu_context *smu, int value)
+ 
+ 	/* reset user dpm fan speed */
+ 	if (!ret && value != AMD_FAN_CTRL_MANUAL &&
+-			smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
++			!(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
+ 		smu->user_dpm_profile.fan_speed_percent = 0;
+ 
+ 	return ret;
+@@ -2335,7 +2325,7 @@ int smu_set_fan_speed_percent(struct smu_context *smu, uint32_t speed)
+ 		if (speed > 100)
+ 			speed = 100;
+ 		ret = smu->ppt_funcs->set_fan_speed_percent(smu, speed);
+-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
++		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
+ 			smu->user_dpm_profile.fan_speed_percent = speed;
+ 	}
+ 
+-- 
+2.30.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
