@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CEC3731AD
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 22:54:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B023731B5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 23:00:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADF746E30C;
-	Tue,  4 May 2021 20:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 876EB6EB6E;
+	Tue,  4 May 2021 21:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E305F6E2B4
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 20:53:56 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id g14so12031701edy.6
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 13:53:56 -0700 (PDT)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9E356EB6E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 21:00:09 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id u3so15261878eja.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 14:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=V8tmuEJLe05V0XWw0LBdwheXUZaiBUdTxjxtrar91Yc=;
- b=c+XL85UVh/ip7blyDygE3+dqGuTpcp3JfDH1GMwMUgGgjM/pp4H6FR/Je5ix9CPJKk
- tBnGuzJ8nbhEL1tv5wbzMB4NWLt/C/mJtrNoeFMeBiTnZ+NOFDjEF2dYVyXl5MUkJEft
- yaxlXHftevAfNRjqTaAgiOv95pk6F2ifzEBGk=
+ bh=1AcyG3YwCnsWMwTvM+Pn3Ao7Xmgt8vILAYXbDtBCY3w=;
+ b=OrKQyxYHSM+ldmwoGS+Qiuae7r7ocytoYiXfaxWndL9q9Wq3UA+VwJ0TUByWJdpTvo
+ Z1a9f20hMIzysQ5c7eQcC/rh3JHZ1lD9xbwtlqvxXuoWWJuFAdovb/QGZeTN8k8vprUL
+ KkYoKoqmsaqubYJoupThmEN+CQGLWwf9cFEW0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=V8tmuEJLe05V0XWw0LBdwheXUZaiBUdTxjxtrar91Yc=;
- b=gJw1B+n0HdQHliW/Cf9W6Qg6a/hK8KuK6pqv8JCNwTGkEnt8j7bzrzhvY68zVNoxvv
- XZjXGdTfoJK14IlU4CUKrNFGr2LTsuXF67XAhRVY7D+yQFhbC8u5lPXJV++qPjc0WgOI
- Dq26uZkfvxuis7khxB3XDw6aZmm/codrrwsl9DGatpvcCwg6hRu5LBnyGOYlYPgvv2NW
- yMbawchDop/820dNkomn7rkLRth0RSpFREoLo9Oh29/Cle6deqmD33omiw8XyaZ/TyOT
- 0DfAIDSlSfbhRFvx2vLctmUJwLaUcrFxEEPqfCsuJvD99rbbOGe//O/rQcp8MetSW7hL
- PROg==
-X-Gm-Message-State: AOAM53257UU9prIuOxaUCFF91X3h7BbEHLOBZ2f3H4I7nNO21ys03sHW
- 1v/BzyjeFfBrq6Ppd2unZXgw1Q==
-X-Google-Smtp-Source: ABdhPJwLh+qibQstIQbqMIxnQuO9jlwDejtSt8fbbOo1LIJ1laIFqeUv6WwoXc8p0Bw7ZZXEw30xzw==
-X-Received: by 2002:a05:6402:4357:: with SMTP id
- n23mr28821833edc.379.1620161635330; 
- Tue, 04 May 2021 13:53:55 -0700 (PDT)
+ bh=1AcyG3YwCnsWMwTvM+Pn3Ao7Xmgt8vILAYXbDtBCY3w=;
+ b=bDD8fWZoOiDGmxH+u1ITkBqAc/EXyKsMHApmXsOVDH3jw+qzt8YKRuITmyGF5GoeTP
+ UYhSyeyl7aLqPcGRuuEu2IIDPWMKUQHqTI1FSa7pybkMmIg+gqzUDwHylf8Xr6V7bOXW
+ to9E2RBBWib7wu1jAEk61Pn4JUJD6/ydrmH66zYMRaOZznf/11as0wDoLGWVK6ldTlIy
+ yf5yE2AXR/16XVgGzlKzTf1ma2mIvup5XpI+JQuFE2DKNQeQViywJML4seEUdrm2dLXV
+ QItV76GReres312onaxmGkqCEV73Xdwk8SAfqUYyG4IyzdtABXr4G6UPyA2h7SnUisox
+ 5b6w==
+X-Gm-Message-State: AOAM533fr7ekt2vY4G99Sx34YEVQOa6H3uV45Ci8gwynlmw540w7RMNz
+ NjjDWXnprEHJb4qziwHgzqHZSg==
+X-Google-Smtp-Source: ABdhPJz3+MYBmQbJvmpZgPXe09lD3Odh4Gc+wUwCtIUbXTXollrJAAaB59EKJ4UhXsxD5EEyvFpmwA==
+X-Received: by 2002:a17:907:9620:: with SMTP id
+ gb32mr9329464ejc.331.1620162008366; 
+ Tue, 04 May 2021 14:00:08 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m9sm1236744edd.16.2021.05.04.13.53.54
+ by smtp.gmail.com with ESMTPSA id aj8sm1931202ejc.64.2021.05.04.14.00.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 13:53:54 -0700 (PDT)
-Date: Tue, 4 May 2021 22:53:53 +0200
+ Tue, 04 May 2021 14:00:07 -0700 (PDT)
+Date: Tue, 4 May 2021 23:00:05 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: kernel test robot <lkp@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 22/27] drm/i915/gem: Delay context creation
-Message-ID: <YJG0YYs7LwerNThG@phenom.ffwll.local>
-References: <20210503155748.1961781-23-jason@jlekstrand.net>
- <202105040338.LIgGSDM8-lkp@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 23/27] drm/i915/gem: Don't allow changing the
+ VM on running contexts
+Message-ID: <YJG11YpJQVDK7WQl@phenom.ffwll.local>
+References: <20210503155748.1961781-24-jason@jlekstrand.net>
+ <202105040213.dxlJPZ0l-lkp@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <202105040338.LIgGSDM8-lkp@intel.com>
+In-Reply-To: <202105040213.dxlJPZ0l-lkp@intel.com>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,72 +74,102 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 04, 2021 at 03:38:06AM +0800, kernel test robot wrote:
+On Tue, May 04, 2021 at 02:52:03AM +0800, kernel test robot wrote:
 > Hi Jason,
 > 
-> Thank you for the patch! Yet something to improve:
+> Thank you for the patch! Perhaps something to improve:
 > 
-> [auto build test ERROR on drm-intel/for-linux-next]
-> [also build test ERROR on drm-tip/drm-tip drm-exynos/exynos-drm-next next-20210503]
-> [cannot apply to tegra-drm/drm/tegra/for-next v5.12]
+> [auto build test WARNING on drm-intel/for-linux-next]
+> [also build test WARNING on drm-tip/drm-tip drm-exynos/exynos-drm-next next-20210503]
+> [cannot apply to tegra-drm/drm/tegra/for-next drm/drm-next v5.12]
 > [If your patch is applied to the wrong git tree, kindly drop us a note.
 > And when submitting patch, we suggest to use '--base' as documented in
 > https://git-scm.com/docs/git-format-patch]
 > 
 > url:    https://github.com/0day-ci/linux/commits/Jason-Ekstrand/drm-i915-gem-ioctl-clean-ups-v5/20210504-000132
 > base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-> config: i386-randconfig-r013-20210503 (attached as .config)
+> config: i386-randconfig-s002-20210503 (attached as .config)
 > compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/0day-ci/linux/commit/66ce6ce447515a302711a65f731d1e6f66abdcdc
+> reproduce:
+>         # apt-get install sparse
+>         # sparse version: v0.6.3-341-g8af24329-dirty
+>         # https://github.com/0day-ci/linux/commit/6af12f5ca765ecd59075344f3be4c4c0b68ef95e
 >         git remote add linux-review https://github.com/0day-ci/linux
 >         git fetch --no-tags linux-review Jason-Ekstrand/drm-i915-gem-ioctl-clean-ups-v5/20210504-000132
->         git checkout 66ce6ce447515a302711a65f731d1e6f66abdcdc
+>         git checkout 6af12f5ca765ecd59075344f3be4c4c0b68ef95e
 >         # save the attached .config to linux build tree
->         make W=1 W=1 ARCH=i386 
+>         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' W=1 ARCH=i386 
 > 
 > If you fix the issue, kindly add following tag as appropriate
 > Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/gpu/drm/i915/gem/i915_gem_context.c:2543:1: error: no previous prototype for 'lazy_create_context_locked' [-Werror=missing-prototypes]
->     2543 | lazy_create_context_locked(struct drm_i915_file_private *file_priv,
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    cc1: all warnings being treated as errors
 
-Ah you missed the static, and I missed that in review. That one should be
-fixed :-)
+Just from staring at this I have no idea, so I guess you have to
+reproduce. What sparse does is primarily check these special bit and
+pointer values the kernel has, like __rcu and __user, where you need
+special functions to access them. But since the code is using
+rcu_dereference I have no idea what the complaint is about.
 -Daniel
 
 > 
 > 
-> vim +/lazy_create_context_locked +2543 drivers/gpu/drm/i915/gem/i915_gem_context.c
+> sparse warnings: (new ones prefixed by >>)
+>    drivers/gpu/drm/i915/gt/intel_reset.c:1329:5: sparse: sparse: context imbalance in 'intel_gt_reset_trylock' - different lock contexts for basic block
+>    drivers/gpu/drm/i915/gt/intel_reset.c: note: in included file:
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space [noderef] __rcu *
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space *
+> --
+>    drivers/gpu/drm/i915/gt/intel_execlists_submission.c: note: in included file (through drivers/gpu/drm/i915/selftests/igt_spinner.h, drivers/gpu/drm/i915/gt/selftest_execlists.c):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space [noderef] __rcu *
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space *
+> --
+>    drivers/gpu/drm/i915/gem/i915_gem_object.c: note: in included file:
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space [noderef] __rcu *
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space *
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space [noderef] __rcu *
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space *
+>    drivers/gpu/drm/i915/gem/i915_gem_context.h:154:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>    drivers/gpu/drm/i915/gem/i915_gem_context.h:154:16: sparse:    struct i915_address_space [noderef] __rcu *
+>    drivers/gpu/drm/i915/gem/i915_gem_context.h:154:16: sparse:    struct i915_address_space *
+> --
+>    drivers/gpu/drm/i915/i915_gem_gtt.c: note: in included file (through drivers/gpu/drm/i915/selftests/i915_gem_gtt.c):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space [noderef] __rcu *
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space *
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space [noderef] __rcu *
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space *
+> --
+>    drivers/gpu/drm/i915/i915_vma.c: note: in included file:
+> >> drivers/gpu/drm/i915/selftests/i915_vma.c:42:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> drivers/gpu/drm/i915/selftests/i915_vma.c:42:24: sparse:    struct i915_address_space [noderef] __rcu *
+> >> drivers/gpu/drm/i915/selftests/i915_vma.c:42:24: sparse:    struct i915_address_space *
+>    drivers/gpu/drm/i915/i915_vma.c: note: in included file (through drivers/gpu/drm/i915/selftests/i915_vma.c):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space [noderef] __rcu *
+> >> drivers/gpu/drm/i915/gem/i915_gem_context.h:163:14: sparse:    struct i915_address_space *
 > 
->   2541	
->   2542	struct i915_gem_context *
-> > 2543	lazy_create_context_locked(struct drm_i915_file_private *file_priv,
->   2544				   struct i915_gem_proto_context *pc, u32 id)
->   2545	{
->   2546		struct i915_gem_context *ctx;
->   2547		void *old;
->   2548	
->   2549		lockdep_assert_held(&file_priv->proto_context_lock);
->   2550	
->   2551		ctx = i915_gem_create_context(file_priv->dev_priv, pc);
->   2552		if (IS_ERR(ctx))
->   2553			return ctx;
->   2554	
->   2555		gem_context_register(ctx, file_priv, id);
->   2556	
->   2557		old = xa_erase(&file_priv->proto_context_xa, id);
->   2558		GEM_BUG_ON(old != pc);
->   2559		proto_context_close(pc);
->   2560	
->   2561		/* One for the xarray and one for the caller */
->   2562		return i915_gem_context_get(ctx);
->   2563	}
->   2564	
+> vim +163 drivers/gpu/drm/i915/gem/i915_gem_context.h
+> 
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  156  
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  157  static inline struct i915_address_space *
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  158  i915_gem_context_get_vm_rcu(struct i915_gem_context *ctx)
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  159  {
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  160  	struct i915_address_space *vm;
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  161  
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  162  	rcu_read_lock();
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04 @163  	vm = rcu_dereference(ctx->vm);
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  164  	if (!vm)
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  165  		vm = &ctx->i915->ggtt.vm;
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  166  	vm = i915_vm_get(vm);
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  167  	rcu_read_unlock();
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  168  
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  169  	return vm;
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  170  }
+> a4e7ccdac38ec8 Chris Wilson 2019-10-04  171  
 > 
 > ---
 > 0-DAY CI Kernel Test Service, Intel Corporation
@@ -146,9 +177,9 @@ fixed :-)
 
 
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
 
 -- 
