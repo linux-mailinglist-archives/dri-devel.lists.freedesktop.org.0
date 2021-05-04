@@ -1,60 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D394A372DDE
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 18:17:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6340372E05
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 18:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A885F6EB2C;
-	Tue,  4 May 2021 16:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29E26E28B;
+	Tue,  4 May 2021 16:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C48DE6EB2C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 16:17:17 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id b17so8101253ede.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 09:17:17 -0700 (PDT)
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC93E6E28B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 16:27:44 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id i11so9302298oig.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 09:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ESFJVv5DD0a0lmX5earpPgnUG03s7gPJvDUyjYaF9K8=;
- b=CxRubMeQ0WB0uv6ckiXSNXpyOJU2mF1sliGYvM5TQsu62XmOqTDs80SoZ0IAqrBZ80
- DWVBcNtMUgsThI9RgtbUW3diFpU0CRmeLU71w4jpn2rC+xy5qn8Oeh7GkL5lMdcjyDSf
- T2OSOFaliINFmQtwl2e02T6QFWoXiOwkZnl/4=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DYF7uUe0NSSJCsH19h2K0ONCXMFGfdoSakxploOCV0I=;
+ b=FfAikBWHjfuKkAeTPxwjl/w800FhqUT9u9QL2i2sOIzQ2uPv2fE9oUb/mDJSo6Ty+S
+ oFL9pETzB/3ytHSJhV8ZcLDnRe5IUwtpTzOvPryHm4NzwxuebeQsBxxnvquIfA53MHqb
+ 9WeSY8YoyNqwsOZ6mpywqQOzm5RnM4Q704264=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ESFJVv5DD0a0lmX5earpPgnUG03s7gPJvDUyjYaF9K8=;
- b=LtgK3MRtO3SbQS2z/QD5h1rpIde5DNM9rpQreeX4KZqBgjT0xlrblNTx94+OQD6zY2
- rMYvE0/rh2TcxUocDrFr8HDU6vJpZN6pbtn4xdzhUg1aXh3annvn+wU0TbV7SXTmrOWg
- 1vr4qjOkHVKQpAg4Xxk8k65W8GkJDs/zMYu5vPI6cWMJwOiIpwHGsAD1rTbZs8taQg4q
- Wlp1nlQvfIySFdXbUbSLXsaQJyKQ1sU3gFRZyeWDGHZr3DaWdQnLMUh0HlHLSnqSDRwF
- yw4K70IFTkPgjgHi10WnN5h3QZlh+wgY4tzqmQmUOnvhiKOGyuTvylggqpDqMq88TiWk
- Am5w==
-X-Gm-Message-State: AOAM530kAKQ8/j2lHNKTny/q4siCv4qhy7TsDCVRh8rS2PAkWkpr97kw
- WwtXQ5YBdBDcYM98y7FoB7C+vg==
-X-Google-Smtp-Source: ABdhPJyvKQzJF0/AlXhNtfpJKg6+52LaLovqjj9DKxED6MHQXyXlpP4dj8XE7foqZMWvVkz5/cLMOw==
-X-Received: by 2002:a05:6402:752:: with SMTP id
- p18mr27103368edy.127.1620145036423; 
- Tue, 04 May 2021 09:17:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id gn36sm1614962ejc.23.2021.05.04.09.17.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 09:17:15 -0700 (PDT)
-Date: Tue, 4 May 2021 18:17:14 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [Intel-gfx] [PATCH 17/27] drm/i915/gem: Rework error handling in
- default_engines
-Message-ID: <YJFzilYYEb+SMz1i@phenom.ffwll.local>
-References: <20210503155748.1961781-1-jason@jlekstrand.net>
- <20210503155748.1961781-18-jason@jlekstrand.net>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DYF7uUe0NSSJCsH19h2K0ONCXMFGfdoSakxploOCV0I=;
+ b=DFMybAfereJch+8wlKvLV+DsnXbdXYvmDsCkVMoWwU4OqCLStccjSbl9WppBRq19PU
+ c6yiGaSrylSe35EPkvGf5DSyLLsLCVj3LUTVsgB10QVXDGAdh8qEJmPXdVd7Vy7Nlpxy
+ 8m3bDsWBiGj5hx4c0pd0mhdBkpq7xEBs6axAp3WLBOBOVKR5dRW66LAsvUCRxn0Ezjsb
+ zKAO0al7kDMOe9KTKcRePRZFxrgi29YLK1L+EhQdCPVDmpl8txC0ecxm3vK98cOZa52i
+ mjW8oZrJZseympiTPw+A9px0pirwCGDePgyXbXK7eM3B22zRLlKxXEm4VgbC1u2oSR6Q
+ Gbbg==
+X-Gm-Message-State: AOAM532fzJCHTlMZ0H7BoxIwrPnHKZ5bV+b8/omJ3BKtuQMrPlpSk0rX
+ QtirOX2jLiRqQZaA7KEwYAgxQOMaT8A/SPr3eawpFw==
+X-Google-Smtp-Source: ABdhPJzeyuzhzEF4gjzViZ7VOW+e0CqP6lg5U4itQk1v3xCNoIGcrH1flchbU+farzPUB+KtPOd05UmsfzRZLFXH+RI=
+X-Received: by 2002:aca:2219:: with SMTP id b25mr3525216oic.14.1620145663881; 
+ Tue, 04 May 2021 09:27:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210503155748.1961781-18-jason@jlekstrand.net>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+References: <20210504142910.2084722-1-linux@roeck-us.net>
+In-Reply-To: <20210504142910.2084722-1-linux@roeck-us.net>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 4 May 2021 18:27:32 +0200
+Message-ID: <CAKMK7uFNtE=hW75kn8tnSHpZveaUtavMwk6Libb9uUeonz853g@mail.gmail.com>
+Subject: Re: [PATCH] fbmem: Mark proc_fb_seq_ops as __maybe_unused
+To: Guenter Roeck <linux@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,75 +57,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 03, 2021 at 10:57:38AM -0500, Jason Ekstrand wrote:
-> Since free_engines works for partially constructed engine sets, we can
-> use the usual goto pattern.
-> 
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+On Tue, May 4, 2021 at 4:29 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> With CONFIG_PROC_FS=n and -Werror, 0-day reports:
+>
+> drivers/video/fbdev/core/fbmem.c:736:36: error:
+>         'proc_fb_seq_ops' defined but not used
+>
+> Mark it as __maybe_unused.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-I guess subsequent patches apply the same for the set_engines command and
-__free_engines disappears? Otherwise feels a bit silly.
-
-Anyway looks correct.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Queued up for -rc1 in drm-misc-next-fixes, thanks for the patch.
+-Daniel
 
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 10bd1b6dd1774..ce729e640bbf7 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -420,7 +420,7 @@ static struct i915_gem_engines *default_engines(struct i915_gem_context *ctx)
->  {
->  	const struct intel_gt *gt = &ctx->i915->gt;
->  	struct intel_engine_cs *engine;
-> -	struct i915_gem_engines *e;
-> +	struct i915_gem_engines *e, *err;
->  	enum intel_engine_id id;
->  
->  	e = alloc_engines(I915_NUM_ENGINES);
-> @@ -438,18 +438,21 @@ static struct i915_gem_engines *default_engines(struct i915_gem_context *ctx)
->  
->  		ce = intel_context_create(engine);
->  		if (IS_ERR(ce)) {
-> -			__free_engines(e, e->num_engines + 1);
-> -			return ERR_CAST(ce);
-> +			err = ERR_CAST(ce);
-> +			goto free_engines;
->  		}
->  
->  		intel_context_set_gem(ce, ctx);
->  
->  		e->engines[engine->legacy_idx] = ce;
-> -		e->num_engines = max(e->num_engines, engine->legacy_idx);
-> +		e->num_engines = max(e->num_engines, engine->legacy_idx + 1);
->  	}
-> -	e->num_engines++;
->  
->  	return e;
-> +
-> +free_engines:
-> +	free_engines(e);
-> +	return err;
+>  drivers/video/fbdev/core/fbmem.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 372b52a2befa..52c606c0f8a2 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -733,7 +733,7 @@ static int fb_seq_show(struct seq_file *m, void *v)
+>         return 0;
 >  }
->  
->  void i915_gem_context_release(struct kref *ref)
-> -- 
-> 2.31.1
-> 
+>
+> -static const struct seq_operations proc_fb_seq_ops = {
+> +static const struct __maybe_unused seq_operations proc_fb_seq_ops = {
+>         .start  = fb_seq_start,
+>         .next   = fb_seq_next,
+>         .stop   = fb_seq_stop,
+> --
+> 2.25.1
+>
 > _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
 
 -- 
 Daniel Vetter
