@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161C7372C01
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 16:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883FD372C32
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 16:39:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F9AA6E239;
-	Tue,  4 May 2021 14:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC1276EB15;
+	Tue,  4 May 2021 14:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8930B6E239
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 14:29:14 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- d3-20020a9d29030000b029027e8019067fso8328487otb.13
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 07:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE0536EB15
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 14:39:17 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id m124so1804804pgm.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 07:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eKIZAu6/2NdM8fHlgkE+KZQqouzZp51NLAhVcolSIcE=;
- b=ShojezARwH1uaeTtN3VENf1RsdHgYRRDzCLnqNZoJ5xANav8dLHe59dCObS3LW7oVR
- sss3ADBtYFRFC3LdfJbp7TvbT2kYTTCJE2J48jPFCRanYOjsD3kogYxwaQfpfs99pRgF
- HMK303LDXhBkXFZ32L9X2ehbfl1UWWsAuZ8P/nUUj+240fGg1DO0x6GK15dq/riwNYeb
- aafpBSYS6aQy2TrZ/HhhvsbaW0xO2iVGk1a7cvQqrEXfxVPdaaFAV7wKKfHusrCw0zaq
- lNdzMNQADc/pwkfis9vVIuyFNLjL01BesNpG6FOxQGBvywFqcfV2Y2b2o9bOE0Y05d5J
- Nv/Q==
+ bh=fJxUztk87HDlZdXytL1WDKfEHMztqMj95QbnZpVdIm8=;
+ b=LXY7otbqzp7kKh/WGFZ2KREYsyxMjV+ElUKfdrO2x79Hqa3npPows9h2lsddQzIuH7
+ ch//Xg+YKtwOVuI+LjH2KlgILE1GwyJSZ4YDx5SSeFddlp9AjxXwlDS0SaypGA/IsMBV
+ LbXWj8uKfYK6vf1k1Cj+JYv3agBtKNMf9Kd9c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=eKIZAu6/2NdM8fHlgkE+KZQqouzZp51NLAhVcolSIcE=;
- b=oFPBOosk2hKictxwjkTZVDnujN2fZH5E6aw5uFdr+DN3mzLs2d+C58oGf8NO0DzzYx
- TyEVAJr7L8/PjrHn0QO4iUr6GpwgxvXlKrns9Zwum6HetyyFXzw/vrs0NouYHtoRbFpo
- nIJNMpbMS8zzwCH0gnJ8oX+VnWqNpWXGeZsS9gIXCd0dbv0Zp4PEqf3QocUnXFgVoMFb
- VnOx+vvH/1iAfQj4tHwQaKEnq7DxqjJAV+BT2C8f/L5Hm3m8mUSQCvnSQYupj4xtnlat
- D4RIbVC0GUCqgnLWD/rruQ4NVg//YTpetxwt+bNKkS1qqtuy99a4KUy9jsBfwtHbjEcc
- rPBA==
-X-Gm-Message-State: AOAM530Ptg28hKZaVANrrOQXqp44evNHSvJoRbAkM+YEfsmc4I6RGXcZ
- U+71O1wiihexpMt5J5/3GEowdiLLLbQ=
-X-Google-Smtp-Source: ABdhPJwixsPL4gUes21e2Ym9ZiEjlDDpj7aBAgzY2n98I2gq+SjsQaNx1v6L61j1SitQH65pU7hlXQ==
-X-Received: by 2002:a05:6830:1f27:: with SMTP id
- e7mr19351128oth.341.1620138553582; 
- Tue, 04 May 2021 07:29:13 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id a15sm660543oid.39.2021.05.04.07.29.12
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fJxUztk87HDlZdXytL1WDKfEHMztqMj95QbnZpVdIm8=;
+ b=DX5cS3uHrU4QN8NHzcDfptKK2smv7iP2zJASEuTGa7NH0SPXK+3+T4BlqeSLtmR0xr
+ 4wz4y+yMdP33IOQsbFZGhdbKmaFZ9hgfCHzcSpagboqeumXGXOOGGqF05v2XjJ6PccGo
+ gLim9Lhjmwhh/PhzOQ0YUWSXVzA4KsxKww7gG+PQzLZVFbJPLILuuX5rT4yBd6KKjODX
+ 87Wl361kRAAad0ls4AwDtDVzhzWTxIFuDqpxhpCSpwFdlv7+XdtEgJi5nqu8YNSGFxiZ
+ hoazU46xshJwTCCEVvAOh9PRVZU8DInaYzH1p81Rc9dfBvCJa7COIkausbFo/lTf4woO
+ 5Dzw==
+X-Gm-Message-State: AOAM533YY4eEtVHWq7DZyQWEpndV7QgBUGHNh7gtvW7zAqQMEGQ5XUu5
+ pasVgf6QpnASUHIWMskptCvJYg==
+X-Google-Smtp-Source: ABdhPJw7Jmt/AjPrttnmGcoLR0aC0LG87RUcyje7PjcMVtIZ+7a1Xg0Vhkc7A8l0u/emqKYNa4+E7g==
+X-Received: by 2002:a62:3892:0:b029:250:4fac:7e30 with SMTP id
+ f140-20020a6238920000b02902504fac7e30mr24502740pfa.81.1620139157421; 
+ Tue, 04 May 2021 07:39:17 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:a592:ac50:b17b:5c43])
+ by smtp.gmail.com with ESMTPSA id c6sm3948908pjs.11.2021.05.04.07.39.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 07:29:12 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] fbmem: Mark proc_fb_seq_ops as __maybe_unused
-Date: Tue,  4 May 2021 07:29:10 -0700
-Message-Id: <20210504142910.2084722-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.25.1
+ Tue, 04 May 2021 07:39:17 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] drm/bridge: ti-sn65dsi86: Remove __exit from GPIO sub-driver
+ remove helper
+Date: Tue,  4 May 2021 07:38:54 -0700
+Message-Id: <20210504073845.1.Ibf4194f4252846edaa0c6a6c7b86588f75ad5529@changeid>
+X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,41 +65,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, kernel test robot <lkp@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ kernel test robot <lkp@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Douglas Anderson <dianders@chromium.org>, Steev Klimaszewski <steev@kali.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With CONFIG_PROC_FS=n and -Werror, 0-day reports:
+The ti_sn_gpio_unregister() is not just called from the remove path
+but also from the error handling of the init path. That means it can't
+have the __exit annotation.
 
-drivers/video/fbdev/core/fbmem.c:736:36: error:
-	'proc_fb_seq_ops' defined but not used
-
-Mark it as __maybe_unused.
-
+Fixes: bf73537f411b ("drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into sub-drivers")
 Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
- drivers/video/fbdev/core/fbmem.c | 2 +-
+
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 372b52a2befa..52c606c0f8a2 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -733,7 +733,7 @@ static int fb_seq_show(struct seq_file *m, void *v)
- 	return 0;
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index db027528febd..bb0a0e1c6341 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -1251,7 +1251,7 @@ static int __init ti_sn_gpio_register(void)
+ 	return auxiliary_driver_register(&ti_sn_gpio_driver);
  }
  
--static const struct seq_operations proc_fb_seq_ops = {
-+static const struct __maybe_unused seq_operations proc_fb_seq_ops = {
- 	.start	= fb_seq_start,
- 	.next	= fb_seq_next,
- 	.stop	= fb_seq_stop,
+-static void __exit ti_sn_gpio_unregister(void)
++static void ti_sn_gpio_unregister(void)
+ {
+ 	auxiliary_driver_unregister(&ti_sn_gpio_driver);
+ }
 -- 
-2.25.1
+2.31.1.527.g47e6f16901-goog
 
 _______________________________________________
 dri-devel mailing list
