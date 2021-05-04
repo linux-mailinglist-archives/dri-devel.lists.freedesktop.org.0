@@ -1,71 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5C2372BED
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 16:23:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1EC6372BF8
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 16:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A44389FCC;
-	Tue,  4 May 2021 14:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBF9A6E270;
+	Tue,  4 May 2021 14:26:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9010889FCC
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 14:23:44 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id m12so13497150eja.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 07:23:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=ensQSDTh3BO9iGPVrV6EYBnSBYEfz7lspMmgWRr6tEM=;
- b=A/agEr85m2gTABKwkX7MweJdDLUWMMy/uuv8cOATtF0IOSbqQGQWqB7WVO/2i6CTej
- A/xEN0wabqwjnysRyxUsM6987Nm7ZjOXb3ElY7BOmpcbi2Nz6d878YWmh7i2EiFYeKva
- NM7Q/fRoU0PTIKl2uxcCG8z+XO6JfxPjFQ6us=
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7549A6E270
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 14:26:45 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id w3so13490129ejc.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 07:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=L7+oKBj0RRCG5ZcgD66HmKyyPb5uTpmf8oveAs8px/0=;
+ b=QNNgUcM0Y5bGPvzLk4jp95MiW4cV5+QvXBmd6t6Q7XbokhS5fcJGQA8SbEe937j1IC
+ xgHubd6eetXOXVeXYFcAEvv7GJMVIO1iQyI8JJT21HmqXhrNd+22px4phrGIy+FUHetX
+ GKptkKdUi47hcCwOkwaEYq+pLzgYO5Q1VX8r2p9E65ypYp8ZuHw5LaAYysNOHf5DPtfW
+ dpZ4Fz5+n4OEGzKTo+71A9rvaW98vAUrLgqzoSnAt2bd14xfbUihI4xahKcG8bJaBUvP
+ vbpcBrEidvKoURoVX6w2S5urv4rC7kqkRFASiXtLbPBBeVlVkwaAbiI/rPTLFOI3kOgw
+ DC1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=ensQSDTh3BO9iGPVrV6EYBnSBYEfz7lspMmgWRr6tEM=;
- b=EMkMvBfNNIJtVq5yd898bkYl6Oe5G6fQAeL3iRl6gwKac0710M9+/9d+jSUqlXXyhh
- N42m+VcofDaPRbRdLbdBe+pQqCyfDwlGEShQyDxG2C5QjHIbnXoBROmH4p3G2x6RbpL/
- 0T7RY+q3+aFxIJBZcG5m9O90ctmIgPdHpu057JsMvgiEOYQTYyXVviQD49Km1YVgiyVa
- Bzp0qwGadvpRKzTVv450I++AMPZy2oxpHgpRYAAss2E4aOZGfbrNBKIKHE6LRJD467x5
- PNlS1QOtPQfX+Xg4ix+Klf8E3a9ybm3oqur2Oc9xmQk2V+MGQe1qe4iG7qhJxllo7uUi
- P0iQ==
-X-Gm-Message-State: AOAM530yr4bhab+AqeilccMJ/3O0NmSDIDUQXq8xW4HIrL0ddTXi0N9f
- BX0iJDBpIiP8cOkMl0Upnkl0rg==
-X-Google-Smtp-Source: ABdhPJzaM96uclt2Tpt863I3ZtqPW7KYS209iLyt378polAbgvCVI1aPL30//Pa3FZcXPaOgGHkVGA==
-X-Received: by 2002:a17:906:194d:: with SMTP id
- b13mr22253337eje.83.1620138223252; 
- Tue, 04 May 2021 07:23:43 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t14sm1462204ejc.121.2021.05.04.07.23.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 07:23:42 -0700 (PDT)
-Date: Tue, 4 May 2021 16:23:40 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: remove the nvlink2 pci_vfio subdriver v2
-Message-ID: <YJFY7NjEBtCSlJHw@phenom.ffwll.local>
-Mail-Followup-To: Greg Kurz <groug@kaod.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christoph Hellwig <hch@lst.de>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
- linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20210326061311.1497642-1-hch@lst.de>
- <20210504142236.76994047@bahia.lan> <YJFFG1tSP0dUCxcX@kroah.com>
- <20210504152034.18e41ec3@bahia.lan>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=L7+oKBj0RRCG5ZcgD66HmKyyPb5uTpmf8oveAs8px/0=;
+ b=Y42QvJYb9evwDjQ4jGPdxP/RZedg2R49PP+yS4per8BDKQKyOjLN/4lBXwfdefV0K4
+ 0dJ2DfKOINSO6669BW6isyoSX3TAFODFPMECVMNOSPYtKUyvTnSzqw08NOKv9cqHlSSz
+ KNLY8aSMAhdPdLPxRIV42zvTye0XXVxJQGh2vzIrY68AWCLsJk/gEAMiM9ufFI4+jml3
+ ZipZOu5sTuxhckr/KYb0d67fZwc19CXQdsE6K6RRgQJK/sQ8j6b7iA7PppGJY99TVZWt
+ v8AA0UfvCnOgwILWJHGuxzyQ9AcLlIselnUUjs2tgdTvZA8c+2Pmlatq8VLnkk/7Z1+i
+ wsVQ==
+X-Gm-Message-State: AOAM5300XVhrYsLuYJzF1qAmtkjNLZOlo9GLemXiq0kfT1NURb2QMGY2
+ XY2wrxhCVdwjtb8Lro3NpP3Fjg8a9UY=
+X-Google-Smtp-Source: ABdhPJxcBIMMud9D0cACMjgIdqIeIa95VH0U01yFvIXm0fndz8aPNriiDEwkM4m4LJR3wfTwu8Peyg==
+X-Received: by 2002:a17:906:55c5:: with SMTP id
+ z5mr21650752ejp.306.1620138404132; 
+ Tue, 04 May 2021 07:26:44 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:36d2:ff0f:67e9:929c?
+ ([2a02:908:1252:fb60:36d2:ff0f:67e9:929c])
+ by smtp.gmail.com with ESMTPSA id pw11sm1477215ejb.88.2021.05.04.07.26.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 May 2021 07:26:43 -0700 (PDT)
+Subject: Re: [RFC] Implicit vs explicit user fence sync
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210504132729.2046-1-christian.koenig@amd.com>
+ <YJFXG/THrjXqQjyN@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <d266ccd2-3259-99ce-5fd6-b8ae81ac14e9@gmail.com>
+Date: Tue, 4 May 2021 16:26:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210504152034.18e41ec3@bahia.lan>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <YJFXG/THrjXqQjyN@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,97 +72,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, qemu-devel@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>,
- Paul Mackerras <paulus@samba.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Michael Ellerman <mpe@ellerman.id.au>, qemu-ppc@nongnu.org,
- linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 04, 2021 at 03:20:34PM +0200, Greg Kurz wrote:
-> On Tue, 4 May 2021 14:59:07 +0200
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> 
-> > On Tue, May 04, 2021 at 02:22:36PM +0200, Greg Kurz wrote:
-> > > On Fri, 26 Mar 2021 07:13:09 +0100
-> > > Christoph Hellwig <hch@lst.de> wrote:
-> > > 
-> > > > Hi all,
-> > > > 
-> > > > the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
-> > > > feature without any open source component - what would normally be
-> > > > the normal open source userspace that we require for kernel drivers,
-> > > > although in this particular case user space could of course be a
-> > > > kernel driver in a VM.  It also happens to be a complete mess that
-> > > > does not properly bind to PCI IDs, is hacked into the vfio_pci driver
-> > > > and also pulles in over 1000 lines of code always build into powerpc
-> > > > kernels that have Power NV support enabled.  Because of all these
-> > > > issues and the lack of breaking userspace when it is removed I think
-> > > > the best idea is to simply kill.
-> > > > 
-> > > > Changes since v1:
-> > > >  - document the removed subtypes as reserved
-> > > >  - add the ACK from Greg
-> > > > 
-> > > > Diffstat:
-> > > >  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
-> > > >  b/arch/powerpc/include/asm/opal.h            |    3 
-> > > >  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
-> > > >  b/arch/powerpc/include/asm/pci.h             |    7 
-> > > >  b/arch/powerpc/platforms/powernv/Makefile    |    2 
-> > > >  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
-> > > >  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
-> > > >  b/arch/powerpc/platforms/powernv/pci.c       |   11 
-> > > >  b/arch/powerpc/platforms/powernv/pci.h       |   17 
-> > > >  b/arch/powerpc/platforms/pseries/pci.c       |   23 
-> > > >  b/drivers/vfio/pci/Kconfig                   |    6 
-> > > >  b/drivers/vfio/pci/Makefile                  |    1 
-> > > >  b/drivers/vfio/pci/vfio_pci.c                |   18 
-> > > >  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
-> > > >  b/include/uapi/linux/vfio.h                  |   38 -
-> > > 
-> > > 
-> > > Hi Christoph,
-> > > 
-> > > FYI, these uapi changes break build of QEMU.
-> > 
-> > What uapi changes?
-> > 
-> 
-> All macros and structure definitions that are being removed
-> from include/uapi/linux/vfio.h by patch 1.
-
-Just my 2cents from drm (where we deprecate old gunk uapi quite often):
-Imo it's best to keep the uapi headers as-is, but exchange the
-documentation with a big "this is removed, never use again" warning:
-
-- it occasionally serves as a good lesson for how to not do uapi (whatever
-  the reasons really are in the specific case)
-
-- it's good to know which uapi numbers (like parameter extensions or
-  whatever they are in this case) are defacto reserved, because there are
-  binaries (qemu in this) that have code acting on them out there.
-
-The only exception where we completely nuke the structs and #defines is
-when uapi has been only used by testcases. Which we know, since we defacto
-limit our stable uapi guarantee to the canonical open&upstream userspace
-drivers only (for at least the driver-specific stuff, the cross-driver
-interfaces are hopeless).
-
-Anyway feel free to ignore since this might be different than drivers/gpu.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRGFuaWVsLAoKQW0gMDQuMDUuMjEgdW0gMTY6MTUgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+
+IEhpIENocmlzdGlhbiwKPgo+IE9uIFR1ZSwgTWF5IDA0LCAyMDIxIGF0IDAzOjI3OjE3UE0gKzAy
+MDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IEhpIGd1eXMsCj4+Cj4+IHdpdGggdGhpcyBw
+YXRjaCBzZXQgSSB3YW50IHRvIGxvb2sgaW50byBob3cgbXVjaCBtb3JlIGFkZGl0aW9uYWwgd29y
+ayBpdAo+PiB3b3VsZCBiZSB0byBzdXBwb3J0IGltcGxpY2l0IHN5bmMgY29tcGFyZWQgdG8gb25s
+eSBleHBsaWNpdCBzeW5jLgo+Pgo+PiBUdXJuZWQgb3V0IHRoYXQgdGhpcyBpcyBtdWNoIHNpbXBs
+ZXIgdGhhbiBleHBlY3RlZCBzaW5jZSB0aGUgb25seQo+PiBhZGRpdGlvbiBpcyB0aGF0IGJlZm9y
+ZSBhIGNvbW1hbmQgc3VibWlzc2lvbiBvciBmbGlwIHRoZSBrZXJuZWwgYW5kCj4+IGNsYXNzaWMg
+ZHJpdmVycyB3b3VsZCBuZWVkIHRvIHdhaXQgZm9yIHRoZSB1c2VyIGZlbmNlIHRvIHNpZ25hbCBi
+ZWZvcmUKPj4gdGFraW5nIGFueSBsb2Nrcy4KPiBJdCdzIGEgbG90IG1vcmUgSSB0aGluawo+IC0g
+c3luY19maWxlL2RybV9zeW5jb2JqIHN0aWxsIG5lZWQgdG8gYmUgc3VwcG9ydGVkIHNvbWVob3cK
+CllvdSBuZWVkIHRoYXQgd2l0aCBleHBsaWNpdCBmZW5jZXMgYXMgd2VsbC4KCkknbSBqdXN0IGNv
+bmNlbnRyYXRpbmcgb24gd2hhdCBleHRyYSBidXJkZW4gaW1wbGljaXQgc3luYyB3b3VsZCBnZXQg
+dXMuCgo+IC0gd2UgbmVlZCB1c2Vyc3BhY2UgdG8gaGFuZGxlIHRoZSBzdGFsbCBpbiBhIHN1Ym1p
+dCB0aHJlYWQgYXQgbGVhc3QKPiAtIHRoZXJlJ3Mgbm90aGluZyBoZXJlIHRoYXQgc2V0cyB0aGUg
+c3luYyBvYmplY3QKPiAtIGltcGxpY2l0IHN5bmMgaXNuJ3QganVzdCBleGVjYnVmLCBpdCdzIGV2
+ZXJ5dGhpbmcuIEUuZy4gdGhlIHZhcmlvdXMKPiAgICB3YWl0X2JvIGlvY3RsIGFsc28gbmVlZCB0
+byBrZWVwIHdvcmtpbmcsIGluY2x1ZGluZyB0aW1lb3V0IGFuZAo+ICAgIGV2ZXJ5dGhpbmcKCkdv
+b2QgcG9pbnQsIGJ1dCB0aGF0IHNob3VsZCBiZSByZWxhdGl2ZWx5IGVhc2lseSB0byBhZGQgYXMg
+d2VsbC4KCj4gLSB3ZSBjYW4ndCBzdGFsbCBpbiBhdG9taWMga21zIHdoZXJlIHlvdSdyZSBjdXJy
+ZW50bHkgc3RhbGxpbmcsIHRoYXQncyBmb3IKPiAgICBzdXJlLiBUaGUgdWFwaSBzYXlzICJ3ZSdy
+ZSBub3Qgc3RhbGxpbmcgZm9yIGZlbmNlcyBpbiB0aGVyZSIsIGFuZCB5b3UncmUKPiAgICBicmVh
+a2luZyB0aGF0LgoKQWdhaW4gYXMgZmFyIGFzIEkgY2FuIHNlZSB3ZSBydW4gaW50byB0aGUgc2Ft
+ZSBwcm9ibGVtIHdpdGggZXhwbGljaXQgc3luYy4KClNvIHRoZSBxdWVzdGlvbiBpcyB3aGVyZSBj
+b3VsZCB3ZSBibG9jayBmb3IgYXRvbWljIG1vZGVzZXQgZm9yIHVzZXIgCmZlbmNlcyBpbiBnZW5l
+cmFsPwoKPiAtIC4uLiBhdCB0aGlzIHBvaW50IEkgc3RvcHBlZCBwb25kZXJpbmcgYnV0IHRoZXJl
+J3MgZGVmaW5pdGVseSBtb3JlCj4KPiBJbW8gdGhlIG9ubHkgd2F5IHdlJ2xsIGV2ZW4gZ2V0IHRo
+ZSBjb21wbGV0ZSBpcyBpZiB3ZSBkbyB0aGUgZm9sbG93aW5nOgo+IDEuIHJvbGwgb3V0IGltcGxp
+Y2l0IHN5bmMgd2l0aCB1c2Vyc3BhY2UgZmVuY2VzIG9uIGEgZHJpdmVyLWJ5LWRyaXZlciBiYXNp
+cwo+ICAgICAxYS4gaW5jbHVkaW5nIGFsbCB0aGUgd2luc3lzL21vZGVzZXQgc3R1ZmYKCkNvbXBs
+ZXRlbHkgYWdyZWUsIHRoYXQncyB3aHkgSSd2ZSBzcGxpdCB0aGF0IHVwIGludG8gaW5kaXZpZHVh
+bCBwYXRjaGVzLgoKSSdtIGFsc28gZmluZSBpZiBkcml2ZXJzIGNhbiBqdXN0IG9wdCBvdXQgb2Yg
+dXNlciBmZW5jZSBiYXNlZCAKc3luY2hyb25pemF0aW9uIGFuZCB3ZSByZXR1cm4gYW4gZXJyb3Ig
+ZnJvbSBkbWFfYnVmX2R5bmFtaWNfYXR0YWNoKCkgaWYgCnNvbWUgZHJpdmVyIHNheXMgaXQgY2Fu
+J3QgaGFuZGxlIHRoYXQuCgo+IDIuIHJvbGwgb3V0IHN1cHBvcnQgZm9yIHVzZXJzcGFjZSBmZW5j
+ZXMgdG8gZHJtX3N5bmNvYmogdGltZWxpbmUgZm9yCj4gICAgIGludGVyb3AsIGJvdGggYWNyb3Nz
+IHByb2Nlc3MvdXNlcnNwYWNlIGFuZCBhY3Jvc3MgZHJpdmVycwo+ICAgICAyYS4gaW5jbHVkaW5n
+IGFsbCB0aGUgd2luc3lzL21vZGVzZXQgc3R1ZmYsIGJ1dCBob3BlZnVsbHkgdGhhdCdzCj4gICAg
+ICAgICBsYXJnZWx5IHNvbHZlZCB3aXRoIDEuIGFscmVhZHkuCgpDb3JyZWN0LCBidXQgYWdhaW4g
+d2UgbmVlZCB0aGlzIGZvciBleHBsaWNpdCBmZW5jaW5nIGFzIHdlbGwuCgo+IDMuIG9ubHkgdGhl
+biB0cnkgdG8gZmlndXJlIG91dCBob3cgdG8gcmV0cm9zaG9laG9ybiB0aGlzIGludG8gaW1wbGlj
+aXQKPiAgICAgc3luYywgYW5kIHdoZXRoZXIgdGhhdCBldmVuIG1ha2VzIHNlbnNlLgo+Cj4gQmVj
+YXVzZSBkb2luZyAzIGJlZm9yZSB3ZSd2ZSBkb25lIDEmMiBmb3IgYXQgbGVhc3QgMiBkcml2ZXJz
+ICgyIGJlY2F1c2UKPiBpbnRlcm9wIGZ1biBhY3Jvc3MgZHJpdmVycykgaXMganVzdCBwcmF5aW5n
+IHRoYXQgdGhpcyB0aW1lIGFyb3VuZCB3ZSdyZQo+IG5vdCBjb2xsZWN0aXZlbHkgaWRpb3RzIGFu
+ZCBjYW4gY29ycmVjdGx5IHByZWRpY3QgdGhlIGZ1dHVyZS4gVGhhdCBuZXZlcgo+IHdvcmtlZCA6
+LSkKPgo+PiBGb3IgdGhpcyBwcm90b3R5cGUgdGhpcyBwYXRjaCBzZXQgZG9lc24ndCBpbXBsZW1l
+bnQgYW55IHVzZXIgZmVuY2UKPj4gc3luY2hyb25pemF0aW9uIGF0IGFsbCwgYnV0IGp1c3QgYXNz
+dW1lcyB0aGF0IGZhdWx0aW5nIHVzZXIgcGFnZXMgaXMKPj4gc3VmZmljaWVudCB0byBtYWtlIHN1
+cmUgdGhhdCB3ZSBjYW4gd2FpdCBmb3IgdXNlciBzcGFjZSB0byBmaW5pc2gKPj4gc3VibWl0dGlu
+ZyB0aGUgd29yay4gSWYgbmVjZXNzYXJ5IHRoaXMgY2FuIGJlIG1hZGUgZXZlbiBtb3JlIHN0cmlj
+dCwgdGhlCj4+IG9ubHkgdXNlIGNhc2UgSSBjb3VsZCBmaW5kIHdoaWNoIGJsb2NrcyB0aGlzIGlz
+IHRoZSByYWRlb24gZHJpdmVyIGFuZAo+PiB0aGF0IHNob3VsZCBiZSBoYW5kbGUgYWJsZS4KPj4K
+Pj4gVGhpcyBvZiBjb3Vyc2UgZG9lc24ndCBnaXZlIHlvdSB0aGUgc2FtZSBzZW1hbnRpYyBhcyB0
+aGUgY2xhc3NpYwo+PiBpbXBsaWNpdCBzeW5jIHRvIGd1YXJhbnRlZSB0aGF0IHlvdSBoYXZlIGV4
+Y2x1c2l2ZSBhY2Nlc3MgdG8gYSBidWZmZXJzLAo+PiBidXQgdGhpcyBpcyBhbHNvIG5vdCBuZWNl
+c3NhcnkuCj4+Cj4+IFNvIEkgdGhpbmsgdGhlIGNvbmNsdXNpb24gc2hvdWxkIGJlIHRoYXQgd2Ug
+ZG9uJ3QgbmVlZCB0byBjb25jZW50cmF0ZSBvbgo+PiBpbXBsaWNpdCB2cy4gZXhwbGljaXQgc3lu
+YywgYnV0IHJhdGhlciBob3cgdG8gZ2V0IHRoZSBzeW5jaHJvbml6YXRpb24KPj4gYW5kIHRpbWVv
+dXQgc2lnbmFsbGluZyBmaWd1cmVkIG91dCBpbiBnZW5lcmFsLgo+IEknbSBub3Qgc3VyZSB3aGF0
+IGV4YWN0bHkgeW91J3JlIHByb3ZpbmcgaGVyZSBhc2lkZSBmcm9tICJpdCdzIHBvc3NpYmxlIHRv
+Cj4gcm9sbCBvdXQgYSBmdW5jdGlvbiB3aXRoIGlsbC1kZWZpbmVkIHNlbWFudGljcyB0byBhbGwg
+ZHJpdmVycyIuIFRoaXMKPiByZWFsbHkgaXMgYSBsb3QgaGFyZGVyIHRoYW4ganVzdCB0aGlzIG9u
+ZSBmdW5jdGlvbiBhbmQganVzdCB0aGlzIG9uZSBwYXRjaAo+IHNldC4KCk5vIGl0IGlzbid0LiBU
+aGUgaGFyZCBwYXJ0IGlzIGdldHRpbmcgdGhlIHVzZXIgc3luYyBzdHVmZiB1cCBpbiBnZW5lcmFs
+LgoKQWRkaW5nIGltcGxpY2l0IHN5bmNocm9uaXphdGlvbiBvbiB0b3Agb2YgdGhhdCBpcyB0aGVu
+IHJhdGhlciB0cml2aWFsLgoKQ2hyaXN0aWFuLgoKPiAtRGFuaWVsCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
