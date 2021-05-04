@@ -2,37 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDAC6372E31
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 18:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3595372E34
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 18:44:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B396EB31;
-	Tue,  4 May 2021 16:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F23B6E2B6;
+	Tue,  4 May 2021 16:44:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75FF46EB30;
- Tue,  4 May 2021 16:41:48 +0000 (UTC)
-IronPort-SDR: aU4k4TcOA4PBh8M9Blt3kW3VV42c7DSiGyNWz8uvL3NpkJTmyPhbPQnYrs2fOtW6H+rvliEdU5
- HWZ0aeeM9xIA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="185159704"
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="185159704"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 09:41:47 -0700
-IronPort-SDR: JR5P8L59PXTQO5Mvcz5fQqoDxZUUX7FUTzR13h4dDcYL4T5D/RR0wuvrXHmaMPVgjZzOAYSMXP
- +ijKPeUtPR+w==
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="433357367"
-Received: from mjjankow-mobl.ger.corp.intel.com (HELO
- mwauld-desk1.ger.corp.intel.com) ([10.252.21.117])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 09:41:45 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: drop the __i915_active_call pointer packing
-Date: Tue,  4 May 2021 17:41:36 +0100
-Message-Id: <20210504164136.96456-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AF0E6EB37
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 16:44:10 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id e7so11194935edu.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 09:44:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=S5ixoMryeJnHVAOTksTPqK7IAoucwEzX98UTEH9wuyM=;
+ b=ceEklP6oJNXs/NrpbeFqIZjohZOhXi+4gjsvZuRigfB+DHGRLorkuyvHPXI8T918Hj
+ YeDZTGY+N37EQh+Wh5Rm4UrPV7t950L+dTe25DV2abODO9uGXKjKg7/7j8WXQZ1+gmiH
+ tjag7YABECxiKCjVVAAQoFKFutuh5OeH/Imrc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=S5ixoMryeJnHVAOTksTPqK7IAoucwEzX98UTEH9wuyM=;
+ b=FM2IJ7AWSoRIOVi+/fLbml3kfr0AKXN5xHS4BW0xMCxJ1qcl/rNq7hUWt7eJCJt0Rv
+ G0ECdxXMXImCNsg9H+1H+1Uq4j2mYjXH4PR4iwc+T4EMjOXqofNfPtIl59+76DwSg0or
+ EUv4BDHIq012EIhuUupZDKlgl1NVbnYUrhcVkpJHg+ZqtS20qsTBw1QmBr/09abutXs+
+ FHV3Ar9SfwlMQRL90i1yqSKKyHBOc3oDDWmVIxjqeKioBp5Mhg8lPNu07yobodlFfPra
+ Yg2T0hDa8JkeNMtVxIUKYh20/PukcIupHjuMRuuuQYvwvm7q9LGis2gPHOO/11b9yEHq
+ bKRw==
+X-Gm-Message-State: AOAM533vE3qPgaYo1/r66gU3bFeOsUv/NGng0WFl53rNLb2CHNpJm46D
+ FtWvpXYNzgiyQNBoJrVXu1C6gHnnKFd2Lw==
+X-Google-Smtp-Source: ABdhPJxsV6jm3UQs4nrE4Vq+BP2lXGrJ4FvwMjKU/FyBmpYqWPJ8DbZ+/Fni3hWlZ2oEXrK0d+tiEw==
+X-Received: by 2002:a05:6402:1214:: with SMTP id
+ c20mr5976188edw.191.1620146648577; 
+ Tue, 04 May 2021 09:44:08 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h9sm2622024ede.93.2021.05.04.09.44.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 May 2021 09:44:07 -0700 (PDT)
+Date: Tue, 4 May 2021 18:44:06 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+Message-ID: <YJF51hE8die/tznf@phenom.ffwll.local>
+References: <CAAxE2A6NCTFsV6oH=AL=S=P1p0xYF0To8T_THpUO2ypdo0dyBw@mail.gmail.com>
+ <1bd8105b-4a2a-2ad9-0b3c-a81590282f2e@gmail.com>
+ <YJD4pt0r+TWAYfX5@phenom.ffwll.local>
+ <9ccfe4b2-91f0-b8e5-6327-bf3c8b6d1a24@gmail.com>
+ <CAKMK7uErXQ2O2RH4qqUVqYzw3jqJT2JwfCiXVZfu0U7HPKwYGA@mail.gmail.com>
+ <a0c38808-3651-a3de-c4c4-2f4e5bf6fde7@gmail.com>
+ <YJEYQnSb6m2df6YN@phenom.ffwll.local>
+ <7227e6fb-1108-1096-ab2c-017d6422e90b@gmail.com>
+ <CAKMK7uGQaysQM6NL3G3fgvoAk_0bOnz=62PaJmXw32sSh2n0RA@mail.gmail.com>
+ <a9234655-ecd7-5ac0-579e-306d3bc91a59@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <a9234655-ecd7-5ac0-579e-306d3bc91a59@gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,255 +76,345 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgdXNlIHNvbWUgb2YgdGhlIGxvd2VyIGJpdHMgb2YgdGhlIHJldGlyZSBmdW5jdGlvbiBwb2lu
-dGVyIGZvcgpwb3RlbnRpYWwgZmxhZ3MsIHdoaWNoIGlzIHF1aXRlIHRob3JueSwgc2luY2UgdGhl
-IGNhbGxlciBuZWVkcyB0bwpyZW1lbWJlciB0byBnaXZlIHRoZSBmdW5jdGlvbiB0aGUgY29ycmVj
-dCBhbGlnbm1lbnQgd2l0aApfX2k5MTVfYWN0aXZlX2NhbGwsIG90aGVyd2lzZSB3ZSBtaWdodCBp
-bmNvcnJlY3RseSB1bnBhY2sgdGhlIHBvaW50ZXIKYW5kIGp1bXAgdG8gc29tZSBnYXJiYWdlIGFk
-ZHJlc3MgbGF0ZXIuIEluc3RlYWQgb2YgYWxsIHRoaXMgbGV0J3MganVzdApwYXNzIHRoZSBmbGFn
-cyBhbG9uZyBhcyBhIHNlcGFyYXRlIHBhcmFtZXRlci4KClN1Z2dlc3RlZC1ieTogVmlsbGUgU3ly
-asOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KU3VnZ2VzdGVkLWJ5OiBEYW5p
-ZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+ClJlZmVyZW5jZXM6IGNhNDE5ZjQwN2I0MyAoImRy
-bS9pOTE1OiBGaXggY3Jhc2ggaW4gYXV0b19yZXRpcmUiKQpSZWZlcmVuY2VzOiBkOGU0NGU0ZGQy
-MjEgKCJkcm0vaTkxNS9vdmVybGF5OiBGaXggYWN0aXZlIHJldGlyZSBjYWxsYmFjayBhbGlnbm1l
-bnQiKQpSZWZlcmVuY2VzOiBmZDVmMjYyZGIxMTggKCJkcm0vaTkxNS9zZWxmdGVzdHM6IEZpeCBh
-Y3RpdmUgcmV0aXJlIGNhbGxiYWNrIGFsaWdubWVudCIpClNpZ25lZC1vZmYtYnk6IE1hdHRoZXcg
-QXVsZCA8bWF0dGhldy5hdWxkQGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX2Zyb250YnVmZmVyLmMgICB8ICA0ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfb3ZlcmxheS5jICAgICAgIHwgIDUgKystLS0KIGRyaXZlcnMvZ3B1
-L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9jb250ZXh0LmMgICAgICAgIHwgIDMgKy0tCiBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9ndC9nZW42X3BwZ3R0LmMgICAgICAgICAgICAgICB8ICAyICstCiBkcml2
-ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9jb250ZXh0LmMgICAgICAgICAgICB8ICAzICstLQog
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ2d0dF9mZW5jaW5nLmMgICAgICAgfCAgMiAr
-LQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3RfYnVmZmVyX3Bvb2wuYyAgICAgfCAg
-MyArLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX3RpbWVsaW5lLmMgICAgICAgICAg
-IHwgIDQgKystLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvbW9ja19lbmdpbmUuYyAgICAgICAg
-ICAgICAgfCAgMiArLQogLi4uL2dwdS9kcm0vaTkxNS9ndC9zZWxmdGVzdF9lbmdpbmVfaGVhcnRi
-ZWF0LmMgICAgfCAgNCArKy0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2FjdGl2ZS5jICAg
-ICAgICAgICAgICAgICB8IDE0ICsrKysrLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-OTE1X2FjdGl2ZS5oICAgICAgICAgICAgICAgICB8IDExICsrKysrKy0tLS0tCiBkcml2ZXJzL2dw
-dS9kcm0vaTkxNS9pOTE1X2FjdGl2ZV90eXBlcy5oICAgICAgICAgICB8ICA1IC0tLS0tCiBkcml2
-ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3ZtYS5jICAgICAgICAgICAgICAgICAgICB8ICAzICstLQog
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL2k5MTVfYWN0aXZlLmMgICAgICAgfCAgNCAr
-Ky0tCiAxNSBmaWxlcyBjaGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspLCA0MSBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Zyb250YnVm
-ZmVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Zyb250YnVmZmVyLmMK
-aW5kZXggODE2MWQ0OWU3OGJhLi44ZTc1ZGViY2NlMWEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZnJvbnRidWZmZXIuYworKysgYi9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2Zyb250YnVmZmVyLmMKQEAgLTIxMSw3ICsyMTEsNiBAQCBz
-dGF0aWMgaW50IGZyb250YnVmZmVyX2FjdGl2ZShzdHJ1Y3QgaTkxNV9hY3RpdmUgKnJlZikKIAly
-ZXR1cm4gMDsKIH0KIAotX19pOTE1X2FjdGl2ZV9jYWxsCiBzdGF0aWMgdm9pZCBmcm9udGJ1ZmZl
-cl9yZXRpcmUoc3RydWN0IGk5MTVfYWN0aXZlICpyZWYpCiB7CiAJc3RydWN0IGludGVsX2Zyb250
-YnVmZmVyICpmcm9udCA9CkBAIC0yNjYsNyArMjY1LDggQEAgaW50ZWxfZnJvbnRidWZmZXJfZ2V0
-KHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmopCiAJYXRvbWljX3NldCgmZnJvbnQtPmJp
-dHMsIDApOwogCWk5MTVfYWN0aXZlX2luaXQoJmZyb250LT53cml0ZSwKIAkJCSBmcm9udGJ1ZmZl
-cl9hY3RpdmUsCi0JCQkgaTkxNV9hY3RpdmVfbWF5X3NsZWVwKGZyb250YnVmZmVyX3JldGlyZSkp
-OworCQkJIGZyb250YnVmZmVyX3JldGlyZSwKKwkJCSBJOTE1X0FDVElWRV9SRVRJUkVfU0xFRVBT
-KTsKIAogCXNwaW5fbG9jaygmaTkxNS0+ZmJfdHJhY2tpbmcubG9jayk7CiAJaWYgKHJjdV9hY2Nl
-c3NfcG9pbnRlcihvYmotPmZyb250YnVmZmVyKSkgewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9vdmVybGF5LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX292ZXJsYXkuYwppbmRleCA0Mjg4MTliYTE4ZGQuLmYxZTA0YzE1MzVjNyAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9vdmVybGF5LmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9vdmVybGF5LmMKQEAgLTM4
-Myw4ICszODMsNyBAQCBzdGF0aWMgdm9pZCBpbnRlbF9vdmVybGF5X29mZl90YWlsKHN0cnVjdCBp
-bnRlbF9vdmVybGF5ICpvdmVybGF5KQogCQlpODMwX292ZXJsYXlfY2xvY2tfZ2F0aW5nKGRldl9w
-cml2LCB0cnVlKTsKIH0KIAotX19pOTE1X2FjdGl2ZV9jYWxsIHN0YXRpYyB2b2lkCi1pbnRlbF9v
-dmVybGF5X2xhc3RfZmxpcF9yZXRpcmUoc3RydWN0IGk5MTVfYWN0aXZlICphY3RpdmUpCitzdGF0
-aWMgdm9pZCBpbnRlbF9vdmVybGF5X2xhc3RfZmxpcF9yZXRpcmUoc3RydWN0IGk5MTVfYWN0aXZl
-ICphY3RpdmUpCiB7CiAJc3RydWN0IGludGVsX292ZXJsYXkgKm92ZXJsYXkgPQogCQljb250YWlu
-ZXJfb2YoYWN0aXZlLCB0eXBlb2YoKm92ZXJsYXkpLCBsYXN0X2ZsaXApOwpAQCAtMTQwMSw3ICsx
-NDAwLDcgQEAgdm9pZCBpbnRlbF9vdmVybGF5X3NldHVwKHN0cnVjdCBkcm1faTkxNV9wcml2YXRl
-ICpkZXZfcHJpdikKIAlvdmVybGF5LT5zYXR1cmF0aW9uID0gMTQ2OwogCiAJaTkxNV9hY3RpdmVf
-aW5pdCgmb3ZlcmxheS0+bGFzdF9mbGlwLAotCQkJIE5VTEwsIGludGVsX292ZXJsYXlfbGFzdF9m
-bGlwX3JldGlyZSk7CisJCQkgTlVMTCwgaW50ZWxfb3ZlcmxheV9sYXN0X2ZsaXBfcmV0aXJlLCAw
-KTsKIAogCXJldCA9IGdldF9yZWdpc3RlcnMob3ZlcmxheSwgT1ZFUkxBWV9ORUVEU19QSFlTSUNB
-TChkZXZfcHJpdikpOwogCWlmIChyZXQpCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9nZW0vaTkxNV9nZW1fY29udGV4dC5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVf
-Z2VtX2NvbnRleHQuYwppbmRleCBmZDhlZTUyZTE3YTQuLjE4OGRlZTEzZTAxNyAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2NvbnRleHQuYworKysgYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fY29udGV4dC5jCkBAIC0xMDQ2LDcgKzEwNDYs
-NiBAQCBzdHJ1Y3QgY29udGV4dF9iYXJyaWVyX3Rhc2sgewogCXZvaWQgKmRhdGE7CiB9OwogCi1f
-X2k5MTVfYWN0aXZlX2NhbGwKIHN0YXRpYyB2b2lkIGNiX3JldGlyZShzdHJ1Y3QgaTkxNV9hY3Rp
-dmUgKmJhc2UpCiB7CiAJc3RydWN0IGNvbnRleHRfYmFycmllcl90YXNrICpjYiA9IGNvbnRhaW5l
-cl9vZihiYXNlLCB0eXBlb2YoKmNiKSwgYmFzZSk7CkBAIC0xMDgwLDcgKzEwNzksNyBAQCBzdGF0
-aWMgaW50IGNvbnRleHRfYmFycmllcl90YXNrKHN0cnVjdCBpOTE1X2dlbV9jb250ZXh0ICpjdHgs
-CiAJaWYgKCFjYikKIAkJcmV0dXJuIC1FTk9NRU07CiAKLQlpOTE1X2FjdGl2ZV9pbml0KCZjYi0+
-YmFzZSwgTlVMTCwgY2JfcmV0aXJlKTsKKwlpOTE1X2FjdGl2ZV9pbml0KCZjYi0+YmFzZSwgTlVM
-TCwgY2JfcmV0aXJlLCAwKTsKIAllcnIgPSBpOTE1X2FjdGl2ZV9hY3F1aXJlKCZjYi0+YmFzZSk7
-CiAJaWYgKGVycikgewogCQlrZnJlZShjYik7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9ndC9nZW42X3BwZ3R0LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9nZW42X3BwZ3R0
-LmMKaW5kZXggMjFiMTA4NTc2OWJlLi4xYWVlNWU2YjFiMjMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2d0L2dlbjZfcHBndHQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9n
-dC9nZW42X3BwZ3R0LmMKQEAgLTM0Myw3ICszNDMsNyBAQCBzdGF0aWMgc3RydWN0IGk5MTVfdm1h
-ICpwZF92bWFfY3JlYXRlKHN0cnVjdCBnZW42X3BwZ3R0ICpwcGd0dCwgaW50IHNpemUpCiAJaWYg
-KCF2bWEpCiAJCXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOwogCi0JaTkxNV9hY3RpdmVfaW5pdCgm
-dm1hLT5hY3RpdmUsIE5VTEwsIE5VTEwpOworCWk5MTVfYWN0aXZlX2luaXQoJnZtYS0+YWN0aXZl
-LCBOVUxMLCBOVUxMLCAwKTsKIAogCWtyZWZfaW5pdCgmdm1hLT5yZWYpOwogCW11dGV4X2luaXQo
-JnZtYS0+cGFnZXNfbXV0ZXgpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Qv
-aW50ZWxfY29udGV4dC5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfY29udGV4dC5j
-CmluZGV4IDE3Y2YyNjQwYjA4Mi4uNDAzMzE4NGYxM2I5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vaTkxNS9ndC9pbnRlbF9jb250ZXh0LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-Z3QvaW50ZWxfY29udGV4dC5jCkBAIC0zMjYsNyArMzI2LDYgQEAgdm9pZCBpbnRlbF9jb250ZXh0
-X3VucGluKHN0cnVjdCBpbnRlbF9jb250ZXh0ICpjZSkKIAlpbnRlbF9jb250ZXh0X3B1dChjZSk7
-CiB9CiAKLV9faTkxNV9hY3RpdmVfY2FsbAogc3RhdGljIHZvaWQgX19pbnRlbF9jb250ZXh0X3Jl
-dGlyZShzdHJ1Y3QgaTkxNV9hY3RpdmUgKmFjdGl2ZSkKIHsKIAlzdHJ1Y3QgaW50ZWxfY29udGV4
-dCAqY2UgPSBjb250YWluZXJfb2YoYWN0aXZlLCB0eXBlb2YoKmNlKSwgYWN0aXZlKTsKQEAgLTM4
-NSw3ICszODQsNyBAQCBpbnRlbF9jb250ZXh0X2luaXQoc3RydWN0IGludGVsX2NvbnRleHQgKmNl
-LCBzdHJ1Y3QgaW50ZWxfZW5naW5lX2NzICplbmdpbmUpCiAJbXV0ZXhfaW5pdCgmY2UtPnBpbl9t
-dXRleCk7CiAKIAlpOTE1X2FjdGl2ZV9pbml0KCZjZS0+YWN0aXZlLAotCQkJIF9faW50ZWxfY29u
-dGV4dF9hY3RpdmUsIF9faW50ZWxfY29udGV4dF9yZXRpcmUpOworCQkJIF9faW50ZWxfY29udGV4
-dF9hY3RpdmUsIF9faW50ZWxfY29udGV4dF9yZXRpcmUsIDApOwogfQogCiB2b2lkIGludGVsX2Nv
-bnRleHRfZmluaShzdHJ1Y3QgaW50ZWxfY29udGV4dCAqY2UpCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9nZ3R0X2ZlbmNpbmcuYyBiL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2d0L2ludGVsX2dndHRfZmVuY2luZy5jCmluZGV4IDBmYTZjMzg4OTNmNy4uN2JmODRjZDIx
-NTQzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9nZ3R0X2ZlbmNp
-bmcuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9nZ3R0X2ZlbmNpbmcuYwpA
-QCAtODY3LDcgKzg2Nyw3IEBAIHZvaWQgaW50ZWxfZ2d0dF9pbml0X2ZlbmNlcyhzdHJ1Y3QgaTkx
-NV9nZ3R0ICpnZ3R0KQogCWZvciAoaSA9IDA7IGkgPCBudW1fZmVuY2VzOyBpKyspIHsKIAkJc3Ry
-dWN0IGk5MTVfZmVuY2VfcmVnICpmZW5jZSA9ICZnZ3R0LT5mZW5jZV9yZWdzW2ldOwogCi0JCWk5
-MTVfYWN0aXZlX2luaXQoJmZlbmNlLT5hY3RpdmUsIE5VTEwsIE5VTEwpOworCQlpOTE1X2FjdGl2
-ZV9pbml0KCZmZW5jZS0+YWN0aXZlLCBOVUxMLCBOVUxMLCAwKTsKIAkJZmVuY2UtPmdndHQgPSBn
-Z3R0OwogCQlmZW5jZS0+aWQgPSBpOwogCQlsaXN0X2FkZF90YWlsKCZmZW5jZS0+bGluaywgJmdn
-dHQtPmZlbmNlX2xpc3QpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50
-ZWxfZ3RfYnVmZmVyX3Bvb2wuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X2J1
-ZmZlcl9wb29sLmMKaW5kZXggYzU5NDY4MTA3NTk4Li5hYTBhNTljNWI2MTQgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X2J1ZmZlcl9wb29sLmMKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3RfYnVmZmVyX3Bvb2wuYwpAQCAtOTgsNyArOTgs
-NiBAQCBzdGF0aWMgdm9pZCBwb29sX2ZyZWVfd29yayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndyaykK
-IAkJCQkgICAgICByb3VuZF9qaWZmaWVzX3VwX3JlbGF0aXZlKEhaKSk7CiB9CiAKLV9faTkxNV9h
-Y3RpdmVfY2FsbAogc3RhdGljIHZvaWQgcG9vbF9yZXRpcmUoc3RydWN0IGk5MTVfYWN0aXZlICpy
-ZWYpCiB7CiAJc3RydWN0IGludGVsX2d0X2J1ZmZlcl9wb29sX25vZGUgKm5vZGUgPQpAQCAtMTU0
-LDcgKzE1Myw3IEBAIG5vZGVfY3JlYXRlKHN0cnVjdCBpbnRlbF9ndF9idWZmZXJfcG9vbCAqcG9v
-bCwgc2l6ZV90IHN6LAogCW5vZGUtPmFnZSA9IDA7CiAJbm9kZS0+cG9vbCA9IHBvb2w7CiAJbm9k
-ZS0+cGlubmVkID0gZmFsc2U7Ci0JaTkxNV9hY3RpdmVfaW5pdCgmbm9kZS0+YWN0aXZlLCBOVUxM
-LCBwb29sX3JldGlyZSk7CisJaTkxNV9hY3RpdmVfaW5pdCgmbm9kZS0+YWN0aXZlLCBOVUxMLCBw
-b29sX3JldGlyZSwgMCk7CiAKIAlvYmogPSBpOTE1X2dlbV9vYmplY3RfY3JlYXRlX2ludGVybmFs
-KGd0LT5pOTE1LCBzeik7CiAJaWYgKElTX0VSUihvYmopKSB7CmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9ndC9pbnRlbF90aW1lbGluZS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-Z3QvaW50ZWxfdGltZWxpbmUuYwppbmRleCBmMTljZjZkMmZhODUuLmM0YTEyNmM4Y2FlZiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfdGltZWxpbmUuYworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF90aW1lbGluZS5jCkBAIC0zMiw3ICszMiw2IEBA
-IHN0YXRpYyBzdHJ1Y3QgaTkxNV92bWEgKmh3c3BfYWxsb2Moc3RydWN0IGludGVsX2d0ICpndCkK
-IAlyZXR1cm4gdm1hOwogfQogCi1fX2k5MTVfYWN0aXZlX2NhbGwKIHN0YXRpYyB2b2lkIF9fdGlt
-ZWxpbmVfcmV0aXJlKHN0cnVjdCBpOTE1X2FjdGl2ZSAqYWN0aXZlKQogewogCXN0cnVjdCBpbnRl
-bF90aW1lbGluZSAqdGwgPQpAQCAtMTA0LDcgKzEwMyw4IEBAIHN0YXRpYyBpbnQgaW50ZWxfdGlt
-ZWxpbmVfaW5pdChzdHJ1Y3QgaW50ZWxfdGltZWxpbmUgKnRpbWVsaW5lLAogCUlOSVRfTElTVF9I
-RUFEKCZ0aW1lbGluZS0+cmVxdWVzdHMpOwogCiAJaTkxNV9zeW5jbWFwX2luaXQoJnRpbWVsaW5l
-LT5zeW5jKTsKLQlpOTE1X2FjdGl2ZV9pbml0KCZ0aW1lbGluZS0+YWN0aXZlLCBfX3RpbWVsaW5l
-X2FjdGl2ZSwgX190aW1lbGluZV9yZXRpcmUpOworCWk5MTVfYWN0aXZlX2luaXQoJnRpbWVsaW5l
-LT5hY3RpdmUsIF9fdGltZWxpbmVfYWN0aXZlLAorCQkJIF9fdGltZWxpbmVfcmV0aXJlLCAwKTsK
-IAogCXJldHVybiAwOwogfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvbW9j
-a19lbmdpbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L21vY2tfZW5naW5lLmMKaW5kZXgg
-ZTFiYTAzYjkzZmZhLi4zMjU4OWM2NjI1ZTEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2d0L21vY2tfZW5naW5lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvbW9ja19l
-bmdpbmUuYwpAQCAtNTUsNyArNTUsNyBAQCBzdGF0aWMgc3RydWN0IGludGVsX3JpbmcgKm1vY2tf
-cmluZyhzdHJ1Y3QgaW50ZWxfZW5naW5lX2NzICplbmdpbmUpCiAJCWtmcmVlKHJpbmcpOwogCQly
-ZXR1cm4gTlVMTDsKIAl9Ci0JaTkxNV9hY3RpdmVfaW5pdCgmcmluZy0+dm1hLT5hY3RpdmUsIE5V
-TEwsIE5VTEwpOworCWk5MTVfYWN0aXZlX2luaXQoJnJpbmctPnZtYS0+YWN0aXZlLCBOVUxMLCBO
-VUxMLCAwKTsKIAlfX3NldF9iaXQoSTkxNV9WTUFfR0dUVF9CSVQsIF9faTkxNV92bWFfZmxhZ3Mo
-cmluZy0+dm1hKSk7CiAJX19zZXRfYml0KERSTV9NTV9OT0RFX0FMTE9DQVRFRF9CSVQsICZyaW5n
-LT52bWEtPm5vZGUuZmxhZ3MpOwogCXJpbmctPnZtYS0+bm9kZS5zaXplID0gc3o7CmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9zZWxmdGVzdF9lbmdpbmVfaGVhcnRiZWF0LmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9zZWxmdGVzdF9lbmdpbmVfaGVhcnRiZWF0LmMKaW5k
-ZXggZmNkZTIyM2UyNmZmLi40ODk2ZTRjY2FkNTAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2d0L3NlbGZ0ZXN0X2VuZ2luZV9oZWFydGJlYXQuYworKysgYi9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9ndC9zZWxmdGVzdF9lbmdpbmVfaGVhcnRiZWF0LmMKQEAgLTYzLDcgKzYzLDcgQEAg
-c3RhdGljIHZvaWQgcHVsc2VfcHV0KHN0cnVjdCBwdWxzZSAqcCkKIAlrcmVmX3B1dCgmcC0+a3Jl
-ZiwgcHVsc2VfZnJlZSk7CiB9CiAKLV9faTkxNV9hY3RpdmVfY2FsbCBzdGF0aWMgdm9pZCBwdWxz
-ZV9yZXRpcmUoc3RydWN0IGk5MTVfYWN0aXZlICphY3RpdmUpCitzdGF0aWMgdm9pZCBwdWxzZV9y
-ZXRpcmUoc3RydWN0IGk5MTVfYWN0aXZlICphY3RpdmUpCiB7CiAJcHVsc2VfcHV0KGNvbnRhaW5l
-cl9vZihhY3RpdmUsIHN0cnVjdCBwdWxzZSwgYWN0aXZlKSk7CiB9CkBAIC03Nyw3ICs3Nyw3IEBA
-IHN0YXRpYyBzdHJ1Y3QgcHVsc2UgKnB1bHNlX2NyZWF0ZSh2b2lkKQogCQlyZXR1cm4gcDsKIAog
-CWtyZWZfaW5pdCgmcC0+a3JlZik7Ci0JaTkxNV9hY3RpdmVfaW5pdCgmcC0+YWN0aXZlLCBwdWxz
-ZV9hY3RpdmUsIHB1bHNlX3JldGlyZSk7CisJaTkxNV9hY3RpdmVfaW5pdCgmcC0+YWN0aXZlLCBw
-dWxzZV9hY3RpdmUsIHB1bHNlX3JldGlyZSwgMCk7CiAKIAlyZXR1cm4gcDsKIH0KZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfYWN0aXZlLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9pOTE1X2FjdGl2ZS5jCmluZGV4IGFhNTczYjA3OGFlNy4uYjFhYTFjNDgyYzMyIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2FjdGl2ZS5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2k5MTVfYWN0aXZlLmMKQEAgLTM0MywxOCArMzQzLDE1IEBAIGFjdGl2ZV9p
-bnN0YW5jZShzdHJ1Y3QgaTkxNV9hY3RpdmUgKnJlZiwgdTY0IGlkeCkKIHZvaWQgX19pOTE1X2Fj
-dGl2ZV9pbml0KHN0cnVjdCBpOTE1X2FjdGl2ZSAqcmVmLAogCQkJaW50ICgqYWN0aXZlKShzdHJ1
-Y3QgaTkxNV9hY3RpdmUgKnJlZiksCiAJCQl2b2lkICgqcmV0aXJlKShzdHJ1Y3QgaTkxNV9hY3Rp
-dmUgKnJlZiksCisJCQl1bnNpZ25lZCBsb25nIGZsYWdzLAogCQkJc3RydWN0IGxvY2tfY2xhc3Nf
-a2V5ICpta2V5LAogCQkJc3RydWN0IGxvY2tfY2xhc3Nfa2V5ICp3a2V5KQogewotCXVuc2lnbmVk
-IGxvbmcgYml0czsKLQogCWRlYnVnX2FjdGl2ZV9pbml0KHJlZik7CiAKLQlyZWYtPmZsYWdzID0g
-MDsKKwlyZWYtPmZsYWdzID0gZmxhZ3M7CiAJcmVmLT5hY3RpdmUgPSBhY3RpdmU7Ci0JcmVmLT5y
-ZXRpcmUgPSBwdHJfdW5wYWNrX2JpdHMocmV0aXJlLCAmYml0cywgMik7Ci0JaWYgKGJpdHMgJiBJ
-OTE1X0FDVElWRV9NQVlfU0xFRVApCi0JCXJlZi0+ZmxhZ3MgfD0gSTkxNV9BQ1RJVkVfUkVUSVJF
-X1NMRUVQUzsKKwlyZWYtPnJldGlyZSA9IHJldGlyZTsKIAogCXNwaW5fbG9ja19pbml0KCZyZWYt
-PnRyZWVfbG9jayk7CiAJcmVmLT50cmVlID0gUkJfUk9PVDsKQEAgLTExNTYsOCArMTE1Myw3IEBA
-IHN0YXRpYyBpbnQgYXV0b19hY3RpdmUoc3RydWN0IGk5MTVfYWN0aXZlICpyZWYpCiAJcmV0dXJu
-IDA7CiB9CiAKLV9faTkxNV9hY3RpdmVfY2FsbCBzdGF0aWMgdm9pZAotYXV0b19yZXRpcmUoc3Ry
-dWN0IGk5MTVfYWN0aXZlICpyZWYpCitzdGF0aWMgdm9pZCBhdXRvX3JldGlyZShzdHJ1Y3QgaTkx
-NV9hY3RpdmUgKnJlZikKIHsKIAlpOTE1X2FjdGl2ZV9wdXQocmVmKTsKIH0KQEAgLTExNzEsNyAr
-MTE2Nyw3IEBAIHN0cnVjdCBpOTE1X2FjdGl2ZSAqaTkxNV9hY3RpdmVfY3JlYXRlKHZvaWQpCiAJ
-CXJldHVybiBOVUxMOwogCiAJa3JlZl9pbml0KCZhYS0+cmVmKTsKLQlpOTE1X2FjdGl2ZV9pbml0
-KCZhYS0+YmFzZSwgYXV0b19hY3RpdmUsIGF1dG9fcmV0aXJlKTsKKwlpOTE1X2FjdGl2ZV9pbml0
-KCZhYS0+YmFzZSwgYXV0b19hY3RpdmUsIGF1dG9fcmV0aXJlLCAwKTsKIAogCXJldHVybiAmYWEt
-PmJhc2U7CiB9CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2FjdGl2ZS5o
-IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9hY3RpdmUuaAppbmRleCBmYjE2NWQzZjAxY2Yu
-LmQwZmVkYTY4Yjg3NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9hY3Rp
-dmUuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2FjdGl2ZS5oCkBAIC0xNTIsMTUg
-KzE1MiwxNiBAQCBpOTE1X2FjdGl2ZV9mZW5jZV9pc3NldChjb25zdCBzdHJ1Y3QgaTkxNV9hY3Rp
-dmVfZmVuY2UgKmFjdGl2ZSkKIHZvaWQgX19pOTE1X2FjdGl2ZV9pbml0KHN0cnVjdCBpOTE1X2Fj
-dGl2ZSAqcmVmLAogCQkJaW50ICgqYWN0aXZlKShzdHJ1Y3QgaTkxNV9hY3RpdmUgKnJlZiksCiAJ
-CQl2b2lkICgqcmV0aXJlKShzdHJ1Y3QgaTkxNV9hY3RpdmUgKnJlZiksCisJCQl1bnNpZ25lZCBs
-b25nIGZsYWdzLAogCQkJc3RydWN0IGxvY2tfY2xhc3Nfa2V5ICpta2V5LAogCQkJc3RydWN0IGxv
-Y2tfY2xhc3Nfa2V5ICp3a2V5KTsKIAogLyogU3BlY2lhbGlzZSBlYWNoIGNsYXNzIG9mIGk5MTVf
-YWN0aXZlIHRvIGF2b2lkIGltcG9zc2libGUgbG9ja2RlcCBjeWNsZXMuICovCi0jZGVmaW5lIGk5
-MTVfYWN0aXZlX2luaXQocmVmLCBhY3RpdmUsIHJldGlyZSkgZG8gewkJXAotCXN0YXRpYyBzdHJ1
-Y3QgbG9ja19jbGFzc19rZXkgX19ta2V5OwkJCQlcCi0Jc3RhdGljIHN0cnVjdCBsb2NrX2NsYXNz
-X2tleSBfX3drZXk7CQkJCVwKLQkJCQkJCQkJCVwKLQlfX2k5MTVfYWN0aXZlX2luaXQocmVmLCBh
-Y3RpdmUsIHJldGlyZSwgJl9fbWtleSwgJl9fd2tleSk7CVwKKyNkZWZpbmUgaTkxNV9hY3RpdmVf
-aW5pdChyZWYsIGFjdGl2ZSwgcmV0aXJlLCBmbGFncykgZG8gewkJCVwKKwlzdGF0aWMgc3RydWN0
-IGxvY2tfY2xhc3Nfa2V5IF9fbWtleTsJCQkJCVwKKwlzdGF0aWMgc3RydWN0IGxvY2tfY2xhc3Nf
-a2V5IF9fd2tleTsJCQkJCVwKKwkJCQkJCQkJCQlcCisJX19pOTE1X2FjdGl2ZV9pbml0KHJlZiwg
-YWN0aXZlLCByZXRpcmUsIGZsYWdzLCAmX19ta2V5LCAmX193a2V5KTsJXAogfSB3aGlsZSAoMCkK
-IAogc3RydWN0IGRtYV9mZW5jZSAqCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-OTE1X2FjdGl2ZV90eXBlcy5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9hY3RpdmVfdHlw
-ZXMuaAppbmRleCA2MzYwYzNlNGI3NjUuLmMxNDlmMzQ4YTk3MiAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvaTkxNV9hY3RpdmVfdHlwZXMuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9pOTE1X2FjdGl2ZV90eXBlcy5oCkBAIC0yNCwxMSArMjQsNiBAQCBzdHJ1Y3QgaTkxNV9h
-Y3RpdmVfZmVuY2UgewogCiBzdHJ1Y3QgYWN0aXZlX25vZGU7CiAKLSNkZWZpbmUgSTkxNV9BQ1RJ
-VkVfTUFZX1NMRUVQIEJJVCgwKQotCi0jZGVmaW5lIF9faTkxNV9hY3RpdmVfY2FsbCBfX2FsaWdu
-ZWQoNCkKLSNkZWZpbmUgaTkxNV9hY3RpdmVfbWF5X3NsZWVwKGZuKSBwdHJfcGFja19iaXRzKCYo
-Zm4pLCBJOTE1X0FDVElWRV9NQVlfU0xFRVAsIDIpCi0KIHN0cnVjdCBpOTE1X2FjdGl2ZSB7CiAJ
-YXRvbWljX3QgY291bnQ7CiAJc3RydWN0IG11dGV4IG11dGV4OwpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvaTkxNV92bWEuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfdm1h
-LmMKaW5kZXggNDY4MzE3ZTNiNDc3Li5hNmNkMGZhNjI4NDcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2k5MTVfdm1hLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV92
-bWEuYwpAQCAtOTQsNyArOTQsNiBAQCBzdGF0aWMgaW50IF9faTkxNV92bWFfYWN0aXZlKHN0cnVj
-dCBpOTE1X2FjdGl2ZSAqcmVmKQogCXJldHVybiBpOTE1X3ZtYV90cnlnZXQoYWN0aXZlX3RvX3Zt
-YShyZWYpKSA/IDAgOiAtRU5PRU5UOwogfQogCi1fX2k5MTVfYWN0aXZlX2NhbGwKIHN0YXRpYyB2
-b2lkIF9faTkxNV92bWFfcmV0aXJlKHN0cnVjdCBpOTE1X2FjdGl2ZSAqcmVmKQogewogCWk5MTVf
-dm1hX3B1dChhY3RpdmVfdG9fdm1hKHJlZikpOwpAQCAtMTI1LDcgKzEyNCw3IEBAIHZtYV9jcmVh
-dGUoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaiwKIAl2bWEtPnNpemUgPSBvYmotPmJh
-c2Uuc2l6ZTsKIAl2bWEtPmRpc3BsYXlfYWxpZ25tZW50ID0gSTkxNV9HVFRfTUlOX0FMSUdOTUVO
-VDsKIAotCWk5MTVfYWN0aXZlX2luaXQoJnZtYS0+YWN0aXZlLCBfX2k5MTVfdm1hX2FjdGl2ZSwg
-X19pOTE1X3ZtYV9yZXRpcmUpOworCWk5MTVfYWN0aXZlX2luaXQoJnZtYS0+YWN0aXZlLCBfX2k5
-MTVfdm1hX2FjdGl2ZSwgX19pOTE1X3ZtYV9yZXRpcmUsIDApOwogCiAJLyogRGVjbGFyZSBvdXJz
-ZWx2ZXMgc2FmZSBmb3IgdXNlIGluc2lkZSBzaHJpbmtlcnMgKi8KIAlpZiAoSVNfRU5BQkxFRChD
-T05GSUdfTE9DS0RFUCkpIHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3NlbGZ0
-ZXN0cy9pOTE1X2FjdGl2ZS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL2k5MTVf
-YWN0aXZlLmMKaW5kZXggMWFhNTJiNWNjNDg4Li42MWJmNDU2MGQ4YWYgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L3NlbGZ0ZXN0cy9pOTE1X2FjdGl2ZS5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L3NlbGZ0ZXN0cy9pOTE1X2FjdGl2ZS5jCkBAIC01MSw3ICs1MSw3IEBAIHN0
-YXRpYyBpbnQgX19saXZlX2FjdGl2ZShzdHJ1Y3QgaTkxNV9hY3RpdmUgKmJhc2UpCiAJcmV0dXJu
-IDA7CiB9CiAKLV9faTkxNV9hY3RpdmVfY2FsbCBzdGF0aWMgdm9pZCBfX2xpdmVfcmV0aXJlKHN0
-cnVjdCBpOTE1X2FjdGl2ZSAqYmFzZSkKK3N0YXRpYyB2b2lkIF9fbGl2ZV9yZXRpcmUoc3RydWN0
-IGk5MTVfYWN0aXZlICpiYXNlKQogewogCXN0cnVjdCBsaXZlX2FjdGl2ZSAqYWN0aXZlID0gY29u
-dGFpbmVyX29mKGJhc2UsIHR5cGVvZigqYWN0aXZlKSwgYmFzZSk7CiAKQEAgLTY4LDcgKzY4LDcg
-QEAgc3RhdGljIHN0cnVjdCBsaXZlX2FjdGl2ZSAqX19saXZlX2FsbG9jKHN0cnVjdCBkcm1faTkx
-NV9wcml2YXRlICppOTE1KQogCQlyZXR1cm4gTlVMTDsKIAogCWtyZWZfaW5pdCgmYWN0aXZlLT5y
-ZWYpOwotCWk5MTVfYWN0aXZlX2luaXQoJmFjdGl2ZS0+YmFzZSwgX19saXZlX2FjdGl2ZSwgX19s
-aXZlX3JldGlyZSk7CisJaTkxNV9hY3RpdmVfaW5pdCgmYWN0aXZlLT5iYXNlLCBfX2xpdmVfYWN0
-aXZlLCBfX2xpdmVfcmV0aXJlLCAwKTsKIAogCXJldHVybiBhY3RpdmU7CiB9Ci0tIAoyLjI2LjMK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, May 04, 2021 at 02:48:35PM +0200, Christian K=F6nig wrote:
+> Am 04.05.21 um 13:13 schrieb Daniel Vetter:
+> > On Tue, May 4, 2021 at 12:53 PM Christian K=F6nig
+> > <ckoenig.leichtzumerken@gmail.com> wrote:
+> > > Am 04.05.21 um 11:47 schrieb Daniel Vetter:
+> > > > [SNIP]
+> > > > > Yeah, it just takes to long for the preemption to complete to be =
+really
+> > > > > useful for the feature we are discussing here.
+> > > > > =
+
+> > > > > As I said when the kernel requests to preempt a queue we can easi=
+ly expect a
+> > > > > timeout of ~100ms until that comes back. For compute that is even=
+ in the
+> > > > > multiple seconds range.
+> > > > 100ms for preempting an idle request sounds like broken hw to me. Of
+> > > > course preemting something that actually runs takes a while, that's
+> > > > nothing new. But it's also not the thing we're talking about here. =
+Is this
+> > > > 100ms actual numbers from hw for an actual idle ringbuffer?
+> > > Well 100ms is just an example of the scheduler granularity. Let me
+> > > explain in a wider context.
+> > > =
+
+> > > The hardware can have X queues mapped at the same time and every Y ti=
+me
+> > > interval the hardware scheduler checks if those queues have changed a=
+nd
+> > > only if they have changed the necessary steps to reload them are star=
+ted.
+> > > =
+
+> > > Multiple queues can be rendering at the same time, so you can have X =
+as
+> > > a high priority queue active and just waiting for a signal to start a=
+nd
+> > > the client rendering one frame after another and a third background
+> > > compute task mining bitcoins for you.
+> > > =
+
+> > > As long as everything is static this is perfectly performant. Adding a
+> > > queue to the list of active queues is also relatively simple, but tak=
+ing
+> > > one down requires you to wait until we are sure the hardware has seen
+> > > the change and reloaded the queues.
+> > > =
+
+> > > Think of it as an RCU grace period. This is simply not something which
+> > > is made to be used constantly, but rather just at process termination.
+> > Uh ... that indeed sounds rather broken.
+> =
+
+> Well I wouldn't call it broken. It's just not made for the use case we are
+> trying to abuse it for.
+> =
+
+> > Otoh it's just a dma_fence that'd we'd inject as this unload-fence.
+> =
+
+> Yeah, exactly that's why it isn't much of a problem for process terminati=
+on
+> or freeing memory.
+
+Ok so your hw really hates the unload fence. On ours the various queues
+are a bit more explicit, so largely unload/preempt is the same as context
+switch and pretty quick. Afaik at least.
+
+Still baffled that you can't fix this in fw, but oh well. Judging from how
+fast our fw team moves I'm not surprised :-/
+
+Anyway so next plan: Make this work exactly like hmm:
+1. wait for the user fence as a dma-fence fake thing, tdr makes this safe
+2. remove pte
+3. do synchronous tlb flush
+
+Tada, no more 100ms stall in your buffer move callbacks. And feel free to
+pack up 2&3 into an async worker or something if it takes too long and
+treating it as a bo move dma_fence is better. Also that way you might be
+able to batch up the tlb flushing if it's too damn expensive, by
+collecting them all under a single dma_fence (and starting a new tlb flush
+cycle every time ->enable_signalling gets called).
+
+As long as you nack any gpu faults and don't try to fill them for these
+legacy contexts that support dma-fence there's no harm in using the hw
+facilities.
+
+Ofc if you're now telling me your synchronous tlb flush is also 100ms,
+then maybe just throw the hw out the window, and accept that the
+millisecond anything evicts anything (good look with userptr) the screen
+freezes for a bit.
+
+> > So by and large everyone should already be able to cope with it taking a
+> > bit longer. So from a design pov I don't see a huge problem, but I
+> > guess you guys wont be happy since it means on amd hw there will be
+> > random unsightly stalls in desktop linux usage.
+> > =
+
+> > > > > The "preemption" feature is really called suspend and made just f=
+or the case
+> > > > > when we want to put a process to sleep or need to forcefully kill=
+ it for
+> > > > > misbehavior or stuff like that. It is not meant to be used in nor=
+mal
+> > > > > operation.
+> > > > > =
+
+> > > > > If we only attach it on ->move then yeah maybe a last resort poss=
+ibility to
+> > > > > do it this way, but I think in that case we could rather stick wi=
+th kernel
+> > > > > submissions.
+> > > > Well this is a hybrid userspace ring + kernel augmeted submit mode,=
+ so you
+> > > > can keep dma-fences working. Because the dma-fence stuff wont work =
+with
+> > > > pure userspace submit, I think that conclusion is rather solid. Onc=
+e more
+> > > > even after this long thread here.
+> > > When assisted with unload fences, then yes. Problem is that I can't s=
+ee
+> > > how we could implement those performant currently.
+> > Is there really no way to fix fw here? Like if process start/teardown
+> > takes 100ms, that's going to suck no matter what.
+> =
+
+> As I said adding the queue is unproblematic and teardown just results in a
+> bit more waiting to free things up.
+> =
+
+> Problematic is more overcommit swapping and OOM situations which need to
+> wait for the hw scheduler to come back and tell us that the queue is now
+> unmapped.
+> =
+
+> > > > > > Also, if userspace lies to us and keeps pushing crap into the r=
+ing
+> > > > > > after it's supposed to be idle: Userspace is already allowed to=
+ waste
+> > > > > > gpu time. If you're too worried about this set a fairly aggress=
+ive
+> > > > > > preempt timeout on the unload fence, and kill the context if it=
+ takes
+> > > > > > longer than what preempting an idle ring should take (because t=
+hat
+> > > > > > would indicate broken/evil userspace).
+> > > > > I think you have the wrong expectation here. It is perfectly vali=
+d and
+> > > > > expected for userspace to keep writing commands into the ring buf=
+fer.
+> > > > > =
+
+> > > > > After all when one frame is completed they want to immediately st=
+art
+> > > > > rendering the next one.
+> > > > Sure, for the true userspace direct submit model. But with that you=
+ don't
+> > > > get dma-fence, which means this gpu will not work for 3d accel on a=
+ny
+> > > > current linux desktop.
+> > > I'm not sure of that. I've looked a bit into how we could add user
+> > > fences to dma_resv objects and that isn't that hard after all.
+> > I think as a proof of concept it's fine, but as an actual solution ...
+> > pls no. Two reasons:
+> > - implicit sync is bad
+> =
+
+> Well can't disagree with that :) But I think we can't avoid supporting it.
+> =
+
+> > - this doesn't fix anything for explicit sync using dma_fence in terms
+> > of sync_file or drm_syncobj.
+> =
+
+> Exactly.
+> =
+
+> If we do implicit sync or explicit sync is orthogonal to the problems that
+> sync must be made reliable somehow.
+> =
+
+> So when we sync and timeout the waiter should just continue, but whoever
+> failed to signal will be punished.
+> =
+
+> But since this isn't solved on Windows I don't see how we can solve it on
+> Linux either.
+> =
+
+> > So if we go with the route of papering over this in the kernel, then
+> > it'll be a ton more work than just hacking something into dma_resv.
+> =
+
+> I'm just now prototyping that and at least for the driver parts it doesn't
+> look that hard after all.
+> =
+
+> > > > Which sucks, hence some hybrid model of using the userspace ring and
+> > > > kernel augmented submit is needed. Which was my idea.
+> > > Yeah, I think when our firmware folks would really remove the kernel
+> > > queue and we still don't have
+> > Yeah I think kernel queue can be removed. But the price is that you
+> > need reasonable fast preempt of idle contexts.
+> > =
+
+> > I really can't understand how this can take multiple ms, something
+> > feels very broken in the design of the fw (since obviously the hw can
+> > preempt an idle context to another one pretty fast, or you'd render
+> > any multi-client desktop as a slideshow at best).
+> =
+
+> Well the hardware doesn't preempt and idle context. See you can have a
+> number of active ("mapped" in the fw terminology) contexts and idle conte=
+xts
+> are usually kept active even when they are idle.
+> =
+
+> So when multi-client desktop switches between context then that is rather
+> fast, but when the kernel asks for a context to be unmapped that can take
+> rather long.
+> =
+
+> =
+
+> > =
+
+> > > > > [SNIP]
+> > > > > Can't find that of hand either, but see the amdgpu_noretry module=
+ option.
+> > > > > =
+
+> > > > > It basically tells the hardware if retry page faults should be su=
+pported or
+> > > > > not because this whole TLB shutdown thing when they are supported=
+ is
+> > > > > extremely costly.
+> > > > Hm so synchronous tlb shootdown is a lot more costly when you allow
+> > > > retrying of page faults?
+> > > Partially correct, yes.
+> > > =
+
+> > > See when you have retry page faults enabled and unmap something you n=
+eed
+> > > to make sure that everybody which could have potentially translated t=
+hat
+> > > page and has a TLB is either invalidated or waited until the access is
+> > > completed.
+> > > =
+
+> > > Since every CU could be using a memory location that takes ages to
+> > > completed compared to the normal invalidation where you just invalida=
+te
+> > > the L1/L2 and are done.
+> > > =
+
+> > > Additional to that the recovery adds some extra overhead to every mem=
+ory
+> > > access, so even without a fault you are quite a bit slower if this is
+> > > enabled.
+> > Well yes it's complicated, and it's even more fun when the tlb
+> > invalidate comes in through the IOMMU through ATS.
+> > =
+
+> > But also if you don't your hw is just broken from a security pov, no
+> > page fault handling for you. So it's really not optional.
+> =
+
+> Yeah, but that is also a known issue. You either have retry faults and li=
+ve
+> with the extra overhead or you disable them and go with the kernel based
+> submission approach.
+
+Well kernel based submit is out with your new hw it sounds, so retry
+faults and sync tlb invalidate is the price you have to pay. There's no
+"both ways pls" here :-)
+
+> > > > That sounds bad, because for full hmm mode you need to be able to r=
+etry
+> > > > pagefaults. Well at least the PASID/ATS/IOMMU side will do that, an=
+d might just
+> > > > hang your gpu for a long time while it's waiting for the va->pa loo=
+kup
+> > > > response to return. So retrying lookups shouldn't be any different =
+really.
+> > > > =
+
+> > > > And you also need fairly fast synchronous tlb shootdown for hmm. So=
+ if
+> > > > your hw has a problem with both together that sounds bad.
+> > > Completely agree. And since it was my job to validate the implementat=
+ion
+> > > on Vega10 I was also the first one to realize that.
+> > > =
+
+> > > Felix, a couple of others and me are trying to work around those
+> > > restrictions ever since.
+> > > =
+
+> > > > I was more thinking about handling it all in the kernel.
+> > > > Yeah can do, just means that you also have to copy the ringbuffer s=
+tuff
+> > > > over from userspace to the kernel.
+> > > That is my least worry. The IBs are just addr+length., so no more than
+> > > 16 bytes for each IB.
+> > Ah ok, maybe I'm biased from drm/i915 where an ib launch + seqno is
+> > rather long, because the hw folks keep piling more workarounds and
+> > additional flushes on top. Like on some hw the recommended w/a was to
+> > just issue 32 gpu cache flushes or something like that (otherwise the
+> > seqno write could arrive before the gpu actually finished flushing)
+> > :-/
+> =
+
+> Well I once had a conversation with a hw engineer which wanted to split up
+> the TLB in validations into 1Gib chunks :)
+> =
+
+> That would have mean we would need to emit 2^17 different invalidation
+> requests on the kernel ring buffer....
+
+Well on the cpu side you invalidate tlbs as ranges, but there's a fallback
+to just flush the entire thing if the range flush is too much. So it's not
+entirely bonkers, just that the global flush needs to be there still.
+-Daniel
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
