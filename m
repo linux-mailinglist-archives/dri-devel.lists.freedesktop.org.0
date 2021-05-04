@@ -2,68 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3595372E34
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 18:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB7A372E74
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 19:05:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F23B6E2B6;
-	Tue,  4 May 2021 16:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 507396EB37;
+	Tue,  4 May 2021 17:05:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AF0E6EB37
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 16:44:10 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id e7so11194935edu.10
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 09:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=S5ixoMryeJnHVAOTksTPqK7IAoucwEzX98UTEH9wuyM=;
- b=ceEklP6oJNXs/NrpbeFqIZjohZOhXi+4gjsvZuRigfB+DHGRLorkuyvHPXI8T918Hj
- YeDZTGY+N37EQh+Wh5Rm4UrPV7t950L+dTe25DV2abODO9uGXKjKg7/7j8WXQZ1+gmiH
- tjag7YABECxiKCjVVAAQoFKFutuh5OeH/Imrc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=S5ixoMryeJnHVAOTksTPqK7IAoucwEzX98UTEH9wuyM=;
- b=FM2IJ7AWSoRIOVi+/fLbml3kfr0AKXN5xHS4BW0xMCxJ1qcl/rNq7hUWt7eJCJt0Rv
- G0ECdxXMXImCNsg9H+1H+1Uq4j2mYjXH4PR4iwc+T4EMjOXqofNfPtIl59+76DwSg0or
- EUv4BDHIq012EIhuUupZDKlgl1NVbnYUrhcVkpJHg+ZqtS20qsTBw1QmBr/09abutXs+
- FHV3Ar9SfwlMQRL90i1yqSKKyHBOc3oDDWmVIxjqeKioBp5Mhg8lPNu07yobodlFfPra
- Yg2T0hDa8JkeNMtVxIUKYh20/PukcIupHjuMRuuuQYvwvm7q9LGis2gPHOO/11b9yEHq
- bKRw==
-X-Gm-Message-State: AOAM533vE3qPgaYo1/r66gU3bFeOsUv/NGng0WFl53rNLb2CHNpJm46D
- FtWvpXYNzgiyQNBoJrVXu1C6gHnnKFd2Lw==
-X-Google-Smtp-Source: ABdhPJxsV6jm3UQs4nrE4Vq+BP2lXGrJ4FvwMjKU/FyBmpYqWPJ8DbZ+/Fni3hWlZ2oEXrK0d+tiEw==
-X-Received: by 2002:a05:6402:1214:: with SMTP id
- c20mr5976188edw.191.1620146648577; 
- Tue, 04 May 2021 09:44:08 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h9sm2622024ede.93.2021.05.04.09.44.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 09:44:07 -0700 (PDT)
-Date: Tue, 4 May 2021 18:44:06 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-Message-ID: <YJF51hE8die/tznf@phenom.ffwll.local>
-References: <CAAxE2A6NCTFsV6oH=AL=S=P1p0xYF0To8T_THpUO2ypdo0dyBw@mail.gmail.com>
- <1bd8105b-4a2a-2ad9-0b3c-a81590282f2e@gmail.com>
- <YJD4pt0r+TWAYfX5@phenom.ffwll.local>
- <9ccfe4b2-91f0-b8e5-6327-bf3c8b6d1a24@gmail.com>
- <CAKMK7uErXQ2O2RH4qqUVqYzw3jqJT2JwfCiXVZfu0U7HPKwYGA@mail.gmail.com>
- <a0c38808-3651-a3de-c4c4-2f4e5bf6fde7@gmail.com>
- <YJEYQnSb6m2df6YN@phenom.ffwll.local>
- <7227e6fb-1108-1096-ab2c-017d6422e90b@gmail.com>
- <CAKMK7uGQaysQM6NL3G3fgvoAk_0bOnz=62PaJmXw32sSh2n0RA@mail.gmail.com>
- <a9234655-ecd7-5ac0-579e-306d3bc91a59@gmail.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2070.outbound.protection.outlook.com [40.107.236.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0FF6EB36;
+ Tue,  4 May 2021 17:05:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nPjX2xqkPKjnoKGdXi8PXcOTGoTO1hkNCGJvfcls/T2lfLd94Ao2wI3BUVyxD+pACaZKxccyDWt2oecSpayeajZQ1j9FyOdnuO97ZnncPJUMgchB35xWT1Uw2rB2t2Rlp6Eh5hMu04qNLKgZEpz5/LmfdqqTaoSWCBeex6aqKCk/GvIWPqx+dFkQalenThc0ksIQBM0YGV6ivWhxacodQ8GA8wHwGfIEZkDPxK6pli0EC6PFG1GC2nwkDJUJ4fGon99l0DNCmqNEyhKu09PlPO2/h01fOZe5mDcsVwRxmmuqNbWxt97sUpXiO0vCRKN5qL+31W5Phjj4NJCKUkF6TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pof0tHrrziOaU45Fc+U1bGeEfvdCc6UKnAlPAR26MkI=;
+ b=iU6hiP0LaIf4XJr7PAmMt3FqZifLZCSPWGdfEGNwg6RQsTcCyNXFTH5OcFzzFFahOPSMaSXFxddhpybscIed40PEAB2ZGcTJdQt9PQHyD+SxkcSS262rzEoHNBK3VisbwVA35q8BOUQ51NR9HxPQR6Run/jBqWPjwvAm/kyPJtxlO5OW1cO3WsIs2x+3qhkv/0fi6lFwKk43AkstIYuv28lDxeJe7pnpDQ1hXLQt81YE7j6XbGcwuXxhnVFZbd9Iekj3v4IGE+8g+XmwHW4CZ2gMJD8YHX38ZNXmMorzj1jq/zmpHjwQnVBPv98XHQQF+w3QySdROfAhoncK7hRNtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pof0tHrrziOaU45Fc+U1bGeEfvdCc6UKnAlPAR26MkI=;
+ b=5Y002uQMIbCtesXh9JEVqj4tpN3Eh8MTAxez3QN3+9W63YqkBMNxIa+wqFe1Bqwm+PTFJV2H0rOFu2RrXiAx0PiwoXPV+FRMEvdII5QjhrKbBr+jgqFZexfYz3lFdMSHmwOc7IZC4rELFJDXx1nIzzvVxtZkBqZj2LO5ousfprs=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5291.namprd12.prod.outlook.com (2603:10b6:408:104::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25; Tue, 4 May
+ 2021 17:05:28 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd%6]) with mapi id 15.20.4087.039; Tue, 4 May 2021
+ 17:05:28 +0000
+Subject: Re: [PATCH v5 06/27] drm/amdgpu: Handle IOMMU enabled case.
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, ckoenig.leichtzumerken@gmail.com,
+ daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
+References: <20210428151207.1212258-1-andrey.grodzovsky@amd.com>
+ <20210428151207.1212258-7-andrey.grodzovsky@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <4f752f79-2541-d62d-5279-17992e4161d7@amd.com>
+Date: Tue, 4 May 2021 13:05:25 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <20210428151207.1212258-7-andrey.grodzovsky@amd.com>
+Content-Language: en-US
+X-Originating-IP: [142.116.138.207]
+X-ClientProxiedBy: YTOPR0101CA0013.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:15::26) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a9234655-ecd7-5ac0-579e-306d3bc91a59@gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.116.138.207) by
+ YTOPR0101CA0013.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.37 via Frontend
+ Transport; Tue, 4 May 2021 17:05:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ae1cd809-782c-42e7-cc4b-08d90f1ed0f9
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5291:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB52916EBA4F8EE7555DCE1B6A925A9@BN9PR12MB5291.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yxqDwwfjL1PJl2yFpd2k02ALEAW70lSgT0k8vlWpleRl40J5iQjLPlvkiyPX9JZfX+LJHc/mHY0p5hqxtDgyfKZEubctdaM+6iYjqDUuBpkKLWoEUkNsfRCYzCK0ULlBYvgU0MMf/B6NWlL2wkhLrXnvnebj7yTMABpGnVxp2koRRyzh4QNHCz00tphEBlzMriYm1EMiqgl+YHqVW+EeKcr1X7nOYs4juz1Ovj0gEX1LjpMasi+imhJn4onhD6QpYp/zr8ozW5zEkR+kk+WEPNEUhQ4uyoR26CipsnDthIn2tu2zL1PFJlDLMW+1+FYYBJAcKtalbOk8It7VRHrAoy+daHE2u8Xlj3+gJfrEXoCHG/V5E1b509dIlvgtM1Hf+eVe03KhSQhbCw9WKlTTUB0FrXv705oy4sdhLUagC/iGCd4onaHNg5GvqYmSVKFploH37yHpxPfzpuu3ju7yBElJEVECuKIslOPkxY3WPpJDcRlhClHVEpy72ZTXNMdJ1AnO7xztQC9vD5fIjjxibLC+W/EExPTvLwmSk6AqBda6UN/scKm6M5y1NkCrNxO4j9UBlpmmAFeZOW5Q/apX948DSRvChImCRmOqh0ZhzYGszDSCzKEVDFL8uea8LyyB6hfFMLcFVJSLV1Ax0ognR9qIoCEkalKXBJAdrWnhgSWJvdE5MU04JOHf+hJ+e/ME
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(366004)(376002)(346002)(396003)(66476007)(66556008)(2906002)(6636002)(36756003)(4326008)(44832011)(5660300002)(30864003)(66946007)(31686004)(478600001)(8676002)(86362001)(16526019)(2616005)(956004)(186003)(8936002)(26005)(16576012)(31696002)(83380400001)(6486002)(316002)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VitWWjN0eE5ZYW9LN2ltUDJONlpPUGNYZTZaSTA0aGR6aExzekhLcnUwK282?=
+ =?utf-8?B?em12b3I2VUwyMSs3Ylk5Z0E5LzBteVVlbFkyY2FRcUVMdzdWeEpNSG8vclNp?=
+ =?utf-8?B?NTZNVzlQV1JkQXZ0N2MyVUlvKzVmNktEMlZNNW1kcW5LakZ2WllNK2NybVJZ?=
+ =?utf-8?B?Yk5BUm9Ocy80b0Z0Rmd2UGtVaHlpTXYxZkNrdis5L0liNXYvaTh3R0R6dHRm?=
+ =?utf-8?B?V3cvV2N6S3lIdXRwc3VDTGM0L29SV2daSFdMTXQ5UXgxRDVLRHYzMzVLQW9K?=
+ =?utf-8?B?dUUvc3hMRTQwRG1KdFg3anUxaU5MYlRrdmVReTc0SXBzblA3bUdqOXRXVHdQ?=
+ =?utf-8?B?cGtBZ0I3UFRnMEMzVXM4UWpPdlE5MFVzNm9hV2I0cVVFT3g3dkZ4cGF2ZXow?=
+ =?utf-8?B?cEx4QkFrcFFJYVY4SnpVTGdSSVBXeXFnSUZUeVR6NFN4T3MzeGFRaFFOTE1m?=
+ =?utf-8?B?TDFVaTI2N0VKSStOVXJXcEVuVGREdlorUEZkN1VzMWcwTFhWTzlSZEZwcG05?=
+ =?utf-8?B?eVVzMlAvMnpMUksyWk1IRzVneVZPN01VSmRaTUhGYW4wVUdNY3lzaXdObThm?=
+ =?utf-8?B?ZDZtTnIweW1ndVA5N1gwUVNPRFhuQjMyWHdrWWtyNXNZTGdLL1poMlg2V2dG?=
+ =?utf-8?B?TWkzd3BZeDUzYjBKU29tYmZGalZxRzlURDVaajRaeGR2YW1wdkFBQkt1bVlo?=
+ =?utf-8?B?V2JyYlFITDh1R0dPU2E2MWRMOW9ndy8wc01keDlSUmNnbmRRRFB0S0svU2pn?=
+ =?utf-8?B?cGNENC9kL0VVemhiTkdhQ2tJdW1USFZmb0NzSjQxWWFHQzBaQVVWdkVpaWRB?=
+ =?utf-8?B?aGk3OUtCSEFMUHZBWEVwOWxuck1aOEFlVXVaWlRsWkxzN1orY3Y0YVdBRk55?=
+ =?utf-8?B?SE0zbHhVNUpjK0VKS3R5WDlic0VKS0xpSnQyMVVReGJXZ1RRZkpDTFR2ZWNk?=
+ =?utf-8?B?cnZqSktuY09NdEI1UE81cmF4V2FmZXZ3Ny85a0NsQXNYdFgvK3hQdGJzdUIv?=
+ =?utf-8?B?d2FNbklyRUJMcmkxVy9lMitsMHFsM1BtVndFc2hUVmdFVzRKcWN0MVd5YUpy?=
+ =?utf-8?B?Y2pYNkRBSUVvR0RLd2VvOUNkRDhIQnVGWU5KcDQzVjhBbGl2RVFQZTFFakZY?=
+ =?utf-8?B?ZlpNNmVmTWFZY1dYb2IvMXNsTy9LVE92OGozOHpCL2RUcFdjcmQzVVFKa1h1?=
+ =?utf-8?B?VVo5Y3pMV2tPYVlmSzFGeGNyMkl2WEFCeDh1OFFLejBLZ2YwM1ZWekp1eklD?=
+ =?utf-8?B?VjcwdmVMS25NL3VtaGc3ODRmRkRVMHRuamdtQi9ITURPa1o4LzQ0cEd1cXZN?=
+ =?utf-8?B?bVBYNWwzeXhaTU14NXU2eTZ2WGtHWWdFQUF5K3JKSkdRU0hTUkY5ZkhHOFZm?=
+ =?utf-8?B?UElGcXVmN2VpQUF0dllHU3FEWGxobnRFS2FYZ3AzRFcwOE5SVXcvd0ZiTHpr?=
+ =?utf-8?B?a1hSTHlvVEFNS0J1MlZzNE9YRkFuRUk4TWZTczVSWURHRVJtcmx5TENYUy9Q?=
+ =?utf-8?B?YzUwLzlZbWhQYjVyYzVwaVFORmhUWWJUbUdmSHpubW5NTU5qclZOQ2QvOUVV?=
+ =?utf-8?B?Q2FIdWhDOUMzNzBmMWpzS1c5Mk9SL3ArRVp6TDlDM0tJSGhMVTd3d3JicVJq?=
+ =?utf-8?B?TzBZNFB6VjJsT0MyOHJUT3RVMUx5SDFON1NpT1I3RkVncDZBYytQdWJ6cHY3?=
+ =?utf-8?B?VSt5eDlkR3FOTHpBc1lzSnZ1d0ZmYmpReHpMWi9qNU5yVkRGQmhtUVo1T0Z3?=
+ =?utf-8?Q?o/KR81Gm8Ucp1fZS+mX8lw4P3z4seiPoS9pzCjo?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae1cd809-782c-42e7-cc4b-08d90f1ed0f9
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2021 17:05:28.1164 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lL99jaj52rfX5Gws1b0YVyiz/nFSn+/tQv8UMunbcmzs2KJ9PPgRiKIU4DayBOSr4Npnvk4nD8ieb8dT22Fb+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5291
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,345 +128,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org, helgaas@kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 04, 2021 at 02:48:35PM +0200, Christian K=F6nig wrote:
-> Am 04.05.21 um 13:13 schrieb Daniel Vetter:
-> > On Tue, May 4, 2021 at 12:53 PM Christian K=F6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > > Am 04.05.21 um 11:47 schrieb Daniel Vetter:
-> > > > [SNIP]
-> > > > > Yeah, it just takes to long for the preemption to complete to be =
-really
-> > > > > useful for the feature we are discussing here.
-> > > > > =
-
-> > > > > As I said when the kernel requests to preempt a queue we can easi=
-ly expect a
-> > > > > timeout of ~100ms until that comes back. For compute that is even=
- in the
-> > > > > multiple seconds range.
-> > > > 100ms for preempting an idle request sounds like broken hw to me. Of
-> > > > course preemting something that actually runs takes a while, that's
-> > > > nothing new. But it's also not the thing we're talking about here. =
-Is this
-> > > > 100ms actual numbers from hw for an actual idle ringbuffer?
-> > > Well 100ms is just an example of the scheduler granularity. Let me
-> > > explain in a wider context.
-> > > =
-
-> > > The hardware can have X queues mapped at the same time and every Y ti=
-me
-> > > interval the hardware scheduler checks if those queues have changed a=
-nd
-> > > only if they have changed the necessary steps to reload them are star=
-ted.
-> > > =
-
-> > > Multiple queues can be rendering at the same time, so you can have X =
-as
-> > > a high priority queue active and just waiting for a signal to start a=
-nd
-> > > the client rendering one frame after another and a third background
-> > > compute task mining bitcoins for you.
-> > > =
-
-> > > As long as everything is static this is perfectly performant. Adding a
-> > > queue to the list of active queues is also relatively simple, but tak=
-ing
-> > > one down requires you to wait until we are sure the hardware has seen
-> > > the change and reloaded the queues.
-> > > =
-
-> > > Think of it as an RCU grace period. This is simply not something which
-> > > is made to be used constantly, but rather just at process termination.
-> > Uh ... that indeed sounds rather broken.
-> =
-
-> Well I wouldn't call it broken. It's just not made for the use case we are
-> trying to abuse it for.
-> =
-
-> > Otoh it's just a dma_fence that'd we'd inject as this unload-fence.
-> =
-
-> Yeah, exactly that's why it isn't much of a problem for process terminati=
-on
-> or freeing memory.
-
-Ok so your hw really hates the unload fence. On ours the various queues
-are a bit more explicit, so largely unload/preempt is the same as context
-switch and pretty quick. Afaik at least.
-
-Still baffled that you can't fix this in fw, but oh well. Judging from how
-fast our fw team moves I'm not surprised :-/
-
-Anyway so next plan: Make this work exactly like hmm:
-1. wait for the user fence as a dma-fence fake thing, tdr makes this safe
-2. remove pte
-3. do synchronous tlb flush
-
-Tada, no more 100ms stall in your buffer move callbacks. And feel free to
-pack up 2&3 into an async worker or something if it takes too long and
-treating it as a bo move dma_fence is better. Also that way you might be
-able to batch up the tlb flushing if it's too damn expensive, by
-collecting them all under a single dma_fence (and starting a new tlb flush
-cycle every time ->enable_signalling gets called).
-
-As long as you nack any gpu faults and don't try to fill them for these
-legacy contexts that support dma-fence there's no harm in using the hw
-facilities.
-
-Ofc if you're now telling me your synchronous tlb flush is also 100ms,
-then maybe just throw the hw out the window, and accept that the
-millisecond anything evicts anything (good look with userptr) the screen
-freezes for a bit.
-
-> > So by and large everyone should already be able to cope with it taking a
-> > bit longer. So from a design pov I don't see a huge problem, but I
-> > guess you guys wont be happy since it means on amd hw there will be
-> > random unsightly stalls in desktop linux usage.
-> > =
-
-> > > > > The "preemption" feature is really called suspend and made just f=
-or the case
-> > > > > when we want to put a process to sleep or need to forcefully kill=
- it for
-> > > > > misbehavior or stuff like that. It is not meant to be used in nor=
-mal
-> > > > > operation.
-> > > > > =
-
-> > > > > If we only attach it on ->move then yeah maybe a last resort poss=
-ibility to
-> > > > > do it this way, but I think in that case we could rather stick wi=
-th kernel
-> > > > > submissions.
-> > > > Well this is a hybrid userspace ring + kernel augmeted submit mode,=
- so you
-> > > > can keep dma-fences working. Because the dma-fence stuff wont work =
-with
-> > > > pure userspace submit, I think that conclusion is rather solid. Onc=
-e more
-> > > > even after this long thread here.
-> > > When assisted with unload fences, then yes. Problem is that I can't s=
-ee
-> > > how we could implement those performant currently.
-> > Is there really no way to fix fw here? Like if process start/teardown
-> > takes 100ms, that's going to suck no matter what.
-> =
-
-> As I said adding the queue is unproblematic and teardown just results in a
-> bit more waiting to free things up.
-> =
-
-> Problematic is more overcommit swapping and OOM situations which need to
-> wait for the hw scheduler to come back and tell us that the queue is now
-> unmapped.
-> =
-
-> > > > > > Also, if userspace lies to us and keeps pushing crap into the r=
-ing
-> > > > > > after it's supposed to be idle: Userspace is already allowed to=
- waste
-> > > > > > gpu time. If you're too worried about this set a fairly aggress=
-ive
-> > > > > > preempt timeout on the unload fence, and kill the context if it=
- takes
-> > > > > > longer than what preempting an idle ring should take (because t=
-hat
-> > > > > > would indicate broken/evil userspace).
-> > > > > I think you have the wrong expectation here. It is perfectly vali=
-d and
-> > > > > expected for userspace to keep writing commands into the ring buf=
-fer.
-> > > > > =
-
-> > > > > After all when one frame is completed they want to immediately st=
-art
-> > > > > rendering the next one.
-> > > > Sure, for the true userspace direct submit model. But with that you=
- don't
-> > > > get dma-fence, which means this gpu will not work for 3d accel on a=
-ny
-> > > > current linux desktop.
-> > > I'm not sure of that. I've looked a bit into how we could add user
-> > > fences to dma_resv objects and that isn't that hard after all.
-> > I think as a proof of concept it's fine, but as an actual solution ...
-> > pls no. Two reasons:
-> > - implicit sync is bad
-> =
-
-> Well can't disagree with that :) But I think we can't avoid supporting it.
-> =
-
-> > - this doesn't fix anything for explicit sync using dma_fence in terms
-> > of sync_file or drm_syncobj.
-> =
-
-> Exactly.
-> =
-
-> If we do implicit sync or explicit sync is orthogonal to the problems that
-> sync must be made reliable somehow.
-> =
-
-> So when we sync and timeout the waiter should just continue, but whoever
-> failed to signal will be punished.
-> =
-
-> But since this isn't solved on Windows I don't see how we can solve it on
-> Linux either.
-> =
-
-> > So if we go with the route of papering over this in the kernel, then
-> > it'll be a ton more work than just hacking something into dma_resv.
-> =
-
-> I'm just now prototyping that and at least for the driver parts it doesn't
-> look that hard after all.
-> =
-
-> > > > Which sucks, hence some hybrid model of using the userspace ring and
-> > > > kernel augmented submit is needed. Which was my idea.
-> > > Yeah, I think when our firmware folks would really remove the kernel
-> > > queue and we still don't have
-> > Yeah I think kernel queue can be removed. But the price is that you
-> > need reasonable fast preempt of idle contexts.
-> > =
-
-> > I really can't understand how this can take multiple ms, something
-> > feels very broken in the design of the fw (since obviously the hw can
-> > preempt an idle context to another one pretty fast, or you'd render
-> > any multi-client desktop as a slideshow at best).
-> =
-
-> Well the hardware doesn't preempt and idle context. See you can have a
-> number of active ("mapped" in the fw terminology) contexts and idle conte=
-xts
-> are usually kept active even when they are idle.
-> =
-
-> So when multi-client desktop switches between context then that is rather
-> fast, but when the kernel asks for a context to be unmapped that can take
-> rather long.
-> =
-
-> =
-
-> > =
-
-> > > > > [SNIP]
-> > > > > Can't find that of hand either, but see the amdgpu_noretry module=
- option.
-> > > > > =
-
-> > > > > It basically tells the hardware if retry page faults should be su=
-pported or
-> > > > > not because this whole TLB shutdown thing when they are supported=
- is
-> > > > > extremely costly.
-> > > > Hm so synchronous tlb shootdown is a lot more costly when you allow
-> > > > retrying of page faults?
-> > > Partially correct, yes.
-> > > =
-
-> > > See when you have retry page faults enabled and unmap something you n=
-eed
-> > > to make sure that everybody which could have potentially translated t=
-hat
-> > > page and has a TLB is either invalidated or waited until the access is
-> > > completed.
-> > > =
-
-> > > Since every CU could be using a memory location that takes ages to
-> > > completed compared to the normal invalidation where you just invalida=
-te
-> > > the L1/L2 and are done.
-> > > =
-
-> > > Additional to that the recovery adds some extra overhead to every mem=
-ory
-> > > access, so even without a fault you are quite a bit slower if this is
-> > > enabled.
-> > Well yes it's complicated, and it's even more fun when the tlb
-> > invalidate comes in through the IOMMU through ATS.
-> > =
-
-> > But also if you don't your hw is just broken from a security pov, no
-> > page fault handling for you. So it's really not optional.
-> =
-
-> Yeah, but that is also a known issue. You either have retry faults and li=
-ve
-> with the extra overhead or you disable them and go with the kernel based
-> submission approach.
-
-Well kernel based submit is out with your new hw it sounds, so retry
-faults and sync tlb invalidate is the price you have to pay. There's no
-"both ways pls" here :-)
-
-> > > > That sounds bad, because for full hmm mode you need to be able to r=
-etry
-> > > > pagefaults. Well at least the PASID/ATS/IOMMU side will do that, an=
-d might just
-> > > > hang your gpu for a long time while it's waiting for the va->pa loo=
-kup
-> > > > response to return. So retrying lookups shouldn't be any different =
-really.
-> > > > =
-
-> > > > And you also need fairly fast synchronous tlb shootdown for hmm. So=
- if
-> > > > your hw has a problem with both together that sounds bad.
-> > > Completely agree. And since it was my job to validate the implementat=
-ion
-> > > on Vega10 I was also the first one to realize that.
-> > > =
-
-> > > Felix, a couple of others and me are trying to work around those
-> > > restrictions ever since.
-> > > =
-
-> > > > I was more thinking about handling it all in the kernel.
-> > > > Yeah can do, just means that you also have to copy the ringbuffer s=
-tuff
-> > > > over from userspace to the kernel.
-> > > That is my least worry. The IBs are just addr+length., so no more than
-> > > 16 bytes for each IB.
-> > Ah ok, maybe I'm biased from drm/i915 where an ib launch + seqno is
-> > rather long, because the hw folks keep piling more workarounds and
-> > additional flushes on top. Like on some hw the recommended w/a was to
-> > just issue 32 gpu cache flushes or something like that (otherwise the
-> > seqno write could arrive before the gpu actually finished flushing)
-> > :-/
-> =
-
-> Well I once had a conversation with a hw engineer which wanted to split up
-> the TLB in validations into 1Gib chunks :)
-> =
-
-> That would have mean we would need to emit 2^17 different invalidation
-> requests on the kernel ring buffer....
-
-Well on the cpu side you invalidate tlbs as ranges, but there's a fallback
-to just flush the entire thing if the range flush is too much. So it's not
-entirely bonkers, just that the global flush needs to be there still.
--Daniel
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CkFtIDIwMjEtMDQtMjggdW0gMTE6MTEgYS5tLiBzY2hyaWViIEFuZHJleSBHcm9kem92c2t5Ogo+
+IEhhbmRsZSBhbGwgRE1BIElPTU1VIGdyb3B1cCByZWxhdGVkIGRlcGVuZGVuY2llcyBiZWZvcmUg
+dGhlCj4gZ3JvdXAgaXMgcmVtb3ZlZC4KPgo+IHY1OiBEcm9wIElPTU1VIG5vdGlmaWVyIGFuZCBz
+d2l0Y2ggdG8gbG9ja2xlc3MgY2FsbCB0byB0dG1fdHRfdW5wb3B1bGF0ZQo+Cj4gU2lnbmVkLW9m
+Zi1ieTogQW5kcmV5IEdyb2R6b3Zza3kgPGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20+Cj4gLS0t
+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5oICAgICAgICB8ICAyICsrCj4g
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYyB8IDMxICsrKysrKysr
+KysrKysrKysrKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dhcnQu
+YyAgIHwgIDMgKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nYXJ0Lmgg
+ICB8ICAxICsKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2lycS5jICAgIHwg
+IDkgKysrKysrKwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmMg
+fCAxMyArKysrKysrKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVj
+dC5oIHwgIDIgKysKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvY2lrX2loLmMgICAgICAg
+IHwgIDEgLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9jel9paC5jICAgICAgICAgfCAg
+MSAtCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2ljZWxhbmRfaWguYyAgICB8ICAxIC0K
+PiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvbmF2aTEwX2loLmMgICAgIHwgIDMgLS0tCj4g
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NpX2loLmMgICAgICAgICB8ICAxIC0KPiAgZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvdG9uZ2FfaWguYyAgICAgIHwgIDEgLQo+ICBkcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS92ZWdhMTBfaWguYyAgICAgfCAgMyAtLS0KPiAgMTQgZmlsZXMg
+Y2hhbmdlZCwgNTYgaW5zZXJ0aW9ucygrKSwgMTYgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmggYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHUuaAo+IGluZGV4IGZkZGI4Mjg5N2U1ZC4uMzBhMjRkYjVmNGQxIDEw
+MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5oCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmgKPiBAQCAtMTA1NCw2ICsxMDU0LDgg
+QEAgc3RydWN0IGFtZGdwdV9kZXZpY2Ugewo+ICAKPiAgCWJvb2wgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgaW5fcGNpX2Vycl9yZWNvdmVyeTsKPiAgCXN0cnVjdCBwY2lfc2F2ZWRfc3RhdGUg
+ICAgICAgICAgKnBjaV9zdGF0ZTsKPiArCj4gKwlzdHJ1Y3QgbGlzdF9oZWFkICAgICAgICAgICAg
+ICAgIGRldmljZV9ib19saXN0Owo+ICB9Owo+ICAKPiAgc3RhdGljIGlubGluZSBzdHJ1Y3QgYW1k
+Z3B1X2RldmljZSAqZHJtX3RvX2FkZXYoc3RydWN0IGRybV9kZXZpY2UgKmRkZXYpCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYyBiL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYwo+IGluZGV4IDQ2ZDY0NmM0MDMz
+OC4uOTE1OTRkZGMyNDU5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2FtZGdwdV9kZXZpY2UuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9kZXZpY2UuYwo+IEBAIC03MCw2ICs3MCw3IEBACj4gICNpbmNsdWRlIDxkcm0vdGFza19iYXJy
+aWVyLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9wbV9ydW50aW1lLmg+Cj4gIAo+ICsKPiAgTU9EVUxF
+X0ZJUk1XQVJFKCJhbWRncHUvdmVnYTEwX2dwdV9pbmZvLmJpbiIpOwo+ICBNT0RVTEVfRklSTVdB
+UkUoImFtZGdwdS92ZWdhMTJfZ3B1X2luZm8uYmluIik7Cj4gIE1PRFVMRV9GSVJNV0FSRSgiYW1k
+Z3B1L3JhdmVuX2dwdV9pbmZvLmJpbiIpOwo+IEBAIC0zMjExLDcgKzMyMTIsNiBAQCBzdGF0aWMg
+Y29uc3Qgc3RydWN0IGF0dHJpYnV0ZSAqYW1kZ3B1X2Rldl9hdHRyaWJ1dGVzW10gPSB7Cj4gIAlO
+VUxMCj4gIH07Cj4gIAo+IC0KPiAgLyoqCj4gICAqIGFtZGdwdV9kZXZpY2VfaW5pdCAtIGluaXRp
+YWxpemUgdGhlIGRyaXZlcgo+ICAgKgo+IEBAIC0zMzE2LDYgKzMzMTYsOCBAQCBpbnQgYW1kZ3B1
+X2RldmljZV9pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2LAo+ICAKPiAgCUlOSVRfV09S
+SygmYWRldi0+eGdtaV9yZXNldF93b3JrLCBhbWRncHVfZGV2aWNlX3hnbWlfcmVzZXRfZnVuYyk7
+Cj4gIAo+ICsJSU5JVF9MSVNUX0hFQUQoJmFkZXYtPmRldmljZV9ib19saXN0KTsKPiArCj4gIAlh
+ZGV2LT5nZnguZ2Z4X29mZl9yZXFfY291bnQgPSAxOwo+ICAJYWRldi0+cG0uYWNfcG93ZXIgPSBw
+b3dlcl9zdXBwbHlfaXNfc3lzdGVtX3N1cHBsaWVkKCkgPiAwOwo+ICAKPiBAQCAtMzYwMSw2ICsz
+NjAzLDI4IEBAIGludCBhbWRncHVfZGV2aWNlX2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
+ZXYsCj4gIAlyZXR1cm4gcjsKPiAgfQo+ICAKPiArc3RhdGljIHZvaWQgYW1kZ3B1X2NsZWFyX2Rt
+YV9tYXBwaW5ncyhzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKPiArewo+ICsJc3RydWN0IGFt
+ZGdwdV9ibyAqYm8gPSBOVUxMOwo+ICsKPiArCS8qCj4gKwkgKiBVbm1hcHMgYWxsIERNQSBtYXBw
+aW5ncyBiZWZvcmUgZGV2aWNlIHdpbGwgYmUgcmVtb3ZlZCBmcm9tIGl0J3MKPiArCSAqIElPTU1V
+IGdyb3VwIG90aGVyd2lzZSBpbiBjYXNlIG9mIElPTU1VIGVuYWJsZWQgc3lzdGVtIGEgY3Jhc2gK
+PiArCSAqIHdpbGwgaGFwcGVuLgo+ICsJICovCj4gKwo+ICsJc3Bpbl9sb2NrKCZhZGV2LT5tbWFu
+LmJkZXYubHJ1X2xvY2spOwo+ICsJd2hpbGUgKCFsaXN0X2VtcHR5KCZhZGV2LT5kZXZpY2VfYm9f
+bGlzdCkpIHsKPiArCQlibyA9IGxpc3RfZmlyc3RfZW50cnkoJmFkZXYtPmRldmljZV9ib19saXN0
+LCBzdHJ1Y3QgYW1kZ3B1X2JvLCBibyk7Cj4gKwkJbGlzdF9kZWxfaW5pdCgmYm8tPmJvKTsKPiAr
+CQlzcGluX3VubG9jaygmYWRldi0+bW1hbi5iZGV2LmxydV9sb2NrKTsKPiArCQlpZiAoYm8tPnRi
+by50dG0pCj4gKwkJCXR0bV90dF91bnBvcHVsYXRlKGJvLT50Ym8uYmRldiwgYm8tPnRiby50dG0p
+OwoKSSBoYXZlIGEgcGF0Y2ggcGVuZGluZyAocmV2aWV3ZWQgYnkgQ2hyaXN0aWFuKSB0aGF0IG1v
+dmVzIHRoZQpkbWEtdW5tYXBwaW5nIHRvIGFtZGdwdV90dG1fYmFja2VuZF91bmJpbmQuIFdpdGgg
+dGhhdCBwYXRjaCwKdHRtX3R0X3VucG9wdWxhdGUgd291bGQgbm8gbG9uZ2VyIGJlIHRoZSByaWdo
+dCB3YXkgdG8gcmVtb3ZlIHRoZSBETUEKbWFwcGluZy4KCk1heWJlIEknZCBuZWVkIHRvIGFkZCBh
+IGNoZWNrIGluIHR0bV90dF91bnBvcHVsYXRlIHRvIGNhbGwKYmFja2VuZF91bmJpbmQgZmlyc3Qs
+IGlmIG5lY2Vzc2FyeS4gT3IgaXMgdGhlcmUgc29tZSBvdGhlciBtZWNoYW5pc20KdGhhdCBtb3Zl
+cyB0aGUgQk8gdG8gdGhlIENQVSBkb21haW4gYmVmb3JlIHVucG9wdWxhdGluZyBpdD8KClJlZ2Fy
+ZHMsCsKgIEZlbGl4CgoKPiArCQlzcGluX2xvY2soJmFkZXYtPm1tYW4uYmRldi5scnVfbG9jayk7
+Cj4gKwl9Cj4gKwlzcGluX3VubG9jaygmYWRldi0+bW1hbi5iZGV2LmxydV9sb2NrKTsKPiArfQo+
+ICsKPiAgLyoqCj4gICAqIGFtZGdwdV9kZXZpY2VfZmluaSAtIHRlYXIgZG93biB0aGUgZHJpdmVy
+Cj4gICAqCj4gQEAgLTM2MzksMTIgKzM2NjMsMTUgQEAgdm9pZCBhbWRncHVfZGV2aWNlX2Zpbmlf
+aHcoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4gIAkJYW1kZ3B1X3Vjb2RlX3N5c2ZzX2Zp
+bmkoYWRldik7Cj4gIAlzeXNmc19yZW1vdmVfZmlsZXMoJmFkZXYtPmRldi0+a29iaiwgYW1kZ3B1
+X2Rldl9hdHRyaWJ1dGVzKTsKPiAgCj4gLQo+ICAJYW1kZ3B1X2ZiZGV2X2ZpbmkoYWRldik7Cj4g
+IAo+ICAJYW1kZ3B1X2lycV9maW5pX2h3KGFkZXYpOwo+ICAKPiAgCWFtZGdwdV9kZXZpY2VfaXBf
+ZmluaV9lYXJseShhZGV2KTsKPiArCj4gKwlhbWRncHVfY2xlYXJfZG1hX21hcHBpbmdzKGFkZXYp
+Owo+ICsKPiArCWFtZGdwdV9nYXJ0X2R1bW15X3BhZ2VfZmluaShhZGV2KTsKPiAgfQo+ICAKPiAg
+dm9pZCBhbWRncHVfZGV2aWNlX2Zpbmlfc3coc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nYXJ0LmMgYi9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2FydC5jCj4gaW5kZXggZmRlMmQ4OTli
+MmM0Li40OWNkY2FmODUxMmQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvYW1kZ3B1X2dhcnQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9nYXJ0LmMKPiBAQCAtOTIsNyArOTIsNyBAQCBzdGF0aWMgaW50IGFtZGdwdV9nYXJ0X2R1bW15
+X3BhZ2VfaW5pdChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKPiAgICoKPiAgICogRnJlZXMg
+dGhlIGR1bW15IHBhZ2UgdXNlZCBieSB0aGUgZHJpdmVyIChhbGwgYXNpY3MpLgo+ICAgKi8KPiAt
+c3RhdGljIHZvaWQgYW1kZ3B1X2dhcnRfZHVtbXlfcGFnZV9maW5pKHN0cnVjdCBhbWRncHVfZGV2
+aWNlICphZGV2KQo+ICt2b2lkIGFtZGdwdV9nYXJ0X2R1bW15X3BhZ2VfZmluaShzdHJ1Y3QgYW1k
+Z3B1X2RldmljZSAqYWRldikKPiAgewo+ICAJaWYgKCFhZGV2LT5kdW1teV9wYWdlX2FkZHIpCj4g
+IAkJcmV0dXJuOwo+IEBAIC0zOTcsNSArMzk3LDQgQEAgdm9pZCBhbWRncHVfZ2FydF9maW5pKHN0
+cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KQo+ICAJdmZyZWUoYWRldi0+Z2FydC5wYWdlcyk7Cj4g
+IAlhZGV2LT5nYXJ0LnBhZ2VzID0gTlVMTDsKPiAgI2VuZGlmCj4gLQlhbWRncHVfZ2FydF9kdW1t
+eV9wYWdlX2ZpbmkoYWRldik7Cj4gIH0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2dhcnQuaCBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9nYXJ0LmgKPiBpbmRleCBhZmEyZTI4NzdkODcuLjU2NzhkOWMxMDVhYiAxMDA2NDQKPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2FydC5oCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dhcnQuaAo+IEBAIC02MSw2ICs2MSw3IEBAIGlu
+dCBhbWRncHVfZ2FydF90YWJsZV92cmFtX3BpbihzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldik7
+Cj4gIHZvaWQgYW1kZ3B1X2dhcnRfdGFibGVfdnJhbV91bnBpbihzdHJ1Y3QgYW1kZ3B1X2Rldmlj
+ZSAqYWRldik7Cj4gIGludCBhbWRncHVfZ2FydF9pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNlICph
+ZGV2KTsKPiAgdm9pZCBhbWRncHVfZ2FydF9maW5pKHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2
+KTsKPiArdm9pZCBhbWRncHVfZ2FydF9kdW1teV9wYWdlX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZp
+Y2UgKmFkZXYpOwo+ICBpbnQgYW1kZ3B1X2dhcnRfdW5iaW5kKHN0cnVjdCBhbWRncHVfZGV2aWNl
+ICphZGV2LCB1aW50NjRfdCBvZmZzZXQsCj4gIAkJICAgICAgIGludCBwYWdlcyk7Cj4gIGludCBh
+bWRncHVfZ2FydF9tYXAoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHVpbnQ2NF90IG9mZnNl
+dCwKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2lycS5j
+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2lycS5jCj4gaW5kZXggNjNlODE1
+YzI3NTg1Li5hOTIyMTU0OTUzYTcgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X2lycS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X2lycS5jCj4gQEAgLTMyNiw2ICszMjYsMTUgQEAgdm9pZCBhbWRncHVfaXJxX2ZpbmlfaHco
+c3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4gIAkJaWYgKCFhbWRncHVfZGV2aWNlX2hhc19k
+Y19zdXBwb3J0KGFkZXYpKQo+ICAJCQlmbHVzaF93b3JrKCZhZGV2LT5ob3RwbHVnX3dvcmspOwo+
+ICAJfQo+ICsKPiArCWlmIChhZGV2LT5pcnEuaWhfc29mdC5yaW5nKQo+ICsJCWFtZGdwdV9paF9y
+aW5nX2ZpbmkoYWRldiwgJmFkZXYtPmlycS5paF9zb2Z0KTsKPiArCWlmIChhZGV2LT5pcnEuaWgu
+cmluZykKPiArCQlhbWRncHVfaWhfcmluZ19maW5pKGFkZXYsICZhZGV2LT5pcnEuaWgpOwo+ICsJ
+aWYgKGFkZXYtPmlycS5paDEucmluZykKPiArCQlhbWRncHVfaWhfcmluZ19maW5pKGFkZXYsICZh
+ZGV2LT5pcnEuaWgxKTsKPiArCWlmIChhZGV2LT5pcnEuaWgyLnJpbmcpCj4gKwkJYW1kZ3B1X2lo
+X3JpbmdfZmluaShhZGV2LCAmYWRldi0+aXJxLmloMik7Cj4gIH0KPiAgCj4gIC8qKgo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmMgYi9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmMKPiBpbmRleCA0ODVmMjQ5ZDA2
+M2EuLjYyZDgyOWY1ZTYyYyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfb2JqZWN0LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfb2JqZWN0LmMKPiBAQCAtNjgsOCArNjgsMTMgQEAgc3RhdGljIHZvaWQgYW1kZ3B1X2JvX2Rl
+c3Ryb3koc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICp0Ym8pCj4gIAkJbGlzdF9kZWxfaW5pdCgm
+Ym8tPnNoYWRvd19saXN0KTsKPiAgCQltdXRleF91bmxvY2soJmFkZXYtPnNoYWRvd19saXN0X2xv
+Y2spOwo+ICAJfQo+IC0JYW1kZ3B1X2JvX3VucmVmKCZiby0+cGFyZW50KTsKPiAgCj4gKwo+ICsJ
+c3Bpbl9sb2NrKCZhZGV2LT5tbWFuLmJkZXYubHJ1X2xvY2spOwo+ICsJbGlzdF9kZWwoJmJvLT5i
+byk7Cj4gKwlzcGluX3VubG9jaygmYWRldi0+bW1hbi5iZGV2LmxydV9sb2NrKTsKPiArCj4gKwlh
+bWRncHVfYm9fdW5yZWYoJmJvLT5wYXJlbnQpOwo+ICAJa2ZyZWUoYm8tPm1ldGFkYXRhKTsKPiAg
+CWtmcmVlKGJvKTsKPiAgfQo+IEBAIC01ODUsNiArNTkwLDEyIEBAIHN0YXRpYyBpbnQgYW1kZ3B1
+X2JvX2RvX2NyZWF0ZShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwKPiAgCWlmIChicC0+dHlw
+ZSA9PSB0dG1fYm9fdHlwZV9kZXZpY2UpCj4gIAkJYm8tPmZsYWdzICY9IH5BTURHUFVfR0VNX0NS
+RUFURV9DUFVfQUNDRVNTX1JFUVVJUkVEOwo+ICAKPiArCUlOSVRfTElTVF9IRUFEKCZiby0+Ym8p
+Owo+ICsKPiArCXNwaW5fbG9jaygmYWRldi0+bW1hbi5iZGV2LmxydV9sb2NrKTsKPiArCWxpc3Rf
+YWRkX3RhaWwoJmJvLT5ibywgJmFkZXYtPmRldmljZV9ib19saXN0KTsKPiArCXNwaW5fdW5sb2Nr
+KCZhZGV2LT5tbWFuLmJkZXYubHJ1X2xvY2spOwo+ICsKPiAgCXJldHVybiAwOwo+ICAKPiAgZmFp
+bF91bnJlc2VydmU6Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9vYmplY3QuaCBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3Qu
+aAo+IGluZGV4IDlhYzM3NTY5ODIzZi4uNWFlODU1NWVmMjc1IDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuaAo+IEBAIC0xMTAsNiArMTEwLDggQEAgc3Ry
+dWN0IGFtZGdwdV9ibyB7Cj4gIAlzdHJ1Y3QgbGlzdF9oZWFkCQlzaGFkb3dfbGlzdDsKPiAgCj4g
+IAlzdHJ1Y3Qga2dkX21lbSAgICAgICAgICAgICAgICAgICprZmRfYm87Cj4gKwo+ICsJc3RydWN0
+IGxpc3RfaGVhZAkJYm87Cj4gIH07Cj4gIAo+ICBzdGF0aWMgaW5saW5lIHN0cnVjdCBhbWRncHVf
+Ym8gKnR0bV90b19hbWRncHVfYm8oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICp0Ym8pCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Npa19paC5jIGIvZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvY2lrX2loLmMKPiBpbmRleCAxODNkNDRhNjU4M2MuLmRmMzg1ZmZj
+OTc2OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9jaWtfaWguYwo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Npa19paC5jCj4gQEAgLTMxMCw3ICsz
+MTAsNiBAQCBzdGF0aWMgaW50IGNpa19paF9zd19maW5pKHZvaWQgKmhhbmRsZSkKPiAgCXN0cnVj
+dCBhbWRncHVfZGV2aWNlICphZGV2ID0gKHN0cnVjdCBhbWRncHVfZGV2aWNlICopaGFuZGxlOwo+
+ICAKPiAgCWFtZGdwdV9pcnFfZmluaV9zdyhhZGV2KTsKPiAtCWFtZGdwdV9paF9yaW5nX2Zpbmko
+YWRldiwgJmFkZXYtPmlycS5paCk7Cj4gIAlhbWRncHVfaXJxX3JlbW92ZV9kb21haW4oYWRldik7
+Cj4gIAo+ICAJcmV0dXJuIDA7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2N6X2loLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9jel9paC5jCj4gaW5kZXgg
+ZDMyNzQzOTQ5MDAzLi5iOGM0N2UwY2YzN2EgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvY3pfaWguYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2N6
+X2loLmMKPiBAQCAtMzAyLDcgKzMwMiw2IEBAIHN0YXRpYyBpbnQgY3pfaWhfc3dfZmluaSh2b2lk
+ICpoYW5kbGUpCj4gIAlzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiA9IChzdHJ1Y3QgYW1kZ3B1
+X2RldmljZSAqKWhhbmRsZTsKPiAgCj4gIAlhbWRncHVfaXJxX2Zpbmlfc3coYWRldik7Cj4gLQlh
+bWRncHVfaWhfcmluZ19maW5pKGFkZXYsICZhZGV2LT5pcnEuaWgpOwo+ICAJYW1kZ3B1X2lycV9y
+ZW1vdmVfZG9tYWluKGFkZXYpOwo+ICAKPiAgCXJldHVybiAwOwo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9pY2VsYW5kX2loLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9pY2VsYW5kX2loLmMKPiBpbmRleCBkYTk2YzYwMTM0NzcuLmRkZmU0ZWFlZWEwNSAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9pY2VsYW5kX2loLmMKPiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9pY2VsYW5kX2loLmMKPiBAQCAtMzAxLDcg
+KzMwMSw2IEBAIHN0YXRpYyBpbnQgaWNlbGFuZF9paF9zd19maW5pKHZvaWQgKmhhbmRsZSkKPiAg
+CXN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2ID0gKHN0cnVjdCBhbWRncHVfZGV2aWNlICopaGFu
+ZGxlOwo+ICAKPiAgCWFtZGdwdV9pcnFfZmluaV9zdyhhZGV2KTsKPiAtCWFtZGdwdV9paF9yaW5n
+X2ZpbmkoYWRldiwgJmFkZXYtPmlycS5paCk7Cj4gIAlhbWRncHVfaXJxX3JlbW92ZV9kb21haW4o
+YWRldik7Cj4gIAo+ICAJcmV0dXJuIDA7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L25hdmkxMF9paC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvbmF2aTEw
+X2loLmMKPiBpbmRleCA1ZWVhNDU1MGI4NTYuLmUxNzFhOWU3ODU0NCAxMDA2NDQKPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9uYXZpMTBfaWguYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L25hdmkxMF9paC5jCj4gQEAgLTU3MSw5ICs1NzEsNiBAQCBzdGF0aWMg
+aW50IG5hdmkxMF9paF9zd19maW5pKHZvaWQgKmhhbmRsZSkKPiAgCj4gIAlhbWRncHVfaXJxX2Zp
+bmlfc3coYWRldik7Cj4gIAlhbWRncHVfaWhfcmluZ19maW5pKGFkZXYsICZhZGV2LT5pcnEuaWhf
+c29mdCk7Cj4gLQlhbWRncHVfaWhfcmluZ19maW5pKGFkZXYsICZhZGV2LT5pcnEuaWgyKTsKPiAt
+CWFtZGdwdV9paF9yaW5nX2ZpbmkoYWRldiwgJmFkZXYtPmlycS5paDEpOwo+IC0JYW1kZ3B1X2lo
+X3JpbmdfZmluaShhZGV2LCAmYWRldi0+aXJxLmloKTsKPiAgCj4gIAlyZXR1cm4gMDsKPiAgfQo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9zaV9paC5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvc2lfaWguYwo+IGluZGV4IDc1MTMwN2YzMjUyYy4uOWEyNGYx
+N2E1NzUwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NpX2loLmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9zaV9paC5jCj4gQEAgLTE3Niw3ICsx
+NzYsNiBAQCBzdGF0aWMgaW50IHNpX2loX3N3X2Zpbmkodm9pZCAqaGFuZGxlKQo+ICAJc3RydWN0
+IGFtZGdwdV9kZXZpY2UgKmFkZXYgPSAoc3RydWN0IGFtZGdwdV9kZXZpY2UgKiloYW5kbGU7Cj4g
+IAo+ICAJYW1kZ3B1X2lycV9maW5pX3N3KGFkZXYpOwo+IC0JYW1kZ3B1X2loX3JpbmdfZmluaShh
+ZGV2LCAmYWRldi0+aXJxLmloKTsKPiAgCj4gIAlyZXR1cm4gMDsKPiAgfQo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS90b25nYV9paC5jIGIvZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvdG9uZ2FfaWguYwo+IGluZGV4IDk3M2Q4MGVjN2Y2Yy4uYjA4OTA1ZDFjMDBm
+IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3RvbmdhX2loLmMKPiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS90b25nYV9paC5jCj4gQEAgLTMxMyw3ICsz
+MTMsNiBAQCBzdGF0aWMgaW50IHRvbmdhX2loX3N3X2Zpbmkodm9pZCAqaGFuZGxlKQo+ICAJc3Ry
+dWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYgPSAoc3RydWN0IGFtZGdwdV9kZXZpY2UgKiloYW5kbGU7
+Cj4gIAo+ICAJYW1kZ3B1X2lycV9maW5pX3N3KGFkZXYpOwo+IC0JYW1kZ3B1X2loX3JpbmdfZmlu
+aShhZGV2LCAmYWRldi0+aXJxLmloKTsKPiAgCWFtZGdwdV9pcnFfcmVtb3ZlX2RvbWFpbihhZGV2
+KTsKPiAgCj4gIAlyZXR1cm4gMDsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvdmVnYTEwX2loLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS92ZWdhMTBfaWgu
+Ywo+IGluZGV4IDJkMDA5NGMyNzZjYS4uOGM4YWJjMDBmNzEwIDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3ZlZ2ExMF9paC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvdmVnYTEwX2loLmMKPiBAQCAtNTI1LDkgKzUyNSw2IEBAIHN0YXRpYyBpbnQg
+dmVnYTEwX2loX3N3X2Zpbmkodm9pZCAqaGFuZGxlKQo+ICAKPiAgCWFtZGdwdV9pcnFfZmluaV9z
+dyhhZGV2KTsKPiAgCWFtZGdwdV9paF9yaW5nX2ZpbmkoYWRldiwgJmFkZXYtPmlycS5paF9zb2Z0
+KTsKPiAtCWFtZGdwdV9paF9yaW5nX2ZpbmkoYWRldiwgJmFkZXYtPmlycS5paDIpOwo+IC0JYW1k
+Z3B1X2loX3JpbmdfZmluaShhZGV2LCAmYWRldi0+aXJxLmloMSk7Cj4gLQlhbWRncHVfaWhfcmlu
+Z19maW5pKGFkZXYsICZhZGV2LT5pcnEuaWgpOwo+ICAKPiAgCXJldHVybiAwOwo+ICB9Cl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
