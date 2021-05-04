@@ -1,105 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CAE3724D5
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 06:12:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A36537250C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 06:28:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C226EA77;
-	Tue,  4 May 2021 04:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D24306EA7D;
+	Tue,  4 May 2021 04:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2043.outbound.protection.outlook.com [40.107.21.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C83F16EA77
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 04:12:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UD5xIEfmK06jU+REbk5/Nn0PJsm8jJUMcRuBCD0GxqRVGE7STVzHlfJgWvnCmEpWO/4vjXqH1rNPFOEr8k04TOaZq4gF5YqitFK/tzqqG3gNgvTmCdMtNcvDYRYi4ugJQrohrtA0BuUjf5KzqTeUVUEHOl3Ve75d+5FuwtDrBd4uHie5cmT2EurIHuF6ij0NbUjzyUlu3joGwssyFLeoQssEkaJYdUa/cwnUBnd2yjZyoNC6sYLoi3f3CIKPgQ3J7HWqvVZLByKTNcEqie+/4iKCjjy64WIiITxZfQvbKKDkrHiWrduNls22aeiVF2/DEtn6ObbjiZtb5IwP8UcYKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dPEJ/lG8JU2bVyaakuHpugrhFip501JmG2op396PoF0=;
- b=HiKeo0rKoTGbCQ7MBEhKRswwiyr3b6eSpmR30h0ffa0KXqcruF3sl+UX6MV9aefrFR25mhNI1BCc2G0g+WJw/JJ53mRW1BCUkBFGP3POLgu4RFC4wqX8/SkWBb00zJx/kOuMOMkLtGfZWIbogv3NBZivQ/WvB45gXm+2/h+ZTOts825AbmAWVs2Q4zbnruoyCpvcvY37IV4QDSSa6eBFjDTCsioPSTY+XPK4TYomT7y5QUXrkx4E55/rDAiDuHd56mLOp724yb3soA2XdID1W4Ee4IEsORfJ3d4DLKuGGkaNxHKkU5UIQ1q59BTKvWlQ7SC57/CRjdaZci2d9HZ3Sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dPEJ/lG8JU2bVyaakuHpugrhFip501JmG2op396PoF0=;
- b=Zvdc7++YtBsB+4kJo+uICyabU4/ZaIrjypeGs4fTspKN3jAlX17dWtNoSjsR212jC637tZmjSSrikjfitLVoAoZBzoS2VZT37zrOkiwWfMgoq+lSa23W6P4cO0UJZFBU7l2k686cypmA5yMrMwN7hgiDlrIVMX5T8d2NB0Mb/ak=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM6PR04MB5703.eurprd04.prod.outlook.com (2603:10a6:20b:a3::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.38; Tue, 4 May
- 2021 04:12:51 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::20f0:2b28:70c3:fb0]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::20f0:2b28:70c3:fb0%4]) with mapi id 15.20.4087.044; Tue, 4 May 2021
- 04:12:51 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] MAINTAINERS: Fix file name for simple framebuffers' drm driver
-Date: Tue,  4 May 2021 11:56:51 +0800
-Message-Id: <1620100611-30978-1-git-send-email-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: HK2PR04CA0090.apcprd04.prod.outlook.com
- (2603:1096:202:15::34) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E152D6E1B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 04:28:29 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id
+ g15-20020a9d128f0000b02902a7d7a7bb6eso411883otg.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 21:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=YxkbdlOp5+Lo050c9r95i26GLhZwLMxMbGicLv3SLBk=;
+ b=LaLN6EPNmpQKO0FOAM/EVCMUQPOueL2iwIzYlDXI6HXAesLKRrwzls4twMJyrZN4pN
+ voHeh0oPk87Fn+pId/0z9P9oofP+a3OuLZUva1XcmjywI9or/8vXJ2yMJkMKZqs0ccKs
+ YkCiKPZGNE10D4MT7V/SvhLreKRm73/GEuO4k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=YxkbdlOp5+Lo050c9r95i26GLhZwLMxMbGicLv3SLBk=;
+ b=am/pCfr45aLCPPjxtFAi/ZBsMlHwx80glL+OAhUPj+Lli2+WeuQwBxLj59ZCvkD8kR
+ vLLwdCYBf2U/Q1xNdentJ9K9XxN7GbIqOlo9EU4jn6svNyXKb5burUNIA25+V0lSg2rC
+ YohGbCJ5YDGG6nQ5X7zkOx65otMC+VVdEdDyrKOrqRm8O6sfJjAB2nlfpgPRyA5kKqku
+ M8iCXm7TdR5SUAW0gjivDEJL0Oa1WwLLBBQp2z71fnZA2ob8KQmp7N1yZ2PsVn75iwuA
+ 1fyRFlx0GUnfsOZPXaW0St3a8D8gAaTAPrJulwwSL9ZloIEQp79X7c59T8zxqbaLQiFa
+ 5KFA==
+X-Gm-Message-State: AOAM532EPJb8MyK23xUZcRMgyS2+HbXE6eRwDPDGtLLBC2fEOy4rOXUq
+ LjDE77jwvdrm/6uh+xn0BPTNyE4MS2ijJiGwjRRgeQ==
+X-Google-Smtp-Source: ABdhPJzOnGLQwrB1rXv0pQSwc7aFbEvRVhHO9wl3G9S9o9ZCW+CvbD0VN3vXyQzETmA5N/jlH1zkPOppv8dUOSIz0lg=
+X-Received: by 2002:a9d:222a:: with SMTP id o39mr16975857ota.246.1620102509142; 
+ Mon, 03 May 2021 21:28:29 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 3 May 2021 21:28:28 -0700
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.66) by
- HK2PR04CA0090.apcprd04.prod.outlook.com (2603:1096:202:15::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.4087.44 via Frontend Transport; Tue, 4 May 2021 04:12:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9b7a4306-35b6-45f2-954f-08d90eb2e221
-X-MS-TrafficTypeDiagnostic: AM6PR04MB5703:
-X-Microsoft-Antispam-PRVS: <AM6PR04MB570354D16A628C3BFAF16068985A9@AM6PR04MB5703.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nliwRr8DwSESFWo/6P/1MIqnBT6hyouM+6jeacGa4/p/vzsABDVzpWFSwvgrFBSNYSmuD7jJFJdjIl1O/97X7VTqdWGswvVRoCyXn9A71LSf8Z4HjyX3BE48/ruYV2Luy0P5QZYPtvWJTs9D9bQoN3KYpvrxW7Mg3QNxDbQkbhTAXJeibptzmdXhx2VTvWjKb01U/FmIbDk6+nWO9L309j6/kMXEbcrAveLwtE7HAv2F0lJ3ngrufzD/O2FdG5yw/MKwCbez4BszScNCyHneKF05na+LHNcP01PasBtwlhLItNwKteQjaoEoN+MdIvYgvsjyZF04OocCP111Qa4Lgn4DgOwXZAqMbFYP7mprar3ryCMdG/zNJf4p0dDgPNFSPLefm0QTWjL4qn92A3sjOCisnSMzAcMdzvpk2jpEXGm1iNUuMjKou1qbXxbYnnNdkz/tIXFQxYV3YCbCyLErt7FfZpzcoqrTWoCAGzQAEHjXiOdy6taLDTtZU/8LKxI4EOgvbCcSwiPPNu2IRD6tAnRweGOP223e24WGhgWqnafHfZs2YeiUgPArW0ReJelv2dvY0FFEJGV9czm/Xg+dg9izW03eswofiXcrG4WxRYcS/HRfM+kLRz5eIJPu5dKtTzOHqmSJ2OO4gyl7Wh67Ws3zAv5WweBn8E2iXa8h3pIzdnJJNUFGPWX+yT29vP9d
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(396003)(39860400002)(136003)(366004)(5660300002)(8936002)(6486002)(38100700002)(8676002)(38350700002)(316002)(83380400001)(4744005)(36756003)(956004)(6512007)(478600001)(66946007)(26005)(6666004)(66476007)(6506007)(4326008)(66556008)(52116002)(86362001)(16526019)(2616005)(2906002)(186003)(69590400013);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?w76mClu1AQoLB4elqi+JccSW2Wfk1F+GOGsijORK96k58aUA/Ng/iF2Ei9dt?=
- =?us-ascii?Q?pi/4D19GD299BVw7c7tjhWAvuffXzpggH9iHXYxltWDj2CyoRVlv97bIcyfV?=
- =?us-ascii?Q?D4RUOTA6k26Ll2aCxx+s6S5Cez02482QY4R67Rhd5F8wqkTRQ4+ZwU5bPTqH?=
- =?us-ascii?Q?vUUkgNitjmzizpnC5f0Q7Q8x0FuLSxDcFwjvW5ZWyBLx9+Ea/zHsIlE7Mpts?=
- =?us-ascii?Q?mRzCb4rzbHjlxDC9zsGIVPqO/WZXuhp2dO49btKECH89aTnIxqyatr3BSkoI?=
- =?us-ascii?Q?pprhZWYi9O5CDRew1fDMUvu/QbmFI0uk7GRACHinMVK/lZhjccJSDnUvxx6O?=
- =?us-ascii?Q?BJ3OvdaR6FiO+x6nFZzbY92JteOpbLA0OWM/U3a3GCM4mMOIlIt8F18dJ6L9?=
- =?us-ascii?Q?8uXID1ftzJWN1CZ6blUp+L+wRRvDFOYv603fJq7EWH1Iu9dh/jtltFMOlr1Q?=
- =?us-ascii?Q?5yOxZULUVaCNZQjL1/XoZZ5r6uOi1DL7zC9FfZlCxFb4AJbeKuB6qK4VWMRU?=
- =?us-ascii?Q?8SQ+2ZDS+SxmvkQ9JdyI8osPDkr+Yp/DWnJg9KHCwM2/xBAO1rW80/Uyx3Cv?=
- =?us-ascii?Q?so7J8a/zji1mL1/TWrzXB06vGhgfWzptJebq8CYjlrydsHFz9J5s7mLtnr4W?=
- =?us-ascii?Q?lTyPaQpPY2r1+j5e/6R2oHtq7InIOTEUoa5vMdj5n9phYhL6j/ylYDOKKGYn?=
- =?us-ascii?Q?WeJpT0ndMISf+gHn32wGxpTn8v45diRzHwrKRxikrndRW1WTQCGqtOiVmFcr?=
- =?us-ascii?Q?NIcaWbTDF0Hts51/6Kr1776rYDvaelL7xzJLDN7ock+vjTHo9fpQNNDB7uX0?=
- =?us-ascii?Q?aDIb4r6DXc4gML6ap6UZdawmGuiN5KH56GVGK3fJK2su7UbGepe08ftPHfv3?=
- =?us-ascii?Q?rBgT+/ezKHAIVP3uerKMKIhHyKhPjgl9Q3XD6CIwYtsV0iiw+B2vld+yoGw6?=
- =?us-ascii?Q?j2f6IAbQq/jdfE7tvqTdz+kF0/DZ2G+aWGV4oVycRDS5FwpZGvSMBGLuPULn?=
- =?us-ascii?Q?5ZWpMCc5y/1X6W6CAZs24z+U2a4g0ABXpQq8m5/13+fz4QBedBwyiQkY2Wi9?=
- =?us-ascii?Q?4f6MOgImJwbZejX7iMR6JK9XCf0kv7kP1gmAFns4ywQl3AwgI43km8GM98T2?=
- =?us-ascii?Q?fRCKuKd9TPISYsckJsKoNbDx6orYlgWu+gSR9/RBPzLJZG2npWgARzJ4aw51?=
- =?us-ascii?Q?BbR82HdJwRtR5vwR0rX4a5gP75TP+e6i4Z4IDp1eCGqlmn5XGyglSEOoYCpB?=
- =?us-ascii?Q?gihO1GyrrT2/WyIzjIpbNhKH44sEivsU8j7Veo4VdAkgC+I9Wud0boZv8sF4?=
- =?us-ascii?Q?hcDL8veLA0BKez8whFRG+L5l?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b7a4306-35b6-45f2-954f-08d90eb2e221
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2021 04:12:51.4387 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YULqSssWRGoDESMbDiKNgsew4VSt52/4StfKu+TR0nxTrDHTyoqNVBGypgXsop1IA5bWSApXBl3GxP5kuxwGLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5703
+In-Reply-To: <9564c684fb1c14a1df0068d42c749a8e@codeaurora.org>
+References: <1618604877-28297-1-git-send-email-khsieh@codeaurora.org>
+ <161895606268.46595.2841353121480638642@swboyd.mtv.corp.google.com>
+ <e3c3ef96ac507da6f138106f70c78ed2@codeaurora.org>
+ <ddc1e372c5f864cd62c4e056ef2e6404@codeaurora.org>
+ <CAE-0n53JNCc3JdONogGNArnsYLDr9E2fXZ2ODKBy7Jy3yVMr6g@mail.gmail.com>
+ <9ccdef6e1a1b47bd8d99594831f51094@codeaurora.org>
+ <CAE-0n533ZCaQkP7+XN+Ee9CG-r7vJD7LHG7_H8v7sVpimmQabg@mail.gmail.com>
+ <d88cd3e0af511ed60c12ce616ce22415@codeaurora.org>
+ <CAE-0n50J1JkaBa5XQmHS8Fe2W5R2fXKpLoTWbH0RshRZivGZWw@mail.gmail.com>
+ <9564c684fb1c14a1df0068d42c749a8e@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Mon, 3 May 2021 21:28:28 -0700
+Message-ID: <CAE-0n53sXZ_pUwMZjVfD26n4dY2bd-R8onaU38b+RBp_Hc9xjg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm/dp: service only one irq_hpd if there are
+ multiple irq_hpd pending
+To: khsieh@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,36 +72,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, dri-devel@lists.freedesktop.org,
+ aravindh@codeaurora.org, sean@poorly.run
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The file name for simple framebuffers' drm driver should be
-'simpledrm.c' rather than 'simplekms.c'. This patch fixes it.
+Quoting khsieh@codeaurora.org (2021-05-03 12:23:31)
+> On 2021-04-29 20:11, Stephen Boyd wrote:
+> > Quoting khsieh@codeaurora.org (2021-04-29 10:23:31)
+> >> On 2021-04-29 02:26, Stephen Boyd wrote:
+> >> > Quoting khsieh@codeaurora.org (2021-04-28 10:38:11)
+> >> >> On 2021-04-27 17:00, Stephen Boyd wrote:
+> >> >> > Quoting aravindh@codeaurora.org (2021-04-21 11:55:21)
+> >> >> >> On 2021-04-21 10:26, khsieh@codeaurora.org wrote:
+> >> >> >> >>
+> >> >> >> >>> +
+> >> >> >> >>>         mutex_unlock(&dp->event_mutex);
+> >> >> >> >>>
+> >> >> >> >>>         return 0;
+> >> >> >> >>> @@ -1496,6 +1502,9 @@ int msm_dp_display_disable(struct msm_dp *dp,
+> >> >> >> >>> struct drm_encoder *encoder)
+> >> >> >> >>>         /* stop sentinel checking */
+> >> >> >> >>>         dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
+> >> >> >> >>>
+> >> >> >> >>> +       /* link is down, delete pending irq_hdps */
+> >> >> >> >>> +       dp_del_event(dp_display, EV_IRQ_HPD_INT);
+> >> >> >> >>> +
+> >> >> >> >>
+> >> >> >> >> I'm becoming convinced that the whole kthread design and event queue
+> >> >> >> >> is
+> >> >> >> >> broken. These sorts of patches are working around the larger problem
+> >> >> >> >> that the kthread is running independently of the driver and irqs can
+> >> >> >> >> come in at any time but the event queue is not checked from the irq
+> >> >> >> >> handler to debounce the irq event. Is the event queue necessary at
+> >> >> >> >> all?
+> >> >> >> >> I wonder if it would be simpler to just use an irq thread and process
+> >> >> >> >> the hpd signal from there. Then we're guaranteed to not get an irq
+> >> >> >> >> again
+> >> >> >> >> until the irq thread is done processing the event. This would
+> >> >> >> >> naturally
+> >> >> >> >> debounce the irq hpd event that way.
+> >> >> >> > event q just like bottom half of irq handler. it turns irq into event
+> >> >> >> > and handle them sequentially.
+> >> >> >> > irq_hpd is asynchronous event from panel to bring up attention of hsot
+> >> >> >> > during run time of operation.
+> >> >> >> > Here, the dongle is unplugged and main link had teared down so that no
+> >> >> >> > need to service pending irq_hpd if any.
+> >> >> >> >
+> >> >> >>
+> >> >> >> As Kuogee mentioned, IRQ_HPD is a message received from the panel and
+> >> >> >> is
+> >> >> >> not like your typical HW generated IRQ. There is no guarantee that we
+> >> >> >> will not receive an IRQ_HPD until we are finished with processing of
+> >> >> >> an
+> >> >> >> earlier HPD message or an IRQ_HPD message. For example - when you run
+> >> >> >> the protocol compliance, when we get a HPD from the sink, we are
+> >> >> >> expected to start reading DPCD, EDID and proceed with link training.
+> >> >> >> As
+> >> >> >> soon as link training is finished (which is marked by a specific DPCD
+> >> >> >> register write), the sink is going to issue an IRQ_HPD. At this point,
+> >> >> >> we may not done with processing the HPD high as after link training we
+> >> >> >> would typically notify the user mode of the newly connected display,
+> >> >> >> etc.
+> >
+> > I re-read this. I think you're saying that IRQ_HPD can come in after
+> > HPD
+> > goes high and we finish link training? That sounds like we should
+> > enable
+> > IRQ_HPD in the hardware once we finish link training, instead of having
+> > it enabled all the time. Then we can finish the threaded irq handler
+> > and
+> > the irq should be pending again once IRQ_HPD is sent over. Is there
+> > ever
+> > a need to be processing some IRQ_HPD and then get another IRQ_HPD while
+> > processing the first one?
+> yes, for example
+> 1) plug dongle only
+> 2) plug hdmi monitor into dongle (generated irq_hpd with sinc_count = 1)
+> 3) unplug hdmi monitor out of the dongle (generate irq_hpd with
+> sinc_count = 0)
+> 4) go back to 2) for n times
+> 5) unplug dongle
+>
+> This patch is not fix this problem either.
+> The existing code has major issue which is handle irq_hpd with
+> sink_count = 0 same way as handle of dongle unplugged.
+> I think this cause external dp display failed to work and cause crash at
+> suspend/resume test case.
+> I will drop this patch.
+> I am working on handle irq_hpd with sink_count = 0 as asymmetric as
+> opposite to  irq_hpd with sink_count = 1.
+> This means irq_hdp sink_count = 0 handle only tear down the main link
+> but keep phy/aux intact.
+> I will re submit patch for review.
+>
 
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4d10ad6586042..7a9879c14742b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5770,7 +5770,7 @@ M:	Thomas Zimmermann <tzimmermann@suse.de>
- L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
--F:	drivers/gpu/drm/tiny/simplekms.c
-+F:	drivers/gpu/drm/tiny/simpledrm.c
- 
- DRM DRIVER FOR SIS VIDEO CARDS
- S:	Orphan / Obsolete
--- 
-2.25.1
-
+Ok makes sense. I'll look out for the next revision of this patch.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
