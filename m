@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B594372935
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 12:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A221372972
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 13:13:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C55889A56;
-	Tue,  4 May 2021 10:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4AF89F69;
+	Tue,  4 May 2021 11:13:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 488E2898A7;
- Tue,  4 May 2021 10:53:42 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id u3so12423164eja.12;
- Tue, 04 May 2021 03:53:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=wQdYTgH29HheOw4SCGlT4xJEO5JuskR2X3UT8Oe4GF8=;
- b=eCH9n7K5eWSjs6RhXe30ITwcf87UrofIEiMjmN69qFS+j8M6PL2IiDBvftOfoMNZ01
- pVnPqPwAHbMG9htGIpXyfVgMorjNiN4VE0P8AgFERqDq/f01Ltz7j7toFiwoZsYn6y+T
- pKthyNDtu/WLEdRKkf16pliBPEY4v2KCFaRsF7J9BX147Z+mR9m2atAcQp44wWqIHalk
- 64GCyNdewZ4ZqfcbOu1Q3awg53nA7PwV097CemWpZxj+17zoTYMnSEGRDoE8Hbf0ObZQ
- S6DUOt9/e/U43OUuoSQbPB3x/Fx6BW2OYFqFk5AO656dLF7Xc4nUL6P7QqGdUVYMDYUn
- eVng==
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A5B789F75
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 11:13:25 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id e25so8395281oii.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 04:13:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=469yS1EUmkj1sNZVCzuONiB/BsJHodimlZhJJm7Fo3c=;
+ b=ARUjpwCEj7mr0qTZAUGmxIxUK/yBXKY/+ac4CnE1PzNOLwJzX/dsWdiEpzYGa4HyEK
+ kNnR5KD2IXc9OXRhJ15HlA27fyruDM6Y85zrEMy1E/Fy8E3UjntwweCmD9Mv/qjywPv6
+ uTyNLSxJgq8ktXify6fcADZ1FkP0F7dRzYRhE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=wQdYTgH29HheOw4SCGlT4xJEO5JuskR2X3UT8Oe4GF8=;
- b=QywBiWYP4tVCjmwe5jooNHy2PTIKwy2mWjhVWituFVJhJrcneilw5Ef4ByKjvkA5a0
- fE3O3l1SZJC7MEGA5pFO516QLBs/NuIs8wXrGL1IkjvvefZu/vrZTqMdaQSrXxaX8kKP
- axAGojzX0z3MKJlt+bgssbKT+3WoAWMszU6/4pytKrLNc/I14sdz8CZBGw7ygfRc5ZI+
- jAxktIdUSxI3CGKKJsXt3RT0wY3bxHxxrM+u7EfzLQj+IklO7oT+IfKlsMSEQpRq8jBY
- sAxLa0SH/U+FosO29Hw2eCi/lqz1bAtay95PaWG8Ee0nLVYCDrAH0ZgE2IKTvup0dpKG
- uTeA==
-X-Gm-Message-State: AOAM531KVUSWoulkrFvVDRh3qi+Xhw130HbMaePWL3Evc2a8sUkD3uJz
- iMIWZ6klIaOSm5SmeOJgzWMLTYvU/mY=
-X-Google-Smtp-Source: ABdhPJyL0kRZwCy+Wb5QsK8WluwFzk6vMIq8QJwmg2FtfUr3MvZeM+nAtH97fZiXL/vd0GciTOdCzA==
-X-Received: by 2002:a17:906:8468:: with SMTP id
- hx8mr21443488ejc.18.1620125620950; 
- Tue, 04 May 2021 03:53:40 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:36d2:ff0f:67e9:929c?
- ([2a02:908:1252:fb60:36d2:ff0f:67e9:929c])
- by smtp.gmail.com with ESMTPSA id gt35sm1187509ejc.57.2021.05.04.03.53.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 May 2021 03:53:40 -0700 (PDT)
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: Daniel Vetter <daniel@ffwll.ch>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=469yS1EUmkj1sNZVCzuONiB/BsJHodimlZhJJm7Fo3c=;
+ b=nd1FJGfvT55JKetJjL4xfjZUt+XdVQ6EUDU8hdRccOKvS7Lgo2tcNrxsBVUDXy1hr0
+ eq2wsOLr2tBlA8k9FGAoy7dQOAWshTiI3T7tyJ0U/03iOcZ761h2DJPEVYGN+7K5jVlj
+ eNr/YRLmAxnD2EaS+kthy4fu5Fmy+rSR6oKUZgdykVFyz1OMm1mF6ImUDq4KvCtFkkFb
+ UHFyR1VPyAHDgGpRwsI5Gjbg2Wi8LglRabyfmSjzU0xgus1oZujDNj+ht6b6Xc63/vJY
+ SkYUWa4wIJKBO0pDcSWxkEUrAErrALuZjjP/m0OuGhQ6NiAGzj0J4vQz7gDGzLpOS90Q
+ WoOg==
+X-Gm-Message-State: AOAM533ybFgSCe0sgFAoCNfWrz9CovXjTzBHMC/VyP9AvpG0ge+Ae8Iy
+ 5wYPatbOEG53ElXliBC4EmbN0nGA5w9XgSx+KvFBEg==
+X-Google-Smtp-Source: ABdhPJzBCo+b1/PKRyqEwcy8Pqo0rPiXk562j1EOgu9DE27b8ABJj4l/5mRNLCyqZKQLrFnd5foga+WcK4LyaQ87BgE=
+X-Received: by 2002:a05:6808:699:: with SMTP id
+ k25mr2510034oig.101.1620126805256; 
+ Tue, 04 May 2021 04:13:25 -0700 (PDT)
+MIME-Version: 1.0
 References: <CAOFGe961tB38dE=gzte4OTGNMOpUsW2ikrB03+t=eh4pDYFh5g@mail.gmail.com>
  <CAP+8YyGkP2n9v2mJM5UH4NJrA6bE9+2Bgs1-6HrPPPMCrFz9dw@mail.gmail.com>
  <CAOFGe94JAO0OBiiwp8+hd=XCsrGLA1fVxqxePtPdHFg+YBB0dg@mail.gmail.com>
@@ -62,14 +51,14 @@ References: <CAOFGe961tB38dE=gzte4OTGNMOpUsW2ikrB03+t=eh4pDYFh5g@mail.gmail.com>
  <CAKMK7uErXQ2O2RH4qqUVqYzw3jqJT2JwfCiXVZfu0U7HPKwYGA@mail.gmail.com>
  <a0c38808-3651-a3de-c4c4-2f4e5bf6fde7@gmail.com>
  <YJEYQnSb6m2df6YN@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <7227e6fb-1108-1096-ab2c-017d6422e90b@gmail.com>
-Date: Tue, 4 May 2021 12:53:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <YJEYQnSb6m2df6YN@phenom.ffwll.local>
-Content-Language: en-US
+ <7227e6fb-1108-1096-ab2c-017d6422e90b@gmail.com>
+In-Reply-To: <7227e6fb-1108-1096-ab2c-017d6422e90b@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 4 May 2021 13:13:13 +0200
+Message-ID: <CAKMK7uGQaysQM6NL3G3fgvoAk_0bOnz=62PaJmXw32sSh2n0RA@mail.gmail.com>
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,148 +73,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: dri-devel <dri-devel@lists.freedesktop.org>,
  ML Mesa-dev <mesa-dev@lists.freedesktop.org>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
  Jason Ekstrand <jason@jlekstrand.net>,
  =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 04.05.21 um 11:47 schrieb Daniel Vetter:
-> [SNIP]
->> Yeah, it just takes to long for the preemption to complete to be really
->> useful for the feature we are discussing here.
->>
->> As I said when the kernel requests to preempt a queue we can easily expect a
->> timeout of ~100ms until that comes back. For compute that is even in the
->> multiple seconds range.
-> 100ms for preempting an idle request sounds like broken hw to me. Of
-> course preemting something that actually runs takes a while, that's
-> nothing new. But it's also not the thing we're talking about here. Is this
-> 100ms actual numbers from hw for an actual idle ringbuffer?
-
-Well 100ms is just an example of the scheduler granularity. Let me 
-explain in a wider context.
-
-The hardware can have X queues mapped at the same time and every Y time 
-interval the hardware scheduler checks if those queues have changed and 
-only if they have changed the necessary steps to reload them are started.
-
-Multiple queues can be rendering at the same time, so you can have X as 
-a high priority queue active and just waiting for a signal to start and 
-the client rendering one frame after another and a third background 
-compute task mining bitcoins for you.
-
-As long as everything is static this is perfectly performant. Adding a 
-queue to the list of active queues is also relatively simple, but taking 
-one down requires you to wait until we are sure the hardware has seen 
-the change and reloaded the queues.
-
-Think of it as an RCU grace period. This is simply not something which 
-is made to be used constantly, but rather just at process termination.
-
->> The "preemption" feature is really called suspend and made just for the case
->> when we want to put a process to sleep or need to forcefully kill it for
->> misbehavior or stuff like that. It is not meant to be used in normal
->> operation.
->>
->> If we only attach it on ->move then yeah maybe a last resort possibility to
->> do it this way, but I think in that case we could rather stick with kernel
->> submissions.
-> Well this is a hybrid userspace ring + kernel augmeted submit mode, so you
-> can keep dma-fences working. Because the dma-fence stuff wont work with
-> pure userspace submit, I think that conclusion is rather solid. Once more
-> even after this long thread here.
-
-When assisted with unload fences, then yes. Problem is that I can't see 
-how we could implement those performant currently.
-
->>> Also, if userspace lies to us and keeps pushing crap into the ring
->>> after it's supposed to be idle: Userspace is already allowed to waste
->>> gpu time. If you're too worried about this set a fairly aggressive
->>> preempt timeout on the unload fence, and kill the context if it takes
->>> longer than what preempting an idle ring should take (because that
->>> would indicate broken/evil userspace).
->> I think you have the wrong expectation here. It is perfectly valid and
->> expected for userspace to keep writing commands into the ring buffer.
->>
->> After all when one frame is completed they want to immediately start
->> rendering the next one.
-> Sure, for the true userspace direct submit model. But with that you don't
-> get dma-fence, which means this gpu will not work for 3d accel on any
-> current linux desktop.
-
-I'm not sure of that. I've looked a bit into how we could add user 
-fences to dma_resv objects and that isn't that hard after all.
-
-> Which sucks, hence some hybrid model of using the userspace ring and
-> kernel augmented submit is needed. Which was my idea.
-
-Yeah, I think when our firmware folks would really remove the kernel 
-queue and we still don't have
-
->
->> [SNIP]
->> Can't find that of hand either, but see the amdgpu_noretry module option.
->>
->> It basically tells the hardware if retry page faults should be supported or
->> not because this whole TLB shutdown thing when they are supported is
->> extremely costly.
-> Hm so synchronous tlb shootdown is a lot more costly when you allow
-> retrying of page faults?
-
-Partially correct, yes.
-
-See when you have retry page faults enabled and unmap something you need 
-to make sure that everybody which could have potentially translated that 
-page and has a TLB is either invalidated or waited until the access is 
-completed.
-
-Since every CU could be using a memory location that takes ages to 
-completed compared to the normal invalidation where you just invalidate 
-the L1/L2 and are done.
-
-Additional to that the recovery adds some extra overhead to every memory 
-access, so even without a fault you are quite a bit slower if this is 
-enabled.
-
-> That sounds bad, because for full hmm mode you need to be able to retry
-> pagefaults. Well at least the PASID/ATS/IOMMU side will do that, and might just
-> hang your gpu for a long time while it's waiting for the va->pa lookup
-> response to return. So retrying lookups shouldn't be any different really.
->
-> And you also need fairly fast synchronous tlb shootdown for hmm. So if
-> your hw has a problem with both together that sounds bad.
-
-Completely agree. And since it was my job to validate the implementation 
-on Vega10 I was also the first one to realize that.
-
-Felix, a couple of others and me are trying to work around those 
-restrictions ever since.
-
-> I was more thinking about handling it all in the kernel.
-> Yeah can do, just means that you also have to copy the ringbuffer stuff
-> over from userspace to the kernel.
-
-That is my least worry. The IBs are just addr+length., so no more than 
-16 bytes for each IB.
-
-> It also means that there's more differences in how your userspace works
-> between full userspace mode (necessary for compute) and legacy dma-fence
-> mode (necessary for desktop 3d). Which is especially big fun for vulkan,
-> since that will have to do both.
-
-That is the bigger problem.
-
-Christian.
-
->
-> But then amd is still hanging onto the amdgpu vs amdkfd split, so you're
-> going for max pain in this area anyway :-P
-> -Daniel
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBNYXkgNCwgMjAyMSBhdCAxMjo1MyBQTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
+LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAwNC4wNS4yMSB1bSAxMTo0
+NyBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPiBbU05JUF0KPiA+PiBZZWFoLCBpdCBqdXN0IHRh
+a2VzIHRvIGxvbmcgZm9yIHRoZSBwcmVlbXB0aW9uIHRvIGNvbXBsZXRlIHRvIGJlIHJlYWxseQo+
+ID4+IHVzZWZ1bCBmb3IgdGhlIGZlYXR1cmUgd2UgYXJlIGRpc2N1c3NpbmcgaGVyZS4KPiA+Pgo+
+ID4+IEFzIEkgc2FpZCB3aGVuIHRoZSBrZXJuZWwgcmVxdWVzdHMgdG8gcHJlZW1wdCBhIHF1ZXVl
+IHdlIGNhbiBlYXNpbHkgZXhwZWN0IGEKPiA+PiB0aW1lb3V0IG9mIH4xMDBtcyB1bnRpbCB0aGF0
+IGNvbWVzIGJhY2suIEZvciBjb21wdXRlIHRoYXQgaXMgZXZlbiBpbiB0aGUKPiA+PiBtdWx0aXBs
+ZSBzZWNvbmRzIHJhbmdlLgo+ID4gMTAwbXMgZm9yIHByZWVtcHRpbmcgYW4gaWRsZSByZXF1ZXN0
+IHNvdW5kcyBsaWtlIGJyb2tlbiBodyB0byBtZS4gT2YKPiA+IGNvdXJzZSBwcmVlbXRpbmcgc29t
+ZXRoaW5nIHRoYXQgYWN0dWFsbHkgcnVucyB0YWtlcyBhIHdoaWxlLCB0aGF0J3MKPiA+IG5vdGhp
+bmcgbmV3LiBCdXQgaXQncyBhbHNvIG5vdCB0aGUgdGhpbmcgd2UncmUgdGFsa2luZyBhYm91dCBo
+ZXJlLiBJcyB0aGlzCj4gPiAxMDBtcyBhY3R1YWwgbnVtYmVycyBmcm9tIGh3IGZvciBhbiBhY3R1
+YWwgaWRsZSByaW5nYnVmZmVyPwo+Cj4gV2VsbCAxMDBtcyBpcyBqdXN0IGFuIGV4YW1wbGUgb2Yg
+dGhlIHNjaGVkdWxlciBncmFudWxhcml0eS4gTGV0IG1lCj4gZXhwbGFpbiBpbiBhIHdpZGVyIGNv
+bnRleHQuCj4KPiBUaGUgaGFyZHdhcmUgY2FuIGhhdmUgWCBxdWV1ZXMgbWFwcGVkIGF0IHRoZSBz
+YW1lIHRpbWUgYW5kIGV2ZXJ5IFkgdGltZQo+IGludGVydmFsIHRoZSBoYXJkd2FyZSBzY2hlZHVs
+ZXIgY2hlY2tzIGlmIHRob3NlIHF1ZXVlcyBoYXZlIGNoYW5nZWQgYW5kCj4gb25seSBpZiB0aGV5
+IGhhdmUgY2hhbmdlZCB0aGUgbmVjZXNzYXJ5IHN0ZXBzIHRvIHJlbG9hZCB0aGVtIGFyZSBzdGFy
+dGVkLgo+Cj4gTXVsdGlwbGUgcXVldWVzIGNhbiBiZSByZW5kZXJpbmcgYXQgdGhlIHNhbWUgdGlt
+ZSwgc28geW91IGNhbiBoYXZlIFggYXMKPiBhIGhpZ2ggcHJpb3JpdHkgcXVldWUgYWN0aXZlIGFu
+ZCBqdXN0IHdhaXRpbmcgZm9yIGEgc2lnbmFsIHRvIHN0YXJ0IGFuZAo+IHRoZSBjbGllbnQgcmVu
+ZGVyaW5nIG9uZSBmcmFtZSBhZnRlciBhbm90aGVyIGFuZCBhIHRoaXJkIGJhY2tncm91bmQKPiBj
+b21wdXRlIHRhc2sgbWluaW5nIGJpdGNvaW5zIGZvciB5b3UuCj4KPiBBcyBsb25nIGFzIGV2ZXJ5
+dGhpbmcgaXMgc3RhdGljIHRoaXMgaXMgcGVyZmVjdGx5IHBlcmZvcm1hbnQuIEFkZGluZyBhCj4g
+cXVldWUgdG8gdGhlIGxpc3Qgb2YgYWN0aXZlIHF1ZXVlcyBpcyBhbHNvIHJlbGF0aXZlbHkgc2lt
+cGxlLCBidXQgdGFraW5nCj4gb25lIGRvd24gcmVxdWlyZXMgeW91IHRvIHdhaXQgdW50aWwgd2Ug
+YXJlIHN1cmUgdGhlIGhhcmR3YXJlIGhhcyBzZWVuCj4gdGhlIGNoYW5nZSBhbmQgcmVsb2FkZWQg
+dGhlIHF1ZXVlcy4KPgo+IFRoaW5rIG9mIGl0IGFzIGFuIFJDVSBncmFjZSBwZXJpb2QuIFRoaXMg
+aXMgc2ltcGx5IG5vdCBzb21ldGhpbmcgd2hpY2gKPiBpcyBtYWRlIHRvIGJlIHVzZWQgY29uc3Rh
+bnRseSwgYnV0IHJhdGhlciBqdXN0IGF0IHByb2Nlc3MgdGVybWluYXRpb24uCgpVaCAuLi4gdGhh
+dCBpbmRlZWQgc291bmRzIHJhdGhlciBicm9rZW4uCgpPdG9oIGl0J3MganVzdCBhIGRtYV9mZW5j
+ZSB0aGF0J2Qgd2UnZCBpbmplY3QgYXMgdGhpcyB1bmxvYWQtZmVuY2UuIFNvCmJ5IGFuZCBsYXJn
+ZSBldmVyeW9uZSBzaG91bGQgYWxyZWFkeSBiZSBhYmxlIHRvIGNvcGUgd2l0aCBpdCB0YWtpbmcg
+YQpiaXQgbG9uZ2VyLiBTbyBmcm9tIGEgZGVzaWduIHBvdiBJIGRvbid0IHNlZSBhIGh1Z2UgcHJv
+YmxlbSwgYnV0IEkKZ3Vlc3MgeW91IGd1eXMgd29udCBiZSBoYXBweSBzaW5jZSBpdCBtZWFucyBv
+biBhbWQgaHcgdGhlcmUgd2lsbCBiZQpyYW5kb20gdW5zaWdodGx5IHN0YWxscyBpbiBkZXNrdG9w
+IGxpbnV4IHVzYWdlLgoKPiA+PiBUaGUgInByZWVtcHRpb24iIGZlYXR1cmUgaXMgcmVhbGx5IGNh
+bGxlZCBzdXNwZW5kIGFuZCBtYWRlIGp1c3QgZm9yIHRoZSBjYXNlCj4gPj4gd2hlbiB3ZSB3YW50
+IHRvIHB1dCBhIHByb2Nlc3MgdG8gc2xlZXAgb3IgbmVlZCB0byBmb3JjZWZ1bGx5IGtpbGwgaXQg
+Zm9yCj4gPj4gbWlzYmVoYXZpb3Igb3Igc3R1ZmYgbGlrZSB0aGF0LiBJdCBpcyBub3QgbWVhbnQg
+dG8gYmUgdXNlZCBpbiBub3JtYWwKPiA+PiBvcGVyYXRpb24uCj4gPj4KPiA+PiBJZiB3ZSBvbmx5
+IGF0dGFjaCBpdCBvbiAtPm1vdmUgdGhlbiB5ZWFoIG1heWJlIGEgbGFzdCByZXNvcnQgcG9zc2li
+aWxpdHkgdG8KPiA+PiBkbyBpdCB0aGlzIHdheSwgYnV0IEkgdGhpbmsgaW4gdGhhdCBjYXNlIHdl
+IGNvdWxkIHJhdGhlciBzdGljayB3aXRoIGtlcm5lbAo+ID4+IHN1Ym1pc3Npb25zLgo+ID4gV2Vs
+bCB0aGlzIGlzIGEgaHlicmlkIHVzZXJzcGFjZSByaW5nICsga2VybmVsIGF1Z21ldGVkIHN1Ym1p
+dCBtb2RlLCBzbyB5b3UKPiA+IGNhbiBrZWVwIGRtYS1mZW5jZXMgd29ya2luZy4gQmVjYXVzZSB0
+aGUgZG1hLWZlbmNlIHN0dWZmIHdvbnQgd29yayB3aXRoCj4gPiBwdXJlIHVzZXJzcGFjZSBzdWJt
+aXQsIEkgdGhpbmsgdGhhdCBjb25jbHVzaW9uIGlzIHJhdGhlciBzb2xpZC4gT25jZSBtb3JlCj4g
+PiBldmVuIGFmdGVyIHRoaXMgbG9uZyB0aHJlYWQgaGVyZS4KPgo+IFdoZW4gYXNzaXN0ZWQgd2l0
+aCB1bmxvYWQgZmVuY2VzLCB0aGVuIHllcy4gUHJvYmxlbSBpcyB0aGF0IEkgY2FuJ3Qgc2VlCj4g
+aG93IHdlIGNvdWxkIGltcGxlbWVudCB0aG9zZSBwZXJmb3JtYW50IGN1cnJlbnRseS4KCklzIHRo
+ZXJlIHJlYWxseSBubyB3YXkgdG8gZml4IGZ3IGhlcmU/IExpa2UgaWYgcHJvY2VzcyBzdGFydC90
+ZWFyZG93bgp0YWtlcyAxMDBtcywgdGhhdCdzIGdvaW5nIHRvIHN1Y2sgbm8gbWF0dGVyIHdoYXQu
+Cgo+ID4+PiBBbHNvLCBpZiB1c2Vyc3BhY2UgbGllcyB0byB1cyBhbmQga2VlcHMgcHVzaGluZyBj
+cmFwIGludG8gdGhlIHJpbmcKPiA+Pj4gYWZ0ZXIgaXQncyBzdXBwb3NlZCB0byBiZSBpZGxlOiBV
+c2Vyc3BhY2UgaXMgYWxyZWFkeSBhbGxvd2VkIHRvIHdhc3RlCj4gPj4+IGdwdSB0aW1lLiBJZiB5
+b3UncmUgdG9vIHdvcnJpZWQgYWJvdXQgdGhpcyBzZXQgYSBmYWlybHkgYWdncmVzc2l2ZQo+ID4+
+PiBwcmVlbXB0IHRpbWVvdXQgb24gdGhlIHVubG9hZCBmZW5jZSwgYW5kIGtpbGwgdGhlIGNvbnRl
+eHQgaWYgaXQgdGFrZXMKPiA+Pj4gbG9uZ2VyIHRoYW4gd2hhdCBwcmVlbXB0aW5nIGFuIGlkbGUg
+cmluZyBzaG91bGQgdGFrZSAoYmVjYXVzZSB0aGF0Cj4gPj4+IHdvdWxkIGluZGljYXRlIGJyb2tl
+bi9ldmlsIHVzZXJzcGFjZSkuCj4gPj4gSSB0aGluayB5b3UgaGF2ZSB0aGUgd3JvbmcgZXhwZWN0
+YXRpb24gaGVyZS4gSXQgaXMgcGVyZmVjdGx5IHZhbGlkIGFuZAo+ID4+IGV4cGVjdGVkIGZvciB1
+c2Vyc3BhY2UgdG8ga2VlcCB3cml0aW5nIGNvbW1hbmRzIGludG8gdGhlIHJpbmcgYnVmZmVyLgo+
+ID4+Cj4gPj4gQWZ0ZXIgYWxsIHdoZW4gb25lIGZyYW1lIGlzIGNvbXBsZXRlZCB0aGV5IHdhbnQg
+dG8gaW1tZWRpYXRlbHkgc3RhcnQKPiA+PiByZW5kZXJpbmcgdGhlIG5leHQgb25lLgo+ID4gU3Vy
+ZSwgZm9yIHRoZSB0cnVlIHVzZXJzcGFjZSBkaXJlY3Qgc3VibWl0IG1vZGVsLiBCdXQgd2l0aCB0
+aGF0IHlvdSBkb24ndAo+ID4gZ2V0IGRtYS1mZW5jZSwgd2hpY2ggbWVhbnMgdGhpcyBncHUgd2ls
+bCBub3Qgd29yayBmb3IgM2QgYWNjZWwgb24gYW55Cj4gPiBjdXJyZW50IGxpbnV4IGRlc2t0b3Au
+Cj4KPiBJJ20gbm90IHN1cmUgb2YgdGhhdC4gSSd2ZSBsb29rZWQgYSBiaXQgaW50byBob3cgd2Ug
+Y291bGQgYWRkIHVzZXIKPiBmZW5jZXMgdG8gZG1hX3Jlc3Ygb2JqZWN0cyBhbmQgdGhhdCBpc24n
+dCB0aGF0IGhhcmQgYWZ0ZXIgYWxsLgoKSSB0aGluayBhcyBhIHByb29mIG9mIGNvbmNlcHQgaXQn
+cyBmaW5lLCBidXQgYXMgYW4gYWN0dWFsIHNvbHV0aW9uIC4uLgpwbHMgbm8uIFR3byByZWFzb25z
+OgotIGltcGxpY2l0IHN5bmMgaXMgYmFkCi0gdGhpcyBkb2Vzbid0IGZpeCBhbnl0aGluZyBmb3Ig
+ZXhwbGljaXQgc3luYyB1c2luZyBkbWFfZmVuY2UgaW4gdGVybXMKb2Ygc3luY19maWxlIG9yIGRy
+bV9zeW5jb2JqLgoKU28gaWYgd2UgZ28gd2l0aCB0aGUgcm91dGUgb2YgcGFwZXJpbmcgb3ZlciB0
+aGlzIGluIHRoZSBrZXJuZWwsIHRoZW4KaXQnbGwgYmUgYSB0b24gbW9yZSB3b3JrIHRoYW4ganVz
+dCBoYWNraW5nIHNvbWV0aGluZyBpbnRvIGRtYV9yZXN2LgoKPiA+IFdoaWNoIHN1Y2tzLCBoZW5j
+ZSBzb21lIGh5YnJpZCBtb2RlbCBvZiB1c2luZyB0aGUgdXNlcnNwYWNlIHJpbmcgYW5kCj4gPiBr
+ZXJuZWwgYXVnbWVudGVkIHN1Ym1pdCBpcyBuZWVkZWQuIFdoaWNoIHdhcyBteSBpZGVhLgo+Cj4g
+WWVhaCwgSSB0aGluayB3aGVuIG91ciBmaXJtd2FyZSBmb2xrcyB3b3VsZCByZWFsbHkgcmVtb3Zl
+IHRoZSBrZXJuZWwKPiBxdWV1ZSBhbmQgd2Ugc3RpbGwgZG9uJ3QgaGF2ZQoKWWVhaCBJIHRoaW5r
+IGtlcm5lbCBxdWV1ZSBjYW4gYmUgcmVtb3ZlZC4gQnV0IHRoZSBwcmljZSBpcyB0aGF0IHlvdQpu
+ZWVkIHJlYXNvbmFibGUgZmFzdCBwcmVlbXB0IG9mIGlkbGUgY29udGV4dHMuCgpJIHJlYWxseSBj
+YW4ndCB1bmRlcnN0YW5kIGhvdyB0aGlzIGNhbiB0YWtlIG11bHRpcGxlIG1zLCBzb21ldGhpbmcK
+ZmVlbHMgdmVyeSBicm9rZW4gaW4gdGhlIGRlc2lnbiBvZiB0aGUgZncgKHNpbmNlIG9idmlvdXNs
+eSB0aGUgaHcgY2FuCnByZWVtcHQgYW4gaWRsZSBjb250ZXh0IHRvIGFub3RoZXIgb25lIHByZXR0
+eSBmYXN0LCBvciB5b3UnZCByZW5kZXIKYW55IG11bHRpLWNsaWVudCBkZXNrdG9wIGFzIGEgc2xp
+ZGVzaG93IGF0IGJlc3QpLgoKPiA+Cj4gPj4gW1NOSVBdCj4gPj4gQ2FuJ3QgZmluZCB0aGF0IG9m
+IGhhbmQgZWl0aGVyLCBidXQgc2VlIHRoZSBhbWRncHVfbm9yZXRyeSBtb2R1bGUgb3B0aW9uLgo+
+ID4+Cj4gPj4gSXQgYmFzaWNhbGx5IHRlbGxzIHRoZSBoYXJkd2FyZSBpZiByZXRyeSBwYWdlIGZh
+dWx0cyBzaG91bGQgYmUgc3VwcG9ydGVkIG9yCj4gPj4gbm90IGJlY2F1c2UgdGhpcyB3aG9sZSBU
+TEIgc2h1dGRvd24gdGhpbmcgd2hlbiB0aGV5IGFyZSBzdXBwb3J0ZWQgaXMKPiA+PiBleHRyZW1l
+bHkgY29zdGx5Lgo+ID4gSG0gc28gc3luY2hyb25vdXMgdGxiIHNob290ZG93biBpcyBhIGxvdCBt
+b3JlIGNvc3RseSB3aGVuIHlvdSBhbGxvdwo+ID4gcmV0cnlpbmcgb2YgcGFnZSBmYXVsdHM/Cj4K
+PiBQYXJ0aWFsbHkgY29ycmVjdCwgeWVzLgo+Cj4gU2VlIHdoZW4geW91IGhhdmUgcmV0cnkgcGFn
+ZSBmYXVsdHMgZW5hYmxlZCBhbmQgdW5tYXAgc29tZXRoaW5nIHlvdSBuZWVkCj4gdG8gbWFrZSBz
+dXJlIHRoYXQgZXZlcnlib2R5IHdoaWNoIGNvdWxkIGhhdmUgcG90ZW50aWFsbHkgdHJhbnNsYXRl
+ZCB0aGF0Cj4gcGFnZSBhbmQgaGFzIGEgVExCIGlzIGVpdGhlciBpbnZhbGlkYXRlZCBvciB3YWl0
+ZWQgdW50aWwgdGhlIGFjY2VzcyBpcwo+IGNvbXBsZXRlZC4KPgo+IFNpbmNlIGV2ZXJ5IENVIGNv
+dWxkIGJlIHVzaW5nIGEgbWVtb3J5IGxvY2F0aW9uIHRoYXQgdGFrZXMgYWdlcyB0bwo+IGNvbXBs
+ZXRlZCBjb21wYXJlZCB0byB0aGUgbm9ybWFsIGludmFsaWRhdGlvbiB3aGVyZSB5b3UganVzdCBp
+bnZhbGlkYXRlCj4gdGhlIEwxL0wyIGFuZCBhcmUgZG9uZS4KPgo+IEFkZGl0aW9uYWwgdG8gdGhh
+dCB0aGUgcmVjb3ZlcnkgYWRkcyBzb21lIGV4dHJhIG92ZXJoZWFkIHRvIGV2ZXJ5IG1lbW9yeQo+
+IGFjY2Vzcywgc28gZXZlbiB3aXRob3V0IGEgZmF1bHQgeW91IGFyZSBxdWl0ZSBhIGJpdCBzbG93
+ZXIgaWYgdGhpcyBpcwo+IGVuYWJsZWQuCgpXZWxsIHllcyBpdCdzIGNvbXBsaWNhdGVkLCBhbmQg
+aXQncyBldmVuIG1vcmUgZnVuIHdoZW4gdGhlIHRsYgppbnZhbGlkYXRlIGNvbWVzIGluIHRocm91
+Z2ggdGhlIElPTU1VIHRocm91Z2ggQVRTLgoKQnV0IGFsc28gaWYgeW91IGRvbid0IHlvdXIgaHcg
+aXMganVzdCBicm9rZW4gZnJvbSBhIHNlY3VyaXR5IHBvdiwgbm8KcGFnZSBmYXVsdCBoYW5kbGlu
+ZyBmb3IgeW91LiBTbyBpdCdzIHJlYWxseSBub3Qgb3B0aW9uYWwuCgo+ID4gVGhhdCBzb3VuZHMg
+YmFkLCBiZWNhdXNlIGZvciBmdWxsIGhtbSBtb2RlIHlvdSBuZWVkIHRvIGJlIGFibGUgdG8gcmV0
+cnkKPiA+IHBhZ2VmYXVsdHMuIFdlbGwgYXQgbGVhc3QgdGhlIFBBU0lEL0FUUy9JT01NVSBzaWRl
+IHdpbGwgZG8gdGhhdCwgYW5kIG1pZ2h0IGp1c3QKPiA+IGhhbmcgeW91ciBncHUgZm9yIGEgbG9u
+ZyB0aW1lIHdoaWxlIGl0J3Mgd2FpdGluZyBmb3IgdGhlIHZhLT5wYSBsb29rdXAKPiA+IHJlc3Bv
+bnNlIHRvIHJldHVybi4gU28gcmV0cnlpbmcgbG9va3VwcyBzaG91bGRuJ3QgYmUgYW55IGRpZmZl
+cmVudCByZWFsbHkuCj4gPgo+ID4gQW5kIHlvdSBhbHNvIG5lZWQgZmFpcmx5IGZhc3Qgc3luY2hy
+b25vdXMgdGxiIHNob290ZG93biBmb3IgaG1tLiBTbyBpZgo+ID4geW91ciBodyBoYXMgYSBwcm9i
+bGVtIHdpdGggYm90aCB0b2dldGhlciB0aGF0IHNvdW5kcyBiYWQuCj4KPiBDb21wbGV0ZWx5IGFn
+cmVlLiBBbmQgc2luY2UgaXQgd2FzIG15IGpvYiB0byB2YWxpZGF0ZSB0aGUgaW1wbGVtZW50YXRp
+b24KPiBvbiBWZWdhMTAgSSB3YXMgYWxzbyB0aGUgZmlyc3Qgb25lIHRvIHJlYWxpemUgdGhhdC4K
+Pgo+IEZlbGl4LCBhIGNvdXBsZSBvZiBvdGhlcnMgYW5kIG1lIGFyZSB0cnlpbmcgdG8gd29yayBh
+cm91bmQgdGhvc2UKPiByZXN0cmljdGlvbnMgZXZlciBzaW5jZS4KPgo+ID4gSSB3YXMgbW9yZSB0
+aGlua2luZyBhYm91dCBoYW5kbGluZyBpdCBhbGwgaW4gdGhlIGtlcm5lbC4KPiA+IFllYWggY2Fu
+IGRvLCBqdXN0IG1lYW5zIHRoYXQgeW91IGFsc28gaGF2ZSB0byBjb3B5IHRoZSByaW5nYnVmZmVy
+IHN0dWZmCj4gPiBvdmVyIGZyb20gdXNlcnNwYWNlIHRvIHRoZSBrZXJuZWwuCj4KPiBUaGF0IGlz
+IG15IGxlYXN0IHdvcnJ5LiBUaGUgSUJzIGFyZSBqdXN0IGFkZHIrbGVuZ3RoLiwgc28gbm8gbW9y
+ZSB0aGFuCj4gMTYgYnl0ZXMgZm9yIGVhY2ggSUIuCgpBaCBvaywgbWF5YmUgSSdtIGJpYXNlZCBm
+cm9tIGRybS9pOTE1IHdoZXJlIGFuIGliIGxhdW5jaCArIHNlcW5vIGlzCnJhdGhlciBsb25nLCBi
+ZWNhdXNlIHRoZSBodyBmb2xrcyBrZWVwIHBpbGluZyBtb3JlIHdvcmthcm91bmRzIGFuZAphZGRp
+dGlvbmFsIGZsdXNoZXMgb24gdG9wLiBMaWtlIG9uIHNvbWUgaHcgdGhlIHJlY29tbWVuZGVkIHcv
+YSB3YXMgdG8KanVzdCBpc3N1ZSAzMiBncHUgY2FjaGUgZmx1c2hlcyBvciBzb21ldGhpbmcgbGlr
+ZSB0aGF0IChvdGhlcndpc2UgdGhlCnNlcW5vIHdyaXRlIGNvdWxkIGFycml2ZSBiZWZvcmUgdGhl
+IGdwdSBhY3R1YWxseSBmaW5pc2hlZCBmbHVzaGluZykKOi0vCgpDaGVlcnMsIERhbmllbAoKPiA+
+IEl0IGFsc28gbWVhbnMgdGhhdCB0aGVyZSdzIG1vcmUgZGlmZmVyZW5jZXMgaW4gaG93IHlvdXIg
+dXNlcnNwYWNlIHdvcmtzCj4gPiBiZXR3ZWVuIGZ1bGwgdXNlcnNwYWNlIG1vZGUgKG5lY2Vzc2Fy
+eSBmb3IgY29tcHV0ZSkgYW5kIGxlZ2FjeSBkbWEtZmVuY2UKPiA+IG1vZGUgKG5lY2Vzc2FyeSBm
+b3IgZGVza3RvcCAzZCkuIFdoaWNoIGlzIGVzcGVjaWFsbHkgYmlnIGZ1biBmb3IgdnVsa2FuLAo+
+ID4gc2luY2UgdGhhdCB3aWxsIGhhdmUgdG8gZG8gYm90aC4KPgo+IFRoYXQgaXMgdGhlIGJpZ2dl
+ciBwcm9ibGVtLgo+Cj4gQ2hyaXN0aWFuLgo+Cj4gPgo+ID4gQnV0IHRoZW4gYW1kIGlzIHN0aWxs
+IGhhbmdpbmcgb250byB0aGUgYW1kZ3B1IHZzIGFtZGtmZCBzcGxpdCwgc28geW91J3JlCj4gPiBn
+b2luZyBmb3IgbWF4IHBhaW4gaW4gdGhpcyBhcmVhIGFueXdheSA6LVAKPiA+IC1EYW5pZWwKPgoK
+Ci0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpo
+dHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
