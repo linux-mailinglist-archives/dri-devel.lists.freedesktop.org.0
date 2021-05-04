@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883FD372C32
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 16:39:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0C4372C8E
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 16:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC1276EB15;
-	Tue,  4 May 2021 14:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 719076EB19;
+	Tue,  4 May 2021 14:52:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE0536EB15
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 14:39:17 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id m124so1804804pgm.13
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 07:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fJxUztk87HDlZdXytL1WDKfEHMztqMj95QbnZpVdIm8=;
- b=LXY7otbqzp7kKh/WGFZ2KREYsyxMjV+ElUKfdrO2x79Hqa3npPows9h2lsddQzIuH7
- ch//Xg+YKtwOVuI+LjH2KlgILE1GwyJSZ4YDx5SSeFddlp9AjxXwlDS0SaypGA/IsMBV
- LbXWj8uKfYK6vf1k1Cj+JYv3agBtKNMf9Kd9c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fJxUztk87HDlZdXytL1WDKfEHMztqMj95QbnZpVdIm8=;
- b=DX5cS3uHrU4QN8NHzcDfptKK2smv7iP2zJASEuTGa7NH0SPXK+3+T4BlqeSLtmR0xr
- 4wz4y+yMdP33IOQsbFZGhdbKmaFZ9hgfCHzcSpagboqeumXGXOOGGqF05v2XjJ6PccGo
- gLim9Lhjmwhh/PhzOQ0YUWSXVzA4KsxKww7gG+PQzLZVFbJPLILuuX5rT4yBd6KKjODX
- 87Wl361kRAAad0ls4AwDtDVzhzWTxIFuDqpxhpCSpwFdlv7+XdtEgJi5nqu8YNSGFxiZ
- hoazU46xshJwTCCEVvAOh9PRVZU8DInaYzH1p81Rc9dfBvCJa7COIkausbFo/lTf4woO
- 5Dzw==
-X-Gm-Message-State: AOAM533YY4eEtVHWq7DZyQWEpndV7QgBUGHNh7gtvW7zAqQMEGQ5XUu5
- pasVgf6QpnASUHIWMskptCvJYg==
-X-Google-Smtp-Source: ABdhPJw7Jmt/AjPrttnmGcoLR0aC0LG87RUcyje7PjcMVtIZ+7a1Xg0Vhkc7A8l0u/emqKYNa4+E7g==
-X-Received: by 2002:a62:3892:0:b029:250:4fac:7e30 with SMTP id
- f140-20020a6238920000b02902504fac7e30mr24502740pfa.81.1620139157421; 
- Tue, 04 May 2021 07:39:17 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:a592:ac50:b17b:5c43])
- by smtp.gmail.com with ESMTPSA id c6sm3948908pjs.11.2021.05.04.07.39.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 07:39:17 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH] drm/bridge: ti-sn65dsi86: Remove __exit from GPIO sub-driver
- remove helper
-Date: Tue,  4 May 2021 07:38:54 -0700
-Message-Id: <20210504073845.1.Ibf4194f4252846edaa0c6a6c7b86588f75ad5529@changeid>
-X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAEF46EB18;
+ Tue,  4 May 2021 14:52:46 +0000 (UTC)
+IronPort-SDR: 2FwWEaRAuYXWlAQnBIhebDW2RHZETqmZ/OUiqT7W7DSFnoBENGui1hyQ/GQYEG4SSHL0jzKW7e
+ BMaVo9Ou2KOg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="185464133"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="185464133"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2021 07:52:45 -0700
+IronPort-SDR: vU+uxj5bo8hDLN6NcpjGw6Pky+yuJ7aER+QDsY62qHxO4ixpBbwju6LlsRENQoKe/I1++IH5Mj
+ l8zTA6jmHa8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="531087248"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+ by fmsmga001.fm.intel.com with SMTP; 04 May 2021 07:52:40 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Tue, 04 May 2021 17:52:40 +0300
+Date: Tue, 4 May 2021 17:52:40 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 4/9] drm/connector: Add support for out-of-band hotplug
+ notification
+Message-ID: <YJFfuF3UGP0TZrVw@kuha.fi.intel.com>
+References: <20210428215257.500088-1-hdegoede@redhat.com>
+ <20210428215257.500088-5-hdegoede@redhat.com>
+ <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
+ <00e380b2-0376-0ddb-9b0e-342779b7fc06@redhat.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <00e380b2-0376-0ddb-9b0e-342779b7fc06@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,46 +52,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- kernel test robot <lkp@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>, Steev Klimaszewski <steev@kali.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Robert Foss <robert.foss@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ platform-driver-x86@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ti_sn_gpio_unregister() is not just called from the remove path
-but also from the error handling of the init path. That means it can't
-have the __exit annotation.
+On Mon, May 03, 2021 at 04:35:29PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 5/3/21 10:00 AM, Heikki Krogerus wrote:
+> > Hi Hans,
+> > 
+> > On Wed, Apr 28, 2021 at 11:52:52PM +0200, Hans de Goede wrote:
+> >> +/**
+> >> + * struct drm_connector_oob_hotplug_event_data: OOB hotplug event data
+> >> + *
+> >> + * Contains data about out-of-band hotplug events, signalled through
+> >> + * drm_connector_oob_hotplug_event().
+> >> + */
+> >> +struct drm_connector_oob_hotplug_event_data {
+> >> +	/**
+> >> +	 * @connected: New connected status for the connector.
+> >> +	 */
+> >> +	bool connected;
+> >> +	/**
+> >> +	 * @dp_lanes: Number of available displayport lanes, 0 if unknown.
+> >> +	 */
+> >> +	int dp_lanes;
+> >> +	/**
+> >> +	 * @orientation: Connector orientation.
+> >> +	 */
+> >> +	enum typec_orientation orientation;
+> >> +};
+> > 
+> > I don't think the orientation is relevant. It will always be "normal"
+> > from DP PoW after muxing, no?
+> 
+> That is what I thought to, but during the discussion of my previous attempt
+> at this one of the i915 devs mentioned that in some cases the muxes manage
+> to swap the lane order when the connector upside-down and at least the
+> Intel GPUs can correct for this on the GPU side, so they asked for this
+> info to be included.
+> 
+> > I'm also not sure those deatils are enough in the long run. Based on
+> > what I've understood from our graphics team guys, for example knowing
+> > if multi-function is preferred may be important in some cases.
+> 
+> The current data being passed is just intended as a starting point,
+> this is purely a kernel internal API so we can easily add more
+> data to the struct. As I mentioned in the cover-letter the current
+> oob_hotplug handler which the i915 patch adds to the i915 driver does
+> not actually do anything with the data.  ATM it is purely there to
+> demonstrate that the ability to pass relevant data is there now
+> (which was an issue with the previous attempt). I believe the current
+> code is fine as a PoC of "pass event data" once GPU drivers actually
+> start doing something with the data we can extend or outright replace
+> it without issues.
 
-Fixes: bf73537f411b ("drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into sub-drivers")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+Ah, if there is nothing using that information yet, then just don't
+pass it at all for now. As you said, it's kernel internal API, we can
+change it later if needed.
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> > All of that, and more, is already available in the Configuration VDO
+> > Status VDO that the we have negotiated with the DP partner. Both those
+> > VDOs are part of struct typec_displayport_data. I think we should
+> > simply supply that structure to the DRM code instead of picking those
+> > details out of it...
+> 
+> I'm not sure I like the idea of passing the raw VDO, but if the
+> DRM folks think that would be useful we can certainly add it.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index db027528febd..bb0a0e1c6341 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1251,7 +1251,7 @@ static int __init ti_sn_gpio_register(void)
- 	return auxiliary_driver_register(&ti_sn_gpio_driver);
- }
- 
--static void __exit ti_sn_gpio_unregister(void)
-+static void ti_sn_gpio_unregister(void)
- {
- 	auxiliary_driver_unregister(&ti_sn_gpio_driver);
- }
+Why are you against passing all the data that we have? What is the
+benefit in picking only certain details out of an object that has a
+standard format, and constructing a customised object for those
+details instead?
+
+
+thanks,
+
 -- 
-2.31.1.527.g47e6f16901-goog
-
+heikki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
