@@ -2,75 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56773724A9
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 05:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CAE3724D5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 06:12:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4B76EA6D;
-	Tue,  4 May 2021 03:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41C226EA77;
+	Tue,  4 May 2021 04:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B16906E14C;
- Tue,  4 May 2021 03:11:44 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id c17so6026016pfn.6;
- Mon, 03 May 2021 20:11:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=am07RvvaVgK6wTF+4xKIa818Kn9uY7M3f/X8YQ3rD+s=;
- b=oFzAy7BuyEITNWaDtqSdMxxVG7UNMSiwTaijt9LZ5JYakd7UdWaLIlx1BpYb2ErKtl
- iCY/iBaR/cEHeMcL+RvJEGaF/ZbdSrrt+PuO73X0vkbpHVWKLy0o8MzFdM3RsKdOIRb4
- /zak8qN1lGVCu3y52VgWWWM5Naw/vfEzl5Qm1W+qRjxz+TAIUtakTqttPGnoQN+FFSFJ
- 9SJ9YEsrCl8YzaGkNUYhKY477eOwYdK7g/wgWmpj7ua7CBzjxmTtyCr1uqxoDrq68yfm
- asrToAF3fG+ViStPF60eOlfMgZyeCjEfunz66F6c5d33Rt7eHGy/De2Fg1Vie14TzDpp
- dpJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=am07RvvaVgK6wTF+4xKIa818Kn9uY7M3f/X8YQ3rD+s=;
- b=fj8tAwa2CseuM9WHS2gw7eSK5NekmYL/EdNlUp8YlGpE3ZfS/LJDcR7oZcOUtJFK43
- wmzChIC77/5kXYoPqonIvSnIj9ngZ+88/d92ZtpTGx4f3kplkfWQLzLKI2/Vce/gmIRr
- s+YTXLN6RmeKme7uBKHvqdr3AGyOW8rrWbs13pl/bWsIlRTXhOyArPlBevlEY3PaxP4T
- L8OEvXdpfFLGmeMInj6VA+epUs1B9W3onxLsqe+TB59517ld1N8zoMRIounXlK3ut2Px
- dqnoYQ6KSm4l8pfSN7LFNOsy+waPW5de/GzPIe8sGutoIGNV8RD/gBw4hgMrHjF4mwW8
- ZSNA==
-X-Gm-Message-State: AOAM533obia+OaqvxDzdBP5BOZ62fLdX2mHFlhDOHP4IaqqEzeOMZPix
- bCaUZRYCc/BoxhsO21Qrhz3/b1QDQLOvhpyis3w=
-X-Google-Smtp-Source: ABdhPJxsUThJmpnWLkE/rEIS8kJCkm6R+ejnGaSdC2NOATQXFEi5/Bcbx1vxtntNLuquF2c7iAWnwW6mpBNh7BYRvto=
-X-Received: by 2002:a62:7d07:0:b029:21b:d1bc:f6c8 with SMTP id
- y7-20020a627d070000b029021bd1bcf6c8mr21858578pfc.45.1620097904186; Mon, 03
- May 2021 20:11:44 -0700 (PDT)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2043.outbound.protection.outlook.com [40.107.21.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C83F16EA77
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 04:12:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UD5xIEfmK06jU+REbk5/Nn0PJsm8jJUMcRuBCD0GxqRVGE7STVzHlfJgWvnCmEpWO/4vjXqH1rNPFOEr8k04TOaZq4gF5YqitFK/tzqqG3gNgvTmCdMtNcvDYRYi4ugJQrohrtA0BuUjf5KzqTeUVUEHOl3Ve75d+5FuwtDrBd4uHie5cmT2EurIHuF6ij0NbUjzyUlu3joGwssyFLeoQssEkaJYdUa/cwnUBnd2yjZyoNC6sYLoi3f3CIKPgQ3J7HWqvVZLByKTNcEqie+/4iKCjjy64WIiITxZfQvbKKDkrHiWrduNls22aeiVF2/DEtn6ObbjiZtb5IwP8UcYKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dPEJ/lG8JU2bVyaakuHpugrhFip501JmG2op396PoF0=;
+ b=HiKeo0rKoTGbCQ7MBEhKRswwiyr3b6eSpmR30h0ffa0KXqcruF3sl+UX6MV9aefrFR25mhNI1BCc2G0g+WJw/JJ53mRW1BCUkBFGP3POLgu4RFC4wqX8/SkWBb00zJx/kOuMOMkLtGfZWIbogv3NBZivQ/WvB45gXm+2/h+ZTOts825AbmAWVs2Q4zbnruoyCpvcvY37IV4QDSSa6eBFjDTCsioPSTY+XPK4TYomT7y5QUXrkx4E55/rDAiDuHd56mLOp724yb3soA2XdID1W4Ee4IEsORfJ3d4DLKuGGkaNxHKkU5UIQ1q59BTKvWlQ7SC57/CRjdaZci2d9HZ3Sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dPEJ/lG8JU2bVyaakuHpugrhFip501JmG2op396PoF0=;
+ b=Zvdc7++YtBsB+4kJo+uICyabU4/ZaIrjypeGs4fTspKN3jAlX17dWtNoSjsR212jC637tZmjSSrikjfitLVoAoZBzoS2VZT37zrOkiwWfMgoq+lSa23W6P4cO0UJZFBU7l2k686cypmA5yMrMwN7hgiDlrIVMX5T8d2NB0Mb/ak=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AM6PR04MB5703.eurprd04.prod.outlook.com (2603:10a6:20b:a3::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.38; Tue, 4 May
+ 2021 04:12:51 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::20f0:2b28:70c3:fb0]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::20f0:2b28:70c3:fb0%4]) with mapi id 15.20.4087.044; Tue, 4 May 2021
+ 04:12:51 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] MAINTAINERS: Fix file name for simple framebuffers' drm driver
+Date: Tue,  4 May 2021 11:56:51 +0800
+Message-Id: <1620100611-30978-1-git-send-email-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: HK2PR04CA0090.apcprd04.prod.outlook.com
+ (2603:1096:202:15::34) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
- <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
- <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
- <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
- <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
- <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
- <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
- <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
- <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
- <YIfFC3YST0cfzd3l@phenom.ffwll.local>
- <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
- <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
- <CAPM=9tzz2u_qUXU9LMvtH_NDr1_wzunPo7Mt6NkrwAuowWTp7Q@mail.gmail.com>
- <CAAxE2A55Te6DjabYH8ELyfM03x2ZDaLsCsNC4Zqkrq0ExdpeHA@mail.gmail.com>
- <153487a3-082b-faf7-2a4d-ae15993b2a5d@gmail.com>
- <d6fbc1a3-ee69-d53e-0a60-9a313be19cac@daenzer.net>
- <CAAxE2A5V2YPRnPSue6cjsMWiWHoabmBiFEAsPXykO5-CCyunwQ@mail.gmail.com>
- <CADnq5_N7Wi0qzMmyVMY_PqM=BBF8mH7o1jcGRYNYB-StsM4uOA@mail.gmail.com>
- <CAOFGe961tB38dE=gzte4OTGNMOpUsW2ikrB03+t=eh4pDYFh5g@mail.gmail.com>
- <CAP+8YyGkP2n9v2mJM5UH4NJrA6bE9+2Bgs1-6HrPPPMCrFz9dw@mail.gmail.com>
- <CAOFGe94JAO0OBiiwp8+hd=XCsrGLA1fVxqxePtPdHFg+YBB0dg@mail.gmail.com>
- <CAAxE2A50Lg+ehW3LSiTnvGRqHTR8tW77V7wES1PaCnbHVkzMug@mail.gmail.com>
-In-Reply-To: <CAAxE2A50Lg+ehW3LSiTnvGRqHTR8tW77V7wES1PaCnbHVkzMug@mail.gmail.com>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Mon, 3 May 2021 23:11:07 -0400
-Message-ID: <CAAxE2A6NCTFsV6oH=AL=S=P1p0xYF0To8T_THpUO2ypdo0dyBw@mail.gmail.com>
-Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
- and no BO fences - initial proposal
-To: Jason Ekstrand <jason@jlekstrand.net>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (119.31.174.66) by
+ HK2PR04CA0090.apcprd04.prod.outlook.com (2603:1096:202:15::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.20.4087.44 via Frontend Transport; Tue, 4 May 2021 04:12:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9b7a4306-35b6-45f2-954f-08d90eb2e221
+X-MS-TrafficTypeDiagnostic: AM6PR04MB5703:
+X-Microsoft-Antispam-PRVS: <AM6PR04MB570354D16A628C3BFAF16068985A9@AM6PR04MB5703.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nliwRr8DwSESFWo/6P/1MIqnBT6hyouM+6jeacGa4/p/vzsABDVzpWFSwvgrFBSNYSmuD7jJFJdjIl1O/97X7VTqdWGswvVRoCyXn9A71LSf8Z4HjyX3BE48/ruYV2Luy0P5QZYPtvWJTs9D9bQoN3KYpvrxW7Mg3QNxDbQkbhTAXJeibptzmdXhx2VTvWjKb01U/FmIbDk6+nWO9L309j6/kMXEbcrAveLwtE7HAv2F0lJ3ngrufzD/O2FdG5yw/MKwCbez4BszScNCyHneKF05na+LHNcP01PasBtwlhLItNwKteQjaoEoN+MdIvYgvsjyZF04OocCP111Qa4Lgn4DgOwXZAqMbFYP7mprar3ryCMdG/zNJf4p0dDgPNFSPLefm0QTWjL4qn92A3sjOCisnSMzAcMdzvpk2jpEXGm1iNUuMjKou1qbXxbYnnNdkz/tIXFQxYV3YCbCyLErt7FfZpzcoqrTWoCAGzQAEHjXiOdy6taLDTtZU/8LKxI4EOgvbCcSwiPPNu2IRD6tAnRweGOP223e24WGhgWqnafHfZs2YeiUgPArW0ReJelv2dvY0FFEJGV9czm/Xg+dg9izW03eswofiXcrG4WxRYcS/HRfM+kLRz5eIJPu5dKtTzOHqmSJ2OO4gyl7Wh67Ws3zAv5WweBn8E2iXa8h3pIzdnJJNUFGPWX+yT29vP9d
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(396003)(39860400002)(136003)(366004)(5660300002)(8936002)(6486002)(38100700002)(8676002)(38350700002)(316002)(83380400001)(4744005)(36756003)(956004)(6512007)(478600001)(66946007)(26005)(6666004)(66476007)(6506007)(4326008)(66556008)(52116002)(86362001)(16526019)(2616005)(2906002)(186003)(69590400013);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?w76mClu1AQoLB4elqi+JccSW2Wfk1F+GOGsijORK96k58aUA/Ng/iF2Ei9dt?=
+ =?us-ascii?Q?pi/4D19GD299BVw7c7tjhWAvuffXzpggH9iHXYxltWDj2CyoRVlv97bIcyfV?=
+ =?us-ascii?Q?D4RUOTA6k26Ll2aCxx+s6S5Cez02482QY4R67Rhd5F8wqkTRQ4+ZwU5bPTqH?=
+ =?us-ascii?Q?vUUkgNitjmzizpnC5f0Q7Q8x0FuLSxDcFwjvW5ZWyBLx9+Ea/zHsIlE7Mpts?=
+ =?us-ascii?Q?mRzCb4rzbHjlxDC9zsGIVPqO/WZXuhp2dO49btKECH89aTnIxqyatr3BSkoI?=
+ =?us-ascii?Q?pprhZWYi9O5CDRew1fDMUvu/QbmFI0uk7GRACHinMVK/lZhjccJSDnUvxx6O?=
+ =?us-ascii?Q?BJ3OvdaR6FiO+x6nFZzbY92JteOpbLA0OWM/U3a3GCM4mMOIlIt8F18dJ6L9?=
+ =?us-ascii?Q?8uXID1ftzJWN1CZ6blUp+L+wRRvDFOYv603fJq7EWH1Iu9dh/jtltFMOlr1Q?=
+ =?us-ascii?Q?5yOxZULUVaCNZQjL1/XoZZ5r6uOi1DL7zC9FfZlCxFb4AJbeKuB6qK4VWMRU?=
+ =?us-ascii?Q?8SQ+2ZDS+SxmvkQ9JdyI8osPDkr+Yp/DWnJg9KHCwM2/xBAO1rW80/Uyx3Cv?=
+ =?us-ascii?Q?so7J8a/zji1mL1/TWrzXB06vGhgfWzptJebq8CYjlrydsHFz9J5s7mLtnr4W?=
+ =?us-ascii?Q?lTyPaQpPY2r1+j5e/6R2oHtq7InIOTEUoa5vMdj5n9phYhL6j/ylYDOKKGYn?=
+ =?us-ascii?Q?WeJpT0ndMISf+gHn32wGxpTn8v45diRzHwrKRxikrndRW1WTQCGqtOiVmFcr?=
+ =?us-ascii?Q?NIcaWbTDF0Hts51/6Kr1776rYDvaelL7xzJLDN7ock+vjTHo9fpQNNDB7uX0?=
+ =?us-ascii?Q?aDIb4r6DXc4gML6ap6UZdawmGuiN5KH56GVGK3fJK2su7UbGepe08ftPHfv3?=
+ =?us-ascii?Q?rBgT+/ezKHAIVP3uerKMKIhHyKhPjgl9Q3XD6CIwYtsV0iiw+B2vld+yoGw6?=
+ =?us-ascii?Q?j2f6IAbQq/jdfE7tvqTdz+kF0/DZ2G+aWGV4oVycRDS5FwpZGvSMBGLuPULn?=
+ =?us-ascii?Q?5ZWpMCc5y/1X6W6CAZs24z+U2a4g0ABXpQq8m5/13+fz4QBedBwyiQkY2Wi9?=
+ =?us-ascii?Q?4f6MOgImJwbZejX7iMR6JK9XCf0kv7kP1gmAFns4ywQl3AwgI43km8GM98T2?=
+ =?us-ascii?Q?fRCKuKd9TPISYsckJsKoNbDx6orYlgWu+gSR9/RBPzLJZG2npWgARzJ4aw51?=
+ =?us-ascii?Q?BbR82HdJwRtR5vwR0rX4a5gP75TP+e6i4Z4IDp1eCGqlmn5XGyglSEOoYCpB?=
+ =?us-ascii?Q?gihO1GyrrT2/WyIzjIpbNhKH44sEivsU8j7Veo4VdAkgC+I9Wud0boZv8sF4?=
+ =?us-ascii?Q?hcDL8veLA0BKez8whFRG+L5l?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b7a4306-35b6-45f2-954f-08d90eb2e221
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2021 04:12:51.4387 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YULqSssWRGoDESMbDiKNgsew4VSt52/4StfKu+TR0nxTrDHTyoqNVBGypgXsop1IA5bWSApXBl3GxP5kuxwGLg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5703
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,549 +112,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============2036749279=="
+Cc: tzimmermann@suse.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2036749279==
-Content-Type: multipart/alternative; boundary="00000000000014999205c17870cd"
+The file name for simple framebuffers' drm driver should be
+'simpledrm.c' rather than 'simplekms.c'. This patch fixes it.
 
---00000000000014999205c17870cd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Proposal for a new CS ioctl, kernel pseudo code:
-
-lock(&global_lock);
-serial =3D get_next_serial(dev);
-add_wait_command(ring, serial - 1);
-add_exec_cmdbuf(ring, user_cmdbuf);
-add_signal_command(ring, serial);
-*ring->doorbell =3D FIRE;
-unlock(&global_lock);
-
-See? Just like userspace submit, but in the kernel without
-concurrency/preemption. Is this now safe enough for dma_fence?
-
-Marek
-
-On Mon, May 3, 2021 at 4:36 PM Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wro=
-te:
-
-> What about direct submit from the kernel where the process still has writ=
-e
-> access to the GPU ring buffer but doesn't use it? I think that solves you=
-r
-> preemption example, but leaves a potential backdoor for a process to
-> overwrite the signal commands, which shouldn't be a problem since we are =
-OK
-> with timeouts.
->
-> Marek
->
-> On Mon, May 3, 2021 at 11:23 AM Jason Ekstrand <jason@jlekstrand.net>
-> wrote:
->
->> On Mon, May 3, 2021 at 10:16 AM Bas Nieuwenhuizen
->> <bas@basnieuwenhuizen.nl> wrote:
->> >
->> > On Mon, May 3, 2021 at 5:00 PM Jason Ekstrand <jason@jlekstrand.net>
->> wrote:
->> > >
->> > > Sorry for the top-post but there's no good thing to reply to here...
->> > >
->> > > One of the things pointed out to me recently by Daniel Vetter that I
->> > > didn't fully understand before is that dma_buf has a very subtle
->> > > second requirement beyond finite time completion:  Nothing required
->> > > for signaling a dma-fence can allocate memory.  Why?  Because the ac=
-t
->> > > of allocating memory may wait on your dma-fence.  This, as it turns
->> > > out, is a massively more strict requirement than finite time
->> > > completion and, I think, throws out all of the proposals we have so
->> > > far.
->> > >
->> > > Take, for instance, Marek's proposal for userspace involvement with
->> > > dma-fence by asking the kernel for a next serial and the kernel
->> > > trusting userspace to signal it.  That doesn't work at all if
->> > > allocating memory to trigger a dma-fence can blow up.  There's simpl=
-y
->> > > no way for the kernel to trust userspace to not do ANYTHING which
->> > > might allocate memory.  I don't even think there's a way userspace c=
-an
->> > > trust itself there.  It also blows up my plan of moving the fences t=
-o
->> > > transition boundaries.
->> > >
->> > > Not sure where that leaves us.
->> >
->> > Honestly the more I look at things I think userspace-signalable fences
->> > with a timeout sound like they are a valid solution for these issues.
->> > Especially since (as has been mentioned countless times in this email
->> > thread) userspace already has a lot of ways to cause timeouts and or
->> > GPU hangs through GPU work already.
->> >
->> > Adding a timeout on the signaling side of a dma_fence would ensure:
->> >
->> > - The dma_fence signals in finite time
->> > -  If the timeout case does not allocate memory then memory allocation
->> > is not a blocker for signaling.
->> >
->> > Of course you lose the full dependency graph and we need to make sure
->> > garbage collection of fences works correctly when we have cycles.
->> > However, the latter sounds very doable and the first sounds like it is
->> > to some extent inevitable.
->> >
->> > I feel like I'm missing some requirement here given that we
->> > immediately went to much more complicated things but can't find it.
->> > Thoughts?
->>
->> Timeouts are sufficient to protect the kernel but they make the fences
->> unpredictable and unreliable from a userspace PoV.  One of the big
->> problems we face is that, once we expose a dma_fence to userspace,
->> we've allowed for some pretty crazy potential dependencies that
->> neither userspace nor the kernel can sort out.  Say you have marek's
->> "next serial, please" proposal and a multi-threaded application.
->> Between time time you ask the kernel for a serial and get a dma_fence
->> and submit the work to signal that serial, your process may get
->> preempted, something else shoved in which allocates memory, and then
->> we end up blocking on that dma_fence.  There's no way userspace can
->> predict and defend itself from that.
->>
->> So I think where that leaves us is that there is no safe place to
->> create a dma_fence except for inside the ioctl which submits the work
->> and only after any necessary memory has been allocated.  That's a
->> pretty stiff requirement.  We may still be able to interact with
->> userspace a bit more explicitly but I think it throws any notion of
->> userspace direct submit out the window.
->>
->> --Jason
->>
->>
->> > - Bas
->> > >
->> > > --Jason
->> > >
->> > > On Mon, May 3, 2021 at 9:42 AM Alex Deucher <alexdeucher@gmail.com>
->> wrote:
->> > > >
->> > > > On Sat, May 1, 2021 at 6:27 PM Marek Ol=C5=A1=C3=A1k <maraeo@gmail=
-.com>
->> wrote:
->> > > > >
->> > > > > On Wed, Apr 28, 2021 at 5:07 AM Michel D=C3=A4nzer <michel@daenz=
-er.net>
->> wrote:
->> > > > >>
->> > > > >> On 2021-04-28 8:59 a.m., Christian K=C3=B6nig wrote:
->> > > > >> > Hi Dave,
->> > > > >> >
->> > > > >> > Am 27.04.21 um 21:23 schrieb Marek Ol=C5=A1=C3=A1k:
->> > > > >> >> Supporting interop with any device is always possible. It
->> depends on which drivers we need to interoperate with and update them.
->> We've already found the path forward for amdgpu. We just need to find ou=
-t
->> how many other drivers need to be updated and evaluate the cost/benefit
->> aspect.
->> > > > >> >>
->> > > > >> >> Marek
->> > > > >> >>
->> > > > >> >> On Tue, Apr 27, 2021 at 2:38 PM Dave Airlie <
->> airlied@gmail.com <mailto:airlied@gmail.com>> wrote:
->> > > > >> >>
->> > > > >> >>     On Tue, 27 Apr 2021 at 22:06, Christian K=C3=B6nig
->> > > > >> >>     <ckoenig.leichtzumerken@gmail.com <mailto:
->> ckoenig.leichtzumerken@gmail.com>> wrote:
->> > > > >> >>     >
->> > > > >> >>     > Correct, we wouldn't have synchronization between
->> device with and without user queues any more.
->> > > > >> >>     >
->> > > > >> >>     > That could only be a problem for A+I Laptops.
->> > > > >> >>
->> > > > >> >>     Since I think you mentioned you'd only be enabling this
->> on newer
->> > > > >> >>     chipsets, won't it be a problem for A+A where one A is a
->> generation
->> > > > >> >>     behind the other?
->> > > > >> >>
->> > > > >> >
->> > > > >> > Crap, that is a good point as well.
->> > > > >> >
->> > > > >> >>
->> > > > >> >>     I'm not really liking where this is going btw, seems lik=
-e
->> a ill
->> > > > >> >>     thought out concept, if AMD is really going down the roa=
-d
->> of designing
->> > > > >> >>     hw that is currently Linux incompatible, you are going t=
-o
->> have to
->> > > > >> >>     accept a big part of the burden in bringing this support
->> in to more
->> > > > >> >>     than just amd drivers for upcoming generations of gpu.
->> > > > >> >>
->> > > > >> >
->> > > > >> > Well we don't really like that either, but we have no other
->> option as far as I can see.
->> > > > >>
->> > > > >> I don't really understand what "future hw may remove support fo=
-r
->> kernel queues" means exactly. While the per-context queues can be mapped=
- to
->> userspace directly, they don't *have* to be, do they? I.e. the kernel
->> driver should be able to either intercept userspace access to the queues=
-,
->> or in the worst case do it all itself, and provide the existing
->> synchronization semantics as needed?
->> > > > >>
->> > > > >> Surely there are resource limits for the per-context queues, so
->> the kernel driver needs to do some kind of virtualization / multi-plexin=
-g
->> anyway, or we'll get sad user faces when there's no queue available for
->> <current hot game>.
->> > > > >>
->> > > > >> I'm probably missing something though, awaiting enlightenment. =
-:)
->> > > > >
->> > > > >
->> > > > > The hw interface for userspace is that the ring buffer is mapped
->> to the process address space alongside a doorbell aperture (4K page) tha=
-t
->> isn't real memory, but when the CPU writes into it, it tells the hw
->> scheduler that there are new GPU commands in the ring buffer. Userspace
->> inserts all the wait, draw, and signal commands into the ring buffer and
->> then "rings" the doorbell. It's my understanding that the ring buffer an=
-d
->> the doorbell are always mapped in the same GPU address space as the
->> process, which makes it very difficult to emulate the current protected
->> ring buffers in the kernel. The VMID of the ring buffer is also not
->> changeable.
->> > > > >
->> > > >
->> > > > The doorbell does not have to be mapped into the process's GPU
->> virtual
->> > > > address space.  The CPU could write to it directly.  Mapping it in=
-to
->> > > > the GPU's virtual address space would allow you to have a device
->> kick
->> > > > off work however rather than the CPU.  E.g., the GPU could kick of=
-f
->> > > > it's own work or multiple devices could kick off work without CPU
->> > > > involvement.
->> > > >
->> > > > Alex
->> > > >
->> > > >
->> > > > > The hw scheduler doesn't do any synchronization and it doesn't
->> see any dependencies. It only chooses which queue to execute, so it's
->> really just a simple queue manager handling the virtualization aspect an=
-d
->> not much else.
->> > > > >
->> > > > > Marek
->> > > > > _______________________________________________
->> > > > > dri-devel mailing list
->> > > > > dri-devel@lists.freedesktop.org
->> > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->> > > > _______________________________________________
->> > > > mesa-dev mailing list
->> > > > mesa-dev@lists.freedesktop.org
->> > > > https://lists.freedesktop.org/mailman/listinfo/mesa-dev
->> > > _______________________________________________
->> > > dri-devel mailing list
->> > > dri-devel@lists.freedesktop.org
->> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
->
-
---00000000000014999205c17870cd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Proposal for a new CS ioctl, kernel pseudo code:</div=
-><div><br></div><div>lock(&amp;global_lock);</div><div>serial =3D get_next_=
-serial(dev);</div><div>add_wait_command(ring, serial - 1);</div><div>add_ex=
-ec_cmdbuf(ring, user_cmdbuf);</div><div>add_signal_command(ring, serial);</=
-div><div>*ring-&gt;doorbell =3D FIRE;<br></div><div>unlock(&amp;global_lock=
-);</div><div><br></div><div>See? Just like userspace submit, but in the ker=
-nel without concurrency/preemption. Is this now safe enough for dma_fence?<=
-br></div><div><br></div><div>Marek<br></div></div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 3, 2021 at 4:36 PM =
-Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:maraeo@gmail.com">maraeo@gmail.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x"><div dir=3D"ltr"><div>What about direct submit from the kernel where the=
- process still has write access to the GPU ring buffer but doesn&#39;t use =
-it? I think that solves your preemption example, but leaves a potential bac=
-kdoor for a process to overwrite the signal commands, which shouldn&#39;t b=
-e a problem since we are OK with timeouts.<br></div><div><br></div><div>Mar=
-ek<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Mon, May 3, 2021 at 11:23 AM Jason Ekstrand &lt;<a href=3D"m=
-ailto:jason@jlekstrand.net" target=3D"_blank">jason@jlekstrand.net</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, M=
-ay 3, 2021 at 10:16 AM Bas Nieuwenhuizen<br>
-&lt;<a href=3D"mailto:bas@basnieuwenhuizen.nl" target=3D"_blank">bas@basnie=
-uwenhuizen.nl</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Mon, May 3, 2021 at 5:00 PM Jason Ekstrand &lt;<a href=3D"mailto:ja=
-son@jlekstrand.net" target=3D"_blank">jason@jlekstrand.net</a>&gt; wrote:<b=
-r>
-&gt; &gt;<br>
-&gt; &gt; Sorry for the top-post but there&#39;s no good thing to reply to =
-here...<br>
-&gt; &gt;<br>
-&gt; &gt; One of the things pointed out to me recently by Daniel Vetter tha=
-t I<br>
-&gt; &gt; didn&#39;t fully understand before is that dma_buf has a very sub=
-tle<br>
-&gt; &gt; second requirement beyond finite time completion:=C2=A0 Nothing r=
-equired<br>
-&gt; &gt; for signaling a dma-fence can allocate memory.=C2=A0 Why?=C2=A0 B=
-ecause the act<br>
-&gt; &gt; of allocating memory may wait on your dma-fence.=C2=A0 This, as i=
-t turns<br>
-&gt; &gt; out, is a massively more strict requirement than finite time<br>
-&gt; &gt; completion and, I think, throws out all of the proposals we have =
-so<br>
-&gt; &gt; far.<br>
-&gt; &gt;<br>
-&gt; &gt; Take, for instance, Marek&#39;s proposal for userspace involvemen=
-t with<br>
-&gt; &gt; dma-fence by asking the kernel for a next serial and the kernel<b=
-r>
-&gt; &gt; trusting userspace to signal it.=C2=A0 That doesn&#39;t work at a=
-ll if<br>
-&gt; &gt; allocating memory to trigger a dma-fence can blow up.=C2=A0 There=
-&#39;s simply<br>
-&gt; &gt; no way for the kernel to trust userspace to not do ANYTHING which=
-<br>
-&gt; &gt; might allocate memory.=C2=A0 I don&#39;t even think there&#39;s a=
- way userspace can<br>
-&gt; &gt; trust itself there.=C2=A0 It also blows up my plan of moving the =
-fences to<br>
-&gt; &gt; transition boundaries.<br>
-&gt; &gt;<br>
-&gt; &gt; Not sure where that leaves us.<br>
-&gt;<br>
-&gt; Honestly the more I look at things I think userspace-signalable fences=
-<br>
-&gt; with a timeout sound like they are a valid solution for these issues.<=
-br>
-&gt; Especially since (as has been mentioned countless times in this email<=
-br>
-&gt; thread) userspace already has a lot of ways to cause timeouts and or<b=
-r>
-&gt; GPU hangs through GPU work already.<br>
-&gt;<br>
-&gt; Adding a timeout on the signaling side of a dma_fence would ensure:<br=
->
-&gt;<br>
-&gt; - The dma_fence signals in finite time<br>
-&gt; -=C2=A0 If the timeout case does not allocate memory then memory alloc=
-ation<br>
-&gt; is not a blocker for signaling.<br>
-&gt;<br>
-&gt; Of course you lose the full dependency graph and we need to make sure<=
-br>
-&gt; garbage collection of fences works correctly when we have cycles.<br>
-&gt; However, the latter sounds very doable and the first sounds like it is=
-<br>
-&gt; to some extent inevitable.<br>
-&gt;<br>
-&gt; I feel like I&#39;m missing some requirement here given that we<br>
-&gt; immediately went to much more complicated things but can&#39;t find it=
-.<br>
-&gt; Thoughts?<br>
-<br>
-Timeouts are sufficient to protect the kernel but they make the fences<br>
-unpredictable and unreliable from a userspace PoV.=C2=A0 One of the big<br>
-problems we face is that, once we expose a dma_fence to userspace,<br>
-we&#39;ve allowed for some pretty crazy potential dependencies that<br>
-neither userspace nor the kernel can sort out.=C2=A0 Say you have marek&#39=
-;s<br>
-&quot;next serial, please&quot; proposal and a multi-threaded application.<=
-br>
-Between time time you ask the kernel for a serial and get a dma_fence<br>
-and submit the work to signal that serial, your process may get<br>
-preempted, something else shoved in which allocates memory, and then<br>
-we end up blocking on that dma_fence.=C2=A0 There&#39;s no way userspace ca=
-n<br>
-predict and defend itself from that.<br>
-<br>
-So I think where that leaves us is that there is no safe place to<br>
-create a dma_fence except for inside the ioctl which submits the work<br>
-and only after any necessary memory has been allocated.=C2=A0 That&#39;s a<=
-br>
-pretty stiff requirement.=C2=A0 We may still be able to interact with<br>
-userspace a bit more explicitly but I think it throws any notion of<br>
-userspace direct submit out the window.<br>
-<br>
---Jason<br>
-<br>
-<br>
-&gt; - Bas<br>
-&gt; &gt;<br>
-&gt; &gt; --Jason<br>
-&gt; &gt;<br>
-&gt; &gt; On Mon, May 3, 2021 at 9:42 AM Alex Deucher &lt;<a href=3D"mailto=
-:alexdeucher@gmail.com" target=3D"_blank">alexdeucher@gmail.com</a>&gt; wro=
-te:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; On Sat, May 1, 2021 at 6:27 PM Marek Ol=C5=A1=C3=A1k &lt;<a =
-href=3D"mailto:maraeo@gmail.com" target=3D"_blank">maraeo@gmail.com</a>&gt;=
- wrote:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; On Wed, Apr 28, 2021 at 5:07 AM Michel D=C3=A4nzer &lt;=
-<a href=3D"mailto:michel@daenzer.net" target=3D"_blank">michel@daenzer.net<=
-/a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; On 2021-04-28 8:59 a.m., Christian K=C3=B6nig wrote=
-:<br>
-&gt; &gt; &gt; &gt;&gt; &gt; Hi Dave,<br>
-&gt; &gt; &gt; &gt;&gt; &gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt; Am 27.04.21 um 21:23 schrieb Marek Ol=C5=A1=C3=
-=A1k:<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt; Supporting interop with any device is alwa=
-ys possible. It depends on which drivers we need to interoperate with and u=
-pdate them. We&#39;ve already found the path forward for amdgpu. We just ne=
-ed to find out how many other drivers need to be updated and evaluate the c=
-ost/benefit aspect.<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt; Marek<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt; On Tue, Apr 27, 2021 at 2:38 PM Dave Airli=
-e &lt;<a href=3D"mailto:airlied@gmail.com" target=3D"_blank">airlied@gmail.=
-com</a> &lt;mailto:<a href=3D"mailto:airlied@gmail.com" target=3D"_blank">a=
-irlied@gmail.com</a>&gt;&gt; wrote:<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0On Tue, 27 Apr 2021 at =
-22:06, Christian K=C3=B6nig<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"mailto:c=
-koenig.leichtzumerken@gmail.com" target=3D"_blank">ckoenig.leichtzumerken@g=
-mail.com</a> &lt;mailto:<a href=3D"mailto:ckoenig.leichtzumerken@gmail.com"=
- target=3D"_blank">ckoenig.leichtzumerken@gmail.com</a>&gt;&gt; wrote:<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&gt; Correct, we wouldn=
-&#39;t have synchronization between device with and without user queues any=
- more.<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&gt; That could only be=
- a problem for A+I Laptops.<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0Since I think you menti=
-oned you&#39;d only be enabling this on newer<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0chipsets, won&#39;t it =
-be a problem for A+A where one A is a generation<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0behind the other?<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt; Crap, that is a good point as well.<br>
-&gt; &gt; &gt; &gt;&gt; &gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0I&#39;m not really liki=
-ng where this is going btw, seems like a ill<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0thought out concept, if=
- AMD is really going down the road of designing<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0hw that is currently Li=
-nux incompatible, you are going to have to<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0accept a big part of th=
-e burden in bringing this support in to more<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0than just amd drivers f=
-or upcoming generations of gpu.<br>
-&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt;<br>
-&gt; &gt; &gt; &gt;&gt; &gt; Well we don&#39;t really like that either, but=
- we have no other option as far as I can see.<br>
-&gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; I don&#39;t really understand what &quot;future hw =
-may remove support for kernel queues&quot; means exactly. While the per-con=
-text queues can be mapped to userspace directly, they don&#39;t *have* to b=
-e, do they? I.e. the kernel driver should be able to either intercept users=
-pace access to the queues, or in the worst case do it all itself, and provi=
-de the existing synchronization semantics as needed?<br>
-&gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; Surely there are resource limits for the per-contex=
-t queues, so the kernel driver needs to do some kind of virtualization / mu=
-lti-plexing anyway, or we&#39;ll get sad user faces when there&#39;s no que=
-ue available for &lt;current hot game&gt;.<br>
-&gt; &gt; &gt; &gt;&gt;<br>
-&gt; &gt; &gt; &gt;&gt; I&#39;m probably missing something though, awaiting=
- enlightenment. :)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; The hw interface for userspace is that the ring buffer =
-is mapped to the process address space alongside a doorbell aperture (4K pa=
-ge) that isn&#39;t real memory, but when the CPU writes into it, it tells t=
-he hw scheduler that there are new GPU commands in the ring buffer. Userspa=
-ce inserts all the wait, draw, and signal commands into the ring buffer and=
- then &quot;rings&quot; the doorbell. It&#39;s my understanding that the ri=
-ng buffer and the doorbell are always mapped in the same GPU address space =
-as the process, which makes it very difficult to emulate the current protec=
-ted ring buffers in the kernel. The VMID of the ring buffer is also not cha=
-ngeable.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; The doorbell does not have to be mapped into the process&#39=
-;s GPU virtual<br>
-&gt; &gt; &gt; address space.=C2=A0 The CPU could write to it directly.=C2=
-=A0 Mapping it into<br>
-&gt; &gt; &gt; the GPU&#39;s virtual address space would allow you to have =
-a device kick<br>
-&gt; &gt; &gt; off work however rather than the CPU.=C2=A0 E.g., the GPU co=
-uld kick off<br>
-&gt; &gt; &gt; it&#39;s own work or multiple devices could kick off work wi=
-thout CPU<br>
-&gt; &gt; &gt; involvement.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Alex<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; The hw scheduler doesn&#39;t do any synchronization and=
- it doesn&#39;t see any dependencies. It only chooses which queue to execut=
-e, so it&#39;s really just a simple queue manager handling the virtualizati=
-on aspect and not much else.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Marek<br>
-&gt; &gt; &gt; &gt; _______________________________________________<br>
-&gt; &gt; &gt; &gt; dri-devel mailing list<br>
-&gt; &gt; &gt; &gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" targ=
-et=3D"_blank">dri-devel@lists.freedesktop.org</a><br>
-&gt; &gt; &gt; &gt; <a href=3D"https://lists.freedesktop.org/mailman/listin=
-fo/dri-devel" rel=3D"noreferrer" target=3D"_blank">https://lists.freedeskto=
-p.org/mailman/listinfo/dri-devel</a><br>
-&gt; &gt; &gt; _______________________________________________<br>
-&gt; &gt; &gt; mesa-dev mailing list<br>
-&gt; &gt; &gt; <a href=3D"mailto:mesa-dev@lists.freedesktop.org" target=3D"=
-_blank">mesa-dev@lists.freedesktop.org</a><br>
-&gt; &gt; &gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/me=
-sa-dev" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/=
-mailman/listinfo/mesa-dev</a><br>
-&gt; &gt; _______________________________________________<br>
-&gt; &gt; dri-devel mailing list<br>
-&gt; &gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_bla=
-nk">dri-devel@lists.freedesktop.org</a><br>
-&gt; &gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-dev=
-el" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mail=
-man/listinfo/dri-devel</a><br>
-</blockquote></div>
-</blockquote></div>
-
---00000000000014999205c17870cd--
-
---===============2036749279==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4d10ad6586042..7a9879c14742b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5770,7 +5770,7 @@ M:	Thomas Zimmermann <tzimmermann@suse.de>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-F:	drivers/gpu/drm/tiny/simplekms.c
++F:	drivers/gpu/drm/tiny/simpledrm.c
+ 
+ DRM DRIVER FOR SIS VIDEO CARDS
+ S:	Orphan / Obsolete
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2036749279==--
