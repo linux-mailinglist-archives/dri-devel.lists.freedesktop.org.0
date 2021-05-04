@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1109372E3F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 18:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC3B372E40
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 18:49:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDA289E59;
-	Tue,  4 May 2021 16:49:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68D606EB30;
+	Tue,  4 May 2021 16:49:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 4966 seconds by postgrey-1.36 at gabe;
- Tue, 04 May 2021 13:45:32 UTC
-Received: from 8.mo52.mail-out.ovh.net (8.mo52.mail-out.ovh.net
- [46.105.37.156])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E38A66E226
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 13:45:32 +0000 (UTC)
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.44])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id D5D53271E7E;
- Tue,  4 May 2021 15:20:36 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
+X-Greylist: delayed 1073 seconds by postgrey-1.36 at gabe;
+ Tue, 04 May 2021 14:30:02 UTC
+Received: from 9.mo51.mail-out.ovh.net (9.mo51.mail-out.ovh.net
+ [46.105.48.137])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0BBD6EB0F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 14:30:02 +0000 (UTC)
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 1829F297B71;
+ Tue,  4 May 2021 16:11:55 +0200 (CEST)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 4 May 2021
- 15:20:35 +0200
+ 16:11:32 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001561d069d-41f7-46fe-a360-76441386f8a7,
+ (GARM-104R0059937f50a-f377-4106-9467-b3b86bf2979e,
  233BADB9E061AA125F593C9F78707CF28220F307) smtp.auth=groug@kaod.org
 X-OVh-ClientIp: 78.197.208.248
-Date: Tue, 4 May 2021 15:20:34 +0200
+Date: Tue, 4 May 2021 16:11:31 +0200
 From: Greg Kurz <groug@kaod.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Subject: Re: remove the nvlink2 pci_vfio subdriver v2
-Message-ID: <20210504152034.18e41ec3@bahia.lan>
-In-Reply-To: <YJFFG1tSP0dUCxcX@kroah.com>
+Message-ID: <20210504161131.2ed74d7b@bahia.lan>
+In-Reply-To: <YJFMZ8KYVCDwUBPU@kroah.com>
 References: <20210326061311.1497642-1-hch@lst.de>
  <20210504142236.76994047@bahia.lan> <YJFFG1tSP0dUCxcX@kroah.com>
+ <20210504152034.18e41ec3@bahia.lan> <YJFMZ8KYVCDwUBPU@kroah.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
  (172.16.2.71)
-X-Ovh-Tracer-GUID: 5cc3bb94-3971-431f-b7fb-ec3b378d2bfe
-X-Ovh-Tracer-Id: 5342395058935667073
+X-Ovh-Tracer-GUID: effd68a3-6459-416d-a28c-4964cefb2245
+X-Ovh-Tracer-Id: 6202864065056512385
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdefiedgieehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdefiedgjeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
 X-Mailman-Approved-At: Tue, 04 May 2021 16:49:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,81 +65,157 @@ Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
  Mackerras <paulus@samba.org>, Jason Gunthorpe <jgg@nvidia.com>,
  linux-api@vger.kernel.org, qemu-ppc@nongnu.org, linuxppc-dev@lists.ozlabs.org,
  Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 4 May 2021 14:59:07 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-
-> On Tue, May 04, 2021 at 02:22:36PM +0200, Greg Kurz wrote:
-> > On Fri, 26 Mar 2021 07:13:09 +0100
-> > Christoph Hellwig <hch@lst.de> wrote:
-> > 
-> > > Hi all,
-> > > 
-> > > the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
-> > > feature without any open source component - what would normally be
-> > > the normal open source userspace that we require for kernel drivers,
-> > > although in this particular case user space could of course be a
-> > > kernel driver in a VM.  It also happens to be a complete mess that
-> > > does not properly bind to PCI IDs, is hacked into the vfio_pci driver
-> > > and also pulles in over 1000 lines of code always build into powerpc
-> > > kernels that have Power NV support enabled.  Because of all these
-> > > issues and the lack of breaking userspace when it is removed I think
-> > > the best idea is to simply kill.
-> > > 
-> > > Changes since v1:
-> > >  - document the removed subtypes as reserved
-> > >  - add the ACK from Greg
-> > > 
-> > > Diffstat:
-> > >  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
-> > >  b/arch/powerpc/include/asm/opal.h            |    3 
-> > >  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
-> > >  b/arch/powerpc/include/asm/pci.h             |    7 
-> > >  b/arch/powerpc/platforms/powernv/Makefile    |    2 
-> > >  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
-> > >  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
-> > >  b/arch/powerpc/platforms/powernv/pci.c       |   11 
-> > >  b/arch/powerpc/platforms/powernv/pci.h       |   17 
-> > >  b/arch/powerpc/platforms/pseries/pci.c       |   23 
-> > >  b/drivers/vfio/pci/Kconfig                   |    6 
-> > >  b/drivers/vfio/pci/Makefile                  |    1 
-> > >  b/drivers/vfio/pci/vfio_pci.c                |   18 
-> > >  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
-> > >  b/include/uapi/linux/vfio.h                  |   38 -
-> > 
-> > 
-> > Hi Christoph,
-> > 
-> > FYI, these uapi changes break build of QEMU.
-> 
-> What uapi changes?
-> 
-
-All macros and structure definitions that are being removed
-from include/uapi/linux/vfio.h by patch 1.
-
-> What exactly breaks?
-> 
-
-These macros and types are used by the current QEMU code base.
-Next time the QEMU source tree updates its copy of the kernel
-headers, the compilation of affected code will fail.
-
-> Why does QEMU require kernel driver stuff?
-> 
-
-Not sure to understand the question... is there a problem
-with QEMU using an already published uapi ?
-
-> thanks,
-> 
-> greg k-h
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCA0IE1heSAyMDIxIDE1OjMwOjE1ICswMjAwCkdyZWcgS3JvYWgtSGFydG1hbiA8Z3Jl
+Z2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+IHdyb3RlOgoKPiBPbiBUdWUsIE1heSAwNCwgMjAyMSBh
+dCAwMzoyMDozNFBNICswMjAwLCBHcmVnIEt1cnogd3JvdGU6Cj4gPiBPbiBUdWUsIDQgTWF5IDIw
+MjEgMTQ6NTk6MDcgKzAyMDAKPiA+IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91
+bmRhdGlvbi5vcmc+IHdyb3RlOgo+ID4gCj4gPiA+IE9uIFR1ZSwgTWF5IDA0LCAyMDIxIGF0IDAy
+OjIyOjM2UE0gKzAyMDAsIEdyZWcgS3VyeiB3cm90ZToKPiA+ID4gPiBPbiBGcmksIDI2IE1hciAy
+MDIxIDA3OjEzOjA5ICswMTAwCj4gPiA+ID4gQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+
+IHdyb3RlOgo+ID4gPiA+IAo+ID4gPiA+ID4gSGkgYWxsLAo+ID4gPiA+ID4gCj4gPiA+ID4gPiB0
+aGUgbnZsaW5rMiB2ZmlvIHN1YmRyaXZlciBpcyBhIHdlaXJkIGJlYXN0LiAgSXQgc3VwcG9ydHMg
+YSBoYXJkd2FyZQo+ID4gPiA+ID4gZmVhdHVyZSB3aXRob3V0IGFueSBvcGVuIHNvdXJjZSBjb21w
+b25lbnQgLSB3aGF0IHdvdWxkIG5vcm1hbGx5IGJlCj4gPiA+ID4gPiB0aGUgbm9ybWFsIG9wZW4g
+c291cmNlIHVzZXJzcGFjZSB0aGF0IHdlIHJlcXVpcmUgZm9yIGtlcm5lbCBkcml2ZXJzLAo+ID4g
+PiA+ID4gYWx0aG91Z2ggaW4gdGhpcyBwYXJ0aWN1bGFyIGNhc2UgdXNlciBzcGFjZSBjb3VsZCBv
+ZiBjb3Vyc2UgYmUgYQo+ID4gPiA+ID4ga2VybmVsIGRyaXZlciBpbiBhIFZNLiAgSXQgYWxzbyBo
+YXBwZW5zIHRvIGJlIGEgY29tcGxldGUgbWVzcyB0aGF0Cj4gPiA+ID4gPiBkb2VzIG5vdCBwcm9w
+ZXJseSBiaW5kIHRvIFBDSSBJRHMsIGlzIGhhY2tlZCBpbnRvIHRoZSB2ZmlvX3BjaSBkcml2ZXIK
+PiA+ID4gPiA+IGFuZCBhbHNvIHB1bGxlcyBpbiBvdmVyIDEwMDAgbGluZXMgb2YgY29kZSBhbHdh
+eXMgYnVpbGQgaW50byBwb3dlcnBjCj4gPiA+ID4gPiBrZXJuZWxzIHRoYXQgaGF2ZSBQb3dlciBO
+ViBzdXBwb3J0IGVuYWJsZWQuICBCZWNhdXNlIG9mIGFsbCB0aGVzZQo+ID4gPiA+ID4gaXNzdWVz
+IGFuZCB0aGUgbGFjayBvZiBicmVha2luZyB1c2Vyc3BhY2Ugd2hlbiBpdCBpcyByZW1vdmVkIEkg
+dGhpbmsKPiA+ID4gPiA+IHRoZSBiZXN0IGlkZWEgaXMgdG8gc2ltcGx5IGtpbGwuCj4gPiA+ID4g
+PiAKPiA+ID4gPiA+IENoYW5nZXMgc2luY2UgdjE6Cj4gPiA+ID4gPiAgLSBkb2N1bWVudCB0aGUg
+cmVtb3ZlZCBzdWJ0eXBlcyBhcyByZXNlcnZlZAo+ID4gPiA+ID4gIC0gYWRkIHRoZSBBQ0sgZnJv
+bSBHcmVnCj4gPiA+ID4gPiAKPiA+ID4gPiA+IERpZmZzdGF0Ogo+ID4gPiA+ID4gIGFyY2gvcG93
+ZXJwYy9wbGF0Zm9ybXMvcG93ZXJudi9ucHUtZG1hLmMgICAgIHwgIDcwNSAtLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0KPiA+ID4gPiA+ICBiL2FyY2gvcG93ZXJwYy9pbmNsdWRlL2FzbS9vcGFs
+LmggICAgICAgICAgICB8ICAgIDMgCj4gPiA+ID4gPiAgYi9hcmNoL3Bvd2VycGMvaW5jbHVkZS9h
+c20vcGNpLWJyaWRnZS5oICAgICAgfCAgICAxIAo+ID4gPiA+ID4gIGIvYXJjaC9wb3dlcnBjL2lu
+Y2x1ZGUvYXNtL3BjaS5oICAgICAgICAgICAgIHwgICAgNyAKPiA+ID4gPiA+ICBiL2FyY2gvcG93
+ZXJwYy9wbGF0Zm9ybXMvcG93ZXJudi9NYWtlZmlsZSAgICB8ICAgIDIgCj4gPiA+ID4gPiAgYi9h
+cmNoL3Bvd2VycGMvcGxhdGZvcm1zL3Bvd2VybnYvb3BhbC1jYWxsLmMgfCAgICAyIAo+ID4gPiA+
+ID4gIGIvYXJjaC9wb3dlcnBjL3BsYXRmb3Jtcy9wb3dlcm52L3BjaS1pb2RhLmMgIHwgIDE4NSAt
+LS0tLS0tCj4gPiA+ID4gPiAgYi9hcmNoL3Bvd2VycGMvcGxhdGZvcm1zL3Bvd2VybnYvcGNpLmMg
+ICAgICAgfCAgIDExIAo+ID4gPiA+ID4gIGIvYXJjaC9wb3dlcnBjL3BsYXRmb3Jtcy9wb3dlcm52
+L3BjaS5oICAgICAgIHwgICAxNyAKPiA+ID4gPiA+ICBiL2FyY2gvcG93ZXJwYy9wbGF0Zm9ybXMv
+cHNlcmllcy9wY2kuYyAgICAgICB8ICAgMjMgCj4gPiA+ID4gPiAgYi9kcml2ZXJzL3ZmaW8vcGNp
+L0tjb25maWcgICAgICAgICAgICAgICAgICAgfCAgICA2IAo+ID4gPiA+ID4gIGIvZHJpdmVycy92
+ZmlvL3BjaS9NYWtlZmlsZSAgICAgICAgICAgICAgICAgIHwgICAgMSAKPiA+ID4gPiA+ICBiL2Ry
+aXZlcnMvdmZpby9wY2kvdmZpb19wY2kuYyAgICAgICAgICAgICAgICB8ICAgMTggCj4gPiA+ID4g
+PiAgYi9kcml2ZXJzL3ZmaW8vcGNpL3ZmaW9fcGNpX3ByaXZhdGUuaCAgICAgICAgfCAgIDE0IAo+
+ID4gPiA+ID4gIGIvaW5jbHVkZS91YXBpL2xpbnV4L3ZmaW8uaCAgICAgICAgICAgICAgICAgIHwg
+ICAzOCAtCj4gPiA+ID4gCj4gPiA+ID4gCj4gPiA+ID4gSGkgQ2hyaXN0b3BoLAo+ID4gPiA+IAo+
+ID4gPiA+IEZZSSwgdGhlc2UgdWFwaSBjaGFuZ2VzIGJyZWFrIGJ1aWxkIG9mIFFFTVUuCj4gPiA+
+IAo+ID4gPiBXaGF0IHVhcGkgY2hhbmdlcz8KPiA+ID4gCj4gPiAKPiA+IEFsbCBtYWNyb3MgYW5k
+IHN0cnVjdHVyZSBkZWZpbml0aW9ucyB0aGF0IGFyZSBiZWluZyByZW1vdmVkCj4gPiBmcm9tIGlu
+Y2x1ZGUvdWFwaS9saW51eC92ZmlvLmggYnkgcGF0Y2ggMS4KPiA+IAo+ID4gPiBXaGF0IGV4YWN0
+bHkgYnJlYWtzPwo+ID4gPiAKPiA+IAo+ID4gVGhlc2UgbWFjcm9zIGFuZCB0eXBlcyBhcmUgdXNl
+ZCBieSB0aGUgY3VycmVudCBRRU1VIGNvZGUgYmFzZS4KPiA+IE5leHQgdGltZSB0aGUgUUVNVSBz
+b3VyY2UgdHJlZSB1cGRhdGVzIGl0cyBjb3B5IG9mIHRoZSBrZXJuZWwKPiA+IGhlYWRlcnMsIHRo
+ZSBjb21waWxhdGlvbiBvZiBhZmZlY3RlZCBjb2RlIHdpbGwgZmFpbC4KPiAKPiBTbyBkb2VzIFFF
+TVUgdXNlIHRoaXMgYXBpIHRoYXQgaXMgYmVpbmcgcmVtb3ZlZCwgb3IgZG9lcyBpdCBqdXN0IGhh
+dmUKPiBzb21lIG9kZCBidWlsZCBhcnRpZmFjdHMgb2YgdGhlIHVhcGkgdGhpbmdzPwo+IAoKVGhl
+c2UgYXJlIHJlZ2lvbiBzdWJ0eXBlcyBkZWZpbml0aW9uIGFuZCBhc3NvY2lhdGVkIGNhcGFiaWxp
+dGllcy4KUUVNVSBiYXNpY2FsbHkgZ2V0cyBpbmZvcm1hdGlvbiBvbiBWRklPIHJlZ2lvbnMgZnJv
+bSB0aGUga2VybmVsCmRyaXZlciBhbmQgZm9yIHRob3NlIHJlZ2lvbnMgd2l0aCBhIG52bGluazIg
+c3VidHlwZSwgaXQgdHJpZXMKdG8gZXh0cmFjdCBzb21lIG1vcmUgbnZsaW5rMiByZWxhdGVkIGlu
+Zm8uCgo+IFdoYXQgZXhhY3RseSBpcyB0aGUgZXJyb3IgbWVzc2FnZXMgaGVyZT8KPiAKCls1NS8x
+NDNdIENvbXBpbGluZyBDIG9iamVjdCBsaWJxZW11LXBwYzY0LXNvZnRtbXUuZmEucC9od192Zmlv
+X3BjaS1xdWlya3MuYy5vCkZBSUxFRDogbGlicWVtdS1wcGM2NC1zb2Z0bW11LmZhLnAvaHdfdmZp
+b19wY2ktcXVpcmtzLmMubyAKY2MgLUlsaWJxZW11LXBwYzY0LXNvZnRtbXUuZmEucCAtSS4gLUku
+Li8uLiAtSXRhcmdldC9wcGMgLUkuLi8uLi90YXJnZXQvcHBjIC1JLi4vLi4vY2Fwc3RvbmUvaW5j
+bHVkZS9jYXBzdG9uZSAtSXFhcGkgLUl0cmFjZSAtSXVpIC1JdWkvc2hhZGVyIC1JL3Vzci9pbmNs
+dWRlL3BpeG1hbi0xIC1JL3Vzci9pbmNsdWRlL2dsaWItMi4wIC1JL3Vzci9saWI2NC9nbGliLTIu
+MC9pbmNsdWRlIC1mZGlhZ25vc3RpY3MtY29sb3I9YXV0byAtcGlwZSAtV2FsbCAtV2ludmFsaWQt
+cGNoIC1XZXJyb3IgLXN0ZD1nbnU5OSAtTzIgLWcgLWlzeXN0ZW0gL2hvbWUvZ3JlZy9Xb3JrL3Fl
+bXUvcWVtdS12aXJ0aW9mcy9saW51eC1oZWFkZXJzIC1pc3lzdGVtIGxpbnV4LWhlYWRlcnMgLWlx
+dW90ZSAuIC1pcXVvdGUgL2hvbWUvZ3JlZy9Xb3JrL3FlbXUvcWVtdS12aXJ0aW9mcyAtaXF1b3Rl
+IC9ob21lL2dyZWcvV29yay9xZW11L3FlbXUtdmlydGlvZnMvaW5jbHVkZSAtaXF1b3RlIC9ob21l
+L2dyZWcvV29yay9xZW11L3FlbXUtdmlydGlvZnMvZGlzYXMvbGlidml4bCAtaXF1b3RlIC9ob21l
+L2dyZWcvV29yay9xZW11L3FlbXUtdmlydGlvZnMvdGNnL3BwYyAtaXF1b3RlIC9ob21lL2dyZWcv
+V29yay9xZW11L3FlbXUtdmlydGlvZnMvYWNjZWwvdGNnIC1wdGhyZWFkIC1VX0ZPUlRJRllfU09V
+UkNFIC1EX0ZPUlRJRllfU09VUkNFPTIgLURfR05VX1NPVVJDRSAtRF9GSUxFX09GRlNFVF9CSVRT
+PTY0IC1EX0xBUkdFRklMRV9TT1VSQ0UgLVdzdHJpY3QtcHJvdG90eXBlcyAtV3JlZHVuZGFudC1k
+ZWNscyAtV3VuZGVmIC1Xd3JpdGUtc3RyaW5ncyAtV21pc3NpbmctcHJvdG90eXBlcyAtZm5vLXN0
+cmljdC1hbGlhc2luZyAtZm5vLWNvbW1vbiAtZndyYXB2IC1Xb2xkLXN0eWxlLWRlY2xhcmF0aW9u
+IC1Xb2xkLXN0eWxlLWRlZmluaXRpb24gLVd0eXBlLWxpbWl0cyAtV2Zvcm1hdC1zZWN1cml0eSAt
+V2Zvcm1hdC15MmsgLVdpbml0LXNlbGYgLVdpZ25vcmVkLXF1YWxpZmllcnMgLVdlbXB0eS1ib2R5
+IC1XbmVzdGVkLWV4dGVybnMgLVdlbmRpZi1sYWJlbHMgLVdleHBhbnNpb24tdG8tZGVmaW5lZCAt
+V2ltcGxpY2l0LWZhbGx0aHJvdWdoPTIgLVduby1taXNzaW5nLWluY2x1ZGUtZGlycyAtV25vLXNo
+aWZ0LW5lZ2F0aXZlLXZhbHVlIC1Xbm8tcHNhYmkgLWZzdGFjay1wcm90ZWN0b3Itc3Ryb25nIC1m
+UElDIC1pc3lzdGVtLi4vLi4vbGludXgtaGVhZGVycyAtaXN5c3RlbWxpbnV4LWhlYWRlcnMgLURO
+RUVEX0NQVV9IICctRENPTkZJR19UQVJHRVQ9InBwYzY0LXNvZnRtbXUtY29uZmlnLXRhcmdldC5o
+IicgJy1EQ09ORklHX0RFVklDRVM9InBwYzY0LXNvZnRtbXUtY29uZmlnLWRldmljZXMuaCInIC1N
+RCAtTVEgbGlicWVtdS1wcGM2NC1zb2Z0bW11LmZhLnAvaHdfdmZpb19wY2ktcXVpcmtzLmMubyAt
+TUYgbGlicWVtdS1wcGM2NC1zb2Z0bW11LmZhLnAvaHdfdmZpb19wY2ktcXVpcmtzLmMuby5kIC1v
+IGxpYnFlbXUtcHBjNjQtc29mdG1tdS5mYS5wL2h3X3ZmaW9fcGNpLXF1aXJrcy5jLm8gLWMgLi4v
+Li4vaHcvdmZpby9wY2ktcXVpcmtzLmMKLi4vLi4vaHcvdmZpby9wY2ktcXVpcmtzLmM6IEluIGZ1
+bmN0aW9uIOKAmHZmaW9fcGNpX252aWRpYV92MTAwX3JhbV9pbml04oCZOgouLi8uLi9ody92Zmlv
+L3BjaS1xdWlya3MuYzoxNTk3OjM2OiBlcnJvcjog4oCYVkZJT19SRUdJT05fU1VCVFlQRV9OVklE
+SUFfTlZMSU5LMl9SQU3igJkgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24p
+OyBkaWQgeW91IG1lYW4g4oCYVkZJT19SRUdJT05fU1VCVFlQRV9DQ1dfQVNZTkNfQ01E4oCZPwog
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWRklPX1JFR0lPTl9TVUJUWVBFX05W
+SURJQV9OVkxJTksyX1JBTSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgVkZJT19SRUdJT05fU1VCVFlQRV9DQ1dfQVNZTkNfQ01ECi4uLy4uL2h3
+L3ZmaW8vcGNpLXF1aXJrcy5jOjE1OTc6MzY6IG5vdGU6IGVhY2ggdW5kZWNsYXJlZCBpZGVudGlm
+aWVyIGlzIHJlcG9ydGVkIG9ubHkgb25jZSBmb3IgZWFjaCBmdW5jdGlvbiBpdCBhcHBlYXJzIGlu
+Ci4uLy4uL2h3L3ZmaW8vcGNpLXF1aXJrcy5jOjE2MDM6NDQ6IGVycm9yOiDigJhWRklPX1JFR0lP
+Tl9JTkZPX0NBUF9OVkxJTksyX1NTQVRHVOKAmSB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhp
+cyBmdW5jdGlvbik7IGRpZCB5b3UgbWVhbiDigJhWRklPX1JFR0lPTl9JTkZPX0NBUF9TUEFSU0Vf
+TU1BUOKAmT8KICAgICBoZHIgPSB2ZmlvX2dldF9yZWdpb25faW5mb19jYXAobnYycmVnLCBWRklP
+X1JFR0lPTl9JTkZPX0NBUF9OVkxJTksyX1NTQVRHVCk7CiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4K
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWRklPX1JFR0lPTl9J
+TkZPX0NBUF9TUEFSU0VfTU1BUAouLi8uLi9ody92ZmlvL3BjaS1xdWlya3MuYzoxNjI0OjQ5OiBl
+cnJvcjogZGVyZWZlcmVuY2luZyBwb2ludGVyIHRvIGluY29tcGxldGUgdHlwZSDigJhzdHJ1Y3Qg
+dmZpb19yZWdpb25faW5mb19jYXBfbnZsaW5rMl9zc2F0Z3TigJkKICAgICAgICAgICAgICAgICAg
+ICAgICAgICh2b2lkICopICh1aW50cHRyX3QpIGNhcC0+dGd0KTsKICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+Ci4uLy4uL2h3L3ZmaW8vcGNpLXF1aXJr
+cy5jOiBJbiBmdW5jdGlvbiDigJh2ZmlvX3BjaV9udmxpbmsyX2luaXTigJk6Ci4uLy4uL2h3L3Zm
+aW8vcGNpLXF1aXJrcy5jOjE2NDY6MzY6IGVycm9yOiDigJhWRklPX1JFR0lPTl9TVUJUWVBFX0lC
+TV9OVkxJTksyX0FUU0TigJkgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24p
+OyBkaWQgeW91IG1lYW4g4oCYVkZJT19SRUdJT05fU1VCVFlQRV9DQ1dfQVNZTkNfQ01E4oCZPwog
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWRklPX1JFR0lPTl9TVUJUWVBFX0lC
+TV9OVkxJTksyX0FUU0QsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgogICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBWRklPX1JFR0lPTl9TVUJUWVBFX0NDV19BU1lOQ19DTUQKLi4vLi4vaHcvdmZp
+by9wY2ktcXVpcmtzLmM6MTY1MzozNjogZXJyb3I6IOKAmFZGSU9fUkVHSU9OX0lORk9fQ0FQX05W
+TElOSzJfU1NBVEdU4oCZIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKTsg
+ZGlkIHlvdSBtZWFuIOKAmFZGSU9fUkVHSU9OX0lORk9fQ0FQX1NQQVJTRV9NTUFQ4oCZPwogICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWRklPX1JFR0lPTl9JTkZPX0NBUF9OVkxJ
+TksyX1NTQVRHVCk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIFZGSU9fUkVHSU9OX0lORk9fQ0FQX1NQQVJTRV9NTUFQCi4uLy4uL2h3L3ZmaW8vcGNp
+LXF1aXJrcy5jOjE2NjE6MzY6IGVycm9yOiDigJhWRklPX1JFR0lPTl9JTkZPX0NBUF9OVkxJTksy
+X0xOS1NQROKAmSB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbik7IGRpZCB5
+b3UgbWVhbiDigJhWRklPX1JFR0lPTl9JTkZPX0NBUF9TUEFSU0VfTU1BUOKAmT8KICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgVkZJT19SRUdJT05fSU5GT19DQVBfTlZMSU5LMl9M
+TktTUEQpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBWRklPX1JFR0lPTl9JTkZPX0NBUF9TUEFSU0VfTU1BUAouLi8uLi9ody92ZmlvL3BjaS1xdWly
+a3MuYzoxNjg1OjUyOiBlcnJvcjogZGVyZWZlcmVuY2luZyBwb2ludGVyIHRvIGluY29tcGxldGUg
+dHlwZSDigJhzdHJ1Y3QgdmZpb19yZWdpb25faW5mb19jYXBfbnZsaW5rMl9zc2F0Z3TigJkKICAg
+ICAgICAgICAgICAgICAgICAgICAgICh2b2lkICopICh1aW50cHRyX3QpIGNhcHRndC0+dGd0KTsK
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+Ci4u
+Ly4uL2h3L3ZmaW8vcGNpLXF1aXJrcy5jOjE2OTE6NTQ6IGVycm9yOiBkZXJlZmVyZW5jaW5nIHBv
+aW50ZXIgdG8gaW5jb21wbGV0ZSB0eXBlIOKAmHN0cnVjdCB2ZmlvX3JlZ2lvbl9pbmZvX2NhcF9u
+dmxpbmsyX2xua3NwZOKAmQogICAgICAgICAgICAgICAgICAgICAgICAgKHZvaWQgKikgKHVpbnRw
+dHJfdCkgY2Fwc3BlZWQtPmxpbmtfc3BlZWQpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBefgoKPiBBbmQgaWYgd2UgcHV0IHRoZSB1YXBpIC5o
+IGZpbGUgc3R1ZmYgYmFjaywgaXMgdGhhdCBzdWZmaWNpZW50IGZvciBxZW11Cj4gdG8gd29yaywg
+YXMgaXQgc2hvdWxkIGJlIGNoZWNraW5nIGF0IHJ1bnRpbWUgd2hhdCB0aGUga2VybmVsIGhhcyAv
+IGhhcwo+IG5vdCBhbnl3YXksIHJpZ2h0Pwo+IAoKUmlnaHQuIFRoaXMgd2lsbCBqdXN0IGJlIGRl
+YWQgY29kZSBpbiBRRU1VIGZvciBuZXdlciBrZXJuZWxzLgoKQW55d2F5LCBhcyBzYWlkIGluIHNv
+bWUgb3RoZXIgbWFpbCwgaXQgaXMgcHJvYmFibHkgdGltZSBmb3IgUUVNVSB0bwpzdGFydCBkZXBy
+ZWNhdGluZyB0aGlzIGNvZGUgYXMgd2VsbC4KCj4gdGhhbmtzLAo+IAo+IGdyZWcgay1oCgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
