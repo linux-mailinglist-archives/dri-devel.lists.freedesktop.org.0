@@ -2,80 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00293729B7
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 13:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E546372A1B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 14:32:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFD026EAC9;
-	Tue,  4 May 2021 11:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 821E66EACE;
+	Tue,  4 May 2021 12:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A57086EAC9
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 11:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620129189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yee3w8iZUHuQvVU0tVn+mMd8+ER6FdOTDfqaVEY8CUI=;
- b=cNcW26+E1W/Vh5bWtOX1xJrJ/S2+8KsgZxkS4XqrkQ/qEtiHR9Mh16bXSNFgZ9AXR6K2y2
- LhXBLLN2gCqhjZrXY3vE/84sDe/JliCF4JSIYyvsqxKMmsG4XcL7ao2wVpbfICzJB1ZKb0
- hq+Lt+CRvfKrFLDcdpUrKh1BYgVepkc=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-9YGOnpZtNU6CppjQC7wf5Q-1; Tue, 04 May 2021 07:53:07 -0400
-X-MC-Unique: 9YGOnpZtNU6CppjQC7wf5Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- w20-20020aa7dcd40000b02903886b9b0013so6253981edu.22
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 04:53:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yee3w8iZUHuQvVU0tVn+mMd8+ER6FdOTDfqaVEY8CUI=;
- b=BPOqfsEhgExOlNCv2G7QgA8DnrcPJ2hOAT0KETrZshDZYyEgXw9DUulXxur/pIqYEK
- EaegQv4mf7ZWMl6ZJQoTf6oQHKOPebUEck01KLovdS63BGbehhmrB4mKSkmDsW/4xv7h
- qW0xC9O8IVaU3Y5neZUxx/NBOZHFxiMHeL694AuKm/fECSlgEJqM/zfxQ8QKJjcxcDsc
- j06UEb3dbA1FaYifcwCrkZrbqke3liRO+QHEF5BslvDWN6uiiBjwVsLrZWDLySSDOujy
- EqBLcR73i37TTb0MVKApsSOmYlIQPYv0k+NHNaXpN6k9lpzRMVw4ovVfA6wiHUASaX8u
- F4Qw==
-X-Gm-Message-State: AOAM531t3K2U3oGGGF7UpGUJwBavXIvaq02s2j6p/0DBBGLNOyoW+aey
- 9M/Hi2PFHVA3yWbT9KCnuqcCKJQ/z6p9g3/0iRnSJbKys1osHjZnNcdPFiBbouKA3UjkdPk5dfJ
- AnIu6YKIOcLxU/xZZ1RiqcWvp9ll1
-X-Received: by 2002:a17:906:f742:: with SMTP id
- jp2mr21976383ejb.199.1620129186566; 
- Tue, 04 May 2021 04:53:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyF8yI5YRN5Dn4MM8i27YZLLYc9QVgyAQck1bu98Cnu+eyl5Bmy1ysUEsdFrI2ZPx5MNTqoVA==
-X-Received: by 2002:a17:906:f742:: with SMTP id
- jp2mr21976358ejb.199.1620129186332; 
- Tue, 04 May 2021 04:53:06 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id s4sm914556edq.96.2021.05.04.04.53.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 May 2021 04:53:05 -0700 (PDT)
-Subject: Re: [PATCH 3/9] drm/connector: Add drm_connector_find_by_fwnode()
- function (v2)
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-References: <20210503154647.142551-1-hdegoede@redhat.com>
- <20210503154647.142551-4-hdegoede@redhat.com>
- <CAHp75Vcv=sUHafBMjV+BMJgmpsXF0iUn5gudb26E2xGapCiMxg@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <afbfa6fb-8b1d-3d3c-96b4-d3045584d2b8@redhat.com>
-Date: Tue, 4 May 2021 13:53:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from rhlx01.hs-esslingen.de (rhlx01.hs-esslingen.de [129.143.116.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E23F56EACE;
+ Tue,  4 May 2021 12:32:40 +0000 (UTC)
+Received: by rhlx01.hs-esslingen.de (Postfix, from userid 1203)
+ id 697B929FE16F; Tue,  4 May 2021 14:32:37 +0200 (CEST)
+Date: Tue, 4 May 2021 14:32:37 +0200
+From: Adrian Reber <adrian@lisas.de>
+To: Felix Kuehling <felix.kuehling@amd.com>
+Subject: Re: [RFC] CRIU support for ROCm
+Message-ID: <YJE+5c7p+78rhVau@lisas.de>
+References: <9245171d-ecc9-1bdf-3ecd-cf776dc17855@amd.com>
+ <YI2J97Rg4+1+KVNs@lisas.de>
+ <f8495cad-a532-91d0-a803-035d3da6d8d9@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vcv=sUHafBMjV+BMJgmpsXF0iUn5gudb26E2xGapCiMxg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <f8495cad-a532-91d0-a803-035d3da6d8d9@amd.com>
+X-Url: <http://lisas.de/~adrian/>
+X-Operating-System: Linux (5.10.10-200.fc33.x86_64)
+X-Load-Average: 8.36 8.07 8.62
+X-Unexpected: The Spanish Inquisition
+X-GnuPG-Key: gpg --recv-keys D3C4906A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,134 +42,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alexander Mihalicyn <alexander@mihalicyn.com>,
+ Pavel Emelyanov <ovzxemul@gmail.com>, Pavel Tikhomirov <snorcht@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, "Bhardwaj,
+ Rajneesh" <Rajneesh.Bhardwaj@amd.com>, criu@openvz.org, "Yat Sin,
+ David" <David.YatSin@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiA1LzQvMjEgMTA6MDAgQU0sIEFuZHkgU2hldmNoZW5rbyB3cm90ZToKPiAKPiAKPiBP
-biBNb25kYXksIE1heSAzLCAyMDIxLCBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQuY29t
-IDxtYWlsdG86aGRlZ29lZGVAcmVkaGF0LmNvbT4+IHdyb3RlOgo+IAo+ICAgICBBZGQgYSBmdW5j
-dGlvbiB0byBmaW5kIGEgY29ubmVjdG9yIGJhc2VkIG9uIGEgZndub2RlLgo+IAo+ICAgICBUaGlz
-IHdpbGwgYmUgdXNlZCBieSB0aGUgbmV3IGRybV9jb25uZWN0b3Jfb29iX2hvdHBsdWdfZXZlbnQo
-KQo+ICAgICBmdW5jdGlvbiB3aGljaCBpcyBhZGRlZCBieSB0aGUgbmV4dCBwYXRjaCBpbiB0aGlz
-IHBhdGNoLXNldC4KPiAKPiAgICAgQ2hhbmdlcyBpbiB2MjoKPiAgICAgLSBDb21wbGV0ZSByZXdy
-aXRlIHRvIHVzZSBhIGdsb2JhbCBjb25uZWN0b3IgbGlzdCBpbiBkcm1fY29ubmVjdG9yLmMKPiAg
-ICAgwqAgcmF0aGVyIHRoZW4gdXNpbmcgYSBjbGFzcy1kZXYtaXRlciBpbiBkcm1fc3lzZnMuYwo+
-IAo+ICAgICBTaWduZWQtb2ZmLWJ5OiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQuY29t
-IDxtYWlsdG86aGRlZ29lZGVAcmVkaGF0LmNvbT4+Cj4gICAgIC0tLQo+ICAgICDCoGRyaXZlcnMv
-Z3B1L2RybS9kcm1fY29ubmVjdG9yLmPCoCDCoCDCoHwgNTAgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysKPiAgICAgwqBkcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJuYWwuaCB8wqAg
-MSArCj4gICAgIMKgaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5owqAgwqAgwqAgwqAgwqB8wqAg
-OCArKysrKwo+ICAgICDCoDMgZmlsZXMgY2hhbmdlZCwgNTkgaW5zZXJ0aW9ucygrKQo+IAo+ICAg
-ICBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fY29ubmVjdG9yLmMKPiAgICAgaW5kZXggODdjNjg1NjNlNmMzLi5lZjc1OWQ2
-YWRkODEgMTAwNjQ0Cj4gICAgIC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMK
-PiAgICAgKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYwo+ICAgICBAQCAtNjYs
-NiArNjYsMTQgQEAKPiAgICAgwqAgKiBzdXBwb3J0IGNhbiBpbnN0ZWFkIHVzZSBlLmcuIGRybV9o
-ZWxwZXJfaHBkX2lycV9ldmVudCgpLgo+ICAgICDCoCAqLwo+IAo+ICAgICArLyoKPiAgICAgKyAq
-IEdsb2JhbCBjb25uZWN0b3IgbGlzdCBmb3IgZHJtX2Nvbm5lY3Rvcl9maW5kX2J5X2Z3bm9kZSgp
-Lgo+ICAgICArICogTm90ZSBkcm1fY29ubmVjdG9yX1t1bl1yZWdpc3RlcigpIGZpcnN0IHRha2Ug
-Y29ubmVjdG9yLT5sb2NrIGFuZCB0aGVuCj4gICAgICsgKiB0YWtlIHRoZSBjb25uZWN0b3JfbGlz
-dF9sb2NrLgo+ICAgICArICovCj4gICAgICtzdGF0aWMgREVGSU5FX01VVEVYKGNvbm5lY3Rvcl9s
-aXN0X2xvY2spOwo+ICAgICArc3RhdGljIExJU1RfSEVBRChjb25uZWN0b3JfbGlzdCk7Cj4gICAg
-ICsKPiAgICAgwqBzdHJ1Y3QgZHJtX2Nvbm5fcHJvcF9lbnVtX2xpc3Qgewo+ICAgICDCoCDCoCDC
-oCDCoCBpbnQgdHlwZTsKPiAgICAgwqAgwqAgwqAgwqAgY29uc3QgY2hhciAqbmFtZTsKPiAgICAg
-QEAgLTI2Nyw2ICsyNzUsNyBAQCBpbnQgZHJtX2Nvbm5lY3Rvcl9pbml0KHN0cnVjdCBkcm1fZGV2
-aWNlICpkZXYsCj4gICAgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGdvdG8gb3V0X3B1dF90eXBl
-X2lkOwo+ICAgICDCoCDCoCDCoCDCoCB9Cj4gCj4gICAgICvCoCDCoCDCoCDCoElOSVRfTElTVF9I
-RUFEKCZjb25uZWN0b3ItPmdsb2JhbF9jb25uZWN0b3JfbGlzdF9lbnRyeSk7Cj4gICAgIMKgIMKg
-IMKgIMKgIElOSVRfTElTVF9IRUFEKCZjb25uZWN0b3ItPnByb2JlZF9tb2Rlcyk7Cj4gICAgIMKg
-IMKgIMKgIMKgIElOSVRfTElTVF9IRUFEKCZjb25uZWN0b3ItPm1vZGVzKTsKPiAgICAgwqAgwqAg
-wqAgwqAgbXV0ZXhfaW5pdCgmY29ubmVjdG9yLT5tdXRleCk7Cj4gICAgIEBAIC01NDAsNiArNTQ5
-LDkgQEAgaW50IGRybV9jb25uZWN0b3JfcmVnaXN0ZXIoc3RydWN0IGRybV9jb25uZWN0b3IgKmNv
-bm5lY3RvcikKPiAgICAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgZHJtX3ByaXZhY3lfc2NyZWVu
-X3JlZ2lzdGVyX25vdGlmaWVyKGNvbm5lY3Rvci0+cHJpdmFjeV9zY3JlZW4sCj4gICAgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgJmNvbm5lY3Rvci0+cHJpdmFjeV9zY3JlZW5fbm90aWZpZXIpOwo+IAo+ICAgICArwqAgwqAg
-wqAgwqBtdXRleF9sb2NrKCZjb25uZWN0b3JfbGlzdF9sb2NrKTsKPiAgICAgK8KgIMKgIMKgIMKg
-bGlzdF9hZGRfdGFpbCgmY29ubmVjdG9yLT5nbG9iYWxfY29ubmVjdG9yX2xpc3RfZW50cnksICZj
-b25uZWN0b3JfbGlzdCk7Cj4gICAgICvCoCDCoCDCoCDCoG11dGV4X3VubG9jaygmY29ubmVjdG9y
-X2xpc3RfbG9jayk7Cj4gICAgIMKgIMKgIMKgIMKgIGdvdG8gdW5sb2NrOwo+IAo+ICAgICDCoGVy
-cl9kZWJ1Z2ZzOgo+ICAgICBAQCAtNTY4LDYgKzU4MCwxMCBAQCB2b2lkIGRybV9jb25uZWN0b3Jf
-dW5yZWdpc3RlcihzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQo+ICAgICDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCByZXR1cm47Cj4gICAgIMKgIMKgIMKgIMKgIH0KPiAKPiAgICAgK8Kg
-IMKgIMKgIMKgbXV0ZXhfbG9jaygmY29ubmVjdG9yX2xpc3RfbG9jayk7Cj4gICAgICvCoCDCoCDC
-oCDCoGxpc3RfZGVsX2luaXQoJmNvbm5lY3Rvci0+Z2xvYmFsX2Nvbm5lY3Rvcl9saXN0X2VudHJ5
-KTsKPiAgICAgK8KgIMKgIMKgIMKgbXV0ZXhfdW5sb2NrKCZjb25uZWN0b3JfbGlzdF9sb2NrKTsK
-PiAgICAgKwo+ICAgICDCoCDCoCDCoCDCoCBpZiAoY29ubmVjdG9yLT5wcml2YWN5X3NjcmVlbikK
-PiAgICAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgZHJtX3ByaXZhY3lfc2NyZWVuX3VucmVnaXN0
-ZXJfbm90aWZpZXIoCj4gICAgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIGNvbm5lY3Rvci0+cHJpdmFjeV9zY3JlZW4sCj4gICAgIEBA
-IC0yNjc2LDYgKzI2OTIsNDAgQEAgaW50IGRybV9tb2RlX2dldGNvbm5lY3RvcihzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+ICAgICDCoCDCoCDCoCDCoCByZXR1cm4gcmV0Owo+
-ICAgICDCoH0KPiAKPiAgICAgKy8qKgo+ICAgICArICogZHJtX2Nvbm5lY3Rvcl9maW5kX2J5X2Z3
-bm9kZSAtIEZpbmQgYSBjb25uZWN0b3IgYmFzZWQgb24gdGhlIGFzc29jaWF0ZWQgZndub2RlCj4g
-ICAgICsgKiBAZndub2RlOiBmd25vZGUgZm9yIHdoaWNoIHRvIGZpbmQgdGhlIG1hdGNoaW5nIGRy
-bV9jb25uZWN0b3IKPiAgICAgKyAqCj4gICAgICsgKiBUaGlzIGZ1bmN0aW9ucyBsb29rcyB1cCBh
-IGRybV9jb25uZWN0b3IgYmFzZWQgb24gaXRzIGFzc29jaWF0ZWQgZndub2RlLiBXaGVuCj4gICAg
-ICsgKiBhIGNvbm5lY3RvciBpcyBmb3VuZCBhIHJlZmVyZW5jZSB0byB0aGUgY29ubmVjdG9yIGlz
-IHJldHVybmVkLiBUaGUgY2FsbGVyIG11c3QKPiAgICAgKyAqIGNhbGwgZHJtX2Nvbm5lY3Rvcl9w
-dXQoKSB0byByZWxlYXNlIHRoaXMgcmVmZXJlbmNlIHdoZW4gaXQgaXMgZG9uZSB3aXRoIHRoZQo+
-ICAgICArICogY29ubmVjdG9yLgo+ICAgICArICoKPiAgICAgKyAqIFJldHVybnM6IEEgcmVmZXJl
-bmNlIHRvIHRoZSBmb3VuZCBjb25uZWN0b3Igb3IgYW4gRVJSX1BUUigpLgo+ICAgICArICovCj4g
-ICAgICtzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqZHJtX2Nvbm5lY3Rvcl9maW5kX2J5X2Z3bm9kZShz
-dHJ1Y3QgZndub2RlX2hhbmRsZSAqZndub2RlKQo+ICAgICArewo+ICAgICArwqAgwqAgwqAgwqBz
-dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCAqZm91bmQgPSBFUlJfUFRSKC1FTk9ERVYp
-Owo+ICAgICArCj4gICAgICvCoCDCoCDCoCDCoGlmICghZndub2RlKQo+ICAgICArwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqByZXR1cm4gRVJSX1BUUigtRU5PREVWKTsKPiAgICAgKwo+ICAgICArwqAg
-wqAgwqAgwqBtdXRleF9sb2NrKCZjb25uZWN0b3JfbGlzdF9sb2NrKTsKPiAgICAgKwo+ICAgICAr
-wqAgwqAgwqAgwqBsaXN0X2Zvcl9lYWNoX2VudHJ5KGNvbm5lY3RvciwgJmNvbm5lY3Rvcl9saXN0
-LCBnbG9iYWxfY29ubmVjdG9yX2xpc3RfZW50cnkpIHsKPiAgICAgK8KgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgaWYgKGNvbm5lY3Rvci0+Zndub2RlID09IGZ3bm9kZSB8fAo+ICAgICArwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAoY29ubmVjdG9yLT5md25vZGUgJiYgY29ubmVjdG9yLT5md25v
-ZGUtPnNlY29uZGFyeSA9PSBmd25vZGUpKSB7Cj4gICAgICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoGRybV9jb25uZWN0b3JfZ2V0KGNvbm5lY3Rvcik7Cj4gICAgICvCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGZvdW5kID0gY29ubmVjdG9yOwo+ICAgICArwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBicmVhazsKPiAgICAgK8KgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgfQo+ICAgICArwqAgwqAgwqAgwqB9Cj4gICAgICsKPiAgICAgK8KgIMKgIMKg
-IMKgbXV0ZXhfdW5sb2NrKCZjb25uZWN0b3JfbGlzdF9sb2NrKTsKPiAgICAgKwo+ICAgICArwqAg
-wqAgwqAgwqByZXR1cm4gZm91bmQ7Cj4gCj4gCj4gCj4gSWYgSSBhbSBub3QgbWlzdGFrZW4geW91
-IGNhbiByZXBsYWNlIHRoaXMgd2l0aAo+IAo+IHJldHVybiBsaXN0X2VudHJ5X2lzX2hlYWQoKTsK
-PiAKPiBjYWxsIGFuZCByZW1vdmUgYWRkaXRpb25hbCBCb29sZWFuIHZhcmlhYmxlLgoKRm91bmQg
-aXMgbm90IGEgYm9vbGVhbiwgaXQgaXMgYSBwb2ludGVyIHRvIHRoZSBmb3VuZCBjb25uZWN0b3Ig
-KG9yIEVSUl9QVFIoLUVOT0RFVikpLgoKUmVnYXJkcywKCkhhbnMKCgo+IMKgCj4gCj4gICAgICt9
-Cj4gICAgICsKPiAKPiAgICAgwqAvKioKPiAgICAgwqAgKiBET0M6IFRpbGUgZ3JvdXAKPiAgICAg
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Y19pbnRlcm5hbC5oIGIvZHJpdmVy
-cy9ncHUvZHJtL2RybV9jcnRjX2ludGVybmFsLmgKPiAgICAgaW5kZXggNTRkNGNmMTIzM2U5Li42
-ZTI4ZmMwMGE3NDAgMTAwNjQ0Cj4gICAgIC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Y19p
-bnRlcm5hbC5oCj4gICAgICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Y19pbnRlcm5hbC5o
-Cj4gICAgIEBAIC0xODUsNiArMTg1LDcgQEAgaW50IGRybV9jb25uZWN0b3Jfc2V0X29ial9wcm9w
-KHN0cnVjdCBkcm1fbW9kZV9vYmplY3QgKm9iaiwKPiAgICAgwqBpbnQgZHJtX2Nvbm5lY3Rvcl9j
-cmVhdGVfc3RhbmRhcmRfcHJvcGVydGllcyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KTsKPiAgICAg
-wqBjb25zdCBjaGFyICpkcm1fZ2V0X2Nvbm5lY3Rvcl9mb3JjZV9uYW1lKGVudW0gZHJtX2Nvbm5l
-Y3Rvcl9mb3JjZSBmb3JjZSk7Cj4gICAgIMKgdm9pZCBkcm1fY29ubmVjdG9yX2ZyZWVfd29ya19m
-bihzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspOwo+ICAgICArc3RydWN0IGRybV9jb25uZWN0b3Ig
-KmRybV9jb25uZWN0b3JfZmluZF9ieV9md25vZGUoc3RydWN0IGZ3bm9kZV9oYW5kbGUgKmZ3bm9k
-ZSk7Cj4gCj4gICAgIMKgLyogSU9DVEwgKi8KPiAgICAgwqBpbnQgZHJtX2Nvbm5lY3Rvcl9wcm9w
-ZXJ0eV9zZXRfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiAgICAgZGlmZiAtLWdpdCBh
-L2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCBiL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3Iu
-aAo+ICAgICBpbmRleCBkMjBiZmQ3NTc2ZWQuLmFlMzc3MzU0ZTQ4ZSAxMDA2NDQKPiAgICAgLS0t
-IGEvaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oCj4gICAgICsrKyBiL2luY2x1ZGUvZHJtL2Ry
-bV9jb25uZWN0b3IuaAo+ICAgICBAQCAtMTI2Nyw2ICsxMjY3LDE0IEBAIHN0cnVjdCBkcm1fY29u
-bmVjdG9yIHsKPiAgICAgwqAgwqAgwqAgwqAgwqAqLwo+ICAgICDCoCDCoCDCoCDCoCBzdHJ1Y3Qg
-bGlzdF9oZWFkIGhlYWQ7Cj4gCj4gICAgICvCoCDCoCDCoCDCoC8qKgo+ICAgICArwqAgwqAgwqAg
-wqAgKiBAZ2xvYmFsX2Nvbm5lY3Rvcl9saXN0X2VudHJ5Ogo+ICAgICArwqAgwqAgwqAgwqAgKgo+
-ICAgICArwqAgwqAgwqAgwqAgKiBDb25uZWN0b3IgZW50cnkgaW4gdGhlIGdsb2JhbCBjb25uZWN0
-b3ItbGlzdCwgdXNlZCBieQo+ICAgICArwqAgwqAgwqAgwqAgKiBkcm1fY29ubmVjdG9yX2ZpbmRf
-YnlfZndub2RlKCkuCj4gICAgICvCoCDCoCDCoCDCoCAqLwo+ICAgICArwqAgwqAgwqAgwqBzdHJ1
-Y3QgbGlzdF9oZWFkIGdsb2JhbF9jb25uZWN0b3JfbGlzdF9lbnRyeTsKPiAgICAgKwo+ICAgICDC
-oCDCoCDCoCDCoCAvKiogQGJhc2U6IGJhc2UgS01TIG9iamVjdCAqLwo+ICAgICDCoCDCoCDCoCDC
-oCBzdHJ1Y3QgZHJtX21vZGVfb2JqZWN0IGJhc2U7Cj4gICAgIMKgCj4gICAgIC0tIAo+ICAgICAy
-LjMxLjEKPiAKPiAKPiAKPiAtLSAKPiBXaXRoIEJlc3QgUmVnYXJkcywKPiBBbmR5IFNoZXZjaGVu
-a28KPiAKPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, May 03, 2021 at 02:21:53PM -0400, Felix Kuehling wrote:
+> Am 2021-05-01 um 1:03 p.m. schrieb Adrian Reber:
+> > On Fri, Apr 30, 2021 at 09:57:45PM -0400, Felix Kuehling wrote:
+> >> We have been working on a prototype supporting CRIU (Checkpoint/Restore
+> >> In Userspace) for accelerated compute applications running on AMD GPUs
+> >> using ROCm (Radeon Open Compute Platform). We're happy to finally share
+> >> this work publicly to solicit feedback and advice. The end-goal is to
+> >> get this work included upstream in Linux and CRIU. A short whitepaper
+> >> describing our design and intention can be found on Github:
+> >> https://github.com/RadeonOpenCompute/criu/tree/criu-dev/test/others/ext-kfd/README.md
+> >>
+> >> We have RFC patch series for the kernel (based on Alex Deucher's
+> >> amd-staging-drm-next branch) and for CRIU including a new plugin and a
+> >> few core CRIU changes. I will send those to the respective mailing lists
+> >> separately in a minute. They can also be found on Github.
+> >>
+> >>     CRIU+plugin: https://github.com/RadeonOpenCompute/criu/commits/criu-dev
+> >>     Kernel (KFD):
+> >>     https://github.com/RadeonOpenCompute/ROCK-Kernel-Driver/commits/fxkamd/criu-wip
+> >>
+> >> At this point this is very much a work in progress and not ready for
+> >> upstream inclusion. There are still several missing features, known
+> >> issues, and open questions that we would like to start addressing with
+> >> your feedback.
+> >>
+> >> What's working and tested at this point:
+> >>
+> >>   * Checkpoint and restore accelerated machine learning apps: PyTorch
+> >>     running Bert on systems with 1 or 2 GPUs (MI50 or MI100), 100%
+> >>     unmodified user mode stack
+> >>   * Checkpoint on one system, restore on a different system
+> >>   * Checkpoint on one GPU, restore on a different GPU
+> > This is very impressive. As far as I know this is the first larger
+> > plugin written for CRIU and publicly published. It is also the first GPU
+> > supported and people have been asking this for many years. It is in fact
+> > the first hardware device supported through a plugin.
+> >
+> >> Major Known issues:
+> >>
+> >>   * The KFD ioctl API is not final: Needs a complete redesign to allow
+> >>     future extension without breaking the ABI
+> >>   * Very slow: Need to implement DMA to dump VRAM contents
+> >>
+> >> Missing or incomplete features:
+> >>
+> >>   * Support for the new KFD SVM API
+> >>   * Check device topology during restore
+> >>   * Checkpoint and restore multiple processes
+> >>   * Support for applications using Mesa for video decode/encode
+> >>   * Testing with more different GPUs and workloads
+> >>
+> >> Big Open questions:
+> >>
+> >>   * What's the preferred way to publish our CRIU plugin? In-tree or
+> >>     out-of-tree?
+> > I would do it in-tree.
+> >
+> >>   * What's the preferred way to distribute our CRIU plugin? Source?
+> >>     Binary .so? Whole CRIU? Just in-box support?
+> > As you are planing to publish the source I would make it part of the
+> > CRIU repository and this way it will find its way to the packages in the
+> > different distributions.
+> 
+> Thanks. These are the answers I was hoping for.
+> 
+> 
+> >
+> > Does the plugin require any additional dependencies? If there is no
+> > additional dependency to a library the plugin can be easily be part of
+> > the existing packages.
+> 
+> The DMA solution we're considering for saving VRAM contents would add a
+> dependency on libdrm and libdrm-amdgpu.
+
+For the CRIU packages I am maintaining I would probably put the plugin
+in a sub-package so that not all users of the CRIU package have to
+install the mentioned libraries.
+
+> >>   * If our plugin can be upstreamed in the CRIU tree, what would be the
+> >>     right directory?
+> > I would just put it into criu/plugins/
+> 
+> Sounds good.
+> 
+> >
+> > It would also be good to have your patchset submitted as a PR on github
+> > to have our normal CI test coverage of the changes.
+> 
+> We'll probably have to recreate our repository to start as a fork of the
+> upstream CRIU repository, so that we can easily send pull-requests.
+> We're not going to be ready for upstreaming for a few more months,
+> probably. Do you want to get occasionaly pull requests anyway, just to
+> run CI on our work-in-progress code?
+
+If you run it early through our CI it might make it easier for you to
+see what it might break. Also, if your patches include fixes which are
+not directly related to your plugin, it might make sense to submit those
+patches earlier to reduce the size of the final patch. But this is up to
+you.
+
+		Adrian
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
