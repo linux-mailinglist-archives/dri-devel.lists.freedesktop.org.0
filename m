@@ -1,62 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A464372AFD
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 15:27:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD763372B06
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 15:30:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 201AC6EB07;
-	Tue,  4 May 2021 13:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C3A96EAE1;
+	Tue,  4 May 2021 13:30:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43C4C6EAE1
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 13:27:41 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id n25so10427704edr.5
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 06:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=a00OVmFQiVFIrLKs9GtQOtW8ShxzREj5VHpB8jNiuA0=;
- b=XQ7tMDkQW45I2Nrev299RMjLvNtEC1Zpg5q2VV3uVvA8QVmq1mbHNcR8z5tp0JoX8t
- yd/5BfuESgOoFKMnuNlBkrvTyc+8LSFIg73onheZVGaYymnWpmU6sqnkT7e4B2nns1YY
- ZhBP0dorCKGh0cc+mLELtI2q00e45VW8RX0aba1lee1BreRlgxzrjyG+15OvBBJDD+ox
- WjpJAf5XZcILETJjU+yLU36L7ctBwCnJVh3i8oKeWbOu7jwlHgRzF5buzIPiSlfYHsrF
- pQi9Buep+zFiwJ/qfIaFOQS2MBjbaKf6S7WnAocLGmuTef3alViq4zFUZxBSQRQeibep
- ZBPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=a00OVmFQiVFIrLKs9GtQOtW8ShxzREj5VHpB8jNiuA0=;
- b=bLuaqFMSbHNHAjlqHZWrEeJAQz31FU3lLRqDSZni06IPUG5eCcdAjvqLXr3mzBymA6
- XRzN4mti5TfdJXeZYVJbNi/nmXQlh/NXQHuDZzU0XgSrvT2KIgGhCVQWrWiSjYG0m8j1
- f7k3YlZi90Ds+YkD29nnYRTxt84cCwqYgixvt7+KSoz0S8RIJ0pzuJw6X23B9JQQ/jdO
- WrP2QEe2DGCdSgNnXFECRe3cjM8qp+i0mMyRfi2u5azBP5CA2OpH/axA+ALK+/ZVr5p1
- Hm+moK5b8t/RhKdfAghPIdNBUe4i7rZEO+MzrPFIe9zeLdfBYPHoPdkh3+nXiCmgD08l
- 8Ujw==
-X-Gm-Message-State: AOAM533HfL6F1bCKr3FzY5ykZ0PBXeQVmX27+EaVGMhyfQF0gUatTFvc
- 9oRqNgnqI5+pnsGdXse2SJv3VQW+uWk=
-X-Google-Smtp-Source: ABdhPJxbu0Gra+//PHLsI4+d2fKxO/iXwotuFgpWPViyUXV4ufgYNzfr4WbkIutGWVy0HQHnt1ZWBw==
-X-Received: by 2002:a05:6402:2548:: with SMTP id
- l8mr6584542edb.208.1620134859984; 
- Tue, 04 May 2021 06:27:39 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:4a5c:1943:c73d:c4c9])
- by smtp.gmail.com with ESMTPSA id q18sm3114036edd.3.2021.05.04.06.27.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 06:27:39 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/12] drm/v3d: add DMA-buf user fence support
-Date: Tue,  4 May 2021 15:27:29 +0200
-Message-Id: <20210504132729.2046-13-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210504132729.2046-1-christian.koenig@amd.com>
-References: <20210504132729.2046-1-christian.koenig@amd.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F216EAE1
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 13:30:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0354A611AC;
+ Tue,  4 May 2021 13:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1620135017;
+ bh=K7jOMW5zxYrXVgqj4YX3jlgoXwGfte8Q1gPc0IQQxmg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rtsctj9Ov4ebaVfqmb8gRZiVYEWb9O63QSOpgigHe4Bfem/KRiz924DWKfJrXCA1x
+ W4d/PdSPAuO3zWlqN2xdW0Ro5Srwxz2EwzPkSRaNhB9OEvbctTVDx4HN9Behn8Fwwp
+ nhrWTmovaEXCGQD5zqQXRd2b0oKZ8L3sVy0jARV8=
+Date: Tue, 4 May 2021 15:30:15 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: remove the nvlink2 pci_vfio subdriver v2
+Message-ID: <YJFMZ8KYVCDwUBPU@kroah.com>
+References: <20210326061311.1497642-1-hch@lst.de>
+ <20210504142236.76994047@bahia.lan> <YJFFG1tSP0dUCxcX@kroah.com>
+ <20210504152034.18e41ec3@bahia.lan>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210504152034.18e41ec3@bahia.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,23 +44,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Michael Ellerman <mpe@ellerman.id.au>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paul Mackerras <paulus@samba.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ linux-api@vger.kernel.org, qemu-ppc@nongnu.org, linuxppc-dev@lists.ozlabs.org,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SnVzdCBhZGQgdGhlIGNhbGwgYmVmb3JlIHRha2luZyBsb2Nrcy4KClNpZ25lZC1vZmYtYnk6IENo
-cmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KLS0tCiBkcml2ZXJzL2dw
-dS9kcm0vdjNkL3YzZF9nZW0uYyB8IDYgKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRp
-b25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vdjNkL3YzZF9nZW0uYwppbmRleCA0ZWIzNTQyMjY5NzIuLjdjNDUyOTJjNjQx
-YyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMKQEAgLTM0NSw2ICszNDUsMTIgQEAgdjNkX2xvb2t1cF9i
-b3Moc3RydWN0IGRybV9kZXZpY2UgKmRldiwKIAl9CiAJc3Bpbl91bmxvY2soJmZpbGVfcHJpdi0+
-dGFibGVfbG9jayk7CiAKKwlmb3IgKGkgPSAwOyBpIDwgam9iLT5ib19jb3VudDsgaSsrKSB7CisJ
-CXJldCA9IGRtYV9yZXN2X3N5bmNfdXNlcl9mZW5jZShqb2ItPmJvW2ldLT5yZXN2KTsKKwkJaWYg
-KHJldCkKKwkJCWJyZWFrOworCX0KKwogZmFpbDoKIAlrdmZyZWUoaGFuZGxlcyk7CiAJcmV0dXJu
-IHJldDsKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+On Tue, May 04, 2021 at 03:20:34PM +0200, Greg Kurz wrote:
+> On Tue, 4 May 2021 14:59:07 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Tue, May 04, 2021 at 02:22:36PM +0200, Greg Kurz wrote:
+> > > On Fri, 26 Mar 2021 07:13:09 +0100
+> > > Christoph Hellwig <hch@lst.de> wrote:
+> > > 
+> > > > Hi all,
+> > > > 
+> > > > the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
+> > > > feature without any open source component - what would normally be
+> > > > the normal open source userspace that we require for kernel drivers,
+> > > > although in this particular case user space could of course be a
+> > > > kernel driver in a VM.  It also happens to be a complete mess that
+> > > > does not properly bind to PCI IDs, is hacked into the vfio_pci driver
+> > > > and also pulles in over 1000 lines of code always build into powerpc
+> > > > kernels that have Power NV support enabled.  Because of all these
+> > > > issues and the lack of breaking userspace when it is removed I think
+> > > > the best idea is to simply kill.
+> > > > 
+> > > > Changes since v1:
+> > > >  - document the removed subtypes as reserved
+> > > >  - add the ACK from Greg
+> > > > 
+> > > > Diffstat:
+> > > >  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
+> > > >  b/arch/powerpc/include/asm/opal.h            |    3 
+> > > >  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
+> > > >  b/arch/powerpc/include/asm/pci.h             |    7 
+> > > >  b/arch/powerpc/platforms/powernv/Makefile    |    2 
+> > > >  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
+> > > >  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
+> > > >  b/arch/powerpc/platforms/powernv/pci.c       |   11 
+> > > >  b/arch/powerpc/platforms/powernv/pci.h       |   17 
+> > > >  b/arch/powerpc/platforms/pseries/pci.c       |   23 
+> > > >  b/drivers/vfio/pci/Kconfig                   |    6 
+> > > >  b/drivers/vfio/pci/Makefile                  |    1 
+> > > >  b/drivers/vfio/pci/vfio_pci.c                |   18 
+> > > >  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
+> > > >  b/include/uapi/linux/vfio.h                  |   38 -
+> > > 
+> > > 
+> > > Hi Christoph,
+> > > 
+> > > FYI, these uapi changes break build of QEMU.
+> > 
+> > What uapi changes?
+> > 
+> 
+> All macros and structure definitions that are being removed
+> from include/uapi/linux/vfio.h by patch 1.
+> 
+> > What exactly breaks?
+> > 
+> 
+> These macros and types are used by the current QEMU code base.
+> Next time the QEMU source tree updates its copy of the kernel
+> headers, the compilation of affected code will fail.
+
+So does QEMU use this api that is being removed, or does it just have
+some odd build artifacts of the uapi things?
+
+What exactly is the error messages here?
+
+And if we put the uapi .h file stuff back, is that sufficient for qemu
+to work, as it should be checking at runtime what the kernel has / has
+not anyway, right?
+
+thanks,
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
