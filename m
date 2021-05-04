@@ -2,64 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1EC6372BF8
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 16:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161C7372C01
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 16:29:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBF9A6E270;
-	Tue,  4 May 2021 14:26:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F9AA6E239;
+	Tue,  4 May 2021 14:29:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7549A6E270
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 14:26:45 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id w3so13490129ejc.4
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 07:26:45 -0700 (PDT)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8930B6E239
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 14:29:14 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ d3-20020a9d29030000b029027e8019067fso8328487otb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 07:29:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=L7+oKBj0RRCG5ZcgD66HmKyyPb5uTpmf8oveAs8px/0=;
- b=QNNgUcM0Y5bGPvzLk4jp95MiW4cV5+QvXBmd6t6Q7XbokhS5fcJGQA8SbEe937j1IC
- xgHubd6eetXOXVeXYFcAEvv7GJMVIO1iQyI8JJT21HmqXhrNd+22px4phrGIy+FUHetX
- GKptkKdUi47hcCwOkwaEYq+pLzgYO5Q1VX8r2p9E65ypYp8ZuHw5LaAYysNOHf5DPtfW
- dpZ4Fz5+n4OEGzKTo+71A9rvaW98vAUrLgqzoSnAt2bd14xfbUihI4xahKcG8bJaBUvP
- vbpcBrEidvKoURoVX6w2S5urv4rC7kqkRFASiXtLbPBBeVlVkwaAbiI/rPTLFOI3kOgw
- DC1w==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eKIZAu6/2NdM8fHlgkE+KZQqouzZp51NLAhVcolSIcE=;
+ b=ShojezARwH1uaeTtN3VENf1RsdHgYRRDzCLnqNZoJ5xANav8dLHe59dCObS3LW7oVR
+ sss3ADBtYFRFC3LdfJbp7TvbT2kYTTCJE2J48jPFCRanYOjsD3kogYxwaQfpfs99pRgF
+ HMK303LDXhBkXFZ32L9X2ehbfl1UWWsAuZ8P/nUUj+240fGg1DO0x6GK15dq/riwNYeb
+ aafpBSYS6aQy2TrZ/HhhvsbaW0xO2iVGk1a7cvQqrEXfxVPdaaFAV7wKKfHusrCw0zaq
+ lNdzMNQADc/pwkfis9vVIuyFNLjL01BesNpG6FOxQGBvywFqcfV2Y2b2o9bOE0Y05d5J
+ Nv/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=L7+oKBj0RRCG5ZcgD66HmKyyPb5uTpmf8oveAs8px/0=;
- b=Y42QvJYb9evwDjQ4jGPdxP/RZedg2R49PP+yS4per8BDKQKyOjLN/4lBXwfdefV0K4
- 0dJ2DfKOINSO6669BW6isyoSX3TAFODFPMECVMNOSPYtKUyvTnSzqw08NOKv9cqHlSSz
- KNLY8aSMAhdPdLPxRIV42zvTye0XXVxJQGh2vzIrY68AWCLsJk/gEAMiM9ufFI4+jml3
- ZipZOu5sTuxhckr/KYb0d67fZwc19CXQdsE6K6RRgQJK/sQ8j6b7iA7PppGJY99TVZWt
- v8AA0UfvCnOgwILWJHGuxzyQ9AcLlIselnUUjs2tgdTvZA8c+2Pmlatq8VLnkk/7Z1+i
- wsVQ==
-X-Gm-Message-State: AOAM5300XVhrYsLuYJzF1qAmtkjNLZOlo9GLemXiq0kfT1NURb2QMGY2
- XY2wrxhCVdwjtb8Lro3NpP3Fjg8a9UY=
-X-Google-Smtp-Source: ABdhPJxcBIMMud9D0cACMjgIdqIeIa95VH0U01yFvIXm0fndz8aPNriiDEwkM4m4LJR3wfTwu8Peyg==
-X-Received: by 2002:a17:906:55c5:: with SMTP id
- z5mr21650752ejp.306.1620138404132; 
- Tue, 04 May 2021 07:26:44 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:36d2:ff0f:67e9:929c?
- ([2a02:908:1252:fb60:36d2:ff0f:67e9:929c])
- by smtp.gmail.com with ESMTPSA id pw11sm1477215ejb.88.2021.05.04.07.26.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 May 2021 07:26:43 -0700 (PDT)
-Subject: Re: [RFC] Implicit vs explicit user fence sync
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210504132729.2046-1-christian.koenig@amd.com>
- <YJFXG/THrjXqQjyN@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <d266ccd2-3259-99ce-5fd6-b8ae81ac14e9@gmail.com>
-Date: Tue, 4 May 2021 16:26:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=eKIZAu6/2NdM8fHlgkE+KZQqouzZp51NLAhVcolSIcE=;
+ b=oFPBOosk2hKictxwjkTZVDnujN2fZH5E6aw5uFdr+DN3mzLs2d+C58oGf8NO0DzzYx
+ TyEVAJr7L8/PjrHn0QO4iUr6GpwgxvXlKrns9Zwum6HetyyFXzw/vrs0NouYHtoRbFpo
+ nIJNMpbMS8zzwCH0gnJ8oX+VnWqNpWXGeZsS9gIXCd0dbv0Zp4PEqf3QocUnXFgVoMFb
+ VnOx+vvH/1iAfQj4tHwQaKEnq7DxqjJAV+BT2C8f/L5Hm3m8mUSQCvnSQYupj4xtnlat
+ D4RIbVC0GUCqgnLWD/rruQ4NVg//YTpetxwt+bNKkS1qqtuy99a4KUy9jsBfwtHbjEcc
+ rPBA==
+X-Gm-Message-State: AOAM530Ptg28hKZaVANrrOQXqp44evNHSvJoRbAkM+YEfsmc4I6RGXcZ
+ U+71O1wiihexpMt5J5/3GEowdiLLLbQ=
+X-Google-Smtp-Source: ABdhPJwixsPL4gUes21e2Ym9ZiEjlDDpj7aBAgzY2n98I2gq+SjsQaNx1v6L61j1SitQH65pU7hlXQ==
+X-Received: by 2002:a05:6830:1f27:: with SMTP id
+ e7mr19351128oth.341.1620138553582; 
+ Tue, 04 May 2021 07:29:13 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id a15sm660543oid.39.2021.05.04.07.29.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 May 2021 07:29:12 -0700 (PDT)
+From: Guenter Roeck <linux@roeck-us.net>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] fbmem: Mark proc_fb_seq_ops as __maybe_unused
+Date: Tue,  4 May 2021 07:29:10 -0700
+Message-Id: <20210504142910.2084722-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YJFXG/THrjXqQjyN@phenom.ffwll.local>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,79 +66,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLAoKQW0gMDQuMDUuMjEgdW0gMTY6MTUgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+
-IEhpIENocmlzdGlhbiwKPgo+IE9uIFR1ZSwgTWF5IDA0LCAyMDIxIGF0IDAzOjI3OjE3UE0gKzAy
-MDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IEhpIGd1eXMsCj4+Cj4+IHdpdGggdGhpcyBw
-YXRjaCBzZXQgSSB3YW50IHRvIGxvb2sgaW50byBob3cgbXVjaCBtb3JlIGFkZGl0aW9uYWwgd29y
-ayBpdAo+PiB3b3VsZCBiZSB0byBzdXBwb3J0IGltcGxpY2l0IHN5bmMgY29tcGFyZWQgdG8gb25s
-eSBleHBsaWNpdCBzeW5jLgo+Pgo+PiBUdXJuZWQgb3V0IHRoYXQgdGhpcyBpcyBtdWNoIHNpbXBs
-ZXIgdGhhbiBleHBlY3RlZCBzaW5jZSB0aGUgb25seQo+PiBhZGRpdGlvbiBpcyB0aGF0IGJlZm9y
-ZSBhIGNvbW1hbmQgc3VibWlzc2lvbiBvciBmbGlwIHRoZSBrZXJuZWwgYW5kCj4+IGNsYXNzaWMg
-ZHJpdmVycyB3b3VsZCBuZWVkIHRvIHdhaXQgZm9yIHRoZSB1c2VyIGZlbmNlIHRvIHNpZ25hbCBi
-ZWZvcmUKPj4gdGFraW5nIGFueSBsb2Nrcy4KPiBJdCdzIGEgbG90IG1vcmUgSSB0aGluawo+IC0g
-c3luY19maWxlL2RybV9zeW5jb2JqIHN0aWxsIG5lZWQgdG8gYmUgc3VwcG9ydGVkIHNvbWVob3cK
-CllvdSBuZWVkIHRoYXQgd2l0aCBleHBsaWNpdCBmZW5jZXMgYXMgd2VsbC4KCkknbSBqdXN0IGNv
-bmNlbnRyYXRpbmcgb24gd2hhdCBleHRyYSBidXJkZW4gaW1wbGljaXQgc3luYyB3b3VsZCBnZXQg
-dXMuCgo+IC0gd2UgbmVlZCB1c2Vyc3BhY2UgdG8gaGFuZGxlIHRoZSBzdGFsbCBpbiBhIHN1Ym1p
-dCB0aHJlYWQgYXQgbGVhc3QKPiAtIHRoZXJlJ3Mgbm90aGluZyBoZXJlIHRoYXQgc2V0cyB0aGUg
-c3luYyBvYmplY3QKPiAtIGltcGxpY2l0IHN5bmMgaXNuJ3QganVzdCBleGVjYnVmLCBpdCdzIGV2
-ZXJ5dGhpbmcuIEUuZy4gdGhlIHZhcmlvdXMKPiAgICB3YWl0X2JvIGlvY3RsIGFsc28gbmVlZCB0
-byBrZWVwIHdvcmtpbmcsIGluY2x1ZGluZyB0aW1lb3V0IGFuZAo+ICAgIGV2ZXJ5dGhpbmcKCkdv
-b2QgcG9pbnQsIGJ1dCB0aGF0IHNob3VsZCBiZSByZWxhdGl2ZWx5IGVhc2lseSB0byBhZGQgYXMg
-d2VsbC4KCj4gLSB3ZSBjYW4ndCBzdGFsbCBpbiBhdG9taWMga21zIHdoZXJlIHlvdSdyZSBjdXJy
-ZW50bHkgc3RhbGxpbmcsIHRoYXQncyBmb3IKPiAgICBzdXJlLiBUaGUgdWFwaSBzYXlzICJ3ZSdy
-ZSBub3Qgc3RhbGxpbmcgZm9yIGZlbmNlcyBpbiB0aGVyZSIsIGFuZCB5b3UncmUKPiAgICBicmVh
-a2luZyB0aGF0LgoKQWdhaW4gYXMgZmFyIGFzIEkgY2FuIHNlZSB3ZSBydW4gaW50byB0aGUgc2Ft
-ZSBwcm9ibGVtIHdpdGggZXhwbGljaXQgc3luYy4KClNvIHRoZSBxdWVzdGlvbiBpcyB3aGVyZSBj
-b3VsZCB3ZSBibG9jayBmb3IgYXRvbWljIG1vZGVzZXQgZm9yIHVzZXIgCmZlbmNlcyBpbiBnZW5l
-cmFsPwoKPiAtIC4uLiBhdCB0aGlzIHBvaW50IEkgc3RvcHBlZCBwb25kZXJpbmcgYnV0IHRoZXJl
-J3MgZGVmaW5pdGVseSBtb3JlCj4KPiBJbW8gdGhlIG9ubHkgd2F5IHdlJ2xsIGV2ZW4gZ2V0IHRo
-ZSBjb21wbGV0ZSBpcyBpZiB3ZSBkbyB0aGUgZm9sbG93aW5nOgo+IDEuIHJvbGwgb3V0IGltcGxp
-Y2l0IHN5bmMgd2l0aCB1c2Vyc3BhY2UgZmVuY2VzIG9uIGEgZHJpdmVyLWJ5LWRyaXZlciBiYXNp
-cwo+ICAgICAxYS4gaW5jbHVkaW5nIGFsbCB0aGUgd2luc3lzL21vZGVzZXQgc3R1ZmYKCkNvbXBs
-ZXRlbHkgYWdyZWUsIHRoYXQncyB3aHkgSSd2ZSBzcGxpdCB0aGF0IHVwIGludG8gaW5kaXZpZHVh
-bCBwYXRjaGVzLgoKSSdtIGFsc28gZmluZSBpZiBkcml2ZXJzIGNhbiBqdXN0IG9wdCBvdXQgb2Yg
-dXNlciBmZW5jZSBiYXNlZCAKc3luY2hyb25pemF0aW9uIGFuZCB3ZSByZXR1cm4gYW4gZXJyb3Ig
-ZnJvbSBkbWFfYnVmX2R5bmFtaWNfYXR0YWNoKCkgaWYgCnNvbWUgZHJpdmVyIHNheXMgaXQgY2Fu
-J3QgaGFuZGxlIHRoYXQuCgo+IDIuIHJvbGwgb3V0IHN1cHBvcnQgZm9yIHVzZXJzcGFjZSBmZW5j
-ZXMgdG8gZHJtX3N5bmNvYmogdGltZWxpbmUgZm9yCj4gICAgIGludGVyb3AsIGJvdGggYWNyb3Nz
-IHByb2Nlc3MvdXNlcnNwYWNlIGFuZCBhY3Jvc3MgZHJpdmVycwo+ICAgICAyYS4gaW5jbHVkaW5n
-IGFsbCB0aGUgd2luc3lzL21vZGVzZXQgc3R1ZmYsIGJ1dCBob3BlZnVsbHkgdGhhdCdzCj4gICAg
-ICAgICBsYXJnZWx5IHNvbHZlZCB3aXRoIDEuIGFscmVhZHkuCgpDb3JyZWN0LCBidXQgYWdhaW4g
-d2UgbmVlZCB0aGlzIGZvciBleHBsaWNpdCBmZW5jaW5nIGFzIHdlbGwuCgo+IDMuIG9ubHkgdGhl
-biB0cnkgdG8gZmlndXJlIG91dCBob3cgdG8gcmV0cm9zaG9laG9ybiB0aGlzIGludG8gaW1wbGlj
-aXQKPiAgICAgc3luYywgYW5kIHdoZXRoZXIgdGhhdCBldmVuIG1ha2VzIHNlbnNlLgo+Cj4gQmVj
-YXVzZSBkb2luZyAzIGJlZm9yZSB3ZSd2ZSBkb25lIDEmMiBmb3IgYXQgbGVhc3QgMiBkcml2ZXJz
-ICgyIGJlY2F1c2UKPiBpbnRlcm9wIGZ1biBhY3Jvc3MgZHJpdmVycykgaXMganVzdCBwcmF5aW5n
-IHRoYXQgdGhpcyB0aW1lIGFyb3VuZCB3ZSdyZQo+IG5vdCBjb2xsZWN0aXZlbHkgaWRpb3RzIGFu
-ZCBjYW4gY29ycmVjdGx5IHByZWRpY3QgdGhlIGZ1dHVyZS4gVGhhdCBuZXZlcgo+IHdvcmtlZCA6
-LSkKPgo+PiBGb3IgdGhpcyBwcm90b3R5cGUgdGhpcyBwYXRjaCBzZXQgZG9lc24ndCBpbXBsZW1l
-bnQgYW55IHVzZXIgZmVuY2UKPj4gc3luY2hyb25pemF0aW9uIGF0IGFsbCwgYnV0IGp1c3QgYXNz
-dW1lcyB0aGF0IGZhdWx0aW5nIHVzZXIgcGFnZXMgaXMKPj4gc3VmZmljaWVudCB0byBtYWtlIHN1
-cmUgdGhhdCB3ZSBjYW4gd2FpdCBmb3IgdXNlciBzcGFjZSB0byBmaW5pc2gKPj4gc3VibWl0dGlu
-ZyB0aGUgd29yay4gSWYgbmVjZXNzYXJ5IHRoaXMgY2FuIGJlIG1hZGUgZXZlbiBtb3JlIHN0cmlj
-dCwgdGhlCj4+IG9ubHkgdXNlIGNhc2UgSSBjb3VsZCBmaW5kIHdoaWNoIGJsb2NrcyB0aGlzIGlz
-IHRoZSByYWRlb24gZHJpdmVyIGFuZAo+PiB0aGF0IHNob3VsZCBiZSBoYW5kbGUgYWJsZS4KPj4K
-Pj4gVGhpcyBvZiBjb3Vyc2UgZG9lc24ndCBnaXZlIHlvdSB0aGUgc2FtZSBzZW1hbnRpYyBhcyB0
-aGUgY2xhc3NpYwo+PiBpbXBsaWNpdCBzeW5jIHRvIGd1YXJhbnRlZSB0aGF0IHlvdSBoYXZlIGV4
-Y2x1c2l2ZSBhY2Nlc3MgdG8gYSBidWZmZXJzLAo+PiBidXQgdGhpcyBpcyBhbHNvIG5vdCBuZWNl
-c3NhcnkuCj4+Cj4+IFNvIEkgdGhpbmsgdGhlIGNvbmNsdXNpb24gc2hvdWxkIGJlIHRoYXQgd2Ug
-ZG9uJ3QgbmVlZCB0byBjb25jZW50cmF0ZSBvbgo+PiBpbXBsaWNpdCB2cy4gZXhwbGljaXQgc3lu
-YywgYnV0IHJhdGhlciBob3cgdG8gZ2V0IHRoZSBzeW5jaHJvbml6YXRpb24KPj4gYW5kIHRpbWVv
-dXQgc2lnbmFsbGluZyBmaWd1cmVkIG91dCBpbiBnZW5lcmFsLgo+IEknbSBub3Qgc3VyZSB3aGF0
-IGV4YWN0bHkgeW91J3JlIHByb3ZpbmcgaGVyZSBhc2lkZSBmcm9tICJpdCdzIHBvc3NpYmxlIHRv
-Cj4gcm9sbCBvdXQgYSBmdW5jdGlvbiB3aXRoIGlsbC1kZWZpbmVkIHNlbWFudGljcyB0byBhbGwg
-ZHJpdmVycyIuIFRoaXMKPiByZWFsbHkgaXMgYSBsb3QgaGFyZGVyIHRoYW4ganVzdCB0aGlzIG9u
-ZSBmdW5jdGlvbiBhbmQganVzdCB0aGlzIG9uZSBwYXRjaAo+IHNldC4KCk5vIGl0IGlzbid0LiBU
-aGUgaGFyZCBwYXJ0IGlzIGdldHRpbmcgdGhlIHVzZXIgc3luYyBzdHVmZiB1cCBpbiBnZW5lcmFs
-LgoKQWRkaW5nIGltcGxpY2l0IHN5bmNocm9uaXphdGlvbiBvbiB0b3Agb2YgdGhhdCBpcyB0aGVu
-IHJhdGhlciB0cml2aWFsLgoKQ2hyaXN0aWFuLgoKPiAtRGFuaWVsCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+With CONFIG_PROC_FS=n and -Werror, 0-day reports:
+
+drivers/video/fbdev/core/fbmem.c:736:36: error:
+	'proc_fb_seq_ops' defined but not used
+
+Mark it as __maybe_unused.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/video/fbdev/core/fbmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 372b52a2befa..52c606c0f8a2 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -733,7 +733,7 @@ static int fb_seq_show(struct seq_file *m, void *v)
+ 	return 0;
+ }
+ 
+-static const struct seq_operations proc_fb_seq_ops = {
++static const struct __maybe_unused seq_operations proc_fb_seq_ops = {
+ 	.start	= fb_seq_start,
+ 	.next	= fb_seq_next,
+ 	.stop	= fb_seq_stop,
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
