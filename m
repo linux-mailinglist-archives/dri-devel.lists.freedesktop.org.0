@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE90372707
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 10:14:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DD0372731
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 10:26:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 358C06EA9E;
-	Tue,  4 May 2021 08:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 058C66EAA7;
+	Tue,  4 May 2021 08:26:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 819666EACF;
- Tue,  4 May 2021 08:14:28 +0000 (UTC)
-IronPort-SDR: 4z7zQuP6d637Cq42WLGwtRx6uam0TlNDaBxGnomu/cVcKdJhIgr1dNJyxQP9E7LifSIp9gZsJa
- lrcwUX04vgLw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="195875418"
-X-IronPort-AV: E=Sophos;i="5.82,271,1613462400"; d="scan'208";a="195875418"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 01:14:27 -0700
-IronPort-SDR: qJrPgYfEOSjJbvcggx8+s59DSVQgwGT60ytVlKagXx8dNyXOJPGbCpf3EPxvkpDKr6aBgZfbNH
- QCEOyRfn39vw==
-X-IronPort-AV: E=Sophos;i="5.82,271,1613462400"; d="scan'208";a="468413440"
-Received: from vkrishna-mobl.ger.corp.intel.com (HELO [10.213.209.221])
- ([10.213.209.221])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 01:14:25 -0700
-Subject: Re: [PATCH 3/6] drm/i915: Add a separate low-level helper for masked
- workarounds
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20210429091254.855248-1-tvrtko.ursulin@linux.intel.com>
- <20210429091254.855248-4-tvrtko.ursulin@linux.intel.com>
- <20210501065532.sfgeq5ainzpnnlpg@ldmartin-desk2>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <5e2d3054-f8ff-79a4-93d0-5291a229622a@linux.intel.com>
-Date: Tue, 4 May 2021 09:14:23 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9A9E6EAA7
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 08:26:16 +0000 (UTC)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
+ [91.157.208.71])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30DBD58E;
+ Tue,  4 May 2021 10:26:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1620116774;
+ bh=651Njm1PFavKJRD30KAL7DAxIfjbLZIDM84/G6BWZiU=;
+ h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+ b=NWn9JHJBBZYbbQKnFryJ0C9kJzvLL+qUGdiGrjL0nm13RLcsR6WVU8WrSBiqvA2tF
+ ts162Zp27WaOhGHYgxWaDhWpYfRrcblV1pwksf4Ci5g21BUywXwfOep1tQSUKApsCA
+ MbyWFOARM2Ni21PgUM9G+RfTfg5/Rk3e0Uc5IFWs=
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20210428132545.1205162-1-hverkuil-cisco@xs4all.nl>
+ <20210428132545.1205162-2-hverkuil-cisco@xs4all.nl>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCHv3 1/6] drm: drm_bridge: add connector_attach/detach bridge
+ ops
+Message-ID: <bcf1d476-216f-db51-840e-7cda58585b5b@ideasonboard.com>
+Date: Tue, 4 May 2021 11:26:13 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210501065532.sfgeq5ainzpnnlpg@ldmartin-desk2>
+In-Reply-To: <20210428132545.1205162-2-hverkuil-cisco@xs4all.nl>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,161 +52,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Tony Lindgren <tony@atomide.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDAxLzA1LzIwMjEgMDc6NTUsIEx1Y2FzIERlIE1hcmNoaSB3cm90ZToKPiBPbiBUaHUsIEFw
-ciAyOSwgMjAyMSBhdCAxMDoxMjo1MUFNICswMTAwLCBUdnJ0a28gVXJzdWxpbiB3cm90ZToKPj4g
-RnJvbTogVHZydGtvIFVyc3VsaW4gPHR2cnRrby51cnN1bGluQGludGVsLmNvbT4KPj4KPj4gV2Ug
-ZGlzdGluZ3Vpc2ggbWFza2VkIHJlZ2lzdGVycyBmcm9tIG90aGVyIHdvcmthcm91bmRzIGJ5IHRo
-ZSBtYXNrIChjbHIpCj4+IGJlaW5nIHplcm8gZm9yIHRoZSBmb3JtZXIuCj4gCj4gdGhlIGRpZmZl
-cmVuY2UgaXMgbW9yZSBvbiB0aGUgZmFjdCB0aGF0IHRob3NlIGNhbGxzIHVzZWQgX01BU0tFRF8q
-Cj4gbWFjcm9zIHRvIHByZXBhcmUgdGhlIHVwcGVyIDE2IGJpdHMgdGhhbiB0aGUgZmFjdCB0aGUg
-Y2xyIGlzIDAuCj4gCj4gY2xyIGlzIHplcm8gb25seSBiZWNhdXNlIGZvciBtYXNrZWQgcmVnaXN0
-ZXJzIHdlIGRvbid0IGNhcmUgYWJvdXQKPiBjbGVhcmluZyB0aGUgdmFsdWUgc2luY2UgYWxsIHRo
-ZSBiaXRzIGluIHRoZSBtYXNrIHdpbGwgYmUgd3JpdHRlbi4KPiBNb3JlIGJlbG93LgoKWWVzLCBi
-dXQgbm90IG9ubHkgZG9uJ3QgY2FyZSBidXQgcmVhbGx5IGRvbid0IHdhbnQgdG8gZG8gcm13LiBX
-ZSBoYXZlIAp0d28gc2VwYXJhdGUgcGF0aHMgaW4gdGhlIGFwcGx5IHNpZGUgd2hpY2ggaXMgcGlj
-a2VkIGJhc2VkIG9uIGNsciBiZWluZyAKemVybyBvciBub3QuCgo+PiBUbyBhdm9pZCBjYWxsZXJz
-IG9mIHRoZSBsb3ctbGV2ZWwgd2FfYWRkIGhhdmluZyB0byBrbm93IHRoYXQsIGFuZCBiZQo+PiBw
-YXNzaW5nIHRoaXMgemVybyBleHBsaWNpdGx5LCBhZGQgYSB3YV9tYXNrZWRfYWRkIGxvdy1sZXZl
-bCBoZWxwZXIKPj4gd2hpY2ggZW1iZWRzIHRoaXMga25vd2xlZGdlLgo+Pgo+PiBTaWduZWQtb2Zm
-LWJ5OiBUdnJ0a28gVXJzdWxpbiA8dHZydGtvLnVyc3VsaW5AaW50ZWwuY29tPgo+PiAtLS0KPj4g
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfd29ya2Fyb3VuZHMuYyB8IDU2ICsrKysrKysr
-KysrKystLS0tLS0tLQo+PiAxIGZpbGUgY2hhbmdlZCwgMzQgaW5zZXJ0aW9ucygrKSwgMjIgZGVs
-ZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRl
-bF93b3JrYXJvdW5kcy5jIAo+PiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX3dvcmth
-cm91bmRzLmMKPj4gaW5kZXggNjJjYjllZTViZmMzLi5hN2FiZjljYTc4ZWMgMTAwNjQ0Cj4+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX3dvcmthcm91bmRzLmMKPj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfd29ya2Fyb3VuZHMuYwo+PiBAQCAtMTYyLDYg
-KzE2MiwxOCBAQCBzdGF0aWMgdm9pZCB3YV9hZGQoc3RydWN0IGk5MTVfd2FfbGlzdCAqd2FsLCAK
-Pj4gaTkxNV9yZWdfdCByZWcsCj4+IMKgwqDCoMKgX3dhX2FkZCh3YWwsICZ3YSk7Cj4+IH0KPj4K
-Pj4gK3N0YXRpYyB2b2lkIHdhX21hc2tlZF9hZGQoc3RydWN0IGk5MTVfd2FfbGlzdCAqd2FsLCBp
-OTE1X3JlZ190IHJlZywKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHUzMiBzZXQsIHUz
-MiByZWFkX21hc2spCj4+ICt7Cj4+ICvCoMKgwqAgc3RydWN0IGk5MTVfd2Egd2EgPSB7Cj4+ICvC
-oMKgwqDCoMKgwqDCoCAucmVnwqAgPSByZWcsCj4+ICvCoMKgwqDCoMKgwqDCoCAuc2V0wqAgPSBz
-ZXQsCj4+ICvCoMKgwqDCoMKgwqDCoCAucmVhZCA9IHJlYWRfbWFzaywKPj4gK8KgwqDCoCB9Owo+
-PiArCj4+ICvCoMKgwqAgX3dhX2FkZCh3YWwsICZ3YSk7Cj4+ICt9Cj4gCj4gSSB0aGluayB0aGlz
-IHdvdWxkIGJlIGJldHRlciB0b2dldGhlciB3aXRoIHRoZSBvdGhlciB3YV9tYXNrZWRfKgo+IGZ1
-bmN0aW9ucy4gSWYgbm90IG9ubHkgYnkgdGhlIG5hbWUsIGJ1dCBhbHNvIGJlY2F1c2Ugd2UgaGF2
-ZSBhIGNvbW1lbnQKPiB0aGVyZToKPiAKPiAvKgo+ICDCoCogV0Egb3BlcmF0aW9ucyBvbiAibWFz
-a2VkIHJlZ2lzdGVyIi4gQSBtYXNrZWQgcmVnaXN0ZXIgaGFzIHRoZSB1cHBlciAKPiAxNiBiaXRz
-Cj4gIMKgKiBkb2N1bWVudGVkIGFzICJtYXNrZWQiIGluIGItc3BlYy4gSXRzIHB1cnBvc2UgaXMg
-dG8gYWxsb3cgd3JpdGluZyB0byAKPiBqdXN0IGEKPiAgwqAqIHBvcnRpb24gb2YgdGhlIHJlZ2lz
-dGVyIHdpdGhvdXQgYSBybXc6IHlvdSBzaW1wbHkgd3JpdGUgaW4gdGhlIHVwcGVyIAo+IDE2IGJp
-dHMKPiAgwqAqIHRoZSBtYXNrIG9mIGJpdHMgeW91IGFyZSBnb2luZyB0byBtb2RpZnkuCj4gIMKg
-Kgo+ICDCoCogVGhlIHdhX21hc2tlZF8qIGZhbWlseSBvZiBmdW5jdGlvbnMgYWxyZWFkeSBkb2Vz
-IHRoZSBuZWNlc3NhcnkgCj4gb3BlcmF0aW9ucyB0bwo+ICDCoCogY2FsY3VsYXRlIHRoZSBtYXNr
-IGJhc2VkIG9uIHRoZSBwYXJhbWV0ZXJzIHBhc3NlZCwgc28gdXNlciBvbmx5IGhhcyB0bwo+ICDC
-oCogcHJvdmlkZSB0aGUgbG93ZXIgMTYgYml0cyBvZiB0aGF0IHJlZ2lzdGVyLgo+ICDCoCovCgpZ
-ZXAgdGhhbmtzLgoKPiAKPj4gKwo+PiBzdGF0aWMgdm9pZAo+PiB3YV93cml0ZV9jbHJfc2V0KHN0
-cnVjdCBpOTE1X3dhX2xpc3QgKndhbCwgaTkxNV9yZWdfdCByZWcsIHUzMiBjbGVhciwgCj4+IHUz
-MiBzZXQpCj4+IHsKPj4gQEAgLTIwMCwyMCArMjEyLDIwIEBAIHdhX3dyaXRlX2NscihzdHJ1Y3Qg
-aTkxNV93YV9saXN0ICp3YWwsIAo+PiBpOTE1X3JlZ190IHJlZywgdTMyIGNscikKPj4gc3RhdGlj
-IHZvaWQKPj4gd2FfbWFza2VkX2VuKHN0cnVjdCBpOTE1X3dhX2xpc3QgKndhbCwgaTkxNV9yZWdf
-dCByZWcsIHUzMiB2YWwpCj4+IHsKPj4gLcKgwqDCoCB3YV9hZGQod2FsLCByZWcsIDAsIF9NQVNL
-RURfQklUX0VOQUJMRSh2YWwpLCB2YWwpOwo+PiArwqDCoMKgIHdhX21hc2tlZF9hZGQod2FsLCBy
-ZWcsIF9NQVNLRURfQklUX0VOQUJMRSh2YWwpLCB2YWwpOwo+IAo+IGZvciBtZSBpdCBmZWVscyB3
-ZWlyZCB0aGF0IG5vdyB3ZSBoYXZlIHRvIHVzZSB3YV9tYXNrZWRfYWRkKCkgKmFuZCogYXQgdGhl
-Cj4gc2FtZSB0aW1lIHVzZSBfTUFTS0VEX0JJVF9FTkFCTEUoKS4gVGhpcyBpcyBub3QgdGhlIGNh
-c2UgZm9yIHdoZW4gd2UgYXJlCj4gdXNpbmcgd2FfbWFza2VkX2VuKCkgZm9yIGV4YW1wbGUuCj4g
-Cj4gYW5kIGFzIEkgc2FpZCwgdGhlIGNsciBiaXRzIGNvdWxkIGJlIGFueXRoaW5nIHNpbmNlIHRo
-ZXkgZG9uJ3QgcmVhbGx5Cj4gbWF0dGVyLiBUaGUgYmlnZ2VzdCB2YWx1ZSBhZGRlZCBieSB0aGUg
-d2FfbWFza2VkXyogdmFyaWFudCBpcyB0aGUgdXNlIG9mCj4gX01BU0tFRF8qIHdoZXJlIG5lZWRl
-ZC4KClllcyBJIHdhc24ndCBmdWxseSBoYXBweSB3aXRoIGl0LgoKSG93IGFib3V0IGJvdGggd2Ff
-YWRkIGFuZCB3YV9tYXNrZWRfYWRkIGdldCBhIHNpbmdsZSBvciBkb3VibGUgCnVuZGVyc2NvcmUg
-cHJlZml4PyBUaGF0IHdvdWxkIHNpZ25pZnkgdGhlbSBiZWluZyBsb3ctbGV2ZWwgYW5kIGp1c3Rp
-ZnkgCnRoZSBuZWVkIGZvciBleHBsaWNpdGx5IHVzaW5nIF9NQVNLRURfQklUX0VOQUJMRT8KClJl
-Z2FyZHMsCgpUdnJ0a28KCj4gCj4gTHVjYXMgRGUgTWFyY2hpCj4gCj4+IH0KPj4KPj4gc3RhdGlj
-IHZvaWQKPj4gd2FfbWFza2VkX2RpcyhzdHJ1Y3QgaTkxNV93YV9saXN0ICp3YWwsIGk5MTVfcmVn
-X3QgcmVnLCB1MzIgdmFsKQo+PiB7Cj4+IC3CoMKgwqAgd2FfYWRkKHdhbCwgcmVnLCAwLCBfTUFT
-S0VEX0JJVF9ESVNBQkxFKHZhbCksIHZhbCk7Cj4+ICvCoMKgwqAgd2FfbWFza2VkX2FkZCh3YWws
-IHJlZywgX01BU0tFRF9CSVRfRElTQUJMRSh2YWwpLCB2YWwpOwo+PiB9Cj4+Cj4+IHN0YXRpYyB2
-b2lkCj4+IHdhX21hc2tlZF9maWVsZF9zZXQoc3RydWN0IGk5MTVfd2FfbGlzdCAqd2FsLCBpOTE1
-X3JlZ190IHJlZywKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1MzIgbWFzaywgdTMyIHZhbCkK
-Pj4gewo+PiAtwqDCoMKgIHdhX2FkZCh3YWwsIHJlZywgMCwgX01BU0tFRF9GSUVMRChtYXNrLCB2
-YWwpLCBtYXNrKTsKPj4gK8KgwqDCoCB3YV9tYXNrZWRfYWRkKHdhbCwgcmVnLCBfTUFTS0VEX0ZJ
-RUxEKG1hc2ssIHZhbCksIG1hc2spOwo+PiB9Cj4+Cj4+IHN0YXRpYyB2b2lkIGdlbjZfY3R4X3dv
-cmthcm91bmRzX2luaXQoc3RydWN0IGludGVsX2VuZ2luZV9jcyAqZW5naW5lLAo+PiBAQCAtODM2
-LDEwICs4NDgsMTAgQEAgaHN3X2d0X3dvcmthcm91bmRzX2luaXQoc3RydWN0IGRybV9pOTE1X3By
-aXZhdGUgCj4+ICppOTE1LCBzdHJ1Y3QgaTkxNV93YV9saXN0ICp3YWwpCj4+IMKgwqDCoMKgLyog
-TDMgY2FjaGluZyBvZiBkYXRhIGF0b21pY3MgZG9lc24ndCB3b3JrIC0tIGRpc2FibGUgaXQuICov
-Cj4+IMKgwqDCoMKgd2Ffd3JpdGUod2FsLCBIU1dfU0NSQVRDSDEsIEhTV19TQ1JBVENIMV9MM19E
-QVRBX0FUT01JQ1NfRElTQUJMRSk7Cj4+Cj4+IC3CoMKgwqAgd2FfYWRkKHdhbCwKPj4gLcKgwqDC
-oMKgwqDCoMKgwqDCoMKgIEhTV19ST1dfQ0hJQ0tFTjMsIDAsCj4+IC0gICAgICAgICAgIAo+PiBf
-TUFTS0VEX0JJVF9FTkFCTEUoSFNXX1JPV19DSElDS0VOM19MM19HTE9CQUxfQVRPTUlDU19ESVNB
-QkxFKSwKPj4gLcKgwqDCoMKgwqDCoMKgIDAgLyogWFhYIGRvZXMgdGhpcyByZWcgZXhpc3Q/ICov
-KTsKPj4gK8KgwqDCoCB3YV9tYXNrZWRfYWRkKHdhbCwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIEhTV19ST1dfQ0hJQ0tFTjMsCj4+ICsgICAgICAgICAgICAgIAo+PiBfTUFTS0VEX0JJ
-VF9FTkFCTEUoSFNXX1JPV19DSElDS0VOM19MM19HTE9CQUxfQVRPTUlDU19ESVNBQkxFKSwKPj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDAgLyogWFhYIGRvZXMgdGhpcyByZWcgZXhpc3Q/
-ICovKTsKPj4KPj4gwqDCoMKgwqAvKiBXYVZTUmVmQ291bnRGdWxsZm9yY2VNaXNzRGlzYWJsZTpo
-c3cgKi8KPj4gwqDCoMKgwqB3YV93cml0ZV9jbHIod2FsLCBHRU43X0ZGX1RIUkVBRF9NT0RFLCBH
-RU43X0ZGX1ZTX1JFRl9DTlRfRkZNRSk7Cj4+IEBAIC0xOTQ3LDEwICsxOTU5LDEwIEBAIHJjc19l
-bmdpbmVfd2FfaW5pdChzdHJ1Y3QgaW50ZWxfZW5naW5lX2NzIAo+PiAqZW5naW5lLCBzdHJ1Y3Qg
-aTkxNV93YV9saXN0ICp3YWwpCj4+IMKgwqDCoMKgwqDCoMKgwqAgKiBkaXNhYmxlIGJpdCwgd2hp
-Y2ggd2UgZG9uJ3QgdG91Y2ggaGVyZSwgYnV0IGl0J3MgZ29vZAo+PiDCoMKgwqDCoMKgwqDCoMKg
-ICogdG8ga2VlcCBpbiBtaW5kIChzZWUgM0RTVEFURV9QUyBhbmQgM0RTVEFURV9XTSkuCj4+IMKg
-wqDCoMKgwqDCoMKgwqAgKi8KPj4gLcKgwqDCoMKgwqDCoMKgIHdhX2FkZCh3YWwsIEdFTjdfR1Rf
-TU9ERSwgMCwKPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX01BU0tFRF9GSUVMRChH
-RU42X1dJWl9IQVNISU5HX01BU0ssCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIEdFTjZfV0laX0hBU0hJTkdfMTZ4NCksCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIEdFTjZfV0laX0hBU0hJTkdfMTZ4NCk7Cj4+ICvCoMKgwqDCoMKgwqDCoCB3YV9t
-YXNrZWRfZmllbGRfc2V0KHdhbCwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIEdFTjdfR1RfTU9ERSwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIEdFTjZfV0laX0hBU0hJTkdfTUFTSywKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIEdFTjZfV0laX0hBU0hJTkdfMTZ4NCk7Cj4+IMKgwqDCoMKgfQo+Pgo+
-PiDCoMKgwqDCoGlmIChJU19HRU5fUkFOR0UoaTkxNSwgNiwgNykpCj4+IEBAIC0yMDAwLDEwICsy
-MDEyLDEwIEBAIHJjc19lbmdpbmVfd2FfaW5pdChzdHJ1Y3QgaW50ZWxfZW5naW5lX2NzIAo+PiAq
-ZW5naW5lLCBzdHJ1Y3QgaTkxNV93YV9saXN0ICp3YWwpCj4+IMKgwqDCoMKgwqDCoMKgwqAgKiBk
-aXNhYmxlIGJpdCwgd2hpY2ggd2UgZG9uJ3QgdG91Y2ggaGVyZSwgYnV0IGl0J3MgZ29vZAo+PiDC
-oMKgwqDCoMKgwqDCoMKgICogdG8ga2VlcCBpbiBtaW5kIChzZWUgM0RTVEFURV9QUyBhbmQgM0RT
-VEFURV9XTSkuCj4+IMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4gLcKgwqDCoMKgwqDCoMKgIHdhX2Fk
-ZCh3YWwsCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIEdFTjZfR1RfTU9ERSwgMCwK
-Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX01BU0tFRF9GSUVMRChHRU42X1dJWl9I
-QVNISU5HX01BU0ssIAo+PiBHRU42X1dJWl9IQVNISU5HXzE2eDQpLAo+PiAtwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBHRU42X1dJWl9IQVNISU5HXzE2eDQpOwo+PiArwqDCoMKgwqDCoMKg
-wqAgd2FfbWFza2VkX2ZpZWxkX3NldCh3YWwsCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBHRU42X0dUX01PREUsCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBHRU42X1dJWl9IQVNISU5HX01BU0ssCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBHRU42X1dJWl9IQVNISU5HXzE2eDQpOwo+Pgo+PiDCoMKg
-wqDCoMKgwqDCoCAvKiBXYURpc2FibGVfUmVuZGVyQ2FjaGVfT3BlcmF0aW9uYWxGbHVzaDpzbmIg
-Ki8KPj4gwqDCoMKgwqDCoMKgwqAgd2FfbWFza2VkX2Rpcyh3YWwsIENBQ0hFX01PREVfMCwgUkNf
-T1BfRkxVU0hfRU5BQkxFKTsKPj4gQEAgLTIwMjEsMTAgKzIwMzMsMTAgQEAgcmNzX2VuZ2luZV93
-YV9pbml0KHN0cnVjdCBpbnRlbF9lbmdpbmVfY3MgCj4+ICplbmdpbmUsIHN0cnVjdCBpOTE1X3dh
-X2xpc3QgKndhbCkKPj4KPj4gwqDCoMKgwqBpZiAoSVNfR0VOX1JBTkdFKGk5MTUsIDQsIDYpKQo+
-PiDCoMKgwqDCoMKgwqDCoCAvKiBXYVRpbWVkU2luZ2xlVmVydGV4RGlzcGF0Y2g6Y2wsYncsY3Rn
-LGVsayxpbGssc25iICovCj4+IC3CoMKgwqDCoMKgwqDCoCB3YV9hZGQod2FsLCBNSV9NT0RFLAo+
-PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAwLCBfTUFTS0VEX0JJVF9FTkFCTEUoVlNf
-VElNRVJfRElTUEFUQ0gpLAo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBYWFgg
-Yml0IGRvZXNuJ3Qgc3RpY2sgb24gQnJvYWR3YXRlciAqLwo+PiAtwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBJU19JOTY1RyhpOTE1KSA/IDAgOiBWU19USU1FUl9ESVNQQVRDSCk7Cj4+ICvC
-oMKgwqDCoMKgwqDCoCB3YV9tYXNrZWRfYWRkKHdhbCwgTUlfTU9ERSwKPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX01BU0tFRF9CSVRfRU5BQkxFKFZTX1RJTUVSX0RJU1BB
-VENIKSwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogWFhYIGJpdCBk
-b2Vzbid0IHN0aWNrIG9uIEJyb2Fkd2F0ZXIgKi8KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgSVNfSTk2NUcoaTkxNSkgPyAwIDogVlNfVElNRVJfRElTUEFUQ0gpOwo+Pgo+
-PiDCoMKgwqDCoGlmIChJU19HRU4oaTkxNSwgNCkpCj4+IMKgwqDCoMKgwqDCoMKgIC8qCj4+IEBA
-IC0yMDM3LDkgKzIwNDksOSBAQCByY3NfZW5naW5lX3dhX2luaXQoc3RydWN0IGludGVsX2VuZ2lu
-ZV9jcyAKPj4gKmVuZ2luZSwgc3RydWN0IGk5MTVfd2FfbGlzdCAqd2FsKQo+PiDCoMKgwqDCoMKg
-wqDCoMKgICogdGhleSBhcmUgYWxyZWFkeSBhY2N1c3RvbWVkIHRvIGZyb20gYmVmb3JlIGNvbnRl
-eHRzIHdlcmUKPj4gwqDCoMKgwqDCoMKgwqDCoCAqIGVuYWJsZWQuCj4+IMKgwqDCoMKgwqDCoMKg
-wqAgKi8KPj4gLcKgwqDCoMKgwqDCoMKgIHdhX2FkZCh3YWwsIEVDT1NLUEQsCj4+IC3CoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIDAsIF9NQVNLRURfQklUX0VOQUJMRShFQ09fQ09OU1RBTlRf
-QlVGRkVSX1NSX0RJU0FCTEUpLAo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAwIC8q
-IFhYWCBiaXQgZG9lc24ndCBzdGljayBvbiBCcm9hZHdhdGVyICovKTsKPj4gK8KgwqDCoMKgwqDC
-oMKgIHdhX21hc2tlZF9hZGQod2FsLCBFQ09TS1BELAo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBfTUFTS0VEX0JJVF9FTkFCTEUoRUNPX0NPTlNUQU5UX0JVRkZFUl9TUl9E
-SVNBQkxFKSwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMCAvKiBYWFgg
-Yml0IGRvZXNuJ3Qgc3RpY2sgb24gQnJvYWR3YXRlciAqLyk7Cj4+IH0KPj4KPj4gc3RhdGljIHZv
-aWQKPj4gLS0gCj4+IDIuMzAuMgo+Pgo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwo+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+On 28/04/2021 16:25, Hans Verkuil wrote:
+> Add bridge connector_attach/detach ops. These ops are called when a
+> bridge is attached or detached to a drm_connector. These ops can be
+> used to register and unregister an HDMI CEC adapter for a bridge that
+> supports CEC.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>   drivers/gpu/drm/drm_bridge_connector.c | 25 +++++++++++++++++++++++-
+>   include/drm/drm_bridge.h               | 27 ++++++++++++++++++++++++++
+>   2 files changed, 51 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+> index 791379816837..0676677badfe 100644
+> --- a/drivers/gpu/drm/drm_bridge_connector.c
+> +++ b/drivers/gpu/drm/drm_bridge_connector.c
+> @@ -203,6 +203,11 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
+>   {
+>   	struct drm_bridge_connector *bridge_connector =
+>   		to_drm_bridge_connector(connector);
+> +	struct drm_bridge *bridge;
+> +
+> +	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge)
+> +		if (bridge->funcs->connector_detach)
+> +			bridge->funcs->connector_detach(bridge, connector);
+>   
+>   	if (bridge_connector->bridge_hpd) {
+>   		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
+> @@ -318,6 +323,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+>   	struct i2c_adapter *ddc = NULL;
+>   	struct drm_bridge *bridge;
+>   	int connector_type;
+> +	int ret;
+>   
+>   	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
+>   	if (!bridge_connector)
+> @@ -375,6 +381,23 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+>   		connector->polled = DRM_CONNECTOR_POLL_CONNECT
+>   				  | DRM_CONNECTOR_POLL_DISCONNECT;
+>   
+> -	return connector;
+> +	ret = 0;
+> +	/* call connector_attach for all bridges */
+> +	drm_for_each_bridge_in_chain(encoder, bridge) {
+> +		if (!bridge->funcs->connector_attach)
+> +			continue;
+> +		ret = bridge->funcs->connector_attach(bridge, connector);
+> +		if (ret)
+> +			break;
+> +	}
+> +	if (!ret)
+> +		return connector;
+> +
+> +	/* on error, detach any previously successfully attached connectors */
+> +	list_for_each_entry_continue_reverse(bridge, &(encoder)->bridge_chain,
+
+No need for parenthesis in (encoder) here.
+
+> +					     chain_node)
+> +		if (bridge->funcs->connector_detach)
+> +			bridge->funcs->connector_detach(bridge, connector);
+> +	return ERR_PTR(ret);
+>   }
+>   EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 2195daa289d2..333fbc3a03e9 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -629,6 +629,33 @@ struct drm_bridge_funcs {
+>   	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
+>   	 */
+>   	void (*hpd_disable)(struct drm_bridge *bridge);
+> +
+> +	/**
+> +	 * @connector_attach:
+> +	 *
+> +	 * This callback is invoked whenever our bridge is being attached to a
+> +	 * &drm_connector. This is where an HDMI CEC adapter can be registered.
+> +	 *
+> +	 * The @connector_attach callback is optional.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * Zero on success, error code on failure.
+> +	 */
+> +	int (*connector_attach)(struct drm_bridge *bridge,
+> +				struct drm_connector *conn);
+> +
+> +	/**
+> +	 * @connector_detach:
+> +	 *
+> +	 * This callback is invoked whenever our bridge is being detached from a
+> +	 * &drm_connector. This is where an HDMI CEC adapter can be
+> +	 * unregistered.
+> +	 *
+> +	 * The @connector_detach callback is optional.
+> +	 */
+> +	void (*connector_detach)(struct drm_bridge *bridge,
+> +				 struct drm_connector *conn);
+>   };
+>   
+>   /**
+> 
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+I can take this series as it's mostly omapdrm, but we'll need a 
+reviewed-by/acked-by from a maintainer for this patch.
+
+  Tomi
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
