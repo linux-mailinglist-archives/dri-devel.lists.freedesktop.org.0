@@ -2,41 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E25372A6D
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 14:53:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A84372A84
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 14:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A63D76EAD2;
-	Tue,  4 May 2021 12:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 752836E214;
+	Tue,  4 May 2021 12:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D0B36E214;
- Tue,  4 May 2021 12:53:43 +0000 (UTC)
-IronPort-SDR: dRLt5zsiCrzGUaXaBj2ccy5pb3cDKUaackp5UAC4bC0WOMEfy7sYyq8rQfTApNajuihC0VUvct
- cjYJHUNSuLhg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="194833005"
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="194833005"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 05:53:42 -0700
-IronPort-SDR: fvSVcDAH5DChXuddF2Etdns2q6zsCelkGeI2GKbJcmhMRZ6EM5GgqaG3qgRufd6/pPEb7L4x3M
- LA22KC8Y9dug==
-X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="433268052"
-Received: from ideak-desk.fi.intel.com ([10.237.68.141])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 05:53:38 -0700
-Date: Tue, 4 May 2021 15:53:35 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [PATCH 4/9] drm/connector: Add support for out-of-band hotplug
- notification
-Message-ID: <20210504125335.GA30246@ideak-desk.fi.intel.com>
-References: <20210428215257.500088-1-hdegoede@redhat.com>
- <20210428215257.500088-5-hdegoede@redhat.com>
- <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FC0B6E214
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 12:59:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E030613B4;
+ Tue,  4 May 2021 12:59:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1620133150;
+ bh=VKrAeZZpludZjTm6WuzJcgg7371nyGiXlt3bsLCkX3c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=1RVOhA+xUnttg6X+/OXWdWei9lFiPRvoAUP4JZ66jwCl3Fwz8Y9JcIZ2dWfl4AXDh
+ Mg7CS6WUOwTfkw4umLIPAtPqY5sJ9P6hfLWa3HEE2n4liAZAnteKFXFxaUW5xREyNd
+ jljZ143srAqD73QuO6fQW2meQYvxR3Y6pcFbbX8Q=
+Date: Tue, 4 May 2021 14:59:07 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: remove the nvlink2 pci_vfio subdriver v2
+Message-ID: <YJFFG1tSP0dUCxcX@kroah.com>
+References: <20210326061311.1497642-1-hch@lst.de>
+ <20210504142236.76994047@bahia.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
+In-Reply-To: <20210504142236.76994047@bahia.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,107 +43,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Michael Ellerman <mpe@ellerman.id.au>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paul Mackerras <paulus@samba.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ linux-api@vger.kernel.org, qemu-ppc@nongnu.org, linuxppc-dev@lists.ozlabs.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 03, 2021 at 11:00:20AM +0300, Heikki Krogerus wrote:
-> Hi Hans,
+On Tue, May 04, 2021 at 02:22:36PM +0200, Greg Kurz wrote:
+> On Fri, 26 Mar 2021 07:13:09 +0100
+> Christoph Hellwig <hch@lst.de> wrote:
 > 
-> On Wed, Apr 28, 2021 at 11:52:52PM +0200, Hans de Goede wrote:
-> > +/**
-> > + * struct drm_connector_oob_hotplug_event_data: OOB hotplug event data
-> > + *
-> > + * Contains data about out-of-band hotplug events, signalled through
-> > + * drm_connector_oob_hotplug_event().
-> > + */
-> > +struct drm_connector_oob_hotplug_event_data {
-> > +	/**
-> > +	 * @connected: New connected status for the connector.
-> > +	 */
-> > +	bool connected;
-> > +	/**
-> > +	 * @dp_lanes: Number of available displayport lanes, 0 if unknown.
-> > +	 */
-> > +	int dp_lanes;
-> > +	/**
-> > +	 * @orientation: Connector orientation.
-> > +	 */
-> > +	enum typec_orientation orientation;
-> > +};
+> > Hi all,
+> > 
+> > the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
+> > feature without any open source component - what would normally be
+> > the normal open source userspace that we require for kernel drivers,
+> > although in this particular case user space could of course be a
+> > kernel driver in a VM.  It also happens to be a complete mess that
+> > does not properly bind to PCI IDs, is hacked into the vfio_pci driver
+> > and also pulles in over 1000 lines of code always build into powerpc
+> > kernels that have Power NV support enabled.  Because of all these
+> > issues and the lack of breaking userspace when it is removed I think
+> > the best idea is to simply kill.
+> > 
+> > Changes since v1:
+> >  - document the removed subtypes as reserved
+> >  - add the ACK from Greg
+> > 
+> > Diffstat:
+> >  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
+> >  b/arch/powerpc/include/asm/opal.h            |    3 
+> >  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
+> >  b/arch/powerpc/include/asm/pci.h             |    7 
+> >  b/arch/powerpc/platforms/powernv/Makefile    |    2 
+> >  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
+> >  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
+> >  b/arch/powerpc/platforms/powernv/pci.c       |   11 
+> >  b/arch/powerpc/platforms/powernv/pci.h       |   17 
+> >  b/arch/powerpc/platforms/pseries/pci.c       |   23 
+> >  b/drivers/vfio/pci/Kconfig                   |    6 
+> >  b/drivers/vfio/pci/Makefile                  |    1 
+> >  b/drivers/vfio/pci/vfio_pci.c                |   18 
+> >  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
+> >  b/include/uapi/linux/vfio.h                  |   38 -
 > 
-> I don't think the orientation is relevant. It will always be "normal"
-> from DP PoW after muxing, no?
 > 
-> I'm also not sure those deatils are enough in the long run. Based on
-> what I've understood from our graphics team guys, for example knowing
-> if multi-function is preferred may be important in some cases.
+> Hi Christoph,
+> 
+> FYI, these uapi changes break build of QEMU.
 
-Combo PHY ports - which is what this patchset is adding the notification
-for - can only reverse the lane assignment. TypeC PHY ports (on ICL+)
-have a more C-type aware mux in the SoC (FIA) as well, so in theory we
-could have a system based on such platforms with an external mux only
-switching between the USB, DP, USB+DP (MFD) modes, but leaving the plug
-orientation specific muxing up to the FIA. The graphics driver is not
-involved in programming the FIA though, it's done by a firmware
-component, so I don't think this configuration needs to get passed.
+What uapi changes?
 
-Yes, the driver needs to know if the PD controller configured the sink
-in the MFD mode (DP+USB) or in the DP-only mode. For that the number of
-lanes assigned to DP is enough.
+What exactly breaks?
 
-> +Imre.
-> 
-> All of that, and more, is already available in the Configuration VDO
-> Status VDO that the we have negotiated with the DP partner. Both those
-> VDOs are part of struct typec_displayport_data. I think we should
-> simply supply that structure to the DRM code instead of picking those
-> details out of it...
-> 
-> >  /**
-> >   * struct drm_tv_connector_state - TV connector related states
-> >   * @subconnector: selected subconnector
-> > @@ -1110,6 +1132,15 @@ struct drm_connector_funcs {
-> >  	 */
-> >  	void (*atomic_print_state)(struct drm_printer *p,
-> >  				   const struct drm_connector_state *state);
-> > +
-> > +	/**
-> > +	 * @oob_hotplug_event:
-> > +	 *
-> > +	 * This will get called when a hotplug-event for a drm-connector
-> > +	 * has been received from a source outside the display driver / device.
-> > +	 */
-> > +	void (*oob_hotplug_event)(struct drm_connector *connector,
-> > +				  struct drm_connector_oob_hotplug_event_data *data);
-> 
-> So I would not try to generalise this like that. This callback should
-> be USB Type-C DP altmode specific:
-> 
-> 	void (*oob_hotplug_event)(struct drm_connector *connector,
->                                   struct typec_displayport_data *data);
-> 
-> Or like this if the orientation can really be reversed after muxing:
-> 
-> 	void (*oob_hotplug_event)(struct drm_connector *connector,
-> 				  struct typec_altmode *altmode,
->                                   struct typec_displayport_data *data);
-> 
-> You can now check the orientation separately with
-> typec_altmode_get_orientation() if necessary.
-> 
-> 
-> thanks,
-> 
-> -- 
-> heikki
+Why does QEMU require kernel driver stuff?
+
+thanks,
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
