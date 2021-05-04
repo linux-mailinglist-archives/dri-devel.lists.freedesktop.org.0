@@ -1,57 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8424837242C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 03:10:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A56773724A9
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 05:11:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14EFC6EA62;
-	Tue,  4 May 2021 01:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4B76EA6D;
+	Tue,  4 May 2021 03:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA536EA62
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 01:10:50 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id u20so9080071lja.13
- for <dri-devel@lists.freedesktop.org>; Mon, 03 May 2021 18:10:50 -0700 (PDT)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B16906E14C;
+ Tue,  4 May 2021 03:11:44 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id c17so6026016pfn.6;
+ Mon, 03 May 2021 20:11:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=D0lgtfaP36ZfPSmKmpzztfbLyB0QiqQgCwN8TsaLltg=;
- b=tuiePi9pQIXkzFP/Sr+4ROFrb/qdBenxHHU/ZnVcX7TNAl5W7xgk3zzYAPK75pjZMu
- CCjhyfQwlf+CZhLMB0HIAZGsLL6ee4yyiUDTTgUUaurWSaRyzEiWPLxy9+Zkhl1DlPXb
- gHQfhcRR/PAL3E8kr6e2cBzuL1yXRdXRev4q/An6jGabUJ/IcscZS+VewUcw6aMfVE8a
- 4VS298j8UqbOSIy9XNlytitQhjtcjDvJ4WUwqvH6MDU9K0tryLnK/rXpggBvh43PyRc8
- ngIwg8vdRNez/Q2+eY0+OPFqcDkEen7fEALxoxMkdd9QIFuXsgIYCkwBYp+BefLYNyoV
- 3Kyw==
+ :cc; bh=am07RvvaVgK6wTF+4xKIa818Kn9uY7M3f/X8YQ3rD+s=;
+ b=oFzAy7BuyEITNWaDtqSdMxxVG7UNMSiwTaijt9LZ5JYakd7UdWaLIlx1BpYb2ErKtl
+ iCY/iBaR/cEHeMcL+RvJEGaF/ZbdSrrt+PuO73X0vkbpHVWKLy0o8MzFdM3RsKdOIRb4
+ /zak8qN1lGVCu3y52VgWWWM5Naw/vfEzl5Qm1W+qRjxz+TAIUtakTqttPGnoQN+FFSFJ
+ 9SJ9YEsrCl8YzaGkNUYhKY477eOwYdK7g/wgWmpj7ua7CBzjxmTtyCr1uqxoDrq68yfm
+ asrToAF3fG+ViStPF60eOlfMgZyeCjEfunz66F6c5d33Rt7eHGy/De2Fg1Vie14TzDpp
+ dpJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=D0lgtfaP36ZfPSmKmpzztfbLyB0QiqQgCwN8TsaLltg=;
- b=mNrT1stROmGjvG/AcRYtw2jI72JxfcQiGD6sGd9HlYItX22aZDXXlH5InY4MjTekis
- J44EQF8wyGTxkjEY6UrSp1KRrkwYC88ZLhqwQCyIigiPh1a9hoIRzrAt8ESUokCCiBTc
- KtDbdxgg1UNNBTebbqp9X4bCIVwGBFQoyDI3cRIbEQU7vnFK3JoMy9pqP46SQlsOsj/I
- UaN5NyQE9KG1DmgFBbhaz+h1Ta91B7MoksRBJO8EQmVni3G2KXQSvl83V+4885v+duMo
- MblBs6zOOeK7+a87FmQl9vBaSB2m5owsdouqSaRdB17iy7btdbNj5kY+TTgL2BmhbxWg
- HnMw==
-X-Gm-Message-State: AOAM530o2UKCNg09dnS4iWlZIe53H3fekbqb8R6GxqJG6IoVhg/bHco+
- 2vvAL7MlNvnOrjiu1FJQ/Y1NCNYrGKmoSi4RLTA=
-X-Google-Smtp-Source: ABdhPJwplQJLbixrjN9+9axcR9bQKfoPeg6i3Y5l5tzT/Nh5XywoIkSxDJumBrQMN0HMJvZnXJEZvzHKvPhqiiBwjwU=
-X-Received: by 2002:a2e:bc25:: with SMTP id b37mr15621353ljf.342.1620090648633; 
- Mon, 03 May 2021 18:10:48 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=am07RvvaVgK6wTF+4xKIa818Kn9uY7M3f/X8YQ3rD+s=;
+ b=fj8tAwa2CseuM9WHS2gw7eSK5NekmYL/EdNlUp8YlGpE3ZfS/LJDcR7oZcOUtJFK43
+ wmzChIC77/5kXYoPqonIvSnIj9ngZ+88/d92ZtpTGx4f3kplkfWQLzLKI2/Vce/gmIRr
+ s+YTXLN6RmeKme7uBKHvqdr3AGyOW8rrWbs13pl/bWsIlRTXhOyArPlBevlEY3PaxP4T
+ L8OEvXdpfFLGmeMInj6VA+epUs1B9W3onxLsqe+TB59517ld1N8zoMRIounXlK3ut2Px
+ dqnoYQ6KSm4l8pfSN7LFNOsy+waPW5de/GzPIe8sGutoIGNV8RD/gBw4hgMrHjF4mwW8
+ ZSNA==
+X-Gm-Message-State: AOAM533obia+OaqvxDzdBP5BOZ62fLdX2mHFlhDOHP4IaqqEzeOMZPix
+ bCaUZRYCc/BoxhsO21Qrhz3/b1QDQLOvhpyis3w=
+X-Google-Smtp-Source: ABdhPJxsUThJmpnWLkE/rEIS8kJCkm6R+ejnGaSdC2NOATQXFEi5/Bcbx1vxtntNLuquF2c7iAWnwW6mpBNh7BYRvto=
+X-Received: by 2002:a62:7d07:0:b029:21b:d1bc:f6c8 with SMTP id
+ y7-20020a627d070000b029021bd1bcf6c8mr21858578pfc.45.1620097904186; Mon, 03
+ May 2021 20:11:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <1619421491-31494-1-git-send-email-u0084500@gmail.com>
- <1619421491-31494-2-git-send-email-u0084500@gmail.com>
- <20210430201026.GA3797206@robh.at.kernel.org>
-In-Reply-To: <20210430201026.GA3797206@robh.at.kernel.org>
-From: ChiYuan Huang <u0084500@gmail.com>
-Date: Tue, 4 May 2021 09:10:37 +0800
-Message-ID: <CADiBU3_SkXL1F5O6G+n=qjokmqLhbUuJNeRPGfWUqVRbcB=acA@mail.gmail.com>
-Subject: Re: [RESEND PATCH v6 2/4] backlight: rt4831: Adds DT binding document
- for Richtek RT4831 backlight
-To: Rob Herring <robh@kernel.org>
+References: <CAAxE2A4mpapnCE7uw8GNWkaRR4jXeoz9qa9j=9XknjR3yeq3YQ@mail.gmail.com>
+ <CAPj87rMn_gabTdZpHGQVa16Log8xFe8fvhcL_WSC6tyOMvmY=w@mail.gmail.com>
+ <CAOFGe96c1SxHiUBzapbVFx1h0aOwF=X8hcStVZmrw4OjrrG+Zg@mail.gmail.com>
+ <CAPj87rPSW13nxz2n5E+n0JYcwGR3mFWJAG2kYaaoav7A-ZVD2g@mail.gmail.com>
+ <CAKMK7uHyTiFWwQWdxVk1am+KoFA9DsTnJ658CAhzBYOyg7AdsA@mail.gmail.com>
+ <CAPj87rM=qf78kUvys1irnR8Djh=CLjRdQJt1V4je82-=+yPWYw@mail.gmail.com>
+ <CAKMK7uEAu4FgYwN9t9AMCqD2nVbkSRbGP3tST4nY1nKP26+vxA@mail.gmail.com>
+ <CAPj87rOfv0w8jF4CO8PUHQXTfq+2GE=BDmRRWjOMkQ0wH3CPAA@mail.gmail.com>
+ <CAAxE2A5pJ-D7AFbDJLKPDztr=yzOSDSm=3HrnJOWr3r96_KOQQ@mail.gmail.com>
+ <YIfFC3YST0cfzd3l@phenom.ffwll.local>
+ <CAAxE2A6APcJBwnbq58HOqc5bkHMsrzpiNnrso85kfBkRowwz+g@mail.gmail.com>
+ <fada1543-612d-369e-765c-f90b718c2cfa@gmail.com>
+ <CAPM=9tzz2u_qUXU9LMvtH_NDr1_wzunPo7Mt6NkrwAuowWTp7Q@mail.gmail.com>
+ <CAAxE2A55Te6DjabYH8ELyfM03x2ZDaLsCsNC4Zqkrq0ExdpeHA@mail.gmail.com>
+ <153487a3-082b-faf7-2a4d-ae15993b2a5d@gmail.com>
+ <d6fbc1a3-ee69-d53e-0a60-9a313be19cac@daenzer.net>
+ <CAAxE2A5V2YPRnPSue6cjsMWiWHoabmBiFEAsPXykO5-CCyunwQ@mail.gmail.com>
+ <CADnq5_N7Wi0qzMmyVMY_PqM=BBF8mH7o1jcGRYNYB-StsM4uOA@mail.gmail.com>
+ <CAOFGe961tB38dE=gzte4OTGNMOpUsW2ikrB03+t=eh4pDYFh5g@mail.gmail.com>
+ <CAP+8YyGkP2n9v2mJM5UH4NJrA6bE9+2Bgs1-6HrPPPMCrFz9dw@mail.gmail.com>
+ <CAOFGe94JAO0OBiiwp8+hd=XCsrGLA1fVxqxePtPdHFg+YBB0dg@mail.gmail.com>
+ <CAAxE2A50Lg+ehW3LSiTnvGRqHTR8tW77V7wES1PaCnbHVkzMug@mail.gmail.com>
+In-Reply-To: <CAAxE2A50Lg+ehW3LSiTnvGRqHTR8tW77V7wES1PaCnbHVkzMug@mail.gmail.com>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Mon, 3 May 2021 23:11:07 -0400
+Message-ID: <CAAxE2A6NCTFsV6oH=AL=S=P1p0xYF0To8T_THpUO2ypdo0dyBw@mail.gmail.com>
+Subject: Re: [Mesa-dev] [RFC] Linux Graphics Next: Explicit fences everywhere
+ and no BO fences - initial proposal
+To: Jason Ekstrand <jason@jlekstrand.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,101 +83,549 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- b.zolnierkie@samsung.com, jingoohan1@gmail.com, lgirdwood@gmail.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- cy_huang <cy_huang@richtek.com>, Mark Brown <broonie@kernel.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee.jones@linaro.org>, lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============2036749279=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPiDmlrwgMjAyMeW5tDXmnIgx5pelIOmA
-seWFrSDkuIrljYg0OjEw5a+r6YGT77yaCj4KPiBPbiBNb24sIEFwciAyNiwgMjAyMSBhdCAwMzox
-ODowOVBNICswODAwLCBjeV9odWFuZyB3cm90ZToKPiA+IEZyb206IENoaVl1YW4gSHVhbmcgPGN5
-X2h1YW5nQHJpY2h0ZWsuY29tPgo+ID4KPiA+IEFkZHMgRFQgYmluZGluZyBkb2N1bWVudCBmb3Ig
-UmljaHRlayBSVDQ4MzEgYmFja2xpZ2h0Lgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IENoaVl1YW4g
-SHVhbmcgPGN5X2h1YW5nQHJpY2h0ZWsuY29tPgo+ID4gUmV2aWV3ZWQtYnk6IERhbmllbCBUaG9t
-cHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+Cj4gPiAtLS0KPiA+IFJlc2VuZCB0aGlz
-IHY2IHBhdGNoIHNlcmllcyB0byBsb29wIGRldmljZXRyZWUgcmV2aWV3ZXJzLgo+ID4KPiA+IEZv
-ciBuZXh0LCBuZWVkIHRvIGFkZCB0aGUgYmVsb3cgbGluZQo+ID4gUmV2aWV3ZWQtYnk6IERhbmll
-bCBUaG9tcHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+Cj4gPiAtLS0KPiA+ICAuLi4v
-bGVkcy9iYWNrbGlnaHQvcmljaHRlayxydDQ4MzEtYmFja2xpZ2h0LnlhbWwgICB8IDY1ICsrKysr
-KysrKysrKysrKysrKysrKysKPiA+ICBpbmNsdWRlL2R0LWJpbmRpbmdzL2xlZHMvcnQ0ODMxLWJh
-Y2tsaWdodC5oICAgICAgICB8IDIzICsrKysrKysrCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA4OCBp
-bnNlcnRpb25zKCspCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9sZWRzL2JhY2tsaWdodC9yaWNodGVrLHJ0NDgzMS1iYWNrbGlnaHQueWFt
-bAo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2R0LWJpbmRpbmdzL2xlZHMvcnQ0ODMx
-LWJhY2tsaWdodC5oCj4gPgo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9sZWRzL2JhY2tsaWdodC9yaWNodGVrLHJ0NDgzMS1iYWNrbGlnaHQueWFtbCBi
-L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL2JhY2tsaWdodC9yaWNodGVr
-LHJ0NDgzMS1iYWNrbGlnaHQueWFtbAo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiA+IGluZGV4
-IDAwMDAwMDAwLi40ZGE2YTY2Cj4gPiAtLS0gL2Rldi9udWxsCj4gPiArKysgYi9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbGVkcy9iYWNrbGlnaHQvcmljaHRlayxydDQ4MzEtYmFj
-a2xpZ2h0LnlhbWwKPiA+IEBAIC0wLDAgKzEsNjUgQEAKPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVu
-dGlmaWVyOiAoR1BMLTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkKPiA+ICslWUFNTCAxLjIKPiA+
-ICstLS0KPiA+ICskaWQ6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9zY2hlbWFzL2xlZHMvYmFja2xp
-Z2h0L3JpY2h0ZWsscnQ0ODMxLWJhY2tsaWdodC55YW1sIwo+ID4gKyRzY2hlbWE6IGh0dHA6Ly9k
-ZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIwo+ID4gKwo+ID4gK3RpdGxlOiBS
-aWNodGVrIFJUNDgzMSBCYWNrbGlnaHQKPiA+ICsKPiA+ICttYWludGFpbmVyczoKPiA+ICsgIC0g
-Q2hpWXVhbiBIdWFuZyA8Y3lfaHVhbmdAcmljaHRlay5jb20+Cj4gPiArCj4gPiArZGVzY3JpcHRp
-b246IHwKPiA+ICsgIFJUNDgzMSBpcyBhIG11dGlmdW5jdGlvbmFsIGRldmljZSB0aGF0IGNhbiBw
-cm92aWRlIHBvd2VyIHRvIHRoZSBMQ0QgZGlzcGxheQo+ID4gKyAgYW5kIExDRCBiYWNrbGlnaHQu
-Cj4gPiArCj4gPiArICBGb3IgdGhlIExDRCBiYWNrbGlnaHQsIGl0IGNhbiBwcm92aWRlIGZvdXIg
-Y2hhbm5lbCBXTEVEIGRyaXZpbmcgY2FwYWJpbGl0eS4KPiA+ICsgIEVhY2ggY2hhbm5lbCBkcml2
-aW5nIGN1cnJlbnQgaXMgdXAgdG8gMzBtQQo+ID4gKwo+ID4gKyAgRGF0YXNoZWV0IGlzIGF2YWls
-YWJsZSBhdAo+ID4gKyAgaHR0cHM6Ly93d3cucmljaHRlay5jb20vYXNzZXRzL3Byb2R1Y3RfZmls
-ZS9SVDQ4MzFBL0RTNDgzMUEtMDUucGRmCj4gPiArCj4KPiBOZWVkIHRvIHJlZmVyZW5jZSBjb21t
-b24gYmFja2xpZ2h0IHNjaGVtYToKPgo+IGFsbE9mOgo+ICAgLSAkcmVmOiBjb21tb24ueWFtbCMK
-Pgo+ID4gK3Byb3BlcnRpZXM6Cj4gPiArICBjb21wYXRpYmxlOgo+ID4gKyAgICBjb25zdDogcmlj
-aHRlayxydDQ4MzEtYmFja2xpZ2h0Cj4gPiArCj4gPiArICBkZWZhdWx0LWJyaWdodG5lc3M6Cj4g
-PiArICAgIGRlc2NyaXB0aW9uOiB8Cj4gPiArICAgICAgVGhlIGRlZmF1bHQgYnJpZ2h0bmVzcyB0
-aGF0IGFwcGxpZWQgdG8gdGhlIHN5c3RlbSBvbiBzdGFydC11cC4KPiA+ICsgICAgJHJlZjogL3Nj
-aGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4KPiBEcm9wIGRlc2NyaXB0aW9u
-IGFuZCAkcmVmLiBDb3ZlcmVkIGluIGNvbW1vbi55YW1sLgo+Ck9LCj4gPiArICAgIG1pbmltdW06
-IDAKPiA+ICsgICAgbWF4aW11bTogMjA0OAo+ID4gKwo+ID4gKyAgbWF4LWJyaWdodG5lc3M6Cj4g
-PiArICAgIGRlc2NyaXB0aW9uOiB8Cj4gPiArICAgICAgVGhlIG1heCBicmlnaHRuZXNzIGZvciB0
-aGUgSC9XIGxpbWl0Cj4gPiArICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRp
-b25zL3VpbnQzMgo+Cj4gQW5kIGhlcmUuCj4KT0sKClRoZSBhYm92ZSBjaGFuZ2VzIHdpbGwgYmUg
-bWVyZ2VkIGluIG5leHQsIHRoYW5rcy4KQWZ0ZXIgbWZkIGNvZGUgcGF0Y2ggcmV2aWV3ZWQsIEkn
-bGwgc2VuZCB2NyBmb3IgYWxsIG9mIHJldmlldyBjb21tZW50cy4KPiA+ICsgICAgbWluaW11bTog
-MAo+ID4gKyAgICBtYXhpbXVtOiAyMDQ4Cj4gPiArCj4gPiArICByaWNodGVrLHB3bS1lbmFibGU6
-Cj4gPiArICAgIGRlc2NyaXB0aW9uOiB8Cj4gPiArICAgICAgU3BlY2lmeSB0aGUgYmFja2xpZ2h0
-IGRpbW1pbmcgZm9sbG93aW5nIGJ5IFBXTSBkdXR5IG9yIGJ5IFNXIGNvbnRyb2wuCj4gPiArICAg
-IHR5cGU6IGJvb2xlYW4KPiA+ICsKPiA+ICsgIHJpY2h0ZWssYmxlZC1vdnAtc2VsOgo+ID4gKyAg
-ICBkZXNjcmlwdGlvbjogfAo+ID4gKyAgICAgIEJhY2tsaWdodCBPVlAgbGV2ZWwgc2VsZWN0aW9u
-LCBjdXJyZW50bHkgc3VwcG9ydCAxN1YvMjFWLzI1Vi8yOVYuCj4gPiArICAgICRyZWY6IC9zY2hl
-bWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQ4Cj4gPiArICAgIGRlZmF1bHQ6IDEKPiA+
-ICsgICAgbWluaW11bTogMAo+ID4gKyAgICBtYXhpbXVtOiAzCj4gPiArCj4gPiArICByaWNodGVr
-LGNoYW5uZWwtdXNlOgo+ID4gKyAgICBkZXNjcmlwdGlvbjogfAo+ID4gKyAgICAgIEJhY2tsaWdo
-dCBMRUQgY2hhbm5lbCB0byBiZSB1c2VkLgo+ID4gKyAgICAgIEJJVCAwLzEvMi8zIGlzIHVzZWQg
-dG8gaW5kaWNhdGUgbGVkIGNoYW5uZWwgMS8yLzMvNCBlbmFibGUgb3IgZGlzYWJsZS4KPiA+ICsg
-ICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDgKPiA+ICsgICAg
-bWluaW11bTogMQo+ID4gKyAgICBtYXhpbXVtOiAxNQo+ID4gKwo+ID4gK3JlcXVpcmVkOgo+ID4g
-KyAgLSBjb21wYXRpYmxlCj4gPiArICAtIHJpY2h0ZWssY2hhbm5lbC11c2UKPiA+ICsKPiA+ICth
-ZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UKPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2R0LWJp
-bmRpbmdzL2xlZHMvcnQ0ODMxLWJhY2tsaWdodC5oIGIvaW5jbHVkZS9kdC1iaW5kaW5ncy9sZWRz
-L3J0NDgzMS1iYWNrbGlnaHQuaAo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiA+IGluZGV4IDAw
-MDAwMDAwLi4xMjVjNjM1Cj4gPiAtLS0gL2Rldi9udWxsCj4gPiArKysgYi9pbmNsdWRlL2R0LWJp
-bmRpbmdzL2xlZHMvcnQ0ODMxLWJhY2tsaWdodC5oCj4gPiBAQCAtMCwwICsxLDIzIEBACj4gPiAr
-LyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgT1IgQlNELTItQ2xhdXNl
-KSAqLwo+ID4gKy8qCj4gPiArICogVGhpcyBoZWFkZXIgcHJvdmlkZXMgY29uc3RhbnRzIGZvciBy
-dDQ4MzEgYmFja2xpZ2h0IGJpbmRpbmdzLgo+ID4gKyAqCj4gPiArICogQ29weXJpZ2h0IChDKSAy
-MDIwLCBSaWNodGVrIFRlY2hub2xvZ3kgQ29ycC4KPiA+ICsgKiBBdXRob3I6IENoaVl1YW4gSHVh
-bmcgPGN5X2h1YW5nQHJpY2h0ZWsuY29tPgo+ID4gKyAqLwo+ID4gKwo+ID4gKyNpZm5kZWYgX0RU
-X0JJTkRJTkdTX1JUNDgzMV9CQUNLTElHSFRfSAo+ID4gKyNkZWZpbmUgX0RUX0JJTkRJTkdTX1JU
-NDgzMV9CQUNLTElHSFRfSAo+ID4gKwo+ID4gKyNkZWZpbmUgUlQ0ODMxX0JMT1ZQTFZMXzE3ViAg
-MAo+ID4gKyNkZWZpbmUgUlQ0ODMxX0JMT1ZQTFZMXzIxViAgMQo+ID4gKyNkZWZpbmUgUlQ0ODMx
-X0JMT1ZQTFZMXzI1ViAgMgo+ID4gKyNkZWZpbmUgUlQ0ODMxX0JMT1ZQTFZMXzI5ViAgMwo+ID4g
-Kwo+ID4gKyNkZWZpbmUgUlQ0ODMxX0JMRURfQ0gxRU4gICAgKDEgPDwgMCkKPiA+ICsjZGVmaW5l
-IFJUNDgzMV9CTEVEX0NIMkVOICAgICgxIDw8IDEpCj4gPiArI2RlZmluZSBSVDQ4MzFfQkxFRF9D
-SDNFTiAgICAoMSA8PCAyKQo+ID4gKyNkZWZpbmUgUlQ0ODMxX0JMRURfQ0g0RU4gICAgKDEgPDwg
-MykKPiA+ICsjZGVmaW5lIFJUNDgzMV9CTEVEX0FMTENIRU4gICgoMSA8PCA0KSAtIDEpCj4gPiAr
-Cj4gPiArI2VuZGlmIC8qIF9EVF9CSU5ESU5HU19SVDQ4MzFfQkFDS0xJR0hUX0ggKi8KPiA+IC0t
-Cj4gPiAyLjcuNAo+ID4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+--===============2036749279==
+Content-Type: multipart/alternative; boundary="00000000000014999205c17870cd"
+
+--00000000000014999205c17870cd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Proposal for a new CS ioctl, kernel pseudo code:
+
+lock(&global_lock);
+serial =3D get_next_serial(dev);
+add_wait_command(ring, serial - 1);
+add_exec_cmdbuf(ring, user_cmdbuf);
+add_signal_command(ring, serial);
+*ring->doorbell =3D FIRE;
+unlock(&global_lock);
+
+See? Just like userspace submit, but in the kernel without
+concurrency/preemption. Is this now safe enough for dma_fence?
+
+Marek
+
+On Mon, May 3, 2021 at 4:36 PM Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wro=
+te:
+
+> What about direct submit from the kernel where the process still has writ=
+e
+> access to the GPU ring buffer but doesn't use it? I think that solves you=
+r
+> preemption example, but leaves a potential backdoor for a process to
+> overwrite the signal commands, which shouldn't be a problem since we are =
+OK
+> with timeouts.
+>
+> Marek
+>
+> On Mon, May 3, 2021 at 11:23 AM Jason Ekstrand <jason@jlekstrand.net>
+> wrote:
+>
+>> On Mon, May 3, 2021 at 10:16 AM Bas Nieuwenhuizen
+>> <bas@basnieuwenhuizen.nl> wrote:
+>> >
+>> > On Mon, May 3, 2021 at 5:00 PM Jason Ekstrand <jason@jlekstrand.net>
+>> wrote:
+>> > >
+>> > > Sorry for the top-post but there's no good thing to reply to here...
+>> > >
+>> > > One of the things pointed out to me recently by Daniel Vetter that I
+>> > > didn't fully understand before is that dma_buf has a very subtle
+>> > > second requirement beyond finite time completion:  Nothing required
+>> > > for signaling a dma-fence can allocate memory.  Why?  Because the ac=
+t
+>> > > of allocating memory may wait on your dma-fence.  This, as it turns
+>> > > out, is a massively more strict requirement than finite time
+>> > > completion and, I think, throws out all of the proposals we have so
+>> > > far.
+>> > >
+>> > > Take, for instance, Marek's proposal for userspace involvement with
+>> > > dma-fence by asking the kernel for a next serial and the kernel
+>> > > trusting userspace to signal it.  That doesn't work at all if
+>> > > allocating memory to trigger a dma-fence can blow up.  There's simpl=
+y
+>> > > no way for the kernel to trust userspace to not do ANYTHING which
+>> > > might allocate memory.  I don't even think there's a way userspace c=
+an
+>> > > trust itself there.  It also blows up my plan of moving the fences t=
+o
+>> > > transition boundaries.
+>> > >
+>> > > Not sure where that leaves us.
+>> >
+>> > Honestly the more I look at things I think userspace-signalable fences
+>> > with a timeout sound like they are a valid solution for these issues.
+>> > Especially since (as has been mentioned countless times in this email
+>> > thread) userspace already has a lot of ways to cause timeouts and or
+>> > GPU hangs through GPU work already.
+>> >
+>> > Adding a timeout on the signaling side of a dma_fence would ensure:
+>> >
+>> > - The dma_fence signals in finite time
+>> > -  If the timeout case does not allocate memory then memory allocation
+>> > is not a blocker for signaling.
+>> >
+>> > Of course you lose the full dependency graph and we need to make sure
+>> > garbage collection of fences works correctly when we have cycles.
+>> > However, the latter sounds very doable and the first sounds like it is
+>> > to some extent inevitable.
+>> >
+>> > I feel like I'm missing some requirement here given that we
+>> > immediately went to much more complicated things but can't find it.
+>> > Thoughts?
+>>
+>> Timeouts are sufficient to protect the kernel but they make the fences
+>> unpredictable and unreliable from a userspace PoV.  One of the big
+>> problems we face is that, once we expose a dma_fence to userspace,
+>> we've allowed for some pretty crazy potential dependencies that
+>> neither userspace nor the kernel can sort out.  Say you have marek's
+>> "next serial, please" proposal and a multi-threaded application.
+>> Between time time you ask the kernel for a serial and get a dma_fence
+>> and submit the work to signal that serial, your process may get
+>> preempted, something else shoved in which allocates memory, and then
+>> we end up blocking on that dma_fence.  There's no way userspace can
+>> predict and defend itself from that.
+>>
+>> So I think where that leaves us is that there is no safe place to
+>> create a dma_fence except for inside the ioctl which submits the work
+>> and only after any necessary memory has been allocated.  That's a
+>> pretty stiff requirement.  We may still be able to interact with
+>> userspace a bit more explicitly but I think it throws any notion of
+>> userspace direct submit out the window.
+>>
+>> --Jason
+>>
+>>
+>> > - Bas
+>> > >
+>> > > --Jason
+>> > >
+>> > > On Mon, May 3, 2021 at 9:42 AM Alex Deucher <alexdeucher@gmail.com>
+>> wrote:
+>> > > >
+>> > > > On Sat, May 1, 2021 at 6:27 PM Marek Ol=C5=A1=C3=A1k <maraeo@gmail=
+.com>
+>> wrote:
+>> > > > >
+>> > > > > On Wed, Apr 28, 2021 at 5:07 AM Michel D=C3=A4nzer <michel@daenz=
+er.net>
+>> wrote:
+>> > > > >>
+>> > > > >> On 2021-04-28 8:59 a.m., Christian K=C3=B6nig wrote:
+>> > > > >> > Hi Dave,
+>> > > > >> >
+>> > > > >> > Am 27.04.21 um 21:23 schrieb Marek Ol=C5=A1=C3=A1k:
+>> > > > >> >> Supporting interop with any device is always possible. It
+>> depends on which drivers we need to interoperate with and update them.
+>> We've already found the path forward for amdgpu. We just need to find ou=
+t
+>> how many other drivers need to be updated and evaluate the cost/benefit
+>> aspect.
+>> > > > >> >>
+>> > > > >> >> Marek
+>> > > > >> >>
+>> > > > >> >> On Tue, Apr 27, 2021 at 2:38 PM Dave Airlie <
+>> airlied@gmail.com <mailto:airlied@gmail.com>> wrote:
+>> > > > >> >>
+>> > > > >> >>     On Tue, 27 Apr 2021 at 22:06, Christian K=C3=B6nig
+>> > > > >> >>     <ckoenig.leichtzumerken@gmail.com <mailto:
+>> ckoenig.leichtzumerken@gmail.com>> wrote:
+>> > > > >> >>     >
+>> > > > >> >>     > Correct, we wouldn't have synchronization between
+>> device with and without user queues any more.
+>> > > > >> >>     >
+>> > > > >> >>     > That could only be a problem for A+I Laptops.
+>> > > > >> >>
+>> > > > >> >>     Since I think you mentioned you'd only be enabling this
+>> on newer
+>> > > > >> >>     chipsets, won't it be a problem for A+A where one A is a
+>> generation
+>> > > > >> >>     behind the other?
+>> > > > >> >>
+>> > > > >> >
+>> > > > >> > Crap, that is a good point as well.
+>> > > > >> >
+>> > > > >> >>
+>> > > > >> >>     I'm not really liking where this is going btw, seems lik=
+e
+>> a ill
+>> > > > >> >>     thought out concept, if AMD is really going down the roa=
+d
+>> of designing
+>> > > > >> >>     hw that is currently Linux incompatible, you are going t=
+o
+>> have to
+>> > > > >> >>     accept a big part of the burden in bringing this support
+>> in to more
+>> > > > >> >>     than just amd drivers for upcoming generations of gpu.
+>> > > > >> >>
+>> > > > >> >
+>> > > > >> > Well we don't really like that either, but we have no other
+>> option as far as I can see.
+>> > > > >>
+>> > > > >> I don't really understand what "future hw may remove support fo=
+r
+>> kernel queues" means exactly. While the per-context queues can be mapped=
+ to
+>> userspace directly, they don't *have* to be, do they? I.e. the kernel
+>> driver should be able to either intercept userspace access to the queues=
+,
+>> or in the worst case do it all itself, and provide the existing
+>> synchronization semantics as needed?
+>> > > > >>
+>> > > > >> Surely there are resource limits for the per-context queues, so
+>> the kernel driver needs to do some kind of virtualization / multi-plexin=
+g
+>> anyway, or we'll get sad user faces when there's no queue available for
+>> <current hot game>.
+>> > > > >>
+>> > > > >> I'm probably missing something though, awaiting enlightenment. =
+:)
+>> > > > >
+>> > > > >
+>> > > > > The hw interface for userspace is that the ring buffer is mapped
+>> to the process address space alongside a doorbell aperture (4K page) tha=
+t
+>> isn't real memory, but when the CPU writes into it, it tells the hw
+>> scheduler that there are new GPU commands in the ring buffer. Userspace
+>> inserts all the wait, draw, and signal commands into the ring buffer and
+>> then "rings" the doorbell. It's my understanding that the ring buffer an=
+d
+>> the doorbell are always mapped in the same GPU address space as the
+>> process, which makes it very difficult to emulate the current protected
+>> ring buffers in the kernel. The VMID of the ring buffer is also not
+>> changeable.
+>> > > > >
+>> > > >
+>> > > > The doorbell does not have to be mapped into the process's GPU
+>> virtual
+>> > > > address space.  The CPU could write to it directly.  Mapping it in=
+to
+>> > > > the GPU's virtual address space would allow you to have a device
+>> kick
+>> > > > off work however rather than the CPU.  E.g., the GPU could kick of=
+f
+>> > > > it's own work or multiple devices could kick off work without CPU
+>> > > > involvement.
+>> > > >
+>> > > > Alex
+>> > > >
+>> > > >
+>> > > > > The hw scheduler doesn't do any synchronization and it doesn't
+>> see any dependencies. It only chooses which queue to execute, so it's
+>> really just a simple queue manager handling the virtualization aspect an=
+d
+>> not much else.
+>> > > > >
+>> > > > > Marek
+>> > > > > _______________________________________________
+>> > > > > dri-devel mailing list
+>> > > > > dri-devel@lists.freedesktop.org
+>> > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>> > > > _______________________________________________
+>> > > > mesa-dev mailing list
+>> > > > mesa-dev@lists.freedesktop.org
+>> > > > https://lists.freedesktop.org/mailman/listinfo/mesa-dev
+>> > > _______________________________________________
+>> > > dri-devel mailing list
+>> > > dri-devel@lists.freedesktop.org
+>> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>
+>
+
+--00000000000014999205c17870cd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Proposal for a new CS ioctl, kernel pseudo code:</div=
+><div><br></div><div>lock(&amp;global_lock);</div><div>serial =3D get_next_=
+serial(dev);</div><div>add_wait_command(ring, serial - 1);</div><div>add_ex=
+ec_cmdbuf(ring, user_cmdbuf);</div><div>add_signal_command(ring, serial);</=
+div><div>*ring-&gt;doorbell =3D FIRE;<br></div><div>unlock(&amp;global_lock=
+);</div><div><br></div><div>See? Just like userspace submit, but in the ker=
+nel without concurrency/preemption. Is this now safe enough for dma_fence?<=
+br></div><div><br></div><div>Marek<br></div></div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 3, 2021 at 4:36 PM =
+Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:maraeo@gmail.com">maraeo@gmail.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><div dir=3D"ltr"><div>What about direct submit from the kernel where the=
+ process still has write access to the GPU ring buffer but doesn&#39;t use =
+it? I think that solves your preemption example, but leaves a potential bac=
+kdoor for a process to overwrite the signal commands, which shouldn&#39;t b=
+e a problem since we are OK with timeouts.<br></div><div><br></div><div>Mar=
+ek<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">On Mon, May 3, 2021 at 11:23 AM Jason Ekstrand &lt;<a href=3D"m=
+ailto:jason@jlekstrand.net" target=3D"_blank">jason@jlekstrand.net</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, M=
+ay 3, 2021 at 10:16 AM Bas Nieuwenhuizen<br>
+&lt;<a href=3D"mailto:bas@basnieuwenhuizen.nl" target=3D"_blank">bas@basnie=
+uwenhuizen.nl</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Mon, May 3, 2021 at 5:00 PM Jason Ekstrand &lt;<a href=3D"mailto:ja=
+son@jlekstrand.net" target=3D"_blank">jason@jlekstrand.net</a>&gt; wrote:<b=
+r>
+&gt; &gt;<br>
+&gt; &gt; Sorry for the top-post but there&#39;s no good thing to reply to =
+here...<br>
+&gt; &gt;<br>
+&gt; &gt; One of the things pointed out to me recently by Daniel Vetter tha=
+t I<br>
+&gt; &gt; didn&#39;t fully understand before is that dma_buf has a very sub=
+tle<br>
+&gt; &gt; second requirement beyond finite time completion:=C2=A0 Nothing r=
+equired<br>
+&gt; &gt; for signaling a dma-fence can allocate memory.=C2=A0 Why?=C2=A0 B=
+ecause the act<br>
+&gt; &gt; of allocating memory may wait on your dma-fence.=C2=A0 This, as i=
+t turns<br>
+&gt; &gt; out, is a massively more strict requirement than finite time<br>
+&gt; &gt; completion and, I think, throws out all of the proposals we have =
+so<br>
+&gt; &gt; far.<br>
+&gt; &gt;<br>
+&gt; &gt; Take, for instance, Marek&#39;s proposal for userspace involvemen=
+t with<br>
+&gt; &gt; dma-fence by asking the kernel for a next serial and the kernel<b=
+r>
+&gt; &gt; trusting userspace to signal it.=C2=A0 That doesn&#39;t work at a=
+ll if<br>
+&gt; &gt; allocating memory to trigger a dma-fence can blow up.=C2=A0 There=
+&#39;s simply<br>
+&gt; &gt; no way for the kernel to trust userspace to not do ANYTHING which=
+<br>
+&gt; &gt; might allocate memory.=C2=A0 I don&#39;t even think there&#39;s a=
+ way userspace can<br>
+&gt; &gt; trust itself there.=C2=A0 It also blows up my plan of moving the =
+fences to<br>
+&gt; &gt; transition boundaries.<br>
+&gt; &gt;<br>
+&gt; &gt; Not sure where that leaves us.<br>
+&gt;<br>
+&gt; Honestly the more I look at things I think userspace-signalable fences=
+<br>
+&gt; with a timeout sound like they are a valid solution for these issues.<=
+br>
+&gt; Especially since (as has been mentioned countless times in this email<=
+br>
+&gt; thread) userspace already has a lot of ways to cause timeouts and or<b=
+r>
+&gt; GPU hangs through GPU work already.<br>
+&gt;<br>
+&gt; Adding a timeout on the signaling side of a dma_fence would ensure:<br=
+>
+&gt;<br>
+&gt; - The dma_fence signals in finite time<br>
+&gt; -=C2=A0 If the timeout case does not allocate memory then memory alloc=
+ation<br>
+&gt; is not a blocker for signaling.<br>
+&gt;<br>
+&gt; Of course you lose the full dependency graph and we need to make sure<=
+br>
+&gt; garbage collection of fences works correctly when we have cycles.<br>
+&gt; However, the latter sounds very doable and the first sounds like it is=
+<br>
+&gt; to some extent inevitable.<br>
+&gt;<br>
+&gt; I feel like I&#39;m missing some requirement here given that we<br>
+&gt; immediately went to much more complicated things but can&#39;t find it=
+.<br>
+&gt; Thoughts?<br>
+<br>
+Timeouts are sufficient to protect the kernel but they make the fences<br>
+unpredictable and unreliable from a userspace PoV.=C2=A0 One of the big<br>
+problems we face is that, once we expose a dma_fence to userspace,<br>
+we&#39;ve allowed for some pretty crazy potential dependencies that<br>
+neither userspace nor the kernel can sort out.=C2=A0 Say you have marek&#39=
+;s<br>
+&quot;next serial, please&quot; proposal and a multi-threaded application.<=
+br>
+Between time time you ask the kernel for a serial and get a dma_fence<br>
+and submit the work to signal that serial, your process may get<br>
+preempted, something else shoved in which allocates memory, and then<br>
+we end up blocking on that dma_fence.=C2=A0 There&#39;s no way userspace ca=
+n<br>
+predict and defend itself from that.<br>
+<br>
+So I think where that leaves us is that there is no safe place to<br>
+create a dma_fence except for inside the ioctl which submits the work<br>
+and only after any necessary memory has been allocated.=C2=A0 That&#39;s a<=
+br>
+pretty stiff requirement.=C2=A0 We may still be able to interact with<br>
+userspace a bit more explicitly but I think it throws any notion of<br>
+userspace direct submit out the window.<br>
+<br>
+--Jason<br>
+<br>
+<br>
+&gt; - Bas<br>
+&gt; &gt;<br>
+&gt; &gt; --Jason<br>
+&gt; &gt;<br>
+&gt; &gt; On Mon, May 3, 2021 at 9:42 AM Alex Deucher &lt;<a href=3D"mailto=
+:alexdeucher@gmail.com" target=3D"_blank">alexdeucher@gmail.com</a>&gt; wro=
+te:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Sat, May 1, 2021 at 6:27 PM Marek Ol=C5=A1=C3=A1k &lt;<a =
+href=3D"mailto:maraeo@gmail.com" target=3D"_blank">maraeo@gmail.com</a>&gt;=
+ wrote:<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; On Wed, Apr 28, 2021 at 5:07 AM Michel D=C3=A4nzer &lt;=
+<a href=3D"mailto:michel@daenzer.net" target=3D"_blank">michel@daenzer.net<=
+/a>&gt; wrote:<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; On 2021-04-28 8:59 a.m., Christian K=C3=B6nig wrote=
+:<br>
+&gt; &gt; &gt; &gt;&gt; &gt; Hi Dave,<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; Am 27.04.21 um 21:23 schrieb Marek Ol=C5=A1=C3=
+=A1k:<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt; Supporting interop with any device is alwa=
+ys possible. It depends on which drivers we need to interoperate with and u=
+pdate them. We&#39;ve already found the path forward for amdgpu. We just ne=
+ed to find out how many other drivers need to be updated and evaluate the c=
+ost/benefit aspect.<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt; Marek<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt; On Tue, Apr 27, 2021 at 2:38 PM Dave Airli=
+e &lt;<a href=3D"mailto:airlied@gmail.com" target=3D"_blank">airlied@gmail.=
+com</a> &lt;mailto:<a href=3D"mailto:airlied@gmail.com" target=3D"_blank">a=
+irlied@gmail.com</a>&gt;&gt; wrote:<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0On Tue, 27 Apr 2021 at =
+22:06, Christian K=C3=B6nig<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"mailto:c=
+koenig.leichtzumerken@gmail.com" target=3D"_blank">ckoenig.leichtzumerken@g=
+mail.com</a> &lt;mailto:<a href=3D"mailto:ckoenig.leichtzumerken@gmail.com"=
+ target=3D"_blank">ckoenig.leichtzumerken@gmail.com</a>&gt;&gt; wrote:<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&gt; Correct, we wouldn=
+&#39;t have synchronization between device with and without user queues any=
+ more.<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0&gt; That could only be=
+ a problem for A+I Laptops.<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0Since I think you menti=
+oned you&#39;d only be enabling this on newer<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0chipsets, won&#39;t it =
+be a problem for A+A where one A is a generation<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0behind the other?<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; Crap, that is a good point as well.<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0I&#39;m not really liki=
+ng where this is going btw, seems like a ill<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0thought out concept, if=
+ AMD is really going down the road of designing<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0hw that is currently Li=
+nux incompatible, you are going to have to<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0accept a big part of th=
+e burden in bringing this support in to more<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0than just amd drivers f=
+or upcoming generations of gpu.<br>
+&gt; &gt; &gt; &gt;&gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; Well we don&#39;t really like that either, but=
+ we have no other option as far as I can see.<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; I don&#39;t really understand what &quot;future hw =
+may remove support for kernel queues&quot; means exactly. While the per-con=
+text queues can be mapped to userspace directly, they don&#39;t *have* to b=
+e, do they? I.e. the kernel driver should be able to either intercept users=
+pace access to the queues, or in the worst case do it all itself, and provi=
+de the existing synchronization semantics as needed?<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; Surely there are resource limits for the per-contex=
+t queues, so the kernel driver needs to do some kind of virtualization / mu=
+lti-plexing anyway, or we&#39;ll get sad user faces when there&#39;s no que=
+ue available for &lt;current hot game&gt;.<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; I&#39;m probably missing something though, awaiting=
+ enlightenment. :)<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; The hw interface for userspace is that the ring buffer =
+is mapped to the process address space alongside a doorbell aperture (4K pa=
+ge) that isn&#39;t real memory, but when the CPU writes into it, it tells t=
+he hw scheduler that there are new GPU commands in the ring buffer. Userspa=
+ce inserts all the wait, draw, and signal commands into the ring buffer and=
+ then &quot;rings&quot; the doorbell. It&#39;s my understanding that the ri=
+ng buffer and the doorbell are always mapped in the same GPU address space =
+as the process, which makes it very difficult to emulate the current protec=
+ted ring buffers in the kernel. The VMID of the ring buffer is also not cha=
+ngeable.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; The doorbell does not have to be mapped into the process&#39=
+;s GPU virtual<br>
+&gt; &gt; &gt; address space.=C2=A0 The CPU could write to it directly.=C2=
+=A0 Mapping it into<br>
+&gt; &gt; &gt; the GPU&#39;s virtual address space would allow you to have =
+a device kick<br>
+&gt; &gt; &gt; off work however rather than the CPU.=C2=A0 E.g., the GPU co=
+uld kick off<br>
+&gt; &gt; &gt; it&#39;s own work or multiple devices could kick off work wi=
+thout CPU<br>
+&gt; &gt; &gt; involvement.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Alex<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; The hw scheduler doesn&#39;t do any synchronization and=
+ it doesn&#39;t see any dependencies. It only chooses which queue to execut=
+e, so it&#39;s really just a simple queue manager handling the virtualizati=
+on aspect and not much else.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Marek<br>
+&gt; &gt; &gt; &gt; _______________________________________________<br>
+&gt; &gt; &gt; &gt; dri-devel mailing list<br>
+&gt; &gt; &gt; &gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" targ=
+et=3D"_blank">dri-devel@lists.freedesktop.org</a><br>
+&gt; &gt; &gt; &gt; <a href=3D"https://lists.freedesktop.org/mailman/listin=
+fo/dri-devel" rel=3D"noreferrer" target=3D"_blank">https://lists.freedeskto=
+p.org/mailman/listinfo/dri-devel</a><br>
+&gt; &gt; &gt; _______________________________________________<br>
+&gt; &gt; &gt; mesa-dev mailing list<br>
+&gt; &gt; &gt; <a href=3D"mailto:mesa-dev@lists.freedesktop.org" target=3D"=
+_blank">mesa-dev@lists.freedesktop.org</a><br>
+&gt; &gt; &gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/me=
+sa-dev" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/=
+mailman/listinfo/mesa-dev</a><br>
+&gt; &gt; _______________________________________________<br>
+&gt; &gt; dri-devel mailing list<br>
+&gt; &gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_bla=
+nk">dri-devel@lists.freedesktop.org</a><br>
+&gt; &gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-dev=
+el" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mail=
+man/listinfo/dri-devel</a><br>
+</blockquote></div>
+</blockquote></div>
+
+--00000000000014999205c17870cd--
+
+--===============2036749279==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2036749279==--
