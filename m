@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742593727A5
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 10:56:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB0E3727DF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 11:11:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BDB86EAB7;
-	Tue,  4 May 2021 08:56:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 670CE6EABB;
+	Tue,  4 May 2021 09:11:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 519386EAB4
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 08:56:11 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id a4so11982251ejk.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 01:56:11 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4856EABA
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 09:11:16 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id w3so12051544ejc.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 02:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=NJr0LX/26FC8zqaJ3w2NFopT2rTFOUSvE/xLXKAtnQY=;
- b=Q1b6A7T7bb0iE8JQuyYdcw7L0SXCoJhXBmZdHBKwgwNCY/KmmQxkTzW5MKbDLofLWg
- XO3YUmRMuymRi1zByia2c7uTXzM03PvTmDZ3ER2PKIqRqFIM+6q1so8yC6jXmp0emOhv
- FycaKP/qdbxyWYX0k9uS8aVG3xxiko1M6dq7c=
+ bh=YwqFj72jUjupjwhsKXszFdmsbIp/D5qjR/2ZXA5Gi3c=;
+ b=V2b0ca/xF/RTSMWKHzVekM/cZMtR5xnDPm5oy0UyeuTcgE9P3rqg8cPmFbvcKEqwpw
+ Y5IoKPfoxrEov/NyzwwANIsNcbD73IiPYlSKfUsEI3/p70ok8d2KW4fzz9sA2GeKSlyG
+ 0qaP23YVhvoH1DU6DvKXEYI/pwILC0M/G0v+k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=NJr0LX/26FC8zqaJ3w2NFopT2rTFOUSvE/xLXKAtnQY=;
- b=sUlbEzTp3m2SOlxrr8sxsigedgi9HWnAuhils0v4a1Q1MF2dymY+FByyGB64UldpOc
- 9OWPRevQgseSU8DxYtvcVyslndDjms+lh1/sNxSo1ZYqmVcciUdUQCBoM/yUN07jZrjE
- Hr4ombybDX7rXuMLdRvJlGcdwnkCOQSWSS3VAasQ9MxMeXHCYYC2V9TslhezE3fkJhCA
- ZvbBqOjjXcFJG4F2wzF7x8i0lztG0rKaKxht7wFZGYGHwUnMiN6CzkwH81PmdB6IQ0cQ
- bKoXntUrrw2DQu0Cfg1gbSwd3bXA1OsIAat7VnAwfCgNYV4m+fO/S3lqhmyEpHAJ/Uwk
- 3e9g==
-X-Gm-Message-State: AOAM530cAs/kPcitT78pCPPiitFvHT4EmAxXGmzNL0jnkA8X4Ls3D5AP
- KxtldGxNyg1R9VUhI2md2LxU+w==
-X-Google-Smtp-Source: ABdhPJxIVT2rDHRaDWlawA4CSIzn4rO5IoCDMadTQYonMxLRvPB43mBBckSEKiOlwpXuBuq2yuUIVA==
-X-Received: by 2002:a17:906:cc5d:: with SMTP id
- mm29mr20442822ejb.362.1620118569986; 
- Tue, 04 May 2021 01:56:09 -0700 (PDT)
+ bh=YwqFj72jUjupjwhsKXszFdmsbIp/D5qjR/2ZXA5Gi3c=;
+ b=S0fhhuFLXWe6+dovLRKUX5OvUe+wQXyQeZ1/SOlVpfoK3guoYcRPPMPmBIm6ybBbi8
+ 5MJd9/wbbpovXMiz13WXRGIh40oIeHK8eXf6XyMnLOGHCsz8t7HWjNJs32A4tor/a4mA
+ XTRBRUasUxLDKFUFqqUryTYgCvXrG12sqimnIXybrc23PVsCdH3AzmTRyS4QOXHitJbn
+ Ud9nT2ab9uiQ1O2kbBcyFp9QGOt5degES/fEP9pO8/hNPBua7+WC+Qo5+a2y2cj8FhYW
+ mxpDAigA+q5aeDRGhNsR5H6OFFdSvAyzSbHY6dQg4MNQqY5LIvSjdv4c56oFi2nqfuaf
+ 8mFw==
+X-Gm-Message-State: AOAM533GWghpC/vjH9/DCbd2cXR1D3XAsgcG6wWcZdqd9zIJC1PsEY7C
+ 5/tRf+2ki/ob++IC3VJY+1x5jg==
+X-Google-Smtp-Source: ABdhPJy1+HuNlYb7Oaxg1TJc78TF4RItofR7MkoNEahbIqytxkejVhJJXJogcPaQEUZyKr/12BIhsg==
+X-Received: by 2002:a17:906:7842:: with SMTP id
+ p2mr3265275ejm.487.1620119475080; 
+ Tue, 04 May 2021 02:11:15 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q25sm13844944edt.51.2021.05.04.01.56.09
+ by smtp.gmail.com with ESMTPSA id 9sm1064863ejv.73.2021.05.04.02.11.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 01:56:09 -0700 (PDT)
-Date: Tue, 4 May 2021 10:56:07 +0200
+ Tue, 04 May 2021 02:11:14 -0700 (PDT)
+Date: Tue, 4 May 2021 11:11:12 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [PATCH 10/27] drm/i915/gem: Remove engine auto-magic with
- FENCE_SUBMIT
-Message-ID: <YJEMJ0TF6vLmPo5d@phenom.ffwll.local>
+Subject: Re: [PATCH 15/27] drm/i915: Add gem/i915_gem_context.h to the docs
+Message-ID: <YJEPsD9pL0QHzRcN@phenom.ffwll.local>
 References: <20210503155748.1961781-1-jason@jlekstrand.net>
- <20210503155748.1961781-11-jason@jlekstrand.net>
+ <20210503155748.1961781-16-jason@jlekstrand.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210503155748.1961781-11-jason@jlekstrand.net>
+In-Reply-To: <20210503155748.1961781-16-jason@jlekstrand.net>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,99 +72,161 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 03, 2021 at 10:57:31AM -0500, Jason Ekstrand wrote:
-> Even though FENCE_SUBMIT is only documented to wait until the request in
-> the in-fence starts instead of waiting until it completes, it has a bit
-> more magic than that.  If FENCE_SUBMIT is used to submit something to a
-> balanced engine, we would wait to assign engines until the primary
-> request was ready to start and then attempt to assign it to a different
-> engine than the primary.  There is an IGT test which exercises this by
-> submitting a primary batch to a specific VCS and then using FENCE_SUBMIT
-> to submit a secondary which can run on any VCS and have i915 figure out
-> which VCS to run it on such that they can run in parallel.
-> 
-> However, this functionality has never been used in the real world.  The
-> media driver (the only user of FENCE_SUBMIT) always picks exactly two
-> physical engines to bond and never asks us to pick which to use.
-
-Maybe reference the specific igt you're break (and removing in the igt
-series to match this) here. Just for the record and all that.
--Daniel
-
+On Mon, May 03, 2021 at 10:57:36AM -0500, Jason Ekstrand wrote:
+> In order to prevent kernel doc warnings, also fill out docs for any
+> missing fields and fix those that forgot the "@".
 > 
 > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c  |  2 +-
->  drivers/gpu/drm/i915/gt/intel_engine_types.h    |  7 -------
->  .../drm/i915/gt/intel_execlists_submission.c    | 17 -----------------
->  3 files changed, 1 insertion(+), 25 deletions(-)
+>  Documentation/gpu/i915.rst                    |  2 +
+>  .../gpu/drm/i915/gem/i915_gem_context_types.h | 43 ++++++++++++++++---
+>  2 files changed, 38 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index d640bba6ad9ab..efb2fa3522a42 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -3474,7 +3474,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->  		if (args->flags & I915_EXEC_FENCE_SUBMIT)
->  			err = i915_request_await_execution(eb.request,
->  							   in_fence,
-> -							   eb.engine->bond_execute);
-> +							   NULL);
->  		else
->  			err = i915_request_await_dma_fence(eb.request,
->  							   in_fence);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index 883bafc449024..68cfe5080325c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -446,13 +446,6 @@ struct intel_engine_cs {
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 486c720f38907..0529e5183982e 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -422,6 +422,8 @@ Batchbuffer Parsing
+>  User Batchbuffer Execution
+>  --------------------------
+>  
+> +.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> +
+>  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>     :doc: User command execution
+>  
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> index df76767f0c41b..5f0673a2129f9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> @@ -30,19 +30,39 @@ struct i915_address_space;
+>  struct intel_timeline;
+>  struct intel_ring;
+>  
+> +/**
+> + * struct i915_gem_engines - A set of engines
+> + */
+>  struct i915_gem_engines {
+>  	union {
+> +		/** @link: Link in i915_gem_context::stale::engines */
+>  		struct list_head link;
+> +
+> +		/** @rcu: RCU to use when freeing */
+>  		struct rcu_head rcu;
+>  	};
+> +
+> +	/** @fence: Fence used for delayed destruction of engines */
+>  	struct i915_sw_fence fence;
+
+I got derailed a bit appreciating the lifetime complexity here as
+expressed in the callbacks for this. I hope this all simplifies?
+
+Anyway patch looks good, or at least better than what we had.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> +
+> +	/** @ctx: i915_gem_context backpointer */
+>  	struct i915_gem_context *ctx;
+> +
+> +	/** @num_engines: Number of engines in this set */
+>  	unsigned int num_engines;
+> +
+> +	/** @engines: Array of engines */
+>  	struct intel_context *engines[];
+>  };
+>  
+> +/**
+> + * struct i915_gem_engines_iter - Iterator for an i915_gem_engines set
+> + */
+>  struct i915_gem_engines_iter {
+> +	/** @idx: Index into i915_gem_engines::engines */
+>  	unsigned int idx;
+> +
+> +	/** @engines: Engine set being iterated */
+>  	const struct i915_gem_engines *engines;
+>  };
+>  
+> @@ -53,10 +73,10 @@ struct i915_gem_engines_iter {
+>   * logical hardware state for a particular client.
+>   */
+>  struct i915_gem_context {
+> -	/** i915: i915 device backpointer */
+> +	/** @i915: i915 device backpointer */
+>  	struct drm_i915_private *i915;
+>  
+> -	/** file_priv: owning file descriptor */
+> +	/** @file_priv: owning file descriptor */
+>  	struct drm_i915_file_private *file_priv;
+>  
+>  	/**
+> @@ -81,7 +101,9 @@ struct i915_gem_context {
+>  	 * CONTEXT_USER_ENGINES flag is set).
 >  	 */
->  	void		(*submit_request)(struct i915_request *rq);
+>  	struct i915_gem_engines __rcu *engines;
+> -	struct mutex engines_mutex; /* guards writes to engines */
+> +
+> +	/** @engines_mutex: guards writes to engines */
+> +	struct mutex engines_mutex;
 >  
-> -	/*
-> -	 * Called on signaling of a SUBMIT_FENCE, passing along the signaling
-> -	 * request down to the bonded pairs.
-> -	 */
-> -	void            (*bond_execute)(struct i915_request *rq,
-> -					struct dma_fence *signal);
-> -
->  	/*
->  	 * Call when the priority on a request has changed and it and its
->  	 * dependencies may need rescheduling. Note the request itself may
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index 14378b28169b7..635d6d2494d26 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -3547,22 +3547,6 @@ static void virtual_submit_request(struct i915_request *rq)
->  	spin_unlock_irqrestore(&ve->base.active.lock, flags);
->  }
+>  	/**
+>  	 * @syncobj: Shared timeline syncobj
+> @@ -118,7 +140,7 @@ struct i915_gem_context {
+>  	 */
+>  	struct pid *pid;
 >  
-> -static void
-> -virtual_bond_execute(struct i915_request *rq, struct dma_fence *signal)
-> -{
-> -	intel_engine_mask_t allowed, exec;
-> -
-> -	allowed = ~to_request(signal)->engine->mask;
-> -
-> -	/* Restrict the bonded request to run on only the available engines */
-> -	exec = READ_ONCE(rq->execution_mask);
-> -	while (!try_cmpxchg(&rq->execution_mask, &exec, exec & allowed))
-> -		;
-> -
-> -	/* Prevent the master from being re-run on the bonded engines */
-> -	to_request(signal)->execution_mask &= ~allowed;
-> -}
-> -
->  struct intel_context *
->  intel_execlists_create_virtual(struct intel_engine_cs **siblings,
->  			       unsigned int count)
-> @@ -3616,7 +3600,6 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
+> -	/** link: place with &drm_i915_private.context_list */
+> +	/** @link: place with &drm_i915_private.context_list */
+>  	struct list_head link;
 >  
->  	ve->base.schedule = i915_schedule;
->  	ve->base.submit_request = virtual_submit_request;
-> -	ve->base.bond_execute = virtual_bond_execute;
+>  	/**
+> @@ -153,11 +175,13 @@ struct i915_gem_context {
+>  #define CONTEXT_CLOSED			0
+>  #define CONTEXT_USER_ENGINES		1
 >  
->  	INIT_LIST_HEAD(virtual_queue(ve));
->  	ve->base.execlists.queue_priority_hint = INT_MIN;
+> +	/** @mutex: guards everything that isn't engines or handles_vma */
+>  	struct mutex mutex;
+>  
+> +	/** @sched: scheduler parameters */
+>  	struct i915_sched_attr sched;
+>  
+> -	/** guilty_count: How many times this context has caused a GPU hang. */
+> +	/** @guilty_count: How many times this context has caused a GPU hang. */
+>  	atomic_t guilty_count;
+>  	/**
+>  	 * @active_count: How many times this context was active during a GPU
+> @@ -171,15 +195,17 @@ struct i915_gem_context {
+>  	unsigned long hang_timestamp[2];
+>  #define CONTEXT_FAST_HANG_JIFFIES (120 * HZ) /* 3 hangs within 120s? Banned! */
+>  
+> -	/** remap_slice: Bitmask of cache lines that need remapping */
+> +	/** @remap_slice: Bitmask of cache lines that need remapping */
+>  	u8 remap_slice;
+>  
+>  	/**
+> -	 * handles_vma: rbtree to look up our context specific obj/vma for
+> +	 * @handles_vma: rbtree to look up our context specific obj/vma for
+>  	 * the user handle. (user handles are per fd, but the binding is
+>  	 * per vm, which may be one per context or shared with the global GTT)
+>  	 */
+>  	struct radix_tree_root handles_vma;
+> +
+> +	/** @lut_mutex: Locks handles_vma */
+>  	struct mutex lut_mutex;
+>  
+>  	/**
+> @@ -191,8 +217,11 @@ struct i915_gem_context {
+>  	 */
+>  	char name[TASK_COMM_LEN + 8];
+>  
+> +	/** @stale: tracks stale engines to be destroyed */
+>  	struct {
+> +		/** @lock: guards engines */
+>  		spinlock_t lock;
+> +		/** @engines: list of stale engines */
+>  		struct list_head engines;
+>  	} stale;
+>  };
 > -- 
 > 2.31.1
 > 
