@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B709C37316B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 22:33:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E463731A9
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 22:53:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C66689CF2;
-	Tue,  4 May 2021 20:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0599389D58;
+	Tue,  4 May 2021 20:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2352D89CF2
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 20:33:13 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id c22so11985689edn.7
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 13:33:13 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E99F56E30C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 20:53:07 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id m12so15304275eja.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 13:53:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=0PZwZ3FFmCTJ5sVemc7MztTFva8jHGFMs+hyjl2ib34=;
- b=Llw8uPzOyB4EJ6Ufi5kwzuKApWxC+uyc49wN95x6WNyVrLHc+JKp0B94bBHyBVHjHT
- 0A6lEXrZI8BnYa0mmdNadMKrjuxIPsNfUiAahoVKL5tz/lR21dH2lQKd7nLX+1veejdB
- ySLOBiQfEb5n8pI0WA/AfzJouJzi9QqCEcoZc=
+ bh=Mjkb7vkaqOcXvNoLY5WVJ4MCbrAwohXfeOtsq0uJctc=;
+ b=kdy9Cm/XQoWx03LPct2eoBjlxEGirlUTD5jdML+EsZWHuv6Z0aKUZ5V2Yx0eebxtQE
+ yVKNtXROMiO/uD1daSQnF0FU4/3bGoaIzruvjdkuvT+F1/B8C6cSCMdmQseBsQUCdBea
+ xTKytqwxS3PWAy5efa8XhQ6035ehYwguXz9iM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=0PZwZ3FFmCTJ5sVemc7MztTFva8jHGFMs+hyjl2ib34=;
- b=jVPe1ReT4M5gnwekvXL90k9uYIE4u0BTQKiHJDgE5gpC05OhuUYS85EvNTcnCS76X2
- lTuVW5XN8u3YjyWzSVRIpGUILoC7yQE2dcutxD2rAcyukNck6gJVVNMWafEax5V38ZfJ
- iqhi5ze6aosy0GdCFKy7chTLWG0Pr+DcFp3g3hjN1n2VHWgm7Ww+XhKQZFzxmfHlccr5
- nyMS0VGAz+QgVjWUpHDPpz8sJIHvDbDk+7b/xPAy/WnDSupKR1JkPonmptaNFgRVc3OR
- rTCtlsKMue1lYBT7/ZnpT7pC1t+e/a6uL1KhGgtQdHL9V2FsrveBGdlny0s5uo3g4oWp
- smzA==
-X-Gm-Message-State: AOAM530sNZv4fepac1QilTTE0/vVUHkxXBII1ndcMHssQshcT9KIjHPS
- k95oEheMyfUH3Ex/NNT1y5GeFg==
-X-Google-Smtp-Source: ABdhPJzL9OUYAEQhpvwohByCwX94LP65C5A3pR20LU6X3oIDpum0LGEJLpgZAK4eQq8d1ZNOWH8UQA==
-X-Received: by 2002:aa7:cd4d:: with SMTP id v13mr28156841edw.218.1620160392062; 
- Tue, 04 May 2021 13:33:12 -0700 (PDT)
+ bh=Mjkb7vkaqOcXvNoLY5WVJ4MCbrAwohXfeOtsq0uJctc=;
+ b=JVsxzU9z7G9gMV+ralAaLV7iRFlVp5yj1XwM2pXTBNrFEdaPylOWKyO6IXN+YWUots
+ xZgzCiPgLt7iBm4o4SFlEOcLIUpa3rsoBxwyGyM53Vp2hppycM/s2vN0NNh3DIUnDqyi
+ Rly3LNmhnrk8F8qiLV4cK/AxgNfROG5la3FmIHgOWLKWBHiYjL0wfvapeZTedEJrrgES
+ d0NgGaZPVANQvaYV7SaDE6WhZdleZFNE7IeQsS7hCDAod03BBx3BG0m5vy4e3wABq7nt
+ dK+6cPsUoK+7zUOBLvr3pGAtucfWl6M6gls7RqYzWCUr+AFT7KkmnGl1Ua8O4uI+hTac
+ 1/rQ==
+X-Gm-Message-State: AOAM532S8/4FS47so16sqAwt6zqH/uaZHDAXzUoVHi4RIS/vYulLBlqf
+ Fs/b7Ry37dNwYo9nCqIOxiAhRw==
+X-Google-Smtp-Source: ABdhPJzzK7SDaLqA35TAwCjANjXM6HxOdkR/6m+tmTu2ZKSHZKi8zGPBboiyhPzUgOLdipiR1KPjQw==
+X-Received: by 2002:a17:906:8147:: with SMTP id
+ z7mr19790329ejw.496.1620161586189; 
+ Tue, 04 May 2021 13:53:06 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id qh12sm1903189ejb.109.2021.05.04.13.33.10
+ by smtp.gmail.com with ESMTPSA id w21sm14611111edq.82.2021.05.04.13.53.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 13:33:11 -0700 (PDT)
-Date: Tue, 4 May 2021 22:33:09 +0200
+ Tue, 04 May 2021 13:53:05 -0700 (PDT)
+Date: Tue, 4 May 2021 22:53:03 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [PATCH 19/27] drm/i915/gem: Use the proto-context to handle
- create parameters
-Message-ID: <YJGvhfiKTILPsAG/@phenom.ffwll.local>
+Subject: Re: [Intel-gfx] [PATCH 22/27] drm/i915/gem: Delay context creation
+Message-ID: <YJG0L+Zhg9TcJpr8@phenom.ffwll.local>
 References: <20210503155748.1961781-1-jason@jlekstrand.net>
- <20210503155748.1961781-20-jason@jlekstrand.net>
+ <20210503155748.1961781-23-jason@jlekstrand.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210503155748.1961781-20-jason@jlekstrand.net>
-X-Operating-System: Linux phenom 5.10.32scarlett+
+In-Reply-To: <20210503155748.1961781-23-jason@jlekstrand.net>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,844 +72,580 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 03, 2021 at 10:57:40AM -0500, Jason Ekstrand wrote:
-> This means that the proto-context needs to grow support for engine
-> configuration information as well as setparam logic.  Fortunately, we'll
-> be deleting a lot of setparam logic on the primary context shortly so it
-> will hopefully balance out.
+On Mon, May 03, 2021 at 10:57:43AM -0500, Jason Ekstrand wrote:
+> The current context uAPI allows for two methods of setting context
+> parameters: SET_CONTEXT_PARAM and CONTEXT_CREATE_EXT_SETPARAM.  The
+> former is allowed to be called at any time while the later happens as
+> part of GEM_CONTEXT_CREATE.  Currently, everything settable via one is
+> settable via the other.  While some params are fairly simple and setting
+> them on a live context is harmless such the context priority, others are
+> far trickier such as the VM or the set of engines.  In order to swap out
+> the VM, for instance, we have to delay until all current in-flight work
+> is complete, swap in the new VM, and then continue.  This leads to a
+> plethora of potential race conditions we'd really rather avoid.
+> 
+> In previous patches, we added a i915_gem_proto_context struct which is
+> capable of storing and tracking all such create parameters.  This commit
+> delays the creation of the actual context until after the client is done
+> configuring it with SET_CONTEXT_PARAM.  From the perspective of the
+> client, it has the same u32 context ID the whole time.  From the
+> perspective of i915, however, it's an i915_gem_proto_context right up
+> until the point where we attempt to do something which the proto-context
+> can't handle at which point the real context gets created.
+> 
+> This is accomplished via a little xarray dance.  When GEM_CONTEXT_CREATE
+> is called, we create a proto-context, reserve a slot in context_xa but
+> leave it NULL, the proto-context in the corresponding slot in
+> proto_context_xa.  Then, whenever we go to look up a context, we first
+> check context_xa.  If it's there, we return the i915_gem_context and
+> we're done.  If it's not, we look in proto_context_xa and, if we find it
+> there, we create the actual context and kill the proto-context.
+> 
+> In order for this dance to work properly, everything which ever touches
+> a proto-context is guarded by drm_i915_file_private::proto_context_lock,
+> including context creation.  Yes, this means context creation now takes
+> a giant global lock but it can't really be helped and that should never
+> be on any driver's fast-path anyway.
 > 
 > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 546 +++++++++++++++++-
->  .../gpu/drm/i915/gem/i915_gem_context_types.h |  58 ++
->  2 files changed, 587 insertions(+), 17 deletions(-)
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 211 ++++++++++++++----
+>  drivers/gpu/drm/i915/gem/i915_gem_context.h   |   3 +
+>  .../gpu/drm/i915/gem/i915_gem_context_types.h |  54 +++++
+>  .../gpu/drm/i915/gem/selftests/mock_context.c |   5 +-
+>  drivers/gpu/drm/i915/i915_drv.h               |  24 +-
+>  5 files changed, 239 insertions(+), 58 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 6dd50d669c5b9..aa4edfbf7ed48 100644
+> index 06d413eef01a3..f0e7ce6b979b4 100644
 > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -193,8 +193,15 @@ static int validate_priority(struct drm_i915_private *i915,
->  
->  static void proto_context_close(struct i915_gem_proto_context *pc)
->  {
-> +	int i;
-> +
->  	if (pc->vm)
->  		i915_vm_put(pc->vm);
-> +	if (pc->user_engines) {
-> +		for (i = 0; i < pc->num_user_engines; i++)
-> +			kfree(pc->user_engines[i].siblings);
-> +		kfree(pc->user_engines);
-
-		free_engines(&pc->user_engines);
-
-Maybe even stuff that if check into free_engines. Except I realized this
-is proto engines here now :-(
-
-> +	}
->  	kfree(pc);
->  }
->  
-> @@ -248,6 +255,9 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
->  	if (!pc)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	pc->num_user_engines = -1;
-> +	pc->user_engines = NULL;
-> +
->  	if (HAS_FULL_PPGTT(i915)) {
->  		struct i915_ppgtt *ppgtt;
->  
-> @@ -282,6 +292,439 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
+> @@ -292,6 +292,42 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
 >  	return err;
 >  }
 >  
-> +static int set_proto_ctx_vm(struct drm_i915_file_private *fpriv,
-> +			    struct i915_gem_proto_context *pc,
-> +			    const struct drm_i915_gem_context_param *args)
+> +static int proto_context_register_locked(struct drm_i915_file_private *fpriv,
+> +					 struct i915_gem_proto_context *pc,
+> +					 u32 *id)
 > +{
-> +	struct i915_address_space *vm;
-> +
-> +	if (args->size)
-> +		return -EINVAL;
-> +
-> +	if (!pc->vm)
-> +		return -ENODEV;
-> +
-> +	if (upper_32_bits(args->value))
-> +		return -ENOENT;
-> +
-> +	rcu_read_lock();
-> +	vm = xa_load(&fpriv->vm_xa, args->value);
-> +	if (vm && !kref_get_unless_zero(&vm->ref))
-> +		vm = NULL;
-> +	rcu_read_unlock();
-
-vm lookup helpers would be nice I guess, but perhaps something that
-vm_bind patches should do.
-
-> +	if (!vm)
-> +		return -ENOENT;
-> +
-> +	i915_vm_put(pc->vm);
-
-Ah I guess I've found why you went with "pc->vm is always set". *shrug*
-
-> +	pc->vm = vm;
-> +
-> +	return 0;
-> +}
-> +
-> +struct set_proto_ctx_engines {
-> +	struct drm_i915_private *i915;
-> +	unsigned num_engines;
-> +	struct i915_gem_proto_engine *engines;
-> +};
-> +
-> +static int
-> +set_proto_ctx_engines_balance(struct i915_user_extension __user *base,
-> +			      void *data)
-> +{
-> +	struct i915_context_engines_load_balance __user *ext =
-> +		container_of_user(base, typeof(*ext), base);
-> +	const struct set_proto_ctx_engines *set = data;
-> +	struct drm_i915_private *i915 = set->i915;
-> +	struct intel_engine_cs **siblings;
-> +	u16 num_siblings, idx;
-> +	unsigned int n;
-> +	int err;
-> +
-> +	if (!HAS_EXECLISTS(i915))
-> +		return -ENODEV;
-> +
-> +	if (intel_uc_uses_guc_submission(&i915->gt.uc))
-> +		return -ENODEV; /* not implement yet */
-> +
-> +	if (get_user(idx, &ext->engine_index))
-> +		return -EFAULT;
-> +
-> +	if (idx >= set->num_engines) {
-> +		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
-> +			idx, set->num_engines);
-> +		return -EINVAL;
-> +	}
-> +
-> +	idx = array_index_nospec(idx, set->num_engines);
-> +	if (set->engines[idx].type != I915_GEM_ENGINE_TYPE_INVALID) {
-> +		drm_dbg(&i915->drm,
-> +			"Invalid placement[%d], already occupied\n", idx);
-> +		return -EEXIST;
-> +	}
-> +
-> +	if (get_user(num_siblings, &ext->num_siblings))
-> +		return -EFAULT;
-> +
-> +	err = check_user_mbz(&ext->flags);
-> +	if (err)
-> +		return err;
-> +
-> +	err = check_user_mbz(&ext->mbz64);
-> +	if (err)
-> +		return err;
-> +
-> +	if (num_siblings == 0)
-> +		return 0;
-
-You deleted the on-stack siblings micro-optimization.
-
-I'm shocked.
-
-> +
-> +	siblings = kmalloc_array(num_siblings, sizeof(*siblings), GFP_KERNEL);
-
-If you want to pay back your micro-opt budget: GFP_TEMPORARY.
-
-But then I realized much wiser heads than me removed this in 2017 from the
-kernel! That commit is a rather interesting story btw, if you're bored:
-
-commit 0ee931c4e31a5efb134c76440405e9219f896e33
-Author: Michal Hocko <mhocko@suse.com>
-Date:   Wed Sep 13 16:28:29 2017 -0700
-
-    mm: treewide: remove GFP_TEMPORARY allocation flag
-
-> +	if (!siblings)
-> +		return -ENOMEM;
-> +
-> +	for (n = 0; n < num_siblings; n++) {
-> +		struct i915_engine_class_instance ci;
-> +
-> +		if (copy_from_user(&ci, &ext->engines[n], sizeof(ci))) {
-> +			err = -EFAULT;
-> +			goto err_siblings;
-> +		}
-> +
-> +		siblings[n] = intel_engine_lookup_user(i915,
-> +						       ci.engine_class,
-> +						       ci.engine_instance);
-
-intel_engine_user.c
-
-...
-
-Maybe I should just stop looking.
-
-> +		if (!siblings[n]) {
-> +			drm_dbg(&i915->drm,
-> +				"Invalid sibling[%d]: { class:%d, inst:%d }\n",
-> +				n, ci.engine_class, ci.engine_instance);
-> +			err = -EINVAL;
-> +			goto err_siblings;
-> +		}
-> +	}
-> +
-> +	if (num_siblings == 1) {
-> +		set->engines[idx].type = I915_GEM_ENGINE_TYPE_PHYSICAL;
-> +		set->engines[idx].engine = siblings[0];
-> +		kfree(siblings);
-> +	} else {
-> +		set->engines[idx].type = I915_GEM_ENGINE_TYPE_BALANCED;
-> +		set->engines[idx].num_siblings = num_siblings;
-> +		set->engines[idx].siblings = siblings;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_siblings:
-> +	kfree(siblings);
-> +
-> +	return err;
-> +}
-> +
-> +static int
-> +set_proto_ctx_engines_bond(struct i915_user_extension __user *base, void *data)
-> +{
-> +	struct i915_context_engines_bond __user *ext =
-> +		container_of_user(base, typeof(*ext), base);
-> +	const struct set_proto_ctx_engines *set = data;
-> +	struct drm_i915_private *i915 = set->i915;
-> +	struct i915_engine_class_instance ci;
-> +	struct intel_engine_cs *master;
-> +	u16 idx, num_bonds;
-> +	int err, n;
-> +
-> +	if (get_user(idx, &ext->virtual_index))
-> +		return -EFAULT;
-> +
-> +	if (idx >= set->num_engines) {
-> +		drm_dbg(&i915->drm,
-> +			"Invalid index for virtual engine: %d >= %d\n",
-> +			idx, set->num_engines);
-> +		return -EINVAL;
-> +	}
-> +
-> +	idx = array_index_nospec(idx, set->num_engines);
-> +	if (set->engines[idx].type == I915_GEM_ENGINE_TYPE_INVALID) {
-> +		drm_dbg(&i915->drm, "Invalid engine at %d\n", idx);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (set->engines[idx].type != I915_GEM_ENGINE_TYPE_PHYSICAL) {
-> +		drm_dbg(&i915->drm,
-> +			"Bonding with virtual engines not allowed\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	err = check_user_mbz(&ext->flags);
-> +	if (err)
-> +		return err;
-> +
-> +	for (n = 0; n < ARRAY_SIZE(ext->mbz64); n++) {
-> +		err = check_user_mbz(&ext->mbz64[n]);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	if (copy_from_user(&ci, &ext->master, sizeof(ci)))
-> +		return -EFAULT;
-> +
-> +	master = intel_engine_lookup_user(i915,
-> +					  ci.engine_class,
-> +					  ci.engine_instance);
-> +	if (!master) {
-
-It's 100% orthogonal annoyance, but maybe we can start the "what's a good
-name here" discussion.
-
-I'm thinking s/master/first/ and s/slave/subsequent/ that reflect how this
-is actually used on the execbuf side. But then this entire bonded
-extension is so disconnected from the actual use-case, maybe we should
-just sun-set it before we bother.
-
-Since we might need to keep the execlist backend implementation the
-renaming might still be needed.
-
-> +		drm_dbg(&i915->drm,
-> +			"Unrecognised master engine: { class:%u, instance:%u }\n",
-> +			ci.engine_class, ci.engine_instance);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (get_user(num_bonds, &ext->num_bonds))
-> +		return -EFAULT;
-> +
-> +	for (n = 0; n < num_bonds; n++) {
-> +		struct intel_engine_cs *bond;
-> +
-> +		if (copy_from_user(&ci, &ext->engines[n], sizeof(ci)))
-> +			return -EFAULT;
-> +
-> +		bond = intel_engine_lookup_user(i915,
-> +						ci.engine_class,
-> +						ci.engine_instance);
-> +		if (!bond) {
-> +			drm_dbg(&i915->drm,
-> +				"Unrecognised engine[%d] for bonding: { class:%d, instance: %d }\n",
-> +				n, ci.engine_class, ci.engine_instance);
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const i915_user_extension_fn set_proto_ctx_engines_extensions[] = {
-> +	[I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE] = set_proto_ctx_engines_balance,
-> +	[I915_CONTEXT_ENGINES_EXT_BOND] = set_proto_ctx_engines_bond,
-> +};
-> +
-> +static int set_proto_ctx_engines(struct drm_i915_file_private *fpriv,
-> +			         struct i915_gem_proto_context *pc,
-> +			         const struct drm_i915_gem_context_param *args)
-> +{
-> +	struct drm_i915_private *i915 = fpriv->dev_priv;
-> +	struct set_proto_ctx_engines set = { .i915 = i915 };
-> +	struct i915_context_param_engines __user *user =
-> +		u64_to_user_ptr(args->value);
-> +	unsigned int n;
-> +	u64 extensions;
-> +	int err;
-> +
-> +	if (!args->size) {
-> +		kfree(pc->user_engines);
-> +		pc->num_user_engines = -1;
-
-Is this case actually used by actual userspace, or just more stuff igt
-loved to do?
-
-If so more uapi to ditch, and check in an igt that it's rejected.
-
-Plus standard !args->size handling here with appropriate drm_debug line
-and all that.
-
-> +		pc->user_engines = NULL;
-> +		memset(&pc->legacy_rcs_sseu, 0, sizeof(pc->legacy_rcs_sseu));
-> +		return 0;
-> +	}
-> +
-> +	BUILD_BUG_ON(!IS_ALIGNED(sizeof(*user), sizeof(*user->engines)));
-
-I frankly don't know what this is checking, but it also looks harmless.
-
-> +	if (args->size < sizeof(*user) ||
-> +	    !IS_ALIGNED(args->size, sizeof(*user->engines))) {
-> +		drm_dbg(&i915->drm, "Invalid size for engine array: %d\n",
-> +			args->size);
-> +		return -EINVAL;
-> +	}
-> +
-> +	set.num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
-> +	/* RING_MASK has no shift so we can use it directly here */
-> +	if (set.num_engines > I915_EXEC_RING_MASK + 1)
-> +		return -EINVAL;
-> +
-> +	set.engines = kmalloc_array(set.num_engines, sizeof(*set.engines), GFP_KERNEL);
-> +	if (!set.engines)
-> +		return -ENOMEM;
-> +
-> +	for (n = 0; n < set.num_engines; n++) {
-> +		struct i915_engine_class_instance ci;
-> +		struct intel_engine_cs *engine;
-> +
-> +		if (copy_from_user(&ci, &user->engines[n], sizeof(ci))) {
-> +			kfree(set.engines);
-> +			return -EFAULT;
-> +		}
-> +
-> +		memset(&set.engines[n], 0, sizeof(set.engines[n]));
-> +
-> +		if (ci.engine_class == (u16)I915_ENGINE_CLASS_INVALID &&
-> +		    ci.engine_instance == (u16)I915_ENGINE_CLASS_INVALID_NONE)
-> +			continue;
-> +
-> +		engine = intel_engine_lookup_user(i915,
-> +						  ci.engine_class,
-> +						  ci.engine_instance);
-> +		if (!engine) {
-> +			drm_dbg(&i915->drm,
-> +				"Invalid engine[%d]: { class:%d, instance:%d }\n",
-> +				n, ci.engine_class, ci.engine_instance);
-> +			kfree(set.engines);
-> +			return -ENOENT;
-> +		}
-> +
-> +		set.engines[n].type = I915_GEM_ENGINE_TYPE_PHYSICAL;
-> +		set.engines[n].engine = engine;
-> +	}
-> +
-> +	err = -EFAULT;
-> +	if (!get_user(extensions, &user->extensions))
-> +		err = i915_user_extensions(u64_to_user_ptr(extensions),
-> +					   set_proto_ctx_engines_extensions,
-> +					   ARRAY_SIZE(set_proto_ctx_engines_extensions),
-> +					   &set);
-> +	if (err) {
-> +		kfree(set.engines);
-> +		return err;
-> +	}
-> +
-> +	kfree(pc->user_engines);
-
-Both of these kfree potentially leak engines[].siblings. I think you need
-to extract a proto_context_free_engines helper and use that 2x here and
-once at the very top in proto_context_close().
-
-> +	pc->num_user_engines = set.num_engines;
-> +	pc->user_engines = set.engines;
-> +
-> +	return 0;
-> +}
-> +
-> +static int set_proto_ctx_sseu(struct drm_i915_file_private *fpriv,
-> +			      struct i915_gem_proto_context *pc,
-> +			      struct drm_i915_gem_context_param *args)
-> +{
-> +	struct drm_i915_private *i915 = fpriv->dev_priv;
-> +	struct drm_i915_gem_context_param_sseu user_sseu;
-> +	struct intel_sseu *sseu;
 > +	int ret;
+> +	void *old;
 > +
-> +	if (args->size < sizeof(user_sseu))
-> +		return -EINVAL;
+> +	lockdep_assert_held(&fpriv->proto_context_lock);
 > +
-> +	if (!IS_GEN(i915, 11))
-> +		return -ENODEV;
-> +
-> +	if (copy_from_user(&user_sseu, u64_to_user_ptr(args->value),
-> +			   sizeof(user_sseu)))
-> +		return -EFAULT;
-> +
-> +	if (user_sseu.rsvd)
-> +		return -EINVAL;
-> +
-> +	if (user_sseu.flags & ~(I915_CONTEXT_SSEU_FLAG_ENGINE_INDEX))
-> +		return -EINVAL;
-> +
-> +	if (!!(user_sseu.flags & I915_CONTEXT_SSEU_FLAG_ENGINE_INDEX) != (pc->num_user_engines >= 0))
-> +		return -EINVAL;
-> +
-> +	if (pc->num_user_engines >= 0) {
-> +		int idx = user_sseu.engine.engine_instance;
-> +		struct i915_gem_proto_engine *pe;
-> +
-> +		if (idx >= pc->num_user_engines)
-> +			return -EINVAL;
-> +
-> +		pe = &pc->user_engines[idx];
-> +
-> +		/* Only render engine supports RPCS configuration. */
-> +		if (pe->engine->class != RENDER_CLASS)
-> +			return -EINVAL;
-> +
-> +		sseu = &pe->sseu;
-> +	} else {
-> +		/* Only render engine supports RPCS configuration. */
-> +		if (user_sseu.engine.engine_class != I915_ENGINE_CLASS_RENDER)
-> +			return -EINVAL;
-> +
-> +		/* There is only one render engine */
-> +		if (user_sseu.engine.engine_instance != 0)
-> +			return -EINVAL;
-> +
-> +		sseu = &pc->legacy_rcs_sseu;
-> +	}
-
-I think this faithfully rebuilds the convoluted and I think largely
-accidental semantics of SSEU for all combinations of ordering against
-set_engines.
-
-Maybe add a commit message note about this particular kind of fun here. I
-don't think a code comment is warranted since I don't think I've seen a
-userspace rely on how sseu interacts with set_engines
-
-
-> +
-> +	ret = i915_gem_user_to_context_sseu(&i915->gt, &user_sseu, sseu);
+> +	ret = xa_alloc(&fpriv->context_xa, id, NULL, xa_limit_32b, GFP_KERNEL);
 > +	if (ret)
 > +		return ret;
 > +
-> +	args->size = sizeof(user_sseu);
+> +	old = xa_store(&fpriv->proto_context_xa, *id, pc, GFP_KERNEL);
+> +	if (xa_is_err(old)) {
+> +		xa_erase(&fpriv->context_xa, *id);
+> +		return xa_err(old);
+> +	}
+> +	GEM_BUG_ON(old);
+
+A bit brutal, since worst case we just leaked something. I'd only go with
+WARN_ON. This isn't userspace, dying should be optional to make debugging
+easier (paranoid people reboot the machine on both anyway).
+
 > +
 > +	return 0;
 > +}
 > +
-> +static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
-> +			       struct i915_gem_proto_context *pc,
-> +			       struct drm_i915_gem_context_param *args)
+> +static int proto_context_register(struct drm_i915_file_private *fpriv,
+> +				  struct i915_gem_proto_context *pc,
+> +				  u32 *id)
 > +{
-> +	int ret = 0;
+> +	int ret;
 > +
-> +	switch (args->param) {
-> +	case I915_CONTEXT_PARAM_NO_ERROR_CAPTURE:
-> +		if (args->size)
-> +			ret = -EINVAL;
-> +		else if (args->value)
-> +			__set_bit(UCONTEXT_NO_ERROR_CAPTURE, &pc->user_flags);
-> +		else
-> +			__clear_bit(UCONTEXT_NO_ERROR_CAPTURE, &pc->user_flags);
-
-Open code please and double check I caught them all ...
-
-> +		break;
-> +
-> +	case I915_CONTEXT_PARAM_BANNABLE:
-> +		if (args->size)
-> +			ret = -EINVAL;
-> +		else if (!capable(CAP_SYS_ADMIN) && !args->value)
-> +			ret = -EPERM;
-> +		else if (args->value)
-> +			__set_bit(UCONTEXT_BANNABLE, &pc->user_flags);
-> +		else
-> +			__clear_bit(UCONTEXT_BANNABLE, &pc->user_flags);
-> +		break;
-> +
-> +	case I915_CONTEXT_PARAM_RECOVERABLE:
-> +		if (args->size)
-> +			ret = -EINVAL;
-> +		else if (args->value)
-> +			__set_bit(UCONTEXT_RECOVERABLE, &pc->user_flags);
-> +		else
-> +			__clear_bit(UCONTEXT_RECOVERABLE, &pc->user_flags);
-> +		break;
-> +
-> +	case I915_CONTEXT_PARAM_PRIORITY:
-> +		ret = validate_priority(fpriv->dev_priv, args);
-> +		if (!ret)
-> +			pc->sched.priority = args->value;
-> +		break;
-> +
-> +	case I915_CONTEXT_PARAM_SSEU:
-> +		ret = set_proto_ctx_sseu(fpriv, pc, args);
-> +		break;
-> +
-> +	case I915_CONTEXT_PARAM_VM:
-> +		ret = set_proto_ctx_vm(fpriv, pc, args);
-> +		break;
-> +
-> +	case I915_CONTEXT_PARAM_ENGINES:
-> +		ret = set_proto_ctx_engines(fpriv, pc, args);
-> +		break;
-> +
-> +	case I915_CONTEXT_PARAM_PERSISTENCE:
-> +		if (args->size)
-> +			ret = -EINVAL;
-> +		else if (args->value)
-> +			__set_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
-> +		else
-> +			__clear_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
-
-I think we have a nice mess here. You created this
-proto_context_set_persistence helper, but don't use it here. Oversight?
-
-Aside from the validation fun around persistence, but that's better
-discussed in another patch I think.
-
-> +		break;
-> +
-> +	case I915_CONTEXT_PARAM_NO_ZEROMAP:
-> +	case I915_CONTEXT_PARAM_BAN_PERIOD:
-> +	case I915_CONTEXT_PARAM_RINGSIZE:
-> +	default:
-> +		ret = -EINVAL;
-> +		break;
-> +	}
+> +	mutex_lock(&fpriv->proto_context_lock);
+> +	ret = proto_context_register_locked(fpriv, pc, id);
+> +	mutex_unlock(&fpriv->proto_context_lock);
 > +
 > +	return ret;
 > +}
 > +
->  static struct i915_address_space *
->  context_get_vm_rcu(struct i915_gem_context *ctx)
+>  static int set_proto_ctx_vm(struct drm_i915_file_private *fpriv,
+>  			    struct i915_gem_proto_context *pc,
+>  			    const struct drm_i915_gem_context_param *args)
+> @@ -1452,12 +1488,12 @@ void i915_gem_init__contexts(struct drm_i915_private *i915)
+>  	init_contexts(&i915->gem.contexts);
+>  }
+>  
+> -static int gem_context_register(struct i915_gem_context *ctx,
+> -				struct drm_i915_file_private *fpriv,
+> -				u32 *id)
+> +static void gem_context_register(struct i915_gem_context *ctx,
+> +				 struct drm_i915_file_private *fpriv,
+> +				 u32 id)
 >  {
-> @@ -475,6 +918,56 @@ static struct i915_gem_engines *default_engines(struct i915_gem_context *ctx,
+>  	struct drm_i915_private *i915 = ctx->i915;
+> -	int ret;
+> +	void *old;
+>  
+>  	ctx->file_priv = fpriv;
+>  
+> @@ -1466,19 +1502,12 @@ static int gem_context_register(struct i915_gem_context *ctx,
+>  		 current->comm, pid_nr(ctx->pid));
+>  
+>  	/* And finally expose ourselves to userspace via the idr */
+> -	ret = xa_alloc(&fpriv->context_xa, id, ctx, xa_limit_32b, GFP_KERNEL);
+> -	if (ret)
+> -		goto err_pid;
+> +	old = xa_store(&fpriv->context_xa, id, ctx, GFP_KERNEL);
+> +	GEM_BUG_ON(old);
+
+Same here about WARN_ON preferred.
+
+Also this can actually happen if you race and don't hold
+proto_context_lock sufficiently, so another lockdep_assert_held for this
+function would be good I think.
+
+Otoh if that means too much fake lock taking in like context_open then
+maybe let's not do the lockdep_assert_held but instead perhaps a comment?
+Or maybe do the lockdep_assert_held for id != 0 only.
+
+
+>  
+>  	spin_lock(&i915->gem.contexts.lock);
+>  	list_add_tail(&ctx->link, &i915->gem.contexts.list);
+>  	spin_unlock(&i915->gem.contexts.lock);
+> -
+> -	return 0;
+> -
+> -err_pid:
+> -	put_pid(fetch_and_zero(&ctx->pid));
+> -	return ret;
+>  }
+>  
+>  int i915_gem_context_open(struct drm_i915_private *i915,
+> @@ -1488,9 +1517,12 @@ int i915_gem_context_open(struct drm_i915_private *i915,
+>  	struct i915_gem_proto_context *pc;
+>  	struct i915_gem_context *ctx;
+>  	int err;
+> -	u32 id;
+>  
+> -	xa_init_flags(&file_priv->context_xa, XA_FLAGS_ALLOC);
+> +	mutex_init(&file_priv->proto_context_lock);
+> +	xa_init_flags(&file_priv->proto_context_xa, XA_FLAGS_ALLOC);
+> +
+> +	/* 0 reserved for the default context */
+> +	xa_init_flags(&file_priv->context_xa, XA_FLAGS_ALLOC1);
+>  
+>  	/* 0 reserved for invalid/unassigned ppgtt */
+>  	xa_init_flags(&file_priv->vm_xa, XA_FLAGS_ALLOC1);
+> @@ -1508,28 +1540,31 @@ int i915_gem_context_open(struct drm_i915_private *i915,
+>  		goto err;
+>  	}
+>  
+> -	err = gem_context_register(ctx, file_priv, &id);
+> -	if (err < 0)
+> -		goto err_ctx;
+> +	gem_context_register(ctx, file_priv, 0);
+>  
+> -	GEM_BUG_ON(id);
+>  	return 0;
+>  
+> -err_ctx:
+> -	context_close(ctx);
+>  err:
+>  	xa_destroy(&file_priv->vm_xa);
+>  	xa_destroy(&file_priv->context_xa);
+> +	xa_destroy(&file_priv->proto_context_xa);
+> +	mutex_destroy(&file_priv->proto_context_lock);
 >  	return err;
 >  }
 >  
-> +static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
-> +					     unsigned int num_engines,
-> +					     struct i915_gem_proto_engine *pe)
+>  void i915_gem_context_close(struct drm_file *file)
+>  {
+>  	struct drm_i915_file_private *file_priv = file->driver_priv;
+> +	struct i915_gem_proto_context *pc;
+>  	struct i915_address_space *vm;
+>  	struct i915_gem_context *ctx;
+>  	unsigned long idx;
+>  
+> +	xa_for_each(&file_priv->proto_context_xa, idx, pc)
+> +		proto_context_close(pc);
+> +	xa_destroy(&file_priv->proto_context_xa);
+> +	mutex_destroy(&file_priv->proto_context_lock);
+> +
+>  	xa_for_each(&file_priv->context_xa, idx, ctx)
+>  		context_close(ctx);
+>  	xa_destroy(&file_priv->context_xa);
+> @@ -2490,12 +2525,73 @@ static bool client_is_banned(struct drm_i915_file_private *file_priv)
+>  	return atomic_read(&file_priv->ban_score) >= I915_CLIENT_SCORE_BANNED;
+>  }
+>  
+> +static inline struct i915_gem_context *
+> +__context_lookup(struct drm_i915_file_private *file_priv, u32 id)
 > +{
-> +	struct i915_gem_engines *e, *err;
-> +	unsigned int n;
+> +	struct i915_gem_context *ctx;
 > +
-> +	e = alloc_engines(num_engines);
-> +	for (n = 0; n < num_engines; n++) {
-> +		struct intel_context *ce;
-> +		int ret;
+> +	rcu_read_lock();
+> +	ctx = xa_load(&file_priv->context_xa, id);
+> +	if (ctx && !kref_get_unless_zero(&ctx->ref))
+> +		ctx = NULL;
+> +	rcu_read_unlock();
 > +
-> +		switch (pe[n].type) {
-> +		case I915_GEM_ENGINE_TYPE_PHYSICAL:
-> +			ce = intel_context_create(pe[n].engine);
-> +			break;
-> +
-> +		case I915_GEM_ENGINE_TYPE_BALANCED:
-> +			ce = intel_execlists_create_virtual(pe[n].siblings,
-> +							    pe[n].num_siblings);
-> +			break;
-> +
-> +		case I915_GEM_ENGINE_TYPE_INVALID:
-> +		default:
-> +			GEM_WARN_ON(pe[n].type != I915_GEM_ENGINE_TYPE_INVALID);
-> +			continue;
-> +		}
-> +
-> +		if (IS_ERR(ce)) {
-> +			err = ERR_CAST(ce);
-> +			goto free_engines;
-> +		}
-> +
-> +		e->engines[n] = ce;
-> +
-> +		ret = intel_context_set_gem(ce, ctx, pe->sseu);
-> +		if (ret) {
-> +			err = ERR_PTR(ret);
-> +			goto free_engines;
-> +		}
-> +	}
-> +	e->num_engines = num_engines;
-> +
-> +	return e;
-> +
-> +free_engines:
-> +	free_engines(e);
-> +	return err;
+> +	return ctx;
 > +}
 > +
->  void i915_gem_context_release(struct kref *ref)
->  {
->  	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
-> @@ -779,7 +1272,6 @@ __create_context(struct drm_i915_private *i915,
->  {
->  	struct i915_gem_context *ctx;
->  	struct i915_gem_engines *e;
-> -	struct intel_sseu null_sseu = {};
->  	int err;
->  	int i;
->  
-> @@ -797,7 +1289,7 @@ __create_context(struct drm_i915_private *i915,
->  	INIT_LIST_HEAD(&ctx->stale.engines);
->  
->  	mutex_init(&ctx->engines_mutex);
-> -	e = default_engines(ctx, null_sseu);
-> +	e = default_engines(ctx, pc->legacy_rcs_sseu);
->  	if (IS_ERR(e)) {
->  		err = PTR_ERR(e);
->  		goto err_free;
-> @@ -916,6 +1408,24 @@ i915_gem_create_context(struct drm_i915_private *i915,
->  		mutex_unlock(&ctx->mutex);
->  	}
->  
-> +	if (pc->num_user_engines >= 0) {
-> +		struct i915_gem_engines *engines;
+> +struct i915_gem_context *
+> +lazy_create_context_locked(struct drm_i915_file_private *file_priv,
+> +			   struct i915_gem_proto_context *pc, u32 id)
+> +{
+> +	struct i915_gem_context *ctx;
+> +	void *old;
 > +
-> +		engines = user_engines(ctx, pc->num_user_engines,
-> +				       pc->user_engines);
-> +		if (IS_ERR(engines)) {
-> +			context_close(ctx);
-> +			return ERR_CAST(engines);
-> +		}
+> +	lockdep_assert_held(&file_priv->proto_context_lock);
 > +
-> +		mutex_lock(&ctx->engines_mutex);
-> +		i915_gem_context_set_user_engines(ctx);
-> +		engines = rcu_replace_pointer(ctx->engines, engines, 1);
-> +		mutex_unlock(&ctx->engines_mutex);
-
-More locking code to ditch I guess.
-
+> +	ctx = i915_gem_create_context(file_priv->dev_priv, pc);
+> +	if (IS_ERR(ctx))
+> +		return ctx;
 > +
-> +		free_engines(engines);
-
-Also I guess we shouldn't first create the legacy engines for this case?
-
-> +	}
+> +	gem_context_register(ctx, file_priv, id);
 > +
->  	if (pc->single_timeline) {
->  		ret = drm_syncobj_create(&ctx->syncobj,
->  					 DRM_SYNCOBJ_CREATE_SIGNALED,
-> @@ -1956,7 +2466,7 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
->  }
->  
->  struct create_ext {
-> -	struct i915_gem_context *ctx;
+> +	old = xa_erase(&file_priv->proto_context_xa, id);
+> +	GEM_BUG_ON(old != pc);
+> +	proto_context_close(pc);
+> +
+> +	/* One for the xarray and one for the caller */
+> +	return i915_gem_context_get(ctx);
+> +}
+> +
+> +struct i915_gem_context *
+> +i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
+> +{
 > +	struct i915_gem_proto_context *pc;
->  	struct drm_i915_file_private *fpriv;
->  };
->  
-> @@ -1971,7 +2481,7 @@ static int create_setparam(struct i915_user_extension __user *ext, void *data)
->  	if (local.param.ctx_id)
->  		return -EINVAL;
->  
-> -	return ctx_setparam(arg->fpriv, arg->ctx, &local.param);
-> +	return set_proto_ctx_param(arg->fpriv, arg->pc, &local.param);
->  }
->  
->  static int invalid_ext(struct i915_user_extension __user *ext, void *data)
-> @@ -1994,7 +2504,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> +	struct i915_gem_context *ctx;
+> +
+> +	ctx = __context_lookup(file_priv, id);
+> +	if (ctx)
+> +		return ctx;
+> +
+> +	mutex_lock(&file_priv->proto_context_lock);
+> +	/* Try one more time under the lock */
+> +	ctx = __context_lookup(file_priv, id);
+> +	if (!ctx) {
+> +		pc = xa_load(&file_priv->proto_context_xa, id);
+> +		if (!pc)
+> +			ctx = ERR_PTR(-ENOENT);
+> +		else
+> +			ctx = lazy_create_context_locked(file_priv, pc, id);
+> +	}
+> +	mutex_unlock(&file_priv->proto_context_lock);
+> +
+> +	return ctx;
+> +}
+> +
+>  int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+>  				  struct drm_file *file)
 >  {
 >  	struct drm_i915_private *i915 = to_i915(dev);
 >  	struct drm_i915_gem_context_create_ext *args = data;
-> -	struct i915_gem_proto_context *pc;
-> +	struct i915_gem_context *ctx;
+> -	struct i915_gem_context *ctx;
 >  	struct create_ext ext_data;
 >  	int ret;
 >  	u32 id;
-> @@ -2017,25 +2527,27 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
->  		return -EIO;
->  	}
->  
-> -	pc = proto_context_create(i915, args->flags);
-> -	if (IS_ERR(pc))
-> -		return PTR_ERR(pc);
-> -
-> -	ext_data.ctx = i915_gem_create_context(i915, pc);
-> -	proto_context_close(pc);
-> -	if (IS_ERR(ext_data.ctx))
-> -		return PTR_ERR(ext_data.ctx);
-> +	ext_data.pc = proto_context_create(i915, args->flags);
-> +	if (IS_ERR(ext_data.pc))
-> +		return PTR_ERR(ext_data.pc);
->  
->  	if (args->flags & I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS) {
->  		ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
+> @@ -2527,28 +2623,21 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
 >  					   create_extensions,
 >  					   ARRAY_SIZE(create_extensions),
 >  					   &ext_data);
-> -		if (ret)
-> -			goto err_ctx;
-> +		if (ret) {
-> +			proto_context_close(ext_data.pc);
-> +			return ret;
-> +		}
+> -		if (ret) {
+> -			proto_context_close(ext_data.pc);
+> -			return ret;
+> -		}
+> +		if (ret)
+> +			goto err_pc;
 >  	}
 >  
-> -	ret = gem_context_register(ext_data.ctx, ext_data.fpriv, &id);
-> +	ctx = i915_gem_create_context(i915, ext_data.pc);
-> +	proto_context_close(ext_data.pc);
-> +	if (IS_ERR(ctx))
-> +		return PTR_ERR(ctx);
-> +
-> +	ret = gem_context_register(ctx, ext_data.fpriv, &id);
+> -	ctx = i915_gem_create_context(i915, ext_data.pc);
+> -	proto_context_close(ext_data.pc);
+> -	if (IS_ERR(ctx))
+> -		return PTR_ERR(ctx);
+> -
+> -	ret = gem_context_register(ctx, ext_data.fpriv, &id);
+> +	ret = proto_context_register(ext_data.fpriv, ext_data.pc, &id);
 >  	if (ret < 0)
->  		goto err_ctx;
+> -		goto err_ctx;
+> +		goto err_pc;
 >  
-> @@ -2045,7 +2557,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+>  	args->ctx_id = id;
+>  	drm_dbg(&i915->drm, "HW context %d created\n", args->ctx_id);
+>  
 >  	return 0;
 >  
->  err_ctx:
-> -	context_close(ext_data.ctx);
-> +	context_close(ctx);
+> -err_ctx:
+> -	context_close(ctx);
+> +err_pc:
+> +	proto_context_close(ext_data.pc);
 >  	return ret;
 >  }
 >  
+> @@ -2557,6 +2646,7 @@ int i915_gem_context_destroy_ioctl(struct drm_device *dev, void *data,
+>  {
+>  	struct drm_i915_gem_context_destroy *args = data;
+>  	struct drm_i915_file_private *file_priv = file->driver_priv;
+> +	struct i915_gem_proto_context *pc;
+>  	struct i915_gem_context *ctx;
+>  
+>  	if (args->pad != 0)
+> @@ -2565,11 +2655,21 @@ int i915_gem_context_destroy_ioctl(struct drm_device *dev, void *data,
+>  	if (!args->ctx_id)
+>  		return -ENOENT;
+>  
+> +	mutex_lock(&file_priv->proto_context_lock);
+>  	ctx = xa_erase(&file_priv->context_xa, args->ctx_id);
+> -	if (!ctx)
+> +	pc = xa_erase(&file_priv->proto_context_xa, args->ctx_id);
+> +	mutex_unlock(&file_priv->proto_context_lock);
+> +
+> +	if (!ctx && !pc)
+>  		return -ENOENT;
+> +	GEM_WARN_ON(ctx && pc);
+> +
+> +	if (pc)
+> +		proto_context_close(pc);
+> +
+> +	if (ctx)
+> +		context_close(ctx);
+>  
+> -	context_close(ctx);
+>  	return 0;
+>  }
+>  
+> @@ -2702,16 +2802,41 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
+>  {
+>  	struct drm_i915_file_private *file_priv = file->driver_priv;
+>  	struct drm_i915_gem_context_param *args = data;
+> +	struct i915_gem_proto_context *pc;
+>  	struct i915_gem_context *ctx;
+> -	int ret;
+> +	int ret = 0;
+>  
+> -	ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
+> -	if (IS_ERR(ctx))
+> -		return PTR_ERR(ctx);
+> +	ctx = __context_lookup(file_priv, args->ctx_id);
+> +	if (ctx)
+> +		goto set_ctx_param;
+>  
+> -	ret = ctx_setparam(file_priv, ctx, args);
+> +	mutex_lock(&file_priv->proto_context_lock);
+> +	ctx = __context_lookup(file_priv, args->ctx_id);
+> +	if (ctx)
+> +		goto unlock;
+> +
+> +	pc = xa_load(&file_priv->proto_context_xa, args->ctx_id);
+> +	if (!pc) {
+> +		ret = -ENOENT;
+> +		goto unlock;
+> +	}
+> +
+> +	/* FIXME: We should consider disallowing SET_CONTEXT_PARAM for most
+> +	 * things on future platforms.  Clients should be using
+> +	 * CONTEXT_CREATE_EXT_PARAM instead.
+> +	 */
+> +	ret = set_proto_ctx_param(file_priv, pc, args);
+> +
+> +unlock:
+> +	mutex_unlock(&file_priv->proto_context_lock);
+> +
+> +set_ctx_param:
+> +	if (!ret && ctx)
+> +		ret = ctx_setparam(file_priv, ctx, args);
+> +
+> +	if (ctx)
+> +		i915_gem_context_put(ctx);
+>  
+> -	i915_gem_context_put(ctx);
+>  	return ret;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> index b5c908f3f4f22..20411db84914a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> @@ -133,6 +133,9 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
+>  int i915_gem_context_reset_stats_ioctl(struct drm_device *dev, void *data,
+>  				       struct drm_file *file);
+>  
+> +struct i915_gem_context *
+> +i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id);
+> +
+>  static inline struct i915_gem_context *
+>  i915_gem_context_get(struct i915_gem_context *ctx)
+>  {
 > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> index 0bf337b6d89ac..2ac341f805c8f 100644
+> index 2ac341f805c8f..b673061f4f5ba 100644
 > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
 > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> @@ -66,6 +66,55 @@ struct i915_gem_engines_iter {
->  	const struct i915_gem_engines *engines;
->  };
->  
-> +/**
-> + * enum i915_gem_engine_type - Describes the type of an i915_gem_proto_engine
-> + */
-> +enum i915_gem_engine_type {
-> +	/** @I915_GEM_ENGINE_TYPE_INVALID: An invalid engine */
-> +	I915_GEM_ENGINE_TYPE_INVALID = 0,
-> +
-> +	/** @I915_GEM_ENGINE_TYPE_PHYSICAL: A single physical engine */
-> +	I915_GEM_ENGINE_TYPE_PHYSICAL,
-> +
-> +	/** @I915_GEM_ENGINE_TYPE_BALANCED: A load-balanced engine set */
-> +	I915_GEM_ENGINE_TYPE_BALANCED,
-> +};
-> +
-> +/**
-> + * struct i915_gem_proto_engine - prototype engine
+> @@ -122,6 +122,60 @@ struct i915_gem_proto_engine {
+>   * an i915_gem_context.  This is used to gather parameters provided either
+>   * through creation flags or via SET_CONTEXT_PARAM so that, when we create
+>   * the final i915_gem_context, those parameters can be immutable.
 > + *
-> + * This struct describes an engine that a context may contain.  Engines
-> + * have three types:
-> + *
-> + *  - I915_GEM_ENGINE_TYPE_INVALID: Invalid engines can be created but they
-> + *    show up as a NULL in i915_gem_engines::engines[i] and any attempt to
-> + *    use them by the user results in -EINVAL.  They are also useful during
-> + *    proto-context construction because the client may create invalid
-> + *    engines and then set them up later as bonded engines.
-> + *
-> + *  - I915_GEM_ENGINE_TYPE_PHYSICAL: A single physical engine, described by
-> + *    i915_gem_proto_engine::engine.
-> + *
-> + *  - I915_GEM_ENGINE_TYPE_BALANCED: A load-balanced engine set, described
-> + *    i915_gem_proto_engine::num_siblings and i915_gem_proto_engine::siblings.
-> + */
-> +struct i915_gem_proto_engine {
-> +	/** @type: Type of this engine */
-> +	enum i915_gem_engine_type type;
-> +
-> +	/** @engine: Engine, for physical */
-> +	struct intel_engine_cs *engine;
-> +
-> +	/** @num_siblings: Number of balanced siblings */
-> +	unsigned int num_siblings;
-> +
-> +	/** @siblings: Balanced siblings */
-> +	struct intel_engine_cs **siblings;
-> +
-> +	/** @sseu: Client-set SSEU parameters */
-> +	struct intel_sseu sseu;
-> +};
-> +
->  /**
->   * struct i915_gem_proto_context - prototype context
->   *
-> @@ -84,6 +133,15 @@ struct i915_gem_proto_context {
->  	/** @sched: See i915_gem_context::sched */
->  	struct i915_sched_attr sched;
->  
-> +	/** @num_user_engines: Number of user-specified engines or -1 */
-> +	int num_user_engines;
-> +
-> +	/** @user_engines: User-specified engines */
-> +	struct i915_gem_proto_engine *user_engines;
-> +
-> +	/** @sseu: Client-set SSEU parameters for the legacy RCS */
-> +	struct intel_sseu legacy_rcs_sseu;
-> +
->  	/** @single_timeline: See See i915_gem_context::syncobj */
->  	bool single_timeline;
->  };
-> -- 
-> 2.31.1
+> + * The context uAPI allows for two methods of setting context parameters:
+> + * SET_CONTEXT_PARAM and CONTEXT_CREATE_EXT_SETPARAM.  The former is
+> + * allowed to be called at any time while the later happens as part of
+> + * GEM_CONTEXT_CREATE.  When these were initially added, Currently,
 
-Man is this all nasty. Since I don't want to re-review the entire pile,
-assuming we figure out solutions to all the real issues I've raised (and
-not the snarky bikesheds) this is
+							    ^ lowercase
+
+> + * everything settable via one is settable via the other.  While some
+> + * params are fairly simple and setting them on a live context is harmless
+> + * such the context priority, others are far trickier such as the VM or the
+
+      such _as_ 
+
+> + * set of engines.  To avoid some truly nasty race conditions, we don't
+> + * allow setting the VM or the set of engines on live contexts.
+> + *
+> + * The way we dealt with this without breaking older userspace that sets
+> + * the VM or engine set via SET_CONTEXT_PARAM is to delay the creation of
+> + * the actual context until after the client is done configuring it with
+> + * SET_CONTEXT_PARAM.  From the perspective of the client, it has the same
+> + * u32 context ID the whole time.  From the perspective of i915, however,
+> + * it's an i915_gem_proto_context right up until the point where we attempt
+> + * to do something which the proto-context can't handle at which point the
+> + * real context gets created.
+> + *
+> + * This is accomplished via a little xarray dance.  When GEM_CONTEXT_CREATE
+> + * is called, we create a proto-context, reserve a slot in context_xa but
+> + * leave it NULL, the proto-context in the corresponding slot in
+> + * proto_context_xa.  Then, whenever we go to look up a context, we first
+> + * check context_xa.  If it's there, we return the i915_gem_context and
+> + * we're done.  If it's not, we look in proto_context_xa and, if we find it
+> + * there, we create the actual context and kill the proto-context.
+
+Maybe stuff this into the kerneldoc for the lookup function and just put a
+pointer to that in here instead? It hyperlinks in the html output, and in
+the text you can follow with cscope or similar. And it's closer to where
+the future devs probably need that information.
+
+Minimally at least reference the lookup function here for that link
+goodness :-)
+
+> + *
+> + * At the time we made this change (April, 2021), we did a fairly complete
+
+s/fairly//
+
+We might have screwed up, but we don't aim to break uapi with
+intentionally sloppy work :-P
+
+> + * audit of existing userspace to ensure this wouldn't break anything:
+> + *
+> + *  - Mesa/i965 didn't use the engines or VM APIs at all
+> + *
+> + *  - Mesa/ANV used the engines API but via CONTEXT_CREATE_EXT_SETPARAM and
+> + *    didn't use the VM API.
+> + *
+> + *  - Mesa/iris didn't use the engines or VM APIs at all
+> + *
+> + *  - The open-source compute-runtime didn't yet use the engines API but
+> + *    did use the VM API via SET_CONTEXT_PARAM.  However, CONTEXT_SETPARAM
+> + *    was always the second ioctl on that context, immediately following
+> + *    GEM_CONTEXT_CREATE.
+> + *
+> + *  - The media driver sets engines and bonding/balancing via
+> + *    SET_CONTEXT_PARAM.  However, CONTEXT_SETPARAM to set the VM was
+> + *    always the second ioctl on that context, immediately following
+> + *    GEM_CONTEXT_CREATE and setting engines immediately followed that.
+> + *
+> + * In order for this dance to work properly, any modification to an
+> + * i915_gem_proto_context that is exposed to the client via
+> + * drm_i915_file_private::proto_context_xa must be guarded by
+> + * drm_i915_file_private::proto_context_lock.  The exception is when a
+> + * proto-context has not yet been exposed such as when handling
+> + * CONTEXT_CREATE_SET_PARAM during GEM_CONTEXT_CREATE.
+>   */
+>  struct i915_gem_proto_context {
+>  	/** @vm: See i915_gem_context::vm */
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_context.c b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> index cbeefd060e97b..61aaac4a334cf 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> @@ -81,6 +81,7 @@ void mock_init_contexts(struct drm_i915_private *i915)
+>  struct i915_gem_context *
+>  live_context(struct drm_i915_private *i915, struct file *file)
+>  {
+> +	struct drm_i915_file_private *fpriv = to_drm_file(file)->driver_priv;
+>  	struct i915_gem_proto_context *pc;
+>  	struct i915_gem_context *ctx;
+>  	int err;
+> @@ -97,10 +98,12 @@ live_context(struct drm_i915_private *i915, struct file *file)
+>  
+>  	i915_gem_context_set_no_error_capture(ctx);
+>  
+> -	err = gem_context_register(ctx, to_drm_file(file)->driver_priv, &id);
+> +	err = xa_alloc(&fpriv->context_xa, &id, NULL, xa_limit_32b, GFP_KERNEL);
+>  	if (err < 0)
+>  		goto err_ctx;
+>  
+> +	gem_context_register(ctx, fpriv, id);
+> +
+>  	return ctx;
+>  
+>  err_ctx:
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 004ed0e59c999..2b323b986dbab 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -200,6 +200,16 @@ struct drm_i915_file_private {
+>  		struct rcu_head rcu;
+>  	};
+>  
+> +	/** @proto_context_lock: Guards all i915_gem_proto_context operations
+
+For multi-line kerneldoc we generally put a newline after /**\n I didn't
+even know this parses :-) The single-line variant is kinda special.
+
+> +	 *
+> +	 * See i915_gem_proto_context.
+> +	 */
+> +	struct mutex proto_context_lock;
+> +
+> +	/** @proto_context_xa: xarray of i915_gem_proto_context */
+> +	struct xarray proto_context_xa;
+> +
+> +	/** @context_xa: xarray of fully created i915_gem_context */
+>  	struct xarray context_xa;
+>  	struct xarray vm_xa;
+>  
+> @@ -1840,20 +1850,6 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
+>  
+>  struct dma_buf *i915_gem_prime_export(struct drm_gem_object *gem_obj, int flags);
+>  
+> -static inline struct i915_gem_context *
+> -i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
+> -{
+> -	struct i915_gem_context *ctx;
+> -
+> -	rcu_read_lock();
+> -	ctx = xa_load(&file_priv->context_xa, id);
+> -	if (ctx && !kref_get_unless_zero(&ctx->ref))
+> -		ctx = NULL;
+> -	rcu_read_unlock();
+> -
+> -	return ctx ? ctx : ERR_PTR(-ENOENT);
+> -}
+> -
+>  /* i915_gem_evict.c */
+>  int __must_check i915_gem_evict_something(struct i915_address_space *vm,
+>  					  u64 min_size, u64 alignment,
+
+All I could find was bikesheds to bring to this party.
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+> -- 
+> 2.31.1
 > 
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
 -- 
 Daniel Vetter
