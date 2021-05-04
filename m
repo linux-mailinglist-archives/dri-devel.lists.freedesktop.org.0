@@ -1,58 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2235D3730A5
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 21:19:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF763730B5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 21:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E156EB67;
-	Tue,  4 May 2021 19:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 780456EB6A;
+	Tue,  4 May 2021 19:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3DE6EB67
- for <dri-devel@lists.freedesktop.org>; Tue,  4 May 2021 19:19:52 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id g14so11744912edy.6
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 12:19:52 -0700 (PDT)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E46376EB69;
+ Tue,  4 May 2021 19:21:31 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id d21so7774724oic.11;
+ Tue, 04 May 2021 12:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PaY5BeyThU9Oqa5E0rN+QI4l8GyOFDg1PpkL7EPVYXE=;
- b=JFA/8XYwritP46yCAgT/nmYSkwKesLyBCdX4oAhNdOXQ69Td23Fk3CP35RxxITPhih
- rhnzsp0ZNAkMJisc2i599n6V7f5dW4Kl2ROcORZwx3HXkqViXtbZsk5/62rIXOB2qGtU
- WFJakaMAyaCefWlwkcmjYuG1DvfqbC8AFWdIYSwHj3lJMZ91dJH3WSYoBVkApqLP/Vp+
- 2G/STcG2STau8pGFolQVSW6jasMrNh/4m4zce/IAosTmfR+oig36/rYiHxC4ZNATMCqk
- f1ZqeCLxCUTkLXFQwiAIVX2NYXYXokNBBUM2PCyVZ0zmK1f3sKvM9T3Y+SgzewZyB/CA
- TvRQ==
+ :cc; bh=l0MpBQXXQXovBmumhU+vevXuEERixPQDIBphGMJ/1Eg=;
+ b=eS9ZIMjKfbA79gkqM/if0o/ll0b0hJg4orJQPJNRFHk7eYNAbu8O/2wS892rhv/0i0
+ ydt7KLieBtrj44E712kqAVQIiJ/mTOsrTzGB8ohvG6HSoZfZEs1rUyhZHv+s8On1/n9Y
+ WUNnW8cdZzFM5sYmOR5BF+BYrCvEoH2DXPjr6p1YQmIlqypJ7w7aNwz2yjaaU+JERf9Y
+ 8RJuZS8q69DExe7dpglbq+PIoBtNixQR88bJM7+qdO7xaXIM8N+/LZ9Tq7mukJxUrDnC
+ nnbXiXCDvG4OhqkvobGzMduzQ/1ZlAtXUi979RvD/2Bk93iQNjNT233LXmSIDPBUPPBF
+ qx5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PaY5BeyThU9Oqa5E0rN+QI4l8GyOFDg1PpkL7EPVYXE=;
- b=qiIbGgnKmLgtL36tkFhkzjn/6mcZaf3sMW4PlQ0IwsCOOZIJFlODzT7DK/zxFlqeZv
- GEGvJ/46fvegiChO6aQVuX2RlCCmKKYV1XtHSC2GRHM9DTrlHcFPD1F0AKEICAlkaSK6
- DiHDjBfELQxPHGESwjELkZ88/NOrX6DGTxtvYo3QpNMmuCYZGQPJcPWqI0yH/eBh7sHF
- X/S6qLs3/SWJSPVA6YVYlQ8SvEd3re4XRJ3JFYujoYrWglY2KxhESTpPDmAYqYbki89l
- bT1EjHQDMfKE80EecHlDzQjHlH5o+ZIXM2z/gCUigJ+Hl3OtSVj1INWAXajdwbS1hcI0
- hnqw==
-X-Gm-Message-State: AOAM532ta9bEgl8JfacBRSDoslyntWVM9+USXvhqOvrVU4nwqFvxhNgx
- IHKix9dh3XPpfIDpghuSvVgd0bi59QC63VguBDE=
-X-Google-Smtp-Source: ABdhPJxQhIHBDaE08YeU5xNR99TW13NYeX6EKKCoEJUJq4Tl1oPY59Rx1+gNQB6ZpTtMRCDoE9w7os89CzDYdM3ulQ4=
-X-Received: by 2002:aa7:cd50:: with SMTP id v16mr28953451edw.175.1620155991412; 
- Tue, 04 May 2021 12:19:51 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=l0MpBQXXQXovBmumhU+vevXuEERixPQDIBphGMJ/1Eg=;
+ b=ILRixHVkna3IleylT7sOMge6M9WEAy/VAD6lxMXnrMCBPLWRSUYv4/H/VnWi19T8eo
+ rV/KgjfKJ/LmzG5aiY3ZB4OOtY94r+V4m5uHxzQyeETEnLD9xIsYtXfc9nirAllVj3Hb
+ K3Y7HeyHPW10pZAHvplkpN5dgyCezjeEuoNNvNFNO0ButhDtfdUW32YqtYDmHIhRBojI
+ otU7tX3cRNMpGPEVjKSfanot2IvIJn6M26B7JOTmymnwnVWxJO0/5mVUelYN+NuuKe6J
+ 6SJrFi0Vqf8qg3n1HG+6cMG6EjMrKpAwu86h6DLFcu4UdGS5e4Cdprgmc53hBEtU7Ynd
+ RzeQ==
+X-Gm-Message-State: AOAM532UPkghiDlmu81SEhSFbZoQVZO/K/5dXNgnUzJBP/6+5IRdHsBM
+ tj9B8Vcnr11pQMx3JnvDm0Aqb3RgF/uBkd6F+rI=
+X-Google-Smtp-Source: ABdhPJywFB9WXlrVjqngMggBTfwS/CosEWD+ccvn0Upp/auCBQw09pw14KzZN0/jk1umIf2aCBqXfO/ZcKNq5aix8v8=
+X-Received: by 2002:a05:6808:68a:: with SMTP id
+ k10mr18402833oig.120.1620156090910; 
+ Tue, 04 May 2021 12:21:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <e4r4g4R-yjH.A.CJE.0pVkgB@appolonius>
- <20210504183009.GV6564@kitsune.suse.cz>
- <CABkfQAHfjfBFqnVPzg1w5JFOErr=AsLpQgwzwpUJ2Uc_-cmD_w@mail.gmail.com>
- <20210504190452.GW6564@kitsune.suse.cz>
-In-Reply-To: <20210504190452.GW6564@kitsune.suse.cz>
-From: Adrien Grassein <adrien.grassein@gmail.com>
-Date: Tue, 4 May 2021 21:19:36 +0200
-Message-ID: <CABkfQAFpTYFgiA-h+5DBiky3CMtdj71n5+usGGtrTHsYB1xruA@mail.gmail.com>
-Subject: Re: ERROR: modpost: "drm_display_mode_to_videomode"
- [drivers/gpu/drm/bridge/lontium-lt8912b.ko] undefined!
-To: =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
+References: <20210427094449.14730-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20210427094449.14730-1-fmdefrancesco@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 4 May 2021 15:21:20 -0400
+Message-ID: <CADnq5_NGWrsxaxJqE+_y7Lm4Fdx=BkZYAaYWz_VACAVSgV-ivQ@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/amd/amdgpu/amdgpu_drv.c: Replace
+ drm_modeset_lock_all with drm_modeset_lock
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,45 +62,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Matthew Wilcox <willy@infradead.org>, David Airlie <airlied@linux.ie>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, outreachy-kernel@googlegroups.com,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ shaoyunl <shaoyun.liu@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T2sgdGhhbmtzLAoKSSB3aWxsIGludmVzdGlnYXRlIHRoaXMuCgpMZSBtYXIuIDQgbWFpIDIwMjEg
-w6AgMjE6MDQsIE1pY2hhbCBTdWNow6FuZWsgPG1zdWNoYW5la0BzdXNlLmRlPiBhIMOpY3JpdCA6
-Cj4KPiBIZWxsbywKPgo+IEkgaGF2ZSBvbmx5IG9uZSBmcm9tIHBwYzY0LCB0aGUgb3RoZXIgYXJj
-aGl0ZWN0dXJlcyBkb24ndCBoYXZlIHRoZQo+IHByb2JsZW0gb3IgZmFpbCBlYXJsaWVyLgo+Cj4g
-VGhhbmtzCj4KPiBNaWNoYWwKPgo+IE9uIFR1ZSwgTWF5IDA0LCAyMDIxIGF0IDA4OjQ1OjAxUE0g
-KzAyMDAsIEFkcmllbiBHcmFzc2VpbiB3cm90ZToKPiA+IEhlbGxvLAo+ID4KPiA+IEkgdGhpbmsg
-dGhpcyBpcyBzZWxmLWV2aWRlbnQgYnV0IGNvdWxkIHlvdSBwbGVhc2Ugc2VuZCB0aGUgY29uZmln
-IHRvIGNvbmZpcm0/Cj4gPgo+ID4gVGhhbmtzLAo+ID4KPiA+IExlIG1hci4gNCBtYWkgMjAyMSDD
-oCAyMDozMCwgTWljaGFsIFN1Y2jDoW5layA8bXN1Y2hhbmVrQHN1c2UuZGU+IGEgw6ljcml0IDoK
-PiA+ID4KPiA+ID4gSGVsbG8sCj4gPiA+Cj4gPiA+IEkgZ2V0IGVycm9ycyBhYm91dCBtaXNzaW5n
-IHN5bWJvbCBpbiB0aGUgbG9udGl1bS1sdDg5MTJiIG1vZHVsZS4KPiA+ID4KPiA+ID4gSXMgdGhl
-IHByb2JsZW0gc2VsZi1ldmlkZW50IG9yIGRvIHlvdSBuZWVkIHRoZSBjb25maWcgYXMgd2VsbD8K
-PiA+ID4KPiA+ID4gSSBkb24ndCBuZWVkIHRoZSBkcml2ZXIgZm9yIGFueXRoaW5nLCBpdCB3YXMg
-anVzdCBhdXRvLWVuYWJsZWQgYmVjYXVzZQo+ID4gPiBpdCdzIG5ldyBhbmQgdGhlIGNoYW5nZSBo
-YXMgbm90IGJlZW4gcmV2aWV3ZWQuCj4gPiA+Cj4gPiA+IFRoYW5rcwo+ID4gPgo+ID4gPiBNaWNo
-YWwKPiA+ID4gPgo+ID4gPiA+IExhc3Qgb3V0cHV0Ogo+ID4gPiA+ICAgV1JBUCAgICBhcmNoL3Bv
-d2VycGMvYm9vdC96SW1hZ2UubWFwbGUKPiA+ID4gPiAgIFdSQVAgICAgYXJjaC9wb3dlcnBjL2Jv
-b3QvekltYWdlLnBzZXJpZXMKPiA+ID4gPiBtYWtlWzJdOiAqKiogRGVsZXRpbmcgZmlsZSAnbW9k
-dWxlcy1vbmx5LnN5bXZlcnMnCj4gPiA+ID4gICBNT0RQT1NUIG1vZHVsZXMtb25seS5zeW12ZXJz
-Cj4gPiA+ID4gRVJST1I6IG1vZHBvc3Q6ICJkcm1fZGlzcGxheV9tb2RlX3RvX3ZpZGVvbW9kZSIg
-W2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9udGl1bS1sdDg5MTJiLmtvXSB1bmRlZmluZWQhCj4g
-PiA+ID4gbWFrZVsyXTogKioqIFsuLi9zY3JpcHRzL01ha2VmaWxlLm1vZHBvc3Q6MTUwOiBtb2R1
-bGVzLW9ubHkuc3ltdmVyc10gRXJyb3IgMQo+ID4gPiA+IG1ha2VbMV06ICoqKiBbL2hvbWUvYWJ1
-aWxkL3JwbWJ1aWxkL0JVSUxEL2tlcm5lbC12YW5pbGxhLTUuMTIuMC4xMzY3MC5nNWUzMjFkZWQz
-MDJkL2xpbnV4LTUuMTItMTM2NzAtZzVlMzIxZGVkMzAyZC9NYWtlZmlsZToxNzcwOiBtb2R1bGVz
-XSBFcnJvciAyCj4gPiA+ID4gbWFrZTogKioqIFsuLi9NYWtlZmlsZToyMTU6IF9fc3ViLW1ha2Vd
-IEVycm9yIDIKPiA+ID4gPiBlcnJvcjogQmFkIGV4aXQgc3RhdHVzIGZyb20gL3Zhci90bXAvcnBt
-LXRtcC5xMW9TSXAgKCVidWlsZCkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+On Tue, Apr 27, 2021 at 5:45 AM Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
+>
+> drm_modeset_lock_all() is not needed here, so it is replaced with
+> drm_modeset_lock(). The crtc list around which we are looping never
+> changes, therefore the only lock we need is to protect access to
+> crtc->state.
+>
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+
+Applied.  Thanks!
+
+Alex
+
+
+> ---
+>
+> Changes from v3: CC'ed more (previously missing) maintainers.
+> Changes from v2: Drop file name from the Subject. Cc'ed all maintainers.
+> Changes from v1: Removed unnecessary braces around single statement
+> block.
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 80130c1c0c68..39204dbc168b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -1595,17 +1595,15 @@ static int amdgpu_pmops_runtime_idle(struct device *dev)
+>         if (amdgpu_device_has_dc_support(adev)) {
+>                 struct drm_crtc *crtc;
+>
+> -               drm_modeset_lock_all(drm_dev);
+> -
+>                 drm_for_each_crtc(crtc, drm_dev) {
+> -                       if (crtc->state->active) {
+> +                       drm_modeset_lock(&crtc->mutex, NULL);
+> +                       if (crtc->state->active)
+>                                 ret = -EBUSY;
+> +                       drm_modeset_unlock(&crtc->mutex);
+> +                       if (ret < 0)
+>                                 break;
+> -                       }
+>                 }
+>
+> -               drm_modeset_unlock_all(drm_dev);
+> -
+>         } else {
+>                 struct drm_connector *list_connector;
+>                 struct drm_connector_list_iter iter;
+> --
+> 2.31.1
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
