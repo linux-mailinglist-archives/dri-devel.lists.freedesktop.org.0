@@ -1,61 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0882372B31
-	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 15:39:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EED372BB6
+	for <lists+dri-devel@lfdr.de>; Tue,  4 May 2021 16:11:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 680C86EB09;
-	Tue,  4 May 2021 13:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16FEC6EB0E;
+	Tue,  4 May 2021 14:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A365C6EADB;
- Tue,  4 May 2021 13:39:08 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id w15so9821103ljo.10;
- Tue, 04 May 2021 06:39:08 -0700 (PDT)
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com
+ [IPv6:2607:f8b0:4864:20::933])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB0D76EB0E;
+ Tue,  4 May 2021 14:11:09 +0000 (UTC)
+Received: by mail-ua1-x933.google.com with SMTP id x9so3090277uao.3;
+ Tue, 04 May 2021 07:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=2yIbFjPkWuW8wS+b8UtMbXrEWc3cRq2xFdr5elk3jX8=;
- b=iHfYoLq+Io7uFMNuM9P+1dkunVofFhYXMUtIPkMKGw0+ZtVWOE3Ct8udXker/DZPRK
- +YQWH5zoWE6NISsQgECRi2Xq87GlKCiH3dAeaPnAK4hn2EBCPed6uprM6hmpu0/F/bOO
- 90QKSFq5g5P/30T4b9UXq0uSudolVrZUayjBvS0ye9VnsOis35661B1+y4U5qzF6OKFU
- 5t/bTuM1jSCmZ8GjgL18kXGiHCRphX1C7B/8IikyoWeFTsAFQUaLB5QvR2VoMofRnWFn
- BYGEg5wh1lcvisOt9pL5kQu0jOtQwz27VM8eOAK68r0Mms9W3yF0mVgarzH9Y+yIIh0i
- vorg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jiXH4fkGuY/DcXg6Fy3aG8WYsnSNP4df/hIJAV75w+Y=;
+ b=hDrnnlpXGONLRhvm72rGD8ip7uzz25iA0ktVrHTjT3yh28HJ4h+8bttU7CqFm6+tQt
+ FSYQ/IXo2qTaxXrCeO5Xx5L6H+r4uJkzldFEgvPNfEf5ehCX1+VHHSKLtFwtgDixx9D7
+ sE4+V97idmjzFr2zlVgGf5W1ef1ie4TWlFt26wENbI40EEj95gRCU/4gol+PMYNMxd2u
+ JtB1TVF0FZwDEKYjJQFILA9NO20RG+Er04IesNP2Na2XV2h37+Et6kM2HXoup0Rpq3Ep
+ RaDLS/F14J7JGLITNnqNpXLmOFGvFKycfMij6+07krUdFxfk+ZZaTd+/jGe/mk2IaA3T
+ 7Lug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=2yIbFjPkWuW8wS+b8UtMbXrEWc3cRq2xFdr5elk3jX8=;
- b=YcnhIGZs3DxmoSKEPx8YXXMYag7e/MeZRhT1LwWIsN2is0UdsVNt9JON79XlCy0O5a
- 9ACCgF/F8l2Mn590xEuHgtIfEDw0UlxSfA4ZSobKIT7W+gM1IdXvHVumHEgrilsqg89+
- o4UylBDTuSUGut4UVXKVeljNuJo7qujSKPMQxwCxKdg/c41p+7qczalK/spOXf83kd6w
- k7uo06z9Q0Iz7f3o7Axle9TC7r8mDrC99jw7V0S1V6r7sYz3J1ZABJdqPMaL6+LbIV61
- 01MFgy5xbNmne52X510MphBEJtgm6DNp3IZUUExJ2nyimXQPgRa+qfJru77c2+jz1fwO
- vUgw==
-X-Gm-Message-State: AOAM533pi0sQemr76bLeEn7e1B5o6yLSsPnVY3RBo/cVwkU7mawiCc8K
- +J2iibkc9eoLg+SGR35Ww3o=
-X-Google-Smtp-Source: ABdhPJxCOIYneeM1bAB28sEljHivDQz4oRh5DKW6HC8/klr1Lsp6r7x3wKVA5M8v1f7Qp/msK/2YdQ==
-X-Received: by 2002:a05:651c:319:: with SMTP id
- a25mr16794930ljp.69.1620135547102; 
- Tue, 04 May 2021 06:39:07 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id d25sm269200lfs.235.2021.05.04.06.39.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 06:39:06 -0700 (PDT)
-Date: Tue, 4 May 2021 16:38:54 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 8/8] drm/modifiers: Enforce consistency between the cap
- an IN_FORMATS
-Message-ID: <20210504163854.5b7b853c@eldfell>
-In-Reply-To: <20210427092018.832258-8-daniel.vetter@ffwll.ch>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jiXH4fkGuY/DcXg6Fy3aG8WYsnSNP4df/hIJAV75w+Y=;
+ b=Ntfc1SDqYznJLLv4OoQNHeHxsuauaKj84k/B83H4wmbZ6DFHPbE4uU1XltyUNbkOfa
+ TfndBBJIunhPv48PUgf6jch2OTEDU7V5xSJ3df0ZtnQMm2XtjhAnzJpyvrCDcQ1zhxZ8
+ KHPaYCzrED2Q2RhTZY78ZAKrCwLM1EGLY5ovqjUudrzU4PhfIyJz/dpvKXOBmXSxlXIo
+ uUxSTaqXt27Yw2sWM50VZUxr3rSuesvB1w6xERagQzELqM8GCF7JbEhKMe7OZ7I0vLQB
+ 6O/VZXdRoTK71Ipr17UtCNTJUFIyFCzZDJ7z7mIscrC2KrPK2cHqIiTKlAydmxgCQO0/
+ iSdw==
+X-Gm-Message-State: AOAM5304jpFcamaU2HwVBJaL8w4nEALY+rGlfhnN4J7BMrDdTJw0o41h
+ N8sk356g2D9GUSwsqICsZC7PaYG4MnoSMegiRYE=
+X-Google-Smtp-Source: ABdhPJxIVNZ6oP9HY9osOupnpc1x28h0a1ITmD4A5VjOv1XlrMu6Q4JGT62nVUW2heITfNRh3OyFot1hooiuCurzoTI=
+X-Received: by 2002:ab0:3157:: with SMTP id e23mr19876511uam.106.1620137468998; 
+ Tue, 04 May 2021 07:11:08 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210427092018.832258-1-daniel.vetter@ffwll.ch>
  <20210427092018.832258-8-daniel.vetter@ffwll.ch>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
+ <CACvgo51rQJmHc1K-MSq-WLZkwVt34MY73csgEyxorrYsKPwQiA@mail.gmail.com>
+ <YIgB76WmQijHCJeV@phenom.ffwll.local>
+In-Reply-To: <YIgB76WmQijHCJeV@phenom.ffwll.local>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 4 May 2021 15:10:57 +0100
+Message-ID: <CACvgo50frye2h5L78YKnHm8TaE9xM=fn-7fNNtHbSwiv+GnYVA@mail.gmail.com>
+Subject: Re: [PATCH 8/8] drm/modifiers: Enforce consistency between the cap an
+ IN_FORMATS
+To: Daniel Vetter <daniel@ffwll.ch>, Inki Dae <inki.dae@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,164 +64,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============0809146388=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0809146388==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/e2f=K/.ysQBY/duKREquXSE"; protocol="application/pgp-signature"
+Hi Daniel,
 
---Sig_/e2f=K/.ysQBY/duKREquXSE
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Thanks for the extra clarification.
 
-On Tue, 27 Apr 2021 11:20:18 +0200
-Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+On Tue, 27 Apr 2021 at 13:22, Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, Apr 27, 2021 at 12:32:19PM +0100, Emil Velikov wrote:
+> > Hi Daniel,
+> >
+> > On Tue, 27 Apr 2021 at 10:20, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > > @@ -360,6 +373,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+> > >   * drm_universal_plane_init() to let the DRM managed resource infrastructure
+> > >   * take care of cleanup and deallocation.
+> > >   *
+> > > + * Drivers supporting modifiers must set @format_modifiers on all their planes,
+> > > + * even those that only support DRM_FORMAT_MOD_LINEAR.
+> > > + *
+> > The comment says "must", yet we have an "if (format_modifiers)" in the codebase.
+> > Shouldn't we add a WARN_ON() + return -EINVAL (or similar) so people
+> > can see and fix their drivers?
+>
+> This is a must only for drivers supporting modifiers, not all drivers.
+> Hence the check in the if. I did add WARN_ON for the combos that get stuff
+> wrong though (like only supply one side of the modifier info, not both).
+>
+Hmm you're spot on - the arm/malidp patch threw me off for a minute.
 
-> It's very confusing for userspace to have to deal with inconsistencies
-> here, and some drivers screwed this up a bit. Most just ommitted the
-> format list when they meant to say that only linear modifier is
-> allowed, but some also meant that only implied modifiers are
-> acceptable (because actually none of the planes registered supported
-> modifiers).
->=20
-> Now that this is all done consistently across all drivers, document
-> the rules and enforce it in the drm core.
->=20
-> v2:
-> - Make the capability a link (Simon)
-> - Note that all is lost before 5.1.
->=20
-> Acked-by: Maxime Ripard <maxime@cerno.tech>
-> Cc: Simon Ser <contact@emersion.fr>
-> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  drivers/gpu/drm/drm_plane.c   | 18 +++++++++++++++++-
->  include/drm/drm_mode_config.h |  2 ++
->  2 files changed, 19 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 0dd43882fe7c..20c7a1665414 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -128,6 +128,13 @@
->   *     pairs supported by this plane. The blob is a struct
->   *     drm_format_modifier_blob. Without this property the plane doesn't
->   *     support buffers with modifiers. Userspace cannot change this prop=
-erty.
-> + *
-> + *     Note that userspace can check the &DRM_CAP_ADDFB2_MODIFIERS driver
-> + *     capability for general modifier support. If this flag is set then=
- every
-> + *     plane will have the IN_FORMATS property, even when it only suppor=
-ts
-> + *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there hav=
-e been
-> + *     various bugs in this area with inconsistencies between the capabi=
-lity
-> + *     flag and per-plane properties.
->   */
-> =20
->  static unsigned int drm_num_planes(struct drm_device *dev)
-> @@ -277,8 +284,14 @@ static int __drm_universal_plane_init(struct drm_dev=
-ice *dev,
->  			format_modifier_count++;
->  	}
-> =20
-> -	if (format_modifier_count)
-> +	/* autoset the cap and check for consistency across all planes */
-> +	if (format_modifier_count) {
-> +		WARN_ON(!config->allow_fb_modifiers &&
-> +			!list_empty(&config->plane_list));
->  		config->allow_fb_modifiers =3D true;
-> +	} else {
-> +		WARN_ON(config->allow_fb_modifiers);
-> +	}
-> =20
->  	plane->modifier_count =3D format_modifier_count;
->  	plane->modifiers =3D kmalloc_array(format_modifier_count,
-> @@ -360,6 +373,9 @@ static int __drm_universal_plane_init(struct drm_devi=
-ce *dev,
->   * drm_universal_plane_init() to let the DRM managed resource infrastruc=
-ture
->   * take care of cleanup and deallocation.
->   *
-> + * Drivers supporting modifiers must set @format_modifiers on all their =
-planes,
-> + * even those that only support DRM_FORMAT_MOD_LINEAR.
-> + *
->   * Returns:
->   * Zero on success, error code on failure.
->   */
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index ab424ddd7665..1ddf7783fdf7 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -909,6 +909,8 @@ struct drm_mode_config {
->  	 * @allow_fb_modifiers:
->  	 *
->  	 * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
-> +	 * Note that drivers should not set this directly, it is automatically
-> +	 * set in drm_universal_plane_init().
->  	 *
->  	 * IMPORTANT:
->  	 *
+> > As a follow-up one could even go a step further, by erroring out when
+> > the driver hasn't provided valid modifier(s) and even removing
+> > config::allow_fb_modifiers all together.
+>
+> Well that currently only exists to avoid walking the plane list (which we
+> need to do for validation that all planes are the same). It's quite tricky
+> code for tiny benefit, so I don't think it's worth it trying to remove
+> allow_fb_modifiers completely.
+>
+Pardon if I'm saying something painfully silly - it's been a while
+since I've looked closely at KMS.
 
-I can only say about the doc parts, but:
+From some grepping around, removing ::allow_fb_modifiers would be OK
+although it's a secondary goal. It feels like the bigger win will be
+simpler modifier handling in DRM.
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+In particular, one could always "inject" the linear modifier within
+drm_universal_plane_init() and always expose DRM_CAP_ADDFB2_MODIFIERS.
+Some drivers mxsfb, mgag200, stm and likely others already advertise
+the CAP, even though they seemingly lack any modifiers.
 
-For patches 2 and 5 too, on the grounds that the idea is good.
+The linear/invalid cargo-cult to drm_universal_plane_init() seems
+strong and this series adds even more.
+
+Another plus of always exposing the CAP, is that one could mandate (or
+nuke) optional .format_mod_supported that you/Ville discussed
+earlier[1].
+Currently things are weird, since it's required to create IN_FORMAT
+blob, yet drivers lack it while simultaneously exposing the CAP to
+userspace.
+
+One such example is exynos... Although recently it recently dropped
+`allow_fb_modifiers = true` and there are no modifiers passed to
+drm_universal_plane_init(), so the CAP is no longer supported.
+Inki you might want to check, if that broke your userspace.
 
 
-Thanks,
-pq
+Tl:Dr: There _might_ be value in simplifying the modifier handling
+_after_ these fixes land.
 
---Sig_/e2f=K/.ysQBY/duKREquXSE
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
+[1] https://lore.kernel.org/dri-devel/CAKMK7uGNP5us8KFffnPwq7g4b0-B2q-m7deqz_rPHtCrh_qUTw@mail.gmail.com/
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCRTm4ACgkQI1/ltBGq
-qqemqw//RXpj1TMJzJQBmA3p/jR23ByhoqEcQTI1RnYX2kEA0jFB3oYQ5cbjByUw
-JmnsInKOhFFvK8bhkUz9EJKGF0UgYTw9ujc9NEpW9YU50tW240HbJM5rDoovQt4Q
-xvd64UJ4kE5sXJOwWrhfJsJCmcmMi+nYGC3I7MN886XlyeQzKzfWazqysdaPfa96
-xf9pi0qa/ZUuBcJeBF3qDeIJVzyTmxWRafnzVqw7J4cHRunF6uFQurT91MAcTeab
-IOyPAcMVE5WnQFDo38rtkUoKjFkXDNmo/KOLga1yzicg+56N6SIbmogHyDOAbYjs
-gikDSKCOBT86zJa6uwHKcV+Ngfsw/j196eErK4Zxj6ffvqLTWhQ5oAV1Af1HApYb
-mokbmhpdImZJtYCnRIxCgjGGkxRPP3syScGQSHI+pQgOuJiQIDzmju6jFis0mkPU
-zo4GV98zu17qEM/IyfPu2WkDhZP6mBvWbyHLe1cpMfRqHgqnQ3MrAPXLNSdRxihV
-c8jIrSMg7aPU+jUOd3RzAjihsZqgpiYJKdfiRs4mjAmDUhO6ZMlpTLWMLk4kQApa
-Xpe9Xtgsq7NuX6UEX0O5Yyo0Ma2TocSaunzdkGiVhRR9pb7Eolpl7uv6X6c8mUmZ
-JsjPWaBXYKHzFjVSngaZWp8shE8mV8AytgttqIQPImQuGB3G5FY=
-=xQSr
------END PGP SIGNATURE-----
+> > Although for stable - this series + WARN_ON (no return since it might
+> > break buggy drivers) sounds good.
+> >
+> > > @@ -909,6 +909,8 @@ struct drm_mode_config {
+> > >          * @allow_fb_modifiers:
+> > >          *
+> > >          * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
+> > > +        * Note that drivers should not set this directly, it is automatically
+> > > +        * set in drm_universal_plane_init().
+> > >          *
+> > >          * IMPORTANT:
+> > >          *
+> > The new note and the existing IMPORTANT are in a weird mix.
+> > Quoting the latter since it doesn't show in the diff.
+> >
+> > If this is set the driver must fill out the full implicit modifier
+> > information in their &drm_mode_config_funcs.fb_create hook for legacy
+> > userspace which does not set modifiers. Otherwise the GETFB2 ioctl is
+> > broken for modifier aware userspace.
+> >
+> > In particular:
+> > As the new note says "don't set it" and the existing note one says "if
+> > it's set". Yet no drivers do "if (config->allow_fb_modifiers)".
+> >
+> > Sadly, nothing comes to mind atm wrt alternative wording.
+>
+> Yeah it's a bit disappointing.
+>
+> > With the WARN_ON() added or s/must/should/ in the documentation, the series is:
+>
+> With my clarification, can you please recheck whether as-is it's not
+> correct?
+>
+Indeed - with the series as-is my RB stands.
 
---Sig_/e2f=K/.ysQBY/duKREquXSE--
-
---===============0809146388==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0809146388==--
