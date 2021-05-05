@@ -2,58 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41F73733BE
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 04:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233C4373410
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 05:57:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30DA16E402;
-	Wed,  5 May 2021 02:35:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 312266E40C;
+	Wed,  5 May 2021 03:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA18A6E402
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 02:35:55 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- 65-20020a9d03470000b02902808b4aec6dso455192otv.6
- for <dri-devel@lists.freedesktop.org>; Tue, 04 May 2021 19:35:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GfhGC55J2OjEdw/7PTNJyCxRfWG9ZUMJ95NKKd86u0g=;
- b=rphV2EqsYRzSsIbvC2C0a7SvtrMsP4QtRZb/7Z2MX+lzpD4qhDJG8MmDjPeCKoj4TN
- AzA2BqUsublllOKQUSl8RglZbLKarS+uxlmS4unHRnpcakfsArSSn9D/A7DdRFx/Mi//
- LFve5mr3n+fnftrtTvt4d1yhzDE5NOTkQnLDoMPsac9kOfx+wdoC4YT8bEeS9OkNjfJ7
- lL4ErUyPoSsBlS6HQpWtLYG84SsY6uYY5KklVeu4bLQC9EOuLaCcHsPTWaT3IpbNMyMd
- JOdhELwuAmq5Wg1okCzMpE6mpOYDSZ+El7N4dThHd/azfN1eIjcBK4auZ7pGrmS7/M43
- DPbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=GfhGC55J2OjEdw/7PTNJyCxRfWG9ZUMJ95NKKd86u0g=;
- b=FPiWvN1N9wne0Y7hI/Ieh+1cH2T9eLjIKoykxGsCzFn2n6po1B4nzd0MqtxVcpmAyY
- cQzGbr79k0UtkjyE1iFxaNNu4OqujORH+r3tYsLiGxik+aVf4PEKZ1qgd+7SvseQC2fR
- nek4SXsxDaTZNjOdAOon2dTMWg6khfkWtgVbdfxOhdv5rT2IJSuZfooE0vy2UpnV8KJu
- hxVvqc1Q7dER/lU9odPTxfg0av7lvPYVwPktbeIJG8GELOXXsY8nGL5Gsm0kn+0YqqrD
- mm6zdP+asMTdv0+kRb+rdy7eypcC1V09tYjvR0nq24nVbHDPz0wFhyWadjssiY/TZ+sn
- /Adw==
-X-Gm-Message-State: AOAM533rhUOQn9uDbOFlG5AJV0DNUxzHcAQ9fIVIXa9mWT6sJgqda1QJ
- Fn6pkei2a334ZJoI8rF4XoM=
-X-Google-Smtp-Source: ABdhPJzy++fj+9aHMX278OES8bsDJ7/tIWDToemKnYwirNCewCj3Wf2m0qVz92GuaTcN+1PPe52otQ==
-X-Received: by 2002:a05:6830:18d3:: with SMTP id
- v19mr20003182ote.339.1620182155257; 
- Tue, 04 May 2021 19:35:55 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id l7sm1108108oov.5.2021.05.04.19.35.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 19:35:54 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: David Airlie <airlied@linux.ie>
-Subject: [PATCH] drm: Declare drm_send_event_helper static
-Date: Tue,  4 May 2021 19:35:52 -0700
-Message-Id: <20210505023552.2622938-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.25.1
+Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
+ [208.91.0.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30F936E40A
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 03:57:43 +0000 (UTC)
+Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
+ EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
+ 15.0.1156.6; Tue, 4 May 2021 20:57:39 -0700
+Received: from vertex.localdomain (unknown [10.21.250.233])
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id F3FF520486;
+ Tue,  4 May 2021 20:57:40 -0700 (PDT)
+From: Zack Rusin <zackr@vmware.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/6] drm/vmwgfx: SVGA v3 and arm64 support
+Date: Tue, 4 May 2021 23:57:34 -0400
+Message-ID: <20210505035740.286923-1-zackr@vmware.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,44 +40,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Guenter Roeck <linux@roeck-us.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: krastevm@vmware.com, sroland@vmware.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-0-day reports:
+This set includes some lost fixes and adds SVGA v3 and arm64 support
+to the driver. SVGA v3 is the next version of our virtual device,
+it's largely about making the device a little easier and cleaner
+to use (e.g. MMIO for register accesses instead of ioports, adding
+MSI-X support, deprecating the FIFO MMIO and removing a lot of the
+old and legacy functionality). We'll be able to get rid of some
+of the locking as well, which improves the performance.
 
-drivers/gpu/drm/drm_file.c:789:6: error:
-	no previous prototype for 'drm_send_event_helper'
+Our ARM64 support is only available in svga v3. Currently guest
+memory objects are not supported on arm so 3D is not yet available
+there.
 
-Since drm_send_event_helper() is only used locally,
-declare it static to fix the problem.
+Thomas Hellstrom (2):
+  drm/vmwgfx: Mark a surface gpu-dirty after the SVGA3dCmdDXGenMips
+    command
+  drm/vmwgfx: Fix cpu updates of coherent multisample surfaces
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
- drivers/gpu/drm/drm_file.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Zack Rusin (4):
+  drm/vmwgfx: Fix incorrect enum usage
+  drm/vmwgfx: Remove the reservation semaphore
+  drm/vmwgfx: Add basic support for SVGA3
+  drm/vmwgfx: Port vmwgfx to arm64
 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 7efbccffc2ea..def5df9f19e3 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -786,8 +786,8 @@ EXPORT_SYMBOL(drm_event_cancel_free);
-  * The timestamp variant of dma_fence_signal is used when the caller
-  * sends a valid timestamp.
-  */
--void drm_send_event_helper(struct drm_device *dev,
--			   struct drm_pending_event *e, ktime_t timestamp)
-+static void drm_send_event_helper(struct drm_device *dev,
-+				  struct drm_pending_event *e, ktime_t timestamp)
- {
- 	assert_spin_locked(&dev->event_lock);
- 
+ drivers/gpu/drm/vmwgfx/Kconfig                |   3 +-
+ drivers/gpu/drm/vmwgfx/Makefile               |   2 +-
+ .../device_include/svga3d_surfacedefs.h       |   8 +-
+ .../gpu/drm/vmwgfx/device_include/svga_reg.h  |  55 ++++-
+ drivers/gpu/drm/vmwgfx/ttm_lock.c             | 194 ----------------
+ drivers/gpu/drm/vmwgfx/ttm_lock.h             | 218 -----------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            |  31 ---
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c           | 114 +++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_context.c       |  13 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 161 +++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           | 128 +++++++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |  27 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fb.c            |   8 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |  16 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.h         |   2 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         |  60 +----
+ drivers/gpu/drm/vmwgfx/vmwgfx_irq.c           |  75 ++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |  30 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |  36 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c           |  31 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.h           | 214 -----------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h     | 130 +++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h       | 219 ++++++++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c       |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_reg.h           |   4 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |   4 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c        |   6 -
+ .../gpu/drm/vmwgfx/vmwgfx_simple_resource.c   |   5 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       |  30 ++-
+ 29 files changed, 783 insertions(+), 1043 deletions(-)
+ delete mode 100644 drivers/gpu/drm/vmwgfx/ttm_lock.c
+ delete mode 100644 drivers/gpu/drm/vmwgfx/ttm_lock.h
+ delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_msg.h
+ create mode 100755 drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h
+
 -- 
-2.25.1
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
