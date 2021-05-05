@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC16E373BB6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 14:51:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B08E373BC8
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 14:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE9A6E440;
-	Wed,  5 May 2021 12:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4CC06E499;
+	Wed,  5 May 2021 12:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8DEA6E440
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 12:51:27 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id u20so2257237lja.13
- for <dri-devel@lists.freedesktop.org>; Wed, 05 May 2021 05:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54BA16E4C5;
+ Wed,  5 May 2021 12:55:38 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ h14-20020a17090aea8eb02901553e1cc649so770737pjz.0; 
+ Wed, 05 May 2021 05:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5ZKINt+24vkgq+jtEeRzmpva+N3VhWpG25a6HCCDQLg=;
- b=lsqTsl7XXHy6S6on3u5XAyk4I5ko7hEiejMokpIADhU8TTGOHuBxi28EfYt8Jf7FV/
- OnGwPXxfbb2dKPzov0N0V6NLD0nonHQEVWfTyW02sRnjp85USPGekyOLAQKJFWp9fF8E
- hqkQ/ym/tBF1B6XEQnez1qYEpgs7V6bTtplIPN8B/Ji0Uc1VvPaIIJbB6dxkhLrH3AqL
- 3UtMnEuE9F6FZUX2A6rX80PBuBmh84a54AcIhfZ3QZ8F4adFMGl4Pe5TjEyqDS5EGFmn
- on3hpo4FRiMNfsvx4bzbW3vZtc2TN6Ndl2ZTM44H5dPIxkf925BYAYWpGTMK9970dbWN
- jpDg==
+ :cc; bh=ZhuV1fIZkH25YePI0Y3P6MxQ5i4J7rTme3KQYtyR73Y=;
+ b=gRI6Ic2tMSpnsSMhV6oDdci/E4PlN6TPeYZ6VGH7yYcXBOfTtOXVaQvWyKUvhThmrN
+ JqBm5/kmvoOPA6RqgKpOkINzlUtnVrtvqDCtkTmqhq5FxJJgmGoLXJGYsRjI4YBcghkh
+ A4meN/1fuuQMhxEmvLyhFbeliG/A22YQ7JllWCKLnlzDeMNt4ALzf06o+YabaeOChbg3
+ u1LFxMvxUYcUDW4p2t+95kvBwtLAfCAu7Gz/5mOHDlGjI7nwUfPhpmjIH9B/4aQZnKar
+ gwZ06pliPHDiHPWGjU7ti2fGSjqdDLxvTiOpPny151NLZtRYjNcsA+2Kmqu4BdeDiSq+
+ XjzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5ZKINt+24vkgq+jtEeRzmpva+N3VhWpG25a6HCCDQLg=;
- b=FZ+LoOke6TzBJaONGipjZTttIJcCZU6uIbGmxWjRRn2QtTlgEGYWrHfHiq2cZlP6d3
- L0hZQbICU1MoES7Ol1M4Gtl2/2LfJZmjTPkxCUt2TvGe9Al/TdutmvIzsVZ7oHTvk5Lz
- VykYZkn0Zvq6Wa3O29dSqK0OU2cJbqEwEu6hHdW1DMUaHE0isSPSJUmJm9YpBPCOnSIq
- Gc6pDmM4NQa7EOxLFSbHi+aJPejp/iwtKz/kpGXTY0eyUCzv/kqigccFXXjd4j0xX9P0
- xRy6ULm8pm4HVkihZfYZq/W4CD7Km4cdVVCX0hNvIVWa3O0PyXPoH6ECQcMwiIhV6+0J
- ORHg==
-X-Gm-Message-State: AOAM531SY9Kn0GzZxdx2XtAEKWoQr5uvQzhL4XYvya0oz1Jnxath8nHh
- /AksW1UaU/90mMGClg3XGOSprxsNZzBQ3QurwArm6w==
-X-Google-Smtp-Source: ABdhPJyQJiePbgT7/Tp3x1+jnfQmk7ukJ4HB+fh/IcgCx7MW+Kkyq/ARSBbLSXWU82nXtNazzReNnDeM6ZGufQXDZ/A=
-X-Received: by 2002:a2e:a54c:: with SMTP id e12mr21964567ljn.326.1620219086062; 
- Wed, 05 May 2021 05:51:26 -0700 (PDT)
+ bh=ZhuV1fIZkH25YePI0Y3P6MxQ5i4J7rTme3KQYtyR73Y=;
+ b=fCRNQlZBLTfAwWey03Oi67Q0XS55wirSf9vAiqxncg+OIn5DkgVWk8fDBE6rW2C6ey
+ PvmwzmNLlDwjYUtGIC82cE59bojuSbOtqVss33aKYBbx/hNRTX9P4EYnOqnwH9bD/o2G
+ 0AbGPCuhUmxXuTQmWFlvftpLLyfKsVgyIYxb3EA2+RHjAIKmCAN+YZr3ypExHGOdR1Vk
+ UcPD6oeTYKYQ9bKxCsN8fD7QR8O0zvktI8T3zAeGdqMCeYzZAUVqXKxvFZPzdsb/RPOC
+ RVGgc6I00hg1Wa7AKQw9sE1kIeAKcTW08a2LO6dtJqS2k43yaUZecswyvDQBh60gf/Na
+ j3Jw==
+X-Gm-Message-State: AOAM530RhXs8j11TTDpZCeGiiAdD2p9fWmceGT1xorxa+7DJtI5Ut4A3
+ mK0W07motlKp1JRX3LAb/GkCHeXforbhgojY23g=
+X-Google-Smtp-Source: ABdhPJzCTkEkc6x9bPHAS+mMVokm63i+ft0JaoTpGrUgTTekG8+kZol92XMK91SVh8Y2tQwk7nOjar/WpkGDyy7r//k=
+X-Received: by 2002:a17:90a:d90c:: with SMTP id
+ c12mr11705143pjv.129.1620219337894; 
+ Wed, 05 May 2021 05:55:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210423165906.2504169-1-dianders@chromium.org>
- <20210423095743.v5.1.I9e6af2529d6c61e5daf86a15a1211121c5223b9a@changeid>
- <CACRpkdYkRFLvCRPSYNzYQG58QgPfhvjtHb+FBQZadyrnjC8=1A@mail.gmail.com>
- <CAD=FV=UX683grZ=poTwKXxSqYBCLdLAOCxOPhE_xVVgKbe36Mw@mail.gmail.com>
- <CACRpkdYfugrJ4WGn=w+viGXE6s5cdHjLC++jHPLVy_QH09KA8Q@mail.gmail.com>
- <CAD=FV=XXxTz8hi92y6p3hX7iVEHuqKHsrKPSnX_a__WCEQRAKw@mail.gmail.com>
- <CACRpkdZVH=h37hSjvjcNmRwV-RoBB-nvUbrOT80DoLr7n81R3Q@mail.gmail.com>
- <CAD=FV=Vzn0ih_RqR_ySJzFtq0B0x_4a-Uwjk56GeLyUZtTEXrQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=Vzn0ih_RqR_ySJzFtq0B0x_4a-Uwjk56GeLyUZtTEXrQ@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 5 May 2021 14:51:14 +0200
-Message-ID: <CACRpkdbOpJtoaX7Jayr1-QRvZOjKbt-D0XVy+Xvxga9RULoh1w@mail.gmail.com>
-Subject: Re: [PATCH v5 01/20] drm/panel: panel-simple: Add missing
- pm_runtime_disable() calls
-To: Doug Anderson <dianders@chromium.org>
+References: <20210503154647.142551-1-hdegoede@redhat.com>
+ <20210503154647.142551-6-hdegoede@redhat.com>
+ <CAHp75VcS5nvzBzjbSytqD6qsSURyzdEdmDi934y=5W2SCNyo9A@mail.gmail.com>
+ <ee230261-423d-0e2f-16b0-852d264afa2b@redhat.com>
+ <CAHp75VcfkcaVAu2-8-5he7PN=W_tRHiHAgXYn04gRnLehDVsyQ@mail.gmail.com>
+ <ffb46bb6-3548-4ec2-f176-99f3674e7f6d@redhat.com>
+ <CAHp75VcHEMaZ67yy7TD8f8Nk=+oiLT-vRCt9A6fT9K6LeR78Ew@mail.gmail.com>
+ <adb9be8a-70c7-b515-48c3-7e372e5d8801@redhat.com>
+In-Reply-To: <adb9be8a-70c7-b515-48c3-7e372e5d8801@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 5 May 2021 15:55:21 +0300
+Message-ID: <CAHp75Vcd0U0MBisj3jYb2gptNk7JU61Jtv-MbwnsDK2hzuxU7Q@mail.gmail.com>
+Subject: Re: [PATCH 5/9] drm/i915: Associate ACPI connector nodes with
+ connector entries
+To: Hans de Goede <hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,42 +70,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Steev Klimaszewski <steev@kali.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Stephen Boyd <swboyd@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-i2c <linux-i2c@vger.kernel.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 3, 2021 at 10:41 PM Doug Anderson <dianders@chromium.org> wrote:
+On Wed, May 5, 2021 at 1:30 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 5/5/21 12:02 PM, Andy Shevchenko wrote:
 
-> > At your convenience and when you think there is too little
-> > stuff in your sn65dsi86 TODO, check out
-> > pinctrl-bcm63xx.c for an example of select GPIO_REGMAP
-> > made very simple (this works fine as long as they are bit
-> > offsets starting from 0).
+...
+
+> But we do really need to document the behavior better here
+> in the kdoc for fwnode_get_next_child_node() and
+> device_get_next_child_node().
+
+Totally agree!
+
+> of_get_next_child has this bit, which applies to those too:
 >
-> I seem to recall you mentioning something like this. When I looked at
-> it in the past I wasn't convinced it would be easy. See my response
-> [2]. The rough summary is that I didn't think the helpers were happy
-> with the pm_runtime() model that I'm using. Did I get that wrong?
+>  *      Returns a node pointer with refcount incremented, use of_node_put() on
+>  *      it when done. Returns NULL when prev is the last child. Decrements the
+>  *      refcount of prev.
+>
+> I'll prepare a patch to add this to the kdoc for fwnode_get_next_child_node()
+> and device_get_next_child_node() once I'm done with readying v3 of this series.
 
-Yeah good point. It does seem a bit too complex for that.
-Sorry for not remembering.
+Thanks!
 
-Yours,
-Linus Walleij
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
