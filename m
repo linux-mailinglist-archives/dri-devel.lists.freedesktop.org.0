@@ -2,30 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72EEE373E14
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 17:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7AFF373ED4
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 17:46:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63DE089017;
-	Wed,  5 May 2021 15:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0746E4B1;
+	Wed,  5 May 2021 15:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64D5688B2B;
- Wed,  5 May 2021 15:02:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: tonyk) with ESMTPSA id 359681F42BC2
+X-Greylist: delayed 654 seconds by postgrey-1.36 at gabe;
+ Wed, 05 May 2021 15:46:46 UTC
+Received: from smtp71.iad3a.emailsrvr.com (smtp71.iad3a.emailsrvr.com
+ [173.203.187.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E92D6E4B1
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 15:46:45 +0000 (UTC)
+X-Auth-ID: kenneth@whitecape.org
+Received: by smtp33.relay.iad3a.emailsrvr.com (Authenticated sender:
+ kenneth-AT-whitecape.org) with ESMTPSA id EBC5C54DF; 
+ Wed,  5 May 2021 11:35:50 -0400 (EDT)
+From: Kenneth Graunke <kenneth@whitecape.org>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>
 Subject: Re: Enabling sample_c optimization for Broadwell GPUs
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Date: Wed, 05 May 2021 08:35:46 -0700
+Message-ID: <4570916.7zo566DRWU@mizzik>
+In-Reply-To: <e99599bf-f503-3227-8361-afcd3d2a098f@collabora.com>
 References: <e99599bf-f503-3227-8361-afcd3d2a098f@collabora.com>
- <YJJwlXt4n936yz68@intel.com>
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Message-ID: <353c05f8-07b1-af27-ede0-6f4f5a250f6b@collabora.com>
-Date: Wed, 5 May 2021 12:02:07 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <YJJwlXt4n936yz68@intel.com>
-Content-Language: en-US
+X-Classification-ID: 3ad83565-0b7a-44f9-a737-8695edb5ecfb-1-1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,43 +43,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>, kernel@collabora.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1525702179=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUm9kcmlnbywKClRoYW5rIHlvdSB2ZXJ5IG11Y2ggZm9yIHByb3ZpZGluZyB0aGF0IGluZm9y
-bWF0aW9uIGluIGEgcHJlY2lzZSBtYW5uZXIuCgrDgHMgMDc6MTYgZGUgMDUvMDUvMjEsIFJvZHJp
-Z28gVml2aSBlc2NyZXZldToKPiBIaSBBbmRyZSwKPiAKPiBJJ20gbm90IGZhbWlsaWFyIHdpdGgg
-dGhlIHNhbXBsZSBjIG1lc3NhZ2Ugb3B0aW1pemF0aW9uLgo+IFByb2JhYmx5IEtlbiBjYW4gY29t
-bWVudC4KPiAKPiBIb3dldmVyIEkgY291bGQgY2hlY2sgdGhlIGludGVybmFsIHNwZWMgaGVyZSBh
-bmQgSSBzYXcgdGhpcyBiaXQKPiBvbmx5IGV4aXN0cyB3aXRoIHRoaXMgbWVhbmluZyBpbiBIYXN3
-ZWxsLgo+IAo+IEZvciBhbGwgdGhlIG90aGVyIHBsYXRmb3JtcywgaW5jbHVkaW5nIEJyb2Fkd2Vs
-bCBpdCBnb3QgcmUtcHVycG9zZWQgd2l0aAo+IGEgZGlmZmVyZW50IG1lYW5pbmcgYW5kIGEgcHJv
-Z3JhbW1pbmcgbm90ZToKPiAiVGhpcyBiaXQgc2hvdWxkIGJlIHByb2dyYW1tZWQgdG8gemVybyAo
-MGgpIGF0IGFsbCB0aW1lcy4iCj4gCj4gQWxzbywgSSBjb3VsZCBub3QgZmluZCBhbnkgd29ya2Fy
-b3VuZCBkb2N1bWVudGVkIGFueXdoZXJlIHJlY29tbWVuZGluZwo+IHRoaXMgYml0IHRvIGJlIHNl
-dC4KPiAKPiBTbywgSSB3b3VsZCBub3QgcmVjb21tZW5kIHRvIHVzZSBpdCBpbiBhbnkgcHJvZHVj
-dCwgZXZlbiBkb3duc3RyZWFtLgo+IFJlZ2FyZGxlc3MgdGhlIHN0YXRlIG9mIHNhbXBsZSBjIG1l
-c3NhZ2Ugb3B0aW1pemF0aW9uIGluIGxhdGVyIHBsYXRmb3Jtcy4KPiAKPiBUaGFua3MsCj4gUm9k
-cmlnby4KPiAKPiBPbiBUdWUsIE1heSAwNCwgMjAyMSBhdCAwODowNzoxNFBNIC0wMzAwLCBBbmRy
-w6kgQWxtZWlkYSB3cm90ZToKPj4gSGkgdGhlcmUsCj4+Cj4+IFdoaWxlIGJyb3dzaW5nIGFuIG9s
-ZCBkb3duc3RyZWFtIGtlcm5lbCwgSSBmb3VuZCBhIHBhdGNoWzBdIHRoYXQgZW5hYmxlcwo+PiBz
-YW1wbGVfYyBvcHRpbWl6YXRpb25zIGF0IEJyb2Fkd2VsbCBHUFVzLiBUaGUgbWVzc2FnZSBmcm9t
-IHRoZSB1cHN0cmVhbQo+PiBjb21taXQgdGhhdCBlbmFibGVzIGl0IGZvciBIYXN3ZWxsWzFdIChh
-bmQgcHJlc3VtYWJseSB3aGVyZSB0aGUgY29kZSBhdFswXQo+PiB3YXMgY29waWVkIGZyb20pIHN0
-YXRlcyB0aGF0ICJbLi5dIGxhdGVyIHBsYXRmb3JtcyByZW1vdmUgdGhpcyBiaXQsIGFuZAo+PiBh
-cHBhcmVudGx5IGFsd2F5cyBlbmFibGUgdGhlIG9wdGltaXphdGlvbiIuCj4+Cj4+IENvdWxkIHlv
-dSBjb25maXJtIHRoYXQgQnJvYWR3ZWxsIGFuZCBmb2xsb3dpbmcgYXJjaGl0ZWN0dXJlcyBlbmFi
-bGUgdGhpcwo+PiBvcHRpbWl6YXRpb24gYnkgZGVmYXVsdCAoYW5kIHRodXMsIHBhdGNoWzBdIGlz
-IGEgbm8tb3ApLCBvciBzaG91bGQgSQo+PiB1cHN0cmVhbSBpdD8KPj4KPj4gVGhhbmtzLAo+PiAJ
-QW5kcsOpCj4+Cj4+IFswXSBodHRwczovL2dpdGh1Yi5jb20vVmFsdmVTb2Z0d2FyZS9zdGVhbW9z
-X2tlcm5lbC9jb21taXQvMTk4OTkwZjEzZTFkOTQyOTg2NGMxNzdkOTQ0MWE2NTU5NzcxYzVlMgo+
-Pgo+PiBbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQv
-dG9ydmFsZHMvbGludXguZ2l0L2NvbW1pdC8/aWQ9OTQ0MTE1OTM0NDM2YjFmZjZjZjc3M2E5ZTkx
-MjM4NThlYTllZjNkYQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+--===============1525702179==
+Content-Type: multipart/signed; boundary="nextPart4240184.CW8T6EejXm"; micalg="pgp-sha256"; protocol="application/pgp-signature"
+
+--nextPart4240184.CW8T6EejXm
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Kenneth Graunke <kenneth@whitecape.org>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>, =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: Enabling sample_c optimization for Broadwell GPUs
+Date: Wed, 05 May 2021 08:35:46 -0700
+Message-ID: <4570916.7zo566DRWU@mizzik>
+In-Reply-To: <e99599bf-f503-3227-8361-afcd3d2a098f@collabora.com>
+References: <e99599bf-f503-3227-8361-afcd3d2a098f@collabora.com>
+
+Hello,
+
+Yes, that bit only exists on Haswell.  On Haswell, sample_c operations
+were processed at 1 pixel/clock unless you set that bit, in which case
+they get processed at 4 pixels/clock.  The downside is that it breaks
+some obscure media feature that apparently no one used.
+
+Broadwell and later alway process sample_c operations at the fast speed,
+and there is no bit to control it.  I would say that downstream patch is
+incorrect.
+
+=2D-Ken
+
+On Tuesday, May 4, 2021 4:07:14 PM PDT Andr=E9 Almeida wrote:
+> Hi there,
+>=20
+> While browsing an old downstream kernel, I found a patch[0] that enables=
+=20
+> sample_c optimizations at Broadwell GPUs. The message from the upstream=20
+> commit that enables it for Haswell[1] (and presumably where the code=20
+> at[0] was copied from) states that "[..] later platforms remove this=20
+> bit, and apparently always enable the optimization".
+>=20
+> Could you confirm that Broadwell and following architectures enable this=
+=20
+> optimization by default (and thus, patch[0] is a no-op), or should I=20
+> upstream it?
+>=20
+> Thanks,
+> 	Andr=E9
+>=20
+> [0]=20
+> https://github.com/ValveSoftware/steamos_kernel/commit/198990f13e1d942986=
+4c177d9441a6559771c5e2
+>=20
+> [1]=20
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D944115934436b1ff6cf773a9e9123858ea9ef3da
+>=20
+
+
+--nextPart4240184.CW8T6EejXm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmCSu1IACgkQW1vaBx1J
+zDiaxhAAnyQOIlWC26OaVTTSf3tfi6ARhp/6rGqx39tIIc4mJ5xlzVYhoJDc5WYl
+vmsrHGawyBDbE/DilzaYMQCODSHJYsYGq5C7zsHCyBfQwsFI74IDKtkEycmqH30B
+BYDuXTb5P+Aq4OwKwplQfwb9zux1BE0wnN4Auk+w1Q5fN1pi0mDOh/3V5mqYJdpo
+q1/JIudzNUMXqmap4fBfAfXyjKAC00ATL4Kq+FaFZmgKXafxBsuzpF8BOl6DXqT+
+uImef23cSnWUO+juHTySmRPcY8ienGGP2JmE/Hs8SKRAsyRpVvBWsweJ1QVe99jm
+K2+0hZDN8Eoi46BpXxeSBB8fUaaU1/+GfaBvVQ8koTV9r4ZKxSh1luoA5CyQF0OS
+qwUo9w0EnD6VxvGKqQVUR3ShRMx08GZ8kQLa/bUVDlgCYe9at4aKV/3DwVMXKTQz
+7jwrkYslzIyOAPOZ48icnrmCAAQqflzGyyfm04jf5T9AxvuGN8BXaWLVyIfyfp8W
+uJJKkzpMKRFDMh//24bdA20I4J5IEDnW10ivUS+GxSdBWIVOaSH+RkuABy7IoKIM
+TAheY+HzAI9RbExu9Up9xUDombU1TkhbSKELBquhHYheDz8jX/jXattpoqdbdfgw
+NKvscu28TO4OLQGj18kKAa2yM1wjJtXpsmGIDkZDxM+PR86vMYY=
+=7u/K
+-----END PGP SIGNATURE-----
+
+--nextPart4240184.CW8T6EejXm--
+
+
+
+
+--===============1525702179==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1525702179==--
+
+
+
