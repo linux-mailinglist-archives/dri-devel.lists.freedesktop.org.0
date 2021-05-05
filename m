@@ -1,80 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67836373892
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 12:30:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E213738B2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 12:42:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07F7D6E48B;
-	Wed,  5 May 2021 10:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8A6489AC9;
+	Wed,  5 May 2021 10:42:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1CC6E3D6
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 10:30:22 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9196C89AC9
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 10:42:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620210621;
+ s=mimecast20190719; t=1620211335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zE1dVKPK82uToYAi4Qlfa5L92Nao6h848ucJ6GBhOnM=;
- b=a1ZcFbHMCzxB/vwmOPooCeQpC03+F+kh3+IGtUnVrqJ6JIC5cYDX0oFHeg12filTyF4NuB
- hIZWs3xRLmqu50k/5cf2mT6wG58jLWmWBQV1DW92yZdJVCgU9rwucthEf/UJQhP0SHQvSO
- Zcfs9DUrb1u//0sp1y7gZmsb4/1nIqc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-uTM8DYABP5O8KTAOzUGZlQ-1; Wed, 05 May 2021 06:30:17 -0400
-X-MC-Unique: uTM8DYABP5O8KTAOzUGZlQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- y15-20020aa7d50f0000b02903885ee98723so615692edq.16
- for <dri-devel@lists.freedesktop.org>; Wed, 05 May 2021 03:30:17 -0700 (PDT)
+ bh=mTN0y4oCcFWbB08r7lkZ4UjVsFr6S/2p9fg9DPkTRUA=;
+ b=f7ieV3PsBlgkdaZUZkq3M2w9iSPaJpnjCUrT/Jr/+Roxr7P7P1gQPugd/yIbb0P4zgNYOO
+ lzNTKPfpg8nFNe+Q70WpQfIxR0FncsRXOEb5eNi+eaCzjKajluhVYLpcLQlCEuxQzeLX+d
+ XQKHTIoLbWoyIDPoj7HU/pF7oZ1C8uY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-583-oJnff9rFO3-eKdzQtE0xyg-1; Wed, 05 May 2021 06:42:14 -0400
+X-MC-Unique: oJnff9rFO3-eKdzQtE0xyg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ r14-20020a1709062cceb0290373a80b4002so284675ejr.20
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 May 2021 03:42:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zE1dVKPK82uToYAi4Qlfa5L92Nao6h848ucJ6GBhOnM=;
- b=LD0hoyfHRdSANw2yIzPH07hHWRZJI1tCxj0mSq68aaKIRAbo0vSB+D+tpDpI4XcScS
- fT1NCgUg3+eQHRnUXx1DTVtXAyRYC5QqkX83VjhLQp4Qx2wtPwt4CQYt6Os2KYdxsaB3
- 5NtUxx3dg0+qR851+TFCEX02hKoW52mDXytZWVbofodBca0feoJLaXzDK8zeYK6kuwA5
- 6QlxEiS9gj95Ws1K6WZSenh9OqRFZcOPlphO4toOSwfYBXiwCNR9gPxmst4v//HY2i+f
- 2s6yH1idzRtQgdE87uIeCKgUeaiFXJ4hpZRY674XTr7dZEiCQhvPZamxmw7AQpJqfHi8
- VL4A==
-X-Gm-Message-State: AOAM531G/jji9b49KQQBprev64sku/OVhpZwQzy0iu5TsElUZY0apl+3
- F4kPikmKeTsnzcxzkprXJO0J+UYi7FnjTLp9pLvnbDNXtZJZt21YrH7HAleA/xYRtsFdp+A0+dZ
- hLhSwamyJyu8KqYFVk4zYCWZYODMQ
-X-Received: by 2002:a17:906:3e42:: with SMTP id
- t2mr26203544eji.508.1620210616748; 
- Wed, 05 May 2021 03:30:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwORVYcTi6Wi6NDO0GOpSEZ0NUK0+6R4wrD+Ub3k6LyrPH/SxZE8FmOv9YyY07/ujKwC3W5Vg==
-X-Received: by 2002:a17:906:3e42:: with SMTP id
- t2mr26203515eji.508.1620210616512; 
- Wed, 05 May 2021 03:30:16 -0700 (PDT)
+ bh=mTN0y4oCcFWbB08r7lkZ4UjVsFr6S/2p9fg9DPkTRUA=;
+ b=F2L+eIVbBsMOlU6HohL6asT2aC2wzeqD9EAu2t2XtDVNtOiuInqjag2ag/D1wMBitv
+ VVko6lfmn+nzlELG7+zmZO2Kjdn1/HqSzml+xWU9+ofvxOzP9uW+nMKhVaNhSJNaXvLm
+ Km87oBAhIggUIxdjXliSDCu9IfKjOHMc5hmxWpr8FzbOvGmGaEI9ylFnA7sFaXBrPQEI
+ mPKVvqguiuQjZHnNuf/qnLhH32lCJ5W3XZVDihvtmMW3v6YR/unY9LPauFS+P8pNXpiX
+ HZIQm+xyb+nVx6UbgBZxLLxxvjPbwE94+yHOUsTCiAAG5vBDtdf3qSk0444QTdE2uB1o
+ muig==
+X-Gm-Message-State: AOAM532Aw3aRk4U0V5b4d0r/Dlq9htG8E1x5nDhX3oay9gsEH4PteddN
+ 7wAXelFm//d7s1x/wCuc7gYKa72u1pF1mqezIiHgkF18/kSy2MYS0eIEE8mteWIRT/qXGCwZ83B
+ 6q57lslfst5E5ywGz7wTej0gZ3ZuQ
+X-Received: by 2002:a17:906:abcc:: with SMTP id
+ kq12mr10305571ejb.97.1620211332825; 
+ Wed, 05 May 2021 03:42:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwT5NzeVG+LfxMtGXKXQs9mkRuGS75LOBk4BPyRER/VEFGmrGVCJeDof9BEBpxs3KV/LWSyYw==
+X-Received: by 2002:a17:906:abcc:: with SMTP id
+ kq12mr10305549ejb.97.1620211332659; 
+ Wed, 05 May 2021 03:42:12 -0700 (PDT)
 Received: from x1.localdomain
  (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
  [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id t20sm2658262ejc.61.2021.05.05.03.30.15
+ by smtp.gmail.com with ESMTPSA id d15sm2632188ejj.42.2021.05.05.03.42.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 May 2021 03:30:16 -0700 (PDT)
-Subject: Re: [PATCH 5/9] drm/i915: Associate ACPI connector nodes with
- connector entries
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
+ Wed, 05 May 2021 03:42:12 -0700 (PDT)
+Subject: Re: [PATCH 4/9] drm/connector: Add support for out-of-band hotplug
+ notification (v2)
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 References: <20210503154647.142551-1-hdegoede@redhat.com>
- <20210503154647.142551-6-hdegoede@redhat.com>
- <CAHp75VcS5nvzBzjbSytqD6qsSURyzdEdmDi934y=5W2SCNyo9A@mail.gmail.com>
- <ee230261-423d-0e2f-16b0-852d264afa2b@redhat.com>
- <CAHp75VcfkcaVAu2-8-5he7PN=W_tRHiHAgXYn04gRnLehDVsyQ@mail.gmail.com>
- <ffb46bb6-3548-4ec2-f176-99f3674e7f6d@redhat.com>
- <CAHp75VcHEMaZ67yy7TD8f8Nk=+oiLT-vRCt9A6fT9K6LeR78Ew@mail.gmail.com>
+ <20210503154647.142551-5-hdegoede@redhat.com>
+ <YJFj5Vk7xOcj+ISZ@kuha.fi.intel.com>
+ <326621fe-cc4e-ad77-c87e-922a655bfbc8@redhat.com>
+ <YJJqeVzS8do3F8wx@kuha.fi.intel.com>
 From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <adb9be8a-70c7-b515-48c3-7e372e5d8801@redhat.com>
-Date: Wed, 5 May 2021 12:30:15 +0200
+Message-ID: <a56b7d60-39a0-8520-8b38-82c0789e4442@redhat.com>
+Date: Wed, 5 May 2021 12:42:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VcHEMaZ67yy7TD8f8Nk=+oiLT-vRCt9A6fT9K6LeR78Ew@mail.gmail.com>
+In-Reply-To: <YJJqeVzS8do3F8wx@kuha.fi.intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,15 +90,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ platform-driver-x86@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
  Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -109,67 +103,79 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 5/5/21 12:02 PM, Andy Shevchenko wrote:
-> On Wed, May 5, 2021 at 12:28 PM Hans de Goede <hdegoede@redhat.com> wrote:
->> On 5/5/21 11:17 AM, Andy Shevchenko wrote:
->>> On Wed, May 5, 2021 at 12:07 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>>> On 5/4/21 9:52 AM, Andy Shevchenko wrote:
->>>>> On Monday, May 3, 2021, Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com>> wrote:
->>>
->>> ...
->>>
->>>>>     +               fwnode = device_get_next_child_node(kdev, fwnode);
->>>
->>>>> Who is dropping reference counting on fwnode ?
->>>>
->>>> We are dealing with ACPI fwnode-s here and those are not ref-counted, they
->>>> are embedded inside a struct acpi_device and their lifetime is tied to
->>>> that struct. They should probably still be ref-counted (with the count
->>>> never dropping to 0) so that the generic fwnode functions behave the same
->>>> anywhere but atm the ACPI nodes are not refcounted, see: acpi_get_next_subnode()
->>>> in drivers/acpi/property.c which is the get_next_child_node() implementation
->>>> for ACPI fwnode-s.
->>>
->>> Yes, ACPI currently is exceptional, but fwnode API is not.
->>> If you may guarantee that this case won't ever be outside of ACPI
+On 5/5/21 11:50 AM, Heikki Krogerus wrote:
+> On Tue, May 04, 2021 at 05:35:49PM +0200, Hans de Goede wrote:
+>> Hi,
 >>
->> Yes I can guarantee that currently this code (which is for the i915
->> driver only) only deals with ACPI fwnodes.
+>> On 5/4/21 5:10 PM, Heikki Krogerus wrote:
+>>>> +/**
+>>>> + * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
+>>>> + * @connector: connector to report the event on
+>>>> + * @data: data related to the event
+>>>> + *
+>>>> + * On some hardware a hotplug event notification may come from outside the display
+>>>> + * driver / device. An example of this is some USB Type-C setups where the hardware
+>>>> + * muxes the DisplayPort data and aux-lines but does not pass the altmode HPD
+>>>> + * status bit to the GPU's DP HPD pin.
+>>>> + *
+>>>> + * This function can be used to report these out-of-band events after obtaining
+>>>> + * a drm_connector reference through calling drm_connector_find_by_fwnode().
+>>>> + */
+>>>> +void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+>>>> +				     struct drm_connector_oob_hotplug_event_data *data)
+>>>> +{
+>>>> +	struct drm_connector *connector;
+>>>> +
+>>>> +	connector = drm_connector_find_by_fwnode(connector_fwnode);
+>>>> +	if (IS_ERR(connector))
+>>>> +		return;
+>>>> +
+>>>> +	if (connector->funcs->oob_hotplug_event)
+>>>> +		connector->funcs->oob_hotplug_event(connector, data);
+>>>> +
+>>>> +	drm_connector_put(connector);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_connector_oob_hotplug_event);
+>>>
+>>> So it does looks like the "data" parameter is not needed at all:
 >>
->>> and
->>> even though if ACPI won't ever gain a reference counting for fwnodes,
->>> we can leave it as is.
+>> Well Imre did indicate that having the number of lanes is useful, so
+>> for the next version I'll drop the orientation but I plan to keep
+>> the number of lanes if that is ok with you.
 >>
->> Would it not be better to add fake ref-counting to the ACPI fwnode
->> next_child_node() op though. I believe just getting a reference
->> on the return value there should work fine; and then all fwnode
->> implementations would be consistent ?
+>> Not having passing along this info was one of the reasons why my
+>> previous attempt at this was nacked, so dropping it all together
+>> feels wrong.
 > 
-> But it's already there by absent put/get callbacks.
+> If you need to pass any information to the function, then you need to
+> pass all the information that we have. Don't start with abstraction.
+> First create a dedicated API, and then, only if we really have another
+> user for it, we can add an abstraction layer that both users can use.
+> All cases are going to be different. We don't know how the abstraction
+> / generalisation should look like before we have at least two real
+> users (ideally more than two, actually). Right now we can not even say
+> for sure that generalising the API is even possible.
+> 
+> I would not make a huge deal out of this unless I wasn't myself being
+> told by guys like Greg KH in the past to drop my attempts to
+> "generalize" things from the beginning when I only had a single user.
+> By doing so you'll not only force all ends, the source of the data
+> (the typec drivers in this case) as well as the consumer (i915), to be
+> always changed together, it will also confuse things. We are not
+> always going to be able to tell the lane count for example like we can
+> with USB Type-C, so i915 can't really rely on that information.
+> 
+> Right now we also don't know what exact details i915 (or what ever GPU
+> driver) needs. We can only say for sure that some details are going to
+> be needed. Trying to guess and cherry-pick the details now does not
+> makes sense because of that reason too.
+> 
+> So just make this API USB Type-C DP Alt Mode specific API first, and
+> supply it everything we have.
 
-Ah, I completely missed that the put/get-s are actually done
-through function pointers in fwnode_operations. I assumed that there
-was a kref embedded inside the fwnode_handle struct and that they
-operated directly on that.
-
-So this whole discussion is entirely based on that misunderstanding,
-my bad, sorry.
-
-So yes you are right, things are already consistent thanks to the
-absent put/get callbacks.
-
-But we do really need to document the behavior better here
-in the kdoc for fwnode_get_next_child_node() and
-device_get_next_child_node().
-
-of_get_next_child has this bit, which applies to those too:
-
- *      Returns a node pointer with refcount incremented, use of_node_put() on
- *      it when done. Returns NULL when prev is the last child. Decrements the
- *      refcount of prev.
-
-I'll prepare a patch to add this to the kdoc for fwnode_get_next_child_node()
-and device_get_next_child_node() once I'm done with readying v3 of this series.
+Hmm, ok I'll just drop the data argument all together for now (as you
+already suggested); and then we can see what is best once an actual user
+for the info shows up.
 
 Regards,
 
