@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3EA373414
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 05:57:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C52373416
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 05:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D78A76E416;
-	Wed,  5 May 2021 03:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2ACA6E420;
+	Wed,  5 May 2021 03:57:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
  [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABFF86E40D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 03:57:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F2A86E413
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 03:57:46 +0000 (UTC)
 Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
  EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
  15.0.1156.6; Tue, 4 May 2021 20:57:43 -0700
 Received: from vertex.localdomain (unknown [10.21.250.233])
- by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 8F3512047D;
- Tue,  4 May 2021 20:57:44 -0700 (PDT)
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 5996C2047D;
+ Tue,  4 May 2021 20:57:45 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 5/6] drm/vmwgfx: Add basic support for SVGA3
-Date: Tue, 4 May 2021 23:57:39 -0400
-Message-ID: <20210505035740.286923-6-zackr@vmware.com>
+Subject: [PATCH 6/6] drm/vmwgfx: Port vmwgfx to arm64
+Date: Tue, 4 May 2021 23:57:40 -0400
+Message-ID: <20210505035740.286923-7-zackr@vmware.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210505035740.286923-1-zackr@vmware.com>
 References: <20210505035740.286923-1-zackr@vmware.com>
@@ -48,1284 +48,764 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SVGA3 is the next version of our PCI device. Some of the changes
-include using MMIO for register accesses instead of ioports,
-deprecating the FIFO MMIO and removing a lot of the old and
-legacy functionality. SVGA3 doesn't support guest backed
-objects right now so everything except 3D is working.
+This change fixes all of the arm64 issues we've had in the driver.
+ARM support is provided in svga version 3, for which support we've added
+in previous changes. svga version 3 currently lacks many of the
+advanced features (in particular 3D support is lacking) but
+that will change in time.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Cc: Martin Krastev <krastevm@vmware.com>
 Reviewed-by: Roland Scheidegger <sroland@vmware.com>
 ---
- .../gpu/drm/vmwgfx/device_include/svga_reg.h  |  55 ++++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c           | 114 +++++++--------
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 136 ++++++++++++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           | 120 ++++++++++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |   2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |  16 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.h         |   2 -
- drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         |  49 +------
- drivers/gpu/drm/vmwgfx/vmwgfx_irq.c           |  75 ++--------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |  23 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |  36 +++--
- drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c       |   2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_reg.h           |   4 -
- 13 files changed, 363 insertions(+), 271 deletions(-)
+ drivers/gpu/drm/vmwgfx/Kconfig            |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c       |   9 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h       |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       |  31 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.h       | 214 ---------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 130 +++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 219 ++++++++++++++++++++++
+ 7 files changed, 378 insertions(+), 230 deletions(-)
+ delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_msg.h
+ create mode 100755 drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h
 
-diff --git a/drivers/gpu/drm/vmwgfx/device_include/svga_reg.h b/drivers/gpu/drm/vmwgfx/device_include/svga_reg.h
-index 19fb9e3299e7..193a57f6aae5 100644
---- a/drivers/gpu/drm/vmwgfx/device_include/svga_reg.h
-+++ b/drivers/gpu/drm/vmwgfx/device_include/svga_reg.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 OR MIT */
- /**********************************************************
-- * Copyright 1998-2015 VMware, Inc.
-+ * Copyright 1998-2021 VMware, Inc.
-  *
-  * Permission is hereby granted, free of charge, to any person
-  * obtaining a copy of this software and associated documentation
-@@ -98,6 +98,10 @@ typedef uint32 SVGAMobId;
- #define SVGA_MAGIC         0x900000UL
- #define SVGA_MAKE_ID(ver)  (SVGA_MAGIC << 8 | (ver))
- 
-+/* Version 3 has the control bar instead of the FIFO */
-+#define SVGA_VERSION_3     3
-+#define SVGA_ID_3          SVGA_MAKE_ID(SVGA_VERSION_3)
-+
- /* Version 2 let the address of the frame buffer be unsigned on Win32 */
- #define SVGA_VERSION_2     2
- #define SVGA_ID_2          SVGA_MAKE_ID(SVGA_VERSION_2)
-@@ -129,11 +133,12 @@ typedef uint32 SVGAMobId;
-  * Interrupts are only supported when the
-  * SVGA_CAP_IRQMASK capability is present.
-  */
--#define SVGA_IRQFLAG_ANY_FENCE            0x1    /* Any fence was passed */
--#define SVGA_IRQFLAG_FIFO_PROGRESS        0x2    /* Made forward progress in the FIFO */
--#define SVGA_IRQFLAG_FENCE_GOAL           0x4    /* SVGA_FIFO_FENCE_GOAL reached */
--#define SVGA_IRQFLAG_COMMAND_BUFFER       0x8    /* Command buffer completed */
--#define SVGA_IRQFLAG_ERROR                0x10   /* Error while processing commands */
-+#define SVGA_IRQFLAG_ANY_FENCE            (1 << 0) /* Any fence was passed */
-+#define SVGA_IRQFLAG_FIFO_PROGRESS        (1 << 1) /* Made forward progress in the FIFO */
-+#define SVGA_IRQFLAG_FENCE_GOAL           (1 << 2) /* SVGA_FIFO_FENCE_GOAL reached */
-+#define SVGA_IRQFLAG_COMMAND_BUFFER       (1 << 3) /* Command buffer completed */
-+#define SVGA_IRQFLAG_ERROR                (1 << 4) /* Error while processing commands */
-+#define SVGA_IRQFLAG_MAX                  (1 << 5)
- 
- /*
-  * The byte-size is the size of the actual cursor data,
-@@ -286,7 +291,32 @@ enum {
-     */
-    SVGA_REG_GBOBJECT_MEM_SIZE_KB = 76,
- 
--   SVGA_REG_TOP = 77,               /* Must be 1 more than the last register */
-+   /*
-+    +    * These registers are for the addresses of the memory BARs for SVGA3
-+    */
-+   SVGA_REG_REGS_START_HIGH32 = 77,
-+   SVGA_REG_REGS_START_LOW32 = 78,
-+   SVGA_REG_FB_START_HIGH32 = 79,
-+   SVGA_REG_FB_START_LOW32 = 80,
-+
-+   /*
-+    * A hint register that recommends which quality level the guest should
-+    * currently use to define multisample surfaces.
-+    *
-+    * If the register is SVGA_REG_MSHINT_DISABLED,
-+    * the guest is only allowed to use SVGA3D_MS_QUALITY_FULL.
-+    *
-+    * Otherwise, this is a live value that can change while the VM is
-+    * powered on with the hint suggestion for which quality level the guest
-+    * should be using.  Guests are free to ignore the hint and use either
-+    * RESOLVE or FULL quality.
-+    */
-+   SVGA_REG_MSHINT = 81,
-+
-+   SVGA_REG_IRQ_STATUS = 82,
-+   SVGA_REG_DIRTY_TRACKING = 83,
-+
-+   SVGA_REG_TOP = 84,               /* Must be 1 more than the last register */
- 
-    SVGA_PALETTE_BASE = 1024,        /* Base of SVGA color map */
-    /* Next 768 (== 256*3) registers exist for colormap */
-@@ -310,6 +340,17 @@ typedef enum SVGARegGuestDriverId {
-    SVGA_REG_GUEST_DRIVER_ID_SUBMIT  = MAX_UINT32,
- } SVGARegGuestDriverId;
- 
-+typedef enum SVGARegMSHint {
-+   SVGA_REG_MSHINT_DISABLED = 0,
-+   SVGA_REG_MSHINT_FULL     = 1,
-+   SVGA_REG_MSHINT_RESOLVED = 2,
-+} SVGARegMSHint;
-+
-+typedef enum SVGARegDirtyTracking {
-+   SVGA_REG_DIRTY_TRACKING_PER_IMAGE = 0,
-+   SVGA_REG_DIRTY_TRACKING_PER_SURFACE = 1,
-+} SVGARegDirtyTracking;
-+
- 
- /*
-  * Guest memory regions (GMRs):
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
-index 20246a7c97c9..5dae8a7066b6 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
-@@ -31,15 +31,10 @@
- 
- #include "vmwgfx_drv.h"
- 
--struct vmw_temp_set_context {
--	SVGA3dCmdHeader header;
--	SVGA3dCmdDXTempSetContext body;
--};
--
- bool vmw_supports_3d(struct vmw_private *dev_priv)
- {
- 	uint32_t fifo_min, hwversion;
--	const struct vmw_fifo_state *fifo = &dev_priv->fifo;
-+	const struct vmw_fifo_state *fifo = dev_priv->fifo;
- 
- 	if (!(dev_priv->capabilities & SVGA_CAP_3D))
- 		return false;
-@@ -61,6 +56,8 @@ bool vmw_supports_3d(struct vmw_private *dev_priv)
- 	if (!(dev_priv->capabilities & SVGA_CAP_EXTENDED_FIFO))
- 		return false;
- 
-+	BUG_ON(vmw_is_svga_v3(dev_priv));
-+
- 	fifo_min = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MIN);
- 	if (fifo_min <= SVGA_FIFO_3D_HWVERSION * sizeof(unsigned int))
- 		return false;
-@@ -98,16 +95,20 @@ bool vmw_fifo_have_pitchlock(struct vmw_private *dev_priv)
- 	return false;
- }
- 
--int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
-+struct vmw_fifo_state *vmw_fifo_create(struct vmw_private *dev_priv)
- {
-+	struct vmw_fifo_state *fifo;
- 	uint32_t max;
- 	uint32_t min;
- 
--	fifo->dx = false;
-+	if (!dev_priv->fifo_mem)
-+		return 0;
-+
-+	fifo = kzalloc(sizeof(*fifo), GFP_KERNEL);
- 	fifo->static_buffer_size = VMWGFX_FIFO_STATIC_SIZE;
- 	fifo->static_buffer = vmalloc(fifo->static_buffer_size);
- 	if (unlikely(fifo->static_buffer == NULL))
--		return -ENOMEM;
-+		return ERR_PTR(-ENOMEM);
- 
- 	fifo->dynamic_buffer = NULL;
- 	fifo->reserved_size = 0;
-@@ -115,20 +116,6 @@ int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
- 
- 	mutex_init(&fifo->fifo_mutex);
- 	init_rwsem(&fifo->rwsem);
--
--	DRM_INFO("width %d\n", vmw_read(dev_priv, SVGA_REG_WIDTH));
--	DRM_INFO("height %d\n", vmw_read(dev_priv, SVGA_REG_HEIGHT));
--	DRM_INFO("bpp %d\n", vmw_read(dev_priv, SVGA_REG_BITS_PER_PIXEL));
--
--	dev_priv->enable_state = vmw_read(dev_priv, SVGA_REG_ENABLE);
--	dev_priv->config_done_state = vmw_read(dev_priv, SVGA_REG_CONFIG_DONE);
--	dev_priv->traces_state = vmw_read(dev_priv, SVGA_REG_TRACES);
--
--	vmw_write(dev_priv, SVGA_REG_ENABLE, SVGA_REG_ENABLE_ENABLE |
--		  SVGA_REG_ENABLE_HIDE);
--
--	vmw_write(dev_priv, SVGA_REG_TRACES, 0);
--
- 	min = 4;
- 	if (dev_priv->capabilities & SVGA_CAP_EXTENDED_FIFO)
- 		min = vmw_read(dev_priv, SVGA_REG_MEM_REGS);
-@@ -155,35 +142,23 @@ int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
- 		 (unsigned int) max,
- 		 (unsigned int) min,
- 		 (unsigned int) fifo->capabilities);
--
--	atomic_set(&dev_priv->marker_seq, dev_priv->last_read_seqno);
--	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, dev_priv->last_read_seqno);
--
--	return 0;
-+	return fifo;
- }
- 
- void vmw_fifo_ping_host(struct vmw_private *dev_priv, uint32_t reason)
- {
- 	u32 *fifo_mem = dev_priv->fifo_mem;
--
--	if (cmpxchg(fifo_mem + SVGA_FIFO_BUSY, 0, 1) == 0)
-+	if (fifo_mem && cmpxchg(fifo_mem + SVGA_FIFO_BUSY, 0, 1) == 0)
- 		vmw_write(dev_priv, SVGA_REG_SYNC, reason);
-+
- }
- 
--void vmw_fifo_release(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
-+void vmw_fifo_destroy(struct vmw_private *dev_priv)
- {
--	vmw_write(dev_priv, SVGA_REG_SYNC, SVGA_SYNC_GENERIC);
--	while (vmw_read(dev_priv, SVGA_REG_BUSY) != 0)
--		;
-+	struct vmw_fifo_state *fifo = dev_priv->fifo;
- 
--	dev_priv->last_read_seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
--
--	vmw_write(dev_priv, SVGA_REG_CONFIG_DONE,
--		  dev_priv->config_done_state);
--	vmw_write(dev_priv, SVGA_REG_ENABLE,
--		  dev_priv->enable_state);
--	vmw_write(dev_priv, SVGA_REG_TRACES,
--		  dev_priv->traces_state);
-+	if (!fifo)
-+		return;
- 
- 	if (likely(fifo->static_buffer != NULL)) {
- 		vfree(fifo->static_buffer);
-@@ -194,6 +169,8 @@ void vmw_fifo_release(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
- 		vfree(fifo->dynamic_buffer);
- 		fifo->dynamic_buffer = NULL;
- 	}
-+	kfree(fifo);
-+	dev_priv->fifo = NULL;
- }
- 
- static bool vmw_fifo_is_full(struct vmw_private *dev_priv, uint32_t bytes)
-@@ -289,7 +266,7 @@ static int vmw_fifo_wait(struct vmw_private *dev_priv,
- static void *vmw_local_fifo_reserve(struct vmw_private *dev_priv,
- 				    uint32_t bytes)
- {
--	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
-+	struct vmw_fifo_state *fifo_state = dev_priv->fifo;
- 	u32  *fifo_mem = dev_priv->fifo_mem;
- 	uint32_t max;
- 	uint32_t min;
-@@ -438,16 +415,12 @@ static void vmw_fifo_slow_copy(struct vmw_fifo_state *fifo_state,
- 
- static void vmw_local_fifo_commit(struct vmw_private *dev_priv, uint32_t bytes)
- {
--	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
-+	struct vmw_fifo_state *fifo_state = dev_priv->fifo;
- 	uint32_t next_cmd = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_NEXT_CMD);
- 	uint32_t max = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MAX);
- 	uint32_t min = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MIN);
- 	bool reserveable = fifo_state->capabilities & SVGA_FIFO_CAP_RESERVE;
- 
--	if (fifo_state->dx)
--		bytes += sizeof(struct vmw_temp_set_context);
--
--	fifo_state->dx = false;
- 	BUG_ON((bytes & 3) != 0);
- 	BUG_ON(bytes > fifo_state->reserved_size);
- 
-@@ -527,7 +500,6 @@ int vmw_cmd_flush(struct vmw_private *dev_priv, bool interruptible)
- 
- int vmw_cmd_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
- {
--	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
- 	struct svga_fifo_cmd_fence *cmd_fence;
- 	u32 *fm;
- 	int ret = 0;
-@@ -546,7 +518,7 @@ int vmw_cmd_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
- 		*seqno = atomic_add_return(1, &dev_priv->marker_seq);
- 	} while (*seqno == 0);
- 
--	if (!(fifo_state->capabilities & SVGA_FIFO_CAP_FENCE)) {
-+	if (!(vmw_fifo_caps(dev_priv) & SVGA_FIFO_CAP_FENCE)) {
- 
- 		/*
- 		 * Don't request hardware to send a fence. The
-@@ -561,22 +533,22 @@ int vmw_cmd_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
- 	cmd_fence = (struct svga_fifo_cmd_fence *) fm;
- 	cmd_fence->fence = *seqno;
- 	vmw_cmd_commit_flush(dev_priv, bytes);
--	vmw_update_seqno(dev_priv, fifo_state);
-+	vmw_update_seqno(dev_priv);
- 
- out_err:
- 	return ret;
- }
- 
- /**
-- * vmw_fifo_emit_dummy_legacy_query - emits a dummy query to the fifo using
-+ * vmw_cmd_emit_dummy_legacy_query - emits a dummy query to the fifo using
-  * legacy query commands.
-  *
-  * @dev_priv: The device private structure.
-  * @cid: The hardware context id used for the query.
-  *
-- * See the vmw_fifo_emit_dummy_query documentation.
-+ * See the vmw_cmd_emit_dummy_query documentation.
-  */
--static int vmw_fifo_emit_dummy_legacy_query(struct vmw_private *dev_priv,
-+static int vmw_cmd_emit_dummy_legacy_query(struct vmw_private *dev_priv,
- 					    uint32_t cid)
- {
- 	/*
-@@ -614,16 +586,16 @@ static int vmw_fifo_emit_dummy_legacy_query(struct vmw_private *dev_priv,
- }
- 
- /**
-- * vmw_fifo_emit_dummy_gb_query - emits a dummy query to the fifo using
-+ * vmw_cmd_emit_dummy_gb_query - emits a dummy query to the fifo using
-  * guest-backed resource query commands.
-  *
-  * @dev_priv: The device private structure.
-  * @cid: The hardware context id used for the query.
-  *
-- * See the vmw_fifo_emit_dummy_query documentation.
-+ * See the vmw_cmd_emit_dummy_query documentation.
-  */
--static int vmw_fifo_emit_dummy_gb_query(struct vmw_private *dev_priv,
--					uint32_t cid)
-+static int vmw_cmd_emit_dummy_gb_query(struct vmw_private *dev_priv,
-+				       uint32_t cid)
- {
- 	/*
- 	 * A query wait without a preceding query end will
-@@ -656,7 +628,7 @@ static int vmw_fifo_emit_dummy_gb_query(struct vmw_private *dev_priv,
- 
- 
- /**
-- * vmw_fifo_emit_dummy_gb_query - emits a dummy query to the fifo using
-+ * vmw_cmd_emit_dummy_gb_query - emits a dummy query to the fifo using
-  * appropriate resource query commands.
-  *
-  * @dev_priv: The device private structure.
-@@ -677,7 +649,27 @@ int vmw_cmd_emit_dummy_query(struct vmw_private *dev_priv,
- 			      uint32_t cid)
- {
- 	if (dev_priv->has_mob)
--		return vmw_fifo_emit_dummy_gb_query(dev_priv, cid);
-+		return vmw_cmd_emit_dummy_gb_query(dev_priv, cid);
-+
-+	return vmw_cmd_emit_dummy_legacy_query(dev_priv, cid);
-+}
- 
--	return vmw_fifo_emit_dummy_legacy_query(dev_priv, cid);
-+
-+/**
-+ * vmw_cmd_supported - returns true if the given device supports
-+ * command queues.
-+ *
-+ * @dev_priv: The device private structure.
-+ *
-+ * Returns true if we can issue commands.
-+ */
-+bool vmw_cmd_supported(struct vmw_private *vmw)
-+{
-+	if ((vmw->capabilities & (SVGA_CAP_COMMAND_BUFFERS |
-+				  SVGA_CAP_CMD_BUFFERS_2)) != 0)
-+		return true;
-+	/*
-+	 * We have FIFO cmd's
-+	 */
-+	return vmw->fifo_mem != 0;
- }
+diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/Kconfig
+index b3a34196935b..0060ef842b5a 100644
+--- a/drivers/gpu/drm/vmwgfx/Kconfig
++++ b/drivers/gpu/drm/vmwgfx/Kconfig
+@@ -1,7 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config DRM_VMWGFX
+ 	tristate "DRM driver for VMware Virtual GPU"
+-	depends on DRM && PCI && X86 && MMU
++	depends on DRM && PCI && MMU
++	depends on X86 || ARM64
+ 	select DRM_TTM
+ 	select MAPPING_DIRTY_HELPERS
+ 	# Only needed for the transitional use of drm_crtc_init - can be removed
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 22a2874116c9..3c44091ff44f 100644
+index 3c44091ff44f..385681d7df7c 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -246,6 +246,7 @@ static const struct drm_ioctl_desc vmw_ioctls[] = {
+@@ -37,6 +37,7 @@
+ #include <drm/drm_sysfs.h>
+ #include <drm/ttm/ttm_bo_driver.h>
+ #include <drm/ttm/ttm_placement.h>
++#include <generated/utsrelease.h>
  
- static const struct pci_device_id vmw_pci_id_list[] = {
- 	{ PCI_DEVICE(0x15ad, VMWGFX_PCI_ID_SVGA2) },
-+	{ PCI_DEVICE(0x15ad, VMWGFX_PCI_ID_SVGA3) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(pci, vmw_pci_id_list);
-@@ -393,6 +394,60 @@ static int vmw_dummy_query_bo_create(struct vmw_private *dev_priv)
- 	return ret;
- }
- 
-+static int vmw_device_init(struct vmw_private *dev_priv)
-+{
-+	bool uses_fb_traces = false;
-+
-+	DRM_INFO("width %d\n", vmw_read(dev_priv, SVGA_REG_WIDTH));
-+	DRM_INFO("height %d\n", vmw_read(dev_priv, SVGA_REG_HEIGHT));
-+	DRM_INFO("bpp %d\n", vmw_read(dev_priv, SVGA_REG_BITS_PER_PIXEL));
-+
-+	dev_priv->enable_state = vmw_read(dev_priv, SVGA_REG_ENABLE);
-+	dev_priv->config_done_state = vmw_read(dev_priv, SVGA_REG_CONFIG_DONE);
-+	dev_priv->traces_state = vmw_read(dev_priv, SVGA_REG_TRACES);
-+
-+	vmw_write(dev_priv, SVGA_REG_ENABLE, SVGA_REG_ENABLE_ENABLE |
-+		  SVGA_REG_ENABLE_HIDE);
-+
-+	uses_fb_traces = !vmw_cmd_supported(dev_priv) &&
-+			 (dev_priv->capabilities & SVGA_CAP_TRACES) != 0;
-+
-+	vmw_write(dev_priv, SVGA_REG_TRACES, uses_fb_traces);
-+	dev_priv->fifo = vmw_fifo_create(dev_priv);
-+	if (IS_ERR(dev_priv->fifo)) {
-+		int err = PTR_ERR(dev_priv->fifo);
-+		dev_priv->fifo = NULL;
-+		return err;
-+	} else if (!dev_priv->fifo) {
-+		vmw_write(dev_priv, SVGA_REG_CONFIG_DONE, 1);
-+	}
-+
-+	dev_priv->last_read_seqno = vmw_fence_read(dev_priv);
-+	atomic_set(&dev_priv->marker_seq, dev_priv->last_read_seqno);
-+	return 0;
-+}
-+
-+static void vmw_device_fini(struct vmw_private *vmw)
-+{
-+	/*
-+	 * Legacy sync
-+	 */
-+	vmw_write(vmw, SVGA_REG_SYNC, SVGA_SYNC_GENERIC);
-+	while (vmw_read(vmw, SVGA_REG_BUSY) != 0)
-+		;
-+
-+	vmw->last_read_seqno = vmw_fence_read(vmw);
-+
-+	vmw_write(vmw, SVGA_REG_CONFIG_DONE,
-+		  vmw->config_done_state);
-+	vmw_write(vmw, SVGA_REG_ENABLE,
-+		  vmw->enable_state);
-+	vmw_write(vmw, SVGA_REG_TRACES,
-+		  vmw->traces_state);
-+
-+	vmw_fifo_destroy(vmw);
-+}
-+
- /**
-  * vmw_request_device_late - Perform late device setup
-  *
-@@ -433,9 +488,9 @@ static int vmw_request_device(struct vmw_private *dev_priv)
- {
+ #include "ttm_object.h"
+ #include "vmwgfx_binding.h"
+@@ -781,7 +782,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
  	int ret;
- 
--	ret = vmw_fifo_init(dev_priv, &dev_priv->fifo);
-+	ret = vmw_device_init(dev_priv);
- 	if (unlikely(ret != 0)) {
--		DRM_ERROR("Unable to initialize FIFO.\n");
-+		DRM_ERROR("Unable to initialize the device.\n");
- 		return ret;
- 	}
- 	vmw_fence_fifo_up(dev_priv->fman);
-@@ -469,7 +524,7 @@ static int vmw_request_device(struct vmw_private *dev_priv)
- 		vmw_cmdbuf_man_destroy(dev_priv->cman);
- out_no_mob:
- 	vmw_fence_fifo_down(dev_priv->fman);
--	vmw_fifo_release(dev_priv, &dev_priv->fifo);
-+	vmw_device_fini(dev_priv);
- 	return ret;
- }
- 
-@@ -517,7 +572,7 @@ static void vmw_release_device_late(struct vmw_private *dev_priv)
- 	if (dev_priv->cman)
- 		vmw_cmdbuf_man_destroy(dev_priv->cman);
- 
--	vmw_fifo_release(dev_priv, &dev_priv->fifo);
-+	vmw_device_fini(dev_priv);
- }
- 
- /*
-@@ -638,6 +693,8 @@ static void vmw_vram_manager_fini(struct vmw_private *dev_priv)
- static int vmw_setup_pci_resources(struct vmw_private *dev,
- 				   unsigned long pci_id)
- {
-+	resource_size_t rmmio_start;
-+	resource_size_t rmmio_size;
- 	resource_size_t fifo_start;
- 	resource_size_t fifo_size;
- 	int ret;
-@@ -649,23 +706,45 @@ static int vmw_setup_pci_resources(struct vmw_private *dev,
- 	if (ret)
- 		return ret;
- 
--	dev->io_start = pci_resource_start(pdev, 0);
--	dev->vram_start = pci_resource_start(pdev, 1);
--	dev->vram_size = pci_resource_len(pdev, 1);
--	fifo_start = pci_resource_start(pdev, 2);
--	fifo_size = pci_resource_len(pdev, 2);
--
--	DRM_INFO("FIFO at %pa size is %llu kiB\n",
--		 &fifo_start, (uint64_t)fifo_size / 1024);
--	dev->fifo_mem = devm_memremap(dev->drm.dev,
--				      fifo_start,
--				      fifo_size,
--				      MEMREMAP_WB);
--
--	if (IS_ERR(dev->fifo_mem)) {
--		DRM_ERROR("Failed mapping FIFO memory.\n");
-+	dev->pci_id = pci_id;
-+	if (pci_id == VMWGFX_PCI_ID_SVGA3) {
-+		rmmio_start = pci_resource_start(pdev, 0);
-+		rmmio_size = pci_resource_len(pdev, 0);
-+		dev->vram_start = pci_resource_start(pdev, 2);
-+		dev->vram_size = pci_resource_len(pdev, 2);
-+
-+		DRM_INFO("Register MMIO at 0x%pa size is %llu kiB\n",
-+			 &rmmio_start, (uint64_t)rmmio_size / 1024);
-+		dev->rmmio = devm_ioremap(dev->drm.dev,
-+					  rmmio_start,
-+					  rmmio_size);
-+		if (IS_ERR(dev->rmmio)) {
-+			DRM_ERROR("Failed mapping registers mmio memory.\n");
-+			pci_release_regions(pdev);
-+			return PTR_ERR(dev->rmmio);
-+		}
-+	} else if (pci_id == VMWGFX_PCI_ID_SVGA2) {
-+		dev->io_start = pci_resource_start(pdev, 0);
-+		dev->vram_start = pci_resource_start(pdev, 1);
-+		dev->vram_size = pci_resource_len(pdev, 1);
-+		fifo_start = pci_resource_start(pdev, 2);
-+		fifo_size = pci_resource_len(pdev, 2);
-+
-+		DRM_INFO("FIFO at %pa size is %llu kiB\n",
-+			 &fifo_start, (uint64_t)fifo_size / 1024);
-+		dev->fifo_mem = devm_memremap(dev->drm.dev,
-+					      fifo_start,
-+					      fifo_size,
-+					      MEMREMAP_WB);
-+
-+		if (IS_ERR(dev->fifo_mem)) {
-+			DRM_ERROR("Failed mapping FIFO memory.\n");
-+			pci_release_regions(pdev);
-+			return PTR_ERR(dev->fifo_mem);
-+		}
-+	} else {
- 		pci_release_regions(pdev);
--		return PTR_ERR(dev->fifo_mem);
-+		return -EINVAL;
- 	}
- 
- 	/*
-@@ -684,13 +763,16 @@ static int vmw_detect_version(struct vmw_private *dev)
- {
- 	uint32_t svga_id;
- 
--	vmw_write(dev, SVGA_REG_ID, SVGA_ID_2);
-+	vmw_write(dev, SVGA_REG_ID, vmw_is_svga_v3(dev) ?
-+			  SVGA_ID_3 : SVGA_ID_2);
- 	svga_id = vmw_read(dev, SVGA_REG_ID);
--	if (svga_id != SVGA_ID_2) {
-+	if (svga_id != SVGA_ID_2 && svga_id != SVGA_ID_3) {
- 		DRM_ERROR("Unsupported SVGA ID 0x%x on chipset 0x%x\n",
- 			  svga_id, dev->vmw_chipset);
- 		return -ENOSYS;
- 	}
-+	BUG_ON(vmw_is_svga_v3(dev) && (svga_id != SVGA_ID_3));
-+	DRM_INFO("Running on SVGA version %d.\n", (svga_id & 0xff));
- 	return 0;
- }
- 
-@@ -703,7 +785,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	enum vmw_res_type i;
+ 	bool refuse_dma = false;
+-	char host_log[100] = {0};
  	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
  
  	dev_priv->vmw_chipset = pci_id;
--	dev_priv->last_read_seqno = (uint32_t) -100;
- 	dev_priv->drm.dev_private = dev_priv;
+@@ -1050,10 +1050,9 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 		DRM_INFO("SM4 support available.\n");
+ 	DRM_INFO("Running without reservation semaphore\n");
  
- 	mutex_init(&dev_priv->cmdbuf_mutex);
-@@ -824,6 +905,8 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 	vmw_print_capabilities(dev_priv->capabilities);
- 	if (dev_priv->capabilities & SVGA_CAP_CAP2_REGISTER)
- 		vmw_print_capabilities2(dev_priv->capabilities2);
-+	DRM_INFO("Supports command queues = %d\n",
-+		 vmw_cmd_supported((dev_priv)));
+-	snprintf(host_log, sizeof(host_log), "vmwgfx: Module Version: %d.%d.%d",
+-		VMWGFX_DRIVER_MAJOR, VMWGFX_DRIVER_MINOR,
+-		VMWGFX_DRIVER_PATCHLEVEL);
+-	vmw_host_log(host_log);
++	vmw_host_printf("vmwgfx: Module Version: %d.%d.%d (kernel: %s)",
++			VMWGFX_DRIVER_MAJOR, VMWGFX_DRIVER_MINOR,
++			VMWGFX_DRIVER_PATCHLEVEL, UTS_RELEASE);
  
- 	ret = vmw_dma_masks(dev_priv);
- 	if (unlikely(ret != 0))
-@@ -1390,8 +1473,7 @@ static int vmw_pm_restore(struct device *kdev)
- 	struct vmw_private *dev_priv = vmw_priv(dev);
- 	int ret;
- 
--	vmw_write(dev_priv, SVGA_REG_ID, SVGA_ID_2);
--	(void) vmw_read(dev_priv, SVGA_REG_ID);
-+	vmw_detect_version(dev_priv);
- 
- 	if (dev_priv->enable_fb)
+ 	if (dev_priv->enable_fb) {
  		vmw_fifo_resource_inc(dev_priv);
-@@ -1428,8 +1510,8 @@ static const struct file_operations vmwgfx_driver_fops = {
- 	.release = drm_release,
- 	.unlocked_ioctl = vmw_unlocked_ioctl,
- 	.mmap = vmw_mmap,
--	.poll = vmw_fops_poll,
--	.read = vmw_fops_read,
-+	.poll = drm_poll,
-+	.read = drm_read,
- #if defined(CONFIG_COMPAT)
- 	.compat_ioctl = vmw_compat_ioctl,
- #endif
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 2fb6898ceca9..696ea7086140 100644
+index 696ea7086140..c3391388971e 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -66,6 +66,7 @@
- #define VMWGFX_ENABLE_SCREEN_TARGET_OTABLE 1
+@@ -1498,7 +1498,7 @@ int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
+ /* Host messaging -vmwgfx_msg.c: */
+ int vmw_host_get_guestinfo(const char *guest_info_param,
+ 			   char *buffer, size_t *length);
+-int vmw_host_log(const char *log);
++__printf(1, 2) int vmw_host_printf(const char *fmt, ...);
+ int vmw_msg_ioctl(struct drm_device *dev, void *data,
+ 		  struct drm_file *file_priv);
  
- #define VMWGFX_PCI_ID_SVGA2              0x0405
-+#define VMWGFX_PCI_ID_SVGA3              0x0406
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+index 609269625468..3d08f5700bdb 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+@@ -33,7 +33,8 @@
+ #include <asm/hypervisor.h>
  
- /*
-  * Perhaps we should have sysfs entries for these.
-@@ -284,7 +285,6 @@ struct vmw_fifo_state {
- 	uint32_t capabilities;
- 	struct mutex fifo_mutex;
- 	struct rw_semaphore rwsem;
--	bool dx;
- };
+ #include "vmwgfx_drv.h"
+-#include "vmwgfx_msg.h"
++#include "vmwgfx_msg_x86.h"
++#include "vmwgfx_msg_arm64.h"
  
- /**
-@@ -485,14 +485,14 @@ struct vmw_private {
- 	struct drm_device drm;
- 	struct ttm_device bdev;
+ #define MESSAGE_STATUS_SUCCESS  0x0001
+ #define MESSAGE_STATUS_DORECV   0x0002
+@@ -473,30 +474,40 @@ int vmw_host_get_guestinfo(const char *guest_info_param,
+ }
  
--	struct vmw_fifo_state fifo;
+ 
 -
- 	struct drm_vma_offset_manager vma_manager;
-+	unsigned long pci_id;
- 	u32 vmw_chipset;
- 	resource_size_t io_start;
- 	resource_size_t vram_start;
- 	resource_size_t vram_size;
- 	resource_size_t prim_bb_mem;
-+	u32 *rmmio;
- 	u32 *fifo_mem;
- 	resource_size_t fifo_mem_size;
- 	uint32_t fb_max_width;
-@@ -623,6 +623,7 @@ struct vmw_private {
- 	 */
- 	struct vmw_otable_batch otable_batch;
- 
-+	struct vmw_fifo_state *fifo;
- 	struct vmw_cmdbuf_man *cman;
- 	DECLARE_BITMAP(irqthread_pending, VMW_IRQTHREAD_MAX);
- 
-@@ -645,6 +646,14 @@ static inline struct vmw_fpriv *vmw_fpriv(struct drm_file *file_priv)
- 	return (struct vmw_fpriv *)file_priv->driver_priv;
- }
- 
-+/*
-+ * SVGA v3 has mmio register access and lacks fifo cmds
-+ */
-+static inline bool vmw_is_svga_v3(const struct vmw_private *dev)
-+{
-+	return dev->pci_id == VMWGFX_PCI_ID_SVGA3;
-+}
-+
- /*
-  * The locking here is fine-grained, so that it is performed once
-  * for every read- and write operation. This is of course costly, but we
-@@ -655,10 +664,14 @@ static inline struct vmw_fpriv *vmw_fpriv(struct drm_file *file_priv)
- static inline void vmw_write(struct vmw_private *dev_priv,
- 			     unsigned int offset, uint32_t value)
- {
--	spin_lock(&dev_priv->hw_lock);
--	outl(offset, dev_priv->io_start + VMWGFX_INDEX_PORT);
--	outl(value, dev_priv->io_start + VMWGFX_VALUE_PORT);
--	spin_unlock(&dev_priv->hw_lock);
-+	if (vmw_is_svga_v3(dev_priv)) {
-+		iowrite32(value, dev_priv->rmmio + offset);
-+	} else {
-+		spin_lock(&dev_priv->hw_lock);
-+		outl(offset, dev_priv->io_start + SVGA_INDEX_PORT);
-+		outl(value, dev_priv->io_start + SVGA_VALUE_PORT);
-+		spin_unlock(&dev_priv->hw_lock);
-+	}
- }
- 
- static inline uint32_t vmw_read(struct vmw_private *dev_priv,
-@@ -666,10 +679,14 @@ static inline uint32_t vmw_read(struct vmw_private *dev_priv,
- {
- 	u32 val;
- 
--	spin_lock(&dev_priv->hw_lock);
--	outl(offset, dev_priv->io_start + VMWGFX_INDEX_PORT);
--	val = inl(dev_priv->io_start + VMWGFX_VALUE_PORT);
--	spin_unlock(&dev_priv->hw_lock);
-+	if (vmw_is_svga_v3(dev_priv)) {
-+		val = ioread32(dev_priv->rmmio + offset);
-+	} else {
-+		spin_lock(&dev_priv->hw_lock);
-+		outl(offset, dev_priv->io_start + SVGA_INDEX_PORT);
-+		val = inl(dev_priv->io_start + SVGA_VALUE_PORT);
-+		spin_unlock(&dev_priv->hw_lock);
-+	}
- 
- 	return val;
- }
-@@ -932,19 +949,14 @@ extern int vmw_present_ioctl(struct drm_device *dev, void *data,
- 			     struct drm_file *file_priv);
- extern int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
- 				      struct drm_file *file_priv);
--extern __poll_t vmw_fops_poll(struct file *filp,
--				  struct poll_table_struct *wait);
--extern ssize_t vmw_fops_read(struct file *filp, char __user *buffer,
--			     size_t count, loff_t *offset);
- 
  /**
-  * Fifo utilities - vmwgfx_fifo.c
+- * vmw_host_log: Sends a log message to the host
++ * vmw_host_printf: Sends a log message to the host
+  *
+- * @log: NULL terminated string
++ * @fmt: Regular printf format string and arguments
+  *
+  * Returns: 0 on success
   */
- 
--extern int vmw_fifo_init(struct vmw_private *dev_priv,
--			 struct vmw_fifo_state *fifo);
--extern void vmw_fifo_release(struct vmw_private *dev_priv,
--			     struct vmw_fifo_state *fifo);
-+extern struct vmw_fifo_state *vmw_fifo_create(struct vmw_private *dev_priv);
-+extern void vmw_fifo_destroy(struct vmw_private *dev_priv);
-+extern bool vmw_cmd_supported(struct vmw_private *vmw);
- extern void *
- vmw_cmd_ctx_reserve(struct vmw_private *dev_priv, uint32_t bytes, int ctx_id);
- extern void vmw_cmd_commit(struct vmw_private *dev_priv, uint32_t bytes);
-@@ -970,6 +982,31 @@ extern int vmw_cmd_flush(struct vmw_private *dev_priv,
- #define VMW_CMD_RESERVE(__priv, __bytes)                                     \
- 	VMW_CMD_CTX_RESERVE(__priv, __bytes, SVGA3D_INVALID_ID)
- 
-+
-+/**
-+ * vmw_fifo_caps - Returns the capabilities of the FIFO command
-+ * queue or 0 if fifo memory isn't present.
-+ * @dev_priv: The device private context
-+ */
-+static inline uint32_t vmw_fifo_caps(const struct vmw_private *dev_priv)
-+{
-+	if (!dev_priv->fifo_mem || !dev_priv->fifo)
-+		return 0;
-+	return dev_priv->fifo->capabilities;
-+}
-+
-+
-+/**
-+ * vmw_is_cursor_bypass3_enabled - Returns TRUE iff Cursor Bypass 3
-+ * is enabled in the FIFO.
-+ * @dev_priv: The device private context
-+ */
-+static inline bool
-+vmw_is_cursor_bypass3_enabled(const struct vmw_private *dev_priv)
-+{
-+	return (vmw_fifo_caps(dev_priv) & SVGA_FIFO_CAP_CURSOR_BYPASS_3) != 0;
-+}
-+
- /**
-  * TTM glue - vmwgfx_ttm_glue.c
-  */
-@@ -1079,9 +1116,6 @@ bool vmw_cmd_describe(const void *buf, u32 *size, char const **cmd);
-  * IRQs and wating - vmwgfx_irq.c
-  */
- 
--extern int vmw_wait_seqno(struct vmw_private *dev_priv, bool lazy,
--			  uint32_t seqno, bool interruptible,
--			  unsigned long timeout);
- extern int vmw_irq_install(struct drm_device *dev, int irq);
- extern void vmw_irq_uninstall(struct drm_device *dev);
- extern bool vmw_seqno_passed(struct vmw_private *dev_priv,
-@@ -1092,8 +1126,7 @@ extern int vmw_fallback_wait(struct vmw_private *dev_priv,
- 			     uint32_t seqno,
- 			     bool interruptible,
- 			     unsigned long timeout);
--extern void vmw_update_seqno(struct vmw_private *dev_priv,
--				struct vmw_fifo_state *fifo_state);
-+extern void vmw_update_seqno(struct vmw_private *dev_priv);
- extern void vmw_seqno_waiter_add(struct vmw_private *dev_priv);
- extern void vmw_seqno_waiter_remove(struct vmw_private *dev_priv);
- extern void vmw_goal_waiter_add(struct vmw_private *dev_priv);
-@@ -1572,6 +1605,7 @@ static inline void vmw_fifo_resource_dec(struct vmw_private *dev_priv)
-  */
- static inline u32 vmw_fifo_mem_read(struct vmw_private *vmw, uint32 fifo_reg)
+-int vmw_host_log(const char *log)
++__printf(1, 2)
++int vmw_host_printf(const char *fmt, ...)
  {
-+	BUG_ON(vmw_is_svga_v3(vmw));
- 	return READ_ONCE(*(vmw->fifo_mem + fifo_reg));
- }
++	va_list ap;
+ 	struct rpc_channel channel;
+ 	char *msg;
++	char *log;
+ 	int ret = 0;
  
-@@ -1586,6 +1620,44 @@ static inline u32 vmw_fifo_mem_read(struct vmw_private *vmw, uint32 fifo_reg)
- static inline void vmw_fifo_mem_write(struct vmw_private *vmw, u32 fifo_reg,
- 				      u32 value)
- {
-+	BUG_ON(vmw_is_svga_v3(vmw));
- 	WRITE_ONCE(*(vmw->fifo_mem + fifo_reg), value);
- }
-+
-+static inline u32 vmw_fence_read(struct vmw_private *dev_priv)
-+{
-+	u32 fence;
-+	if (vmw_is_svga_v3(dev_priv))
-+		fence = vmw_read(dev_priv, SVGA_REG_FENCE);
-+	else
-+		fence = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
-+	return fence;
-+}
-+
-+static inline void vmw_fence_write(struct vmw_private *dev_priv,
-+				  u32 fence)
-+{
-+	BUG_ON(vmw_is_svga_v3(dev_priv));
-+	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, fence);
-+}
-+
-+static inline u32 vmw_irq_status_read(struct vmw_private *vmw)
-+{
-+	u32 status;
-+	if (vmw_is_svga_v3(vmw))
-+		status = vmw_read(vmw, SVGA_REG_IRQ_STATUS);
-+	else
-+		status = inl(vmw->io_start + SVGA_IRQSTATUS_PORT);
-+	return status;
-+}
-+
-+static inline void vmw_irq_status_write(struct vmw_private *vmw,
-+					uint32 status)
-+{
-+	if (vmw_is_svga_v3(vmw))
-+		vmw_write(vmw, SVGA_REG_IRQ_STATUS, status);
-+	else
-+		outl(status, vmw->io_start + SVGA_IRQSTATUS_PORT);
-+}
-+
- #endif
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index 3ad07657b7d2..b79a2ba68411 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -3841,7 +3841,7 @@ vmw_execbuf_copy_fence_user(struct vmw_private *dev_priv,
- 
- 		fence_rep.handle = fence_handle;
- 		fence_rep.seqno = fence->base.seqno;
--		vmw_update_seqno(dev_priv, &dev_priv->fifo);
-+		vmw_update_seqno(dev_priv);
- 		fence_rep.passed_seqno = dev_priv->last_read_seqno;
- 	}
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index 23523eb3cac2..7fe744da9919 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -139,12 +139,10 @@ static bool vmw_fence_enable_signaling(struct dma_fence *f)
- 	struct vmw_fence_manager *fman = fman_from_fence(fence);
- 	struct vmw_private *dev_priv = fman->dev_priv;
- 
--	u32 seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
-+	u32 seqno = vmw_fence_read(dev_priv);
- 	if (seqno - fence->base.seqno < VMW_FENCE_WRAP)
- 		return false;
- 
--	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
 -
- 	return true;
- }
+ 	if (!vmw_msg_enabled)
+ 		return -ENODEV;
  
-@@ -177,7 +175,6 @@ static long vmw_fence_wait(struct dma_fence *f, bool intr, signed long timeout)
- 	if (likely(vmw_fence_obj_signaled(fence)))
- 		return timeout;
- 
--	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
- 	vmw_seqno_waiter_add(dev_priv);
- 
- 	spin_lock(f->lock);
-@@ -464,7 +461,7 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
- 	bool needs_rerun;
- 	uint32_t seqno, new_seqno;
- 
--	seqno = vmw_fifo_mem_read(fman->dev_priv, SVGA_FIFO_FENCE);
-+	seqno = vmw_fence_read(fman->dev_priv);
- rerun:
- 	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
- 		if (seqno - fence->base.seqno < VMW_FENCE_WRAP) {
-@@ -486,7 +483,7 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
- 
- 	needs_rerun = vmw_fence_goal_new_locked(fman, seqno);
- 	if (unlikely(needs_rerun)) {
--		new_seqno = vmw_fifo_mem_read(fman->dev_priv, SVGA_FIFO_FENCE);
-+		new_seqno = vmw_fence_read(fman->dev_priv);
- 		if (new_seqno != seqno) {
- 			seqno = new_seqno;
- 			goto rerun;
-@@ -529,13 +526,6 @@ int vmw_fence_obj_wait(struct vmw_fence_obj *fence, bool lazy,
+-	if (!log)
++	if (!fmt)
  		return ret;
- }
  
--void vmw_fence_obj_flush(struct vmw_fence_obj *fence)
--{
--	struct vmw_private *dev_priv = fman_from_fence(fence)->dev_priv;
--
--	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
--}
--
- static void vmw_fence_destroy(struct vmw_fence_obj *fence)
++	va_start(ap, fmt);
++	log = kvasprintf(GFP_KERNEL, fmt, ap);
++	va_end(ap);
++	if (!log) {
++		DRM_ERROR("Cannot allocate memory for the log message.\n");
++		return -ENOMEM;
++	}
++
+ 	msg = kasprintf(GFP_KERNEL, "log %s", log);
+ 	if (!msg) {
+ 		DRM_ERROR("Cannot allocate memory for host log message.\n");
++		kfree(log);
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -508,6 +519,7 @@ int vmw_host_log(const char *log)
+ 
+ 	vmw_close_channel(&channel);
+ 	kfree(msg);
++	kfree(log);
+ 
+ 	return 0;
+ 
+@@ -515,6 +527,7 @@ int vmw_host_log(const char *log)
+ 	vmw_close_channel(&channel);
+ out_open:
+ 	kfree(msg);
++	kfree(log);
+ 	DRM_ERROR("Failed to send host log message.\n");
+ 
+ 	return -EINVAL;
+@@ -537,7 +550,7 @@ int vmw_msg_ioctl(struct drm_device *dev, void *data,
+ 		  struct drm_file *file_priv)
  {
- 	dma_fence_free(&fence->base);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
-index 50e9fdd7acf1..079ab4f3ba51 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
-@@ -94,8 +94,6 @@ extern int vmw_fence_obj_wait(struct vmw_fence_obj *fence,
- 			      bool lazy,
- 			      bool interruptible, unsigned long timeout);
- 
--extern void vmw_fence_obj_flush(struct vmw_fence_obj *fence);
+ 	struct drm_vmw_msg_arg *arg =
+-		(struct drm_vmw_msg_arg *) data;
++			(struct drm_vmw_msg_arg *)data;
+ 	struct rpc_channel channel;
+ 	char *msg;
+ 	int length;
+@@ -577,7 +590,7 @@ int vmw_msg_ioctl(struct drm_device *dev, void *data,
+ 		}
+ 		if (reply && reply_len > 0) {
+ 			if (copy_to_user((void __user *)((unsigned long)arg->receive),
+-							 reply, reply_len)) {
++					 reply, reply_len)) {
+ 				DRM_ERROR("Failed to copy message to userspace.\n");
+ 				kfree(reply);
+ 				goto out_msg;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.h b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.h
+deleted file mode 100644
+index f685c7071dec..000000000000
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.h
++++ /dev/null
+@@ -1,214 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
+-/**************************************************************************
+- *
+- * Copyright 2016 VMware, Inc., Palo Alto, CA., USA
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the
+- * "Software"), to deal in the Software without restriction, including
+- * without limitation the rights to use, copy, modify, merge, publish,
+- * distribute, sub license, and/or sell copies of the Software, and to
+- * permit persons to whom the Software is furnished to do so, subject to
+- * the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+- * USE OR OTHER DEALINGS IN THE SOFTWARE.
+- *
+- **************************************************************************
+- *
+- * Based on code from vmware.c and vmmouse.c.
+- * Author:
+- *   Sinclair Yeh <syeh@vmware.com>
+- */
+-#ifndef _VMWGFX_MSG_H
+-#define _VMWGFX_MSG_H
 -
- extern int vmw_fence_create(struct vmw_fence_manager *fman,
- 			    uint32_t seqno,
- 			    struct vmw_fence_obj **p_fence);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
-index 6763d0638450..4fdacf9924e6 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
-@@ -60,15 +60,13 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
- 		param->value = dev_priv->capabilities2;
- 		break;
- 	case DRM_VMW_PARAM_FIFO_CAPS:
--		param->value = dev_priv->fifo.capabilities;
-+		param->value = vmw_fifo_caps(dev_priv);
- 		break;
- 	case DRM_VMW_PARAM_MAX_FB_SIZE:
- 		param->value = dev_priv->prim_bb_mem;
- 		break;
- 	case DRM_VMW_PARAM_FIFO_HW_VERSION:
- 	{
--		const struct vmw_fifo_state *fifo = &dev_priv->fifo;
+-#include <asm/vmware.h>
 -
- 		if ((dev_priv->capabilities & SVGA_CAP_GBOBJECTS)) {
- 			param->value = SVGA3D_HWVERSION_WS8_B1;
- 			break;
-@@ -76,7 +74,7 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
- 
- 		param->value =
- 			vmw_fifo_mem_read(dev_priv,
--					  ((fifo->capabilities &
-+					  ((vmw_fifo_caps(dev_priv) &
- 					    SVGA_FIFO_CAP_3D_HWVERSION_REVISED) ?
- 						   SVGA_FIFO_3D_HWVERSION_REVISED :
- 						   SVGA_FIFO_3D_HWVERSION));
-@@ -398,46 +396,3 @@ int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
- out_clips:
- 	return ret;
- }
+-/**
+- * Hypervisor-specific bi-directional communication channel.  Should never
+- * execute on bare metal hardware.  The caller must make sure to check for
+- * supported hypervisor before using these macros.
+- *
+- * The last two parameters are both input and output and must be initialized.
+- *
+- * @cmd: [IN] Message Cmd
+- * @in_ebx: [IN] Message Len, through EBX
+- * @in_si: [IN] Input argument through SI, set to 0 if not used
+- * @in_di: [IN] Input argument through DI, set ot 0 if not used
+- * @flags: [IN] hypercall flags + [channel id]
+- * @magic: [IN] hypervisor magic value
+- * @eax: [OUT] value of EAX register
+- * @ebx: [OUT] e.g. status from an HB message status command
+- * @ecx: [OUT] e.g. status from a non-HB message status command
+- * @edx: [OUT] e.g. channel id
+- * @si:  [OUT]
+- * @di:  [OUT]
+- */
+-#define VMW_PORT(cmd, in_ebx, in_si, in_di,	\
+-		 flags, magic,		\
+-		 eax, ebx, ecx, edx, si, di)	\
+-({						\
+-	asm volatile (VMWARE_HYPERCALL :	\
+-		"=a"(eax),			\
+-		"=b"(ebx),			\
+-		"=c"(ecx),			\
+-		"=d"(edx),			\
+-		"=S"(si),			\
+-		"=D"(di) :			\
+-		"a"(magic),			\
+-		"b"(in_ebx),			\
+-		"c"(cmd),			\
+-		"d"(flags),			\
+-		"S"(in_si),			\
+-		"D"(in_di) :			\
+-		"memory");			\
+-})
 -
 -
 -/**
-- * vmw_fops_poll - wrapper around the drm_poll function
+- * Hypervisor-specific bi-directional communication channel.  Should never
+- * execute on bare metal hardware.  The caller must make sure to check for
+- * supported hypervisor before using these macros.
 - *
-- * @filp: See the linux fops poll documentation.
-- * @wait: See the linux fops poll documentation.
+- * The last 3 parameters are both input and output and must be initialized.
 - *
-- * Wrapper around the drm_poll function that makes sure the device is
-- * processing the fifo if drm_poll decides to wait.
+- * @cmd: [IN] Message Cmd
+- * @in_ecx: [IN] Message Len, through ECX
+- * @in_si: [IN] Input argument through SI, set to 0 if not used
+- * @in_di: [IN] Input argument through DI, set to 0 if not used
+- * @flags: [IN] hypercall flags + [channel id]
+- * @magic: [IN] hypervisor magic value
+- * @bp:  [IN]
+- * @eax: [OUT] value of EAX register
+- * @ebx: [OUT] e.g. status from an HB message status command
+- * @ecx: [OUT] e.g. status from a non-HB message status command
+- * @edx: [OUT] e.g. channel id
+- * @si:  [OUT]
+- * @di:  [OUT]
 - */
--__poll_t vmw_fops_poll(struct file *filp, struct poll_table_struct *wait)
--{
--	struct drm_file *file_priv = filp->private_data;
--	struct vmw_private *dev_priv =
--		vmw_priv(file_priv->minor->dev);
+-#ifdef __x86_64__
 -
--	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
--	return drm_poll(filp, wait);
--}
+-#define VMW_PORT_HB_OUT(cmd, in_ecx, in_si, in_di,	\
+-			flags, magic, bp,		\
+-			eax, ebx, ecx, edx, si, di)	\
+-({							\
+-	asm volatile ("push %%rbp;"			\
+-		"mov %12, %%rbp;"			\
+-		VMWARE_HYPERCALL_HB_OUT			\
+-		"pop %%rbp;" :				\
+-		"=a"(eax),				\
+-		"=b"(ebx),				\
+-		"=c"(ecx),				\
+-		"=d"(edx),				\
+-		"=S"(si),				\
+-		"=D"(di) :				\
+-		"a"(magic),				\
+-		"b"(cmd),				\
+-		"c"(in_ecx),				\
+-		"d"(flags),				\
+-		"S"(in_si),				\
+-		"D"(in_di),				\
+-		"r"(bp) :				\
+-		"memory", "cc");			\
+-})
 -
 -
--/**
-- * vmw_fops_read - wrapper around the drm_read function
-- *
-- * @filp: See the linux fops read documentation.
-- * @buffer: See the linux fops read documentation.
-- * @count: See the linux fops read documentation.
-- * @offset: See the linux fops read documentation.
-- *
-- * Wrapper around the drm_read function that makes sure the device is
-- * processing the fifo if drm_read decides to wait.
+-#define VMW_PORT_HB_IN(cmd, in_ecx, in_si, in_di,	\
+-		       flags, magic, bp,		\
+-		       eax, ebx, ecx, edx, si, di)	\
+-({							\
+-	asm volatile ("push %%rbp;"			\
+-		"mov %12, %%rbp;"			\
+-		VMWARE_HYPERCALL_HB_IN			\
+-		"pop %%rbp" :				\
+-		"=a"(eax),				\
+-		"=b"(ebx),				\
+-		"=c"(ecx),				\
+-		"=d"(edx),				\
+-		"=S"(si),				\
+-		"=D"(di) :				\
+-		"a"(magic),				\
+-		"b"(cmd),				\
+-		"c"(in_ecx),				\
+-		"d"(flags),				\
+-		"S"(in_si),				\
+-		"D"(in_di),				\
+-		"r"(bp) :				\
+-		"memory", "cc");			\
+-})
+-
+-#else
+-
+-/*
+- * In the 32-bit version of this macro, we store bp in a memory location
+- * because we've ran out of registers.
+- * Now we can't reference that memory location while we've modified
+- * %esp or %ebp, so we first push it on the stack, just before we push
+- * %ebp, and then when we need it we read it from the stack where we
+- * just pushed it.
 - */
--ssize_t vmw_fops_read(struct file *filp, char __user *buffer,
--		      size_t count, loff_t *offset)
--{
--	struct drm_file *file_priv = filp->private_data;
--	struct vmw_private *dev_priv =
--		vmw_priv(file_priv->minor->dev);
+-#define VMW_PORT_HB_OUT(cmd, in_ecx, in_si, in_di,	\
+-			flags, magic, bp,		\
+-			eax, ebx, ecx, edx, si, di)	\
+-({							\
+-	asm volatile ("push %12;"			\
+-		"push %%ebp;"				\
+-		"mov 0x04(%%esp), %%ebp;"		\
+-		VMWARE_HYPERCALL_HB_OUT			\
+-		"pop %%ebp;"				\
+-		"add $0x04, %%esp;" :			\
+-		"=a"(eax),				\
+-		"=b"(ebx),				\
+-		"=c"(ecx),				\
+-		"=d"(edx),				\
+-		"=S"(si),				\
+-		"=D"(di) :				\
+-		"a"(magic),				\
+-		"b"(cmd),				\
+-		"c"(in_ecx),				\
+-		"d"(flags),				\
+-		"S"(in_si),				\
+-		"D"(in_di),				\
+-		"m"(bp) :				\
+-		"memory", "cc");			\
+-})
 -
--	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
--	return drm_read(filp, buffer, count, offset);
--}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
-index 6c2a569f1fcb..dafc5fa65bb2 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
-@@ -82,11 +82,11 @@ static irqreturn_t vmw_irq_handler(int irq, void *arg)
- 	uint32_t status, masked_status;
- 	irqreturn_t ret = IRQ_HANDLED;
- 
--	status = inl(dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
-+	status = vmw_irq_status_read(dev_priv);
- 	masked_status = status & READ_ONCE(dev_priv->irq_mask);
- 
- 	if (likely(status))
--		outl(status, dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
-+		vmw_irq_status_write(dev_priv, status);
- 
- 	if (!status)
- 		return IRQ_NONE;
-@@ -114,10 +114,9 @@ static bool vmw_fifo_idle(struct vmw_private *dev_priv, uint32_t seqno)
- 	return (vmw_read(dev_priv, SVGA_REG_BUSY) == 0);
- }
- 
--void vmw_update_seqno(struct vmw_private *dev_priv,
--			 struct vmw_fifo_state *fifo_state)
-+void vmw_update_seqno(struct vmw_private *dev_priv)
- {
--	uint32_t seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
-+	uint32_t seqno = vmw_fence_read(dev_priv);
- 
- 	if (dev_priv->last_read_seqno != seqno) {
- 		dev_priv->last_read_seqno = seqno;
-@@ -128,18 +127,16 @@ void vmw_update_seqno(struct vmw_private *dev_priv,
- bool vmw_seqno_passed(struct vmw_private *dev_priv,
- 			 uint32_t seqno)
- {
--	struct vmw_fifo_state *fifo_state;
- 	bool ret;
- 
- 	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
- 		return true;
- 
--	fifo_state = &dev_priv->fifo;
--	vmw_update_seqno(dev_priv, fifo_state);
-+	vmw_update_seqno(dev_priv);
- 	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
- 		return true;
- 
--	if (!(fifo_state->capabilities & SVGA_FIFO_CAP_FENCE) &&
-+	if (!(vmw_fifo_caps(dev_priv) & SVGA_FIFO_CAP_FENCE) &&
- 	    vmw_fifo_idle(dev_priv, seqno))
- 		return true;
- 
-@@ -161,7 +158,7 @@ int vmw_fallback_wait(struct vmw_private *dev_priv,
- 		      bool interruptible,
- 		      unsigned long timeout)
- {
--	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
-+	struct vmw_fifo_state *fifo_state = dev_priv->fifo;
- 
- 	uint32_t count = 0;
- 	uint32_t signal_seq;
-@@ -221,7 +218,7 @@ int vmw_fallback_wait(struct vmw_private *dev_priv,
- 	}
- 	finish_wait(&dev_priv->fence_queue, &__wait);
- 	if (ret == 0 && fifo_idle)
--		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, signal_seq);
-+		vmw_fence_write(dev_priv, signal_seq);
- 
- 	wake_up_all(&dev_priv->fence_queue);
- out_err:
-@@ -236,7 +233,7 @@ void vmw_generic_waiter_add(struct vmw_private *dev_priv,
- {
- 	spin_lock_bh(&dev_priv->waiter_lock);
- 	if ((*waiter_count)++ == 0) {
--		outl(flag, dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
-+		vmw_irq_status_write(dev_priv, flag);
- 		dev_priv->irq_mask |= flag;
- 		vmw_write(dev_priv, SVGA_REG_IRQMASK, dev_priv->irq_mask);
- 	}
-@@ -278,59 +275,13 @@ void vmw_goal_waiter_remove(struct vmw_private *dev_priv)
- 				  &dev_priv->goal_queue_waiters);
- }
- 
--int vmw_wait_seqno(struct vmw_private *dev_priv,
--		      bool lazy, uint32_t seqno,
--		      bool interruptible, unsigned long timeout)
--{
--	long ret;
--	struct vmw_fifo_state *fifo = &dev_priv->fifo;
 -
--	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
--		return 0;
+-#define VMW_PORT_HB_IN(cmd, in_ecx, in_si, in_di,	\
+-		       flags, magic, bp,		\
+-		       eax, ebx, ecx, edx, si, di)	\
+-({							\
+-	asm volatile ("push %12;"			\
+-		"push %%ebp;"				\
+-		"mov 0x04(%%esp), %%ebp;"		\
+-		VMWARE_HYPERCALL_HB_IN			\
+-		"pop %%ebp;"				\
+-		"add $0x04, %%esp;" :			\
+-		"=a"(eax),				\
+-		"=b"(ebx),				\
+-		"=c"(ecx),				\
+-		"=d"(edx),				\
+-		"=S"(si),				\
+-		"=D"(di) :				\
+-		"a"(magic),				\
+-		"b"(cmd),				\
+-		"c"(in_ecx),				\
+-		"d"(flags),				\
+-		"S"(in_si),				\
+-		"D"(in_di),				\
+-		"m"(bp) :				\
+-		"memory", "cc");			\
+-})
+-#endif /* #if __x86_64__ */
 -
--	if (likely(vmw_seqno_passed(dev_priv, seqno)))
--		return 0;
--
--	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
--
--	if (!(fifo->capabilities & SVGA_FIFO_CAP_FENCE))
--		return vmw_fallback_wait(dev_priv, lazy, true, seqno,
--					 interruptible, timeout);
--
--	if (!(dev_priv->capabilities & SVGA_CAP_IRQMASK))
--		return vmw_fallback_wait(dev_priv, lazy, false, seqno,
--					 interruptible, timeout);
--
--	vmw_seqno_waiter_add(dev_priv);
--
--	if (interruptible)
--		ret = wait_event_interruptible_timeout
--		    (dev_priv->fence_queue,
--		     vmw_seqno_passed(dev_priv, seqno),
--		     timeout);
--	else
--		ret = wait_event_timeout
--		    (dev_priv->fence_queue,
--		     vmw_seqno_passed(dev_priv, seqno),
--		     timeout);
--
--	vmw_seqno_waiter_remove(dev_priv);
--
--	if (unlikely(ret == 0))
--		ret = -EBUSY;
--	else if (likely(ret > 0))
--		ret = 0;
--
--	return ret;
--}
--
- static void vmw_irq_preinstall(struct drm_device *dev)
- {
- 	struct vmw_private *dev_priv = vmw_priv(dev);
- 	uint32_t status;
- 
--	status = inl(dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
--	outl(status, dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
-+	status = vmw_irq_status_read(dev_priv);
-+	vmw_irq_status_write(dev_priv, status);
- }
- 
- void vmw_irq_uninstall(struct drm_device *dev)
-@@ -346,8 +297,8 @@ void vmw_irq_uninstall(struct drm_device *dev)
- 
- 	vmw_write(dev_priv, SVGA_REG_IRQMASK, 0);
- 
--	status = inl(dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
--	outl(status, dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
-+	status = vmw_irq_status_read(dev_priv);
-+	vmw_irq_status_write(dev_priv, status);
- 
- 	dev->irq_enabled = false;
- 	free_irq(dev->irq, dev);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 67f693acea5f..2768ab1f60a1 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -38,8 +38,10 @@
- 
- void vmw_du_cleanup(struct vmw_display_unit *du)
- {
-+	struct vmw_private *dev_priv = vmw_priv(du->primary.dev);
- 	drm_plane_cleanup(&du->primary);
--	drm_plane_cleanup(&du->cursor);
-+	if (vmw_cmd_supported(dev_priv))
-+		drm_plane_cleanup(&du->cursor);
- 
- 	drm_connector_unregister(&du->connector);
- 	drm_crtc_cleanup(&du->crtc);
-@@ -128,11 +130,17 @@ static void vmw_cursor_update_position(struct vmw_private *dev_priv,
- 	uint32_t count;
- 
- 	spin_lock(&dev_priv->cursor_lock);
--	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_ON, show ? 1 : 0);
--	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_X, x);
--	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_Y, y);
--	count = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_CURSOR_COUNT);
--	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_COUNT, ++count);
-+	if (vmw_is_cursor_bypass3_enabled(dev_priv)) {
-+		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_ON, show ? 1 : 0);
-+		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_X, x);
-+		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_Y, y);
-+		count = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_CURSOR_COUNT);
-+		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_COUNT, ++count);
-+	} else {
-+		vmw_write(dev_priv, SVGA_REG_CURSOR_X, x);
-+		vmw_write(dev_priv, SVGA_REG_CURSOR_Y, y);
-+		vmw_write(dev_priv, SVGA_REG_CURSOR_ON, show ? 1 : 0);
-+	}
- 	spin_unlock(&dev_priv->cursor_lock);
- }
- 
-@@ -1045,7 +1053,8 @@ static int vmw_framebuffer_bo_dirty_ext(struct drm_framebuffer *framebuffer,
- {
- 	struct vmw_private *dev_priv = vmw_priv(framebuffer->dev);
- 
--	if (dev_priv->active_display_unit == vmw_du_legacy)
-+	if (dev_priv->active_display_unit == vmw_du_legacy &&
-+	    vmw_cmd_supported(dev_priv))
- 		return vmw_framebuffer_bo_dirty(framebuffer, file_priv, flags,
- 						color, clips, num_clips);
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index 87e0b303d900..d85c7eab9469 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -404,19 +404,24 @@ static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
- 
- 	drm_plane_helper_add(primary, &vmw_ldu_primary_plane_helper_funcs);
- 
--	/* Initialize cursor plane */
--	ret = drm_universal_plane_init(dev, &ldu->base.cursor,
--			0, &vmw_ldu_cursor_funcs,
--			vmw_cursor_plane_formats,
--			ARRAY_SIZE(vmw_cursor_plane_formats),
--			NULL, DRM_PLANE_TYPE_CURSOR, NULL);
--	if (ret) {
--		DRM_ERROR("Failed to initialize cursor plane");
--		drm_plane_cleanup(&ldu->base.primary);
--		goto err_free;
--	}
-+	/*
-+	 * We're going to be using traces and software cursors
-+	 */
-+	if (vmw_cmd_supported(dev_priv)) {
-+		/* Initialize cursor plane */
-+		ret = drm_universal_plane_init(dev, &ldu->base.cursor,
-+					       0, &vmw_ldu_cursor_funcs,
-+					       vmw_cursor_plane_formats,
-+					       ARRAY_SIZE(vmw_cursor_plane_formats),
-+					       NULL, DRM_PLANE_TYPE_CURSOR, NULL);
-+		if (ret) {
-+			DRM_ERROR("Failed to initialize cursor plane");
-+			drm_plane_cleanup(&ldu->base.primary);
-+			goto err_free;
-+		}
- 
--	drm_plane_helper_add(cursor, &vmw_ldu_cursor_plane_helper_funcs);
-+		drm_plane_helper_add(cursor, &vmw_ldu_cursor_plane_helper_funcs);
-+	}
- 
- 	ret = drm_connector_init(dev, connector, &vmw_legacy_connector_funcs,
- 				 DRM_MODE_CONNECTOR_VIRTUAL);
-@@ -445,9 +450,10 @@ static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
- 		goto err_free_encoder;
- 	}
- 
--	ret = drm_crtc_init_with_planes(dev, crtc, &ldu->base.primary,
--					&ldu->base.cursor,
--					&vmw_legacy_crtc_funcs, NULL);
-+	ret = drm_crtc_init_with_planes(
-+		      dev, crtc, &ldu->base.primary,
-+		      vmw_cmd_supported(dev_priv) ? &ldu->base.cursor : NULL,
-+		      &vmw_legacy_crtc_funcs, NULL);
- 	if (ret) {
- 		DRM_ERROR("Failed to initialize CRTC\n");
- 		goto err_free_unregister;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-index ac4a9b722279..54c5d16eb3b7 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
-@@ -421,7 +421,7 @@ int vmw_overlay_pause_all(struct vmw_private *dev_priv)
- static bool vmw_overlay_available(const struct vmw_private *dev_priv)
- {
- 	return (dev_priv->overlay_priv != NULL &&
--		((dev_priv->fifo.capabilities & VMW_OVERLAY_CAP_MASK) ==
-+		((vmw_fifo_caps(dev_priv) & VMW_OVERLAY_CAP_MASK) ==
- 		 VMW_OVERLAY_CAP_MASK));
- }
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_reg.h b/drivers/gpu/drm/vmwgfx/vmwgfx_reg.h
-index e99f6cdbb091..cf585dfe5669 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_reg.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_reg.h
-@@ -34,10 +34,6 @@
- 
- #include <linux/types.h>
- 
--#define VMWGFX_INDEX_PORT     0x0
--#define VMWGFX_VALUE_PORT     0x1
--#define VMWGFX_IRQSTATUS_PORT 0x8
--
- struct svga_guest_mem_descriptor {
- 	u32 ppn;
- 	u32 num_pages;
+-#endif
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h b/drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h
+new file mode 100755
+index 000000000000..4f40167ad61f
+--- /dev/null
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h
+@@ -0,0 +1,130 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Copyright 2021 VMware, Inc., Palo Alto, CA., USA
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, sub license, and/or sell copies of the Software, and to
++ * permit persons to whom the Software is furnished to do so, subject to
++ * the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the
++ * next paragraph) shall be included in all copies or substantial portions
++ * of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
++ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++ * USE OR OTHER DEALINGS IN THE SOFTWARE.
++ *
++ */
++#ifndef _VMWGFX_MSG_ARM64_H
++#define _VMWGFX_MSG_ARM64_H
++
++#if defined(__aarch64__)
++
++#define VMWARE_HYPERVISOR_PORT    0x5658
++#define VMWARE_HYPERVISOR_PORT_HB 0x5659
++
++#define VMWARE_HYPERVISOR_HB  BIT(0)
++#define VMWARE_HYPERVISOR_OUT BIT(1)
++
++#define X86_IO_MAGIC 0x86
++
++#define X86_IO_W7_SIZE_SHIFT 0
++#define X86_IO_W7_SIZE_MASK (0x3 << X86_IO_W7_SIZE_SHIFT)
++#define X86_IO_W7_DIR       (1 << 2)
++#define X86_IO_W7_WITH	    (1 << 3)
++#define X86_IO_W7_STR	    (1 << 4)
++#define X86_IO_W7_DF	    (1 << 5)
++#define X86_IO_W7_IMM_SHIFT  5
++#define X86_IO_W7_IMM_MASK  (0xff << X86_IO_W7_IMM_SHIFT)
++
++static inline void vmw_port(unsigned long cmd, unsigned long in_ebx,
++			    unsigned long in_si, unsigned long in_di,
++			    unsigned long flags, unsigned long magic,
++			    unsigned long *eax, unsigned long *ebx,
++			    unsigned long *ecx, unsigned long *edx,
++			    unsigned long *si, unsigned long *di)
++{
++	register u64 x0 asm("x0") = magic;
++	register u64 x1 asm("x1") = in_ebx;
++	register u64 x2 asm("x2") = cmd;
++	register u64 x3 asm("x3") = flags | VMWARE_HYPERVISOR_PORT;
++	register u64 x4 asm("x4") = in_si;
++	register u64 x5 asm("x5") = in_di;
++
++	register u64 x7 asm("x7") = ((u64)X86_IO_MAGIC << 32) |
++				    X86_IO_W7_WITH |
++				    X86_IO_W7_DIR |
++				    (2 << X86_IO_W7_SIZE_SHIFT);
++
++	asm volatile("mrs xzr, mdccsr_el0 \n\t"
++		     : "+r"(x0), "+r"(x1), "+r"(x2),
++		       "+r"(x3), "+r"(x4), "+r"(x5)
++		     : "r"(x7)
++		     :);
++	*eax = x0;
++	*ebx = x1;
++	*ecx = x2;
++	*edx = x3;
++	*si = x4;
++	*di = x5;
++}
++
++static inline void vmw_port_hb(unsigned long cmd, unsigned long in_ecx,
++			       unsigned long in_si, unsigned long in_di,
++			       unsigned long flags, unsigned long magic,
++			       unsigned long bp, u32 w7dir,
++			       unsigned long *eax, unsigned long *ebx,
++			       unsigned long *ecx, unsigned long *edx,
++			       unsigned long *si, unsigned long *di)
++{
++	register u64 x0 asm("x0") = magic;
++	register u64 x1 asm("x1") = cmd;
++	register u64 x2 asm("x2") = in_ecx;
++	register u64 x3 asm("x3") = flags | VMWARE_HYPERVISOR_PORT_HB;
++	register u64 x4 asm("x4") = in_si;
++	register u64 x5 asm("x5") = in_di;
++	register u64 x6 asm("x6") = bp;
++	register u64 x7 asm("x7") = ((u64)X86_IO_MAGIC << 32) |
++				    X86_IO_W7_STR |
++				    X86_IO_W7_WITH |
++				    w7dir;
++
++	asm volatile("mrs xzr, mdccsr_el0 \n\t"
++		     : "+r"(x0), "+r"(x1), "+r"(x2),
++		       "+r"(x3), "+r"(x4), "+r"(x5)
++		     : "r"(x6), "r"(x7)
++		     :);
++	*eax = x0;
++	*ebx = x1;
++	*ecx = x2;
++	*edx = x3;
++	*si  = x4;
++	*di  = x5;
++}
++
++#define VMW_PORT(cmd, in_ebx, in_si, in_di, flags, magic, eax, ebx, ecx, edx,  \
++		 si, di)                                                       \
++	vmw_port(cmd, in_ebx, in_si, in_di, flags, magic, &eax, &ebx, &ecx,    \
++		 &edx, &si, &di)
++
++#define VMW_PORT_HB_OUT(cmd, in_ecx, in_si, in_di, flags, magic, bp, eax, ebx, \
++		        ecx, edx, si, di)                                      \
++	vmw_port_hb(cmd, in_ecx, in_si, in_di, flags, magic, bp,               \
++                    0, &eax, &ebx, &ecx, &edx, &si, &di)
++
++#define VMW_PORT_HB_IN(cmd, in_ecx, in_si, in_di, flags, magic, bp, eax, ebx,  \
++		       ecx, edx, si, di)                                       \
++	vmw_port_hb(cmd, in_ecx, in_si, in_di, flags, magic, bp,               \
++		    X86_IO_W7_DIR, &eax, &ebx, &ecx, &edx, &si, &di)
++
++#endif
++
++#endif /* _VMWGFX_MSG_ARM64_H */
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h b/drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h
+new file mode 100644
+index 000000000000..0b74ca2dfb7b
+--- /dev/null
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h
+@@ -0,0 +1,219 @@
++/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
++/**************************************************************************
++ *
++ * Copyright 2016-2021 VMware, Inc., Palo Alto, CA., USA
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, sub license, and/or sell copies of the Software, and to
++ * permit persons to whom the Software is furnished to do so, subject to
++ * the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the
++ * next paragraph) shall be included in all copies or substantial portions
++ * of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
++ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++ * USE OR OTHER DEALINGS IN THE SOFTWARE.
++ *
++ **************************************************************************
++ *
++ * Based on code from vmware.c and vmmouse.c.
++ * Author:
++ *   Sinclair Yeh <syeh@vmware.com>
++ */
++#ifndef _VMWGFX_MSG_X86_H
++#define _VMWGFX_MSG_X86_H
++
++
++#if defined(__i386__) || defined(__x86_64__)
++
++#include <asm/vmware.h>
++
++/**
++ * Hypervisor-specific bi-directional communication channel.  Should never
++ * execute on bare metal hardware.  The caller must make sure to check for
++ * supported hypervisor before using these macros.
++ *
++ * The last two parameters are both input and output and must be initialized.
++ *
++ * @cmd: [IN] Message Cmd
++ * @in_ebx: [IN] Message Len, through EBX
++ * @in_si: [IN] Input argument through SI, set to 0 if not used
++ * @in_di: [IN] Input argument through DI, set ot 0 if not used
++ * @flags: [IN] hypercall flags + [channel id]
++ * @magic: [IN] hypervisor magic value
++ * @eax: [OUT] value of EAX register
++ * @ebx: [OUT] e.g. status from an HB message status command
++ * @ecx: [OUT] e.g. status from a non-HB message status command
++ * @edx: [OUT] e.g. channel id
++ * @si:  [OUT]
++ * @di:  [OUT]
++ */
++#define VMW_PORT(cmd, in_ebx, in_si, in_di,	\
++                 flags, magic,		\
++                 eax, ebx, ecx, edx, si, di)	\
++({						\
++        asm volatile (VMWARE_HYPERCALL :	\
++                "=a"(eax),			\
++                "=b"(ebx),			\
++                "=c"(ecx),			\
++                "=d"(edx),			\
++                "=S"(si),			\
++                "=D"(di) :			\
++                "a"(magic),			\
++                "b"(in_ebx),			\
++                "c"(cmd),			\
++                "d"(flags),			\
++                "S"(in_si),			\
++                "D"(in_di) :			\
++                "memory");			\
++})
++
++
++/**
++ * Hypervisor-specific bi-directional communication channel.  Should never
++ * execute on bare metal hardware.  The caller must make sure to check for
++ * supported hypervisor before using these macros.
++ *
++ * The last 3 parameters are both input and output and must be initialized.
++ *
++ * @cmd: [IN] Message Cmd
++ * @in_ecx: [IN] Message Len, through ECX
++ * @in_si: [IN] Input argument through SI, set to 0 if not used
++ * @in_di: [IN] Input argument through DI, set to 0 if not used
++ * @flags: [IN] hypercall flags + [channel id]
++ * @magic: [IN] hypervisor magic value
++ * @bp:  [IN]
++ * @eax: [OUT] value of EAX register
++ * @ebx: [OUT] e.g. status from an HB message status command
++ * @ecx: [OUT] e.g. status from a non-HB message status command
++ * @edx: [OUT] e.g. channel id
++ * @si:  [OUT]
++ * @di:  [OUT]
++ */
++#ifdef __x86_64__
++
++#define VMW_PORT_HB_OUT(cmd, in_ecx, in_si, in_di,	\
++                        flags, magic, bp,		\
++                        eax, ebx, ecx, edx, si, di)	\
++({							\
++        asm volatile ("push %%rbp;"			\
++                "mov %12, %%rbp;"			\
++                VMWARE_HYPERCALL_HB_OUT			\
++                "pop %%rbp;" :				\
++                "=a"(eax),				\
++                "=b"(ebx),				\
++                "=c"(ecx),				\
++                "=d"(edx),				\
++                "=S"(si),				\
++                "=D"(di) :				\
++                "a"(magic),				\
++                "b"(cmd),				\
++                "c"(in_ecx),				\
++                "d"(flags),				\
++                "S"(in_si),				\
++                "D"(in_di),				\
++                "r"(bp) :				\
++                "memory", "cc");			\
++})
++
++
++#define VMW_PORT_HB_IN(cmd, in_ecx, in_si, in_di,	\
++                       flags, magic, bp,		\
++                       eax, ebx, ecx, edx, si, di)	\
++({							\
++        asm volatile ("push %%rbp;"			\
++                "mov %12, %%rbp;"			\
++                VMWARE_HYPERCALL_HB_IN			\
++                "pop %%rbp" :				\
++                "=a"(eax),				\
++                "=b"(ebx),				\
++                "=c"(ecx),				\
++                "=d"(edx),				\
++                "=S"(si),				\
++                "=D"(di) :				\
++                "a"(magic),				\
++                "b"(cmd),				\
++                "c"(in_ecx),				\
++                "d"(flags),				\
++                "S"(in_si),				\
++                "D"(in_di),				\
++                "r"(bp) :				\
++                "memory", "cc");			\
++})
++
++#elif defined(__i386__)
++
++/*
++ * In the 32-bit version of this macro, we store bp in a memory location
++ * because we've ran out of registers.
++ * Now we can't reference that memory location while we've modified
++ * %esp or %ebp, so we first push it on the stack, just before we push
++ * %ebp, and then when we need it we read it from the stack where we
++ * just pushed it.
++ */
++#define VMW_PORT_HB_OUT(cmd, in_ecx, in_si, in_di,	\
++                        flags, magic, bp,		\
++                        eax, ebx, ecx, edx, si, di)	\
++({							\
++        asm volatile ("push %12;"			\
++                "push %%ebp;"				\
++                "mov 0x04(%%esp), %%ebp;"		\
++                VMWARE_HYPERCALL_HB_OUT			\
++                "pop %%ebp;"				\
++                "add $0x04, %%esp;" :			\
++                "=a"(eax),				\
++                "=b"(ebx),				\
++                "=c"(ecx),				\
++                "=d"(edx),				\
++                "=S"(si),				\
++                "=D"(di) :				\
++                "a"(magic),				\
++                "b"(cmd),				\
++                "c"(in_ecx),				\
++                "d"(flags),				\
++                "S"(in_si),				\
++                "D"(in_di),				\
++                "m"(bp) :				\
++                "memory", "cc");			\
++})
++
++
++#define VMW_PORT_HB_IN(cmd, in_ecx, in_si, in_di,	\
++                       flags, magic, bp,		\
++                       eax, ebx, ecx, edx, si, di)	\
++({							\
++        asm volatile ("push %12;"			\
++                "push %%ebp;"				\
++                "mov 0x04(%%esp), %%ebp;"		\
++                VMWARE_HYPERCALL_HB_IN			\
++                "pop %%ebp;"				\
++                "add $0x04, %%esp;" :			\
++                "=a"(eax),				\
++                "=b"(ebx),				\
++                "=c"(ecx),				\
++                "=d"(edx),				\
++                "=S"(si),				\
++                "=D"(di) :				\
++                "a"(magic),				\
++                "b"(cmd),				\
++                "c"(in_ecx),				\
++                "d"(flags),				\
++                "S"(in_si),				\
++                "D"(in_di),				\
++                "m"(bp) :				\
++                "memory", "cc");			\
++})
++#endif /* defined(__i386__) */
++
++#endif /* defined(__i386__) || defined(__x86_64__) */
++
++#endif /* _VMWGFX_MSG_X86_H */
 -- 
 2.27.0
 
