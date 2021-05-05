@@ -2,37 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C287F3734D6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 08:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE2B3734D2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 08:06:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B11A76E425;
-	Wed,  5 May 2021 06:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2A3F6E053;
+	Wed,  5 May 2021 06:06:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 721B46E40A;
- Wed,  5 May 2021 03:37:48 +0000 (UTC)
-IronPort-SDR: B3oO7FJXXY8eWCHFEOXI9D2RqiTJjU7dee0TLFijXFM15rHjrxEGpDvbIv0gJvyEj920r+7JUQ
- ulMGs4t62zaQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="196080427"
-X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; d="scan'208";a="196080427"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 20:37:47 -0700
-IronPort-SDR: RRkdKy+ckiIauACqzCOPaYhrEMtArGKVheHBa3UotahxT8ckoBUWNlbT4m5TO9jATlnBeFE/TR
- TyDG4FupUgjg==
-X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; d="scan'208";a="433601761"
-Received: from tassilo.jf.intel.com ([10.54.74.11])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2021 20:37:47 -0700
-From: Andi Kleen <ak@linux.intel.com>
-To: jani.nikula@linux.intel.com
-Subject: [PATCH] i915: Increase *_latency array size
-Date: Tue,  4 May 2021 20:37:37 -0700
-Message-Id: <20210505033737.1282652-1-ak@linux.intel.com>
-X-Mailer: git-send-email 2.25.4
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
+ [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD0F6E053
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 06:06:20 +0000 (UTC)
+Date: Wed, 05 May 2021 06:06:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1620194778;
+ bh=MBptRVLcSn/mM2o0IEH1iTyn5IN7dJYpDELHHQT0pcU=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=T2uElwOGtjQOIFISkSKGvbs0GOD4EXJU3kn5XXbk7tnQTi3v2mv7rnQbWf+EK51JT
+ 4sK9oVyHinCZF6qh2PnR9xGxKc/6pgCw9ZZpX1vbq6FlVX567UMuRc7mzngumdCoFe
+ XJSH37wWeGsX3oHb4YeiPhQvMitOTpIN4ZkbCqQ/3OGLPQlGDXntHLhW79f4mLhwzI
+ p5vOeaRx26XN1+ORMSRSI2Q1BaHZjYIM945xVK+sb8A4Jmg5VUIZoTg99BC33uixXf
+ UvjQNP6RuhzKhP0Gql1K3xJx6St1qQ7DzPqjayqwq42RTJNV5V8BZmTBLC9P1P3+Ga
+ +vy5vE0bOlewA==
+To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2] drm: log errors in drm_gem_fb_init_with_funcs
+Message-ID: <DHsra4h62pN7Jo7Pz9D7XN_l4r-atgQ2865XYSMABZ32_-TyJSRXnYRN-0I8NNm1fK_O5bjTSq6icR1Ih8U3car_dXJYKXZh184rxxCVTMg=@emersion.fr>
+In-Reply-To: <20210505001442.kbo42ox7nwqwlewf@outlook.office365.com>
+References: <ZS4eX0PtTuNvHezILcTWeWINOkRyMS4krXND3cIE@cp4-web-032.plabs.ch>
+ <20210503142038.bs2qfzzpqefqmn57@outlook.office365.com>
+ <A5W1hYEUZFa0XQrjgvtzuZPiMe44HV9sGFK0XWIVaqYbxZhbEtIkEsgCEqawVTl2pRs1ZLfC3cOq54T9thv9RTOAmHTKStqi-5GR9r-ZvvM=@emersion.fr>
+ <20210505001442.kbo42ox7nwqwlewf@outlook.office365.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 05 May 2021 06:08:04 +0000
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,39 +51,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Kleen <andi@firstfloor.org>,
- rodrigo.vivi@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQW5kaSBLbGVlbiA8YW5kaUBmaXJzdGZsb29yLm9yZz4KCk5ld2VyIGdjYyBwcmludHMg
-dGhlIGZvbGxvd2luZyB3YXJuaW5nOgoKZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfcG0uYzoz
-MDU3Ojk6IHdhcm5pbmc6IOKAmGludGVsX3ByaW50X3dtX2xhdGVuY3nigJkgcmVhZGluZyAxNiBi
-eXRlcyBmcm9tIGEgcmVnaW9uIG9mIHNpemUgMTAgWy1Xc3RyaW5nb3Atb3ZlcnJlYWRdCmFuZCBz
-b21lIG90aGVyIHJlbGF0ZWQgd2FybmluZ3MgaW4gc2ltaWxhciBmdW5jdGlvbnMuCgpnY2MgaGFz
-IGEgcG9pbnQgaGVyZS4gU29tZSBvZiB0aGUgbGF0ZW5jeSBhcnJheXMgb25seSBoYXZlIDUgbWVt
-YmVycywKYnV0IHByaW50X3dtX2xhdGVuY3kgbWF5IHJlYWQgdXAgdG8gbWF4X2xldmVsIHJldHVy
-bmVkIGJ5IGlsa193bV9tYXhfbGV2ZWwsCndoaWNoIGNhbiBiZSB1cHRvIDcgZm9yIHRoZSA+PSBH
-RU45IGNhc2UuCgpTbyBpdCB3aWxsIHJlYWQgc29tZSBmaWVsZHMgYmV5b25kIHRoZSBhcnJheS4K
-CkluY3JlYXNlIGFsbCB0aGUgbGF0ZW5jeSBmaWVsZHMgdG8gOCBtZW1iZXJzLCB3aGljaCBpcyBl
-bm91Z2ggZm9yIFNLTC4KCkkgZG9uJ3Qga25vdyBpZiB0aGV5IGFyZSBjb3JyZWN0bHkgaW5pdGlh
-bGl6ZWQgdXB0byA4LCBidXQgZGV2X3ByaXYKc2hvdWxkIHN0YXJ0IG91dCBhcyB6ZXJvLCBzbyBw
-cmVzdW1hYmx5IHRoZXkgd2lsbCBiZSB6ZXJvLgoKU2lnbmVkLW9mZi1ieTogQW5kaSBLbGVlbiA8
-YW5kaUBmaXJzdGZsb29yLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5o
-IHwgNiArKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25z
-KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuaCBiL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2LmgKaW5kZXggY2I2MmRkYmEyMDM1Li5jODBhZGQ1ZjZk
-MzMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2LmgKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuaApAQCAtMTA5NSwxMSArMTA5NSwxMSBAQCBzdHJ1
-Y3QgZHJtX2k5MTVfcHJpdmF0ZSB7CiAJCSAqIGluIDAuNXVzIHVuaXRzIGZvciBXTTErLgogCQkg
-Ki8KIAkJLyogcHJpbWFyeSAqLwotCQl1MTYgcHJpX2xhdGVuY3lbNV07CisJCXUxNiBwcmlfbGF0
-ZW5jeVs4XTsKIAkJLyogc3ByaXRlICovCi0JCXUxNiBzcHJfbGF0ZW5jeVs1XTsKKwkJdTE2IHNw
-cl9sYXRlbmN5WzhdOwogCQkvKiBjdXJzb3IgKi8KLQkJdTE2IGN1cl9sYXRlbmN5WzVdOworCQl1
-MTYgY3VyX2xhdGVuY3lbOF07CiAJCS8qCiAJCSAqIFJhdyB3YXRlcm1hcmsgbWVtb3J5IGxhdGVu
-Y3kgdmFsdWVzCiAJCSAqIGZvciBTS0wgZm9yIGFsbCA4IGxldmVscwotLSAKMi4yNS40CgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wednesday, May 5th, 2021 at 2:14 AM, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com> wrote:
+
+> > As Ville said, if things got this far and the format is unsupported, something
+> > must be going wrong. I'm not confident enough to switch this to a WARN_ON,
+> > though.
+>
+> Hi Simon, thanks for your explanation.
+>
+> Is it common to get "!info" equal true? If not, and imho, I think that
+> WARN_ON would be good to raise attention to a possible issue.
+
+Maybe, but:
+
+- I don't know enough to tell.
+- Should be a separate patch anyway if we want to go with this, so that
+  the WARN_ON can easily be reverted if need be (without reverting the
+  logging additions).
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
