@@ -1,43 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3843373878
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 12:17:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7FA37388B
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 12:28:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495CD6E484;
-	Wed,  5 May 2021 10:17:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 711AF6E043;
+	Wed,  5 May 2021 10:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA4BD6E45E;
- Wed,  5 May 2021 10:17:37 +0000 (UTC)
-IronPort-SDR: ro1042UnXZlM8+8VMx1v4JzBL2S1cMVHN1I9CiGhiB+ste4U3pxmzXctOqfGoEvpa8+Gu/lMSl
- 01g6SM7Hqn+w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="198233253"
-X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="198233253"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 03:17:37 -0700
-IronPort-SDR: WeJo6OE47B5MG8/tRuB6r+H7FEUNoUKOCw6h0Kh9WZs7DH1FFmri16pnnV03JDdepJj1yknsq5
- 7ig55i4+G66A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="531717347"
-Received: from kuha.fi.intel.com ([10.237.72.162])
- by fmsmga001.fm.intel.com with SMTP; 05 May 2021 03:17:31 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Wed, 05 May 2021 13:17:30 +0300
-Date: Wed, 5 May 2021 13:17:30 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 8/9] usb: typec: altmodes/displayport: Notify drm subsys
- of hotplug events
-Message-ID: <YJJwukxJfi9gGKcf@kuha.fi.intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC7426E043;
+ Wed,  5 May 2021 10:28:49 +0000 (UTC)
+IronPort-SDR: 3hjGe8Ii35dxxNF5GS6MXEBOtk7byXuaTQPLPv5DTNxaSaK9qe+wN+2X5OMuMx2zy9rS+P207j
+ i1+Ta8M82ZSQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="177730928"
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="177730928"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2021 03:28:48 -0700
+IronPort-SDR: oN74f6sSgF4XCZmYoweQxh2eme3Q+Lr2Q0f4Zojo1rOngA3iziW4ASRUGicslRBouwtelEX6p5
+ BfMI5DHUysuA==
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="618912096"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2021 03:28:45 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+ by paasikivi.fi.intel.com (Postfix) with ESMTP id 43061203BC;
+ Wed,  5 May 2021 13:28:43 +0300 (EEST)
+Date: Wed, 5 May 2021 13:28:43 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH 5/9] drm/i915: Associate ACPI connector nodes with
+ connector entries
+Message-ID: <20210505102843.GM3@paasikivi.fi.intel.com>
 References: <20210503154647.142551-1-hdegoede@redhat.com>
- <20210503154647.142551-9-hdegoede@redhat.com>
+ <20210503154647.142551-6-hdegoede@redhat.com>
+ <CAHp75VcS5nvzBzjbSytqD6qsSURyzdEdmDi934y=5W2SCNyo9A@mail.gmail.com>
+ <ee230261-423d-0e2f-16b0-852d264afa2b@redhat.com>
+ <CAHp75VcfkcaVAu2-8-5he7PN=W_tRHiHAgXYn04gRnLehDVsyQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210503154647.142551-9-hdegoede@redhat.com>
+In-Reply-To: <CAHp75VcfkcaVAu2-8-5he7PN=W_tRHiHAgXYn04gRnLehDVsyQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,117 +55,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
-
-On Mon, May 03, 2021 at 05:46:46PM +0200, Hans de Goede wrote:
-> Use the new drm_connector_find_by_fwnode() and
-> drm_connector_oob_hotplug_event() functions to let drm/kms drivers
-> know about DisplayPort over Type-C hotplug events.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> Changes in v2:
-> - Add missing depends on DRM to TYPEC_DP_ALTMODE Kconfig entry
-> ---
->  drivers/usb/typec/altmodes/Kconfig       |  1 +
->  drivers/usb/typec/altmodes/displayport.c | 40 +++++++++++++++++++++++-
->  2 files changed, 40 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
-> index 60d375e9c3c7..1a6b5e872b0d 100644
-> --- a/drivers/usb/typec/altmodes/Kconfig
-> +++ b/drivers/usb/typec/altmodes/Kconfig
-> @@ -4,6 +4,7 @@ menu "USB Type-C Alternate Mode drivers"
->  
->  config TYPEC_DP_ALTMODE
->  	tristate "DisplayPort Alternate Mode driver"
-> +	depends on DRM
->  	help
->  	  DisplayPort USB Type-C Alternate Mode allows DisplayPort
->  	  displays and adapters to be attached to the USB Type-C
-> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-> index aa669b9cf70e..f00dfc5c14b6 100644
-> --- a/drivers/usb/typec/altmodes/displayport.c
-> +++ b/drivers/usb/typec/altmodes/displayport.c
-> @@ -11,8 +11,10 @@
->  #include <linux/delay.h>
->  #include <linux/mutex.h>
->  #include <linux/module.h>
-> +#include <linux/property.h>
->  #include <linux/usb/pd_vdo.h>
->  #include <linux/usb/typec_dp.h>
-> +#include <drm/drm_connector.h>
->  #include "displayport.h"
->  
->  #define DP_HEADER(_dp, ver, cmd)	(VDO((_dp)->alt->svid, 1, ver, cmd)	\
-> @@ -62,12 +64,30 @@ struct dp_altmode {
->  	struct work_struct work;
->  	struct typec_altmode *alt;
->  	const struct typec_altmode *port;
-> +	struct fwnode_handle *connector_fwnode;
->  };
->  
-> +static void dp_altmode_notify_connector(struct dp_altmode *dp)
-> +{
-> +	struct drm_connector_oob_hotplug_event_data data = { };
-> +	u8 pin_assign = DP_CONF_GET_PIN_ASSIGN(dp->data.conf);
-> +
-> +	data.connected = dp->data.status & DP_STATUS_HPD_STATE;
-> +	data.orientation = typec_altmode_get_orientation(dp->alt);
-> +
-> +	if (pin_assign & DP_PIN_ASSIGN_DP_ONLY_MASK)
-> +		data.dp_lanes = 4;
-> +	else if (pin_assign & DP_PIN_ASSIGN_MULTI_FUNC_MASK)
-> +		data.dp_lanes = 2;
-> +
-> +	drm_connector_oob_hotplug_event(dp->connector_fwnode, &data);
-> +}
-> +
->  static int dp_altmode_notify(struct dp_altmode *dp)
->  {
->  	unsigned long conf;
->  	u8 state;
-> +	int ret;
->  
->  	if (dp->data.conf) {
->  		state = get_count_order(DP_CONF_GET_PIN_ASSIGN(dp->data.conf));
-> @@ -76,7 +96,12 @@ static int dp_altmode_notify(struct dp_altmode *dp)
->  		conf = TYPEC_STATE_USB;
->  	}
->  
-> -	return typec_altmode_notify(dp->alt, conf, &dp->data);
-> +	ret = typec_altmode_notify(dp->alt, conf, &dp->data);
-> +	if (ret)
-> +		return ret;
-> +
-> +	dp_altmode_notify_connector(dp);
-
-That is now going to be always called after configuration, right? The
-HPD is not necessarily issued at that point.
-
-I think that should be called from dp_altmode_status_update(), and
-probable only if there really is HPD IRQ or HPD State changes... I
-think?
-
-> +	return 0;
->  }
-
-thanks,
-
--- 
-heikki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQW5keSwgSGFucywKCk9uIFdlZCwgTWF5IDA1LCAyMDIxIGF0IDEyOjE3OjE0UE0gKzAzMDAs
+IEFuZHkgU2hldmNoZW5rbyB3cm90ZToKPiBPbiBXZWQsIE1heSA1LCAyMDIxIGF0IDEyOjA3IFBN
+IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+IHdyb3RlOgo+ID4gT24gNS80LzIx
+IDk6NTIgQU0sIEFuZHkgU2hldmNoZW5rbyB3cm90ZToKPiA+ID4gT24gTW9uZGF5LCBNYXkgMywg
+MjAyMSwgSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbSA8bWFpbHRvOmhkZWdvZWRl
+QHJlZGhhdC5jb20+PiB3cm90ZToKPiAKPiAuLi4KPiAKPiA+ID4gICAgICsgICAgICAgICAgICAg
+ICBmd25vZGUgPSBkZXZpY2VfZ2V0X25leHRfY2hpbGRfbm9kZShrZGV2LCBmd25vZGUpOwo+IAo+
+ID4gPiBXaG8gaXMgZHJvcHBpbmcgcmVmZXJlbmNlIGNvdW50aW5nIG9uIGZ3bm9kZSA/Cj4gPgo+
+ID4gV2UgYXJlIGRlYWxpbmcgd2l0aCBBQ1BJIGZ3bm9kZS1zIGhlcmUgYW5kIHRob3NlIGFyZSBu
+b3QgcmVmLWNvdW50ZWQsIHRoZXkKPiA+IGFyZSBlbWJlZGRlZCBpbnNpZGUgYSBzdHJ1Y3QgYWNw
+aV9kZXZpY2UgYW5kIHRoZWlyIGxpZmV0aW1lIGlzIHRpZWQgdG8KPiA+IHRoYXQgc3RydWN0LiBU
+aGV5IHNob3VsZCBwcm9iYWJseSBzdGlsbCBiZSByZWYtY291bnRlZCAod2l0aCB0aGUgY291bnQK
+PiA+IG5ldmVyIGRyb3BwaW5nIHRvIDApIHNvIHRoYXQgdGhlIGdlbmVyaWMgZndub2RlIGZ1bmN0
+aW9ucyBiZWhhdmUgdGhlIHNhbWUKPiA+IGFueXdoZXJlIGJ1dCBhdG0gdGhlIEFDUEkgbm9kZXMg
+YXJlIG5vdCByZWZjb3VudGVkLCBzZWU6IGFjcGlfZ2V0X25leHRfc3Vibm9kZSgpCj4gPiBpbiBk
+cml2ZXJzL2FjcGkvcHJvcGVydHkuYyB3aGljaCBpcyB0aGUgZ2V0X25leHRfY2hpbGRfbm9kZSgp
+IGltcGxlbWVudGF0aW9uCj4gPiBmb3IgQUNQSSBmd25vZGUtcy4KPiAKPiBZZXMsIEFDUEkgY3Vy
+cmVudGx5IGlzIGV4Y2VwdGlvbmFsLCBidXQgZndub2RlIEFQSSBpcyBub3QuCj4gSWYgeW91IG1h
+eSBndWFyYW50ZWUgdGhhdCB0aGlzIGNhc2Ugd29uJ3QgZXZlciBiZSBvdXRzaWRlIG9mIEFDUEkg
+YW5kCj4gZXZlbiB0aG91Z2ggaWYgQUNQSSB3b24ndCBldmVyIGdhaW4gYSByZWZlcmVuY2UgY291
+bnRpbmcgZm9yIGZ3bm9kZXMsCj4gd2UgY2FuIGxlYXZlIGl0IGFzIGlzLgo+IAo+ID4gPiBJ4oCZ
+bSBpbiB0aGUgbWlkZGxlIG9mIGEgcGlsZSBvZiBmaXhlcyBmb3IgZndub2RlIHJlZmNvdW50aW5n
+IHdoZW4KPiA+ID4gZm9yX2VhY2hfY2hpbGQgb3IgZ2V0X25leHRfY2hpbGQgaXMgdXNlZC4gU28s
+IHBsZWFzZSBkb3VibGUgY2hlY2sgeW91Cj4gPiA+IGRyb3AgYSByZWZlcmVuY2UuCj4gPgo+ID4g
+VGhlIGtkb2MgY29tbWVudHMgb24gZGV2aWNlX2dldF9uZXh0X2NoaWxkX25vZGUoKSAvIGZ3bm9k
+ZV9nZXRfbmV4dF9jaGlsZF9ub2RlKCkKPiA+IGRvIG5vdCBtZW50aW9uIGFueXRoaW5nIGFib3V0
+IHRoZXNlIGZ1bmN0aW9ucyByZXR1cm5pbmcgYSByZWZlcmVuY2UuCj4gCj4gSXQncyBwb3NzaWJs
+ZS4gSSBkdW5ubyBpZiBpdCBoYWQgdG8gYmUgZG9uZSBlYXJsaWVyLiBTYWthcmk/CgpUaGUgZndu
+b2RlIEFQSSBoYXMgd29ya2VkIHdpdGggcmVmZXJlbmNlcyBmb3IgYSBsb25nIHRpbWUsIGxvb2tz
+IGxpa2UgZnJvbQp0aGUgdmVyeSBiZWdpbm5pbmcgb2YgaXQsIGFzIGluIHBhdGNoCjhhMDY2MmQ5
+ZWQyOTY4ZTExODYyMDgzMzZhOGUxZmFiM2ZkZmVhNjMgLgoKSWYgeW91J3JlIGV4cGVjdGluZyBh
+biBmd25vZGUgZmFtaWx5IG9mIGZ1bmN0aW9uIHJldHVybmluZyBhbm90aGVyIG5vZGUsCnRoZW4g
+dGhhdCBmdW5jdGlvbiBoYXMgdG8gaGF2ZSB0YWtlbiBhIHJlZmVyZW5jZSB0byB0aGF0IG5vZGUg
+YmVmb3JlCnJldHVybmluZyBpdC4gT3RoZXJ3aXNlIHRoZXJlJ3Mgbm8gZ3VhcmFudGVlIHRoYXQg
+bm9kZSBpcyBzdGlsbCB0aGVyZSB3aGVuCml0IGlzIHJldHVybmVkLgoKSXQgbWF5IGJlIHRoaXMg
+aXMgbm90IGRvY3VtZW50ZWQgZm9yIGV2ZXJ5IGZ1bmN0aW9uIGRvaW5nIHNvLiBUaGF0IHNob3Vs
+ZApwcm9iYWJseSBiZSBhZGRlZC4KCi0tIApLaW5kIHJlZ2FyZHMsCgpTYWthcmkgQWlsdXMKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
