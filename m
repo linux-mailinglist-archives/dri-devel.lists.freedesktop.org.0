@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1ED3735D0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 09:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6172373639
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 10:24:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABE76E43B;
-	Wed,  5 May 2021 07:47:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E77286E0C6;
+	Wed,  5 May 2021 08:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A04E06E43B
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 07:47:08 +0000 (UTC)
-IronPort-SDR: oOZ6cyi87Rwj0iryayV/7r6zYvRmsvxoaY+TplwAdlHYzRDM4vnQMehZul9VmB/xBcWxFZStGr
- nHzfbCJ05thg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="219001700"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E959D6E0C6
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 08:24:34 +0000 (UTC)
+IronPort-SDR: DiSJQJJTJsHalDrX8y44uC+HhvsX3kmzieLJN9OVrtQWK7lYZe8GLAMvC6NBlcgKr068jHNJtn
+ u4yUSeCfhtdQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="259439006"
 X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; 
- d="gz'50?scan'50,208,50";a="219001700"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 00:47:07 -0700
-IronPort-SDR: 1mUJdhoyBf1uGatgcBzuE0TOmMFSr1+EB1C3P9G0siLYeCHAhuTyInYEKzLDRyiUfeIeaotfG9
- KPBfyEVuEDQA==
+ d="gz'50?scan'50,208,50";a="259439006"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2021 01:24:08 -0700
+IronPort-SDR: LVFpc62FnlMqMjYcsWtERdbd80XSGCLCBgYXbxLMhERTIWYPNeMhWtb15laZJL0eGUmLE2lZCU
+ xl2wvVmvbJzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; 
- d="gz'50?scan'50,208,50";a="406446011"
+ d="gz'50?scan'50,208,50";a="429740232"
 Received: from lkp-server01.sh.intel.com (HELO a48ff7ddd223) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 05 May 2021 00:47:05 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 05 May 2021 01:24:05 -0700
 Received: from kbuild by a48ff7ddd223 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1leCFM-0009tC-Lm; Wed, 05 May 2021 07:47:04 +0000
-Date: Wed, 5 May 2021 15:46:16 +0800
+ id 1leCpB-0009td-4w; Wed, 05 May 2021 08:24:05 +0000
+Date: Wed, 5 May 2021 16:23:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH 5/6] drm/vmwgfx: Add basic support for SVGA3
-Message-ID: <202105051533.vxwLHMIE-lkp@intel.com>
+Message-ID: <202105051616.l8IfI5q2-lkp@intel.com>
 References: <20210505035740.286923-6-zackr@vmware.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="CE+1k2dSO48ffgeK"
+Content-Type: multipart/mixed; boundary="/9DWx/yDrRhgMJTb"
 Content-Disposition: inline
 In-Reply-To: <20210505035740.286923-6-zackr@vmware.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -53,13 +53,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sroland@vmware.com, clang-built-linux@googlegroups.com,
- kbuild-all@lists.01.org, krastevm@vmware.com
+Cc: sroland@vmware.com, krastevm@vmware.com, kbuild-all@lists.01.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---CE+1k2dSO48ffgeK
+--/9DWx/yDrRhgMJTb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -76,680 +75,1061 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Zack-Rusin/drm-vmwgfx-SVGA-v3-and-arm64-support/20210505-120026
 base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-randconfig-a012-20210505 (attached as .config)
-compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 8f5a2a5836cc8e4c1def2bdeb022e7b496623439)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install x86_64 cross compiling tool for clang build
-        # apt-get install binutils-x86-64-linux-gnu
+config: x86_64-randconfig-s021-20210505 (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.3-341-g8af24329-dirty
         # https://github.com/0day-ci/linux/commit/4acf63c8eca79f6073ada0994b0e2a03c8fcfb71
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Zack-Rusin/drm-vmwgfx-SVGA-v3-and-arm64-support/20210505-120026
         git checkout 4acf63c8eca79f6073ada0994b0e2a03c8fcfb71
         # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 ARCH=x86_64 
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' W=1 ARCH=x86_64 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c:477: warning: expecting prototype for vmw_fifo_commit_flush(). Prototype was for vmw_cmd_commit_flush() instead
-   drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c:492: warning: expecting prototype for vmw_fifo_flush(). Prototype was for vmw_cmd_flush() instead
->> drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c:650: warning: expecting prototype for vmw_cmd_emit_dummy_gb_query(). Prototype was for vmw_cmd_emit_dummy_query() instead
-   drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c:667: warning: Function parameter or member 'vmw' not described in 'vmw_cmd_supported'
-   drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c:667: warning: Excess function parameter 'dev_priv' description in 'vmw_cmd_supported'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:718:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *rmmio @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:718:28: sparse:     expected unsigned int [usertype] *rmmio
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:718:28: sparse:     got void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: note: in included file:
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+--
+   drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c: note: in included file:
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+--
+   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c: note: in included file (through drivers/gpu/drm/vmwgfx/vmwgfx_kms.h):
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+--
+   drivers/gpu/drm/vmwgfx/vmwgfx_irq.c: note: in included file:
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+--
+>> drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c:105:24: sparse: sparse: Using plain integer as NULL pointer
+   drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c:674:33: sparse: sparse: Using plain integer as NULL pointer
+   drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c: note: in included file:
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+--
+   drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c: note: in included file (through drivers/gpu/drm/vmwgfx/vmwgfx_kms.h):
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+--
+   drivers/gpu/drm/vmwgfx/vmwgfx_fence.c: note: in included file:
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     expected void const [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:683:48: sparse:     got unsigned int [usertype] *
+--
+   drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: note: in included file:
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
+>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int [usertype] * @@
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:668:50: sparse:     got unsigned int [usertype] *
 
+vim +718 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
 
-vim +650 drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
-
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  628  
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  629  
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  630  /**
-4acf63c8eca79f6 drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c  Zack Rusin       2021-05-04  631   * vmw_cmd_emit_dummy_gb_query - emits a dummy query to the fifo using
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  632   * appropriate resource query commands.
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  633   *
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  634   * @dev_priv: The device private structure.
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  635   * @cid: The hardware context id used for the query.
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  636   *
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  637   * This function is used to emit a dummy occlusion query with
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  638   * no primitives rendered between query begin and query end.
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  639   * It's used to provide a query barrier, in order to know that when
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  640   * this query is finished, all preceding queries are also finished.
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  641   *
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  642   * A Query results structure should have been initialized at the start
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  643   * of the dev_priv->dummy_query_bo buffer object. And that buffer object
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  644   * must also be either reserved or pinned when this function is called.
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  645   *
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  646   * Returns -ENOMEM on failure to reserve fifo space.
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  647   */
-8426ed9c4b42f41 drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c  Zack Rusin       2020-11-18  648  int vmw_cmd_emit_dummy_query(struct vmw_private *dev_priv,
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  649  			      uint32_t cid)
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21 @650  {
-ddcda24e3bec1d4 drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c Thomas Hellstrom 2012-11-21  651  	if (dev_priv->has_mob)
-4acf63c8eca79f6 drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c  Zack Rusin       2021-05-04  652  		return vmw_cmd_emit_dummy_gb_query(dev_priv, cid);
-4acf63c8eca79f6 drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c  Zack Rusin       2021-05-04  653  
-4acf63c8eca79f6 drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c  Zack Rusin       2021-05-04  654  	return vmw_cmd_emit_dummy_legacy_query(dev_priv, cid);
-4acf63c8eca79f6 drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c  Zack Rusin       2021-05-04  655  }
-4acf63c8eca79f6 drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c  Zack Rusin       2021-05-04  656  
+   692	
+   693	static int vmw_setup_pci_resources(struct vmw_private *dev,
+   694					   unsigned long pci_id)
+   695	{
+   696		resource_size_t rmmio_start;
+   697		resource_size_t rmmio_size;
+   698		resource_size_t fifo_start;
+   699		resource_size_t fifo_size;
+   700		int ret;
+   701		struct pci_dev *pdev = to_pci_dev(dev->drm.dev);
+   702	
+   703		pci_set_master(pdev);
+   704	
+   705		ret = pci_request_regions(pdev, "vmwgfx probe");
+   706		if (ret)
+   707			return ret;
+   708	
+   709		dev->pci_id = pci_id;
+   710		if (pci_id == VMWGFX_PCI_ID_SVGA3) {
+   711			rmmio_start = pci_resource_start(pdev, 0);
+   712			rmmio_size = pci_resource_len(pdev, 0);
+   713			dev->vram_start = pci_resource_start(pdev, 2);
+   714			dev->vram_size = pci_resource_len(pdev, 2);
+   715	
+   716			DRM_INFO("Register MMIO at 0x%pa size is %llu kiB\n",
+   717				 &rmmio_start, (uint64_t)rmmio_size / 1024);
+ > 718			dev->rmmio = devm_ioremap(dev->drm.dev,
+   719						  rmmio_start,
+   720						  rmmio_size);
+   721			if (IS_ERR(dev->rmmio)) {
+   722				DRM_ERROR("Failed mapping registers mmio memory.\n");
+   723				pci_release_regions(pdev);
+   724				return PTR_ERR(dev->rmmio);
+   725			}
+   726		} else if (pci_id == VMWGFX_PCI_ID_SVGA2) {
+   727			dev->io_start = pci_resource_start(pdev, 0);
+   728			dev->vram_start = pci_resource_start(pdev, 1);
+   729			dev->vram_size = pci_resource_len(pdev, 1);
+   730			fifo_start = pci_resource_start(pdev, 2);
+   731			fifo_size = pci_resource_len(pdev, 2);
+   732	
+   733			DRM_INFO("FIFO at %pa size is %llu kiB\n",
+   734				 &fifo_start, (uint64_t)fifo_size / 1024);
+   735			dev->fifo_mem = devm_memremap(dev->drm.dev,
+   736						      fifo_start,
+   737						      fifo_size,
+   738						      MEMREMAP_WB);
+   739	
+   740			if (IS_ERR(dev->fifo_mem)) {
+   741				DRM_ERROR("Failed mapping FIFO memory.\n");
+   742				pci_release_regions(pdev);
+   743				return PTR_ERR(dev->fifo_mem);
+   744			}
+   745		} else {
+   746			pci_release_regions(pdev);
+   747			return -EINVAL;
+   748		}
+   749	
+   750		/*
+   751		 * This is approximate size of the vram, the exact size will only
+   752		 * be known after we read SVGA_REG_VRAM_SIZE. The PCI resource
+   753		 * size will be equal to or bigger than the size reported by
+   754		 * SVGA_REG_VRAM_SIZE.
+   755		 */
+   756		DRM_INFO("VRAM at %pa size is %llu kiB\n",
+   757			 &dev->vram_start, (uint64_t)dev->vram_size / 1024);
+   758	
+   759		return 0;
+   760	}
+   761	
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---CE+1k2dSO48ffgeK
+--/9DWx/yDrRhgMJTb
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICKY8kmAAAy5jb25maWcAlDxLe+Smsvv8iv4mm5xFEr/GZ3LO5wUtoW7SklAA9cMbfR67
-Z+IbP+a27WTm398q0ANQqZObxcSiCiigqDf9/Xffz9jb6/Pjzev97c3Dw7fZ5/3T/nDzur+b
-fbp/2P93lspZKc2Mp8L8BMj5/dPb15+/frhsLi9m7386PfvpZLbaH572D7Pk+enT/ec36Hz/
-/PTd998lsszEokmSZs2VFrJsDN+aq3e3DzdPn2d/7g8vgDc7Pf/pBMb44fP9639+/hn+fbw/
-HJ4PPz88/PnYfDk8/8/+9nX24dP7m7Ob9x/OL29vP+wvbk/v9p/OPt7tP56cne3//fHil8vL
-s/OL81/+9a6bdTFMe3XikSJ0k+SsXFx96xvxs8c9PT+B/zpYno4HgTYYJM/TYYjcwwsHgBkT
-Vja5KFfejENjow0zIglgS6YbpotmIY2cBDSyNlVtSLgoYWjugWSpjaoTI5UeWoX6rdlI5dE1
-r0WeGlHwxrB5zhstlTeBWSrOYO1lJuEfQNHYFc75+9nC8szD7GX/+vZlOPm5kiteNnDwuqi8
-iUthGl6uG6Zg60QhzNX5GYzSU1tUAmY3XJvZ/cvs6fkVB+73WiYs7zb73TuquWG1v3N2WY1m
-ufHwl2zNmxVXJc+bxbXwyPMhc4Cc0aD8umA0ZHs91UNOAS5owLU2yGX91nj0+jsTwy3VxxCQ
-dmJrffrHXeTxES+OgXEhxIQpz1idG8sR3tl0zUupTckKfvXuh6fnpz1c7n5cvdNrUSXEmJXU
-YtsUv9W89q6A34qdE5MPwA0zybLpegyMqKTWTcELqXYNM4YlS2K+WvNczP1+rAZZSWDak2UK
-prIYSAXL8+4OwXWcvbx9fPn28rp/HO7QgpdcicTe1krJubcmH6SXckNDRPkrTwxeFo/FVAog
-3ehNo7jmZUp3TZb+vcCWVBZMlFRbsxRc4eJ29FgFMwpOABYMFxUEEY2F1Kg1Q3KbQqY8nCmT
-KuFpK4iEL8N1xZTmiESPm/J5vci0PaX9093s+VO034MykMlKyxomcmyRSm8ae3g+imXcb1Tn
-NctFygxvcqZNk+ySnDg5K2vXAyNEYDseX/PS6KNAFLQsTWCi42gFHBNLf61JvELqpq6Q5EgW
-uauTVLUlV2kr+SPNcRTHsre5fwSFT3H48rqpgASZWjXY36JSIkSkOSeukgX62EuxWCL3tPOH
-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
-n5fK/AEA
+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
 
---CE+1k2dSO48ffgeK
+--/9DWx/yDrRhgMJTb
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -760,4 +1140,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---CE+1k2dSO48ffgeK--
+--/9DWx/yDrRhgMJTb--
