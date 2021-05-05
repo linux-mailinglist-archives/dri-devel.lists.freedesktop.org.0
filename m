@@ -2,47 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2DFE373CD4
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 15:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD01A373CDA
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 16:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85FD36E4B0;
-	Wed,  5 May 2021 13:59:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E346E4B5;
+	Wed,  5 May 2021 14:01:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC9E6E4AB;
- Wed,  5 May 2021 13:59:54 +0000 (UTC)
-IronPort-SDR: 7eeDpfHVad8pAaB+Fkq7iRVIq8I+O72HYkbePCZvrqdGVsfsVvaKeRSBZCzQxRTaj03q4rIazQ
- yL/WKfv9bFTg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="198296024"
-X-IronPort-AV: E=Sophos;i="5.82,275,1613462400"; d="scan'208";a="198296024"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 06:59:53 -0700
-IronPort-SDR: xCB81/HjslhprMl8z9lYQwcwoqbwBBS4CnDdOOTudCUIWHc76Ib8bSjA6NVo0thnhr1Q5v1LRO
- JPZjO4m4/M0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,275,1613462400"; d="scan'208";a="429864036"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga008.fm.intel.com with SMTP; 05 May 2021 06:59:50 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 05 May 2021 16:59:49 +0300
-Date: Wed, 5 May 2021 16:59:49 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: [PATCH 3/4] Restructure output format computation for better
- expandability
-Message-ID: <YJKk1QuhXdmneyOq@intel.com>
-References: <20210503182148.851790-1-wse@tuxedocomputers.com>
- <20210503182148.851790-4-wse@tuxedocomputers.com>
- <YJEZzhhQzmYxi8Gp@intel.com>
- <41aca960-7595-8fed-228c-3b9347c64dc6@tuxedocomputers.com>
- <YJKMXC8Wd+T34rNg@intel.com>
- <1820519f-b84c-e0cf-0851-d520fd379eaa@tuxedocomputers.com>
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6106E4AB;
+ Wed,  5 May 2021 14:01:16 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id s6so2145651edu.10;
+ Wed, 05 May 2021 07:01:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j+tjD7BwmbcLC3Q/caRj6z2/yE71cSDcwJUhEqIIsp0=;
+ b=fL+y1bfkn2pOJKVQBTVZRDAuVbBsUjb+LNH17mPHI3NnEBA3MOkNeZ+uwWs+3KxQqc
+ BTNb/UKMNWH3X42jwRlYv1XV/7ey1YB75TwxTpkMiIYtoT4L5iarXAfOWWKznq/U0eE9
+ GsefF2nJzZDkUVLgcst3F1m1mGeIxHkDcNVvCaSHHJtzsWleUOdscpoq62GTD7avN3/J
+ Lehj3olaPDgNsYDbpblhe65AwpZHfeS8GpovKjrCAj9zBUZ7lUcuNnP4mnEBA2uYCAc7
+ ocIM96PeEEGGOQ2AdbtAHX2EAKUmrQiHV3lWYVCvPPwsCxBmNjxxv/mzItxV+DXIz3ej
+ dkaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j+tjD7BwmbcLC3Q/caRj6z2/yE71cSDcwJUhEqIIsp0=;
+ b=EUyIzX1KDqqUSXUeRoucJO1FqDWyEx8GzS9V+e1ggQzjKrXvGkVE5148/AeevHABmp
+ pWAwnVJ8E+f/y8/mAAY1uHGBvA+tB74BcnxmGeujJ3vb6W5ImcAeCrljxMvOpmDRrfim
+ x4L3y9DPykPjdZF+Lk+FFOKaTO8lR/tQtbsyftImAAJs+J9dmlL9VlXyYlBTgNcdlxEj
+ njzJkyYBv0bsZpOSzNYYKY8eb4DbQPu1pzOL8eOoyTPUfb5jKDLxwNpwqKdQAi+0dMKb
+ 5sua60sxlBiIG1nMqcruWghpIIp/Zq15RZ8BXoYOT9zCZo/CN+Pfkwjh0y4iYEgExPmK
+ qBQQ==
+X-Gm-Message-State: AOAM531xKZ6sJRCaiOactmcPQPy9E/3nG1MQFpZ4jePpV8tLfXOb251g
+ Q6R1IcOq0H7LfmHnbaTuGqtIPFDWaCmmJ7J9j81sAZVD
+X-Google-Smtp-Source: ABdhPJyRkr1SLHfxPB34/VJWr01Um05S++Z7zxPr2leO4/OAdac0FliS8Y5LctB39epizujGtm06xdJi4q8zNALKyP0=
+X-Received: by 2002:a05:6402:644:: with SMTP id
+ u4mr13858089edx.386.1620223275261; 
+ Wed, 05 May 2021 07:01:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1820519f-b84c-e0cf-0851-d520fd379eaa@tuxedocomputers.com>
-X-Patchwork-Hint: comment
+References: <20210319210317.32369-1-mario.kleiner.de@gmail.com>
+ <CAEsyxygq1k4pTT-8ASuJn=rSzHBXyhy5jRStoBVmniR2B_MrJg@mail.gmail.com>
+ <CADnq5_OtKZ3=pZR_F4zx2Bz1zvEzuxb4fQU41c-XTBT8-H4Byw@mail.gmail.com>
+ <CADnq5_P16wMm4gyZJYndkVtLs5n85o95u3jm6DdU7mN7+o6P9w@mail.gmail.com>
+ <CADnq5_NgkXaV2s6K5cq6yijg0cT+a6ySdg33z5imYkt6n89grg@mail.gmail.com>
+In-Reply-To: <CADnq5_NgkXaV2s6K5cq6yijg0cT+a6ySdg33z5imYkt6n89grg@mail.gmail.com>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Wed, 5 May 2021 16:01:03 +0200
+Message-ID: <CAEsyxyistPRDs5tYNx5yN5pNs_QymXPf9tEyoVvOYZbmeEAq1g@mail.gmail.com>
+Subject: Re: 16 bpc fixed point (RGBA16) framebuffer support for core and AMD.
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,148 +65,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 05, 2021 at 03:02:53PM +0200, Werner Sembach wrote:
-> =
-
-> Am 05.05.21 um 14:15 schrieb Ville Syrj=E4l=E4:
-> > On Wed, May 05, 2021 at 11:54:35AM +0200, Werner Sembach wrote:
-> >> Am 04.05.21 um 11:54 schrieb Ville Syrj=E4l=E4:
-> >>
-> >>> On Mon, May 03, 2021 at 08:21:47PM +0200, Werner Sembach wrote:
-> >>>> Couples the decission between RGB and YCbCr420 mode and the check if=
- the port
-> >>>> clock can archive the required frequency. Other checks and configura=
-tion steps
-> >>>> that where previously done in between can also be done before or aft=
-er.
-> >>>>
-> >>>> This allows for are cleaner implementation of retrying different col=
-or
-> >>>> encodings.
-> >>>>
-> >>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> >>>> ---
-> >>>>
-> >>>> >From 57e42ec6e34ac32da29eb7bc3c691cbeb2534396 Mon Sep 17 00:00:00 2=
-001
-> >>>> From: Werner Sembach <wse@tuxedocomputers.com>
-> >>>> Date: Mon, 3 May 2021 15:30:40 +0200
-> >>>> Subject: [PATCH 3/4] Restructure output format computation for better
-> >>>>  expandability
-> >>>>
-> >>>> ---
-> >>>>  drivers/gpu/drm/i915/display/intel_hdmi.c | 57 +++++++++++---------=
----
-> >>>>  1 file changed, 26 insertions(+), 31 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu=
-/drm/i915/display/intel_hdmi.c
-> >>>> index ce165ef28e88..e2553ac6fd13 100644
-> >>>> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> >>>> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> >>>> @@ -1999,29 +1999,6 @@ static bool hdmi_deep_color_possible(const st=
-ruct intel_crtc_state *crtc_state,
-> >>>>  					      INTEL_OUTPUT_FORMAT_YCBCR420);
-> >>>>  }
-> >>>>  =
-
-> >>>> -static int
-> >>>> -intel_hdmi_ycbcr420_config(struct intel_crtc_state *crtc_state,
-> >>>> -			   const struct drm_connector_state *conn_state)
-> >>>> -{
-> >>>> -	struct drm_connector *connector =3D conn_state->connector;
-> >>>> -	struct drm_i915_private *i915 =3D to_i915(connector->dev);
-> >>>> -	const struct drm_display_mode *adjusted_mode =3D
-> >>>> -		&crtc_state->hw.adjusted_mode;
-> >>>> -
-> >>>> -	if (!drm_mode_is_420_only(&connector->display_info, adjusted_mode))
-> >>>> -		return 0;
-> >>>> -
-> >>>> -	if (!connector->ycbcr_420_allowed) {
-> >>>> -		drm_err(&i915->drm,
-> >>>> -			"Platform doesn't support YCBCR420 output\n");
-> >>>> -		return -EINVAL;
-> >>>> -	}
-> >>>> -
-> >>>> -	crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_YCBCR420;
-> >>>> -
-> >>>> -	return intel_pch_panel_fitting(crtc_state, conn_state);
-> >>>> -}
-> >>>> -
-> >>>>  static int intel_hdmi_compute_bpc(struct intel_encoder *encoder,
-> >>>>  				  struct intel_crtc_state *crtc_state,
-> >>>>  				  int clock)
-> >>>> @@ -2128,6 +2105,24 @@ static bool intel_hdmi_has_audio(struct intel=
-_encoder *encoder,
-> >>>>  		return intel_conn_state->force_audio =3D=3D HDMI_AUDIO_ON;
-> >>>>  }
-> >>>>  =
-
-> >>>> +int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
-> >>>> +				     struct intel_crtc_state *crtc_state,
-> >>>> +				     const struct drm_connector_state *conn_state)
-> >>>> +{
-> >>>> +	const struct drm_connector *connector =3D conn_state->connector;
-> >>>> +	const struct drm_display_mode *adjusted_mode =3D &crtc_state->hw.a=
-djusted_mode;
-> >>>> +	int ret;
-> >>>> +
-> >>>> +	if (connector->ycbcr_420_allowed && drm_mode_is_420_only(&connecto=
-r->display_info, adjusted_mode))
-> >>>> +		crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_YCBCR420;
-> >>>> +	else
-> >>>> +		crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_RGB;
-> >>> Slight change in behaviour here since we used to reject 420_only modes
-> >>> if ycbcr_420_allowed wasn't set. But I think this should be OK, and in
-> >>> fact I believe the DP counterpart code always used an RGB fallback
-> >>> rather than failing. So this lines up better with that.
-> >> That was actually an oversight on my side and not intended. Does a RGB=
- fallback make sense?
-> >>
-> >> Now that I think of it get to 2 scenarios:
-> >>
-> >> - The screen is really 420_only, which causes a silent fail and a blac=
-k screen I guess? Where before at least a log message was written.
-> >>
-> >> - The screen falsely reports as 420_only and using RGB regardless make=
-s it magically work
-> >>
-> >> I think at least warning should be printed to the logs. Something alon=
-g the lines of: "Display reports as 420 only, but port does not support 420=
-, try forcing RGB, but this is likely to fail."
-> > I would just put it into the "user has decided to override the mode and
-> > gets to keep both pieces if it breaks". Typical users would not hit that
-> > since they will only use modes reported by the connector as supported.
+On Tue, May 4, 2021 at 9:22 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Wed, Apr 28, 2021 at 5:21 PM Alex Deucher <alexdeucher@gmail.com> wrote:
 > >
-> > So I think the RGB fallback is totally in line with existing behaviour
-> > of the driver. We have other cases where we just ignore the reported
-> > limits of the display if the user overrides the mode manually.
+> > On Tue, Apr 20, 2021 at 5:25 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+> > >
+> > > On Fri, Apr 16, 2021 at 12:29 PM Mario Kleiner
+> > > <mario.kleiner.de@gmail.com> wrote:
+> > > >
+> > > > Friendly ping to the AMD people. Nicholas, Harry, Alex, any feedback?
+> > > > Would be great to get this in sooner than later.
+> > > >
+> > >
+> > > No objections from me.
+> > >
 > >
-> Did I get you right that "connector->ycbcr_420_allowed" is a user setting=
- and not automatically filled configuration depending on hardware capabilit=
-ies?
+> > I don't have any objections to merging this.  Are the IGT tests available?
+> >
+>
+> Any preference on whether I merge this through the AMD tree or drm-misc?
+>
+> Alex
+>
 
-No, ycbcr_420_allowed is an automatic thing. But the user can
-manually force the display mode to be whatever they want.
+Hi Alex, in case the question is addressed to myself: I prefer
+whatever gets it into drm-next asap, so we can sync the drm_fourcc.h
+headers from drm-next to the IGT tests, libdrm, amdvlk etc.
 
-So we could have a case where the user forces a mode which the display
-claims needs 4:2:0 but the GPU does not support 4:2:0 output. In that
-case we could either reject it or just try to output it as RGB anyway.
-The current policy for most things like this is "user knows best".
-And sometimes they really do know best since some displays can in
-fact do things they claim to not support.
+Another thing:Unless this would still make it into the Linux 5.13
+merge window, we'd also need a KMS_DRIVER_MINOR bump 41 -> 42. This
+way amdgpu-pro's Vulkan driver could know about the new 16 bpc pixel
+formats for the out of tree amdgpu-dkms package when running against
+older kernels.
 
--- =
+thanks,
+-mario
 
-Ville Syrj=E4l=E4
-Intel
+>
+> > Alex
+> >
+> > > Alex
+> > >
+> > >
+> > > > Thanks and have a nice weekend,
+> > > > -mario
+> > > >
+> > > > On Fri, Mar 19, 2021 at 10:03 PM Mario Kleiner
+> > > > <mario.kleiner.de@gmail.com> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > this patch series adds the fourcc's for 16 bit fixed point unorm
+> > > > > framebuffers to the core, and then an implementation for AMD gpu's
+> > > > > with DisplayCore.
+> > > > >
+> > > > > This is intended to allow for pageflipping to, and direct scanout of,
+> > > > > Vulkan swapchain images in the format VK_FORMAT_R16G16B16A16_UNORM.
+> > > > > I have patched AMD's GPUOpen amdvlk OSS driver to enable this format
+> > > > > for swapchains, mapping to DRM_FORMAT_XBGR16161616:
+> > > > > Link: https://github.com/kleinerm/pal/commit/a25d4802074b13a8d5f7edc96ae45469ecbac3c4
+> > > > >
+> > > > > My main motivation for this is squeezing every bit of precision
+> > > > > out of the hardware for scientific and medical research applications,
+> > > > > where fp16 in the unorm range is limited to ~11 bpc effective linear
+> > > > > precision in the upper half [0.5;1.0] of the unorm range, although
+> > > > > the hardware could do at least 12 bpc.
+> > > > >
+> > > > > It has been successfully tested on AMD RavenRidge (DCN-1), and with
+> > > > > Polaris11 (DCE-11.2). Up to two displays were active on RavenRidge
+> > > > > (DP 2560x1440@144Hz + HDMI 2560x1440@120Hz), the maximum supported
+> > > > > on my hw, both running at 10 bpc DP output depth.
+> > > > >
+> > > > > Up to three displays were active on the Polaris (DP 2560x1440@144Hz +
+> > > > > 2560x1440@100Hz USB-C DP-altMode-to-HDMI converter + eDP 2880x1800@60Hz
+> > > > > Apple Retina panel), all running at 10 bpc output depth.
+> > > > >
+> > > > > No malfunctions, visual artifacts or other oddities were observed
+> > > > > (apart from an adventureous mess of cables and adapters on my desk),
+> > > > > suggesting it works.
+> > > > >
+> > > > > I used my automatic photometer measurement procedure to verify the
+> > > > > effective output precision of 10 bpc DP native signal + spatial
+> > > > > dithering in the gpu as enabled by the amdgpu driver. Results show
+> > > > > the expected 12 bpc precision i hoped for -- the current upper limit
+> > > > > for AMD display hw afaik.
+> > > > >
+> > > > > So it seems to work in the way i hoped :).
+> > > > >
+> > > > > Some open questions wrt. AMD DC, to be addressed in this patch series, or follow up
+> > > > > patches if neccessary:
+> > > > >
+> > > > > - For the atomic check for plane scaling, the current patch will
+> > > > > apply the same hw limits as for other rgb fixed point fb's, e.g.,
+> > > > > for 8 bpc rgb8. Is this correct? Or would we need to use the fp16
+> > > > > limits, because this is also a 64 bpp format? Or something new
+> > > > > entirely?
+> > > > >
+> > > > > - I haven't added the new fourcc to the DCC tables yet. Should i?
+> > > > >
+> > > > > - I had to change an assert for DCE to allow 36bpp linebuffers (patch 4/5).
+> > > > > It looks to me as if that assert was inconsistent with other places
+> > > > > in the driver where COLOR_DEPTH121212 is supported, and looking at
+> > > > > the code, the change seems harmless. At least on DCE-11.2 the change
+> > > > > didn't cause any noticeable (by myself) or measurable (by my equipment)
+> > > > > problems on any of the 3 connected displays.
+> > > > >
+> > > > > - Related to that change, while i needed to increase lb pixelsize to 36bpp
+> > > > > to get > 10 bpc effective precision on DCN, i didn't need to do that
+> > > > > on DCE. Also no change of lb pixelsize was needed on either DCN or DCe
+> > > > > to get > 10 bpc precision for fp16 framebuffers, so something seems to
+> > > > > behave differently for floating point 16 vs. fixed point 16. This all
+> > > > > seems to suggest one could leave lb pixelsize at the old 30 bpp value
+> > > > > on at least DCE-11.2 and still get the > 10 bpc precision if one wanted
+> > > > > to avoid the changes of patch 4/5.
+> > > > >
+> > > > > Thanks,
+> > > > > -mario
+> > > > >
+> > > > >
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
