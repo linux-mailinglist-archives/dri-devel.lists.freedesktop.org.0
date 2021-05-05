@@ -1,59 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DC1373874
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 12:17:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3843373878
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 12:17:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74A9F6E47E;
-	Wed,  5 May 2021 10:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 495CD6E484;
+	Wed,  5 May 2021 10:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD2416E45E
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 10:17:30 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id b25so1982281eju.5
- for <dri-devel@lists.freedesktop.org>; Wed, 05 May 2021 03:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=STUBbhDfKTiCeN7EeEXPJCFZRE5YSb9vyedBR6Z/UEc=;
- b=TfzOhK9FMLIMOQrr6ompAzq1nuDvIvnQuzI+n2stLlxGHonlPez1dqc7q7xkYwfdnH
- DYI8JQmnBXZLQCEbKmYOyFkyhFtaFudNy8TsFnQwhMOe9U+oRryAMdRjn6OnvM5xot7N
- Umxe8zUPfqZN8xRHiBuVsHhWlH+lXpSwKBrS8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=STUBbhDfKTiCeN7EeEXPJCFZRE5YSb9vyedBR6Z/UEc=;
- b=A5M+Fws4B8HszVtst8JueNffsyLv4NZpbXvyZ9ES3SAb5QytVgmaA+Z/hUMb4nIGGn
- sl8cWbJj8/nzw8jL6UZ9LAwMAqK5fr+ZWoClIcK2NXDuX7h3t2pwgHtzyMb/YDBDW/5Z
- Hd7xLIGSkea/o3TOTho7eIzNXEy7NTPeowJvv1J/rAKgWGN4rsTVOd9inzL5qLPM7UNM
- 85I8AeMenLwh9l3kWiRA9mkZuthhd5XjFK9RSvudcl9Q6kd7p7wTQ6Opn/idl2EsuRr+
- uqeRXfjMhvUPzf/5baJ8nYsxvwhvcTI9TuQTnu53qSvMYJP1K66mXJYbF0ARDa1CDzqr
- GwNQ==
-X-Gm-Message-State: AOAM5312iLdYVbbFh/Dzn2BATJCZxYJyPI+9dN7MIR8Rb7ZCdSUhkdsK
- QiO6gl5kjGZF1KPcT3pwLsc9XA==
-X-Google-Smtp-Source: ABdhPJxC+f2f8eFg0JWX8tbgBgiNlwGT/zNLbJElHGyDdr2cVpGu7UGIC4SGfp/WO1pXKlp4xvMQkg==
-X-Received: by 2002:a17:906:5acd:: with SMTP id
- x13mr25670496ejs.243.1620209849192; 
- Wed, 05 May 2021 03:17:29 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g11sm15734565edt.35.2021.05.05.03.17.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 03:17:28 -0700 (PDT)
-Date: Wed, 5 May 2021 12:17:27 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH] drm/i915: drop the __i915_active_call pointer packing
-Message-ID: <YJJwtz6wbuJwrd7O@phenom.ffwll.local>
-References: <20210504164136.96456-1-matthew.auld@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA4BD6E45E;
+ Wed,  5 May 2021 10:17:37 +0000 (UTC)
+IronPort-SDR: ro1042UnXZlM8+8VMx1v4JzBL2S1cMVHN1I9CiGhiB+ste4U3pxmzXctOqfGoEvpa8+Gu/lMSl
+ 01g6SM7Hqn+w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="198233253"
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="198233253"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2021 03:17:37 -0700
+IronPort-SDR: WeJo6OE47B5MG8/tRuB6r+H7FEUNoUKOCw6h0Kh9WZs7DH1FFmri16pnnV03JDdepJj1yknsq5
+ 7ig55i4+G66A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="531717347"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+ by fmsmga001.fm.intel.com with SMTP; 05 May 2021 03:17:31 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Wed, 05 May 2021 13:17:30 +0300
+Date: Wed, 5 May 2021 13:17:30 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 8/9] usb: typec: altmodes/displayport: Notify drm subsys
+ of hotplug events
+Message-ID: <YJJwukxJfi9gGKcf@kuha.fi.intel.com>
+References: <20210503154647.142551-1-hdegoede@redhat.com>
+ <20210503154647.142551-9-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210504164136.96456-1-matthew.auld@intel.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <20210503154647.142551-9-hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,451 +50,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ platform-driver-x86@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 04, 2021 at 05:41:36PM +0100, Matthew Auld wrote:
-> We use some of the lower bits of the retire function pointer for
-> potential flags, which is quite thorny, since the caller needs to
-> remember to give the function the correct alignment with
-> __i915_active_call, otherwise we might incorrectly unpack the pointer
-> and jump to some garbage address later. Instead of all this let's just
-> pass the flags along as a separate parameter.
-> =
+Hi Hans,
 
-> Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> References: ca419f407b43 ("drm/i915: Fix crash in auto_retire")
-> References: d8e44e4dd221 ("drm/i915/overlay: Fix active retire callback a=
-lignment")
-> References: fd5f262db118 ("drm/i915/selftests: Fix active retire callback=
- alignment")
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-
-Thanks for doing this quickly.
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Mon, May 03, 2021 at 05:46:46PM +0200, Hans de Goede wrote:
+> Use the new drm_connector_find_by_fwnode() and
+> drm_connector_oob_hotplug_event() functions to let drm/kms drivers
+> know about DisplayPort over Type-C hotplug events.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_frontbuffer.c   |  4 ++--
->  drivers/gpu/drm/i915/display/intel_overlay.c       |  5 ++---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c        |  3 +--
->  drivers/gpu/drm/i915/gt/gen6_ppgtt.c               |  2 +-
->  drivers/gpu/drm/i915/gt/intel_context.c            |  3 +--
->  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |  2 +-
->  drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c     |  3 +--
->  drivers/gpu/drm/i915/gt/intel_timeline.c           |  4 ++--
->  drivers/gpu/drm/i915/gt/mock_engine.c              |  2 +-
->  .../gpu/drm/i915/gt/selftest_engine_heartbeat.c    |  4 ++--
->  drivers/gpu/drm/i915/i915_active.c                 | 14 +++++---------
->  drivers/gpu/drm/i915/i915_active.h                 | 11 ++++++-----
->  drivers/gpu/drm/i915/i915_active_types.h           |  5 -----
->  drivers/gpu/drm/i915/i915_vma.c                    |  3 +--
->  drivers/gpu/drm/i915/selftests/i915_active.c       |  4 ++--
->  15 files changed, 28 insertions(+), 41 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/i915/display/intel_frontbuffer.c b/drivers/g=
-pu/drm/i915/display/intel_frontbuffer.c
-> index 8161d49e78ba..8e75debcce1a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_frontbuffer.c
-> +++ b/drivers/gpu/drm/i915/display/intel_frontbuffer.c
-> @@ -211,7 +211,6 @@ static int frontbuffer_active(struct i915_active *ref)
->  	return 0;
->  }
->  =
-
-> -__i915_active_call
->  static void frontbuffer_retire(struct i915_active *ref)
->  {
->  	struct intel_frontbuffer *front =3D
-> @@ -266,7 +265,8 @@ intel_frontbuffer_get(struct drm_i915_gem_object *obj)
->  	atomic_set(&front->bits, 0);
->  	i915_active_init(&front->write,
->  			 frontbuffer_active,
-> -			 i915_active_may_sleep(frontbuffer_retire));
-> +			 frontbuffer_retire,
-> +			 I915_ACTIVE_RETIRE_SLEEPS);
->  =
-
->  	spin_lock(&i915->fb_tracking.lock);
->  	if (rcu_access_pointer(obj->frontbuffer)) {
-> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/d=
-rm/i915/display/intel_overlay.c
-> index 428819ba18dd..f1e04c1535c7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
-> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
-> @@ -383,8 +383,7 @@ static void intel_overlay_off_tail(struct intel_overl=
-ay *overlay)
->  		i830_overlay_clock_gating(dev_priv, true);
->  }
->  =
-
-> -__i915_active_call static void
-> -intel_overlay_last_flip_retire(struct i915_active *active)
-> +static void intel_overlay_last_flip_retire(struct i915_active *active)
->  {
->  	struct intel_overlay *overlay =3D
->  		container_of(active, typeof(*overlay), last_flip);
-> @@ -1401,7 +1400,7 @@ void intel_overlay_setup(struct drm_i915_private *d=
-ev_priv)
->  	overlay->saturation =3D 146;
->  =
-
->  	i915_active_init(&overlay->last_flip,
-> -			 NULL, intel_overlay_last_flip_retire);
-> +			 NULL, intel_overlay_last_flip_retire, 0);
->  =
-
->  	ret =3D get_registers(overlay, OVERLAY_NEEDS_PHYSICAL(dev_priv));
->  	if (ret)
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/dr=
-m/i915/gem/i915_gem_context.c
-> index fd8ee52e17a4..188dee13e017 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -1046,7 +1046,6 @@ struct context_barrier_task {
->  	void *data;
+> Changes in v2:
+> - Add missing depends on DRM to TYPEC_DP_ALTMODE Kconfig entry
+> ---
+>  drivers/usb/typec/altmodes/Kconfig       |  1 +
+>  drivers/usb/typec/altmodes/displayport.c | 40 +++++++++++++++++++++++-
+>  2 files changed, 40 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
+> index 60d375e9c3c7..1a6b5e872b0d 100644
+> --- a/drivers/usb/typec/altmodes/Kconfig
+> +++ b/drivers/usb/typec/altmodes/Kconfig
+> @@ -4,6 +4,7 @@ menu "USB Type-C Alternate Mode drivers"
+>  
+>  config TYPEC_DP_ALTMODE
+>  	tristate "DisplayPort Alternate Mode driver"
+> +	depends on DRM
+>  	help
+>  	  DisplayPort USB Type-C Alternate Mode allows DisplayPort
+>  	  displays and adapters to be attached to the USB Type-C
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+> index aa669b9cf70e..f00dfc5c14b6 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -11,8 +11,10 @@
+>  #include <linux/delay.h>
+>  #include <linux/mutex.h>
+>  #include <linux/module.h>
+> +#include <linux/property.h>
+>  #include <linux/usb/pd_vdo.h>
+>  #include <linux/usb/typec_dp.h>
+> +#include <drm/drm_connector.h>
+>  #include "displayport.h"
+>  
+>  #define DP_HEADER(_dp, ver, cmd)	(VDO((_dp)->alt->svid, 1, ver, cmd)	\
+> @@ -62,12 +64,30 @@ struct dp_altmode {
+>  	struct work_struct work;
+>  	struct typec_altmode *alt;
+>  	const struct typec_altmode *port;
+> +	struct fwnode_handle *connector_fwnode;
 >  };
->  =
-
-> -__i915_active_call
->  static void cb_retire(struct i915_active *base)
+>  
+> +static void dp_altmode_notify_connector(struct dp_altmode *dp)
+> +{
+> +	struct drm_connector_oob_hotplug_event_data data = { };
+> +	u8 pin_assign = DP_CONF_GET_PIN_ASSIGN(dp->data.conf);
+> +
+> +	data.connected = dp->data.status & DP_STATUS_HPD_STATE;
+> +	data.orientation = typec_altmode_get_orientation(dp->alt);
+> +
+> +	if (pin_assign & DP_PIN_ASSIGN_DP_ONLY_MASK)
+> +		data.dp_lanes = 4;
+> +	else if (pin_assign & DP_PIN_ASSIGN_MULTI_FUNC_MASK)
+> +		data.dp_lanes = 2;
+> +
+> +	drm_connector_oob_hotplug_event(dp->connector_fwnode, &data);
+> +}
+> +
+>  static int dp_altmode_notify(struct dp_altmode *dp)
 >  {
->  	struct context_barrier_task *cb =3D container_of(base, typeof(*cb), bas=
-e);
-> @@ -1080,7 +1079,7 @@ static int context_barrier_task(struct i915_gem_con=
-text *ctx,
->  	if (!cb)
->  		return -ENOMEM;
->  =
-
-> -	i915_active_init(&cb->base, NULL, cb_retire);
-> +	i915_active_init(&cb->base, NULL, cb_retire, 0);
->  	err =3D i915_active_acquire(&cb->base);
->  	if (err) {
->  		kfree(cb);
-> diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/=
-gt/gen6_ppgtt.c
-> index 21b1085769be..1aee5e6b1b23 100644
-> --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> @@ -343,7 +343,7 @@ static struct i915_vma *pd_vma_create(struct gen6_ppg=
-tt *ppgtt, int size)
->  	if (!vma)
->  		return ERR_PTR(-ENOMEM);
->  =
-
-> -	i915_active_init(&vma->active, NULL, NULL);
-> +	i915_active_init(&vma->active, NULL, NULL, 0);
->  =
-
->  	kref_init(&vma->ref);
->  	mutex_init(&vma->pages_mutex);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i9=
-15/gt/intel_context.c
-> index 17cf2640b082..4033184f13b9 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> @@ -326,7 +326,6 @@ void intel_context_unpin(struct intel_context *ce)
->  	intel_context_put(ce);
->  }
->  =
-
-> -__i915_active_call
->  static void __intel_context_retire(struct i915_active *active)
->  {
->  	struct intel_context *ce =3D container_of(active, typeof(*ce), active);
-> @@ -385,7 +384,7 @@ intel_context_init(struct intel_context *ce, struct i=
-ntel_engine_cs *engine)
->  	mutex_init(&ce->pin_mutex);
->  =
-
->  	i915_active_init(&ce->active,
-> -			 __intel_context_active, __intel_context_retire);
-> +			 __intel_context_active, __intel_context_retire, 0);
->  }
->  =
-
->  void intel_context_fini(struct intel_context *ce)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/d=
-rm/i915/gt/intel_ggtt_fencing.c
-> index 0fa6c38893f7..7bf84cd21543 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> @@ -867,7 +867,7 @@ void intel_ggtt_init_fences(struct i915_ggtt *ggtt)
->  	for (i =3D 0; i < num_fences; i++) {
->  		struct i915_fence_reg *fence =3D &ggtt->fence_regs[i];
->  =
-
-> -		i915_active_init(&fence->active, NULL, NULL);
-> +		i915_active_init(&fence->active, NULL, NULL, 0);
->  		fence->ggtt =3D ggtt;
->  		fence->id =3D i;
->  		list_add_tail(&fence->link, &ggtt->fence_list);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c b/drivers/gpu=
-/drm/i915/gt/intel_gt_buffer_pool.c
-> index c59468107598..aa0a59c5b614 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
-> @@ -98,7 +98,6 @@ static void pool_free_work(struct work_struct *wrk)
->  				      round_jiffies_up_relative(HZ));
->  }
->  =
-
-> -__i915_active_call
->  static void pool_retire(struct i915_active *ref)
->  {
->  	struct intel_gt_buffer_pool_node *node =3D
-> @@ -154,7 +153,7 @@ node_create(struct intel_gt_buffer_pool *pool, size_t=
- sz,
->  	node->age =3D 0;
->  	node->pool =3D pool;
->  	node->pinned =3D false;
-> -	i915_active_init(&node->active, NULL, pool_retire);
-> +	i915_active_init(&node->active, NULL, pool_retire, 0);
->  =
-
->  	obj =3D i915_gem_object_create_internal(gt->i915, sz);
->  	if (IS_ERR(obj)) {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i=
-915/gt/intel_timeline.c
-> index f19cf6d2fa85..c4a126c8caef 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_timeline.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
-> @@ -32,7 +32,6 @@ static struct i915_vma *hwsp_alloc(struct intel_gt *gt)
->  	return vma;
->  }
->  =
-
-> -__i915_active_call
->  static void __timeline_retire(struct i915_active *active)
->  {
->  	struct intel_timeline *tl =3D
-> @@ -104,7 +103,8 @@ static int intel_timeline_init(struct intel_timeline =
-*timeline,
->  	INIT_LIST_HEAD(&timeline->requests);
->  =
-
->  	i915_syncmap_init(&timeline->sync);
-> -	i915_active_init(&timeline->active, __timeline_active, __timeline_retir=
-e);
-> +	i915_active_init(&timeline->active, __timeline_active,
-> +			 __timeline_retire, 0);
->  =
-
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915=
-/gt/mock_engine.c
-> index e1ba03b93ffa..32589c6625e1 100644
-> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
-> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
-> @@ -55,7 +55,7 @@ static struct intel_ring *mock_ring(struct intel_engine=
-_cs *engine)
->  		kfree(ring);
->  		return NULL;
+>  	unsigned long conf;
+>  	u8 state;
+> +	int ret;
+>  
+>  	if (dp->data.conf) {
+>  		state = get_count_order(DP_CONF_GET_PIN_ASSIGN(dp->data.conf));
+> @@ -76,7 +96,12 @@ static int dp_altmode_notify(struct dp_altmode *dp)
+>  		conf = TYPEC_STATE_USB;
 >  	}
-> -	i915_active_init(&ring->vma->active, NULL, NULL);
-> +	i915_active_init(&ring->vma->active, NULL, NULL, 0);
->  	__set_bit(I915_VMA_GGTT_BIT, __i915_vma_flags(ring->vma));
->  	__set_bit(DRM_MM_NODE_ALLOCATED_BIT, &ring->vma->node.flags);
->  	ring->vma->node.size =3D sz;
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c b/driver=
-s/gpu/drm/i915/gt/selftest_engine_heartbeat.c
-> index fcde223e26ff..4896e4ccad50 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
-> @@ -63,7 +63,7 @@ static void pulse_put(struct pulse *p)
->  	kref_put(&p->kref, pulse_free);
+>  
+> -	return typec_altmode_notify(dp->alt, conf, &dp->data);
+> +	ret = typec_altmode_notify(dp->alt, conf, &dp->data);
+> +	if (ret)
+> +		return ret;
+> +
+> +	dp_altmode_notify_connector(dp);
+
+That is now going to be always called after configuration, right? The
+HPD is not necessarily issued at that point.
+
+I think that should be called from dp_altmode_status_update(), and
+probable only if there really is HPD IRQ or HPD State changes... I
+think?
+
+> +	return 0;
 >  }
->  =
 
-> -__i915_active_call static void pulse_retire(struct i915_active *active)
-> +static void pulse_retire(struct i915_active *active)
->  {
->  	pulse_put(container_of(active, struct pulse, active));
->  }
-> @@ -77,7 +77,7 @@ static struct pulse *pulse_create(void)
->  		return p;
->  =
+thanks,
 
->  	kref_init(&p->kref);
-> -	i915_active_init(&p->active, pulse_active, pulse_retire);
-> +	i915_active_init(&p->active, pulse_active, pulse_retire, 0);
->  =
-
->  	return p;
->  }
-> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i9=
-15_active.c
-> index aa573b078ae7..b1aa1c482c32 100644
-> --- a/drivers/gpu/drm/i915/i915_active.c
-> +++ b/drivers/gpu/drm/i915/i915_active.c
-> @@ -343,18 +343,15 @@ active_instance(struct i915_active *ref, u64 idx)
->  void __i915_active_init(struct i915_active *ref,
->  			int (*active)(struct i915_active *ref),
->  			void (*retire)(struct i915_active *ref),
-> +			unsigned long flags,
->  			struct lock_class_key *mkey,
->  			struct lock_class_key *wkey)
->  {
-> -	unsigned long bits;
-> -
->  	debug_active_init(ref);
->  =
-
-> -	ref->flags =3D 0;
-> +	ref->flags =3D flags;
->  	ref->active =3D active;
-> -	ref->retire =3D ptr_unpack_bits(retire, &bits, 2);
-> -	if (bits & I915_ACTIVE_MAY_SLEEP)
-> -		ref->flags |=3D I915_ACTIVE_RETIRE_SLEEPS;
-> +	ref->retire =3D retire;
->  =
-
->  	spin_lock_init(&ref->tree_lock);
->  	ref->tree =3D RB_ROOT;
-> @@ -1156,8 +1153,7 @@ static int auto_active(struct i915_active *ref)
->  	return 0;
->  }
->  =
-
-> -__i915_active_call static void
-> -auto_retire(struct i915_active *ref)
-> +static void auto_retire(struct i915_active *ref)
->  {
->  	i915_active_put(ref);
->  }
-> @@ -1171,7 +1167,7 @@ struct i915_active *i915_active_create(void)
->  		return NULL;
->  =
-
->  	kref_init(&aa->ref);
-> -	i915_active_init(&aa->base, auto_active, auto_retire);
-> +	i915_active_init(&aa->base, auto_active, auto_retire, 0);
->  =
-
->  	return &aa->base;
->  }
-> diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i9=
-15_active.h
-> index fb165d3f01cf..d0feda68b874 100644
-> --- a/drivers/gpu/drm/i915/i915_active.h
-> +++ b/drivers/gpu/drm/i915/i915_active.h
-> @@ -152,15 +152,16 @@ i915_active_fence_isset(const struct i915_active_fe=
-nce *active)
->  void __i915_active_init(struct i915_active *ref,
->  			int (*active)(struct i915_active *ref),
->  			void (*retire)(struct i915_active *ref),
-> +			unsigned long flags,
->  			struct lock_class_key *mkey,
->  			struct lock_class_key *wkey);
->  =
-
->  /* Specialise each class of i915_active to avoid impossible lockdep cycl=
-es. */
-> -#define i915_active_init(ref, active, retire) do {		\
-> -	static struct lock_class_key __mkey;				\
-> -	static struct lock_class_key __wkey;				\
-> -									\
-> -	__i915_active_init(ref, active, retire, &__mkey, &__wkey);	\
-> +#define i915_active_init(ref, active, retire, flags) do {			\
-> +	static struct lock_class_key __mkey;					\
-> +	static struct lock_class_key __wkey;					\
-> +										\
-> +	__i915_active_init(ref, active, retire, flags, &__mkey, &__wkey);	\
->  } while (0)
->  =
-
->  struct dma_fence *
-> diff --git a/drivers/gpu/drm/i915/i915_active_types.h b/drivers/gpu/drm/i=
-915/i915_active_types.h
-> index 6360c3e4b765..c149f348a972 100644
-> --- a/drivers/gpu/drm/i915/i915_active_types.h
-> +++ b/drivers/gpu/drm/i915/i915_active_types.h
-> @@ -24,11 +24,6 @@ struct i915_active_fence {
->  =
-
->  struct active_node;
->  =
-
-> -#define I915_ACTIVE_MAY_SLEEP BIT(0)
-> -
-> -#define __i915_active_call __aligned(4)
-> -#define i915_active_may_sleep(fn) ptr_pack_bits(&(fn), I915_ACTIVE_MAY_S=
-LEEP, 2)
-> -
->  struct i915_active {
->  	atomic_t count;
->  	struct mutex mutex;
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_=
-vma.c
-> index 468317e3b477..a6cd0fa62847 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -94,7 +94,6 @@ static int __i915_vma_active(struct i915_active *ref)
->  	return i915_vma_tryget(active_to_vma(ref)) ? 0 : -ENOENT;
->  }
->  =
-
-> -__i915_active_call
->  static void __i915_vma_retire(struct i915_active *ref)
->  {
->  	i915_vma_put(active_to_vma(ref));
-> @@ -125,7 +124,7 @@ vma_create(struct drm_i915_gem_object *obj,
->  	vma->size =3D obj->base.size;
->  	vma->display_alignment =3D I915_GTT_MIN_ALIGNMENT;
->  =
-
-> -	i915_active_init(&vma->active, __i915_vma_active, __i915_vma_retire);
-> +	i915_active_init(&vma->active, __i915_vma_active, __i915_vma_retire, 0);
->  =
-
->  	/* Declare ourselves safe for use inside shrinkers */
->  	if (IS_ENABLED(CONFIG_LOCKDEP)) {
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_active.c b/drivers/gpu/d=
-rm/i915/selftests/i915_active.c
-> index 1aa52b5cc488..61bf4560d8af 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_active.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_active.c
-> @@ -51,7 +51,7 @@ static int __live_active(struct i915_active *base)
->  	return 0;
->  }
->  =
-
-> -__i915_active_call static void __live_retire(struct i915_active *base)
-> +static void __live_retire(struct i915_active *base)
->  {
->  	struct live_active *active =3D container_of(base, typeof(*active), base=
-);
->  =
-
-> @@ -68,7 +68,7 @@ static struct live_active *__live_alloc(struct drm_i915=
-_private *i915)
->  		return NULL;
->  =
-
->  	kref_init(&active->ref);
-> -	i915_active_init(&active->base, __live_active, __live_retire);
-> +	i915_active_init(&active->base, __live_active, __live_retire, 0);
->  =
-
->  	return active;
->  }
-> -- =
-
-> 2.26.3
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-- 
+heikki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
