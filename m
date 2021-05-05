@@ -2,43 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7C8373863
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 12:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA08373871
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 12:17:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 941D6892B1;
-	Wed,  5 May 2021 10:11:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 721E86E46B;
+	Wed,  5 May 2021 10:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4723D892B1
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 10:11:24 +0000 (UTC)
-IronPort-SDR: 04shHjVpijKgGA6HJZ0MgGtMaEQBpI9Gv3XMOxL1r7327Mj47wPRu0M4X6TawMfqfPj6Yvj/i0
- Igc/KJ9ilz9Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="185308901"
-X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="185308901"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 03:11:23 -0700
-IronPort-SDR: RBeX8i00wAVSvL1svozHlhGDI8kAMYLEsNYonUa7vnFigFIRN1kxQdxFBHjcVD9Dsvf+LVWSFU
- 1MyKDpuYmFwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="433741555"
-Received: from lkp-server01.sh.intel.com (HELO a48ff7ddd223) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 05 May 2021 03:11:22 -0700
-Received: from kbuild by a48ff7ddd223 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1leEUz-0009wd-Gx; Wed, 05 May 2021 10:11:21 +0000
-Date: Wed, 5 May 2021 18:10:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vmwgfx: fix badzero.cocci warnings
-Message-ID: <20210505101028.GA5891@7e032e5443f7>
-References: <20210505035740.286923-6-zackr@vmware.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E56D6E043;
+ Wed,  5 May 2021 10:16:57 +0000 (UTC)
+IronPort-SDR: Cb5Zi9ecI9IFsEyTsWTxn0481VVP+KM1oGRZCnCFYFz4kAy5GEAT/v1TiY2MYUi5loxp4rzO+O
+ mRc0FOlJiVJA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="262123841"
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="262123841"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2021 03:16:55 -0700
+IronPort-SDR: U30dEnHdvT5+c2dHJR8RccJwK2sbrlrSUFqR2AvVM8RCcQwEarpH+AZ9Bnx8SZFYCG1Cxc0Lyn
+ a5MwFINoEoqw==
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="458616820"
+Received: from yueqinya-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.254.36.228])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2021 03:16:54 -0700
+Date: Wed, 5 May 2021 06:16:53 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>
+Subject: Re: Enabling sample_c optimization for Broadwell GPUs
+Message-ID: <YJJwlXt4n936yz68@intel.com>
+References: <e99599bf-f503-3227-8361-afcd3d2a098f@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210505035740.286923-6-zackr@vmware.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <e99599bf-f503-3227-8361-afcd3d2a098f@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,47 +47,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sroland@vmware.com, krastevm@vmware.com, kbuild-all@lists.01.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Kenneth Graunke <kenneth@whitecape.org>, kernel@collabora.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: kernel test robot <lkp@intel.com>
+Hi Andre,
 
-drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c:674:25-26: WARNING comparing pointer to 0
+I'm not familiar with the sample c message optimization.
+Probably Ken can comment.
 
- Compare pointer-typed values to NULL rather than 0
+However I could check the internal spec here and I saw this bit
+only exists with this meaning in Haswell.
 
-Semantic patch information:
- This makes an effort to choose between !x and x == NULL.  !x is used
- if it has previously been used with the function used to initialize x.
- This relies on type information.  More type information can be obtained
- using the option -all_includes and the option -I to specify an
- include path.
+For all the other platforms, including Broadwell it got re-purposed with
+a different meaning and a programming note:
+"This bit should be programmed to zero (0h) at all times."
 
-Generated by: scripts/coccinelle/null/badzero.cocci
+Also, I could not find any workaround documented anywhere recommending
+this bit to be set.
 
-CC: Zack Rusin <zackr@vmware.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
----
+So, I would not recommend to use it in any product, even downstream.
+Regardless the state of sample c message optimization in later platforms.
 
-url:    https://github.com/0day-ci/linux/commits/Zack-Rusin/drm-vmwgfx-SVGA-v3-and-arm64-support/20210505-120026
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+Thanks,
+Rodrigo.
 
- vmwgfx_cmd.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, May 04, 2021 at 08:07:14PM -0300, Andr=E9 Almeida wrote:
+> Hi there,
+> =
 
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
-@@ -671,5 +671,5 @@ bool vmw_cmd_supported(struct vmw_privat
- 	/*
- 	 * We have FIFO cmd's
- 	 */
--	return vmw->fifo_mem != 0;
-+	return vmw->fifo_mem != NULL;
- }
+> While browsing an old downstream kernel, I found a patch[0] that enables
+> sample_c optimizations at Broadwell GPUs. The message from the upstream
+> commit that enables it for Haswell[1] (and presumably where the code at[0]
+> was copied from) states that "[..] later platforms remove this bit, and
+> apparently always enable the optimization".
+> =
+
+> Could you confirm that Broadwell and following architectures enable this
+> optimization by default (and thus, patch[0] is a no-op), or should I
+> upstream it?
+> =
+
+> Thanks,
+> 	Andr=E9
+> =
+
+> [0] https://github.com/ValveSoftware/steamos_kernel/commit/198990f13e1d94=
+29864c177d9441a6559771c5e2
+> =
+
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
+mmit/?id=3D944115934436b1ff6cf773a9e9123858ea9ef3da
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
