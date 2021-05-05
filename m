@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8348E37488C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 21:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8924537488D
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 21:15:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5256D6E4FE;
-	Wed,  5 May 2021 19:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B18536EC2E;
+	Wed,  5 May 2021 19:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEE088C3D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 13:53:19 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id y30so1830744pgl.7
- for <dri-devel@lists.freedesktop.org>; Wed, 05 May 2021 06:53:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n1bbsdQFslUe2/D8fiyQmt7GT8BuGOrH6bymhVpBYX0=;
- b=Key2mtimVz3Ms9QHFbm4+H7mGJ0Ryu2plYuVDFRZjpPSMAdAD5nCBdXFdPFEFUJIvf
- QsPqFq2nTQv3zsXqVfDIqgtf/Q7ma8W2BEtCjCaq2veefFeg9Zf5iFSuhQWPe/MRYHhO
- J+pT6zBwMfMpXE2z4H0pWtMDJRH0kOnIGMH5JKuz7O31W0CVIV0iefAiDshNHsUT8KUw
- ys6ywYxzupKjoqkEv9sW1YvBER5/JV2MYPXmDnJq6hKgQe3DETrS0fuI4a+ZbH6vHx2T
- yU0Iv7KK9687KoatwGwgtHpGT5v4//KWks/yMgZfx4fHaRGcUHdf+eUFpqYT3bF8afEW
- hkGA==
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 899EA6E4C5
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 14:02:16 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id
+ z25-20020a6be2190000b02904095fa9518eso1320847ioc.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 May 2021 07:02:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n1bbsdQFslUe2/D8fiyQmt7GT8BuGOrH6bymhVpBYX0=;
- b=im8UxGovN4EFYFyxAl2jqgLC7NcWFEgbwSUDdnqaeI1OY1ht9X4gF1hH1lRq96XawT
- 3d88iqsKCBjRXzBF0uTZIRGg8unNaCftahi/MRPkI3YSEYKAoTDYIcWCSQ3a/qweaHwS
- F3cWCc8c1qB0i8vQPgucef1PlU601XkXCcARxnhzAzZwgs/iWdBHdKBCxWPJQ30/5Q9M
- pPl2VGeK/OYnCrw7ki0/enjj0DqyJubtsIvGFwZHGeCzTtjIkVQnBRkKwhvSJv6F+uQX
- ZjbEXjWMlYHwg4k31Zn+8VPWuNv+7Vp5Z9xwnaFjwVpgyNWY8ueWh+dptgoCZxLJS+tN
- YBrw==
-X-Gm-Message-State: AOAM530Q7n8RbPMRHgksW2H72zo8mm/gAUGA0JOzjcVl0tVxiBKgGHf4
- /nrG7hLGXOzhgsu88AdgHgU0N2bhP8UoVT1ObcI=
-X-Google-Smtp-Source: ABdhPJyluxFRTo8fdiox4JZ/YBjp7C3OIiVJ3YAHoNyjb+ElKi+tqlmQFHxdzj08K6nCwubf+VSVhH2i0N/I2jSnzsg=
-X-Received: by 2002:a65:4c8e:: with SMTP id m14mr27753924pgt.377.1620222798644; 
- Wed, 05 May 2021 06:53:18 -0700 (PDT)
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=nzZoGSaNk15eVdCdhLg/lhOvD5F94kAlun8vvUPZwmQ=;
+ b=razwLA0Vgx41arTfKy8YpQOVgIlnZ9/vhXguKEcJOc71CT0ijst7xRahqXQZtSgyAX
+ COp5QukcDj/Z3y2Bqbm8GHmifv7Nnxmc3pHUVCKk8R0Q6Ps7Bg1Ujlt2Np8Woni/NPF9
+ X9GyDSwwUGaD0iGyzJl54SM+NH3toTOJK7M7cavNj27KEVGPZ6+lOVlsA+abjS7kXgyw
+ KBwHdpDhQ2XG2gJhdpiN2hJWYVh3n0tLM/PNKf/x4BLHOvOBFOIDUembHCUPsG3c41IG
+ GsmQXaLAsbRglbuCAmNGEGrvhvIyZfnP4wLMOvU85wMja8fo7oDtWL7iLNfPU0/fTY6s
+ U0Rw==
+X-Gm-Message-State: AOAM532UiHYyFnHrzdLeZam5XvBvekuJxCfn5UQn5S/Jcp3EqeP8+G7I
+ TJ42pJOOSQW/TJLLm2Hdt8o7niUIzjNidDMwGgstBYqhHquH
+X-Google-Smtp-Source: ABdhPJyzXTlJHMJewy9XPDfpGTO6uV+D2lMNp4D6HM6CPyTnpKZnxTn33UszVOcVPYTRNmf41wg5cAcE/fYy+ivpY2DfwadJnrsy
 MIME-Version: 1.0
-References: <55fe7f3454d8c91dc3837ba5aa741d4a0e67378f.1618797813.git.tommyhebb@gmail.com>
-In-Reply-To: <55fe7f3454d8c91dc3837ba5aa741d4a0e67378f.1618797813.git.tommyhebb@gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-Date: Wed, 5 May 2021 23:53:07 +1000
-Message-ID: <CANwerB2Jjtu=HyLEgFjf1PyJEWzE9_7rcTgTr2QAXCWXZWjC3g@mail.gmail.com>
-Subject: Re: [RESEND PATCH] drm/rockchip: dsi: move all lane config except
- LCDC mux to bind()
-To: Thomas Hebb <tommyhebb@gmail.com>
+X-Received: by 2002:a92:b74a:: with SMTP id c10mr24963547ilm.72.1620223335870; 
+ Wed, 05 May 2021 07:02:15 -0700 (PDT)
+Date: Wed, 05 May 2021 07:02:15 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006438bb05c195a467@google.com>
+Subject: [syzbot] WARNING in drm_wait_one_vblank
+From: syzbot <syzbot+6f7fe2dbc479dca0ed17@syzkaller.appspotmail.com>
+To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
 Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Wed, 05 May 2021 19:15:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,52 +55,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, David Airlie <airlied@linux.ie>,
- Brian Norris <briannorris@chromium.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
- Andrzej Hajda <a.hajda@samsung.com>, Nickey Yang <nickey.yang@rock-chips.com>,
- Sean Paul <seanpaul@chromium.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Apr 2021 at 02:04, Thomas Hebb <tommyhebb@gmail.com> wrote:
->
-> When we first enable the DSI encoder, we currently program some per-chip
-> configuration that we look up in rk3399_chip_data based on the device
-> tree compatible we match. This data configures various parameters of the
-> MIPI lanes, including on RK3399 whether DSI1 is slaved to DSI0 in a
-> dual-mode configuration. It also selects which LCDC (i.e. VOP) to scan
-> out from.
->
-> This causes a problem in RK3399 dual-mode configurations, though: panel
-> prepare() callbacks run before the encoder gets enabled and expect to be
-> able to write commands to the DSI bus, but the bus isn't fully
-> functional until the lane and master/slave configuration have been
-> programmed. As a result, dual-mode panels (and possibly others too) fail
-> to turn on when the rockchipdrm driver is initially loaded.
->
-> Because the LCDC mux is the only thing we don't know until enable time
-> (and is the only thing that can ever change), we can actually move most
-> of the initialization to bind() and get it out of the way early. That's
-> what this change does. (Rockchip's 4.4 BSP kernel does it in mode_set(),
-> which also avoids the issue, but bind() seems like the more correct
-> place to me.)
->
-> Tested on a Google Scarlet board (Acer Chromebook Tab 10), which has a
-> Kingdisplay KD097D04 dual-mode panel. Prior to this change, the panel's
-> backlight would turn on but no image would appear when initially loading
-> rockchipdrm. If I kept rockchipdrm loaded and reloaded the panel driver,
-> it would come on. With this change, the panel successfully turns on
-> during initial rockchipdrm load as expected.
->
-> Fixes: 2d4f7bdafd70 ("drm/rockchip: dsi: migrate to use dw-mipi-dsi bridge driver")
-> Signed-off-by: Thomas Hebb <tommyhebb@gmail.com>
+Hello,
 
-Tested-by: Jonathan Liu <net147@gmail.com>
+syzbot found the following issue on:
 
-Fixes MIPI-DSI panel initialization for me on RK3399 too.
+HEAD commit:    d2b6f8a1 Merge tag 'xfs-5.13-merge-3' of git://git.kernel...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12c5b2c3d00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=65c207250bba4efe
+dashboard link: https://syzkaller.appspot.com/bug?extid=6f7fe2dbc479dca0ed17
 
-Regards,
-Jonathan
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+6f7fe2dbc479dca0ed17@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+platform vkms: vblank wait timed out on crtc 0
+WARNING: CPU: 0 PID: 11785 at drivers/gpu/drm/drm_vblank.c:1269 drm_wait_one_vblank+0x2be/0x500 drivers/gpu/drm/drm_vblank.c:1269
+Modules linked in:
+CPU: 0 PID: 11785 Comm: syz-executor.0 Not tainted 5.12.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:drm_wait_one_vblank+0x2be/0x500 drivers/gpu/drm/drm_vblank.c:1269
+Code: 85 f6 0f 84 a3 01 00 00 e8 6f f0 32 fd 4c 89 ef e8 97 68 13 00 44 89 e1 4c 89 f2 48 c7 c7 e0 eb d6 89 48 89 c6 e8 57 35 86 04 <0f> 0b e9 87 fe ff ff e8 46 f0 32 fd 31 ff 4c 89 ee e8 5c f8 32 fd
+RSP: 0018:ffffc90008f7fb40 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 00000000000038f8 RCX: 0000000000000000
+RDX: 0000000000040000 RSI: ffffffff815c7bd5 RDI: fffff520011eff5a
+RBP: ffff8881437b0000 R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffff815c1a3e R11: 0000000000000000 R12: 0000000000000000
+R13: ffff88801a1c4010 R14: ffff8880161746b8 R15: ffff888142ddc830
+FS:  00007f8eba6e2700(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000014a53ad CR3: 0000000021583000 CR4: 00000000001506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ drm_fb_helper_ioctl+0x159/0x1a0 drivers/gpu/drm/drm_fb_helper.c:1197
+ do_fb_ioctl+0x1d5/0x690 drivers/video/fbdev/core/fbmem.c:1171
+ fb_ioctl+0xe7/0x150 drivers/video/fbdev/core/fbmem.c:1185
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:1069 [inline]
+ __se_sys_ioctl fs/ioctl.c:1055 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:1055
+ do_syscall_64+0x3a/0xb0 arch/x86/entry/common.c:47
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x4665f9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 bc ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f8eba6e2188 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 000000000056bf60 RCX: 00000000004665f9
+RDX: 0000000000000000 RSI: 0000000040044620 RDI: 0000000000000006
+RBP: 00000000004bfce1 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000056bf60
+R13: 0000000000a9fb1f R14: 00007f8eba6e2300 R15: 0000000000022000
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
