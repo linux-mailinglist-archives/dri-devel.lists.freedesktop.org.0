@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFA8374009
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 18:33:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A6637400B
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 18:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1721C6EB6F;
-	Wed,  5 May 2021 16:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6E56EC04;
+	Wed,  5 May 2021 16:33:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E536EB57;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACAF16EB6F;
+ Wed,  5 May 2021 16:33:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 733AF61464;
  Wed,  5 May 2021 16:33:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD1B761435;
- Wed,  5 May 2021 16:33:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620232421;
- bh=bu0VStflvZTbpKl7dDgXcxFPzaqg1ww7P4pxmGOVWsA=;
+ s=k20201202; t=1620232422;
+ bh=DiHdd7yDzIyuLxlC1zOMaexv0xacGPCFgIoI9D78zEU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XiTnQjfmwCax4vJqR5oepMyDRJ/zIluuUB5+zlGqW8x5QrOYRJveXIaDBrfRnob+p
- Eu8go8LddwmphfqEgapW3o682hRPG5Xk/eaNY0cYT5AVEAJPOAczIsJ8qzZhxRhhMY
- 70JRKosMDM4OB/SU862RuiFjpHSC/uhhMFFqnSyVJ8ar20BtKMdDaFS0qcUI3K0V+H
- szf653p1ZNY3ECRmsqEeQO5V5Qk4TgPWC9cM3xnlCrSuPB4dlBHaHxoTL7FbyfkN0Z
- /YGs0Zf6C5bGmRr/cOMvcy3rPnwic2Wu72cXWJnsMRwcYLWZNJRANx305W0VpgjTzt
- GeyEGBNJXngig==
+ b=RJSCZBwcINN5pLPZHOL0t7udHzeIbc4GzVMdQOrJ9OmFRmP4XkIK1rwCnX4AX3JIT
+ AVFjtst9oaXqUfnPVPK0d5WDwv5hcM4R/TP+vV9zCGJM66NIVlIQ6K07f+eRfhcbXS
+ 4er5fwNZkswBCLZfCvkTyegwSgqoAMYKtkNLCWJ8UqBrvl25rHn6N1Ot94FTZVOz1D
+ /vW1dh3CFJc0KQ2mIdhgf4AuVJM8grGK7LjjAdQIccr6z8ykh0LKMJ2Ceu5GTgP/Jk
+ /AqEvu3N0Ezwj4weIJUT4gKI7Ju6/VXa6coAbMFMBS2d6TKJ/HpuiAG6S2rCABDxgH
+ esq79UrPvDX4A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 096/116] drm/amd/display: add handling for hdcp2
- rx id list validation
-Date: Wed,  5 May 2021 12:31:04 -0400
-Message-Id: <20210505163125.3460440-96-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 097/116] drm/amdgpu: Add mem sync flag for IB
+ allocated by SA
+Date: Wed,  5 May 2021 12:31:05 -0400
+Message-Id: <20210505163125.3460440-97-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210505163125.3460440-1-sashal@kernel.org>
 References: <20210505163125.3460440-1-sashal@kernel.org>
@@ -49,57 +49,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- "Dingchen \(David\) Zhang" <dingchen.zhang@amd.com>,
- amd-gfx@lists.freedesktop.org, Daniel Wheeler <daniel.wheeler@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
+Cc: Jinzhou Su <Jinzhou.Su@amd.com>, Sasha Levin <sashal@kernel.org>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Dingchen (David) Zhang" <dingchen.zhang@amd.com>
-
-[ Upstream commit 4ccf9446b2a3615615045346c97f8a1e2a16568a ]
-
-[why]
-the current implementation of hdcp2 rx id list validation does not
-have handler/checker for invalid message status, e.g. HMAC, the V
-parameter calculated from PSP not matching the V prime from Rx.
-
-[how]
-return a generic FAILURE for any message status not SUCCESS or
-REVOKED.
-
-Signed-off-by: Dingchen (David) Zhang <dingchen.zhang@amd.com>
-Reviewed-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c
-index 904ce9b88088..afbe8856468a 100644
---- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c
-+++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c
-@@ -791,6 +791,8 @@ enum mod_hdcp_status mod_hdcp_hdcp2_validate_rx_id_list(struct mod_hdcp *hdcp)
- 			   TA_HDCP2_MSG_AUTHENTICATION_STATUS__RECEIVERID_REVOKED) {
- 			hdcp->connection.is_hdcp2_revoked = 1;
- 			status = MOD_HDCP_STATUS_HDCP2_RX_ID_LIST_REVOKED;
-+		} else {
-+			status = MOD_HDCP_STATUS_HDCP2_VALIDATE_RX_ID_LIST_FAILURE;
- 		}
- 	}
- 	mutex_unlock(&psp->hdcp_context.mutex);
--- 
-2.30.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogSmluemhvdSBTdSA8SmluemhvdS5TdUBhbWQuY29tPgoKWyBVcHN0cmVhbSBjb21taXQg
+NWM4OGUzYjg2YTg4ZjE0ZWZhMGEzZGRkMjg2NDFjNmZmNDlmYjljNCBdCgpUaGUgYnVmZmVyIG9m
+IFNBIGJvIHdpbGwgYmUgdXNlZCBieSBtYW55IGNhc2VzLiBTbyBpdCdzIGJldHRlcgp0byBpbnZh
+bGlkYXRlIHRoZSBjYWNoZSBvZiBpbmRpcmVjdCBidWZmZXIgYWxsb2NhdGVkIGJ5IFNBIGJlZm9y
+ZQpjb21taXQgdGhlIElCLgoKU2lnbmVkLW9mZi1ieTogSmluemhvdSBTdSA8SmluemhvdS5TdUBh
+bWQuY29tPgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0Bh
+bWQuY29tPgpTaWduZWQtb2ZmLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFt
+ZC5jb20+ClNpZ25lZC1vZmYtYnk6IFNhc2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfaWIuYyB8IDIgKysKIDEgZmlsZSBj
+aGFuZ2VkLCAyIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9hbWRncHVfaWIuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9p
+Yi5jCmluZGV4IDc2NDUyMjNlYTBlZi4uOTdjMTFhYTQ3YWQwIDEwMDY0NAotLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfaWIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9hbWRncHVfaWIuYwpAQCAtNzcsNiArNzcsOCBAQCBpbnQgYW1kZ3B1X2liX2dldChz
+dHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwgc3RydWN0IGFtZGdwdV92bSAqdm0sCiAJCX0KIAog
+CQlpYi0+cHRyID0gYW1kZ3B1X3NhX2JvX2NwdV9hZGRyKGliLT5zYV9ibyk7CisJCS8qIGZsdXNo
+IHRoZSBjYWNoZSBiZWZvcmUgY29tbWl0IHRoZSBJQiAqLworCQlpYi0+ZmxhZ3MgPSBBTURHUFVf
+SUJfRkxBR19FTUlUX01FTV9TWU5DOwogCiAJCWlmICghdm0pCiAJCQlpYi0+Z3B1X2FkZHIgPSBh
+bWRncHVfc2FfYm9fZ3B1X2FkZHIoaWItPnNhX2JvKTsKLS0gCjIuMzAuMgoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
