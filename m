@@ -2,48 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2F8374867
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 21:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F179A37487B
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 21:10:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8A806EC38;
-	Wed,  5 May 2021 19:03:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3B2F6E4FB;
+	Wed,  5 May 2021 19:10:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53FC16EC2E;
- Wed,  5 May 2021 19:03:13 +0000 (UTC)
-IronPort-SDR: DXFHGD9dWt4aWApZeziQ8yLXbYT+hryKL8yQxapKr2ZRSUeXv+poq1qSaXokh2tGUCWkeAfxQT
- p7ENlmDTL7wQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="185414528"
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; 
- d="gz'50?scan'50,208,50";a="185414528"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 12:03:12 -0700
-IronPort-SDR: zkVjX6ANTIj7We16SZaYWMygiFSFVrgEgT9x1GfiwxmPbOoGhyOdI8IP3yan54uVlZZ3jVj926
- KIhtqNy5cwPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; 
- d="gz'50?scan'50,208,50";a="390433119"
-Received: from lkp-server01.sh.intel.com (HELO a48ff7ddd223) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 05 May 2021 12:03:09 -0700
-Received: from kbuild by a48ff7ddd223 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1leMnd-000A7K-8X; Wed, 05 May 2021 19:03:09 +0000
-Date: Thu, 6 May 2021 03:03:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Werner Sembach <wse@tuxedocomputers.com>, ville.syrjala@linux.intel.com,
- airlied@linux.ie, daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] Restructure output format computation for better
- expandability
-Message-ID: <202105060236.Q2hP91DB-lkp@intel.com>
-References: <20210505141052.3467-3-wse@tuxedocomputers.com>
+Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
+ [208.91.0.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE4F6E4FB
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 19:10:10 +0000 (UTC)
+Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
+ EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
+ 15.0.1156.6; Wed, 5 May 2021 12:10:06 -0700
+Received: from vertex.localdomain (unknown [10.21.244.64])
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 3AF5720456;
+ Wed,  5 May 2021 12:10:08 -0700 (PDT)
+From: Zack Rusin <zackr@vmware.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 5/6] drm/vmwgfx: Add basic support for SVGA3
+Date: Wed, 5 May 2021 15:10:07 -0400
+Message-ID: <20210505191007.305872-1-zackr@vmware.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210505035740.286923-6-zackr@vmware.com>
+References: <20210505035740.286923-6-zackr@vmware.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="u3/rZRmxL6MmkK24"
-Content-Disposition: inline
-In-Reply-To: <20210505141052.3467-3-wse@tuxedocomputers.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,709 +44,1704 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org
+Cc: krastevm@vmware.com, sroland@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+SVGA3 is the next version of our PCI device. Some of the changes
+include using MMIO for register accesses instead of ioports,
+deprecating the FIFO MMIO and removing a lot of the old and
+legacy functionality. SVGA3 doesn't support guest backed
+objects right now so everything except 3D is working.
 
---u3/rZRmxL6MmkK24
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+v2: Fixes all the static analyzer warnings
 
-Hi Werner,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on next-20210505]
-[cannot apply to v5.12]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Werner-Sembach/New-function-to-avoid-duplicate-code-in-upcomming-commits/20210505-231103
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-config: x86_64-defconfig (attached as .config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/66df58af8a9f5c112690fc80f77271b9f6567765
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Werner-Sembach/New-function-to-avoid-duplicate-code-in-upcomming-commits/20210505-231103
-        git checkout 66df58af8a9f5c112690fc80f77271b9f6567765
-        # save the attached .config to linux build tree
-        make W=1 W=1 ARCH=x86_64 
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/i915/display/intel_hdmi.c: In function 'intel_hdmi_compute_config':
->> drivers/gpu/drm/i915/display/intel_hdmi.c:2166:6: error: 'crtc_state' undeclared (first use in this function); did you mean 'ctx_state'?
-    2166 |  if (crtc_state->output_format == INTEL_OUTPUT_FORMAT_YCBCR420) {
-         |      ^~~~~~~~~~
-         |      ctx_state
-   drivers/gpu/drm/i915/display/intel_hdmi.c:2166:6: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +2166 drivers/gpu/drm/i915/display/intel_hdmi.c
-
-  2131	
-  2132	int intel_hdmi_compute_config(struct intel_encoder *encoder,
-  2133				      struct intel_crtc_state *pipe_config,
-  2134				      struct drm_connector_state *conn_state)
-  2135	{
-  2136		struct intel_hdmi *intel_hdmi = enc_to_intel_hdmi(encoder);
-  2137		struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-  2138		struct drm_display_mode *adjusted_mode = &pipe_config->hw.adjusted_mode;
-  2139		struct drm_connector *connector = conn_state->connector;
-  2140		struct drm_scdc *scdc = &connector->display_info.hdmi.scdc;
-  2141		int ret;
-  2142	
-  2143		if (adjusted_mode->flags & DRM_MODE_FLAG_DBLSCAN)
-  2144			return -EINVAL;
-  2145	
-  2146		pipe_config->output_format = INTEL_OUTPUT_FORMAT_RGB;
-  2147		pipe_config->has_hdmi_sink = intel_has_hdmi_sink(intel_hdmi,
-  2148								 conn_state);
-  2149	
-  2150		if (pipe_config->has_hdmi_sink)
-  2151			pipe_config->has_infoframe = true;
-  2152	
-  2153		if (adjusted_mode->flags & DRM_MODE_FLAG_DBLCLK)
-  2154			pipe_config->pixel_multiplier = 2;
-  2155	
-  2156		if (HAS_PCH_SPLIT(dev_priv) && !HAS_DDI(dev_priv))
-  2157			pipe_config->has_pch_encoder = true;
-  2158	
-  2159		pipe_config->has_audio =
-  2160			intel_hdmi_has_audio(encoder, pipe_config, conn_state);
-  2161	
-  2162		ret = intel_hdmi_compute_output_format(encoder, pipe_config, conn_state);
-  2163		if (ret)
-  2164			return ret;
-  2165	
-> 2166		if (crtc_state->output_format == INTEL_OUTPUT_FORMAT_YCBCR420) {
-  2167			ret = intel_pch_panel_fitting(pipe_config, conn_state);
-  2168			if (ret)
-  2169				return ret;
-  2170		}
-  2171	
-  2172		pipe_config->limited_color_range =
-  2173			intel_hdmi_limited_color_range(pipe_config, conn_state);
-  2174	
-  2175		if (conn_state->picture_aspect_ratio)
-  2176			adjusted_mode->picture_aspect_ratio =
-  2177				conn_state->picture_aspect_ratio;
-  2178	
-  2179		pipe_config->lane_count = 4;
-  2180	
-  2181		if (scdc->scrambling.supported && DISPLAY_VER(dev_priv) >= 10) {
-  2182			if (scdc->scrambling.low_rates)
-  2183				pipe_config->hdmi_scrambling = true;
-  2184	
-  2185			if (pipe_config->port_clock > 340000) {
-  2186				pipe_config->hdmi_scrambling = true;
-  2187				pipe_config->hdmi_high_tmds_clock_ratio = true;
-  2188			}
-  2189		}
-  2190	
-  2191		intel_hdmi_compute_gcp_infoframe(encoder, pipe_config,
-  2192						 conn_state);
-  2193	
-  2194		if (!intel_hdmi_compute_avi_infoframe(encoder, pipe_config, conn_state)) {
-  2195			drm_dbg_kms(&dev_priv->drm, "bad AVI infoframe\n");
-  2196			return -EINVAL;
-  2197		}
-  2198	
-  2199		if (!intel_hdmi_compute_spd_infoframe(encoder, pipe_config, conn_state)) {
-  2200			drm_dbg_kms(&dev_priv->drm, "bad SPD infoframe\n");
-  2201			return -EINVAL;
-  2202		}
-  2203	
-  2204		if (!intel_hdmi_compute_hdmi_infoframe(encoder, pipe_config, conn_state)) {
-  2205			drm_dbg_kms(&dev_priv->drm, "bad HDMI infoframe\n");
-  2206			return -EINVAL;
-  2207		}
-  2208	
-  2209		if (!intel_hdmi_compute_drm_infoframe(encoder, pipe_config, conn_state)) {
-  2210			drm_dbg_kms(&dev_priv->drm, "bad DRM infoframe\n");
-  2211			return -EINVAL;
-  2212		}
-  2213	
-  2214		return 0;
-  2215	}
-  2216	
-
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Cc: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Roland Scheidegger <sroland@vmware.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ .../gpu/drm/vmwgfx/device_include/svga_reg.h  |  55 ++++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_binding.c       |   8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_blit.c          |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c           | 118 +++++++--------
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c        |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c       |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 138 ++++++++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           | 120 ++++++++++++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |  14 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |  18 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.h         |   2 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         |  49 +------
+ drivers/gpu/drm/vmwgfx/vmwgfx_irq.c           |  77 ++--------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |  29 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |  36 +++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c       |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_reg.h           |   4 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_so.c            |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    |   9 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    |   2 +-
+ 25 files changed, 405 insertions(+), 310 deletions(-)
 
---u3/rZRmxL6MmkK24
-Content-Type: application/gzip
-Content-Disposition: attachment; filename=".config.gz"
-Content-Transfer-Encoding: base64
+diff --git a/drivers/gpu/drm/vmwgfx/device_include/svga_reg.h b/drivers/gpu/drm/vmwgfx/device_include/svga_reg.h
+index 19fb9e3299e7..193a57f6aae5 100644
+--- a/drivers/gpu/drm/vmwgfx/device_include/svga_reg.h
++++ b/drivers/gpu/drm/vmwgfx/device_include/svga_reg.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 OR MIT */
+ /**********************************************************
+- * Copyright 1998-2015 VMware, Inc.
++ * Copyright 1998-2021 VMware, Inc.
+  *
+  * Permission is hereby granted, free of charge, to any person
+  * obtaining a copy of this software and associated documentation
+@@ -98,6 +98,10 @@ typedef uint32 SVGAMobId;
+ #define SVGA_MAGIC         0x900000UL
+ #define SVGA_MAKE_ID(ver)  (SVGA_MAGIC << 8 | (ver))
+ 
++/* Version 3 has the control bar instead of the FIFO */
++#define SVGA_VERSION_3     3
++#define SVGA_ID_3          SVGA_MAKE_ID(SVGA_VERSION_3)
++
+ /* Version 2 let the address of the frame buffer be unsigned on Win32 */
+ #define SVGA_VERSION_2     2
+ #define SVGA_ID_2          SVGA_MAKE_ID(SVGA_VERSION_2)
+@@ -129,11 +133,12 @@ typedef uint32 SVGAMobId;
+  * Interrupts are only supported when the
+  * SVGA_CAP_IRQMASK capability is present.
+  */
+-#define SVGA_IRQFLAG_ANY_FENCE            0x1    /* Any fence was passed */
+-#define SVGA_IRQFLAG_FIFO_PROGRESS        0x2    /* Made forward progress in the FIFO */
+-#define SVGA_IRQFLAG_FENCE_GOAL           0x4    /* SVGA_FIFO_FENCE_GOAL reached */
+-#define SVGA_IRQFLAG_COMMAND_BUFFER       0x8    /* Command buffer completed */
+-#define SVGA_IRQFLAG_ERROR                0x10   /* Error while processing commands */
++#define SVGA_IRQFLAG_ANY_FENCE            (1 << 0) /* Any fence was passed */
++#define SVGA_IRQFLAG_FIFO_PROGRESS        (1 << 1) /* Made forward progress in the FIFO */
++#define SVGA_IRQFLAG_FENCE_GOAL           (1 << 2) /* SVGA_FIFO_FENCE_GOAL reached */
++#define SVGA_IRQFLAG_COMMAND_BUFFER       (1 << 3) /* Command buffer completed */
++#define SVGA_IRQFLAG_ERROR                (1 << 4) /* Error while processing commands */
++#define SVGA_IRQFLAG_MAX                  (1 << 5)
+ 
+ /*
+  * The byte-size is the size of the actual cursor data,
+@@ -286,7 +291,32 @@ enum {
+     */
+    SVGA_REG_GBOBJECT_MEM_SIZE_KB = 76,
+ 
+-   SVGA_REG_TOP = 77,               /* Must be 1 more than the last register */
++   /*
++    +    * These registers are for the addresses of the memory BARs for SVGA3
++    */
++   SVGA_REG_REGS_START_HIGH32 = 77,
++   SVGA_REG_REGS_START_LOW32 = 78,
++   SVGA_REG_FB_START_HIGH32 = 79,
++   SVGA_REG_FB_START_LOW32 = 80,
++
++   /*
++    * A hint register that recommends which quality level the guest should
++    * currently use to define multisample surfaces.
++    *
++    * If the register is SVGA_REG_MSHINT_DISABLED,
++    * the guest is only allowed to use SVGA3D_MS_QUALITY_FULL.
++    *
++    * Otherwise, this is a live value that can change while the VM is
++    * powered on with the hint suggestion for which quality level the guest
++    * should be using.  Guests are free to ignore the hint and use either
++    * RESOLVE or FULL quality.
++    */
++   SVGA_REG_MSHINT = 81,
++
++   SVGA_REG_IRQ_STATUS = 82,
++   SVGA_REG_DIRTY_TRACKING = 83,
++
++   SVGA_REG_TOP = 84,               /* Must be 1 more than the last register */
+ 
+    SVGA_PALETTE_BASE = 1024,        /* Base of SVGA color map */
+    /* Next 768 (== 256*3) registers exist for colormap */
+@@ -310,6 +340,17 @@ typedef enum SVGARegGuestDriverId {
+    SVGA_REG_GUEST_DRIVER_ID_SUBMIT  = MAX_UINT32,
+ } SVGARegGuestDriverId;
+ 
++typedef enum SVGARegMSHint {
++   SVGA_REG_MSHINT_DISABLED = 0,
++   SVGA_REG_MSHINT_FULL     = 1,
++   SVGA_REG_MSHINT_RESOLVED = 2,
++} SVGARegMSHint;
++
++typedef enum SVGARegDirtyTracking {
++   SVGA_REG_DIRTY_TRACKING_PER_IMAGE = 0,
++   SVGA_REG_DIRTY_TRACKING_PER_SURFACE = 1,
++} SVGARegDirtyTracking;
++
+ 
+ /*
+  * Guest memory regions (GMRs):
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c b/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c
+index 81f525a82b77..05b324825900 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_binding.c
+@@ -788,7 +788,7 @@ static void vmw_collect_dirty_view_ids(struct vmw_ctx_binding_state *cbs,
+ }
+ 
+ /**
+- * vmw_binding_emit_set_sr - Issue delayed DX shader resource binding commands
++ * vmw_emit_set_sr - Issue delayed DX shader resource binding commands
+  *
+  * @cbs: Pointer to the context's struct vmw_ctx_binding_state
+  * @shader_slot: The shader slot of the binding.
+@@ -832,7 +832,7 @@ static int vmw_emit_set_sr(struct vmw_ctx_binding_state *cbs,
+ }
+ 
+ /**
+- * vmw_binding_emit_set_rt - Issue delayed DX rendertarget binding commands
++ * vmw_emit_set_rt - Issue delayed DX rendertarget binding commands
+  *
+  * @cbs: Pointer to the context's struct vmw_ctx_binding_state
+  */
+@@ -1024,7 +1024,7 @@ static void vmw_collect_dirty_vbs(struct vmw_ctx_binding_state *cbs,
+ }
+ 
+ /**
+- * vmw_binding_emit_set_vb - Issue delayed vertex buffer binding commands
++ * vmw_emit_set_vb - Issue delayed vertex buffer binding commands
+  *
+  * @cbs: Pointer to the context's struct vmw_ctx_binding_state
+  *
+@@ -1394,7 +1394,7 @@ struct list_head *vmw_binding_state_list(struct vmw_ctx_binding_state *cbs)
+ }
+ 
+ /**
+- * vmwgfx_binding_state_reset - clear a struct vmw_ctx_binding_state
++ * vmw_binding_state_reset - clear a struct vmw_ctx_binding_state
+  *
+  * @cbs: Pointer to the struct vmw_ctx_binding_state to be cleared
+  *
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+index 3a438ae4d3f4..cdbd5a870711 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+@@ -421,7 +421,7 @@ static int vmw_bo_cpu_blit_line(struct vmw_bo_blit_line_data *d,
+ }
+ 
+ /**
+- * ttm_bo_cpu_blit - in-kernel cpu blit.
++ * vmw_bo_cpu_blit - in-kernel cpu blit.
+  *
+  * @dst: Destination buffer object.
+  * @dst_offset: Destination offset of blit start in bytes.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 4aa97387d27d..04dd49c4c257 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -600,7 +600,7 @@ static void vmw_user_bo_release(struct ttm_base_object **p_base)
+ 
+ 
+ /**
+- * vmw_user_bo_ref_obj-release - TTM synccpu reference object release callback
++ * vmw_user_bo_ref_obj_release - TTM synccpu reference object release callback
+  * for vmw user buffer objects
+  *
+  * @base: Pointer to the TTM base object
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+index 20246a7c97c9..027d7d504e78 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+@@ -31,15 +31,10 @@
+ 
+ #include "vmwgfx_drv.h"
+ 
+-struct vmw_temp_set_context {
+-	SVGA3dCmdHeader header;
+-	SVGA3dCmdDXTempSetContext body;
+-};
+-
+ bool vmw_supports_3d(struct vmw_private *dev_priv)
+ {
+ 	uint32_t fifo_min, hwversion;
+-	const struct vmw_fifo_state *fifo = &dev_priv->fifo;
++	const struct vmw_fifo_state *fifo = dev_priv->fifo;
+ 
+ 	if (!(dev_priv->capabilities & SVGA_CAP_3D))
+ 		return false;
+@@ -61,6 +56,8 @@ bool vmw_supports_3d(struct vmw_private *dev_priv)
+ 	if (!(dev_priv->capabilities & SVGA_CAP_EXTENDED_FIFO))
+ 		return false;
+ 
++	BUG_ON(vmw_is_svga_v3(dev_priv));
++
+ 	fifo_min = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MIN);
+ 	if (fifo_min <= SVGA_FIFO_3D_HWVERSION * sizeof(unsigned int))
+ 		return false;
+@@ -98,16 +95,20 @@ bool vmw_fifo_have_pitchlock(struct vmw_private *dev_priv)
+ 	return false;
+ }
+ 
+-int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
++struct vmw_fifo_state *vmw_fifo_create(struct vmw_private *dev_priv)
+ {
++	struct vmw_fifo_state *fifo;
+ 	uint32_t max;
+ 	uint32_t min;
+ 
+-	fifo->dx = false;
++	if (!dev_priv->fifo_mem)
++		return NULL;
++
++	fifo = kzalloc(sizeof(*fifo), GFP_KERNEL);
+ 	fifo->static_buffer_size = VMWGFX_FIFO_STATIC_SIZE;
+ 	fifo->static_buffer = vmalloc(fifo->static_buffer_size);
+ 	if (unlikely(fifo->static_buffer == NULL))
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	fifo->dynamic_buffer = NULL;
+ 	fifo->reserved_size = 0;
+@@ -115,20 +116,6 @@ int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ 
+ 	mutex_init(&fifo->fifo_mutex);
+ 	init_rwsem(&fifo->rwsem);
+-
+-	DRM_INFO("width %d\n", vmw_read(dev_priv, SVGA_REG_WIDTH));
+-	DRM_INFO("height %d\n", vmw_read(dev_priv, SVGA_REG_HEIGHT));
+-	DRM_INFO("bpp %d\n", vmw_read(dev_priv, SVGA_REG_BITS_PER_PIXEL));
+-
+-	dev_priv->enable_state = vmw_read(dev_priv, SVGA_REG_ENABLE);
+-	dev_priv->config_done_state = vmw_read(dev_priv, SVGA_REG_CONFIG_DONE);
+-	dev_priv->traces_state = vmw_read(dev_priv, SVGA_REG_TRACES);
+-
+-	vmw_write(dev_priv, SVGA_REG_ENABLE, SVGA_REG_ENABLE_ENABLE |
+-		  SVGA_REG_ENABLE_HIDE);
+-
+-	vmw_write(dev_priv, SVGA_REG_TRACES, 0);
+-
+ 	min = 4;
+ 	if (dev_priv->capabilities & SVGA_CAP_EXTENDED_FIFO)
+ 		min = vmw_read(dev_priv, SVGA_REG_MEM_REGS);
+@@ -155,35 +142,23 @@ int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ 		 (unsigned int) max,
+ 		 (unsigned int) min,
+ 		 (unsigned int) fifo->capabilities);
+-
+-	atomic_set(&dev_priv->marker_seq, dev_priv->last_read_seqno);
+-	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, dev_priv->last_read_seqno);
+-
+-	return 0;
++	return fifo;
+ }
+ 
+ void vmw_fifo_ping_host(struct vmw_private *dev_priv, uint32_t reason)
+ {
+ 	u32 *fifo_mem = dev_priv->fifo_mem;
+-
+-	if (cmpxchg(fifo_mem + SVGA_FIFO_BUSY, 0, 1) == 0)
++	if (fifo_mem && cmpxchg(fifo_mem + SVGA_FIFO_BUSY, 0, 1) == 0)
+ 		vmw_write(dev_priv, SVGA_REG_SYNC, reason);
++
+ }
+ 
+-void vmw_fifo_release(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
++void vmw_fifo_destroy(struct vmw_private *dev_priv)
+ {
+-	vmw_write(dev_priv, SVGA_REG_SYNC, SVGA_SYNC_GENERIC);
+-	while (vmw_read(dev_priv, SVGA_REG_BUSY) != 0)
+-		;
+-
+-	dev_priv->last_read_seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
++	struct vmw_fifo_state *fifo = dev_priv->fifo;
+ 
+-	vmw_write(dev_priv, SVGA_REG_CONFIG_DONE,
+-		  dev_priv->config_done_state);
+-	vmw_write(dev_priv, SVGA_REG_ENABLE,
+-		  dev_priv->enable_state);
+-	vmw_write(dev_priv, SVGA_REG_TRACES,
+-		  dev_priv->traces_state);
++	if (!fifo)
++		return;
+ 
+ 	if (likely(fifo->static_buffer != NULL)) {
+ 		vfree(fifo->static_buffer);
+@@ -194,6 +169,8 @@ void vmw_fifo_release(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ 		vfree(fifo->dynamic_buffer);
+ 		fifo->dynamic_buffer = NULL;
+ 	}
++	kfree(fifo);
++	dev_priv->fifo = NULL;
+ }
+ 
+ static bool vmw_fifo_is_full(struct vmw_private *dev_priv, uint32_t bytes)
+@@ -289,7 +266,7 @@ static int vmw_fifo_wait(struct vmw_private *dev_priv,
+ static void *vmw_local_fifo_reserve(struct vmw_private *dev_priv,
+ 				    uint32_t bytes)
+ {
+-	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
++	struct vmw_fifo_state *fifo_state = dev_priv->fifo;
+ 	u32  *fifo_mem = dev_priv->fifo_mem;
+ 	uint32_t max;
+ 	uint32_t min;
+@@ -438,16 +415,12 @@ static void vmw_fifo_slow_copy(struct vmw_fifo_state *fifo_state,
+ 
+ static void vmw_local_fifo_commit(struct vmw_private *dev_priv, uint32_t bytes)
+ {
+-	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
++	struct vmw_fifo_state *fifo_state = dev_priv->fifo;
+ 	uint32_t next_cmd = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_NEXT_CMD);
+ 	uint32_t max = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MAX);
+ 	uint32_t min = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MIN);
+ 	bool reserveable = fifo_state->capabilities & SVGA_FIFO_CAP_RESERVE;
+ 
+-	if (fifo_state->dx)
+-		bytes += sizeof(struct vmw_temp_set_context);
+-
+-	fifo_state->dx = false;
+ 	BUG_ON((bytes & 3) != 0);
+ 	BUG_ON(bytes > fifo_state->reserved_size);
+ 
+@@ -495,7 +468,7 @@ void vmw_cmd_commit(struct vmw_private *dev_priv, uint32_t bytes)
+ 
+ 
+ /**
+- * vmw_fifo_commit_flush - Commit fifo space and flush any buffered commands.
++ * vmw_cmd_commit_flush - Commit fifo space and flush any buffered commands.
+  *
+  * @dev_priv: Pointer to device private structure.
+  * @bytes: Number of bytes to commit.
+@@ -509,7 +482,7 @@ void vmw_cmd_commit_flush(struct vmw_private *dev_priv, uint32_t bytes)
+ }
+ 
+ /**
+- * vmw_fifo_flush - Flush any buffered commands and make sure command processing
++ * vmw_cmd_flush - Flush any buffered commands and make sure command processing
+  * starts.
+  *
+  * @dev_priv: Pointer to device private structure.
+@@ -527,7 +500,6 @@ int vmw_cmd_flush(struct vmw_private *dev_priv, bool interruptible)
+ 
+ int vmw_cmd_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
+ {
+-	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
+ 	struct svga_fifo_cmd_fence *cmd_fence;
+ 	u32 *fm;
+ 	int ret = 0;
+@@ -546,7 +518,7 @@ int vmw_cmd_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
+ 		*seqno = atomic_add_return(1, &dev_priv->marker_seq);
+ 	} while (*seqno == 0);
+ 
+-	if (!(fifo_state->capabilities & SVGA_FIFO_CAP_FENCE)) {
++	if (!(vmw_fifo_caps(dev_priv) & SVGA_FIFO_CAP_FENCE)) {
+ 
+ 		/*
+ 		 * Don't request hardware to send a fence. The
+@@ -561,22 +533,22 @@ int vmw_cmd_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
+ 	cmd_fence = (struct svga_fifo_cmd_fence *) fm;
+ 	cmd_fence->fence = *seqno;
+ 	vmw_cmd_commit_flush(dev_priv, bytes);
+-	vmw_update_seqno(dev_priv, fifo_state);
++	vmw_update_seqno(dev_priv);
+ 
+ out_err:
+ 	return ret;
+ }
+ 
+ /**
+- * vmw_fifo_emit_dummy_legacy_query - emits a dummy query to the fifo using
++ * vmw_cmd_emit_dummy_legacy_query - emits a dummy query to the fifo using
+  * legacy query commands.
+  *
+  * @dev_priv: The device private structure.
+  * @cid: The hardware context id used for the query.
+  *
+- * See the vmw_fifo_emit_dummy_query documentation.
++ * See the vmw_cmd_emit_dummy_query documentation.
+  */
+-static int vmw_fifo_emit_dummy_legacy_query(struct vmw_private *dev_priv,
++static int vmw_cmd_emit_dummy_legacy_query(struct vmw_private *dev_priv,
+ 					    uint32_t cid)
+ {
+ 	/*
+@@ -614,16 +586,16 @@ static int vmw_fifo_emit_dummy_legacy_query(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_fifo_emit_dummy_gb_query - emits a dummy query to the fifo using
++ * vmw_cmd_emit_dummy_gb_query - emits a dummy query to the fifo using
+  * guest-backed resource query commands.
+  *
+  * @dev_priv: The device private structure.
+  * @cid: The hardware context id used for the query.
+  *
+- * See the vmw_fifo_emit_dummy_query documentation.
++ * See the vmw_cmd_emit_dummy_query documentation.
+  */
+-static int vmw_fifo_emit_dummy_gb_query(struct vmw_private *dev_priv,
+-					uint32_t cid)
++static int vmw_cmd_emit_dummy_gb_query(struct vmw_private *dev_priv,
++				       uint32_t cid)
+ {
+ 	/*
+ 	 * A query wait without a preceding query end will
+@@ -656,7 +628,7 @@ static int vmw_fifo_emit_dummy_gb_query(struct vmw_private *dev_priv,
+ 
+ 
+ /**
+- * vmw_fifo_emit_dummy_gb_query - emits a dummy query to the fifo using
++ * vmw_cmd_emit_dummy_query - emits a dummy query to the fifo using
+  * appropriate resource query commands.
+  *
+  * @dev_priv: The device private structure.
+@@ -677,7 +649,27 @@ int vmw_cmd_emit_dummy_query(struct vmw_private *dev_priv,
+ 			      uint32_t cid)
+ {
+ 	if (dev_priv->has_mob)
+-		return vmw_fifo_emit_dummy_gb_query(dev_priv, cid);
++		return vmw_cmd_emit_dummy_gb_query(dev_priv, cid);
+ 
+-	return vmw_fifo_emit_dummy_legacy_query(dev_priv, cid);
++	return vmw_cmd_emit_dummy_legacy_query(dev_priv, cid);
++}
++
++
++/**
++ * vmw_cmd_supported - returns true if the given device supports
++ * command queues.
++ *
++ * @vmw: The device private structure.
++ *
++ * Returns true if we can issue commands.
++ */
++bool vmw_cmd_supported(struct vmw_private *vmw)
++{
++	if ((vmw->capabilities & (SVGA_CAP_COMMAND_BUFFERS |
++				  SVGA_CAP_CMD_BUFFERS_2)) != 0)
++		return true;
++	/*
++	 * We have FIFO cmd's
++	 */
++	return vmw->fifo_mem != NULL;
+ }
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
+index 2e23e537cdf5..05ca310ed61a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
+@@ -295,7 +295,7 @@ void vmw_cmdbuf_header_free(struct vmw_cmdbuf_header *header)
+ 
+ 
+ /**
+- * vmw_cmbuf_header_submit: Submit a command buffer to hardware.
++ * vmw_cmdbuf_header_submit: Submit a command buffer to hardware.
+  *
+  * @header: The header of the buffer to submit.
+  */
+@@ -620,7 +620,7 @@ static void vmw_cmdbuf_work_func(struct work_struct *work)
+ }
+ 
+ /**
+- * vmw_cmdbuf_man idle - Check whether the command buffer manager is idle.
++ * vmw_cmdbuf_man_idle - Check whether the command buffer manager is idle.
+  *
+  * @man: The command buffer manager.
+  * @check_preempted: Check also the preempted queue for pending command buffers.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
+index d782b49c7236..b40aa002bf2b 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
+@@ -653,7 +653,7 @@ int vmw_cotable_notify(struct vmw_resource *res, int id)
+ }
+ 
+ /**
+- * vmw_cotable_add_view - add a view to the cotable's list of active views.
++ * vmw_cotable_add_resource - add a view to the cotable's list of active views.
+  *
+  * @res: pointer struct vmw_resource representing the cotable.
+  * @head: pointer to the struct list_head member of the resource, dedicated
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 22a2874116c9..4904100ef492 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -50,7 +50,7 @@
+ #define VMWGFX_VALIDATION_MEM_GRAN (16*PAGE_SIZE)
+ 
+ 
+-/**
++/*
+  * Fully encoded drm commands. Might move to vmw_drm.h
+  */
+ 
+@@ -246,6 +246,7 @@ static const struct drm_ioctl_desc vmw_ioctls[] = {
+ 
+ static const struct pci_device_id vmw_pci_id_list[] = {
+ 	{ PCI_DEVICE(0x15ad, VMWGFX_PCI_ID_SVGA2) },
++	{ PCI_DEVICE(0x15ad, VMWGFX_PCI_ID_SVGA3) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(pci, vmw_pci_id_list);
+@@ -393,6 +394,60 @@ static int vmw_dummy_query_bo_create(struct vmw_private *dev_priv)
+ 	return ret;
+ }
+ 
++static int vmw_device_init(struct vmw_private *dev_priv)
++{
++	bool uses_fb_traces = false;
++
++	DRM_INFO("width %d\n", vmw_read(dev_priv, SVGA_REG_WIDTH));
++	DRM_INFO("height %d\n", vmw_read(dev_priv, SVGA_REG_HEIGHT));
++	DRM_INFO("bpp %d\n", vmw_read(dev_priv, SVGA_REG_BITS_PER_PIXEL));
++
++	dev_priv->enable_state = vmw_read(dev_priv, SVGA_REG_ENABLE);
++	dev_priv->config_done_state = vmw_read(dev_priv, SVGA_REG_CONFIG_DONE);
++	dev_priv->traces_state = vmw_read(dev_priv, SVGA_REG_TRACES);
++
++	vmw_write(dev_priv, SVGA_REG_ENABLE, SVGA_REG_ENABLE_ENABLE |
++		  SVGA_REG_ENABLE_HIDE);
++
++	uses_fb_traces = !vmw_cmd_supported(dev_priv) &&
++			 (dev_priv->capabilities & SVGA_CAP_TRACES) != 0;
++
++	vmw_write(dev_priv, SVGA_REG_TRACES, uses_fb_traces);
++	dev_priv->fifo = vmw_fifo_create(dev_priv);
++	if (IS_ERR(dev_priv->fifo)) {
++		int err = PTR_ERR(dev_priv->fifo);
++		dev_priv->fifo = NULL;
++		return err;
++	} else if (!dev_priv->fifo) {
++		vmw_write(dev_priv, SVGA_REG_CONFIG_DONE, 1);
++	}
++
++	dev_priv->last_read_seqno = vmw_fence_read(dev_priv);
++	atomic_set(&dev_priv->marker_seq, dev_priv->last_read_seqno);
++	return 0;
++}
++
++static void vmw_device_fini(struct vmw_private *vmw)
++{
++	/*
++	 * Legacy sync
++	 */
++	vmw_write(vmw, SVGA_REG_SYNC, SVGA_SYNC_GENERIC);
++	while (vmw_read(vmw, SVGA_REG_BUSY) != 0)
++		;
++
++	vmw->last_read_seqno = vmw_fence_read(vmw);
++
++	vmw_write(vmw, SVGA_REG_CONFIG_DONE,
++		  vmw->config_done_state);
++	vmw_write(vmw, SVGA_REG_ENABLE,
++		  vmw->enable_state);
++	vmw_write(vmw, SVGA_REG_TRACES,
++		  vmw->traces_state);
++
++	vmw_fifo_destroy(vmw);
++}
++
+ /**
+  * vmw_request_device_late - Perform late device setup
+  *
+@@ -433,9 +488,9 @@ static int vmw_request_device(struct vmw_private *dev_priv)
+ {
+ 	int ret;
+ 
+-	ret = vmw_fifo_init(dev_priv, &dev_priv->fifo);
++	ret = vmw_device_init(dev_priv);
+ 	if (unlikely(ret != 0)) {
+-		DRM_ERROR("Unable to initialize FIFO.\n");
++		DRM_ERROR("Unable to initialize the device.\n");
+ 		return ret;
+ 	}
+ 	vmw_fence_fifo_up(dev_priv->fman);
+@@ -469,7 +524,7 @@ static int vmw_request_device(struct vmw_private *dev_priv)
+ 		vmw_cmdbuf_man_destroy(dev_priv->cman);
+ out_no_mob:
+ 	vmw_fence_fifo_down(dev_priv->fman);
+-	vmw_fifo_release(dev_priv, &dev_priv->fifo);
++	vmw_device_fini(dev_priv);
+ 	return ret;
+ }
+ 
+@@ -517,7 +572,7 @@ static void vmw_release_device_late(struct vmw_private *dev_priv)
+ 	if (dev_priv->cman)
+ 		vmw_cmdbuf_man_destroy(dev_priv->cman);
+ 
+-	vmw_fifo_release(dev_priv, &dev_priv->fifo);
++	vmw_device_fini(dev_priv);
+ }
+ 
+ /*
+@@ -638,6 +693,8 @@ static void vmw_vram_manager_fini(struct vmw_private *dev_priv)
+ static int vmw_setup_pci_resources(struct vmw_private *dev,
+ 				   unsigned long pci_id)
+ {
++	resource_size_t rmmio_start;
++	resource_size_t rmmio_size;
+ 	resource_size_t fifo_start;
+ 	resource_size_t fifo_size;
+ 	int ret;
+@@ -649,23 +706,45 @@ static int vmw_setup_pci_resources(struct vmw_private *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	dev->io_start = pci_resource_start(pdev, 0);
+-	dev->vram_start = pci_resource_start(pdev, 1);
+-	dev->vram_size = pci_resource_len(pdev, 1);
+-	fifo_start = pci_resource_start(pdev, 2);
+-	fifo_size = pci_resource_len(pdev, 2);
+-
+-	DRM_INFO("FIFO at %pa size is %llu kiB\n",
+-		 &fifo_start, (uint64_t)fifo_size / 1024);
+-	dev->fifo_mem = devm_memremap(dev->drm.dev,
+-				      fifo_start,
+-				      fifo_size,
+-				      MEMREMAP_WB);
+-
+-	if (IS_ERR(dev->fifo_mem)) {
+-		DRM_ERROR("Failed mapping FIFO memory.\n");
++	dev->pci_id = pci_id;
++	if (pci_id == VMWGFX_PCI_ID_SVGA3) {
++		rmmio_start = pci_resource_start(pdev, 0);
++		rmmio_size = pci_resource_len(pdev, 0);
++		dev->vram_start = pci_resource_start(pdev, 2);
++		dev->vram_size = pci_resource_len(pdev, 2);
++
++		DRM_INFO("Register MMIO at 0x%pa size is %llu kiB\n",
++			 &rmmio_start, (uint64_t)rmmio_size / 1024);
++		dev->rmmio = devm_ioremap(dev->drm.dev,
++					  rmmio_start,
++					  rmmio_size);
++		if (IS_ERR(dev->rmmio)) {
++			DRM_ERROR("Failed mapping registers mmio memory.\n");
++			pci_release_regions(pdev);
++			return PTR_ERR(dev->rmmio);
++		}
++	} else if (pci_id == VMWGFX_PCI_ID_SVGA2) {
++		dev->io_start = pci_resource_start(pdev, 0);
++		dev->vram_start = pci_resource_start(pdev, 1);
++		dev->vram_size = pci_resource_len(pdev, 1);
++		fifo_start = pci_resource_start(pdev, 2);
++		fifo_size = pci_resource_len(pdev, 2);
++
++		DRM_INFO("FIFO at %pa size is %llu kiB\n",
++			 &fifo_start, (uint64_t)fifo_size / 1024);
++		dev->fifo_mem = devm_memremap(dev->drm.dev,
++					      fifo_start,
++					      fifo_size,
++					      MEMREMAP_WB);
++
++		if (IS_ERR(dev->fifo_mem)) {
++			DRM_ERROR("Failed mapping FIFO memory.\n");
++			pci_release_regions(pdev);
++			return PTR_ERR(dev->fifo_mem);
++		}
++	} else {
+ 		pci_release_regions(pdev);
+-		return PTR_ERR(dev->fifo_mem);
++		return -EINVAL;
+ 	}
+ 
+ 	/*
+@@ -684,13 +763,16 @@ static int vmw_detect_version(struct vmw_private *dev)
+ {
+ 	uint32_t svga_id;
+ 
+-	vmw_write(dev, SVGA_REG_ID, SVGA_ID_2);
++	vmw_write(dev, SVGA_REG_ID, vmw_is_svga_v3(dev) ?
++			  SVGA_ID_3 : SVGA_ID_2);
+ 	svga_id = vmw_read(dev, SVGA_REG_ID);
+-	if (svga_id != SVGA_ID_2) {
++	if (svga_id != SVGA_ID_2 && svga_id != SVGA_ID_3) {
+ 		DRM_ERROR("Unsupported SVGA ID 0x%x on chipset 0x%x\n",
+ 			  svga_id, dev->vmw_chipset);
+ 		return -ENOSYS;
+ 	}
++	BUG_ON(vmw_is_svga_v3(dev) && (svga_id != SVGA_ID_3));
++	DRM_INFO("Running on SVGA version %d.\n", (svga_id & 0xff));
+ 	return 0;
+ }
+ 
+@@ -703,7 +785,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+ 
+ 	dev_priv->vmw_chipset = pci_id;
+-	dev_priv->last_read_seqno = (uint32_t) -100;
+ 	dev_priv->drm.dev_private = dev_priv;
+ 
+ 	mutex_init(&dev_priv->cmdbuf_mutex);
+@@ -824,6 +905,8 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	vmw_print_capabilities(dev_priv->capabilities);
+ 	if (dev_priv->capabilities & SVGA_CAP_CAP2_REGISTER)
+ 		vmw_print_capabilities2(dev_priv->capabilities2);
++	DRM_INFO("Supports command queues = %d\n",
++		 vmw_cmd_supported((dev_priv)));
+ 
+ 	ret = vmw_dma_masks(dev_priv);
+ 	if (unlikely(ret != 0))
+@@ -1390,8 +1473,7 @@ static int vmw_pm_restore(struct device *kdev)
+ 	struct vmw_private *dev_priv = vmw_priv(dev);
+ 	int ret;
+ 
+-	vmw_write(dev_priv, SVGA_REG_ID, SVGA_ID_2);
+-	(void) vmw_read(dev_priv, SVGA_REG_ID);
++	vmw_detect_version(dev_priv);
+ 
+ 	if (dev_priv->enable_fb)
+ 		vmw_fifo_resource_inc(dev_priv);
+@@ -1428,8 +1510,8 @@ static const struct file_operations vmwgfx_driver_fops = {
+ 	.release = drm_release,
+ 	.unlocked_ioctl = vmw_unlocked_ioctl,
+ 	.mmap = vmw_mmap,
+-	.poll = vmw_fops_poll,
+-	.read = vmw_fops_read,
++	.poll = drm_poll,
++	.read = drm_read,
+ #if defined(CONFIG_COMPAT)
+ 	.compat_ioctl = vmw_compat_ioctl,
+ #endif
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 2fb6898ceca9..dcdbc59c2b5f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -66,6 +66,7 @@
+ #define VMWGFX_ENABLE_SCREEN_TARGET_OTABLE 1
+ 
+ #define VMWGFX_PCI_ID_SVGA2              0x0405
++#define VMWGFX_PCI_ID_SVGA3              0x0406
+ 
+ /*
+  * Perhaps we should have sysfs entries for these.
+@@ -284,7 +285,6 @@ struct vmw_fifo_state {
+ 	uint32_t capabilities;
+ 	struct mutex fifo_mutex;
+ 	struct rw_semaphore rwsem;
+-	bool dx;
+ };
+ 
+ /**
+@@ -485,14 +485,14 @@ struct vmw_private {
+ 	struct drm_device drm;
+ 	struct ttm_device bdev;
+ 
+-	struct vmw_fifo_state fifo;
+-
+ 	struct drm_vma_offset_manager vma_manager;
++	unsigned long pci_id;
+ 	u32 vmw_chipset;
+ 	resource_size_t io_start;
+ 	resource_size_t vram_start;
+ 	resource_size_t vram_size;
+ 	resource_size_t prim_bb_mem;
++	void __iomem *rmmio;
+ 	u32 *fifo_mem;
+ 	resource_size_t fifo_mem_size;
+ 	uint32_t fb_max_width;
+@@ -623,6 +623,7 @@ struct vmw_private {
+ 	 */
+ 	struct vmw_otable_batch otable_batch;
+ 
++	struct vmw_fifo_state *fifo;
+ 	struct vmw_cmdbuf_man *cman;
+ 	DECLARE_BITMAP(irqthread_pending, VMW_IRQTHREAD_MAX);
+ 
+@@ -645,6 +646,14 @@ static inline struct vmw_fpriv *vmw_fpriv(struct drm_file *file_priv)
+ 	return (struct vmw_fpriv *)file_priv->driver_priv;
+ }
+ 
++/*
++ * SVGA v3 has mmio register access and lacks fifo cmds
++ */
++static inline bool vmw_is_svga_v3(const struct vmw_private *dev)
++{
++	return dev->pci_id == VMWGFX_PCI_ID_SVGA3;
++}
++
+ /*
+  * The locking here is fine-grained, so that it is performed once
+  * for every read- and write operation. This is of course costly, but we
+@@ -655,10 +664,14 @@ static inline struct vmw_fpriv *vmw_fpriv(struct drm_file *file_priv)
+ static inline void vmw_write(struct vmw_private *dev_priv,
+ 			     unsigned int offset, uint32_t value)
+ {
+-	spin_lock(&dev_priv->hw_lock);
+-	outl(offset, dev_priv->io_start + VMWGFX_INDEX_PORT);
+-	outl(value, dev_priv->io_start + VMWGFX_VALUE_PORT);
+-	spin_unlock(&dev_priv->hw_lock);
++	if (vmw_is_svga_v3(dev_priv)) {
++		iowrite32(value, dev_priv->rmmio + offset);
++	} else {
++		spin_lock(&dev_priv->hw_lock);
++		outl(offset, dev_priv->io_start + SVGA_INDEX_PORT);
++		outl(value, dev_priv->io_start + SVGA_VALUE_PORT);
++		spin_unlock(&dev_priv->hw_lock);
++	}
+ }
+ 
+ static inline uint32_t vmw_read(struct vmw_private *dev_priv,
+@@ -666,10 +679,14 @@ static inline uint32_t vmw_read(struct vmw_private *dev_priv,
+ {
+ 	u32 val;
+ 
+-	spin_lock(&dev_priv->hw_lock);
+-	outl(offset, dev_priv->io_start + VMWGFX_INDEX_PORT);
+-	val = inl(dev_priv->io_start + VMWGFX_VALUE_PORT);
+-	spin_unlock(&dev_priv->hw_lock);
++	if (vmw_is_svga_v3(dev_priv)) {
++		val = ioread32(dev_priv->rmmio + offset);
++	} else {
++		spin_lock(&dev_priv->hw_lock);
++		outl(offset, dev_priv->io_start + SVGA_INDEX_PORT);
++		val = inl(dev_priv->io_start + SVGA_VALUE_PORT);
++		spin_unlock(&dev_priv->hw_lock);
++	}
+ 
+ 	return val;
+ }
+@@ -932,19 +949,14 @@ extern int vmw_present_ioctl(struct drm_device *dev, void *data,
+ 			     struct drm_file *file_priv);
+ extern int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
+ 				      struct drm_file *file_priv);
+-extern __poll_t vmw_fops_poll(struct file *filp,
+-				  struct poll_table_struct *wait);
+-extern ssize_t vmw_fops_read(struct file *filp, char __user *buffer,
+-			     size_t count, loff_t *offset);
+ 
+ /**
+  * Fifo utilities - vmwgfx_fifo.c
+  */
+ 
+-extern int vmw_fifo_init(struct vmw_private *dev_priv,
+-			 struct vmw_fifo_state *fifo);
+-extern void vmw_fifo_release(struct vmw_private *dev_priv,
+-			     struct vmw_fifo_state *fifo);
++extern struct vmw_fifo_state *vmw_fifo_create(struct vmw_private *dev_priv);
++extern void vmw_fifo_destroy(struct vmw_private *dev_priv);
++extern bool vmw_cmd_supported(struct vmw_private *vmw);
+ extern void *
+ vmw_cmd_ctx_reserve(struct vmw_private *dev_priv, uint32_t bytes, int ctx_id);
+ extern void vmw_cmd_commit(struct vmw_private *dev_priv, uint32_t bytes);
+@@ -970,6 +982,31 @@ extern int vmw_cmd_flush(struct vmw_private *dev_priv,
+ #define VMW_CMD_RESERVE(__priv, __bytes)                                     \
+ 	VMW_CMD_CTX_RESERVE(__priv, __bytes, SVGA3D_INVALID_ID)
+ 
++
++/**
++ * vmw_fifo_caps - Returns the capabilities of the FIFO command
++ * queue or 0 if fifo memory isn't present.
++ * @dev_priv: The device private context
++ */
++static inline uint32_t vmw_fifo_caps(const struct vmw_private *dev_priv)
++{
++	if (!dev_priv->fifo_mem || !dev_priv->fifo)
++		return 0;
++	return dev_priv->fifo->capabilities;
++}
++
++
++/**
++ * vmw_is_cursor_bypass3_enabled - Returns TRUE iff Cursor Bypass 3
++ * is enabled in the FIFO.
++ * @dev_priv: The device private context
++ */
++static inline bool
++vmw_is_cursor_bypass3_enabled(const struct vmw_private *dev_priv)
++{
++	return (vmw_fifo_caps(dev_priv) & SVGA_FIFO_CAP_CURSOR_BYPASS_3) != 0;
++}
++
+ /**
+  * TTM glue - vmwgfx_ttm_glue.c
+  */
+@@ -1079,9 +1116,6 @@ bool vmw_cmd_describe(const void *buf, u32 *size, char const **cmd);
+  * IRQs and wating - vmwgfx_irq.c
+  */
+ 
+-extern int vmw_wait_seqno(struct vmw_private *dev_priv, bool lazy,
+-			  uint32_t seqno, bool interruptible,
+-			  unsigned long timeout);
+ extern int vmw_irq_install(struct drm_device *dev, int irq);
+ extern void vmw_irq_uninstall(struct drm_device *dev);
+ extern bool vmw_seqno_passed(struct vmw_private *dev_priv,
+@@ -1092,8 +1126,7 @@ extern int vmw_fallback_wait(struct vmw_private *dev_priv,
+ 			     uint32_t seqno,
+ 			     bool interruptible,
+ 			     unsigned long timeout);
+-extern void vmw_update_seqno(struct vmw_private *dev_priv,
+-				struct vmw_fifo_state *fifo_state);
++extern void vmw_update_seqno(struct vmw_private *dev_priv);
+ extern void vmw_seqno_waiter_add(struct vmw_private *dev_priv);
+ extern void vmw_seqno_waiter_remove(struct vmw_private *dev_priv);
+ extern void vmw_goal_waiter_add(struct vmw_private *dev_priv);
+@@ -1572,6 +1605,7 @@ static inline void vmw_fifo_resource_dec(struct vmw_private *dev_priv)
+  */
+ static inline u32 vmw_fifo_mem_read(struct vmw_private *vmw, uint32 fifo_reg)
+ {
++	BUG_ON(vmw_is_svga_v3(vmw));
+ 	return READ_ONCE(*(vmw->fifo_mem + fifo_reg));
+ }
+ 
+@@ -1586,6 +1620,44 @@ static inline u32 vmw_fifo_mem_read(struct vmw_private *vmw, uint32 fifo_reg)
+ static inline void vmw_fifo_mem_write(struct vmw_private *vmw, u32 fifo_reg,
+ 				      u32 value)
+ {
++	BUG_ON(vmw_is_svga_v3(vmw));
+ 	WRITE_ONCE(*(vmw->fifo_mem + fifo_reg), value);
+ }
++
++static inline u32 vmw_fence_read(struct vmw_private *dev_priv)
++{
++	u32 fence;
++	if (vmw_is_svga_v3(dev_priv))
++		fence = vmw_read(dev_priv, SVGA_REG_FENCE);
++	else
++		fence = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
++	return fence;
++}
++
++static inline void vmw_fence_write(struct vmw_private *dev_priv,
++				  u32 fence)
++{
++	BUG_ON(vmw_is_svga_v3(dev_priv));
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, fence);
++}
++
++static inline u32 vmw_irq_status_read(struct vmw_private *vmw)
++{
++	u32 status;
++	if (vmw_is_svga_v3(vmw))
++		status = vmw_read(vmw, SVGA_REG_IRQ_STATUS);
++	else
++		status = inl(vmw->io_start + SVGA_IRQSTATUS_PORT);
++	return status;
++}
++
++static inline void vmw_irq_status_write(struct vmw_private *vmw,
++					uint32 status)
++{
++	if (vmw_is_svga_v3(vmw))
++		vmw_write(vmw, SVGA_REG_IRQ_STATUS, status);
++	else
++		outl(status, vmw->io_start + SVGA_IRQSTATUS_PORT);
++}
++
+ #endif
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index 3ad07657b7d2..32a84dff3fbf 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -711,7 +711,7 @@ vmw_cmd_res_check(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_rebind_dx_query - Rebind DX query associated with the context
++ * vmw_rebind_all_dx_query - Rebind DX query associated with the context
+  *
+  * @ctx_res: context the query belongs to
+  *
+@@ -1140,7 +1140,7 @@ static void vmw_query_bo_switch_commit(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_translate_mob_pointer - Prepare to translate a user-space buffer handle
++ * vmw_translate_mob_ptr - Prepare to translate a user-space buffer handle
+  * to a MOB id.
+  *
+  * @dev_priv: Pointer to a device private structure.
+@@ -1195,7 +1195,7 @@ static int vmw_translate_mob_ptr(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_translate_guest_pointer - Prepare to translate a user-space buffer handle
++ * vmw_translate_guest_ptr - Prepare to translate a user-space buffer handle
+  * to a valid SVGAGuestPtr
+  *
+  * @dev_priv: Pointer to a device private structure.
+@@ -2308,7 +2308,7 @@ static int vmw_cmd_dx_set_vertex_buffers(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_cmd_dx_ia_set_vertex_buffers - Validate
++ * vmw_cmd_dx_set_index_buffer - Validate
+  * SVGA_3D_CMD_DX_IA_SET_INDEX_BUFFER command.
+  *
+  * @dev_priv: Pointer to a device private struct.
+@@ -2347,7 +2347,7 @@ static int vmw_cmd_dx_set_index_buffer(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_cmd_dx_set_rendertarget - Validate SVGA_3D_CMD_DX_SET_RENDERTARGETS
++ * vmw_cmd_dx_set_rendertargets - Validate SVGA_3D_CMD_DX_SET_RENDERTARGETS
+  * command
+  *
+  * @dev_priv: Pointer to a device private struct.
+@@ -2402,7 +2402,7 @@ static int vmw_cmd_dx_clear_rendertarget_view(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_cmd_dx_clear_rendertarget_view - Validate
++ * vmw_cmd_dx_clear_depthstencil_view - Validate
+  * SVGA_3D_CMD_DX_CLEAR_DEPTHSTENCIL_VIEW command
+  *
+  * @dev_priv: Pointer to a device private struct.
+@@ -3841,7 +3841,7 @@ vmw_execbuf_copy_fence_user(struct vmw_private *dev_priv,
+ 
+ 		fence_rep.handle = fence_handle;
+ 		fence_rep.seqno = fence->base.seqno;
+-		vmw_update_seqno(dev_priv, &dev_priv->fifo);
++		vmw_update_seqno(dev_priv);
+ 		fence_rep.passed_seqno = dev_priv->last_read_seqno;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+index 23523eb3cac2..9fe12329a4d5 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -139,12 +139,10 @@ static bool vmw_fence_enable_signaling(struct dma_fence *f)
+ 	struct vmw_fence_manager *fman = fman_from_fence(fence);
+ 	struct vmw_private *dev_priv = fman->dev_priv;
+ 
+-	u32 seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
++	u32 seqno = vmw_fence_read(dev_priv);
+ 	if (seqno - fence->base.seqno < VMW_FENCE_WRAP)
+ 		return false;
+ 
+-	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
+-
+ 	return true;
+ }
+ 
+@@ -177,7 +175,6 @@ static long vmw_fence_wait(struct dma_fence *f, bool intr, signed long timeout)
+ 	if (likely(vmw_fence_obj_signaled(fence)))
+ 		return timeout;
+ 
+-	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
+ 	vmw_seqno_waiter_add(dev_priv);
+ 
+ 	spin_lock(f->lock);
+@@ -464,7 +461,7 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
+ 	bool needs_rerun;
+ 	uint32_t seqno, new_seqno;
+ 
+-	seqno = vmw_fifo_mem_read(fman->dev_priv, SVGA_FIFO_FENCE);
++	seqno = vmw_fence_read(fman->dev_priv);
+ rerun:
+ 	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
+ 		if (seqno - fence->base.seqno < VMW_FENCE_WRAP) {
+@@ -486,7 +483,7 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
+ 
+ 	needs_rerun = vmw_fence_goal_new_locked(fman, seqno);
+ 	if (unlikely(needs_rerun)) {
+-		new_seqno = vmw_fifo_mem_read(fman->dev_priv, SVGA_FIFO_FENCE);
++		new_seqno = vmw_fence_read(fman->dev_priv);
+ 		if (new_seqno != seqno) {
+ 			seqno = new_seqno;
+ 			goto rerun;
+@@ -529,13 +526,6 @@ int vmw_fence_obj_wait(struct vmw_fence_obj *fence, bool lazy,
+ 		return ret;
+ }
+ 
+-void vmw_fence_obj_flush(struct vmw_fence_obj *fence)
+-{
+-	struct vmw_private *dev_priv = fman_from_fence(fence)->dev_priv;
+-
+-	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
+-}
+-
+ static void vmw_fence_destroy(struct vmw_fence_obj *fence)
+ {
+ 	dma_fence_free(&fence->base);
+@@ -992,7 +982,7 @@ static void vmw_fence_obj_add_action(struct vmw_fence_obj *fence,
+ }
+ 
+ /**
+- * vmw_event_fence_action_create - Post an event for sending when a fence
++ * vmw_event_fence_action_queue - Post an event for sending when a fence
+  * object seqno has passed.
+  *
+  * @file_priv: The file connection on which the event should be posted.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+index 50e9fdd7acf1..079ab4f3ba51 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+@@ -94,8 +94,6 @@ extern int vmw_fence_obj_wait(struct vmw_fence_obj *fence,
+ 			      bool lazy,
+ 			      bool interruptible, unsigned long timeout);
+ 
+-extern void vmw_fence_obj_flush(struct vmw_fence_obj *fence);
+-
+ extern int vmw_fence_create(struct vmw_fence_manager *fman,
+ 			    uint32_t seqno,
+ 			    struct vmw_fence_obj **p_fence);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
+index 6763d0638450..4fdacf9924e6 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
+@@ -60,15 +60,13 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
+ 		param->value = dev_priv->capabilities2;
+ 		break;
+ 	case DRM_VMW_PARAM_FIFO_CAPS:
+-		param->value = dev_priv->fifo.capabilities;
++		param->value = vmw_fifo_caps(dev_priv);
+ 		break;
+ 	case DRM_VMW_PARAM_MAX_FB_SIZE:
+ 		param->value = dev_priv->prim_bb_mem;
+ 		break;
+ 	case DRM_VMW_PARAM_FIFO_HW_VERSION:
+ 	{
+-		const struct vmw_fifo_state *fifo = &dev_priv->fifo;
+-
+ 		if ((dev_priv->capabilities & SVGA_CAP_GBOBJECTS)) {
+ 			param->value = SVGA3D_HWVERSION_WS8_B1;
+ 			break;
+@@ -76,7 +74,7 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
+ 
+ 		param->value =
+ 			vmw_fifo_mem_read(dev_priv,
+-					  ((fifo->capabilities &
++					  ((vmw_fifo_caps(dev_priv) &
+ 					    SVGA_FIFO_CAP_3D_HWVERSION_REVISED) ?
+ 						   SVGA_FIFO_3D_HWVERSION_REVISED :
+ 						   SVGA_FIFO_3D_HWVERSION));
+@@ -398,46 +396,3 @@ int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
+ out_clips:
+ 	return ret;
+ }
+-
+-
+-/**
+- * vmw_fops_poll - wrapper around the drm_poll function
+- *
+- * @filp: See the linux fops poll documentation.
+- * @wait: See the linux fops poll documentation.
+- *
+- * Wrapper around the drm_poll function that makes sure the device is
+- * processing the fifo if drm_poll decides to wait.
+- */
+-__poll_t vmw_fops_poll(struct file *filp, struct poll_table_struct *wait)
+-{
+-	struct drm_file *file_priv = filp->private_data;
+-	struct vmw_private *dev_priv =
+-		vmw_priv(file_priv->minor->dev);
+-
+-	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
+-	return drm_poll(filp, wait);
+-}
+-
+-
+-/**
+- * vmw_fops_read - wrapper around the drm_read function
+- *
+- * @filp: See the linux fops read documentation.
+- * @buffer: See the linux fops read documentation.
+- * @count: See the linux fops read documentation.
+- * @offset: See the linux fops read documentation.
+- *
+- * Wrapper around the drm_read function that makes sure the device is
+- * processing the fifo if drm_read decides to wait.
+- */
+-ssize_t vmw_fops_read(struct file *filp, char __user *buffer,
+-		      size_t count, loff_t *offset)
+-{
+-	struct drm_file *file_priv = filp->private_data;
+-	struct vmw_private *dev_priv =
+-		vmw_priv(file_priv->minor->dev);
+-
+-	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
+-	return drm_read(filp, buffer, count, offset);
+-}
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+index 6c2a569f1fcb..b9a9b7ddadbd 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+@@ -65,7 +65,7 @@ static irqreturn_t vmw_thread_fn(int irq, void *arg)
+ }
+ 
+ /**
+- * vmw_irq_handler irq handler
++ * vmw_irq_handler: irq handler
+  *
+  * @irq: irq number
+  * @arg: Closure argument. Pointer to a struct drm_device cast to void *
+@@ -82,11 +82,11 @@ static irqreturn_t vmw_irq_handler(int irq, void *arg)
+ 	uint32_t status, masked_status;
+ 	irqreturn_t ret = IRQ_HANDLED;
+ 
+-	status = inl(dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
++	status = vmw_irq_status_read(dev_priv);
+ 	masked_status = status & READ_ONCE(dev_priv->irq_mask);
+ 
+ 	if (likely(status))
+-		outl(status, dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
++		vmw_irq_status_write(dev_priv, status);
+ 
+ 	if (!status)
+ 		return IRQ_NONE;
+@@ -114,10 +114,9 @@ static bool vmw_fifo_idle(struct vmw_private *dev_priv, uint32_t seqno)
+ 	return (vmw_read(dev_priv, SVGA_REG_BUSY) == 0);
+ }
+ 
+-void vmw_update_seqno(struct vmw_private *dev_priv,
+-			 struct vmw_fifo_state *fifo_state)
++void vmw_update_seqno(struct vmw_private *dev_priv)
+ {
+-	uint32_t seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
++	uint32_t seqno = vmw_fence_read(dev_priv);
+ 
+ 	if (dev_priv->last_read_seqno != seqno) {
+ 		dev_priv->last_read_seqno = seqno;
+@@ -128,18 +127,16 @@ void vmw_update_seqno(struct vmw_private *dev_priv,
+ bool vmw_seqno_passed(struct vmw_private *dev_priv,
+ 			 uint32_t seqno)
+ {
+-	struct vmw_fifo_state *fifo_state;
+ 	bool ret;
+ 
+ 	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
+ 		return true;
+ 
+-	fifo_state = &dev_priv->fifo;
+-	vmw_update_seqno(dev_priv, fifo_state);
++	vmw_update_seqno(dev_priv);
+ 	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
+ 		return true;
+ 
+-	if (!(fifo_state->capabilities & SVGA_FIFO_CAP_FENCE) &&
++	if (!(vmw_fifo_caps(dev_priv) & SVGA_FIFO_CAP_FENCE) &&
+ 	    vmw_fifo_idle(dev_priv, seqno))
+ 		return true;
+ 
+@@ -161,7 +158,7 @@ int vmw_fallback_wait(struct vmw_private *dev_priv,
+ 		      bool interruptible,
+ 		      unsigned long timeout)
+ {
+-	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
++	struct vmw_fifo_state *fifo_state = dev_priv->fifo;
+ 
+ 	uint32_t count = 0;
+ 	uint32_t signal_seq;
+@@ -221,7 +218,7 @@ int vmw_fallback_wait(struct vmw_private *dev_priv,
+ 	}
+ 	finish_wait(&dev_priv->fence_queue, &__wait);
+ 	if (ret == 0 && fifo_idle)
+-		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, signal_seq);
++		vmw_fence_write(dev_priv, signal_seq);
+ 
+ 	wake_up_all(&dev_priv->fence_queue);
+ out_err:
+@@ -236,7 +233,7 @@ void vmw_generic_waiter_add(struct vmw_private *dev_priv,
+ {
+ 	spin_lock_bh(&dev_priv->waiter_lock);
+ 	if ((*waiter_count)++ == 0) {
+-		outl(flag, dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
++		vmw_irq_status_write(dev_priv, flag);
+ 		dev_priv->irq_mask |= flag;
+ 		vmw_write(dev_priv, SVGA_REG_IRQMASK, dev_priv->irq_mask);
+ 	}
+@@ -278,59 +275,13 @@ void vmw_goal_waiter_remove(struct vmw_private *dev_priv)
+ 				  &dev_priv->goal_queue_waiters);
+ }
+ 
+-int vmw_wait_seqno(struct vmw_private *dev_priv,
+-		      bool lazy, uint32_t seqno,
+-		      bool interruptible, unsigned long timeout)
+-{
+-	long ret;
+-	struct vmw_fifo_state *fifo = &dev_priv->fifo;
+-
+-	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
+-		return 0;
+-
+-	if (likely(vmw_seqno_passed(dev_priv, seqno)))
+-		return 0;
+-
+-	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
+-
+-	if (!(fifo->capabilities & SVGA_FIFO_CAP_FENCE))
+-		return vmw_fallback_wait(dev_priv, lazy, true, seqno,
+-					 interruptible, timeout);
+-
+-	if (!(dev_priv->capabilities & SVGA_CAP_IRQMASK))
+-		return vmw_fallback_wait(dev_priv, lazy, false, seqno,
+-					 interruptible, timeout);
+-
+-	vmw_seqno_waiter_add(dev_priv);
+-
+-	if (interruptible)
+-		ret = wait_event_interruptible_timeout
+-		    (dev_priv->fence_queue,
+-		     vmw_seqno_passed(dev_priv, seqno),
+-		     timeout);
+-	else
+-		ret = wait_event_timeout
+-		    (dev_priv->fence_queue,
+-		     vmw_seqno_passed(dev_priv, seqno),
+-		     timeout);
+-
+-	vmw_seqno_waiter_remove(dev_priv);
+-
+-	if (unlikely(ret == 0))
+-		ret = -EBUSY;
+-	else if (likely(ret > 0))
+-		ret = 0;
+-
+-	return ret;
+-}
+-
+ static void vmw_irq_preinstall(struct drm_device *dev)
+ {
+ 	struct vmw_private *dev_priv = vmw_priv(dev);
+ 	uint32_t status;
+ 
+-	status = inl(dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
+-	outl(status, dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
++	status = vmw_irq_status_read(dev_priv);
++	vmw_irq_status_write(dev_priv, status);
+ }
+ 
+ void vmw_irq_uninstall(struct drm_device *dev)
+@@ -346,8 +297,8 @@ void vmw_irq_uninstall(struct drm_device *dev)
+ 
+ 	vmw_write(dev_priv, SVGA_REG_IRQMASK, 0);
+ 
+-	status = inl(dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
+-	outl(status, dev_priv->io_start + VMWGFX_IRQSTATUS_PORT);
++	status = vmw_irq_status_read(dev_priv);
++	vmw_irq_status_write(dev_priv, status);
+ 
+ 	dev->irq_enabled = false;
+ 	free_irq(dev->irq, dev);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 67f693acea5f..220f9fd0d420 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -38,8 +38,10 @@
+ 
+ void vmw_du_cleanup(struct vmw_display_unit *du)
+ {
++	struct vmw_private *dev_priv = vmw_priv(du->primary.dev);
+ 	drm_plane_cleanup(&du->primary);
+-	drm_plane_cleanup(&du->cursor);
++	if (vmw_cmd_supported(dev_priv))
++		drm_plane_cleanup(&du->cursor);
+ 
+ 	drm_connector_unregister(&du->connector);
+ 	drm_crtc_cleanup(&du->crtc);
+@@ -128,11 +130,17 @@ static void vmw_cursor_update_position(struct vmw_private *dev_priv,
+ 	uint32_t count;
+ 
+ 	spin_lock(&dev_priv->cursor_lock);
+-	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_ON, show ? 1 : 0);
+-	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_X, x);
+-	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_Y, y);
+-	count = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_CURSOR_COUNT);
+-	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_COUNT, ++count);
++	if (vmw_is_cursor_bypass3_enabled(dev_priv)) {
++		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_ON, show ? 1 : 0);
++		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_X, x);
++		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_Y, y);
++		count = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_CURSOR_COUNT);
++		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_COUNT, ++count);
++	} else {
++		vmw_write(dev_priv, SVGA_REG_CURSOR_X, x);
++		vmw_write(dev_priv, SVGA_REG_CURSOR_Y, y);
++		vmw_write(dev_priv, SVGA_REG_CURSOR_ON, show ? 1 : 0);
++	}
+ 	spin_unlock(&dev_priv->cursor_lock);
+ }
+ 
+@@ -289,7 +297,7 @@ void vmw_du_primary_plane_destroy(struct drm_plane *plane)
+ 
+ 
+ /**
+- * vmw_du_vps_unpin_surf - unpins resource associated with a framebuffer surface
++ * vmw_du_plane_unpin_surf - unpins resource associated with a framebuffer surface
+  *
+  * @vps: plane state associated with the display surface
+  * @unreference: true if we also want to unreference the display.
+@@ -474,7 +482,7 @@ int vmw_du_primary_plane_atomic_check(struct drm_plane *plane,
+  * vmw_du_cursor_plane_atomic_check - check if the new state is okay
+  *
+  * @plane: cursor plane
+- * @new_state: info on the new plane state
++ * @state: info on the new plane state
+  *
+  * This is a chance to fail if the new cursor state does not fit
+  * our requirements.
+@@ -1045,7 +1053,8 @@ static int vmw_framebuffer_bo_dirty_ext(struct drm_framebuffer *framebuffer,
+ {
+ 	struct vmw_private *dev_priv = vmw_priv(framebuffer->dev);
+ 
+-	if (dev_priv->active_display_unit == vmw_du_legacy)
++	if (dev_priv->active_display_unit == vmw_du_legacy &&
++	    vmw_cmd_supported(dev_priv))
+ 		return vmw_framebuffer_bo_dirty(framebuffer, file_priv, flags,
+ 						color, clips, num_clips);
+ 
+@@ -2633,7 +2642,7 @@ int vmw_kms_fbdev_init_data(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_kms_create_implicit_placement_proparty - Set up the implicit placement
++ * vmw_kms_create_implicit_placement_property - Set up the implicit placement
+  * property.
+  *
+  * @dev_priv: Pointer to a device private struct.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+index 87e0b303d900..d85c7eab9469 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+@@ -404,19 +404,24 @@ static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
+ 
+ 	drm_plane_helper_add(primary, &vmw_ldu_primary_plane_helper_funcs);
+ 
+-	/* Initialize cursor plane */
+-	ret = drm_universal_plane_init(dev, &ldu->base.cursor,
+-			0, &vmw_ldu_cursor_funcs,
+-			vmw_cursor_plane_formats,
+-			ARRAY_SIZE(vmw_cursor_plane_formats),
+-			NULL, DRM_PLANE_TYPE_CURSOR, NULL);
+-	if (ret) {
+-		DRM_ERROR("Failed to initialize cursor plane");
+-		drm_plane_cleanup(&ldu->base.primary);
+-		goto err_free;
+-	}
++	/*
++	 * We're going to be using traces and software cursors
++	 */
++	if (vmw_cmd_supported(dev_priv)) {
++		/* Initialize cursor plane */
++		ret = drm_universal_plane_init(dev, &ldu->base.cursor,
++					       0, &vmw_ldu_cursor_funcs,
++					       vmw_cursor_plane_formats,
++					       ARRAY_SIZE(vmw_cursor_plane_formats),
++					       NULL, DRM_PLANE_TYPE_CURSOR, NULL);
++		if (ret) {
++			DRM_ERROR("Failed to initialize cursor plane");
++			drm_plane_cleanup(&ldu->base.primary);
++			goto err_free;
++		}
+ 
+-	drm_plane_helper_add(cursor, &vmw_ldu_cursor_plane_helper_funcs);
++		drm_plane_helper_add(cursor, &vmw_ldu_cursor_plane_helper_funcs);
++	}
+ 
+ 	ret = drm_connector_init(dev, connector, &vmw_legacy_connector_funcs,
+ 				 DRM_MODE_CONNECTOR_VIRTUAL);
+@@ -445,9 +450,10 @@ static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
+ 		goto err_free_encoder;
+ 	}
+ 
+-	ret = drm_crtc_init_with_planes(dev, crtc, &ldu->base.primary,
+-					&ldu->base.cursor,
+-					&vmw_legacy_crtc_funcs, NULL);
++	ret = drm_crtc_init_with_planes(
++		      dev, crtc, &ldu->base.primary,
++		      vmw_cmd_supported(dev_priv) ? &ldu->base.cursor : NULL,
++		      &vmw_legacy_crtc_funcs, NULL);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to initialize CRTC\n");
+ 		goto err_free_unregister;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
+index ac4a9b722279..54c5d16eb3b7 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
+@@ -421,7 +421,7 @@ int vmw_overlay_pause_all(struct vmw_private *dev_priv)
+ static bool vmw_overlay_available(const struct vmw_private *dev_priv)
+ {
+ 	return (dev_priv->overlay_priv != NULL &&
+-		((dev_priv->fifo.capabilities & VMW_OVERLAY_CAP_MASK) ==
++		((vmw_fifo_caps(dev_priv) & VMW_OVERLAY_CAP_MASK) ==
+ 		 VMW_OVERLAY_CAP_MASK));
+ }
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_reg.h b/drivers/gpu/drm/vmwgfx/vmwgfx_reg.h
+index e99f6cdbb091..cf585dfe5669 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_reg.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_reg.h
+@@ -34,10 +34,6 @@
+ 
+ #include <linux/types.h>
+ 
+-#define VMWGFX_INDEX_PORT     0x0
+-#define VMWGFX_VALUE_PORT     0x1
+-#define VMWGFX_IRQSTATUS_PORT 0x8
+-
+ struct svga_guest_mem_descriptor {
+ 	u32 ppn;
+ 	u32 num_pages;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+index d5da28be938a..62ea920addc3 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+@@ -280,7 +280,7 @@ int vmw_user_resource_lookup_handle(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_user_resource_lookup_handle - lookup a struct resource from a
++ * vmw_user_resource_noref_lookup_handle - lookup a struct resource from a
+  * TTM user-space handle and perform basic type checks
+  *
+  * @dev_priv:     Pointer to a device private struct
+@@ -1075,7 +1075,7 @@ enum vmw_res_type vmw_res_type(const struct vmw_resource *res)
+ }
+ 
+ /**
+- * vmw_resource_update_dirty - Update a resource's dirty tracker with a
++ * vmw_resource_dirty_update - Update a resource's dirty tracker with a
+  * sequential range of touched backing store memory.
+  * @res: The resource.
+  * @start: The first page touched.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+index 9bc9a0714664..145430d14219 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+@@ -1222,7 +1222,7 @@ static void vmw_sou_bo_clip(struct vmw_kms_dirty *dirty)
+ }
+ 
+ /**
+- * vmw_kms_do_bo_dirty - Dirty part of a buffer-object backed framebuffer
++ * vmw_kms_sou_do_bo_dirty - Dirty part of a buffer-object backed framebuffer
+  *
+  * @dev_priv: Pointer to the device private structure.
+  * @framebuffer: Pointer to the buffer-object backed framebuffer.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_so.c b/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
+index a0e49dcd5c44..c3a8d6e8380e 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
+@@ -90,7 +90,7 @@ static const struct vmw_res_func vmw_view_func = {
+ };
+ 
+ /**
+- * struct vmw_view - view define command body stub
++ * struct vmw_view_define - view define command body stub
+  *
+  * @view_id: The device id of the view being defined
+  * @sid: The surface id of the view being defined
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index 7b11f0285786..9e236f9f8a8a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -742,7 +742,7 @@ int vmw_kms_stdu_dma(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_stdu_surface_clip - Callback to encode a surface copy command cliprect
++ * vmw_kms_stdu_surface_clip - Callback to encode a surface copy command cliprect
+  *
+  * @dirty: The closure structure.
+  *
+@@ -780,7 +780,7 @@ static void vmw_kms_stdu_surface_clip(struct vmw_kms_dirty *dirty)
+ }
+ 
+ /**
+- * vmw_stdu_surface_fifo_commit - Callback to fill in and submit a surface
++ * vmw_kms_stdu_surface_fifo_commit - Callback to fill in and submit a surface
+  * copy command.
+  *
+  * @dirty: The closure structure.
+@@ -1571,7 +1571,7 @@ static int vmw_stdu_plane_update_surface(struct vmw_private *dev_priv,
+ /**
+  * vmw_stdu_primary_plane_atomic_update - formally switches STDU to new plane
+  * @plane: display plane
+- * @old_state: Only used to get crtc info
++ * @state: Only used to get crtc info
+  *
+  * Formally update stdu->display_srf to the new plane, and bind the new
+  * plane STDU.  This function is called during the commit phase when
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+index 4e08cd7855e3..8ead06574850 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -680,7 +680,7 @@ static void vmw_user_surface_free(struct vmw_resource *res)
+ }
+ 
+ /**
+- * vmw_user_surface_free - User visible surface TTM base object destructor
++ * vmw_user_surface_base_release - User visible surface TTM base object destructor
+  *
+  * @p_base:         Pointer to a pointer to a TTM base object
+  *                  embedded in a struct vmw_user_surface.
+@@ -702,7 +702,7 @@ static void vmw_user_surface_base_release(struct ttm_base_object **p_base)
+ }
+ 
+ /**
+- * vmw_user_surface_destroy_ioctl - Ioctl function implementing
++ * vmw_surface_destroy_ioctl - Ioctl function implementing
+  *                                  the user surface destroy functionality.
+  *
+  * @dev:            Pointer to a struct drm_device.
+@@ -719,7 +719,7 @@ int vmw_surface_destroy_ioctl(struct drm_device *dev, void *data,
+ }
+ 
+ /**
+- * vmw_user_surface_define_ioctl - Ioctl function implementing
++ * vmw_surface_define_ioctl - Ioctl function implementing
+  *                                  the user surface define functionality.
+  *
+  * @dev:            Pointer to a struct drm_device.
+@@ -1001,7 +1001,7 @@ vmw_surface_handle_reference(struct vmw_private *dev_priv,
+ }
+ 
+ /**
+- * vmw_user_surface_define_ioctl - Ioctl function implementing
++ * vmw_surface_reference_ioctl - Ioctl function implementing
+  *                                  the user surface reference functionality.
+  *
+  * @dev:            Pointer to a struct drm_device.
+@@ -1055,7 +1055,7 @@ int vmw_surface_reference_ioctl(struct drm_device *dev, void *data,
+ }
+ 
+ /**
+- * vmw_surface_define_encode - Encode a surface_define command.
++ * vmw_gb_surface_create - Encode a surface_define command.
+  *
+  * @res:        Pointer to a struct vmw_resource embedded in a struct
+  *              vmw_surface.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index 2dc031fe4a90..7bfe83c936ff 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -200,7 +200,8 @@ struct vmw_ttm_tt {
+ const size_t vmw_tt_size = sizeof(struct vmw_ttm_tt);
+ 
+ /**
+- * Helper functions to advance a struct vmw_piter iterator.
++ * __vmw_piter_non_sg_next: Helper functions to advance
++ * a struct vmw_piter iterator.
+  *
+  * @viter: Pointer to the iterator.
+  *
+@@ -222,7 +223,8 @@ static bool __vmw_piter_sg_next(struct vmw_piter *viter)
+ 
+ 
+ /**
+- * Helper functions to return a pointer to the current page.
++ * __vmw_piter_non_sg_page: Helper functions to return a pointer
++ * to the current page.
+  *
+  * @viter: Pointer to the iterator
+  *
+@@ -236,7 +238,8 @@ static struct page *__vmw_piter_non_sg_page(struct vmw_piter *viter)
+ }
+ 
+ /**
+- * Helper functions to return the DMA address of the current page.
++ * __vmw_piter_phys_addr: Helper functions to return the DMA
++ * address of the current page.
+  *
+  * @viter: Pointer to the iterator
+  *
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+index f4837130d67b..8338b1d20f2a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+@@ -809,7 +809,7 @@ void vmw_validation_revert(struct vmw_validation_context *ctx)
+ }
+ 
+ /**
+- * vmw_validation_cone - Commit validation actions after command submission
++ * vmw_validation_done - Commit validation actions after command submission
+  * success.
+  * @ctx: The validation context.
+  * @fence: Fence with which to fence all buffer objects taking part in the
+-- 
+2.27.0
 
-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
-
---u3/rZRmxL6MmkK24
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---u3/rZRmxL6MmkK24--
