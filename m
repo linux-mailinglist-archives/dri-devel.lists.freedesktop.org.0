@@ -2,43 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE2B3734D2
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 08:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DF73734FD
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 08:33:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2A3F6E053;
-	Wed,  5 May 2021 06:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB1F6E427;
+	Wed,  5 May 2021 06:33:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
- [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD0F6E053
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 06:06:20 +0000 (UTC)
-Date: Wed, 05 May 2021 06:06:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1620194778;
- bh=MBptRVLcSn/mM2o0IEH1iTyn5IN7dJYpDELHHQT0pcU=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=T2uElwOGtjQOIFISkSKGvbs0GOD4EXJU3kn5XXbk7tnQTi3v2mv7rnQbWf+EK51JT
- 4sK9oVyHinCZF6qh2PnR9xGxKc/6pgCw9ZZpX1vbq6FlVX567UMuRc7mzngumdCoFe
- XJSH37wWeGsX3oHb4YeiPhQvMitOTpIN4ZkbCqQ/3OGLPQlGDXntHLhW79f4mLhwzI
- p5vOeaRx26XN1+ORMSRSI2Q1BaHZjYIM945xVK+sb8A4Jmg5VUIZoTg99BC33uixXf
- UvjQNP6RuhzKhP0Gql1K3xJx6St1qQ7DzPqjayqwq42RTJNV5V8BZmTBLC9P1P3+Ga
- +vy5vE0bOlewA==
-To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2] drm: log errors in drm_gem_fb_init_with_funcs
-Message-ID: <DHsra4h62pN7Jo7Pz9D7XN_l4r-atgQ2865XYSMABZ32_-TyJSRXnYRN-0I8NNm1fK_O5bjTSq6icR1Ih8U3car_dXJYKXZh184rxxCVTMg=@emersion.fr>
-In-Reply-To: <20210505001442.kbo42ox7nwqwlewf@outlook.office365.com>
-References: <ZS4eX0PtTuNvHezILcTWeWINOkRyMS4krXND3cIE@cp4-web-032.plabs.ch>
- <20210503142038.bs2qfzzpqefqmn57@outlook.office365.com>
- <A5W1hYEUZFa0XQrjgvtzuZPiMe44HV9sGFK0XWIVaqYbxZhbEtIkEsgCEqawVTl2pRs1ZLfC3cOq54T9thv9RTOAmHTKStqi-5GR9r-ZvvM=@emersion.fr>
- <20210505001442.kbo42ox7nwqwlewf@outlook.office365.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28A976E252;
+ Wed,  5 May 2021 06:33:05 +0000 (UTC)
+IronPort-SDR: 10aLeruTZJdhaK19ZPU9t9RO0u7FSMSGM1ijfTp1FcJ9j6m0RXYlBAD1s+ew9J6FYYvyKzlMrv
+ cZ21ph17llLQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="198201753"
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="198201753"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2021 23:33:04 -0700
+IronPort-SDR: /nspZ60y87dXV5HZ9VrAkfjSFIeGwahmc/Hk44SXbKb9a4PJc8wW0uFcne9a0Rj3CtebkdTytN
+ fnjKfZZIptkQ==
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; d="scan'208";a="433662449"
+Received: from weberral-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.249.45.238])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2021 23:33:01 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Andi Kleen <ak@linux.intel.com>
+Subject: Re: [PATCH] i915: Increase *_latency array size
+In-Reply-To: <20210505033737.1282652-1-ak@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210505033737.1282652-1-ak@linux.intel.com>
+Date: Wed, 05 May 2021 09:32:58 +0300
+Message-ID: <87r1ily9k5.fsf@intel.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,35 +47,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Kleen <andi@firstfloor.org>,
+ rodrigo.vivi@intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, May 5th, 2021 at 2:14 AM, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com> wrote:
-
-> > As Ville said, if things got this far and the format is unsupported, something
-> > must be going wrong. I'm not confident enough to switch this to a WARN_ON,
-> > though.
->
-> Hi Simon, thanks for your explanation.
->
-> Is it common to get "!info" equal true? If not, and imho, I think that
-> WARN_ON would be good to raise attention to a possible issue.
-
-Maybe, but:
-
-- I don't know enough to tell.
-- Should be a separate patch anyway if we want to go with this, so that
-  the WARN_ON can easily be reverted if need be (without reverting the
-  logging additions).
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAwNCBNYXkgMjAyMSwgQW5kaSBLbGVlbiA8YWtAbGludXguaW50ZWwuY29tPiB3cm90
+ZToKPiBGcm9tOiBBbmRpIEtsZWVuIDxhbmRpQGZpcnN0Zmxvb3Iub3JnPgo+Cj4gTmV3ZXIgZ2Nj
+IHByaW50cyB0aGUgZm9sbG93aW5nIHdhcm5pbmc6Cj4KPiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
+bnRlbF9wbS5jOjMwNTc6OTogd2FybmluZzog4oCYaW50ZWxfcHJpbnRfd21fbGF0ZW5jeeKAmSBy
+ZWFkaW5nIDE2IGJ5dGVzIGZyb20gYSByZWdpb24gb2Ygc2l6ZSAxMCBbLVdzdHJpbmdvcC1vdmVy
+cmVhZF0KPiBhbmQgc29tZSBvdGhlciByZWxhdGVkIHdhcm5pbmdzIGluIHNpbWlsYXIgZnVuY3Rp
+b25zLgo+Cj4gZ2NjIGhhcyBhIHBvaW50IGhlcmUuIFNvbWUgb2YgdGhlIGxhdGVuY3kgYXJyYXlz
+IG9ubHkgaGF2ZSA1IG1lbWJlcnMsCj4gYnV0IHByaW50X3dtX2xhdGVuY3kgbWF5IHJlYWQgdXAg
+dG8gbWF4X2xldmVsIHJldHVybmVkIGJ5IGlsa193bV9tYXhfbGV2ZWwsCj4gd2hpY2ggY2FuIGJl
+IHVwdG8gNyBmb3IgdGhlID49IEdFTjkgY2FzZS4KPgo+IFNvIGl0IHdpbGwgcmVhZCBzb21lIGZp
+ZWxkcyBiZXlvbmQgdGhlIGFycmF5Lgo+Cj4gSW5jcmVhc2UgYWxsIHRoZSBsYXRlbmN5IGZpZWxk
+cyB0byA4IG1lbWJlcnMsIHdoaWNoIGlzIGVub3VnaCBmb3IgU0tMLgo+Cj4gSSBkb24ndCBrbm93
+IGlmIHRoZXkgYXJlIGNvcnJlY3RseSBpbml0aWFsaXplZCB1cHRvIDgsIGJ1dCBkZXZfcHJpdgo+
+IHNob3VsZCBzdGFydCBvdXQgYXMgemVybywgc28gcHJlc3VtYWJseSB0aGV5IHdpbGwgYmUgemVy
+by4KClRoYW5rcywgdGhlIHdhcm5pbmcgc2hvdWxkIGJlIGZpeGVkIGJ5IGNvbW1pdAoKYzZkZWI1
+ZTk3ZGVkICgiZHJtL2k5MTUvcG06IE1ha2UgdGhlIHdtIHBhcmFtZXRlciBvZiBwcmludF93bV9s
+YXRlbmN5IGEgcG9pbnRlciIpCgppbiBkcm0taW50ZWwtbmV4dC4KClRoZXJlIGRvZXNuJ3QgYWN0
+dWFsbHkgc2VlbSB0byBiZSBhIGJ1ZyBoZXJlLCBidXQgSSB3b25kZXIgaWYgd2Ugc2hvdWxkCnNl
+bmQgdGhhdCB0byBzdGFibGUgb3IgdjUuMTMtcmMxKyBhbnl3YXkgdG8gc3RvcCBwZW9wbGUgc3Bl
+bmRpbmcgdGltZSBvbgp0aGUgc2FtZSBpc3N1ZS4KCkJSLApKYW5pLgoKPgo+IFNpZ25lZC1vZmYt
+Ynk6IEFuZGkgS2xlZW4gPGFuZGlAZmlyc3RmbG9vci5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L2k5MTVfZHJ2LmggfCA2ICsrKy0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNl
+cnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2k5MTVfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5oCj4gaW5k
+ZXggY2I2MmRkYmEyMDM1Li5jODBhZGQ1ZjZkMzMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvaTkxNV9kcnYuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2
+LmgKPiBAQCAtMTA5NSwxMSArMTA5NSwxMSBAQCBzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSB7Cj4g
+IAkJICogaW4gMC41dXMgdW5pdHMgZm9yIFdNMSsuCj4gIAkJICovCj4gIAkJLyogcHJpbWFyeSAq
+Lwo+IC0JCXUxNiBwcmlfbGF0ZW5jeVs1XTsKPiArCQl1MTYgcHJpX2xhdGVuY3lbOF07Cj4gIAkJ
+Lyogc3ByaXRlICovCj4gLQkJdTE2IHNwcl9sYXRlbmN5WzVdOwo+ICsJCXUxNiBzcHJfbGF0ZW5j
+eVs4XTsKPiAgCQkvKiBjdXJzb3IgKi8KPiAtCQl1MTYgY3VyX2xhdGVuY3lbNV07Cj4gKwkJdTE2
+IGN1cl9sYXRlbmN5WzhdOwo+ICAJCS8qCj4gIAkJICogUmF3IHdhdGVybWFyayBtZW1vcnkgbGF0
+ZW5jeSB2YWx1ZXMKPiAgCQkgKiBmb3IgU0tMIGZvciBhbGwgOCBsZXZlbHMKCi0tIApKYW5pIE5p
+a3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
