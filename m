@@ -2,108 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5113A3732FE
-	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 02:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348853733A4
+	for <lists+dri-devel@lfdr.de>; Wed,  5 May 2021 03:44:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D6E6E30D;
-	Wed,  5 May 2021 00:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 071A56E328;
+	Wed,  5 May 2021 01:44:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2079.outbound.protection.outlook.com [40.107.93.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCE6A6E30D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 00:14:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ylm0EitJ8Nvq/OP5DWcBSWjWITg6cwGmz2gJq4cXbSPv92Vs4/ksPBqPDw/IeXKU3grfhok4wxUA/Fri7Wt/sWNVKO/BIL58GEXPf+X8mjPG5y3HyXvZK3JWWpy8DJ3VTEOrCuZuZRUyr0WnnBtK4aIeiyAujHsnKBx11/SPESsnyLkQL/f5TClgvFEhnFoMcYGZuwOQwiNwNchxI7diUlcfhqMD5pN6lCTd+VwxzF3YeRYc+9QdKX0bFTZ6QLTyP7JeKrRwJrNVdD6IW+fodf/njVPGJd+VJ2CxahylqZiyRmm45yXJfsDDlAF3ahHX3mwwuOEHz+py5Toy6mfNDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V+fCqnJZeyCF0C8QrlarA7isHb3E3x6ASB4sX9Ji0nI=;
- b=JLV9//RBPxbE9iad7hDKc6xLfdfOwMoYuZS2RMSYHpVLR5afJnA6NY/2LEXuY21bpaW81xHS2Qcs3cYUY4QHE3AEVoYBkD73XaiGmPNSHXCyP+VVYMhAhqWcSVi9g9qvVGFGvpXKwQcz8e43IT5A5EwECfBmiCdtbm/oMeAizBdGadCYCbeOpvaMk/ss+7Cv64oKj9MKcmKM4nV/v5HGQWUo/E4ZjK0+M4iezjV/bjreLcJR/yYA4ErVQ7Qwe6AEFEEuXmYvXwwXxyRzWchPKz57FslASsWmwh1iAAfLvR0k1O0QuuZY7I2Yq3qQsCYyNQqnnxIIxg0tVWs0I2rikQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V+fCqnJZeyCF0C8QrlarA7isHb3E3x6ASB4sX9Ji0nI=;
- b=hUBBjUISYGkvRIstXPdtQa5H35gbt0qqllX3nX5v0uPaepIenNw1xP+lxdGnbFGntcRz4/NDSv34SLvCmThjPBPIPpjm0UGInUhxLJRn9fksd1uZv4PhMvioQa4rDtxZxZL7RC3cD+a05XP1KmMrhBzQOYTh51rOhiO4mz55XLM=
-Authentication-Results: emersion.fr; dkim=none (message not signed)
- header.d=none;emersion.fr; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB2601.namprd12.prod.outlook.com (2603:10b6:5:45::27) by
- DM6PR12MB4943.namprd12.prod.outlook.com (2603:10b6:5:1bc::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4087.26; Wed, 5 May 2021 00:14:45 +0000
-Received: from DM6PR12MB2601.namprd12.prod.outlook.com
- ([fe80::3d2c:5edf:5d51:4101]) by DM6PR12MB2601.namprd12.prod.outlook.com
- ([fe80::3d2c:5edf:5d51:4101%7]) with mapi id 15.20.4108.024; Wed, 5 May 2021
- 00:14:45 +0000
-Date: Tue, 4 May 2021 20:14:42 -0400
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2] drm: log errors in drm_gem_fb_init_with_funcs
-Message-ID: <20210505001442.kbo42ox7nwqwlewf@outlook.office365.com>
-References: <ZS4eX0PtTuNvHezILcTWeWINOkRyMS4krXND3cIE@cp4-web-032.plabs.ch>
- <20210503142038.bs2qfzzpqefqmn57@outlook.office365.com>
- <A5W1hYEUZFa0XQrjgvtzuZPiMe44HV9sGFK0XWIVaqYbxZhbEtIkEsgCEqawVTl2pRs1ZLfC3cOq54T9thv9RTOAmHTKStqi-5GR9r-ZvvM=@emersion.fr>
-In-Reply-To: <A5W1hYEUZFa0XQrjgvtzuZPiMe44HV9sGFK0XWIVaqYbxZhbEtIkEsgCEqawVTl2pRs1ZLfC3cOq54T9thv9RTOAmHTKStqi-5GR9r-ZvvM=@emersion.fr>
-X-Originating-IP: [2607:fea8:56e0:6d60:63ad:ffed:25e3:bc99]
-X-ClientProxiedBy: BN0PR03CA0026.namprd03.prod.outlook.com
- (2603:10b6:408:e6::31) To DM6PR12MB2601.namprd12.prod.outlook.com
- (2603:10b6:5:45::27)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7056D6E328;
+ Wed,  5 May 2021 01:44:14 +0000 (UTC)
+IronPort-SDR: LjkYKo8T8B0uSxjvBm3Qv5kCKsbupN+pADXPYnpzQ9lp0ALdTNw6DanigoBWt2DhLNQxv1paGC
+ C9MQH6lMJs+Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="177655316"
+X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; d="scan'208";a="177655316"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2021 18:44:13 -0700
+IronPort-SDR: Mo/KwADThQd33IE721toDv2nxSLhrOtSUeGdb/mBL/whtQxp5YZGrhn+6uOZvJSlzEt4JWhno0
+ cRXoQBAWhNKA==
+X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; d="scan'208";a="539381788"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2021 18:44:13 -0700
+Date: Tue, 4 May 2021 18:36:49 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: drop the __i915_active_call
+ pointer packing
+Message-ID: <20210505013648.GA8247@sdutt-i7>
+References: <20210504164136.96456-1-matthew.auld@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from outlook.office365.com (2607:fea8:56e0:6d60:63ad:ffed:25e3:bc99)
- by BN0PR03CA0026.namprd03.prod.outlook.com (2603:10b6:408:e6::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.27 via Frontend
- Transport; Wed, 5 May 2021 00:14:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 456a861b-beb1-4aba-bf05-08d90f5ac982
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4943:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4943FA9404F78C2ED8BC376998599@DM6PR12MB4943.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wx4Ed06Y1JLjLDADHVQVvM3tTWJFHqJ5WH7imkqBH9kLMtEPrU3vahodpiRV2Mv28EmrdN0iO1AZP4I8dsvCBVs/tDAtc6u2CB9sv7tfKrljCcJAITUoYLYAic584638tVRn9/85yvQ8gOImcyf9NTrurzTHpXJ1kpQr2lY5y4EETnnriiu8KlKvO5bZwkFeMvFjLRDnHvNkXGs9c4bjYQthkl4/vG0E4i9hBnD32EDvoenviPh+EfFP9crbyyz9Hvkug85iDzlNY3wFJkZ3RJOYh2fTOg5ckaMp19k6WlxgAivEhTsGaf8L0TL+l7Bu9T24QZI6cPX80QwGSEkkYQI9R/yC3F0Dji1aiVTaVeb8bxpPQvDCuaHKt07Msz4ze9o9Y9ssEm8jXZqbc6WKn0OO5ftGUxwLuv/gWcVI3UIdNJv1xwmL3W73A3e+wUb6NjhQDCYbvQF4LNAPj2ZZcdii6E+smb4jlQuLZ7hhB9t/9FA86HdOpQH3gIS+qYU4WGPqcVYBqCmGYBkDe/VJZxU9cHm3PjNxAt+1M+1ru5Yf3QQcwuedRoQWZa6oxHawmcCcEDbQmVdiZObB1sICcls5R5gKgz8kq2l744jpjfjB7CCBzPyyOAp0H8XKLqF3eExUimYGlM3CBY6Lo7+XUQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB2601.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(366004)(136003)(396003)(376002)(7696005)(52116002)(66556008)(1076003)(9686003)(66476007)(44144004)(8936002)(86362001)(5660300002)(8676002)(478600001)(186003)(66946007)(6506007)(16526019)(6916009)(21480400003)(2906002)(4326008)(54906003)(316002)(38100700002)(55016002)(2700100001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?o+jAt15l6FD6ualYk7+Gv3va2Ns780irDMxoOHnZmGet3hrIZR7edBXQyQSi?=
- =?us-ascii?Q?fNA9YFW714uzsuFy+G8oNcf37zTE2cZyW+G92nwSOCu2IGTRVUO4CCBgstxH?=
- =?us-ascii?Q?7oMFjv9MO0dev8HygczUOigpJPrHkqrfIzmjLU1ndz0mgJ5fV2FF6dGY/sE5?=
- =?us-ascii?Q?izK07gF3quAjnQhSEFkdXALAZxXt0Ukyr3jqK6rTflRLx7JXdSi23pNAR67z?=
- =?us-ascii?Q?NlkNRDYD1WrF3+GQjHVAGW60LO61nOIuzkH5cWT80ALe9bUqD8mUAOujBLtD?=
- =?us-ascii?Q?FVm8lG2aGGG90xy54E4hdZeHTxpAbHv4e1sO+e/b5M5DbEML5ymP6dYX+09a?=
- =?us-ascii?Q?onWvycBKCM3g1+sBRo9xhTfSBW2pFlP+mV4oekfeilEyYERixFVNEvjS/6QP?=
- =?us-ascii?Q?HFdYGvzPU0k+k0bSiO8PtuW3CEtNYTzYGpmP/MZ53sf1OUWFCtJmfqGG4dUa?=
- =?us-ascii?Q?7/3dCEUd6SJjv4NnLeB7qv9em/jJe/4CbHwR0zUEZD/0SU/jYvNk/GjaSjba?=
- =?us-ascii?Q?tTvD5S9CbDTG0LoHdXclqp4x65jtCiY2guFaUHmci/DSKUVqDuLF7vpNy1KO?=
- =?us-ascii?Q?PjQvyTQDxTJHflOW8IfATZZaKhCFBIDfEdj9ooS9Rq1HDsq08e9RIsR4mTwA?=
- =?us-ascii?Q?CMH8kmSvbhQuJf0fJ8gXuG4LHuPyY/CWylTlOdt181yD6WxQw/wlsvFkwVoC?=
- =?us-ascii?Q?CAzFNdB97C3f4PjxoI23iYTf/uzFYUDeqEDw4GqHP3dcdcNOOcTGkj55hsrY?=
- =?us-ascii?Q?dxS1bnWHmh7MyXeRN6nHJRw5ZRmGVnuZ+EwLpp7yUSLSf7HVQhH16EmN4YnY?=
- =?us-ascii?Q?OiGAhZJsGehbsU/n7pqmyX5hVXY7WYMFIhKQwP0wGC5B07SUYH/jGei9TEml?=
- =?us-ascii?Q?AiO66s3Y1+MfGulxoHkWcqzvEXIyLgwte/6tvi5E9skjr926EGN/KUxutr/J?=
- =?us-ascii?Q?uXRdZQZrnir0Ifl/rNn9Gt7y0NwCqIxy/AoRDKCVUz7joIwRdcs7X0xJ2aP1?=
- =?us-ascii?Q?dkhmtfeoiR1lzlnEVmwMXRd5wwEfTodJtN5jS03hBjrTo8qxVOW+JLIgIWXB?=
- =?us-ascii?Q?F2K3q8bUv8uEnF+sunEBS9AF6bJYvN79VUG+4YDenua0QDvTbUdiiXbCU5t3?=
- =?us-ascii?Q?dTHgYekozrlwL94uLCxtVpEX4G0Awvy9OhuTd8RBFGHAV55m23ZXZoM0TNc6?=
- =?us-ascii?Q?NNhPz2GwPYUuFWRCxBAEiA/sEWZZJKnqy5/Nt/4hF7Afg6W6Jp03YvjbGRrU?=
- =?us-ascii?Q?uG35n68R0DMvHZYwYZ9d52mhYl7/d81PQ4ExO1gmBxHaXESf4Adx8ouL29GS?=
- =?us-ascii?Q?UtcF+E39e1V0eWlc/vT6steER89xU+5PldRCBejzq0L+8VPQbHRjbwR2JfEZ?=
- =?us-ascii?Q?gS0t+h28e5uFbyVQMfgpqJBtjr6D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 456a861b-beb1-4aba-bf05-08d90f5ac982
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2601.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 00:14:45.3167 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mTs5VS1W3kr3N1S23SI6mwOwXYO3ufcfFpr3NLK9PXYttZYgPUonnVCT5m2UysVIoi2R3f+vY8N88v65nrvowA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4943
+Content-Disposition: inline
+In-Reply-To: <20210504164136.96456-1-matthew.auld@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,89 +48,452 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============1251366599=="
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1251366599==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wgvlisfpikrb2owv"
-Content-Disposition: inline
+On Tue, May 04, 2021 at 05:41:36PM +0100, Matthew Auld wrote:
+> We use some of the lower bits of the retire function pointer for
+> potential flags, which is quite thorny, since the caller needs to
+> remember to give the function the correct alignment with
+> __i915_active_call, otherwise we might incorrectly unpack the pointer
+> and jump to some garbage address later. Instead of all this let's just
+> pass the flags along as a separate parameter.
+> =
 
---wgvlisfpikrb2owv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> References: ca419f407b43 ("drm/i915: Fix crash in auto_retire")
+> References: d8e44e4dd221 ("drm/i915/overlay: Fix active retire callback a=
+lignment")
+> References: fd5f262db118 ("drm/i915/selftests: Fix active retire callback=
+ alignment")
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 
-On 05/03, Simon Ser wrote:
-> On Monday, May 3rd, 2021 at 4:20 PM, Rodrigo Siqueira <Rodrigo.Siqueira@a=
-md.com> wrote:
->=20
-> > > diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/g=
-pu/drm/drm_gem_framebuffer_helper.c
-> > > index 109d11fb4cd4..aeb808a0ba54 100644
-> > > --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> > > +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> > > @@ -155,8 +155,10 @@ int drm_gem_fb_init_with_funcs(struct drm_device=
- *dev,
-> > >  	int ret, i;
-> > >
-> > >  	info =3D drm_get_format_info(dev, mode_cmd);
-> > > -	if (!info)
-> > > +	if (!info) {
-> > > +		drm_dbg_kms(dev, "Failed to get FB format info\n");
-> >
-> > Just for curiosity,
-> > Why not say something like "FB format is not supported" by the driver?
-> > I'm asking because the kernel-doc for drm_get_format_info says "NULL if
-> > the format is unsupported".
->=20
-> As Ville said, if things got this far and the format is unsupported, some=
-thing
-> must be going wrong. I'm not confident enough to switch this to a WARN_ON,
-> though.
+I absolutely hate most of the pointer packing code in the i915.
 
-Hi Simon, thanks for your explanation.
+With that:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-Is it common to get "!info" equal true? If not, and imho, I think that
-WARN_ON would be good to raise attention to a possible issue.
+> ---
+>  drivers/gpu/drm/i915/display/intel_frontbuffer.c   |  4 ++--
+>  drivers/gpu/drm/i915/display/intel_overlay.c       |  5 ++---
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c        |  3 +--
+>  drivers/gpu/drm/i915/gt/gen6_ppgtt.c               |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_context.c            |  3 +--
+>  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c     |  3 +--
+>  drivers/gpu/drm/i915/gt/intel_timeline.c           |  4 ++--
+>  drivers/gpu/drm/i915/gt/mock_engine.c              |  2 +-
+>  .../gpu/drm/i915/gt/selftest_engine_heartbeat.c    |  4 ++--
+>  drivers/gpu/drm/i915/i915_active.c                 | 14 +++++---------
+>  drivers/gpu/drm/i915/i915_active.h                 | 11 ++++++-----
+>  drivers/gpu/drm/i915/i915_active_types.h           |  5 -----
+>  drivers/gpu/drm/i915/i915_vma.c                    |  3 +--
+>  drivers/gpu/drm/i915/selftests/i915_active.c       |  4 ++--
+>  15 files changed, 28 insertions(+), 41 deletions(-)
+> =
 
---wgvlisfpikrb2owv
-Content-Type: application/pgp-signature; name="signature.asc"
+> diff --git a/drivers/gpu/drm/i915/display/intel_frontbuffer.c b/drivers/g=
+pu/drm/i915/display/intel_frontbuffer.c
+> index 8161d49e78ba..8e75debcce1a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_frontbuffer.c
+> +++ b/drivers/gpu/drm/i915/display/intel_frontbuffer.c
+> @@ -211,7 +211,6 @@ static int frontbuffer_active(struct i915_active *ref)
+>  	return 0;
+>  }
+>  =
 
------BEGIN PGP SIGNATURE-----
+> -__i915_active_call
+>  static void frontbuffer_retire(struct i915_active *ref)
+>  {
+>  	struct intel_frontbuffer *front =3D
+> @@ -266,7 +265,8 @@ intel_frontbuffer_get(struct drm_i915_gem_object *obj)
+>  	atomic_set(&front->bits, 0);
+>  	i915_active_init(&front->write,
+>  			 frontbuffer_active,
+> -			 i915_active_may_sleep(frontbuffer_retire));
+> +			 frontbuffer_retire,
+> +			 I915_ACTIVE_RETIRE_SLEEPS);
+>  =
 
-iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAmCR43EACgkQWJzP/com
-vP/KLA//VP50Hj0W0S8WL838qmGdUUJkIAlKAogSMlPwQmgv8Dqe8Q5DvlsD/iE8
-sKX71dpbHiOLPj/F3vPVj8sHmKg1F+7PcjyTg1477+Ar3s9FaHGimD72DMout34g
-a6VmiSR4BIvzyKnjZ6vHhz5M6Cl1fF0rbSdGPAQPu+0RPCq7s5wEzMTAi40h3HkK
-a1zhp1VCxL0kXESPZI8blplxQ2soclBu6AV5sM1LxO29n1UlcP2eVc1j/ESD9Lw9
-9EL78rDzDUtjsybPyoh5A6os7HTPg/gK1uoGGS3BJMCJBN3fUqY8m5A8akYk9Hrz
-NWzpak2KMs9+5YH43CH6+ZeJGNqI+6sAvzbsttFBvht1D8v/rrpjbdNMU+WlCaUF
-myO/ciT5GCyMsMwjdhYrH/mzBf80LPU94YUScENdEeajsxLcyUWXDPpPTvMr4EnK
-4OALgchnI7OfFbLPJCXBx0nEwkCcoWcDFLJfasfmQxgiwMNYcSg6b802kC4zK9g1
-zV46jR9zx3oLB5O53rWRhvzyyUvaO2LObYY7bgUFDgJGRf8yKtOKq/HIqfATaMIv
-l8VoFcJT5ISp3RwfDN3zc+4M8GTSC3ab8FvxV7OHxew/YUelK6M+CtNljo3/NLNN
-hrEEzqLtWfqx9pHPI22KgwutUJVEhjXua833KQN9rG1v/ObyZoc=
-=FgJL
------END PGP SIGNATURE-----
+>  	spin_lock(&i915->fb_tracking.lock);
+>  	if (rcu_access_pointer(obj->frontbuffer)) {
+> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/d=
+rm/i915/display/intel_overlay.c
+> index 428819ba18dd..f1e04c1535c7 100644
+> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
+> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
+> @@ -383,8 +383,7 @@ static void intel_overlay_off_tail(struct intel_overl=
+ay *overlay)
+>  		i830_overlay_clock_gating(dev_priv, true);
+>  }
+>  =
 
---wgvlisfpikrb2owv--
+> -__i915_active_call static void
+> -intel_overlay_last_flip_retire(struct i915_active *active)
+> +static void intel_overlay_last_flip_retire(struct i915_active *active)
+>  {
+>  	struct intel_overlay *overlay =3D
+>  		container_of(active, typeof(*overlay), last_flip);
+> @@ -1401,7 +1400,7 @@ void intel_overlay_setup(struct drm_i915_private *d=
+ev_priv)
+>  	overlay->saturation =3D 146;
+>  =
 
---===============1251366599==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+>  	i915_active_init(&overlay->last_flip,
+> -			 NULL, intel_overlay_last_flip_retire);
+> +			 NULL, intel_overlay_last_flip_retire, 0);
+>  =
 
+>  	ret =3D get_registers(overlay, OVERLAY_NEEDS_PHYSICAL(dev_priv));
+>  	if (ret)
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/dr=
+m/i915/gem/i915_gem_context.c
+> index fd8ee52e17a4..188dee13e017 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -1046,7 +1046,6 @@ struct context_barrier_task {
+>  	void *data;
+>  };
+>  =
+
+> -__i915_active_call
+>  static void cb_retire(struct i915_active *base)
+>  {
+>  	struct context_barrier_task *cb =3D container_of(base, typeof(*cb), bas=
+e);
+> @@ -1080,7 +1079,7 @@ static int context_barrier_task(struct i915_gem_con=
+text *ctx,
+>  	if (!cb)
+>  		return -ENOMEM;
+>  =
+
+> -	i915_active_init(&cb->base, NULL, cb_retire);
+> +	i915_active_init(&cb->base, NULL, cb_retire, 0);
+>  	err =3D i915_active_acquire(&cb->base);
+>  	if (err) {
+>  		kfree(cb);
+> diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/=
+gt/gen6_ppgtt.c
+> index 21b1085769be..1aee5e6b1b23 100644
+> --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> @@ -343,7 +343,7 @@ static struct i915_vma *pd_vma_create(struct gen6_ppg=
+tt *ppgtt, int size)
+>  	if (!vma)
+>  		return ERR_PTR(-ENOMEM);
+>  =
+
+> -	i915_active_init(&vma->active, NULL, NULL);
+> +	i915_active_init(&vma->active, NULL, NULL, 0);
+>  =
+
+>  	kref_init(&vma->ref);
+>  	mutex_init(&vma->pages_mutex);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i9=
+15/gt/intel_context.c
+> index 17cf2640b082..4033184f13b9 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> @@ -326,7 +326,6 @@ void intel_context_unpin(struct intel_context *ce)
+>  	intel_context_put(ce);
+>  }
+>  =
+
+> -__i915_active_call
+>  static void __intel_context_retire(struct i915_active *active)
+>  {
+>  	struct intel_context *ce =3D container_of(active, typeof(*ce), active);
+> @@ -385,7 +384,7 @@ intel_context_init(struct intel_context *ce, struct i=
+ntel_engine_cs *engine)
+>  	mutex_init(&ce->pin_mutex);
+>  =
+
+>  	i915_active_init(&ce->active,
+> -			 __intel_context_active, __intel_context_retire);
+> +			 __intel_context_active, __intel_context_retire, 0);
+>  }
+>  =
+
+>  void intel_context_fini(struct intel_context *ce)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/d=
+rm/i915/gt/intel_ggtt_fencing.c
+> index 0fa6c38893f7..7bf84cd21543 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> @@ -867,7 +867,7 @@ void intel_ggtt_init_fences(struct i915_ggtt *ggtt)
+>  	for (i =3D 0; i < num_fences; i++) {
+>  		struct i915_fence_reg *fence =3D &ggtt->fence_regs[i];
+>  =
+
+> -		i915_active_init(&fence->active, NULL, NULL);
+> +		i915_active_init(&fence->active, NULL, NULL, 0);
+>  		fence->ggtt =3D ggtt;
+>  		fence->id =3D i;
+>  		list_add_tail(&fence->link, &ggtt->fence_list);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c b/drivers/gpu=
+/drm/i915/gt/intel_gt_buffer_pool.c
+> index c59468107598..aa0a59c5b614 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
+> @@ -98,7 +98,6 @@ static void pool_free_work(struct work_struct *wrk)
+>  				      round_jiffies_up_relative(HZ));
+>  }
+>  =
+
+> -__i915_active_call
+>  static void pool_retire(struct i915_active *ref)
+>  {
+>  	struct intel_gt_buffer_pool_node *node =3D
+> @@ -154,7 +153,7 @@ node_create(struct intel_gt_buffer_pool *pool, size_t=
+ sz,
+>  	node->age =3D 0;
+>  	node->pool =3D pool;
+>  	node->pinned =3D false;
+> -	i915_active_init(&node->active, NULL, pool_retire);
+> +	i915_active_init(&node->active, NULL, pool_retire, 0);
+>  =
+
+>  	obj =3D i915_gem_object_create_internal(gt->i915, sz);
+>  	if (IS_ERR(obj)) {
+> diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i=
+915/gt/intel_timeline.c
+> index f19cf6d2fa85..c4a126c8caef 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_timeline.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
+> @@ -32,7 +32,6 @@ static struct i915_vma *hwsp_alloc(struct intel_gt *gt)
+>  	return vma;
+>  }
+>  =
+
+> -__i915_active_call
+>  static void __timeline_retire(struct i915_active *active)
+>  {
+>  	struct intel_timeline *tl =3D
+> @@ -104,7 +103,8 @@ static int intel_timeline_init(struct intel_timeline =
+*timeline,
+>  	INIT_LIST_HEAD(&timeline->requests);
+>  =
+
+>  	i915_syncmap_init(&timeline->sync);
+> -	i915_active_init(&timeline->active, __timeline_active, __timeline_retir=
+e);
+> +	i915_active_init(&timeline->active, __timeline_active,
+> +			 __timeline_retire, 0);
+>  =
+
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915=
+/gt/mock_engine.c
+> index e1ba03b93ffa..32589c6625e1 100644
+> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+> @@ -55,7 +55,7 @@ static struct intel_ring *mock_ring(struct intel_engine=
+_cs *engine)
+>  		kfree(ring);
+>  		return NULL;
+>  	}
+> -	i915_active_init(&ring->vma->active, NULL, NULL);
+> +	i915_active_init(&ring->vma->active, NULL, NULL, 0);
+>  	__set_bit(I915_VMA_GGTT_BIT, __i915_vma_flags(ring->vma));
+>  	__set_bit(DRM_MM_NODE_ALLOCATED_BIT, &ring->vma->node.flags);
+>  	ring->vma->node.size =3D sz;
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c b/driver=
+s/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+> index fcde223e26ff..4896e4ccad50 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+> @@ -63,7 +63,7 @@ static void pulse_put(struct pulse *p)
+>  	kref_put(&p->kref, pulse_free);
+>  }
+>  =
+
+> -__i915_active_call static void pulse_retire(struct i915_active *active)
+> +static void pulse_retire(struct i915_active *active)
+>  {
+>  	pulse_put(container_of(active, struct pulse, active));
+>  }
+> @@ -77,7 +77,7 @@ static struct pulse *pulse_create(void)
+>  		return p;
+>  =
+
+>  	kref_init(&p->kref);
+> -	i915_active_init(&p->active, pulse_active, pulse_retire);
+> +	i915_active_init(&p->active, pulse_active, pulse_retire, 0);
+>  =
+
+>  	return p;
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i9=
+15_active.c
+> index aa573b078ae7..b1aa1c482c32 100644
+> --- a/drivers/gpu/drm/i915/i915_active.c
+> +++ b/drivers/gpu/drm/i915/i915_active.c
+> @@ -343,18 +343,15 @@ active_instance(struct i915_active *ref, u64 idx)
+>  void __i915_active_init(struct i915_active *ref,
+>  			int (*active)(struct i915_active *ref),
+>  			void (*retire)(struct i915_active *ref),
+> +			unsigned long flags,
+>  			struct lock_class_key *mkey,
+>  			struct lock_class_key *wkey)
+>  {
+> -	unsigned long bits;
+> -
+>  	debug_active_init(ref);
+>  =
+
+> -	ref->flags =3D 0;
+> +	ref->flags =3D flags;
+>  	ref->active =3D active;
+> -	ref->retire =3D ptr_unpack_bits(retire, &bits, 2);
+> -	if (bits & I915_ACTIVE_MAY_SLEEP)
+> -		ref->flags |=3D I915_ACTIVE_RETIRE_SLEEPS;
+> +	ref->retire =3D retire;
+>  =
+
+>  	spin_lock_init(&ref->tree_lock);
+>  	ref->tree =3D RB_ROOT;
+> @@ -1156,8 +1153,7 @@ static int auto_active(struct i915_active *ref)
+>  	return 0;
+>  }
+>  =
+
+> -__i915_active_call static void
+> -auto_retire(struct i915_active *ref)
+> +static void auto_retire(struct i915_active *ref)
+>  {
+>  	i915_active_put(ref);
+>  }
+> @@ -1171,7 +1167,7 @@ struct i915_active *i915_active_create(void)
+>  		return NULL;
+>  =
+
+>  	kref_init(&aa->ref);
+> -	i915_active_init(&aa->base, auto_active, auto_retire);
+> +	i915_active_init(&aa->base, auto_active, auto_retire, 0);
+>  =
+
+>  	return &aa->base;
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i9=
+15_active.h
+> index fb165d3f01cf..d0feda68b874 100644
+> --- a/drivers/gpu/drm/i915/i915_active.h
+> +++ b/drivers/gpu/drm/i915/i915_active.h
+> @@ -152,15 +152,16 @@ i915_active_fence_isset(const struct i915_active_fe=
+nce *active)
+>  void __i915_active_init(struct i915_active *ref,
+>  			int (*active)(struct i915_active *ref),
+>  			void (*retire)(struct i915_active *ref),
+> +			unsigned long flags,
+>  			struct lock_class_key *mkey,
+>  			struct lock_class_key *wkey);
+>  =
+
+>  /* Specialise each class of i915_active to avoid impossible lockdep cycl=
+es. */
+> -#define i915_active_init(ref, active, retire) do {		\
+> -	static struct lock_class_key __mkey;				\
+> -	static struct lock_class_key __wkey;				\
+> -									\
+> -	__i915_active_init(ref, active, retire, &__mkey, &__wkey);	\
+> +#define i915_active_init(ref, active, retire, flags) do {			\
+> +	static struct lock_class_key __mkey;					\
+> +	static struct lock_class_key __wkey;					\
+> +										\
+> +	__i915_active_init(ref, active, retire, flags, &__mkey, &__wkey);	\
+>  } while (0)
+>  =
+
+>  struct dma_fence *
+> diff --git a/drivers/gpu/drm/i915/i915_active_types.h b/drivers/gpu/drm/i=
+915/i915_active_types.h
+> index 6360c3e4b765..c149f348a972 100644
+> --- a/drivers/gpu/drm/i915/i915_active_types.h
+> +++ b/drivers/gpu/drm/i915/i915_active_types.h
+> @@ -24,11 +24,6 @@ struct i915_active_fence {
+>  =
+
+>  struct active_node;
+>  =
+
+> -#define I915_ACTIVE_MAY_SLEEP BIT(0)
+> -
+> -#define __i915_active_call __aligned(4)
+> -#define i915_active_may_sleep(fn) ptr_pack_bits(&(fn), I915_ACTIVE_MAY_S=
+LEEP, 2)
+> -
+>  struct i915_active {
+>  	atomic_t count;
+>  	struct mutex mutex;
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_=
+vma.c
+> index 468317e3b477..a6cd0fa62847 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -94,7 +94,6 @@ static int __i915_vma_active(struct i915_active *ref)
+>  	return i915_vma_tryget(active_to_vma(ref)) ? 0 : -ENOENT;
+>  }
+>  =
+
+> -__i915_active_call
+>  static void __i915_vma_retire(struct i915_active *ref)
+>  {
+>  	i915_vma_put(active_to_vma(ref));
+> @@ -125,7 +124,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>  	vma->size =3D obj->base.size;
+>  	vma->display_alignment =3D I915_GTT_MIN_ALIGNMENT;
+>  =
+
+> -	i915_active_init(&vma->active, __i915_vma_active, __i915_vma_retire);
+> +	i915_active_init(&vma->active, __i915_vma_active, __i915_vma_retire, 0);
+>  =
+
+>  	/* Declare ourselves safe for use inside shrinkers */
+>  	if (IS_ENABLED(CONFIG_LOCKDEP)) {
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_active.c b/drivers/gpu/d=
+rm/i915/selftests/i915_active.c
+> index 1aa52b5cc488..61bf4560d8af 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_active.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_active.c
+> @@ -51,7 +51,7 @@ static int __live_active(struct i915_active *base)
+>  	return 0;
+>  }
+>  =
+
+> -__i915_active_call static void __live_retire(struct i915_active *base)
+> +static void __live_retire(struct i915_active *base)
+>  {
+>  	struct live_active *active =3D container_of(base, typeof(*active), base=
+);
+>  =
+
+> @@ -68,7 +68,7 @@ static struct live_active *__live_alloc(struct drm_i915=
+_private *i915)
+>  		return NULL;
+>  =
+
+>  	kref_init(&active->ref);
+> -	i915_active_init(&active->base, __live_active, __live_retire);
+> +	i915_active_init(&active->base, __live_active, __live_retire, 0);
+>  =
+
+>  	return active;
+>  }
+> -- =
+
+> 2.26.3
+> =
+
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1251366599==--
