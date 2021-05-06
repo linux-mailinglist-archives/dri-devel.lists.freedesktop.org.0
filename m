@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B89374C4D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 02:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D38374C4E
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 02:25:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7189A89B3C;
-	Thu,  6 May 2021 00:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68BE26EC86;
+	Thu,  6 May 2021 00:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 947B089AA2
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 00:23:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4737461076
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 00:23:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6FE36EC86
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 00:25:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 5FD9161076
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 00:25:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620260599;
- bh=GUlGCPD83TSF77mt/1+eJxoqdZjHOnvEwKbBCh8augk=;
- h=From:To:Subject:Date:From;
- b=kT2SIEI/Wb7KepNadCMpzifvkWFTxxYzGWL1O6wTKHSsSkpKHdKTwAxiM+dDoOrt9
- wJNl8s7J8Hrw2AAHTYGSEdDCybt4njUvX4D5qbZtY0/OlC2wF1N30w8R7wmCdoPEUB
- vEcegrRMPY6ORbKnjKvdxUXBvRzRxBnhLqKZWM5Ne/e0y2WJ2/ndasy1TgQhEPqbDL
- lmzqdrRlIqGnbrDxrHRJTFUb2JAFvUoP3D2TJyZMmOWXC8mVRj7r5fHB5CJy0aaEym
- qcgsIlhZa1UiiYOjLAvn6hLEvNgsosWetwCg9xX+RXghPjBweiOdCt63uicyE7wm+G
- MnzC5pXHqDmsw==
+ s=k20201202; t=1620260716;
+ bh=wfH/8a2/uVRbeGC+UlykhXc0tjxbS0msh2mLGF1Alb4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=TC6Y+OJbfZDag1ejUqoUWIQYEL8pVsIILKGz7Fx6to9vfaICGY0NjdQybHI7CzAgR
+ QVSWVm5Y+w0hRP7TIOvh38nXrOvOBgeKBvi2IFx3y9LeAtHBEp23pvxn1rNOicELp8
+ kZg3ih5EmlqnEVzA0jlcG90Ca4ewxWniFuxvykruZboxtvqUYX1JnUnfYCEK1Lvyi3
+ ZVxCjnzKzTk7qIvFxT0aWXEXjUwXj5NYKofQG3spsMl7Z8etv6aJO5fdeTW7RH/Lun
+ N2PrHE/EvgXQl1cuvOp94x0Syd6790QVo1jBg6hHS3iaFOlXrUC3+qlzQA+0n36lBF
+ K93gUIB4vnLtQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3ACCC6127C; Thu,  6 May 2021 00:23:19 +0000 (UTC)
+ id 537E16127C; Thu,  6 May 2021 00:25:16 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212959] New: [drm:dm_helpers_dp_write_dpcd [amdgpu]] *ERROR*
- Failed to find connector for link!
-Date: Thu, 06 May 2021 00:23:18 +0000
+Subject: [Bug 212959] [drm:dm_helpers_dp_write_dpcd [amdgpu]] *ERROR* Failed
+ to find connector for link!
+Date: Thu, 06 May 2021 00:25:16 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -45,10 +45,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-212959-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-212959-2300-5eTmYs4tde@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212959-2300@https.bugzilla.kernel.org/>
+References: <bug-212959-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,31 +71,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D212959
 
-            Bug ID: 212959
-           Summary: [drm:dm_helpers_dp_write_dpcd [amdgpu]] *ERROR* Failed
-                    to find connector for link!
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.4, 5.8
-          Hardware: Other
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: blocking
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: tob88570@gmail.com
-        Regression: No
+tob88570@gmail.com changed:
 
-This error occurs on all distros based on Ubuntu 20.04 with Linux Kernel 5.=
-4 as
-well as Kernel 5.8, that attempt to load a GUI, upon booting from a mounted=
- iso
-into said Operating Systems installations.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |tob88570@gmail.com
 
-This error occurs at least for AMD RYZEN 7 4700U Apus with AMD VEGA 7 RENOIR
-graphics.
+--- Comment #1 from tob88570@gmail.com ---
+Little correction *as well as Linux Distros with Kernel 5.8 not necessarily
+based on Ubuntu 20.04.
 
 --=20
 You may reply to this email to add a comment.
