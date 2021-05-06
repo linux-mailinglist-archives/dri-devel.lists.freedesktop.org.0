@@ -1,72 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FF23760A3
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 08:44:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFE73760E3
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 09:04:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A31F6E7DC;
-	Fri,  7 May 2021 06:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37EDB6ED24;
+	Fri,  7 May 2021 07:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B574E6E7D3
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 06:43:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1620369801; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=IFw8N0rUAKzI1j7TsJw4X0OlxX9wCflppoc1GTFA/+oxUviaalvVUZFYceQli0SnyQ
- s4mHYnGpEXZlIG0dg2QRmCpv2bVWeXjprgHovImO4oMZ7Lmt+jc2VzkeF8P5EDAq4O39
- VQIX8MTT1bNwdvnHGitM7CfQNfmwetLcX+JEHP71d2H7kRMM7R6HW5iUJ7vMKFKMH5Zq
- jHeKiJuRqWiwITI+BKmha0w93Krdg5xALFNkbPb2JhfU7QhOWjEuxnpFWXFfz0/8JDsT
- FDYYs3oNTUcF2tbO43RGm0sZuYy1exQ41buBQRO6wfW+ThI+zhAREoZ+1IkDoKGHjDkX
- UIUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1620369801;
- s=strato-dkim-0002; d=strato.com;
- h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
- From:Subject:Sender;
- bh=Z4g5xLdo2AUU3hfIJq+UpEKrJf3kQecUTcH9Yk9QqjI=;
- b=EkCaa4BRhDZhnU4cws3cDWBpBh128k6sTRUqNEQUb4XZGIXb36LtGx5seJWvbXRPqW
- FBEP5SZmz3dnoA+pXwmFwYpt1o8aEGtMdRW0HBNHXL29Ys7AiKkChcWCuPWMMEvuj/LN
- igcquwNC6JtqWGVNtHBMRy3qDQSCqmtwIvN0OuIH8O/snIKApcgxtHUuO3rcPLuK5BLt
- shByIGTw1NOHLSJTv2m8rz7/E0c30O0Mbi+/G/GO/xTckC7uH5O50JgGzfJzIfSJY2aE
- KUj7yUjn6GmkpIMloFXsLKKZ6iuEbQcYnTnXssxe8R+zL0AJK01tiCPXaNet8u3+UwLO
- oReQ==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1620369801;
- s=strato-dkim-0002; d=xenosoft.de;
- h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
- From:Subject:Sender;
- bh=Z4g5xLdo2AUU3hfIJq+UpEKrJf3kQecUTcH9Yk9QqjI=;
- b=O1D/Yj31aez6HE2xk7xPdYWN4nto1gTebNz/vbqA0us4uc0myqp4pSD+MKyMWATeY3
- DyYqxPz2m9OqeJQAtUPfrlpxlYL7mVIZsHZAjP59oU3eJ89yoDcUup7DOJfYPjkHkjNe
- DQnah17k7CWDA2gam2AE+LVDZ2JADOk/NapdYutCZLsH6+ze1ZJbgQegP11QuFccZAKY
- mR4A0jYFOljMM0U3/4qvgm+l57Y8CxIeY1caYc0ionnuFZ9yqybQ5y7XqOcyBRoC6xnG
- Hv34BY+QEF3km+LD7HLc3pFNm14lbYBYE5r5CRG+hxvnqMGmC9ry0bGo8s0LJY5Q9eYZ
- 5DgQ==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7R7aWdx2ro2lX6VRVv1hIt0Bw6yRXRdf973HsSmXlXo"
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2a01:598:d00a:ca80:8591:65ad:8e80:a8a0]
- by smtp.strato.de (RZmta 47.25.6 AUTH)
- with ESMTPSA id L0ba16x476hK15A
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Fri, 7 May 2021 08:43:20 +0200 (CEST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-Mime-Version: 1.0 (1.0)
-Subject: Re: Radeon NI: GIT kernel with the nislands_smc commit doesn't boot
- on a Freescale P5040 board and P.A.Semi Nemo board
-Date: Fri, 7 May 2021 08:43:19 +0200
-Message-Id: <10D1983F-33EF-46C3-976E-463D1CB5A6E9@xenosoft.de>
-References: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
-In-Reply-To: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-X-Mailer: iPhone Mail (18D70)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D21696EC83
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 09:29:56 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id n2so4879540wrm.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 02:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jNmgoDpIAghNn3BnTNkDEnQ9+nEoZ/qyk+RO/b8i32Y=;
+ b=XRhWl492jQpC8ztR9K/xdJ/kLA1bcHs/VmX4tFlPbocTcg088sm+c0RAzyGu/2X0vV
+ YQFyRFDy21EG7IVWa0XWddIUe0HHasSTWU5UQHfOD4oG5JjsHVIb53mLrQb3UFHxq8EF
+ 6HVd2ElkEypGxP95nnvD6ZQj3spgJ4IWQN96TCIdQddtE4gIbuXXLDEA8IiBdTSLaDR6
+ gRrwnLyZezZI/i5uLtsEUQxvox03KC9jPan/2z30yR85AJFEscJ0SFqH36LiIh8KbuIS
+ T0MISJkr+R+toKNyTgO9HmnyZMRTPTFLGJ1Gq+LxIK8Adn08jtKLd4Spai3a/qGbjtYK
+ cOHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jNmgoDpIAghNn3BnTNkDEnQ9+nEoZ/qyk+RO/b8i32Y=;
+ b=Xe06y7B8nbtFMHYqPuiJb/dxh6GzEuRX1pxochEquVzEQRdVTVu4WyOSPIl6xN3zf0
+ J4PxJsioLPH16S01o1wk4y14TKvmtqFwMU8XKNL5Nq7uLLWl2q27NDmnyX+weeu//LBX
+ IuKpn/7gx/fvlpdvMHEx89C3XsBIrrTfmlIlfqiBbd2yF1OOG3aDHns08LW7z9xtR4nc
+ TeB24wb3lUg4n/aKfdORiXvrxvUx0Epx1dP9K43eKjX9y97oMxh8qxEb3K9stxRHWsky
+ YfCXLKyj8u3mC76bmkdUqzB4k0MsLbIsEUCJznfwuntVaH6Fxry19p5NinyOsEwuizRd
+ jRhg==
+X-Gm-Message-State: AOAM53200ESo4mXBtNSv72lXY1kjKCoOsFr6Lkj93ztPKAR213alFjSk
+ dodZ/pbfOA8TUuFWIFrw/w0=
+X-Google-Smtp-Source: ABdhPJx1eaBN19Q7fZ+VHgblI39HCWIKzxs0gNie3Nj96TsdIPOKUtTrFxheE96Rd3xV40P9VosDgQ==
+X-Received: by 2002:a05:6000:1866:: with SMTP id
+ d6mr3956776wri.141.1620293395545; 
+ Thu, 06 May 2021 02:29:55 -0700 (PDT)
+Received: from morpheus.home.roving-it.com
+ (f.c.9.1.f.e.c.d.1.e.0.0.2.b.5.5.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa.
+ [2001:8b0:fb11:2681:55b2:e1:dcef:19cf])
+ by smtp.googlemail.com with ESMTPSA id i3sm3747434wrb.46.2021.05.06.02.29.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 May 2021 02:29:54 -0700 (PDT)
+From: Peter Robinson <pbrobinson@gmail.com>
+To: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH] drm/rockchip: cdn-dp-core: add MODULE_FIRMWARE macro
+Date: Thu,  6 May 2021 10:29:51 +0100
+Message-Id: <20210506092951.515813-1-pbrobinson@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 07 May 2021 07:04:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,86 +73,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>, gustavoars@kernel.org,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>, alexander.deucher@amd.com,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Christian Zigotzky <info@xenosoft.de>
+Cc: Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Gustavo,
+The CDP DP component of the rockchip GPU driver requires firmware
+so define MODULE_FIRMWARE for rockchip/dptx.bin so the details
+are available in the module info.
 
-Great! I will test it. Many thanks for your help.
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Cheers,
-Christian
-
-
-> On 7. May 2021, at 01:55, Gustavo A. R. Silva <gustavo@embeddedor.com> wro=
-te:
->=20
-> =EF=BB=BFHi Christian,
->=20
->> On 4/30/21 06:59, Christian Zigotzky wrote:
->> Hello,
->>=20
->> The Nemo board (A-EON AmigaOne X1000) [1] and the FSL P5040 Cyrus+ board (=
-A-EON AmigaOne X5000) [2] with installed AMD Radeon HD6970 NI graphics cards=
- (Cayman
->> XT) [3] don't boot with the latest git kernel anymore after the commit "d=
-rm/radeon/nislands_smc.h: Replace one-element array with flexible-array memb=
-er in
->> struct NISLANDS_SMC_SWSTATE branch" [4].  This git kernel boots in a virt=
-ual e5500 QEMU machine with a VirtIO-GPU [5].
->>=20
->> I bisected today [6].
->>=20
->> Result: drm/radeon/nislands_smc.h: Replace one-element array with flexibl=
-e-array member in struct NISLANDS_SMC_SWSTATE branch
->> (434fb1e7444a2efc3a4ebd950c7f771ebfcffa31) [4] is the first bad commit.
->=20
-> I have a fix ready for this bug:
-> https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commi=
-t/?h=3Dtesting/drm-nislands
->=20
-> I wonder if you could help me to test it with your environment, please.
-> It should be applied on top of mainline.
->=20
-> Thank you!
-> --
-> Gustavo
->=20
->>=20
->> I was able to revert this commit [7] and after a new compiling, the kerne=
-l boots without any problems on my AmigaOnes.
->>=20
->> After that I created a patch for reverting this commit for new git test k=
-ernels. [3]
->>=20
->> The kernel compiles and boots with this patch on my AmigaOnes. Please fin=
-d attached the kernel config files.
->>=20
->> Please check the first bad commit.
->>=20
->> Thanks,
->> Christian
->>=20
->> [1] https://en.wikipedia.org/wiki/AmigaOne_X1000
->> [2] http://wiki.amiga.org/index.php?title=3DX5000
->> [3] https://forum.hyperion-entertainment.com/viewtopic.php?f=3D35&t=3D437=
-7
->> [4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
-mmit/?id=3D434fb1e7444a2efc3a4ebd950c7f771ebfcffa31
->> [5] qemu-system-ppc64 -M ppce500 -cpu e5500 -m 1024 -kernel uImage -drive=
- format=3Draw,file=3DMintPPC32-X5000.img,index=3D0,if=3Dvirtio -netdev user,=
-id=3Dmynet0 -device
->> virtio-net-pci,netdev=3Dmynet0 -append "rw root=3D/dev/vda" -device virti=
-o-vga -usb -device usb-ehci,id=3Dehci -device usb-tablet -device virtio-keyb=
-oard-pci -smp 4
->> -vnc :1
->> [6] https://forum.hyperion-entertainment.com/viewtopic.php?p=3D53074#p530=
-74
->> [7] git revert 434fb1e7444a2efc3a4ebd950c7f771ebfcffa3
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index a4a45daf93f2..661f26a458da 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -42,6 +42,7 @@
+ #define CDN_FW_TIMEOUT_MS	(64 * 1000)
+ #define CDN_DPCD_TIMEOUT_MS	5000
+ #define CDN_DP_FIRMWARE		"rockchip/dptx.bin"
++MODULE_FIRMWARE(CDN_DP_FIRMWARE);
+ 
+ struct cdn_dp_data {
+ 	u8 max_phy;
+-- 
+2.31.1
 
