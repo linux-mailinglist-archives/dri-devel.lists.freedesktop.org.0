@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2261375903
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 19:13:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDA9375907
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 19:13:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B823D6ECC0;
-	Thu,  6 May 2021 17:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 792366ECC7;
+	Thu,  6 May 2021 17:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880E06ECCB;
- Thu,  6 May 2021 17:13:05 +0000 (UTC)
-IronPort-SDR: LJyUS3l+jNzBRZt3USXr1zJsGWpqGg2gzfvtHzcxkcGn+uIlQN4/BFGMsQTYLzs7b5mlSMdD5D
- HPzHv8Qgaqpg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="195412171"
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="195412171"
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E865B6E7D7;
+ Thu,  6 May 2021 17:13:18 +0000 (UTC)
+IronPort-SDR: 4L9wleS4R0pZsOPvhTtCwIZJ9AVF6ylWq21QFYC4WHk4Xr/Z+36y1nIUeoN8WU6zlas+zs1Hre
+ enHvRQScDrfg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="219414876"
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="219414876"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 10:13:05 -0700
-IronPort-SDR: p1rw+IaA7P6Eg6GNmiG2bem6/JOWdWJ8RvHn7k9nFeg8m7Oxk0iW8nQ8I6ljxr1pHjtMSgMNiR
- v7CWDD35XyLA==
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="622533965"
+IronPort-SDR: SJdw9adacxvnQhawxrGBKw0gFFHM2AAuarKIFt2X5q+FB66bqnaJol7hYl1xz/JhDo//LpwgvC
+ a58OkvlFwJ4g==
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="622533971"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2021 10:13:04 -0700
+ 06 May 2021 10:13:05 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH 4/5] drm/i915: Introduce 'set parallel submit' extension
-Date: Thu,  6 May 2021 10:30:48 -0700
-Message-Id: <20210506173049.72503-5-matthew.brost@intel.com>
+Subject: [RFC PATCH 5/5] drm/i915: Update execbuf IOCTL to accept N BBs
+Date: Thu,  6 May 2021 10:30:49 -0700
+Message-Id: <20210506173049.72503-6-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210506173049.72503-1-matthew.brost@intel.com>
 References: <20210506173049.72503-1-matthew.brost@intel.com>
@@ -55,7 +55,8 @@ Cc: matthew.brost@intel.com, tony.ye@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i915_drm.h updates for 'set parallel submit' extension.
+Add I915_EXEC_NUMBER_BB_* to drm_i915_gem_execbuffer2.flags which allows
+submitting N BBs per IOCTL.
 
 Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Cc: Tony Ye <tony.ye@intel.com>
@@ -64,156 +65,41 @@ Cc: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Jason Ekstrand <jason@jlekstrand.net>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- include/uapi/drm/i915_drm.h | 126 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
+ include/uapi/drm/i915_drm.h | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
 diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 26d2e135aa31..0175b12b33b8 100644
+index 0175b12b33b8..d3072cad4a7e 100644
 --- a/include/uapi/drm/i915_drm.h
 +++ b/include/uapi/drm/i915_drm.h
-@@ -1712,6 +1712,7 @@ struct drm_i915_gem_context_param {
-  * Extensions:
-  *   i915_context_engines_load_balance (I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE)
-  *   i915_context_engines_bond (I915_CONTEXT_ENGINES_EXT_BOND)
-+ *   i915_context_engines_parallel_submit (I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT)
+@@ -1291,7 +1291,26 @@ struct drm_i915_gem_execbuffer2 {
   */
- #define I915_CONTEXT_PARAM_ENGINES	0xa
+ #define I915_EXEC_USE_EXTENSIONS	(1 << 21)
  
-@@ -1894,9 +1895,134 @@ struct i915_context_param_engines {
- 	__u64 extensions; /* linked chain of extension blocks, 0 terminates */
- #define I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE 0 /* see i915_context_engines_load_balance */
- #define I915_CONTEXT_ENGINES_EXT_BOND 1 /* see i915_context_engines_bond */
-+#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
- 	struct i915_engine_class_instance engines[0];
- } __attribute__((packed));
+-#define __I915_EXEC_UNKNOWN_FLAGS (-(I915_EXEC_USE_EXTENSIONS << 1))
++/*
++ * Number of BB in execbuf2 IOCTL - 1, used to submit more than BB in a single
++ * execbuf2 IOCTL.
++ *
++ * Return -EINVAL if more than 1 BB (value 0) is specified if
++ * I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT hasn't been called on the gem
++ * context first. Also returns -EINVAL if gem context has been setup with
++ * I915_PARALLEL_NO_PREEMPT_MID_BATCH and the number BBs not equal to the total
++ * number hardware contexts in the gem context.
++ */
++#define I915_EXEC_NUMBER_BB_LSB		(22)
++#define I915_EXEC_NUMBER_BB_MASK	(0x3f << I915_EXEC_NUMBER_BB_LSB)
++#define I915_EXEC_NUMBER_BB_MSB		(27)
++#define i915_execbuffer2_set_number_bb(eb2, num_bb) \
++	(eb2).flags = ((eb2).flags & ~I915_EXEC_NUMBER_BB_MASK) | \
++	(((num_bb - 1) << I915_EXEC_NUMBER_BB_LSB) & I915_EXEC_NUMBER_BB_MASK)
++#define i915_execbuffer2_get_number_bb(eb2) \
++	((((eb2).flags & I915_EXEC_NUMBER_BB_MASK) >> I915_EXEC_NUMBER_BB_LSB) + 1)
++
++#define __I915_EXEC_UNKNOWN_FLAGS (-(1 << (I915_EXEC_NUMBER_BB_MSB + 1)))
  
-+/*
-+ * i915_context_engines_parallel_submit:
-+ *
-+ * Setup a gem context to allow multiple BBs to be submitted in a single execbuf
-+ * IOCTL. Those BBs will then be scheduled to run on the GPU in parallel.
-+ *
-+ * All hardware contexts in the engine set are configured for parallel
-+ * submission (i.e. once this gem context is configured for parallel submission,
-+ * all the hardware contexts, regardless if a BB is available on each individual
-+ * context, will be submitted to the GPU in parallel). A user can submit BBs to
-+ * subset of the hardware contexts, in a single execbuf IOCTL, but it is not
-+ * recommended as it may reserve physical engines with nothing to run on them.
-+ * Highly recommended to configure the gem context with N hardware contexts then
-+ * always submit N BBs in a single IOCTL.
-+ *
-+ * Their are two currently defined ways to control the placement of the
-+ * hardware contexts on physical engines: default behavior (no flags) and
-+ * I915_PARALLEL_IMPLICT_BONDS (a flag). More flags may be added the in the
-+ * future as new hardware / use cases arise. Details of how to use this
-+ * interface below above the flags.
-+ *
-+ * Returns -EINVAL if hardware context placement configuration invalid or if the
-+ * placement configuration isn't supported on the platform / submission
-+ * interface.
-+ * Returns -ENODEV if extension isn't supported on the platform / submission
-+ * inteface.
-+ */
-+struct i915_context_engines_parallel_submit {
-+	struct i915_user_extension base;
-+
-+/*
-+ * Default placement behvavior (currently unsupported):
-+ *
-+ * Rather than restricting parallel submission to a single class with a
-+ * logically contiguous placement (I915_PARALLEL_IMPLICT_BONDS), add a mode that
-+ * enables parallel submission across multiple engine classes. In this case each
-+ * context's logical engine mask indicates where that context can placed. It is
-+ * implied in this mode that all contexts have mutual exclusive placement (e.g.
-+ * if one context is running CS0 no other contexts can run on CS0).
-+ *
-+ * Example 1 pseudo code:
-+ * CSX[Y] = engine class X, logical instance Y
-+ * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ * set_engines(INVALID, INVALID)
-+ * set_load_balance(engine_index=0, num_siblings=2, engines=CS0[0],CS0[1])
-+ * set_load_balance(engine_index=1, num_siblings=2, engines=CS1[0],CS1[1])
-+ * set_parallel()
-+ *
-+ * Results in the following valid placements:
-+ * CS0[0], CS1[0]
-+ * CS0[0], CS1[1]
-+ * CS0[1], CS1[0]
-+ * CS0[1], CS1[1]
-+ *
-+ * Example 2 pseudo code:
-+ * CS[X] = generic engine of same class, logical instance X
-+ * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ * set_engines(INVALID, INVALID)
-+ * set_load_balance(engine_index=0, num_siblings=3, engines=CS[0],CS[1],CS[2])
-+ * set_load_balance(engine_index=1, num_siblings=3, engines=CS[0],CS[1],CS[2])
-+ * set_parallel()
-+ *
-+ * Results in the following valid placements:
-+ * CS[0], CS[1]
-+ * CS[0], CS[2]
-+ * CS[1], CS[0]
-+ * CS[1], CS[2]
-+ * CS[2], CS[0]
-+ * CS[2], CS[1]
-+ *
-+ * This enables a use case where all engines are created equally, we don't care
-+ * where they are scheduled, we just want a certain number of resources, for
-+ * those resources to be scheduled in parallel, and possibly across multiple
-+ * engine classes.
-+ */
-+
-+/*
-+ * I915_PARALLEL_IMPLICT_BONDS - Create implict bonds between each context.
-+ * Each context must have the same number sibling and bonds are implictly create
-+ * of the siblings.
-+ *
-+ * All of the below examples are in logical space.
-+ *
-+ * Example 1 pseudo code:
-+ * CS[X] = generic engine of same class, logical instance X
-+ * set_engines(CS[0], CS[1])
-+ * set_parallel(flags=I915_PARALLEL_IMPLICT_BONDS)
-+ *
-+ * Results in the following valid placements:
-+ * CS[0], CS[1]
-+ *
-+ * Example 2 pseudo code:
-+ * CS[X] = generic engine of same class, logical instance X
-+ * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ * set_engines(INVALID, INVALID)
-+ * set_load_balance(engine_index=0, num_siblings=2, engines=CS[0],CS[2])
-+ * set_load_balance(engine_index=1, num_siblings=2, engines=CS[1],CS[3])
-+ * set_parallel(flags=I915_PARALLEL_IMPLICT_BONDS)
-+ *
-+ * Results in the following valid placements:
-+ * CS[0], CS[1]
-+ * CS[2], CS[3]
-+ *
-+ * This enables a use case where all engines are not equal and certain placement
-+ * rules are required (i.e. split-frame requires all contexts to be placed in a
-+ * logically contiguous order on the VCS engines on gen11+ platforms). This use
-+ * case (logically contiguous placement, within a single engine class) is
-+ * supported when using GuC submission. Execlist mode could support all possible
-+ * bonding configurations but currently doesn't support this extension.
-+ */
-+#define I915_PARALLEL_IMPLICT_BONDS		(1<<0)
-+/*
-+ * Do not allow BBs to be preempted mid BB rather insert coordinated preemption
-+ * points on all hardware contexts between each set of BBs. An example use case
-+ * of this feature is split-frame on gen11+ hardware. When using this feature a
-+ * BB must be submitted on each hardware context in the parallel gem context.
-+ * The execbuf2 IOCTL enforces the user adheres to policy.
-+ */
-+#define I915_PARALLEL_NO_PREEMPT_MID_BATCH	(1<<1)
-+#define I915_PARALLEL_UNKNOWN_FLAGS  (-(I915_PARALLEL_NO_PREEMPT_MID_BATCH << 1))
-+	__u64 flags; /* all undefined flags must be zero */
-+	__u64 mbz64[4]; /* reserved for future use; must be zero */
-+} __attribute__ ((packed));
-+
- #define I915_DEFINE_CONTEXT_PARAM_ENGINES(name__, N__) struct { \
- 	__u64 extensions; \
- 	struct i915_engine_class_instance engines[N__]; \
+ #define I915_EXEC_CONTEXT_ID_MASK	(0xffffffff)
+ #define i915_execbuffer2_set_context_id(eb2, context) \
 -- 
 2.28.0
 
