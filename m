@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30DCA375A95
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 20:57:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA45375A93
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 20:57:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFF7F6ECFD;
-	Thu,  6 May 2021 18:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5906ED09;
+	Thu,  6 May 2021 18:57:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE43B6E50C;
- Thu,  6 May 2021 18:57:09 +0000 (UTC)
-IronPort-SDR: zhKnJInjwH1CPEJWzu2k6MkIrZ4SJFfklHbSPQxk7fRz8vCNPnLxR8buTSKjbB+XiJTngMny9a
- Njn68yDITQlw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="196530982"
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="196530982"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D00E6ECDF;
+ Thu,  6 May 2021 18:57:10 +0000 (UTC)
+IronPort-SDR: 0VOuilimUnVES1dGWoo06o/pWuDIk+x91CvpI4YwJpFcATvakqOZroaVztzpoHZFX9/IZtwW+x
+ 0eurt+awx70Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="196530983"
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="196530983"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:09 -0700
-IronPort-SDR: ydu9xTX2cPhLpUUFuUd0PFGplGDIXcp0f//5BUr3nD9CtxHkJPfwss7itTVTnHGwclFITJleIq
- dmhrWam+2C9g==
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583364"
+IronPort-SDR: aOAodxsr+a8xXgEA1dalYt8xnR6eRzvTIxBZ/mrjfUUJJmXTos+S2MkEackUus/6XpCNGUw9Ua
+ ve8CS7FzMmcA==
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583367"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:08 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH 04/97] drm/i915/guc: skip disabling CTBs before sanitizing
- the GuC
-Date: Thu,  6 May 2021 12:13:18 -0700
-Message-Id: <20210506191451.77768-5-matthew.brost@intel.com>
+Subject: [RFC PATCH 05/97] drm/i915/guc: use probe_error log for CT enablement
+ failure
+Date: Thu,  6 May 2021 12:13:19 -0700
+Message-Id: <20210506191451.77768-6-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210506191451.77768-1-matthew.brost@intel.com>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
@@ -57,58 +57,98 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
-If we're about to sanitize the GuC, something might have going wrong
-beforehand, so we should avoid trying to talk to it. Even if GuC is
-still running fine, the sanitize will reset its internal state and clear
-the CTB registration, so there is still no need to explicitly do so.
+We have a couple of failure injection points in the CT enablement path,
+so we need to use i915_probe_error() to select the appropriate log level.
+A new macro (CT_PROBE_ERROR) has been added to the set of CT logging
+macros to be used in this scenario and upcoming ones.
 
-References: https://gitlab.freedesktop.org/drm/intel/-/issues/2469
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+While adding the new macros, fix the underlying logging mechanics used
+by the existing ones (DRM_DEV_* -> drm_*) and move the inlines to
+before they're used inside the macros.
+
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_uc.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 48 ++++++++++++-----------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 6abb8f2dc33d..892c1315ce49 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -504,7 +504,7 @@ static int __uc_init_hw(struct intel_uc *uc)
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+index fa9e048cc65f..25618649048f 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+@@ -7,14 +7,36 @@
+ #include "intel_guc_ct.h"
+ #include "gt/intel_gt.h"
  
- 	ret = intel_guc_sample_forcewake(guc);
- 	if (ret)
--		goto err_communication;
-+		goto err_log_capture;
++static inline struct intel_guc *ct_to_guc(struct intel_guc_ct *ct)
++{
++	return container_of(ct, struct intel_guc, ct);
++}
++
++static inline struct intel_gt *ct_to_gt(struct intel_guc_ct *ct)
++{
++	return guc_to_gt(ct_to_guc(ct));
++}
++
++static inline struct drm_i915_private *ct_to_i915(struct intel_guc_ct *ct)
++{
++	return ct_to_gt(ct)->i915;
++}
++
++static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
++{
++	return &ct_to_i915(ct)->drm;
++}
++
+ #define CT_ERROR(_ct, _fmt, ...) \
+-	DRM_DEV_ERROR(ct_to_dev(_ct), "CT: " _fmt, ##__VA_ARGS__)
++	drm_err(ct_to_drm(_ct), "CT: " _fmt, ##__VA_ARGS__)
+ #ifdef CONFIG_DRM_I915_DEBUG_GUC
+ #define CT_DEBUG(_ct, _fmt, ...) \
+-	DRM_DEV_DEBUG_DRIVER(ct_to_dev(_ct), "CT: " _fmt, ##__VA_ARGS__)
++	drm_dbg(ct_to_drm(_ct), "CT: " _fmt, ##__VA_ARGS__)
+ #else
+ #define CT_DEBUG(...)	do { } while (0)
+ #endif
++#define CT_PROBE_ERROR(_ct, _fmt, ...) \
++	i915_probe_error(ct_to_i915(ct), "CT: " _fmt, ##__VA_ARGS__);
  
- 	if (intel_uc_uses_guc_submission(uc))
- 		intel_guc_submission_enable(guc);
-@@ -529,8 +529,6 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	/*
- 	 * We've failed to load the firmware :(
- 	 */
--err_communication:
--	guc_disable_communication(guc);
- err_log_capture:
- 	__uc_capture_load_err_log(uc);
- err_out:
-@@ -558,9 +556,6 @@ static void __uc_fini_hw(struct intel_uc *uc)
- 	if (intel_uc_uses_guc_submission(uc))
- 		intel_guc_submission_disable(guc);
- 
--	if (guc_communication_enabled(guc))
--		guc_disable_communication(guc);
--
- 	__uc_sanitize(uc);
+ struct ct_request {
+ 	struct list_head link;
+@@ -47,26 +69,6 @@ void intel_guc_ct_init_early(struct intel_guc_ct *ct)
+ 	INIT_WORK(&ct->requests.worker, ct_incoming_request_worker_func);
  }
  
-@@ -577,7 +572,6 @@ void intel_uc_reset_prepare(struct intel_uc *uc)
- 	if (!intel_guc_is_ready(guc))
- 		return;
- 
--	guc_disable_communication(guc);
- 	__uc_sanitize(uc);
+-static inline struct intel_guc *ct_to_guc(struct intel_guc_ct *ct)
+-{
+-	return container_of(ct, struct intel_guc, ct);
+-}
+-
+-static inline struct intel_gt *ct_to_gt(struct intel_guc_ct *ct)
+-{
+-	return guc_to_gt(ct_to_guc(ct));
+-}
+-
+-static inline struct drm_i915_private *ct_to_i915(struct intel_guc_ct *ct)
+-{
+-	return ct_to_gt(ct)->i915;
+-}
+-
+-static inline struct device *ct_to_dev(struct intel_guc_ct *ct)
+-{
+-	return ct_to_i915(ct)->drm.dev;
+-}
+-
+ static inline const char *guc_ct_buffer_type_to_str(u32 type)
+ {
+ 	switch (type) {
+@@ -264,7 +266,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+ err_deregister:
+ 	ct_deregister_buffer(ct, INTEL_GUC_CT_BUFFER_TYPE_RECV);
+ err_out:
+-	CT_ERROR(ct, "Failed to open open CT channel (err=%d)\n", err);
++	CT_PROBE_ERROR(ct, "Failed to open channel (err=%d)\n", err);
+ 	return err;
  }
  
 -- 
