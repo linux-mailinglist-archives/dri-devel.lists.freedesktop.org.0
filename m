@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDA9375907
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 19:13:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE3337596C
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 19:34:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 792366ECC7;
-	Thu,  6 May 2021 17:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C725B6ECD9;
+	Thu,  6 May 2021 17:33:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E865B6E7D7;
- Thu,  6 May 2021 17:13:18 +0000 (UTC)
-IronPort-SDR: 4L9wleS4R0pZsOPvhTtCwIZJ9AVF6ylWq21QFYC4WHk4Xr/Z+36y1nIUeoN8WU6zlas+zs1Hre
- enHvRQScDrfg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="219414876"
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="219414876"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2021 10:13:05 -0700
-IronPort-SDR: SJdw9adacxvnQhawxrGBKw0gFFHM2AAuarKIFt2X5q+FB66bqnaJol7hYl1xz/JhDo//LpwgvC
- a58OkvlFwJ4g==
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="622533971"
-Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2021 10:13:05 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH 5/5] drm/i915: Update execbuf IOCTL to accept N BBs
-Date: Thu,  6 May 2021 10:30:49 -0700
-Message-Id: <20210506173049.72503-6-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210506173049.72503-1-matthew.brost@intel.com>
-References: <20210506173049.72503-1-matthew.brost@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 764256ECD3;
+ Thu,  6 May 2021 17:33:57 +0000 (UTC)
+IronPort-SDR: rIRgB0gv3+Dt6IBC3NnQf85Y5j0fkgH80YE5eel69uunylk1lccX1wHgVyXM3O6dLP9yEPkQaR
+ XMbSJIX4L0Ow==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="198176502"
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="198176502"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2021 10:33:56 -0700
+IronPort-SDR: tgPWbbwUbAnnBDk5DujqGt1ruOtdLSgGIJIiPMjUS1hvjtnitWBhT5tvbVwpx5QiRqXo13tEgo
+ dvKfDlneh6Ew==
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="434481005"
+Received: from tchrzano-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.42.214])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2021 10:33:53 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Werner Sembach <wse@tuxedocomputers.com>, ville.syrjala@linux.intel.com,
+ airlied@linux.ie, daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH 1/3] New function to avoid duplicate code in
+ upcomming commits
+In-Reply-To: <3796a7b9-8035-38ea-1c3d-b1ffe89aa19e@tuxedocomputers.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210505172401.1453178-1-wse@tuxedocomputers.com>
+ <20210505172401.1453178-2-wse@tuxedocomputers.com> <87v97ww4e5.fsf@intel.com>
+ <3796a7b9-8035-38ea-1c3d-b1ffe89aa19e@tuxedocomputers.com>
+Date: Thu, 06 May 2021 20:33:51 +0300
+Message-ID: <87fsyzwyv4.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,58 +53,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, tony.ye@intel.com, tvrtko.ursulin@intel.com,
- daniele.ceraolospurio@intel.com, carl.zhang@intel.com,
- jason.ekstrand@intel.com, jon.bloomfield@intel.com, daniel.vetter@intel.com,
- john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add I915_EXEC_NUMBER_BB_* to drm_i915_gem_execbuffer2.flags which allows
-submitting N BBs per IOCTL.
+On Thu, 06 May 2021, Werner Sembach <wse@tuxedocomputers.com> wrote:
+> Am 06.05.21 um 12:19 schrieb Jani Nikula:
+>> On Wed, 05 May 2021, Werner Sembach <wse@tuxedocomputers.com> wrote:
+>>> Moves some checks that later will be performed 2 times to an own fuction. This
+>>> avoids duplicate code later on.
+>>>
+>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>>> ---
+>>>
+>>> From 42a4a3a7d9ea9948b4071f406e7fcae23bfa0bdf Mon Sep 17 00:00:00 2001
+>>> From: Werner Sembach <wse@tuxedocomputers.com>
+>>> Date: Mon, 3 May 2021 14:35:39 +0200
+>>> Subject: [PATCH 1/3] New function to avoid duplicate code in upcomming commits
+>> What are you using to generate and send the patches? This looks like
+>> unnecessary cruft, and our CI fails to apply and test the changes.
+>>
+>> BR,
+>> Jani.
+> I'm using git send-email with --compose and --annotate. The From, Date, and Subject lines are automatically generated by it and I then add the commit message above.
 
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Tony Ye <tony.ye@intel.com>
-CC: Carl Zhang <carl.zhang@intel.com>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- include/uapi/drm/i915_drm.h | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+I'm not sure I understand correctly. You should write the commit
+messages in your git commits when you commit them. When you do 'git
+commit'. You shouldn't have to annotate any of the patches while
+sending, except to perhaps add a cover letter with --compose.
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 0175b12b33b8..d3072cad4a7e 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -1291,7 +1291,26 @@ struct drm_i915_gem_execbuffer2 {
-  */
- #define I915_EXEC_USE_EXTENSIONS	(1 << 21)
- 
--#define __I915_EXEC_UNKNOWN_FLAGS (-(I915_EXEC_USE_EXTENSIONS << 1))
-+/*
-+ * Number of BB in execbuf2 IOCTL - 1, used to submit more than BB in a single
-+ * execbuf2 IOCTL.
-+ *
-+ * Return -EINVAL if more than 1 BB (value 0) is specified if
-+ * I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT hasn't been called on the gem
-+ * context first. Also returns -EINVAL if gem context has been setup with
-+ * I915_PARALLEL_NO_PREEMPT_MID_BATCH and the number BBs not equal to the total
-+ * number hardware contexts in the gem context.
-+ */
-+#define I915_EXEC_NUMBER_BB_LSB		(22)
-+#define I915_EXEC_NUMBER_BB_MASK	(0x3f << I915_EXEC_NUMBER_BB_LSB)
-+#define I915_EXEC_NUMBER_BB_MSB		(27)
-+#define i915_execbuffer2_set_number_bb(eb2, num_bb) \
-+	(eb2).flags = ((eb2).flags & ~I915_EXEC_NUMBER_BB_MASK) | \
-+	(((num_bb - 1) << I915_EXEC_NUMBER_BB_LSB) & I915_EXEC_NUMBER_BB_MASK)
-+#define i915_execbuffer2_get_number_bb(eb2) \
-+	((((eb2).flags & I915_EXEC_NUMBER_BB_MASK) >> I915_EXEC_NUMBER_BB_LSB) + 1)
-+
-+#define __I915_EXEC_UNKNOWN_FLAGS (-(1 << (I915_EXEC_NUMBER_BB_MSB + 1)))
- 
- #define I915_EXEC_CONTEXT_ID_MASK	(0xffffffff)
- #define i915_execbuffer2_set_context_id(eb2, context) \
+BR,
+Jani.
+
+>
+> After reading https://www.kernel.org/doc/html/v5.12/process/submitting-patches.html#the-canonical-patch-format I thought the format was:
+>
+> <commit message for upstream and signed of lines>
+> ---
+> <additional comments only for mailing list/stuff that gets ignored by the tools>
+> ---
+> <the patch>
+>
+> With the middle part being optional. (I only tested with "git apply" which worked fine with the format)
+>
+> I will resend the patches without the middle part, and the drm/i915/display in all subject lines.
+>
+>>
+>>> ---
+>>>  drivers/gpu/drm/i915/display/intel_hdmi.c | 41 ++++++++++++++---------
+>>>  1 file changed, 26 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+>>> index 46de56af33db..576d3d910d06 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+>>> @@ -1861,6 +1861,31 @@ static int intel_hdmi_port_clock(int clock, int bpc)
+>>>  	return clock * bpc / 8;
+>>>  }
+>>>  
+>>> +static enum drm_mode_status
+>>> +intel_hdmi_mode_clock_valid(struct intel_hdmi *hdmi, int clock, bool has_hdmi_sink)
+>>> +{
+>>> +	struct drm_device *dev = intel_hdmi_to_dev(hdmi);
+>>> +	struct drm_i915_private *dev_priv = to_i915(dev);
+>>> +	enum drm_mode_status status;
+>>> +
+>>> +	/* check if we can do 8bpc */
+>>> +	status = hdmi_port_clock_valid(hdmi, clock, true, has_hdmi_sink);
+>>> +
+>>> +	if (has_hdmi_sink) {
+>>> +		/* if we can't do 8bpc we may still be able to do 12bpc */
+>>> +		if (status != MODE_OK && !HAS_GMCH(dev_priv))
+>>> +			status = hdmi_port_clock_valid(hdmi, clock * 3 / 2,
+>>> +						       true, has_hdmi_sink);
+>>> +
+>>> +		/* if we can't do 8,12bpc we may still be able to do 10bpc */
+>>> +		if (status != MODE_OK && INTEL_GEN(dev_priv) >= 11)
+>>> +			status = hdmi_port_clock_valid(hdmi, clock * 5 / 4,
+>>> +						       true, has_hdmi_sink);
+>>> +	}
+>>> +
+>>> +	return status;
+>>> +}
+>>> +
+>>>  static enum drm_mode_status
+>>>  intel_hdmi_mode_valid(struct drm_connector *connector,
+>>>  		      struct drm_display_mode *mode)
+>>> @@ -1891,21 +1916,7 @@ intel_hdmi_mode_valid(struct drm_connector *connector,
+>>>  	if (drm_mode_is_420_only(&connector->display_info, mode))
+>>>  		clock /= 2;
+>>>  
+>>> -	/* check if we can do 8bpc */
+>>> -	status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 8),
+>>> -				       true, has_hdmi_sink);
+>>> -
+>>> -	if (has_hdmi_sink) {
+>>> -		/* if we can't do 8bpc we may still be able to do 12bpc */
+>>> -		if (status != MODE_OK && !HAS_GMCH(dev_priv))
+>>> -			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 12),
+>>> -						       true, has_hdmi_sink);
+>>> -
+>>> -		/* if we can't do 8,12bpc we may still be able to do 10bpc */
+>>> -		if (status != MODE_OK && DISPLAY_VER(dev_priv) >= 11)
+>>> -			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 10),
+>>> -						       true, has_hdmi_sink);
+>>> -	}
+>>> +	status = intel_hdmi_mode_clock_valid(hdmi, clock, has_hdmi_sink);
+>>>  	if (status != MODE_OK)
+>>>  		return status;
+
 -- 
-2.28.0
-
+Jani Nikula, Intel Open Source Graphics Center
