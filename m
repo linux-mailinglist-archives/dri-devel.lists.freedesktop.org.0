@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5DD375337
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 13:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59A337534F
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 13:56:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D59C6E167;
-	Thu,  6 May 2021 11:50:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 047836E195;
+	Thu,  6 May 2021 11:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B17626E167
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 11:50:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 48590613EB
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 11:50:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7A96E18F
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 11:56:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 129AF613ED
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 11:56:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620301855;
- bh=jO7vOQPagD5bmaXqCtIswIy3Mvmon15rA6NXF31EBNg=;
+ s=k20201202; t=1620302191;
+ bh=Zw3OOmLQuNrInku+NuITU3WpPzuFcVhOYdMA8gVOTzQ=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=k41dkBbOogVBPXHbpjNRmVeDfmugNsrYNJ04ZKNgUyjKx7r0KwXlkVzdgutKPlWy0
- l3JZHZeEWgIkBm9qIXPyhs5HNm6HSgoMYqMkwiCh4HWBUHxf4q7gS6cD2M6+bIkK0w
- /Sd/07XzxMgiUak4MAvremqAGj6rKcFE6R0iqpXDGNPzYD9OkRSEhyClAcSq4dl3hS
- w0LafJxErR4SCBbVexNuRoyi8j8kn+LGrWOnin6YYNGV8f+d2mbuO7ZgJu84nMOqVz
- kQCh+NS1GnZFGpKyd2YGxHmToIO5ZjEbpyxEfudg5XRI3zhbI6nqVcbZNQhpTgKDwr
- rwS9ySznmaRWA==
+ b=P6kWk8A7ZWzeu7OfZ7yu/M1DeWuQ2DZ7Wb5vjEBBUPK4Qf9LYvC0O00CaWLvuGu3V
+ wKP/V32WwgDdfz0J2DFj5QS5DqkZ+xYKhkEdKXKrrGzNvfpIogWDhJD3CiyJ9yUHwx
+ wNbIYEFSCeTjqKE4IhvQeiCxZ0dhkZNyV4RbLXAfXcfuEmz5scq6t0nNIk3pFhGuyq
+ Mv03TqP+FM+Sgn1zcHJcVmuf6ymYMUEurzBCwhfW/yIycaleV24MQm8R9dA5NV7ykT
+ 6indmljH6tOCwspl0UxN3B9aAevgCYF7bIpXl3SPRgvBjhGCN/HU1658dNK9sRIDOI
+ Rcpvn/a3kORTA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 446EE6129E; Thu,  6 May 2021 11:50:55 +0000 (UTC)
+ id 0B8436129E; Thu,  6 May 2021 11:56:31 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
-Date: Thu, 06 May 2021 11:50:54 +0000
+Date: Thu, 06 May 2021 11:56:30 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,7 +45,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-203905-2300-pO4eBcSUD4@https.bugzilla.kernel.org/>
+Message-ID: <bug-203905-2300-3UUia7yyvs@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
 References: <bug-203905-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,18 +70,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D203905
 
---- Comment #30 from Paulo Nascimento (paulo.ulusu@googlemail.com) ---
-laptop: Lenovo Legion 5, amd ryzen 5 4600h
-Graphics:  Device-1: NVIDIA TU116M [GeForce GTX 1660 Ti Mobile] driver: nou=
-veau
-           Device-2: Advanced Micro Devices [AMD/ATI] Renoir driver: amdgpu
-Kernel: 5.12.0-1-MANJARO x86_64
+--- Comment #31 from Paulo Nascimento (paulo.ulusu@googlemail.com) ---
+Error messages are:
+Mai 03 23:01:37 pn-legion systemd-backlight[861]: Failed to get backlight or
+LED device 'backlight:acpi_video1': No such device
+Mai 03 23:01:37 pn-legion systemd-backlight[862]: amdgpu_bl1: Failed to wri=
+te
+system 'brightness' attribute: No such device or address
+Mai 03 23:01:37 pn-legion systemd[1]: Failed to start Load/Save Screen
+Backlight Brightness of backlight:acpi_video1.
 
-I have loaded kernel 5.12 and enabled the patch with amdgpu.backlight=3D0. =
-The
-brightness controls Fn+F5/F6 works as well as the controls in KDE panel.
-
-There are still the error messages at boot and shutdown though.
+I think it has to do with the NVIDIA device.
 
 --=20
 You may reply to this email to add a comment.
