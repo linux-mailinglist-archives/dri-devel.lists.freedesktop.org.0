@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9776E375AE1
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 20:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3BD375AE0
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 20:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1976ED0B;
-	Thu,  6 May 2021 18:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 439DD6EDE2;
+	Thu,  6 May 2021 18:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC65D6ECFC;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED1B86ED01;
  Thu,  6 May 2021 18:57:12 +0000 (UTC)
-IronPort-SDR: DrxqRibbXyvus1ViPLrbeM/ii8g6J3U1i/iryLhdaL+5fxxmBkeMEy0j2vB66QKp4t0AsnnWwp
- eHesQ9oSGgsQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="196531003"
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="196531003"
+IronPort-SDR: Sba7eQkfiYlAtMDlQLRom8s+YxnOFzXQS+ul+zLa7AQodwhXLBiTUeZPV9gdHLcK1oMsAbKaTC
+ +gNVEo2CkyQQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="196531005"
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="196531005"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:11 -0700
-IronPort-SDR: Y/TAttr2CLrDdWti6Ly4lnr7+xRRobRVMUi5S1HHAUvmNr5Uqk20Z9emXan1iOA7+V7S/GXIdJ
- /WsnNpo5PGhw==
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583458"
+IronPort-SDR: /P++zdotpVXdXo5XYFvo1JgXtKkZ/0p9Cx8Aat9gUOrlfAuaBItKN2oeJaISxngq8fCl5UfWkY
+ XuOi1ij/2zEA==
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583466"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2021 11:57:09 -0700
+ 06 May 2021 11:57:10 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH 33/97] drm/i915: Engine relative MMIO
-Date: Thu,  6 May 2021 12:13:47 -0700
-Message-Id: <20210506191451.77768-34-matthew.brost@intel.com>
+Subject: [RFC PATCH 34/97] drm/i915/guc: Use guc_class instead of engine_class
+ in fw interface
+Date: Thu,  6 May 2021 12:13:48 -0700
+Message-Id: <20210506191451.77768-35-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210506191451.77768-1-matthew.brost@intel.com>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
@@ -54,178 +55,163 @@ Cc: matthew.brost@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
-With virtual engines, it is no longer possible to know which specific
-physical engine a given request will be executed on at the time that
-request is generated. This means that the request itself must be engine
-agnostic - any direct register writes must be relative to the engine
-and not absolute addresses.
+GuC has its own defines for the engine classes. They're currently
+mapping 1:1 to the defines used by the driver, but there is no guarantee
+this will continue in the future. Given that we've been caught off-guard
+in the past by similar divergences, we can prepare for the changes by
+introducing helper functions to convert from engine class to GuC class and
+back again.
 
-The LRI command has support for engine relative addressing. However,
-the mechanism is not transparent to the driver. The scheme for Gen11
-(MI_LRI_ADD_CS_MMIO_START) requires the LRI address to have no
-absolute engine base component. The hardware then adds on the correct
-engine offset at execution time.
-
-Due to the non-trivial and differing schemes on different hardware, it
-is not possible to simply update the code that creates the LRI
-commands to set a remap flag and let the hardware get on with it.
-Instead, this patch adds function wrappers for generating the LRI
-command itself and then for constructing the correct address to use
-with the LRI.
-
-Bspec: 45606
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
-CC: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-CC: Chris P Wilson <chris.p.wilson@intel.com>
-CC: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c  |  7 +++---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 25 ++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_engine_types.h |  3 +++
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  5 ++++
- drivers/gpu/drm/i915/i915_perf.c             |  6 +++++
- 5 files changed, 43 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c   |  6 +++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c  | 20 +++++++++-------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h | 26 +++++++++++++++++++++
+ 3 files changed, 42 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 188dee13e017..993faa213b41 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1211,7 +1211,7 @@ static int emit_ppgtt_update(struct i915_request *rq, void *data)
- {
- 	struct i915_address_space *vm = rq->context->vm;
- 	struct intel_engine_cs *engine = rq->engine;
--	u32 base = engine->mmio_base;
-+	u32 base = engine->lri_mmio_base;
- 	u32 *cs;
- 	int i;
- 
-@@ -1223,7 +1223,7 @@ static int emit_ppgtt_update(struct i915_request *rq, void *data)
- 		if (IS_ERR(cs))
- 			return PTR_ERR(cs);
- 
--		*cs++ = MI_LOAD_REGISTER_IMM(2);
-+		*cs++ = MI_LOAD_REGISTER_IMM(2) | engine->lri_cmd_mode;
- 
- 		*cs++ = i915_mmio_reg_offset(GEN8_RING_PDP_UDW(base, 0));
- 		*cs++ = upper_32_bits(pd_daddr);
-@@ -1245,7 +1245,8 @@ static int emit_ppgtt_update(struct i915_request *rq, void *data)
- 		if (IS_ERR(cs))
- 			return PTR_ERR(cs);
- 
--		*cs++ = MI_LOAD_REGISTER_IMM(2 * GEN8_3LVL_PDPES) | MI_LRI_FORCE_POSTED;
-+		*cs++ = MI_LOAD_REGISTER_IMM(2 * GEN8_3LVL_PDPES) |
-+			MI_LRI_FORCE_POSTED | engine->lri_cmd_mode;
- 		for (i = GEN8_3LVL_PDPES; i--; ) {
- 			const dma_addr_t pd_daddr = i915_page_dir_dma_addr(ppgtt, i);
- 
 diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index ec82a7ec0c8d..c88b792c1ab5 100644
+index c88b792c1ab5..7866ff0c2673 100644
 --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
 +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -16,6 +16,7 @@
- #include "intel_engine_pm.h"
- #include "intel_engine_user.h"
- #include "intel_execlists_submission.h"
-+#include "intel_gpu_commands.h"
- #include "intel_gt.h"
- #include "intel_gt_requests.h"
- #include "intel_gt_pm.h"
-@@ -223,6 +224,28 @@ static u32 __engine_mmio_base(struct drm_i915_private *i915,
- 	return bases[i].base;
- }
+@@ -289,6 +289,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+ 	const struct engine_info *info = &intel_engines[id];
+ 	struct drm_i915_private *i915 = gt->i915;
+ 	struct intel_engine_cs *engine;
++	u8 guc_class;
  
-+static bool i915_engine_has_relative_lri(const struct intel_engine_cs *engine)
+ 	BUILD_BUG_ON(MAX_ENGINE_CLASS >= BIT(GEN11_ENGINE_CLASS_WIDTH));
+ 	BUILD_BUG_ON(MAX_ENGINE_INSTANCE >= BIT(GEN11_ENGINE_INSTANCE_WIDTH));
+@@ -317,9 +318,10 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+ 	engine->i915 = i915;
+ 	engine->gt = gt;
+ 	engine->uncore = gt->uncore;
+-	engine->mmio_base = __engine_mmio_base(i915, info->mmio_bases);
+ 	engine->hw_id = info->hw_id;
+-	engine->guc_id = MAKE_GUC_ID(info->class, info->instance);
++	guc_class = engine_class_to_guc_class(info->class);
++	engine->guc_id = MAKE_GUC_ID(guc_class, info->instance);
++	engine->mmio_base = __engine_mmio_base(i915, info->mmio_bases);
+ 
+ 	engine->irq_handler = nop_irq_handler;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index 775f00d706fa..ecd18531b40a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -6,6 +6,7 @@
+ #include "gt/intel_gt.h"
+ #include "gt/intel_lrc.h"
+ #include "intel_guc_ads.h"
++#include "intel_guc_fwif.h"
+ #include "intel_uc.h"
+ #include "i915_drv.h"
+ 
+@@ -78,7 +79,7 @@ static void guc_mapping_table_init(struct intel_gt *gt,
+ 				GUC_MAX_INSTANCES_PER_CLASS;
+ 
+ 	for_each_engine(engine, gt, id) {
+-		u8 guc_class = engine->class;
++		u8 guc_class = engine_class_to_guc_class(engine->class);
+ 
+ 		system_info->mapping_table[guc_class][engine->instance] =
+ 			engine->instance;
+@@ -98,7 +99,7 @@ static void __guc_ads_init(struct intel_guc *guc)
+ 	struct __guc_ads_blob *blob = guc->ads_blob;
+ 	const u32 skipped_size = LRC_PPHWSP_SZ * PAGE_SIZE + LR_HW_CONTEXT_SIZE;
+ 	u32 base;
+-	u8 engine_class;
++	u8 engine_class, guc_class;
+ 
+ 	/* GuC scheduling policies */
+ 	guc_policies_init(&blob->policies);
+@@ -114,22 +115,25 @@ static void __guc_ads_init(struct intel_guc *guc)
+ 	for (engine_class = 0; engine_class <= MAX_ENGINE_CLASS; ++engine_class) {
+ 		if (engine_class == OTHER_CLASS)
+ 			continue;
++
++		guc_class = engine_class_to_guc_class(engine_class);
++
+ 		/*
+ 		 * TODO: Set context pointer to default state to allow
+ 		 * GuC to re-init guilty contexts after internal reset.
+ 		 */
+-		blob->ads.golden_context_lrca[engine_class] = 0;
+-		blob->ads.eng_state_size[engine_class] =
++		blob->ads.golden_context_lrca[guc_class] = 0;
++		blob->ads.eng_state_size[guc_class] =
+ 			intel_engine_context_size(guc_to_gt(guc),
+ 						  engine_class) -
+ 			skipped_size;
+ 	}
+ 
+ 	/* System info */
+-	blob->system_info.engine_enabled_masks[RENDER_CLASS] = 1;
+-	blob->system_info.engine_enabled_masks[COPY_ENGINE_CLASS] = 1;
+-	blob->system_info.engine_enabled_masks[VIDEO_DECODE_CLASS] = VDBOX_MASK(gt);
+-	blob->system_info.engine_enabled_masks[VIDEO_ENHANCEMENT_CLASS] = VEBOX_MASK(gt);
++	blob->system_info.engine_enabled_masks[GUC_RENDER_CLASS] = 1;
++	blob->system_info.engine_enabled_masks[GUC_BLITTER_CLASS] = 1;
++	blob->system_info.engine_enabled_masks[GUC_VIDEO_CLASS] = VDBOX_MASK(gt);
++	blob->system_info.engine_enabled_masks[GUC_VIDEOENHANCE_CLASS] = VEBOX_MASK(gt);
+ 
+ 	blob->system_info.generic_gt_sysinfo[GUC_GENERIC_GT_SYSINFO_SLICE_ENABLED] =
+ 		hweight8(gt->info.sseu.slice_mask);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+index 301b173a26bc..558cfe168cb7 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+@@ -15,6 +15,7 @@
+ #include "abi/guc_communication_mmio_abi.h"
+ #include "abi/guc_communication_ctb_abi.h"
+ #include "abi/guc_messages_abi.h"
++#include "gt/intel_engine_types.h"
+ 
+ #define GUC_CLIENT_PRIORITY_KMD_HIGH	0
+ #define GUC_CLIENT_PRIORITY_HIGH	1
+@@ -32,6 +33,12 @@
+ #define GUC_VIDEO_ENGINE2		4
+ #define GUC_MAX_ENGINES_NUM		(GUC_VIDEO_ENGINE2 + 1)
+ 
++#define GUC_RENDER_CLASS		0
++#define GUC_VIDEO_CLASS			1
++#define GUC_VIDEOENHANCE_CLASS		2
++#define GUC_BLITTER_CLASS		3
++#define GUC_RESERVED_CLASS		4
++#define GUC_LAST_ENGINE_CLASS		GUC_RESERVED_CLASS
+ #define GUC_MAX_ENGINE_CLASSES		16
+ #define GUC_MAX_INSTANCES_PER_CLASS	32
+ 
+@@ -129,6 +136,25 @@
+ #define GUC_ID_TO_ENGINE_INSTANCE(guc_id) \
+ 	(((guc_id) & GUC_ENGINE_INSTANCE_MASK) >> GUC_ENGINE_INSTANCE_SHIFT)
+ 
++static inline u8 engine_class_to_guc_class(u8 class)
 +{
-+	if (INTEL_GEN(engine->i915) < 11)
-+		return false;
++	BUILD_BUG_ON(GUC_RENDER_CLASS != RENDER_CLASS);
++	BUILD_BUG_ON(GUC_BLITTER_CLASS != COPY_ENGINE_CLASS);
++	BUILD_BUG_ON(GUC_VIDEO_CLASS != VIDEO_DECODE_CLASS);
++	BUILD_BUG_ON(GUC_VIDEOENHANCE_CLASS != VIDEO_ENHANCEMENT_CLASS);
++	GEM_BUG_ON(class > MAX_ENGINE_CLASS || class == OTHER_CLASS);
 +
-+	if (engine->class == COPY_ENGINE_CLASS)
-+		return false;
-+
-+	return true;
++	return class;
 +}
 +
-+static void lri_init(struct intel_engine_cs *engine)
++static inline u8 guc_class_to_engine_class(u8 guc_class)
 +{
-+	if (i915_engine_has_relative_lri(engine)) {
-+		engine->lri_cmd_mode = MI_LRI_LRM_CS_MMIO;
-+		engine->lri_mmio_base = 0;
-+	} else {
-+		engine->lri_cmd_mode = 0;
-+		engine->lri_mmio_base = engine->mmio_base;
-+	}
++	GEM_BUG_ON(guc_class > GUC_LAST_ENGINE_CLASS);
++	GEM_BUG_ON(guc_class == GUC_RESERVED_CLASS);
++
++	return guc_class;
 +}
 +
- static void __sprint_engine_name(struct intel_engine_cs *engine)
- {
- 	/*
-@@ -327,6 +350,8 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
- 	if (engine->context_size)
- 		DRIVER_CAPS(i915)->has_logical_contexts = true;
- 
-+	lri_init(engine);
-+
- 	ewma__engine_latency_init(&engine->latency);
- 	seqcount_init(&engine->stats.lock);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index 93aa22680db0..86302e6d86b2 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -281,6 +281,9 @@ struct intel_engine_cs {
- 	u32 context_size;
- 	u32 mmio_base;
- 
-+	u32 lri_mmio_base;
-+	u32 lri_cmd_mode;
-+
- 	/*
- 	 * Some w/a require forcewake to be held (which prevents RC6) while
- 	 * a particular engine is active. If so, we set fw_domain to which
-diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-index 14e2ffb6c0e5..887d59897bc2 100644
---- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-@@ -134,6 +134,11 @@
-  *   simply ignores the register load under certain conditions.
-  * - One can actually load arbitrary many arbitrary registers: Simply issue x
-  *   address/value pairs. Don't overdue it, though, x <= 2^4 must hold!
-+ * - Newer hardware supports engine relative addressing but older hardware does
-+ *   not. This is required for hw engine load balancing. Hence the MI_LRI
-+ *   instruction itself is prefixed with '__' and should only be used on
-+ *   legacy hardware code paths. Generic code must always use the MI_LRI
-+ *   and i915_get_lri_reg() helper functions instead.
-  */
- #define MI_LOAD_REGISTER_IMM(x)	MI_INSTR(0x22, 2*(x)-1)
- /* Gen11+. addr = base + (ctx_restore ? offset & GENMASK(12,2) : offset) */
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index 66f1f25119b5..b9cc3f0a616f 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -2118,6 +2118,11 @@ gen8_update_reg_state_unlocked(const struct intel_context *ce,
- 	u32 *reg_state = ce->lrc_reg_state;
- 	int i;
- 
-+	/*
-+	 * NB: The LRI instruction is generated by the hardware.
-+	 * Should we read it in and assert that the offset flag is set?
-+	 */
-+
- 	reg_state[ctx_oactxctrl + 1] =
- 		(stream->period_exponent << GEN8_OA_TIMER_PERIOD_SHIFT) |
- 		(stream->periodic ? GEN8_OA_TIMER_ENABLE : 0) |
-@@ -2174,6 +2179,7 @@ gen8_load_flex(struct i915_request *rq,
- 
- 	*cs++ = MI_LOAD_REGISTER_IMM(count);
- 	do {
-+		/* FIXME: Is this table LRI remap/offset friendly? */
- 		*cs++ = i915_mmio_reg_offset(flex->reg);
- 		*cs++ = flex->value;
- 	} while (flex++, --count);
+ /* Work item for submitting workloads into work queue of GuC. */
+ struct guc_wq_item {
+ 	u32 header;
 -- 
 2.28.0
 
