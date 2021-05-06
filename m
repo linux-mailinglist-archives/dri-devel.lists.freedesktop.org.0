@@ -1,47 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C222C3751C8
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 11:46:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A6E3751DA
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 11:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D22EB6E18E;
-	Thu,  6 May 2021 09:46:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 619E06ECB1;
+	Thu,  6 May 2021 09:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 388626E18E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 09:46:45 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id
- g15-20020a9d128f0000b02902a7d7a7bb6eso4348809otg.9
- for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 02:46:45 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04B686ECB0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 09:55:34 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ t11-20020a05600c198bb02901476e13296aso2717150wmq.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 02:55:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=NwbQgMXxJH+U7giHK2xrMy3kQoZttL0h2+a1jCDh5pU=;
+ b=j9nrIit/0MEbOMYbCt/3aRLIE0yAWFTSBB3Q0ov8L3QGoFcyHrce+87OQT1JIlOQ7p
+ BbQpHgFC92m4r0B+ZzOf5gbUyy8aMF93VGHH1jFhGTovud3WuAHymNFiKIbgCqgNLc9F
+ jNa9Rz1loYNfoJrwDlHIYtBA0LUNCYlUaloyA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WLw6wpF1SpPaYf9GjIKaoxywxvbZeYQGn/3BsI8vClk=;
- b=Og/8uuO5rvlegNEIJAV2UH692rEMh2YejmuuoXl3ftycXCSpZTpgjgczZGWPfdlUVD
- Adn0c4hkiTxSwipGsrOWJYWXrIWxbGuHeS0aDAubRMDOQAijkemuEbaEBCpV7SlNKzaO
- 93wkjnNwohorSk8SHIoAstY38mXXtvSb6bHhBk47iB0Ekcu3G33daZWuYx8cvTTrm9JU
- Vy/MnNN0LSio50ZvLggRJG/dY0+3p3BSDtthed9YfRvepvOOrZuefuqy2g/wPUTnK+uL
- fxl2Wo7jU+/azZpFicMjpWTGterexYfptpdUD6xkjPhm/y+qgGjEaKwxFtDkpjd29nl6
- Ko9Q==
-X-Gm-Message-State: AOAM532OXJMbdmbLfcs+0EjbHXa0UC5pQSAvIV7rqjBv/glgYtBnQJte
- lN5cqo7sCtPq5awWVQ+r9AWAwhKMM4B4CVPK9Ac=
-X-Google-Smtp-Source: ABdhPJyAsuVo6svOMDODs74V1AcY7zQZ8HNwrp/WdernvPw059EjB7XBOZVJ1YRHznkASCdNNtLe7vGRDXaOLBJfzZI=
-X-Received: by 2002:a05:6830:55b:: with SMTP id
- l27mr2800612otb.260.1620294404422; 
- Thu, 06 May 2021 02:46:44 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NwbQgMXxJH+U7giHK2xrMy3kQoZttL0h2+a1jCDh5pU=;
+ b=XxBroMuM0zQ7lG7xw54L5dwG5PHAxh9gCvNsmqlZtACn4pjEljICXqCkUbhL+p+wbI
+ oJl1mnApqY2/hGYjAeg/uxaZ3kuHN65YY6QbNxk2Q2NkPbentjmQXctltlvdz/nJL3Qv
+ GntUiU8KUSSneetNl4E9xy6RyNzQ/8ec3IkHg3/uH2RtxRwKey4ciFi1D7f7bNeIq3qo
+ VqCicuFbaTNV9sbzIwvSaTam3IGH+8eVa/z3MxZIp6dzfhcBUJE9Q4eKlQJ869KqfSTD
+ eKaXRBYWpYTBbuW7c7Hkph//K/yBxvtNX7fBSLquIa+x78mBfE/Se+zU7eWMrmjo5+1K
+ 9beA==
+X-Gm-Message-State: AOAM532tf8VJadSZIj5WinOjOTa8LFVpM/lV75qphR4YNXo962VvAPkm
+ v0lVMo4dEfjWcpb3pcJpJbD/escH+euQeA==
+X-Google-Smtp-Source: ABdhPJzqlxoMvjddwWEC1ZK4H+Q4SKb/pxImvJpdoWsRgGB6x6DaqmJHa9ajoloKuqKWoLrqXgaRlw==
+X-Received: by 2002:a7b:c0c4:: with SMTP id s4mr13974720wmh.174.1620294932610; 
+ Thu, 06 May 2021 02:55:32 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i13sm3436726wrs.12.2021.05.06.02.55.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 May 2021 02:55:31 -0700 (PDT)
+Date: Thu, 6 May 2021 11:55:29 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 8/8] drm/modifiers: Enforce consistency between the cap
+ an IN_FORMATS
+Message-ID: <YJO9EfqeFaUdqlJE@phenom.ffwll.local>
+References: <20210427092018.832258-1-daniel.vetter@ffwll.ch>
+ <20210427092018.832258-8-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <CABTNMG0Y5iAD4E8XFkOwrNTBHNDcNKRt=+BLPHs4tw5O2eVBDA@mail.gmail.com>
-In-Reply-To: <CABTNMG0Y5iAD4E8XFkOwrNTBHNDcNKRt=+BLPHs4tw5O2eVBDA@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 6 May 2021 11:46:33 +0200
-Message-ID: <CAJZ5v0hqU4xc8oCWXPBYhdGdG__=15+M67QWVSfFeUR3DN4Evw@mail.gmail.com>
-Subject: Re: NVIDIA GPU fallen off the bus after exiting s2idle
-To: Chris Chiu <chris.chiu@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210427092018.832258-8-daniel.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,131 +68,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Len Brown <len.brown@intel.com>, Karol Herbst <kherbst@redhat.com>,
- Linux PM <linux-pm@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>,
- Mika Westerberg <mika.westerberg@intel.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Helgaas <bhelgaas@google.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 4, 2021 at 10:08 AM Chris Chiu <chris.chiu@canonical.com> wrote:
->
-> Hi,
->     We have some Intel laptops (11th generation CPU) with NVIDIA GPU
-> suffering the same GPU falling off the bus problem while exiting
-> s2idle with external display connected. These laptops connect the
-> external display via the HDMI/DisplayPort on a USB Type-C interfaced
-> dock. If we enter and exit s2idle with the dock connected, the NVIDIA
-> GPU (confirmed on 10de:24b6 and 10de:25b8) and the PCIe port can come
-> back to D0 w/o problem. If we enter the s2idle, disconnect the dock,
-> then exit the s2idle, both external display and the panel will remain
-> with no output. The dmesg as follows shows the "nvidia 0000:01:00.0:
-> can't change power state from D3cold to D0 (config space
-> inaccessible)" due to the following ACPI error
-> [ 154.446781]
-> [ 154.446783]
-> [ 154.446783] Initialized Local Variables for Method [IPCS]:
-> [ 154.446784] Local0: 000000009863e365 <Obj> Integer 00000000000009C5
-> [ 154.446790]
-> [ 154.446791] Initialized Arguments for Method [IPCS]: (7 arguments
-> defined for method invocation)
-> [ 154.446792] Arg0: 0000000025568fbd <Obj> Integer 00000000000000AC
-> [ 154.446795] Arg1: 000000009ef30e76 <Obj> Integer 0000000000000000
-> [ 154.446798] Arg2: 00000000fdf820f0 <Obj> Integer 0000000000000010
-> [ 154.446801] Arg3: 000000009fc2a088 <Obj> Integer 0000000000000001
-> [ 154.446804] Arg4: 000000003a3418f7 <Obj> Integer 0000000000000001
-> [ 154.446807] Arg5: 0000000020c4b87c <Obj> Integer 0000000000000000
-> [ 154.446810] Arg6: 000000008b965a8a <Obj> Integer 0000000000000000
-> [ 154.446813]
-> [ 154.446815] ACPI Error: Aborting method \IPCS due to previous error
-> (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529)
-> [ 154.446824] ACPI Error: Aborting method \MCUI due to previous error
-> (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529)
-> [ 154.446829] ACPI Error: Aborting method \SPCX due to previous error
-> (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529)
-> [ 154.446835] ACPI Error: Aborting method \_SB.PC00.PGSC due to
-> previous error (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529)
-> [ 154.446841] ACPI Error: Aborting method \_SB.PC00.PGON due to
-> previous error (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529)
-> [ 154.446846] ACPI Error: Aborting method \_SB.PC00.PEG1.NPON due to
-> previous error (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529)
-> [ 154.446852] ACPI Error: Aborting method \_SB.PC00.PEG1.PG01._ON due
-> to previous error (AE_AML_LOOP_TIMEOUT) (20200925/psparse-529)
-> [ 154.446860] acpi device:02: Failed to change power state to D0
-> [ 154.690760] video LNXVIDEO:00: Cannot transition to power state D0
-> for parent in (unknown)
+On Tue, Apr 27, 2021 at 11:20:18AM +0200, Daniel Vetter wrote:
+> It's very confusing for userspace to have to deal with inconsistencies
+> here, and some drivers screwed this up a bit. Most just ommitted the
+> format list when they meant to say that only linear modifier is
+> allowed, but some also meant that only implied modifiers are
+> acceptable (because actually none of the planes registered supported
+> modifiers).
+> 
+> Now that this is all done consistently across all drivers, document
+> the rules and enforce it in the drm core.
+> 
+> v2:
+> - Make the capability a link (Simon)
+> - Note that all is lost before 5.1.
+> 
+> Acked-by: Maxime Ripard <maxime@cerno.tech>
+> Cc: Simon Ser <contact@emersion.fr>
+> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 
-If I were to guess, I would say that AML tries to access memory that
-is not accessible while suspended, probably PCI config space.
+I merged all the driver patches to drm-misc-next, I'll resend v3 of this
+one shortly.
+-Daniel
 
-> The IPCS is the last function called from \_SB.PC00.PEG1.PG01._ON
-> which we expect it to prepare everything before bringing back the
-> NVIDIA GPU but it's stuck in the infinite loop as described below.
-> Please refer to
-> https://gist.github.com/mschiu77/fa4f5a97297749d0d66fe60c1d421c44 for
-> the full DSDT.dsl.
+> ---
+>  drivers/gpu/drm/drm_plane.c   | 18 +++++++++++++++++-
+>  include/drm/drm_mode_config.h |  2 ++
+>  2 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index 0dd43882fe7c..20c7a1665414 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -128,6 +128,13 @@
+>   *     pairs supported by this plane. The blob is a struct
+>   *     drm_format_modifier_blob. Without this property the plane doesn't
+>   *     support buffers with modifiers. Userspace cannot change this property.
+> + *
+> + *     Note that userspace can check the &DRM_CAP_ADDFB2_MODIFIERS driver
+> + *     capability for general modifier support. If this flag is set then every
+> + *     plane will have the IN_FORMATS property, even when it only supports
+> + *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
+> + *     various bugs in this area with inconsistencies between the capability
+> + *     flag and per-plane properties.
+>   */
+>  
+>  static unsigned int drm_num_planes(struct drm_device *dev)
+> @@ -277,8 +284,14 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+>  			format_modifier_count++;
+>  	}
+>  
+> -	if (format_modifier_count)
+> +	/* autoset the cap and check for consistency across all planes */
+> +	if (format_modifier_count) {
+> +		WARN_ON(!config->allow_fb_modifiers &&
+> +			!list_empty(&config->plane_list));
+>  		config->allow_fb_modifiers = true;
+> +	} else {
+> +		WARN_ON(config->allow_fb_modifiers);
+> +	}
+>  
+>  	plane->modifier_count = format_modifier_count;
+>  	plane->modifiers = kmalloc_array(format_modifier_count,
+> @@ -360,6 +373,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+>   * drm_universal_plane_init() to let the DRM managed resource infrastructure
+>   * take care of cleanup and deallocation.
+>   *
+> + * Drivers supporting modifiers must set @format_modifiers on all their planes,
+> + * even those that only support DRM_FORMAT_MOD_LINEAR.
+> + *
+>   * Returns:
+>   * Zero on success, error code on failure.
+>   */
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index ab424ddd7665..1ddf7783fdf7 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -909,6 +909,8 @@ struct drm_mode_config {
+>  	 * @allow_fb_modifiers:
+>  	 *
+>  	 * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
+> +	 * Note that drivers should not set this directly, it is automatically
+> +	 * set in drm_universal_plane_init().
+>  	 *
+>  	 * IMPORTANT:
+>  	 *
+> -- 
+> 2.31.0
+> 
 
-The DSDT alone may not be sufficient.
-
-Can you please create a bug entry at bugzilla.kernel.org for this
-issue and attach the full output of acpidump from one of the affected
-machines to it?  And please let me know the number of the bug.
-
-Also please attach the output of dmesg including a suspend-resume
-cycle including dock disconnection while suspended and the ACPI
-messages quoted below.
-
->            While (One)
->             {
->                 If ((!IBSY || (IERR == One)))
->                 {
->                     Break
->                 }
->
->                 If ((Local0 > TMOV))
->                 {
->                     RPKG [Zero] = 0x03
->                     Return (RPKG) /* \IPCS.RPKG */
->                 }
->
->                 Sleep (One)
->                 Local0++
->             }
->
-> And the upstream PCIe port of NVIDIA seems to become inaccessible due
-> to the messages as follows.
-> [ 292.746508] pcieport 0000:00:01.0: waiting 100 ms for downstream
-> link, after activation
-> [ 292.882296] pci 0000:01:00.0: waiting additional 100 ms to become accessible
-> [ 316.876997] pci 0000:01:00.0: can't change power state from D3cold
-> to D0 (config space inaccessible)
->
-> Since the IPCS is the Intel Reference Code and we don't really know
-> why the never-end loop happens just because we unplug the dock while
-> the system still stays in s2idle. Can anyone from Intel suggest what
-> happens here?
-
-This list is not the right channel for inquiries related to Intel
-support, we can only help you as Linux kernel developers in this
-venue.
-
-> And one thing also worth mentioning, if we unplug the display cable
-> from the dock before entering the s2idle, NVIDIA GPU can come back w/o
-> problem even if we disconnect the dock before exiting s2idle. Here's
-> the lspci information
-> https://gist.github.com/mschiu77/0bfc439d15d52d20de0129b1b2a86dc4 and
-> the dmesg log with ACPI trace_state enabled and dynamic debug on for
-> drivers/pci/pci.c, drivers/acpi/device_pm.c for the whole s2idle
-> enter/exit with IPCS timeout.
->
-> Any suggestion would be appreciated. Thanks.
-
-First, please use proper Intel support channels for BIOS-related inquiries.
-
-Second, please open a bug as suggested above and let's use it for
-further communication regarding this issue as far as Linux is
-concerned.
-
-Thanks!
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
