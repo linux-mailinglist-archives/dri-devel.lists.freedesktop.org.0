@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11864375C6F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 22:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C428375D32
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 00:31:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 659D46EDBF;
-	Thu,  6 May 2021 20:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E41176E524;
+	Thu,  6 May 2021 22:31:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5EF6EDBF
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 20:51:34 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D87DA82CF3;
- Thu,  6 May 2021 22:51:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1620334292;
- bh=Qlgw/zJ1mlSvjCPgpk6zmUAsbVyye0JiIHR3CntzYPw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=FNKYcod6syJhoZZ+hUGQhrD0BdEWkERTYi8amXjjE45kSRDdQ7kxaMwdDp2NCrgzS
- M47AYQ6faTzVIYTWKIN+wIVLbIwqFIMPxNz391iCDxsJFkB/66KaEnQLQTlew2M/RZ
- 7U7RySYL9WS9vAFAd0Upg4Enlr91O/WNwrxlQHGsYLpndnoB6s/ofwehVYjbKMEGq/
- 0J+o3OaaCPSCwlG/o9THl9n0gkLoEkM7vN+MfAoDoYKz2+xczFWReCMF9uzAhaGAxF
- lG1VVldE65sIwqV4MLgK8NTc1ll57HgIZ+SNQrl1g43aWn1QeQz0fSYd8I6IIGiVIn
- tK5iAqFDzt5cA==
-Subject: Re: [PATCH V3 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-To: Frieder Schrempf <frieder.schrempf@kontron.de>,
- dri-devel@lists.freedesktop.org
-References: <20210505100218.108024-1-marex@denx.de>
- <20210505100218.108024-2-marex@denx.de>
- <2655a86a-d371-6a5a-715a-53b73a696d28@kontron.de>
- <7da2c2d2-fb02-0a1b-d853-bfd756a0cd9b@denx.de>
- <61e269b7-870a-01a8-722b-15c9aecf9bf9@kontron.de>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <8985230f-cb0a-43ca-f8f7-66898f85dc2b@denx.de>
-Date: Thu, 6 May 2021 22:51:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA67C6E524
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 22:31:04 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id i9so3481056lfe.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 15:31:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=htNAnGunm2mFYSv2XzhlQsCDD0LeBwjAb0MYMtun6cM=;
+ b=BORPcZuE9+rrQQNFUoJnt6f4FpTDIRpdNZeTdxMdbIECzBdY5oiwCD0JpZedlSNZ+7
+ bix+fDrgKkNKxnNlizSFTjxEzgqSzLtT6D02CJDWAGt9oBFGQ4VHrgxc6tYB6CmAeE2+
+ 8YQ9a8BVm4oo8k7TJnGL+6WsOCsGhg6VQJj04=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=htNAnGunm2mFYSv2XzhlQsCDD0LeBwjAb0MYMtun6cM=;
+ b=I6D3yCWwHWI/kVW7e40Ts+FgWBl0QOQQ55oCEjo0JyzQp/fXmvVv1ZXAi+BI3U+6hp
+ ofL8GIS2KJZcVwGZSZ9+0XqMQMEqWK2xGvkOtYb7QSZ+VIupm7GKWKTKeb2NJEcR5+P4
+ 5WV8DiqnqrHWryW3Tg8OsGpD+WSHHTBM8f6On4nDVfd9BioevS+IwESvpKeosJOE5UX+
+ IuMIEq5XhMMtojPvMfZ47iHNNr5w5ooMKnIhTqXqC8dJzu3k4iHrCVmDWsxkJXr1lTOU
+ c+SfrHwrJ1ZxRtWLGm6KL3zqFLD7kgFMZ1IElhdFhz/QKx/Wy05quEu3ENrnbOoIu4L8
+ AX4Q==
+X-Gm-Message-State: AOAM5303cgE6Ry2UMRWHZso6HzvdRh7XLSvDPaE+lg4yp8M0DdC6ZQHS
+ GgKQUEcGHq0xdSlZaoSBFwG/r5vyA5J4yiV4
+X-Google-Smtp-Source: ABdhPJwAcELf4D5Cvo4h21GMByDUT+NqLi3VwMQMj7UeGdKLuu9x8bMwkLdW/fhc3P0HOt/2B3K3Dw==
+X-Received: by 2002:ac2:5632:: with SMTP id b18mr4298046lff.62.1620340262896; 
+ Thu, 06 May 2021 15:31:02 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
+ [209.85.167.45])
+ by smtp.gmail.com with ESMTPSA id t14sm1348748ljj.49.2021.05.06.15.31.02
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 May 2021 15:31:02 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id c3so10030027lfs.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 15:31:02 -0700 (PDT)
+X-Received: by 2002:a05:6512:1095:: with SMTP id
+ j21mr4272160lfg.40.1620340261797; 
+ Thu, 06 May 2021 15:31:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <61e269b7-870a-01a8-722b-15c9aecf9bf9@kontron.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
+References: <YJBHiRiCGzojk25U@phenom.ffwll.local>
+In-Reply-To: <YJBHiRiCGzojk25U@phenom.ffwll.local>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 6 May 2021 15:30:45 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
+Message-ID: <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
+Subject: Re: [PULL] topic/iomem-mmap-vs-gup
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,40 +71,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
- Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-samsung-soc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-MM <linux-mm@kvack.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/6/21 6:03 PM, Frieder Schrempf wrote:
-> On 06.05.21 17:46, Marek Vasut wrote:
->> On 5/6/21 5:38 PM, Frieder Schrempf wrote:
->> [...]
->>> Works on i.MX8MM with SN65DSI84 and a single link LVDS display (1024x600) and from my perspective everything else also looks good. Thanks for your work!
->>>
->>> I have two remarks:
->>>
->>> 1. In my test I couldn't get it to work with four DSI lanes enabled (only with two) but I'm quite sure that the DSIM driver is to blame as everything on the bridge level looks good (also setting the DSI EQ register didn't help as you suggested, Marek).
->>
->> I suspect there is indeed something with the DSIM going on, I'll keep you posted if I find something out.
->>
->>> 2. When I set MEDIA_BUS_FMT_RGB888_1X7X4_SPWG in the panel driver I get distorted colors. I need to use MEDIA_BUS_FMT_RGB888_1X24 to make it work, but this is not valid for LVDS. Again I don't think this driver is to blame as I can't see where it does anything wrong, but my experience here is very limited so I still want to mention it.
->>
->> Hmm, in that conversion supposed to happen in this bridge driver or should MXSFB handle the SPWG pixel format ? Or should the DSIM bridge do something about that ?
-> 
-> As far as I understand it the conversion is already done by the DSI84 without any extra configuration necessary. The only thing that needs to be done is selecting the LVDS output format via CHx_24BPP_MODE and CHx_24BPP_FORMAT1 which the driver currently hardcodes to 24bpp aka MEDIA_BUS_FMT_RGB888_1X7X4_SPWG. I think the DSI input format is always 24bpp aka MEDIA_BUS_FMT_RGB888_1X24.
+[ You had a really odd Reply-to on this one ]
 
-The DSI is MEDIA_BUS_FMT_RGB888_1X24, yes.
+On Mon, May 3, 2021 at 12:15 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> Anyway here's a small pull for you to ponder, now that the big ones are
+> all through.
 
-So maybe this bridge driver has to somehow deal with 
-MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ? Except I haven't seen such a thing 
-implemented in other bridge drivers, so input would be welcome on this.
+Well, _now_ I'm all caught up. Knock wood. Anyway, time to look at it:
 
-> So I wonder where the format actually is evaluated. Could it be that it is passed down to the LCDIF and changes its output format which causes the data passed by DSIM to the DSI84 to already be in the SPWG format? If that's the case we maybe need a way to specify MEDIA_BUS_FMT_RGB888_1X24 as input bus format for the DSI84 so it doesn't pass on the panel's format? Only a wild guess, no idea if it really works like that.
+> Follow-up to my pull from last merge window: kvm and vfio lost their
+> very unsafe use of follow_pfn, this appropriately marks up the very
+> last user for some userptr-as-buffer use-cases in media. There was
+> some resistance to outright removing it, maybe we can do this in a few
+> releases.
 
-I _think_ the bridge must somehow handle the 
-MEDIA_BUS_FMT_RGB888_1X7X4_SPWG <-> MEDIA_BUS_FMT_RGB888_1X24 conversion.
+Hmm. So this looks mostly ok to me, although I think the change to the
+nommu case is pretty ridiculous.
+
+On nommu, unsafe_follow_pfn() should just be a wrapper around
+follow_pfn(). There's no races when you can't remap anything. No?
+
+Do the two media cases even work on nommu?
+
+Finally - did you intend fo this to be a real pull request? Because
+the email read to me like "think about this and tell me what you
+think" rather than "please pull"..
+
+And I have now fulfilled that "think about and tell me" part ;)
+
+              Linus
