@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F7F374BAA
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 01:03:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B89374C4D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 02:23:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FAF26EC7C;
-	Wed,  5 May 2021 23:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7189A89B3C;
+	Thu,  6 May 2021 00:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
- [209.85.210.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCA506EC7C
- for <dri-devel@lists.freedesktop.org>; Wed,  5 May 2021 23:03:00 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id
- c36-20020a05683034a4b02902a5b84b1d12so3237730otu.8
- for <dri-devel@lists.freedesktop.org>; Wed, 05 May 2021 16:03:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=c5gJIQptNbwhzfSNPQQCVwvZ2lAYCY0SqfJ3dG+5h4k=;
- b=PH/lEEqEP8c8sOf0XT7DUx+9Sf9i3tjMCspsjvmdfpkgAt/BY/5R2EpvNkoWRDbk1D
- H6+KjV49HpwvtV67QXlvzmlVAKA6yDShI+4kxrx3USrDgbSvb5Q2wGY2tl31hxTkvAt6
- 5S9UEepSHrvz7ZvCPHapl/IstjWCrLpCyjc8ru0do1Oz2O2zvB2qU6gVOvPan/85j4lA
- nd0auLVPiylkzVQKRlPZOp+RAAHgTBLfuXL4s1a/13Wov7Hcxibv1SOP8kyz6Bl3w+w9
- Ho1LyFFm6/3iZ34rh4gd3UM6VorzyOIzwWc0rCLvyd/24uA78s/o2rn++gTvGBowWbcl
- CT5A==
-X-Gm-Message-State: AOAM530oFnOestTsVwvdDpAMi7xuf7vQGqbDKYseyG+WGJjBSQ1s0ZiG
- EkKbfOkQRLKTUvqY8DEQ5Q==
-X-Google-Smtp-Source: ABdhPJwnGdYO6xivVdQOTOmieNJgXZf1cUHMK+GAA2Aak1nTUeuiCm+657685gZmMaAIiSTqypesLQ==
-X-Received: by 2002:a05:6830:1556:: with SMTP id
- l22mr895769otp.34.1620255780165; 
- Wed, 05 May 2021 16:03:00 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id e67sm126328oia.5.2021.05.05.16.02.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 16:02:59 -0700 (PDT)
-Received: (nullmailer pid 3004478 invoked by uid 1000);
- Wed, 05 May 2021 23:02:58 -0000
-Date: Wed, 5 May 2021 18:02:58 -0500
-From: Rob Herring <robh@kernel.org>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCHv2 4/5] dt-bindings: arm: fsl: add GE B1x5pv2 boards
-Message-ID: <20210505230258.GA3004449@robh.at.kernel.org>
-References: <20210428222953.235280-1-sebastian.reichel@collabora.com>
- <20210428222953.235280-5-sebastian.reichel@collabora.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 947B089AA2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 00:23:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4737461076
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 00:23:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620260599;
+ bh=GUlGCPD83TSF77mt/1+eJxoqdZjHOnvEwKbBCh8augk=;
+ h=From:To:Subject:Date:From;
+ b=kT2SIEI/Wb7KepNadCMpzifvkWFTxxYzGWL1O6wTKHSsSkpKHdKTwAxiM+dDoOrt9
+ wJNl8s7J8Hrw2AAHTYGSEdDCybt4njUvX4D5qbZtY0/OlC2wF1N30w8R7wmCdoPEUB
+ vEcegrRMPY6ORbKnjKvdxUXBvRzRxBnhLqKZWM5Ne/e0y2WJ2/ndasy1TgQhEPqbDL
+ lmzqdrRlIqGnbrDxrHRJTFUb2JAFvUoP3D2TJyZMmOWXC8mVRj7r5fHB5CJy0aaEym
+ qcgsIlhZa1UiiYOjLAvn6hLEvNgsosWetwCg9xX+RXghPjBweiOdCt63uicyE7wm+G
+ MnzC5pXHqDmsw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 3ACCC6127C; Thu,  6 May 2021 00:23:19 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212959] New: [drm:dm_helpers_dp_write_dpcd [amdgpu]] *ERROR*
+ Failed to find connector for link!
+Date: Thu, 06 May 2021 00:23:18 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: tob88570@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-212959-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210428222953.235280-5-sebastian.reichel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,26 +66,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Saravana Kannan <saravanak@google.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mtd@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Miquel Raynal <miquel.raynal@bootlin.com>, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 29 Apr 2021 00:29:52 +0200, Sebastian Reichel wrote:
-> Document the compatible for GE B1x5pv2 boards.
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  Documentation/devicetree/bindings/arm/fsl.yaml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D212959
 
-Acked-by: Rob Herring <robh@kernel.org>
+            Bug ID: 212959
+           Summary: [drm:dm_helpers_dp_write_dpcd [amdgpu]] *ERROR* Failed
+                    to find connector for link!
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.4, 5.8
+          Hardware: Other
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: blocking
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: tob88570@gmail.com
+        Regression: No
+
+This error occurs on all distros based on Ubuntu 20.04 with Linux Kernel 5.=
+4 as
+well as Kernel 5.8, that attempt to load a GUI, upon booting from a mounted=
+ iso
+into said Operating Systems installations.
+
+This error occurs at least for AMD RYZEN 7 4700U Apus with AMD VEGA 7 RENOIR
+graphics.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
