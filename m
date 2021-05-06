@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D593751AF
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 11:40:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E32C33751C5
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 11:45:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94286E49B;
-	Thu,  6 May 2021 09:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84CA16ECAB;
+	Thu,  6 May 2021 09:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF0136E17B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 09:40:32 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id l2so4865129wrm.9
- for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 02:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=PVM3n4MiQ0ppcJJxaAXsKAQRG4FhEGHOWnGID6VnrQg=;
- b=RIQhYmj5oZhZJYdw4EgObUYJ3V+4uWjOpoDuTXO/YCq4Sl+yhxanTgaqSSO7Ayes6q
- lkMeCQnrpYMt5qlZarzF0J9Sqhbqw05XGSz7uNckasIXmCHqM8XXs1xoCj7SvoScYzAs
- 20+YQHh5WOSPLAqSlqZrVvlUChRXcPhB4FeYE=
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF526E516
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 09:45:23 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id z6so4892277wrm.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 02:45:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=h6R60XcaAh1RrK3wtgbGD8ArXGn4dEuGm9NQAL2HozA=;
+ b=bTfwixARucYHEHcITrZcc0RcJtopahZT1Xx5iPOWqqY1Qx+2CckGcvaQts958al45/
+ 7TJrw8gtvAo96LCICO7p66kBzjjWrTEusCcQnJwoVmnRQVgHigRcxXW/nGvwudCrkL+g
+ KT/LCiMB8z2SI+Z+jPeLbkpEzUNbQRnrckRzo7/LakO9sxlmGDezq5sE/p26dF7yCt+5
+ unK1mLRiUaO8PuLUCcQkdz+hheB5nsxkNQg4/Wm6NpTy3Qb/BsIns2VJj/n0MuSIJhzl
+ KN9bIH94Qi0Gzdo+CEMz1QppspwMbltGs24zayIavYbqwfs04tN/tKsabGIWDfwJdws3
+ 9JSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PVM3n4MiQ0ppcJJxaAXsKAQRG4FhEGHOWnGID6VnrQg=;
- b=B4p+CTNuqvhPKnmpGdVKMwr21zKGTelmqe2TG9jvKLG0gNAyIiXVOM4eOBUiws1zPo
- K0QGZMyYbzHry8DvDEmQEPf4zeovQxNOBOebTb5hCa+BTliAg+F/P+t23DuF7l10IeWS
- cBASRAZI76/f01AODqwSZcvmjs+CC013va/WOFKrhNIvAeCyR/neMMtN1EeKHdpIq/2s
- rn0UpuGBqAVL3FZn2Qezx/6tyymGKlFtC5BzFjVgjkWG9uP1yMw8lyUC660E5I97cRJc
- bh8wr14m48CpRtGN+zIMcmno6qmAt+WyjtVkae/zHc5CZAuqYDG+TJJFMWmBeTHODfAu
- eR8A==
-X-Gm-Message-State: AOAM531EjwP3VwU3USh23hGci1kH6aQXmq+ihMG5/7Yo2G3ehf/gwJBe
- xTaWlmsJpOokSzLleUxZk/xDTA==
-X-Google-Smtp-Source: ABdhPJyz7xB8rgcs1MmVi94Rg97OEYBHgU3oHN4/RKWaeHeblxUv1EPuHJju56qgrHc5WICjzeuFvg==
-X-Received: by 2002:a5d:6682:: with SMTP id l2mr3950561wru.15.1620294031368;
- Thu, 06 May 2021 02:40:31 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z14sm3757949wrt.54.2021.05.06.02.40.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 May 2021 02:40:30 -0700 (PDT)
-Date: Thu, 6 May 2021 11:40:28 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Subject: Re: [PATCH v5 20/27] drm: Scope all DRM IOCTLs with drm_dev_enter/exit
-Message-ID: <YJO5jBaNj1XCTFXE@phenom.ffwll.local>
-References: <20210428151207.1212258-1-andrey.grodzovsky@amd.com>
- <20210428151207.1212258-21-andrey.grodzovsky@amd.com>
- <YIqXJ5LA6wKl/yzZ@phenom.ffwll.local>
- <YIqZZW9iFyGCyOmU@phenom.ffwll.local>
- <95935e46-408b-4fee-a7b4-691e9db4f455@amd.com>
- <YIsDXWMYkMeNhBYk@phenom.ffwll.local>
- <342ab668-554c-637b-b67b-bd8e6013b4c3@amd.com>
- <YIvbAI4PjFlZw+z9@phenom.ffwll.local>
- <b6d0c32c-cf90-6118-5c60-238b6f4a0aaa@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=h6R60XcaAh1RrK3wtgbGD8ArXGn4dEuGm9NQAL2HozA=;
+ b=m1sdJu8dy4EbRV7Sd32ThxPdzT8kdo1xxDp7f/8FzrvGarStuwni2yQ11XNd2EVtAO
+ YnKD1NsnVnBi/Aixx0NmaIKiF7j7w0/rXUeZqKBSF7hKPXSpDgdi1FVan3Kx5BDX1nF0
+ kMyyRcuIMiel0Mg6skyfl8KWAiyI6hnLRI13TmZku3BGbpHx+GRtYE+/Sc+ZTiuVtnjL
+ /QPmuh82/ZIef5azCLR0ocJu5SZeUjhzAHzM4X+NSp1BKH02gHnp+WYxt0yydKlUn/Ee
+ 4RTbrkWV6VEiK1xogntqPqzbu1ryJw2WxNR9rM1Q7WPKwFrS67SeCjU/07po6WT1WrnK
+ GmZA==
+X-Gm-Message-State: AOAM532fXUARTLx6TOUK+z7omlSlOsFeNoUMEHDbTInCCvdBhm13TnX9
+ AXYAqNPWJ097Xs3FHXRxDHH1tnFQTQmbc7jGgpF82g==
+X-Google-Smtp-Source: ABdhPJzbp+Jgl0LH5w6JV1dobr8CVaa5l/SBZU20QUv7j8+EUMQNuMrmVof01DvFRsBh5kS2B6zpAKk69mKMAl0gFeI=
+X-Received: by 2002:a5d:544d:: with SMTP id w13mr3847100wrv.273.1620294321968; 
+ Thu, 06 May 2021 02:45:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b6d0c32c-cf90-6118-5c60-238b6f4a0aaa@amd.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+References: <20210505100218.108024-1-marex@denx.de>
+ <20210505100218.108024-2-marex@denx.de>
+In-Reply-To: <20210505100218.108024-2-marex@denx.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 6 May 2021 10:45:05 +0100
+Message-ID: <CAPY8ntD8T8B6y4S70vya=PBP9hJs=w2kcovYEMG8n4mFpd0APA@mail.gmail.com>
+Subject: Re: [PATCH V3 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
+ SN65DSI84 driver
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,318 +66,821 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ckoenig.leichtzumerken@gmail.com, gregkh@linuxfoundation.org,
- daniel.vetter@ffwll.ch, Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org,
- helgaas@kernel.org, dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org,
- Alexander.Deucher@amd.com
+Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
+ Douglas Anderson <dianders@chromium.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 30, 2021 at 01:27:37PM -0400, Andrey Grodzovsky wrote:
-> 
-> 
-> On 2021-04-30 6:25 a.m., Daniel Vetter wrote:
-> > On Thu, Apr 29, 2021 at 04:34:55PM -0400, Andrey Grodzovsky wrote:
-> > > 
-> > > 
-> > > On 2021-04-29 3:05 p.m., Daniel Vetter wrote:
-> > > > On Thu, Apr 29, 2021 at 12:04:33PM -0400, Andrey Grodzovsky wrote:
-> > > > > 
-> > > > > 
-> > > > > On 2021-04-29 7:32 a.m., Daniel Vetter wrote:
-> > > > > > On Thu, Apr 29, 2021 at 01:23:19PM +0200, Daniel Vetter wrote:
-> > > > > > > On Wed, Apr 28, 2021 at 11:12:00AM -0400, Andrey Grodzovsky wrote:
-> > > > > > > > With this calling drm_dev_unplug will flush and block
-> > > > > > > > all in flight IOCTLs
-> > > > > > > > 
-> > > > > > > > Also, add feature such that if device supports graceful unplug
-> > > > > > > > we enclose entire IOCTL in SRCU critical section.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> > > > > > > 
-> > > > > > > Nope.
-> > > > > > > 
-> > > > > > > The idea of drm_dev_enter/exit is to mark up hw access. Not entire ioctl.
-> > > > > 
-> > > > > Then I am confused why we have https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv5.12%2Fsource%2Fdrivers%2Fgpu%2Fdrm%2Fdrm_ioctl.c%23L826&amp;data=04%7C01%7Candrey.grodzovsky%40amd.com%7Cf4c0568093cc462f625808d90bc23a3c%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637553751106596888%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=PPKrQYBrgRMjpwlL0r8n5zenIhQMFWc6gniHgUTxTAY%3D&amp;reserved=0
-> > > > > currently in code ?
-> > > > 
-> > > > I forgot about this one, again. Thanks for reminding.
-> > > > 
-> > > > > > > Especially not with an opt-in flag so that it could be shrugged of as a
-> > > > > > > driver hack. Most of these ioctls should have absolutely no problem
-> > > > > > > working after hotunplug.
-> > > > > > > 
-> > > > > > > Also, doing this defeats the point since it pretty much guarantees
-> > > > > > > userspace will die in assert()s and stuff. E.g. on i915 the rough contract
-> > > > > > > is that only execbuf (and even that only when userspace has indicated
-> > > > > > > support for non-recoverable hw ctx) is allowed to fail. Anything else
-> > > > > > > might crash userspace.
-> > > > > 
-> > > > > Given that as I pointed above we already fail any IOCTls with -ENODEV
-> > > > > when device is unplugged, it seems those crashes don't happen that
-> > > > > often ? Also, in all my testing I don't think I saw a user space crash
-> > > > > I could attribute to this.
-> > > > 
-> > > > I guess it should be ok.
-> > > 
-> > > What should be ok ?
-> > 
-> > Your approach, but not your patch. If we go with this let's just lift it
-> > to drm_ioctl() as the default behavior. No driver opt-in flag, because
-> > that's definitely worse than any other approach because we really need to
-> > get rid of driver specific behaviour for generic ioctls, especially
-> > anything a compositor will use directly.
-> > 
-> > > > My reasons for making this work is both less trouble for userspace (did
-> > > > you test with various wayland compositors out there, not just amdgpu x86
-> > > 
-> > > I didn't - will give it a try.
-> 
-> Weston worked without crashes, run the egl tester cube there.
-> 
-> > > 
-> > > > driver?), but also testing.
-> > > > 
-> > > > We still need a bunch of these checks in various places or you'll wait a
-> > > > very long time for a pending modeset or similar to complete. Being able to
-> > > > run that code easily after hotunplug has completed should help a lot with
-> > > > testing.
-> > > > 
-> > > > Plus various drivers already acquired drm_dev_enter/exit and now I wonder
-> > > > whether that was properly tested or not ...
-> > > > 
-> > > > I guess maybe we need a drm module option to disable this check, so that
-> > > > we can exercise the code as if the ioctl has raced with hotunplug at the
-> > > > worst possible moment.
-> > > > 
-> > > > Also atomic is really tricky here: I assume your testing has just done
-> > > > normal synchronous commits, but anything that goes through atomic can be
-> > > > done nonblocking in a separate thread. Which the ioctl catch-all here wont
-> > > > capture.
-> > > 
-> > > Yes, async commit was on my mind and thanks for reminding me. Indeed
-> > > I forgot this but i planned to scope the entire amdgpu_dm_atomic_tail in
-> > > drm_dev_enter/exit. Note that i have a bunch of patches, all name's
-> > > starting with 'Scope....' that just methodically put all the background
-> > > work items and timers the drivers schedules in drm_dev_enter/exit scope.
-> > > This was supposed to be part of the 'Scope Display code' patch.
-> > 
-> > That's too much. You still have to arrange that the flip completion event
-> > gets sent out. So it's a bit tricky.
-> > 
-> > In other places the same problem applies, e.g. probe functions need to
-> > make sure they report "disconnected".
-> 
-> I see, well, this is all part of KMS support which I defer for now
-> anyway. Will tackle it then.
-> 
-> > 
-> > > > > > > You probably need similar (and very precisely defined) rules for amdgpu.
-> > > > > > > And those must definitely exclude any shard ioctls from randomly failing
-> > > > > > > with EIO, because that just kills the box and defeats the point of trying
-> > > > > > > to gracefully handling hotunplug and making sure userspace has a chance of
-> > > > > > > survival. E.g. for atomic everything should continue, including flip
-> > > > > > > completion, but we set all outputs to "disconnected" and send out the
-> > > > > > > uevent. Maybe crtc enabling can fail too, but that can also be handled
-> > > > > > > through the async status we're using to signal DP link failures to
-> > > > > > > userspace.
-> > > > > 
-> > > > > As I pointed before, because of the complexity of the topic I prefer to
-> > > > > take it step by step and solve first for secondary device use case, not
-> > > > > for primary, display attached device.
-> > > > 
-> > > > Yeah makes sense. But then I think the right patch is to roll this out for
-> > > > all drivers, properly justified with existing code. Not behind a driver
-> > > > flag, because with all these different compositors the last thing we want
-> > > > is a proliferation of driver-specific behaviour. That's imo the worst
-> > > > option of all of them and needs to be avoided.
-> > > 
-> > > So this kind of patch would be acceptable to you if I unconditionally
-> > > scope the drm_ioctl with drm_dev_enter/exit without the driver flag ?
-> > > I am worried to break other drivers with this, see patch https://nam11.safelinks.protection.outlook.com/?url=https:%2F%2Fcgit.freedesktop.org%2F~agrodzov%2Flinux%2Fcommit%2F%3Fh%3Ddrm-misc-next%26id%3Df0c593f35b22ca5bf60ed9e7ce2bf2b80e6c68c6&amp;data=04%7C01%7Candrey.grodzovsky%40amd.com%7Cf4c0568093cc462f625808d90bc23a3c%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637553751106596888%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=%2F3Jq6SvTm%2BZX7AVpaxEepfOj0C3O7%2Bo2Wm3y0gxrmKI%3D&amp;reserved=0
-> > > Before setting drm_dev_unplug I go through a whole process of signalling
-> > > all possible fences in the system which some one some where might be
-> > > waiting on. My concern is that in the absence of HW those fences won't
-> > > signal and so unless I signal them myself srcu_synchrionize in
-> > > drm_dev_unplug will hang waiting for any such code scoped by
-> > > drm_dev_enter/exit.
-> > 
-> > Uh right. I forgot about this.
-> > 
-> > Which would kinda mean the top level scope is maybe not the best idea, and
-> > perhaps we should indeed drill it down. But then the testing issue
-> > definitely gets a lot worse.
-> > 
-> > So what if we'd push that drm_dev_is_unplugged check down into ioctls?
-> > Then we can make a case-by case decision whether it should be converted to
-> > drm_dev_enter/exit, needs to be pushed down further into drivers (due to
-> > fence wait issues) or other concerns?
-> > 
-> > Also I guess we need to have a subsystem wide rule on whether you need to
-> > force complete all fences before you call drm_dev_unplug, or afterwards.
-> 
-> I don't see how you can handle it afterwards. If a thread is stuck in
-> dma_fence_wait in non interruptible wait (any kernel thread) and with no
-> timeout there is nothing you can do to stop the wait. Any such code
-> scopped with drm_dev_enter/exit will cause a hang in drm_dev_unplug.
-> The only way then is to preemptively force signal all such fences before
-> calling drm_dev_unplug - as I do in the above mentioned patch.
+Hi Marek
 
-Yeah, which is why I don't think top-level drm_dev_enter/exit is a good
-idea.
+I'm taking an interest as there are a number of Raspberry Pi users
+trying to get this chip up and running (not there quite yet).
+A couple of fairly minor comments
 
-> > If we have mixed behaviour on this there will be disappointment. And since
-> > hotunplug and dma_fence completion are both userspace visible that
-> > inconsistency might have bigger impact.
-> > 
-> > This is all very tricky indeed :-/
-> > 
-> > btw for the "gradual pushing drm_dev_enter into ioctl" approach, if we go
-> > with that: We could do the same trick we've done for DRM_UNLOCKED:
-> > - drm_dev_enter/exit is called for any ioctl that has not set the
-> >    DRM_HOTUNPLUG_SAFE flag
-> > - for drm core ioctls we push them into all ioctls and decide how to
-> >    handle/where (with the aim to have the least amount of code flow
-> >    different during hotunplug vs after hotunplug has finished, to reduce
-> >    testing scope)
-> > - then we make DRM_HOTUNPLUG_SAFE the implied default
-> > 
-> > This would have us left with render ioctls, and I think the defensive
-> > assumption there is that they're all hotunplug safe. We might hang on a
-> > fence wait, but that's fixable, and it's better than blowing up on a
-> > use-after-free security bug.
-> > 
-> > Thoughts?
-> 
-> I don't fully see a difference between the approach described above and
-> the full drill down to each driver and even within the driver, to the HW
-> back-ends - what criteria I would use to decide if for a given IOCTL i
-> scope with drm_dev_enter/exit at the highest level while for another
-> i go all the way down ? If we would agree that signaling the fences
-> preemptively before engaging drm_dev_unplug is generically the right
-> approach maybe we can then scope drm_ioctl unconditionally with
-> drm_dev_enter/exit and then for each driver go through the same process
-> I do for amdgpu - writing driver specific function which takes care of
-> all the fences. We could then just create a drm callback which would
-> be called from drm_ioctl before drm_dev_unplug is called.
+On Wed, 5 May 2021 at 11:03, Marek Vasut <marex@denx.de> wrote:
+>
+> Add driver for TI SN65DSI83 Single-link DSI to Single-link LVDS bridge
+> and TI SN65DSI84 Single-link DSI to Dual-link or 2x Single-link LVDS
+> bridge. TI SN65DSI85 is unsupported due to lack of hardware to test on,
+> but easy to add.
+>
+> The driver operates the chip via I2C bus. Currently the LVDS clock are
+> always derived from DSI clock lane, which is the usual mode of operation.
+> Support for clock from external oscillator is not implemented, but it is
+> easy to add if ever needed. Only RGB888 pixel format is implemented, the
+> LVDS666 is not supported, but could be added if needed.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Loic Poulain <loic.poulain@linaro.org>
+> Cc: Philippe Schenker <philippe.schenker@toradex.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Cc: Valentin Raevsky <valentin@compulab.co.il>
+> To: dri-devel@lists.freedesktop.org
+> ---
+> V2: - Use dev_err_probe()
+>     - Set REG_RC_RESET as volatile
+>     - Wait for PLL stabilization by polling REG_RC_LVDS_PLL
+>     - Use ctx->mode =3D *adj instead of *mode in sn65dsi83_mode_set
+>     - Add tested DSI84 support in dual-link mode
+>     - Correctly set VCOM
+>     - Fill in missing DSI CHB and LVDS CHB bits from DSI84 and DSI85
+>       datasheets, with that all the reserved bits make far more sense
+>       as the DSI83 and DSI84 seems to be reduced version of DSI85
+> V3: - Handle the dual-link LVDS with two port panel or bridge
+> ---
+>  drivers/gpu/drm/bridge/Kconfig        |  10 +
+>  drivers/gpu/drm/bridge/Makefile       |   1 +
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 639 ++++++++++++++++++++++++++
+>  3 files changed, 650 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/ti-sn65dsi83.c
+>
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kcon=
+fig
+> index e83b8ad0d71b..32204c5f25b7 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -278,6 +278,16 @@ config DRM_TI_TFP410
+>         help
+>           Texas Instruments TFP410 DVI/HDMI Transmitter driver
+>
+> +config DRM_TI_SN65DSI83
+> +       tristate "TI SN65DSI83 and SN65DSI84 DSI to LVDS bridge"
+> +       depends on OF
+> +       select DRM_KMS_HELPER
+> +       select REGMAP_I2C
+> +       select DRM_PANEL
+> +       select DRM_MIPI_DSI
+> +       help
+> +         Texas Instruments SN65DSI83 and SN65DSI84 DSI to LVDS Bridge dr=
+iver
+> +
+>  config DRM_TI_SN65DSI86
+>         tristate "TI SN65DSI86 DSI to eDP bridge"
+>         depends on OF
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Mak=
+efile
+> index b00f3b2ad572..7bb4c9df0415 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -24,6 +24,7 @@ obj-$(CONFIG_DRM_TOSHIBA_TC358767) +=3D tc358767.o
+>  obj-$(CONFIG_DRM_TOSHIBA_TC358768) +=3D tc358768.o
+>  obj-$(CONFIG_DRM_TOSHIBA_TC358775) +=3D tc358775.o
+>  obj-$(CONFIG_DRM_I2C_ADV7511) +=3D adv7511/
+> +obj-$(CONFIG_DRM_TI_SN65DSI83) +=3D ti-sn65dsi83.o
+>  obj-$(CONFIG_DRM_TI_SN65DSI86) +=3D ti-sn65dsi86.o
+>  obj-$(CONFIG_DRM_TI_TFP410) +=3D ti-tfp410.o
+>  obj-$(CONFIG_DRM_TI_TPD12S015) +=3D ti-tpd12s015.o
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/brid=
+ge/ti-sn65dsi83.c
+> new file mode 100644
+> index 000000000000..471df09a1c07
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -0,0 +1,639 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * TI SN65DSI83,84,85 driver
+> + *
+> + * Currently supported:
+> + * - SN65DSI83
+> + *   =3D 1x Single-link DSI ~ 1x Single-link LVDS
+> + *   - Supported
+> + *   - Single-link LVDS mode tested
+> + * - SN65DSI84
+> + *   =3D 1x Single-link DSI ~ 2x Single-link or 1x Dual-link LVDS
+> + *   - Supported
+> + *   - Dual-link LVDS mode tested
+> + *   - 2x Single-link LVDS mode unsupported
+> + *     (should be easy to add by someone who has the HW)
+> + * - SN65DSI85
+> + *   =3D 2x Single-link or 1x Dual-link DSI ~ 2x Single-link or 1x Dual-=
+link LVDS
+> + *   - Unsupported
+> + *     (should be easy to add by someone who has the HW)
+> + *
+> + * Copyright (C) 2021 Marek Vasut <marex@denx.de>
+> + *
+> + * Based on previous work of:
+> + * Valentin Raevsky <valentin@compulab.co.il>
+> + * Philippe Schenker <philippe.schenker@toradex.com>
+> + */
+> +
+> +#include <linux/bits.h>
+> +#include <linux/clk.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/regmap.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_probe_helper.h>
+> +
+> +/* ID registers */
+> +#define REG_ID(n)                              (0x00 + (n))
+> +/* Reset and clock registers */
+> +#define REG_RC_RESET                           0x09
+> +#define  REG_RC_RESET_SOFT_RESET               BIT(0)
+> +#define REG_RC_LVDS_PLL                                0x0a
+> +#define  REG_RC_LVDS_PLL_PLL_EN_STAT           BIT(7)
+> +#define  REG_RC_LVDS_PLL_LVDS_CLK_RANGE(n)     (((n) & 0x7) << 1)
+> +#define  REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY       BIT(0)
+> +#define REG_RC_DSI_CLK                         0x0b
+> +#define  REG_RC_DSI_CLK_DSI_CLK_DIVIDER(n)     (((n) & 0x1f) << 3)
+> +#define  REG_RC_DSI_CLK_REFCLK_MULTIPLIER(n)   ((n) & 0x3)
+> +#define REG_RC_PLL_EN                          0x0d
+> +#define  REG_RC_PLL_EN_PLL_EN                  BIT(0)
+> +/* DSI registers */
+> +#define REG_DSI_LANE                           0x10
+> +#define  REG_DSI_LANE_LVDS_LINK_CFG_DUAL       BIT(5) /* dual or 2x sing=
+le */
 
-So I see the appeal of just nuking all the fences, but I'm not sure that's
-a good plan. We've done this in the old i915 gpu reset code too, and the
-issue is it's defacto inverting the locking. But also the hw is truly
-gone, so it also makes sense.
+The bit name here seems a little odd.
+Bits 5&6 are the DSI channel mode on SN65DSI85, not the LVDS link
+config (which appears to be reg 0x18 bit 4)
+DSI_CHANNEL_MODE
+00 =E2=80=93 Dual-channel DSI receiver
+01 =E2=80=93 Single channel DSI receiver (default)
+10 =E2=80=93 Two single channel DSI receivers
+11 =E2=80=93 Reserved
+SN65DSI83 and 84 require it to be set to 01. You have that end result,
+but using an odd register name that only documents one of the 2 bits.
 
-The problem is a bit roll-out, if we state that dma_fence_wait is allowed
-with a drm_dev_enter/exit, then all drivers need to force-retire their
-fences.
+Is it worth documenting bit 7 as being the '85 Dual DSI link
+LEFT_RIGHT_PIXELS flag at the same time? The chip isn't supported in
+dual DSI mode at present, but defining all the registers up front
+seems reasonable.
 
-The other option would be that we require that dma_fence_wait is _not_
-allowed in drm_dev_enter/exit, and that therefore these areas must be
-marked up more fine-grained to avoid deadlocks. I like this more from the
-testing aspect (it makes it easier to be reasonable sure your code handles
-concurrent hotunplug), but also it's pretty easy to validate with the
-dma_fence lockdep annotations we have I think.
+> +#define  REG_DSI_LANE_CHA_DSI_LANES(n)         (((n) & 0x3) << 3)
+> +#define  REG_DSI_LANE_CHB_DSI_LANES(n)         (((n) & 0x3) << 1)
+> +#define  REG_DSI_LANE_SOT_ERR_TOL_DIS          BIT(0)
+> +#define REG_DSI_EQ                             0x11
+> +#define  REG_DSI_EQ_CHA_DSI_DATA_EQ(n)         (((n) & 0x3) << 6)
+> +#define  REG_DSI_EQ_CHA_DSI_CLK_EQ(n)          (((n) & 0x3) << 2)
+> +#define REG_DSI_CLK                            0x12
+> +#define  REG_DSI_CLK_CHA_DSI_CLK_RANGE(n)      ((n) & 0xff)
+> +/* LVDS registers */
+> +#define REG_LVDS_FMT                           0x18
+> +#define  REG_LVDS_FMT_DE_NEG_POLARITY          BIT(7)
+> +#define  REG_LVDS_FMT_HS_NEG_POLARITY          BIT(6)
+> +#define  REG_LVDS_FMT_VS_NEG_POLARITY          BIT(5)
+> +#define  REG_LVDS_FMT_LVDS_LINK_CFG            BIT(4)  /* 0:AB 1:A-only =
+*/
+> +#define  REG_LVDS_FMT_CHA_24BPP_MODE           BIT(3)
+> +#define  REG_LVDS_FMT_CHB_24BPP_MODE           BIT(2)
+> +#define  REG_LVDS_FMT_CHA_24BPP_FORMAT1                BIT(1)
+> +#define  REG_LVDS_FMT_CHB_24BPP_FORMAT1                BIT(0)
+> +#define REG_LVDS_VCOM                          0x19
+> +#define  REG_LVDS_VCOM_CHA_LVDS_VOCM           BIT(6)
+> +#define  REG_LVDS_VCOM_CHB_LVDS_VOCM           BIT(4)
+> +#define  REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(n)   (((n) & 0x3) << 2)
+> +#define  REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(n)   ((n) & 0x3)
+> +#define REG_LVDS_LANE                          0x1a
+> +#define  REG_LVDS_LANE_EVEN_ODD_SWAP           BIT(6)
+> +#define  REG_LVDS_LANE_CHA_REVERSE_LVDS                BIT(5)
+> +#define  REG_LVDS_LANE_CHB_REVERSE_LVDS                BIT(4)
+> +#define  REG_LVDS_LANE_CHA_LVDS_TERM           BIT(1)
+> +#define  REG_LVDS_LANE_CHB_LVDS_TERM           BIT(0)
+> +#define REG_LVDS_CM                            0x1b
+> +#define  REG_LVDS_CM_CHA_LVDS_CM_ADJUST(n)     (((n) & 0x3) << 4)
+> +#define  REG_LVDS_CM_CHB_LVDS_CM_ADJUST(n)     ((n) & 0x3)
+> +/* Video registers */
+> +#define REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW     0x20
+> +#define REG_VID_CHA_ACTIVE_LINE_LENGTH_HIGH    0x21
+> +#define REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW  0x24
+> +#define REG_VID_CHA_VERTICAL_DISPLAY_SIZE_HIGH 0x25
+> +#define REG_VID_CHA_SYNC_DELAY_LOW             0x28
+> +#define REG_VID_CHA_SYNC_DELAY_HIGH            0x29
+> +#define REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW      0x2c
+> +#define REG_VID_CHA_HSYNC_PULSE_WIDTH_HIGH     0x2d
+> +#define REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW      0x30
+> +#define REG_VID_CHA_VSYNC_PULSE_WIDTH_HIGH     0x31
+> +#define REG_VID_CHA_HORIZONTAL_BACK_PORCH      0x34
+> +#define REG_VID_CHA_VERTICAL_BACK_PORCH                0x36
+> +#define REG_VID_CHA_HORIZONTAL_FRONT_PORCH     0x38
+> +#define REG_VID_CHA_VERTICAL_FRONT_PORCH       0x3a
+> +#define REG_VID_CHA_TEST_PATTERN               0x3c
+> +/* IRQ registers */
+> +#define REG_IRQ_GLOBAL                         0xe0
+> +#define  REG_IRQ_GLOBAL_IRQ_EN                 BIT(0)
+> +#define REG_IRQ_EN                             0xe1
+> +#define  REG_IRQ_EN_CHA_SYNCH_ERR_EN           BIT(7)
+> +#define  REG_IRQ_EN_CHA_CRC_ERR_EN             BIT(6)
+> +#define  REG_IRQ_EN_CHA_UNC_ECC_ERR_EN         BIT(5)
+> +#define  REG_IRQ_EN_CHA_COR_ECC_ERR_EN         BIT(4)
+> +#define  REG_IRQ_EN_CHA_LLP_ERR_EN             BIT(3)
+> +#define  REG_IRQ_EN_CHA_SOT_BIT_ERR_EN         BIT(2)
+> +#define  REG_IRQ_EN_CHA_PLL_UNLOCK_EN          BIT(0)
+> +#define REG_IRQ_STAT                           0xe5
+> +#define  REG_IRQ_STAT_CHA_SYNCH_ERR            BIT(7)
+> +#define  REG_IRQ_STAT_CHA_CRC_ERR              BIT(6)
+> +#define  REG_IRQ_STAT_CHA_UNC_ECC_ERR          BIT(5)
+> +#define  REG_IRQ_STAT_CHA_COR_ECC_ERR          BIT(4)
+> +#define  REG_IRQ_STAT_CHA_LLP_ERR              BIT(3)
+> +#define  REG_IRQ_STAT_CHA_SOT_BIT_ERR          BIT(2)
+> +#define  REG_IRQ_STAT_CHA_PLL_UNLOCK           BIT(0)
+> +
+> +enum sn65dsi83_model {
+> +       MODEL_SN65DSI83,
+> +       MODEL_SN65DSI84,
+> +};
+> +
+> +struct sn65dsi83 {
+> +       struct drm_bridge               bridge;
+> +       struct drm_display_mode         mode;
+> +       struct device                   *dev;
+> +       struct regmap                   *regmap;
+> +       struct device_node              *host_node;
+> +       struct mipi_dsi_device          *dsi;
+> +       struct drm_bridge               *panel_bridge;
+> +       struct gpio_desc                *enable_gpio;
+> +       int                             dsi_lanes;
+> +       bool                            lvds_dual_link;
+> +       bool                            lvds_dual_link_even_odd_swap;
+> +};
+> +
+> +static const struct regmap_range sn65dsi83_readable_ranges[] =3D {
+> +       regmap_reg_range(REG_ID(0), REG_ID(8)),
+> +       regmap_reg_range(REG_RC_LVDS_PLL, REG_RC_DSI_CLK),
+> +       regmap_reg_range(REG_RC_PLL_EN, REG_RC_PLL_EN),
+> +       regmap_reg_range(REG_DSI_LANE, REG_DSI_CLK),
+> +       regmap_reg_range(REG_LVDS_FMT, REG_LVDS_CM),
+> +       regmap_reg_range(REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
+> +                        REG_VID_CHA_ACTIVE_LINE_LENGTH_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
+> +                        REG_VID_CHA_VERTICAL_DISPLAY_SIZE_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_SYNC_DELAY_LOW,
+> +                        REG_VID_CHA_SYNC_DELAY_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
+> +                        REG_VID_CHA_HSYNC_PULSE_WIDTH_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
+> +                        REG_VID_CHA_VSYNC_PULSE_WIDTH_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_HORIZONTAL_BACK_PORCH,
+> +                        REG_VID_CHA_HORIZONTAL_BACK_PORCH),
+> +       regmap_reg_range(REG_VID_CHA_VERTICAL_BACK_PORCH,
+> +                        REG_VID_CHA_VERTICAL_BACK_PORCH),
+> +       regmap_reg_range(REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
+> +                        REG_VID_CHA_HORIZONTAL_FRONT_PORCH),
+> +       regmap_reg_range(REG_VID_CHA_VERTICAL_FRONT_PORCH,
+> +                        REG_VID_CHA_VERTICAL_FRONT_PORCH),
+> +       regmap_reg_range(REG_VID_CHA_TEST_PATTERN, REG_VID_CHA_TEST_PATTE=
+RN),
+> +       regmap_reg_range(REG_IRQ_GLOBAL, REG_IRQ_EN),
+> +       regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
+> +};
+> +
+> +static const struct regmap_access_table sn65dsi83_readable_table =3D {
+> +       .yes_ranges =3D sn65dsi83_readable_ranges,
+> +       .n_yes_ranges =3D ARRAY_SIZE(sn65dsi83_readable_ranges),
+> +};
+> +
+> +static const struct regmap_range sn65dsi83_writeable_ranges[] =3D {
+> +       regmap_reg_range(REG_RC_RESET, REG_RC_DSI_CLK),
+> +       regmap_reg_range(REG_RC_PLL_EN, REG_RC_PLL_EN),
+> +       regmap_reg_range(REG_DSI_LANE, REG_DSI_CLK),
+> +       regmap_reg_range(REG_LVDS_FMT, REG_LVDS_CM),
+> +       regmap_reg_range(REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
+> +                        REG_VID_CHA_ACTIVE_LINE_LENGTH_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
+> +                        REG_VID_CHA_VERTICAL_DISPLAY_SIZE_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_SYNC_DELAY_LOW,
+> +                        REG_VID_CHA_SYNC_DELAY_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
+> +                        REG_VID_CHA_HSYNC_PULSE_WIDTH_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
+> +                        REG_VID_CHA_VSYNC_PULSE_WIDTH_HIGH),
+> +       regmap_reg_range(REG_VID_CHA_HORIZONTAL_BACK_PORCH,
+> +                        REG_VID_CHA_HORIZONTAL_BACK_PORCH),
+> +       regmap_reg_range(REG_VID_CHA_VERTICAL_BACK_PORCH,
+> +                        REG_VID_CHA_VERTICAL_BACK_PORCH),
+> +       regmap_reg_range(REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
+> +                        REG_VID_CHA_HORIZONTAL_FRONT_PORCH),
+> +       regmap_reg_range(REG_VID_CHA_VERTICAL_FRONT_PORCH,
+> +                        REG_VID_CHA_VERTICAL_FRONT_PORCH),
+> +       regmap_reg_range(REG_VID_CHA_TEST_PATTERN, REG_VID_CHA_TEST_PATTE=
+RN),
+> +       regmap_reg_range(REG_IRQ_GLOBAL, REG_IRQ_EN),
+> +       regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
+> +};
+> +
+> +static const struct regmap_access_table sn65dsi83_writeable_table =3D {
+> +       .yes_ranges =3D sn65dsi83_writeable_ranges,
+> +       .n_yes_ranges =3D ARRAY_SIZE(sn65dsi83_writeable_ranges),
+> +};
+> +
+> +static const struct regmap_range sn65dsi83_volatile_ranges[] =3D {
+> +       regmap_reg_range(REG_RC_RESET, REG_RC_RESET),
+> +       regmap_reg_range(REG_RC_LVDS_PLL, REG_RC_LVDS_PLL),
+> +       regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
+> +};
+> +
+> +static const struct regmap_access_table sn65dsi83_volatile_table =3D {
+> +       .yes_ranges =3D sn65dsi83_volatile_ranges,
+> +       .n_yes_ranges =3D ARRAY_SIZE(sn65dsi83_volatile_ranges),
+> +};
+> +
+> +static const struct regmap_config sn65dsi83_regmap_config =3D {
+> +       .reg_bits =3D 8,
+> +       .val_bits =3D 8,
+> +       .rd_table =3D &sn65dsi83_readable_table,
+> +       .wr_table =3D &sn65dsi83_writeable_table,
+> +       .volatile_table =3D &sn65dsi83_volatile_table,
+> +       .cache_type =3D REGCACHE_RBTREE,
+> +       .max_register =3D REG_IRQ_STAT,
+> +};
+> +
+> +static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
+> +{
+> +       return container_of(bridge, struct sn65dsi83, bridge);
+> +}
+> +
+> +static int sn65dsi83_attach(struct drm_bridge *bridge,
+> +                           enum drm_bridge_attach_flags flags)
+> +{
+> +       struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
+> +       struct device *dev =3D ctx->dev;
+> +       struct mipi_dsi_device *dsi;
+> +       struct mipi_dsi_host *host;
+> +       int ret =3D 0;
+> +
+> +       const struct mipi_dsi_device_info info =3D {
+> +               .type =3D "sn65dsi83",
+> +               .channel =3D 0,
+> +               .node =3D NULL,
+> +       };
+> +
+> +       host =3D of_find_mipi_dsi_host_by_node(ctx->host_node);
+> +       if (!host) {
+> +               dev_err(dev, "failed to find dsi host\n");
+> +               return -EPROBE_DEFER;
+> +       }
+> +
+> +       dsi =3D mipi_dsi_device_register_full(host, &info);
+> +       if (IS_ERR(dsi)) {
+> +               return dev_err_probe(dev, PTR_ERR(dsi),
+> +                                    "failed to create dsi device\n");
+> +       }
+> +
+> +       ctx->dsi =3D dsi;
+> +
+> +       dsi->lanes =3D ctx->dsi_lanes;
+> +       dsi->format =3D MIPI_DSI_FMT_RGB888;
+> +       dsi->mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BUR=
+ST;
+> +
+> +       ret =3D mipi_dsi_attach(dsi);
+> +       if (ret < 0) {
+> +               dev_err(dev, "failed to attach dsi to host\n");
+> +               goto err_dsi_attach;
+> +       }
+> +
+> +       return drm_bridge_attach(bridge->encoder, ctx->panel_bridge,
+> +                                &ctx->bridge, flags);
+> +
+> +err_dsi_attach:
+> +       mipi_dsi_device_unregister(dsi);
+> +       return ret;
+> +}
+> +
+> +static void sn65dsi83_pre_enable(struct drm_bridge *bridge)
+> +{
+> +       struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
+> +
+> +       /*
+> +        * Reset the chip, pull EN line low for t_reset=3D10ms,
+> +        * then high for t_en=3D1ms.
+> +        */
+> +       regcache_mark_dirty(ctx->regmap);
+> +       gpiod_set_value(ctx->enable_gpio, 0);
+> +       usleep_range(10000, 11000);
+> +       gpiod_set_value(ctx->enable_gpio, 1);
+> +       usleep_range(1000, 1100);
+> +}
 
-A third reasons for not requiring force-retiring of dma_fence before
-drm_dev_unplug is the races: Before drm_dev_unplug you haven't stopped new
-fences from happening, but until you've stopped new fences it's hard to
-guarantee they're all retired. How do you solve this currently.
+Whilst section 6.6 of the SN65DSI84 datasheet does list t_en as 1ms,
+the initialization sequence listed in table 7.2 states
+Init seq 3 - Set EN pin to Low
+Wait 10 ms
+Init seq 4 - Tie EN pin to High
+Wait 10 ms
 
-Finally there's still hangcheck and all that, so if we go with forbidding
-dma_fence_wait from within drm_dev_enter/exit sections, then drivers don't
-need to have additional tricky code to force-retire fences. TDR will take
-care already (albeit with maybe a slightly annoying long timeout, which
-we can shorten to "time out everything immediately" after drm_dev_unplug).
+with the note that these are "Minimum recommended delay. It is fine to
+exceed these."
 
-What we definitely can't have is half the drivers doing it one way, and
-the other half the other way. So your driver flag to wrap the ioctl
-optionally in a drm_dev_enter/exit path is a no-go still I think.
+Have you had alternate guidance from TI over that delay?
 
-I guess my tldr; is: I definitely see how your current approach gives
-quicker results for amdgpu right now, but long term I'm seeing more
-positives on the other one. At least I expect less special cases due to
-hotunplug with that.
+> +
+> +static u8 sn65dsi83_get_lvds_range(struct sn65dsi83 *ctx)
+> +{
+> +       /*
+> +        * The encoding of the LVDS_CLK_RANGE is as follows:
+> +        * 000 - 25 MHz <=3D LVDS_CLK < 37.5 MHz
+> +        * 001 - 37.5 MHz <=3D LVDS_CLK < 62.5 MHz
+> +        * 010 - 62.5 MHz <=3D LVDS_CLK < 87.5 MHz
+> +        * 011 - 87.5 MHz <=3D LVDS_CLK < 112.5 MHz
+> +        * 100 - 112.5 MHz <=3D LVDS_CLK < 137.5 MHz
+> +        * 101 - 137.5 MHz <=3D LVDS_CLK <=3D 154 MHz
+> +        * which is a range of 12.5MHz..162.5MHz in 50MHz steps, except t=
+hat
+> +        * the ends of the ranges are clamped to the supported range. Sin=
+ce
+> +        * sn65dsi83_mode_valid() already filters the valid modes and lim=
+its
+> +        * the clock to 25..154 MHz, the range calculation can be simplif=
+ied
+> +        * as follows:
+> +        */
+> +       int mode_clock =3D ctx->mode.clock;
+> +
+> +       if (ctx->lvds_dual_link)
+> +               mode_clock /=3D 2;
+> +
+> +       return (mode_clock - 12500) / 25000;
+> +}
+> +
+> +static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx)
+> +{
+> +       /*
+> +        * The encoding of the CHA_DSI_CLK_RANGE is as follows:
+> +        * 0x00 through 0x07 - Reserved
+> +        * 0x08 - 40 <=3D DSI_CLK < 45 MHz
+> +        * 0x09 - 45 <=3D DSI_CLK < 50 MHz
+> +        * ...
+> +        * 0x63 - 495 <=3D DSI_CLK < 500 MHz
+> +        * 0x64 - 500 MHz
+> +        * 0x65 through 0xFF - Reserved
+> +        * which is DSI clock in 5 MHz steps, clamped to 40..500 MHz.
+> +        * The DSI clock are calculated as:
+> +        *  DSI_CLK =3D mode clock * bpp / dsi_data_lanes / 2
+> +        * the 2 is there because the bus is DDR.
+> +        */
+> +       return DIV_ROUND_UP(clamp((unsigned int)ctx->mode.clock *
+> +                           mipi_dsi_pixel_format_to_bpp(ctx->dsi->format=
+) /
+> +                           ctx->dsi_lanes / 2, 40000U, 500000U), 5000U);
+> +}
+> +
+> +static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
+> +{
+> +       /* The divider is (DSI_CLK / LVDS_CLK) - 1, which really is: */
+> +       unsigned int dsi_div =3D mipi_dsi_pixel_format_to_bpp(ctx->dsi->f=
+ormat);
+> +
+> +       dsi_div /=3D ctx->dsi_lanes;
+> +
+> +       if (!ctx->lvds_dual_link)
+> +               dsi_div /=3D 2;
+> +
+> +       return dsi_div - 1;
+> +}
+> +
+> +static void sn65dsi83_enable(struct drm_bridge *bridge)
+> +{
+> +       struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
+> +       unsigned int pval;
+> +       u16 val;
+> +       int ret;
+> +
+> +       /* Clear reset, disable PLL */
+> +       regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
+> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
+> +
+> +       /* Reference clock derived from DSI link clock. */
+> +       regmap_write(ctx->regmap, REG_RC_LVDS_PLL,
+> +               REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(c=
+tx)) |
+> +               REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
 
-Cheers, Daniel
+(Checkpatch whinge for "Alignment should match open parenthesis" on
+several lines through this function)
 
-> 
-> Andrey
-> 
-> > 
-> > It is unfortunately even more work until we've reached the goal, but I
-> > think it's safest and most flexible approach overall.
-> > 
-> > Cheers, Daniel
-> > 
-> > > 
-> > > Andrey
-> > > 
-> > > > 
-> > > > Cheers, Daniel
-> > > > 
-> > > > 
-> > > > > 
-> > > > > > > 
-> > > > > > > I guess we should clarify this in the hotunplug doc?
-> > > > > 
-> > > > > Agree
-> > > > > 
-> > > > > > 
-> > > > > > To clarify: I'm not against throwing an ENODEV at userspace for ioctl that
-> > > > > > really make no sense, and where we're rather confident that all properly
-> > > > > > implemented userspace will gracefully handle failures. Like a modeset, or
-> > > > > > opening a device, or trying to import a dma-buf or stuff like that which
-> > > > > > can already fail in normal operation for any kind of reason.
-> > > > > > 
-> > > > > > But stuff that never fails, like GETRESOURCES ioctl, really shouldn't fail
-> > > > > > after hotunplug.
-> > > > > 
-> > > > > As I pointed above, this a bit confuses me given that we already do
-> > > > > blanker rejection of IOCTLs if device is unplugged.
-> > > > 
-> > > > Well I'm confused about this too :-/
-> > > > 
-> > > > > > And then there's the middle ground, like doing a pageflip or buffer flush,
-> > > > > > which I guess some userspace might handle, but risky to inflict those
-> > > > > > consequences on them. atomic modeset is especially fun since depending
-> > > > > > what you're doing it can be both "failures expected" and "failures not
-> > > > > > really expected in normal operation".
-> > > > > > 
-> > > > > > Also, this really should be consistent across drivers, not solved with a
-> > > > > > driver flag for every possible combination.
-> > > > > > 
-> > > > > > If you look at the current hotunplug kms drivers, they have
-> > > > > > drm_dev_enter/exit sprinkled in specific hw callback functions because of
-> > > > > > the above problems. But maybe it makes sense to change things in a few
-> > > > > > cases. But then we should do it across the board.
-> > > > > 
-> > > > > So as I understand your preferred approach is that I scope any back_end, HW
-> > > > > specific function with drm_dev_enter/exit because that where MMIO
-> > > > > access takes place. But besides explicit MMIO access thorough
-> > > > > register accessors in the HW back-end there is also indirect MMIO access
-> > > > > taking place throughout the code in the driver because of various VRAM
-> > > > > BOs which provide CPU access to VRAM through the VRAM BAR. This kind of
-> > > > > access is spread all over in the driver and even in mid-layers such as
-> > > > > TTM and not limited to HW back-end functions. It means it's much harder
-> > > > > to spot such places to surgically scope them with drm_dev_enter/exit and
-> > > > > also that any new such code introduced will immediately break hot unplug
-> > > > > because the developers can't be expected to remember making their code
-> > > > > robust to this specific use case. That why when we discussed internally
-> > > > > what approach to take to protecting code with drm_dev_enter/exit we
-> > > > > opted for using the widest available scope.
-> > > > 
-> > > > The thing is, you kinda have to anyway. There's enormous amounts of
-> > > > asynchronous processing going on. E.g. nonblocking atomic commits also do
-> > > > ttm unpinning and fun stuff like that, which if you sync things wrong can
-> > > > happen way late. So the door for bad fallout is wide open :-(
-> > > > 
-> > > > I'm not sure where the right tradeoff is to make sure we catch them all,
-> > > > and can make sure with testing that we've indeed caught them all.
-> > > > -Daniel
-> > > > 
-> > 
+  Dave
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> +       regmap_write(ctx->regmap, REG_DSI_CLK,
+> +               REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx=
+)));
+> +       regmap_write(ctx->regmap, REG_RC_DSI_CLK,
+> +               REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)=
+));
+> +
+> +       /* Set number of DSI lanes and LVDS link config. */
+> +       regmap_write(ctx->regmap, REG_DSI_LANE,
+> +               REG_DSI_LANE_LVDS_LINK_CFG_DUAL |
+> +               REG_DSI_LANE_CHA_DSI_LANES(~(ctx->dsi_lanes - 1)) |
+> +               /* CHB is DSI85-only, set to default on DSI83/DSI84 */
+> +               REG_DSI_LANE_CHB_DSI_LANES(3));
+> +       /* No equalization. */
+> +       regmap_write(ctx->regmap, REG_DSI_EQ, 0x00);
+> +
+> +       /* RGB888 is the only format supported so far. */
+> +       val =3D (ctx->mode.flags & DRM_MODE_FLAG_NHSYNC ?
+> +              REG_LVDS_FMT_HS_NEG_POLARITY : 0) |
+> +             (ctx->mode.flags & DRM_MODE_FLAG_NVSYNC ?
+> +              REG_LVDS_FMT_VS_NEG_POLARITY : 0) |
+> +             REG_LVDS_FMT_CHA_24BPP_MODE;
+> +       if (ctx->lvds_dual_link)
+> +               val |=3D REG_LVDS_FMT_CHB_24BPP_MODE;
+> +       else
+> +               val |=3D REG_LVDS_FMT_LVDS_LINK_CFG;
+> +
+> +       regmap_write(ctx->regmap, REG_LVDS_FMT, val);
+> +       regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
+> +       regmap_write(ctx->regmap, REG_LVDS_LANE,
+> +               (ctx->lvds_dual_link_even_odd_swap ?
+> +                REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
+> +               REG_LVDS_LANE_CHA_LVDS_TERM |
+> +               REG_LVDS_LANE_CHB_LVDS_TERM);
+> +       regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
+> +
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW=
+,
+> +                         &ctx->mode.hdisplay, 2);
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_VERTICAL_DISPLAY_SIZE_=
+LOW,
+> +                         &ctx->mode.vdisplay, 2);
+> +       val =3D 32 + 1;   /* 32 + 1 pixel clock to ensure proper operatio=
+n */
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_SYNC_DELAY_LOW, &val, =
+2);
+> +       val =3D ctx->mode.hsync_end - ctx->mode.hsync_start;
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
+> +                         &val, 2);
+> +       val =3D ctx->mode.vsync_end - ctx->mode.vsync_start;
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
+> +                         &val, 2);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_BACK_PORCH,
+> +                    ctx->mode.htotal - ctx->mode.hsync_end);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_BACK_PORCH,
+> +                    ctx->mode.vtotal - ctx->mode.vsync_end);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
+> +                    ctx->mode.hsync_start - ctx->mode.hdisplay);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_FRONT_PORCH,
+> +                    ctx->mode.vsync_start - ctx->mode.vdisplay);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
+> +
+> +       /* Enable PLL */
+> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, REG_RC_PLL_EN_PLL_EN);
+> +       usleep_range(3000, 4000);
+> +       ret =3D regmap_read_poll_timeout(ctx->regmap, REG_RC_LVDS_PLL, pv=
+al,
+> +                                       pval & REG_RC_LVDS_PLL_PLL_EN_STA=
+T,
+> +                                       1000, 100000);
+> +       if (ret) {
+> +               dev_err(ctx->dev, "failed to lock PLL, ret=3D%i\n", ret);
+> +               /* On failure, disable PLL again and exit. */
+> +               regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
+> +               return;
+> +       }
+> +
+> +       /* Trigger reset after CSR register update. */
+> +       regmap_write(ctx->regmap, REG_RC_RESET, REG_RC_RESET_SOFT_RESET);
+> +
+> +       /* Clear all errors that got asserted during initialization. */
+> +       regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> +       regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
+> +}
+> +
+> +static void sn65dsi83_disable(struct drm_bridge *bridge)
+> +{
+> +       struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
+> +
+> +       /* Clear reset, disable PLL */
+> +       regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
+> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
+> +}
+> +
+> +static void sn65dsi83_post_disable(struct drm_bridge *bridge)
+> +{
+> +       struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
+> +
+> +       /* Put the chip in reset, pull EN line low. */
+> +       gpiod_set_value(ctx->enable_gpio, 0);
+> +}
+> +
+> +static enum drm_mode_status
+> +sn65dsi83_mode_valid(struct drm_bridge *bridge,
+> +                    const struct drm_display_info *info,
+> +                    const struct drm_display_mode *mode)
+> +{
+> +       /* LVDS output clock range 25..154 MHz */
+> +       if (mode->clock < 25000)
+> +               return MODE_CLOCK_LOW;
+> +       if (mode->clock > 154000)
+> +               return MODE_CLOCK_HIGH;
+> +
+> +       return MODE_OK;
+> +}
+> +
+> +static void sn65dsi83_mode_set(struct drm_bridge *bridge,
+> +                              const struct drm_display_mode *mode,
+> +                              const struct drm_display_mode *adj)
+> +{
+> +       struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
+> +
+> +       ctx->mode =3D *adj;
+> +}
+> +
+> +static const struct drm_bridge_funcs sn65dsi83_funcs =3D {
+> +       .attach         =3D sn65dsi83_attach,
+> +       .pre_enable     =3D sn65dsi83_pre_enable,
+> +       .enable         =3D sn65dsi83_enable,
+> +       .disable        =3D sn65dsi83_disable,
+> +       .post_disable   =3D sn65dsi83_post_disable,
+> +       .mode_valid     =3D sn65dsi83_mode_valid,
+> +       .mode_set       =3D sn65dsi83_mode_set,
+> +};
+> +
+> +static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_mode=
+l model)
+> +{
+> +       struct drm_bridge *panel_bridge;
+> +       struct device *dev =3D ctx->dev;
+> +       struct device_node *endpoint;
+> +       struct drm_panel *panel;
+> +       int ret;
+> +
+> +       endpoint =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+> +       ctx->dsi_lanes =3D of_property_count_u32_elems(endpoint, "data-la=
+nes");
+> +       ctx->host_node =3D of_graph_get_remote_port_parent(endpoint);
+> +       of_node_put(endpoint);
+> +
+> +       if (ctx->dsi_lanes < 0 || ctx->dsi_lanes > 4)
+> +               return -EINVAL;
+> +       if (!ctx->host_node)
+> +               return -ENODEV;
+> +
+> +       ctx->lvds_dual_link =3D false;
+> +       ctx->lvds_dual_link_even_odd_swap =3D false;
+> +       if (model !=3D MODEL_SN65DSI83) {
+> +               struct device_node *port2, *port3;
+> +               int dual_link;
+> +
+> +               port2 =3D of_graph_get_port_by_id(dev->of_node, 2);
+> +               port3 =3D of_graph_get_port_by_id(dev->of_node, 3);
+> +               dual_link =3D drm_of_lvds_get_dual_link_pixel_order(port2=
+, port3);
+> +               of_node_put(port2);
+> +               of_node_put(port3);
+> +
+> +               if (dual_link =3D=3D DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS) =
+{
+> +                       ctx->lvds_dual_link =3D true;
+> +                       /* Odd pixels to LVDS Channel A, even pixels to B=
+ */
+> +                       ctx->lvds_dual_link_even_odd_swap =3D false;
+> +               } else if (dual_link =3D=3D DRM_LVDS_DUAL_LINK_EVEN_ODD_P=
+IXELS) {
+> +                       ctx->lvds_dual_link =3D true;
+> +                       /* Even pixels to LVDS Channel A, odd pixels to B=
+ */
+> +                       ctx->lvds_dual_link_even_odd_swap =3D true;
+> +               }
+> +       }
+> +
+> +       ret =3D drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, &=
+panel_bridge);
+> +       if (ret < 0)
+> +               return ret;
+> +       if (panel) {
+> +               panel_bridge =3D devm_drm_panel_bridge_add(dev, panel);
+> +               if (IS_ERR(panel_bridge))
+> +                       return PTR_ERR(panel_bridge);
+> +       }
+> +
+> +       ctx->panel_bridge =3D panel_bridge;
+> +
+> +       return 0;
+> +}
+> +
+> +static int sn65dsi83_probe(struct i2c_client *client,
+> +                          const struct i2c_device_id *id)
+> +{
+> +       struct device *dev =3D &client->dev;
+> +       enum sn65dsi83_model model;
+> +       struct sn65dsi83 *ctx;
+> +       int ret;
+> +
+> +       ctx =3D devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> +       if (!ctx)
+> +               return -ENOMEM;
+> +
+> +       ctx->dev =3D dev;
+> +
+> +       if (dev->of_node)
+> +               model =3D (enum sn65dsi83_model)of_device_get_match_data(=
+dev);
+> +       else
+> +               model =3D id->driver_data;
+> +
+> +       ctx->enable_gpio =3D devm_gpiod_get(ctx->dev, "enable", GPIOD_OUT=
+_LOW);
+> +       if (IS_ERR(ctx->enable_gpio))
+> +               return PTR_ERR(ctx->enable_gpio);
+> +
+> +       ret =3D sn65dsi83_parse_dt(ctx, model);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ctx->regmap =3D devm_regmap_init_i2c(client, &sn65dsi83_regmap_co=
+nfig);
+> +       if (IS_ERR(ctx->regmap))
+> +               return PTR_ERR(ctx->regmap);
+> +
+> +       dev_set_drvdata(dev, ctx);
+> +       i2c_set_clientdata(client, ctx);
+> +
+> +       ctx->bridge.funcs =3D &sn65dsi83_funcs;
+> +       ctx->bridge.of_node =3D dev->of_node;
+> +       drm_bridge_add(&ctx->bridge);
+> +
+> +       return 0;
+> +}
+> +
+> +static int sn65dsi83_remove(struct i2c_client *client)
+> +{
+> +       struct sn65dsi83 *ctx =3D i2c_get_clientdata(client);
+> +
+> +       mipi_dsi_detach(ctx->dsi);
+> +       mipi_dsi_device_unregister(ctx->dsi);
+> +       drm_bridge_remove(&ctx->bridge);
+> +       of_node_put(ctx->host_node);
+> +
+> +       return 0;
+> +}
+> +
+> +static struct i2c_device_id sn65dsi83_id[] =3D {
+> +       { "ti,sn65dsi83", MODEL_SN65DSI83 },
+> +       { "ti,sn65dsi84", MODEL_SN65DSI84 },
+> +       {},
+> +};
+> +MODULE_DEVICE_TABLE(i2c, sn65dsi83_id);
+> +
+> +static const struct of_device_id sn65dsi83_match_table[] =3D {
+> +       { .compatible =3D "ti,sn65dsi83", .data =3D (void *)MODEL_SN65DSI=
+83 },
+> +       { .compatible =3D "ti,sn65dsi84", .data =3D (void *)MODEL_SN65DSI=
+84 },
+> +       {},
+> +};
+> +MODULE_DEVICE_TABLE(of, sn65dsi83_match_table);
+> +
+> +static struct i2c_driver sn65dsi83_driver =3D {
+> +       .probe =3D sn65dsi83_probe,
+> +       .remove =3D sn65dsi83_remove,
+> +       .id_table =3D sn65dsi83_id,
+> +       .driver =3D {
+> +               .name =3D "sn65dsi83",
+> +               .of_match_table =3D sn65dsi83_match_table,
+> +       },
+> +};
+> +module_i2c_driver(sn65dsi83_driver);
+> +
+> +MODULE_AUTHOR("Marek Vasut <marex@denx.de>");
+> +MODULE_DESCRIPTION("TI SN65DSI83 DSI to LVDS bridge driver");
+> +MODULE_LICENSE("GPL v2");
+> --
+> 2.30.2
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
