@@ -1,38 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFC737530A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 13:30:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5DD375337
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 13:51:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 306D96E128;
-	Thu,  6 May 2021 11:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D59C6E167;
+	Thu,  6 May 2021 11:50:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m176216.qiye.163.com (mail-m176216.qiye.163.com
- [59.111.176.216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD476E128
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 11:29:56 +0000 (UTC)
-Received: from wanjb-virtual-machine.localdomain (unknown [36.152.145.182])
- by mail-m176216.qiye.163.com (Hmail) with ESMTPA id 9AE4DC201B5;
- Thu,  6 May 2021 19:29:51 +0800 (CST)
-From: Wan Jiabing <wanjiabing@vivo.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/gma500: update comment of psb_spank()
-Date: Thu,  6 May 2021 19:28:51 +0800
-Message-Id: <20210506112851.20315-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B17626E167
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 11:50:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 48590613EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 11:50:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620301855;
+ bh=jO7vOQPagD5bmaXqCtIswIy3Mvmon15rA6NXF31EBNg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=k41dkBbOogVBPXHbpjNRmVeDfmugNsrYNJ04ZKNgUyjKx7r0KwXlkVzdgutKPlWy0
+ l3JZHZeEWgIkBm9qIXPyhs5HNm6HSgoMYqMkwiCh4HWBUHxf4q7gS6cD2M6+bIkK0w
+ /Sd/07XzxMgiUak4MAvremqAGj6rKcFE6R0iqpXDGNPzYD9OkRSEhyClAcSq4dl3hS
+ w0LafJxErR4SCBbVexNuRoyi8j8kn+LGrWOnin6YYNGV8f+d2mbuO7ZgJu84nMOqVz
+ kQCh+NS1GnZFGpKyd2YGxHmToIO5ZjEbpyxEfudg5XRI3zhbI6nqVcbZNQhpTgKDwr
+ rwS9ySznmaRWA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 446EE6129E; Thu,  6 May 2021 11:50:55 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
+Date: Thu, 06 May 2021 11:50:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: paulo.ulusu@googlemail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-203905-2300-pO4eBcSUD4@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
+References: <bug-203905-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZQkhPH1ZMHk1OTB5JTEhMTkxVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
- hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NEk6Fgw5Cz8PPEI5FjNMMTI5
- Nw8KC0lVSlVKTUlLSEtLTkJJSUlLVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlI
- TVVKTklVSk9OVUpDSVlXWQgBWUFKQ0pINwY+
-X-HM-Tid: 0a794170f2c9d976kuws9ae4dc201b5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,32 +65,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kael_w@yeah.net, Wan Jiabing <wanjiabing@vivo.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In commit 5c209d8056b9 ("drm/gma500: psb_spank() doesn't need it's
-own file"), accel_2d.c was deleted and psb_spank() was moved into
-psb_drv.c. Fix the comment here.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D203905
 
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
----
- drivers/gpu/drm/gma500/psb_drv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--- Comment #30 from Paulo Nascimento (paulo.ulusu@googlemail.com) ---
+laptop: Lenovo Legion 5, amd ryzen 5 4600h
+Graphics:  Device-1: NVIDIA TU116M [GeForce GTX 1660 Ti Mobile] driver: nou=
+veau
+           Device-2: Advanced Micro Devices [AMD/ATI] Renoir driver: amdgpu
+Kernel: 5.12.0-1-MANJARO x86_64
 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
-index 49afa577d442..d6e7c2c2c947 100644
---- a/drivers/gpu/drm/gma500/psb_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_drv.h
-@@ -646,7 +646,7 @@ extern u32 psb_get_vblank_counter(struct drm_crtc *crtc);
- extern int psbfb_probed(struct drm_device *dev);
- extern int psbfb_remove(struct drm_device *dev,
- 			struct drm_framebuffer *fb);
--/* accel_2d.c */
-+/* psb_drv.c */
- extern void psb_spank(struct drm_psb_private *dev_priv);
- 
- /* psb_reset.c */
--- 
-2.25.1
+I have loaded kernel 5.12 and enabled the patch with amdgpu.backlight=3D0. =
+The
+brightness controls Fn+F5/F6 works as well as the controls in KDE panel.
 
+There are still the error messages at boot and shutdown though.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
