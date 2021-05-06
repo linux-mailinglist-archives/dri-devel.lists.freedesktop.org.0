@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A48375A9E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 20:58:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E972B375AE2
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 20:59:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5AA6EDBB;
-	Thu,  6 May 2021 18:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD64B6ED42;
+	Thu,  6 May 2021 18:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45DD76ECF1;
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB9856ECFF;
  Thu,  6 May 2021 18:57:12 +0000 (UTC)
-IronPort-SDR: ZkwDia+APrA71Q28kzVKlNvmUsu8DqofJwZoABOFerhLeZwqxknpooM0UEq76VPvuOpAXCfT4M
- wFqYIrKTsZYg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="196530994"
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="196530994"
+IronPort-SDR: KCErmGyasI6GzCoppf2QqvjxVVHs4lXhWX+KD5/Mc99XJfMbfScqyAW6Q0O2MWai05WOwqERgR
+ K1IOs4uuPihA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="198195437"
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="198195437"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:11 -0700
-IronPort-SDR: B007oCzRrgjTZs76i5fgrEGmiQ7mRafGI6wNY5mt9Xz/o61suckKtrCNGRKZ0C3FaZMKF5zz+0
- uzDAwBpsirBg==
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583414"
+IronPort-SDR: QkkVAFtWfRXG6xf7y6LfmQe21yF6enVYNi1iOK5Oq3yJzXQOjWisbbA0e8x9sv2ovO9u+vl84C
+ k5/DdbvbEPLA==
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583418"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:09 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH 19/97] drm/i915/guc: Always copy CT message to new
- allocation
-Date: Thu,  6 May 2021 12:13:33 -0700
-Message-Id: <20210506191451.77768-20-matthew.brost@intel.com>
+Subject: [RFC PATCH 20/97] drm/i915/guc: Introduce unified HXG messages
+Date: Thu,  6 May 2021 12:13:34 -0700
+Message-Id: <20210506191451.77768-21-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210506191451.77768-1-matthew.brost@intel.com>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
@@ -58,357 +57,254 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-Since most of future CT traffic will be based on G2H requests,
-instead of copying incoming CT message to static buffer and then
-create new allocation for such request, always copy incoming CT
-message to new allocation. Also by doing it while reading CT
-header, we can safely fallback if that atomic allocation fails.
+New GuC firmware will unify format of MMIO and CTB H2G messages.
+Introduce their definitions now to allow gradual transition of
+our code to match new changes.
 
 Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
+Cc: Michał Winiarski <michal.winiarski@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 180 ++++++++++++++--------
- 1 file changed, 120 insertions(+), 60 deletions(-)
+ .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h | 226 ++++++++++++++++++
+ 1 file changed, 226 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index d630ec32decf..a174978c6a27 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -72,8 +72,9 @@ struct ct_request {
- 	u32 *response_buf;
- };
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+index 775e21f3058c..1c264819aa03 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+@@ -6,6 +6,232 @@
+ #ifndef _ABI_GUC_MESSAGES_ABI_H
+ #define _ABI_GUC_MESSAGES_ABI_H
  
--struct ct_incoming_request {
-+struct ct_incoming_msg {
- 	struct list_head link;
-+	u32 size;
- 	u32 msg[];
- };
- 
-@@ -575,7 +576,26 @@ static inline bool ct_header_is_response(u32 header)
- 	return !!(header & GUC_CT_MSG_IS_RESPONSE);
- }
- 
--static int ct_read(struct intel_guc_ct *ct, u32 *data)
-+static struct ct_incoming_msg *ct_alloc_msg(u32 num_dwords)
-+{
-+	struct ct_incoming_msg *msg;
-+
-+	msg = kmalloc(sizeof(*msg) + sizeof(u32) * num_dwords, GFP_ATOMIC);
-+	if (msg)
-+		msg->size = num_dwords;
-+	return msg;
-+}
-+
-+static void ct_free_msg(struct ct_incoming_msg *msg)
-+{
-+	kfree(msg);
-+}
-+
-+/*
-+ * Return: number available remaining dwords to read (0 if empty)
-+ *         or a negative error code on failure
++/**
++ * DOC: HXG Message
++ *
++ * All messages exchanged with GuC are defined using 32 bit dwords.
++ * First dword is treated as a message header. Remaining dwords are optional.
++ *
++ * .. _HXG Message:
++ *
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  |   |       |                                                              |
++ *  | 0 |    31 | **ORIGIN** - originator of the message                       |
++ *  |   |       |   - _`GUC_HXG_ORIGIN_HOST` = 0                               |
++ *  |   |       |   - _`GUC_HXG_ORIGIN_GUC` = 1                                |
++ *  |   |       |                                                              |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | **TYPE** - message type                                      |
++ *  |   |       |   - _`GUC_HXG_TYPE_REQUEST` = 0                              |
++ *  |   |       |   - _`GUC_HXG_TYPE_EVENT` = 1                                |
++ *  |   |       |   - _`GUC_HXG_TYPE_NO_RESPONSE_BUSY` = 3                     |
++ *  |   |       |   - _`GUC_HXG_TYPE_NO_RESPONSE_RETRY` = 5                    |
++ *  |   |       |   - _`GUC_HXG_TYPE_RESPONSE_FAILURE` = 6                     |
++ *  |   |       |   - _`GUC_HXG_TYPE_RESPONSE_SUCCESS` = 7                     |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  27:0 | **AUX** - auxiliary data (depends TYPE)                      |
++ *  +---+-------+--------------------------------------------------------------+
++ *  | 1 |  31:0 | optional payload (depends on TYPE)                           |
++ *  +---+-------+                                                              |
++ *  |...|       |                                                              |
++ *  +---+-------+                                                              |
++ *  | n |  31:0 |                                                              |
++ *  +---+-------+--------------------------------------------------------------+
 + */
-+static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- {
- 	struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
- 	struct guc_ct_buffer_desc *desc = ctb->desc;
-@@ -586,6 +606,7 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 	s32 available;
- 	unsigned int len;
- 	unsigned int i;
-+	u32 header;
- 
- 	if (unlikely(desc->is_in_error))
- 		return -EPIPE;
-@@ -601,8 +622,10 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 
- 	/* tail == head condition indicates empty */
- 	available = tail - head;
--	if (unlikely(available == 0))
--		return -ENODATA;
-+	if (unlikely(available == 0)) {
-+		*msg = NULL;
-+		return 0;
-+	}
- 
- 	/* beware of buffer wrap case */
- 	if (unlikely(available < 0))
-@@ -610,14 +633,14 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 	CT_DEBUG(ct, "available %d (%u:%u)\n", available, head, tail);
- 	GEM_BUG_ON(available < 0);
- 
--	data[0] = cmds[head];
-+	header = cmds[head];
- 	head = (head + 1) % size;
- 
- 	/* message len with header */
--	len = ct_header_get_len(data[0]) + 1;
-+	len = ct_header_get_len(header) + 1;
- 	if (unlikely(len > (u32)available)) {
- 		CT_ERROR(ct, "Incomplete message %*ph %*ph %*ph\n",
--			 4, data,
-+			 4, &header,
- 			 4 * (head + available - 1 > size ?
- 			      size - head : available - 1), &cmds[head],
- 			 4 * (head + available - 1 > size ?
-@@ -625,11 +648,24 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
- 		goto corrupted;
- 	}
- 
-+	*msg = ct_alloc_msg(len);
-+	if (!*msg) {
-+		CT_ERROR(ct, "No memory for message %*ph %*ph %*ph\n",
-+			 4, &header,
-+			 4 * (head + available - 1 > size ?
-+			      size - head : available - 1), &cmds[head],
-+			 4 * (head + available - 1 > size ?
-+			      available - 1 - size + head : 0), &cmds[0]);
-+		return available;
-+	}
 +
-+	(*msg)->msg[0] = header;
++#define GUC_HXG_MSG_MIN_LEN			1u
++#define GUC_HXG_MSG_0_ORIGIN			(0x1 << 31)
++#define   GUC_HXG_ORIGIN_HOST			0u
++#define   GUC_HXG_ORIGIN_GUC			1u
++#define GUC_HXG_MSG_0_TYPE			(0x7 << 28)
++#define   GUC_HXG_TYPE_REQUEST			0u
++#define   GUC_HXG_TYPE_EVENT			1u
++#define   GUC_HXG_TYPE_NO_RESPONSE_BUSY		3u
++#define   GUC_HXG_TYPE_NO_RESPONSE_RETRY	5u
++#define   GUC_HXG_TYPE_RESPONSE_FAILURE		6u
++#define   GUC_HXG_TYPE_RESPONSE_SUCCESS		7u
++#define GUC_HXG_MSG_0_AUX			(0xfffffff << 0)
 +
- 	for (i = 1; i < len; i++) {
--		data[i] = cmds[head];
-+		(*msg)->msg[i] = cmds[head];
- 		head = (head + 1) % size;
- 	}
--	CT_DEBUG(ct, "received %*ph\n", 4 * len, data);
-+	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
- 
- 	desc->head = head * 4;
- 	return available - len;
-@@ -659,33 +695,33 @@ static int ct_read(struct intel_guc_ct *ct, u32 *data)
-  *                   ^-----------------------len-----------------------^
-  */
- 
--static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
-+static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *response)
- {
--	u32 header = msg[0];
-+	u32 header = response->msg[0];
- 	u32 len = ct_header_get_len(header);
--	u32 msgsize = (len + 1) * sizeof(u32); /* msg size in bytes w/header */
- 	u32 fence;
- 	u32 status;
- 	u32 datalen;
- 	struct ct_request *req;
- 	unsigned long flags;
- 	bool found = false;
-+	int err = 0;
- 
- 	GEM_BUG_ON(!ct_header_is_response(header));
- 
- 	/* Response payload shall at least include fence and status */
- 	if (unlikely(len < 2)) {
--		CT_ERROR(ct, "Corrupted response %*ph\n", msgsize, msg);
-+		CT_ERROR(ct, "Corrupted response (len %u)\n", len);
- 		return -EPROTO;
- 	}
- 
--	fence = msg[1];
--	status = msg[2];
-+	fence = response->msg[1];
-+	status = response->msg[2];
- 	datalen = len - 2;
- 
- 	/* Format of the status follows RESPONSE message */
- 	if (unlikely(!INTEL_GUC_MSG_IS_RESPONSE(status))) {
--		CT_ERROR(ct, "Corrupted response %*ph\n", msgsize, msg);
-+		CT_ERROR(ct, "Corrupted response (status %#x)\n", status);
- 		return -EPROTO;
- 	}
- 
-@@ -699,12 +735,13 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
- 			continue;
- 		}
- 		if (unlikely(datalen > req->response_len)) {
--			CT_ERROR(ct, "Response for %u is too long %*ph\n",
--				 req->fence, msgsize, msg);
--			datalen = 0;
-+			CT_ERROR(ct, "Response %u too long (datalen %u > %u)\n",
-+				 req->fence, datalen, req->response_len);
-+			datalen = min(datalen, req->response_len);
-+			err = -EMSGSIZE;
- 		}
- 		if (datalen)
--			memcpy(req->response_buf, msg + 3, 4 * datalen);
-+			memcpy(req->response_buf, response->msg + 3, 4 * datalen);
- 		req->response_len = datalen;
- 		WRITE_ONCE(req->status, status);
- 		found = true;
-@@ -712,45 +749,61 @@ static int ct_handle_response(struct intel_guc_ct *ct, const u32 *msg)
- 	}
- 	spin_unlock_irqrestore(&ct->requests.lock, flags);
- 
--	if (!found)
--		CT_ERROR(ct, "Unsolicited response %*ph\n", msgsize, msg);
-+	if (!found) {
-+		CT_ERROR(ct, "Unsolicited response (fence %u)\n", fence);
-+		return -ENOKEY;
-+	}
-+
-+	if (unlikely(err))
-+		return err;
-+
-+	ct_free_msg(response);
- 	return 0;
- }
- 
--static void ct_process_request(struct intel_guc_ct *ct,
--			       u32 action, u32 len, const u32 *payload)
-+static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
- {
- 	struct intel_guc *guc = ct_to_guc(ct);
-+	u32 header, action, len;
-+	const u32 *payload;
- 	int ret;
- 
-+	header = request->msg[0];
-+	payload = &request->msg[1];
-+	action = ct_header_get_action(header);
-+	len = ct_header_get_len(header);
-+
- 	CT_DEBUG(ct, "request %x %*ph\n", action, 4 * len, payload);
- 
- 	switch (action) {
- 	case INTEL_GUC_ACTION_DEFAULT:
- 		ret = intel_guc_to_host_process_recv_msg(guc, payload, len);
--		if (unlikely(ret))
--			goto fail_unexpected;
- 		break;
--
- 	default:
--fail_unexpected:
--		CT_ERROR(ct, "Unexpected request %x %*ph\n",
--			 action, 4 * len, payload);
-+		ret = -EOPNOTSUPP;
- 		break;
- 	}
-+
-+	if (unlikely(ret)) {
-+		CT_ERROR(ct, "Failed to process request %04x (%pe)\n",
-+			 action, ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	ct_free_msg(request);
-+	return 0;
- }
- 
- static bool ct_process_incoming_requests(struct intel_guc_ct *ct)
- {
- 	unsigned long flags;
--	struct ct_incoming_request *request;
--	u32 header;
--	u32 *payload;
-+	struct ct_incoming_msg *request;
- 	bool done;
-+	int err;
- 
- 	spin_lock_irqsave(&ct->requests.lock, flags);
- 	request = list_first_entry_or_null(&ct->requests.incoming,
--					   struct ct_incoming_request, link);
-+					   struct ct_incoming_msg, link);
- 	if (request)
- 		list_del(&request->link);
- 	done = !!list_empty(&ct->requests.incoming);
-@@ -759,14 +812,13 @@ static bool ct_process_incoming_requests(struct intel_guc_ct *ct)
- 	if (!request)
- 		return true;
- 
--	header = request->msg[0];
--	payload = &request->msg[1];
--	ct_process_request(ct,
--			   ct_header_get_action(header),
--			   ct_header_get_len(header),
--			   payload);
-+	err = ct_process_request(ct, request);
-+	if (unlikely(err)) {
-+		CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
-+			 ERR_PTR(err), 4 * request->size, request->msg);
-+		ct_free_msg(request);
-+	}
- 
--	kfree(request);
- 	return done;
- }
- 
-@@ -799,22 +851,11 @@ static void ct_incoming_request_worker_func(struct work_struct *w)
-  *                   ^-----------------------len-----------------------^
-  */
- 
--static int ct_handle_request(struct intel_guc_ct *ct, const u32 *msg)
-+static int ct_handle_request(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
- {
--	u32 header = msg[0];
--	u32 len = ct_header_get_len(header);
--	u32 msgsize = (len + 1) * sizeof(u32); /* msg size in bytes w/header */
--	struct ct_incoming_request *request;
- 	unsigned long flags;
- 
--	GEM_BUG_ON(ct_header_is_response(header));
--
--	request = kmalloc(sizeof(*request) + msgsize, GFP_ATOMIC);
--	if (unlikely(!request)) {
--		CT_ERROR(ct, "Dropping request %*ph\n", msgsize, msg);
--		return 0; /* XXX: -ENOMEM ? */
--	}
--	memcpy(request->msg, msg, msgsize);
-+	GEM_BUG_ON(ct_header_is_response(request->msg[0]));
- 
- 	spin_lock_irqsave(&ct->requests.lock, flags);
- 	list_add_tail(&request->link, &ct->requests.incoming);
-@@ -824,22 +865,41 @@ static int ct_handle_request(struct intel_guc_ct *ct, const u32 *msg)
- 	return 0;
- }
- 
-+static void ct_handle_msg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
-+{
-+	u32 header = msg->msg[0];
-+	int err;
-+
-+	if (ct_header_is_response(header))
-+		err = ct_handle_response(ct, msg);
-+	else
-+		err = ct_handle_request(ct, msg);
-+
-+	if (unlikely(err)) {
-+		CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
-+			 ERR_PTR(err), 4 * msg->size, msg->msg);
-+		ct_free_msg(msg);
-+	}
-+}
-+
-+/*
-+ * Return: number available remaining dwords to read (0 if empty)
-+ *         or a negative error code on failure
++/**
++ * DOC: HXG Request
++ *
++ * The `HXG Request`_ message should be used to initiate synchronous activity
++ * for which confirmation or return data is expected.
++ *
++ * The recipient of this message shall use `HXG Response`_, `HXG Failure`_
++ * or `HXG Retry`_ message as a definite reply, and may use `HXG Busy`_
++ * message as a intermediate reply.
++ *
++ * Format of @DATA0 and all @DATAn fields depends on the @ACTION code.
++ *
++ * _HXG Request:
++ *
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  | 0 |    31 | ORIGIN                                                       |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 27:16 | **DATA0** - request data (depends on ACTION)                 |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  15:0 | **ACTION** - requested action code                           |
++ *  +---+-------+--------------------------------------------------------------+
++ *  | 1 |  31:0 | **DATA1** - optional data (depends on ACTION)                |
++ *  +---+-------+--------------------------------------------------------------+
++ *  |...|       |                                                              |
++ *  +---+-------+--------------------------------------------------------------+
++ *  | n |  31:0 | **DATAn** - optional data (depends on ACTION)                |
++ *  +---+-------+--------------------------------------------------------------+
 + */
- static int ct_receive(struct intel_guc_ct *ct)
- {
--	u32 msg[GUC_CT_MSG_LEN_MASK + 1]; /* one extra dw for the header */
-+	struct ct_incoming_msg *msg = NULL;
- 	unsigned long flags;
- 	int ret;
- 
- 	spin_lock_irqsave(&ct->ctbs.recv.lock, flags);
--	ret = ct_read(ct, msg);
-+	ret = ct_read(ct, &msg);
- 	spin_unlock_irqrestore(&ct->ctbs.recv.lock, flags);
- 	if (ret < 0)
- 		return ret;
- 
--	if (ct_header_is_response(msg[0]))
--		ct_handle_response(ct, msg);
--	else
--		ct_handle_request(ct, msg);
-+	if (msg)
-+		ct_handle_msg(ct, msg);
- 
- 	return ret;
- }
++
++#define GUC_HXG_REQUEST_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
++#define GUC_HXG_REQUEST_MSG_0_DATA0		(0xfff << 16)
++#define GUC_HXG_REQUEST_MSG_0_ACTION		(0xffff << 0)
++#define GUC_HXG_REQUEST_MSG_n_DATAn		(0xffffffff << 0)
++
++/**
++ * DOC: HXG Event
++ *
++ * The `HXG Event`_ message should be used to initiate asynchronous activity
++ * that does not involves immediate confirmation nor data.
++ *
++ * Format of @DATA0 and all @DATAn fields depends on the @ACTION code.
++ *
++ * .. _HXG Event:
++ *
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  | 0 |    31 | ORIGIN                                                       |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_EVENT_                                   |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 27:16 | **DATA0** - event data (depends on ACTION)                   |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  15:0 | **ACTION** - event action code                               |
++ *  +---+-------+--------------------------------------------------------------+
++ *  | 1 |  31:0 | **DATA1** - optional event data (depends on ACTION)          |
++ *  +---+-------+--------------------------------------------------------------+
++ *  |...|       |                                                              |
++ *  +---+-------+--------------------------------------------------------------+
++ *  | n |  31:0 | **DATAn** - optional event  data (depends on ACTION)         |
++ *  +---+-------+--------------------------------------------------------------+
++ */
++
++#define GUC_HXG_EVENT_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
++#define GUC_HXG_EVENT_MSG_0_DATA0		(0xfff << 16)
++#define GUC_HXG_EVENT_MSG_0_ACTION		(0xffff << 0)
++#define GUC_HXG_EVENT_MSG_n_DATAn		(0xffffffff << 0)
++
++/**
++ * DOC: HXG Busy
++ *
++ * The `HXG Busy`_ message may be used to acknowledge reception of the `HXG Request`_
++ * message if the recipient expects that it processing will be longer than default
++ * timeout.
++ *
++ * The @COUNTER field may be used as a progress indicator.
++ *
++ * .. _HXG Busy:
++ *
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  | 0 |    31 | ORIGIN                                                       |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_NO_RESPONSE_BUSY_                        |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  27:0 | **COUNTER** - progress indicator                             |
++ *  +---+-------+--------------------------------------------------------------+
++ */
++
++#define GUC_HXG_BUSY_MSG_LEN			GUC_HXG_MSG_MIN_LEN
++#define GUC_HXG_BUSY_MSG_0_COUNTER		GUC_HXG_MSG_0_AUX
++
++/**
++ * DOC: HXG Retry
++ *
++ * The `HXG Retry`_ message should be used by recipient to indicate that the
++ * `HXG Request`_ message was dropped and it should be resent again.
++ *
++ * The @REASON field may be used to provide additional information.
++ *
++ * .. _HXG Retry:
++ *
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  | 0 |    31 | ORIGIN                                                       |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_NO_RESPONSE_RETRY_                       |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  27:0 | **REASON** - reason for retry                                |
++ *  |   |       |  - _`GUC_HXG_RETRY_REASON_UNSPECIFIED` = 0                   |
++ *  +---+-------+--------------------------------------------------------------+
++ */
++
++#define GUC_HXG_RETRY_MSG_LEN			GUC_HXG_MSG_MIN_LEN
++#define GUC_HXG_RETRY_MSG_0_REASON		GUC_HXG_MSG_0_AUX
++#define   GUC_HXG_RETRY_REASON_UNSPECIFIED	0u
++
++/**
++ * DOC: HXG Failure
++ *
++ * The `HXG Failure`_ message shall be used as a reply to the `HXG Request`_
++ * message that could not be processed due to an error.
++ *
++ * .. _HXG Failure:
++ *
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  | 0 |    31 | ORIGIN                                                       |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_FAILURE_                        |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 27:16 | **HINT** - additional error hint                             |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  15:0 | **ERROR** - error/result code                                |
++ *  +---+-------+--------------------------------------------------------------+
++ */
++
++#define GUC_HXG_FAILURE_MSG_LEN			GUC_HXG_MSG_MIN_LEN
++#define GUC_HXG_FAILURE_MSG_0_HINT		(0xfff << 16)
++#define GUC_HXG_FAILURE_MSG_0_ERROR		(0xffff << 0)
++
++/**
++ * DOC: HXG Response
++ *
++ * The `HXG Response`_ message SHALL be used as a reply to the `HXG Request`_
++ * message that was successfully processed without an error.
++ *
++ * .. _HXG Response:
++ *
++ *  +---+-------+--------------------------------------------------------------+
++ *  |   | Bits  | Description                                                  |
++ *  +===+=======+==============================================================+
++ *  | 0 |    31 | ORIGIN                                                       |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
++ *  |   +-------+--------------------------------------------------------------+
++ *  |   |  27:0 | **DATA0** - data (depends on ACTION from `HXG Request`_)     |
++ *  +---+-------+--------------------------------------------------------------+
++ *  | 1 |  31:0 | **DATA1** - data (depends on ACTION from `HXG Request`_)     |
++ *  +---+-------+--------------------------------------------------------------+
++ *  |...|       |                                                              |
++ *  +---+-------+--------------------------------------------------------------+
++ *  | n |  31:0 | **DATAn** - data (depends on ACTION from `HXG Request`_)     |
++ *  +---+-------+--------------------------------------------------------------+
++ */
++
++#define GUC_HXG_RESPONSE_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
++#define GUC_HXG_RESPONSE_MSG_0_DATA0		GUC_HXG_MSG_0_AUX
++#define GUC_HXG_RESPONSE_MSG_n_DATAn		(0xffffffff << 0)
++
++/* deprecated */
+ #define INTEL_GUC_MSG_TYPE_SHIFT	28
+ #define INTEL_GUC_MSG_TYPE_MASK		(0xF << INTEL_GUC_MSG_TYPE_SHIFT)
+ #define INTEL_GUC_MSG_DATA_SHIFT	16
 -- 
 2.28.0
 
