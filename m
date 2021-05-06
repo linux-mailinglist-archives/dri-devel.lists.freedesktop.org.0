@@ -1,68 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9411376279
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 10:59:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B763762C6
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 11:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62EB56EDF4;
-	Fri,  7 May 2021 08:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6BD6EDFE;
+	Fri,  7 May 2021 09:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 526686EDF0
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 08:59:42 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- b11-20020a7bc24b0000b0290148da0694ffso6711799wmj.2
- for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 01:59:42 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA6136EDFF
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 09:25:13 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ j3-20020a05600c4843b02901484662c4ebso6771233wmo.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 02:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/nh1bbQT5CiK8IqERbTeRh4gKwm6+O6Vg+VARq82rio=;
- b=ddP9vw2/xz6l5rgNknMnioGUpBwslhkhK/Vqn+Kl45rxtCUI1B37VPu4ncHEAzfh5G
- lraIDVUeYC1DCwyViD6+lq/nLpHJ7NVA4UnG4dIh03OPLcXFQHOCKIsy6MTCyG7IvMTN
- ggSkExoADblSOWRHwZ8hPSr4yuGq19xGJhDe8=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UB93MxK7FEzFT+xysmvBFpHY3nbBK76lvWuHOuw2JuA=;
+ b=LlHAqaZlaDm+ivgDtgo0jsR/ijub2FSFfifZKGM6MpziTDnBFPSr3N99mtJsyi2nwM
+ tIfyayegjTIIPeGYmUGA4uyeriKalG8qTf4PvtXKuz0Wh+9ajfi/fOvAXrlhv93upIxo
+ YYV34n+SGZ1uYqX4oDg6gndK6QburW6hr57Vo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/nh1bbQT5CiK8IqERbTeRh4gKwm6+O6Vg+VARq82rio=;
- b=ILTOKjGzi/GVAYr18y1b4MZnQBrI51jZU3pY/48LiSxsw/jevtVIZ4gToDOWcHdWR1
- NcNk3yjFxhaqoyLIDiOeB+AwAdqxPs5D05AgB66KBriGBIPg/nRj/HVYdsSEcJk4tm8e
- 1VcXZSOYKMnN9rx0jgTdhsEmiLwd/NxRR3MBHLSbcET6V0oCbm+UZbX7PTTcKlDYdwlp
- c7USu2pRUS/7XVggD2ACrI+y4JXltZLvLtGUoZd2LEPjBXTB9jPcT7RBT1B3R21EpBpy
- xaNx9kHXMrdygs1iMKfWQ+ww1hI1O4n57Fo4X+g/UPSb0jfabIHlwx0SwnhCwQhqoiNk
- Jqng==
-X-Gm-Message-State: AOAM532OQ8l2CP61j8i8/nVz30qGpgH6AT7E2KCBJ/Yti5vAVDlLlIEu
- HhNSSjYAhHALSrXefB9qHhuNmA==
-X-Google-Smtp-Source: ABdhPJzduMczy9ysbmAMuqtbBG09rD7O4KiM9HF0LInaj4JHW6d0b9TrE4pquQXjf9xl813S56OsKA==
-X-Received: by 2002:a1c:7516:: with SMTP id o22mr19619041wmc.91.1620377980995; 
- Fri, 07 May 2021 01:59:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UB93MxK7FEzFT+xysmvBFpHY3nbBK76lvWuHOuw2JuA=;
+ b=REO6s+kBA+DaYNeP0vkGhOKykjqzA7qnpIjXd9yiPpZoMYGVBGfd7Dxg3y3vXCj9cC
+ Rg0QXK7QtCdn86KWhkIF6MkX+YH5DfPfRttB36JfOV6SJ80Huv66G9RduHUkQie8LpsA
+ Cxci4sFiSDhpOVOw//n31cASfUG7eC3Z085aoWfBtKXIICFdIvOgRi1g14ytKC6yJvjv
+ YMMtH26gdroN8sF6pSEmSiisWqb98NDG9WqTrqnSDIz0YgdOb2TrrxWF+aS21j9nTRL4
+ 9OTwux4TTMJaheU43lrIc9oh7bpw8AIoliY8H1jj+kSGZDmJ9+H+hn36vJXoZh7oUUPD
+ Gwog==
+X-Gm-Message-State: AOAM5312UHGzThFOJGvepVyZXhpBZ5YWUH1LkHRsE16PCVWVTzLsPw+1
+ B1nS8IrcZbmMizwNdMf2fOLVSUu8vs954g==
+X-Google-Smtp-Source: ABdhPJxlEBgEM7+An7RzoR4QOnYSyfJsEF80Mr8QAiyOtokKTGqZPLvX3vi4+hKCmFRUsoCxz27tog==
+X-Received: by 2002:a7b:c119:: with SMTP id w25mr8918806wmi.87.1620379512386; 
+ Fri, 07 May 2021 02:25:12 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q10sm7138710wre.92.2021.05.07.01.59.39
+ by smtp.gmail.com with ESMTPSA id m11sm7859124wri.44.2021.05.07.02.25.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 01:59:40 -0700 (PDT)
-Date: Fri, 7 May 2021 10:59:38 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Kenny Ho <y2kenny@gmail.com>
-Subject: Re: [RFC] Add BPF_PROG_TYPE_CGROUP_IOCTL
-Message-ID: <YJUBer3wWKSAeXe7@phenom.ffwll.local>
-References: <CAOWid-czZphRz6Y-H3OcObKCH=bLLC3=bOZaSB-6YBE56+Qzrg@mail.gmail.com>
- <20201103210418.q7hddyl7rvdplike@ast-mbp.dhcp.thefacebook.com>
- <CAOWid-djQ_NRfCbOTnZQ-A8Pr7jMP7KuZEJDSsvzWkdw7qc=yA@mail.gmail.com>
- <20201103232805.6uq4zg3gdvw2iiki@ast-mbp.dhcp.thefacebook.com>
- <YBgU9Vu0BGV8kCxD@phenom.ffwll.local>
- <CAOWid-eXMqcNpjFxbcuUDU7Y-CCYJRNT_9mzqFYm1jeCPdADGQ@mail.gmail.com>
- <YBqEbHyIjUjgk+es@phenom.ffwll.local>
- <CAOWid-c4Nk717xUah19B=z=2DtztbtU=_4=fQdfhqpfNJYN2gw@mail.gmail.com>
- <CAKMK7uFEhyJChERFQ_DYFU4UCA2Ox4wTkds3+GeyURH5xNMTCA@mail.gmail.com>
- <CAOWid-fL0=OM2XiOH+NFgn_e2L4Yx8sXA-+HicUb9bzhP0t8Bw@mail.gmail.com>
+ Fri, 07 May 2021 02:25:11 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/modifiers: Enforce consistency between the cap an
+ IN_FORMATS
+Date: Thu,  6 May 2021 15:23:43 +0200
+Message-Id: <20210506132343.2873699-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOWid-fL0=OM2XiOH+NFgn_e2L4Yx8sXA-+HicUb9bzhP0t8Bw@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,57 +64,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Song Liu <songliubraving@fb.com>, Andrii Nakryiko <andriin@fb.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Kenny Ho <Kenny.Ho@amd.com>,
- "open list:CONTROL GROUP \(CGROUP\)" <cgroups@vger.kernel.org>,
- Brian Welty <brian.welty@intel.com>, John Fastabend <john.fastabend@gmail.com>,
- Alexei Starovoitov <ast@kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Martin KaFai Lau <kafai@fb.com>,
- Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Network Development <netdev@vger.kernel.org>, KP Singh <kpsingh@chromium.org>,
- Yonghong Song <yhs@fb.com>, bpf <bpf@vger.kernel.org>,
- Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Emil Velikov <emil.velikov@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 06, 2021 at 10:06:32PM -0400, Kenny Ho wrote:
-> Sorry for the late reply (I have been working on other stuff.)
-> 
-> On Fri, Feb 5, 2021 at 8:49 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > So I agree that on one side CU mask can be used for low-level quality
-> > of service guarantees (like the CLOS cache stuff on intel cpus as an
-> > example), and that's going to be rather hw specific no matter what.
-> >
-> > But my understanding of AMD's plans here is that CU mask is the only
-> > thing you'll have to partition gpu usage in a multi-tenant environment
-> > - whether that's cloud or also whether that's containing apps to make
-> > sure the compositor can still draw the desktop (except for fullscreen
-> > ofc) doesn't really matter I think.
-> This is not correct.  Even in the original cgroup proposal, it
-> supports both mask and count as a way to define unit(s) of sub-device.
-> For AMD, we already have SRIOV that supports GPU partitioning in a
-> time-sliced-of-a-whole-GPU fashion.
+It's very confusing for userspace to have to deal with inconsistencies
+here, and some drivers screwed this up a bit. Most just ommitted the
+format list when they meant to say that only linear modifier is
+allowed, but some also meant that only implied modifiers are
+acceptable (because actually none of the planes registered supported
+modifiers).
 
-Hm I missed that. I feel like time-sliced-of-a-whole gpu is the easier gpu
-cgroups controler to get started, since it's much closer to other cgroups
-that control bandwidth of some kind. Whether it's i/o bandwidth or compute
-bandwidht is kinda a wash.
+Now that this is all done consistently across all drivers, document
+the rules and enforce it in the drm core.
 
-CU mask feels a lot more like an isolation/guaranteed forward progress
-kind of thing, and I suspect that's always going to be a lot more gpu hw
-specific than anything we can reasonably put into a general cgroups
-controller.
+v2:
+- Make the capability a link (Simon)
+- Note that all is lost before 5.1.
 
-Also for the time slice cgroups thing, can you pls give me pointers to
-these old patches that had it, and how it's done? I very obviously missed
-that part.
+v3:
+- Use drm_WARN_ON (Lyude)
 
-Thanks, Daniel
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+Cc: Simon Ser <contact@emersion.fr>
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ drivers/gpu/drm/drm_plane.c   | 18 +++++++++++++++++-
+ include/drm/drm_mode_config.h |  2 ++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 0dd43882fe7c..b373958ecb30 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -128,6 +128,13 @@
+  *     pairs supported by this plane. The blob is a struct
+  *     drm_format_modifier_blob. Without this property the plane doesn't
+  *     support buffers with modifiers. Userspace cannot change this property.
++ *
++ *     Note that userspace can check the &DRM_CAP_ADDFB2_MODIFIERS driver
++ *     capability for general modifier support. If this flag is set then every
++ *     plane will have the IN_FORMATS property, even when it only supports
++ *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
++ *     various bugs in this area with inconsistencies between the capability
++ *     flag and per-plane properties.
+  */
+ 
+ static unsigned int drm_num_planes(struct drm_device *dev)
+@@ -277,8 +284,14 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+ 			format_modifier_count++;
+ 	}
+ 
+-	if (format_modifier_count)
++	/* autoset the cap and check for consistency across all planes */
++	if (format_modifier_count) {
++		drm_WARN_ON(dev, !config->allow_fb_modifiers &&
++			    !list_empty(&config->plane_list));
+ 		config->allow_fb_modifiers = true;
++	} else {
++		drm_WARN_ON(dev, config->allow_fb_modifiers);
++	}
+ 
+ 	plane->modifier_count = format_modifier_count;
+ 	plane->modifiers = kmalloc_array(format_modifier_count,
+@@ -360,6 +373,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+  * drm_universal_plane_init() to let the DRM managed resource infrastructure
+  * take care of cleanup and deallocation.
+  *
++ * Drivers supporting modifiers must set @format_modifiers on all their planes,
++ * even those that only support DRM_FORMAT_MOD_LINEAR.
++ *
+  * Returns:
+  * Zero on success, error code on failure.
+  */
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index ab424ddd7665..1ddf7783fdf7 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -909,6 +909,8 @@ struct drm_mode_config {
+ 	 * @allow_fb_modifiers:
+ 	 *
+ 	 * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
++	 * Note that drivers should not set this directly, it is automatically
++	 * set in drm_universal_plane_init().
+ 	 *
+ 	 * IMPORTANT:
+ 	 *
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.31.0
+
