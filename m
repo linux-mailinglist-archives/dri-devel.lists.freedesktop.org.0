@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2155E375AB0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 20:58:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 320D4375B19
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 21:00:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 945FC6ECE4;
-	Thu,  6 May 2021 18:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 894FE6ECE1;
+	Thu,  6 May 2021 18:57:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C7876ECE4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B99456ECFA;
  Thu,  6 May 2021 18:57:12 +0000 (UTC)
-IronPort-SDR: XPAjdNYZTEAPi+pefceHV5zMizI/XKQgvi3nEzxodbzDw3jGjtEUfTKueznM7AucE0yXAu8XQa
- YuvU7H3nAQ9Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="196531000"
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="196531000"
+IronPort-SDR: 5NptonmMn2XyUupTlD7Boixjkyn8Ao4Ew6MSN4hYATqg7aPvUC8QzHntvXWoq0hi9UqcRduZeW
+ YAOYcxedQe4A==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="196531001"
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="196531001"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:11 -0700
-IronPort-SDR: f6l5GwenJGkxYyQfXxMy441nxkrKQjGsflkKfjAiSBFQHhPqO3cxMhBKz5UykjOOG+/QJuZ74B
- IUv4qfUwbYow==
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583447"
+IronPort-SDR: XnKtD6U4vYZ6NA4I3Y0RkwkpJBx4cw62/FwRcMirV5kvRCEqwCSTZaHnK8uzLSSG3+L/I9/DeV
+ otALtuCyhIag==
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583449"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:09 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH 29/97] drm/i915/guc: Update firmware to v60.1.2
-Date: Thu,  6 May 2021 12:13:43 -0700
-Message-Id: <20210506191451.77768-30-matthew.brost@intel.com>
+Subject: [RFC PATCH 30/97] drm/i915/uc: turn on GuC/HuC auto mode by default
+Date: Thu,  6 May 2021 12:13:44 -0700
+Message-Id: <20210506191451.77768-31-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210506191451.77768-1-matthew.brost@intel.com>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
@@ -54,51 +54,33 @@ Cc: matthew.brost@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+This will enable HuC loading for Gen11+ by default if the binaries
+are available on the system. GuC submission still requires explicit
+enabling by the user.
+
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 25 ++++++++++++------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/i915_params.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index df647c9a8d56..81f5fad84906 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -48,19 +48,18 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
-  * firmware as TGL.
-  */
- #define INTEL_UC_FIRMWARE_DEFS(fw_def, guc_def, huc_def) \
--	fw_def(ALDERLAKE_S, 0, guc_def(tgl, 49, 0, 1), huc_def(tgl,  7, 5, 0)) \
--	fw_def(ROCKETLAKE,  0, guc_def(tgl, 49, 0, 1), huc_def(tgl,  7, 5, 0)) \
--	fw_def(TIGERLAKE,   0, guc_def(tgl, 49, 0, 1), huc_def(tgl,  7, 5, 0)) \
--	fw_def(JASPERLAKE,  0, guc_def(ehl, 49, 0, 1), huc_def(ehl,  9, 0, 0)) \
--	fw_def(ELKHARTLAKE, 0, guc_def(ehl, 49, 0, 1), huc_def(ehl,  9, 0, 0)) \
--	fw_def(ICELAKE,     0, guc_def(icl, 49, 0, 1), huc_def(icl,  9, 0, 0)) \
--	fw_def(COMETLAKE,   5, guc_def(cml, 49, 0, 1), huc_def(cml,  4, 0, 0)) \
--	fw_def(COMETLAKE,   0, guc_def(kbl, 49, 0, 1), huc_def(kbl,  4, 0, 0)) \
--	fw_def(COFFEELAKE,  0, guc_def(kbl, 49, 0, 1), huc_def(kbl,  4, 0, 0)) \
--	fw_def(GEMINILAKE,  0, guc_def(glk, 49, 0, 1), huc_def(glk,  4, 0, 0)) \
--	fw_def(KABYLAKE,    0, guc_def(kbl, 49, 0, 1), huc_def(kbl,  4, 0, 0)) \
--	fw_def(BROXTON,     0, guc_def(bxt, 49, 0, 1), huc_def(bxt,  2, 0, 0)) \
--	fw_def(SKYLAKE,     0, guc_def(skl, 49, 0, 1), huc_def(skl,  2, 0, 0))
-+	fw_def(ALDERLAKE_S, 0, guc_def(tgl, 60, 1, 2), huc_def(tgl,  7, 5, 0)) \
-+	fw_def(ROCKETLAKE,  0, guc_def(tgl, 60, 1, 2), huc_def(tgl,  7, 5, 0)) \
-+	fw_def(TIGERLAKE,   0, guc_def(tgl, 60, 1, 2), huc_def(tgl,  7, 5, 0)) \
-+	fw_def(JASPERLAKE,  0, guc_def(ehl, 60, 1, 2), huc_def(ehl,  9, 0, 0)) \
-+	fw_def(ELKHARTLAKE, 0, guc_def(ehl, 60, 1, 2), huc_def(ehl,  9, 0, 0)) \
-+	fw_def(ICELAKE,     0, guc_def(icl, 60, 1, 2), huc_def(icl,  9, 0, 0)) \
-+	fw_def(COMETLAKE,   5, guc_def(cml, 60, 1, 2), huc_def(cml,  4, 0, 0)) \
-+	fw_def(COFFEELAKE,  0, guc_def(kbl, 60, 1, 2), huc_def(kbl,  4, 0, 0)) \
-+	fw_def(GEMINILAKE,  0, guc_def(glk, 60, 1, 2), huc_def(glk,  4, 0, 0)) \
-+	fw_def(KABYLAKE,    0, guc_def(kbl, 60, 1, 2), huc_def(kbl,  4, 0, 0)) \
-+	fw_def(BROXTON,     0, guc_def(bxt, 60, 1, 2), huc_def(bxt,  2, 0, 0)) \
-+	fw_def(SKYLAKE,     0, guc_def(skl, 60, 1, 2), huc_def(skl,  2, 0, 0))
- 
- #define __MAKE_UC_FW_PATH(prefix_, name_, major_, minor_, patch_) \
- 	"i915/" \
+diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
+index 14cd64cc61d0..a0575948ab61 100644
+--- a/drivers/gpu/drm/i915/i915_params.h
++++ b/drivers/gpu/drm/i915/i915_params.h
+@@ -59,7 +59,7 @@ struct drm_printer;
+ 	param(int, disable_power_well, -1, 0400) \
+ 	param(int, enable_ips, 1, 0600) \
+ 	param(int, invert_brightness, 0, 0600) \
+-	param(int, enable_guc, 0, 0400) \
++	param(int, enable_guc, -1, 0400) \
+ 	param(int, guc_log_level, -1, 0400) \
+ 	param(char *, guc_firmware_path, NULL, 0400) \
+ 	param(char *, huc_firmware_path, NULL, 0400) \
 -- 
 2.28.0
 
