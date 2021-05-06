@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E15F375B2E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 21:00:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67091375B2B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 21:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A17DA6ED90;
-	Thu,  6 May 2021 18:57:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 113836EE04;
+	Thu,  6 May 2021 18:57:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D176ED90;
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4E186ED9E;
  Thu,  6 May 2021 18:57:14 +0000 (UTC)
-IronPort-SDR: oVEbrCkxpLgBdr3rjzR3VvI0iL7ewWJ0LyhiA9jFSSuoaoPZTTLGrfuv8SDtIp88HPLozGXaDt
- LHGylLou2g+A==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="198195466"
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="198195466"
+IronPort-SDR: VsGHABSt9sPwmuwPRxuEdG1Y5WpMdWBcsoJe+Jovpw5BkaWsnrW4fOsoMNoOzx9IFeGF2wf0Dd
+ arBSbZAcZVDw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="196531037"
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="196531037"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:14 -0700
-IronPort-SDR: aETJ8eYSD0vD02oUzFlyRXQDNglzHP1qmM5kXZVBsI3CPbBkYtGk1pXEsJEr4XYLxP6Py74gbv
- MI5pPw9zrgpg==
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583646"
+IronPort-SDR: jESd20YfY3RNv5/UAMHvTuT2++zK3cWjEXIhGc2qkHhdKRt0EO1Ns2aQKRf9G+RA/GFRlbZceh
+ /IwlZ6uO+eWA==
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583649"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:13 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH 87/97] drm/i915/guc: Implement GuC priority management
-Date: Thu,  6 May 2021 12:14:41 -0700
-Message-Id: <20210506191451.77768-88-matthew.brost@intel.com>
+Subject: [RFC PATCH 88/97] drm/i915/guc: Support request cancellation
+Date: Thu,  6 May 2021 12:14:42 -0700
+Message-Id: <20210506191451.77768-89-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210506191451.77768-1-matthew.brost@intel.com>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
@@ -54,582 +54,441 @@ Cc: matthew.brost@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement a simple static mapping algorithm of the i915 priority levels
-(int, -1k to 1k exposed to user) to the 4 GuC levels. Mapping is as
-follows:
-
-i915 level < 0          -> GuC low level     (3)
-i915 level == 0         -> GuC normal level  (2)
-i915 level < INT_MAX    -> GuC high level    (1)
-i915 level == INT_MAX   -> GuC highest level (0)
-
-We believe this mapping should cover the UMD use cases (3 distinct user
-levels + 1 kernel level).
-
-In addition to static mapping, a simple counter system is attached to
-each context tracking the number of requests inflight on the context at
-each level. This is needed as the GuC levels are per context while in
-the i915 levels are per request.
+This adds GuC backend support for i915_request_cancel(), which in turn
+makes CONFIG_DRM_I915_REQUEST_TIMEOUT work.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   3 +
- drivers/gpu/drm/i915/gt/intel_context_types.h |   9 +-
- drivers/gpu/drm/i915/gt/intel_engine_user.c   |   4 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 205 +++++++++++++++++-
- drivers/gpu/drm/i915/i915_request.c           |   5 +
- drivers/gpu/drm/i915/i915_request.h           |   8 +
- drivers/gpu/drm/i915/i915_scheduler.c         |   7 +
- drivers/gpu/drm/i915/i915_scheduler_types.h   |   5 +
- drivers/gpu/drm/i915/i915_trace.h             |  16 +-
- include/uapi/drm/i915_drm.h                   |   9 +
- 10 files changed, 266 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_context.c       |   9 +
+ drivers/gpu/drm/i915/gt/intel_context.h       |   7 +
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   7 +
+ .../drm/i915/gt/intel_execlists_submission.c  |  18 ++
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   1 +
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 168 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_request.c           |  14 +-
+ 7 files changed, 211 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-index 2007dc6f6b99..209cf265bf74 100644
---- a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-@@ -245,6 +245,9 @@ static void signal_irq_work(struct irq_work *work)
- 			llist_entry(signal, typeof(*rq), signal_node);
- 		struct list_head cb_list;
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+index 3fe7794b2bfd..b633fea684d4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.c
++++ b/drivers/gpu/drm/i915/gt/intel_context.c
+@@ -366,6 +366,12 @@ static int __intel_context_active(struct i915_active *active)
+ 	return 0;
+ }
  
-+		if (rq->engine->sched_engine->retire_inflight_request_prio)
-+			rq->engine->sched_engine->retire_inflight_request_prio(rq);
++static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
++				 enum i915_sw_fence_notify state)
++{
++	return NOTIFY_DONE;
++}
 +
- 		spin_lock(&rq->lock);
- 		list_replace(&rq->fence.cb_list, &cb_list);
- 		__dma_fence_signal__timestamp(&rq->fence, timestamp);
+ void
+ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+ {
+@@ -398,6 +404,9 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+ 	ce->guc_id = GUC_INVALID_LRC_ID;
+ 	INIT_LIST_HEAD(&ce->guc_id_link);
+ 
++	i915_sw_fence_init(&ce->guc_blocked, sw_fence_dummy_notify);
++	i915_sw_fence_commit(&ce->guc_blocked);
++
+ 	i915_active_init(&ce->active,
+ 			 __intel_context_active, __intel_context_retire, 0);
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+index 11fa7700dc9e..1b208daee72b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.h
++++ b/drivers/gpu/drm/i915/gt/intel_context.h
+@@ -71,6 +71,13 @@ intel_context_is_pinned(struct intel_context *ce)
+ 	return atomic_read(&ce->pin_count);
+ }
+ 
++static inline void intel_context_cancel_request(struct intel_context *ce,
++						struct i915_request *rq)
++{
++	GEM_BUG_ON(!ce->ops->cancel_request);
++	return ce->ops->cancel_request(ce, rq);
++}
++
+ /**
+  * intel_context_unlock_pinned - Releases the earlier locking of 'pinned' status
+  * @ce - the context
 diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index 998f3839411a..217761b27b6c 100644
+index 217761b27b6c..cd2ea5b98fc3 100644
 --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
 +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -17,8 +17,9 @@
+@@ -13,6 +13,7 @@
+ #include <linux/types.h>
+ 
+ #include "i915_active_types.h"
++#include "i915_sw_fence.h"
+ #include "i915_utils.h"
  #include "intel_engine_types.h"
  #include "intel_sseu.h"
+@@ -43,6 +44,9 @@ struct intel_context_ops {
+ 	void (*unpin)(struct intel_context *ce);
+ 	void (*post_unpin)(struct intel_context *ce);
  
--#define CONTEXT_REDZONE POISON_INUSE
-+#include "uc/intel_guc_fwif.h"
- 
-+#define CONTEXT_REDZONE POISON_INUSE
- DECLARE_EWMA(runtime, 3, 8);
- 
- struct i915_gem_context;
-@@ -193,6 +194,12 @@ struct intel_context {
- 	 * GuC ID link - in list when unpinned but guc_id still valid in GuC
- 	 */
- 	struct list_head guc_id_link;
++	void (*cancel_request)(struct intel_context *ce,
++			       struct i915_request *rq);
 +
-+	/*
-+	 * GuC priority management
-+	 */
-+	u8 guc_prio;
-+	u32 guc_prio_count[GUC_CLIENT_PRIORITY_NUM];
+ 	void (*enter)(struct intel_context *ce);
+ 	void (*exit)(struct intel_context *ce);
+ 
+@@ -200,6 +204,9 @@ struct intel_context {
+ 	 */
+ 	u8 guc_prio;
+ 	u32 guc_prio_count[GUC_CLIENT_PRIORITY_NUM];
++
++	/* GuC context blocked fence */
++	struct i915_sw_fence guc_blocked;
  };
  
  #endif /* __INTEL_CONTEXT_TYPES__ */
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-index d6dcdeace174..7cb16b6cf2ef 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-@@ -11,6 +11,7 @@
- #include "intel_engine.h"
- #include "intel_engine_user.h"
- #include "intel_gt.h"
-+#include "uc/intel_guc_submission.h"
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 54518b64bdbd..16606cdfc2f5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -114,6 +114,7 @@
+ #include "gen8_engine_cs.h"
+ #include "intel_breadcrumbs.h"
+ #include "intel_context.h"
++#include "intel_engine_heartbeat.h"
+ #include "intel_engine_pm.h"
+ #include "intel_engine_stats.h"
+ #include "intel_execlists_submission.h"
+@@ -2545,11 +2546,26 @@ static int execlists_context_alloc(struct intel_context *ce)
+ 	return lrc_alloc(ce, ce->engine);
+ }
  
- struct intel_engine_cs *
- intel_engine_lookup_user(struct drm_i915_private *i915, u8 class, u8 instance)
-@@ -114,6 +115,9 @@ static void set_scheduler_caps(struct drm_i915_private *i915)
- 			disabled |= (I915_SCHEDULER_CAP_ENABLED |
- 				     I915_SCHEDULER_CAP_PRIORITY);
- 
-+		if (intel_uc_uses_guc_submission(&i915->gt.uc))
-+			enabled |= I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP;
++static void execlists_context_cancel_request(struct intel_context *ce,
++					     struct i915_request *rq)
++{
++	struct intel_engine_cs *engine = NULL;
 +
- 		for (i = 0; i < ARRAY_SIZE(map); i++) {
- 			if (engine->flags & BIT(map[i].engine))
- 				enabled |= BIT(map[i].sched);
++	i915_request_active_engine(rq, &engine);
++
++	if (engine && intel_engine_pulse(engine))
++		intel_gt_handle_error(engine->gt, engine->mask, 0,
++				      "request cancellation by %s",
++				      current->comm);
++}
++
+ static const struct intel_context_ops execlists_context_ops = {
+ 	.flags = COPS_HAS_INFLIGHT,
+ 
+ 	.alloc = execlists_context_alloc,
+ 
++	.cancel_request = execlists_context_cancel_request,
++
+ 	.pre_pin = execlists_context_pre_pin,
+ 	.pin = execlists_context_pin,
+ 	.unpin = lrc_unpin,
+@@ -3649,6 +3665,8 @@ static const struct intel_context_ops virtual_context_ops = {
+ 
+ 	.alloc = virtual_context_alloc,
+ 
++	.cancel_request = execlists_context_cancel_request,
++
+ 	.pre_pin = virtual_context_pre_pin,
+ 	.pin = virtual_context_pin,
+ 	.unpin = lrc_unpin,
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+index c6c702f236fa..3d3043d4bf98 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+@@ -13,6 +13,7 @@
+ #include "intel_gt_pm.h"
+ #include "intel_gt_requests.h"
+ #include "intel_timeline.h"
++#include "intel_context.h"
+ #include "uc/intel_uc.h"
+ 
+ static bool retire_requests(struct intel_timeline *tl)
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 9dc0ffc07cd7..6d2ae6390299 100644
+index 6d2ae6390299..b3157eeb2599 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -180,6 +180,7 @@ static void clr_guc_ids_exhausted(struct guc_submit_engine *gse)
- #define SCHED_STATE_NO_LOCK_BLOCK_TASKLET		BIT(2)
+@@ -181,6 +181,11 @@ static void clr_guc_ids_exhausted(struct guc_submit_engine *gse)
  #define SCHED_STATE_NO_LOCK_GUC_ID_STOLEN		BIT(3)
  #define SCHED_STATE_NO_LOCK_NEEDS_REGISTER		BIT(4)
-+#define SCHED_STATE_NO_LOCK_REGISTERED			BIT(5)
+ #define SCHED_STATE_NO_LOCK_REGISTERED			BIT(5)
++#define SCHED_STATE_NO_LOCK_BLOCKED_SHIFT		6
++#define SCHED_STATE_NO_LOCK_BLOCKED \
++	BIT(SCHED_STATE_NO_LOCK_BLOCKED_SHIFT)
++#define SCHED_STATE_NO_LOCK_BLOCKED_MASK \
++	(0xffff << SCHED_STATE_NO_LOCK_BLOCKED_SHIFT)
  static inline bool context_enabled(struct intel_context *ce)
  {
  	return (atomic_read(&ce->guc_sched_state_no_lock) &
-@@ -269,6 +270,24 @@ static inline void clr_context_needs_register(struct intel_context *ce)
+@@ -288,6 +293,27 @@ static inline void clr_context_registered(struct intel_context *ce)
  		   &ce->guc_sched_state_no_lock);
  }
  
-+static inline bool context_registered(struct intel_context *ce)
++static inline u32 context_blocked(struct intel_context *ce)
 +{
 +	return (atomic_read(&ce->guc_sched_state_no_lock) &
-+		SCHED_STATE_NO_LOCK_REGISTERED);
++		SCHED_STATE_NO_LOCK_BLOCKED_MASK) >>
++		SCHED_STATE_NO_LOCK_BLOCKED_SHIFT;
 +}
 +
-+static inline void set_context_registered(struct intel_context *ce)
++static inline void incr_context_blocked(struct intel_context *ce)
 +{
-+	atomic_or(SCHED_STATE_NO_LOCK_REGISTERED,
-+		  &ce->guc_sched_state_no_lock);
++	lockdep_assert_held(&ce_to_gse(ce)->sched_engine.lock);
++	atomic_add(SCHED_STATE_NO_LOCK_BLOCKED,
++		   &ce->guc_sched_state_no_lock);
 +}
 +
-+static inline void clr_context_registered(struct intel_context *ce)
++static inline void decr_context_blocked(struct intel_context *ce)
 +{
-+	atomic_and((u32)~SCHED_STATE_NO_LOCK_REGISTERED,
++	lockdep_assert_held(&ce_to_gse(ce)->sched_engine.lock);
++	atomic_sub(SCHED_STATE_NO_LOCK_BLOCKED,
 +		   &ce->guc_sched_state_no_lock);
 +}
 +
  /*
   * Below is a set of functions which control the GuC scheduling state which
   * require a lock, aside from the special case where the functions are called
-@@ -1531,6 +1550,7 @@ static int steal_guc_id(struct intel_guc *guc, bool unpinned)
- 		 * the guc_id until the retire workqueue processes this
- 		 * context.
- 		 */
-+		clr_context_registered(ce);
- 		if (!unpinned) {
- 			GEM_BUG_ON(ce_to_gse(ce)->stalled_context);
+@@ -593,6 +619,9 @@ static int __guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+ 		goto out;
+ 	}
  
-@@ -1681,10 +1701,13 @@ static int register_context(struct intel_context *ce, bool loop)
- 	struct intel_guc *guc = ce_to_guc(ce);
- 	u32 offset = intel_guc_ggtt_offset(guc, guc->lrc_desc_pool) +
- 		ce->guc_id * sizeof(struct guc_lrc_desc);
-+	int ret;
- 
- 	trace_intel_context_register(ce);
- 
--	return __guc_action_register_context(guc, ce->guc_id, offset, loop);
-+	ret = __guc_action_register_context(guc, ce->guc_id, offset, loop);
-+	set_context_registered(ce);
-+	return ret;
- }
- 
- static int __guc_action_deregister_context(struct intel_guc *guc,
-@@ -1739,6 +1762,8 @@ static void guc_context_policy_init(struct intel_engine_cs *engine,
- 	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
- }
- 
-+static inline u8 map_i915_prio_to_guc_prio(int prio);
++	if (unlikely(context_blocked(ce)))
++		goto out;
 +
- static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+ 	enabled = context_enabled(ce);
+ 
+ 	if (!enabled) {
+@@ -853,6 +882,7 @@ static void __guc_context_destroy(struct intel_context *ce);
+ static void release_guc_id(struct intel_guc *guc, struct intel_context *ce);
+ static void guc_signal_context_fence(struct intel_context *ce);
+ static void guc_cancel_context_requests(struct intel_context *ce);
++static void guc_blocked_fence_complete(struct intel_context *ce);
+ 
+ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
  {
- 	struct intel_runtime_pm *runtime_pm =
-@@ -1747,6 +1772,8 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
- 	struct intel_guc *guc = &engine->gt->uc.guc;
- 	u32 desc_idx = ce->guc_id;
- 	struct guc_lrc_desc *desc;
-+	const struct i915_gem_context *ctx;
-+	int prio = I915_CONTEXT_DEFAULT_PRIORITY;
- 	bool context_registered;
- 	intel_wakeref_t wakeref;
- 	int ret = 0;
-@@ -1763,6 +1790,12 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
- 
- 	context_registered = lrc_desc_registered(guc, desc_idx);
- 
-+	rcu_read_lock();
-+	ctx = rcu_dereference(ce->gem_context);
-+	if (ctx)
-+		prio = ctx->sched.priority;
-+	rcu_read_unlock();
+@@ -900,6 +930,10 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+ 			}
+ 			intel_context_sched_disable_unpin(ce);
+ 			atomic_dec(&guc->outstanding_submission_g2h);
++			spin_lock_irqsave(&ce->guc_state.lock, flags);
++			guc_blocked_fence_complete(ce);
++			spin_unlock_irqrestore(&ce->guc_state.lock, flags);
 +
- 	reset_lrc_desc(guc, desc_idx);
- 	set_lrc_desc_registered(guc, desc_idx, ce);
- 
-@@ -1771,7 +1804,8 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
- 	desc->engine_submit_mask = adjust_engine_mask(engine->class,
- 						      engine->mask);
- 	desc->hw_context_desc = ce->lrc.lrca;
--	desc->priority = GUC_CLIENT_PRIORITY_KMD_NORMAL;
-+	ce->guc_prio = map_i915_prio_to_guc_prio(prio);
-+	desc->priority = ce->guc_prio;
- 	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
- 	guc_context_policy_init(engine, desc);
- 	init_sched_state(ce);
-@@ -2006,11 +2040,17 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
- 	GEM_BUG_ON(ce != __get_context(guc, ce->guc_id));
- 	GEM_BUG_ON(context_enabled(ce));
- 
-+	clr_context_registered(ce);
- 	deregister_context(ce, ce->guc_id, true);
+ 			intel_context_put(ce);
+ 		}
+ 	}
+@@ -1917,6 +1951,21 @@ static void guc_context_post_unpin(struct intel_context *ce)
+ 	lrc_post_unpin(ce);
  }
  
- static void __guc_context_destroy(struct intel_context *ce)
- {
-+	GEM_BUG_ON(ce->guc_prio_count[GUC_CLIENT_PRIORITY_KMD_HIGH] ||
-+		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_HIGH] ||
-+		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_KMD_NORMAL] ||
-+		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_NORMAL]);
-+
- 	lrc_fini(ce);
- 	intel_context_fini(ce);
- 
-@@ -2104,17 +2144,121 @@ static int guc_context_alloc(struct intel_context *ce)
- 	return lrc_alloc(ce, ce->engine);
- }
- 
-+static void guc_context_set_prio(struct intel_guc *guc,
-+				 struct intel_context *ce,
-+				 u8 prio)
++static void __guc_context_sched_enable(struct intel_guc *guc,
++				       struct intel_context *ce)
 +{
 +	u32 action[] = {
-+		INTEL_GUC_ACTION_SET_CONTEXT_PRIORITY,
++		INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_SET,
 +		ce->guc_id,
-+		prio,
++		GUC_CONTEXT_ENABLE
 +	};
 +
-+	GEM_BUG_ON(prio < GUC_CLIENT_PRIORITY_KMD_HIGH ||
-+		   prio > GUC_CLIENT_PRIORITY_NORMAL);
++	trace_intel_context_sched_enable(ce);
 +
-+	if (ce->guc_prio == prio || submission_disabled(guc) ||
-+	    !context_registered(ce))
-+		return;
-+
-+	guc_submission_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
-+
-+	ce->guc_prio = prio;
-+	trace_intel_context_set_prio(ce);
++	guc_submission_busy_loop(guc, action, ARRAY_SIZE(action),
++				 G2H_LEN_DW_SCHED_CONTEXT_MODE_SET, true);
 +}
 +
-+static inline u8 map_i915_prio_to_guc_prio(int prio)
+ static void __guc_context_sched_disable(struct intel_guc *guc,
+ 					struct intel_context *ce,
+ 					u16 guc_id)
+@@ -1935,15 +1984,129 @@ static void __guc_context_sched_disable(struct intel_guc *guc,
+ 				 G2H_LEN_DW_SCHED_CONTEXT_MODE_SET, true);
+ }
+ 
++static void guc_blocked_fence_complete(struct intel_context *ce)
 +{
-+	if (prio == I915_PRIORITY_NORMAL)
-+		return GUC_CLIENT_PRIORITY_KMD_NORMAL;
-+	else if (prio < I915_PRIORITY_NORMAL)
-+		return GUC_CLIENT_PRIORITY_NORMAL;
-+	else if (prio != I915_PRIORITY_BARRIER)
-+		return GUC_CLIENT_PRIORITY_HIGH;
-+	else
-+		return GUC_CLIENT_PRIORITY_KMD_HIGH;
++	lockdep_assert_held(&ce->guc_state.lock);
++
++	if (!i915_sw_fence_done(&ce->guc_blocked))
++		i915_sw_fence_complete(&ce->guc_blocked);
 +}
 +
-+static inline void add_context_inflight_prio(struct intel_context *ce,
-+					     u8 guc_prio)
++static void guc_blocked_fence_reinit(struct intel_context *ce)
 +{
-+	lockdep_assert_held(&ce->guc_active.lock);
-+	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_prio_count));
-+
-+	++ce->guc_prio_count[guc_prio];
-+
-+	/* Overflow protection */
-+	GEM_WARN_ON(!ce->guc_prio_count[guc_prio]);
++	lockdep_assert_held(&ce->guc_state.lock);
++	GEM_BUG_ON(!i915_sw_fence_done(&ce->guc_blocked));
++	i915_sw_fence_fini(&ce->guc_blocked);
++	i915_sw_fence_reinit(&ce->guc_blocked);
++	i915_sw_fence_await(&ce->guc_blocked);
++	i915_sw_fence_commit(&ce->guc_blocked);
 +}
 +
-+static inline void sub_context_inflight_prio(struct intel_context *ce,
-+					     u8 guc_prio)
+ static u16 prep_context_pending_disable(struct intel_context *ce)
+ {
+ 	set_context_pending_disable(ce);
+ 	clr_context_enabled(ce);
++	guc_blocked_fence_reinit(ce);
+ 	intel_context_get(ce);
+ 
+ 	return ce->guc_id;
+ }
+ 
++static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
 +{
-+	lockdep_assert_held(&ce->guc_active.lock);
-+	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_prio_count));
++	struct intel_guc *guc = ce_to_guc(ce);
++	struct i915_sched_engine *sched_engine = ce_to_sched_engine(ce);
++	unsigned long flags;
++	struct intel_runtime_pm *runtime_pm = &ce->engine->gt->i915->runtime_pm;
++	intel_wakeref_t wakeref;
++	u16 guc_id;
++	bool enabled;
 +
-+	/* Underflow protection */
-+	GEM_WARN_ON(!ce->guc_prio_count[guc_prio]);
++	spin_lock_irqsave(&sched_engine->lock, flags);
++	incr_context_blocked(ce);
++	spin_unlock_irqrestore(&sched_engine->lock, flags);
 +
-+	--ce->guc_prio_count[guc_prio];
++	spin_lock_irqsave(&ce->guc_state.lock, flags);
++	enabled = context_enabled(ce);
++	if (unlikely(!enabled || submission_disabled(guc))) {
++		if (!enabled)
++			clr_context_enabled(ce);
++		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
++		return &ce->guc_blocked;
++	}
++
++	/*
++	 * We add +2 here as the schedule disable complete CTB handler calls
++	 * intel_context_sched_disable_unpin (-2 to pin_count).
++	 */
++	atomic_add(2, &ce->pin_count);
++
++	guc_id = prep_context_pending_disable(ce);
++	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
++
++	with_intel_runtime_pm(runtime_pm, wakeref)
++		__guc_context_sched_disable(guc, ce, guc_id);
++
++	return &ce->guc_blocked;
 +}
 +
-+static inline void update_context_prio(struct intel_context *ce)
++static void guc_context_unblock(struct intel_context *ce)
 +{
-+	struct intel_guc *guc = &ce->engine->gt->uc.guc;
-+	int i;
++	struct intel_guc *guc = ce_to_guc(ce);
++	struct i915_sched_engine *sched_engine = ce_to_sched_engine(ce);
++	unsigned long flags;
++	struct intel_runtime_pm *runtime_pm = &ce->engine->gt->i915->runtime_pm;
++	intel_wakeref_t wakeref;
 +
-+	lockdep_assert_held(&ce->guc_active.lock);
++	GEM_BUG_ON(context_enabled(ce));
 +
-+	for (i = 0; i < ARRAY_SIZE(ce->guc_prio_count); ++i) {
-+		if (ce->guc_prio_count[i]) {
-+			guc_context_set_prio(guc, ce, i);
-+			break;
++	if (unlikely(context_blocked(ce) > 1)) {
++		spin_lock_irqsave(&sched_engine->lock, flags);
++		if (likely(context_blocked(ce) > 1))
++			goto decrement;
++		spin_unlock_irqrestore(&sched_engine->lock, flags);
++	}
++
++	spin_lock_irqsave(&ce->guc_state.lock, flags);
++	if (unlikely(submission_disabled(guc) ||
++		     !intel_context_is_pinned(ce) ||
++		     context_pending_disable(ce) ||
++		     context_blocked(ce) > 1)) {
++		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
++		goto out;
++	}
++
++	set_context_pending_enable(ce);
++	set_context_enabled(ce);
++	intel_context_get(ce);
++	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
++
++	with_intel_runtime_pm(runtime_pm, wakeref)
++		__guc_context_sched_enable(guc, ce);
++
++out:
++	spin_lock_irqsave(&sched_engine->lock, flags);
++decrement:
++	decr_context_blocked(ce);
++	spin_unlock_irqrestore(&sched_engine->lock, flags);
++}
++
++static void guc_context_cancel_request(struct intel_context *ce,
++				       struct i915_request *rq)
++{
++	if (i915_sw_fence_signaled(&rq->submit)) {
++		struct i915_sw_fence *fence = guc_context_block(ce);
++
++		i915_sw_fence_wait(fence);
++		if (!i915_request_completed(rq)) {
++			__i915_request_skip(rq);
++			guc_reset_state(ce, intel_ring_wrap(ce->ring, rq->head),
++					true);
 +		}
++		guc_context_unblock(ce);
 +	}
 +}
 +
-+static inline bool new_guc_prio_higher(u8 old_guc_prio, u8 new_guc_prio)
-+{
-+	/* Lower value is higher priority */
-+	return new_guc_prio < old_guc_prio;
-+}
-+
- static void add_to_context(struct i915_request *rq)
+ static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
  {
- 	struct intel_context *ce = rq->context;
-+	u8 new_guc_prio = map_i915_prio_to_guc_prio(rq_prio(rq));
-+
-+	GEM_BUG_ON(rq->guc_prio == GUC_PRIO_FINI);
+ 	struct intel_guc *guc = ce_to_guc(ce);
+@@ -2294,6 +2457,8 @@ static const struct intel_context_ops guc_context_ops = {
  
- 	spin_lock(&ce->guc_active.lock);
- 	list_move_tail(&rq->sched.link, &ce->guc_active.requests);
-+
-+	if (rq->guc_prio == GUC_PRIO_INIT) {
-+		rq->guc_prio = new_guc_prio;
-+		add_context_inflight_prio(ce, rq->guc_prio);
-+	} else if (new_guc_prio_higher(rq->guc_prio, new_guc_prio)) {
-+		sub_context_inflight_prio(ce, rq->guc_prio);
-+		rq->guc_prio = new_guc_prio;
-+		add_context_inflight_prio(ce, rq->guc_prio);
-+	}
-+	update_context_prio(ce);
-+
- 	if (unlikely(request_has_no_guc_id(rq)))
- 		++ce->guc_num_rq_submit_no_id;
- 	spin_unlock(&ce->guc_active.lock);
- }
+ 	.ban = guc_context_ban,
  
-+static void guc_prio_fini(struct i915_request *rq, struct intel_context *ce)
-+{
-+	if (rq->guc_prio != GUC_PRIO_INIT &&
-+	    rq->guc_prio != GUC_PRIO_FINI) {
-+		sub_context_inflight_prio(ce, rq->guc_prio);
-+		update_context_prio(ce);
-+	}
-+	rq->guc_prio = GUC_PRIO_FINI;
-+}
++	.cancel_request = guc_context_cancel_request,
 +
- static void remove_from_context(struct i915_request *rq)
- {
- 	struct intel_context *ce = rq->context;
-@@ -2127,6 +2271,8 @@ static void remove_from_context(struct i915_request *rq)
- 	/* Prevent further __await_execution() registering a cb, then flush */
- 	set_bit(I915_FENCE_FLAG_ACTIVE, &rq->fence.flags);
+ 	.enter = intel_context_enter_engine,
+ 	.exit = intel_context_exit_engine,
  
-+	guc_prio_fini(rq, ce);
-+
- 	spin_unlock_irq(&ce->guc_active.lock);
+@@ -2661,6 +2826,8 @@ static const struct intel_context_ops virtual_guc_context_ops = {
  
- 	if (likely(!request_has_no_guc_id(rq)))
-@@ -2582,6 +2728,39 @@ static void guc_init_breadcrumbs(struct intel_engine_cs *engine)
- 	}
- }
+ 	.ban = guc_context_ban,
  
-+static void guc_bump_inflight_request_prio(struct i915_request *rq,
-+					   int prio)
-+{
-+	struct intel_context *ce = rq->context;
-+	u8 new_guc_prio = map_i915_prio_to_guc_prio(prio);
++	.cancel_request = guc_context_cancel_request,
 +
-+	/* Short circuit function */
-+	if (prio < I915_PRIORITY_NORMAL ||
-+	    (rq->guc_prio == GUC_PRIO_FINI) ||
-+	    (rq->guc_prio != GUC_PRIO_INIT &&
-+	     !new_guc_prio_higher(rq->guc_prio, new_guc_prio)))
-+		return;
-+
-+	spin_lock(&ce->guc_active.lock);
-+	if (rq->guc_prio != GUC_PRIO_FINI) {
-+		if (rq->guc_prio != GUC_PRIO_INIT)
-+			sub_context_inflight_prio(ce, rq->guc_prio);
-+		rq->guc_prio = new_guc_prio;
-+		add_context_inflight_prio(ce, rq->guc_prio);
-+		update_context_prio(ce);
-+	}
-+	spin_unlock(&ce->guc_active.lock);
-+}
-+
-+static void guc_retire_inflight_request_prio(struct i915_request *rq)
-+{
-+	struct intel_context *ce = rq->context;
-+
-+	spin_lock(&ce->guc_active.lock);
-+	guc_prio_fini(rq, ce);
-+	spin_unlock(&ce->guc_active.lock);
-+}
-+
- static void sanitize_hwsp(struct intel_engine_cs *engine)
- {
- 	struct intel_timeline *tl;
-@@ -2807,6 +2986,10 @@ static void guc_submit_engine_init(struct intel_guc *guc,
- 	gse->sched_engine.schedule = i915_schedule;
- 	gse->sched_engine.disabled = guc_sched_engine_disabled;
- 	gse->sched_engine.destroy = guc_sched_engine_destroy;
-+	gse->sched_engine.bump_inflight_request_prio =
-+		guc_bump_inflight_request_prio;
-+	gse->sched_engine.retire_inflight_request_prio =
-+		guc_retire_inflight_request_prio;
- 	gse->guc = guc;
- 	gse->id = id;
- }
-@@ -3264,6 +3447,22 @@ void intel_guc_log_submission_info(struct intel_guc *guc,
- 		gse_log_submission_info(guc->gse[i], p, i);
- }
+ 	.enter = guc_virtual_context_enter,
+ 	.exit = guc_virtual_context_exit,
  
-+static inline void guc_log_context_priority(struct drm_printer *p,
-+					    struct intel_context *ce)
-+{
-+	int i;
-+
-+	drm_printf(p, "\t\tPriority: %d\n",
-+		   ce->guc_prio);
-+	drm_printf(p, "\t\tNumber Requests (lower index == higher priority)\n");
-+	for (i = GUC_CLIENT_PRIORITY_KMD_HIGH;
-+	     i < GUC_CLIENT_PRIORITY_NUM; ++i) {
-+		drm_printf(p, "\t\tNumber requests in priority band[%d]: %d\n",
-+			   i, ce->guc_prio_count[i]);
-+	}
-+	drm_printf(p, "\n");
-+}
-+
- void intel_guc_log_context_info(struct intel_guc *guc,
- 				struct drm_printer *p)
- {
-@@ -3287,6 +3486,8 @@ void intel_guc_log_context_info(struct intel_guc *guc,
- 		drm_printf(p, "\t\tSchedule State: 0x%x, 0x%x\n\n",
- 			   ce->guc_state.sched_state,
- 			   atomic_read(&ce->guc_sched_state_no_lock));
-+
-+		guc_log_context_priority(p, ce);
- 	}
- }
+@@ -3212,6 +3379,7 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+ 		clr_context_banned(ce);
+ 		clr_context_pending_disable(ce);
+ 		__guc_signal_context_fence(ce);
++		guc_blocked_fence_complete(ce);
+ 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
  
+ 		if (context_block_tasklet(ce)) {
 diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index ef9eb91ec84c..4bf10f0ac34d 100644
+index 4bf10f0ac34d..71965fb4f3ab 100644
 --- a/drivers/gpu/drm/i915/i915_request.c
 +++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -115,6 +115,9 @@ static void i915_fence_release(struct dma_fence *fence)
- {
- 	struct i915_request *rq = to_request(fence);
- 
-+	GEM_BUG_ON(rq->guc_prio != GUC_PRIO_INIT &&
-+		   rq->guc_prio != GUC_PRIO_FINI);
-+
- 	/*
- 	 * The request is put onto a RCU freelist (i.e. the address
- 	 * is immediately reused), mark the fences as being freed now.
-@@ -956,6 +959,8 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
- 
- 	rq->rcustate = get_state_synchronize_rcu(); /* acts as smp_mb() */
- 
-+	rq->guc_prio = GUC_PRIO_INIT;
-+
- 	/* We bump the ref for the fence chain */
- 	i915_sw_fence_reinit(&i915_request_get(rq)->submit);
- 	i915_sw_fence_reinit(&i915_request_get(rq)->semaphore);
-diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-index 94a3f119ad86..a03905f86e82 100644
---- a/drivers/gpu/drm/i915/i915_request.h
-+++ b/drivers/gpu/drm/i915/i915_request.h
-@@ -299,6 +299,14 @@ struct i915_request {
- 	 */
- 	struct list_head guc_fence_link;
- 
-+	/**
-+	 * Priority level while the request is inflight. Differs slightly than
-+	 * i915 scheduler priority.
-+	 */
-+#define	GUC_PRIO_INIT	0xff
-+#define	GUC_PRIO_FINI	0xfe
-+	u8 guc_prio;
-+
- 	I915_SELFTEST_DECLARE(struct {
- 		struct list_head link;
- 		unsigned long delay;
-diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
-index 51644de0e9ca..babad7da3906 100644
---- a/drivers/gpu/drm/i915/i915_scheduler.c
-+++ b/drivers/gpu/drm/i915/i915_scheduler.c
-@@ -241,6 +241,9 @@ static void __i915_schedule(struct i915_sched_node *node,
- 	/* Fifo and depth-first replacement ensure our deps execute before us */
- 	sched_engine = lock_sched_engine(node, sched_engine, &cache);
- 	list_for_each_entry_safe_reverse(dep, p, &dfs, dfs_link) {
-+		struct i915_request *from = container_of(dep->signaler,
-+							 struct i915_request,
-+							 sched);
- 		INIT_LIST_HEAD(&dep->dfs_link);
- 
- 		node = dep->signaler;
-@@ -254,6 +257,10 @@ static void __i915_schedule(struct i915_sched_node *node,
- 		GEM_BUG_ON(node_to_request(node)->engine->sched_engine !=
- 			   sched_engine);
- 
-+		/* Must be called before changing the nodes priority */
-+		if (sched_engine->bump_inflight_request_prio)
-+			sched_engine->bump_inflight_request_prio(from, prio);
-+
- 		WRITE_ONCE(node->attr.priority, prio);
- 
- 		/*
-diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
-index a0b755a27140..14626fcfeed3 100644
---- a/drivers/gpu/drm/i915/i915_scheduler_types.h
-+++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
-@@ -151,6 +151,11 @@ struct i915_sched_engine {
- 	void	(*kick_backend)(const struct i915_request *rq,
- 				int prio);
- 
-+	/* Update priority of inflight requests */
-+	void	(*bump_inflight_request_prio)(struct i915_request *rq,
-+					      int prio);
-+	void	(*retire_inflight_request_prio)(struct i915_request *rq);
-+
- 	/*
- 	 * Call when the priority on a request has changed and it and its
- 	 * dependencies may need rescheduling. Note the request itself may
-diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
-index 937d3706af9b..9d2cd14ed882 100644
---- a/drivers/gpu/drm/i915/i915_trace.h
-+++ b/drivers/gpu/drm/i915/i915_trace.h
-@@ -914,6 +914,7 @@ DECLARE_EVENT_CLASS(intel_context,
- 			     __field(int, pin_count)
- 			     __field(u32, sched_state)
- 			     __field(u32, guc_sched_state_no_lock)
-+			     __field(u8, guc_prio)
- 			     ),
- 
- 	    TP_fast_assign(
-@@ -922,11 +923,17 @@ DECLARE_EVENT_CLASS(intel_context,
- 			   __entry->sched_state = ce->guc_state.sched_state;
- 			   __entry->guc_sched_state_no_lock =
- 			   atomic_read(&ce->guc_sched_state_no_lock);
-+			   __entry->guc_prio = ce->guc_prio;
- 			   ),
- 
--	    TP_printk("guc_id=%d, pin_count=%d sched_state=0x%x,0x%x",
-+	    TP_printk("guc_id=%d, pin_count=%d sched_state=0x%x,0x%x, guc_prio=%u",
- 		      __entry->guc_id, __entry->pin_count, __entry->sched_state,
--		      __entry->guc_sched_state_no_lock)
-+		      __entry->guc_sched_state_no_lock, __entry->guc_prio)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_set_prio,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
- );
- 
- DEFINE_EVENT(intel_context, intel_context_reset,
-@@ -1036,6 +1043,11 @@ trace_i915_request_out(struct i915_request *rq)
- {
+@@ -734,18 +734,6 @@ void i915_request_unsubmit(struct i915_request *request)
+ 	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
  }
  
-+static inline void
-+trace_intel_context_set_prio(struct intel_context *ce)
-+{
-+}
-+
- static inline void
- trace_intel_context_reset(struct intel_context *ce)
+-static void __cancel_request(struct i915_request *rq)
+-{
+-	struct intel_engine_cs *engine = NULL;
+-
+-	i915_request_active_engine(rq, &engine);
+-
+-	if (engine && intel_engine_pulse(engine))
+-		intel_gt_handle_error(engine->gt, engine->mask, 0,
+-				      "request cancellation by %s",
+-				      current->comm);
+-}
+-
+ void i915_request_cancel(struct i915_request *rq, int error)
  {
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index c2c7759b7d2e..0a489b11fe6b 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -572,6 +572,15 @@ typedef struct drm_i915_irq_wait {
- #define   I915_SCHEDULER_CAP_PREEMPTION	(1ul << 2)
- #define   I915_SCHEDULER_CAP_SEMAPHORES	(1ul << 3)
- #define   I915_SCHEDULER_CAP_ENGINE_BUSY_STATS	(1ul << 4)
-+/*
-+ * Indicates the 2k user priority levels are statically mapped into 3 buckets as
-+ * follows:
-+ *
-+ * -1k to -1	Low priority
-+ * 0		Normal priority
-+ * 1 to 1k	Highest priority
-+ */
-+#define   I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP	(1ul << 5)
+ 	if (!i915_request_set_error_once(rq, error))
+@@ -753,7 +741,7 @@ void i915_request_cancel(struct i915_request *rq, int error)
  
- #define I915_PARAM_HUC_STATUS		 42
+ 	set_bit(I915_FENCE_FLAG_SENTINEL, &rq->fence.flags);
  
+-	__cancel_request(rq);
++	intel_context_cancel_request(rq->context, rq);
+ }
+ 
+ static int __i915_sw_fence_call
 -- 
 2.28.0
 
