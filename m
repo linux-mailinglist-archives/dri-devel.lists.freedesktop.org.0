@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63075375A9D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 20:58:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A555B375A99
+	for <lists+dri-devel@lfdr.de>; Thu,  6 May 2021 20:58:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 891456ECEF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A83086ED7C;
 	Thu,  6 May 2021 18:57:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6B716ECE3;
- Thu,  6 May 2021 18:57:10 +0000 (UTC)
-IronPort-SDR: 6ONHHoZTVbXYx7EeTFNzi8pm6HYemd40gGbFM/kt80isiYWKolPCmdb+iinfqvqFOh5Cjn4XX6
- 8ugRbtzhzb9g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="196530986"
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="196530986"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB0046ECED;
+ Thu,  6 May 2021 18:57:11 +0000 (UTC)
+IronPort-SDR: ercXXhNNwZzXpojjaCRYfqkwZuTBnZxzi/U24Ygq1kRDqwWd8wlUVO6LJU8a+8WPIfhS+ABW2d
+ GpnBiHGS+ulQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="198195429"
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="198195429"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:10 -0700
-IronPort-SDR: Pw+9DS18qQfrGBGwbTQP/zR/La5TPopMEnuxYK//J73pvC3pHKv7rEIMm4VoMA1eUVQGSdf5u2
- /Tnx7+wpAc1Q==
-X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583375"
+IronPort-SDR: 2wZ1lIll7KHUtCTV0HHD9UXK4xOvJm8fwtz0/FYvh3HOJSivSwIws08MU90G/Hq42AJUug5ulT
+ a1O2sMln9Atg==
+X-IronPort-AV: E=Sophos;i="5.82,278,1613462400"; d="scan'208";a="469583380"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 May 2021 11:57:08 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH 07/97] drm/i915/guc: Remove sample_forcewake h2g action
-Date: Thu,  6 May 2021 12:13:21 -0700
-Message-Id: <20210506191451.77768-8-matthew.brost@intel.com>
+Subject: [RFC PATCH 08/97] drm/i915/guc: Keep strict GuC ABI definitions
+Date: Thu,  6 May 2021 12:13:22 -0700
+Message-Id: <20210506191451.77768-9-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210506191451.77768-1-matthew.brost@intel.com>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,99 +55,542 @@ Cc: matthew.brost@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-This action is no-op in the GuC side for a few versions already
-and it is getting entirely removed soon, in an upcoming version.
+Our fwif.h file is now mix of strict firmware ABI definitions and
+set of our helpers. In anticipation of upcoming changes to the GuC
+interface try to keep them separate in smaller maintainable files.
 
-Time to remove before we face communication issues.
-
-Cc:  Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Michał Winiarski <michal.winiarski@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc.c      | 16 ----------------
- drivers/gpu/drm/i915/gt/uc/intel_guc.h      |  1 -
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  4 ----
- drivers/gpu/drm/i915/gt/uc/intel_uc.c       |  4 ----
- 4 files changed, 25 deletions(-)
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  51 +++++
+ .../gt/uc/abi/guc_communication_ctb_abi.h     | 106 +++++++++
+ .../gt/uc/abi/guc_communication_mmio_abi.h    |  52 +++++
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |  14 ++
+ .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h |  21 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   | 203 +-----------------
+ 6 files changed, 250 insertions(+), 197 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index adae04c47aab..ab2c8fe8cdfa 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -469,22 +469,6 @@ int intel_guc_to_host_process_recv_msg(struct intel_guc *guc,
- 	return 0;
- }
- 
--int intel_guc_sample_forcewake(struct intel_guc *guc)
--{
--	struct drm_i915_private *dev_priv = guc_to_gt(guc)->i915;
--	u32 action[2];
--
--	action[0] = INTEL_GUC_ACTION_SAMPLE_FORCEWAKE;
--	/* WaRsDisableCoarsePowerGating:skl,cnl */
--	if (!HAS_RC6(dev_priv) || NEEDS_WaRsDisableCoarsePowerGating(dev_priv))
--		action[1] = 0;
--	else
--		/* bit 0 and 1 are for Render and Media domain separately */
--		action[1] = GUC_FORCEWAKE_RENDER | GUC_FORCEWAKE_MEDIA;
--
--	return intel_guc_send(guc, action, ARRAY_SIZE(action));
--}
--
- /**
-  * intel_guc_auth_huc() - Send action to GuC to authenticate HuC ucode
-  * @guc: intel_guc structure
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index bc2ba7d0626c..c20f3839de12 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -128,7 +128,6 @@ int intel_guc_send_mmio(struct intel_guc *guc, const u32 *action, u32 len,
- 			u32 *response_buf, u32 response_buf_size);
- int intel_guc_to_host_process_recv_msg(struct intel_guc *guc,
- 				       const u32 *payload, u32 len);
--int intel_guc_sample_forcewake(struct intel_guc *guc);
- int intel_guc_auth_huc(struct intel_guc *guc, u32 rsa_offset);
- int intel_guc_suspend(struct intel_guc *guc);
- int intel_guc_resume(struct intel_guc *guc);
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+new file mode 100644
+index 000000000000..90efef8a73e4
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+@@ -0,0 +1,51 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2014-2021 Intel Corporation
++ */
++
++#ifndef _ABI_GUC_ACTIONS_ABI_H
++#define _ABI_GUC_ACTIONS_ABI_H
++
++enum intel_guc_action {
++	INTEL_GUC_ACTION_DEFAULT = 0x0,
++	INTEL_GUC_ACTION_REQUEST_PREEMPTION = 0x2,
++	INTEL_GUC_ACTION_REQUEST_ENGINE_RESET = 0x3,
++	INTEL_GUC_ACTION_ALLOCATE_DOORBELL = 0x10,
++	INTEL_GUC_ACTION_DEALLOCATE_DOORBELL = 0x20,
++	INTEL_GUC_ACTION_LOG_BUFFER_FILE_FLUSH_COMPLETE = 0x30,
++	INTEL_GUC_ACTION_UK_LOG_ENABLE_LOGGING = 0x40,
++	INTEL_GUC_ACTION_FORCE_LOG_BUFFER_FLUSH = 0x302,
++	INTEL_GUC_ACTION_ENTER_S_STATE = 0x501,
++	INTEL_GUC_ACTION_EXIT_S_STATE = 0x502,
++	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
++	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
++	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
++	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
++	INTEL_GUC_ACTION_LIMIT
++};
++
++enum intel_guc_preempt_options {
++	INTEL_GUC_PREEMPT_OPTION_DROP_WORK_Q = 0x4,
++	INTEL_GUC_PREEMPT_OPTION_DROP_SUBMIT_Q = 0x8,
++};
++
++enum intel_guc_report_status {
++	INTEL_GUC_REPORT_STATUS_UNKNOWN = 0x0,
++	INTEL_GUC_REPORT_STATUS_ACKED = 0x1,
++	INTEL_GUC_REPORT_STATUS_ERROR = 0x2,
++	INTEL_GUC_REPORT_STATUS_COMPLETE = 0x4,
++};
++
++enum intel_guc_sleep_state_status {
++	INTEL_GUC_SLEEP_STATE_SUCCESS = 0x1,
++	INTEL_GUC_SLEEP_STATE_PREEMPT_TO_IDLE_FAILED = 0x2,
++	INTEL_GUC_SLEEP_STATE_ENGINE_RESET_FAILED = 0x3
++#define INTEL_GUC_SLEEP_STATE_INVALID_MASK 0x80000000
++};
++
++#define GUC_LOG_CONTROL_LOGGING_ENABLED	(1 << 0)
++#define GUC_LOG_CONTROL_VERBOSITY_SHIFT	4
++#define GUC_LOG_CONTROL_VERBOSITY_MASK	(0xF << GUC_LOG_CONTROL_VERBOSITY_SHIFT)
++#define GUC_LOG_CONTROL_DEFAULT_LOGGING	(1 << 8)
++
++#endif /* _ABI_GUC_ACTIONS_ABI_H */
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+new file mode 100644
+index 000000000000..ebd8c3e0e4bb
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+@@ -0,0 +1,106 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2014-2021 Intel Corporation
++ */
++
++#ifndef _ABI_GUC_COMMUNICATION_CTB_ABI_H
++#define _ABI_GUC_COMMUNICATION_CTB_ABI_H
++
++#include <linux/types.h>
++
++/**
++ * DOC: CTB based communication
++ *
++ * The CTB (command transport buffer) communication between Host and GuC
++ * is based on u32 data stream written to the shared buffer. One buffer can
++ * be used to transmit data only in one direction (one-directional channel).
++ *
++ * Current status of the each buffer is stored in the buffer descriptor.
++ * Buffer descriptor holds tail and head fields that represents active data
++ * stream. The tail field is updated by the data producer (sender), and head
++ * field is updated by the data consumer (receiver)::
++ *
++ *      +------------+
++ *      | DESCRIPTOR |          +=================+============+========+
++ *      +============+          |                 | MESSAGE(s) |        |
++ *      | address    |--------->+=================+============+========+
++ *      +------------+
++ *      | head       |          ^-----head--------^
++ *      +------------+
++ *      | tail       |          ^---------tail-----------------^
++ *      +------------+
++ *      | size       |          ^---------------size--------------------^
++ *      +------------+
++ *
++ * Each message in data stream starts with the single u32 treated as a header,
++ * followed by optional set of u32 data that makes message specific payload::
++ *
++ *      +------------+---------+---------+---------+
++ *      |         MESSAGE                          |
++ *      +------------+---------+---------+---------+
++ *      |   msg[0]   |   [1]   |   ...   |  [n-1]  |
++ *      +------------+---------+---------+---------+
++ *      |   MESSAGE  |       MESSAGE PAYLOAD       |
++ *      +   HEADER   +---------+---------+---------+
++ *      |            |    0    |   ...   |    n    |
++ *      +======+=====+=========+=========+=========+
++ *      | 31:16| code|         |         |         |
++ *      +------+-----+         |         |         |
++ *      |  15:5|flags|         |         |         |
++ *      +------+-----+         |         |         |
++ *      |   4:0|  len|         |         |         |
++ *      +------+-----+---------+---------+---------+
++ *
++ *                   ^-------------len-------------^
++ *
++ * The message header consists of:
++ *
++ * - **len**, indicates length of the message payload (in u32)
++ * - **code**, indicates message code
++ * - **flags**, holds various bits to control message handling
++ */
++
++/*
++ * Describes single command transport buffer.
++ * Used by both guc-master and clients.
++ */
++struct guc_ct_buffer_desc {
++	u32 addr;		/* gfx address */
++	u64 host_private;	/* host private data */
++	u32 size;		/* size in bytes */
++	u32 head;		/* offset updated by GuC*/
++	u32 tail;		/* offset updated by owner */
++	u32 is_in_error;	/* error indicator */
++	u32 fence;		/* fence updated by GuC */
++	u32 status;		/* status updated by GuC */
++	u32 owner;		/* id of the channel owner */
++	u32 owner_sub_id;	/* owner-defined field for extra tracking */
++	u32 reserved[5];
++} __packed;
++
++/* Type of command transport buffer */
++#define INTEL_GUC_CT_BUFFER_TYPE_SEND	0x0u
++#define INTEL_GUC_CT_BUFFER_TYPE_RECV	0x1u
++
++/*
++ * Definition of the command transport message header (DW0)
++ *
++ * bit[4..0]	message len (in dwords)
++ * bit[7..5]	reserved
++ * bit[8]	response (G2H only)
++ * bit[8]	write fence to desc (H2G only)
++ * bit[9]	write status to H2G buff (H2G only)
++ * bit[10]	send status back via G2H (H2G only)
++ * bit[15..11]	reserved
++ * bit[31..16]	action code
++ */
++#define GUC_CT_MSG_LEN_SHIFT			0
++#define GUC_CT_MSG_LEN_MASK			0x1F
++#define GUC_CT_MSG_IS_RESPONSE			(1 << 8)
++#define GUC_CT_MSG_WRITE_FENCE_TO_DESC		(1 << 8)
++#define GUC_CT_MSG_WRITE_STATUS_TO_BUFF		(1 << 9)
++#define GUC_CT_MSG_SEND_STATUS			(1 << 10)
++#define GUC_CT_MSG_ACTION_SHIFT			16
++#define GUC_CT_MSG_ACTION_MASK			0xFFFF
++
++#endif /* _ABI_GUC_COMMUNICATION_CTB_ABI_H */
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
+new file mode 100644
+index 000000000000..be066a62e9e0
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
+@@ -0,0 +1,52 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2014-2021 Intel Corporation
++ */
++
++#ifndef _ABI_GUC_COMMUNICATION_MMIO_ABI_H
++#define _ABI_GUC_COMMUNICATION_MMIO_ABI_H
++
++/**
++ * DOC: MMIO based communication
++ *
++ * The MMIO based communication between Host and GuC uses software scratch
++ * registers, where first register holds data treated as message header,
++ * and other registers are used to hold message payload.
++ *
++ * For Gen9+, GuC uses software scratch registers 0xC180-0xC1B8,
++ * but no H2G command takes more than 8 parameters and the GuC FW
++ * itself uses an 8-element array to store the H2G message.
++ *
++ *      +-----------+---------+---------+---------+
++ *      |  MMIO[0]  | MMIO[1] |   ...   | MMIO[n] |
++ *      +-----------+---------+---------+---------+
++ *      | header    |      optional payload       |
++ *      +======+====+=========+=========+=========+
++ *      | 31:28|type|         |         |         |
++ *      +------+----+         |         |         |
++ *      | 27:16|data|         |         |         |
++ *      +------+----+         |         |         |
++ *      |  15:0|code|         |         |         |
++ *      +------+----+---------+---------+---------+
++ *
++ * The message header consists of:
++ *
++ * - **type**, indicates message type
++ * - **code**, indicates message code, is specific for **type**
++ * - **data**, indicates message data, optional, depends on **code**
++ *
++ * The following message **types** are supported:
++ *
++ * - **REQUEST**, indicates Host-to-GuC request, requested GuC action code
++ *   must be priovided in **code** field. Optional action specific parameters
++ *   can be provided in remaining payload registers or **data** field.
++ *
++ * - **RESPONSE**, indicates GuC-to-Host response from earlier GuC request,
++ *   action response status will be provided in **code** field. Optional
++ *   response data can be returned in remaining payload registers or **data**
++ *   field.
++ */
++
++#define GUC_MAX_MMIO_MSG_LEN		8
++
++#endif /* _ABI_GUC_COMMUNICATION_MMIO_ABI_H */
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+new file mode 100644
+index 000000000000..488b6061ee89
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2014-2021 Intel Corporation
++ */
++
++#ifndef _ABI_GUC_ERRORS_ABI_H
++#define _ABI_GUC_ERRORS_ABI_H
++
++enum intel_guc_response_status {
++	INTEL_GUC_RESPONSE_STATUS_SUCCESS = 0x0,
++	INTEL_GUC_RESPONSE_STATUS_GENERIC_FAIL = 0xF000,
++};
++
++#endif /* _ABI_GUC_ERRORS_ABI_H */
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+new file mode 100644
+index 000000000000..775e21f3058c
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2014-2021 Intel Corporation
++ */
++
++#ifndef _ABI_GUC_MESSAGES_ABI_H
++#define _ABI_GUC_MESSAGES_ABI_H
++
++#define INTEL_GUC_MSG_TYPE_SHIFT	28
++#define INTEL_GUC_MSG_TYPE_MASK		(0xF << INTEL_GUC_MSG_TYPE_SHIFT)
++#define INTEL_GUC_MSG_DATA_SHIFT	16
++#define INTEL_GUC_MSG_DATA_MASK		(0xFFF << INTEL_GUC_MSG_DATA_SHIFT)
++#define INTEL_GUC_MSG_CODE_SHIFT	0
++#define INTEL_GUC_MSG_CODE_MASK		(0xFFFF << INTEL_GUC_MSG_CODE_SHIFT)
++
++enum intel_guc_msg_type {
++	INTEL_GUC_MSG_TYPE_REQUEST = 0x0,
++	INTEL_GUC_MSG_TYPE_RESPONSE = 0xF,
++};
++
++#endif /* _ABI_GUC_MESSAGES_ABI_H */
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-index 79c560d9c0b6..0f9afcde1d0b 100644
+index 0f9afcde1d0b..9bf35240e723 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-@@ -302,9 +302,6 @@ struct guc_ct_buffer_desc {
- #define GUC_CT_MSG_ACTION_SHIFT			16
- #define GUC_CT_MSG_ACTION_MASK			0xFFFF
+@@ -10,6 +10,12 @@
+ #include <linux/compiler.h>
+ #include <linux/types.h>
  
--#define GUC_FORCEWAKE_RENDER	(1 << 0)
--#define GUC_FORCEWAKE_MEDIA	(1 << 1)
++#include "abi/guc_actions_abi.h"
++#include "abi/guc_errors_abi.h"
++#include "abi/guc_communication_mmio_abi.h"
++#include "abi/guc_communication_ctb_abi.h"
++#include "abi/guc_messages_abi.h"
++
+ #define GUC_CLIENT_PRIORITY_KMD_HIGH	0
+ #define GUC_CLIENT_PRIORITY_HIGH	1
+ #define GUC_CLIENT_PRIORITY_KMD_NORMAL	2
+@@ -207,101 +213,6 @@ struct guc_stage_desc {
+ 	u64 desc_private;
+ } __packed;
+ 
+-/**
+- * DOC: CTB based communication
+- *
+- * The CTB (command transport buffer) communication between Host and GuC
+- * is based on u32 data stream written to the shared buffer. One buffer can
+- * be used to transmit data only in one direction (one-directional channel).
+- *
+- * Current status of the each buffer is stored in the buffer descriptor.
+- * Buffer descriptor holds tail and head fields that represents active data
+- * stream. The tail field is updated by the data producer (sender), and head
+- * field is updated by the data consumer (receiver)::
+- *
+- *      +------------+
+- *      | DESCRIPTOR |          +=================+============+========+
+- *      +============+          |                 | MESSAGE(s) |        |
+- *      | address    |--------->+=================+============+========+
+- *      +------------+
+- *      | head       |          ^-----head--------^
+- *      +------------+
+- *      | tail       |          ^---------tail-----------------^
+- *      +------------+
+- *      | size       |          ^---------------size--------------------^
+- *      +------------+
+- *
+- * Each message in data stream starts with the single u32 treated as a header,
+- * followed by optional set of u32 data that makes message specific payload::
+- *
+- *      +------------+---------+---------+---------+
+- *      |         MESSAGE                          |
+- *      +------------+---------+---------+---------+
+- *      |   msg[0]   |   [1]   |   ...   |  [n-1]  |
+- *      +------------+---------+---------+---------+
+- *      |   MESSAGE  |       MESSAGE PAYLOAD       |
+- *      +   HEADER   +---------+---------+---------+
+- *      |            |    0    |   ...   |    n    |
+- *      +======+=====+=========+=========+=========+
+- *      | 31:16| code|         |         |         |
+- *      +------+-----+         |         |         |
+- *      |  15:5|flags|         |         |         |
+- *      +------+-----+         |         |         |
+- *      |   4:0|  len|         |         |         |
+- *      +------+-----+---------+---------+---------+
+- *
+- *                   ^-------------len-------------^
+- *
+- * The message header consists of:
+- *
+- * - **len**, indicates length of the message payload (in u32)
+- * - **code**, indicates message code
+- * - **flags**, holds various bits to control message handling
+- */
+-
+-/*
+- * Describes single command transport buffer.
+- * Used by both guc-master and clients.
+- */
+-struct guc_ct_buffer_desc {
+-	u32 addr;		/* gfx address */
+-	u64 host_private;	/* host private data */
+-	u32 size;		/* size in bytes */
+-	u32 head;		/* offset updated by GuC*/
+-	u32 tail;		/* offset updated by owner */
+-	u32 is_in_error;	/* error indicator */
+-	u32 fence;		/* fence updated by GuC */
+-	u32 status;		/* status updated by GuC */
+-	u32 owner;		/* id of the channel owner */
+-	u32 owner_sub_id;	/* owner-defined field for extra tracking */
+-	u32 reserved[5];
+-} __packed;
+-
+-/* Type of command transport buffer */
+-#define INTEL_GUC_CT_BUFFER_TYPE_SEND	0x0u
+-#define INTEL_GUC_CT_BUFFER_TYPE_RECV	0x1u
+-
+-/*
+- * Definition of the command transport message header (DW0)
+- *
+- * bit[4..0]	message len (in dwords)
+- * bit[7..5]	reserved
+- * bit[8]	response (G2H only)
+- * bit[8]	write fence to desc (H2G only)
+- * bit[9]	write status to H2G buff (H2G only)
+- * bit[10]	send status back via G2H (H2G only)
+- * bit[15..11]	reserved
+- * bit[31..16]	action code
+- */
+-#define GUC_CT_MSG_LEN_SHIFT			0
+-#define GUC_CT_MSG_LEN_MASK			0x1F
+-#define GUC_CT_MSG_IS_RESPONSE			(1 << 8)
+-#define GUC_CT_MSG_WRITE_FENCE_TO_DESC		(1 << 8)
+-#define GUC_CT_MSG_WRITE_STATUS_TO_BUFF		(1 << 9)
+-#define GUC_CT_MSG_SEND_STATUS			(1 << 10)
+-#define GUC_CT_MSG_ACTION_SHIFT			16
+-#define GUC_CT_MSG_ACTION_MASK			0xFFFF
 -
  #define GUC_POWER_UNSPECIFIED	0
  #define GUC_POWER_D0		1
  #define GUC_POWER_D1		2
-@@ -558,7 +555,6 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_ENTER_S_STATE = 0x501,
- 	INTEL_GUC_ACTION_EXIT_S_STATE = 0x502,
- 	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
--	INTEL_GUC_ACTION_SAMPLE_FORCEWAKE = 0x3005,
- 	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
- 	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
- 	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 892c1315ce49..ab0789d66e06 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -502,10 +502,6 @@ static int __uc_init_hw(struct intel_uc *uc)
+@@ -477,119 +388,17 @@ struct guc_shared_ctx_data {
+ 	struct guc_ctx_report preempt_ctx_report[GUC_MAX_ENGINES_NUM];
+ } __packed;
  
- 	intel_huc_auth(huc);
- 
--	ret = intel_guc_sample_forcewake(guc);
--	if (ret)
--		goto err_log_capture;
+-/**
+- * DOC: MMIO based communication
+- *
+- * The MMIO based communication between Host and GuC uses software scratch
+- * registers, where first register holds data treated as message header,
+- * and other registers are used to hold message payload.
+- *
+- * For Gen9+, GuC uses software scratch registers 0xC180-0xC1B8,
+- * but no H2G command takes more than 8 parameters and the GuC FW
+- * itself uses an 8-element array to store the H2G message.
+- *
+- *      +-----------+---------+---------+---------+
+- *      |  MMIO[0]  | MMIO[1] |   ...   | MMIO[n] |
+- *      +-----------+---------+---------+---------+
+- *      | header    |      optional payload       |
+- *      +======+====+=========+=========+=========+
+- *      | 31:28|type|         |         |         |
+- *      +------+----+         |         |         |
+- *      | 27:16|data|         |         |         |
+- *      +------+----+         |         |         |
+- *      |  15:0|code|         |         |         |
+- *      +------+----+---------+---------+---------+
+- *
+- * The message header consists of:
+- *
+- * - **type**, indicates message type
+- * - **code**, indicates message code, is specific for **type**
+- * - **data**, indicates message data, optional, depends on **code**
+- *
+- * The following message **types** are supported:
+- *
+- * - **REQUEST**, indicates Host-to-GuC request, requested GuC action code
+- *   must be priovided in **code** field. Optional action specific parameters
+- *   can be provided in remaining payload registers or **data** field.
+- *
+- * - **RESPONSE**, indicates GuC-to-Host response from earlier GuC request,
+- *   action response status will be provided in **code** field. Optional
+- *   response data can be returned in remaining payload registers or **data**
+- *   field.
+- */
 -
- 	if (intel_uc_uses_guc_submission(uc))
- 		intel_guc_submission_enable(guc);
+-#define GUC_MAX_MMIO_MSG_LEN		8
+-
+-#define INTEL_GUC_MSG_TYPE_SHIFT	28
+-#define INTEL_GUC_MSG_TYPE_MASK		(0xF << INTEL_GUC_MSG_TYPE_SHIFT)
+-#define INTEL_GUC_MSG_DATA_SHIFT	16
+-#define INTEL_GUC_MSG_DATA_MASK		(0xFFF << INTEL_GUC_MSG_DATA_SHIFT)
+-#define INTEL_GUC_MSG_CODE_SHIFT	0
+-#define INTEL_GUC_MSG_CODE_MASK		(0xFFFF << INTEL_GUC_MSG_CODE_SHIFT)
+-
+ #define __INTEL_GUC_MSG_GET(T, m) \
+ 	(((m) & INTEL_GUC_MSG_ ## T ## _MASK) >> INTEL_GUC_MSG_ ## T ## _SHIFT)
+ #define INTEL_GUC_MSG_TO_TYPE(m)	__INTEL_GUC_MSG_GET(TYPE, m)
+ #define INTEL_GUC_MSG_TO_DATA(m)	__INTEL_GUC_MSG_GET(DATA, m)
+ #define INTEL_GUC_MSG_TO_CODE(m)	__INTEL_GUC_MSG_GET(CODE, m)
  
+-enum intel_guc_msg_type {
+-	INTEL_GUC_MSG_TYPE_REQUEST = 0x0,
+-	INTEL_GUC_MSG_TYPE_RESPONSE = 0xF,
+-};
+-
+ #define __INTEL_GUC_MSG_TYPE_IS(T, m) \
+ 	(INTEL_GUC_MSG_TO_TYPE(m) == INTEL_GUC_MSG_TYPE_ ## T)
+ #define INTEL_GUC_MSG_IS_REQUEST(m)	__INTEL_GUC_MSG_TYPE_IS(REQUEST, m)
+ #define INTEL_GUC_MSG_IS_RESPONSE(m)	__INTEL_GUC_MSG_TYPE_IS(RESPONSE, m)
+ 
+-enum intel_guc_action {
+-	INTEL_GUC_ACTION_DEFAULT = 0x0,
+-	INTEL_GUC_ACTION_REQUEST_PREEMPTION = 0x2,
+-	INTEL_GUC_ACTION_REQUEST_ENGINE_RESET = 0x3,
+-	INTEL_GUC_ACTION_ALLOCATE_DOORBELL = 0x10,
+-	INTEL_GUC_ACTION_DEALLOCATE_DOORBELL = 0x20,
+-	INTEL_GUC_ACTION_LOG_BUFFER_FILE_FLUSH_COMPLETE = 0x30,
+-	INTEL_GUC_ACTION_UK_LOG_ENABLE_LOGGING = 0x40,
+-	INTEL_GUC_ACTION_FORCE_LOG_BUFFER_FLUSH = 0x302,
+-	INTEL_GUC_ACTION_ENTER_S_STATE = 0x501,
+-	INTEL_GUC_ACTION_EXIT_S_STATE = 0x502,
+-	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
+-	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
+-	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
+-	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
+-	INTEL_GUC_ACTION_LIMIT
+-};
+-
+-enum intel_guc_preempt_options {
+-	INTEL_GUC_PREEMPT_OPTION_DROP_WORK_Q = 0x4,
+-	INTEL_GUC_PREEMPT_OPTION_DROP_SUBMIT_Q = 0x8,
+-};
+-
+-enum intel_guc_report_status {
+-	INTEL_GUC_REPORT_STATUS_UNKNOWN = 0x0,
+-	INTEL_GUC_REPORT_STATUS_ACKED = 0x1,
+-	INTEL_GUC_REPORT_STATUS_ERROR = 0x2,
+-	INTEL_GUC_REPORT_STATUS_COMPLETE = 0x4,
+-};
+-
+-enum intel_guc_sleep_state_status {
+-	INTEL_GUC_SLEEP_STATE_SUCCESS = 0x1,
+-	INTEL_GUC_SLEEP_STATE_PREEMPT_TO_IDLE_FAILED = 0x2,
+-	INTEL_GUC_SLEEP_STATE_ENGINE_RESET_FAILED = 0x3
+-#define INTEL_GUC_SLEEP_STATE_INVALID_MASK 0x80000000
+-};
+-
+-#define GUC_LOG_CONTROL_LOGGING_ENABLED	(1 << 0)
+-#define GUC_LOG_CONTROL_VERBOSITY_SHIFT	4
+-#define GUC_LOG_CONTROL_VERBOSITY_MASK	(0xF << GUC_LOG_CONTROL_VERBOSITY_SHIFT)
+-#define GUC_LOG_CONTROL_DEFAULT_LOGGING	(1 << 8)
+-
+-enum intel_guc_response_status {
+-	INTEL_GUC_RESPONSE_STATUS_SUCCESS = 0x0,
+-	INTEL_GUC_RESPONSE_STATUS_GENERIC_FAIL = 0xF000,
+-};
+-
+ #define INTEL_GUC_MSG_IS_RESPONSE_SUCCESS(m) \
+ 	 (typecheck(u32, (m)) && \
+ 	  ((m) & (INTEL_GUC_MSG_TYPE_MASK | INTEL_GUC_MSG_CODE_MASK)) == \
 -- 
 2.28.0
 
