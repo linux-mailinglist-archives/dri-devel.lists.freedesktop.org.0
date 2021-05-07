@@ -2,40 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCE2376658
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 15:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C355D37669D
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 16:04:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6776E151;
-	Fri,  7 May 2021 13:43:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48C656E233;
+	Fri,  7 May 2021 14:04:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785436E151
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 13:43:10 +0000 (UTC)
-IronPort-SDR: K1xSSRWaeNwSl/FKyAek5OYinGp7xvQ5EoYzosIv5xTjmB+WJU99SzAW7CqQMDnHR0XRy+YMgE
- KEc1Tt4XOiNw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9977"; a="262668907"
-X-IronPort-AV: E=Sophos;i="5.82,280,1613462400"; d="scan'208";a="262668907"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2021 06:43:10 -0700
-IronPort-SDR: deAgfMCrvHjWS1Q9+afl2P553AphXudVU1emLOowf6dVLFuMnQja5s9KuLA97iUoMdikDrWG4P
- bAtUEZnN9g4Q==
-X-IronPort-AV: E=Sophos;i="5.82,280,1613462400"; d="scan'208";a="622860354"
-Received: from unknown (HELO Nischal-desktop.iind.intel.com) ([10.223.74.174])
- by fmsmga005-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 06:43:08 -0700
-From: Nischal Varide <nischal.varide@intel.com>
-To: dri-devel@lists.freedesktop.org, nischal.varide@intel.com,
- uma.shankar@intel.com, ankit.k.nautiyal@intel.com
-Subject: [RFC v2 1/1] drm/i915/display: New Property Creation for HDMI
-Date: Fri,  7 May 2021 12:20:44 +0530
-Message-Id: <20210507065044.23465-2-nischal.varide@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210507065044.23465-1-nischal.varide@intel.com>
-References: <20210507065044.23465-1-nischal.varide@intel.com>
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 838266E210
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 14:04:42 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 7A917FD7;
+ Fri,  7 May 2021 10:04:38 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Fri, 07 May 2021 10:04:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm2; bh=Vtd9BNGxnWTVrdv1sQguNv4d3w
+ rORv5ukuxA87nXxow=; b=lcuLsf1Fk/QbKv7GOAiqnZGzSJS6VzQqtd0tMX9vfl
+ 2cmkq5e8LWKaHxZjaKeaOV8KnOaJOE/W7CazrXkXZdsRuZSxVq4brh4YCuDrXty8
+ wEZ1+1dVTC+J1UP/JLYimwBah7NXBWEAJl86BUenMUAIYWBcKPT77o9U4UK7iURd
+ EiHLqgBQQX+N94OSG/DFdVuxZ7nXzaJOjAUXhnH7HM1CZQPYcaCS74RIaAGvgUy2
+ C24LrF5RrBbHJbfo+1DVHbNjdVXItfsL8feocLev/ei8/eIUPVCdm1khKUOINFpj
+ 1PcLPfpTdMSDyZcyrRZQFotKfNPFS+NVHXuvC8go14JQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Vtd9BN
+ GxnWTVrdv1sQguNv4d3wrORv5ukuxA87nXxow=; b=NOzm3ELuTbOQwprurNuRlp
+ HsFUqA9CGaHZKhxQG6LiJR6cebgZKW+gg1YiiItyfpkUVMJ0K/4HYNVdSIpWrF1Y
+ y3oZReI8y8yhCDMNcGf/GgcpzOgZNWkdwiStAuEOa+U4rNcKpO9XGBTAA9VPNO1f
+ NxYK1No9qQqr18rzjXQqgnICVZm7SQrxWDPFAa0F4YjxAPD5RAnjSw7p7XXB577b
+ ZAlE0VDFs0JP5wjTP1f10uYYP+pRMRi2BvpHCHPTiPFVZnam3IMLbCRXT+OjxaPF
+ bLxSf5gAkDY1qSol0fRcgmkFTBROxfRfsm9hgSUNzXXjLOAKbRYdfAMQlGAV4jrQ
+ ==
+X-ME-Sender: <xms:80iVYKMpfbY09CTVVlgVGNQez9IRi3y0p-3RQE6JTJLyup230Ze7EQ>
+ <xme:80iVYI9I7Spa6OfWxjIZfG5_XS0JTQgpEvLr8YBTVjlb3jxRCI91PhEQuHE5j-D1w
+ YFyUKsNfHnWBMjF8EI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegvddgjedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetteeltddujefhffdtuefgudffleelleehjeeggeffuddvvdfgvdfhhfelgfet
+ ffenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrje
+ einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
+ gihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:80iVYBS3bFPT9iZqv1Wn2jIAxLoA6Y3F5DXWpKAxl7WS5OlhnafUCw>
+ <xmx:80iVYKtXGZVZY0ijBSeAxJBS9608yg8EevjzyL38tzhUBOOFQSpQRg>
+ <xmx:80iVYCe6dZiHOnqmpKw0q8e4kx7ZQC4_41m2iWE7DDIRwneQvrltoA>
+ <xmx:9kiVYGPRLnKrgzWi5QtLBvQ7_Ra0vCOaF48JtfHBTfdeQZx8pOPZAJ-n3pM>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Fri,  7 May 2021 10:04:35 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 00/11] drm/vc4: hdmi: Enable Channel Mapping, IEC958,
+ HBR Passthrough using hdmi-codec
+Date: Fri,  7 May 2021 16:03:23 +0200
+Message-Id: <20210507140334.204865-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,200 +84,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Right now the HDMI properties like vendor and product ids are hardcoded
-in the function "intel_hdmi_compute_spd_infoframe()".
-
-ret = hdmi_spd_infoframe_init(frame, "Intel", "Integrated gfx").
-
-This patch enables the possibility of setting vendor and product id fields
-of the Infoframe structure in the userspace instead of hardcoding in
-the kernel, and this will help display manufacturers preload picture
-configurations for the devices.
-
-The changes has been tested by an IGT testcase which got floated.
-
-v2: Edited the commit message on comments received (Ville, Jani)
-v1: Create new property for vendor and product id of HDMI.
-
-Signed-off-by: Nischal Varide <nischal.varide@intel.com>
----
- drivers/gpu/drm/i915/display/intel_atomic.c   | 14 +++++++++++++
- .../gpu/drm/i915/display/intel_connector.c    | 20 +++++++++++++++++++
- .../gpu/drm/i915/display/intel_connector.h    |  1 +
- .../drm/i915/display/intel_display_types.h    |  5 +++++
- drivers/gpu/drm/i915/display/intel_hdmi.c     | 14 ++++++++++++-
- drivers/gpu/drm/i915/display/intel_hdmi.h     |  5 +++++
- drivers/gpu/drm/i915/i915_drv.h               |  1 +
- 7 files changed, 59 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
-index 45feaaddab26..4d38eeb9dd33 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-@@ -65,6 +65,9 @@ int intel_digital_connector_atomic_get_property(struct drm_connector *connector,
- 		*val = intel_conn_state->force_audio;
- 	else if (property == dev_priv->broadcast_rgb_property)
- 		*val = intel_conn_state->broadcast_rgb;
-+	else if (property ==  dev_priv->hdmi_vendor_product_property)
-+		*val = (intel_conn_state->hdmi_vendor_product_blob)
-+			? (intel_conn_state->hdmi_vendor_product_blob->base.id) : 0;
- 	else {
- 		drm_dbg_atomic(&dev_priv->drm,
- 			       "Unknown property [PROP:%d:%s]\n",
-@@ -93,6 +96,7 @@ int intel_digital_connector_atomic_set_property(struct drm_connector *connector,
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_digital_connector_state *intel_conn_state =
- 		to_intel_digital_connector_state(state);
-+	struct drm_property_blob *new_blob = NULL;
- 
- 	if (property == dev_priv->force_audio_property) {
- 		intel_conn_state->force_audio = val;
-@@ -104,6 +108,16 @@ int intel_digital_connector_atomic_set_property(struct drm_connector *connector,
- 		return 0;
- 	}
- 
-+	if (property ==  dev_priv->hdmi_vendor_product_property) {
-+		new_blob = drm_property_lookup_blob(dev, val);
-+		if (new_blob == NULL)
-+			return -EINVAL;
-+		if (drm_property_replace_blob
-+			(&intel_conn_state->hdmi_vendor_product_blob, new_blob)) {
-+			drm_property_blob_put(new_blob);
-+			return 0;
-+		}
-+	}
- 	drm_dbg_atomic(&dev_priv->drm, "Unknown property [PROP:%d:%s]\n",
- 		       property->base.id, property->name);
- 	return -EINVAL;
-diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
-index d5ceb7bdc14b..c4ce8f70e752 100644
---- a/drivers/gpu/drm/i915/display/intel_connector.c
-+++ b/drivers/gpu/drm/i915/display/intel_connector.c
-@@ -269,6 +269,26 @@ intel_attach_broadcast_rgb_property(struct drm_connector *connector)
- 	drm_object_attach_property(&connector->base, prop, 0);
- }
- 
-+void
-+intel_attach_hdmi_vendor_product_property(struct drm_connector *connector)
-+{
-+	struct drm_device *dev = connector->dev;
-+	struct drm_i915_private *dev_priv = to_i915(dev);
-+	struct drm_property *prop;
-+
-+	prop = dev_priv->hdmi_vendor_product_property;
-+	if (!prop) {
-+		prop = drm_property_create(dev, DRM_MODE_PROP_BLOB |
-+			DRM_MODE_PROP_ATOMIC, "hdmi_vendor_product", 0);
-+		if (!prop)
-+			return;
-+
-+		dev_priv->hdmi_vendor_product_property = prop;
-+	}
-+
-+	drm_object_attach_property(&connector->base, prop, 0);
-+}
-+
- void
- intel_attach_aspect_ratio_property(struct drm_connector *connector)
- {
-diff --git a/drivers/gpu/drm/i915/display/intel_connector.h b/drivers/gpu/drm/i915/display/intel_connector.h
-index 661a37a3c6d8..9e16e098f53a 100644
---- a/drivers/gpu/drm/i915/display/intel_connector.h
-+++ b/drivers/gpu/drm/i915/display/intel_connector.h
-@@ -27,6 +27,7 @@ enum pipe intel_connector_get_pipe(struct intel_connector *connector);
- int intel_connector_update_modes(struct drm_connector *connector,
- 				 struct edid *edid);
- int intel_ddc_get_modes(struct drm_connector *c, struct i2c_adapter *adapter);
-+void intel_attach_hdmi_vendor_product_property(struct drm_connector *connector);
- void intel_attach_force_audio_property(struct drm_connector *connector);
- void intel_attach_broadcast_rgb_property(struct drm_connector *connector);
- void intel_attach_aspect_ratio_property(struct drm_connector *connector);
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 6d8cdaa36748..d29f54163044 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -549,6 +549,11 @@ struct intel_digital_connector_state {
- 
- 	enum hdmi_force_audio force_audio;
- 	int broadcast_rgb;
-+	/*
-+	 * hdmi_infoframe metadata
-+	 * DRM blob with hdmi vendor and product info
-+	 */
-+	struct drm_property_blob *hdmi_vendor_product_blob;
- };
- 
- #define to_intel_digital_connector_state(x) container_of(x, struct intel_digital_connector_state, base)
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 28e297296160..6bda096b411d 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -762,6 +762,9 @@ intel_hdmi_compute_spd_infoframe(struct intel_encoder *encoder,
- {
- 	struct hdmi_spd_infoframe *frame = &crtc_state->infoframes.spd.spd;
- 	int ret;
-+	struct hdmi_vendor_product_info *hdmi_vp_info;
-+	struct intel_digital_connector_state *intel_conn_state =
-+		to_intel_digital_connector_state(conn_state);
- 
- 	if (!crtc_state->has_infoframe)
- 		return true;
-@@ -769,7 +772,15 @@ intel_hdmi_compute_spd_infoframe(struct intel_encoder *encoder,
- 	crtc_state->infoframes.enable |=
- 		intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_SPD);
- 
--	ret = hdmi_spd_infoframe_init(frame, "Intel", "Integrated gfx");
-+	if (!intel_conn_state->hdmi_vendor_product_blob) {
-+		ret = hdmi_spd_infoframe_init(frame, "intel", "Integrated gfx");
-+	} else {
-+		if (intel_conn_state->hdmi_vendor_product_blob->data) {
-+			hdmi_vp_info = intel_conn_state->hdmi_vendor_product_blob->data;
-+			ret = hdmi_spd_infoframe_init(frame, hdmi_vp_info->vendor,
-+					hdmi_vp_info->product);
-+		}
-+	}
- 	if (drm_WARN_ON(encoder->base.dev, ret))
- 		return false;
- 
-@@ -2456,6 +2467,7 @@ intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *c
- 	intel_attach_force_audio_property(connector);
- 	intel_attach_broadcast_rgb_property(connector);
- 	intel_attach_aspect_ratio_property(connector);
-+	intel_attach_hdmi_vendor_product_property(connector);
- 
- 	intel_attach_hdmi_colorspace_property(connector);
- 	drm_connector_attach_content_type_property(connector);
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.h b/drivers/gpu/drm/i915/display/intel_hdmi.h
-index b43a180d007e..5be7179389d1 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.h
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.h
-@@ -23,6 +23,11 @@ struct drm_connector_state;
- union hdmi_infoframe;
- enum port;
- 
-+/*Vendor Id and Product Id for the Hdmi property exported to Userspace*/
-+struct hdmi_vendor_product_info {
-+	char vendor[30];
-+	char product[30];
-+};
- void intel_hdmi_init_connector(struct intel_digital_port *dig_port,
- 			       struct intel_connector *intel_connector);
- int intel_hdmi_compute_config(struct intel_encoder *encoder,
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 3cfa6effbb5f..9e3373c0f1eb 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1014,6 +1014,7 @@ struct drm_i915_private {
- 
- 	struct drm_property *broadcast_rgb_property;
- 	struct drm_property *force_audio_property;
-+	struct drm_property *hdmi_vendor_product_property;
- 
- 	/* hda/i915 audio component */
- 	struct i915_audio_component *audio_component;
--- 
-2.29.2
-
+Hi,=0D
+=0D
+hdmi-codec allows to have a lot of HDMI-audio related infrastructure in pla=
+ce,=0D
+it's missing a few controls to be able to provide HBR passthrough. This ser=
+ies=0D
+adds more infrastructure for the drivers, and leverages it in the vc4 HDMI=
+=0D
+controller driver.=0D
+=0D
+One thing that felt a bit weird is that even though=0D
+https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-dri=
+ver.html#iec958-s-pdif=0D
+mentions that the iec958 mask control should be a mixer control and the=0D
+default control should be a PCM one, it feels a bit weird to have two diffe=
+rent=0D
+control type for two controls so similar, and other drivers are pretty=0D
+inconsistent with this. Should we update the documentation?=0D
+=0D
+Thanks!=0D
+Maxime=0D
+=0D
+Dom Cobley (5):=0D
+  drm/vc4: hdmi: Set HD_CTL_WHOLSMP and HD_CTL_CHALIGN_SET=0D
+  drm/vc4: hdmi: Set HDMI_MAI_FMT=0D
+  drm/vc4: hdmi: Set VC4_HDMI_MAI_CONFIG_FORMAT_REVERSE=0D
+  drm/vc4: hdmi: Remove firmware logic for MAI threshold setting=0D
+  ARM: dts: bcm2711: Tune DMA parameters for HDMI audio=0D
+=0D
+Maxime Ripard (6):=0D
+  snd: iec958: split status creation and fill=0D
+  ASoC: hdmi-codec: Rework to support more controls=0D
+  ASoC: hdmi-codec: Add iec958 controls=0D
+  ASoC: hdmi-codec: Add a prepare hook=0D
+  drm/vc4: hdmi: Register HDMI codec=0D
+  drm/vc4: hdmi: Remove redundant variables=0D
+=0D
+ arch/arm/boot/dts/bcm2711.dtsi |   4 +-=0D
+ drivers/gpu/drm/vc4/Kconfig    |   1 +=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 322 ++++++++++++++-------------------=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.h |   5 +-=0D
+ drivers/gpu/drm/vc4/vc4_regs.h |  30 +++=0D
+ include/sound/hdmi-codec.h     |  12 +-=0D
+ include/sound/pcm_iec958.h     |   8 +=0D
+ sound/core/pcm_iec958.c        | 131 +++++++++-----=0D
+ sound/soc/codecs/hdmi-codec.c  | 219 +++++++++++++++++-----=0D
+ 9 files changed, 456 insertions(+), 276 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
