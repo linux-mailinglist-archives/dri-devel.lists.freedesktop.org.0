@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE593768A2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 18:24:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B213768B7
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 18:26:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F456EE6C;
-	Fri,  7 May 2021 16:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E31376EE6E;
+	Fri,  7 May 2021 16:26:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED30D6E2B8
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 16:24:46 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id a4so9874482wrr.2
- for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 09:24:46 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 946286EE6E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 16:26:27 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ b11-20020a7bc24b0000b0290148da0694ffso7499310wmj.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 09:26:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=PW5lNURFUyyJMC6cXbt2sF8Nemze+deVsE67A2pvf5Q=;
- b=OobLWsUbizvsW+cDKjr1LLnCOaUf+/EXtJhshG8jfWOb+Hb+9YdJ62QPla37hXG6oT
- nwkbPw/ayZxTbiWntEOtyA+AYEeO7FgpeIeaevWUt2pEjxDMXUX/9nmt1ClAep1ArxbT
- PZMdjFspn1tvfsQYpphFKFblL7kuaeJGIwU8U=
+ bh=cnji0mghcfsHw4UWJtieqSvlVTnHHvaILHgLJlYFjiQ=;
+ b=Dztnyza1z9iIAGrus7EYHI2gelTKFcIiyKjNQ3pd+1XQh17Y1c3IdhPKn/WpIu5ck7
+ +LBLLwmA1eW90IxYxW8/EfIeXYw8thLh7ZxU13OvQ6zr6wwualcxavu97qc0EcXQr1CV
+ DdtRDF5HoIhHQM+zgbC+RQGDFcKmAlf+2mIIk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=PW5lNURFUyyJMC6cXbt2sF8Nemze+deVsE67A2pvf5Q=;
- b=g0M6GqlJhiDidV/ya2HVRLlg1bneLJQzTw7ekMUGc5K95e9MO5PRIy2VhgMneJ83Lv
- 5AAmwi1eWeqz1+xGkRsr3LrxDAnAU8DagwMF5bxlZbZ3i59t/XGekzDzlQNPD0gEmBcm
- JZd2GIUzsudjLHczNmb2wxeU1ieUh8Tm2i7MFlXsk5Sajmb54fUhPLDuJGJtqnqHgrOO
- erB4n1Xp2rnKffVnLyaRy89xHJV7PMyX5EosRg5LYzX61sdRJPLWE4cQOk6A+OFieAgl
- 2QKGo47QwQNQqN5+dVbzb3eXQ9nbE/Hx2It2D44rWbyuRysQQHxc4QGEyRP9WZUB6S01
- qc/w==
-X-Gm-Message-State: AOAM531B5SQkm1IyMHnFtXfefVXboXUPYy/GAkJqxcjDPfn3I+nBSG6C
- A0phuduMuBOVLYVBHrmWwPthKA==
-X-Google-Smtp-Source: ABdhPJz349FZiPVet1y+LaeDpTU9RBc12kASSdwcc1TMJ96Vp4qNfv84+AVXBSxqZDZSZzePMeqP5A==
-X-Received: by 2002:a5d:4145:: with SMTP id c5mr13408002wrq.252.1620404685386; 
- Fri, 07 May 2021 09:24:45 -0700 (PDT)
+ bh=cnji0mghcfsHw4UWJtieqSvlVTnHHvaILHgLJlYFjiQ=;
+ b=eoFg3m0LWZUSka226vFZfk5iIkSDhRyQ5iC/A8UzWuh1t0slz8bfwOGmE3ZdmQ5au1
+ OHheVtlKJoJz9rSLrhyX3WLly4ngTyBeboUWJwZniEI2g7aZcyhe6WV9Zh0m76JaW6vQ
+ b+QedTpl4mS5op/DE29U3DijyeYxMxIq6tA61JauSdI2K4dpZua5Qqu8sjgVX7i3hnFq
+ 91KGMvrcQfKJK4I8BLkw6UfRi9bI8SwTFDTAGRmrhjdvPAQ5Q4qbs0/Sg4AnJIMVNIm+
+ 9FBTfR4sIql1C6xzqAi2fAvfI7MENP9Wn0eopAm7zUNFuW+qfg768p7E0pqOMFuSpYF+
+ 4dUQ==
+X-Gm-Message-State: AOAM532x0+TtlgevLnGgLsGSXF3EHEkI6tEfNFs0Yvn2AHU9quedK5tL
+ OlVRH2YbidEng0ZYFSgzcRfGZA==
+X-Google-Smtp-Source: ABdhPJyk+pagLFvbBQTfynJmKCWq179zo3fYKMu8ozzdc0iyrHSwlZI6yGqQpT/xlHmTyEMTCx9IUQ==
+X-Received: by 2002:a1c:6382:: with SMTP id
+ x124mr22156627wmb.142.1620404786411; 
+ Fri, 07 May 2021 09:26:26 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r5sm8177998wmh.23.2021.05.07.09.24.43
+ by smtp.gmail.com with ESMTPSA id v18sm10554009wro.18.2021.05.07.09.26.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 09:24:44 -0700 (PDT)
-Date: Fri, 7 May 2021 18:24:42 +0200
+ Fri, 07 May 2021 09:26:25 -0700 (PDT)
+Date: Fri, 7 May 2021 18:26:23 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Subject: Re: [PATCH v5 20/27] drm: Scope all DRM IOCTLs with drm_dev_enter/exit
-Message-ID: <YJVpyoFIIVka2t9q@phenom.ffwll.local>
-References: <YIqZZW9iFyGCyOmU@phenom.ffwll.local>
- <95935e46-408b-4fee-a7b4-691e9db4f455@amd.com>
- <YIsDXWMYkMeNhBYk@phenom.ffwll.local>
- <342ab668-554c-637b-b67b-bd8e6013b4c3@amd.com>
- <YIvbAI4PjFlZw+z9@phenom.ffwll.local>
- <b6d0c32c-cf90-6118-5c60-238b6f4a0aaa@amd.com>
- <YJO5jBaNj1XCTFXE@phenom.ffwll.local>
- <d398c3fd-badd-e9da-a74b-00231ad958a5@amd.com>
- <YJUEPPUGCiTJC8V8@phenom.ffwll.local>
- <9a42f77d-4506-255d-d47b-5d292c4fb62a@amd.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [RFC] Add BPF_PROG_TYPE_CGROUP_IOCTL
+Message-ID: <YJVqL4c6SJc8wdkK@phenom.ffwll.local>
+References: <YBgU9Vu0BGV8kCxD@phenom.ffwll.local>
+ <CAOWid-eXMqcNpjFxbcuUDU7Y-CCYJRNT_9mzqFYm1jeCPdADGQ@mail.gmail.com>
+ <YBqEbHyIjUjgk+es@phenom.ffwll.local>
+ <CAOWid-c4Nk717xUah19B=z=2DtztbtU=_4=fQdfhqpfNJYN2gw@mail.gmail.com>
+ <CAKMK7uFEhyJChERFQ_DYFU4UCA2Ox4wTkds3+GeyURH5xNMTCA@mail.gmail.com>
+ <CAOWid-fL0=OM2XiOH+NFgn_e2L4Yx8sXA-+HicUb9bzhP0t8Bw@mail.gmail.com>
+ <YJUBer3wWKSAeXe7@phenom.ffwll.local>
+ <CAOWid-dmRsZUjF3cJ8+mx5FM9ksNQ_P9xY3jqxFiFMvN29SaLw@mail.gmail.com>
+ <YJVnO+TCRW83S6w4@phenom.ffwll.local>
+ <CADnq5_Pvtj1vb0bak_gUkv9J3+vfsMZxVKTKYeUvwQCajAWoVQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9a42f77d-4506-255d-d47b-5d292c4fb62a@amd.com>
+In-Reply-To: <CADnq5_Pvtj1vb0bak_gUkv9J3+vfsMZxVKTKYeUvwQCajAWoVQ@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,520 +76,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch, Felix.Kuehling@amd.com,
- linux-pci@vger.kernel.org, amd-gfx@lists.freedesktop.org, helgaas@kernel.org,
- dri-devel@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com,
- Alexander.Deucher@amd.com
+Cc: Song Liu <songliubraving@fb.com>, Alexei Starovoitov <ast@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Daniel Borkmann <daniel@iogearbox.net>, Brian Welty <brian.welty@intel.com>,
+ John Fastabend <john.fastabend@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Yonghong Song <yhs@fb.com>,
+ Andrii Nakryiko <andriin@fb.com>,
+ Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, Kenny Ho <y2kenny@gmail.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, KP Singh <kpsingh@chromium.org>,
+ "open list:CONTROL GROUP \(CGROUP\)" <cgroups@vger.kernel.org>,
+ Kenny Ho <Kenny.Ho@amd.com>, Network Development <netdev@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>, bpf <bpf@vger.kernel.org>,
+ Martin KaFai Lau <kafai@fb.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 07, 2021 at 11:39:49AM -0400, Andrey Grodzovsky wrote:
+On Fri, May 07, 2021 at 12:19:13PM -0400, Alex Deucher wrote:
+> On Fri, May 7, 2021 at 12:13 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Fri, May 07, 2021 at 11:33:46AM -0400, Kenny Ho wrote:
+> > > On Fri, May 7, 2021 at 4:59 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > >
+> > > > Hm I missed that. I feel like time-sliced-of-a-whole gpu is the easier gpu
+> > > > cgroups controler to get started, since it's much closer to other cgroups
+> > > > that control bandwidth of some kind. Whether it's i/o bandwidth or compute
+> > > > bandwidht is kinda a wash.
+> > > sriov/time-sliced-of-a-whole gpu does not really need a cgroup
+> > > interface since each slice appears as a stand alone device.  This is
+> > > already in production (not using cgroup) with users.  The cgroup
+> > > proposal has always been parallel to that in many sense: 1) spatial
+> > > partitioning as an independent but equally valid use case as time
+> > > sharing, 2) sub-device resource control as opposed to full device
+> > > control motivated by the workload characterization paper.  It was
+> > > never about time vs space in terms of use cases but having new API for
+> > > users to be able to do spatial subdevice partitioning.
+> > >
+> > > > CU mask feels a lot more like an isolation/guaranteed forward progress
+> > > > kind of thing, and I suspect that's always going to be a lot more gpu hw
+> > > > specific than anything we can reasonably put into a general cgroups
+> > > > controller.
+> > > The first half is correct but I disagree with the conclusion.  The
+> > > analogy I would use is multi-core CPU.  The capability of individual
+> > > CPU cores, core count and core arrangement may be hw specific but
+> > > there are general interfaces to support selection of these cores.  CU
+> > > mask may be hw specific but spatial partitioning as an idea is not.
+> > > Most gpu vendors have the concept of sub-device compute units (EU, SE,
+> > > etc.); OpenCL has the concept of subdevice in the language.  I don't
+> > > see any obstacle for vendors to implement spatial partitioning just
+> > > like many CPU vendors support the idea of multi-core.
+> > >
+> > > > Also for the time slice cgroups thing, can you pls give me pointers to
+> > > > these old patches that had it, and how it's done? I very obviously missed
+> > > > that part.
+> > > I think you misunderstood what I wrote earlier.  The original proposal
+> > > was about spatial partitioning of subdevice resources not time sharing
+> > > using cgroup (since time sharing is already supported elsewhere.)
+> >
+> > Well SRIOV time-sharing is for virtualization. cgroups is for
+> > containerization, which is just virtualization but with less overhead and
+> > more security bugs.
+> >
+> > More or less.
+> >
+> > So either I get things still wrong, or we'll get time-sharing for
+> > virtualization, and partitioning of CU for containerization. That doesn't
+> > make that much sense to me.
 > 
-> 
-> On 2021-05-07 5:11 a.m., Daniel Vetter wrote:
-> > On Thu, May 06, 2021 at 12:25:06PM -0400, Andrey Grodzovsky wrote:
-> > > 
-> > > 
-> > > On 2021-05-06 5:40 a.m., Daniel Vetter wrote:
-> > > > On Fri, Apr 30, 2021 at 01:27:37PM -0400, Andrey Grodzovsky wrote:
-> > > > > 
-> > > > > 
-> > > > > On 2021-04-30 6:25 a.m., Daniel Vetter wrote:
-> > > > > > On Thu, Apr 29, 2021 at 04:34:55PM -0400, Andrey Grodzovsky wrote:
-> > > > > > > 
-> > > > > > > 
-> > > > > > > On 2021-04-29 3:05 p.m., Daniel Vetter wrote:
-> > > > > > > > On Thu, Apr 29, 2021 at 12:04:33PM -0400, Andrey Grodzovsky wrote:
-> > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > On 2021-04-29 7:32 a.m., Daniel Vetter wrote:
-> > > > > > > > > > On Thu, Apr 29, 2021 at 01:23:19PM +0200, Daniel Vetter wrote:
-> > > > > > > > > > > On Wed, Apr 28, 2021 at 11:12:00AM -0400, Andrey Grodzovsky wrote:
-> > > > > > > > > > > > With this calling drm_dev_unplug will flush and block
-> > > > > > > > > > > > all in flight IOCTLs
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Also, add feature such that if device supports graceful unplug
-> > > > > > > > > > > > we enclose entire IOCTL in SRCU critical section.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> > > > > > > > > > > 
-> > > > > > > > > > > Nope.
-> > > > > > > > > > > 
-> > > > > > > > > > > The idea of drm_dev_enter/exit is to mark up hw access. Not entire ioctl.
-> > > > > > > > > 
-> > > > > > > > > Then I am confused why we have https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv5.12%2Fsource%2Fdrivers%2Fgpu%2Fdrm%2Fdrm_ioctl.c%23L826&amp;data=04%7C01%7Candrey.grodzovsky%40amd.com%7Ce53ea46e66fa40a0e03f08d911381a05%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637559754928702763%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=zMlHiglnn8Vm%2BVxI9Rbk8X%2BTyuokq1x1INbhbRCWK4E%3D&amp;reserved=0
-> > > > > > > > > currently in code ?
-> > > > > > > > 
-> > > > > > > > I forgot about this one, again. Thanks for reminding.
-> > > > > > > > 
-> > > > > > > > > > > Especially not with an opt-in flag so that it could be shrugged of as a
-> > > > > > > > > > > driver hack. Most of these ioctls should have absolutely no problem
-> > > > > > > > > > > working after hotunplug.
-> > > > > > > > > > > 
-> > > > > > > > > > > Also, doing this defeats the point since it pretty much guarantees
-> > > > > > > > > > > userspace will die in assert()s and stuff. E.g. on i915 the rough contract
-> > > > > > > > > > > is that only execbuf (and even that only when userspace has indicated
-> > > > > > > > > > > support for non-recoverable hw ctx) is allowed to fail. Anything else
-> > > > > > > > > > > might crash userspace.
-> > > > > > > > > 
-> > > > > > > > > Given that as I pointed above we already fail any IOCTls with -ENODEV
-> > > > > > > > > when device is unplugged, it seems those crashes don't happen that
-> > > > > > > > > often ? Also, in all my testing I don't think I saw a user space crash
-> > > > > > > > > I could attribute to this.
-> > > > > > > > 
-> > > > > > > > I guess it should be ok.
-> > > > > > > 
-> > > > > > > What should be ok ?
-> > > > > > 
-> > > > > > Your approach, but not your patch. If we go with this let's just lift it
-> > > > > > to drm_ioctl() as the default behavior. No driver opt-in flag, because
-> > > > > > that's definitely worse than any other approach because we really need to
-> > > > > > get rid of driver specific behaviour for generic ioctls, especially
-> > > > > > anything a compositor will use directly.
-> > > > > > 
-> > > > > > > > My reasons for making this work is both less trouble for userspace (did
-> > > > > > > > you test with various wayland compositors out there, not just amdgpu x86
-> > > > > > > 
-> > > > > > > I didn't - will give it a try.
-> > > > > 
-> > > > > Weston worked without crashes, run the egl tester cube there.
-> > > > > 
-> > > > > > > 
-> > > > > > > > driver?), but also testing.
-> > > > > > > > 
-> > > > > > > > We still need a bunch of these checks in various places or you'll wait a
-> > > > > > > > very long time for a pending modeset or similar to complete. Being able to
-> > > > > > > > run that code easily after hotunplug has completed should help a lot with
-> > > > > > > > testing.
-> > > > > > > > 
-> > > > > > > > Plus various drivers already acquired drm_dev_enter/exit and now I wonder
-> > > > > > > > whether that was properly tested or not ...
-> > > > > > > > 
-> > > > > > > > I guess maybe we need a drm module option to disable this check, so that
-> > > > > > > > we can exercise the code as if the ioctl has raced with hotunplug at the
-> > > > > > > > worst possible moment.
-> > > > > > > > 
-> > > > > > > > Also atomic is really tricky here: I assume your testing has just done
-> > > > > > > > normal synchronous commits, but anything that goes through atomic can be
-> > > > > > > > done nonblocking in a separate thread. Which the ioctl catch-all here wont
-> > > > > > > > capture.
-> > > > > > > 
-> > > > > > > Yes, async commit was on my mind and thanks for reminding me. Indeed
-> > > > > > > I forgot this but i planned to scope the entire amdgpu_dm_atomic_tail in
-> > > > > > > drm_dev_enter/exit. Note that i have a bunch of patches, all name's
-> > > > > > > starting with 'Scope....' that just methodically put all the background
-> > > > > > > work items and timers the drivers schedules in drm_dev_enter/exit scope.
-> > > > > > > This was supposed to be part of the 'Scope Display code' patch.
-> > > > > > 
-> > > > > > That's too much. You still have to arrange that the flip completion event
-> > > > > > gets sent out. So it's a bit tricky.
-> > > > > > 
-> > > > > > In other places the same problem applies, e.g. probe functions need to
-> > > > > > make sure they report "disconnected".
-> > > > > 
-> > > > > I see, well, this is all part of KMS support which I defer for now
-> > > > > anyway. Will tackle it then.
-> > > > > 
-> > > > > > 
-> > > > > > > > > > > You probably need similar (and very precisely defined) rules for amdgpu.
-> > > > > > > > > > > And those must definitely exclude any shard ioctls from randomly failing
-> > > > > > > > > > > with EIO, because that just kills the box and defeats the point of trying
-> > > > > > > > > > > to gracefully handling hotunplug and making sure userspace has a chance of
-> > > > > > > > > > > survival. E.g. for atomic everything should continue, including flip
-> > > > > > > > > > > completion, but we set all outputs to "disconnected" and send out the
-> > > > > > > > > > > uevent. Maybe crtc enabling can fail too, but that can also be handled
-> > > > > > > > > > > through the async status we're using to signal DP link failures to
-> > > > > > > > > > > userspace.
-> > > > > > > > > 
-> > > > > > > > > As I pointed before, because of the complexity of the topic I prefer to
-> > > > > > > > > take it step by step and solve first for secondary device use case, not
-> > > > > > > > > for primary, display attached device.
-> > > > > > > > 
-> > > > > > > > Yeah makes sense. But then I think the right patch is to roll this out for
-> > > > > > > > all drivers, properly justified with existing code. Not behind a driver
-> > > > > > > > flag, because with all these different compositors the last thing we want
-> > > > > > > > is a proliferation of driver-specific behaviour. That's imo the worst
-> > > > > > > > option of all of them and needs to be avoided.
-> > > > > > > 
-> > > > > > > So this kind of patch would be acceptable to you if I unconditionally
-> > > > > > > scope the drm_ioctl with drm_dev_enter/exit without the driver flag ?
-> > > > > > > I am worried to break other drivers with this, see patch https://nam11.safelinks.protection.outlook.com/?url=https:%2F%2Fcgit.freedesktop.org%2F~agrodzov%2Flinux%2Fcommit%2F%3Fh%3Ddrm-misc-next%26id%3Df0c593f35b22ca5bf60ed9e7ce2bf2b80e6c68c6&amp;data=04%7C01%7Candrey.grodzovsky%40amd.com%7Ce53ea46e66fa40a0e03f08d911381a05%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637559754928702763%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=NcUTm%2BttKzbr2yo6PlSZRZ4e5%2BkHF%2BCZJSQyo3m7w7Q%3D&amp;reserved=0
-> > > > > > > Before setting drm_dev_unplug I go through a whole process of signalling
-> > > > > > > all possible fences in the system which some one some where might be
-> > > > > > > waiting on. My concern is that in the absence of HW those fences won't
-> > > > > > > signal and so unless I signal them myself srcu_synchrionize in
-> > > > > > > drm_dev_unplug will hang waiting for any such code scoped by
-> > > > > > > drm_dev_enter/exit.
-> > > > > > 
-> > > > > > Uh right. I forgot about this.
-> > > > > > 
-> > > > > > Which would kinda mean the top level scope is maybe not the best idea, and
-> > > > > > perhaps we should indeed drill it down. But then the testing issue
-> > > > > > definitely gets a lot worse.
-> > > > > > 
-> > > > > > So what if we'd push that drm_dev_is_unplugged check down into ioctls?
-> > > > > > Then we can make a case-by case decision whether it should be converted to
-> > > > > > drm_dev_enter/exit, needs to be pushed down further into drivers (due to
-> > > > > > fence wait issues) or other concerns?
-> > > > > > 
-> > > > > > Also I guess we need to have a subsystem wide rule on whether you need to
-> > > > > > force complete all fences before you call drm_dev_unplug, or afterwards.
-> > > > > 
-> > > > > I don't see how you can handle it afterwards. If a thread is stuck in
-> > > > > dma_fence_wait in non interruptible wait (any kernel thread) and with no
-> > > > > timeout there is nothing you can do to stop the wait. Any such code
-> > > > > scopped with drm_dev_enter/exit will cause a hang in drm_dev_unplug.
-> > > > > The only way then is to preemptively force signal all such fences before
-> > > > > calling drm_dev_unplug - as I do in the above mentioned patch.
-> > > > 
-> > > > Yeah, which is why I don't think top-level drm_dev_enter/exit is a good
-> > > > idea.
-> > > > 
-> > > > > > If we have mixed behaviour on this there will be disappointment. And since
-> > > > > > hotunplug and dma_fence completion are both userspace visible that
-> > > > > > inconsistency might have bigger impact.
-> > > > > > 
-> > > > > > This is all very tricky indeed :-/
-> > > > > > 
-> > > > > > btw for the "gradual pushing drm_dev_enter into ioctl" approach, if we go
-> > > > > > with that: We could do the same trick we've done for DRM_UNLOCKED:
-> > > > > > - drm_dev_enter/exit is called for any ioctl that has not set the
-> > > > > >      DRM_HOTUNPLUG_SAFE flag
-> > > > > > - for drm core ioctls we push them into all ioctls and decide how to
-> > > > > >      handle/where (with the aim to have the least amount of code flow
-> > > > > >      different during hotunplug vs after hotunplug has finished, to reduce
-> > > > > >      testing scope)
-> > > > > > - then we make DRM_HOTUNPLUG_SAFE the implied default
-> > > > > > 
-> > > > > > This would have us left with render ioctls, and I think the defensive
-> > > > > > assumption there is that they're all hotunplug safe. We might hang on a
-> > > > > > fence wait, but that's fixable, and it's better than blowing up on a
-> > > > > > use-after-free security bug.
-> > > > > > 
-> > > > > > Thoughts?
-> > > > > 
-> > > > > I don't fully see a difference between the approach described above and
-> > > > > the full drill down to each driver and even within the driver, to the HW
-> > > > > back-ends - what criteria I would use to decide if for a given IOCTL i
-> > > > > scope with drm_dev_enter/exit at the highest level while for another
-> > > > > i go all the way down ? If we would agree that signaling the fences
-> > > > > preemptively before engaging drm_dev_unplug is generically the right
-> > > > > approach maybe we can then scope drm_ioctl unconditionally with
-> > > > > drm_dev_enter/exit and then for each driver go through the same process
-> > > > > I do for amdgpu - writing driver specific function which takes care of
-> > > > > all the fences. We could then just create a drm callback which would
-> > > > > be called from drm_ioctl before drm_dev_unplug is called.
-> > > > 
-> > > > So I see the appeal of just nuking all the fences, but I'm not sure that's
-> > > > a good plan. We've done this in the old i915 gpu reset code too, and the
-> > > > issue is it's defacto inverting the locking. But also the hw is truly
-> > > > gone, so it also makes sense.
-> > > > 
-> > > > The problem is a bit roll-out, if we state that dma_fence_wait is allowed
-> > > > with a drm_dev_enter/exit, then all drivers need to force-retire their
-> > > > fences.
-> > > > 
-> > > > The other option would be that we require that dma_fence_wait is _not_
-> > > > allowed in drm_dev_enter/exit, and that therefore these areas must be
-> > > > marked up more fine-grained to avoid deadlocks. I like this more from the
-> > > > testing aspect (it makes it easier to be reasonable sure your code handles
-> > > > concurrent hotunplug), but also it's pretty easy to validate with the
-> > > > dma_fence lockdep annotations we have I think.
-> > > 
-> > > They key question as I see it - is it ok for a device to be unplugged
-> > > while it's driver has anywhere in it's code a dma_fence_wait
-> > > waiting for work completion from this device. The answers seems to me
-> > > is no, the HW is gone, this fence will never signal and so you will be
-> > > left with indefinitely hanged code thread with all it's unreleased
-> > > resources. If i am correct in the above statement then avoiding scoping
-> > > code with drm_dev_enter/exit because a dma_fence_wait might be there in the
-> > > middle
-> > > just hides the problem. Also, then the only solution for each driver
-> > > wanting to support hot-unplug is to force retire all it's HW
-> > > fences once it's notified of device removal.
-> > 
-> > At a high level, yes dma_fence must always complete. I don't think we have
-> > a disagreement here on that.
-> > 
-> > What we're discussing here is the precise sequencing and barriers, where
-> > things get tricky. Requiring that you force-complete all dma_fence that
-> > might be affected before you hotunplug is one solution, the other is
-> > tuning the critical sections that drm_dev_enter/exit annotates.
-> > 
-> > This isn't about avoiding anything or hiding problems, this is about
-> > locking/synchronization design. And for that we must agree on what is
-> > allowed inside/outside of a critical section for all possible
-> > combinations.
-> > 
-> > E.g. we're also "hiding" problems with calling dma_fence_wait from
-> > shrinkers/mmu notifiers by forbidding allocations in
-> > dma_fence_begin/end_signalling critical paths.
-> > 
-> > > > A third reasons for not requiring force-retiring of dma_fence before
-> > > > drm_dev_unplug is the races: Before drm_dev_unplug you haven't stopped new
-> > > > fences from happening, but until you've stopped new fences it's hard to
-> > > > guarantee they're all retired. How do you solve this currently.
-> > > 
-> > > See amdgpu_finilize_device_fences in https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.ozlabs.org%2Fproject%2Flinux-pci%2Fpatch%2F20210428151207.1212258-20-andrey.grodzovsky%40amd.com%2F&amp;data=04%7C01%7Candrey.grodzovsky%40amd.com%7Ce53ea46e66fa40a0e03f08d911381a05%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637559754928702763%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=pinKT1LMic%2FCEfAlr%2FPAhyBAaDEqpMeeJC%2BPdqUaiL8%3D&amp;reserved=0
-> > > I think the steps described there answer your
-> > > concern here.
-> > 
-> > The hard problem is stopping further command submission. Not seeing how
-> > you solve that.
-> 
-> By stopping GPU SW scheduler before force completion of HW fences, see
-> amdgpu_finilize_device_fences->amdgpu_fence_driver_fini_hw and the
-> comment above it.
-> 
-> > 
-> > But I'm definitely scared about all the scheduler/tdr interactions you
-> > already have there, and that looks quite a bit like fallout from doing
-> > things the wrong way round.
-> > 
-> > Also given that drm/scheduler is shared, why can't this be a drm/scheduler
-> > helper function?
-> 
-> I was thinking about it, what stopped me is that HW fences signaling is
-> done from driver specific HW fence array. But we could do it generic by
-> instead iterating sched->pending_list and signaling
-> s_job->s_fence->parent instead.
-> You also need to retire scheduler's scheduled fences once you stopped
-> the schedulers as they are waited on as dependencies for other jobs
-> submissions (i do take care of it).
-> 
-> > 
-> > > > Finally there's still hangcheck and all that, so if we go with forbidding
-> > > > dma_fence_wait from within drm_dev_enter/exit sections, then drivers don't
-> > > > need to have additional tricky code to force-retire fences. TDR will take
-> > > > care already (albeit with maybe a slightly annoying long timeout, which
-> > > > we can shorten to "time out everything immediately" after drm_dev_unplug).
-> > > 
-> > > I am not aware of TDR handlers  that do it today, at least we don't,
-> > > we don't check that if device is gone let's instead of resetting the device
-> > > and resubmit jobs just force retire all the HW fences. In any case, this
-> > > can and i think should be done in pci remove callback because this is
-> > > the place that supposed to handle device extraction. I for example in
-> > > amdgpu_finilize_device_fences just block all TDRs from taking place as first
-> > > step in the process. If other drivers want to force retire fences
-> > > in their TDR handlers they still need to block and wait for all such
-> > > TDRs in their pci_remove handler.
-> > 
-> > TDR definitely force-completes the fence that did hang. Of course it'll
-> > take a while until they've all completed this way, but we do have
-> > guaranteed forward progress since we've stopped all further fences from
-> > showing up because drm_dev_unplug is called already.
-> > 
-> > And yes after drm_dev_unplug you can then force-retire the tdr stuff.
-> > 
-> > > > What we definitely can't have is half the drivers doing it one way, and
-> > > > the other half the other way. So your driver flag to wrap the ioctl
-> > > > optionally in a drm_dev_enter/exit path is a no-go still I think.
-> > > > 
-> > > > I guess my tldr; is: I definitely see how your current approach gives
-> > > > quicker results for amdgpu right now, but long term I'm seeing more
-> > > > positives on the other one. At least I expect less special cases due to
-> > > > hotunplug with that.
-> > > 
-> > > As i expressed my viewpoint above - seems to me any driver in need to
-> > > support hot-unplug must force retire it's fences because of need to
-> > > unblock all dma_fence waits and so it will not be a special case.
-> > 
-> > This isn't the special case I meant. It's the very tricky
-> > force-retire-before-you-unplugged-officially which is large scale nasty.
-> > 
-> > Also if your driver doesn't force-retire already, it's buggy. The
-> > additional need of hotunplug is just that we're trying to force-retire a
-> > bit faster, because we know it's all hopeless. But e.g. i915 already has a
-> > fallback that does this automatically:
-> > - first we reset only the engine/context, keeping everyone else running
-> > - if that doesn't pan out, we reset the entire chip and give up an
-> >    anything that's in-flight, which (iirc, it did so at least in the past)
-> >    force retires everything outstanding.
-> > 
-> > I think amdgpu only has full chip reset, so your first step tries to
-> > reissue all other tasks. But that's not necessarily how it needs to
-> > happen.
-> > 
-> > Either way drivers must force retire everything (albeit maybe a bit at a
-> > slow pace) if the hw ceased to work properly already. Hotunplug really
-> > isn't anything new here.
-> > -Daniel
-> 
-> Let's then agree on the way forward -
-> 
-> You raised before the following suggestion -
-> 
-> "
-> btw for the "gradual pushing drm_dev_enter into ioctl" approach, if we go
-> with that: We could do the same trick we've done for DRM_UNLOCKED:
-> - drm_dev_enter/exit is called for any ioctl that has not set the
->   DRM_HOTUNPLUG_SAFE flag
-> - for drm core ioctls we push them into all ioctls and decide how to
->   handle/where (with the aim to have the least amount of code flow
->   different during hotunplug vs after hotunplug has finished, to reduce
->   testing scope)
-> - then we make DRM_HOTUNPLUG_SAFE the implied default
-> "
-> My problem here is that I have no good understating, criteria
-> for how to decide per each ioctl on the right scope of drm_dev_enter/
-> exit. It depends on whether each next function call can lead somewhere
-> down the call stack to dma_fence_wait and/or whether it can lead
-> to registers access. Seems to me very hard to cover and error prone.
+> You could still potentially do SR-IOV for containerization.  You'd
+> just pass one of the PCI VFs (virtual functions) to the container and
+> you'd automatically get the time slice.  I don't see why cgroups would
+> be a factor there.
 
-Tbh, neither do I. This requires a lot of work to analyze.
+Standard interface to manage that time-slicing. I guess for SRIOV it's all
+vendor sauce (intel as guilty as anyone else from what I can see), but for
+cgroups that feels like it's falling a bit short of what we should aim
+for.
 
-> Another options which we discussed internally before and is basically
-> same as current drivers i guess is simply to scope with drm_dev_enter/
-> exit all the back-end HW specific callbacks. Those are most of the
-> places MMIO access takes place and by definition no dma_fence_wait
-> can be there as it's HW specific code. This leaves MMIO
-> access through pointers (memcpy, and various pointer de-references)
-> which will need to be protected on case by case, but given that I unmap
-> all MMIO anyway as last step of PCI remove callback, all of them will
-> be found by try and error eventually.
-> I feel more comfortable with this approach as I have a clear
-> understating of how to deal with it.
-
-Hm ... I'm maybe failing to see the difference, but at least on the kms
-side "put drm_dev_enter/exit into driver callbacks" feels like the right
-place for them.
-
-Render (and I guess kfd for amd as the special case) ioctl are different,
-especially all the driver specific ones.
-
-So one thing that cross my mind maybe as step 0 is to annotate the rules
-for drm_dev_enter/exit using lockdep. With lockdep we can both check
-whether a lock is held, but also whether it's not held (but the latter is
-only possible with CONFIG_PROVE_LOCKING enabled). I think it would be good
-to annotate all the major locks in the kernel against drm_dev_enter/exit:
-
-- dma_fence_wait could check that the drm_dev_enter/exit srcu is _not_
-  held.
-
-- because srcu nest _very_ freely there's kinda no real restrictions for
-  putting drm_dev_enter/exit within a lock critical section. Might still
-  be good to explicitly call out in docs where it's all ok:
-
-  - interrupt handlers (I hope that's the case, otherwise I screwed up)
-  - shrinkers/mmu_notifier callbacks
-
-- anything else that's not allowed in within drm_dev_enter/exit. I'm e.g.
-  wondering whether we should disallow drm_modeset_lock() or maybe
-  dma_resv_lock(), or whether that's too restrictive. It could help quite
-  a bit in finding places where the drm_dev_enter/exit section is too
-  wide.
-
-- another one is the inverse, but I guess you have that already with
-  putting a drm_dev_is_held() into mmio helpers and all that to make sure
-  we really have them all caught.
-
-Above is just examples, I think the more we nail down these rules one way
-or the other, the better for consistency across drivers. And without
-consistency everyone will be forced to write their own mmap helpers
-instead of one in ttm, or scheduler cleanup helpers instead of one in
-drm/scheduler.
-
-> P.S Please respond on the question for you on the other thread at
-> 'PATCH v5 15/27] drm/scheduler: Fix hang when sched_entity released'
-> about suggestion by Christian of partial up-streaming of this code up to
-> and before the patches dealing with scoping of drm_dev_enter/exit scoping.
-
-Ok will try, I'm a bit burried unfortunately so thanks for reminder when I
-miss something.
+But dunno, maybe I'm just dreaming too much :-)
 -Daniel
 
+> Alex
 > 
-> Andrey
-> 
-> 
-> 
-> 
-> 
-> 
-> > > 
-> > > Andrey
-> > > 
-> > > > 
-> > > > Cheers, Daniel
-> > > > 
-> > > > > 
-> > > > > Andrey
-> > > > > 
-> > > > > > 
-> > > > > > It is unfortunately even more work until we've reached the goal, but I
-> > > > > > think it's safest and most flexible approach overall.
-> > > > > > 
-> > > > > > Cheers, Daniel
-> > > > > > 
-> > > > > > > 
-> > > > > > > Andrey
-> > > > > > > 
-> > > > > > > > 
-> > > > > > > > Cheers, Daniel
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > > > 
-> > > > > > > > > > > I guess we should clarify this in the hotunplug doc?
-> > > > > > > > > 
-> > > > > > > > > Agree
-> > > > > > > > > 
-> > > > > > > > > > 
-> > > > > > > > > > To clarify: I'm not against throwing an ENODEV at userspace for ioctl that
-> > > > > > > > > > really make no sense, and where we're rather confident that all properly
-> > > > > > > > > > implemented userspace will gracefully handle failures. Like a modeset, or
-> > > > > > > > > > opening a device, or trying to import a dma-buf or stuff like that which
-> > > > > > > > > > can already fail in normal operation for any kind of reason.
-> > > > > > > > > > 
-> > > > > > > > > > But stuff that never fails, like GETRESOURCES ioctl, really shouldn't fail
-> > > > > > > > > > after hotunplug.
-> > > > > > > > > 
-> > > > > > > > > As I pointed above, this a bit confuses me given that we already do
-> > > > > > > > > blanker rejection of IOCTLs if device is unplugged.
-> > > > > > > > 
-> > > > > > > > Well I'm confused about this too :-/
-> > > > > > > > 
-> > > > > > > > > > And then there's the middle ground, like doing a pageflip or buffer flush,
-> > > > > > > > > > which I guess some userspace might handle, but risky to inflict those
-> > > > > > > > > > consequences on them. atomic modeset is especially fun since depending
-> > > > > > > > > > what you're doing it can be both "failures expected" and "failures not
-> > > > > > > > > > really expected in normal operation".
-> > > > > > > > > > 
-> > > > > > > > > > Also, this really should be consistent across drivers, not solved with a
-> > > > > > > > > > driver flag for every possible combination.
-> > > > > > > > > > 
-> > > > > > > > > > If you look at the current hotunplug kms drivers, they have
-> > > > > > > > > > drm_dev_enter/exit sprinkled in specific hw callback functions because of
-> > > > > > > > > > the above problems. But maybe it makes sense to change things in a few
-> > > > > > > > > > cases. But then we should do it across the board.
-> > > > > > > > > 
-> > > > > > > > > So as I understand your preferred approach is that I scope any back_end, HW
-> > > > > > > > > specific function with drm_dev_enter/exit because that where MMIO
-> > > > > > > > > access takes place. But besides explicit MMIO access thorough
-> > > > > > > > > register accessors in the HW back-end there is also indirect MMIO access
-> > > > > > > > > taking place throughout the code in the driver because of various VRAM
-> > > > > > > > > BOs which provide CPU access to VRAM through the VRAM BAR. This kind of
-> > > > > > > > > access is spread all over in the driver and even in mid-layers such as
-> > > > > > > > > TTM and not limited to HW back-end functions. It means it's much harder
-> > > > > > > > > to spot such places to surgically scope them with drm_dev_enter/exit and
-> > > > > > > > > also that any new such code introduced will immediately break hot unplug
-> > > > > > > > > because the developers can't be expected to remember making their code
-> > > > > > > > > robust to this specific use case. That why when we discussed internally
-> > > > > > > > > what approach to take to protecting code with drm_dev_enter/exit we
-> > > > > > > > > opted for using the widest available scope.
-> > > > > > > > 
-> > > > > > > > The thing is, you kinda have to anyway. There's enormous amounts of
-> > > > > > > > asynchronous processing going on. E.g. nonblocking atomic commits also do
-> > > > > > > > ttm unpinning and fun stuff like that, which if you sync things wrong can
-> > > > > > > > happen way late. So the door for bad fallout is wide open :-(
-> > > > > > > > 
-> > > > > > > > I'm not sure where the right tradeoff is to make sure we catch them all,
-> > > > > > > > and can make sure with testing that we've indeed caught them all.
-> > > > > > > > -Daniel
-> > > > > > > > 
-> > > > > > 
-> > > > 
-> > 
+> >
+> > Since time-sharing is the first thing that's done for virtualization I
+> > think it's probably also the most reasonable to start with for containers.
+> > -Daniel
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> > _______________________________________________
+> > amd-gfx mailing list
+> > amd-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 
 -- 
 Daniel Vetter
