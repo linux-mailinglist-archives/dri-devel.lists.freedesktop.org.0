@@ -1,64 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0801537693E
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 19:04:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F116376998
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 19:47:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF7B46EE11;
-	Fri,  7 May 2021 17:04:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9045A6E152;
+	Fri,  7 May 2021 17:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2A036EE05;
- Fri,  7 May 2021 17:04:52 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id x19so13714377lfa.2;
- Fri, 07 May 2021 10:04:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=As0+QF4TLvCwMjWlGqhQacwhIi2kfiM2nw4uGB7p4N8=;
- b=XaS8GacFeLZ9LdipAnAd9lmHMU5Bram4sJAXmI5tjXjuePToDyszeoER9rBD1jP5FD
- G/iFhdBDQYXfUfAdNRXVue+92PkBxExlxzlSXIbYo5gqqtqGDsjTtDaFXVQqCrSIAbbV
- f3NeLSg8WA1QDhql50+sz3vsfJEUQNRZsEEIfJKcSV6tjmaovZZhN60fod42kmSrf9Au
- LqzSdMGedlwI88yfdk95tBQIGuo5dRYgbseIbv7i0Ndt+EbBOBQEgnzKpzHzY5BV6NYP
- WttdkufC4r8Fn7J9E+XuKfSdQBYuu8smQs6s5t4/CuGKQyuOjhmqLJa9g5rtp8UaDJrJ
- JeZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=As0+QF4TLvCwMjWlGqhQacwhIi2kfiM2nw4uGB7p4N8=;
- b=GszySFYBcB2GuLNoxrJVi2fLcl/rreR5v6TdvIPKdp36YATpOuL0+uAq7Fm7VWw1AX
- 9XBg3veaDP3U/bVDUnEsyPiy3pgCBQpQefP50PTsNRVZ4vd9Jsd6DCveuUmrOfCWzFdB
- 8H+GujplXlI1i9nzUFwPyaAm+Q7yUsFdXk9mmJA698qtO0i+Pop+aglgPoTT7bnJG4A3
- DKkuvkIH++K8o8c2hqNoV7je75MdsQR02gku6V/97/vUCqKiDctD7paKE8QcM6yEMhJq
- +YijnLFzuyVskSaKkgJDoZm3bk+pQhevlQP6BhelUCQWgxD+BCj5CuUkqux09pMFPNCt
- UEkw==
-X-Gm-Message-State: AOAM530Wiyh+SsWG68PE3i/K+y6hMi81djGGrnqRrY2qagdH3ccWbSay
- ryASsXRFSG2Duj+1CLSsA/6cUYs57v6+GhS7lLI=
-X-Google-Smtp-Source: ABdhPJyNW4Va1Nx97/p0bkdWKZm1kMh8BbHdHom7nIdyBuEQj8avc+yZs0hyZEoSNPZlzEZ4Hw9AXU9VHivTMhxw+dc=
-X-Received: by 2002:a19:5508:: with SMTP id n8mr7115859lfe.542.1620407091091; 
- Fri, 07 May 2021 10:04:51 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C64576E0EF;
+ Fri,  7 May 2021 17:47:16 +0000 (UTC)
+IronPort-SDR: obvkZVcM1wIE5k8Y8EAxCwazagTcbFA3bTLorLmAH8hbja8T8V4Mq9Sg6IeQMHBEQBoB5e1cik
+ tXwoBHidLmgA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9977"; a="196762821"
+X-IronPort-AV: E=Sophos;i="5.82,281,1613462400"; d="scan'208";a="196762821"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2021 10:47:12 -0700
+IronPort-SDR: iJD38hR8USPvAmB9wunSq0ygb53cZ01EEHBFHbI7+FN20N3f4O99slpUSAW+YzCgmmeZVJqH3a
+ 1ZlzczSYg3cQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,281,1613462400"; d="scan'208";a="465525152"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga002.fm.intel.com with SMTP; 07 May 2021 10:47:09 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 07 May 2021 20:47:08 +0300
+Date: Fri, 7 May 2021 20:47:08 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Subject: Re: [PATCH v6 1/3] drm/i915/display: New function to avoid duplicate
+ code in upcomming commits
+Message-ID: <YJV9HA5IuQW+KWOf@intel.com>
+References: <20210506172325.1995964-1-wse@tuxedocomputers.com>
+ <20210507084903.28877-1-wse@tuxedocomputers.com>
+ <20210507084903.28877-2-wse@tuxedocomputers.com>
 MIME-Version: 1.0
-References: <CAOWid-c4Nk717xUah19B=z=2DtztbtU=_4=fQdfhqpfNJYN2gw@mail.gmail.com>
- <CAKMK7uFEhyJChERFQ_DYFU4UCA2Ox4wTkds3+GeyURH5xNMTCA@mail.gmail.com>
- <CAOWid-fL0=OM2XiOH+NFgn_e2L4Yx8sXA-+HicUb9bzhP0t8Bw@mail.gmail.com>
- <YJUBer3wWKSAeXe7@phenom.ffwll.local>
- <CAOWid-dmRsZUjF3cJ8+mx5FM9ksNQ_P9xY3jqxFiFMvN29SaLw@mail.gmail.com>
- <YJVnO+TCRW83S6w4@phenom.ffwll.local>
- <CADnq5_Pvtj1vb0bak_gUkv9J3+vfsMZxVKTKYeUvwQCajAWoVQ@mail.gmail.com>
- <YJVqL4c6SJc8wdkK@phenom.ffwll.local>
- <CADnq5_PHjiHy=Su_1VKr5ycdnXN-OuSXw0X_TeNqSj+TJs2MGA@mail.gmail.com>
- <CADnq5_OjaPw5iF_82bjNPt6v-7OcRmXmXECcN+Gdg1NcucJiHA@mail.gmail.com>
- <YJVwtS9XJlogZRqv@phenom.ffwll.local>
-In-Reply-To: <YJVwtS9XJlogZRqv@phenom.ffwll.local>
-From: Kenny Ho <y2kenny@gmail.com>
-Date: Fri, 7 May 2021 13:04:39 -0400
-Message-ID: <CAOWid-fRgjuY46KA-HBbEfhfwsWvDyhkp+iwZq=wA1h+Uix32g@mail.gmail.com>
-Subject: Re: [RFC] Add BPF_PROG_TYPE_CGROUP_IOCTL
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210507084903.28877-2-wse@tuxedocomputers.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +54,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Song Liu <songliubraving@fb.com>, KP Singh <kpsingh@chromium.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Kenny Ho <Kenny.Ho@amd.com>,
- Brian Welty <brian.welty@intel.com>, John Fastabend <john.fastabend@gmail.com>,
- Alexei Starovoitov <ast@kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Alexei Starovoitov <alexei.starovoitov@gmail.com>, Yonghong Song <yhs@fb.com>,
- Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Network Development <netdev@vger.kernel.org>,
- "open list:CONTROL GROUP \(CGROUP\)" <cgroups@vger.kernel.org>,
- bpf <bpf@vger.kernel.org>, Andrii Nakryiko <andriin@fb.com>,
- Martin KaFai Lau <kafai@fb.com>, Alex Deucher <alexander.deucher@amd.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 7, 2021 at 12:54 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> SRIOV is kinda by design vendor specific. You set up the VF endpoint, it
-> shows up, it's all hw+fw magic. Nothing for cgroups to manage here at all.
-Right, so in theory you just use the device cgroup with the VF endpoints.
+On Fri, May 07, 2021 at 10:49:01AM +0200, Werner Sembach wrote:
+> Moves some checks that later will be performed 2 times to an own function.
+> This avoids duplicate code later on.
+> 
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_hdmi.c | 41 ++++++++++++++---------
+>  1 file changed, 26 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index 46de56af33db..576d3d910d06 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -1861,6 +1861,31 @@ static int intel_hdmi_port_clock(int clock, int bpc)
+>  	return clock * bpc / 8;
+>  }
+>  
+> +static enum drm_mode_status
+> +intel_hdmi_mode_clock_valid(struct intel_hdmi *hdmi, int clock, bool has_hdmi_sink)
+> +{
+> +	struct drm_device *dev = intel_hdmi_to_dev(hdmi);
+> +	struct drm_i915_private *dev_priv = to_i915(dev);
+> +	enum drm_mode_status status;
+> +
+> +	/* check if we can do 8bpc */
+> +	status = hdmi_port_clock_valid(hdmi, clock, true, has_hdmi_sink);
+> +
+> +	if (has_hdmi_sink) {
+> +		/* if we can't do 8bpc we may still be able to do 12bpc */
+> +		if (status != MODE_OK && !HAS_GMCH(dev_priv))
+> +			status = hdmi_port_clock_valid(hdmi, clock * 3 / 2,
 
-> All I meant is that for the container/cgroups world starting out with
-> time-sharing feels like the best fit, least because your SRIOV designers
-> also seem to think that's the best first cut for cloud-y computing.
-> Whether it's virtualized or containerized is a distinction that's getting
-> ever more blurry, with virtualization become a lot more dynamic and
-> container runtimes als possibly using hw virtualization underneath.
-I disagree.  By the same logic, the existence of CU mask would imply
-it being the preferred way for sub-device control per process.
+Seems we've lost intel_hdmi_port_clock() here somehow.
 
-Kenny
+> +						       true, has_hdmi_sink);
+> +
+> +		/* if we can't do 8,12bpc we may still be able to do 10bpc */
+> +		if (status != MODE_OK && INTEL_GEN(dev_priv) >= 11)
+> +			status = hdmi_port_clock_valid(hdmi, clock * 5 / 4,
+
+Also here.
+
+> +						       true, has_hdmi_sink);
+> +	}
+> +
+> +	return status;
+> +}
+> +
+>  static enum drm_mode_status
+>  intel_hdmi_mode_valid(struct drm_connector *connector,
+>  		      struct drm_display_mode *mode)
+> @@ -1891,21 +1916,7 @@ intel_hdmi_mode_valid(struct drm_connector *connector,
+>  	if (drm_mode_is_420_only(&connector->display_info, mode))
+>  		clock /= 2;
+>  
+> -	/* check if we can do 8bpc */
+> -	status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 8),
+> -				       true, has_hdmi_sink);
+> -
+> -	if (has_hdmi_sink) {
+> -		/* if we can't do 8bpc we may still be able to do 12bpc */
+> -		if (status != MODE_OK && !HAS_GMCH(dev_priv))
+> -			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 12),
+> -						       true, has_hdmi_sink);
+> -
+> -		/* if we can't do 8,12bpc we may still be able to do 10bpc */
+> -		if (status != MODE_OK && DISPLAY_VER(dev_priv) >= 11)
+> -			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 10),
+> -						       true, has_hdmi_sink);
+> -	}
+> +	status = intel_hdmi_mode_clock_valid(hdmi, clock, has_hdmi_sink);
+>  	if (status != MODE_OK)
+>  		return status;
+>  
+> -- 
+> 2.25.1
+
+-- 
+Ville Syrjälä
+Intel
