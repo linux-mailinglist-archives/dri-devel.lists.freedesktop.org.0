@@ -1,42 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE34376AAD
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 21:27:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF68376ABB
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 21:33:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3A06E3EE;
-	Fri,  7 May 2021 19:27:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C4656E3EF;
+	Fri,  7 May 2021 19:33:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E52E46E3EE
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 19:27:30 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 00C4CC800A2;
- Fri,  7 May 2021 21:27:29 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
- with LMTP id vPSkiOcuewgT; Fri,  7 May 2021 21:27:28 +0200 (CEST)
-Received: from wsembach-tuxedo.fritz.box
- (p200300E37F12f200d51BE97DB8e423B2.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f12:f200:d51b:e97d:b8e4:23b2])
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPA id 704D3C800A1;
- Fri,  7 May 2021 21:27:28 +0200 (CEST)
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, harry.wentland@amd.com, sunpeng.li@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd/display: Expose active display color configurations
- to userspace
-Date: Fri,  7 May 2021 21:27:18 +0200
-Message-Id: <20210507192718.35314-1-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9716E3EF;
+ Fri,  7 May 2021 19:33:30 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id o5so9683005qkb.0;
+ Fri, 07 May 2021 12:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DQeWsUe4sdL5lwcQgjwlYsUvqoVq4rgrGbWAxTRdzK0=;
+ b=nGfiv21ZL8q5oVm8kipMoDb98KQPA4A9rngwmvXuqZnlY2cy9b/IbHGzKHuZ9/55Wg
+ 5rUH8L/Fu3n0B4hrJZ4B93X2HYBnLD/Lgrm+C58moHKKCT11Xw3AzGWg6CLYIhGjw2Lb
+ sxBYCIrVWBFMASbtLYqc786mHo8oNlZnIRDVF7rJuoTPbfyqlnOLZqZwAyqypSouggs0
+ yp2jIiV6O9MndUS/Sv9UxT6tVTL3ZezUAQZha9GS2GhAs+s2h+T3kfrqksj93rZHFqQj
+ XaLXEGcaw6eFzEOZzgOS8jX+XQ3V8bvJnHAMEhXK/akANXg9UkdyK8Suaox+MyCAwzH0
+ cAKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=DQeWsUe4sdL5lwcQgjwlYsUvqoVq4rgrGbWAxTRdzK0=;
+ b=EyRVu51rPY4ZPNuNkVfMnz1szCn7N87cvNGCt9NETRWoRi4riRYETkGdt0qcSrlHvz
+ yZGtzYcLkQDp2EyaXdFKmEq4Ja9QXNsYV3AlBSBME3/GEpEVJtllUbVdcbCSkr6fqerc
+ uFkY3JcnRdo59G9JhTqncGzJkITP+jvIJYLUSFAS1SnxT4tlHsuE/4EKaL50ZIwip7Pm
+ dFy4GLxeObK7Zv+4sLIZgSqku+fKTiXRB6fqEAhK1Jsgw0FO5+uhI7I0olgyl8Ko5cj9
+ u3T/6PhB7C462n5umRcnFhz0Ld5tGdvOXr/BwQRJNQlTHXVbekXiMGvf4Uz7N6cut7cl
+ ZvLg==
+X-Gm-Message-State: AOAM53348tS67+SjMl/fs1F0hS4KaJBgMgRkG8A9Mud5B/X84U2pTxhO
+ Ro/nwlGryn9LxCTpK/i8XOQ=
+X-Google-Smtp-Source: ABdhPJw2cRhG8UHN8LXnIN2dTKp9oF06g5FI6Zqbk2WI27UC68arv2TLcX2Slci/J4LFn7amAwSThw==
+X-Received: by 2002:a37:4496:: with SMTP id
+ r144mr11246241qka.242.1620416009423; 
+ Fri, 07 May 2021 12:33:29 -0700 (PDT)
+Received: from localhost (dhcp-6c-ae-f6-dc-d8-61.cpe.echoes.net.
+ [199.96.183.179])
+ by smtp.gmail.com with ESMTPSA id r9sm5626187qtf.62.2021.05.07.12.33.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 May 2021 12:33:28 -0700 (PDT)
+Date: Fri, 7 May 2021 15:33:27 -0400
+From: Tejun Heo <tj@kernel.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC] Add BPF_PROG_TYPE_CGROUP_IOCTL
+Message-ID: <YJWWByISHSPqF+aN@slm.duckdns.org>
+References: <CAKMK7uFEhyJChERFQ_DYFU4UCA2Ox4wTkds3+GeyURH5xNMTCA@mail.gmail.com>
+ <CAOWid-fL0=OM2XiOH+NFgn_e2L4Yx8sXA-+HicUb9bzhP0t8Bw@mail.gmail.com>
+ <YJUBer3wWKSAeXe7@phenom.ffwll.local>
+ <CAOWid-dmRsZUjF3cJ8+mx5FM9ksNQ_P9xY3jqxFiFMvN29SaLw@mail.gmail.com>
+ <YJVnO+TCRW83S6w4@phenom.ffwll.local>
+ <CADnq5_Pvtj1vb0bak_gUkv9J3+vfsMZxVKTKYeUvwQCajAWoVQ@mail.gmail.com>
+ <YJVqL4c6SJc8wdkK@phenom.ffwll.local>
+ <CADnq5_PHjiHy=Su_1VKr5ycdnXN-OuSXw0X_TeNqSj+TJs2MGA@mail.gmail.com>
+ <CADnq5_OjaPw5iF_82bjNPt6v-7OcRmXmXECcN+Gdg1NcucJiHA@mail.gmail.com>
+ <YJVwtS9XJlogZRqv@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YJVwtS9XJlogZRqv@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,180 +78,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Song Liu <songliubraving@fb.com>, Alexei Starovoitov <ast@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Daniel Borkmann <daniel@iogearbox.net>, Brian Welty <brian.welty@intel.com>,
+ John Fastabend <john.fastabend@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Yonghong Song <yhs@fb.com>,
+ Andrii Nakryiko <andriin@fb.com>, Kenny Ho <y2kenny@gmail.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, KP Singh <kpsingh@chromium.org>,
+ "open list:CONTROL GROUP \(CGROUP\)" <cgroups@vger.kernel.org>,
+ Kenny Ho <Kenny.Ho@amd.com>, Network Development <netdev@vger.kernel.org>,
+ Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+ Martin KaFai Lau <kafai@fb.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-xrandr --prop and other userspace info tools have currently no way of
-telling which color configuration is used on HDMI and DP ports.
+Hello,
 
-The ongoing transsition from HDMI 1.4 to 2.0 and the different bandwidth
-requirements of YCbCr 4:2:0 and RGB color format raise different
-incompatibilities. Having these configuration information readily
-available is a useful tool in debuging washed out colors, color artefacts
-on small fonts and missing refreshrate options.
+On Fri, May 07, 2021 at 06:54:13PM +0200, Daniel Vetter wrote:
+> All I meant is that for the container/cgroups world starting out with
+> time-sharing feels like the best fit, least because your SRIOV designers
+> also seem to think that's the best first cut for cloud-y computing.
+> Whether it's virtualized or containerized is a distinction that's getting
+> ever more blurry, with virtualization become a lot more dynamic and
+> container runtimes als possibly using hw virtualization underneath.
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 58 +++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  4 ++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 36 ++++++++++++
- 3 files changed, 98 insertions(+)
+FWIW, I'm completely on the same boat. There are two fundamental issues with
+hardware-mask based control - control granularity and work conservation.
+Combined, they make it a significantly more difficult interface to use which
+requires hardware-specific tuning rather than simply being able to say "I
+wanna prioritize this job twice over that one".
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index f753e04fee99..c0404bcda31b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -986,6 +986,40 @@ static const struct drm_prop_enum_list amdgpu_dither_enum_list[] =
- 	{ AMDGPU_FMT_DITHER_ENABLE, "on" },
- };
- 
-+static const struct drm_prop_enum_list amdgpu_active_pixel_encoding_enum_list[] = {
-+	{ PIXEL_ENCODING_UNDEFINED, "undefined" },
-+	{ PIXEL_ENCODING_RGB, "RGB" },
-+	{ PIXEL_ENCODING_YCBCR422, "YCbCr 4:2:2" },
-+	{ PIXEL_ENCODING_YCBCR444, "YCbCr 4:4:4" },
-+	{ PIXEL_ENCODING_YCBCR420, "YCbCr 4:2:0" },
-+};
-+
-+static const struct drm_prop_enum_list amdgpu_active_display_color_depth_enum_list[] = {
-+	{ COLOR_DEPTH_UNDEFINED, "undefined" },
-+	{ COLOR_DEPTH_666, "6 bit" },
-+	{ COLOR_DEPTH_888, "8 bit" },
-+	{ COLOR_DEPTH_101010, "10 bit" },
-+	{ COLOR_DEPTH_121212, "12 bit" },
-+	{ COLOR_DEPTH_141414, "14 bit" },
-+	{ COLOR_DEPTH_161616, "16 bit" },
-+	{ COLOR_DEPTH_999, "9 bit" },
-+	{ COLOR_DEPTH_111111, "11 bit" },
-+};
-+
-+static const struct drm_prop_enum_list amdgpu_active_output_color_space_enum_list[] = {
-+	{ COLOR_SPACE_UNKNOWN, "unknown" },
-+	{ COLOR_SPACE_SRGB, "sRGB" },
-+	{ COLOR_SPACE_SRGB_LIMITED, "sRGB limited" },
-+	{ COLOR_SPACE_YCBCR601, "YCbCr 601" },
-+	{ COLOR_SPACE_YCBCR709, "YCbCr 709" },
-+	{ COLOR_SPACE_YCBCR601_LIMITED, "YCbCr 601 limited" },
-+	{ COLOR_SPACE_YCBCR709_LIMITED, "YCbCr 709 limited" },
-+	{ COLOR_SPACE_2020_RGB_FULLRANGE, "RGB 2020" },
-+	{ COLOR_SPACE_2020_RGB_LIMITEDRANGE, "RGB 2020 limited" },
-+	{ COLOR_SPACE_2020_YCBCR, "YCbCr 2020" },
-+	{ COLOR_SPACE_ADOBERGB, "Adobe RGB" },
-+};
-+
- int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
- {
- 	int sz;
-@@ -1038,6 +1072,30 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
- 						  "abm level", 0, 4);
- 		if (!adev->mode_info.abm_level_property)
- 			return -ENOMEM;
-+
-+		sz = ARRAY_SIZE(amdgpu_active_pixel_encoding_enum_list);
-+		adev->mode_info.active_pixel_encoding_property =
-+			drm_property_create_enum(adev_to_drm(adev), 0,
-+				"active pixel encoding",
-+				amdgpu_active_pixel_encoding_enum_list, sz);
-+		if (!adev->mode_info.active_pixel_encoding_property)
-+			return -ENOMEM;
-+
-+		sz = ARRAY_SIZE(amdgpu_active_display_color_depth_enum_list);
-+		adev->mode_info.active_display_color_depth_property =
-+			drm_property_create_enum(adev_to_drm(adev), 0,
-+				"active display color depth",
-+				amdgpu_active_display_color_depth_enum_list, sz);
-+		if (!adev->mode_info.active_display_color_depth_property)
-+			return -ENOMEM;
-+
-+		sz = ARRAY_SIZE(amdgpu_active_output_color_space_enum_list);
-+		adev->mode_info.active_output_color_space_property =
-+			drm_property_create_enum(adev_to_drm(adev), 0,
-+				"active output color space",
-+				amdgpu_active_output_color_space_enum_list, sz);
-+		if (!adev->mode_info.active_output_color_space_property)
-+			return -ENOMEM;
- 	}
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index 319cb19e1b99..ad43af6a878d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -337,6 +337,10 @@ struct amdgpu_mode_info {
- 	struct drm_property *dither_property;
- 	/* Adaptive Backlight Modulation (power feature) */
- 	struct drm_property *abm_level_property;
-+	/* Color settings */
-+	struct drm_property *active_pixel_encoding_property;
-+	struct drm_property *active_display_color_depth_property;
-+	struct drm_property *active_output_color_space_property;
- 	/* hardcoded DFP edid from BIOS */
- 	struct edid *bios_hardcoded_edid;
- 	int bios_hardcoded_edid_size;
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index d699a5cf6c11..89465f74ca59 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5592,8 +5592,13 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct dm_connector_state *dm_state =
- 		to_dm_connector_state(state);
-+	struct dm_crtc_state *dm_crtc_state = NULL;
- 	int ret = -EINVAL;
- 
-+	if (state->crtc != NULL && state->crtc->state != NULL) {
-+		dm_crtc_state = to_dm_crtc_state(state->crtc->state);
-+	}
-+
- 	if (property == dev->mode_config.scaling_mode_property) {
- 		switch (dm_state->scaling) {
- 		case RMX_CENTER:
-@@ -5623,6 +5628,21 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
- 	} else if (property == adev->mode_info.abm_level_property) {
- 		*val = dm_state->abm_level;
- 		ret = 0;
-+	} else if (property == adev->mode_info.active_pixel_encoding_property) {
-+		*val = PIXEL_ENCODING_UNDEFINED;
-+		if (dm_crtc_state != NULL && dm_crtc_state->stream != NULL)
-+			*val = dm_crtc_state->stream->timing.pixel_encoding;
-+		ret = 0;
-+	} else if (property == adev->mode_info.active_display_color_depth_property) {
-+		*val = COLOR_DEPTH_UNDEFINED;
-+		if (dm_crtc_state != NULL && dm_crtc_state->stream != NULL)
-+			*val = dm_crtc_state->stream->timing.display_color_depth;
-+		ret = 0;
-+	} else if (property == adev->mode_info.active_output_color_space_property) {
-+		*val = COLOR_SPACE_UNKNOWN;
-+		if (dm_crtc_state != NULL && dm_crtc_state->stream != NULL)
-+			*val = dm_crtc_state->stream->output_color_space;
-+		ret = 0;
- 	}
- 
- 	return ret;
-@@ -7083,6 +7103,22 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
- 			drm_connector_attach_content_protection_property(&aconnector->base, true);
- #endif
- 	}
-+
-+	if (adev->mode_info.active_pixel_encoding_property) {
-+		drm_object_attach_property(&aconnector->base.base,
-+			adev->mode_info.active_pixel_encoding_property, 0);
-+		DRM_DEBUG_DRIVER("amdgpu: attached active pixel encoding drm property");
-+	}
-+	if (adev->mode_info.active_display_color_depth_property) {
-+		drm_object_attach_property(&aconnector->base.base,
-+			adev->mode_info.active_display_color_depth_property, 0);
-+		DRM_DEBUG_DRIVER("amdgpu: attached active color depth drm property");
-+	}
-+	if (adev->mode_info.active_output_color_space_property) {
-+		drm_object_attach_property(&aconnector->base.base,
-+			adev->mode_info.active_output_color_space_property, 0);
-+		DRM_DEBUG_DRIVER("amdgpu: attached active output color space drm property");
-+	}
- }
- 
- static int amdgpu_dm_i2c_xfer(struct i2c_adapter *i2c_adap,
+My knoweldge of gpus is really limited but my understanding is also that the
+gpu cores and threads aren't as homogeneous as the CPU counterparts across
+the vendors, product generations and possibly even within a single chip,
+which makes the problem even worse.
+
+Given that GPUs are time-shareable to begin with, the most universal
+solution seems pretty clear.
+
+Thanks.
+
 -- 
-2.25.1
-
+tejun
