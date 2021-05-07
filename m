@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D2C376929
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 18:59:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0801537693E
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 19:04:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1B626E198;
-	Fri,  7 May 2021 16:59:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF7B46EE11;
+	Fri,  7 May 2021 17:04:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CBAA6E198;
- Fri,  7 May 2021 16:59:10 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- b11-20020a7bc24b0000b0290148da0694ffso7549756wmj.2; 
- Fri, 07 May 2021 09:59:10 -0700 (PDT)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2A036EE05;
+ Fri,  7 May 2021 17:04:52 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id x19so13714377lfa.2;
+ Fri, 07 May 2021 10:04:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f4WDLsvKJMxDGO3+bzmGSecNUJim8tE2LEMA4fIetY8=;
- b=CL8xvpvAHG70auywB/Spvy3ss+5QkCld2KRv1eqOt1maC6iB8xp0ExToQWHwYN56Nu
- JaB4JwO8a6v2h3mA/7iNyQSy6NLIvmuiKB7pDd+tA46COmLc5s4t7H5AJGNPgcUBbsP+
- ZneMWoLXa/bsisGUCnVPTbFpuYcndZED/Kpz8vxBk8zqNJkDZA1PAEWah0is5/MF05hv
- +jmN9gGsj6H8YMJ5GYty8V0SWpc291OGZYVcxgF/+yHfkhwn+Qy+Bdtmo9uUkEtlnFNl
- wQNBU5DB80M22GuLYUmfPuOavL+njr6kebiGsJ4RXuD7Oxu2dMVoqW1akJyu85rJ8eS9
- B5Sw==
+ :cc; bh=As0+QF4TLvCwMjWlGqhQacwhIi2kfiM2nw4uGB7p4N8=;
+ b=XaS8GacFeLZ9LdipAnAd9lmHMU5Bram4sJAXmI5tjXjuePToDyszeoER9rBD1jP5FD
+ G/iFhdBDQYXfUfAdNRXVue+92PkBxExlxzlSXIbYo5gqqtqGDsjTtDaFXVQqCrSIAbbV
+ f3NeLSg8WA1QDhql50+sz3vsfJEUQNRZsEEIfJKcSV6tjmaovZZhN60fod42kmSrf9Au
+ LqzSdMGedlwI88yfdk95tBQIGuo5dRYgbseIbv7i0Ndt+EbBOBQEgnzKpzHzY5BV6NYP
+ WttdkufC4r8Fn7J9E+XuKfSdQBYuu8smQs6s5t4/CuGKQyuOjhmqLJa9g5rtp8UaDJrJ
+ JeZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=f4WDLsvKJMxDGO3+bzmGSecNUJim8tE2LEMA4fIetY8=;
- b=dijw/rkgCQy5dwsbb81JrvNTEFU8+4wJISjjfiaaaOpHpuYQ9zQrj2MBYmXcpOi92k
- 9xRmejz75lNwqvaxjA9HSOkOGJiEu4+btP+UbVWh9TlNhOtC5j15t7kpAF6HGOHMV3Ap
- G2OTA+ncgz2IF1x9U5TzefOXjlqxbg77xGhEX74AHCHSrlRy8OjXRRaJT3uDVK5GIvRv
- q25A3X2Q5jrDPmdJ89GvszZyXLAtjwLpgxmKpxz3D5//jXqWBdt9Y77GzdJtI51IkJxD
- 3vJ/qzZdBNpCRPwKyM3tEbmKstcybD2mE2Fqxnr1bUZZ8k52N+AqzVPHpVs1xRCYYCns
- NmlA==
-X-Gm-Message-State: AOAM5338Vj1CNHcU3HPDew9AT51Fqox89tMFnFnDFhUUTQx2sZnjYAEG
- h/EH/r/7kkwDlYo0pnYraEttw2hg11PoiWdM20E=
-X-Google-Smtp-Source: ABdhPJwHz0UOTtSriaYhPLieL9JH2FIXzvpsM22+FD0bA2bQxAo21M2u2vcZgRZf0DcF6KRujyOP7mZtKl87ZCNv7I4=
-X-Received: by 2002:a1c:4954:: with SMTP id w81mr22641820wma.49.1620406748836; 
- Fri, 07 May 2021 09:59:08 -0700 (PDT)
+ bh=As0+QF4TLvCwMjWlGqhQacwhIi2kfiM2nw4uGB7p4N8=;
+ b=GszySFYBcB2GuLNoxrJVi2fLcl/rreR5v6TdvIPKdp36YATpOuL0+uAq7Fm7VWw1AX
+ 9XBg3veaDP3U/bVDUnEsyPiy3pgCBQpQefP50PTsNRVZ4vd9Jsd6DCveuUmrOfCWzFdB
+ 8H+GujplXlI1i9nzUFwPyaAm+Q7yUsFdXk9mmJA698qtO0i+Pop+aglgPoTT7bnJG4A3
+ DKkuvkIH++K8o8c2hqNoV7je75MdsQR02gku6V/97/vUCqKiDctD7paKE8QcM6yEMhJq
+ +YijnLFzuyVskSaKkgJDoZm3bk+pQhevlQP6BhelUCQWgxD+BCj5CuUkqux09pMFPNCt
+ UEkw==
+X-Gm-Message-State: AOAM530Wiyh+SsWG68PE3i/K+y6hMi81djGGrnqRrY2qagdH3ccWbSay
+ ryASsXRFSG2Duj+1CLSsA/6cUYs57v6+GhS7lLI=
+X-Google-Smtp-Source: ABdhPJyNW4Va1Nx97/p0bkdWKZm1kMh8BbHdHom7nIdyBuEQj8avc+yZs0hyZEoSNPZlzEZ4Hw9AXU9VHivTMhxw+dc=
+X-Received: by 2002:a19:5508:: with SMTP id n8mr7115859lfe.542.1620407091091; 
+ Fri, 07 May 2021 10:04:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210507141651.2887-1-sean@poorly.run>
- <CAF6AEGutiv+0QMNo6QQ8jSDYwxhJ5+62_TZ5zsiT_WxgDm+JiA@mail.gmail.com>
-In-Reply-To: <CAF6AEGutiv+0QMNo6QQ8jSDYwxhJ5+62_TZ5zsiT_WxgDm+JiA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 7 May 2021 10:02:49 -0700
-Message-ID: <CAF6AEGud9xdEwDpADN3SpA+JMUCYtRL6UEaGLiq49vy5sqwa7A@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Fix uninitialized var usage in
- dsi_phy_28nm_8960.c
-To: Sean Paul <sean@poorly.run>
+References: <CAOWid-c4Nk717xUah19B=z=2DtztbtU=_4=fQdfhqpfNJYN2gw@mail.gmail.com>
+ <CAKMK7uFEhyJChERFQ_DYFU4UCA2Ox4wTkds3+GeyURH5xNMTCA@mail.gmail.com>
+ <CAOWid-fL0=OM2XiOH+NFgn_e2L4Yx8sXA-+HicUb9bzhP0t8Bw@mail.gmail.com>
+ <YJUBer3wWKSAeXe7@phenom.ffwll.local>
+ <CAOWid-dmRsZUjF3cJ8+mx5FM9ksNQ_P9xY3jqxFiFMvN29SaLw@mail.gmail.com>
+ <YJVnO+TCRW83S6w4@phenom.ffwll.local>
+ <CADnq5_Pvtj1vb0bak_gUkv9J3+vfsMZxVKTKYeUvwQCajAWoVQ@mail.gmail.com>
+ <YJVqL4c6SJc8wdkK@phenom.ffwll.local>
+ <CADnq5_PHjiHy=Su_1VKr5ycdnXN-OuSXw0X_TeNqSj+TJs2MGA@mail.gmail.com>
+ <CADnq5_OjaPw5iF_82bjNPt6v-7OcRmXmXECcN+Gdg1NcucJiHA@mail.gmail.com>
+ <YJVwtS9XJlogZRqv@phenom.ffwll.local>
+In-Reply-To: <YJVwtS9XJlogZRqv@phenom.ffwll.local>
+From: Kenny Ho <y2kenny@gmail.com>
+Date: Fri, 7 May 2021 13:04:39 -0400
+Message-ID: <CAOWid-fRgjuY46KA-HBbEfhfwsWvDyhkp+iwZq=wA1h+Uix32g@mail.gmail.com>
+Subject: Re: [RFC] Add BPF_PROG_TYPE_CGROUP_IOCTL
+To: Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,73 +71,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Song Liu <songliubraving@fb.com>, KP Singh <kpsingh@chromium.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Kenny Ho <Kenny.Ho@amd.com>,
+ Brian Welty <brian.welty@intel.com>, John Fastabend <john.fastabend@gmail.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>, Yonghong Song <yhs@fb.com>,
+ Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Network Development <netdev@vger.kernel.org>,
+ "open list:CONTROL GROUP \(CGROUP\)" <cgroups@vger.kernel.org>,
+ bpf <bpf@vger.kernel.org>, Andrii Nakryiko <andriin@fb.com>,
+ Martin KaFai Lau <kafai@fb.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 7, 2021 at 9:43 AM Rob Clark <robdclark@gmail.com> wrote:
+On Fri, May 7, 2021 at 12:54 PM Daniel Vetter <daniel@ffwll.ch> wrote:
 >
-> On Fri, May 7, 2021 at 7:16 AM Sean Paul <sean@poorly.run> wrote:
-> >
-> > From: Sean Paul <seanpaul@chromium.org>
-> >
-> > This patch fixes the following error:
-> >
-> > drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c:425:11: error: variable 'parent_name' is uninitialized when used here
-> > [-Werror,-Wuninitialized]
-> >         snprintf(parent_name, 32, "dsi%dvco_clk", pll_28nm->phy->id);
-> >                  ^~~~~~~~~~~
-> > drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c:385:30:
-> > note: initialize the variable 'parent_name' to silence this warning
-> >         char *clk_name, *parent_name, *vco_name;
-> >                                     ^
-> >                                      = NULL
-> > 1 error generated.
-> > make[5]: ***
-> > [scripts/Makefile.build:279: drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.o] Error 1
-> >
-> > It looks like the allocation was inadvertently deleted.
-> >
-> > Fixes: 5d13459650b3 ("drm/msm/dsi: push provided clocks handling into a generic code")
-> >
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Cc: Stephen Boyd <swboyd@chromium.org>
-> > Cc: Abhinav Kumar <abhinavk@codeaurora.org>
-> > Cc: Rob Clark <robdclark@chromium.org>
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
->
-> Thanks, I'll pick this up for next -fixes pr
+> SRIOV is kinda by design vendor specific. You set up the VF endpoint, it
+> shows up, it's all hw+fw magic. Nothing for cgroups to manage here at all.
+Right, so in theory you just use the device cgroup with the VF endpoints.
 
-Oh, sorry, I lied, I already had the same fix from Dmitry
+> All I meant is that for the container/cgroups world starting out with
+> time-sharing feels like the best fit, least because your SRIOV designers
+> also seem to think that's the best first cut for cloud-y computing.
+> Whether it's virtualized or containerized is a distinction that's getting
+> ever more blurry, with virtualization become a lot more dynamic and
+> container runtimes als possibly using hw virtualization underneath.
+I disagree.  By the same logic, the existence of CU mask would imply
+it being the preferred way for sub-device control per process.
 
-BR,
--R
-
->
-> > ---
-> >  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> > index 582b1428f971..86e40a0d41a3 100644
-> > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-> > @@ -405,6 +405,10 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
-> >         if (!vco_name)
-> >                 return -ENOMEM;
-> >
-> > +       parent_name = devm_kzalloc(dev, 32, GFP_KERNEL);
-> > +       if (!parent_name)
-> > +               return -ENOMEM;
-> > +
-> >         clk_name = devm_kzalloc(dev, 32, GFP_KERNEL);
-> >         if (!clk_name)
-> >                 return -ENOMEM;
-> > --
-> > Sean Paul, Software Engineer, Google / Chromium OS
-> >
+Kenny
