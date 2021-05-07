@@ -2,47 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0995C376BA2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 23:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D179376BA5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 23:25:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057C56EE7B;
-	Fri,  7 May 2021 21:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E82EA6EE7F;
+	Fri,  7 May 2021 21:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66C1E6E57E;
- Fri,  7 May 2021 21:24:56 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 2905EC800A2;
- Fri,  7 May 2021 23:24:55 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id kG2Ru1_ixux5; Fri,  7 May 2021 23:24:54 +0200 (CEST)
-Received: from [IPv6:2003:e3:7f12:f200:d51b:e97d:b8e4:23b2]
- (p200300E37f12F200d51be97dB8e423B2.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f12:f200:d51b:e97d:b8e4:23b2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id 882A9C800A1;
- Fri,  7 May 2021 23:24:54 +0200 (CEST)
-Subject: Re: [PATCH v6 2/3] drm/i915/display: Restructure output format
- computation for better expandability
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20210506172325.1995964-1-wse@tuxedocomputers.com>
- <20210507084903.28877-1-wse@tuxedocomputers.com>
- <20210507084903.28877-3-wse@tuxedocomputers.com> <YJV+Xr59xyK2yLXT@intel.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-Message-ID: <38ff8510-9509-b807-fdf0-ea1c653263c5@tuxedocomputers.com>
-Date: Fri, 7 May 2021 23:24:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3F646EE84
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 21:25:07 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id q2so8742404pfh.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 14:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TTG2OfOuQUejFlO2ocmSjc3xkounpxNXjXzbmWWcXQ4=;
+ b=ReDI50O4p6XG7KYhP06LRbAWuvZbFoPiydm8iaQ0lbFendfkj5D12q3t4o8Tjq3+XQ
+ 45Sn3Xz3HB+4fOLjk25u0rJcdrmMMw3B5OOy77dyA72ufIy0vXm1BWyyIVy/kto58mO+
+ 9byAgPEYPR1V4rWSn2F3s39QJYpw6TrbM5SZA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TTG2OfOuQUejFlO2ocmSjc3xkounpxNXjXzbmWWcXQ4=;
+ b=OC3ZRQzSu4i0p8u8o+oFecj2DH4UQJaBZrxxdllSUYWWfUt7O25yPK81Bju3QgDQ3B
+ 5wpttXWWystheT/cJKOuRNIOS5niOhnpYg8xEhACGKhQdSty+cgPKGdYuLNPJA1lKSDr
+ hS/jcta1S+RGEY+Z7p6/xc3YPTnLSGckLYOVNQBOckV5GqRwizu5ZEE5DNGdZB/FC9IZ
+ VqupCF/rnNFndgBNrJ+DGW+UVCuvBAI6WDNF4kjyBf5/fKly6FCGyXml9/U1TtKFnpWz
+ L+/L9zbb9ypoYhAMPPb9VUTrlKZqeqBdjdm1NoX/Tp53hFZl4TUDDb3C8zuuS6uJ6wJa
+ aAjQ==
+X-Gm-Message-State: AOAM533wZSMwyZVV07hIst64zOM2urRK5THo3T3R+SdiaEizNIBqCCPZ
+ zDDxgwhZlW1zymB/ujNSToLpJA==
+X-Google-Smtp-Source: ABdhPJxXqi4S16zzZRUDmrs4PpXoCn4oLa/reeq8qjeKTY4CE/QCv/tBLRMZb5MLVWo20hYp/3coDQ==
+X-Received: by 2002:aa7:8e85:0:b029:28f:2620:957e with SMTP id
+ a5-20020aa78e850000b029028f2620957emr12473932pfr.40.1620422707177; 
+ Fri, 07 May 2021 14:25:07 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:ab8b:4a3d:46ab:361c])
+ by smtp.gmail.com with ESMTPSA id t1sm4996298pjo.33.2021.05.07.14.25.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 May 2021 14:25:06 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: [PATCH 0/3] drm/msm/dp: Simplify aux code
+Date: Fri,  7 May 2021 14:25:02 -0700
+Message-Id: <20210507212505.1224111-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.31.1.607.g51e8a6a459-goog
 MIME-Version: 1.0
-In-Reply-To: <YJV+Xr59xyK2yLXT@intel.com>
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,143 +63,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <khsieh@codeaurora.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.05.21 um 19:52 schrieb Ville Syrjälä:
-> On Fri, May 07, 2021 at 10:49:02AM +0200, Werner Sembach wrote:
->> Couples the decission between RGB and YCbCr420 mode and the check if the
->> port clock can archive the required frequency. Other checks and
->> configuration steps that where previously done in between can also be done
->> before or after.
->>
->> This allows for are cleaner implementation of retrying different color
->> encodings.
->>
->> A slight change in behaviour occurs with this patch: If YCbCr420 is not
->> allowed but display is YCbCr420 only it no longer fails, but just prints
->> an error and tries to fallback on RGB.
->>
->> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_hdmi.c | 65 ++++++++++++-----------
->>  1 file changed, 34 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
->> index 576d3d910d06..9f3da72dabee 100644
->> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
->> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
->> @@ -1999,29 +1999,6 @@ static bool hdmi_deep_color_possible(const struct intel_crtc_state *crtc_state,
->>  					      INTEL_OUTPUT_FORMAT_YCBCR420);
->>  }
->>  
->> -static int
->> -intel_hdmi_ycbcr420_config(struct intel_crtc_state *crtc_state,
->> -			   const struct drm_connector_state *conn_state)
->> -{
->> -	struct drm_connector *connector = conn_state->connector;
->> -	struct drm_i915_private *i915 = to_i915(connector->dev);
->> -	const struct drm_display_mode *adjusted_mode =
->> -		&crtc_state->hw.adjusted_mode;
->> -
->> -	if (!drm_mode_is_420_only(&connector->display_info, adjusted_mode))
->> -		return 0;
->> -
->> -	if (!connector->ycbcr_420_allowed) {
->> -		drm_err(&i915->drm,
->> -			"Platform doesn't support YCBCR420 output\n");
->> -		return -EINVAL;
->> -	}
->> -
->> -	crtc_state->output_format = INTEL_OUTPUT_FORMAT_YCBCR420;
->> -
->> -	return intel_pch_panel_fitting(crtc_state, conn_state);
->> -}
->> -
->>  static int intel_hdmi_compute_bpc(struct intel_encoder *encoder,
->>  				  struct intel_crtc_state *crtc_state,
->>  				  int clock)
->> @@ -2128,6 +2105,30 @@ static bool intel_hdmi_has_audio(struct intel_encoder *encoder,
->>  		return intel_conn_state->force_audio == HDMI_AUDIO_ON;
->>  }
->>  
->> +static int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
->> +					    struct intel_crtc_state *crtc_state,
->> +					    const struct drm_connector_state *conn_state)
->> +{
->> +	struct drm_connector *connector = conn_state->connector;
->> +	struct drm_i915_private *i915 = to_i915(connector->dev);
->> +	const struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
->> +	int ret;
->> +	bool ycbcr_420_only;
->> +
->> +	ycbcr_420_only = drm_mode_is_420_only(&connector->display_info, adjusted_mode);
->> +	if (connector->ycbcr_420_allowed && ycbcr_420_only) {
->> +		crtc_state->output_format = INTEL_OUTPUT_FORMAT_YCBCR420;
->> +	} else {
->> +		if (!connector->ycbcr_420_allowed && ycbcr_420_only)
->> +			drm_err(&i915->drm, "Display only supports YCbCr420 output, but connector does not allow it. Fallback to RGB, but this will likely fail.\n");
-> We can't let the user spam dmesg with errors freely. So this needs
-> to be a drm_dbg_kms(). Also a bit long, so going to annoyingly wrap
-> always. Could maybe shorten a bit to something like:
-> "YCbCr 4:2:0 mode but YCbCr 4:2:0 output not possible. Falling back to RGB."
-Done, but I don't have time anymore to test it today. I will test and submit v7 on Monday.
->
-> With that sorted, and the intel_hdmi_port_clock() stuff restored,
-> I believe this series is good to go.
->
-> I think you confused our CI by replying to the old patch with a whole
-> new series. It can generally deal with a whole new series as a new
-> thread or replies to individual patches with updated versions of
-> exactly that patch, but not full series as a reply to a patch.
-> So I suggest just posting the final versions as a new series. Thanks.
->
->> +		crtc_state->output_format = INTEL_OUTPUT_FORMAT_RGB;
->> +	}
->> +
->> +	ret = intel_hdmi_compute_clock(encoder, crtc_state);
->> +
->> +	return ret;
->> +}
->> +
->>  int intel_hdmi_compute_config(struct intel_encoder *encoder,
->>  			      struct intel_crtc_state *pipe_config,
->>  			      struct drm_connector_state *conn_state)
->> @@ -2152,23 +2153,25 @@ int intel_hdmi_compute_config(struct intel_encoder *encoder,
->>  	if (adjusted_mode->flags & DRM_MODE_FLAG_DBLCLK)
->>  		pipe_config->pixel_multiplier = 2;
->>  
->> -	ret = intel_hdmi_ycbcr420_config(pipe_config, conn_state);
->> -	if (ret)
->> -		return ret;
->> -
->> -	pipe_config->limited_color_range =
->> -		intel_hdmi_limited_color_range(pipe_config, conn_state);
->> -
->>  	if (HAS_PCH_SPLIT(dev_priv) && !HAS_DDI(dev_priv))
->>  		pipe_config->has_pch_encoder = true;
->>  
->>  	pipe_config->has_audio =
->>  		intel_hdmi_has_audio(encoder, pipe_config, conn_state);
->>  
->> -	ret = intel_hdmi_compute_clock(encoder, pipe_config);
->> +	ret = intel_hdmi_compute_output_format(encoder, pipe_config, conn_state);
->>  	if (ret)
->>  		return ret;
->>  
->> +	if (pipe_config->output_format == INTEL_OUTPUT_FORMAT_YCBCR420) {
->> +		ret = intel_pch_panel_fitting(pipe_config, conn_state);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->> +	pipe_config->limited_color_range =
->> +		intel_hdmi_limited_color_range(pipe_config, conn_state);
->> +
->>  	if (conn_state->picture_aspect_ratio)
->>  		adjusted_mode->picture_aspect_ratio =
->>  			conn_state->picture_aspect_ratio;
->> -- 
->> 2.25.1
+Here's a few patches that simplify the aux handling code and bubble up
+timeouts and nacks to the upper DRM layers. The goal is to get DRM to
+know that the other side isn't there or that there's been a timeout,
+instead of saying that everything is fine and putting some error message
+into the logs.
+
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>
+Cc: Kuogee Hsieh <khsieh@codeaurora.org>
+Cc: aravindh@codeaurora.org
+Cc: Sean Paul <sean@poorly.run>
+
+Stephen Boyd (3):
+  drm/msm/dp: Simplify aux irq handling code
+  drm/msm/dp: Shrink locking area of dp_aux_transfer()
+  drm/msm/dp: Handle aux timeouts, nacks, defers
+
+ drivers/gpu/drm/msm/dp/dp_aux.c     | 181 ++++++++++++----------------
+ drivers/gpu/drm/msm/dp/dp_aux.h     |   8 --
+ drivers/gpu/drm/msm/dp/dp_catalog.c |   2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.h |   2 +-
+ 4 files changed, 80 insertions(+), 113 deletions(-)
+
+
+base-commit: 51595e3b4943b0079638b2657f603cf5c8ea3a66
+-- 
+https://chromeos.dev
+
