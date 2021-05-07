@@ -1,63 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD173762AC
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 11:17:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4D63762D0
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 11:27:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 378F26EDFD;
-	Fri,  7 May 2021 09:17:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D1016EE03;
+	Fri,  7 May 2021 09:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC766EDFD
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 09:17:47 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id s8so8426211wrw.10
- for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 02:17:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lfxItkdVnoc13BxEvQdeq3I27+ajecgnw1LBeIDGaSw=;
- b=twlRH2aLtPGOcEbXN2/wq/42iWViiUH7Pc1Y8ZrQidyHaZoo5OwCQ0D7xJ6yfmuIZj
- YibyODHsDWdeclP9GusnwkRhz1JkHFIMZjHX44WxpWMxMh99EYW71Pvcx3jbcmSNrpJ5
- hQ4drvEhjJaK8SUpmh3L3qcPrVWO6QFE6ItrxCY1qgA1nmTqqoLKEx7kg3MCbc73k74n
- fCJhtJeKLD+DMJ8aGUdaWSHPAyhYh7xwV5JruTmNrwi423zHKeaZMlV8MunDn4DcUWpq
- Sloxat944ytG5oFdIN0asFVe5UsDN+sA/mB/CcQDawuZJc/AqzRLDlDkrBstEbX3vLUU
- 459A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lfxItkdVnoc13BxEvQdeq3I27+ajecgnw1LBeIDGaSw=;
- b=H24oViD6Si7sbUZI2GmGDO1Rekfsol8B3KIlZ+R7SOQt7fwd7JKRBchQ0Ni9gxiokX
- JfS+J93cOlWN3VdU4oW4ebokPYRle6C9lEZmORGMv+6YHYMA2R7GDblLYJYbGiIx8vML
- q2LxZtgLAjtOm8lp4tU0lyIBpM4rjHjsFLuhBuuReePoJT16oQ27DilAZ6zGlFbzMUqZ
- uktY7BsGrmQB34opXQLhgKr2Lvi91s1O+S4k57/jhUo9mqiXDYOwNl0jBqKtdrKDVXJ7
- +fzn8im176zm8xcCXs2bERx4+6qbwMA8mgAv4FFqPYQYqwEwHPpmSl0NkV2I38ESTSHw
- N8Gw==
-X-Gm-Message-State: AOAM5338uXOsQtgdKv83H2l4STyHtqVn3aT77dQXCUxDVesPHSizH8uG
- fYBj+DNRD3tV7vJdHEMEugdNna5lLF/v+K0y/RUA3Dg3+dzBxA==
-X-Google-Smtp-Source: ABdhPJysKz+I7XFeCu8JfCZnK3IQEgLjIZHF2eHSkHHxE08SdvPBTVVMGBVuRO4fW3UrmLPVbXmPCnHe3g3K+Rq1o2A=
-X-Received: by 2002:a5d:48c3:: with SMTP id p3mr10374590wrs.150.1620379066603; 
- Fri, 07 May 2021 02:17:46 -0700 (PDT)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E27176EE03
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 09:27:26 +0000 (UTC)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1479FNxW053276;
+ Fri, 7 May 2021 17:15:23 +0800 (GMT-8)
+ (envelope-from kuohsiang_chou@aspeedtech.com)
+Received: from localhost.localdomain.com (192.168.2.206) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 7 May 2021 17:27:14 +0800
+From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4] drm/ast: Disable fast reset after DRAM initial
+Date: Fri, 7 May 2021 17:27:08 +0800
+Message-ID: <20210507092708.39552-1-kuohsiang_chou@aspeedtech.com>
+X-Mailer: git-send-email 2.18.4
+In-Reply-To: <bbe8ccfd-7e73-e1e6-32a5-f08f71c4ed3f@suse.de>
+References: <bbe8ccfd-7e73-e1e6-32a5-f08f71c4ed3f@suse.de>
 MIME-Version: 1.0
-References: <20210505100218.108024-1-marex@denx.de>
- <20210505100218.108024-2-marex@denx.de>
- <2655a86a-d371-6a5a-715a-53b73a696d28@kontron.de>
- <7da2c2d2-fb02-0a1b-d853-bfd756a0cd9b@denx.de>
- <61e269b7-870a-01a8-722b-15c9aecf9bf9@kontron.de>
- <8985230f-cb0a-43ca-f8f7-66898f85dc2b@denx.de>
-In-Reply-To: <8985230f-cb0a-43ca-f8f7-66898f85dc2b@denx.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 7 May 2021 10:17:30 +0100
-Message-ID: <CAPY8ntAra-sOXKTrifammiAwH+PuGmnC0AD4oQ4bPiD+HR857Q@mail.gmail.com>
-Subject: Re: [PATCH V3 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.206]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1479FNxW053276
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,82 +48,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, ch@denx.de,
- Douglas Anderson <dianders@chromium.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: airlied@linux.ie, jenmin_yuan@aspeedtech.com, airlied@redhat.com,
+ arc_sung@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 May 2021 at 21:51, Marek Vasut <marex@denx.de> wrote:
->
-> On 5/6/21 6:03 PM, Frieder Schrempf wrote:
-> > On 06.05.21 17:46, Marek Vasut wrote:
-> >> On 5/6/21 5:38 PM, Frieder Schrempf wrote:
-> >> [...]
-> >>> Works on i.MX8MM with SN65DSI84 and a single link LVDS display (1024x=
-600) and from my perspective everything else also looks good. Thanks for yo=
-ur work!
-> >>>
-> >>> I have two remarks:
-> >>>
-> >>> 1. In my test I couldn't get it to work with four DSI lanes enabled (=
-only with two) but I'm quite sure that the DSIM driver is to blame as every=
-thing on the bridge level looks good (also setting the DSI EQ register didn=
-'t help as you suggested, Marek).
-> >>
-> >> I suspect there is indeed something with the DSIM going on, I'll keep =
-you posted if I find something out.
-> >>
-> >>> 2. When I set MEDIA_BUS_FMT_RGB888_1X7X4_SPWG in the panel driver I g=
-et distorted colors. I need to use MEDIA_BUS_FMT_RGB888_1X24 to make it wor=
-k, but this is not valid for LVDS. Again I don't think this driver is to bl=
-ame as I can't see where it does anything wrong, but my experience here is =
-very limited so I still want to mention it.
-> >>
-> >> Hmm, in that conversion supposed to happen in this bridge driver or sh=
-ould MXSFB handle the SPWG pixel format ? Or should the DSIM bridge do some=
-thing about that ?
-> >
-> > As far as I understand it the conversion is already done by the DSI84 w=
-ithout any extra configuration necessary. The only thing that needs to be d=
-one is selecting the LVDS output format via CHx_24BPP_MODE and CHx_24BPP_FO=
-RMAT1 which the driver currently hardcodes to 24bpp aka MEDIA_BUS_FMT_RGB88=
-8_1X7X4_SPWG. I think the DSI input format is always 24bpp aka MEDIA_BUS_FM=
-T_RGB888_1X24.
->
-> The DSI is MEDIA_BUS_FMT_RGB888_1X24, yes.
->
-> So maybe this bridge driver has to somehow deal with
-> MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ? Except I haven't seen such a thing
-> implemented in other bridge drivers, so input would be welcome on this.
+[Bug][AST2500]
 
-I'm claiming no knowledge of whether this is the correct approach or
-not, but Toshiba TC358775 is also a DSI to LVDS bridge which appears
-to handle both formats.
-https://elixir.free-electrons.com/linux/latest/source/drivers/gpu/drm/bridg=
-e/tc358775.c#L457
+V1:
+When AST2500 acts as stand-alone VGA so that DRAM and DVO initialization
+have to be achieved by VGA driver with P2A (PCI to AHB) enabling.
+However, HW suggests disable Fast reset mode after DRAM initializaton,
+because fast reset mode is mainly designed for ARM ICE debugger.
+Once Fast reset is checked as enabling, WDT (Watch Dog Timer) should be
+first enabled to avoid system deadlock before disable fast reset mode.
 
-> > So I wonder where the format actually is evaluated. Could it be that it=
- is passed down to the LCDIF and changes its output format which causes the=
- data passed by DSIM to the DSI84 to already be in the SPWG format? If that=
-'s the case we maybe need a way to specify MEDIA_BUS_FMT_RGB888_1X24 as inp=
-ut bus format for the DSI84 so it doesn't pass on the panel's format? Only =
-a wild guess, no idea if it really works like that.
->
-> I _think_ the bridge must somehow handle the
-> MEDIA_BUS_FMT_RGB888_1X7X4_SPWG <-> MEDIA_BUS_FMT_RGB888_1X24 conversion.
+V2:
+Use to_pci_dev() to get revision of PCI configuration.
 
-I've not looked at where the interchange happens, but as you're
-setting the DSI format in struct mipi_dsi_device to
-MIPI_DSI_FMT_RGB888 doesn't that provide the configuration side to the
-DSI transmitter?
-Otherwise presumably it needs to support the atomic_get_input_bus_fmts
-and/or atomic_get_output_bus_fmts functions in drm_bridge_funcs.
+V3:
+If SCU00 is not unlocked, just enter its password again.
+It is unnecessary to clear AHB lock condition and restore WDT default
+setting again, before Fast-reset clearing.
 
-  Dave
+V4:
+repatch after "error : could not build fake ancestor" resolved.
+
+Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+---
+ drivers/gpu/drm/ast/ast_drv.h  |  1 +
+ drivers/gpu/drm/ast/ast_main.c |  4 ++
+ drivers/gpu/drm/ast/ast_post.c | 68 +++++++++++++++++++++-------------
+ 3 files changed, 47 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 911f9f414..5ebb5905d 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -346,6 +346,7 @@ bool ast_is_vga_enabled(struct drm_device *dev);
+ void ast_post_gpu(struct drm_device *dev);
+ u32 ast_mindwm(struct ast_private *ast, u32 r);
+ void ast_moutdwm(struct ast_private *ast, u32 r, u32 v);
++void ast_patch_ahb_2500(struct ast_private *ast);
+ /* ast dp501 */
+ void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
+ bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 2aff2e6cf..cfb56ea3a 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -97,6 +97,10 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
+ 	jregd0 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
+ 	jregd1 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
+ 	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
++		/* Patch AST2500 */
++		if (((pdev->revision & 0xF0) == 0x40) && ((jregd0 & 0xC0) == 0))
++			ast_patch_ahb_2500(ast);
++
+ 		/* Double check it's actually working */
+ 		data = ast_read32(ast, 0xf004);
+ 		if ((data != 0xFFFFFFFF) && (data != 0x00)) {
+diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+index 0607658dd..56428798a 100644
+--- a/drivers/gpu/drm/ast/ast_post.c
++++ b/drivers/gpu/drm/ast/ast_post.c
+@@ -2028,6 +2028,30 @@ static bool ast_dram_init_2500(struct ast_private *ast)
+ 	return true;
+ }
+
++void ast_patch_ahb_2500(struct ast_private *ast)
++{
++	u32	data;
++
++	/* Clear bus lock condition */
++	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
++	ast_moutdwm(ast, 0x1e600084, 0x00010000);
++	ast_moutdwm(ast, 0x1e600088, 0x00000000);
++	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
++	data = ast_mindwm(ast, 0x1e6e2070);
++	if (data & 0x08000000) {					/* check fast reset */
++
++		ast_moutdwm(ast, 0x1E785004, 0x00000010);
++		ast_moutdwm(ast, 0x1E785008, 0x00004755);
++		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
++		udelay(1000);
++	}
++	do {
++		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
++		data = ast_mindwm(ast, 0x1e6e2000);
++	}	while (data != 1);
++	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
++}
++
+ void ast_post_chip_2500(struct drm_device *dev)
+ {
+ 	struct ast_private *ast = to_ast_private(dev);
+@@ -2035,39 +2059,31 @@ void ast_post_chip_2500(struct drm_device *dev)
+ 	u8 reg;
+
+ 	reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
+-	if ((reg & 0x80) == 0) {/* vga only */
++	if ((reg & 0xC0) == 0) {/* vga only */
+ 		/* Clear bus lock condition */
+-		ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
+-		ast_moutdwm(ast, 0x1e600084, 0x00010000);
+-		ast_moutdwm(ast, 0x1e600088, 0x00000000);
+-		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
+-		ast_write32(ast, 0xf004, 0x1e6e0000);
+-		ast_write32(ast, 0xf000, 0x1);
+-		ast_write32(ast, 0x12000, 0x1688a8a8);
+-		while (ast_read32(ast, 0x12000) != 0x1)
+-			;
+-
+-		ast_write32(ast, 0x10000, 0xfc600309);
+-		while (ast_read32(ast, 0x10000) != 0x1)
+-			;
++		ast_patch_ahb_2500(ast);
++
++		/* Disable watchdog */
++		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
++		ast_moutdwm(ast, 0x1E78504C, 0x00000000);
++		/* Reset USB port */
++		ast_moutdwm(ast, 0x1E6E2090, 0x20000000);
++		ast_moutdwm(ast, 0x1E6E2094, 0x00004000);
++		if (ast_mindwm(ast, 0x1E6E2070) & 0x00800000) {
++			ast_moutdwm(ast, 0x1E6E207C, 0x00800000);
++			mdelay(100);
++			ast_moutdwm(ast, 0x1E6E2070, 0x00800000);
++		}
++		/* Modify eSPI reset pin */
++		temp = ast_mindwm(ast, 0x1E6E2070);
++		if (temp & 0x02000000)
++			ast_moutdwm(ast, 0x1E6E207C, 0x00004000);
+
+ 		/* Slow down CPU/AHB CLK in VGA only mode */
+ 		temp = ast_read32(ast, 0x12008);
+ 		temp |= 0x73;
+ 		ast_write32(ast, 0x12008, temp);
+
+-		/* Reset USB port to patch USB unknown device issue */
+-		ast_moutdwm(ast, 0x1e6e2090, 0x20000000);
+-		temp  = ast_mindwm(ast, 0x1e6e2094);
+-		temp |= 0x00004000;
+-		ast_moutdwm(ast, 0x1e6e2094, temp);
+-		temp  = ast_mindwm(ast, 0x1e6e2070);
+-		if (temp & 0x00800000) {
+-			ast_moutdwm(ast, 0x1e6e207c, 0x00800000);
+-			mdelay(100);
+-			ast_moutdwm(ast, 0x1e6e2070, 0x00800000);
+-		}
+-
+ 		if (!ast_dram_init_2500(ast))
+ 			drm_err(dev, "DRAM init failed !\n");
+
+--
+2.18.4
+
