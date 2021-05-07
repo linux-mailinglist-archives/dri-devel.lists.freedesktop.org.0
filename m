@@ -1,32 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10793376A2E
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 20:57:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0F9376A74
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 21:05:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 892766E0F3;
-	Fri,  7 May 2021 18:57:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA3586E3C4;
+	Fri,  7 May 2021 19:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADC96EDE7;
- Fri,  7 May 2021 18:57:14 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F30FFB22C;
- Fri,  7 May 2021 18:57:12 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, alexander.deucher@amd.com, christian.koenig@amd.com
-Subject: [PATCH 4/4] drm: Mark AGP implementation and ioctls as legacy
-Date: Fri,  7 May 2021 20:57:09 +0200
-Message-Id: <20210507185709.22797-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210507185709.22797-1-tzimmermann@suse.de>
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2051.outbound.protection.outlook.com [40.107.102.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6056E2F2;
+ Fri,  7 May 2021 19:05:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KNFClaetrIVbHKygDrM8AHbIV8jl6vY5G49Y7Welvbsy89ylV265aV/E1jp3j7/6PhzPqRdrHb/ahA1Bt79018fliXr9xAvugWpxzI7jJbNS74XINlGI3nE8DMp2cqAN28ua2yyk0PUhxoIHOl7wIn/c+DBdC7YjfuxJe+KrVxKb6aJLfT9fPUQFjWfG5rEP7QveeFsBtHWeQgV98kpy02YKnRpczd0hyW5V1OdMQeSAAmzzLUI8CsKfqfkJTCQKCVyLN6jFOP8UkrF8jvDla+uvFdsrx9x1bmrZuXO7fXc6EbeWy37SjNzAXCAU7Oh/KBzTetF6+o6AWnMrwf10AQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v4oqaa3j5/8Vbw4bReAo8s0ui2ir6lGCXNUv5iiuAdg=;
+ b=IQBXINSenTE+Zm7sarBYQ+DVAq0vsnbUM6clVCsqsHaUvKov1Po68QO54rRABBER/vdU7ZrASb+LTOY60JSPujifcpppKmeDbX9ugJLh9lWsnTPa9YMJ/ILrvDmz/A2zz6LegeLjuQZFHzXXZlzkFXuQ5j0KpixMUA6VLUg8LtHyovxam39bC2X9dcxnCED5H2bN16IrH6u5Y71wBEeA00F0l/bEwnP8dXQH0wJ3Wio49z0G40Blan4sCvqWhMVlPT7bD5b5GhTH+aifufh+tG96wrhkXE+rOTtzlb4taBlbfKUF2+dn4PRrrCaLrHuocLUNHdNUOt75GAPpN3jDuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v4oqaa3j5/8Vbw4bReAo8s0ui2ir6lGCXNUv5iiuAdg=;
+ b=4fmBaFB3EoGfb83c12hlN2YGee0+IU7iN9unNg8sEyWTVxeiCoPBZd1u3jekOXnB30RfH0PW0G7rndgKPJyJb3MMVX6Y7efFC6UGMpey+JoqhNAqet0e9ynnw5C1xsoBonNOdwuPd0IygjWzPJ4KejftMQY1rFtrBaUoRYzIkJE=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4408.namprd12.prod.outlook.com (2603:10b6:208:26c::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25; Fri, 7 May
+ 2021 19:05:11 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4108.027; Fri, 7 May 2021
+ 19:05:11 +0000
+Subject: Re: [PATCH 0/4] drm: Mark DRM's AGP code as legacy
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ alexander.deucher@amd.com
 References: <20210507185709.22797-1-tzimmermann@suse.de>
-MIME-Version: 1.0
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <28cf654a-b4cc-7f94-586f-9465d657e4ac@amd.com>
+Date: Fri, 7 May 2021 21:05:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <20210507185709.22797-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:7fe:78ce:5249:f98a]
+X-ClientProxiedBy: PR2PR09CA0006.eurprd09.prod.outlook.com
+ (2603:10a6:101:16::18) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:7fe:78ce:5249:f98a]
+ (2a02:908:1252:fb60:7fe:78ce:5249:f98a) by
+ PR2PR09CA0006.eurprd09.prod.outlook.com (2603:10a6:101:16::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4108.25 via Frontend Transport; Fri, 7 May 2021 19:05:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8336aa53-f609-4d31-0e3b-08d9118b0989
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4408:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4408FEFFFB688DB9B1C2529E83579@MN2PR12MB4408.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qDPJ7Zb8TecYuIKb3kIbvPKuKRbK31ih9Gv2+DoCTcLfoXHHmDSByZUpEC+Xt7uXAwm48XZ6j+E8tO24Qogzz0vE58IXkzuwNzw/kM700p/4yPzou45kxN7d7VBMagFtvB6Yp5mORtOVD/5DhFZ71lIG69ijoa6Z1gHGs+BIT18z0exdiAn3bppti+LZp4JXEwbKQD1qlaFaws2DzLNJiy5TDmtM2orscjVPxbTOKNRW/KE5kx+fnOe77YT1QV78wxptpsQxoR3K7BkgC6ChoCJjltJa/Q7uYdMhSYuhwO3WyZxedC1MEWLtkUIX5LIFWp7bgWtOeYMMtPQ8bjYckwQfePCIFbvaEKN1jW9jfaulrAwfwN6yqwllNQqcRXO2wKE/SeNoRKiwWbV84rgDxvSX/hHS2iTPA6Sm9LbtUgHUnq8Az9kfKKZKtWFT/A9DBV8xFwQ8I0AQoUhpSxLZy148KTCvIx0UhwkA+kb4z+s7/w2stdArMpNrOHFwoJRkbG+C8wHYzRCfrSs8Nkqbc0FOu/vMbVahnSfrg7WaLAc++Xf7HhmXbWCF5qlq9vFyvcNPQ+iSv7qLkT4U7wEOzRqBjwTO0fXhWK21YPZVaGx2sTShE0pHNvQcWCnq5vRmcnlyYREDUP7XMVbrVmd+OfL5e9iQd2bd3X/C901h7crrVCzIiKxCRvhHrsmTNwb2
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(136003)(366004)(39860400002)(6666004)(6636002)(186003)(5660300002)(52116002)(2906002)(66476007)(6486002)(83380400001)(38100700002)(66574015)(2616005)(8936002)(4326008)(478600001)(36756003)(316002)(16526019)(86362001)(66556008)(66946007)(31686004)(8676002)(31696002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bHZNOFRwck95dEh3d0czdHNralpzZm1EODVmczNUZHovNnI5MW14alhKNDh4?=
+ =?utf-8?B?UVYzdERQVTVYOVRxcU1EMmFUVlNDc1NFcHcwR2czeTRiS3RQQ01pcmlLbHU1?=
+ =?utf-8?B?bmYyRW5VdThYU2Q1V1IvSFZKZkpjcDBTbmdVQmJsaUowMEhYRjJMQkFKZnZl?=
+ =?utf-8?B?cjhGM1RZaitqd0lWbStXNHlmdkR1bUt5dmdWT0pTMHFwZENBTTVPSHlaNVl1?=
+ =?utf-8?B?ZHh5VlVhTkFDY2NNRmtwZUZ2bHNJZE9zMjdhSDJRM2hwb3Zjd1c3MnNvVm5F?=
+ =?utf-8?B?eTJpUWpaUFNha2p6c2kyNWpHZXRhMUtEUWoxY0JLWlo1T2ZZMjM2UzQ3VzJH?=
+ =?utf-8?B?L0RML21FNmxmTHFCeWJQMEg4SDdwQ1N1YWZDYVBwZlFzSGllMWlLOXJacDUx?=
+ =?utf-8?B?MHN0UndXK0NvOWV2T09zTHpBdU9qUXVFTFpDTzdSTWdxRUM0eTlXTGs5Q2tv?=
+ =?utf-8?B?cmFub25HZ2JiZTUyVTBxek1wVTR1TW5hWFJ6bG1ySTcyczB0TlJWT2JUS1d6?=
+ =?utf-8?B?VU1KZkhVNzFXUHFuSGptcDV2bVd0bGdXUW95SlRaeEtQdHVhTDNvNnl5Y1d3?=
+ =?utf-8?B?OW5WbHEwMjZiK01SYlhZK3ltSHZYd0c2UWErdjNaN3hWZW9hNVJuRFp3TDdG?=
+ =?utf-8?B?UWJuWTZ4SHcyUm5SVXVDY2lqdHZDMlNyaU5OWDVhdHM1b3JSaWxDQ3hFeGlR?=
+ =?utf-8?B?RTZjdFBRT0lYalUxaFpNYk43L3VBemxaekZ4UWJxNjJNVVJWTjBZMGJva0da?=
+ =?utf-8?B?VmozSEJJLzdwUnRmdTBKRTNwdVdUNDh4djVZbGRSdThia0cyOVpZRlI5am1k?=
+ =?utf-8?B?N2pvelNaU3BiaTQ0QW9mcTJUME9lbWhTSllObkhBbUxHRmNKeGN5RGthc3ZH?=
+ =?utf-8?B?YVE5UG1kVnVRRnhYUjVrRkFjMk85cmdKM3N6SUdjdkdJYmFpMXZrYm5ZZm1M?=
+ =?utf-8?B?c01YRngzSzNkUmNrVnFxbzhNOEIwNXAyYmxOSElDOEV0MmU3ZHRzeVFVSkFu?=
+ =?utf-8?B?dlVOSkpMVlNUMXN4di9qbERMNEFBRTc3MHBRRDhSOG1KU2pIOHQwN0V5Mzg2?=
+ =?utf-8?B?eTZpU0pINGxraFovS2lWUE9tVy83RTlqZXBvN1VQa0FyUkpZY1NhbHN3NnJH?=
+ =?utf-8?B?anl4eGluUExHd09xWjM3V1YySk1YWlc2MWVZZWIzYUhCSU9jeG1DekJRdGJp?=
+ =?utf-8?B?b0l1MVdsd0tHemRqL3ZDRnNVNXdEUVFZOFlPN2VDN2pkRU5zcTRIWUlWcUlF?=
+ =?utf-8?B?YVN4QUJla0xpMWRtWUxubTY3dE5uYXgzRmVlTFFwcUxVZDczZ3RhTWpPZFhs?=
+ =?utf-8?B?aGNQQlpqblRpS2REd24zaGdORXg5NEoyWTdlRnl1T0M2NitJSlRiemhhbU4x?=
+ =?utf-8?B?ek1YT2pBaTFDU3padzgzR0poWFFtS3lWZlJodzgyd3dxTjVuU3dJZDVFclky?=
+ =?utf-8?B?MkFDTmVOUEpHTTJjSFNySlN6RmNrMGtzK0ZrUW1xZFFYa1R4bE9uZ2JVUEgv?=
+ =?utf-8?B?TTJLWGVUL3M3WUtxUUYrVHFydEhxRFlqRktQYlR4bjduYUxlUkI0dUd3VGpM?=
+ =?utf-8?B?OUhIT2ZzYXBiZGdjVS9CeUd3dmlkNzNVL3AxanBhdzY5dC9pa2NqenB6bGRZ?=
+ =?utf-8?B?NE9kRGNRQnF3OW4zU3htTGZrSVd0aUcwUUF0UzRBNlFtNlJubm5hTFhpaE1o?=
+ =?utf-8?B?KytpSVdHMU8yWWhGTk1EWUpFaFNEbDNFbk5yNWxKekNCTk1jMmdHUzQ5Qzd1?=
+ =?utf-8?B?bWI5dlFpV3hRSEVyOGpiRFB0c0txL1ZKcWFrMG9ySjJONGNpMXRkeGRIcnZm?=
+ =?utf-8?B?OW9GR24xZjk0OXJKVFI5eU1MSVZLdDcvcEtaYnZPSCt2bkFTK2N4SFFIM09N?=
+ =?utf-8?Q?r3kuk/2YrbcFE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8336aa53-f609-4d31-0e3b-08d9118b0989
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2021 19:05:10.8918 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8f/+nKw/Di240WywNUZOB/Xbs6w/faM8mtdtiQjW7M8KvAKE1tbKkRZfWnjEzzkf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4408
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,1008 +131,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only UMs drivers use DRM's core AGP code and ioctls. Mark the icotls
-as legacy. Add the _legacy_ infix to all AGP functions. Move the
-declarations to the public and internal legacy header files. The agp
-field in struct drm_device is now located in the structure's legacy
-section. Adapt drivers to the changes.
+Acked-by: Christian König <christian.koenig@amd.com>
 
-AGP code now depends on CONFIG_DRM_LEGACY.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/Makefile          |   6 +-
- drivers/gpu/drm/drm_agpsupport.c  |  99 +++++++++++++------------
- drivers/gpu/drm/drm_bufs.c        |   1 -
- drivers/gpu/drm/drm_ioc32.c       |  19 +++--
- drivers/gpu/drm/drm_ioctl.c       |  24 +++---
- drivers/gpu/drm/drm_legacy.h      |  24 ++++++
- drivers/gpu/drm/drm_legacy_misc.c |   1 -
- drivers/gpu/drm/drm_memory.c      |   1 -
- drivers/gpu/drm/drm_pci.c         |   3 +-
- drivers/gpu/drm/drm_vm.c          |   2 -
- drivers/gpu/drm/i810/i810_dma.c   |   3 +-
- drivers/gpu/drm/mga/mga_dma.c     |  16 ++--
- drivers/gpu/drm/mga/mga_drv.h     |   1 -
- drivers/gpu/drm/r128/r128_cce.c   |   2 +-
- drivers/gpu/drm/via/via_dma.c     |   1 -
- include/drm/drm_agpsupport.h      | 117 ------------------------------
- include/drm/drm_device.h          |   6 +-
- include/drm/drm_legacy.h          |  82 +++++++++++++++++++++
- 18 files changed, 198 insertions(+), 210 deletions(-)
- delete mode 100644 include/drm/drm_agpsupport.h
-
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 89e747fedc00..a91cc7684904 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -20,15 +20,15 @@ drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
- 		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
- 		drm_managed.o drm_vblank_work.o
- 
--drm-$(CONFIG_DRM_LEGACY) += drm_bufs.o drm_context.o drm_dma.o drm_legacy_misc.o drm_lock.o \
--		drm_memory.o drm_scatter.o drm_vm.o
-+drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
-+			    drm_legacy_misc.o drm_lock.o drm_memory.o drm_scatter.o \
-+			    drm_vm.o
- drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
- drm-$(CONFIG_COMPAT) += drm_ioc32.o
- drm-$(CONFIG_DRM_GEM_CMA_HELPER) += drm_gem_cma_helper.o
- drm-$(CONFIG_DRM_GEM_SHMEM_HELPER) += drm_gem_shmem_helper.o
- drm-$(CONFIG_DRM_PANEL) += drm_panel.o
- drm-$(CONFIG_OF) += drm_of.o
--drm-$(CONFIG_AGP) += drm_agpsupport.o
- drm-$(CONFIG_PCI) += drm_pci.o
- drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
- drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
-diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_agpsupport.c
-index 5311d03d49cc..07c10443770e 100644
---- a/drivers/gpu/drm/drm_agpsupport.c
-+++ b/drivers/gpu/drm/drm_agpsupport.c
-@@ -37,7 +37,6 @@
- 
- #include <asm/agp.h>
- 
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-@@ -45,6 +44,8 @@
- 
- #include "drm_legacy.h"
- 
-+#if IS_ENABLED(CONFIG_AGP)
-+
- /*
-  * Get AGP information.
-  *
-@@ -53,7 +54,7 @@
-  * Verifies the AGP device has been initialized and acquired and fills in the
-  * drm_agp_info structure with the information in drm_agp_head::agp_info.
-  */
--int drm_agp_info(struct drm_device *dev, struct drm_agp_info *info)
-+int drm_legacy_agp_info(struct drm_device *dev, struct drm_agp_info *info)
- {
- 	struct agp_kern_info *kern;
- 
-@@ -73,15 +74,15 @@ int drm_agp_info(struct drm_device *dev, struct drm_agp_info *info)
- 
- 	return 0;
- }
--EXPORT_SYMBOL(drm_agp_info);
-+EXPORT_SYMBOL(drm_legacy_agp_info);
- 
--int drm_agp_info_ioctl(struct drm_device *dev, void *data,
--		       struct drm_file *file_priv)
-+int drm_legacy_agp_info_ioctl(struct drm_device *dev, void *data,
-+			      struct drm_file *file_priv)
- {
- 	struct drm_agp_info *info = data;
- 	int err;
- 
--	err = drm_agp_info(dev, info);
-+	err = drm_legacy_agp_info(dev, info);
- 	if (err)
- 		return err;
- 
-@@ -97,7 +98,7 @@ int drm_agp_info_ioctl(struct drm_device *dev, void *data,
-  * Verifies the AGP device hasn't been acquired before and calls
-  * \c agp_backend_acquire.
-  */
--int drm_agp_acquire(struct drm_device *dev)
-+int drm_legacy_agp_acquire(struct drm_device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
-@@ -111,7 +112,7 @@ int drm_agp_acquire(struct drm_device *dev)
- 	dev->agp->acquired = 1;
- 	return 0;
- }
--EXPORT_SYMBOL(drm_agp_acquire);
-+EXPORT_SYMBOL(drm_legacy_agp_acquire);
- 
- /*
-  * Acquire the AGP device (ioctl).
-@@ -121,10 +122,10 @@ EXPORT_SYMBOL(drm_agp_acquire);
-  * Verifies the AGP device hasn't been acquired before and calls
-  * \c agp_backend_acquire.
-  */
--int drm_agp_acquire_ioctl(struct drm_device *dev, void *data,
--			  struct drm_file *file_priv)
-+int drm_legacy_agp_acquire_ioctl(struct drm_device *dev, void *data,
-+				 struct drm_file *file_priv)
- {
--	return drm_agp_acquire((struct drm_device *) file_priv->minor->dev);
-+	return drm_legacy_agp_acquire((struct drm_device *)file_priv->minor->dev);
- }
- 
- /*
-@@ -135,7 +136,7 @@ int drm_agp_acquire_ioctl(struct drm_device *dev, void *data,
-  *
-  * Verifies the AGP device has been acquired and calls \c agp_backend_release.
-  */
--int drm_agp_release(struct drm_device *dev)
-+int drm_legacy_agp_release(struct drm_device *dev)
- {
- 	if (!dev->agp || !dev->agp->acquired)
- 		return -EINVAL;
-@@ -143,12 +144,12 @@ int drm_agp_release(struct drm_device *dev)
- 	dev->agp->acquired = 0;
- 	return 0;
- }
--EXPORT_SYMBOL(drm_agp_release);
-+EXPORT_SYMBOL(drm_legacy_agp_release);
- 
--int drm_agp_release_ioctl(struct drm_device *dev, void *data,
--			  struct drm_file *file_priv)
-+int drm_legacy_agp_release_ioctl(struct drm_device *dev, void *data,
-+				 struct drm_file *file_priv)
- {
--	return drm_agp_release(dev);
-+	return drm_legacy_agp_release(dev);
- }
- 
- /*
-@@ -161,7 +162,7 @@ int drm_agp_release_ioctl(struct drm_device *dev, void *data,
-  * Verifies the AGP device has been acquired but not enabled, and calls
-  * \c agp_enable.
-  */
--int drm_agp_enable(struct drm_device *dev, struct drm_agp_mode mode)
-+int drm_legacy_agp_enable(struct drm_device *dev, struct drm_agp_mode mode)
- {
- 	if (!dev->agp || !dev->agp->acquired)
- 		return -EINVAL;
-@@ -171,14 +172,14 @@ int drm_agp_enable(struct drm_device *dev, struct drm_agp_mode mode)
- 	dev->agp->enabled = 1;
- 	return 0;
- }
--EXPORT_SYMBOL(drm_agp_enable);
-+EXPORT_SYMBOL(drm_legacy_agp_enable);
- 
--int drm_agp_enable_ioctl(struct drm_device *dev, void *data,
--			 struct drm_file *file_priv)
-+int drm_legacy_agp_enable_ioctl(struct drm_device *dev, void *data,
-+				struct drm_file *file_priv)
- {
- 	struct drm_agp_mode *mode = data;
- 
--	return drm_agp_enable(dev, *mode);
-+	return drm_legacy_agp_enable(dev, *mode);
- }
- 
- /*
-@@ -189,7 +190,7 @@ int drm_agp_enable_ioctl(struct drm_device *dev, void *data,
-  * Verifies the AGP device is present and has been acquired, allocates the
-  * memory via agp_allocate_memory() and creates a drm_agp_mem entry for it.
-  */
--int drm_agp_alloc(struct drm_device *dev, struct drm_agp_buffer *request)
-+int drm_legacy_agp_alloc(struct drm_device *dev, struct drm_agp_buffer *request)
- {
- 	struct drm_agp_mem *entry;
- 	struct agp_memory *memory;
-@@ -221,15 +222,15 @@ int drm_agp_alloc(struct drm_device *dev, struct drm_agp_buffer *request)
- 
- 	return 0;
- }
--EXPORT_SYMBOL(drm_agp_alloc);
-+EXPORT_SYMBOL(drm_legacy_agp_alloc);
- 
- 
--int drm_agp_alloc_ioctl(struct drm_device *dev, void *data,
-+int drm_legacy_agp_alloc_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file_priv)
- {
- 	struct drm_agp_buffer *request = data;
- 
--	return drm_agp_alloc(dev, request);
-+	return drm_legacy_agp_alloc(dev, request);
- }
- 
- /*
-@@ -241,8 +242,8 @@ int drm_agp_alloc_ioctl(struct drm_device *dev, void *data,
-  *
-  * Walks through drm_agp_head::memory until finding a matching handle.
-  */
--static struct drm_agp_mem *drm_agp_lookup_entry(struct drm_device *dev,
--						unsigned long handle)
-+static struct drm_agp_mem *drm_legacy_agp_lookup_entry(struct drm_device *dev,
-+						       unsigned long handle)
- {
- 	struct drm_agp_mem *entry;
- 
-@@ -261,14 +262,14 @@ static struct drm_agp_mem *drm_agp_lookup_entry(struct drm_device *dev,
-  * Verifies the AGP device is present and acquired, looks-up the AGP memory
-  * entry and passes it to the unbind_agp() function.
-  */
--int drm_agp_unbind(struct drm_device *dev, struct drm_agp_binding *request)
-+int drm_legacy_agp_unbind(struct drm_device *dev, struct drm_agp_binding *request)
- {
- 	struct drm_agp_mem *entry;
- 	int ret;
- 
- 	if (!dev->agp || !dev->agp->acquired)
- 		return -EINVAL;
--	entry = drm_agp_lookup_entry(dev, request->handle);
-+	entry = drm_legacy_agp_lookup_entry(dev, request->handle);
- 	if (!entry || !entry->bound)
- 		return -EINVAL;
- 	ret = agp_unbind_memory(entry->memory);
-@@ -276,15 +277,15 @@ int drm_agp_unbind(struct drm_device *dev, struct drm_agp_binding *request)
- 		entry->bound = 0;
- 	return ret;
- }
--EXPORT_SYMBOL(drm_agp_unbind);
-+EXPORT_SYMBOL(drm_legacy_agp_unbind);
- 
- 
--int drm_agp_unbind_ioctl(struct drm_device *dev, void *data,
--			 struct drm_file *file_priv)
-+int drm_legacy_agp_unbind_ioctl(struct drm_device *dev, void *data,
-+				struct drm_file *file_priv)
- {
- 	struct drm_agp_binding *request = data;
- 
--	return drm_agp_unbind(dev, request);
-+	return drm_legacy_agp_unbind(dev, request);
- }
- 
- /*
-@@ -296,7 +297,7 @@ int drm_agp_unbind_ioctl(struct drm_device *dev, void *data,
-  * is currently bound into the GATT. Looks-up the AGP memory entry and passes
-  * it to bind_agp() function.
-  */
--int drm_agp_bind(struct drm_device *dev, struct drm_agp_binding *request)
-+int drm_legacy_agp_bind(struct drm_device *dev, struct drm_agp_binding *request)
- {
- 	struct drm_agp_mem *entry;
- 	int retcode;
-@@ -304,7 +305,7 @@ int drm_agp_bind(struct drm_device *dev, struct drm_agp_binding *request)
- 
- 	if (!dev->agp || !dev->agp->acquired)
- 		return -EINVAL;
--	entry = drm_agp_lookup_entry(dev, request->handle);
-+	entry = drm_legacy_agp_lookup_entry(dev, request->handle);
- 	if (!entry || entry->bound)
- 		return -EINVAL;
- 	page = DIV_ROUND_UP(request->offset, PAGE_SIZE);
-@@ -316,15 +317,15 @@ int drm_agp_bind(struct drm_device *dev, struct drm_agp_binding *request)
- 		  dev->agp->base, entry->bound);
- 	return 0;
- }
--EXPORT_SYMBOL(drm_agp_bind);
-+EXPORT_SYMBOL(drm_legacy_agp_bind);
- 
- 
--int drm_agp_bind_ioctl(struct drm_device *dev, void *data,
--		       struct drm_file *file_priv)
-+int drm_legacy_agp_bind_ioctl(struct drm_device *dev, void *data,
-+			      struct drm_file *file_priv)
- {
- 	struct drm_agp_binding *request = data;
- 
--	return drm_agp_bind(dev, request);
-+	return drm_legacy_agp_bind(dev, request);
- }
- 
- /*
-@@ -337,13 +338,13 @@ int drm_agp_bind_ioctl(struct drm_device *dev, void *data,
-  * unbind_agp(). Frees it via free_agp() as well as the entry itself
-  * and unlinks from the doubly linked list it's inserted in.
-  */
--int drm_agp_free(struct drm_device *dev, struct drm_agp_buffer *request)
-+int drm_legacy_agp_free(struct drm_device *dev, struct drm_agp_buffer *request)
- {
- 	struct drm_agp_mem *entry;
- 
- 	if (!dev->agp || !dev->agp->acquired)
- 		return -EINVAL;
--	entry = drm_agp_lookup_entry(dev, request->handle);
-+	entry = drm_legacy_agp_lookup_entry(dev, request->handle);
- 	if (!entry)
- 		return -EINVAL;
- 	if (entry->bound)
-@@ -355,15 +356,15 @@ int drm_agp_free(struct drm_device *dev, struct drm_agp_buffer *request)
- 	kfree(entry);
- 	return 0;
- }
--EXPORT_SYMBOL(drm_agp_free);
-+EXPORT_SYMBOL(drm_legacy_agp_free);
- 
- 
--int drm_agp_free_ioctl(struct drm_device *dev, void *data,
--		       struct drm_file *file_priv)
-+int drm_legacy_agp_free_ioctl(struct drm_device *dev, void *data,
-+			      struct drm_file *file_priv)
- {
- 	struct drm_agp_buffer *request = data;
- 
--	return drm_agp_free(dev, request);
-+	return drm_legacy_agp_free(dev, request);
- }
- 
- /*
-@@ -378,7 +379,7 @@ int drm_agp_free_ioctl(struct drm_device *dev, void *data,
-  * Note that final cleanup of the kmalloced structure is directly done in
-  * drm_pci_agp_destroy.
-  */
--struct drm_agp_head *drm_agp_init(struct drm_device *dev)
-+struct drm_agp_head *drm_legacy_agp_init(struct drm_device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct drm_agp_head *head = NULL;
-@@ -409,7 +410,7 @@ struct drm_agp_head *drm_agp_init(struct drm_device *dev)
- 	return head;
- }
- /* Only exported for i810.ko */
--EXPORT_SYMBOL(drm_agp_init);
-+EXPORT_SYMBOL(drm_legacy_agp_init);
- 
- /**
-  * drm_legacy_agp_clear - Clear AGP resource list
-@@ -439,8 +440,10 @@ void drm_legacy_agp_clear(struct drm_device *dev)
- 	INIT_LIST_HEAD(&dev->agp->memory);
- 
- 	if (dev->agp->acquired)
--		drm_agp_release(dev);
-+		drm_legacy_agp_release(dev);
- 
- 	dev->agp->acquired = 0;
- 	dev->agp->enabled = 0;
- }
-+
-+#endif
-diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-index 311dbd3e45e0..4805726b34ac 100644
---- a/drivers/gpu/drm/drm_bufs.c
-+++ b/drivers/gpu/drm/drm_bufs.c
-@@ -40,7 +40,6 @@
- 
- #include <asm/shmparam.h>
- 
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-diff --git a/drivers/gpu/drm/drm_ioc32.c b/drivers/gpu/drm/drm_ioc32.c
-index 33390f02f5eb..d29907955ff7 100644
---- a/drivers/gpu/drm/drm_ioc32.c
-+++ b/drivers/gpu/drm/drm_ioc32.c
-@@ -31,7 +31,6 @@
- #include <linux/ratelimit.h>
- #include <linux/export.h>
- 
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_file.h>
- #include <drm/drm_print.h>
- 
-@@ -619,6 +618,7 @@ static int compat_drm_dma(struct file *file, unsigned int cmd,
- }
- #endif
- 
-+#if IS_ENABLED(CONFIG_DRM_LEGACY)
- #if IS_ENABLED(CONFIG_AGP)
- typedef struct drm_agp_mode32 {
- 	u32 mode;	/**< AGP mode */
-@@ -633,7 +633,7 @@ static int compat_drm_agp_enable(struct file *file, unsigned int cmd,
- 	if (get_user(mode.mode, &argp->mode))
- 		return -EFAULT;
- 
--	return drm_ioctl_kernel(file,  drm_agp_enable_ioctl, &mode,
-+	return drm_ioctl_kernel(file,  drm_legacy_agp_enable_ioctl, &mode,
- 				DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
- }
- 
-@@ -659,7 +659,7 @@ static int compat_drm_agp_info(struct file *file, unsigned int cmd,
- 	struct drm_agp_info info;
- 	int err;
- 
--	err = drm_ioctl_kernel(file, drm_agp_info_ioctl, &info, DRM_AUTH);
-+	err = drm_ioctl_kernel(file, drm_legacy_agp_info_ioctl, &info, DRM_AUTH);
- 	if (err)
- 		return err;
- 
-@@ -698,7 +698,7 @@ static int compat_drm_agp_alloc(struct file *file, unsigned int cmd,
- 
- 	request.size = req32.size;
- 	request.type = req32.type;
--	err = drm_ioctl_kernel(file, drm_agp_alloc_ioctl, &request,
-+	err = drm_ioctl_kernel(file, drm_legacy_agp_alloc_ioctl, &request,
- 				DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
- 	if (err)
- 		return err;
-@@ -706,7 +706,7 @@ static int compat_drm_agp_alloc(struct file *file, unsigned int cmd,
- 	req32.handle = request.handle;
- 	req32.physical = request.physical;
- 	if (copy_to_user(argp, &req32, sizeof(req32))) {
--		drm_ioctl_kernel(file, drm_agp_free_ioctl, &request,
-+		drm_ioctl_kernel(file, drm_legacy_agp_free_ioctl, &request,
- 				DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
- 		return -EFAULT;
- 	}
-@@ -723,7 +723,7 @@ static int compat_drm_agp_free(struct file *file, unsigned int cmd,
- 	if (get_user(request.handle, &argp->handle))
- 		return -EFAULT;
- 
--	return drm_ioctl_kernel(file, drm_agp_free_ioctl, &request,
-+	return drm_ioctl_kernel(file, drm_legacy_agp_free_ioctl, &request,
- 				DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
- }
- 
-@@ -744,7 +744,7 @@ static int compat_drm_agp_bind(struct file *file, unsigned int cmd,
- 
- 	request.handle = req32.handle;
- 	request.offset = req32.offset;
--	return drm_ioctl_kernel(file, drm_agp_bind_ioctl, &request,
-+	return drm_ioctl_kernel(file, drm_legacy_agp_bind_ioctl, &request,
- 				DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
- }
- 
-@@ -757,12 +757,11 @@ static int compat_drm_agp_unbind(struct file *file, unsigned int cmd,
- 	if (get_user(request.handle, &argp->handle))
- 		return -EFAULT;
- 
--	return drm_ioctl_kernel(file, drm_agp_unbind_ioctl, &request,
-+	return drm_ioctl_kernel(file, drm_legacy_agp_unbind_ioctl, &request,
- 				DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
- }
- #endif /* CONFIG_AGP */
- 
--#if IS_ENABLED(CONFIG_DRM_LEGACY)
- typedef struct drm_scatter_gather32 {
- 	u32 size;	/**< In bytes -- will round to page boundary */
- 	u32 handle;	/**< Used for mapping / unmapping */
-@@ -935,7 +934,6 @@ static struct {
- 	DRM_IOCTL32_DEF(DRM_IOCTL_GET_SAREA_CTX, compat_drm_getsareactx),
- 	DRM_IOCTL32_DEF(DRM_IOCTL_RES_CTX, compat_drm_resctx),
- 	DRM_IOCTL32_DEF(DRM_IOCTL_DMA, compat_drm_dma),
--#endif
- #if IS_ENABLED(CONFIG_AGP)
- 	DRM_IOCTL32_DEF(DRM_IOCTL_AGP_ENABLE, compat_drm_agp_enable),
- 	DRM_IOCTL32_DEF(DRM_IOCTL_AGP_INFO, compat_drm_agp_info),
-@@ -944,6 +942,7 @@ static struct {
- 	DRM_IOCTL32_DEF(DRM_IOCTL_AGP_BIND, compat_drm_agp_bind),
- 	DRM_IOCTL32_DEF(DRM_IOCTL_AGP_UNBIND, compat_drm_agp_unbind),
- #endif
-+#endif
- #if IS_ENABLED(CONFIG_DRM_LEGACY)
- 	DRM_IOCTL32_DEF(DRM_IOCTL_SG_ALLOC, compat_drm_sg_alloc),
- 	DRM_IOCTL32_DEF(DRM_IOCTL_SG_FREE, compat_drm_sg_free),
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index d273d1a8603a..b0856c139693 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -33,7 +33,6 @@
- #include <linux/pci.h>
- #include <linux/uaccess.h>
- 
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_auth.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_drv.h>
-@@ -627,14 +626,21 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_CONTROL, drm_legacy_irq_control, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
- 
- #if IS_ENABLED(CONFIG_AGP)
--	DRM_IOCTL_DEF(DRM_IOCTL_AGP_ACQUIRE, drm_agp_acquire_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF(DRM_IOCTL_AGP_RELEASE, drm_agp_release_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF(DRM_IOCTL_AGP_ENABLE, drm_agp_enable_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF(DRM_IOCTL_AGP_INFO, drm_agp_info_ioctl, DRM_AUTH),
--	DRM_IOCTL_DEF(DRM_IOCTL_AGP_ALLOC, drm_agp_alloc_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF(DRM_IOCTL_AGP_FREE, drm_agp_free_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF(DRM_IOCTL_AGP_BIND, drm_agp_bind_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF(DRM_IOCTL_AGP_UNBIND, drm_agp_unbind_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
-+	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_AGP_ACQUIRE, drm_legacy_agp_acquire_ioctl,
-+			     DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
-+	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_AGP_RELEASE, drm_legacy_agp_release_ioctl,
-+			     DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
-+	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_AGP_ENABLE, drm_legacy_agp_enable_ioctl,
-+			     DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
-+	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_AGP_INFO, drm_legacy_agp_info_ioctl, DRM_AUTH),
-+	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_AGP_ALLOC, drm_legacy_agp_alloc_ioctl,
-+			     DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
-+	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_AGP_FREE, drm_legacy_agp_free_ioctl,
-+			     DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
-+	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_AGP_BIND, drm_legacy_agp_bind_ioctl,
-+			     DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
-+	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_AGP_UNBIND, drm_legacy_agp_unbind_ioctl,
-+			     DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
- #endif
- 
- 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_SG_ALLOC, drm_legacy_sg_alloc, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
-diff --git a/drivers/gpu/drm/drm_legacy.h b/drivers/gpu/drm/drm_legacy.h
-index ae2d7d2a31c7..7080d2538421 100644
---- a/drivers/gpu/drm/drm_legacy.h
-+++ b/drivers/gpu/drm/drm_legacy.h
-@@ -148,6 +148,30 @@ struct drm_agp_mem {
- 	struct list_head head;
- };
- 
-+/* drm_agpsupport.c */
-+#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_AGP)
-+void drm_legacy_agp_clear(struct drm_device *dev);
-+
-+int drm_legacy_agp_acquire_ioctl(struct drm_device *dev, void *data,
-+				 struct drm_file *file_priv);
-+int drm_legacy_agp_release_ioctl(struct drm_device *dev, void *data,
-+				 struct drm_file *file_priv);
-+int drm_legacy_agp_enable_ioctl(struct drm_device *dev, void *data,
-+				struct drm_file *file_priv);
-+int drm_legacy_agp_info_ioctl(struct drm_device *dev, void *data,
-+			      struct drm_file *file_priv);
-+int drm_legacy_agp_alloc_ioctl(struct drm_device *dev, void *data,
-+			       struct drm_file *file_priv);
-+int drm_legacy_agp_free_ioctl(struct drm_device *dev, void *data,
-+			      struct drm_file *file_priv);
-+int drm_legacy_agp_unbind_ioctl(struct drm_device *dev, void *data,
-+				struct drm_file *file_priv);
-+int drm_legacy_agp_bind_ioctl(struct drm_device *dev, void *data,
-+			      struct drm_file *file_priv);
-+#else
-+static inline void drm_legacy_agp_clear(struct drm_device *dev) {}
-+#endif
-+
- /* drm_lock.c */
- #if IS_ENABLED(CONFIG_DRM_LEGACY)
- int drm_legacy_lock(struct drm_device *d, void *v, struct drm_file *f);
-diff --git a/drivers/gpu/drm/drm_legacy_misc.c b/drivers/gpu/drm/drm_legacy_misc.c
-index 8f54e6a78b6f..83db43b7a25e 100644
---- a/drivers/gpu/drm/drm_legacy_misc.c
-+++ b/drivers/gpu/drm/drm_legacy_misc.c
-@@ -33,7 +33,6 @@
-  * OTHER DEALINGS IN THE SOFTWARE.
-  */
- 
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_irq.h>
-diff --git a/drivers/gpu/drm/drm_memory.c b/drivers/gpu/drm/drm_memory.c
-index e4f20a2eb6e7..d2e1dccd8113 100644
---- a/drivers/gpu/drm/drm_memory.c
-+++ b/drivers/gpu/drm/drm_memory.c
-@@ -38,7 +38,6 @@
- #include <linux/pci.h>
- #include <linux/vmalloc.h>
- 
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_cache.h>
- #include <drm/drm_device.h>
- 
-diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-index 6e9af8b40419..38c3cb72e7e6 100644
---- a/drivers/gpu/drm/drm_pci.c
-+++ b/drivers/gpu/drm/drm_pci.c
-@@ -30,7 +30,6 @@
- #include <linux/slab.h>
- 
- #include <drm/drm.h>
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_print.h>
- 
-@@ -135,7 +134,7 @@ static void drm_legacy_pci_agp_init(struct drm_device *dev)
- {
- 	if (drm_core_check_feature(dev, DRIVER_USE_AGP)) {
- 		if (pci_find_capability(to_pci_dev(dev->dev), PCI_CAP_ID_AGP))
--			dev->agp = drm_agp_init(dev);
-+			dev->agp = drm_legacy_agp_init(dev);
- 		if (dev->agp) {
- 			dev->agp->agp_mtrr = arch_phys_wc_add(
- 				dev->agp->agp_info.aper_base,
-diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
-index 9b3b989d7cad..e957d4851dc0 100644
---- a/drivers/gpu/drm/drm_vm.c
-+++ b/drivers/gpu/drm/drm_vm.c
-@@ -45,8 +45,6 @@
- #endif
- #include <linux/mem_encrypt.h>
- 
--
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-diff --git a/drivers/gpu/drm/i810/i810_dma.c b/drivers/gpu/drm/i810/i810_dma.c
-index 8a728273d625..d78c82af367c 100644
---- a/drivers/gpu/drm/i810/i810_dma.c
-+++ b/drivers/gpu/drm/i810/i810_dma.c
-@@ -34,7 +34,6 @@
- #include <linux/mman.h>
- #include <linux/pci.h>
- 
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-@@ -1199,7 +1198,7 @@ int i810_driver_load(struct drm_device *dev, unsigned long flags)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	dev->agp = drm_agp_init(dev);
-+	dev->agp = drm_legacy_agp_init(dev);
- 	if (dev->agp) {
- 		dev->agp->agp_mtrr = arch_phys_wc_add(
- 			dev->agp->agp_info.aper_base,
-diff --git a/drivers/gpu/drm/mga/mga_dma.c b/drivers/gpu/drm/mga/mga_dma.c
-index 53a119a761df..403efc1f1a7c 100644
---- a/drivers/gpu/drm/mga/mga_dma.c
-+++ b/drivers/gpu/drm/mga/mga_dma.c
-@@ -469,20 +469,20 @@ static int mga_do_agp_dma_bootstrap(struct drm_device *dev,
- 	struct drm_agp_binding bind_req;
- 
- 	/* Acquire AGP. */
--	err = drm_agp_acquire(dev);
-+	err = drm_legacy_agp_acquire(dev);
- 	if (err) {
- 		DRM_ERROR("Unable to acquire AGP: %d\n", err);
- 		return err;
- 	}
- 
--	err = drm_agp_info(dev, &info);
-+	err = drm_legacy_agp_info(dev, &info);
- 	if (err) {
- 		DRM_ERROR("Unable to get AGP info: %d\n", err);
- 		return err;
- 	}
- 
- 	mode.mode = (info.mode & ~0x07) | dma_bs->agp_mode;
--	err = drm_agp_enable(dev, mode);
-+	err = drm_legacy_agp_enable(dev, mode);
- 	if (err) {
- 		DRM_ERROR("Unable to enable AGP (mode = 0x%lx)\n", mode.mode);
- 		return err;
-@@ -502,7 +502,7 @@ static int mga_do_agp_dma_bootstrap(struct drm_device *dev,
- 	/* Allocate and bind AGP memory. */
- 	agp_req.size = agp_size;
- 	agp_req.type = 0;
--	err = drm_agp_alloc(dev, &agp_req);
-+	err = drm_legacy_agp_alloc(dev, &agp_req);
- 	if (err) {
- 		dev_priv->agp_size = 0;
- 		DRM_ERROR("Unable to allocate %uMB AGP memory\n",
-@@ -515,7 +515,7 @@ static int mga_do_agp_dma_bootstrap(struct drm_device *dev,
- 
- 	bind_req.handle = agp_req.handle;
- 	bind_req.offset = 0;
--	err = drm_agp_bind(dev, &bind_req);
-+	err = drm_legacy_agp_bind(dev, &bind_req);
- 	if (err) {
- 		DRM_ERROR("Unable to bind AGP memory: %d\n", err);
- 		return err;
-@@ -972,10 +972,10 @@ static int mga_do_cleanup_dma(struct drm_device *dev, int full_cleanup)
- 				struct drm_agp_buffer free_req;
- 
- 				unbind_req.handle = dev_priv->agp_handle;
--				drm_agp_unbind(dev, &unbind_req);
-+				drm_legacy_agp_unbind(dev, &unbind_req);
- 
- 				free_req.handle = dev_priv->agp_handle;
--				drm_agp_free(dev, &free_req);
-+				drm_legacy_agp_free(dev, &free_req);
- 
- 				dev_priv->agp_textures = NULL;
- 				dev_priv->agp_size = 0;
-@@ -983,7 +983,7 @@ static int mga_do_cleanup_dma(struct drm_device *dev, int full_cleanup)
- 			}
- 
- 			if ((dev->agp != NULL) && dev->agp->acquired)
--				err = drm_agp_release(dev);
-+				err = drm_legacy_agp_release(dev);
- #endif
- 		}
- 
-diff --git a/drivers/gpu/drm/mga/mga_drv.h b/drivers/gpu/drm/mga/mga_drv.h
-index 66df51607896..84395d81ab9b 100644
---- a/drivers/gpu/drm/mga/mga_drv.h
-+++ b/drivers/gpu/drm/mga/mga_drv.h
-@@ -35,7 +35,6 @@
- #include <linux/pci.h>
- #include <linux/slab.h>
- 
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_device.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
-diff --git a/drivers/gpu/drm/r128/r128_cce.c b/drivers/gpu/drm/r128/r128_cce.c
-index 138af32480d4..2a2933c16308 100644
---- a/drivers/gpu/drm/r128/r128_cce.c
-+++ b/drivers/gpu/drm/r128/r128_cce.c
-@@ -37,10 +37,10 @@
- #include <linux/slab.h>
- #include <linux/uaccess.h>
- 
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_device.h>
- #include <drm/drm_file.h>
- #include <drm/drm_irq.h>
-+#include <drm/drm_legacy.h>
- #include <drm/drm_print.h>
- #include <drm/r128_drm.h>
- 
-diff --git a/drivers/gpu/drm/via/via_dma.c b/drivers/gpu/drm/via/via_dma.c
-index cd56ffa3df58..177b0499abf1 100644
---- a/drivers/gpu/drm/via/via_dma.c
-+++ b/drivers/gpu/drm/via/via_dma.c
-@@ -38,7 +38,6 @@
- #include <linux/uaccess.h>
- 
- #include <drm/drm.h>
--#include <drm/drm_agpsupport.h>
- #include <drm/drm_device.h>
- #include <drm/drm_file.h>
- #include <drm/via_drm.h>
-diff --git a/include/drm/drm_agpsupport.h b/include/drm/drm_agpsupport.h
-deleted file mode 100644
-index f3136750c490..000000000000
---- a/include/drm/drm_agpsupport.h
-+++ /dev/null
-@@ -1,117 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _DRM_AGPSUPPORT_H_
--#define _DRM_AGPSUPPORT_H_
--
--#include <linux/agp_backend.h>
--#include <linux/kernel.h>
--#include <linux/list.h>
--#include <linux/mm.h>
--#include <linux/mutex.h>
--#include <linux/types.h>
--#include <uapi/drm/drm.h>
--
--struct drm_device;
--struct drm_file;
--
--struct drm_agp_head {
--	struct agp_kern_info agp_info;
--	struct list_head memory;
--	unsigned long mode;
--	struct agp_bridge_data *bridge;
--	int enabled;
--	int acquired;
--	unsigned long base;
--	int agp_mtrr;
--	int cant_use_aperture;
--	unsigned long page_mask;
--};
--
--#if IS_ENABLED(CONFIG_AGP)
--
--struct drm_agp_head *drm_agp_init(struct drm_device *dev);
--void drm_legacy_agp_clear(struct drm_device *dev);
--int drm_agp_acquire(struct drm_device *dev);
--int drm_agp_acquire_ioctl(struct drm_device *dev, void *data,
--			  struct drm_file *file_priv);
--int drm_agp_release(struct drm_device *dev);
--int drm_agp_release_ioctl(struct drm_device *dev, void *data,
--			  struct drm_file *file_priv);
--int drm_agp_enable(struct drm_device *dev, struct drm_agp_mode mode);
--int drm_agp_enable_ioctl(struct drm_device *dev, void *data,
--			 struct drm_file *file_priv);
--int drm_agp_info(struct drm_device *dev, struct drm_agp_info *info);
--int drm_agp_info_ioctl(struct drm_device *dev, void *data,
--		       struct drm_file *file_priv);
--int drm_agp_alloc(struct drm_device *dev, struct drm_agp_buffer *request);
--int drm_agp_alloc_ioctl(struct drm_device *dev, void *data,
--			struct drm_file *file_priv);
--int drm_agp_free(struct drm_device *dev, struct drm_agp_buffer *request);
--int drm_agp_free_ioctl(struct drm_device *dev, void *data,
--		       struct drm_file *file_priv);
--int drm_agp_unbind(struct drm_device *dev, struct drm_agp_binding *request);
--int drm_agp_unbind_ioctl(struct drm_device *dev, void *data,
--			 struct drm_file *file_priv);
--int drm_agp_bind(struct drm_device *dev, struct drm_agp_binding *request);
--int drm_agp_bind_ioctl(struct drm_device *dev, void *data,
--		       struct drm_file *file_priv);
--
--#else /* CONFIG_AGP */
--
--static inline struct drm_agp_head *drm_agp_init(struct drm_device *dev)
--{
--	return NULL;
--}
--
--static inline void drm_legacy_agp_clear(struct drm_device *dev)
--{
--}
--
--static inline int drm_agp_acquire(struct drm_device *dev)
--{
--	return -ENODEV;
--}
--
--static inline int drm_agp_release(struct drm_device *dev)
--{
--	return -ENODEV;
--}
--
--static inline int drm_agp_enable(struct drm_device *dev,
--				 struct drm_agp_mode mode)
--{
--	return -ENODEV;
--}
--
--static inline int drm_agp_info(struct drm_device *dev,
--			       struct drm_agp_info *info)
--{
--	return -ENODEV;
--}
--
--static inline int drm_agp_alloc(struct drm_device *dev,
--				struct drm_agp_buffer *request)
--{
--	return -ENODEV;
--}
--
--static inline int drm_agp_free(struct drm_device *dev,
--			       struct drm_agp_buffer *request)
--{
--	return -ENODEV;
--}
--
--static inline int drm_agp_unbind(struct drm_device *dev,
--				 struct drm_agp_binding *request)
--{
--	return -ENODEV;
--}
--
--static inline int drm_agp_bind(struct drm_device *dev,
--			       struct drm_agp_binding *request)
--{
--	return -ENODEV;
--}
--
--#endif /* CONFIG_AGP */
--
--#endif /* _DRM_AGPSUPPORT_H_ */
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index e5d6305e64a2..f588f967bb14 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -276,9 +276,6 @@ struct drm_device {
- 	 */
- 	spinlock_t event_lock;
- 
--	/** @agp: AGP data */
--	struct drm_agp_head *agp;
--
- 	/** @num_crtcs: Number of CRTCs on this device */
- 	unsigned int num_crtcs;
- 
-@@ -326,6 +323,9 @@ struct drm_device {
- 	struct pci_controller *hose;
- #endif
- 
-+	/* AGP data */
-+	struct drm_agp_head *agp;
-+
- 	/* Context handle management - linked list of context handles */
- 	struct list_head ctxlist;
- 
-diff --git a/include/drm/drm_legacy.h b/include/drm/drm_legacy.h
-index faf64319be76..b17e79e12bc2 100644
---- a/include/drm/drm_legacy.h
-+++ b/include/drm/drm_legacy.h
-@@ -33,6 +33,8 @@
-  * OTHER DEALINGS IN THE SOFTWARE.
-  */
- 
-+#include <linux/agp_backend.h>
-+
- #include <drm/drm.h>
- #include <drm/drm_auth.h>
- #include <drm/drm_hashtab.h>
-@@ -225,6 +227,86 @@ static inline void drm_legacy_pci_exit(const struct drm_driver *driver,
- 
- #endif
- 
-+/*
-+ * AGP Support
-+ */
-+
-+struct drm_agp_head {
-+	struct agp_kern_info agp_info;
-+	struct list_head memory;
-+	unsigned long mode;
-+	struct agp_bridge_data *bridge;
-+	int enabled;
-+	int acquired;
-+	unsigned long base;
-+	int agp_mtrr;
-+	int cant_use_aperture;
-+	unsigned long page_mask;
-+};
-+
-+#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_AGP)
-+struct drm_agp_head *drm_legacy_agp_init(struct drm_device *dev);
-+int drm_legacy_agp_acquire(struct drm_device *dev);
-+int drm_legacy_agp_release(struct drm_device *dev);
-+int drm_legacy_agp_enable(struct drm_device *dev, struct drm_agp_mode mode);
-+int drm_legacy_agp_info(struct drm_device *dev, struct drm_agp_info *info);
-+int drm_legacy_agp_alloc(struct drm_device *dev, struct drm_agp_buffer *request);
-+int drm_legacy_agp_free(struct drm_device *dev, struct drm_agp_buffer *request);
-+int drm_legacy_agp_unbind(struct drm_device *dev, struct drm_agp_binding *request);
-+int drm_legacy_agp_bind(struct drm_device *dev, struct drm_agp_binding *request);
-+#else
-+static inline struct drm_agp_head *drm_legacy_agp_init(struct drm_device *dev)
-+{
-+	return NULL;
-+}
-+
-+static inline int drm_legacy_agp_acquire(struct drm_device *dev)
-+{
-+	return -ENODEV;
-+}
-+
-+static inline int drm_legacy_agp_release(struct drm_device *dev)
-+{
-+	return -ENODEV;
-+}
-+
-+static inline int drm_legacy_agp_enable(struct drm_device *dev,
-+					struct drm_agp_mode mode)
-+{
-+	return -ENODEV;
-+}
-+
-+static inline int drm_legacy_agp_info(struct drm_device *dev,
-+				      struct drm_agp_info *info)
-+{
-+	return -ENODEV;
-+}
-+
-+static inline int drm_legacy_agp_alloc(struct drm_device *dev,
-+				       struct drm_agp_buffer *request)
-+{
-+	return -ENODEV;
-+}
-+
-+static inline int drm_legacy_agp_free(struct drm_device *dev,
-+				      struct drm_agp_buffer *request)
-+{
-+	return -ENODEV;
-+}
-+
-+static inline int drm_legacy_agp_unbind(struct drm_device *dev,
-+					struct drm_agp_binding *request)
-+{
-+	return -ENODEV;
-+}
-+
-+static inline int drm_legacy_agp_bind(struct drm_device *dev,
-+				      struct drm_agp_binding *request)
-+{
-+	return -ENODEV;
-+}
-+#endif
-+
- /* drm_memory.c */
- void drm_legacy_ioremap(struct drm_local_map *map, struct drm_device *dev);
- void drm_legacy_ioremap_wc(struct drm_local_map *map, struct drm_device *dev);
--- 
-2.31.1
+Am 07.05.21 um 20:57 schrieb Thomas Zimmermann:
+> This patch moves the DRM core's AGP code behind CONFIG_DRM_LEGACY. The
+> only use besides legacy, UMS drivers is radeon, which can implement the
+> required functionality by itself.
+>
+> This patchset has no impact on the AGP support of existing drivers.
+>
+> Patches 1 and 2 move some AGP code from DRM core into radeon. Radeon
+> uses some of the AGP code for its internal purposes. But being a KMS
+> driver, there's no reason why radeon should provide the rsp AGP ioctls.
+> So duplicate the implementation in radeon and thus uncould it from
+> the legacy code.
+>
+> Patch 3 moves some AGP-related PCI helpers behind CONFIG_DRM_LEGACY.
+>
+> Patch 4 moves DRM's AGP code behind CONFIG_DRM_LEGACY. The files are
+> then only build when legacy drivers are active.
+>
+> Built-tested with different config options selected.
+>
+> Thomas Zimmermann (4):
+>    drm/radeon: Move AGP helpers into radeon driver
+>    drm/radeon: Move AGP data structures into radeon
+>    drm: Mark PCI AGP helpers as legacy
+>    drm: Mark AGP implementation and ioctls as legacy
+>
+>   drivers/gpu/drm/Makefile            |   6 +-
+>   drivers/gpu/drm/drm_agpsupport.c    |  99 ++++++++++++-----------
+>   drivers/gpu/drm/drm_bufs.c          |   1 -
+>   drivers/gpu/drm/drm_drv.c           |   4 +-
+>   drivers/gpu/drm/drm_internal.h      |   5 --
+>   drivers/gpu/drm/drm_ioc32.c         |  19 +++--
+>   drivers/gpu/drm/drm_ioctl.c         |  24 +++---
+>   drivers/gpu/drm/drm_legacy.h        |  30 +++++++
+>   drivers/gpu/drm/drm_legacy_misc.c   |   1 -
+>   drivers/gpu/drm/drm_memory.c        |   1 -
+>   drivers/gpu/drm/drm_pci.c           |  23 +++---
+>   drivers/gpu/drm/drm_vm.c            |   2 -
+>   drivers/gpu/drm/i810/i810_dma.c     |   3 +-
+>   drivers/gpu/drm/mga/mga_dma.c       |  16 ++--
+>   drivers/gpu/drm/mga/mga_drv.h       |   1 -
+>   drivers/gpu/drm/r128/r128_cce.c     |   2 +-
+>   drivers/gpu/drm/radeon/radeon.h     |  42 ++++++++++
+>   drivers/gpu/drm/radeon/radeon_agp.c | 118 ++++++++++++++++++++++++----
+>   drivers/gpu/drm/radeon/radeon_drv.c |  13 ---
+>   drivers/gpu/drm/radeon/radeon_kms.c |  18 +++--
+>   drivers/gpu/drm/radeon/radeon_ttm.c |   6 +-
+>   drivers/gpu/drm/via/via_dma.c       |   1 -
+>   include/drm/drm_agpsupport.h        | 117 ---------------------------
+>   include/drm/drm_device.h            |   6 +-
+>   include/drm/drm_legacy.h            |  82 +++++++++++++++++++
+>   25 files changed, 375 insertions(+), 265 deletions(-)
+>   delete mode 100644 include/drm/drm_agpsupport.h
+>
+> --
+> 2.31.1
+>
 
