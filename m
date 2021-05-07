@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F348376133
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 09:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EBF3761C9
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 10:20:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1E5E6EDC7;
-	Fri,  7 May 2021 07:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2CE6E135;
+	Fri,  7 May 2021 08:20:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m176238.qiye.163.com (mail-m176238.qiye.163.com
- [59.111.176.238])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 270716EDC7;
- Fri,  7 May 2021 07:35:41 +0000 (UTC)
-Received: from vivo.com (localhost [127.0.0.1])
- by mail-m176238.qiye.163.com (Hmail) with ESMTP id 45985F60165;
- Fri,  7 May 2021 15:35:06 +0800 (CST)
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Message-ID: <AL2APQB8DsrABpe7MxMMyqq4.3.1620372906272.Hmail.bernard@vivo.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZHJtL2k5MTU6IFVzZSBtaWdodF9hbGxvYygp?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 36.152.145.181
-In-Reply-To: <YIxBfNnwA/7nEenj@phenom.ffwll.local>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A14C86E135
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 08:20:36 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1levis-0001mt-7n; Fri, 07 May 2021 10:20:34 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1levir-0003Zc-J2; Fri, 07 May 2021 10:20:33 +0200
+Date: Fri, 7 May 2021 10:20:33 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] video: fbdev: imxfb: Fix an error message
+Message-ID: <20210507082033.ihp2ozulam72wezw@pengutronix.de>
+References: <d7b25026f82659da3c6f7159eea480faa9d738be.1620327302.git.christophe.jaillet@wanadoo.fr>
+ <20210507050503.iwrcis2xzhjjthmp@pengutronix.de>
+ <5cd9c8de-acd9-9594-38a0-62ecf5734c10@wanadoo.fr>
 MIME-Version: 1.0
-Received: from bernard@vivo.com( [36.152.145.181) ] by ajax-webmail (
- [127.0.0.1] ) ; Fri, 7 May 2021 15:35:06 +0800 (GMT+08:00)
-From: Bernard <bernard@vivo.com>
-Date: Fri, 7 May 2021 15:35:06 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZGUodGVZCTkxIHUgYSExLTk5VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
- hKQ1VLWQY+
-X-HM-Sender-Digest: e1kJHlYWEh9ZQU1ISU1MTk9MSk5NN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
- WUc6N0k6Kyo5Qz8ICTo5Cx5MNgM2NgIKCk9VSFVKTUlLSExJQktNTkNKVTMWGhIXVRkeCRUaCR87
- DRINFFUYFBZFWVdZEgtZQVlITVVKTklVSk9OVUpDSllXWQgBWUFDTkhMNwY+
-X-HM-Tid: 0a7945c06134d9b0kuws45985f60165
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="k6uy7cv4js3qqvsf"
+Content-Disposition: inline
+In-Reply-To: <5cd9c8de-acd9-9594-38a0-62ecf5734c10@wanadoo.fr>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,92 +51,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-fbdev@vger.kernel.org, s.hauer@pengutronix.de,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, j.beisert@pengutronix.de, linux-imx@nxp.com,
+ kernel@pengutronix.de, shawnguo@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkZyb206IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KRGF0ZTogMjAyMS0wNS0wMSAw
-MTo0MjoyMApUbzogIGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgpDYzogIEJlcm5h
-cmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4sSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4
-LmludGVsLmNvbT4sSm9vbmFzIExhaHRpbmVuIDxqb29uYXMubGFodGluZW5AbGludXguaW50ZWwu
-Y29tPixSb2RyaWdvIFZpdmkgPHJvZHJpZ28udml2aUBpbnRlbC5jb20+LERhdmlkIEFpcmxpZSA8
-YWlybGllZEBsaW51eC5pZT4sRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPixpbnRlbC1n
-ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcs
-bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZyxrYnVpbGQtYWxsQGxpc3RzLjAxLm9yZwpTdWJq
-ZWN0OiBSZTogW1BBVENIXSBkcm0vaTkxNTogVXNlIG1pZ2h0X2FsbG9jKCk+T24gRnJpLCBBcHIg
-MzAsIDIwMjEgYXQgMTI6MzE6MjdBTSArMDgwMCwga2VybmVsIHRlc3Qgcm9ib3Qgd3JvdGU6Cj4+
-IEhpIEJlcm5hcmQsCj4+IAo+PiBUaGFuayB5b3UgZm9yIHRoZSBwYXRjaCEgWWV0IHNvbWV0aGlu
-ZyB0byBpbXByb3ZlOgo+PiAKPj4gW2F1dG8gYnVpbGQgdGVzdCBFUlJPUiBvbiBkcm0taW50ZWwv
-Zm9yLWxpbnV4LW5leHRdCj4+IFthbHNvIGJ1aWxkIHRlc3QgRVJST1Igb24gdjUuMTIgbmV4dC0y
-MDIxMDQyOV0KPj4gW0lmIHlvdXIgcGF0Y2ggaXMgYXBwbGllZCB0byB0aGUgd3JvbmcgZ2l0IHRy
-ZWUsIGtpbmRseSBkcm9wIHVzIGEgbm90ZS4KPj4gQW5kIHdoZW4gc3VibWl0dGluZyBwYXRjaCwg
-d2Ugc3VnZ2VzdCB0byB1c2UgJy0tYmFzZScgYXMgZG9jdW1lbnRlZCBpbgo+PiBodHRwczovL2dp
-dC1zY20uY29tL2RvY3MvZ2l0LWZvcm1hdC1wYXRjaF0KPj4gCj4+IHVybDogICAgaHR0cHM6Ly9n
-aXRodWIuY29tLzBkYXktY2kvbGludXgvY29tbWl0cy9CZXJuYXJkLVpoYW8vZHJtLWk5MTUtVXNl
-LW1pZ2h0X2FsbG9jLzIwMjEwNDI5LTEwNDUxNgo+PiBiYXNlOiAgIGdpdDovL2Fub25naXQuZnJl
-ZWRlc2t0b3Aub3JnL2RybS1pbnRlbCBmb3ItbGludXgtbmV4dAo+PiBjb25maWc6IHg4Nl82NC1y
-aGVsLTguMy1rc2VsZnRlc3RzIChhdHRhY2hlZCBhcyAuY29uZmlnKQo+PiBjb21waWxlcjogZ2Nj
-LTkgKERlYmlhbiA5LjMuMC0yMikgOS4zLjAKPj4gcmVwcm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1
-aWxkKToKPj4gICAgICAgICAjIGh0dHBzOi8vZ2l0aHViLmNvbS8wZGF5LWNpL2xpbnV4L2NvbW1p
-dC85ZmJkMGMxNzQxY2UwNjI0MTEwNWQ3NTNmZjM0MzJhYjU1ZjNlOTRhCj4+ICAgICAgICAgZ2l0
-IHJlbW90ZSBhZGQgbGludXgtcmV2aWV3IGh0dHBzOi8vZ2l0aHViLmNvbS8wZGF5LWNpL2xpbnV4
-Cj4+ICAgICAgICAgZ2l0IGZldGNoIC0tbm8tdGFncyBsaW51eC1yZXZpZXcgQmVybmFyZC1aaGFv
-L2RybS1pOTE1LVVzZS1taWdodF9hbGxvYy8yMDIxMDQyOS0xMDQ1MTYKPj4gICAgICAgICBnaXQg
-Y2hlY2tvdXQgOWZiZDBjMTc0MWNlMDYyNDExMDVkNzUzZmYzNDMyYWI1NWYzZTk0YQo+PiAgICAg
-ICAgICMgc2F2ZSB0aGUgYXR0YWNoZWQgLmNvbmZpZyB0byBsaW51eCBidWlsZCB0cmVlCj4+ICAg
-ICAgICAgbWFrZSBXPTEgVz0xIEFSQ0g9eDg2XzY0IAo+PiAKPj4gSWYgeW91IGZpeCB0aGUgaXNz
-dWUsIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZyBhcyBhcHByb3ByaWF0ZQo+PiBSZXBvcnRlZC1i
-eToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4+IAo+PiBBbGwgZXJyb3JzIChu
-ZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6Cj4+IAo+PiAgICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-OTE1X3N3X2ZlbmNlLmM6IEluIGZ1bmN0aW9uICdfX2k5MTVfc3dfZmVuY2VfYXdhaXRfc3dfZmVu
-Y2UnOgo+PiA+PiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3N3X2ZlbmNlLmM6MzQ0OjI6IGVy
-cm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAnbWlnaHRfYWxsb2MnOyBkaWQg
-eW91IG1lYW4gJ21pZ2h0X2xvY2snPyBbLVdlcnJvcj1pbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJh
-dGlvbl0KPj4gICAgICAzNDQgfCAgbWlnaHRfYWxsb2MoZ2ZwKTsKPj4gICAgICAgICAgfCAgXn5+
-fn5+fn5+fn4KPj4gICAgICAgICAgfCAgbWlnaHRfbG9jawo+PiAgICBjYzE6IHNvbWUgd2Fybmlu
-Z3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKPgo+SSB0aGluayB5b3UncmUgbWlzc2luZyBhbiBp
-bmNsdWRlIG9yIHNvbWV0aGluZy4gVGhlIG90aGVyIHBhdGNoIHlvdSd2ZQo+ZG9uZSBzZWVtcyBn
-b29kLCBJIHF1ZXVlZCB0aGF0IHVwIGluIGRybS1pbnRlbC1ndC1uZXh0IGZvciA1LjE0Lgo+Cj5U
-aGFua3MsIERhbmllbAoKSGkKSXQgbG9va3MgbGlrZSBJIGRpZCBub3QgaW5jbHVkZSB0aGUgaGVh
-ZGVyIGZpbGUgPGxpbnV4L3NjaGVkL21tLmg+Ckkgd2lsbCByZXN1Ym1pdCBvbmUgcGF0Y2gsIHRo
-YW5rcyEKQlIvL0Jlcm5hcmQKCj4+IAo+PiAKPj4gdmltICszNDQgZHJpdmVycy9ncHUvZHJtL2k5
-MTUvaTkxNV9zd19mZW5jZS5jCj4+IAo+PiAgICAzMzUJCj4+ICAgIDMzNglzdGF0aWMgaW50IF9f
-aTkxNV9zd19mZW5jZV9hd2FpdF9zd19mZW5jZShzdHJ1Y3QgaTkxNV9zd19mZW5jZSAqZmVuY2Us
-Cj4+ICAgIDMzNwkJCQkJCSAgc3RydWN0IGk5MTVfc3dfZmVuY2UgKnNpZ25hbGVyLAo+PiAgICAz
-MzgJCQkJCQkgIHdhaXRfcXVldWVfZW50cnlfdCAqd3EsIGdmcF90IGdmcCkKPj4gICAgMzM5CXsK
-Pj4gICAgMzQwCQl1bnNpZ25lZCBpbnQgcGVuZGluZzsKPj4gICAgMzQxCQl1bnNpZ25lZCBsb25n
-IGZsYWdzOwo+PiAgICAzNDIJCj4+ICAgIDM0MwkJZGVidWdfZmVuY2VfYXNzZXJ0KGZlbmNlKTsK
-Pj4gID4gMzQ0CQltaWdodF9hbGxvYyhnZnApOwo+PiAgICAzNDUJCj4+ICAgIDM0NgkJaWYgKGk5
-MTVfc3dfZmVuY2VfZG9uZShzaWduYWxlcikpIHsKPj4gICAgMzQ3CQkJaTkxNV9zd19mZW5jZV9z
-ZXRfZXJyb3Jfb25jZShmZW5jZSwgc2lnbmFsZXItPmVycm9yKTsKPj4gICAgMzQ4CQkJcmV0dXJu
-IDA7Cj4+ICAgIDM0OQkJfQo+PiAgICAzNTAJCj4+ICAgIDM1MQkJZGVidWdfZmVuY2VfYXNzZXJ0
-KHNpZ25hbGVyKTsKPj4gICAgMzUyCQo+PiAgICAzNTMJCS8qIFRoZSBkZXBlbmRlbmN5IGdyYXBo
-IG11c3QgYmUgYWN5Y2xpYy4gKi8KPj4gICAgMzU0CQlpZiAodW5saWtlbHkoaTkxNV9zd19mZW5j
-ZV9jaGVja19pZl9hZnRlcihmZW5jZSwgc2lnbmFsZXIpKSkKPj4gICAgMzU1CQkJcmV0dXJuIC1F
-SU5WQUw7Cj4+ICAgIDM1NgkKPj4gICAgMzU3CQlwZW5kaW5nID0gSTkxNV9TV19GRU5DRV9GTEFH
-X0ZFTkNFOwo+PiAgICAzNTgJCWlmICghd3EpIHsKPj4gICAgMzU5CQkJd3EgPSBrbWFsbG9jKHNp
-emVvZigqd3EpLCBnZnApOwo+PiAgICAzNjAJCQlpZiAoIXdxKSB7Cj4+ICAgIDM2MQkJCQlpZiAo
-IWdmcGZsYWdzX2FsbG93X2Jsb2NraW5nKGdmcCkpCj4+ICAgIDM2MgkJCQkJcmV0dXJuIC1FTk9N
-RU07Cj4+ICAgIDM2MwkKPj4gICAgMzY0CQkJCWk5MTVfc3dfZmVuY2Vfd2FpdChzaWduYWxlcik7
-Cj4+ICAgIDM2NQkJCQlpOTE1X3N3X2ZlbmNlX3NldF9lcnJvcl9vbmNlKGZlbmNlLCBzaWduYWxl
-ci0+ZXJyb3IpOwo+PiAgICAzNjYJCQkJcmV0dXJuIDA7Cj4+ICAgIDM2NwkJCX0KPj4gICAgMzY4
-CQo+PiAgICAzNjkJCQlwZW5kaW5nIHw9IEk5MTVfU1dfRkVOQ0VfRkxBR19BTExPQzsKPj4gICAg
-MzcwCQl9Cj4+ICAgIDM3MQkKPj4gICAgMzcyCQlJTklUX0xJU1RfSEVBRCgmd3EtPmVudHJ5KTsK
-Pj4gICAgMzczCQl3cS0+ZmxhZ3MgPSBwZW5kaW5nOwo+PiAgICAzNzQJCXdxLT5mdW5jID0gaTkx
-NV9zd19mZW5jZV93YWtlOwo+PiAgICAzNzUJCXdxLT5wcml2YXRlID0gZmVuY2U7Cj4+ICAgIDM3
-NgkKPj4gICAgMzc3CQlpOTE1X3N3X2ZlbmNlX2F3YWl0KGZlbmNlKTsKPj4gICAgMzc4CQo+PiAg
-ICAzNzkJCXNwaW5fbG9ja19pcnFzYXZlKCZzaWduYWxlci0+d2FpdC5sb2NrLCBmbGFncyk7Cj4+
-ICAgIDM4MAkJaWYgKGxpa2VseSghaTkxNV9zd19mZW5jZV9kb25lKHNpZ25hbGVyKSkpIHsKPj4g
-ICAgMzgxCQkJX19hZGRfd2FpdF9xdWV1ZV9lbnRyeV90YWlsKCZzaWduYWxlci0+d2FpdCwgd3Ep
-Owo+PiAgICAzODIJCQlwZW5kaW5nID0gMTsKPj4gICAgMzgzCQl9IGVsc2Ugewo+PiAgICAzODQJ
-CQlpOTE1X3N3X2ZlbmNlX3dha2Uod3EsIDAsIHNpZ25hbGVyLT5lcnJvciwgTlVMTCk7Cj4+ICAg
-IDM4NQkJCXBlbmRpbmcgPSAwOwo+PiAgICAzODYJCX0KPj4gICAgMzg3CQlzcGluX3VubG9ja19p
-cnFyZXN0b3JlKCZzaWduYWxlci0+d2FpdC5sb2NrLCBmbGFncyk7Cj4+ICAgIDM4OAkKPj4gICAg
-Mzg5CQlyZXR1cm4gcGVuZGluZzsKPj4gICAgMzkwCX0KPj4gICAgMzkxCQo+PiAKPj4gLS0tCj4+
-IDAtREFZIENJIEtlcm5lbCBUZXN0IFNlcnZpY2UsIEludGVsIENvcnBvcmF0aW9uCj4+IGh0dHBz
-Oi8vbGlzdHMuMDEub3JnL2h5cGVya2l0dHkvbGlzdC9rYnVpbGQtYWxsQGxpc3RzLjAxLm9yZwo+
-Cj4KPgo+LS0gCj5EYW5pZWwgVmV0dGVyCj5Tb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9y
-YXRpb24KPmh0dHA6Ly9ibG9nLmZmd2xsLmNoCg0KDQo=
+
+--k6uy7cv4js3qqvsf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello Christophe,
+
+[dropping krzysztof.h1@poczta.fm from recipents, the address doesn't
+seem to exist]
+
+On Fri, May 07, 2021 at 09:11:19AM +0200, Christophe JAILLET wrote:
+> Le 07/05/2021 =E0 07:05, Uwe Kleine-K=F6nig a =E9crit=A0:
+> > On Thu, May 06, 2021 at 08:57:05PM +0200, Christophe JAILLET wrote:
+> > > 'ret' is known to be 0 here.
+> > > No error code is available, so just remove it from the error message.
+> > >=20
+> > > Fixes: 72330b0eeefc ("i.MX Framebuffer: Use readl/writel instead of d=
+irect pointer deref")
+> > > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> > > ---
+> > >   drivers/video/fbdev/imxfb.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
+> > > index 7f8debd2da06..ad598257ab38 100644
+> > > --- a/drivers/video/fbdev/imxfb.c
+> > > +++ b/drivers/video/fbdev/imxfb.c
+> > > @@ -992,7 +992,7 @@ static int imxfb_probe(struct platform_device *pd=
+ev)
+> > >   	info->screen_buffer =3D dma_alloc_wc(&pdev->dev, fbi->map_size,
+> > >   					   &fbi->map_dma, GFP_KERNEL);
+> > >   	if (!info->screen_buffer) {
+> > > -		dev_err(&pdev->dev, "Failed to allocate video RAM: %d\n", ret);
+> > > +		dev_err(&pdev->dev, "Failed to allocate video RAM\n");
+> > >   		ret =3D -ENOMEM;
+> > >   		goto failed_map;
+> > >   	}
+> >=20
+> > Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> >=20
+> > Are you using this driver, or did you find that problem using some
+> > static checker?
+>=20
+> No, I'm not using this driver AFAIK.
+
+OK, thanks. (We're working on a DRM driver for this hardware. So you
+could have been an interested tester.)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--k6uy7cv4js3qqvsf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCU+E4ACgkQwfwUeK3K
+7AkjAAgAnt/sPpkqRLMXAau9y9HiswDIt+I8Pdi7OOyx53eECYY1KD+2Lo9YSg6I
+8bnnHAEmSLebkh98Wb83wa61xTi7t66L/MtIjPY+aYjg7AFWiXNmbFVQLgmXeobc
+L9bsN2CwMZtCsu50jJt6vVIgWrg5Ddzn7/9oiGCQNlCmSX16dmKQepIxnzEOuima
+XWxQrAsctEYpn7ms0MnTqVruHFKGs7jFyA0K9MQN8FD8odvLXE3/VQhmXmpCpAKY
+wm4LEJlqsfoasRQa1pevm5iHksq6YBNEtVOs9r6r9rLkUydHbaJLWydO/3k3Sj4S
+7sKqBYyFG144lPJarkg5E77+61g39g==
+=tg7t
+-----END PGP SIGNATURE-----
+
+--k6uy7cv4js3qqvsf--
