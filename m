@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0386D37644E
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 13:09:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB843764F0
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 14:15:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8244B6E04B;
-	Fri,  7 May 2021 11:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C854C6E071;
+	Fri,  7 May 2021 12:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8789C6E04B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 11:09:47 +0000 (UTC)
-Received: from fsav108.sakura.ne.jp (fsav108.sakura.ne.jp [27.133.134.235])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 147B9Rqu023432;
- Fri, 7 May 2021 20:09:27 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav108.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav108.sakura.ne.jp);
- Fri, 07 May 2021 20:09:27 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav108.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 147B9RAW023427
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 7 May 2021 20:09:27 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [syzbot] BUG: unable to handle kernel paging request in
- vga16fb_imageblit (2)
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-To: syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>,
- b.zolnierkie@samsung.com, colin.king@canonical.com,
- daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, jani.nikula@intel.com,
- jirislaby@kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- "Maciej W. Rozycki" <macro@orcam.me.uk>,
- "Antonino A. Daplas" <adaplas@gmail.com>
-References: <0000000000006bbd0c05c14f1b09@google.com>
- <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
-Message-ID: <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
-Date: Fri, 7 May 2021 20:09:26 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1A26E071
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 12:15:31 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id v123so7737989ioe.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 05:15:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=r1YFZyFjDLwrVH+Ob+dxqW0DeyKhQmY7WFAaaDnzzFk=;
+ b=bejFVwvYv45tz+n/Sm8svgpe76q3nacN1Kph1PygLvds0gYad90yUApikHa+MvnsVb
+ mUCaqrtqmfqwNDi4oNgkjY67AFxg+6IL+u5FyzeB4jI/smy/j9VYzfyhP/gVUeYqau59
+ SGSNZKePuvYM/pW0TnKHuzu0xrC5LVO9Du6aU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=r1YFZyFjDLwrVH+Ob+dxqW0DeyKhQmY7WFAaaDnzzFk=;
+ b=lZGzLzLUcYMqKgAaJIQP3Aq7wrmj34keubfdU7EN6iajQpemnWH7dIuWd5sXUYy7g/
+ RkTR81hNRN2iZ22SqCfMqdyucMrsj28SLVhkyBiB+w1DbbMTrS5Dyxo+k8h4j3OMSN/S
+ jSHq4cas8r69YV9GxvrCEksNaM5be0A6OnSCv1MLmsG9iEjXfWplxYNT35fN29uLOX9p
+ 3ByeYhyX6SYGTYP+ypK2Zx4SynPSCixBwWkonGoor9BnDp3c7zfVQdeeq/n6s6lF2lCz
+ B7FWgxhLXAuS5mHxh2O+2ku3QIhw1BMt6HU6gQ5+Squvi8kgfwZVvVI1lIwcOiKlObu7
+ Vmmw==
+X-Gm-Message-State: AOAM530Da4JIkouWh3/dGkUH0MUVPGdVFXsrX1esRFKx7/wdMW/Sz4GE
+ Lmf4MdHv7Ai2O7PD3qY3i/nhZXwaESRI3jkFH6prPQ==
+X-Google-Smtp-Source: ABdhPJwOwL/q0WMh5FPyGz9VBIgi7sE+gus3NpRZsSKeRvAKXssUGQR7gZKaswMQjYLWzrIIEDbQ6ZKyf0hG/1RPP9I=
+X-Received: by 2002:a05:6638:3398:: with SMTP id
+ h24mr199781jav.114.1620389730110; 
+ Fri, 07 May 2021 05:15:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210507064444.402829-1-pihsun@chromium.org>
+In-Reply-To: <20210507064444.402829-1-pihsun@chromium.org>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Fri, 7 May 2021 20:15:04 +0800
+Message-ID: <CAJMQK-jehJf+DE+bZxfA=zqUC-=mr6Q15oNcDp9j-7ER_dbFog@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/bridge: anx7625: refactor power control to use
+ runtime PM framework
+To: Pi-Hsun Shih <pihsun@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,184 +60,321 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Tzung-Bi Shih <tzungbi@google.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021/05/03 22:41, Tetsuo Handa wrote:
-> Therefore, I guess that the problem is that fbcon_putcs() from do_update_region() from
-> redraw_screen() from vt_kdsetmode(KD_TEXT) from ioctl(fd, KDSETMODE, KD_TEXT) tries to
-> redraw 2 x 16640 despite memory amount allocated for actual screen is only 80 x 30.
-> 
-> I don't know how to fix this problem...
-> 
+On Fri, May 7, 2021 at 2:44 PM Pi-Hsun Shih <pihsun@chromium.org> wrote:
+>
+> The driver originally use an atomic_t for keep track of the power
+> status, which makes the driver more complicated than needed, and has
+> some race condition as it's possible to have the power on and power off
+> sequence going at the same time.
+>
+> This patch remove the usage of the atomic_t power_status, and use the
+> kernel runtime power management framework instead.
+>
+> Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+> ---
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 148 +++++++++-------------
+>  drivers/gpu/drm/bridge/analogix/anx7625.h |   1 -
+>  2 files changed, 63 insertions(+), 86 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 23283ba0c4f9..f56f8cf1f3bd 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+> @@ -1005,33 +1006,6 @@ static void anx7625_power_on_init(struct anx7625_data *ctx)
+>         }
+>  }
+>
+> -static void anx7625_chip_control(struct anx7625_data *ctx, int state)
+> -{
+> -       struct device *dev = &ctx->client->dev;
+> -
+> -       DRM_DEV_DEBUG_DRIVER(dev, "before set, power_state(%d).\n",
+> -                            atomic_read(&ctx->power_status));
+> -
+> -       if (!ctx->pdata.low_power_mode)
+> -               return;
+> -
+> -       if (state) {
+> -               atomic_inc(&ctx->power_status);
+> -               if (atomic_read(&ctx->power_status) == 1)
+> -                       anx7625_power_on_init(ctx);
+> -       } else {
+> -               if (atomic_read(&ctx->power_status)) {
+> -                       atomic_dec(&ctx->power_status);
+> -
+> -                       if (atomic_read(&ctx->power_status) == 0)
+> -                               anx7625_power_standby(ctx);
+> -               }
+> -       }
+> -
+> -       DRM_DEV_DEBUG_DRIVER(dev, "after set, power_state(%d).\n",
+> -                            atomic_read(&ctx->power_status));
+> -}
+> -
+>  static void anx7625_init_gpio(struct anx7625_data *platform)
+>  {
+>         struct device *dev = &platform->client->dev;
+> @@ -1061,9 +1035,6 @@ static void anx7625_stop_dp_work(struct anx7625_data *ctx)
+>         ctx->hpd_status = 0;
+>         ctx->hpd_high_cnt = 0;
+>         ctx->display_timing_valid = 0;
+> -
+> -       if (ctx->pdata.low_power_mode == 0)
+> -               anx7625_disable_pd_protocol(ctx);
+>  }
+>
+>  static void anx7625_start_dp_work(struct anx7625_data *ctx)
+> @@ -1105,49 +1076,26 @@ static void anx7625_hpd_polling(struct anx7625_data *ctx)
+>         int ret, val;
+>         struct device *dev = &ctx->client->dev;
+>
+> -       if (atomic_read(&ctx->power_status) != 1) {
+> -               DRM_DEV_DEBUG_DRIVER(dev, "No need to poling HPD status.\n");
+> -               return;
+> -       }
+> -
+>         ret = readx_poll_timeout(anx7625_read_hpd_status_p0,
+>                                  ctx, val,
+>                                  ((val & HPD_STATUS) || (val < 0)),
+>                                  5000,
+>                                  5000 * 100);
+>         if (ret) {
+> -               DRM_DEV_ERROR(dev, "HPD polling timeout!\n");
+> -       } else {
+> -               DRM_DEV_DEBUG_DRIVER(dev, "HPD raise up.\n");
+> -               anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
+> -                                 INTR_ALERT_1, 0xFF);
+> -               anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> -                                 INTERFACE_CHANGE_INT, 0);
+> +               DRM_DEV_ERROR(dev, "no hpd.\n");
+> +               return;
+>         }
+>
+> -       anx7625_start_dp_work(ctx);
+> -}
+> -
+> -static void anx7625_disconnect_check(struct anx7625_data *ctx)
+> -{
+> -       if (atomic_read(&ctx->power_status) == 0)
+> -               anx7625_stop_dp_work(ctx);
+> -}
+> -
+> -static void anx7625_low_power_mode_check(struct anx7625_data *ctx,
+> -                                        int state)
+> -{
+> -       struct device *dev = &ctx->client->dev;
+> +       DRM_DEV_DEBUG_DRIVER(dev, "system status: 0x%x. HPD raise up.\n", val);
+> +       anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
+> +                         INTR_ALERT_1, 0xFF);
+> +       anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> +                         INTERFACE_CHANGE_INT, 0);
+>
+> -       DRM_DEV_DEBUG_DRIVER(dev, "low power mode check, state(%d).\n", state);
+> +       anx7625_start_dp_work(ctx);
+>
+> -       if (ctx->pdata.low_power_mode) {
+> -               anx7625_chip_control(ctx, state);
+> -               if (state)
+> -                       anx7625_hpd_polling(ctx);
+> -               else
+> -                       anx7625_disconnect_check(ctx);
+> -       }
+> +       if (!ctx->pdata.panel_bridge && ctx->bridge_attached)
+> +               drm_helper_hpd_irq_event(ctx->bridge.dev);
+>  }
+>
+>  static void anx7625_remove_edid(struct anx7625_data *ctx)
+> @@ -1180,9 +1128,6 @@ static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
+>         int intr_vector, status;
+>         struct device *dev = &ctx->client->dev;
+>
+> -       DRM_DEV_DEBUG_DRIVER(dev, "power_status=%d\n",
+> -                            (u32)atomic_read(&ctx->power_status));
+> -
+>         status = anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
+>                                    INTR_ALERT_1, 0xFF);
+>         if (status < 0) {
+> @@ -1228,22 +1173,25 @@ static void anx7625_work_func(struct work_struct *work)
+>                                                 struct anx7625_data, work);
+>
+>         mutex_lock(&ctx->lock);
+> +
+> +       if (pm_runtime_suspended(&ctx->client->dev))
+> +               goto unlock;
+> +
+>         event = anx7625_hpd_change_detect(ctx);
+> -       mutex_unlock(&ctx->lock);
+>         if (event < 0)
+> -               return;
+> +               goto unlock;
+>
+>         if (ctx->bridge_attached)
+>                 drm_helper_hpd_irq_event(ctx->bridge.dev);
+> +
+> +unlock:
+> +       mutex_unlock(&ctx->lock);
+>  }
+>
+>  static irqreturn_t anx7625_intr_hpd_isr(int irq, void *data)
+>  {
+>         struct anx7625_data *ctx = (struct anx7625_data *)data;
+>
+> -       if (atomic_read(&ctx->power_status) != 1)
+> -               return IRQ_NONE;
+> -
+>         queue_work(ctx->workqueue, &ctx->work);
+>
+>         return IRQ_HANDLED;
+> @@ -1305,9 +1253,9 @@ static struct edid *anx7625_get_edid(struct anx7625_data *ctx)
+>                 return (struct edid *)edid;
+>         }
+>
+> -       anx7625_low_power_mode_check(ctx, 1);
+> +       pm_runtime_get_sync(dev);
+>         edid_num = sp_tx_edid_read(ctx, p_edid->edid_raw_data);
+> -       anx7625_low_power_mode_check(ctx, 0);
+> +       pm_runtime_put(dev);
+>
+>         if (edid_num < 1) {
+>                 DRM_DEV_ERROR(dev, "Fail to read EDID: %d\n", edid_num);
+> @@ -1611,10 +1559,7 @@ static void anx7625_bridge_enable(struct drm_bridge *bridge)
+>
+>         DRM_DEV_DEBUG_DRIVER(dev, "drm enable\n");
+>
+> -       anx7625_low_power_mode_check(ctx, 1);
+> -
+> -       if (WARN_ON(!atomic_read(&ctx->power_status)))
+> -               return;
+> +       pm_runtime_get_sync(dev);
+>
+>         anx7625_dp_start(ctx);
+>  }
+> @@ -1624,14 +1569,11 @@ static void anx7625_bridge_disable(struct drm_bridge *bridge)
+>         struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+>         struct device *dev = &ctx->client->dev;
+>
+> -       if (WARN_ON(!atomic_read(&ctx->power_status)))
+> -               return;
+> -
+>         DRM_DEV_DEBUG_DRIVER(dev, "drm disable\n");
+>
+>         anx7625_dp_stop(ctx);
+>
+> -       anx7625_low_power_mode_check(ctx, 0);
+> +       pm_runtime_put(dev);
+>  }
+>
+>  static enum drm_connector_status
+> @@ -1735,6 +1677,39 @@ static void anx7625_unregister_i2c_dummy_clients(struct anx7625_data *ctx)
+>         i2c_unregister_device(ctx->i2c.tcpc_client);
+>  }
+>
+> +static int __maybe_unused anx7625_runtime_pm_suspend(struct device *dev)
+> +{
+> +       struct anx7625_data *ctx = dev_get_drvdata(dev);
+> +
+> +       mutex_lock(&ctx->lock);
+> +
+> +       anx7625_stop_dp_work(ctx);
+> +       anx7625_power_standby(ctx);
+> +
+> +       mutex_unlock(&ctx->lock);
+> +
+> +       return 0;
+> +}
+> +
+> +static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
+> +{
+> +       struct anx7625_data *ctx = dev_get_drvdata(dev);
+> +
+> +       mutex_lock(&ctx->lock);
+> +
+> +       anx7625_power_on_init(ctx);
+> +       anx7625_hpd_polling(ctx);
+> +
+> +       mutex_unlock(&ctx->lock);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct dev_pm_ops anx7625_pm_ops = {
+> +       SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
+> +                          anx7625_runtime_pm_resume, NULL)
+> +};
+> +
 
-Daniel Vetter suggested me that parameter validation is missing/wrong somewhere, for
-resize requests that don't fit should be rejected. Thus, I'm thinking how to add
-parameter validation.
+.pm = &anx7625_pm_ops, is missing in static struct i2c_driver
+anx7625_driver{...}
 
-Like a diff shown bottom, adding a hook for validating whether rows / columns are
-small enough (VGA_FB_PHYS_LEN bytes starting from VGA_FB_PHYS ?) survives the
-
-----------
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <linux/kd.h>
-#include <linux/vt.h>
-
-int main(int argc, char *argv[])
-{
-        const int fd = open("/dev/char/4:1", O_RDWR);
-        struct vt_sizes vt = { 0x4100, 2 };
-
-        ioctl(fd, KDSETMODE, KD_GRAPHICS);
-        ioctl(fd, VT_RESIZE, &vt);
-        ioctl(fd, KDSETMODE, KD_TEXT);
-        return 0;
-}
-----------
-
-reproducer. But I don't know how to calculate upper boundary values for vga16fb_tty_resize(),
-for I even don't know where these values are derived from...
-
-Also, currently resize_screen() calls vc->vc_sw->con_resize() only if vc->vc_mode != KD_GRAPHICS.
-But we need to unconditionally call vga16fb_tty_resize() in order to survive the reproducer; we
-need to prevent vc->vc_{rows,cols} from exceeding the upper boundary values regardless of current
-vc->vc_mode setting. The "vc->vc_mode != KD_GRAPHICS" check predates the git history, and I don't
-know the side effect of removing this check...
-
-----------
-e400b6ec4ede4 drivers/char/vt.c   (Antonino A. Daplas   2007-10-16 01:29:35 -0700 1168) static inline int resize_screen(struct vc_data *vc, int width, int height,
-e400b6ec4ede4 drivers/char/vt.c   (Antonino A. Daplas   2007-10-16 01:29:35 -0700 1169)                                 int user)
-^1da177e4c3f4 drivers/char/vt.c   (Linus Torvalds       2005-04-16 15:20:36 -0700 1170) {
-^1da177e4c3f4 drivers/char/vt.c   (Linus Torvalds       2005-04-16 15:20:36 -0700 1171)         /* Resizes the resolution of the display adapater */
-^1da177e4c3f4 drivers/char/vt.c   (Linus Torvalds       2005-04-16 15:20:36 -0700 1172)         int err = 0;
-^1da177e4c3f4 drivers/char/vt.c   (Linus Torvalds       2005-04-16 15:20:36 -0700 1173)
-^1da177e4c3f4 drivers/char/vt.c   (Linus Torvalds       2005-04-16 15:20:36 -0700 1174)         if (vc->vc_mode != KD_GRAPHICS && vc->vc_sw->con_resize)
-e400b6ec4ede4 drivers/char/vt.c   (Antonino A. Daplas   2007-10-16 01:29:35 -0700 1175)                 err = vc->vc_sw->con_resize(vc, width, height, user);
-e400b6ec4ede4 drivers/char/vt.c   (Antonino A. Daplas   2007-10-16 01:29:35 -0700 1176)
-^1da177e4c3f4 drivers/char/vt.c   (Linus Torvalds       2005-04-16 15:20:36 -0700 1177)         return err;
-^1da177e4c3f4 drivers/char/vt.c   (Linus Torvalds       2005-04-16 15:20:36 -0700 1178) }
-----------
-
-I need more help from those who know this area.
-
- drivers/tty/vt/vt.c              |    2 +-
- drivers/video/fbdev/core/fbcon.c |    7 +++++++
- drivers/video/fbdev/vga16fb.c    |    8 ++++++++
- include/linux/fb.h               |    3 +++
- 4 files changed, 19 insertions(+), 1 deletion(-)
-
-----------
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index a8dccd23c249..870384afb5e9 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -289,14 +289,17 @@ struct fb_ops {
- 
- 	/* teardown any resources to do with this framebuffer */
- 	void (*fb_destroy)(struct fb_info *info);
- 
- 	/* called at KDB enter and leave time to prepare the console */
- 	int (*fb_debug_enter)(struct fb_info *info);
- 	int (*fb_debug_leave)(struct fb_info *info);
-+
-+	/* Check if resizing TTY to these sizes is safe. */
-+	int (*fb_tty_resize)(struct fb_info *info, unsigned int cols, unsigned int rows);
- };
- 
- #ifdef CONFIG_FB_TILEBLITTING
- #define FB_TILE_CURSOR_NONE        0
- #define FB_TILE_CURSOR_UNDERLINE   1
- #define FB_TILE_CURSOR_LOWER_THIRD 2
- #define FB_TILE_CURSOR_LOWER_HALF  3
-diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-index 1e8a38a7967d..54aa6a99b09c 100644
---- a/drivers/video/fbdev/vga16fb.c
-+++ b/drivers/video/fbdev/vga16fb.c
-@@ -1266,27 +1266,35 @@ static void vga16fb_destroy(struct fb_info *info)
- {
- 	iounmap(info->screen_base);
- 	fb_dealloc_cmap(&info->cmap);
- 	/* XXX unshare VGA regions */
- 	framebuffer_release(info);
- }
- 
-+static int vga16fb_tty_resize(struct fb_info *info, unsigned int cols, unsigned int rows)
-+{
-+	if (cols <= 80 && rows <= 30)
-+		return 0;
-+	return -EINVAL;
-+}
-+
- static const struct fb_ops vga16fb_ops = {
- 	.owner		= THIS_MODULE,
- 	.fb_open        = vga16fb_open,
- 	.fb_release     = vga16fb_release,
- 	.fb_destroy	= vga16fb_destroy,
- 	.fb_check_var	= vga16fb_check_var,
- 	.fb_set_par	= vga16fb_set_par,
- 	.fb_setcolreg 	= vga16fb_setcolreg,
- 	.fb_pan_display = vga16fb_pan_display,
- 	.fb_blank 	= vga16fb_blank,
- 	.fb_fillrect	= vga16fb_fillrect,
- 	.fb_copyarea	= vga16fb_copyarea,
- 	.fb_imageblit	= vga16fb_imageblit,
-+	.fb_tty_resize  = vga16fb_tty_resize,
- };
- 
- #ifndef MODULE
- static int __init vga16fb_setup(char *options)
- {
- 	char *this_opt;
- 	
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 3406067985b1..c0eac87a2a56 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -1990,14 +1990,21 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
- 		if (pitch <= 0)
- 			return -EINVAL;
- 		size = CALC_FONTSZ(vc->vc_font.height, pitch, vc->vc_font.charcount);
- 		if (size > FNTSIZE(vc->vc_font.data))
- 			return -EINVAL;
- 	}
- 
-+	if (info->fbops && info->fbops->fb_tty_resize) {
-+		int err = info->fbops->fb_tty_resize(info, width, height);
-+
-+		if (err)
-+			return err;
-+	}
-+
- 	virt_w = FBCON_SWAP(ops->rotate, width, height);
- 	virt_h = FBCON_SWAP(ops->rotate, height, width);
- 	virt_fw = FBCON_SWAP(ops->rotate, vc->vc_font.width,
- 				 vc->vc_font.height);
- 	virt_fh = FBCON_SWAP(ops->rotate, vc->vc_font.height,
- 				 vc->vc_font.width);
- 	var.xres = virt_w * virt_fw;
-diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-index 01645e87b3d5..fa1548d4f94b 100644
---- a/drivers/tty/vt/vt.c
-+++ b/drivers/tty/vt/vt.c
-@@ -1167,15 +1167,15 @@ int vc_allocate(unsigned int currcons)	/* return 0 on success */
- 
- static inline int resize_screen(struct vc_data *vc, int width, int height,
- 				int user)
- {
- 	/* Resizes the resolution of the display adapater */
- 	int err = 0;
- 
--	if (vc->vc_mode != KD_GRAPHICS && vc->vc_sw->con_resize)
-+	if (vc->vc_sw->con_resize)
- 		err = vc->vc_sw->con_resize(vc, width, height, user);
- 
- 	return err;
- }
- 
- /**
-  *	vc_do_resize	-	resizing method for the tty
-----------
-
+>  static int anx7625_i2c_probe(struct i2c_client *client,
+>                              const struct i2c_device_id *id)
+>  {
+> @@ -1778,8 +1753,6 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+>         }
+>         anx7625_init_gpio(platform);
+>
+> -       atomic_set(&platform->power_status, 0);
+> -
+>         mutex_init(&platform->lock);
+>
+>         platform->pdata.intp_irq = client->irq;
+> @@ -1809,9 +1782,11 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+>                 goto free_wq;
+>         }
+>
+> -       if (platform->pdata.low_power_mode == 0) {
+> +       pm_runtime_enable(dev);
+> +
+> +       if (!platform->pdata.low_power_mode) {
+>                 anx7625_disable_pd_protocol(platform);
+> -               atomic_set(&platform->power_status, 1);
+> +               pm_runtime_get_sync(dev);
+>         }
+>
+>         /* Add work function */
+> @@ -1847,6 +1822,9 @@ static int anx7625_i2c_remove(struct i2c_client *client)
+>         if (platform->pdata.intp_irq)
+>                 destroy_workqueue(platform->workqueue);
+>
+> +       if (!platform->pdata.low_power_mode)
+> +               pm_runtime_put_sync_suspend(&client->dev);
+> +
+>         anx7625_unregister_i2c_dummy_clients(platform);
+>
+>         kfree(platform);
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> index e4a086b3a3d7..034c3840028f 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> @@ -369,7 +369,6 @@ struct anx7625_i2c_client {
+>
+>  struct anx7625_data {
+>         struct anx7625_platform_data pdata;
+> -       atomic_t power_status;
+>         int hpd_status;
+>         int hpd_high_cnt;
+>         /* Lock for work queue */
+>
+> base-commit: e48661230cc35b3d0f4367eddfc19f86463ab917
+> --
+> 2.31.1.607.g51e8a6a459-goog
+>
