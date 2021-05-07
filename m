@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7753766AC
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 16:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2443766B1
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 16:05:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 276526E17E;
-	Fri,  7 May 2021 14:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF1C36E804;
+	Fri,  7 May 2021 14:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 878B16E17E
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 14:05:18 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 9AFDD10B5;
- Fri,  7 May 2021 10:05:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 07 May 2021 10:05:18 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8016E804
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 14:05:25 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 5CE72FC9;
+ Fri,  7 May 2021 10:05:23 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 07 May 2021 10:05:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=nkQdZXJuk0cxE
- elA5wlSpQhj9rb48V0iqU/erk5ij2s=; b=WNCgn3gwafgcn2JBF5quiVmtFUpGT
- 4tEWnmpca5eee1KfZvSXeqNqsXG3rIhKNZ+HuQ0q+PyTIBMii9GFCxHm5Bof34Dq
- 2i0x78q5h/e/zGSBkpmwmTE6jCUYIDdgM8Wow6AcWx62lbbtIDEBQMaIuRU2O+W6
- 0pmjC4Q1UD9UTHPItLwunXnsXzufqi9lQzRbhwOXilh/MtGOe4p8w18hfXBgaAqm
- tPdvyfKkMnl+IfC+Ib9ZueZOcC7J1mWrUi440Cfz8R6B0nIpaFWxuzqT1rDjxs30
- oQ4kASgKgdm/7rUPUG9vrG37ZSxwDgVqUAxv6EUQVyUvU9wgHKT2jtHhw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=mk7wl4U7fv51G
+ 9FP4J4AMak3FrOXNRF04TAlRK/Y4S8=; b=ficzAXA4HTWdaPtxUNFpyPSr4tY1w
+ l2zI9JsEta3o3GSGP/JK4AIs7Gk55hxUru6ZDJhRE73LyfxGnTmtx8FVP/gqRwYf
+ Bn3L3oSEws3ELa0kK4kgvP09KkAsTDxpwJLXfBRTfyljNEBBIumb5c6arYLKVHFD
+ zAEWynCK6odjnSPVmwz8IJOJRemrObhX+FeiSUpjLZ4Qe+GPc5sDhQG2d76NaoV5
+ 5dgF0gCsPea4wOmXXmvZvYS/Q2/Hy9F/GN0JT+9k8lEMnVb4q+b7FlRlTbSZjD+E
+ hMqKhCm76P5NHZffBY/KvX5DNmeT1l6YXTFlhafXGGqO524g8mv5JvKSg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=nkQdZXJuk0cxEelA5wlSpQhj9rb48V0iqU/erk5ij2s=; b=A99rgBSf
- Xv7TLELRpxa0M0OkDBfW84hTqG2kzADXPkRDHiVg+ldJkwI8kLsoDQVfKMiuPN9J
- FtWLq6yLI3kngBnR6C6t7lUfZj8F+CyrRE5A1OZs8AWkXH3TmTFtAWu2RFxenb0o
- aWpwA1ZG04o4o9M/PpMsCYSRW4v9Q+h5qRrRjqI387pbEk0s8/Zk+ZP6h5IJSXfk
- D5MuSURdA8TIi/wZxRbs7tFcuxijOGYs7/vLMrXLNBUyuYX2itWipuWgCp9Scz0s
- PoI2etFdqTUEbK6eoP4RUJJoy/+lFTj+EaC9Iw9bCA5eBM/aYv8WFc2ZBfDNKw/A
- M11JHmoH7c26EQ==
-X-ME-Sender: <xms:GUmVYLQHJqUHbrksuL-76Czw2ayTxqq4yi7wEBePrJFJlimo6ICkxQ>
- <xme:GUmVYMwbA_bRx43omzQmF7ExgAK1p_DmrWjOyJEeaUILLTehC7O-CLJ_acapf6dg2
- HS4sbLZv5Dpk3q8Itg>
+ fm2; bh=mk7wl4U7fv51G9FP4J4AMak3FrOXNRF04TAlRK/Y4S8=; b=szFfCf/D
+ uE51CZYYz9CWiGV+7I1KcZH+PFLqpDz86huF5Bu5h4OdXYc60Px73mx8/aeiByQC
+ OZL3OGxwAJxhoblDoHfq//Nh/qt17Kjv82lNMd69ogPeTWV3mVhaokNEz7KMU+iz
+ 2FsnGbhGe1JZiBHRXqCSzh46SnesAnGSOaBYHkyHIMO6gNkQjOT5MLhUFUd+eZyD
+ GWRRqHtb0rha6Ez+s7297iNzWbtyjkFwRVGrF1Fi2Ol273DFozQBacgXruI6bxrB
+ P0YNC6rAUnN3c2iEWE92Nvm+inkijJY6n+lZnzXTQKiODczQbUQF29O1qZ/EJX0j
+ Ntn3qrAZ7qZ4sg==
+X-ME-Sender: <xms:IEmVYFTHggYkLr9Hzt0Es2f_WIc7f33xti_I12fhwhXijAqtmmAvEg>
+ <xme:IEmVYOxyKiaUFR2lDBwKcpXDRPNouH1zv76ByJZc2682_Eb1Np0Ps5GQa81ke9OKe
+ Ha7qFsJQIct_um6Heo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegvddgjedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepvdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:GUmVYA12vAm5YuuHnHAAJuWUonc82a55LUWYTaVqhjo8K8f3pmPcrg>
- <xmx:GUmVYLBdLdYpRhSd6BrPLwOUvqgVn5xz0r9OgwIrHmosRNtUoehM2w>
- <xmx:GUmVYEjIAC747l5SjtjOf2FhQ1iGz1xkyQh_PPVwcrxzAGxt01e3Hw>
- <xmx:HEmVYMThXe4RN2wQb-RO1Zg6snpcG8L60dyieaVUz-8Y6FJks34SE0gvqqo>
+X-ME-Proxy: <xmx:IEmVYK1OQ_TMo1uXVd2mZpMVrO0lAKB2x5Ox6yRnYe97ej1Rxwj09w>
+ <xmx:IEmVYNBZt0uSjrjs90vnSHd9YqgSfes3l4Plqav5N0ZYw-Mvd4R2Xg>
+ <xmx:IEmVYOjhxV9LqRkuJLF44Z5eYzkyYQRsWKbKPKHjKqXdG7vqUM2p0g>
+ <xmx:I0mVYORIny0UGv6gFRQFFx2t6GJ7tIkGkyOqJmpWNEe2wWgvuV2bzQRdGn0>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Fri,  7 May 2021 10:05:13 -0400 (EDT)
+ Fri,  7 May 2021 10:05:20 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -63,9 +63,9 @@ To: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 06/11] drm/vc4: hdmi: Set HDMI_MAI_FMT
-Date: Fri,  7 May 2021 16:03:29 +0200
-Message-Id: <20210507140334.204865-7-maxime@cerno.tech>
+Subject: [PATCH 07/11] drm/vc4: hdmi: Set VC4_HDMI_MAI_CONFIG_FORMAT_REVERSE
+Date: Fri,  7 May 2021 16:03:30 +0200
+Message-Id: <20210507140334.204865-8-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210507140334.204865-1-maxime@cerno.tech>
 References: <20210507140334.204865-1-maxime@cerno.tech>
@@ -95,130 +95,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dom Cobley <popcornmix@gmail.com>
 
-The hardware uses this for generating the right audio
-data island packets when using formats other than PCM
+Without this bit set, HDMI_MAI_FORMAT doesn't pick up
+the format and samplerate from DVP_CFG_MAI0_FMT and you
+can't get HDMI_HDMI_13_AUDIO_STATUS_1 to indicate HBR mode
 
 Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 48 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/vc4/vc4_regs.h | 30 +++++++++++++++++++++
- 2 files changed, 78 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 459d76414a29..9d33ac464a2d 100644
+index 9d33ac464a2d..f74a6b99d4ec 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1125,6 +1125,44 @@ static void vc4_hdmi_audio_shutdown(struct snd_pcm_substream *substream,
- 	vc4_hdmi->audio.substream = NULL;
- }
+@@ -1232,6 +1232,7 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
  
-+static int sample_rate_to_mai_fmt(int samplerate)
-+{
-+	switch (samplerate) {
-+	case 8000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_8000;
-+	case 11025:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_11025;
-+	case 12000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_12000;
-+	case 16000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_16000;
-+	case 22050:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_22050;
-+	case 24000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_24000;
-+	case 32000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_32000;
-+	case 44100:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_44100;
-+	case 48000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_48000;
-+	case 64000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_64000;
-+	case 88200:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_88200;
-+	case 96000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_96000;
-+	case 128000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_128000;
-+	case 176400:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_176400;
-+	case 192000:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_192000;
-+	default:
-+		return VC4_HDMI_MAI_SAMPLE_RATE_NOT_INDICATED;
-+	}
-+}
-+
- /* HDMI audio codec callbacks */
- static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
- 				    struct snd_pcm_hw_params *params,
-@@ -1135,6 +1173,8 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
- 	struct device *dev = &vc4_hdmi->pdev->dev;
- 	u32 audio_packet_config, channel_mask;
- 	u32 channel_map;
-+	u32 mai_audio_format;
-+	u32 mai_sample_rate;
+ 	HDMI_WRITE(HDMI_MAI_CONFIG,
+ 		   VC4_HDMI_MAI_CONFIG_BIT_REVERSE |
++		   VC4_HDMI_MAI_CONFIG_FORMAT_REVERSE |
+ 		   VC4_SET_FIELD(channel_mask, VC4_HDMI_MAI_CHANNEL_MASK));
  
- 	if (substream != vc4_hdmi->audio.substream)
- 		return -EINVAL;
-@@ -1155,6 +1195,14 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
- 
- 	vc4_hdmi_audio_set_mai_clock(vc4_hdmi);
- 
-+	mai_sample_rate = sample_rate_to_mai_fmt(vc4_hdmi->audio.samplerate);
-+	mai_audio_format = VC4_HDMI_MAI_FORMAT_PCM;
-+	HDMI_WRITE(HDMI_MAI_FMT,
-+		   VC4_SET_FIELD(mai_sample_rate,
-+				 VC4_HDMI_MAI_FORMAT_SAMPLE_RATE) |
-+		   VC4_SET_FIELD(mai_audio_format,
-+				 VC4_HDMI_MAI_FORMAT_AUDIO_FORMAT));
-+
- 	/* The B frame identifier should match the value used by alsa-lib (8) */
- 	audio_packet_config =
- 		VC4_HDMI_AUDIO_PACKET_ZERO_DATA_ON_SAMPLE_FLAT |
-diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
-index be2c32a519b3..489f921ef44d 100644
---- a/drivers/gpu/drm/vc4/vc4_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_regs.h
-@@ -516,6 +516,36 @@
- # define VC4_HDMI_AUDIO_PACKET_CEA_MASK_MASK			VC4_MASK(7, 0)
- # define VC4_HDMI_AUDIO_PACKET_CEA_MASK_SHIFT			0
- 
-+# define VC4_HDMI_MAI_FORMAT_AUDIO_FORMAT_MASK		VC4_MASK(23, 16)
-+# define VC4_HDMI_MAI_FORMAT_AUDIO_FORMAT_SHIFT		16
-+
-+enum {
-+	VC4_HDMI_MAI_FORMAT_PCM = 2,
-+	VC4_HDMI_MAI_FORMAT_HBR = 200,
-+};
-+
-+# define VC4_HDMI_MAI_FORMAT_SAMPLE_RATE_MASK		VC4_MASK(15, 8)
-+# define VC4_HDMI_MAI_FORMAT_SAMPLE_RATE_SHIFT		8
-+
-+enum {
-+	VC4_HDMI_MAI_SAMPLE_RATE_NOT_INDICATED = 0,
-+	VC4_HDMI_MAI_SAMPLE_RATE_8000 = 1,
-+	VC4_HDMI_MAI_SAMPLE_RATE_11025 = 2,
-+	VC4_HDMI_MAI_SAMPLE_RATE_12000 = 3,
-+	VC4_HDMI_MAI_SAMPLE_RATE_16000 = 4,
-+	VC4_HDMI_MAI_SAMPLE_RATE_22050 = 5,
-+	VC4_HDMI_MAI_SAMPLE_RATE_24000 = 6,
-+	VC4_HDMI_MAI_SAMPLE_RATE_32000 = 7,
-+	VC4_HDMI_MAI_SAMPLE_RATE_44100 = 8,
-+	VC4_HDMI_MAI_SAMPLE_RATE_48000 = 9,
-+	VC4_HDMI_MAI_SAMPLE_RATE_64000 = 10,
-+	VC4_HDMI_MAI_SAMPLE_RATE_88200 = 11,
-+	VC4_HDMI_MAI_SAMPLE_RATE_96000 = 12,
-+	VC4_HDMI_MAI_SAMPLE_RATE_128000 = 13,
-+	VC4_HDMI_MAI_SAMPLE_RATE_176400 = 14,
-+	VC4_HDMI_MAI_SAMPLE_RATE_192000 = 15,
-+};
-+
- # define VC4_HDMI_RAM_PACKET_ENABLE		BIT(16)
- 
- /* When set, the CTS_PERIOD counts based on MAI bus sync pulse instead
+ 	channel_map = vc4_hdmi->variant->channel_map(vc4_hdmi, channel_mask);
 -- 
 2.31.1
 
