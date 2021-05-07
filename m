@@ -2,62 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E5837626F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 10:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9411376279
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 10:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 577DE6EDEC;
-	Fri,  7 May 2021 08:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62EB56EDF4;
+	Fri,  7 May 2021 08:59:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D85516EDEC
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 08:55:54 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id l13so8344675wru.11
- for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 01:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Iq3uJU9TOeiyMydwk6OyARrPntvrYi7p007+sTF/kjY=;
- b=bxOHQKfbPHqVJ4/cb3rpCgQB44dCVW396Hh0cbEeVG+0+7mwsQ26Ky10lhA5nsfSDv
- nxRaZRNXiC/0RZlcLZgefU/47hvPzj2yulGI00cci3D7qS496gxzDHZk9eLX4epQ6+2v
- kq8rvdHI8XiT00FIrTjQiYnKxOPEtPbWL+F6st1SYhJR53qTcUuWmaFEOv0y844jwo14
- qEc6LJvgwmv/6sUA51m7c1Pl50LbHLCkCPtqgRd+XBqkjNrwD9BaskVwqaLhMwXQdjz0
- Wez8CGBJHiwFIbe0/xaBZOqL3THRvOPz4xrmrmILo13njFj8B+EgcWf1nDJuIcMkPu4h
- DZyw==
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 526686EDF0
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 08:59:42 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ b11-20020a7bc24b0000b0290148da0694ffso6711799wmj.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 01:59:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=/nh1bbQT5CiK8IqERbTeRh4gKwm6+O6Vg+VARq82rio=;
+ b=ddP9vw2/xz6l5rgNknMnioGUpBwslhkhK/Vqn+Kl45rxtCUI1B37VPu4ncHEAzfh5G
+ lraIDVUeYC1DCwyViD6+lq/nLpHJ7NVA4UnG4dIh03OPLcXFQHOCKIsy6MTCyG7IvMTN
+ ggSkExoADblSOWRHwZ8hPSr4yuGq19xGJhDe8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Iq3uJU9TOeiyMydwk6OyARrPntvrYi7p007+sTF/kjY=;
- b=EZ64KcGPdZV0y4j2fzzlnP9130p0WTtjaaSPY6gP1i3gw1V1OpllO9wleE4gF0cjx0
- ADGehokH1xWMfN07PxaNq3VWdzZA8du9kVf7JrcIPRH75voCNI69fWLtZvQ3OVwVluav
- 2L57e6zm3ChJlbDtlWvkA7cQ7h/B/jHJSvwNAojRGLQNojNPHata+w037oggobTr+VNZ
- FjXXo1fHZHCeaYLx7EC6W96SfJIQ20i9ZYwJgxFf8EAY6PeiCP+v5PpCG7B/pPKu45sC
- lyqiC6BNabSVk86B/wDpD0X19Izy4CaJWEBwPUx/dSmn/73qsxHyakgN8hmiodl6xQbz
- fACA==
-X-Gm-Message-State: AOAM5304aD5Rkko8gGwCn4WoH47gKHD9uNSAeQecmZqDlrKaQw9PUKC/
- JRsItgBV+P+VhqQoHnWwOMqhjW784vZmYWma8MP+Dg==
-X-Google-Smtp-Source: ABdhPJzSGEfbIrZwYct/bR9jMIvJQZDMAN1UnuTnXu4QmwExBeTTCnGVmx4NXpn7fEQ1+lmp2zxGWdKbVfB5zX4xfcU=
-X-Received: by 2002:a5d:6248:: with SMTP id m8mr10889005wrv.42.1620377753460; 
- Fri, 07 May 2021 01:55:53 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/nh1bbQT5CiK8IqERbTeRh4gKwm6+O6Vg+VARq82rio=;
+ b=ILTOKjGzi/GVAYr18y1b4MZnQBrI51jZU3pY/48LiSxsw/jevtVIZ4gToDOWcHdWR1
+ NcNk3yjFxhaqoyLIDiOeB+AwAdqxPs5D05AgB66KBriGBIPg/nRj/HVYdsSEcJk4tm8e
+ 1VcXZSOYKMnN9rx0jgTdhsEmiLwd/NxRR3MBHLSbcET6V0oCbm+UZbX7PTTcKlDYdwlp
+ c7USu2pRUS/7XVggD2ACrI+y4JXltZLvLtGUoZd2LEPjBXTB9jPcT7RBT1B3R21EpBpy
+ xaNx9kHXMrdygs1iMKfWQ+ww1hI1O4n57Fo4X+g/UPSb0jfabIHlwx0SwnhCwQhqoiNk
+ Jqng==
+X-Gm-Message-State: AOAM532OQ8l2CP61j8i8/nVz30qGpgH6AT7E2KCBJ/Yti5vAVDlLlIEu
+ HhNSSjYAhHALSrXefB9qHhuNmA==
+X-Google-Smtp-Source: ABdhPJzduMczy9ysbmAMuqtbBG09rD7O4KiM9HF0LInaj4JHW6d0b9TrE4pquQXjf9xl813S56OsKA==
+X-Received: by 2002:a1c:7516:: with SMTP id o22mr19619041wmc.91.1620377980995; 
+ Fri, 07 May 2021 01:59:40 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q10sm7138710wre.92.2021.05.07.01.59.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 May 2021 01:59:40 -0700 (PDT)
+Date: Fri, 7 May 2021 10:59:38 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Kenny Ho <y2kenny@gmail.com>
+Subject: Re: [RFC] Add BPF_PROG_TYPE_CGROUP_IOCTL
+Message-ID: <YJUBer3wWKSAeXe7@phenom.ffwll.local>
+References: <CAOWid-czZphRz6Y-H3OcObKCH=bLLC3=bOZaSB-6YBE56+Qzrg@mail.gmail.com>
+ <20201103210418.q7hddyl7rvdplike@ast-mbp.dhcp.thefacebook.com>
+ <CAOWid-djQ_NRfCbOTnZQ-A8Pr7jMP7KuZEJDSsvzWkdw7qc=yA@mail.gmail.com>
+ <20201103232805.6uq4zg3gdvw2iiki@ast-mbp.dhcp.thefacebook.com>
+ <YBgU9Vu0BGV8kCxD@phenom.ffwll.local>
+ <CAOWid-eXMqcNpjFxbcuUDU7Y-CCYJRNT_9mzqFYm1jeCPdADGQ@mail.gmail.com>
+ <YBqEbHyIjUjgk+es@phenom.ffwll.local>
+ <CAOWid-c4Nk717xUah19B=z=2DtztbtU=_4=fQdfhqpfNJYN2gw@mail.gmail.com>
+ <CAKMK7uFEhyJChERFQ_DYFU4UCA2Ox4wTkds3+GeyURH5xNMTCA@mail.gmail.com>
+ <CAOWid-fL0=OM2XiOH+NFgn_e2L4Yx8sXA-+HicUb9bzhP0t8Bw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210505100218.108024-1-marex@denx.de>
- <20210505100218.108024-2-marex@denx.de>
- <CAPY8ntD8T8B6y4S70vya=PBP9hJs=w2kcovYEMG8n4mFpd0APA@mail.gmail.com>
- <b806a975-352b-6755-d5b0-232d1d8ccda0@denx.de>
- <CAPY8ntDPRcK8f7fT-5kScK+amtKGB-s+tkDUXrsCkfL2xDpTYg@mail.gmail.com>
- <7a16b9db-22a3-0361-8353-1c373c2a135e@denx.de>
-In-Reply-To: <7a16b9db-22a3-0361-8353-1c373c2a135e@denx.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 7 May 2021 09:55:37 +0100
-Message-ID: <CAPY8ntDDgPA_1zCS-Vx_5u1CJkp-eSJYDyJyRbeO7Pvu4xEqPw@mail.gmail.com>
-Subject: Re: [PATCH V3 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOWid-fL0=OM2XiOH+NFgn_e2L4Yx8sXA-+HicUb9bzhP0t8Bw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,149 +75,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
- Douglas Anderson <dianders@chromium.org>,
+Cc: Song Liu <songliubraving@fb.com>, Andrii Nakryiko <andriin@fb.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ Daniel Borkmann <daniel@iogearbox.net>, Kenny Ho <Kenny.Ho@amd.com>,
+ "open list:CONTROL GROUP \(CGROUP\)" <cgroups@vger.kernel.org>,
+ Brian Welty <brian.welty@intel.com>, John Fastabend <john.fastabend@gmail.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Martin KaFai Lau <kafai@fb.com>,
+ Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Network Development <netdev@vger.kernel.org>, KP Singh <kpsingh@chromium.org>,
+ Yonghong Song <yhs@fb.com>, bpf <bpf@vger.kernel.org>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 May 2021 at 21:49, Marek Vasut <marex@denx.de> wrote:
->
-> On 5/6/21 7:03 PM, Dave Stevenson wrote:
-> > On Thu, 6 May 2021 at 13:48, Marek Vasut <marex@denx.de> wrote:
-> >>
-> >> On 5/6/21 11:45 AM, Dave Stevenson wrote:
-> >>> Hi Marek
-> >>
-> >> Hi,
-> >>
-> >>> I'm taking an interest as there are a number of Raspberry Pi users
-> >>> trying to get this chip up and running (not there quite yet).
-> >>> A couple of fairly minor comments
-> >>
-> >> Is there any readily available display unit / expansion board with thi=
-s
-> >> chip ?
+On Thu, May 06, 2021 at 10:06:32PM -0400, Kenny Ho wrote:
+> Sorry for the late reply (I have been working on other stuff.)
+> 
+> On Fri, Feb 5, 2021 at 8:49 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 > >
-> > Not that I'm aware of. It's a forum thread[1] where two different
-> > users are trying to bring up the chip, each with their own boards. One
-> > has just reported they have got it working with Jagan's patch set but
-> > with a load of hacks to both bridge and DSI drivers.
-> > If Laurent has a board then that may be a useful further test route.
+> > So I agree that on one side CU mask can be used for low-level quality
+> > of service guarantees (like the CLOS cache stuff on intel cpus as an
+> > example), and that's going to be rather hw specific no matter what.
 > >
-> > I'm not 100% convinced that the Pi is doing exactly the right thing
-> > with regard LP-11 state during initialisation, but hope to get into
-> > the lab to check either tomorrow or early next week.
->
-> Good
->
-> > [1] https://www.raspberrypi.org/forums/viewtopic.php?f=3D44&t=3D305690
-> >
-> >> [...]
-> >>
-> >>>> +#define REG_DSI_LANE                           0x10
-> >>>> +#define  REG_DSI_LANE_LVDS_LINK_CFG_DUAL       BIT(5) /* dual or 2x=
- single */
-> >>>
-> >>> The bit name here seems a little odd.
-> >>> Bits 5&6 are the DSI channel mode on SN65DSI85, not the LVDS link
-> >>> config (which appears to be reg 0x18 bit 4)
-> >>> DSI_CHANNEL_MODE
-> >>> 00 =E2=80=93 Dual-channel DSI receiver
-> >>> 01 =E2=80=93 Single channel DSI receiver (default)
-> >>> 10 =E2=80=93 Two single channel DSI receivers
-> >>> 11 =E2=80=93 Reserved
-> >>> SN65DSI83 and 84 require it to be set to 01. You have that end result=
-,
-> >>> but using an odd register name that only documents one of the 2 bits.
-> >>>
-> >>> Is it worth documenting bit 7 as being the '85 Dual DSI link
-> >>> LEFT_RIGHT_PIXELS flag at the same time? The chip isn't supported in
-> >>> dual DSI mode at present, but defining all the registers up front
-> >>> seems reasonable.
-> >>
-> >> Yes, let's fix those.
-> >>
-> >> [...]
-> >>
-> >>>> +       /*
-> >>>> +        * Reset the chip, pull EN line low for t_reset=3D10ms,
-> >>>> +        * then high for t_en=3D1ms.
-> >>>> +        */
-> >>>> +       regcache_mark_dirty(ctx->regmap);
-> >>>> +       gpiod_set_value(ctx->enable_gpio, 0);
-> >>>> +       usleep_range(10000, 11000);
-> >>>> +       gpiod_set_value(ctx->enable_gpio, 1);
-> >>>> +       usleep_range(1000, 1100);
-> >>>> +}
-> >>>
-> >>> Whilst section 6.6 of the SN65DSI84 datasheet does list t_en as 1ms,
-> >>> the initialization sequence listed in table 7.2 states
-> >>> Init seq 3 - Set EN pin to Low
-> >>> Wait 10 ms
-> >>> Init seq 4 - Tie EN pin to High
-> >>> Wait 10 ms
-> >>>
-> >>> with the note that these are "Minimum recommended delay. It is fine t=
-o
-> >>> exceed these."
-> >>>
-> >>> Have you had alternate guidance from TI over that delay?
-> >>
-> >> No, I trusted the timing diagrams in section 6.6 of the datasheet. I
-> >> would like to believe those are correct, while the init sequence listi=
-ng
-> >> might be a copy-paste error.
-> >
-> > It's a tough one to call as to which is going to be correct. I just
-> > thought I'd flag it.
-> >
-> >> [...]
-> >>
-> >>>> +static void sn65dsi83_enable(struct drm_bridge *bridge)
-> >>>> +{
-> >>>> +       struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
-> >>>> +       unsigned int pval;
-> >>>> +       u16 val;
-> >>>> +       int ret;
-> >>>> +
-> >>>> +       /* Clear reset, disable PLL */
-> >>>> +       regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
-> >>>> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> >>>> +
-> >>>> +       /* Reference clock derived from DSI link clock. */
-> >>>> +       regmap_write(ctx->regmap, REG_RC_LVDS_PLL,
-> >>>> +               REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_ra=
-nge(ctx)) |
-> >>>> +               REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
-> >>>
-> >>> (Checkpatch whinge for "Alignment should match open parenthesis" on
-> >>> several lines through this function)
-> >>
-> >> Do you have any extra checkpatch settings somewhere ?
-> >> I get this on current next:
-> >>
-> >> linux-2.6$ ./scripts/checkpatch.pl -f drivers/gpu/drm/bridge/ti-sn65ds=
-i83.c
-> >> total: 0 errors, 0 warnings, 625 lines checked
-> >
-> > Sorry, yes "./scripts/checkpatch.pl --strict --codespell". Too much
-> > working in the linux-media realms where --strict is required :-/
->
-> So I can add a variable , assign it the value of
-> sn65dsi83_get_lvds_range(ctx) and then do
-> REG_RC_LVDS_PLL_LVDS_CLK_RANGE(val), but that doesn't really improve the
-> readability at all, it just adds extra indirection.
+> > But my understanding of AMD's plans here is that CU mask is the only
+> > thing you'll have to partition gpu usage in a multi-tenant environment
+> > - whether that's cloud or also whether that's containing apps to make
+> > sure the compositor can still draw the desktop (except for fullscreen
+> > ofc) doesn't really matter I think.
+> This is not correct.  Even in the original cgroup proposal, it
+> supports both mask and count as a way to define unit(s) of sub-device.
+> For AMD, we already have SRIOV that supports GPU partitioning in a
+> time-sliced-of-a-whole-GPU fashion.
 
-Unless drm is sticking hard to the older limit, "bdc48fa11e46
-checkpatch/coding-style: deprecate 80-column warning" allows you up to
-100 chars.
-Just going with the natural indentation is therefore fine and makes
-checkpatch happy even in strict mode.
+Hm I missed that. I feel like time-sliced-of-a-whole gpu is the easier gpu
+cgroups controler to get started, since it's much closer to other cgroups
+that control bandwidth of some kind. Whether it's i/o bandwidth or compute
+bandwidht is kinda a wash.
 
-  Dave
+CU mask feels a lot more like an isolation/guaranteed forward progress
+kind of thing, and I suspect that's always going to be a lot more gpu hw
+specific than anything we can reasonably put into a general cgroups
+controller.
+
+Also for the time slice cgroups thing, can you pls give me pointers to
+these old patches that had it, and how it's done? I very obviously missed
+that part.
+
+Thanks, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
