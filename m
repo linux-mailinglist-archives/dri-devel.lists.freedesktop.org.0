@@ -2,77 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38B2376BBE
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 23:28:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63ACB376BD5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 23:32:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9326EE7D;
-	Fri,  7 May 2021 21:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 277FF6EE84;
+	Fri,  7 May 2021 21:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6B296EE7D
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 21:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620422907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pVNjq4cwxRpZVEM9G+ZCz6caWZiQ6FKaXq/9liRlvVI=;
- b=T+hZyPJ/jdS/MLCWk0T807dQPoYlWXpGZAoJgCdUTX5CECr2YcyelcllQ8H9jpr5g8uXdF
- z+qVaDhRNgUb6esdQNnxMXFtQAcy+oZJsCHhK3xPcnhqLpHYiF8jbhnGm29/olKHj2LDxD
- Jd4Ux2nCG8gShFL60sPggBt8hEoz914=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-ew5IepA7NdKUZLA6Ur00bQ-1; Fri, 07 May 2021 17:28:19 -0400
-X-MC-Unique: ew5IepA7NdKUZLA6Ur00bQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- i62-20020a3786410000b02902e4f9ff4af8so7204997qkd.8
- for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 14:28:16 -0700 (PDT)
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C95416EE84
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 21:32:22 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id y12so7668420qtx.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 14:32:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8fK7eHKUxmepqVXRuH1Me+N6pEGrLKxF0Gw1bBJBEhM=;
+ b=azyvyBbnB2N43FTbvrcjr+9F6cdhdryHKabro99427Dv96ts5IO815JB0iUXTr+ExI
+ 07gW+3w12L5iHMy4slmAEbPI048w1An/TnsrjGxk6eFmt/rjGx3mXxeVzi1VJ4+1kT+v
+ sJ60cc7kyGi+lUUBgFQ16Y2GNGCbjC0TRQjBY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=pVNjq4cwxRpZVEM9G+ZCz6caWZiQ6FKaXq/9liRlvVI=;
- b=SIZhWlMV5hin77vKGHs3b8IcTWZhQvY/xBUrOqRtUahhRawsfFCyoB2RaAjqA5CXx6
- iEuYqEYu4D5rcCZ4qj91tOo7iKGoTDOpD9BGl17jtSdcks6Llx3pnNhPAtViQzUYYljs
- 76Bd5m6UMKX+ez09svUdDbSlp1Uf8fbGK0u2/QHcon5Ic3/SlnDaP7lOH71XkijD1+J2
- 3BPLc8QpFtUS1eBOI3zr/GRXMTgerbLqNcPuUqyVf9P2S70t3Uy6cu/fcsYl2a1GpxQ9
- 5EKIky7L2TxcMLKewuGmdny1gOaLkvi4YYykMbR20jI1nWgj+U4HazXK/HObNRHsc8VF
- 1ozg==
-X-Gm-Message-State: AOAM530nvSJ3AsJVl1BGaYI6PZwfxTq72NfJMN4gBZBSGBkhMfYOy2dG
- rkTqtc0B3CQ+vLTtmJyydbvKbQXXfpFPng8FtYPF+vyxuUbXwmzkrDtA4hQ4Hcte/mrNSPWE+ya
- 00xJQpFHbzlxEUWSiifE74VIbRO8P
-X-Received: by 2002:ac8:109a:: with SMTP id a26mr11012785qtj.156.1620422885894; 
- Fri, 07 May 2021 14:28:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx4umG7ULJ2428gNNMYBy++wm63s5NWc12Pht4FLFgn8RWxeg/DGz3zuQqldKEj2lf9x+1nFA==
-X-Received: by 2002:ac8:109a:: with SMTP id a26mr11012759qtj.156.1620422885691; 
- Fri, 07 May 2021 14:28:05 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id v18sm1635624qkv.34.2021.05.07.14.28.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 14:28:05 -0700 (PDT)
-Message-ID: <cbbd22463a3af9efa7f12dc90b74231dc0ae5771.camel@redhat.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/dp: Drop open-coded
- drm_dp_is_branch() in drm_dp_read_downstream_info()
-From: Lyude Paul <lyude@redhat.com>
-To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Date: Fri, 07 May 2021 17:28:03 -0400
-In-Reply-To: <YI9otSh/ftvLqMxb@intel.com>
-References: <20210430223428.10514-1-lyude@redhat.com>
- <20210430223428.10514-2-lyude@redhat.com> <YI9otSh/ftvLqMxb@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8fK7eHKUxmepqVXRuH1Me+N6pEGrLKxF0Gw1bBJBEhM=;
+ b=n35yPlCa4VIyQ/qTEEWCUcAn2IEBI20b173DSv5b9EmJxnZh+RjeF70h1QHzxsag+m
+ kUeW+7on3pV4Mk26f7TAHFdHig7LlLFngXejQ2FQWSWEiNM5AzO4sM9yC0EUHQItw/QX
+ ShKkSEnxI5ojyIVhAcz/DPV6URl+gElq4craNkBX/734yMPuLbDv+0nesDHhDfTtL+vc
+ bAbT8ojdBP2/796OyQGxhWldzg+Vp52LD2rN0x04VeB0OmomWGGi7mwfihN7+yfvdbSu
+ 8R1VK/GxvrIfgzdxK5Q08ms+6Oy7nC5PW3fenuT2hJ7yNvlcFcw1YjWeyatek1EtAns6
+ WYNQ==
+X-Gm-Message-State: AOAM533+LPs5ahW76n+2X0qpIeVst+t/UygCW5IpoMhLlADkei1eHvJc
+ ZSnNJ9dKggpU/ecMHbUb08nL9k9/2WtA5Q==
+X-Google-Smtp-Source: ABdhPJwLZKL6CfmHYRGQXpi22D22ILriCGBjV6PMyDJPf8sScoIt/5AZbgbVbqVEPDW1sV4ldLiROg==
+X-Received: by 2002:a05:622a:11d1:: with SMTP id
+ n17mr10997671qtk.360.1620423141798; 
+ Fri, 07 May 2021 14:32:21 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180])
+ by smtp.gmail.com with ESMTPSA id j196sm5869229qke.25.2021.05.07.14.32.19
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 May 2021 14:32:20 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id g38so13696972ybi.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 14:32:19 -0700 (PDT)
+X-Received: by 2002:a25:d70e:: with SMTP id o14mr15904531ybg.79.1620423139099; 
+ Fri, 07 May 2021 14:32:19 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20201102181144.3469197-1-swboyd@chromium.org>
+ <20201102181144.3469197-4-swboyd@chromium.org>
+ <YFKc23MwUQAosCs8@pendragon.ideasonboard.com>
+ <161646947526.2972785.6883720652669260316@swboyd.mtv.corp.google.com>
+ <CAD=FV=U+-spmAxFeDNxhCuB6O=gUvO_==ozg-OGn=2vkUWgL4Q@mail.gmail.com>
+ <YFpG+hK7W+4bpp0A@pendragon.ideasonboard.com>
+In-Reply-To: <YFpG+hK7W+4bpp0A@pendragon.ideasonboard.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 7 May 2021 14:32:07 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WfrZz4PsDcEeLkvsFa6p9LOo1G-3e00NzoVLZ713xNpg@mail.gmail.com>
+Message-ID: <CAD=FV=WfrZz4PsDcEeLkvsFa6p9LOo1G-3e00NzoVLZ713xNpg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,62 +75,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Sean Paul <seanpaul@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2021-05-03 at 06:06 +0300, Ville Syrjälä wrote:
-> On Fri, Apr 30, 2021 at 06:34:28PM -0400, Lyude Paul wrote:
-> > Noticed this while fixing another issue in drm_dp_read_downstream_info(),
-> > the open coded DP_DOWNSTREAMPORT_PRESENT check here just duplicates what
-> > we
-> > already do in drm_dp_is_branch(), so just get rid of it.
-> > 
-> > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > ---
-> >  drivers/gpu/drm/drm_dp_helper.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_dp_helper.c
-> > b/drivers/gpu/drm/drm_dp_helper.c
-> > index 27c8c5bdf7d9..0f84df8798ab 100644
-> > --- a/drivers/gpu/drm/drm_dp_helper.c
-> > +++ b/drivers/gpu/drm/drm_dp_helper.c
-> > @@ -677,9 +677,7 @@ int drm_dp_read_downstream_info(struct drm_dp_aux
-> > *aux,
-> >         memset(downstream_ports, 0, DP_MAX_DOWNSTREAM_PORTS);
-> >  
-> >         /* No downstream info to read */
-> > -       if (!drm_dp_is_branch(dpcd) ||
-> > -           dpcd[DP_DPCD_REV] < DP_DPCD_REV_10 ||
-> > -           !(dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DWN_STRM_PORT_PRESENT))
-> > +       if (!drm_dp_is_branch(dpcd) || dpcd[DP_DPCD_REV] < DP_DPCD_REV_10)
-> 
-> BTW that DPCD_REV check looks rather wrong.
-> 
-> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Hi,
 
-I'll send out a separate fix for this in just a moment, thanks for pointing it
-out!
+On Tue, Mar 23, 2021 at 12:53 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Doug,
+>
+> On Tue, Mar 23, 2021 at 12:07:27PM -0700, Doug Anderson wrote:
+> > On Mon, Mar 22, 2021 at 8:17 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > >
+> > > Quoting Laurent Pinchart (2021-03-17 17:20:43)
+> > > > Hi Stephen,
+> > > >
+> > > > Reviving a bit of an old thread, for a question.
+> > > >
+> > > > On Mon, Nov 02, 2020 at 10:11:43AM -0800, Stephen Boyd wrote:
+> > > > > @@ -265,6 +267,23 @@ connector_to_ti_sn_bridge(struct drm_connector *connector)
+> > > > >  static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+> > > > >  {
+> > > > >       struct ti_sn_bridge *pdata = connector_to_ti_sn_bridge(connector);
+> > > > > +     struct edid *edid = pdata->edid;
+> > > > > +     int num, ret;
+> > > > > +
+> > > > > +     if (!edid) {
+> > > > > +             pm_runtime_get_sync(pdata->dev);
+> > > > > +             edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
+> > > > > +             pm_runtime_put(pdata->dev);
+> > > >
+> > > > Is there any specific reason to use the indirect access method, compared
+> > > > to the direct method that translates access to an I2C ancillary address
+> > > > to an I2C-over-AUX transaction (see page 20 of SLLSEH2B) ? The direct
+> > > > method seems it would be more efficient.
+> > >
+> > > No I don't think it matters. I was just using the existing support code
+> > > that Sean wrote instead of digging into the details. Maybe Sean ran into
+> > > something earlier and abandoned that approach?
+> >
+> > From reading the docs, it sounds as if there _could_ be a reason to
+> > use the indirect method. Specifically if the i2c host that the bridge
+> > is on doesn't support clock stretching then the direct method wouldn't
+> > work according to the docs. Is that something that we'd have to
+> > reasonably worry about?
+>
+> I'm not sure. I'm going through BSP code that uses the direct method,
+> and I was wondering if it was just an implementation detail. Once I get
+> the display working on this board, I'll try to find time to compare the
+> two methods, to see if there's a significatant performance improvement
+> from the direct method. If there isn't, I won't bother.
 
-> 
-> >                 return 0;
-> >  
-> >         /* Some branches advertise having 0 downstream ports, despite also
-> > advertising they have a
-> > -- 
-> > 2.30.2
-> > 
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> 
+To follow-up here:
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+We'd actually been using the "direct" method in the BIOS (coreboot)
+and just found a problem. We're now switching coreboot to the
+"indirect" mode. Specifically we found that, at least on one panel,
+the last byte of the extension block (which should have been a CRC)
+was coming back as 0 when using the "direct" mode. See:
 
+https://review.coreboot.org/c/coreboot/+/52959
+
+In addition I was thinking about how to use "direct" mode (ignoring
+the above problem) and realized that handling the power sequencing at
+the right time would be hard. Maybe not a problem for you since your
+bridge is always powered, but I wouldn't know how to model this in
+general. Specifically if you want to talk over the i2c bus to the
+panel you've got to power the bridge but I don't think the bridge gets
+called in the normal code paths.
+
+-Doug
