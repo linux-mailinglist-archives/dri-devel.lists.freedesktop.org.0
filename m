@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB843764F0
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 14:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F8A376577
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 14:48:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C854C6E071;
-	Fri,  7 May 2021 12:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C98836E046;
+	Fri,  7 May 2021 12:48:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1A26E071
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 12:15:31 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id v123so7737989ioe.10
- for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 05:15:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABD1A6E046
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 12:48:19 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 4-20020a05600c26c4b0290146e1feccd8so4829350wmv.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 05:48:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=r1YFZyFjDLwrVH+Ob+dxqW0DeyKhQmY7WFAaaDnzzFk=;
- b=bejFVwvYv45tz+n/Sm8svgpe76q3nacN1Kph1PygLvds0gYad90yUApikHa+MvnsVb
- mUCaqrtqmfqwNDi4oNgkjY67AFxg+6IL+u5FyzeB4jI/smy/j9VYzfyhP/gVUeYqau59
- SGSNZKePuvYM/pW0TnKHuzu0xrC5LVO9Du6aU=
+ :cc; bh=yXHnDMb7PdtZKua2KC9Vg3iB+aP57ySos/nJeqmPBtw=;
+ b=Ot8GfJ5cuP98oyV0U2QTIjP+JHJghdAT8vq//FnXA5MDqKbOEbVEEfgHiDDRGyI+Up
+ ax+QmiRLileTVerCjGFO9DvuXYVcHqlkYdOhEId+dulKJwHgMx6wrltTZ/sC8gPqixyR
+ MjIxi6ZgfBybXNNQOFuM9BOFPfC+vdTfpVhEEHCEExTc2rgPaV5JLNXhmk5tPRNbYZRy
+ 659WNqgZdSs+Ct20WHTtG1kZrdsQG6HuEbZjakW3riZvC2MUTVPTbV/Eyhf6hYraCLFT
+ VNij48rAMXcXe5v1pD9LMj4q2eyso49KiOddufVMfDPsJOem5OddelnBj/rH2KdI9yAt
+ 2frA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=r1YFZyFjDLwrVH+Ob+dxqW0DeyKhQmY7WFAaaDnzzFk=;
- b=lZGzLzLUcYMqKgAaJIQP3Aq7wrmj34keubfdU7EN6iajQpemnWH7dIuWd5sXUYy7g/
- RkTR81hNRN2iZ22SqCfMqdyucMrsj28SLVhkyBiB+w1DbbMTrS5Dyxo+k8h4j3OMSN/S
- jSHq4cas8r69YV9GxvrCEksNaM5be0A6OnSCv1MLmsG9iEjXfWplxYNT35fN29uLOX9p
- 3ByeYhyX6SYGTYP+ypK2Zx4SynPSCixBwWkonGoor9BnDp3c7zfVQdeeq/n6s6lF2lCz
- B7FWgxhLXAuS5mHxh2O+2ku3QIhw1BMt6HU6gQ5+Squvi8kgfwZVvVI1lIwcOiKlObu7
- Vmmw==
-X-Gm-Message-State: AOAM530Da4JIkouWh3/dGkUH0MUVPGdVFXsrX1esRFKx7/wdMW/Sz4GE
- Lmf4MdHv7Ai2O7PD3qY3i/nhZXwaESRI3jkFH6prPQ==
-X-Google-Smtp-Source: ABdhPJwOwL/q0WMh5FPyGz9VBIgi7sE+gus3NpRZsSKeRvAKXssUGQR7gZKaswMQjYLWzrIIEDbQ6ZKyf0hG/1RPP9I=
-X-Received: by 2002:a05:6638:3398:: with SMTP id
- h24mr199781jav.114.1620389730110; 
- Fri, 07 May 2021 05:15:30 -0700 (PDT)
+ bh=yXHnDMb7PdtZKua2KC9Vg3iB+aP57ySos/nJeqmPBtw=;
+ b=U39ZrFWseMFsfWYT9CGqJwFB/Nv2GFFi3zN8EVAz78he3t5uK3ovYNBBpELUE/N+bO
+ U8LwEkpNev4L88OkIu/9Oq7Y/beCAv0aHeEamJo0pmrpQJ1dPg/opbpnGG3WAu0VR7Ui
+ AUjjvSkQ5fw7Wtt9DNvglcCxkYCpw0hPt8kEjj9U6Wvu5sZttIww0fs9gTSyJVSfrlje
+ COwT6fz1Q3u5gqpu3Ipf/AKlQAXQiY6sfgD22cka4r8l9nLkYcOFeHsYQSRJt/lGZEe8
+ r503P8PNzqRmUKUxiTl/+h77Q0JsYzuY5dfJUE9Nb+ykBrrx6Ld+hHpz2OTr4kyWQqUr
+ xABg==
+X-Gm-Message-State: AOAM5310btNNdSlrFpg28mDyTwxXrozgxGAMeOywUPZEV5wXFDHGexPH
+ zWuVDGgt4XhPlCZ2yDTzR6T+mHfyPofE0QsZ99wifA==
+X-Google-Smtp-Source: ABdhPJwSUsCea0JwG19gdgTrEOh7NmYQatLZPYgfz2OFzPcy7vjKKaI9eUZUBmvltDziaUc7ex5m/dyRAopzyljWph4=
+X-Received: by 2002:a1c:2786:: with SMTP id n128mr21497542wmn.82.1620391698310; 
+ Fri, 07 May 2021 05:48:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210507064444.402829-1-pihsun@chromium.org>
-In-Reply-To: <20210507064444.402829-1-pihsun@chromium.org>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Fri, 7 May 2021 20:15:04 +0800
-Message-ID: <CAJMQK-jehJf+DE+bZxfA=zqUC-=mr6Q15oNcDp9j-7ER_dbFog@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/bridge: anx7625: refactor power control to use
- runtime PM framework
-To: Pi-Hsun Shih <pihsun@chromium.org>
+References: <20210505100218.108024-1-marex@denx.de>
+ <20210505100218.108024-2-marex@denx.de>
+In-Reply-To: <20210505100218.108024-2-marex@denx.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 7 May 2021 13:48:01 +0100
+Message-ID: <CAPY8ntCzu6=uBqRfQ+9QJWH-zqy0K9FD8XWdC8NZxJZiUBfYfg@mail.gmail.com>
+Subject: Re: [PATCH V3 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
+ SN65DSI84 driver
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,321 +65,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Tzung-Bi Shih <tzungbi@google.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
+Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
+ Douglas Anderson <dianders@chromium.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 7, 2021 at 2:44 PM Pi-Hsun Shih <pihsun@chromium.org> wrote:
+On Wed, 5 May 2021 at 11:03, Marek Vasut <marex@denx.de> wrote:
 >
-> The driver originally use an atomic_t for keep track of the power
-> status, which makes the driver more complicated than needed, and has
-> some race condition as it's possible to have the power on and power off
-> sequence going at the same time.
+> Add driver for TI SN65DSI83 Single-link DSI to Single-link LVDS bridge
+> and TI SN65DSI84 Single-link DSI to Dual-link or 2x Single-link LVDS
+> bridge. TI SN65DSI85 is unsupported due to lack of hardware to test on,
+> but easy to add.
 >
-> This patch remove the usage of the atomic_t power_status, and use the
-> kernel runtime power management framework instead.
+> The driver operates the chip via I2C bus. Currently the LVDS clock are
+> always derived from DSI clock lane, which is the usual mode of operation.
+> Support for clock from external oscillator is not implemented, but it is
+> easy to add if ever needed. Only RGB888 pixel format is implemented, the
+> LVDS666 is not supported, but could be added if needed.
 >
-> Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Loic Poulain <loic.poulain@linaro.org>
+> Cc: Philippe Schenker <philippe.schenker@toradex.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Cc: Valentin Raevsky <valentin@compulab.co.il>
+> To: dri-devel@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 148 +++++++++-------------
->  drivers/gpu/drm/bridge/analogix/anx7625.h |   1 -
->  2 files changed, 63 insertions(+), 86 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 23283ba0c4f9..f56f8cf1f3bd 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -11,6 +11,7 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> @@ -1005,33 +1006,6 @@ static void anx7625_power_on_init(struct anx7625_data *ctx)
->         }
->  }
->
-> -static void anx7625_chip_control(struct anx7625_data *ctx, int state)
-> -{
-> -       struct device *dev = &ctx->client->dev;
-> -
-> -       DRM_DEV_DEBUG_DRIVER(dev, "before set, power_state(%d).\n",
-> -                            atomic_read(&ctx->power_status));
-> -
-> -       if (!ctx->pdata.low_power_mode)
-> -               return;
-> -
-> -       if (state) {
-> -               atomic_inc(&ctx->power_status);
-> -               if (atomic_read(&ctx->power_status) == 1)
-> -                       anx7625_power_on_init(ctx);
-> -       } else {
-> -               if (atomic_read(&ctx->power_status)) {
-> -                       atomic_dec(&ctx->power_status);
-> -
-> -                       if (atomic_read(&ctx->power_status) == 0)
-> -                               anx7625_power_standby(ctx);
-> -               }
-> -       }
-> -
-> -       DRM_DEV_DEBUG_DRIVER(dev, "after set, power_state(%d).\n",
-> -                            atomic_read(&ctx->power_status));
-> -}
-> -
->  static void anx7625_init_gpio(struct anx7625_data *platform)
->  {
->         struct device *dev = &platform->client->dev;
-> @@ -1061,9 +1035,6 @@ static void anx7625_stop_dp_work(struct anx7625_data *ctx)
->         ctx->hpd_status = 0;
->         ctx->hpd_high_cnt = 0;
->         ctx->display_timing_valid = 0;
-> -
-> -       if (ctx->pdata.low_power_mode == 0)
-> -               anx7625_disable_pd_protocol(ctx);
->  }
->
->  static void anx7625_start_dp_work(struct anx7625_data *ctx)
-> @@ -1105,49 +1076,26 @@ static void anx7625_hpd_polling(struct anx7625_data *ctx)
->         int ret, val;
->         struct device *dev = &ctx->client->dev;
->
-> -       if (atomic_read(&ctx->power_status) != 1) {
-> -               DRM_DEV_DEBUG_DRIVER(dev, "No need to poling HPD status.\n");
-> -               return;
-> -       }
-> -
->         ret = readx_poll_timeout(anx7625_read_hpd_status_p0,
->                                  ctx, val,
->                                  ((val & HPD_STATUS) || (val < 0)),
->                                  5000,
->                                  5000 * 100);
->         if (ret) {
-> -               DRM_DEV_ERROR(dev, "HPD polling timeout!\n");
-> -       } else {
-> -               DRM_DEV_DEBUG_DRIVER(dev, "HPD raise up.\n");
-> -               anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
-> -                                 INTR_ALERT_1, 0xFF);
-> -               anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> -                                 INTERFACE_CHANGE_INT, 0);
-> +               DRM_DEV_ERROR(dev, "no hpd.\n");
+<snip>
+> +
+> +static void sn65dsi83_pre_enable(struct drm_bridge *bridge)
+> +{
+> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+> +
+> +       /*
+> +        * Reset the chip, pull EN line low for t_reset=10ms,
+> +        * then high for t_en=1ms.
+> +        */
+> +       regcache_mark_dirty(ctx->regmap);
+> +       gpiod_set_value(ctx->enable_gpio, 0);
+> +       usleep_range(10000, 11000);
+> +       gpiod_set_value(ctx->enable_gpio, 1);
+> +       usleep_range(1000, 1100);
+> +}
+> +
+<snip>
+> +
+> +static void sn65dsi83_enable(struct drm_bridge *bridge)
+> +{
+> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+> +       unsigned int pval;
+> +       u16 val;
+> +       int ret;
+> +
+> +       /* Clear reset, disable PLL */
+> +       regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
+> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
+
+Sorry, a further thread of discussion coming from the investigations
+I've been involved with.
+
+You've powered up in pre_enable, and are sending the I2C writes in enable.
+
+From the docs for drm_bridge_funcs->enable[1]
+
+ * The bridge can assume that the display pipe (i.e. clocks and timing
+ * signals) feeding it is running when this callback is called. This
+ * callback must enable the display link feeding the next bridge in the
+ * chain if there is one.
+
+So video is running when enable is called, and the DSI data lanes may
+be HS. (Someone correct me if that is an incorrect reading of the
+text).
+
+The SN65DSI84 datasheet table 7-2 Initialization Sequence gives init
+seq 8 as being "Change DSI data lanes to HS state and start DSI video
+stream", AFTER all the I2C has been completed except reading back
+registers and checking for errors.
+With video running you don't fulfil the second part of init seq 2 "the
+DSI data lanes MUST be driven to LP11 state"
+
+My investigations have been over delaying starting the DSI video
+stream until after enable, but reading the descriptive text for enable
+I believe the Pi is correct to be sending video at that point.
+I guess there is some ambiguity as to whether the clock lane is going
+to be in HS mode during pre_enable. On the Pi the PHY and clocks will
+be enabled prior to pre_enable to allow for sending DSI commands
+during pre_enable, but it may not be true on other platforms.
+
+  Dave
+
+[1] https://elixir.bootlin.com/linux/latest/source/include/drm/drm_bridge.h#L256
+
+> +
+> +       /* Reference clock derived from DSI link clock. */
+> +       regmap_write(ctx->regmap, REG_RC_LVDS_PLL,
+> +               REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(ctx)) |
+> +               REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
+> +       regmap_write(ctx->regmap, REG_DSI_CLK,
+> +               REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx)));
+> +       regmap_write(ctx->regmap, REG_RC_DSI_CLK,
+> +               REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)));
+> +
+> +       /* Set number of DSI lanes and LVDS link config. */
+> +       regmap_write(ctx->regmap, REG_DSI_LANE,
+> +               REG_DSI_LANE_LVDS_LINK_CFG_DUAL |
+> +               REG_DSI_LANE_CHA_DSI_LANES(~(ctx->dsi_lanes - 1)) |
+> +               /* CHB is DSI85-only, set to default on DSI83/DSI84 */
+> +               REG_DSI_LANE_CHB_DSI_LANES(3));
+> +       /* No equalization. */
+> +       regmap_write(ctx->regmap, REG_DSI_EQ, 0x00);
+> +
+> +       /* RGB888 is the only format supported so far. */
+> +       val = (ctx->mode.flags & DRM_MODE_FLAG_NHSYNC ?
+> +              REG_LVDS_FMT_HS_NEG_POLARITY : 0) |
+> +             (ctx->mode.flags & DRM_MODE_FLAG_NVSYNC ?
+> +              REG_LVDS_FMT_VS_NEG_POLARITY : 0) |
+> +             REG_LVDS_FMT_CHA_24BPP_MODE;
+> +       if (ctx->lvds_dual_link)
+> +               val |= REG_LVDS_FMT_CHB_24BPP_MODE;
+> +       else
+> +               val |= REG_LVDS_FMT_LVDS_LINK_CFG;
+> +
+> +       regmap_write(ctx->regmap, REG_LVDS_FMT, val);
+> +       regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
+> +       regmap_write(ctx->regmap, REG_LVDS_LANE,
+> +               (ctx->lvds_dual_link_even_odd_swap ?
+> +                REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
+> +               REG_LVDS_LANE_CHA_LVDS_TERM |
+> +               REG_LVDS_LANE_CHB_LVDS_TERM);
+> +       regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
+> +
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
+> +                         &ctx->mode.hdisplay, 2);
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
+> +                         &ctx->mode.vdisplay, 2);
+> +       val = 32 + 1;   /* 32 + 1 pixel clock to ensure proper operation */
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_SYNC_DELAY_LOW, &val, 2);
+> +       val = ctx->mode.hsync_end - ctx->mode.hsync_start;
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
+> +                         &val, 2);
+> +       val = ctx->mode.vsync_end - ctx->mode.vsync_start;
+> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
+> +                         &val, 2);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_BACK_PORCH,
+> +                    ctx->mode.htotal - ctx->mode.hsync_end);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_BACK_PORCH,
+> +                    ctx->mode.vtotal - ctx->mode.vsync_end);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
+> +                    ctx->mode.hsync_start - ctx->mode.hdisplay);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_FRONT_PORCH,
+> +                    ctx->mode.vsync_start - ctx->mode.vdisplay);
+> +       regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
+> +
+> +       /* Enable PLL */
+> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, REG_RC_PLL_EN_PLL_EN);
+> +       usleep_range(3000, 4000);
+> +       ret = regmap_read_poll_timeout(ctx->regmap, REG_RC_LVDS_PLL, pval,
+> +                                       pval & REG_RC_LVDS_PLL_PLL_EN_STAT,
+> +                                       1000, 100000);
+> +       if (ret) {
+> +               dev_err(ctx->dev, "failed to lock PLL, ret=%i\n", ret);
+> +               /* On failure, disable PLL again and exit. */
+> +               regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
 > +               return;
->         }
->
-> -       anx7625_start_dp_work(ctx);
-> -}
-> -
-> -static void anx7625_disconnect_check(struct anx7625_data *ctx)
-> -{
-> -       if (atomic_read(&ctx->power_status) == 0)
-> -               anx7625_stop_dp_work(ctx);
-> -}
-> -
-> -static void anx7625_low_power_mode_check(struct anx7625_data *ctx,
-> -                                        int state)
-> -{
-> -       struct device *dev = &ctx->client->dev;
-> +       DRM_DEV_DEBUG_DRIVER(dev, "system status: 0x%x. HPD raise up.\n", val);
-> +       anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
-> +                         INTR_ALERT_1, 0xFF);
-> +       anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +                         INTERFACE_CHANGE_INT, 0);
->
-> -       DRM_DEV_DEBUG_DRIVER(dev, "low power mode check, state(%d).\n", state);
-> +       anx7625_start_dp_work(ctx);
->
-> -       if (ctx->pdata.low_power_mode) {
-> -               anx7625_chip_control(ctx, state);
-> -               if (state)
-> -                       anx7625_hpd_polling(ctx);
-> -               else
-> -                       anx7625_disconnect_check(ctx);
-> -       }
-> +       if (!ctx->pdata.panel_bridge && ctx->bridge_attached)
-> +               drm_helper_hpd_irq_event(ctx->bridge.dev);
->  }
->
->  static void anx7625_remove_edid(struct anx7625_data *ctx)
-> @@ -1180,9 +1128,6 @@ static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
->         int intr_vector, status;
->         struct device *dev = &ctx->client->dev;
->
-> -       DRM_DEV_DEBUG_DRIVER(dev, "power_status=%d\n",
-> -                            (u32)atomic_read(&ctx->power_status));
-> -
->         status = anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
->                                    INTR_ALERT_1, 0xFF);
->         if (status < 0) {
-> @@ -1228,22 +1173,25 @@ static void anx7625_work_func(struct work_struct *work)
->                                                 struct anx7625_data, work);
->
->         mutex_lock(&ctx->lock);
+> +       }
 > +
-> +       if (pm_runtime_suspended(&ctx->client->dev))
-> +               goto unlock;
+> +       /* Trigger reset after CSR register update. */
+> +       regmap_write(ctx->regmap, REG_RC_RESET, REG_RC_RESET_SOFT_RESET);
 > +
->         event = anx7625_hpd_change_detect(ctx);
-> -       mutex_unlock(&ctx->lock);
->         if (event < 0)
-> -               return;
-> +               goto unlock;
->
->         if (ctx->bridge_attached)
->                 drm_helper_hpd_irq_event(ctx->bridge.dev);
-> +
-> +unlock:
-> +       mutex_unlock(&ctx->lock);
->  }
->
->  static irqreturn_t anx7625_intr_hpd_isr(int irq, void *data)
->  {
->         struct anx7625_data *ctx = (struct anx7625_data *)data;
->
-> -       if (atomic_read(&ctx->power_status) != 1)
-> -               return IRQ_NONE;
-> -
->         queue_work(ctx->workqueue, &ctx->work);
->
->         return IRQ_HANDLED;
-> @@ -1305,9 +1253,9 @@ static struct edid *anx7625_get_edid(struct anx7625_data *ctx)
->                 return (struct edid *)edid;
->         }
->
-> -       anx7625_low_power_mode_check(ctx, 1);
-> +       pm_runtime_get_sync(dev);
->         edid_num = sp_tx_edid_read(ctx, p_edid->edid_raw_data);
-> -       anx7625_low_power_mode_check(ctx, 0);
-> +       pm_runtime_put(dev);
->
->         if (edid_num < 1) {
->                 DRM_DEV_ERROR(dev, "Fail to read EDID: %d\n", edid_num);
-> @@ -1611,10 +1559,7 @@ static void anx7625_bridge_enable(struct drm_bridge *bridge)
->
->         DRM_DEV_DEBUG_DRIVER(dev, "drm enable\n");
->
-> -       anx7625_low_power_mode_check(ctx, 1);
-> -
-> -       if (WARN_ON(!atomic_read(&ctx->power_status)))
-> -               return;
-> +       pm_runtime_get_sync(dev);
->
->         anx7625_dp_start(ctx);
->  }
-> @@ -1624,14 +1569,11 @@ static void anx7625_bridge_disable(struct drm_bridge *bridge)
->         struct anx7625_data *ctx = bridge_to_anx7625(bridge);
->         struct device *dev = &ctx->client->dev;
->
-> -       if (WARN_ON(!atomic_read(&ctx->power_status)))
-> -               return;
-> -
->         DRM_DEV_DEBUG_DRIVER(dev, "drm disable\n");
->
->         anx7625_dp_stop(ctx);
->
-> -       anx7625_low_power_mode_check(ctx, 0);
-> +       pm_runtime_put(dev);
->  }
->
->  static enum drm_connector_status
-> @@ -1735,6 +1677,39 @@ static void anx7625_unregister_i2c_dummy_clients(struct anx7625_data *ctx)
->         i2c_unregister_device(ctx->i2c.tcpc_client);
->  }
->
-> +static int __maybe_unused anx7625_runtime_pm_suspend(struct device *dev)
-> +{
-> +       struct anx7625_data *ctx = dev_get_drvdata(dev);
-> +
-> +       mutex_lock(&ctx->lock);
-> +
-> +       anx7625_stop_dp_work(ctx);
-> +       anx7625_power_standby(ctx);
-> +
-> +       mutex_unlock(&ctx->lock);
-> +
-> +       return 0;
+> +       /* Clear all errors that got asserted during initialization. */
+> +       regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> +       regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
 > +}
 > +
-> +static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
-> +{
-> +       struct anx7625_data *ctx = dev_get_drvdata(dev);
-> +
-> +       mutex_lock(&ctx->lock);
-> +
-> +       anx7625_power_on_init(ctx);
-> +       anx7625_hpd_polling(ctx);
-> +
-> +       mutex_unlock(&ctx->lock);
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct dev_pm_ops anx7625_pm_ops = {
-> +       SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
-> +                          anx7625_runtime_pm_resume, NULL)
-> +};
-> +
-
-.pm = &anx7625_pm_ops, is missing in static struct i2c_driver
-anx7625_driver{...}
-
->  static int anx7625_i2c_probe(struct i2c_client *client,
->                              const struct i2c_device_id *id)
->  {
-> @@ -1778,8 +1753,6 @@ static int anx7625_i2c_probe(struct i2c_client *client,
->         }
->         anx7625_init_gpio(platform);
->
-> -       atomic_set(&platform->power_status, 0);
-> -
->         mutex_init(&platform->lock);
->
->         platform->pdata.intp_irq = client->irq;
-> @@ -1809,9 +1782,11 @@ static int anx7625_i2c_probe(struct i2c_client *client,
->                 goto free_wq;
->         }
->
-> -       if (platform->pdata.low_power_mode == 0) {
-> +       pm_runtime_enable(dev);
-> +
-> +       if (!platform->pdata.low_power_mode) {
->                 anx7625_disable_pd_protocol(platform);
-> -               atomic_set(&platform->power_status, 1);
-> +               pm_runtime_get_sync(dev);
->         }
->
->         /* Add work function */
-> @@ -1847,6 +1822,9 @@ static int anx7625_i2c_remove(struct i2c_client *client)
->         if (platform->pdata.intp_irq)
->                 destroy_workqueue(platform->workqueue);
->
-> +       if (!platform->pdata.low_power_mode)
-> +               pm_runtime_put_sync_suspend(&client->dev);
-> +
->         anx7625_unregister_i2c_dummy_clients(platform);
->
->         kfree(platform);
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> index e4a086b3a3d7..034c3840028f 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> @@ -369,7 +369,6 @@ struct anx7625_i2c_client {
->
->  struct anx7625_data {
->         struct anx7625_platform_data pdata;
-> -       atomic_t power_status;
->         int hpd_status;
->         int hpd_high_cnt;
->         /* Lock for work queue */
->
-> base-commit: e48661230cc35b3d0f4367eddfc19f86463ab917
-> --
-> 2.31.1.607.g51e8a6a459-goog
->
