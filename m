@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C56D376796
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 17:06:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0365F376797
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 17:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1465F6EE5B;
-	Fri,  7 May 2021 15:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF366EE5D;
+	Fri,  7 May 2021 15:06:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 907F56EE5B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 15:05:59 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 5614913A2;
- Fri,  7 May 2021 11:05:58 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 07 May 2021 11:05:59 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9514E6EE5D
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 15:06:04 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.west.internal (Postfix) with ESMTP id 5C8EE45D;
+ Fri,  7 May 2021 11:06:03 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 07 May 2021 11:06:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=vW+RTf3LgBXbs
- RoltOoYZx96bcul6bGBPQFQ8nNXkN0=; b=KJgrvW3Ct6yuqyf3/5iA2JzlN3Tsq
- aXbXnG35gzfHDwxVV3UNxjd3wgGRReKr5TNepzdoPZonkrbdMD7W/yaXbQLtTy1t
- Se6svRrJaoCg3LBNUA2vPCg0zIRIev/7qFxM/ygqXtXNMrNw2uLfw1CI97IOFERs
- P8ZZm6wEUCsRsQEPc4bqxdmNhPO+ghu9VgOjkl3cZw35KE1R0MlZdD2LX/QHXHhn
- rKGCim9slrfRg0Y/ofgJTJk6CSFXIIqZlnVwStymtmYPAT6MJG1BFmWhqx0WzkVy
- 5NcSTvoLcfDJk9eO7PCSJuoa3X3KfTl37W4o7WZ6o7KKFqY4owFrP/S/Q==
+ :mime-version:content-transfer-encoding; s=fm2; bh=96379yQnsIehT
+ 01GQXKJhvZ6Q4y1tsFGCN7qprHXy5o=; b=aKRNwiYwytTmg6us6c2YqmK3DbMMQ
+ imt97QJ73i/Y5fhJqkaasTjdM6+kJPucgk3ZkXKpnUv0I8YnEgT1u8hD+B1dF4Eq
+ zp+mAACX8y+ZQQ7qzdf7ELaglz1KqmF9q7YWCGO03pzo/PGNK9rBOmWpggSt0wtb
+ GcqEOddyLVNxJNsGquZMR3yZyDdTawy+CUh1I9LO/J6Erblic009KPKakuh1oVNq
+ Fr4UQ1x502uEuijl1M9njQK9MXbdUSRB3aHfhpRGRP1rCD2ZgNitVkmVlJ0U6wAl
+ xKUlK6KDAKT7TnEOu0N08q8xlSXcA9qXeDCnBHkneGwzojZwTw4Z5BWaQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=vW+RTf3LgBXbsRoltOoYZx96bcul6bGBPQFQ8nNXkN0=; b=nXSivO+z
- Oh9rxpTyP1n7PrlgyVo6/Fkl/i6Zxtariwa+0NxZUYEnR7sW7eX9eZc5KLMhCoxo
- QNpKmYBPWHv91d49NNwLBgE3/yNkAEWLksdFrFVKau9q0fMFkOBViECa6Qe4I7+i
- 8+dC8ycADL8BTrZ0nyZpTHPwK36ikl3gT67q2dL68KkcOs5ffiylP6Wggj/FuFD1
- 7rZS6uKsc6vkkb6eFmwpr95WjCGpQp53eiG+Eq/wi78nW/Htz+ZRVNVSZiNzIu0H
- ftn3o7xcqVJ8bBZOdcc/9SxDvYTMY1qOD1ChL2oB3b7UZKKmiOeH6bCYFbsnJQkt
- GoB3MXtVp55aSw==
-X-ME-Sender: <xms:VVeVYKvIioAdAvglX7gHnHuslS3WZwuNt7Aa_rrYITlKjWEYNUh0rQ>
- <xme:VVeVYPcu-_qKReZ2uWeZ_srQXBEI6MUfHcJqx7NPp2EnCYH1zQMCYGzLWACFlf__u
- -yj1PCnKnHyyWEZ5GI>
+ fm2; bh=96379yQnsIehT01GQXKJhvZ6Q4y1tsFGCN7qprHXy5o=; b=HnLmjPIQ
+ xQPS8chMTxbW3gKCQNKi51h7rUeEA/m/sali+GLSIqqEKbLD8K99nVpx+lAuTdnQ
+ zM68unSZWGPYaqHfZICaM838iwtFCNST4eWIRMrfH2voBb4UQqukaHkYGLONiwRz
+ +ep2K1jV59oaoXTRuspvKIhVCWa36AxQPwNhPAbSn4vWmvuQTgqraZ7kprR2fW9h
+ RzZM1eniyYXhUgCH759yjCWz5hAwYi+xxg4nksrhAbzeEv3IWGNh8+C2zo5OWK9B
+ sY0x16M1Ei+cNH3cFepOyW7XsHZf11/TjH6HWKHztGcLwzwUNzkZTiPQTNOvLPXr
+ nGveZsPvHjOHxQ==
+X-ME-Sender: <xms:WVeVYJOyi3cv5t_jwQRZKzv0gSlcYNU4mfGFaYah5CK5VvBcKnn0XQ>
+ <xme:WVeVYL82Zcqfnbq5fiSiO44oZ_-p815Se0N6BM5VfWJqjFPoA67OOwEDAAEqgeT9r
+ _eWqMb8Pyz_S5mj9nI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegvddgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:VVeVYFxBOf5jwFQawbSkCC4y3-Oo5x7BAYU50tbBtOmVtIAsbJ1ptQ>
- <xmx:VVeVYFPozPz8zTh26mNcoQUF11osnhcOeu-ASK4zu64wPq2xiszu6g>
- <xmx:VVeVYK9BwR6d5os2igFMVk2NDK6eMg0PjJ4NL9OnsAOVqee9qLPgRA>
- <xmx:VVeVYFXPLzyABdzOpCvUO90SqH_4BYvfrUCx3xq1IMn2jeAONdVXzGoXSek>
+X-ME-Proxy: <xmx:WVeVYIRBvC2MtsABwYumrPALrWGE4rhdedQ_zRIFiBrqhv-7mrPfDA>
+ <xmx:WVeVYFvpl74kaPiAD4GG3zH5SKLPu2qNQWFrJekhAMS5jO3WKRc7Dw>
+ <xmx:WVeVYBfifegzFkcs25vKMGO56lA19sNhLMLxVTMdZA4e4OPKODkjYw>
+ <xmx:WleVYP2jHeA40nGXL1bjqpjlqq0CKDg4PCkeMZgKb9ZfixIcOFa4LKuxgn0>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Fri,  7 May 2021 11:05:57 -0400 (EDT)
+ Fri,  7 May 2021 11:06:01 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>
-Subject: [PATCH v4 07/12] drm/vc4: hvs: Make the HVS bind first
-Date: Fri,  7 May 2021 17:05:10 +0200
-Message-Id: <20210507150515.257424-8-maxime@cerno.tech>
+Subject: [PATCH v4 08/12] drm/vc4: hdmi: Properly compute the BVB clock rate
+Date: Fri,  7 May 2021 17:05:11 +0200
+Message-Id: <20210507150515.257424-9-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210507150515.257424-1-maxime@cerno.tech>
 References: <20210507150515.257424-1-maxime@cerno.tech>
@@ -89,44 +89,58 @@ Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll need to have the HVS binding before the HDMI controllers so that
-we can check whether the firmware allows to run in 4kp60. Reorder a bit
-the component list, and document the current constraints we're aware of.
+The BVB clock rate computation doesn't take into account a mode clock of
+594MHz that we're going to need to support 4k60.
 
-Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 556ad0f02a0d..0310590ee66e 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -303,12 +303,21 @@ static const struct component_master_ops vc4_drm_ops = {
- 	.unbind = vc4_drm_unbind,
- };
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 9c919472ae84..c50dc5a59b2f 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -91,7 +91,6 @@
+ # define VC4_HD_M_ENABLE			BIT(0)
  
-+/*
-+ * This list determines the binding order of our components, and we have
-+ * a few constraints:
-+ *   - The TXP driver needs to be bound before the PixelValves (CRTC)
-+ *     but after the HVS to set the possible_crtc field properly
-+ *   - The HDMI driver needs to be bound after the HVS so that we can
-+ *     lookup the HVS maximum core clock rate and figure out if we
-+ *     support 4kp60 or not.
-+ */
- static struct platform_driver *const component_drivers[] = {
-+	&vc4_hvs_driver,
- 	&vc4_hdmi_driver,
- 	&vc4_vec_driver,
- 	&vc4_dpi_driver,
- 	&vc4_dsi_driver,
--	&vc4_hvs_driver,
- 	&vc4_txp_driver,
- 	&vc4_crtc_driver,
- 	&vc4_v3d_driver,
+ #define CEC_CLOCK_FREQ 40000
+-#define VC4_HSM_MID_CLOCK 149985000
+ 
+ #define HDMI_14_MAX_TMDS_CLK   (340 * 1000 * 1000)
+ 
+@@ -739,7 +738,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+ 		conn_state_to_vc4_hdmi_conn_state(conn_state);
+ 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-	unsigned long pixel_rate, hsm_rate;
++	unsigned long bvb_rate, pixel_rate, hsm_rate;
+ 	int ret;
+ 
+ 	ret = pm_runtime_get_sync(&vc4_hdmi->pdev->dev);
+@@ -793,12 +792,14 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+ 
+ 	vc4_hdmi_cec_update_clk_div(vc4_hdmi);
+ 
+-	/*
+-	 * FIXME: When the pixel freq is 594MHz (4k60), this needs to be setup
+-	 * at 300MHz.
+-	 */
+-	ret = clk_set_min_rate(vc4_hdmi->pixel_bvb_clock,
+-			       (hsm_rate > VC4_HSM_MID_CLOCK ? 150000000 : 75000000));
++	if (pixel_rate > 297000000)
++		bvb_rate = 300000000;
++	else if (pixel_rate > 148500000)
++		bvb_rate = 150000000;
++	else
++		bvb_rate = 75000000;
++
++	ret = clk_set_min_rate(vc4_hdmi->pixel_bvb_clock, bvb_rate);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to set pixel bvb clock rate: %d\n", ret);
+ 		clk_disable_unprepare(vc4_hdmi->hsm_clock);
 -- 
 2.31.1
 
