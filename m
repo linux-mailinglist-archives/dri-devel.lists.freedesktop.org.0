@@ -1,48 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4682376B2D
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 22:33:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3338376B5C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 22:59:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A46C6E573;
-	Fri,  7 May 2021 20:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3F56EE78;
+	Fri,  7 May 2021 20:59:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1ABA6E570;
- Fri,  7 May 2021 20:33:08 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 1621FC800A2;
- Fri,  7 May 2021 22:33:07 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id OmTbmMgJ_Wnx; Fri,  7 May 2021 22:33:06 +0200 (CEST)
-Received: from [IPv6:2003:e3:7f12:f200:d51b:e97d:b8e4:23b2]
- (p200300E37f12F200d51be97dB8e423B2.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f12:f200:d51b:e97d:b8e4:23b2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id 53E38C800A1;
- Fri,  7 May 2021 22:33:06 +0200 (CEST)
-Subject: Re: [PATCH v6 1/3] drm/i915/display: New function to avoid duplicate
- code in upcomming commits
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20210506172325.1995964-1-wse@tuxedocomputers.com>
- <20210507084903.28877-1-wse@tuxedocomputers.com>
- <20210507084903.28877-2-wse@tuxedocomputers.com> <YJV9HA5IuQW+KWOf@intel.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-Message-ID: <d3e95927-1b6e-d508-9677-fbf213921b49@tuxedocomputers.com>
-Date: Fri, 7 May 2021 22:33:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
+ [IPv6:2607:f8b0:4864:20::72c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F5C6EDFF;
+ Fri,  7 May 2021 20:59:17 +0000 (UTC)
+Received: by mail-qk1-x72c.google.com with SMTP id 197so9893477qkl.12;
+ Fri, 07 May 2021 13:59:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=WM3qTdeeeQvN9wqJqOAh1ks+lZ+P1gcdIZXNpOTonrc=;
+ b=r+Rn1FuazZF3GatZUdqZ9l+FO+YTxA1D3YJlPcigoUO/F7/3KKxnkKe8ET7nEtAaih
+ h6fBoqyszKYVFnDS+WIP+vKhSBconGErn5q6t57LNyLRSMcUsTeSRHebj6zjsqnU8x91
+ x0LcaPNDgX8NgwJDE+oQh/NazmWbYdiuBHCUfHS5bzAcrnOI8eVAd750FcUke5aERvyk
+ RyJfEPfKen91mYgLYXsAZnWv3MdAYzlzFwN7wIWnOJ841tOYm5RbkLFP9VKshPpvdoKI
+ PnUzOkCTWO4flAD3dS69vOC0XZLegxH4D7oQ0YhZ3bJhNRecuxNpozapdS0JCFX0VV/K
+ EdCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=WM3qTdeeeQvN9wqJqOAh1ks+lZ+P1gcdIZXNpOTonrc=;
+ b=CIK9W3hTfX/zHoaxlfcxAlVrGekMP/GkAKg32s237ToL5MacaV0Ld0FKMIR/PKNanF
+ Tly+Hdc+UZkhJY4KTbgEfiZb185lMBC6fjOWRvsL4a7YJsbPLHCL/apYJ1cjZm1V4z3Q
+ QcMl21MYZQnfVydHa1Zmw3aotCTYkBwPpRMJSSU/bf/A7NQm52KTy4yeBJzyhQQagJgQ
+ xzoPKdgBwcSoyAnt21NHUifTpodfTGRxLf5dZVD4FNvI2sP3RhQqgcmmKtybutN4CAxv
+ PK6/pRmlf4YU9LE5vbhV7OwvRTxUkOw4lNrpee8lvbcIaW7NGKQX1e9iFR9G1JbO8fmx
+ Xa2A==
+X-Gm-Message-State: AOAM530OQRPjUaUYG6XCBJ4GirEIeacIxBV31D5teziiWmT4zB0IdC+h
+ LgPTyD1i3+2sC3hoqk/K+Y4=
+X-Google-Smtp-Source: ABdhPJxyjJaPUgZZ5DfuESF5Im6k2ukuj2Fa/7dXtcMZSkR/HegPBCpoXKWS0kZr+E66ksFX99ZGJQ==
+X-Received: by 2002:a37:8c1:: with SMTP id 184mr11654363qki.345.1620421155940; 
+ Fri, 07 May 2021 13:59:15 -0700 (PDT)
+Received: from localhost (dhcp-6c-ae-f6-dc-d8-61.cpe.echoes.net.
+ [199.96.183.179])
+ by smtp.gmail.com with ESMTPSA id e13sm5982704qtm.35.2021.05.07.13.59.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 May 2021 13:59:14 -0700 (PDT)
+Date: Fri, 7 May 2021 16:59:13 -0400
+From: Tejun Heo <tj@kernel.org>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [RFC] Add BPF_PROG_TYPE_CGROUP_IOCTL
+Message-ID: <YJWqIVnX9giaKMTG@slm.duckdns.org>
+References: <YJUBer3wWKSAeXe7@phenom.ffwll.local>
+ <CAOWid-dmRsZUjF3cJ8+mx5FM9ksNQ_P9xY3jqxFiFMvN29SaLw@mail.gmail.com>
+ <YJVnO+TCRW83S6w4@phenom.ffwll.local>
+ <CADnq5_Pvtj1vb0bak_gUkv9J3+vfsMZxVKTKYeUvwQCajAWoVQ@mail.gmail.com>
+ <YJVqL4c6SJc8wdkK@phenom.ffwll.local>
+ <CADnq5_PHjiHy=Su_1VKr5ycdnXN-OuSXw0X_TeNqSj+TJs2MGA@mail.gmail.com>
+ <CADnq5_OjaPw5iF_82bjNPt6v-7OcRmXmXECcN+Gdg1NcucJiHA@mail.gmail.com>
+ <YJVwtS9XJlogZRqv@phenom.ffwll.local>
+ <YJWWByISHSPqF+aN@slm.duckdns.org>
+ <CADnq5_Mwd-xHZQ4pt34=FPk2Gq3ij1FNHWsEz1LdS7_Dyo00iQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YJV9HA5IuQW+KWOf@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADnq5_Mwd-xHZQ4pt34=FPk2Gq3ij1FNHWsEz1LdS7_Dyo00iQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,89 +77,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Song Liu <songliubraving@fb.com>, Alexei Starovoitov <ast@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Daniel Borkmann <daniel@iogearbox.net>, Brian Welty <brian.welty@intel.com>,
+ John Fastabend <john.fastabend@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Yonghong Song <yhs@fb.com>,
+ Andrii Nakryiko <andriin@fb.com>,
+ Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, Kenny Ho <y2kenny@gmail.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, KP Singh <kpsingh@chromium.org>,
+ "open list:CONTROL GROUP \(CGROUP\)" <cgroups@vger.kernel.org>,
+ Kenny Ho <Kenny.Ho@amd.com>, Network Development <netdev@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>, bpf <bpf@vger.kernel.org>,
+ Martin KaFai Lau <kafai@fb.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.05.21 um 19:47 schrieb Ville Syrjälä:
+Hello,
 
-> On Fri, May 07, 2021 at 10:49:01AM +0200, Werner Sembach wrote:
->> Moves some checks that later will be performed 2 times to an own function.
->> This avoids duplicate code later on.
->>
->> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_hdmi.c | 41 ++++++++++++++---------
->>  1 file changed, 26 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
->> index 46de56af33db..576d3d910d06 100644
->> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
->> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
->> @@ -1861,6 +1861,31 @@ static int intel_hdmi_port_clock(int clock, int bpc)
->>  	return clock * bpc / 8;
->>  }
->>  
->> +static enum drm_mode_status
->> +intel_hdmi_mode_clock_valid(struct intel_hdmi *hdmi, int clock, bool has_hdmi_sink)
->> +{
->> +	struct drm_device *dev = intel_hdmi_to_dev(hdmi);
->> +	struct drm_i915_private *dev_priv = to_i915(dev);
->> +	enum drm_mode_status status;
->> +
->> +	/* check if we can do 8bpc */
->> +	status = hdmi_port_clock_valid(hdmi, clock, true, has_hdmi_sink);
->> +
->> +	if (has_hdmi_sink) {
->> +		/* if we can't do 8bpc we may still be able to do 12bpc */
->> +		if (status != MODE_OK && !HAS_GMCH(dev_priv))
->> +			status = hdmi_port_clock_valid(hdmi, clock * 3 / 2,
-> Seems we've lost intel_hdmi_port_clock() here somehow.
+On Fri, May 07, 2021 at 03:55:39PM -0400, Alex Deucher wrote:
+> The problem is temporal partitioning on GPUs is much harder to enforce
+> unless you have a special case like SR-IOV.  Spatial partitioning, on
+> AMD GPUs at least, is widely available and easily enforced.  What is
+> the point of implementing temporal style cgroups if no one can enforce
+> it effectively?
 
-Yes, I think it happened when I rebased from torvalds/master to drm-tip/drm-tip.
+So, if generic fine-grained partitioning can't be implemented, the right
+thing to do is stopping pushing for full-blown cgroup interface for it. The
+hardware simply isn't capable of being managed in a way which allows generic
+fine-grained hierarchical scheduling and there's no point in bloating the
+interface with half baked hardware dependent features.
 
-Thanks for pointing it out. Fixed.
+This isn't to say that there's no way to support them, but what have been
+being proposed is way too generic and ambitious in terms of interface while
+being poorly developed on the internal abstraction and mechanism front. If
+the hardware can't do generic, either implement the barest minimum interface
+(e.g. be a part of misc controller) or go driver-specific - the feature is
+hardware specific anyway. I've repeated this multiple times in these
+discussions now but it'd be really helpful to try to minimize the interace
+while concentrating more on internal abstractions and actual control
+mechanisms.
 
->
->> +						       true, has_hdmi_sink);
->> +
->> +		/* if we can't do 8,12bpc we may still be able to do 10bpc */
->> +		if (status != MODE_OK && INTEL_GEN(dev_priv) >= 11)
->> +			status = hdmi_port_clock_valid(hdmi, clock * 5 / 4,
-> Also here.
->
->> +						       true, has_hdmi_sink);
->> +	}
->> +
->> +	return status;
->> +}
->> +
->>  static enum drm_mode_status
->>  intel_hdmi_mode_valid(struct drm_connector *connector,
->>  		      struct drm_display_mode *mode)
->> @@ -1891,21 +1916,7 @@ intel_hdmi_mode_valid(struct drm_connector *connector,
->>  	if (drm_mode_is_420_only(&connector->display_info, mode))
->>  		clock /= 2;
->>  
->> -	/* check if we can do 8bpc */
->> -	status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 8),
->> -				       true, has_hdmi_sink);
->> -
->> -	if (has_hdmi_sink) {
->> -		/* if we can't do 8bpc we may still be able to do 12bpc */
->> -		if (status != MODE_OK && !HAS_GMCH(dev_priv))
->> -			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 12),
->> -						       true, has_hdmi_sink);
->> -
->> -		/* if we can't do 8,12bpc we may still be able to do 10bpc */
->> -		if (status != MODE_OK && DISPLAY_VER(dev_priv) >= 11)
->> -			status = hdmi_port_clock_valid(hdmi, intel_hdmi_port_clock(clock, 10),
->> -						       true, has_hdmi_sink);
->> -	}
->> +	status = intel_hdmi_mode_clock_valid(hdmi, clock, has_hdmi_sink);
->>  	if (status != MODE_OK)
->>  		return status;
->>  
->> -- 
->> 2.25.1
+Thanks.
+
+-- 
+tejun
