@@ -2,62 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C428375D32
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 00:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332DE375DDE
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 02:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E41176E524;
-	Thu,  6 May 2021 22:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F33A6E12D;
+	Fri,  7 May 2021 00:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA67C6E524
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 22:31:04 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id i9so3481056lfe.13
- for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 15:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B1576E120;
+ Fri,  7 May 2021 00:19:54 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id d11so7361141wrw.8;
+ Thu, 06 May 2021 17:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=htNAnGunm2mFYSv2XzhlQsCDD0LeBwjAb0MYMtun6cM=;
- b=BORPcZuE9+rrQQNFUoJnt6f4FpTDIRpdNZeTdxMdbIECzBdY5oiwCD0JpZedlSNZ+7
- bix+fDrgKkNKxnNlizSFTjxEzgqSzLtT6D02CJDWAGt9oBFGQ4VHrgxc6tYB6CmAeE2+
- 8YQ9a8BVm4oo8k7TJnGL+6WsOCsGhg6VQJj04=
+ :cc; bh=6Ly8LRPF0H1aWdKEb+5WRQF77SY7lze0cxVlaDbFegM=;
+ b=Vifuxsq8ikahBtP4UaxvPzuwVbrtZJO8ayF/h1nNURzvnZdT8RPR598yvD2VRY86DC
+ 2dIgcOeWx45v5fLlZFs3uEqbpxUX2BWPvhu1YtNokLX3Cuov1UBRAHZxlN04hg3sY6nl
+ 0gFrYDP8GjGLvQ4CfaAiebk3uugXlJbho7TmenFZqi9pElZKW0Qr15ybfTpFsHb5eu70
+ devYrpJDnGEXZzRW9HaJCaHSnfJuAYdhfGqwikoIBScINq5f4M7e7LxIvw7ViEpm67s4
+ rlrOSNGVoH+Zvq23nUWnjHCRZsOM1MeYbAvJO4lo/zI2sm1tC1v37TQIFvcJBmANzYW2
+ nR7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=htNAnGunm2mFYSv2XzhlQsCDD0LeBwjAb0MYMtun6cM=;
- b=I6D3yCWwHWI/kVW7e40Ts+FgWBl0QOQQ55oCEjo0JyzQp/fXmvVv1ZXAi+BI3U+6hp
- ofL8GIS2KJZcVwGZSZ9+0XqMQMEqWK2xGvkOtYb7QSZ+VIupm7GKWKTKeb2NJEcR5+P4
- 5WV8DiqnqrHWryW3Tg8OsGpD+WSHHTBM8f6On4nDVfd9BioevS+IwESvpKeosJOE5UX+
- IuMIEq5XhMMtojPvMfZ47iHNNr5w5ooMKnIhTqXqC8dJzu3k4iHrCVmDWsxkJXr1lTOU
- c+SfrHwrJ1ZxRtWLGm6KL3zqFLD7kgFMZ1IElhdFhz/QKx/Wy05quEu3ENrnbOoIu4L8
- AX4Q==
-X-Gm-Message-State: AOAM5303cgE6Ry2UMRWHZso6HzvdRh7XLSvDPaE+lg4yp8M0DdC6ZQHS
- GgKQUEcGHq0xdSlZaoSBFwG/r5vyA5J4yiV4
-X-Google-Smtp-Source: ABdhPJwAcELf4D5Cvo4h21GMByDUT+NqLi3VwMQMj7UeGdKLuu9x8bMwkLdW/fhc3P0HOt/2B3K3Dw==
-X-Received: by 2002:ac2:5632:: with SMTP id b18mr4298046lff.62.1620340262896; 
- Thu, 06 May 2021 15:31:02 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
- [209.85.167.45])
- by smtp.gmail.com with ESMTPSA id t14sm1348748ljj.49.2021.05.06.15.31.02
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 May 2021 15:31:02 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id c3so10030027lfs.7
- for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 15:31:02 -0700 (PDT)
-X-Received: by 2002:a05:6512:1095:: with SMTP id
- j21mr4272160lfg.40.1620340261797; 
- Thu, 06 May 2021 15:31:01 -0700 (PDT)
+ bh=6Ly8LRPF0H1aWdKEb+5WRQF77SY7lze0cxVlaDbFegM=;
+ b=ne27r1QEKTA0g4sftvPSHoElvT0jnG279xwE2XIhWloYZtj5LVO62OIxRL+5GgGPNZ
+ yiBiGeYvnfGKedigKHgqRvj4bTMUpG3dkpDDXqu6TA+fq9g/ehU+1NEzE0mO739nEvfc
+ aE2eIeI04pHKeTn9W9hrYvzomEVqyXP/0tmWHNfHjSijLDcXReWnL9tbnRhhY5VTSP5F
+ NppeCkZH9odotmvqp/RwGaO0wT/MbZ3TULlpjHRgx2GRjyc57sWRnjgnhetDGcD+Y/i9
+ k8sixc8ybU+Gv0/CarEgNX9xGsPINkJ0HXjEEzl2pqfAwz31m+7OyxHL3i+6m+KwDkCg
+ rjuw==
+X-Gm-Message-State: AOAM5313Crksae+EU9UvtxrRK8O4XoZdO5nY4jyMCR0xMscEvDCsnoF2
+ qMZfw66DTo8N3vnQVDOhnpI37KT2Tyn4ZOkqcmE=
+X-Google-Smtp-Source: ABdhPJwApwq00cS0zUI9fX5pkWZKlLTrCmBiM6HCuq5FMtpKcHyw3B+qomvmNznEzUh2vYSRLKLwyBvpWhWLWX4hTgg=
+X-Received: by 2002:a5d:64cf:: with SMTP id f15mr8260301wri.327.1620346791614; 
+ Thu, 06 May 2021 17:19:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <YJBHiRiCGzojk25U@phenom.ffwll.local>
-In-Reply-To: <YJBHiRiCGzojk25U@phenom.ffwll.local>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 6 May 2021 15:30:45 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
-Message-ID: <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
-Subject: Re: [PULL] topic/iomem-mmap-vs-gup
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <1619048258-8717-1-git-send-email-khsieh@codeaurora.org>
+In-Reply-To: <1619048258-8717-1-git-send-email-khsieh@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 6 May 2021 17:23:32 -0700
+Message-ID: <CAF6AEGvJEThHFvMt34fAnOVhHkHxwtDyC8=g3CFEd16A4p8W8g@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] check sink_count before update is_connected status
+To: Kuogee Hsieh <khsieh@codeaurora.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,41 +61,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-MM <linux-mm@kvack.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, aravindh@codeaurora.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[ You had a really odd Reply-to on this one ]
-
-On Mon, May 3, 2021 at 12:15 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+On Wed, Apr 21, 2021 at 4:38 PM Kuogee Hsieh <khsieh@codeaurora.org> wrote:
 >
-> Anyway here's a small pull for you to ponder, now that the big ones are
-> all through.
+> 1) check sink_count before update is_connected status
+> 2) initialize audio_comp when audio starts
+> 3) check main link status before start aux read
+> 4) dp_link_parse_sink_count() return immediately if aux read failed
+>
+> Kuogee Hsieh (4):
+>   drm/msm/dp: check sink_count before update is_connected status
+>   drm/msm/dp: initialize audio_comp when audio starts
+>   drm/msm/dp: check main link status before start aux read
+>   drm/msm/dp: dp_link_parse_sink_count() return immediately if aux read
+>     failed
 
-Well, _now_ I'm all caught up. Knock wood. Anyway, time to look at it:
+I've picked up these two in msm-next for an upcoming -fixes pull req:
 
-> Follow-up to my pull from last merge window: kvm and vfio lost their
-> very unsafe use of follow_pfn, this appropriately marks up the very
-> last user for some userptr-as-buffer use-cases in media. There was
-> some resistance to outright removing it, maybe we can do this in a few
-> releases.
+  drm/msm/dp: initialize audio_comp when audio starts
+  drm/msm/dp: check sink_count before update is_connected status
 
-Hmm. So this looks mostly ok to me, although I think the change to the
-nommu case is pretty ridiculous.
+BR,
+-R
 
-On nommu, unsafe_follow_pfn() should just be a wrapper around
-follow_pfn(). There's no races when you can't remap anything. No?
 
-Do the two media cases even work on nommu?
-
-Finally - did you intend fo this to be a real pull request? Because
-the email read to me like "think about this and tell me what you
-think" rather than "please pull"..
-
-And I have now fulfilled that "think about and tell me" part ;)
-
-              Linus
+>
+>  drivers/gpu/drm/msm/dp/dp_audio.c   |  1 +
+>  drivers/gpu/drm/msm/dp/dp_aux.c     |  5 +++++
+>  drivers/gpu/drm/msm/dp/dp_display.c | 38 +++++++++++++++++++++++++------------
+>  drivers/gpu/drm/msm/dp/dp_display.h |  1 +
+>  drivers/gpu/drm/msm/dp/dp_link.c    | 20 ++++++++++++++-----
+>  5 files changed, 48 insertions(+), 17 deletions(-)
+>
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
