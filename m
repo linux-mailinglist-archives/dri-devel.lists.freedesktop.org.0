@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3422377DA6
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 10:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E0F377DA5
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 10:04:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40E7F6E40D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5DA06E416;
 	Mon, 10 May 2021 08:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A2F6EE40;
- Fri,  7 May 2021 14:57:08 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id n15so5962426edw.8;
- Fri, 07 May 2021 07:57:08 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 638F96EE40;
+ Fri,  7 May 2021 14:58:41 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id g14so10589333edy.6;
+ Fri, 07 May 2021 07:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dz08TtZQHN8WysDf1KSSv+J846ggMOVj0kzY1pDn55Y=;
- b=mevx2O5womNc6xFIEoqxVhmtxLhxKExcqHGouY3g4xlRa9Uz+e16jEau8C2tB07iEv
- Z50S/FXyPhQM76QElomJRreMwiozfL5ad6pkIjk+ll6pGw2xXrS2JAmjXY0/53BDkBoU
- Db9S3af17hp9zHcT5GroAXRG5YmFKfICZN/AcwUahxHvLQWLgSfa7MNj0MbhDWpmrGQs
- jU+H6WBUA/mvnTkB07AMea3TmW/8j5n9jkoEfiVroxHk1kfwAiyWu1RRuCtH34D+fnkO
- riVFuD+I0fg00s1KAAkVymZiHA5brIMVB7v9IuJ2nqhcLDEFIFkLz6y5JThHunskwrUx
- FYXw==
+ bh=CJHBifJjuAiUBB1fcY/7U2kOYy2ASja8+o2PqKZoRWE=;
+ b=XNEPPEBhgMHMMsT4kse0qA8u5ggbNQ9EE3NN4Lfs+z6ha71Hchom0V+YsQgDt3374B
+ UhX9hZXqoUY1i+Jmd3ueYBBXaJSi9jQMQonYfGwYp6ED3fCShZobGpP6aljtWvs9vbe2
+ /7L1fJjh56JN1EbxZY01WGSjDx5pLk0cvVsbGiWkKpgDaV4fMQSuJ2cEI2g0MGwD15sM
+ QZ99gEFOcCd9ypUYjXH4aJGHfKaomx0lni4YIi19FpQOvS3n9p6TV66hPzoSSzBBbA2Y
+ 7fJkLl8Qi9nlhU+iJLDveOHDabm38b4F0KGc0VGjVVrXANFmRZe4U6j/c07reOFgJ6Hy
+ Y6tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dz08TtZQHN8WysDf1KSSv+J846ggMOVj0kzY1pDn55Y=;
- b=fl2oR8HFzdrpbHov9NyJrdt452JTvpte1nr9WHXfhggxvNXKfeFx0XwR9t4VyaPq0j
- 6Cl7YXYwmSQXypfn+wlICilJpuGRXpCTMRaWtd6FcJZi1eP86LQf4U3Q4SxZqG/oLSQc
- H21+0vMCkM6sWsJAB8D52s/2LUQpB1pES/cLY5zOmuxZ2/N2XJFNxHdsTEnkEh1EOUz1
- 5/wSGsvgJwLixo2MwILBoSeOGMZn8D3P+oBZHgujIRW1/Hkw+k1oPgkZrIKwRwjL3KA5
- phmeTnJ9Dvca67XdOzpDFNkBWCFyOKHImyzTCwGsz3b4J6kPjpcl34yAyIJE1b/kSTvv
- amkQ==
-X-Gm-Message-State: AOAM530QEDthfu+P7CQ9Qij+TsgNnx4Nrz9ke8SZ5BnBe3Zlq8vvB9eW
- rrdCF4dgcxfYe1wzcrqfxii1fxEQBLOPZg==
-X-Google-Smtp-Source: ABdhPJyjUSVgdPFic/P8Et5E9RwW1l1qkvgy2QTFo4YpaB/kfDIXpAjAt064eXJjGY0LpZQutU0pmQ==
-X-Received: by 2002:a05:6402:416:: with SMTP id
- q22mr11927096edv.204.1620399427010; 
- Fri, 07 May 2021 07:57:07 -0700 (PDT)
+ bh=CJHBifJjuAiUBB1fcY/7U2kOYy2ASja8+o2PqKZoRWE=;
+ b=HyNla4LJcLzImZWcA8/eA/eQ8GpFcd1RQxBc38UAVuDpLBzpNc2mSS9gk8p0FTqPTR
+ N8+z5yAvSYMkLPCmFweO4kya7I1l9PxMcwL3xQV3FTs9l63YZW050rcxor6mpg3y6z84
+ 2dB5Fx0EgiUWpQ88OOvmL8VmKqwIU15zDfEGOz/DPN2Z1i5sAM1Og6HxA7Ii50Sm5S4J
+ jkGCLvtTx79agBbex7sOZyaKypmVR3urunBaxI8mRNTn8pp+rCwk3Zk6sZ7CTDIDddbF
+ FQ0IXoL+3kN+ifJY46aD88xJy9+0DUZ5J4lMBkOF1gdSu9v+/qCfl72ucr6sUJsS2TF8
+ f46Q==
+X-Gm-Message-State: AOAM530kN0sRok83ekQnP/W9OHsOVuVMsyWo/bBjbIN2GYXZuuAw28pp
+ tg/LhEObCRM+A9LPDSbsuSq3NMim8QBwyw==
+X-Google-Smtp-Source: ABdhPJwKTBoHHEGsXmBsKTt/zAlEpVBQULdCoEKocsz8PQ3XbcWNFsWC2MfypygtKruT+f+OYBtAdQ==
+X-Received: by 2002:a05:6402:798:: with SMTP id
+ d24mr11757288edy.275.1620399520090; 
+ Fri, 07 May 2021 07:58:40 -0700 (PDT)
 Received: from jernej-laptop.localnet (cpe-86-58-17-133.cable.triera.net.
  [86.58.17.133])
- by smtp.gmail.com with ESMTPSA id h4sm3325354edv.97.2021.05.07.07.57.05
+ by smtp.gmail.com with ESMTPSA id cf10sm4308872edb.21.2021.05.07.07.58.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 07:57:06 -0700 (PDT)
+ Fri, 07 May 2021 07:58:39 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [v3,
- 4/5] drm/connector: Add a helper to attach the colorspace property
-Date: Fri, 07 May 2021 16:57:04 +0200
-Message-ID: <2190160.Z2YBaczauS@jernej-laptop>
-In-Reply-To: <20210430094451.2145002-4-maxime@cerno.tech>
-References: <20210430094451.2145002-4-maxime@cerno.tech>
+Subject: Re: [v3, 5/5] drm/vc4: hdmi: Signal the proper colorimetry info in the
+ infoframe
+Date: Fri, 07 May 2021 16:58:38 +0200
+Message-ID: <3819038.KMkRtCgjlg@jernej-laptop>
+In-Reply-To: <20210430094451.2145002-5-maxime@cerno.tech>
+References: <20210430094451.2145002-5-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -91,10 +91,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi!
 
-Dne petek, 30. april 2021 ob 11:44:50 CEST je Maxime Ripard napisal(a):
-> The intel driver uses the same logic to attach the Colorspace property
-> in multiple places and we'll need it in vc4 too. Let's move that common
-> code in a helper.
+Dne petek, 30. april 2021 ob 11:44:51 CEST je Maxime Ripard napisal(a):
+> Our driver while supporting HDR didn't send the proper colorimetry info
+> in the AVI infoframe.
+> 
+> Let's add the property needed so that the userspace can let us know what
+> the colorspace is supposed to be.
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
@@ -104,7 +106,6 @@ Dne petek, 30. april 2021 ob 11:44:50 CEST je Maxime Ripard napisal(a):
 > 
 > Changes from v1:
 >   - New patch
-> ---
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
