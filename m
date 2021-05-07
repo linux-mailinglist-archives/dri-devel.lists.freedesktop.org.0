@@ -1,78 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDE1375E03
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 02:42:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8E2375E27
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 03:00:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C1086E10C;
-	Fri,  7 May 2021 00:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7E8A6E145;
+	Fri,  7 May 2021 01:00:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1500 seconds by postgrey-1.36 at gabe;
- Fri, 07 May 2021 00:42:42 UTC
-Received: from gateway36.websitewelcome.com (gateway36.websitewelcome.com
- [192.185.193.119])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 651266E10C
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 00:42:42 +0000 (UTC)
-Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
- by gateway36.websitewelcome.com (Postfix) with ESMTP id 5DF734016C3C5
- for <dri-devel@lists.freedesktop.org>; Thu,  6 May 2021 18:55:20 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id enpwl3RSZMGeEenpwlBRUb; Thu, 06 May 2021 18:55:20 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=uBMWXYRHAMRsj6xFgkG73zbo+RAiW96NPEj5M4BVNWk=; b=laXCcOnwLTwSPaZcrQDw6GYxI9
- F7i4EfbdfOBZy8zL5791tkTVfIBDjRSQExa/8jiXskvwy8jHgHKa+hJnjNAHMEBpZTcoY3I2z7Rjv
- kSaLdv68sbUtGHPztzh6tV+RdmbCtxcJKIILo6T/srB1kqLOK79DeGhecwnAg3Jxuf18rejuLRcnN
- F//4+/CNpbMFwjjrOavkvCdpFJdfs787XYwu0rRbOBKqu+QkAalFWOwcd6qpaI0hqBQlRTfgEo54W
- B0WyRT6HF+6cC5eYwCwGa/ql0qaoNZgSHfvxF3jooIWlTC7JnoEXCQd5GU6UnNsRmYFYSVAesMTtC
- E5wfmcJg==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:57036
- helo=[192.168.15.8])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <gustavo@embeddedor.com>)
- id 1lenpr-001ELO-K7; Thu, 06 May 2021 18:55:15 -0500
-Subject: Re: Radeon NI: GIT kernel with the nislands_smc commit doesn't boot
- on a Freescale P5040 board and P.A.Semi Nemo board
-To: Christian Zigotzky <chzigotzky@xenosoft.de>, gustavoars@kernel.org,
- alexander.deucher@amd.com
-References: <3eedbe78-1fbd-4763-a7f3-ac5665e76a4a@xenosoft.de>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-ID: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
-Date: Thu, 6 May 2021 18:55:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+ [209.85.167.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9776E037
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 01:00:30 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id o16so2122910oiw.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 May 2021 18:00:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eb5+HKkFnVW+o2UzphP6vW7sV6LAZETZAKG0WZN0QBU=;
+ b=G+uEq1/o0u4cREYUiJCZzLHRd/UZzZjn0XpMnGeHjJr7TGy1fUIZupODmOR3Yek6Gb
+ uarh5yJFwXvvwxTHezcBUeEnyvsBOzoz1PXyf0YXo6IJOSx1lb/M7oaM87OmU46xVj8A
+ qCU0OtbFcAAoJbrYB5yZ6qqdygkYocmHP5FOMEIKEMfLNubb4qRAJeCMrHHtpWl2cp2p
+ EFKVTGVNRPq5yVs6TSmqY1ok6SlcBREiJHSh1xAEolxbU1pyJYcnsalDL51BwRhcZ8Vl
+ 6I7Sun9tYczQVrS/5j74PDwClgGTrMlvwmCmkpbIqfZEVb27hglYp9qrQaKBw2P9Y2d3
+ Uz9w==
+X-Gm-Message-State: AOAM532uAXXQDCcKptoYoT37VXIC7Bfg1gwftzE+q+p860fy7468K2/D
+ gWSzsY0IRIZTSq5sbLZIjw==
+X-Google-Smtp-Source: ABdhPJxFj3OOybcWuM3iI8NJDL/CzhjNvI/ok1nUcd+KEaI1ka/6w6nFp1Fu4ZhQ03DiS9wsHVEdgQ==
+X-Received: by 2002:aca:eac2:: with SMTP id
+ i185mr12275990oih.171.1620349230204; 
+ Thu, 06 May 2021 18:00:30 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id a23sm909475otf.47.2021.05.06.18.00.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 May 2021 18:00:29 -0700 (PDT)
+Received: (nullmailer pid 1108024 invoked by uid 1000);
+ Fri, 07 May 2021 01:00:28 -0000
+Date: Thu, 6 May 2021 20:00:28 -0500
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH V3 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add TI
+ SN65DSI83 and SN65DSI84 bindings
+Message-ID: <20210507010028.GA1101578@robh.at.kernel.org>
+References: <20210505100218.108024-1-marex@denx.de>
 MIME-Version: 1.0
-In-Reply-To: <3eedbe78-1fbd-4763-a7f3-ac5665e76a4a@xenosoft.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1lenpr-001ELO-K7
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8])
- [187.162.31.110]:57036
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 9
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210505100218.108024-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,57 +62,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Christian Zigotzky <info@xenosoft.de>
+Cc: devicetree@vger.kernel.org, ch@denx.de,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On Wed, May 05, 2021 at 12:02:17PM +0200, Marek Vasut wrote:
+> Add DT binding document for TI SN65DSI83 and SN65DSI84 DSI to LVDS bridge.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+> V2: Add compatible string for SN65DSI84, since this is now tested on it
+> V3: - Add 0x2c as valid i2c address
+>     - Switch to schemas/graph.yaml
+>     - Constraint data-lanes to <1>, <1 2>, <1 2 3>, <1 2 3 4> only
+>     - Indent example by 4 spaces
+>     - Handle dual-link LVDS with two ports and describe the second DSI
+>       channel-B port as well. Based on the register defaults of DSI83
+>       and DSI84, it is likely that the LVDS-channel-B and DSI-channel-B
+>       hardware is present in all the chips, so just reuse port@0 and 2
+>       for DSI83, port@0,2,3 for DSI84 and all of 0,1,2,3 for DSI85 when
+>       that is supported
+> ---
+>  .../bindings/display/bridge/ti,sn65dsi83.yaml | 171 ++++++++++++++++++
+>  1 file changed, 171 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> new file mode 100644
+> index 000000000000..4e7df92446a9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> @@ -0,0 +1,171 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: SN65DSI83 and SN65DSI84 DSI to LVDS bridge chip
+> +
+> +maintainers:
+> +  - Marek Vasut <marex@denx.de>
+> +
+> +description: |
+> +  Texas Instruments SN65DSI83 1x Single-link MIPI DSI
+> +  to 1x Single-link LVDS
+> +  https://www.ti.com/lit/gpn/sn65dsi83
+> +  Texas Instruments SN65DSI84 1x Single-link MIPI DSI
+> +  to 1x Dual-link or 2x Single-link LVDS
+> +  https://www.ti.com/lit/gpn/sn65dsi84
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - const: ti,sn65dsi83
+> +      - const: ti,sn65dsi84
 
-On 4/30/21 06:59, Christian Zigotzky wrote:
-> Hello,
-> 
-> The Nemo board (A-EON AmigaOne X1000) [1] and the FSL P5040 Cyrus+ board (A-EON AmigaOne X5000) [2] with installed AMD Radeon HD6970 NI graphics cards (Cayman
-> XT) [3] don't boot with the latest git kernel anymore after the commit "drm/radeon/nislands_smc.h: Replace one-element array with flexible-array member in
-> struct NISLANDS_SMC_SWSTATE branch" [4].  This git kernel boots in a virtual e5500 QEMU machine with a VirtIO-GPU [5].
-> 
-> I bisected today [6].
-> 
-> Result: drm/radeon/nislands_smc.h: Replace one-element array with flexible-array member in struct NISLANDS_SMC_SWSTATE branch
-> (434fb1e7444a2efc3a4ebd950c7f771ebfcffa31) [4] is the first bad commit.
+Use 'enum' instead of oneOf+const.
 
-I have a fix ready for this bug:
-https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commit/?h=testing/drm-nislands
+> +
+> +  reg:
+> +    oneOf:
+> +      - const: 0x2c
+> +      - const: 0x2d
 
-I wonder if you could help me to test it with your environment, please.
-It should be applied on top of mainline.
+Ditto
 
-Thank you!
---
-Gustavo
+> +
+> +  enable-gpios:
+> +    maxItems: 1
+> +    description: GPIO specifier for bridge_en pin (active high).
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for MIPI DSI Channel-A input
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
 
+This should actually be video-interfaces.yaml since you use one of the 
+properties from it.
+
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                description: array of physical DSI data lane indexes.
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for MIPI DSI Channel-B input
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                description: array of physical DSI data lane indexes.
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for LVDS Channel-A output (panel or bridge).
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            description: LVDS Channel-A output endpoint
+> +            unevaluatedProperties: false
+
+No need for 'endpoint' unless you have extra properties in it.
+
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for LVDS Channel-A output (panel or bridge).
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            description: LVDS Channel-B output endpoint
+> +            unevaluatedProperties: false
+
+Ditto
+
+> +
+> +    required:
+> +      - port@0
+> +      - port@2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - enable-gpios
+> +  - ports
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,sn65dsi83
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@1: false
+> +            port@3: false
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,sn65dsi84
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@1: false
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        bridge@2d {
+> +            compatible = "ti,sn65dsi83";
+> +            reg = <0x2d>;
+> +
+> +            enable-gpios = <&gpio2 1 GPIO_ACTIVE_HIGH>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +
+> +                    endpoint {
+> +                        remote-endpoint = <&dsi0_out>;
+> +                        data-lanes = <1 2 3 4>;
+> +                    };
+> +                };
+> +
+> +                port@2 {
+> +                    reg = <2>;
+> +
+> +                    endpoint {
+> +                        remote-endpoint = <&panel_in_lvds>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.30.2
 > 
-> I was able to revert this commit [7] and after a new compiling, the kernel boots without any problems on my AmigaOnes.
-> 
-> After that I created a patch for reverting this commit for new git test kernels. [3]
-> 
-> The kernel compiles and boots with this patch on my AmigaOnes. Please find attached the kernel config files.
-> 
-> Please check the first bad commit.
-> 
-> Thanks,
-> Christian
-> 
-> [1] https://en.wikipedia.org/wiki/AmigaOne_X1000
-> [2] http://wiki.amiga.org/index.php?title=X5000
-> [3] https://forum.hyperion-entertainment.com/viewtopic.php?f=35&t=4377
-> [4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=434fb1e7444a2efc3a4ebd950c7f771ebfcffa31
-> [5] qemu-system-ppc64 -M ppce500 -cpu e5500 -m 1024 -kernel uImage -drive format=raw,file=MintPPC32-X5000.img,index=0,if=virtio -netdev user,id=mynet0 -device
-> virtio-net-pci,netdev=mynet0 -append "rw root=/dev/vda" -device virtio-vga -usb -device usb-ehci,id=ehci -device usb-tablet -device virtio-keyboard-pci -smp 4
-> -vnc :1
-> [6] https://forum.hyperion-entertainment.com/viewtopic.php?p=53074#p53074
-> [7] git revert 434fb1e7444a2efc3a4ebd950c7f771ebfcffa3
