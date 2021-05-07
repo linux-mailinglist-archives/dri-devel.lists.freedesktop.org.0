@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4474D37678A
-	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 17:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F04537678C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 May 2021 17:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 590F76EE56;
-	Fri,  7 May 2021 15:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 698706EE58;
+	Fri,  7 May 2021 15:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B44696EE56
- for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 15:05:34 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 5EF3612F1;
- Fri,  7 May 2021 11:05:33 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F125A6EE58
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 May 2021 15:05:39 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id BA54F1361;
+ Fri,  7 May 2021 11:05:38 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 07 May 2021 11:05:34 -0400
+ by compute4.internal (MEProxy); Fri, 07 May 2021 11:05:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=SudjKN4UEIfT0
- /YepqLSU7wGC8AZ2ev0B9T1BBipTNo=; b=hTxsRX3EMtYdRvmlUd//K/1rRCnDq
- GyPlEGIJgnGKxjnzHFVMKtNJJrfTUzLD1YBbOc4GUkyg1UAtLC16Es9ixefWB0+s
- rd/GmOcCUgq7/b5D5eJUjsloCV39E2XVW/C+y8D3TJSfbmlWW2HbvxqfuK9q+jqQ
- R8eX04NsqQ4X6jCJtgPPTCMQiwfPdhYsucxjyO2xktz267BhAh49KgL3ybayERSz
- Ic1ekCDKKNLxZpuX6QAEGFEqSRua3kSzKXBMdDUK0LR71uf1emMgkv+pMh2tviKx
- dM+XM/zar5qj+C4ItbVhyNKg6tM/imyn301GKXq87EEmQwS7UCRK9rOGw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=18fpWr48RtAkP
+ m/b4PbmAztbbn4pmVuXqk9uW+P5wP0=; b=D18NDZpJmMgS1//hpnUh4HzRpV4sv
+ VUAA2G2xqWP09c3PD4qk4/aSCZ584m01LWdotLRwxzpMvjJmsQEklkwWmuLbDxxc
+ xC8GTJAV0nY7ACA5plXsqoq0bi0gUMAKd16555c4TC7zK70gpxWDQhFyTBG8fWBa
+ N0OKDy4NsKPvSvembVkEX9p5Oluaa0uyIwfGPOg92XjFL3x2Zdima85isRtKFG3I
+ +qWz+iuBsZupNGVabo0Z6kSENNM/ZaxEedJFyWuRJwcbD7IE4pjegRmCnOIiM3Pq
+ 4cE0O5OZTso0v/ZTg/1POQWRVsht67N4YRzisgIZAGkOzetrh0EJAZk1g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=SudjKN4UEIfT0/YepqLSU7wGC8AZ2ev0B9T1BBipTNo=; b=godHAfnM
- WQ6z2L4vdd7zmXh7icV7eubwRH6D0uvIwQej6n/ou71lxzzrPqWLn0n7U5Z8WSqL
- xypasSrvTzfUjDYGdU/DESLQ26MOdkciW+8rW6yW/Qs9Uxmwj+A6eUVCGRKNscPN
- ZkSiCXprnPIcOw4PyDrfKaHbzNYHxJeJ9+8yCWJ/W4bBa3QMQ2GD9cTEXiLPvlw7
- HJCYYMY58Or55R6/QCEf+3Nkwzunni7OGiGBNyXOnSrV3dNbjxa/NdY832izchIB
- YfnR/agzLBVjsNL5TQFtdoHHFKcXflBTb2W3cvO++sMXutwqP2pI3Xmte2oiCVFh
- sIN6Vc40O1eLBg==
-X-ME-Sender: <xms:PFeVYDgrdbELTTm8NXAucsDrTyKz54AdqnPZgKIoF8aRnNal1RIzJw>
- <xme:PFeVYADTTYNo5LN0aRK2liMw358XEKYVr2f3ZZ91-XGJ4o8VPgJszXEVF82HKkRQ2
- CgH7gSoto-HZ7XVpXo>
+ fm2; bh=18fpWr48RtAkPm/b4PbmAztbbn4pmVuXqk9uW+P5wP0=; b=BCCvO8cd
+ F+I3OFmxu5BWKBD1NYGt77+C0aV/ek6XKKlhP0jTF8+381xtZbft0YoJAlMFvB8W
+ j9X5a7d3MwVqnV4e1nA+lI0mbZ5MM2n9WeU32p4BPTtTYkPJoXENnwpSDl46Ephc
+ 9niJiz0nLNvxTD5Yoes6Br6X7NekHB9q1FlRridDkjJZiOpicIpbQP4Y4zGDlA5J
+ 9UcE/FwjWeqbmKMAorgiUOzb18YvYW3CVwYgIiyi2vfxlKv8MarYcYKXbRr7IyP1
+ FknISSZqUWLDk3CPuVGepfyAS1myW2APhvVaTQQDjzEistO3eCIJ+6E2094/ZfxG
+ lUkcBHQ47GgWig==
+X-ME-Sender: <xms:QFeVYAsACpImVOFDIANu6UAaCvQUuylnLqPrvURk4mnxWEBYkqOngw>
+ <xme:QFeVYNcCZgYJw3iGkx56iV-0VwPNYSB04XIU5sBPdWpuW-I0-76nLTgl23qEcK1Gn
+ Rg6Vx82HKjZMhIbJAQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegvddgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,21 +49,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegvddgkeegucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:PFeVYDEvFU_W0InTm2ip4mD8KkKJNTMsd-8C_k9WFZ20-3pdJptCdw>
- <xmx:PFeVYASKevie-TnDlTxiaopxEsml4BwW6HSQVxjYe_NnZHBpoNSohQ>
- <xmx:PFeVYAwgINTpR_dy3U2EUxKa4X4Jt-t8zvJkhWaQnL4N6mGt_-GZlw>
- <xmx:PVeVYMj-uecn1JodmrgoYH5lFsd3yGxQfm-_VSL6uVHaSmVov3z3EBPLRBM>
+X-ME-Proxy: <xmx:QFeVYLy3kGcgCFrCZiDygGLegmC2A0oKmu4vmdIytARAM_mV-cHnDw>
+ <xmx:QFeVYDOP5Mskppx56ANWIew0OaHqlqvzJxscJ-JRarvDaMILHeT_6Q>
+ <xmx:QFeVYA-PQKKgPYaI5gXw8gId80JquAqtA7pzuIoF7JY4znkyGUBjtg>
+ <xmx:QleVYLUjBIwiaWrMkUQvrW886UTQE-pv_HW2SD5EFoCPwV5GTX-84VLmodw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Fri,  7 May 2021 11:05:32 -0400 (EDT)
+ Fri,  7 May 2021 11:05:36 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>
-Subject: [PATCH v4 02/12] drm/vc4: crtc: Skip the TXP
-Date: Fri,  7 May 2021 17:05:05 +0200
-Message-Id: <20210507150515.257424-3-maxime@cerno.tech>
+Subject: [PATCH v4 03/12] drm/vc4: crtc: Pass the drm_atomic_state to config_pv
+Date: Fri,  7 May 2021 17:05:06 +0200
+Message-Id: <20210507150515.257424-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210507150515.257424-1-maxime@cerno.tech>
 References: <20210507150515.257424-1-maxime@cerno.tech>
@@ -84,45 +84,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
  Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vc4_set_crtc_possible_masks is meant to run over all the encoders
-and then set their possible_crtcs mask to their associated pixelvalve.
+The vc4_crtc_config_pv will need to access the drm_atomic_state
+structure and its only parent function, vc4_crtc_atomic_enable already
+has access to it. Let's pass it as a parameter.
 
-However, since the commit 39fcb2808376 ("drm/vc4: txp: Turn the TXP into
-a CRTC of its own"), the TXP has been turned to a CRTC and encoder of
-its own, and while it does indeed register an encoder, it no longer has
-an associated pixelvalve. The code will thus run over the TXP encoder
-and set a bogus possible_crtcs mask, overriding the one set in the TXP
-bind function.
-
-In order to fix this, let's skip any virtual encoder.
-
-Cc: <stable@vger.kernel.org> # v5.9+
-Fixes: 39fcb2808376 ("drm/vc4: txp: Turn the TXP into a CRTC of its own")
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 792c3132bc1b ("drm/vc4: encoder: Add finer-grained encoder callbacks")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 269390bc586e..f1f2e8cbce79 100644
+index f1f2e8cbce79..8a19d6c76605 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -1018,6 +1018,9 @@ static void vc4_set_crtc_possible_masks(struct drm_device *drm,
- 		struct vc4_encoder *vc4_encoder;
- 		int i;
+@@ -288,7 +288,7 @@ static void vc4_crtc_pixelvalve_reset(struct drm_crtc *crtc)
+ 	CRTC_WRITE(PV_CONTROL, CRTC_READ(PV_CONTROL) | PV_CONTROL_FIFO_CLR);
+ }
  
-+		if (encoder->encoder_type == DRM_MODE_ENCODER_VIRTUAL)
-+			continue;
-+
- 		vc4_encoder = to_vc4_encoder(encoder);
- 		for (i = 0; i < ARRAY_SIZE(pv_data->encoder_types); i++) {
- 			if (vc4_encoder->type == encoder_types[i]) {
+-static void vc4_crtc_config_pv(struct drm_crtc *crtc)
++static void vc4_crtc_config_pv(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+ 	struct drm_device *dev = crtc->dev;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+@@ -296,8 +296,8 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc)
+ 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+ 	const struct vc4_pv_data *pv_data = vc4_crtc_to_vc4_pv_data(vc4_crtc);
+-	struct drm_crtc_state *state = crtc->state;
+-	struct drm_display_mode *mode = &state->adjusted_mode;
++	struct drm_crtc_state *crtc_state = crtc->state;
++	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+ 	bool interlace = mode->flags & DRM_MODE_FLAG_INTERLACE;
+ 	u32 pixel_rep = (mode->flags & DRM_MODE_FLAG_DBLCLK) ? 2 : 1;
+ 	bool is_dsi = (vc4_encoder->type == VC4_ENCODER_TYPE_DSI0 ||
+@@ -522,7 +522,7 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	if (vc4_encoder->pre_crtc_configure)
+ 		vc4_encoder->pre_crtc_configure(encoder, state);
+ 
+-	vc4_crtc_config_pv(crtc);
++	vc4_crtc_config_pv(crtc, state);
+ 
+ 	CRTC_WRITE(PV_CONTROL, CRTC_READ(PV_CONTROL) | PV_CONTROL_EN);
+ 
 -- 
 2.31.1
 
