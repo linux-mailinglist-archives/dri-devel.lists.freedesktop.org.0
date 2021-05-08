@@ -1,64 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30A43773EA
-	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 22:02:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 906F43773FD
+	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 22:26:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 483CD89B9E;
-	Sat,  8 May 2021 20:01:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB6966E0E3;
+	Sat,  8 May 2021 20:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E923A89B9E;
- Sat,  8 May 2021 20:01:54 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- i23-20020a9d68d70000b02902dc19ed4c15so6949496oto.0; 
- Sat, 08 May 2021 13:01:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:to:from:subject:cc:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=PU30ZBFiv13gHE0SS2G3SAIXkJF2OmBGUDpL6SbzAj8=;
- b=XCylzsYxLucK7KJUyxyiltCkZzuG2i9r3Aec6/CZ9hqXYXNEVUAk29OOKWcfa9X+BX
- 5CH7jh2qxSTQXlLho9eIviJYcL57YR0BQ9K5D/5kdq6X6QsHniVdTsohDLDDsmXjdTyK
- Xyh5pQSh08jtrntSeK4rHaAxW9OasNdVVYWfsdKoJfEETXgw5FjmCSKN6T2ksjjp21f7
- X0OVyjApl5MqIHotTOmeXr+2xanWE0D0RUTTNSfu4tMig3kJ1rQbLnVwEUVlpOz7cOs/
- ucIsCa5284aMnaVeBEhZa5JfkJWbyDmmAeAHWklFFG7q+hqf3poXi98IfEgzrDHTo5SP
- 2Wmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:to:from:subject:cc:message-id:date
- :user-agent:mime-version:content-language:content-transfer-encoding;
- bh=PU30ZBFiv13gHE0SS2G3SAIXkJF2OmBGUDpL6SbzAj8=;
- b=Hu01pCnMu8ppWGfTtKMBuzmp6JMoPkwIV85ML8JyFkzKxfwE6uUAnKgb8Xp2jysMQn
- A5eCTZF5X6e6g7Am2i+sPEghAP2paCgbMkTzh4Q0VQrbD7IBB1Juhg/NGVL1Ke/ZQB1c
- nuhqnAHL7bn8Q9SkD5BJ4Z+2+qrJiz3n38y+duuOFxw4fL/qTkzlDjMrIIRmgmLN+jry
- I+MGYL928KReNn67XIelUJeWBMK++dDGdPFw6cNrB21kRYLKwtMdkEgM9s+QWfOwird8
- N2t/t59du1wxePcKtSsu1iD+paqiQ591ZJsEmQJcOjdoDSskqu8oGn3q2pu9aLbvfizJ
- rvUw==
-X-Gm-Message-State: AOAM531xOieHZz9XzbxUY5x9IaSL9LAfpxPEQ1Qk5aMCfeCDKXEg7HQp
- e79aTUXglA+Kpnylf6Fobrk=
-X-Google-Smtp-Source: ABdhPJwr1xGS/rLU1sScHz6beI9MYZHLY29DHlvAZ+uEP1MQ9Ko4sw/uN0Sp2Zmsaw3rtEk0Jmfk9Q==
-X-Received: by 2002:a9d:a6c:: with SMTP id 99mr14211293otg.60.1620504113402;
- Sat, 08 May 2021 13:01:53 -0700 (PDT)
-Received: from localhost.localdomain (cpe-24-31-245-230.kc.res.rr.com.
- [24.31.245.230])
- by smtp.gmail.com with ESMTPSA id x11sm1428694otr.36.2021.05.08.13.01.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 May 2021 13:01:53 -0700 (PDT)
-To: Ben Skeggs <bskeggs@redhat.com>, DRI <dri-devel@lists.freedesktop.org>,
- nouveau@lists.freedesktop.org
-From: Larry Finger <Larry.Finger@lwfinger.net>
-Subject: nouveau timeout errors with kernel 5.12
-Message-ID: <e47a371b-0b23-da26-534c-a4fc866dca26@lwfinger.net>
-Date: Sat, 8 May 2021 15:01:52 -0500
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 717EE6E0E3
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 20:26:18 +0000 (UTC)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id A97BC82008;
+ Sat,  8 May 2021 22:26:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1620505576;
+ bh=ODOFtiSSxjI0fzU+N9WSWoZaq48FOWpDYf02qp2FJs4=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=nr7e0PF8r1lBX090Fp7ByfoQMSe8w52dgDQirLGBU2ruKw6AADpYx9A765ddlEjqQ
+ LrZm7A5gJ5RDICJvrKku3W9p14uRNBhhGaICVGNooVOwPFDqoD0nGczBJ2FdzXRmRt
+ OxPlABfHFRavh5webyImNBNDb9fPSZ15l1k9yx6aZ3hnIKXuJYNqds9iW2a5yaalFk
+ lqCcLDl8slr/GDyXMmuZciM/LOpIOYl4xO2GgJfoibBs3bBhk48ziyVaqS03x/5xs0
+ lJGVgnMzwMkOL5Cavo3EnpSC3JDm+S6mNxffhR0bu9KetatA9i2LJXoZCVU8MbmLaG
+ 4CoSWibhIxBuw==
+Subject: Re: [PATCH V3 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
+ SN65DSI84 driver
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20210505100218.108024-1-marex@denx.de>
+ <20210505100218.108024-2-marex@denx.de>
+ <2655a86a-d371-6a5a-715a-53b73a696d28@kontron.de>
+ <7da2c2d2-fb02-0a1b-d853-bfd756a0cd9b@denx.de>
+ <61e269b7-870a-01a8-722b-15c9aecf9bf9@kontron.de>
+ <8985230f-cb0a-43ca-f8f7-66898f85dc2b@denx.de>
+ <CAPY8ntAra-sOXKTrifammiAwH+PuGmnC0AD4oQ4bPiD+HR857Q@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <b55250e0-e05c-c329-a718-45f72cfb9b62@denx.de>
+Date: Sat, 8 May 2021 22:10:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <CAPY8ntAra-sOXKTrifammiAwH+PuGmnC0AD4oQ4bPiD+HR857Q@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,101 +62,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>
+Cc: Loic Poulain <loic.poulain@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, ch@denx.de,
+ Douglas Anderson <dianders@chromium.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 5/7/21 11:17 AM, Dave Stevenson wrote:
+> On Thu, 6 May 2021 at 21:51, Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 5/6/21 6:03 PM, Frieder Schrempf wrote:
+>>> On 06.05.21 17:46, Marek Vasut wrote:
+>>>> On 5/6/21 5:38 PM, Frieder Schrempf wrote:
+>>>> [...]
+>>>>> Works on i.MX8MM with SN65DSI84 and a single link LVDS display (1024x600) and from my perspective everything else also looks good. Thanks for your work!
+>>>>>
+>>>>> I have two remarks:
+>>>>>
+>>>>> 1. In my test I couldn't get it to work with four DSI lanes enabled (only with two) but I'm quite sure that the DSIM driver is to blame as everything on the bridge level looks good (also setting the DSI EQ register didn't help as you suggested, Marek).
+>>>>
+>>>> I suspect there is indeed something with the DSIM going on, I'll keep you posted if I find something out.
+>>>>
+>>>>> 2. When I set MEDIA_BUS_FMT_RGB888_1X7X4_SPWG in the panel driver I get distorted colors. I need to use MEDIA_BUS_FMT_RGB888_1X24 to make it work, but this is not valid for LVDS. Again I don't think this driver is to blame as I can't see where it does anything wrong, but my experience here is very limited so I still want to mention it.
+>>>>
+>>>> Hmm, in that conversion supposed to happen in this bridge driver or should MXSFB handle the SPWG pixel format ? Or should the DSIM bridge do something about that ?
+>>>
+>>> As far as I understand it the conversion is already done by the DSI84 without any extra configuration necessary. The only thing that needs to be done is selecting the LVDS output format via CHx_24BPP_MODE and CHx_24BPP_FORMAT1 which the driver currently hardcodes to 24bpp aka MEDIA_BUS_FMT_RGB888_1X7X4_SPWG. I think the DSI input format is always 24bpp aka MEDIA_BUS_FMT_RGB888_1X24.
+>>
+>> The DSI is MEDIA_BUS_FMT_RGB888_1X24, yes.
+>>
+>> So maybe this bridge driver has to somehow deal with
+>> MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ? Except I haven't seen such a thing
+>> implemented in other bridge drivers, so input would be welcome on this.
+> 
+> I'm claiming no knowledge of whether this is the correct approach or
+> not, but Toshiba TC358775 is also a DSI to LVDS bridge which appears
+> to handle both formats.
+> https://elixir.free-electrons.com/linux/latest/source/drivers/gpu/drm/bridge/tc358775.c#L457
 
-Beginning with kernel 5.12 I started getting system hangs/freezes, particularly 
-when starting the Chrome browser. At least some of these are logged as a timeout.
+That's what quick git grep points you to, yes. Except that driver does 
+not patch the bus pixel format for the DSI in any way, it just passes 
+whatever bus pixel format it got from the panel/output bridge through.
 
-My hardware is a NVIDIA Corporation GF116 [GeForce GTX 550 Ti] [10de:1244] (rev 
-a1). I tried to bisect the error, but the error does not show immediately, and I 
-have little confidence in the bisection. For reference, my last bad commit was 
-05fcc256 and my last good commit was 6fc90e18.
+You need something like drm_display_info_set_bus_formats() called somewhere.
 
-A typical error splat is:
-: ------------[ cut here ]------------
-: nouveau 0000:01:00.0: timeout
-: WARNING: CPU: 3 PID: 1970 at 
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifogf100.c:90 
-gf100_fifo_gpfifo_engine_fini+0x168/0x1b0 [nouveau]
-: Modules linked in: af_packet vboxnetadp(O) vboxnetflt(O) vboxdrv(O) dmi_sysfs 
-xfs raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor 
-raid6_pq raid1 libcrc32c md_mod edac_mce_amd kvm_amd ccp hid_generic 
-snd_hda_codec_realtek snd_hda_codec_generic kvm usbhid eeepc_wmi ledtrig_audio 
-snd_hda_codec_hdmi snd_hda_intel irqbypass snd_intel_dspcfg snd_intel_sdw_acpi 
-snd_hda_codec snd_hda_core asus_wmi snd_hwdep snd_pcm battery snd_timer 
-sparse_keymap rfkill wmi_bmof pcspkr efi_pstore snd fam15h_power k10temp igb 
-soundcore dca sp5100_tco i2c_piix4 acpi_cpufreq tiny_power_button nls_iso8859_1 
-nls_cp437 vfat fat nfsd auth_rpcgss nfs_acl lockd grace sunrpc nfs_ssc fuse 
-configfs uas usb_storage nouveau ohci_pci video drm_ttm_helper ttm i2c_algo_bit 
-drm_kms_helper crct10dif_pclmul crc32_pclmul crc32c_intel ghash_clmulni_intel 
-aesni_intel syscopyarea sysfillrect sysimgblt crypto_simd fb_sys_fops cryptd cec 
-rc_core xhci_pci xhci_pci_renesas xhci_hcd drm ehci_pci ohci_hcd
-:  ehci_hcd usbcore mxm_wmi sr_mod cdrom wmi button sg dm_multipath dm_mod 
-scsi_dh_rdac scsi_dh_emc scsi_dh_alua msr efivarfs
-: CPU: 3 PID: 1970 Comm: gdbus Tainted: G        W  O      5.12.0-2-default #1 
-openSUSE Tumbleweed
-: Hardware name: To be filled by O.E.M. To be filled by O.E.M./970 PRO 
-GAMING/AURA, BIOS 0901 11/07/2016
-: RIP: 0010:gf100_fifo_gpfifo_engine_fini+0x168/0x1b0 [nouveau]
-: Code: 8b 40 10 48 8b 78 10 48 8b 6f 50 48 85 ed 75 03 48 8b 2f e8 ca f3 d6 e4 
-48 89 ea 48 c7 c7 1c b9 8a c0 48 89 c6 e8 f9 9b 05 e5 <0f> 0b 41 8b 46 38 85 c0 
-0f 85 53 8c 07 00 48 8b bb d0 01 00 00 41
-: RSP: 0018:ffff9fe282517a20 EFLAGS: 00010282
-: RAX: 0000000000000000 RBX: ffff89c268a85400 RCX: ffff89c50ecda708
-: RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffff89c50ecda700
-: RBP: ffff89c20116f1d0 R08: ffff89c51ef567a8 R09: 0000000000013ffb
-: R10: 00000000ffffc000 R11: 3fffffffffffffff R12: 0000000000000000
-: R13: ffff89c250c43de0 R14: ffff89c208350000 R15: 0000000000000000
-: FS:  00007f376efb6640(0000) GS:ffff89c50ecc0000(0000) knlGS:0000000000000000
-: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-: CR2: 00005567fe52cfa8 CR3: 00000001507c8000 CR4: 00000000000406e0
-: Call Trace:
-:  nvkm_fifo_chan_child_fini+0x79/0xf0 [nouveau]
-:  nvkm_oproxy_fini+0x2c/0x90 [nouveau]
-:  nvkm_object_fini+0xbc/0x150 [nouveau]
-:  nvkm_object_fini+0x73/0x150 [nouveau]
-:  nvkm_ioctl_del+0x2f/0x50 [nouveau]
-:  nvkm_ioctl+0xe1/0x180 [nouveau]
-:  nvif_object_dtor+0x5a/0x80 [nouveau]
-:  nouveau_channel_del+0xad/0x160 [nouveau]
-:  nouveau_abi16_chan_fini.constprop.0+0x10b/0x190 [nouveau]
-:  nouveau_abi16_fini+0x2e/0x60 [nouveau]
-:  nouveau_drm_postclose+0x4c/0xd0 [nouveau]
-:  drm_file_free.part.0+0x1c9/0x230 [drm]
-:  drm_release+0x65/0x110 [drm]
-:  __fput+0x94/0x240
-:  task_work_run+0x65/0xa0
-:  do_exit+0x362/0xa20
-:  do_group_exit+0x33/0xa0
-:  get_signal+0x161/0x8b0
-:  arch_do_signal_or_restart+0xef/0x830
-:  ? __x64_sys_futex+0x13d/0x1c0
-:  exit_to_user_mode_prepare+0xed/0x180
-:  syscall_exit_to_user_mode+0x18/0x40
-:  entry_SYSCALL_64_after_hwframe+0x44/0xae
-: RIP: 0033:0x7f377ed6d5cf
-: Code: Unable to access opcode bytes at RIP 0x7f377ed6d5a5.
-: RSP: 002b:00007f376efb5a40 EFLAGS: 00000293 ORIG_RAX: 0000000000000007
-: RAX: fffffffffffffdfc RBX: 00007f377eeae1e0 RCX: 00007f377ed6d5cf
-: RDX: 00000000ffffffff RSI: 0000000000000003 RDI: 000055b2cd634480
-: RBP: 000055b2cd634480 R08: 0000000000000000 R09: 0000000000000004
-: R10: 0000000000000030 R11: 0000000000000293 R12: 0000000000000003
-: R13: 00007f376efb5a84 R14: 00000000ffffffff R15: 000055b2cd634370
-: ---[ end trace c85bfdc7ef3321c2 ]---
-: nouveau 0000:01:00.0: fifo: channel 7 [ibus-extension-[1940]] kick timeout
-: nouveau: ibus-extension-[1940]:00000000:0000906f: detach sw failed, -110
-: nouveau 0000:01:00.0: fifo: SCHED_ERROR 0d []
-: nouveau 0000:01:00.0: fifo: runlist update timeout
-: nouveau 0000:01:00.0: ibus-x11[1942]: failed to idle channel 9 [ibus-x11[1942]]
-: nouveau 0000:01:00.0: ibus-x11[1942]: failed to idle channel 9 [ibus-x11[1942]]
-: ------------[ cut here ]------------
+>>> So I wonder where the format actually is evaluated. Could it be that it is passed down to the LCDIF and changes its output format which causes the data passed by DSIM to the DSI84 to already be in the SPWG format? If that's the case we maybe need a way to specify MEDIA_BUS_FMT_RGB888_1X24 as input bus format for the DSI84 so it doesn't pass on the panel's format? Only a wild guess, no idea if it really works like that.
+>>
+>> I _think_ the bridge must somehow handle the
+>> MEDIA_BUS_FMT_RGB888_1X7X4_SPWG <-> MEDIA_BUS_FMT_RGB888_1X24 conversion.
+> 
+> I've not looked at where the interchange happens, but as you're
+> setting the DSI format in struct mipi_dsi_device to
+> MIPI_DSI_FMT_RGB888 doesn't that provide the configuration side to the
+> DSI transmitter?
+> Otherwise presumably it needs to support the atomic_get_input_bus_fmts
+> and/or atomic_get_output_bus_fmts functions in drm_bridge_funcs.
 
-I will be happy to provide any additional material that may be needed.
-
-Thanks,
-
-Larry
+That doesn't work either, but see above, I think you need 
+drm_display_info_set_bus_formats() .
