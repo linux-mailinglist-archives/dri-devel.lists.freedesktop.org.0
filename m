@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1743773D0
-	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 21:27:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 302763773DF
+	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 21:53:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2D7B89CE0;
-	Sat,  8 May 2021 19:27:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F136A6E055;
+	Sat,  8 May 2021 19:52:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D6C389CE0
- for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 19:27:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 34CF66137D
- for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 19:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620502032;
- bh=dRNwrGjecVJOPksAa2FMWwFf0KuZZMuIgDg2cFIALZU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=D41p85wKjep8Ldd/OS6mt/TewOW04PQxWzXibkf+CE5JZPtvYw16DvB8HgP28dNA2
- uIbn1D5WTnMxl2+n3yK83oqQAXfhA93g5Ww47mUIUjwSZJTckMmW7fQy7QL1cEutYX
- N+74++EJhxvX0xuE5WJ2yIvtYgrZU3bhqoF5Sa/4y6VLj4Y+TMs2wencNELQKKXDvK
- qJDGGB3rm8Y8Ez307H6x9IQKrAEp9OLzIURFUUqj3LGkpLkQ9yFCWbVcmjvMKfJjqV
- yd+XJDx7MpEEltqBh3sfRqQU8+SlnT54sk3Mk07YG8orXmFt8BbT7cLGQVxPEkBQJ+
- tJ5r0/FHqSj1Q==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 31DCA611BD; Sat,  8 May 2021 19:27:12 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D196E055;
+ Sat,  8 May 2021 19:52:58 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id i13so10797904pfu.2;
+ Sat, 08 May 2021 12:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=52/BODVej/sAPj1HAsVHhcFR3RxERy74g5pEGd5eMWs=;
+ b=Lckz/cwvu9w/BaykBLqzfMjsL/UzQqsU+MmTCjOI6K9UxxSYmFuzeX2FoFWqqSHg+2
+ InT7fyulz7rhUb0jU3JAmCtfarUKA4v4x09Z1Ka70powvuTaJSSwjiO36xdDagFCSTxK
+ 6moDnOuYz2a4wG6eP8UTr+7SDYQ6BmDSavDu/a1BxvZjD7DyMMVVrP5XU5ebIoIKab04
+ s6Efs7s2NKzeKkIK8mloBupy3sUVKI2dmWS92vY+h60yKMmM7J4hFoSeZQObY8twiX4u
+ YfOXkgLjEjPe3WMYhn/0p31S9ihmVQXjBH42wAq7j7QoeR9vcBFQY+j99ayowT/2hv8q
+ pLMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=52/BODVej/sAPj1HAsVHhcFR3RxERy74g5pEGd5eMWs=;
+ b=AKutjqzCGBurmwD1YSssaK44oM3ALhu400jsutn8Vf3Ze4191MABj75LqDsAV3/uLh
+ AAzOVrXVrM5/IIZwE0Xo6pzeO7FFiZu55/1kazDVemN8qDZ9DNvEijG9qN7LoazSgNzu
+ BD5AQRsc6wKQRaxtBXmnwvxKI34qhSJvHiYqXLu+rHKBE6WBXibVORgAENl7sx36e7Lf
+ WnXbQWiTJA/Ovxn+LZNQ6N3Hw/XNZcE6Z6v0K6BO7BEWjUWWjI1VhuBiGBjnrsgjmvKu
+ sUzCXTX+umiSpYWzktQu11yMLpoPEYcMSfE/0pMxRuQADyXHDnt/WK7Qu4kj6MHYzmI7
+ Gzew==
+X-Gm-Message-State: AOAM530ypaKZGo7SfC6ijtSsNl+vMkeXqjCwFBTD29T3QsoU2X51I94B
+ nLR3+yj8rl83og9fGKPkBFsuav/T643XMA==
+X-Google-Smtp-Source: ABdhPJzShZqZ9yJXLeSXzV96pkdUxCEhyW3PchhSSkpkvoHPAOi4i4qCubtWTJgzZb+0BE3AedNzcw==
+X-Received: by 2002:a62:8208:0:b029:289:112f:d43d with SMTP id
+ w8-20020a6282080000b0290289112fd43dmr16583052pfd.61.1620503576956; 
+ Sat, 08 May 2021 12:52:56 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ u1sm7543017pgh.80.2021.05.08.12.52.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 May 2021 12:52:55 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 51381] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
- more than 5secs aborting, when disabled via vgaswitcheroo
-Date: Sat, 08 May 2021 19:27:11 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: luca.trombin@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-51381-2300-4bO7UB3VmU@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-51381-2300@https.bugzilla.kernel.org/>
-References: <bug-51381-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH 0/2] drm: Fix atomic helper dirtyfb stalls
+Date: Sat,  8 May 2021 12:56:37 -0700
+Message-Id: <20210508195641.397198-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,31 +67,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>, Bernard <bernard@vivo.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Hongbo Yao <yaohongbo@huawei.com>, open list <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Maxime Ripard <maxime@cerno.tech>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D51381
+From: Rob Clark <robdclark@chromium.org>
 
---- Comment #58 from Luca T. (luca.trombin@gmail.com) ---
-(In reply to luminoso from comment #57)
-> For users still facing this issue, I workaround it with this:
-> https://github.com/aelveborn/vgaswitcheroo-systemd
->=20
-> Basically before suspending it restores the GPU powerstate and resumes it
-> once coming from a suspend state.
->=20
-> Never had problems again.
+Someone on IRC once asked an innocent enough sounding question:  Why
+with xf86-video-modesetting is es2gears limited at 120fps.
 
-Hi Luminoso,
+So I broke out the perfetto tracing mesa MR and took a look.  It turns
+out the problem was drm_atomic_helper_dirtyfb(), which would end up
+waiting for vblank.. es2gears would rapidly push two frames to Xorg,
+which would blit them to screen and in idle hook (I assume) call the
+DIRTYFB ioctl.  Which in turn would do an atomic update to flush the
+dirty rects, which would stall until the next vblank.  And then the
+whole process would repeat.
 
-Thanks a lot, I'll try it out and let you know.
+But this is a bit silly, we only need dirtyfb for command mode DSI
+panels.  So lets just skip it otherwise.
 
-Thanks,
+Rob Clark (2):
+  drm: Fix dirtyfb stalls
+  drm/msm/dpu: Wire up needs_dirtyfb
 
-Luca
+ drivers/gpu/drm/drm_damage_helper.c      |  8 ++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 14 ++++++++++++++
+ include/drm/drm_modeset_helper_vtables.h | 14 ++++++++++++++
+ 3 files changed, 36 insertions(+)
 
---=20
-You may reply to this email to add a comment.
+-- 
+2.30.2
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
