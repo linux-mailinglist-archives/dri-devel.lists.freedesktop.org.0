@@ -2,31 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842A8376F2E
-	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 05:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE9D376F4D
+	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 05:56:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 483D56E84A;
-	Sat,  8 May 2021 03:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5F466E850;
+	Sat,  8 May 2021 03:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFC886E84A;
- Sat,  8 May 2021 03:48:25 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FcYBL2G1JzkX91;
- Sat,  8 May 2021 11:45:46 +0800 (CST)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 246B06E852
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 03:56:20 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FcYMT1TF9z16Pc9;
+ Sat,  8 May 2021 11:53:41 +0800 (CST)
 Received: from thunder-town.china.huawei.com (10.174.177.72) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Sat, 8 May 2021 11:48:15 +0800
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.498.0; Sat, 8 May 2021 11:56:10 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, Pierre Moreau <pierre.morrow@free.fr>, dri-devel
- <dri-devel@lists.freedesktop.org>, nouveau <nouveau@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/1] drm/nouveau: fix error return code in
- nouveau_backlight_init()
-Date: Sat, 8 May 2021 11:48:10 +0800
-Message-ID: <20210508034810.2374-1-thunder.leizhen@huawei.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-kernel
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/1] drm/mga: Fix error return code in
+ mga_do_pci_dma_bootstrap()
+Date: Sat, 8 May 2021 11:55:54 +0800
+Message-ID: <20210508035554.2424-1-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,28 +48,29 @@ Cc: Zhen Lei <thunder.leizhen@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix to return a negative error code from the error handling case instead
-of 0, as done elsewhere in this function.
+The user may incorrectly set the value of dma_bs->secondary_bin_count to 0.
+In this case, the for loop is not entered and the 'err' value remains 0.
 
-Fixes: db1a0ae21461 ("drm/nouveau/bl: Assign different names to interfaces")
+Fixes: 6795c985a648 ("Add support for PCI MGA cards to MGA DRM.")
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_backlight.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/mga/mga_dma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-index 72f35a2babcb..097ca344a086 100644
---- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-@@ -273,6 +273,7 @@ nouveau_backlight_init(struct drm_connector *connector)
- 		return -ENOMEM;
- 
- 	if (!nouveau_get_backlight_name(backlight_name, bl)) {
-+		ret = -ENOSPC;
- 		NV_ERROR(drm, "Failed to retrieve a unique name for the backlight interface\n");
- 		goto fail_alloc;
+diff --git a/drivers/gpu/drm/mga/mga_dma.c b/drivers/gpu/drm/mga/mga_dma.c
+index 1cb7d120d18f..e41d44ec26de 100644
+--- a/drivers/gpu/drm/mga/mga_dma.c
++++ b/drivers/gpu/drm/mga/mga_dma.c
+@@ -693,7 +693,7 @@ static int mga_do_pci_dma_bootstrap(struct drm_device *dev,
  	}
+ 
+ 	if (bin_count == 0) {
+-		DRM_ERROR("Unable to add secondary DMA buffers: %d\n", err);
++		DRM_ERROR("Unable to add secondary DMA buffers: %d\n", err ? : -EINVAL);
+ 		return err;
+ 	}
+ 
 -- 
 2.25.1
 
