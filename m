@@ -1,49 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0750B3773FE
-	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 22:26:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A6C3773FB
+	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 22:24:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23F376E0E8;
-	Sat,  8 May 2021 20:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73DDD6E08E;
+	Sat,  8 May 2021 20:24:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 516E96E0E3
- for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 20:26:19 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC7E6E08E
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 20:24:12 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 4DBC682CDB;
- Sat,  8 May 2021 22:26:17 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id A9DD482ABA;
+ Sat,  8 May 2021 22:24:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1620505577;
- bh=XeBbc1nFhGdrldhJqUmRF98LGGbGXJ4jNz52mxWB7NY=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=j8XnkvNfBFWXkvddE7VUrk+WhGNQMagXXClba5zUnQdAHkZ2pkGsfVT0JfEnxJ7k2
- ef0/mg9KFj1B9pzWMnzGRVKQ5haoB+N5Fn1MIj+ExGymzZt1tFl1k25rz984RhpVwb
- CHppI+Luh8uJETsQdam4Ix62uGC8o3wupaAI+u271c/dP33ANehMxv1JRPYk31IpRP
- LhZbId2zY/YHl5Q9AkBEnBpxyZDOdeWJcgu+MU0xzicPUCwuI6hqC/nY4JNfpifQtj
- jf6z2PAOXvXDLcmPaTYM8vPMVsPmE+xB/iWLizbB+n91BiysUJ9ekKGEZXapYsj+jb
- 12LOj61971ZWw==
-Subject: Re: [PATCH V3 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20210505100218.108024-1-marex@denx.de>
- <20210505100218.108024-2-marex@denx.de>
- <CAPY8ntCzu6=uBqRfQ+9QJWH-zqy0K9FD8XWdC8NZxJZiUBfYfg@mail.gmail.com>
+ s=phobos-20191101; t=1620505450;
+ bh=ZFFYGHTfPYXigvDlaVH32POd7dC+6TCwBLmFE6vLqxI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=dAx5mWD+fE+NIeGnGCB4KeVWABWyRXTLIOo+rfPxfVX5aLZvZagiJ4qUaMn3o8gdE
+ m2pxKKtGxM6gTnRuNIPgQQMLLxZmhYZYs8NVRO6qqHTcn20TCpItsJ/cozho8LO3Qx
+ eCD9aayk4L75thmQ3FqNxIPDchR1GoiB7YvVISOdlvJFGHKfviV41W7LePtt86iYYr
+ e07v2gp1Dfk+i6nQSpM2jh8eOiGtZ62BoY11KESTojXQrWSS43jnSutYhtlzyL+Hne
+ 8Ced1otqqJplscjq4usHu1VhpNFSJhROLQm3hppIVY1wjD8ONbunjdeu5AkHyGteig
+ XjuM8ZcrR/QTw==
 From: Marek Vasut <marex@denx.de>
-Message-ID: <8d2fbc9b-fb3e-aac9-566a-033c4bb218d7@denx.de>
-Date: Sat, 8 May 2021 22:16:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V4 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add TI
+ SN65DSI83 and SN65DSI84 bindings
+Date: Sat,  8 May 2021 22:22:50 +0200
+Message-Id: <20210508202251.474729-1-marex@denx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <CAPY8ntCzu6=uBqRfQ+9QJWH-zqy0K9FD8XWdC8NZxJZiUBfYfg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
 X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,65 +52,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
- Douglas Anderson <dianders@chromium.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org, ch@denx.de,
+ Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/7/21 2:48 PM, Dave Stevenson wrote:
+Add DT binding document for TI SN65DSI83 and SN65DSI84 DSI to LVDS bridge.
 
-[...]
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
+---
+V2: Add compatible string for SN65DSI84, since this is now tested on it
+V3: - Add 0x2c as valid i2c address
+    - Switch to schemas/graph.yaml
+    - Constraint data-lanes to <1>, <1 2>, <1 2 3>, <1 2 3 4> only
+    - Indent example by 4 spaces
+    - Handle dual-link LVDS with two ports and describe the second DSI
+      channel-B port as well. Based on the register defaults of DSI83
+      and DSI84, it is likely that the LVDS-channel-B and DSI-channel-B
+      hardware is present in all the chips, so just reuse port@0 and 2
+      for DSI83, port@0,2,3 for DSI84 and all of 0,1,2,3 for DSI85 when
+      that is supported
+V4: - Fix typo in port@3 description
+    - Add RB from Linus Walleij
+    - Replace oneOf: and const with enum:
+    - ref /schemas/media/video-interfaces.yaml#
+    - Drop empty endpoint: and properties:
+---
+ .../bindings/display/bridge/ti,sn65dsi83.yaml | 159 ++++++++++++++++++
+ 1 file changed, 159 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
 
->> +static void sn65dsi83_enable(struct drm_bridge *bridge)
->> +{
->> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
->> +       unsigned int pval;
->> +       u16 val;
->> +       int ret;
->> +
->> +       /* Clear reset, disable PLL */
->> +       regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
->> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> 
-> Sorry, a further thread of discussion coming from the investigations
-> I've been involved with.
-> 
-> You've powered up in pre_enable, and are sending the I2C writes in enable.
-> 
->>From the docs for drm_bridge_funcs->enable[1]
-> 
->   * The bridge can assume that the display pipe (i.e. clocks and timing
->   * signals) feeding it is running when this callback is called. This
->   * callback must enable the display link feeding the next bridge in the
->   * chain if there is one.
-> 
-> So video is running when enable is called, and the DSI data lanes may
-> be HS. (Someone correct me if that is an incorrect reading of the
-> text).
-> 
-> The SN65DSI84 datasheet table 7-2 Initialization Sequence gives init
-> seq 8 as being "Change DSI data lanes to HS state and start DSI video
-> stream", AFTER all the I2C has been completed except reading back
-> registers and checking for errors.
-> With video running you don't fulfil the second part of init seq 2 "the
-> DSI data lanes MUST be driven to LP11 state"
-> 
-> My investigations have been over delaying starting the DSI video
-> stream until after enable, but reading the descriptive text for enable
-> I believe the Pi is correct to be sending video at that point.
-> I guess there is some ambiguity as to whether the clock lane is going
-> to be in HS mode during pre_enable. On the Pi the PHY and clocks will
-> be enabled prior to pre_enable to allow for sending DSI commands
-> during pre_enable, but it may not be true on other platforms.
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+new file mode 100644
+index 000000000000..d101233ae17f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+@@ -0,0 +1,159 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: SN65DSI83 and SN65DSI84 DSI to LVDS bridge chip
++
++maintainers:
++  - Marek Vasut <marex@denx.de>
++
++description: |
++  Texas Instruments SN65DSI83 1x Single-link MIPI DSI
++  to 1x Single-link LVDS
++  https://www.ti.com/lit/gpn/sn65dsi83
++  Texas Instruments SN65DSI84 1x Single-link MIPI DSI
++  to 1x Dual-link or 2x Single-link LVDS
++  https://www.ti.com/lit/gpn/sn65dsi84
++
++properties:
++  compatible:
++    enum:
++      - ti,sn65dsi83
++      - ti,sn65dsi84
++
++  reg:
++    enum:
++      - 0x2c
++      - 0x2d
++
++  enable-gpios:
++    maxItems: 1
++    description: GPIO specifier for bridge_en pin (active high).
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for MIPI DSI Channel-A input
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                description: array of physical DSI data lane indexes.
++                minItems: 1
++                maxItems: 4
++                items:
++                  - const: 1
++                  - const: 2
++                  - const: 3
++                  - const: 4
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for MIPI DSI Channel-B input
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                description: array of physical DSI data lane indexes.
++                minItems: 1
++                maxItems: 4
++                items:
++                  - const: 1
++                  - const: 2
++                  - const: 3
++                  - const: 4
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for LVDS Channel-A output (panel or bridge).
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for LVDS Channel-B output (panel or bridge).
++
++    required:
++      - port@0
++      - port@2
++
++required:
++  - compatible
++  - reg
++  - enable-gpios
++  - ports
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,sn65dsi83
++    then:
++      properties:
++        ports:
++          properties:
++            port@1: false
++            port@3: false
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,sn65dsi84
++    then:
++      properties:
++        ports:
++          properties:
++            port@1: false
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        bridge@2d {
++            compatible = "ti,sn65dsi83";
++            reg = <0x2d>;
++
++            enable-gpios = <&gpio2 1 GPIO_ACTIVE_HIGH>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    endpoint {
++                        remote-endpoint = <&dsi0_out>;
++                        data-lanes = <1 2 3 4>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++
++                    endpoint {
++                        remote-endpoint = <&panel_in_lvds>;
++                    };
++                };
++            };
++        };
++    };
+-- 
+2.30.2
 
-You have to make sure the clock lane is running and in HS mode when 
-configuring the DSI83, otherwise the internal DSI83 state machine won't 
-be able to operate.
-
-[...]
