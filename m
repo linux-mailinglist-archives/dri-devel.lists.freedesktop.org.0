@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E0F377DA5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 10:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51D8377DA2
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 10:04:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5DA06E416;
-	Mon, 10 May 2021 08:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB0116E40B;
+	Mon, 10 May 2021 08:04:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 638F96EE40;
- Fri,  7 May 2021 14:58:41 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id g14so10589333edy.6;
- Fri, 07 May 2021 07:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CJHBifJjuAiUBB1fcY/7U2kOYy2ASja8+o2PqKZoRWE=;
- b=XNEPPEBhgMHMMsT4kse0qA8u5ggbNQ9EE3NN4Lfs+z6ha71Hchom0V+YsQgDt3374B
- UhX9hZXqoUY1i+Jmd3ueYBBXaJSi9jQMQonYfGwYp6ED3fCShZobGpP6aljtWvs9vbe2
- /7L1fJjh56JN1EbxZY01WGSjDx5pLk0cvVsbGiWkKpgDaV4fMQSuJ2cEI2g0MGwD15sM
- QZ99gEFOcCd9ypUYjXH4aJGHfKaomx0lni4YIi19FpQOvS3n9p6TV66hPzoSSzBBbA2Y
- 7fJkLl8Qi9nlhU+iJLDveOHDabm38b4F0KGc0VGjVVrXANFmRZe4U6j/c07reOFgJ6Hy
- Y6tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CJHBifJjuAiUBB1fcY/7U2kOYy2ASja8+o2PqKZoRWE=;
- b=HyNla4LJcLzImZWcA8/eA/eQ8GpFcd1RQxBc38UAVuDpLBzpNc2mSS9gk8p0FTqPTR
- N8+z5yAvSYMkLPCmFweO4kya7I1l9PxMcwL3xQV3FTs9l63YZW050rcxor6mpg3y6z84
- 2dB5Fx0EgiUWpQ88OOvmL8VmKqwIU15zDfEGOz/DPN2Z1i5sAM1Og6HxA7Ii50Sm5S4J
- jkGCLvtTx79agBbex7sOZyaKypmVR3urunBaxI8mRNTn8pp+rCwk3Zk6sZ7CTDIDddbF
- FQ0IXoL+3kN+ifJY46aD88xJy9+0DUZ5J4lMBkOF1gdSu9v+/qCfl72ucr6sUJsS2TF8
- f46Q==
-X-Gm-Message-State: AOAM530kN0sRok83ekQnP/W9OHsOVuVMsyWo/bBjbIN2GYXZuuAw28pp
- tg/LhEObCRM+A9LPDSbsuSq3NMim8QBwyw==
-X-Google-Smtp-Source: ABdhPJwKTBoHHEGsXmBsKTt/zAlEpVBQULdCoEKocsz8PQ3XbcWNFsWC2MfypygtKruT+f+OYBtAdQ==
-X-Received: by 2002:a05:6402:798:: with SMTP id
- d24mr11757288edy.275.1620399520090; 
- Fri, 07 May 2021 07:58:40 -0700 (PDT)
-Received: from jernej-laptop.localnet (cpe-86-58-17-133.cable.triera.net.
- [86.58.17.133])
- by smtp.gmail.com with ESMTPSA id cf10sm4308872edb.21.2021.05.07.07.58.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 07:58:39 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [v3, 5/5] drm/vc4: hdmi: Signal the proper colorimetry info in the
- infoframe
-Date: Fri, 07 May 2021 16:58:38 +0200
-Message-ID: <3819038.KMkRtCgjlg@jernej-laptop>
-In-Reply-To: <20210430094451.2145002-5-maxime@cerno.tech>
-References: <20210430094451.2145002-5-maxime@cerno.tech>
+X-Greylist: delayed 594 seconds by postgrey-1.36 at gabe;
+ Sat, 08 May 2021 18:30:05 UTC
+Received: from magratgarlick.emantor.de (magratgarlick.emantor.de
+ [IPv6:2a01:4f8:c17:c88::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 946856E0EE;
+ Sat,  8 May 2021 18:30:05 +0000 (UTC)
+Received: by magratgarlick.emantor.de (Postfix, from userid 114)
+ id CD059125A81; Sat,  8 May 2021 20:20:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=czerwinskis.de;
+ s=mail; t=1620498006;
+ bh=eTcUQwqKOuKmD2QbJtpZOH7NjK31efH/FQy8a+iwiSA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Um36VnS5dntn186tQ7CL537Op6H+nn0a486NpOBL20Qw1ELKhyaRLKCuKaSmQyCZ8
+ a7so3bIRuLguc6UieK7Y5AX1Ei/4TSw/AFgvlsXpbOh82Flx1BCNjWH6iIfPgkGp2V
+ 03GRuvsXFkRTJskMWiD84CodkgEy/MTToADnVqGI=
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
+ magratgarlick.emantor.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,URIBL_BLOCKED
+ autolearn=unavailable autolearn_force=no version=3.4.2
+Received: from localhost (unknown [IPv6:2001:9e8:73:702:c0d3:dbff:fefe:ff70])
+ by magratgarlick.emantor.de (Postfix) with ESMTPSA id 3BE5C125A80;
+ Sat,  8 May 2021 20:20:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=czerwinskis.de;
+ s=mail; t=1620498003;
+ bh=eTcUQwqKOuKmD2QbJtpZOH7NjK31efH/FQy8a+iwiSA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=bxD2sC729WZWz4PWcg8D6L/D+rFjOl1PK7xdH1Dnxx+IoPpMimiHpPeGSCz9o9Uge
+ AJ+QdvQRXxbtUif+1DbkVyBubb8HmQDV/GimrSLtPqsV7nJD+T2usK4aj1yuIUYthX
+ AjNSFqwqVBW1aoAqjedKmoOg75HBkThKKNQ8R+JI=
+From: Rouven Czerwinski <rouven@czerwinskis.de>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd/display: remove unused function
+ dc_link_perform_link_training
+Date: Sat,  8 May 2021 20:19:51 +0200
+Message-Id: <20210508181951.129548-1-rouven@czerwinskis.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 10 May 2021 08:04:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,41 +65,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, Leo Li <sunpeng.li@amd.com>,
- Robert Foss <robert.foss@linaro.org>, intel-gfx@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: Rouven Czerwinski <r.czerwinski@pengutronix.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rouven Czerwinski <rouven@czerwinskis.de>, amd-gfx@lists.freedesktop.org,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
+This function is not used anywhere, remove it. It was added in
+40dd6bd376a4 ("drm/amd/display: Linux Set/Read link rate and lane count
+through debugfs") and moved in fe798de53a7a ("drm/amd/display: Move link
+functions from dc to dc_link"), but a user is missing.
 
-Dne petek, 30. april 2021 ob 11:44:51 CEST je Maxime Ripard napisal(a):
-> Our driver while supporting HDR didn't send the proper colorimetry info
-> in the AVI infoframe.
-> 
-> Let's add the property needed so that the userspace can let us know what
-> the colorspace is supposed to be.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
-> 
-> Changes from v2:
->   - Rebased on current drm-misc-next
-> 
-> Changes from v1:
->   - New patch
+Signed-off-by: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 13 -------------
+ drivers/gpu/drm/amd/display/dc/dc_link.h      |  3 ---
+ 2 files changed, 16 deletions(-)
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index 3fb0cebd6938..55c5cf2264b3 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -3553,19 +3553,6 @@ void dc_link_set_drive_settings(struct dc *dc,
+ 	dc_link_dp_set_drive_settings(dc->links[i], lt_settings);
+ }
+ 
+-void dc_link_perform_link_training(struct dc *dc,
+-				   struct dc_link_settings *link_setting,
+-				   bool skip_video_pattern)
+-{
+-	int i;
+-
+-	for (i = 0; i < dc->link_count; i++)
+-		dc_link_dp_perform_link_training(
+-			dc->links[i],
+-			link_setting,
+-			skip_video_pattern);
+-}
+-
+ void dc_link_set_preferred_link_settings(struct dc *dc,
+ 					 struct dc_link_settings *link_setting,
+ 					 struct dc_link *link)
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_link.h b/drivers/gpu/drm/amd/display/dc/dc_link.h
+index fc5622ffec3d..45c927cd27ab 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_link.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_link.h
+@@ -363,9 +363,6 @@ bool dc_link_is_hdcp22(struct dc_link *link, enum signal_type signal);
+ void dc_link_set_drive_settings(struct dc *dc,
+ 				struct link_training_settings *lt_settings,
+ 				const struct dc_link *link);
+-void dc_link_perform_link_training(struct dc *dc,
+-				   struct dc_link_settings *link_setting,
+-				   bool skip_video_pattern);
+ void dc_link_set_preferred_link_settings(struct dc *dc,
+ 					 struct dc_link_settings *link_setting,
+ 					 struct dc_link *link);
+-- 
+2.31.1
 
