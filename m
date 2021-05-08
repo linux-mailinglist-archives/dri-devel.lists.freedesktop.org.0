@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171B4376FFB
-	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 08:10:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BB037706B
+	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 09:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02A166E854;
-	Sat,  8 May 2021 06:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 920256E859;
+	Sat,  8 May 2021 07:32:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9676E854
- for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 06:09:56 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id j75so10787401oih.10
- for <dri-devel@lists.freedesktop.org>; Fri, 07 May 2021 23:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to; bh=+ehCmrhhM5OGDTE20S4py5cwY10k0xIadseOT++JVkU=;
- b=filaKRYCVqTgLrB7WYSzzG3Fi5HrJFb7fpcmY1plN+C7xJALT1EJeR+Yqm9YTg6/hP
- N3FPBwLjZaSQwbDlFOfRY/lRGwTqgshbIylR37I495etiV4LoY/JA2jzzGThnnzpq2Or
- +82ApXbQhbi2MA3dplRMFrTSqRg4ogvzrlWsM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to;
- bh=+ehCmrhhM5OGDTE20S4py5cwY10k0xIadseOT++JVkU=;
- b=VJqd6/EArP9/nEI2UNmYkE089Ob/N1JiFAgpiAB1r7w0xrVIkuu9qOWQDlRz6t/jyk
- o3j8w5FvxyW3e1osNzJBWjdJ1oF9SGX/IUT9WdrWe658g2I8ylpVdg3abByLoamatoAu
- T5K5FJvyRJXG3eynukybLzZWwn9kOQ2EJpA2orzGccFUCuCSBVCfNL8SEaeRQDwGfwMv
- fmUFnd7Sk6SKhAlwylQakgmaWN4yOYAqsf/JZFVRXPecpotV4f3uueQS9vkTMOF/XZJa
- fGJ6fbvHN7iww+G4rfMWUgM1KDX+BwKNMrN62a5eCU+0FM7o7w2GIUswHSnAWmo1h6Wp
- 3nFA==
-X-Gm-Message-State: AOAM5305BlPx8w+I9qdKd3DtYMgFGTIvML1yWaM6ZZk6K0PVU/wFMW7N
- shGzMfEe76JdfUct0Pd/O+qIMpmVWnh51obid2lnjQ==
-X-Google-Smtp-Source: ABdhPJwCjdFMtu/woUmAWajk3S7zPVWlf7VcEkGyAgxE1bs3Mv227JjHZld7Ob9xYKO0lx4jgnp4g2qGCeSaEupXPEg=
-X-Received: by 2002:aca:654d:: with SMTP id j13mr17682432oiw.125.1620454195844; 
- Fri, 07 May 2021 23:09:55 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 8 May 2021 02:09:55 -0400
-MIME-Version: 1.0
-In-Reply-To: <20210508024254.1877-1-thunder.leizhen@huawei.com>
-References: <20210508024254.1877-1-thunder.leizhen@huawei.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Sat, 8 May 2021 02:09:55 -0400
-Message-ID: <CAE-0n51owL8RGJyz_5BUCTjrUW5m0X-DTKUx=mqRL=-4i-tMDA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] drm/msm/dpu: Fix error return code in dpu_mdss_init()
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Zhen Lei <thunder.leizhen@huawei.com>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8DE46E859
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 07:32:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8386661469
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 07:32:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620459120;
+ bh=wqLZd3H9EqA+xTPPIxqBr0hCpPOkF+vE2PxA9oJ+2SM=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=a+ytfOrt/t3VM/sQXKBRcsK+zbxm4kumoir2oXJX/E8ZM6nO/iI1N8ojTVTLwKic6
+ AWKR6gJDVuQTlyKScJbcL9Bsn7WwbjOBItaPy4NbUfLng5U/FzOy+e1asena9cHiao
+ CYVdnu/Js1YHBKgGKX8WbWM3QjGyO77GNhx6mOWBwyDaRhI580RZh7yVs3NQ0YUgzQ
+ 8USNG8DCqtutiIIf6In0/0jE2CHHYmrsPHn7XD4qmNdQkYFcz9s4dCQhYuZ5iCg93Q
+ k48be8JrnQc/17XCjQmvsUc2IKbuZIhykCIukx9m6aOTDkR3Lrpr/F8KdJV/Vm2IWs
+ XMRaoTQO0hjKg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 7FC3F611BD; Sat,  8 May 2021 07:32:00 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 51381] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 5secs aborting, when disabled via vgaswitcheroo
+Date: Sat, 08 May 2021 07:31:59 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: luca.trombin@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-51381-2300-P0YeaTDGzA@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-51381-2300@https.bugzilla.kernel.org/>
+References: <bug-51381-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,34 +69,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Zhen Lei (2021-05-07 19:42:54)
-> Fix to return a negative error code from the error handling case instead
-> of 0, as done elsewhere in this function.
->
-> Fixes: 070e64dc1bbc ("drm/msm/dpu: Convert to a chained irq chip")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> index 06b56fec04e0..1b6c9fb500a1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> @@ -253,8 +253,10 @@ int dpu_mdss_init(struct drm_device *dev)
->                 goto irq_domain_error;
->
->         irq = platform_get_irq(pdev, 0);
-> -       if (irq < 0)
-> +       if (irq < 0) {
-> +               ret = irq;
->                 goto irq_error;
-> +       }
+https://bugzilla.kernel.org/show_bug.cgi?id=3D51381
 
-It would be even better if ret wasn't assigned to 0 at the start of this
-function.
+--- Comment #56 from Luca T. (luca.trombin@gmail.com) ---
+(In reply to Alex Deucher from comment #32)
+> Created attachment 138641 [details]
+> testing patch
+>=20
+> Does this patch help?  Note, this will probably break regular
+> suspend/resume, so just test it for switcheroo.
 
->
->         irq_set_chained_handler_and_data(irq, dpu_mdss_irq,
->                                          dpu_mdss);
+Hello Alex,
+
+this bug is still present also in kernel 5.12.1, can you please help me to
+understand how to fix this issue?
+
+Thanks in advance,
+
+Luca
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
