@@ -1,57 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA82377074
-	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 09:41:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4861337707D
+	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 09:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 389B86E85B;
-	Sat,  8 May 2021 07:41:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 166E96E072;
+	Sat,  8 May 2021 07:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 227CD6E85B
- for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 07:41:20 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- b14-20020a17090a6e0eb0290155c7f6a356so5804491pjk.0
- for <dri-devel@lists.freedesktop.org>; Sat, 08 May 2021 00:41:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QXDnjyKB879WWu5HcCyEpj+JYchBF3522PxjAdZvJYs=;
- b=F/4YnN8yxt//sE9DlamHWHTc96qn/GPkfoyWB1/Py1GREbXZdWUqoPnB5jaMbga8/D
- 7gSPWOn9cIqCRsNZw+w8TygZdrAQS5F8Themq5i0WUd9ct2Jc7se2LLPbMlrzkFDTftF
- WkXjhkvO2D/Q8yxMpaCpcqqni61GUERQomCLo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QXDnjyKB879WWu5HcCyEpj+JYchBF3522PxjAdZvJYs=;
- b=S86VHMyX83fWkUZXDU4mVVljq/AeDbq0Scf7cL4X7B6bb22HXrXReSpsNjNbuIA2VK
- L86v7pG5WajxIeh0PP8nqV0TCjpocYgm950DrhpXezDY39P8zGVzaK0+YTpLF7Ge086X
- Hp3TV0s/ZOXnbDPddFQtEZTMnSgf3dFSilM/LxDxOv5TgIpj0nw3Oz0FB+8427r8vb6m
- 0e7jLGR4wK7Fe7borpadxd2gc/Tidypf7rnvxkUxG3uK7S116bi6sUe4PYkLyxNMySXP
- YLE1DZooxVLH7s3NPmvyIWGmJwHamHGYxnNkQyg4NbYu3x5zCUHJ7Q3sqo5wR2CddSxq
- 1Srw==
-X-Gm-Message-State: AOAM531WioPzSVBAQ/Xmf0jQ7Q/d/ImmjEEtw+QltlQZyhkwrhAc3zqc
- FScsJ9aRnAewvY57uBWAFlLoRg==
-X-Google-Smtp-Source: ABdhPJwDAIUQ5Bm3lnAj91OHtapwoTD9/ukTdlyybiBqXZum5GZVgyBBhkyHT9Pyg7QZlOAx5whsiw==
-X-Received: by 2002:a17:90b:1055:: with SMTP id
- gq21mr27086958pjb.91.1620459679691; 
- Sat, 08 May 2021 00:41:19 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:ab8b:4a3d:46ab:361c])
- by smtp.gmail.com with ESMTPSA id w1sm6769687pgh.26.2021.05.08.00.41.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 May 2021 00:41:19 -0700 (PDT)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] component: Move host device to end of device lists on binding
-Date: Sat,  8 May 2021 00:41:18 -0700
-Message-Id: <20210508074118.1621729-1-swboyd@chromium.org>
-X-Mailer: git-send-email 2.31.1.607.g51e8a6a459-goog
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05B506E072;
+ Sat,  8 May 2021 07:55:08 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fcfg15g9vzkXBL;
+ Sat,  8 May 2021 15:52:29 +0800 (CST)
+Received: from [127.0.0.1] (10.174.177.72) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.498.0; Sat, 8 May 2021
+ 15:55:05 +0800
+Subject: Re: [PATCH 1/1] drm/msm/dpu: Fix error return code in dpu_mdss_init()
+To: Stephen Boyd <swboyd@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ "David Airlie" <airlied@linux.ie>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, dri-devel <dri-devel@lists.freedesktop.org>, freedreno
+ <freedreno@lists.freedesktop.org>, linux-arm-msm
+ <linux-arm-msm@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
+References: <20210508024254.1877-1-thunder.leizhen@huawei.com>
+ <CAE-0n51owL8RGJyz_5BUCTjrUW5m0X-DTKUx=mqRL=-4i-tMDA@mail.gmail.com>
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <4f6ab4db-958d-c2c5-7879-aa9a0d3b87ae@huawei.com>
+Date: Sat, 8 May 2021 15:55:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAE-0n51owL8RGJyz_5BUCTjrUW5m0X-DTKUx=mqRL=-4i-tMDA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.177.72]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,104 +50,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Russell King <rmk+kernel@arm.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The device lists are poorly ordered when the component device code is
-used. This is because component_master_add_with_match() returns 0
-regardless of component devices calling component_add() first. It can
-really only fail if an allocation fails, in which case everything is
-going bad and we're out of memory. The host device (called master_dev in
-the code), can succeed at probe and be put on the device lists before
-any of the component devices are probed and put on the lists.
 
-Within the component device framework this usually isn't that bad
-because the real driver work is done at bind time via
-component{,master}_ops::bind(). It becomes a problem when the driver
-core, or host driver, wants to operate on the component device outside
-of the bind/unbind functions, e.g. via 'remove' or 'shutdown'. The
-driver core doesn't understand the relationship between the host device
-and the component devices and could possibly try to operate on component
-devices when they're already removed from the system or shut down.
 
-Normally, device links or probe defer would reorder the lists and put
-devices that depend on other devices in the lists at the correct
-location, but with component devices this doesn't happen because this
-information isn't expressed anywhere. Drivers simply succeed at
-registering their component or host with the component framework and
-wait for their bind() callback to be called once the other components
-are ready. We could make various device links between 'master_dev' and
-'component->dev' but it's not necessary. Let's simply move the hosting
-device to the end of the device lists when the component device fully
-binds. This way we know that all components are present and have probed
-properly and now the host device has really probed so it's safe to
-assume the host driver ops can operate on any component device.
+On 2021/5/8 14:09, Stephen Boyd wrote:
+> Quoting Zhen Lei (2021-05-07 19:42:54)
+>> Fix to return a negative error code from the error handling case instead
+>> of 0, as done elsewhere in this function.
+>>
+>> Fixes: 070e64dc1bbc ("drm/msm/dpu: Convert to a chained irq chip")
+>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> ---
+>>  drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+>> index 06b56fec04e0..1b6c9fb500a1 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+>> @@ -253,8 +253,10 @@ int dpu_mdss_init(struct drm_device *dev)
+>>                 goto irq_domain_error;
+>>
+>>         irq = platform_get_irq(pdev, 0);
+>> -       if (irq < 0)
+>> +       if (irq < 0) {
+>> +               ret = irq;
+>>                 goto irq_error;
+>> +       }
+> 
+> It would be even better if ret wasn't assigned to 0 at the start of this
+> function.
 
-This fixes the msm display driver shutdown path when the DSI controller
-is connected to a DSI bridge that is controlled via i2c. In this case,
-the msm display driver wants to tear down the display pipeline on
-shutdown at msm_pdev_shutdown() by calling drm_atomic_helper_shutdown(),
-and it can't do that unless the whole display chain is still probed and
-active in the system. When a display bridge is on i2c, the i2c device
-for the bridge will be created whenever the i2c controller probes, which
-could be before or after the msm display driver probes. If the i2c
-controller probes after the display driver, then the i2c controller will
-be shutdown before the display controller during system wide shutdown
-and thus i2c transactions will stop working before the display pipeline
-is shut down. This means we'll have the display bridge trying to access
-an i2c bus that's shut down because drm_atomic_helper_shutdown() is
-trying to disable the bridge after the bridge is off.
+The returned error code is not unique.
 
-Moving the host device to the end of the lists at bind time moves the
-drm_atomic_helper_shutdown() call before the i2c bus is shutdown.
-This fixes the immediate problem, but we could improve it a bit by
-modeling device links from the component devices to the host device
-indicating that they supply something, although it is slightly different
-because the consumer doesn't need the suppliers to probe to succeed.
-
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: <dri-devel@lists.freedesktop.org>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/base/component.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/base/component.c b/drivers/base/component.c
-index dcfbe7251dc4..de645420bae2 100644
---- a/drivers/base/component.c
-+++ b/drivers/base/component.c
-@@ -15,6 +15,8 @@
- #include <linux/slab.h>
- #include <linux/debugfs.h>
- 
-+#include "base.h"
-+
- /**
-  * DOC: overview
-  *
-@@ -657,6 +659,14 @@ int component_bind_all(struct device *master_dev, void *data)
- 				c = master->match->compare[i - 1].component;
- 				component_unbind(c, master, data);
- 			}
-+	} else {
-+		/*
-+		 * Move to the tail of the list so that master_dev driver ops
-+		 * like 'shutdown' or 'remove' are called before any of the
-+		 * dependencies that the components have are shutdown or
-+		 * removed.
-+		 */
-+		device_pm_move_to_tail(master_dev);
- 	}
- 
- 	return ret;
-
-base-commit: 9f4ad9e425a1d3b6a34617b8ea226d56a119a717
--- 
-https://chromeos.dev
+> 
+>>
+>>         irq_set_chained_handler_and_data(irq, dpu_mdss_irq,
+>>                                          dpu_mdss);
+> 
+> .
+> 
 
