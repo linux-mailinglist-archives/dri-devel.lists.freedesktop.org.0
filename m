@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C7B37785A
-	for <lists+dri-devel@lfdr.de>; Sun,  9 May 2021 22:01:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2EA37788D
+	for <lists+dri-devel@lfdr.de>; Sun,  9 May 2021 22:50:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3E286E239;
-	Sun,  9 May 2021 20:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2FE6E488;
+	Sun,  9 May 2021 20:49:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19AF56E239
- for <dri-devel@lists.freedesktop.org>; Sun,  9 May 2021 20:01:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id BA65960FF2
- for <dri-devel@lists.freedesktop.org>; Sun,  9 May 2021 20:01:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EFB06E488
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 May 2021 20:49:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id DF3846135A;
+ Sun,  9 May 2021 20:49:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620590505;
- bh=8Mp9QAAuGCYDodcneDGG6vuJu4jrx27DQnXGl4YbfMM=;
- h=From:To:Subject:Date:From;
- b=EzICYJCSGnfiFSPEbEboT6F8A6Rf99dgKt+d6ncZ/8QkFRDXmetN2ijdQI6onHfEe
- 2bVT/BA0ayXOuW7AyZM0wGGaQ/w8iigQvkraPrOtN17gxgz/XDYXbyTqYEoQcmQale
- pAg9phIiPAB2By+9nNJuXClZstinvGDS89kt8A7vXI5u/b/Gopkszs9IF5NjMW3Sm6
- Hf40fNenx2fkRKUjnoVBwJPwHSfRK5i0+/KXMeROs3+KgQ4y4jQZ3fLN+/YPHm2TAi
- VVbMHFo6VdWXWANun6v2aIkpYcGm4HnAg9ualw6W6tVQLKTI4dFtLLzCvWaudONhI7
- ampnztKMX1Oig==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id ABC8E610E6; Sun,  9 May 2021 20:01:45 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213007] New: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
- scheduling IBs (-22)
-Date: Sun, 09 May 2021 20:01:45 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: naterussell83@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-213007-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+ s=k20201202; t=1620593398;
+ bh=MRn2TqF+F1OQQsUPPcSLj01bNmIn3EcEdO3S7acU8A0=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=DrRdy7fRAzZCqyuwzxsXAT2Cl3+YkExRSrELcj0iVpwPao3UsQL9ZUARRCJVYjVIY
+ QgTawDBSSksRvYMgMXpFGrEtow7/hqKWdh8DfUBaiwNAncUh10bWZrb0tuchPL5/nf
+ mIMwv0B51yHU+UigQB+2cSuWY86zGEtR7YdTUr07DaoNl3BVYjU3DQhkxTu9cQ19w6
+ mL5ZH3m3m2douwQgk608/+c424/bneRFG8XOzvpUz+IkueITwmGJFx4S2qHBHMQ4vc
+ UppkUEZdKHM3qBGHdLfw4A7+3obeGeXThGjjgvDvaT0vZo5UegSR0qn2IGYbGUuo/R
+ PFFzqEbOBuEiA==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
+ [127.0.0.1])
+ by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id CC41C60A21;
+ Sun,  9 May 2021 20:49:58 +0000 (UTC)
+Subject: Re: [git pull] drm fixes round two for 5.13-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9twAN82gkzrfc2CGQopjkjEdWtBKMF2DgBOtw+6RsZ++fw@mail.gmail.com>
+References: <CAPM=9twAN82gkzrfc2CGQopjkjEdWtBKMF2DgBOtw+6RsZ++fw@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9twAN82gkzrfc2CGQopjkjEdWtBKMF2DgBOtw+6RsZ++fw@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-next-2021-05-10
+X-PR-Tracked-Commit-Id: 0844708ac3d2dbdace70f4a6020669d56958697f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: efc58a96adcd29cc37487a60582d9d08b34f6640
+Message-Id: <162059339877.8686.14928053703025006797.pr-tracker-bot@kernel.org>
+Date: Sun, 09 May 2021 20:49:58 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,34 +56,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213007
+The pull request you sent on Mon, 10 May 2021 04:16:02 +1000:
 
-            Bug ID: 213007
-           Summary: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error scheduling
-                    IBs (-22)
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.10.33
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: naterussell83@gmail.com
-        Regression: No
+> git://anongit.freedesktop.org/drm/drm tags/drm-next-2021-05-10
 
-Created attachment 296699
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D296699&action=3Dedit
-[drm:amdgpu_job_run [amdgpu]] *ERROR* Error scheduling IBs (-22)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/efc58a96adcd29cc37487a60582d9d08b34f6640
 
---=20
-You may reply to this email to add a comment.
+Thank you!
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
