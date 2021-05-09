@@ -2,33 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80DDD377400
-	for <lists+dri-devel@lfdr.de>; Sat,  8 May 2021 22:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FEA377517
+	for <lists+dri-devel@lfdr.de>; Sun,  9 May 2021 06:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 443998949C;
-	Sat,  8 May 2021 20:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF0B56E14C;
+	Sun,  9 May 2021 04:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp07.smtpout.orange.fr
- [80.12.242.129])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4E0A78949C
- for <dri-devel@lists.freedesktop.org>; Sat,  8 May 2021 20:31:07 +0000 (UTC)
-Received: from localhost.localdomain ([86.243.172.93]) by mwinf5d65 with ME
- id 2LPa2500521Fzsu03LPaNR; Sat, 08 May 2021 22:23:36 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 08 May 2021 22:23:36 +0200
-X-ME-IP: 86.243.172.93
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: krzysztof.h1@wp.pl, akpm@linux-foundation.org, imre.deak@nokia.com,
- juha.yrjola@solidboot.com
-Subject: [PATCH] video: fbdev: lcd_mipid: Fix a memory leak in an error
- handling path
-Date: Sat,  8 May 2021 22:23:33 +0200
-Message-Id: <8b82e34724755b69f34f15dddb288cd373080390.1620505229.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.30.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B0666E0E6
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 May 2021 04:16:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 02F636140B
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 May 2021 04:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620533769;
+ bh=Rfe4nWZ/lo2HNIgwJkFO7FdUtsq4yBYASG5Ap1MFvR0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=oAV8O3oViTJE7OJenhW+s2KR9oqjPIJporT3TIFQp7dLiu0IA7PdS7HR0UJ/KISlE
+ vwOeIteWnTLrSsJRjI/zxFs3O6+wgwj7K+leOuExX6n0pa37AmWQOhJNCbBK6/vwrk
+ WazfpkoLUbOAXaCp+EE8FKLPp73AGlDcF43SIZm0tRcjYXIxKEkMtyKVc4v8IZ7Td6
+ F7uhl8HnbQRsKOwS7MPyRRp6RiYYT6CCbM7LD7ahTVi02kb74gXUYRnxeDUkoB5G/O
+ 2uboEchd9pTosT4Sdkl0xykq4vOw099Fek70XrGgzBvnS8jsTOh/Vk4Yv9YdfF80u+
+ sp0RkV8tdpQsQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id EFF756108D; Sun,  9 May 2021 04:16:08 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 51381] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 5secs aborting, when disabled via vgaswitcheroo
+Date: Sun, 09 May 2021 04:16:08 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: luca.trombin@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-51381-2300-PgcTEdAoyw@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-51381-2300@https.bugzilla.kernel.org/>
+References: <bug-51381-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,57 +66,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If 'mipid_detect()' fails, we must free 'md' to avoid a memory leak.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D51381
 
-While at it, modernize the function:
-   - remove a useless message in case of memory allocation failure
-   - change a '== NULL' into a '!'
+--- Comment #59 from Luca T. (luca.trombin@gmail.com) ---
+(In reply to luminoso from comment #57)
+> For users still facing this issue, I workaround it with this:
+> https://github.com/aelveborn/vgaswitcheroo-systemd
+>=20
+> Basically before suspending it restores the GPU powerstate and resumes it
+> once coming from a suspend state.
+>=20
+> Never had problems again.
 
-Fixes: 66d2f99d0bb5 ("omapfb: add support for MIPI-DCS compatible LCDs")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/video/fbdev/omap/lcd_mipid.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Hi Luminoso,
 
-diff --git a/drivers/video/fbdev/omap/lcd_mipid.c b/drivers/video/fbdev/omap/lcd_mipid.c
-index a75ae0c9b14c..b4b93ff4b41a 100644
---- a/drivers/video/fbdev/omap/lcd_mipid.c
-+++ b/drivers/video/fbdev/omap/lcd_mipid.c
-@@ -551,10 +551,8 @@ static int mipid_spi_probe(struct spi_device *spi)
- 	int r;
- 
- 	md = kzalloc(sizeof(*md), GFP_KERNEL);
--	if (md == NULL) {
--		dev_err(&spi->dev, "out of memory\n");
-+	if (!md)
- 		return -ENOMEM;
--	}
- 
- 	spi->mode = SPI_MODE_0;
- 	md->spi = spi;
-@@ -563,11 +561,15 @@ static int mipid_spi_probe(struct spi_device *spi)
- 
- 	r = mipid_detect(md);
- 	if (r < 0)
--		return r;
-+		goto free_md;
- 
- 	omapfb_register_panel(&md->panel);
- 
- 	return 0;
-+
-+free_md:
-+	kfree(md);
-+	return r;
- }
- 
- static int mipid_spi_remove(struct spi_device *spi)
--- 
-2.30.2
+it works greatly, thanks a lot!!!
 
+I read about this switch but I lost the patience to try and retry, but you
+saved my life! :)
+
+Thank you so much,
+
+Luca
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
