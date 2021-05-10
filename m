@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F407A379756
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 21:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C3A379769
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 21:08:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E709A89F6E;
-	Mon, 10 May 2021 19:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD766E4EA;
+	Mon, 10 May 2021 19:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37F8589F6E
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 19:02:24 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- a10-20020a05600c068ab029014dcda1971aso9636355wmn.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 12:02:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h4WHP173ml/IvV38Ii24FlwHTvigSpfq09dlZuPkiS4=;
- b=kxU/6Cetf8Jp9p1vtNEP21W8Vh9oXZMaTvM3J6yDfbfzwSRb2VaI72nqY2aCpckEHr
- kze3q4ghadRqOS2+rfuGfWI/felw/cbpuSdTX+EyMAmQIi9jWBwvZCNzzD075oTs8AQP
- FijOGeDY1+s/umdlSBjaM6PKf6x9endfGo7ov9K5heleejekl7Hv/KjKf2J8K9nykD6N
- NmsBj3NyLWLsD35hCpthQcXQ1iocnvFBVYhWztGcNYHktiJd5GfEz/MW9sMhLU8jpPdB
- KbBDFEDfUKJxUpHnXVHTW6+9x2hHsXMFA2fJhLP7OhBCp1MH73KE/oe7DaCpxZwLMi/V
- YwIw==
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 121E06E4EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 19:08:41 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id n184so16725422oia.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 12:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=eP6gvGEziKbBxse1ZZa4wvu/p/N5mBk1XQzX+RNRSrk=;
+ b=hAb0NhrwpTLU1E9f834oH321MocrM3MUFd3zvEkAe65c63eoIihBWTiFsXaEOrh09L
+ uvlvV1bK7n57oTVQRH4Du7xv3/8P5yzgLHmpYsapsRtdU9zKJqFoCUbwWka0Y9UM42ig
+ dxsoaVKO3LthfKZKX+O2N4ysN/uMJ5HMoCAZY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h4WHP173ml/IvV38Ii24FlwHTvigSpfq09dlZuPkiS4=;
- b=h7xQMCRWOkWI+sQPHloDvR5VlbZYgF4/F/fr0YfX9aGqGCdzaQsWPnoMv3+RAwO+bC
- 95SD4H5HZtEChfEU+D+7fIgwLlQW9mz74MKRqG9QTMEaSJCP8F7VKmoI7xQEFIUtQQsr
- TBhEE+VdbQa67qQ1HL8RvAUGfykOTNW88VQlRZejRcNNFhn98uepFqzc2vmsn0vk+R24
- M+fU2VdAYT3/6Poqf6WF0ZqmvVF9yiwBLllMeu3ysIPIwgyjLzZT1Cu3XwsjCupUpZUb
- ZmZC1wkrOonQnIciPeX8RnBKPxf5HrfSXc1qN1bP1I+1oyA3XYzt81YIoKK0SvaAx1uD
- dxng==
-X-Gm-Message-State: AOAM533TGEelCkg58HKawV8KpqVpkpiynLNeB1jcaE+zKFN82ob74urI
- ZlCtXprPdJq2Kiq6QLDDFsLyzLP4/1U7RO7qERW4nBMy
-X-Google-Smtp-Source: ABdhPJyedLosMi9DTMI3cZe6mklv8C/MjfcGEGtOrgVxrZtw0BXTtOsdhgOaWKk6a1s7FQ1D+WVIw9GXsgQ9Mw5lmwU=
-X-Received: by 2002:a7b:c012:: with SMTP id c18mr713621wmb.94.1620673343572;
- Mon, 10 May 2021 12:02:23 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=eP6gvGEziKbBxse1ZZa4wvu/p/N5mBk1XQzX+RNRSrk=;
+ b=gnb0ToPppOGGrouB/KYcW1+WnByfihXHuj4miKiTKuvdOLx8Bp4vDqgWhF5LijOVhB
+ v4TcXO/RnrQK9B1KdKL8TJBKOfDoyOrvbwtS06Jshj5B5jDAFZviYnOhKNoaFTyOTDlF
+ qOcB7kCOau//m/hA51OfGdtnMJXdM5626XfvcAyIz/ohxnxMzDan+IbEEcpb6PAoOnOS
+ zHWVcPK3eSeIQKiFjFV8fhxUgWrpd923rw+F82DvEhjgltR+1DOJ0aa27TO/IVZh+xrc
+ n7r06TIWhcWU5saeNDtM/Q7BKSzd5+zV4tdwZ/ohZ8kk9THzEiZE0p+UGbPHmJsId4xJ
+ +xTw==
+X-Gm-Message-State: AOAM533p2Ir/xlgXn0Mw57int9c3oI6xWpbDto9OnBafQkKZOZ7qBc5p
+ fw1Ep+lpdnjfuj/fNUXU41MXMCgAAnWxFXacZoAiCA==
+X-Google-Smtp-Source: ABdhPJzYMhCCpm68K994SNvm+ZulvXrBB02Bh/q2MyeStbZV0IE0NuWg4JX8A4X4mpFNoQGj4v/NujH3OVWaWcucZGA=
+X-Received: by 2002:aca:211a:: with SMTP id 26mr18840223oiz.19.1620673720507; 
+ Mon, 10 May 2021 12:08:40 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 10 May 2021 12:08:40 -0700
 MIME-Version: 1.0
-References: <20210508195641.397198-1-robdclark@gmail.com>
- <20210508195641.397198-2-robdclark@gmail.com>
- <YJlb3GO41hiu4pWw@phenom.ffwll.local>
- <CAF6AEGsGb1jZgRRUqDvf+j+E6pNEtSck=r3xh4VL7FmZMPszBQ@mail.gmail.com>
- <CAKMK7uGPGbOPRtJaiG5oNCDhYQ27+V3bO5Wcgv7C9fqdyp8LeA@mail.gmail.com>
-In-Reply-To: <CAKMK7uGPGbOPRtJaiG5oNCDhYQ27+V3bO5Wcgv7C9fqdyp8LeA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 10 May 2021 12:06:05 -0700
-Message-ID: <CAF6AEGto1PQcEbYeWfXqMatK0z3dW-mpLNVh=VJb=9gwrPfCWg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: Fix dirtyfb stalls
+In-Reply-To: <CAKMK7uE_yrXNdEYTf-snNU9dS+=6AKOmUxRuLSHLWBTOtVwpmg@mail.gmail.com>
+References: <20210508074118.1621729-1-swboyd@chromium.org>
+ <YJlZwYS+oH7W5WjO@phenom.ffwll.local>
+ <CAE-0n52S=LFRx93qVyWBpF5PmdCEbWH_+HnN0Do9W45kiJLCbQ@mail.gmail.com>
+ <CAKMK7uE_yrXNdEYTf-snNU9dS+=6AKOmUxRuLSHLWBTOtVwpmg@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Mon, 10 May 2021 12:08:40 -0700
+Message-ID: <CAE-0n50d8_OtZTpBGaz0uhj6AO823_kwHg9+SJK6ar=e+rGxFA@mail.gmail.com>
+Subject: Re: [PATCH] component: Move host device to end of device lists on
+ binding
 To: Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,182 +66,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+ Russell King <rmk+kernel@arm.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 10, 2021 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+Quoting Daniel Vetter (2021-05-10 11:26:40)
+> On Mon, May 10, 2021 at 7:52 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > The device list now has msm, i2c, bridge in that order. When we go to
+> > system wide shutdown the bridge is shutdown first, then the i2c bus, and
+> > then msm calls drm_atomic_helper_shutdown(). That tries to call the i2c
+> > bridge ops because it's attached to the end of the DSI encoder and
+> > things don't go well because i2c is gone. This patch fixes the order of
+> > the list so that msm is moved on the device list after all the
+> > components that make up the aggregate device have probed. This only
+> > works to move the aggregate device after the i2c bridge because the
+> > msm_dsi_host_register() function won't return success until the bridge
+> > device is probed.
 >
-> On Mon, May 10, 2021 at 6:51 PM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Mon, May 10, 2021 at 9:14 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Sat, May 08, 2021 at 12:56:38PM -0700, Rob Clark wrote:
-> > > > From: Rob Clark <robdclark@chromium.org>
-> > > >
-> > > > drm_atomic_helper_dirtyfb() will end up stalling for vblank on "video
-> > > > mode" type displays, which is pointless and unnecessary.  Add an
-> > > > optional helper vfunc to determine if a plane is attached to a CRTC
-> > > > that actually needs dirtyfb, and skip over them.
-> > > >
-> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > >
-> > > So this is a bit annoying because the idea of all these "remap legacy uapi
-> > > to atomic constructs" helpers is that they shouldn't need/use anything
-> > > beyond what userspace also has available. So adding hacks for them feels
-> > > really bad.
-> >
-> > I suppose the root problem is that userspace doesn't know if dirtyfb
-> > (or similar) is actually required or is a no-op.
-> >
-> > But it is perhaps less of a problem because this essentially boils
-> > down to "x11 vs wayland", and it seems like wayland compositors for
-> > non-vsync'd rendering just pageflips and throws away extra frames from
-> > the app?
+> Ah I think I get this now. There is indeed a design problem:
+> component.c only has bind/unbind hooks for all its things. Which means
+> driver load/unload will work correctly because in your above sequence:
 >
-> Yeah it's about not adequately batching up rendering and syncing with
-> hw. bare metal x11 is just especially stupid about it :-)
->
-> > > Also I feel like it's not entirely the right thing to do here either.
-> > > We've had this problem already on the fbcon emulation side (which also
-> > > shouldn't be able to peek behind the atomic kms uapi curtain), and the fix
-> > > there was to have a worker which batches up all the updates and avoids any
-> > > stalls in bad places.
-> >
-> > I'm not too worried about fbcon not being able to render faster than
-> > vblank.  OTOH it is a pretty big problem for x11
->
-> That's why we'd let the worker get ahead at most one dirtyfb. We do
-> the same with fbcon, which trivially can get ahead of vblank otherwise
-> (if sometimes flushes each character, so you have to pile them up into
-> a single update if that's still pending).
->
-> > > Since this is for frontbuffer rendering userspace only we can probably get
-> > > away with assuming there's only a single fb, so the implementation becomes
-> > > pretty simple:
-> > >
-> > > - 1 worker, and we keep track of a single pending fb
-> > > - if there's already a dirty fb pending on a different fb, we stall for
-> > >   the worker to start processing that one already (i.e. the fb we track is
-> > >   reset to NULL)
-> > > - if it's pending on the same fb we just toss away all the updates and go
-> > >   with a full update, since merging the clip rects is too much work :-) I
-> > >   think there's helpers so you could be slightly more clever and just have
-> > >   an overall bounding box
-> >
-> > This doesn't really fix the problem, you still end up delaying sending
-> > the next back-buffer to mesa
->
-> With this the dirtyfb would never block. Also glorious frontbuffer
-> tracking corruption is possible, but that's not the kernel's problem.
-> So how would anything get held up in userspace.
+> 1. drm_brige unbinds
+> -> this triggers the unbind of the entire aggregate of components
+> 2. i2c unbinds
+> 3. msm unbinds, but there's nothing to clean up anymore except the
+> aggregate/master struct
 
-the part about stalling if a dirtyfb is pending was what I was worried
-about.. but I suppose you meant the worker stalling, rather than
-userspace stalling (where I had interpreted it the other way around).
-As soon as userspace needs to stall, you're losing again.
+Yes. I just tried this though and it didn't work, so I suspect there are
+bugs in bridge unbind. Another rabbit hole.
 
-> > But we could re-work drm_framebuffer_funcs::dirty to operate on a
-> > per-crtc basis and hoist the loop and check if dirtyfb is needed out
-> > of drm_atomic_helper_dirtyfb()
 >
-> That's still using information that userspace doesn't have, which is a
-> bit irky. We might as well go with your thing here then.
+> Now for runtime pm this also all works out, because each component
+> grabs the right runtime pm references. But for the system-wide pm
+> changes, where we rely on the device list order to make sure things
+> happen in the right way, it all blows up.
+>
+> 1. drm_bringe shutdown
+> 2. i2c shutdown
+> 3. msm shutdown, and with very sad thrombones because we blow up
+>
+> I think the right fix is to make component.c more of  a driver model
+> thing, which probably means either the aggregate must get tied closer
+> to the main struct device, or it needs to gain its own struct device.
+> Or minimally at least, the aggregate needs to gain an entire set of
+> pm_ops, which gets called in the right order if any of the component's
+> pm_ops gets called. Wiring that all up will be major surgery I think.
 
-arguably, this is something we should expose to userspace.. for DSI
-command-mode panels, you probably want to make a different decision
-with regard to how many buffers in your flip-chain..
+Yes the root of the problem is that the aggregate device is not part of
+the kernel's driver model. It's basically a pair of probe and remove
+functions and nothing else.
 
-Possibly we should add/remove the fb_damage_clips property depending
-on the display type (ie. video/pull vs cmd/push mode)?
+>
+> I guess another option would be trying to figure out how the aggreate
+> registration could fail with EPROBE_DEFER until all the parts are
+> there, to guarantee the right ordering. Not sure that will work with
+> the current component users though.
 
-BR,
--R
+I had that written up and it worked for me but I was concerned it would
+break other users, plus it didn't feel correct to defer probe just
+because the components weren't probed yet. The aggregate device wasn't
+waiting for the components to probe, so why change that? For msm it led
+to more work too, because we have some child devices that are removed if
+the aggregate device fails to probe, meaning we go through a few cycles
+of add/remove of the components this way. If the aggregate doesn't defer
+probe then we can avoid the other components adding/removing over and
+over again until the final component, DSI that is waiting for the
+bridge, can probe.
 
-> -Daniel
+That's why I opted to move the device on the list to the tail. I'm
+hoping that most component users (which is basically drm?) don't do much
+with the device they're using to host the aggregate device besides tell
+drm that the display pipeline is here now. Everything else would be in
+the bind/unbind callbacks. If there was a 'struct device', or maybe a
+'struct class', that was associated with the whole display pipeline and
+aggregate device we could attach the pm ops to that. Would 'struct
+drm_device' be that? If yes we could make some drm functions that let
+you attach PM ops to a struct device inside of that and make it a child
+of the device that calls drm_dev_alloc().
+
 >
-> > BR,
-> > -R
-> >
-> > >
-> > > Could probably steal most of the implementation.
-> > >
-> > > This approach here feels a tad too much in the hacky area ...
-> > >
-> > > Thoughts?
-> > > -Daniel
-> > >
-> > > > ---
-> > > >  drivers/gpu/drm/drm_damage_helper.c      |  8 ++++++++
-> > > >  include/drm/drm_modeset_helper_vtables.h | 14 ++++++++++++++
-> > > >  2 files changed, 22 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-> > > > index 3a4126dc2520..a0bed1a2c2dc 100644
-> > > > --- a/drivers/gpu/drm/drm_damage_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_damage_helper.c
-> > > > @@ -211,6 +211,7 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
-> > > >  retry:
-> > > >       drm_for_each_plane(plane, fb->dev) {
-> > > >               struct drm_plane_state *plane_state;
-> > > > +             struct drm_crtc *crtc;
-> > > >
-> > > >               ret = drm_modeset_lock(&plane->mutex, state->acquire_ctx);
-> > > >               if (ret)
-> > > > @@ -221,6 +222,13 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
-> > > >                       continue;
-> > > >               }
-> > > >
-> > > > +             crtc = plane->state->crtc;
-> > > > +             if (crtc->helper_private->needs_dirtyfb &&
-> > > > +                             !crtc->helper_private->needs_dirtyfb(crtc)) {
-> > > > +                     drm_modeset_unlock(&plane->mutex);
-> > > > +                     continue;
-> > > > +             }
-> > > > +
-> > > >               plane_state = drm_atomic_get_plane_state(state, plane);
-> > > >               if (IS_ERR(plane_state)) {
-> > > >                       ret = PTR_ERR(plane_state);
-> > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> > > > index eb706342861d..afa8ec5754e7 100644
-> > > > --- a/include/drm/drm_modeset_helper_vtables.h
-> > > > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > > > @@ -487,6 +487,20 @@ struct drm_crtc_helper_funcs {
-> > > >                                    bool in_vblank_irq, int *vpos, int *hpos,
-> > > >                                    ktime_t *stime, ktime_t *etime,
-> > > >                                    const struct drm_display_mode *mode);
-> > > > +
-> > > > +     /**
-> > > > +      * @needs_dirtyfb
-> > > > +      *
-> > > > +      * Optional callback used by damage helpers to determine if fb_damage_clips
-> > > > +      * update is needed.
-> > > > +      *
-> > > > +      * Returns:
-> > > > +      *
-> > > > +      * True if fb_damage_clips update is needed to handle DIRTYFB, False
-> > > > +      * otherwise.  If this callback is not implemented, then True is
-> > > > +      * assumed.
-> > > > +      */
-> > > > +     bool (*needs_dirtyfb)(struct drm_crtc *crtc);
-> > > >  };
-> > > >
-> > > >  /**
-> > > > --
-> > > > 2.30.2
-> > > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
+> > It's an interesting idea to trigger shutdown when the component device
+> > is unbound. Are you suggesting that the i2c bridge device have a
+> > 'shutdown' callback, that essentially removes the bridge from the
+> > encoder chain via mipi_dsi_detach() and then drm_bridge_remove()?
+> > Presumably that would somehow tell the DSI encoder that it should stop
+> > trying to use the i2c bridge and then drm_atomic_helper_shutdown()
+> > wouldn't try to traverse beyond the DSI to shut things down.
 >
+> Nope, we don't want to unbind the driver on shutdown. I somehow
+> thought you're dying in there, which is why I wondered what's going
+> on. But since you're dying in pm_ops->shutdown, that's a different
+> thing.
+
+I'm dying in msm_pdev_shutdown(), but yes pm_ops are similar.
+
 >
+> > I will try it, but then I wonder about things like system wide
+> > suspend/resume too. The drm encoder chain would need to reimplement the
+> > logic for system wide suspend/resume so that any PM ops attached to the
+> > msm device run in the correct order. Right now the bridge PM ops will
+> > run, the i2c bus PM ops will run, and then the msm PM ops will run.
+> > After this change, the msm PM ops will run, the bridge PM ops will run,
+> > and then the i2c bus PM ops will run. It feels like that could be a
+> > problem if we're suspending the DSI encoder while the bridge is still
+> > active.
 >
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> Yup suspend/resume has the exact same problem as shutdown.
+
+I think suspend/resume has the exact opposite problem. At least I think
+the correct order is to suspend the bridge, then the encoder, i.e. DSI,
+like is happening today. It looks like drm_atomic_helper_shutdown()
+operates from the top down when we want bottom up? I admit I have no
+idea what is supposed to happen here.
