@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757C3379359
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 18:05:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B419E37935E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 18:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DB3089F31;
-	Mon, 10 May 2021 16:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11E476E840;
+	Mon, 10 May 2021 16:07:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E55789F31
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 16:05:25 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id v12so17182708wrq.6
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 09:05:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=6eqFtigL6XPzGHvJOyisC/fKX/gihfHqH7WepbpRLGM=;
- b=F3TEsHWzvJZFJyaQrrPbpZEVzsQhRp1y6QD4jZXdGpbaDNU5E0thA+IcC5hThHgB5H
- mRIU7AqDRXc1ic3jAMSuLp+Icr+Z6lC82kVLx7g3bkvOuR3FWTicBn8hdUrtgCwI0dSA
- Ing8bBWnxGumxPoJBAowFRgULclwwqwt2M9B8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=6eqFtigL6XPzGHvJOyisC/fKX/gihfHqH7WepbpRLGM=;
- b=IucJlg1CBkY+CvtnxlKiilbQV0i83Jj2Clh8XlR6Ptj2qDCox2NSrRQ6GaPB+jJ3xY
- vjdBoMlpcGWKI/vOZzJAaKu5MwJJqU4qKam+rpKEkfNpl6tZMggRBBOM0ATY1fDUz7aK
- ZtJjreh72cZI0RpHJt6ZZZiA+W19x/EDYxSVPMbGKLyk5hGjwFqijoi8lY6ernErB+CE
- qnFemO7z8y3PeFZ1CsbsNezkhakgSyXSKlXjfg1NcTlZXVYAf38cWE5wjVy55y4njch0
- RiTiDCGe+sWrhgmp6bjCyQs3lOCxrkljhFWQ0Y95nogyWAmSwcj6SRD9B+TxQ8r4SjH9
- TsLw==
-X-Gm-Message-State: AOAM530qwQ+vpAvtMEitA9pMMn7yRED4WIJso5D+5EMZSBY4wsHihBTU
- /Xy9RG0Qes2DfvqhRT+mCZ3opw==
-X-Google-Smtp-Source: ABdhPJwHouG/tt9UaNb62tWDNyPWBhtvLCmb4WgDrkynrQxo2ZQbnGVEZiPjAq9xtOuO1BTCaFnP3A==
-X-Received: by 2002:adf:df04:: with SMTP id y4mr31401027wrl.358.1620662724075; 
- Mon, 10 May 2021 09:05:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p10sm3981987wmq.14.2021.05.10.09.05.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 09:05:23 -0700 (PDT)
-Date: Mon, 10 May 2021 18:05:21 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH] component: Move host device to end of device lists on
- binding
-Message-ID: <YJlZwYS+oH7W5WjO@phenom.ffwll.local>
-Mail-Followup-To: Stephen Boyd <swboyd@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Russell King <rmk+kernel@arm.linux.org.uk>,
- Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20210508074118.1621729-1-swboyd@chromium.org>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3CA6E4B1;
+ Mon, 10 May 2021 16:07:28 +0000 (UTC)
+IronPort-SDR: y6dkVIWjSrAEwIcHKPVu6BrAONiO9hnAjA+g23c4eV5NP8q4SNHUVbAuJMqIqChdLALwd833vc
+ W7VvFaY9mAaQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199298463"
+X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; d="scan'208";a="199298463"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2021 09:06:34 -0700
+IronPort-SDR: dnlIFFFwxspurSvFBH0h9NWjDR9VI7+YoZb18mumICFeecgC0nk5wCHIvaa5KpzY0BuF5agTst
+ OWaaR3SVveDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; d="scan'208";a="429961127"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga007.jf.intel.com with ESMTP; 10 May 2021 09:06:34 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 10 May 2021 09:06:33 -0700
+Received: from irsmsx604.ger.corp.intel.com (163.33.146.137) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 10 May 2021 09:06:32 -0700
+Received: from irsmsx604.ger.corp.intel.com ([163.33.146.137]) by
+ IRSMSX604.ger.corp.intel.com ([163.33.146.137]) with mapi id 15.01.2106.013;
+ Mon, 10 May 2021 17:06:31 +0100
+From: "Tamminen, Eero T" <eero.t.tamminen@intel.com>
+To: "daniel@ffwll.ch" <daniel@ffwll.ch>, "Welty, Brian" <brian.welty@intel.com>
+Subject: Re: [RFC PATCH 8/9] drm/gem: Associate GEM objects with drm cgroup
+Thread-Topic: [RFC PATCH 8/9] drm/gem: Associate GEM objects with drm cgroup
+Thread-Index: AQHW9Cx15TjPXGT9hUOJR9LC/Jv9PqpPu6eAgAJMa4CAASZwgIAjLNaAgBN73oCAAJfTgIBS/HgAgAAIQYA=
+Date: Mon, 10 May 2021 16:06:31 +0000
+Message-ID: <09a39aa58c064a8f8e696a091a1b5edd22ef58b9.camel@intel.com>
+References: <20210126214626.16260-1-brian.welty@intel.com>
+ <20210126214626.16260-9-brian.welty@intel.com>
+ <YCJp//kMC7YjVMXv@phenom.ffwll.local>
+ <dffeb6a7-90f1-e17c-9695-44678e7a39cb@intel.com>
+ <YCVOl8/87bqRSQei@phenom.ffwll.local>
+ <89a71735-aae5-2617-c017-310207c5873b@intel.com>
+ <CAKMK7uG2PFMWXa9o4LzsF1r0Mc-M8KqD-PKZkCj+m7XeO5wCyg@mail.gmail.com>
+ <67867078-4f4b-0a6a-e55d-453b973d8b7c@intel.com>
+ <CAKMK7uG7EWv93EbRcMRCm+opi=7fQPMOv2z1R6GBhJXb6--28w@mail.gmail.com>
+In-Reply-To: <CAKMK7uG7EWv93EbRcMRCm+opi=7fQPMOv2z1R6GBhJXb6--28w@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.253.164]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5931D961B8B5484C894BA9ABDE9A0665@intel.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210508074118.1621729-1-swboyd@chromium.org>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,134 +74,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Russell King <rmk+kernel@arm.linux.org.uk>
+Cc: "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "Kenny.Ho@amd.com" <Kenny.Ho@amd.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "tj@kernel.org" <tj@kernel.org>,
+ "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 08, 2021 at 12:41:18AM -0700, Stephen Boyd wrote:
-> The device lists are poorly ordered when the component device code is
-> used. This is because component_master_add_with_match() returns 0
-> regardless of component devices calling component_add() first. It can
-> really only fail if an allocation fails, in which case everything is
-> going bad and we're out of memory. The host device (called master_dev in
-> the code), can succeed at probe and be put on the device lists before
-> any of the component devices are probed and put on the lists.
-> 
-> Within the component device framework this usually isn't that bad
-> because the real driver work is done at bind time via
-> component{,master}_ops::bind(). It becomes a problem when the driver
-> core, or host driver, wants to operate on the component device outside
-> of the bind/unbind functions, e.g. via 'remove' or 'shutdown'. The
-> driver core doesn't understand the relationship between the host device
-> and the component devices and could possibly try to operate on component
-> devices when they're already removed from the system or shut down.
-> 
-> Normally, device links or probe defer would reorder the lists and put
-> devices that depend on other devices in the lists at the correct
-> location, but with component devices this doesn't happen because this
-> information isn't expressed anywhere. Drivers simply succeed at
-> registering their component or host with the component framework and
-> wait for their bind() callback to be called once the other components
-> are ready. We could make various device links between 'master_dev' and
-> 'component->dev' but it's not necessary. Let's simply move the hosting
-> device to the end of the device lists when the component device fully
-> binds. This way we know that all components are present and have probed
-> properly and now the host device has really probed so it's safe to
-> assume the host driver ops can operate on any component device.
-> 
-> This fixes the msm display driver shutdown path when the DSI controller
-> is connected to a DSI bridge that is controlled via i2c. In this case,
-> the msm display driver wants to tear down the display pipeline on
-> shutdown at msm_pdev_shutdown() by calling drm_atomic_helper_shutdown(),
-> and it can't do that unless the whole display chain is still probed and
-> active in the system. When a display bridge is on i2c, the i2c device
-> for the bridge will be created whenever the i2c controller probes, which
-> could be before or after the msm display driver probes. If the i2c
-> controller probes after the display driver, then the i2c controller will
-> be shutdown before the display controller during system wide shutdown
-> and thus i2c transactions will stop working before the display pipeline
-> is shut down. This means we'll have the display bridge trying to access
-> an i2c bus that's shut down because drm_atomic_helper_shutdown() is
-> trying to disable the bridge after the bridge is off.
-> 
-> Moving the host device to the end of the lists at bind time moves the
-> drm_atomic_helper_shutdown() call before the i2c bus is shutdown.
-> This fixes the immediate problem, but we could improve it a bit by
-> modeling device links from the component devices to the host device
-> indicating that they supply something, although it is slightly different
-> because the consumer doesn't need the suppliers to probe to succeed.
-> 
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: <dri-devel@lists.freedesktop.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-
-Entirely aside, but an s/master/aggregate/ or similar over the entire
-component.c codebase would help a pile in making it easier to understand
-which part does what. Or at least I'm always terribly confused about which
-bind binds what and all that, so maybe an additional review whether we
-have a clear split into aggregate and individual components after that
-initial fix is needed.
-
-On the actual topic: I agree there's a problem here, but I'm honestly not
-sure how it should be fixed. That's way over my understanding of all the
-device probe and pm interactions. Of which there are plenty.
-
-One question I have: Why is the bridge component driver not correctly
-ordered wrt the i2c driver it needs? The idea is that the aggregate driver
-doesn't access any hw itself, but entirely relies on all its components.
-So as long as all the component drivers are sorted correctly in the device
-list, things /should/ work. And as soon as we drop out a single component,
-the aggregate gets unbound (and then does all the
-drm_atomic_helper_shutdown and all the other drm teardown). So is the bug
-perhaps that msm does the drm teardown in the wrong callback?
--Daniel
-
-> ---
->  drivers/base/component.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/base/component.c b/drivers/base/component.c
-> index dcfbe7251dc4..de645420bae2 100644
-> --- a/drivers/base/component.c
-> +++ b/drivers/base/component.c
-> @@ -15,6 +15,8 @@
->  #include <linux/slab.h>
->  #include <linux/debugfs.h>
->  
-> +#include "base.h"
-> +
->  /**
->   * DOC: overview
->   *
-> @@ -657,6 +659,14 @@ int component_bind_all(struct device *master_dev, void *data)
->  				c = master->match->compare[i - 1].component;
->  				component_unbind(c, master, data);
->  			}
-> +	} else {
-> +		/*
-> +		 * Move to the tail of the list so that master_dev driver ops
-> +		 * like 'shutdown' or 'remove' are called before any of the
-> +		 * dependencies that the components have are shutdown or
-> +		 * removed.
-> +		 */
-> +		device_pm_move_to_tail(master_dev);
->  	}
->  
->  	return ret;
-> 
-> base-commit: 9f4ad9e425a1d3b6a34617b8ea226d56a119a717
-> -- 
-> https://chromeos.dev
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+SGksDQoNCk1vbiwgMjAyMS0wNS0xMCBhdCAxNzozNiArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90
+ZToNCj4gDQouLi4NCj4gPiBJZiBEUk0gYWxsb3dzIHVzZXItc3BhY2UgdG8gZXhoYXVzdCBhbGwg
+b2Ygc3lzdGVtIG1lbW9yeSwgdGhpcyBzZWVtcw0KPiA+IHRvIGJlIGEgZ2FwIGluIGVuZm9yY2Vt
+ZW50IG9mIE1FTUNHIGxpbWl0cyBmb3Igc3lzdGVtIG1lbW9yeS4NCj4gPiBJIHRyaWVkIHRvIGxv
+b2sgaW50byBpdCB3aGVuIHRoaXMgd2FzIGRpc2N1c3NlZCBpbiB0aGUgcGFzdC4uLi4NCj4gPiBN
+eSBndWVzcyBpcyB0aGF0IHNobWVtX3JlYWRfbWFwcGluZ19wYWdlX2dmcCgpIC0+DQo+ID4gc2ht
+ZW1fZ2V0cGFnZV9nZnAoKSBpcyBub3QgY2hvb3NpbmcgdGhlIGNvcnJlY3QgTU0gdG8gY2hhcmdl
+IGFnYWluc3QNCj4gPiBpbiB0aGUgdXNlIGNhc2Ugb2YgZHJpdmVycyB1c2luZyBzaG1lbWZzIGZv
+ciBiYWNraW5nIGdlbSBidWZmZXJzLg0KPiANCj4gWWVhaCB3ZSBrbm93IGFib3V0IHRoaXMgb25l
+IHNpbmNlIGZvcmV2ZXIuIFRoZSBidWcgcmVwb3J0IGlzIHJvdWdobHkNCj4gYXMgb2xkIGFzIHRo
+ZSBnZW0vdHRtIG1lbW9yeSBtYW5hZ2VycyA6LS8gU28gYW5vdGhlciBwcm9ibGVtIG1pZ2h0IGJl
+DQo+IHRoYXQgaWYgd2Ugbm93IHN1ZGRlbmx5IGluY2x1ZGUgZ3B1IG1lbW9yeSBpbiB0aGUgbWVt
+Y2cgYWNjb3VudGluZywgd2UNCj4gc3RhcnQgYnJlYWtpbmcgYSBidW5jaCBvZiB3b3JrbG9hZHMg
+dGhhdCB3b3JrZWQganVzdCBmaW5lIGJlZm9yZWhhbmQuDQoNCkl0J3Mgbm90IHRoZSBmaXJzdCB0
+aW1lIHRpZ2h0ZW5pbmcgc2VjdXJpdHkgcmVxdWlyZXMgYWRhcHRpbmcgc2V0dGluZ3MNCmZvciBy
+dW5uaW5nIHdvcmtsb2Fkcy4uLg0KDQpXb3JrbG9hZCBHUFUgbWVtb3J5IHVzYWdlIG5lZWRzIHRv
+IGJlIHNpZ25pZmljYW50IHBvcnRpb24gb2YNCmFwcGxpY2F0aW9uJ3MgcmVhbCBtZW1vcnkgdXNh
+Z2UsIHRvIGNhdXNlIHdvcmtsb2FkIHRvIGhpdCBsaW1pdHMgdGhhdA0KaGF2ZSBiZWVuIHNldCBm
+b3IgaXQgZWFybGllci4gIFRoZXJlZm9yZSBJIHRoaW5rIGl0IHRvIGRlZmluaXRlbHkgYmUNCnNv
+bWV0aGluZyB0aGF0IHVzZXIgc2V0dGluZyBzdWNoIGxpbWl0cyBhY3R1YWxseSBjYXJlcyBhYm91
+dC4NCg0KPT4gSSB0aGluayB0aGUgaW1wb3J0YW50IHRoaW5nIGlzIHRoYXQgcmVhc29uIGZvciB0
+aGUgZmFpbHVyZXMgaXMgY2xlYXINCmZyb20gdGhlIE9PTSBtZXNzYWdlLiAgVGhpcyB3b3JrcyBt
+dWNoIGJldHRlciBpZiBHUFUgcmVsYXRlZCBtZW1vcnkNCnVzYWdlIGlzIHNwZWNpZmljYWxseSBz
+dGF0ZWQgaW4gdGhhdCBtZXNzYWdlLCBvbmNlIHRoYXQgbWVtb3J5IHN0YXJ0cyB0bw0KYmUgYWNj
+b3VudGVkIGZvciBzeXN0ZW0gbWVtb3J5Lg0KDQoNCgktIEVlcm8NCg0K
