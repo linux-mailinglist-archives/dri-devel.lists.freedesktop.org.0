@@ -1,45 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0846D377F40
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 11:20:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25614377F65
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 11:30:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1DC889FC0;
-	Mon, 10 May 2021 09:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEED36E446;
+	Mon, 10 May 2021 09:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4C789FC0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 09:20:09 +0000 (UTC)
-IronPort-SDR: YdF6juSU8Jwhgaqg8pkK0UoZlmZhLPffzj7tKjrjOfibHBAAbaPGP1721CVgUpBIlo6H4uUHsk
- P9+Y66IzM6OQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9979"; a="196055661"
-X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; d="scan'208";a="196055661"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 02:20:05 -0700
-IronPort-SDR: gcVciB9UplP1AQO1EwhP/KB2ZzQkYemqLuaTfs4Nk7sw2sRx7oIppYONZd5aF8K6+OTNHsrXEX
- h6VGGEgc+ZOQ==
-X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; d="scan'208";a="436061399"
-Received: from solender-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.48.101])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 02:20:03 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: New warnings with gcc-11
-In-Reply-To: <CAHk-=whJsh4FOcMQ+eDx=f4joa-CCH1pmYtrsw0H7L0HV_GhJg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CAPM=9tyKdGHyiRLDooKrMf=02GtNn8U4YfF4dJtXdabnVAGdXQ@mail.gmail.com>
- <CAHk-=whOOVBBuQceJ9D9uZrv-QOUWGMQ4aZe2K+2X24o7xA8cg@mail.gmail.com>
- <87bl9y50ok.fsf@intel.com>
- <CAHk-=whJsh4FOcMQ+eDx=f4joa-CCH1pmYtrsw0H7L0HV_GhJg@mail.gmail.com>
-Date: Mon, 10 May 2021 12:20:01 +0300
-Message-ID: <874kfbvtby.fsf@intel.com>
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96A26E441;
+ Mon, 10 May 2021 09:30:39 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 965255805E9;
+ Mon, 10 May 2021 05:30:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 10 May 2021 05:30:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=o+RlLCP+uehcYeWcqJXYSH2E672
+ srG6HjVhpuNJ5Otw=; b=LRzN7R2mzE2k+V6J5lq2UK+fX2nKfXfQYuOHuKoyzRu
+ j+lbi1CqL+NP52cHv+CUoC6WJXpUlgycBjwv4T1j9a/DEjiG7Zyhv/1xpTUitXZL
+ 7Fd/mDNx/OUdkho08SBnpHWnVIiHROf+vqN/fyEFiSEDxbh1551GhyRMuFrp5cMd
+ R69z7nR31SgF8D/SYPRt47jYKanW+Oo6pnXuIYvoWFyzmei4QJf02LXSZDvyhN8x
+ tFXcVYkbq/9yygODAYeQE2tG1RbZFfzu+w4RTsg6w/rAX1FD0QAdBoT+3q34uO3X
+ 8ZEI4WPUzpLkycyYgQSbm1zm45+vtE0MK2Xu6lI/uyQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=o+RlLC
+ P+uehcYeWcqJXYSH2E672srG6HjVhpuNJ5Otw=; b=VX3bQ+xcj3x7+sHu1YxUks
+ X8wNw+Fd01R1yQydbq78L0Cby+TIrelv5tOaVpJB/GWvl8D+sH8CgIaGNO69c5IY
+ hEiQyv7Y2Jgds5qY1uFrSkOnaYEbYBOomlV5EOFkf4/PnX9Rs462yg/zF5Eu9QbD
+ h35gXkLL9xRD38Zar2zQmtsODpC5f73Otu29yGjoiZfNH7VAztnGyVNb0Xl2Qsfd
+ mBZFcJ8Cpo/Uq/1IUet2WiVQkTW8LqJQY+moL/C+vVhWEQf5kgbquj+p8tQ2+wl6
+ Xb3HAqB+d4YF37Bop+OEKqzE+NZnmG6gffrLPiQ6QQEf2UWv1Z+z3gZkoqJ+yX0g
+ ==
+X-ME-Sender: <xms:Of2YYIpYtkrA164iwUrw7wmpDV4h9axrUp3B3CJweKypS-TZA0NZbQ>
+ <xme:Of2YYOrKXTbfHrPgXqLYRwJGj6xl7MIhjhonGFzBdcfa6_pxjeDoxX_BgrbeBrv58
+ VZBGEOrsS_alylWUFY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegkedgudeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Of2YYNP5VV3a0_SvB0NmN01X54WjaQrB9NnSc1yQ8lerLAQ02VA-RA>
+ <xmx:Of2YYP5cdonqadux1oSBLKDrcufNnALJwsSgUalM6zcH4dGR8Q7IXw>
+ <xmx:Of2YYH6QXRm5sYUZeJeRhxcWbGatnMHT3BFkpsgl982tUJuGTZbjjg>
+ <xmx:PP2YYHpBFc5v6b-bl_ORTr9Vz8bRf0QCFHdpWHXnPOnKVzQnXk9B9Q>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Mon, 10 May 2021 05:30:33 -0400 (EDT)
+Date: Mon, 10 May 2021 11:30:30 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 1/5] drm/connector: Create a helper to attach the
+ hdr_output_metadata property
+Message-ID: <20210510093030.nqbfw7iayhmtnljg@gilmour>
+References: <20210430094451.2145002-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="faciecejyji5pg3t"
+Content-Disposition: inline
+In-Reply-To: <20210430094451.2145002-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,83 +83,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, amd-gfx@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, Leo Li <sunpeng.li@amd.com>,
+ intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Dom Cobley <dom@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 08 May 2021, Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> I have heard nothing about this, and it remains the only warning from
-> my allmodconfig build (I have another one for drm compiled with clang,
-> but there I at least heard back that a fix exists).
->
-> Since I am going to release rc1 tomorrow, and I don't want to release
-> it with an ugly compiler warning, I took it upon myself to just fix
-> the code:
->
->   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/?id=3Dfec4d42724a1bf3dcba52307e55375fdb967b852
->
-> HOWEVER.
->
-> That commit fixes the warning, and is at worst harmless. At best it
-> fixes an access to random stack memory. But it does smell like
-> somebody who actually knows how these arrays work should look at that
-> code.
->
-> IOW, maybe the code should actually have read 16 bytes from the Event
-> Status Indicator? Maybe offset 10 was wrong? Maybe
-> drm_dp_channel_eq_ok() should never have taken six bytes to begin
-> with?
->
-> It's a mystery, and I haven't heard anything otherwise, so there it is.
 
-Fair enough. My bad for not getting this fixed.
+--faciecejyji5pg3t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The fix is harmless. drm_dp_channel_eq_ok() only ever accesses 3 bytes
-instead of 6. I figure the DP_LINK_STATUS_SIZE (=3D6) is there because in
-the normal case you'd read that much, and use a family of functions on
-that data, some of which do access the full 6 bytes, some don't.
+Hi,
 
-In our case, we use drm_dp_channel_eq_ok() to check 3 bytes of similarly
-encoded data elsewhere in the DPCD address space, and the
-DP_LINK_STATUS_SIZE is meaningless there.
+On Fri, Apr 30, 2021 at 11:44:47AM +0200, Maxime Ripard wrote:
+> All the drivers that implement HDR output call pretty much the same
+> function to initialise the hdr_output_metadata property, and while the
+> creation of that property is in a helper, every driver uses the same
+> code to attach it.
+>=20
+> Provide a helper for it as well
+>=20
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-The straightforward fix would be to replace
-link_status[DP_LINK_STATUS_SIZE] with link_status[3], and that likely
-needs changes in dp_link_status() and dp_get_lane_status() as well.
+I pushed all 5 patches on friday
 
+Maxime
 
-BR,
-Jani.
+--faciecejyji5pg3t
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
->
->               Linus
->
-> On Wed, Apr 28, 2021 at 12:27 AM Jani Nikula <jani.nikula@intel.com> wrot=
-e:
->>
->> On Tue, 27 Apr 2021, Linus Torvalds <torvalds@linux-foundation.org> wrot=
-e:
->> > I've updated to Fedora 34 on one of my machines, and it causes a lot
->> > of i915 warnings like
->> >
->> >   drivers/gpu/drm/i915/intel_pm.c: In function =E2=80=98ilk_setup_wm_l=
-atency=E2=80=99:
->> >   drivers/gpu/drm/i915/intel_pm.c:3059:9: note: referencing argument 3
->> > of type =E2=80=98const u16 *=E2=80=99 {aka =E2=80=98const short unsign=
-ed int *=E2=80=99}
->> >   drivers/gpu/drm/i915/intel_pm.c:2994:13: note: in a call to function
->> > =E2=80=98intel_print_wm_latency=E2=80=99
->> >
->> > and the reason is that gcc now seems to look at the argument array
->> > size more, and notices that
->>
->> Arnd Bergmann reported some of these a while back. I think we have some
->> of them fixed in our -next already, but not all. Thanks for the
->> reminder.
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYJj9NgAKCRDj7w1vZxhR
+xTd/AP48Cj/pWzxu4xJM1P/Gl4C1i/fr6aJANTq2rOju3Y84FQD/Re0cYaNtLidN
+8GBg64zcLh2z0n9CYT4Vc6km4PVungw=
+=/OMZ
+-----END PGP SIGNATURE-----
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+--faciecejyji5pg3t--
