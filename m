@@ -2,32 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2103791BC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 16:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF1A37927B
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 17:21:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD4DD88284;
-	Mon, 10 May 2021 14:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6DED6E4A6;
+	Mon, 10 May 2021 15:21:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D4B88284
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 14:59:29 +0000 (UTC)
-Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1lg7NY-0007Qb-5w; Mon, 10 May 2021 16:59:28 +0200
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v2] drm/imx: ipuv3-plane: fix PRG modifiers after drm managed
- resource conversion
-Date: Mon, 10 May 2021 16:59:27 +0200
-Message-Id: <20210510145927.988661-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B270C6E4A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 15:21:34 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1lg7iv-0002cI-4A; Mon, 10 May 2021 17:21:33 +0200
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1lg7iu-0005mZ-S0; Mon, 10 May 2021 17:21:32 +0200
+Message-ID: <16c54eaf5d8319321f2df9627e8ee362d73a9e2c.camel@pengutronix.de>
+Subject: Re: [PATCH v2] drm/imx: ipuv3-plane: fix PRG modifiers after drm
+ managed resource conversion
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>
+Date: Mon, 10 May 2021 17:21:32 +0200
+In-Reply-To: <20210510145927.988661-1-l.stach@pengutronix.de>
+References: <20210510145927.988661-1-l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
 X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
@@ -48,64 +56,31 @@ Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The conversion to drm managed resources introduced two bugs: the plane is now
-always initialized with the linear-only list, while the list with the Vivante
-GPU modifiers should have been used when the PRG/PRE engines are present. This
-masked another issue, as ipu_plane_format_mod_supported() is now called before
-the private plane data is set up, so if a non-linear modifier is supplied in
-the plane modifier list, we run into a NULL pointer dereference checking for
-the PRG presence. To fix this just remove the check from this function, as we
-know that it will only be called with a non-linear modifier, if the plane init
-code has already determined that the PRG/PRE is present.
+On Mon, 2021-05-10 at 16:59 +0200, Lucas Stach wrote:
+> The conversion to drm managed resources introduced two bugs: the plane is=
+ now
+> always initialized with the linear-only list, while the list with the Viv=
+ante
+> GPU modifiers should have been used when the PRG/PRE engines are present.=
+ This
+> masked another issue, as ipu_plane_format_mod_supported() is now called b=
+efore
+> the private plane data is set up, so if a non-linear modifier is supplied=
+ in
+> the plane modifier list, we run into a NULL pointer dereference checking =
+for
+> the PRG presence. To fix this just remove the check from this function, a=
+s we
+> know that it will only be called with a non-linear modifier, if the plane=
+ init
+> code has already determined that the PRG/PRE is present.
+>=20
+> Fixes: 699e7e543f1a ("drm/imx: ipuv3-plane: use drm managed resources")
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+> v2: Add proper subject.
 
-Fixes: 699e7e543f1a ("drm/imx: ipuv3-plane: use drm managed resources")
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-v2: Add proper subject.
----
- drivers/gpu/drm/imx/ipuv3-plane.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+Whoops, thank you. I've replaced the previous patch.
 
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index fa5009705365..8b6c137bf0fc 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -320,10 +320,11 @@ static bool ipu_plane_format_mod_supported(struct drm_plane *plane,
- 	if (modifier == DRM_FORMAT_MOD_LINEAR)
- 		return true;
- 
--	/* without a PRG there are no supported modifiers */
--	if (!ipu_prg_present(ipu))
--		return false;
--
-+	/*
-+	 * Without a PRG the possible modifiers list only includes the linear
-+	 * modifier, so we always take the early return from this function and
-+	 * only end up here if the PRG is present.
-+	 */
- 	return ipu_prg_format_supported(ipu, format, modifier);
- }
- 
-@@ -835,6 +836,9 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
- 	DRM_DEBUG_KMS("channel %d, dp flow %d, possible_crtcs=0x%x\n",
- 		      dma, dp, possible_crtcs);
- 
-+	if (ipu_prg_present(ipu))
-+		modifiers = pre_format_modifiers;
-+
- 	ipu_plane = drmm_universal_plane_alloc(dev, struct ipu_plane, base,
- 					       possible_crtcs, &ipu_plane_funcs,
- 					       ipu_plane_formats,
-@@ -850,9 +854,6 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
- 	ipu_plane->dma = dma;
- 	ipu_plane->dp_flow = dp;
- 
--	if (ipu_prg_present(ipu))
--		modifiers = pre_format_modifiers;
--
- 	drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
- 
- 	if (dp == IPU_DP_FLOW_SYNC_BG || dp == IPU_DP_FLOW_SYNC_FG)
--- 
-2.29.2
-
+regards
+Philipp
