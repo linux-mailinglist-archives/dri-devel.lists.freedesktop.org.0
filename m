@@ -2,60 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493373796C9
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 20:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35CE3796D6
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 20:12:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 014766E4CA;
-	Mon, 10 May 2021 18:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 567586E4D7;
+	Mon, 10 May 2021 18:12:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 097A96E4CA
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 18:04:40 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id x5so17535366wrv.13
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 11:04:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GmEY2EYIVoACUErKvYzVTji32XaJiI8xA1o/13F4MGQ=;
- b=inINPK2/LyhP/AGePOACAjBGF1LLeHPlJTbNM1/945T2ond8qFn/MG2CeV42qWNoJm
- tg/1b01YdAmDpcXGuyeuAyW9YaG3hcUFnhBOih5iN2ouctKwp8BV0bwMkVeiReE6pHVA
- xAeVVzkhwR+M9V1PtXfkRBfldquFVCt6hhEFg42vWYvrw0QMFoGnJfLrF4YVOQpRGPJJ
- CJRrCJiRlsnPastaM7iZoNgNnJKolXLWzEjLCQBnWnAkXKN5dNoCEU+b2UrnSuVYjrea
- q6a3liy48FfQnT8tpP1Q+hCDmdY1UMdw9aKEQ6Q5QMJkUlBDPRjnzFYAD9nVdKavSvqF
- zoQA==
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B35866E4D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 18:12:34 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id u13so19820312edd.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 11:12:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=9hdndwAJUBnQV5pnZieVkpscecNWxlYEAbn/Qg88Ho0=;
+ b=lGlYr/SQsB5FViL4AJ8MUL5fxJ90DoiVB9Du5uzcXmS3t0fbI//I22xj7gkD31iKzr
+ sEf03msL7HoqBd6cuvSW0PlgF1bndQTQDLxf3E+YG/+AgUmCzqofqpmFhMIswFHIkx3T
+ frlWYi9gsw89neYW9a47RQVlqpIhuVUBDzpZI2/TFnTQ4bksC/RgjhZIVNOyJ1njE+b6
+ E6Hu5OXG08nGp2XbSgVZ8rr3SX1hZ2Pai4We3kSD+2JN9teOp0Hs3x9AB8GHpxPcEwEx
+ PjLHImsqs90wrSlxaVcmomAncR6szLv28TD7i1METGex+GKKeg+h2QKFK2jweG32Lea6
+ NbEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GmEY2EYIVoACUErKvYzVTji32XaJiI8xA1o/13F4MGQ=;
- b=mTmI19iJSgHPbzbwx2lPoQ+p66dGPkoUvYKE22FxIvc7KKOPK8uvEPxIbSHA0QYzFx
- fxSs+5UAIWf1Xm31sPHZhHXGsXeN4NFl9ApaFKe3pB/AaKH2BxXNB64pWAytzKiFG1T1
- b/vZnhF+3/8rKyDSmDo0Hwjtd0h3A2xRCFQK+aarCSSws4alIMSO+SJQOM32rFmhv8gb
- RZbpBMwALUk5cHMWwKaa12npRtfcbh8jY46TNg+Kd7nhI8B5BGENowiMJyp/XEn5cw0o
- 01dq1ibZg+8gTV+J+qadK5BVH+wsPWhyMtClvw9UKv/K8Zsn6zzpqvzJIgJ2UCUhbiHU
- PirA==
-X-Gm-Message-State: AOAM533jTLXe+LHWyJOYke42XWrWATNBlcSleKxTPYob1lb+hcq2xAi7
- TYYiQp+GllBD6RkldEWjbQJxeLjwSMJS1QS6sIF0pg==
-X-Google-Smtp-Source: ABdhPJwBNOIJk/6tcF/xVqUp4LJhT4UUwh31b8GxYpenVi/aVfy2Q73L3m+NF/obIEpucS9OP96is/5XeYz0Eg0t+X8=
-X-Received: by 2002:a5d:648e:: with SMTP id o14mr31330336wri.27.1620669878720; 
- Mon, 10 May 2021 11:04:38 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=9hdndwAJUBnQV5pnZieVkpscecNWxlYEAbn/Qg88Ho0=;
+ b=Yiunwpmel82ZcG60JI5F03FpuzZnK0T8js+7NbBVLeE14Jv7fZ/IrqKKF+l0WMhaTQ
+ jkXKXI/9+LjI/mBUeLsRWNN+IJqiGrsaDA8tfgcrgA1faZr96JjStwPv4xVoeDDB0AJj
+ kABpgwEGu27Q3SyxU9nWEmvvnr/7DIHBtKd08E2nFvNChOjeccQ8TkClfl3XtBQzb1kR
+ 9t9kCvmJAQEw2eSU6jaCqcABeFfId69iIpMJjqPauIMTXuY/jbaFLJrifjwRE+5EaPCd
+ br9DIFuf+52EjDP7RvWMPwojW8jcOR+FQSzPBL/ZrWQRGJBP/FQbZhaIjiKK7tNnnJGx
+ CY7g==
+X-Gm-Message-State: AOAM533UWcmThOOCiysYDa7J+saCGcvZJOeXap2JG0XKeT5Jc2y9P9OM
+ bfQR5XhVAr5VUtHLOrvh6z1PN1Jk4AY=
+X-Google-Smtp-Source: ABdhPJzWFSFhnt7fipPVUch3hIpTwMqbpnPtUmESl485spp6ES7HiMYfSgHd6pRxTfWK+7qQciceBA==
+X-Received: by 2002:aa7:cb06:: with SMTP id s6mr23365294edt.284.1620670353358; 
+ Mon, 10 May 2021 11:12:33 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:7903:34fa:e13f:17ac?
+ ([2a02:908:1252:fb60:7903:34fa:e13f:17ac])
+ by smtp.gmail.com with ESMTPSA id d25sm11811622edx.58.2021.05.10.11.12.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 May 2021 11:12:32 -0700 (PDT)
+Subject: Re: [RFC] Implicit vs explicit user fence sync
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210504132729.2046-1-christian.koenig@amd.com>
+ <YJFXG/THrjXqQjyN@phenom.ffwll.local>
+ <d266ccd2-3259-99ce-5fd6-b8ae81ac14e9@gmail.com>
+ <YJFkN/bgN6UCXdvA@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <f1616be5-a8cb-076d-a63d-9554a76b0b0a@gmail.com>
+Date: Mon, 10 May 2021 20:12:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210505100218.108024-1-marex@denx.de>
- <20210505100218.108024-2-marex@denx.de>
- <CAPY8ntCzu6=uBqRfQ+9QJWH-zqy0K9FD8XWdC8NZxJZiUBfYfg@mail.gmail.com>
- <8d2fbc9b-fb3e-aac9-566a-033c4bb218d7@denx.de>
- <CAPY8ntDMJyUHvKn=4fXZK2tYTQ9Lj_QTY-zk_1h+oZ-fQ80E+w@mail.gmail.com>
- <5a895cb3-92fd-32c4-2133-cd5b6b914790@denx.de>
-In-Reply-To: <5a895cb3-92fd-32c4-2133-cd5b6b914790@denx.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 10 May 2021 19:04:22 +0100
-Message-ID: <CAPY8ntDLF1phpvHpCYP0E62yb88Y43KZsVJqhs0vMw=kSDtVZA@mail.gmail.com>
-Subject: Re: [PATCH V3 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YJFkN/bgN6UCXdvA@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,116 +75,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
- Douglas Anderson <dianders@chromium.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 May 2021 at 12:16, Marek Vasut <marex@denx.de> wrote:
+Am 04.05.21 um 17:11 schrieb Daniel Vetter:
+> On Tue, May 04, 2021 at 04:26:42PM +0200, Christian König wrote:
+>> Hi Daniel,
+>>
+>> Am 04.05.21 um 16:15 schrieb Daniel Vetter:
+>>> Hi Christian,
+>>>
+>>> On Tue, May 04, 2021 at 03:27:17PM +0200, Christian König wrote:
+>>>> Hi guys,
+>>>>
+>>>> with this patch set I want to look into how much more additional work it
+>>>> would be to support implicit sync compared to only explicit sync.
+>>>>
+>>>> Turned out that this is much simpler than expected since the only
+>>>> addition is that before a command submission or flip the kernel and
+>>>> classic drivers would need to wait for the user fence to signal before
+>>>> taking any locks.
+>>> It's a lot more I think
+>>> - sync_file/drm_syncobj still need to be supported somehow
+>> You need that with explicit fences as well.
+>>
+>> I'm just concentrating on what extra burden implicit sync would get us.
+> It's not just implicit sync. Currently the best approach we have for
+> explicit sync is hiding them in drm_syncobj. Because for that all the work
+> with intentional stall points and userspace submit thread already exists.
 >
-> On 5/10/21 11:58 AM, Dave Stevenson wrote:
-> > On Sat, 8 May 2021 at 21:26, Marek Vasut <marex@denx.de> wrote:
-> >>
-> >> On 5/7/21 2:48 PM, Dave Stevenson wrote:
-> >>
-> >> [...]
-> >>
-> >>>> +static void sn65dsi83_enable(struct drm_bridge *bridge)
-> >>>> +{
-> >>>> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-> >>>> +       unsigned int pval;
-> >>>> +       u16 val;
-> >>>> +       int ret;
-> >>>> +
-> >>>> +       /* Clear reset, disable PLL */
-> >>>> +       regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
-> >>>> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> >>>
-> >>> Sorry, a further thread of discussion coming from the investigations
-> >>> I've been involved with.
-> >>>
-> >>> You've powered up in pre_enable, and are sending the I2C writes in enable.
-> >>>
-> >>> >From the docs for drm_bridge_funcs->enable[1]
-> >>>
-> >>>    * The bridge can assume that the display pipe (i.e. clocks and timing
-> >>>    * signals) feeding it is running when this callback is called. This
-> >>>    * callback must enable the display link feeding the next bridge in the
-> >>>    * chain if there is one.
-> >>>
-> >>> So video is running when enable is called, and the DSI data lanes may
-> >>> be HS. (Someone correct me if that is an incorrect reading of the
-> >>> text).
-> >>>
-> >>> The SN65DSI84 datasheet table 7-2 Initialization Sequence gives init
-> >>> seq 8 as being "Change DSI data lanes to HS state and start DSI video
-> >>> stream", AFTER all the I2C has been completed except reading back
-> >>> registers and checking for errors.
-> >>> With video running you don't fulfil the second part of init seq 2 "the
-> >>> DSI data lanes MUST be driven to LP11 state"
-> >>>
-> >>> My investigations have been over delaying starting the DSI video
-> >>> stream until after enable, but reading the descriptive text for enable
-> >>> I believe the Pi is correct to be sending video at that point.
-> >>> I guess there is some ambiguity as to whether the clock lane is going
-> >>> to be in HS mode during pre_enable. On the Pi the PHY and clocks will
-> >>> be enabled prior to pre_enable to allow for sending DSI commands
-> >>> during pre_enable, but it may not be true on other platforms.
-> >>
-> >> You have to make sure the clock lane is running and in HS mode when
-> >> configuring the DSI83, otherwise the internal DSI83 state machine won't
-> >> be able to operate.
-> >
-> > Indeed, but my reading of the documentation says that neither
-> > pre_enable nor enable give you the state that you require.
-> > You need a hook in the middle, an option to ask for clock lanes during
-> > pre_enable or no video during enable, or an amendment to the docs over
-> > the state during enable.
-> >
-> > Having the data lanes in HS mode does appear to stop the DSI83
-> > accepting the I2C setup commands.
+> None of this work has been done for sync_file. And looking at how much
+> work it was to get drm_syncobj going, that will be anything but easy.
+
+I don't think we will want this for sync_file in the first place.
+
+>>> - we need userspace to handle the stall in a submit thread at least
+>>> - there's nothing here that sets the sync object
+>>> - implicit sync isn't just execbuf, it's everything. E.g. the various
+>>>     wait_bo ioctl also need to keep working, including timeout and
+>>>     everything
+>> Good point, but that should be relatively easily to add as well.
+>>
+>>> - we can't stall in atomic kms where you're currently stalling, that's for
+>>>     sure. The uapi says "we're not stalling for fences in there", and you're
+>>>     breaking that.
+>> Again as far as I can see we run into the same problem with explicit sync.
+>>
+>> So the question is where could we block for atomic modeset for user fences
+>> in general?
+> Nah, I have an idea. But it only works if userspace is aware, because the
+> rules are essentialyl:
 >
-> Uhh, that is new. Is that what you observed in your lab ?
+> - when you supply a userspace in-fence, then you only get a userspace
+>    out-fence
+> - mixing in fences between dma-fence and user fence is ok
+> - mixing out fences isn't
 >
-> I saw the DSI83 behave this way if the clock lane was stopped, but the
-> data lanes had no impact. Was your clock lane running when the DSI83 was
-> not accepting i2c commands ? Does your DSI83 source clock from it or
-> from external Xtal ?
+> And we currently do have sync_file out fence. So it's not possible to
+> support implicit user fence in atomic in a way which doesn't break the
+> uapi somewhere.
+>
+> Doing the explicit user fence support first will make that very obvious.
+>
+> And that's just the one ioctl I know is big trouble, I'm sure we'll find
+> more funny corner cases when we roll out explicit user fencing.
 
-I haven't got into the lab as yet, and I don't have a DSI83 myself.
-This is relaying experimentation from others.
-They're using the DSI clock lane as the clock source.Yes the clock
-lane on the Pi is started before any of the enable bridge calls.
+I think we can just ignore sync_file. As far as it concerns me that UAPI 
+is pretty much dead.
 
-In the vc4 driver[1] it runs through the all pre-enables, configures
-register DISP0_CTRL including setting bit DSI_DISP0_ENABLE which
-starts it requesting pixels from the pipeline, and then calls all the
-enables. With that behaviour it fails to start the DSI83.
+What we should support is drm_syncobj, but that also only as an in-fence 
+since that's what our hardware supports.
 
-If the DSI83 I2C setup code is moved from enable to pre_enable then it
-works, or if patch [2] is used to move the setting of the
-DSI_DISP0_ENABLE bit to after enable it also works.
+> Anotherone that looks very sketchy right now is buffer sharing between
+> different userspace drivers, like compute <-> media (if you have some
+> fancy AI pipeline in your media workload, as an example).
 
-Sorry life is all rather up in the air with working from home. I'll go
-into the lab and try to confirm that DSI_DISP0_ENABLE does what the
-documentation implies it does.
-Those who do have hardware now have it working on the Pi, although
-with a version of Jagan's driver rather than yours. We're trying to
-figure out the diffs with yours.
+Yeah, we are certainly going to get that. But only inside the same 
+driver, so not much of a problem.
 
-If you have it working reliably on other platforms that you believe
-are following the docs during pre_enable and enable, then I'm happy to
-drop out of the discussions for now. We can revisit it once we have
-determined exactly why it's being fussy on the Pi.
+>
+>>> - ... at this point I stopped pondering but there's definitely more
+>>>
+>>> Imo the only way we'll even get the complete is if we do the following:
+>>> 1. roll out implicit sync with userspace fences on a driver-by-driver basis
+> 		s/implicit/explicit/
+>
+> But I think you got that.
+>
+>>>      1a. including all the winsys/modeset stuff
+>> Completely agree, that's why I've split that up into individual patches.
+>>
+>> I'm also fine if drivers can just opt out of user fence based
+>> synchronization and we return an error from dma_buf_dynamic_attach() if some
+>> driver says it can't handle that.
+> Yeah, but that boils down to us just breaking those use-cases. Which is
+> exactly what you're trying to avoid by rolling out implicit user fence I
+> think.
 
-Cheers
-  Dave
+But we can add support to all drivers as necessary.
 
-[1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/vc4/vc4_dsi.c#L1072
-[2] https://github.com/6by9/linux/commit/b939eaffc47cc84ebfea6bf1ab10ae1ec9fa58c2
+>
+>>> 2. roll out support for userspace fences to drm_syncobj timeline for
+>>>      interop, both across process/userspace and across drivers
+>>>      2a. including all the winsys/modeset stuff, but hopefully that's
+>>>          largely solved with 1. already.
+>> Correct, but again we need this for explicit fencing as well.
+>>
+>>> 3. only then try to figure out how to retroshoehorn this into implicit
+>>>      sync, and whether that even makes sense.
+>>>
+>>> Because doing 3 before we've done 1&2 for at least 2 drivers (2 because
+>>> interop fun across drivers) is just praying that this time around we're
+>>> not collectively idiots and can correctly predict the future. That never
+>>> worked :-)
+>>>
+>>>> For this prototype this patch set doesn't implement any user fence
+>>>> synchronization at all, but just assumes that faulting user pages is
+>>>> sufficient to make sure that we can wait for user space to finish
+>>>> submitting the work. If necessary this can be made even more strict, the
+>>>> only use case I could find which blocks this is the radeon driver and
+>>>> that should be handle able.
+>>>>
+>>>> This of course doesn't give you the same semantic as the classic
+>>>> implicit sync to guarantee that you have exclusive access to a buffers,
+>>>> but this is also not necessary.
+>>>>
+>>>> So I think the conclusion should be that we don't need to concentrate on
+>>>> implicit vs. explicit sync, but rather how to get the synchronization
+>>>> and timeout signalling figured out in general.
+>>> I'm not sure what exactly you're proving here aside from "it's possible to
+>>> roll out a function with ill-defined semantics to all drivers". This
+>>> really is a lot harder than just this one function and just this one patch
+>>> set.
+>> No it isn't. The hard part is getting the user sync stuff up in general.
+>>
+>> Adding implicit synchronization on top of that is then rather trivial.
+> Well that's what I disagree with, since I already see some problems that I
+> don't think we can overcome (the atomic ioctl is one). And that's with us
+> only having a fairly theoretical understanding of the overall situation.
+
+But how should we then ever support user fences with the atomic IOCTL?
+
+We can't wait in user space since that will disable the support for 
+waiting in the hardware.
+
+Regards,
+Christian.
+
+>
+> Like here at intel we have internal code for compute, and we're starting
+> to hit some interesting cases with interop with media already, but that's
+> it. Nothing even close to desktop/winsys/kms, and that's where I expect
+> will all the pain be at.
+>
+> Cheers, Daniel
+
