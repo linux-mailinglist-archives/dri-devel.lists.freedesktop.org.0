@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184CE37932C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 17:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757C3379359
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 18:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3621A6E4DE;
-	Mon, 10 May 2021 15:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DB3089F31;
+	Mon, 10 May 2021 16:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 087F36E849
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 15:55:39 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id m9so17178504wrx.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 08:55:39 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E55789F31
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 16:05:25 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id v12so17182708wrq.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 09:05:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=bYmxrXjxEk1/psBpO1hDaM56kIgiEoZZsTmvYuIajDM=;
- b=d6ZKT6ZOEcsXlseibjUSh7tWSqby2T//snfUs+AuGrp0liaxZ6n1ZGpis7DwTT9Xkr
- XIr/yceFdH7nqzywIftrYEiHhNlns/0dl8uAy6YNl68zWYdpgDln0VkXoCDl7Dy4G/NF
- IWG6PoW1XKIIT5j/jm3ayBWapYuOnyh8uSnv0=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6eqFtigL6XPzGHvJOyisC/fKX/gihfHqH7WepbpRLGM=;
+ b=F3TEsHWzvJZFJyaQrrPbpZEVzsQhRp1y6QD4jZXdGpbaDNU5E0thA+IcC5hThHgB5H
+ mRIU7AqDRXc1ic3jAMSuLp+Icr+Z6lC82kVLx7g3bkvOuR3FWTicBn8hdUrtgCwI0dSA
+ Ing8bBWnxGumxPoJBAowFRgULclwwqwt2M9B8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bYmxrXjxEk1/psBpO1hDaM56kIgiEoZZsTmvYuIajDM=;
- b=FdyJ00LJ2o8DdoJWFEOP3LjDhBqxpFHZYGPHraNqQWnsH/tpv9Ss+MXpOoh76SK5i+
- 0McVkXlE+4Qs8AvT8zMtMtwe99cjihCOE38tm71udsp/WLBJJldz68vXmZuu+VvXj3dI
- 21AKWACAASW6fDs5phgS9SVs0b0cS8nv5mGDCrrPqNdtv7e1ZlpVaugB7ugnNX5Ms/WQ
- UADqbkkSDnbBiRpkyuc3gt4RcCYmcnAQhlFRC5lRivDAj3kvYeQeXpwACxW3Rytzy8N9
- mGHvWVaTOeXeNQcnv7dyoDpqGDy8232hzw//vkCsc+JzmiQJX2lV2d7ogTt3LP+50Wja
- iroQ==
-X-Gm-Message-State: AOAM5318NE/B2hE5gK2Z7vupGxE9L7qdOqaObpUEYGtq+wHUXJnIDloG
- qgQvAO+W3qD4hLkAMcQzvRpdKQ==
-X-Google-Smtp-Source: ABdhPJx71LBQCMTZ5S0JQzSljSHNcMeT5Q2AjOS5NY9UDfAotqt6V1e9BmRP5pXjVsxyI6KqYq8nwA==
-X-Received: by 2002:a5d:5052:: with SMTP id h18mr31163437wrt.365.1620662138605; 
- Mon, 10 May 2021 08:55:38 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=6eqFtigL6XPzGHvJOyisC/fKX/gihfHqH7WepbpRLGM=;
+ b=IucJlg1CBkY+CvtnxlKiilbQV0i83Jj2Clh8XlR6Ptj2qDCox2NSrRQ6GaPB+jJ3xY
+ vjdBoMlpcGWKI/vOZzJAaKu5MwJJqU4qKam+rpKEkfNpl6tZMggRBBOM0ATY1fDUz7aK
+ ZtJjreh72cZI0RpHJt6ZZZiA+W19x/EDYxSVPMbGKLyk5hGjwFqijoi8lY6ernErB+CE
+ qnFemO7z8y3PeFZ1CsbsNezkhakgSyXSKlXjfg1NcTlZXVYAf38cWE5wjVy55y4njch0
+ RiTiDCGe+sWrhgmp6bjCyQs3lOCxrkljhFWQ0Y95nogyWAmSwcj6SRD9B+TxQ8r4SjH9
+ TsLw==
+X-Gm-Message-State: AOAM530qwQ+vpAvtMEitA9pMMn7yRED4WIJso5D+5EMZSBY4wsHihBTU
+ /Xy9RG0Qes2DfvqhRT+mCZ3opw==
+X-Google-Smtp-Source: ABdhPJwHouG/tt9UaNb62tWDNyPWBhtvLCmb4WgDrkynrQxo2ZQbnGVEZiPjAq9xtOuO1BTCaFnP3A==
+X-Received: by 2002:adf:df04:: with SMTP id y4mr31401027wrl.358.1620662724075; 
+ Mon, 10 May 2021 09:05:24 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z7sm23129329wrl.11.2021.05.10.08.55.37
+ by smtp.gmail.com with ESMTPSA id p10sm3981987wmq.14.2021.05.10.09.05.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 08:55:38 -0700 (PDT)
-Date: Mon, 10 May 2021 17:55:36 +0200
+ Mon, 10 May 2021 09:05:23 -0700 (PDT)
+Date: Mon, 10 May 2021 18:05:21 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: Stop propagating fence errors by default
-Message-ID: <YJlXeMkMG7Xt0zlA@phenom.ffwll.local>
-References: <20210507083521.2406201-1-tvrtko.ursulin@linux.intel.com>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH] component: Move host device to end of device lists on
+ binding
+Message-ID: <YJlZwYS+oH7W5WjO@phenom.ffwll.local>
+Mail-Followup-To: Stephen Boyd <swboyd@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20210508074118.1621729-1-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210507083521.2406201-1-tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <20210508074118.1621729-1-swboyd@chromium.org>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,160 +73,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Jason Ekstrand <jason.ekstrand@intel.com>,
- Marcin Slusarz <marcin.slusarz@intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Russell King <rmk+kernel@arm.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 07, 2021 at 09:35:21AM +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Sat, May 08, 2021 at 12:41:18AM -0700, Stephen Boyd wrote:
+> The device lists are poorly ordered when the component device code is
+> used. This is because component_master_add_with_match() returns 0
+> regardless of component devices calling component_add() first. It can
+> really only fail if an allocation fails, in which case everything is
+> going bad and we're out of memory. The host device (called master_dev in
+> the code), can succeed at probe and be put on the device lists before
+> any of the component devices are probed and put on the lists.
 > 
-> This is an alternative proposed fix for the below references bug report
-> where dma fence error propagation is causing undesirable change in
-> behaviour post GPU hang/reset.
+> Within the component device framework this usually isn't that bad
+> because the real driver work is done at bind time via
+> component{,master}_ops::bind(). It becomes a problem when the driver
+> core, or host driver, wants to operate on the component device outside
+> of the bind/unbind functions, e.g. via 'remove' or 'shutdown'. The
+> driver core doesn't understand the relationship between the host device
+> and the component devices and could possibly try to operate on component
+> devices when they're already removed from the system or shut down.
 > 
-> Approach in this patch is to simply stop propagating all dma fence errors
-> by default since that seems to be the upstream ask.
+> Normally, device links or probe defer would reorder the lists and put
+> devices that depend on other devices in the lists at the correct
+> location, but with component devices this doesn't happen because this
+> information isn't expressed anywhere. Drivers simply succeed at
+> registering their component or host with the component framework and
+> wait for their bind() callback to be called once the other components
+> are ready. We could make various device links between 'master_dev' and
+> 'component->dev' but it's not necessary. Let's simply move the hosting
+> device to the end of the device lists when the component device fully
+> binds. This way we know that all components are present and have probed
+> properly and now the host device has really probed so it's safe to
+> assume the host driver ops can operate on any component device.
 > 
-> To handle the case where i915 needs error propagation for security, I add
-> a new dma fence flag DMA_FENCE_FLAG_PROPAGATE_ERROR and make use of it in
-> the command parsing chain only.
+> This fixes the msm display driver shutdown path when the DSI controller
+> is connected to a DSI bridge that is controlled via i2c. In this case,
+> the msm display driver wants to tear down the display pipeline on
+> shutdown at msm_pdev_shutdown() by calling drm_atomic_helper_shutdown(),
+> and it can't do that unless the whole display chain is still probed and
+> active in the system. When a display bridge is on i2c, the i2c device
+> for the bridge will be created whenever the i2c controller probes, which
+> could be before or after the msm display driver probes. If the i2c
+> controller probes after the display driver, then the i2c controller will
+> be shutdown before the display controller during system wide shutdown
+> and thus i2c transactions will stop working before the display pipeline
+> is shut down. This means we'll have the display bridge trying to access
+> an i2c bus that's shut down because drm_atomic_helper_shutdown() is
+> trying to disable the bridge after the bridge is off.
 > 
-> It sounds a plausible argument that fence propagation could be useful in
-> which case a core flag to enable opt-in should be universally useful.
+> Moving the host device to the end of the lists at bind time moves the
+> drm_atomic_helper_shutdown() call before the i2c bus is shutdown.
+> This fixes the immediate problem, but we could improve it a bit by
+> modeling device links from the component devices to the host device
+> indicating that they supply something, although it is slightly different
+> because the consumer doesn't need the suppliers to probe to succeed.
 > 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Reported-by: Marcin Slusarz <marcin.slusarz@intel.com>
-> Reported-by: Miroslav Bendik
-> References: 9e31c1fe45d5 ("drm/i915: Propagate errors on awaiting already signaled fences")
-> References: https://gitlab.freedesktop.org/drm/intel/-/issues/3080
-> Cc: Jason Ekstrand <jason.ekstrand@intel.com>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Russell King <rmk+kernel@arm.linux.org.uk>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+
+Entirely aside, but an s/master/aggregate/ or similar over the entire
+component.c codebase would help a pile in making it easier to understand
+which part does what. Or at least I'm always terribly confused about which
+bind binds what and all that, so maybe an additional review whether we
+have a clear split into aggregate and individual components after that
+initial fix is needed.
+
+On the actual topic: I agree there's a problem here, but I'm honestly not
+sure how it should be fixed. That's way over my understanding of all the
+device probe and pm interactions. Of which there are plenty.
+
+One question I have: Why is the bridge component driver not correctly
+ordered wrt the i2c driver it needs? The idea is that the aggregate driver
+doesn't access any hw itself, but entirely relies on all its components.
+So as long as all the component drivers are sorted correctly in the device
+list, things /should/ work. And as soon as we drop out a single component,
+the aggregate gets unbound (and then does all the
+drm_atomic_helper_shutdown and all the other drm teardown). So is the bug
+perhaps that msm does the drm teardown in the wrong callback?
+-Daniel
+
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 ++
->  drivers/gpu/drm/i915/i915_sw_fence.c           | 8 ++++----
->  drivers/gpu/drm/i915/i915_sw_fence.h           | 8 ++++++++
->  include/linux/dma-fence.h                      | 1 +
-
-I still don't like this, least because we still introduce the concept of
-error propagation to dma-fence (but hey only in i915 code, which is
-exactly the kind of not-really-upstream approach we got a major chiding
-for).
-
-The only thing this does is make it explicitly opt-in instead opt-out,
-like the first fix. The right approach is imo still to just throw it out,
-and instead make the one error propagation we really need very, very
-explicit. Instead of hiding it behind lots of magic.
-
-The one error propagation we need is when the cmd parser work fails, it
-must cancel it's corresponding request to make sure the batchbuffer
-doesn't run. This should require about 2 lines in total:
-
-- one line to store the request so that the cmd parser work can access it.
-  No refcounting needed, because the the request cannot even start (much
-  less get freed) before the cmd parser has singalled its fence
-
-- one line to kill the request if the parsing fails. Maybe 2 if you
-  include the if condition. I have no idea how that's done since I'm
-  honestly lost how the i915 scheduler decides whether to run a batch or
-  not. I'm guessing we have a version of this for the ringbuffer and the
-  execlist backend (if not maybe gen7 cmdparser is broken?)
-
-I don't see any need for magic behind-the-scenes propagation of such a
-security critical error. Especially when that error propagation thing
-caused security bugs of its own, is an i915-only feature, and not
-motivated by any userspace/uapi requirements at all.
-
-Thanks, Daniel
-
->  4 files changed, 15 insertions(+), 4 deletions(-)
+>  drivers/base/component.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 297143511f99..6a516d1261d0 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -2522,6 +2522,8 @@ static int eb_parse_pipeline(struct i915_execbuffer *eb,
->  	}
+> diff --git a/drivers/base/component.c b/drivers/base/component.c
+> index dcfbe7251dc4..de645420bae2 100644
+> --- a/drivers/base/component.c
+> +++ b/drivers/base/component.c
+> @@ -15,6 +15,8 @@
+>  #include <linux/slab.h>
+>  #include <linux/debugfs.h>
 >  
->  	dma_fence_work_init(&pw->base, &eb_parse_ops);
-> +	/* Propagate errors for security. */
-> +	__set_bit(DMA_FENCE_FLAG_PROPAGATE_ERROR, &pw->base.dma.flags);
->  
->  	pw->engine = eb->engine;
->  	pw->batch = eb->batch->vma;
-> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
-> index 2744558f3050..2ee917932ccf 100644
-> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
-> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
-> @@ -449,7 +449,7 @@ static void dma_i915_sw_fence_wake_timer(struct dma_fence *dma,
->  
->  	fence = xchg(&cb->base.fence, NULL);
->  	if (fence) {
-> -		i915_sw_fence_set_error_once(fence, dma->error);
-> +		i915_sw_fence_propagate_dma_fence_error(fence, dma);
->  		i915_sw_fence_complete(fence);
->  	}
->  
-> @@ -480,7 +480,7 @@ int i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
->  	might_sleep_if(gfpflags_allow_blocking(gfp));
->  
->  	if (dma_fence_is_signaled(dma)) {
-> -		i915_sw_fence_set_error_once(fence, dma->error);
-> +		i915_sw_fence_propagate_dma_fence_error(fence, dma);
->  		return 0;
->  	}
->  
-> @@ -496,7 +496,7 @@ int i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
->  		if (ret)
->  			return ret;
->  
-> -		i915_sw_fence_set_error_once(fence, dma->error);
-> +		i915_sw_fence_propagate_dma_fence_error(fence, dma);
->  		return 0;
->  	}
->  
-> @@ -548,7 +548,7 @@ int __i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
->  	debug_fence_assert(fence);
->  
->  	if (dma_fence_is_signaled(dma)) {
-> -		i915_sw_fence_set_error_once(fence, dma->error);
-> +		i915_sw_fence_propagate_dma_fence_error(fence, dma);
->  		return 0;
->  	}
->  
-> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.h b/drivers/gpu/drm/i915/i915_sw_fence.h
-> index 30a863353ee6..872ef80ebd10 100644
-> --- a/drivers/gpu/drm/i915/i915_sw_fence.h
-> +++ b/drivers/gpu/drm/i915/i915_sw_fence.h
-> @@ -116,4 +116,12 @@ i915_sw_fence_set_error_once(struct i915_sw_fence *fence, int error)
->  		cmpxchg(&fence->error, 0, error);
->  }
->  
-> +static inline void
-> +i915_sw_fence_propagate_dma_fence_error(struct i915_sw_fence *fence,
-> +					struct dma_fence *dma)
-> +{
-> +	if (unlikely(test_bit(DMA_FENCE_FLAG_PROPAGATE_ERROR, &dma->flags)))
-> +		i915_sw_fence_set_error_once(fence, dma->error);
-> +}
+> +#include "base.h"
 > +
->  #endif /* _I915_SW_FENCE_H_ */
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 6ffb4b2c6371..8dabe1650f11 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -99,6 +99,7 @@ enum dma_fence_flag_bits {
->  	DMA_FENCE_FLAG_SIGNALED_BIT,
->  	DMA_FENCE_FLAG_TIMESTAMP_BIT,
->  	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-> +	DMA_FENCE_FLAG_PROPAGATE_ERROR,
->  	DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
->  };
+>  /**
+>   * DOC: overview
+>   *
+> @@ -657,6 +659,14 @@ int component_bind_all(struct device *master_dev, void *data)
+>  				c = master->match->compare[i - 1].component;
+>  				component_unbind(c, master, data);
+>  			}
+> +	} else {
+> +		/*
+> +		 * Move to the tail of the list so that master_dev driver ops
+> +		 * like 'shutdown' or 'remove' are called before any of the
+> +		 * dependencies that the components have are shutdown or
+> +		 * removed.
+> +		 */
+> +		device_pm_move_to_tail(master_dev);
+>  	}
 >  
+>  	return ret;
+> 
+> base-commit: 9f4ad9e425a1d3b6a34617b8ea226d56a119a717
 > -- 
-> 2.30.2
+> https://chromeos.dev
 > 
 
 -- 
