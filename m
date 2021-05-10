@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3A63782AC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 12:37:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF03378449
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 12:50:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C59D6E059;
-	Mon, 10 May 2021 10:37:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0B76E105;
+	Mon, 10 May 2021 10:50:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 056BA6E059;
- Mon, 10 May 2021 10:37:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1AA6961943;
- Mon, 10 May 2021 10:37:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B51D6E0FF;
+ Mon, 10 May 2021 10:50:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 06E39619F1;
+ Mon, 10 May 2021 10:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1620643030;
+ s=korg; t=1620643827;
  bh=9IKPaB906Djut97p5MwTWhhrS8i29IzcBxZyrY37QIA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=yNxn1iK+I1FehDzmOLQF9r0FX9oLtfw+XE0KEKNNnPlH1unpF/OaaeiTwIQp+Z+n0
- 87ADYXKTK+NaepT6rolIHAfhHQe+pAYkPfeaZqdNYW5pXXldMo7R0yCUWBUXyahXYI
- 5naCYs1MpreXb/+TBdM56bloRkYNsAsQy1ZhVQqo=
+ b=l9d/ayA8KCDEDRGfbzVmOMbe21Gi2VssfDCp+f/dXsZoTPp+MmFQgW5CNgwvJ5v4P
+ uKwxH+FUrp1hNDOOcqAHr36pLWvzf9b/B9qhfKI4+kSLnIb8fXyVVb7hniQR31uAB/
+ WP+4LKL4CXmpv9sFpl9XfiVrEcSUlr8ml+OurGvk=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.10 122/299] drm/amd/display/dc/dce/dce_aux: Remove duplicate
+Subject: [PATCH 5.11 140/342] drm/amd/display/dc/dce/dce_aux: Remove duplicate
  line causing field overwritten issue
-Date: Mon, 10 May 2021 12:18:39 +0200
-Message-Id: <20210510102009.010406493@linuxfoundation.org>
+Date: Mon, 10 May 2021 12:18:50 +0200
+Message-Id: <20210510102014.704056371@linuxfoundation.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210510102004.821838356@linuxfoundation.org>
-References: <20210510102004.821838356@linuxfoundation.org>
+In-Reply-To: <20210510102010.096403571@linuxfoundation.org>
+References: <20210510102010.096403571@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
