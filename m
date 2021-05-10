@@ -1,44 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64899378FD5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 16:01:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7AF379062
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 16:12:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E97A6E49C;
-	Mon, 10 May 2021 14:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C8D6E49A;
+	Mon, 10 May 2021 14:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9DE56E487;
- Mon, 10 May 2021 14:01:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=i6vAxLOytNOYwyM1NYfARO0i+7jkuFK7y9pYt7pXuwE=; b=djb3CWn/LU378IzapvABLkn8Gd
- Mp82QkScestEUeQW2L+zqtEN7XvYp31eFRebvjBEITr//+6YOo6+SYheq9BxF7YMTeqbS+RN1ORYU
- WcTwnub1JAhAEwo1EbdH4ZtDbzKRVhVt7KKBx8eH43WzT6ZsZkO7OQPiITlB671P2UStmst5kwHpO
- oLDGkct+Pf7s4vCchonkHPjgJ2dHAgGdY9eEvhnNfgt0nMzg4EJ/N8O7mpCEUjiq1yDlLopkoOUQy
- tCb7mahOMAZ84vugzBeIjfIYkNlViOtJdTlUAmJVQy5eePLrQct4R8yXLPW7Hy+DjovMg5jAZGdoa
- yuW/o03A==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lg6RA-006DIB-7H; Mon, 10 May 2021 13:59:19 +0000
-Date: Mon, 10 May 2021 14:59:08 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Edward Cree <ecree.xilinx@gmail.com>
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
-Message-ID: <YJk8LMFViV7Z3Uu7@casper.infradead.org>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
- <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
- <20210510135518.305cc03d@coco.lan>
- <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA666E49A
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 14:12:33 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id b17so18913451ede.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 07:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5MTXRkvwO6PNkIJZM/XPnfLyx7gPa7Pgx7zx+jwH+LI=;
+ b=WAHYWIb9HtBP2yF04hR7cLrtx7p5E0rrmg2ZD58RJh9Bd+MRJeOvqbHcIKwV2y8rF8
+ eaTeLncwdbeslDpgWY/68SmTWUTbaI2dQsD2IegK5s9Gx0Mgolf7cZc7Aaoyq3kWbaBB
+ BE+KjTtqABw395/bXKIlRVZLJF6TCCTT1643Dvf7hWaL5jcB/0Moy28mBWYfe/hYWiQy
+ uwA71CSejIzrXdmdP+IkECfKqhPxxdTsG0ootnX5zhjAQGQ+YDl9XoO3Zta5O9jjsD8L
+ YPAo9b4nmOy5oGg7/bpXLu34obXdgeFkAyGZPRZhkKICJIBc6/y7UKmFV+wGAggjoUqu
+ M+Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5MTXRkvwO6PNkIJZM/XPnfLyx7gPa7Pgx7zx+jwH+LI=;
+ b=FD3UhE7Sn34jYQGtHkTeisJDkFz6FGARWtrki1Sa3Har6fSzqRVd2STZmK4VYa3Of6
+ jBXV+1AFxF8CFyKyKqrs4o9a+qesmOE4klXMvZl4nuivtE+rdq07E5+Z3yoa94aplVUl
+ +rtnG7yUMJthS2+FJ+gXPsIdQVcb8Jb3DZCUURO95Mrd/a3xK2cJgJfhefL6TdlDillP
+ iZH06LdKs/EtCNGBwlorNNsuyccG8Z35IMHgJS6PbONv/AKqdpA8YzKvkOYMSyl7XMRU
+ VD+jOk6ODyHZVARnonW391xC5kuZuLBiBqE60LlN3GYsCxM6/8um2uEHMHIzzKqAucpB
+ 1AuA==
+X-Gm-Message-State: AOAM533LMAcahOu6OTEyxcM6ZUFIStJ0UkVRWt/Ne7nN/ao5/l3rgZ/4
+ q/Fx1Ncun18d/vim3YC7PozpmxpuMszTEaVcgAU=
+X-Google-Smtp-Source: ABdhPJyhQjHFidfnf1httbSiesEwi/qmo6XNnr4ZvT/qKOzqmtwvHcIgzuuWSF2alHJZrsfkQoleCxXhVaYTn2LDT8I=
+X-Received: by 2002:a05:6402:310a:: with SMTP id
+ dc10mr29704071edb.38.1620655952122; 
+ Mon, 10 May 2021 07:12:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
+References: <20201005134250.527153-1-marex@denx.de>
+ <20201005134250.527153-3-marex@denx.de>
+In-Reply-To: <20201005134250.527153-3-marex@denx.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 10 May 2021 09:12:21 -0500
+Message-ID: <CAHCN7xJtnYHvLWkawYpi=BYbtfSrvHnNzqp767rOZjOGsAJV=g@mail.gmail.com>
+Subject: Re: [PATCH 3/3] [RFC] drm/exynos: Add basic i.MX8MM support code
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,53 +65,376 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-iio@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
- dri-devel@lists.freedesktop.org, keyrings@vger.kernel.org,
- linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, x86@kernel.org,
- linux-acpi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-input@vger.kernel.org, linux-ext4@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-sgx@vger.kernel.org,
- coresight@lists.linaro.org, rcu@vger.kernel.org,
- mjpeg-users@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org,
- linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-rdma@vger.kernel.org, linux-integrity@vger.kernel.org,
- David Woodhouse <dwmw2@infradead.org>
+Cc: linux-samsung-soc@vger.kernel.org,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jaehoon Chung <jh80.chung@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Shawn Guo <shawnguo@kernel.org>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 10, 2021 at 02:16:16PM +0100, Edward Cree wrote:
-> On 10/05/2021 12:55, Mauro Carvalho Chehab wrote:
-> > The main point on this series is to replace just the occurrences
-> > where ASCII represents the symbol equally well
-> 
-> > 	- U+2014 ('—'): EM DASH
-> Em dash is not the same thing as hyphen-minus, and the latter does not
->  serve 'equally well'.  People use em dashes because — even in
->  monospace fonts — they make text easier to read and comprehend, when
->  used correctly.
-> I accept that some of the other distinctions — like en dashes — are
->  needlessly pedantic (though I don't doubt there is someone out there
->  who will gladly defend them with the same fervour with which I argue
->  for the em dash) and I wouldn't take the trouble to use them myself;
->  but I think there is a reasonable assumption that when someone goes
->  to the effort of using a Unicode punctuation mark that is semantic
->  (rather than merely typographical), they probably had a reason for
->  doing so.
+On Mon, Oct 5, 2020 at 8:48 AM Marek Vasut <marex@denx.de> wrote:
+>
+> This adds basic i.MX8MM glue code for the Samsung DSIM PHY.
+> There are still a couple of items which need to be sorted out
+> in drivers/gpu/drm/bridge/samsung-dsim.c before this can even
+> be merged, specifically:
+>
+> - The dsi->out_bridge is not populated until samsung_dsim_host_attach()
+>   is called, however samsung_dsim_host_attach() is not called until the
+>   next bridge attaches and calls mipi_dsi_attach(), and that only happens
+>   after the DSIM calls drm_bridge_attach() on that next bridge.
+>
+> - The samsung_dsim_bridge_mode_fixup() is needed for iMX8MM LCDIF to set
+>   the correct sync flags. This likely needs to be done in the glue code.
 
-I think you're overestimating the amount of care and typographical
-knowledge that your average kernel developer has.  Most of these
-UTF-8 characters come from latex conversions and really aren't
-necessary (and are being used incorrectly).
+Since you asked for an RFC, I
+I applied Michael's series and this series to 5.12 since we are so
+close on having the blk-clk and the power domain stuff working.  I
+also tried your patch for the ti-sn65dsi83 and the adv7511 on the
+Beacon imx8mm development kit.
 
-You seem quite knowedgeable about the various differences.  Perhaps
-you'd be willing to write a document for Documentation/doc-guide/
-that provides guidance for when to use which kinds of horizontal
-line?  https://www.punctuationmatters.com/hyphen-dash-n-dash-and-m-dash/
-talks about it in the context of publications, but I think we need
-something more suited to our needs for kernel documentation.
+In both the HDMI bridge and LVDS bridge, I am able to get the modetest
+and drmdevice to return data that looks valid.  The resolution and
+refresh look correct, but I am not able to can an actual image to
+generate out to either the LVDS or the HDMI.  I am able to get the
+image to appear using the NXP kernel with the ADV7511 HDMI bridge, so
+that leads me to believe there might be something wrong with either
+LCDIF or the Samsung DSIM layer code.  I am guess it's the Samsung
+DSIM stuff since the LCDIF has been around for a while.
+
+I am not particularly well versed in the video world, but if you have
+something you'd like me to try, i am willing to try it.
+
+adam
+
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Guido G=C3=BCnther <agx@sigxcpu.org>
+> Cc: Jaehoon Chung <jh80.chung@samsung.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Michael Tretter <m.tretter@pengutronix.de>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> --
+> NOTE: This depends on https://patchwork.kernel.org/project/dri-devel/list=
+/?series=3D347439
+> ---
+>  drivers/gpu/drm/bridge/Kconfig            |   6 +
+>  drivers/gpu/drm/bridge/Makefile           |   1 +
+>  drivers/gpu/drm/bridge/samsung-dsim-imx.c | 161 ++++++++++++++++++++++
+>  drivers/gpu/drm/bridge/samsung-dsim.c     |  25 +++-
+>  4 files changed, 192 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/bridge/samsung-dsim-imx.c
+>
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kcon=
+fig
+> index 2d4459f78cdc..f97a8ebfcef1 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -129,6 +129,12 @@ config DRM_SAMSUNG_DSIM
+>         help
+>           Samsung MIPI DSI bridge driver.
+>
+> +config DRM_SAMSUNG_DSIM_IMX
+> +       tristate "Samsung MIPI DSI bridge extras for NXP i.MX"
+> +       depends on DRM_SAMSUNG_DSIM
+> +       help
+> +         Samsung MIPI DSI bridge driver extras for NXP i.MX.
+> +
+>  config DRM_SIL_SII8620
+>         tristate "Silicon Image SII8620 HDMI/MHL bridge"
+>         depends on OF
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Mak=
+efile
+> index f7972d703c5d..61188a0cd052 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -9,6 +9,7 @@ obj-$(CONFIG_DRM_NXP_PTN3460) +=3D nxp-ptn3460.o
+>  obj-$(CONFIG_DRM_PARADE_PS8622) +=3D parade-ps8622.o
+>  obj-$(CONFIG_DRM_PARADE_PS8640) +=3D parade-ps8640.o
+>  obj-$(CONFIG_DRM_SAMSUNG_DSIM) +=3D samsung-dsim.o
+> +obj-$(CONFIG_DRM_SAMSUNG_DSIM_IMX) +=3D samsung-dsim-imx.o
+>  obj-$(CONFIG_DRM_SIL_SII8620) +=3D sil-sii8620.o
+>  obj-$(CONFIG_DRM_SII902X) +=3D sii902x.o
+>  obj-$(CONFIG_DRM_SII9234) +=3D sii9234.o
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim-imx.c b/drivers/gpu/drm/=
+bridge/samsung-dsim-imx.c
+> new file mode 100644
+> index 000000000000..6c7307ce7eaf
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim-imx.c
+> @@ -0,0 +1,161 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * NXP i.MX8M SoC MIPI DSI driver
+> + *
+> + * Copyright (C) 2020 Marek Vasut <marex@denx.de>
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <drm/bridge/samsung-dsim.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_encoder.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +
+> +enum {
+> +       DSI_PORT_IN,
+> +       DSI_PORT_OUT
+> +};
+> +
+> +struct imx_dsim_priv {
+> +       struct samsung_dsim *dsi;
+> +       struct drm_encoder encoder;
+> +};
+> +
+> +static const unsigned int imx8mm_dsim_reg_values[] =3D {
+> +       [RESET_TYPE] =3D DSIM_SWRST,
+> +       [PLL_TIMER] =3D 500,
+> +       [STOP_STATE_CNT] =3D 0xf,
+> +       [PHYCTRL_ULPS_EXIT] =3D 0xaf,
+> +       [PHYCTRL_VREG_LP] =3D 0,
+> +       [PHYCTRL_SLEW_UP] =3D 0,
+> +       [PHYTIMING_LPX] =3D 0x06,
+> +       [PHYTIMING_HS_EXIT] =3D 0x0b,
+> +       [PHYTIMING_CLK_PREPARE] =3D 0x07,
+> +       [PHYTIMING_CLK_ZERO] =3D 0x26,
+> +       [PHYTIMING_CLK_POST] =3D 0x0d,
+> +       [PHYTIMING_CLK_TRAIL] =3D 0x08,
+> +       [PHYTIMING_HS_PREPARE] =3D 0x08,
+> +       [PHYTIMING_HS_ZERO] =3D 0x0d,
+> +       [PHYTIMING_HS_TRAIL] =3D 0x0b,
+> +};
+> +
+> +static int imx_dsim_host_attach(struct device *dev,
+> +                                 struct mipi_dsi_device *device)
+> +{
+> +       struct imx_dsim_priv *dsi =3D dev_get_drvdata(dev);
+> +       struct drm_device *drm =3D dsi->encoder.dev;
+> +
+> +       if (drm->mode_config.poll_enabled)
+> +               drm_kms_helper_hotplug_event(drm);
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx_dsim_host_detach(struct device *dev,
+> +                                 struct mipi_dsi_device *device)
+> +{
+> +       struct imx_dsim_priv *dsi =3D dev_get_drvdata(dev);
+> +       struct drm_device *drm =3D dsi->encoder.dev;
+> +
+> +       if (drm->mode_config.poll_enabled)
+> +               drm_kms_helper_hotplug_event(drm);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct samsung_dsim_host_ops imx_dsim_host_ops =3D {
+> +       .attach =3D imx_dsim_host_attach,
+> +       .detach =3D imx_dsim_host_detach,
+> +};
+> +
+> +static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data =3D =
+{
+> +       .reg_ofs =3D EXYNOS5433_REG_OFS,
+> +       .plltmr_reg =3D 0xa0,
+> +       .has_clklane_stop =3D 1,
+> +       .num_clks =3D 2,
+> +       .max_freq =3D 2100,
+> +       .wait_for_reset =3D 0,
+> +       .num_bits_resol =3D 12,
+> +       .reg_values =3D imx8mm_dsim_reg_values,
+> +       .host_ops =3D &imx_dsim_host_ops,
+> +};
+> +
+> +static const struct of_device_id imx_dsim_of_match[] =3D {
+> +       { .compatible =3D "fsl,imx8mm-mipi-dsim",
+> +         .data =3D &imx8mm_dsi_driver_data },
+> +       { }
+> +};
+> +
+> +static int imx_dsim_probe(struct platform_device *pdev)
+> +{
+> +       struct imx_dsim_priv *dsi;
+> +       struct device *dev =3D &pdev->dev;
+> +
+> +       dsi =3D devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+> +       if (!dsi)
+> +               return -ENOMEM;
+> +       platform_set_drvdata(pdev, dsi);
+> +
+> +       dsi->dsi =3D samsung_dsim_probe(pdev);
+> +       if (IS_ERR(dsi->dsi))
+> +               return PTR_ERR(dsi->dsi);
+> +
+> +       pm_runtime_enable(dev);
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx_dsim_remove(struct platform_device *pdev)
+> +{
+> +       struct imx_dsim_priv *dsi =3D platform_get_drvdata(pdev);
+> +
+> +       pm_runtime_disable(&pdev->dev);
+> +
+> +       samsung_dsim_remove(dsi->dsi);
+> +
+> +       return 0;
+> +}
+> +
+> +static int __maybe_unused imx_dsim_suspend(struct device *dev)
+> +{
+> +       struct imx_dsim_priv *dsi =3D dev_get_drvdata(dev);
+> +
+> +       return samsung_dsim_suspend(dsi->dsi);
+> +}
+> +
+> +static int __maybe_unused imx_dsim_resume(struct device *dev)
+> +{
+> +       struct imx_dsim_priv *dsi =3D dev_get_drvdata(dev);
+> +
+> +       return samsung_dsim_resume(dsi->dsi);
+> +}
+> +
+> +static const struct dev_pm_ops imx_dsim_pm_ops =3D {
+> +       SET_RUNTIME_PM_OPS(imx_dsim_suspend, imx_dsim_resume, NULL)
+> +       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +                               pm_runtime_force_resume)
+> +};
+> +
+> +static struct platform_driver imx_dsim_driver =3D {
+> +       .probe =3D imx_dsim_probe,
+> +       .remove =3D imx_dsim_remove,
+> +       .driver =3D {
+> +                  .name =3D "imx-dsim-dsi",
+> +                  .owner =3D THIS_MODULE,
+> +                  .pm =3D &imx_dsim_pm_ops,
+> +                  .of_match_table =3D imx_dsim_of_match,
+> +       },
+> +};
+> +
+> +module_platform_driver(imx_dsim_driver);
+> +
+> +MODULE_AUTHOR("Marek Vasut <marex@denx.de>");
+> +MODULE_DESCRIPTION("NXP i.MX8M SoC MIPI DSI");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
+ge/samsung-dsim.c
+> index 42b49546dd00..12aeceb40450 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -28,6 +28,7 @@
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_fb_helper.h>
+>  #include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+> @@ -1388,8 +1389,15 @@ static int samsung_dsim_bridge_attach(struct drm_b=
+ridge *bridge,
+>  {
+>         struct samsung_dsim *dsi =3D bridge->driver_private;
+>         struct drm_encoder *encoder =3D bridge->encoder;
+> +       struct device *dev =3D dsi->dev;
+> +       struct device_node *np =3D dev->of_node;
+>         int ret;
+>
+> +       ret =3D drm_of_find_panel_or_bridge(np, 1, 0,
+> +                                         &dsi->panel, &dsi->out_bridge);
+> +       if (ret)
+> +               return ret;
+> +
+>         if (!dsi->out_bridge && !dsi->panel)
+>                 return -EPROBE_DEFER;
+>
+> @@ -1398,7 +1406,6 @@ static int samsung_dsim_bridge_attach(struct drm_br=
+idge *bridge,
+>                                         bridge, flags);
+>                 if (ret)
+>                         return ret;
+> -               list_splice_init(&encoder->bridge_chain, &dsi->bridge_cha=
+in);
+>         } else {
+>                 ret =3D samsung_dsim_create_connector(dsi);
+>                 if (ret)
+> @@ -1456,18 +1463,31 @@ static void samsung_dsim_bridge_mode_set(struct d=
+rm_bridge *bridge,
+>         drm_mode_copy(&dsi->mode, adjusted_mode);
+>  }
+>
+> +static bool samsung_dsim_bridge_mode_fixup(struct drm_bridge *bridge,
+> +                                          const struct drm_display_mode =
+*mode,
+> +                                          struct drm_display_mode *adjus=
+ted_mode)
+> +{
+> +       /* At least LCDIF + DSIM needs active low sync */
+> +       adjusted_mode->flags |=3D (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_N=
+VSYNC);
+> +       adjusted_mode->flags &=3D ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_=
+PVSYNC);
+> +
+> +       return true;
+> +}
+> +
+>  static const struct drm_bridge_funcs samsung_dsim_bridge_funcs =3D {
+>         .attach =3D samsung_dsim_bridge_attach,
+>         .detach =3D samsung_dsim_bridge_detach,
+>         .enable =3D samsung_dsim_bridge_enable,
+>         .disable =3D samsung_dsim_bridge_disable,
+>         .mode_set =3D samsung_dsim_bridge_mode_set,
+> +       .mode_fixup =3D samsung_dsim_bridge_mode_fixup,
+>  };
+>
+>  static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+>                                     struct mipi_dsi_device *device)
+>  {
+>         struct samsung_dsim *dsi =3D host_to_dsi(host);
+> +#if 0
+>         const struct samsung_dsim_host_ops *ops =3D dsi->driver_data->hos=
+t_ops;
+>         struct drm_bridge *out_bridge;
+>
+> @@ -1493,13 +1513,16 @@ static int samsung_dsim_host_attach(struct mipi_d=
+si_host *host,
+>                 if (ret)
+>                         return ret;
+>         }
+> +#endif
+>
+>         dsi->lanes =3D device->lanes;
+>         dsi->format =3D device->format;
+>         dsi->mode_flags =3D device->mode_flags;
+>
+> +#if 0
+>         if (ops && ops->attach)
+>                 ops->attach(dsi->dsi_host.dev, device);
+> +#endif
+>
+>         return 0;
+>  }
+> --
+> 2.28.0
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
