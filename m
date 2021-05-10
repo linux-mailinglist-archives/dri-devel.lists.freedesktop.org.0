@@ -1,55 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A322379700
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 20:26:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83002379705
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 20:27:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCAD989ACD;
-	Mon, 10 May 2021 18:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6621A6E8D2;
+	Mon, 10 May 2021 18:27:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 967A789ACD
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 18:26:52 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id c3so16592934oic.8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 11:26:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xk4bl3dsZS6KLKYu1S58F9UPzYm5W7SG83Ij5mmCTUI=;
- b=K9LDfRPI9iOlXAenVDQcRBaTDzeM2pMDWZA+BbSNewHTTtQrepmyn7C3xyDE28z9t9
- BHC9GTEFbnTM2euHrOkbGkjQQvXc2oH90dwm6dGFGyclpnXr3jpjG4ATpCJslwNQ5xbE
- PZ83T/Mz2VGrlKBr6CEKdJOJ5JVkVLfsdQTC8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Xk4bl3dsZS6KLKYu1S58F9UPzYm5W7SG83Ij5mmCTUI=;
- b=o8PgW5eZTbCHGQxVsZ9EiOSyn2b37uToEvTf3mMNmgJGO9CMmarvsqh2qTAczPcUvS
- ScYqimPT6WlNl89A/fJA8Q24e3AlNcD0UG62jQppCGQDKCgqg/u+DWbBqv40C9BZhlDX
- Z3reMXBFAX6O86voSegfbjTOeyy2Efht6Ohu/xE67xJhagJZIhd9gawRkYDLkBqKU02C
- 4XzzxV8D+iSreEyZwoybY1vq6xfV+ZKSSYKXM3kuWopIL2AwRBlpujRuXKMpWZSFBS63
- OJfbHqeRpVabfrBLQ5pLjlPcIZ7wjf0VjYESB79wVdrDkohCFUxZvjD3/P0w7fl5vpsO
- i+ew==
-X-Gm-Message-State: AOAM530+vDmD/cE+dnG+iGxHKWdinMdnPy/WZ0i49BA/vpHcE+FWmIVN
- HDym4jaFfu+oE4pgQPPVYwAkQWyuDD3DK71OnHhVBg==
-X-Google-Smtp-Source: ABdhPJyH0c7kPu4AUmwzqM8o4rjiQjSV5N5LjuF2EUFq6afvmu1aQK4GePZmlOY9oYc5LOd7F6D6SMfYU113SfOyDHw=
-X-Received: by 2002:a05:6808:699:: with SMTP id
- k25mr344000oig.101.1620671211832; 
- Mon, 10 May 2021 11:26:51 -0700 (PDT)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2057.outbound.protection.outlook.com [40.107.244.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 885066E8CF;
+ Mon, 10 May 2021 18:27:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lGL1zq25QUnIyyhYy2uy1tniCvbN/lELJjCjvSIZJgBFxAoW8aLzZ9ngmnK/ZzUf2xjAeLWaETZs2nClbYoe0Mlx89oa2piKxJjqqkz2oxjpJTr2aH3jFhtVlSjAPemtgTIkM8PkzRQgTtjMtCEZ5Dfy+aMVB2vGRNvjtCbCiM3RrEgXVurSvxNAiyRO3BA8sxYRpm83Y2BSNRyPBsbUWwdIZViH9XG7A7cATf3PBmIAhPWlim4dUbgB9/2CoDgkVukPrJct03IOmmEyv8zo48OJD+Bw5LH0kRdVNxK8vIk6x5mda01HaUuPzp3KHgXwQjquzGmsXCNEzsgUWuIxug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HiTCv/Mk1JO2vCONhveoFEMgTSDc/3RnX2x44BNkCFc=;
+ b=h01xGvjHz4NLU1/DmbpaloEdvxr22UuFiQIGMZ7UeQ7WbOjE5ah8gokGKUPJ+JqcU/ux6S3heJrROZGIvm7NKTVX0UFyrDr3ERRoQg6Knpb6yiDdZKs4imJe8ie+vmb4D0AFsp6oYq1QXqlvuTbc6Y7cRparY9ivnQ2QFP6iBqXgzruQLIEUMl1OiGPU6gK0b8N4kFuNZB9XN7DIqlS0bBd0unzoqIoX7B5WYkHgoStMjQUoRIzu8VOvdIYd+dK/5ryAFXsY9SSvqaJ5KiELokK5X3ThTqJCTxjS9BlwDIc4ZFrFxZ6OLtvmDxj+3lqCda9lCeGB2NLaZvtvsHVz1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HiTCv/Mk1JO2vCONhveoFEMgTSDc/3RnX2x44BNkCFc=;
+ b=cvYoUgqdGgfHZ1bd/bTMH6F1T1Luqvo/rkDPOjM9VDXuHbcHjIQ8yqnALhopKUGAgijwzn6gGTKmTC4tif6Fiedn7JngxnaBN8FkjFk7MOhyWIcXC2O4Sv3ulnGbom7eBflqHFK3D1MLIUzYrkauHwq2HBxI9DHHILk/fDTmrCs=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5241.namprd12.prod.outlook.com (2603:10b6:408:11e::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Mon, 10 May
+ 2021 18:27:27 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::3c78:e58b:fba7:b8dd%6]) with mapi id 15.20.4108.031; Mon, 10 May 2021
+ 18:27:26 +0000
+Subject: Re: [PATCH v6 02/16] drm/ttm: Expose ttm_tt_unpopulate for driver use
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, ckoenig.leichtzumerken@gmail.com,
+ daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
+References: <20210510163625.407105-1-andrey.grodzovsky@amd.com>
+ <20210510163625.407105-3-andrey.grodzovsky@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <01afeedb-179b-d105-4e96-139c9bc654ef@amd.com>
+Date: Mon, 10 May 2021 14:27:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <20210510163625.407105-3-andrey.grodzovsky@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [142.116.138.207]
+X-ClientProxiedBy: YT1PR01CA0063.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::32) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
 MIME-Version: 1.0
-References: <20210508074118.1621729-1-swboyd@chromium.org>
- <YJlZwYS+oH7W5WjO@phenom.ffwll.local>
- <CAE-0n52S=LFRx93qVyWBpF5PmdCEbWH_+HnN0Do9W45kiJLCbQ@mail.gmail.com>
-In-Reply-To: <CAE-0n52S=LFRx93qVyWBpF5PmdCEbWH_+HnN0Do9W45kiJLCbQ@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 10 May 2021 20:26:40 +0200
-Message-ID: <CAKMK7uE_yrXNdEYTf-snNU9dS+=6AKOmUxRuLSHLWBTOtVwpmg@mail.gmail.com>
-Subject: Re: [PATCH] component: Move host device to end of device lists on
- binding
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.116.138.207) by
+ YT1PR01CA0063.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4108.30 via Frontend Transport; Mon, 10 May 2021 18:27:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c64769ba-6055-48cf-62a9-08d913e1433a
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5241:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB5241FFEFC3ECB1803C7F2DD092549@BN9PR12MB5241.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jUsTR+3as1vffrMw7mp96FGFJiDRogcl7VvANLHe7sthF4s0Jqf8D47yN8Q9NNHnD2O07fnWJTB1Z36wZqkVp3B/hfJIroe0Ezoon9bc1DMaDJpZgWw0TcWQw0X+YIHYmf1OTORntkdz2qTdiCf76hcA5j6uXk4CXy+iKPE7mR357b5me+RUc4y4SgV3INbIkXV+EwMeyD2qSJkv03BQ2Zugly6pque+uYlAr188ULfOxi0Uts5Iwi8S17l2wJez365suVSsmqAwYUmVHz8sOZJAARzStp4CZK5a6PvSdYsaGGt7pZ9CjDCAjL+S0kL8M1lbFhlgVJ+lmIes3SrZ5jAFhHSSrIG7AeuoHeoxU0+I23CQPm0g5UoTuRRPNFDtXa/zL4EUNmM+2Py7yb/AaADgIzqzZsIFr0Ukp1MVzp1JM9yQSYRUNcIpFbpgbiMynfTVnW9FYCByFrP86R0oVzI9YyxkYg84qEPoJYxYgELbaiZ0ag5kb37Xesy9h3U/6L7WVMzsfsEYiObX4/RliAqxiiZBws7IJKB3uypzXsSMj3gV28xnpvQaW956KovsGKSc4PPXlWnLtDyJmg/TvHYOphXAxNK7SEcwXSkOOB591RmGX5Kbqnv3U6oLK4En+lTPxDYQ/KyM/kLBX34TQZNnsvlJHLiqNfwSP9U+aaNyUffIVv4h10ffFRqxuDCQ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39860400002)(346002)(366004)(136003)(396003)(26005)(66556008)(6486002)(4744005)(16526019)(186003)(8676002)(31686004)(31696002)(2906002)(4326008)(44832011)(956004)(2616005)(8936002)(5660300002)(478600001)(66476007)(83380400001)(36756003)(86362001)(16576012)(316002)(6636002)(38100700002)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?azhYbVVEYmhKakovVEtOTjl5UHovcnYweTlKdWR5dno5WVdoRmVjM2NHKzhu?=
+ =?utf-8?B?b28vOWtIS1lYZUQyd21QN0x0M1RFeWZnaHZBMUltWWpDaStsS1dSQUM1Z1Av?=
+ =?utf-8?B?Q2w5V2VKcHVQTjVEeDRQOHRKT0VxdGtiVmJ4SXh5YjBna0JiMFpabDg2T1dD?=
+ =?utf-8?B?U1ZtY2N0aDdtV3F5Q21WVmJwRXU4WVFIZzgvU3ZYS1BUNDRtWUl2aWM0YVhB?=
+ =?utf-8?B?UVRXWFFJcisxbGViRCtxUHI1aTlLNzd4akt0S0ZNZm5TbjJvNnNjb3crWDhX?=
+ =?utf-8?B?b09IMURoZ0tnRENaVFkyZmJ6dDBSbENxSGRpL0o3TEkveThRSjZuSDNQTHEr?=
+ =?utf-8?B?c1hGN2I1Rnhad0k0a3ZEZFlhc21DMTIzdHlYcGprY3JuYXBKQStIanJiVkw2?=
+ =?utf-8?B?cWZQdUo4UG5YdnF3UGhvUURDNEZIaWNWeW8yeFBoZXNMclRXd2JPcmJnQ3p6?=
+ =?utf-8?B?eWFrQXBGT2NXOTRGcUxCdlhoSXYzbC9idmw2MGlqMjNUOTBOUDN0R0p5V0s1?=
+ =?utf-8?B?a1dmQjN3eEJoaGJBZDFqQzlNOGFsUXpZUFlIWUg4ZHN1MUYvdk04OHpVUHY1?=
+ =?utf-8?B?dzNBaWJZVW5wSllwVExoODRmZStQUEUxdmR3TkttYWo0aEptWmxwbjVTK0Yw?=
+ =?utf-8?B?bzdNUWNVUytkejd0WERCcU1oRU1XMzExVFUxL1J2a1VXOHg3bndLOEcwMWJ1?=
+ =?utf-8?B?TXA3UmNDSDVMSHhDcWdyMjdvMUNEalAvSjZGRW9STDFvaWNNeFNLQXRrRE54?=
+ =?utf-8?B?M09Kc1V1bVdQUUpUZzFwbnpPRElXeW1OcTJ3bzhwK1ArUkp1MjYxbndQOXc1?=
+ =?utf-8?B?aUFsOUkxSi9lT3BjRENuUlRPeEFFUWpaWHZqaGRGd3FKNkk5cGtpdzFidWgv?=
+ =?utf-8?B?eHk2K1A4ZUVFcks1YmtmUHdMamFPelpEa2k3TjJlZzk1U21GYW9EM3ord1l2?=
+ =?utf-8?B?VGViT2tIaWVKeHEyZ1BteWRZaHFLMmVicXV2S3NZR0QzQ0VaOTQyTjZpWmMv?=
+ =?utf-8?B?MlRrZ2tVSlBQeUQvNlovQUlCeUEvNWFEYkEvZnhiWWlLYXJpUFJnd21sdk52?=
+ =?utf-8?B?c0RNNlMzeisvVCt6MjFWSktURkpFZmptS2dTNkFyMVRvUDZ3M3YrODIrZ3lG?=
+ =?utf-8?B?RjJvVElHdzZLQXFVUi9MdG9mcFR5MFdmU3VDbzlWdmk2TElFSkV4NEZPTjF3?=
+ =?utf-8?B?Q1paZnpmNkVIY2UweitWdENMVUQ3Z2ZEOWhoL0xOUE5ZMzBzN2ZkZ2NFSVhK?=
+ =?utf-8?B?a21kT0gvckVQbVNCdEMzQmE5b1RmaHh2UXc3ZU9VdGxVWFcydFRzYmQyMmtT?=
+ =?utf-8?B?a0dvV1NlZk1yNm5KYXFFd005eU1mcnErQ0FFVmpyVXFwWk5QYnJnSHVMSjFq?=
+ =?utf-8?B?L2xjSC85cmlnSDd4Rit0dkNPTjlIbjNBdzJGODFBWnlydHZoMHlDT01GM0lw?=
+ =?utf-8?B?ZTBkQVg5RnhtSWZIcGRTV2d3Qk5ITC84ZUR6TllNMkpTVjNhd0Urb1BObCtl?=
+ =?utf-8?B?anpGWGU3Qlg2R1J0Qnl1dFhDS3J5WDNpcDRLa2FvbThLS1YyWUg1UDVRaWU2?=
+ =?utf-8?B?QS9zUHE3dVZpWEFLdW1JMlpzQks3UGp3TlBmeW4wbXhITVNMMEZKYUtmZXRm?=
+ =?utf-8?B?OExVYW5pSithdWpXNUJtdzNPUUxtU0FyNko4RGtwMFk2MDA5M0JRVWJ2NlRl?=
+ =?utf-8?B?cjdJNUl0Z054cjdycVFmNXZVRWFscmhqUFBFSWg2S1FBWlJ0OVFLM2VJNGRH?=
+ =?utf-8?Q?Fa5sndPEnZM4/NsDMUndZTPqUIeMJGno4uN+daL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c64769ba-6055-48cf-62a9-08d913e1433a
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2021 18:27:26.7309 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DJiXfXdwLoRvxWPdYF+j3bgoWbqo6wQxuMFefMITBwIhoZ7QfO4H5L7kiWzoqxoqImCNP7OFHyOxctI2eJr5yQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5241
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,196 +129,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Russell King <rmk+kernel@arm.linux.org.uk>
+Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org, helgaas@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 10, 2021 at 7:52 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Daniel Vetter (2021-05-10 09:05:21)
-> > On Sat, May 08, 2021 at 12:41:18AM -0700, Stephen Boyd wrote:
-> > > The device lists are poorly ordered when the component device code is
-> > > used. This is because component_master_add_with_match() returns 0
-> > > regardless of component devices calling component_add() first. It can
-> > > really only fail if an allocation fails, in which case everything is
-> > > going bad and we're out of memory. The host device (called master_dev in
-> > > the code), can succeed at probe and be put on the device lists before
-> > > any of the component devices are probed and put on the lists.
-> > >
-> > > Within the component device framework this usually isn't that bad
-> > > because the real driver work is done at bind time via
-> > > component{,master}_ops::bind(). It becomes a problem when the driver
-> > > core, or host driver, wants to operate on the component device outside
-> > > of the bind/unbind functions, e.g. via 'remove' or 'shutdown'. The
-> > > driver core doesn't understand the relationship between the host device
-> > > and the component devices and could possibly try to operate on component
-> > > devices when they're already removed from the system or shut down.
-> > >
-> > > Normally, device links or probe defer would reorder the lists and put
-> > > devices that depend on other devices in the lists at the correct
-> > > location, but with component devices this doesn't happen because this
-> > > information isn't expressed anywhere. Drivers simply succeed at
-> > > registering their component or host with the component framework and
-> > > wait for their bind() callback to be called once the other components
-> > > are ready. We could make various device links between 'master_dev' and
-> > > 'component->dev' but it's not necessary. Let's simply move the hosting
-> > > device to the end of the device lists when the component device fully
-> > > binds. This way we know that all components are present and have probed
-> > > properly and now the host device has really probed so it's safe to
-> > > assume the host driver ops can operate on any component device.
-> > >
-> > > This fixes the msm display driver shutdown path when the DSI controller
-> > > is connected to a DSI bridge that is controlled via i2c. In this case,
-> > > the msm display driver wants to tear down the display pipeline on
-> > > shutdown at msm_pdev_shutdown() by calling drm_atomic_helper_shutdown(),
-> > > and it can't do that unless the whole display chain is still probed and
-> > > active in the system. When a display bridge is on i2c, the i2c device
-> > > for the bridge will be created whenever the i2c controller probes, which
-> > > could be before or after the msm display driver probes. If the i2c
-> > > controller probes after the display driver, then the i2c controller will
-> > > be shutdown before the display controller during system wide shutdown
-> > > and thus i2c transactions will stop working before the display pipeline
-> > > is shut down. This means we'll have the display bridge trying to access
-> > > an i2c bus that's shut down because drm_atomic_helper_shutdown() is
-> > > trying to disable the bridge after the bridge is off.
-> > >
-> > > Moving the host device to the end of the lists at bind time moves the
-> > > drm_atomic_helper_shutdown() call before the i2c bus is shutdown.
-> > > This fixes the immediate problem, but we could improve it a bit by
-> > > modeling device links from the component devices to the host device
-> > > indicating that they supply something, although it is slightly different
-> > > because the consumer doesn't need the suppliers to probe to succeed.
-> > >
-> > > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-> > > Cc: Rob Clark <robdclark@gmail.com>
-> > > Cc: <dri-devel@lists.freedesktop.org>
-> > > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> >
-> > Entirely aside, but an s/master/aggregate/ or similar over the entire
-> > component.c codebase would help a pile in making it easier to understand
-> > which part does what. Or at least I'm always terribly confused about which
-> > bind binds what and all that, so maybe an additional review whether we
-> > have a clear split into aggregate and individual components after that
-> > initial fix is needed.
->
-> Agreed.
->
-> >
-> > On the actual topic: I agree there's a problem here, but I'm honestly not
-> > sure how it should be fixed. That's way over my understanding of all the
-> > device probe and pm interactions. Of which there are plenty.
-> >
-> > One question I have: Why is the bridge component driver not correctly
-> > ordered wrt the i2c driver it needs? The idea is that the aggregate driver
-> > doesn't access any hw itself, but entirely relies on all its components.
-> > So as long as all the component drivers are sorted correctly in the device
-> > list, things /should/ work. And as soon as we drop out a single component,
-> > the aggregate gets unbound (and then does all the
-> > drm_atomic_helper_shutdown and all the other drm teardown). So is the bug
-> > perhaps that msm does the drm teardown in the wrong callback?
->
-> I see my explanation of the problem wasn't sufficient :|
->
-> The bridge driver is not a component device. It is connected to the
-> aggregate device via the DSI device, where the DSI device is a component
-> device. The i2c bus/controller must probe before the i2c bridge probes,
-> so the device list is already ordered correctly for those two devices
-> (i2c controller and i2c bridge). The problem is the aggregate device
-> doesn't know that the bridge is part of the display pipeline/encoder
-> chain.
->
-> I thought that this design was intentional. Bridge devices can be mixed
-> and matched with display drivers because they're (always?) off the SoC
-> and so the aggregate device can't know which components it needs. I see
-> that the msm driver has some logic to traverse from the display
-> controller to the display phy, like DSI or HDMI, but it doesn't go
-> beyond that.
->
-> The crucially important part is that the DSI encoder will fail probe
-> until the end of the encoder chain is probed, see
-> msm_dsi_host_register() and how it checks for a panel and a bridge.
->
-> The order of operations is like this
->
->  1. msm driver probes, creates aggregate device driver
->  2. i2c controller probes, creates i2c bus
->  3. i2c bridge probes, creates drm bridge and adds to drm
->  4. rest of component devices probe and aggregate device is bound
->
-> The device list now has msm, i2c, bridge in that order. When we go to
-> system wide shutdown the bridge is shutdown first, then the i2c bus, and
-> then msm calls drm_atomic_helper_shutdown(). That tries to call the i2c
-> bridge ops because it's attached to the end of the DSI encoder and
-> things don't go well because i2c is gone. This patch fixes the order of
-> the list so that msm is moved on the device list after all the
-> components that make up the aggregate device have probed. This only
-> works to move the aggregate device after the i2c bridge because the
-> msm_dsi_host_register() function won't return success until the bridge
-> device is probed.
+Am 2021-05-10 um 12:36 p.m. schrieb Andrey Grodzovsky:
+> It's needed to drop iommu backed pages on device unplug
+> before device's IOMMU group is released.
 
-Ah I think I get this now. There is indeed a design problem:
-component.c only has bind/unbind hooks for all its things. Which means
-driver load/unload will work correctly because in your above sequence:
+I don't see any calls to ttm_tt_unpopulate in the rest of the series
+now. Is that an accident, or can this patch be dropped?
 
-1. drm_brige unbinds
--> this triggers the unbind of the entire aggregate of components
-2. i2c unbinds
-3. msm unbinds, but there's nothing to clean up anymore except the
-aggregate/master struct
+Regards,
+  Felix
 
-Now for runtime pm this also all works out, because each component
-grabs the right runtime pm references. But for the system-wide pm
-changes, where we rely on the device list order to make sure things
-happen in the right way, it all blows up.
 
-1. drm_bringe shutdown
-2. i2c shutdown
-3. msm shutdown, and with very sad thrombones because we blow up
-
-I think the right fix is to make component.c more of  a driver model
-thing, which probably means either the aggregate must get tied closer
-to the main struct device, or it needs to gain its own struct device.
-Or minimally at least, the aggregate needs to gain an entire set of
-pm_ops, which gets called in the right order if any of the component's
-pm_ops gets called. Wiring that all up will be major surgery I think.
-
-I guess another option would be trying to figure out how the aggreate
-registration could fail with EPROBE_DEFER until all the parts are
-there, to guarantee the right ordering. Not sure that will work with
-the current component users though.
-
-> It's an interesting idea to trigger shutdown when the component device
-> is unbound. Are you suggesting that the i2c bridge device have a
-> 'shutdown' callback, that essentially removes the bridge from the
-> encoder chain via mipi_dsi_detach() and then drm_bridge_remove()?
-> Presumably that would somehow tell the DSI encoder that it should stop
-> trying to use the i2c bridge and then drm_atomic_helper_shutdown()
-> wouldn't try to traverse beyond the DSI to shut things down.
-
-Nope, we don't want to unbind the driver on shutdown. I somehow
-thought you're dying in there, which is why I wondered what's going
-on. But since you're dying in pm_ops->shutdown, that's a different
-thing.
-
-> I will try it, but then I wonder about things like system wide
-> suspend/resume too. The drm encoder chain would need to reimplement the
-> logic for system wide suspend/resume so that any PM ops attached to the
-> msm device run in the correct order. Right now the bridge PM ops will
-> run, the i2c bus PM ops will run, and then the msm PM ops will run.
-> After this change, the msm PM ops will run, the bridge PM ops will run,
-> and then the i2c bus PM ops will run. It feels like that could be a
-> problem if we're suspending the DSI encoder while the bridge is still
-> active.
-
-Yup suspend/resume has the exact same problem as shutdown.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_tt.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 539e0232cb3b..dfbe1ea8763f 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -433,3 +433,4 @@ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages)
+>  	if (!ttm_dma32_pages_limit)
+>  		ttm_dma32_pages_limit = num_dma32_pages;
+>  }
+> +EXPORT_SYMBOL(ttm_tt_unpopulate);
