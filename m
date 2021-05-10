@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0203782B1
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 12:37:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 302F4378472
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 12:51:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93FB36E0EC;
-	Mon, 10 May 2021 10:37:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6AA6E0FF;
+	Mon, 10 May 2021 10:51:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66E7D6E0D5
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 10:37:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7858861458;
- Mon, 10 May 2021 10:37:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87AFF6E0FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 10:51:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8AB1261979;
+ Mon, 10 May 2021 10:51:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1620643033;
- bh=BDZsQZwC4C1fqBMdlxZ9PI+d1PKZotm8EjjbhzH/qS8=;
+ s=korg; t=1620643913;
+ bh=vhNdZITQLLu1Vqwt/HaWW/3rsi9z4orMusNDvuWFim8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sTWutlq9mE8KVtFsbBPZgk/C55KFhdbExD3Lds0QwE4kzJDUMNvLdbCotAcKy9o/P
- QkBI1tOEuLnNo1XFMoVfjUegYGGnvgmXGzSNBe1HaigupKjr8kTdpFhirVO1GS/Y3C
- 7eHXTU7U3oMl5z76CZtkuQa/3blcsQzPyxJYCrhQ=
+ b=SriucXP5ESDihLwYDZwkn+3h++Npr30gddwJTjBZaFevAmPL6KUBIr81MjJOyDGqW
+ mFm3QdMs1zOlB6T3fIesHKzYOMQPxxOFI8JsJ064Pkg1bs+Dc12PgDgsbzmJdommEb
+ DYcfWLYEsNLTPEMaJ6FJ6Ed9Fo/JEbED5ALy2IG8=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.10 149/299] drm/vkms: fix misuse of WARN_ON
-Date: Mon, 10 May 2021 12:19:06 +0200
-Message-Id: <20210510102009.882015233@linuxfoundation.org>
+Subject: [PATCH 5.11 176/342] drm/vkms: fix misuse of WARN_ON
+Date: Mon, 10 May 2021 12:19:26 +0200
+Message-Id: <20210510102015.920642905@linuxfoundation.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210510102004.821838356@linuxfoundation.org>
-References: <20210510102004.821838356@linuxfoundation.org>
+In-Reply-To: <20210510102010.096403571@linuxfoundation.org>
+References: <20210510102010.096403571@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -81,7 +81,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 09c012d54d58..1ae5cd47d954 100644
+index 0443b7deeaef..758d8a98d96b 100644
 --- a/drivers/gpu/drm/vkms/vkms_crtc.c
 +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
 @@ -18,7 +18,8 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
