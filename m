@@ -2,40 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAAE5378A19
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 13:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BFF378A4F
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 13:59:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C802A6E457;
-	Mon, 10 May 2021 11:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E45E26E459;
+	Mon, 10 May 2021 11:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 698526E457;
- Mon, 10 May 2021 11:55:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 383C061260;
- Mon, 10 May 2021 11:55:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620647729;
- bh=dyIPtb49LgFnCoKazyq+bQhPSj3PCobNssG21KHdoK4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=S4cpkndG9UuTYGkhKfO3hJLbYIHDWve5Su3QQFRXInDkMRoAu9bVjsNPKBQQExFiA
- MH/LvEqboPFe5Mg323DsrqgW7WJPZfjJ5OWh3KcGd7Kzb/Ed/OuhsjfzebDsCLf+jo
- Z2y3h21hX1f0r0znndE/gsvI3+7MfvcFNE3R9vJ3F6eSaoK3rYc9HAxpysQKCzq2nw
- XliTZNXkMCNQpYy6ormSrp00pDOW21OImF+xXBpjWC/JIXAZfq/wrXo3rh38peS5/g
- BQeri8Wl+fs0ihvm/Fcaw0vxpMvqk7Fkm7kctYIMuGKithMKv3Kd8J2NMAGsk2M1IJ
- Z8/9XzwZufeKA==
-Date: Mon, 10 May 2021 13:55:18 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
-Message-ID: <20210510135518.305cc03d@coco.lan>
-In-Reply-To: <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
- <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+ [209.85.167.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6F126E459
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 11:59:33 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id i81so15562271oif.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 04:59:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ft2as+DEhhR7uAKVAn+z+CaK8IC5vgi2WkAS6id5V0Q=;
+ b=eRSQDHOvADN/pzbd1yEiEUXDBxlzhQAbDQOyiezLadNVdeieWqL2sO+ud1Gw5pOaPT
+ 5X4BNofgcEXnWAHQplFBTnEGy5WVWo2yJKcpoADR7ewx+f9FRSKY/fC+K6h8ODMPWWg3
+ YnJ1/0Bv34XaS9A29czfn9wZjp4FFjtVV3exE1cfmENXCEv8atnPbpH0zZJfmV2eUIl7
+ RljgBM1G0Yf5bccgkftQi8a3vA+7idDUeG72+9ZDhwZ42rWNCKtW6ynLOmcAicNDk9d/
+ anLJJs9wujqJC7pDs41kTCKtrZ4TPSBKE3WtnxycOHYm3oplmfSjXmB6iVds3z3HzO5z
+ 4vEg==
+X-Gm-Message-State: AOAM532iu3ZrCuM0vcL/dcwY3SDgPNZ1Dx45+uprTKFXFEY8JUk/CfR6
+ rqAAA2GZM2+FmonOjJOPDPHWNCjcXurC7hfsuwo=
+X-Google-Smtp-Source: ABdhPJw3mWmVQtgGJmtc3X2Fgr1ShkV4TgstW/nQiiPsLAuD10Ol93xQnTGqlRGvUMyKJ6gUc2jY+GdU/CVHKemEh3Y=
+X-Received: by 2002:a05:6808:90d:: with SMTP id
+ w13mr3003924oih.71.1620647973280; 
+ Mon, 10 May 2021 04:59:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20210508074118.1621729-1-swboyd@chromium.org>
+In-Reply-To: <20210508074118.1621729-1-swboyd@chromium.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 10 May 2021 13:59:17 +0200
+Message-ID: <CAJZ5v0jX4ef+oO95dyFmKC0hnfKR7kSmHKQzD=RHgN51O1w_uQ@mail.gmail.com>
+Subject: Re: [PATCH] component: Move host device to end of device lists on
+ binding
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,145 +54,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-iio@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
- dri-devel@lists.freedesktop.org, keyrings@vger.kernel.org,
- linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, x86@kernel.org, linux-acpi@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
- linux-ext4@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-sgx@vger.kernel.org, coresight@lists.linaro.org, rcu@vger.kernel.org,
- mjpeg-users@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org,
- linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-integrity@vger.kernel.org
+Cc: Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Russell King <rmk+kernel@arm.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David,
+On Sat, May 8, 2021 at 9:41 AM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> The device lists are poorly ordered when the component device code is
+> used. This is because component_master_add_with_match() returns 0
+> regardless of component devices calling component_add() first. It can
+> really only fail if an allocation fails, in which case everything is
+> going bad and we're out of memory. The host device (called master_dev in
+> the code), can succeed at probe and be put on the device lists before
+> any of the component devices are probed and put on the lists.
+>
+> Within the component device framework this usually isn't that bad
+> because the real driver work is done at bind time via
+> component{,master}_ops::bind(). It becomes a problem when the driver
+> core, or host driver, wants to operate on the component device outside
+> of the bind/unbind functions, e.g. via 'remove' or 'shutdown'. The
+> driver core doesn't understand the relationship between the host device
+> and the component devices and could possibly try to operate on component
+> devices when they're already removed from the system or shut down.
+>
+> Normally, device links or probe defer would reorder the lists and put
+> devices that depend on other devices in the lists at the correct
+> location, but with component devices this doesn't happen because this
+> information isn't expressed anywhere. Drivers simply succeed at
+> registering their component or host with the component framework and
+> wait for their bind() callback to be called once the other components
+> are ready. We could make various device links between 'master_dev' and
+> 'component->dev' but it's not necessary. Let's simply move the hosting
+> device to the end of the device lists when the component device fully
+> binds. This way we know that all components are present and have probed
+> properly and now the host device has really probed so it's safe to
+> assume the host driver ops can operate on any component device.
 
-Em Mon, 10 May 2021 11:54:02 +0100
-David Woodhouse <dwmw2@infradead.org> escreveu:
+Moving a device to the end of dpm_list is generally risky in cases
+when some dependency information may be missing.
 
-> On Mon, 2021-05-10 at 12:26 +0200, Mauro Carvalho Chehab wrote:
-> > There are several UTF-8 characters at the Kernel's documentation.
-> >=20
-> > Several of them were due to the process of converting files from
-> > DocBook, LaTeX, HTML and Markdown. They were probably introduced
-> > by the conversion tools used on that time.
-> >=20
-> > Other UTF-8 characters were added along the time, but they're easily
-> > replaceable by ASCII chars.
-> >=20
-> > As Linux developers are all around the globe, and not everybody has UTF=
--8
-> > as their default charset, better to use UTF-8 only on cases where it is=
- really
-> > needed. =20
->=20
-> No, that is absolutely the wrong approach.
->=20
-> If someone has a local setup which makes bogus assumptions about text
-> encodings, that is their own mistake.
->=20
-> We don't do them any favours by trying to *hide* it in the common case
-> so that they don't notice it for longer.
->=20
-> There really isn't much excuse for such brokenness, this far into the
-> 21st century.
->=20
-> Even *before* UTF-8 came along in the final decade of the last
-> millennium, it was important to know which character set a given piece
-> of text was encoded in.
->=20
-> In fact it was even *more* important back then, we couldn't just assume
-> UTF-8 everywhere like we can in modern times.
->=20
-> Git can already do things like CRLF conversion on checking files out to
-> match local conventions; if you want to teach it to do character set
-> conversions too then I suppose that might be useful to a few developers
-> who've fallen through a time warp and still need it. But nobody's ever
-> bothered before because it just isn't necessary these days.
->=20
-> Please *don't* attempt to address this anachronistic and esoteric
-> "requirement" by dragging the kernel source back in time by three
-> decades.
+For example, if there is a device depending on the hosting one, but
+that dependency is not represented by a device link or a direct
+ancestor-descendant relationship (or generally a path in the device
+dependency graph leading from one of them to the other), then moving
+it to the end of dpm_list would cause system-wide suspend to fail (the
+hosting device would be suspended before the one depending on it).
 
-No. The idea is not to go back three decades ago.=20
-
-The goal is just to avoid use UTF-8 where it is not needed. See, the vast
-majority of UTF-8 chars are kept:
-
-	- Non-ASCII Latin and Greek chars;
-	- Box drawings;
-	- arrows;
-	- most symbols.
-
-There, it makes perfect sense to keep using UTF-8.
-
-We should keep using UTF-8 on Kernel. This is something that it shouldn't
-be changed.
-
----
-
-This patch series is doing conversion only when using ASCII makes
-more sense than using UTF-8.=20
-
-See, a number of converted documents ended with weird characters
-like ZERO WIDTH NO-BREAK SPACE (U+FEFF) character. This specific
-character doesn't do any good.
-
-Others use NO-BREAK SPACE (U+A0) instead of 0x20. Harmless, until
-someone tries to use grep[1].
-
-[1] try to run:
-
-    $ git grep "CPU 0 has been" Documentation/RCU/
-
-    it will return nothing with current upstream.
-
-    But it will work fine after the series is applied:
-
-    $ git grep "CPU 0 has been" Documentation/RCU/
-      Documentation/RCU/Design/Data-Structures/Data-Structures.rst:| #. CPU=
- 0 has been in dyntick-idle mode for quite some time. When it   |
-      Documentation/RCU/Design/Data-Structures/Data-Structures.rst:|    not=
-ices that CPU 0 has been in dyntick idle mode, which qualifies  |
-
-The main point on this series is to replace just the occurrences
-where ASCII represents the symbol equally well, e. g. it is limited
-for those chars:
-
-	- U+2010 ('=E2=80=90'): HYPHEN
-	- U+00ad ('=C2=AD'): SOFT HYPHEN
-	- U+2013 ('=E2=80=93'): EN DASH
-	- U+2014 ('=E2=80=94'): EM DASH
-
-	- U+2018 ('=E2=80=98'): LEFT SINGLE QUOTATION MARK
-	- U+2019 ('=E2=80=99'): RIGHT SINGLE QUOTATION MARK
-	- U+00b4 ('=C2=B4'): ACUTE ACCENT
-
-	- U+201c ('=E2=80=9C'): LEFT DOUBLE QUOTATION MARK
-	- U+201d ('=E2=80=9D'): RIGHT DOUBLE QUOTATION MARK
-
-	- U+00d7 ('=C3=97'): MULTIPLICATION SIGN
-	- U+2212 ('=E2=88=92'): MINUS SIGN
-
-	- U+2217 ('=E2=88=97'): ASTERISK OPERATOR
-	  (this one used as a pointer reference like "*foo" on C code
-	   example inside a document converted from LaTeX)
-
-	- U+00bb ('=C2=BB'): RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
-	  (this one also used wrongly on an ABI file, meaning '>')
-
-	- U+00a0 ('=C2=A0'): NO-BREAK SPACE
-	- U+feff ('=EF=BB=BF'): ZERO WIDTH NO-BREAK SPACE
-
-Using the above symbols will just trick tools like grep for no good
-reason.
-
-Thanks,
-Mauro
+That may not be a concern here, but at least it would be good to
+document why it is not a concern.
