@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8324378C51
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 14:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CD5378CD3
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 15:34:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9FEC89F89;
-	Mon, 10 May 2021 12:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4A76E47E;
+	Mon, 10 May 2021 13:34:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7CB1389F89;
- Mon, 10 May 2021 12:36:22 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 89F4715BE;
- Mon, 10 May 2021 05:36:21 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 69A1E3F73B;
- Mon, 10 May 2021 05:36:21 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 29145683931; Mon, 10 May 2021 13:36:20 +0100 (BST)
-Date: Mon, 10 May 2021 13:36:20 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 44/53] docs: gpu: avoid using UTF-8 chars
-Message-ID: <YJkoxKE2+hG5BsPI@e110455-lin.cambridge.arm.com>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
- <36bc1118467da645a57515743c9f6c1cd86abe8c.1620641727.git.mchehab+huawei@kernel.org>
+Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51E596E07F;
+ Mon, 10 May 2021 13:33:58 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by srv6.fidu.org (Postfix) with ESMTP id F1A47C800AA;
+ Mon, 10 May 2021 15:33:55 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
+Received: from srv6.fidu.org ([127.0.0.1])
+ by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
+ with LMTP id KqBq92YQCs-N; Mon, 10 May 2021 15:33:55 +0200 (CEST)
+Received: from wsembach-tuxedo.fritz.box
+ (p200300E37F0dA80022824231f945140A.dip0.t-ipconnect.de
+ [IPv6:2003:e3:7f0d:a800:2282:4231:f945:140a])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by srv6.fidu.org (Postfix) with ESMTPA id 910A6C800A5;
+ Mon, 10 May 2021 15:33:55 +0200 (CEST)
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: ville.syrjala@linux.intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/3] drm/i915/display: Try YCbCr420 color when RGB fails
+Date: Mon, 10 May 2021 15:33:46 +0200
+Message-Id: <20210510133349.14491-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <36bc1118467da645a57515743c9f6c1cd86abe8c.1620641727.git.mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,72 +47,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mali DP Maintainers <malidp@foss.arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 10, 2021 at 12:26:56PM +0200, Mauro Carvalho Chehab wrote:
-> While UTF-8 characters can be used at the Linux documentation,
-> the best is to use them only when ASCII doesn't offer a good replacement.
-> So, replace the occurences of the following UTF-8 characters:
-> 
-> 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/gpu/i915.rst       | 2 +-
->  Documentation/gpu/komeda-kms.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index 486c720f3890..2cbf54460b48 100644
-> --- a/Documentation/gpu/i915.rst
-> +++ b/Documentation/gpu/i915.rst
-> @@ -361,7 +361,7 @@ Locking Guidelines
->  	  real bad.
->  
->  #. Do not nest different lru/memory manager locks within each other.
-> -   Take them in turn to update memory allocations, relying on the object’s
-> +   Take them in turn to update memory allocations, relying on the object's
->     dma_resv ww_mutex to serialize against other operations.
->  
->  #. The suggestion for lru/memory managers locks is that they are small
-> diff --git a/Documentation/gpu/komeda-kms.rst b/Documentation/gpu/komeda-kms.rst
-> index eb693c857e2d..c2067678e92c 100644
-> --- a/Documentation/gpu/komeda-kms.rst
-> +++ b/Documentation/gpu/komeda-kms.rst
-> @@ -324,7 +324,7 @@ the control-abilites of device.
->  
->  We have &komeda_dev, &komeda_pipeline, &komeda_component. Now fill devices with
->  pipelines. Since komeda is not for D71 only but also intended for later products,
-> -of course we’d better share as much as possible between different products. To
-> +of course we'd better share as much as possible between different products. To
->  achieve this, split the komeda device into two layers: CORE and CHIP.
->  
->  -   CORE: for common features and capabilities handling.
+When encoder validation of a display mode fails, retry with less bandwidth
+heavy YCbCr420 color mode, if available. This enables some HDMI 1.4 setups
+to support 4k60Hz output, which previously failed silently.
 
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+AMDGPU had nearly the exact same issue. This problem description is
+therefore copied from my commit message of the AMDGPU patch.
 
-Best regards,
-Liviu
+On some setups, while the monitor and the gpu support display modes with
+pixel clocks of up to 600MHz, the link encoder might not. This prevents
+YCbCr444 and RGB encoding for 4k60Hz, but YCbCr420 encoding might still be
+possible. However, which color mode is used is decided before the link
+encoder capabilities are checked. This patch fixes the problem by retrying
+to find a display mode with YCbCr420 enforced and using it, if it is
+valid.
 
-> -- 
-> 2.30.2
-> 
+This patchset is revision 7. Fixed a rebase issue in 1/3 and moved message
+from error output to debug output in 2/3.
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+
