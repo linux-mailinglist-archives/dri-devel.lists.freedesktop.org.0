@@ -2,71 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92FFC378C4B
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 14:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8324378C51
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 14:36:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D50336E1A8;
-	Mon, 10 May 2021 12:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9FEC89F89;
+	Mon, 10 May 2021 12:36:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2963E6E1A8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 12:32:49 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id A79D65C01A3;
- Mon, 10 May 2021 08:32:47 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 10 May 2021 08:32:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=oObO8o2tNMzbSU4/I4bCTlKDZH5
- pBHbBb3SLAsD2hUU=; b=uNauK/jkeEozgJQXiu8ZVVoI/RvcyuA56y2xsTdwWZB
- 0v8DOtWRP13qyap6Q6RR9Vz4VmAcBFq57iuBLe3z1gCj81ekbzHkQIhbtZJogYDS
- Z2fDHf3alxt9CluV9lHIwygA3rdk7DiRk74reShtHtHRL4wYc8PyGC6v1yGP7vdG
- EBJI71liWSyjvpIAJ+d/+vIDMafr4cbTUu8ojrzm40+V/bZhsxdLTJTL/xddDQvd
- boXuP+KfT9QnVNBhDWasEpS5ZdhrVAyJzfS3yRe2HdJBK6G0ZBnk0PrKgtb74qLi
- WT/+CXv6HSNIVU+0AD/HnF/3I31QbKBX3q73Qnf1/ew==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=oObO8o
- 2tNMzbSU4/I4bCTlKDZH5pBHbBb3SLAsD2hUU=; b=fB5OlocDnX6odU9hjhCqnq
- wx70CnAuo7nLGyY7Lk6OS2TqCtcMhBbbA+jw1j1UGad8hVfojam25x4Y+oyr+pl2
- de3RVnsh8RslC8BVuNHhOyZnbeF6qS7byAteERqinRlLF4UFiUTBY1msA8Ea35Pt
- kWlFcsv1UPRCtNlSdrHq4Uj0ygYXQ/q1va/X8rMVMfCCKXqngQ5NSR4813DWIEsl
- 1zRao3qO4C6hdCfBWk5itt1Ce/qVbeKcctdQafQmgDskUD/s0CBxVMIlWj/ynlR4
- KS/QYASKKFSLkBA5df3sOtTaf4iIhVJpT68G56T9MhVT5zIpiLTkpZQDc4ulHIag
- ==
-X-ME-Sender: <xms:7ieZYPxsOmzgxIOg1UW9WxXxb-TIgGrR0CKKebhbCWyXNaSvWetzIg>
- <xme:7ieZYHTrENvJlVUF-8DNsQO3bKma1rLxqrofWLq9P2CPWdm9pLu8dY2kpStvtOsIn
- S8I9zxQYoPuzFlzuWg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegkedgheefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
- ertddtvdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvgestggv
- rhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeelkeeghefhuddtleejgfeljeffhe
- ffgfeijefhgfeufefhtdevteegheeiheegudenucfkphepledtrdekledrieekrdejieen
- ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
- hmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:7ieZYJXQDhjUPWKNxD-2PDLoXTfOlvO2bm0WOIcPmhkX6sunJLheAw>
- <xmx:7ieZYJgZ9FEuR095h10UdRnWrelAZTSeyO0vLdbO_CghObjtW0F0fw>
- <xmx:7ieZYBA6UdiTrGlU6Bd1fc_0YyMkmUQmQ3fuJGvNAxnrJE9XJYSPwg>
- <xmx:7yeZYM9r6bT2rLVvsVL0_eZreSOLkm6bBkjB9wAf0VdrfNUPxNbfIQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Mon, 10 May 2021 08:32:46 -0400 (EDT)
-Date: Mon, 10 May 2021 14:32:43 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Rajat Asthana <thisisrast7@gmail.com>
-Subject: Re: [PATCH] drm: Declare drm_send_event_helper static.
-Message-ID: <20210510123243.hmwar3swmrewskjs@gilmour>
-References: <20210509134252.488157-1-thisisrast7@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7CB1389F89;
+ Mon, 10 May 2021 12:36:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 89F4715BE;
+ Mon, 10 May 2021 05:36:21 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 69A1E3F73B;
+ Mon, 10 May 2021 05:36:21 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 29145683931; Mon, 10 May 2021 13:36:20 +0100 (BST)
+Date: Mon, 10 May 2021 13:36:20 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 44/53] docs: gpu: avoid using UTF-8 chars
+Message-ID: <YJkoxKE2+hG5BsPI@e110455-lin.cambridge.arm.com>
+References: <cover.1620641727.git.mchehab+huawei@kernel.org>
+ <36bc1118467da645a57515743c9f6c1cd86abe8c.1620641727.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3bqrf5xpqv6etbos"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210509134252.488157-1-thisisrast7@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <36bc1118467da645a57515743c9f6c1cd86abe8c.1620641727.git.mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,43 +45,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mali DP Maintainers <malidp@foss.arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, May 10, 2021 at 12:26:56PM +0200, Mauro Carvalho Chehab wrote:
+> While UTF-8 characters can be used at the Linux documentation,
+> the best is to use them only when ASCII doesn't offer a good replacement.
+> So, replace the occurences of the following UTF-8 characters:
+> 
+> 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/gpu/i915.rst       | 2 +-
+>  Documentation/gpu/komeda-kms.rst | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 486c720f3890..2cbf54460b48 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -361,7 +361,7 @@ Locking Guidelines
+>  	  real bad.
+>  
+>  #. Do not nest different lru/memory manager locks within each other.
+> -   Take them in turn to update memory allocations, relying on the object’s
+> +   Take them in turn to update memory allocations, relying on the object's
+>     dma_resv ww_mutex to serialize against other operations.
+>  
+>  #. The suggestion for lru/memory managers locks is that they are small
+> diff --git a/Documentation/gpu/komeda-kms.rst b/Documentation/gpu/komeda-kms.rst
+> index eb693c857e2d..c2067678e92c 100644
+> --- a/Documentation/gpu/komeda-kms.rst
+> +++ b/Documentation/gpu/komeda-kms.rst
+> @@ -324,7 +324,7 @@ the control-abilites of device.
+>  
+>  We have &komeda_dev, &komeda_pipeline, &komeda_component. Now fill devices with
+>  pipelines. Since komeda is not for D71 only but also intended for later products,
+> -of course we’d better share as much as possible between different products. To
+> +of course we'd better share as much as possible between different products. To
+>  achieve this, split the komeda device into two layers: CORE and CHIP.
+>  
+>  -   CORE: for common features and capabilities handling.
 
---3bqrf5xpqv6etbos
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 
-Hi,
+Best regards,
+Liviu
 
-On Sun, May 09, 2021 at 07:12:52PM +0530, Rajat Asthana wrote:
-> From: Rajat <thisisrast7@gmail.com>
->=20
-> Declare drm_send_event_helper as static to fix sparse warning:
->=20
-> > warning: symbol 'drm_send_event_helper' was not declared.
-> > Should it be static?
->=20
-> Signed-off-by: Rajat <thisisrast7@gmail.com>
+> -- 
+> 2.30.2
+> 
 
-Both the Author and Signed-off-by should have your full name
-
-Thanks!
-Maxime
-
---3bqrf5xpqv6etbos
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYJkn6wAKCRDj7w1vZxhR
-xRQ9APwPHSZPts1UIAqgRY/CgRs0O1YGQqMv21YRhb6knJ94AQEApfOc+eTQ6ucz
-4XbQebw6e4QiW/7mvxkW4JeIn7pKdws=
-=7fcP
------END PGP SIGNATURE-----
-
---3bqrf5xpqv6etbos--
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
