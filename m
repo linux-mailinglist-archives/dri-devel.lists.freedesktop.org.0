@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE0737967C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 19:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 493373796C9
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 20:04:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC276E8D6;
-	Mon, 10 May 2021 17:52:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 014766E4CA;
+	Mon, 10 May 2021 18:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
- [IPv6:2607:f8b0:4864:20::c2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56BAD6E8CF
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 17:52:26 +0000 (UTC)
-Received: by mail-oo1-xc2a.google.com with SMTP id
- c12-20020a4ae24c0000b02901bad05f40e4so3650229oot.4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 10:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=j1xfxTlB6kdvw4Qq6xxoQ5zEc5YpLfaQSChecCnRyDU=;
- b=P292ufd09w3DBDcmC8PvXAvF4oPfWZvc9j+O4JeOtt5XP6ykvMElAHyt7lawJnKVo7
- Llc+r0kk6pBPRaJ+r/xZc+XJpKXaYxYdodVx2EKRcL3a3/urZ4GrfCbSXNm9TueWF6Pf
- eUExHQo+rfTsNOLQaerPFRA00qvTKztE3CBBA=
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 097A96E4CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 18:04:40 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id x5so17535366wrv.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 May 2021 11:04:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GmEY2EYIVoACUErKvYzVTji32XaJiI8xA1o/13F4MGQ=;
+ b=inINPK2/LyhP/AGePOACAjBGF1LLeHPlJTbNM1/945T2ond8qFn/MG2CeV42qWNoJm
+ tg/1b01YdAmDpcXGuyeuAyW9YaG3hcUFnhBOih5iN2ouctKwp8BV0bwMkVeiReE6pHVA
+ xAeVVzkhwR+M9V1PtXfkRBfldquFVCt6hhEFg42vWYvrw0QMFoGnJfLrF4YVOQpRGPJJ
+ CJRrCJiRlsnPastaM7iZoNgNnJKolXLWzEjLCQBnWnAkXKN5dNoCEU+b2UrnSuVYjrea
+ q6a3liy48FfQnT8tpP1Q+hCDmdY1UMdw9aKEQ6Q5QMJkUlBDPRjnzFYAD9nVdKavSvqF
+ zoQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=j1xfxTlB6kdvw4Qq6xxoQ5zEc5YpLfaQSChecCnRyDU=;
- b=SPxAYJyDKdlu/Hj7I/AKXTkp+J7vSVxVxVam/0GSSNs8nQ0cXstT75Zpt1GN/abrVu
- 5NyIupMU25WLOOTkcgVgCrxQXZV/oEfc07wtweG6rbOrHz5U232bnyEZdqg43t3apVxv
- wAZOjS2S31HA3d1rnc5lHI4x/BFRUokbj5u3dxb3W2WYgGkdDMtEb+n/RR4pvptnRlRb
- mcEvFAtZKH1xg1VHUJQbglV8dnFRHGun42T2gzmiXGh5TVyZ+5HTE7cb0Ma7wJ2wewG1
- 2hHASgJz+raFSB9HWyosJZhwAtCmVec3IIgw5iVkk5ukwoPfm9hT49Oj5O0gch5yhEnt
- 1Qug==
-X-Gm-Message-State: AOAM5314svw6cyNNaqGW6nqS4gtzyowg80Nn+AkiyCw/ZaRNeguMRVXz
- Q9B+tNpEKpCZs/y/pxm3r8UiNZKOOvMv1e++4ZamEg==
-X-Google-Smtp-Source: ABdhPJw1IDaRdP6RASMoXX2NdYKzZNWDeGssQdVmIuu7WQlsq4z76pAlpb4lgd0DVAWGxaxUjej01HSgXagSojWzERI=
-X-Received: by 2002:a4a:1703:: with SMTP id 3mr19977335ooe.92.1620669145625;
- Mon, 10 May 2021 10:52:25 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 10 May 2021 10:52:25 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GmEY2EYIVoACUErKvYzVTji32XaJiI8xA1o/13F4MGQ=;
+ b=mTmI19iJSgHPbzbwx2lPoQ+p66dGPkoUvYKE22FxIvc7KKOPK8uvEPxIbSHA0QYzFx
+ fxSs+5UAIWf1Xm31sPHZhHXGsXeN4NFl9ApaFKe3pB/AaKH2BxXNB64pWAytzKiFG1T1
+ b/vZnhF+3/8rKyDSmDo0Hwjtd0h3A2xRCFQK+aarCSSws4alIMSO+SJQOM32rFmhv8gb
+ RZbpBMwALUk5cHMWwKaa12npRtfcbh8jY46TNg+Kd7nhI8B5BGENowiMJyp/XEn5cw0o
+ 01dq1ibZg+8gTV+J+qadK5BVH+wsPWhyMtClvw9UKv/K8Zsn6zzpqvzJIgJ2UCUhbiHU
+ PirA==
+X-Gm-Message-State: AOAM533jTLXe+LHWyJOYke42XWrWATNBlcSleKxTPYob1lb+hcq2xAi7
+ TYYiQp+GllBD6RkldEWjbQJxeLjwSMJS1QS6sIF0pg==
+X-Google-Smtp-Source: ABdhPJwBNOIJk/6tcF/xVqUp4LJhT4UUwh31b8GxYpenVi/aVfy2Q73L3m+NF/obIEpucS9OP96is/5XeYz0Eg0t+X8=
+X-Received: by 2002:a5d:648e:: with SMTP id o14mr31330336wri.27.1620669878720; 
+ Mon, 10 May 2021 11:04:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YJlZwYS+oH7W5WjO@phenom.ffwll.local>
-References: <20210508074118.1621729-1-swboyd@chromium.org>
- <YJlZwYS+oH7W5WjO@phenom.ffwll.local>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Mon, 10 May 2021 10:52:25 -0700
-Message-ID: <CAE-0n52S=LFRx93qVyWBpF5PmdCEbWH_+HnN0Do9W45kiJLCbQ@mail.gmail.com>
-Subject: Re: [PATCH] component: Move host device to end of device lists on
- binding
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210505100218.108024-1-marex@denx.de>
+ <20210505100218.108024-2-marex@denx.de>
+ <CAPY8ntCzu6=uBqRfQ+9QJWH-zqy0K9FD8XWdC8NZxJZiUBfYfg@mail.gmail.com>
+ <8d2fbc9b-fb3e-aac9-566a-033c4bb218d7@denx.de>
+ <CAPY8ntDMJyUHvKn=4fXZK2tYTQ9Lj_QTY-zk_1h+oZ-fQ80E+w@mail.gmail.com>
+ <5a895cb3-92fd-32c4-2133-cd5b6b914790@denx.de>
+In-Reply-To: <5a895cb3-92fd-32c4-2133-cd5b6b914790@denx.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 10 May 2021 19:04:22 +0100
+Message-ID: <CAPY8ntDLF1phpvHpCYP0E62yb88Y43KZsVJqhs0vMw=kSDtVZA@mail.gmail.com>
+Subject: Re: [PATCH V3 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
+ SN65DSI84 driver
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,151 +68,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Russell King <rmk+kernel@arm.linux.org.uk>
+Cc: Loic Poulain <loic.poulain@linaro.org>, ch@denx.de,
+ Douglas Anderson <dianders@chromium.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Daniel Vetter (2021-05-10 09:05:21)
-> On Sat, May 08, 2021 at 12:41:18AM -0700, Stephen Boyd wrote:
-> > The device lists are poorly ordered when the component device code is
-> > used. This is because component_master_add_with_match() returns 0
-> > regardless of component devices calling component_add() first. It can
-> > really only fail if an allocation fails, in which case everything is
-> > going bad and we're out of memory. The host device (called master_dev in
-> > the code), can succeed at probe and be put on the device lists before
-> > any of the component devices are probed and put on the lists.
-> >
-> > Within the component device framework this usually isn't that bad
-> > because the real driver work is done at bind time via
-> > component{,master}_ops::bind(). It becomes a problem when the driver
-> > core, or host driver, wants to operate on the component device outside
-> > of the bind/unbind functions, e.g. via 'remove' or 'shutdown'. The
-> > driver core doesn't understand the relationship between the host device
-> > and the component devices and could possibly try to operate on component
-> > devices when they're already removed from the system or shut down.
-> >
-> > Normally, device links or probe defer would reorder the lists and put
-> > devices that depend on other devices in the lists at the correct
-> > location, but with component devices this doesn't happen because this
-> > information isn't expressed anywhere. Drivers simply succeed at
-> > registering their component or host with the component framework and
-> > wait for their bind() callback to be called once the other components
-> > are ready. We could make various device links between 'master_dev' and
-> > 'component->dev' but it's not necessary. Let's simply move the hosting
-> > device to the end of the device lists when the component device fully
-> > binds. This way we know that all components are present and have probed
-> > properly and now the host device has really probed so it's safe to
-> > assume the host driver ops can operate on any component device.
-> >
-> > This fixes the msm display driver shutdown path when the DSI controller
-> > is connected to a DSI bridge that is controlled via i2c. In this case,
-> > the msm display driver wants to tear down the display pipeline on
-> > shutdown at msm_pdev_shutdown() by calling drm_atomic_helper_shutdown(),
-> > and it can't do that unless the whole display chain is still probed and
-> > active in the system. When a display bridge is on i2c, the i2c device
-> > for the bridge will be created whenever the i2c controller probes, which
-> > could be before or after the msm display driver probes. If the i2c
-> > controller probes after the display driver, then the i2c controller will
-> > be shutdown before the display controller during system wide shutdown
-> > and thus i2c transactions will stop working before the display pipeline
-> > is shut down. This means we'll have the display bridge trying to access
-> > an i2c bus that's shut down because drm_atomic_helper_shutdown() is
-> > trying to disable the bridge after the bridge is off.
-> >
-> > Moving the host device to the end of the lists at bind time moves the
-> > drm_atomic_helper_shutdown() call before the i2c bus is shutdown.
-> > This fixes the immediate problem, but we could improve it a bit by
-> > modeling device links from the component devices to the host device
-> > indicating that they supply something, although it is slightly different
-> > because the consumer doesn't need the suppliers to probe to succeed.
-> >
-> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Cc: <dri-devel@lists.freedesktop.org>
-> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+On Mon, 10 May 2021 at 12:16, Marek Vasut <marex@denx.de> wrote:
 >
-> Entirely aside, but an s/master/aggregate/ or similar over the entire
-> component.c codebase would help a pile in making it easier to understand
-> which part does what. Or at least I'm always terribly confused about which
-> bind binds what and all that, so maybe an additional review whether we
-> have a clear split into aggregate and individual components after that
-> initial fix is needed.
-
-Agreed.
-
+> On 5/10/21 11:58 AM, Dave Stevenson wrote:
+> > On Sat, 8 May 2021 at 21:26, Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> On 5/7/21 2:48 PM, Dave Stevenson wrote:
+> >>
+> >> [...]
+> >>
+> >>>> +static void sn65dsi83_enable(struct drm_bridge *bridge)
+> >>>> +{
+> >>>> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+> >>>> +       unsigned int pval;
+> >>>> +       u16 val;
+> >>>> +       int ret;
+> >>>> +
+> >>>> +       /* Clear reset, disable PLL */
+> >>>> +       regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
+> >>>> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
+> >>>
+> >>> Sorry, a further thread of discussion coming from the investigations
+> >>> I've been involved with.
+> >>>
+> >>> You've powered up in pre_enable, and are sending the I2C writes in enable.
+> >>>
+> >>> >From the docs for drm_bridge_funcs->enable[1]
+> >>>
+> >>>    * The bridge can assume that the display pipe (i.e. clocks and timing
+> >>>    * signals) feeding it is running when this callback is called. This
+> >>>    * callback must enable the display link feeding the next bridge in the
+> >>>    * chain if there is one.
+> >>>
+> >>> So video is running when enable is called, and the DSI data lanes may
+> >>> be HS. (Someone correct me if that is an incorrect reading of the
+> >>> text).
+> >>>
+> >>> The SN65DSI84 datasheet table 7-2 Initialization Sequence gives init
+> >>> seq 8 as being "Change DSI data lanes to HS state and start DSI video
+> >>> stream", AFTER all the I2C has been completed except reading back
+> >>> registers and checking for errors.
+> >>> With video running you don't fulfil the second part of init seq 2 "the
+> >>> DSI data lanes MUST be driven to LP11 state"
+> >>>
+> >>> My investigations have been over delaying starting the DSI video
+> >>> stream until after enable, but reading the descriptive text for enable
+> >>> I believe the Pi is correct to be sending video at that point.
+> >>> I guess there is some ambiguity as to whether the clock lane is going
+> >>> to be in HS mode during pre_enable. On the Pi the PHY and clocks will
+> >>> be enabled prior to pre_enable to allow for sending DSI commands
+> >>> during pre_enable, but it may not be true on other platforms.
+> >>
+> >> You have to make sure the clock lane is running and in HS mode when
+> >> configuring the DSI83, otherwise the internal DSI83 state machine won't
+> >> be able to operate.
+> >
+> > Indeed, but my reading of the documentation says that neither
+> > pre_enable nor enable give you the state that you require.
+> > You need a hook in the middle, an option to ask for clock lanes during
+> > pre_enable or no video during enable, or an amendment to the docs over
+> > the state during enable.
+> >
+> > Having the data lanes in HS mode does appear to stop the DSI83
+> > accepting the I2C setup commands.
 >
-> On the actual topic: I agree there's a problem here, but I'm honestly not
-> sure how it should be fixed. That's way over my understanding of all the
-> device probe and pm interactions. Of which there are plenty.
+> Uhh, that is new. Is that what you observed in your lab ?
 >
-> One question I have: Why is the bridge component driver not correctly
-> ordered wrt the i2c driver it needs? The idea is that the aggregate driver
-> doesn't access any hw itself, but entirely relies on all its components.
-> So as long as all the component drivers are sorted correctly in the device
-> list, things /should/ work. And as soon as we drop out a single component,
-> the aggregate gets unbound (and then does all the
-> drm_atomic_helper_shutdown and all the other drm teardown). So is the bug
-> perhaps that msm does the drm teardown in the wrong callback?
+> I saw the DSI83 behave this way if the clock lane was stopped, but the
+> data lanes had no impact. Was your clock lane running when the DSI83 was
+> not accepting i2c commands ? Does your DSI83 source clock from it or
+> from external Xtal ?
 
-I see my explanation of the problem wasn't sufficient :|
+I haven't got into the lab as yet, and I don't have a DSI83 myself.
+This is relaying experimentation from others.
+They're using the DSI clock lane as the clock source.Yes the clock
+lane on the Pi is started before any of the enable bridge calls.
 
-The bridge driver is not a component device. It is connected to the
-aggregate device via the DSI device, where the DSI device is a component
-device. The i2c bus/controller must probe before the i2c bridge probes,
-so the device list is already ordered correctly for those two devices
-(i2c controller and i2c bridge). The problem is the aggregate device
-doesn't know that the bridge is part of the display pipeline/encoder
-chain.
+In the vc4 driver[1] it runs through the all pre-enables, configures
+register DISP0_CTRL including setting bit DSI_DISP0_ENABLE which
+starts it requesting pixels from the pipeline, and then calls all the
+enables. With that behaviour it fails to start the DSI83.
 
-I thought that this design was intentional. Bridge devices can be mixed
-and matched with display drivers because they're (always?) off the SoC
-and so the aggregate device can't know which components it needs. I see
-that the msm driver has some logic to traverse from the display
-controller to the display phy, like DSI or HDMI, but it doesn't go
-beyond that.
+If the DSI83 I2C setup code is moved from enable to pre_enable then it
+works, or if patch [2] is used to move the setting of the
+DSI_DISP0_ENABLE bit to after enable it also works.
 
-The crucially important part is that the DSI encoder will fail probe
-until the end of the encoder chain is probed, see
-msm_dsi_host_register() and how it checks for a panel and a bridge.
+Sorry life is all rather up in the air with working from home. I'll go
+into the lab and try to confirm that DSI_DISP0_ENABLE does what the
+documentation implies it does.
+Those who do have hardware now have it working on the Pi, although
+with a version of Jagan's driver rather than yours. We're trying to
+figure out the diffs with yours.
 
-The order of operations is like this
+If you have it working reliably on other platforms that you believe
+are following the docs during pre_enable and enable, then I'm happy to
+drop out of the discussions for now. We can revisit it once we have
+determined exactly why it's being fussy on the Pi.
 
- 1. msm driver probes, creates aggregate device driver
- 2. i2c controller probes, creates i2c bus
- 3. i2c bridge probes, creates drm bridge and adds to drm
- 4. rest of component devices probe and aggregate device is bound
+Cheers
+  Dave
 
-The device list now has msm, i2c, bridge in that order. When we go to
-system wide shutdown the bridge is shutdown first, then the i2c bus, and
-then msm calls drm_atomic_helper_shutdown(). That tries to call the i2c
-bridge ops because it's attached to the end of the DSI encoder and
-things don't go well because i2c is gone. This patch fixes the order of
-the list so that msm is moved on the device list after all the
-components that make up the aggregate device have probed. This only
-works to move the aggregate device after the i2c bridge because the
-msm_dsi_host_register() function won't return success until the bridge
-device is probed.
-
-It's an interesting idea to trigger shutdown when the component device
-is unbound. Are you suggesting that the i2c bridge device have a
-'shutdown' callback, that essentially removes the bridge from the
-encoder chain via mipi_dsi_detach() and then drm_bridge_remove()?
-Presumably that would somehow tell the DSI encoder that it should stop
-trying to use the i2c bridge and then drm_atomic_helper_shutdown()
-wouldn't try to traverse beyond the DSI to shut things down.
-
-I will try it, but then I wonder about things like system wide
-suspend/resume too. The drm encoder chain would need to reimplement the
-logic for system wide suspend/resume so that any PM ops attached to the
-msm device run in the correct order. Right now the bridge PM ops will
-run, the i2c bus PM ops will run, and then the msm PM ops will run.
-After this change, the msm PM ops will run, the bridge PM ops will run,
-and then the i2c bus PM ops will run. It feels like that could be a
-problem if we're suspending the DSI encoder while the bridge is still
-active.
+[1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/vc4/vc4_dsi.c#L1072
+[2] https://github.com/6by9/linux/commit/b939eaffc47cc84ebfea6bf1ab10ae1ec9fa58c2
