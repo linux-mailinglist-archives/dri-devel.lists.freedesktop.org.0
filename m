@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80356378CCF
-	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 15:34:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 367B3378CDF
+	for <lists+dri-devel@lfdr.de>; Mon, 10 May 2021 15:38:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5BD56E07F;
-	Mon, 10 May 2021 13:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9736189D40;
+	Mon, 10 May 2021 13:38:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2DED6E07F;
- Mon, 10 May 2021 13:33:57 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 64B9CC800A8;
- Mon, 10 May 2021 15:33:56 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
- with LMTP id XuaVf3MAzLCD; Mon, 10 May 2021 15:33:56 +0200 (CEST)
-Received: from wsembach-tuxedo.fritz.box
- (p200300E37F0dA80022824231f945140A.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f0d:a800:2282:4231:f945:140a])
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPA id 18CC3C800A5;
- Mon, 10 May 2021 15:33:56 +0200 (CEST)
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: ville.syrjala@linux.intel.com, airlied@linux.ie, daniel@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v7 3/3] drm/i915/display: Use YCbCr420 as fallback when RGB
- fails
-Date: Mon, 10 May 2021 15:33:49 +0200
-Message-Id: <20210510133349.14491-4-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210510133349.14491-1-wse@tuxedocomputers.com>
-References: <20210510133349.14491-1-wse@tuxedocomputers.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7BA789D40;
+ Mon, 10 May 2021 13:38:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BC3B261421;
+ Mon, 10 May 2021 13:38:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620653898;
+ bh=POTo3HRRxAhY1WWlaeFo6BkcTm5UFXPjKCsWF/vTqlE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=P/4kt59ATJt3MMq8o3rrK9LzWa5UoPyyn/Qv8Q6NsR+ovsaNgOhGumkJ3s+QeyZlY
+ mkp1RSJDBywuRK2pqIzCfULgKANDf0kVzPkShXm7Qraf/KL42h8sHNzwIIIZziepHU
+ 1cBc0VMGP5ZXCvpOozd/XPhpRcKII2GV+t+2//cIV3cuDJc3nOaIF/eyI7STcvNwxN
+ jcxTZBK8NBHOGI9kqRh0ffPb4rvNMVcODBe0KVX9czYjhKVi+9lVKEPkHn0PIjvDDH
+ U/oUPFuGfszy5HRsPJnifB10869mpbS6mtWdO6hSvo3gHoQbR2cZYguXdpJ4LGaYVv
+ DmXbC6buzATmw==
+Date: Mon, 10 May 2021 15:38:07 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Edward Cree <ecree.xilinx@gmail.com>
+Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
+Message-ID: <20210510153807.4405695e@coco.lan>
+In-Reply-To: <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
+References: <cover.1620641727.git.mchehab+huawei@kernel.org>
+ <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
+ <20210510135518.305cc03d@coco.lan>
+ <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,83 +50,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Werner Sembach <wse@tuxedocomputers.com>
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-iio@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, keyrings@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, x86@kernel.org, linux-acpi@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+ linux-ext4@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-sgx@vger.kernel.org, coresight@lists.linaro.org, rcu@vger.kernel.org,
+ mjpeg-users@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org,
+ linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-integrity@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When encoder validation of a display mode fails, retry with less bandwidth
-heavy YCbCr420 color mode, if available. This enables some HDMI 1.4 setups
-to support 4k60Hz output, which previously failed silently.
+Em Mon, 10 May 2021 14:16:16 +0100
+Edward Cree <ecree.xilinx@gmail.com> escreveu:
 
-AMDGPU had nearly the exact same issue. This problem description is
-therefore copied from my commit message of the AMDGPU patch.
+> On 10/05/2021 12:55, Mauro Carvalho Chehab wrote:
+> > The main point on this series is to replace just the occurrences
+> > where ASCII represents the symbol equally well =20
+>=20
+> > 	- U+2014 ('=E2=80=94'): EM DASH =20
+> Em dash is not the same thing as hyphen-minus, and the latter does not
+>  serve 'equally well'.  People use em dashes because =E2=80=94 even in
+>  monospace fonts =E2=80=94 they make text easier to read and comprehend, =
+when
+>  used correctly.
 
-On some setups, while the monitor and the gpu support display modes with
-pixel clocks of up to 600MHz, the link encoder might not. This prevents
-YCbCr444 and RGB encoding for 4k60Hz, but YCbCr420 encoding might still be
-possible. However, which color mode is used is decided before the link
-encoder capabilities are checked. This patch fixes the problem by retrying
-to find a display mode with YCbCr420 enforced and using it, if it is
-valid.
+True, but if you look at the diff, on several places, IMHO a single
+hyphen would make more sensus. Maybe those places came from a converted
+doc.
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
----
- drivers/gpu/drm/i915/display/intel_hdmi.c | 25 ++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+> I accept that some of the other distinctions =E2=80=94 like en dashes =E2=
+=80=94 are
+>  needlessly pedantic (though I don't doubt there is someone out there
+>  who will gladly defend them with the same fervour with which I argue
+>  for the em dash) and I wouldn't take the trouble to use them myself;
+>  but I think there is a reasonable assumption that when someone goes
+>  to the effort of using a Unicode punctuation mark that is semantic
+>  (rather than merely typographical), they probably had a reason for
+>  doing so.
+>=20
+> > 	- U+2018 ('=E2=80=98'): LEFT SINGLE QUOTATION MARK
+> > 	- U+2019 ('=E2=80=99'): RIGHT SINGLE QUOTATION MARK
+> > 	- U+201c ('=E2=80=9C'): LEFT DOUBLE QUOTATION MARK
+> > 	- U+201d ('=E2=80=9D'): RIGHT DOUBLE QUOTATION MARK =20
+> (These are purely typographic, I have no problem with dumping them.)
+>=20
+> > 	- U+00d7 ('=C3=97'): MULTIPLICATION SIGN =20
+> Presumably this is appearing in mathematical formulae, in which case
+>  changing it to 'x' loses semantic information.
+>=20
+> > Using the above symbols will just trick tools like grep for no good
+> > reason. =20
+> NBSP, sure.  That one's probably an artefact of some document format
+>  conversion somewhere along the line, anyway.
+> But what kinds of things with =C3=97 or =E2=80=94 in are going to be grep=
+t for?
 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index c411f1862286..6e135662da3e 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -1898,6 +1898,7 @@ intel_hdmi_mode_valid(struct drm_connector *connector,
- 	int clock = mode->clock;
- 	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
- 	bool has_hdmi_sink = intel_has_hdmi_sink(hdmi, connector->state);
-+	bool ycbcr_420_only;
- 
- 	if (mode->flags & DRM_MODE_FLAG_DBLSCAN)
- 		return MODE_NO_DBLESCAN;
-@@ -1914,12 +1915,22 @@ intel_hdmi_mode_valid(struct drm_connector *connector,
- 		clock *= 2;
- 	}
- 
--	if (drm_mode_is_420_only(&connector->display_info, mode))
-+	ycbcr_420_only = drm_mode_is_420_only(&connector->display_info, mode);
-+	if (ycbcr_420_only)
- 		clock /= 2;
- 
- 	status = intel_hdmi_mode_clock_valid(hdmi, clock, has_hdmi_sink);
--	if (status != MODE_OK)
--		return status;
-+	if (status != MODE_OK) {
-+		if (ycbcr_420_only ||
-+		    !connector->ycbcr_420_allowed ||
-+		    !drm_mode_is_420_also(&connector->display_info, mode))
-+			return status;
-+
-+		clock /= 2;
-+		status = intel_hdmi_mode_clock_valid(hdmi, clock, has_hdmi_sink);
-+		if (status != MODE_OK)
-+			return status;
-+	}
- 
- 	return intel_mode_valid_max_plane_size(dev_priv, mode, false);
- }
-@@ -2127,6 +2138,14 @@ static int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
- 	}
- 
- 	ret = intel_hdmi_compute_clock(encoder, crtc_state);
-+	if (ret) {
-+		if (crtc_state->output_format != INTEL_OUTPUT_FORMAT_YCBCR420 &&
-+		    connector->ycbcr_420_allowed &&
-+		    drm_mode_is_420_also(&connector->display_info, adjusted_mode)) {
-+			crtc_state->output_format = INTEL_OUTPUT_FORMAT_YCBCR420;
-+			ret = intel_hdmi_compute_clock(encoder, crtc_state);
-+		}
-+	}
- 
- 	return ret;
- }
--- 
-2.25.1
+Actually, on almost all places, those aren't used inside math formulae, but
+instead, they describe video some resolutions:
 
+	$ git grep =C3=97 Documentation/
+	Documentation/devicetree/bindings/display/panel/asus,z00t-tm5p5-nt35596.ya=
+ml:title: ASUS Z00T TM5P5 NT35596 5.5" 1080=C3=971920 LCD Panel
+	Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml:    =
+    # LG ACX467AKM-7 4.95" 1080=C3=971920 LCD Panel
+	Documentation/devicetree/bindings/sound/tlv320adcx140.yaml:      1 - Mic b=
+ias is set to VREF =C3=97 1.096
+	Documentation/userspace-api/media/v4l/crop.rst:of 16 =C3=97 16 pixels. The=
+ source cropping rectangle is set to defaults,
+	Documentation/userspace-api/media/v4l/crop.rst:which are also the upper li=
+mit in this example, of 640 =C3=97 400 pixels at
+	Documentation/userspace-api/media/v4l/crop.rst:offset 0, 0. An application=
+ requests an image size of 300 =C3=97 225 pixels,
+	Documentation/userspace-api/media/v4l/crop.rst:The driver sets the image s=
+ize to the closest possible values 304 =C3=97 224,
+	Documentation/userspace-api/media/v4l/crop.rst:is 608 =C3=97 224 (224 =C3=
+=97 2:1 would exceed the limit 400). The offset 0, 0 is
+	Documentation/userspace-api/media/v4l/crop.rst:rectangle of 608 =C3=97 456=
+ pixels. The present scaling factors limit
+	Documentation/userspace-api/media/v4l/crop.rst:cropping to 640 =C3=97 384,=
+ so the driver returns the cropping size 608 =C3=97 384
+	Documentation/userspace-api/media/v4l/crop.rst:and adjusts the image size =
+to closest possible 304 =C3=97 192.
+	Documentation/userspace-api/media/v4l/diff-v4l.rst:size bitmap of 1024 =C3=
+=97 625 bits. Struct :c:type:`v4l2_window`
+	Documentation/userspace-api/media/v4l/vidioc-cropcap.rst:       Assuming p=
+ixel aspect 1/1 this could be for example a 640 =C3=97 480
+	Documentation/userspace-api/media/v4l/vidioc-cropcap.rst:       rectangle =
+for NTSC, a 768 =C3=97 576 rectangle for PAL and SECAM
+
+it is a way more likely that, if someone wants to grep, they would be=20
+doing something like this, in order to get video resolutions:
+
+	$ git grep -E "\b[1-9][0-9]+\s*x\s*[0-9]+\b" Documentation/
+	Documentation/ABI/obsolete/sysfs-driver-hid-roccat-koneplus:Description:  =
+      When read the mouse returns a 30x30 pixel image of the
+	Documentation/ABI/obsolete/sysfs-driver-hid-roccat-konepure:Description:  =
+      When read the mouse returns a 30x30 pixel image of the
+	Documentation/ABI/testing/sysfs-bus-event_source-devices-hv_24x7:         =
+      Provides access to the binary "24x7 catalog" provided by the
+	Documentation/ABI/testing/sysfs-bus-event_source-devices-hv_24x7:         =
+      https://raw.githubusercontent.com/jmesmon/catalog-24x7/master/hv-24x7=
+-	catalog.h
+	Documentation/ABI/testing/sysfs-bus-event_source-devices-hv_24x7:         =
+      Exposes the "version" field of the 24x7 catalog. This is also
+	Documentation/ABI/testing/sysfs-bus-event_source-devices-hv_24x7:         =
+      HCALLs to retrieve hv-24x7 pmu event counter data.
+	Documentation/ABI/testing/sysfs-bus-vfio-mdev:          "2 heads, 512M FB,=
+ 2560x1600 maximum resolution"
+	Documentation/ABI/testing/sysfs-driver-wacom:           of the device. The=
+ image is a 64x32 pixel 4-bit gray image. The
+	Documentation/ABI/testing/sysfs-driver-wacom:           1024 byte binary i=
+s split up into 16x 64 byte chunks. Each 64
+	Documentation/ABI/testing/sysfs-driver-wacom:           image has to conta=
+in 256 bytes (64x32 px 1 bit colour).
+	Documentation/admin-guide/edid.rst:commonly used screen resolutions (800x6=
+00, 1024x768, 1280x1024, 1600x1200,
+	Documentation/admin-guide/edid.rst:1680x1050, 1920x1080) as binary blobs, =
+but the kernel source tree does
+	Documentation/admin-guide/edid.rst:If you want to create your own EDID fil=
+e, copy the file 1024x768.S,
+	Documentation/admin-guide/kernel-parameters.txt:                        ed=
+id/1024x768.bin, edid/1280x1024.bin,
+	Documentation/admin-guide/kernel-parameters.txt:                        ed=
+id/1680x1050.bin, or edid/1920x1080.bin is given
+	Documentation/admin-guide/kernel-parameters.txt:                        2 =
+- The VGA Shield is attached (1024x768)
+	Documentation/admin-guide/media/dvb_intro.rst:signal encoded at a resoluti=
+on of 768x576 24-bit color pixels over 25
+	Documentation/admin-guide/media/imx.rst:1280x960 input frame to 640x480, a=
+nd then /2 downscale in both
+	Documentation/admin-guide/media/imx.rst:dimensions to 320x240 (assumes ipu=
+1_csi0 is linked to ipu1_csi0_mux):
+	Documentation/admin-guide/media/imx.rst:   media-ctl -V "'ipu1_csi0_mux':2=
+[fmt:UYVY2X8/1280x960]"
+
+which won't get the above, due to the usage of the UTF-8 alternative.
+
+In any case, replacing all the above by 'x' seems to be the right thing,
+at least on my eyes.
+
+> If there are em dashes lying around that semantically _should_ be
+>  hyphen-minus (one of your patches I've seen, for instance, fixes an
+>  *en* dash moonlighting as the option character in an `ethtool`
+>  command line), then sure, convert them.
+> But any time someone is using a Unicode character to *express
+>  semantics*, even if you happen to think the semantic distinction
+>  involved is a pedantic or unimportant one, I think you need an
+>  explicit grep case to justify ASCIIfying it.
+
+Yeah, in the case of hyphen/dash it seems to make sense to double check
+it.
+
+Thanks,
+Mauro
