@@ -2,63 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D6F37B054
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 22:53:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808AF37B177
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 00:12:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4FB6E0CF;
-	Tue, 11 May 2021 20:53:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AADE06E1C0;
+	Tue, 11 May 2021 22:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67A076E0CF
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 20:53:35 +0000 (UTC)
-IronPort-SDR: lp+SIWqPkB1sWfhjtQszmooJAmUewt4VfK4VINIzMBRTwwUIUSPH41nEEa9V187+od0pviNjy2
- j3jrXqdTffag==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="263477946"
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="263477946"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 13:53:32 -0700
-IronPort-SDR: 3SZTDlfyjq4eWAkSHr7Ezp8F2j3HTwH9s1NgRplyOShg6yhYPriUYhZ8wCGwQ9+7kCwVownZJN
- XOszqGUdBIig==
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41B026E1C0;
+ Tue, 11 May 2021 22:12:51 +0000 (UTC)
+IronPort-SDR: EvSwEqvBxcgMA7ZuT9tVOnXVw4axeCCpFmtHnV+cGxUk3JupbLT0qEk4KFlPUadNULg79hRXiQ
+ upYrdmO5u8HA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="220527646"
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="220527646"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 15:12:50 -0700
+IronPort-SDR: 6InV/yaY7KDCPHC3zl3dXNi+z2a4jtYw3ULzsBAgvZ4kdyhiVIRe+zd7mMglD+kcrsexJkzWW5
+ HJtdX9PXcNTQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="436834569"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by orsmga008.jf.intel.com with ESMTP; 11 May 2021 13:53:32 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 11 May 2021 13:53:31 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 11 May 2021 13:53:31 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2106.013;
- Tue, 11 May 2021 13:53:31 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [PATCH 1/3] virtio-gpu uapi: Add VIRTIO_GPU_F_EXPLICIT_FLUSH
- feature
-Thread-Topic: [PATCH 1/3] virtio-gpu uapi: Add VIRTIO_GPU_F_EXPLICIT_FLUSH
- feature
-Thread-Index: AQHXRkJlkjlIGKft2U2cLif8N5l39qreigIAgAA0UeA=
-Date: Tue, 11 May 2021 20:53:31 +0000
-Message-ID: <8dc2bbd037964224bcc6609fd47b5698@intel.com>
-References: <20210511083610.367541-1-vivek.kasireddy@intel.com>
- <20210511102958.46ybk2q33vg4iayi@sirius.home.kraxel.org>
-In-Reply-To: <20210511102958.46ybk2q33vg4iayi@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="471247435"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga001.jf.intel.com with ESMTP; 11 May 2021 15:11:50 -0700
+Received: from [10.249.129.102] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.129.102])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 14BMBfoF007924; Tue, 11 May 2021 23:11:41 +0100
+Subject: Re: [RFC PATCH 20/97] drm/i915/guc: Introduce unified HXG messages
+To: Daniel Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-21-matthew.brost@intel.com>
+ <YJqf1uKIyeHvSf+f@phenom.ffwll.local>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <bffc13d2-a24e-2615-2730-bad2fd6b3651@intel.com>
+Date: Wed, 12 May 2021 00:11:40 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <YJqf1uKIyeHvSf+f@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,61 +56,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: tvrtko.ursulin@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, jason.ekstrand@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Gerd,
-
-> On Tue, May 11, 2021 at 01:36:08AM -0700, Vivek Kasireddy wrote:
-> > This feature enables the Guest to wait until a flush has been
-> > performed on a buffer it has submitted to the Host.
->=20
-> This needs a virtio-spec update documenting the new feature.
-[Kasireddy, Vivek] Yes, I was planning to do that after getting your=20
-thoughts on this feature.
-
->=20
-> > +	VIRTIO_GPU_CMD_WAIT_FLUSH,
->=20
-> Why a new command?
->=20
-> If I understand it correctly you want wait until
-> VIRTIO_GPU_CMD_RESOURCE_FLUSH is done.  We could
-> extend the VIRTIO_GPU_CMD_RESOURCE_FLUSH command
-> for that instead.
-[Kasireddy, Vivek] VIRTIO_GPU_CMD_RESOURCE_FLUSH can trigger/queue a
-redraw that may be performed synchronously or asynchronously depending on t=
-he
-UI (Glarea is async and gtk-egl is sync but can be made async). I'd like to=
- make the
-Guest wait until the actual redraw happens (until GlFLush or eglSwapBuffers=
-, again
-depending on the UI).=20
-
-However, as part of this feature (explicit flush), I'd like to make the Gue=
-st wait until
-the current resource (as specified by resource_flush or set_scanout) is flu=
-shed or
-synchronized. But for a different feature I am thinking of (explicit sync),=
- I'd like to
-make the Guest wait for the previous buffer/resource submitted (available v=
-ia=20
-old_state->fb).
-
-I think it may be possible to accomplish both features by overloading resou=
-rce_flush
-but given the various combinations of Guests (Android/Chrome OS, Windows, L=
-inux)
-and Hosts (Android/Chrome OS, Linux) that are or will be supported with vir=
-tio-gpu +
-i915, I figured adding a new command might be cleaner.
-
-Thanks,
-Vivek
 
 
->=20
-> take care,
->   Gerd
+On 11.05.2021 17:16, Daniel Vetter wrote:
+> On Thu, May 06, 2021 at 12:13:34PM -0700, Matthew Brost wrote:
+>> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>
+>> New GuC firmware will unify format of MMIO and CTB H2G messages.
+>> Introduce their definitions now to allow gradual transition of
+>> our code to match new changes.
+>>
+>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Michał Winiarski <michal.winiarski@intel.com>
+>> ---
+>>  .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h | 226 ++++++++++++++++++
+>>  1 file changed, 226 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+>> index 775e21f3058c..1c264819aa03 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
+>> @@ -6,6 +6,232 @@
+>>  #ifndef _ABI_GUC_MESSAGES_ABI_H
+>>  #define _ABI_GUC_MESSAGES_ABI_H
+>>  
+>> +/**
+>> + * DOC: HXG Message
+> 
+> These aren't useful if we don't pull them in somewhere in the
+> Documentation/gpu hierarchy. General comment, and also please check that
+> it all renders correctly still.
 
+Patch that connects all these DOC sections into i915.rst is still on
+private branch, where I'm trying to verify all html rendering, and ...
+
+> 
+> btw if you respin a patch not originally by you we generally add a (v1) to
+> the original s-o-b line (or whever the version split was) and explain in
+> the usual changelog in the commit message what was changed.
+> 
+> This holds for the entire series ofc.
+> -Daniel
+> 
+>> + *
+>> + * All messages exchanged with GuC are defined using 32 bit dwords.
+>> + * First dword is treated as a message header. Remaining dwords are optional.
+>> + *
+>> + * .. _HXG Message:
+
+where such workarounds from early documentation are already removed,
+since they are not needed any more starting from commit ef09989594bf
+("scripts/kernel-doc: add internal hyperlink to DOC: sections")
+
+Michal
+
+>> + *
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |   | Bits  | Description                                                  |
+>> + *  +===+=======+==============================================================+
+>> + *  |   |       |                                                              |
+>> + *  | 0 |    31 | **ORIGIN** - originator of the message                       |
+>> + *  |   |       |   - _`GUC_HXG_ORIGIN_HOST` = 0                               |
+>> + *  |   |       |   - _`GUC_HXG_ORIGIN_GUC` = 1                                |
+>> + *  |   |       |                                                              |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | **TYPE** - message type                                      |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_REQUEST` = 0                              |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_EVENT` = 1                                |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_NO_RESPONSE_BUSY` = 3                     |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_NO_RESPONSE_RETRY` = 5                    |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_RESPONSE_FAILURE` = 6                     |
+>> + *  |   |       |   - _`GUC_HXG_TYPE_RESPONSE_SUCCESS` = 7                     |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   |  27:0 | **AUX** - auxiliary data (depends TYPE)                      |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  | 1 |  31:0 | optional payload (depends on TYPE)                           |
+>> + *  +---+-------+                                                              |
+>> + *  |...|       |                                                              |
+>> + *  +---+-------+                                                              |
+>> + *  | n |  31:0 |                                                              |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + */
+>> +
+>> +#define GUC_HXG_MSG_MIN_LEN			1u
+>> +#define GUC_HXG_MSG_0_ORIGIN			(0x1 << 31)
+>> +#define   GUC_HXG_ORIGIN_HOST			0u
+>> +#define   GUC_HXG_ORIGIN_GUC			1u
+>> +#define GUC_HXG_MSG_0_TYPE			(0x7 << 28)
+>> +#define   GUC_HXG_TYPE_REQUEST			0u
+>> +#define   GUC_HXG_TYPE_EVENT			1u
+>> +#define   GUC_HXG_TYPE_NO_RESPONSE_BUSY		3u
+>> +#define   GUC_HXG_TYPE_NO_RESPONSE_RETRY	5u
+>> +#define   GUC_HXG_TYPE_RESPONSE_FAILURE		6u
+>> +#define   GUC_HXG_TYPE_RESPONSE_SUCCESS		7u
+>> +#define GUC_HXG_MSG_0_AUX			(0xfffffff << 0)
+>> +
+>> +/**
+>> + * DOC: HXG Request
+>> + *
+>> + * The `HXG Request`_ message should be used to initiate synchronous activity
+>> + * for which confirmation or return data is expected.
+>> + *
+>> + * The recipient of this message shall use `HXG Response`_, `HXG Failure`_
+>> + * or `HXG Retry`_ message as a definite reply, and may use `HXG Busy`_
+>> + * message as a intermediate reply.
+>> + *
+>> + * Format of @DATA0 and all @DATAn fields depends on the @ACTION code.
+>> + *
+>> + * _HXG Request:
+>> + *
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |   | Bits  | Description                                                  |
+>> + *  +===+=======+==============================================================+
+>> + *  | 0 |    31 | ORIGIN                                                       |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 27:16 | **DATA0** - request data (depends on ACTION)                 |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   |  15:0 | **ACTION** - requested action code                           |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  | 1 |  31:0 | **DATA1** - optional data (depends on ACTION)                |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |...|       |                                                              |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  | n |  31:0 | **DATAn** - optional data (depends on ACTION)                |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + */
+>> +
+>> +#define GUC_HXG_REQUEST_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_REQUEST_MSG_0_DATA0		(0xfff << 16)
+>> +#define GUC_HXG_REQUEST_MSG_0_ACTION		(0xffff << 0)
+>> +#define GUC_HXG_REQUEST_MSG_n_DATAn		(0xffffffff << 0)
+>> +
+>> +/**
+>> + * DOC: HXG Event
+>> + *
+>> + * The `HXG Event`_ message should be used to initiate asynchronous activity
+>> + * that does not involves immediate confirmation nor data.
+>> + *
+>> + * Format of @DATA0 and all @DATAn fields depends on the @ACTION code.
+>> + *
+>> + * .. _HXG Event:
+>> + *
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |   | Bits  | Description                                                  |
+>> + *  +===+=======+==============================================================+
+>> + *  | 0 |    31 | ORIGIN                                                       |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_EVENT_                                   |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 27:16 | **DATA0** - event data (depends on ACTION)                   |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   |  15:0 | **ACTION** - event action code                               |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  | 1 |  31:0 | **DATA1** - optional event data (depends on ACTION)          |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |...|       |                                                              |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  | n |  31:0 | **DATAn** - optional event  data (depends on ACTION)         |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + */
+>> +
+>> +#define GUC_HXG_EVENT_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_EVENT_MSG_0_DATA0		(0xfff << 16)
+>> +#define GUC_HXG_EVENT_MSG_0_ACTION		(0xffff << 0)
+>> +#define GUC_HXG_EVENT_MSG_n_DATAn		(0xffffffff << 0)
+>> +
+>> +/**
+>> + * DOC: HXG Busy
+>> + *
+>> + * The `HXG Busy`_ message may be used to acknowledge reception of the `HXG Request`_
+>> + * message if the recipient expects that it processing will be longer than default
+>> + * timeout.
+>> + *
+>> + * The @COUNTER field may be used as a progress indicator.
+>> + *
+>> + * .. _HXG Busy:
+>> + *
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |   | Bits  | Description                                                  |
+>> + *  +===+=======+==============================================================+
+>> + *  | 0 |    31 | ORIGIN                                                       |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_NO_RESPONSE_BUSY_                        |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   |  27:0 | **COUNTER** - progress indicator                             |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + */
+>> +
+>> +#define GUC_HXG_BUSY_MSG_LEN			GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_BUSY_MSG_0_COUNTER		GUC_HXG_MSG_0_AUX
+>> +
+>> +/**
+>> + * DOC: HXG Retry
+>> + *
+>> + * The `HXG Retry`_ message should be used by recipient to indicate that the
+>> + * `HXG Request`_ message was dropped and it should be resent again.
+>> + *
+>> + * The @REASON field may be used to provide additional information.
+>> + *
+>> + * .. _HXG Retry:
+>> + *
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |   | Bits  | Description                                                  |
+>> + *  +===+=======+==============================================================+
+>> + *  | 0 |    31 | ORIGIN                                                       |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_NO_RESPONSE_RETRY_                       |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   |  27:0 | **REASON** - reason for retry                                |
+>> + *  |   |       |  - _`GUC_HXG_RETRY_REASON_UNSPECIFIED` = 0                   |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + */
+>> +
+>> +#define GUC_HXG_RETRY_MSG_LEN			GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_RETRY_MSG_0_REASON		GUC_HXG_MSG_0_AUX
+>> +#define   GUC_HXG_RETRY_REASON_UNSPECIFIED	0u
+>> +
+>> +/**
+>> + * DOC: HXG Failure
+>> + *
+>> + * The `HXG Failure`_ message shall be used as a reply to the `HXG Request`_
+>> + * message that could not be processed due to an error.
+>> + *
+>> + * .. _HXG Failure:
+>> + *
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |   | Bits  | Description                                                  |
+>> + *  +===+=======+==============================================================+
+>> + *  | 0 |    31 | ORIGIN                                                       |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_FAILURE_                        |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 27:16 | **HINT** - additional error hint                             |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   |  15:0 | **ERROR** - error/result code                                |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + */
+>> +
+>> +#define GUC_HXG_FAILURE_MSG_LEN			GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_FAILURE_MSG_0_HINT		(0xfff << 16)
+>> +#define GUC_HXG_FAILURE_MSG_0_ERROR		(0xffff << 0)
+>> +
+>> +/**
+>> + * DOC: HXG Response
+>> + *
+>> + * The `HXG Response`_ message SHALL be used as a reply to the `HXG Request`_
+>> + * message that was successfully processed without an error.
+>> + *
+>> + * .. _HXG Response:
+>> + *
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |   | Bits  | Description                                                  |
+>> + *  +===+=======+==============================================================+
+>> + *  | 0 |    31 | ORIGIN                                                       |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_RESPONSE_SUCCESS_                        |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   |  27:0 | **DATA0** - data (depends on ACTION from `HXG Request`_)     |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  | 1 |  31:0 | **DATA1** - data (depends on ACTION from `HXG Request`_)     |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |...|       |                                                              |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  | n |  31:0 | **DATAn** - data (depends on ACTION from `HXG Request`_)     |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + */
+>> +
+>> +#define GUC_HXG_RESPONSE_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
+>> +#define GUC_HXG_RESPONSE_MSG_0_DATA0		GUC_HXG_MSG_0_AUX
+>> +#define GUC_HXG_RESPONSE_MSG_n_DATAn		(0xffffffff << 0)
+>> +
+>> +/* deprecated */
+>>  #define INTEL_GUC_MSG_TYPE_SHIFT	28
+>>  #define INTEL_GUC_MSG_TYPE_MASK		(0xF << INTEL_GUC_MSG_TYPE_SHIFT)
+>>  #define INTEL_GUC_MSG_DATA_SHIFT	16
+>> -- 
+>> 2.28.0
+>>
+> 
