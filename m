@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17DFB37AD20
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 19:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60A737AD32
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 19:39:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1531A89C1B;
-	Tue, 11 May 2021 17:29:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 637216EA9E;
+	Tue, 11 May 2021 17:39:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A13C6E1F4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 17:29:18 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id j26so20166493edf.9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 10:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=B0ixQZ/ZJVSg+Ye5Ko9OIJ9FJBrCKF3Zf1oNFLdUYPc=;
- b=ShsdnNL9oCfWPuNaZ9+SWmYRt/RQ1WWGlrjrp5qVzSDG0scWZiAF2hZU86M3OGp2WF
- abIh0u4roBH5cAW1qgWVdHgboLeaAJkQAqZHd++KFQLHRQLcx3d4Zq0JSze1pgMm4Z55
- tzoUeYEv5YKPC5G1qVST6f7fkkVNvWEVlhCo4=
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF76B6EA9E
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 17:39:18 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id q5so1514996wrs.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 10:39:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4Iip13muq1NYXw8ciJ4gZx7sLT2i59LHm3b1xhb3qro=;
+ b=l0I/l9irc0L33+3w+vShxZyAO9/CKiQR0T+VECzaTKU4TJFiZJMNe0Csx99AWQKMQT
+ GW7fxShroooRhKQ1FFVZuV63BkI25ij7VJ0n78MYAWEbPu5dounOLMpogEsKo7yUJaor
+ jNFx+ClrGCFK3ycq0eJevgyLSsunK9jbkjFY7hr4FwAhlB/S1kSp6X2QWmscwA3Bnqed
+ qpnisUHdd1yLawQxLD7EAukbXIdDimWGCKMpqOJYgECzqnpVLH6TmUzIaDlZiihYQQgp
+ z1DU/uJV9GO16Qmls0Q7TNyRGE5rVkjgFa6+6FtJYkyCBq1/8xdIRcNZEEVS3mcjQpt3
+ 36Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=B0ixQZ/ZJVSg+Ye5Ko9OIJ9FJBrCKF3Zf1oNFLdUYPc=;
- b=gHNpXB7S0j/fc3iFJp/XAxIr2tf5CdCQc34uHYnGN/6UY7RPUQe+3Bq/ninpTus2RM
- S8Nao+GKCTaE7ddxDZ8a+lB8Bgm6iqdHIcHEsATVqKCLy/rTADfHj9FHwfYsTpO5jMix
- VDrag2GOk2BXqTckNm/HJXTN/V9mkCFynSYXECZsK5XrYaNr5f+8TW8aSbbVnvi35CEV
- IXisXWLacSH49cJ1C4tybPYxBvWx/JIt+1Id1iypVSWHxUUZTKn/ehQ47BkGM2mT45US
- UrFx9afTj6n2dMFFyAxcFtCKbbpSxV64/3uORHHZ+267yDD3kafhsjqZ2F4sPrN9Jqq4
- 7y7Q==
-X-Gm-Message-State: AOAM5325OjvV5wqyt7/5YY3tOrsWjOYO5DCB+7DYELrUEM7dtGpId0t7
- x4fTM3xg/IVCJyntal5OGtEgbA==
-X-Google-Smtp-Source: ABdhPJy/t8etpmA6IHdaS/cm6RsKhNJDL907fG2/ZKpt5vHIoMEeUM8dJpWkEjLkk/8hsP41gZ0gsA==
-X-Received: by 2002:aa7:dd41:: with SMTP id o1mr37152072edw.361.1620754156579; 
- Tue, 11 May 2021 10:29:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u25sm12302738ejb.12.2021.05.11.10.29.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 10:29:16 -0700 (PDT)
-Date: Tue, 11 May 2021 19:29:14 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH] drm/doc/rfc: drop the i915_gem_lmem.h header
-Message-ID: <YJq+6kTp9I55DNXN@phenom.ffwll.local>
-References: <20210511170356.430284-1-matthew.auld@intel.com>
- <YJq+qCOSjrUFAC9v@phenom.ffwll.local>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4Iip13muq1NYXw8ciJ4gZx7sLT2i59LHm3b1xhb3qro=;
+ b=LTL7s+VLYVfvsKQoiu2I3pAyySa1b08nYBuNJ82U4+dqGOA8BtVazhZj9Cdj9uWTMh
+ UpeLqYSC5oJlJXOZq+cT2DocWDLCcLkMPHEPuEqAGa1y5JyEuOsJIokR8sEBdjxem/0e
+ 4LKp80xG4xdQi3WpDUpnmLu7NNwcpg9QXSOcB7/Xvue9rAeWFUOv9ix8umEdbTRDgSxC
+ LZiAZFzjXFIiQhRwnq5t7fPVnpsSjsrgW4vo2UaNrcvcUTVXo3KB9/dPh09MtH8txUHU
+ /rYIwODJYrltnd/b7BD3PZlmkfQRS4tL1858pJrnICsPP3WSAV5VaR6zjYrBijsDE6bx
+ qo4w==
+X-Gm-Message-State: AOAM532ffX8rRvWy9KhBdJe7o3oC4CipZhiDs4LyC1T9/ZMqLI37EvJC
+ Zq8vzqm7V7408Tps9hv/b9+JYhhqqeY01ARMTxZiRvi8
+X-Google-Smtp-Source: ABdhPJzYMvuNrr+jKZP2j9T/AEwSf1ceIS80ZkuSWU4TS1NzmOCkyDXJZ8gf+jTC3BafXMone2nr6GP2T34Y3clyWJM=
+X-Received: by 2002:a5d:64cf:: with SMTP id f15mr38403209wri.327.1620754757270; 
+ Tue, 11 May 2021 10:39:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YJq+qCOSjrUFAC9v@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+References: <20210508195641.397198-1-robdclark@gmail.com>
+ <20210508195641.397198-2-robdclark@gmail.com>
+ <YJlb3GO41hiu4pWw@phenom.ffwll.local>
+ <CAF6AEGsGb1jZgRRUqDvf+j+E6pNEtSck=r3xh4VL7FmZMPszBQ@mail.gmail.com>
+ <CAKMK7uGPGbOPRtJaiG5oNCDhYQ27+V3bO5Wcgv7C9fqdyp8LeA@mail.gmail.com>
+ <CAF6AEGto1PQcEbYeWfXqMatK0z3dW-mpLNVh=VJb=9gwrPfCWg@mail.gmail.com>
+ <YJq0YVi4O4zGkb3j@phenom.ffwll.local>
+ <CAF6AEGsMk-wO=3iYbW9rS0FJ7760P++vpPgVMFHR9+Q8sWsXQQ@mail.gmail.com>
+ <YJq9M71yiASVKPtJ@phenom.ffwll.local>
+In-Reply-To: <YJq9M71yiASVKPtJ@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 11 May 2021 10:42:58 -0700
+Message-ID: <CAF6AEGs1YcRAYAH0TFFS7-RPNDJhvogSACrZp0itzq_RiTBiTA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm: Fix dirtyfb stalls
+To: Rob Clark <robdclark@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Rob Clark <robdclark@chromium.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, 
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,324 +75,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 11, 2021 at 07:28:08PM +0200, Daniel Vetter wrote:
-> On Tue, May 11, 2021 at 06:03:56PM +0100, Matthew Auld wrote:
-> > The proper headers have now landed in include/uapi/drm/i915_drm.h, so we
-> > can drop i915_gem_lmem.h and instead just reference the real headers for
-> > pulling in the kernel doc.
-> > 
-> > Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> I guess we need to have a note that when we land the pciid for dg1 to move
-> all the remaining bits over to real docs and delete the i915 lmem rfc. But
-> everything in due time.
+On Tue, May 11, 2021 at 10:21 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, May 11, 2021 at 10:19:57AM -0700, Rob Clark wrote:
+> > On Tue, May 11, 2021 at 9:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Mon, May 10, 2021 at 12:06:05PM -0700, Rob Clark wrote:
+> > > > On Mon, May 10, 2021 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > >
+> > > > > On Mon, May 10, 2021 at 6:51 PM Rob Clark <robdclark@gmail.com> wrote:
+> > > > > >
+> > > > > > On Mon, May 10, 2021 at 9:14 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > >
+> > > > > > > On Sat, May 08, 2021 at 12:56:38PM -0700, Rob Clark wrote:
+> > > > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > > > >
+> > > > > > > > drm_atomic_helper_dirtyfb() will end up stalling for vblank on "video
+> > > > > > > > mode" type displays, which is pointless and unnecessary.  Add an
+> > > > > > > > optional helper vfunc to determine if a plane is attached to a CRTC
+> > > > > > > > that actually needs dirtyfb, and skip over them.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > > >
+> > > > > > > So this is a bit annoying because the idea of all these "remap legacy uapi
+> > > > > > > to atomic constructs" helpers is that they shouldn't need/use anything
+> > > > > > > beyond what userspace also has available. So adding hacks for them feels
+> > > > > > > really bad.
+> > > > > >
+> > > > > > I suppose the root problem is that userspace doesn't know if dirtyfb
+> > > > > > (or similar) is actually required or is a no-op.
+> > > > > >
+> > > > > > But it is perhaps less of a problem because this essentially boils
+> > > > > > down to "x11 vs wayland", and it seems like wayland compositors for
+> > > > > > non-vsync'd rendering just pageflips and throws away extra frames from
+> > > > > > the app?
+> > > > >
+> > > > > Yeah it's about not adequately batching up rendering and syncing with
+> > > > > hw. bare metal x11 is just especially stupid about it :-)
+> > > > >
+> > > > > > > Also I feel like it's not entirely the right thing to do here either.
+> > > > > > > We've had this problem already on the fbcon emulation side (which also
+> > > > > > > shouldn't be able to peek behind the atomic kms uapi curtain), and the fix
+> > > > > > > there was to have a worker which batches up all the updates and avoids any
+> > > > > > > stalls in bad places.
+> > > > > >
+> > > > > > I'm not too worried about fbcon not being able to render faster than
+> > > > > > vblank.  OTOH it is a pretty big problem for x11
+> > > > >
+> > > > > That's why we'd let the worker get ahead at most one dirtyfb. We do
+> > > > > the same with fbcon, which trivially can get ahead of vblank otherwise
+> > > > > (if sometimes flushes each character, so you have to pile them up into
+> > > > > a single update if that's still pending).
+> > > > >
+> > > > > > > Since this is for frontbuffer rendering userspace only we can probably get
+> > > > > > > away with assuming there's only a single fb, so the implementation becomes
+> > > > > > > pretty simple:
+> > > > > > >
+> > > > > > > - 1 worker, and we keep track of a single pending fb
+> > > > > > > - if there's already a dirty fb pending on a different fb, we stall for
+> > > > > > >   the worker to start processing that one already (i.e. the fb we track is
+> > > > > > >   reset to NULL)
+> > > > > > > - if it's pending on the same fb we just toss away all the updates and go
+> > > > > > >   with a full update, since merging the clip rects is too much work :-) I
+> > > > > > >   think there's helpers so you could be slightly more clever and just have
+> > > > > > >   an overall bounding box
+> > > > > >
+> > > > > > This doesn't really fix the problem, you still end up delaying sending
+> > > > > > the next back-buffer to mesa
+> > > > >
+> > > > > With this the dirtyfb would never block. Also glorious frontbuffer
+> > > > > tracking corruption is possible, but that's not the kernel's problem.
+> > > > > So how would anything get held up in userspace.
+> > > >
+> > > > the part about stalling if a dirtyfb is pending was what I was worried
+> > > > about.. but I suppose you meant the worker stalling, rather than
+> > > > userspace stalling (where I had interpreted it the other way around).
+> > > > As soon as userspace needs to stall, you're losing again.
+> > >
+> > > Nah, I did mean userspace stalling, so we can't pile up unlimited amounts
+> > > of dirtyfb request in the kernel.
+> > >
+> > > But also I never expect userspace that uses dirtyfb to actually hit this
+> > > stall point (otherwise we'd need to look at this again). It would really
+> > > be only there as defense against abuse.
+> >
+> > I don't believe modesetting ddx throttles dirtyfb, it (indirectly)
+> > calls this from it's BlockHandler.. so if you do end up blocking after
+> > the N'th dirtyfb, you are still going to end up stalling for vblank,
+> > you are just deferring that for a frame or two..
+>
+> Nope, that's not what I mean.
+>
+> By default we pile up the updates, so you _never_ stall. The worker then
+> takes the entire update every time it runs and batches them up.
+>
+> We _only_ stall when we get a dirtyfb with a different fb. Because that's
+> much harder to pile up, plus frontbuffer rendering userspace uses a single
+> fb across all screens anyway.
+>
+> So really I don't expect X to ever stall in it's BlockHandler with this.
 
-One thing I forgot: The include stanza will I think result in the
-explicitly included functions not showing up in the normal driver uapi
-docs. Which I think is fine while we settle all this. Or do I get this
-wrong?
--Daniel
+ok, sorry, I missed the "different fb" part..
+
+but I could see a userspace that uses multiple fb's wanting to do
+front buffer rendering.. although they are probably only going to do
+it on a single display at a time, so maybe that is a bit of an edge
+case
+
+> > The thing is, for a push style panel, you don't necessarily have to
+> > wait for "vblank" (because "vblank" isn't necessarily a real thing),
+> > so in that scenario dirtyfb could in theory be fast.  What you want to
+> > do is fundamentally different for push vs pull style displays.
+>
+> Yeah, but we'd only stall if userspace does a modeset (which means
+> different fb) and at that point you'll stall anyway a bit. So shouldn't
+> hurt.
+>
+> Well you can do frontbuffer rendering even with atomic ioctl. Just don't
+> use dirtyfb.
+>
+> But also you really shouldn't use frontbuffer rendering right now, since
+> we don't have the interfaces right now to tell userspace whether it's
+> cmd-mode or something else and what kind of corruption (if any) to expect
+> when they do that.
+
+Compressed formats and front-buffer rendering don't really work out in
+a pleasant way.. minigbm has a usage flag to indicate that the surface
+will be used for front-buffer rendering (and it is a thing we should
+probably port to real gbm).  I think this aspect of it is better
+solved in userspace.
+
+> > > > > > But we could re-work drm_framebuffer_funcs::dirty to operate on a
+> > > > > > per-crtc basis and hoist the loop and check if dirtyfb is needed out
+> > > > > > of drm_atomic_helper_dirtyfb()
+> > > > >
+> > > > > That's still using information that userspace doesn't have, which is a
+> > > > > bit irky. We might as well go with your thing here then.
+> > > >
+> > > > arguably, this is something we should expose to userspace.. for DSI
+> > > > command-mode panels, you probably want to make a different decision
+> > > > with regard to how many buffers in your flip-chain..
+> > > >
+> > > > Possibly we should add/remove the fb_damage_clips property depending
+> > > > on the display type (ie. video/pull vs cmd/push mode)?
+> > >
+> > > I'm not sure whether atomic actually needs this exposed:
+> > > - clients will do full flips for every frame anyway, I've not heard of
+> > >   anyone seriously doing frontbuffer rendering.
+> >
+> > Frontbuffer rendering is actually a thing, for ex. to reduce latency
+> > for stylus (android and CrOS do this.. fortunately AFAICT CrOS never
+> > uses the dirtyfb ioctl.. but as soon as someone has the nice idea to
+> > add that we'd be running into the same problem)
+> >
+> > Possibly one idea is to treat dirty-clip updates similarly to cursor
+> > updates, and let the driver accumulate the updates and then wait until
+> > vblank to apply them
+>
+> Yeah that's what I mean. Except implemented cheaper. fbcon code already
+> does it. I think we're seriously talking past each another.
+
+Hmm, well 'state->async_update = true' is a pretty cheap implementation..
+
+BR,
+-R
 
 > -Daniel
-> 
-> > ---
-> >  Documentation/gpu/rfc/i915_gem_lmem.h   | 237 ------------------------
-> >  Documentation/gpu/rfc/i915_gem_lmem.rst |   6 +-
-> >  2 files changed, 3 insertions(+), 240 deletions(-)
-> >  delete mode 100644 Documentation/gpu/rfc/i915_gem_lmem.h
-> > 
-> > diff --git a/Documentation/gpu/rfc/i915_gem_lmem.h b/Documentation/gpu/rfc/i915_gem_lmem.h
-> > deleted file mode 100644
-> > index d9c61bea0556..000000000000
-> > --- a/Documentation/gpu/rfc/i915_gem_lmem.h
-> > +++ /dev/null
-> > @@ -1,237 +0,0 @@
-> > -/**
-> > - * enum drm_i915_gem_memory_class - Supported memory classes
-> > - */
-> > -enum drm_i915_gem_memory_class {
-> > -	/** @I915_MEMORY_CLASS_SYSTEM: System memory */
-> > -	I915_MEMORY_CLASS_SYSTEM = 0,
-> > -	/** @I915_MEMORY_CLASS_DEVICE: Device local-memory */
-> > -	I915_MEMORY_CLASS_DEVICE,
-> > -};
-> > -
-> > -/**
-> > - * struct drm_i915_gem_memory_class_instance - Identify particular memory region
-> > - */
-> > -struct drm_i915_gem_memory_class_instance {
-> > -	/** @memory_class: See enum drm_i915_gem_memory_class */
-> > -	__u16 memory_class;
-> > -
-> > -	/** @memory_instance: Which instance */
-> > -	__u16 memory_instance;
-> > -};
-> > -
-> > -/**
-> > - * struct drm_i915_memory_region_info - Describes one region as known to the
-> > - * driver.
-> > - *
-> > - * Note that we reserve some stuff here for potential future work. As an example
-> > - * we might want expose the capabilities for a given region, which could include
-> > - * things like if the region is CPU mappable/accessible, what are the supported
-> > - * mapping types etc.
-> > - *
-> > - * Note that to extend struct drm_i915_memory_region_info and struct
-> > - * drm_i915_query_memory_regions in the future the plan is to do the following:
-> > - *
-> > - * .. code-block:: C
-> > - *
-> > - *	struct drm_i915_memory_region_info {
-> > - *		struct drm_i915_gem_memory_class_instance region;
-> > - *		union {
-> > - *			__u32 rsvd0;
-> > - *			__u32 new_thing1;
-> > - *		};
-> > - *		...
-> > - *		union {
-> > - *			__u64 rsvd1[8];
-> > - *			struct {
-> > - *				__u64 new_thing2;
-> > - *				__u64 new_thing3;
-> > - *				...
-> > - *			};
-> > - *		};
-> > - *	};
-> > - *
-> > - * With this things should remain source compatible between versions for
-> > - * userspace, even as we add new fields.
-> > - *
-> > - * Note this is using both struct drm_i915_query_item and struct drm_i915_query.
-> > - * For this new query we are adding the new query id DRM_I915_QUERY_MEMORY_REGIONS
-> > - * at &drm_i915_query_item.query_id.
-> > - */
-> > -struct drm_i915_memory_region_info {
-> > -	/** @region: The class:instance pair encoding */
-> > -	struct drm_i915_gem_memory_class_instance region;
-> > -
-> > -	/** @rsvd0: MBZ */
-> > -	__u32 rsvd0;
-> > -
-> > -	/** @probed_size: Memory probed by the driver (-1 = unknown) */
-> > -	__u64 probed_size;
-> > -
-> > -	/** @unallocated_size: Estimate of memory remaining (-1 = unknown) */
-> > -	__u64 unallocated_size;
-> > -
-> > -	/** @rsvd1: MBZ */
-> > -	__u64 rsvd1[8];
-> > -};
-> > -
-> > -/**
-> > - * struct drm_i915_query_memory_regions
-> > - *
-> > - * The region info query enumerates all regions known to the driver by filling
-> > - * in an array of struct drm_i915_memory_region_info structures.
-> > - *
-> > - * Example for getting the list of supported regions:
-> > - *
-> > - * .. code-block:: C
-> > - *
-> > - *	struct drm_i915_query_memory_regions *info;
-> > - *	struct drm_i915_query_item item = {
-> > - *		.query_id = DRM_I915_QUERY_MEMORY_REGIONS;
-> > - *	};
-> > - *	struct drm_i915_query query = {
-> > - *		.num_items = 1,
-> > - *		.items_ptr = (uintptr_t)&item,
-> > - *	};
-> > - *	int err, i;
-> > - *
-> > - *	// First query the size of the blob we need, this needs to be large
-> > - *	// enough to hold our array of regions. The kernel will fill out the
-> > - *	// item.length for us, which is the number of bytes we need.
-> > - *	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-> > - *	if (err) ...
-> > - *
-> > - *	info = calloc(1, item.length);
-> > - *	// Now that we allocated the required number of bytes, we call the ioctl
-> > - *	// again, this time with the data_ptr pointing to our newly allocated
-> > - *	// blob, which the kernel can then populate with the all the region info.
-> > - *	item.data_ptr = (uintptr_t)&info,
-> > - *
-> > - *	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-> > - *	if (err) ...
-> > - *
-> > - *	// We can now access each region in the array
-> > - *	for (i = 0; i < info->num_regions; i++) {
-> > - *		struct drm_i915_memory_region_info mr = info->regions[i];
-> > - *		u16 class = mr.region.class;
-> > - *		u16 instance = mr.region.instance;
-> > - *
-> > - *		....
-> > - *	}
-> > - *
-> > - *	free(info);
-> > - */
-> > -struct drm_i915_query_memory_regions {
-> > -	/** @num_regions: Number of supported regions */
-> > -	__u32 num_regions;
-> > -
-> > -	/** @rsvd: MBZ */
-> > -	__u32 rsvd[3];
-> > -
-> > -	/** @regions: Info about each supported region */
-> > -	struct drm_i915_memory_region_info regions[];
-> > -};
-> > -
-> > -#define DRM_I915_GEM_CREATE_EXT		0xdeadbeaf
-> > -#define DRM_IOCTL_I915_GEM_CREATE_EXT	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_CREATE_EXT, struct drm_i915_gem_create_ext)
-> > -
-> > -/**
-> > - * struct drm_i915_gem_create_ext - Existing gem_create behaviour, with added
-> > - * extension support using struct i915_user_extension.
-> > - *
-> > - * Note that in the future we want to have our buffer flags here, at least for
-> > - * the stuff that is immutable. Previously we would have two ioctls, one to
-> > - * create the object with gem_create, and another to apply various parameters,
-> > - * however this creates some ambiguity for the params which are considered
-> > - * immutable. Also in general we're phasing out the various SET/GET ioctls.
-> > - */
-> > -struct drm_i915_gem_create_ext {
-> > -	/**
-> > -	 * @size: Requested size for the object.
-> > -	 *
-> > -	 * The (page-aligned) allocated size for the object will be returned.
-> > -	 *
-> > -	 * Note that for some devices we have might have further minimum
-> > -	 * page-size restrictions(larger than 4K), like for device local-memory.
-> > -	 * However in general the final size here should always reflect any
-> > -	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
-> > -	 * extension to place the object in device local-memory.
-> > -	 */
-> > -	__u64 size;
-> > -	/**
-> > -	 * @handle: Returned handle for the object.
-> > -	 *
-> > -	 * Object handles are nonzero.
-> > -	 */
-> > -	__u32 handle;
-> > -	/** @flags: MBZ */
-> > -	__u32 flags;
-> > -	/**
-> > -	 * @extensions: The chain of extensions to apply to this object.
-> > -	 *
-> > -	 * This will be useful in the future when we need to support several
-> > -	 * different extensions, and we need to apply more than one when
-> > -	 * creating the object. See struct i915_user_extension.
-> > -	 *
-> > -	 * If we don't supply any extensions then we get the same old gem_create
-> > -	 * behaviour.
-> > -	 *
-> > -	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
-> > -	 * struct drm_i915_gem_create_ext_memory_regions.
-> > -	 */
-> > -#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
-> > -	__u64 extensions;
-> > -};
-> > -
-> > -/**
-> > - * struct drm_i915_gem_create_ext_memory_regions - The
-> > - * I915_GEM_CREATE_EXT_MEMORY_REGIONS extension.
-> > - *
-> > - * Set the object with the desired set of placements/regions in priority
-> > - * order. Each entry must be unique and supported by the device.
-> > - *
-> > - * This is provided as an array of struct drm_i915_gem_memory_class_instance, or
-> > - * an equivalent layout of class:instance pair encodings. See struct
-> > - * drm_i915_query_memory_regions and DRM_I915_QUERY_MEMORY_REGIONS for how to
-> > - * query the supported regions for a device.
-> > - *
-> > - * As an example, on discrete devices, if we wish to set the placement as
-> > - * device local-memory we can do something like:
-> > - *
-> > - * .. code-block:: C
-> > - *
-> > - *	struct drm_i915_gem_memory_class_instance region_lmem = {
-> > - *              .memory_class = I915_MEMORY_CLASS_DEVICE,
-> > - *              .memory_instance = 0,
-> > - *      };
-> > - *      struct drm_i915_gem_create_ext_memory_regions regions = {
-> > - *              .base = { .name = I915_GEM_CREATE_EXT_MEMORY_REGIONS },
-> > - *              .regions = (uintptr_t)&region_lmem,
-> > - *              .num_regions = 1,
-> > - *      };
-> > - *      struct drm_i915_gem_create_ext create_ext = {
-> > - *              .size = 16 * PAGE_SIZE,
-> > - *              .extensions = (uintptr_t)&regions,
-> > - *      };
-> > - *
-> > - *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
-> > - *      if (err) ...
-> > - *
-> > - * At which point we get the object handle in &drm_i915_gem_create_ext.handle,
-> > - * along with the final object size in &drm_i915_gem_create_ext.size, which
-> > - * should account for any rounding up, if required.
-> > - */
-> > -struct drm_i915_gem_create_ext_memory_regions {
-> > -	/** @base: Extension link. See struct i915_user_extension. */
-> > -	struct i915_user_extension base;
-> > -
-> > -	/** @pad: MBZ */
-> > -	__u32 pad;
-> > -	/** @num_regions: Number of elements in the @regions array. */
-> > -	__u32 num_regions;
-> > -	/**
-> > -	 * @regions: The regions/placements array.
-> > -	 *
-> > -	 * An array of struct drm_i915_gem_memory_class_instance.
-> > -	 */
-> > -	__u64 regions;
-> > -};
-> > diff --git a/Documentation/gpu/rfc/i915_gem_lmem.rst b/Documentation/gpu/rfc/i915_gem_lmem.rst
-> > index 1d344c593018..675ba8620d66 100644
-> > --- a/Documentation/gpu/rfc/i915_gem_lmem.rst
-> > +++ b/Documentation/gpu/rfc/i915_gem_lmem.rst
-> > @@ -48,7 +48,7 @@ particular instance, since we can have more than one per class.
-> >  In the future we also want to expose more information which can further
-> >  describe the capabilities of a region.
-> >  
-> > -.. kernel-doc:: Documentation/gpu/rfc/i915_gem_lmem.h
-> > +.. kernel-doc:: include/uapi/drm/i915_drm.h
-> >          :functions: drm_i915_gem_memory_class drm_i915_gem_memory_class_instance drm_i915_memory_region_info drm_i915_query_memory_regions
-> >  
-> >  GEM_CREATE_EXT
-> > @@ -61,7 +61,7 @@ Side note: We also need to support PXP[1] in the near future, which is also
-> >  applicable to integrated platforms, and adds its own gem_create_ext extension,
-> >  which basically lets userspace mark a buffer as "protected".
-> >  
-> > -.. kernel-doc:: Documentation/gpu/rfc/i915_gem_lmem.h
-> > +.. kernel-doc:: include/uapi/drm/i915_drm.h
-> >          :functions: drm_i915_gem_create_ext
-> >  
-> >  I915_GEM_CREATE_EXT_MEMORY_REGIONS
-> > @@ -73,7 +73,7 @@ them each to use the class/instance encoding, as per the output of the regions
-> >  query. Having the list in priority order will be useful in the future when
-> >  placing an object, say during eviction.
-> >  
-> > -.. kernel-doc:: Documentation/gpu/rfc/i915_gem_lmem.h
-> > +.. kernel-doc:: include/uapi/drm/i915_drm.h
-> >          :functions: drm_i915_gem_create_ext_memory_regions
-> >  
-> >  One fair criticism here is that this seems a little over-engineered[2]. If we
-> > -- 
-> > 2.26.3
-> > 
-> 
-> -- 
+>
+> >
+> > BR,
+> > -R
+> >
+> > > - transporting the cliprects around and then tossing them if the driver
+> > >   doesn't need them in their flip is probably not a measurable win
+> > >
+> > > But yeah if I'm wrong and we have a need here and it's useful, then
+> > > exposing this to userspace should be done. Meanwhile I think a "offload to
+> > > worker like fbcon" trick for this legacy interface is probabyl the best
+> > > option. Plus it will fix things not just for the case where you don't need
+> > > dirty uploading, it will also fix things for the case where you _do_ need
+> > > dirty uploading (since right now we stall in a few bad places for that I
+> > > think).
+> > > -Daniel
+> > >
+> > > >
+> > > > BR,
+> > > > -R
+> > > >
+> > > > > -Daniel
+> > > > >
+> > > > > > BR,
+> > > > > > -R
+> > > > > >
+> > > > > > >
+> > > > > > > Could probably steal most of the implementation.
+> > > > > > >
+> > > > > > > This approach here feels a tad too much in the hacky area ...
+> > > > > > >
+> > > > > > > Thoughts?
+> > > > > > > -Daniel
+> > > > > > >
+> > > > > > > > ---
+> > > > > > > >  drivers/gpu/drm/drm_damage_helper.c      |  8 ++++++++
+> > > > > > > >  include/drm/drm_modeset_helper_vtables.h | 14 ++++++++++++++
+> > > > > > > >  2 files changed, 22 insertions(+)
+> > > > > > > >
+> > > > > > > > diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
+> > > > > > > > index 3a4126dc2520..a0bed1a2c2dc 100644
+> > > > > > > > --- a/drivers/gpu/drm/drm_damage_helper.c
+> > > > > > > > +++ b/drivers/gpu/drm/drm_damage_helper.c
+> > > > > > > > @@ -211,6 +211,7 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
+> > > > > > > >  retry:
+> > > > > > > >       drm_for_each_plane(plane, fb->dev) {
+> > > > > > > >               struct drm_plane_state *plane_state;
+> > > > > > > > +             struct drm_crtc *crtc;
+> > > > > > > >
+> > > > > > > >               ret = drm_modeset_lock(&plane->mutex, state->acquire_ctx);
+> > > > > > > >               if (ret)
+> > > > > > > > @@ -221,6 +222,13 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
+> > > > > > > >                       continue;
+> > > > > > > >               }
+> > > > > > > >
+> > > > > > > > +             crtc = plane->state->crtc;
+> > > > > > > > +             if (crtc->helper_private->needs_dirtyfb &&
+> > > > > > > > +                             !crtc->helper_private->needs_dirtyfb(crtc)) {
+> > > > > > > > +                     drm_modeset_unlock(&plane->mutex);
+> > > > > > > > +                     continue;
+> > > > > > > > +             }
+> > > > > > > > +
+> > > > > > > >               plane_state = drm_atomic_get_plane_state(state, plane);
+> > > > > > > >               if (IS_ERR(plane_state)) {
+> > > > > > > >                       ret = PTR_ERR(plane_state);
+> > > > > > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> > > > > > > > index eb706342861d..afa8ec5754e7 100644
+> > > > > > > > --- a/include/drm/drm_modeset_helper_vtables.h
+> > > > > > > > +++ b/include/drm/drm_modeset_helper_vtables.h
+> > > > > > > > @@ -487,6 +487,20 @@ struct drm_crtc_helper_funcs {
+> > > > > > > >                                    bool in_vblank_irq, int *vpos, int *hpos,
+> > > > > > > >                                    ktime_t *stime, ktime_t *etime,
+> > > > > > > >                                    const struct drm_display_mode *mode);
+> > > > > > > > +
+> > > > > > > > +     /**
+> > > > > > > > +      * @needs_dirtyfb
+> > > > > > > > +      *
+> > > > > > > > +      * Optional callback used by damage helpers to determine if fb_damage_clips
+> > > > > > > > +      * update is needed.
+> > > > > > > > +      *
+> > > > > > > > +      * Returns:
+> > > > > > > > +      *
+> > > > > > > > +      * True if fb_damage_clips update is needed to handle DIRTYFB, False
+> > > > > > > > +      * otherwise.  If this callback is not implemented, then True is
+> > > > > > > > +      * assumed.
+> > > > > > > > +      */
+> > > > > > > > +     bool (*needs_dirtyfb)(struct drm_crtc *crtc);
+> > > > > > > >  };
+> > > > > > > >
+> > > > > > > >  /**
+> > > > > > > > --
+> > > > > > > > 2.30.2
+> > > > > > > >
+> > > > > > >
+> > > > > > > --
+> > > > > > > Daniel Vetter
+> > > > > > > Software Engineer, Intel Corporation
+> > > > > > > http://blog.ffwll.ch
+> > > > >
+> > > > >
+> > > > >
+> > > > > --
+> > > > > Daniel Vetter
+> > > > > Software Engineer, Intel Corporation
+> > > > > http://blog.ffwll.ch
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+>
+> --
 > Daniel Vetter
 > Software Engineer, Intel Corporation
 > http://blog.ffwll.ch
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
