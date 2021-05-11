@@ -1,76 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 089E537AD5D
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 19:50:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A72C37AD7B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 19:58:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B8D6EAA2;
-	Tue, 11 May 2021 17:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 055D86EAA6;
+	Tue, 11 May 2021 17:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F9E56EAA2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 17:50:46 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id v5so12831646edc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 10:50:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=7HSUBD2/rtpZe3Hijo7T/o91BYv8IBDoWcNdvc16XBk=;
- b=JrNT5Jh9xJwOiLlt1fW9So9FN0HAliXtQa8yvUafImI4uGN2R5qNa8S0XKuU0wKJp8
- YWbZEHCHndexapqtNiPJGbUebSDP+qULD8pGTtje6gi9XgcyQY0FUV9CRw3kWm41kHsY
- RjOCNLtFqwv9shPskTTxwXirwmR7F7tFFIg+Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=7HSUBD2/rtpZe3Hijo7T/o91BYv8IBDoWcNdvc16XBk=;
- b=NfwD6kRJKkiXFHm1aEKpvmXzz4dKegPWodz9IH/fTrxHIdlCZXBBSx74y5fXDk8AQj
- f3WFoKIY++uP4n6/xV6LccotMvY7wdLF59/PntIubzunU/+NeUz4Zy7iRw+korT1yrLt
- xTjx/zsobNUDFeRTuiU3pg9nJeEdL0VMGcYFn2A6NEwhxl8/3NqgPCiBPx6FN+hcKBum
- +2KoaTpjktfEWAIf5sJzA0xBGcCRCV67ykKpyA6vGddYnOK+6dZk/W+3zr0gcs3t/Ky3
- RSAFP1IntfQ1ZbbpRRd63PKnWAdJHYKczhLt3hBmEIYMEDrePGHg+AKukS/d1hbOLGJS
- RpGg==
-X-Gm-Message-State: AOAM530wG6M9CMlWoIc0jwwvpmIsEc5r2jGxKzl5dPjFS/9s0xiopExu
- qyjmERhbLApQRW6Ng06Hy5kI4A==
-X-Google-Smtp-Source: ABdhPJxCWx0fBDQl5CLvuXMx6cB35ykEkS5P0pL2mcIKs9OqcIKc8UtmWfaeDtwCdEx/6rkrrr97Ng==
-X-Received: by 2002:a50:a404:: with SMTP id u4mr38019005edb.112.1620755445108; 
- Tue, 11 May 2021 10:50:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z11sm12218458ejc.122.2021.05.11.10.50.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 10:50:44 -0700 (PDT)
-Date: Tue, 11 May 2021 19:50:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 1/2] drm: Fix dirtyfb stalls
-Message-ID: <YJrD8vdlqkcDom+3@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rob Clark <robdclark@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>
-References: <20210508195641.397198-1-robdclark@gmail.com>
- <20210508195641.397198-2-robdclark@gmail.com>
- <YJlb3GO41hiu4pWw@phenom.ffwll.local>
- <CAF6AEGsGb1jZgRRUqDvf+j+E6pNEtSck=r3xh4VL7FmZMPszBQ@mail.gmail.com>
- <CAKMK7uGPGbOPRtJaiG5oNCDhYQ27+V3bO5Wcgv7C9fqdyp8LeA@mail.gmail.com>
- <CAF6AEGto1PQcEbYeWfXqMatK0z3dW-mpLNVh=VJb=9gwrPfCWg@mail.gmail.com>
- <YJq0YVi4O4zGkb3j@phenom.ffwll.local>
- <CAF6AEGsMk-wO=3iYbW9rS0FJ7760P++vpPgVMFHR9+Q8sWsXQQ@mail.gmail.com>
- <YJq9M71yiASVKPtJ@phenom.ffwll.local>
- <CAF6AEGs1YcRAYAH0TFFS7-RPNDJhvogSACrZp0itzq_RiTBiTA@mail.gmail.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D88F26EAA5;
+ Tue, 11 May 2021 17:58:30 +0000 (UTC)
+IronPort-SDR: G/xdTUT+qtaF9NhIFH0crBC65zM2/7XBvOOYTWg0oVLYrqKGlkvxo0e7OXMPLWfbHEJtApSQ6v
+ LBSXcMVfGprg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="179772133"
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="179772133"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 10:58:30 -0700
+IronPort-SDR: W/1+ESPlVjGhtstl0qxSi41NxRgk4gjCIXoIP5iMEQWjoo3LDsDrFLC12AUZFL8QYFLxaaaHvz
+ E2FyNsIFO4Yg==
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="408900553"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 10:58:30 -0700
+Date: Tue, 11 May 2021 10:51:11 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [RFC PATCH 2/5] drm/doc/rfc: i915 new parallel
+ submission uAPI plan
+Message-ID: <20210511175109.GA4411@sdutt-i7>
+References: <20210506173049.72503-1-matthew.brost@intel.com>
+ <20210506173049.72503-3-matthew.brost@intel.com>
+ <YJqZlp3C97WRIilE@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGs1YcRAYAH0TFFS7-RPNDJhvogSACrZp0itzq_RiTBiTA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <YJqZlp3C97WRIilE@phenom.ffwll.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,318 +51,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ carl.zhang@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 11, 2021 at 10:42:58AM -0700, Rob Clark wrote:
-> On Tue, May 11, 2021 at 10:21 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Tue, May 11, 2021 at 10:19:57AM -0700, Rob Clark wrote:
-> > > On Tue, May 11, 2021 at 9:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Mon, May 10, 2021 at 12:06:05PM -0700, Rob Clark wrote:
-> > > > > On Mon, May 10, 2021 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > >
-> > > > > > On Mon, May 10, 2021 at 6:51 PM Rob Clark <robdclark@gmail.com> wrote:
-> > > > > > >
-> > > > > > > On Mon, May 10, 2021 at 9:14 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > >
-> > > > > > > > On Sat, May 08, 2021 at 12:56:38PM -0700, Rob Clark wrote:
-> > > > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > > > >
-> > > > > > > > > drm_atomic_helper_dirtyfb() will end up stalling for vblank on "video
-> > > > > > > > > mode" type displays, which is pointless and unnecessary.  Add an
-> > > > > > > > > optional helper vfunc to determine if a plane is attached to a CRTC
-> > > > > > > > > that actually needs dirtyfb, and skip over them.
-> > > > > > > > >
-> > > > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > > >
-> > > > > > > > So this is a bit annoying because the idea of all these "remap legacy uapi
-> > > > > > > > to atomic constructs" helpers is that they shouldn't need/use anything
-> > > > > > > > beyond what userspace also has available. So adding hacks for them feels
-> > > > > > > > really bad.
-> > > > > > >
-> > > > > > > I suppose the root problem is that userspace doesn't know if dirtyfb
-> > > > > > > (or similar) is actually required or is a no-op.
-> > > > > > >
-> > > > > > > But it is perhaps less of a problem because this essentially boils
-> > > > > > > down to "x11 vs wayland", and it seems like wayland compositors for
-> > > > > > > non-vsync'd rendering just pageflips and throws away extra frames from
-> > > > > > > the app?
-> > > > > >
-> > > > > > Yeah it's about not adequately batching up rendering and syncing with
-> > > > > > hw. bare metal x11 is just especially stupid about it :-)
-> > > > > >
-> > > > > > > > Also I feel like it's not entirely the right thing to do here either.
-> > > > > > > > We've had this problem already on the fbcon emulation side (which also
-> > > > > > > > shouldn't be able to peek behind the atomic kms uapi curtain), and the fix
-> > > > > > > > there was to have a worker which batches up all the updates and avoids any
-> > > > > > > > stalls in bad places.
-> > > > > > >
-> > > > > > > I'm not too worried about fbcon not being able to render faster than
-> > > > > > > vblank.  OTOH it is a pretty big problem for x11
-> > > > > >
-> > > > > > That's why we'd let the worker get ahead at most one dirtyfb. We do
-> > > > > > the same with fbcon, which trivially can get ahead of vblank otherwise
-> > > > > > (if sometimes flushes each character, so you have to pile them up into
-> > > > > > a single update if that's still pending).
-> > > > > >
-> > > > > > > > Since this is for frontbuffer rendering userspace only we can probably get
-> > > > > > > > away with assuming there's only a single fb, so the implementation becomes
-> > > > > > > > pretty simple:
-> > > > > > > >
-> > > > > > > > - 1 worker, and we keep track of a single pending fb
-> > > > > > > > - if there's already a dirty fb pending on a different fb, we stall for
-> > > > > > > >   the worker to start processing that one already (i.e. the fb we track is
-> > > > > > > >   reset to NULL)
-> > > > > > > > - if it's pending on the same fb we just toss away all the updates and go
-> > > > > > > >   with a full update, since merging the clip rects is too much work :-) I
-> > > > > > > >   think there's helpers so you could be slightly more clever and just have
-> > > > > > > >   an overall bounding box
-> > > > > > >
-> > > > > > > This doesn't really fix the problem, you still end up delaying sending
-> > > > > > > the next back-buffer to mesa
-> > > > > >
-> > > > > > With this the dirtyfb would never block. Also glorious frontbuffer
-> > > > > > tracking corruption is possible, but that's not the kernel's problem.
-> > > > > > So how would anything get held up in userspace.
-> > > > >
-> > > > > the part about stalling if a dirtyfb is pending was what I was worried
-> > > > > about.. but I suppose you meant the worker stalling, rather than
-> > > > > userspace stalling (where I had interpreted it the other way around).
-> > > > > As soon as userspace needs to stall, you're losing again.
-> > > >
-> > > > Nah, I did mean userspace stalling, so we can't pile up unlimited amounts
-> > > > of dirtyfb request in the kernel.
-> > > >
-> > > > But also I never expect userspace that uses dirtyfb to actually hit this
-> > > > stall point (otherwise we'd need to look at this again). It would really
-> > > > be only there as defense against abuse.
-> > >
-> > > I don't believe modesetting ddx throttles dirtyfb, it (indirectly)
-> > > calls this from it's BlockHandler.. so if you do end up blocking after
-> > > the N'th dirtyfb, you are still going to end up stalling for vblank,
-> > > you are just deferring that for a frame or two..
-> >
-> > Nope, that's not what I mean.
-> >
-> > By default we pile up the updates, so you _never_ stall. The worker then
-> > takes the entire update every time it runs and batches them up.
-> >
-> > We _only_ stall when we get a dirtyfb with a different fb. Because that's
-> > much harder to pile up, plus frontbuffer rendering userspace uses a single
-> > fb across all screens anyway.
-> >
-> > So really I don't expect X to ever stall in it's BlockHandler with this.
+On Tue, May 11, 2021 at 04:49:58PM +0200, Daniel Vetter wrote:
+> On Thu, May 06, 2021 at 10:30:46AM -0700, Matthew Brost wrote:
+> > Add entry fpr i915 new parallel submission uAPI plan.
+> > 
+> > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > Cc: Tony Ye <tony.ye@intel.com>
+> > CC: Carl Zhang <carl.zhang@intel.com>
+> > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >  Documentation/gpu/rfc/i915_scheduler.rst | 56 +++++++++++++++++++++++-
+> >  1 file changed, 54 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
+> > index fa6780a11c86..e3455b33edfe 100644
+> > --- a/Documentation/gpu/rfc/i915_scheduler.rst
+> > +++ b/Documentation/gpu/rfc/i915_scheduler.rst
+> > @@ -13,7 +13,8 @@ i915 with the DRM scheduler is:
+> >  	  modparam enable_guc
+> >  	* Lots of rework will need to be done to integrate with DRM scheduler so
+> >  	  no need to nit pick everything in the code, it just should be
+> > -	  functional and not regress execlists
+> > +	  functional, no major coding style / layering errors, and not regress
+> > +	  execlists
 > 
-> ok, sorry, I missed the "different fb" part..
+> I guess this hunk should be in the previous patch?
 > 
-> but I could see a userspace that uses multiple fb's wanting to do
-> front buffer rendering.. although they are probably only going to do
-> it on a single display at a time, so maybe that is a bit of an edge
-> case
 
-Yeah at that point we either tell them "pls dont" (if it's new userspace).
-Or we quietly sigh and make the stall avoidance/pile up logic a bit more
-fancy to take another case into account.
+Yep, noticed this after sending.
 
-> > > The thing is, for a push style panel, you don't necessarily have to
-> > > wait for "vblank" (because "vblank" isn't necessarily a real thing),
-> > > so in that scenario dirtyfb could in theory be fast.  What you want to
-> > > do is fundamentally different for push vs pull style displays.
-> >
-> > Yeah, but we'd only stall if userspace does a modeset (which means
-> > different fb) and at that point you'll stall anyway a bit. So shouldn't
-> > hurt.
-> >
-> > Well you can do frontbuffer rendering even with atomic ioctl. Just don't
-> > use dirtyfb.
-> >
-> > But also you really shouldn't use frontbuffer rendering right now, since
-> > we don't have the interfaces right now to tell userspace whether it's
-> > cmd-mode or something else and what kind of corruption (if any) to expect
-> > when they do that.
+> >  	* Update IGTs / selftests as needed to work with GuC submission
+> >  	* Enable CI on supported platforms for a baseline
+> >  	* Rework / get CI heathly for GuC submission in place as needed
+> > @@ -67,4 +68,55 @@ levels too.
+> >  
+> >  New parallel submission uAPI
+> >  ============================
+> > -Details to come in a following patch.
+> > +The existing bonding uAPI is completely broken with GuC submission because
+> > +whether a submission is a single context submit or parallel submit isn't known
+> > +until execbuf time activated via the I915_SUBMIT_FENCE. To submit multiple
+> > +contexts in parallel with the GuC the context must be explictly registered with
+> > +N contexts and all N contexts must be submitted in a single command to the GuC.
+> > +This interfaces doesn't support dynamically changing between N contexts as the
+> > +bonding uAPI does. Hence the need for a new parallel submission interface. Also
+> > +the legacy bonding uAPI is quite confusing and not intuitive at all.
 > 
-> Compressed formats and front-buffer rendering don't really work out in
-> a pleasant way.. minigbm has a usage flag to indicate that the surface
-> will be used for front-buffer rendering (and it is a thing we should
-> probably port to real gbm).  I think this aspect of it is better
-> solved in userspace.
+> I think you should sit together with Jason on irc or so for a bit and get
+> an earful of how it's all broken irrespective of GuC submission or not.
+> Just to hammer in our case :-)
+>
 
-Yeah, I'm thinking more of cmd/scanout panels and stuff like that. Altough
-even with cmd-mode we currently reserve the right to rescan the buffer
-whenever we feel like in the kernel, so right now you can't rely on
-anything to avoid corruption for frontbuffer rendering.
-
+Sounds like a fun conversation, will do.
+ 
+> > +
+> > +The new parallel submission uAPI consists of 3 parts:
+> > +
+> > +* Export engines logical mapping
+> > +* A 'set_parallel' extension to configure contexts for parallel
+> > +  submission
+> > +* Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
+> > +
+> > +Export engines logical mapping
+> > +------------------------------
+> > +Certain use cases require BBs to be placed on engine instances in logical order
+> > +(e.g. split-frame on gen11+). The logical mapping of engine instances can change
+> > +based on fusing. Rather than making UMDs be aware of fusing, simply expose the
+> > +logical mapping with the existing query engine info IOCTL. Also the GuC
+> > +submission interface currently only supports submitting multiple contexts to
+> > +engines in logical order.
 > 
-> > > > > > > But we could re-work drm_framebuffer_funcs::dirty to operate on a
-> > > > > > > per-crtc basis and hoist the loop and check if dirtyfb is needed out
-> > > > > > > of drm_atomic_helper_dirtyfb()
-> > > > > >
-> > > > > > That's still using information that userspace doesn't have, which is a
-> > > > > > bit irky. We might as well go with your thing here then.
-> > > > >
-> > > > > arguably, this is something we should expose to userspace.. for DSI
-> > > > > command-mode panels, you probably want to make a different decision
-> > > > > with regard to how many buffers in your flip-chain..
-> > > > >
-> > > > > Possibly we should add/remove the fb_damage_clips property depending
-> > > > > on the display type (ie. video/pull vs cmd/push mode)?
-> > > >
-> > > > I'm not sure whether atomic actually needs this exposed:
-> > > > - clients will do full flips for every frame anyway, I've not heard of
-> > > >   anyone seriously doing frontbuffer rendering.
-> > >
-> > > Frontbuffer rendering is actually a thing, for ex. to reduce latency
-> > > for stylus (android and CrOS do this.. fortunately AFAICT CrOS never
-> > > uses the dirtyfb ioctl.. but as soon as someone has the nice idea to
-> > > add that we'd be running into the same problem)
-> > >
-> > > Possibly one idea is to treat dirty-clip updates similarly to cursor
-> > > updates, and let the driver accumulate the updates and then wait until
-> > > vblank to apply them
-> >
-> > Yeah that's what I mean. Except implemented cheaper. fbcon code already
-> > does it. I think we're seriously talking past each another.
+> Maybe highlight more that this is a new restriction with GuC compared to
+> execlist, which is why we need to expose this information to userspace.
+> Also on the platforms thus far supported in upstream there's at most 2
+> engines of the same type, so really not an issue.
+>
+
+Sure. This is a limitation of the GuC interface + really isn't needed unless we
+have more than 2 engines of the same type.
+ 
+> > +
+> > +A single bit will be added to drm_i915_engine_info.flags indicating that the
+> > +logical instance has been returned and a new field,
+> > +drm_i915_engine_info.logical_instance, returns the logical instance.
+> > +
+> > +A 'set_parallel' extension to configure contexts for parallel submission
+> > +------------------------------------------------------------------------
+> > +The 'set_parallel' extension configures N contexts for parallel submission. It
+> > +is setup step that should be called before using any of the contexts. See
+> > +I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE or I915_CONTEXT_ENGINES_EXT_BOND for
+> > +similar existing examples. Once the N contexts are configured for parallel
+> > +submission the execbuf2 IOCTL can be called submiting 1-N BBs in a single IOCTL.
+> > +Although submitting less than N BBs is allowed it is not recommended as that
+> > +will likely leave parts of the hardware reserved and idle. Initially only
+> > +support GuC submission. Execlist support can be added later if needed.
 > 
-> Hmm, well 'state->async_update = true' is a pretty cheap implementation..
+> Can we just require that you always submit N batchbuffers, or does this
+> create a problem for userspace? Allowing things just because is generally
+> not a good idea with uapi, it's better to limit and then allow when
+> there's a need.
+>
 
-It's also very broken thus far :-/
-
-It's broken enough that I've essentially given up trying to make cursor
-work reasonably well across drivers, much less extend this to plane
-updates in general, or more. One can dream still, but for legacy ioctl or
-functionality like fbcon it's much easier to hack over the problem with
-some kernel threads before you call drm_atomic_commit.
-
-Cheers, Daniel
-
+Yes, we can limit the submit to N batchbuffers. In fact I want too. I think 1-N
+is a layover from our internal discussions where we wanted this interface to be
+able to do everything and anything. 
+ 
+> Ofc if we already have a need then explain why and that's all fine.
 > 
-> BR,
-> -R
+> Also detailed comments on the kerneldoc I'll do in the next patches.
 > 
-> > -Daniel
-> >
-> > >
-> > > BR,
-> > > -R
-> > >
-> > > > - transporting the cliprects around and then tossing them if the driver
-> > > >   doesn't need them in their flip is probably not a measurable win
-> > > >
-> > > > But yeah if I'm wrong and we have a need here and it's useful, then
-> > > > exposing this to userspace should be done. Meanwhile I think a "offload to
-> > > > worker like fbcon" trick for this legacy interface is probabyl the best
-> > > > option. Plus it will fix things not just for the case where you don't need
-> > > > dirty uploading, it will also fix things for the case where you _do_ need
-> > > > dirty uploading (since right now we stall in a few bad places for that I
-> > > > think).
-> > > > -Daniel
-> > > >
-> > > > >
-> > > > > BR,
-> > > > > -R
-> > > > >
-> > > > > > -Daniel
-> > > > > >
-> > > > > > > BR,
-> > > > > > > -R
-> > > > > > >
-> > > > > > > >
-> > > > > > > > Could probably steal most of the implementation.
-> > > > > > > >
-> > > > > > > > This approach here feels a tad too much in the hacky area ...
-> > > > > > > >
-> > > > > > > > Thoughts?
-> > > > > > > > -Daniel
-> > > > > > > >
-> > > > > > > > > ---
-> > > > > > > > >  drivers/gpu/drm/drm_damage_helper.c      |  8 ++++++++
-> > > > > > > > >  include/drm/drm_modeset_helper_vtables.h | 14 ++++++++++++++
-> > > > > > > > >  2 files changed, 22 insertions(+)
-> > > > > > > > >
-> > > > > > > > > diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-> > > > > > > > > index 3a4126dc2520..a0bed1a2c2dc 100644
-> > > > > > > > > --- a/drivers/gpu/drm/drm_damage_helper.c
-> > > > > > > > > +++ b/drivers/gpu/drm/drm_damage_helper.c
-> > > > > > > > > @@ -211,6 +211,7 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
-> > > > > > > > >  retry:
-> > > > > > > > >       drm_for_each_plane(plane, fb->dev) {
-> > > > > > > > >               struct drm_plane_state *plane_state;
-> > > > > > > > > +             struct drm_crtc *crtc;
-> > > > > > > > >
-> > > > > > > > >               ret = drm_modeset_lock(&plane->mutex, state->acquire_ctx);
-> > > > > > > > >               if (ret)
-> > > > > > > > > @@ -221,6 +222,13 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
-> > > > > > > > >                       continue;
-> > > > > > > > >               }
-> > > > > > > > >
-> > > > > > > > > +             crtc = plane->state->crtc;
-> > > > > > > > > +             if (crtc->helper_private->needs_dirtyfb &&
-> > > > > > > > > +                             !crtc->helper_private->needs_dirtyfb(crtc)) {
-> > > > > > > > > +                     drm_modeset_unlock(&plane->mutex);
-> > > > > > > > > +                     continue;
-> > > > > > > > > +             }
-> > > > > > > > > +
-> > > > > > > > >               plane_state = drm_atomic_get_plane_state(state, plane);
-> > > > > > > > >               if (IS_ERR(plane_state)) {
-> > > > > > > > >                       ret = PTR_ERR(plane_state);
-> > > > > > > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > > > index eb706342861d..afa8ec5754e7 100644
-> > > > > > > > > --- a/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > > > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > > > @@ -487,6 +487,20 @@ struct drm_crtc_helper_funcs {
-> > > > > > > > >                                    bool in_vblank_irq, int *vpos, int *hpos,
-> > > > > > > > >                                    ktime_t *stime, ktime_t *etime,
-> > > > > > > > >                                    const struct drm_display_mode *mode);
-> > > > > > > > > +
-> > > > > > > > > +     /**
-> > > > > > > > > +      * @needs_dirtyfb
-> > > > > > > > > +      *
-> > > > > > > > > +      * Optional callback used by damage helpers to determine if fb_damage_clips
-> > > > > > > > > +      * update is needed.
-> > > > > > > > > +      *
-> > > > > > > > > +      * Returns:
-> > > > > > > > > +      *
-> > > > > > > > > +      * True if fb_damage_clips update is needed to handle DIRTYFB, False
-> > > > > > > > > +      * otherwise.  If this callback is not implemented, then True is
-> > > > > > > > > +      * assumed.
-> > > > > > > > > +      */
-> > > > > > > > > +     bool (*needs_dirtyfb)(struct drm_crtc *crtc);
-> > > > > > > > >  };
-> > > > > > > > >
-> > > > > > > > >  /**
-> > > > > > > > > --
-> > > > > > > > > 2.30.2
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > --
-> > > > > > > > Daniel Vetter
-> > > > > > > > Software Engineer, Intel Corporation
-> > > > > > > > http://blog.ffwll.ch
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > > --
-> > > > > > Daniel Vetter
-> > > > > > Software Engineer, Intel Corporation
-> > > > > > http://blog.ffwll.ch
-> > > >
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> > +
+> > +Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
+> > +i915_context_engines_parallel_submit to the uAPI to implement this extension.
+> > +
+> > +Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
+> > +-------------------------------------------------------------------
+> > +Contexts that have been configured with the 'set_parallel' extension are allowed
+> > +to submit 1-N BBs in a single execbuf2 IOCTL. The BBs are either the last N
+> > +objects in the drm_i915_gem_exec_object2 list or the first N if
+> > +I915_EXEC_BATCH_FIRST is set.
+> > +
+> > +Add field 6 bit wide field to drm_i915_gem_exec_object2.flags which indicates
+> > +the number of BBs - 1 included in the IOCTL.
+> 
+> Hm we have the nice execbuf extension chaining, any reason for not using
+> that and instead opting for clever field packing?
+>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I think we just drop this per the comments above. If we only allow N batch
+buffers on a contexts configured with 'set_parallel' we really don't need to pass
+in the number of buffers do we?
+
+Matt
+ 
+> Cheers, Daniel
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
