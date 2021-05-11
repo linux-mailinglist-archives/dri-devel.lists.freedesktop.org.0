@@ -2,34 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B462837A3E7
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 11:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE9D37A3EE
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 11:43:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C06A86EA10;
-	Tue, 11 May 2021 09:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 231F56EA12;
+	Tue, 11 May 2021 09:43:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D02746EA10
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:40:21 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FfXrz1SzBzkWQQ;
- Tue, 11 May 2021 17:37:39 +0800 (CST)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A80A6EA12
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:43:24 +0000 (UTC)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FfXvh6Zkyzmg5n;
+ Tue, 11 May 2021 17:40:00 +0800 (CST)
 Received: from thunder-town.china.huawei.com (10.174.177.72) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 11 May 2021 17:40:09 +0800
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 11 May 2021 17:43:15 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park
- <kyungmin.park@samsung.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>, linux-samsung-soc
- <linux-samsung-soc@vger.kernel.org>
-Subject: [PATCH 1/1] drm/exynos: Remove redundant error printing in
- exynos_dsi_probe()
-Date: Tue, 11 May 2021 17:40:04 +0800
-Message-ID: <20210511094004.4726-1-thunder.leizhen@huawei.com>
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Edmund Dea
+ <edmund.j.dea@intel.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 1/1] drm/kmb: Remove redundant error printing in
+ kmb_dsi_map_mmio()
+Date: Tue, 11 May 2021 17:43:08 +0800
+Message-ID: <20210511094308.4779-1-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,25 +59,25 @@ binary size.
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 4 +---
+ drivers/gpu/drm/kmb/kmb_dsi.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 44e402b7cdfb6e3..2d2fe5ab26e7030 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1786,10 +1786,8 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	dsi->reg_base = devm_ioremap_resource(dev, res);
--	if (IS_ERR(dsi->reg_base)) {
--		dev_err(dev, "failed to remap io region\n");
-+	if (IS_ERR(dsi->reg_base))
- 		return PTR_ERR(dsi->reg_base);
+diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
+index 4b5d82af84b3014..6f278bc018cee67 100644
+--- a/drivers/gpu/drm/kmb/kmb_dsi.c
++++ b/drivers/gpu/drm/kmb/kmb_dsi.c
+@@ -1468,10 +1468,8 @@ int kmb_dsi_map_mmio(struct kmb_dsi *kmb_dsi)
+ 		return -ENOMEM;
+ 	}
+ 	kmb_dsi->mipi_mmio = devm_ioremap_resource(dev, res);
+-	if (IS_ERR(kmb_dsi->mipi_mmio)) {
+-		dev_err(dev, "failed to ioremap mipi registers");
++	if (IS_ERR(kmb_dsi->mipi_mmio))
+ 		return PTR_ERR(kmb_dsi->mipi_mmio);
 -	}
+ 	return 0;
+ }
  
- 	dsi->phy = devm_phy_get(dev, "dsim");
- 	if (IS_ERR(dsi->phy)) {
 -- 
 2.26.0.106.g9fadedd
 
