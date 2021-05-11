@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE5737AE1F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 20:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A5737AE3A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 20:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 792646E0C9;
-	Tue, 11 May 2021 18:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 959676EAB0;
+	Tue, 11 May 2021 18:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 302DE89916
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 18:12:04 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1620756727; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=DzEJfa/vKLf61btyzX4T5WVRRfcXyjWJ4T0YA1U8UFA=;
- b=A2xS/GiIDpjGM/Gj2Qhwrrof4dBf8BUbbvwO7cYM5q+HjuQ+LwEH0UUYXStKkJLE+CjufQjC
- pxfZj/ziv/T7fneltxUft0Kc8aRUMfB7VKYjdeVBZ33F2TNZG0QrOJBCtxwxre3Oz1x/sw2e
- ihfEhYgbNIJ3CCfurbTsmgyuUrY=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 609ac8efe0211609c415fd4a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 11 May 2021 18:11:59
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id F1AF5C4323A; Tue, 11 May 2021 18:11:58 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: rajeevny)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 43309C4338A;
- Tue, 11 May 2021 18:11:57 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E21CA6EAB1;
+ Tue, 11 May 2021 18:19:16 +0000 (UTC)
+IronPort-SDR: uJkLrPBbvFQf3FEF6TR8TpSSWOYJ4TUc3C3zlpUOp+z3B3yPRSBZz0uyinsUX8N/27LVvbk4wu
+ jFHCvvGPV84g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="196417351"
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="196417351"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 11:19:15 -0700
+IronPort-SDR: iN+f4I11Q/hkuc8yNaysellLHlMpvGwmVCLubF8s0hsWp6D/va/93j/M+XpPocnyMwSgBXne1y
+ UhUYa0yVAONA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="399484513"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga007.fm.intel.com with SMTP; 11 May 2021 11:19:09 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 11 May 2021 21:19:08 +0300
+Date: Tue, 11 May 2021 21:19:08 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: Re: [PATCH v3] drm/i915: Invoke another _DSM to enable MUX on HP
+ Workstation laptops
+Message-ID: <YJrKnHppE5FnaZ72@intel.com>
+References: <20210426152420.359402-1-kai.heng.feng@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 11 May 2021 23:41:57 +0530
-From: rajeevny@codeaurora.org
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [v3 1/2] dt-bindings: backlight: add DisplayPort aux backlight
-In-Reply-To: <CAD=FV=XW90L6or8NKA-Rjjp3s3fRno1xSkD+X0PA1rTyeKgpMw@mail.gmail.com>
-References: <1619416756-3533-1-git-send-email-rajeevny@codeaurora.org>
- <1619416756-3533-2-git-send-email-rajeevny@codeaurora.org>
- <20210429180435.GA1385465@robh.at.kernel.org>
- <CAD=FV=V-kdySH5Pp-Fb-PRYk60Ha_UOTXJHcvMp+uV3P1oo7Uw@mail.gmail.com>
- <78c4bd291bd4a17ae2a1d02d0217de43@codeaurora.org>
- <CAD=FV=XW90L6or8NKA-Rjjp3s3fRno1xSkD+X0PA1rTyeKgpMw@mail.gmail.com>
-Message-ID: <c867b2e59e90899e6c1648e06f5f9cd2@codeaurora.org>
-X-Sender: rajeevny@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210426152420.359402-1-kai.heng.feng@canonical.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,253 +52,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mkrishn@codeaurora.org, "open list:OPEN FIRMWARE AND FLATTENED
- DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>, "Kristian H.
- Kristensen" <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>, "Lankhorst, 
- Maarten" <maarten.lankhorst@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Karthik B S <karthik.b.s@intel.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+ rodrigo.vivi@intel.com, Dave Airlie <airlied@redhat.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01-05-2021 03:08, Doug Anderson wrote:
-> Hi,
+On Mon, Apr 26, 2021 at 11:24:10PM +0800, Kai-Heng Feng wrote:
+> On HP Fury G7 Workstations, graphics output is re-routed from Intel GFX
+> to discrete GFX after S3. This is not desirable, because userspace will
+> treat connected display as a new one, losing display settings.
 > 
-> On Fri, Apr 30, 2021 at 8:10 AM <rajeevny@codeaurora.org> wrote:
->> 
->> On 30-04-2021 02:33, Doug Anderson wrote:
->> > Hi,
->> >
->> > On Thu, Apr 29, 2021 at 11:04 AM Rob Herring <robh@kernel.org> wrote:
->> >>
->> >> On Mon, Apr 26, 2021 at 11:29:15AM +0530, Rajeev Nandan wrote:
->> >> > Add bindings for DisplayPort aux backlight driver.
->> >> >
->> >> > Changes in v2:
->> >> > - New
->> >> >
->> >> > Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
->> >> > ---
->> >> >  .../bindings/leds/backlight/dp-aux-backlight.yaml  | 49 ++++++++++++++++++++++
->> >> >  1 file changed, 49 insertions(+)
->> >> >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml
->> >> >
->> >> > diff --git a/Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml
->> >> > new file mode 100644
->> >> > index 00000000..0fa8bf0
->> >> > --- /dev/null
->> >> > +++ b/Documentation/devicetree/bindings/leds/backlight/dp-aux-backlight.yaml
->> >> > @@ -0,0 +1,49 @@
->> >> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> >> > +%YAML 1.2
->> >> > +---
->> >> > +$id: http://devicetree.org/schemas/leds/backlight/dp-aux-backlight.yaml#
->> >> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> >> > +
->> >> > +title: DisplayPort aux backlight driver bindings
->> >> > +
->> >> > +maintainers:
->> >> > +  - Rajeev Nandan <rajeevny@codeaurora.org>
->> >> > +
->> >> > +description:
->> >> > +  Backlight driver to control the brightness over DisplayPort aux channel.
->> >> > +
->> >> > +allOf:
->> >> > +  - $ref: common.yaml#
->> >> > +
->> >> > +properties:
->> >> > +  compatible:
->> >> > +    const: dp-aux-backlight
->> >> > +
->> >> > +  ddc-i2c-bus:
->> >> > +    $ref: /schemas/types.yaml#/definitions/phandle
->> >> > +    description:
->> >> > +      A phandle to the system I2C controller connected to the DDC bus used
->> >> > +      for the DisplayPort AUX channel.
->> >> > +
->> >> > +  enable-gpios:
->> >> > +    maxItems: 1
->> >> > +    description: GPIO specifier for backlight enable pin.
->> >> > +
->> >> > +  max-brightness: true
->> >> > +
->> >> > +required:
->> >> > +  - compatible
->> >> > +  - ddc-i2c-bus
->> >> > +
->> >> > +additionalProperties: false
->> >> > +
->> >> > +examples:
->> >> > +  - |
->> >> > +    backlight {
->> >> > +        compatible = "dp-aux-backlight";
->> >> > +        ddc-i2c-bus = <&sn65dsi86_bridge>;
->> >> > +        enable-gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
->> >>
->> >> So the DDC bus is connected to a backlight and also a panel? This
->> >> binding is not reflecting the h/w, but rather what you want for some
->> >> driver.
->> >>
->> >> There's only one thing here and that's an eDP panel which supports
->> >> backlight control via DP aux channel. You can figure all that out from
->> >> the panel's compatible and/or reading the EDID.
->> >>
->> >> You might also be interested in this thread:
->> >>
->> >> https://lore.kernel.org/lkml/YIKsDtjcIHGNvW0u@orome.fritz.box/
->> >
->> > I think Rajeev needs to rework everything anyway as per:
->> >
->> > https://lore.kernel.org/r/87zgxl5qar.fsf@intel.com
->> >
->> > ...but you're right that it makes sense not to model the backlight as
->> > a separate node in the device tree. The panel driver can handle
->> > setting up the backlight.
->> >
->> > -Doug
->> 
->> It was not a good idea to create a separate backlight driver and use
->> ddc-i2c-bus to get access to DP aux. I am working to move the code
->> to the panel driver and to utilize the new DRM helper functions
->> (drm_edp_backlight_*) Lyude has added [1].
->> 
->> To use these helper functions, the panel driver should have access to
->> the
->> "struct drm_dp_aux *". The simple-panel has a "ddc-i2c-bus" property
->> to give the panel access to the DDC bus and is currently being used to
->> get the EDID from the panel. Can I use the same ddc bus i2c_adapter to
->> get
->> the "struct drm_dp_aux *"?
->> 
->> As per the suggestion [2], I get the "struct drm_dp_aux *" from the
->> i2c_adapter of ddc bus (maybe I didn't understand the suggestion
->> correctly),
->> and, it turned out, the way I have implemented is not the right way 
->> [3].
->> So, I am afraid to use the same method in the panel driver.
->> 
->> 
->> [1] https://lore.kernel.org/dri-devel/871rb5bcf9.fsf@intel.com/
->> [2] https://www.spinics.net/lists/dri-devel/msg295429.html
->> [3]
->> https://lore.kernel.org/dri-devel/20210426111116.4lc3ekxjugjr3oho@maple.lan/
+> The expected behavior is to let discrete GFX drives all external
+> displays.
 > 
-> So it's definitely up to maintainers, not me. ...but I guess I would
-> have expected something like a new property called "ddc-aux-bus". Then
-> you'd have to create a new API call called something like
-> "of_find_ddc_aux_adapter_by_node()" that would allow you to find it.
+> The platform in question uses ACPI method \_SB.PCI0.HGME to enable MUX.
+> The method is inside the another _DSM, so add the _DSM and call it
+> accordingly.
 > 
-
-To implement the first suggestion, I can think of the following way
-to get the "struct drm_dp_aux" in the panel_simple_probe function:
-
-- Create a new panel-simple DT property "ddc-aux-bus", a phandle to the
-platform device that implements the AUX channel.
-
-- Create a global list of drm_dp_aux in drm_dp_helper.c. Initialize list 
-head
-in drm_dp_aux_init(), add the drm_dp_aux onto the list in 
-drm_dp_aux_register().
-Similarly, remove the drm_dp_aux from list in drm_dp_aux_unregister().
-
-- Create a new function of_drm_find_dp_aux_by_node() to get the expected
-drm_dp_aux from this global list.
-
-Please let me know your views on this implementation.
-
-Below is the summary of the changes in drm dp helper:
-
----
-
-// drm_dp_helper.h
-
-struct drm_dp_aux {
-	...
-	struct list_head list;
-	...
-}
-
-// drm_dp_helper.c
-
-static DEFINE_MUTEX(dp_aux_lock);
-static LIST_HEAD(dp_aux_list);
-
-static void drm_dp_aux_add(struct drm_dp_aux *aux)
-{
-     mutex_lock(&dp_aux_lock);
-     list_add_tail(&aux->list, &dp_aux_list);
-     mutex_unlock(&dp_aux_lock);
-}
-
-static void drm_dp_aux_remove(struct drm_dp_aux *aux)
-{
-     mutex_lock(&dp_aux_lock);
-     list_del_init(&aux->list);
-     mutex_unlock(&dp_aux_lock);
-}
-
-#ifdef CONFIG_OF
-struct drm_dp_aux *of_drm_find_dp_aux_by_node(struct device_node *np)
-{
-     struct drm_dp_aux *aux;
-     mutex_lock(&dp_aux_lock);
-
-     list_for_each_entry(aux, &dp_aux_list, list) {
-         if (aux->dev->of_node == np) {
-             mutex_unlock(&dp_aux_lock);
-             return aux;
-         }
-     }
-
-     mutex_unlock(&dp_aux_lock);
-     return NULL;
-}
-EXPORT_SYMBOL(of_drm_find_dp_aux_by_node);
-#endif
-
-
-int drm_dp_aux_init(struct drm_dp_aux *aux)
-{
-     INIT_LIST_HEAD(&aux->list);
-     ...
-}
-
-int drm_dp_aux_register(struct drm_dp_aux *aux)
-{
-     ...
-     drm_dp_aux_add(aux);
-
-     return 0;
-}
-
-void drm_dp_aux_unregister(struct drm_dp_aux *aux)
-{
-     drm_dp_aux_remove(aux);
-     ...
-}
----
-
-Thanks,
-Rajeev
-
-> I guess an alternate way to solve this (I'm not totally sure whether
-> it's better or worse) would be to add a function that would walk up
-> the chain of parent bridges and ask them for a pointer to the aux bus.
-> I definitely haven't thought it all the way through, but I'd imagine
-> something like drm_bridge_chain_get_ddc_aux(). This is _probably_
-> better than adding the "ddc-aux-bus" property but it assumes that the
-> aux bus is provided by one of our parents. Hrm, looking at this
-> briefly, though, I'm not sure how to do it. It doesn't seem possible
-> to get the parent bridges from the panel structure. Even if you assume
-> that your parent is wrapping you with a panel_bridge it still doesn't
-> seem possible?
+> I also tested some MUX-less and iGPU only laptops with that _DSM, no
+> regression was found.
 > 
-> This probably needs more drm-expertise.
+> v3:
+>  - Remove BXT from names.
+>  - Change the parameter type.
+>  - Fold the function into intel_modeset_init_hw().
 > 
-> -Doug
+> v2:
+>  - Forward declare struct pci_dev.
+> 
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3113
+> References: https://lore.kernel.org/intel-gfx/1460040732-31417-4-git-send-email-animesh.manna@intel.com/
+> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_acpi.c    | 18 ++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_acpi.h    |  3 +++
+>  drivers/gpu/drm/i915/display/intel_display.c |  2 ++
+>  3 files changed, 23 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+> index 833d0c1be4f1..d008d3976261 100644
+> --- a/drivers/gpu/drm/i915/display/intel_acpi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+> @@ -13,12 +13,17 @@
+>  #include "intel_display_types.h"
+>  
+>  #define INTEL_DSM_REVISION_ID 1 /* For Calpella anyway... */
+> +#define INTEL_DSM_FN_PLATFORM_MUX_ENABLE 0 /* No args */
+
+This block of defines is for the other DSM. We don't want to
+mix these up. We also want to name it according to the spec,
+so something like GET_BIOS_DATA_FUNCS_SUPPORTED. Similarly
+for the intel_dsm_enable_mux() wrapper function. + it needs
+a comment to document that some BIOSes abuse it to do MUX
+initialization and whatnot.
+
+We should perhaps rename all the old DSM stuff to
+something a bit less generic as well...
+
+>  #define INTEL_DSM_FN_PLATFORM_MUX_INFO 1 /* No args */
+>  
+>  static const guid_t intel_dsm_guid =
+>  	GUID_INIT(0x7ed873d3, 0xc2d0, 0x4e4f,
+>  		  0xa8, 0x54, 0x0f, 0x13, 0x17, 0xb0, 0x1c, 0x2c);
+>  
+> +static const guid_t intel_dsm_guid2 =
+> +	GUID_INIT(0x3e5b41c6, 0xeb1d, 0x4260,
+> +		  0x9d, 0x15, 0xc7, 0x1f, 0xba, 0xda, 0xe4, 0x14);
+> +
+>  static char *intel_dsm_port_name(u8 id)
+>  {
+>  	switch (id) {
+> @@ -176,6 +181,19 @@ void intel_unregister_dsm_handler(void)
+>  {
+>  }
+>  
+> +void intel_dsm_enable_mux(struct drm_i915_private *i915)
+> +{
+> +	struct pci_dev *pdev = i915->drm.pdev;
+> +	acpi_handle dhandle;
+> +
+> +	dhandle = ACPI_HANDLE(&pdev->dev);
+> +	if (!dhandle)
+> +		return;
+> +
+> +	acpi_evaluate_dsm(dhandle, &intel_dsm_guid2, INTEL_DSM_REVISION_ID,
+> +			  INTEL_DSM_FN_PLATFORM_MUX_ENABLE, NULL);
+> +}
+> +
+>  /*
+>   * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
+>   * Attached to the Display Adapter).
+> diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
+> index e8b068661d22..def013cf6308 100644
+> --- a/drivers/gpu/drm/i915/display/intel_acpi.h
+> +++ b/drivers/gpu/drm/i915/display/intel_acpi.h
+> @@ -11,11 +11,14 @@ struct drm_i915_private;
+>  #ifdef CONFIG_ACPI
+>  void intel_register_dsm_handler(void);
+>  void intel_unregister_dsm_handler(void);
+> +void intel_dsm_enable_mux(struct drm_i915_private *i915);
+>  void intel_acpi_device_id_update(struct drm_i915_private *i915);
+>  #else
+>  static inline void intel_register_dsm_handler(void) { return; }
+>  static inline void intel_unregister_dsm_handler(void) { return; }
+>  static inline
+> +void intel_dsm_enable_mux(struct drm_i915_private *i915) { return; }
+> +static inline
+>  void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
+>  #endif /* CONFIG_ACPI */
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index a10e26380ef3..d79dae370b20 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -11472,6 +11472,8 @@ void intel_modeset_init_hw(struct drm_i915_private *i915)
+>  {
+>  	struct intel_cdclk_state *cdclk_state;
+>  
+> +	intel_dsm_enable_mux(i915);
+> +
+
+This should probably be somewhere around where we do all the other
+semi ACPI related init (OpRegion/etc.).
+
+>  	if (!HAS_DISPLAY(i915))
+>  		return;
+>  
+> -- 
+> 2.30.2
+
+-- 
+Ville Syrjälä
+Intel
