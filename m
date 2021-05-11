@@ -1,36 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88EE237A276
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:48:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A009037A277
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:48:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6326A6E9FB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C02056E9FC;
 	Tue, 11 May 2021 08:48:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3376E9FB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C98176E9FC
  for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 08:48:22 +0000 (UTC)
-IronPort-SDR: o8Bs2i3m9CUYr76Ovyy7i5e7rILjmik1/mTN7E/Zz/i55k7GbHaaO+VHIG0kwrj/RLk2qd6a7O
- 77N61Ft1V9ow==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199458707"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="199458707"
+IronPort-SDR: I0RZOucb51nM4MgznsWeJnBLvyYODiIPkxNLVO0pHfiaIk2nYvfZMlSRt9EzbOefPsaeCKQpGW
+ Eor6zUgt1Psg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199458708"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="199458708"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 01:48:21 -0700
-IronPort-SDR: /fCGEUGQGybL5JQuZ5U7ll7ird3t7q/slhAp7gwJI0pGyFJ7VfFEdNiHbRD+NdQamduWokPogJ
- Vd9U49gKiGpA==
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="541571687"
+ 11 May 2021 01:48:22 -0700
+IronPort-SDR: l8J+wcYouA9rH2QI4o3oUe9Pwa0h0mM9us5dL3gdymsdrMy3MZqKEDcweg8zZXvFbdqQg/20B/
+ 0O5Hylk9NRvQ==
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="541571689"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2021 01:48:21 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] virtio-gpu uapi: Add VIRTIO_GPU_F_EXPLICIT_FLUSH feature
-Date: Tue, 11 May 2021 01:36:08 -0700
-Message-Id: <20210511083610.367541-1-vivek.kasireddy@intel.com>
+Subject: [PATCH 2/3] drm/virtio: Add VIRTIO_GPU_CMD_WAIT_FLUSH cmd
+Date: Tue, 11 May 2021 01:36:09 -0700
+Message-Id: <20210511083610.367541-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210511083610.367541-1-vivek.kasireddy@intel.com>
+References: <20210511083610.367541-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,50 +52,56 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This feature enables the Guest to wait until a flush has been
-performed on a buffer it has submitted to the Host.
+This implements the hypercall interface for the wait_flush
+command.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/uapi/linux/virtio_gpu.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/virtio/virtgpu_drv.h |  4 ++++
+ drivers/gpu/drm/virtio/virtgpu_vq.c  | 17 +++++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
-index 97523a95781d..8fe58657a473 100644
---- a/include/uapi/linux/virtio_gpu.h
-+++ b/include/uapi/linux/virtio_gpu.h
-@@ -60,6 +60,11 @@
-  */
- #define VIRTIO_GPU_F_RESOURCE_BLOB       3
- 
-+/*
-+ * VIRTIO_GPU_CMD_WAIT_FLUSH
-+ */
-+#define VIRTIO_GPU_F_EXPLICIT_FLUSH      4
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index d9dbc4f258f3..f77d196ccc8f 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -403,6 +403,10 @@ virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
+ 				struct drm_framebuffer *fb,
+ 				uint32_t width, uint32_t height,
+ 				uint32_t x, uint32_t y);
++void virtio_gpu_cmd_wait_flush(struct virtio_gpu_device *vgdev,
++			       struct virtio_gpu_object_array *objs,
++			       struct virtio_gpu_fence *fence);
 +
- enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_UNDEFINED = 0,
  
-@@ -78,6 +83,7 @@ enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID,
- 	VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB,
- 	VIRTIO_GPU_CMD_SET_SCANOUT_BLOB,
-+	VIRTIO_GPU_CMD_WAIT_FLUSH,
+ /* virtgpu_display.c */
+ int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index cf84d382dd41..0042a143e71e 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -1307,3 +1307,20 @@ void virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
  
- 	/* 3d commands */
- 	VIRTIO_GPU_CMD_CTX_CREATE = 0x0200,
-@@ -441,4 +447,10 @@ struct virtio_gpu_resource_unmap_blob {
- 	__le32 padding;
- };
- 
-+/* VIRTIO_GPU_CMD_WAIT_FLUSH */
-+struct virtio_gpu_wait_flush {
-+	struct virtio_gpu_ctrl_hdr hdr;
-+	__le32 resource_id;
-+};
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
+ }
 +
- #endif
++void virtio_gpu_cmd_wait_flush(struct virtio_gpu_device *vgdev,
++			       struct virtio_gpu_object_array *objs,
++			       struct virtio_gpu_fence *fence)
++{
++	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
++	struct virtio_gpu_wait_flush *cmd_p;
++	struct virtio_gpu_vbuffer *vbuf;
++
++	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	memset(cmd_p, 0, sizeof(*cmd_p));
++	vbuf->objs = objs;
++
++	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_WAIT_FLUSH);
++	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
++	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
++}
 -- 
 2.30.2
 
