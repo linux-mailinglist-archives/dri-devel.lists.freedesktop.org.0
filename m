@@ -2,47 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85DAB37A7F4
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 15:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A9937A83D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 15:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D39B6EA2F;
-	Tue, 11 May 2021 13:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29A7E6EA37;
+	Tue, 11 May 2021 13:55:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 760AB6E519
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 13:44:33 +0000 (UTC)
-Received: from dggeml707-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FffGl3nZZz61NK;
- Tue, 11 May 2021 21:41:51 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggeml707-chm.china.huawei.com (10.3.17.137) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 11 May 2021 21:44:30 +0800
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 11 May 2021 21:44:30 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, Baruch Siach
- <baruch@tkos.co.il>, dri-devel <dri-devel@lists.freedesktop.org>,
- linux-mediatek <linux-mediatek@lists.infradead.org>, linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2 1/1] drm/mediatek: Remove redundant error printing
-Date: Tue, 11 May 2021 21:43:37 +0800
-Message-ID: <20210511134338.6167-2-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20210511134338.6167-1-thunder.leizhen@huawei.com>
-References: <20210511134338.6167-1-thunder.leizhen@huawei.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB70C6EA37
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 13:55:34 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3EEF4ADD7;
+ Tue, 11 May 2021 13:55:33 +0000 (UTC)
+Subject: Re: [PATCH 0/2] drm/qxl: two one-liner fixes.
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20210511104522.2694803-1-kraxel@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <fa358f43-d431-959d-177f-c2666a1b0feb@suse.de>
+Date: Tue, 11 May 2021 15:55:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.177.72]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20210511104522.2694803-1-kraxel@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="UP2YVNCWoGFhiFFoFGO7BtGtCjpJmtNMA"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,126 +41,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhen Lei <thunder.leizhen@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When devm_ioremap_resource() fails, a clear enough error message will be
-printed by its subfunction __devm_ioremap_resource(). The error
-information contains the device name, failure cause, and possibly resource
-information.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--UP2YVNCWoGFhiFFoFGO7BtGtCjpJmtNMA
+Content-Type: multipart/mixed; boundary="NOrPDDssAHqN8DLO3MI9d9yYHZ5Fcurjt";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Message-ID: <fa358f43-d431-959d-177f-c2666a1b0feb@suse.de>
+Subject: Re: [PATCH 0/2] drm/qxl: two one-liner fixes.
+References: <20210511104522.2694803-1-kraxel@redhat.com>
+In-Reply-To: <20210511104522.2694803-1-kraxel@redhat.com>
 
-Therefore, remove the error printing here to simplify code and reduce the
-binary size.
-
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/gpu/drm/mediatek/mtk_cec.c        | 7 ++-----
- drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 4 +---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c   | 4 +---
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c  | 4 +---
- drivers/gpu/drm/mediatek/mtk_dpi.c        | 7 ++-----
- drivers/gpu/drm/mediatek/mtk_dsi.c        | 1 -
- 6 files changed, 7 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_cec.c b/drivers/gpu/drm/mediatek/mtk_cec.c
-index e9cef5c0c8f7eff..c47b54936cfa6b8 100644
---- a/drivers/gpu/drm/mediatek/mtk_cec.c
-+++ b/drivers/gpu/drm/mediatek/mtk_cec.c
-@@ -195,11 +195,8 @@ static int mtk_cec_probe(struct platform_device *pdev)
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	cec->regs = devm_ioremap_resource(dev, res);
--	if (IS_ERR(cec->regs)) {
--		ret = PTR_ERR(cec->regs);
--		dev_err(dev, "Failed to ioremap cec: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(cec->regs))
-+		return PTR_ERR(cec->regs);
- 
- 	cec->clk = devm_clk_get(dev, NULL);
- 	if (IS_ERR(cec->clk)) {
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-index 141cb36b9c07b74..2b9923e5c6382f7 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-@@ -173,10 +173,8 @@ static int mtk_disp_ccorr_probe(struct platform_device *pdev)
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	priv->regs = devm_ioremap_resource(dev, res);
--	if (IS_ERR(priv->regs)) {
--		dev_err(dev, "failed to ioremap ccorr\n");
-+	if (IS_ERR(priv->regs))
- 		return PTR_ERR(priv->regs);
--	}
- 
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	ret = cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 961f87f8d4d156f..48927135c247537 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -395,10 +395,8 @@ static int mtk_disp_ovl_probe(struct platform_device *pdev)
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	priv->regs = devm_ioremap_resource(dev, res);
--	if (IS_ERR(priv->regs)) {
--		dev_err(dev, "failed to ioremap ovl\n");
-+	if (IS_ERR(priv->regs))
- 		return PTR_ERR(priv->regs);
--	}
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	ret = cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
- 	if (ret)
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index 728aaadfea8cfcc..e8d31b4c12b7727 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -294,10 +294,8 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	priv->regs = devm_ioremap_resource(dev, res);
--	if (IS_ERR(priv->regs)) {
--		dev_err(dev, "failed to ioremap rdma\n");
-+	if (IS_ERR(priv->regs))
- 		return PTR_ERR(priv->regs);
--	}
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	ret = cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
- 	if (ret)
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index bea91c81626e154..f8020bc046cb63f 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -741,11 +741,8 @@ static int mtk_dpi_probe(struct platform_device *pdev)
- 	}
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	dpi->regs = devm_ioremap_resource(dev, mem);
--	if (IS_ERR(dpi->regs)) {
--		ret = PTR_ERR(dpi->regs);
--		dev_err(dev, "Failed to ioremap mem resource: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(dpi->regs))
-+		return PTR_ERR(dpi->regs);
- 
- 	dpi->engine_clk = devm_clk_get(dev, "engine");
- 	if (IS_ERR(dpi->engine_clk)) {
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index ae403c67cbd922d..89e351dfab88177 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -1062,7 +1062,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
- 	dsi->regs = devm_ioremap_resource(dev, regs);
- 	if (IS_ERR(dsi->regs)) {
- 		ret = PTR_ERR(dsi->regs);
--		dev_err(dev, "Failed to ioremap memory: %d\n", ret);
- 		goto err_unregister_host;
- 	}
- 
--- 
-2.26.0.106.g9fadedd
+--NOrPDDssAHqN8DLO3MI9d9yYHZ5Fcurjt
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
 
+
+Am 11.05.21 um 12:45 schrieb Gerd Hoffmann:
+>=20
+>=20
+> Gerd Hoffmann (2):
+>    drm/qxl: drop redundant code
+>    drm/qxl: balance dumb_shadow_bo pin
+>=20
+>   drivers/gpu/drm/qxl/qxl_display.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+>=20
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--NOrPDDssAHqN8DLO3MI9d9yYHZ5Fcurjt--
+
+--UP2YVNCWoGFhiFFoFGO7BtGtCjpJmtNMA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCajNQFAwAAAAAACgkQlh/E3EQov+Ds
+JRAAuA2HoRzgQzMbj4t2u/RM8b/F2g6XyhFBi2ha0Vs06oIV+hFX/eVQne8kk4J9lKHx8F4T9/I8
+IQzWadAPM+9epQJpQOnE/D867KXg3Py0NDzvHrGhVvyeJR2K5uCo2dQnDYHxv+Y2hRppeU6WV3QG
+cvhzr5XEss+ZcTEBoFxNB5ASpSqnazOMdzSyzoZ/UTStHOU44LbiObPFz38H7pjsjF3kDLwfX2+8
++PF7omjzsBgcAXIVWdU4j36p65i1i3eyjpZVD2YSfg5BicYDFLbizgW1AxYJBsHDi6rX6d2zrKFv
+8SVRpGVtsfF6NI6io7mgyn7D4cT9S+ZM0/5nOdMMk0fPhnqWaXkF/rV6oQAqqvX8me5Cnit6yE3K
+APj9ZAvl0jjxdhvStCLjoIX3Bt+UhKRRiYj1/7hr2EykWFGiBR1ZwdZOOllzws+snP19uJzEx6nY
+GD/iyHogBQSWqLgj6Eubq3JJND/VHPF+XSvsHTnfrgCE7DZpcM3OtsLW0cuuDFsEPxc5oaGvxBx3
+8IZ7WNMl1R8a4buIFd/VeOwQvse4PrK0aj6pVS/WGEGz/8Hg/J859favyiGWYaqF5juMKu2a1hxn
+nxRrMF0GOAmmes40au1BZ7DAUGkRmeoBKTIekaypw5aAeMhD1cN9Q2yg+VinYJQjSzByTs+4n+uw
+pCo=
+=q1/H
+-----END PGP SIGNATURE-----
+
+--UP2YVNCWoGFhiFFoFGO7BtGtCjpJmtNMA--
