@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDF137A8D5
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 16:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C284C37A90C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 16:24:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC8F6EA38;
-	Tue, 11 May 2021 14:17:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7EF6EA4A;
+	Tue, 11 May 2021 14:23:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B62546EA38
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 14:17:13 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id i9so22327370lfe.13
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 07:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aOd7P4mBcttOVEf7HItejeiFqW+qHDzpMy6VXQImmCE=;
- b=ppwjVQYrg0L0189wNpdzqx/BAvIaAcaX28pMnEIzPrI7NmwDhBZaJmqZTGgJIlRiln
- gFv6afDICNq+V/oESi/sY7UBb2Ms1K6CRNfumsPGQ4o+25edL+KmcxAkJ27Vum92TPGJ
- M9Wk/S1YwhUS5EG/ai+jmuMPW4S2hTI07CKbIA3TQTBH/5Pr32FlyYC6Vn0GMkR9X9Y1
- cGtU7/eUCUY4OsZOdUMHYToT66cvPKu3e0kBba+hwu43aHNSWTAJcc16rw+LoW7jTnCF
- rdYp4oGh9Mc06w96HnzxkP7CR46R+Ehe5kUTEkTGMoxTVDDwZyosUhB0FvZJGnljsaBV
- M1RQ==
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87CB56EA4A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 14:23:57 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id j26so19432850edf.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 07:23:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=EHY4rzxebDbvvaO/T0JYZuUcbOfjgdUciSZUqoyMrX0=;
+ b=SQ3wLXUfHrbtU1TYeU6bajRf2eWpXJMD6vzKF8Q3HTYU4da9Ho3IZyBDydh0prsTrQ
+ u8u2mOOzohuFt6Rr8+EzXZqFAb+fLb0EjpYpt4XXXEaawNrU6+gGb+m+FycdbO6edaY9
+ eLa2X0uofi9RcQsHuphIRc8WaHaK1SnSDQpP0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aOd7P4mBcttOVEf7HItejeiFqW+qHDzpMy6VXQImmCE=;
- b=IkRxZDvlxv8KboK6vMmcuHo5vVC4aAWISlrGVvJ1Ty9+F8BCF8EqOjZAQKdqt4/elu
- p99BK+JOmZFDkQg5k7iUtvSrsUV+R9bK6trAPQ91iNwGqwleiZ9gx8986iaIurhCq5Ss
- 2VBE3/uuqZ5s9YLt9xj8+qVxA2njDiHdhMelSPo3egtrqp2Na77iN9y1Mfpq4e3IqbnS
- vdOdo+s89CLKyQpKcaqWuhVITxSlCXaDxS1yDoiMPFn/kgtulB+HOF+0sz1eETbzkXAl
- GffMfyqIHVWHnMypv3jFL1HpXeVoZVI67AhHXgHjCuKGqkUW54edvlNyQAByPcncsLyV
- Vo2g==
-X-Gm-Message-State: AOAM531v3pIh+v5N76WbHxs04/ok+YaApkJupIj2Wy9SIuRbx05vJseU
- iNbQ6Ur+25jXuqpFV5FifHPf7g==
-X-Google-Smtp-Source: ABdhPJy9rFK4wrge+Nx3BJKqqF3UmHbEvmzMeFTmbSoaQMr+/QAvzBiPxt8jHqYIe0qRnoLoXG2tyw==
-X-Received: by 2002:a19:6b18:: with SMTP id d24mr20602230lfa.103.1620742632213; 
- Tue, 11 May 2021 07:17:12 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id x41sm2631543lfa.236.2021.05.11.07.17.11
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=EHY4rzxebDbvvaO/T0JYZuUcbOfjgdUciSZUqoyMrX0=;
+ b=efBkwLYIsGGZR7STyywYLa8GP6R0YVrkBhMAjRhmSV6kyUHUVyK/Ul4LjqGaJQZyu8
+ 1wsreawbMZ70GgkP8TqXjD2qwPg0oeEK4z0b55ybPjC/F604HiC9HdOQCq6zsUtksL0q
+ 0yxGPquVZsMQ39JoJTs95MnJEmIFaPl8hHXYRXQQxlJzLGPYg+zLyLy1PsBXXqPyWi4B
+ 0E9xHjbecI3E9G2fsLN8C3NXvj6L9VI3qVXkRljWjwGGlSQ6kUKqaJaldqhV1wKPTj45
+ mqGSeMmgQMseNwf1sNdcHWiNB4+6Uvilht0XT+QrSlF78ZI/odRTg8G3E7TpraMhhdmg
+ Onbg==
+X-Gm-Message-State: AOAM531qtU6mPUupBRxbKPC9dpg3jJ+LcIxhfS2nkEClS21rWjFmBqcK
+ xQsfrPUZlbhcLKFxb966sWJ2eaFRjmDu6g==
+X-Google-Smtp-Source: ABdhPJy57CWVVjeGXMvUf+p+74SJ2IrHI9p4LdZA1jH7+ZKpZhveM6YBtgekqts1+kO7BnkoP++55w==
+X-Received: by 2002:a05:6402:546:: with SMTP id
+ i6mr11152338edx.376.1620743035825; 
+ Tue, 11 May 2021 07:23:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id d25sm11622175ejd.59.2021.05.11.07.23.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 07:17:11 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH] drm/msm/dpu: fix smart dma support
-Date: Tue, 11 May 2021 17:17:11 +0300
-Message-Id: <20210511141711.635820-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ Tue, 11 May 2021 07:23:55 -0700 (PDT)
+Date: Tue, 11 May 2021 16:23:53 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [RFC] Implicit vs explicit user fence sync
+Message-ID: <YJqTeQAjsr1Tn9CZ@phenom.ffwll.local>
+References: <20210504132729.2046-1-christian.koenig@amd.com>
+ <YJFXG/THrjXqQjyN@phenom.ffwll.local>
+ <d266ccd2-3259-99ce-5fd6-b8ae81ac14e9@gmail.com>
+ <YJFkN/bgN6UCXdvA@phenom.ffwll.local>
+ <f1616be5-a8cb-076d-a63d-9554a76b0b0a@gmail.com>
+ <YJoy6oI34tQZMt6/@phenom.ffwll.local>
+ <0128750d-56bf-7697-0fda-0342c7b7df17@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <0128750d-56bf-7697-0fda-0342c7b7df17@gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,149 +74,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Downstream driver uses dpu->caps->smart_dma_rev to update
-sspp->cap->features with the bit corresponding to the supported SmartDMA
-version. Upstream driver does not do this, resulting in SSPP subdriver
-not enbaling setup_multirect callback. Make SSPP subdriver check global
-smart_dma_rev to decide if setup_multirect should be enabled.
+On Tue, May 11, 2021 at 09:47:56AM +0200, Christian König wrote:
+> Am 11.05.21 um 09:31 schrieb Daniel Vetter:
+> > [SNIP]
+> > > > And that's just the one ioctl I know is big trouble, I'm sure we'll find
+> > > > more funny corner cases when we roll out explicit user fencing.
+> > > I think we can just ignore sync_file. As far as it concerns me that UAPI is
+> > > pretty much dead.
+> > Uh that's rather bold. Android is built on it. Currently atomic kms is
+> > built on it.
+> 
+> To be honest I don't think we care about Android at all.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 10 +++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 16 ++++++++++++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    |  9 +++++----
- 3 files changed, 22 insertions(+), 13 deletions(-)
+we = amd or we = upstream here?
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index b569030a0847..036334e3d99d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -157,7 +157,7 @@ static const struct dpu_caps sdm845_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
- 	.qseed_type = DPU_SSPP_SCALER_QSEED3,
--	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
-+	.smart_dma_rev = DPU_SMART_DMA_V2,
- 	.ubwc_version = DPU_HW_UBWC_VER_20,
- 	.has_src_split = true,
- 	.has_dim_layer = true,
-@@ -173,7 +173,7 @@ static const struct dpu_caps sc7180_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0x9,
- 	.qseed_type = DPU_SSPP_SCALER_QSEED4,
--	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
-+	.smart_dma_rev = DPU_SMART_DMA_V2,
- 	.ubwc_version = DPU_HW_UBWC_VER_20,
- 	.has_dim_layer = true,
- 	.has_idle_pc = true,
-@@ -185,7 +185,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
- 	.qseed_type = DPU_SSPP_SCALER_QSEED3,
--	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
-+	.smart_dma_rev = DPU_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_30,
- 	.has_src_split = true,
- 	.has_dim_layer = true,
-@@ -201,7 +201,7 @@ static const struct dpu_caps sm8250_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
- 	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
--	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
-+	.smart_dma_rev = DPU_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_40,
- 	.has_src_split = true,
- 	.has_dim_layer = true,
-@@ -215,7 +215,7 @@ static const struct dpu_caps sc7280_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0x7,
- 	.qseed_type = DPU_SSPP_SCALER_QSEED4,
--	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
-+	.smart_dma_rev = DPU_SMART_DMA_V2,
- 	.ubwc_version = DPU_HW_UBWC_VER_30,
- 	.has_dim_layer = true,
- 	.has_idle_pc = true,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 4dfd8a20ad5c..04ebccd92d4e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -70,6 +70,18 @@ enum {
- 	DPU_HW_UBWC_VER_40 = 0x400,
- };
- 
-+/**
-+ * SmartDMA support
-+ * @DPU_SMART_DMA_UNSUPPORTED,   SmartDMA not support
-+ * @DPU_SMART_DMA_V1,   SmartDMA 1.0 support
-+ * @DPU_SMART_DMA_V2,   SmartDMA 2.0 support
-+ */
-+enum {
-+	DPU_SMART_DMA_UNSUPPORTED,
-+	DPU_SMART_DMA_V1,
-+	DPU_SMART_DMA_V2,
-+};
-+
- /**
-  * MDP TOP BLOCK features
-  * @DPU_MDP_PANIC_PER_PIPE Panic configuration needs to be be done per pipe
-@@ -104,8 +116,6 @@ enum {
-  * @DPU_SSPP_QOS,            SSPP support QoS control, danger/safe/creq
-  * @DPU_SSPP_QOS_8LVL,       SSPP support 8-level QoS control
-  * @DPU_SSPP_EXCL_RECT,      SSPP supports exclusion rect
-- * @DPU_SSPP_SMART_DMA_V1,   SmartDMA 1.0 support
-- * @DPU_SSPP_SMART_DMA_V2,   SmartDMA 2.0 support
-  * @DPU_SSPP_TS_PREFILL      Supports prefill with traffic shaper
-  * @DPU_SSPP_TS_PREFILL_REC1 Supports prefill with traffic shaper multirec
-  * @DPU_SSPP_CDP             Supports client driven prefetch
-@@ -124,8 +134,6 @@ enum {
- 	DPU_SSPP_QOS,
- 	DPU_SSPP_QOS_8LVL,
- 	DPU_SSPP_EXCL_RECT,
--	DPU_SSPP_SMART_DMA_V1,
--	DPU_SSPP_SMART_DMA_V2,
- 	DPU_SSPP_TS_PREFILL,
- 	DPU_SSPP_TS_PREFILL_REC1,
- 	DPU_SSPP_CDP,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 34d81aa16041..3ce4c5cd5d05 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -647,7 +647,8 @@ static void dpu_hw_sspp_setup_cdp(struct dpu_hw_pipe *ctx,
- }
- 
- static void _setup_layer_ops(struct dpu_hw_pipe *c,
--		unsigned long features)
-+		unsigned long features,
-+		int smart_dma_rev)
- {
- 	if (test_bit(DPU_SSPP_SRC, &features)) {
- 		c->ops.setup_format = dpu_hw_sspp_setup_format;
-@@ -668,8 +669,8 @@ static void _setup_layer_ops(struct dpu_hw_pipe *c,
- 		test_bit(DPU_SSPP_CSC_10BIT, &features))
- 		c->ops.setup_csc = dpu_hw_sspp_setup_csc;
- 
--	if (test_bit(DPU_SSPP_SMART_DMA_V1, &c->cap->features) ||
--		test_bit(DPU_SSPP_SMART_DMA_V2, &c->cap->features))
-+	if (smart_dma_rev == DPU_SMART_DMA_V1 ||
-+	    smart_dma_rev == DPU_SMART_DMA_V2)
- 		c->ops.setup_multirect = dpu_hw_sspp_setup_multirect;
- 
- 	if (test_bit(DPU_SSPP_SCALER_QSEED3, &features) ||
-@@ -733,7 +734,7 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
- 	hw_pipe->mdp = &catalog->mdp[0];
- 	hw_pipe->idx = idx;
- 	hw_pipe->cap = cfg;
--	_setup_layer_ops(hw_pipe, hw_pipe->cap->features);
-+	_setup_layer_ops(hw_pipe, hw_pipe->cap->features, catalog->caps->smart_dma_rev);
- 
- 	dpu_hw_blk_init(&hw_pipe->base, DPU_HW_BLK_SSPP, idx, &dpu_hw_ops);
- 
+> > > What we should support is drm_syncobj, but that also only as an in-fence
+> > > since that's what our hardware supports.
+> > Convince Android folks, minimally. Probably a lot more. Yes with hindsight
+> > we should have just gone for drm_syncobj instead of the sync_file thing,
+> > but hindsight and all that.
+> > 
+> > This is kinda why I don't think trying to support the existing uapi with
+> > userspace fences underneath with some magic tricks is a good idea. It's
+> > just a pile of work, plus it's not really architecturally clean.
+> > 
+> > > > Anotherone that looks very sketchy right now is buffer sharing between
+> > > > different userspace drivers, like compute <-> media (if you have some
+> > > > fancy AI pipeline in your media workload, as an example).
+> > > Yeah, we are certainly going to get that. But only inside the same driver,
+> > > so not much of a problem.
+> > Why is this not much of a problem if it's just within one driver?
+> 
+> Because inside the same driver I can easily add the waits before submitting
+> the MM work as necessary.
+
+What is MM work here now?
+
+> > > > > Adding implicit synchronization on top of that is then rather trivial.
+> > > > Well that's what I disagree with, since I already see some problems that I
+> > > > don't think we can overcome (the atomic ioctl is one). And that's with us
+> > > > only having a fairly theoretical understanding of the overall situation.
+> > > But how should we then ever support user fences with the atomic IOCTL?
+> > > 
+> > > We can't wait in user space since that will disable the support for waiting
+> > > in the hardware.
+> > Well, figure it out :-)
+> > 
+> > This is exactly why I'm not seeing anything solved with just rolling a
+> > function call to a bunch of places, because it's pretending all things are
+> > solved when clearly that's not the case.
+> > 
+> > I really think what we need is to first figure out how to support
+> > userspace fences as explicit entities across the stack, maybe with
+> > something like this order:
+> > 1. enable them purely within a single userspace driver (like vk with
+> > winsys disabled, or something else like that except not amd because
+> > there's this amdkfd split for "real" compute)
+> > 1a. including atomic ioctl, e.g. for vk direct display support this can be
+> > used without cross-process sharing, new winsys protocols and all that fun
+> > 2. figure out how to transport these userspace fences with something like
+> > drm_syncobj
+> > 2a. figure out the compat story for drivers which dont do userspace fences
+> > 2b. figure out how to absorb the overhead if the winsys/compositor doesn't
+> > support explicit sync
+> > 3. maybe figure out how to make this all happen magically with implicit
+> > sync, if we really, really care
+> > 
+> > If we do 3 before we've nailed all these problems, we're just guaranteeing
+> > we'll get the wrong solutions and so we'll then have 3 ways of doing
+> > userspace fences
+> > - the butchered implicit one that didn't quite work
+> > - the explicit one
+> > - the not-so-butchered implicit one with the lessons from the properly
+> >    done explicit one
+> > 
+> > The thing is, if you have no idea how to integrate userspace fences
+> > explicitly into atomic ioctl, then you definitely have no idea how to do
+> > it implicitly :-)
+> 
+> Well I agree on that. But the question is still how would you do explicit
+> with atomic?
+
+If you supply an userpace fence (is that what we call them now) as
+in-fence, then your only allowed to get a userspace fence as out-fence.
+That way we
+- don't block anywhere we shouldn't
+- don't create a dma_fence out of a userspace fence
+
+The problem is this completely breaks your "magically make implicit
+fencing with userspace fences" plan.
+
+So I have a plan here, what was yours?
+
+> Transporting fences between processes is not the fundamental problem here,
+> but rather the question how we represent all this in the kernel?
+> 
+> In other words I think what you outlined above is just approaching it from
+> the wrong side again. Instead of looking what the kernel needs to support
+> this you take a look at userspace and the requirements there.
+
+Uh ... that was my idea here? That's why I put "build userspace fences in
+userspace only" as the very first thing. Then extend to winsys and
+atomic/display and all these cases where things get more tricky.
+
+I agree that transporting the fences is easy, which is why it's not
+interesting trying to solve that problem first. Which is kinda what you're
+trying to do here by adding implicit userspace fences (well not even that,
+just a bunch of function calls without any semantics attached to them).
+
+So if there's more here, you need to flesh it out more or I just dont get
+what you're actually trying to demonstrate.
+-Daniel
+
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > And "just block" might be good enough for a quick demo, it still breaks
+> > the contract. Same holds for a bunch of the winsys problems we'll have to
+> > deal with here.
+> > -Daniel
+> > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > Like here at intel we have internal code for compute, and we're starting
+> > > > to hit some interesting cases with interop with media already, but that's
+> > > > it. Nothing even close to desktop/winsys/kms, and that's where I expect
+> > > > will all the pain be at.
+> > > > 
+> > > > Cheers, Daniel
+> 
+
 -- 
-2.30.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
