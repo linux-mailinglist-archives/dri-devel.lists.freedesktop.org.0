@@ -1,67 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C5537AAC0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 17:32:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BCC37AAC1
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 17:32:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9C256EA61;
-	Tue, 11 May 2021 15:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15CFD6EA66;
+	Tue, 11 May 2021 15:32:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1994E6EA61;
- Tue, 11 May 2021 15:32:12 +0000 (UTC)
-IronPort-SDR: 6zpk4QnNmYZj0U2YnyCzope1H1rn8YufpHjyFEuEqxZdMELnlMrNS1RvvqziUZGDFUuVj/Lyur
- 1nSgrOsrebVw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="199523566"
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="199523566"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 08:32:05 -0700
-IronPort-SDR: 8sfC+Z6+bnyqO83x/6R1oWRvX/IGrNUOhbpXAlaXMgOzFX68AkJIbi7GQ8o6xDiTSIWxw0XLDZ
- JcnJsiNpEgqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="434601130"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga008.fm.intel.com with ESMTP; 11 May 2021 08:32:04 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 11 May 2021 08:32:04 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 11 May 2021 08:32:03 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2106.013;
- Tue, 11 May 2021 08:32:03 -0700
-From: "Bloomfield, Jon" <jon.bloomfield@intel.com>
-To: Martin Peres <martin.peres@free.fr>, Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [RFC PATCH 00/97] Basic GuC submission support in the i915
-Thread-Topic: [RFC PATCH 00/97] Basic GuC submission support in the i915
-Thread-Index: AQHXQqmdeMs8Pc67x0q3ztXPF3PEcarb3OcAgABkeICAAPbxAIAALCSAgAEEnAD///Xm4A==
-Date: Tue, 11 May 2021 15:26:59 +0000
-Deferred-Delivery: Tue, 11 May 2021 15:25:07 +0000
-Message-ID: <d382a41cacbc44ee96b9602f3473b5c0@intel.com>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <d22437bd-8bb6-d7cb-c017-89cdc7da560d@free.fr>
- <17953669798.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
- <546e4ee4-9aa4-1967-cdcb-a561cac582ef@free.fr>
- <CAKMK7uETcM38sjPYJLdxpGcZcx=tHdGUPe0WTgnGoZfPQvEJFQ@mail.gmail.com>
- <08c22bc8-aa35-43d2-ad4c-7f489dfc585b@free.fr>
-In-Reply-To: <08c22bc8-aa35-43d2-ad4c-7f489dfc585b@free.fr>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.22.254.132]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB5A56EA66
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 15:32:32 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id u21so30340821ejo.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 08:32:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=dkTA6Iw5ENReyk4DiUxNzgte6X9LV/miABuXsNWNAgI=;
+ b=dRcNhtmgLgOlAHuf5oBeTtU99pSfJCjPMEn3MAe6XA6hOM1N7hLzt8CEQlIVwH01Au
+ psyAf+Yd9+vlo9vBtZ6aeTnM2sDnjgTLKrCn+d9CwcSwN69XwDlMU3h+xyBunS2/Yna6
+ me0gtOav0VhGa/cglWOvU61K3mdgFFn9T5N4KTP/49Jvphhxno63cL2aCWnFze80DaoV
+ QO7kPMjgtk9mare4nGeldFNYlUlPIXQVuhTYL4bcx/U7ukD3EDADqoq2n3CRitn/xxWA
+ MmqVnYF4dRPD7qju1TWSAboy/TwGBAbDk+3LRnATSx8tiqyxFMAGUS4TyrDWyyJ77UlD
+ 45Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=dkTA6Iw5ENReyk4DiUxNzgte6X9LV/miABuXsNWNAgI=;
+ b=fG0+nc7ynYTci3QYP2TMq3LewZM7Tx3UBHJfc1ej7b9ipVGWasns5fEZWcn97/Z/QN
+ 176+9VN9Ym2OrPy5iyOdUJ7PDUz4EeC/Pj+J+7FPBm30T+7h528WaT4i0dE4wrvoqxzX
+ MVLj+cwFe2nE8TSZVczKyJs2WWkDEfWaEEp4HRnMJwufXl5lAMCH/DOOfQ7xFeYafKE9
+ i7oD45Bbjt0mWtT946UJpomI5APApfXxvqnl3/23kS2sRSfMSTB+odeCgQMiMSXTmfcK
+ pwg0RZq3WT75oOoU8SmjLog9hd4mH5qUr6rqVzMFthraoUQ/xQl0nO4L8V0uJTJ1NrPg
+ 1XJA==
+X-Gm-Message-State: AOAM532hAz8zWdgVaZEUBHW04yKdJlvEFewG4Xc03/9pXbVIZxigf5vm
+ zeA1UkGc5aMvmBqot4hUTD1tqA3WdNY=
+X-Google-Smtp-Source: ABdhPJw57jjBUqEGw4/KqtyFTJ+i4cg7bE9R8SsuNnAiqTJZskTo6Fkk455Ssf2Q1AfRSoKuS1+JUg==
+X-Received: by 2002:a17:906:cf82:: with SMTP id
+ um2mr32296359ejb.322.1620747151569; 
+ Tue, 11 May 2021 08:32:31 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:5935:8b67:3cdd:7cc1?
+ ([2a02:908:1252:fb60:5935:8b67:3cdd:7cc1])
+ by smtp.gmail.com with ESMTPSA id r10sm12042793ejd.112.2021.05.11.08.32.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 08:32:30 -0700 (PDT)
+Subject: Re: [RFC] Implicit vs explicit user fence sync
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210504132729.2046-1-christian.koenig@amd.com>
+ <YJFXG/THrjXqQjyN@phenom.ffwll.local>
+ <d266ccd2-3259-99ce-5fd6-b8ae81ac14e9@gmail.com>
+ <YJFkN/bgN6UCXdvA@phenom.ffwll.local>
+ <f1616be5-a8cb-076d-a63d-9554a76b0b0a@gmail.com>
+ <YJoy6oI34tQZMt6/@phenom.ffwll.local>
+ <0128750d-56bf-7697-0fda-0342c7b7df17@gmail.com>
+ <YJqTeQAjsr1Tn9CZ@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <a08a4b30-5ae5-49ac-bad0-c77a5cabbecd@gmail.com>
+Date: Tue, 11 May 2021 17:32:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <YJqTeQAjsr1Tn9CZ@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,143 +80,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Brost, Matthew" <matthew.brost@intel.com>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Ekstrand,
- Jason" <jason.ekstrand@intel.com>, "Ceraolo Spurio,
- Daniele" <daniele.ceraolospurio@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>, "Vetter,
- Daniel" <daniel.vetter@intel.com>, "Harrison,
- John C" <john.c.harrison@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXJ0aW4gUGVyZXMgPG1hcnRp
-bi5wZXJlc0BmcmVlLmZyPg0KPiBTZW50OiBUdWVzZGF5LCBNYXkgMTEsIDIwMjEgMTowNiBBTQ0K
-PiBUbzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPg0KPiBDYzogSmFzb24gRWtzdHJh
-bmQgPGphc29uQGpsZWtzdHJhbmQubmV0PjsgQnJvc3QsIE1hdHRoZXcNCj4gPG1hdHRoZXcuYnJv
-c3RAaW50ZWwuY29tPjsgaW50ZWwtZ2Z4IDxpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-PjsNCj4gZHJpLWRldmVsIDxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsgVXJzdWxp
-biwgVHZydGtvDQo+IDx0dnJ0a28udXJzdWxpbkBpbnRlbC5jb20+OyBFa3N0cmFuZCwgSmFzb24g
-PGphc29uLmVrc3RyYW5kQGludGVsLmNvbT47DQo+IENlcmFvbG8gU3B1cmlvLCBEYW5pZWxlIDxk
-YW5pZWxlLmNlcmFvbG9zcHVyaW9AaW50ZWwuY29tPjsgQmxvb21maWVsZCwgSm9uDQo+IDxqb24u
-Ymxvb21maWVsZEBpbnRlbC5jb20+OyBWZXR0ZXIsIERhbmllbCA8ZGFuaWVsLnZldHRlckBpbnRl
-bC5jb20+Ow0KPiBIYXJyaXNvbiwgSm9obiBDIDxqb2huLmMuaGFycmlzb25AaW50ZWwuY29tPg0K
-PiBTdWJqZWN0OiBSZTogW1JGQyBQQVRDSCAwMC85N10gQmFzaWMgR3VDIHN1Ym1pc3Npb24gc3Vw
-cG9ydCBpbiB0aGUgaTkxNQ0KPiANCj4gT24gMTAvMDUvMjAyMSAxOTozMywgRGFuaWVsIFZldHRl
-ciB3cm90ZToNCj4gPiBPbiBNb24sIE1heSAxMCwgMjAyMSBhdCAzOjU1IFBNIE1hcnRpbiBQZXJl
-cyA8bWFydGluLnBlcmVzQGZyZWUuZnI+DQo+IHdyb3RlOg0KPiA+Pg0KPiA+PiBPbiAxMC8wNS8y
-MDIxIDAyOjExLCBKYXNvbiBFa3N0cmFuZCB3cm90ZToNCj4gPj4+IE9uIE1heSA5LCAyMDIxIDEy
-OjEyOjM2IE1hcnRpbiBQZXJlcyA8bWFydGluLnBlcmVzQGZyZWUuZnI+IHdyb3RlOg0KPiA+Pj4N
-Cj4gPj4+PiBIaSwNCj4gPj4+Pg0KPiA+Pj4+IE9uIDA2LzA1LzIwMjEgMjI6MTMsIE1hdHRoZXcg
-QnJvc3Qgd3JvdGU6DQo+ID4+Pj4+IEJhc2ljIEd1QyBzdWJtaXNzaW9uIHN1cHBvcnQuIFRoaXMg
-aXMgdGhlIGZpcnN0IGJ1bGxldCBwb2ludCBpbiB0aGUNCj4gPj4+Pj4gdXBzdHJlYW1pbmcgcGxh
-biBjb3ZlcmVkIGluIHRoZSBmb2xsb3dpbmcgUkZDIFsxXS4NCj4gPj4+Pj4NCj4gPj4+Pj4gQXQg
-YSB2ZXJ5IGhpZ2ggbGV2ZWwgdGhlIEd1QyBpcyBhIHBpZWNlIG9mIGZpcm13YXJlIHdoaWNoIHNp
-dHMgYmV0d2Vlbg0KPiA+Pj4+PiB0aGUgaTkxNSBhbmQgdGhlIEdQVS4gSXQgb2ZmbG9hZHMgc29t
-ZSBvZiB0aGUgc2NoZWR1bGluZyBvZiBjb250ZXh0cw0KPiA+Pj4+PiBmcm9tIHRoZSBpOTE1IGFu
-ZCBwcm9ncmFtcyB0aGUgR1BVIHRvIHN1Ym1pdCBjb250ZXh0cy4gVGhlIGk5MTUNCj4gPj4+Pj4g
-Y29tbXVuaWNhdGVzIHdpdGggdGhlIEd1QyBhbmQgdGhlIEd1QyBjb21tdW5pY2F0ZXMgd2l0aCB0
-aGUNCj4gR1BVLg0KPiA+Pj4+DQo+ID4+Pj4gTWF5IEkgYXNrIHdoYXQgd2lsbCBHdUMgY29tbWFu
-ZCBzdWJtaXNzaW9uIGRvIHRoYXQgZXhlY2xpc3QNCj4gd29uJ3QvY2FuJ3QNCj4gPj4+PiBkbz8g
-QW5kIHdoYXQgd291bGQgYmUgdGhlIGltcGFjdCBvbiB1c2Vycz8gRXZlbiBmb3JnZXR0aW5nIHRo
-ZQ0KPiB0cm91YmxlZA0KPiA+Pj4+IGhpc3Rvcnkgb2YgR3VDIChpbnN0YWJpbGl0eSwgcGVyZm9y
-bWFuY2UgcmVncmVzc2lvbiwgcG9vciBsZXZlbCBvZiB1c2VyDQo+ID4+Pj4gc3VwcG9ydCwgNisg
-eWVhcnMgb2YgdHJ5aW5nIHRvIHVwc3RyZWFtIGl0Li4uKSwgYWRkaW5nIHRoaXMgbXVjaCBjb2Rl
-DQo+ID4+Pj4gYW5kIGRvdWJsaW5nIHRoZSBhbW91bnQgb2YgdmFsaWRhdGlvbiBuZWVkZWQgc2hv
-dWxkIGNvbWUgd2l0aCBhDQo+ID4+Pj4gcmF0aW9uYWxlIG1ha2luZyBpdCBmZWVsIHdvcnRoIGl0
-Li4uIGFuZCBJIGFtIG5vdCBzZWVpbmcgaGVyZS4gV291bGQgeW91DQo+ID4+Pj4gbWluZCBwcm92
-aWRpbmcgdGhlIHJhdGlvbmFsZSBiZWhpbmQgdGhpcyB3b3JrPw0KPiA+Pj4+DQo+ID4+Pj4+DQo+
-ID4+Pj4+IEd1QyBzdWJtaXNzaW9uIHdpbGwgYmUgZGlzYWJsZWQgYnkgZGVmYXVsdCBvbiBhbGwg
-Y3VycmVudCB1cHN0cmVhbQ0KPiA+Pj4+PiBwbGF0Zm9ybXMgYmVoaW5kIGEgbW9kdWxlIHBhcmFt
-ZXRlciAtIGVuYWJsZV9ndWMuIEEgdmFsdWUgb2YgMyB3aWxsDQo+ID4+Pj4+IGVuYWJsZSBzdWJt
-aXNzaW9uIGFuZCBIdUMgbG9hZGluZyB2aWEgdGhlIEd1Qy4gR3VDIHN1Ym1pc3Npb24NCj4gc2hv
-dWxkDQo+ID4+Pj4+IHdvcmsgb24gYWxsIGdlbjExKyBwbGF0Zm9ybXMgYXNzdW1pbmcgdGhlIEd1
-QyBmaXJtd2FyZSBpcyBwcmVzZW50Lg0KPiA+Pj4+DQo+ID4+Pj4gV2hhdCBpcyB0aGUgcGxhbiBo
-ZXJlIHdoZW4gaXQgY29tZXMgdG8ga2VlcGluZyBzdXBwb3J0IGZvciBleGVjbGlzdD8gSQ0KPiA+
-Pj4+IGFtIGFmcmFpZCB0aGF0IGxhbmRpbmcgR3VDIHN1cHBvcnQgaW4gTGludXggaXMgdGhlIGZp
-cnN0IHN0ZXAgdG93YXJkcw0KPiA+Pj4+IGtpbGxpbmcgdGhlIGV4ZWNsaXN0LCB3aGljaCB3b3Vs
-ZCBmb3JjZSB1c2VycyB0byB1c2UgcHJvcHJpZXRhcnkNCj4gPj4+PiBmaXJtd2FyZXMgdGhhdCBl
-dmVuIG1vc3QgSW50ZWwgZW5naW5lZXJzIGhhdmUgbGl0dGxlIGluZmx1ZW5jZSBvdmVyLg0KPiA+
-Pj4+IEluZGVlZCwgaWYgImRybS9pOTE1L2d1YzogRGlzYWJsZSBzZW1hcGhvcmVzIHdoZW4gdXNp
-bmcgR3VDDQo+IHNjaGVkdWxpbmciDQo+ID4+Pj4gd2hpY2ggc3RhdGVzICJEaXNhYmxlIHNlbWFw
-aG9yZXMgd2hlbiB1c2luZyBHdUMgc2NoZWR1bGluZyBhcw0KPiBzZW1hcGhvcmVzDQo+ID4+Pj4g
-YXJlIGJyb2tlbiBpbiB0aGUgY3VycmVudCBHdUMgZmlybXdhcmUuIiBpcyBhbnl0aGluZyB0byBn
-byBieSwgaXQgbWVhbnMNCj4gPj4+PiB0aGF0IGV2ZW4gSW50ZWwgZGV2ZWxvcGVycyBzZWVtIHRv
-IHByZWZlciB3b3JraW5nIGFyb3VuZCB0aGUgR3VDDQo+ID4+Pj4gZmlybXdhcmUsIHJhdGhlciB0
-aGFuIGZpeGluZyBpdC4NCj4gPj4+DQo+ID4+PiBZZXMsIGxhbmRpbmcgR3VDIHN1cHBvcnQgbWF5
-IGJlIHRoZSBmaXJzdCBzdGVwIGluIHJlbW92aW5nIGV4ZWNsaXN0DQo+ID4+PiBzdXBwb3J0LiBU
-aGUgaW5ldml0YWJsZSByZWFsaXR5IGlzIHRoYXQgR1BVIHNjaGVkdWxpbmcgaXMgY29taW5nIGFu
-ZA0KPiA+Pj4gbGlrZWx5IHRvIGJlIHRoZXJlIG9ubHkgcGF0aCBpbiB0aGUgbm90LXRvby1kaXN0
-YW50IGZ1dHVyZS4gKFNlZSBhbHNvDQo+ID4+PiB0aGUgb25nb2luZyB0aHJlYWQgd2l0aCBBTUQg
-YWJvdXQgZmVuY2VzLikgSSdtIG5vdCBnb2luZyB0byBwYXNzDQo+ID4+PiBqdWRnZW1lbnQgb24g
-d2hldGhlciBvciBub3QgdGhpcyBpcyBhIGdvb2QgdGhpbmcuICBJJ20ganVzdCByZWFkaW5nIHRo
-ZQ0KPiA+Pj4gd2luZHMgYW5kLCBpbiBteSB2aWV3LCB0aGlzIGlzIHdoZXJlIHRoaW5ncyBhcmUg
-aGVhZGVkIGZvciBnb29kIG9yIGlsbC4NCj4gPj4+DQo+ID4+PiBJbiBhbnN3ZXIgdG8gdGhlIHF1
-ZXN0aW9uIGFib3ZlLCB0aGUgYW5zd2VyIHRvICJ3aGF0IGRvIHdlIGdhaW4gZnJvbQ0KPiA+Pj4g
-R3VDPyIgbWF5IHNvb24gYmUsICJ5b3UgZ2V0IHRvIHVzZSB5b3VyIEdQVS4iICBXZSdyZSBub3Qg
-dGhlcmUgeWV0DQo+IGFuZCwNCj4gPj4+IGFnYWluLCBJJ20gbm90IG5lY2Vzc2FyaWx5IGFkdm9j
-YXRpbmcgZm9yIGl0LCBidXQgdGhhdCBpcyBsaWtlbHkgd2hlcmUNCj4gPj4+IHRoaW5ncyBhcmUg
-aGVhZGVkLg0KPiA+Pg0KPiA+PiBUaGlzIHdpbGwgYmUgYSBzYWQgZGF5LCBlc3BlY2lhbGx5IHNp
-bmNlIGl0IHNlZW1zIGZ1bmRhbWVudGFsbHkgb3Bwb3NlZA0KPiA+PiB3aXRoIGFueSBsb25nLXRl
-cm0gc3VwcG9ydCwgb24gdG9wIG9mIHRha2luZyBhd2F5IHVzZXIgZnJlZWRvbSB0bw0KPiA+PiBm
-aXgvdHdlYWsgdGhlaXIgc3lzdGVtIHdoZW4gSW50ZWwgd29uJ3QuDQo+ID4+DQo+ID4+PiBBIGZp
-cm13YXJlLWJhc2VkIHN1Ym1pc3Npb24gbW9kZWwgaXNuJ3QgYSBiYWQgZGVzaWduIElNTyBhbmQs
-IGFzaWRlDQo+IGZyb20NCj4gPj4+IHRoZSBmaXJtd2FyZSBmcmVlZG9tIGlzc3VlcywgSSB0aGlu
-ayB0aGVyZSBhcmUgYWN0dWFsIGFkdmFudGFnZXMgdG8gdGhlDQo+ID4+PiBtb2RlbC4gSW1tZWRp
-YXRlbHksIGl0J2xsIHVubG9jayBhIGZldyBmZWF0dXJlcyBsaWtlIHBhcmFsbGVsIHN1Ym1pc3Np
-b24NCj4gPj4+IChtb3JlIG9uIHRoYXQgaW4gYSBiaXQpIGFuZCBsb25nLXJ1bm5pbmcgY29tcHV0
-ZSBiZWNhdXNlIHRoZXkncmUNCj4gPj4+IGltcGxlbWVudGVkIGluIEd1QyBhbmQgdGhlIHdvcmsg
-dG8gaW1wbGVtZW50IHRoZW0gcHJvcGVybHkgaW4gdGhlDQo+ID4+PiBleGVjbGlzdCBzY2hlZHVs
-ZXIgaXMgaGlnaGx5IG5vbi10cml2aWFsLiBMb25nZXIgdGVybSwgaXQgbWF5IChubw0KPiA+Pj4g
-Z3VhcmFudGVlcykgdW5sb2NrIHNvbWUgcGVyZm9ybWFuY2UgYnkgZ2V0dGluZyB0aGUga2VybmVs
-IG91dCBvZiB0aGUNCj4gd2F5Lg0KPiA+Pg0KPiA+PiBPaCwgSSBkZWZpbml0ZWx5IGFncmVlIHdp
-dGggZmlybXdhcmUtYmFzZWQgc3VibWlzc2lvbiBtb2RlbCBub3QgYmVpbmcgYQ0KPiA+PiBiYWQg
-ZGVzaWduLiBJIHdhcyBldmVuIGNoZWVyaW5nIGZvciBpdCBpbiAyMDE1LiBFeHBlcmllbmNlIHdp
-dGggaXQgbWFkZQ0KPiA+PiBtZSByZWdyZXQgdGhhdCBkZWVwbHkgc2luY2UgOnMNCj4gPj4NCj4g
-Pj4gQnV0IHdpdGggdGhlIERSTSBzY2hlZHVsZXIgYmVpbmcgcmVzcG9uc2libGUgZm9yIG1vc3Qg
-dGhpbmdzLCBJIGZhaWwgdG8NCj4gPj4gc2VlIHdoYXQgd2UgY291bGQgb2ZmbG9hZCBpbiB0aGUg
-R3VDIGV4Y2VwdCBjb250ZXh0IHN3aXRjaGluZyAobGlrZQ0KPiA+PiBldmVyeSBvdGhlciBtYW51
-ZmFjdHVyZXIpLiBUaGUgcHJvYmxlbSBpcywgdGhlIEd1QyBkb2VzIHdheSBtb3JlIHRoYW4NCj4g
-Pj4ganVzdCBzd2l0Y2hpbmcgcmVnaXN0ZXJzIGluIGJ1bGssIGFuZCBpZiB0aGUgbnVtYmVyIG9m
-IHJldmlzaW9ucyBvZiB0aGUNCj4gPj4gR3VDIGlzIGFueXRoaW5nIHRvIGdvIGJ5LCBpdCBpcyB3
-YXkgdG9vIGNvbXBsZXggZm9yIG1lIHRvIGZlZWwNCj4gPj4gY29tZm9ydGFibGUgd2l0aCBpdC4N
-Cj4gPg0KPiA+IFdlIG5lZWQgdG8gZmxlc2ggb3V0IHRoYXQgcGFydCBvZiB0aGUgcGxhbiBtb3Jl
-LCBidXQgd2UncmUgbm90IGdvaW5nDQo+ID4gdG8gdXNlIGRybSBzY2hlZHVsZXIgZm9yIGV2ZXJ5
-dGhpbmcuIEl0J3Mgb25seSB0byBoYW5kbGUgdGhlIGRtYS1mZW5jZQ0KPiA+IGxlZ2FjeSBzaWRl
-IG9mIHRoaW5ncywgd2hpY2ggbWVhbnM6DQo+ID4gLSB0aW1lb3V0IGhhbmRsaW5nIGZvciBiYXRj
-aGVzIHRoYXQgdGFrZSB0b28gbG9uZw0KPiA+IC0gZG1hX2ZlbmNlIGRlcGVuZGVuY3kgc29ydGlu
-Zy9oYW5kbGluZw0KPiA+IC0gYm9vc3Rpbmcgb2YgY29udGV4dCBmcm9tIGRpc3BsYXkgZmxpcHMg
-KGN1cnJlbnRseSBtaXNzaW5nLCBuZWVkcyB0bw0KPiA+IGJlIHBvcnRlZCBmcm9tIGRybS9pOTE1
-KQ0KPiA+DQo+ID4gVGhlIGFjdHVhbCByb3VuZC1yb2Jpbi9wcmVlbXB0L3ByaW9yaXR5IGhhbmRs
-aW5nIGlzIHN0aWxsIGxlZnQgdG8gdGhlDQo+ID4gYmFja2VuZCwgaW4gdGhpcyBjYXNlIGhlcmUg
-dGhlIGZ3LiBTbyB0aGVyZSdzIGxhcmdlIGNodW5rcyBvZg0KPiA+IGNvZGUvZnVuY3Rpb25hbGl0
-eSB3aGVyZSBkcm0vc2NoZWR1bGVyIHdvbnQgYmUgaW52b2x2ZWQgaW4sIGFuZCBsaWtlDQo+ID4g
-SmFzb24gc2F5czogVGhlIGh3IGRpcmVjdGlvbiB3aW5kcyBkZWZpbml0ZWx5IGJsb3cgaW4gdGhl
-IGRpcmVjdGlvbg0KPiA+IHRoYXQgdGhpcyBpcyBhbGwgaGFuZGxlZCBpbiBody4NCj4gDQo+IFRo
-ZSBwbGFuIG1ha2VzIHNlbnNlIGZvciBhIFNSSU9WLWVuYWJsZSBHUFUsIHllcy4NCj4gDQo+IEhv
-d2V2ZXIsIGlmIHRoZSBHdUMgaXMgYWN0dWFsbHkgaGVscGluZyBpOTE1LCB0aGVuIHdoeSBub3Qg
-b3BlbiBzb3VyY2UNCj4gaXQgYW5kIGRyb3AgYWxsIHRoZSBpc3N1ZXMgcmVsYXRlZCB0byBpdHMg
-c3RhYmlsaXR5PyBXb3VsZG4ndCBpdCBiZSB0aGUNCj4gcGVyZmVjdCBzb2x1dGlvbiwgYXMgaXQg
-d291bGQgYWxsb3cgZHJvcHBpbmcgZXhlY2xpc3Qgc3VwcG9ydCBmb3IgbmV3ZXINCj4gSFcsIGFu
-ZCBpdCB3b3VsZCBlbGltaW5hdGUgdGhlIGNvbmNlcm5zIGFib3V0IG1haW50ZW5hbmNlIG9mIHN0
-YWJsZQ0KPiByZWxlYXNlcyBvZiBMaW51eD8NCg0KVGhhdCB0aGUgbWFqb3IgdmVyc2lvbiBvZiB0
-aGUgRlcgaXMgaGlnaCBpcyBub3QgZHVlIHRvIGJ1Z3MgLSBCdWdzIGRvbid0IHRyaWdnZXIgbWFq
-b3IgdmVyc2lvbiBidW1wcyBhbnl3YXkuIE9ubHkgaW50ZXJmYWNlIGNoYW5nZXMgaW5jcmVtZW50
-IHRoZSBtYWpvciB2ZXJzaW9uLCBhbmQgd2UgZG8gYWRkIGZlYXR1cmVzLCB0byBrZWVwIGl0IHJl
-bGV2YW50IHRvIHRoZSBldm9sdmluZyBoYXJkd2FyZSBhbmQgT1MgbGFuZHNjYXBlLiBXaGVuIG9u
-bHkgV2luZG93cyB1c2VkIEd1QyB0aGVyZSB3YXMgbm8gcmVhc29uIG5vdCB0byBtaW5pbWl6ZSBp
-bnRlcmZhY2UgY3JlZXAgLSBHdUMgYW5kIEtNRCBhcmUgcmVsZWFzZWQgYXMgYW4gYXRvbWljIGJ1
-bmRsZSBvbiBXaW5kb3dzLiBXaXRoIExpbnV4LCB0aGlzIGlzIG5vIGxvbmdlciB0aGUgY2FzZSwg
-YW5kIGhhcyBub3QgYmVlbiBmb3Igc29tZSB0aW1lLg0KDQpXZSBoYXZlIGJlZW4gdXNpbmcgR3VD
-IGFzIHRoZSBzb2xlIG1lY2hhbmlzbSBmb3Igc3VibWlzc2lvbiBvbiBXaW5kb3dzIHNpbmNlIEdl
-bjgsIGFuZCBpdCBoYXMgcHJvdmVuIHZlcnkgcmVsaWFibGUuIFRoaXMgaXMgaW4gbGFyZ2UgcGFy
-dCBiZWNhdXNlIGl0IGlzIHNpbXBsZSwgYW5kIGRlc2lnbmVkIGZyb20gZGF5IDEgYXMgYSBjb2hl
-c2l2ZSBzb2x1dGlvbiBhbG9uZ3NpZGUgdGhlIGhhcmR3YXJlLg0KDQpXaWxsIHRoZXJlIGJlIGJ1
-Z3MgaW4gdGhlIGZ1dHVyZT8gT2YgY291cnNlLiBJdCdzIGEgbmV3IGk5MTUgYmFja2VuZC4gVGhl
-cmUgYXJlIGJ1Z3MgaW4gdGhlIGV4ZWNsaXN0IGJhY2tlbmQgdG9vLCBhbmQgdGhlIHJ1bmxpc3Qg
-YmFja2VuZCwgYW5kIHRoZSBtYWpvcml0eSBvZiByZWFsLXdvcmxkIHNvZnR3YXJlIGV2ZXIgd3Jp
-dHRlbi4gQnV0IHRoZSBpOTE1IEd1QyBiYWNrZW5kIGlzIHdheSBzaW1wbGVyIHRoYW4gZXhlY2xp
-c3QsIG11Y2ggZWFzaWVyIHRvIHVuZGVyc3RhbmQsIGFuZCB0aGVyZWZvcmUgbXVjaCBlYXNpZXIg
-dG8gbWFpbnRhaW4uIEl0J3MgYSBuZXQgd2luIGZvciBpOTE1IGFuZCBMaW51eC4NCg0KSm9uDQo=
+Am 11.05.21 um 16:23 schrieb Daniel Vetter:
+> On Tue, May 11, 2021 at 09:47:56AM +0200, Christian König wrote:
+>> Am 11.05.21 um 09:31 schrieb Daniel Vetter:
+>>> [SNIP]
+>>>>> And that's just the one ioctl I know is big trouble, I'm sure we'll find
+>>>>> more funny corner cases when we roll out explicit user fencing.
+>>>> I think we can just ignore sync_file. As far as it concerns me that UAPI is
+>>>> pretty much dead.
+>>> Uh that's rather bold. Android is built on it. Currently atomic kms is
+>>> built on it.
+>> To be honest I don't think we care about Android at all.
+> we = amd or we = upstream here?
+
+we = amd, for everybody else that is certainly a different topic.
+
+But for now AMD is the only one running into this problem.
+
+Could be that Nouveau sees this as well with the next hw generation, but 
+who knows?
+
+>>> Why is this not much of a problem if it's just within one driver?
+>> Because inside the same driver I can easily add the waits before submitting
+>> the MM work as necessary.
+> What is MM work here now?
+
+MM=multimedia, e.g. UVD, VCE, VCN engines on AMD hardware.
+
+>>>>>> Adding implicit synchronization on top of that is then rather trivial.
+>>>>> Well that's what I disagree with, since I already see some problems that I
+>>>>> don't think we can overcome (the atomic ioctl is one). And that's with us
+>>>>> only having a fairly theoretical understanding of the overall situation.
+>>>> But how should we then ever support user fences with the atomic IOCTL?
+>>>>
+>>>> We can't wait in user space since that will disable the support for waiting
+>>>> in the hardware.
+>>> Well, figure it out :-)
+>>>
+>>> This is exactly why I'm not seeing anything solved with just rolling a
+>>> function call to a bunch of places, because it's pretending all things are
+>>> solved when clearly that's not the case.
+>>>
+>>> I really think what we need is to first figure out how to support
+>>> userspace fences as explicit entities across the stack, maybe with
+>>> something like this order:
+>>> 1. enable them purely within a single userspace driver (like vk with
+>>> winsys disabled, or something else like that except not amd because
+>>> there's this amdkfd split for "real" compute)
+>>> 1a. including atomic ioctl, e.g. for vk direct display support this can be
+>>> used without cross-process sharing, new winsys protocols and all that fun
+>>> 2. figure out how to transport these userspace fences with something like
+>>> drm_syncobj
+>>> 2a. figure out the compat story for drivers which dont do userspace fences
+>>> 2b. figure out how to absorb the overhead if the winsys/compositor doesn't
+>>> support explicit sync
+>>> 3. maybe figure out how to make this all happen magically with implicit
+>>> sync, if we really, really care
+>>>
+>>> If we do 3 before we've nailed all these problems, we're just guaranteeing
+>>> we'll get the wrong solutions and so we'll then have 3 ways of doing
+>>> userspace fences
+>>> - the butchered implicit one that didn't quite work
+>>> - the explicit one
+>>> - the not-so-butchered implicit one with the lessons from the properly
+>>>     done explicit one
+>>>
+>>> The thing is, if you have no idea how to integrate userspace fences
+>>> explicitly into atomic ioctl, then you definitely have no idea how to do
+>>> it implicitly :-)
+>> Well I agree on that. But the question is still how would you do explicit
+>> with atomic?
+> If you supply an userpace fence (is that what we call them now) as
+> in-fence, then your only allowed to get a userspace fence as out-fence.
+
+Yeah, that part makes perfectly sense. But I don't see the problem with 
+that?
+
+> That way we
+> - don't block anywhere we shouldn't
+> - don't create a dma_fence out of a userspace fence
+>
+> The problem is this completely breaks your "magically make implicit
+> fencing with userspace fences" plan.
+
+Why?
+
+> So I have a plan here, what was yours?
+
+As far as I see that should still work perfectly fine and I have the 
+strong feeling I'm missing something here.
+
+>> Transporting fences between processes is not the fundamental problem here,
+>> but rather the question how we represent all this in the kernel?
+>>
+>> In other words I think what you outlined above is just approaching it from
+>> the wrong side again. Instead of looking what the kernel needs to support
+>> this you take a look at userspace and the requirements there.
+> Uh ... that was my idea here? That's why I put "build userspace fences in
+> userspace only" as the very first thing. Then extend to winsys and
+> atomic/display and all these cases where things get more tricky.
+>
+> I agree that transporting the fences is easy, which is why it's not
+> interesting trying to solve that problem first. Which is kinda what you're
+> trying to do here by adding implicit userspace fences (well not even that,
+> just a bunch of function calls without any semantics attached to them).
+>
+> So if there's more here, you need to flesh it out more or I just dont get
+> what you're actually trying to demonstrate.
+
+Well I'm trying to figure out why you see it as such a problem to keep 
+implicit sync around.
+
+As far as I can tell it is completely octagonal if we use 
+implicit/explicit and dma_fence/user_fence.
+
+It's just a different implementation inside the kernel.
+
+Christian.
+
+> -Daniel
+>
+>> Regards,
+>> Christian.
+>>
+>>> And "just block" might be good enough for a quick demo, it still breaks
+>>> the contract. Same holds for a bunch of the winsys problems we'll have to
+>>> deal with here.
+>>> -Daniel
+>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>> Like here at intel we have internal code for compute, and we're starting
+>>>>> to hit some interesting cases with interop with media already, but that's
+>>>>> it. Nothing even close to desktop/winsys/kms, and that's where I expect
+>>>>> will all the pain be at.
+>>>>>
+>>>>> Cheers, Daniel
+
