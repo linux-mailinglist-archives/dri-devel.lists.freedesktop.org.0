@@ -2,38 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B2037ACA6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 19:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6231D37ACA5
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 19:05:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C2A96EA84;
-	Tue, 11 May 2021 17:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFC476EA86;
+	Tue, 11 May 2021 17:05:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B4426EA8B;
- Tue, 11 May 2021 17:06:42 +0000 (UTC)
-IronPort-SDR: o20+vGmI1hjhBMud4gEQuKiSVy0YCq0SRn9MwkO2Xjx3R6iEC0K5KKokKF21g/N/dUu87Dr7zg
- ZGc2xkaR/How==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="220457960"
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="220457960"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 10:04:14 -0700
-IronPort-SDR: TlqaRjBuCcvUXdCK+kvsx9y1A/1FzffbUsJ/E2nMn+F495CpH7THrOT6gHtXsZ17PCcIEXSl48
- HFpffZGMITQQ==
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="408880214"
-Received: from rdavies-mobl.ger.corp.intel.com (HELO
- mwauld-desk1.ger.corp.intel.com) ([10.252.2.133])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 10:04:11 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/doc/rfc: drop the i915_gem_lmem.h header
-Date: Tue, 11 May 2021 18:03:56 +0100
-Message-Id: <20210511170356.430284-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0983A6EA84
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 17:05:00 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id j19so1370045edr.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 10:04:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=OAXk/8WHwKVhPFW9td3pa9U9iAIkU4/3QR+Ow5Nxdqc=;
+ b=ZlgARLQdMzjYHaR/whOmTR94TG0qV7bL4Ca2pC/57DDuFETVn2I3rjsR7mbg0SA+oq
+ zZMasK/7Vd6qBl9ksgmtY3kMRwq4N//O8ogaj+sQVMyJhTqKkZnItVvc7W/WrWm6pXVY
+ UPmz4eJwNsTwMgYW2q9hTFFzJz1p20BnbMlCQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=OAXk/8WHwKVhPFW9td3pa9U9iAIkU4/3QR+Ow5Nxdqc=;
+ b=mzxe90d0wZy32PBtHR+sBN6EXNu3CEfOEHx38QtVpRUuORfdlJSZFZJYdRvZ9uWzV5
+ myKZVga5/dj1EaJyJaFdOnSlBGu7ihE7q05NkF8q3WROXOfuhfC/2OvtSBdqwRiEPx9+
+ mnO7v/pV7FNlFZQ1hBwkEYf5BIJAfBPzSGGxICLwUp6XW02PKPeVy+DseBfTZOKFSR8S
+ We8uNw5O19Xcwa0Zj8DPML9GAbJN/d4N20E1pDxmqmZnBm5Vc1kWk1tbzAy+HmDRsAZp
+ 2oTyF6OYBqSY2QdB/mI29VI0O9mChTOBQ9HD5M2upO7/4265mfbGsAIwnS0cH36c7v0N
+ WLHA==
+X-Gm-Message-State: AOAM530RT9QHcoXQ7vrmSXjpDgMxYYhLOp4gwmclJsGUVZdYft1Nj9En
+ WkJ6CcCvaxd5xxJlG1UGINP6bA==
+X-Google-Smtp-Source: ABdhPJzZTZaIFT1evKYYji9vcL166SCamP1fSF5H4QOMkMWXu1LMSXvPbHlNUQX3jQoQUqSHRD7HaA==
+X-Received: by 2002:aa7:d513:: with SMTP id y19mr36832686edq.9.1620752698783; 
+ Tue, 11 May 2021 10:04:58 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f7sm1018653edd.5.2021.05.11.10.04.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 10:04:58 -0700 (PDT)
+Date: Tue, 11 May 2021 19:04:56 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Zbigniew =?utf-8?Q?Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>
+Subject: Re: [PATCH] drm/i915: Add relocation exceptions for two other
+ platforms
+Message-ID: <YJq5OHIO8ThIiKCz@phenom.ffwll.local>
+References: <20210511083139.54002-1-zbigniew.kempczynski@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210511083139.54002-1-zbigniew.kempczynski@intel.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,296 +68,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The proper headers have now landed in include/uapi/drm/i915_drm.h, so we
-can drop i915_gem_lmem.h and instead just reference the real headers for
-pulling in the kernel doc.
+On Tue, May 11, 2021 at 10:31:39AM +0200, Zbigniew Kempczyński wrote:
+> We have established previously we stop using relocations starting
+> from gen12 platforms with Tigerlake as an exception. Unfortunately
+> we need extend transition period and support relocations for two
+> other igfx platforms - Rocketlake and Alderlake.
+> 
+> Signed-off-by: Zbigniew Kempczyński <zbigniew.kempczynski@intel.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
 
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
----
- Documentation/gpu/rfc/i915_gem_lmem.h   | 237 ------------------------
- Documentation/gpu/rfc/i915_gem_lmem.rst |   6 +-
- 2 files changed, 3 insertions(+), 240 deletions(-)
- delete mode 100644 Documentation/gpu/rfc/i915_gem_lmem.h
+So the annoying thing here is that now media-driver is fixed:
 
-diff --git a/Documentation/gpu/rfc/i915_gem_lmem.h b/Documentation/gpu/rfc/i915_gem_lmem.h
-deleted file mode 100644
-index d9c61bea0556..000000000000
---- a/Documentation/gpu/rfc/i915_gem_lmem.h
-+++ /dev/null
-@@ -1,237 +0,0 @@
--/**
-- * enum drm_i915_gem_memory_class - Supported memory classes
-- */
--enum drm_i915_gem_memory_class {
--	/** @I915_MEMORY_CLASS_SYSTEM: System memory */
--	I915_MEMORY_CLASS_SYSTEM = 0,
--	/** @I915_MEMORY_CLASS_DEVICE: Device local-memory */
--	I915_MEMORY_CLASS_DEVICE,
--};
--
--/**
-- * struct drm_i915_gem_memory_class_instance - Identify particular memory region
-- */
--struct drm_i915_gem_memory_class_instance {
--	/** @memory_class: See enum drm_i915_gem_memory_class */
--	__u16 memory_class;
--
--	/** @memory_instance: Which instance */
--	__u16 memory_instance;
--};
--
--/**
-- * struct drm_i915_memory_region_info - Describes one region as known to the
-- * driver.
-- *
-- * Note that we reserve some stuff here for potential future work. As an example
-- * we might want expose the capabilities for a given region, which could include
-- * things like if the region is CPU mappable/accessible, what are the supported
-- * mapping types etc.
-- *
-- * Note that to extend struct drm_i915_memory_region_info and struct
-- * drm_i915_query_memory_regions in the future the plan is to do the following:
-- *
-- * .. code-block:: C
-- *
-- *	struct drm_i915_memory_region_info {
-- *		struct drm_i915_gem_memory_class_instance region;
-- *		union {
-- *			__u32 rsvd0;
-- *			__u32 new_thing1;
-- *		};
-- *		...
-- *		union {
-- *			__u64 rsvd1[8];
-- *			struct {
-- *				__u64 new_thing2;
-- *				__u64 new_thing3;
-- *				...
-- *			};
-- *		};
-- *	};
-- *
-- * With this things should remain source compatible between versions for
-- * userspace, even as we add new fields.
-- *
-- * Note this is using both struct drm_i915_query_item and struct drm_i915_query.
-- * For this new query we are adding the new query id DRM_I915_QUERY_MEMORY_REGIONS
-- * at &drm_i915_query_item.query_id.
-- */
--struct drm_i915_memory_region_info {
--	/** @region: The class:instance pair encoding */
--	struct drm_i915_gem_memory_class_instance region;
--
--	/** @rsvd0: MBZ */
--	__u32 rsvd0;
--
--	/** @probed_size: Memory probed by the driver (-1 = unknown) */
--	__u64 probed_size;
--
--	/** @unallocated_size: Estimate of memory remaining (-1 = unknown) */
--	__u64 unallocated_size;
--
--	/** @rsvd1: MBZ */
--	__u64 rsvd1[8];
--};
--
--/**
-- * struct drm_i915_query_memory_regions
-- *
-- * The region info query enumerates all regions known to the driver by filling
-- * in an array of struct drm_i915_memory_region_info structures.
-- *
-- * Example for getting the list of supported regions:
-- *
-- * .. code-block:: C
-- *
-- *	struct drm_i915_query_memory_regions *info;
-- *	struct drm_i915_query_item item = {
-- *		.query_id = DRM_I915_QUERY_MEMORY_REGIONS;
-- *	};
-- *	struct drm_i915_query query = {
-- *		.num_items = 1,
-- *		.items_ptr = (uintptr_t)&item,
-- *	};
-- *	int err, i;
-- *
-- *	// First query the size of the blob we need, this needs to be large
-- *	// enough to hold our array of regions. The kernel will fill out the
-- *	// item.length for us, which is the number of bytes we need.
-- *	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-- *	if (err) ...
-- *
-- *	info = calloc(1, item.length);
-- *	// Now that we allocated the required number of bytes, we call the ioctl
-- *	// again, this time with the data_ptr pointing to our newly allocated
-- *	// blob, which the kernel can then populate with the all the region info.
-- *	item.data_ptr = (uintptr_t)&info,
-- *
-- *	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-- *	if (err) ...
-- *
-- *	// We can now access each region in the array
-- *	for (i = 0; i < info->num_regions; i++) {
-- *		struct drm_i915_memory_region_info mr = info->regions[i];
-- *		u16 class = mr.region.class;
-- *		u16 instance = mr.region.instance;
-- *
-- *		....
-- *	}
-- *
-- *	free(info);
-- */
--struct drm_i915_query_memory_regions {
--	/** @num_regions: Number of supported regions */
--	__u32 num_regions;
--
--	/** @rsvd: MBZ */
--	__u32 rsvd[3];
--
--	/** @regions: Info about each supported region */
--	struct drm_i915_memory_region_info regions[];
--};
--
--#define DRM_I915_GEM_CREATE_EXT		0xdeadbeaf
--#define DRM_IOCTL_I915_GEM_CREATE_EXT	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_CREATE_EXT, struct drm_i915_gem_create_ext)
--
--/**
-- * struct drm_i915_gem_create_ext - Existing gem_create behaviour, with added
-- * extension support using struct i915_user_extension.
-- *
-- * Note that in the future we want to have our buffer flags here, at least for
-- * the stuff that is immutable. Previously we would have two ioctls, one to
-- * create the object with gem_create, and another to apply various parameters,
-- * however this creates some ambiguity for the params which are considered
-- * immutable. Also in general we're phasing out the various SET/GET ioctls.
-- */
--struct drm_i915_gem_create_ext {
--	/**
--	 * @size: Requested size for the object.
--	 *
--	 * The (page-aligned) allocated size for the object will be returned.
--	 *
--	 * Note that for some devices we have might have further minimum
--	 * page-size restrictions(larger than 4K), like for device local-memory.
--	 * However in general the final size here should always reflect any
--	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
--	 * extension to place the object in device local-memory.
--	 */
--	__u64 size;
--	/**
--	 * @handle: Returned handle for the object.
--	 *
--	 * Object handles are nonzero.
--	 */
--	__u32 handle;
--	/** @flags: MBZ */
--	__u32 flags;
--	/**
--	 * @extensions: The chain of extensions to apply to this object.
--	 *
--	 * This will be useful in the future when we need to support several
--	 * different extensions, and we need to apply more than one when
--	 * creating the object. See struct i915_user_extension.
--	 *
--	 * If we don't supply any extensions then we get the same old gem_create
--	 * behaviour.
--	 *
--	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
--	 * struct drm_i915_gem_create_ext_memory_regions.
--	 */
--#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
--	__u64 extensions;
--};
--
--/**
-- * struct drm_i915_gem_create_ext_memory_regions - The
-- * I915_GEM_CREATE_EXT_MEMORY_REGIONS extension.
-- *
-- * Set the object with the desired set of placements/regions in priority
-- * order. Each entry must be unique and supported by the device.
-- *
-- * This is provided as an array of struct drm_i915_gem_memory_class_instance, or
-- * an equivalent layout of class:instance pair encodings. See struct
-- * drm_i915_query_memory_regions and DRM_I915_QUERY_MEMORY_REGIONS for how to
-- * query the supported regions for a device.
-- *
-- * As an example, on discrete devices, if we wish to set the placement as
-- * device local-memory we can do something like:
-- *
-- * .. code-block:: C
-- *
-- *	struct drm_i915_gem_memory_class_instance region_lmem = {
-- *              .memory_class = I915_MEMORY_CLASS_DEVICE,
-- *              .memory_instance = 0,
-- *      };
-- *      struct drm_i915_gem_create_ext_memory_regions regions = {
-- *              .base = { .name = I915_GEM_CREATE_EXT_MEMORY_REGIONS },
-- *              .regions = (uintptr_t)&region_lmem,
-- *              .num_regions = 1,
-- *      };
-- *      struct drm_i915_gem_create_ext create_ext = {
-- *              .size = 16 * PAGE_SIZE,
-- *              .extensions = (uintptr_t)&regions,
-- *      };
-- *
-- *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
-- *      if (err) ...
-- *
-- * At which point we get the object handle in &drm_i915_gem_create_ext.handle,
-- * along with the final object size in &drm_i915_gem_create_ext.size, which
-- * should account for any rounding up, if required.
-- */
--struct drm_i915_gem_create_ext_memory_regions {
--	/** @base: Extension link. See struct i915_user_extension. */
--	struct i915_user_extension base;
--
--	/** @pad: MBZ */
--	__u32 pad;
--	/** @num_regions: Number of elements in the @regions array. */
--	__u32 num_regions;
--	/**
--	 * @regions: The regions/placements array.
--	 *
--	 * An array of struct drm_i915_gem_memory_class_instance.
--	 */
--	__u64 regions;
--};
-diff --git a/Documentation/gpu/rfc/i915_gem_lmem.rst b/Documentation/gpu/rfc/i915_gem_lmem.rst
-index 1d344c593018..675ba8620d66 100644
---- a/Documentation/gpu/rfc/i915_gem_lmem.rst
-+++ b/Documentation/gpu/rfc/i915_gem_lmem.rst
-@@ -48,7 +48,7 @@ particular instance, since we can have more than one per class.
- In the future we also want to expose more information which can further
- describe the capabilities of a region.
- 
--.. kernel-doc:: Documentation/gpu/rfc/i915_gem_lmem.h
-+.. kernel-doc:: include/uapi/drm/i915_drm.h
-         :functions: drm_i915_gem_memory_class drm_i915_gem_memory_class_instance drm_i915_memory_region_info drm_i915_query_memory_regions
- 
- GEM_CREATE_EXT
-@@ -61,7 +61,7 @@ Side note: We also need to support PXP[1] in the near future, which is also
- applicable to integrated platforms, and adds its own gem_create_ext extension,
- which basically lets userspace mark a buffer as "protected".
- 
--.. kernel-doc:: Documentation/gpu/rfc/i915_gem_lmem.h
-+.. kernel-doc:: include/uapi/drm/i915_drm.h
-         :functions: drm_i915_gem_create_ext
- 
- I915_GEM_CREATE_EXT_MEMORY_REGIONS
-@@ -73,7 +73,7 @@ them each to use the class/instance encoding, as per the output of the regions
- query. Having the list in priority order will be useful in the future when
- placing an object, say during eviction.
- 
--.. kernel-doc:: Documentation/gpu/rfc/i915_gem_lmem.h
-+.. kernel-doc:: include/uapi/drm/i915_drm.h
-         :functions: drm_i915_gem_create_ext_memory_regions
- 
- One fair criticism here is that this seems a little over-engineered[2]. If we
+https://github.com/intel/media-driver/commit/144020c37770083974bedf59902b70b8f444c799
+
+Which means igt is really the only thing left.
+
+Dave, is this still ok for an acked exception, or is this now leaning
+towards "just fix igt"?
+-Daniel
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 297143511f99..f80da1d6d9b2 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -496,11 +496,15 @@ eb_validate_vma(struct i915_execbuffer *eb,
+>  		struct drm_i915_gem_exec_object2 *entry,
+>  		struct i915_vma *vma)
+>  {
+> -	/* Relocations are disallowed for all platforms after TGL-LP.  This
+> -	 * also covers all platforms with local memory.
+> +	/*
+> +	 * Relocations are disallowed starting from gen12 with some exceptions
+> +	 * - TGL/RKL/ADL.
+>  	 */
+>  	if (entry->relocation_count &&
+> -	    INTEL_GEN(eb->i915) >= 12 && !IS_TIGERLAKE(eb->i915))
+> +	    INTEL_GEN(eb->i915) >= 12 && !(IS_TIGERLAKE(eb->i915) ||
+> +					   IS_ROCKETLAKE(eb->i915) ||
+> +					   IS_ALDERLAKE_S(eb->i915) ||
+> +					   IS_ALDERLAKE_P(eb->i915)))
+>  		return -EINVAL;
+>  
+>  	if (unlikely(entry->flags & eb->invalid_flags))
+> -- 
+> 2.26.0
+> 
+
 -- 
-2.26.3
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
