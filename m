@@ -2,22 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6EF637A5D0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 13:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6649337A64E
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 14:06:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4DC46EA1F;
-	Tue, 11 May 2021 11:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE766EA21;
+	Tue, 11 May 2021 12:06:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F9826EA1F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 11:32:18 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FfbL72Z5vz1BHtL;
- Tue, 11 May 2021 19:29:35 +0800 (CST)
+X-Greylist: delayed 994 seconds by postgrey-1.36 at gabe;
+ Tue, 11 May 2021 12:06:20 UTC
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C73F6EA21
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 12:06:20 +0000 (UTC)
+Received: from dggeml763-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FfbkG40Jhz61T1;
+ Tue, 11 May 2021 19:47:02 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggeml763-chm.china.huawei.com (10.1.199.173) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 11 May 2021 19:49:41 +0800
 Received: from thunder-town.china.huawei.com (10.174.177.72) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 11 May 2021 19:32:04 +0800
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 11 May 2021 19:49:41 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
  <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
@@ -25,15 +32,17 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
  <dri-devel@lists.freedesktop.org>, linux-mediatek
  <linux-mediatek@lists.infradead.org>, linux-arm-kernel
  <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH 1/1] drm/mediatek: Remove redundant error printing in
- mtk_cec_probe()
-Date: Tue, 11 May 2021 19:32:00 +0800
-Message-ID: <20210511113200.5439-1-thunder.leizhen@huawei.com>
+Subject: [PATCH 1/1] drm/mediatek: mtk_dpi: Remove redundant error printing in
+ mtk_dpi_probe()
+Date: Tue, 11 May 2021 19:49:36 +0800
+Message-ID: <20210511114936.5666-1-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.177.72]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,18 +71,18 @@ binary size.
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/gpu/drm/mediatek/mtk_cec.c | 1 -
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_cec.c b/drivers/gpu/drm/mediatek/mtk_cec.c
-index e9cef5c0c8f7eff..fd593ff99bfd447 100644
---- a/drivers/gpu/drm/mediatek/mtk_cec.c
-+++ b/drivers/gpu/drm/mediatek/mtk_cec.c
-@@ -197,7 +197,6 @@ static int mtk_cec_probe(struct platform_device *pdev)
- 	cec->regs = devm_ioremap_resource(dev, res);
- 	if (IS_ERR(cec->regs)) {
- 		ret = PTR_ERR(cec->regs);
--		dev_err(dev, "Failed to ioremap cec: %d\n", ret);
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index bea91c81626e154..891a109ffe441d8 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -743,7 +743,6 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+ 	dpi->regs = devm_ioremap_resource(dev, mem);
+ 	if (IS_ERR(dpi->regs)) {
+ 		ret = PTR_ERR(dpi->regs);
+-		dev_err(dev, "Failed to ioremap mem resource: %d\n", ret);
  		return ret;
  	}
  
