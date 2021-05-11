@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199ED37A1F8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:29:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB4D37A228
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:32:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6277E6E9F7;
-	Tue, 11 May 2021 08:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 572B36E9FA;
+	Tue, 11 May 2021 08:32:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDD86E9F2;
- Tue, 11 May 2021 08:29:06 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FfWHK1jwPzlbM5;
- Tue, 11 May 2021 16:26:53 +0800 (CST)
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 11 May 2021 16:28:56 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, Pierre Moreau <pierre.morrow@free.fr>, dri-devel
- <dri-devel@lists.freedesktop.org>, nouveau <nouveau@lists.freedesktop.org>
-Subject: [PATCH v2 2/2] drm/nouveau: Fix error return code in
- nouveau_backlight_init()
-Date: Tue, 11 May 2021 16:28:41 +0800
-Message-ID: <20210511082841.4181-3-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20210511082841.4181-1-thunder.leizhen@huawei.com>
-References: <20210511082841.4181-1-thunder.leizhen@huawei.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B09CA6E9FB;
+ Tue, 11 May 2021 08:32:22 +0000 (UTC)
+IronPort-SDR: zlzrQYh7lHgdYF7gpbHcWcEEs0P9PJfgQLDn/q4Cj/QmW5mAv+bnuDgSqe7Q+f6sB6L3BfSnYh
+ xNnuLk3Tx1Yg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179651136"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="179651136"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 01:32:21 -0700
+IronPort-SDR: w+iIbNQnjIB14dxuwNOmIJ33exvw/vVkF1kPPMYxqsy7e9n8/4APwne3krV9+DUzQ8qhKd7Tzo
+ U2/8n4bc8wfw==
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="471058871"
+Received: from dartyukh-mobl2.ger.corp.intel.com (HELO
+ zkempczy-mobl2.ger.corp.intel.com) ([10.213.3.239])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 01:32:00 -0700
+From: =?UTF-8?q?Zbigniew=20Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Add relocation exceptions for two other platforms
+Date: Tue, 11 May 2021 10:31:39 +0200
+Message-Id: <20210511083139.54002-1-zbigniew.kempczynski@intel.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.177.72]
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,59 +48,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?q?Zbigniew=20Kempczy=C5=84ski?= <zbigniew.kempczynski@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix to return a negative error code from the error handling case instead
-of 0, as done elsewhere in this function.
+We have established previously we stop using relocations starting
+from gen12 platforms with Tigerlake as an exception. Unfortunately
+we need extend transition period and support relocations for two
+other igfx platforms - Rocketlake and Alderlake.
 
-Fixes: db1a0ae21461 ("drm/nouveau/bl: Assign different names to interfaces")
-Suggested-by: Pierre Moreau <pierre.morrow@free.fr>
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+Signed-off-by: Zbigniew Kempczyński <zbigniew.kempczynski@intel.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
 ---
- drivers/gpu/drm/nouveau/nouveau_backlight.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-index d1c998e645fb4b6..f0856adbe775624 100644
---- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-@@ -47,20 +47,20 @@ struct nouveau_backlight {
- 	int id;
- };
- 
--static bool
-+static int
- nouveau_get_backlight_name(char backlight_name[BL_NAME_SIZE],
- 			   struct nouveau_backlight *bl)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 297143511f99..f80da1d6d9b2 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -496,11 +496,15 @@ eb_validate_vma(struct i915_execbuffer *eb,
+ 		struct drm_i915_gem_exec_object2 *entry,
+ 		struct i915_vma *vma)
  {
- 	int nb = ida_simple_get(&bl_ida, 0, 100, GFP_KERNEL);
+-	/* Relocations are disallowed for all platforms after TGL-LP.  This
+-	 * also covers all platforms with local memory.
++	/*
++	 * Relocations are disallowed starting from gen12 with some exceptions
++	 * - TGL/RKL/ADL.
+ 	 */
+ 	if (entry->relocation_count &&
+-	    INTEL_GEN(eb->i915) >= 12 && !IS_TIGERLAKE(eb->i915))
++	    INTEL_GEN(eb->i915) >= 12 && !(IS_TIGERLAKE(eb->i915) ||
++					   IS_ROCKETLAKE(eb->i915) ||
++					   IS_ALDERLAKE_S(eb->i915) ||
++					   IS_ALDERLAKE_P(eb->i915)))
+ 		return -EINVAL;
  
- 	if (nb < 0)
--		return false;
-+		return nb;
- 	if (nb > 0)
- 		snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
- 	else
- 		snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight");
- 	bl->id = nb;
--	return true;
-+	return 0;
- }
- 
- static int
-@@ -273,7 +273,8 @@ nouveau_backlight_init(struct drm_connector *connector)
- 	if (!bl)
- 		return -ENOMEM;
- 
--	if (!nouveau_get_backlight_name(backlight_name, bl)) {
-+	ret = nouveau_get_backlight_name(backlight_name, bl);
-+	if (ret) {
- 		NV_ERROR(drm, "Failed to retrieve a unique name for the backlight interface\n");
- 		goto fail_alloc;
- 	}
+ 	if (unlikely(entry->flags & eb->invalid_flags))
 -- 
-2.26.0.106.g9fadedd
-
+2.26.0
 
