@@ -2,43 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E2B37AC1A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 18:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9084037AC06
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 18:34:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 721466EA77;
-	Tue, 11 May 2021 16:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95576E1EE;
+	Tue, 11 May 2021 16:34:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3135A6EA77;
- Tue, 11 May 2021 16:38:41 +0000 (UTC)
-IronPort-SDR: /XEDCa+wo9sC5QDkoJjNbS9Q8T++13T5+ypvIh2tHWVWgB226C2ezBS037Ho4URROsGFKK7I+X
- /W6CM0uW4GGQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="220450286"
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="220450286"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 09:38:36 -0700
-IronPort-SDR: wel69u0HPrBWaxWOfvDLKn8R7TiRyS44Jo5PG3rY89Nve2xeLL8iGGsbEIbTSnAdvKVAQwKwRL
- P+v06AGhPvGA==
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="392365181"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 09:38:36 -0700
-Date: Tue, 11 May 2021 09:31:17 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [RFC PATCH 49/97] drm/i915/guc: Disable engine barriers with GuC
- during unpin
-Message-ID: <20210511163116.GA28103@sdutt-i7>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <20210506191451.77768-50-matthew.brost@intel.com>
- <YJqk0pcx4JruoyXz@phenom.ffwll.local>
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDC7F6E1EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 16:34:51 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ h9-20020a4a94090000b02901f9d4f64172so4324515ooi.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jtRsLR7tw7/ws6UHbTbAGxhYbBVVPFNMe8r9CvkiMc0=;
+ b=nuaEaWAoXueXoY/9qSf6sZqWHJXaeAYBy6geLvW4dsHjpoYaG8QXoKFX0e4D0XCUqI
+ 6xn+RW13swL6jSnq3hOuAdmBELDtTrTQGSStd4bRc8PGu2WSX4UKbARDR/xfBkZwpS9D
+ hSLDooni+LjoGLjSZX3MCCpXpfH/pyX5FE/d/AaVzuLpWrLvOrzTUfnlCpSAlmRroa+Y
+ oPAY/rrvGNMLdYf4gmgKizpK3NA1n5ZkvJP5fBeugPo3SQAUEySM6HhQqfiEH6mVvL/r
+ nzFllOLwJAf1s7dQXAiPpCiTuAZwznyrRG8EnRz25PegLBOYPCfn0cUzHBacwD2jKink
+ OCVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jtRsLR7tw7/ws6UHbTbAGxhYbBVVPFNMe8r9CvkiMc0=;
+ b=NAcL1RqMsjUMIT3SYyfcnrE+HDV/2vcVbpgpD6l55owGDdpqiAG6iOZOwSp8+1mBQ7
+ 1iMoj3JMciikBOI5DyLSvo8wI51I+/1K4GomI72s0wY9fzophSOBRJK7SFpFhJPgFFKB
+ PSDMtHB9Tw2W8pcoOp8LzwIjmRsiFFOkEG6/kn7AUpliKcS9hBlSVuXRSccf+uDi74Pu
+ eSh8cuuhBbr4/2SPntvROM+Ehnj3mZ8hWy4yobSB5qls/ADoinHMsooa2sjRTdHiULXX
+ C5abPu/zfjW3e40jzKOoARvtaGFmbzpOtqWdBjFhDDm5QIb/tpwOTY7l4FrKJDe/mdQE
+ /azg==
+X-Gm-Message-State: AOAM532s5v1gjBAUeBkrOx7XNcptK/krAppTejq6Plb4pR+8wuIsRYNH
+ j6EHFzJqzgPczhd9FcPLSwgjR8OlNwT6A8rq4rWlupZE
+X-Google-Smtp-Source: ABdhPJy/TooDudc1x0tUUgGg7n3GuOdw0E07h/+JgNNDyTCdr5Gf+xa4k8kzfufi5jIdVEyZjDowBRvtg3AyzwAsV+8=
+X-Received: by 2002:a4a:d085:: with SMTP id i5mr24141937oor.61.1620750891309; 
+ Tue, 11 May 2021 09:34:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YJqk0pcx4JruoyXz@phenom.ffwll.local>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20210511155512.582798-1-maxime@cerno.tech>
+In-Reply-To: <20210511155512.582798-1-maxime@cerno.tech>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 11 May 2021 12:34:40 -0400
+Message-ID: <CADnq5_NG8dwfk9uu83_CM7430Pj1CTK1=UTuQR7U7nnmcdPu2g@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: gpu: Mention the requirements for new
+ properties
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,123 +63,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, jason.ekstrand@intel.com,
- daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
- daniel.vetter@intel.com, john.c.harrison@intel.com
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 11, 2021 at 05:37:54PM +0200, Daniel Vetter wrote:
-> On Thu, May 06, 2021 at 12:14:03PM -0700, Matthew Brost wrote:
-> > Disable engine barriers for unpinning with GuC. This feature isn't
-> > needed with the GuC as it disables context scheduling before unpinning
-> > which guarantees the HW will not reference the context. Hence it is
-> > not necessary to defer unpinning until a kernel context request
-> > completes on each engine in the context engine mask.
-> > 
-> > Cc: John Harrison <john.c.harrison@intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> 
-> Instead of these ifs in the code, can we push this barrier business down
-> into backends?
-> 
+On Tue, May 11, 2021 at 11:55 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> New KMS properties come with a bunch of requirements to avoid each
+> driver from running their own, inconsistent, set of properties,
+> eventually leading to issues like property conflicts, inconsistencies
+> between drivers and semantics, etc.
+>
+> Let's document what we expect.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  Documentation/gpu/drm-kms.rst | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index 87e5023e3f55..30f4c376f419 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -463,6 +463,24 @@ KMS Properties
+>  This section of the documentation is primarily aimed at user-space developers.
+>  For the driver APIs, see the other sections.
+>
+> +Requirements
+> +------------
+> +
+> +KMS drivers might need to add extra properties to support new features.
+> +Each new property introduced in a driver need to meet a few
+> +requirements, in addition to the one mentioned above.:
+> +
+> +- It must be standardized, with some documentation to describe the
 
-Not a bad idea. This is an example of what I think of implict behavior of the
-backend creeping into the higher levels.
+"to describe how the"
 
-> Not in this series, but as one of the things to sort out as part of the
-> conversion to drm/scheduler.
+With that fixed, it looks good to me.
 
-Agree. After basic GuC submission gets merged maybe we go through the code and
-remove all the implict backend assumptions.
+Alex
 
-Matt
-
-> -Daniel
-> 
-> > ---
-> >  drivers/gpu/drm/i915/gt/intel_context.c    |  2 +-
-> >  drivers/gpu/drm/i915/gt/intel_context.h    |  1 +
-> >  drivers/gpu/drm/i915/gt/selftest_context.c | 10 ++++++++++
-> >  drivers/gpu/drm/i915/i915_active.c         |  3 +++
-> >  4 files changed, 15 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > index 1499b8aace2a..7f97753ab164 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > @@ -80,7 +80,7 @@ static int intel_context_active_acquire(struct intel_context *ce)
-> >  
-> >  	__i915_active_acquire(&ce->active);
-> >  
-> > -	if (intel_context_is_barrier(ce))
-> > +	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
-> >  		return 0;
-> >  
-> >  	/* Preallocate tracking nodes */
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-> > index 92ecbab8c1cd..9b211ca5ecc7 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context.h
-> > @@ -16,6 +16,7 @@
-> >  #include "intel_engine_types.h"
-> >  #include "intel_ring_types.h"
-> >  #include "intel_timeline_types.h"
-> > +#include "uc/intel_guc_submission.h"
-> >  
-> >  #define CE_TRACE(ce, fmt, ...) do {					\
-> >  	const struct intel_context *ce__ = (ce);			\
-> > diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
-> > index 26685b927169..fa7b99a671dd 100644
-> > --- a/drivers/gpu/drm/i915/gt/selftest_context.c
-> > +++ b/drivers/gpu/drm/i915/gt/selftest_context.c
-> > @@ -209,7 +209,13 @@ static int __live_active_context(struct intel_engine_cs *engine)
-> >  	 * This test makes sure that the context is kept alive until a
-> >  	 * subsequent idle-barrier (emitted when the engine wakeref hits 0
-> >  	 * with no more outstanding requests).
-> > +	 *
-> > +	 * In GuC submission mode we don't use idle barriers and we instead
-> > +	 * get a message from the GuC to signal that it is safe to unpin the
-> > +	 * context from memory.
-> >  	 */
-> > +	if (intel_engine_uses_guc(engine))
-> > +		return 0;
-> >  
-> >  	if (intel_engine_pm_is_awake(engine)) {
-> >  		pr_err("%s is awake before starting %s!\n",
-> > @@ -357,7 +363,11 @@ static int __live_remote_context(struct intel_engine_cs *engine)
-> >  	 * on the context image remotely (intel_context_prepare_remote_request),
-> >  	 * which inserts foreign fences into intel_context.active, does not
-> >  	 * clobber the idle-barrier.
-> > +	 *
-> > +	 * In GuC submission mode we don't use idle barriers.
-> >  	 */
-> > +	if (intel_engine_uses_guc(engine))
-> > +		return 0;
-> >  
-> >  	if (intel_engine_pm_is_awake(engine)) {
-> >  		pr_err("%s is awake before starting %s!\n",
-> > diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-> > index b1aa1c482c32..9a264898bb91 100644
-> > --- a/drivers/gpu/drm/i915/i915_active.c
-> > +++ b/drivers/gpu/drm/i915/i915_active.c
-> > @@ -968,6 +968,9 @@ void i915_active_acquire_barrier(struct i915_active *ref)
-> >  
-> >  	GEM_BUG_ON(i915_active_is_idle(ref));
-> >  
-> > +	if (llist_empty(&ref->preallocated_barriers))
-> > +		return;
-> > +
-> >  	/*
-> >  	 * Transfer the list of preallocated barriers into the
-> >  	 * i915_active rbtree, but only as proto-nodes. They will be
-> > -- 
-> > 2.28.0
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> +  property can be used.
+> +
+> +- It must provide a generic helper in the core code to register that
+> +  property on the object it attaches to.
+> +
+> +- Its content must be decoded by the core and provided in the object
+> +  associated state structure.
+> +
+> +- An IGT test must be submitted.
+> +
+>  Property Types and Blob Property Support
+>  ----------------------------------------
+>
+> --
+> 2.31.1
+>
