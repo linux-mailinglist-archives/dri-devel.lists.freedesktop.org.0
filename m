@@ -1,69 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D007C37AC51
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 18:48:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E259237AC8D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 19:00:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8F5A89FCC;
-	Tue, 11 May 2021 16:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02CFB6E7D1;
+	Tue, 11 May 2021 17:00:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CF196EA99
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 16:48:19 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id m12so30787444eja.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=6Uu6LdzLdr1Fz83vh+k4vSbVeuGZtQz1kTtPqlNFurQ=;
- b=SXcHSMGuUHrxr1iFjg98CXr/XQp1hLdL+ZNj4S34cIEGlEV2i8R4+aVs0MCbJ7PnbU
- Ucpl+Ntxpiu+F6NFfnpf//ThulxnYaL7t6WPkFJ6pww8vSsDNTdyOrPukCZZUBfjmbIx
- 7w1suRc6yXPTCV7g1tMYJxHy8MKfs4XZuCX24=
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E23066EA85
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 17:00:44 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id
+ d3-20020a9d29030000b029027e8019067fso18053063otb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 10:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=+kc9oZEJ14VtCjgrFBVdOi9/5rD3BSHSZSNV5GjZufU=;
+ b=PwB1lvevVfB5Kbm7k/H348W91Tj9WxfX+YOZ70lpfrPoOc2vzHtRmS5rzAxstsVpqY
+ Zl0ZnQ2lcLSRGIrkT1mPSfwIH/C9/vw9xKaTCm97G55DwAuj0An0UPbRbckwhMyctHF/
+ Zgehk3RmB3QlbD21BR0O3H+D2qgTa39u0LNUA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=6Uu6LdzLdr1Fz83vh+k4vSbVeuGZtQz1kTtPqlNFurQ=;
- b=TdaM8SJ7zLxTlgCu5HTVJCjNsU6+v3xIfIGIn2Fc5XpqKpbbYM/yNQ9TGvRjwVJVJh
- Ql/Yee9ICq3dHSQ7mQaiszP9U46ev1UF5vafyotgT6r+jUjITqTCR2D6Es2K5K2Cd6Fn
- tc7h1hLts8trL+52EuzeFvWJbUy728Zhcpp2o6iqIDHgQ68hyVFQqyZzPqGpeOVHyj/C
- HgUgSlqra0k4OSwF/OpO0KU5lpZlHiQuuRtsscH91sk3CmjINHgCxmWfdi6s2k4MLDl1
- yxCPE9QqO4Bi11r8fxPfscvcdZdw31YLc0pQPk6vcOT+gIxDaC2djuBaGF8Ezcs+N5gz
- 8JzA==
-X-Gm-Message-State: AOAM530wiDNMvG1MB5tl2J96jFnQC3yb1rn4JQdDz2XkWThjJbnPVqtb
- LVJ+AQDkd3H+s7sBS0yzkOqVNA==
-X-Google-Smtp-Source: ABdhPJy9XhgW7HdW2UTgpjJ58uu5oFwDCCQ0Ne+15o1nSJckyFOyzcXgXXEZorR5xqNGikDX8XGXcw==
-X-Received: by 2002:a17:906:640c:: with SMTP id
- d12mr4411072ejm.70.1620751697953; 
- Tue, 11 May 2021 09:48:17 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y21sm14145834edv.77.2021.05.11.09.48.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 09:48:17 -0700 (PDT)
-Date: Tue, 11 May 2021 18:48:15 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [RFC] Implicit vs explicit user fence sync
-Message-ID: <YJq1T8yWXSW6TRjW@phenom.ffwll.local>
-References: <20210504132729.2046-1-christian.koenig@amd.com>
- <YJFXG/THrjXqQjyN@phenom.ffwll.local>
- <d266ccd2-3259-99ce-5fd6-b8ae81ac14e9@gmail.com>
- <YJFkN/bgN6UCXdvA@phenom.ffwll.local>
- <f1616be5-a8cb-076d-a63d-9554a76b0b0a@gmail.com>
- <YJoy6oI34tQZMt6/@phenom.ffwll.local>
- <0128750d-56bf-7697-0fda-0342c7b7df17@gmail.com>
- <YJqTeQAjsr1Tn9CZ@phenom.ffwll.local>
- <a08a4b30-5ae5-49ac-bad0-c77a5cabbecd@gmail.com>
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=+kc9oZEJ14VtCjgrFBVdOi9/5rD3BSHSZSNV5GjZufU=;
+ b=XVo7CmCQcnt1OVcFkXlSihW78at5uCU6zt9MyvXSklc+E3azhI0kwsapq0RATmKli9
+ im59v4xmOjxFsUB5pFw87zxK7B6DFcRaw2nlOVGua9PzLsfXdHIPWkqEUMfSPuIBnfll
+ vccPZlmHNjSr5SS9/kCoX1jT5Dh+LMRg1A66Oys67BPaEPovDInrisvZ6RDD2PEmhNIJ
+ 4IRcetvIF4cIWX7Dtd4ysAeQmEmSvYJh+e74OLEW3xfyNN+wr/C735pEMB+H+AMdB4Se
+ pJ7juyfQXr01ayrn2jE/fLCKFzkV7gfPKjNdSKASeJKbMe4GsAhmFH+LOZLLYzCPLm9t
+ +u5w==
+X-Gm-Message-State: AOAM531vIZiuyomoNhl9MuKDv2mYX2EAK9kfdjDOtGg4n8RuGE5QjcLg
+ oH9SlRukpF+1Mr4bB0ZBOzsB36QNSB4pOZdM8hq+1Q==
+X-Google-Smtp-Source: ABdhPJzW1noUSaOfHP3CiUI7zDa9O8HOgGEUnZzp7SKJNkf/LeqfB00UDdoZldzFkZBlJffiYsv995L7sOx4TuPsCo4=
+X-Received: by 2002:a9d:425:: with SMTP id 34mr27097167otc.25.1620752444214;
+ Tue, 11 May 2021 10:00:44 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 11 May 2021 10:00:43 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a08a4b30-5ae5-49ac-bad0-c77a5cabbecd@gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <CAJZ5v0h42fTKueFxrB6fpc9YBVNyDsCBryAf_geS-=0+OQQqjg@mail.gmail.com>
+References: <20210508074118.1621729-1-swboyd@chromium.org>
+ <YJlZwYS+oH7W5WjO@phenom.ffwll.local>
+ <CAE-0n52S=LFRx93qVyWBpF5PmdCEbWH_+HnN0Do9W45kiJLCbQ@mail.gmail.com>
+ <CAKMK7uE_yrXNdEYTf-snNU9dS+=6AKOmUxRuLSHLWBTOtVwpmg@mail.gmail.com>
+ <CAE-0n50d8_OtZTpBGaz0uhj6AO823_kwHg9+SJK6ar=e+rGxFA@mail.gmail.com>
+ <CAJZ5v0h42fTKueFxrB6fpc9YBVNyDsCBryAf_geS-=0+OQQqjg@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Tue, 11 May 2021 10:00:43 -0700
+Message-ID: <CAE-0n50WBz6rpbuxw-2=XNi=1fmaf=mYrcWdV88E-0KioKHZDg@mail.gmail.com>
+Subject: Re: [PATCH] component: Move host device to end of device lists on
+ binding
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,170 +69,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Russell King <rmk+kernel@arm.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 11, 2021 at 05:32:29PM +0200, Christian König wrote:
-> Am 11.05.21 um 16:23 schrieb Daniel Vetter:
-> > On Tue, May 11, 2021 at 09:47:56AM +0200, Christian König wrote:
-> > > Am 11.05.21 um 09:31 schrieb Daniel Vetter:
-> > > > [SNIP]
-> > > > > > And that's just the one ioctl I know is big trouble, I'm sure we'll find
-> > > > > > more funny corner cases when we roll out explicit user fencing.
-> > > > > I think we can just ignore sync_file. As far as it concerns me that UAPI is
-> > > > > pretty much dead.
-> > > > Uh that's rather bold. Android is built on it. Currently atomic kms is
-> > > > built on it.
-> > > To be honest I don't think we care about Android at all.
-> > we = amd or we = upstream here?
-> 
-> we = amd, for everybody else that is certainly a different topic.
-> 
-> But for now AMD is the only one running into this problem.
-> 
-> Could be that Nouveau sees this as well with the next hw generation, but who
-> knows?
-> 
-> > > > Why is this not much of a problem if it's just within one driver?
-> > > Because inside the same driver I can easily add the waits before submitting
-> > > the MM work as necessary.
-> > What is MM work here now?
-> 
-> MM=multimedia, e.g. UVD, VCE, VCN engines on AMD hardware.
-> 
-> > > > > > > Adding implicit synchronization on top of that is then rather trivial.
-> > > > > > Well that's what I disagree with, since I already see some problems that I
-> > > > > > don't think we can overcome (the atomic ioctl is one). And that's with us
-> > > > > > only having a fairly theoretical understanding of the overall situation.
-> > > > > But how should we then ever support user fences with the atomic IOCTL?
-> > > > > 
-> > > > > We can't wait in user space since that will disable the support for waiting
-> > > > > in the hardware.
-> > > > Well, figure it out :-)
-> > > > 
-> > > > This is exactly why I'm not seeing anything solved with just rolling a
-> > > > function call to a bunch of places, because it's pretending all things are
-> > > > solved when clearly that's not the case.
-> > > > 
-> > > > I really think what we need is to first figure out how to support
-> > > > userspace fences as explicit entities across the stack, maybe with
-> > > > something like this order:
-> > > > 1. enable them purely within a single userspace driver (like vk with
-> > > > winsys disabled, or something else like that except not amd because
-> > > > there's this amdkfd split for "real" compute)
-> > > > 1a. including atomic ioctl, e.g. for vk direct display support this can be
-> > > > used without cross-process sharing, new winsys protocols and all that fun
-> > > > 2. figure out how to transport these userspace fences with something like
-> > > > drm_syncobj
-> > > > 2a. figure out the compat story for drivers which dont do userspace fences
-> > > > 2b. figure out how to absorb the overhead if the winsys/compositor doesn't
-> > > > support explicit sync
-> > > > 3. maybe figure out how to make this all happen magically with implicit
-> > > > sync, if we really, really care
-> > > > 
-> > > > If we do 3 before we've nailed all these problems, we're just guaranteeing
-> > > > we'll get the wrong solutions and so we'll then have 3 ways of doing
-> > > > userspace fences
-> > > > - the butchered implicit one that didn't quite work
-> > > > - the explicit one
-> > > > - the not-so-butchered implicit one with the lessons from the properly
-> > > >     done explicit one
-> > > > 
-> > > > The thing is, if you have no idea how to integrate userspace fences
-> > > > explicitly into atomic ioctl, then you definitely have no idea how to do
-> > > > it implicitly :-)
-> > > Well I agree on that. But the question is still how would you do explicit
-> > > with atomic?
-> > If you supply an userpace fence (is that what we call them now) as
-> > in-fence, then your only allowed to get a userspace fence as out-fence.
-> 
-> Yeah, that part makes perfectly sense. But I don't see the problem with
-> that?
-> 
-> > That way we
-> > - don't block anywhere we shouldn't
-> > - don't create a dma_fence out of a userspace fence
-> > 
-> > The problem is this completely breaks your "magically make implicit
-> > fencing with userspace fences" plan.
-> 
-> Why?
+Quoting Rafael J. Wysocki (2021-05-11 03:52:06)
+> On Mon, May 10, 2021 at 9:08 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> [cut]
+>
+> >
+> > >
+> > > > I will try it, but then I wonder about things like system wide
+> > > > suspend/resume too. The drm encoder chain would need to reimplement the
+> > > > logic for system wide suspend/resume so that any PM ops attached to the
+> > > > msm device run in the correct order. Right now the bridge PM ops will
+> > > > run, the i2c bus PM ops will run, and then the msm PM ops will run.
+> > > > After this change, the msm PM ops will run, the bridge PM ops will run,
+> > > > and then the i2c bus PM ops will run. It feels like that could be a
+> > > > problem if we're suspending the DSI encoder while the bridge is still
+> > > > active.
+> > >
+> > > Yup suspend/resume has the exact same problem as shutdown.
+> >
+> > I think suspend/resume has the exact opposite problem. At least I think
+> > the correct order is to suspend the bridge, then the encoder, i.e. DSI,
+> > like is happening today. It looks like drm_atomic_helper_shutdown()
+> > operates from the top down when we want bottom up? I admit I have no
+> > idea what is supposed to happen here.
+>
+> Why would the system-wide suspend ordering be different from the
+> shutdown ordering?
 
-If you allow implicit fencing then you can end up with
-- an implicit userspace fence as the in-fence
-- but an explicit dma_fence as the out fence
+I don't really know. I'm mostly noting that today the order of suspend
+is to suspend the bridge device first and then the aggregate device. If
+the suspend of the aggregate device is traversing the devices like
+drm_atomic_helper_shutdown() then it would operate on the bridge device
+after it has been suspended, like is happening during shutdown. But it
+looks like that isn't happening. At least for the msm driver we're
+suspending the aggregate device after the bridge, and there are some
+weird usages of prepare and complete in there (see msm_pm_prepare() and
+msm_pm_complete) which makes me think that it's all working around this
+component code.
 
-Which is not allowed. So there's really no way to make this work, except
-if you stall in the ioctl, which also doesn't work.
-
-So you have to do an uapi change here. At that point we might as well do
-it right.
-
-Of course if you only care about some specific compositors (or maybe only
-the -amdgpu Xorg driver even) then this isn't a concern, but atomic is
-cross-driver so we can't do that. Or at least I don't see a way how to do
-this without causing endless amounts of fun down the road.
-
-> > So I have a plan here, what was yours?
-> 
-> As far as I see that should still work perfectly fine and I have the strong
-> feeling I'm missing something here.
-> 
-> > > Transporting fences between processes is not the fundamental problem here,
-> > > but rather the question how we represent all this in the kernel?
-> > > 
-> > > In other words I think what you outlined above is just approaching it from
-> > > the wrong side again. Instead of looking what the kernel needs to support
-> > > this you take a look at userspace and the requirements there.
-> > Uh ... that was my idea here? That's why I put "build userspace fences in
-> > userspace only" as the very first thing. Then extend to winsys and
-> > atomic/display and all these cases where things get more tricky.
-> > 
-> > I agree that transporting the fences is easy, which is why it's not
-> > interesting trying to solve that problem first. Which is kinda what you're
-> > trying to do here by adding implicit userspace fences (well not even that,
-> > just a bunch of function calls without any semantics attached to them).
-> > 
-> > So if there's more here, you need to flesh it out more or I just dont get
-> > what you're actually trying to demonstrate.
-> 
-> Well I'm trying to figure out why you see it as such a problem to keep
-> implicit sync around.
-> 
-> As far as I can tell it is completely octagonal if we use implicit/explicit
-> and dma_fence/user_fence.
-> 
-> It's just a different implementation inside the kernel.
-
-See above. It falls apart with the atomic ioctl.
--Daniel
-
-> 
-> Christian.
-> 
-> > -Daniel
-> > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > > And "just block" might be good enough for a quick demo, it still breaks
-> > > > the contract. Same holds for a bunch of the winsys problems we'll have to
-> > > > deal with here.
-> > > > -Daniel
-> > > > 
-> > > > > Regards,
-> > > > > Christian.
-> > > > > 
-> > > > > > Like here at intel we have internal code for compute, and we're starting
-> > > > > > to hit some interesting cases with interop with media already, but that's
-> > > > > > it. Nothing even close to desktop/winsys/kms, and that's where I expect
-> > > > > > will all the pain be at.
-> > > > > > 
-> > > > > > Cheers, Daniel
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+The prepare phase is going to suspend the display pipeline, and then the
+bridge device will run its suspend hooks, and then the aggregate driver
+will run its suspend hooks. If we had a proper device for the aggregate
+device instead of the bind/unbind component hooks we could clean this
+up.
