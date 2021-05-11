@@ -1,60 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FB1379B04
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 02:03:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DAE379C54
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 03:57:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C71626E97D;
-	Tue, 11 May 2021 00:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B6646E992;
+	Tue, 11 May 2021 01:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 772356E97D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 00:03:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 297536161E
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 00:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620691402;
- bh=kiilhAG4vzCxy9EUkXH5ilyx/HIStEut5bCDnS2Kdto=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=d9AEQh5pOSqDI53QpZLRcqu7AcEtyVWOZP4uT+w9F07JOi6vSE5p53k4jJ2m3JcJO
- us6zpbXX/XNMA8iN4XdAWZzSaxGGMCMCuUBBi1sYtJ/ECV8H+qBraxtJpr444Zmjbx
- qAe2azr78aLkbKsJJVB5MeoKkHSjaVofRgdi6x3UbwXfqztTCuRKFvGJoqynNIW7/D
- DxprucbSSrdszaoUCy6ppdsYGrvxXQTkxexDi8YQdZVl7Ek91wACp5tr4t9TQWk4ru
- A6edlB2zr60eIPAqYhPxV8Ao0OZTWtTYKH0uA3rH5DTfWuQEh3a9uQGNloUzb2Nox5
- He7ukHOaSwv/A==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 254E96120C; Tue, 11 May 2021 00:03:22 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F55B6E992
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 01:57:05 +0000 (UTC)
+IronPort-SDR: 1cozcttm7grrrU8uxr+X+MbAR4U9Bo4+2KYx/5YRWRevwLPRIC/uTDIKbmF+qOJ2ZeSmhyopPr
+ vE5FtdbGXSmg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="196239146"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="196239146"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2021 18:56:59 -0700
+IronPort-SDR: xuJm9/Xp2bfa6nWQ3DJeYhIoAsJInpKGfKKlSetUCH4J5SxK/jfEuoBsTvYIciW9micvt8HTOS
+ e1Pu4l78LBng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="434067376"
+Received: from test.bj.intel.com ([10.238.158.204])
+ by fmsmga008.fm.intel.com with ESMTP; 10 May 2021 18:56:56 -0700
+From: Tina Zhang <tina.zhang@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212959] [drm:dm_helpers_dp_write_dpcd [amdgpu]] *ERROR* Failed
- to find connector for link! - Exclusively an issue by booting from mounted
- ISOs of respective OS.
-Date: Tue, 11 May 2021 00:03:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tob88570@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_severity
-Message-ID: <bug-212959-2300-Myh785Y6o5@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212959-2300@https.bugzilla.kernel.org/>
-References: <bug-212959-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH RFC 0/3] Add virtio-gpu modifiers support
+Date: Mon, 10 May 2021 21:49:37 -0400
+Message-Id: <20210511014940.2067715-1-tina.zhang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,19 +45,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Tina Zhang <tina.zhang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D212959
+This patchset introduces the modifiers support to virtio-gpu. 
 
-tob88570@gmail.com changed:
+This RFC version tries to add a new virtio-gpu command to let front-end driver
+query the modifiers' info from the backend. Besides, the front-end driver
+may also need a new drm helper function to add the supported modifiers to a
+plane as its properties and allow fbs to use modifiers on that plane.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Severity|blocking                    |normal
+Tina Zhang (2):
+  drm: Add drm_plane_add_modifiers()
+  drm/virtio: Add modifier support
 
---=20
-You may reply to this email to add a comment.
+Vivek Kasireddy (1):
+  drm/virtio: Include modifier as part of set_scanout_blob
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+ drivers/gpu/drm/drm_plane.c            | 41 +++++++++++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  3 ++
+ drivers/gpu/drm/virtio/virtgpu_kms.c   |  3 ++
+ drivers/gpu/drm/virtio/virtgpu_plane.c | 16 +++++++++
+ drivers/gpu/drm/virtio/virtgpu_vq.c    | 45 +++++++++++++++++++++++++-
+ include/drm/drm_plane.h                |  3 ++
+ include/uapi/linux/virtio_gpu.h        |  9 ++++++
+ 7 files changed, 119 insertions(+), 1 deletion(-)
+
+-- 
+2.25.1
+
