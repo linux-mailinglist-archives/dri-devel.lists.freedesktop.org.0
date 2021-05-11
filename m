@@ -2,69 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F6A37A027
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 08:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0713D37A02C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 08:56:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E081B6E9D7;
-	Tue, 11 May 2021 06:56:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA3F26E9D9;
+	Tue, 11 May 2021 06:56:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 461626E9D8;
- Tue, 11 May 2021 06:56:03 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id w3so28172351ejc.4;
- Mon, 10 May 2021 23:56:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=1toSUP/AaDQn+kpmlAa3khwelYYn5sPMI8SmjGTagCQ=;
- b=N/J54ruGrwq8pFl23R0IhoJx5i5wz54wTHbAhpylgexUUJ7nBAq4f942QlHcIssvJG
- X+If8eJtXAJ4mCMZ+LuRjODG8BmDmVsINFFfgUHGqHPUKDRjAOi4sXcSbvzk/K9M+Zcg
- 7f0j8T0fSMu2k83PwnQ7PTR08uSCRRNR7T37VCojHcqcyhbD5iseJgf5gSt9aT0+oQjH
- 7B1fSfggVhA035Co+rwxVP/fAOpzv8oNzsLRLXdqQEOIYKOT2bVVHULwv2fiAF1mRb0H
- vay8+a3E4NEIjMCstMTt9hNAUMq4o+d2K5Tn+/aOJJ1QinOGaD6Ktr/DvmBNGPh/GcTo
- apsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=1toSUP/AaDQn+kpmlAa3khwelYYn5sPMI8SmjGTagCQ=;
- b=OAI40NLKkVPU+81Q1wmuy+YIqCVBx7LMzkLPJOVhS5dQwxKCq2/KhPdOP9MOzIG0Xh
- AL6e9rOcp/AFx7yir1XHjQx7+6TvzLb1wuO0RY9KYPWMxeprVf4CJI4y3EA/xt4MIEpM
- h5z5IJv1SJ5Qylj8EbmNyBoryr0Ba7+8CfFDEpC//bafayBj7KC4vobnSBmTrKJ06LWY
- jCDhAc2wqqzmIKDz4lFiNZgzkIbHv2vXr/NnlXvN4XwVcNQSKJzi8ut5yl3MriKFIWMe
- FvbjitopT70m2GSApZfhivLX1QeZuffThwV67XWXrrXnVvQM7SjWl/jR+yImPOSQbucy
- ZU1Q==
-X-Gm-Message-State: AOAM5327f4wpa9l1EOEfI0cr3HdfNgOS2g8vLqMfFzPSy5Bk0g7H9bZJ
- zqjB7fXc8Os6Nhy9VcOnIbg=
-X-Google-Smtp-Source: ABdhPJz2Xs+emszyd7P6ez0qEzKjruy/WoTOQ1rs7N8d7ThB9eLy0tSAfXUL8Y8cv7KFVTtVFChCbg==
-X-Received: by 2002:a17:906:8307:: with SMTP id
- j7mr28982463ejx.420.1620716161994; 
- Mon, 10 May 2021 23:56:01 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:c3ab:ee01:d547:2c4e?
- ([2a02:908:1252:fb60:c3ab:ee01:d547:2c4e])
- by smtp.gmail.com with ESMTPSA id w6sm8003653edc.25.2021.05.10.23.56.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 May 2021 23:56:01 -0700 (PDT)
-Subject: Re: [PATCH v6 16/16] drm/amdgpu: Verify DMA opearations from device
- are done
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-pci@vger.kernel.org, daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
-References: <20210510163625.407105-1-andrey.grodzovsky@amd.com>
- <20210510163625.407105-17-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <2660cf0e-d312-787d-3100-8e1006d8cc35@gmail.com>
-Date: Tue, 11 May 2021 08:56:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 366DE6E9D5;
+ Tue, 11 May 2021 06:56:54 +0000 (UTC)
+IronPort-SDR: 1ArniK7wJQ5CDcyejvpgnCGn3Mp6mnNHvYLS3vH9lIATBoJh1u161nVEol3TcqMDiUjW8dFeQI
+ Gfu+bloivy0g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179634647"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="179634647"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2021 23:56:53 -0700
+IronPort-SDR: AXt6I+3BZTXV82Na/G8r1U/DmwHW+A/xtrteoQDsOcDEi74Fp05hRB+PswzxV/7z36q0dPhEXt
+ CxeX9zQOciWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="536844677"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+ by fmsmga001.fm.intel.com with SMTP; 10 May 2021 23:56:49 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Tue, 11 May 2021 09:56:48 +0300
+Date: Tue, 11 May 2021 09:56:48 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 8/8] usb: typec: altmodes/displayport: Notify drm subsys
+ of hotplug events
+Message-ID: <YJoqsMTJnOUdg1hk@kuha.fi.intel.com>
+References: <20210505162415.531876-1-hdegoede@redhat.com>
+ <20210505162415.531876-9-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210510163625.407105-17-andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210505162415.531876-9-hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,40 +51,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org, helgaas@kernel.org,
- Felix.Kuehling@amd.com
+Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ platform-driver-x86@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.05.21 um 18:36 schrieb Andrey Grodzovsky:
-> In case device remove is just simualted by sysfs then verify
-> device doesn't keep doing DMA to the released memory after
-> pci_remove is done.
->
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+On Wed, May 05, 2021 at 06:24:15PM +0200, Hans de Goede wrote:
+> Use the new drm_connector_oob_hotplug_event() functions to let drm/kms
+> drivers know about DisplayPort over Type-C hotplug events.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Acked-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 83006f45b10b..5e6af9e0b7bf 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -1314,7 +1314,13 @@ amdgpu_pci_remove(struct pci_dev *pdev)
->   	drm_dev_unplug(dev);
->   	amdgpu_driver_unload_kms(dev);
->   
-> +	/*
-> +	 * Flush any in flight DMA operations from device.
-> +	 * Clear the Bus Master Enable bit and then wait on the PCIe Device
-> +	 * StatusTransactions Pending bit.
-> +	 */
->   	pci_disable_device(pdev);
-> +	pci_wait_for_pending_transaction(pdev);
->   }
->   
->   static void
+> Changes in v3:
+> - Only call drm_connector_oob_hotplug_event() on hpd status bit change
+> - Adjust for drm_connector_oob_hotplug_event() no longer having a data
+>   argument
+> 
+> Changes in v2:
+> - Add missing depends on DRM to TYPEC_DP_ALTMODE Kconfig entry
+> ---
+>  drivers/usb/typec/altmodes/Kconfig       |  1 +
+>  drivers/usb/typec/altmodes/displayport.c | 23 +++++++++++++++++++++++
+>  2 files changed, 24 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
+> index 60d375e9c3c7..1a6b5e872b0d 100644
+> --- a/drivers/usb/typec/altmodes/Kconfig
+> +++ b/drivers/usb/typec/altmodes/Kconfig
+> @@ -4,6 +4,7 @@ menu "USB Type-C Alternate Mode drivers"
+>  
+>  config TYPEC_DP_ALTMODE
+>  	tristate "DisplayPort Alternate Mode driver"
+> +	depends on DRM
+>  	help
+>  	  DisplayPort USB Type-C Alternate Mode allows DisplayPort
+>  	  displays and adapters to be attached to the USB Type-C
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+> index aa669b9cf70e..c1d8c23baa39 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -11,8 +11,10 @@
+>  #include <linux/delay.h>
+>  #include <linux/mutex.h>
+>  #include <linux/module.h>
+> +#include <linux/property.h>
+>  #include <linux/usb/pd_vdo.h>
+>  #include <linux/usb/typec_dp.h>
+> +#include <drm/drm_connector.h>
+>  #include "displayport.h"
+>  
+>  #define DP_HEADER(_dp, ver, cmd)	(VDO((_dp)->alt->svid, 1, ver, cmd)	\
+> @@ -57,11 +59,13 @@ struct dp_altmode {
+>  	struct typec_displayport_data data;
+>  
+>  	enum dp_state state;
+> +	bool hpd;
+>  
+>  	struct mutex lock; /* device lock */
+>  	struct work_struct work;
+>  	struct typec_altmode *alt;
+>  	const struct typec_altmode *port;
+> +	struct fwnode_handle *connector_fwnode;
+>  };
+>  
+>  static int dp_altmode_notify(struct dp_altmode *dp)
+> @@ -125,6 +129,7 @@ static int dp_altmode_configure(struct dp_altmode *dp, u8 con)
+>  static int dp_altmode_status_update(struct dp_altmode *dp)
+>  {
+>  	bool configured = !!DP_CONF_GET_PIN_ASSIGN(dp->data.conf);
+> +	bool hpd = !!(dp->data.status & DP_STATUS_HPD_STATE);
+>  	u8 con = DP_STATUS_CONNECTION(dp->data.status);
+>  	int ret = 0;
+>  
+> @@ -137,6 +142,11 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
+>  		ret = dp_altmode_configure(dp, con);
+>  		if (!ret)
+>  			dp->state = DP_STATE_CONFIGURE;
+> +	} else {
+> +		if (dp->hpd != hpd) {
+> +			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+> +			dp->hpd = hpd;
+> +		}
+>  	}
+>  
+>  	return ret;
+> @@ -512,6 +522,7 @@ static const struct attribute_group dp_altmode_group = {
+>  int dp_altmode_probe(struct typec_altmode *alt)
+>  {
+>  	const struct typec_altmode *port = typec_altmode_get_partner(alt);
+> +	struct fwnode_handle *fwnode;
+>  	struct dp_altmode *dp;
+>  	int ret;
+>  
+> @@ -540,6 +551,11 @@ int dp_altmode_probe(struct typec_altmode *alt)
+>  	alt->desc = "DisplayPort";
+>  	alt->ops = &dp_altmode_ops;
+>  
+> +	fwnode = dev_fwnode(alt->dev.parent->parent); /* typec_port fwnode */
+> +	dp->connector_fwnode = fwnode_find_reference(fwnode, "displayport", 0);
+> +	if (IS_ERR(dp->connector_fwnode))
+> +		dp->connector_fwnode = NULL;
+> +
+>  	typec_altmode_set_drvdata(alt, dp);
+>  
+>  	dp->state = DP_STATE_ENTER;
+> @@ -555,6 +571,13 @@ void dp_altmode_remove(struct typec_altmode *alt)
+>  
+>  	sysfs_remove_group(&alt->dev.kobj, &dp_altmode_group);
+>  	cancel_work_sync(&dp->work);
+> +
+> +	if (dp->connector_fwnode) {
+> +		if (dp->hpd)
+> +			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+> +
+> +		fwnode_handle_put(dp->connector_fwnode);
+> +	}
+>  }
+>  EXPORT_SYMBOL_GPL(dp_altmode_remove);
+>  
+> -- 
+> 2.31.1
 
+-- 
+heikki
