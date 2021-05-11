@@ -1,51 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A88537A943
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 16:28:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDDA37A95A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 16:32:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A33E46E194;
-	Tue, 11 May 2021 14:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 769F76EA55;
+	Tue, 11 May 2021 14:31:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 836676E194;
- Tue, 11 May 2021 14:28:40 +0000 (UTC)
-IronPort-SDR: 9uXW7rtVso5XqG7WoEAvhSBviakWVhQJ8sNmOrUSnI54JH/hT0PVWR7oNpADlQOr1TGjLPyabL
- 2HU3utfqHmjA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="196359976"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="196359976"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 07:28:39 -0700
-IronPort-SDR: BUWZ3nAt2KFYwhtg7w4r04CahXvBgSOzMex1dJJfxtotNtWaTLk6wDZ7XqwKt96V4PzDofgQJt
- z6W7OKO8D3MQ==
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391421714"
-Received: from kjeldbeg-mobl2.ger.corp.intel.com (HELO [10.249.254.168])
- ([10.249.254.168])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 07:28:38 -0700
-Subject: Re: [PATCH 6/7] drm/i915/ttm, drm/ttm: Introduce a TTM i915 gem
- object backend
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210511132525.377190-1-thomas.hellstrom@linux.intel.com>
- <20210511132525.377190-7-thomas.hellstrom@linux.intel.com>
- <8ac6bc5c-17c0-2ffd-7f8c-823ab3c8a858@amd.com>
- <88ea8e22-3314-60a4-8f4b-0b37de444b1d@shipmail.org>
- <8551810c-a095-3906-d982-7bc409140c48@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <0b7f32d8-bfb9-84dd-fea7-556dddded1cc@linux.intel.com>
-Date: Tue, 11 May 2021 16:28:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6378E6EA48;
+ Tue, 11 May 2021 14:31:55 +0000 (UTC)
+IronPort-SDR: OlirTOdNPuHjIHCXGVwf2buxrXTj11LzPtn8Azjqran/tJbaVnOfiX8XPCPer4ANTJw6NVBzU7
+ UQdoFJ+AYBng==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="284946111"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="284946111"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 07:31:34 -0700
+IronPort-SDR: qCrlyJaXV9SkWdyIBZnuzQfHfOzwIA2iGRu3+gEIzlGkGc3Hzn1V4Z7U4hKBYsQ7qAhxmQvSay
+ n9icrFIsSrtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="434471084"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga008.fm.intel.com with SMTP; 11 May 2021 07:31:31 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 11 May 2021 17:31:30 +0300
+Date: Tue, 11 May 2021 17:31:30 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Subject: Re: [PATCH v7 0/3] drm/i915/display: Try YCbCr420 color when RGB fails
+Message-ID: <YJqVQsnuQR7nVrnW@intel.com>
+References: <20210510133349.14491-1-wse@tuxedocomputers.com>
 MIME-Version: 1.0
-In-Reply-To: <8551810c-a095-3906-d982-7bc409140c48@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210510133349.14491-1-wse@tuxedocomputers.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,55 +51,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, May 10, 2021 at 03:33:46PM +0200, Werner Sembach wrote:
+> When encoder validation of a display mode fails, retry with less bandwidth
+> heavy YCbCr420 color mode, if available. This enables some HDMI 1.4 setups
+> to support 4k60Hz output, which previously failed silently.
+> 
+> AMDGPU had nearly the exact same issue. This problem description is
+> therefore copied from my commit message of the AMDGPU patch.
+> 
+> On some setups, while the monitor and the gpu support display modes with
+> pixel clocks of up to 600MHz, the link encoder might not. This prevents
+> YCbCr444 and RGB encoding for 4k60Hz, but YCbCr420 encoding might still be
+> possible. However, which color mode is used is decided before the link
+> encoder capabilities are checked. This patch fixes the problem by retrying
+> to find a display mode with YCbCr420 enforced and using it, if it is
+> valid.
+> 
+> This patchset is revision 7. Fixed a rebase issue in 1/3 and moved message
+> from error output to debug output in 2/3.
 
-On 5/11/21 4:09 PM, Christian König wrote:
->
->
-> Am 11.05.21 um 16:06 schrieb Thomas Hellström (Intel):
->>
->> On 5/11/21 3:58 PM, Christian König wrote:
->>> Am 11.05.21 um 15:25 schrieb Thomas Hellström:
->>>> Most logical place to introduce TTM buffer objects is as an i915
->>>> gem object backend. We need to add some ops to account for added
->>>> functionality like delayed delete and LRU list manipulation.
->>>>
->>>> Initially we support only LMEM and SYSTEM memory, but SYSTEM
->>>> (which in this case means evicted LMEM objects) is not
->>>> visible to i915 GEM yet. The plan is to move the i915 gem system 
->>>> region
->>>> over to the TTM system memory type in upcoming patches.
->>>>
->>>> We set up GPU bindings directly both from LMEM and from the system 
->>>> region,
->>>> as there is no need to use the legacy TTM_TT memory type. We reserve
->>>> that for future porting of GGTT bindings to TTM.
->>>>
->>>> There are some changes to TTM to allow for purging system memory 
->>>> buffer
->>>> objects and to refuse swapping of some objects: Unfortunately i915 gem
->>>> still relies heavily on short-term object pinning, and we've chosen to
->>>> keep short-term-pinned buffer objects on the TTM LRU lists for now,
->>>> meaning that we need some sort of mechanism to tell TTM they are not
->>>> swappable. A longer term goal is to get rid of the short-term pinning.
->>>
->>> Well just use the eviction_valuable interface for this.
->>
->> Yes, we do that for vram/lmem eviction, but we have nothing similar 
->> for system swapping. Do I understand you correctly that you want me 
->> to add a call to eviction_valuable() also for that instead of 
->> swap_possible()?
->
-> You should already have that. eviction_valuable is called in both cases.
->
-Hmm. I can only see it called from ttm_mem_evict_first() which is not in 
-the swapping path? Or do I miss something?
+Looks good and CI seem shappy. 
 
-Thanks,
+Series pushed to drm-intel-next. Thanks.
 
-Thomas
-
-
-
+-- 
+Ville Syrj�l�
+Intel
