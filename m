@@ -2,30 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE9D37A3EE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 11:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5660837A427
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 12:00:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 231F56EA12;
-	Tue, 11 May 2021 09:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA2B8855B;
+	Tue, 11 May 2021 10:00:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A80A6EA12
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:43:24 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FfXvh6Zkyzmg5n;
- Tue, 11 May 2021 17:40:00 +0800 (CST)
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FAC08855B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 10:00:20 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FfYHD5Fq4zPwtw;
+ Tue, 11 May 2021 17:56:56 +0800 (CST)
 Received: from thunder-town.china.huawei.com (10.174.177.72) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 11 May 2021 17:43:15 +0800
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 11 May 2021 18:00:08 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Edmund Dea
- <edmund.j.dea@intel.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/1] drm/kmb: Remove redundant error printing in
- kmb_dsi_map_mmio()
-Date: Tue, 11 May 2021 17:43:08 +0800
-Message-ID: <20210511094308.4779-1-thunder.leizhen@huawei.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, dri-devel
+ <dri-devel@lists.freedesktop.org>, linux-mediatek
+ <linux-mediatek@lists.infradead.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH 1/1] drm/mediatek: Remove redundant error printing in
+ mtk_dsi_probe()
+Date: Tue, 11 May 2021 18:00:01 +0800
+Message-ID: <20210511100001.5047-1-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,24 +62,20 @@ binary size.
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/gpu/drm/kmb/kmb_dsi.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index 4b5d82af84b3014..6f278bc018cee67 100644
---- a/drivers/gpu/drm/kmb/kmb_dsi.c
-+++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -1468,10 +1468,8 @@ int kmb_dsi_map_mmio(struct kmb_dsi *kmb_dsi)
- 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index ae403c67cbd922d..89e351dfab88177 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -1062,7 +1062,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 	dsi->regs = devm_ioremap_resource(dev, regs);
+ 	if (IS_ERR(dsi->regs)) {
+ 		ret = PTR_ERR(dsi->regs);
+-		dev_err(dev, "Failed to ioremap memory: %d\n", ret);
+ 		goto err_unregister_host;
  	}
- 	kmb_dsi->mipi_mmio = devm_ioremap_resource(dev, res);
--	if (IS_ERR(kmb_dsi->mipi_mmio)) {
--		dev_err(dev, "failed to ioremap mipi registers");
-+	if (IS_ERR(kmb_dsi->mipi_mmio))
- 		return PTR_ERR(kmb_dsi->mipi_mmio);
--	}
- 	return 0;
- }
  
 -- 
 2.26.0.106.g9fadedd
