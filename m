@@ -1,69 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7C037A01E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 08:55:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EAED37A024
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 08:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD65E6E9D4;
-	Tue, 11 May 2021 06:55:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0777E6E9D6;
+	Tue, 11 May 2021 06:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 304456E9D2;
- Tue, 11 May 2021 06:54:59 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id b25so28104984eju.5;
- Mon, 10 May 2021 23:54:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=waA0vA7ImjwNlWKbyTucsiUS1QU1A20aczJWgwdqypM=;
- b=Or/x8J+Trc3vk4FGAnkN2jkdqWbGCW6p+sJeVNL91D3DRU6T7pyL2yYQafEowX8n6q
- acx5VM2IER2bbqZiBLjxW4Sdw1THlxgqRViD1zoTdjkIUGW1tVdBPw5DMoDkxE13Xj3j
- 4WYBut0L9kIFwc/rSPvbBtLbKn21OmWfbxxy/gtTWlfgRwTBhZAp24J22tbWOQr5Hpie
- KRHWl8ZrQoNyImugWFeq9aR1peSAhwaT+2CuQhBDfVMfY/19O/FDGDiuLnzEXDPDxVZe
- 5ewchq7TgoP1cAn0WwBV4s+9iGjZ4m6qGCe51CdbxEf6U+/lQ/iDej+Lgvdfd67LWZdt
- k+Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=waA0vA7ImjwNlWKbyTucsiUS1QU1A20aczJWgwdqypM=;
- b=m1jjYH+A4r4Vc5y0RaM8hzJ7iDpy0U7vUWjYGlQdSbv3eMkRdmN5AAaOlLuRN/y6nW
- tn14IbiZLfKAS4MAYiLDAi1eTTv3Dz9txNH2fQAuR5hnjw2L9rhxLP43Fj5zPv80WGnS
- c5lQ0smVLAyePQv3SfnzfrpN5Ad8baATdqBR9dfSa3eykErRdyFxNrrsy817mKqkRTnF
- CuUMe1aYuDYsRXAmp8HEN3Bl5tEznRYSD0mHdArTnoH0m/GeqoJOyaJ7MOAPKtU6TTBy
- bsNvYcvYoVeiQRJO9F4ul6Szykgno4fOYI2UmpNqTfYMVFg9lNh77kL6uiMLD7y6w2xr
- Gd4Q==
-X-Gm-Message-State: AOAM530FS+3ftWkEjVgz2CCqhDrOggdZsO04tIM/anviUarnL6TZU5i2
- sBSaL7N1G4DNQp7gkWtJETE=
-X-Google-Smtp-Source: ABdhPJwSQ3m3CsmdDqav2iZ3ID5dd0ZHCHRdW720vSmokH1GPExvOekTg1gQBfP5ZcbBESTqk6DCfQ==
-X-Received: by 2002:a17:906:80cd:: with SMTP id
- a13mr29716576ejx.109.1620716097868; 
- Mon, 10 May 2021 23:54:57 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:c3ab:ee01:d547:2c4e?
- ([2a02:908:1252:fb60:c3ab:ee01:d547:2c4e])
- by smtp.gmail.com with ESMTPSA id c7sm13613328ede.37.2021.05.10.23.54.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 May 2021 23:54:57 -0700 (PDT)
-Subject: Re: [PATCH v6 13/16] drm/amdgpu: Fix hang on device removal.
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-pci@vger.kernel.org, daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
-References: <20210510163625.407105-1-andrey.grodzovsky@amd.com>
- <20210510163625.407105-14-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <fa76e577-b483-0ef4-57db-cea7b3a988c8@gmail.com>
-Date: Tue, 11 May 2021 08:54:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94C356E9D5;
+ Tue, 11 May 2021 06:55:42 +0000 (UTC)
+IronPort-SDR: SLVnqkir0b5kRoKObsqDPBdFQ88JTjgFvtGVG9NfcVCvoW4aPD59x2lxSUE869e7je6QgK0K5r
+ n9Kjz7u4OX0g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199439949"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="199439949"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2021 23:55:41 -0700
+IronPort-SDR: ctgxOA3SIyHB7zc7AqfRBbjNXGNL/FaP4Fxv+v47gg7D3EWWK/XMD4cPJNu40uczbmXoAWn/6R
+ dUG7fdh81jgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="536844425"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+ by fmsmga001.fm.intel.com with SMTP; 10 May 2021 23:55:36 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Tue, 11 May 2021 09:55:36 +0300
+Date: Tue, 11 May 2021 09:55:36 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 7/8] usb: typec: altmodes/displayport: Make
+ dp_altmode_notify() more generic
+Message-ID: <YJoqaKps8L5QNJoU@kuha.fi.intel.com>
+References: <20210505162415.531876-1-hdegoede@redhat.com>
+ <20210505162415.531876-8-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210510163625.407105-14-andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210505162415.531876-8-hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,67 +51,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org, helgaas@kernel.org,
- Felix.Kuehling@amd.com
+Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ platform-driver-x86@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, May 05, 2021 at 06:24:14PM +0200, Hans de Goede wrote:
+> Make dp_altmode_notify() handle the dp->data.conf == 0 case too,
+> rather then having separate code-paths for this in various places
+> which call it.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Am 10.05.21 um 18:36 schrieb Andrey Grodzovsky:
-> If removing while commands in flight you cannot wait to flush the
-> HW fences on a ring since the device is gone.
->
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 16 ++++++++++------
->   1 file changed, 10 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> index 1ffb36bd0b19..fa03702ecbfb 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -36,6 +36,7 @@
->   #include <linux/firmware.h>
->   #include <linux/pm_runtime.h>
->   
-> +#include <drm/drm_drv.h>
->   #include "amdgpu.h"
->   #include "amdgpu_trace.h"
->   
-> @@ -525,8 +526,7 @@ int amdgpu_fence_driver_init(struct amdgpu_device *adev)
->    */
->   void amdgpu_fence_driver_fini_hw(struct amdgpu_device *adev)
->   {
-> -	unsigned i, j;
-> -	int r;
-> +	int i, r;
-
-Is j not used here any more?
-
-Christian.
-
->   
->   	for (i = 0; i < AMDGPU_MAX_RINGS; i++) {
->   		struct amdgpu_ring *ring = adev->rings[i];
-> @@ -535,11 +535,15 @@ void amdgpu_fence_driver_fini_hw(struct amdgpu_device *adev)
->   			continue;
->   		if (!ring->no_scheduler)
->   			drm_sched_fini(&ring->sched);
-> -		r = amdgpu_fence_wait_empty(ring);
-> -		if (r) {
-> -			/* no need to trigger GPU reset as we are unloading */
-> +		/* You can't wait for HW to signal if it's gone */
-> +		if (!drm_dev_is_unplugged(&adev->ddev))
-> +			r = amdgpu_fence_wait_empty(ring);
-> +		else
-> +			r = -ENODEV;
-> +		/* no need to trigger GPU reset as we are unloading */
-> +		if (r)
->   			amdgpu_fence_driver_force_completion(ring);
-> -		}
+>  drivers/usb/typec/altmodes/displayport.c | 35 +++++++++---------------
+>  1 file changed, 13 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+> index b7f094435b00..aa669b9cf70e 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -66,10 +66,17 @@ struct dp_altmode {
+>  
+>  static int dp_altmode_notify(struct dp_altmode *dp)
+>  {
+> -	u8 state = get_count_order(DP_CONF_GET_PIN_ASSIGN(dp->data.conf));
+> +	unsigned long conf;
+> +	u8 state;
 > +
->   		if (ring->fence_drv.irq_src)
->   			amdgpu_irq_put(adev, ring->fence_drv.irq_src,
->   				       ring->fence_drv.irq_type);
+> +	if (dp->data.conf) {
+> +		state = get_count_order(DP_CONF_GET_PIN_ASSIGN(dp->data.conf));
+> +		conf = TYPEC_MODAL_STATE(state);
+> +	} else {
+> +		conf = TYPEC_STATE_USB;
+> +	}
+>  
+> -	return typec_altmode_notify(dp->alt, TYPEC_MODAL_STATE(state),
+> -				   &dp->data);
+> +	return typec_altmode_notify(dp->alt, conf, &dp->data);
+>  }
+>  
+>  static int dp_altmode_configure(struct dp_altmode *dp, u8 con)
+> @@ -137,21 +144,10 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
+>  
+>  static int dp_altmode_configured(struct dp_altmode *dp)
+>  {
+> -	int ret;
+> -
+>  	sysfs_notify(&dp->alt->dev.kobj, "displayport", "configuration");
+> -
+> -	if (!dp->data.conf)
+> -		return typec_altmode_notify(dp->alt, TYPEC_STATE_USB,
+> -					    &dp->data);
+> -
+> -	ret = dp_altmode_notify(dp);
+> -	if (ret)
+> -		return ret;
+> -
+>  	sysfs_notify(&dp->alt->dev.kobj, "displayport", "pin_assignment");
+>  
+> -	return 0;
+> +	return dp_altmode_notify(dp);
+>  }
+>  
+>  static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
+> @@ -172,13 +168,8 @@ static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
+>  	}
+>  
+>  	ret = typec_altmode_vdm(dp->alt, header, &conf, 2);
+> -	if (ret) {
+> -		if (DP_CONF_GET_PIN_ASSIGN(dp->data.conf))
+> -			dp_altmode_notify(dp);
+> -		else
+> -			typec_altmode_notify(dp->alt, TYPEC_STATE_USB,
+> -					     &dp->data);
+> -	}
+> +	if (ret)
+> +		dp_altmode_notify(dp);
+>  
+>  	return ret;
+>  }
+> -- 
+> 2.31.1
 
+-- 
+heikki
