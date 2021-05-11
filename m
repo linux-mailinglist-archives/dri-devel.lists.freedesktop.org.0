@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A5737AE3A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 20:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09BA37AE77
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 20:27:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959676EAB0;
-	Tue, 11 May 2021 18:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2589E6EAB1;
+	Tue, 11 May 2021 18:27:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E21CA6EAB1;
- Tue, 11 May 2021 18:19:16 +0000 (UTC)
-IronPort-SDR: uJkLrPBbvFQf3FEF6TR8TpSSWOYJ4TUc3C3zlpUOp+z3B3yPRSBZz0uyinsUX8N/27LVvbk4wu
- jFHCvvGPV84g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="196417351"
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="196417351"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 11:19:15 -0700
-IronPort-SDR: iN+f4I11Q/hkuc8yNaysellLHlMpvGwmVCLubF8s0hsWp6D/va/93j/M+XpPocnyMwSgBXne1y
- UhUYa0yVAONA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="399484513"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga007.fm.intel.com with SMTP; 11 May 2021 11:19:09 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 11 May 2021 21:19:08 +0300
-Date: Tue, 11 May 2021 21:19:08 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: Re: [PATCH v3] drm/i915: Invoke another _DSM to enable MUX on HP
- Workstation laptops
-Message-ID: <YJrKnHppE5FnaZ72@intel.com>
-References: <20210426152420.359402-1-kai.heng.feng@canonical.com>
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
+ [209.85.217.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C993D6EAB1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 18:27:17 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id d13so3878055vso.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 11:27:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=caGOgFkycxiH0OacMkmzutSIbsmRxPbsAOdXEEzXc7U=;
+ b=TDppC+PWse1q/9crpSNfl6MkgeMhTmfl0ciW9+FltU0n456ge0I6V1DLkPLNBZhdO3
+ xjQVF2epkXS9PnhV2LFk3ghdT5nI85NZo7Nwn69Q8FSPJ2ZhIuo9BJ0SS/3c64hsmjXd
+ VEnURsRGkvLio2BP13JeIBC4QSMI0D5JrRLRvG3xMNNtGiZUWM9qehREo/gO4Ei3KlVP
+ MWz9/pcUp+RHisAYEYZJRE454dV5eTJ5eFSbumfd8to90HeGXzquZOOXg8SP9qHf3Gqn
+ b2dPUbOaWlpotIM4NXr0IMm35/FvllX5OSI1E6S7E90GksKoukuOZ17baORYc2bSXNoo
+ KXrw==
+X-Gm-Message-State: AOAM533uaE9IThLCivWCIN/cAVLUHQhmu27GiCjJv43G3aW5luHH5iTz
+ WzPcN9KeRS569UgfEYraeTXdOuuYB1IMX7BPUJc=
+X-Google-Smtp-Source: ABdhPJxVEk31ZjreQBoSfw86iCne8jVyWrsxpF34ufA2gMaz3pkHp2sjHvd4pG9sqGQuqqmWdLZhLFqdhpBADx4wVmU=
+X-Received: by 2002:a67:bc6:: with SMTP id 189mr19817318vsl.3.1620757636817;
+ Tue, 11 May 2021 11:27:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210426152420.359402-1-kai.heng.feng@canonical.com>
-X-Patchwork-Hint: comment
+References: <202105120016.fbXce854-lkp@intel.com>
+ <20210511161123.GA21597@90a0f0cadc2d>
+ <YJq8IaZ/nuWtHv9Y@phenom.ffwll.local>
+In-Reply-To: <YJq8IaZ/nuWtHv9Y@phenom.ffwll.local>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 11 May 2021 20:27:05 +0200
+Message-ID: <CAMuHMdW4VgVKWOk-bwxGV41ZoCTM3dbnk1HG5pscAAmoY05big@mail.gmail.com>
+Subject: Re: [PATCH] drm: fix semicolon.cocci warnings
+To: kernel test robot <lkp@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,141 +54,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karthik B S <karthik.b.s@intel.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Manasi Navare <manasi.d.navare@intel.com>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- rodrigo.vivi@intel.com, Dave Airlie <airlied@redhat.com>,
- intel-gfx@lists.freedesktop.org
+Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
+ Edmund Dea <edmund.j.dea@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 26, 2021 at 11:24:10PM +0800, Kai-Heng Feng wrote:
-> On HP Fury G7 Workstations, graphics output is re-routed from Intel GFX
-> to discrete GFX after S3. This is not desirable, because userspace will
-> treat connected display as a new one, losing display settings.
-> 
-> The expected behavior is to let discrete GFX drives all external
-> displays.
-> 
-> The platform in question uses ACPI method \_SB.PCI0.HGME to enable MUX.
-> The method is inside the another _DSM, so add the _DSM and call it
-> accordingly.
-> 
-> I also tested some MUX-less and iGPU only laptops with that _DSM, no
-> regression was found.
-> 
-> v3:
->  - Remove BXT from names.
->  - Change the parameter type.
->  - Fold the function into intel_modeset_init_hw().
-> 
-> v2:
->  - Forward declare struct pci_dev.
-> 
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3113
-> References: https://lore.kernel.org/intel-gfx/1460040732-31417-4-git-send-email-animesh.manna@intel.com/
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_acpi.c    | 18 ++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_acpi.h    |  3 +++
->  drivers/gpu/drm/i915/display/intel_display.c |  2 ++
->  3 files changed, 23 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
-> index 833d0c1be4f1..d008d3976261 100644
-> --- a/drivers/gpu/drm/i915/display/intel_acpi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
-> @@ -13,12 +13,17 @@
->  #include "intel_display_types.h"
->  
->  #define INTEL_DSM_REVISION_ID 1 /* For Calpella anyway... */
-> +#define INTEL_DSM_FN_PLATFORM_MUX_ENABLE 0 /* No args */
+On Tue, May 11, 2021 at 7:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Wed, May 12, 2021 at 12:11:23AM +0800, kernel test robot wrote:
+> > From: kernel test robot <lkp@intel.com>
+> >
+> > drivers/gpu/drm/kmb/kmb_dsi.c:284:3-4: Unneeded semicolon
+> > drivers/gpu/drm/kmb/kmb_dsi.c:304:3-4: Unneeded semicolon
+> > drivers/gpu/drm/kmb/kmb_dsi.c:321:3-4: Unneeded semicolon
+> > drivers/gpu/drm/kmb/kmb_dsi.c:340:3-4: Unneeded semicolon
+> > drivers/gpu/drm/kmb/kmb_dsi.c:364:2-3: Unneeded semicolon
+> >
+> >
+> >  Remove unneeded semicolon.
+> >
+> > Generated by: scripts/coccinelle/misc/semicolon.cocci
+> >
+> > Fixes: ade896460e4a ("drm: DRM_KMB_DISPLAY should depend on ARCH_KEEMBAY")
 
-This block of defines is for the other DSM. We don't want to
-mix these up. We also want to name it according to the spec,
-so something like GET_BIOS_DATA_FUNCS_SUPPORTED. Similarly
-for the intel_dsm_enable_mux() wrapper function. + it needs
-a comment to document that some BIOSes abuse it to do MUX
-initialization and whatnot.
+This Fixed-tag is completely bogus.  The right one is
+Fixes: 98521f4d4b4cb265 ("drm/kmb: Mipi DSI part of the display driver")
 
-We should perhaps rename all the old DSM stuff to
-something a bit less generic as well...
+> > CC: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: kernel test robot <lkp@intel.com>
 
->  #define INTEL_DSM_FN_PLATFORM_MUX_INFO 1 /* No args */
->  
->  static const guid_t intel_dsm_guid =
->  	GUID_INIT(0x7ed873d3, 0xc2d0, 0x4e4f,
->  		  0xa8, 0x54, 0x0f, 0x13, 0x17, 0xb0, 0x1c, 0x2c);
->  
-> +static const guid_t intel_dsm_guid2 =
-> +	GUID_INIT(0x3e5b41c6, 0xeb1d, 0x4260,
-> +		  0x9d, 0x15, 0xc7, 0x1f, 0xba, 0xda, 0xe4, 0x14);
-> +
->  static char *intel_dsm_port_name(u8 id)
->  {
->  	switch (id) {
-> @@ -176,6 +181,19 @@ void intel_unregister_dsm_handler(void)
->  {
->  }
->  
-> +void intel_dsm_enable_mux(struct drm_i915_private *i915)
-> +{
-> +	struct pci_dev *pdev = i915->drm.pdev;
-> +	acpi_handle dhandle;
-> +
-> +	dhandle = ACPI_HANDLE(&pdev->dev);
-> +	if (!dhandle)
-> +		return;
-> +
-> +	acpi_evaluate_dsm(dhandle, &intel_dsm_guid2, INTEL_DSM_REVISION_ID,
-> +			  INTEL_DSM_FN_PLATFORM_MUX_ENABLE, NULL);
-> +}
-> +
->  /*
->   * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
->   * Attached to the Display Adapter).
-> diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
-> index e8b068661d22..def013cf6308 100644
-> --- a/drivers/gpu/drm/i915/display/intel_acpi.h
-> +++ b/drivers/gpu/drm/i915/display/intel_acpi.h
-> @@ -11,11 +11,14 @@ struct drm_i915_private;
->  #ifdef CONFIG_ACPI
->  void intel_register_dsm_handler(void);
->  void intel_unregister_dsm_handler(void);
-> +void intel_dsm_enable_mux(struct drm_i915_private *i915);
->  void intel_acpi_device_id_update(struct drm_i915_private *i915);
->  #else
->  static inline void intel_register_dsm_handler(void) { return; }
->  static inline void intel_unregister_dsm_handler(void) { return; }
->  static inline
-> +void intel_dsm_enable_mux(struct drm_i915_private *i915) { return; }
-> +static inline
->  void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
->  #endif /* CONFIG_ACPI */
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index a10e26380ef3..d79dae370b20 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -11472,6 +11472,8 @@ void intel_modeset_init_hw(struct drm_i915_private *i915)
->  {
->  	struct intel_cdclk_state *cdclk_state;
->  
-> +	intel_dsm_enable_mux(i915);
-> +
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-This should probably be somewhere around where we do all the other
-semi ACPI related init (OpRegion/etc.).
+Gr{oetje,eeting}s,
 
->  	if (!HAS_DISPLAY(i915))
->  		return;
->  
-> -- 
-> 2.30.2
+                        Geert
 
 -- 
-Ville Syrjälä
-Intel
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
