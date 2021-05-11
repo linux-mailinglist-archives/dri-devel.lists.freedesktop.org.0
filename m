@@ -2,64 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E58337A00F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 08:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344F737A018
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 08:53:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8C86E9D0;
-	Tue, 11 May 2021 06:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAAA289F85;
+	Tue, 11 May 2021 06:53:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE566E9D0;
- Tue, 11 May 2021 06:52:15 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id c22so21537121edn.7;
- Mon, 10 May 2021 23:52:15 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D77689E0C;
+ Tue, 11 May 2021 06:53:16 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id c22so26292ejd.12;
+ Mon, 10 May 2021 23:53:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=Zt9EleFqgDHEIQ+oyw3ngecefo9r13zwLFGMGvURmH8=;
- b=r73SwMKHhbYruy6BCD5buaACaKWq2AQGvkxITQjYzjfzNefUgDjucpCsQOqzqEWZSk
- 7r90u0g6F7Kkt9jQkY3mfalz6Tn/X6YQat7hkP60TFYGxn70hNGuANDSdkDD1VGToNCy
- 6v1mo36cvSKDT8z7JVHJucgBjjUtHMx2evDc0+dMoDkrtJ2ll/VgKMTvdLvIgogGvoXq
- lL0ynfOHclDArMQIpkR6fSnltTF9NXHjL2BsHEoSaGnZM5aYUHlxjxY6+OG7nyAxjysK
- 35dnpYLLxj+8UDaBxTJMTzCus6ntlgQpX/iRfYutDO81zi2ZxcnWqqvl/XwxLTa4rFBd
- q9vg==
+ bh=2jkTp6CRBtUK9Xe7YzSIk6qlU4V38aTXcT5xUBl3Hx0=;
+ b=TOUNaz+xsdqPimiz469u/x3purtYPRpRu6hBR8TLs9nUC5429LO7mY/QovOL1CGetx
+ 0vfxSSIxgPzdCvBgiuxzs/f/IdmuMkS5GK7bp5LaEly41GRegKJoTHJ/+U6NpmkZ32Jl
+ KCXYWQQwisf9fsFZSN9LfcL97bmWnXk1typUHtQ68YQTF3CH9uBkvt28fnjV7X+njtVB
+ 2lz4t/YwrPYWfb2TIPnEwldLbizJ67I6fbJM3hlG7BeOkkgj1bkAaaJJprKxsGJv4V0l
+ Iav4m40VIVWWRtrezVGUnmY4pzS+Fv5He53U+Svw4XIqIOqSgIbj1y/VT9xVGPBuy/WS
+ sZGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=Zt9EleFqgDHEIQ+oyw3ngecefo9r13zwLFGMGvURmH8=;
- b=dePTTJY1fQB3mfR+tfF5g0TKhUp3M/iogPr+lJEVIgG2mCsg28FFtQgEEGftTUwwCH
- JNY5s8msCV5HAnatQm8iXKh3HYI+s7U/QGHoTMwdfmxAsPGzpB9w6VI6pvKqc6cm59w1
- 6qfylwN4/CvQnbNBRovmDAA8p5JA/lr5DsoPwBnPIty+5uZ0TVG3q3HMJpui8TEbMQzu
- YqDsXPIVxVvDynsWu/y2I0Pux8V4bybJOOdmeydRNPocIiCbxt3e7zt5AnOu+T6IyNfc
- nF2VuRR1APIZ0gvkmmXTI78kC9r+9w9BqA7AGs/93OYigZvgqL3PBo6ArpptkvHJWNNw
- Gv3Q==
-X-Gm-Message-State: AOAM530PRsRvlD40nn6x5xT9hAo+nU49WCqf/FkerJ8zagFndMWtMHYZ
- 7pnjPCtyV8G9K5B837lRe0E=
-X-Google-Smtp-Source: ABdhPJxaATkCokEl6gpmLVR7OoX83MdgZZq/1DLhoe1faroKDNCmn4MMGzqnYoihRwxrCcsd9IGV+Q==
-X-Received: by 2002:aa7:dad1:: with SMTP id x17mr34212261eds.47.1620715933847; 
- Mon, 10 May 2021 23:52:13 -0700 (PDT)
+ bh=2jkTp6CRBtUK9Xe7YzSIk6qlU4V38aTXcT5xUBl3Hx0=;
+ b=Mef2QZddb5PCUsvTjt949m+h7B/vYSRtmwO8P9IAhSEjMxmdb5rPSb7Ge/2xJd2ydO
+ dGWVz8NrnU5/3puTvpbMLKjOyp4ZyqtyrqyE8xVEBC0roSp5gght3tAUHBBFKZulD0Jh
+ 457f4zsHeCiH3YuDZKrIb/IKrzJqt7T3IzJ9Z6IayszHRaUtTjLMXUNeWsLQ0la0m37i
+ jfohbTA/OqhhNMDAzUnwgfTIY4bPfRA7xP+vtjM3keY8Qqs3UhjiYsatBQB+AQadDSX4
+ CGsuuupkB+GbF9xvkYpvEFnsXripNyimelG/Cz1ufOzGkF4M+8CGQe1OEVkVTXhK/2aF
+ CxPA==
+X-Gm-Message-State: AOAM530xbAcVIfwk9HogMMQqclYIr9iOqUyVm3oe5B8vaSNoErLyDPXJ
+ EbhO43fl8hgLs3eDooej/H4=
+X-Google-Smtp-Source: ABdhPJyS74P0xsvp+V+uc1STXMetJ1Q2dQ8sWN37hGTxDoTUr8uQnue5LZRPSJSug9rxYuPW/UstOA==
+X-Received: by 2002:a17:906:a403:: with SMTP id
+ l3mr30693501ejz.251.1620715994883; 
+ Mon, 10 May 2021 23:53:14 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:c3ab:ee01:d547:2c4e?
  ([2a02:908:1252:fb60:c3ab:ee01:d547:2c4e])
- by smtp.gmail.com with ESMTPSA id um28sm11148190ejb.63.2021.05.10.23.52.12
+ by smtp.gmail.com with ESMTPSA id ch30sm13573570edb.92.2021.05.10.23.53.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 May 2021 23:52:13 -0700 (PDT)
-Subject: Re: [PATCH v6 11/16] drm/sched: Make timeout timer rearm conditional.
+ Mon, 10 May 2021 23:53:14 -0700 (PDT)
+Subject: Re: [PATCH v6 12/16] drm/amdgpu: Prevent any job recoveries after
+ device is unplugged.
 To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-pci@vger.kernel.org, daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
 References: <20210510163625.407105-1-andrey.grodzovsky@amd.com>
- <20210510163625.407105-12-andrey.grodzovsky@amd.com>
+ <20210510163625.407105-13-andrey.grodzovsky@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <d0fb2146-7f35-9667-10d0-88424b403d85@gmail.com>
-Date: Tue, 11 May 2021 08:52:12 +0200
+Message-ID: <eda13789-95c7-42c2-320b-b29d5d95e465@gmail.com>
+Date: Tue, 11 May 2021 08:53:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210510163625.407105-12-andrey.grodzovsky@amd.com>
+In-Reply-To: <20210510163625.407105-13-andrey.grodzovsky@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -81,53 +83,73 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am 10.05.21 um 18:36 schrieb Andrey Grodzovsky:
-> We don't want to rearm the timer if driver hook reports
-> that the device is gone.
+> Return DRM_TASK_STATUS_ENODEV back to the scheduler when device
+> is not present so they timeout timer will not be rearmed.
 >
-> v5: Update drm_gpu_sched_stat values in code.
+> v5: Update to match updated return values in enum drm_gpu_sched_stat
 >
 > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 
 Reviewed-by: Christian König <christian.koenig@amd.com>
 
 > ---
->   drivers/gpu/drm/scheduler/sched_main.c | 11 +++++++----
->   1 file changed, 7 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 19 ++++++++++++++++---
+>   1 file changed, 16 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index f4f474944169..8d1211e87101 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->   {
->   	struct drm_gpu_scheduler *sched;
->   	struct drm_sched_job *job;
-> +	enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> index 759b34799221..d33e6d97cc89 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> @@ -25,6 +25,8 @@
+>   #include <linux/wait.h>
+>   #include <linux/sched.h>
 >   
->   	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
+> +#include <drm/drm_drv.h>
+> +
+>   #include "amdgpu.h"
+>   #include "amdgpu_trace.h"
 >   
-> @@ -331,7 +332,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->   		list_del_init(&job->list);
->   		spin_unlock(&sched->job_list_lock);
+> @@ -34,6 +36,15 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+>   	struct amdgpu_job *job = to_amdgpu_job(s_job);
+>   	struct amdgpu_task_info ti;
+>   	struct amdgpu_device *adev = ring->adev;
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(&adev->ddev, &idx)) {
+> +		DRM_INFO("%s - device unplugged skipping recovery on scheduler:%s",
+> +			 __func__, s_job->sched->name);
+> +
+> +		/* Effectively the job is aborted as the device is gone */
+> +		return DRM_GPU_SCHED_STAT_ENODEV;
+> +	}
 >   
-> -		job->sched->ops->timedout_job(job);
-> +		status = job->sched->ops->timedout_job(job);
+>   	memset(&ti, 0, sizeof(struct amdgpu_task_info));
 >   
->   		/*
->   		 * Guilty job did complete and hence needs to be manually removed
-> @@ -345,9 +346,11 @@ static void drm_sched_job_timedout(struct work_struct *work)
->   		spin_unlock(&sched->job_list_lock);
+> @@ -41,7 +52,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+>   	    amdgpu_ring_soft_recovery(ring, job->vmid, s_job->s_fence->parent)) {
+>   		DRM_ERROR("ring %s timeout, but soft recovered\n",
+>   			  s_job->sched->name);
+> -		return DRM_GPU_SCHED_STAT_NOMINAL;
+> +		goto exit;
 >   	}
 >   
-> -	spin_lock(&sched->job_list_lock);
-> -	drm_sched_start_timeout(sched);
-> -	spin_unlock(&sched->job_list_lock);
-> +	if (status != DRM_GPU_SCHED_STAT_ENODEV) {
-> +		spin_lock(&sched->job_list_lock);
-> +		drm_sched_start_timeout(sched);
-> +		spin_unlock(&sched->job_list_lock);
-> +	}
+>   	amdgpu_vm_get_task_info(ring->adev, job->pasid, &ti);
+> @@ -53,13 +64,15 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+>   
+>   	if (amdgpu_device_should_recover_gpu(ring->adev)) {
+>   		amdgpu_device_gpu_recover(ring->adev, job);
+> -		return DRM_GPU_SCHED_STAT_NOMINAL;
+>   	} else {
+>   		drm_sched_suspend_timeout(&ring->sched);
+>   		if (amdgpu_sriov_vf(adev))
+>   			adev->virt.tdr_debug = true;
+> -		return DRM_GPU_SCHED_STAT_NOMINAL;
+>   	}
+> +
+> +exit:
+> +	drm_dev_exit(idx);
+> +	return DRM_GPU_SCHED_STAT_NOMINAL;
 >   }
 >   
->    /**
+>   int amdgpu_job_alloc(struct amdgpu_device *adev, unsigned num_ibs,
 
