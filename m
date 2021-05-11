@@ -2,124 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A7B37A2BB
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:57:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB72237A2C4
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 11:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B313A6E9FF;
-	Tue, 11 May 2021 08:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D20A76EA03;
+	Tue, 11 May 2021 09:00:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 542A06E9FE;
- Tue, 11 May 2021 08:57:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JzL/+4SQHzpPPF2jaJVJhuNi6Ucyv/YrRuJ5nQJ7n/lElXVz+GVeQoZ/F6e3WjHu5Ug2kLoFG524zCdrAewR8cftpbkwHzDNHIkiOCthdYOn/3fDpVnNWXGBcdDcvTfob5hoLMRCcgEVFsMOA/XRhMv2qk70IbbVmZz7FrU47ND20bI/ZCZp5NaRzU47PfLyeFKeH56Etod9HkGVYeXGjHyz8T4BhITaXgEmQghUKd+cNvZiAKQTZlRG5tMIf+XpZVfkCITSwy4Ulr55Zaz9i9MzuqJmX7ecdN7Tgwd8Bl+9eH4Ed1GyLYeyC5w71sO8eQiSUiXZTsOkDhrhrHd9+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6B5bPg0JyaOhVeALKCw6RAdr9+R0mCO29u16YZGbuTc=;
- b=PY4c6H3PiAxheel2RN6b/AtdCk88uPSDPjvz4xfjZdf1iKRtiCLWvd6Gx75vKwOQo6u98Sa/mJOdWu8SrDmk0vPu8xpcyUua7RqNs9fj0p3Jhz2PjZcDkama5Gyhx6HiuLNFDAeQqJdfScwvMCJFKp0RfzlzLQLE/EtqYOaHX64KwRGe62K/KIiU09WFFchP++GTfFh/i/SIcnE5uVvJr7Pyt1U1SEnr14zxo7e1uN9InpxjbVn+4EwTDPUICLrS0RcySBToAr3Mc0ZOdHoQSWK9awyLc2Hlav5p3hrM2OmrXzrPJ/Xz+q0LOfefr2Lt43iJ1cXME/YaYZPtYcTF/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6B5bPg0JyaOhVeALKCw6RAdr9+R0mCO29u16YZGbuTc=;
- b=UA7bAuTyWjdgc8PrNvucx5TdgIcZi6a9apZT6FeATppPmZRADUKgmknkQzbfFLrGeMgih7Hu+11bh3PoC7FfVYuzyL6qbvFykVqslQzBIEtWK/nBrPNQDXWUl/exO4nLy5Ctums/msZTVUseqtOv78XSU5YIPl8j1aYfReRqeuk=
-Authentication-Results: lists.linux-foundation.org; dkim=none (message not
- signed) header.d=none;lists.linux-foundation.org; dmarc=none action=none
- header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3949.namprd12.prod.outlook.com (2603:10b6:208:167::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24; Tue, 11 May
- 2021 08:57:25 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4108.031; Tue, 11 May 2021
- 08:57:24 +0000
-Subject: Re: [PATCH] drm/ttm: use dma_alloc_pages for the page pool
-To: Christoph Hellwig <hch@lst.de>
-References: <20210511060514.3956745-1-hch@lst.de>
- <20210511060514.3956745-2-hch@lst.de>
- <d2a72848-8273-d0b6-0250-3fe88122246a@amd.com>
- <20210511085011.GA14477@lst.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <2af7d79c-4a9c-1b35-2a5a-c86e3a8df8d0@amd.com>
-Date: Tue, 11 May 2021 10:57:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210511085011.GA14477@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:d03f:5642:6cf7:fcb]
-X-ClientProxiedBy: AM0PR04CA0046.eurprd04.prod.outlook.com
- (2603:10a6:208:1::23) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66DA46EA03;
+ Tue, 11 May 2021 09:00:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E709E611F1;
+ Tue, 11 May 2021 09:00:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620723613;
+ bh=ETvFtPpZWz6DN3iWb3G2WAPhojmYo6ps7EuchaChQ+E=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=PLGy/1LSbmraLJz9I+ZFpgkDxkCfvpVNiHxpQ06jZIl8i8GhyxDYM7Gy1/DkHiCt5
+ klo7h/HCiZCdE58jLyhFWvaAVP5oc9x+G/BoSRcOX7C3Tl/sTRBZmSPn8j1vcyPJNt
+ mRJS0yxqm/yCxF+CPVj6SxA/ae6jVWIEkJrXhN8oiyzJkjvRZFRVAZch9kSHP1iP93
+ oW7IG29Utyoqz+QwiX4h4Rg5Qegv470eEj7pH0f2MN9paDsUyx4y03dGzSMfb4uf2a
+ FDLqKCDGwM78HAqr/sdfeYExPB7ah8JOeYwd9qD22mRbJt8d7NaYnvORLTCVIJ25K4
+ 6sDaroZmf8XGQ==
+Date: Tue, 11 May 2021 11:00:02 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Edward Cree <ecree.xilinx@gmail.com>
+Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
+Message-ID: <20210511110002.2f187f01@coco.lan>
+In-Reply-To: <ed65025c-1087-9672-7451-6d28e7ab8f92@gmail.com>
+References: <cover.1620641727.git.mchehab+huawei@kernel.org>
+ <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
+ <20210510135518.305cc03d@coco.lan>
+ <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
+ <YJk8LMFViV7Z3Uu7@casper.infradead.org>
+ <ed65025c-1087-9672-7451-6d28e7ab8f92@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:d03f:5642:6cf7:fcb]
- (2a02:908:1252:fb60:d03f:5642:6cf7:fcb) by
- AM0PR04CA0046.eurprd04.prod.outlook.com (2603:10a6:208:1::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Tue, 11 May 2021 08:57:22 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f6c6c2eb-b9fa-4ca6-1441-08d9145acba3
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3949:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3949B13196C0C68A9AD0046783539@MN2PR12MB3949.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u78Up7ZF/kwLlWZVo0KTAw7ExyVyclFPaWYa8hUfFP0E6WUfP18JOgiV1vP61L00wzaI9X6VO4/z8ScS8WBwauqwf1Pk2o/KPqmI5ryMpzFof26eMkbrCEU+IiYjEDnzjEAamZvISKmQTHaexOenm2nJxMn2lRHV6wD6h/yVVecbWu/a8Kuc7zaD8zKFS0V6vgADmpOHsqKaZe0yRHsjtaiIMA5KoatdFBodbp8vIx5fx/7PlhZ4axbwCI36Te9Xlq8ShTn3m5w0pxAOwakpv6kLDlFcRD/snRivlAedM0ucTXII6cZnLW34kIJWfCmRcOU6Y0+0axfRaxYNF/AkKd1RF7d4lJ40rRjmeF0goHbj6NhPgbz1Mh+tPEGRx8vicjz/nTx58uMzufYEqUoyfkiWkI+c4vN8D5ooYQ5LXlbB5nWy32RNJPsZe7lDcx6q1LDDNsbTTn7FERZ0a1d1M+GThFaOCdklHnL7XhElptdnSFMFREu//odDnQunQeCcJAzZrN3L6QyrSe1rMU9MTYNIehqqcKJcm0IsK+7+rsIL3vWhSmjYtS5mQQ84snvNmsVCILaQJr668LWJThRqQP3uQRs0son3P0UPdz/KkbqCNFpN/FrUTeltBxYlb3EtGFlSGy0qAxjqWnxSU1ZXF8AE4AVy6f9IGTgo3gqu/MWO7J7UVxBTrYaV40BMcrKW
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(376002)(346002)(136003)(39860400002)(38100700002)(66574015)(478600001)(16526019)(66946007)(86362001)(186003)(52116002)(7416002)(66556008)(4326008)(2906002)(66476007)(316002)(8676002)(2616005)(6666004)(83380400001)(8936002)(54906003)(6916009)(6486002)(31686004)(31696002)(5660300002)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Z2ViMWVkVGRieUJkSURMbmNhR0xJcmNzdGwzaTZYOE9IUkdieHRSQkNlTXZK?=
- =?utf-8?B?Uzh0dldjdUZhN051UHp5VllqeVdWU0VaV1lNdjFVV0Y5S1REMnVQUUpOdll3?=
- =?utf-8?B?RVdoWlIyNXZqcElVWG9Wd2lWcndpM1p5bHFTS1JML3F6UXM3ODVXSUdSVGVR?=
- =?utf-8?B?Vlh5djA5TGhsenBjek5ZWktkMk92STB5dlJzSmJLb1lxWmQwUXhDYWFoSXAv?=
- =?utf-8?B?RGw0b1laVGw1RFNBZkVwY2c4dUhjNElQZkdQOEZEK09INHZaU2s1ZnRadHF0?=
- =?utf-8?B?WlRhU1dKWDNVSGxTbUVMcDlRMGVlZDdwc245Z1FjSGJPK1hlY2M5dmw3aGwz?=
- =?utf-8?B?cUwxZ1FnSGxDUldNOEl5N1FiUk1qOFpocUlNS0pnUUhqQTJtZjVYUGx1aGI4?=
- =?utf-8?B?b0xqYlZNM3FBSmQ1WDJGTDRsaVBNZjFjcTJnOUlBRkhUb2x1L1hvNDlHSWxB?=
- =?utf-8?B?NXFnbGdXa2hTa2VBN3VRWGJOZGxJYmFZL3VjdlVkMzNMaTN0dk9pS1BpWWla?=
- =?utf-8?B?WFl5VlljM1lFYXVWYU00aVVTQVpPTnVraS9seVdGMmV4YzllcEMvNCsvTEY4?=
- =?utf-8?B?T1ViRXN6NytuM01QR3M5azdDMk9TdW1VTUpDTTkwWXEyb1l6cTlmc000QlZF?=
- =?utf-8?B?Uk9kdDZMNWQ4bm1vVCt0SkE2YmRqSXpFcGIydmUyNkJsam9NN3B3SUNhSkN3?=
- =?utf-8?B?WngvNjF3U0RJSlNaZW9qOXltT0cxQlMwZWdqbW1hOG1zdVgwYVBGWkxlT3J6?=
- =?utf-8?B?WTdSOTZtekR1RkVjWFNHVWs1REdJQVgyZEJzYTVBUHJuMzdWSEhnaEEzY0dN?=
- =?utf-8?B?ZTFtVUQvV29Dd3ZnWW9XcFhZQXZkeTFKOER3bURmUzM1cFJyVTBUSVdSRTBE?=
- =?utf-8?B?MU90UHBlYWxVRHAxSHNkY1JkN1c1RTZlMWNPZjBFWjh2a21SOUoyRU03Yy9i?=
- =?utf-8?B?NXM2bE51dm1pM093UXdCTHZXSkdkOFZjeHAyQmlyOTVDNGRxSlZ3cXpzbzRC?=
- =?utf-8?B?NkMxZEtHOUVDQ1ZQSW1FTUZNQktLOVpFWTdrRDF0d3d0emJ0S0lGNUZKYkNa?=
- =?utf-8?B?WCtkUFpVUys2MURZNlp4OWVZdE41dnFOZmExR0F2YmJDeUdDbmxZaWtXTmRq?=
- =?utf-8?B?QmdVMm1kRTMrdklkOVpPdUowem9HUERlL2VMaW1uNlBQc3BJYWdzd3kwSHlj?=
- =?utf-8?B?Z2tzUlk1ZGlxWlV2ZUxqbEdDeDVNblpmOFpKSXNUL3dqMytXdHlvbGpibFd0?=
- =?utf-8?B?bllZZ2ZwTVZwOGJmaFlqNWtpNTJhdmVlbDJVYlJ0SmFUQWc0YXZtV2tnZzFn?=
- =?utf-8?B?TTUxbEdRV0h1dndVbnpraGJkS2tRS1VsemI5dW9hSjNKTUREa2lNWnlNM0pu?=
- =?utf-8?B?dm5PNEVPajhLN1U0ZXh3QWR0ajlMSGFQaEpucmJiUUJVUzVBS01yS010bm05?=
- =?utf-8?B?VXVyUmlZNUhkakdnRU1CRFpBVUVIcDRyNFl0NzM3YnZtRFZtZk1BYlVtZHc1?=
- =?utf-8?B?a1FRYTg2OENnNytucXJQU29VR3BOQ0dScmlTdGIwQVZmcjdETHdVYnZpRDBI?=
- =?utf-8?B?RFl6ZHlzam5wUUVRYjdkRU1UVmwrUHYwWklFcWZsVzZ0K08xQlNVTGg1dnZY?=
- =?utf-8?B?UFVralRTS1Y0WU1FM29vaE1KamQyYlhKL2hGMTcyaDNKSWFFbGpnaEY2cUYr?=
- =?utf-8?B?MkxDTzVaSWpMTlpUR2lldFk4R2xuVSt5aXJJdUlJalliUUczeER2NU02bE0x?=
- =?utf-8?B?d0ZhUmorNm41MWpscy9VVHlkUFEvMW81QnlXVVIvQkRoUE80dEhwTGhMcXZF?=
- =?utf-8?B?ODBOb05aekMvMWJKN1BOYWJHMk5heUJpdXVYZEo2RkhsNTR3MHpIMG9PcGRH?=
- =?utf-8?Q?N6hYoBnKzftzq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6c6c2eb-b9fa-4ca6-1441-08d9145acba3
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2021 08:57:24.7869 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1MBravLZ+sfH2Auc8JOisOxJszU4DrnSFdLSCuUBuxJr0NqdgInH46qvnh1Ypuc6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3949
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,63 +52,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- iommu@lists.linux-foundation.org, Huang Rui <ray.huang@amd.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- spice-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-iio@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, keyrings@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, x86@kernel.org,
+ Matthew Wilcox <willy@infradead.org>, linux-acpi@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+ linux-ext4@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-sgx@vger.kernel.org, coresight@lists.linaro.org, rcu@vger.kernel.org,
+ mjpeg-users@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org,
+ linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-integrity@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.05.21 um 10:50 schrieb Christoph Hellwig:
-> On Tue, May 11, 2021 at 09:35:20AM +0200, Christian König wrote:
->> We certainly going to need the drm_need_swiotlb() for userptr support
->> (unless we add some approach for drivers to opt out of swiotlb).
-> swiotlb use is driven by three things:
->
->   1) addressing limitations of the device
->   2) addressing limitations of the interconnect
->   3) virtualiztion modes that require it
->
-> not sure how the driver could opt out.  What is the problem with userptr
-> support?
+Em Mon, 10 May 2021 15:33:47 +0100
+Edward Cree <ecree.xilinx@gmail.com> escreveu:
 
-userptr grabs the pages for a certain virtual memory address, map them 
-in the IOMMU and then expect the device to have coherent access to it.
+> On 10/05/2021 14:59, Matthew Wilcox wrote:
+> > Most of these
+> > UTF-8 characters come from latex conversions and really aren't
+> > necessary (and are being used incorrectly). =20
+> I fully agree with fixing those.
+> The cover-letter, however, gave the impression that that was not the
+>  main purpose of this series; just, perhaps, a happy side-effect.
 
-When SWIOTLB is in place we need to fail that gracefully, try to not 
-expose the functionality or even don't load the driver in the first place.
+Sorry for the mess. The main reason why I wrote this series is because
+there are lots of UTF-8 left-over chars from the ReST conversion.
+See:
+  - https://lore.kernel.org/linux-doc/20210507100435.3095f924@coco.lan/
 
->> Then while I really want to get rid of GFP_DMA32 as well I'm not 100% sure
->> if we can handle this without the flag.
-> Note that this is still using GFP_DMA32 underneath where required,
-> just in a layer that can decide that ѕensibly.
+A large set of the UTF-8 letf-over chars were due to my conversion work,
+so I feel personally responsible to fix those ;-)
 
-Completely agree, I'm just not sure if every driver gets its coherent 
-mask right under every condition.
+Yet, this series has two positive side effects:
 
-Might be a good idea to double check the coherent mask in nouveau/radeon 
-when they want to use GFP_DMA32.
+ - it helps people needing to touch the documents using non-utf8 locales[1];
+ - it makes easier to grep for a text;
 
->> And last we need something better to store the DMA address and order than
->> allocating a separate memory object for each page.
-> Yeah.  If you use __GFP_COMP for the allocations we can find the order
-> from the page itself, which might be useful.  For 64-bit platforms
-> the dma address could be store in page->private, or depending on how
-> the page gets used the dma_addr field in struct page that overloads
-> the lru field and is used by the networking page pool could be used.
+[1] There are still some widely used distros nowadays (LTS ones?) that
+    don't set UTF-8 as default. Last time I installed a Debian machine
+    I had to explicitly set UTF-8 charset after install as the default
+    were using ASCII encoding (can't remember if it was Debian 10 or an
+    older version).
 
-Yes, I've considered that as well. But I do need the list_head and dma 
-address at the same time.
+Unintentionally, I ended by giving emphasis to the non-utf8 instead of
+giving emphasis to the conversion left-overs.
 
-> Maybe we could even have a common page pool between net and drm, but
-> I don't want to go there myself, not being an expert on either subsystem.
+FYI, this patch series originated from a discussion at linux-doc,
+reporting that Sphinx breaks when LANG is not set to utf-8[2]. That's
+why I probably ended giving the wrong emphasis at the cover letter.
 
-I had the same thought and also the same concerns, can't judge what the 
-net code is doing with this.
+[2] See https://lore.kernel.org/linux-doc/20210506103913.GE6564@kitsune.sus=
+e.cz/
+    for the original report. I strongly suspect that the VM set by Michal=20
+    to build the docs was using a distro that doesn't set UTF-8 as default.
 
-Regards,
-Christian.
+    PS.:=20
+      I intend to prepare afterwards a separate fix to avoid Sphinx
+      logger to crash during Kernel doc builds when the locale charset
+      is not UTF-8, but I'm not too fluent in python. So, I need some
+      time to check if are there a way to just avoid python log crashes
+      without touching Sphinx code and without needing to trick it to=20
+      think that the machine's locale is UTF-8.
+
+See: while there was just a single document originally stored at the
+Kernel tree as a LaTeX document during the time we did the conversion
+(cdrom-standard.tex), there are several other documents stored as=20
+text that seemed to be generated by some tool like LaTeX, whose the
+original version were not preserved.=20
+
+Also, there were other documents using different markdown dialects=20
+that were converted via pandoc (and/or other similar tools). That's=20
+not to mention the ones that were converted from DocBook. Such
+tools tend to use some logic to use "neat" versions of some ASCII
+characters, like what this tool does:
+
+	https://daringfireball.net/projects/smartypants/
+
+(Sphinx itself seemed to use this tool on its early versions)
+
+All tool-converted documents can carry UTF-8 on unexpected places. See,
+on this series, a large amount of patches deal with U+A0 (NO-BREAK SPACE)
+chars. I can't see why someone writing a plain text document (or a ReST
+one) would type a NO-BREAK SPACE instead of a normal white space.
+
+The same applies, up to some sort, to curly commas: usually people just=20
+write ASCII "commas" on their documents, and use some tool like LaTeX
+or a text editor like libreoffice in order to convert them into
+ =E2=80=9Cutf-8 curly commas=E2=80=9D[3].
+
+[3] Sphinx will do such things at the produced output, doing something=20
+    similar to what smartypants does, nowadays using this:
+
+	https://docutils.sourceforge.io/docs/user/smartquotes.html
+
+    E. g.:
+      - Straight quotes (" and ') turned into "curly" quote characters;
+      - dashes (-- and ---) turned into en- and em-dash entities;
+      - three consecutive dots (... or . . .) turned into an ellipsis char.
+
+> > You seem quite knowedgeable about the various differences.  Perhaps
+> > you'd be willing to write a document for Documentation/doc-guide/
+> > that provides guidance for when to use which kinds of horizontal
+> > line?
+> I have Opinions about the proper usage of punctuation, but I also know =20
+>  that other people have differing opinions.  For instance, I place
+>  spaces around an em dash, which is nonstandard according to most
+>  style guides.  Really this is an individual enough thing that I'm not
+>  sure we could have a "kernel style guide" that would be more useful
+>  than general-purpose guidance like the page you linked.
+
+> Moreover, such a guide could make non-native speakers needlessly self-
+>  conscious about their writing and discourage them from contributing
+>  documentation at all.
+
+I don't think so. In a matter of fact, as a non-native speaker, I guess
+this can actually help people willing to write documents.
+
+>  I'm not advocating here for trying to push
+>  kernel developers towards an eats-shoots-and-leaves level of
+>  linguistic pedantry; rather, I merely think that existing correct
+>  usages should be left intact (and therefore, excising incorrect usage
+>  should only be attempted by someone with both the expertise and time
+>  to check each case).
+>=20
+> But if you really want such a doc I wouldn't mind contributing to it.
+
+IMO, a document like that can be helpful. I can help reviewing it.
+
+Thanks,
+Mauro
