@@ -2,60 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C75F37AA55
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 17:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2416937AA59
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 17:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F736E526;
-	Tue, 11 May 2021 15:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7C16EA57;
+	Tue, 11 May 2021 15:12:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB676E0AF
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 15:11:48 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id s20so24784373ejr.9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 08:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5aFFm4ngt+ywZFt1DyahoYHM6YcUrNl1fwAe5iM1eG4=;
- b=jaaqRKMkxsO1QkNinoO3JmNqXS/9XeRqdGYRwWeG/SPxBEseZpht63sdqPdmBH/H6T
- W08bQ+S54lVU7lBURp2LJp2C654FLskViTdF83tMqj/UiD3GrrXuhMU4/3LDetAGaGZD
- /kOWw84yiFK6gWuJ/6KjM7cF8PBEwPHNd7As8=
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37EA56E525;
+ Tue, 11 May 2021 15:12:26 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id j19so932686edr.12;
+ Tue, 11 May 2021 08:12:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=zKRbLMLHni1uSr1DImbAUndUBx0nq2VWk5639tbMukI=;
+ b=oBjNWH+WMgcbpyfUM7y/7U5RBqMsqb/sqyJokcI0nVOjPMgU7E5yqQWVcjEv/PjMmN
+ Cr8+ptcFICXfuEvAZy9hxh5QxmBikJZbYvKgTjKfi1ykRPIdfBSByZHdRC+kfV+f9r1H
+ A6q6geTsFSf+VdXPbQ9z2KJ2hd12ES7AiN9CyujUJeWh2arLPCjZKNjED9JwxN7/D/oX
+ Ll4nJxRfmIZCE3bYOy9FzWLfUZGMjkeVagE6cK4T4q2zZ8UOcrornFh0Eh0t+o/14EE2
+ 906Qknh9z2WD0K/3MdOUiMomDYRuBJF3+QuxIzSWtvlxPK5nrhsel2NqehAQSIkNk0jf
+ toVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5aFFm4ngt+ywZFt1DyahoYHM6YcUrNl1fwAe5iM1eG4=;
- b=dwY8UpgdWXi00iS1chANjXwNfahwDRugCidodgm346EKsSIC+M7tmFpqDxebgNStIa
- r06Kf8WTRy0kn+sYeg3jzAbA8+Un1WUtfuUFWZLWKHT/mcb0hUsW62emtpwychJDwcLX
- FJS5hypBs8S4+fw5BmaEfKnOXS5sf9xH5bkPke1clrCiym/9iM5orbV62e0ulEdTeMk/
- r0mG7XKTZ75lad5G8rhgx/2Tu7+iIC2wThlnmA3JCesHRxAnADfNSsnDMeCWMGjxN+WL
- DezDfpiwYQyVpOIVG0GhsC8TUkJ1GfskwrnUoBLor+9WzkPzpimWNScnbiXYpNZfJ+Mt
- yvbw==
-X-Gm-Message-State: AOAM533VmZ9cLHIibl22ftgI4YkWVlRkoC2NBQZL6/VC4Eq64cmV5V3m
- e5GlWZdIsjCJbrfd36Cl8vpsHw==
-X-Google-Smtp-Source: ABdhPJz7oI98ePh6kly675Xu8ypzOHd5ReMUkFk2pgcvIEqvI+eEX5ESzQ74wreXdeTutG7RQ4KYJg==
-X-Received: by 2002:a17:906:36d1:: with SMTP id
- b17mr33421987ejc.235.1620745907094; 
- Tue, 11 May 2021 08:11:47 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c25sm14783905edt.43.2021.05.11.08.11.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 08:11:46 -0700 (PDT)
-Date: Tue, 11 May 2021 17:11:44 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 4/5] drm/i915: Introduce 'set parallel
- submit' extension
-Message-ID: <YJqesIT3leIhTNxs@phenom.ffwll.local>
-References: <20210506173049.72503-1-matthew.brost@intel.com>
- <20210506173049.72503-5-matthew.brost@intel.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=zKRbLMLHni1uSr1DImbAUndUBx0nq2VWk5639tbMukI=;
+ b=Iuyh6SttIbxpro5sN/ulmGQ0nRY3+H5Fa1dJxtPsobDfV1CUwtG4EvrZTpIu7Kf9KW
+ 6gM3S0S3Pp1f4svtxcwXoG+NUI9swxyyQ4s/Y0wtmsm1T4koovKFPPWZlDfrwnQu19IW
+ T4O/y/OxMAV/uezC5qP5xRVftT7JRwpdSEjqNYUaxdTO18BOZQH4MZ/2hrTsPc8Go7Zc
+ cgaEd04006XxHb+66jRRyE1CvqpoHw48l0VKTLTv38p+mbnjz4tdwVFo9LvQXtU0W63+
+ heBibfLiEekIsRSUOVwdEevYrIqWAsvtX/4/bjVEY9QbUf7GVhDG28KEI1WpU+nkAbeJ
+ Jf5w==
+X-Gm-Message-State: AOAM532XabDqSnQEHhzN4vPzv1HGtvBp3xMm5HGK7XfVyAteXJsa4DF9
+ 51s45oC1HTZc2vhluuP9768=
+X-Google-Smtp-Source: ABdhPJw6vg98A40F++SSvvN1acf7Y11Xa7T1+np+N+ENc/IjZMEtCTj4xHR3SDcUUvBc46sA42hKyw==
+X-Received: by 2002:a05:6402:1c07:: with SMTP id
+ ck7mr37282815edb.149.1620745944768; 
+ Tue, 11 May 2021 08:12:24 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:5935:8b67:3cdd:7cc1?
+ ([2a02:908:1252:fb60:5935:8b67:3cdd:7cc1])
+ by smtp.gmail.com with ESMTPSA id p14sm14552993eds.28.2021.05.11.08.12.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 08:12:24 -0700 (PDT)
+Subject: Re: [PATCH v6 01/16] drm/ttm: Remap all page faults to per process
+ dummy page.
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
+References: <20210510163625.407105-1-andrey.grodzovsky@amd.com>
+ <20210510163625.407105-2-andrey.grodzovsky@amd.com>
+ <e4bb49b1-393d-10aa-7e18-f445d7e71ef7@gmail.com>
+ <897f1ca4-9e78-1136-961e-18e6c2cbab50@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <2d46bfc0-1aed-4c9c-272e-8ceb619c999b@gmail.com>
+Date: Tue, 11 May 2021 17:12:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210506173049.72503-5-matthew.brost@intel.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <897f1ca4-9e78-1136-961e-18e6c2cbab50@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,255 +79,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason.ekstrand@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- carl.zhang@intel.com
+Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org, helgaas@kernel.org,
+ Felix.Kuehling@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 06, 2021 at 10:30:48AM -0700, Matthew Brost wrote:
-> i915_drm.h updates for 'set parallel submit' extension.
-> 
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Tony Ye <tony.ye@intel.com>
-> CC: Carl Zhang <carl.zhang@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  include/uapi/drm/i915_drm.h | 126 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 126 insertions(+)
-> 
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 26d2e135aa31..0175b12b33b8 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -1712,6 +1712,7 @@ struct drm_i915_gem_context_param {
->   * Extensions:
->   *   i915_context_engines_load_balance (I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE)
->   *   i915_context_engines_bond (I915_CONTEXT_ENGINES_EXT_BOND)
-> + *   i915_context_engines_parallel_submit (I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT)
 
-Hm just relalized, but I don't think this hyperlinsk correctly, and I'm
-also not sure this formats very well as a nice list. Using item lists
-should look pretty nice like we're doing for the various kms properties,
-e.g.
 
-FOO:
-  Explain what FOO does
+Am 11.05.21 um 16:44 schrieb Andrey Grodzovsky:
+>
+> On 2021-05-11 2:38 a.m., Christian König wrote:
+>> Am 10.05.21 um 18:36 schrieb Andrey Grodzovsky:
+>>> On device removal reroute all CPU mappings to dummy page.
+>>>
+>>> v3:
+>>> Remove loop to find DRM file and instead access it
+>>> by vma->vm_file->private_data. Move dummy page installation
+>>> into a separate function.
+>>>
+>>> v4:
+>>> Map the entire BOs VA space into on demand allocated dummy page
+>>> on the first fault for that BO.
+>>>
+>>> v5: Remove duplicate return.
+>>>
+>>> v6: Polish ttm_bo_vm_dummy_page, remove superflous code.
+>>>
+>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/ttm/ttm_bo_vm.c | 57 
+>>> ++++++++++++++++++++++++++++++++-
+>>>   include/drm/ttm/ttm_bo_api.h    |  2 ++
+>>>   2 files changed, 58 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c 
+>>> b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>>> index b31b18058965..e5a9615519d1 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>>> @@ -34,6 +34,8 @@
+>>>   #include <drm/ttm/ttm_bo_driver.h>
+>>>   #include <drm/ttm/ttm_placement.h>
+>>>   #include <drm/drm_vma_manager.h>
+>>> +#include <drm/drm_drv.h>
+>>> +#include <drm/drm_managed.h>
+>>>   #include <linux/mm.h>
+>>>   #include <linux/pfn_t.h>
+>>>   #include <linux/rbtree.h>
+>>> @@ -380,19 +382,72 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct 
+>>> vm_fault *vmf,
+>>>   }
+>>>   EXPORT_SYMBOL(ttm_bo_vm_fault_reserved);
+>>>   +static void ttm_bo_release_dummy_page(struct drm_device *dev, 
+>>> void *res)
+>>> +{
+>>> +    struct page *dummy_page = (struct page *)res;
+>>> +
+>>> +    __free_page(dummy_page);
+>>> +}
+>>> +
+>>> +vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot)
+>>> +{
+>>> +    struct vm_area_struct *vma = vmf->vma;
+>>> +    struct ttm_buffer_object *bo = vma->vm_private_data;
+>>> +    struct drm_device *ddev = bo->base.dev;
+>>> +    vm_fault_t ret = VM_FAULT_NOPAGE;
+>>> +    unsigned long address;
+>>> +    unsigned long pfn;
+>>> +    struct page *page;
+>>> +
+>>> +    /* Allocate new dummy page to map all the VA range in this VMA 
+>>> to it*/
+>>> +    page = alloc_page(GFP_KERNEL | __GFP_ZERO);
+>>> +    if (!page)
+>>> +        return VM_FAULT_OOM;
+>>> +
+>>> +    pfn = page_to_pfn(page);
+>>> +
+>>> +    /* Prefault the entire VMA range right away to avoid further 
+>>> faults */
+>>> +    for (address = vma->vm_start; address < vma->vm_end; address += 
+>>> PAGE_SIZE) {
+>>> +
+>>
+>>> +        if (unlikely(address >= vma->vm_end))
+>>> +            break;
+>>
+>> That extra check can be removed as far as I can see.
+>>
+>>
+>>> +
+>>> +        if (vma->vm_flags & VM_MIXEDMAP)
+>>> +            ret = vmf_insert_mixed_prot(vma, address,
+>>> +                            __pfn_to_pfn_t(pfn, PFN_DEV),
+>>> +                            prot);
+>>> +        else
+>>> +            ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
+>>> +    }
+>>> +
+>>
+>>> +    /* Set the page to be freed using drmm release action */
+>>> +    if (drmm_add_action_or_reset(ddev, ttm_bo_release_dummy_page, 
+>>> page))
+>>> +        return VM_FAULT_OOM;
+>>
+>> You should probably move that before inserting the page into the VMA 
+>> and also free the allocated page if it goes wrong.
+>
+>
+> drmm_add_action_or_reset will automatically release the page if the 
+> add action fails, that the 'reset' part of the function.
 
-BAR:
-  Explain what BAR does. struct bar also automatically generates a link
+Ah! Ok that makes it even more important that you do this before you 
+insert the page into any VMA.
 
-Please check with make htmldocs and polish this a bit (might need a small
-prep patch).
+Otherwise userspace has access to a freed page with the rather ugly 
+consequences.
 
->   */
->  #define I915_CONTEXT_PARAM_ENGINES	0xa
->  
-> @@ -1894,9 +1895,134 @@ struct i915_context_param_engines {
->  	__u64 extensions; /* linked chain of extension blocks, 0 terminates */
->  #define I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE 0 /* see i915_context_engines_load_balance */
->  #define I915_CONTEXT_ENGINES_EXT_BOND 1 /* see i915_context_engines_bond */
-> +#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
->  	struct i915_engine_class_instance engines[0];
->  } __attribute__((packed));
->  
-> +/*
-> + * i915_context_engines_parallel_submit:
-> + *
-> + * Setup a gem context to allow multiple BBs to be submitted in a single execbuf
-> + * IOCTL. Those BBs will then be scheduled to run on the GPU in parallel.
-> + *
-> + * All hardware contexts in the engine set are configured for parallel
-> + * submission (i.e. once this gem context is configured for parallel submission,
-> + * all the hardware contexts, regardless if a BB is available on each individual
-> + * context, will be submitted to the GPU in parallel). A user can submit BBs to
-> + * subset of the hardware contexts, in a single execbuf IOCTL, but it is not
-> + * recommended as it may reserve physical engines with nothing to run on them.
-> + * Highly recommended to configure the gem context with N hardware contexts then
-> + * always submit N BBs in a single IOCTL.
-> + *
-> + * Their are two currently defined ways to control the placement of the
-> + * hardware contexts on physical engines: default behavior (no flags) and
-> + * I915_PARALLEL_IMPLICT_BONDS (a flag). More flags may be added the in the
-> + * future as new hardware / use cases arise. Details of how to use this
-> + * interface below above the flags.
-> + *
-> + * Returns -EINVAL if hardware context placement configuration invalid or if the
-> + * placement configuration isn't supported on the platform / submission
-> + * interface.
-> + * Returns -ENODEV if extension isn't supported on the platform / submission
-> + * inteface.
-> + */
-> +struct i915_context_engines_parallel_submit {
-> +	struct i915_user_extension base;
+Christian.
 
-Ok this is good, since it makes sure we can't possible use this in
-CTX_SETPARAM.
+>
+> Andrey
+>
+>
+>>
+>> Apart from that patch looks good to me,
+>> Christian.
+>>
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +EXPORT_SYMBOL(ttm_bo_vm_dummy_page);
+>>> +
+>>>   vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
+>>>   {
+>>>       struct vm_area_struct *vma = vmf->vma;
+>>>       pgprot_t prot;
+>>>       struct ttm_buffer_object *bo = vma->vm_private_data;
+>>> +    struct drm_device *ddev = bo->base.dev;
+>>>       vm_fault_t ret;
+>>> +    int idx;
+>>>         ret = ttm_bo_vm_reserve(bo, vmf);
+>>>       if (ret)
+>>>           return ret;
+>>>         prot = vma->vm_page_prot;
+>>> -    ret = ttm_bo_vm_fault_reserved(vmf, prot, 
+>>> TTM_BO_VM_NUM_PREFAULT, 1);
+>>> +    if (drm_dev_enter(ddev, &idx)) {
+>>> +        ret = ttm_bo_vm_fault_reserved(vmf, prot, 
+>>> TTM_BO_VM_NUM_PREFAULT, 1);
+>>> +        drm_dev_exit(idx);
+>>> +    } else {
+>>> +        ret = ttm_bo_vm_dummy_page(vmf, prot);
+>>> +    }
+>>>       if (ret == VM_FAULT_RETRY && !(vmf->flags & 
+>>> FAULT_FLAG_RETRY_NOWAIT))
+>>>           return ret;
+>>>   diff --git a/include/drm/ttm/ttm_bo_api.h 
+>>> b/include/drm/ttm/ttm_bo_api.h
+>>> index 639521880c29..254ede97f8e3 100644
+>>> --- a/include/drm/ttm/ttm_bo_api.h
+>>> +++ b/include/drm/ttm/ttm_bo_api.h
+>>> @@ -620,4 +620,6 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, 
+>>> unsigned long addr,
+>>>                void *buf, int len, int write);
+>>>   bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
+>>>   +vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t 
+>>> prot);
+>>> +
+>>>   #endif
+>>
 
-> +
-> +/*
-> + * Default placement behvavior (currently unsupported):
-> + *
-> + * Rather than restricting parallel submission to a single class with a
-> + * logically contiguous placement (I915_PARALLEL_IMPLICT_BONDS), add a mode that
-> + * enables parallel submission across multiple engine classes. In this case each
-> + * context's logical engine mask indicates where that context can placed. It is
-> + * implied in this mode that all contexts have mutual exclusive placement (e.g.
-> + * if one context is running CS0 no other contexts can run on CS0).
-> + *
-> + * Example 1 pseudo code:
-> + * CSX[Y] = engine class X, logical instance Y
-> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-> + * set_engines(INVALID, INVALID)
-> + * set_load_balance(engine_index=0, num_siblings=2, engines=CS0[0],CS0[1])
-> + * set_load_balance(engine_index=1, num_siblings=2, engines=CS1[0],CS1[1])
-> + * set_parallel()
-> + *
-> + * Results in the following valid placements:
-> + * CS0[0], CS1[0]
-> + * CS0[0], CS1[1]
-> + * CS0[1], CS1[0]
-> + * CS0[1], CS1[1]
-> + *
-> + * Example 2 pseudo code:
-> + * CS[X] = generic engine of same class, logical instance X
-> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-> + * set_engines(INVALID, INVALID)
-> + * set_load_balance(engine_index=0, num_siblings=3, engines=CS[0],CS[1],CS[2])
-> + * set_load_balance(engine_index=1, num_siblings=3, engines=CS[0],CS[1],CS[2])
-> + * set_parallel()
-> + *
-> + * Results in the following valid placements:
-> + * CS[0], CS[1]
-> + * CS[0], CS[2]
-> + * CS[1], CS[0]
-> + * CS[1], CS[2]
-> + * CS[2], CS[0]
-> + * CS[2], CS[1]
-> + *
-> + * This enables a use case where all engines are created equally, we don't care
-> + * where they are scheduled, we just want a certain number of resources, for
-> + * those resources to be scheduled in parallel, and possibly across multiple
-> + * engine classes.
-> + */
-> +
-> +/*
-> + * I915_PARALLEL_IMPLICT_BONDS - Create implict bonds between each context.
-> + * Each context must have the same number sibling and bonds are implictly create
-> + * of the siblings.
-> + *
-> + * All of the below examples are in logical space.
-> + *
-> + * Example 1 pseudo code:
-> + * CS[X] = generic engine of same class, logical instance X
-> + * set_engines(CS[0], CS[1])
-> + * set_parallel(flags=I915_PARALLEL_IMPLICT_BONDS)
-> + *
-> + * Results in the following valid placements:
-> + * CS[0], CS[1]
-> + *
-> + * Example 2 pseudo code:
-> + * CS[X] = generic engine of same class, logical instance X
-> + * INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-> + * set_engines(INVALID, INVALID)
-> + * set_load_balance(engine_index=0, num_siblings=2, engines=CS[0],CS[2])
-> + * set_load_balance(engine_index=1, num_siblings=2, engines=CS[1],CS[3])
-> + * set_parallel(flags=I915_PARALLEL_IMPLICT_BONDS)
-> + *
-> + * Results in the following valid placements:
-> + * CS[0], CS[1]
-> + * CS[2], CS[3]
-> + *
-> + * This enables a use case where all engines are not equal and certain placement
-> + * rules are required (i.e. split-frame requires all contexts to be placed in a
-> + * logically contiguous order on the VCS engines on gen11+ platforms). This use
-> + * case (logically contiguous placement, within a single engine class) is
-> + * supported when using GuC submission. Execlist mode could support all possible
-> + * bonding configurations but currently doesn't support this extension.
-> + */
-> +#define I915_PARALLEL_IMPLICT_BONDS		(1<<0)
-> +/*
-> + * Do not allow BBs to be preempted mid BB rather insert coordinated preemption
-> + * points on all hardware contexts between each set of BBs. An example use case
-> + * of this feature is split-frame on gen11+ hardware. When using this feature a
-> + * BB must be submitted on each hardware context in the parallel gem context.
-> + * The execbuf2 IOCTL enforces the user adheres to policy.
-> + */
-> +#define I915_PARALLEL_NO_PREEMPT_MID_BATCH	(1<<1)
-> +#define I915_PARALLEL_UNKNOWN_FLAGS  (-(I915_PARALLEL_NO_PREEMPT_MID_BATCH << 1))
-> +	__u64 flags; /* all undefined flags must be zero */
-> +	__u64 mbz64[4]; /* reserved for future use; must be zero */
-> +} __attribute__ ((packed));
-
-Ok I'm having some serious questions. This looks way too much like it's
-inspired by bonded submission, and given we're tossing bonded submission
-we need to make sure we're doing this for good independent reasons and not
-just for intertia.
-
-What I expected looking at how media-driver uses bonded submit currently
-is:
-
-- We create a parallel submit engine, which occupies a virtual engine
-  slot. This parallel virtual engine contains all the information we need,
-  i.e. the flags you have above, but also how many engines run in parallel
-  and how each of those can be load-balanced. So probably a full NxM
-  matrix of physical engines needed.
-
-- Execbuf uses that parallel virtual engine to submit all N batchbuffers
-  in one go.
-
-- This means we don't create virtual engines (or physical engine mappings)
-  for all the individual pieces in a parallel engine. That's a concept
-  from bonded submission, and I think that needs to go.
-
-- More important not having a parallel virtual engine breaks our already
-  badly confusing gem ctx api. Ignoring parallel/bonded submit the gem ctx
-  is just a container object, which points at a bunch of engines (plus the
-  VM and a few other things). Having parallel context something that sits
-  at the gem ctx level, and not as an individual engine (of which you can
-  have multiple in the same gem ctx) breaks stuff. E.g. right the perf api
-  sits at the gem ctx level, so that you can capture all the perf data for
-  an entire workload spawning across multiple engines. If a workload now
-  needs multiple parallel engines we'd need multiple gem ctx, which breaks
-  this.
-
-So what I'd expect we'd have here is roughly:
-
-struct i915_context_engines_parallel_submit {
-	struct i915_user_extension base;
-	__u64 flags;
-	__u32 num_engines; /* N, must match what we submit in the execbuf */
-	__u32 num_siblings; /* M, I'm assuming it's ok we require that siblings must match across the entire set of parallel engines */
-	struct engine_info[]; /* NxM array of engine infos, pls fill in the right struct name :-) */
-};
-
-If we then also require that you always submit the full width of N
-batchbuffers then even the execbuf extension doesn't need to exist
-anymore, because the virtual parallel engine already contains all the
-needed information.
-
-And sure for some backends at least (definitely execlist) we'd need to
-create a bunch of additional virtual engines behind that virtual engine.
-But they'd be entirely hidden, and not visible to userspace nor the higher
-levels.
-
-What am I missing?
--Daniel
-
->  #define I915_DEFINE_CONTEXT_PARAM_ENGINES(name__, N__) struct { \
->  	__u64 extensions; \
->  	struct i915_engine_class_instance engines[N__]; \
-> -- 
-> 2.28.0
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
