@@ -1,50 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F27037A14F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:02:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D03037A15C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:06:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A9206E9E1;
-	Tue, 11 May 2021 08:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2BE16E9EE;
+	Tue, 11 May 2021 08:06:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [IPv6:2a01:e0c:1:1599::14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5136E9DD;
- Tue, 11 May 2021 08:01:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28E1A6E038;
+ Tue, 11 May 2021 08:06:49 +0000 (UTC)
 Received: from [192.168.1.190] (unknown [91.155.165.229])
  (Authenticated sender: martin.peres@free.fr)
- by smtp5-g21.free.fr (Postfix) with ESMTPSA id AFDC85FF9A;
- Tue, 11 May 2021 10:01:33 +0200 (CEST)
+ by smtp5-g21.free.fr (Postfix) with ESMTPSA id 2A9AF5FFCC;
+ Tue, 11 May 2021 10:06:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
- s=smtp-20201208; t=1620720114;
- bh=a46yeCGCE0eDis8fySiFB9lAhih+GD6Vv2jPOFTNsks=;
+ s=smtp-20201208; t=1620720408;
+ bh=lQtzoXk4bkXfyYehVeIP1qmoWbFpGwfyboQlMFQHIaM=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=kdtytGF4+ei+QKXYgK2m07iUaPO25g0rVN7GJ+EdRtYcrJ4d39FYvsRtq8CltFbFs
- +9EejX8j1P2KlKGOOYleABzR2IMtTbFrknI1BaB7pkD0GwaJ2cm/uCfWqvZaseJ2uq
- fS8Ndxz21W64fIgPLSWiTyvj5K63oHWTG4TD/MkeCUtG2+0g9Nv+rBwrzTmSwfnP52
- sL9TqLAHVloxZ6zl15PDJ+gHsfnxrPYSUhYDvGtJZM1Yqgp0ZgEtt+VQ/CtLzG4pug
- /8UGEnigBFFZy5ccPiqd5AHriwzxrK3ApZVDxPvGtRaD88BJ376ahpBNXB5wAxsleW
- PKi8+QZop1HkA==
+ b=HQEWep/HsrBVbP6ZkASI4hSAPz/D+Rj7vUW7X9TN/dTUT2Hg5PgyYAe7QZdrgvBQx
+ YPVj6DajZ7jY0uNQ/QHtm9NVDqRCD1prqZNNZzswoEEUU9fl5hK4pyeqfp53P7f6hE
+ wFxmQbAMiRd3nyR6I7TCNrbughGcrg02lHu4bgMKQRd78nBo1nEYtdfculKsjJWgmA
+ FbqC6phEVtaK730c42khMZisFvpNjQR6Pv4BizaXX/gMsy53sdnnQZa0zpwv9SwJ68
+ GoX8lHadm6eXO7YU+3JeAUSz/LkLgu52DQ7v7sUYcXmwviZmmthNWwPZJcMrwxIiwj
+ NfbpvP6yUrZCQ==
 Subject: Re: [RFC PATCH 00/97] Basic GuC submission support in the i915
-To: Jason Ekstrand <jason@jlekstrand.net>,
- Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+To: Daniel Vetter <daniel@ffwll.ch>
 References: <20210506191451.77768-1-matthew.brost@intel.com>
  <d22437bd-8bb6-d7cb-c017-89cdc7da560d@free.fr>
  <17953669798.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
  <546e4ee4-9aa4-1967-cdcb-a561cac582ef@free.fr>
- <17957197dd8.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
+ <CAKMK7uETcM38sjPYJLdxpGcZcx=tHdGUPe0WTgnGoZfPQvEJFQ@mail.gmail.com>
 From: Martin Peres <martin.peres@free.fr>
-Message-ID: <339d4e10-33cf-4917-038b-c849dc829f77@free.fr>
-Date: Tue, 11 May 2021 11:01:33 +0300
+Message-ID: <08c22bc8-aa35-43d2-ad4c-7f489dfc585b@free.fr>
+Date: Tue, 11 May 2021 11:06:18 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <17957197dd8.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <CAKMK7uETcM38sjPYJLdxpGcZcx=tHdGUPe0WTgnGoZfPQvEJFQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,15 +55,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@intel.com, jason.ekstrand@intel.com,
- daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
- daniel.vetter@intel.com, john.c.harrison@intel.com
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason.ekstrand@intel.com>, "Ceraolo Spurio,
+ Daniele" <daniele.ceraolospurio@intel.com>, "Bloomfield,
+ Jon" <jon.bloomfield@intel.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/05/2021 19:25, Jason Ekstrand wrote:
-> On May 10, 2021 08:55:55 Martin Peres <martin.peres@free.fr> wrote:
-> 
+On 10/05/2021 19:33, Daniel Vetter wrote:
+> On Mon, May 10, 2021 at 3:55 PM Martin Peres <martin.peres@free.fr> wrote:
+>>
 >> On 10/05/2021 02:11, Jason Ekstrand wrote:
 >>> On May 9, 2021 12:12:36 Martin Peres <martin.peres@free.fr> wrote:
 >>>
@@ -108,11 +112,11 @@ On 10/05/2021 19:25, Jason Ekstrand wrote:
 >>> support. The inevitable reality is that GPU scheduling is coming and
 >>> likely to be there only path in the not-too-distant future. (See also
 >>> the ongoing thread with AMD about fences.) I'm not going to pass
->>> judgement on whether or not this is a good thing.  I'm just reading the
+>>> judgement on whether or not this is a good thing.  I'm just reading the
 >>> winds and, in my view, this is where things are headed for good or ill.
 >>>
 >>> In answer to the question above, the answer to "what do we gain from
->>> GuC?" may soon be, "you get to use your GPU."  We're not there yet and,
+>>> GuC?" may soon be, "you get to use your GPU."  We're not there yet and,
 >>> again, I'm not necessarily advocating for it, but that is likely where
 >>> things are headed.
 >>
@@ -139,22 +143,28 @@ On 10/05/2021 19:25, Jason Ekstrand wrote:
 >> GuC is anything to go by, it is way too complex for me to feel
 >> comfortable with it.
 > 
-> It's more than just bulk register writes. When it comes to 
-> load-balancing multiple GPU users, firmware can theoretically preempt 
-> and switch faster leading to more efficient time-slicing. All we really 
-> need the DRM scheduler for is handling implicit dma_fence dependencies 
-> between different applications.
-
-Right, this makes sense. However, if the GuC's interface was so simple, 
-I doubt it would be at major version 60 already :s
-
-I don't disagree with FW-based command submission, as it has a lot of 
-benefits. I just don't like the route of going with a firmware no-one 
-else than Intel can work on, *and* one that doesn't seem to concern 
-itself with stable interfaces, and how i915 will have to deal with every 
-generation using different interfaces (assuming the firmware was bug-free).
-
+> We need to flesh out that part of the plan more, but we're not going
+> to use drm scheduler for everything. It's only to handle the dma-fence
+> legacy side of things, which means:
+> - timeout handling for batches that take too long
+> - dma_fence dependency sorting/handling
+> - boosting of context from display flips (currently missing, needs to
+> be ported from drm/i915)
 > 
+> The actual round-robin/preempt/priority handling is still left to the
+> backend, in this case here the fw. So there's large chunks of
+> code/functionality where drm/scheduler wont be involved in, and like
+> Jason says: The hw direction winds definitely blow in the direction
+> that this is all handled in hw.
+
+The plan makes sense for a SRIOV-enable GPU, yes.
+
+However, if the GuC is actually helping i915, then why not open source 
+it and drop all the issues related to its stability? Wouldn't it be the 
+perfect solution, as it would allow dropping execlist support for newer 
+HW, and it would eliminate the concerns about maintenance of stable 
+releases of Linux?
+
 > 
 >>>> In the same vein, I have another concern related to the impact of GuC on
 >>>> Linux's stable releases. Let's say that in 3 years, a new application
@@ -209,22 +219,16 @@ generation using different interfaces (assuming the firmware was bug-free).
 >> CPU-based decoding. What's the test plan for this patch then? The patch
 >> in its current form is definitely not making me confident.
 > 
-> My understanding is that it's only >4k that's affected; we've got enough 
-> bandwidth on a single VCS for 4K. I'm not sure where the exact cut-off 
-> is (it may be a little higher than 4k) but real-time 4k should be fine 
-> and real-time 8k requires parallel submit. So we're really not cutting 
-> off many use-cases. Also, as I said above, the new API can be 
-> implemented with the execlist scheduler if needed. We've just 
-> pragmatically deprioritized it.
+> Only if they don't scream loudly enough. If someone screams loud
+> enough we'll bite the bullet and enable the new interface on execlist
+> backend.
 
-Sounds like a niche-enough use case to me that I feel no user would 
-complain about it.
+Ack.
 
-Martin
+Martih
 
 > 
-> --Jason
-> 
+> Cheers, Daniel
 > 
 >>>> Finally, could you explain why IGT tests need to be modified to work the
 >>>> GuC [1], and how much of the code in this series is covered by
@@ -257,4 +261,6 @@ Martin
 >>
 >>>
 >>> --Jason
+> 
+> 
 > 
