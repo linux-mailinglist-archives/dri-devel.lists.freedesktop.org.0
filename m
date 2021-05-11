@@ -2,67 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60A737AD32
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 19:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0526037AD47
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 19:43:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 637216EA9E;
-	Tue, 11 May 2021 17:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E6E893BC;
+	Tue, 11 May 2021 17:43:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF76B6EA9E
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 17:39:18 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id q5so1514996wrs.4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 10:39:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4Iip13muq1NYXw8ciJ4gZx7sLT2i59LHm3b1xhb3qro=;
- b=l0I/l9irc0L33+3w+vShxZyAO9/CKiQR0T+VECzaTKU4TJFiZJMNe0Csx99AWQKMQT
- GW7fxShroooRhKQ1FFVZuV63BkI25ij7VJ0n78MYAWEbPu5dounOLMpogEsKo7yUJaor
- jNFx+ClrGCFK3ycq0eJevgyLSsunK9jbkjFY7hr4FwAhlB/S1kSp6X2QWmscwA3Bnqed
- qpnisUHdd1yLawQxLD7EAukbXIdDimWGCKMpqOJYgECzqnpVLH6TmUzIaDlZiihYQQgp
- z1DU/uJV9GO16Qmls0Q7TNyRGE5rVkjgFa6+6FtJYkyCBq1/8xdIRcNZEEVS3mcjQpt3
- 36Ww==
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EECC86EA9F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 17:43:33 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id f24so31008026ejc.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 10:43:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=AZhNnFcPQrQjgVydw2wz733q1rpLMdLlGxTfcTd0pQA=;
+ b=lKkdv4mbno3DMZja8jgSnfcESoU079DYs4l0E5YRfFuhqZ1TIZSvbogSVG9xMrSpFm
+ 9/bjH5PoLMqka5QRerR5peqwF9r/lW9vtrMkrm8g2plH0h/vkf+NwSDqQaSgywCv4vPn
+ DHMQsfWVFw7wQix6ztYxD/5q3BzEIPG4I/aC4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4Iip13muq1NYXw8ciJ4gZx7sLT2i59LHm3b1xhb3qro=;
- b=LTL7s+VLYVfvsKQoiu2I3pAyySa1b08nYBuNJ82U4+dqGOA8BtVazhZj9Cdj9uWTMh
- UpeLqYSC5oJlJXOZq+cT2DocWDLCcLkMPHEPuEqAGa1y5JyEuOsJIokR8sEBdjxem/0e
- 4LKp80xG4xdQi3WpDUpnmLu7NNwcpg9QXSOcB7/Xvue9rAeWFUOv9ix8umEdbTRDgSxC
- LZiAZFzjXFIiQhRwnq5t7fPVnpsSjsrgW4vo2UaNrcvcUTVXo3KB9/dPh09MtH8txUHU
- /rYIwODJYrltnd/b7BD3PZlmkfQRS4tL1858pJrnICsPP3WSAV5VaR6zjYrBijsDE6bx
- qo4w==
-X-Gm-Message-State: AOAM532ffX8rRvWy9KhBdJe7o3oC4CipZhiDs4LyC1T9/ZMqLI37EvJC
- Zq8vzqm7V7408Tps9hv/b9+JYhhqqeY01ARMTxZiRvi8
-X-Google-Smtp-Source: ABdhPJzYMvuNrr+jKZP2j9T/AEwSf1ceIS80ZkuSWU4TS1NzmOCkyDXJZ8gf+jTC3BafXMone2nr6GP2T34Y3clyWJM=
-X-Received: by 2002:a5d:64cf:: with SMTP id f15mr38403209wri.327.1620754757270; 
- Tue, 11 May 2021 10:39:17 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AZhNnFcPQrQjgVydw2wz733q1rpLMdLlGxTfcTd0pQA=;
+ b=Ta9fLJnwqDla7X0crUQ7KSd2RRU2k1vZHYNmjFwwAW5e1HUQfsuSUZOKxbdRKqbwW9
+ r69iz4e2RhPQjUF5Kumx4oCTaVzrb+FGChotfAQxfwPvp+P4bJ2fBsrlZGPaCbRpTnKE
+ 1Hc4+aZ6JusRZP86id/m9qDDczrLm5BATz03iE0qQ3JsM7D3vfSTdKpjfpTFGaboWXOv
+ BiAPl96bbDwuV3VrVwC52JMGC55iUk+TxUDYSWJJyQifr3vVvonbFbqelJnL39prAO+Y
+ R2YuCOXlnkDSBV+nlHKaEzf5/+yfATeEPk3PunPDOwlylJIncAyY/KRbxUz8LOZrW/PF
+ ZeDw==
+X-Gm-Message-State: AOAM530cd50/c78kSS5b68pTU77upQfbBOEdXLhlM2uWv7slLPrYcICc
+ 92ZviQap+rBOGXs9TKTbcSbKvA==
+X-Google-Smtp-Source: ABdhPJzoye8TjGAaAwWXQWOlQ/domjjH3e9Rw/KpZmuhqBHp7e6+Qnz/0i5wWhit1yYtIZ/Rxb5o3w==
+X-Received: by 2002:a17:906:b5b:: with SMTP id
+ v27mr32970674ejg.40.1620755012463; 
+ Tue, 11 May 2021 10:43:32 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id ks10sm12215000ejb.41.2021.05.11.10.43.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 10:43:32 -0700 (PDT)
+Date: Tue, 11 May 2021 19:43:30 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [RFC PATCH 43/97] drm/i915/guc: Add lrc descriptor context
+ lookup array
+Message-ID: <YJrCQr+UYjQoONIW@phenom.ffwll.local>
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <20210506191451.77768-44-matthew.brost@intel.com>
+ <YJqiKksSqBpUDvPJ@phenom.ffwll.local>
+ <20210511170124.GA30040@sdutt-i7>
 MIME-Version: 1.0
-References: <20210508195641.397198-1-robdclark@gmail.com>
- <20210508195641.397198-2-robdclark@gmail.com>
- <YJlb3GO41hiu4pWw@phenom.ffwll.local>
- <CAF6AEGsGb1jZgRRUqDvf+j+E6pNEtSck=r3xh4VL7FmZMPszBQ@mail.gmail.com>
- <CAKMK7uGPGbOPRtJaiG5oNCDhYQ27+V3bO5Wcgv7C9fqdyp8LeA@mail.gmail.com>
- <CAF6AEGto1PQcEbYeWfXqMatK0z3dW-mpLNVh=VJb=9gwrPfCWg@mail.gmail.com>
- <YJq0YVi4O4zGkb3j@phenom.ffwll.local>
- <CAF6AEGsMk-wO=3iYbW9rS0FJ7760P++vpPgVMFHR9+Q8sWsXQQ@mail.gmail.com>
- <YJq9M71yiASVKPtJ@phenom.ffwll.local>
-In-Reply-To: <YJq9M71yiASVKPtJ@phenom.ffwll.local>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 11 May 2021 10:42:58 -0700
-Message-ID: <CAF6AEGs1YcRAYAH0TFFS7-RPNDJhvogSACrZp0itzq_RiTBiTA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: Fix dirtyfb stalls
-To: Rob Clark <robdclark@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Rob Clark <robdclark@chromium.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, 
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210511170124.GA30040@sdutt-i7>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,287 +70,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: tvrtko.ursulin@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, jason.ekstrand@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 11, 2021 at 10:21 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, May 11, 2021 at 10:19:57AM -0700, Rob Clark wrote:
-> > On Tue, May 11, 2021 at 9:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Mon, May 10, 2021 at 12:06:05PM -0700, Rob Clark wrote:
-> > > > On Mon, May 10, 2021 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > >
-> > > > > On Mon, May 10, 2021 at 6:51 PM Rob Clark <robdclark@gmail.com> wrote:
-> > > > > >
-> > > > > > On Mon, May 10, 2021 at 9:14 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > >
-> > > > > > > On Sat, May 08, 2021 at 12:56:38PM -0700, Rob Clark wrote:
-> > > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > > >
-> > > > > > > > drm_atomic_helper_dirtyfb() will end up stalling for vblank on "video
-> > > > > > > > mode" type displays, which is pointless and unnecessary.  Add an
-> > > > > > > > optional helper vfunc to determine if a plane is attached to a CRTC
-> > > > > > > > that actually needs dirtyfb, and skip over them.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > >
-> > > > > > > So this is a bit annoying because the idea of all these "remap legacy uapi
-> > > > > > > to atomic constructs" helpers is that they shouldn't need/use anything
-> > > > > > > beyond what userspace also has available. So adding hacks for them feels
-> > > > > > > really bad.
-> > > > > >
-> > > > > > I suppose the root problem is that userspace doesn't know if dirtyfb
-> > > > > > (or similar) is actually required or is a no-op.
-> > > > > >
-> > > > > > But it is perhaps less of a problem because this essentially boils
-> > > > > > down to "x11 vs wayland", and it seems like wayland compositors for
-> > > > > > non-vsync'd rendering just pageflips and throws away extra frames from
-> > > > > > the app?
-> > > > >
-> > > > > Yeah it's about not adequately batching up rendering and syncing with
-> > > > > hw. bare metal x11 is just especially stupid about it :-)
-> > > > >
-> > > > > > > Also I feel like it's not entirely the right thing to do here either.
-> > > > > > > We've had this problem already on the fbcon emulation side (which also
-> > > > > > > shouldn't be able to peek behind the atomic kms uapi curtain), and the fix
-> > > > > > > there was to have a worker which batches up all the updates and avoids any
-> > > > > > > stalls in bad places.
-> > > > > >
-> > > > > > I'm not too worried about fbcon not being able to render faster than
-> > > > > > vblank.  OTOH it is a pretty big problem for x11
-> > > > >
-> > > > > That's why we'd let the worker get ahead at most one dirtyfb. We do
-> > > > > the same with fbcon, which trivially can get ahead of vblank otherwise
-> > > > > (if sometimes flushes each character, so you have to pile them up into
-> > > > > a single update if that's still pending).
-> > > > >
-> > > > > > > Since this is for frontbuffer rendering userspace only we can probably get
-> > > > > > > away with assuming there's only a single fb, so the implementation becomes
-> > > > > > > pretty simple:
-> > > > > > >
-> > > > > > > - 1 worker, and we keep track of a single pending fb
-> > > > > > > - if there's already a dirty fb pending on a different fb, we stall for
-> > > > > > >   the worker to start processing that one already (i.e. the fb we track is
-> > > > > > >   reset to NULL)
-> > > > > > > - if it's pending on the same fb we just toss away all the updates and go
-> > > > > > >   with a full update, since merging the clip rects is too much work :-) I
-> > > > > > >   think there's helpers so you could be slightly more clever and just have
-> > > > > > >   an overall bounding box
-> > > > > >
-> > > > > > This doesn't really fix the problem, you still end up delaying sending
-> > > > > > the next back-buffer to mesa
-> > > > >
-> > > > > With this the dirtyfb would never block. Also glorious frontbuffer
-> > > > > tracking corruption is possible, but that's not the kernel's problem.
-> > > > > So how would anything get held up in userspace.
-> > > >
-> > > > the part about stalling if a dirtyfb is pending was what I was worried
-> > > > about.. but I suppose you meant the worker stalling, rather than
-> > > > userspace stalling (where I had interpreted it the other way around).
-> > > > As soon as userspace needs to stall, you're losing again.
-> > >
-> > > Nah, I did mean userspace stalling, so we can't pile up unlimited amounts
-> > > of dirtyfb request in the kernel.
-> > >
-> > > But also I never expect userspace that uses dirtyfb to actually hit this
-> > > stall point (otherwise we'd need to look at this again). It would really
-> > > be only there as defense against abuse.
-> >
-> > I don't believe modesetting ddx throttles dirtyfb, it (indirectly)
-> > calls this from it's BlockHandler.. so if you do end up blocking after
-> > the N'th dirtyfb, you are still going to end up stalling for vblank,
-> > you are just deferring that for a frame or two..
->
-> Nope, that's not what I mean.
->
-> By default we pile up the updates, so you _never_ stall. The worker then
-> takes the entire update every time it runs and batches them up.
->
-> We _only_ stall when we get a dirtyfb with a different fb. Because that's
-> much harder to pile up, plus frontbuffer rendering userspace uses a single
-> fb across all screens anyway.
->
-> So really I don't expect X to ever stall in it's BlockHandler with this.
+On Tue, May 11, 2021 at 10:01:28AM -0700, Matthew Brost wrote:
+> On Tue, May 11, 2021 at 05:26:34PM +0200, Daniel Vetter wrote:
+> > On Thu, May 06, 2021 at 12:13:57PM -0700, Matthew Brost wrote:
+> > > Add lrc descriptor context lookup array which can resolve the
+> > > intel_context from the lrc descriptor index. In addition to lookup, it
+> > > can determine in the lrc descriptor context is currently registered with
+> > > the GuC by checking if an entry for a descriptor index is present.
+> > > Future patches in the series will make use of this array.
+> > > 
+> > > Cc: John Harrison <john.c.harrison@intel.com>
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  5 +++
+> > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 32 +++++++++++++++++--
+> > >  2 files changed, 35 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > > index d84f37afb9d8..2eb6c497e43c 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > > @@ -6,6 +6,8 @@
+> > >  #ifndef _INTEL_GUC_H_
+> > >  #define _INTEL_GUC_H_
+> > >  
+> > > +#include "linux/xarray.h"
+> > > +
+> > >  #include "intel_uncore.h"
+> > >  #include "intel_guc_fw.h"
+> > >  #include "intel_guc_fwif.h"
+> > > @@ -47,6 +49,9 @@ struct intel_guc {
+> > >  	struct i915_vma *lrc_desc_pool;
+> > >  	void *lrc_desc_pool_vaddr;
+> > >  
+> > > +	/* guc_id to intel_context lookup */
+> > > +	struct xarray context_lookup;
+> > 
+> > The current code sets a disastrous example, but for stuff like this it's
+> > always good to explain the locking, and who's holding references and how
+> > you're handling cycles. Since I guess the intel_context also holds the
+> > guc_id alive somehow.
+> > 
+> 
+> I think (?) I know what you mean by this comment. How about adding:
+> 
+> 'If an entry in the the context_lookup is present, that means a context
+> associated with the guc_id is registered with the GuC. We use this xarray as a
+> lookup mechanism when the GuC communicate with the i915 about the context.'
 
-ok, sorry, I missed the "different fb" part..
+So no idea how this works, but generally we put a "Protecte by
+&struct.lock" or similar in here (so you get a nice link plus something
+you can use as jump label in your ide too). Plus since intel_context has
+some lifetime rules, explaining whether you're allowed to use the pointer
+after you unlock, or whether you need to grab a reference or what exactly
+is going on. Usually there's three options:
 
-but I could see a userspace that uses multiple fb's wanting to do
-front buffer rendering.. although they are probably only going to do
-it on a single display at a time, so maybe that is a bit of an edge
-case
+- No refcounting, you cannot access a pointer obtained through this after
+  you unluck.
+- Weak reference, you upgrade to a full reference with
+  kref_get_unless_zero. If that fails it indicates a lookup failure, since
+  you raced with destruction. If it succeeds you can use the pointer after
+  unlock.
+- Strong reference, you get your own reference that stays valid with
+  kref_get().
 
-> > The thing is, for a push style panel, you don't necessarily have to
-> > wait for "vblank" (because "vblank" isn't necessarily a real thing),
-> > so in that scenario dirtyfb could in theory be fast.  What you want to
-> > do is fundamentally different for push vs pull style displays.
->
-> Yeah, but we'd only stall if userspace does a modeset (which means
-> different fb) and at that point you'll stall anyway a bit. So shouldn't
-> hurt.
->
-> Well you can do frontbuffer rendering even with atomic ioctl. Just don't
-> use dirtyfb.
->
-> But also you really shouldn't use frontbuffer rendering right now, since
-> we don't have the interfaces right now to tell userspace whether it's
-> cmd-mode or something else and what kind of corruption (if any) to expect
-> when they do that.
+I'm just bringing this up because the current i915-gem code is full of
+very tricky locking and lifetime rules, and explains roughly nothing of it
+in the data structures. Minimally some hints about the locking/lifetime
+rules of important structs should be there.
 
-Compressed formats and front-buffer rendering don't really work out in
-a pleasant way.. minigbm has a usage flag to indicate that the surface
-will be used for front-buffer rendering (and it is a thing we should
-probably port to real gbm).  I think this aspect of it is better
-solved in userspace.
+For locking rules it's good to double-down on them by adding
+lockdep_assert_held to all relevant functions (where appropriate only
+ofc).
 
-> > > > > > But we could re-work drm_framebuffer_funcs::dirty to operate on a
-> > > > > > per-crtc basis and hoist the loop and check if dirtyfb is needed out
-> > > > > > of drm_atomic_helper_dirtyfb()
-> > > > >
-> > > > > That's still using information that userspace doesn't have, which is a
-> > > > > bit irky. We might as well go with your thing here then.
-> > > >
-> > > > arguably, this is something we should expose to userspace.. for DSI
-> > > > command-mode panels, you probably want to make a different decision
-> > > > with regard to how many buffers in your flip-chain..
-> > > >
-> > > > Possibly we should add/remove the fb_damage_clips property depending
-> > > > on the display type (ie. video/pull vs cmd/push mode)?
-> > >
-> > > I'm not sure whether atomic actually needs this exposed:
-> > > - clients will do full flips for every frame anyway, I've not heard of
-> > >   anyone seriously doing frontbuffer rendering.
-> >
-> > Frontbuffer rendering is actually a thing, for ex. to reduce latency
-> > for stylus (android and CrOS do this.. fortunately AFAICT CrOS never
-> > uses the dirtyfb ioctl.. but as soon as someone has the nice idea to
-> > add that we'd be running into the same problem)
-> >
-> > Possibly one idea is to treat dirty-clip updates similarly to cursor
-> > updates, and let the driver accumulate the updates and then wait until
-> > vblank to apply them
->
-> Yeah that's what I mean. Except implemented cheaper. fbcon code already
-> does it. I think we're seriously talking past each another.
+What I generally don't think makes sense is to then also document the
+locking in the kerneldoc for the functions. That tends to be one place too
+many and ime just gets out of date and not useful at all.
 
-Hmm, well 'state->async_update = true' is a pretty cheap implementation..
+> > Again holds for the entire series, where it makes sense (as in we don't
+> > expect to rewrite the entire code anyway).
+> 
+> Slightly out of order but one of the last patches in the series, 'Update GuC
+> documentation' adds a big section of comments that attempts to clarify how all
+> of this code works. I likely should add a section explaining the data structures
+> as well.
 
-BR,
--R
+Yeah that would be nice.
+-Daniel
 
-> -Daniel
->
-> >
-> > BR,
-> > -R
-> >
-> > > - transporting the cliprects around and then tossing them if the driver
-> > >   doesn't need them in their flip is probably not a measurable win
-> > >
-> > > But yeah if I'm wrong and we have a need here and it's useful, then
-> > > exposing this to userspace should be done. Meanwhile I think a "offload to
-> > > worker like fbcon" trick for this legacy interface is probabyl the best
-> > > option. Plus it will fix things not just for the case where you don't need
-> > > dirty uploading, it will also fix things for the case where you _do_ need
-> > > dirty uploading (since right now we stall in a few bad places for that I
-> > > think).
-> > > -Daniel
-> > >
-> > > >
-> > > > BR,
-> > > > -R
-> > > >
-> > > > > -Daniel
-> > > > >
-> > > > > > BR,
-> > > > > > -R
-> > > > > >
-> > > > > > >
-> > > > > > > Could probably steal most of the implementation.
-> > > > > > >
-> > > > > > > This approach here feels a tad too much in the hacky area ...
-> > > > > > >
-> > > > > > > Thoughts?
-> > > > > > > -Daniel
-> > > > > > >
-> > > > > > > > ---
-> > > > > > > >  drivers/gpu/drm/drm_damage_helper.c      |  8 ++++++++
-> > > > > > > >  include/drm/drm_modeset_helper_vtables.h | 14 ++++++++++++++
-> > > > > > > >  2 files changed, 22 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-> > > > > > > > index 3a4126dc2520..a0bed1a2c2dc 100644
-> > > > > > > > --- a/drivers/gpu/drm/drm_damage_helper.c
-> > > > > > > > +++ b/drivers/gpu/drm/drm_damage_helper.c
-> > > > > > > > @@ -211,6 +211,7 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
-> > > > > > > >  retry:
-> > > > > > > >       drm_for_each_plane(plane, fb->dev) {
-> > > > > > > >               struct drm_plane_state *plane_state;
-> > > > > > > > +             struct drm_crtc *crtc;
-> > > > > > > >
-> > > > > > > >               ret = drm_modeset_lock(&plane->mutex, state->acquire_ctx);
-> > > > > > > >               if (ret)
-> > > > > > > > @@ -221,6 +222,13 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
-> > > > > > > >                       continue;
-> > > > > > > >               }
-> > > > > > > >
-> > > > > > > > +             crtc = plane->state->crtc;
-> > > > > > > > +             if (crtc->helper_private->needs_dirtyfb &&
-> > > > > > > > +                             !crtc->helper_private->needs_dirtyfb(crtc)) {
-> > > > > > > > +                     drm_modeset_unlock(&plane->mutex);
-> > > > > > > > +                     continue;
-> > > > > > > > +             }
-> > > > > > > > +
-> > > > > > > >               plane_state = drm_atomic_get_plane_state(state, plane);
-> > > > > > > >               if (IS_ERR(plane_state)) {
-> > > > > > > >                       ret = PTR_ERR(plane_state);
-> > > > > > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > > index eb706342861d..afa8ec5754e7 100644
-> > > > > > > > --- a/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > > @@ -487,6 +487,20 @@ struct drm_crtc_helper_funcs {
-> > > > > > > >                                    bool in_vblank_irq, int *vpos, int *hpos,
-> > > > > > > >                                    ktime_t *stime, ktime_t *etime,
-> > > > > > > >                                    const struct drm_display_mode *mode);
-> > > > > > > > +
-> > > > > > > > +     /**
-> > > > > > > > +      * @needs_dirtyfb
-> > > > > > > > +      *
-> > > > > > > > +      * Optional callback used by damage helpers to determine if fb_damage_clips
-> > > > > > > > +      * update is needed.
-> > > > > > > > +      *
-> > > > > > > > +      * Returns:
-> > > > > > > > +      *
-> > > > > > > > +      * True if fb_damage_clips update is needed to handle DIRTYFB, False
-> > > > > > > > +      * otherwise.  If this callback is not implemented, then True is
-> > > > > > > > +      * assumed.
-> > > > > > > > +      */
-> > > > > > > > +     bool (*needs_dirtyfb)(struct drm_crtc *crtc);
-> > > > > > > >  };
-> > > > > > > >
-> > > > > > > >  /**
-> > > > > > > > --
-> > > > > > > > 2.30.2
-> > > > > > > >
-> > > > > > >
-> > > > > > > --
-> > > > > > > Daniel Vetter
-> > > > > > > Software Engineer, Intel Corporation
-> > > > > > > http://blog.ffwll.ch
-> > > > >
-> > > > >
-> > > > >
-> > > > > --
-> > > > > Daniel Vetter
-> > > > > Software Engineer, Intel Corporation
-> > > > > http://blog.ffwll.ch
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+
+> 
+> Matt
+> 
+> > -Daniel
+> > 
+> > > +
+> > >  	/* Control params for fw initialization */
+> > >  	u32 params[GUC_CTL_MAX_DWORDS];
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > index 6acc1ef34f92..c2b6d27404b7 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > @@ -65,8 +65,6 @@ static inline struct i915_priolist *to_priolist(struct rb_node *rb)
+> > >  	return rb_entry(rb, struct i915_priolist, node);
+> > >  }
+> > >  
+> > > -/* Future patches will use this function */
+> > > -__attribute__ ((unused))
+> > >  static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
+> > >  {
+> > >  	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
+> > > @@ -76,6 +74,15 @@ static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
+> > >  	return &base[index];
+> > >  }
+> > >  
+> > > +static inline struct intel_context *__get_context(struct intel_guc *guc, u32 id)
+> > > +{
+> > > +	struct intel_context *ce = xa_load(&guc->context_lookup, id);
+> > > +
+> > > +	GEM_BUG_ON(id >= GUC_MAX_LRC_DESCRIPTORS);
+> > > +
+> > > +	return ce;
+> > > +}
+> > > +
+> > >  static int guc_lrc_desc_pool_create(struct intel_guc *guc)
+> > >  {
+> > >  	u32 size;
+> > > @@ -96,6 +103,25 @@ static void guc_lrc_desc_pool_destroy(struct intel_guc *guc)
+> > >  	i915_vma_unpin_and_release(&guc->lrc_desc_pool, I915_VMA_RELEASE_MAP);
+> > >  }
+> > >  
+> > > +static inline void reset_lrc_desc(struct intel_guc *guc, u32 id)
+> > > +{
+> > > +	struct guc_lrc_desc *desc = __get_lrc_desc(guc, id);
+> > > +
+> > > +	memset(desc, 0, sizeof(*desc));
+> > > +	xa_erase_irq(&guc->context_lookup, id);
+> > > +}
+> > > +
+> > > +static inline bool lrc_desc_registered(struct intel_guc *guc, u32 id)
+> > > +{
+> > > +	return __get_context(guc, id);
+> > > +}
+> > > +
+> > > +static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
+> > > +					   struct intel_context *ce)
+> > > +{
+> > > +	xa_store_irq(&guc->context_lookup, id, ce, GFP_ATOMIC);
+> > > +}
+> > > +
+> > >  static void guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> > >  {
+> > >  	/* Leaving stub as this function will be used in future patches */
+> > > @@ -404,6 +430,8 @@ int intel_guc_submission_init(struct intel_guc *guc)
+> > >  	 */
+> > >  	GEM_BUG_ON(!guc->lrc_desc_pool);
+> > >  
+> > > +	xa_init_flags(&guc->context_lookup, XA_FLAGS_LOCK_IRQ);
+> > > +
+> > >  	return 0;
+> > >  }
+> > >  
+> > > -- 
+> > > 2.28.0
+> > > 
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
