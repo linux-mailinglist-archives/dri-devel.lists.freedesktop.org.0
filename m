@@ -1,78 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C7837A1FF
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:29:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F27037A14F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:02:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A27976E9F2;
-	Tue, 11 May 2021 08:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A9206E9E1;
+	Tue, 11 May 2021 08:01:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 337BD6E9E0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 07:41:33 +0000 (UTC)
-IronPort-SDR: 5hDTZukYWHWlwuVlelhg7LE74C7+k/P5+i9WKa4QfZ+8oN75q3mal8Af1WNFz7cu23/hXNJQ/h
- yH1Xnb0CF9Qg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="186823045"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="186823045"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 00:41:32 -0700
-IronPort-SDR: 3g9gDCi2EHxXnoBEVRT+/gTEGvKlyIy4Tv25gxiOZLN+rUg+ZWcpyjBwnNfsQsPnMNbiyIWdrV
- w3yazI3jmg2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="392207552"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga006.jf.intel.com with ESMTP; 11 May 2021 00:41:19 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 2D1AE12A; Tue, 11 May 2021 10:41:40 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Alexander Lobakin <alobakin@pm.me>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Johannes Berg <johannes.berg@intel.com>, Joerg Roedel <jroedel@suse.de>,
- Wei Liu <wei.liu@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Corey Minyard <cminyard@mvista.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Michael Kelley <mikelley@microsoft.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Scott Branden <scott.branden@broadcom.com>,
- Olof Johansson <olof@lixom.net>, Mihai Carabas <mihai.carabas@oracle.com>,
- Marek Czerski <ma.czerski@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Rishabh Bhatnagar <rishabhb@codeaurora.org>,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Alexander Egorenkov <egorenar@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
- linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, linux-hyperv@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org,
- openipmi-developer@lists.sourceforge.net, linux-clk@vger.kernel.org,
- linux-edac@vger.kernel.org, coresight@lists.linaro.org,
- linux-leds@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- netdev@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-arch@vger.kernel.org, kexec@lists.infradead.org, rcu@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject: [PATCH v3 1/1] kernel.h: Split out panic and oops helpers
-Date: Tue, 11 May 2021 10:41:37 +0300
-Message-Id: <20210511074137.33666-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [IPv6:2a01:e0c:1:1599::14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE5136E9DD;
+ Tue, 11 May 2021 08:01:55 +0000 (UTC)
+Received: from [192.168.1.190] (unknown [91.155.165.229])
+ (Authenticated sender: martin.peres@free.fr)
+ by smtp5-g21.free.fr (Postfix) with ESMTPSA id AFDC85FF9A;
+ Tue, 11 May 2021 10:01:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+ s=smtp-20201208; t=1620720114;
+ bh=a46yeCGCE0eDis8fySiFB9lAhih+GD6Vv2jPOFTNsks=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=kdtytGF4+ei+QKXYgK2m07iUaPO25g0rVN7GJ+EdRtYcrJ4d39FYvsRtq8CltFbFs
+ +9EejX8j1P2KlKGOOYleABzR2IMtTbFrknI1BaB7pkD0GwaJ2cm/uCfWqvZaseJ2uq
+ fS8Ndxz21W64fIgPLSWiTyvj5K63oHWTG4TD/MkeCUtG2+0g9Nv+rBwrzTmSwfnP52
+ sL9TqLAHVloxZ6zl15PDJ+gHsfnxrPYSUhYDvGtJZM1Yqgp0ZgEtt+VQ/CtLzG4pug
+ /8UGEnigBFFZy5ccPiqd5AHriwzxrK3ApZVDxPvGtRaD88BJ376ahpBNXB5wAxsleW
+ PKi8+QZop1HkA==
+Subject: Re: [RFC PATCH 00/97] Basic GuC submission support in the i915
+To: Jason Ekstrand <jason@jlekstrand.net>,
+ Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20210506191451.77768-1-matthew.brost@intel.com>
+ <d22437bd-8bb6-d7cb-c017-89cdc7da560d@free.fr>
+ <17953669798.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
+ <546e4ee4-9aa4-1967-cdcb-a561cac582ef@free.fr>
+ <17957197dd8.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
+From: Martin Peres <martin.peres@free.fr>
+Message-ID: <339d4e10-33cf-4917-038b-c849dc829f77@free.fr>
+Date: Tue, 11 May 2021 11:01:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <17957197dd8.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 11 May 2021 08:29:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,1005 +57,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- Pavel Machek <pavel@ucw.cz>, "H. Peter Anvin" <hpa@zytor.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- Christian Brauner <christian.brauner@ubuntu.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Will Deacon <will@kernel.org>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>, Corey Minyard <minyard@acm.org>,
- Jens Frederich <jfrederich@gmail.com>, Richard Weinberger <richard@nod.at>,
- Helge Deller <deller@gmx.de>, x86@kernel.org, Dexuan Cui <decui@microsoft.com>,
- Mike Rapoport <rppt@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jakub Kicinski <kuba@kernel.org>, Matt Turner <mattst88@gmail.com>,
- Iurii Zaikin <yzaikin@google.com>, Heiko Carstens <hca@linux.ibm.com>,
- Arnd Bergmann <arnd@arndb.de>, Mike Leach <mike.leach@linaro.org>,
- Ohad Ben-Cohen <ohad@wizery.com>, Robert Richter <rric@kernel.org>,
- Kees Cook <keescook@chromium.org>, Vasily Gorbik <gor@linux.ibm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jeff Dike <jdike@addtoit.com>,
- Leo Yan <leo.yan@linaro.org>, Josh Triplett <josh@joshtriplett.org>,
- Daniel Drake <dsd@laptop.org>, Alex Elder <elder@kernel.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Paul Walmsley <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Richard Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
- Chris Zankel <chris@zankel.net>, Tony Luck <tony.luck@intel.com>,
- Jon Nettleton <jon.nettleton@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Haiyang Zhang <haiyangz@microsoft.com>, Sebastian Reichel <sre@kernel.org>,
- Dinh Nguyen <dinguyen@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- James Morse <james.morse@arm.com>, Eric Biederman <ebiederm@xmission.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Borislav Petkov <bp@alien8.de>,
- "David S. Miller" <davem@davemloft.net>
+Cc: tvrtko.ursulin@intel.com, jason.ekstrand@intel.com,
+ daniele.ceraolospurio@intel.com, jon.bloomfield@intel.com,
+ daniel.vetter@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kernel.h is being used as a dump for all kinds of stuff for a long time.
-Here is the attempt to start cleaning it up by splitting out panic and
-oops helpers.
+On 10/05/2021 19:25, Jason Ekstrand wrote:
+> On May 10, 2021 08:55:55 Martin Peres <martin.peres@free.fr> wrote:
+> 
+>> On 10/05/2021 02:11, Jason Ekstrand wrote:
+>>> On May 9, 2021 12:12:36 Martin Peres <martin.peres@free.fr> wrote:
+>>>
+>>>> Hi,
+>>>>
+>>>> On 06/05/2021 22:13, Matthew Brost wrote:
+>>>>> Basic GuC submission support. This is the first bullet point in the
+>>>>> upstreaming plan covered in the following RFC [1].
+>>>>>
+>>>>> At a very high level the GuC is a piece of firmware which sits between
+>>>>> the i915 and the GPU. It offloads some of the scheduling of contexts
+>>>>> from the i915 and programs the GPU to submit contexts. The i915
+>>>>> communicates with the GuC and the GuC communicates with the GPU.
+>>>>
+>>>> May I ask what will GuC command submission do that execlist won't/can't
+>>>> do? And what would be the impact on users? Even forgetting the troubled
+>>>> history of GuC (instability, performance regression, poor level of user
+>>>> support, 6+ years of trying to upstream it...), adding this much code
+>>>> and doubling the amount of validation needed should come with a
+>>>> rationale making it feel worth it... and I am not seeing here. Would you
+>>>> mind providing the rationale behind this work?
+>>>>
+>>>>>
+>>>>> GuC submission will be disabled by default on all current upstream
+>>>>> platforms behind a module parameter - enable_guc. A value of 3 will
+>>>>> enable submission and HuC loading via the GuC. GuC submission should
+>>>>> work on all gen11+ platforms assuming the GuC firmware is present.
+>>>>
+>>>> What is the plan here when it comes to keeping support for execlist? I
+>>>> am afraid that landing GuC support in Linux is the first step towards
+>>>> killing the execlist, which would force users to use proprietary
+>>>> firmwares that even most Intel engineers have little influence over.
+>>>> Indeed, if "drm/i915/guc: Disable semaphores when using GuC scheduling"
+>>>> which states "Disable semaphores when using GuC scheduling as semaphores
+>>>> are broken in the current GuC firmware." is anything to go by, it means
+>>>> that even Intel developers seem to prefer working around the GuC
+>>>> firmware, rather than fixing it.
+>>>
+>>> Yes, landing GuC support may be the first step in removing execlist
+>>> support. The inevitable reality is that GPU scheduling is coming and
+>>> likely to be there only path in the not-too-distant future. (See also
+>>> the ongoing thread with AMD about fences.) I'm not going to pass
+>>> judgement on whether or not this is a good thing.  I'm just reading the
+>>> winds and, in my view, this is where things are headed for good or ill.
+>>>
+>>> In answer to the question above, the answer to "what do we gain from
+>>> GuC?" may soon be, "you get to use your GPU."  We're not there yet and,
+>>> again, I'm not necessarily advocating for it, but that is likely where
+>>> things are headed.
+>>
+>> This will be a sad day, especially since it seems fundamentally opposed
+>> with any long-term support, on top of taking away user freedom to
+>> fix/tweak their system when Intel won't.
+>>
+>>> A firmware-based submission model isn't a bad design IMO and, aside from
+>>> the firmware freedom issues, I think there are actual advantages to the
+>>> model. Immediately, it'll unlock a few features like parallel submission
+>>> (more on that in a bit) and long-running compute because they're
+>>> implemented in GuC and the work to implement them properly in the
+>>> execlist scheduler is highly non-trivial. Longer term, it may (no
+>>> guarantees) unlock some performance by getting the kernel out of the way.
+>>
+>> Oh, I definitely agree with firmware-based submission model not being a
+>> bad design. I was even cheering for it in 2015. Experience with it made
+>> me regret that deeply since :s
+>>
+>> But with the DRM scheduler being responsible for most things, I fail to
+>> see what we could offload in the GuC except context switching (like
+>> every other manufacturer). The problem is, the GuC does way more than
+>> just switching registers in bulk, and if the number of revisions of the
+>> GuC is anything to go by, it is way too complex for me to feel
+>> comfortable with it.
+> 
+> It's more than just bulk register writes. When it comes to 
+> load-balancing multiple GPU users, firmware can theoretically preempt 
+> and switch faster leading to more efficient time-slicing. All we really 
+> need the DRM scheduler for is handling implicit dma_fence dependencies 
+> between different applications.
 
-There are several purposes of doing this:
-- dropping dependency in bug.h
-- dropping a loop by moving out panic_notifier.h
-- unload kernel.h from something which has its own domain
+Right, this makes sense. However, if the GuC's interface was so simple, 
+I doubt it would be at major version 60 already :s
 
-At the same time convert users tree-wide to use new headers, although
-for the time being include new header back to kernel.h to avoid twisted
-indirected includes for existing users.
+I don't disagree with FW-based command submission, as it has a lot of 
+benefits. I just don't like the route of going with a firmware no-one 
+else than Intel can work on, *and* one that doesn't seem to concern 
+itself with stable interfaces, and how i915 will have to deal with every 
+generation using different interfaces (assuming the firmware was bug-free).
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
-Acked-by: Corey Minyard <cminyard@mvista.com>
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
-Acked-by: Kees Cook <keescook@chromium.org>
-Acked-by: Wei Liu <wei.liu@kernel.org>
-Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Co-developed-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Acked-by: Sebastian Reichel <sre@kernel.org>
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
-Acked-by: Stephen Boyd <sboyd@kernel.org>
-Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Acked-by: Helge Deller <deller@gmx.de> # parisc
----
-v3: rebased on top of v5.13-rc1, collected a few more tags
+> 
+> 
+>>>> In the same vein, I have another concern related to the impact of GuC on
+>>>> Linux's stable releases. Let's say that in 3 years, a new application
+>>>> triggers a bug in command submission inside the firmware. Given that the
+>>>> Linux community cannot patch the GuC firmware, how likely is it that
+>>>> Intel would release a new GuC version? That would not be necessarily
+>>>> such a big problem if newer versions of the GuC could easily be
+>>>> backported to this potentially-decade-old Linux version, but given that
+>>>> the GuC seems to have ABI-breaking changes on a monthly cadence (we are
+>>>> at major version 60 *already*? :o), I would say that it is
+>>>> highly-unlikely that it would not require potentially-extensive changes
+>>>> to i915 to make it work, making the fix almost impossible to land in the
+>>>> stable tree... Do you have a plan to mitigate this problem?
+>>>>
+>>>> Patches like "drm/i915/guc: Disable bonding extension with GuC
+>>>> submission" also make me twitch, as this means the two command
+>>>> submission paths will not be functionally equivalent, and enabling GuC
+>>>> could thus introduce a user-visible regression (one app used to work,
+>>>> then stopped working). Could you add in the commit's message a proof
+>>>> that this would not end up being a user regression (in which case, why
+>>>> have this codepath to begin with?).
+>>>
+>>> I'd like to address this one specifically as it's become something of a
+>>> speciality of mine the past few weeks. The current bonded submission
+>>> model is bad. It provides a plethora of ways for a client to back itself
+>>> into a corner and doesn't actually provide the guarantees the media
+>>> driver needs for its real-time high-resolution decode. It's bad enough
+>>> we're seriously considering ripping it out, backwards compatibility or
+>>> not. The good news is that very little that your average desktop user
+>>> does depends on it: basically just real-time >4K video decode.
+>>>
+>>> The new parallel submit API is much better and should be the path
+>>> forward. (We should have landed parallel submit the first time around.)
+>>> It isn't full of corners and does let us provides actual parallel
+>>> execution guarantees. It also gives the scheduler the information it
+>>> needs to reliably provide those guarantees. >
+>>> If we need to support the parallel submit API with the execlist
+>>> back-end, that's totally possible. The choice to only implement the
+>>> parallel submit API with GuC is a pragmatic one. We're trying to get
+>>> upstream back on it's feet and get all the various up-and-coming bits of
+>>> hardware enabled. Enabling the new API in the execlist back-end makes
+>>> that pipeline longer.
+>>
+>> I feel your pain, and wish you all the best to get GEM less complex
+>> and more manageable.
+>>
+>> So, if I understood correctly, the plan is just to regress 4K+ video
+>> decoding for people who do not enable GuC scheduling, or did not also
+>> update to a recent-enough media driver that would support this new
+>> interface? If it is indeed only for over 4K videos, then whatever. If it
+>> is 4K, it starts being a little bad, assuming graceful fallback to
+>> CPU-based decoding. What's the test plan for this patch then? The patch
+>> in its current form is definitely not making me confident.
+> 
+> My understanding is that it's only >4k that's affected; we've got enough 
+> bandwidth on a single VCS for 4K. I'm not sure where the exact cut-off 
+> is (it may be a little higher than 4k) but real-time 4k should be fine 
+> and real-time 8k requires parallel submit. So we're really not cutting 
+> off many use-cases. Also, as I said above, the new API can be 
+> implemented with the execlist scheduler if needed. We've just 
+> pragmatically deprioritized it.
 
-Note WRT Andrew's SoB tag above: I have added it since part of the cases
-I took from him. Andrew, feel free to amend or tell me how you want me
-to do.
+Sounds like a niche-enough use case to me that I feel no user would 
+complain about it.
 
- arch/alpha/kernel/setup.c                     |  2 +-
- arch/arm64/kernel/setup.c                     |  1 +
- arch/mips/kernel/relocate.c                   |  1 +
- arch/mips/sgi-ip22/ip22-reset.c               |  1 +
- arch/mips/sgi-ip32/ip32-reset.c               |  1 +
- arch/parisc/kernel/pdc_chassis.c              |  1 +
- arch/powerpc/kernel/setup-common.c            |  1 +
- arch/s390/kernel/ipl.c                        |  1 +
- arch/sparc/kernel/sstate.c                    |  1 +
- arch/um/drivers/mconsole_kern.c               |  1 +
- arch/um/kernel/um_arch.c                      |  1 +
- arch/x86/include/asm/desc.h                   |  1 +
- arch/x86/kernel/cpu/mshyperv.c                |  1 +
- arch/x86/kernel/setup.c                       |  1 +
- arch/x86/purgatory/purgatory.c                |  2 +
- arch/x86/xen/enlighten.c                      |  1 +
- arch/xtensa/platforms/iss/setup.c             |  1 +
- drivers/bus/brcmstb_gisb.c                    |  1 +
- drivers/char/ipmi/ipmi_msghandler.c           |  1 +
- drivers/clk/analogbits/wrpll-cln28hpc.c       |  4 +
- drivers/edac/altera_edac.c                    |  1 +
- drivers/firmware/google/gsmi.c                |  1 +
- drivers/hv/vmbus_drv.c                        |  1 +
- .../hwtracing/coresight/coresight-cpu-debug.c |  1 +
- drivers/leds/trigger/ledtrig-activity.c       |  1 +
- drivers/leds/trigger/ledtrig-heartbeat.c      |  1 +
- drivers/leds/trigger/ledtrig-panic.c          |  1 +
- drivers/misc/bcm-vk/bcm_vk_dev.c              |  1 +
- drivers/misc/ibmasm/heartbeat.c               |  1 +
- drivers/misc/pvpanic/pvpanic.c                |  1 +
- drivers/net/ipa/ipa_smp2p.c                   |  1 +
- drivers/parisc/power.c                        |  1 +
- drivers/power/reset/ltc2952-poweroff.c        |  1 +
- drivers/remoteproc/remoteproc_core.c          |  1 +
- drivers/s390/char/con3215.c                   |  1 +
- drivers/s390/char/con3270.c                   |  1 +
- drivers/s390/char/sclp.c                      |  1 +
- drivers/s390/char/sclp_con.c                  |  1 +
- drivers/s390/char/sclp_vt220.c                |  1 +
- drivers/s390/char/zcore.c                     |  1 +
- drivers/soc/bcm/brcmstb/pm/pm-arm.c           |  1 +
- drivers/staging/olpc_dcon/olpc_dcon.c         |  1 +
- drivers/video/fbdev/hyperv_fb.c               |  1 +
- include/asm-generic/bug.h                     |  3 +-
- include/linux/kernel.h                        | 84 +---------------
- include/linux/panic.h                         | 98 +++++++++++++++++++
- include/linux/panic_notifier.h                | 12 +++
- kernel/hung_task.c                            |  1 +
- kernel/kexec_core.c                           |  1 +
- kernel/panic.c                                |  1 +
- kernel/rcu/tree.c                             |  2 +
- kernel/sysctl.c                               |  1 +
- kernel/trace/trace.c                          |  1 +
- 53 files changed, 167 insertions(+), 85 deletions(-)
- create mode 100644 include/linux/panic.h
- create mode 100644 include/linux/panic_notifier.h
+Martin
 
-diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
-index 03dda3beb3bd..5d1296534682 100644
---- a/arch/alpha/kernel/setup.c
-+++ b/arch/alpha/kernel/setup.c
-@@ -28,6 +28,7 @@
- #include <linux/init.h>
- #include <linux/string.h>
- #include <linux/ioport.h>
-+#include <linux/panic_notifier.h>
- #include <linux/platform_device.h>
- #include <linux/memblock.h>
- #include <linux/pci.h>
-@@ -46,7 +47,6 @@
- #include <linux/log2.h>
- #include <linux/export.h>
- 
--extern struct atomic_notifier_head panic_notifier_list;
- static int alpha_panic_event(struct notifier_block *, unsigned long, void *);
- static struct notifier_block alpha_panic_block = {
- 	alpha_panic_event,
-diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-index 61845c0821d9..787bc0f601b3 100644
---- a/arch/arm64/kernel/setup.c
-+++ b/arch/arm64/kernel/setup.c
-@@ -23,6 +23,7 @@
- #include <linux/interrupt.h>
- #include <linux/smp.h>
- #include <linux/fs.h>
-+#include <linux/panic_notifier.h>
- #include <linux/proc_fs.h>
- #include <linux/memblock.h>
- #include <linux/of_fdt.h>
-diff --git a/arch/mips/kernel/relocate.c b/arch/mips/kernel/relocate.c
-index 499a5357c09f..56b51de2dc51 100644
---- a/arch/mips/kernel/relocate.c
-+++ b/arch/mips/kernel/relocate.c
-@@ -18,6 +18,7 @@
- #include <linux/kernel.h>
- #include <linux/libfdt.h>
- #include <linux/of_fdt.h>
-+#include <linux/panic_notifier.h>
- #include <linux/sched/task.h>
- #include <linux/start_kernel.h>
- #include <linux/string.h>
-diff --git a/arch/mips/sgi-ip22/ip22-reset.c b/arch/mips/sgi-ip22/ip22-reset.c
-index c374f3ceec38..9028dbbb45dd 100644
---- a/arch/mips/sgi-ip22/ip22-reset.c
-+++ b/arch/mips/sgi-ip22/ip22-reset.c
-@@ -12,6 +12,7 @@
- #include <linux/kernel.h>
- #include <linux/sched/signal.h>
- #include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include <linux/pm.h>
- #include <linux/timer.h>
- 
-diff --git a/arch/mips/sgi-ip32/ip32-reset.c b/arch/mips/sgi-ip32/ip32-reset.c
-index 20d8637340be..18d1c115cd53 100644
---- a/arch/mips/sgi-ip32/ip32-reset.c
-+++ b/arch/mips/sgi-ip32/ip32-reset.c
-@@ -12,6 +12,7 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/panic_notifier.h>
- #include <linux/sched.h>
- #include <linux/sched/signal.h>
- #include <linux/notifier.h>
-diff --git a/arch/parisc/kernel/pdc_chassis.c b/arch/parisc/kernel/pdc_chassis.c
-index 75ae88d13909..da154406d368 100644
---- a/arch/parisc/kernel/pdc_chassis.c
-+++ b/arch/parisc/kernel/pdc_chassis.c
-@@ -20,6 +20,7 @@
- #include <linux/init.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
-+#include <linux/panic_notifier.h>
- #include <linux/reboot.h>
- #include <linux/notifier.h>
- #include <linux/cache.h>
-diff --git a/arch/powerpc/kernel/setup-common.c b/arch/powerpc/kernel/setup-common.c
-index 74a98fff2c2f..046fe21b5c3b 100644
---- a/arch/powerpc/kernel/setup-common.c
-+++ b/arch/powerpc/kernel/setup-common.c
-@@ -9,6 +9,7 @@
- #undef DEBUG
- 
- #include <linux/export.h>
-+#include <linux/panic_notifier.h>
- #include <linux/string.h>
- #include <linux/sched.h>
- #include <linux/init.h>
-diff --git a/arch/s390/kernel/ipl.c b/arch/s390/kernel/ipl.c
-index dba04fbc37a2..36f870dc944f 100644
---- a/arch/s390/kernel/ipl.c
-+++ b/arch/s390/kernel/ipl.c
-@@ -13,6 +13,7 @@
- #include <linux/init.h>
- #include <linux/device.h>
- #include <linux/delay.h>
-+#include <linux/panic_notifier.h>
- #include <linux/reboot.h>
- #include <linux/ctype.h>
- #include <linux/fs.h>
-diff --git a/arch/sparc/kernel/sstate.c b/arch/sparc/kernel/sstate.c
-index ac8677c3841e..3bcc4ddc6911 100644
---- a/arch/sparc/kernel/sstate.c
-+++ b/arch/sparc/kernel/sstate.c
-@@ -6,6 +6,7 @@
- 
- #include <linux/kernel.h>
- #include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include <linux/reboot.h>
- #include <linux/init.h>
- 
-diff --git a/arch/um/drivers/mconsole_kern.c b/arch/um/drivers/mconsole_kern.c
-index 6d00af25ec6b..328b16f99b30 100644
---- a/arch/um/drivers/mconsole_kern.c
-+++ b/arch/um/drivers/mconsole_kern.c
-@@ -12,6 +12,7 @@
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include <linux/reboot.h>
- #include <linux/sched/debug.h>
- #include <linux/proc_fs.h>
-diff --git a/arch/um/kernel/um_arch.c b/arch/um/kernel/um_arch.c
-index 74e07e748a9b..9512253947d5 100644
---- a/arch/um/kernel/um_arch.c
-+++ b/arch/um/kernel/um_arch.c
-@@ -7,6 +7,7 @@
- #include <linux/init.h>
- #include <linux/mm.h>
- #include <linux/module.h>
-+#include <linux/panic_notifier.h>
- #include <linux/seq_file.h>
- #include <linux/string.h>
- #include <linux/utsname.h>
-diff --git a/arch/x86/include/asm/desc.h b/arch/x86/include/asm/desc.h
-index 476082a83d1c..ceb12683b6d1 100644
---- a/arch/x86/include/asm/desc.h
-+++ b/arch/x86/include/asm/desc.h
-@@ -9,6 +9,7 @@
- #include <asm/irq_vectors.h>
- #include <asm/cpu_entry_area.h>
- 
-+#include <linux/debug_locks.h>
- #include <linux/smp.h>
- #include <linux/percpu.h>
- 
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index 22f13343b5da..9e5c6f2b044d 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -17,6 +17,7 @@
- #include <linux/irq.h>
- #include <linux/kexec.h>
- #include <linux/i8253.h>
-+#include <linux/panic_notifier.h>
- #include <linux/random.h>
- #include <asm/processor.h>
- #include <asm/hypervisor.h>
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index 72920af0b3c0..bdcdd29efea6 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -14,6 +14,7 @@
- #include <linux/initrd.h>
- #include <linux/iscsi_ibft.h>
- #include <linux/memblock.h>
-+#include <linux/panic_notifier.h>
- #include <linux/pci.h>
- #include <linux/root_dev.h>
- #include <linux/hugetlb.h>
-diff --git a/arch/x86/purgatory/purgatory.c b/arch/x86/purgatory/purgatory.c
-index f03b64d9cb51..7558139920f8 100644
---- a/arch/x86/purgatory/purgatory.c
-+++ b/arch/x86/purgatory/purgatory.c
-@@ -9,6 +9,8 @@
-  */
- 
- #include <linux/bug.h>
-+#include <linux/kernel.h>
-+#include <linux/types.h>
- #include <crypto/sha2.h>
- #include <asm/purgatory.h>
- 
-diff --git a/arch/x86/xen/enlighten.c b/arch/x86/xen/enlighten.c
-index aa9f50fccc5d..c79bd0af2e8c 100644
---- a/arch/x86/xen/enlighten.c
-+++ b/arch/x86/xen/enlighten.c
-@@ -6,6 +6,7 @@
- #include <linux/cpu.h>
- #include <linux/kexec.h>
- #include <linux/slab.h>
-+#include <linux/panic_notifier.h>
- 
- #include <xen/xen.h>
- #include <xen/features.h>
-diff --git a/arch/xtensa/platforms/iss/setup.c b/arch/xtensa/platforms/iss/setup.c
-index ed519aee0ec8..d3433e1bb94e 100644
---- a/arch/xtensa/platforms/iss/setup.c
-+++ b/arch/xtensa/platforms/iss/setup.c
-@@ -14,6 +14,7 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include <linux/printk.h>
- #include <linux/string.h>
- 
-diff --git a/drivers/bus/brcmstb_gisb.c b/drivers/bus/brcmstb_gisb.c
-index 7355fa2cb439..6551286a60cc 100644
---- a/drivers/bus/brcmstb_gisb.c
-+++ b/drivers/bus/brcmstb_gisb.c
-@@ -6,6 +6,7 @@
- #include <linux/init.h>
- #include <linux/types.h>
- #include <linux/module.h>
-+#include <linux/panic_notifier.h>
- #include <linux/platform_device.h>
- #include <linux/interrupt.h>
- #include <linux/sysfs.h>
-diff --git a/drivers/char/ipmi/ipmi_msghandler.c b/drivers/char/ipmi/ipmi_msghandler.c
-index 8a0e97b33cae..e96cb5c4f97a 100644
---- a/drivers/char/ipmi/ipmi_msghandler.c
-+++ b/drivers/char/ipmi/ipmi_msghandler.c
-@@ -16,6 +16,7 @@
- 
- #include <linux/module.h>
- #include <linux/errno.h>
-+#include <linux/panic_notifier.h>
- #include <linux/poll.h>
- #include <linux/sched.h>
- #include <linux/seq_file.h>
-diff --git a/drivers/clk/analogbits/wrpll-cln28hpc.c b/drivers/clk/analogbits/wrpll-cln28hpc.c
-index 776ead319ae9..7c64ea52a8d5 100644
---- a/drivers/clk/analogbits/wrpll-cln28hpc.c
-+++ b/drivers/clk/analogbits/wrpll-cln28hpc.c
-@@ -23,8 +23,12 @@
- 
- #include <linux/bug.h>
- #include <linux/err.h>
-+#include <linux/limits.h>
- #include <linux/log2.h>
- #include <linux/math64.h>
-+#include <linux/math.h>
-+#include <linux/minmax.h>
-+
- #include <linux/clk/analogbits-wrpll-cln28hpc.h>
- 
- /* MIN_INPUT_FREQ: minimum input clock frequency, in Hz (Fref_min) */
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 5f7fd79ec82f..61c21bd880a4 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -20,6 +20,7 @@
- #include <linux/of_address.h>
- #include <linux/of_irq.h>
- #include <linux/of_platform.h>
-+#include <linux/panic_notifier.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/types.h>
-diff --git a/drivers/firmware/google/gsmi.c b/drivers/firmware/google/gsmi.c
-index bb6e77ee3898..adaa492c3d2d 100644
---- a/drivers/firmware/google/gsmi.c
-+++ b/drivers/firmware/google/gsmi.c
-@@ -19,6 +19,7 @@
- #include <linux/dma-mapping.h>
- #include <linux/fs.h>
- #include <linux/slab.h>
-+#include <linux/panic_notifier.h>
- #include <linux/ioctl.h>
- #include <linux/acpi.h>
- #include <linux/io.h>
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 92cb3f7d21d9..57bbbaa4e8f7 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -25,6 +25,7 @@
- 
- #include <linux/delay.h>
- #include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include <linux/ptrace.h>
- #include <linux/screen_info.h>
- #include <linux/kdebug.h>
-diff --git a/drivers/hwtracing/coresight/coresight-cpu-debug.c b/drivers/hwtracing/coresight/coresight-cpu-debug.c
-index 2dcf13de751f..9731d3a96073 100644
---- a/drivers/hwtracing/coresight/coresight-cpu-debug.c
-+++ b/drivers/hwtracing/coresight/coresight-cpu-debug.c
-@@ -17,6 +17,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
-+#include <linux/panic_notifier.h>
- #include <linux/pm_qos.h>
- #include <linux/slab.h>
- #include <linux/smp.h>
-diff --git a/drivers/leds/trigger/ledtrig-activity.c b/drivers/leds/trigger/ledtrig-activity.c
-index 14ba7faaed9e..30bc9df03636 100644
---- a/drivers/leds/trigger/ledtrig-activity.c
-+++ b/drivers/leds/trigger/ledtrig-activity.c
-@@ -11,6 +11,7 @@
- #include <linux/kernel_stat.h>
- #include <linux/leds.h>
- #include <linux/module.h>
-+#include <linux/panic_notifier.h>
- #include <linux/reboot.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
-diff --git a/drivers/leds/trigger/ledtrig-heartbeat.c b/drivers/leds/trigger/ledtrig-heartbeat.c
-index 36b6709afe9f..7fe0a05574d2 100644
---- a/drivers/leds/trigger/ledtrig-heartbeat.c
-+++ b/drivers/leds/trigger/ledtrig-heartbeat.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/init.h>
-+#include <linux/panic_notifier.h>
- #include <linux/slab.h>
- #include <linux/timer.h>
- #include <linux/sched.h>
-diff --git a/drivers/leds/trigger/ledtrig-panic.c b/drivers/leds/trigger/ledtrig-panic.c
-index 5751cd032f9d..64abf2e91608 100644
---- a/drivers/leds/trigger/ledtrig-panic.c
-+++ b/drivers/leds/trigger/ledtrig-panic.c
-@@ -8,6 +8,7 @@
- #include <linux/kernel.h>
- #include <linux/init.h>
- #include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include <linux/leds.h>
- #include "../leds.h"
- 
-diff --git a/drivers/misc/bcm-vk/bcm_vk_dev.c b/drivers/misc/bcm-vk/bcm_vk_dev.c
-index 6bfea3210389..ad639ee85b2a 100644
---- a/drivers/misc/bcm-vk/bcm_vk_dev.c
-+++ b/drivers/misc/bcm-vk/bcm_vk_dev.c
-@@ -9,6 +9,7 @@
- #include <linux/fs.h>
- #include <linux/idr.h>
- #include <linux/interrupt.h>
-+#include <linux/panic_notifier.h>
- #include <linux/kref.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-diff --git a/drivers/misc/ibmasm/heartbeat.c b/drivers/misc/ibmasm/heartbeat.c
-index 4f5f3bdc814d..59c9a0d95659 100644
---- a/drivers/misc/ibmasm/heartbeat.c
-+++ b/drivers/misc/ibmasm/heartbeat.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include "ibmasm.h"
- #include "dot_command.h"
- #include "lowlevel.h"
-diff --git a/drivers/misc/pvpanic/pvpanic.c b/drivers/misc/pvpanic/pvpanic.c
-index 65f70a4da8c0..793ea0c01193 100644
---- a/drivers/misc/pvpanic/pvpanic.c
-+++ b/drivers/misc/pvpanic/pvpanic.c
-@@ -13,6 +13,7 @@
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/panic_notifier.h>
- #include <linux/types.h>
- #include <linux/cdev.h>
- #include <linux/list.h>
-diff --git a/drivers/net/ipa/ipa_smp2p.c b/drivers/net/ipa/ipa_smp2p.c
-index a5f7a79a1923..34b68dc43886 100644
---- a/drivers/net/ipa/ipa_smp2p.c
-+++ b/drivers/net/ipa/ipa_smp2p.c
-@@ -8,6 +8,7 @@
- #include <linux/device.h>
- #include <linux/interrupt.h>
- #include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include <linux/soc/qcom/smem.h>
- #include <linux/soc/qcom/smem_state.h>
- 
-diff --git a/drivers/parisc/power.c b/drivers/parisc/power.c
-index ebaf6867b457..456776bd8ee6 100644
---- a/drivers/parisc/power.c
-+++ b/drivers/parisc/power.c
-@@ -38,6 +38,7 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include <linux/reboot.h>
- #include <linux/sched/signal.h>
- #include <linux/kthread.h>
-diff --git a/drivers/power/reset/ltc2952-poweroff.c b/drivers/power/reset/ltc2952-poweroff.c
-index d1495af30081..8688c8ba8894 100644
---- a/drivers/power/reset/ltc2952-poweroff.c
-+++ b/drivers/power/reset/ltc2952-poweroff.c
-@@ -52,6 +52,7 @@
- #include <linux/slab.h>
- #include <linux/kmod.h>
- #include <linux/module.h>
-+#include <linux/panic_notifier.h>
- #include <linux/mod_devicetable.h>
- #include <linux/gpio/consumer.h>
- #include <linux/reboot.h>
-diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-index 626a6b90fba2..76dd8e2b1e7e 100644
---- a/drivers/remoteproc/remoteproc_core.c
-+++ b/drivers/remoteproc/remoteproc_core.c
-@@ -20,6 +20,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/device.h>
-+#include <linux/panic_notifier.h>
- #include <linux/slab.h>
- #include <linux/mutex.h>
- #include <linux/dma-map-ops.h>
-diff --git a/drivers/s390/char/con3215.c b/drivers/s390/char/con3215.c
-index 1fd5bca9fa20..02523f4e29f4 100644
---- a/drivers/s390/char/con3215.c
-+++ b/drivers/s390/char/con3215.c
-@@ -19,6 +19,7 @@
- #include <linux/console.h>
- #include <linux/interrupt.h>
- #include <linux/err.h>
-+#include <linux/panic_notifier.h>
- #include <linux/reboot.h>
- #include <linux/serial.h> /* ASYNC_* flags */
- #include <linux/slab.h>
-diff --git a/drivers/s390/char/con3270.c b/drivers/s390/char/con3270.c
-index e21962c0fd94..87cdbace1453 100644
---- a/drivers/s390/char/con3270.c
-+++ b/drivers/s390/char/con3270.c
-@@ -13,6 +13,7 @@
- #include <linux/init.h>
- #include <linux/interrupt.h>
- #include <linux/list.h>
-+#include <linux/panic_notifier.h>
- #include <linux/types.h>
- #include <linux/slab.h>
- #include <linux/err.h>
-diff --git a/drivers/s390/char/sclp.c b/drivers/s390/char/sclp.c
-index 986bbbc23d0a..6627820a5eb9 100644
---- a/drivers/s390/char/sclp.c
-+++ b/drivers/s390/char/sclp.c
-@@ -11,6 +11,7 @@
- #include <linux/kernel_stat.h>
- #include <linux/module.h>
- #include <linux/err.h>
-+#include <linux/panic_notifier.h>
- #include <linux/spinlock.h>
- #include <linux/interrupt.h>
- #include <linux/timer.h>
-diff --git a/drivers/s390/char/sclp_con.c b/drivers/s390/char/sclp_con.c
-index 9b852a47ccc1..cc01a7b8595d 100644
---- a/drivers/s390/char/sclp_con.c
-+++ b/drivers/s390/char/sclp_con.c
-@@ -10,6 +10,7 @@
- #include <linux/kmod.h>
- #include <linux/console.h>
- #include <linux/init.h>
-+#include <linux/panic_notifier.h>
- #include <linux/timer.h>
- #include <linux/jiffies.h>
- #include <linux/termios.h>
-diff --git a/drivers/s390/char/sclp_vt220.c b/drivers/s390/char/sclp_vt220.c
-index 7f4445b0f819..5b8a7b090a97 100644
---- a/drivers/s390/char/sclp_vt220.c
-+++ b/drivers/s390/char/sclp_vt220.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/module.h>
- #include <linux/spinlock.h>
-+#include <linux/panic_notifier.h>
- #include <linux/list.h>
- #include <linux/wait.h>
- #include <linux/timer.h>
-diff --git a/drivers/s390/char/zcore.c b/drivers/s390/char/zcore.c
-index bd3c724bf695..b5b0848da93b 100644
---- a/drivers/s390/char/zcore.c
-+++ b/drivers/s390/char/zcore.c
-@@ -15,6 +15,7 @@
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/debugfs.h>
-+#include <linux/panic_notifier.h>
- #include <linux/reboot.h>
- 
- #include <asm/asm-offsets.h>
-diff --git a/drivers/soc/bcm/brcmstb/pm/pm-arm.c b/drivers/soc/bcm/brcmstb/pm/pm-arm.c
-index a673fdffe216..3cbb165d6e30 100644
---- a/drivers/soc/bcm/brcmstb/pm/pm-arm.c
-+++ b/drivers/soc/bcm/brcmstb/pm/pm-arm.c
-@@ -28,6 +28,7 @@
- #include <linux/notifier.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
-+#include <linux/panic_notifier.h>
- #include <linux/platform_device.h>
- #include <linux/pm.h>
- #include <linux/printk.h>
-diff --git a/drivers/staging/olpc_dcon/olpc_dcon.c b/drivers/staging/olpc_dcon/olpc_dcon.c
-index 6d8e9a481786..7284cb4ac395 100644
---- a/drivers/staging/olpc_dcon/olpc_dcon.c
-+++ b/drivers/staging/olpc_dcon/olpc_dcon.c
-@@ -22,6 +22,7 @@
- #include <linux/device.h>
- #include <linux/uaccess.h>
- #include <linux/ctype.h>
-+#include <linux/panic_notifier.h>
- #include <linux/reboot.h>
- #include <linux/olpc-ec.h>
- #include <asm/tsc.h>
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index a7e6eea2c4a1..23999df52739 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -52,6 +52,7 @@
- #include <linux/completion.h>
- #include <linux/fb.h>
- #include <linux/pci.h>
-+#include <linux/panic_notifier.h>
- #include <linux/efi.h>
- #include <linux/console.h>
- 
-diff --git a/include/asm-generic/bug.h b/include/asm-generic/bug.h
-index b402494883b6..f152b9bb916f 100644
---- a/include/asm-generic/bug.h
-+++ b/include/asm-generic/bug.h
-@@ -17,7 +17,8 @@
- #endif
- 
- #ifndef __ASSEMBLY__
--#include <linux/kernel.h>
-+#include <linux/panic.h>
-+#include <linux/printk.h>
- 
- #ifdef CONFIG_BUG
- 
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 15d8bad3d2f2..50f4a57cf50c 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -14,6 +14,7 @@
- #include <linux/math.h>
- #include <linux/minmax.h>
- #include <linux/typecheck.h>
-+#include <linux/panic.h>
- #include <linux/printk.h>
- #include <linux/build_bug.h>
- #include <linux/static_call_types.h>
-@@ -72,7 +73,6 @@
- #define lower_32_bits(n) ((u32)((n) & 0xffffffff))
- 
- struct completion;
--struct pt_regs;
- struct user;
- 
- #ifdef CONFIG_PREEMPT_VOLUNTARY
-@@ -177,14 +177,6 @@ void __might_fault(const char *file, int line);
- static inline void might_fault(void) { }
- #endif
- 
--extern struct atomic_notifier_head panic_notifier_list;
--extern long (*panic_blink)(int state);
--__printf(1, 2)
--void panic(const char *fmt, ...) __noreturn __cold;
--void nmi_panic(struct pt_regs *regs, const char *msg);
--extern void oops_enter(void);
--extern void oops_exit(void);
--extern bool oops_may_print(void);
- void do_exit(long error_code) __noreturn;
- void complete_and_exit(struct completion *, long) __noreturn;
- 
-@@ -370,52 +362,8 @@ extern int __kernel_text_address(unsigned long addr);
- extern int kernel_text_address(unsigned long addr);
- extern int func_ptr_is_kernel_text(void *ptr);
- 
--#ifdef CONFIG_SMP
--extern unsigned int sysctl_oops_all_cpu_backtrace;
--#else
--#define sysctl_oops_all_cpu_backtrace 0
--#endif /* CONFIG_SMP */
--
- extern void bust_spinlocks(int yes);
--extern int panic_timeout;
--extern unsigned long panic_print;
--extern int panic_on_oops;
--extern int panic_on_unrecovered_nmi;
--extern int panic_on_io_nmi;
--extern int panic_on_warn;
--extern unsigned long panic_on_taint;
--extern bool panic_on_taint_nousertaint;
--extern int sysctl_panic_on_rcu_stall;
--extern int sysctl_max_rcu_stall_to_panic;
--extern int sysctl_panic_on_stackoverflow;
--
--extern bool crash_kexec_post_notifiers;
- 
--/*
-- * panic_cpu is used for synchronizing panic() and crash_kexec() execution. It
-- * holds a CPU number which is executing panic() currently. A value of
-- * PANIC_CPU_INVALID means no CPU has entered panic() or crash_kexec().
-- */
--extern atomic_t panic_cpu;
--#define PANIC_CPU_INVALID	-1
--
--/*
-- * Only to be used by arch init code. If the user over-wrote the default
-- * CONFIG_PANIC_TIMEOUT, honor it.
-- */
--static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
--{
--	if (panic_timeout == arch_default_timeout)
--		panic_timeout = timeout;
--}
--extern const char *print_tainted(void);
--enum lockdep_ok {
--	LOCKDEP_STILL_OK,
--	LOCKDEP_NOW_UNRELIABLE
--};
--extern void add_taint(unsigned flag, enum lockdep_ok);
--extern int test_taint(unsigned flag);
--extern unsigned long get_taint(void);
- extern int root_mountflags;
- 
- extern bool early_boot_irqs_disabled;
-@@ -434,36 +382,6 @@ extern enum system_states {
- 	SYSTEM_SUSPEND,
- } system_state;
- 
--/* This cannot be an enum because some may be used in assembly source. */
--#define TAINT_PROPRIETARY_MODULE	0
--#define TAINT_FORCED_MODULE		1
--#define TAINT_CPU_OUT_OF_SPEC		2
--#define TAINT_FORCED_RMMOD		3
--#define TAINT_MACHINE_CHECK		4
--#define TAINT_BAD_PAGE			5
--#define TAINT_USER			6
--#define TAINT_DIE			7
--#define TAINT_OVERRIDDEN_ACPI_TABLE	8
--#define TAINT_WARN			9
--#define TAINT_CRAP			10
--#define TAINT_FIRMWARE_WORKAROUND	11
--#define TAINT_OOT_MODULE		12
--#define TAINT_UNSIGNED_MODULE		13
--#define TAINT_SOFTLOCKUP		14
--#define TAINT_LIVEPATCH			15
--#define TAINT_AUX			16
--#define TAINT_RANDSTRUCT		17
--#define TAINT_FLAGS_COUNT		18
--#define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
--
--struct taint_flag {
--	char c_true;	/* character printed when tainted */
--	char c_false;	/* character printed when not tainted */
--	bool module;	/* also show as a per-module taint flag */
--};
--
--extern const struct taint_flag taint_flags[TAINT_FLAGS_COUNT];
--
- extern const char hex_asc[];
- #define hex_asc_lo(x)	hex_asc[((x) & 0x0f)]
- #define hex_asc_hi(x)	hex_asc[((x) & 0xf0) >> 4]
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-new file mode 100644
-index 000000000000..f5844908a089
---- /dev/null
-+++ b/include/linux/panic.h
-@@ -0,0 +1,98 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_PANIC_H
-+#define _LINUX_PANIC_H
-+
-+#include <linux/compiler_attributes.h>
-+#include <linux/types.h>
-+
-+struct pt_regs;
-+
-+extern long (*panic_blink)(int state);
-+__printf(1, 2)
-+void panic(const char *fmt, ...) __noreturn __cold;
-+void nmi_panic(struct pt_regs *regs, const char *msg);
-+extern void oops_enter(void);
-+extern void oops_exit(void);
-+extern bool oops_may_print(void);
-+
-+#ifdef CONFIG_SMP
-+extern unsigned int sysctl_oops_all_cpu_backtrace;
-+#else
-+#define sysctl_oops_all_cpu_backtrace 0
-+#endif /* CONFIG_SMP */
-+
-+extern int panic_timeout;
-+extern unsigned long panic_print;
-+extern int panic_on_oops;
-+extern int panic_on_unrecovered_nmi;
-+extern int panic_on_io_nmi;
-+extern int panic_on_warn;
-+
-+extern unsigned long panic_on_taint;
-+extern bool panic_on_taint_nousertaint;
-+
-+extern int sysctl_panic_on_rcu_stall;
-+extern int sysctl_max_rcu_stall_to_panic;
-+extern int sysctl_panic_on_stackoverflow;
-+
-+extern bool crash_kexec_post_notifiers;
-+
-+/*
-+ * panic_cpu is used for synchronizing panic() and crash_kexec() execution. It
-+ * holds a CPU number which is executing panic() currently. A value of
-+ * PANIC_CPU_INVALID means no CPU has entered panic() or crash_kexec().
-+ */
-+extern atomic_t panic_cpu;
-+#define PANIC_CPU_INVALID	-1
-+
-+/*
-+ * Only to be used by arch init code. If the user over-wrote the default
-+ * CONFIG_PANIC_TIMEOUT, honor it.
-+ */
-+static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
-+{
-+	if (panic_timeout == arch_default_timeout)
-+		panic_timeout = timeout;
-+}
-+
-+/* This cannot be an enum because some may be used in assembly source. */
-+#define TAINT_PROPRIETARY_MODULE	0
-+#define TAINT_FORCED_MODULE		1
-+#define TAINT_CPU_OUT_OF_SPEC		2
-+#define TAINT_FORCED_RMMOD		3
-+#define TAINT_MACHINE_CHECK		4
-+#define TAINT_BAD_PAGE			5
-+#define TAINT_USER			6
-+#define TAINT_DIE			7
-+#define TAINT_OVERRIDDEN_ACPI_TABLE	8
-+#define TAINT_WARN			9
-+#define TAINT_CRAP			10
-+#define TAINT_FIRMWARE_WORKAROUND	11
-+#define TAINT_OOT_MODULE		12
-+#define TAINT_UNSIGNED_MODULE		13
-+#define TAINT_SOFTLOCKUP		14
-+#define TAINT_LIVEPATCH			15
-+#define TAINT_AUX			16
-+#define TAINT_RANDSTRUCT		17
-+#define TAINT_FLAGS_COUNT		18
-+#define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
-+
-+struct taint_flag {
-+	char c_true;	/* character printed when tainted */
-+	char c_false;	/* character printed when not tainted */
-+	bool module;	/* also show as a per-module taint flag */
-+};
-+
-+extern const struct taint_flag taint_flags[TAINT_FLAGS_COUNT];
-+
-+enum lockdep_ok {
-+	LOCKDEP_STILL_OK,
-+	LOCKDEP_NOW_UNRELIABLE,
-+};
-+
-+extern const char *print_tainted(void);
-+extern void add_taint(unsigned flag, enum lockdep_ok);
-+extern int test_taint(unsigned flag);
-+extern unsigned long get_taint(void);
-+
-+#endif	/* _LINUX_PANIC_H */
-diff --git a/include/linux/panic_notifier.h b/include/linux/panic_notifier.h
-new file mode 100644
-index 000000000000..41e32483d7a7
---- /dev/null
-+++ b/include/linux/panic_notifier.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_PANIC_NOTIFIERS_H
-+#define _LINUX_PANIC_NOTIFIERS_H
-+
-+#include <linux/notifier.h>
-+#include <linux/types.h>
-+
-+extern struct atomic_notifier_head panic_notifier_list;
-+
-+extern bool crash_kexec_post_notifiers;
-+
-+#endif	/* _LINUX_PANIC_NOTIFIERS_H */
-diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-index bb2e3e15c84c..2871076e4d29 100644
---- a/kernel/hung_task.c
-+++ b/kernel/hung_task.c
-@@ -15,6 +15,7 @@
- #include <linux/kthread.h>
- #include <linux/lockdep.h>
- #include <linux/export.h>
-+#include <linux/panic_notifier.h>
- #include <linux/sysctl.h>
- #include <linux/suspend.h>
- #include <linux/utsname.h>
-diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-index f099baee3578..4b34a9aa32bc 100644
---- a/kernel/kexec_core.c
-+++ b/kernel/kexec_core.c
-@@ -26,6 +26,7 @@
- #include <linux/suspend.h>
- #include <linux/device.h>
- #include <linux/freezer.h>
-+#include <linux/panic_notifier.h>
- #include <linux/pm.h>
- #include <linux/cpu.h>
- #include <linux/uaccess.h>
-diff --git a/kernel/panic.c b/kernel/panic.c
-index 332736a72a58..edad89660a2b 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -23,6 +23,7 @@
- #include <linux/reboot.h>
- #include <linux/delay.h>
- #include <linux/kexec.h>
-+#include <linux/panic_notifier.h>
- #include <linux/sched.h>
- #include <linux/sysrq.h>
- #include <linux/init.h>
-diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-index 3a5fef9fc934..faa847ce28cd 100644
---- a/kernel/rcu/tree.c
-+++ b/kernel/rcu/tree.c
-@@ -32,6 +32,8 @@
- #include <linux/export.h>
- #include <linux/completion.h>
- #include <linux/moduleparam.h>
-+#include <linux/panic.h>
-+#include <linux/panic_notifier.h>
- #include <linux/percpu.h>
- #include <linux/notifier.h>
- #include <linux/cpu.h>
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 6e0b77f1117c..304be14fa09b 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -27,6 +27,7 @@
- #include <linux/sysctl.h>
- #include <linux/bitmap.h>
- #include <linux/signal.h>
-+#include <linux/panic.h>
- #include <linux/printk.h>
- #include <linux/proc_fs.h>
- #include <linux/security.h>
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index 560e4c8d3825..1c4e702133e8 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -39,6 +39,7 @@
- #include <linux/slab.h>
- #include <linux/ctype.h>
- #include <linux/init.h>
-+#include <linux/panic_notifier.h>
- #include <linux/poll.h>
- #include <linux/nmi.h>
- #include <linux/fs.h>
--- 
-2.30.2
-
+> 
+> --Jason
+> 
+> 
+>>>> Finally, could you explain why IGT tests need to be modified to work the
+>>>> GuC [1], and how much of the code in this series is covered by
+>>>> existing/upcoming tests? I would expect a very solid set of tests to
+>>>> minimize the maintenance burden, and enable users to reproduce potential
+>>>> issues found in this new codepath (too many users run with enable_guc=3,
+>>>> as can be seen on Google[2]).
+>>>
+>>> The IGT changes, as I understand them, are entirely around switching to
+>>> the new parallel submit API. There shouldn't be a major effect to most
+>>> users.
+>>
+>> Right, this part I followed, but failed to connect it to the GuC...
+>> because I couldn't see why it would be needed (execlist requiring a lot
+>> more work).
+>>
+>> I sincerely wish for the GuC to stay away from upstream because of the
+>> above concerns (which are yet to be addressed), but if Intel were to
+>> push forward with the plan to drop execlist, I can foresee a world of
+>> trouble for users... That is of course unless the GuC were to be open
+>> sourced, with people outside of Intel able to sign their own builds or
+>> run unsigned. Failing that, let's hope the last 6 years were just a bad
+>> start, and the rapid climb in major version of the GuC will magically
+>> stop! I hope execlists will remain at feature parity with the GuC when
+>> possible... but deplore the increase in validation needs which will only
+>> hurt users in the end.
+>>
+>> Thanks for your honest answer,
+>> Martin
+>>
+>>>
+>>> --Jason
+> 
