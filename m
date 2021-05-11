@@ -1,65 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCE937AC34
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 18:42:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4045D37AC3E
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 18:44:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5276B6EA83;
-	Tue, 11 May 2021 16:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 785456E5B2;
+	Tue, 11 May 2021 16:44:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52BA16EA80
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 16:42:52 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id k16so4695955ios.10
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:42:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ll12iwWOH+g7rF+Qcvmc/ZPVWK50RY5A+TnwOnViek8=;
- b=jF9yywweDau5byF0sr7SVkFA9hoYDaWzF8iy+wyA9wHf9oOaCvA+67rLL4jVjSY9gn
- QoY25mdgO7IV1eEXpAEk5s63+vTygeFS39HRXfLrmhNXD74fIDm9qeLodCWWHbiJG3ic
- G2KrYNbeLupAhGANRLweLDvdOuGV9VrSQUJi8=
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A876E7D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 16:44:21 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id s20so25227052ejr.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vjV0mzX/OYYldhTKbCzFjmA9xLTAvy1tenKPQWA9cMY=;
+ b=If8rh3oqxpTSWFl3K82m7bx4dXoQIZ7uG69gLBWBQd3/tmtaUu3UEMIAvpZIsXNbfR
+ k90MyiKwtrYw3oHVZsH1OxWjEO9pSM7x5bvLniYANfIhgYInOGb1+XtpRnW+3nWHqbA8
+ 76tkN2+LPcKr2nZR7xBw8jf+YEnhWhXtGG2m0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ll12iwWOH+g7rF+Qcvmc/ZPVWK50RY5A+TnwOnViek8=;
- b=UvLCDJ+91/dC7/TA0eCna5cJAXoLe1BAxvB2BTVEmedLb6mj1DFnmOr6/oyKcN9tq5
- Bg2A4PR9CZB1de8zY7MDbDXgt4k68cWCV+vONB7w5lCxgazOdgsl8jivbVTRkWHZIkvc
- SiXtw2pqaW5M7a13FxvachptSk3Xt2sBo/ClPBA6kBWx1a2WNLSTFAzeuflpILNoIODB
- H+5inRCJP93RfB58FIDg3uMhtGrsCDc/6gqiUpZkHq9CIdzP9FQDutoTy2uvNKes00x8
- aq/AfpETpKY5E3R0rzzLQnYCmzPwcEbb6XBqPSyqxabsV9iPVJJXrj5lSVvtBAULBNs7
- cEIQ==
-X-Gm-Message-State: AOAM533BlG9hR/JKAggvMKOTX+ZB9uLOB+a+W29Rcr6r5L3ogkGqboi6
- vbE0rfujcrnSkhUhGeCJAWOFqdAv0LJPxg==
-X-Google-Smtp-Source: ABdhPJxDA8nJhKO8pVsfJDy+ye8gtFvtc63inVPoBMlwhvrC5OzSzy7U+EqDljbjbWVZbT3NUwFBIA==
-X-Received: by 2002:a6b:f606:: with SMTP id n6mr22774903ioh.142.1620751371323; 
- Tue, 11 May 2021 09:42:51 -0700 (PDT)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
- [209.85.166.50])
- by smtp.gmail.com with ESMTPSA id s17sm9686813ilq.26.2021.05.11.09.42.50
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 09:42:50 -0700 (PDT)
-Received: by mail-io1-f50.google.com with SMTP id l21so18812540iob.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:42:50 -0700 (PDT)
-X-Received: by 2002:a05:6e02:e82:: with SMTP id
- t2mr17831684ilj.18.1620751359226; 
- Tue, 11 May 2021 09:42:39 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=vjV0mzX/OYYldhTKbCzFjmA9xLTAvy1tenKPQWA9cMY=;
+ b=rf+tiZDzr+5zIxAIg7pIrMj4ISdsKcBuOI23pdYZUqC1lq5aoTs+VEKhvPnWlPdmBQ
+ vD7T2UoJtsQaNCm473mCHMx2oEazLZc7af3u45UDINOTgON+HHh8LURcLEVJ6kPitVOw
+ fwFmTyqgMRZ6QG3MsuhvvPgYjmV5IAmNDlJbiyaMG60fVXVNZ1APVljoQEf79KYkfElr
+ +HajkjHE1FiWI8Nk0mJWIKST4zCB0YuLNAH7oN8n9mKfCLgrTDwLEPT3ERBGZz5RjrR1
+ 5i5qJOgK5cpXNEpszlUaaOCiKxfdRACSgO6qQzPBMeZOyxybJFJ7c3Nvijxpy8F1O0Ah
+ 8QBw==
+X-Gm-Message-State: AOAM530X6RiUMTLn+08ETQBKdgITjcsITfYB8Lvn+rP9/84PiMCAn3wP
+ Q5FndqC01PCbu8QmaYxVLuWa+Q==
+X-Google-Smtp-Source: ABdhPJwP216Ldhe6W79xvbaQ0XmCjn1UuS/CGKUBuXyfbl2GBz9n+tGkrQmJpVVndQrF/JY9mjdPPg==
+X-Received: by 2002:a17:907:3e28:: with SMTP id
+ hp40mr9818965ejc.523.1620751459752; 
+ Tue, 11 May 2021 09:44:19 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p18sm11919455ejb.19.2021.05.11.09.44.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 09:44:19 -0700 (PDT)
+Date: Tue, 11 May 2021 18:44:17 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH 1/2] drm: Fix dirtyfb stalls
+Message-ID: <YJq0YVi4O4zGkb3j@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rob Clark <robdclark@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20210508195641.397198-1-robdclark@gmail.com>
+ <20210508195641.397198-2-robdclark@gmail.com>
+ <YJlb3GO41hiu4pWw@phenom.ffwll.local>
+ <CAF6AEGsGb1jZgRRUqDvf+j+E6pNEtSck=r3xh4VL7FmZMPszBQ@mail.gmail.com>
+ <CAKMK7uGPGbOPRtJaiG5oNCDhYQ27+V3bO5Wcgv7C9fqdyp8LeA@mail.gmail.com>
+ <CAF6AEGto1PQcEbYeWfXqMatK0z3dW-mpLNVh=VJb=9gwrPfCWg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210510095026.3477496-1-tientzu@chromium.org>
- <20210510095026.3477496-5-tientzu@chromium.org>
- <20210510150256.GC28066@lst.de>
-In-Reply-To: <20210510150256.GC28066@lst.de>
-From: Claire Chang <tientzu@chromium.org>
-Date: Wed, 12 May 2021 00:42:28 +0800
-X-Gmail-Original-Message-ID: <CALiNf28jgAU7zN4pwgPKgaecM-KXRHHqwHj4sPXVf_3M0-goMQ@mail.gmail.com>
-Message-ID: <CALiNf28jgAU7zN4pwgPKgaecM-KXRHHqwHj4sPXVf_3M0-goMQ@mail.gmail.com>
-Subject: Re: [PATCH v6 04/15] swiotlb: Add restricted DMA pool initialization
-To: Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGto1PQcEbYeWfXqMatK0z3dW-mpLNVh=VJb=9gwrPfCWg@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,96 +80,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- Jianxiong Gao <jxgao@google.com>, Will Deacon <will@kernel.org>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
- Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
- Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com,
- Bjorn Helgaas <bhelgaas@google.com>, boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, nouveau@lists.freedesktop.org,
- Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- lkml <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
- Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 10, 2021 at 11:03 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> > +#ifdef CONFIG_DMA_RESTRICTED_POOL
-> > +#include <linux/io.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_fdt.h>
-> > +#include <linux/of_reserved_mem.h>
-> > +#include <linux/slab.h>
-> > +#endif
->
-> I don't think any of this belongs into swiotlb.c.  Marking
-> swiotlb_init_io_tlb_mem non-static and having all this code in a separate
-> file is probably a better idea.
+On Mon, May 10, 2021 at 12:06:05PM -0700, Rob Clark wrote:
+> On Mon, May 10, 2021 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, May 10, 2021 at 6:51 PM Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > On Mon, May 10, 2021 at 9:14 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > >
+> > > > On Sat, May 08, 2021 at 12:56:38PM -0700, Rob Clark wrote:
+> > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > >
+> > > > > drm_atomic_helper_dirtyfb() will end up stalling for vblank on "video
+> > > > > mode" type displays, which is pointless and unnecessary.  Add an
+> > > > > optional helper vfunc to determine if a plane is attached to a CRTC
+> > > > > that actually needs dirtyfb, and skip over them.
+> > > > >
+> > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > >
+> > > > So this is a bit annoying because the idea of all these "remap legacy uapi
+> > > > to atomic constructs" helpers is that they shouldn't need/use anything
+> > > > beyond what userspace also has available. So adding hacks for them feels
+> > > > really bad.
+> > >
+> > > I suppose the root problem is that userspace doesn't know if dirtyfb
+> > > (or similar) is actually required or is a no-op.
+> > >
+> > > But it is perhaps less of a problem because this essentially boils
+> > > down to "x11 vs wayland", and it seems like wayland compositors for
+> > > non-vsync'd rendering just pageflips and throws away extra frames from
+> > > the app?
+> >
+> > Yeah it's about not adequately batching up rendering and syncing with
+> > hw. bare metal x11 is just especially stupid about it :-)
+> >
+> > > > Also I feel like it's not entirely the right thing to do here either.
+> > > > We've had this problem already on the fbcon emulation side (which also
+> > > > shouldn't be able to peek behind the atomic kms uapi curtain), and the fix
+> > > > there was to have a worker which batches up all the updates and avoids any
+> > > > stalls in bad places.
+> > >
+> > > I'm not too worried about fbcon not being able to render faster than
+> > > vblank.  OTOH it is a pretty big problem for x11
+> >
+> > That's why we'd let the worker get ahead at most one dirtyfb. We do
+> > the same with fbcon, which trivially can get ahead of vblank otherwise
+> > (if sometimes flushes each character, so you have to pile them up into
+> > a single update if that's still pending).
+> >
+> > > > Since this is for frontbuffer rendering userspace only we can probably get
+> > > > away with assuming there's only a single fb, so the implementation becomes
+> > > > pretty simple:
+> > > >
+> > > > - 1 worker, and we keep track of a single pending fb
+> > > > - if there's already a dirty fb pending on a different fb, we stall for
+> > > >   the worker to start processing that one already (i.e. the fb we track is
+> > > >   reset to NULL)
+> > > > - if it's pending on the same fb we just toss away all the updates and go
+> > > >   with a full update, since merging the clip rects is too much work :-) I
+> > > >   think there's helpers so you could be slightly more clever and just have
+> > > >   an overall bounding box
+> > >
+> > > This doesn't really fix the problem, you still end up delaying sending
+> > > the next back-buffer to mesa
+> >
+> > With this the dirtyfb would never block. Also glorious frontbuffer
+> > tracking corruption is possible, but that's not the kernel's problem.
+> > So how would anything get held up in userspace.
+> 
+> the part about stalling if a dirtyfb is pending was what I was worried
+> about.. but I suppose you meant the worker stalling, rather than
+> userspace stalling (where I had interpreted it the other way around).
+> As soon as userspace needs to stall, you're losing again.
 
-Will do in the next version.
+Nah, I did mean userspace stalling, so we can't pile up unlimited amounts
+of dirtyfb request in the kernel.
 
->
-> > +#ifdef CONFIG_DMA_RESTRICTED_POOL
-> > +static int rmem_swiotlb_device_init(struct reserved_mem *rmem,
-> > +                                 struct device *dev)
-> > +{
-> > +     struct io_tlb_mem *mem = rmem->priv;
-> > +     unsigned long nslabs = rmem->size >> IO_TLB_SHIFT;
-> > +
-> > +     if (dev->dma_io_tlb_mem)
-> > +             return 0;
-> > +
-> > +     /* Since multiple devices can share the same pool, the private data,
-> > +      * io_tlb_mem struct, will be initialized by the first device attached
-> > +      * to it.
-> > +      */
->
-> This is not the normal kernel comment style.
+But also I never expect userspace that uses dirtyfb to actually hit this
+stall point (otherwise we'd need to look at this again). It would really
+be only there as defense against abuse.
 
-Will fix this in the next version.
+> > > But we could re-work drm_framebuffer_funcs::dirty to operate on a
+> > > per-crtc basis and hoist the loop and check if dirtyfb is needed out
+> > > of drm_atomic_helper_dirtyfb()
+> >
+> > That's still using information that userspace doesn't have, which is a
+> > bit irky. We might as well go with your thing here then.
+> 
+> arguably, this is something we should expose to userspace.. for DSI
+> command-mode panels, you probably want to make a different decision
+> with regard to how many buffers in your flip-chain..
+> 
+> Possibly we should add/remove the fb_damage_clips property depending
+> on the display type (ie. video/pull vs cmd/push mode)?
 
->
-> > +#ifdef CONFIG_ARM
-> > +             if (!PageHighMem(pfn_to_page(PHYS_PFN(rmem->base)))) {
-> > +                     kfree(mem);
-> > +                     return -EINVAL;
-> > +             }
-> > +#endif /* CONFIG_ARM */
->
-> And this is weird.  Why would ARM have such a restriction?  And if we have
-> such rstrictions it absolutely belongs into an arch helper.
+I'm not sure whether atomic actually needs this exposed:
+- clients will do full flips for every frame anyway, I've not heard of
+  anyone seriously doing frontbuffer rendering.
+- transporting the cliprects around and then tossing them if the driver
+  doesn't need them in their flip is probably not a measurable win
 
-Now I think the CONFIG_ARM can just be removed?
-The goal here is to make sure we're using linear map and can safely
-use phys_to_dma/dma_to_phys.
+But yeah if I'm wrong and we have a need here and it's useful, then
+exposing this to userspace should be done. Meanwhile I think a "offload to
+worker like fbcon" trick for this legacy interface is probabyl the best
+option. Plus it will fix things not just for the case where you don't need
+dirty uploading, it will also fix things for the case where you _do_ need
+dirty uploading (since right now we stall in a few bad places for that I
+think).
+-Daniel
 
->
-> > +             swiotlb_init_io_tlb_mem(mem, rmem->base, nslabs, false);
-> > +
-> > +             rmem->priv = mem;
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +             if (!debugfs_dir)
-> > +                     debugfs_dir = debugfs_create_dir("swiotlb", NULL);
-> > +
-> > +             swiotlb_create_debugfs(mem, rmem->name, debugfs_dir);
->
-> Doesn't the debugfs_create_dir belong into swiotlb_create_debugfs?  Also
-> please use IS_ENABLEd or a stub to avoid ifdefs like this.
+> 
+> BR,
+> -R
+> 
+> > -Daniel
+> >
+> > > BR,
+> > > -R
+> > >
+> > > >
+> > > > Could probably steal most of the implementation.
+> > > >
+> > > > This approach here feels a tad too much in the hacky area ...
+> > > >
+> > > > Thoughts?
+> > > > -Daniel
+> > > >
+> > > > > ---
+> > > > >  drivers/gpu/drm/drm_damage_helper.c      |  8 ++++++++
+> > > > >  include/drm/drm_modeset_helper_vtables.h | 14 ++++++++++++++
+> > > > >  2 files changed, 22 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
+> > > > > index 3a4126dc2520..a0bed1a2c2dc 100644
+> > > > > --- a/drivers/gpu/drm/drm_damage_helper.c
+> > > > > +++ b/drivers/gpu/drm/drm_damage_helper.c
+> > > > > @@ -211,6 +211,7 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
+> > > > >  retry:
+> > > > >       drm_for_each_plane(plane, fb->dev) {
+> > > > >               struct drm_plane_state *plane_state;
+> > > > > +             struct drm_crtc *crtc;
+> > > > >
+> > > > >               ret = drm_modeset_lock(&plane->mutex, state->acquire_ctx);
+> > > > >               if (ret)
+> > > > > @@ -221,6 +222,13 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
+> > > > >                       continue;
+> > > > >               }
+> > > > >
+> > > > > +             crtc = plane->state->crtc;
+> > > > > +             if (crtc->helper_private->needs_dirtyfb &&
+> > > > > +                             !crtc->helper_private->needs_dirtyfb(crtc)) {
+> > > > > +                     drm_modeset_unlock(&plane->mutex);
+> > > > > +                     continue;
+> > > > > +             }
+> > > > > +
+> > > > >               plane_state = drm_atomic_get_plane_state(state, plane);
+> > > > >               if (IS_ERR(plane_state)) {
+> > > > >                       ret = PTR_ERR(plane_state);
+> > > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> > > > > index eb706342861d..afa8ec5754e7 100644
+> > > > > --- a/include/drm/drm_modeset_helper_vtables.h
+> > > > > +++ b/include/drm/drm_modeset_helper_vtables.h
+> > > > > @@ -487,6 +487,20 @@ struct drm_crtc_helper_funcs {
+> > > > >                                    bool in_vblank_irq, int *vpos, int *hpos,
+> > > > >                                    ktime_t *stime, ktime_t *etime,
+> > > > >                                    const struct drm_display_mode *mode);
+> > > > > +
+> > > > > +     /**
+> > > > > +      * @needs_dirtyfb
+> > > > > +      *
+> > > > > +      * Optional callback used by damage helpers to determine if fb_damage_clips
+> > > > > +      * update is needed.
+> > > > > +      *
+> > > > > +      * Returns:
+> > > > > +      *
+> > > > > +      * True if fb_damage_clips update is needed to handle DIRTYFB, False
+> > > > > +      * otherwise.  If this callback is not implemented, then True is
+> > > > > +      * assumed.
+> > > > > +      */
+> > > > > +     bool (*needs_dirtyfb)(struct drm_crtc *crtc);
+> > > > >  };
+> > > > >
+> > > > >  /**
+> > > > > --
+> > > > > 2.30.2
+> > > > >
+> > > >
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > http://blog.ffwll.ch
+> >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
-Will move it into swiotlb_create_debugfs and use IS_ENABLED in the next version.
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
