@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A9037AC32
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 18:42:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCE937AC34
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 18:42:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6EE6EA7D;
-	Tue, 11 May 2021 16:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5276B6EA83;
+	Tue, 11 May 2021 16:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18D776EA7D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 16:42:47 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id c21so16161744pgg.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:42:47 -0700 (PDT)
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
+ [IPv6:2607:f8b0:4864:20::d35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52BA16EA80
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 16:42:52 +0000 (UTC)
+Received: by mail-io1-xd35.google.com with SMTP id k16so4695955ios.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k6jrKLJf+SUK032/zz9tWYcN5Rhay3mFZvhqIWgxNBs=;
- b=L/Y31OZjVAvXas4gAOFGDpY1O+WckxTleHtLR2a6rScOLannRZ4axVg75JGljNN3EA
- 40xB287W01zuvyDHYZFS2WLSs1CG9A82KNV8OVT7o92X2FrRRw8J292qbL27/DexCkE7
- qg4XvM9gaQyzYYNGyObKTqbnr0WqygwnwiYxc=
+ :cc; bh=Ll12iwWOH+g7rF+Qcvmc/ZPVWK50RY5A+TnwOnViek8=;
+ b=jF9yywweDau5byF0sr7SVkFA9hoYDaWzF8iy+wyA9wHf9oOaCvA+67rLL4jVjSY9gn
+ QoY25mdgO7IV1eEXpAEk5s63+vTygeFS39HRXfLrmhNXD74fIDm9qeLodCWWHbiJG3ic
+ G2KrYNbeLupAhGANRLweLDvdOuGV9VrSQUJi8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=k6jrKLJf+SUK032/zz9tWYcN5Rhay3mFZvhqIWgxNBs=;
- b=Chp2SyWt2yHHt3eapN+AP2gCxuHQz1CRjRb41pAiKgEBfZqr7XJQ61ey1BDTM9uPZo
- koFBcHDPlPe8eJBpBtyKlWOUIcrMlEmgy1r8lhHzvU3WqFkTVQ6TJOsRl4PdBk9eDtjf
- cpJwR0TLoIM8IuRGXVrxhnbkVhAQvMrbgMgWPKJQN6KKV0TjxMOd7zuJvdfFU9rPM8LI
- 68yQPJNfiS4rU4UnJKmAs3PVdtb2iy+JrpxOlYRsuc9R38BKlNJoM7DgLKvljJ0aXO2k
- B1qCSn88tHQorO6Y7okBEzRxdr/KtAsfqoK21YgnxUf7AFJ6/udSe9BxA1BakVvFhjZr
- KC+Q==
-X-Gm-Message-State: AOAM5339IUUUDz/A0fm/xMelc7AZXN6wGVHLP5cvS5vAtyxUHJk5HjTz
- tbtY6Xcq9JniDWu5O4BzPjuIbNQSiQPrCw==
-X-Google-Smtp-Source: ABdhPJx9x49WEJKCkvLi1Hh8vY+XEXvA7ADWAEgPNmcS7mxqUa8oiCCUISUtLom1O6x7VMOsBTAzBg==
-X-Received: by 2002:aa7:97a1:0:b029:27f:aa90:c7a6 with SMTP id
- d1-20020aa797a10000b029027faa90c7a6mr32126948pfq.10.1620751366233; 
- Tue, 11 May 2021 09:42:46 -0700 (PDT)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com.
- [209.85.210.177])
- by smtp.gmail.com with ESMTPSA id ca6sm2585716pjb.48.2021.05.11.09.42.44
+ bh=Ll12iwWOH+g7rF+Qcvmc/ZPVWK50RY5A+TnwOnViek8=;
+ b=UvLCDJ+91/dC7/TA0eCna5cJAXoLe1BAxvB2BTVEmedLb6mj1DFnmOr6/oyKcN9tq5
+ Bg2A4PR9CZB1de8zY7MDbDXgt4k68cWCV+vONB7w5lCxgazOdgsl8jivbVTRkWHZIkvc
+ SiXtw2pqaW5M7a13FxvachptSk3Xt2sBo/ClPBA6kBWx1a2WNLSTFAzeuflpILNoIODB
+ H+5inRCJP93RfB58FIDg3uMhtGrsCDc/6gqiUpZkHq9CIdzP9FQDutoTy2uvNKes00x8
+ aq/AfpETpKY5E3R0rzzLQnYCmzPwcEbb6XBqPSyqxabsV9iPVJJXrj5lSVvtBAULBNs7
+ cEIQ==
+X-Gm-Message-State: AOAM533BlG9hR/JKAggvMKOTX+ZB9uLOB+a+W29Rcr6r5L3ogkGqboi6
+ vbE0rfujcrnSkhUhGeCJAWOFqdAv0LJPxg==
+X-Google-Smtp-Source: ABdhPJxDA8nJhKO8pVsfJDy+ye8gtFvtc63inVPoBMlwhvrC5OzSzy7U+EqDljbjbWVZbT3NUwFBIA==
+X-Received: by 2002:a6b:f606:: with SMTP id n6mr22774903ioh.142.1620751371323; 
+ Tue, 11 May 2021 09:42:51 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
+ [209.85.166.50])
+ by smtp.gmail.com with ESMTPSA id s17sm9686813ilq.26.2021.05.11.09.42.50
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 09:42:45 -0700 (PDT)
-Received: by mail-pf1-f177.google.com with SMTP id b21so9386712pft.10
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:42:44 -0700 (PDT)
-X-Received: by 2002:a6b:7b08:: with SMTP id l8mr22174004iop.50.1620751352978; 
- Tue, 11 May 2021 09:42:32 -0700 (PDT)
+ Tue, 11 May 2021 09:42:50 -0700 (PDT)
+Received: by mail-io1-f50.google.com with SMTP id l21so18812540iob.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 09:42:50 -0700 (PDT)
+X-Received: by 2002:a05:6e02:e82:: with SMTP id
+ t2mr17831684ilj.18.1620751359226; 
+ Tue, 11 May 2021 09:42:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210510095026.3477496-1-tientzu@chromium.org>
- <20210510095026.3477496-6-tientzu@chromium.org>
- <20210510150342.GD28066@lst.de>
-In-Reply-To: <20210510150342.GD28066@lst.de>
+ <20210510095026.3477496-5-tientzu@chromium.org>
+ <20210510150256.GC28066@lst.de>
+In-Reply-To: <20210510150256.GC28066@lst.de>
 From: Claire Chang <tientzu@chromium.org>
-Date: Wed, 12 May 2021 00:42:22 +0800
-X-Gmail-Original-Message-ID: <CALiNf2_7mHuMG5DTQD0GsriN=vuX0ytyUn4rxEmsK2iP3PKV+w@mail.gmail.com>
-Message-ID: <CALiNf2_7mHuMG5DTQD0GsriN=vuX0ytyUn4rxEmsK2iP3PKV+w@mail.gmail.com>
-Subject: Re: [PATCH v6 05/15] swiotlb: Add a new get_io_tlb_mem getter
+Date: Wed, 12 May 2021 00:42:28 +0800
+X-Gmail-Original-Message-ID: <CALiNf28jgAU7zN4pwgPKgaecM-KXRHHqwHj4sPXVf_3M0-goMQ@mail.gmail.com>
+Message-ID: <CALiNf28jgAU7zN4pwgPKgaecM-KXRHHqwHj4sPXVf_3M0-goMQ@mail.gmail.com>
+Subject: Re: [PATCH v6 04/15] swiotlb: Add restricted DMA pool initialization
 To: Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,18 +101,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, May 10, 2021 at 11:03 PM Christoph Hellwig <hch@lst.de> wrote:
 >
-> > +static inline struct io_tlb_mem *get_io_tlb_mem(struct device *dev)
-> > +{
 > > +#ifdef CONFIG_DMA_RESTRICTED_POOL
-> > +     if (dev && dev->dma_io_tlb_mem)
-> > +             return dev->dma_io_tlb_mem;
-> > +#endif /* CONFIG_DMA_RESTRICTED_POOL */
-> > +
-> > +     return io_tlb_default_mem;
+> > +#include <linux/io.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_fdt.h>
+> > +#include <linux/of_reserved_mem.h>
+> > +#include <linux/slab.h>
+> > +#endif
 >
-> Given that we're also looking into a not addressing restricted pool
-> I'd rather always assign the active pool to dev->dma_io_tlb_mem and
-> do away with this helper.
+> I don't think any of this belongs into swiotlb.c.  Marking
+> swiotlb_init_io_tlb_mem non-static and having all this code in a separate
+> file is probably a better idea.
 
-Where do you think is the proper place to do the assignment? First
-time calling swiotlb_map? or in of_dma_configure_id?
+Will do in the next version.
+
+>
+> > +#ifdef CONFIG_DMA_RESTRICTED_POOL
+> > +static int rmem_swiotlb_device_init(struct reserved_mem *rmem,
+> > +                                 struct device *dev)
+> > +{
+> > +     struct io_tlb_mem *mem = rmem->priv;
+> > +     unsigned long nslabs = rmem->size >> IO_TLB_SHIFT;
+> > +
+> > +     if (dev->dma_io_tlb_mem)
+> > +             return 0;
+> > +
+> > +     /* Since multiple devices can share the same pool, the private data,
+> > +      * io_tlb_mem struct, will be initialized by the first device attached
+> > +      * to it.
+> > +      */
+>
+> This is not the normal kernel comment style.
+
+Will fix this in the next version.
+
+>
+> > +#ifdef CONFIG_ARM
+> > +             if (!PageHighMem(pfn_to_page(PHYS_PFN(rmem->base)))) {
+> > +                     kfree(mem);
+> > +                     return -EINVAL;
+> > +             }
+> > +#endif /* CONFIG_ARM */
+>
+> And this is weird.  Why would ARM have such a restriction?  And if we have
+> such rstrictions it absolutely belongs into an arch helper.
+
+Now I think the CONFIG_ARM can just be removed?
+The goal here is to make sure we're using linear map and can safely
+use phys_to_dma/dma_to_phys.
+
+>
+> > +             swiotlb_init_io_tlb_mem(mem, rmem->base, nslabs, false);
+> > +
+> > +             rmem->priv = mem;
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +             if (!debugfs_dir)
+> > +                     debugfs_dir = debugfs_create_dir("swiotlb", NULL);
+> > +
+> > +             swiotlb_create_debugfs(mem, rmem->name, debugfs_dir);
+>
+> Doesn't the debugfs_create_dir belong into swiotlb_create_debugfs?  Also
+> please use IS_ENABLEd or a stub to avoid ifdefs like this.
+
+Will move it into swiotlb_create_debugfs and use IS_ENABLED in the next version.
