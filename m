@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B94B37A5AE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 13:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0382937A5BB
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 13:28:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F23FE6EA20;
-	Tue, 11 May 2021 11:22:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10DCF6EA1E;
+	Tue, 11 May 2021 11:27:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37FF16EA20
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 11:22:56 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Ffb7L4YFdzkWjX;
- Tue, 11 May 2021 19:20:14 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BEA96EA1E
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 11:27:56 +0000 (UTC)
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FfbDJ4wRvzPwvH;
+ Tue, 11 May 2021 19:24:32 +0800 (CST)
 Received: from thunder-town.china.huawei.com (10.174.177.72) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 11 May 2021 19:22:43 +0800
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 11 May 2021 19:27:45 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Benjamin Gaignard
- <benjamin.gaignard@linaro.org>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, dri-devel
- <dri-devel@lists.freedesktop.org>, linux-stm32
- <linux-stm32@st-md-mailman.stormreply.com>, linux-arm-kernel
+To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park
+ <kyungmin.park@samsung.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-samsung-soc
+ <linux-samsung-soc@vger.kernel.org>, linux-arm-kernel
  <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH 1/1] drm/stm: dsi: Remove redundant error printing in
- dw_mipi_dsi_stm_probe()
-Date: Tue, 11 May 2021 19:22:37 +0800
-Message-ID: <20210511112237.5324-1-thunder.leizhen@huawei.com>
+Subject: [PATCH 1/1] drm/exynos/decon5433: Remove redundant error printing in
+ exynos5433_decon_probe()
+Date: Tue, 11 May 2021 19:27:33 +0800
+Message-ID: <20210511112733.5383-1-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,21 +63,25 @@ binary size.
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-index 8399d337589d5e4..2c6da2625cdfdcb 100644
---- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-+++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-@@ -356,7 +356,6 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
- 	dsi->base = devm_ioremap_resource(dev, res);
- 	if (IS_ERR(dsi->base)) {
- 		ret = PTR_ERR(dsi->base);
--		DRM_ERROR("Unable to get dsi registers %d\n", ret);
- 		return ret;
- 	}
+diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+index b9a4b7670a899a1..197b97341cad26c 100644
+--- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
++++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+@@ -815,10 +815,8 @@ static int exynos5433_decon_probe(struct platform_device *pdev)
  
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	ctx->addr = devm_ioremap_resource(dev, res);
+-	if (IS_ERR(ctx->addr)) {
+-		dev_err(dev, "ioremap failed\n");
++	if (IS_ERR(ctx->addr))
+ 		return PTR_ERR(ctx->addr);
+-	}
+ 
+ 	ret = decon_conf_irq(ctx, "vsync", decon_irq_handler, 0);
+ 	if (ret < 0)
 -- 
 2.26.0.106.g9fadedd
 
