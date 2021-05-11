@@ -1,41 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51D937A278
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:48:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A7B37A2BB
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 10:57:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A30336E9FD;
-	Tue, 11 May 2021 08:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B313A6E9FF;
+	Tue, 11 May 2021 08:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F40CD6E9FB
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 08:48:22 +0000 (UTC)
-IronPort-SDR: 55BW1ion8rHjjdhWs5hJQIRrjW+2c4jMtc00aSvOuDe/BnZpJDt62074HfoVzeCvRs/zve2nyT
- 9HbatgXsYQ9A==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199458709"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="199458709"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 01:48:22 -0700
-IronPort-SDR: JKSVpW1egDva0LGrXVttET2vp8GqtqhOhwEW9uN1LPkvV/3rXyCEOQbwn9iBpNqyNuiOQ6Lqcq
- XGqmSxNQPTKQ==
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="541571692"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 01:48:22 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/virtio: Probe and implement
- VIRTIO_GPU_F_EXPLICIT_FLUSH feature
-Date: Tue, 11 May 2021 01:36:10 -0700
-Message-Id: <20210511083610.367541-3-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210511083610.367541-1-vivek.kasireddy@intel.com>
-References: <20210511083610.367541-1-vivek.kasireddy@intel.com>
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 542A06E9FE;
+ Tue, 11 May 2021 08:57:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JzL/+4SQHzpPPF2jaJVJhuNi6Ucyv/YrRuJ5nQJ7n/lElXVz+GVeQoZ/F6e3WjHu5Ug2kLoFG524zCdrAewR8cftpbkwHzDNHIkiOCthdYOn/3fDpVnNWXGBcdDcvTfob5hoLMRCcgEVFsMOA/XRhMv2qk70IbbVmZz7FrU47ND20bI/ZCZp5NaRzU47PfLyeFKeH56Etod9HkGVYeXGjHyz8T4BhITaXgEmQghUKd+cNvZiAKQTZlRG5tMIf+XpZVfkCITSwy4Ulr55Zaz9i9MzuqJmX7ecdN7Tgwd8Bl+9eH4Ed1GyLYeyC5w71sO8eQiSUiXZTsOkDhrhrHd9+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6B5bPg0JyaOhVeALKCw6RAdr9+R0mCO29u16YZGbuTc=;
+ b=PY4c6H3PiAxheel2RN6b/AtdCk88uPSDPjvz4xfjZdf1iKRtiCLWvd6Gx75vKwOQo6u98Sa/mJOdWu8SrDmk0vPu8xpcyUua7RqNs9fj0p3Jhz2PjZcDkama5Gyhx6HiuLNFDAeQqJdfScwvMCJFKp0RfzlzLQLE/EtqYOaHX64KwRGe62K/KIiU09WFFchP++GTfFh/i/SIcnE5uVvJr7Pyt1U1SEnr14zxo7e1uN9InpxjbVn+4EwTDPUICLrS0RcySBToAr3Mc0ZOdHoQSWK9awyLc2Hlav5p3hrM2OmrXzrPJ/Xz+q0LOfefr2Lt43iJ1cXME/YaYZPtYcTF/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6B5bPg0JyaOhVeALKCw6RAdr9+R0mCO29u16YZGbuTc=;
+ b=UA7bAuTyWjdgc8PrNvucx5TdgIcZi6a9apZT6FeATppPmZRADUKgmknkQzbfFLrGeMgih7Hu+11bh3PoC7FfVYuzyL6qbvFykVqslQzBIEtWK/nBrPNQDXWUl/exO4nLy5Ctums/msZTVUseqtOv78XSU5YIPl8j1aYfReRqeuk=
+Authentication-Results: lists.linux-foundation.org; dkim=none (message not
+ signed) header.d=none;lists.linux-foundation.org; dmarc=none action=none
+ header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3949.namprd12.prod.outlook.com (2603:10b6:208:167::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24; Tue, 11 May
+ 2021 08:57:25 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4108.031; Tue, 11 May 2021
+ 08:57:24 +0000
+Subject: Re: [PATCH] drm/ttm: use dma_alloc_pages for the page pool
+To: Christoph Hellwig <hch@lst.de>
+References: <20210511060514.3956745-1-hch@lst.de>
+ <20210511060514.3956745-2-hch@lst.de>
+ <d2a72848-8273-d0b6-0250-3fe88122246a@amd.com>
+ <20210511085011.GA14477@lst.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <2af7d79c-4a9c-1b35-2a5a-c86e3a8df8d0@amd.com>
+Date: Tue, 11 May 2021 10:57:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <20210511085011.GA14477@lst.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:d03f:5642:6cf7:fcb]
+X-ClientProxiedBy: AM0PR04CA0046.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::23) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:d03f:5642:6cf7:fcb]
+ (2a02:908:1252:fb60:d03f:5642:6cf7:fcb) by
+ AM0PR04CA0046.eurprd04.prod.outlook.com (2603:10a6:208:1::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4108.25 via Frontend Transport; Tue, 11 May 2021 08:57:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f6c6c2eb-b9fa-4ca6-1441-08d9145acba3
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3949:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3949B13196C0C68A9AD0046783539@MN2PR12MB3949.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: u78Up7ZF/kwLlWZVo0KTAw7ExyVyclFPaWYa8hUfFP0E6WUfP18JOgiV1vP61L00wzaI9X6VO4/z8ScS8WBwauqwf1Pk2o/KPqmI5ryMpzFof26eMkbrCEU+IiYjEDnzjEAamZvISKmQTHaexOenm2nJxMn2lRHV6wD6h/yVVecbWu/a8Kuc7zaD8zKFS0V6vgADmpOHsqKaZe0yRHsjtaiIMA5KoatdFBodbp8vIx5fx/7PlhZ4axbwCI36Te9Xlq8ShTn3m5w0pxAOwakpv6kLDlFcRD/snRivlAedM0ucTXII6cZnLW34kIJWfCmRcOU6Y0+0axfRaxYNF/AkKd1RF7d4lJ40rRjmeF0goHbj6NhPgbz1Mh+tPEGRx8vicjz/nTx58uMzufYEqUoyfkiWkI+c4vN8D5ooYQ5LXlbB5nWy32RNJPsZe7lDcx6q1LDDNsbTTn7FERZ0a1d1M+GThFaOCdklHnL7XhElptdnSFMFREu//odDnQunQeCcJAzZrN3L6QyrSe1rMU9MTYNIehqqcKJcm0IsK+7+rsIL3vWhSmjYtS5mQQ84snvNmsVCILaQJr668LWJThRqQP3uQRs0son3P0UPdz/KkbqCNFpN/FrUTeltBxYlb3EtGFlSGy0qAxjqWnxSU1ZXF8AE4AVy6f9IGTgo3gqu/MWO7J7UVxBTrYaV40BMcrKW
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(376002)(346002)(136003)(39860400002)(38100700002)(66574015)(478600001)(16526019)(66946007)(86362001)(186003)(52116002)(7416002)(66556008)(4326008)(2906002)(66476007)(316002)(8676002)(2616005)(6666004)(83380400001)(8936002)(54906003)(6916009)(6486002)(31686004)(31696002)(5660300002)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Z2ViMWVkVGRieUJkSURMbmNhR0xJcmNzdGwzaTZYOE9IUkdieHRSQkNlTXZK?=
+ =?utf-8?B?Uzh0dldjdUZhN051UHp5VllqeVdWU0VaV1lNdjFVV0Y5S1REMnVQUUpOdll3?=
+ =?utf-8?B?RVdoWlIyNXZqcElVWG9Wd2lWcndpM1p5bHFTS1JML3F6UXM3ODVXSUdSVGVR?=
+ =?utf-8?B?Vlh5djA5TGhsenBjek5ZWktkMk92STB5dlJzSmJLb1lxWmQwUXhDYWFoSXAv?=
+ =?utf-8?B?RGw0b1laVGw1RFNBZkVwY2c4dUhjNElQZkdQOEZEK09INHZaU2s1ZnRadHF0?=
+ =?utf-8?B?WlRhU1dKWDNVSGxTbUVMcDlRMGVlZDdwc245Z1FjSGJPK1hlY2M5dmw3aGwz?=
+ =?utf-8?B?cUwxZ1FnSGxDUldNOEl5N1FiUk1qOFpocUlNS0pnUUhqQTJtZjVYUGx1aGI4?=
+ =?utf-8?B?b0xqYlZNM3FBSmQ1WDJGTDRsaVBNZjFjcTJnOUlBRkhUb2x1L1hvNDlHSWxB?=
+ =?utf-8?B?NXFnbGdXa2hTa2VBN3VRWGJOZGxJYmFZL3VjdlVkMzNMaTN0dk9pS1BpWWla?=
+ =?utf-8?B?WFl5VlljM1lFYXVWYU00aVVTQVpPTnVraS9seVdGMmV4YzllcEMvNCsvTEY4?=
+ =?utf-8?B?T1ViRXN6NytuM01QR3M5azdDMk9TdW1VTUpDTTkwWXEyb1l6cTlmc000QlZF?=
+ =?utf-8?B?Uk9kdDZMNWQ4bm1vVCt0SkE2YmRqSXpFcGIydmUyNkJsam9NN3B3SUNhSkN3?=
+ =?utf-8?B?WngvNjF3U0RJSlNaZW9qOXltT0cxQlMwZWdqbW1hOG1zdVgwYVBGWkxlT3J6?=
+ =?utf-8?B?WTdSOTZtekR1RkVjWFNHVWs1REdJQVgyZEJzYTVBUHJuMzdWSEhnaEEzY0dN?=
+ =?utf-8?B?ZTFtVUQvV29Dd3ZnWW9XcFhZQXZkeTFKOER3bURmUzM1cFJyVTBUSVdSRTBE?=
+ =?utf-8?B?MU90UHBlYWxVRHAxSHNkY1JkN1c1RTZlMWNPZjBFWjh2a21SOUoyRU03Yy9i?=
+ =?utf-8?B?NXM2bE51dm1pM093UXdCTHZXSkdkOFZjeHAyQmlyOTVDNGRxSlZ3cXpzbzRC?=
+ =?utf-8?B?NkMxZEtHOUVDQ1ZQSW1FTUZNQktLOVpFWTdrRDF0d3d0emJ0S0lGNUZKYkNa?=
+ =?utf-8?B?WCtkUFpVUys2MURZNlp4OWVZdE41dnFOZmExR0F2YmJDeUdDbmxZaWtXTmRq?=
+ =?utf-8?B?QmdVMm1kRTMrdklkOVpPdUowem9HUERlL2VMaW1uNlBQc3BJYWdzd3kwSHlj?=
+ =?utf-8?B?Z2tzUlk1ZGlxWlV2ZUxqbEdDeDVNblpmOFpKSXNUL3dqMytXdHlvbGpibFd0?=
+ =?utf-8?B?bllZZ2ZwTVZwOGJmaFlqNWtpNTJhdmVlbDJVYlJ0SmFUQWc0YXZtV2tnZzFn?=
+ =?utf-8?B?TTUxbEdRV0h1dndVbnpraGJkS2tRS1VsemI5dW9hSjNKTUREa2lNWnlNM0pu?=
+ =?utf-8?B?dm5PNEVPajhLN1U0ZXh3QWR0ajlMSGFQaEpucmJiUUJVUzVBS01yS010bm05?=
+ =?utf-8?B?VXVyUmlZNUhkakdnRU1CRFpBVUVIcDRyNFl0NzM3YnZtRFZtZk1BYlVtZHc1?=
+ =?utf-8?B?a1FRYTg2OENnNytucXJQU29VR3BOQ0dScmlTdGIwQVZmcjdETHdVYnZpRDBI?=
+ =?utf-8?B?RFl6ZHlzam5wUUVRYjdkRU1UVmwrUHYwWklFcWZsVzZ0K08xQlNVTGg1dnZY?=
+ =?utf-8?B?UFVralRTS1Y0WU1FM29vaE1KamQyYlhKL2hGMTcyaDNKSWFFbGpnaEY2cUYr?=
+ =?utf-8?B?MkxDTzVaSWpMTlpUR2lldFk4R2xuVSt5aXJJdUlJalliUUczeER2NU02bE0x?=
+ =?utf-8?B?d0ZhUmorNm41MWpscy9VVHlkUFEvMW81QnlXVVIvQkRoUE80dEhwTGhMcXZF?=
+ =?utf-8?B?ODBOb05aekMvMWJKN1BOYWJHMk5heUJpdXVYZEo2RkhsNTR3MHpIMG9PcGRH?=
+ =?utf-8?Q?N6hYoBnKzftzq?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6c6c2eb-b9fa-4ca6-1441-08d9145acba3
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2021 08:57:24.7869 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1MBravLZ+sfH2Auc8JOisOxJszU4DrnSFdLSCuUBuxJr0NqdgInH46qvnh1Ypuc6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3949
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,190 +132,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ iommu@lists.linux-foundation.org, Huang Rui <ray.huang@amd.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ spice-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If this feature is available, a fence will be associated with the
-scanout buffer and a dma_fence_wait will be performed as part of
-plane update.
+Am 11.05.21 um 10:50 schrieb Christoph Hellwig:
+> On Tue, May 11, 2021 at 09:35:20AM +0200, Christian König wrote:
+>> We certainly going to need the drm_need_swiotlb() for userptr support
+>> (unless we add some approach for drivers to opt out of swiotlb).
+> swiotlb use is driven by three things:
+>
+>   1) addressing limitations of the device
+>   2) addressing limitations of the interconnect
+>   3) virtualiztion modes that require it
+>
+> not sure how the driver could opt out.  What is the problem with userptr
+> support?
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- drivers/gpu/drm/virtio/virtgpu_debugfs.c |  1 +
- drivers/gpu/drm/virtio/virtgpu_drv.c     |  1 +
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  1 +
- drivers/gpu/drm/virtio/virtgpu_kms.c     |  9 ++++-
- drivers/gpu/drm/virtio/virtgpu_plane.c   | 51 ++++++++++++++++++++----
- 5 files changed, 53 insertions(+), 10 deletions(-)
+userptr grabs the pages for a certain virtual memory address, map them 
+in the IOMMU and then expect the device to have coherent access to it.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-index c2b20e0ee030..4c258299752b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-@@ -52,6 +52,7 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
- 			    vgdev->has_resource_assign_uuid);
- 
- 	virtio_gpu_add_bool(m, "blob resources", vgdev->has_resource_blob);
-+	virtio_gpu_add_bool(m, "explicit flush", vgdev->has_explicit_flush);
- 	virtio_gpu_add_int(m, "cap sets", vgdev->num_capsets);
- 	virtio_gpu_add_int(m, "scanouts", vgdev->num_scanouts);
- 	if (vgdev->host_visible_region.len) {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index a21dc3ad6f88..b003523e876e 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -166,6 +166,7 @@ static unsigned int features[] = {
- 	VIRTIO_GPU_F_EDID,
- 	VIRTIO_GPU_F_RESOURCE_UUID,
- 	VIRTIO_GPU_F_RESOURCE_BLOB,
-+	VIRTIO_GPU_F_EXPLICIT_FLUSH,
- };
- static struct virtio_driver virtio_gpu_driver = {
- 	.feature_table = features,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index f77d196ccc8f..72552618d3c3 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -233,6 +233,7 @@ struct virtio_gpu_device {
- 	bool has_resource_assign_uuid;
- 	bool has_resource_blob;
- 	bool has_host_visible;
-+	bool has_explicit_flush;
- 	struct virtio_shm_region host_visible_region;
- 	struct drm_mm host_visible_mm;
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index b375394193be..d6ff9cb8f97e 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -156,6 +156,9 @@ int virtio_gpu_init(struct drm_device *dev)
- 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_BLOB)) {
- 		vgdev->has_resource_blob = true;
- 	}
-+	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EXPLICIT_FLUSH)) {
-+		vgdev->has_explicit_flush = true;
-+	}
- 	if (virtio_get_shm_region(vgdev->vdev, &vgdev->host_visible_region,
- 				  VIRTIO_GPU_SHM_ID_HOST_VISIBLE)) {
- 		if (!devm_request_mem_region(&vgdev->vdev->dev,
-@@ -176,11 +179,13 @@ int virtio_gpu_init(struct drm_device *dev)
- 			    (unsigned long)vgdev->host_visible_region.len);
- 	}
- 
--	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible\n",
-+	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible\
-+		 %cexplicit_flush\n",
- 		 vgdev->has_virgl_3d    ? '+' : '-',
- 		 vgdev->has_edid        ? '+' : '-',
- 		 vgdev->has_resource_blob ? '+' : '-',
--		 vgdev->has_host_visible ? '+' : '-');
-+		 vgdev->has_host_visible ? '+' : '-',
-+		 vgdev->has_explicit_flush ? '+' : '-');
- 
- 	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 4e1b17548007..9ae2ec2e9da7 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -129,6 +129,30 @@ static void virtio_gpu_update_dumb_bo(struct virtio_gpu_device *vgdev,
- 					   objs, NULL);
- }
- 
-+static void virtio_gpu_fb_wait_flush(struct drm_plane *plane)
-+{
-+	struct drm_device *dev = plane->dev;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct virtio_gpu_framebuffer *vgfb;
-+
-+	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-+	if (vgfb && vgfb->fence) {
-+		struct virtio_gpu_object_array *objs;
-+
-+		objs = virtio_gpu_array_alloc(1);
-+		if (!objs)
-+			return;
-+		virtio_gpu_array_add_obj(objs, vgfb->base.obj[0]);
-+		virtio_gpu_array_lock_resv(objs);
-+		virtio_gpu_cmd_wait_flush(vgdev, objs, vgfb->fence);
-+		virtio_gpu_notify(vgdev);
-+
-+		dma_fence_wait(&vgfb->fence->f, true);
-+		dma_fence_put(&vgfb->fence->f);
-+		vgfb->fence = NULL;
-+	}
-+}
-+
- static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
- 					    struct drm_atomic_state *state)
- {
-@@ -204,17 +228,22 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
- 				      rect.x2 - rect.x1,
- 				      rect.y2 - rect.y1);
- 	virtio_gpu_notify(vgdev);
-+
-+	if (vgdev->has_explicit_flush && bo->guest_blob)
-+		virtio_gpu_fb_wait_flush(plane);
- }
- 
--static int virtio_gpu_cursor_prepare_fb(struct drm_plane *plane,
--					struct drm_plane_state *new_state)
-+static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
-+				       struct drm_plane_state *new_state)
- {
- 	struct drm_device *dev = plane->dev;
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_framebuffer *vgfb;
- 	struct virtio_gpu_object *bo;
- 
--	if (!new_state->fb)
-+	if (!new_state->fb ||
-+	    (plane->type == DRM_PLANE_TYPE_PRIMARY &&
-+	    !vgdev->has_explicit_flush))
- 		return 0;
- 
- 	vgfb = to_virtio_gpu_framebuffer(new_state->fb);
-@@ -228,12 +257,16 @@ static int virtio_gpu_cursor_prepare_fb(struct drm_plane *plane,
- 	return 0;
- }
- 
--static void virtio_gpu_cursor_cleanup_fb(struct drm_plane *plane,
--					 struct drm_plane_state *old_state)
-+static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
-+					struct drm_plane_state *old_state)
- {
-+	struct drm_device *dev = plane->dev;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_framebuffer *vgfb;
- 
--	if (!plane->state->fb)
-+	if (!plane->state->fb ||
-+	    (plane->type == DRM_PLANE_TYPE_PRIMARY &&
-+	    !vgdev->has_explicit_flush))
- 		return;
- 
- 	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-@@ -321,13 +354,15 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs virtio_gpu_primary_helper_funcs = {
-+	.prepare_fb		= virtio_gpu_plane_prepare_fb,
-+	.cleanup_fb		= virtio_gpu_plane_cleanup_fb,
- 	.atomic_check		= virtio_gpu_plane_atomic_check,
- 	.atomic_update		= virtio_gpu_primary_plane_update,
- };
- 
- static const struct drm_plane_helper_funcs virtio_gpu_cursor_helper_funcs = {
--	.prepare_fb		= virtio_gpu_cursor_prepare_fb,
--	.cleanup_fb		= virtio_gpu_cursor_cleanup_fb,
-+	.prepare_fb		= virtio_gpu_plane_prepare_fb,
-+	.cleanup_fb		= virtio_gpu_plane_cleanup_fb,
- 	.atomic_check		= virtio_gpu_plane_atomic_check,
- 	.atomic_update		= virtio_gpu_cursor_plane_update,
- };
--- 
-2.30.2
+When SWIOTLB is in place we need to fail that gracefully, try to not 
+expose the functionality or even don't load the driver in the first place.
 
+>> Then while I really want to get rid of GFP_DMA32 as well I'm not 100% sure
+>> if we can handle this without the flag.
+> Note that this is still using GFP_DMA32 underneath where required,
+> just in a layer that can decide that ѕensibly.
+
+Completely agree, I'm just not sure if every driver gets its coherent 
+mask right under every condition.
+
+Might be a good idea to double check the coherent mask in nouveau/radeon 
+when they want to use GFP_DMA32.
+
+>> And last we need something better to store the DMA address and order than
+>> allocating a separate memory object for each page.
+> Yeah.  If you use __GFP_COMP for the allocations we can find the order
+> from the page itself, which might be useful.  For 64-bit platforms
+> the dma address could be store in page->private, or depending on how
+> the page gets used the dma_addr field in struct page that overloads
+> the lru field and is used by the networking page pool could be used.
+
+Yes, I've considered that as well. But I do need the list_head and dma 
+address at the same time.
+
+> Maybe we could even have a common page pool between net and drm, but
+> I don't want to go there myself, not being an expert on either subsystem.
+
+I had the same thought and also the same concerns, can't judge what the 
+net code is doing with this.
+
+Regards,
+Christian.
