@@ -1,59 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FCA37AF24
-	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 21:13:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F9537AF5D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 May 2021 21:34:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1D9E6EAD0;
-	Tue, 11 May 2021 19:13:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A05FC6E1F5;
+	Tue, 11 May 2021 19:34:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com
- [IPv6:2607:f8b0:4864:20::f4a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1BC26EAD0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 19:13:07 +0000 (UTC)
-Received: by mail-qv1-xf4a.google.com with SMTP id
- a6-20020a0ce3460000b02901c4f39aa36aso16305380qvm.21
- for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 12:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=p5OF8uCnVHGhsJH/LB13/zRAsll4eW+Rnf3hqCAjaGs=;
- b=QGCnwNOfvwAHBlH2u/xTMVmWyzEi17mtrBYFHlBxWo/hJvrQ3gT69fp+5BHv7DhTwW
- oMT15L7Cb+z2UKDXuhYZOfBOb9sDRo+WHINPY/Az8vtSPUemEpnxW5Iymj8rQbQd8Ccd
- KhBTHIoKB4QVmEdDbq4YgrYJaWl2OZLSD0zy+yNfnmrBBMVZF71F+RDKK6LY/u17qQFX
- xGy7dXAf5+onoDSAH1Q+v+BY8tGoqM/F1RLWmJBrljss13uGAiVUxb3Fhn4pFpD9zS2c
- /W4ty0mfwt48QFOap46V50vwZqfFSrfF3H5tzlNdEZGtUGIdWzEbmq/x2ElnXj0yn4L0
- lZLg==
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFC146E1F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 19:34:14 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id t4so31539234ejo.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 May 2021 12:34:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=Rv50VShPgfyMveCB9OhxlZ+GUV8MNvMtGFPh1AuYxTw=;
+ b=KkfTLlFDCDCo3TbMwEqMNMe4c3AioNsNDFNUl4emNxzQ8zJkB5X/zfFkppY6LfBfqM
+ ajeGRPn2VwQL0xjrZZhBQyoodLOLu3PWdzKG3gu6DvqadeIhumoYXMNgtPLp6gtkDtRr
+ /9hmoTTkc5nNaVEBeO5/e6RLJXarCWg2hzXQpQnxsJQWn2ex5DOVZWJfv6fxw4HSRxgS
+ L7VpLZsru0gTfM5CMKqZXvyrYM9BoWHd0Il2Ag4d+b9J3WToV/iodMW7zJvT5oxOm1Vq
+ yoMrv3Rw36wfFXZ3DIul6bqFmlwIyxMubVK6cnsF6z2uoOthpXKvgfauH/xFXU7Z8AWq
+ BImw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=p5OF8uCnVHGhsJH/LB13/zRAsll4eW+Rnf3hqCAjaGs=;
- b=hJHkq5v3CsSSwRMJ3jJPkXaNa8J80uOiAwfJhCFfJKuo669vZNI7YRIQo2aGRW+XuT
- SjFHwEJtCFmDc1vREiwOAw7/QK13zDiDWXnqk6b+qWhlnAn8XuvkStmyWOQZ08LE/9Rk
- QKfZ69bYsVRhWVingzLbb+GTFsmHMaeIiA7u6IrcAXzBfaE4nOsqLoG/RYhmfWz3Wb8y
- 7j9p63x5V8m9uucZSuU+7s+uMuzIxhSWNvIS+uRXoY3kRFqZM8KhxlzN8YpLn8zOizAO
- NdMMRqwKq7hpBPvpEManshPmepm04JIdCLuuZM4HLVKmRm5aihcSPK7w4WgmAq3SWZWR
- y8Qw==
-X-Gm-Message-State: AOAM5329J9hi46EHagt+DS154cArY6xJwRoqlJIiSnV3cvN6+j/yeiYG
- Ycx0/wf0P0o13wqvz0rZdgWC1o5dtt6f6FY=
-X-Google-Smtp-Source: ABdhPJwg7uMX+NWke5KhkxiXSzGh9CILFYm94jMx+Qr+MSyD42OBNjsGV3LXlQqaLV6aPqHqshLXb7ZyOmgItXQ=
-X-Received: from saravanak.san.corp.google.com
- ([2620:15c:2d:3:24c0:6742:b823:eafe])
- (user=saravanak job=sendgmr) by 2002:a0c:df08:: with SMTP id
- g8mr31455206qvl.12.1620760386837; Tue, 11 May 2021 12:13:06 -0700 (PDT)
-Date: Tue, 11 May 2021 12:12:58 -0700
-In-Reply-To: <CAE-0n53AcL807G3WLp7phQUNN6umuwUikiz_5bNfcHdRbThu=Q@mail.gmail.com>
-Message-Id: <20210511191259.1139635-1-saravanak@google.com>
-Mime-Version: 1.0
-References: <CAE-0n53AcL807G3WLp7phQUNN6umuwUikiz_5bNfcHdRbThu=Q@mail.gmail.com>
-X-Mailer: git-send-email 2.31.1.607.g51e8a6a459-goog
-Subject: Re: [PATCH] component: Move host device to end of device lists on
- binding
-From: Saravana Kannan <saravanak@google.com>
-To: swboyd@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Rv50VShPgfyMveCB9OhxlZ+GUV8MNvMtGFPh1AuYxTw=;
+ b=ht7nnzVuHhttQ/iAfqL4SPmDbAM7h16oy57dpX++jECJJFwm4elLe5Wq6F7ANzc+Bo
+ 8VD17UWy4vOMfGN9LyYUBCa86Ca9z2kd6wmWIJhwfgJjqKK4fvSvQqdT8wfmcuFltkRZ
+ TQkL2HUEguprIbngPD0YjwxrPZpUoR1i1T9lfzBvFgL0jKYua/1Mdh46A0vLa141cSzw
+ AM9v0GherhpTDnbCnATDO7o2Rtdb858dyeSXRtomVhvHyP2wAD4wnaTQSbhC/85MUO6V
+ cPRrt/FbC02RvnBD//W5DSGS4K8hakPo2U16KyMt39MXC48KDc56H9tH8360a5LjlRO+
+ irnA==
+X-Gm-Message-State: AOAM530RdhK6edpxh6rxFBZEX3DNctfoOgN6k1nrbWOWvRPo5hxL//sh
+ ZdMFEvG/hLqLsofgDWuaQHXbDmNDoAg=
+X-Google-Smtp-Source: ABdhPJwTE/d/bGg7mPEJmRHBWZC8IrtRJIebGgAo4UlD+Z4uxhhfdlqHktLUJLg+gvvxMZrPX7M7JQ==
+X-Received: by 2002:a17:906:8307:: with SMTP id
+ j7mr32413946ejx.420.1620761653315; 
+ Tue, 11 May 2021 12:34:13 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:f9f0:da63:8d2d:bbc6?
+ ([2a02:908:1252:fb60:f9f0:da63:8d2d:bbc6])
+ by smtp.gmail.com with ESMTPSA id bw16sm8408083ejb.50.2021.05.11.12.34.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 12:34:12 -0700 (PDT)
+Subject: Re: [RFC] Implicit vs explicit user fence sync
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210504132729.2046-1-christian.koenig@amd.com>
+ <YJFXG/THrjXqQjyN@phenom.ffwll.local>
+ <d266ccd2-3259-99ce-5fd6-b8ae81ac14e9@gmail.com>
+ <YJFkN/bgN6UCXdvA@phenom.ffwll.local>
+ <f1616be5-a8cb-076d-a63d-9554a76b0b0a@gmail.com>
+ <YJoy6oI34tQZMt6/@phenom.ffwll.local>
+ <0128750d-56bf-7697-0fda-0342c7b7df17@gmail.com>
+ <YJqTeQAjsr1Tn9CZ@phenom.ffwll.local>
+ <a08a4b30-5ae5-49ac-bad0-c77a5cabbecd@gmail.com>
+ <YJq1T8yWXSW6TRjW@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <d91f5635-9f03-d1ea-4bc5-594b42402eaa@gmail.com>
+Date: Tue, 11 May 2021 21:34:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <YJq1T8yWXSW6TRjW@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +82,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>, rafael@kernel.org,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rmk+kernel@arm.linux.org.uk,
- kernel-team@android.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Stephen Boyd <swboyd@chromium.org>:
-> Quoting Daniel Vetter (2021-05-11 06:39:36)
-> > On Tue, May 11, 2021 at 12:52 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > >
-> > > On Mon, May 10, 2021 at 9:08 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> > >
-> > > [cut]
-> > >
-> > > >
-> > > > >
-> > > > > > I will try it, but then I wonder about things like system wide
-> > > > > > suspend/resume too. The drm encoder chain would need to reimplement the
-> > > > > > logic for system wide suspend/resume so that any PM ops attached to the
-> > > > > > msm device run in the correct order. Right now the bridge PM ops will
-> > > > > > run, the i2c bus PM ops will run, and then the msm PM ops will run.
-> > > > > > After this change, the msm PM ops will run, the bridge PM ops will run,
-> > > > > > and then the i2c bus PM ops will run. It feels like that could be a
-> > > > > > problem if we're suspending the DSI encoder while the bridge is still
-> > > > > > active.
-> > > > >
-> > > > > Yup suspend/resume has the exact same problem as shutdown.
-> > > >
-> > > > I think suspend/resume has the exact opposite problem. At least I think
-> > > > the correct order is to suspend the bridge, then the encoder, i.e. DSI,
-> > > > like is happening today. It looks like drm_atomic_helper_shutdown()
-> > > > operates from the top down when we want bottom up? I admit I have no
-> > > > idea what is supposed to happen here.
-> > >
-> > > Why would the system-wide suspend ordering be different from the
-> > > shutdown ordering?
-> >
-> > At least my point was that both shutdown and suspend/resume have the
-> > same problem, and the righ fix is (I think at least) to add these
-> > hooks to the component.c aggregate ops structure. Hence just adding
-> > new callbacks for shutdown will be an incomplete solution.
-> 
-> To add proper hooks to component.c we'll need to make the aggregate
-> device into a 'struct device' and make a bus for them that essentially
-> adds the aggregate device to the bus once all the components are
-> registered. The bind/unbind can be ported to probe/remove, and then the
-> aggregate driver can get PM ops that run before the component devices
-> run their PM ops.
-> 
-> Let me go try it out and see if I can make it minimally invasive so that
-> the migration path is simple.
+Am 11.05.21 um 18:48 schrieb Daniel Vetter:
+> [SNIP]
+>> Why?
+> If you allow implicit fencing then you can end up with
+> - an implicit userspace fence as the in-fence
+> - but an explicit dma_fence as the out fence
+>
+> Which is not allowed. So there's really no way to make this work, except
+> if you stall in the ioctl, which also doesn't work.
 
-Yes, please! This is the right solution. We should put all these aggregate
-devices in some "aggregate" bus (needs a better name) and NOT a drm bus because
-AFAICT components are not specific to the drm framework.
+Ok, wait a second. I really don't understand what's going on here.
 
-You can also create device links (without the STATELESS flag, and a bunch of
-other flags) from the aggregate device to all the component devices and this
-will automatically fix all the ordering issues too.
+The out fence is just to let the userspace know when the frame is 
+displayed. Or rather when the old frame is no longer displayed so that 
+it can be reused, right?
 
-I'd be happy to help with this if you want and happy to review this too. Please
-Cc me when you send out this series.
+Then why does that need to be a dma_fence? We don't use that for memory 
+management anywhere, don't we?
 
--Saravana
+> So you have to do an uapi change here. At that point we might as well do
+> it right.
 
-> 
-> >
-> > I don't feel like changing the global device order is the right
-> > approach, since essentially that's what component was meant to fix.
-> > Except it's incomplete since it only provides a solution for
-> > bind/unbind and not for shutdown or suspend/resume as other global
-> > state changes. I think some drivers "fixed" this by putting stuff like
-> > drm_atomic_helper_shutdown/suspend/resume into early/late hooks, to
-> > make sure that everything is ready with that trick. But that doesn't
-> > compose very well :-/
-> 
-> Yeah it looks like msm is using prepare/complete for this so that it can
-> jump in early and suspend the display pipeline before the components
-> suspend themselves. The shutdown path only has one callback so we can't
-> play the same games.
+I mean in the worst case we might need to allow user fences with 
+sync_files as well when that is really used outside of Android.
+
+But I still don't see the fundamental problem here.
+
+Regards,
+Christian.
+
+> Of course if you only care about some specific compositors (or maybe only
+> the -amdgpu Xorg driver even) then this isn't a concern, but atomic is
+> cross-driver so we can't do that. Or at least I don't see a way how to do
+> this without causing endless amounts of fun down the road.
+>
+>>> So I have a plan here, what was yours?
+>> As far as I see that should still work perfectly fine and I have the strong
+>> feeling I'm missing something here.
+>>
+>>>> Transporting fences between processes is not the fundamental problem here,
+>>>> but rather the question how we represent all this in the kernel?
+>>>>
+>>>> In other words I think what you outlined above is just approaching it from
+>>>> the wrong side again. Instead of looking what the kernel needs to support
+>>>> this you take a look at userspace and the requirements there.
+>>> Uh ... that was my idea here? That's why I put "build userspace fences in
+>>> userspace only" as the very first thing. Then extend to winsys and
+>>> atomic/display and all these cases where things get more tricky.
+>>>
+>>> I agree that transporting the fences is easy, which is why it's not
+>>> interesting trying to solve that problem first. Which is kinda what you're
+>>> trying to do here by adding implicit userspace fences (well not even that,
+>>> just a bunch of function calls without any semantics attached to them).
+>>>
+>>> So if there's more here, you need to flesh it out more or I just dont get
+>>> what you're actually trying to demonstrate.
+>> Well I'm trying to figure out why you see it as such a problem to keep
+>> implicit sync around.
+>>
+>> As far as I can tell it is completely octagonal if we use implicit/explicit
+>> and dma_fence/user_fence.
+>>
+>> It's just a different implementation inside the kernel.
+> See above. It falls apart with the atomic ioctl.
+> -Daniel
