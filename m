@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CC337B816
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 10:34:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6EF37B818
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 10:34:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B654B6EB5D;
-	Wed, 12 May 2021 08:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 508446EB59;
+	Wed, 12 May 2021 08:34:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC4006EB59
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 08:34:09 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A41A8613B4;
- Wed, 12 May 2021 08:34:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A1476EB59
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 08:34:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C5B41613C8;
+ Wed, 12 May 2021 08:34:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1620808449;
- bh=1AN3HUgJHW0i7afASAYdYYLrH4KpJHjMYquQYctalMk=;
+ s=korg; t=1620808481;
+ bh=MP4W21O8g/g6ilXKwMcOOlAUrigSrlaIlaRHC6r5b/s=;
  h=Subject:To:Cc:From:Date:From;
- b=QaLj14FTQWBQsrUnAywcJPb0vhAZOiYU2Q5DyM2ZOAe0Qe69gFgvncFmHPJuIcpBD
- 164M8I/bM0W0BG0hCrC+9bVDErT94GPqjVOCuJT484tCyQhupCGtdbKis6NZUlEvm4
- DZsc6SAT7pyJawmTlDluy3ed/Z15Q2A0mSjqv4bs=
+ b=mEAxOmns5BV+6+n/FiICElLI1P6JaC6HTMzvqOvVP62IWsdPve4romdq94Y4WSai0
+ zX33hghvWRW+TP0hwvo8vL49Cs7yAtwvfoHOFAweRIS6tlaIcZENiQYPgb13HUtjGR
+ i1cAJJpPdTJcwsbrrVaUYJL6PbVcx3431MyaYnz4=
 Subject: Patch "drm: bridge: fix LONTIUM use of mipi_dsi_() functions" has
- been added to the 5.10-stable tree
+ been added to the 5.11-stable tree
 To: a.hajda@samsung.com, adrien.grassein@gmail.com, bjorn.andersson@linaro.org,
  dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, lkp@intel.com, narmstrong@baylibre.com,
  rdunlap@infradead.org, robert.foss@linaro.org, sam@ravnborg.org,
  srinivas.kandagatla@linaro.org, vkoul@kernel.org
 From: <gregkh@linuxfoundation.org>
-Date: Wed, 12 May 2021 10:33:36 +0200
-Message-ID: <162080841622449@kroah.com>
+Date: Wed, 12 May 2021 10:33:53 +0200
+Message-ID: <16208084331023@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -57,12 +57,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm: bridge: fix LONTIUM use of mipi_dsi_() functions
 
-to the 5.10-stable tree which can be found at:
+to the 5.11-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-bridge-fix-lontium-use-of-mipi_dsi_-functions.patch
-and it can be found in the queue-5.10 subdirectory.
+and it can be found in the queue-5.11 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -118,15 +118,15 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/bridge/Kconfig
 +++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -54,6 +54,7 @@ config DRM_LONTIUM_LT9611
+@@ -67,6 +67,7 @@ config DRM_LONTIUM_LT9611UXC
  	depends on OF
  	select DRM_PANEL_BRIDGE
  	select DRM_KMS_HELPER
 +	select DRM_MIPI_DSI
  	select REGMAP_I2C
  	help
- 	  Driver for Lontium LT9611 DSI to HDMI bridge
-@@ -138,6 +139,7 @@ config DRM_SII902X
+ 	  Driver for Lontium LT9611UXC DSI to HDMI bridge
+@@ -151,6 +152,7 @@ config DRM_SII902X
  	tristate "Silicon Image sii902x RGB/HDMI bridge"
  	depends on OF
  	select DRM_KMS_HELPER
@@ -134,7 +134,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	select REGMAP_I2C
  	select I2C_MUX
  	select SND_SOC_HDMI_CODEC if SND_SOC
-@@ -187,6 +189,7 @@ config DRM_TOSHIBA_TC358767
+@@ -200,6 +202,7 @@ config DRM_TOSHIBA_TC358767
  	tristate "Toshiba TC358767 eDP bridge"
  	depends on OF
  	select DRM_KMS_HELPER
@@ -146,4 +146,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from rdunlap@infradead.org are
 
-queue-5.10/drm-bridge-fix-lontium-use-of-mipi_dsi_-functions.patch
+queue-5.11/drm-bridge-fix-lontium-use-of-mipi_dsi_-functions.patch
