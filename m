@@ -2,31 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603A537C3BE
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 17:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B630537C439
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 17:30:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6795C6EC37;
-	Wed, 12 May 2021 15:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51A5B6EC3A;
+	Wed, 12 May 2021 15:30:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 55C026EC3A
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 15:24:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 772916EC3A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 15:30:42 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB59231B;
- Wed, 12 May 2021 08:24:54 -0700 (PDT)
-Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 84CF73F718;
- Wed, 12 May 2021 08:24:53 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E453131B;
+ Wed, 12 May 2021 08:30:41 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DCDAE3F718;
+ Wed, 12 May 2021 08:30:40 -0700 (PDT)
+Subject: Re: [PATCH 1/1] drm/panfrost: Remove redundant error printing in
+ panfrost_device_init()
+To: Zhen Lei <thunder.leizhen@huawei.com>, Rob Herring <robh@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20210511090433.4396-1-thunder.leizhen@huawei.com>
 From: Steven Price <steven.price@arm.com>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Subject: [PATCH] drm/panfrost: Handle failure in panfrost_job_hw_submit()
-Date: Wed, 12 May 2021 16:24:19 +0100
-Message-Id: <20210512152419.30003-1-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
+Message-ID: <dc48db2b-4ffc-a586-c3a3-0f7544ec8107@arm.com>
+Date: Wed, 12 May 2021 16:30:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210511090433.4396-1-thunder.leizhen@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,106 +48,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Zou Wei <zou_wei@huawei.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently panfrost_job_hw_submit() returns void and therefore cannot
-propagate failures to it's caller, which is a shame because it has two
-failure paths. Currently these are handled by waiting for a job timeout
-on the job even though it was never submitted. But we can do better.
+On 11/05/2021 10:04, Zhen Lei wrote:
+> When devm_ioremap_resource() fails, a clear enough error message will be
+> printed by its subfunction __devm_ioremap_resource(). The error
+> information contains the device name, failure cause, and possibly resource
+> information.
+> 
+> Therefore, remove the error printing here to simplify code and reduce the
+> binary size.
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 
-Refactor to return a failure code from panfrost_job_hw_submit() and
-report the failure back to the DRM scheduler. This means there's no need
-to wait for the scheduler to timeout on the job and the failure can be
-handled immediately.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-Signed-off-by: Steven Price <steven.price@arm.com>
+I'll push to drm-misc-next.
 
----
-This hopefully will also stop future reports of a PM reference
-leak[1][2] which doesn't actually exist.
+Thanks,
 
-[1] https://lore.kernel.org/r/20200520110504.24388-1-dinghao.liu%40zju.edu.cn
-[2] https://lore.kernel.org/r/1620714551-106976-1-git-send-email-zou_wei%40huawei.com
----
- drivers/gpu/drm/panfrost/panfrost_job.c | 27 ++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+Steve
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 6003cfeb1322..ac1ae38aaf12 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -148,21 +148,22 @@ static void panfrost_job_write_affinity(struct panfrost_device *pfdev,
- 	job_write(pfdev, JS_AFFINITY_NEXT_HI(js), affinity >> 32);
- }
- 
--static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
-+static int panfrost_job_hw_submit(struct panfrost_job *job, int js)
- {
- 	struct panfrost_device *pfdev = job->pfdev;
- 	u32 cfg;
- 	u64 jc_head = job->jc;
- 	int ret;
- 
--	panfrost_devfreq_record_busy(&pfdev->pfdevfreq);
--
--	ret = pm_runtime_get_sync(pfdev->dev);
-+	ret = pm_runtime_resume_and_get(pfdev->dev);
- 	if (ret < 0)
--		return;
-+		return ret;
-+
-+	panfrost_devfreq_record_busy(&pfdev->pfdevfreq);
- 
- 	if (WARN_ON(job_read(pfdev, JS_COMMAND_NEXT(js)))) {
--		return;
-+		pm_runtime_put_autosuspend(pfdev->dev);
-+		return -EBUSY;
- 	}
- 
- 	cfg = panfrost_mmu_as_get(pfdev, &job->file_priv->mmu);
-@@ -194,6 +195,8 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 				job, js, jc_head);
- 
- 	job_write(pfdev, JS_COMMAND_NEXT(js), JS_COMMAND_START);
-+
-+	return 0;
- }
- 
- static void panfrost_acquire_object_fences(struct drm_gem_object **bos,
-@@ -347,12 +350,11 @@ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
- 	struct panfrost_device *pfdev = job->pfdev;
- 	int slot = panfrost_job_get_slot(job);
- 	struct dma_fence *fence = NULL;
-+	int err;
- 
- 	if (unlikely(job->base.s_fence->finished.error))
- 		return NULL;
- 
--	pfdev->jobs[slot] = job;
--
- 	fence = panfrost_fence_create(pfdev, slot);
- 	if (IS_ERR(fence))
- 		return NULL;
-@@ -361,7 +363,14 @@ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
- 		dma_fence_put(job->done_fence);
- 	job->done_fence = dma_fence_get(fence);
- 
--	panfrost_job_hw_submit(job, slot);
-+	err = panfrost_job_hw_submit(job, slot);
-+
-+	if (err) {
-+		dma_fence_put(fence);
-+		return NULL;
-+	}
-+
-+	pfdev->jobs[slot] = job;
- 
- 	return fence;
- }
--- 
-2.20.1
+> ---
+>   drivers/gpu/drm/panfrost/panfrost_device.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index fbcf5edbe367521..125ed973feaad0a 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -238,7 +238,6 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+>   	res = platform_get_resource(pfdev->pdev, IORESOURCE_MEM, 0);
+>   	pfdev->iomem = devm_ioremap_resource(pfdev->dev, res);
+>   	if (IS_ERR(pfdev->iomem)) {
+> -		dev_err(pfdev->dev, "failed to ioremap iomem\n");
+>   		err = PTR_ERR(pfdev->iomem);
+>   		goto out_pm_domain;
+>   	}
+> 
 
