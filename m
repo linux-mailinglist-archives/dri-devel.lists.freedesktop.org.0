@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500D737BFEF
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 16:27:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DEA37BFF2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 16:27:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7878E897FF;
-	Wed, 12 May 2021 14:27:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08809899F0;
+	Wed, 12 May 2021 14:27:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2059.outbound.protection.outlook.com [40.107.102.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12CBE897FF;
- Wed, 12 May 2021 14:27:07 +0000 (UTC)
+ (mail-dm6nam08on2040.outbound.protection.outlook.com [40.107.102.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBBBA6E079;
+ Wed, 12 May 2021 14:27:08 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EmT0TMvnOoZ4gQJZbpuxvURVdklP1/rjP/R0PGDcBScbIHPy3Q4xa30OS00OSS6xZrakD7HQkNotRN+Y2Wib+RRGiMlwny7ppX8JDeQ4qp0CSQ9dA1IJQ8YzKiJV8UH4svkUTLVnTXtr82kZlk81OMey4Cy14sZxnbvp54ITkcZNyFTh9+zsweD8MsOZ0mB0foCa0SaVWi3oaLBkxTRm/9AS46nrEouKjima6Vrvg81gjwpjOyhBPtCuufFVG4mA8jQT1MyKEeBPqXByl7Kw9ir0XKbJaS90zsjl3cuffkplnq+K+uP3xO4tfBt4WYEWqxrnUMUvKfPl50B2f9wz4A==
+ b=jS5RAF8o5mrHr9N1fu1aZIRQlgsHFjuMpUIBEpCrTafHH6nTO8iNwazNVupEyg+Z79D/+vSIsGu1m3r89fX5I+IhbXULVTQsE8yrYarkAxW+1TubW0UWEKVGjd0vCSk0x8/vwne6mIBAgjx5Bre4g34nZZMXl3SCN7m/A8EBNTCGj1rKQxHEbstf8M9Ad3DlIsyDmL7I6eaAkxxvLyz49g1hMBkjVZRV/n84qQdene3obYb18Z+X/gezj4Dsf9Ocjha/tixq1AJEBlhSxvtjlgz+WxH1wKqpxSTPXaXJtZZBeIGqQgQK1IkiQGYqvfGb0lDNLUmxBUJMEFOLCaS5zA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WcvYwkuZL0nRSl7IMje1cH8uSXCMGXPXefGP3da0Pk8=;
- b=ZrX7NBPJDtgwfLBHeIekmUNUpkniGMkwcepdUsqUajapdrIs0rrmb8E1+RnmRcBStyfr3vx9v5N8njaXYdkcCwXYbWDShhLGJoetSekUhJ4EQHdvB2e+vgbhP2Viz76yy4idsy/ZsStpPlrdiiE2W69wIYKpVyJsou5cjG9OzXhxN54B8AbLGwg2pdJ7zt3Btqn8Ul8MDN/NI4CxdmdMkVFiXmOgEtEivtDTfNlbyGR1lwGHhA8ljRf4dd0P2mrTwOUk5ma8Bpzuo8h7zBfBFULr3eWNwdf7x1N1cflOY4NeqjNErHG8qQDt6O/pFV64DCBzyZk9lc3OLc9YOdw3dQ==
+ bh=j8CHomDLolHWYr6vXq3Rl7552WLkWchm5KRWiP0lHhI=;
+ b=UnSgnzomTf/Uvl8LCWJAF8oEo6eEBA2sO2x7SFtS+1vI38X8KndCis4hf+v2rz13xOEuArVcKgmGjyDg7tzpvYROY48YaJrsr1TvqcGdHlj0DHP0Ol8OYKIBhWaFXj+uHr3OOWuAX7BOqPX30Ar3J4Zh96GUUSyR6cbB9JH76PCp4Xz5pG8B04he4T/9t7NWzxZ1g3Vg6ruhQEtJI2JJtyAAUC1N7q7aKYmIQ8mV4VjQvBX2Ox/uGerxuwYaDpVySADtxMYKEzD5Jfbhl8EzAisehQqPxEt2uwHU7Pfcal9xQoVndpsMf+9l50cfyz9FZPTHrfFlLwhh4MNp37ksHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WcvYwkuZL0nRSl7IMje1cH8uSXCMGXPXefGP3da0Pk8=;
- b=WAUz8DUcv2quR48g+R/DoyZ/y1rM0t3q8c44nfEf8nyJu3ZHBHRhzArChkBV5eAehCQCaDvy0W6tgnBL84TXxuZw6tmDPhBvZGIl8TIemRdwtVwEjAMF0tZIHXL6SSA9Hik9s+Mf5RaIxuxMWLjSD8zglZ5H8cC/lcUJ72YU2nw=
+ bh=j8CHomDLolHWYr6vXq3Rl7552WLkWchm5KRWiP0lHhI=;
+ b=MElGLQMI/LtmlnN1NF/t0kC4QD2NtiXxqxBhhdrWOULFfbiK/fsH5vywCJ685aaQBjt0ddVTOZunL924TRgNF+B1JIKxnwfAAp8Ax8pB4f67XlfCPp3P96c9nupCsSkrFzmVvbK6Jmii7DgxrgSBhb2h7Tf6DW4vqTPAqLFgGEI=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,19 +34,22 @@ Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
  by SA0PR12MB4576.namprd12.prod.outlook.com (2603:10b6:806:93::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.27; Wed, 12 May
- 2021 14:27:05 +0000
+ 2021 14:27:07 +0000
 Received: from SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4129.026; Wed, 12 May 2021
- 14:27:05 +0000
+ 14:27:07 +0000
 From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-pci@vger.kernel.org, ckoenig.leichtzumerken@gmail.com,
  daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
-Subject: [PATCH v7 00/16] RFC Support hot device unplug in amdgpu
-Date: Wed, 12 May 2021 10:26:32 -0400
-Message-Id: <20210512142648.666476-1-andrey.grodzovsky@amd.com>
+Subject: [PATCH v7 01/16] drm/ttm: Remap all page faults to per process dummy
+ page.
+Date: Wed, 12 May 2021 10:26:33 -0400
+Message-Id: <20210512142648.666476-2-andrey.grodzovsky@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210512142648.666476-1-andrey.grodzovsky@amd.com>
+References: <20210512142648.666476-1-andrey.grodzovsky@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [2607:fea8:3edf:49b0:7576:4f76:97d8:1487]
@@ -60,61 +63,61 @@ Received: from agrodzovsky-All-Series.hitronhub.home
  YTOPR0101CA0032.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::45) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.30 via Frontend
- Transport; Wed, 12 May 2021 14:27:04 +0000
+ Transport; Wed, 12 May 2021 14:27:06 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6854c8c3-8493-492a-e63c-08d915520412
+X-MS-Office365-Filtering-Correlation-Id: 975d7753-45e7-4525-b5b4-08d915520562
 X-MS-TrafficTypeDiagnostic: SA0PR12MB4576:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4576CAFD66C969869B94AE0AEA529@SA0PR12MB4576.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4576B7E47A621593392FF689EA529@SA0PR12MB4576.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BBHUOoLrJDMJNmdfXVwwWPJBL7Ikn3ZvqN+1+40bG4+kPqTDg4eY+dl79x1mlKYZa5CA1MpjtltOkVPXdMZpL1xr0OhK/41N1APB9sUWgLf7d5IszS9MFqI/sCLAi0eG19pxXtgEe5zhIBK+wFQVf/NBNZjJOii0mtMypQyQXkAvQWlp/RmEzFSAp9U/nN2ATxmATr8eFv0GEjK36rThmE/jPf5MsgOhDbWoRXjr0BEUtCvhIvyYFP407B7fmEMu7+izQxRgUHWyrE+HgHCrYRtLb3KL2TYJCroFWgPUjVsUNQFip2wSzv7yD7Nwjicqu2+kNHJr9TsaKU/n7lNaPRJxus/95wzyLCISoLaDMgU+k8n9oPAjOxuTXNn4O0+0skY0MlOROmyH96A3N6LpiZBNflcHRlUWswfdzIdlfcp8cA/EBY7qWvK4o9yuL/QEi00pw474plTwweutis5h8M+5lKZlmp45lKqC8OKu9hgwn1qaz2kfGqyRxIdFvI+DqxmS/4O/cxN4L0upZ4YM7d7T0OwYzKCPbWpMWgCnmB81pTYws1YxNw2Ort7XXL2ahuEyXnXN3LsZR39l0SWufDi3f/uknzDtEGmru4/jOngdYYoUg8iTvfykRBMpg3rFOG9tNy1NCorxESNxuwjQ8DxdXaiOdu23cZ98DH4cYD7/vCLkf2KxtcYRjD1PbLCER7wt6BZ5OPp3aVJ4iinRkzUCvCg6h/1xF5mAw8KaU0k=
+X-Microsoft-Antispam-Message-Info: etRnEnff2z2ZPq+iDnCEn6lAqBYiED72ykSUMSeOX/aYUCJF4AXk1i7ykQgIsxkTepOwTquWwDGKf+7gqXiiAmZFoh49JBzhWijeuHaYXs9j5M9Pdw8gE6pO/Vfi6JOIvRg4JlR7xOJYo21sighKrL9ljmXzzdaPV8RTV8O+nHFNqPwSQZCjc707IhmJ5T/nuRYKQ6xcpUBjLTl8RFOYqQdwbQAw2PWRF1Kapok7nkTydnEqN1Sia66E58Or1L26RD+Wvz2c2Enbe6/hmqtesE0dSeWSFO+9xYMS5X1W0B/olq/7nCsFiP+yEKg6ZdMlUancXt5HV8oNKKgi7V/g5bieXor0dO94Nt1NMCs46ilMNak0U2D0hajIf8hGl2lU9G5jIjhxSjMvqY3Z3o1r9jF7WPK1qMnLZULUQkhOPeWUz3Mvslrjb5k6ZmWb73Q6BxqXpgObxJOjyPUyD6vyKCHDZ23CLSTvb6azTT12DzCCzIcddZGMgWrEWYfCfIPHMpxnRcBQNp8q3h17H+gkE5A5E9eqcpEb1nBccJwtWHOWETJzwhc1xobe7lRJbu62JehEKdbBieOlnN4v8hgQuDf7qCR8Fs99MWQT6m2A0NQ=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(366004)(346002)(396003)(136003)(38100700002)(5660300002)(1076003)(6666004)(186003)(316002)(16526019)(8676002)(83380400001)(66476007)(2906002)(6636002)(86362001)(52116002)(966005)(36756003)(2616005)(66946007)(66556008)(8936002)(6512007)(6506007)(44832011)(478600001)(4326008)(6486002);
+ SFS:(4636009)(376002)(39860400002)(366004)(346002)(396003)(136003)(66574015)(38100700002)(5660300002)(1076003)(6666004)(186003)(316002)(16526019)(8676002)(83380400001)(66476007)(2906002)(6636002)(86362001)(52116002)(36756003)(54906003)(2616005)(66946007)(66556008)(8936002)(6512007)(6506007)(44832011)(478600001)(4326008)(6486002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SnFSaUptQVNKNjZVdzcwdGdrcmIwNWMyVG82b05hQ3J2NDZYNkZCN2FFWXJa?=
- =?utf-8?B?aHBVZnRTSnRmcVRVZ1VqdEp6SnF2VWgraWZWVjBiSXlNRnYzZVhBWklVQnVh?=
- =?utf-8?B?MVNEeGtDc3c4TmtGOFlQbjhaaWhER2J6T3gxWTZPM05DZDhYeWovNEdCM01R?=
- =?utf-8?B?c0trRFFTc1BMcExNQTlweWdDdTRtckUyWG1sUWtuZWdjN1d0c0h1QTRaVkpQ?=
- =?utf-8?B?UVBqYVFxOTd0bFFqUXZLR29xUnIxc1NrdVpFTFFFNnZlUkRsM242dFFDZEhE?=
- =?utf-8?B?bStEL1BxZWhCeFFBakVUZWNjOTJ4WHBPeU5DNHRMU05VRDU3T0x6a3hYSWJV?=
- =?utf-8?B?dFNHZysrRVFHRlVYMWVVcGNuUHRVZEZyc0Q5eVZMUkd0NUxqTlJEanNkaW1V?=
- =?utf-8?B?eVY4TWhVUHg2YVI1T1ZkVE1McWhFaDYycXlGQjVlR1ZuU21YdkxOYkU5bHJk?=
- =?utf-8?B?MXY4dm5PNDVpSi9OZmUvRUREVlFNNllPZHF6UGhUMll3S3YyanVFcURpdmVV?=
- =?utf-8?B?ZHBaaS9ySmlpdllpakJ5QXFxaG5ucE9SQ1pGbnhhOWFFRXgzdmRBSkFXSGtv?=
- =?utf-8?B?TldzTU9BV0s4Z3luSGNxV0x4Y0JFMmhOYk9GMVlCdFowaDNpTFRaa2tCOGU4?=
- =?utf-8?B?Y1RKanlSWnJSTyt6SXk4WERvL0VKQXVJQVo1OWJTRDF2K2F3WjM2bktmZXJv?=
- =?utf-8?B?TmdaNVN1YnZZOTZlOTlWN3p5UTh2cmdkQk81T0dEQVFhbERHMDJBYTgyazUy?=
- =?utf-8?B?R21oWEtaQ2gxMkF6VDJSdTM2VVBpcGl1bjBIa2F3dUdGMWxpS0tWR3lwWWVQ?=
- =?utf-8?B?ZWFTNk9SQ3ZOVVZJU3NTaHJ2RE1RaC9XZnl3cWUzV0lmempnc1RrQldBa3JM?=
- =?utf-8?B?MGVId01reEl5NWUrRHlqTHBuUmZ5ZlJLb1JqaStwUzZEOU5WcjkyQ2ZVckFh?=
- =?utf-8?B?ZURqQnoyY2NxMncxTjl6N3IvWkRXUjB3Y0VzdFk4WHpqTlRHa05ZdTdSZjF3?=
- =?utf-8?B?bThXN1l6b1BCQ1NxbTdkOTJwSEN3K1F5SHRHY0kxaDR4bXhEanBOWEFLcmN5?=
- =?utf-8?B?NHZnK0ZEM0M2UEc2MTBpMXBsUlBnSThLQU1RbjBEd2FDYkoyVGc3U3ZDcmd2?=
- =?utf-8?B?WDBQZUhrcW9pMGRLOWhBTi9FRGhnRWYzdWVLbGNDRDFPNXNQdVR1VzVzSldN?=
- =?utf-8?B?ZmZ1Vm0rU2JDUVZqcDRNZVdKUGQ3V3pCWmZvVDhIaHFZSHJzM3VWREJYVS83?=
- =?utf-8?B?T1N2NlpLeGxMdXhyL2xhZURjNnpUa2U4ZXhGU2VHalNlUmdzYlhoTW1vb003?=
- =?utf-8?B?end4LzVsNEZnRWRiZjdSdmZWdWpWd2ZrWTZoVThyUm9NUnVnTXdCdGFCSWVJ?=
- =?utf-8?B?S1pDSFVHYnJnZnZ6THFqcWllT29YV0k4eW02R1g4SjEydW9iRWNESGFiOXVk?=
- =?utf-8?B?V25RWmx4clB1WmRPZ2V1M0J2cks4djZQQUltUWxaekhGczRiVkNabXgrYmhQ?=
- =?utf-8?B?ZWk2WHFnVm81ODY3aWhFVTZVL1Faa1RRWFB0cWtYSlI3WVU2Tk5vcUNPU0wx?=
- =?utf-8?B?ZmFCM05raXJqZ1VSeG9iWWcxaG83dUgyS3VNeGRHc21YMlR6YzgwaXJFYVNB?=
- =?utf-8?B?K1U4OWlqQjZ6cHo4QVM3UXhCWmEvMEx5Qm9nYTA0dkxtWEpZMWpOUXR4eTUw?=
- =?utf-8?B?ZysvVmdOZi9WQmhUbjFaZ0xiWHVmZDFHL1lOUnpuOHJSczFIYWROL2ZWeHpK?=
- =?utf-8?B?N1RKUEp2ZXNmUjdqdTNrVTB4Q0lRc0tONGZGQndxTEpSWkxKbmdtY0I2eEJQ?=
- =?utf-8?B?Tk5XZUoxbHo0Wkk4NGJrZHp0RmFvNXNQWjNqbWxEME1TTXk4L2JXa1NZSFQx?=
- =?utf-8?Q?KZyehjeK9+bLZ?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VTcvWktXN3FmMlJHMWYweVZOTlFvaS80L0NSdkdGRkhPdlVJaVRWeWt0clY2?=
+ =?utf-8?B?OWExRFViUFR0WmYvaUxOTDFDcWh2cm5aamhVaXg3am5ranJUTTNMaCtXdXpo?=
+ =?utf-8?B?aFh1QXJSanpJUW9qb1QralFTQmlWVzhKMVErLzdLUFFKbE5rb0Zyc2FaK01C?=
+ =?utf-8?B?djcyd1VacFJDYS9uTk42YXBwK2FiV2RhbzlQNm8rWDNWVmE0d1pGSDZmTDA2?=
+ =?utf-8?B?TE9JS2cvRXpJZStnNU5Gd2xuZ09EbmxLMnEyR1RVV2w0S0ExbzBWbkIvclll?=
+ =?utf-8?B?eEprdndxem9Sa2F1R1Q5aXU1M0JmeGg4MUdUUDZ4ekNjc0M4NzFVM1djVnB3?=
+ =?utf-8?B?bWZYMUlMUzF3bUFHazhMdktLcHlFaEpjWUphckVpZGVVazJjWkE5V1BweFU1?=
+ =?utf-8?B?NlZUZVh3ekQ2b0hudWtCc1pUU3RWTjVXN2VJT2RKZXEyUnp3cHd6amtKRnlV?=
+ =?utf-8?B?UWdqWk9IMXVxQ0l0R3VrVmNCczFvWkJyMndEamh0NVRaUld0ZHgyM2V5ZCtq?=
+ =?utf-8?B?cU5oNmt2WFV0YUg5TXNFMFlod1pQQUpVSVRrVEtSbVR4aG9QVE4wVDZGQXdH?=
+ =?utf-8?B?TVhBZUZjUk5GV2sxVkQ0MXhHK1Z0R0Q2S0orSkRpbDF2K3dTbEJRWkZocENX?=
+ =?utf-8?B?cWNlWWZIb0tWR0JRSHNIY3dXT3FQUmNOSHpjQjYrOUltMWRmQ2pCMGZSWGVE?=
+ =?utf-8?B?TGJiaEZ4eUw4U0xKdjhybkhPdFVmVDJJY1Z0cTBDUUxpdkU5TDBHTXBKWHNZ?=
+ =?utf-8?B?a1BCRURmMmQxMGtFSzlLa1pYYWs3TzBZNllEUGxSS1NKOVA1d1RxSjFIdUxJ?=
+ =?utf-8?B?YzBwemZTUkprc0tRalRSMEVBMFF2Rk9GQjFMZ3RtQitGenU0Nll2K3k1N3N1?=
+ =?utf-8?B?T3UzM0FOL0pZeTRTOFZGZ2EyK0ZEYzJDWURoSUhNWFp6MEcxOTMyUnJzbUJW?=
+ =?utf-8?B?cXRhOGpxS002ZSs4U1crTTVLVlNuUmtUdzNYNm91V255cXBXOXlCaE9FQ25B?=
+ =?utf-8?B?L2Z1ejJzOUdKMGVkMU9HTXd4M1ZvUUFDL1lqN21RbmRjTUJqZzlhdC9vd0hM?=
+ =?utf-8?B?bTRnYzBYZVVidlJ6aDV2bkdRVGZCSVRYVWNZSnhvQWpORnYrb1VNYmtia25W?=
+ =?utf-8?B?TTR3R3ZGZ1VnVkJuVHFQNmM4OVhYcFAzVmdwcXpaS0h1YTJsS3RXZjdMdHRT?=
+ =?utf-8?B?dnp3azF1dkh5bTZ3SnpxcHpnbXRBMEtFcmZCNHNFRWpzK3VZeXNicWk0MWRP?=
+ =?utf-8?B?TTNVN2VUSG1COUpwZWdFcFRSYmloNld1cHRBWXlyK05xMTZDQmZBTFRiclFO?=
+ =?utf-8?B?S2xGWnh3REdtQ2d4SEh1UUtid1VoVnNQUDZXM0k4ZFo3QlozbkN3cWMvRFNW?=
+ =?utf-8?B?aXNXOU1GdklLQlpZVkxYam1xdFBCcC8reFAzK0FkKzhGL2diSGR6dE9LdkZx?=
+ =?utf-8?B?Y2k0cGhIblhPZmFxSFg1dno0YVQ0NHpraUh6dnZyR1dLYWVDdXRjSXYvUkxY?=
+ =?utf-8?B?aW9pa0NKcW5vOUFoL0w1Z3hNQ2g4MUNudVF5bThRWGNwcnJvSWdsWjFqdkMv?=
+ =?utf-8?B?dUYyZmg2WFg1OVVEYlNQcnArL2s0aVhtN2tjNm5GM0w2eXYvMjJKbVNHL0Z5?=
+ =?utf-8?B?QnA1NG9xc3VyTTBXMExkZXpENGFENkh0Rk9yU0hRd3V3Z1pRZVFBOWJGRTZ2?=
+ =?utf-8?B?c3RFa0lJNzhPaFBDbVEyRWFuMGZENEtZUWg3TExJaFBXUEdTSk0xL1NUN1pQ?=
+ =?utf-8?B?Sjd3dGlzY2tmZDlKT2pBMTNJVG0reHpCT3NTOXNRY1NaNmx1UUVTaUcxTjE3?=
+ =?utf-8?B?dXJvd0NJd3hRK0FqdW05K2diM0FDcE42YUszRm1hemNMWGFpcHVyRHd6L2Nj?=
+ =?utf-8?Q?Wxc41HIjO5NKi?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6854c8c3-8493-492a-e63c-08d915520412
+X-MS-Exchange-CrossTenant-Network-Message-Id: 975d7753-45e7-4525-b5b4-08d915520562
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2021 14:27:05.1103 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2021 14:27:07.3141 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i2IckFI4LTMLAsOTCtjULxcGghCzVCdJF8CLc/vdaSWKGXvrfoJDtl1Os+AvAwVy8Hmpd3w9GMs/EQZQXS7bYw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: CdMMo6DCYooIsq5NApc7PlP9izUHeDiqnCKOpVX2DIKb/wqPVcJw6nG6c0ALf9FFAfw0mi0nZ+dKFtSvgDfsrw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4576
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -129,172 +132,128 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: gregkh@linuxfoundation.org, Felix.Kuehling@amd.com, helgaas@kernel.org,
- Alexander.Deucher@amd.com
+ Alexander.Deucher@amd.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Until now extracting a card either by physical extraction (e.g. eGPU with 
-thunderbolt connection or by emulation through  sysfs -> /sys/bus/pci/devices/device_id/remove) 
-would cause random crashes in user apps. The random crashes in apps were 
-mostly due to the app having mapped a device backed BO into its address 
-space and was still trying to access the BO while the backing device was gone.
-To answer this first problem Christian suggested fixing the handling of mapped 
-memory in the clients when the device goes away by forcibly unmapping all buffers the 
-user processes have by clearing their respective VMAs mapping the device BOs.
-Then when the VMAs try to fill in the page tables again we check in the fault 
-handler if the device is removed and if so, return an error. This will generate a 
-SIGBUS to the application which can then cleanly terminate. This indeed was done 
-but this in turn created a problem of kernel OOPs where the OOPSes were due to the 
-fact that while the app was terminating because of the SIGBUS it would trigger use 
-after free in the driver by calling to access device structures that were already
-released from the pci remove sequence. This was handled by introducing a 'flush' 
-sequence during device removal where we wait for drm file reference to drop to 0 
-meaning all user clients directly using this device terminated.
-
-v2:
-Based on discussions in the mailing list with Daniel and Pekka [1] and based on the document 
-produced by Pekka from those discussions [2] the whole approach with returning SIGBUS and 
-waiting for all user clients having CPU mapping of device BOs to die was dropped. 
-Instead as per the document suggestion the device structures are kept alive until 
-the last reference to the device is dropped by user client and in the meanwhile all existing and new CPU mappings of the BOs 
-belonging to the device directly or by dma-buf import are rerouted to per user 
-process dummy rw page.Also, I skipped the 'Requirements for KMS UAPI' section of [2] 
-since i am trying to get the minimal set of requirements that still give useful solution 
-to work and this is the'Requirements for Render and Cross-Device UAPI' section and so my 
-test case is removing a secondary device, which is render only and is not involved 
-in KMS.
+On device removal reroute all CPU mappings to dummy page.
 
 v3:
-More updates following comments from v2 such as removing loop to find DRM file when rerouting 
-page faults to dummy page,getting rid of unnecessary sysfs handling refactoring and moving 
-prevention of GPU recovery post device unplug from amdgpu to scheduler layer. 
-On top of that added unplug support for the IOMMU enabled system.
+Remove loop to find DRM file and instead access it
+by vma->vm_file->private_data. Move dummy page installation
+into a separate function.
 
 v4:
-Drop last sysfs hack and use sysfs default attribute.
-Guard against write accesses after device removal to avoid modifying released memory.
-Update dummy pages handling to on demand allocation and release through drm managed framework.
-Add return value to scheduler job TO handler (by Luben Tuikov) and use this in amdgpu for prevention 
-of GPU recovery post device unplug
-Also rebase on top of drm-misc-mext instead of amd-staging-drm-next
+Map the entire BOs VA space into on demand allocated dummy page
+on the first fault for that BO.
 
-v5:
-The most significant in this series is the improved protection from kernel driver accessing MMIO ranges that were allocated
-for the device once the device is gone. To do this, first a patch 'drm/amdgpu: Unmap all MMIO mappings' is introduced.
-This patch unamps all MMIO mapped into the kernel address space in the form of BARs and kernel BOs with CPU visible VRAM mappings.
-This way it helped to discover multiple such access points because a page fault would be immediately generated on access. Most of them
-were solved by moving HW fini code into pci_remove stage (patch drm/amdgpu: Add early fini callback) and for some who 
-were harder to unwind drm_dev_enter/exit scoping was used. In addition all the IOCTLs and all background work and timers 
-are now protected with drm_dev_enter/exit at their root in an attempt that after drm_dev_unplug is finished none of them 
-run anymore and the pci_remove thread is the only thread executing which might touch the HW. To prevent deadlocks in such 
-case against threads stuck on various HW or SW fences patches 'drm/amdgpu: Finalise device fences on device remove'  
-and drm/amdgpu: Add rw_sem to pushing job into sched queue' take care of force signaling all such existing fences 
-and rejecting any newly added ones.
+v5: Remove duplicate return.
 
-v6:
-Drop using drm_dev_enter/exit in conjunction with signalling HW fences before setting drm_dev_unplug.
-We need to devise a more robust cros DRM approach to the problem of dma fence waits falling
-inside drm_dev_enter/exit scopes -> move to TODO.
+v6: Polish ttm_bo_vm_dummy_page, remove superfluous code.
 
-v7:
-Small cosmetic changes after V6 comments.
-Added back the patch which invalidates MMIO mappings in the driver (register, doorbell and VRAM). While
-waterproof protection from MMIO accessing from V5 was dropped until a more generic approach was developed I
-do believe that it's better to cause kernel panic once such access happens and then fix it then let those go
-unnoticed.
+Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo_vm.c | 54 ++++++++++++++++++++++++++++++++-
+ include/drm/ttm/ttm_bo_api.h    |  2 ++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
 
-With these patches I am able to gracefully remove the secondary card using sysfs remove hook while glxgears is running off of secondary 
-card (DRI_PRIME=1) without kernel oopses or hangs and keep working with the primary card or soft reset the device without hangs or oopses.
-Also as per Daniel's comment I added 3 tests to IGT [4] to core_hotunplug test suite - remove device while commands are submitted, 
-exported BO and exported fence (not pushed yet).
-Also now it's possible to plug back the device after unplug 
-Also some users now can successfully use those patches with eGPU boxes[3].
-
-TODOs for followup work:
-Convert AMDGPU code to use devm (for hw stuff) and drmm (for sw stuff and allocations) (Daniel)
-Add support for 'Requirements for KMS UAPI' section of [2] - unplugging primary, display connected card.
-Annotate drm_dev_enter/exit against dma_fence_waits as first in deciding where to use drm_dev_enter/exit
-in code for device unplug.
-
-[1] - Discussions during v6 of the patchset https://lore.kernel.org/amd-gfx/20210510163625.407105-1-andrey.grodzovsky@amd.com/#r
-[2] - drm/doc: device hot-unplug for userspace https://www.spinics.net/lists/dri-devel/msg259755.html
-[3] - Related gitlab ticket https://gitlab.freedesktop.org/drm/amd/-/issues/1081
-[4] - Related IGT tests https://gitlab.freedesktop.org/agrodzov/igt-gpu-tools/-/commits/master
-
-Andrey Grodzovsky (16):
-  drm/ttm: Remap all page faults to per process dummy page.
-  drm/amdgpu: Split amdgpu_device_fini into early and late
-  drm/amdkfd: Split kfd suspend from device exit
-  drm/amdgpu: Add early fini callback
-  drm/amdgpu: Handle IOMMU enabled case.
-  drm/amdgpu: Remap all page faults to per process dummy page.
-  PCI: Add support for dev_groups to struct pci_driver
-  drm/amdgpu: Convert driver sysfs attributes to static attributes
-  drm/amdgpu: Guard against write accesses after device removal
-  drm/sched: Make timeout timer rearm conditional.
-  drm/amdgpu: Prevent any job recoveries after device is unplugged.
-  drm/amdgpu: Fix hang on device removal.
-  drm/scheduler: Fix hang when sched_entity released
-  drm/amd/display: Remove superfluous drm_mode_config_cleanup
-  drm/amdgpu: Verify DMA opearations from device are done
-  drm/amdgpu: Unmap all MMIO mappings
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c  |  17 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 121 +++++++++++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  26 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |  31 ++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c      |  14 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h      |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c       |   9 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   |  25 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c        |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c       |  31 +++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h       |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |  19 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |  12 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c       |  63 +++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h       |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h      |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  25 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c       |  31 +++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c       |  11 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c       |  22 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |   7 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |  14 +-
- drivers/gpu/drm/amd/amdgpu/cik_ih.c           |   3 +-
- drivers/gpu/drm/amd/amdgpu/cz_ih.c            |   3 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c        |   1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c         |   1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c         |   1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c         |   1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c         |   1 -
- drivers/gpu/drm/amd/amdgpu/iceland_ih.c       |   3 +-
- drivers/gpu/drm/amd/amdgpu/navi10_ih.c        |   6 +-
- drivers/gpu/drm/amd/amdgpu/psp_v11_0.c        |  44 +++----
- drivers/gpu/drm/amd/amdgpu/psp_v12_0.c        |   8 +-
- drivers/gpu/drm/amd/amdgpu/psp_v3_1.c         |   8 +-
- drivers/gpu/drm/amd/amdgpu/si_ih.c            |   3 +-
- drivers/gpu/drm/amd/amdgpu/tonga_ih.c         |   3 +-
- drivers/gpu/drm/amd/amdgpu/vce_v4_0.c         |  26 ++--
- drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c         |  22 ++--
- drivers/gpu/drm/amd/amdgpu/vega10_ih.c        |   6 +-
- drivers/gpu/drm/amd/amdgpu/vega20_ih.c        |   6 +-
- drivers/gpu/drm/amd/amdkfd/kfd_device.c       |   3 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  13 +-
- drivers/gpu/drm/amd/include/amd_shared.h      |   2 +
- drivers/gpu/drm/scheduler/sched_entity.c      |   3 +-
- drivers/gpu/drm/scheduler/sched_main.c        |  35 ++++-
- drivers/gpu/drm/ttm/ttm_bo_vm.c               |  54 +++++++-
- drivers/pci/pci-driver.c                      |   1 +
- include/drm/ttm/ttm_bo_api.h                  |   2 +
- include/linux/pci.h                           |   3 +
- 54 files changed, 514 insertions(+), 254 deletions(-)
-
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+index b31b18058965..7ff9fd551357 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -34,6 +34,8 @@
+ #include <drm/ttm/ttm_bo_driver.h>
+ #include <drm/ttm/ttm_placement.h>
+ #include <drm/drm_vma_manager.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_managed.h>
+ #include <linux/mm.h>
+ #include <linux/pfn_t.h>
+ #include <linux/rbtree.h>
+@@ -380,19 +382,69 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+ }
+ EXPORT_SYMBOL(ttm_bo_vm_fault_reserved);
+ 
++static void ttm_bo_release_dummy_page(struct drm_device *dev, void *res)
++{
++	struct page *dummy_page = (struct page *)res;
++
++	__free_page(dummy_page);
++}
++
++vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot)
++{
++	struct vm_area_struct *vma = vmf->vma;
++	struct ttm_buffer_object *bo = vma->vm_private_data;
++	struct drm_device *ddev = bo->base.dev;
++	vm_fault_t ret = VM_FAULT_NOPAGE;
++	unsigned long address;
++	unsigned long pfn;
++	struct page *page;
++
++	/* Allocate new dummy page to map all the VA range in this VMA to it*/
++	page = alloc_page(GFP_KERNEL | __GFP_ZERO);
++	if (!page)
++		return VM_FAULT_OOM;
++
++	/* Set the page to be freed using drmm release action */
++	if (drmm_add_action_or_reset(ddev, ttm_bo_release_dummy_page, page))
++		return VM_FAULT_OOM;
++
++	pfn = page_to_pfn(page);
++
++	/* Prefault the entire VMA range right away to avoid further faults */
++	for (address = vma->vm_start; address < vma->vm_end; address += PAGE_SIZE) {
++
++		if (vma->vm_flags & VM_MIXEDMAP)
++			ret = vmf_insert_mixed_prot(vma, address,
++						    __pfn_to_pfn_t(pfn, PFN_DEV),
++						    prot);
++		else
++			ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL(ttm_bo_vm_dummy_page);
++
+ vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	pgprot_t prot;
+ 	struct ttm_buffer_object *bo = vma->vm_private_data;
++	struct drm_device *ddev = bo->base.dev;
+ 	vm_fault_t ret;
++	int idx;
+ 
+ 	ret = ttm_bo_vm_reserve(bo, vmf);
+ 	if (ret)
+ 		return ret;
+ 
+ 	prot = vma->vm_page_prot;
+-	ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
++	if (drm_dev_enter(ddev, &idx)) {
++		ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
++		drm_dev_exit(idx);
++	} else {
++		ret = ttm_bo_vm_dummy_page(vmf, prot);
++	}
+ 	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
+ 		return ret;
+ 
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index 639521880c29..254ede97f8e3 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -620,4 +620,6 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+ 		     void *buf, int len, int write);
+ bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
+ 
++vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot);
++
+ #endif
 -- 
 2.25.1
 
