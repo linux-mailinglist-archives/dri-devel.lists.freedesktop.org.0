@@ -1,64 +1,134 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D7537BDA3
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 15:04:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB1F37BDA6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 15:05:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6786EB9C;
-	Wed, 12 May 2021 13:04:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA4676EBA2;
+	Wed, 12 May 2021 13:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8666EB9C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 13:04:37 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id x19so33638253lfa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 06:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=ym0b9O+CB0QI/hj9m7fIxEYvj45mWXiUhctohPs3XV8=;
- b=WBGjabg4UUUnBNE4tseNIO2BPs4KZaueML0OFIx3+Fn0AxnJ6c1//EWljitNq88iQJ
- uCy/l7IQjFOVAEGuASTVdhfW+btED48hau1EXCET/Jk6xCppEPuojXmedyrIzDd9WK3m
- f7wVG9ZlM2w9mYFwAY1iQv+0ZDaz0HjXck3w13VnbePrpRveBfa/X/2yDx3ceesmG8mC
- wHqfO/80JiRP6XJn0SlSl3B2o2NS+hbQ1ZnznJE3KUeRNo3b8x5XX9IX2IqVKiq7zmjE
- Fwqr6IlzBeFFkRhwpcaRXZabJuJieW+aapsd1rNvWoSBLGU4OEKssFg9SCjzUN75g6Jf
- idWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=ym0b9O+CB0QI/hj9m7fIxEYvj45mWXiUhctohPs3XV8=;
- b=Qo9vEImKw7kdlQPr0nsTlSWY+ppMpmlolMMzdwxc9kIkMM6aRVd64gCfvpTmNr+HZN
- u/Fu3vHx0cTj/mrj2Pb01ptbEWtepC8aDOS2EKb5n5YX1ALPZWo9Q5DO/IV1mhFTD5FT
- a4VKp/MrEXdiCF5NlA5RHFAu4V1THSFJe744ZOs40aBD4rO7zwWjYGrboRBKho+eJoW+
- BIrFPWqqGHRP9isljyTyeVoLGzTu0Zz5TP/c14UZR/vlaT+rqwczTNQ9o+8jjvMMfgQt
- I7w4Gt3mjF0oB4CCvSzkt+igZTq08SXjeA0gyMEMu8MEbIvtDbK6EdGgs2PoNUOTinqq
- s3LA==
-X-Gm-Message-State: AOAM531p7321PGMXWAcR4jagTx+QU7RGEpdd6g3YZhg2tDZTHhewD9LV
- nD2yg85byRX8893zJY6perY=
-X-Google-Smtp-Source: ABdhPJyxNi9vmHnNTmKRIAAzbafXS/EBSraL6qVDke+BuOc6D0/vsgcB33n5Ku3c78NS32Vtqa8iOw==
-X-Received: by 2002:ac2:554e:: with SMTP id l14mr18334359lfk.394.1620824675556; 
- Wed, 12 May 2021 06:04:35 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id z11sm2202327lfu.135.2021.05.12.06.04.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 May 2021 06:04:34 -0700 (PDT)
-Date: Wed, 12 May 2021 16:04:22 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Subject: Re: [PATCH 1/2] drm/doc: document how userspace should find out
- CRTC index
-Message-ID: <20210512160422.66f3be04@eldfell>
-In-Reply-To: <f4cfbb53-bfc6-768f-461b-252380b5b5a6@collabora.com>
-References: <20210428213651.55467-1-leandro.ribeiro@collabora.com>
- <20210428213651.55467-2-leandro.ribeiro@collabora.com>
- <20210506115053.15741550@eldfell>
- <f4cfbb53-bfc6-768f-461b-252380b5b5a6@collabora.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2068.outbound.protection.outlook.com [40.107.92.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 623B56EBA1;
+ Wed, 12 May 2021 13:05:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LOdqhS1GEgF5xO8gkrqHGkjF7DViLE8janJj8TS+HPC7C2FUS2uVEv8y/o6oaFG6RrNi6VbOMRSbYBuQjecp2ew4fzCj6fhDGBKSyTEFL/n+HkwiKMzKDffLCXZMJGhV1LCKUSwbjf4rq1ngxxqIdELRcn2knkneSNoOejfnHNMTUs/sw+aLi/7gMGYsuUod2d199cyXzxtLilbOglyVyIB7MWZ6w/p5TOftf4PWz49dtLhIva9yYwD9EFKqlN3pL1xX+ix1wfGYb0yw0qNiHu7F9CUef+AQXtDkSiqIqHBTJBDizjTqhk4izIVCYNU+1cEF88jnzYh9ZriPvhdIQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ByQWh+GjocigGKzwwZeSPLfJhQVf65RuUUv1czf0OAc=;
+ b=n67qBaTvnfo59U+nB10DjOnYYtAB1l1HbwwhOA7XWhq8jNV/kSZ/8DkmTOZ9NotM7OSJpzDrjpUnGK0s759WLD6k72RXeVVy14kQB9wU7fvn9verY0leWFEtwQXA7ElLrIh+ifVB06ne1QY8b7WZtdHMsg0lwO+RPbhBL9P+q+2HGamdqANwdxcO5ghhye2Lu4SBWKZGRpmp3Rl+CwegOHvZJAkUeUnFe55XUYwvHyNMwmll21OFi6023SD359Ut25VtZSVZTc3VA1FLaVoI5TRsfNQ6JBsj4yNgi478TFHOVvb+p7QoHZS/2xiN/Un6q7xAzH8FeKtnlOLbJLyFUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ByQWh+GjocigGKzwwZeSPLfJhQVf65RuUUv1czf0OAc=;
+ b=YMrzEAQF/8ELwzSbbB981sQSl52waiOwuXlrLNfk3cqdgyvqtlZnioXIShxKZiWrDPufFzprVQerW5ghkjWVoAf5AsADNQ1vZpeTMlF/zqD6H3uvF+ZqrEhWH6GjhUmQykQMnqM4kq31Sch6EBMpocvcHg0m53Bd928PWjvpHJ8=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4753.namprd12.prod.outlook.com (2603:10b6:208:89::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.25; Wed, 12 May
+ 2021 13:05:22 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4108.031; Wed, 12 May 2021
+ 13:05:22 +0000
+Subject: Re: [PATCH 6/7] drm/i915/ttm, drm/ttm: Introduce a TTM i915 gem
+ object backend
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210511132525.377190-1-thomas.hellstrom@linux.intel.com>
+ <20210511132525.377190-7-thomas.hellstrom@linux.intel.com>
+ <8ac6bc5c-17c0-2ffd-7f8c-823ab3c8a858@amd.com>
+ <88ea8e22-3314-60a4-8f4b-0b37de444b1d@shipmail.org>
+ <8551810c-a095-3906-d982-7bc409140c48@amd.com>
+ <0b7f32d8-bfb9-84dd-fea7-556dddded1cc@linux.intel.com>
+ <a0277869-7244-aee0-3359-21dac8f5a724@amd.com>
+ <e85e9bd7a28c8570c6429683d6d68ee0855afacb.camel@linux.intel.com>
+ <d0f0c55d-1784-922b-e9bd-0248cd7fb6af@amd.com>
+ <6e317ee2b22546a2333d3098f5cda1a59da62a1a.camel@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <d40ac511-3de3-12f0-4f0c-38b730e62b81@amd.com>
+Date: Wed, 12 May 2021 15:05:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <6e317ee2b22546a2333d3098f5cda1a59da62a1a.camel@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:c533:38e4:26b8:d73]
+X-ClientProxiedBy: AM0PR01CA0111.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::16) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/da2gzr1w7eMN4SggIyi1ISc"; protocol="application/pgp-signature"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:c533:38e4:26b8:d73]
+ (2a02:908:1252:fb60:c533:38e4:26b8:d73) by
+ AM0PR01CA0111.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend
+ Transport; Wed, 12 May 2021 13:05:21 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d6298280-f911-4be1-0633-08d9154699c4
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4753:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4753B349DA98F86EFD1ECB9083529@BL0PR12MB4753.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Fods+Nvy9mgb+26PNLhXfzexXpQL1ncqN42Dj2JniiqQgkQhMroicNmkjkBdL95rYdSwDpG+ok5Zbx149oxy67ulfspX7d7V7N8q80CD54VNajQOFDnomz1Qca30qE5VX6zNHpij5q+EjMx+WfcC8G1L0JAVxQt7tEkYH4Rgy9cHhs92UaSLbFsLSh4hmWoU392CfzR4QRPa4zG6LadfQmduRiEKEKR63gFgZDW7Rm/S2TYzykAZPhNLancgj1fFDzRAlSxcSYnlqvuqXAf50L8ugFbCrhkV1hWViNOGwUmcAAE60QYVOWJQ/qgwtUzmVrqmHyfu7sE/NMO978ob5u6ZJD5q3z8F4cnH5vYxkzuF41z4M7spV8PGXsOp8dYplFZe2wlQQnKICoiyWgLB1RZVyZTwQDzc1JnE31eitT3Cxl6JoZ3Ud6RIAzCNjWUIzkmWJbQVeywuvtUZwYl8K0riwK2YLLFm2XXrLiQiYAnOis/lPY8oXgzEUnovgTBNWbUesS7ADd4aaXN7pYvyg+p199KR1b0eje/HC1Ux8t+oJOUa5zA9uWp5Nd1YskI/OJRf99zdiqp2DqH/qcBccx9LIQn7fK4NJuVqS4hi0mIEKyDZLzJc7+XZEQx/OdBv5IWr1eV1/QJyg9kKMrRUWa+tfLOhna6uzzmkrAhyx2o=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39860400002)(366004)(396003)(376002)(136003)(31696002)(52116002)(38100700002)(5660300002)(36756003)(66556008)(478600001)(2906002)(86362001)(6486002)(66574015)(66476007)(66946007)(31686004)(316002)(110136005)(2616005)(83380400001)(8676002)(16526019)(186003)(8936002)(6666004)(53546011)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WHV6N1FtQkhPb0NjUjBDQlk4TkwvdGozeDMzZHVraHQrdFMydUpwYlVtU2Nz?=
+ =?utf-8?B?M2twaWxCOXJyQ3lHVmRzRWtpcWpSTUVDWWozNXZNOS9CV2twTnZQdU1mb2Nh?=
+ =?utf-8?B?b0grOEZGS0ZIaGpKajk5R0FSZ0t5c1hFSkdhZE9xMy93K0VKMit6UVRSZ1cv?=
+ =?utf-8?B?SUdkU2YyRm9HNWxKT1NLT1lESXhoaTk4UFkxNGFRTkwvTEN4ZHVPNHc1UWla?=
+ =?utf-8?B?bXlFTWVHazRsR3NobjZXNHpERjlZMkV2ekl3V1EwNEk2dDBzMEpZQkpiVWE1?=
+ =?utf-8?B?WHJiNWF2YUdqKzJjdnQ5Njc1cEhjWDlvK2pJZld2aThYdHYrNURmRjZBL0tT?=
+ =?utf-8?B?Rk9EaEhPSGR3aGR3TGIzeS9LSzRHUDNPeHdTYUtwbXkxZTM5WFlMeFh4L3hH?=
+ =?utf-8?B?ZUlHTFZveDVWS1lZK3MvNlcxdkU4b3pIUG5DNGRBSklqeWJUU1hzakZNWlJ4?=
+ =?utf-8?B?VWphR2lXSFh1Vm5zZmxpVDB6MVo2ZDRrVVc1SE14d3d4dzFVUkRBcTg5ZHdJ?=
+ =?utf-8?B?QzJ4NzQxQngvS1VEYUlOem9rNmhZcVBHZzllaUcyY1pQZXhtamtkdSt1YzFz?=
+ =?utf-8?B?dzlWRUR6UkxYaTRvbHNmZHpSVFJWK1crTlk2SVJLMjdqbXJKb0c4YnU3U0NM?=
+ =?utf-8?B?Z0VUaTVVSDBZcVNMbmgwMG15NWczOTI3R1RGK0hTSUZSK0xpemxIN09MdFNG?=
+ =?utf-8?B?WmgyMUhXVnZjUnZxYWdDbStaTmw2NkRObDIvYTVoZzBrY2p2Yk5ndllSVnh4?=
+ =?utf-8?B?a2s4bjlFczhtZ1h4S2k5MEtkVlA0dUY5TlgyencrMXF3M2Z0bExEV3I5K1RQ?=
+ =?utf-8?B?WFlXTGhnNytQNHpVTE1QeDBrZC85Z2RXb1hhU2xvdkJwNzZFS3ZKTVc0c3hP?=
+ =?utf-8?B?OXE2WDN3aFk2ZTBnVW9pbU9VV3p6NzZiSjFGcDdsWllDeUJmTVpTMDFmQXRT?=
+ =?utf-8?B?dnJLQjJtYVlxbXN4TUpPSVhpTjlCYjRIZVpkNVdHNUNLTDFNNjJYbDdSMDN1?=
+ =?utf-8?B?K1dOQnpsejA0TThxZGNBUGNYY21DRytkTUl2YVR6YVc0WHpqODBhanB3R2FZ?=
+ =?utf-8?B?NThLMkRPbFB4MGVyRzExUXAwTVhFOC9nVlBrTEk2YXJkelJva1JnZytkaTk0?=
+ =?utf-8?B?VGNiME1EVTdvdldmTGkvck1mZTNsd040SE9ncGZyeU9PUjN2ZVZRL2FjSzFE?=
+ =?utf-8?B?VHRVZDQ3MkhHNEJtMitYTHVLVGxBMGNvZEt6RTdpdTJhMmptRW5iN2tMVnEz?=
+ =?utf-8?B?SVRsSW9BNkd1ODEwOXA1TmJCcDZoZzdqT1ZtdDRqVFdleXNCWVZMYnYzTGdK?=
+ =?utf-8?B?b2tXY0hlRnUrekVzTzdJNFRNTE9mQ29CT2pPRVZ0Q1ZyQkR4N00vc29ZRTh1?=
+ =?utf-8?B?ZjI0bEFXSUNPbklERlRESXFabzVPbzJWcFdwTTh6SW1QTFVDT0ZIRDBjOWw1?=
+ =?utf-8?B?UXY2TGNxa2VIRmZ2dm00aGgxeGVoUGE1V0F6KzFQcWRId0dJUGJZS01zYnkz?=
+ =?utf-8?B?bUh2OXlaZURrNTIwTngrYzRCb0RqSnQ1T0U3ZzNwbkpkTWFrQWJJanBlQXgv?=
+ =?utf-8?B?blRUTlhsS3cxYU9vakszQnFLSk9BelpCQWh1aEcrYlRaQ0JkVHlUQnpHZ2pn?=
+ =?utf-8?B?R2Z1UDNYV1BuZ0tvZGs3UEF5TkRaeFBuazVzcGpTbXozcDZpSTcyU25WbDBR?=
+ =?utf-8?B?SmdVUmp4Ty9RYlltUGFNMmQ5VTZqcEUvWlVzSHNCMURtTFJqNGd2S1J1a050?=
+ =?utf-8?B?NlJlMVpzbmVnL0YzRGxLSUhaRGpGclZGOWNyVWhOY0hlanQzUE1BQ2xldERT?=
+ =?utf-8?B?R1BIUjdZSUxveVRJZFBIR2tTc3EzWnNVR2I0RUxERVZnWW1JeUVaMjN5QmV4?=
+ =?utf-8?Q?acd7IeK6YDiC8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6298280-f911-4be1-0633-08d9154699c4
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2021 13:05:22.3669 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Qs2suizLeYQOtnoCdEe/4n6GO/WK0lnbL8vRr2dlkJoBdea3yeOznOziH+eKnWGr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4753
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,118 +141,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, kernel@collabora.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/da2gzr1w7eMN4SggIyi1ISc
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Am 12.05.21 um 15:02 schrieb Thomas Hellström:
+> On Wed, 2021-05-12 at 09:09 +0200, Christian König wrote:
+>> Am 12.05.21 um 09:05 schrieb Thomas Hellström:
+>>> On Wed, 2021-05-12 at 08:57 +0200, Christian König wrote:
+>>>> Am 11.05.21 um 16:28 schrieb Thomas Hellström:
+>>>>> On 5/11/21 4:09 PM, Christian König wrote:
+>>>>>> Am 11.05.21 um 16:06 schrieb Thomas Hellström (Intel):
+>>>>>>> On 5/11/21 3:58 PM, Christian König wrote:
+>>>>>>>> Am 11.05.21 um 15:25 schrieb Thomas Hellström:
+>>>>>>>>> Most logical place to introduce TTM buffer objects is
+>>>>>>>>> as an
+>>>>>>>>> i915
+>>>>>>>>> gem object backend. We need to add some ops to account
+>>>>>>>>> for
+>>>>>>>>> added
+>>>>>>>>> functionality like delayed delete and LRU list
+>>>>>>>>> manipulation.
+>>>>>>>>>
+>>>>>>>>> Initially we support only LMEM and SYSTEM memory, but
+>>>>>>>>> SYSTEM
+>>>>>>>>> (which in this case means evicted LMEM objects) is not
+>>>>>>>>> visible to i915 GEM yet. The plan is to move the i915
+>>>>>>>>> gem
+>>>>>>>>> system
+>>>>>>>>> region
+>>>>>>>>> over to the TTM system memory type in upcoming patches.
+>>>>>>>>>
+>>>>>>>>> We set up GPU bindings directly both from LMEM and from
+>>>>>>>>> the
+>>>>>>>>> system
+>>>>>>>>> region,
+>>>>>>>>> as there is no need to use the legacy TTM_TT memory
+>>>>>>>>> type.
+>>>>>>>>> We reserve
+>>>>>>>>> that for future porting of GGTT bindings to TTM.
+>>>>>>>>>
+>>>>>>>>> There are some changes to TTM to allow for purging
+>>>>>>>>> system
+>>>>>>>>> memory
+>>>>>>>>> buffer
+>>>>>>>>> objects and to refuse swapping of some objects:
+>>>>>>>>> Unfortunately i915
+>>>>>>>>> gem
+>>>>>>>>> still relies heavily on short-term object pinning, and
+>>>>>>>>> we've
+>>>>>>>>> chosen to
+>>>>>>>>> keep short-term-pinned buffer objects on the TTM LRU
+>>>>>>>>> lists
+>>>>>>>>> for now,
+>>>>>>>>> meaning that we need some sort of mechanism to tell TTM
+>>>>>>>>> they are not
+>>>>>>>>> swappable. A longer term goal is to get rid of the
+>>>>>>>>> short-
+>>>>>>>>> term
+>>>>>>>>> pinning.
+>>>>>>>> Well just use the eviction_valuable interface for this.
+>>>>>>> Yes, we do that for vram/lmem eviction, but we have nothing
+>>>>>>> similar
+>>>>>>> for system swapping. Do I understand you correctly that you
+>>>>>>> want me
+>>>>>>> to add a call to eviction_valuable() also for that instead
+>>>>>>> of
+>>>>>>> swap_possible()?
+>>>>>> You should already have that. eviction_valuable is called in
+>>>>>> both
+>>>>>> cases.
+>>>>>>
+>>>>> Hmm. I can only see it called from ttm_mem_evict_first() which
+>>>>> is
+>>>>> not
+>>>>> in the swapping path? Or do I miss something?
+>>>> Mhm, looks like my recollection was wrong. We should probably
+>>>> move
+>>>> the
+>>>> call into the ttm_bo_evict_swapout_allowable() function.
+>>> Yes, I think we also need a convention whether it's called dma_resv
+>>> locked or not, since the helper accesses bo->mem, which should
+>>> really
+>>> only be done under reservation. At the same point, there is value
+>>> in
+>>> calling this function while holding the LRU lock.
+>> You actually need to call it while holding the lock because eviction
+>> otherwise ends up in an endless loop.
+>>
+>> Trying to fix that for years, but so far no luck with that.
+>>
+>>> Also, I wonder whether implementations of this callback might
+>>> encounter
+>>> unexpected data when called from the swapout path, because at least
+>>> the
+>>> helper assumes it not in system memory, since it is accessing bo-
+>>>> mem.start.
+>>> So unless we use a separate callback for swapout, there's some
+>>> auditing
+>>> to be done.
+>> Please audit the existing callbacks and move the callback into the
+>> function after doing that.
+>>
+>> Thanks,
+>> Christian.
+> Would it be OK if I also move the kref_get_unless_zero() to before
+> ttm_bo_evict_swapout_allowable() to make the code less sensitive to
+> surprises?
 
-On Wed, 12 May 2021 09:50:14 -0300
-Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
+No, because then you need a kref_put while holding the spinlock which is 
+not allowed.
 
-> On 5/6/21 5:50 AM, Pekka Paalanen wrote:
-> > On Wed, 28 Apr 2021 18:36:50 -0300
-> > Leandro Ribeiro <leandro.ribeiro@collabora.com> wrote:
-> >  =20
-> >> In this patch we add a section to document what userspace should do to
-> >> find out the CRTC index. This is important as there are multiple places
-> >> in the documentation that need this, so it's better to just point to
-> >> this section and avoid repetition.
-> >>
-> >> Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-> >> ---
-> >>  Documentation/gpu/drm-uapi.rst    | 14 ++++++++++++++
-> >>  drivers/gpu/drm/drm_debugfs_crc.c |  9 +++++----
-> >>  include/uapi/drm/drm.h            |  3 ++-
-> >>  3 files changed, 21 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-ua=
-pi.rst
-> >> index 04bdc7a91d53..1aa52a6ac567 100644
-> >> --- a/Documentation/gpu/drm-uapi.rst
-> >> +++ b/Documentation/gpu/drm-uapi.rst
-> >> @@ -457,6 +457,20 @@ Userspace API Structures
-> >>  .. kernel-doc:: include/uapi/drm/drm_mode.h
-> >>     :doc: overview
-> >>
-> >> +.. _crtc_index:
-> >> +
-> >> +CRTC index
-> >> +----------
-> >> +
-> >> +In some situations, it is important for userspace to find out the ind=
-ex of a =20
-> >=20
-> > That could be said about everything, so this sentence has no
-> > information value. Instead, you could start by stating that CRTCs have
-> > both an object ID and an index, and they are not the same thing. CRTC
-> > index is used in cases where a densely packed identifier for a CRTC is
-> > needed, e.g. in bit-for-crtc masks, where using the object ID would not
-> > work.
-> > =20
-> >> +CRTC. The CRTC index should not be confused with its object id.
-> >> +
-> >> +In order to do this, userspace should first query the resources objec=
-t =20
-> >=20
-> > Instead of saying what userspace must do, you could just explain where
-> > it can be observed.
-> >  =20
-> >> +from the device that owns the CRTC (using the DRM_IOCTL_MODE_GETRESOU=
-RCES =20
-> >=20
-> > So here you might start with: DRM_IOCTL_MODE_GETRESOURCES populates a
-> > structure with an array of CRTC IDs. CRTC's index is its index in that
-> > array.
-> >  =20
-> >> +ioctl). The resources object contains a pointer to an array of CRTC's=
-, and also
-> >> +the number of entries of the array. The index of the CRTC is the same=
- as its
-> >> +position in this array. =20
-> >=20
-> > Anyway, the idea here is right.
-> >  =20
->=20
-> So what about:
->=20
-> CRTC's have both an object ID and an index, and they should not be
-> confused. The index is used in cases where a densely packed identifier
-> for a CRTC is needed, for instance in a bitmask of CRTC's. (maybe a link
-> to the possible_crtcs field of struct drm_mode_get_plane? as example)
->=20
-> DRM_IOCTL_MODE_GETRESOURCES populates a structure with an array of CRTC
-> id's, and the CRTC index is its position in this array.
+Christian.
 
-Sure, sounds good.
+>
+> /Thomas
+>
+>
+>>> Pls let me know what you think.
+>>> Thanks,
+>>> Thomas
+>>>
+>>>
+>>>
+>>>> Christian.
+>>>>
+>>>>> Thanks,
+>>>>>
+>>>>> Thomas
+>>>>>
+>>>>>
+>>>>>
+>
 
-Capitalized 'ID'?
-
-
-Thanks,
-pq
-
---Sig_/da2gzr1w7eMN4SggIyi1ISc
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCb0lYACgkQI1/ltBGq
-qqeHThAAo84f6SVOpb+dz/l9rQPeSQKTKxLYigBgwmN3EbORu0fU5O/rnQcTbTpy
-wvWDS5ED/zf5CQkd5QCMbW+iL5bOKRR8ioAEJiapI+vvHRSCJs9CBBa8tHMbX9rR
-9+foa/oSy1cN8uvJSN4X7AezLj5al+koo7Y5ehw8uvJkmj/pm0eozv+Ja1MWf8HE
-Xagzx8Zek/6joR3yaIgvnX2TWCRee2ryu8tQfLpuZzGP9d+0uTCT95BeRjnTuG00
-PkI7K5y7OChZwDPyFkPEeWJg1Zja4d8GkT2qXEfn3DC4FLi2cqOjrsqv6zJUl193
-VmLcNtSj6qg5aorvf9VZbhfdBHhD+aIjKzMInee8fu3HQk/B/9KNbl8estjlqdPi
-SXu4yGvxppKUhq+9y+xllfy3hYpxawNvIhtGlcoL1+X/YtBJgkQOPJj/pZgBgnQ6
-qk4HK5pnzLfZJX7EjzOf6e/V3z32y9YF3k37DVtkGmrSI1LbtO3tEaQyVdSGSelq
-+w5V10lNc0OqxZetmH2BUYsdpvi5TVxok+qBjk2aMgsOjTuYZ02ow89EoowWb13C
-kEi2Zs4gOJTHVQkwSjVGZcfx4xk65W5TFnkspE20AEHoE1skqBF0bquQ0aYuSlhc
-h5rf+CRCG93aqnAFeiu6KUTZth/0PBnr955efdasrQajJ3umS7c=
-=rniE
------END PGP SIGNATURE-----
-
---Sig_/da2gzr1w7eMN4SggIyi1ISc--
