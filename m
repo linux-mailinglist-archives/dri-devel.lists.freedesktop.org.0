@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6922137D422
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 22:15:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED39937D424
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 22:17:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A17056ECC8;
-	Wed, 12 May 2021 20:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B374A6ECCA;
+	Wed, 12 May 2021 20:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 035626ECC5
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 20:15:33 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id c20so1418478ejm.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 13:15:33 -0700 (PDT)
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0996ECCA;
+ Wed, 12 May 2021 20:17:19 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ n32-20020a9d1ea30000b02902a53d6ad4bdso21687806otn.3; 
+ Wed, 12 May 2021 13:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nTqL5YZf400bnTKgbh89K5jUx2ERMdFa1G1YCO5b3D4=;
- b=qIuQ4XigSj0Cjhj77n1NYxUphbkIvBe4BolpCJ5Pssejh+x5f3/Yf/xVkp29n0hdo6
- 8Cwkm13ByXsyvSGQGxWFEvqD+IX7xVn3V6+XwP3XM90QhJOoVu/F4uL4IIsg1BBgbHo8
- Ol0KNO7lN6AwTKwhVJ9DKT2KB5PhjhTeevwgpkfsPIjZPZcYe7PTWswYxYx6zWVf34LQ
- 5QkmAFjs4H3UVNX9MrV/8PxsumYt8lqvFMYM5kKZngEklKaVncZaG87nBF2VQVtwO0zE
- PUPyWqaXWowLVuaYNdAD1VmlRdarEzaEIWps0PXlJAyUfEQh+QQaOBRbYokrj/y0ejds
- SBYA==
+ :cc; bh=FfBGy3ty8hC5+6BFg9Yj9Ty1t6HGZbGZ/Wa3lb6ROKU=;
+ b=qapw9crxOQdqpKEYt85x+VCf/VH9LGpWg0/i98EJdNjS7xx4M6KJ0jHU+R+Ree67jM
+ x9EIrmfaIO1qugxRkyIsqwu/jWdEi222uXCOd07sbRdADQ7kHS2Y2W4WXoaRwHMHG/Cy
+ Raua7AZdSKyc1QGzjNKI43QpjVz28QGZV9QmrXkQGfF5JwIvhFYJ/Ka91L7VnRoyuokp
+ OgYjaW9xC6GrNAc12Q+LSjAe3pKlK1TRvuiiC2d2uoEzZvT0nBiNbkxrWaHXFBlRQBb9
+ y83CiJNzl61SMgFL2Sv3G52B0RMGzvu9Q4msPMl6fA6SGk5GlzhK+cNO24To/FqJoOm8
+ VGgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nTqL5YZf400bnTKgbh89K5jUx2ERMdFa1G1YCO5b3D4=;
- b=htuYTlco7oDygdeTijtyE2ayj8f9lms0H3oYbhZPtWAOcQhahP8ZYM9BqsCvCpeaz9
- zAXV9XMKfnWUUUYtpSSh1atH5Lz2UfB8NXY8Rj124qfs6WIVPevFlGP38yKABD92c+y8
- fp4CeiMPW4nLhzV/2qLyOEVZXWi5urjqsdNfS8rDV9DFIIy0mFKVgWP8VJnbyC74Dk6z
- Le/5ZvnkoQIHCVMpMY8nf0GtPx68YjQlIwG9XDRGismECE5fcZCqEomkdCeDrHNAxg+I
- m40X/tiHwDGMe9cRR7DQlc0nWPjHa5V49UH82ND+cIrdAp7YzX+8DJrMBlc9zh9571RR
- 2zcg==
-X-Gm-Message-State: AOAM531qDJBV1S9sh9o8m4RV9u7Uroe/7hjKB3KkUCaQQc/V69zrm9Sd
- s8WsueIkD99tHo5c3L43gZyFzqgDKdxWWsugFw8=
-X-Google-Smtp-Source: ABdhPJxzIPLR/awNDEQnbjtqNf/kv89ZJRl8U+hF5qoSG2R7/qH2+3FxetJwscAo8/83bqFvQ8iuA+NLOlvEsZFf0fk=
-X-Received: by 2002:a17:906:c04b:: with SMTP id
- bm11mr38949491ejb.263.1620850531622; 
- Wed, 12 May 2021 13:15:31 -0700 (PDT)
+ bh=FfBGy3ty8hC5+6BFg9Yj9Ty1t6HGZbGZ/Wa3lb6ROKU=;
+ b=S7r8DYOvA0H9FKQPqC4B30bClNacS08Zo8yOinTyZyk94QAKBgNqpe6GEFQ7A2JowR
+ DYYg9L/iMv+s9FhJs/AwEFPGtswqUTEs6+oZSpCwFdWBD4iD4KDYuYnJ8ZGYf2c/JmWw
+ 00gAjT68mIfAmf288Qrpev7w9GKpBOh5SsLP6REp6Lh7gwkZJXhZ0SuWa6QPvhW41+GO
+ YXaQKmR86gCFG7HoQnIKyJNZt7yJPD1/tulklHX8YqLVHQzN7ZhsBNyByLQXlN0f1ZBn
+ 10HCLG77Dw132MhAl7giF/u//Pzn2/rMO8xBalVcuQa2KVwgTajLL1ibVM7a5nGcJSdM
+ e0YA==
+X-Gm-Message-State: AOAM5302AbQboFGvwAQl33puynzQMu7EHU1MFJyjIjcjAIm/EF+C3nQE
+ OxIUOqF/SkMlgbtNkoepvZ2aZT8UmqFtqLdvwGY=
+X-Google-Smtp-Source: ABdhPJykTaEnj/3PHOzrT80q+DjAF7tdjxcWzQJFncGyaxW6xYXgk347VIQLPomg/v4DCjOLwWAzQiDNCs1X+WljMmE=
+X-Received: by 2002:a9d:6548:: with SMTP id q8mr1402995otl.311.1620850638997; 
+ Wed, 12 May 2021 13:17:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210508202251.474729-1-marex@denx.de>
- <20210508202251.474729-2-marex@denx.de>
-In-Reply-To: <20210508202251.474729-2-marex@denx.de>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 12 May 2021 15:15:20 -0500
-Message-ID: <CAHCN7xLzuykJ5nBgK-jrGyqUkgML7JQfhVCruE2AEVC=_OJS0w@mail.gmail.com>
-Subject: Re: [PATCH V4 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and
- SN65DSI84 driver
-To: Marek Vasut <marex@denx.de>
+References: <20210512142648.666476-1-andrey.grodzovsky@amd.com>
+ <20210512142648.666476-10-andrey.grodzovsky@amd.com>
+In-Reply-To: <20210512142648.666476-10-andrey.grodzovsky@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 12 May 2021 16:17:07 -0400
+Message-ID: <CADnq5_P7stZJCnE2AyrAFLrE6Gn089gJVftRKHDFj25sAkp44Q@mail.gmail.com>
+Subject: Re: [PATCH v7 09/16] drm/amdgpu: Guard against write accesses after
+ device removal
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,815 +64,822 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Loic Poulain <loic.poulain@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Claudius Heine <ch@denx.de>, Douglas Anderson <dianders@chromium.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Greg KH <gregkh@linuxfoundation.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Linux PCI <linux-pci@vger.kernel.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 8, 2021 at 3:24 PM Marek Vasut <marex@denx.de> wrote:
+On Wed, May 12, 2021 at 10:27 AM Andrey Grodzovsky
+<andrey.grodzovsky@amd.com> wrote:
 >
-> Add driver for TI SN65DSI83 Single-link DSI to Single-link LVDS bridge
-> and TI SN65DSI84 Single-link DSI to Dual-link or 2x Single-link LVDS
-> bridge. TI SN65DSI85 is unsupported due to lack of hardware to test on,
-> but easy to add.
+> This should prevent writing to memory or IO ranges possibly
+> already allocated for other uses after our device is removed.
 >
-> The driver operates the chip via I2C bus. Currently the LVDS clock are
-> always derived from DSI clock lane, which is the usual mode of operation.
-> Support for clock from external oscillator is not implemented, but it is
-> easy to add if ever needed. Only RGB888 pixel format is implemented, the
-> LVDS666 is not supported, but could be added if needed.
->
+> v5:
+> Protect more places wher memcopy_to/form_io takes place
 
-Tested-by: Adam Ford <aford173@gmail.com>
+where
 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Loic Poulain <loic.poulain@linaro.org>
-> Cc: Philippe Schenker <philippe.schenker@toradex.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: Valentin Raevsky <valentin@compulab.co.il>
-> To: dri-devel@lists.freedesktop.org
-> ---
-> V2: - Use dev_err_probe()
->     - Set REG_RC_RESET as volatile
->     - Wait for PLL stabilization by polling REG_RC_LVDS_PLL
->     - Use ctx->mode = *adj instead of *mode in sn65dsi83_mode_set
->     - Add tested DSI84 support in dual-link mode
->     - Correctly set VCOM
->     - Fill in missing DSI CHB and LVDS CHB bits from DSI84 and DSI85
->       datasheets, with that all the reserved bits make far more sense
->       as the DSI83 and DSI84 seems to be reduced version of DSI85
-> V3: - Handle the dual-link LVDS with two port panel or bridge
-> V4: - Add RB from Linus Walleij
->     - Rename REG_DSI_LANE_LVDS_LINK_CFG_DUAL to
->       REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE and fill in the remaining
->       DSI link options from DSI85 datasheet. DSI85 can do dual and 2x
->       single DSI mode, but DSI85 is currently unsupported by the
->       driver. Add a comment about DSI85, so that all the places which
->       need to be adjusted for DSI85 are marked accordingly.
->     - Add REG_DSI_LANE_LEFT_RIGHT_PIXELS bit for DSI
->     - Add handling for JEIDA18/JEIDA24/SPWG24 LVDS formats. Use SPWG24
->       as fallback on output bridges until they are all fixed.
->     - Patch DSI bus format to fixed RGB888_1X24 instead of passing
->       through the LVDS bus format.
-> ---
->  drivers/gpu/drm/bridge/Kconfig        |  10 +
->  drivers/gpu/drm/bridge/Makefile       |   1 +
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 698 ++++++++++++++++++++++++++
->  3 files changed, 709 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> Protect IB submissions
 >
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index e83b8ad0d71b..32204c5f25b7 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -278,6 +278,16 @@ config DRM_TI_TFP410
->         help
->           Texas Instruments TFP410 DVI/HDMI Transmitter driver
+> v6: Switch to !drm_dev_enter instead of scoping entire code
+> with brackets.
 >
-> +config DRM_TI_SN65DSI83
-> +       tristate "TI SN65DSI83 and SN65DSI84 DSI to LVDS bridge"
-> +       depends on OF
-> +       select DRM_KMS_HELPER
-> +       select REGMAP_I2C
-> +       select DRM_PANEL
-> +       select DRM_MIPI_DSI
-> +       help
-> +         Texas Instruments SN65DSI83 and SN65DSI84 DSI to LVDS Bridge driver
+> v7:
+> Drop guard of HW ring commands emission protection since they
+> are in GART and not in MMIO.
+>
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+
+I think you could split out the psp_fw_copy changes as a separate
+cleanup patch.  That's a nice clean up in general.  What about the SMU
+code (e.g., amd/pm/powerplay and amd/pm/swsmu)?  There are a bunch of
+shared memory areas we interact with in the driver.
+
+Alex
+
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 +++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c    |  9 ++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c    | 63 ++++++++++++++--------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h    |  2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c    | 31 +++++++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c    | 11 ++--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c    | 22 +++++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c     |  7 ++-
+>  drivers/gpu/drm/amd/amdgpu/psp_v11_0.c     | 44 +++++++--------
+>  drivers/gpu/drm/amd/amdgpu/psp_v12_0.c     |  8 +--
+>  drivers/gpu/drm/amd/amdgpu/psp_v3_1.c      |  8 +--
+>  drivers/gpu/drm/amd/amdgpu/vce_v4_0.c      | 26 +++++----
+>  drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c      | 22 +++++---
+>  13 files changed, 168 insertions(+), 95 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index a0bff4713672..f7cca25c0fa0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -71,6 +71,8 @@
+>  #include <drm/task_barrier.h>
+>  #include <linux/pm_runtime.h>
+>
+> +#include <drm/drm_drv.h>
 > +
->  config DRM_TI_SN65DSI86
->         tristate "TI SN65DSI86 DSI to eDP bridge"
->         depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index b00f3b2ad572..7bb4c9df0415 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -24,6 +24,7 @@ obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
->  obj-$(CONFIG_DRM_TOSHIBA_TC358768) += tc358768.o
->  obj-$(CONFIG_DRM_TOSHIBA_TC358775) += tc358775.o
->  obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
-> +obj-$(CONFIG_DRM_TI_SN65DSI83) += ti-sn65dsi83.o
->  obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
->  obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
->  obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> new file mode 100644
-> index 000000000000..1a0a71fbe91d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -0,0 +1,698 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * TI SN65DSI83,84,85 driver
-> + *
-> + * Currently supported:
-> + * - SN65DSI83
-> + *   = 1x Single-link DSI ~ 1x Single-link LVDS
-> + *   - Supported
-> + *   - Single-link LVDS mode tested
-> + * - SN65DSI84
-> + *   = 1x Single-link DSI ~ 2x Single-link or 1x Dual-link LVDS
-> + *   - Supported
-> + *   - Dual-link LVDS mode tested
-> + *   - 2x Single-link LVDS mode unsupported
-> + *     (should be easy to add by someone who has the HW)
-> + * - SN65DSI85
-> + *   = 2x Single-link or 1x Dual-link DSI ~ 2x Single-link or 1x Dual-link LVDS
-> + *   - Unsupported
-> + *     (should be easy to add by someone who has the HW)
-> + *
-> + * Copyright (C) 2021 Marek Vasut <marex@denx.de>
-> + *
-> + * Based on previous work of:
-> + * Valentin Raevsky <valentin@compulab.co.il>
-> + * Philippe Schenker <philippe.schenker@toradex.com>
-> + */
-> +
-> +#include <linux/bits.h>
-> +#include <linux/clk.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_panel.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +/* ID registers */
-> +#define REG_ID(n)                              (0x00 + (n))
-> +/* Reset and clock registers */
-> +#define REG_RC_RESET                           0x09
-> +#define  REG_RC_RESET_SOFT_RESET               BIT(0)
-> +#define REG_RC_LVDS_PLL                                0x0a
-> +#define  REG_RC_LVDS_PLL_PLL_EN_STAT           BIT(7)
-> +#define  REG_RC_LVDS_PLL_LVDS_CLK_RANGE(n)     (((n) & 0x7) << 1)
-> +#define  REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY       BIT(0)
-> +#define REG_RC_DSI_CLK                         0x0b
-> +#define  REG_RC_DSI_CLK_DSI_CLK_DIVIDER(n)     (((n) & 0x1f) << 3)
-> +#define  REG_RC_DSI_CLK_REFCLK_MULTIPLIER(n)   ((n) & 0x3)
-> +#define REG_RC_PLL_EN                          0x0d
-> +#define  REG_RC_PLL_EN_PLL_EN                  BIT(0)
-> +/* DSI registers */
-> +#define REG_DSI_LANE                           0x10
-> +#define  REG_DSI_LANE_LEFT_RIGHT_PIXELS                BIT(7)  /* DSI85-only */
-> +#define  REG_DSI_LANE_DSI_CHANNEL_MODE_DUAL    0       /* DSI85-only */
-> +#define  REG_DSI_LANE_DSI_CHANNEL_MODE_2SINGLE BIT(6)  /* DSI85-only */
-> +#define  REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE  BIT(5)
-> +#define  REG_DSI_LANE_CHA_DSI_LANES(n)         (((n) & 0x3) << 3)
-> +#define  REG_DSI_LANE_CHB_DSI_LANES(n)         (((n) & 0x3) << 1)
-> +#define  REG_DSI_LANE_SOT_ERR_TOL_DIS          BIT(0)
-> +#define REG_DSI_EQ                             0x11
-> +#define  REG_DSI_EQ_CHA_DSI_DATA_EQ(n)         (((n) & 0x3) << 6)
-> +#define  REG_DSI_EQ_CHA_DSI_CLK_EQ(n)          (((n) & 0x3) << 2)
-> +#define REG_DSI_CLK                            0x12
-> +#define  REG_DSI_CLK_CHA_DSI_CLK_RANGE(n)      ((n) & 0xff)
-> +/* LVDS registers */
-> +#define REG_LVDS_FMT                           0x18
-> +#define  REG_LVDS_FMT_DE_NEG_POLARITY          BIT(7)
-> +#define  REG_LVDS_FMT_HS_NEG_POLARITY          BIT(6)
-> +#define  REG_LVDS_FMT_VS_NEG_POLARITY          BIT(5)
-> +#define  REG_LVDS_FMT_LVDS_LINK_CFG            BIT(4)  /* 0:AB 1:A-only */
-> +#define  REG_LVDS_FMT_CHA_24BPP_MODE           BIT(3)
-> +#define  REG_LVDS_FMT_CHB_24BPP_MODE           BIT(2)
-> +#define  REG_LVDS_FMT_CHA_24BPP_FORMAT1                BIT(1)
-> +#define  REG_LVDS_FMT_CHB_24BPP_FORMAT1                BIT(0)
-> +#define REG_LVDS_VCOM                          0x19
-> +#define  REG_LVDS_VCOM_CHA_LVDS_VOCM           BIT(6)
-> +#define  REG_LVDS_VCOM_CHB_LVDS_VOCM           BIT(4)
-> +#define  REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(n)   (((n) & 0x3) << 2)
-> +#define  REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(n)   ((n) & 0x3)
-> +#define REG_LVDS_LANE                          0x1a
-> +#define  REG_LVDS_LANE_EVEN_ODD_SWAP           BIT(6)
-> +#define  REG_LVDS_LANE_CHA_REVERSE_LVDS                BIT(5)
-> +#define  REG_LVDS_LANE_CHB_REVERSE_LVDS                BIT(4)
-> +#define  REG_LVDS_LANE_CHA_LVDS_TERM           BIT(1)
-> +#define  REG_LVDS_LANE_CHB_LVDS_TERM           BIT(0)
-> +#define REG_LVDS_CM                            0x1b
-> +#define  REG_LVDS_CM_CHA_LVDS_CM_ADJUST(n)     (((n) & 0x3) << 4)
-> +#define  REG_LVDS_CM_CHB_LVDS_CM_ADJUST(n)     ((n) & 0x3)
-> +/* Video registers */
-> +#define REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW     0x20
-> +#define REG_VID_CHA_ACTIVE_LINE_LENGTH_HIGH    0x21
-> +#define REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW  0x24
-> +#define REG_VID_CHA_VERTICAL_DISPLAY_SIZE_HIGH 0x25
-> +#define REG_VID_CHA_SYNC_DELAY_LOW             0x28
-> +#define REG_VID_CHA_SYNC_DELAY_HIGH            0x29
-> +#define REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW      0x2c
-> +#define REG_VID_CHA_HSYNC_PULSE_WIDTH_HIGH     0x2d
-> +#define REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW      0x30
-> +#define REG_VID_CHA_VSYNC_PULSE_WIDTH_HIGH     0x31
-> +#define REG_VID_CHA_HORIZONTAL_BACK_PORCH      0x34
-> +#define REG_VID_CHA_VERTICAL_BACK_PORCH                0x36
-> +#define REG_VID_CHA_HORIZONTAL_FRONT_PORCH     0x38
-> +#define REG_VID_CHA_VERTICAL_FRONT_PORCH       0x3a
-> +#define REG_VID_CHA_TEST_PATTERN               0x3c
-> +/* IRQ registers */
-> +#define REG_IRQ_GLOBAL                         0xe0
-> +#define  REG_IRQ_GLOBAL_IRQ_EN                 BIT(0)
-> +#define REG_IRQ_EN                             0xe1
-> +#define  REG_IRQ_EN_CHA_SYNCH_ERR_EN           BIT(7)
-> +#define  REG_IRQ_EN_CHA_CRC_ERR_EN             BIT(6)
-> +#define  REG_IRQ_EN_CHA_UNC_ECC_ERR_EN         BIT(5)
-> +#define  REG_IRQ_EN_CHA_COR_ECC_ERR_EN         BIT(4)
-> +#define  REG_IRQ_EN_CHA_LLP_ERR_EN             BIT(3)
-> +#define  REG_IRQ_EN_CHA_SOT_BIT_ERR_EN         BIT(2)
-> +#define  REG_IRQ_EN_CHA_PLL_UNLOCK_EN          BIT(0)
-> +#define REG_IRQ_STAT                           0xe5
-> +#define  REG_IRQ_STAT_CHA_SYNCH_ERR            BIT(7)
-> +#define  REG_IRQ_STAT_CHA_CRC_ERR              BIT(6)
-> +#define  REG_IRQ_STAT_CHA_UNC_ECC_ERR          BIT(5)
-> +#define  REG_IRQ_STAT_CHA_COR_ECC_ERR          BIT(4)
-> +#define  REG_IRQ_STAT_CHA_LLP_ERR              BIT(3)
-> +#define  REG_IRQ_STAT_CHA_SOT_BIT_ERR          BIT(2)
-> +#define  REG_IRQ_STAT_CHA_PLL_UNLOCK           BIT(0)
-> +
-> +enum sn65dsi83_model {
-> +       MODEL_SN65DSI83,
-> +       MODEL_SN65DSI84,
-> +};
-> +
-> +struct sn65dsi83 {
-> +       struct drm_bridge               bridge;
-> +       struct drm_display_mode         mode;
-> +       struct device                   *dev;
-> +       struct regmap                   *regmap;
-> +       struct device_node              *host_node;
-> +       struct mipi_dsi_device          *dsi;
-> +       struct drm_bridge               *panel_bridge;
-> +       struct gpio_desc                *enable_gpio;
-> +       int                             dsi_lanes;
-> +       bool                            lvds_dual_link;
-> +       bool                            lvds_dual_link_even_odd_swap;
-> +       bool                            lvds_format_24bpp;
-> +       bool                            lvds_format_jeida;
-> +};
-> +
-> +static const struct regmap_range sn65dsi83_readable_ranges[] = {
-> +       regmap_reg_range(REG_ID(0), REG_ID(8)),
-> +       regmap_reg_range(REG_RC_LVDS_PLL, REG_RC_DSI_CLK),
-> +       regmap_reg_range(REG_RC_PLL_EN, REG_RC_PLL_EN),
-> +       regmap_reg_range(REG_DSI_LANE, REG_DSI_CLK),
-> +       regmap_reg_range(REG_LVDS_FMT, REG_LVDS_CM),
-> +       regmap_reg_range(REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
-> +                        REG_VID_CHA_ACTIVE_LINE_LENGTH_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
-> +                        REG_VID_CHA_VERTICAL_DISPLAY_SIZE_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_SYNC_DELAY_LOW,
-> +                        REG_VID_CHA_SYNC_DELAY_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
-> +                        REG_VID_CHA_HSYNC_PULSE_WIDTH_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
-> +                        REG_VID_CHA_VSYNC_PULSE_WIDTH_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_HORIZONTAL_BACK_PORCH,
-> +                        REG_VID_CHA_HORIZONTAL_BACK_PORCH),
-> +       regmap_reg_range(REG_VID_CHA_VERTICAL_BACK_PORCH,
-> +                        REG_VID_CHA_VERTICAL_BACK_PORCH),
-> +       regmap_reg_range(REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
-> +                        REG_VID_CHA_HORIZONTAL_FRONT_PORCH),
-> +       regmap_reg_range(REG_VID_CHA_VERTICAL_FRONT_PORCH,
-> +                        REG_VID_CHA_VERTICAL_FRONT_PORCH),
-> +       regmap_reg_range(REG_VID_CHA_TEST_PATTERN, REG_VID_CHA_TEST_PATTERN),
-> +       regmap_reg_range(REG_IRQ_GLOBAL, REG_IRQ_EN),
-> +       regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
-> +};
-> +
-> +static const struct regmap_access_table sn65dsi83_readable_table = {
-> +       .yes_ranges = sn65dsi83_readable_ranges,
-> +       .n_yes_ranges = ARRAY_SIZE(sn65dsi83_readable_ranges),
-> +};
-> +
-> +static const struct regmap_range sn65dsi83_writeable_ranges[] = {
-> +       regmap_reg_range(REG_RC_RESET, REG_RC_DSI_CLK),
-> +       regmap_reg_range(REG_RC_PLL_EN, REG_RC_PLL_EN),
-> +       regmap_reg_range(REG_DSI_LANE, REG_DSI_CLK),
-> +       regmap_reg_range(REG_LVDS_FMT, REG_LVDS_CM),
-> +       regmap_reg_range(REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
-> +                        REG_VID_CHA_ACTIVE_LINE_LENGTH_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
-> +                        REG_VID_CHA_VERTICAL_DISPLAY_SIZE_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_SYNC_DELAY_LOW,
-> +                        REG_VID_CHA_SYNC_DELAY_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
-> +                        REG_VID_CHA_HSYNC_PULSE_WIDTH_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
-> +                        REG_VID_CHA_VSYNC_PULSE_WIDTH_HIGH),
-> +       regmap_reg_range(REG_VID_CHA_HORIZONTAL_BACK_PORCH,
-> +                        REG_VID_CHA_HORIZONTAL_BACK_PORCH),
-> +       regmap_reg_range(REG_VID_CHA_VERTICAL_BACK_PORCH,
-> +                        REG_VID_CHA_VERTICAL_BACK_PORCH),
-> +       regmap_reg_range(REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
-> +                        REG_VID_CHA_HORIZONTAL_FRONT_PORCH),
-> +       regmap_reg_range(REG_VID_CHA_VERTICAL_FRONT_PORCH,
-> +                        REG_VID_CHA_VERTICAL_FRONT_PORCH),
-> +       regmap_reg_range(REG_VID_CHA_TEST_PATTERN, REG_VID_CHA_TEST_PATTERN),
-> +       regmap_reg_range(REG_IRQ_GLOBAL, REG_IRQ_EN),
-> +       regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
-> +};
-> +
-> +static const struct regmap_access_table sn65dsi83_writeable_table = {
-> +       .yes_ranges = sn65dsi83_writeable_ranges,
-> +       .n_yes_ranges = ARRAY_SIZE(sn65dsi83_writeable_ranges),
-> +};
-> +
-> +static const struct regmap_range sn65dsi83_volatile_ranges[] = {
-> +       regmap_reg_range(REG_RC_RESET, REG_RC_RESET),
-> +       regmap_reg_range(REG_RC_LVDS_PLL, REG_RC_LVDS_PLL),
-> +       regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
-> +};
-> +
-> +static const struct regmap_access_table sn65dsi83_volatile_table = {
-> +       .yes_ranges = sn65dsi83_volatile_ranges,
-> +       .n_yes_ranges = ARRAY_SIZE(sn65dsi83_volatile_ranges),
-> +};
-> +
-> +static const struct regmap_config sn65dsi83_regmap_config = {
-> +       .reg_bits = 8,
-> +       .val_bits = 8,
-> +       .rd_table = &sn65dsi83_readable_table,
-> +       .wr_table = &sn65dsi83_writeable_table,
-> +       .volatile_table = &sn65dsi83_volatile_table,
-> +       .cache_type = REGCACHE_RBTREE,
-> +       .max_register = REG_IRQ_STAT,
-> +};
-> +
-> +static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
-> +{
-> +       return container_of(bridge, struct sn65dsi83, bridge);
-> +}
-> +
-> +static int sn65dsi83_attach(struct drm_bridge *bridge,
-> +                           enum drm_bridge_attach_flags flags)
-> +{
-> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-> +       struct device *dev = ctx->dev;
-> +       struct mipi_dsi_device *dsi;
-> +       struct mipi_dsi_host *host;
-> +       int ret = 0;
-> +
-> +       const struct mipi_dsi_device_info info = {
-> +               .type = "sn65dsi83",
-> +               .channel = 0,
-> +               .node = NULL,
-> +       };
-> +
-> +       host = of_find_mipi_dsi_host_by_node(ctx->host_node);
-> +       if (!host) {
-> +               dev_err(dev, "failed to find dsi host\n");
-> +               return -EPROBE_DEFER;
-> +       }
-> +
-> +       dsi = mipi_dsi_device_register_full(host, &info);
-> +       if (IS_ERR(dsi)) {
-> +               return dev_err_probe(dev, PTR_ERR(dsi),
-> +                                    "failed to create dsi device\n");
-> +       }
-> +
-> +       ctx->dsi = dsi;
-> +
-> +       dsi->lanes = ctx->dsi_lanes;
-> +       dsi->format = MIPI_DSI_FMT_RGB888;
-> +       dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
-> +
-> +       ret = mipi_dsi_attach(dsi);
-> +       if (ret < 0) {
-> +               dev_err(dev, "failed to attach dsi to host\n");
-> +               goto err_dsi_attach;
-> +       }
-> +
-> +       return drm_bridge_attach(bridge->encoder, ctx->panel_bridge,
-> +                                &ctx->bridge, flags);
-> +
-> +err_dsi_attach:
-> +       mipi_dsi_device_unregister(dsi);
-> +       return ret;
-> +}
-> +
-> +static void sn65dsi83_pre_enable(struct drm_bridge *bridge)
-> +{
-> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-> +
-> +       /*
-> +        * Reset the chip, pull EN line low for t_reset=10ms,
-> +        * then high for t_en=1ms.
-> +        */
-> +       regcache_mark_dirty(ctx->regmap);
-> +       gpiod_set_value(ctx->enable_gpio, 0);
-> +       usleep_range(10000, 11000);
-> +       gpiod_set_value(ctx->enable_gpio, 1);
-> +       usleep_range(1000, 1100);
-> +}
-> +
-> +static u8 sn65dsi83_get_lvds_range(struct sn65dsi83 *ctx)
-> +{
-> +       /*
-> +        * The encoding of the LVDS_CLK_RANGE is as follows:
-> +        * 000 - 25 MHz <= LVDS_CLK < 37.5 MHz
-> +        * 001 - 37.5 MHz <= LVDS_CLK < 62.5 MHz
-> +        * 010 - 62.5 MHz <= LVDS_CLK < 87.5 MHz
-> +        * 011 - 87.5 MHz <= LVDS_CLK < 112.5 MHz
-> +        * 100 - 112.5 MHz <= LVDS_CLK < 137.5 MHz
-> +        * 101 - 137.5 MHz <= LVDS_CLK <= 154 MHz
-> +        * which is a range of 12.5MHz..162.5MHz in 50MHz steps, except that
-> +        * the ends of the ranges are clamped to the supported range. Since
-> +        * sn65dsi83_mode_valid() already filters the valid modes and limits
-> +        * the clock to 25..154 MHz, the range calculation can be simplified
-> +        * as follows:
-> +        */
-> +       int mode_clock = ctx->mode.clock;
-> +
-> +       if (ctx->lvds_dual_link)
-> +               mode_clock /= 2;
-> +
-> +       return (mode_clock - 12500) / 25000;
-> +}
-> +
-> +static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx)
-> +{
-> +       /*
-> +        * The encoding of the CHA_DSI_CLK_RANGE is as follows:
-> +        * 0x00 through 0x07 - Reserved
-> +        * 0x08 - 40 <= DSI_CLK < 45 MHz
-> +        * 0x09 - 45 <= DSI_CLK < 50 MHz
-> +        * ...
-> +        * 0x63 - 495 <= DSI_CLK < 500 MHz
-> +        * 0x64 - 500 MHz
-> +        * 0x65 through 0xFF - Reserved
-> +        * which is DSI clock in 5 MHz steps, clamped to 40..500 MHz.
-> +        * The DSI clock are calculated as:
-> +        *  DSI_CLK = mode clock * bpp / dsi_data_lanes / 2
-> +        * the 2 is there because the bus is DDR.
-> +        */
-> +       return DIV_ROUND_UP(clamp((unsigned int)ctx->mode.clock *
-> +                           mipi_dsi_pixel_format_to_bpp(ctx->dsi->format) /
-> +                           ctx->dsi_lanes / 2, 40000U, 500000U), 5000U);
-> +}
-> +
-> +static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
-> +{
-> +       /* The divider is (DSI_CLK / LVDS_CLK) - 1, which really is: */
-> +       unsigned int dsi_div = mipi_dsi_pixel_format_to_bpp(ctx->dsi->format);
-> +
-> +       dsi_div /= ctx->dsi_lanes;
-> +
-> +       if (!ctx->lvds_dual_link)
-> +               dsi_div /= 2;
-> +
-> +       return dsi_div - 1;
-> +}
-> +
-> +static void sn65dsi83_enable(struct drm_bridge *bridge)
-> +{
-> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-> +       unsigned int pval;
-> +       u16 val;
-> +       int ret;
-> +
-> +       /* Clear reset, disable PLL */
-> +       regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
-> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> +
-> +       /* Reference clock derived from DSI link clock. */
-> +       regmap_write(ctx->regmap, REG_RC_LVDS_PLL,
-> +               REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(ctx)) |
-> +               REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
-> +       regmap_write(ctx->regmap, REG_DSI_CLK,
-> +               REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx)));
-> +       regmap_write(ctx->regmap, REG_RC_DSI_CLK,
-> +               REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)));
-> +
-> +       /* Set number of DSI lanes and LVDS link config. */
-> +       regmap_write(ctx->regmap, REG_DSI_LANE,
-> +               REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE |
-> +               REG_DSI_LANE_CHA_DSI_LANES(~(ctx->dsi_lanes - 1)) |
-> +               /* CHB is DSI85-only, set to default on DSI83/DSI84 */
-> +               REG_DSI_LANE_CHB_DSI_LANES(3));
-> +       /* No equalization. */
-> +       regmap_write(ctx->regmap, REG_DSI_EQ, 0x00);
-> +
-> +       /* Set up sync signal polarity. */
-> +       val = (ctx->mode.flags & DRM_MODE_FLAG_NHSYNC ?
-> +              REG_LVDS_FMT_HS_NEG_POLARITY : 0) |
-> +             (ctx->mode.flags & DRM_MODE_FLAG_NVSYNC ?
-> +              REG_LVDS_FMT_VS_NEG_POLARITY : 0);
-> +
-> +       /* Set up bits-per-pixel, 18bpp or 24bpp. */
-> +       if (ctx->lvds_format_24bpp) {
-> +               val |= REG_LVDS_FMT_CHA_24BPP_MODE;
-> +               if (ctx->lvds_dual_link)
-> +                       val |= REG_LVDS_FMT_CHB_24BPP_MODE;
-> +       }
-> +
-> +       /* Set up LVDS format, JEIDA/Format 1 or SPWG/Format 2 */
-> +       if (ctx->lvds_format_jeida) {
-> +               val |= REG_LVDS_FMT_CHA_24BPP_FORMAT1;
-> +               if (ctx->lvds_dual_link)
-> +                       val |= REG_LVDS_FMT_CHB_24BPP_FORMAT1;
-> +       }
-> +
-> +       /* Set up LVDS output config (DSI84,DSI85) */
-> +       if (!ctx->lvds_dual_link)
-> +               val |= REG_LVDS_FMT_LVDS_LINK_CFG;
-> +
-> +       regmap_write(ctx->regmap, REG_LVDS_FMT, val);
-> +       regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
-> +       regmap_write(ctx->regmap, REG_LVDS_LANE,
-> +               (ctx->lvds_dual_link_even_odd_swap ?
-> +                REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
-> +               REG_LVDS_LANE_CHA_LVDS_TERM |
-> +               REG_LVDS_LANE_CHB_LVDS_TERM);
-> +       regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
-> +
-> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
-> +                         &ctx->mode.hdisplay, 2);
-> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_VERTICAL_DISPLAY_SIZE_LOW,
-> +                         &ctx->mode.vdisplay, 2);
-> +       val = 32 + 1;   /* 32 + 1 pixel clock to ensure proper operation */
-> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_SYNC_DELAY_LOW, &val, 2);
-> +       val = ctx->mode.hsync_end - ctx->mode.hsync_start;
-> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
-> +                         &val, 2);
-> +       val = ctx->mode.vsync_end - ctx->mode.vsync_start;
-> +       regmap_bulk_write(ctx->regmap, REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
-> +                         &val, 2);
-> +       regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_BACK_PORCH,
-> +                    ctx->mode.htotal - ctx->mode.hsync_end);
-> +       regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_BACK_PORCH,
-> +                    ctx->mode.vtotal - ctx->mode.vsync_end);
-> +       regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
-> +                    ctx->mode.hsync_start - ctx->mode.hdisplay);
-> +       regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_FRONT_PORCH,
-> +                    ctx->mode.vsync_start - ctx->mode.vdisplay);
-> +       regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
-> +
-> +       /* Enable PLL */
-> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, REG_RC_PLL_EN_PLL_EN);
-> +       usleep_range(3000, 4000);
-> +       ret = regmap_read_poll_timeout(ctx->regmap, REG_RC_LVDS_PLL, pval,
-> +                                       pval & REG_RC_LVDS_PLL_PLL_EN_STAT,
-> +                                       1000, 100000);
-> +       if (ret) {
-> +               dev_err(ctx->dev, "failed to lock PLL, ret=%i\n", ret);
-> +               /* On failure, disable PLL again and exit. */
-> +               regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
+>  MODULE_FIRMWARE("amdgpu/vega10_gpu_info.bin");
+>  MODULE_FIRMWARE("amdgpu/vega12_gpu_info.bin");
+>  MODULE_FIRMWARE("amdgpu/raven_gpu_info.bin");
+> @@ -281,7 +283,10 @@ void amdgpu_device_vram_access(struct amdgpu_device *adev, loff_t pos,
+>         unsigned long flags;
+>         uint32_t hi = ~0;
+>         uint64_t last;
+> +       int idx;
+>
+> +       if (!drm_dev_enter(&adev->ddev, &idx))
 > +               return;
-> +       }
+>
+>  #ifdef CONFIG_64BIT
+>         last = min(pos + size, adev->gmc.visible_vram_size);
+> @@ -300,7 +305,7 @@ void amdgpu_device_vram_access(struct amdgpu_device *adev, loff_t pos,
+>                 }
+>
+>                 if (count == size)
+> -                       return;
+> +                       goto exit;
+>
+>                 pos += count;
+>                 buf += count / 4;
+> @@ -323,6 +328,9 @@ void amdgpu_device_vram_access(struct amdgpu_device *adev, loff_t pos,
+>                         *buf++ = RREG32_NO_KIQ(mmMM_DATA);
+>         }
+>         spin_unlock_irqrestore(&adev->mmio_idx_lock, flags);
 > +
-> +       /* Trigger reset after CSR register update. */
-> +       regmap_write(ctx->regmap, REG_RC_RESET, REG_RC_RESET_SOFT_RESET);
+> +exit:
+> +       drm_dev_exit(idx);
+>  }
+>
+>  /*
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> index 4d32233cde92..04ba5eef1e88 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> @@ -31,6 +31,8 @@
+>  #include "amdgpu_ras.h"
+>  #include "amdgpu_xgmi.h"
+>
+> +#include <drm/drm_drv.h>
 > +
-> +       /* Clear all errors that got asserted during initialization. */
-> +       regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-> +       regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
-> +}
+>  /**
+>   * amdgpu_gmc_pdb0_alloc - allocate vram for pdb0
+>   *
+> @@ -151,6 +153,10 @@ int amdgpu_gmc_set_pte_pde(struct amdgpu_device *adev, void *cpu_pt_addr,
+>  {
+>         void __iomem *ptr = (void *)cpu_pt_addr;
+>         uint64_t value;
+> +       int idx;
 > +
-> +static void sn65dsi83_disable(struct drm_bridge *bridge)
-> +{
-> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+> +       if (!drm_dev_enter(&adev->ddev, &idx))
+> +               return 0;
+>
+>         /*
+>          * The following is for PTE only. GART does not have PDEs.
+> @@ -158,6 +164,9 @@ int amdgpu_gmc_set_pte_pde(struct amdgpu_device *adev, void *cpu_pt_addr,
+>         value = addr & 0x0000FFFFFFFFF000ULL;
+>         value |= flags;
+>         writeq(value, ptr + (gpu_page_idx * 8));
 > +
-> +       /* Clear reset, disable PLL */
-> +       regmap_write(ctx->regmap, REG_RC_RESET, 0x00);
-> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> +}
+> +       drm_dev_exit(idx);
 > +
-> +static void sn65dsi83_post_disable(struct drm_bridge *bridge)
-> +{
-> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+>         return 0;
+>  }
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+> index 9e769cf6095b..bb6afee61666 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+> @@ -25,6 +25,7 @@
+>
+>  #include <linux/firmware.h>
+>  #include <linux/dma-mapping.h>
+> +#include <drm/drm_drv.h>
+>
+>  #include "amdgpu.h"
+>  #include "amdgpu_psp.h"
+> @@ -39,6 +40,8 @@
+>  #include "amdgpu_ras.h"
+>  #include "amdgpu_securedisplay.h"
+>
+> +#include <drm/drm_drv.h>
 > +
-> +       /* Put the chip in reset, pull EN line low. */
-> +       gpiod_set_value(ctx->enable_gpio, 0);
-> +}
+>  static int psp_sysfs_init(struct amdgpu_device *adev);
+>  static void psp_sysfs_fini(struct amdgpu_device *adev);
+>
+> @@ -253,7 +256,7 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>                    struct psp_gfx_cmd_resp *cmd, uint64_t fence_mc_addr)
+>  {
+>         int ret;
+> -       int index;
+> +       int index, idx;
+>         int timeout = 20000;
+>         bool ras_intr = false;
+>         bool skip_unsupport = false;
+> @@ -261,6 +264,9 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>         if (psp->adev->in_pci_err_recovery)
+>                 return 0;
+>
+> +       if (!drm_dev_enter(&psp->adev->ddev, &idx))
+> +               return 0;
 > +
-> +static enum drm_mode_status
-> +sn65dsi83_mode_valid(struct drm_bridge *bridge,
-> +                    const struct drm_display_info *info,
-> +                    const struct drm_display_mode *mode)
-> +{
-> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-> +
-> +       /* LVDS output clock range 25..154 MHz */
-> +       if (mode->clock < 25000)
-> +               return MODE_CLOCK_LOW;
-> +       if (mode->clock > 154000)
-> +               return MODE_CLOCK_HIGH;
-> +
-> +       switch (info->bus_formats[0]) {
-> +       case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-> +               ctx->lvds_format_24bpp = false;
-> +               ctx->lvds_format_jeida = false;
-> +               break;
-> +       case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> +               ctx->lvds_format_24bpp = true;
-> +               ctx->lvds_format_jeida = true;
-> +               break;
-> +       case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> +               ctx->lvds_format_24bpp = true;
-> +               ctx->lvds_format_jeida = false;
-> +               break;
-> +       default:
-> +               ctx->lvds_format_24bpp = true;
-> +               ctx->lvds_format_jeida = false;
-> +               /*
-> +                * Some bridges still don't set the correct LVDS bus pixel
-> +                * format, use SPWG24 default format until those are fixed.
-> +                */
-> +               dev_warn(ctx->dev,
-> +                       "Unsupported LVDS bus format 0x%04x, please check output bridge driver. Falling back to SPWG24.\n",
-> +                       info->bus_formats[0]);
-> +               break;
-> +       }
-> +
-> +       return MODE_OK;
-> +}
-> +
-> +static void sn65dsi83_mode_set(struct drm_bridge *bridge,
-> +                              const struct drm_display_mode *mode,
-> +                              const struct drm_display_mode *adj)
-> +{
-> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-> +       u32 input_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> +       struct drm_encoder *encoder = bridge->encoder;
-> +       struct drm_device *ddev = encoder->dev;
-> +       struct drm_connector *connector;
-> +
-> +       /* The DSI format is always RGB888_1X24 */
-> +       list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
-> +               if (connector->encoder != encoder)
-> +                       continue;
-> +
-> +               drm_display_info_set_bus_formats(&connector->display_info,
-> +                                                &input_bus_format, 1);
-> +       }
-> +
-> +       ctx->mode = *adj;
-> +}
-> +
-> +static const struct drm_bridge_funcs sn65dsi83_funcs = {
-> +       .attach         = sn65dsi83_attach,
-> +       .pre_enable     = sn65dsi83_pre_enable,
-> +       .enable         = sn65dsi83_enable,
-> +       .disable        = sn65dsi83_disable,
-> +       .post_disable   = sn65dsi83_post_disable,
-> +       .mode_valid     = sn65dsi83_mode_valid,
-> +       .mode_set       = sn65dsi83_mode_set,
-> +};
-> +
-> +static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
-> +{
-> +       struct drm_bridge *panel_bridge;
-> +       struct device *dev = ctx->dev;
-> +       struct device_node *endpoint;
-> +       struct drm_panel *panel;
-> +       int ret;
-> +
-> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-> +       ctx->dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-> +       ctx->host_node = of_graph_get_remote_port_parent(endpoint);
-> +       of_node_put(endpoint);
-> +
-> +       if (ctx->dsi_lanes < 0 || ctx->dsi_lanes > 4)
-> +               return -EINVAL;
-> +       if (!ctx->host_node)
+>         mutex_lock(&psp->mutex);
+>
+>         memset(psp->cmd_buf_mem, 0, PSP_CMD_BUFFER_SIZE);
+> @@ -271,8 +277,7 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>         ret = psp_ring_cmd_submit(psp, psp->cmd_buf_mc_addr, fence_mc_addr, index);
+>         if (ret) {
+>                 atomic_dec(&psp->fence_value);
+> -               mutex_unlock(&psp->mutex);
+> -               return ret;
+> +               goto exit;
+>         }
+>
+>         amdgpu_asic_invalidate_hdp(psp->adev, NULL);
+> @@ -312,8 +317,8 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>                          psp->cmd_buf_mem->cmd_id,
+>                          psp->cmd_buf_mem->resp.status);
+>                 if (!timeout) {
+> -                       mutex_unlock(&psp->mutex);
+> -                       return -EINVAL;
+> +                       ret = -EINVAL;
+> +                       goto exit;
+>                 }
+>         }
+>
+> @@ -321,8 +326,10 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>                 ucode->tmr_mc_addr_lo = psp->cmd_buf_mem->resp.fw_addr_lo;
+>                 ucode->tmr_mc_addr_hi = psp->cmd_buf_mem->resp.fw_addr_hi;
+>         }
+> -       mutex_unlock(&psp->mutex);
+>
+> +exit:
+> +       mutex_unlock(&psp->mutex);
+> +       drm_dev_exit(idx);
+>         return ret;
+>  }
+>
+> @@ -359,8 +366,7 @@ static int psp_load_toc(struct psp_context *psp,
+>         if (!cmd)
+>                 return -ENOMEM;
+>         /* Copy toc to psp firmware private buffer */
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -       memcpy(psp->fw_pri_buf, psp->toc_start_addr, psp->toc_bin_size);
+> +       psp_copy_fw(psp, psp->toc_start_addr, psp->toc_bin_size);
+>
+>         psp_prep_load_toc_cmd_buf(cmd, psp->fw_pri_mc_addr, psp->toc_bin_size);
+>
+> @@ -625,8 +631,7 @@ static int psp_asd_load(struct psp_context *psp)
+>         if (!cmd)
+>                 return -ENOMEM;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -       memcpy(psp->fw_pri_buf, psp->asd_start_addr, psp->asd_ucode_size);
+> +       psp_copy_fw(psp, psp->asd_start_addr, psp->asd_ucode_size);
+>
+>         psp_prep_asd_load_cmd_buf(cmd, psp->fw_pri_mc_addr,
+>                                   psp->asd_ucode_size);
+> @@ -781,8 +786,7 @@ static int psp_xgmi_load(struct psp_context *psp)
+>         if (!cmd)
+>                 return -ENOMEM;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -       memcpy(psp->fw_pri_buf, psp->ta_xgmi_start_addr, psp->ta_xgmi_ucode_size);
+> +       psp_copy_fw(psp, psp->ta_xgmi_start_addr, psp->ta_xgmi_ucode_size);
+>
+>         psp_prep_ta_load_cmd_buf(cmd,
+>                                  psp->fw_pri_mc_addr,
+> @@ -1038,8 +1042,7 @@ static int psp_ras_load(struct psp_context *psp)
+>         if (!cmd)
+>                 return -ENOMEM;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -       memcpy(psp->fw_pri_buf, psp->ta_ras_start_addr, psp->ta_ras_ucode_size);
+> +       psp_copy_fw(psp, psp->ta_ras_start_addr, psp->ta_ras_ucode_size);
+>
+>         psp_prep_ta_load_cmd_buf(cmd,
+>                                  psp->fw_pri_mc_addr,
+> @@ -1275,8 +1278,7 @@ static int psp_hdcp_load(struct psp_context *psp)
+>         if (!cmd)
+>                 return -ENOMEM;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -       memcpy(psp->fw_pri_buf, psp->ta_hdcp_start_addr,
+> +       psp_copy_fw(psp, psp->ta_hdcp_start_addr,
+>                psp->ta_hdcp_ucode_size);
+>
+>         psp_prep_ta_load_cmd_buf(cmd,
+> @@ -1427,8 +1429,7 @@ static int psp_dtm_load(struct psp_context *psp)
+>         if (!cmd)
+>                 return -ENOMEM;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -       memcpy(psp->fw_pri_buf, psp->ta_dtm_start_addr, psp->ta_dtm_ucode_size);
+> +       psp_copy_fw(psp, psp->ta_dtm_start_addr, psp->ta_dtm_ucode_size);
+>
+>         psp_prep_ta_load_cmd_buf(cmd,
+>                                  psp->fw_pri_mc_addr,
+> @@ -1573,8 +1574,7 @@ static int psp_rap_load(struct psp_context *psp)
+>         if (!cmd)
+>                 return -ENOMEM;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -       memcpy(psp->fw_pri_buf, psp->ta_rap_start_addr, psp->ta_rap_ucode_size);
+> +       psp_copy_fw(psp, psp->ta_rap_start_addr, psp->ta_rap_ucode_size);
+>
+>         psp_prep_ta_load_cmd_buf(cmd,
+>                                  psp->fw_pri_mc_addr,
+> @@ -3022,7 +3022,7 @@ static ssize_t psp_usbc_pd_fw_sysfs_write(struct device *dev,
+>         struct amdgpu_device *adev = drm_to_adev(ddev);
+>         void *cpu_addr;
+>         dma_addr_t dma_addr;
+> -       int ret;
+> +       int ret, idx;
+>         char fw_name[100];
+>         const struct firmware *usbc_pd_fw;
+>
+> @@ -3031,6 +3031,9 @@ static ssize_t psp_usbc_pd_fw_sysfs_write(struct device *dev,
+>                 return -EBUSY;
+>         }
+>
+> +       if (!drm_dev_enter(ddev, &idx))
 > +               return -ENODEV;
 > +
-> +       ctx->lvds_dual_link = false;
-> +       ctx->lvds_dual_link_even_odd_swap = false;
-> +       if (model != MODEL_SN65DSI83) {
-> +               struct device_node *port2, *port3;
-> +               int dual_link;
+>         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s", buf);
+>         ret = request_firmware(&usbc_pd_fw, fw_name, adev->dev);
+>         if (ret)
+> @@ -3062,16 +3065,30 @@ static ssize_t psp_usbc_pd_fw_sysfs_write(struct device *dev,
+>  rel_buf:
+>         dma_free_coherent(adev->dev, usbc_pd_fw->size, cpu_addr, dma_addr);
+>         release_firmware(usbc_pd_fw);
+> -
+>  fail:
+>         if (ret) {
+>                 DRM_ERROR("Failed to load USBC PD FW, err = %d", ret);
+> -               return ret;
+> +               count = ret;
+>         }
+>
+> +       drm_dev_exit(idx);
+>         return count;
+>  }
+>
+> +void psp_copy_fw(struct psp_context *psp, uint8_t *start_addr, uint32_t bin_size)
+> +{
+> +       int idx;
 > +
-> +               port2 = of_graph_get_port_by_id(dev->of_node, 2);
-> +               port3 = of_graph_get_port_by_id(dev->of_node, 3);
-> +               dual_link = drm_of_lvds_get_dual_link_pixel_order(port2, port3);
-> +               of_node_put(port2);
-> +               of_node_put(port3);
+> +       if (!drm_dev_enter(&psp->adev->ddev, &idx))
+> +               return;
 > +
-> +               if (dual_link == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS) {
-> +                       ctx->lvds_dual_link = true;
-> +                       /* Odd pixels to LVDS Channel A, even pixels to B */
-> +                       ctx->lvds_dual_link_even_odd_swap = false;
-> +               } else if (dual_link == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
-> +                       ctx->lvds_dual_link = true;
-> +                       /* Even pixels to LVDS Channel A, odd pixels to B */
-> +                       ctx->lvds_dual_link_even_odd_swap = true;
+> +       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> +       memcpy(psp->fw_pri_buf, start_addr, bin_size);
+> +
+> +       drm_dev_exit(idx);
+> +}
+> +
+> +
+>  static DEVICE_ATTR(usbc_pd_fw, S_IRUGO | S_IWUSR,
+>                    psp_usbc_pd_fw_sysfs_read,
+>                    psp_usbc_pd_fw_sysfs_write);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+> index 46a5328e00e0..2bfdc278817f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+> @@ -423,4 +423,6 @@ int psp_get_fw_attestation_records_addr(struct psp_context *psp,
+>
+>  int psp_load_fw_list(struct psp_context *psp,
+>                      struct amdgpu_firmware_info **ucode_list, int ucode_count);
+> +void psp_copy_fw(struct psp_context *psp, uint8_t *start_addr, uint32_t bin_size);
+> +
+>  #endif
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> index c6dbc0801604..82f0542c7792 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/module.h>
+>
+>  #include <drm/drm.h>
+> +#include <drm/drm_drv.h>
+>
+>  #include "amdgpu.h"
+>  #include "amdgpu_pm.h"
+> @@ -375,7 +376,7 @@ int amdgpu_uvd_suspend(struct amdgpu_device *adev)
+>  {
+>         unsigned size;
+>         void *ptr;
+> -       int i, j;
+> +       int i, j, idx;
+>         bool in_ras_intr = amdgpu_ras_intr_triggered();
+>
+>         cancel_delayed_work_sync(&adev->uvd.idle_work);
+> @@ -403,11 +404,15 @@ int amdgpu_uvd_suspend(struct amdgpu_device *adev)
+>                 if (!adev->uvd.inst[j].saved_bo)
+>                         return -ENOMEM;
+>
+> -               /* re-write 0 since err_event_athub will corrupt VCPU buffer */
+> -               if (in_ras_intr)
+> -                       memset(adev->uvd.inst[j].saved_bo, 0, size);
+> -               else
+> -                       memcpy_fromio(adev->uvd.inst[j].saved_bo, ptr, size);
+> +               if (drm_dev_enter(&adev->ddev, &idx)) {
+> +                       /* re-write 0 since err_event_athub will corrupt VCPU buffer */
+> +                       if (in_ras_intr)
+> +                               memset(adev->uvd.inst[j].saved_bo, 0, size);
+> +                       else
+> +                               memcpy_fromio(adev->uvd.inst[j].saved_bo, ptr, size);
+> +
+> +                       drm_dev_exit(idx);
 > +               }
+>         }
+>
+>         if (in_ras_intr)
+> @@ -420,7 +425,7 @@ int amdgpu_uvd_resume(struct amdgpu_device *adev)
+>  {
+>         unsigned size;
+>         void *ptr;
+> -       int i;
+> +       int i, idx;
+>
+>         for (i = 0; i < adev->uvd.num_uvd_inst; i++) {
+>                 if (adev->uvd.harvest_config & (1 << i))
+> @@ -432,7 +437,10 @@ int amdgpu_uvd_resume(struct amdgpu_device *adev)
+>                 ptr = adev->uvd.inst[i].cpu_addr;
+>
+>                 if (adev->uvd.inst[i].saved_bo != NULL) {
+> -                       memcpy_toio(ptr, adev->uvd.inst[i].saved_bo, size);
+> +                       if (drm_dev_enter(&adev->ddev, &idx)) {
+> +                               memcpy_toio(ptr, adev->uvd.inst[i].saved_bo, size);
+> +                               drm_dev_exit(idx);
+> +                       }
+>                         kvfree(adev->uvd.inst[i].saved_bo);
+>                         adev->uvd.inst[i].saved_bo = NULL;
+>                 } else {
+> @@ -442,8 +450,11 @@ int amdgpu_uvd_resume(struct amdgpu_device *adev)
+>                         hdr = (const struct common_firmware_header *)adev->uvd.fw->data;
+>                         if (adev->firmware.load_type != AMDGPU_FW_LOAD_PSP) {
+>                                 offset = le32_to_cpu(hdr->ucode_array_offset_bytes);
+> -                               memcpy_toio(adev->uvd.inst[i].cpu_addr, adev->uvd.fw->data + offset,
+> -                                           le32_to_cpu(hdr->ucode_size_bytes));
+> +                               if (drm_dev_enter(&adev->ddev, &idx)) {
+> +                                       memcpy_toio(adev->uvd.inst[i].cpu_addr, adev->uvd.fw->data + offset,
+> +                                                   le32_to_cpu(hdr->ucode_size_bytes));
+> +                                       drm_dev_exit(idx);
+> +                               }
+>                                 size -= le32_to_cpu(hdr->ucode_size_bytes);
+>                                 ptr += le32_to_cpu(hdr->ucode_size_bytes);
+>                         }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+> index ea6a62f67e38..833203401ef4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/module.h>
+>
+>  #include <drm/drm.h>
+> +#include <drm/drm_drv.h>
+>
+>  #include "amdgpu.h"
+>  #include "amdgpu_pm.h"
+> @@ -293,7 +294,7 @@ int amdgpu_vce_resume(struct amdgpu_device *adev)
+>         void *cpu_addr;
+>         const struct common_firmware_header *hdr;
+>         unsigned offset;
+> -       int r;
+> +       int r, idx;
+>
+>         if (adev->vce.vcpu_bo == NULL)
+>                 return -EINVAL;
+> @@ -313,8 +314,12 @@ int amdgpu_vce_resume(struct amdgpu_device *adev)
+>
+>         hdr = (const struct common_firmware_header *)adev->vce.fw->data;
+>         offset = le32_to_cpu(hdr->ucode_array_offset_bytes);
+> -       memcpy_toio(cpu_addr, adev->vce.fw->data + offset,
+> -                   adev->vce.fw->size - offset);
+> +
+> +       if (drm_dev_enter(&adev->ddev, &idx)) {
+> +               memcpy_toio(cpu_addr, adev->vce.fw->data + offset,
+> +                           adev->vce.fw->size - offset);
+> +               drm_dev_exit(idx);
 > +       }
+>
+>         amdgpu_bo_kunmap(adev->vce.vcpu_bo);
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+> index 201645963ba5..21f7d3644d70 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+> @@ -27,6 +27,7 @@
+>  #include <linux/firmware.h>
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+> +#include <drm/drm_drv.h>
+>
+>  #include "amdgpu.h"
+>  #include "amdgpu_pm.h"
+> @@ -275,7 +276,7 @@ int amdgpu_vcn_suspend(struct amdgpu_device *adev)
+>  {
+>         unsigned size;
+>         void *ptr;
+> -       int i;
+> +       int i, idx;
+>
+>         cancel_delayed_work_sync(&adev->vcn.idle_work);
+>
+> @@ -292,7 +293,10 @@ int amdgpu_vcn_suspend(struct amdgpu_device *adev)
+>                 if (!adev->vcn.inst[i].saved_bo)
+>                         return -ENOMEM;
+>
+> -               memcpy_fromio(adev->vcn.inst[i].saved_bo, ptr, size);
+> +               if (drm_dev_enter(&adev->ddev, &idx)) {
+> +                       memcpy_fromio(adev->vcn.inst[i].saved_bo, ptr, size);
+> +                       drm_dev_exit(idx);
+> +               }
+>         }
+>         return 0;
+>  }
+> @@ -301,7 +305,7 @@ int amdgpu_vcn_resume(struct amdgpu_device *adev)
+>  {
+>         unsigned size;
+>         void *ptr;
+> -       int i;
+> +       int i, idx;
+>
+>         for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+>                 if (adev->vcn.harvest_config & (1 << i))
+> @@ -313,7 +317,10 @@ int amdgpu_vcn_resume(struct amdgpu_device *adev)
+>                 ptr = adev->vcn.inst[i].cpu_addr;
+>
+>                 if (adev->vcn.inst[i].saved_bo != NULL) {
+> -                       memcpy_toio(ptr, adev->vcn.inst[i].saved_bo, size);
+> +                       if (drm_dev_enter(&adev->ddev, &idx)) {
+> +                               memcpy_toio(ptr, adev->vcn.inst[i].saved_bo, size);
+> +                               drm_dev_exit(idx);
+> +                       }
+>                         kvfree(adev->vcn.inst[i].saved_bo);
+>                         adev->vcn.inst[i].saved_bo = NULL;
+>                 } else {
+> @@ -323,8 +330,11 @@ int amdgpu_vcn_resume(struct amdgpu_device *adev)
+>                         hdr = (const struct common_firmware_header *)adev->vcn.fw->data;
+>                         if (adev->firmware.load_type != AMDGPU_FW_LOAD_PSP) {
+>                                 offset = le32_to_cpu(hdr->ucode_array_offset_bytes);
+> -                               memcpy_toio(adev->vcn.inst[i].cpu_addr, adev->vcn.fw->data + offset,
+> -                                           le32_to_cpu(hdr->ucode_size_bytes));
+> +                               if (drm_dev_enter(&adev->ddev, &idx)) {
+> +                                       memcpy_toio(adev->vcn.inst[i].cpu_addr, adev->vcn.fw->data + offset,
+> +                                                   le32_to_cpu(hdr->ucode_size_bytes));
+> +                                       drm_dev_exit(idx);
+> +                               }
+>                                 size -= le32_to_cpu(hdr->ucode_size_bytes);
+>                                 ptr += le32_to_cpu(hdr->ucode_size_bytes);
+>                         }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> index 9f868cf3b832..7dd5f10ab570 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/dma-buf.h>
+>
+>  #include <drm/amdgpu_drm.h>
+> +#include <drm/drm_drv.h>
+>  #include "amdgpu.h"
+>  #include "amdgpu_trace.h"
+>  #include "amdgpu_amdkfd.h"
+> @@ -1606,7 +1607,10 @@ static int amdgpu_vm_bo_update_mapping(struct amdgpu_device *adev,
+>         struct amdgpu_vm_update_params params;
+>         enum amdgpu_sync_mode sync_mode;
+>         uint64_t pfn;
+> -       int r;
+> +       int r, idx;
 > +
-> +       ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, &panel_bridge);
-> +       if (ret < 0)
-> +               return ret;
-> +       if (panel) {
-> +               panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> +               if (IS_ERR(panel_bridge))
-> +                       return PTR_ERR(panel_bridge);
-> +       }
+> +       if (!drm_dev_enter(&adev->ddev, &idx))
+> +               return -ENODEV;
+>
+>         memset(&params, 0, sizeof(params));
+>         params.adev = adev;
+> @@ -1715,6 +1719,7 @@ static int amdgpu_vm_bo_update_mapping(struct amdgpu_device *adev,
+>
+>  error_unlock:
+>         amdgpu_vm_eviction_unlock(vm);
+> +       drm_dev_exit(idx);
+>         return r;
+>  }
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+> index 589410c32d09..2cec71e823f5 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/firmware.h>
+>  #include <linux/module.h>
+>  #include <linux/vmalloc.h>
+> +#include <drm/drm_drv.h>
+>
+>  #include "amdgpu.h"
+>  #include "amdgpu_psp.h"
+> @@ -269,10 +270,8 @@ static int psp_v11_0_bootloader_load_kdb(struct psp_context *psp)
+>         if (ret)
+>                 return ret;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>         /* Copy PSP KDB binary to memory */
+> -       memcpy(psp->fw_pri_buf, psp->kdb_start_addr, psp->kdb_bin_size);
+> +       psp_copy_fw(psp, psp->kdb_start_addr, psp->kdb_bin_size);
+>
+>         /* Provide the PSP KDB to bootloader */
+>         WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -302,10 +301,8 @@ static int psp_v11_0_bootloader_load_spl(struct psp_context *psp)
+>         if (ret)
+>                 return ret;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>         /* Copy PSP SPL binary to memory */
+> -       memcpy(psp->fw_pri_buf, psp->spl_start_addr, psp->spl_bin_size);
+> +       psp_copy_fw(psp, psp->spl_start_addr, psp->spl_bin_size);
+>
+>         /* Provide the PSP SPL to bootloader */
+>         WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -335,10 +332,8 @@ static int psp_v11_0_bootloader_load_sysdrv(struct psp_context *psp)
+>         if (ret)
+>                 return ret;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>         /* Copy PSP System Driver binary to memory */
+> -       memcpy(psp->fw_pri_buf, psp->sys_start_addr, psp->sys_bin_size);
+> +       psp_copy_fw(psp, psp->sys_start_addr, psp->sys_bin_size);
+>
+>         /* Provide the sys driver to bootloader */
+>         WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -371,10 +366,8 @@ static int psp_v11_0_bootloader_load_sos(struct psp_context *psp)
+>         if (ret)
+>                 return ret;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>         /* Copy Secure OS binary to PSP memory */
+> -       memcpy(psp->fw_pri_buf, psp->sos_start_addr, psp->sos_bin_size);
+> +       psp_copy_fw(psp, psp->sos_start_addr, psp->sos_bin_size);
+>
+>         /* Provide the PSP secure OS to bootloader */
+>         WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -608,7 +601,7 @@ static int psp_v11_0_memory_training(struct psp_context *psp, uint32_t ops)
+>         uint32_t p2c_header[4];
+>         uint32_t sz;
+>         void *buf;
+> -       int ret;
+> +       int ret, idx;
+>
+>         if (ctx->init == PSP_MEM_TRAIN_NOT_SUPPORT) {
+>                 DRM_DEBUG("Memory training is not supported.\n");
+> @@ -681,17 +674,24 @@ static int psp_v11_0_memory_training(struct psp_context *psp, uint32_t ops)
+>                         return -ENOMEM;
+>                 }
+>
+> -               memcpy_fromio(buf, adev->mman.aper_base_kaddr, sz);
+> -               ret = psp_v11_0_memory_training_send_msg(psp, PSP_BL__DRAM_LONG_TRAIN);
+> -               if (ret) {
+> -                       DRM_ERROR("Send long training msg failed.\n");
+> +               if (drm_dev_enter(&adev->ddev, &idx)) {
+> +                       memcpy_fromio(buf, adev->mman.aper_base_kaddr, sz);
+> +                       ret = psp_v11_0_memory_training_send_msg(psp, PSP_BL__DRAM_LONG_TRAIN);
+> +                       if (ret) {
+> +                               DRM_ERROR("Send long training msg failed.\n");
+> +                               vfree(buf);
+> +                               drm_dev_exit(idx);
+> +                               return ret;
+> +                       }
 > +
-> +       ctx->panel_bridge = panel_bridge;
+> +                       memcpy_toio(adev->mman.aper_base_kaddr, buf, sz);
+> +                       adev->hdp.funcs->flush_hdp(adev, NULL);
+>                         vfree(buf);
+> -                       return ret;
+> +                       drm_dev_exit(idx);
+> +               } else {
+> +                       vfree(buf);
+> +                       return -ENODEV;
+>                 }
+> -
+> -               memcpy_toio(adev->mman.aper_base_kaddr, buf, sz);
+> -               adev->hdp.funcs->flush_hdp(adev, NULL);
+> -               vfree(buf);
+>         }
+>
+>         if (ops & PSP_MEM_TRAIN_SAVE) {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
+> index c4828bd3264b..618e5b6b85d9 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
+> @@ -138,10 +138,8 @@ static int psp_v12_0_bootloader_load_sysdrv(struct psp_context *psp)
+>         if (ret)
+>                 return ret;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>         /* Copy PSP System Driver binary to memory */
+> -       memcpy(psp->fw_pri_buf, psp->sys_start_addr, psp->sys_bin_size);
+> +       psp_copy_fw(psp, psp->sys_start_addr, psp->sys_bin_size);
+>
+>         /* Provide the sys driver to bootloader */
+>         WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -179,10 +177,8 @@ static int psp_v12_0_bootloader_load_sos(struct psp_context *psp)
+>         if (ret)
+>                 return ret;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>         /* Copy Secure OS binary to PSP memory */
+> -       memcpy(psp->fw_pri_buf, psp->sos_start_addr, psp->sos_bin_size);
+> +       psp_copy_fw(psp, psp->sos_start_addr, psp->sos_bin_size);
+>
+>         /* Provide the PSP secure OS to bootloader */
+>         WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c b/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c
+> index f2e725f72d2f..d0a6cccd0897 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c
+> @@ -102,10 +102,8 @@ static int psp_v3_1_bootloader_load_sysdrv(struct psp_context *psp)
+>         if (ret)
+>                 return ret;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>         /* Copy PSP System Driver binary to memory */
+> -       memcpy(psp->fw_pri_buf, psp->sys_start_addr, psp->sys_bin_size);
+> +       psp_copy_fw(psp, psp->sys_start_addr, psp->sys_bin_size);
+>
+>         /* Provide the sys driver to bootloader */
+>         WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -143,10 +141,8 @@ static int psp_v3_1_bootloader_load_sos(struct psp_context *psp)
+>         if (ret)
+>                 return ret;
+>
+> -       memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>         /* Copy Secure OS binary to PSP memory */
+> -       memcpy(psp->fw_pri_buf, psp->sos_start_addr, psp->sos_bin_size);
+> +       psp_copy_fw(psp, psp->sos_start_addr, psp->sos_bin_size);
+>
+>         /* Provide the PSP secure OS to bootloader */
+>         WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/vce_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vce_v4_0.c
+> index 8e238dea7bef..90910d19db12 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/vce_v4_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/vce_v4_0.c
+> @@ -25,6 +25,7 @@
+>   */
+>
+>  #include <linux/firmware.h>
+> +#include <drm/drm_drv.h>
+>
+>  #include "amdgpu.h"
+>  #include "amdgpu_vce.h"
+> @@ -555,16 +556,19 @@ static int vce_v4_0_hw_fini(void *handle)
+>  static int vce_v4_0_suspend(void *handle)
+>  {
+>         struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+> -       int r;
+> +       int r, idx;
+>
+>         if (adev->vce.vcpu_bo == NULL)
+>                 return 0;
+>
+> -       if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
+> -               unsigned size = amdgpu_bo_size(adev->vce.vcpu_bo);
+> -               void *ptr = adev->vce.cpu_addr;
+> +       if (drm_dev_enter(&adev->ddev, &idx)) {
+> +               if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
+> +                       unsigned size = amdgpu_bo_size(adev->vce.vcpu_bo);
+> +                       void *ptr = adev->vce.cpu_addr;
+>
+> -               memcpy_fromio(adev->vce.saved_bo, ptr, size);
+> +                       memcpy_fromio(adev->vce.saved_bo, ptr, size);
+> +               }
+> +               drm_dev_exit(idx);
+>         }
+>
+>         r = vce_v4_0_hw_fini(adev);
+> @@ -577,16 +581,20 @@ static int vce_v4_0_suspend(void *handle)
+>  static int vce_v4_0_resume(void *handle)
+>  {
+>         struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+> -       int r;
+> +       int r, idx;
+>
+>         if (adev->vce.vcpu_bo == NULL)
+>                 return -EINVAL;
+>
+>         if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
+> -               unsigned size = amdgpu_bo_size(adev->vce.vcpu_bo);
+> -               void *ptr = adev->vce.cpu_addr;
+>
+> -               memcpy_toio(ptr, adev->vce.saved_bo, size);
+> +               if (drm_dev_enter(&adev->ddev, &idx)) {
+> +                       unsigned size = amdgpu_bo_size(adev->vce.vcpu_bo);
+> +                       void *ptr = adev->vce.cpu_addr;
 > +
-> +       return 0;
-> +}
+> +                       memcpy_toio(ptr, adev->vce.saved_bo, size);
+> +                       drm_dev_exit(idx);
+> +               }
+>         } else {
+>                 r = amdgpu_vce_resume(adev);
+>                 if (r)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+> index 3f15bf34123a..df34be8ec82d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+> @@ -34,6 +34,8 @@
+>  #include "vcn/vcn_3_0_0_sh_mask.h"
+>  #include "ivsrcid/vcn/irqsrcs_vcn_2_0.h"
+>
+> +#include <drm/drm_drv.h>
 > +
-> +static int sn65dsi83_probe(struct i2c_client *client,
-> +                          const struct i2c_device_id *id)
-> +{
-> +       struct device *dev = &client->dev;
-> +       enum sn65dsi83_model model;
-> +       struct sn65dsi83 *ctx;
-> +       int ret;
+>  #define mmUVD_CONTEXT_ID_INTERNAL_OFFSET                       0x27
+>  #define mmUVD_GPCOM_VCPU_CMD_INTERNAL_OFFSET                   0x0f
+>  #define mmUVD_GPCOM_VCPU_DATA0_INTERNAL_OFFSET                 0x10
+> @@ -268,16 +270,20 @@ static int vcn_v3_0_sw_init(void *handle)
+>  static int vcn_v3_0_sw_fini(void *handle)
+>  {
+>         struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+> -       int i, r;
+> +       int i, r, idx;
+>
+> -       for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
+> -               volatile struct amdgpu_fw_shared *fw_shared;
+> +       if (drm_dev_enter(&adev->ddev, &idx)) {
+> +               for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
+> +                       volatile struct amdgpu_fw_shared *fw_shared;
+>
+> -               if (adev->vcn.harvest_config & (1 << i))
+> -                       continue;
+> -               fw_shared = adev->vcn.inst[i].fw_shared_cpu_addr;
+> -               fw_shared->present_flag_0 = 0;
+> -               fw_shared->sw_ring.is_enabled = false;
+> +                       if (adev->vcn.harvest_config & (1 << i))
+> +                               continue;
+> +                       fw_shared = adev->vcn.inst[i].fw_shared_cpu_addr;
+> +                       fw_shared->present_flag_0 = 0;
+> +                       fw_shared->sw_ring.is_enabled = false;
+> +               }
 > +
-> +       ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> +       if (!ctx)
-> +               return -ENOMEM;
-> +
-> +       ctx->dev = dev;
-> +
-> +       if (dev->of_node)
-> +               model = (enum sn65dsi83_model)of_device_get_match_data(dev);
-> +       else
-> +               model = id->driver_data;
-> +
-> +       ctx->enable_gpio = devm_gpiod_get(ctx->dev, "enable", GPIOD_OUT_LOW);
-> +       if (IS_ERR(ctx->enable_gpio))
-> +               return PTR_ERR(ctx->enable_gpio);
-> +
-> +       ret = sn65dsi83_parse_dt(ctx, model);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ctx->regmap = devm_regmap_init_i2c(client, &sn65dsi83_regmap_config);
-> +       if (IS_ERR(ctx->regmap))
-> +               return PTR_ERR(ctx->regmap);
-> +
-> +       dev_set_drvdata(dev, ctx);
-> +       i2c_set_clientdata(client, ctx);
-> +
-> +       ctx->bridge.funcs = &sn65dsi83_funcs;
-> +       ctx->bridge.of_node = dev->of_node;
-> +       drm_bridge_add(&ctx->bridge);
-> +
-> +       return 0;
-> +}
-> +
-> +static int sn65dsi83_remove(struct i2c_client *client)
-> +{
-> +       struct sn65dsi83 *ctx = i2c_get_clientdata(client);
-> +
-> +       mipi_dsi_detach(ctx->dsi);
-> +       mipi_dsi_device_unregister(ctx->dsi);
-> +       drm_bridge_remove(&ctx->bridge);
-> +       of_node_put(ctx->host_node);
-> +
-> +       return 0;
-> +}
-> +
-> +static struct i2c_device_id sn65dsi83_id[] = {
-> +       { "ti,sn65dsi83", MODEL_SN65DSI83 },
-> +       { "ti,sn65dsi84", MODEL_SN65DSI84 },
-> +       {},
-> +};
-> +MODULE_DEVICE_TABLE(i2c, sn65dsi83_id);
-> +
-> +static const struct of_device_id sn65dsi83_match_table[] = {
-> +       { .compatible = "ti,sn65dsi83", .data = (void *)MODEL_SN65DSI83 },
-> +       { .compatible = "ti,sn65dsi84", .data = (void *)MODEL_SN65DSI84 },
-> +       {},
-> +};
-> +MODULE_DEVICE_TABLE(of, sn65dsi83_match_table);
-> +
-> +static struct i2c_driver sn65dsi83_driver = {
-> +       .probe = sn65dsi83_probe,
-> +       .remove = sn65dsi83_remove,
-> +       .id_table = sn65dsi83_id,
-> +       .driver = {
-> +               .name = "sn65dsi83",
-> +               .of_match_table = sn65dsi83_match_table,
-> +       },
-> +};
-> +module_i2c_driver(sn65dsi83_driver);
-> +
-> +MODULE_AUTHOR("Marek Vasut <marex@denx.de>");
-> +MODULE_DESCRIPTION("TI SN65DSI83 DSI to LVDS bridge driver");
-> +MODULE_LICENSE("GPL v2");
+> +               drm_dev_exit(idx);
+>         }
+>
+>         if (amdgpu_sriov_vf(adev))
 > --
-> 2.30.2
+> 2.25.1
 >
