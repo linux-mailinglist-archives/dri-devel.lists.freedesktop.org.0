@@ -2,29 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC32D37BFC1
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 16:20:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500D737BFEF
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 16:27:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 038176EC08;
-	Wed, 12 May 2021 14:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7878E897FF;
+	Wed, 12 May 2021 14:27:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC9B76EC01;
- Wed, 12 May 2021 14:20:03 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 29C9DAEE6;
- Wed, 12 May 2021 14:20:02 +0000 (UTC)
-Date: Wed, 12 May 2021 16:19:59 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <YJvkD523evviED01@linux-uq9g.fritz.box>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2059.outbound.protection.outlook.com [40.107.102.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12CBE897FF;
+ Wed, 12 May 2021 14:27:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EmT0TMvnOoZ4gQJZbpuxvURVdklP1/rjP/R0PGDcBScbIHPy3Q4xa30OS00OSS6xZrakD7HQkNotRN+Y2Wib+RRGiMlwny7ppX8JDeQ4qp0CSQ9dA1IJQ8YzKiJV8UH4svkUTLVnTXtr82kZlk81OMey4Cy14sZxnbvp54ITkcZNyFTh9+zsweD8MsOZ0mB0foCa0SaVWi3oaLBkxTRm/9AS46nrEouKjima6Vrvg81gjwpjOyhBPtCuufFVG4mA8jQT1MyKEeBPqXByl7Kw9ir0XKbJaS90zsjl3cuffkplnq+K+uP3xO4tfBt4WYEWqxrnUMUvKfPl50B2f9wz4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WcvYwkuZL0nRSl7IMje1cH8uSXCMGXPXefGP3da0Pk8=;
+ b=ZrX7NBPJDtgwfLBHeIekmUNUpkniGMkwcepdUsqUajapdrIs0rrmb8E1+RnmRcBStyfr3vx9v5N8njaXYdkcCwXYbWDShhLGJoetSekUhJ4EQHdvB2e+vgbhP2Viz76yy4idsy/ZsStpPlrdiiE2W69wIYKpVyJsou5cjG9OzXhxN54B8AbLGwg2pdJ7zt3Btqn8Ul8MDN/NI4CxdmdMkVFiXmOgEtEivtDTfNlbyGR1lwGHhA8ljRf4dd0P2mrTwOUk5ma8Bpzuo8h7zBfBFULr3eWNwdf7x1N1cflOY4NeqjNErHG8qQDt6O/pFV64DCBzyZk9lc3OLc9YOdw3dQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WcvYwkuZL0nRSl7IMje1cH8uSXCMGXPXefGP3da0Pk8=;
+ b=WAUz8DUcv2quR48g+R/DoyZ/y1rM0t3q8c44nfEf8nyJu3ZHBHRhzArChkBV5eAehCQCaDvy0W6tgnBL84TXxuZw6tmDPhBvZGIl8TIemRdwtVwEjAMF0tZIHXL6SSA9Hik9s+Mf5RaIxuxMWLjSD8zglZ5H8cC/lcUJ72YU2nw=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
+ by SA0PR12MB4576.namprd12.prod.outlook.com (2603:10b6:806:93::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.27; Wed, 12 May
+ 2021 14:27:05 +0000
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4129.026; Wed, 12 May 2021
+ 14:27:05 +0000
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, ckoenig.leichtzumerken@gmail.com,
+ daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
+Subject: [PATCH v7 00/16] RFC Support hot device unplug in amdgpu
+Date: Wed, 12 May 2021 10:26:32 -0400
+Message-Id: <20210512142648.666476-1-andrey.grodzovsky@amd.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [2607:fea8:3edf:49b0:7576:4f76:97d8:1487]
+X-ClientProxiedBy: YTOPR0101CA0032.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:15::45) To SN6PR12MB4623.namprd12.prod.outlook.com
+ (2603:10b6:805:e9::17)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from agrodzovsky-All-Series.hitronhub.home
+ (2607:fea8:3edf:49b0:7576:4f76:97d8:1487) by
+ YTOPR0101CA0032.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::45) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.30 via Frontend
+ Transport; Wed, 12 May 2021 14:27:04 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6854c8c3-8493-492a-e63c-08d915520412
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4576:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4576CAFD66C969869B94AE0AEA529@SA0PR12MB4576.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BBHUOoLrJDMJNmdfXVwwWPJBL7Ikn3ZvqN+1+40bG4+kPqTDg4eY+dl79x1mlKYZa5CA1MpjtltOkVPXdMZpL1xr0OhK/41N1APB9sUWgLf7d5IszS9MFqI/sCLAi0eG19pxXtgEe5zhIBK+wFQVf/NBNZjJOii0mtMypQyQXkAvQWlp/RmEzFSAp9U/nN2ATxmATr8eFv0GEjK36rThmE/jPf5MsgOhDbWoRXjr0BEUtCvhIvyYFP407B7fmEMu7+izQxRgUHWyrE+HgHCrYRtLb3KL2TYJCroFWgPUjVsUNQFip2wSzv7yD7Nwjicqu2+kNHJr9TsaKU/n7lNaPRJxus/95wzyLCISoLaDMgU+k8n9oPAjOxuTXNn4O0+0skY0MlOROmyH96A3N6LpiZBNflcHRlUWswfdzIdlfcp8cA/EBY7qWvK4o9yuL/QEi00pw474plTwweutis5h8M+5lKZlmp45lKqC8OKu9hgwn1qaz2kfGqyRxIdFvI+DqxmS/4O/cxN4L0upZ4YM7d7T0OwYzKCPbWpMWgCnmB81pTYws1YxNw2Ort7XXL2ahuEyXnXN3LsZR39l0SWufDi3f/uknzDtEGmru4/jOngdYYoUg8iTvfykRBMpg3rFOG9tNy1NCorxESNxuwjQ8DxdXaiOdu23cZ98DH4cYD7/vCLkf2KxtcYRjD1PbLCER7wt6BZ5OPp3aVJ4iinRkzUCvCg6h/1xF5mAw8KaU0k=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39860400002)(366004)(346002)(396003)(136003)(38100700002)(5660300002)(1076003)(6666004)(186003)(316002)(16526019)(8676002)(83380400001)(66476007)(2906002)(6636002)(86362001)(52116002)(966005)(36756003)(2616005)(66946007)(66556008)(8936002)(6512007)(6506007)(44832011)(478600001)(4326008)(6486002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SnFSaUptQVNKNjZVdzcwdGdrcmIwNWMyVG82b05hQ3J2NDZYNkZCN2FFWXJa?=
+ =?utf-8?B?aHBVZnRTSnRmcVRVZ1VqdEp6SnF2VWgraWZWVjBiSXlNRnYzZVhBWklVQnVh?=
+ =?utf-8?B?MVNEeGtDc3c4TmtGOFlQbjhaaWhER2J6T3gxWTZPM05DZDhYeWovNEdCM01R?=
+ =?utf-8?B?c0trRFFTc1BMcExNQTlweWdDdTRtckUyWG1sUWtuZWdjN1d0c0h1QTRaVkpQ?=
+ =?utf-8?B?UVBqYVFxOTd0bFFqUXZLR29xUnIxc1NrdVpFTFFFNnZlUkRsM242dFFDZEhE?=
+ =?utf-8?B?bStEL1BxZWhCeFFBakVUZWNjOTJ4WHBPeU5DNHRMU05VRDU3T0x6a3hYSWJV?=
+ =?utf-8?B?dFNHZysrRVFHRlVYMWVVcGNuUHRVZEZyc0Q5eVZMUkd0NUxqTlJEanNkaW1V?=
+ =?utf-8?B?eVY4TWhVUHg2YVI1T1ZkVE1McWhFaDYycXlGQjVlR1ZuU21YdkxOYkU5bHJk?=
+ =?utf-8?B?MXY4dm5PNDVpSi9OZmUvRUREVlFNNllPZHF6UGhUMll3S3YyanVFcURpdmVV?=
+ =?utf-8?B?ZHBaaS9ySmlpdllpakJ5QXFxaG5ucE9SQ1pGbnhhOWFFRXgzdmRBSkFXSGtv?=
+ =?utf-8?B?TldzTU9BV0s4Z3luSGNxV0x4Y0JFMmhOYk9GMVlCdFowaDNpTFRaa2tCOGU4?=
+ =?utf-8?B?Y1RKanlSWnJSTyt6SXk4WERvL0VKQXVJQVo1OWJTRDF2K2F3WjM2bktmZXJv?=
+ =?utf-8?B?TmdaNVN1YnZZOTZlOTlWN3p5UTh2cmdkQk81T0dEQVFhbERHMDJBYTgyazUy?=
+ =?utf-8?B?R21oWEtaQ2gxMkF6VDJSdTM2VVBpcGl1bjBIa2F3dUdGMWxpS0tWR3lwWWVQ?=
+ =?utf-8?B?ZWFTNk9SQ3ZOVVZJU3NTaHJ2RE1RaC9XZnl3cWUzV0lmempnc1RrQldBa3JM?=
+ =?utf-8?B?MGVId01reEl5NWUrRHlqTHBuUmZ5ZlJLb1JqaStwUzZEOU5WcjkyQ2ZVckFh?=
+ =?utf-8?B?ZURqQnoyY2NxMncxTjl6N3IvWkRXUjB3Y0VzdFk4WHpqTlRHa05ZdTdSZjF3?=
+ =?utf-8?B?bThXN1l6b1BCQ1NxbTdkOTJwSEN3K1F5SHRHY0kxaDR4bXhEanBOWEFLcmN5?=
+ =?utf-8?B?NHZnK0ZEM0M2UEc2MTBpMXBsUlBnSThLQU1RbjBEd2FDYkoyVGc3U3ZDcmd2?=
+ =?utf-8?B?WDBQZUhrcW9pMGRLOWhBTi9FRGhnRWYzdWVLbGNDRDFPNXNQdVR1VzVzSldN?=
+ =?utf-8?B?ZmZ1Vm0rU2JDUVZqcDRNZVdKUGQ3V3pCWmZvVDhIaHFZSHJzM3VWREJYVS83?=
+ =?utf-8?B?T1N2NlpLeGxMdXhyL2xhZURjNnpUa2U4ZXhGU2VHalNlUmdzYlhoTW1vb003?=
+ =?utf-8?B?end4LzVsNEZnRWRiZjdSdmZWdWpWd2ZrWTZoVThyUm9NUnVnTXdCdGFCSWVJ?=
+ =?utf-8?B?S1pDSFVHYnJnZnZ6THFqcWllT29YV0k4eW02R1g4SjEydW9iRWNESGFiOXVk?=
+ =?utf-8?B?V25RWmx4clB1WmRPZ2V1M0J2cks4djZQQUltUWxaekhGczRiVkNabXgrYmhQ?=
+ =?utf-8?B?ZWk2WHFnVm81ODY3aWhFVTZVL1Faa1RRWFB0cWtYSlI3WVU2Tk5vcUNPU0wx?=
+ =?utf-8?B?ZmFCM05raXJqZ1VSeG9iWWcxaG83dUgyS3VNeGRHc21YMlR6YzgwaXJFYVNB?=
+ =?utf-8?B?K1U4OWlqQjZ6cHo4QVM3UXhCWmEvMEx5Qm9nYTA0dkxtWEpZMWpOUXR4eTUw?=
+ =?utf-8?B?ZysvVmdOZi9WQmhUbjFaZ0xiWHVmZDFHL1lOUnpuOHJSczFIYWROL2ZWeHpK?=
+ =?utf-8?B?N1RKUEp2ZXNmUjdqdTNrVTB4Q0lRc0tONGZGQndxTEpSWkxKbmdtY0I2eEJQ?=
+ =?utf-8?B?Tk5XZUoxbHo0Wkk4NGJrZHp0RmFvNXNQWjNqbWxEME1TTXk4L2JXa1NZSFQx?=
+ =?utf-8?Q?KZyehjeK9+bLZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6854c8c3-8493-492a-e63c-08d915520412
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2021 14:27:05.1103 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i2IckFI4LTMLAsOTCtjULxcGghCzVCdJF8CLc/vdaSWKGXvrfoJDtl1Os+AvAwVy8Hmpd3w9GMs/EQZQXS7bYw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4576
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,855 +128,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: gregkh@linuxfoundation.org, Felix.Kuehling@amd.com, helgaas@kernel.org,
+ Alexander.Deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+Until now extracting a card either by physical extraction (e.g. eGPU with 
+thunderbolt connection or by emulation through Â sysfs -> /sys/bus/pci/devices/device_id/remove) 
+would cause random crashes in user apps. The random crashes in apps were 
+mostly due to the app having mapped a device backed BO into its address 
+space and was still trying to access the BO while the backing device was gone.
+To answer this first problem Christian suggested fixing the handling of mapped 
+memory in the clients when the device goes away by forcibly unmapping all buffers the 
+userÂ processes haveÂ by clearing their respective VMAs mapping the device BOs.
+Then when the VMAs try to fill in the page tables again we check in the fault 
+handler if the device is removed and if so, return an error. This will generate a 
+SIGBUS to the application which can then cleanly terminate. This indeed was done 
+but this in turn created a problem of kernel OOPs where the OOPSes were due to the 
+fact that while the app was terminating because of the SIGBUS it would trigger use 
+after free in the driver by calling toÂ accessÂ device structures that were already
+released from the pci remove sequence. This was handled by introducing a 'flush' 
+sequence during device removal where we wait for drm file reference to drop to 0 
+meaning all user clients directly using this device terminated.
+
+v2:
+Based on discussions in the mailing list with Daniel and Pekka [1] and based on the document 
+produced by Pekka from those discussions [2] the whole approach with returning SIGBUS and 
+waiting for all user clients having CPU mapping of device BOs to die was dropped. 
+Instead as per the document suggestion the device structures are kept alive until 
+the last reference to the device is dropped by user client and in the meanwhile all existing and new CPU mappings of the BOs 
+belonging to the device directly or by dma-buf import are rerouted to per user 
+process dummy rw page.Also, I skipped the 'Requirements for KMS UAPI' section of [2] 
+since i am trying to get the minimal set of requirements that still give useful solution 
+to work and this is the'Requirements for Render and Cross-Device UAPI' section and so my 
+test case is removing a secondary device, which is render only and is not involved 
+in KMS.
+
+v3:
+More updates following comments from v2 such as removing loop to find DRM file when rerouting 
+page faults to dummy page,getting rid of unnecessary sysfs handling refactoring and moving 
+prevention of GPU recovery post device unplug from amdgpu to scheduler layer. 
+On top of that added unplug support for the IOMMU enabled system.
+
+v4:
+Drop last sysfs hack and use sysfs default attribute.
+Guard against write accesses after device removal to avoid modifying released memory.
+Update dummy pages handling to on demand allocation and release through drm managed framework.
+Add return value to scheduler job TO handler (by Luben Tuikov) and use this in amdgpu for prevention 
+of GPU recovery post device unplug
+Also rebase on top of drm-misc-mext instead of amd-staging-drm-next
+
+v5:
+The most significant in this series is the improved protection from kernel driver accessing MMIO ranges that were allocated
+for the device once the device is gone. To do this, first a patch 'drm/amdgpu: Unmap all MMIO mappings' is introduced.
+This patch unamps all MMIO mapped into the kernel address space in the form of BARs and kernel BOs with CPU visible VRAM mappings.
+This way it helped to discover multiple such access points because a page fault would be immediately generated on access. Most of them
+were solved by moving HW fini code into pci_remove stage (patch drm/amdgpu: Add early fini callback) and for some who 
+were harder to unwind drm_dev_enter/exit scoping was used. In addition all the IOCTLs and all background work and timers 
+are now protected with drm_dev_enter/exit at their root in an attempt that after drm_dev_unplug is finished none of them 
+run anymore and the pci_remove thread is the only thread executing which might touch the HW. To prevent deadlocks in such 
+case against threads stuck on various HW or SW fences patches 'drm/amdgpu: Finalise device fences on device remove'  
+and drm/amdgpu: Add rw_sem to pushing job into sched queue' take care of force signaling all such existing fences 
+and rejecting any newly added ones.
+
+v6:
+Drop using drm_dev_enter/exit in conjunction with signalling HW fences before setting drm_dev_unplug.
+We need to devise a more robust cros DRM approach to the problem of dma fence waits falling
+inside drm_dev_enter/exit scopes -> move to TODO.
+
+v7:
+Small cosmetic changes after V6 comments.
+Added back the patch which invalidates MMIO mappings in the driver (register, doorbell and VRAM). While
+waterproof protection from MMIO accessing from V5 was dropped until a more generic approach was developed I
+do believe that it's better to cause kernel panic once such access happens and then fix it then let those go
+unnoticed.
+
+With these patches I am able to gracefully remove the secondary card using sysfs remove hook while glxgears is running off of secondary 
+card (DRI_PRIME=1) without kernel oopses or hangs and keep working with the primary card or soft reset the device without hangs or oopses.
+Also as per Daniel's comment I added 3 tests to IGT [4] to core_hotunplug test suite - remove device while commands are submitted, 
+exported BO and exported fence (not pushed yet).
+Also now it's possible to plug back the device after unplug 
+Also some users now can successfully use those patches with eGPU boxes[3].
+
+TODOs for followup work:
+Convert AMDGPU code to use devm (for hw stuff) and drmm (for sw stuff and allocations) (Daniel)
+Add support for 'Requirements for KMS UAPI' section of [2] - unplugging primary, display connected card.
+Annotate drm_dev_enter/exit against dma_fence_waits as first in deciding where to use drm_dev_enter/exit
+in code for device unplug.
+
+[1] - Discussions during v6 of the patchset https://lore.kernel.org/amd-gfx/20210510163625.407105-1-andrey.grodzovsky@amd.com/#r
+[2] - drm/doc: device hot-unplug for userspace https://www.spinics.net/lists/dri-devel/msg259755.html
+[3] - Related gitlab ticket https://gitlab.freedesktop.org/drm/amd/-/issues/1081
+[4] - Related IGT tests https://gitlab.freedesktop.org/agrodzov/igt-gpu-tools/-/commits/master
+
+Andrey Grodzovsky (16):
+  drm/ttm: Remap all page faults to per process dummy page.
+  drm/amdgpu: Split amdgpu_device_fini into early and late
+  drm/amdkfd: Split kfd suspend from device exit
+  drm/amdgpu: Add early fini callback
+  drm/amdgpu: Handle IOMMU enabled case.
+  drm/amdgpu: Remap all page faults to per process dummy page.
+  PCI: Add support for dev_groups to struct pci_driver
+  drm/amdgpu: Convert driver sysfs attributes to static attributes
+  drm/amdgpu: Guard against write accesses after device removal
+  drm/sched: Make timeout timer rearm conditional.
+  drm/amdgpu: Prevent any job recoveries after device is unplugged.
+  drm/amdgpu: Fix hang on device removal.
+  drm/scheduler: Fix hang when sched_entity released
+  drm/amd/display: Remove superfluous drm_mode_config_cleanup
+  drm/amdgpu: Verify DMA opearations from device are done
+  drm/amdgpu: Unmap all MMIO mappings
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c  |  17 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 121 +++++++++++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  26 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |  31 ++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c      |  14 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h      |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c       |   9 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   |  25 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c        |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c       |  31 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |  19 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c       |  63 +++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h       |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h      |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  25 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c       |  31 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c       |  11 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c       |  22 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |   7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |  14 +-
+ drivers/gpu/drm/amd/amdgpu/cik_ih.c           |   3 +-
+ drivers/gpu/drm/amd/amdgpu/cz_ih.c            |   3 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c        |   1 -
+ drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c         |   1 -
+ drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c         |   1 -
+ drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c         |   1 -
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c         |   1 -
+ drivers/gpu/drm/amd/amdgpu/iceland_ih.c       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/navi10_ih.c        |   6 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0.c        |  44 +++----
+ drivers/gpu/drm/amd/amdgpu/psp_v12_0.c        |   8 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v3_1.c         |   8 +-
+ drivers/gpu/drm/amd/amdgpu/si_ih.c            |   3 +-
+ drivers/gpu/drm/amd/amdgpu/tonga_ih.c         |   3 +-
+ drivers/gpu/drm/amd/amdgpu/vce_v4_0.c         |  26 ++--
+ drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c         |  22 ++--
+ drivers/gpu/drm/amd/amdgpu/vega10_ih.c        |   6 +-
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c        |   6 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c       |   3 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  13 +-
+ drivers/gpu/drm/amd/include/amd_shared.h      |   2 +
+ drivers/gpu/drm/scheduler/sched_entity.c      |   3 +-
+ drivers/gpu/drm/scheduler/sched_main.c        |  35 ++++-
+ drivers/gpu/drm/ttm/ttm_bo_vm.c               |  54 +++++++-
+ drivers/pci/pci-driver.c                      |   1 +
+ include/drm/ttm/ttm_bo_api.h                  |   2 +
+ include/linux/pci.h                           |   3 +
+ 54 files changed, 514 insertions(+), 254 deletions(-)
+
+-- 
+2.25.1
 
-here's the first PR for drm-misc-next for what will go into v5.14. Some
-noteable changes are
-
- * consistency between the plane formats and allow_fb_modifiers in UAPI,
- * overlay support in vkms,
- * proper HDR support in vc4,
- * SVGA3 support in vmwgfx,
- * many TTM fixes and a debugfs file to trigger TTM's shrinker,
- * the core's AGP code and ioctl are now behind CONFIG_DRM_LEGACY,
- * a generic DRM driver that can pick up the firmware-provided framebuffer,
- * plus the related ownership management of framebuffer apertures,
- * and the usual round of cleanups throughout the tree.
-
-Best regards
-Thomas
-
-drm-misc-next-2021-05-12:
-drm-misc-next for 5.14:
-
-UAPI Changes:
-
- * drm: Disable connector force-probing for non-master clients
- * drm: Enforce consistency between IN_FORMATS property and cap + related
-   driver cleanups
- * drm/amdgpu: Track devices, process info and fence info via
-   /proc/<pid>/fdinfo
- * drm/ioctl: Mark AGP-related ioctls as legacy
- * drm/ttm: Provide tt_shrink file to trigger shrinker via debugfs;
-
-Cross-subsystem Changes:
-
- * fbdev/efifb: Special handling of non-PCI devices
- * fbdev/imxfb: Fix error message
-
-Core Changes:
-
- * drm: Add connector helper to attach HDR-metadata property and convert
-   drivers
- * drm: Add connector helper to compare HDR-metadata and convert drivers
- * drm: Add conenctor helper to attach colorspace property
- * drm: Signal colorimetry in HDMI infoframe
- * drm: Support pitch for destination buffers; Add blitter function
-   with generic format conversion
- * drm: Remove struct drm_device.pdev and update legacy drivers
- * drm: Remove obsolete DRM_KMS_FB_HELPER config option in core and drivers
- * drm: Remove obsolete drm_pci_alloc/drm_pci_free
-
- * drm/aperture: Add helpers for aperture ownership and convert drivers, replaces rsp fbdev helpers
-
- * drm/agp: Mark DRM AGP code as legacy and convert legacy drivers
-
- * drm/atomic-helpers: Cleanups
-
- * drm/dp: Handle downstream port counts of 0 correctly; AUX channel fixes; Use
-   drm_err_*/drm_dbg_*(); Cleanups
-
- * drm/dp_dual_mode: Use drm_err_*/drm_dbg_*()
-
- * drm/dp_mst: Use drm_err_*/drm_dbg_*(); Use Extended Base Receiver Capability DPCD space
-
- * drm/gem-ttm-helper: Provide helper for dumb_map_offset and convert drivers
-
- * drm/panel: Use sysfs_emit; panel-simple: Use runtime PM, Power up panel
-              when reading EDID, Cache EDID, Cleanups;
-              Lms397KF04: DT bindings
-
- * drm/pci: Mark AGP helpers as legacy
-
- * drm/print: Handle NULL for DRM devices gracefully
-
- * drm/scheduler: Change scheduled fence track
-
- * drm/ttm: Don't count SG BOs against pages_limit; Warn about freeing pinned
-            BOs; Fix error handling if no BO can be swapped out; Move special
-            handling of non-GEM drivers into vmwgfx; Move page_alignment into
-            the BO; Set drm-misc as TTM tree in MAINTAINERS; Cleanup
-	    ttm_agp_backend; Add ttm_sys_manager for system domain; Cleanups
-
-Driver Changes:
-
- * drm: Don't set allow_fb_modifiers explictly in drivers
-
- * drm/amdgpu: Pin/unpin fixes wrt to TTM; Use bo->base.size instead of
-   mem->num_pages
-
- * drm/ast: Use managed pcim_iomap(); Fix EDID retrieval with DP501
-
- * drm/bridge: MHDP8546: HDCP support + DT bindings, Register DP AUX channel
-   with userspace; Sil8620: Fix module dependencies; dw-hdmi: Add option to
-   not load CEC driver; Fix stopping in drm_bridge_chain_pre_enable();
-   Ti-sn65dsi86: Fix refclk handling, Break GPIO and MIPI-to-eDP into
-   subdrivers, Use pm_runtime autosuspend, cleanups; It66121: Add
-   driver + DT bindings; Adv7511: Support I2S IEC958 encoding; Anx7625: fix
-   power-on delay; Nwi-dsi: Modesetting fixes; Cleanups
-
- * drm/bochs: Support screen blanking
-
- * drm/gma500: Cleanups
-
- * drm/gud: Cleanups
-
- * drm/i915: Use correct max source link rate for MST
-
- * drm/kmb: Cleanups
-
- * drm/meson: Disable dw-hdmi CEC driver
-
- * drm/nouveau: Pin/unpin fixes wrt to TTM; Use bo->base.size instead of
-   mem->num_pages; Register AUX adapters after their connectors
-
- * drm/qxl: Fix shadow BO unpin
-
- * drm/radeon: Duplicate some DRM AGP code to uncouple from legacy drivers
-
- * drm/simpledrm: Add a generic DRM driver for simple-framebuffer devices
-
- * drm/tiny: Fix log spam if probe function gets deferred
-
- * drm/vc4: Add support for HDR-metadata property; Cleanups
-
- * drm/virtio: Create dumb BOs as guest blobs;
-
- * drm/vkms: Use managed drmm_universal_plane_alloc(); Add XRGB plane
-   composition; Add overlay support
-
- * drm/vmwgfx: Enable console with DRM_FBDEV_EMULATION; Fix CPU updates
-   of coherent multisample surfaces; Remove reservation semaphore; Add
-   initial SVGA3 support; Support amd64; Use 1-based IDR; Use min_t();
-   Cleanups
-
-The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
-
-  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-05-12
-
-for you to fetch changes up to 66079522883603d08a1b7f4153400d8c60705dcf:
-
-  MAINTAINERS: Add Xinhui Pan as another AMDGPU contact (2021-05-12 14:52:57 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for 5.14:
-
-UAPI Changes:
-
- * drm: Disable connector force-probing for non-master clients
- * drm: Enforce consistency between IN_FORMATS property and cap + related
-   driver cleanups
- * drm/amdgpu: Track devices, process info and fence info via
-   /proc/<pid>/fdinfo
- * drm/ioctl: Mark AGP-related ioctls as legacy
- * drm/ttm: Provide tt_shrink file to trigger shrinker via debugfs;
-
-Cross-subsystem Changes:
-
- * fbdev/efifb: Special handling of non-PCI devices
- * fbdev/imxfb: Fix error message
-
-Core Changes:
-
- * drm: Add connector helper to attach HDR-metadata property and convert
-   drivers
- * drm: Add connector helper to compare HDR-metadata and convert drivers
- * drm: Add conenctor helper to attach colorspace property
- * drm: Signal colorimetry in HDMI infoframe
- * drm: Support pitch for destination buffers; Add blitter function
-   with generic format conversion
- * drm: Remove struct drm_device.pdev and update legacy drivers
- * drm: Remove obsolete DRM_KMS_FB_HELPER config option in core and drivers
- * drm: Remove obsolete drm_pci_alloc/drm_pci_free
-
- * drm/aperture: Add helpers for aperture ownership and convert drivers, replaces rsp fbdev helpers
-
- * drm/agp: Mark DRM AGP code as legacy and convert legacy drivers
-
- * drm/atomic-helpers: Cleanups
-
- * drm/dp: Handle downstream port counts of 0 correctly; AUX channel fixes; Use
-   drm_err_*/drm_dbg_*(); Cleanups
-
- * drm/dp_dual_mode: Use drm_err_*/drm_dbg_*()
-
- * drm/dp_mst: Use drm_err_*/drm_dbg_*(); Use Extended Base Receiver Capability DPCD space
-
- * drm/gem-ttm-helper: Provide helper for dumb_map_offset and convert drivers
-
- * drm/panel: Use sysfs_emit; panel-simple: Use runtime PM, Power up panel
-              when reading EDID, Cache EDID, Cleanups;
-              Lms397KF04: DT bindings
-
- * drm/pci: Mark AGP helpers as legacy
-
- * drm/print: Handle NULL for DRM devices gracefully
-
- * drm/scheduler: Change scheduled fence track
-
- * drm/ttm: Don't count SG BOs against pages_limit; Warn about freeing pinned
-            BOs; Fix error handling if no BO can be swapped out; Move special
-            handling of non-GEM drivers into vmwgfx; Move page_alignment into
-            the BO; Set drm-misc as TTM tree in MAINTAINERS; Cleanup
-	    ttm_agp_backend; Add ttm_sys_manager for system domain; Cleanups
-
-Driver Changes:
-
- * drm: Don't set allow_fb_modifiers explictly in drivers
-
- * drm/amdgpu: Pin/unpin fixes wrt to TTM; Use bo->base.size instead of
-   mem->num_pages
-
- * drm/ast: Use managed pcim_iomap(); Fix EDID retrieval with DP501
-
- * drm/bridge: MHDP8546: HDCP support + DT bindings, Register DP AUX channel
-   with userspace; Sil8620: Fix module dependencies; dw-hdmi: Add option to
-   not load CEC driver; Fix stopping in drm_bridge_chain_pre_enable();
-   Ti-sn65dsi86: Fix refclk handling, Break GPIO and MIPI-to-eDP into
-   subdrivers, Use pm_runtime autosuspend, cleanups; It66121: Add
-   driver + DT bindings; Adv7511: Support I2S IEC958 encoding; Anx7625: fix
-   power-on delay; Nwi-dsi: Modesetting fixes; Cleanups
-
- * drm/bochs: Support screen blanking
-
- * drm/gma500: Cleanups
-
- * drm/gud: Cleanups
-
- * drm/i915: Use correct max source link rate for MST
-
- * drm/kmb: Cleanups
-
- * drm/meson: Disable dw-hdmi CEC driver
-
- * drm/nouveau: Pin/unpin fixes wrt to TTM; Use bo->base.size instead of
-   mem->num_pages; Register AUX adapters after their connectors
-
- * drm/qxl: Fix shadow BO unpin
-
- * drm/radeon: Duplicate some DRM AGP code to uncouple from legacy drivers
-
- * drm/simpledrm: Add a generic DRM driver for simple-framebuffer devices
-
- * drm/tiny: Fix log spam if probe function gets deferred
-
- * drm/vc4: Add support for HDR-metadata property; Cleanups
-
- * drm/virtio: Create dumb BOs as guest blobs;
-
- * drm/vkms: Use managed drmm_universal_plane_alloc(); Add XRGB plane
-   composition; Add overlay support
-
- * drm/vmwgfx: Enable console with DRM_FBDEV_EMULATION; Fix CPU updates
-   of coherent multisample surfaces; Remove reservation semaphore; Add
-   initial SVGA3 support; Support amd64; Use 1-based IDR; Use min_t();
-   Cleanups
-
-----------------------------------------------------------------
-Adrien Grassein (1):
-      drm/bridge: fix LONTIUM_LT8912B dependencies
-
-Alex Deucher (1):
-      MAINTAINERS: Fix TTM tree
-
-Andy Shevchenko (7):
-      drm/st7735r: Avoid spamming logs if probe is deferred
-      drm/st7586: Avoid spamming logs if probe is deferred
-      drm/mi0283qt: Avoid spamming logs if probe is deferred
-      drm/ili9486: Avoid spamming logs if probe is deferred
-      drm/ili9341: Avoid spamming logs if probe is deferred
-      drm/ili9225: Avoid spamming logs if probe is deferred
-      drm/hx8357d: Avoid spamming logs if probe is deferred
-
-Beatriz Martins de Carvalho (8):
-      drm: drm_atomic.c: Adjust end of block comment
-      drm: drm_auth.c: Adjust end of block comment
-      drm: drm_bufs.c: Adjust end of block comment
-      drm: drm_connector.c: Adjust end of block comment
-      drm: drm_context.c: Adjust end of block comment
-      drm: drm_atomic_uapi.c: Use tabs for code indents
-      drm: drm_blend.c: Use tabs for code indents
-      drm: drm_connector.c: Use tabs for code indents
-
-Bernard Zhao (2):
-      drm/gud: cleanup coding style a bit
-      drm/vmwgfx: use min_t to replace min
-
-Bhaskar Chowdhury (1):
-      drm/vmwgfx: Fix a typo
-
-Christian König (17):
-      drm/ttm: make global mutex and use count static
-      drm/ttm: fix return value check
-      drm/ttm: re-add debugfs tt_shrink file
-      drm/amdgpu: make sure we unpin the UVD BO
-      drm/amdgpu: freeing pinned objects is illegal now
-      drm/ttm: warn stricter about freeing pinned BOs
-      drm/nouveau: use bo->base.size instead of mem->num_pages
-      drm/amdgpu: check base size instead of mem.num_pages
-      drm/ttm: remove special handling for non GEM drivers
-      drm/ttm: minor range manager coding style clean ups
-      drm/ttm: move the page_alignment into the BO v2
-      drm/ttm: cleanup ttm_agp_backend
-      drm/ttm: add ttm_sys_manager v3
-      drm/ttm: always initialize the full ttm_resource v2
-      drm/ttm: properly allocate sys resource during swapout
-      drm/ttm: fix warning in new sys man
-      MAINTAINERS: Add Xinhui Pan as another AMDGPU contact
-
-Christophe JAILLET (1):
-      video: fbdev: imxfb: Fix an error message
-
-Dan Carpenter (1):
-      drm/vc4: fix argument ordering in vc4_crtc_get_margins()
-
-Daniel Vetter (13):
-      drm/tegra: Don't set allow_fb_modifiers explicitly
-      drm/vc4: Don't set allow_fb_modifiers explicitly
-      drm/imx: Don't set allow_fb_modifiers explicitly
-      drm/exynos: Don't set allow_fb_modifiers explicitly
-      drm/todo: Add link to old debugfs RFC
-      drm/arm: Don't set allow_fb_modifiers explicitly
-      drm/arm/malidp: Always list modifiers
-      drm/stm: Don't set allow_fb_modifiers explicitly
-      drm/i915: Don't set allow_fb_modifiers explicitly
-      drm/msm/dpu1: Don't set allow_fb_modifiers explicitly
-      drm/msm/mdp4: Fix modifier support enabling
-      drm/nouveau: Don't set allow_fb_modifiers explicitly
-      drm/modifiers: Enforce consistency between the cap an IN_FORMATS
-
-Dave Stevenson (1):
-      drm/vc4: Add HDR metadata property to the VC5 HDMI connectors
-
-Deepak R Varma (1):
-      drm/vmwgfx: replace idr_init() by idr_init_base()
-
-Douglas Anderson (24):
-      drm/bridge: Fix the stop condition of drm_bridge_chain_pre_enable()
-      drm/bridge: ti-sn65dsi86: Simplify refclk handling
-      drm/bridge: ti-sn65dsi86: Remove incorrectly tagged kerneldoc comment
-      drm/bridge: ti-sn65dsi86: Reorder remove()
-      drm/bridge: ti-sn65dsi86: Move drm_panel_unprepare() to post_disable()
-      drm/bridge: ti-sn65dsi86: Get rid of the useless detect() function
-      drm/panel: panel-simple: Use runtime pm to avoid excessive unprepare / prepare
-      drm/panel: panel-simple: Add missing pm_runtime_disable() calls
-      drm/bridge: ti-sn65dsi86: Rename the main driver data structure
-      drm/bridge: ti-sn65dsi86: More renames in prep for sub-devices
-      drm/bridge: ti-sn65dsi86: Use devm to do our runtime_disable
-      drm/bridge: ti-sn65dsi86: Clean debugfs code
-      drm/bridge: ti-sn65dsi86: Add local var for "dev" to simplify probe
-      drm/bridge: ti-sn65dsi86: Cleanup managing of drvdata
-      drm/bridge: ti-sn65dsi86: Move all the chip-related init to the start
-      drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into sub-drivers
-      drm/panel: panel-simple: Get rid of hacky HPD chicken-and-egg code
-      drm/bridge: ti-sn65dsi86: Use pm_runtime autosuspend
-      drm/bridge: ti-sn65dsi86: Code motion of refclk management functions
-      drm/bridge: ti-sn65dsi86: If refclk, DP AUX can happen w/out pre-enable
-      drm/panel: panel-simple: Remove extra call: drm_connector_update_edid_property()
-      drm/panel: panel-simple: Power the panel when reading the EDID
-      drm/panel: panel-simple: Cache the EDID as long as we retain power
-      drm/bridge: ti-sn65dsi86: Remove __exit from GPIO sub-driver remove helper
-
-Fabio M. De Francesco (5):
-      gpu: drm: Replace bare "unsigned" with "unsigned int"
-      drm: drm_atomic_helper.c: Replace "unsigned" with "unsigned int"
-      drm: drm_atomic_helper.c: Correct comments format
-      drm/drm_bufs.c: In switch, add break in default case
-      drm/drm_file.c: Define drm_send_event_helper() as 'static'
-
-Felix Kuehling (1):
-      drm/ttm: Don't count pages in SG BOs against pages_limit
-
-Gerd Hoffmann (2):
-      drm/qxl: drop redundant code
-      drm/qxl: balance dumb_shadow_bo pin
-
-Hsin-Yi Wang (1):
-      drm/bridge: anx7625: Fix power on delay
-
-Jernej Skrabec (1):
-      drm/bridge/synopsys: dw-hdmi: Add an option to suppress loading CEC driver
-
-Joseph Kogut (2):
-      drm: remove usage of drm_pci_alloc/free
-      drm: remove legacy drm_pci_alloc/free abstraction
-
-Kai-Heng Feng (1):
-      efifb: Check efifb_pci_dev before using it
-
-Krzysztof Kozlowski (2):
-      drm/gma500: correct kerneldoc
-      drm/gma500: remove trailing whitespaces
-
-KuoHsiang Chou (1):
-      drm/ast: Fixed CVE for DP501
-
-Lee Jones (3):
-      drm/ttm/ttm_bo: Fix incorrectly documented function 'ttm_bo_cleanup_refs'
-      drm/scheduler/sched_entity: Fix some function name disparity
-      drm/ttm/ttm_device: Demote kernel-doc abuses
-
-Linus Walleij (1):
-      drm/panel: Add DT bindings for Samsung LMS397KF04
-
-Liu Ying (3):
-      drm/bridge: nwl-dsi: Force a full modeset when crtc_state->active is changed to be true
-      drm/bridge: nwl-dsi: Remove a check on unchanged HS clock rate from ->mode_set()
-      drm/bridge: nwl-dsi: Get MIPI DSI controller and PHY ready in ->mode_set()
-
-Lyude Paul (20):
-      drm/bridge/cdns-mhdp8546: Register DP aux channel with userspace
-      drm/nouveau/kms/nv50-: Move AUX adapter reg to connector late register/early unregister
-      drm/dp: Add backpointer to drm_device in drm_dp_aux
-      drm/dp: Clarify DP AUX registration time
-      drm/dp: Pass drm_dp_aux to drm_dp_link_train_clock_recovery_delay()
-      drm/dp: Pass drm_dp_aux to drm_dp*_link_train_channel_eq_delay()
-      drm/dp: Always print aux channel name in logs
-      drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_detect()
-      drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_set_tmds_output()
-      drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_max_tmds_clock()
-      drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_get_tmds_output()
-      drm/dp_dual_mode: Pass drm_device to drm_lspcon_(get|set)_mode()
-      drm/dp_mst: Pass drm_dp_mst_topology_mgr to drm_dp_get_vc_payload_bw()
-      drm/print: Handle potentially NULL drm_devices in drm_dbg_*
-      drm/dp: Convert drm_dp_helper.c to using drm_err/drm_dbg_*()
-      drm/dp_dual_mode: Convert drm_dp_dual_mode_helper.c to using drm_err/drm_dbg_kms()
-      drm/dp_mst: Convert drm_dp_mst_topology.c to drm_err()/drm_dbg*()
-      drm/dp: Handle zeroed port counts in drm_dp_read_downstream_info()
-      drm/dp: Drop open-coded drm_dp_is_branch() in drm_dp_read_downstream_info()
-      drm/dp: Fix bogus DPCD version check in drm_dp_read_downstream_info()
-
-Maxime Ripard (5):
-      Merge drm/drm-next into drm-misc-next
-      drm/connector: Create a helper to attach the hdr_output_metadata property
-      drm/connector: Add helper to compare HDR metadata
-      drm/connector: Add a helper to attach the colorspace property
-      drm/vc4: hdmi: Signal the proper colorimetry info in the infoframe
-
-Melissa Wen (4):
-      drm/vkms: init plane using drmm_universal_plane_alloc
-      drm/vkms: rename cursor to plane on ops of planes composition
-      drm/vkms: add XRGB planes composition
-      drm/vkms: add overlay support
-
-Neil Armstrong (1):
-      drm/meson: dw-hdmi: disable DW-HDMI CEC sub-driver
-
-Nikola Cornij (2):
-      drm/dp_mst: Use Extended Base Receiver Capability DPCD space
-      drm/i915: Use the correct max source link rate for MST
-
-Parshuram Thombare (2):
-      dt-bindings: drm/bridge: MHDP8546 bridge binding changes for HDCP
-      drm: bridge: cdns-mhdp8546: Enable HDCP
-
-Phong LE (3):
-      dt-bindings: display: bridge: add it66121 bindings
-      drm: bridge: add it66121 driver
-      MAINTAINERS: add it66121 HDMI bridge driver entry
-
-Randy Dunlap (1):
-      drm: bridge: add missing word in Analogix help text
-
-Robert Foss (1):
-      drm/bridge/sii8620: fix dependency on extcon
-
-Roy Sun (2):
-      drm/scheduler: Change scheduled fence track v2
-      drm/amdgpu: Add show_fdinfo() interface
-
-Shiwu Zhang (1):
-      drm/ttm: fix error handling if no BO can be swapped out v4
-
-Sia Jee Heng (1):
-      drm: bridge: adv7511: Support I2S IEC958 encoded PCM format
-
-Simon Ser (1):
-      drm/connector: demote connector force-probes for non-master clients
-
-Takashi Iwai (2):
-      drm/ast: Fix missing conversions to managed API
-      drm/bochs: Add screen blanking support
-
-Thomas Hellstrom (2):
-      drm/vmwgfx: Mark a surface gpu-dirty after the SVGA3dCmdDXGenMips command
-      drm/vmwgfx: Fix cpu updates of coherent multisample surfaces
-
-Thomas Zimmermann (34):
-      drm/gem-ttm-helper: Provide helper for struct drm_driver.dumb_map_offset
-      drm/vram-helper: Use drm_gem_ttm_dumb_map_offset()
-      drm/nouveau: Use drm_gem_ttm_dumb_map_offset()
-      drm/qxl: Use drm_gem_ttm_dumb_map_offset()
-      drm/aperture: Add infrastructure for aperture ownership
-      drm/aperture: Convert drivers to aperture interfaces
-      drm/aperture: Inline fbdev conflict helpers into aperture helpers
-      drm/vmwgfx: Make console emulation depend on DRM_FBDEV_EMULATION
-      drm/mxsfb: Don't select DRM_KMS_FB_HELPER
-      drm/zte: Don't select DRM_KMS_FB_HELPER
-      drm: Remove DRM_KMS_FB_HELPER Kconfig option
-      drm/ast: Remove reference to struct drm_device.pdev
-      drm/i915/gt: Remove reference to struct drm_device.pdev
-      drm/i915: Remove reference to struct drm_device.pdev
-      drm/i915: Don't assign to struct drm_device.pdev
-      drm: Move struct drm_device.pdev to legacy section
-      drm/format-helper: Pass destination pitch to drm_fb_memcpy_dstclip()
-      drm/format-helper: Add blitter functions
-      drm/aperture: Add infrastructure for aperture ownership
-      drm: Add simpledrm driver
-      drm/simpledrm: Acquire memory aperture for framebuffer
-      drm/i810: Remove references to struct drm_device.pdev
-      drm/mga: Remove references to struct drm_device.pdev
-      drm/r128: Remove references to struct drm_device.pdev
-      drm/savage: Remove references to struct drm_device.pdev
-      drm/sis: Remove references to struct drm_device.pdev
-      drm/via: Remove references to drm_device.pdev
-      drm: Remove pdev field from struct drm_device
-      drm/radeon: Move AGP helpers into radeon driver
-      drm/radeon: Move AGP data structures into radeon
-      drm: Mark PCI AGP helpers as legacy
-      drm: Mark AGP implementation and ioctls as legacy
-      drm: Include <asm/agp.h> iff CONFIG_AGP is set
-      Merge drm/drm-next into drm-misc-next
-
-Ville Syrjälä (1):
-      drm: Use drm_mode_is_420_only() instead of open coding it
-
-Vivek Kasireddy (1):
-      drm/virtio: Create Dumb BOs as guest Blobs (v3)
-
-Wan Jiabing (1):
-      drm/gma500: update comment of psb_spank()
-
-Zack Rusin (4):
-      drm/vmwgfx: Fix incorrect enum usage
-      drm/vmwgfx: Remove the reservation semaphore
-      drm/vmwgfx: Add basic support for SVGA3
-      drm/vmwgfx: Port vmwgfx to arm64
-
-Zhen Lei (1):
-      drm/vc4: Remove redundant error printing in vc4_ioremap_regs()
-
-Zheng Yongjun (1):
-      gpu: drm: vmwgfx: convert comma to semicolon
-
-Zou Wei (1):
-      drm/vmwgfx/vmwgfx_validation: Use flexible-array member instead of zero-length array
-
-kernel test robot (1):
-      drm: fix semicolon.cocci warnings
-
- .../bindings/display/bridge/cdns,mhdp8546.yaml     |   15 +-
- .../bindings/display/bridge/ite,it66121.yaml       |  124 +++
- .../bindings/display/panel/samsung,lms397kf04.yaml |   74 ++
- Documentation/gpu/drm-internals.rst                |   12 +
- Documentation/gpu/todo.rst                         |    2 +
- MAINTAINERS                                        |   18 +-
- drivers/gpu/drm/Kconfig                            |   28 +-
- drivers/gpu/drm/Makefile                           |    8 +-
- drivers/gpu/drm/amd/amdgpu/Makefile                |    2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |    1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            |   61 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h            |    5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |    8 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c         |  104 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h         |   43 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |    2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c        |    2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   63 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         |    4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |    2 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   45 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |    2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |    5 +-
- drivers/gpu/drm/amd/amdgpu/atombios_dp.c           |    6 +-
- drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c              |    1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   27 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |    6 +
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   18 +
- drivers/gpu/drm/amd/display/dc/dc_link.h           |    2 +
- drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |    1 -
- drivers/gpu/drm/arm/malidp_drv.c                   |    1 -
- drivers/gpu/drm/arm/malidp_planes.c                |    9 +-
- drivers/gpu/drm/armada/armada_drv.c                |    5 +-
- drivers/gpu/drm/ast/ast_dp501.c                    |  139 ++-
- drivers/gpu/drm/ast/ast_drv.c                      |   23 +-
- drivers/gpu/drm/ast/ast_drv.h                      |   12 +
- drivers/gpu/drm/ast/ast_main.c                     |   14 +-
- drivers/gpu/drm/bochs/bochs.h                      |    1 +
- drivers/gpu/drm/bochs/bochs_drv.c                  |    3 +-
- drivers/gpu/drm/bochs/bochs_hw.c                   |   25 +-
- drivers/gpu/drm/bochs/bochs_kms.c                  |    8 +
- drivers/gpu/drm/bridge/Kconfig                     |   12 +-
- drivers/gpu/drm/bridge/Makefile                    |    1 +
- drivers/gpu/drm/bridge/adv7511/adv7511.h           |    1 +
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c     |    6 +
- drivers/gpu/drm/bridge/analogix/Kconfig            |    2 +-
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |    1 +
- drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |    1 +
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |    1 +
- drivers/gpu/drm/bridge/analogix/anx7625.c          |    2 +-
- drivers/gpu/drm/bridge/cadence/Makefile            |    2 +-
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |  140 ++-
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h    |   22 +
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c    |  570 +++++++++++
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.h    |   92 ++
- drivers/gpu/drm/bridge/ite-it66121.c               | 1021 ++++++++++++++++++++
- drivers/gpu/drm/bridge/nwl-dsi.c                   |   86 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |   22 +-
- drivers/gpu/drm/bridge/tc358767.c                  |    1 +
- drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  719 +++++++++-----
- drivers/gpu/drm/drm_agpsupport.c                   |  101 +-
- drivers/gpu/drm/drm_aperture.c                     |  344 +++++++
- drivers/gpu/drm/drm_atomic.c                       |    7 +-
- drivers/gpu/drm/drm_atomic_helper.c                |   40 +-
- drivers/gpu/drm/drm_atomic_uapi.c                  |    6 +-
- drivers/gpu/drm/drm_auth.c                         |    3 +-
- drivers/gpu/drm/drm_blend.c                        |    4 +-
- drivers/gpu/drm/drm_bridge.c                       |    3 +
- drivers/gpu/drm/drm_bufs.c                         |   25 +-
- drivers/gpu/drm/drm_connector.c                    |  127 ++-
- drivers/gpu/drm/drm_context.c                      |    3 +-
- drivers/gpu/drm/drm_dma.c                          |    8 +-
- drivers/gpu/drm/drm_dp_aux_dev.c                   |    6 +
- drivers/gpu/drm/drm_dp_dual_mode_helper.c          |   68 +-
- drivers/gpu/drm/drm_dp_helper.c                    |  195 ++--
- drivers/gpu/drm/drm_dp_mst_topology.c              |  405 ++++----
- drivers/gpu/drm/drm_drv.c                          |    4 +-
- drivers/gpu/drm/drm_file.c                         |   14 +-
- drivers/gpu/drm/drm_format_helper.c                |   96 +-
- drivers/gpu/drm/drm_gem_ttm_helper.c               |   33 +
- drivers/gpu/drm/drm_gem_vram_helper.c              |   48 -
- drivers/gpu/drm/drm_internal.h                     |    5 -
- drivers/gpu/drm/drm_ioc32.c                        |   19 +-
- drivers/gpu/drm/drm_ioctl.c                        |   24 +-
- drivers/gpu/drm/drm_legacy.h                       |   30 +
- drivers/gpu/drm/drm_legacy_misc.c                  |    1 -
- drivers/gpu/drm/drm_memory.c                       |    1 -
- drivers/gpu/drm/drm_modes.c                        |   13 +-
- drivers/gpu/drm/drm_pci.c                          |   82 +-
- drivers/gpu/drm/drm_plane.c                        |   18 +-
- drivers/gpu/drm/drm_vm.c                           |    2 -
- drivers/gpu/drm/exynos/exynos_drm_fb.c             |    2 -
- drivers/gpu/drm/gma500/backlight.c                 |    4 +-
- drivers/gpu/drm/gma500/cdv_intel_dp.c              |   50 +-
- drivers/gpu/drm/gma500/cdv_intel_lvds.c            |    2 +-
- drivers/gpu/drm/gma500/intel_gmbus.c               |    2 +-
- drivers/gpu/drm/gma500/psb_drv.h                   |    2 +-
- drivers/gpu/drm/gud/gud_internal.h                 |    4 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |    6 +-
- drivers/gpu/drm/i810/i810_dma.c                    |   11 +-
- drivers/gpu/drm/i915/display/intel_atomic.c        |   13 +-
- drivers/gpu/drm/i915/display/intel_connector.c     |    6 +-
- drivers/gpu/drm/i915/display/intel_display.c       |    2 -
- drivers/gpu/drm/i915/display/intel_dp_aux.c        |    1 +
- .../gpu/drm/i915/display/intel_dp_link_training.c  |    6 +-
- drivers/gpu/drm/i915/display/intel_dp_mst.c        |   10 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c          |   10 +-
- drivers/gpu/drm/i915/display/intel_lspcon.c        |   17 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c        |    2 +-
- drivers/gpu/drm/i915/i915_drv.c                    |    4 +-
- drivers/gpu/drm/i915/intel_runtime_pm.h            |    2 +-
- drivers/gpu/drm/i915/selftests/mock_gem_device.c   |    1 -
- drivers/gpu/drm/imx/dcss/dcss-kms.c                |    1 -
- drivers/gpu/drm/imx/imx-drm-core.c                 |    1 -
- drivers/gpu/drm/kmb/kmb_dsi.c                      |   10 +-
- drivers/gpu/drm/meson/meson_drv.c                  |   27 +-
- drivers/gpu/drm/meson/meson_dw_hdmi.c              |    1 +
- drivers/gpu/drm/mga/mga_dma.c                      |   29 +-
- drivers/gpu/drm/mga/mga_drv.h                      |    1 -
- drivers/gpu/drm/mga/mga_state.c                    |    3 +-
- drivers/gpu/drm/mgag200/mgag200_drv.c              |    5 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c             |    2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |    5 -
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |    2 -
- drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c         |    8 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   |    6 +-
- drivers/gpu/drm/msm/edp/edp.h                      |    3 +-
- drivers/gpu/drm/msm/edp/edp_aux.c                  |    5 +-
- drivers/gpu/drm/msm/edp/edp_ctrl.c                 |    8 +-
- drivers/gpu/drm/msm/msm_fbdev.c                    |    5 +-
- drivers/gpu/drm/mxsfb/Kconfig                      |    1 -
- drivers/gpu/drm/nouveau/dispnv50/disp.c            |    3 +-
- drivers/gpu/drm/nouveau/nouveau_bo.c               |    9 +-
- drivers/gpu/drm/nouveau/nouveau_connector.c        |   26 +-
- drivers/gpu/drm/nouveau/nouveau_display.c          |   19 -
- drivers/gpu/drm/nouveau/nouveau_display.h          |    2 -
- drivers/gpu/drm/nouveau/nouveau_drm.c              |    6 +-
- drivers/gpu/drm/nouveau/nouveau_fbcon.c            |    4 +-
- drivers/gpu/drm/nouveau/nouveau_gem.c              |    4 +-
- drivers/gpu/drm/panel/Kconfig                      |    1 +
- drivers/gpu/drm/panel/panel-simple.c               |  140 ++-
- drivers/gpu/drm/qxl/qxl_display.c                  |    5 +-
- drivers/gpu/drm/qxl/qxl_drv.c                      |    8 +-
- drivers/gpu/drm/qxl/qxl_drv.h                      |    3 -
- drivers/gpu/drm/qxl/qxl_dumb.c                     |   17 -
- drivers/gpu/drm/qxl/qxl_ioctl.c                    |    4 +-
- drivers/gpu/drm/qxl/qxl_object.h                   |    5 -
- drivers/gpu/drm/r128/ati_pcigart.c                 |   33 +-
- drivers/gpu/drm/r128/r128_cce.c                    |    2 +-
- drivers/gpu/drm/r128/r128_drv.c                    |    4 +-
- drivers/gpu/drm/r128/r128_state.c                  |    3 +-
- drivers/gpu/drm/radeon/atombios_dp.c               |    5 +-
- drivers/gpu/drm/radeon/radeon.h                    |   42 +
- drivers/gpu/drm/radeon/radeon_agp.c                |  118 ++-
- drivers/gpu/drm/radeon/radeon_dp_mst.c             |    7 +
- drivers/gpu/drm/radeon/radeon_drv.c                |   16 +-
- drivers/gpu/drm/radeon/radeon_kms.c                |   18 +-
- drivers/gpu/drm/radeon/radeon_object.h             |    2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c                |    6 +-
- drivers/gpu/drm/savage/savage_bci.c                |   26 +-
- drivers/gpu/drm/scheduler/sched_entity.c           |    6 +-
- drivers/gpu/drm/scheduler/sched_main.c             |    9 +-
- drivers/gpu/drm/sis/sis_drv.c                      |    3 +-
- drivers/gpu/drm/stm/ltdc.c                         |    2 -
- drivers/gpu/drm/sun4i/sun4i_drv.c                  |    5 +-
- drivers/gpu/drm/tegra/dc.c                         |   10 +-
- drivers/gpu/drm/tegra/dpaux.c                      |    1 +
- drivers/gpu/drm/tegra/drm.c                        |    6 +-
- drivers/gpu/drm/tiny/Kconfig                       |   16 +
- drivers/gpu/drm/tiny/Makefile                      |    1 +
- drivers/gpu/drm/tiny/cirrus.c                      |    5 +-
- drivers/gpu/drm/tiny/hx8357d.c                     |    6 +-
- drivers/gpu/drm/tiny/ili9225.c                     |   12 +-
- drivers/gpu/drm/tiny/ili9341.c                     |   12 +-
- drivers/gpu/drm/tiny/ili9486.c                     |   12 +-
- drivers/gpu/drm/tiny/mi0283qt.c                    |   12 +-
- drivers/gpu/drm/tiny/simpledrm.c                   |  896 +++++++++++++++++
- drivers/gpu/drm/tiny/st7586.c                      |   12 +-
- drivers/gpu/drm/tiny/st7735r.c                     |   12 +-
- drivers/gpu/drm/ttm/Makefile                       |    2 +-
- drivers/gpu/drm/ttm/ttm_agp_backend.c              |    8 +-
- drivers/gpu/drm/ttm/ttm_bo.c                       |   58 +-
- drivers/gpu/drm/ttm/ttm_bo_util.c                  |    4 +-
- drivers/gpu/drm/ttm/ttm_device.c                   |   25 +-
- drivers/gpu/drm/ttm/ttm_module.h                   |    3 +
- drivers/gpu/drm/ttm/ttm_range_manager.c            |   40 +-
- drivers/gpu/drm/ttm/ttm_resource.c                 |   20 +-
- drivers/gpu/drm/ttm/ttm_sys_manager.c              |   41 +
- drivers/gpu/drm/ttm/ttm_tt.c                       |   20 +
- drivers/gpu/drm/vboxvideo/vbox_drv.c               |    3 +-
- drivers/gpu/drm/vc4/vc4_drv.c                      |    9 +-
- drivers/gpu/drm/vc4/vc4_drv.h                      |    2 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                     |   61 +-
- drivers/gpu/drm/vc4/vc4_hdmi.h                     |    3 +
- drivers/gpu/drm/vc4/vc4_kms.c                      |    1 -
- drivers/gpu/drm/via/via_dma.c                      |    1 -
- drivers/gpu/drm/via/via_dmablit.c                  |   15 +-
- drivers/gpu/drm/via/via_map.c                      |    3 +-
- drivers/gpu/drm/virtio/virtgpu_drv.c               |   10 +-
- drivers/gpu/drm/virtio/virtgpu_gem.c               |    8 +
- drivers/gpu/drm/virtio/virtgpu_object.c            |    3 +
- drivers/gpu/drm/vkms/vkms_composer.c               |  104 +-
- drivers/gpu/drm/vkms/vkms_drv.c                    |    5 +
- drivers/gpu/drm/vkms/vkms_drv.h                    |    9 +-
- drivers/gpu/drm/vkms/vkms_output.c                 |   28 +-
- drivers/gpu/drm/vkms/vkms_plane.c                  |   51 +-
- drivers/gpu/drm/vmwgfx/Kconfig                     |   10 +-
- drivers/gpu/drm/vmwgfx/Makefile                    |    6 +-
- .../drm/vmwgfx/device_include/svga3d_surfacedefs.h |    8 +-
- drivers/gpu/drm/vmwgfx/device_include/svga_reg.h   |   55 +-
- drivers/gpu/drm/vmwgfx/ttm_lock.c                  |  194 ----
- drivers/gpu/drm/vmwgfx/ttm_lock.h                  |  218 -----
- drivers/gpu/drm/vmwgfx/ttm_object.c                |    2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_binding.c            |    8 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_blit.c               |    2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |   43 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c                |  118 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c             |    4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_context.c            |   13 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c            |    2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |  169 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  147 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c            |   41 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fb.c                 |    8 -
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c              |   18 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.h              |    2 -
- drivers/gpu/drm/vmwgfx/vmwgfx_gmr.c                |    2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c              |   60 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_irq.c                |   77 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |   36 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |   36 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c                |   31 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.h                |  214 ----
- drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h          |  130 +++
- drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h            |  219 +++++
- drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c            |    2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_reg.h                |    4 -
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |    8 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c               |    2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_shader.c             |    6 -
- drivers/gpu/drm/vmwgfx/vmwgfx_simple_resource.c    |    5 -
- drivers/gpu/drm/vmwgfx/vmwgfx_so.c                 |    4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |    6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c            |   40 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_thp.c                |   15 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         |    9 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.c         |    4 +-
- drivers/gpu/drm/xlnx/zynqmp_dp.c                   |    5 +-
- drivers/gpu/drm/zte/Kconfig                        |    1 -
- drivers/video/fbdev/Kconfig                        |    2 +-
- drivers/video/fbdev/imxfb.c                        |    2 +-
- include/drm/bridge/dw_hdmi.h                       |    2 +
- include/drm/drm_agpsupport.h                       |  117 ---
- include/drm/drm_aperture.h                         |   35 +
- include/drm/drm_connector.h                        |    4 +
- include/drm/drm_device.h                           |    9 +-
- include/drm/drm_dp_dual_mode_helper.h              |   14 +-
- include/drm/drm_dp_helper.h                        |   19 +-
- include/drm/drm_dp_mst_helper.h                    |   15 +-
- include/drm/drm_fb_helper.h                        |   51 -
- include/drm/drm_format_helper.h                    |   10 +-
- include/drm/drm_gem_ttm_helper.h                   |    5 +-
- include/drm/drm_gem_vram_helper.h                  |    7 +-
- include/drm/drm_legacy.h                           |   86 +-
- include/drm/drm_mode_config.h                      |    2 +
- include/drm/drm_print.h                            |   20 +-
- include/drm/ttm/ttm_bo_api.h                       |   21 +-
- include/drm/ttm/ttm_resource.h                     |    2 -
- include/uapi/drm/drm_mode.h                        |    7 +-
- 269 files changed, 7169 insertions(+), 3006 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
- create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.h
- create mode 100644 drivers/gpu/drm/bridge/ite-it66121.c
- create mode 100644 drivers/gpu/drm/drm_aperture.c
- create mode 100644 drivers/gpu/drm/tiny/simpledrm.c
- create mode 100644 drivers/gpu/drm/ttm/ttm_sys_manager.c
- delete mode 100644 drivers/gpu/drm/vmwgfx/ttm_lock.c
- delete mode 100644 drivers/gpu/drm/vmwgfx/ttm_lock.h
- delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_msg.h
- create mode 100755 drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h
- create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h
- delete mode 100644 include/drm/drm_agpsupport.h
- create mode 100644 include/drm/drm_aperture.h
-
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
