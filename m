@@ -1,48 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C9E37B63F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 08:40:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C2637B651
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 08:44:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1B4C6E0DE;
-	Wed, 12 May 2021 06:40:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 223616E102;
+	Wed, 12 May 2021 06:44:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [IPv6:2a01:e0c:1:1599::10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20B676E0DE;
- Wed, 12 May 2021 06:40:10 +0000 (UTC)
-Received: from Normandy.localdomain (unknown [88.129.173.226])
- (Authenticated sender: pierre.morrow@free.fr)
- by smtp1-g21.free.fr (Postfix) with ESMTPSA id 7B565B00539;
- Wed, 12 May 2021 08:39:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
- s=smtp-20201208; t=1620801608;
- bh=G+fqPsWs7aNx2UZuhTvM3ja9/zXQOlLMol12RyDINks=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M2z1VMzIygzUWd8rnIfcb+AyqAQ/Zv7SIWIofNWU2sUGh5MUZqopSGl2jxO0Ttykt
- xBvjCCl9x8uRSh6DqKnGbhC6CQTK0CbU/C1l+yhjUA8nFvSqrXDG1ZwPlX4Mj8cuGI
- 2D9iG2W8lfXPaikDHTmsvG38g4LsPuGjOZlGMozQF2eTJsclFLGlBw7WfO1a2VuGkK
- N5L6I7a1jk2s3y/UpYHXm65Q17IySJQZJImcL2KQyPPU34vEF7yNCePuQ8ehyl2j3n
- yeaT7JkepMYPyHqtTWd5Utwk+Pf7XAYAOCMJThc/p2eb8ME2dck9Z3+16DbShaNYNL
- 8+xqDOadaVuMg==
-Date: Wed, 12 May 2021 08:39:52 +0200
-From: Pierre Moreau <pierre.morrow@free.fr>
-To: Zhen Lei <thunder.leizhen@huawei.com>
-Subject: Re: [Nouveau] [PATCH v2 1/2] drm/nouveau: Fix ida leak
-Message-ID: <20210512063952.5kwdrq2yzbmgmn4x@Normandy.localdomain>
-Mail-Followup-To: Zhen Lei <thunder.leizhen@huawei.com>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- nouveau <nouveau@lists.freedesktop.org>
-References: <20210511082841.4181-1-thunder.leizhen@huawei.com>
- <20210511082841.4181-2-thunder.leizhen@huawei.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1CD6E102
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 06:44:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620801855;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GExxMX+BzSb97gshgrWDDFUBk1s2hT511N1V5qZH5ls=;
+ b=BOmXm4Yfng389FJcDI1vgzALyR4NcrCjgVYLo0pfzeCQHcK3mYmswbo/sSts16ilmNUOv9
+ +QR+knA4kv3N0j2Y97ubUR6I9pE4mGrMoy80LimHcNbB3Mc/vkYwahD0iE1oh1zvQeqhIq
+ 3l0URxLsQbk2pCYXtDWdQkrcWxDwl1s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-edOz8qfKNAyHQGVN8NxUNg-1; Wed, 12 May 2021 02:44:13 -0400
+X-MC-Unique: edOz8qfKNAyHQGVN8NxUNg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 910B2107ACE4;
+ Wed, 12 May 2021 06:44:12 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-0.ams2.redhat.com
+ [10.36.114.0])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BFC47013C;
+ Wed, 12 May 2021 06:44:12 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C919018003AF; Wed, 12 May 2021 08:44:10 +0200 (CEST)
+Date: Wed, 12 May 2021 08:44:10 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH 1/3] virtio-gpu uapi: Add VIRTIO_GPU_F_EXPLICIT_FLUSH
+ feature
+Message-ID: <20210512064410.infyhtac2bc35xr4@sirius.home.kraxel.org>
+References: <20210511083610.367541-1-vivek.kasireddy@intel.com>
+ <20210511102958.46ybk2q33vg4iayi@sirius.home.kraxel.org>
+ <8dc2bbd037964224bcc6609fd47b5698@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <8dc2bbd037964224bcc6609fd47b5698@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210511082841.4181-2-thunder.leizhen@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,47 +68,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Why remove the const modifier on `nb`?
+  Hi,
 
-On 2021-05-11 — 16:28, Zhen Lei wrote:
-> When the 'nb' value allocated from 'bl_ida' is greater than or equal to
-> 100, it will not be released. In fact, we can simplify operations by
-> limiting the range of idas that can be applied for.
-> 
-> By the way, delete the const modifier of the local variable 'nb'.
-> 
-> Fixes: db1a0ae21461 ("drm/nouveau/bl: Assign different names to interfaces")
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_backlight.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> index 72f35a2babcb20e..d1c998e645fb4b6 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> @@ -51,8 +51,9 @@ static bool
->  nouveau_get_backlight_name(char backlight_name[BL_NAME_SIZE],
->  			   struct nouveau_backlight *bl)
->  {
-> -	const int nb = ida_simple_get(&bl_ida, 0, 0, GFP_KERNEL);
-> -	if (nb < 0 || nb >= 100)
-> +	int nb = ida_simple_get(&bl_ida, 0, 100, GFP_KERNEL);
-> +
-> +	if (nb < 0)
->  		return false;
->  	if (nb > 0)
->  		snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
-> -- 
-> 2.26.0.106.g9fadedd
-> 
-> 
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
+> However, as part of this feature (explicit flush), I'd like to make the Guest wait until
+> the current resource (as specified by resource_flush or set_scanout) is flushed or
+> synchronized. But for a different feature I am thinking of (explicit sync), I'd like to
+> make the Guest wait for the previous buffer/resource submitted (available via 
+> old_state->fb).
+
+For page-flipping I guess?  i.e. you want submit a new framebuffer, then
+wait until the host doesn't need the previous one?  That is likewise
+linked to a command, although it is set_scanout this time.
+
+So, right now qemu simply queues the request and completes the command
+when a guest sends a resource_flush our set_scanout command.  You want
+be notified when the host is actually done processing the request.
+
+I still think it makes sense extend the resource_flush and set_scanout
+commands for that, for example by adding a flag for the flags field in
+the request header.  That way it is clear what exactly you are waiting
+for.  You can also attach a fence to the request which you can later
+wait on.
+
+take care,
+  Gerd
+
