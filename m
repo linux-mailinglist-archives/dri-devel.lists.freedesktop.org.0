@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4215537D197
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 20:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5874137D199
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 20:02:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CA96EC97;
-	Wed, 12 May 2021 18:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 472086ECA6;
+	Wed, 12 May 2021 18:02:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEB666EC99;
- Wed, 12 May 2021 18:02:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 83E0761438;
- Wed, 12 May 2021 18:02:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4C756EC93;
+ Wed, 12 May 2021 18:02:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B34C6143B;
+ Wed, 12 May 2021 18:02:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620842568;
- bh=PsHQLOY/QTK6HaD3VMkzs/rCtqMkX/d49yP5Jq0xUN4=;
+ s=k20201202; t=1620842575;
+ bh=LiNTf6ZVheEDTzlrl2dku0HkVomC3sPXFsIqzObVpIE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=W2fjPB0dbAikbnzfdhhFBGq8byDCJKec2K08F5rpiu+SlqhaBXgW8W55aJiQuW9G5
- bcVWG2tBQ36m+HLuKWlSDFOaYIVKk3I/vBuPsT5BrEqncDEjUQrPjqclURHU+iZVnj
- lTWjVTBYhlWeVjuYtXR5FW6nDXigz5oP/YL7YYzU+ts+iT5HsoHT/UzgxhP3lsM0pv
- 3YjKPTVeD52TFuQU+UWhl//OTxL+aOC/0yTrGHbFCS+t3e/wrMZglv7Sj4MK6rZN92
- U0km0JIkNr5r2SfWEyZmU4QC3xvmLjq2BMmXVMQz/ZTXb/NH12hkg0wq75fVvJ2t3M
- ETfx7zVvlzKJA==
+ b=iuB60SqcSfskHkDPXQBist4IkRytYmCgo98PASuD3Pd6Al0g3eTK8pYaJ4fDMcmxr
+ RRn074nbF5606/ngYNtCtX4lvPfb9xxEjIO2I4ZWx/Kl2wN4qK6cqZTjLfePd/HiBh
+ //ZkymNWEAT5xjDYR5lzwLvEvtTL6jzzTswbekgOGPuDXot49iPe4Mw74ZvefGEgNj
+ GHJOGqxmQWd1dECc4Z7IODZjdImMN7/EJQYFe7yHGbgM9QphE+gUfcFLnPEI/Qbn2J
+ KiSnj191s4/btdWOjyOkXB5BfjRqbqxhjzk9qXFhC+HdNXNB0IssCBMO0DUAF9JmOY
+ JgPwU/EKhC9ow==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 25/35] amdgpu/pm: Prevent force of DCEFCLK on
- NAVI10 and SIENNA_CICHLID
-Date: Wed, 12 May 2021 14:01:55 -0400
-Message-Id: <20210512180206.664536-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.11 29/35] drm/amd/display: Fix two cursor
+ duplication when using overlay
+Date: Wed, 12 May 2021 14:01:59 -0400
+Message-Id: <20210512180206.664536-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210512180206.664536-1-sashal@kernel.org>
 References: <20210512180206.664536-1-sashal@kernel.org>
@@ -50,74 +50,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Darren Powell <darren.powell@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Kenneth Feng <kenneth.feng@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
+ Louis Li <Ching-shih.Li@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Darren Powell <darren.powell@amd.com>
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 
-[ Upstream commit b117b3964f38a988cb79825950dbd607c02237f3 ]
+[ Upstream commit 16e9b3e58bc3fce7391539e0eb3fd167cbf9951f ]
 
-Writing to dcefclk causes the gpu to become unresponsive, and requires a reboot.
-Patch ignores a .force_clk_levels(SMU_DCEFCLK) call and issues an
-info message.
+Our driver supports overlay planes, and as expected, some userspace
+compositor takes advantage of these features. If the userspace is not
+enabling the cursor, they can use multiple planes as they please.
+Nevertheless, we start to have constraints when userspace tries to
+enable hardware cursor with various planes. Basically, we cannot draw
+the cursor at the same size and position on two separated pipes since it
+uses extra bandwidth and DML only run with one cursor.
 
-Signed-off-by: Darren Powell <darren.powell@amd.com>
-Reviewed-by: Kenneth Feng <kenneth.feng@amd.com>
+For those reasons, when we enable hardware cursor and multiple planes,
+our driver should accept variations like the ones described below:
+
+  +-------------+   +--------------+
+  | +---------+ |   |              |
+  | |Primary  | |   | Primary      |
+  | |         | |   | Overlay      |
+  | +---------+ |   |              |
+  |Overlay      |   |              |
+  +-------------+   +--------------+
+
+In this scenario, we can have the desktop UI in the overlay and some
+other framebuffer attached to the primary plane (e.g., video). However,
+userspace needs to obey some rules and avoid scenarios like the ones
+described below (when enabling hw cursor):
+
+                                      +--------+
+                                      |Overlay |
+ +-------------+    +-----+-------+ +-|        |--+
+ | +--------+  | +--------+       | | +--------+  |
+ | |Overlay |  | |Overlay |       | |             |
+ | |        |  | |        |       | |             |
+ | +--------+  | +--------+       | |             |
+ | Primary     |    | Primary     | | Primary     |
+ +-------------+    +-------------+ +-------------+
+
+ +-------------+   +-------------+
+ |     +--------+  |  Primary    |
+ |     |Overlay |  |             |
+ |     |        |  |             |
+ |     +--------+  | +--------+  |
+ | Primary     |   | |Overlay |  |
+ +-------------+   +-|        |--+
+                     +--------+
+
+If the userspace violates some of the above scenarios, our driver needs
+to reject the commit; otherwise, we can have unexpected behavior. Since
+we don't have a proper driver validation for the above case, we can see
+some problems like a duplicate cursor in applications that use multiple
+planes. This commit fixes the cursor issue and others by adding adequate
+verification for multiple planes.
+
+Change since V1 (Harry and Sean):
+- Remove cursor verification from the equation.
+
+Cc: Louis Li <Ching-shih.Li@amd.com>
+Cc: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Cc: Harry Wentland <Harry.Wentland@amd.com>
+Cc: Hersen Wu <hersenxs.wu@amd.com>
+Cc: Sean Paul <seanpaul@chromium.org>
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c         | 5 ++++-
- drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c | 4 +++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 51 +++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-index cd7efa923195..ab702e1cd9f0 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-@@ -1110,7 +1110,6 @@ static int navi10_force_clk_levels(struct smu_context *smu,
- 	case SMU_SOCCLK:
- 	case SMU_MCLK:
- 	case SMU_UCLK:
--	case SMU_DCEFCLK:
- 	case SMU_FCLK:
- 		/* There is only 2 levels for fine grained DPM */
- 		if (navi10_is_support_fine_grained_dpm(smu, clk_type)) {
-@@ -1130,6 +1129,10 @@ static int navi10_force_clk_levels(struct smu_context *smu,
- 		if (ret)
- 			return size;
- 		break;
-+	case SMU_DCEFCLK:
-+		dev_info(smu->adev->dev,"Setting DCEFCLK min/max dpm level is not supported!\n");
-+		break;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 62a637c03f60..75c743009b04 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -9145,6 +9145,53 @@ static int add_affected_mst_dsc_crtcs(struct drm_atomic_state *state, struct drm
+ }
+ #endif
+ 
++static int validate_overlay(struct drm_atomic_state *state)
++{
++	int i;
++	struct drm_plane *plane;
++	struct drm_plane_state *old_plane_state, *new_plane_state;
++	struct drm_plane_state *primary_state, *overlay_state = NULL;
 +
- 	default:
- 		break;
++	/* Check if primary plane is contained inside overlay */
++	for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, new_plane_state, i) {
++		if (plane->type == DRM_PLANE_TYPE_OVERLAY) {
++			if (drm_atomic_plane_disabling(plane->state, new_plane_state))
++				return 0;
++
++			overlay_state = new_plane_state;
++			continue;
++		}
++	}
++
++	/* check if we're making changes to the overlay plane */
++	if (!overlay_state)
++		return 0;
++
++	/* check if overlay plane is enabled */
++	if (!overlay_state->crtc)
++		return 0;
++
++	/* find the primary plane for the CRTC that the overlay is enabled on */
++	primary_state = drm_atomic_get_plane_state(state, overlay_state->crtc->primary);
++	if (IS_ERR(primary_state))
++		return PTR_ERR(primary_state);
++
++	/* check if primary plane is enabled */
++	if (!primary_state->crtc)
++		return 0;
++
++	/* Perform the bounds check to ensure the overlay plane covers the primary */
++	if (primary_state->crtc_x < overlay_state->crtc_x ||
++	    primary_state->crtc_y < overlay_state->crtc_y ||
++	    primary_state->crtc_x + primary_state->crtc_w > overlay_state->crtc_x + overlay_state->crtc_w ||
++	    primary_state->crtc_y + primary_state->crtc_h > overlay_state->crtc_y + overlay_state->crtc_h) {
++		DRM_DEBUG_ATOMIC("Overlay plane is enabled with hardware cursor but does not fully cover primary plane\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /**
+  * amdgpu_dm_atomic_check() - Atomic check implementation for AMDgpu DM.
+  * @dev: The DRM device
+@@ -9319,6 +9366,10 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 			goto fail;
  	}
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-index d68d3dfee51d..aa231336d9f0 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-@@ -1025,7 +1025,6 @@ static int sienna_cichlid_force_clk_levels(struct smu_context *smu,
- 	case SMU_SOCCLK:
- 	case SMU_MCLK:
- 	case SMU_UCLK:
--	case SMU_DCEFCLK:
- 	case SMU_FCLK:
- 		/* There is only 2 levels for fine grained DPM */
- 		if (sienna_cichlid_is_support_fine_grained_dpm(smu, clk_type)) {
-@@ -1045,6 +1044,9 @@ static int sienna_cichlid_force_clk_levels(struct smu_context *smu,
- 		if (ret)
- 			goto forec_level_out;
- 		break;
-+	case SMU_DCEFCLK:
-+		dev_info(smu->adev->dev,"Setting DCEFCLK min/max dpm level is not supported!\n");
-+		break;
- 	default:
- 		break;
- 	}
+ 
++	ret = validate_overlay(state);
++	if (ret)
++		goto fail;
++
+ 	/* Add new/modified planes */
+ 	for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, new_plane_state, i) {
+ 		ret = dm_update_plane_state(dc, state, plane,
 -- 
 2.30.2
 
