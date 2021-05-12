@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBA537C3BD
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 17:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0FAC37C1C1
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 17:03:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2DD56EC2D;
-	Wed, 12 May 2021 15:24:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27B756EC30;
+	Wed, 12 May 2021 15:03:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 822996EC2D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 15:24:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9962C613DF;
- Wed, 12 May 2021 15:24:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC8256EC30
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 15:03:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B3B26145B;
+ Wed, 12 May 2021 15:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1620833093;
- bh=t4YX8/qN2UX/zrjPPDRhrGURw2PpQ8cYVyrbNy9/jHE=;
+ s=korg; t=1620831785;
+ bh=/sAPMuUAB+jwhUeU6i65m0a9PDpwC//Ex+45yzSd8Mc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FEqkt+4cW7hsocbiVP8Gykz9ssaVZdJYRKpS6tFzpDjYPunirul2uAXystUK7doTu
- S95lqR07mrQ1Q6mYH2MwtYUuXqT5cIBfR3dbyGxhhWVxc6hy8GzdrTIN2EzAiYM+fK
- xyuXM77kImGmhLk8+XTdB00aEChco3qjwNqHwx2c=
+ b=eNLEJZ61LoVuNpiAlbGvxdMYzMtSmfpbOicNPDLdQnGM5UeEp0c2eoHpeb8BVPl5M
+ /BoC+WgUMfIzAnN/sCbzBU3N7Wk6quXz/c7bnBRFU2XA9a5w+g0gRWlMg0mnHRWIKi
+ SkhQH644uifWqXunTEA+GvDG+lR6ofltPvsD/wIE=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.11 015/601] drm: bridge: fix LONTIUM use of mipi_dsi_()
+Subject: [PATCH 5.10 015/530] drm: bridge: fix LONTIUM use of mipi_dsi_()
  functions
-Date: Wed, 12 May 2021 16:41:32 +0200
-Message-Id: <20210512144828.317194379@linuxfoundation.org>
+Date: Wed, 12 May 2021 16:42:05 +0200
+Message-Id: <20210512144820.212490688@linuxfoundation.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210512144827.811958675@linuxfoundation.org>
-References: <20210512144827.811958675@linuxfoundation.org>
+In-Reply-To: <20210512144819.664462530@linuxfoundation.org>
+References: <20210512144819.664462530@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -103,15 +103,15 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/bridge/Kconfig
 +++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -67,6 +67,7 @@ config DRM_LONTIUM_LT9611UXC
+@@ -54,6 +54,7 @@ config DRM_LONTIUM_LT9611
  	depends on OF
  	select DRM_PANEL_BRIDGE
  	select DRM_KMS_HELPER
 +	select DRM_MIPI_DSI
  	select REGMAP_I2C
  	help
- 	  Driver for Lontium LT9611UXC DSI to HDMI bridge
-@@ -151,6 +152,7 @@ config DRM_SII902X
+ 	  Driver for Lontium LT9611 DSI to HDMI bridge
+@@ -138,6 +139,7 @@ config DRM_SII902X
  	tristate "Silicon Image sii902x RGB/HDMI bridge"
  	depends on OF
  	select DRM_KMS_HELPER
@@ -119,7 +119,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	select REGMAP_I2C
  	select I2C_MUX
  	select SND_SOC_HDMI_CODEC if SND_SOC
-@@ -200,6 +202,7 @@ config DRM_TOSHIBA_TC358767
+@@ -187,6 +189,7 @@ config DRM_TOSHIBA_TC358767
  	tristate "Toshiba TC358767 eDP bridge"
  	depends on OF
  	select DRM_KMS_HELPER
