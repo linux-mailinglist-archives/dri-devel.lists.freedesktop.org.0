@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D8337BAC1
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 12:35:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B276837BC05
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 13:46:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAF4189E59;
-	Wed, 12 May 2021 10:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13EA86EB7F;
+	Wed, 12 May 2021 11:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
- [IPv6:2607:f8b0:4864:20::c30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5FB89E59
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 10:35:47 +0000 (UTC)
-Received: by mail-oo1-xc30.google.com with SMTP id
- e7-20020a4ad2470000b02902088d0512ceso2007017oos.8
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 03:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
+ [IPv6:2607:f8b0:4864:20::736])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9476EB7C;
+ Wed, 12 May 2021 11:46:06 +0000 (UTC)
+Received: by mail-qk1-x736.google.com with SMTP id 76so21781157qkn.13;
+ Wed, 12 May 2021 04:46:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uQMh8M5q7Vre565o+gT7eElG/1cwC7TQiSzjiHYnwmU=;
- b=K1l5HacxbYIFdrlwfUHj1sgkQyMhsJe6Ek3eT4ydB135WWEnzE4ed0JYCUt+ZiG4oE
- ytHfVxhqijRojmN5DLUSKWLk1okjdY4VNFRlwY3R4TdG70Fr9cTKS5+RKY+KpsQcdqKM
- 2bazTvVAr6f+gu0rC9yPI10YaLFcWsrfScCv8=
+ :cc:content-transfer-encoding;
+ bh=NYC6If7bdJFOq0ZNHHPwbaDr3dD6LtLxdpO2ak9v1KM=;
+ b=pbRCm/hNXli3iflQhlbBrr/5C5OK/p02o1Pu7nEQZuZBHIPvth6xFDyWLpMntZ32Pq
+ cvYNUEJaw0G2SRqf80PeXJGM/4I6N4wPXZkzlrwbGhptOWiiRXSL+xbD/9Q437ZsDnDh
+ YqbTXOLWmNGI/I8jJOW+1XwNX2CRqxTsJ7VKaD2hbXlTF8dc8wsPwKBOh39J2C+H0lNq
+ SAr0WTwGcA70L1b2mS06eSxdUV1DYKcx3b8fUndtHreh3bibaegtX4lHx8JrGZw5KCs7
+ 1vBRjpjl4+ZjXGro5ehGzKrXvdvSfdkPWb8Xf7UBZPAvM/ZfPj32mshMGkd4lbr3zCVm
+ UPlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uQMh8M5q7Vre565o+gT7eElG/1cwC7TQiSzjiHYnwmU=;
- b=JA/ChYgzVnIezyQ6euJNMdbaVRQLZy4HyEZ0Esz8F+jYX0tHdcltJChcUvoqrE6Z/4
- chszL2HIIWC+sLV/Q8aUesF0bw3IPsLmzksQ/yyshaba4YuGE1Wy7NZdgYb1xdab+qpJ
- Gc6tX4yFMeAi+VKgeVmeHOKzjpP8GHPYyFFy+PAA3tVKK/Agz4iW4NKCizBVLM4zZAry
- xq0sMwwOTvVsd1+eZNcawbnx0mOQVqL8NQ9iib+q5vf02yZD9CM0xxSPkL8vwrldYAUY
- Je37kDekOqDakvB+0/+1UMM3R3hVAHnYoEgrcT8NtWq++f4MFoIgUhO8haVSkD8cM3o5
- 2Zfg==
-X-Gm-Message-State: AOAM532ROziVxicV3GefveuUkbci65yeDc08vAV9waLYqzxE+t1oTinc
- TmzLrrSpXiWkfUG+bdWjErvdezQfsaZ/nOd6glKAw7dD8QA=
-X-Google-Smtp-Source: ABdhPJxcn8iHPjDK2iqNtuHpA9hWn78/vq+M5hFXqa99TZ3YtCqVYHrV1tIg+ehsAYOJKDXgoCKpiACJJUhnspJEOWw=
-X-Received: by 2002:a4a:d4c7:: with SMTP id r7mr11983406oos.85.1620815746232; 
- Wed, 12 May 2021 03:35:46 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NYC6If7bdJFOq0ZNHHPwbaDr3dD6LtLxdpO2ak9v1KM=;
+ b=R7dAQylv5UROBy4EYwbnZVPCW3jAG+XCjfrHPCHCwPEk5ckbdCWxauuNFoqs64RCT9
+ 64PNoZO7xWD3rRVpuAGuD/8KG11+Hk9TfNJsC4bpaJoZox/uycyo9e276rPqAsfJ+KvZ
+ Zvx+Bfb+YqSJEGb225PJioL7gamnOpMSYhCikYeezdwMiCyHBs+jXUVQvIYi8DV/KprM
+ YmCZpSzDgZvhUjV0TfDhwvIixNh/LlvGKghoIaYibwMXkC2ZWYeU3Vy7bRoUjgR+sS9q
+ HF9oOfHhPbNUbkpqtsm67WsKsBEKHvx+kBynyU9miVt+o1LGn26EeugH5nD5e6/nnCKx
+ Nt7A==
+X-Gm-Message-State: AOAM5329kGLUL5ol9DdjUrHvr6Tv/OLXztyk7T7FULvUme4N59XGS8sv
+ lPPqt0s5Z4ZHP7NIWx5SmlQEiUhfhxNyKrCR6So=
+X-Google-Smtp-Source: ABdhPJxMwABs6c3LItu5lK8IE1nPIqfa9p7vHGvx1fdKWmTpafVCq0HUttS2wLCg0I+gUfyAbeBw7VlGdkAJJPen9io=
+X-Received: by 2002:a37:9d58:: with SMTP id g85mr32561584qke.426.1620819965497; 
+ Wed, 12 May 2021 04:46:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210508195641.397198-1-robdclark@gmail.com>
- <20210508195641.397198-2-robdclark@gmail.com>
- <YJlb3GO41hiu4pWw@phenom.ffwll.local>
- <CAF6AEGsGb1jZgRRUqDvf+j+E6pNEtSck=r3xh4VL7FmZMPszBQ@mail.gmail.com>
- <CAKMK7uGPGbOPRtJaiG5oNCDhYQ27+V3bO5Wcgv7C9fqdyp8LeA@mail.gmail.com>
- <CAF6AEGto1PQcEbYeWfXqMatK0z3dW-mpLNVh=VJb=9gwrPfCWg@mail.gmail.com>
- <YJq0YVi4O4zGkb3j@phenom.ffwll.local> <20210512112330.0130a62a@eldfell>
- <YJuVbRNGSCkYYD7U@phenom.ffwll.local> <20210512124619.3fba5b9b@eldfell>
-In-Reply-To: <20210512124619.3fba5b9b@eldfell>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 12 May 2021 12:35:34 +0200
-Message-ID: <CAKMK7uEWs2=V4TEAvnDjvMObhFCP7KVB0URqPK-kKYZ4GkHatA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: Fix dirtyfb stalls
-To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20210511132525.377190-1-thomas.hellstrom@linux.intel.com>
+ <20210511132525.377190-7-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20210511132525.377190-7-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 12 May 2021 12:45:38 +0100
+Message-ID: <CAM0jSHOwVB+1p9Rfx65N9C0wZmdmTV9z=guqagqfvdhDUDyLKw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 6/7] drm/i915/ttm, drm/ttm: Introduce a TTM
+ i915 gem object backend
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,201 +65,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 12, 2021 at 11:46 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+On Tue, 11 May 2021 at 14:26, Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
 >
-> On Wed, 12 May 2021 10:44:29 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
+> Most logical place to introduce TTM buffer objects is as an i915
+> gem object backend. We need to add some ops to account for added
+> functionality like delayed delete and LRU list manipulation.
 >
-> > On Wed, May 12, 2021 at 11:23:30AM +0300, Pekka Paalanen wrote:
-> > > On Tue, 11 May 2021 18:44:17 +0200
-> > > Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > > On Mon, May 10, 2021 at 12:06:05PM -0700, Rob Clark wrote:
-> > > > > On Mon, May 10, 2021 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > >
-> > > > > > On Mon, May 10, 2021 at 6:51 PM Rob Clark <robdclark@gmail.com> wrote:
-> > > > > > >
-> > > > > > > On Mon, May 10, 2021 at 9:14 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > >
-> > > > > > > > On Sat, May 08, 2021 at 12:56:38PM -0700, Rob Clark wrote:
-> > > > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > > > >
-> > > > > > > > > drm_atomic_helper_dirtyfb() will end up stalling for vblank on "video
-> > > > > > > > > mode" type displays, which is pointless and unnecessary.  Add an
-> > > > > > > > > optional helper vfunc to determine if a plane is attached to a CRTC
-> > > > > > > > > that actually needs dirtyfb, and skip over them.
-> > > > > > > > >
-> > > > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > > >
-> > > > > > > > So this is a bit annoying because the idea of all these "remap legacy uapi
-> > > > > > > > to atomic constructs" helpers is that they shouldn't need/use anything
-> > > > > > > > beyond what userspace also has available. So adding hacks for them feels
-> > > > > > > > really bad.
-> > > > > > >
-> > > > > > > I suppose the root problem is that userspace doesn't know if dirtyfb
-> > > > > > > (or similar) is actually required or is a no-op.
-> > > > > > >
-> > > > > > > But it is perhaps less of a problem because this essentially boils
-> > > > > > > down to "x11 vs wayland", and it seems like wayland compositors for
-> > > > > > > non-vsync'd rendering just pageflips and throws away extra frames from
-> > > > > > > the app?
-> > > > > >
-> > > > > > Yeah it's about not adequately batching up rendering and syncing with
-> > > > > > hw. bare metal x11 is just especially stupid about it :-)
-> > > > > >
-> > > > > > > > Also I feel like it's not entirely the right thing to do here either.
-> > > > > > > > We've had this problem already on the fbcon emulation side (which also
-> > > > > > > > shouldn't be able to peek behind the atomic kms uapi curtain), and the fix
-> > > > > > > > there was to have a worker which batches up all the updates and avoids any
-> > > > > > > > stalls in bad places.
-> > > > > > >
-> > > > > > > I'm not too worried about fbcon not being able to render faster than
-> > > > > > > vblank.  OTOH it is a pretty big problem for x11
-> > > > > >
-> > > > > > That's why we'd let the worker get ahead at most one dirtyfb. We do
-> > > > > > the same with fbcon, which trivially can get ahead of vblank otherwise
-> > > > > > (if sometimes flushes each character, so you have to pile them up into
-> > > > > > a single update if that's still pending).
-> > > > > >
-> > > > > > > > Since this is for frontbuffer rendering userspace only we can probably get
-> > > > > > > > away with assuming there's only a single fb, so the implementation becomes
-> > > > > > > > pretty simple:
-> > > > > > > >
-> > > > > > > > - 1 worker, and we keep track of a single pending fb
-> > > > > > > > - if there's already a dirty fb pending on a different fb, we stall for
-> > > > > > > >   the worker to start processing that one already (i.e. the fb we track is
-> > > > > > > >   reset to NULL)
-> > > > > > > > - if it's pending on the same fb we just toss away all the updates and go
-> > > > > > > >   with a full update, since merging the clip rects is too much work :-) I
-> > > > > > > >   think there's helpers so you could be slightly more clever and just have
-> > > > > > > >   an overall bounding box
-> > > > > > >
-> > > > > > > This doesn't really fix the problem, you still end up delaying sending
-> > > > > > > the next back-buffer to mesa
-> > > > > >
-> > > > > > With this the dirtyfb would never block. Also glorious frontbuffer
-> > > > > > tracking corruption is possible, but that's not the kernel's problem.
-> > > > > > So how would anything get held up in userspace.
-> > > > >
-> > > > > the part about stalling if a dirtyfb is pending was what I was worried
-> > > > > about.. but I suppose you meant the worker stalling, rather than
-> > > > > userspace stalling (where I had interpreted it the other way around).
-> > > > > As soon as userspace needs to stall, you're losing again.
-> > > >
-> > > > Nah, I did mean userspace stalling, so we can't pile up unlimited amounts
-> > > > of dirtyfb request in the kernel.
-> > > >
-> > > > But also I never expect userspace that uses dirtyfb to actually hit this
-> > > > stall point (otherwise we'd need to look at this again). It would really
-> > > > be only there as defense against abuse.
-> > > >
-> > > > > > > But we could re-work drm_framebuffer_funcs::dirty to operate on a
-> > > > > > > per-crtc basis and hoist the loop and check if dirtyfb is needed out
-> > > > > > > of drm_atomic_helper_dirtyfb()
-> > > > > >
-> > > > > > That's still using information that userspace doesn't have, which is a
-> > > > > > bit irky. We might as well go with your thing here then.
-> > > > >
-> > > > > arguably, this is something we should expose to userspace.. for DSI
-> > > > > command-mode panels, you probably want to make a different decision
-> > > > > with regard to how many buffers in your flip-chain..
-> > > > >
-> > > > > Possibly we should add/remove the fb_damage_clips property depending
-> > > > > on the display type (ie. video/pull vs cmd/push mode)?
-> > > >
-> > > > I'm not sure whether atomic actually needs this exposed:
-> > > > - clients will do full flips for every frame anyway, I've not heard of
-> > > >   anyone seriously doing frontbuffer rendering.
-> > >
-> > > That may or may not be changing, depending on whether the DRM drivers
-> > > will actually support tearing flips. There has been a huge amount of
-> > > debate for needing tearing for Wayland [1], and while I haven't really
-> > > joined that discussion, using front-buffer rendering (blits) to work
-> > > around the driver inability to flip-tear might be something some people
-> > > will want.
-> >
-> > Uh pls dont, dirtyfb does a full atomic commit on atomic drivers
-> > underneath it.
+> Initially we support only LMEM and SYSTEM memory, but SYSTEM
+> (which in this case means evicted LMEM objects) is not
+> visible to i915 GEM yet. The plan is to move the i915 gem system region
+> over to the TTM system memory type in upcoming patches.
 >
-> You keep saying dirtyfb, but I still didn't understand if you mean
-> literally *only* the legacy DirtyFB ioctl, or does it include
-> FB_DAMAGE_CLIPS in atomic too?
+> We set up GPU bindings directly both from LMEM and from the system region=
+,
+> as there is no need to use the legacy TTM_TT memory type. We reserve
+> that for future porting of GGTT bindings to TTM.
 >
-> I suppose you mean only the legacy ioctl.
+> There are some changes to TTM to allow for purging system memory buffer
+> objects and to refuse swapping of some objects: Unfortunately i915 gem
+> still relies heavily on short-term object pinning, and we've chosen to
+> keep short-term-pinned buffer objects on the TTM LRU lists for now,
+> meaning that we need some sort of mechanism to tell TTM they are not
+> swappable. A longer term goal is to get rid of the short-term pinning.
+>
+> Remove the old lmem backend.
+>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/Makefile                 |   1 +
+>  drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |  83 ---
+>  drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   5 -
+>  drivers/gpu/drm/i915/gem/i915_gem_object.c    | 126 +++--
+>  drivers/gpu/drm/i915/gem/i915_gem_object.h    |   9 +
+>  .../gpu/drm/i915/gem/i915_gem_object_types.h  |  18 +
+>  drivers/gpu/drm/i915/gem/i915_gem_region.c    |   6 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 534 ++++++++++++++++++
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  48 ++
+>  drivers/gpu/drm/i915/gt/intel_region_lmem.c   |   3 +-
+>  drivers/gpu/drm/i915/i915_gem.c               |   5 +-
+>  drivers/gpu/drm/i915/intel_memory_region.c    |   1 -
+>  drivers/gpu/drm/i915/intel_memory_region.h    |   1 -
+>  drivers/gpu/drm/i915/intel_region_ttm.c       |   5 +-
+>  drivers/gpu/drm/i915/intel_region_ttm.h       |   7 +-
+>  drivers/gpu/drm/ttm/ttm_bo.c                  |  12 +
+>  include/drm/ttm/ttm_device.h                  |   9 +
+>  17 files changed, 733 insertions(+), 140 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+>
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefil=
+e
+> index 958ccc1edfed..ef0d884a9e2d 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -155,6 +155,7 @@ gem-y +=3D \
+>         gem/i915_gem_stolen.o \
+>         gem/i915_gem_throttle.o \
+>         gem/i915_gem_tiling.o \
+> +       gem/i915_gem_ttm.o \
+>         gem/i915_gem_ttm_bo_util.o \
+>         gem/i915_gem_userptr.o \
+>         gem/i915_gem_wait.o \
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c b/drivers/gpu/drm/i=
+915/gem/i915_gem_lmem.c
+> index f42803ea48f2..2b8cd15de1d9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
+> @@ -4,73 +4,10 @@
+>   */
+>
+>  #include "intel_memory_region.h"
+> -#include "intel_region_ttm.h"
+>  #include "gem/i915_gem_region.h"
+>  #include "gem/i915_gem_lmem.h"
+>  #include "i915_drv.h"
+>
+> -static void lmem_put_pages(struct drm_i915_gem_object *obj,
+> -                                 struct sg_table *pages)
+> -{
+> -       intel_region_ttm_node_free(obj->mm.region, obj->mm.st_mm_node);
+> -       obj->mm.dirty =3D false;
+> -       sg_free_table(pages);
+> -       kfree(pages);
+> -}
+> -
+> -static int lmem_get_pages(struct drm_i915_gem_object *obj)
+> -{
+> -       unsigned int flags;
+> -       struct sg_table *pages;
+> -
+> -       flags =3D I915_ALLOC_MIN_PAGE_SIZE;
+> -       if (obj->flags & I915_BO_ALLOC_CONTIGUOUS)
+> -               flags |=3D I915_ALLOC_CONTIGUOUS;
+> -
+> -       obj->mm.st_mm_node =3D intel_region_ttm_node_alloc(obj->mm.region=
+,
+> -                                                        obj->base.size,
+> -                                                        flags);
+> -       if (IS_ERR(obj->mm.st_mm_node))
+> -               return PTR_ERR(obj->mm.st_mm_node);
+> -
+> -       /* Range manager is always contigous */
+> -       if (obj->mm.region->is_range_manager)
+> -               obj->flags |=3D I915_BO_ALLOC_CONTIGUOUS;
+> -       pages =3D intel_region_ttm_node_to_st(obj->mm.region, obj->mm.st_=
+mm_node);
+> -       if (IS_ERR(pages))
+> -               return PTR_ERR(pages);
+> -
+> -       __i915_gem_object_set_pages(obj, pages,
+> -                                   i915_sg_dma_page_sizes(pages->sgl));
+> -
+> -       if (obj->flags & I915_BO_ALLOC_CPU_CLEAR) {
+> -               void __iomem *vaddr =3D
+> -                       i915_gem_object_lmem_io_map(obj, 0, obj->base.siz=
+e);
 
-Only the legacy DIRTYFB ioctl. FB_DAMAGE_CLIPS is all solid I think.
+Where did the object clearing go? I'm not seeing it in the new code.
 
-> > > Personally, what I do agree with is that "tear if late from intended
-> > > vblank" is a feature that will be needed when VRR cannot be used.
-> > > However, I would also argue that multiple tearing updates per refresh
-> > > cycle is not a good idea, and I know people disagree with this because
-> > > practically all relevant games are using a naive main loop that makes
-> > > multi-tearing necessary for good input response.
-> > >
-> > > I'm not quite sure where this leaves the KMS UAPI usage patterns. Maybe
-> > > this matters, maybe not?
-> > >
-> > > Does it make a difference between using legacy DirtyFB vs. atomic
-> > > FB_DAMAGE_CLIPS property?
-> > >
-> > > Also mind that Wayland compositors would be dynamically switching
-> > > between "normal flips" and "tearing updates" depending on the
-> > > scenegraph. This switch should not be considered a "mode set".
-> > >
-> > > [1] https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/65
-> >
-> > I think what you want is two things:
-> > - some indication that frontbuffer rendering "works", for some value of
-> >   that (which should probably be "doesn't require dirtyfb")
-> >
-> > - tearing flips support. This needs driver support
->
-> A "tear if late" functionality in the kernel would be really nice too,
-> but can probably be worked around with high resolution timers in
-> userspace and just-in-time atomic tearing flips. Although those flips
-> would need to be tearing always, because timers that close to vblank are
-> going to race with vblank.
->
-> > If you don't have either, pls don't try to emulate something using
-> > frontbuffer rendering and dirtyfb, because that will make it really,
-> > really awkward for the kernel to know what exactly userspace wants to do.
-> > Overloading existing interfaces with new meaning just we can really
-> > and it happens to work on the one platform we tested is really not a good
-> > idea.
->
-> Alright, I'll spread the word if I catch people trying that.
->
-> I didn't even understand that using DirtyFB at all would put "new
-> meaning" to it. I mean, if you do front-buffer rendering, you must use
-> DirtyFB or FB_DAMAGE_CLIPS on atomic to make sure it actually goes
-> anywhere, right?
+<snip>
 
-TBH I'd do FB_DAMAGE_CLIPS with atomic ioctl and the same fb. Also
-maybe userspace wants to better understand what exactly happens for
-frontbuffer tracking in this case too.
+> +
+> +static struct sg_table *
+> +i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+> +                        struct ttm_resource *res)
+> +{
+> +       struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
+> +       struct ttm_resource_manager *man =3D
+> +               ttm_manager_type(bo->bdev, res->mem_type);
+> +       struct sg_table *st;
+> +
+> +       if (man->use_tt)
+> +               return i915_ttm_tt_get_st(bo->ttm);
+> +
+> +       st =3D kzalloc(sizeof(*st), GFP_KERNEL);
+> +       if (!st)
+> +               return ERR_PTR(-ENOMEM);
 
-The issue with DIRTYFB ioctl like with all the legacy ioctls is that
-it's very undefined how nonblocking and how async/tearing they are,
-and there's no completion event userspace could use to properly stall
-when it gets ahead too much. Any additional use we pile on top of them
-just makes this even more awkward for the kernel to do in a way that
-doesn't upset some userspace somewhere, while still trying to be as
-consistent across drivers as possible (ideally using one code path to
-remap to an atomic op in the same way for all drivers).
+The st is already allocated below.
 
-Properly definied atomic properties and the exact semantics userspace
-expects is imo much better than "hey calling this ioctl gets the job
-done on my driver, let's just use that". If there's something missing
-in the atomic kms uapi, we need to add it properly.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+<snip>
+
+> +
+> +/**
+> + * __i915_gem_ttm_object_init - Initialize a ttm-backed i915 gem object
+> + * @mem: The initial memory region for the object.
+> + * @obj: The gem object.
+> + * @size: Object size in bytes.
+> + * @flags: gem object flags.
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+> +                              struct drm_i915_gem_object *obj,
+> +                              resource_size_t size,
+> +                              unsigned int flags)
+> +{
+> +       static struct lock_class_key lock_class;
+> +       struct drm_i915_private *i915 =3D mem->i915;
+> +       size_t alignment =3D 0;
+> +       int ret;
+> +
+> +       /* Adjust alignment to GPU- and CPU huge page sizes. */
+> +
+> +       if (mem->is_range_manager) {
+> +               if (size >=3D SZ_1G)
+> +                       alignment =3D SZ_1G >> PAGE_SHIFT;
+> +               else if (size >=3D SZ_2M)
+> +                       alignment =3D SZ_2M >> PAGE_SHIFT;
+> +               else if (size >=3D SZ_64K)
+> +                       alignment =3D SZ_64K >> PAGE_SHIFT;
+> +       }
+> +
+> +       drm_gem_private_object_init(&i915->drm, &obj->base, size);
+> +       i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, fla=
+gs);
+> +       i915_gem_object_init_memory_region(obj, mem);
+> +       i915_gem_object_make_unshrinkable(obj);
+> +
+> +       ret =3D ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
+> +                         ttm_bo_type_kernel, &i915_sys_placement, alignm=
+ent,
+> +                         true, NULL, NULL, i915_ttm_bo_destroy);
+
+Handle the error?
+
+> +
+> +       obj->read_domains =3D I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
+> +
+> +       i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
+> +
+> +       return 0;
+> +}
