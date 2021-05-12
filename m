@@ -1,38 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCE137BC52
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 14:12:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E43837BC51
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 14:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0BCC6EB8A;
-	Wed, 12 May 2021 12:12:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAEC46EB86;
+	Wed, 12 May 2021 12:12:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Wed, 12 May 2021 09:56:07 UTC
-Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 070886EB4C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 09:56:07 +0000 (UTC)
-Received: from iota-build.ysoft.local (unknown [10.1.5.151])
- by uho.ysoft.cz (Postfix) with ESMTP id 61FCCA02C2;
- Wed, 12 May 2021 11:48:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
- s=20160406-ysoft-com; t=1620812935;
- bh=2985J8QEH7ypkIWT9eXgR8S1j/LwdOsTbCDZrn2V8iY=;
- h=From:To:Cc:Subject:Date:From;
- b=R9RP4TAfFQKyc869XKMykTIB2y/DaUteIxfcu/WAqiD5OkWu+IWclRRZIHUNl7SDZ
- LipOKwxTcu1P6R7giYF9eLI03p4yzyt1h1hlwTZEdFxy44Eww1bI3rUTDrsg8bqDqJ
- 94EdkamI3qf6053FEfpVbln1Tb4esF2gOaAMhWmo=
-From: =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH RESEND] video: ssd1307fb: Enable charge pump only on displays
- that actually have it
-Date: Wed, 12 May 2021 11:48:50 +0200
-Message-Id: <1620812930-30356-1-git-send-email-michal.vokac@ysoft.com>
-X-Mailer: git-send-email 2.1.4
+X-Greylist: delayed 422 seconds by postgrey-1.36 at gabe;
+ Wed, 12 May 2021 12:04:05 UTC
+Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1C596EB7C
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 12:04:05 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.13])
+ by lucky1.263xmail.com (Postfix) with ESMTP id 89558AC626;
+ Wed, 12 May 2021 19:56:59 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [124.126.19.250])
+ by smtp.263.net (postfix) whith ESMTP id
+ P1748T140588825409280S1620820610980711_; 
+ Wed, 12 May 2021 19:57:01 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <794a1de435a0a63d4553be8fcf03f0c0>
+X-RL-SENDER: penghaob@uniontech.com
+X-SENDER: penghaob@uniontech.com
+X-LOGIN-NAME: penghaob@uniontech.com
+X-FST-TO: rodrigosiqueiramelo@gmail.com
+X-RCPT-COUNT: 8
+X-SENDER-IP: 124.126.19.250
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+From: Hao Peng <penghaob@uniontech.com>
+To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie
+Subject: [PATCH] drm:vkms: Add NULL value after free function In function
+ vkms_exit, after kfree(default_config),
+ give specific NULL value to pointer default_config to avoid wild pointer.
+Date: Wed, 12 May 2021 19:55:54 +0800
+Message-Id: <20210512115554.10431-1-penghaob@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 12 May 2021 12:12:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,52 +60,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>,
+Cc: Hao Peng <penghaob@uniontech.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A note in the datasheet says:
-
- "Patterns other than those given in the Command Table are prohibited to
-  enter the chip as a command; as unexpected results can occur."
-
-So do not send the charge pump command to displays that do not support it.
-
-Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+Signed-off-by: Hao Peng <penghaob@uniontech.com>
 ---
- drivers/video/fbdev/ssd1307fb.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vkms/vkms_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-index 1b0b2a096afa..54903ea2e3ac 100644
---- a/drivers/video/fbdev/ssd1307fb.c
-+++ b/drivers/video/fbdev/ssd1307fb.c
-@@ -497,14 +497,16 @@ static int ssd1307fb_init_regs(struct ssd1307fb_par *par)
- 		return ret;
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index 2173b82606f6..6c63201db5d0 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -227,6 +227,7 @@ static void __exit vkms_exit(void)
+ 		vkms_destroy(default_config);
  
- 	/* Turn on the DC-DC Charge Pump */
--	ret = ssd1307fb_write_cmd(par->client, SSD1307FB_CHARGE_PUMP);
--	if (ret < 0)
--		return ret;
-+	if (par->device_info->need_chargepump) {
-+		ret = ssd1307fb_write_cmd(par->client, SSD1307FB_CHARGE_PUMP);
-+		if (ret < 0)
-+			return ret;
+ 	kfree(default_config);
++	default_config = NULL;
+ }
  
--	ret = ssd1307fb_write_cmd(par->client,
--		BIT(4) | (par->device_info->need_chargepump ? BIT(2) : 0));
--	if (ret < 0)
--		return ret;
-+		ret = ssd1307fb_write_cmd(par->client,
-+			BIT(4) | (par->device_info->need_chargepump ? BIT(2) : 0));
-+		if (ret < 0)
-+			return ret;
-+	}
- 
- 	/* Set lookup table */
- 	if (par->lookup_table_set) {
+ module_init(vkms_init);
 -- 
-2.1.4
+2.20.1
+
+
 
