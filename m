@@ -2,48 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFD637CD25
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 19:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFF437D183
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 19:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D86AD6E083;
-	Wed, 12 May 2021 17:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC1CF6EC85;
+	Wed, 12 May 2021 17:59:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA46E6E083;
- Wed, 12 May 2021 17:12:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Mime-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Bbe/giLRixNHZfVxrsBWK3QD/DvA2E8vNtncCgEH6tY=; b=GMyx8yNb1WU+k0lf4hnLOgZHBr
- 6DFDVEZXTOLWMsR8c+DFSqytTjIYYEdjxaixq5vRe3+3JWR59MOXd/W8EDHvUxuOfMniJtjC7qemY
- xjWsT8/erX8vmk23Ssat6lHd6OnEvhlJOV+WAGGL+AqjSi5Z1HY6veeTfwqvgf2BCwXLFjuBqRLmy
- eChY1b3iu2fMKuB2WLM6NbgnMZ0AfKtp9a670pjykiwtv49KoHHXLZ9qKXnB8cceJrdyUmpGpk0vm
- FOwCw9zzsVV5nAOzGYvVHRudpwMhKlH1f9Y9YLfhCUnOYbYtyvlEGDEZRwcjLejXp+2r18iytiQ9m
- ICcU8TEw==;
-Received: from 54-240-197-236.amazon.com ([54.240.197.236]
- helo=u3832b3a9db3152.ant.amazon.com)
- by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lgsPT-00AdJd-Be; Wed, 12 May 2021 17:12:35 +0000
-Message-ID: <cca519da5a3af70297bf1b75b9dbcb0c98ed3eaf.camel@infradead.org>
-Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
- symbols
-From: David Woodhouse <dwmw2@infradead.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Theodore Ts'o
- <tytso@mit.edu>
-Date: Wed, 12 May 2021 18:12:27 +0100
-In-Reply-To: <20210512171741.2870bcbc@coco.lan>
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
- <YJvi1L2ss5Tfi+My@mit.edu> <20210512171741.2870bcbc@coco.lan>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/x-pkcs7-signature";
- boundary="=-hWc+xAn5S+EFrraSjweQ"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64B876E0DD;
+ Wed, 12 May 2021 17:59:42 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id u16so23044135oiu.7;
+ Wed, 12 May 2021 10:59:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3L3FFAJbqlYPV686/jgJ78P2Ab6OGKsQUzPIFkt6RLU=;
+ b=QoU/du1x3ZxVjgBl1z50GWLjnz77ZI9ff8GrmKZHLVyKMjq4+54x7gahDehpS3mbu5
+ Fhku0V8CWsLOPZ/EQFQeIyomfQKWNA4h0Lz0NBld2pioI4pXhBMXHRsU/8YKXcOmoW79
+ epCm9s0DYdF7F4UYV5VQA9tdVlxzBRENCxJCVholl3nHaYjBr9EWPXeM6uFCZTlf/OTv
+ 7vKf0Fyn9mtmCx2/hVQj4e2OQkJp0y8kSp+dckU14mBCMsX5+f97BYNxYZaExMaJAn0v
+ 50yupl2Z0uBo8VStmESwT49cp4te9rJK0KvYtGNfV7gdkJJJjf3lkXaRMM+z/GgRcmff
+ TZSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3L3FFAJbqlYPV686/jgJ78P2Ab6OGKsQUzPIFkt6RLU=;
+ b=ZPuGle4rdvA5F0xj8LU1htto4inQqCNnKiO+qmGpgElg1/gokwaQVLR69pNsu5AhF0
+ HByHDwf1QcOk0qpHAfj3ujZGc7Sr30awr2c1bcjK4CDoY9jEXdB3wLX4Yo6f6vlaNehz
+ ITfrdgO4ilDlU/hMINS7sWnbfTZr9jiD02G6GwjHm+2xs+l22fenxP8yezNIxwx+17ww
+ /SM81pc6j+2LaDnF/S+MLlbKikqzQLMCumRLUNyH0QxGfP+3U5IVLCRir3pfMMAU4BWd
+ Wk6FAmnkkyTBCDfk+6pDvQ9ypcZArDrxOVsKl8GdkdWnS39VdmLVeEjj//mbLYPeHLK5
+ z3Zw==
+X-Gm-Message-State: AOAM533jQ+P2s3cM3ChLv9iI15M1ufphK7VavCK/7szvF9DsNHwqeyvf
+ DbmqW2OCDBA8bBvwln8RG2Q8vz62u7rRM8sX5qc=
+X-Google-Smtp-Source: ABdhPJzOom4prFSokm7yd2nlVsxepWf6MV0xWL/+Bl7cFPfqUYsPgNGs2talEjIVHU5/ADtSL7f0tpg8YIFizKeeZb8=
+X-Received: by 2002:aca:fc50:: with SMTP id a77mr27253096oii.123.1620842381551; 
+ Wed, 12 May 2021 10:59:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
+ <YJvSUCCPvWz7y/r7@intel.com>
+In-Reply-To: <YJvSUCCPvWz7y/r7@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 12 May 2021 13:59:30 -0400
+Message-ID: <CADnq5_M--7xjaFiV2Rz_2SqQc01JqeNjYYPtHZgk=cKL0S9sZw@mail.gmail.com>
+Subject: Re: New uAPI for color management proposal and feedback request
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,173 +64,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-iio@vger.kernel.org,
- linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
- keyrings@vger.kernel.org, linux-sgx@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- linux-acpi@vger.kernel.org, Mali DP Maintainers <malidp@foss.arm.com>,
- linux-input@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-ext4@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
- coresight@lists.linaro.org, rcu@vger.kernel.org,
- mjpeg-users@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org,
- linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-integrity@vger.kernel.org
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, May 12, 2021 at 9:04 AM Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
+>
+> On Wed, May 12, 2021 at 02:06:56PM +0200, Werner Sembach wrote:
+> > Hello,
+> >
+> > In addition to the existing "max bpc", and "Broadcast RGB/output_csc" d=
+rm properties I propose 4 new properties:
+> > "preferred pixel encoding", "active color depth", "active color range",=
+ and "active pixel encoding"
+> >
+> >
+> > Motivation:
+> >
+> > Current monitors have a variety pixel encodings available: RGB, YCbCr 4=
+:4:4, YCbCr 4:2:2, YCbCr 4:2:0.
+> >
+> > In addition they might be full or limited RGB range and the monitors ac=
+cept different bit depths.
+> >
+> > Currently the kernel driver for AMD and Intel GPUs automatically config=
+ure the color settings automatically with little
+> > to no influence of the user. However there are several real world scena=
+rios where the user might disagree with the
+> > default chosen by the drivers and wants to set his or her own preferenc=
+e.
+> >
+> > Some examples:
+> >
+> > 1. While RGB and YCbCr 4:4:4 in theory carry the same amount of color i=
+nformation, some screens might look better on one
+> > than the other because of bad internal conversion. The driver currently=
+ however has a fixed default that is chosen if
+> > available (RGB for Intel and YCbCr 4:4:4 for AMD). The only way to chan=
+ge this currently is by editing and overloading
+> > the edid reported by the monitor to the kernel.
+> >
+> > 2. RGB and YCbCr 4:4:4 need a higher port clock then YCbCr 4:2:0. Some =
+hardware might report that it supports the higher
+> > port clock, but because of bad shielding on the PC, the cable, or the m=
+onitor the screen cuts out every few seconds when
+> > RGB or YCbCr 4:4:4 encoding is used, while YCbCr 4:2:0 might just work =
+fine without changing hardware. The drivers
+> > currently however always default to the "best available" option even if=
+ it might be broken.
+> >
+> > 3. Some screens natively only supporting 8-bit color, simulate 10-Bit c=
+olor by rapidly switching between 2 adjacent
+> > colors. They advertise themselves to the kernel as 10-bit monitors but =
+the user might not like the "fake" 10-bit effect
+> > and prefer running at the native 8-bit per color.
+> >
+> > 4. Some screens are falsely classified as full RGB range wile they actu=
+ally use limited RGB range. This results in
+> > washed out colors in dark and bright scenes. A user override can be hel=
+pful to manually fix this issue when it occurs.
+> >
+> > There already exist several requests, discussion, and patches regarding=
+ the thematic:
+> >
+> > - https://gitlab.freedesktop.org/drm/amd/-/issues/476
+> >
+> > - https://gitlab.freedesktop.org/drm/amd/-/issues/1548
+> >
+> > - https://lkml.org/lkml/2021/5/7/695
+> >
+> > - https://lkml.org/lkml/2021/5/11/416
+> >
+> >
+> > Current State:
+> >
+> > I only know bits about the Intel i915 and AMD amdgpu driver. I don't kn=
+ow how other driver handle color management
+> >
+> > - "max bpc", global setting applied by both i915 (only on dp i think?) =
+and amdgpu. Default value is "8". For every
+> > resolution + frequency combination the highest possible even number bet=
+ween 6 and max_bpc is chosen. If the range
+> > doesn't contain a valid mode the resolution + frequency combination is =
+discarded (but I guess that would be a very
+> > special edge case, if existent at all, when 6 doesn't work but 10 would=
+ work). Intel HDMI code always checks 8, 12, and
+> > 10 and does not check the max_bpc setting.
+>
+> i915 does limit things below max_bpc for both HDMI and DP.
+>
+> >
+> > - "Broadcast RGB" for i915 and "output_csc" for the old radeon driver (=
+not amdgpu), overwrites the kernel chosen color
+> > range setting (full or limited). If I recall correctly Intel HDMI code =
+defaults to full unless this property is set,
+> > Intel dp code tries to probe the monitor to find out what to use. amdgp=
+u has no corresponding setting (I don't know how
+> > it's decided there).
+>
+> i915 has the same behaviour for HDMI and DP, as per the CTA-861/DP
+> specs. Unfortunately as you already mentioned there are quite a few
+> monitors (DP monitors in particular) that don't implemnt the spec
+> correctly. IIRC later DP specs even relaxed the wording to say
+> that you can basically ignore the spec and do whatever you want.
+> Which I supose is just admitting defeat and concluding that there
+> is no way to get this right 100% of the time.
+>
+> >
+> > - RGB pixel encoding can be forced by overloading a Monitors edid with =
+one that tells the kernel that only RGB is
+> > possible. That doesn't work for YCbCr 4:4:4 however because of the edid=
+ specification. Forcing YCbCr 4:2:0 would
+> > theoretically also be possible this way. amdgpu has a debugfs switch "f=
+orce_ycbcr_420" which makes the driver default to
+> > YCbCr 4:2:0 on all monitors if possible.
+> >
+> >
+> > Proposed Solution:
+> >
+> > 1. Add a new uAPI property "preferred pixel encoding", as a per port se=
+tting.
+> >
+> >     - An amdgpu specific implementation was already shared here: https:=
+//gitlab.freedesktop.org/drm/amd/-/issues/476
+> >
+> >     - It also writes back the actually used encoding if the one request=
+ed was not possible, overwriting the requested
+> > value in the process. I think it would be better to have this feedback =
+channel as a different, read-only property.
+> >
+> >     - Make this solution vendor agnostic by putting it in the drm_conne=
+ctor_state struct next do max_bpc
+> > https://elixir.bootlin.com/linux/v5.13-rc1/source/include/drm/drm_conne=
+ctor.h#L654 and add patches to amdgpu and i915 to
+> > respect this setting
+> >
+> > 2. Convert "Broadcast RGB" to a vendor agnostic setting/replace with a =
+vendor agnostic setting.
+> >
+> >     - Imho the name is not very fitting, but it pops up in many tutoria=
+ls throughout the web (some other opinions? how
+> > could a rename be handled?".
+>
+> IIRC there was an attempt to unify this. Not sure what happened to it.
 
---=-hWc+xAn5S+EFrraSjweQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Looks like this set could be resurrected:
+https://lists.freedesktop.org/archives/dri-devel/2020-April/262153.html
 
-On Wed, 2021-05-12 at 17:17 +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 12 May 2021 10:14:44 -0400
-> "Theodore Ts'o" <tytso@mit.edu> escreveu:
->=20
-> > On Wed, May 12, 2021 at 02:50:04PM +0200, Mauro Carvalho Chehab wrote:
-> > > v2:
-> > > - removed EM/EN DASH conversion from this patchset; =20
-> >=20
-> > Are you still thinking about doing the
-> >=20
-> > EN DASH --> "--"
-> > EM DASH --> "---"
-> >=20
-> > conversion? =20
->=20
-> Yes, but I intend to submit it on a separate patch series, probably after
-> having this one merged. Let's first cleanup the large part of the=20
-> conversion-generated UTF-8 char noise ;-)
->=20
-> > That's not going to change what the documentation will
-> > look like in the HTML and PDF output forms, and I think it would make
-> > life easier for people are reading and editing the Documentation/*
-> > files in text form.
->=20
-> Agreed. I'm also considering to add a couple of cases of this char:
->=20
-> 	- U+2026 ('=E2=80=A6'): HORIZONTAL ELLIPSIS
->=20
-> As Sphinx also replaces "..." into HORIZONTAL ELLIPSIS.
+Alex
 
-Er, what?
-
-The *only* part of this whole enterprise that actually seemed to make
-even a tiny bit of sense =E2=80=94 rather than seeming like a thinly veiled
-retrospective excuse for dragging us back in time by 30 years =E2=80=94 was=
- the
-bit about making it easier to grep.
-
-But if I understand you correctly, you're talking about using something
-like C trigraphs to represent the perfectly reasonable text emdash
-character ("=E2=80=94") as two hyphen-minuses ("--") in the source code of =
-the
-documentation? Isn't that going to achieve precisely the *opposite*? If
-I select some text in the HTML output of the docs and then search for
-it in the source code, that's going to *stop* it matching my search?
-
-
---=-hWc+xAn5S+EFrraSjweQ
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCECow
-ggUcMIIEBKADAgECAhEA4rtJSHkq7AnpxKUY8ZlYZjANBgkqhkiG9w0BAQsFADCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0EwHhcNMTkwMTAyMDAwMDAwWhcNMjIwMTAxMjM1
-OTU5WjAkMSIwIAYJKoZIhvcNAQkBFhNkd213MkBpbmZyYWRlYWQub3JnMIIBIjANBgkqhkiG9w0B
-AQEFAAOCAQ8AMIIBCgKCAQEAsv3wObLTCbUA7GJqKj9vHGf+Fa+tpkO+ZRVve9EpNsMsfXhvFpb8
-RgL8vD+L133wK6csYoDU7zKiAo92FMUWaY1Hy6HqvVr9oevfTV3xhB5rQO1RHJoAfkvhy+wpjo7Q
-cXuzkOpibq2YurVStHAiGqAOMGMXhcVGqPuGhcVcVzVUjsvEzAV9Po9K2rpZ52FE4rDkpDK1pBK+
-uOAyOkgIg/cD8Kugav5tyapydeWMZRJQH1vMQ6OVT24CyAn2yXm2NgTQMS1mpzStP2ioPtTnszIQ
-Ih7ASVzhV6csHb8Yrkx8mgllOyrt9Y2kWRRJFm/FPRNEurOeNV6lnYAXOymVJwIDAQABo4IB0zCC
-Ac8wHwYDVR0jBBgwFoAUgq9sjPjF/pZhfOgfPStxSF7Ei8AwHQYDVR0OBBYEFLfuNf820LvaT4AK
-xrGK3EKx1DE7MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUF
-BwMEBggrBgEFBQcDAjBGBgNVHSAEPzA9MDsGDCsGAQQBsjEBAgEDBTArMCkGCCsGAQUFBwIBFh1o
-dHRwczovL3NlY3VyZS5jb21vZG8ubmV0L0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3Js
-LmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWls
-Q0EuY3JsMIGLBggrBgEFBQcBAQR/MH0wVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuY29tb2RvY2Eu
-Y29tL0NPTU9ET1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwJAYI
-KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAeBgNVHREEFzAVgRNkd213MkBpbmZy
-YWRlYWQub3JnMA0GCSqGSIb3DQEBCwUAA4IBAQALbSykFusvvVkSIWttcEeifOGGKs7Wx2f5f45b
-nv2ghcxK5URjUvCnJhg+soxOMoQLG6+nbhzzb2rLTdRVGbvjZH0fOOzq0LShq0EXsqnJbbuwJhK+
-PnBtqX5O23PMHutP1l88AtVN+Rb72oSvnD+dK6708JqqUx2MAFLMevrhJRXLjKb2Mm+/8XBpEw+B
-7DisN4TMlLB/d55WnT9UPNHmQ+3KFL7QrTO8hYExkU849g58Dn3Nw3oCbMUgny81ocrLlB2Z5fFG
-Qu1AdNiBA+kg/UxzyJZpFbKfCITd5yX49bOriL692aMVDyqUvh8fP+T99PqorH4cIJP6OxSTdxKM
-MIIFHDCCBASgAwIBAgIRAOK7SUh5KuwJ6cSlGPGZWGYwDQYJKoZIhvcNAQELBQAwgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDEwMjAwMDAwMFoXDTIyMDEwMTIz
-NTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCASIwDQYJKoZIhvcN
-AQEBBQADggEPADCCAQoCggEBALL98Dmy0wm1AOxiaio/bxxn/hWvraZDvmUVb3vRKTbDLH14bxaW
-/EYC/Lw/i9d98CunLGKA1O8yogKPdhTFFmmNR8uh6r1a/aHr301d8YQea0DtURyaAH5L4cvsKY6O
-0HF7s5DqYm6tmLq1UrRwIhqgDjBjF4XFRqj7hoXFXFc1VI7LxMwFfT6PStq6WedhROKw5KQytaQS
-vrjgMjpICIP3A/CroGr+bcmqcnXljGUSUB9bzEOjlU9uAsgJ9sl5tjYE0DEtZqc0rT9oqD7U57My
-ECIewElc4VenLB2/GK5MfJoJZTsq7fWNpFkUSRZvxT0TRLqznjVepZ2AFzsplScCAwEAAaOCAdMw
-ggHPMB8GA1UdIwQYMBaAFIKvbIz4xf6WYXzoHz0rcUhexIvAMB0GA1UdDgQWBBS37jX/NtC72k+A
-CsaxitxCsdQxOzAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEF
-BQcDBAYIKwYBBQUHAwIwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIBAwUwKzApBggrBgEFBQcCARYd
-aHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwWgYDVR0fBFMwUTBPoE2gS4ZJaHR0cDovL2Ny
-bC5jb21vZG9jYS5jb20vQ09NT0RPUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFp
-bENBLmNybDCBiwYIKwYBBQUHAQEEfzB9MFUGCCsGAQUFBzAChklodHRwOi8vY3J0LmNvbW9kb2Nh
-LmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3J0MCQG
-CCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAC20spBbrL71ZEiFrbXBHonzhhirO1sdn+X+O
-W579oIXMSuVEY1LwpyYYPrKMTjKECxuvp24c829qy03UVRm742R9Hzjs6tC0oatBF7KpyW27sCYS
-vj5wbal+TttzzB7rT9ZfPALVTfkW+9qEr5w/nSuu9PCaqlMdjABSzHr64SUVy4ym9jJvv/FwaRMP
-gew4rDeEzJSwf3eeVp0/VDzR5kPtyhS+0K0zvIWBMZFPOPYOfA59zcN6AmzFIJ8vNaHKy5QdmeXx
-RkLtQHTYgQPpIP1Mc8iWaRWynwiE3ecl+PWzq4i+vdmjFQ8qlL4fHz/k/fT6qKx+HCCT+jsUk3cS
-jDCCBeYwggPOoAMCAQICEGqb4Tg7/ytrnwHV2binUlYwDQYJKoZIhvcNAQEMBQAwgYUxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMSswKQYDVQQDEyJDT01PRE8gUlNBIENlcnRpZmljYXRp
-b24gQXV0aG9yaXR5MB4XDTEzMDExMDAwMDAwMFoXDTI4MDEwOTIzNTk1OVowgZcxCzAJBgNVBAYT
-AkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAYBgNV
-BAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAvrOeV6wodnVAFsc4A5jTxhh2IVDzJXkLTLWg0X06WD6cpzEup/Y0dtmEatrQPTRI5Or1u6zf
-+bGBSyD9aH95dDSmeny1nxdlYCeXIoymMv6pQHJGNcIDpFDIMypVpVSRsivlJTRENf+RKwrB6vcf
-WlP8dSsE3Rfywq09N0ZfxcBa39V0wsGtkGWC+eQKiz4pBZYKjrc5NOpG9qrxpZxyb4o4yNNwTqza
-aPpGRqXB7IMjtf7tTmU2jqPMLxFNe1VXj9XB1rHvbRikw8lBoNoSWY66nJN/VCJv5ym6Q0mdCbDK
-CMPybTjoNCQuelc0IAaO4nLUXk0BOSxSxt8kCvsUtQIDAQABo4IBPDCCATgwHwYDVR0jBBgwFoAU
-u69+Aj36pvE8hI6t7jiY7NkyMtQwHQYDVR0OBBYEFIKvbIz4xf6WYXzoHz0rcUhexIvAMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMBEGA1UdIAQKMAgwBgYEVR0gADBMBgNVHR8E
-RTBDMEGgP6A9hjtodHRwOi8vY3JsLmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDZXJ0aWZpY2F0aW9u
-QXV0aG9yaXR5LmNybDBxBggrBgEFBQcBAQRlMGMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9jcnQuY29t
-b2RvY2EuY29tL0NPTU9ET1JTQUFkZFRydXN0Q0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2Nz
-cC5jb21vZG9jYS5jb20wDQYJKoZIhvcNAQEMBQADggIBAHhcsoEoNE887l9Wzp+XVuyPomsX9vP2
-SQgG1NgvNc3fQP7TcePo7EIMERoh42awGGsma65u/ITse2hKZHzT0CBxhuhb6txM1n/y78e/4ZOs
-0j8CGpfb+SJA3GaBQ+394k+z3ZByWPQedXLL1OdK8aRINTsjk/H5Ns77zwbjOKkDamxlpZ4TKSDM
-KVmU/PUWNMKSTvtlenlxBhh7ETrN543j/Q6qqgCWgWuMAXijnRglp9fyadqGOncjZjaaSOGTTFB+
-E2pvOUtY+hPebuPtTbq7vODqzCM6ryEhNhzf+enm0zlpXK7q332nXttNtjv7VFNYG+I31gnMrwfH
-M5tdhYF/8v5UY5g2xANPECTQdu9vWPoqNSGDt87b3gXb1AiGGaI06vzgkejL580ul+9hz9D0S0U4
-jkhJiA7EuTecP/CFtR72uYRBcunwwH3fciPjviDDAI9SnC/2aPY8ydehzuZutLbZdRJ5PDEJM/1t
-yZR2niOYihZ+FCbtf3D9mB12D4ln9icgc7CwaxpNSCPt8i/GqK2HsOgkL3VYnwtx7cJUmpvVdZ4o
-gnzgXtgtdk3ShrtOS1iAN2ZBXFiRmjVzmehoMof06r1xub+85hFQzVxZx5/bRaTKTlL8YXLI8nAb
-R9HWdFqzcOoB/hxfEyIQpx9/s81rgzdEZOofSlZHynoSMYIDyjCCA8YCAQEwga0wgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA4rtJSHkq7AnpxKUY8ZlYZjANBglghkgB
-ZQMEAgEFAKCCAe0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEw
-NTEyMTcxMjI3WjAvBgkqhkiG9w0BCQQxIgQg3XpAgHXtlhpeOzv/dEVijB6FV2B1P1ORW7ixkdff
-lPowgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQx
-PTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
-aWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMIHABgsqhkiG9w0BCRACCzGBsKCBrTCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMA0GCSqGSIb3
-DQEBAQUABIIBAF05KQACeazolZqXWhE2RG343uRTkhj6gM65QVXqz6/sGDDgTvqLiikBTTMAeiUZ
-EpaD3Gbwmez7WY6axWZ3pR3lnqhyBH+tr5O1DSTEWA0WyUJJ4jtz5ait1Im4CexPphbaiJB+KveN
-61GcukywzZhUNMJL/rN0hUglCtGjGJHeTIJ0bSU6WI2KOGYEmR/yH1sEwbZhEjbIwduWC6SL+r6H
-jPI99OwT+Q3uxRwTqA4ljPDZhihqihDFDwX0GNYMl3vGQAhG/XSQjPEzKaoPf03i8dfF/I4u2aWW
-rWNeVL4q2Zvu+0N4+t6bkchYY+agiEPi5RrkSAmkYVfVuiYBwHUAAAAAAAA=
-
-
---=-hWc+xAn5S+EFrraSjweQ--
-
+>
+> >
+> >     - Also move it from Intel specific structs to the drm_connector_sta=
+te struct (please let me know if there is a
+> > better place)
+> >
+> > 3. Strive for full implementation of "max bpc"
+> >
+> >     - I need to double check the Intel HDMI code.
+> >
+> > 4. Add 3 feedback channels "active color depth", "active color range", =
+and "active pixel encoding" as vendor agnostic
+> > settings in the drm_connector_state struct
+> >
+> >     - Possible values are:
+> >
+> >         - unknown, undefined, 6-bit, 8-bit, 9-bit, 10-bit, 11-bit, 12-b=
+it, 14-bit, 16-bit (alternatively: an integer
+> > from -1 (unknown), 0 (undefined) to 16, let me know what would be more =
+suitable)
+> >
+> >         - unknown, undefined, full, limited
+> >
+> >         - unknown, undefined, rgb, ycbcr444, ycbcr422, ycbcr420
+> >
+> >     - it's the responsibility of the driver to update the values once t=
+he port configuration changes
+> >
+> >     - if the driver does not support the feedback channels they are set=
+ to unknown
+> >
+> >     - if the driver uses a non listed setting it should set the propert=
+y to undefined
+> >
+> >     - A more detailed description why I think these feedback channel ar=
+e important and should be their own read-only
+> > property can be found here: https://lkml.org/lkml/2021/5/11/339
+> >
+> >
+> > Adoption:
+> >
+> > A KDE dev wants to implement the settings in the KDE settings GUI:
+> > https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_912370
+> >
+> > Tuxedo Computers (my employer) wants to implement the settings desktop =
+environment agnostic in Tuxedo Control Center. I
+> > will start work on this in parallel to implementing the new kernel code=
+.
+>
+> I suspect everyone would be happier to accept new uapi if we had
+> multiple compositors signed up to implement it.
+>
+> >
+> >
+> > Questions:
+> >
+> > I'm very curious about feedback from the dri-devel community. Would the=
+ concept outlaid above be accepted as new uAPI
+> > once it's fully implemented?
+> >
+> > Where would be the best way to store the new vendor agnostic settings? =
+Following the implementation of max_bpc i would
+> > put it in the drm_connector_state struct.
+> >
+> > My way forward would be to implement the feedback channels first, becau=
+se they can be very useful for debugging the
+> > setting properties afterwards.
+>
+> For debugging we have dmesg/debugfs/etc. If we add new uapi IMO
+> it will have to have some real world use cases beyond debugging.
+>
+> > I will split each of it up it in 3 or 5 patch sets: 1 for the vendor ag=
+nostic part, 1 for
+> > Intel (or 2 split up between HDMI and DP), and 1 for AMD (or 2 split up=
+ between HDMI and DP)
+> >
+> > Kind regards,
+> >
+> > Werner Sembach
+> >
+>
+> --
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
