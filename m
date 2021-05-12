@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B492537B9B8
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 11:55:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EC037B9C0
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 11:56:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 785DE6E81F;
-	Wed, 12 May 2021 09:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EEFA6EB68;
+	Wed, 12 May 2021 09:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 629CD6E81F
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 09:55:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 799FB613C4;
- Wed, 12 May 2021 09:55:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC636EB4C
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 09:55:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D914613C4;
+ Wed, 12 May 2021 09:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1620813326;
- bh=iRga/USHGurDvcUu4hqU7TKX39dgB3IyjXw/3MsUN/M=;
+ s=korg; t=1620813359;
+ bh=da3C51Ncqk3hJCyxwk/+fZLhfudJpIzDIP/B/QxRQ14=;
  h=Subject:To:Cc:From:Date:From;
- b=oe5K067VyWpQtqRP0A48W7XOmAFq2NNXF13hw4fgImT867afpH6I4F6BIBpFxsVVb
- j3RGlPONA/UJFAdlOuHMHxBAJ+hE5Wr1Hr/sy2zGqBj0w0ie0ESHKu6FQFPUsJ6w4B
- fUjZ1zWwea3txGS13iazmg3LXZiiD+h1Hma5rFb0=
+ b=NDyIvvUwRtMrM+Q7rpvX3p8MHcZiUXidiH23VqUUzGiv9DLTKnARLuuox+9pkzyOY
+ bmaZLPaTRHaviC8P5Uyz6/4laSKtL47ocfyi/Zx9zj2B/Oa0MACpPTv/0R2AFaNSvg
+ lJ7/tlQT8Ph96Gb4IvWhyxEUSKCyVvayU1YN+ifM=
 Subject: Patch "drm: bridge: fix ANX7625 use of mipi_dsi_() functions" has
- been added to the 5.11-stable tree
+ been added to the 5.12-stable tree
 To: a.hajda@samsung.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, lkp@intel.com, narmstrong@baylibre.com,
  rdunlap@infradead.org, robert.foss@linaro.org, sam@ravnborg.org,
  xji@analogixsemi.com
 From: <gregkh@linuxfoundation.org>
-Date: Wed, 12 May 2021 11:55:03 +0200
-Message-ID: <1620813303236238@kroah.com>
+Date: Wed, 12 May 2021 11:55:21 +0200
+Message-ID: <162081332122221@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -56,12 +56,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm: bridge: fix ANX7625 use of mipi_dsi_() functions
 
-to the 5.11-stable tree which can be found at:
+to the 5.12-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-bridge-fix-anx7625-use-of-mipi_dsi_-functions.patch
-and it can be found in the queue-5.11 subdirectory.
+and it can be found in the queue-5.12 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -117,5 +117,6 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from rdunlap@infradead.org are
 
-queue-5.11/drm-bridge-fix-lontium-use-of-mipi_dsi_-functions.patch
-queue-5.11/drm-bridge-fix-anx7625-use-of-mipi_dsi_-functions.patch
+queue-5.12/drm-bridge-fix-lontium-use-of-mipi_dsi_-functions.patch
+queue-5.12/drm-bridge-fix-anx7625-use-of-mipi_dsi_-functions.patch
+queue-5.12/net-xilinx-drivers-need-depend-on-has_iomem.patch
