@@ -2,71 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912E537B841
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 10:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D257937B889
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 10:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A6E6EB69;
-	Wed, 12 May 2021 08:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7F246E135;
+	Wed, 12 May 2021 08:50:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8182D6EB69
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 08:44:33 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id gx5so33756278ejb.11
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 01:44:33 -0700 (PDT)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 969716E135
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 08:50:04 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id g14so26135962edy.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 01:50:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=k57DmPl8RW2cyjRaOT7DUBGMCS6OKcniCq01ArtFPiQ=;
- b=KsoKRhZ6yW0fI2927FQBtBpGJa/p4X2S3IylQQQvthYzyt8AlbV5ogQpc1tXQfjkTm
- 5yNZ84tI2ndBqIf70g0Co32Lc5QubIL9D9j2G+GvrxSJ786e6aL1ZI8Fj2UBDJEHVXYJ
- oso8dTGfP/5X8dV9IRxpL9q8NvoMhfg4f42wY=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=tvZdri4YY1VGCyz1KxJ8O+CjrSTNxyfH/Sl+XqkNaqw=;
+ b=DJAMQ8qYg3NQ288F5jQhPHumPlfKt8U9CeREzB17TqABHKVIMGAl22u3K1ZhHbHaOT
+ ezCMbC9XNmm1/ErRH6hIDE6dDKG5seyR2EdAflRpt4XWa/GOGCvrY9/9j7fLQNe0eb6K
+ qOljW+6lPN/m/Ep8Of4Mup58P+Ut/zj5pzb0Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=k57DmPl8RW2cyjRaOT7DUBGMCS6OKcniCq01ArtFPiQ=;
- b=ax2IF6EChponKw4+c2AYtvHEOuo2iGrFP3Fv5jSTBswRTIzEjT0cSzrWkfr+hw0Qop
- mDfHa0Z+K1n9uXgPVG9sf5KqJ615OsdbAOY+Wb93Y3MM7sAxnFV+wK2T4inyQvp8IP+o
- Ec5LucKRIkK25EswDfmzDwq3hmiarRlSc5xaq9/kPhFS69MDaGMstFhjv9Cg4LWxo9B5
- 5KtL+wMCGHuDtjINOCsmK4/ClFG3aixnOHowqc82puovUqYtwLABzLc7zoL/1q5NLLpA
- LFF947RBGNXPyrqZ0nhvwtFm/R6iqkjxZSXq3dHsIackJtzTyuEDDi6+F2CLwf1purvd
- h5fQ==
-X-Gm-Message-State: AOAM533rczSRQagddKjEUxMea4xXYXI1O/Enh+Xm+CidI/q61lAvg5QA
- 7kDBL/xooHOfZyVVpTluZfE92g==
-X-Google-Smtp-Source: ABdhPJxptkXgJRtqEdZiKU66KrhWXSXB6VaFaRD17ezfQoy2BC7eR+y5a6HCmnXQg1rmhVR+RgA7ug==
-X-Received: by 2002:a17:906:f41:: with SMTP id
- h1mr37036003ejj.399.1620809072115; 
- Wed, 12 May 2021 01:44:32 -0700 (PDT)
+ bh=tvZdri4YY1VGCyz1KxJ8O+CjrSTNxyfH/Sl+XqkNaqw=;
+ b=jJ+Bk1gUYe7h/vL03T+EglCBFROlFqAzm0Mq6r2s7hYt7WXBvxBLD7errPsAw+tTUD
+ 5ky3/8oa+dljqsKY6tj0GcqZ0R0a4gLYEp3nFB6+ChhMOl6YARQ7hf9UtDT7GumnLL/d
+ in3C/3aCPIICwOcLT4A6HnceSt3yNEjqXXhywW/MPxxAT+lftcvtNNafSXxdmbhSFGvS
+ ENSB0v5Vt0wn1hDz08tkuSsRk1evliYvc7BT3WxO2nw9Ag3u9MLedaJ14MM6Ff7285oE
+ Y66VnuyUeBf8I5IIuGwcvMnZpWEYGO+L5kHKn3qDFLwKua9xBxCYqWJDEEzqut8+k9iW
+ //xQ==
+X-Gm-Message-State: AOAM533lltVJxKu+Ux4YFRfij7JX/h8VtCm+P0VIzyqsMDvlkMG74ZJ3
+ Whphj0e3wAgCBdgENJSrMJg1Pg==
+X-Google-Smtp-Source: ABdhPJyNaLA2fAhDBri5AXhHy3r8Qf6yEnXZZGo46MRCk53embWlTzLwl7SaU5wuyfekE5A6iaWoMg==
+X-Received: by 2002:aa7:d90d:: with SMTP id a13mr40806650edr.76.1620809403206; 
+ Wed, 12 May 2021 01:50:03 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x9sm17001704edv.22.2021.05.12.01.44.31
+ by smtp.gmail.com with ESMTPSA id y17sm9691605ejc.79.2021.05.12.01.50.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 May 2021 01:44:31 -0700 (PDT)
-Date: Wed, 12 May 2021 10:44:29 +0200
+ Wed, 12 May 2021 01:50:02 -0700 (PDT)
+Date: Wed, 12 May 2021 10:50:01 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH 1/2] drm: Fix dirtyfb stalls
-Message-ID: <YJuVbRNGSCkYYD7U@phenom.ffwll.local>
-Mail-Followup-To: Pekka Paalanen <ppaalanen@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Rob Clark <robdclark@chromium.org>,
- David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20210508195641.397198-1-robdclark@gmail.com>
- <20210508195641.397198-2-robdclark@gmail.com>
- <YJlb3GO41hiu4pWw@phenom.ffwll.local>
- <CAF6AEGsGb1jZgRRUqDvf+j+E6pNEtSck=r3xh4VL7FmZMPszBQ@mail.gmail.com>
- <CAKMK7uGPGbOPRtJaiG5oNCDhYQ27+V3bO5Wcgv7C9fqdyp8LeA@mail.gmail.com>
- <CAF6AEGto1PQcEbYeWfXqMatK0z3dW-mpLNVh=VJb=9gwrPfCWg@mail.gmail.com>
- <YJq0YVi4O4zGkb3j@phenom.ffwll.local>
- <20210512112330.0130a62a@eldfell>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [RFC] Implicit vs explicit user fence sync
+Message-ID: <YJuWufxlbYuD2gpd@phenom.ffwll.local>
+References: <YJFkN/bgN6UCXdvA@phenom.ffwll.local>
+ <f1616be5-a8cb-076d-a63d-9554a76b0b0a@gmail.com>
+ <YJoy6oI34tQZMt6/@phenom.ffwll.local>
+ <0128750d-56bf-7697-0fda-0342c7b7df17@gmail.com>
+ <YJqTeQAjsr1Tn9CZ@phenom.ffwll.local>
+ <a08a4b30-5ae5-49ac-bad0-c77a5cabbecd@gmail.com>
+ <YJq1T8yWXSW6TRjW@phenom.ffwll.local>
+ <d91f5635-9f03-d1ea-4bc5-594b42402eaa@gmail.com>
+ <YJuOOVSayHwz2ug7@phenom.ffwll.local>
+ <fd8dc2ec-9d05-e645-759a-0426e31bd202@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210512112330.0130a62a@eldfell>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fd8dc2ec-9d05-e645-759a-0426e31bd202@gmail.com>
 X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,155 +76,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 12, 2021 at 11:23:30AM +0300, Pekka Paalanen wrote:
-> On Tue, 11 May 2021 18:44:17 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
-> 
-> > On Mon, May 10, 2021 at 12:06:05PM -0700, Rob Clark wrote:
-> > > On Mon, May 10, 2021 at 10:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:  
-> > > >
-> > > > On Mon, May 10, 2021 at 6:51 PM Rob Clark <robdclark@gmail.com> wrote:  
-> > > > >
-> > > > > On Mon, May 10, 2021 at 9:14 AM Daniel Vetter <daniel@ffwll.ch> wrote:  
-> > > > > >
-> > > > > > On Sat, May 08, 2021 at 12:56:38PM -0700, Rob Clark wrote:  
-> > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > >
-> > > > > > > drm_atomic_helper_dirtyfb() will end up stalling for vblank on "video
-> > > > > > > mode" type displays, which is pointless and unnecessary.  Add an
-> > > > > > > optional helper vfunc to determine if a plane is attached to a CRTC
-> > > > > > > that actually needs dirtyfb, and skip over them.
-> > > > > > >
-> > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>  
-> > > > > >
-> > > > > > So this is a bit annoying because the idea of all these "remap legacy uapi
-> > > > > > to atomic constructs" helpers is that they shouldn't need/use anything
-> > > > > > beyond what userspace also has available. So adding hacks for them feels
-> > > > > > really bad.  
-> > > > >
-> > > > > I suppose the root problem is that userspace doesn't know if dirtyfb
-> > > > > (or similar) is actually required or is a no-op.
-> > > > >
-> > > > > But it is perhaps less of a problem because this essentially boils
-> > > > > down to "x11 vs wayland", and it seems like wayland compositors for
-> > > > > non-vsync'd rendering just pageflips and throws away extra frames from
-> > > > > the app?  
-> > > >
-> > > > Yeah it's about not adequately batching up rendering and syncing with
-> > > > hw. bare metal x11 is just especially stupid about it :-)
-> > > >  
-> > > > > > Also I feel like it's not entirely the right thing to do here either.
-> > > > > > We've had this problem already on the fbcon emulation side (which also
-> > > > > > shouldn't be able to peek behind the atomic kms uapi curtain), and the fix
-> > > > > > there was to have a worker which batches up all the updates and avoids any
-> > > > > > stalls in bad places.  
-> > > > >
-> > > > > I'm not too worried about fbcon not being able to render faster than
-> > > > > vblank.  OTOH it is a pretty big problem for x11  
-> > > >
-> > > > That's why we'd let the worker get ahead at most one dirtyfb. We do
-> > > > the same with fbcon, which trivially can get ahead of vblank otherwise
-> > > > (if sometimes flushes each character, so you have to pile them up into
-> > > > a single update if that's still pending).
-> > > >  
-> > > > > > Since this is for frontbuffer rendering userspace only we can probably get
-> > > > > > away with assuming there's only a single fb, so the implementation becomes
-> > > > > > pretty simple:
-> > > > > >
-> > > > > > - 1 worker, and we keep track of a single pending fb
-> > > > > > - if there's already a dirty fb pending on a different fb, we stall for
-> > > > > >   the worker to start processing that one already (i.e. the fb we track is
-> > > > > >   reset to NULL)
-> > > > > > - if it's pending on the same fb we just toss away all the updates and go
-> > > > > >   with a full update, since merging the clip rects is too much work :-) I
-> > > > > >   think there's helpers so you could be slightly more clever and just have
-> > > > > >   an overall bounding box  
-> > > > >
-> > > > > This doesn't really fix the problem, you still end up delaying sending
-> > > > > the next back-buffer to mesa  
-> > > >
-> > > > With this the dirtyfb would never block. Also glorious frontbuffer
-> > > > tracking corruption is possible, but that's not the kernel's problem.
-> > > > So how would anything get held up in userspace.  
+On Wed, May 12, 2021 at 10:23:04AM +0200, Christian König wrote:
+> Am 12.05.21 um 10:13 schrieb Daniel Vetter:
+> > On Tue, May 11, 2021 at 09:34:11PM +0200, Christian König wrote:
+> > > Am 11.05.21 um 18:48 schrieb Daniel Vetter:
+> > > > [SNIP]
+> > > > > Why?
+> > > > If you allow implicit fencing then you can end up with
+> > > > - an implicit userspace fence as the in-fence
+> > > > - but an explicit dma_fence as the out fence
+> > > > 
+> > > > Which is not allowed. So there's really no way to make this work, except
+> > > > if you stall in the ioctl, which also doesn't work.
+> > > Ok, wait a second. I really don't understand what's going on here.
 > > > 
-> > > the part about stalling if a dirtyfb is pending was what I was worried
-> > > about.. but I suppose you meant the worker stalling, rather than
-> > > userspace stalling (where I had interpreted it the other way around).
-> > > As soon as userspace needs to stall, you're losing again.  
-> > 
-> > Nah, I did mean userspace stalling, so we can't pile up unlimited amounts
-> > of dirtyfb request in the kernel.
-> > 
-> > But also I never expect userspace that uses dirtyfb to actually hit this
-> > stall point (otherwise we'd need to look at this again). It would really
-> > be only there as defense against abuse.
-> > 
-> > > > > But we could re-work drm_framebuffer_funcs::dirty to operate on a
-> > > > > per-crtc basis and hoist the loop and check if dirtyfb is needed out
-> > > > > of drm_atomic_helper_dirtyfb()  
-> > > >
-> > > > That's still using information that userspace doesn't have, which is a
-> > > > bit irky. We might as well go with your thing here then.  
+> > > The out fence is just to let the userspace know when the frame is displayed.
+> > > Or rather when the old frame is no longer displayed so that it can be
+> > > reused, right?
 > > > 
-> > > arguably, this is something we should expose to userspace.. for DSI
-> > > command-mode panels, you probably want to make a different decision
-> > > with regard to how many buffers in your flip-chain..
+> > > Then why does that need to be a dma_fence? We don't use that for memory
+> > > management anywhere, don't we?
+> > It can be a sync_file, so you can queue up the next rendering targeting
+> > the old backbuffer right away. On memory constraint devices where
+> > triple-buffering is prohibitive this is apparently a pretty cool trick or
+> > something like that.
+> 
+> Yeah, I'm aware of that.
+> 
+> But we don't really need that for device we want to interop with userspace
+> queues, don't we?
+> 
+> > > > So you have to do an uapi change here. At that point we might as well do
+> > > > it right.
+> > > I mean in the worst case we might need to allow user fences with sync_files
+> > > as well when that is really used outside of Android.
 > > > 
-> > > Possibly we should add/remove the fb_damage_clips property depending
-> > > on the display type (ie. video/pull vs cmd/push mode)?  
-> > 
-> > I'm not sure whether atomic actually needs this exposed:
-> > - clients will do full flips for every frame anyway, I've not heard of
-> >   anyone seriously doing frontbuffer rendering.
+> > > But I still don't see the fundamental problem here.
+> > Making sync_file use implicit is more pain, it becomes sprawling pretty
+> > quickly.
 > 
-> That may or may not be changing, depending on whether the DRM drivers
-> will actually support tearing flips. There has been a huge amount of
-> debate for needing tearing for Wayland [1], and while I haven't really
-> joined that discussion, using front-buffer rendering (blits) to work
-> around the driver inability to flip-tear might be something some people
-> will want.
-
-Uh pls dont, dirtyfb does a full atomic commit on atomic drivers
-underneath it.
-
-> Personally, what I do agree with is that "tear if late from intended
-> vblank" is a feature that will be needed when VRR cannot be used.
-> However, I would also argue that multiple tearing updates per refresh
-> cycle is not a good idea, and I know people disagree with this because
-> practically all relevant games are using a naive main loop that makes
-> multi-tearing necessary for good input response.
+> Agreed, but I don't see supporting sync_file and out fences as something
+> necessarily.
 > 
-> I'm not quite sure where this leaves the KMS UAPI usage patterns. Maybe
-> this matters, maybe not?
+> As far as I can see we don't need to support that burden for the use cases
+> we have for implicit sync.
 > 
-> Does it make a difference between using legacy DirtyFB vs. atomic
-> FB_DAMAGE_CLIPS property?
+> And even if we have to it is possible to implement.
 > 
-> Also mind that Wayland compositors would be dynamically switching
-> between "normal flips" and "tearing updates" depending on the
-> scenegraph. This switch should not be considered a "mode set".
+> > Anyway I think we're just turning in circles. My take is that your patch
+> > series here demonstrates nothing beyond "adding function calls that do
+> > nothing is easy", the real deal is in making it work. And I think it's
+> > easier to make this all work with explicit userspace fencing first and
+> > then worry about how we maybe make this work implicitly. Instead of what
+> > you propose, which is rig up a lot of scaffolding without having any idea
+> > whether it's even in the right place. That seems very backwards to me.
 > 
-> [1] https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/65
+> And that's what I disagree on.
+> 
+> Supporting implicit sync in the kernel for the functionality we need to
+> amdgpu is relatively easily.
+> 
+> Change all of userspace to not rely on implicit sync any more is really hard
+> compared to that.
+> 
+> Dropping implicit sync in userspace has a lot of advantage and should be
+> pushed for, but not because it is a prerequisite of user fences.
 
-I think what you want is two things:
-- some indication that frontbuffer rendering "works", for some value of
-  that (which should probably be "doesn't require dirtyfb")
+Yeah but if we support userspace fences with implicit sync only, because
+that's right now the only thing amdgpu needs, then we make really, really
+sure the transition to explicit sync will never happen.
 
-- tearing flips support. This needs driver support
+Also if the goal really is to only do the minimal thing to keep amdgpu
+working on existing compositors, then imo the right solution is to just do
+the kernel-augmented userspace submit I've proposed. Not this.
 
-If you don't have either, pls don't try to emulate something using
-frontbuffer rendering and dirtyfb, because that will make it really,
-really awkward for the kernel to know what exactly userspace wants to do.
-Overloading existing interfaces with new meaning just we can really 
-and it happens to work on the one platform we tested is really not a good
-idea.
+The kernel augmented userspace submit keeps all dma_fence stuff working
+_exactly_ like it currently does, including drm/scheduler sorting
+depenendencies and everything. So from a "will it work" point of view a
+much more solid solution.
+
+And it doesn't require us to create an extremely warty uapi where if you
+happen to use implicit userspace fences alot of things kinda stop working,
+for no reason.
+
+So if youre overall goal is to just not touch any compositor/winsys
+protocol at all, there _is_ a very clean solution imo.
 -Daniel
+
+> Regards,
+> Christian.
+> 
+> > 
+> > Plus I really don't like retro-fitting userspace fences into implicit sync
+> > and sync_file and everything. But that's not the main issue I have here.
+> > -Daniel
+> > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > Of course if you only care about some specific compositors (or maybe only
+> > > > the -amdgpu Xorg driver even) then this isn't a concern, but atomic is
+> > > > cross-driver so we can't do that. Or at least I don't see a way how to do
+> > > > this without causing endless amounts of fun down the road.
+> > > > 
+> > > > > > So I have a plan here, what was yours?
+> > > > > As far as I see that should still work perfectly fine and I have the strong
+> > > > > feeling I'm missing something here.
+> > > > > 
+> > > > > > > Transporting fences between processes is not the fundamental problem here,
+> > > > > > > but rather the question how we represent all this in the kernel?
+> > > > > > > 
+> > > > > > > In other words I think what you outlined above is just approaching it from
+> > > > > > > the wrong side again. Instead of looking what the kernel needs to support
+> > > > > > > this you take a look at userspace and the requirements there.
+> > > > > > Uh ... that was my idea here? That's why I put "build userspace fences in
+> > > > > > userspace only" as the very first thing. Then extend to winsys and
+> > > > > > atomic/display and all these cases where things get more tricky.
+> > > > > > 
+> > > > > > I agree that transporting the fences is easy, which is why it's not
+> > > > > > interesting trying to solve that problem first. Which is kinda what you're
+> > > > > > trying to do here by adding implicit userspace fences (well not even that,
+> > > > > > just a bunch of function calls without any semantics attached to them).
+> > > > > > 
+> > > > > > So if there's more here, you need to flesh it out more or I just dont get
+> > > > > > what you're actually trying to demonstrate.
+> > > > > Well I'm trying to figure out why you see it as such a problem to keep
+> > > > > implicit sync around.
+> > > > > 
+> > > > > As far as I can tell it is completely octagonal if we use implicit/explicit
+> > > > > and dma_fence/user_fence.
+> > > > > 
+> > > > > It's just a different implementation inside the kernel.
+> > > > See above. It falls apart with the atomic ioctl.
+> > > > -Daniel
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
