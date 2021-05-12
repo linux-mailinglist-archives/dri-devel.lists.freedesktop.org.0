@@ -1,42 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6FA37D1C6
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 20:04:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6AE37D3AD
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 20:55:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 970956EC9A;
-	Wed, 12 May 2021 18:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7A76ECBB;
+	Wed, 12 May 2021 18:55:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3359F6EC99;
- Wed, 12 May 2021 18:04:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5AE4E61446;
- Wed, 12 May 2021 18:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620842679;
- bh=CKfu+tPM+jCcw0spDx8VsdBo+5ZaPqiT0QAJcoePhJU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QlBMb6T3gGqKlwBMfC23eXg1ZxRSOlZanGIa3sly1fQNUTr2eFUDVc4YjtCjqJLA3
- lJfil8qyoCbbkA5mkpo+ThMw2klbuksN+xvAJguqNkqm7+RlXgNderj6i7pnKaqerQ
- WV1cqS05WwmxxEg3hA4ipHn3naouXRs6x2BXRrNCQafwtNSIjNsn9izFuyFZ/mWCfI
- SQSSE24Dmp9Yw6jUtBOGGKNyJOpgLvxTOkyImWjpWNtNmkQcesYjJHc135T5PFzNXa
- YpmUKmM9acuLT1XwPpmQWK1ylD0XgnltxJp4BMTxwE3xoJBeOryyoz0DMsc0h4NpIo
- rZ1hJ/UcHcKCw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 18/23] drm/amd/display: Fix two cursor duplication
- when using overlay
-Date: Wed, 12 May 2021 14:04:02 -0400
-Message-Id: <20210512180408.665338-18-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210512180408.665338-1-sashal@kernel.org>
-References: <20210512180408.665338-1-sashal@kernel.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8F06ECB9;
+ Wed, 12 May 2021 18:55:32 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 92D16B243;
+ Wed, 12 May 2021 18:55:30 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: bskeggs@redhat.com, daniel@ffwll.ch, airlied@linux.ie, maxime@cerno.tech
+Subject: [PATCH] drm/nouveau: Remove invalid reference to struct
+ drm_device.pdev
+Date: Wed, 12 May 2021 20:55:27 +0200
+Message-Id: <20210512185527.26050-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,154 +37,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
- Louis Li <Ching-shih.Li@amd.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+The pdev field got removed from struct drm_device recently. Replace
+the invalid reference with an upcast from the struct's dev field.
 
-[ Upstream commit 16e9b3e58bc3fce7391539e0eb3fd167cbf9951f ]
-
-Our driver supports overlay planes, and as expected, some userspace
-compositor takes advantage of these features. If the userspace is not
-enabling the cursor, they can use multiple planes as they please.
-Nevertheless, we start to have constraints when userspace tries to
-enable hardware cursor with various planes. Basically, we cannot draw
-the cursor at the same size and position on two separated pipes since it
-uses extra bandwidth and DML only run with one cursor.
-
-For those reasons, when we enable hardware cursor and multiple planes,
-our driver should accept variations like the ones described below:
-
-  +-------------+   +--------------+
-  | +---------+ |   |              |
-  | |Primary  | |   | Primary      |
-  | |         | |   | Overlay      |
-  | +---------+ |   |              |
-  |Overlay      |   |              |
-  +-------------+   +--------------+
-
-In this scenario, we can have the desktop UI in the overlay and some
-other framebuffer attached to the primary plane (e.g., video). However,
-userspace needs to obey some rules and avoid scenarios like the ones
-described below (when enabling hw cursor):
-
-                                      +--------+
-                                      |Overlay |
- +-------------+    +-----+-------+ +-|        |--+
- | +--------+  | +--------+       | | +--------+  |
- | |Overlay |  | |Overlay |       | |             |
- | |        |  | |        |       | |             |
- | +--------+  | +--------+       | |             |
- | Primary     |    | Primary     | | Primary     |
- +-------------+    +-------------+ +-------------+
-
- +-------------+   +-------------+
- |     +--------+  |  Primary    |
- |     |Overlay |  |             |
- |     |        |  |             |
- |     +--------+  | +--------+  |
- | Primary     |   | |Overlay |  |
- +-------------+   +-|        |--+
-                     +--------+
-
-If the userspace violates some of the above scenarios, our driver needs
-to reject the commit; otherwise, we can have unexpected behavior. Since
-we don't have a proper driver validation for the above case, we can see
-some problems like a duplicate cursor in applications that use multiple
-planes. This commit fixes the cursor issue and others by adding adequate
-verification for multiple planes.
-
-Change since V1 (Harry and Sean):
-- Remove cursor verification from the equation.
-
-Cc: Louis Li <Ching-shih.Li@amd.com>
-Cc: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
-Cc: Harry Wentland <Harry.Wentland@amd.com>
-Cc: Hersen Wu <hersenxs.wu@amd.com>
-Cc: Sean Paul <seanpaul@chromium.org>
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Fixes: b347e04452ff ("drm: Remove pdev field from struct drm_device")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 51 +++++++++++++++++++
- 1 file changed, 51 insertions(+)
+This patch should be merged through drm-misc-next.
+---
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index fbbe611d4873..800dc67c98f1 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7254,6 +7254,53 @@ static int add_affected_mst_dsc_crtcs(struct drm_atomic_state *state, struct drm
- }
- #endif
- 
-+static int validate_overlay(struct drm_atomic_state *state)
-+{
-+	int i;
-+	struct drm_plane *plane;
-+	struct drm_plane_state *old_plane_state, *new_plane_state;
-+	struct drm_plane_state *primary_state, *overlay_state = NULL;
-+
-+	/* Check if primary plane is contained inside overlay */
-+	for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, new_plane_state, i) {
-+		if (plane->type == DRM_PLANE_TYPE_OVERLAY) {
-+			if (drm_atomic_plane_disabling(plane->state, new_plane_state))
-+				return 0;
-+
-+			overlay_state = new_plane_state;
-+			continue;
-+		}
-+	}
-+
-+	/* check if we're making changes to the overlay plane */
-+	if (!overlay_state)
-+		return 0;
-+
-+	/* check if overlay plane is enabled */
-+	if (!overlay_state->crtc)
-+		return 0;
-+
-+	/* find the primary plane for the CRTC that the overlay is enabled on */
-+	primary_state = drm_atomic_get_plane_state(state, overlay_state->crtc->primary);
-+	if (IS_ERR(primary_state))
-+		return PTR_ERR(primary_state);
-+
-+	/* check if primary plane is enabled */
-+	if (!primary_state->crtc)
-+		return 0;
-+
-+	/* Perform the bounds check to ensure the overlay plane covers the primary */
-+	if (primary_state->crtc_x < overlay_state->crtc_x ||
-+	    primary_state->crtc_y < overlay_state->crtc_y ||
-+	    primary_state->crtc_x + primary_state->crtc_w > overlay_state->crtc_x + overlay_state->crtc_w ||
-+	    primary_state->crtc_y + primary_state->crtc_h > overlay_state->crtc_y + overlay_state->crtc_h) {
-+		DRM_DEBUG_ATOMIC("Overlay plane is enabled with hardware cursor but does not fully cover primary plane\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * amdgpu_dm_atomic_check() - Atomic check implementation for AMDgpu DM.
-  * @dev: The DRM device
-@@ -7427,6 +7474,10 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 			goto fail;
- 	}
- 
-+	ret = validate_overlay(state);
-+	if (ret)
-+		goto fail;
-+
- 	/* Add new/modified planes */
- 	for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, new_plane_state, i) {
- 		ret = dm_update_plane_state(dc, state, plane,
--- 
-2.30.2
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 7f38788a6c2b..2a298c171d4d 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -460,7 +460,8 @@ nouveau_connector_of_detect(struct drm_connector *connector)
+ 	struct drm_device *dev = connector->dev;
+ 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
+ 	struct nouveau_encoder *nv_encoder;
+-	struct device_node *cn, *dn = pci_device_to_OF_node(dev->pdev);
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	struct device_node *cn, *dn = pci_device_to_OF_node(pdev);
+
+ 	if (!dn ||
+ 	    !((nv_encoder = find_encoder(connector, DCB_OUTPUT_TMDS)) ||
+--
+2.31.1
 
