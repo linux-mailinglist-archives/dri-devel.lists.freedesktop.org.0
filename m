@@ -2,44 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A5F37BC67
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 14:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8293B37BC69
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 14:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA9616EB8E;
-	Wed, 12 May 2021 12:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C1666EB91;
+	Wed, 12 May 2021 12:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
- [185.70.41.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C486A6EB8F
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE23A6EB8E
  for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 12:23:36 +0000 (UTC)
-Received: from mail-03.mail-europe.com (mail-0301.mail-europe.com
- [188.165.51.139])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4FgDTy6bdyz4xLc8
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 12:23:34 +0000 (UTC)
-Authentication-Results: mail-41103.protonmail.ch;
- dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com
- header.b="lC3GlHsL"
-Date: Wed, 12 May 2021 12:23:25 +0000
+Date: Wed, 12 May 2021 12:23:29 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1620822208;
- bh=oqFmvJnAJRN4xYupYVAD0UqI2WmFgcN2QmNznZ1OvNs=;
+ s=protonmail; t=1620822212;
+ bh=wShCQSrgtQObbKpeGsEFqwnlAyCQRl/sVwmS8tqNLu0=;
  h=Date:To:From:Reply-To:Subject:In-Reply-To:References:From;
- b=lC3GlHsLLhASyZTK3tgZdERp1J3c4HF0VFJ+8wSvUzIV1Jt7091+gIrLh3KJ4x1M7
- TEdFBMc20sfXHTz3O775x/zYBsH1izNnKkfKn46B8pg1S71Qcyznw7lT5iMUcvLGxw
- e5hrQNXzTUbqxnVm3SJJzVEM65TYXUQd/WGyfWsE=
+ b=j622YT+U/6MWKfRynHtCZdTrWTAE+wogt0bpkimyBtsF5zA80p3lS9p/7uD1gZS3g
+ ixW08iOL+DCV5MW3g0mheeTyBLRZTAXhUcwLgU6AMwFCdsImRfhq5efyZkf4hXCrqv
+ 2FX7nytwCWuLVigtKorqH3ODt8OpgbcRK6ZQ2f2w=
 To: dri-devel@lists.freedesktop.org
 From: chatzem <chatzem@protonmail.com>
 Subject: Re: dri-devel Digest, Vol 134, Issue 309
-Message-ID: <mRNU3jQ5Py2ocEl6BIP8WSMCqlujREgSOz65_I0fJ8bEc1x3uyRfzj_OVhIZIrRPC0FoWVwoHtKateEAqfziesvWQMue2EyO6pSKhy9cPkw=@protonmail.com>
+Message-ID: <GMEohZ2IAzYRiQvqAUXZzXlkPntSDHjU02GbvS2H8geluOs_FX3m-3SNxSCpg-7hzinG4BsCmUeAwxdktRjbZxloG7m_HH2p3tPo-jBIqys=@protonmail.com>
 In-Reply-To: <mailman.26011.1620802653.1024.dri-devel@lists.freedesktop.org>
 References: <mailman.26011.1620802653.1024.dri-devel@lists.freedesktop.org>
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
- boundary="b1_MKrfjB5ITeGTIrQuQVhomqRt5Nk0y67s2NtBdnQjk"
+ boundary="b1_dsUItPBfuLthYIZ0EAusMx3CnArZQ7AfAfLaVsn0xLs"
 X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HTML_MESSAGE,
  NORMAL_HTTP_TO_IP,NUMERIC_HTTP_ADDR shortcircuit=no autolearn=disabled
@@ -64,7 +53,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a multi-part message in MIME format.
 
---b1_MKrfjB5ITeGTIrQuQVhomqRt5Nk0y67s2NtBdnQjk
+--b1_dsUItPBfuLthYIZ0EAusMx3CnArZQ7AfAfLaVsn0xLs
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: base64
 
@@ -457,7 +446,7 @@ bi9saXN0aW5mby9kcmktZGV2ZWwKPgo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+
 Cj4gRW5kIG9mIGRyaS1kZXZlbCBEaWdlc3QsIFZvbCAxMzQsIElzc3VlIDMwOQo+ICoqKioqKioq
 KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKio=
 
---b1_MKrfjB5ITeGTIrQuQVhomqRt5Nk0y67s2NtBdnQjk
+--b1_dsUItPBfuLthYIZ0EAusMx3CnArZQ7AfAfLaVsn0xLs
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: base64
 
@@ -962,5 +951,5 @@ KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKjxicj4NCjwvcD4NCjwv
 ZGl2Pg==
 
 
---b1_MKrfjB5ITeGTIrQuQVhomqRt5Nk0y67s2NtBdnQjk--
+--b1_dsUItPBfuLthYIZ0EAusMx3CnArZQ7AfAfLaVsn0xLs--
 
