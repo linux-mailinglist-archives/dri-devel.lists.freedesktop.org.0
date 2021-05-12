@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4F537C2BD
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 17:14:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C7937C2D2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 17:17:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D09C6E1F8;
-	Wed, 12 May 2021 15:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB6B6EC31;
+	Wed, 12 May 2021 15:17:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 915A16E1F8
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 15:13:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5013E61C27;
- Wed, 12 May 2021 15:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1620832435;
- bh=M6wxldWro+LDiAbiNlw5P8o2FCKwC5wvXY9QUtYVyeU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=p74zlJoKiW5FUS3ZCw3NiYIpa6dwk2FpJRyFy9Z2gDju0kwYxkghT4XUHrEp0MOXk
- Db6CXN8LqGAk5tOIOEE9o1WoPmGaX7hMPaRfXhfagCih1q02OIIDhO/0TepczEb9gh
- GcVaPG9qkiyFFiiSOQPyvpRRWuYQOQSsA0VsyMUQ=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.10 278/530] drm/stm: Fix bus_flags handling
-Date: Wed, 12 May 2021 16:46:28 +0200
-Message-Id: <20210512144828.945976888@linuxfoundation.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210512144819.664462530@linuxfoundation.org>
-References: <20210512144819.664462530@linuxfoundation.org>
-User-Agent: quilt/0.66
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15F7A6EC31;
+ Wed, 12 May 2021 15:17:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 455F961C3E;
+ Wed, 12 May 2021 15:17:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620832672;
+ bh=zB2G4t5ozyJ72g68BGRplKf2lQRTS6CtRvJ7FVX3NWE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=DBjrvZcbfODq6o/u3ovhcKp34o3mQ/2g2kqOKbw7rqi0UbJcuDmNkgLMMy0M05dFs
+ mwfV7fdqIvkaHvs5FkFIxP3pQ5mW2wuelKsM0Zg1XI928MZ1g6hDtwlC/lZ6mTYtDn
+ L0yXyxJPdKzjgMXD6Vs/vdQOXuvQV+DBBKSwRDhM/LlZ9x9/DV6Qnq7MjBym4Ue3He
+ LklNFflnfSaW1SCikrvqRJriPDliUiNhIaGm2pb/3nXItDzT/4/obeOPpO0NPN/v0m
+ Pwish5sD0axq4vDEIuCSUJZyKrnPcy3P6Nd30IKN+fHXybC5E+QSyK+xdLgaNeWw/l
+ +EUyGcBOd8VUw==
+Date: Wed, 12 May 2021 17:17:41 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Theodore Ts'o" <tytso@mit.edu>
+Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
+ symbols
+Message-ID: <20210512171741.2870bcbc@coco.lan>
+In-Reply-To: <YJvi1L2ss5Tfi+My@mit.edu>
+References: <cover.1620823573.git.mchehab+huawei@kernel.org>
+ <YJvi1L2ss5Tfi+My@mit.edu>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,122 +49,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Sasha Levin <sashal@kernel.org>,
- Vincent Abriou <vincent.abriou@st.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Antonio Borneo <antonio.borneo@st.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Philippe Cornu <philippe.cornu@st.com>, stable@vger.kernel.org,
- Yannick Fertre <yannick.fertre@st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-iio@vger.kernel.org,
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ keyrings@vger.kernel.org, linux-sgx@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ linux-acpi@vger.kernel.org, Mali DP Maintainers <malidp@foss.arm.com>,
+ linux-input@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-ext4@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+ coresight@lists.linaro.org, rcu@vger.kernel.org,
+ mjpeg-users@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org,
+ linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-integrity@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Vasut <marex@denx.de>
+Em Wed, 12 May 2021 10:14:44 -0400
+"Theodore Ts'o" <tytso@mit.edu> escreveu:
 
-[ Upstream commit 99e360442f223dd40fc23ae07c7a263836fd27e6 ]
+> On Wed, May 12, 2021 at 02:50:04PM +0200, Mauro Carvalho Chehab wrote:
+> > v2:
+> > - removed EM/EN DASH conversion from this patchset; =20
+>=20
+> Are you still thinking about doing the
+>=20
+> EN DASH --> "--"
+> EM DASH --> "---"
+>=20
+> conversion? =20
 
-The drm_display_mode_to_videomode() does not populate DISPLAY_FLAGS_DE_LOW
-or DISPLAY_FLAGS_PIXDATA_NEGEDGE flags in struct videomode. Therefore, no
-matter what polarity the next bridge or display might require, these flags
-are never set, and thus the LTDC GCR_DEPOL and GCR_PCPOL bits are never set
-and the LTDC behaves as if both DISPLAY_FLAGS_PIXDATA_POSEDGE and
-DISPLAY_FLAGS_DE_HIGH were always set.
+Yes, but I intend to submit it on a separate patch series, probably after
+having this one merged. Let's first cleanup the large part of the=20
+conversion-generated UTF-8 char noise ;-)
 
-The fix for this problem is taken almost verbatim from MXSFB driver. In
-case there is a bridge attached to the LTDC, the bridge might have extra
-polarity requirements, so extract bus_flags from the bridge and use them
-for LTDC configuration. Otherwise, extract bus_flags from the connector,
-which is the display.
+> That's not going to change what the documentation will
+> look like in the HTML and PDF output forms, and I think it would make
+> life easier for people are reading and editing the Documentation/*
+> files in text form.
 
-Fixes: b759012c5fa7 ("drm/stm: Add STM32 LTDC driver")
-Signed-off-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
-Cc: Alexandre Torgue <alexandre.torgue@st.com>
-Cc: Antonio Borneo <antonio.borneo@st.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Philippe Cornu <philippe.cornu@st.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Vincent Abriou <vincent.abriou@st.com>
-Cc: Yannick Fertre <yannick.fertre@st.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
-To: dri-devel@lists.freedesktop.org
-Tested-by: Yannick Fertre <yannick.fertre@foss.st.com>
-Signed-off-by: Philippe Cornu <philippe.cornu@foss.st.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210127110756.125570-1-marex@denx.de
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/stm/ltdc.c | 33 +++++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
+Agreed. I'm also considering to add a couple of cases of this char:
 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 6e28f707092f..62488ac14923 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -525,13 +525,42 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
- {
- 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
- 	struct drm_device *ddev = crtc->dev;
-+	struct drm_connector_list_iter iter;
-+	struct drm_connector *connector = NULL;
-+	struct drm_encoder *encoder = NULL;
-+	struct drm_bridge *bridge = NULL;
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
- 	struct videomode vm;
- 	u32 hsync, vsync, accum_hbp, accum_vbp, accum_act_w, accum_act_h;
- 	u32 total_width, total_height;
-+	u32 bus_flags = 0;
- 	u32 val;
- 	int ret;
- 
-+	/* get encoder from crtc */
-+	drm_for_each_encoder(encoder, ddev)
-+		if (encoder->crtc == crtc)
-+			break;
-+
-+	if (encoder) {
-+		/* get bridge from encoder */
-+		list_for_each_entry(bridge, &encoder->bridge_chain, chain_node)
-+			if (bridge->encoder == encoder)
-+				break;
-+
-+		/* Get the connector from encoder */
-+		drm_connector_list_iter_begin(ddev, &iter);
-+		drm_for_each_connector_iter(connector, &iter)
-+			if (connector->encoder == encoder)
-+				break;
-+		drm_connector_list_iter_end(&iter);
-+	}
-+
-+	if (bridge && bridge->timings)
-+		bus_flags = bridge->timings->input_bus_flags;
-+	else if (connector)
-+		bus_flags = connector->display_info.bus_flags;
-+
- 	if (!pm_runtime_active(ddev->dev)) {
- 		ret = pm_runtime_get_sync(ddev->dev);
- 		if (ret) {
-@@ -567,10 +596,10 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 	if (vm.flags & DISPLAY_FLAGS_VSYNC_HIGH)
- 		val |= GCR_VSPOL;
- 
--	if (vm.flags & DISPLAY_FLAGS_DE_LOW)
-+	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
- 		val |= GCR_DEPOL;
- 
--	if (vm.flags & DISPLAY_FLAGS_PIXDATA_NEGEDGE)
-+	if (bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
- 		val |= GCR_PCPOL;
- 
- 	reg_update_bits(ldev->regs, LTDC_GCR,
--- 
-2.30.2
+	- U+2026 ('=E2=80=A6'): HORIZONTAL ELLIPSIS
 
+As Sphinx also replaces "..." into HORIZONTAL ELLIPSIS.
 
+-
 
+Anyway, I'm opting to submitting those in separate because it seems
+that at least some maintainers added EM/EN DASH intentionally.
+
+So, it may generate case-per-case discussions.
+
+Also, IMO, at least a couple of EN/EM DASH cases would be better served=20
+with a single hyphen.
+
+Thanks,
+Mauro
