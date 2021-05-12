@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC8737B2F9
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 02:20:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9352937B306
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 02:28:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2993E6EB3B;
-	Wed, 12 May 2021 00:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56596EB43;
+	Wed, 12 May 2021 00:28:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 177C16EB3B;
- Wed, 12 May 2021 00:20:49 +0000 (UTC)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D13CD6EB42;
+ Wed, 12 May 2021 00:28:06 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4FfwRy0NlKz9sWT;
- Wed, 12 May 2021 10:20:46 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4FfwcM5W45z9sWT;
+ Wed, 12 May 2021 10:28:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1620778848;
- bh=at8WqoLbJGB6S1Ei0mKEXbtD/agRQqXu50Yp/LqIVQo=;
+ s=201702; t=1620779285;
+ bh=wzxqF8VP57iO8VsSfCS3l59Sht3GWfjqDTx+GVL9UWc=;
  h=Date:From:To:Cc:Subject:From;
- b=LrUyJu7SqFPWpr9OQgh7KDS+72p3nxtR6De8J90vHYvOJ1EZs7MLkB9fzrx60C2vp
- A+Ff16j81BYgjI7Wrchz9Es1atus1q9O7Y4dhCFwaqQDMMkdjq/h+HZzFZ+bnhXLoP
- reeIC1NTNhJnpfsi0wnN8tP24ervm+RvkhgbaJ8DNySTRUEjcbYQFmwJdj1o3ex/+w
- 1XRSWpfIoFec93Lt3Rn+GiCsQBhPf9y7lzYHYc5VyR60PkN3L1a/2OkCVnGYzkt2Fb
- UVoP5vOUclyfKAbQeQmlm9SBs/NeROvLt+wTIBxlzGqwbi+YiMuMDCryrBB/bQE/NO
- MLRz5Z8g8//fw==
-Date: Wed, 12 May 2021 10:20:45 +1000
+ b=ABPwpCXB41ws80GgNYcG/dIZOQ8zRz3Lqt+UtC1qWdPALLvnNa5iidHqkkViDsyUH
+ oXV2GlY7lkPG/FWwMpPnnHFOqBb9lNv8fha1WYwWKiomaUoD7M08sK3yf2u5sdbe9Y
+ 0TLJEBfGuDCOZTF1d4WVdj+wh/BOJ1t8Gi2BVpbzFDD8XtjFALRu24+sAgTMhPsp2N
+ NeLY4DLsRQ4f/wxE7ogiR8dNuosk4302Od/nrS4aXG1giLdR+1VVNLn1HVP9/DFYWl
+ KEexmhej7aVwWdmK+ANrekUDPfStyPWK5wzywDwqP7bjqNlLq4UKZjz3NDz/D9JkM1
+ FhWKeUpuuaHMQ==
+Date: Wed, 12 May 2021 10:28:02 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Alex Deucher <alexdeucher@gmail.com>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the amdgpu tree with the drm-misc tree
-Message-ID: <20210512102045.608686ca@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
+Message-ID: <20210512102802.307861cb@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Lp3RkMQUbAst2dyO6aaP3.E";
+Content-Type: multipart/signed; boundary="Sig_/aLepwFzyOaaiX.gbf06/EqX";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,135 +52,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Lp3RkMQUbAst2dyO6aaP3.E
+--Sig_/aLepwFzyOaaiX.gbf06/EqX
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-Today's linux-next merge of the amdgpu tree got a conflict in:
+Today's linux-next merge of the drm-intel tree got a conflict in:
 
-  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+  drivers/gpu/drm/i915/intel_pm.c
 
 between commit:
 
-  c777dc9e7933 ("drm/ttm: move the page_alignment into the BO v2")
+  e7c6e405e171 ("Fix misc new gcc warnings")
 
-from the drm-misc tree and commit:
+from Linus' tree and commit:
 
-  dd03daec0ff1 ("drm/amdgpu: restructure amdgpu_vram_mgr_new")
+  c6deb5e97ded ("drm/i915/pm: Make the wm parameter of print_wm_latency a p=
+ointer")
 
-from the amdgpu tree.
+from the drm-intel tree.
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+I fixed it up (I just used the latter version) and can carry the fix as
+necessary. This is now fixed as far as linux-next is concerned, but any
+non trivial conflicts should be mentioned to your upstream maintainer
+when your tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
 
 --=20
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index f7235438535f,e2cbe19404c0..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@@ -448,10 -391,10 +391,10 @@@ static int amdgpu_vram_mgr_new(struct t
-  		pages_per_node =3D HPAGE_PMD_NR;
-  #else
-  		/* default to 2MB */
-- 		pages_per_node =3D (2UL << (20UL - PAGE_SHIFT));
-+ 		pages_per_node =3D 2UL << (20UL - PAGE_SHIFT);
-  #endif
-- 		pages_per_node =3D max((uint32_t)pages_per_node,
-- 				     tbo->page_alignment);
-+ 		pages_per_node =3D max_t(uint32_t, pages_per_node,
- -				       mem->page_alignment);
-++				       tbo->page_alignment);
-  		num_nodes =3D DIV_ROUND_UP(mem->num_pages, pages_per_node);
-  	}
- =20
-@@@ -469,38 -412,29 +412,29 @@@
-  	mem->start =3D 0;
-  	pages_left =3D mem->num_pages;
- =20
-- 	spin_lock(&mgr->lock);
-- 	for (i =3D 0; pages_left >=3D pages_per_node; ++i) {
-- 		unsigned long pages =3D rounddown_pow_of_two(pages_left);
-+ 	/* Limit maximum size to 2GB due to SG table limitations */
-+ 	pages =3D min(pages_left, 2UL << (30 - PAGE_SHIFT));
- =20
-- 		/* Limit maximum size to 2GB due to SG table limitations */
-- 		pages =3D min(pages, (2UL << (30 - PAGE_SHIFT)));
--=20
-- 		r =3D drm_mm_insert_node_in_range(mm, &nodes[i], pages,
-- 						pages_per_node, 0,
-- 						place->fpfn, lpfn,
-- 						mode);
-- 		if (unlikely(r))
-- 			break;
--=20
-- 		vis_usage +=3D amdgpu_vram_mgr_vis_size(adev, &nodes[i]);
-- 		amdgpu_vram_mgr_virt_start(mem, &nodes[i]);
-- 		pages_left -=3D pages;
-- 	}
--=20
-- 	for (; pages_left; ++i) {
-- 		unsigned long pages =3D min(pages_left, pages_per_node);
-+ 	i =3D 0;
-+ 	spin_lock(&mgr->lock);
-+ 	while (pages_left) {
- -		uint32_t alignment =3D mem->page_alignment;
- +		uint32_t alignment =3D tbo->page_alignment;
- =20
-- 		if (pages =3D=3D pages_per_node)
-+ 		if (pages >=3D pages_per_node)
-  			alignment =3D pages_per_node;
- =20
-- 		r =3D drm_mm_insert_node_in_range(mm, &nodes[i],
-- 						pages, alignment, 0,
-- 						place->fpfn, lpfn,
-- 						mode);
-- 		if (unlikely(r))
-+ 		r =3D drm_mm_insert_node_in_range(mm, &nodes[i], pages, alignment,
-+ 						0, place->fpfn, lpfn, mode);
-+ 		if (unlikely(r)) {
-+ 			if (pages > pages_per_node) {
-+ 				if (is_power_of_2(pages))
-+ 					pages =3D pages / 2;
-+ 				else
-+ 					pages =3D rounddown_pow_of_two(pages);
-+ 				continue;
-+ 			}
-  			goto error;
-+ 		}
- =20
-  		vis_usage +=3D amdgpu_vram_mgr_vis_size(adev, &nodes[i]);
-  		amdgpu_vram_mgr_virt_start(mem, &nodes[i]);
-
---Sig_/Lp3RkMQUbAst2dyO6aaP3.E
+--Sig_/aLepwFzyOaaiX.gbf06/EqX
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCbH10ACgkQAVBC80lX
-0GylrAf+OuzQUSeuN8oRz0JK+QNcNQMDpT+xPXU3KK583+dqa+PCtx658wk4OfAH
-I1OisGviS22hxu1K4p8wTJxZ8Hcrysuc8YDAM/9ikrTaJqH6ywNHFzfrJNYmVjVz
-ahuMPgsrduxS1P8IoVDX3UE2/XxElsbFd/PAky9J5jEl2qyyFxi4FQcd0PInV/sB
-btKZzTYPjySRLZVuhe0aZbe/zUxzta1TXAOJG+6TFL6TDE4EMauzWWS5XqtduqbN
-AJmwdvy0dKKaG2fs7i0/L5itjW0EJM0L+pNqa6MhxQV6Y4RRML2MMHjJGnqK0ZSy
-cRzuhRQ+wW2YOB7EmtxknGdY+Y4Bvw==
-=YnWX
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCbIRIACgkQAVBC80lX
+0GztkAgAl5z3Cv2n1A/M3BBjk1JNfDaRxhKDrwjiMmHUdNqOMjn31OWYhWS3CjAi
+7vlnJpw51ZV+1S9V+XqKo3U52U3s7l4LvelLEBJdCRsyTOQ8vgcme1o1W4NyJXQF
+MNBUiOhaMBN62i5qU89z1ZJ9tJSCan41b1xGQ+xIOAxlHA8cwQb0AEmxKgVEUvg5
+wjm96GaPqFfyO2vXEAT/eMyINZpwRBBmyoxpjE+/G/hRAts7OHYhFjmKPW3MTHQg
+SyOaFdBLBYqrNFsQJ3gmV9o6H9OMQDPGlq/Q/CX1k7rgf/hSbs3D22A3vVua8x5e
+4D3qjumkvyy4XFQL+PziTHVWsI6Keg==
+=UcGr
 -----END PGP SIGNATURE-----
 
---Sig_/Lp3RkMQUbAst2dyO6aaP3.E--
+--Sig_/aLepwFzyOaaiX.gbf06/EqX--
