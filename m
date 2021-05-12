@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB34D37B336
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 02:50:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AD037B395
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 03:35:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A385F6EB3E;
-	Wed, 12 May 2021 00:50:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37CC36E1D3;
+	Wed, 12 May 2021 01:35:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 920496EB3E
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 00:50:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id AB5336192B
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 00:50:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C98A86E1D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 01:35:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 966CC61928
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 01:35:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620780641;
- bh=+OUVeuS1PBXJfpG0E5rCfEQAllJQMGrpYEa+Fhr0raA=;
+ s=k20201202; t=1620783312;
+ bh=Lib14/aKcJeITVFfedYsLoKpISRCJCqk/pu+/jBISnk=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=YR5FNEhiCQG143Mr+xjuEFyzTLRYYzlndXS1mT2Yb6SWRlg0mc7lr6rQqKYOw+V6A
- NXoxBV2V3AlA0VR1JDfit3TitrBrl8Qgpqes9clxgWi3HtLTXy6Gu/lQpufTl7qQUn
- wnlXb+Ye2ShbwtQEdMO6olRGtIjqgclWa1gSkXFWXTeIxrJl/AHKC3KSj47xe0h7Vm
- XYfpvJ8HqXY1qST9daW8eoZyY5dsyxqqsnN9bmQtCKu7lgOU3aT5n5yIfWWOVAKA2W
- PhlZy2kFw/WC70F08re6geb1urnLtbECWzQI9WihXhQpG/+rd9dIFs8qFvSv/M8Doq
- BkL5tpMtP24cg==
+ b=pRgddJEQmLR3iFRdsb9x8axKinIWWlKKHrjKnPtHWmmLa+UtCYKUVe5WPWDbB0y+t
+ reJUNpP30n+QxfOXOVnFnGkIKmHw8OfALfZQrvo5jWwBlQm/NUwBiEWy6zkfh3K2Lp
+ x7JdX6YRGUnnJIDyWCZtzTpjQf9YtXY1m4t2GEs1YOIVpGJdBnvHD/Tmkq7DRqCfkY
+ IyDxILRL2Px2Cpeu7bmrFLX/sAMGJnjnF+UtZHaVlNbwTwtnxBcNGdsFl6MZ/mS8km
+ +S5XrQs1mRLO04/bqwkl05rSHElVPjNj0x0/bIFRbE2nWtfdpUzAh6PS48rRL919ro
+ sdoojTVuvGBNQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 9C62161264; Wed, 12 May 2021 00:50:41 +0000 (UTC)
+ id 89F0C61264; Wed, 12 May 2021 01:35:12 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212957] [radeon] kernel NULL pointer dereference during system
  boot
-Date: Wed, 12 May 2021 00:50:41 +0000
+Date: Wed, 12 May 2021 01:35:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212957-2300-VZCtg2RazP@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-212957-2300-qBOJHEN5y7@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212957-2300@https.bugzilla.kernel.org/>
 References: <bug-212957-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,33 +71,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D212957
 
---- Comment #3 from Dennis Foster (mail@dennisfoster.us) ---
-(In reply to Alex Deucher from comment #1)
-> Can you bisect?
+--- Comment #4 from Dennis Foster (mail@dennisfoster.us) ---
+Created attachment 296723
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D296723&action=3Dedit
+journalctl - bad commit
 
-0575ff3d33cd62123991d2a5d0d8459d72592388 is the first bad commit
-commit 0575ff3d33cd62123991d2a5d0d8459d72592388
-Author: Christian K=C3=B6nig <christian.koenig@amd.com>
-Date:   Thu Oct 8 13:01:35 2020 +0200
-
-    drm/radeon: stop using pages with drm_prime_sg_to_page_addr_arrays v2
-
-    This is deprecated.
-
-    v2: also use ttm_sg_tt_init to avoid allocating the page array.
-
-    Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-    Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-    Link: https://patchwork.freedesktop.org/patch/403832/
-
- drivers/gpu/drm/radeon/radeon_ttm.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-
-I wasn't able to revert this commit on v5.12, because there's another commit
-c67e62790f5c156705fb162da840c6d89d0af6e0 where it seems like that file was
-changed drastically, in particular drm_prime_sg_to_page_addr_arrays() was
-replaced with drm_prime_sg_to_dma_addr_array().
+Attached is a part of the system log after checking out the bisected commit.
 
 --=20
 You may reply to this email to add a comment.
