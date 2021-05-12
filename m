@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B98F37D1BE
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 20:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6FA37D1C6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 20:04:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45F5E6EC98;
-	Wed, 12 May 2021 18:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970956EC9A;
+	Wed, 12 May 2021 18:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7650C6EC96;
- Wed, 12 May 2021 18:03:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C0A1A6144A;
- Wed, 12 May 2021 18:03:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3359F6EC99;
+ Wed, 12 May 2021 18:04:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5AE4E61446;
+ Wed, 12 May 2021 18:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620842636;
- bh=NLgvoQmt/qVLAYQYmdzUIVhZ7zUqt7IBZSBzbRYOPoE=;
+ s=k20201202; t=1620842679;
+ bh=CKfu+tPM+jCcw0spDx8VsdBo+5ZaPqiT0QAJcoePhJU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=meGOLutv1aLRHmHj5TUpPMkzJfJh0vYPWSBuj4M5tn44v8K5M0MCjahhwaU8fK9iQ
- JzbwPv5DmvUl5CX25cdbx3Pt1MsvmJ810a57bw9zeEM6feYwTzt0Fi10XBfK+lsdvT
- 2on/CjFP35Ikt3hAUCnYFmys7DbvOvqETLkQjXBB7zd75bOLkKeqxIwJbTshzQKqtK
- eZ0XaulL2bROHSHnUPcmcamQZuy2uxD4RkCz6wGhMU7/ONEceOQ8I7h0owsEjPLYki
- 5JqWFcVy2nfqxtAfc97wJrngc8eXggflmgvuWkUmvQT8c1wqtScT1mDh2t16TPGJPT
- cGu37mR81sSZA==
+ b=QlBMb6T3gGqKlwBMfC23eXg1ZxRSOlZanGIa3sly1fQNUTr2eFUDVc4YjtCjqJLA3
+ lJfil8qyoCbbkA5mkpo+ThMw2klbuksN+xvAJguqNkqm7+RlXgNderj6i7pnKaqerQ
+ WV1cqS05WwmxxEg3hA4ipHn3naouXRs6x2BXRrNCQafwtNSIjNsn9izFuyFZ/mWCfI
+ SQSSE24Dmp9Yw6jUtBOGGKNyJOpgLvxTOkyImWjpWNtNmkQcesYjJHc135T5PFzNXa
+ YpmUKmM9acuLT1XwPpmQWK1ylD0XgnltxJp4BMTxwE3xoJBeOryyoz0DMsc0h4NpIo
+ rZ1hJ/UcHcKCw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 28/34] drm/amd/display: Fix two cursor
- duplication when using overlay
-Date: Wed, 12 May 2021 14:02:59 -0400
-Message-Id: <20210512180306.664925-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 18/23] drm/amd/display: Fix two cursor duplication
+ when using overlay
+Date: Wed, 12 May 2021 14:04:02 -0400
+Message-Id: <20210512180408.665338-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210512180306.664925-1-sashal@kernel.org>
-References: <20210512180306.664925-1-sashal@kernel.org>
+In-Reply-To: <20210512180408.665338-1-sashal@kernel.org>
+References: <20210512180408.665338-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -130,10 +130,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 51 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index c07737c45677..4d4d1cc157ae 100644
+index fbbe611d4873..800dc67c98f1 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8589,6 +8589,53 @@ static int add_affected_mst_dsc_crtcs(struct drm_atomic_state *state, struct drm
+@@ -7254,6 +7254,53 @@ static int add_affected_mst_dsc_crtcs(struct drm_atomic_state *state, struct drm
  }
  #endif
  
@@ -187,7 +187,7 @@ index c07737c45677..4d4d1cc157ae 100644
  /**
   * amdgpu_dm_atomic_check() - Atomic check implementation for AMDgpu DM.
   * @dev: The DRM device
-@@ -8767,6 +8814,10 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+@@ -7427,6 +7474,10 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
  			goto fail;
  	}
  
