@@ -2,58 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96AD037B395
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 03:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDB137B539
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 07:00:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37CC36E1D3;
-	Wed, 12 May 2021 01:35:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B5876E02B;
+	Wed, 12 May 2021 05:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C98A86E1D3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 01:35:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 966CC61928
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 01:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620783312;
- bh=Lib14/aKcJeITVFfedYsLoKpISRCJCqk/pu+/jBISnk=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=pRgddJEQmLR3iFRdsb9x8axKinIWWlKKHrjKnPtHWmmLa+UtCYKUVe5WPWDbB0y+t
- reJUNpP30n+QxfOXOVnFnGkIKmHw8OfALfZQrvo5jWwBlQm/NUwBiEWy6zkfh3K2Lp
- x7JdX6YRGUnnJIDyWCZtzTpjQf9YtXY1m4t2GEs1YOIVpGJdBnvHD/Tmkq7DRqCfkY
- IyDxILRL2Px2Cpeu7bmrFLX/sAMGJnjnF+UtZHaVlNbwTwtnxBcNGdsFl6MZ/mS8km
- +S5XrQs1mRLO04/bqwkl05rSHElVPjNj0x0/bIFRbE2nWtfdpUzAh6PS48rRL919ro
- sdoojTVuvGBNQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 89F0C61264; Wed, 12 May 2021 01:35:12 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212957] [radeon] kernel NULL pointer dereference during system
- boot
-Date: Wed, 12 May 2021 01:35:12 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: mail@dennisfoster.us
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-212957-2300-qBOJHEN5y7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212957-2300@https.bugzilla.kernel.org/>
-References: <bug-212957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66F596E02B;
+ Wed, 12 May 2021 05:00:13 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Fg2fL143zz9sWX;
+ Wed, 12 May 2021 15:00:09 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1620795611;
+ bh=QUroELMBcg2yl0c8Ocr3GIPaSGOYYWLIChZdl8QSxTc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=b14pM2A1SRpKW0kl9mTkAQZd6+AnoKrF0R9QjS2bsiDAhKgiDi7YPorLWiwLWjB6E
+ LoIpgAkWjdSi6EacTMXczcAoEztkxFPAZAYMzmwm+mLnvXxtqj13a3ff9uXPz90G1m
+ cqlP3ClFyzARQOsPH5U8I3gvQSS95Ev3PN5dPD5/QCtFqQuZtwcALY/fmGdc6KMN/M
+ 2COUpgzI0bd9GZxZu4brbjkrssTk4KqFVeSjbRipVAZ3oFq8w5KZnej6883sniTnrH
+ m2710bNFD3eL18wQjgIKKWv2nCwK8YouLTwLHdptOOSNxvleEg9MUryWRyrcpa5wTk
+ +E6pY+JiGNeSQ==
+Date: Wed, 12 May 2021 15:00:08 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20210512150008.52f92c26@canb.auug.org.au>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/6Z92Gv.P.iwuhI+YMz0./pR";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,20 +49,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D212957
+--Sig_/6Z92Gv.P.iwuhI+YMz0./pR
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---- Comment #4 from Dennis Foster (mail@dennisfoster.us) ---
-Created attachment 296723
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D296723&action=3Dedit
-journalctl - bad commit
+Hi all,
 
-Attached is a part of the system log after checking out the bisected commit.
+After merging the drm-misc tree, today's linux-next build (powerpc
+allyesconfig) failed like this:
+
+drivers/gpu/drm/nouveau/nouveau_connector.c: In function 'nouveau_connector=
+_of_detect':
+drivers/gpu/drm/nouveau/nouveau_connector.c:463:59: error: 'struct drm_devi=
+ce' has no member named 'pdev'; did you mean 'dev'?
+  463 |  struct device_node *cn, *dn =3D pci_device_to_OF_node(dev->pdev);
+      |                                                           ^~~~
+      |                                                           dev
+
+Caused by commit
+
+  b347e04452ff ("drm: Remove pdev field from struct drm_device")
+
+I have reverted that commit for today.
 
 --=20
-You may reply to this email to add a comment.
+Cheers,
+Stephen Rothwell
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+--Sig_/6Z92Gv.P.iwuhI+YMz0./pR
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCbYNgACgkQAVBC80lX
+0GyESgf/T07rjtpKJQjtzWk/qYdBRCC+Q8ax5RfJORk8UpqNlJqy9ZGe1FPXkn1D
+wJdnx9eI8J19CgueHZWJP57lp754E0NCC9Y7rG1nfqzY5JJIKRnw8kL7oJRGItQ/
+hbddLG4ddkG5bo73Z0xxDOFy8yINUsQmt0uy/tuK28fqOqVjaFU1WyBbrb5Gb3qG
+26nM90fBzqbnsO8Tz5Z8xA/DBSTJGM6ame7m1qvQ2w0/U9QhkWSEjhE50/niZWtC
+nJqdajEDtDCCKzn/9W2uV//+q9+pxYykTHBuBmbn9u06SdxmgsV24398P9Ni6tdl
+jZ+NeX33AlOhXTSdre1aAATiOjuljg==
+=uEFp
+-----END PGP SIGNATURE-----
+
+--Sig_/6Z92Gv.P.iwuhI+YMz0./pR--
