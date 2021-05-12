@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A72237BFFF
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 16:27:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D9C37C004
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 16:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEAD76EC12;
-	Wed, 12 May 2021 14:27:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8F786EC11;
+	Wed, 12 May 2021 14:27:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2086.outbound.protection.outlook.com [40.107.237.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE08D6EC0C;
- Wed, 12 May 2021 14:27:23 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2072.outbound.protection.outlook.com [40.107.223.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA0B96EC11;
+ Wed, 12 May 2021 14:27:25 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SpNDX9420W8P1KRsWpRaOfmCxf4mLm4PL9PeO1OKVRM3yiznowwyIgzRdC7ys4m1tykbbGDNgyEHxzf9ePyRggWncnxLxI2VKP3XePpOLhr6EASbYOVLSOiHIOxMEqgaiO1MXSFnDorLtjk+LBKRk/G+7SYyk0M/dObbFGBirWw0UfNlSrVJh20Gu9s4Tz/y9P8FR61MVEL0iEaAM42oylFoIvi4TicRKr05TWTdJA08IJN6JAc+R16HXG5fIDXjN8/U3d/VFqRIU2RKNauWqEHFLRmt4jc7zgc9OVScEryjdxwCy7wJe7uta5Mughzt1BgVFAAcn9qYRGrXeWF7DA==
+ b=CmkQr74taIp1Iw7KaANpctHA35hNoUXNDLkt4FDMNor/p4IEBV8X/4bj+V776nqpSAwdyhWi9YhgwmFyQ7D+p2cUwtQ1qRtrdpArR3jo2puWzB7i/YRfaM5nWO44XeZVeEjHltCp2vYqo+T8nBfxdN/mKP9ZBg4z7hoS9wqLhKIJGPI/p6QfAoqKpRxqDEkUS/1bpAbp6uo4ZPsJVtAJEq7W+XwBpolhDZM6og3yaOtOyM6KWeR2hAkARoafHirv7X0lYaYObKr0mIFiI9X6nzRZUFhVu7vkeCMQSWDOkK5qFW2Wk1OIjqkHDy+SKBMf5GXZFebMqkGey/Jck+C2PQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ImiQhpPoXfItMc84rz4U+sl7ukQBW3gycLm8/fXkr9o=;
- b=gWTzaIXAJ31jbrWawfH1P/KCJs9mhHnqIIS0Dw+Q1nJ4JNcqJhh5Vn8CnZqqUNwpihQbojvYDH7gEzV0ldovc7zZmzuau26CjS3JpAm/zuQ86qAvWkOEONPc2gcWPp3nx1FTepclH1jdO5MNjHKpbtPKWI9IpLfrZziKKyIwrrBELKnGEn7K3GzNmwBbFVSbpRF2jFzSTGPFYZPvgWtUEgjc1LUsEQ+/ZO6fu4Zu0A+2fp68RWl1TxWHAz2JVlk/TjNFHGn8zw909sd4N0koaEZT/dkR5LBPSppWtwG9mggti5sazE2RLrykIZTGgubnMvuw7/evnVpSE9ipvGhVrA==
+ bh=Ib9JMbJcQ89S3QqH2/zvtmoA13b9zTTfzZEYQOgJxs4=;
+ b=jpzUTj/AYiDtyZ5sUU16lKenuffbZedAu8u+j453UWRIHUN9Dw68Jy9FDuMyGSTBs4ETT/QTZRQ2S6OphfdQ7Ci4ESprgJQY6BBemRIYxvJ+Dkui3NgjN6a+jDyddOvKDDZ1E0VPgA+7P69VXz4IboD0emFfvbEmnPA6lqMe9DlGwRIE+xRNpwGbzXtVSpWKwTYb/qKnLhdPdJ3hAIElmLHItUMLIvaGTvjPafBaM8hhF8MxHk77AmJm89bT2Jc5ZHqE+XDavcxmWCTuAE4QPqZnbcFy97yeIL/eze/JCsHYH08PbDw6SHD5GrS6uGnABcg+sEilaJuCNq9mRgoY9w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ImiQhpPoXfItMc84rz4U+sl7ukQBW3gycLm8/fXkr9o=;
- b=x8z4WG+qWMtdNnH/khw7DZxsDYMTaE9m5Hl05qGM+1+QgNG6Lsrrp2s26o3QjusmJrtld/g5iqMtbV6PLNnhbOfBnO/KbR5zwQo+CLN8+ni8F9ng72i+xURnrV74UStwJSuouHaGSjdNmr6jycpujzMT1nbOJN+xKCtGIzSmM8k=
+ bh=Ib9JMbJcQ89S3QqH2/zvtmoA13b9zTTfzZEYQOgJxs4=;
+ b=dejeCAViCbUGefjdpMBG1HI/5+wnIryalwnu33JMf5cKQBeHCp5SDAPwiOKSP+Su9iltYdIfu3a+yxtww2i4w9h6kj8PlFXLSPZSewSNqZwMXaWT/lnEnRi97De9mKAPOhTkgt5hav3eoXmZd/JV2ixf4PiMXQtVq4sP7PCkg/k=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,24 +34,23 @@ Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
  by SN6PR12MB2845.namprd12.prod.outlook.com (2603:10b6:805:75::33)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Wed, 12 May
- 2021 14:27:21 +0000
+ 2021 14:27:24 +0000
 Received: from SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4129.026; Wed, 12 May 2021
- 14:27:21 +0000
+ 14:27:24 +0000
 From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-pci@vger.kernel.org, ckoenig.leichtzumerken@gmail.com,
  daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
-Subject: [PATCH v7 06/16] drm/amdgpu: Remap all page faults to per process
- dummy page.
-Date: Wed, 12 May 2021 10:26:38 -0400
-Message-Id: <20210512142648.666476-7-andrey.grodzovsky@amd.com>
+Subject: [PATCH v7 07/16] PCI: Add support for dev_groups to struct pci_driver
+Date: Wed, 12 May 2021 10:26:39 -0400
+Message-Id: <20210512142648.666476-8-andrey.grodzovsky@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512142648.666476-1-andrey.grodzovsky@amd.com>
 References: <20210512142648.666476-1-andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [2607:fea8:3edf:49b0:7576:4f76:97d8:1487]
 X-ClientProxiedBy: YTOPR0101CA0032.CANPRD01.PROD.OUTLOOK.COM
  (2603:10b6:b00:15::45) To SN6PR12MB4623.namprd12.prod.outlook.com
@@ -63,61 +62,53 @@ Received: from agrodzovsky-All-Series.hitronhub.home
  YTOPR0101CA0032.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::45) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.30 via Frontend
- Transport; Wed, 12 May 2021 14:27:20 +0000
+ Transport; Wed, 12 May 2021 14:27:23 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4f0ef048-18cd-4925-9568-08d915520dd4
+X-MS-Office365-Filtering-Correlation-Id: 9cc5f59e-5043-4ff6-6096-08d915520f63
 X-MS-TrafficTypeDiagnostic: SN6PR12MB2845:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB28454F2A7C57765FE5C62B0DEA529@SN6PR12MB2845.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
+X-Microsoft-Antispam-PRVS: <SN6PR12MB2845D733D1723D15FB3A10E5EA529@SN6PR12MB2845.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:551;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: w6+Kysu0z59GAH1eWP+zeLVLHVStGr0KRMW4OWeORaHz/JJIXMluUbNXL0Udsr3d4ZOjwNr9fr/e9CdNBFrM4npUk7yF1fxNvYOtKImJZahveSiK1hqdgZlR6MtBeExDdtSWLSsd4DjJ9oYsG5ayZICu2hFrwHgZRMeLJKtxE1gP8zy5EMV8BAjbhOqZX2PLUrU/EXUVCtQbwakEH+Y8Iwhy0LKUrmvPoLJVi2HjvTaCRx1g7qNLwBSAG7yhIC5WSME5P2+309D99g46TxVSpmd61ln9HH+j5pTDGh2cnwGSEqjyADyQFxbTeDBpse7lOUX8zOe3ZlCp/hupZ3+Lxc3GVp+PWKYg4lZ1dZg9O+GxCHPILwO+zVJ7FYD3sJbCEcS1mUWTRFpYZbJgrrjI0ANDOncPOd2GeuUQVg2ZkR77jC+bb9ts/6R3GjRUIvDprt81R/2ZroahydZJo/X9zNlx8MXV+jESHh+cxR+PiIBo4TXZWwGwD2jYWB23S21JmfzHz38LJ5IrTsa/77ydV0/HZryf5XZ9KJZaRZowyrv6sN4CzTDR/ZuU8W6s5UQvn5H0gNDZI4X+ldmUgrFsdXldSagAz/yPEDiPmK0fpHo=
+X-Microsoft-Antispam-Message-Info: FIdWCEba5PvMihH9V8v4zF3bQkbJWxh0oJMl0zP5dXIjUH8x12scsTLi2HxMJlb/QssNik2mDoiozhwFMmcYkOOuhplMcOAaYpYIg/fzMC1l1iz/r3f9n/jYpqj6O2ysHYMSi4F5gIt0vKnn0psqEbPQndEdbX6s77AXywHwW5UBlVJYhrlcWwtW5rnHzPCemAzWPVHiTjihFxT9RFup/FjxqwhBgLonj1Ias5cxbidttQhmg6U4QJUetmjOziUOFCkmmBokjvMScUsOIP9kEm+LPCzAPfHpISK4umn4mk5K9WRuRUHts5m50ey5rG9OFy1CMYr/mCmHdxXh4MLn1qQ4Juhx0V3R6o8LkpQuPRivt86ZvnhCuIrN3lLRKvoYdzkfzzyM+r9v6atmRLTsBtQYK2XZLKLoom3mZLAaBueGMem06bvSBULa664jx0a6Y/Ss6PdzRHVKVsZ6+/bdCQKi4v509nWsXCNBIP5GtwNFoUUozRP7Eap4EixCpcXuLLY/xwaDHEaWIv7P9Nl0tvSxW2JpD2xyjUWoqj5sFiKjpnpT/0BAw1JNnzYFvUtGcNGumz0l0ze+RyiBL6UHE3bC8hP6NDCZ6zCXyE+HCzo=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(396003)(346002)(136003)(366004)(6486002)(8676002)(54906003)(316002)(6512007)(16526019)(6636002)(478600001)(1076003)(186003)(4326008)(44832011)(2906002)(6506007)(8936002)(5660300002)(2616005)(38100700002)(66574015)(36756003)(86362001)(6666004)(66476007)(66946007)(66556008)(83380400001)(52116002);
+ SFS:(4636009)(376002)(39860400002)(396003)(346002)(136003)(366004)(6486002)(8676002)(54906003)(316002)(6512007)(16526019)(6636002)(478600001)(1076003)(186003)(4326008)(44832011)(2906002)(6506007)(8936002)(5660300002)(2616005)(38100700002)(36756003)(86362001)(6666004)(66476007)(66946007)(66556008)(83380400001)(52116002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?M1ArSGNabXFLWHZFakd2K1JEamNkMFdzU2VIZ2o1dHl0eS94aE5zakRHNnhz?=
- =?utf-8?B?S1NEeUtTQm96WFdLejgvTVZyLy82NHhORGNaWG5oMFMxY2xvM24rR3hTNG5v?=
- =?utf-8?B?WFd1dFMva0tiMGlJVDNWVldOd3hSWmhwUXZUK1dLTGxuQWFVclpEeXFrNFF2?=
- =?utf-8?B?cGJZVThNdi9BdnVnVFFSV0dUWXI0aElPUjZmVlgxN25kSEp1cWdPaENDa204?=
- =?utf-8?B?WDRuajZ1OW5wWkdaSDIrMzhKWDhicmxEa2tZdldFMmJDZndZZVdFOXdyVERq?=
- =?utf-8?B?akQ2cnRjYmpJakZsVmJzNUdDL0lpSE9iaGg5R3pjUlo1MXM1Q2RBbERxZDV0?=
- =?utf-8?B?OTdPZ1dCc01LMHk5cGFkb2Y4KzQ3V1BWUDc1alhjaFp2R1UzVkJUTHlkR3Vk?=
- =?utf-8?B?ZTFKRG9vRlczVlJLUVlleUFHdFgzWTh6S1dPT3cvWEpqRXpveC83ZGQ3b0hn?=
- =?utf-8?B?em0zajJ2TWN0OVVJSFlBSUgzQVRvdXRQMFFNSCtOa3UydzZvbmkxNFFwUEZC?=
- =?utf-8?B?aHBXQjNiR2VhZ1RyTDMrSmg4bEJaQjN2NklFNksvayt3RVNhRGJHUWw1am9U?=
- =?utf-8?B?NHI2MkZTUnJBSCs4U3VYYnkwdW80N3ZOR3NPWDVZdkNodWxnZU9QTlNKVHdO?=
- =?utf-8?B?TDRENUFnTjQ1N3pQSUM0TDVlZ2tWRi9XdWV4Mi9XcEVWaUJaMFh6ZXptb01x?=
- =?utf-8?B?UURjVmtVNUVTQTQ0b1RFU3d1TUt2S0R6ZUVoS2dBRUNQeGVNR3ZvbktEWXd0?=
- =?utf-8?B?WlZpUlNTZFkwN0Y2U3dLbUlTK2Q5WUtlM0ROYlpRV0t2VkJ5SEpWNTRhTXBr?=
- =?utf-8?B?VWFRR25zdFhMQnNJRmo1ZHNPUGtRZkRNUXRWdHVrSUJlMlczRDZ1K24vWG9W?=
- =?utf-8?B?L3NvVTN6MVJZVnFrRHA3ajhmTGhPY3BiRW5zdFVKcGlaRWZGM1ZCb1l3UVM1?=
- =?utf-8?B?YVBuYXZsT3FuWjdUVmlVbklXOGhURmhtNDA2NEl4cjlQL2dhb0NTS01LOFZY?=
- =?utf-8?B?Y2RVakhjY2V1MWtFU3lJMFJPbnhka0cxT1M2Rk83Qkpha3BuUmNKTjdVdmpS?=
- =?utf-8?B?VkF0bUYvcUVEYlV1RkpYa2VHVHY4NE1objQrUkRFS0xUeXpLVGNUeDhjVmU2?=
- =?utf-8?B?ME8yYUZJZGprRExsQnBscmNJUTROUlpDMFpMSDhUcjNCMitYU1hzUkp3Wlpk?=
- =?utf-8?B?L05NQ1pEc0xNT2dCQjc4SndwSnlxU0VkTk9ickdNaGtHT3VUY1RZVTcyNXpz?=
- =?utf-8?B?ancyRjkweUVIUjFQZS82NnhCS01nZDhYOVpGMytiYnA0dUpydzY2YkE0Nmlo?=
- =?utf-8?B?eE5HWVkvS01LcmhzV053TzRyS0w5N0ZPNWxrNFd1ZERUWDYrRVJvQ1I1UG1l?=
- =?utf-8?B?VDdTRUZ2WFBlejlvcFNueWp6OExvb25NbS9zR0t6K3RDSmQycGY4NGVKemhP?=
- =?utf-8?B?Uzl4Rmowb281YjNSNUpMT0duWjBLc24wY2Uzd0UvS2szOThvZnozWEVML3p3?=
- =?utf-8?B?blNhMWFoeEdJSkdtVU5OTHJFVDhJL1Vrd1Nvbnk4NmliRGUzSXpteUloUkd0?=
- =?utf-8?B?N3dQQUpycXYrbEtoZmFQbTBkOXk3UVY5M3FKNlBTMjV2M0g5RVNSdk8vY21i?=
- =?utf-8?B?Q0pBQmRGSHgwelBaK212L1FZYlcxSHljZ0JQM0N1ZE9nR09BL1ZlQjYyVWFF?=
- =?utf-8?B?SHM1clorUjhjQ3QrTUhXQzZRSmNCMjVONXBFR2FMZ3RGMEtQcmk0ckZoa2Jk?=
- =?utf-8?B?UlRkeFdtRllSSmlSZHMrNmpXWkQzdDBiVEdZZ0xnZktZTWVScnZ5THVld0M4?=
- =?utf-8?B?MzI1cDVVV2VVVENoWGVzQTF2NGxyOXQyUHlGRC9qNFZVd1FHVi9DZklzelFr?=
- =?utf-8?Q?8ezZXNQEBrJCD?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?u8iHqv8tz9BHH08oKkW0lWy+cVTbTQr+sNaKsxJOFnpNCoHi6ienOySoSYOt?=
+ =?us-ascii?Q?dAsqtZWqURt0kPBQn8bW/cO7UvWGWVxk/7MN4LL4cAgY0Ey0BvXLazUbVY7r?=
+ =?us-ascii?Q?eJIczrZThoQXR9eVTD67J8QQFuy/OUwyD39E1Zis4m+LvFlhanVLffF5juJk?=
+ =?us-ascii?Q?g7MSzN3P7niWvBNibx0a3fDmjFIUnfl2nkyvlB06P5s1OqM3ZJiYgNiMi+zf?=
+ =?us-ascii?Q?PJvaTHBGVO8A5NxBYJ6XSIQEIJUYHr70Stjt1tSWNMLn3CLxvX5uDNag9BKe?=
+ =?us-ascii?Q?DvscL4acYDhm0Mg8VGaSMII4Fb5Qthd3YzufXp2M+7+l/8qveJukSWe/jf6+?=
+ =?us-ascii?Q?JJ88HZEaKHKKZMjTP0fOcoxu0jYcUJwnB7fGByHyfqbknXzBW293697/N0eu?=
+ =?us-ascii?Q?PVTv4fcmHJjbPrA1M9yaAfEGvks476KhrWgkFKLpr4Xjm3vbTuAC/SwpIYfg?=
+ =?us-ascii?Q?pQrwymZCoZpRHFkTh7JuCPzgDHwO1X/zGJCyGh3TJqnKaLfpGrTdahBXhvny?=
+ =?us-ascii?Q?IQaVeN2zUcikn+uLHFw/IKDfs7Q+JaEfGh1gF4KT/q7utxmPmmTCTlowDt9g?=
+ =?us-ascii?Q?EzLhLi7pjQiLKH746Tr2vOwZxsNZrIkL0msPwAC2UpycnIws5FfPKBiqVrjV?=
+ =?us-ascii?Q?WYN3bucLL6f8b0hF9ySUR2Swl8XXvgLJ9UDC5xJdkSoRqJW+g/8ZhAnAb11g?=
+ =?us-ascii?Q?33pS2CX3ZHuh8ND6Jfa0t9eXYpxPnY4p/E5Y6hLDIinQFHF1o/A4kPiPfuG1?=
+ =?us-ascii?Q?77XkS081kXR8l5f4q8RTcZdECGyvGhQp39XRDzoOE5sRwAkD2If8kfuQP3Yq?=
+ =?us-ascii?Q?9aMYFhnX1seDDbjleUMuHxKfcVfsby459WkgJYvxMPpfGetzSnjLLB3+DtbB?=
+ =?us-ascii?Q?XiBfCBeE69f+CaBODO0FDqUFZ81U9ql1lSZHeRcfYtM9iOQ9SM6jLm8DsnWv?=
+ =?us-ascii?Q?Dc60yb2AVu880FrSJonHv8HJc30spBvDqYu0MZpcMzih/uukCmWws8zQy0TH?=
+ =?us-ascii?Q?DhH0o1aIy9NUm+WbLq/VjgWFU0EwvpoJBVec/JjV6QdKLblhWZj4g2zD4MpL?=
+ =?us-ascii?Q?YEuGePx9LMqH8coX8xmNv6nZoEMADVnZGKQDCTUOpbDbOwaVZzji8JoYORKB?=
+ =?us-ascii?Q?t9CYiSoalEAM9iDXQRmyH6PHFlqpvtVBU7niz+JJt8muSKNpqzqQum73v83B?=
+ =?us-ascii?Q?AgctJuO41MKbMsCe3CkR/W3+Xwi3Po8C54lpUZky6XAAwSL+YndZQgWEcgX7?=
+ =?us-ascii?Q?disj7xdIzrUOdT0X70onRkByA5LEikpaV9cSIAnLC3iPZfYrK5aF2lQydMuH?=
+ =?us-ascii?Q?vEHjgQeSbfDRmsN/Wl/1qvhpjIGPnKFNtQ/2zrL6cf3QYXXXpQoSc6CsOQAL?=
+ =?us-ascii?Q?jgb12A88sGsyl8p8aUuUKPHPc0s9?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f0ef048-18cd-4925-9568-08d915520dd4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9cc5f59e-5043-4ff6-6096-08d915520f63
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2021 14:27:21.4732 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2021 14:27:24.0827 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZL1LntA3e3ALoedGO+5LZMq9jWQ7a09q2F+oWuGY77O3DbeMwwK1UXrzv+CHEhV4EU8uxcRRx2G0gJ9VkVzF+w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZQtc9Q04ARiFQzokZZctQsHV7H4uApNgsNfGDqe/v8sPsmekPREdT+07h+OaIp+NAnyCvBq2yHew9QcmHKJubw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2845
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -131,70 +122,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, Felix.Kuehling@amd.com, helgaas@kernel.org,
- Alexander.Deucher@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: gregkh@linuxfoundation.org, Felix.Kuehling@amd.com,
+ Bjorn Helgaas <bhelgaas@google.com>, helgaas@kernel.org,
+ Alexander.Deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On device removal reroute all CPU mappings to dummy page
-per drm_file instance or imported GEM object.
+This helps converting PCI drivers sysfs attributes to static.
 
-v4:
-Update for modified ttm_bo_vm_dummy_page
+Analogous to' commit b71b283e3d6d ("USB: add support for dev_groups to
+struct usb_driver")'
 
 Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ drivers/pci/pci-driver.c | 1 +
+ include/linux/pci.h      | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 8c7ec09eb1a4..0d54e70278ca 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -48,6 +48,7 @@
- #include <drm/ttm/ttm_placement.h>
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index ec44a79e951a..3a72352aa5cf 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -1385,6 +1385,7 @@ int __pci_register_driver(struct pci_driver *drv, struct module *owner,
+ 	drv->driver.owner = owner;
+ 	drv->driver.mod_name = mod_name;
+ 	drv->driver.groups = drv->groups;
++	drv->driver.dev_groups = drv->dev_groups;
  
- #include <drm/amdgpu_drm.h>
-+#include <drm/drm_drv.h>
- 
- #include "amdgpu.h"
- #include "amdgpu_object.h"
-@@ -1905,18 +1906,28 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
- static vm_fault_t amdgpu_ttm_fault(struct vm_fault *vmf)
- {
- 	struct ttm_buffer_object *bo = vmf->vma->vm_private_data;
-+	struct drm_device *ddev = bo->base.dev;
- 	vm_fault_t ret;
-+	int idx;
- 
- 	ret = ttm_bo_vm_reserve(bo, vmf);
- 	if (ret)
- 		return ret;
- 
--	ret = amdgpu_bo_fault_reserve_notify(bo);
--	if (ret)
--		goto unlock;
-+	if (drm_dev_enter(ddev, &idx)) {
-+		ret = amdgpu_bo_fault_reserve_notify(bo);
-+		if (ret) {
-+			drm_dev_exit(idx);
-+			goto unlock;
-+		}
- 
--	ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
--				       TTM_BO_VM_NUM_PREFAULT, 1);
-+		 ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
-+						TTM_BO_VM_NUM_PREFAULT, 1);
-+
-+		 drm_dev_exit(idx);
-+	} else {
-+		ret = ttm_bo_vm_dummy_page(vmf, vmf->vma->vm_page_prot);
-+	}
- 	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
- 		return ret;
- 
+ 	spin_lock_init(&drv->dynids.lock);
+ 	INIT_LIST_HEAD(&drv->dynids.list);
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 86c799c97b77..b57755b03009 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -858,6 +858,8 @@ struct module;
+  *		number of VFs to enable via sysfs "sriov_numvfs" file.
+  * @err_handler: See Documentation/PCI/pci-error-recovery.rst
+  * @groups:	Sysfs attribute groups.
++ * @dev_groups: Attributes attached to the device that will be
++ *              created once it is bound to the driver.
+  * @driver:	Driver model structure.
+  * @dynids:	List of dynamically added device IDs.
+  */
+@@ -873,6 +875,7 @@ struct pci_driver {
+ 	int  (*sriov_configure)(struct pci_dev *dev, int num_vfs); /* On PF */
+ 	const struct pci_error_handlers *err_handler;
+ 	const struct attribute_group **groups;
++	const struct attribute_group **dev_groups;
+ 	struct device_driver	driver;
+ 	struct pci_dynids	dynids;
+ };
 -- 
 2.25.1
 
