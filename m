@@ -1,58 +1,127 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2267037BEE9
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 15:53:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA20A37BF20
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 16:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A656EBA1;
-	Wed, 12 May 2021 13:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 807856EBFE;
+	Wed, 12 May 2021 14:01:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA986EBA1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 13:53:33 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id w4so29692642ljw.9
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 06:53:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eLCzy7DdD8XgrZJpon7BHLh03w2nV5u37gttqoNRTLA=;
- b=IHzOq2/RJSpjXptzZ408Lia9tp2+27jr5gDCkA99knxPE/odDPbLFDKJS/yUDSxqMi
- w9vQ1mnxtJpw3ssWVpKIyu6ehlPmWOLRo+anrHLEH/AY9eQ8IuyrdK/1puPkJ8xnJUyA
- Eqx/21WQWRdehIMLCgrokpuabUgURv1yW3bBYgSgHtMsr5i/kwAzDYSp9dBAeUSvEZKd
- vEIsQluXuyrIfHkGl98va4rwk+0EbYJIfHsE3ZiIzaDHwC1foZzjYdyqJmlxJfN5L22K
- 2IyaHDk7H9BjlGdNnneVM+CjWk/z+7dBctuLj2bA0M1k/x7Bqh6k7k4oRlMhz8E0vUat
- hJ3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eLCzy7DdD8XgrZJpon7BHLh03w2nV5u37gttqoNRTLA=;
- b=Asq9UGtn+1RM2BWvQr/2zuwlvrDdanZ4bMpapMQIH+XZwohZfqWirUOY1Ybb4bNocm
- NXgldiWqU8ClO+EKHmdbk7GzOq5D0uHbftfT+fXUdhAGrwb4x1mK621EEsSNfcm5MFuF
- 9IopHoCOP7pMYDOJhVlYKLfR/ssc5IScFjBpl/XWYcJj4X6GQiKt2rbzevkA45Hw2kI6
- lCB/HFDe8CROEsDXKooa57H4pjiUFBtXVm7aBfaiouoekb2MEJMOQb4iOc89nKQK9bpk
- fO6IT+ZLdVrl8d1rCdUlalzWffOX9MfCbbSfJsbd48H650gPXq5uKvtvrj7qPBmUsqqh
- JXVg==
-X-Gm-Message-State: AOAM533yCF+V/Uavchbud2PWLxXpEejRyGHwHFcN31iUD3Eg+zPQwDNB
- DcHEaWADzxzJORqOLOy7JG8LbjN+FZ9H1KCE+sk=
-X-Google-Smtp-Source: ABdhPJz1m1GY1LHrhOX/2ILYqGHTgCD02sYzUSw/toEvWjPP+NVI3BN4COoBIvKikim3sN8yw9/D4SfWIyzdQ9oK3d4=
-X-Received: by 2002:a2e:91cb:: with SMTP id u11mr24648584ljg.83.1620827611278; 
- Wed, 12 May 2021 06:53:31 -0700 (PDT)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2048.outbound.protection.outlook.com [40.107.237.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1510A6E073;
+ Wed, 12 May 2021 14:01:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kfLkwHfFta3ucwdZx8/uLjJNn4dVm+4VVcfKCS9XS+3BRhK9rcvCmjgo0I3EQxRg9F04LT4mQ4oXhuNP8H8YSzS2t6m9+01yXBia8I/cj4ihjKNdSL+UnN+Migk1eHO2jb4k5OaB9f4BPVqRMBcu4RVfRGeo6EXvrPEeuIdtQWs0dh+0HUZy2u6lGZgcYAygtqPZNLKTTznZcKaXSzUFxjFanZALFd+dQzWT0ztz2V5ENTqGRaIWDrPZbqgx7pgayHxAT1rFS/Ha1h4TrKgSCoB4VPJRTaT7tXrQT1lGUZd+DaNzc5XIltu1KLZ9OB0qRuVyvVEnNUeeHrcddxLoQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lZTXtnn0BlCLrC68enKGrhCV7c2XFjBXsRPhg0b0L50=;
+ b=lSlXQrE3Yif45XKRSOi5bkBXkcD5DqBwMvRodEwKdya27EJzKeQL+HXenwNgBXgwy4n8jIgmFOyTuRroszKPzFgKC78c1UHri8OiFA3KCVGL59e+v7x5DaOw+36n3qjWLuD/pWv7hw5ns2Odo3/oroTScj0Hk1elQCy5S2N6rg/c4h88gg4vWflEVKYBC0K8pGHTx3Zj4BHAtR1Xw2iIFdoAzP3fae1hpGniEhghCQELrqlyyLcmGiXOsVFMHUkp2m833SXJ1ZL8iOS26mlVoZxC+fcOecxl+0VgGwJ1t48dDxsn/tsMuEIccYcm+7FPkzkJ6yhosJA9TdOSMrvQmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lZTXtnn0BlCLrC68enKGrhCV7c2XFjBXsRPhg0b0L50=;
+ b=QfAdb/hjE/GhdiYr8e2Yn+kNteu2H/MhgByKn27NLbvbQ0PTeJmBqmC6/nAPMKdI+dmbQ/y8oHg2+x6XYBIoYcZ14p4rgsnRY5ctcboVwl5g+Mea79K3Jfj0ygIRhXUkOuJ6A8dgm8whcsMk1uuI8WOIoa8D6aA3UHH4gw8XjL4=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
+ by SA0PR12MB4448.namprd12.prod.outlook.com (2603:10b6:806:94::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Wed, 12 May
+ 2021 14:01:09 +0000
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4129.026; Wed, 12 May 2021
+ 14:01:09 +0000
+Subject: Re: [PATCH v6 10/16] drm/amdgpu: Guard against write accesses after
+ device removal
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
+References: <20210510163625.407105-1-andrey.grodzovsky@amd.com>
+ <20210510163625.407105-11-andrey.grodzovsky@amd.com>
+ <19ec5ffa-48a7-863d-0b5a-5c2a43d65e81@gmail.com>
+ <b7068310-5a34-0256-2e49-fe3026c83625@amd.com>
+Message-ID: <8f1bae42-7567-9f7e-d891-8eb92af3e58a@amd.com>
+Date: Wed, 12 May 2021 10:01:06 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <b7068310-5a34-0256-2e49-fe3026c83625@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [2607:fea8:3edf:49b0:7576:4f76:97d8:1487]
+X-ClientProxiedBy: YT1PR01CA0066.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::35) To SN6PR12MB4623.namprd12.prod.outlook.com
+ (2603:10b6:805:e9::17)
 MIME-Version: 1.0
-References: <20210425123607.26537-1-kevin3.tang@gmail.com>
- <20210425123607.26537-7-kevin3.tang@gmail.com>
- <20210430093503.aupvt2qkrzkzy2ed@gilmour>
-In-Reply-To: <20210430093503.aupvt2qkrzkzy2ed@gilmour>
-From: Kevin Tang <kevin3.tang@gmail.com>
-Date: Wed, 12 May 2021 21:53:06 +0800
-Message-ID: <CAFPSGXZR9cSneohFk-5RQbqgkvQHFU0=Te=J1m+k=xqcWWrp4A@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2607:fea8:3edf:49b0:7576:4f76:97d8:1487]
+ (2607:fea8:3edf:49b0:7576:4f76:97d8:1487) by
+ YT1PR01CA0066.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::35) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4108.30 via Frontend Transport; Wed, 12 May 2021 14:01:08 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 262a235e-695d-4df4-f605-08d9154e64ca
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4448:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4448E6E4235F60D4D4A8304EEA529@SA0PR12MB4448.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6EGhMuZL4FD5lvgIR0G+vy22dWwBYg3nfOIrQCxlZQ8PmuTj3n7Z1vonft/kXYVcsk7p1SZqsiyby9v8Bekprj/lr+YgzQQNK+FzoOQV8utx/JbcXm5VIqJHSZUwCimWdkJh5L4sTuCW4oD8qYFLMBSQctOWnE/stBw/MWYVJtpkBAdIy4EfeDV8eIlpGl0RWu284/68r0PwBtbpfjrNwv7dWaONEt4Y9wwYcoqg1+tK3NKCF/fupKi+AlrVLw9F0RypAIBDwuSJt+iCfucBcQJlh0sa4iHc+SpfAneX+22rRNdU+15TeofnhWogsQQ8PwnOjEZoYRNiIZt130jRCucWxQNJKZn60ExfX4XCr9AJya9mwEGXh5k555rP0A3DEXqs3HtP+Xh/sYvoV8R1Sny5Z6RT4ZZULcKJEp1qzpDZdPCqrZjE3ExAcvTu4xK3a9+BJgm5WSs0A9RA25hdivPzBRbIAmqiXwYvV6cor82Hs+yp9SylB4nJAPCcCc2zVdQhDo4wQkUetaJmSjRVYKr5pYTK74pHUa/jjIOaYkYlDgVSCdM7zujVawimoEW4b4P42GBwaiQD2NnYPCAZrZZcwgPLRG8U0ZdMjXDUWGoFKDtVVtZdaiychfwbzdMUrPvqRvNyime9qaMIDyGnOJlUK5pfHdv92vzp5B/FzgjFZq5xnF7/7DB0O2NFG4C/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(346002)(376002)(396003)(136003)(86362001)(36756003)(478600001)(53546011)(52116002)(83380400001)(6636002)(31686004)(66946007)(66556008)(66476007)(2906002)(44832011)(31696002)(8676002)(2616005)(30864003)(8936002)(66574015)(16526019)(186003)(4326008)(38100700002)(316002)(6486002)(5660300002)(43740500002)(45980500001)(579004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?K05neVRIM2h0VThUaUNsTks5TThZYUVMQzJWUWxib1hsYVNJVXlIdVBwK01Y?=
+ =?utf-8?B?UUw2ZlZKYmgrUGtkSFRuQnkwUHZlOVVrKzZ6djl0cTViMzNhakdNc0dxeHly?=
+ =?utf-8?B?d0YyNm5zZC9hTEVOOXhPanpXNGpIK08vS3prQVgzTzg4N0xpTmI2UGtLUWVj?=
+ =?utf-8?B?ZjY1L0gvTCtvYktDdk0xZEhLMjF2SDJ0SHh2QmNRRzJpSDdZdkRQcU42Zno5?=
+ =?utf-8?B?aWhlVlhiUGFpbUVFcUZTbmZLWURORVIzVVI0NWpvV0x4L0wyeEc0VGdMdzRy?=
+ =?utf-8?B?REVoM2xzOFJDazdJdGV6b2wxQ1J5WVlzT2dXeWY2YytUZ3JLT3doMHdmVmJO?=
+ =?utf-8?B?WGRrMVI3MC91SFZ5L3o1QzJJTTFBK3l5WDBDeUYwNno2VkhZTGtoemNwUjVj?=
+ =?utf-8?B?NkErM3JmaWJCVXNzM0QxVS9RRURleDliQVZHdFNhdmVRSDFtZENKU2xlVWFU?=
+ =?utf-8?B?eG80K0xhaFcwbU5ycDVGajN4MUUrOUpHMWRLSkVrR0ZldHkzQk9ZVTM5a25u?=
+ =?utf-8?B?TWpPa25pQm44VVFhWE14YWJiZFcyL05MRGFWL3VJVnpGSzNsV21DQitFa1hv?=
+ =?utf-8?B?OHl4dDRmaDVwQTlIUnRaTDRrK0tEZWVJamtQVEt1T3FFV29pczd5aksxeSty?=
+ =?utf-8?B?aC9nMHRHMzJQR1QzSEpWc2FGbHN1R1ZnUkxZVjdYcnNxNHdxaGdqalZjOGlD?=
+ =?utf-8?B?QmxxUnQrQmpXcUc3Y3hSVGo5YXQxTE83MFAySG4zYzdEbnJyVkp0M0kxUUZq?=
+ =?utf-8?B?U20yOENWRnUvejdZVlNCRStza2hlLzR2WUN6Q1RZWURvN1A4MGNOZTFsTWo4?=
+ =?utf-8?B?NmZNR1J5SHJxamtyYlgyY2hzRmhmTi9BdUxLR0xRc2dUbVVpbFNpbmNBTGRx?=
+ =?utf-8?B?amp2MWkzUnZVMUpwd3czTXdudThNSUdxakoxK3YyclcyZnJCbHk3Y2tnWUNz?=
+ =?utf-8?B?WDVOYlpxc3AyZ3VjYkR1ZXZzMWtKeFg4YzFnWVlzOGdEWHJZcllQYmpTR0xE?=
+ =?utf-8?B?UTBVdHEvaytUTU9KamtWeUlHK004OUJjSEFnNVhlZXNhcTZ1ZVE3WGZPSnp0?=
+ =?utf-8?B?Qkc2VnFCRW9kZGJERmlyUjArTCsxdWhpOE44akF3Ui9KOGlQdXc5Y3dYeVVy?=
+ =?utf-8?B?d2Npc0FGWk8xQXdvdXRDSnM3b3VsVXVlNW1TVTBOdTZjTmtvY0R6ZnV5RDkx?=
+ =?utf-8?B?dGdubjk0QkRLWVhlekYwK1h1MUs4SSsrbXVpNkFJSGJIbmRUcmVtaFVWWFpq?=
+ =?utf-8?B?SFZzTWQwQWVITlJUYWNPVHdzOCtDUW1FdEo1d1lkY29JREVQQ3crTG5iSkJW?=
+ =?utf-8?B?YkQwLzJ1c1Fwd21ERXpNaENJZXZCZGdjYUw1NmNIZ0FHSWVlVW0rNitnckQz?=
+ =?utf-8?B?eitzYUd6Q3NIb2Q2ME9VWDJiTXhub1J3K3I4MDArdWw2SDBQbVpYVDJtUjlk?=
+ =?utf-8?B?d2g4aEZjdU5iUklhbG4vSnp3KzkvVmxLNHRNWkRIVDhSdk9NM1g5QTFpSlNp?=
+ =?utf-8?B?QVlUeXIwT21BQlRRVERQR2IxU3haaWJGOFd0NW96TUluWHhBR242NldnOWtM?=
+ =?utf-8?B?OGNNdzZNWHJUM0lBeEppSUFSb1RTZzhLTFBqZ0VndGJ4Y3Z2Z2ZVaC9FeS95?=
+ =?utf-8?B?UFp6MHlwOVZwV2lHSVhpRnNRY2JRd28zR2kvKzBhVGpaZ3ArSytPOWE2bFps?=
+ =?utf-8?B?QkY3RjU1b1hFL2hSamd4di83WkY1clBSNzFGUEdoK0orNXoxaGREUzFHWnls?=
+ =?utf-8?B?aVJzeXBKd0tzZGJ6ckJoMWRseHNyVjlLOUNsdUhDQ0srcWJlaEkzNjdDZktW?=
+ =?utf-8?B?ODRzUzBwY0U1TUNYckVwRlp6RmhaV2xvQ2NFVE44NTY0Sy9GMlB1RWNvZVRz?=
+ =?utf-8?Q?qtgi2tbF77sA0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 262a235e-695d-4df4-f605-08d9154e64ca
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2021 14:01:09.6258 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lJTFDSORkfP/HIHHkBcjytakAL6ZTOKvdgKCR0VcRy4olfzs/TlOa+XuKVgXo236oTWaOoqyIsaruGSi/o0etQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4448
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,4293 +134,1029 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
- Sean Paul <sean@poorly.run>
+Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org, helgaas@kernel.org,
+ Felix.Kuehling@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B44=E6=9C=8830=E6=97=
-=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=885:35=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hi,
->
-> On Sun, Apr 25, 2021 at 08:36:07PM +0800, Kevin Tang wrote:
-> > Adds dsi host controller support for the Unisoc's display subsystem.
-> > Adds dsi phy support for the Unisoc's display subsystem.
-> > Only MIPI DSI Displays supported, DP/TV/HMDI will be support
-> > in the feature.
-> >
-> > v1:
-> >   - Remove dphy and dsi graph binding, merge the dphy driver into the d=
-si.
-> >
-> > v2:
-> >   - Use drm_xxx to replace all DRM_XXX.
-> >   - Use kzalloc to replace devm_kzalloc for sprd_dsi structure init.
-> >
-> > v4:
-> >   - Use drmm_helpers to allocate encoder.
-> >   - Move allocate encoder and connector to bind function.
-> >
-> > v5:
-> >   - Drop the dsi ip file prefix.
-> >   - Fix the checkpatch warnings.
-> >   - Add Signed-off-by for dsi&dphy patch.
-> >   - Use the mode_flags of mipi_dsi_device to setup crtc DPI and EDPI
-> >     mode.
-> >
-> > Cc: Orson Zhai <orsonzhai@gmail.com>
-> > Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> > Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
->
-> Output from checkpatch:
-> total: 0 errors, 3 warnings, 100 checks, 4207 lines checked
->
-> > ---
-> >  drivers/gpu/drm/sprd/Kconfig         |    1 +
-> >  drivers/gpu/drm/sprd/Makefile        |    6 +-
-> >  drivers/gpu/drm/sprd/dsi_ctrl.c      |  794 ++++++++++++++
-> >  drivers/gpu/drm/sprd/dsi_ctrl.h      | 1475 ++++++++++++++++++++++++++
-> >  drivers/gpu/drm/sprd/dsi_ctrl_ppi.c  |  157 +++
-> >  drivers/gpu/drm/sprd/dsi_ctrl_ppi.h  |   26 +
-> >  drivers/gpu/drm/sprd/megacores_pll.c |  317 ++++++
-> >  drivers/gpu/drm/sprd/megacores_pll.h |  146 +++
-> >  drivers/gpu/drm/sprd/sprd_dpu.c      |   17 +
-> >  drivers/gpu/drm/sprd/sprd_drm.c      |    1 +
-> >  drivers/gpu/drm/sprd/sprd_drm.h      |    1 +
-> >  drivers/gpu/drm/sprd/sprd_dsi.c      | 1124 ++++++++++++++++++++
-> >  drivers/gpu/drm/sprd/sprd_dsi.h      |  107 ++
-> >  13 files changed, 4171 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/gpu/drm/sprd/dsi_ctrl.c
-> >  create mode 100644 drivers/gpu/drm/sprd/dsi_ctrl.h
-> >  create mode 100644 drivers/gpu/drm/sprd/dsi_ctrl_ppi.c
-> >  create mode 100644 drivers/gpu/drm/sprd/dsi_ctrl_ppi.h
-> >  create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c
-> >  create mode 100644 drivers/gpu/drm/sprd/megacores_pll.h
-> >  create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
-> >  create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
-> >
-> > diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfi=
-g
-> > index 37762c333..3edeaeca0 100644
-> > --- a/drivers/gpu/drm/sprd/Kconfig
-> > +++ b/drivers/gpu/drm/sprd/Kconfig
-> > @@ -5,6 +5,7 @@ config DRM_SPRD
-> >       select DRM_GEM_CMA_HELPER
-> >       select DRM_KMS_CMA_HELPER
-> >       select DRM_KMS_HELPER
-> > +     select DRM_MIPI_DSI
-> >       select VIDEOMODE_HELPERS
-> >       help
-> >         Choose this option if you have a Unisoc chipset.
-> > diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Makef=
-ile
-> > index ab12b95e6..d49f4977b 100644
-> > --- a/drivers/gpu/drm/sprd/Makefile
-> > +++ b/drivers/gpu/drm/sprd/Makefile
-> > @@ -1,4 +1,8 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >
-> >  obj-y :=3D sprd_drm.o \
-> > -     sprd_dpu.o
-> > +     sprd_dpu.o \
-> > +     sprd_dsi.o \
-> > +     dw_dsi_ctrl.o \
-> > +     dw_dsi_ctrl_ppi.o \
-> > +     megacores_pll.o
-> > diff --git a/drivers/gpu/drm/sprd/dsi_ctrl.c b/drivers/gpu/drm/sprd/dsi=
-_ctrl.c
-> > new file mode 100644
-> > index 000000000..7eccf9654
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/dsi_ctrl.c
-> > @@ -0,0 +1,794 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) 2020 Unisoc Inc.
-> > + */
-> > +
-> > +#include <linux/io.h>
-> > +#include <linux/init.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/module.h>
-> > +
-> > +#include "dsi_ctrl.h"
-> > +
-> > +/*
-> > + * Modify power status of DSI Host core
-> > + */
-> > +void dsi_power_enable(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(enable, &reg->SOFT_RESET);
-> > +}
-> > +/*
-> > + * Enable/disable DPI video mode
-> > + */
-> > +void dsi_video_mode(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(0, &reg->DSI_MODE_CFG);
-> > +}
-> > +/*
-> > + * Enable command mode (Generic interface)
-> > + */
-> > +void dsi_cmd_mode(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(1, &reg->DSI_MODE_CFG);
-> > +}
-> > +
-> > +bool dsi_is_cmd_mode(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     return readl(&reg->DSI_MODE_CFG);
-> > +}
-> > +/*
-> > + * Configure the read back virtual channel for the generic interface
-> > + */
-> > +void dsi_rx_vcid(struct dsi_context *ctx, u8 vc)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x1C virtual_channel_id;
-> > +
-> > +     virtual_channel_id.val =3D readl(&reg->VIRTUAL_CHANNEL_ID);
-> > +     virtual_channel_id.bits.gen_rx_vcid =3D vc;
-> > +
-> > +     writel(virtual_channel_id.val, &reg->VIRTUAL_CHANNEL_ID);
-> > +}
-> > +/*
-> > + * Write the DPI video virtual channel destination
-> > + */
-> > +void dsi_video_vcid(struct dsi_context *ctx, u8 vc)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x1C virtual_channel_id;
-> > +
-> > +     virtual_channel_id.val =3D readl(&reg->VIRTUAL_CHANNEL_ID);
-> > +     virtual_channel_id.bits.video_pkt_vcid =3D vc;
-> > +
-> > +     writel(virtual_channel_id.val, &reg->VIRTUAL_CHANNEL_ID);
-> > +}
-> > +/*
-> > + * Set DPI video mode type (burst/non-burst - with sync pulses or even=
-ts)
-> > + */
-> > +void dsi_dpi_video_burst_mode(struct dsi_context *ctx, int mode)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x38 vid_mode_cfg;
-> > +
-> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-> > +     vid_mode_cfg.bits.vid_mode_type =3D mode;
-> > +
-> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-> > +}
-> > +/*
-> > + * Set DPI video color coding
-> > + */
-> > +void dsi_dpi_color_coding(struct dsi_context *ctx, int coding)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x20 dpi_video_format;
-> > +
-> > +     dpi_video_format.val =3D readl(&reg->DPI_VIDEO_FORMAT);
-> > +     dpi_video_format.bits.dpi_video_mode_format =3D coding;
-> > +
-> > +     writel(dpi_video_format.val, &reg->DPI_VIDEO_FORMAT);
-> > +}
-> > +/*
-> > + * Configure the Horizontal Line time
-> > + * param "byte_cycle" taken to transmit the total of the horizontal li=
-ne
-> > + */
-> > +void dsi_dpi_hline_time(struct dsi_context *ctx, u16 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x2C video_line_time;
-> > +
-> > +     video_line_time.val =3D readl(&reg->VIDEO_LINE_TIME);
-> > +     video_line_time.bits.video_line_time =3D byte_cycle;
-> > +
-> > +     writel(video_line_time.val, &reg->VIDEO_LINE_TIME);
-> > +}
-> > +/*
-> > + * Configure the Horizontal back porch time
-> > + * param "byte_cycle" taken to transmit the horizontal back porch
-> > + */
-> > +void dsi_dpi_hbp_time(struct dsi_context *ctx, u16 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x28 video_line_hblk_time;
-> > +
-> > +     video_line_hblk_time.val =3D readl(&reg->VIDEO_LINE_HBLK_TIME);
-> > +     video_line_hblk_time.bits.video_line_hbp_time =3D byte_cycle;
-> > +
-> > +     writel(video_line_hblk_time.val, &reg->VIDEO_LINE_HBLK_TIME);
-> > +}
-> > +/*
-> > + * Configure the Horizontal sync time,
-> > + * param "byte_cycle" taken to transmit the horizontal sync
-> > + */
-> > +void dsi_dpi_hsync_time(struct dsi_context *ctx, u16 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x28 video_line_hblk_time;
-> > +
-> > +     video_line_hblk_time.val =3D readl(&reg->VIDEO_LINE_HBLK_TIME);
-> > +     video_line_hblk_time.bits.video_line_hsa_time =3D byte_cycle;
-> > +
-> > +     writel(video_line_hblk_time.val, &reg->VIDEO_LINE_HBLK_TIME);
-> > +}
-> > +/*
-> > + * Configure the vertical active lines of the video stream
-> > + */
-> > +void dsi_dpi_vact(struct dsi_context *ctx, u16 lines)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x34 video_active_lines;
-> > +
-> > +     video_active_lines.val =3D readl(&reg->VIDEO_VACTIVE_LINES);
-> > +     video_active_lines.bits.vactive_lines =3D lines;
-> > +
-> > +     writel(video_active_lines.val, &reg->VIDEO_VACTIVE_LINES);
-> > +}
-> > +
-> > +void dsi_dpi_vfp(struct dsi_context *ctx, u16 lines)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x30 video_vblk_lines;
-> > +
-> > +     video_vblk_lines.val =3D readl(&reg->VIDEO_VBLK_LINES);
-> > +     video_vblk_lines.bits.vfp_lines =3D lines;
-> > +
-> > +     writel(video_vblk_lines.val, &reg->VIDEO_VBLK_LINES);
-> > +}
-> > +
-> > +void dsi_dpi_vbp(struct dsi_context *ctx, u16 lines)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x30 video_vblk_lines;
-> > +
-> > +     video_vblk_lines.val =3D readl(&reg->VIDEO_VBLK_LINES);
-> > +     video_vblk_lines.bits.vbp_lines =3D lines;
-> > +
-> > +     writel(video_vblk_lines.val, &reg->VIDEO_VBLK_LINES);
-> > +}
-> > +
-> > +void dsi_dpi_vsync(struct dsi_context *ctx, u16 lines)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x30 video_vblk_lines;
-> > +
-> > +     video_vblk_lines.val =3D readl(&reg->VIDEO_VBLK_LINES);
-> > +     video_vblk_lines.bits.vsa_lines =3D lines;
-> > +
-> > +     writel(video_vblk_lines.val, &reg->VIDEO_VBLK_LINES);
-> > +}
-> > +
-> > +void dsi_dpi_hporch_lp_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x38 vid_mode_cfg;
-> > +
-> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-> > +
-> > +     vid_mode_cfg.bits.lp_hfp_en =3D enable;
-> > +     vid_mode_cfg.bits.lp_hbp_en =3D enable;
-> > +
-> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-> > +}
-> > +/*
-> > + * Enable return to low power mode inside vertical active lines period=
-s when
-> > + * timing allows
-> > + */
-> > +void dsi_dpi_vporch_lp_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x38 vid_mode_cfg;
-> > +
-> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-> > +
-> > +     vid_mode_cfg.bits.lp_vact_en =3D enable;
-> > +     vid_mode_cfg.bits.lp_vfp_en =3D enable;
-> > +     vid_mode_cfg.bits.lp_vbp_en =3D enable;
-> > +     vid_mode_cfg.bits.lp_vsa_en =3D enable;
-> > +
-> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-> > +}
-> > +/*
-> > + * Enable FRAME BTA ACK
-> > + */
-> > +void dsi_dpi_frame_ack_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x38 vid_mode_cfg;
-> > +
-> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-> > +     vid_mode_cfg.bits.frame_bta_ack_en =3D enable;
-> > +
-> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-> > +}
-> > +/*
-> > + * Write no of chunks to core - taken into consideration only when mul=
-ti packet
-> > + * is enabled
-> > + */
-> > +void dsi_dpi_chunk_num(struct dsi_context *ctx, u16 num)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x24 video_pkt_config;
-> > +
-> > +     video_pkt_config.val =3D readl(&reg->VIDEO_PKT_CONFIG);
-> > +     video_pkt_config.bits.video_line_chunk_num =3D num;
-> > +
-> > +     writel(video_pkt_config.val, &reg->VIDEO_PKT_CONFIG);
-> > +}
-> > +/*
-> > + * Write the null packet size - will only be taken into account when n=
-ull
-> > + * packets are enabled.
-> > + */
-> > +void dsi_dpi_null_packet_size(struct dsi_context *ctx, u16 size)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xC0 video_nullpkt_size;
-> > +
-> > +     video_nullpkt_size.val =3D readl(&reg->VIDEO_NULLPKT_SIZE);
-> > +     video_nullpkt_size.bits.video_nullpkt_size =3D size;
-> > +
-> > +     writel(video_nullpkt_size.val, &reg->VIDEO_NULLPKT_SIZE);
-> > +}
-> > +/*
-> > + * Write video packet size. obligatory for sending video
-> > + */
-> > +void dsi_dpi_video_packet_size(struct dsi_context *ctx, u16 size)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x24 video_pkt_config;
-> > +
-> > +     video_pkt_config.val =3D readl(&reg->VIDEO_PKT_CONFIG);
-> > +     video_pkt_config.bits.video_pkt_size =3D size;
-> > +
-> > +     writel(video_pkt_config.val, &reg->VIDEO_PKT_CONFIG);
-> > +}
-> > +/*
-> > + * Specifiy the size of the packet memory write start/continue
-> > + */
-> > +void dsi_edpi_max_pkt_size(struct dsi_context *ctx, u16 size)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xC4 dcs_wm_pkt_size;
-> > +
-> > +     dcs_wm_pkt_size.val =3D readl(&reg->DCS_WM_PKT_SIZE);
-> > +     dcs_wm_pkt_size.bits.dcs_wm_pkt_size =3D size;
-> > +
-> > +     writel(dcs_wm_pkt_size.val, &reg->DCS_WM_PKT_SIZE);
-> > +}
-> > +/*
-> > + * Enable tear effect acknowledge
-> > + */
-> > +void dsi_tear_effect_ack_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x68 cmd_mode_cfg;
-> > +
-> > +     cmd_mode_cfg.val =3D readl(&reg->CMD_MODE_CFG);
-> > +     cmd_mode_cfg.bits.tear_fx_en =3D enable;
-> > +
-> > +     writel(cmd_mode_cfg.val, &reg->CMD_MODE_CFG);
-> > +}
-> > +/*
-> > + * Set DCS command packet transmission to transmission type
-> > + */
-> > +void dsi_cmd_mode_lp_cmd_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x68 cmd_mode_cfg;
-> > +
-> > +     cmd_mode_cfg.val =3D readl(&reg->CMD_MODE_CFG);
-> > +
-> > +     cmd_mode_cfg.bits.gen_sw_0p_tx =3D enable;
-> > +     cmd_mode_cfg.bits.gen_sw_1p_tx =3D enable;
-> > +     cmd_mode_cfg.bits.gen_sw_2p_tx =3D enable;
-> > +     cmd_mode_cfg.bits.gen_lw_tx =3D enable;
-> > +     cmd_mode_cfg.bits.dcs_sw_0p_tx =3D enable;
-> > +     cmd_mode_cfg.bits.dcs_sw_1p_tx =3D enable;
-> > +     cmd_mode_cfg.bits.dcs_lw_tx =3D enable;
-> > +     cmd_mode_cfg.bits.max_rd_pkt_size =3D enable;
-> > +
-> > +     cmd_mode_cfg.bits.gen_sr_0p_tx =3D enable;
-> > +     cmd_mode_cfg.bits.gen_sr_1p_tx =3D enable;
-> > +     cmd_mode_cfg.bits.gen_sr_2p_tx =3D enable;
-> > +     cmd_mode_cfg.bits.dcs_sr_0p_tx =3D enable;
-> > +
-> > +     writel(cmd_mode_cfg.val, &reg->CMD_MODE_CFG);
-> > +}
-> > +/*
-> > + * Set DCS read command packet transmission to transmission type
-> > + */
-> > +void dsi_video_mode_lp_cmd_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x38 vid_mode_cfg;
-> > +
-> > +     vid_mode_cfg.val =3D readl(&reg->VID_MODE_CFG);
-> > +     vid_mode_cfg.bits.lp_cmd_en =3D enable;
-> > +
-> > +     writel(vid_mode_cfg.val, &reg->VID_MODE_CFG);
-> > +}
-> > +
-> > +/*
-> > + * Write command header in the generic interface (which also sends DCS=
- commands) as a subset
-> > + */
-> > +void dsi_set_packet_header(struct dsi_context *ctx,
-> > +                                u8 vc,
-> > +                                u8 type,
-> > +                                u8 wc_lsb,
-> > +                                u8 wc_msb)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x6C gen_hdr;
-> > +
-> > +     gen_hdr.bits.gen_dt =3D type;
-> > +     gen_hdr.bits.gen_vc =3D vc;
-> > +     gen_hdr.bits.gen_wc_lsbyte =3D wc_lsb;
-> > +     gen_hdr.bits.gen_wc_msbyte =3D wc_msb;
-> > +
-> > +     writel(gen_hdr.val, &reg->GEN_HDR);
-> > +}
-> > +/*
-> > + * Write the payload of the long packet commands
-> > + */
-> > +void dsi_set_packet_payload(struct dsi_context *ctx, u32 payload)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(payload, &reg->GEN_PLD_DATA);
-> > +}
-> > +/*
-> > + * Read the payload of the long packet commands
-> > + */
-> > +u32 dsi_get_rx_payload(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     return readl(&reg->GEN_PLD_DATA);
-> > +}
-> > +
-> > +/*
-> > + * Enable Bus Turn-around request
-> > + */
-> > +void dsi_bta_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(enable, &reg->TA_EN);
-> > +}
-> > +/*
-> > + * Enable EOTp reception
-> > + */
-> > +void dsi_eotp_rx_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xBC eotp_en;
-> > +
-> > +     eotp_en.val =3D readl(&reg->EOTP_EN);
-> > +     eotp_en.bits.rx_eotp_en =3D enable;
-> > +
-> > +     writel(eotp_en.val, &reg->EOTP_EN);
-> > +}
-> > +/*
-> > + * Enable EOTp transmission
-> > + */
-> > +void dsi_eotp_tx_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xBC eotp_en;
-> > +
-> > +     eotp_en.val =3D readl(&reg->EOTP_EN);
-> > +     eotp_en.bits.tx_eotp_en =3D enable;
-> > +
-> > +     writel(eotp_en.val, &reg->EOTP_EN);
-> > +}
-> > +/*
-> > + * Enable ECC reception, error correction and reporting
-> > + */
-> > +void dsi_ecc_rx_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xB4 rx_pkt_check_config;
-> > +
-> > +     rx_pkt_check_config.val =3D readl(&reg->RX_PKT_CHECK_CONFIG);
-> > +     rx_pkt_check_config.bits.rx_pkt_ecc_en =3D enable;
-> > +
-> > +     writel(rx_pkt_check_config.val, &reg->RX_PKT_CHECK_CONFIG);
-> > +}
-> > +/*
-> > + * Enable CRC reception, error reporting
-> > + */
-> > +void dsi_crc_rx_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xB4 rx_pkt_check_config;
-> > +
-> > +     rx_pkt_check_config.val =3D readl(&reg->RX_PKT_CHECK_CONFIG);
-> > +     rx_pkt_check_config.bits.rx_pkt_crc_en =3D enable;
-> > +
-> > +     writel(rx_pkt_check_config.val, &reg->RX_PKT_CHECK_CONFIG);
-> > +}
-> > +/*
-> > + * Get status of read command
-> > + */
-> > +bool dsi_is_bta_returned(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x98 cmd_mode_status;
-> > +
-> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
-> > +
-> > +     return cmd_mode_status.bits.gen_cmd_rdcmd_done;
-> > +}
-> > +/*
-> > + * Get the FULL status of generic read payload fifo
-> > + */
-> > +bool dsi_is_rx_payload_fifo_full(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x98 cmd_mode_status;
-> > +
-> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
-> > +
-> > +     return cmd_mode_status.bits.gen_cmd_rdata_fifo_full;
-> > +}
-> > +/*
-> > + * Get the EMPTY status of generic read payload fifo
-> > + */
-> > +bool dsi_is_rx_payload_fifo_empty(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x98 cmd_mode_status;
-> > +
-> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
-> > +
-> > +     return cmd_mode_status.bits.gen_cmd_rdata_fifo_empty;
-> > +}
-> > +/*
-> > + * Get the FULL status of generic write payload fifo
-> > + */
-> > +bool dsi_is_tx_payload_fifo_full(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x98 cmd_mode_status;
-> > +
-> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
-> > +
-> > +     return cmd_mode_status.bits.gen_cmd_wdata_fifo_full;
-> > +}
-> > +/*
-> > + * Get the EMPTY status of generic write payload fifo
-> > + */
-> > +bool dsi_is_tx_payload_fifo_empty(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x98 cmd_mode_status;
-> > +
-> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
-> > +
-> > +     return cmd_mode_status.bits.gen_cmd_wdata_fifo_empty;
-> > +}
-> > +/*
-> > + * Get the EMPTY status of generic command fifo
-> > + */
-> > +bool dsi_is_tx_cmd_fifo_empty(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x98 cmd_mode_status;
-> > +
-> > +     cmd_mode_status.val =3D readl(&reg->CMD_MODE_STATUS);
-> > +
-> > +     return cmd_mode_status.bits.gen_cmd_cmd_fifo_empty;
-> > +}
-> > +/*
-> > + * DPI interface signal delay config
-> > + * param byte_cycle period for waiting after controller receiving HSYN=
-C from
-> > + * DPI interface to start read pixel data from memory.
-> > + */
-> > +void dsi_dpi_sig_delay(struct dsi_context *ctx, u16 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xD0 video_sig_delay_config;
-> > +
-> > +     video_sig_delay_config.val =3D readl(&reg->VIDEO_SIG_DELAY_CONFIG=
-);
-> > +     video_sig_delay_config.bits.video_sig_delay =3D byte_cycle;
-> > +
-> > +     writel(video_sig_delay_config.val, &reg->VIDEO_SIG_DELAY_CONFIG);
-> > +}
-> > +/*
-> > + * Configure how many cycles of byte clock would the PHY module take
-> > + * to switch data lane from high speed to low power
-> > + */
-> > +void dsi_datalane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle=
-)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xAC phy_datalane_time_config;
-> > +
-> > +     phy_datalane_time_config.val =3D readl(&reg->PHY_DATALANE_TIME_CO=
-NFIG);
-> > +     phy_datalane_time_config.bits.phy_datalane_hs_to_lp_time =3D byte=
-_cycle;
-> > +
-> > +     writel(phy_datalane_time_config.val, &reg->PHY_DATALANE_TIME_CONF=
-IG);
-> > +}
-> > +/*
-> > + * Configure how many cycles of byte clock would the PHY module take
-> > + * to switch the data lane from to low power high speed
-> > + */
-> > +void dsi_datalane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle=
-)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xAC phy_datalane_time_config;
-> > +
-> > +     phy_datalane_time_config.val =3D readl(&reg->PHY_DATALANE_TIME_CO=
-NFIG);
-> > +     phy_datalane_time_config.bits.phy_datalane_lp_to_hs_time =3D byte=
-_cycle;
-> > +
-> > +     writel(phy_datalane_time_config.val, &reg->PHY_DATALANE_TIME_CONF=
-IG);
-> > +}
-> > +/*
-> > + * Configure how many cycles of byte clock would the PHY module take
-> > + * to switch clock lane from high speed to low power
-> > + */
-> > +void dsi_clklane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xA8 phy_clklane_time_config;
-> > +
-> > +     phy_clklane_time_config.val =3D readl(&reg->PHY_CLKLANE_TIME_CONF=
-IG);
-> > +     phy_clklane_time_config.bits.phy_clklane_hs_to_lp_time =3D byte_c=
-ycle;
-> > +
-> > +     writel(phy_clklane_time_config.val, &reg->PHY_CLKLANE_TIME_CONFIG=
-);
-> > +}
-> > +/*
-> > + * Configure how many cycles of byte clock would the PHY module take
-> > + * to switch clock lane from to low power high speed
-> > + */
-> > +void dsi_clklane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xA8 phy_clklane_time_config;
-> > +
-> > +     phy_clklane_time_config.val =3D readl(&reg->PHY_CLKLANE_TIME_CONF=
-IG);
-> > +     phy_clklane_time_config.bits.phy_clklane_lp_to_hs_time =3D byte_c=
-ycle;
-> > +
-> > +     writel(phy_clklane_time_config.val, &reg->PHY_CLKLANE_TIME_CONFIG=
-);
-> > +}
-> > +/*
-> > + * Configure how many cycles of byte clock would the PHY module take
-> > + * to turn the bus around to start receiving
-> > + */
-> > +void dsi_max_read_time(struct dsi_context *ctx, u16 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(byte_cycle, &reg->MAX_READ_TIME);
-> > +}
-> > +/*
-> > + * Enable the automatic mechanism to stop providing clock in the clock
-> > + * lane when time allows
-> > + */
-> > +void dsi_nc_clk_en(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x74 phy_clk_lane_lp_ctrl;
-> > +
-> > +     phy_clk_lane_lp_ctrl.val =3D readl(&reg->PHY_CLK_LANE_LP_CTRL);
-> > +     phy_clk_lane_lp_ctrl.bits.auto_clklane_ctrl_en =3D enable;
-> > +
-> > +     writel(phy_clk_lane_lp_ctrl.val, &reg->PHY_CLK_LANE_LP_CTRL);
-> > +}
-> > +/*
-> > + * Write transmission escape timeout
-> > + * a safe guard so that the state machine would reset if transmission
-> > + * takes too long
-> > + */
-> > +void dsi_tx_escape_division(struct dsi_context *ctx, u8 div)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(div, &reg->TX_ESC_CLK_CONFIG);
-> > +}
-> > +/*
-> > + * Configure timeout divisions (so they would have more clock ticks)
-> > + * div no of hs cycles before transiting back to LP in
-> > + *  (lane_clk / div)
-> > + */
-> > +void dsi_timeout_clock_division(struct dsi_context *ctx, u8 div)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(div, &reg->TIMEOUT_CNT_CLK_CONFIG);
-> > +}
-> > +/*
-> > + * Configure the Low power receive time out
-> > + */
-> > +void dsi_lp_rx_timeout(struct dsi_context *ctx, u16 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(byte_cycle, &reg->LRX_H_TO_CONFIG);
-> > +}
-> > +/*
-> > + * Configure a high speed transmission time out
-> > + */
-> > +void dsi_hs_tx_timeout(struct dsi_context *ctx, u16 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(byte_cycle, &reg->HTX_TO_CONFIG);
-> > +}
-> > +/*
-> > + * Get the error 0 interrupt register status
-> > + */
-> > +u32 dsi_int0_status(struct dsi_context *ctx)
-> > +{
-> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x08 protocol_int_sts;
-> > +
-> > +     protocol_int_sts.val =3D readl(&reg->PROTOCOL_INT_STS);
-> > +     writel(protocol_int_sts.val, &reg->PROTOCOL_INT_CLR);
-> > +
-> > +     if (protocol_int_sts.bits.dphy_errors_0)
-> > +             drm_err(dsi->drm, "dphy_err: escape entry error\n");
-> > +
-> > +     if (protocol_int_sts.bits.dphy_errors_1)
-> > +             drm_err(dsi->drm, "dphy_err: lp data transmission sync er=
-ror\n");
-> > +
-> > +     if (protocol_int_sts.bits.dphy_errors_2)
-> > +             drm_err(dsi->drm, "dphy_err: control error\n");
-> > +
-> > +     if (protocol_int_sts.bits.dphy_errors_3)
-> > +             drm_err(dsi->drm, "dphy_err: LP0 contention error\n");
-> > +
-> > +     if (protocol_int_sts.bits.dphy_errors_4)
-> > +             drm_err(dsi->drm, "dphy_err: LP1 contention error\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_0)
-> > +             drm_err(dsi->drm, "ack_err: SoT error\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_1)
-> > +             drm_err(dsi->drm, "ack_err: SoT Sync error\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_2)
-> > +             drm_err(dsi->drm, "ack_err: EoT Sync error\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_3)
-> > +             drm_err(dsi->drm, "ack_err: Escape Mode Entry Command err=
-or\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_4)
-> > +             drm_err(dsi->drm, "ack_err: LP Transmit Sync error\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_5)
-> > +             drm_err(dsi->drm, "ack_err: Peripheral Timeout error\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_6)
-> > +             drm_err(dsi->drm, "ack_err: False Control error\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_7)
-> > +             drm_err(dsi->drm, "ack_err: reserved (specific to device)=
-\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_8)
-> > +             drm_err(dsi->drm, "ack_err: ECC error, single-bit (correc=
-ted)\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_9)
-> > +             drm_err(dsi->drm, "ack_err: ECC error, multi-bit (not cor=
-rected)\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_10)
-> > +             drm_err(dsi->drm, "ack_err: checksum error (long packet o=
-nly)\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_11)
-> > +             drm_err(dsi->drm, "ack_err: not recognized DSI data type\=
-n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_12)
-> > +             drm_err(dsi->drm, "ack_err: DSI VC ID Invalid\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_13)
-> > +             drm_err(dsi->drm, "ack_err: invalid transmission length\n=
-");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_14)
-> > +             drm_err(dsi->drm, "ack_err: reserved (specific to device)=
-\n");
-> > +
-> > +     if (protocol_int_sts.bits.ack_with_err_15)
-> > +             drm_err(dsi->drm, "ack_err: DSI protocol violation\n");
-> > +
-> > +     return 0;
-> > +}
-> > +/*
-> > + * Get the error 1 interrupt register status
-> > + */
-> > +u32 dsi_int1_status(struct dsi_context *ctx)
-> > +{
-> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x10 internal_int_sts;
-> > +     u32 status =3D 0;
-> > +
-> > +     internal_int_sts.val =3D readl(&reg->INTERNAL_INT_STS);
-> > +     writel(internal_int_sts.val, &reg->INTERNAL_INT_CLR);
-> > +
-> > +     if (internal_int_sts.bits.receive_pkt_size_err)
-> > +             drm_err(dsi->drm, "receive packet size error\n");
-> > +
-> > +     if (internal_int_sts.bits.eotp_not_receive_err)
-> > +             drm_err(dsi->drm, "EoTp packet is not received\n");
-> > +
-> > +     if (internal_int_sts.bits.gen_cmd_cmd_fifo_wr_err)
-> > +             drm_err(dsi->drm, "cmd header-fifo is full\n");
-> > +
-> > +     if (internal_int_sts.bits.gen_cmd_rdata_fifo_rd_err)
-> > +             drm_err(dsi->drm, "cmd read-payload-fifo is empty\n");
-> > +
-> > +     if (internal_int_sts.bits.gen_cmd_rdata_fifo_wr_err)
-> > +             drm_err(dsi->drm, "cmd read-payload-fifo is full\n");
-> > +
-> > +     if (internal_int_sts.bits.gen_cmd_wdata_fifo_wr_err)
-> > +             drm_err(dsi->drm, "cmd write-payload-fifo is full\n");
-> > +
-> > +     if (internal_int_sts.bits.gen_cmd_wdata_fifo_rd_err)
-> > +             drm_err(dsi->drm, "cmd write-payload-fifo is empty\n");
-> > +
-> > +     if (internal_int_sts.bits.dpi_pix_fifo_wr_err) {
-> > +             drm_err(dsi->drm, "DPI pixel-fifo is full\n");
-> > +             status |=3D DSI_INT_STS_NEED_SOFT_RESET;
-> > +     }
-> > +
-> > +     if (internal_int_sts.bits.ecc_single_err)
-> > +             drm_err(dsi->drm, "ECC single error in a received packet\=
-n");
-> > +
-> > +     if (internal_int_sts.bits.ecc_multi_err)
-> > +             drm_err(dsi->drm, "ECC multiple error in a received packe=
-t\n");
-> > +
-> > +     if (internal_int_sts.bits.crc_err)
-> > +             drm_err(dsi->drm, "CRC error in the received packet paylo=
-ad\n");
-> > +
-> > +     if (internal_int_sts.bits.hs_tx_timeout)
-> > +             drm_err(dsi->drm, "high-speed transmission timeout\n");
-> > +
-> > +     if (internal_int_sts.bits.lp_rx_timeout)
-> > +             drm_err(dsi->drm, "low-power reception timeout\n");
-> > +
-> > +     return status;
-> > +}
-> > +/*
-> > + * Configure MASK (hiding) of interrupts coming from error 0 source
-> > + */
-> > +void dsi_int0_mask(struct dsi_context *ctx, u32 mask)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(mask, &reg->MASK_PROTOCOL_INT);
-> > +}
-> > +/*
-> > + * Configure MASK (hiding) of interrupts coming from error 1 source
-> > + */
-> > +void dsi_int1_mask(struct dsi_context *ctx, u32 mask)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(mask, &reg->MASK_INTERNAL_INT);
-> > +}
-> > diff --git a/drivers/gpu/drm/sprd/dsi_ctrl.h b/drivers/gpu/drm/sprd/dsi=
-_ctrl.h
-> > new file mode 100644
-> > index 000000000..88069227f
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/dsi_ctrl.h
-> > @@ -0,0 +1,1475 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) 2020 Unisoc Inc.
-> > + */
-> > +
-> > +#ifndef _DSI_CTRL_H_
-> > +#define _DSI_CTRL_H_
-> > +
-> > +#include <asm/types.h>
-> > +
-> > +#include "sprd_dsi.h"
-> > +
-> > +struct dsi_reg {
-> > +     union _0x00 {
-> > +             u32 val;
-> > +             struct _DSI_VERSION {
-> > +             u32 dsi_version: 16;
-> > +             u32 reserved: 16;
-> > +             } bits;
-> > +     } DSI_VERSION;
->
-> Using unions and structures to define the register is really frowned
-> upon in favor of defines, like you rightfully did in the crtc driver.
-This workload is too big, this design has been used for many years,
-so I actually want to keep it the same, but if it really doesn=E2=80=99t me=
-et
-the current design.
-I can change the design, but it may take a lot of time......
->
-> > +     union _0x04 {
-> > +             u32 val;
-> > +             struct _SOFT_RESET {
-> > +             /*
-> > +              * This bit configures the core either to work normal or =
-to
-> > +              * reset. It's default value is 0. After the core configu=
-r-
-> > +              * ation, to enable the mipi_dsi_host, set this register =
-to 1.
-> > +              * 1: power up     0: reset core
-> > +              */
-> > +             u32 dsi_soft_reset: 1;
-> > +
-> > +             u32 reserved: 31;
-> > +             } bits;
-> > +     } SOFT_RESET;
-> > +
-> > +     union _0x08 {
-> > +             u32 val;
-> > +             struct _PROTOCOL_INT_STS {
-> > +             /* ErrEsc escape entry error from Lane 0 */
-> > +             u32 dphy_errors_0: 1;
-> > +
-> > +             /* ErrSyncEsc low-power data transmission synchronization
-> > +              * error from Lane 0
-> > +              */
-> > +             u32 dphy_errors_1: 1;
-> > +
-> > +             /* ErrControl error from Lane 0 */
-> > +             u32 dphy_errors_2: 1;
-> > +
-> > +             /* ErrContentionLP0 LP0 contention error from Lane 0 */
-> > +             u32 dphy_errors_3: 1;
-> > +
-> > +             /* ErrContentionLP1 LP1 contention error from Lane 0 */
-> > +             u32 dphy_errors_4: 1;
-> > +
-> > +             /* debug mode protocol errors */
-> > +             u32 protocol_debug_err: 11;
-> > +
-> > +             /* SoT error from the Acknowledge error report */
-> > +             u32 ack_with_err_0: 1;
-> > +
-> > +             /* SoT Sync error from the Acknowledge error report */
-> > +             u32 ack_with_err_1: 1;
-> > +
-> > +             /* EoT Sync error from the Acknowledge error report */
-> > +             u32 ack_with_err_2: 1;
-> > +
-> > +             /* Escape Mode Entry Command error from the Acknowledge
-> > +              * error report
-> > +              */
-> > +             u32 ack_with_err_3: 1;
-> > +
-> > +             /* LP Transmit Sync error from the Acknowledge error repo=
-rt */
-> > +             u32 ack_with_err_4: 1;
-> > +
-> > +             /* Peripheral Timeout error from the Acknowledge error re=
-port */
-> > +             u32 ack_with_err_5: 1;
-> > +
-> > +             /* False Control error from the Acknowledge error report =
-*/
-> > +             u32 ack_with_err_6: 1;
-> > +
-> > +             /* reserved (specific to device) from the Acknowledge err=
-or
-> > +              * report
-> > +              */
-> > +             u32 ack_with_err_7: 1;
-> > +
-> > +             /* ECC error, single-bit (detected and corrected) from th=
-e
-> > +              * Acknowledge error report
-> > +              */
-> > +             u32 ack_with_err_8: 1;
-> > +
-> > +             /* ECC error, multi-bit (detected, not corrected) from th=
-e
-> > +              * Acknowledge error report
-> > +              */
-> > +             u32 ack_with_err_9: 1;
-> > +
-> > +             /* checksum error (long packet only) from the Acknowledge
-> > +              * error report
-> > +              */
-> > +             u32 ack_with_err_10: 1;
-> > +
-> > +             /* not recognized DSI data type from the Acknowledge erro=
-r
-> > +              * report
-> > +              */
-> > +             u32 ack_with_err_11: 1;
-> > +
-> > +             /* DSI VC ID Invalid from the Acknowledge error report */
-> > +             u32 ack_with_err_12: 1;
-> > +
-> > +             /* invalid transmission length from the Acknowledge error
-> > +              * report
-> > +              */
-> > +             u32 ack_with_err_13: 1;
-> > +
-> > +             /* reserved (specific to device) from the Acknowledge err=
-or
-> > +              * report
-> > +              */
-> > +             u32 ack_with_err_14: 1;
-> > +
-> > +             /* DSI protocol violation from the Acknowledge error repo=
-rt */
-> > +             u32 ack_with_err_15: 1;
-> > +
-> > +             } bits;
-> > +     } PROTOCOL_INT_STS;
-> > +
-> > +     union _0x0C {
-> > +             u32 val;
-> > +             struct _MASK_PROTOCOL_INT {
-> > +             u32 mask_dphy_errors_0: 1;
-> > +             u32 mask_dphy_errors_1: 1;
-> > +             u32 mask_dphy_errors_2: 1;
-> > +             u32 mask_dphy_errors_3: 1;
-> > +             u32 mask_dphy_errors_4: 1;
-> > +             u32 mask_protocol_debug_err: 11;
-> > +             u32 mask_ack_with_err_0: 1;
-> > +             u32 mask_ack_with_err_1: 1;
-> > +             u32 mask_ack_with_err_2: 1;
-> > +             u32 mask_ack_with_err_3: 1;
-> > +             u32 mask_ack_with_err_4: 1;
-> > +             u32 mask_ack_with_err_5: 1;
-> > +             u32 mask_ack_with_err_6: 1;
-> > +             u32 mask_ack_with_err_7: 1;
-> > +             u32 mask_ack_with_err_8: 1;
-> > +             u32 mask_ack_with_err_9: 1;
-> > +             u32 mask_ack_with_err_10: 1;
-> > +             u32 mask_ack_with_err_11: 1;
-> > +             u32 mask_ack_with_err_12: 1;
-> > +             u32 mask_ack_with_err_13: 1;
-> > +             u32 mask_ack_with_err_14: 1;
-> > +             u32 mask_ack_with_err_15: 1;
-> > +             } bits;
-> > +     } MASK_PROTOCOL_INT;
-> > +
-> > +     union _0x10 {
-> > +             u32 val;
-> > +             struct _INTERNAL_INT_STS {
-> > +             /* This bit indicates that the packet size error is detec=
-ted
-> > +              * during the packet reception.
-> > +              */
-> > +             u32 receive_pkt_size_err: 1;
-> > +
-> > +             /* This bit indicates that the EoTp packet is not receive=
-d at
-> > +              * the end of the incoming peripheral transmission
-> > +              */
-> > +             u32 eotp_not_receive_err: 1;
-> > +
-> > +             /* This bit indicates that the system tried to write a co=
-mmand
-> > +              * through the Generic interface and the FIFO is full. Th=
-ere-
-> > +              * fore, the command is not written.
-> > +              */
-> > +             u32 gen_cmd_cmd_fifo_wr_err: 1;
-> > +
-> > +             /* This bit indicates that during a DCS read data, the pa=
-yload
-> > +              * FIFO becomes empty and the data sent to the interface =
-is
-> > +              * corrupted.
-> > +              */
-> > +             u32 gen_cmd_rdata_fifo_rd_err: 1;
-> > +
-> > +             /* This bit indicates that during a generic interface pac=
-ket
-> > +              * read back, the payload FIFO becomes full and the recei=
-ved
-> > +              * data is corrupted.
-> > +              */
-> > +             u32 gen_cmd_rdata_fifo_wr_err: 1;
-> > +
-> > +             /* This bit indicates that the system tried to write a pa=
-yload
-> > +              * data through the Generic interface and the FIFO is ful=
-l.
-> > +              * Therefore, the payload is not written.
-> > +              */
-> > +             u32 gen_cmd_wdata_fifo_wr_err: 1;
-> > +
-> > +             /* This bit indicates that during a Generic interface pac=
-ket
-> > +              * build, the payload FIFO becomes empty and corrupt data=
- is
-> > +              * sent.
-> > +              */
-> > +             u32 gen_cmd_wdata_fifo_rd_err: 1;
-> > +
-> > +             /* This bit indicates that during a DPI pixel line storag=
-e,
-> > +              * the payload FIFO becomes full and the data stored is
-> > +              * corrupted.
-> > +              */
-> > +             u32 dpi_pix_fifo_wr_err: 1;
-> > +
-> > +             /* internal debug error */
-> > +             u32 internal_debug_err: 19;
-> > +
-> > +             /* This bit indicates that the ECC single error is detect=
-ed
-> > +              * and corrected in a received packet.
-> > +              */
-> > +             u32 ecc_single_err: 1;
-> > +
-> > +             /* This bit indicates that the ECC multiple error is dete=
-cted
-> > +              * in a received packet.
-> > +              */
-> > +             u32 ecc_multi_err: 1;
-> > +
-> > +             /* This bit indicates that the CRC error is detected in t=
-he
-> > +              * received packet payload.
-> > +              */
-> > +             u32 crc_err: 1;
-> > +
-> > +             /* This bit indicates that the high-speed transmission ti=
-meout
-> > +              * counter reached the end and contention is detected.
-> > +              */
-> > +             u32 hs_tx_timeout: 1;
-> > +
-> > +             /* This bit indicates that the low-power reception timeou=
-t
-> > +              * counter reached the end and contention is detected.
-> > +              */
-> > +             u32 lp_rx_timeout: 1;
-> > +
-> > +             } bits;
-> > +     } INTERNAL_INT_STS;
-> > +
-> > +     union _0x14 {
-> > +             u32 val;
-> > +             struct _MASK_INTERNAL_INT {
-> > +             u32 mask_receive_pkt_size_err: 1;
-> > +             u32 mask_eopt_not_receive_err: 1;
-> > +             u32 mask_gen_cmd_cmd_fifo_wr_err: 1;
-> > +             u32 mask_gen_cmd_rdata_fifo_rd_err: 1;
-> > +             u32 mask_gen_cmd_rdata_fifo_wr_err: 1;
-> > +             u32 mask_gen_cmd_wdata_fifo_wr_err: 1;
-> > +             u32 mask_gen_cmd_wdata_fifo_rd_err: 1;
-> > +             u32 mask_dpi_pix_fifo_wr_err: 1;
-> > +             u32 mask_internal_debug_err: 19;
-> > +             u32 mask_ecc_single_err: 1;
-> > +             u32 mask_ecc_multi_err: 1;
-> > +             u32 mask_crc_err: 1;
-> > +             u32 mask_hs_tx_timeout: 1;
-> > +             u32 mask_lp_rx_timeout: 1;
-> > +             } bits;
-> > +     } MASK_INTERNAL_INT;
-> > +
-> > +     union _0x18 {
-> > +             u32 val;
-> > +             struct _DSI_MODE_CFG {
-> > +             /* This bit configures the operation mode
-> > +              * 0: Video mode ;   1: Command mode
-> > +              */
-> > +             u32 cmd_video_mode: 1;
-> > +
-> > +             u32 reserved: 31;
-> > +
-> > +             } bits;
-> > +     } DSI_MODE_CFG;
-> > +
-> > +     union _0x1C {
-> > +             u32 val;
-> > +             struct _VIRTUAL_CHANNEL_ID {
-> > +             /* This field indicates the Generic interface read-back
-> > +              * virtual channel identification
-> > +              */
-> > +             u32 gen_rx_vcid: 2;
-> > +
-> > +             /* This field configures the DPI virtual channel id that
-> > +              * is indexed to the VIDEO mode packets
-> > +              */
-> > +             u32 video_pkt_vcid: 2;
-> > +
-> > +             u32 reserved: 28;
-> > +
-> > +             } bits;
-> > +     } VIRTUAL_CHANNEL_ID;
-> > +
-> > +     union _0x20 {
-> > +             u32 val;
-> > +             struct _DPI_VIDEO_FORMAT {
-> > +             /*
-> > +              * This field configures the DPI color coding as follows:
-> > +              * 0000: 16-bit configuration 1
-> > +              * 0001: 16-bit configuration 2
-> > +              * 0010: 16-bit configuration 3
-> > +              * 0011: 18-bit configuration 1
-> > +              * 0100: 18-bit configuration 2
-> > +              * 0101: 24-bit
-> > +              * 0110: 20-bit YCbCr 4:2:2 loosely packed
-> > +              * 0111: 24-bit YCbCr 4:2:2
-> > +              * 1000: 16-bit YCbCr 4:2:2
-> > +              * 1001: 30-bit
-> > +              * 1010: 36-bit
-> > +              * 1011: 12-bit YCbCr 4:2:0
-> > +              * 1100: Compression Display Stream
-> > +              * 1101-1111: 12-bit YCbCr 4:2:0
-> > +              */
-> > +             u32 dpi_video_mode_format: 6;
-> > +
-> > +             /* When set to 1, this bit activates loosely packed
-> > +              * variant to 18-bit configurations
-> > +              */
-> > +             u32 loosely18_en: 1;
-> > +
-> > +             u32 reserved: 25;
-> > +
-> > +             } bits;
-> > +     } DPI_VIDEO_FORMAT;
-> > +
-> > +     union _0x24 {
-> > +             u32 val;
-> > +             struct _VIDEO_PKT_CONFIG {
-> > +             /*
-> > +              * This field configures the number of pixels in a single
-> > +              * video packet. For 18-bit not loosely packed data types=
-,
-> > +              * this number must be a multiple of 4. For YCbCr data
-> > +              * types, it must be a multiple of 2, as described in the
-> > +              * DSI specification.
-> > +              */
-> > +             u32 video_pkt_size: 16;
-> > +
-> > +             /*
-> > +              * This register configures the number of chunks to be
-> > +              * transmitted during a Line period (a chunk consists of
-> > +              * a video packet and a null packet). If set to 0 or 1,
-> > +              * the video line is transmitted in a single packet. If
-> > +              * set to 1, the packet is part of a chunk, so a null pac=
-ket
-> > +              * follows it if vid_null_size > 0. Otherwise, multiple c=
-hunks
-> > +              * are used to transmit each video line.
-> > +              */
-> > +             u32 video_line_chunk_num: 16;
-> > +
-> > +             } bits;
-> > +     } VIDEO_PKT_CONFIG;
-> > +
-> > +     union _0x28 {
-> > +             u32 val;
-> > +             struct _VIDEO_LINE_HBLK_TIME {
-> > +             /* This field configures the Horizontal Back Porch period
-> > +              * in lane byte clock cycles
-> > +              */
-> > +             u32 video_line_hbp_time: 16;
-> > +
-> > +             /* This field configures the Horizontal Synchronism Activ=
-e
-> > +              * period in lane byte clock cycles
-> > +              */
-> > +             u32 video_line_hsa_time: 16;
-> > +
-> > +             } bits;
-> > +     } VIDEO_LINE_HBLK_TIME;
-> > +
-> > +     union _0x2C {
-> > +             u32 val;
-> > +             struct _VIDEO_LINE_TIME {
-> > +             /* This field configures the size of the total line time
-> > +              * (HSA+HBP+HACT+HFP) counted in lane byte clock cycles
-> > +              */
-> > +             u32 video_line_time: 16;
-> > +
-> > +             u32 reserved: 16;
-> > +
-> > +             } bits;
-> > +     } VIDEO_LINE_TIME;
-> > +
-> > +     union _0x30 {
-> > +             u32 val;
-> > +             struct _VIDEO_VBLK_LINES {
-> > +             /* This field configures the Vertical Front Porch period
-> > +              * measured in number of horizontal lines
-> > +              */
-> > +             u32 vfp_lines: 10;
-> > +
-> > +             /* This field configures the Vertical Back Porch period
-> > +              * measured in number of horizontal lines
-> > +              */
-> > +             u32 vbp_lines: 10;
-> > +
-> > +             /* This field configures the Vertical Synchronism Active
-> > +              * period measured in number of horizontal lines
-> > +              */
-> > +             u32 vsa_lines: 10;
-> > +
-> > +             u32 reserved: 2;
-> > +
-> > +             } bits;
-> > +     } VIDEO_VBLK_LINES;
-> > +
-> > +     union _0x34 {
-> > +             u32 val;
-> > +             struct _VIDEO_VACTIVE_LINES {
-> > +             /* This field configures the Vertical Active period measu=
-red
-> > +              * in number of horizontal lines
-> > +              */
-> > +             u32 vactive_lines: 14;
-> > +
-> > +             u32 reserved: 18;
-> > +
-> > +             } bits;
-> > +     } VIDEO_VACTIVE_LINES;
-> > +
-> > +     union _0x38 {
-> > +             u32 val;
-> > +             struct _VID_MODE_CFG {
-> > +             /*
-> > +              * This field indicates the video mode transmission type =
-as
-> > +              * follows:
-> > +              * 00: Non-burst with sync pulses
-> > +              * 01: Non-burst with sync events
-> > +              * 10 and 11: Burst mode
-> > +              */
-> > +             u32 vid_mode_type: 2;
-> > +
-> > +             u32 reserved_0: 6;
-> > +
-> > +             /* When set to 1, this bit enables the return to low-powe=
-r
-> > +              * inside the VSA period when timing allows.
-> > +              */
-> > +             u32 lp_vsa_en: 1;
-> > +
-> > +             /* When set to 1, this bit enables the return to low-powe=
-r
-> > +              * inside the VBP period when timing allows.
-> > +              */
-> > +             u32 lp_vbp_en: 1;
-> > +
-> > +             /* When set to 1, this bit enables the return to low-powe=
-r
-> > +              * inside the VFP period when timing allows.
-> > +              */
-> > +             u32 lp_vfp_en: 1;
-> > +
-> > +             /* When set to 1, this bit enables the return to low-powe=
-r
-> > +              * inside the VACT period when timing allows.
-> > +              */
-> > +             u32 lp_vact_en: 1;
-> > +
-> > +             /* When set to 1, this bit enables the return to low-powe=
-r
-> > +              * inside the HBP period when timing allows.
-> > +              */
-> > +             u32 lp_hbp_en: 1;
-> > +
-> > +             /* When set to 1, this bit enables the return to low-powe=
-r
-> > +              * inside the HFP period when timing allows.
-> > +              */
-> > +             u32 lp_hfp_en: 1;
-> > +
-> > +             /* When set to 1, this bit enables the request for an ack=
--
-> > +              * nowledge response at the end of a frame.
-> > +              */
-> > +             u32 frame_bta_ack_en: 1;
-> > +
-> > +             /* When set to 1, this bit enables the command transmissi=
-on
-> > +              * only in low-power mode.
-> > +              */
-> > +             u32 lp_cmd_en: 1;
-> > +
-> > +             u32 reserved_1: 16;
-> > +
-> > +             } bits;
-> > +     } VID_MODE_CFG;
-> > +
-> > +     union _0x3C {
-> > +             u32 val;
-> > +             struct _SDF_MODE_CONFIG {
-> > +             /*
-> > +              * This field defines the 3D mode on/off & display orient=
-ation:
-> > +              * 00: 3D mode off (2D mode on)
-> > +              * 01: 3D mode on, portrait orientation
-> > +              * 10: 3D mode on, landscape orientation
-> > +              * 11: Reserved
-> > +              */
-> > +             u32 rf_3d_mode: 2;
-> > +
-> > +             /*
-> > +              * This field defines the 3D image format:
-> > +              * 00: Line (alternating lines of left and right data)
-> > +              * 01: Frame (alternating frames of left and right data)
-> > +              * 10: Pixel (alternating pixels of left and right data)
-> > +              * 11: Reserved
-> > +              */
-> > +             u32 rf_3d_format: 2;
-> > +
-> > +             /*
-> > +              * This field defines whether there is a second VSYNC pul=
-se
-> > +              * between Left and Right Images, when 3D Image Format is
-> > +              * Frame-based:
-> > +              * 0: No sync pulses between left and right data
-> > +              * 1: Sync pulse (HSYNC, VSYNC, blanking) between left an=
-d
-> > +              *    right data
-> > +              */
-> > +             u32 second_vsync_en: 1;
-> > +
-> > +             /*
-> > +              * This bit defines the left or right order:
-> > +              * 0: Left eye data is sent first, and then the right eye=
- data
-> > +              *    is sent.
-> > +              * 1: Right eye data is sent first, and then the left eye=
- data
-> > +              *    is sent.
-> > +              */
-> > +             u32 left_right_order: 1;
-> > +
-> > +             u32 reserved_0: 2;
-> > +
-> > +             /*
-> > +              * When set, causes the next VSS packet to include 3D con=
-trol
-> > +              * payload in every VSS packet.
-> > +              */
-> > +             u32 rf_3d_payload_en: 1;
-> > +
-> > +             u32 reserved_1: 23;
-> > +
-> > +             } bits;
-> > +     } SDF_MODE_CONFIG;
-> > +
-> > +     union _0x40 {
-> > +             u32 val;
-> > +             struct _TIMEOUT_CNT_CLK_CONFIG {
-> > +             /*
-> > +              * This field indicates the division factor for the Time =
-Out
-> > +              * clock used as the timing unit in the configuration of =
-HS to
-> > +              * LP and LP to HS transition error.
-> > +              */
-> > +             u32 timeout_cnt_clk_config: 16;
-> > +
-> > +             u32 reserved: 16;
-> > +
-> > +             } bits;
-> > +     } TIMEOUT_CNT_CLK_CONFIG;
-> > +
-> > +     union _0x44 {
-> > +             u32 val;
-> > +             struct _HTX_TO_CONFIG {
-> > +             /*
-> > +              * This field configures the timeout counter that trigger=
-s
-> > +              * a high speed transmission timeout contention detection
-> > +              * (measured in TO_CLK_DIVISION cycles).
-> > +              *
-> > +              * If using the non-burst mode and there is no sufficient
-> > +              * time to switch from HS to LP and back in the period wh=
-ich
-> > +              * is from one line data finishing to the next line sync
-> > +              * start, the DSI link returns the LP state once per fram=
-e,
-> > +              * then you should configure the TO_CLK_DIVISION and
-> > +              * hstx_to_cnt to be in accordance with:
-> > +              * hstx_to_cnt * lanebyteclkperiod * TO_CLK_DIVISION >=3D=
- the
-> > +              * time of one FRAME data transmission * (1 + 10%)
-> > +              *
-> > +              * In burst mode, RGB pixel packets are time-compressed,
-> > +              * leaving more time during a scan line. Therefore, if in
-> > +              * burst mode and there is sufficient time to switch from=
- HS
-> > +              * to LP and back in the period of time from one line dat=
-a
-> > +              * finishing to the next line sync start, the DSI link ca=
-n
-> > +              * return LP mode and back in this time interval to save =
-power.
-> > +              * For this, configure the TO_CLK_DIVISION and hstx_to_cn=
-t
-> > +              * to be in accordance with:
-> > +              * hstx_to_cnt * lanebyteclkperiod * TO_CLK_DIVISION >=3D=
- the
-> > +              * time of one LINE data transmission * (1 + 10%)
-> > +              */
-> > +             u32 htx_to_cnt_limit: 32;
-> > +             } bits;
-> > +     } HTX_TO_CONFIG;
-> > +
-> > +     union _0x48 {
-> > +             u32 val;
-> > +             struct _LRX_H_TO_CONFIG {
-> > +             /*
-> > +              * This field configures the timeout counter that trigger=
-s
-> > +              * a low-power reception timeout contention detection (me=
-asured
-> > +              * in TO_CLK_DIVISION cycles).
-> > +              */
-> > +             u32 lrx_h_to_cnt_limit: 32;
-> > +             } bits;
-> > +     } LRX_H_TO_CONFIG;
-> > +
-> > +     union _0x4C {
-> > +             u32 val;
-> > +             struct _RD_PRESP_TO_CONFIG {
-> > +             /*
-> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
-st
-> > +              * keeps the link still, after sending a low-power read o=
-per-
-> > +              * ation. This period is measured in cycles of lanebytecl=
-k.
-> > +              * The counting starts when the D-PHY enters the Stop sta=
-te
-> > +              * and causes no interrupts.
-> > +              */
-> > +             u32 lprd_presp_to_cnt_limit: 16;
-> > +
-> > +             /*
-> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
-st
-> > +              * keeps the link still, after sending a high-speed read =
-oper-
-> > +              * ation. This period is measured in cycles of lanebytecl=
-k.
-> > +              * The counting starts when the D-PHY enters the Stop sta=
-te
-> > +              * and causes no interrupts.
-> > +              */
-> > +             u32 hsrd_presp_to_cnt_limit: 16;
-> > +
-> > +             } bits;
-> > +     } RD_PRESP_TO_CONFIG;
-> > +
-> > +     union _0x50 {
-> > +             u32 val;
-> > +             struct _HSWR_PRESP_TO_CONFIG {
-> > +             /*
-> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
-st
-> > +              * keeps the link inactive after sending a high-speed wri=
-te
-> > +              * operation. This period is measured in cycles of laneby=
-teclk.
-> > +              * The counting starts when the D-PHY enters the Stop sta=
-te
-> > +              * and causes no interrupts.
-> > +              */
-> > +             u32 hswr_presp_to_cnt_limit: 16;
-> > +
-> > +             u32 reserved_0: 8;
-> > +
-> > +             /*
-> > +              * When set to 1, this bit ensures that the peripheral re=
-sponse
-> > +              * timeout caused by hs_wr_to_cnt is used only once per e=
-DPI
-> > +              * frame, when both the following conditions are met:
-> > +              * dpivsync_edpiwms has risen and fallen.
-> > +              * Packets originated from eDPI have been transmitted and=
- its
-> > +              * FIFO is empty again In this scenario no non-eDPI reque=
-sts
-> > +              * are sent to the D-PHY, even if there is traffic from g=
-eneric
-> > +              * or DBI ready to be sent, making it return to stop stat=
-e.
-> > +              * When it does so, PRESP_TO counter is activated and onl=
-y when
-> > +              * it finishes does the controller send any other traffic=
- that
-> > +              * is ready.
-> > +              */
-> > +             u32 hswr_presp_to_mode: 1;
-> > +
-> > +             u32 reserved_1: 7;
-> > +
-> > +             } bits;
-> > +     } HSWR_PRESP_TO_CONFIG;
-> > +
-> > +     union _0x54 {
-> > +             u32 val;
-> > +             struct _LPWR_PRESP_TO_CONFIG {
-> > +             /*
-> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
-st
-> > +              * keeps the link still, after sending a low-power write =
-oper-
-> > +              * ation. This period is measured in cycles of lanebytecl=
-k.
-> > +              * The counting starts when the D-PHY enters the Stop sta=
-te
-> > +              * and causes no interrupts.
-> > +              */
-> > +             u32 lpwr_presp_to_cnt_limit: 16;
-> > +
-> > +             u32 reserved: 16;
-> > +
-> > +             } bits;
-> > +     } LPWR_PRESP_TO_CONFIG;
-> > +
-> > +     union _0x58 {
-> > +             u32 val;
-> > +             struct _BTA_PRESP_TO_CONFIG {
-> > +             /*
-> > +              * This field sets a period for which the DWC_mipi_dsi_ho=
-st
-> > +              * keeps the link still, after completing a Bus Turn-Arou=
-nd.
-> > +              * This period is measured in cycles of lanebyteclk. The
-> > +              * counting starts when the D-PHY enters the Stop state a=
-nd
-> > +              * causes no interrupts.
-> > +              */
-> > +             u32 bta_presp_to_cnt_limit: 16;
-> > +
-> > +             u32 reserved: 16;
-> > +
-> > +             } bits;
-> > +     } BTA_PRESP_TO_CONFIG;
-> > +
-> > +     union _0x5C {
-> > +             u32 val;
-> > +             struct _TX_ESC_CLK_CONFIG {
-> > +             /*
-> > +              * This field indicates the division factor for the TX Es=
-cape
-> > +              * clock source (lanebyteclk). The values 0 and 1 stop th=
-e
-> > +              * TX_ESC clock generation.
-> > +              */
-> > +             u32 tx_esc_clk_config: 16;
-> > +
-> > +             u32 reserved: 16;
-> > +
-> > +             } bits;
-> > +     } TX_ESC_CLK_CONFIG;
-> > +
-> > +     union _0x60 {
-> > +             u32 val;
-> > +             struct _VACT_CMD_TRANS_LIMIT {
-> > +             /*
-> > +              * This field is used for the transmission of commands in
-> > +              * low-power mode. It defines the size, in bytes, of the
-> > +              * largest packet that can fit in a line during the VACT
-> > +              * region.
-> > +              */
-> > +             u32 vact_cmd_trans_limit: 8;
-> > +
-> > +             u32 reserved: 24;
-> > +
-> > +             } bits;
-> > +     } VACT_CMD_TRANS_LIMIT;
-> > +
-> > +     union _0x64 {
-> > +             u32 val;
-> > +             struct _VBLK_CMD_TRANS_LIMIT {
-> > +             /*
-> > +              * This field is used for the transmission of commands in
-> > +              * low-power mode. It defines the size, in bytes, of the
-> > +              * largest packet that can fit in a line during the VSA, =
-VBP,
-> > +              * and VFP regions.
-> > +              */
-> > +             u32 vblk_cmd_trans_limit: 8;
-> > +
-> > +             u32 reserved: 24;
-> > +
-> > +             } bits;
-> > +     } VBLK_CMD_TRANS_LIMIT;
-> > +
-> > +     union _0x68 {
-> > +             u32 val;
-> > +             struct _CMD_MODE_CFG {
-> > +             /*
-> > +              * When set to 1, this bit enables the tearing effect
-> > +              * acknowledge request.
-> > +              */
-> > +             u32 tear_fx_en: 1;
-> > +
-> > +             /*
-> > +              * When set to 1, this bit enables the acknowledge reques=
-t
-> > +              * after each packet transmission.
-> > +              */
-> > +             u32 ack_rqst_en: 1;
-> > +
-> > +             u32 reserved_0: 3;
-> > +
-> > +             u32 pps_tx: 1;
-> > +             u32 exq_tx: 1;
-> > +             u32 cmc_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the Generic short write packet wit=
-h
-> > +              * zero parameter command transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 gen_sw_0p_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the Generic short write packet wit=
-h
-> > +              * one parameter command transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 gen_sw_1p_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the Generic short write packet wit=
-h
-> > +              * two parameters command transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 gen_sw_2p_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the Generic short read packet with
-> > +              * zero parameter command transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 gen_sr_0p_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the Generic short read packet with
-> > +              * one parameter command transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 gen_sr_1p_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the Generic short read packet with
-> > +              * two parameters command transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 gen_sr_2p_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the Generic long write packet comm=
-and
-> > +              * transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 gen_lw_tx: 1;
-> > +
-> > +             u32 reserved_1: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the DCS short write packet with ze=
-ro
-> > +              * parameter command transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 dcs_sw_0p_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the DCS short write packet with on=
-e
-> > +              * parameter command transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 dcs_sw_1p_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the DCS short read packet with zer=
-o
-> > +              * parameter command transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 dcs_sr_0p_tx: 1;
-> > +
-> > +             /*
-> > +              * This bit configures the DCS long write packet command
-> > +              * transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 dcs_lw_tx: 1;
-> > +
-> > +             u32 reserved_2: 4;
-> > +
-> > +             /*
-> > +              * This bit configures the maximum read packet size comma=
-nd
-> > +              * transmission type:
-> > +              * 0: High-speed 1: Low-power
-> > +              */
-> > +             u32 max_rd_pkt_size: 1;
-> > +
-> > +             u32 reserved_3: 7;
-> > +
-> > +             } bits;
-> > +     } CMD_MODE_CFG;
-> > +
-> > +     union _0x6C {
-> > +             u32 val;
-> > +             struct _GEN_HDR {
-> > +             /*
-> > +              * This field configures the packet data type of the head=
-er
-> > +              * packet.
-> > +              */
-> > +             u32 gen_dt: 6;
-> > +
-> > +             /*
-> > +              * This field configures the virtual channel id of the he=
-ader
-> > +              * packet.
-> > +              */
-> > +             u32 gen_vc: 2;
-> > +
-> > +             /*
-> > +              * This field configures the least significant byte of th=
-e
-> > +              * header packet's Word count for long packets or data 0 =
-for
-> > +              * short packets.
-> > +              */
-> > +             u32 gen_wc_lsbyte: 8;
-> > +
-> > +             /*
-> > +              * This field configures the most significant byte of the
-> > +              * header packet's word count for long packets or data 1 =
-for
-> > +              * short packets.
-> > +              */
-> > +             u32 gen_wc_msbyte: 8;
-> > +
-> > +             u32 reserved: 8;
-> > +
-> > +             } bits;
-> > +     } GEN_HDR;
-> > +
-> > +     union _0x70 {
-> > +             u32 val;
-> > +             struct _GEN_PLD_DATA {
-> > +             /* This field indicates byte 1 of the packet payload. */
-> > +             u32 gen_pld_b1: 8;
-> > +
-> > +             /* This field indicates byte 2 of the packet payload. */
-> > +             u32 gen_pld_b2: 8;
-> > +
-> > +             /* This field indicates byte 3 of the packet payload. */
-> > +             u32 gen_pld_b3: 8;
-> > +
-> > +             /* This field indicates byte 4 of the packet payload. */
-> > +             u32 gen_pld_b4: 8;
-> > +
-> > +             } bits;
-> > +     } GEN_PLD_DATA;
-> > +
-> > +     union _0x74 {
-> > +             u32 val;
-> > +             struct _PHY_CLK_LANE_LP_CTRL {
-> > +             /* This bit controls the D-PHY PPI txrequestclkhs signal =
-*/
-> > +             u32 phy_clklane_tx_req_hs: 1;
-> > +
-> > +             /* This bit enables the automatic mechanism to stop provi=
-ding
-> > +              * clock in the clock lane when time allows.
-> > +              */
-> > +             u32 auto_clklane_ctrl_en: 1;
-> > +
-> > +             u32 reserved: 30;
-> > +             } bits;
-> > +     } PHY_CLK_LANE_LP_CTRL;
-> > +
-> > +     union _0x78 {
-> > +             u32 val;
-> > +             struct _PHY_INTERFACE_CTRL {
-> > +             /* When set to 0, this bit places the D-PHY macro in powe=
-r-
-> > +              * down state.
-> > +              */
-> > +             u32 rf_phy_shutdown: 1;
-> > +
-> > +             /* When set to 0, this bit places the digital section of =
-the
-> > +              * D-PHY in the reset state.
-> > +              */
-> > +             u32 rf_phy_reset_n: 1;
-> > +
-> > +             /* When set to 1, this bit enables the D-PHY Clock Lane
-> > +              * module.
-> > +              */
-> > +             u32 rf_phy_clk_en: 1;
-> > +
-> > +             /* When the D-PHY is in ULPS, this bit enables the D-PHY =
-PLL. */
-> > +             u32 rf_phy_force_pll: 1;
-> > +
-> > +             /* ULPS mode Request on clock lane */
-> > +             u32 rf_phy_clk_txrequlps: 1;
-> > +
-> > +             /* ULPS mode Exit on clock lane */
-> > +             u32 rf_phy_clk_txexitulps: 1;
-> > +
-> > +             /* ULPS mode Request on all active data lanes */
-> > +             u32 rf_phy_data_txrequlps: 1;
-> > +
-> > +             /* ULPS mode Exit on all active data lanes */
-> > +             u32 rf_phy_data_txexitulps: 1;
-> > +
-> > +             u32 reserved: 24;
-> > +             } bits;
-> > +     } PHY_INTERFACE_CTRL;
-> > +
-> > +     union _0x7C {
-> > +             u32 val;
-> > +             struct _PHY_TX_TRIGGERS {
-> > +             /* This field controls the trigger transmissions. */
-> > +             u32 phy_tx_triggers: 4;
-> > +
-> > +             u32 reserved: 28;
-> > +             } bits;
-> > +     } PHY_TX_TRIGGERS;
-> > +
-> > +     union _0x80 {
-> > +             u32 val;
-> > +             struct _DESKEW_START {
-> > +             u32 deskew_start: 1;
-> > +             u32 reserved: 31;
-> > +             } bits;
-> > +     } DESKEW_START;
-> > +
-> > +     union _0x84 {
-> > +             u32 val;
-> > +             struct _DESKEW_MODE {
-> > +             u32 deskew_mode: 2;
-> > +             u32 reserved: 30;
-> > +             } bits;
-> > +     } DESKEW_MODE;
-> > +
-> > +     union _0x88 {
-> > +             u32 val;
-> > +             struct _DESKEW_TIME {
-> > +             u32 deskew_time: 32;
-> > +             } bits;
-> > +     } DESKEW_TIME;
-> > +
-> > +     union _0x8C {
-> > +             u32 val;
-> > +             struct _DESKEW_PERIOD {
-> > +             u32 deskew_period: 32;
-> > +             } bits;
-> > +     } DESKEW_PERIOD;
-> > +
-> > +     union _0x90 {
-> > +             u32 val;
-> > +             struct _DESKEW_BUSY {
-> > +             u32 deskew_busy: 1;
-> > +             u32 reserved: 31;
-> > +             } bits;
-> > +     } DESKEW_BUSY;
-> > +
-> > +     union _0x94 {
-> > +             u32 val;
-> > +             struct _DESKEW_LANE_MASK {
-> > +             u32 deskew_lane0_mask: 1;
-> > +             u32 deskew_lane1_mask: 1;
-> > +             u32 deskew_lane2_mask: 1;
-> > +             u32 deskew_lane3_mask: 1;
-> > +             u32 reserved: 28;
-> > +             } bits;
-> > +     } DESKEW_LANE_MASK;
-> > +
-> > +     union _0x98 {
-> > +             u32 val;
-> > +             struct _CMD_MODE_STATUS {
-> > +             /*
-> > +              * This bit is set when a read command is issued and clea=
-red
-> > +              * when the entire response is stored in the FIFO.
-> > +              * Value after reset: 0x0
-> > +              *
-> > +              * NOTE:
-> > +              * For mipi-dsi-r1p0 IP, this bit is set immediately when
-> > +              *     the read cmd is set to the GEN_HDR register.
-> > +              *
-> > +              * For dsi-ctrl-r1p0 IP, this bit is set only after the r=
-ead
-> > +              *     cmd was actually sent out from the controller.
-> > +              */
-> > +             u32 gen_cmd_rdcmd_ongoing: 1;
-> > +
-> > +             /*
-> > +              * This bit indicates the empty status of the generic rea=
-d
-> > +              * payload FIFO.
-> > +              * Value after reset: 0x1
-> > +              */
-> > +             u32 gen_cmd_rdata_fifo_empty: 1;
-> > +
-> > +             /*
-> > +              * This bit indicates the full status of the generic read
-> > +              * payload FIFO.
-> > +              * Value after reset: 0x0
-> > +              */
-> > +             u32 gen_cmd_rdata_fifo_full: 1;
-> > +
-> > +             /*
-> > +              * This bit indicates the empty status of the generic wri=
-te
-> > +              * payload FIFO.
-> > +              * Value after reset: 0x1
-> > +              */
-> > +             u32 gen_cmd_wdata_fifo_empty: 1;
-> > +
-> > +             /*
-> > +              * This bit indicates the full status of the generic writ=
-e
-> > +              * payload FIFO.
-> > +              * Value after reset: 0x0
-> > +              */
-> > +             u32 gen_cmd_wdata_fifo_full: 1;
-> > +
-> > +             /*
-> > +              * This bit indicates the empty status of the generic
-> > +              * command FIFO.
-> > +              * Value after reset: 0x1
-> > +              */
-> > +             u32 gen_cmd_cmd_fifo_empty: 1;
-> > +
-> > +             /*
-> > +              * This bit indicates the full status of the generic
-> > +              * command FIFO.
-> > +              * Value after reset: 0x0
-> > +              */
-> > +             u32 gen_cmd_cmd_fifo_full: 1;
-> > +
-> > +             /*
-> > +              * This bit is set when the entire response of read is
-> > +              * stored in the rx payload FIFO. And it will be cleared
-> > +              * automaticlly after read this bit each time.
-> > +              * Value after reset: 0x0
-> > +              *
-> > +              * NOTE: this bit is just supported for dsi-ctrl-r1p0 IP
-> > +              */
-> > +             u32 gen_cmd_rdcmd_done: 1;
-> > +
-> > +             u32 reserved : 24;
-> > +
-> > +             } bits;
-> > +     } CMD_MODE_STATUS;
-> > +
-> > +     union _0x9C {
-> > +             u32 val;
-> > +             struct _PHY_STATUS {
-> > +             /* the status of phydirection D-PHY signal */
-> > +             u32 phy_direction: 1;
-> > +
-> > +             /* the status of phylock D-PHY signal */
-> > +             u32 phy_lock: 1;
-> > +
-> > +             /* the status of rxulpsesc0lane D-PHY signal */
-> > +             u32 phy_rxulpsesc0lane: 1;
-> > +
-> > +             /* the status of phystopstateclklane D-PHY signal */
-> > +             u32 phy_stopstateclklane: 1;
-> > +
-> > +             /* the status of phystopstate0lane D-PHY signal */
-> > +             u32 phy_stopstate0lane: 1;
-> > +
-> > +             /* the status of phystopstate1lane D-PHY signal */
-> > +             u32 phy_stopstate1lane: 1;
-> > +
-> > +             /* the status of phystopstate2lane D-PHY signal */
-> > +             u32 phy_stopstate2lane: 1;
-> > +
-> > +             /* the status of phystopstate3lane D-PHY signal */
-> > +             u32 phy_stopstate3lane: 1;
-> > +
-> > +             /* the status of phyulpsactivenotclk D-PHY signal */
-> > +             u32 phy_ulpsactivenotclk: 1;
-> > +
-> > +             /* the status of ulpsactivenot0lane D-PHY signal */
-> > +             u32 phy_ulpsactivenot0lane: 1;
-> > +
-> > +             /* the status of ulpsactivenot1lane D-PHY signal */
-> > +             u32 phy_ulpsactivenot1lane: 1;
-> > +
-> > +             /* the status of ulpsactivenot2lane D-PHY signal */
-> > +             u32 phy_ulpsactivenot2lane: 1;
-> > +
-> > +             /* the status of ulpsactivenot3lane D-PHY signal */
-> > +             u32 phy_ulpsactivenot3lane: 1;
-> > +
-> > +             u32 reserved: 19;
-> > +
-> > +             } bits;
-> > +     } PHY_STATUS;
-> > +
-> > +     union _0xA0 {
-> > +             u32 val;
-> > +             struct _PHY_MIN_STOP_TIME {
-> > +             /* This field configures the minimum wait period to reque=
-st
-> > +              * a high-speed transmission after the Stop state.
-> > +              */
-> > +             u32 phy_min_stop_time: 8;
-> > +
-> > +             u32 reserved: 24;
-> > +             } bits;
-> > +     } PHY_MIN_STOP_TIME;
-> > +
-> > +     union _0xA4 {
-> > +             u32 val;
-> > +             struct _PHY_LANE_NUM_CONFIG {
-> > +             /*
-> > +              * This field configures the number of active data lanes:
-> > +              * 00: One data lane (lane 0)
-> > +              * 01: Two data lanes (lanes 0 and 1)
-> > +              * 10: Three data lanes (lanes 0, 1, and 2)
-> > +              * 11: Four data lanes (lanes 0, 1, 2, and 3)
-> > +              */
-> > +             u32 phy_lane_num: 2;
-> > +
-> > +             u32 reserved: 30;
-> > +
-> > +             } bits;
-> > +     } PHY_LANE_NUM_CONFIG;
-> > +
-> > +     union _0xA8 {
-> > +             u32 val;
-> > +             struct _PHY_CLKLANE_TIME_CONFIG {
-> > +             /*
-> > +              * This field configures the maximum time that the D-PHY
-> > +              * clock lane takes to go from low-power to high-speed
-> > +              * transmission measured in lane byte clock cycles.
-> > +              */
-> > +             u32 phy_clklane_lp_to_hs_time: 16;
-> > +
-> > +             /*
-> > +              * This field configures the maximum time that the D-PHY
-> > +              * clock lane takes to go from high-speed to low-power
-> > +              * transmission measured in lane byte clock cycles.
-> > +              */
-> > +             u32 phy_clklane_hs_to_lp_time: 16;
-> > +
-> > +             } bits;
-> > +     } PHY_CLKLANE_TIME_CONFIG;
-> > +
-> > +     union _0xAC {
-> > +             u32 val;
-> > +             struct _PHY_DATALANE_TIME_CONFIG {
-> > +             /*
-> > +              * This field configures the maximum time that the D-PHY =
-data
-> > +              * lanes take to go from low-power to high-speed transmis=
-sion
-> > +              * measured in lane byte clock cycles.
-> > +              */
-> > +             u32 phy_datalane_lp_to_hs_time: 16;
-> > +
-> > +             /*
-> > +              * This field configures the maximum time that the D-PHY =
-data
-> > +              * lanes take to go from high-speed to low-power transmis=
-sion
-> > +              * measured in lane byte clock cycles.
-> > +              */
-> > +             u32 phy_datalane_hs_to_lp_time: 16;
-> > +
-> > +             } bits;
-> > +     } PHY_DATALANE_TIME_CONFIG;
-> > +
-> > +     union _0xB0 {
-> > +             u32 val;
-> > +             struct _MAX_READ_TIME {
-> > +             /*
-> > +              * This field configures the maximum time required to per=
-form
-> > +              * a read command in lane byte clock cycles. This registe=
-r can
-> > +              * only be modified when no read command is in progress.
-> > +              */
-> > +             u32 max_rd_time: 16;
-> > +
-> > +             u32 reserved: 16;
-> > +
-> > +             } bits;
-> > +     } MAX_READ_TIME;
-> > +
-> > +     union _0xB4 {
-> > +             u32 val;
-> > +             struct _RX_PKT_CHECK_CONFIG {
-> > +             /* When set to 1, this bit enables the ECC reception, err=
-or
-> > +              * correction, and reporting.
-> > +              */
-> > +             u32 rx_pkt_ecc_en: 1;
-> > +
-> > +             /* When set to 1, this bit enables the CRC reception and =
-error
-> > +              * reporting.
-> > +              */
-> > +             u32 rx_pkt_crc_en: 1;
-> > +
-> > +             u32 reserved: 30;
-> > +
-> > +             } bits;
-> > +     } RX_PKT_CHECK_CONFIG;
-> > +
-> > +     union _0xB8 {
-> > +             u32 val;
-> > +             struct _TA_EN {
-> > +             /* When set to 1, this bit enables the Bus Turn-Around (B=
-TA)
-> > +              * request.
-> > +              */
-> > +             u32 ta_en: 1;
-> > +
-> > +             u32 reserved: 31;
-> > +
-> > +             } bits;
-> > +     } TA_EN;
-> > +
-> > +     union _0xBC {
-> > +             u32 val;
-> > +             struct _EOTP_EN {
-> > +             /* When set to 1, this bit enables the EoTp transmission =
-*/
-> > +             u32 tx_eotp_en: 1;
-> > +
-> > +             /* When set to 1, this bit enables the EoTp reception. */
-> > +             u32 rx_eotp_en: 1;
-> > +
-> > +             u32 reserved: 30;
-> > +
-> > +             } bits;
-> > +     } EOTP_EN;
-> > +
-> > +     union _0xC0 {
-> > +             u32 val;
-> > +             struct _VIDEO_NULLPKT_SIZE {
-> > +             /*
-> > +              * This register configures the number of bytes inside a =
-null
-> > +              * packet. Setting it to 0 disables the null packets.
-> > +              */
-> > +             u32 video_nullpkt_size: 13;
-> > +
-> > +             u32 reserved: 19;
-> > +
-> > +             } bits;
-> > +     } VIDEO_NULLPKT_SIZE;
-> > +
-> > +     union _0xC4 {
-> > +             u32 val;
-> > +             struct _DCS_WM_PKT_SIZE {
-> > +             /*
-> > +              * This field configures the maximum allowed size for an =
-eDPI
-> > +              * write memory command, measured in pixels. Automatic pa=
-rti-
-> > +              * tioning of data obtained from eDPI is permanently enab=
-led.
-> > +              */
-> > +             u32 dcs_wm_pkt_size: 16;
-> > +
-> > +             u32 reserved: 16;
-> > +             } bits;
-> > +     } DCS_WM_PKT_SIZE;
-> > +
-> > +     union _0xC8 {
-> > +             u32 val;
-> > +             struct _PROTOCOL_INT_CLR {
-> > +             u32 clr_dphy_errors_0: 1;
-> > +             u32 clr_dphy_errors_1: 1;
-> > +             u32 clr_dphy_errors_2: 1;
-> > +             u32 clr_dphy_errors_3: 1;
-> > +             u32 clr_dphy_errors_4: 1;
-> > +             u32 clr_protocol_debug_err: 11;
-> > +             u32 clr_ack_with_err_0: 1;
-> > +             u32 clr_ack_with_err_1: 1;
-> > +             u32 clr_ack_with_err_2: 1;
-> > +             u32 clr_ack_with_err_3: 1;
-> > +             u32 clr_ack_with_err_4: 1;
-> > +             u32 clr_ack_with_err_5: 1;
-> > +             u32 clr_ack_with_err_6: 1;
-> > +             u32 clr_ack_with_err_7: 1;
-> > +             u32 clr_ack_with_err_8: 1;
-> > +             u32 clr_ack_with_err_9: 1;
-> > +             u32 clr_ack_with_err_10: 1;
-> > +             u32 clr_ack_with_err_11: 1;
-> > +             u32 clr_ack_with_err_12: 1;
-> > +             u32 clr_ack_with_err_13: 1;
-> > +             u32 clr_ack_with_err_14: 1;
-> > +             u32 clr_ack_with_err_15: 1;
-> > +             } bits;
-> > +     } PROTOCOL_INT_CLR;
-> > +
-> > +     union _0xCC {
-> > +             u32 val;
-> > +             struct _INTERNAL_INT_CLR {
-> > +             u32 clr_receive_pkt_size_err: 1;
-> > +             u32 clr_eopt_not_receive_err: 1;
-> > +             u32 clr_gen_cmd_cmd_fifo_wr_err: 1;
-> > +             u32 clr_gen_cmd_rdata_fifo_rd_err: 1;
-> > +             u32 clr_gen_cmd_rdata_fifo_wr_err: 1;
-> > +             u32 clr_gen_cmd_wdata_fifo_wr_err: 1;
-> > +             u32 clr_gen_cmd_wdata_fifo_rd_err: 1;
-> > +             u32 clr_dpi_pix_fifo_wr_err: 1;
-> > +             u32 clr_internal_debug_err: 19;
-> > +             u32 clr_ecc_single_err: 1;
-> > +             u32 clr_ecc_multi_err: 1;
-> > +             u32 clr_crc_err: 1;
-> > +             u32 clr_hs_tx_timeout: 1;
-> > +             u32 clr_lp_rx_timeout: 1;
-> > +             } bits;
-> > +     } INTERNAL_INT_CLR;
-> > +
-> > +     union _0xD0 {
-> > +             u32 val;
-> > +             struct _VIDEO_SIG_DELAY_CONFIG {
-> > +
-> > +             /*
-> > +              * DPI interface signal delay to be used in clk lanebyte
-> > +              * domain for control logic to read video data from pixel
-> > +              * memory in mannal mode, measured in clk_lanebyte cycles
-> > +              */
-> > +             u32 video_sig_delay: 24;
-> > +
-> > +             /*
-> > +              * 1'b1: mannal mode
-> > +              *       dsi controller will use video_sig_delay value as
-> > +              *       the delay for the packet handle logic to read vi=
-deo
-> > +              *       data from pixel memory.
-> > +              *
-> > +              * 1'b0: auto mode
-> > +              *       dsi controller will auto calculate the delay for
-> > +              *       the packet handle logic to read video data from
-> > +              *       pixel memory.
-> > +              */
-> > +             u32 video_sig_delay_mode: 1;
-> > +
-> > +             u32 reserved: 7;
-> > +             } bits;
-> > +     } VIDEO_SIG_DELAY_CONFIG;
-> > +
-> > +     u32 reservedD4_EC[7];
-> > +
-> > +     union _0xF0 {
-> > +             u32 val;
-> > +             struct _PHY_TST_CTRL0 {
-> > +             /* PHY test interface clear (active high) */
-> > +             u32 phy_testclr: 1;
-> > +
-> > +             /* This bit is used to clock the TESTDIN bus into the D-P=
-HY */
-> > +             u32 phy_testclk: 1;
-> > +
-> > +             u32 reserved: 30;
-> > +             } bits;
-> > +     } PHY_TST_CTRL0;
-> > +
-> > +     union _0xF4 {
-> > +             u32 val;
-> > +             struct _PHY_TST_CTRL1 {
-> > +             /* PHY test interface input 8-bit data bus for internal
-> > +              * register programming and test functionalities access.
-> > +              */
-> > +             u32 phy_testdin: 8;
-> > +
-> > +             /* PHY output 8-bit data bus for read-back and internal
-> > +              * probing functionalities.
-> > +              */
-> > +             u32 phy_testdout: 8;
-> > +
-> > +             /*
-> > +              * PHY test interface operation selector:
-> > +              * 1: The address write operation is set on the falling e=
-dge
-> > +              *    of the testclk signal.
-> > +              * 0: The data write operation is set on the rising edge =
-of
-> > +              *    the testclk signal.
-> > +              */
-> > +             u32 phy_testen: 1;
-> > +
-> > +             u32 reserved: 15;
-> > +             } bits;
-> > +     } PHY_TST_CTRL1;
-> > +
-> > +     u32 reservedF8_1FC[66];
-> > +
-> > +     union _0x200 {
-> > +             u32 val;
-> > +             struct _INT_PLL_STS {
-> > +             u32 int_pll_sts: 1;
-> > +             u32 reserved: 31;
-> > +             } bits;
-> > +     } INT_PLL_STS;
-> > +
-> > +     union _0x204 {
-> > +             u32 val;
-> > +             struct _INT_PLL_MSK {
-> > +             u32 int_pll_msk: 1;
-> > +             u32 reserved: 31;
-> > +             } bits;
-> > +     } INT_PLL_MSK;
-> > +
-> > +     union _0x208 {
-> > +             u32 val;
-> > +             struct _INT_PLL_CLR {
-> > +             u32 int_pll_clr: 1;
-> > +             u32 reserved: 31;
-> > +             } bits;
-> > +     } INT_PLL_CLR;
-> > +
-> > +};
-> > +
-> > +void dsi_power_enable(struct dsi_context *ctx, int enable);
-> > +void dsi_video_mode(struct dsi_context *ctx);
-> > +void dsi_cmd_mode(struct dsi_context *ctx);
-> > +bool dsi_is_cmd_mode(struct dsi_context *ctx);
-> > +void dsi_rx_vcid(struct dsi_context *ctx, u8 vc);
-> > +void dsi_video_vcid(struct dsi_context *ctx, u8 vc);
-> > +void dsi_dpi_video_burst_mode(struct dsi_context *ctx, int mode);
-> > +void dsi_dpi_color_coding(struct dsi_context *ctx, int coding);
-> > +void dsi_dpi_sig_delay(struct dsi_context *ctx, u16 byte_cycle);
-> > +void dsi_dpi_hline_time(struct dsi_context *ctx, u16 byte_cycle);
-> > +void dsi_dpi_hsync_time(struct dsi_context *ctx, u16 byte_cycle);
-> > +void dsi_dpi_hbp_time(struct dsi_context *ctx, u16 byte_cycle);
-> > +void dsi_dpi_vact(struct dsi_context *ctx, u16 lines);
-> > +void dsi_dpi_vfp(struct dsi_context *ctx, u16 lines);
-> > +void dsi_dpi_vbp(struct dsi_context *ctx, u16 lines);
-> > +void dsi_dpi_vsync(struct dsi_context *ctx, u16 lines);
-> > +void dsi_dpi_hporch_lp_en(struct dsi_context *ctx, int enable);
-> > +void dsi_dpi_vporch_lp_en(struct dsi_context *ctx, int enable);
-> > +void dsi_dpi_frame_ack_en(struct dsi_context *ctx, int enable);
-> > +void dsi_dpi_chunk_num(struct dsi_context *ctx, u16 no);
-> > +void dsi_dpi_null_packet_size(struct dsi_context *ctx, u16 size);
-> > +void dsi_dpi_video_packet_size(struct dsi_context *ctx, u16 size);
-> > +void dsi_edpi_max_pkt_size(struct dsi_context *ctx, u16 size);
-> > +void dsi_tear_effect_ack_en(struct dsi_context *ctx, int enable);
-> > +void dsi_cmd_mode_lp_cmd_en(struct dsi_context *ctx, int enable);
-> > +void dsi_video_mode_lp_cmd_en(struct dsi_context *ctx, int enable);
-> > +void dsi_set_packet_header(struct dsi_context *ctx, u8 vc, u8 type,
-> > +                                             u8 wc_lsb, u8 wc_msb);
-> > +void dsi_set_packet_payload(struct dsi_context *ctx, u32 payload);
-> > +u32 dsi_get_rx_payload(struct dsi_context *ctx);
-> > +void dsi_bta_en(struct dsi_context *ctx, int enable);
-> > +void dsi_eotp_rx_en(struct dsi_context *ctx, int enable);
-> > +void dsi_eotp_tx_en(struct dsi_context *ctx, int enable);
-> > +void dsi_ecc_rx_en(struct dsi_context *ctx, int enable);
-> > +void dsi_crc_rx_en(struct dsi_context *ctx, int enable);
-> > +bool dsi_is_bta_returned(struct dsi_context *ctx);
-> > +bool dsi_is_rx_payload_fifo_full(struct dsi_context *ctx);
-> > +bool dsi_is_rx_payload_fifo_empty(struct dsi_context *ctx);
-> > +bool dsi_is_tx_payload_fifo_full(struct dsi_context *ctx);
-> > +bool dsi_is_tx_payload_fifo_empty(struct dsi_context *ctx);
-> > +bool dsi_is_tx_cmd_fifo_empty(struct dsi_context *ctx);
-> > +void dsi_datalane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle=
-);
-> > +void dsi_datalane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle=
-);
-> > +void dsi_clklane_hs2lp_config(struct dsi_context *ctx, u16 byte_cycle)=
-;
-> > +void dsi_clklane_lp2hs_config(struct dsi_context *ctx, u16 byte_cycle)=
-;
-> > +void dsi_max_read_time(struct dsi_context *ctx, u16 byte_cycle);
-> > +void dsi_nc_clk_en(struct dsi_context *ctx, int enable);
-> > +void dsi_tx_escape_division(struct dsi_context *ctx, u8 div);
-> > +void dsi_timeout_clock_division(struct dsi_context *ctx, u8 div);
-> > +void dsi_lp_rx_timeout(struct dsi_context *ctx, u16 count);
-> > +void dsi_hs_tx_timeout(struct dsi_context *ctx, u16 count);
-> > +u32 dsi_int0_status(struct dsi_context *ctx);
-> > +u32 dsi_int1_status(struct dsi_context *ctx);
-> > +void dsi_int0_mask(struct dsi_context *ctx, u32 mask);
-> > +void dsi_int1_mask(struct dsi_context *ctx, u32 mask);
-> > +
-> > +#endif /* _DSI_CTRL_H_ */
-> > diff --git a/drivers/gpu/drm/sprd/dsi_ctrl_ppi.c b/drivers/gpu/drm/sprd=
-/dsi_ctrl_ppi.c
-> > new file mode 100644
-> > index 000000000..6b3259ae5
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/dsi_ctrl_ppi.c
-> > @@ -0,0 +1,157 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) 2020 Unisoc Inc.
-> > + */
-> > +
-> > +#include <linux/io.h>
-> > +#include <linux/init.h>
-> > +#include <linux/module.h>
-> > +
-> > +#include "dsi_ctrl.h"
-> > +#include "dsi_ctrl_ppi.h"
-> > +
-> > +/*
-> > + * Reset D-PHY module
-> > + */
-> > +void dsi_phy_rstz(struct dsi_context *ctx, int level)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x78 phy_interface_ctrl;
-> > +
-> > +     phy_interface_ctrl.val =3D readl(&reg->PHY_INTERFACE_CTRL);
-> > +     phy_interface_ctrl.bits.rf_phy_reset_n =3D level;
-> > +
-> > +     writel(phy_interface_ctrl.val, &reg->PHY_INTERFACE_CTRL);
-> > +}
-> > +
-> > +/*
-> > + * Power up/down D-PHY module
-> > + */
-> > +void dsi_phy_shutdownz(struct dsi_context *ctx, int level)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x78 phy_interface_ctrl;
-> > +
-> > +     phy_interface_ctrl.val =3D readl(&reg->PHY_INTERFACE_CTRL);
-> > +     phy_interface_ctrl.bits.rf_phy_shutdown =3D level;
-> > +
-> > +     writel(phy_interface_ctrl.val, &reg->PHY_INTERFACE_CTRL);
-> > +}
-> > +
-> > +/*
-> > + * Configure minimum wait period for HS transmission request after a s=
-top state
-> > + */
-> > +void dsi_phy_stop_wait_time(struct dsi_context *ctx, u8 byte_cycle)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(byte_cycle, &reg->PHY_MIN_STOP_TIME);
-> > +}
-> > +
-> > +/*
-> > + * Set number of active lanes
-> > + */
-> > +void dsi_phy_datalane_en(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +
-> > +     writel(ctx->lanes - 1, &reg->PHY_LANE_NUM_CONFIG);
-> > +}
-> > +
-> > +/*
-> > + * Enable clock lane module
-> > + */
-> > +void dsi_phy_clklane_en(struct dsi_context *ctx, int en)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x78 phy_interface_ctrl;
-> > +
-> > +     phy_interface_ctrl.val =3D readl(&reg->PHY_INTERFACE_CTRL);
-> > +     phy_interface_ctrl.bits.rf_phy_clk_en =3D en;
-> > +
-> > +     writel(phy_interface_ctrl.val, &reg->PHY_INTERFACE_CTRL);
-> > +}
-> > +
-> > +/*
-> > + * Request the PHY module to start transmission of high speed clock.
-> > + * This causes the clock lane to start transmitting DDR clock on the
-> > + * lane interconnect.
-> > + */
-> > +void dsi_phy_clk_hs_rqst(struct dsi_context *ctx, int enable)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x74 phy_clk_lane_lp_ctrl;
-> > +
-> > +     phy_clk_lane_lp_ctrl.val =3D readl(&reg->PHY_CLK_LANE_LP_CTRL);
-> > +     phy_clk_lane_lp_ctrl.bits.auto_clklane_ctrl_en =3D 0;
-> > +     phy_clk_lane_lp_ctrl.bits.phy_clklane_tx_req_hs =3D enable;
-> > +
-> > +     writel(phy_clk_lane_lp_ctrl.val, &reg->PHY_CLK_LANE_LP_CTRL);
-> > +}
-> > +
-> > +/*
-> > + * Get D-PHY PPI status
-> > + */
-> > +u8 dsi_phy_is_pll_locked(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0x9C phy_status;
-> > +
-> > +     phy_status.val =3D readl(&reg->PHY_STATUS);
-> > +
-> > +     return phy_status.bits.phy_lock;
-> > +}
-> > +
-> > +void dsi_phy_test_clk(struct dsi_context *ctx, u8 value)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xF0 phy_tst_ctrl0;
-> > +
-> > +     phy_tst_ctrl0.val =3D readl(&reg->PHY_TST_CTRL0);
-> > +     phy_tst_ctrl0.bits.phy_testclk =3D value;
-> > +
-> > +     writel(phy_tst_ctrl0.val, &reg->PHY_TST_CTRL0);
-> > +}
-> > +
-> > +void dsi_phy_test_clr(struct dsi_context *ctx, u8 value)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xF0 phy_tst_ctrl0;
-> > +
-> > +     phy_tst_ctrl0.val =3D readl(&reg->PHY_TST_CTRL0);
-> > +     phy_tst_ctrl0.bits.phy_testclr =3D value;
-> > +
-> > +     writel(phy_tst_ctrl0.val, &reg->PHY_TST_CTRL0);
-> > +}
-> > +
-> > +void dsi_phy_test_en(struct dsi_context *ctx, u8 value)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xF4 phy_tst_ctrl1;
-> > +
-> > +     phy_tst_ctrl1.val =3D readl(&reg->PHY_TST_CTRL1);
-> > +     phy_tst_ctrl1.bits.phy_testen =3D value;
-> > +
-> > +     writel(phy_tst_ctrl1.val, &reg->PHY_TST_CTRL1);
-> > +}
-> > +
-> > +u8 dsi_phy_test_dout(struct dsi_context *ctx)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xF4 phy_tst_ctrl1;
-> > +
-> > +     phy_tst_ctrl1.val =3D readl(&reg->PHY_TST_CTRL1);
-> > +
-> > +     return phy_tst_ctrl1.bits.phy_testdout;
-> > +}
-> > +
-> > +void dsi_phy_test_din(struct dsi_context *ctx, u8 data)
-> > +{
-> > +     struct dsi_reg *reg =3D (struct dsi_reg *)ctx->base;
-> > +     union _0xF4 phy_tst_ctrl1;
-> > +
-> > +     phy_tst_ctrl1.val =3D readl(&reg->PHY_TST_CTRL1);
-> > +     phy_tst_ctrl1.bits.phy_testdin =3D data;
-> > +
-> > +     writel(phy_tst_ctrl1.val, &reg->PHY_TST_CTRL1);
-> > +}
-> > diff --git a/drivers/gpu/drm/sprd/dsi_ctrl_ppi.h b/drivers/gpu/drm/sprd=
-/dsi_ctrl_ppi.h
-> > new file mode 100644
-> > index 000000000..6fb3fad89
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/dsi_ctrl_ppi.h
-> > @@ -0,0 +1,26 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) 2020 Unisoc Inc.
-> > + */
-> > +
-> > +#ifndef _DSI_CTRL_PPI_H_
-> > +#define _DSI_CTRL_PPI_H_
-> > +
-> > +#include "sprd_dsi.h"
-> > +
-> > +void dsi_phy_rstz(struct dsi_context *ctx, int level);
-> > +void dsi_phy_shutdownz(struct dsi_context *ctx, int level);
-> > +void dsi_phy_force_pll(struct dsi_context *ctx, int force);
-> > +void dsi_phy_stop_wait_time(struct dsi_context *ctx, u8 byte_clk);
-> > +void dsi_phy_datalane_en(struct dsi_context *ctx);
-> > +void dsi_phy_clklane_en(struct dsi_context *ctx, int en);
-> > +void dsi_phy_clk_hs_rqst(struct dsi_context *ctx, int en);
-> > +u8 dsi_phy_is_pll_locked(struct dsi_context *ctx);
-> > +void dsi_phy_test_clk(struct dsi_context *ctx, u8 level);
-> > +void dsi_phy_test_clr(struct dsi_context *ctx, u8 level);
-> > +void dsi_phy_test_en(struct dsi_context *ctx, u8 level);
-> > +u8 dsi_phy_test_dout(struct dsi_context *ctx);
-> > +void dsi_phy_test_din(struct dsi_context *ctx, u8 data);
-> > +void dsi_phy_bist_en(struct dsi_context *ctx, int en);
-> > +
-> > +#endif /* _DSI_CTRL_PPI_H_ */
-> > diff --git a/drivers/gpu/drm/sprd/megacores_pll.c b/drivers/gpu/drm/spr=
-d/megacores_pll.c
-> > new file mode 100644
-> > index 000000000..03c1f0f00
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/megacores_pll.c
-> > @@ -0,0 +1,317 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) 2020 Unisoc Inc.
-> > + */
-> > +
-> > +#include <asm/div64.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/init.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/string.h>
-> > +
-> > +#include "megacores_pll.h"
-> > +
-> > +#define L                                            0
-> > +#define H                                            1
-> > +#define CLK                                          0
-> > +#define DATA                                 1
-> > +#define INFINITY                             0xffffffff
-> > +#define MIN_OUTPUT_FREQ                      (100)
-> > +
-> > +#define AVERAGE(a, b) (min(a, b) + abs((b) - (a)) / 2)
-> > +
-> > +/* sharkle */
-> > +#define VCO_BAND_LOW 750
-> > +#define VCO_BAND_MID 1100
-> > +#define VCO_BAND_HIGH        1500
-> > +#define PHY_REF_CLK  26000
-> > +
-> > +static int dphy_calc_pll_param(struct dphy_pll *pll)
-> > +{
-> > +     const u32 khz =3D 1000;
-> > +     const u32 mhz =3D 1000000;
-> > +     const unsigned long long factor =3D 100;
-> > +     unsigned long long tmp;
-> > +     int i;
-> > +
-> > +     pll->potential_fvco =3D pll->freq / khz;
-> > +     pll->ref_clk =3D PHY_REF_CLK / khz;
-> > +
-> > +     for (i =3D 0; i < 4; ++i) {
-> > +             if (pll->potential_fvco >=3D VCO_BAND_LOW &&
-> > +                     pll->potential_fvco <=3D VCO_BAND_HIGH) {
-> > +                     pll->fvco =3D pll->potential_fvco;
-> > +                     pll->out_sel =3D BIT(i);
-> > +                     break;
-> > +             }
-> > +             pll->potential_fvco <<=3D 1;
-> > +     }
-> > +     if (pll->fvco =3D=3D 0)
-> > +             return -EINVAL;
-> > +
-> > +     if (pll->fvco >=3D VCO_BAND_LOW && pll->fvco <=3D VCO_BAND_MID) {
-> > +             /* vco band control */
-> > +             pll->vco_band =3D 0x0;
-> > +             /* low pass filter control */
-> > +             pll->lpf_sel =3D 1;
-> > +     } else if (pll->fvco > VCO_BAND_MID && pll->fvco <=3D VCO_BAND_HI=
-GH) {
-> > +             pll->vco_band =3D 0x1;
-> > +             pll->lpf_sel =3D 0;
-> > +     } else
-> > +             return -EINVAL;
-> > +
-> > +     pll->nint =3D pll->fvco / pll->ref_clk;
-> > +     tmp =3D pll->fvco * factor * mhz;
-> > +     do_div(tmp, pll->ref_clk);
-> > +     tmp =3D tmp - pll->nint * factor * mhz;
-> > +     tmp *=3D BIT(20);
-> > +     do_div(tmp, 100000000);
-> > +     pll->kint =3D (u32)tmp;
-> > +     pll->refin =3D 3; /* pre-divider bypass */
-> > +     pll->sdm_en =3D true; /* use fraction N PLL */
-> > +     pll->fdk_s =3D 0x1; /* fraction */
-> > +     pll->cp_s =3D 0x0;
-> > +     pll->det_delay =3D 0x1;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void dphy_set_pll_reg(struct dphy_pll *pll, struct regmap *regm=
-ap)
-> > +{
-> > +     struct pll_reg *reg =3D &pll->reg;
-> > +     u8 *val;
-> > +     int i;
-> > +
-> > +     u8 reg_addr[] =3D {
-> > +             0x03, 0x04, 0x06, 0x08, 0x09,
-> > +             0x0a, 0x0b, 0x0e, 0x0f
-> > +     };
-> > +
-> > +     reg->_03.bits.prbs_bist =3D 1;
-> > +     reg->_03.bits.en_lp_treot =3D true;
-> > +     reg->_03.bits.lpf_sel =3D pll->lpf_sel;
-> > +     reg->_03.bits.txfifo_bypass =3D 0;
-> > +     reg->_04.bits.div =3D pll->div;
-> > +     reg->_04.bits.masterof8lane =3D 1;
-> > +     reg->_04.bits.cp_s =3D pll->cp_s;
-> > +     reg->_04.bits.fdk_s =3D pll->fdk_s;
-> > +     reg->_06.bits.nint =3D pll->nint;
-> > +     reg->_08.bits.vco_band =3D pll->vco_band;
-> > +     reg->_08.bits.sdm_en =3D pll->sdm_en;
-> > +     reg->_08.bits.refin =3D pll->refin;
-> > +     reg->_09.bits.kint_h =3D pll->kint >> 12;
-> > +     reg->_0a.bits.kint_m =3D (pll->kint >> 4) & 0xff;
-> > +     reg->_0b.bits.out_sel =3D pll->out_sel;
-> > +     reg->_0b.bits.kint_l =3D pll->kint & 0xf;
-> > +     reg->_0e.bits.pll_pu_byp =3D 0;
-> > +     reg->_0e.bits.pll_pu =3D 0;
-> > +     reg->_0e.bits.stopstate_sel =3D 1;
-> > +     reg->_0f.bits.det_delay =3D pll->det_delay;
-> > +
-> > +     val =3D (u8 *)&reg;
-> > +
-> > +     for (i =3D 0; i < sizeof(reg_addr); ++i) {
-> > +             regmap_write(regmap, reg_addr[i], val[i]);
-> > +             DRM_DEBUG("%02x: %02x\n", reg_addr[i], val[i]);
-> > +     }
-> > +}
-> > +
-> > +int dphy_pll_config(struct dsi_context *ctx)
-> > +{
-> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
-> > +     struct regmap *regmap =3D ctx->regmap;
-> > +     struct dphy_pll *pll =3D ctx->pll;
-> > +     int ret;
-> > +
-> > +     pll->freq =3D ctx->byte_clk * 8;
-> > +
-> > +     /* FREQ =3D 26M * (NINT + KINT / 2^20) / out_sel */
-> > +     ret =3D dphy_calc_pll_param(pll);
-> > +     if (ret) {
-> > +             drm_err(dsi->drm, "failed to calculate dphy pll parameter=
-s\n");
-> > +             return ret;
-> > +     }
-> > +     dphy_set_pll_reg(pll, regmap);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void dphy_set_timing_reg(struct regmap *regmap, int type, u8 va=
-l[])
-> > +{
-> > +     switch (type) {
-> > +     case REQUEST_TIME:
-> > +             regmap_write(regmap, 0x31, val[CLK]);
-> > +             regmap_write(regmap, 0x41, val[DATA]);
-> > +             regmap_write(regmap, 0x51, val[DATA]);
-> > +             regmap_write(regmap, 0x61, val[DATA]);
-> > +             regmap_write(regmap, 0x71, val[DATA]);
-> > +
-> > +             regmap_write(regmap, 0x90, val[CLK]);
-> > +             regmap_write(regmap, 0xa0, val[DATA]);
-> > +             regmap_write(regmap, 0xb0, val[DATA]);
-> > +             regmap_write(regmap, 0xc0, val[DATA]);
-> > +             regmap_write(regmap, 0xd0, val[DATA]);
-> > +             break;
-> > +     case PREPARE_TIME:
-> > +             regmap_write(regmap, 0x32, val[CLK]);
-> > +             regmap_write(regmap, 0x42, val[DATA]);
-> > +             regmap_write(regmap, 0x52, val[DATA]);
-> > +             regmap_write(regmap, 0x62, val[DATA]);
-> > +             regmap_write(regmap, 0x72, val[DATA]);
-> > +
-> > +             regmap_write(regmap, 0x91, val[CLK]);
-> > +             regmap_write(regmap, 0xa1, val[DATA]);
-> > +             regmap_write(regmap, 0xb1, val[DATA]);
-> > +             regmap_write(regmap, 0xc1, val[DATA]);
-> > +             regmap_write(regmap, 0xd1, val[DATA]);
-> > +             break;
-> > +     case ZERO_TIME:
-> > +             regmap_write(regmap, 0x33, val[CLK]);
-> > +             regmap_write(regmap, 0x43, val[DATA]);
-> > +             regmap_write(regmap, 0x53, val[DATA]);
-> > +             regmap_write(regmap, 0x63, val[DATA]);
-> > +             regmap_write(regmap, 0x73, val[DATA]);
-> > +
-> > +             regmap_write(regmap, 0x92, val[CLK]);
-> > +             regmap_write(regmap, 0xa2, val[DATA]);
-> > +             regmap_write(regmap, 0xb2, val[DATA]);
-> > +             regmap_write(regmap, 0xc2, val[DATA]);
-> > +             regmap_write(regmap, 0xd2, val[DATA]);
-> > +             break;
-> > +     case TRAIL_TIME:
-> > +             regmap_write(regmap, 0x34, val[CLK]);
-> > +             regmap_write(regmap, 0x44, val[DATA]);
-> > +             regmap_write(regmap, 0x54, val[DATA]);
-> > +             regmap_write(regmap, 0x64, val[DATA]);
-> > +             regmap_write(regmap, 0x74, val[DATA]);
-> > +
-> > +             regmap_write(regmap, 0x93, val[CLK]);
-> > +             regmap_write(regmap, 0xa3, val[DATA]);
-> > +             regmap_write(regmap, 0xb3, val[DATA]);
-> > +             regmap_write(regmap, 0xc3, val[DATA]);
-> > +             regmap_write(regmap, 0xd3, val[DATA]);
-> > +             break;
-> > +     case EXIT_TIME:
-> > +             regmap_write(regmap, 0x36, val[CLK]);
-> > +             regmap_write(regmap, 0x46, val[DATA]);
-> > +             regmap_write(regmap, 0x56, val[DATA]);
-> > +             regmap_write(regmap, 0x66, val[DATA]);
-> > +             regmap_write(regmap, 0x76, val[DATA]);
-> > +
-> > +             regmap_write(regmap, 0x95, val[CLK]);
-> > +             regmap_write(regmap, 0xA5, val[DATA]);
-> > +             regmap_write(regmap, 0xB5, val[DATA]);
-> > +             regmap_write(regmap, 0xc5, val[DATA]);
-> > +             regmap_write(regmap, 0xd5, val[DATA]);
-> > +             break;
-> > +     case CLKPOST_TIME:
-> > +             regmap_write(regmap, 0x35, val[CLK]);
-> > +             regmap_write(regmap, 0x94, val[CLK]);
-> > +             break;
-> > +
-> > +     /* the following just use default value */
-> > +     case SETTLE_TIME:
-> > +     case TA_GET:
-> > +     case TA_GO:
-> > +     case TA_SURE:
-> > +             break;
-> > +     default:
-> > +             break;
-> > +     }
-> > +}
-> > +
-> > +void dphy_timing_config(struct dsi_context *ctx)
-> > +{
-> > +     struct regmap *regmap =3D ctx->regmap;
-> > +     struct dphy_pll *pll =3D ctx->pll;
-> > +     const u32 factor =3D 2;
-> > +     const u32 scale =3D 100;
-> > +     u32 t_ui, t_byteck, t_half_byteck;
-> > +     u32 range[2], constant;
-> > +     u8 val[2];
-> > +     u32 tmp =3D 0;
-> > +
-> > +     /* t_ui: 1 ui, byteck: 8 ui, half byteck: 4 ui */
-> > +     t_ui =3D 1000 * scale / (pll->freq / 1000);
-> > +     t_byteck =3D t_ui << 3;
-> > +     t_half_byteck =3D t_ui << 2;
-> > +     constant =3D t_ui << 1;
-> > +
-> > +     /* REQUEST_TIME: HS T-LPX: LP-01
-> > +      * For T-LPX, mipi spec defined min value is 50ns,
-> > +      * but maybe it shouldn't be too small, because BTA,
-> > +      * LP-10, LP-00, LP-01, all of this is related to T-LPX.
-> > +      */
-> > +     range[L] =3D 50 * scale;
-> > +     range[H] =3D INFINITY;
-> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * (factor << 1), t_byteck) - 2=
-;
-> > +     val[DATA] =3D val[CLK];
-> > +     dphy_set_timing_reg(regmap, REQUEST_TIME, val);
-> > +
-> > +     /* PREPARE_TIME: HS sequence: LP-00 */
-> > +     range[L] =3D 38 * scale;
-> > +     range[H] =3D 95 * scale;
-> > +     tmp =3D AVERAGE(range[L], range[H]);
-> > +     val[CLK] =3D DIV_ROUND_UP(AVERAGE(range[L], range[H]),
-> > +                     t_half_byteck) - 1;
-> > +     range[L] =3D 40 * scale + 4 * t_ui;
-> > +     range[H] =3D 85 * scale + 6 * t_ui;
-> > +     tmp |=3D AVERAGE(range[L], range[H]) << 16;
-> > +     val[DATA] =3D DIV_ROUND_UP(AVERAGE(range[L], range[H]),
-> > +                     t_half_byteck) - 1;
-> > +     dphy_set_timing_reg(regmap, PREPARE_TIME, val);
-> > +
-> > +     /* ZERO_TIME: HS-ZERO */
-> > +     range[L] =3D 300 * scale;
-> > +     range[H] =3D INFINITY;
-> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * factor + (tmp & 0xffff)
-> > +                     - 525 * t_byteck / 100, t_byteck) - 2;
-> > +     range[L] =3D 145 * scale + 10 * t_ui;
-> > +     val[DATA] =3D DIV_ROUND_UP(range[L] * factor
-> > +                     + ((tmp >> 16) & 0xffff) - 525 * t_byteck / 100,
-> > +                     t_byteck) - 2;
-> > +     dphy_set_timing_reg(regmap, ZERO_TIME, val);
-> > +
-> > +     /* TRAIL_TIME: HS-TRAIL */
-> > +     range[L] =3D 60 * scale;
-> > +     range[H] =3D INFINITY;
-> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * factor - constant, t_half_by=
-teck);
-> > +     range[L] =3D max(8 * t_ui, 60 * scale + 4 * t_ui);
-> > +     val[DATA] =3D DIV_ROUND_UP(range[L] * 3 / 2 - constant, t_half_by=
-teck) - 2;
-> > +     dphy_set_timing_reg(regmap, TRAIL_TIME, val);
-> > +
-> > +     /* EXIT_TIME: */
-> > +     range[L] =3D 100 * scale;
-> > +     range[H] =3D INFINITY;
-> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * factor, t_byteck) - 2;
-> > +     val[DATA] =3D val[CLK];
-> > +     dphy_set_timing_reg(regmap, EXIT_TIME, val);
-> > +
-> > +     /* CLKPOST_TIME: */
-> > +     range[L] =3D 60 * scale + 52 * t_ui;
-> > +     range[H] =3D INFINITY;
-> > +     val[CLK] =3D DIV_ROUND_UP(range[L] * factor, t_byteck) - 2;
-> > +     val[DATA] =3D val[CLK];
-> > +     dphy_set_timing_reg(regmap, CLKPOST_TIME, val);
-> > +
-> > +     /* SETTLE_TIME:
-> > +      * This time is used for receiver. So for transmitter,
-> > +      * it can be ignored.
-> > +      */
-> > +
-> > +     /* TA_GO:
-> > +      * transmitter drives bridge state(LP-00) before releasing contro=
-l,
-> > +      * reg 0x1f default value: 0x04, which is good.
-> > +      */
-> > +
-> > +     /* TA_SURE:
-> > +      * After LP-10 state and before bridge state(LP-00),
-> > +      * reg 0x20 default value: 0x01, which is good.
-> > +      */
-> > +
-> > +     /* TA_GET:
-> > +      * receiver drives Bridge state(LP-00) before releasing control
-> > +      * reg 0x21 default value: 0x03, which is good.
-> > +      */
-> > +}
-> > diff --git a/drivers/gpu/drm/sprd/megacores_pll.h b/drivers/gpu/drm/spr=
-d/megacores_pll.h
-> > new file mode 100644
-> > index 000000000..bf20aae65
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/megacores_pll.h
-> > @@ -0,0 +1,146 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) 2020 Unisoc Inc.
-> > + */
-> > +
-> > +#ifndef _MEGACORES_PLL_H_
-> > +#define _MEGACORES_PLL_H_
-> > +
-> > +#include "sprd_dsi.h"
-> > +
-> > +enum PLL_TIMING {
-> > +     NONE,
-> > +     REQUEST_TIME,
-> > +     PREPARE_TIME,
-> > +     SETTLE_TIME,
-> > +     ZERO_TIME,
-> > +     TRAIL_TIME,
-> > +     EXIT_TIME,
-> > +     CLKPOST_TIME,
-> > +     TA_GET,
-> > +     TA_GO,
-> > +     TA_SURE,
-> > +     TA_WAIT,
-> > +};
-> > +
-> > +struct pll_reg {
-> > +     union __reg_03__ {
-> > +             struct __03 {
-> > +                     u8 prbs_bist: 1;
-> > +                     u8 en_lp_treot: 1;
-> > +                     u8 lpf_sel: 4;
-> > +                     u8 txfifo_bypass: 1;
-> > +                     u8 freq_hopping: 1;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _03;
-> > +     union __reg_04__ {
-> > +             struct __04 {
-> > +                     u8 div: 3;
-> > +                     u8 masterof8lane: 1;
-> > +                     u8 hop_trig: 1;
-> > +                     u8 cp_s: 2;
-> > +                     u8 fdk_s: 1;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _04;
-> > +     union __reg_06__ {
-> > +             struct __06 {
-> > +                     u8 nint: 7;
-> > +                     u8 mod_en: 1;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _06;
-> > +     union __reg_07__ {
-> > +             struct __07 {
-> > +                     u8 kdelta_h: 8;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _07;
-> > +     union __reg_08__ {
-> > +             struct __08 {
-> > +                     u8 vco_band: 1;
-> > +                     u8 sdm_en: 1;
-> > +                     u8 refin: 2;
-> > +                     u8 kdelta_l: 4;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _08;
-> > +     union __reg_09__ {
-> > +             struct __09 {
-> > +                     u8 kint_h: 8;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _09;
-> > +     union __reg_0a__ {
-> > +             struct __0a {
-> > +                     u8 kint_m: 8;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _0a;
-> > +     union __reg_0b__ {
-> > +             struct __0b {
-> > +                     u8 out_sel: 4;
-> > +                     u8 kint_l: 4;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _0b;
-> > +     union __reg_0c__ {
-> > +             struct __0c {
-> > +                     u8 kstep_h: 8;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _0c;
-> > +     union __reg_0d__ {
-> > +             struct __0d {
-> > +                     u8 kstep_m: 8;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _0d;
-> > +     union __reg_0e__ {
-> > +             struct __0e {
-> > +                     u8 pll_pu_byp: 1;
-> > +                     u8 pll_pu: 1;
-> > +                     u8 hsbist_len: 2;
-> > +                     u8 stopstate_sel: 1;
-> > +                     u8 kstep_l: 3;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _0e;
-> > +     union __reg_0f__ {
-> > +             struct __0f {
-> > +                     u8 det_delay:2;
-> > +                     u8 kdelta: 4;
-> > +                     u8 ldo0p4:2;
-> > +             } bits;
-> > +             u8 val;
-> > +     } _0f;
-> > +};
-> > +
-> > +struct dphy_pll {
-> > +     u8 refin; /* Pre-divider control signal */
-> > +     u8 cp_s; /* 00: SDM_EN=3D1, 10: SDM_EN=3D0 */
-> > +     u8 fdk_s; /* PLL mode control: integer or fraction */
-> > +     u8 sdm_en;
-> > +     u8 div;
-> > +     u8 int_n; /* integer N PLL */
-> > +     u32 ref_clk; /* dphy reference clock, unit: MHz */
-> > +     u32 freq; /* panel config, unit: KHz */
-> > +     u32 fvco;
-> > +     u32 potential_fvco;
-> > +     u32 nint; /* sigma delta modulator NINT control */
-> > +     u32 kint; /* sigma delta modulator KINT control */
-> > +     u8 lpf_sel; /* low pass filter control */
-> > +     u8 out_sel; /* post divider control */
-> > +     u8 vco_band; /* vco range */
-> > +     u8 det_delay;
-> > +
-> > +     struct pll_reg reg;
-> > +};
-> > +
-> > +struct dsi_context;
-> > +
-> > +int dphy_pll_config(struct dsi_context *ctx);
-> > +void dphy_timing_config(struct dsi_context *ctx);
-> > +
-> > +#endif /* _MEGACORES_PLL_H_ */
-> > diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/spr=
-d_dpu.c
-> > index e74c3dbb3..10f6038e6 100644
-> > --- a/drivers/gpu/drm/sprd/sprd_dpu.c
-> > +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-> > @@ -25,6 +25,7 @@
-> >
-> >  #include "sprd_drm.h"
-> >  #include "sprd_dpu.h"
-> > +#include "sprd_dsi.h"
-> >
-> >  /* Global control registers */
-> >  #define REG_DPU_CTRL 0x04
-> > @@ -687,9 +688,25 @@ static void sprd_crtc_mode_set_nofb(struct drm_crt=
-c *crtc)
-> >  {
-> >       struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
-> >       struct drm_display_mode *mode =3D &crtc->state->adjusted_mode;
-> > +     struct drm_encoder *encoder;
-> > +     struct mipi_dsi_device *slave;
-> > +     struct sprd_dsi *dsi;
-> >
-> >       if (mode->type & DRM_MODE_TYPE_PREFERRED)
-> >               drm_display_mode_to_videomode(mode, &dpu->ctx.vm);
-> > +
-> > +     drm_for_each_encoder(encoder, crtc->dev) {
-> > +             if (encoder->crtc !=3D crtc)
-> > +                     continue;
-> > +
-> > +             dsi =3D encoder_to_dsi(encoder);
-> > +             slave =3D dsi->slave;
-> > +
-> > +             if (slave->mode_flags & MIPI_DSI_MODE_VIDEO)
-> > +                     dpu->ctx.if_type =3D SPRD_DPU_IF_DPI;
-> > +             else
-> > +                     dpu->ctx.if_type =3D SPRD_DPU_IF_EDPI;
-> > +     }
->
-> This would make more sense to store in a custom crtc_state and to fill
-> at atomic_check time. That way you can properly fail if you don't find
-> the encoder, or if it's not a DSI encoder, etc.
-Ok, i will remove it to atomic_check ops.
->
-> >  }
-> >
-> >  static void sprd_crtc_atomic_enable(struct drm_crtc *crtc,
-> > diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/spr=
-d_drm.c
-> > index 549b71278..68cf0933c 100644
-> > --- a/drivers/gpu/drm/sprd/sprd_drm.c
-> > +++ b/drivers/gpu/drm/sprd/sprd_drm.c
-> > @@ -183,6 +183,7 @@ static struct platform_driver sprd_drm_driver =3D {
-> >  static struct platform_driver *sprd_drm_drivers[]  =3D {
-> >       &sprd_drm_driver,
-> >       &sprd_dpu_driver,
-> > +     &sprd_dsi_driver,
-> >  };
-> >
-> >  static int __init sprd_drm_init(void)
-> > diff --git a/drivers/gpu/drm/sprd/sprd_drm.h b/drivers/gpu/drm/sprd/spr=
-d_drm.h
-> > index 85d4a8b9f..95d1b972f 100644
-> > --- a/drivers/gpu/drm/sprd/sprd_drm.h
-> > +++ b/drivers/gpu/drm/sprd/sprd_drm.h
-> > @@ -14,5 +14,6 @@ struct sprd_drm {
-> >  };
-> >
-> >  extern struct platform_driver sprd_dpu_driver;
-> > +extern struct platform_driver sprd_dsi_driver;
-> >
-> >  #endif /* _SPRD_DRM_H_ */
-> > diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c b/drivers/gpu/drm/sprd/spr=
-d_dsi.c
-> > new file mode 100644
-> > index 000000000..f26a37e50
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/sprd_dsi.c
-> > @@ -0,0 +1,1124 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) 2020 Unisoc Inc.
-> > + */
-> > +
-> > +#include <linux/component.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_address.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/of_irq.h>
-> > +#include <linux/of_graph.h>
-> > +#include <video/mipi_display.h>
-> > +
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_crtc_helper.h>
-> > +#include <drm/drm_of.h>
-> > +#include <drm/drm_probe_helper.h>
-> > +
-> > +#include "sprd_drm.h"
-> > +#include "sprd_dpu.h"
-> > +#include "sprd_dsi.h"
-> > +#include "dsi_ctrl.h"
-> > +#include "dsi_ctrl_ppi.h"
-> > +
-> > +#define host_to_dsi(host) \
-> > +     container_of(host, struct sprd_dsi, host)
-> > +#define connector_to_dsi(connector) \
-> > +     container_of(connector, struct sprd_dsi, connector)
-> > +
-> > +static int regmap_tst_io_write(void *context, u32 reg, u32 val)
-> > +{
-> > +     struct sprd_dsi *dsi =3D context;
-> > +     struct dsi_context *ctx =3D &dsi->ctx;
-> > +
-> > +     if (val > 0xff || reg > 0xff)
-> > +             return -EINVAL;
-> > +
-> > +     drm_dbg(dsi->drm, "reg =3D 0x%02x, val =3D 0x%02x\n", reg, val);
-> > +
-> > +     dsi_phy_test_en(ctx, 1);
-> > +     dsi_phy_test_din(ctx, reg);
-> > +     dsi_phy_test_clk(ctx, 1);
-> > +     dsi_phy_test_clk(ctx, 0);
-> > +     dsi_phy_test_en(ctx, 0);
-> > +     dsi_phy_test_din(ctx, val);
-> > +     dsi_phy_test_clk(ctx, 1);
-> > +     dsi_phy_test_clk(ctx, 0);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int regmap_tst_io_read(void *context, u32 reg, u32 *val)
-> > +{
-> > +     struct sprd_dsi *dsi =3D context;
-> > +     struct dsi_context *ctx =3D &dsi->ctx;
-> > +     int ret;
-> > +
-> > +     if (reg > 0xff)
-> > +             return -EINVAL;
-> > +
-> > +     dsi_phy_test_en(ctx, 1);
-> > +     dsi_phy_test_din(ctx, reg);
-> > +     dsi_phy_test_clk(ctx, 1);
-> > +     dsi_phy_test_clk(ctx, 0);
-> > +     dsi_phy_test_en(ctx, 0);
-> > +
-> > +     udelay(1);
-> > +
-> > +     ret =3D dsi_phy_test_dout(ctx);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     *val =3D ret;
-> > +
-> > +     drm_dbg(dsi->drm, "reg =3D 0x%02x, val =3D 0x%02x\n", reg, *val);
-> > +     return 0;
-> > +}
-> > +
-> > +static struct regmap_bus regmap_tst_io =3D {
-> > +     .reg_write =3D regmap_tst_io_write,
-> > +     .reg_read =3D regmap_tst_io_read,
-> > +};
-> > +
-> > +static const struct regmap_config byte_config =3D {
-> > +     .reg_bits =3D 8,
-> > +     .val_bits =3D 8,
-> > +};
-> > +
-> > +static int dphy_wait_pll_locked(struct dsi_context *ctx)
-> > +{
-> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < 50000; i++) {
-> > +             if (dsi_phy_is_pll_locked(ctx))
-> > +                     return 0;
-> > +             udelay(3);
-> > +     }
-> > +
-> > +     drm_err(dsi->drm, "dphy pll can not be locked\n");
-> > +     return -ETIMEDOUT;
-> > +}
-> > +
-> > +static int dsi_wait_tx_payload_fifo_empty(struct dsi_context *ctx)
-> > +{
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < 5000; i++) {
-> > +             if (dsi_is_tx_payload_fifo_empty(ctx))
-> > +                     return 0;
-> > +             udelay(1);
-> > +     }
-> > +
-> > +     return -ETIMEDOUT;
-> > +}
-> > +
-> > +static int dsi_wait_tx_cmd_fifo_empty(struct dsi_context *ctx)
-> > +{
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < 5000; i++) {
-> > +             if (dsi_is_tx_cmd_fifo_empty(ctx))
-> > +                     return 0;
-> > +             udelay(1);
-> > +     }
-> > +
-> > +     return -ETIMEDOUT;
-> > +}
-> > +
-> > +static int dsi_wait_rd_resp_completed(struct dsi_context *ctx)
-> > +{
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < 10000; i++) {
-> > +             if (dsi_is_bta_returned(ctx))
-> > +                     return 0;
-> > +             udelay(10);
-> > +     }
-> > +
-> > +     return -ETIMEDOUT;
-> > +}
-> > +
-> > +static u16 calc_bytes_per_pixel_x100(int coding)
-> > +{
-> > +     u16 Bpp_x100;
-> > +
-> > +     switch (coding) {
-> > +     case COLOR_CODE_16BIT_CONFIG1:
-> > +     case COLOR_CODE_16BIT_CONFIG2:
-> > +     case COLOR_CODE_16BIT_CONFIG3:
-> > +             Bpp_x100 =3D 200;
-> > +             break;
-> > +     case COLOR_CODE_18BIT_CONFIG1:
-> > +     case COLOR_CODE_18BIT_CONFIG2:
-> > +             Bpp_x100 =3D 225;
-> > +             break;
-> > +     case COLOR_CODE_24BIT:
-> > +             Bpp_x100 =3D 300;
-> > +             break;
-> > +     case COLOR_CODE_COMPRESSTION:
-> > +             Bpp_x100 =3D 100;
-> > +             break;
-> > +     case COLOR_CODE_20BIT_YCC422_LOOSELY:
-> > +             Bpp_x100 =3D 250;
-> > +             break;
-> > +     case COLOR_CODE_24BIT_YCC422:
-> > +             Bpp_x100 =3D 300;
-> > +             break;
-> > +     case COLOR_CODE_16BIT_YCC422:
-> > +             Bpp_x100 =3D 200;
-> > +             break;
-> > +     case COLOR_CODE_30BIT:
-> > +             Bpp_x100 =3D 375;
-> > +             break;
-> > +     case COLOR_CODE_36BIT:
-> > +             Bpp_x100 =3D 450;
-> > +             break;
-> > +     case COLOR_CODE_12BIT_YCC420:
-> > +             Bpp_x100 =3D 150;
-> > +             break;
-> > +     default:
-> > +             DRM_ERROR("invalid color coding");
-> > +             Bpp_x100 =3D 0;
-> > +             break;
-> > +     }
-> > +
-> > +     return Bpp_x100;
-> > +}
-> > +
-> > +static u8 calc_video_size_step(int coding)
-> > +{
-> > +     u8 video_size_step;
-> > +
-> > +     switch (coding) {
-> > +     case COLOR_CODE_16BIT_CONFIG1:
-> > +     case COLOR_CODE_16BIT_CONFIG2:
-> > +     case COLOR_CODE_16BIT_CONFIG3:
-> > +     case COLOR_CODE_18BIT_CONFIG1:
-> > +     case COLOR_CODE_18BIT_CONFIG2:
-> > +     case COLOR_CODE_24BIT:
-> > +     case COLOR_CODE_COMPRESSTION:
-> > +             return video_size_step =3D 1;
-> > +     case COLOR_CODE_20BIT_YCC422_LOOSELY:
-> > +     case COLOR_CODE_24BIT_YCC422:
-> > +     case COLOR_CODE_16BIT_YCC422:
-> > +     case COLOR_CODE_30BIT:
-> > +     case COLOR_CODE_36BIT:
-> > +     case COLOR_CODE_12BIT_YCC420:
-> > +             return video_size_step =3D 2;
-> > +     default:
-> > +             DRM_ERROR("invalid color coding");
-> > +             return 0;
-> > +     }
-> > +}
-> > +
-> > +static u16 round_video_size(int coding, u16 video_size)
-> > +{
-> > +     switch (coding) {
-> > +     case COLOR_CODE_16BIT_YCC422:
-> > +     case COLOR_CODE_24BIT_YCC422:
-> > +     case COLOR_CODE_20BIT_YCC422_LOOSELY:
-> > +     case COLOR_CODE_12BIT_YCC420:
-> > +             /* round up active H pixels to a multiple of 2 */
-> > +             if ((video_size % 2) !=3D 0)
-> > +                     video_size +=3D 1;
-> > +             break;
-> > +     default:
-> > +             break;
-> > +     }
-> > +
-> > +     return video_size;
-> > +}
-> > +
-> > +#define SPRD_MIPI_DSI_FMT_DSC 0xff
-> > +static u32 fmt_to_coding(u32 fmt)
-> > +{
-> > +     switch (fmt) {
-> > +     case MIPI_DSI_FMT_RGB565:
-> > +             return COLOR_CODE_16BIT_CONFIG1;
-> > +     case MIPI_DSI_FMT_RGB666:
-> > +     case MIPI_DSI_FMT_RGB666_PACKED:
-> > +             return COLOR_CODE_18BIT_CONFIG1;
-> > +     case MIPI_DSI_FMT_RGB888:
-> > +             return COLOR_CODE_24BIT;
-> > +     case SPRD_MIPI_DSI_FMT_DSC:
-> > +             return COLOR_CODE_COMPRESSTION;
-> > +     default:
-> > +             DRM_ERROR("Unsupported format (%d)\n", fmt);
-> > +             return COLOR_CODE_24BIT;
-> > +     }
-> > +}
-> > +
-> > +#define ns_to_cycle(ns, byte_clk) \
-> > +     DIV_ROUND_UP((ns) * (byte_clk), 1000000)
-> > +
-> > +static void sprd_dsi_init(struct dsi_context *ctx)
-> > +{
-> > +     u16 data_hs2lp, data_lp2hs, clk_hs2lp, clk_lp2hs;
-> > +     u16 max_rd_time;
-> > +     int div;
-> > +
-> > +     dsi_power_enable(ctx, 0);
-> > +     dsi_int0_mask(ctx, 0xffffffff);
-> > +     dsi_int1_mask(ctx, 0xffffffff);
-> > +     dsi_cmd_mode(ctx);
-> > +     dsi_eotp_rx_en(ctx, 0);
-> > +     dsi_eotp_tx_en(ctx, 0);
-> > +     dsi_ecc_rx_en(ctx, 1);
-> > +     dsi_crc_rx_en(ctx, 1);
-> > +     dsi_bta_en(ctx, 1);
-> > +     dsi_video_vcid(ctx, 0);
-> > +     dsi_rx_vcid(ctx, 0);
-> > +
-> > +     div =3D DIV_ROUND_UP(ctx->byte_clk, ctx->esc_clk);
-> > +     dsi_tx_escape_division(ctx, div);
-> > +
-> > +     max_rd_time =3D ns_to_cycle(ctx->max_rd_time, ctx->byte_clk);
-> > +     dsi_max_read_time(ctx, max_rd_time);
-> > +
-> > +     data_hs2lp =3D ns_to_cycle(ctx->data_hs2lp, ctx->byte_clk);
-> > +     data_lp2hs =3D ns_to_cycle(ctx->data_lp2hs, ctx->byte_clk);
-> > +     clk_hs2lp =3D ns_to_cycle(ctx->clk_hs2lp, ctx->byte_clk);
-> > +     clk_lp2hs =3D ns_to_cycle(ctx->clk_lp2hs, ctx->byte_clk);
-> > +     dsi_datalane_hs2lp_config(ctx, data_hs2lp);
-> > +     dsi_datalane_lp2hs_config(ctx, data_lp2hs);
-> > +     dsi_clklane_hs2lp_config(ctx, clk_hs2lp);
-> > +     dsi_clklane_lp2hs_config(ctx, clk_lp2hs);
-> > +
-> > +     dsi_power_enable(ctx, 1);
-> > +}
-> > +
-> > +/*
-> > + * Free up resources and shutdown host controller and PHY
-> > + */
-> > +static void sprd_dsi_fini(struct dsi_context *ctx)
-> > +{
-> > +     dsi_int0_mask(ctx, 0xffffffff);
-> > +     dsi_int1_mask(ctx, 0xffffffff);
-> > +     dsi_power_enable(ctx, 0);
-> > +}
-> > +
-> > +/*
-> > + * If not in burst mode, it will compute the video and null packet siz=
-es
-> > + * according to necessity.
-> > + * Configure timers for data lanes and/or clock lane to return to LP w=
-hen
-> > + * bandwidth is not filled by data.
-> > + */
-> > +static int sprd_dsi_dpi_video(struct dsi_context *ctx)
-> > +{
-> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
-> > +     struct videomode *vm =3D &ctx->vm;
-> > +     u16 Bpp_x100;
-> > +     u16 video_size;
-> > +     u32 ratio_x1000;
-> > +     u16 null_pkt_size =3D 0;
-> > +     u8 video_size_step;
-> > +     u32 hs_to;
-> > +     u32 total_bytes;
-> > +     u32 bytes_per_chunk;
-> > +     u32 chunks =3D 0;
-> > +     u32 bytes_left =3D 0;
-> > +     u32 chunk_overhead;
-> > +     const u8 pkt_header =3D 6;
-> > +     u8 coding;
-> > +     int div;
-> > +     u16 hline;
-> > +
-> > +     coding =3D fmt_to_coding(ctx->format);
-> > +     video_size =3D round_video_size(coding, vm->hactive);
-> > +     Bpp_x100 =3D calc_bytes_per_pixel_x100(coding);
-> > +     video_size_step =3D calc_video_size_step(coding);
-> > +     ratio_x1000 =3D ctx->byte_clk * 1000 / (vm->pixelclock / 1000);
-> > +     hline =3D vm->hactive + vm->hsync_len + vm->hfront_porch +
-> > +             vm->hback_porch;
-> > +
-> > +     dsi_power_enable(ctx, 0);
-> > +     dsi_dpi_frame_ack_en(ctx, ctx->frame_ack_en);
-> > +     dsi_dpi_color_coding(ctx, coding);
-> > +     dsi_dpi_video_burst_mode(ctx, ctx->burst_mode);
-> > +     dsi_dpi_sig_delay(ctx, 95 * hline * ratio_x1000 / 100000);
-> > +     dsi_dpi_hline_time(ctx, hline * ratio_x1000 / 1000);
-> > +     dsi_dpi_hsync_time(ctx, vm->hsync_len * ratio_x1000 / 1000);
-> > +     dsi_dpi_hbp_time(ctx, vm->hback_porch * ratio_x1000 / 1000);
-> > +     dsi_dpi_vact(ctx, vm->vactive);
-> > +     dsi_dpi_vfp(ctx, vm->vfront_porch);
-> > +     dsi_dpi_vbp(ctx, vm->vback_porch);
-> > +     dsi_dpi_vsync(ctx, vm->vsync_len);
-> > +     dsi_dpi_hporch_lp_en(ctx, 1);
-> > +     dsi_dpi_vporch_lp_en(ctx, 1);
-> > +
-> > +     hs_to =3D (hline * vm->vactive) + (2 * Bpp_x100) / 100;
-> > +     for (div =3D 0x80; (div < hs_to) && (div > 2); div--) {
-> > +             if ((hs_to % div) =3D=3D 0) {
-> > +                     dsi_timeout_clock_division(ctx, div);
-> > +                     dsi_lp_rx_timeout(ctx, hs_to / div);
-> > +                     dsi_hs_tx_timeout(ctx, hs_to / div);
-> > +                     break;
-> > +             }
-> > +     }
-> > +
-> > +     if (ctx->burst_mode =3D=3D VIDEO_BURST_WITH_SYNC_PULSES) {
-> > +             dsi_dpi_video_packet_size(ctx, video_size);
-> > +             dsi_dpi_null_packet_size(ctx, 0);
-> > +             dsi_dpi_chunk_num(ctx, 0);
-> > +     } else {
-> > +             /* non burst transmission */
-> > +             null_pkt_size =3D 0;
-> > +
-> > +             /* bytes to be sent - first as one chunk */
-> > +             bytes_per_chunk =3D vm->hactive * Bpp_x100 / 100 + pkt_he=
-ader;
-> > +
-> > +             /* hline total bytes from the DPI interface */
-> > +             total_bytes =3D (vm->hactive + vm->hfront_porch) *
-> > +                             ratio_x1000 / ctx->lanes / 1000;
-> > +
-> > +             /* check if the pixels actually fit on the DSI link */
-> > +             if (total_bytes < bytes_per_chunk) {
-> > +                     drm_err(dsi->drm, "current resolution can not be =
-set\n");
-> > +                     return -EINVAL;
-> > +             }
-> > +
-> > +             chunk_overhead =3D total_bytes - bytes_per_chunk;
-> > +
-> > +             /* overhead higher than 1 -> enable multi packets */
-> > +             if (chunk_overhead > 1) {
-> > +
-> > +                     /* multi packets */
-> > +                     for (video_size =3D video_size_step;
-> > +                          video_size < vm->hactive;
-> > +                          video_size +=3D video_size_step) {
-> > +
-> > +                             if (vm->hactive * 1000 / video_size % 100=
-0)
-> > +                                     continue;
-> > +
-> > +                             chunks =3D vm->hactive / video_size;
-> > +                             bytes_per_chunk =3D Bpp_x100 * video_size=
- / 100
-> > +                                               + pkt_header;
-> > +                             if (total_bytes >=3D (bytes_per_chunk * c=
-hunks)) {
-> > +                                     bytes_left =3D total_bytes -
-> > +                                                  bytes_per_chunk * ch=
-unks;
-> > +                                     break;
-> > +                             }
-> > +                     }
-> > +
-> > +                     /* prevent overflow (unsigned - unsigned) */
-> > +                     if (bytes_left > (pkt_header * chunks)) {
-> > +                             null_pkt_size =3D (bytes_left -
-> > +                                             pkt_header * chunks) / ch=
-unks;
-> > +                             /* avoid register overflow */
-> > +                             if (null_pkt_size > 1023)
-> > +                                     null_pkt_size =3D 1023;
-> > +                     }
-> > +
-> > +             } else {
-> > +
-> > +                     /* single packet */
-> > +                     chunks =3D 1;
-> > +
-> > +                     /* must be a multiple of 4 except 18 loosely */
-> > +                     for (video_size =3D vm->hactive;
-> > +                         (video_size % video_size_step) !=3D 0;
-> > +                          video_size++)
-> > +                             ;
-> > +             }
-> > +
-> > +             dsi_dpi_video_packet_size(ctx, video_size);
-> > +             dsi_dpi_null_packet_size(ctx, null_pkt_size);
-> > +             dsi_dpi_chunk_num(ctx, chunks);
-> > +     }
-> > +
-> > +     dsi_int0_mask(ctx, ctx->int0_mask);
-> > +     dsi_int1_mask(ctx, ctx->int1_mask);
-> > +     dsi_power_enable(ctx, 1);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void sprd_dsi_edpi_video(struct dsi_context *ctx)
-> > +{
-> > +     const u32 fifo_depth =3D 1096;
-> > +     const u32 word_length =3D 4;
-> > +     u32 hactive =3D ctx->vm.hactive;
-> > +     u32 Bpp_x100;
-> > +     u32 max_fifo_len;
-> > +     u8 coding;
-> > +
-> > +     coding =3D fmt_to_coding(ctx->format);
-> > +     Bpp_x100 =3D calc_bytes_per_pixel_x100(coding);
-> > +     max_fifo_len =3D word_length * fifo_depth * 100 / Bpp_x100;
-> > +
-> > +     dsi_power_enable(ctx, 0);
-> > +     dsi_dpi_color_coding(ctx, coding);
-> > +     dsi_tear_effect_ack_en(ctx, ctx->te_ack_en);
-> > +
-> > +     if (max_fifo_len > hactive)
-> > +             dsi_edpi_max_pkt_size(ctx, hactive);
-> > +     else
-> > +             dsi_edpi_max_pkt_size(ctx, max_fifo_len);
-> > +
-> > +     dsi_int0_mask(ctx, ctx->int0_mask);
-> > +     dsi_int1_mask(ctx, ctx->int1_mask);
-> > +     dsi_power_enable(ctx, 1);
-> > +}
-> > +
-> > +/*
-> > + * Send a packet on the generic interface,
-> > + * this function has an active delay to wait for the buffer to clear.
-> > + * The delay is limited to:
-> > + * (param_length / 4) x DSIH_FIFO_ACTIVE_WAIT x register access time
-> > + * the controller restricts the sending of.
-> > + *
-> > + * This function will not be able to send Null and Blanking packets du=
-e to
-> > + * controller restriction
-> > + */
-> > +static int sprd_dsi_wr_pkt(struct dsi_context *ctx, u8 vc, u8 type,
-> > +                     const u8 *param, u16 len)
-> > +{
-> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
-> > +     u8 wc_lsbyte, wc_msbyte;
-> > +     u32 payload;
-> > +     int i, j, ret;
-> > +
-> > +     if (vc > 3)
-> > +             return -EINVAL;
-> > +
-> > +
-> > +     /* 1st: for long packet, must config payload first */
-> > +     ret =3D dsi_wait_tx_payload_fifo_empty(ctx);
-> > +     if (ret) {
-> > +             drm_err(dsi->drm, "tx payload fifo is not empty\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     if (len > 2) {
-> > +             for (i =3D 0, j =3D 0; i < len; i +=3D j) {
-> > +                     payload =3D 0;
-> > +                     for (j =3D 0; (j < 4) && ((j + i) < (len)); j++)
-> > +                             payload |=3D param[i + j] << (j * 8);
-> > +
-> > +                     dsi_set_packet_payload(ctx, payload);
-> > +             }
-> > +             wc_lsbyte =3D len & 0xff;
-> > +             wc_msbyte =3D len >> 8;
-> > +     } else {
-> > +             wc_lsbyte =3D (len > 0) ? param[0] : 0;
-> > +             wc_msbyte =3D (len > 1) ? param[1] : 0;
-> > +     }
-> > +
-> > +     /* 2nd: then set packet header */
-> > +     ret =3D dsi_wait_tx_cmd_fifo_empty(ctx);
-> > +     if (ret) {
-> > +             drm_err(dsi->drm, "tx cmd fifo is not empty\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     dsi_set_packet_header(ctx, vc, type, wc_lsbyte, wc_msbyte);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +/*
-> > + * Send READ packet to peripheral using the generic interface,
-> > + * this will force command mode and stop video mode (because of BTA).
-> > + *
-> > + * This function has an active delay to wait for the buffer to clear,
-> > + * the delay is limited to 2 x DSIH_FIFO_ACTIVE_WAIT
-> > + * (waiting for command buffer, and waiting for receiving)
-> > + * @note this function will enable BTA
-> > + */
-> > +static int sprd_dsi_rd_pkt(struct dsi_context *ctx, u8 vc, u8 type,
-> > +                     u8 msb_byte, u8 lsb_byte,
-> > +                     u8 *buffer, u8 bytes_to_read)
-> > +{
-> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
-> > +     int i, ret;
-> > +     int count =3D 0;
-> > +     u32 temp;
-> > +
-> > +     if (vc > 3)
-> > +             return -EINVAL;
-> > +
-> > +     /* 1st: send read command to peripheral */
-> > +     if (!dsi_is_tx_cmd_fifo_empty(ctx))
-> > +             return -EIO;
-> > +
-> > +     dsi_set_packet_header(ctx, vc, type, lsb_byte, msb_byte);
-> > +
-> > +     /* 2nd: wait peripheral response completed */
-> > +     ret =3D dsi_wait_rd_resp_completed(ctx);
-> > +     if (ret) {
-> > +             drm_err(dsi->drm, "wait read response time out\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     /* 3rd: get data from rx payload fifo */
-> > +     if (dsi_is_rx_payload_fifo_empty(ctx)) {
-> > +             drm_err(dsi->drm, "rx payload fifo empty\n");
-> > +             return -EIO;
-> > +     }
-> > +
-> > +     for (i =3D 0; i < 100; i++) {
-> > +             temp =3D dsi_get_rx_payload(ctx);
-> > +
-> > +             if (count < bytes_to_read)
-> > +                     buffer[count++] =3D temp & 0xff;
-> > +             if (count < bytes_to_read)
-> > +                     buffer[count++] =3D (temp >> 8) & 0xff;
-> > +             if (count < bytes_to_read)
-> > +                     buffer[count++] =3D (temp >> 16) & 0xff;
-> > +             if (count < bytes_to_read)
-> > +                     buffer[count++] =3D (temp >> 24) & 0xff;
-> > +
-> > +             if (dsi_is_rx_payload_fifo_empty(ctx))
-> > +                     return count;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void sprd_dsi_set_work_mode(struct dsi_context *ctx, u8 mode)
-> > +{
-> > +     if (mode =3D=3D DSI_MODE_CMD)
-> > +             dsi_cmd_mode(ctx);
-> > +     else
-> > +             dsi_video_mode(ctx);
-> > +}
-> > +
-> > +static void sprd_dsi_lp_cmd_enable(struct dsi_context *ctx, bool enabl=
-e)
-> > +{
-> > +     if (dsi_is_cmd_mode(ctx))
-> > +             dsi_cmd_mode_lp_cmd_en(ctx, enable);
-> > +     else
-> > +             dsi_video_mode_lp_cmd_en(ctx, enable);
-> > +}
-> > +
-> > +static void sprd_dsi_state_reset(struct dsi_context *ctx)
-> > +{
-> > +     dsi_power_enable(ctx, 0);
-> > +     udelay(100);
-> > +     dsi_power_enable(ctx, 1);
-> > +}
-> > +
-> > +static u32 sprd_dsi_int_status(struct dsi_context *ctx, int index)
-> > +{
-> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
-> > +     u32 status;
-> > +
-> > +     if (index =3D=3D 0)
-> > +             status =3D dsi_int0_status(ctx);
-> > +     else if (index =3D=3D 1)
-> > +             status =3D dsi_int1_status(ctx);
-> > +     else {
-> > +             drm_err(dsi->drm, "invalid dsi IRQ index %d\n", index);
-> > +             status =3D -EINVAL;
-> > +     }
-> > +
-> > +     return status;
-> > +}
-> > +
-> > +static int sprd_dphy_init(struct dsi_context *ctx)
-> > +{
-> > +     struct sprd_dsi *dsi =3D container_of(ctx, struct sprd_dsi, ctx);
-> > +     int ret;
-> > +
-> > +     dsi_phy_rstz(ctx, 0);
-> > +     dsi_phy_shutdownz(ctx, 0);
-> > +     dsi_phy_clklane_en(ctx, 0);
-> > +
-> > +     dsi_phy_test_clr(ctx, 0);
-> > +     dsi_phy_test_clr(ctx, 1);
-> > +     dsi_phy_test_clr(ctx, 0);
-> > +
-> > +     dphy_pll_config(ctx);
-> > +     dphy_timing_config(ctx);
-> > +
-> > +     dsi_phy_shutdownz(ctx, 1);
-> > +     dsi_phy_rstz(ctx, 1);
-> > +     dsi_phy_stop_wait_time(ctx, 0x1C);
-> > +     dsi_phy_clklane_en(ctx, 1);
-> > +     dsi_phy_datalane_en(ctx);
-> > +
-> > +     ret =3D dphy_wait_pll_locked(ctx);
-> > +     if (ret) {
-> > +             drm_err(dsi->drm, "dphy initial failed\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void sprd_dphy_fini(struct dsi_context *ctx)
-> > +{
-> > +     dsi_phy_rstz(ctx, 0);
-> > +     dsi_phy_shutdownz(ctx, 0);
-> > +     dsi_phy_rstz(ctx, 1);
-> > +}
-> > +
-> > +static void sprd_dsi_encoder_enable(struct drm_encoder *encoder)
-> > +{
-> > +     struct sprd_dsi *dsi =3D encoder_to_dsi(encoder);
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(encoder->crtc);
-> > +     struct dsi_context *ctx =3D &dsi->ctx;
-> > +
-> > +     if (ctx->enabled) {
-> > +             drm_warn(dsi->drm, "dsi is initialized\n");
-> > +             return;
-> > +     }
-> > +
-> > +     sprd_dsi_init(ctx);
-> > +     if (ctx->work_mode =3D=3D DSI_MODE_VIDEO)
-> > +             sprd_dsi_dpi_video(ctx);
-> > +     else
-> > +             sprd_dsi_edpi_video(ctx);
-> > +
-> > +     sprd_dphy_init(ctx);
-> > +
-> > +     sprd_dsi_lp_cmd_enable(ctx, true);
-> > +
-> > +     if (dsi->panel) {
-> > +             drm_panel_prepare(dsi->panel);
-> > +             drm_panel_enable(dsi->panel);
-> > +     }
-> > +
-> > +     sprd_dsi_set_work_mode(ctx, ctx->work_mode);
-> > +     sprd_dsi_state_reset(ctx);
-> > +
-> > +     if (ctx->nc_clk_en)
-> > +             dsi_nc_clk_en(ctx, true);
-> > +     else {
-> > +             dsi_phy_clk_hs_rqst(ctx, true);
-> > +             dphy_wait_pll_locked(ctx);
-> > +     }
-> > +
-> > +     sprd_dpu_run(dpu);
-> > +
-> > +     ctx->enabled =3D true;
-> > +}
-> > +
-> > +static void sprd_dsi_encoder_disable(struct drm_encoder *encoder)
-> > +{
-> > +     struct sprd_dsi *dsi =3D encoder_to_dsi(encoder);
-> > +     struct sprd_dpu *dpu =3D to_sprd_crtc(encoder->crtc);
-> > +     struct dsi_context *ctx =3D &dsi->ctx;
-> > +
-> > +     if (!ctx->enabled) {
-> > +             drm_warn(dsi->drm, "dsi isn't initialized\n");
-> > +             return;
-> > +     }
-> > +
-> > +     sprd_dpu_stop(dpu);
-> > +     sprd_dsi_set_work_mode(ctx, DSI_MODE_CMD);
-> > +     sprd_dsi_lp_cmd_enable(ctx, true);
-> > +
-> > +     if (dsi->panel) {
-> > +             drm_panel_disable(dsi->panel);
-> > +             drm_panel_unprepare(dsi->panel);
-> > +     }
-> > +
-> > +     sprd_dphy_fini(ctx);
-> > +     sprd_dsi_fini(ctx);
-> > +
-> > +     ctx->enabled =3D false;
-> > +}
-> > +
-> > +static void sprd_dsi_encoder_mode_set(struct drm_encoder *encoder,
-> > +                              struct drm_display_mode *mode,
-> > +                              struct drm_display_mode *adj_mode)
-> > +{
-> > +     struct sprd_dsi *dsi =3D encoder_to_dsi(encoder);
-> > +
-> > +     drm_dbg(dsi->drm, "%s() set mode: %s\n", __func__, dsi->mode->nam=
-e);
-> > +}
->
-> You can remove that function
-Ok, i will remove it.
->
-> > +static int sprd_dsi_encoder_atomic_check(struct drm_encoder *encoder,
-> > +                                 struct drm_crtc_state *crtc_state,
-> > +                                 struct drm_connector_state *conn_stat=
-e)
-> > +{
-> > +     return 0;
-> > +}
->
-> And this one too
-Ok, i will remove it.
->
-> > +static const struct drm_encoder_helper_funcs sprd_encoder_helper_funcs=
- =3D {
-> > +     .atomic_check   =3D sprd_dsi_encoder_atomic_check,
-> > +     .mode_set       =3D sprd_dsi_encoder_mode_set,
-> > +     .enable         =3D sprd_dsi_encoder_enable,
-> > +     .disable        =3D sprd_dsi_encoder_disable
-> > +};
-> > +
-> > +static const struct drm_encoder_funcs sprd_encoder_funcs =3D {
-> > +     .destroy =3D drm_encoder_cleanup,
-> > +};
-> > +
-> > +static struct sprd_dsi *sprd_dsi_encoder_init(struct drm_device *drm,
-> > +                            struct device *dev)
-> > +{
-> > +     struct sprd_dsi *dsi;
-> > +     u32 crtc_mask;
-> > +
-> > +     crtc_mask =3D drm_of_find_possible_crtcs(drm, dev->of_node);
-> > +     if (!crtc_mask) {
-> > +             drm_err(drm, "failed to find crtc mask\n");
-> > +             return ERR_PTR(-EINVAL);
-> > +     }
-> > +
-> > +     drm_dbg(drm, "find possible crtcs: 0x%08x\n", crtc_mask);
-> > +
-> > +     dsi =3D drmm_encoder_alloc(drm, struct sprd_dsi, encoder,
-> > +                            &sprd_encoder_funcs, DRM_MODE_ENCODER_DSI,=
- NULL);
-> > +     if (IS_ERR(dsi)) {
-> > +             drm_err(drm, "failed to init dsi encoder.\n");
-> > +             return dsi;
-> > +     }
-> > +
-> > +     dsi->encoder.possible_crtcs =3D crtc_mask;
-> > +     drm_encoder_helper_add(&dsi->encoder, &sprd_encoder_helper_funcs)=
-;
-> > +
-> > +     return dsi;
-> > +}
-> > +
-> > +static int sprd_dsi_find_panel(struct sprd_dsi *dsi)
-> > +{
-> > +     struct device *dev =3D dsi->host.dev;
-> > +     struct device_node *child, *lcds_node;
-> > +     struct drm_panel *panel;
-> > +
-> > +     /* search /lcds child node first */
-> > +     lcds_node =3D of_find_node_by_path("/lcds");
-> > +     for_each_child_of_node(lcds_node, child) {
-> > +             panel =3D of_drm_find_panel(child);
-> > +             if (!IS_ERR(panel)) {
-> > +                     dsi->panel =3D panel;
-> > +                     return 0;
-> > +             }
-> > +     }
->
-> That's not part of your binding
-Ok, i will remove it.
->
-> > +
-> > +     /*
-> > +      * If /lcds child node search failed, we search
-> > +      * the child of dsi host node.
-> > +      */
-> > +     for_each_child_of_node(dev->of_node, child) {
-> > +             panel =3D of_drm_find_panel(child);
-> > +             if (!IS_ERR(panel)) {
-> > +                     dsi->panel =3D panel;
-> > +                     return 0;
-> > +             }
-> > +     }
->
-> And you don't need this either. You'll register a mipi_dsi_host, that
-> will in turn probe all the devices under that bus, and will then call
-> the .attach callback.
-This should be move to the .attach callback?
->
-> > +     drm_err(dsi->drm, "of_drm_find_panel() failed\n");
-> > +     return -ENODEV;
-> > +}
-> > +
-> > +static int sprd_dsi_host_attach(struct mipi_dsi_host *host,
-> > +                        struct mipi_dsi_device *slave)
-> > +{
-> > +     struct sprd_dsi *dsi =3D host_to_dsi(host);
-> > +     struct dsi_context *ctx =3D &dsi->ctx;
-> > +     int ret;
-> > +
-> > +     dsi->slave =3D slave;
-> > +     ctx->lanes =3D slave->lanes;
-> > +     ctx->format =3D slave->format;
-> > +     ctx->byte_clk =3D slave->hs_rate / 8;
-> > +     ctx->esc_clk =3D slave->lp_rate;
-> > +
-> > +     if (slave->mode_flags & MIPI_DSI_MODE_VIDEO)
-> > +             ctx->work_mode =3D DSI_MODE_VIDEO;
-> > +     else
-> > +             ctx->work_mode =3D DSI_MODE_CMD;
-> > +
-> > +     if (slave->mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
-> > +             ctx->burst_mode =3D VIDEO_BURST_WITH_SYNC_PULSES;
-> > +     else if (slave->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
-> > +             ctx->burst_mode =3D VIDEO_NON_BURST_WITH_SYNC_PULSES;
-> > +     else
-> > +             ctx->burst_mode =3D VIDEO_NON_BURST_WITH_SYNC_EVENTS;
-> > +
-> > +     if (slave->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
-> > +             ctx->nc_clk_en =3D true;
->
-> I'm not sure why you need to duplicate all this, can't you just
-> dereference the dsi->slave pointer when you need it?
-Sorry, can you help me with a demo?
->
-> > +     ret =3D sprd_dsi_find_panel(dsi);
-> > +     if (ret)
-> > +             return ret;
->
-> The panel is your slave here
->
-> > +     return 0;
-> > +}
-> > +
-> > +static int sprd_dsi_host_detach(struct mipi_dsi_host *host,
-> > +                        struct mipi_dsi_device *slave)
-> > +{
-> > +     /* do nothing */
-> > +     return 0;
-> > +}
-> > +
-> > +static ssize_t sprd_dsi_host_transfer(struct mipi_dsi_host *host,
-> > +                             const struct mipi_dsi_msg *msg)
-> > +{
-> > +     struct sprd_dsi *dsi =3D host_to_dsi(host);
-> > +     const u8 *tx_buf =3D msg->tx_buf;
-> > +
-> > +     if (msg->rx_buf && msg->rx_len) {
-> > +             u8 lsb =3D (msg->tx_len > 0) ? tx_buf[0] : 0;
-> > +             u8 msb =3D (msg->tx_len > 1) ? tx_buf[1] : 0;
-> > +
-> > +             return sprd_dsi_rd_pkt(&dsi->ctx, msg->channel, msg->type=
-,
-> > +                             msb, lsb, msg->rx_buf, msg->rx_len);
-> > +     }
-> > +
-> > +     if (msg->tx_buf && msg->tx_len)
-> > +             return sprd_dsi_wr_pkt(&dsi->ctx, msg->channel, msg->type=
-,
-> > +                                     tx_buf, msg->tx_len);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct mipi_dsi_host_ops sprd_dsi_host_ops =3D {
-> > +     .attach =3D sprd_dsi_host_attach,
-> > +     .detach =3D sprd_dsi_host_detach,
-> > +     .transfer =3D sprd_dsi_host_transfer,
-> > +};
-> > +
-> > +static int sprd_dsi_host_init(struct sprd_dsi *dsi, struct device *dev=
-)
-> > +{
-> > +     int ret;
-> > +
-> > +     dsi->host.dev =3D dev;
-> > +     dsi->host.ops =3D &sprd_dsi_host_ops;
-> > +
-> > +     ret =3D mipi_dsi_host_register(&dsi->host);
-> > +     if (ret)
-> > +             drm_err(dsi->drm, "failed to register dsi host\n");
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static int sprd_dsi_connector_get_modes(struct drm_connector *connecto=
-r)
-> > +{
-> > +     struct sprd_dsi *dsi =3D connector_to_dsi(connector);
-> > +
-> > +     return drm_panel_get_modes(dsi->panel, connector);
-> > +}
-> > +
-> > +static enum drm_mode_status
-> > +sprd_dsi_connector_mode_valid(struct drm_connector *connector,
-> > +                      struct drm_display_mode *mode)
-> > +{
-> > +     struct sprd_dsi *dsi =3D connector_to_dsi(connector);
-> > +
-> > +     drm_dbg(dsi->drm, "%s() mode: "DRM_MODE_FMT"\n", __func__, DRM_MO=
-DE_ARG(mode));
-> > +
-> > +     if (mode->type & DRM_MODE_TYPE_PREFERRED) {
-> > +             dsi->mode =3D mode;
-> > +             drm_display_mode_to_videomode(dsi->mode, &dsi->ctx.vm);
-> > +     }
->
-> Again, what happens if the mode isn't the preferred one?
-We hope to restore the low-resolution image to the original resolution
-through the scaling algorithm
-while keeping the resolution unchanged. So whether it's dpu or dsi,
-must be keeping on preferred mode.
->
-> You shouldn't be testing this but rather just use the crtc_state
-> adjusted_mode.
->
-> Maxime
+Ping - need a confirmation it's ok to keep this as a single patch given
+my explanation bellow.
+
+Andrey
+
+On 2021-05-11 1:52 p.m., Andrey Grodzovsky wrote:
+> 
+> 
+> On 2021-05-11 2:50 a.m., Christian König wrote:
+>> Am 10.05.21 um 18:36 schrieb Andrey Grodzovsky:
+>>> This should prevent writing to memory or IO ranges possibly
+>>> already allocated for other uses after our device is removed.
+>>>
+>>> v5:
+>>> Protect more places wher memcopy_to/form_io takes place
+>>> Protect IB submissions
+>>>
+>>> v6: Switch to !drm_dev_enter instead of scoping entire code
+>>> with brackets.
+>>>
+>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 11 ++-
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c       |  9 +++
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c        | 17 +++--
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c       | 63 +++++++++++------
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h       |  2 +
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c      | 70 +++++++++++++++++++
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h      | 49 ++-----------
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c       | 31 +++++---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c       | 11 ++-
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c       | 22 ++++--
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  7 +-
+>>>   drivers/gpu/drm/amd/amdgpu/psp_v11_0.c        | 44 ++++++------
+>>>   drivers/gpu/drm/amd/amdgpu/psp_v12_0.c        |  8 +--
+>>>   drivers/gpu/drm/amd/amdgpu/psp_v3_1.c         |  8 +--
+>>>   drivers/gpu/drm/amd/amdgpu/vce_v4_0.c         | 26 ++++---
+>>>   drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c         | 22 +++---
+>>>   .../drm/amd/pm/powerplay/smumgr/smu7_smumgr.c |  2 +
+>>>   17 files changed, 257 insertions(+), 145 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>> index a0bff4713672..94c415176cdc 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>> @@ -71,6 +71,8 @@
+>>>   #include <drm/task_barrier.h>
+>>>   #include <linux/pm_runtime.h>
+>>> +#include <drm/drm_drv.h>
+>>> +
+>>>   MODULE_FIRMWARE("amdgpu/vega10_gpu_info.bin");
+>>>   MODULE_FIRMWARE("amdgpu/vega12_gpu_info.bin");
+>>>   MODULE_FIRMWARE("amdgpu/raven_gpu_info.bin");
+>>> @@ -281,7 +283,10 @@ void amdgpu_device_vram_access(struct 
+>>> amdgpu_device *adev, loff_t pos,
+>>>       unsigned long flags;
+>>>       uint32_t hi = ~0;
+>>>       uint64_t last;
+>>> +    int idx;
+>>> +     if (!drm_dev_enter(&adev->ddev, &idx))
+>>> +         return;
+>>>   #ifdef CONFIG_64BIT
+>>>       last = min(pos + size, adev->gmc.visible_vram_size);
+>>> @@ -299,8 +304,10 @@ void amdgpu_device_vram_access(struct 
+>>> amdgpu_device *adev, loff_t pos,
+>>>               memcpy_fromio(buf, addr, count);
+>>>           }
+>>> -        if (count == size)
+>>> +        if (count == size) {
+>>> +            drm_dev_exit(idx);
+>>>               return;
+>>> +        }
+>>
+>> Maybe use a goto instead, but really just a nit pick.
+>>
+>>
+>>
+>>>           pos += count;
+>>>           buf += count / 4;
+>>> @@ -323,6 +330,8 @@ void amdgpu_device_vram_access(struct 
+>>> amdgpu_device *adev, loff_t pos,
+>>>               *buf++ = RREG32_NO_KIQ(mmMM_DATA);
+>>>       }
+>>>       spin_unlock_irqrestore(&adev->mmio_idx_lock, flags);
+>>> +
+>>> +    drm_dev_exit(idx);
+>>>   }
+>>>   /*
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+>>> index 4d32233cde92..04ba5eef1e88 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+>>> @@ -31,6 +31,8 @@
+>>>   #include "amdgpu_ras.h"
+>>>   #include "amdgpu_xgmi.h"
+>>> +#include <drm/drm_drv.h>
+>>> +
+>>>   /**
+>>>    * amdgpu_gmc_pdb0_alloc - allocate vram for pdb0
+>>>    *
+>>> @@ -151,6 +153,10 @@ int amdgpu_gmc_set_pte_pde(struct amdgpu_device 
+>>> *adev, void *cpu_pt_addr,
+>>>   {
+>>>       void __iomem *ptr = (void *)cpu_pt_addr;
+>>>       uint64_t value;
+>>> +    int idx;
+>>> +
+>>> +    if (!drm_dev_enter(&adev->ddev, &idx))
+>>> +        return 0;
+>>>       /*
+>>>        * The following is for PTE only. GART does not have PDEs.
+>>> @@ -158,6 +164,9 @@ int amdgpu_gmc_set_pte_pde(struct amdgpu_device 
+>>> *adev, void *cpu_pt_addr,
+>>>       value = addr & 0x0000FFFFFFFFF000ULL;
+>>>       value |= flags;
+>>>       writeq(value, ptr + (gpu_page_idx * 8));
+>>> +
+>>> +    drm_dev_exit(idx);
+>>> +
+>>>       return 0;
+>>>   }
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
+>>> index 148a3b481b12..62fcbd446c71 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
+>>> @@ -30,6 +30,7 @@
+>>>   #include <linux/slab.h>
+>>>   #include <drm/amdgpu_drm.h>
+>>> +#include <drm/drm_drv.h>
+>>>   #include "amdgpu.h"
+>>>   #include "atom.h"
+>>> @@ -137,7 +138,7 @@ int amdgpu_ib_schedule(struct amdgpu_ring *ring, 
+>>> unsigned num_ibs,
+>>>       bool secure;
+>>>       unsigned i;
+>>> -    int r = 0;
+>>> +    int idx, r = 0;
+>>>       bool need_pipe_sync = false;
+>>>       if (num_ibs == 0)
+>>> @@ -169,13 +170,16 @@ int amdgpu_ib_schedule(struct amdgpu_ring 
+>>> *ring, unsigned num_ibs,
+>>>           return -EINVAL;
+>>>       }
+>>> +    if (!drm_dev_enter(&adev->ddev, &idx))
+>>> +        return -ENODEV;
+>>> +
+>>>       alloc_size = ring->funcs->emit_frame_size + num_ibs *
+>>>           ring->funcs->emit_ib_size;
+>>>       r = amdgpu_ring_alloc(ring, alloc_size);
+>>>       if (r) {
+>>>           dev_err(adev->dev, "scheduling IB failed (%d).\n", r);
+>>> -        return r;
+>>> +        goto exit;
+>>>       }
+>>>       need_ctx_switch = ring->current_ctx != fence_ctx;
+>>> @@ -205,7 +209,7 @@ int amdgpu_ib_schedule(struct amdgpu_ring *ring, 
+>>> unsigned num_ibs,
+>>>           r = amdgpu_vm_flush(ring, job, need_pipe_sync);
+>>>           if (r) {
+>>>               amdgpu_ring_undo(ring);
+>>> -            return r;
+>>> +            goto exit;
+>>>           }
+>>>       }
+>>> @@ -286,7 +290,7 @@ int amdgpu_ib_schedule(struct amdgpu_ring *ring, 
+>>> unsigned num_ibs,
+>>>           if (job && job->vmid)
+>>>               amdgpu_vmid_reset(adev, ring->funcs->vmhub, job->vmid);
+>>>           amdgpu_ring_undo(ring);
+>>> -        return r;
+>>> +        goto exit;
+>>>       }
+>>>       if (ring->funcs->insert_end)
+>>> @@ -304,7 +308,10 @@ int amdgpu_ib_schedule(struct amdgpu_ring *ring, 
+>>> unsigned num_ibs,
+>>>           ring->funcs->emit_wave_limit(ring, false);
+>>>       amdgpu_ring_commit(ring);
+>>> -    return 0;
+>>> +
+>>> +exit:
+>>> +    drm_dev_exit(idx);
+>>> +    return r;
+>>>   }
+>>>   /**
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+>>> index 9e769cf6095b..bb6afee61666 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+>>> @@ -25,6 +25,7 @@
+>>>   #include <linux/firmware.h>
+>>>   #include <linux/dma-mapping.h>
+>>> +#include <drm/drm_drv.h>
+>>>   #include "amdgpu.h"
+>>>   #include "amdgpu_psp.h"
+>>> @@ -39,6 +40,8 @@
+>>>   #include "amdgpu_ras.h"
+>>>   #include "amdgpu_securedisplay.h"
+>>> +#include <drm/drm_drv.h>
+>>> +
+>>>   static int psp_sysfs_init(struct amdgpu_device *adev);
+>>>   static void psp_sysfs_fini(struct amdgpu_device *adev);
+>>> @@ -253,7 +256,7 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>>>              struct psp_gfx_cmd_resp *cmd, uint64_t fence_mc_addr)
+>>>   {
+>>>       int ret;
+>>> -    int index;
+>>> +    int index, idx;
+>>>       int timeout = 20000;
+>>>       bool ras_intr = false;
+>>>       bool skip_unsupport = false;
+>>> @@ -261,6 +264,9 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>>>       if (psp->adev->in_pci_err_recovery)
+>>>           return 0;
+>>> +    if (!drm_dev_enter(&psp->adev->ddev, &idx))
+>>> +        return 0;
+>>> +
+>>>       mutex_lock(&psp->mutex);
+>>>       memset(psp->cmd_buf_mem, 0, PSP_CMD_BUFFER_SIZE);
+>>> @@ -271,8 +277,7 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>>>       ret = psp_ring_cmd_submit(psp, psp->cmd_buf_mc_addr, 
+>>> fence_mc_addr, index);
+>>>       if (ret) {
+>>>           atomic_dec(&psp->fence_value);
+>>> -        mutex_unlock(&psp->mutex);
+>>> -        return ret;
+>>> +        goto exit;
+>>>       }
+>>>       amdgpu_asic_invalidate_hdp(psp->adev, NULL);
+>>> @@ -312,8 +317,8 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>>>                psp->cmd_buf_mem->cmd_id,
+>>>                psp->cmd_buf_mem->resp.status);
+>>>           if (!timeout) {
+>>> -            mutex_unlock(&psp->mutex);
+>>> -            return -EINVAL;
+>>> +            ret = -EINVAL;
+>>> +            goto exit;
+>>>           }
+>>>       }
+>>> @@ -321,8 +326,10 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>>>           ucode->tmr_mc_addr_lo = psp->cmd_buf_mem->resp.fw_addr_lo;
+>>>           ucode->tmr_mc_addr_hi = psp->cmd_buf_mem->resp.fw_addr_hi;
+>>>       }
+>>> -    mutex_unlock(&psp->mutex);
+>>> +exit:
+>>> +    mutex_unlock(&psp->mutex);
+>>> +    drm_dev_exit(idx);
+>>>       return ret;
+>>>   }
+>>> @@ -359,8 +366,7 @@ static int psp_load_toc(struct psp_context *psp,
+>>>       if (!cmd)
+>>>           return -ENOMEM;
+>>>       /* Copy toc to psp firmware private buffer */
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -    memcpy(psp->fw_pri_buf, psp->toc_start_addr, psp->toc_bin_size);
+>>> +    psp_copy_fw(psp, psp->toc_start_addr, psp->toc_bin_size);
+>>>       psp_prep_load_toc_cmd_buf(cmd, psp->fw_pri_mc_addr, 
+>>> psp->toc_bin_size);
+>>> @@ -625,8 +631,7 @@ static int psp_asd_load(struct psp_context *psp)
+>>>       if (!cmd)
+>>>           return -ENOMEM;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -    memcpy(psp->fw_pri_buf, psp->asd_start_addr, psp->asd_ucode_size);
+>>> +    psp_copy_fw(psp, psp->asd_start_addr, psp->asd_ucode_size);
+>>>       psp_prep_asd_load_cmd_buf(cmd, psp->fw_pri_mc_addr,
+>>>                     psp->asd_ucode_size);
+>>> @@ -781,8 +786,7 @@ static int psp_xgmi_load(struct psp_context *psp)
+>>>       if (!cmd)
+>>>           return -ENOMEM;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -    memcpy(psp->fw_pri_buf, psp->ta_xgmi_start_addr, 
+>>> psp->ta_xgmi_ucode_size);
+>>> +    psp_copy_fw(psp, psp->ta_xgmi_start_addr, psp->ta_xgmi_ucode_size);
+>>>       psp_prep_ta_load_cmd_buf(cmd,
+>>>                    psp->fw_pri_mc_addr,
+>>> @@ -1038,8 +1042,7 @@ static int psp_ras_load(struct psp_context *psp)
+>>>       if (!cmd)
+>>>           return -ENOMEM;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -    memcpy(psp->fw_pri_buf, psp->ta_ras_start_addr, 
+>>> psp->ta_ras_ucode_size);
+>>> +    psp_copy_fw(psp, psp->ta_ras_start_addr, psp->ta_ras_ucode_size);
+>>>       psp_prep_ta_load_cmd_buf(cmd,
+>>>                    psp->fw_pri_mc_addr,
+>>> @@ -1275,8 +1278,7 @@ static int psp_hdcp_load(struct psp_context *psp)
+>>>       if (!cmd)
+>>>           return -ENOMEM;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -    memcpy(psp->fw_pri_buf, psp->ta_hdcp_start_addr,
+>>> +    psp_copy_fw(psp, psp->ta_hdcp_start_addr,
+>>>              psp->ta_hdcp_ucode_size);
+>>>       psp_prep_ta_load_cmd_buf(cmd,
+>>> @@ -1427,8 +1429,7 @@ static int psp_dtm_load(struct psp_context *psp)
+>>>       if (!cmd)
+>>>           return -ENOMEM;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -    memcpy(psp->fw_pri_buf, psp->ta_dtm_start_addr, 
+>>> psp->ta_dtm_ucode_size);
+>>> +    psp_copy_fw(psp, psp->ta_dtm_start_addr, psp->ta_dtm_ucode_size);
+>>>       psp_prep_ta_load_cmd_buf(cmd,
+>>>                    psp->fw_pri_mc_addr,
+>>> @@ -1573,8 +1574,7 @@ static int psp_rap_load(struct psp_context *psp)
+>>>       if (!cmd)
+>>>           return -ENOMEM;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -    memcpy(psp->fw_pri_buf, psp->ta_rap_start_addr, 
+>>> psp->ta_rap_ucode_size);
+>>> +    psp_copy_fw(psp, psp->ta_rap_start_addr, psp->ta_rap_ucode_size);
+>>>       psp_prep_ta_load_cmd_buf(cmd,
+>>>                    psp->fw_pri_mc_addr,
+>>> @@ -3022,7 +3022,7 @@ static ssize_t 
+>>> psp_usbc_pd_fw_sysfs_write(struct device *dev,
+>>>       struct amdgpu_device *adev = drm_to_adev(ddev);
+>>>       void *cpu_addr;
+>>>       dma_addr_t dma_addr;
+>>> -    int ret;
+>>> +    int ret, idx;
+>>>       char fw_name[100];
+>>>       const struct firmware *usbc_pd_fw;
+>>> @@ -3031,6 +3031,9 @@ static ssize_t 
+>>> psp_usbc_pd_fw_sysfs_write(struct device *dev,
+>>>           return -EBUSY;
+>>>       }
+>>> +    if (!drm_dev_enter(ddev, &idx))
+>>> +        return -ENODEV;
+>>> +
+>>>       snprintf(fw_name, sizeof(fw_name), "amdgpu/%s", buf);
+>>>       ret = request_firmware(&usbc_pd_fw, fw_name, adev->dev);
+>>>       if (ret)
+>>> @@ -3062,16 +3065,30 @@ static ssize_t 
+>>> psp_usbc_pd_fw_sysfs_write(struct device *dev,
+>>>   rel_buf:
+>>>       dma_free_coherent(adev->dev, usbc_pd_fw->size, cpu_addr, 
+>>> dma_addr);
+>>>       release_firmware(usbc_pd_fw);
+>>> -
+>>>   fail:
+>>>       if (ret) {
+>>>           DRM_ERROR("Failed to load USBC PD FW, err = %d", ret);
+>>> -        return ret;
+>>> +        count = ret;
+>>>       }
+>>> +    drm_dev_exit(idx);
+>>>       return count;
+>>>   }
+>>> +void psp_copy_fw(struct psp_context *psp, uint8_t *start_addr, 
+>>> uint32_t bin_size)
+>>> +{
+>>> +    int idx;
+>>> +
+>>> +    if (!drm_dev_enter(&psp->adev->ddev, &idx))
+>>> +        return;
+>>> +
+>>> +    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> +    memcpy(psp->fw_pri_buf, start_addr, bin_size);
+>>> +
+>>> +    drm_dev_exit(idx);
+>>> +}
+>>> +
+>>> +
+>>>   static DEVICE_ATTR(usbc_pd_fw, S_IRUGO | S_IWUSR,
+>>>              psp_usbc_pd_fw_sysfs_read,
+>>>              psp_usbc_pd_fw_sysfs_write);
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+>>> index 46a5328e00e0..2bfdc278817f 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+>>> @@ -423,4 +423,6 @@ int psp_get_fw_attestation_records_addr(struct 
+>>> psp_context *psp,
+>>>   int psp_load_fw_list(struct psp_context *psp,
+>>>                struct amdgpu_firmware_info **ucode_list, int 
+>>> ucode_count);
+>>> +void psp_copy_fw(struct psp_context *psp, uint8_t *start_addr, 
+>>> uint32_t bin_size);
+>>> +
+>>>   #endif
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+>>> index 688624ebe421..e1985bc34436 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+>>> @@ -35,6 +35,8 @@
+>>>   #include "amdgpu.h"
+>>>   #include "atom.h"
+>>> +#include <drm/drm_drv.h>
+>>> +
+>>>   /*
+>>>    * Rings
+>>>    * Most engines on the GPU are fed via ring buffers.  Ring
+>>> @@ -461,3 +463,71 @@ int amdgpu_ring_test_helper(struct amdgpu_ring 
+>>> *ring)
+>>>       ring->sched.ready = !r;
+>>>       return r;
+>>>   }
+>>> +
+>>> +void amdgpu_ring_clear_ring(struct amdgpu_ring *ring)
+>>> +{
+>>> +    int idx;
+>>> +    int i = 0;
+>>> +
+>>> +    if (!drm_dev_enter(&ring->adev->ddev, &idx))
+>>> +        return;
+>>> +
+>>> +    while (i <= ring->buf_mask)
+>>> +        ring->ring[i++] = ring->funcs->nop;
+>>> +
+>>> +    drm_dev_exit(idx);
+>>> +
+>>> +}
+>>> +
+>>> +void amdgpu_ring_write(struct amdgpu_ring *ring, uint32_t v)
+>>> +{
+>>> +    int idx;
+>>> +
+>>> +    if (!drm_dev_enter(&ring->adev->ddev, &idx))
+>>> +        return;
+>>> +
+>>> +    if (ring->count_dw <= 0)
+>>> +        DRM_ERROR("amdgpu: writing more dwords to the ring than 
+>>> expected!\n");
+>>> +    ring->ring[ring->wptr++ & ring->buf_mask] = v;
+>>> +    ring->wptr &= ring->ptr_mask;
+>>> +    ring->count_dw--;
+>>> +
+>>> +    drm_dev_exit(idx);
+>>> +}
+>>> +
+>>> +void amdgpu_ring_write_multiple(struct amdgpu_ring *ring,
+>>> +                          void *src, int count_dw)
+>>> +{
+>>> +    unsigned occupied, chunk1, chunk2;
+>>> +    void *dst;
+>>> +    int idx;
+>>> +
+>>> +    if (!drm_dev_enter(&ring->adev->ddev, &idx))
+>>> +        return;
+>>> +
+>>> +    if (unlikely(ring->count_dw < count_dw))
+>>> +        DRM_ERROR("amdgpu: writing more dwords to the ring than 
+>>> expected!\n");
+>>> +
+>>> +    occupied = ring->wptr & ring->buf_mask;
+>>> +    dst = (void *)&ring->ring[occupied];
+>>> +    chunk1 = ring->buf_mask + 1 - occupied;
+>>> +    chunk1 = (chunk1 >= count_dw) ? count_dw: chunk1;
+>>> +    chunk2 = count_dw - chunk1;
+>>> +    chunk1 <<= 2;
+>>> +    chunk2 <<= 2;
+>>> +
+>>> +    if (chunk1)
+>>> +        memcpy(dst, src, chunk1);
+>>> +
+>>> +    if (chunk2) {
+>>> +        src += chunk1;
+>>> +        dst = (void *)ring->ring;
+>>> +        memcpy(dst, src, chunk2);
+>>> +    }
+>>> +
+>>> +    ring->wptr += count_dw;
+>>> +    ring->wptr &= ring->ptr_mask;
+>>> +    ring->count_dw -= count_dw;
+>>> +
+>>> +    drm_dev_exit(idx);
+>>> +}
+>>
+>> The ring should never we in MMIO memory, so you can completely drop 
+>> that as far as I can see.
+> 
+> Yea, it's in all in GART, missed it for some reason...
+>>
+>> Maybe split that patch by use case so that we can more easily 
+>> review/ack it.
+> 
+> In fact everything here is the same use case, once I added unmap of
+> all MMIO ranges (both registers ann VRAM) i got a lot of page faults
+> on device remove around any memcpy to from IO. That where I put the
+> drn_dev_enter/exit scope. Also I searched in code and preemeptivly
+> added guards to any other such place. I did drop amdgpu_schedule_ib
+> from this patch both because it had dma_fence_wait inside and so we
+> will take care of this once we decide on how to handle dma_fence waits.
+> 
+> Andrey
+> 
+>>
+>> Thanks,
+>> Christian.
+>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+>>> index e7d3d0dbdd96..c67bc6d3d039 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+>>> @@ -299,53 +299,12 @@ static inline void 
+>>> amdgpu_ring_set_preempt_cond_exec(struct amdgpu_ring *ring,
+>>>       *ring->cond_exe_cpu_addr = cond_exec;
+>>>   }
+>>> -static inline void amdgpu_ring_clear_ring(struct amdgpu_ring *ring)
+>>> -{
+>>> -    int i = 0;
+>>> -    while (i <= ring->buf_mask)
+>>> -        ring->ring[i++] = ring->funcs->nop;
+>>> -
+>>> -}
+>>> -
+>>> -static inline void amdgpu_ring_write(struct amdgpu_ring *ring, 
+>>> uint32_t v)
+>>> -{
+>>> -    if (ring->count_dw <= 0)
+>>> -        DRM_ERROR("amdgpu: writing more dwords to the ring than 
+>>> expected!\n");
+>>> -    ring->ring[ring->wptr++ & ring->buf_mask] = v;
+>>> -    ring->wptr &= ring->ptr_mask;
+>>> -    ring->count_dw--;
+>>> -}
+>>> +void amdgpu_ring_clear_ring(struct amdgpu_ring *ring);
+>>> -static inline void amdgpu_ring_write_multiple(struct amdgpu_ring *ring,
+>>> -                          void *src, int count_dw)
+>>> -{
+>>> -    unsigned occupied, chunk1, chunk2;
+>>> -    void *dst;
+>>> -
+>>> -    if (unlikely(ring->count_dw < count_dw))
+>>> -        DRM_ERROR("amdgpu: writing more dwords to the ring than 
+>>> expected!\n");
+>>> -
+>>> -    occupied = ring->wptr & ring->buf_mask;
+>>> -    dst = (void *)&ring->ring[occupied];
+>>> -    chunk1 = ring->buf_mask + 1 - occupied;
+>>> -    chunk1 = (chunk1 >= count_dw) ? count_dw: chunk1;
+>>> -    chunk2 = count_dw - chunk1;
+>>> -    chunk1 <<= 2;
+>>> -    chunk2 <<= 2;
+>>> +void amdgpu_ring_write(struct amdgpu_ring *ring, uint32_t v);
+>>> -    if (chunk1)
+>>> -        memcpy(dst, src, chunk1);
+>>> -
+>>> -    if (chunk2) {
+>>> -        src += chunk1;
+>>> -        dst = (void *)ring->ring;
+>>> -        memcpy(dst, src, chunk2);
+>>> -    }
+>>> -
+>>> -    ring->wptr += count_dw;
+>>> -    ring->wptr &= ring->ptr_mask;
+>>> -    ring->count_dw -= count_dw;
+>>> -}
+>>> +void amdgpu_ring_write_multiple(struct amdgpu_ring *ring,
+>>> +                          void *src, int count_dw);
+>>>   int amdgpu_ring_test_helper(struct amdgpu_ring *ring);
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+>>> index c6dbc0801604..82f0542c7792 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+>>> @@ -32,6 +32,7 @@
+>>>   #include <linux/module.h>
+>>>   #include <drm/drm.h>
+>>> +#include <drm/drm_drv.h>
+>>>   #include "amdgpu.h"
+>>>   #include "amdgpu_pm.h"
+>>> @@ -375,7 +376,7 @@ int amdgpu_uvd_suspend(struct amdgpu_device *adev)
+>>>   {
+>>>       unsigned size;
+>>>       void *ptr;
+>>> -    int i, j;
+>>> +    int i, j, idx;
+>>>       bool in_ras_intr = amdgpu_ras_intr_triggered();
+>>>       cancel_delayed_work_sync(&adev->uvd.idle_work);
+>>> @@ -403,11 +404,15 @@ int amdgpu_uvd_suspend(struct amdgpu_device *adev)
+>>>           if (!adev->uvd.inst[j].saved_bo)
+>>>               return -ENOMEM;
+>>> -        /* re-write 0 since err_event_athub will corrupt VCPU buffer */
+>>> -        if (in_ras_intr)
+>>> -            memset(adev->uvd.inst[j].saved_bo, 0, size);
+>>> -        else
+>>> -            memcpy_fromio(adev->uvd.inst[j].saved_bo, ptr, size);
+>>> +        if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +            /* re-write 0 since err_event_athub will corrupt VCPU 
+>>> buffer */
+>>> +            if (in_ras_intr)
+>>> +                memset(adev->uvd.inst[j].saved_bo, 0, size);
+>>> +            else
+>>> +                memcpy_fromio(adev->uvd.inst[j].saved_bo, ptr, size);
+>>> +
+>>> +            drm_dev_exit(idx);
+>>> +        }
+>>>       }
+>>>       if (in_ras_intr)
+>>> @@ -420,7 +425,7 @@ int amdgpu_uvd_resume(struct amdgpu_device *adev)
+>>>   {
+>>>       unsigned size;
+>>>       void *ptr;
+>>> -    int i;
+>>> +    int i, idx;
+>>>       for (i = 0; i < adev->uvd.num_uvd_inst; i++) {
+>>>           if (adev->uvd.harvest_config & (1 << i))
+>>> @@ -432,7 +437,10 @@ int amdgpu_uvd_resume(struct amdgpu_device *adev)
+>>>           ptr = adev->uvd.inst[i].cpu_addr;
+>>>           if (adev->uvd.inst[i].saved_bo != NULL) {
+>>> -            memcpy_toio(ptr, adev->uvd.inst[i].saved_bo, size);
+>>> +            if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +                memcpy_toio(ptr, adev->uvd.inst[i].saved_bo, size);
+>>> +                drm_dev_exit(idx);
+>>> +            }
+>>>               kvfree(adev->uvd.inst[i].saved_bo);
+>>>               adev->uvd.inst[i].saved_bo = NULL;
+>>>           } else {
+>>> @@ -442,8 +450,11 @@ int amdgpu_uvd_resume(struct amdgpu_device *adev)
+>>>               hdr = (const struct common_firmware_header 
+>>> *)adev->uvd.fw->data;
+>>>               if (adev->firmware.load_type != AMDGPU_FW_LOAD_PSP) {
+>>>                   offset = le32_to_cpu(hdr->ucode_array_offset_bytes);
+>>> -                memcpy_toio(adev->uvd.inst[i].cpu_addr, 
+>>> adev->uvd.fw->data + offset,
+>>> -                        le32_to_cpu(hdr->ucode_size_bytes));
+>>> +                if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +                    memcpy_toio(adev->uvd.inst[i].cpu_addr, 
+>>> adev->uvd.fw->data + offset,
+>>> +                            le32_to_cpu(hdr->ucode_size_bytes));
+>>> +                    drm_dev_exit(idx);
+>>> +                }
+>>>                   size -= le32_to_cpu(hdr->ucode_size_bytes);
+>>>                   ptr += le32_to_cpu(hdr->ucode_size_bytes);
+>>>               }
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+>>> index ea6a62f67e38..833203401ef4 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+>>> @@ -29,6 +29,7 @@
+>>>   #include <linux/module.h>
+>>>   #include <drm/drm.h>
+>>> +#include <drm/drm_drv.h>
+>>>   #include "amdgpu.h"
+>>>   #include "amdgpu_pm.h"
+>>> @@ -293,7 +294,7 @@ int amdgpu_vce_resume(struct amdgpu_device *adev)
+>>>       void *cpu_addr;
+>>>       const struct common_firmware_header *hdr;
+>>>       unsigned offset;
+>>> -    int r;
+>>> +    int r, idx;
+>>>       if (adev->vce.vcpu_bo == NULL)
+>>>           return -EINVAL;
+>>> @@ -313,8 +314,12 @@ int amdgpu_vce_resume(struct amdgpu_device *adev)
+>>>       hdr = (const struct common_firmware_header *)adev->vce.fw->data;
+>>>       offset = le32_to_cpu(hdr->ucode_array_offset_bytes);
+>>> -    memcpy_toio(cpu_addr, adev->vce.fw->data + offset,
+>>> -            adev->vce.fw->size - offset);
+>>> +
+>>> +    if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +        memcpy_toio(cpu_addr, adev->vce.fw->data + offset,
+>>> +                adev->vce.fw->size - offset);
+>>> +        drm_dev_exit(idx);
+>>> +    }
+>>>       amdgpu_bo_kunmap(adev->vce.vcpu_bo);
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+>>> index 201645963ba5..21f7d3644d70 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+>>> @@ -27,6 +27,7 @@
+>>>   #include <linux/firmware.h>
+>>>   #include <linux/module.h>
+>>>   #include <linux/pci.h>
+>>> +#include <drm/drm_drv.h>
+>>>   #include "amdgpu.h"
+>>>   #include "amdgpu_pm.h"
+>>> @@ -275,7 +276,7 @@ int amdgpu_vcn_suspend(struct amdgpu_device *adev)
+>>>   {
+>>>       unsigned size;
+>>>       void *ptr;
+>>> -    int i;
+>>> +    int i, idx;
+>>>       cancel_delayed_work_sync(&adev->vcn.idle_work);
+>>> @@ -292,7 +293,10 @@ int amdgpu_vcn_suspend(struct amdgpu_device *adev)
+>>>           if (!adev->vcn.inst[i].saved_bo)
+>>>               return -ENOMEM;
+>>> -        memcpy_fromio(adev->vcn.inst[i].saved_bo, ptr, size);
+>>> +        if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +            memcpy_fromio(adev->vcn.inst[i].saved_bo, ptr, size);
+>>> +            drm_dev_exit(idx);
+>>> +        }
+>>>       }
+>>>       return 0;
+>>>   }
+>>> @@ -301,7 +305,7 @@ int amdgpu_vcn_resume(struct amdgpu_device *adev)
+>>>   {
+>>>       unsigned size;
+>>>       void *ptr;
+>>> -    int i;
+>>> +    int i, idx;
+>>>       for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+>>>           if (adev->vcn.harvest_config & (1 << i))
+>>> @@ -313,7 +317,10 @@ int amdgpu_vcn_resume(struct amdgpu_device *adev)
+>>>           ptr = adev->vcn.inst[i].cpu_addr;
+>>>           if (adev->vcn.inst[i].saved_bo != NULL) {
+>>> -            memcpy_toio(ptr, adev->vcn.inst[i].saved_bo, size);
+>>> +            if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +                memcpy_toio(ptr, adev->vcn.inst[i].saved_bo, size);
+>>> +                drm_dev_exit(idx);
+>>> +            }
+>>>               kvfree(adev->vcn.inst[i].saved_bo);
+>>>               adev->vcn.inst[i].saved_bo = NULL;
+>>>           } else {
+>>> @@ -323,8 +330,11 @@ int amdgpu_vcn_resume(struct amdgpu_device *adev)
+>>>               hdr = (const struct common_firmware_header 
+>>> *)adev->vcn.fw->data;
+>>>               if (adev->firmware.load_type != AMDGPU_FW_LOAD_PSP) {
+>>>                   offset = le32_to_cpu(hdr->ucode_array_offset_bytes);
+>>> -                memcpy_toio(adev->vcn.inst[i].cpu_addr, 
+>>> adev->vcn.fw->data + offset,
+>>> -                        le32_to_cpu(hdr->ucode_size_bytes));
+>>> +                if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +                    memcpy_toio(adev->vcn.inst[i].cpu_addr, 
+>>> adev->vcn.fw->data + offset,
+>>> +                            le32_to_cpu(hdr->ucode_size_bytes));
+>>> +                    drm_dev_exit(idx);
+>>> +                }
+>>>                   size -= le32_to_cpu(hdr->ucode_size_bytes);
+>>>                   ptr += le32_to_cpu(hdr->ucode_size_bytes);
+>>>               }
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>> index 9f868cf3b832..7dd5f10ab570 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>> @@ -32,6 +32,7 @@
+>>>   #include <linux/dma-buf.h>
+>>>   #include <drm/amdgpu_drm.h>
+>>> +#include <drm/drm_drv.h>
+>>>   #include "amdgpu.h"
+>>>   #include "amdgpu_trace.h"
+>>>   #include "amdgpu_amdkfd.h"
+>>> @@ -1606,7 +1607,10 @@ static int amdgpu_vm_bo_update_mapping(struct 
+>>> amdgpu_device *adev,
+>>>       struct amdgpu_vm_update_params params;
+>>>       enum amdgpu_sync_mode sync_mode;
+>>>       uint64_t pfn;
+>>> -    int r;
+>>> +    int r, idx;
+>>> +
+>>> +    if (!drm_dev_enter(&adev->ddev, &idx))
+>>> +        return -ENODEV;
+>>>       memset(&params, 0, sizeof(params));
+>>>       params.adev = adev;
+>>> @@ -1715,6 +1719,7 @@ static int amdgpu_vm_bo_update_mapping(struct 
+>>> amdgpu_device *adev,
+>>>   error_unlock:
+>>>       amdgpu_vm_eviction_unlock(vm);
+>>> +    drm_dev_exit(idx);
+>>>       return r;
+>>>   }
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+>>> index 589410c32d09..2cec71e823f5 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+>>> @@ -23,6 +23,7 @@
+>>>   #include <linux/firmware.h>
+>>>   #include <linux/module.h>
+>>>   #include <linux/vmalloc.h>
+>>> +#include <drm/drm_drv.h>
+>>>   #include "amdgpu.h"
+>>>   #include "amdgpu_psp.h"
+>>> @@ -269,10 +270,8 @@ static int psp_v11_0_bootloader_load_kdb(struct 
+>>> psp_context *psp)
+>>>       if (ret)
+>>>           return ret;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -
+>>>       /* Copy PSP KDB binary to memory */
+>>> -    memcpy(psp->fw_pri_buf, psp->kdb_start_addr, psp->kdb_bin_size);
+>>> +    psp_copy_fw(psp, psp->kdb_start_addr, psp->kdb_bin_size);
+>>>       /* Provide the PSP KDB to bootloader */
+>>>       WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+>>> @@ -302,10 +301,8 @@ static int psp_v11_0_bootloader_load_spl(struct 
+>>> psp_context *psp)
+>>>       if (ret)
+>>>           return ret;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -
+>>>       /* Copy PSP SPL binary to memory */
+>>> -    memcpy(psp->fw_pri_buf, psp->spl_start_addr, psp->spl_bin_size);
+>>> +    psp_copy_fw(psp, psp->spl_start_addr, psp->spl_bin_size);
+>>>       /* Provide the PSP SPL to bootloader */
+>>>       WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+>>> @@ -335,10 +332,8 @@ static int 
+>>> psp_v11_0_bootloader_load_sysdrv(struct psp_context *psp)
+>>>       if (ret)
+>>>           return ret;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -
+>>>       /* Copy PSP System Driver binary to memory */
+>>> -    memcpy(psp->fw_pri_buf, psp->sys_start_addr, psp->sys_bin_size);
+>>> +    psp_copy_fw(psp, psp->sys_start_addr, psp->sys_bin_size);
+>>>       /* Provide the sys driver to bootloader */
+>>>       WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+>>> @@ -371,10 +366,8 @@ static int psp_v11_0_bootloader_load_sos(struct 
+>>> psp_context *psp)
+>>>       if (ret)
+>>>           return ret;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -
+>>>       /* Copy Secure OS binary to PSP memory */
+>>> -    memcpy(psp->fw_pri_buf, psp->sos_start_addr, psp->sos_bin_size);
+>>> +    psp_copy_fw(psp, psp->sos_start_addr, psp->sos_bin_size);
+>>>       /* Provide the PSP secure OS to bootloader */
+>>>       WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+>>> @@ -608,7 +601,7 @@ static int psp_v11_0_memory_training(struct 
+>>> psp_context *psp, uint32_t ops)
+>>>       uint32_t p2c_header[4];
+>>>       uint32_t sz;
+>>>       void *buf;
+>>> -    int ret;
+>>> +    int ret, idx;
+>>>       if (ctx->init == PSP_MEM_TRAIN_NOT_SUPPORT) {
+>>>           DRM_DEBUG("Memory training is not supported.\n");
+>>> @@ -681,17 +674,24 @@ static int psp_v11_0_memory_training(struct 
+>>> psp_context *psp, uint32_t ops)
+>>>               return -ENOMEM;
+>>>           }
+>>> -        memcpy_fromio(buf, adev->mman.aper_base_kaddr, sz);
+>>> -        ret = psp_v11_0_memory_training_send_msg(psp, 
+>>> PSP_BL__DRAM_LONG_TRAIN);
+>>> -        if (ret) {
+>>> -            DRM_ERROR("Send long training msg failed.\n");
+>>> +        if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +            memcpy_fromio(buf, adev->mman.aper_base_kaddr, sz);
+>>> +            ret = psp_v11_0_memory_training_send_msg(psp, 
+>>> PSP_BL__DRAM_LONG_TRAIN);
+>>> +            if (ret) {
+>>> +                DRM_ERROR("Send long training msg failed.\n");
+>>> +                vfree(buf);
+>>> +                drm_dev_exit(idx);
+>>> +                return ret;
+>>> +            }
+>>> +
+>>> +            memcpy_toio(adev->mman.aper_base_kaddr, buf, sz);
+>>> +            adev->hdp.funcs->flush_hdp(adev, NULL);
+>>>               vfree(buf);
+>>> -            return ret;
+>>> +            drm_dev_exit(idx);
+>>> +        } else {
+>>> +            vfree(buf);
+>>> +            return -ENODEV;
+>>>           }
+>>> -
+>>> -        memcpy_toio(adev->mman.aper_base_kaddr, buf, sz);
+>>> -        adev->hdp.funcs->flush_hdp(adev, NULL);
+>>> -        vfree(buf);
+>>>       }
+>>>       if (ops & PSP_MEM_TRAIN_SAVE) {
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
+>>> index c4828bd3264b..618e5b6b85d9 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
+>>> @@ -138,10 +138,8 @@ static int 
+>>> psp_v12_0_bootloader_load_sysdrv(struct psp_context *psp)
+>>>       if (ret)
+>>>           return ret;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -
+>>>       /* Copy PSP System Driver binary to memory */
+>>> -    memcpy(psp->fw_pri_buf, psp->sys_start_addr, psp->sys_bin_size);
+>>> +    psp_copy_fw(psp, psp->sys_start_addr, psp->sys_bin_size);
+>>>       /* Provide the sys driver to bootloader */
+>>>       WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+>>> @@ -179,10 +177,8 @@ static int psp_v12_0_bootloader_load_sos(struct 
+>>> psp_context *psp)
+>>>       if (ret)
+>>>           return ret;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -
+>>>       /* Copy Secure OS binary to PSP memory */
+>>> -    memcpy(psp->fw_pri_buf, psp->sos_start_addr, psp->sos_bin_size);
+>>> +    psp_copy_fw(psp, psp->sos_start_addr, psp->sos_bin_size);
+>>>       /* Provide the PSP secure OS to bootloader */
+>>>       WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c
+>>> index f2e725f72d2f..d0a6cccd0897 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c
+>>> @@ -102,10 +102,8 @@ static int 
+>>> psp_v3_1_bootloader_load_sysdrv(struct psp_context *psp)
+>>>       if (ret)
+>>>           return ret;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -
+>>>       /* Copy PSP System Driver binary to memory */
+>>> -    memcpy(psp->fw_pri_buf, psp->sys_start_addr, psp->sys_bin_size);
+>>> +    psp_copy_fw(psp, psp->sys_start_addr, psp->sys_bin_size);
+>>>       /* Provide the sys driver to bootloader */
+>>>       WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+>>> @@ -143,10 +141,8 @@ static int psp_v3_1_bootloader_load_sos(struct 
+>>> psp_context *psp)
+>>>       if (ret)
+>>>           return ret;
+>>> -    memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+>>> -
+>>>       /* Copy Secure OS binary to PSP memory */
+>>> -    memcpy(psp->fw_pri_buf, psp->sos_start_addr, psp->sos_bin_size);
+>>> +    psp_copy_fw(psp, psp->sos_start_addr, psp->sos_bin_size);
+>>>       /* Provide the PSP secure OS to bootloader */
+>>>       WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/vce_v4_0.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/vce_v4_0.c
+>>> index 8e238dea7bef..90910d19db12 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/vce_v4_0.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/vce_v4_0.c
+>>> @@ -25,6 +25,7 @@
+>>>    */
+>>>   #include <linux/firmware.h>
+>>> +#include <drm/drm_drv.h>
+>>>   #include "amdgpu.h"
+>>>   #include "amdgpu_vce.h"
+>>> @@ -555,16 +556,19 @@ static int vce_v4_0_hw_fini(void *handle)
+>>>   static int vce_v4_0_suspend(void *handle)
+>>>   {
+>>>       struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+>>> -    int r;
+>>> +    int r, idx;
+>>>       if (adev->vce.vcpu_bo == NULL)
+>>>           return 0;
+>>> -    if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
+>>> -        unsigned size = amdgpu_bo_size(adev->vce.vcpu_bo);
+>>> -        void *ptr = adev->vce.cpu_addr;
+>>> +    if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +        if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
+>>> +            unsigned size = amdgpu_bo_size(adev->vce.vcpu_bo);
+>>> +            void *ptr = adev->vce.cpu_addr;
+>>> -        memcpy_fromio(adev->vce.saved_bo, ptr, size);
+>>> +            memcpy_fromio(adev->vce.saved_bo, ptr, size);
+>>> +        }
+>>> +        drm_dev_exit(idx);
+>>>       }
+>>>       r = vce_v4_0_hw_fini(adev);
+>>> @@ -577,16 +581,20 @@ static int vce_v4_0_suspend(void *handle)
+>>>   static int vce_v4_0_resume(void *handle)
+>>>   {
+>>>       struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+>>> -    int r;
+>>> +    int r, idx;
+>>>       if (adev->vce.vcpu_bo == NULL)
+>>>           return -EINVAL;
+>>>       if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
+>>> -        unsigned size = amdgpu_bo_size(adev->vce.vcpu_bo);
+>>> -        void *ptr = adev->vce.cpu_addr;
+>>> -        memcpy_toio(ptr, adev->vce.saved_bo, size);
+>>> +        if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +            unsigned size = amdgpu_bo_size(adev->vce.vcpu_bo);
+>>> +            void *ptr = adev->vce.cpu_addr;
+>>> +
+>>> +            memcpy_toio(ptr, adev->vce.saved_bo, size);
+>>> +            drm_dev_exit(idx);
+>>> +        }
+>>>       } else {
+>>>           r = amdgpu_vce_resume(adev);
+>>>           if (r)
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+>>> index 3f15bf34123a..df34be8ec82d 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+>>> @@ -34,6 +34,8 @@
+>>>   #include "vcn/vcn_3_0_0_sh_mask.h"
+>>>   #include "ivsrcid/vcn/irqsrcs_vcn_2_0.h"
+>>> +#include <drm/drm_drv.h>
+>>> +
+>>>   #define mmUVD_CONTEXT_ID_INTERNAL_OFFSET            0x27
+>>>   #define mmUVD_GPCOM_VCPU_CMD_INTERNAL_OFFSET            0x0f
+>>>   #define mmUVD_GPCOM_VCPU_DATA0_INTERNAL_OFFSET            0x10
+>>> @@ -268,16 +270,20 @@ static int vcn_v3_0_sw_init(void *handle)
+>>>   static int vcn_v3_0_sw_fini(void *handle)
+>>>   {
+>>>       struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+>>> -    int i, r;
+>>> +    int i, r, idx;
+>>> -    for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
+>>> -        volatile struct amdgpu_fw_shared *fw_shared;
+>>> +    if (drm_dev_enter(&adev->ddev, &idx)) {
+>>> +        for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
+>>> +            volatile struct amdgpu_fw_shared *fw_shared;
+>>> -        if (adev->vcn.harvest_config & (1 << i))
+>>> -            continue;
+>>> -        fw_shared = adev->vcn.inst[i].fw_shared_cpu_addr;
+>>> -        fw_shared->present_flag_0 = 0;
+>>> -        fw_shared->sw_ring.is_enabled = false;
+>>> +            if (adev->vcn.harvest_config & (1 << i))
+>>> +                continue;
+>>> +            fw_shared = adev->vcn.inst[i].fw_shared_cpu_addr;
+>>> +            fw_shared->present_flag_0 = 0;
+>>> +            fw_shared->sw_ring.is_enabled = false;
+>>> +        }
+>>> +
+>>> +        drm_dev_exit(idx);
+>>>       }
+>>>       if (amdgpu_sriov_vf(adev))
+>>> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu7_smumgr.c 
+>>> b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu7_smumgr.c
+>>> index aae25243eb10..d628b91846c9 100644
+>>> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu7_smumgr.c
+>>> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu7_smumgr.c
+>>> @@ -405,6 +405,8 @@ int smu7_request_smu_load_fw(struct pp_hwmgr *hwmgr)
+>>>                   UCODE_ID_MEC_STORAGE, 
+>>> &toc->entry[toc->num_entries++]),
+>>>                   "Failed to Get Firmware Entry.", r = -EINVAL; goto 
+>>> failed);
+>>>       }
+>>> +
+>>> +    /* AG TODO Can't call drm_dev_enter/exit because access 
+>>> adev->ddev here ... */
+>>>       memcpy_toio(smu_data->header_buffer.kaddr, smu_data->toc,
+>>>               sizeof(struct SMU_DRAMData_TOC));
+>>>       smum_send_msg_to_smc_with_parameter(hwmgr,
+>>
