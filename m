@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626A837C62A
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 17:50:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F18D37C6B2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 17:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 526E76EB9E;
-	Wed, 12 May 2021 15:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 871B46E0DF;
+	Wed, 12 May 2021 15:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F07996EB9E
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 15:50:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E740661DC4;
- Wed, 12 May 2021 15:50:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F0956E0DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 15:54:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7F3FD61DF3;
+ Wed, 12 May 2021 15:54:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1620834624;
- bh=t4YX8/qN2UX/zrjPPDRhrGURw2PpQ8cYVyrbNy9/jHE=;
+ s=korg; t=1620834863;
+ bh=WpcLTHjKv5NQ1sL3+0oPPHvyRL2/Ps9DXZuV7pQtd/0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n0ItPV/o8En+dI46NdaCMzYRktCl3N256N7BxE7h/pyBZ3yV4NoT3AFvZEDncvORt
- G0q1FyJpwCKYt2e7jYNA28BL6e+PtwnhjubwrsVylwgw5MZK8NPVuq8x53pI+tow51
- 9TZ3b/c0MBPhqvPYoD3Jibq66z9eXDyzL4lkhVaM=
+ b=ifgaPGlZ3a/dYJGcM1rfKEBVONhbnTuaz5q5J/S+SljRes+Rl5toVbaqzGQgxp/Sg
+ AjrCFrBtzlR8s/OmRihSZCTR2kRzsL/yAnjJp0BvpTk/AvaVj54YyeXt3TZUr7ZPZ4
+ vhxL8Ac+3E7E8KK3WhOx7LJQZMeOxLF8b0OzRokg=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.12 019/677] drm: bridge: fix LONTIUM use of mipi_dsi_()
+Subject: [PATCH 5.12 078/677] drm: bridge: fix ANX7625 use of mipi_dsi_()
  functions
-Date: Wed, 12 May 2021 16:41:05 +0200
-Message-Id: <20210512144837.863754336@linuxfoundation.org>
+Date: Wed, 12 May 2021 16:42:04 +0200
+Message-Id: <20210512144839.823851124@linuxfoundation.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210512144837.204217980@linuxfoundation.org>
 References: <20210512144837.204217980@linuxfoundation.org>
@@ -49,83 +49,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: kernel test robot <lkp@intel.com>, Neil Armstrong <narmstrong@baylibre.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
- stable@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Adren Grassein <adrien.grassein@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Robert Foss <robert.foss@linaro.org>
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ stable@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Xin Ji <xji@analogixsemi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-commit ad085b3a712a89e4a48472121b231add7a8362e4 upstream.
+commit ed01fca38717169fcb61bd45ad1c3750d9c40d59 upstream.
 
-The Lontium DRM bridge drivers use mipi_dsi_() function interfaces so
-they need to select DRM_MIPI_DSI to prevent build errors.
+The Analogix DRM ANX7625 bridge driver uses mips_dsi_() function
+interfaces so it should select DRM_MIPI_DSI to prevent build errors.
 
-ERROR: modpost: "mipi_dsi_attach" [drivers/gpu/drm/bridge/lontium-lt9611uxc.ko] undefined!
-ERROR: modpost: "mipi_dsi_device_register_full" [drivers/gpu/drm/bridge/lontium-lt9611uxc.ko] undefined!
-ERROR: modpost: "of_find_mipi_dsi_host_by_node" [drivers/gpu/drm/bridge/lontium-lt9611uxc.ko] undefined!
-ERROR: modpost: "mipi_dsi_device_unregister" [drivers/gpu/drm/bridge/lontium-lt9611uxc.ko] undefined!
-ERROR: modpost: "mipi_dsi_detach" [drivers/gpu/drm/bridge/lontium-lt9611uxc.ko] undefined!
-ERROR: modpost: "mipi_dsi_attach" [drivers/gpu/drm/bridge/lontium-lt9611.ko] undefined!
-ERROR: modpost: "mipi_dsi_device_register_full" [drivers/gpu/drm/bridge/lontium-lt9611.ko] undefined!
-ERROR: modpost: "of_find_mipi_dsi_host_by_node" [drivers/gpu/drm/bridge/lontium-lt9611.ko] undefined!
-ERROR: modpost: "mipi_dsi_device_unregister" [drivers/gpu/drm/bridge/lontium-lt9611.ko] undefined!
-ERROR: modpost: "mipi_dsi_detach" [drivers/gpu/drm/bridge/lontium-lt9611.ko] undefined!
-WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
+ERROR: modpost: "mipi_dsi_attach" [drivers/gpu/drm/bridge/analogix/anx7625.ko] undefined!
+ERROR: modpost: "mipi_dsi_device_register_full" [drivers/gpu/drm/bridge/analogix/anx7625.ko] undefined!
+ERROR: modpost: "of_find_mipi_dsi_host_by_node" [drivers/gpu/drm/bridge/analogix/anx7625.ko] undefined!
+ERROR: modpost: "mipi_dsi_device_unregister" [drivers/gpu/drm/bridge/analogix/anx7625.ko] undefined!
+ERROR: modpost: "mipi_dsi_detach" [drivers/gpu/drm/bridge/analogix/anx7625.ko] undefined!
 
-Fixes: 23278bf54afe ("drm/bridge: Introduce LT9611 DSI to HDMI bridge")
-Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
-Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
+Fixes: 8bdfc5dae4e3 ("drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP")
 Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Adren Grassein <adrien.grassein@gmail.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Cc: Xin Ji <xji@analogixsemi.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Adrien Grassein <adrien.grassein@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
 Cc: Andrzej Hajda <a.hajda@samsung.com>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Robert Foss <robert.foss@linaro.org>
-Cc: dri-devel@lists.freedesktop.org
 Cc: stable@vger.kernel.org
 Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210415183639.1487-1-rdunlap@infradead.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20210415183619.1431-1-rdunlap@infradead.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/bridge/Kconfig |    3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/bridge/analogix/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
 
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -67,6 +67,7 @@ config DRM_LONTIUM_LT9611UXC
+--- a/drivers/gpu/drm/bridge/analogix/Kconfig
++++ b/drivers/gpu/drm/bridge/analogix/Kconfig
+@@ -30,6 +30,7 @@ config DRM_ANALOGIX_ANX7625
+ 	tristate "Analogix Anx7625 MIPI to DP interface support"
+ 	depends on DRM
  	depends on OF
- 	select DRM_PANEL_BRIDGE
- 	select DRM_KMS_HELPER
 +	select DRM_MIPI_DSI
- 	select REGMAP_I2C
  	help
- 	  Driver for Lontium LT9611UXC DSI to HDMI bridge
-@@ -151,6 +152,7 @@ config DRM_SII902X
- 	tristate "Silicon Image sii902x RGB/HDMI bridge"
- 	depends on OF
- 	select DRM_KMS_HELPER
-+	select DRM_MIPI_DSI
- 	select REGMAP_I2C
- 	select I2C_MUX
- 	select SND_SOC_HDMI_CODEC if SND_SOC
-@@ -200,6 +202,7 @@ config DRM_TOSHIBA_TC358767
- 	tristate "Toshiba TC358767 eDP bridge"
- 	depends on OF
- 	select DRM_KMS_HELPER
-+	select DRM_MIPI_DSI
- 	select REGMAP_I2C
- 	select DRM_PANEL
- 	help
+ 	  ANX7625 is an ultra-low power 4K mobile HD transmitter
+ 	  designed for portable devices. It converts MIPI/DPI to
 
 
