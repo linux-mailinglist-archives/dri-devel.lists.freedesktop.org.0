@@ -2,43 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1012137BDBA
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 15:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF11637BE20
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 15:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B82256EBED;
-	Wed, 12 May 2021 13:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF946E06E;
+	Wed, 12 May 2021 13:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 112EC6E7DD;
- Wed, 12 May 2021 13:10:17 +0000 (UTC)
-Date: Wed, 12 May 2021 13:09:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1620825015;
- bh=8dbC0bXMl9KoiodKNr2CaJx6iRPp1MwGJ05L+enMrBY=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=Da+hPNgERTt3U0UEBeIUWh5yafKBvfr9hv+HFBnKA6kh8+VDt7B/QTZ9aoXegHVfe
- 9bHtZSBsTKc0QxzXPuBOMWASIQGnVOZ8qPRejOMuo5Dhp2YsRLdPH+bEFFOkndBH9Y
- A3+QIgxIxO/eyUagggCz4ICHyTvLyLq5rpBaE4oJeaUYb+Fy+z1U8ZUOWptWr0ofMw
- H0QzFi34FfwXIm2jBgiEq/B6yElrRSRTVAj56HIllJzttGQrHfgMOvGZyxLnHAQ4Dw
- 2xx5qyL1lCJO8QSQU5fPtRhivpCr3v5pjj7564zyJOeh09a/UOmN1jzK32ya7i/n1Z
- 1e725loWyvrgA==
-To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: New uAPI for color management proposal and feedback request
-Message-ID: <9AhePX5AEosIsHWWHSHn742dMU9llkiX09EMzWK_hSE0bcAmsDD-nBSNG0tYbOdcwnru3WaFELpPaxIgntU4zboc5zauY-VPPICyVvr7DEA=@emersion.fr>
-In-Reply-To: <YJvSUCCPvWz7y/r7@intel.com>
-References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
- <YJvSUCCPvWz7y/r7@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA8F66E06E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 13:22:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620825730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QgguPoF9qOa2EQK0TVtjpXa3WeebJt6mDrtgBykUS0M=;
+ b=E47cm8ByyoCyXj0/c9fQgSB9lPf4VLQ5tuIAZ0YazpIwbMKhqHYZStGX0q+d77FmKxw4jP
+ /vLx8PppL4A42Im0lmDKLqh+Fppg2Wu/gCNaCWckWuaYmaWdTYYwZ6iwZcbyQsXWc811sg
+ WHwr8KAenDXlZjhcKzWLAyY7nXX04OE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-WNdvVE9rNAGsS3cWHws6mw-1; Wed, 12 May 2021 09:22:08 -0400
+X-MC-Unique: WNdvVE9rNAGsS3cWHws6mw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19AED1013720;
+ Wed, 12 May 2021 13:22:07 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-30.ams2.redhat.com [10.36.112.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B00D5D6AC;
+ Wed, 12 May 2021 13:22:05 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>
+Subject: [PATCH 0/2] drm: panel-orientation-quirks: Update / Add 2 quirks
+Date: Wed, 12 May 2021 15:22:02 +0200
+Message-Id: <20210512132204.61250-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,33 +63,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- intel-gfx@lists.freedesktop.org,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Werner Sembach <wse@tuxedocomputers.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, May 12th, 2021 at 3:04 PM, Ville Syrj=C3=A4l=C3=A4 <ville.syr=
-jala@linux.intel.com> wrote:
+Hi All,
 
-> > Adoption:
-> >
-> > A KDE dev wants to implement the settings in the KDE settings GUI:
-> >
-> > https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_912370
-> >
-> > Tuxedo Computers (my employer) wants to implement the settings desktop =
-environment agnostic in Tuxedo Control Center. I
-> > will start work on this in parallel to implementing the new kernel code=
-.
->
-> I suspect everyone would be happier to accept new uapi if we had
-> multiple compositors signed up to implement it.
+The first patch in this series is a resend of one which I submitted a couple
+of days ago, the other patch is new.
 
-Sign me up. We already have a patch blocked by "Broadcast RGB"
-standardization:
+These are pretty simple/straightforward patches if someone can give me a
+quick ack for these then I can push them to drm-misc-next.
 
-https://github.com/swaywm/wlroots/pull/2310
+Regards,
+
+Hans
+
+
+Hans de Goede (2):
+  drm: panel-orientation-quirks: Update the Lenovo Ideapad D330 quirk
+    (v2)
+  drm: panel-orientation-quirks: Add quirk for KD Kurio Smart C15200
+    2-in-1
+
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+-- 
+2.31.1
+
