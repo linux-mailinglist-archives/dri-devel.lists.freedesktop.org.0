@@ -2,52 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E43837BC51
-	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 14:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A0437BC40
+	for <lists+dri-devel@lfdr.de>; Wed, 12 May 2021 14:08:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAEC46EB86;
-	Wed, 12 May 2021 12:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D008E6EB82;
+	Wed, 12 May 2021 12:08:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 422 seconds by postgrey-1.36 at gabe;
- Wed, 12 May 2021 12:04:05 UTC
-Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1C596EB7C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 12:04:05 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.13])
- by lucky1.263xmail.com (Postfix) with ESMTP id 89558AC626;
- Wed, 12 May 2021 19:56:59 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-ANTISPAM-LEVEL: 2
-X-ABS-CHECKED: 0
-Received: from localhost.localdomain (unknown [124.126.19.250])
- by smtp.263.net (postfix) whith ESMTP id
- P1748T140588825409280S1620820610980711_; 
- Wed, 12 May 2021 19:57:01 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <794a1de435a0a63d4553be8fcf03f0c0>
-X-RL-SENDER: penghaob@uniontech.com
-X-SENDER: penghaob@uniontech.com
-X-LOGIN-NAME: penghaob@uniontech.com
-X-FST-TO: rodrigosiqueiramelo@gmail.com
-X-RCPT-COUNT: 8
-X-SENDER-IP: 124.126.19.250
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: Hao Peng <penghaob@uniontech.com>
-To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie
-Subject: [PATCH] drm:vkms: Add NULL value after free function In function
- vkms_exit, after kfree(default_config),
- give specific NULL value to pointer default_config to avoid wild pointer.
-Date: Wed, 12 May 2021 19:55:54 +0800
-Message-Id: <20210512115554.10431-1-penghaob@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Wed, 12 May 2021 12:08:24 UTC
+Received: from andre.telenet-ops.be (andre.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1FB6EB82
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 12:08:24 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:1174:b9bd:23c9:ffce])
+ by andre.telenet-ops.be with bizsmtp
+ id 3o3M2500C0HTjNG01o3Mco; Wed, 12 May 2021 14:03:21 +0200
+Received: from geert (helo=localhost)
+ by ramsan.of.borg with local-esmtp (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1lgnaC-0053Um-Nc; Wed, 12 May 2021 14:03:20 +0200
+Date: Wed, 12 May 2021 14:03:20 +0200 (CEST)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Yiyuan GUO <yguoaz@gmail.com>
+Subject: Re: [PATCH] video/logo: protect against divide by zero when reading
+ image
+In-Reply-To: <20210512054843.54883-1-yguoaz@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2105121353530.1204552@ramsan.of.borg>
+References: <20210512054843.54883-1-yguoaz@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 12 May 2021 12:12:25 +0000
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,30 +45,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hao Peng <penghaob@uniontech.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-parisc@vger.kernel.org, linux-fbdev@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Hao Peng <penghaob@uniontech.com>
----
- drivers/gpu/drm/vkms/vkms_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+ 	Hi Yiyuan,
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 2173b82606f6..6c63201db5d0 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -227,6 +227,7 @@ static void __exit vkms_exit(void)
- 		vkms_destroy(default_config);
- 
- 	kfree(default_config);
-+	default_config = NULL;
- }
- 
- module_init(vkms_init);
--- 
-2.20.1
+CC dri-devel, linux-fbdev
 
+On Wed, 12 May 2021, Yiyuan GUO wrote:
+> In video/logo/pnmtologo.c, the function read_image can read from the
+> image file an integer 0 and pass it to function get_number255, leading
+> to a divide by zero problem.
+>
+> Signed-off-by: Yiyuan GUO <yguoaz@gmail.com>
 
+Thanks for your patch!
 
+> --- a/drivers/video/logo/pnmtologo.c
+> +++ b/drivers/video/logo/pnmtologo.c
+> @@ -118,7 +118,12 @@ static unsigned int get_number(FILE *fp)
+>
+> static unsigned int get_number255(FILE *fp, unsigned int maxval)
+> {
+> -    unsigned int val = get_number(fp);
+> +    unsigned int val;
+> +
+> +    if (!maxval)
+> +	die("Corrupted maxval\n");
+
+Please be consistent with other places reporting errors, e.g.
+
+     die("%s: invalid maxval zero\n", filename);
+
+This looks like a strange place to check the validity of maxval.
+What about checking if right after its assignment?
+To avoid duplicating code, you can create a helper:
+
+     static unsigned int get_maxval(FILE *fp)
+     {
+ 	unsigned int maxval = get_number(fp);
+
+ 	if (!maxval)
+ 	    die("%s: invalid maxval zero\n", filename);
+
+ 	return maxval;
+     }
+
+and:
+
+     /* Plain PGM */
+-   maxval = get_number(fp);
++   maxval = get_maxval(fp);
+
+and:
+
+     /* Plain PPM */
+-   maxval = get_number(fp);
++   maxval = get_maxval(fp);
+
+> +
+> +    val = get_number(fp);
+>     return (255*val+maxval/2)/maxval;
+> }
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
