@@ -1,62 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3338537F5FA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 12:53:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2809337F621
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 13:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B39EA6E876;
-	Thu, 13 May 2021 10:52:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08B516ECE1;
+	Thu, 13 May 2021 11:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5988C6E876
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 10:52:55 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1620903177; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=l43av0MNdasuSlRaWS4HbE7aHdm8Jr27+otQGPeLkDA=;
- b=K8wKUY28cjP8yFUFTz1nnyoAcXhMb4cTucUD8qf+OhVw3mrr5mGYL/TQ7z8SgQl2IT9q0yZl
- shH2KJi0Ki/2z+1jSb0TEL0m7PUjMw8r1X4QIcD6lwdTCfEdLulYE/y9nQL1eCsCYcVsdL0B
- qxj2XlSLTvnUpzsI1wvh0dVK/+A=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 609d04ee4a4ae4ec6842b9fd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 13 May 2021 10:52:30
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id F39C6C4338A; Thu, 13 May 2021 10:52:29 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: mkrishn)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 400C4C433D3;
- Thu, 13 May 2021 10:52:26 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6615D6E87D;
+ Thu, 13 May 2021 11:00:13 +0000 (UTC)
+IronPort-SDR: AIK+S+scdZl9TQZfysxmkvbwMJk/FIgw20zyzpQruJ9Vu3bZ3ZSYEfAkJULSP9aHDpLBN6KF2v
+ SjLL8PwszpqQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9982"; a="187048065"
+X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; d="scan'208";a="187048065"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2021 04:00:10 -0700
+IronPort-SDR: ljnyZcy/+DPFj84xfoN5Z4S4uNBwkyHysMD/sDrN7nq9JRkIWdq6tldIjcDbX5L32l+O60/c4F
+ 8DguQfh8jccg==
+X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; d="scan'208";a="400930366"
+Received: from hcadcock-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.209.166])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2021 04:00:09 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/7] Per client engine busyness
+Date: Thu, 13 May 2021 11:59:55 +0100
+Message-Id: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 13 May 2021 16:22:26 +0530
-From: mkrishn@codeaurora.org
-To: robh@kernel.org, robh+dt@kernel.org
-Subject: Fwd: Re: [PATCH v15 2/4] dt-bindings: msm: dsi: add yaml schemas for
- DSI bindings
-In-Reply-To: <827048554933585f4cc42c94aa911e55@codeaurora.org>
-References: <1617620770-26202-1-git-send-email-mkrishn@codeaurora.org>
- <1617620770-26202-2-git-send-email-mkrishn@codeaurora.org>
- <20210408150300.GA1476562@robh.at.kernel.org>
- <827048554933585f4cc42c94aa911e55@codeaurora.org>
-Message-ID: <4326018bcc2efc812b3267c830570f04@codeaurora.org>
-X-Sender: mkrishn@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,486 +47,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, devicetree@vger.kernel.org, dianders@chromium.org,
- vinod.koul@linaro.org, linux-arm-msm@vger.kernel.org, abhinavk@codeaurora.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
- kalyan_t@codeaurora.org, bjorn.andersson@linaro.org,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-04-08 20:33, Rob Herring wrote:
-> On Mon, Apr 05, 2021 at 04:36:08PM +0530, Krishna Manikandan wrote:
->> Add YAML schema for the device tree bindings for DSI
->> 
->> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
->> 
->> Changes in v1:
->>     - Separate dsi controller bindings to a separate patch (Stephen 
->> Boyd)
->>     - Merge dsi-common-controller.yaml and dsi-controller-main.yaml to
->>       a single file (Stephen Boyd)
->>     - Drop supply entries and definitions from properties (Stephen 
->> Boyd)
->>     - Modify phy-names property for dsi controller (Stephen Boyd)
->>     - Remove boolean from description (Stephen Boyd)
->>     - Drop pinctrl properties as they are standard entries (Stephen 
->> Boyd)
->>     - Modify the description for ports property and keep the reference
->>       to the generic binding where this is defined (Stephen Boyd)
->>     - Add description to clock names (Stephen Boyd)
->>     - Correct the indendation (Stephen Boyd)
->>     - Drop the label for display dt nodes and correct the node
->>       name (Stephen Boyd)
->> 
->> Changes in v2:
->>     - Drop maxItems for clock (Stephen Boyd)
->>     - Drop qcom,mdss-mdp-transfer-time-us as it is not used in 
->> upstream
->>       dt file (Stephen Boyd)
->>     - Keep child node directly under soc node (Stephen Boyd)
->>     - Drop qcom,sync-dual-dsi as it is not used in upstream dt
->> 
->> Changes in v3:
->>     - Add description for register property (Stephen Boyd)
->> 
->> Changes in v4:
->>     - Add maxItems for phys property (Stephen Boyd)
->>     - Add maxItems for reg property (Stephen Boyd)
->>     - Add reference for data-lanes property (Stephen Boyd)
->>     - Remove soc from example (Stephen Boyd)
->> 
->> Changes in v5:
->>     - Modify title and description (Stephen Boyd)
->>     - Add required properties for ports node (Stephen Boyd)
->>     - Add data-lanes in the example (Stephen Boyd)
->>     - Drop qcom,master-dsi property (Stephen Boyd)
->> 
->> Changes in v6:
->>     - Add required properties for port@0, port@1 and corresponding
->>       endpoints (Stephen Boyd)
->>     - Add address-cells and size-cells for ports (Stephen Boyd)
->>     - Use additionalProperties instead of unevaluatedProperties 
->> (Stephen Boyd)
->> ---
->>  .../bindings/display/msm/dsi-controller-main.yaml  | 213 
->> ++++++++++++++++++
->>  .../devicetree/bindings/display/msm/dsi.txt        | 249 
->> ---------------------
->>  2 files changed, 213 insertions(+), 249 deletions(-)
->>  create mode 100644 
->> Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
->>  delete mode 100644 
->> Documentation/devicetree/bindings/display/msm/dsi.txt
->> 
->> diff --git 
->> a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml 
->> b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
->> new file mode 100644
->> index 0000000..7858524
->> --- /dev/null
->> +++ 
->> b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
->> @@ -0,0 +1,213 @@
->> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: 
->> http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm Display DSI controller
->> +
->> +maintainers:
->> +  - Krishna Manikandan <mkrishn@codeaurora.org>
->> +
->> +allOf:
->> +  - $ref: "../dsi-controller.yaml#"
->> +
->> +properties:
->> +  compatible:
->> +    items:
->> +      - const: qcom,mdss-dsi-ctrl
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  reg-names:
->> +    const: dsi_ctrl
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    items:
->> +      - description: Display byte clock
->> +      - description: Display byte interface clock
->> +      - description: Display pixel clock
->> +      - description: Display escape clock
->> +      - description: Display AHB clock
->> +      - description: Display AXI clock
->> +
->> +  clock-names:
->> +    items:
->> +      - const: byte
->> +      - const: byte_intf
->> +      - const: pixel
->> +      - const: core
->> +      - const: iface
->> +      - const: bus
->> +
->> +  phys:
->> +    maxItems: 1
->> +
->> +  phy-names:
->> +    const: dsi
->> +
->> +  "#address-cells": true
->> +
->> +  "#size-cells": true
->> +
->> +  syscon-sfpb:
->> +    description: A phandle to mmss_sfpb syscon node (only for DSIv2).
->> +    $ref: "/schemas/types.yaml#/definitions/phandle"
->> +
->> +  qcom,dual-dsi-mode:
->> +    type: boolean
->> +    description: |
->> +      Indicates if the DSI controller is driving a panel which needs
->> +      2 DSI links.
->> +
->> +  ports:
-> 
-> Same issues in this one.
-> 
->> +    $ref: "/schemas/graph.yaml#/properties/port"
->> +    type: object
->> +    description: |
->> +      Contains DSI controller input and output ports as children, 
->> each
->> +      containing one endpoint subnode.
->> +
->> +    properties:
->> +      port@0:
->> +        type: object
->> +        description: |
->> +          Input endpoints of the controller.
->> +
->> +        properties:
->> +          reg:
->> +            const: 0
->> +
->> +          endpoint:
->> +            type: object
->> +            properties:
->> +              remote-endpoint:
-> 
-> Don't need to describe this, the common schema does.
-> 
->> +                description: |
->> +                  For port@1, set to phandle of the connected 
->> panel/bridge's
->> +                  input endpoint. For port@0, set to the MDP 
->> interface output.
->> +
->> +              data-lanes:
->> +                $ref: "/schemas/media/video-interfaces.yaml#"
-> 
-> Not how this reference works. Look at other examples.
-> 
->> +                description: |
->> +                  This describes how the physical DSI data lanes are 
->> mapped
->> +                  to the logical lanes on the given platform. The 
->> value contained in
->> +                  index n describes what physical lane is mapped to 
->> the logical lane n
->> +                  (DATAn, where n lies between 0 and 3). The clock 
->> lane position is fixed
->> +                  and can't be changed. Hence, they aren't a part of 
->> the DT bindings.
->> +
->> +                items:
->> +                  - const: 0
->> +                  - const: 1
->> +                  - const: 2
->> +                  - const: 3
-> 
-> If this is the only possible value, why does it need to be in DT?
-Hi Rob,
-These are the possible values:
--    <0 1 2 3>
--    <1 2 3 0>
--    <2 3 0 1>
--    <3 0 1 2>
--    <0 3 2 1>
--    <1 0 3 2>
--    <2 1 0 3>
--    <3 2 1 0>
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Shall I follow the below mentioned approach for defining these values ?
-oneOf:
-   - items:
-     - const: 0
-     - const: 1
-     - const: 2
-     - const: 3
-   - items:
-     - const: 1
-     - const: 2
-     - const: 3
-     - const: 0
-   - items:
-     - const: 2
-     - const: 3
-     - const: 0
-     - const: 1
-   - items:
-     - const: 3
-     - const: 0
-     - const: 1
-     - const: 2
-   - items:
-     - const: 0
-     - const: 3
-     - const: 2
-     - const: 1
-   - items:
-     - const: 1
-     - const: 0
-     - const: 3
-     - const: 2
-   - items:
-     - const: 2
-     - const: 1
-     - const: 0
-     - const: 3
-   - items:
-     - const: 3
-     - const: 2
-     - const: 1
-     - const: 0
+Resurrect of the previosuly merged per client engine busyness patches. In a
+nutshell it enables intel_gpu_top to be more top(1) like useful and show not
+only physical GPU engine usage but per process view as well.
 
-Thanks,
-Krishna
-> 
->> +
->> +            required:
->> +              - remote-endpoint
->> +
->> +        required:
->> +          - reg
->> +          - endpoint
->> +
->> +      port@1:
->> +        type: object
->> +        description: |
->> +          Output endpoints of the controller.
->> +        properties:
->> +          reg:
->> +            const: 1
->> +
->> +          endpoint:
->> +            type: object
->> +            properties:
->> +              remote-endpoint: true
->> +              data-lanes:
->> +                items:
->> +                  - const: 0
->> +                  - const: 1
->> +                  - const: 2
->> +                  - const: 3
->> +
->> +            required:
->> +              - remote-endpoint
->> +              - data-lanes
->> +
->> +        required:
->> +          - reg
->> +          - endpoint
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +      - "#address-cells"
->> +      - "#size-cells"
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - interrupts
->> +  - clocks
->> +  - clock-names
->> +  - phys
->> +  - phy-names
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +     #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +     #include <dt-bindings/clock/qcom,dispcc-sdm845.h>
->> +     #include <dt-bindings/clock/qcom,gcc-sdm845.h>
->> +
->> +     dsi@ae94000 {
->> +           compatible = "qcom,mdss-dsi-ctrl";
->> +           reg = <0x0ae94000 0x400>;
->> +           reg-names = "dsi_ctrl";
->> +
->> +           #address-cells = <1>;
->> +           #size-cells = <0>;
->> +
->> +           interrupt-parent = <&mdss>;
->> +           interrupts = <4>;
->> +
->> +           clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
->> +                    <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
->> +                    <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
->> +                    <&dispcc DISP_CC_MDSS_ESC0_CLK>,
->> +                    <&dispcc DISP_CC_MDSS_AHB_CLK>,
->> +                    <&dispcc DISP_CC_MDSS_AXI_CLK>;
->> +           clock-names = "byte",
->> +                         "byte_intf",
->> +                         "pixel",
->> +                         "core",
->> +                         "iface",
->> +                         "bus";
->> +
->> +           phys = <&dsi0_phy>;
->> +           phy-names = "dsi";
->> +
->> +           ports {
->> +                  #address-cells = <1>;
->> +                  #size-cells = <0>;
->> +
->> +                  port@0 {
->> +                          reg = <0>;
->> +                          dsi0_in: endpoint {
->> +                                   remote-endpoint = 
->> <&dpu_intf1_out>;
->> +                          };
->> +                  };
->> +
->> +                  port@1 {
->> +                          reg = <1>;
->> +                          dsi0_out: endpoint {
->> +                                   remote-endpoint = <&sn65dsi86_in>;
->> +                                   data-lanes = <0 1 2 3>;
->> +                          };
->> +                  };
->> +           };
->> +     };
->> +...
->> diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt 
->> b/Documentation/devicetree/bindings/display/msm/dsi.txt
->> deleted file mode 100644
->> index b9a64d3..0000000
->> --- a/Documentation/devicetree/bindings/display/msm/dsi.txt
->> +++ /dev/null
->> @@ -1,249 +0,0 @@
->> -Qualcomm Technologies Inc. adreno/snapdragon DSI output
->> -
->> -DSI Controller:
->> -Required properties:
->> -- compatible:
->> -  * "qcom,mdss-dsi-ctrl"
->> -- reg: Physical base address and length of the registers of 
->> controller
->> -- reg-names: The names of register regions. The following regions are 
->> required:
->> -  * "dsi_ctrl"
->> -- interrupts: The interrupt signal from the DSI block.
->> -- power-domains: Should be <&mmcc MDSS_GDSC>.
->> -- clocks: Phandles to device clocks.
->> -- clock-names: the following clocks are required:
->> -  * "mdp_core"
->> -  * "iface"
->> -  * "bus"
->> -  * "core_mmss"
->> -  * "byte"
->> -  * "pixel"
->> -  * "core"
->> -  For DSIv2, we need an additional clock:
->> -   * "src"
->> -  For DSI6G v2.0 onwards, we need also need the clock:
->> -   * "byte_intf"
->> -- assigned-clocks: Parents of "byte" and "pixel" for the given 
->> platform.
->> -- assigned-clock-parents: The Byte clock and Pixel clock PLL outputs 
->> provided
->> -  by a DSI PHY block. See [1] for details on clock bindings.
->> -- vdd-supply: phandle to vdd regulator device node
->> -- vddio-supply: phandle to vdd-io regulator device node
->> -- vdda-supply: phandle to vdda regulator device node
->> -- phys: phandle to DSI PHY device node
->> -- phy-names: the name of the corresponding PHY device
->> -- syscon-sfpb: A phandle to mmss_sfpb syscon node (only for DSIv2)
->> -- ports: Contains 2 DSI controller ports as child nodes. Each port 
->> contains
->> -  an endpoint subnode as defined in [2] and [3].
->> -
->> -Optional properties:
->> -- panel@0: Node of panel connected to this DSI controller.
->> -  See files in [4] for each supported panel.
->> -- qcom,dual-dsi-mode: Boolean value indicating if the DSI controller 
->> is
->> -  driving a panel which needs 2 DSI links.
->> -- qcom,master-dsi: Boolean value indicating if the DSI controller is 
->> driving
->> -  the master link of the 2-DSI panel.
->> -- qcom,sync-dual-dsi: Boolean value indicating if the DSI controller 
->> is
->> -  driving a 2-DSI panel whose 2 links need receive command 
->> simultaneously.
->> -- pinctrl-names: the pin control state names; should contain 
->> "default"
->> -- pinctrl-0: the default pinctrl state (active)
->> -- pinctrl-n: the "sleep" pinctrl state
->> -- ports: contains DSI controller input and output ports as children, 
->> each
->> -  containing one endpoint subnode.
->> -
->> -  DSI Endpoint properties:
->> -  - remote-endpoint: For port@0, set to phandle of the connected 
->> panel/bridge's
->> -    input endpoint. For port@1, set to the MDP interface output. See 
->> [2] for
->> -    device graph info.
->> -
->> -  - data-lanes: this describes how the physical DSI data lanes are 
->> mapped
->> -    to the logical lanes on the given platform. The value contained 
->> in
->> -    index n describes what physical lane is mapped to the logical 
->> lane n
->> -    (DATAn, where n lies between 0 and 3). The clock lane position is 
->> fixed
->> -    and can't be changed. Hence, they aren't a part of the DT 
->> bindings. See
->> -    [3] for more info on the data-lanes property.
->> -
->> -    For example:
->> -
->> -    data-lanes = <3 0 1 2>;
->> -
->> -    The above mapping describes that the logical data lane DATA0 is 
->> mapped to
->> -    the physical data lane DATA3, logical DATA1 to physical DATA0, 
->> logic DATA2
->> -    to phys DATA1 and logic DATA3 to phys DATA2.
->> -
->> -    There are only a limited number of physical to logical mappings 
->> possible:
->> -    <0 1 2 3>
->> -    <1 2 3 0>
->> -    <2 3 0 1>
->> -    <3 0 1 2>
->> -    <0 3 2 1>
->> -    <1 0 3 2>
->> -    <2 1 0 3>
->> -    <3 2 1 0>
-> 
-> You've dropped all these?
+Example screen capture:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+intel-gpu-top -  906/ 955 MHz;    0% RC6;  5.30 Watts;      933 irqs/s
+
+      IMC reads:     4414 MiB/s
+     IMC writes:     3805 MiB/s
+
+          ENGINE      BUSY                                      MI_SEMA MI_WAIT
+     Render/3D/0   93.46% |████████████████████████████████▋  |      0%      0%
+       Blitter/0    0.00% |                                   |      0%      0%
+         Video/0    0.00% |                                   |      0%      0%
+  VideoEnhance/0    0.00% |                                   |      0%      0%
+
+  PID            NAME  Render/3D      Blitter        Video      VideoEnhance
+ 2733       neverball |██████▌     ||            ||            ||            |
+ 2047            Xorg |███▊        ||            ||            ||            |
+ 2737        glxgears |█▍          ||            ||            ||            |
+ 2128           xfwm4 |            ||            ||            ||            |
+ 2047            Xorg |            ||            ||            ||            |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Internally we track time spent on engines for each struct intel_context, both
+for current and past contexts belonging to each open DRM file.
+
+This can serve as a building block for several features from the wanted list:
+smarter scheduler decisions, getrusage(2)-like per-GEM-context functionality
+wanted by some customers, setrlimit(2) like controls, cgroups controller,
+dynamic SSEU tuning, ...
+
+To enable userspace access to the tracked data, we expose time spent on GPU per
+client and per engine class in sysfs with a hierarchy like the below:
+
+	# cd /sys/class/drm/card0/clients/
+	# tree
+	.
+	├── 7
+	│   ├── busy
+	│   │   ├── 0
+	│   │   ├── 1
+	│   │   ├── 2
+	│   │   └── 3
+	│   ├── name
+	│   └── pid
+	├── 8
+	│   ├── busy
+	│   │   ├── 0
+	│   │   ├── 1
+	│   │   ├── 2
+	│   │   └── 3
+	│   ├── name
+	│   └── pid
+	└── 9
+	    ├── busy
+	    │   ├── 0
+	    │   ├── 1
+	    │   ├── 2
+	    │   └── 3
+	    ├── name
+	    └── pid
+
+Files in 'busy' directories are numbered using the engine class ABI values and
+they contain accumulated nanoseconds each client spent on engines of a
+respective class.
+
+Tvrtko Ursulin (7):
+  drm/i915: Expose list of clients in sysfs
+  drm/i915: Update client name on context create
+  drm/i915: Make GEM contexts track DRM clients
+  drm/i915: Track runtime spent in closed and unreachable GEM contexts
+  drm/i915: Track all user contexts per client
+  drm/i915: Track context current active time
+  drm/i915: Expose per-engine client busyness
+
+ drivers/gpu/drm/i915/Makefile                 |   5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  61 ++-
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |  16 +-
+ drivers/gpu/drm/i915/gt/intel_context.c       |  27 +-
+ drivers/gpu/drm/i915/gt/intel_context.h       |  15 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  24 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |  23 +-
+ .../gpu/drm/i915/gt/intel_gt_clock_utils.c    |   4 +
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  27 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.h           |  24 ++
+ drivers/gpu/drm/i915/gt/selftest_lrc.c        |  10 +-
+ drivers/gpu/drm/i915/i915_drm_client.c        | 365 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_drm_client.h        | 123 ++++++
+ drivers/gpu/drm/i915/i915_drv.c               |   6 +
+ drivers/gpu/drm/i915/i915_drv.h               |   5 +
+ drivers/gpu/drm/i915/i915_gem.c               |  21 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  31 +-
+ drivers/gpu/drm/i915/i915_gpu_error.h         |   2 +-
+ drivers/gpu/drm/i915/i915_sysfs.c             |   8 +
+ 19 files changed, 716 insertions(+), 81 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
+ create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
+
+-- 
+2.30.2
+
