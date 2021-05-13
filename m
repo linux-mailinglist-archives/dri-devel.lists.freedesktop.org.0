@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AED37F50E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 11:51:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 470B937F50F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 11:51:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D31E6E09E;
-	Thu, 13 May 2021 09:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03146E868;
+	Thu, 13 May 2021 09:51:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 33257 seconds by postgrey-1.36 at gabe;
- Thu, 13 May 2021 09:51:38 UTC
 Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTP id 80E6B6E09E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 09:51:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7F47C6E868
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 09:51:42 +0000 (UTC)
 Received: by angie.orcam.me.uk (Postfix, from userid 500)
- id 87E3392009C; Thu, 13 May 2021 11:51:35 +0200 (CEST)
+ id CF68E92009D; Thu, 13 May 2021 11:51:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by angie.orcam.me.uk (Postfix) with ESMTP id 792E892009B;
- Thu, 13 May 2021 11:51:35 +0200 (CEST)
-Date: Thu, 13 May 2021 11:51:35 +0200 (CEST)
+ by angie.orcam.me.uk (Postfix) with ESMTP id CA8CA92009C;
+ Thu, 13 May 2021 11:51:41 +0200 (CEST)
+Date: Thu, 13 May 2021 11:51:41 +0200 (CEST)
 From: "Maciej W. Rozycki" <macro@orcam.me.uk>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Jiri Slaby <jirislaby@kernel.org>
-Subject: [PATCH v2 0/3] VT_RESIZEX fixes
-Message-ID: <alpine.DEB.2.21.2105131132100.3032@angie.orcam.me.uk>
+Subject: [PATCH v2 1/3] vgacon: Record video mode changes with VT_RESIZEX
+In-Reply-To: <alpine.DEB.2.21.2105131132100.3032@angie.orcam.me.uk>
+Message-ID: <alpine.DEB.2.21.2105131136230.3032@angie.orcam.me.uk>
+References: <alpine.DEB.2.21.2105131132100.3032@angie.orcam.me.uk>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -49,15 +49,61 @@ Cc: linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Fix an issue with VGA console font size changes made after the initial 
+video text mode has been changed with a user tool like `svgatextmode' 
+calling the VT_RESIZEX ioctl.  As it stands in that case the original 
+screen geometry continues being used to validate further VT resizing.
 
- This is a minor update to the previous version of the series, adding a 
-clarification to 3/3 as to the problem the original fix to which caused 
-the functional regression the removal of extra VT_RESIZEX parameter 
-handling caused.  No change to actual code.
+Consequently when the video adapter is firstly reprogrammed from the 
+original say 80x25 text mode using a 9x16 character cell (720x400 pixel 
+resolution) to say 80x37 text mode and the same character cell (720x592 
+pixel resolution), and secondly the CRTC character cell updated to 9x8 
+(by loading a suitable font with the KD_FONT_OP_SET request of the 
+KDFONTOP ioctl), the VT geometry does not get further updated from 80x37 
+and only upper half of the screen is used for the VT, with the lower 
+half showing rubbish corresponding to whatever happens to be there in 
+the video memory that maps to that part of the screen.  Of course the 
+proportions change according to text mode geometries and font sizes 
+chosen.
 
- See individual change descriptions for details.
+Address the problem then, by updating the text mode geometry defaults 
+rather than checking against them whenever the VT is resized via a user 
+ioctl.
 
- Please apply.
+Signed-off-by: Maciej W. Rozycki <macro@orcam.me.uk>
+Fixes: e400b6ec4ede ("vt/vgacon: Check if screen resize request comes from userspace")
+Cc: stable@vger.kernel.org # v2.6.24+
+---
+No changes from v1.
+---
+ drivers/video/console/vgacon.c |   14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-  Maciej
+Index: linux-macro-ide/drivers/video/console/vgacon.c
+===================================================================
+--- linux-macro-ide.orig/drivers/video/console/vgacon.c
++++ linux-macro-ide/drivers/video/console/vgacon.c
+@@ -1089,12 +1089,20 @@ static int vgacon_resize(struct vc_data
+ 	if ((width << 1) * height > vga_vram_size)
+ 		return -EINVAL;
+ 
++	if (user) {
++		/*
++		 * Ho ho!  Someone (svgatextmode, eh?) may have reprogrammed
++		 * the video mode!  Set the new defaults then and go away.
++		 */
++		screen_info.orig_video_cols = width;
++		screen_info.orig_video_lines = height;
++		vga_default_font_height = c->vc_font.height;
++		return 0;
++	}
+ 	if (width % 2 || width > screen_info.orig_video_cols ||
+ 	    height > (screen_info.orig_video_lines * vga_default_font_height)/
+ 	    c->vc_font.height)
+-		/* let svgatextmode tinker with video timings and
+-		   return success */
+-		return (user) ? 0 : -EINVAL;
++		return -EINVAL;
+ 
+ 	if (con_is_visible(c) && !vga_is_gfx) /* who knows */
+ 		vgacon_doresize(c, width, height);
