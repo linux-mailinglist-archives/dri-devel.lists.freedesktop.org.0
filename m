@@ -1,42 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D3437F627
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 13:00:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D53F37F719
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 13:47:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20C216ECF7;
-	Thu, 13 May 2021 11:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA7C6ECF9;
+	Thu, 13 May 2021 11:47:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 885596ECF7;
- Thu, 13 May 2021 11:00:18 +0000 (UTC)
-IronPort-SDR: YmJ07eBp2IZ8J3xI09UCjt51cF2VN9JLUy/KLHZthiTLy8qN+LzhR6/JOzly0ih2oTL9pEz33N
- xDMg+Lj9ZDRg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9982"; a="187048094"
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; d="scan'208";a="187048094"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2021 04:00:18 -0700
-IronPort-SDR: qXx975+RjgBFY3HIyWwkcubnwURwLeu5Kyygf0Mfjgoc1FaI9rptLrresSmS0M/JRpRqgXeTQX
- zbDDG6RjZmdQ==
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; d="scan'208";a="400930465"
-Received: from hcadcock-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.209.166])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2021 04:00:17 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/i915: Expose per-engine client busyness
-Date: Thu, 13 May 2021 12:00:02 +0100
-Message-Id: <20210513110002.3641705-8-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
-References: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2059.outbound.protection.outlook.com [40.107.94.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD4E96ECF9
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 11:47:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hmtNCfcG7JcYffjUWFbovWLr11y/6kJX3W07Yu5iwT1bM+hCLS+IHrABNEcDh7rliaOb8C80OzzNc8LxCYVXMMJobfLWZi+buIhVS3XN+pNPnex99ryWadkFu3OO87ZmfbpPu7507+fpCp3h25r9ouOI4LwoxPr7GkbwF89A0+3mQn1bELVaWsWBJofycsuOYS0kiL7wRFr/YWXA2Fi4r/CAmeV5rlRTfSvlMwkUE/aNaQWhWarBQUpyoK1fgp5giif/1lj8fkfTvy6iRc6Zm7KTn+0qZNvSqhndiOzv3B/Mz5YIAFY16AkHMTe+vmnIZMLDbqP21mCfBzgHjFC/NQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pyUhD+O496w+NzKlSXdXCrbR5UdX56y+UhYPQyKUgsk=;
+ b=KpySK7DE5NngDqLKKde6349IVnBIPiUG2YexHiyiGN0o5o92R6gSaCfKAbnPVDby2dU6PKUu0QZLV5UFksvxFnmX3Kyo03+EcUehsWoO2vQtlv5oxtZBzst5GBX4YZaF5uOZMiJ6l5lXKtp2Q6PMR/sXr7KchNCWz5j7V55VuSXOe96tRNSYmJ12wx8QwEgUW1958YVSXelYlDT78IABQmo/c2Am9wBaw9qokGJUn6e1K4dAmxe7xph4+8/Y5qmwcuCOOAiGiU7uybFLySB6Y9D12Ut48tdu/MdUTsWTxk45up50bfoK8l/AqZGYt9g7rFAvp7NM9GvrpC0xh7tBDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pyUhD+O496w+NzKlSXdXCrbR5UdX56y+UhYPQyKUgsk=;
+ b=kVAF3905EdH4L8jmX9kFFtLvmw8bPClAjrkQVUvVBxTcpgxm8UFjkbqRNnP3SLKb5M1mQlOS03TYlTNl3+GZFMDVJzoaMrNAZaoV3iXImfRtHNcvUXBpDtZaUs3SUAJuEZw/qwIlrSdEn1TRmEF56sXQITP/r5AaRINu9WW68n4=
+Authentication-Results: xilinx.com; dkim=none (message not signed)
+ header.d=none;xilinx.com; dmarc=none action=none header.from=windriver.com;
+Received: from CY4PR11MB0071.namprd11.prod.outlook.com (2603:10b6:910:7a::30)
+ by CY4PR1101MB2344.namprd11.prod.outlook.com (2603:10b6:903:b4::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Thu, 13 May
+ 2021 11:47:12 +0000
+Received: from CY4PR11MB0071.namprd11.prod.outlook.com
+ ([fe80::f45f:e820:49f5:3725]) by CY4PR11MB0071.namprd11.prod.outlook.com
+ ([fe80::f45f:e820:49f5:3725%6]) with mapi id 15.20.4108.031; Thu, 13 May 2021
+ 11:47:12 +0000
+From: quanyang.wang@windriver.com
+To: Hyun Kwon <hyun.kwon@xilinx.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@xilinx.com>
+Subject: [PATCH 0/2] drm: xlnx: add some functions
+Date: Thu, 13 May 2021 19:45:38 +0800
+Message-Id: <20210513114540.1241122-1-quanyang.wang@windriver.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2P15301CA0015.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:202:1::25) To CY4PR11MB0071.namprd11.prod.outlook.com
+ (2603:10b6:910:7a::30)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-qwang2-d1.wrs.com (60.247.85.82) by
+ HK2P15301CA0015.APCP153.PROD.OUTLOOK.COM (2603:1096:202:1::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4150.8 via Frontend Transport; Thu, 13 May 2021 11:47:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fc9e31b8-e236-42c6-a3dc-08d91604d8d7
+X-MS-TrafficTypeDiagnostic: CY4PR1101MB2344:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR1101MB23443710FE611EEDF91A54F4F0519@CY4PR1101MB2344.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gYSsh0Irde3sUDLvB2C6sDk9ozJ/+toQfr9aQ7ITQIeCvhnB7bPLsRziueSCVU+rcS/tIoHHEwydiVG2iQAmay3IxodCVBjlRQu3GtACnGrquZGBj3seFobBmvfw8QQDUb5UAm5yV/rRgtS70k8IvMXLXHPj1WEYnqmdv1EG8GG9f+V6XvNiOpg/wR74M3oHyMxMwLiFBLqFHgGrXrWfW1wNYE5Me893CMAACV90EtMdx4l4GJwTVIMFEj0u1QBkA9mwbZNrVlNV6qKuHUmPTvKKrshSWZXRV0xPVq/u35HfoZPjleXQWs4TUGHq6x/2OWwbB2zBWHxPof8QeNwv3045j1kHm+0mLHFAU07MPPcZcZubuiX+luO3rrvCWrE8YYz30oXrpY8M4E1EvStfSqHKFjzwvFw7gfYmAk7VbQrVaD0jlci0IekiNMNnq1RzC4jSJHIsWEj+L4dGOLRMur/BF+djGzfo5JzGWSp+fI3feYHAwuNV4t1QaT/KryWGlv0OZAIWmegi5r/5EhZHJJPFO1rEuS0XSYYK/rcIQ2ATLZr3x7ZFzLm06gM75p7UeelMCXndQ+zYnjox2Dg/XnwRSldZut2EFVFTrfTCjmX+gihLbQ2gPQzwv8LQG+QF4lfU3uyGGJZu2bJkcyqIEw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR11MB0071.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(366004)(39830400003)(136003)(346002)(36756003)(86362001)(52116002)(38350700002)(38100700002)(83380400001)(2616005)(6666004)(66476007)(66556008)(66946007)(2906002)(4326008)(107886003)(6636002)(6512007)(110136005)(316002)(8676002)(186003)(6486002)(1076003)(956004)(9686003)(16526019)(478600001)(26005)(4744005)(5660300002)(8936002)(6506007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?xOdwRwqtvzjdEtMmXJGVB9c5eFVjFATHW5joZVmfogbfSY0K1iVdClMEen+N?=
+ =?us-ascii?Q?wh87dHdFFaZoJcz+zdukY4/97BItA9gdl2wmmAWFEL+8sTw/g9m8G1KXONB8?=
+ =?us-ascii?Q?b3FJdNOCFelt6BKkmn3VjbGdno0qI39A+LKBqatH8YLFOZBQSdctMCKwcs3N?=
+ =?us-ascii?Q?yVJ0JKwZ3loN5pMMRVUUBDNJvGAa3q/Zb66XNJPmdW4ZcNqQGnJ0LMx8SpU0?=
+ =?us-ascii?Q?JPLCaJ3+yz6vonDvIADIIC8mPVJbixtGbdgPcbVmWpf/tXNVkzPoC9LMcb1W?=
+ =?us-ascii?Q?sIQHOAKgHvH/72DF18jQPzjEMVwp3noZlFtcZi4Gxe2Giq2jt5hUsEfm2a9F?=
+ =?us-ascii?Q?VDqmjmNAPCE4R+EcLgljmocChNDevrc8FkRXFGRluxgyoPDEUizV1i/G0bvd?=
+ =?us-ascii?Q?QrYMKPgg4IsBbOH9Ya5xHCVQ5OMiaQULtw6k6OcZnSMp9n2H+axNiZaeCJUE?=
+ =?us-ascii?Q?CsIA/QcseJoFzrbjFSgetqLmopSGkUOBea9k9ieOKN88HHAROqrya0bpI8oR?=
+ =?us-ascii?Q?zElgIv35mRzf6G+/ujptRauuzBvM7Y0hJxdMepnoDMKZcY6VMEaPpkDWKTpP?=
+ =?us-ascii?Q?7cZZ6W77jVvZX+cDlWUl3NVuuN8y/OKKFnC3eHkLS+IbxsXT1OC5N/XZ7oim?=
+ =?us-ascii?Q?IqqusxC+OKYH7GiBZLv4iy1hzDjkMoKwwoMabtp5P9lt/jgCQKm4FOrEreVW?=
+ =?us-ascii?Q?gto5ViBQUTbMZr8h3VNpWCoC3XZdopbWsKuL5Skt9hkpT/v2hEtSgZ5K2mvn?=
+ =?us-ascii?Q?6Jmt4USao1N3CI+UUDjUu6dP6eiPBwp2EAhUvn99K1Q2TNK6x0cnuhn7Y/4j?=
+ =?us-ascii?Q?O519ks+sApnCGtv2g/V8l2D49D6eD4ubakCFH9q/CGK1nVAqDM73iYc7IyKA?=
+ =?us-ascii?Q?tFaKIRvTNTjtw1QReYxfaFOClnsc+dozlnk4f4V2f2n1XbMlHWJjXuk7Pclr?=
+ =?us-ascii?Q?rQlcO9n/Lwux3ib68wi0MtNaKc6VY6yu/bg0XQiJ8pM0JKPLdjfasbsjLKYp?=
+ =?us-ascii?Q?+QNf74h9DF017wwdla5lFosRG6x5QPEvkusq9dJpql6BNA2v42Bmwqc1tkmo?=
+ =?us-ascii?Q?OpNo+HfDVu+VukqEo907Uv3zlsAaxwIpxGEY2BMZvKMu7irZBCXQ1JPLbpIk?=
+ =?us-ascii?Q?ysrDLA1AGSm8OFnpTs7GCwxh2Q5wFL33ONjqeQWwIskVbogyd1YBS+TcDnkP?=
+ =?us-ascii?Q?KXTaS2l/87dm08/2kN4JKBbVJ9V7q7pA0pZ0cUyycLbH5ojLcPXthpuh0NMN?=
+ =?us-ascii?Q?lTpLM2KeimspkJpZQXcAK0QQQwPyi4fedtv27S1Jrtc+v3NRaVEjK6o886qm?=
+ =?us-ascii?Q?AZnwkfrYHR1+heIMdgsN/fwd?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc9e31b8-e236-42c6-a3dc-08d91604d8d7
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB0071.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2021 11:47:12.6794 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9HcnuzBfk3MeOgQCkcB6yfGtdTK0xMMWfJOU2wqXfpoQampAty369kDu48jtTleSnCGCxIrPIFMthxGYyDgnnmkqGqitx6IS2pUVWB0+Ia0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1101MB2344
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,232 +119,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Quanyang Wang <quanyang.wang@windriver.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+From: Quanyang Wang <quanyang.wang@windriver.com>
 
-Expose per-client and per-engine busyness under the previously added sysfs
-client root.
+The patch "drm: xlnx: add is_layer_vid() to simplify the code" is to
+simplify the code which judge the layer type.
 
-The new files are one per-engine instance and located under the 'busy'
-directory. Each contains a monotonically increasing nano-second resolution
-times each client's jobs were executing on the GPU.
+The patch "drm: xlnx: consolidate the functions which programming AUDIO_VIDEO_SELECT register"
+is to consolidate the code that can configure vid/gfx/audio to output
+different mode (live/mem/disable/tpg) in one function "zynqmp_disp_avbuf_output_select".
 
-This enables userspace to create a top-like tool for GPU utilization:
+Thanks,
+Quanyang
 
-==========================================================================
-intel-gpu-top -  935/ 935 MHz;    0% RC6; 14.73 Watts;     1097 irqs/s
+Quanyang Wang (2):
+  drm: xlnx: add is_layer_vid() to simplify the code
+  drm: xlnx: consolidate the functions which programming
+    AUDIO_VIDEO_SELECT register
 
-      IMC reads:     1401 MiB/s
-     IMC writes:        4 MiB/s
+ drivers/gpu/drm/xlnx/zynqmp_disp.c      | 191 ++++++++++++++----------
+ drivers/gpu/drm/xlnx/zynqmp_disp_regs.h |  15 +-
+ 2 files changed, 116 insertions(+), 90 deletions(-)
 
-          ENGINE      BUSY                                 MI_SEMA MI_WAIT
-     Render/3D/0   63.73% |███████████████████           |      3%      0%
-       Blitter/0    9.53% |██▊                           |      6%      0%
-         Video/0   39.32% |███████████▊                  |     16%      0%
-         Video/1   15.62% |████▋                         |      0%      0%
-  VideoEnhance/0    0.00% |                              |      0%      0%
-
-  PID            NAME     RCS          BCS          VCS         VECS
- 4084        gem_wsim |█████▌     ||█          ||           ||           |
- 4086        gem_wsim |█▌         ||           ||███        ||           |
-==========================================================================
-
-v2: Use intel_context_engine_get_busy_time.
-v3: New directory structure.
-v4: Rebase.
-v5: sysfs_attr_init.
-v6: Small tidy in i915_gem_add_client.
-v7: Rebase to be engine class based.
-v8:
- * Always enable stats.
- * Walk all client contexts.
-v9:
- * Skip unsupported engine classes. (Chris)
- * Use scheduler caps. (Chris)
-v10:
- * Use pphwsp runtime only.
-
-Link: https://patchwork.freedesktop.org/series/71182/ # intel_gpu_top
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Reviewed-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210123153733.18139-8-chris@chris-wilson.co.uk
-Link: https://patchwork.freedesktop.org/patch/msgid/20210124153136.19124-8-chris@chris-wilson.co.uk
----
- drivers/gpu/drm/i915/i915_drm_client.c | 101 ++++++++++++++++++++++++-
- drivers/gpu/drm/i915/i915_drm_client.h |  10 +++
- 2 files changed, 110 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index 0ca81a750895..1f8b08a413d4 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -9,6 +9,11 @@
- 
- #include <drm/drm_print.h>
- 
-+#include <uapi/drm/i915_drm.h>
-+
-+#include "gem/i915_gem_context.h"
-+#include "gt/intel_engine_user.h"
-+
- #include "i915_drm_client.h"
- #include "i915_drv.h"
- #include "i915_gem.h"
-@@ -55,6 +60,95 @@ show_client_pid(struct device *kdev, struct device_attribute *attr, char *buf)
- 	return ret;
- }
- 
-+static u64 busy_add(struct i915_gem_context *ctx, unsigned int class)
-+{
-+	struct i915_gem_engines_iter it;
-+	struct intel_context *ce;
-+	u64 total = 0;
-+
-+	for_each_gem_engine(ce, rcu_dereference(ctx->engines), it) {
-+		if (ce->engine->uabi_class != class)
-+			continue;
-+
-+		total += intel_context_get_total_runtime_ns(ce);
-+	}
-+
-+	return total;
-+}
-+
-+static ssize_t
-+show_busy(struct device *kdev, struct device_attribute *attr, char *buf)
-+{
-+	struct i915_engine_busy_attribute *i915_attr =
-+		container_of(attr, typeof(*i915_attr), attr);
-+	unsigned int class = i915_attr->engine_class;
-+	const struct i915_drm_client *client = i915_attr->client;
-+	const struct list_head *list = &client->ctx_list;
-+	u64 total = atomic64_read(&client->past_runtime[class]);
-+	struct i915_gem_context *ctx;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(ctx, list, client_link)
-+		total += busy_add(ctx, class);
-+	rcu_read_unlock();
-+
-+	return sysfs_emit(buf, "%llu\n", total);
-+}
-+
-+static const char * const uabi_class_names[] = {
-+	[I915_ENGINE_CLASS_RENDER] = "0",
-+	[I915_ENGINE_CLASS_COPY] = "1",
-+	[I915_ENGINE_CLASS_VIDEO] = "2",
-+	[I915_ENGINE_CLASS_VIDEO_ENHANCE] = "3",
-+};
-+
-+static int __client_register_sysfs_busy(struct i915_drm_client *client)
-+{
-+	struct i915_drm_clients *clients = client->clients;
-+	unsigned int i;
-+	int ret = 0;
-+
-+	if (!(clients->i915->caps.scheduler & I915_SCHEDULER_CAP_ENGINE_BUSY_STATS))
-+		return 0;
-+
-+	client->busy_root = kobject_create_and_add("busy", client->root);
-+	if (!client->busy_root)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++) {
-+		struct i915_engine_busy_attribute *i915_attr =
-+			&client->attr.busy[i];
-+		struct device_attribute *attr = &i915_attr->attr;
-+
-+		if (!intel_engine_lookup_user(clients->i915, i, 0))
-+			continue;
-+
-+		i915_attr->client = client;
-+		i915_attr->engine_class = i;
-+
-+		sysfs_attr_init(&attr->attr);
-+
-+		attr->attr.name = uabi_class_names[i];
-+		attr->attr.mode = 0444;
-+		attr->show = show_busy;
-+
-+		ret = sysfs_create_file(client->busy_root, &attr->attr);
-+		if (ret)
-+			goto out;
-+	}
-+
-+out:
-+	if (ret)
-+		kobject_put(client->busy_root);
-+
-+	return ret;
-+}
-+
-+static void __client_unregister_sysfs_busy(struct i915_drm_client *client)
-+{
-+	kobject_put(fetch_and_zero(&client->busy_root));
-+}
-+
- static int __client_register_sysfs(struct i915_drm_client *client)
- {
- 	const struct {
-@@ -90,9 +184,12 @@ static int __client_register_sysfs(struct i915_drm_client *client)
- 
- 		ret = sysfs_create_file(client->root, &attr->attr);
- 		if (ret)
--			break;
-+			goto out;
- 	}
- 
-+	ret = __client_register_sysfs_busy(client);
-+
-+out:
- 	if (ret)
- 		kobject_put(client->root);
- 
-@@ -101,6 +198,8 @@ static int __client_register_sysfs(struct i915_drm_client *client)
- 
- static void __client_unregister_sysfs(struct i915_drm_client *client)
- {
-+	__client_unregister_sysfs_busy(client);
-+
- 	kobject_put(fetch_and_zero(&client->root));
- }
- 
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
-index 13f92142e474..83660fa9d2d7 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.h
-+++ b/drivers/gpu/drm/i915/i915_drm_client.h
-@@ -30,6 +30,14 @@ struct i915_drm_clients {
- 	struct kobject *root;
- };
- 
-+struct i915_drm_client;
-+
-+struct i915_engine_busy_attribute {
-+	struct device_attribute attr;
-+	struct i915_drm_client *client;
-+	unsigned int engine_class;
-+};
-+
- struct i915_drm_client_name {
- 	struct rcu_head rcu;
- 	struct i915_drm_client *client;
-@@ -54,9 +62,11 @@ struct i915_drm_client {
- 	struct i915_drm_clients *clients;
- 
- 	struct kobject *root;
-+	struct kobject *busy_root;
- 	struct {
- 		struct device_attribute pid;
- 		struct device_attribute name;
-+		struct i915_engine_busy_attribute busy[MAX_ENGINE_CLASS + 1];
- 	} attr;
- 
- 	/**
 -- 
-2.30.2
+2.25.1
 
