@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1260437F07F
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 02:39:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D5F37F07E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 02:39:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 196AB6E5B9;
-	Thu, 13 May 2021 00:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65FB66E5C6;
+	Thu, 13 May 2021 00:39:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDC606E5B9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 00:39:00 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id a2so24116171qkh.11
- for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 17:39:00 -0700 (PDT)
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
+ [IPv6:2607:f8b0:4864:20::734])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E03456E5C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 00:39:03 +0000 (UTC)
+Received: by mail-qk1-x734.google.com with SMTP id x8so24141340qkl.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 May 2021 17:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fpaQ5hUDMlQfsG0EH4pHt8PmhSpDBypKIHC4jY8sAL4=;
- b=Ci6WPM/MI3tUHmjkH6us9JM9QQH7+l+yVKYUjvM5yh+Fsiu0cHplcKlKtlLI5kSzzj
- JLwVDzmLTjYIUaShhM24HBfC1wK11jY2D8Mn/eKJo4g6osW5Zp984Jio1l0sbcFPla+o
- z/DKJ6APH7/LGvoIGeBIisEpfd11G6AHh5v/6U7pwzQnBPpjxTI8z1i3X52SZqhsXlmF
- FC31gNnZxxCk+XEq5/5/1RbIaaJAQyy0wc/lClwizGDXyrdizdZh3JkCrwjg2bOpR7E+
- II3+8MC+J460JA8lW9IqNuVVEf5C17iZjSgoxRvfUSaFTSNIRy95Y1AAyBHtJK/IXaVa
- BKjA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OWZAMSO2hYSW16tUIYHpicH/GLn/3fYypp5Jz9VSm00=;
+ b=U4o7cwX2QQVVTuDryXGCKWLw0coEb16npVBu/jFofLo4GTjmsF8dA6MYmsiPfPhL6k
+ 7aMlrAqXx/H6Pa4kuBluRMbfC247VwlqE0yooUKjYvApRKrTskwNrJBHYywJUAG2X7ZA
+ VQXOMtLtIOPk3tDvIg5SVdRe9RAwpOkkNNNFBVO9EHxnkLiovJXusp6fgipw2FGdIazc
+ cjmJd/iLu+KsJIxKRLXf4zI1sOEvxLypncNuNAUbrYar2eBfztYVQSj/RZ2iqy5QXSXb
+ 2xhLZY6lyGwAnZZBDNeBnBzMFx55muQBXIO7309s7AB4U2TuElmMFmNEZQZL0Ogeze8S
+ WZTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fpaQ5hUDMlQfsG0EH4pHt8PmhSpDBypKIHC4jY8sAL4=;
- b=OJyYF4F7Z6bbCBvUT5akNl4IqYOaWN5BHf/Bmh4ZuHudAeqTiXAxuisdfOb/tu1VzQ
- 9mQOasfP6SEUQWBvBgr1yNens7ri4myvtT2irzMQKEnYWbUwctlHBSIf3vjt5BpI4Fey
- Mza5SWvYjDDdSSF7w51C8QluGcNTjdYRb+y7Pju77loby9FaqPey//sx9jm8uGm43una
- qGRt1Con2UKFNNytDACqFyy+lrwo6PsBOIUV+MPgewnRDP14UNYzRQLLR0K6XbfCGoJu
- 36Jj0Y1TWTL2DXwfVP5A6RXsQf5LJ46BRwJnW+uyJRpOdaRYOQlZWOFgMVn13EDSUDC3
- FagA==
-X-Gm-Message-State: AOAM531WBvjlwGKqrEPUMFJ/Hpl3WirgIexE7dBR+/bW3R99wrtCwCc+
- OSllCw53GpT7+DErCr5XeURY6w==
-X-Google-Smtp-Source: ABdhPJzeXxYFHXADz5y/uwXcsiFsr488IEe98cMBVvUCBZ7+DFPHBQDjnQf20QToRZ3i6CYBm4JQRw==
-X-Received: by 2002:a37:c0e:: with SMTP id 14mr3526092qkm.255.1620866340036;
- Wed, 12 May 2021 17:39:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OWZAMSO2hYSW16tUIYHpicH/GLn/3fYypp5Jz9VSm00=;
+ b=DU42kYwoSxLLo02fOoAq9ohCFrVRa1+Dof2XpAiERm2u9RYfil3THD37XB0ZHCXxL8
+ DA3m6nvmVTrpyCTuK24fDeceKGGoynm6EEvYThzbPNGEvB6mjTRaF3OKSjWExPMZqPzI
+ l8uUiqbFgy1wNiPDf8nvipWhnVDYEHUSzoHBfRrLL2YMb5SAqGGmSGPY5wEkpvpGkcCU
+ sUCRtqeQCsHjNePQPjIG0nx8oujHEGqv71k64vUfzZS88tk6F/lt9FclZbU9iI9UY/w5
+ umNCsijmUGnO5afwBgAiaRW+zcns/6YXXf/eRhw8n2LL6zwi/1LGmhY8T7CdLulh78gi
+ pqeQ==
+X-Gm-Message-State: AOAM5305WjKIL51McRtDlZqshLRb4+9Uyxazx5KcYQppMf8mDg5B8a4l
+ 7u2CE9KBoWp1naICbwBngbCBnw==
+X-Google-Smtp-Source: ABdhPJyDGD9edTt/pecm2J2HYiTGtCLsMV1PL5FrxPOMfc9PT5J5phKcxKXCTRi/AnZO7jbXTmddog==
+X-Received: by 2002:a37:4017:: with SMTP id n23mr34108146qka.338.1620866343100; 
+ Wed, 12 May 2021 17:39:03 -0700 (PDT)
 Received: from localhost.localdomain
  (modemcable068.184-131-66.mc.videotron.ca. [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id w16sm1204201qts.70.2021.05.12.17.38.58
+ by smtp.gmail.com with ESMTPSA id w16sm1204201qts.70.2021.05.12.17.39.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 May 2021 17:38:59 -0700 (PDT)
+ Wed, 12 May 2021 17:39:02 -0700 (PDT)
 From: Jonathan Marek <jonathan@marek.ca>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH 0/5] drm/msm/a6xx: add support for Adreno 660 GPU
-Date: Wed, 12 May 2021 20:37:44 -0400
-Message-Id: <20210513003811.29578-1-jonathan@marek.ca>
+Subject: [PATCH 1/5] drm/msm: remove unused icc_path/ocmem_icc_path
+Date: Wed, 12 May 2021 20:37:45 -0400
+Message-Id: <20210513003811.29578-2-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20210513003811.29578-1-jonathan@marek.ca>
+References: <20210513003811.29578-1-jonathan@marek.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,41 +70,57 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>, kbuild test robot <lkp@intel.com>,
  David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
  Sharat Masetty <smasetty@codeaurora.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
  Akhil P Oommen <akhilpo@codeaurora.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Iskren Chernev <iskren.chernev@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dave Airlie <airlied@redhat.com>, Jordan Crouse <jordan@cosmicpenguin.net>,
- Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for Adreno 660 to the drm/msm driver. Very similar to A650
-on the kernel side.
+These aren't used by anything anymore.
 
-Jonathan Marek (5):
-  drm/msm: remove unused icc_path/ocmem_icc_path
-  drm/msm/a6xx: avoid shadow NULL reference in failure path
-  drm/msm/a6xx: add support for Adreno 660 GPU
-  drm/msm/a6xx: update a6xx_ucode_check_version for a660
-  drm/msm/a6xx: add a660 hwcg table
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 3 ---
+ drivers/gpu/drm/msm/msm_gpu.h           | 9 ---------
+ 2 files changed, 12 deletions(-)
 
- drivers/gpu/drm/msm/adreno/a6xx.xml.h      |   4 +
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c      |  32 ++++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 115 ++++++++++++++++-----
- drivers/gpu/drm/msm/adreno/a6xx_hfi.c      |  33 ++++++
- drivers/gpu/drm/msm/adreno/adreno_device.c |  13 +++
- drivers/gpu/drm/msm/adreno/adreno_gpu.c    |   5 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  14 ++-
- drivers/gpu/drm/msm/msm_gpu.h              |   9 --
- 8 files changed, 176 insertions(+), 49 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 8fd0777f2dc9..009f4c560f16 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -946,7 +946,4 @@ void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
+ 	pm_runtime_disable(&priv->gpu_pdev->dev);
+ 
+ 	msm_gpu_cleanup(&adreno_gpu->base);
+-
+-	icc_put(gpu->icc_path);
+-	icc_put(gpu->ocmem_icc_path);
+ }
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 18baf935e143..c302ab7ffb06 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -118,15 +118,6 @@ struct msm_gpu {
+ 	struct clk *ebi1_clk, *core_clk, *rbbmtimer_clk;
+ 	uint32_t fast_rate;
+ 
+-	/* The gfx-mem interconnect path that's used by all GPU types. */
+-	struct icc_path *icc_path;
+-
+-	/*
+-	 * Second interconnect path for some A3xx and all A4xx GPUs to the
+-	 * On Chip MEMory (OCMEM).
+-	 */
+-	struct icc_path *ocmem_icc_path;
+-
+ 	/* Hang and Inactivity Detection:
+ 	 */
+ #define DRM_MSM_INACTIVE_PERIOD   66 /* in ms (roughly four frames) */
 -- 
 2.26.1
 
