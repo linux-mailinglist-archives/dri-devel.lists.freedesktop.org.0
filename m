@@ -1,38 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B975D37F47E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 10:56:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FBF37F450
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 10:44:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C76316E854;
-	Thu, 13 May 2021 08:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7D1F6E069;
+	Thu, 13 May 2021 08:44:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D93716E845
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 07:23:41 +0000 (UTC)
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FgjjX661NzqTXR;
- Thu, 13 May 2021 15:20:16 +0800 (CST)
-Received: from huawei.com (10.175.103.91) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.498.0; Thu, 13 May 2021
- 15:23:36 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH -next 4/4] drm/radeon/radeon_vm: correct function names in
- radeon_vm.c
-Date: Thu, 13 May 2021 15:25:59 +0800
-Message-ID: <20210513072559.1731410-5-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210513072559.1731410-1-yangyingliang@huawei.com>
-References: <20210513072559.1731410-1-yangyingliang@huawei.com>
+X-Greylist: delayed 910 seconds by postgrey-1.36 at gabe;
+ Thu, 13 May 2021 08:44:17 UTC
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B176E069
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 08:44:17 +0000 (UTC)
+Received: from dggeml710-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Fgl7z5w4nzWhCS;
+ Thu, 13 May 2021 16:24:47 +0800 (CST)
+Received: from dggemi762-chm.china.huawei.com (10.1.198.148) by
+ dggeml710-chm.china.huawei.com (10.3.17.140) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 13 May 2021 16:29:04 +0800
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ dggemi762-chm.china.huawei.com (10.1.198.148) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 13 May 2021 16:29:03 +0800
+From: Zou Wei <zou_wei@huawei.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH -next] drm/aperture: Fix missing unlock on error in
+ devm_aperture_acquire()
+Date: Thu, 13 May 2021 16:46:04 +0800
+Message-ID: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
+X-Originating-IP: [10.175.103.112]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggemi762-chm.china.huawei.com (10.1.198.148)
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Thu, 13 May 2021 08:56:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,42 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Zou Wei <zou_wei@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following make W=1 kernel build warnings:
+Add the missing unlock before return from function devm_aperture_acquire()
+in the error handling case.
 
-  drivers/gpu/drm/radeon/radeon_vm.c:61: warning: expecting prototype for radeon_vm_num_pde(). Prototype was for radeon_vm_num_pdes() instead
-  drivers/gpu/drm/radeon/radeon_vm.c:642: warning: expecting prototype for radeon_vm_update_pdes(). Prototype was for radeon_vm_update_page_directory() instead
-
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
 ---
- drivers/gpu/drm/radeon/radeon_vm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_aperture.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
-index 2dc9c9f98049..36a38adaaea9 100644
---- a/drivers/gpu/drm/radeon/radeon_vm.c
-+++ b/drivers/gpu/drm/radeon/radeon_vm.c
-@@ -51,7 +51,7 @@
-  */
+diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
+index 33bf018..9335d9d 100644
+--- a/drivers/gpu/drm/drm_aperture.c
++++ b/drivers/gpu/drm/drm_aperture.c
+@@ -164,13 +164,17 @@ static int devm_aperture_acquire(struct drm_device *dev,
  
- /**
-- * radeon_vm_num_pde - return the number of page directory entries
-+ * radeon_vm_num_pdes - return the number of page directory entries
-  *
-  * @rdev: radeon_device pointer
-  *
-@@ -626,7 +626,7 @@ static uint32_t radeon_vm_page_flags(uint32_t flags)
- }
+ 	list_for_each(pos, &drm_apertures) {
+ 		ap = container_of(pos, struct drm_aperture, lh);
+-		if (overlap(base, end, ap->base, ap->base + ap->size))
++		if (overlap(base, end, ap->base, ap->base + ap->size)) {
++			mutex_unlock(&drm_apertures_lock);
+ 			return -EBUSY;
++		}
+ 	}
  
- /**
-- * radeon_vm_update_pdes - make sure that page directory is valid
-+ * radeon_vm_update_page_directory - make sure that page directory is valid
-  *
-  * @rdev: radeon_device pointer
-  * @vm: requested vm
+ 	ap = devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
+-	if (!ap)
++	if (!ap) {
++		mutex_unlock(&drm_apertures_lock);
+ 		return -ENOMEM;
++	}
+ 
+ 	ap->dev = dev;
+ 	ap->base = base;
 -- 
-2.25.1
+2.6.2
 
