@@ -2,35 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D225837F867
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 15:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3BD37F8DF
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 15:36:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBD446E1F1;
-	Thu, 13 May 2021 13:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44D056E892;
+	Thu, 13 May 2021 13:36:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 915DF6E1F1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 13:08:20 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1976BAE57;
- Thu, 13 May 2021 13:08:19 +0000 (UTC)
-Subject: Re: [PATCH -next] drm/aperture: Fix missing unlock on error in
- devm_aperture_acquire()
-To: Zou Wei <zou_wei@huawei.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
-References: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <bc0b8b71-507d-c6c2-9029-359c7f27daf4@suse.de>
-Date: Thu, 13 May 2021 15:08:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
+ [64.147.123.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD0316E890;
+ Thu, 13 May 2021 13:36:25 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 76217283E;
+ Thu, 13 May 2021 09:36:21 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 13 May 2021 09:36:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm2; bh=Psx9EmsSFQxFpbOC+shS/JI20lBse8P/ruUGEyBzc6U=; b=VJFMWZa9
+ ChpSTKkiARM2W2DjRH6G6srAa2p6BA3HuaVd3MWujXIa1II7CcCQi1hh0K54B4J/
+ JvO/RPk8GaIob5Q6M6/ucKD55ScgC83YbIEGzFopJ2loOvgSgm4BmmSWUjG7tVPL
+ tPl54EWz63WkjVepLVF+K+OBEUEllrrvIjeu/a/5IvX9fWTAvDgnhOSYPWC0KtTq
+ WpRFesshtUSt41QQRO3fJMFxFrLJZl3iLftXhHhFkE9HzF8ULvmJAmJJbuA0kcLU
+ N8TDFSp+s/LlkPuIa15tSLQATO7fNPwwjmZcsyuVV6sc53Cq0MSqttAmQA0Yr28V
+ 4a+4wBrTl3RIlQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm2; bh=Psx9EmsSFQxFpbOC+shS/JI20lBse
+ 8P/ruUGEyBzc6U=; b=fMU/AkE2M8FuVa38fyUA9qjMNdeQ3VmXVMJ5tcCesGxVy
+ LlCYiQTt5xQ/FE+vzI1T+Uq/oN5EEaMkfoe0Nh83YJtScG2gsu94C5tueGaC4cfl
+ l6RX38hlbK1bi6DuzjV4mGEJcx/x9H6p0lveG7WflMKQAz+pSaEe2nIaSTjVTap/
+ 5OSFLY6qx/OVvqlQZy2vIyRaeXJPPB3y9TCE822kGpFs1nc59h9iDckAEMrt1bc3
+ YXiUWpSTSwPEytuA0dYbT7jTfWrgFqITrFRssI/Z6c/4M/CrvIzBzhiVg4pTa6Ss
+ txAyeywcdCs4XPNgj5L71alcXeJEtQdemlB/sZodQ==
+X-ME-Sender: <xms:UyudYGljG3otcgj8-2Lln_zLQjnubGjYXDYKD_3h6wyjQu8XmIuirg>
+ <xme:UyudYN3Fu5NGlbUGESNTnxrlG9KLewBElGWbIdk5NIf0q0q4qsBpCcuV_Jy2Yka3P
+ TCqjX1PbRW0F4S6AU4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehgedgieejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepgeeuvddtheeggeehhfeigeetffeufeelveeggfekveegieevudeljeeugedviefg
+ necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeluddrudeife
+ drieehrddujeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+ rhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:UyudYEol1J9pBBagP1o5WuOFCQVGub2wCbHgrfGXEFxtpuzpiT94Rw>
+ <xmx:UyudYKnI73dYD32uA_Qqb-RKZVYU37aBowyK9vJjk-IazvPtOym1ng>
+ <xmx:UyudYE0KcEXRcvsuS1lEazQvnYrz8sXr0bmak9Y1XO5MPZUMp-btCQ>
+ <xmx:VSudYFL0XhoZczpq_H_ger3dmQDBPiOMwj_7gYSnfNDkuc5I5QyRRH4pxp4>
+Received: from localhost (91-163-65-175.subs.proxad.net [91.163.65.175])
+ by mail.messagingengine.com (Postfix) with ESMTPA;
+ Thu, 13 May 2021 09:36:19 -0400 (EDT)
+Date: Thu, 13 May 2021 15:36:17 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20210513133617.xq77wwrehpuh7yn2@hendrix>
 MIME-Version: 1.0
-In-Reply-To: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="2LYd2hGxsv9U9ONrL0OFzeYrSnmGgUNVz"
+ protocol="application/pgp-signature"; boundary="atub3ne7a65whkcn"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,106 +77,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---2LYd2hGxsv9U9ONrL0OFzeYrSnmGgUNVz
-Content-Type: multipart/mixed; boundary="Pv7MotVf5ovpQSqaWZ0JWXWfLBQj6bAYF";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Zou Wei <zou_wei@huawei.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <bc0b8b71-507d-c6c2-9029-359c7f27daf4@suse.de>
-Subject: Re: [PATCH -next] drm/aperture: Fix missing unlock on error in
- devm_aperture_acquire()
-References: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
-In-Reply-To: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
 
---Pv7MotVf5ovpQSqaWZ0JWXWfLBQj6bAYF
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+--atub3ne7a65whkcn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi
+Hi Dave, Daniel,
 
-Am 13.05.21 um 10:46 schrieb Zou Wei:
-> Add the missing unlock before return from function devm_aperture_acquir=
-e()
-> in the error handling case.
->=20
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zou Wei <zou_wei@huawei.com>
+Here's the first round of drm-misc-fixes for 5.13
 
-I added a Fixes tag and queued up the patch for drm-misc-next. Thanks!
+Maxime
 
-Best regards
-Thomas
+drm-misc-fixes-2021-05-13:
+A BO list maintainance fix for TTM, removing an unused function and a
+MAINTAINERS update.
+The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
 
-> ---
->   drivers/gpu/drm/drm_aperture.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_apert=
-ure.c
-> index 33bf018..9335d9d 100644
-> --- a/drivers/gpu/drm/drm_aperture.c
-> +++ b/drivers/gpu/drm/drm_aperture.c
-> @@ -164,13 +164,17 @@ static int devm_aperture_acquire(struct drm_devic=
-e *dev,
->  =20
->   	list_for_each(pos, &drm_apertures) {
->   		ap =3D container_of(pos, struct drm_aperture, lh);
-> -		if (overlap(base, end, ap->base, ap->base + ap->size))
-> +		if (overlap(base, end, ap->base, ap->base + ap->size)) {
-> +			mutex_unlock(&drm_apertures_lock);
->   			return -EBUSY;
-> +		}
->   	}
->  =20
->   	ap =3D devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
-> -	if (!ap)
-> +	if (!ap) {
-> +		mutex_unlock(&drm_apertures_lock);
->   		return -ENOMEM;
-> +	}
->  =20
->   	ap->dev =3D dev;
->   	ap->base =3D base;
->=20
+  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+are available in the Git repository at:
 
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-05-13
 
---Pv7MotVf5ovpQSqaWZ0JWXWfLBQj6bAYF--
+for you to fetch changes up to c55b44c9386f3ee1b08752638559f19deaf6040d:
 
---2LYd2hGxsv9U9ONrL0OFzeYrSnmGgUNVz
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+  Merge drm/drm-fixes into drm-misc-fixes (2021-05-11 13:35:52 +0200)
+
+----------------------------------------------------------------
+A BO list maintainance fix for TTM, removing an unused function and a
+MAINTAINERS update.
+
+----------------------------------------------------------------
+Jernej Skrabec (1):
+      MAINTAINERS: Update my e-mail
+
+Jiapeng Chong (1):
+      drm/vc4: remove unused function
+
+Maxime Ripard (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+xinhui pan (1):
+      drm/ttm: Do not add non-system domain BO into swap list
+
+ .mailmap                      |  1 +
+ MAINTAINERS                   | 10 +++++-----
+ drivers/gpu/drm/vc4/vc4_vec.c |  6 ------
+ 3 files changed, 6 insertions(+), 11 deletions(-)
+
+--atub3ne7a65whkcn
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCdJMEFAwAAAAAACgkQlh/E3EQov+Bh
-fw//T1Y3PBtm36xSAjECT3jg/7zd4WOP89zbgzF6GBPFGoDf+63SbcAP6AkbA9U8/wU1XwmMC5tn
-7SqaE7h1mMp2d0+h/OtU7/WVInyFEVoYG3S1KtmdiqjNMu+YAtIbTbwaYnw+4NdgRD3pZ0VTYc1Z
-fhyce77rCvruYxWLgPdUell2SylKe8URuGB8Rgh40v5DkAx/6DZ1m4RKSS8sKWZxydDliVWayXAs
-uYzBdydq/XOoq+Nq8rzaJMC+MUCiE0T2iqLgC9PR5UYMIBM84VK/jefiLWrYWatUk5HLScPQmAb1
-+7y5y4Aqt0kiom810plXO+DneYcCHm0q9PNPYEOHdsoaCE3+wHoV/VHnnzZ5ShTgJl6ovGrRMRm0
-pxJ6p8aqALIQUDXJyBQPZLkTlMKS+92SR49WmKZzHAtvmXOKx6Vzx0Fuk3WKot2UHuNHiS3XAh/l
-URyyDmylCGc5wm4YDR8NQRFf9FeYTqvPSxMxHro9s49y2JhXU2MC1qLCmm6TApceoI9Tw2yoEX/W
-cejQGquZPKtNThZtVRPOejXwKNJbXhsGlDLKDJghVAkw+szKFartVXYpnS6U5sErAhEvOTGZFGlY
-3h/eQ99RnnGLimHc4PFjmSwFKKCATkpslGbd8TEXCT+Al4myMRUnTYOYkkFExQtzYy98/vh8GjvN
-JpQ=
-=vxrH
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYJ0rUQAKCRDj7w1vZxhR
+xbSAAQCcprbj/38dZNeAafooQD9MXgf/RFbA9Iim2VxGgU/AhwEA4bIheX4G76/K
+hkWMhkriYyOjxNTg7I/eJRfoh2sh3Ag=
+=fmKf
 -----END PGP SIGNATURE-----
 
---2LYd2hGxsv9U9ONrL0OFzeYrSnmGgUNVz--
+--atub3ne7a65whkcn--
