@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC5737F481
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 10:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDFD137F47F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 10:56:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D066E853;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 998B06E84A;
 	Thu, 13 May 2021 08:56:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917326E069
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 07:17:00 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FgjYn4F6wzqSTn;
- Thu, 13 May 2021 15:13:33 +0800 (CST)
-Received: from huawei.com (10.175.103.91) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.498.0; Thu, 13 May 2021
- 15:16:51 +0800
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE1C6E069
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 07:23:37 +0000 (UTC)
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FgjkF49MXzBtyS;
+ Thu, 13 May 2021 15:20:53 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.498.0; Thu, 13 May 2021
+ 15:23:34 +0800
 From: Yang Yingliang <yangyingliang@huawei.com>
 To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH -next] drm: correct function name drm_legacy_ctxbitmap_flush()
-Date: Thu, 13 May 2021 15:19:18 +0800
-Message-ID: <20210513071918.1728535-1-yangyingliang@huawei.com>
+Subject: [PATCH -next 0/4] drm/radeon: fix some doc-warnings
+Date: Thu, 13 May 2021 15:25:55 +0800
+Message-ID: <20210513072559.1731410-1-yangyingliang@huawei.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -42,32 +42,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following make W=1 kernel build warning:
 
-  drivers/gpu/drm/drm_context.c:136: warning: expecting prototype for drm_ctxbitmap_flush(). Prototype was for drm_legacy_ctxbitmap_flush() instead
+Yang Yingliang (4):
+  drm/radeon/cik: correct function name cik_irq_suspend()
+  drm/radeon: correct function name radeon_cs_parser_fini()
+  drm/radeon/r100: correct function name r100_cs_packet_parse_vline()
+  drm/radeon/radeon_vm: correct function names in radeon_vm.c
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/gpu/drm/drm_context.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/radeon/cik.c       | 2 +-
+ drivers/gpu/drm/radeon/r100.c      | 2 +-
+ drivers/gpu/drm/radeon/radeon_cs.c | 2 +-
+ drivers/gpu/drm/radeon/radeon_vm.c | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_context.c
-index c99be950bf17..acbec1ddd583 100644
---- a/drivers/gpu/drm/drm_context.c
-+++ b/drivers/gpu/drm/drm_context.c
-@@ -124,7 +124,7 @@ void drm_legacy_ctxbitmap_cleanup(struct drm_device * dev)
- }
- 
- /**
-- * drm_ctxbitmap_flush() - Flush all contexts owned by a file
-+ * drm_legacy_ctxbitmap_flush() - Flush all contexts owned by a file
-  * @dev: DRM device to operate on
-  * @file: Open file to flush contexts for
-  *
 -- 
 2.25.1
 
