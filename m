@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B146F37F85B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 15:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D225837F867
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 15:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E5D66E092;
-	Thu, 13 May 2021 13:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD446E1F1;
+	Thu, 13 May 2021 13:08:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D23466E092
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 13:03:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 915DF6E1F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 13:08:20 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2ABF9B1AB;
- Thu, 13 May 2021 13:03:41 +0000 (UTC)
-Subject: Re: [PATCH -next] drm: simpledrm: print resource info using '%pr'
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-References: <20210512233459.19534-1-rdunlap@infradead.org>
+ by mx2.suse.de (Postfix) with ESMTP id 1976BAE57;
+ Thu, 13 May 2021 13:08:19 +0000 (UTC)
+Subject: Re: [PATCH -next] drm/aperture: Fix missing unlock on error in
+ devm_aperture_acquire()
+To: Zou Wei <zou_wei@huawei.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
+References: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <7bc970ed-007f-6374-b7f8-71707606a6b9@suse.de>
-Date: Thu, 13 May 2021 15:03:40 +0200
+Message-ID: <bc0b8b71-507d-c6c2-9029-359c7f27daf4@suse.de>
+Date: Thu, 13 May 2021 15:08:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210512233459.19534-1-rdunlap@infradead.org>
+In-Reply-To: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="dak79HA3qMhgihHuHU08I4mi89otf7oWG"
+ boundary="2LYd2hGxsv9U9ONrL0OFzeYrSnmGgUNVz"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,88 +43,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dak79HA3qMhgihHuHU08I4mi89otf7oWG
-Content-Type: multipart/mixed; boundary="KhcWyEjhF4h3QqCazWrFGqRbaZorvBSf5";
+--2LYd2hGxsv9U9ONrL0OFzeYrSnmGgUNVz
+Content-Type: multipart/mixed; boundary="Pv7MotVf5ovpQSqaWZ0JWXWfLBQj6bAYF";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <7bc970ed-007f-6374-b7f8-71707606a6b9@suse.de>
-Subject: Re: [PATCH -next] drm: simpledrm: print resource info using '%pr'
-References: <20210512233459.19534-1-rdunlap@infradead.org>
-In-Reply-To: <20210512233459.19534-1-rdunlap@infradead.org>
+To: Zou Wei <zou_wei@huawei.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-ID: <bc0b8b71-507d-c6c2-9029-359c7f27daf4@suse.de>
+Subject: Re: [PATCH -next] drm/aperture: Fix missing unlock on error in
+ devm_aperture_acquire()
+References: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
+In-Reply-To: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
 
---KhcWyEjhF4h3QqCazWrFGqRbaZorvBSf5
+--Pv7MotVf5ovpQSqaWZ0JWXWfLBQj6bAYF
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 13.05.21 um 01:34 schrieb Randy Dunlap:
-> struct resource start and end fields are not always long long,
-> so using %llx to print them can cause build warnings (below).
-> Fix these by using the special "%pr" for printing struct resource info.=
-
+Am 13.05.21 um 10:46 schrieb Zou Wei:
+> Add the missing unlock before return from function devm_aperture_acquir=
+e()
+> in the error handling case.
 >=20
-> ../drivers/gpu/drm/tiny/simpledrm.c: In function =E2=80=98simpledrm_dev=
-ice_init_mm=E2=80=99:
-> ../include/drm/drm_print.h:412:32: warning: format =E2=80=98%llx=E2=80=99=20
-expects argument of type =E2=80=98long long unsigned int=E2=80=99, but ar=
-gument 3 has type =E2=80=98resource_size_t {aka unsigned int}=E2=80=99 [-=
-Wformat=3D]
-> ../drivers/gpu/drm/tiny/simpledrm.c:533:54: note: format string is defi=
-ned here
->     drm_err(dev, "could not acquire memory range [0x%llx:0x%llx]: error=20
-%d\n",
->                                                     ~~~^
->                                                     %x
-> ../include/drm/drm_print.h:412:32: warning: format =E2=80=98%llx=E2=80=99=20
-expects argument of type =E2=80=98long long unsigned int=E2=80=99, but ar=
-gument 4 has type =E2=80=98resource_size_t {aka unsigned int}=E2=80=99 [-=
-Wformat=3D]
-> ../drivers/gpu/drm/tiny/simpledrm.c:533:61: note: format string is defi=
-ned here
->     drm_err(dev, "could not acquire memory range [0x%llx:0x%llx]: error=20
-%d\n",
->                                                            ~~~^
->                                                            %x
->=20
-> Fixes: 4aae79f77e3a ("drm/simpledrm: Acquire memory aperture for frameb=
-uffer")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Zou Wei <zou_wei@huawei.com>
 
-Queued up for drm-misc-next. Thanks a lot.
+I added a Fixes tag and queued up the patch for drm-misc-next. Thanks!
 
 Best regards
 Thomas
 
 > ---
->   drivers/gpu/drm/tiny/simpledrm.c |    4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/drm_aperture.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
 >=20
-> --- linux-next-20210512.orig/drivers/gpu/drm/tiny/simpledrm.c
-> +++ linux-next-20210512/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -530,8 +530,8 @@ static int simpledrm_device_init_mm(stru
+> diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_apert=
+ure.c
+> index 33bf018..9335d9d 100644
+> --- a/drivers/gpu/drm/drm_aperture.c
+> +++ b/drivers/gpu/drm/drm_aperture.c
+> @@ -164,13 +164,17 @@ static int devm_aperture_acquire(struct drm_devic=
+e *dev,
 >  =20
->   	ret =3D devm_aperture_acquire_from_firmware(dev, mem->start, resourc=
-e_size(mem));
->   	if (ret) {
-> -		drm_err(dev, "could not acquire memory range [0x%llx:0x%llx]: error =
-%d\n",
-> -			mem->start, mem->end, ret);
-> +		drm_err(dev, "could not acquire memory range %pr: error %d\n",
-> +			mem, ret);
->   		return ret;
+>   	list_for_each(pos, &drm_apertures) {
+>   		ap =3D container_of(pos, struct drm_aperture, lh);
+> -		if (overlap(base, end, ap->base, ap->base + ap->size))
+> +		if (overlap(base, end, ap->base, ap->base + ap->size)) {
+> +			mutex_unlock(&drm_apertures_lock);
+>   			return -EBUSY;
+> +		}
 >   	}
 >  =20
+>   	ap =3D devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
+> -	if (!ap)
+> +	if (!ap) {
+> +		mutex_unlock(&drm_apertures_lock);
+>   		return -ENOMEM;
+> +	}
+>  =20
+>   	ap->dev =3D dev;
+>   	ap->base =3D base;
 >=20
 
 --=20
@@ -134,27 +122,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---KhcWyEjhF4h3QqCazWrFGqRbaZorvBSf5--
+--Pv7MotVf5ovpQSqaWZ0JWXWfLBQj6bAYF--
 
---dak79HA3qMhgihHuHU08I4mi89otf7oWG
+--2LYd2hGxsv9U9ONrL0OFzeYrSnmGgUNVz
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCdI6wFAwAAAAAACgkQlh/E3EQov+D2
-oRAAlm3YwzQg7SISFqmaJ+lXLJUv0eRBctw3inqSWTrwYCw+VoLwAkyOhXp8iVHDX9vkjGYO/5pO
-WXyAmOZUFQVlRkTAl+woOZsvulqRdRnDc+xf/1Zir7gMnrvhefUXJCdQpQiG+DYaYy6Fw9NzlFfU
-jYTDohglR/ha4CBS6eOQGj/+/sjrdWdgmTEvZhftTuxwYUZ1hIL/26Qt0RceNH4PBOAhgi6JwqrO
-ICa1k+gfi2Of3H+aaROR2BhK7xGplD7rO+EgRgZOxRTytIjkcl4vUqtxQFeUHOQuyfqy3dJhalVH
-Drqy0fYoqC2EvDy/wysOPoPL0M25bqQYZvxWzfZNGv5fZYAWnvBFmB1cdinnxpHR9k53QGSn1i6j
-hjG1+F7KZ6cau6n3NzlEKcq9i0U5rgncMA3aYMnobddaGCQ3p53O/ZQWDnLDfptFZZoRFIWlyqfz
-3Ls9DU/vTU65mtwQBXwv32e9Z8+EIzSpPz+PNVzbKQzd88WQEI+43G5872y6HBSaehKoz39cDS4d
-D+SU+QWBCIDwH7XDe93JrN3jlTt3P3wQ3CHRCeFKDSFiUayQeD0yXTeVAbh3f90C1CSIPQDh6HmZ
-j0zmqJyE6DJ+i6BLLwJYZxujMJMFvwTp5g8x7JtSZ2GmD3nvuuxaT5Lz0zl8C2IYouJyt8F9cN2x
-eY0=
-=ygU8
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCdJMEFAwAAAAAACgkQlh/E3EQov+Bh
+fw//T1Y3PBtm36xSAjECT3jg/7zd4WOP89zbgzF6GBPFGoDf+63SbcAP6AkbA9U8/wU1XwmMC5tn
+7SqaE7h1mMp2d0+h/OtU7/WVInyFEVoYG3S1KtmdiqjNMu+YAtIbTbwaYnw+4NdgRD3pZ0VTYc1Z
+fhyce77rCvruYxWLgPdUell2SylKe8URuGB8Rgh40v5DkAx/6DZ1m4RKSS8sKWZxydDliVWayXAs
+uYzBdydq/XOoq+Nq8rzaJMC+MUCiE0T2iqLgC9PR5UYMIBM84VK/jefiLWrYWatUk5HLScPQmAb1
++7y5y4Aqt0kiom810plXO+DneYcCHm0q9PNPYEOHdsoaCE3+wHoV/VHnnzZ5ShTgJl6ovGrRMRm0
+pxJ6p8aqALIQUDXJyBQPZLkTlMKS+92SR49WmKZzHAtvmXOKx6Vzx0Fuk3WKot2UHuNHiS3XAh/l
+URyyDmylCGc5wm4YDR8NQRFf9FeYTqvPSxMxHro9s49y2JhXU2MC1qLCmm6TApceoI9Tw2yoEX/W
+cejQGquZPKtNThZtVRPOejXwKNJbXhsGlDLKDJghVAkw+szKFartVXYpnS6U5sErAhEvOTGZFGlY
+3h/eQ99RnnGLimHc4PFjmSwFKKCATkpslGbd8TEXCT+Al4myMRUnTYOYkkFExQtzYy98/vh8GjvN
+JpQ=
+=vxrH
 -----END PGP SIGNATURE-----
 
---dak79HA3qMhgihHuHU08I4mi89otf7oWG--
+--2LYd2hGxsv9U9ONrL0OFzeYrSnmGgUNVz--
