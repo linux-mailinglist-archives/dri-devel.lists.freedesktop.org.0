@@ -1,44 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FBF37F450
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 10:44:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4AED37F50E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 11:51:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7D1F6E069;
-	Thu, 13 May 2021 08:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D31E6E09E;
+	Thu, 13 May 2021 09:51:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 910 seconds by postgrey-1.36 at gabe;
- Thu, 13 May 2021 08:44:17 UTC
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61B176E069
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 08:44:17 +0000 (UTC)
-Received: from dggeml710-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Fgl7z5w4nzWhCS;
- Thu, 13 May 2021 16:24:47 +0800 (CST)
-Received: from dggemi762-chm.china.huawei.com (10.1.198.148) by
- dggeml710-chm.china.huawei.com (10.3.17.140) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 13 May 2021 16:29:04 +0800
-Received: from linux-lmwb.huawei.com (10.175.103.112) by
- dggemi762-chm.china.huawei.com (10.1.198.148) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 13 May 2021 16:29:03 +0800
-From: Zou Wei <zou_wei@huawei.com>
-To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/aperture: Fix missing unlock on error in
- devm_aperture_acquire()
-Date: Thu, 13 May 2021 16:46:04 +0800
-Message-ID: <1620895564-52367-1-git-send-email-zou_wei@huawei.com>
-X-Mailer: git-send-email 2.6.2
+X-Greylist: delayed 33257 seconds by postgrey-1.36 at gabe;
+ Thu, 13 May 2021 09:51:38 UTC
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 80E6B6E09E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 09:51:38 +0000 (UTC)
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+ id 87E3392009C; Thu, 13 May 2021 11:51:35 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by angie.orcam.me.uk (Postfix) with ESMTP id 792E892009B;
+ Thu, 13 May 2021 11:51:35 +0200 (CEST)
+Date: Thu, 13 May 2021 11:51:35 +0200 (CEST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>
+Subject: [PATCH v2 0/3] VT_RESIZEX fixes
+Message-ID: <alpine.DEB.2.21.2105131132100.3032@angie.orcam.me.uk>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.112]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggemi762-chm.china.huawei.com (10.1.198.148)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,44 +40,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zou Wei <zou_wei@huawei.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Martin Hostettler <textshell@uchuujin.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Peilin Ye <yepeilin.cs@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the missing unlock before return from function devm_aperture_acquire()
-in the error handling case.
+Hi,
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zou Wei <zou_wei@huawei.com>
----
- drivers/gpu/drm/drm_aperture.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ This is a minor update to the previous version of the series, adding a 
+clarification to 3/3 as to the problem the original fix to which caused 
+the functional regression the removal of extra VT_RESIZEX parameter 
+handling caused.  No change to actual code.
 
-diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
-index 33bf018..9335d9d 100644
---- a/drivers/gpu/drm/drm_aperture.c
-+++ b/drivers/gpu/drm/drm_aperture.c
-@@ -164,13 +164,17 @@ static int devm_aperture_acquire(struct drm_device *dev,
- 
- 	list_for_each(pos, &drm_apertures) {
- 		ap = container_of(pos, struct drm_aperture, lh);
--		if (overlap(base, end, ap->base, ap->base + ap->size))
-+		if (overlap(base, end, ap->base, ap->base + ap->size)) {
-+			mutex_unlock(&drm_apertures_lock);
- 			return -EBUSY;
-+		}
- 	}
- 
- 	ap = devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
--	if (!ap)
-+	if (!ap) {
-+		mutex_unlock(&drm_apertures_lock);
- 		return -ENOMEM;
-+	}
- 
- 	ap->dev = dev;
- 	ap->base = base;
--- 
-2.6.2
+ See individual change descriptions for details.
 
+ Please apply.
+
+  Maciej
