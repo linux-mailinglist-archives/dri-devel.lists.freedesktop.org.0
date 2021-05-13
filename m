@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA86137FC44
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 19:17:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E1B37FC47
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 19:17:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 693736ED88;
-	Thu, 13 May 2021 17:17:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF1DF6ED8F;
+	Thu, 13 May 2021 17:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6F536ED8A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 17:17:35 +0000 (UTC)
-Received: by mail-qk1-x72f.google.com with SMTP id 197so26186310qkl.12
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 10:17:35 -0700 (PDT)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C81C86ED90
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 17:17:38 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id f18so4356028qko.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 10:17:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marek-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5iTTcnEmTfembJ+1uyx3iDFNZSnQPXZr+n41PTIaxsQ=;
- b=UlHdeeMf4GElmCDBCS0qw9f8n4/ieOHNnVWCAo9KILQpv6ywTmp/PjUERSrj7XPrFi
- 92+Dm/Ylt8sBQxCvU/O0TT9D6Ti6KRpr0etiX7kdzIEI8vrna9HM+KtCNHuZ1kwS6oRM
- A4UTDKT3MbKlPtUMfEm3AT2gE9FTybXJ8MKDno6td3U736tWQJlosOHZhr05cpfHsi8f
- xQ0cdM58IQ69MVe3uPChu9SC1jiZcx5Cu9ETondWdHcnbz/NJHl1R0T7wAaDhtr7f/Ue
- m6HRAH6NeZyy0eqCDeFv6z349Qv61X/Gy3Sq7mCLi5ahRbQ3hSLtUa5y2HAWB+ClC6zi
- TwdQ==
+ bh=9WG0R1210n0jTNjQDS6goCg7eMSMJrn7+n/wli9p3uE=;
+ b=a7WGuaOMXcdyVbHS1oMtsfrUeHQJr5oaOtSUSS8iouy29cPevPdc+8W0XA+vksHIDi
+ Zm8VeBJ/2aa0zQSwnxPK1+lFXabRRW8S9gUyxrdsir0JPTGoQyYzItinXzZ+KFcV5T8V
+ R5zFT4xsDcG6rP6fh2FWihojqgOORH6V6XzdU4GzV1bMfwrFJNRO9z949T22p6j/mCjy
+ TSI5Ep0DnBYHasjwZHxKm2TePX171Y3CMollCPSJL6Z+E22bv/cMFYG2QQZNLBYO3FEw
+ 6pDUNzzqnQxdWqzSeu/QcRN6/2twVbIZLKnYg7A4f3HtegNlibW6a5cIauts/lLBcYr1
+ yQAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5iTTcnEmTfembJ+1uyx3iDFNZSnQPXZr+n41PTIaxsQ=;
- b=Kz8hJA+yAlEeokZnxXvuokTVjje3ufeM58SsIvIMX3XKNBc8KD9BJYiZ7Or6M42Mjw
- xwHevU7qiDrAbDGNkmKSkcAZ1AKX5ENpJ/h8U0/Ro32Z/L2PEY+5p5g40I1DyQWu3SRi
- 6CKXJKsBIOtvndSlYiUrmoL4fuIuZwGPurLWqGRGdY/hsg32jkMhrMm6pfE+qFL555aI
- hzTA9d0tDFyfM6R+eX23UdVsZ6Kg5PRMeJlku6bj+xENwz7jXVXwa25nGzLRmvCqNo7f
- qa6y29XGOU1lXfhsXhSil77VkrZh3qN/BRb186IXzhYWBpEnPc5kG5NTi8k0T1R8O12T
- OPxg==
-X-Gm-Message-State: AOAM533IWSBcN5u5B3J2EGRuBYNVSrCTmDD83GMbtrya06t+BAk+VoLB
- N/GO7+qc8fBfsM2z4QrJa0S3Og==
-X-Google-Smtp-Source: ABdhPJzsXQM7NAkdeuotogjvfeBaPM2JGYXMiHG2AtKHj/vsM3i2ku05CdDmutpAfyeuXBVEGCBqTg==
-X-Received: by 2002:a05:620a:10b4:: with SMTP id
- h20mr38633540qkk.341.1620926254914; 
- Thu, 13 May 2021 10:17:34 -0700 (PDT)
+ bh=9WG0R1210n0jTNjQDS6goCg7eMSMJrn7+n/wli9p3uE=;
+ b=Io8whqt3d86GRUiJGvNaZCDWolKtOfKpBCYAc7QkbjQ6/xtyPGhFExF/BO9hF7HAzt
+ Hosd9zqKb86r3VHHAixkPZr2udlsICnSh4mRqh9XcmHPkcogvl2Alz+vySqsQaqopdQd
+ ZN+CJ6L/mVNnlBygf1kYq+ioiZJg/Grq5boYa1Chyr3a0TO5unBAl5Tp5yv0plOYl165
+ 7LNJqcgloQGE6xKHYzfhhDe9WWAe3gNY47CPcoF588a10sDQnaBMVjL0F+M1eKK38Sto
+ PowXqwfcmV4K3CNg8fQTG93bfSgWZR6Y7m5RHeGoARakfHUdV8DWbMSaQ7wU8PW+qp3q
+ Sn5Q==
+X-Gm-Message-State: AOAM532sPKrvzIxM8igE2Zvsfo5A5N/DR7dENctZ3IbS5WusTOulJEhn
+ DQ1Ym85TCL/rdWuvtaXF2eRoRA==
+X-Google-Smtp-Source: ABdhPJwp93NLEhRkl5ZJqxvch8hiavkKa9Ms6pYFfYpvTzCXyNoiML+6spdv3qCly1s5rKn3cnni9w==
+X-Received: by 2002:a05:620a:1201:: with SMTP id
+ u1mr40175153qkj.80.1620926257971; 
+ Thu, 13 May 2021 10:17:37 -0700 (PDT)
 Received: from localhost.localdomain
  (modemcable068.184-131-66.mc.videotron.ca. [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id f132sm2971117qke.104.2021.05.13.10.17.33
+ by smtp.gmail.com with ESMTPSA id f132sm2971117qke.104.2021.05.13.10.17.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 May 2021 10:17:34 -0700 (PDT)
+ Thu, 13 May 2021 10:17:37 -0700 (PDT)
 From: Jonathan Marek <jonathan@marek.ca>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 2/8] drm/msm/a6xx: use AOP-initialized PDC for a650
-Date: Thu, 13 May 2021 13:13:57 -0400
-Message-Id: <20210513171431.18632-3-jonathan@marek.ca>
+Subject: [PATCH v2 3/8] drm/msm/a6xx: fix incorrectly set uavflagprd_inv field
+ for A650
+Date: Thu, 13 May 2021 13:13:58 -0400
+Message-Id: <20210513171431.18632-4-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20210513171431.18632-1-jonathan@marek.ca>
 References: <20210513171431.18632-1-jonathan@marek.ca>
@@ -70,7 +71,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Douglas Anderson <dianders@chromium.org>, David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
  Sharat Masetty <smasetty@codeaurora.org>,
  Akhil P Oommen <akhilpo@codeaurora.org>,
@@ -80,67 +82,27 @@ Cc: David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SM8250 AOP firmware already sets up PDC registers for us, and it only needs
-to be enabled. This path will be used for other newer GPUs.
+Value was shifted in the wrong direction, resulting in the field always
+being zero, which is incorrect for A650.
 
+Fixes: d0bac4e9cd66 ("drm/msm/a6xx: set ubwc config for A640 and A650")
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 3d55e153fa9c..c1ee02d6371d 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -512,19 +512,26 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
- 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
- 	struct platform_device *pdev = to_platform_device(gmu->dev);
- 	void __iomem *pdcptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc");
--	void __iomem *seqptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc_seq");
-+	void __iomem *seqptr;
- 	uint32_t pdc_address_offset;
-+	bool pdc_in_aop = false;
- 
--	if (!pdcptr || !seqptr)
-+	if (!pdcptr)
- 		goto err;
- 
--	if (adreno_is_a618(adreno_gpu) || adreno_is_a640(adreno_gpu))
-+	if (adreno_is_a650(adreno_gpu))
-+		pdc_in_aop = true;
-+	else if (adreno_is_a618(adreno_gpu) || adreno_is_a640(adreno_gpu))
- 		pdc_address_offset = 0x30090;
--	else if (adreno_is_a650(adreno_gpu))
--		pdc_address_offset = 0x300a0;
- 	else
- 		pdc_address_offset = 0x30080;
- 
-+	if (!pdc_in_aop) {
-+		seqptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc_seq");
-+		if (!seqptr)
-+			goto err;
-+	}
-+
- 	/* Disable SDE clock gating */
- 	gmu_write_rscc(gmu, REG_A6XX_GPU_RSCC_RSC_STATUS0_DRV0, BIT(24));
- 
-@@ -556,6 +563,9 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
- 		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 4, 0x0020e8a8);
- 	}
- 
-+	if (pdc_in_aop)
-+		goto setup_pdc;
-+
- 	/* Load PDC sequencer uCode for power up and power down sequence */
- 	pdc_write(seqptr, REG_A6XX_PDC_GPU_SEQ_MEM_0, 0xfebea1e1);
- 	pdc_write(seqptr, REG_A6XX_PDC_GPU_SEQ_MEM_0 + 1, 0xa5a4a3a2);
-@@ -596,6 +606,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
- 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_DATA + 8, 0x3);
- 
- 	/* Setup GPU PDC */
-+setup_pdc:
- 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_SEQ_START_ADDR, 0);
- 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_ENABLE_PDC, 0x80000001);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 727d111a413f..45a6a0fce7d7 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -489,7 +489,7 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
+ 		rgb565_predicator << 11 | amsbc << 4 | lower_bit << 1);
+ 	gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, lower_bit << 1);
+ 	gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL,
+-		uavflagprd_inv >> 4 | lower_bit << 1);
++		uavflagprd_inv << 4 | lower_bit << 1);
+ 	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL, lower_bit << 21);
+ }
  
 -- 
 2.26.1
