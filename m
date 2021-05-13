@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E225337FA19
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 16:55:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E94E37FAFE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 17:48:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A93C6ED14;
-	Thu, 13 May 2021 14:55:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 560D66E0A0;
+	Thu, 13 May 2021 15:48:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAFC06ED14
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 14:55:19 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id c22so12168000ejd.12
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 07:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDFBB6E0A0;
+ Thu, 13 May 2021 15:48:19 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id b25so20494808oic.0;
+ Thu, 13 May 2021 08:48:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/8vd2SAwTdt88nX11VE63bL19uYaNF7maDv4yIT9Ok4=;
- b=OdlYf21e3GAV7+fJtPuYd/MZ2x4Q9Ktm+p6MDIKe45eorVK0EItJBVTUhfRpEn1FKy
- wzScKBxoIgLTaEF0kfXWfKAsWcuCcWa3kZRhrmZnRtT3Y8Kyv3BIut7KInyGQK/Q7+82
- S+MS6SQbce1OEAMhTpVs41rMza/m9fge+6nrVnaUWhQe7KfXS7z/YvfOYIzMysYwE9CT
- CqdFxylTupNIeHkP1Nqfg4LyMqQGMfcdVkBmNLsTXbZlq6CrAH7kDom2FjfWzECS5b0S
- mZvicBNTg4i76IA8Udo6EWsXsKvSB93DSIKbcwksVrNZgJEzPIXioVdLDVMMsyH/nVJw
- M1Qg==
+ :cc:content-transfer-encoding;
+ bh=+GO5+w645EiHITr/D4zuPstDFbJ45XRhHBEeznWAnxE=;
+ b=Pc/1ZPjPEZdzKdjt5Ea89gfUdj420I59XZPx3t+i/VGxjG/F9vpIh0f7+bwNOxOdAO
+ WJ5RpfpeD3YzAp5+wBwxogZyQHqQr8sGq4NblTm3OGWnkrsuXoEBWGFg9KwMltCBvdtV
+ UpkGjwrSslMkNqZNQ9PMGbKXmVyRIC7j3camNIaNzkA+VqnmtBx+RQEddIdavn1VOwm9
+ g/rsy74Aq4+m+IflNuajaE1S3/BjIL66GwPZ8EGRqMQFQMQ9B3F6s/5W/xXzhuPNAwo4
+ BPCNFJuDWPpnumWVniLb1ObmZ751yUHM8c7uSkP8DR1Bw6VtjZkFlCVTrbzst8gYly1p
+ b7aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/8vd2SAwTdt88nX11VE63bL19uYaNF7maDv4yIT9Ok4=;
- b=ZOl1q/ILG6gJX3rsJ+lzlZA5QNkAqfoPXlLkknV7n6XL0PCULFubGxgFkTyFFUt/4d
- Xj/QQS2PHvZfgpx3HZEgcKKW0rWLhKgUM/8RdCaTcM/UUeN0eBjx6UBxvA3q0mIgd/sx
- cxgtf88sNmL2nVlq4MlcHO+hKq/ajwUPqFjfImGn9euW5O+P8aII5Fo27+/JbuXxnRyz
- xW6fku38+4Ub0GYyIvBBhCheEWAH5KlvIXhRygp3ksJRcQ2/KErAoMRgfz/J1gGmwzkC
- 68kYVbqJvKgE5wV/6KNihbAqjY45Wp4xKdSkUTBpIXpRyRlydXcS4MNtomWvGQwmyQIk
- 5bEw==
-X-Gm-Message-State: AOAM5317iehYVxjti+mVw27EYvI59kOisxzzpPeQ4UtfQdRp5UJXbT5A
- EmZPKvl5DFAjpN8Ft++gV7JWkDXgiw7R+4I5L+4AAA==
-X-Google-Smtp-Source: ABdhPJzyUVhAWAlVMgDV04Iqsca9WuX0WFa9WkM+n0Abvzy901iwOodylHjwZuY3UIH9Xp68bXI9dnwIoJZkQnfZBmk=
-X-Received: by 2002:a17:906:13db:: with SMTP id
- g27mr468360ejc.88.1620917718561; 
- Thu, 13 May 2021 07:55:18 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+GO5+w645EiHITr/D4zuPstDFbJ45XRhHBEeznWAnxE=;
+ b=N7Z/U4xgylZytEh1z/q9jWCEIXNjVs+EqaNJrf4JddpE/R1OF9dXnrcbZgGj6CH1nK
+ zIlekuL6dy9HmKzqmTEmTROirEWmFQMZ9YlsuKlAyX1zfp1wVd7aSYvWKTbfP003SpMY
+ JvJLn2i2bstA0vaJCUcWRP6/yhze7Es+MyvrlP2VLudPZc7vto6Gj8KKRAhtNfP1uKEw
+ xVCfz+8OmcDYBJZodL2QLlfWnStB1RcAYeOC5mna7tAtUZD8LS361Go+AVghDZigJ1K2
+ ey8FW9s61DdCk6hZMt2cZXD4o0C5aFpROFtZzMAKlV1V0xQbU615pGNcCEAuRGgqYrWZ
+ PAzA==
+X-Gm-Message-State: AOAM530GHhXLcFWfI4LaYULs7dyTmJMNao4KAeQa1mxAqAd5Ybhli129
+ vZyLDNw1B0VlBbUoqPwoy1UuqSVLaa0Lz4Pg1u4=
+X-Google-Smtp-Source: ABdhPJwY6uEThQsc3EFeTI1GnbRzZ9lVdaczR5rcISuQLxuLpvEys8HSJh0ePR/DkZTRuU7kkgR+H5rGH9bMwVQG39g=
+X-Received: by 2002:aca:fc50:: with SMTP id a77mr30942408oii.123.1620920899101; 
+ Thu, 13 May 2021 08:48:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210421052855.1279713-1-drinkcat@chromium.org>
- <c91746ce-88b6-5612-74a5-74600c7761e8@baylibre.com>
-In-Reply-To: <c91746ce-88b6-5612-74a5-74600c7761e8@baylibre.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Thu, 13 May 2021 11:55:06 -0300
-Message-ID: <CAAEAJfD3i+L4w1NuE5pUkMuH=R3CfBztDn-ZLcYR=onkcZ4Gxg@mail.gmail.com>
-Subject: Re: [PATCH v13 0/4] drm/panfrost: Add support for mt8183 GPU
-To: Neil Armstrong <narmstrong@baylibre.com>
+References: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 13 May 2021 11:48:08 -0400
+Message-ID: <CADnq5_NEg4s2AWBTkjW7NXoBe+WB=qQUHCMPP6DcpGSLbBF-rg@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Per client engine busyness
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,133 +63,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- fshao@chromium.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, hsinyi@chromium.org,
- hoegsberg@chromium.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+On Thu, May 13, 2021 at 7:00 AM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>
+> Resurrect of the previosuly merged per client engine busyness patches. In=
+ a
+> nutshell it enables intel_gpu_top to be more top(1) like useful and show =
+not
+> only physical GPU engine usage but per process view as well.
+>
+> Example screen capture:
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+> intel-gpu-top -  906/ 955 MHz;    0% RC6;  5.30 Watts;      933 irqs/s
+>
+>       IMC reads:     4414 MiB/s
+>      IMC writes:     3805 MiB/s
+>
+>           ENGINE      BUSY                                      MI_SEMA M=
+I_WAIT
+>      Render/3D/0   93.46% |=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=
+=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=
+=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=
+=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=
+=E2=96=88=E2=96=88=E2=96=8B  |      0%      0%
+>        Blitter/0    0.00% |                                   |      0%  =
+    0%
+>          Video/0    0.00% |                                   |      0%  =
+    0%
+>   VideoEnhance/0    0.00% |                                   |      0%  =
+    0%
+>
+>   PID            NAME  Render/3D      Blitter        Video      VideoEnha=
+nce
+>  2733       neverball |=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=
+=96=88=E2=96=8C     ||            ||            ||            |
+>  2047            Xorg |=E2=96=88=E2=96=88=E2=96=88=E2=96=8A        ||    =
+        ||            ||            |
+>  2737        glxgears |=E2=96=88=E2=96=8D          ||            ||      =
+      ||            |
+>  2128           xfwm4 |            ||            ||            ||        =
+    |
+>  2047            Xorg |            ||            ||            ||        =
+    |
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+>
+> Internally we track time spent on engines for each struct intel_context, =
+both
+> for current and past contexts belonging to each open DRM file.
+>
+> This can serve as a building block for several features from the wanted l=
+ist:
+> smarter scheduler decisions, getrusage(2)-like per-GEM-context functional=
+ity
+> wanted by some customers, setrlimit(2) like controls, cgroups controller,
+> dynamic SSEU tuning, ...
+>
+> To enable userspace access to the tracked data, we expose time spent on G=
+PU per
+> client and per engine class in sysfs with a hierarchy like the below:
+>
+>         # cd /sys/class/drm/card0/clients/
+>         # tree
+>         .
+>         =E2=94=9C=E2=94=80=E2=94=80 7
+>         =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 busy
+>         =E2=94=82   =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 0
+>         =E2=94=82   =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 1
+>         =E2=94=82   =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 2
+>         =E2=94=82   =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 3
+>         =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 name
+>         =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 pid
+>         =E2=94=9C=E2=94=80=E2=94=80 8
+>         =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 busy
+>         =E2=94=82   =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 0
+>         =E2=94=82   =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 1
+>         =E2=94=82   =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 2
+>         =E2=94=82   =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 3
+>         =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 name
+>         =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 pid
+>         =E2=94=94=E2=94=80=E2=94=80 9
+>             =E2=94=9C=E2=94=80=E2=94=80 busy
+>             =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 0
+>             =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 1
+>             =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 2
+>             =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 3
+>             =E2=94=9C=E2=94=80=E2=94=80 name
+>             =E2=94=94=E2=94=80=E2=94=80 pid
+>
+> Files in 'busy' directories are numbered using the engine class ABI value=
+s and
+> they contain accumulated nanoseconds each client spent on engines of a
+> respective class.
 
-On Mon, 26 Apr 2021 at 06:59, Neil Armstrong <narmstrong@baylibre.com> wrote:
->
-> Hi,
->
-> On 21/04/2021 07:28, Nicolas Boichat wrote:
-> > Hi!
-> >
-> > This is just a rebase of the v11, untested (but it seems like
-> > Neil Armstrong recently tested it), with small changes in
-> > binding and dts. v11 cover follows:
-> >
-> > Follow-up on the v5 [1], things have gotten significantly
-> > better in the last year, thanks to the efforts on Bifrost
-> > support by the Collabora team (and probably others I'm not
-> > aware of).
-> >
-> > I've been testing this series on a MT8183/kukui device, with a
-> > chromeos-5.10 kernel [2], and got basic Chromium OS UI up with
-> > mesa 20.3.2 (lots of artifacts though).
-> >
-> > devfreq is currently not supported, as we'll need:
-> >  - Clock core support for switching the GPU core clock (see 2/4).
-> >  - Platform-specific handling of the 2-regulator (see 3/4).
-> >
-> > Since the latter is easy to detect, patch 3/4 just disables
-> > devfreq if the more than one regulator is specified in the
-> > compatible matching table.
-> >
-> > [1] https://patchwork.kernel.org/project/linux-mediatek/cover/20200306041345.259332-1-drinkcat@chromium.org/
-> > [2] https://crrev.com/c/2608070
-> >
-> > Changes in v13:
-> >  - devfreq: Fix conflict resolution mistake when rebasing, didn't
-> >    even compile. Oops.
-> >
-> > Changes in v12:
-> >  - binding: Fix min/maxItems logic (Rob Herring)
-> >  - Add gpu node to mt8183-pumpkin.dts as well (Neil Armstrong).
-> >
-> > Changes in v11:
-> >  - binding: power-domain-names not power-domainS-names
-> >  - mt8183*.dts: remove incorrect supply-names
-> >
-> > Changes in v10:
-> >  - Fix the binding to make sure sram-supply property can be provided.
-> >
-> > Changes in v9:
-> >  - Explain why devfreq needs to be disabled for GPUs with >1
-> >    regulators.
-> >
-> > Changes in v8:
-> >  - Use DRM_DEV_INFO instead of ERROR
-> >
-> > Changes in v7:
-> >  - Fix GPU ID in commit message
-> >  - Fix GPU ID in commit message
-> >
-> > Changes in v6:
-> >  - Rebased, actually tested with recent mesa driver.
-> >  - Add gpu regulators to kukui dtsi as well.
-> >  - Power domains are now attached to spm, not scpsys
-> >  - Drop R-B.
-> >  - devfreq: New change
-> >  - Context conflicts, reflow the code.
-> >  - Use ARRAY_SIZE for power domains too.
-> >
-> > Changes in v5:
-> >  - Rename "2d" power domain to "core2"
-> >  - Rename "2d" power domain to "core2" (keep R-B again).
-> >  - Change power domain name from 2d to core2.
-> >
-> > Changes in v4:
-> >  - Add power-domain-names description
-> >    (kept Alyssa's reviewed-by as the change is minor)
-> >  - Add power-domain-names to describe the 3 domains.
-> >    (kept Alyssa's reviewed-by as the change is minor)
-> >  - Add power domain names.
-> >
-> > Changes in v3:
-> >  - Match mt8183-mali instead of bifrost, as we require special
-> >    handling for the 2 regulators and 3 power domains.
-> >
-> > Changes in v2:
-> >  - Use sram instead of mali_sram as SRAM supply name.
-> >  - Rename mali@ to gpu@.
-> >
-> > Nicolas Boichat (4):
-> >   dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
-> >   arm64: dts: mt8183: Add node for the Mali GPU
-> >   drm/panfrost: devfreq: Disable devfreq when num_supplies > 1
-> >   drm/panfrost: Add mt8183-mali compatible string
-> >
-> >  .../bindings/gpu/arm,mali-bifrost.yaml        |  30 ++++-
-> >  arch/arm64/boot/dts/mediatek/mt8183-evb.dts   |   5 +
-> >  .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |   5 +
-> >  .../boot/dts/mediatek/mt8183-pumpkin.dts      |   5 +
-> >  arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 105 ++++++++++++++++++
-> >  drivers/gpu/drm/panfrost/panfrost_devfreq.c   |   9 ++
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c       |  10 ++
-> >  7 files changed, 168 insertions(+), 1 deletion(-)
-> >
->
-> Seems this version is ready to be applied if we get a review on the DT ?
->
-> Mathias ? could you have a look ?
->
+We did something similar in amdgpu using the gpu scheduler.  We then
+expose the data via fdinfo.  See
+https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D1774baa64f9395fa884e=
+a9ed494bcb043f3b83f5
+https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D874442541133f78c78b6=
+880b8cc495bab5c61704
 
-Given Rob has Acked the DT bindings, I think it's OK to apply patches
-1, 3 and 4 via drm-misc, letting Mediatek people sort out the DT changes.
+Alex
 
-My two unsolicited cents :-)
 
-Ezequiel
+>
+> Tvrtko Ursulin (7):
+>   drm/i915: Expose list of clients in sysfs
+>   drm/i915: Update client name on context create
+>   drm/i915: Make GEM contexts track DRM clients
+>   drm/i915: Track runtime spent in closed and unreachable GEM contexts
+>   drm/i915: Track all user contexts per client
+>   drm/i915: Track context current active time
+>   drm/i915: Expose per-engine client busyness
+>
+>  drivers/gpu/drm/i915/Makefile                 |   5 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c   |  61 ++-
+>  .../gpu/drm/i915/gem/i915_gem_context_types.h |  16 +-
+>  drivers/gpu/drm/i915/gt/intel_context.c       |  27 +-
+>  drivers/gpu/drm/i915/gt/intel_context.h       |  15 +-
+>  drivers/gpu/drm/i915/gt/intel_context_types.h |  24 +-
+>  .../drm/i915/gt/intel_execlists_submission.c  |  23 +-
+>  .../gpu/drm/i915/gt/intel_gt_clock_utils.c    |   4 +
+>  drivers/gpu/drm/i915/gt/intel_lrc.c           |  27 +-
+>  drivers/gpu/drm/i915/gt/intel_lrc.h           |  24 ++
+>  drivers/gpu/drm/i915/gt/selftest_lrc.c        |  10 +-
+>  drivers/gpu/drm/i915/i915_drm_client.c        | 365 ++++++++++++++++++
+>  drivers/gpu/drm/i915/i915_drm_client.h        | 123 ++++++
+>  drivers/gpu/drm/i915/i915_drv.c               |   6 +
+>  drivers/gpu/drm/i915/i915_drv.h               |   5 +
+>  drivers/gpu/drm/i915/i915_gem.c               |  21 +-
+>  drivers/gpu/drm/i915/i915_gpu_error.c         |  31 +-
+>  drivers/gpu/drm/i915/i915_gpu_error.h         |   2 +-
+>  drivers/gpu/drm/i915/i915_sysfs.c             |   8 +
+>  19 files changed, 716 insertions(+), 81 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
+>  create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
+>
+> --
+> 2.30.2
+>
