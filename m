@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0F437F61D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 13:00:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D331C37F61B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 13:00:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 198896ECE3;
-	Thu, 13 May 2021 11:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C442F6ECDE;
+	Thu, 13 May 2021 11:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A76876ECDD;
- Thu, 13 May 2021 11:00:13 +0000 (UTC)
-IronPort-SDR: AqXKoflitJalCKic6a1iofeKDfWGRNGxHp14pbf7kKGKYkptQMYqw0XYJ5ek2fU7BZjYFReCSt
- DDckuHBQZahw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9982"; a="187048073"
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; d="scan'208";a="187048073"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 611B46ECDD;
+ Thu, 13 May 2021 11:00:14 +0000 (UTC)
+IronPort-SDR: YZr9t1F6ugnUMEI1tkt9dj894jAHC4+40lCZXmbepyBX0UUeBNo8zNPxCVFyPH3C9zfjoNvRlz
+ YXbKidHwbN7w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9982"; a="187048077"
+X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; d="scan'208";a="187048077"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2021 04:00:12 -0700
-IronPort-SDR: IdHena4oLvKtn53r6ZCz2CUkS76BxwmXdU7uh7Po8nk5VhIT/J4PyozvnGgvY8IeXDS0BI1KE1
- 19Wdwbwlh9dg==
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; d="scan'208";a="400930405"
+ 13 May 2021 04:00:13 -0700
+IronPort-SDR: 9S+zUeqD95IH80U9/TDX8at3Jz5xMwERxsvZatISOkxgIv2DvL4jnHzGLuWittNTXaW+E4jAfG
+ L1wp2PD4NOYg==
+X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; d="scan'208";a="400930419"
 Received: from hcadcock-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
  ([10.213.209.166])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2021 04:00:11 -0700
+ 13 May 2021 04:00:12 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/7] drm/i915: Update client name on context create
-Date: Thu, 13 May 2021 11:59:57 +0100
-Message-Id: <20210513110002.3641705-3-tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH 3/7] drm/i915: Make GEM contexts track DRM clients
+Date: Thu, 13 May 2021 11:59:58 +0100
+Message-Id: <20210513110002.3641705-4-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
 References: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
@@ -54,297 +54,165 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Some clients have the DRM fd passed to them over a socket by the X server.
+If we make GEM contexts keep a reference to i915_drm_client for the whole
+of their lifetime, we can consolidate the current task pid and name usage
+by getting it from the client.
 
-Grab the real client and pid when they create their first context and
-update the exposed data for more useful enumeration.
-
-To enable lockless access to client name and pid data from the following
-patches, we also make these fields rcu protected. In this way asynchronous
-code paths where both contexts which remain after the client exit, and
-access to client name and pid as they are getting updated due context
-creation running in parallel with name/pid queries.
-
-v2:
- * Do not leak the pid reference and borrow context idr_lock. (Chris)
-
-v3:
- * More avoiding leaks. (Chris)
-
-v4:
- * Move update completely to drm client. (Chris)
- * Do not lose previous client data on failure to re-register and simplify
-   update to only touch what it needs.
-
-v5:
- * Reuse ext_data local. (Chris)
+v2: Don't bother supporting selftests contexts from debugfs. (Chris)
+v3 (Lucas): Finish constructing ctx before adding it to the list
+v4 (Ram): Rebase on upstream
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
 Reviewed-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
 Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210123153733.18139-3-chris@chris-wilson.co.uk
-Link: https://patchwork.freedesktop.org/patch/msgid/20210124153136.19124-3-chris@chris-wilson.co.uk
+Link: https://patchwork.freedesktop.org/patch/msgid/20210123153733.18139-4-chris@chris-wilson.co.uk
+Link: https://patchwork.freedesktop.org/patch/msgid/20210124153136.19124-4-chris@chris-wilson.co.uk
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c |  5 ++
- drivers/gpu/drm/i915/i915_drm_client.c      | 93 +++++++++++++++++----
- drivers/gpu/drm/i915/i915_drm_client.h      | 34 +++++++-
- 3 files changed, 115 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 20 ++++++++++++-----
+ .../gpu/drm/i915/gem/i915_gem_context_types.h | 13 +++--------
+ drivers/gpu/drm/i915/i915_gpu_error.c         | 22 +++++++++++--------
+ 3 files changed, 30 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 188dee13e017..e5f8d94666e8 100644
+index e5f8d94666e8..5ea42d5b0b1a 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -76,6 +76,7 @@
- #include "gt/intel_gpu_commands.h"
- #include "gt/intel_ring.h"
+@@ -345,13 +345,14 @@ void i915_gem_context_release(struct kref *ref)
+ 	trace_i915_context_free(ctx);
+ 	GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
  
-+#include "i915_drm_client.h"
- #include "i915_gem_context.h"
- #include "i915_globals.h"
- #include "i915_trace.h"
-@@ -2321,6 +2322,10 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
- 		return -EIO;
- 	}
+-	mutex_destroy(&ctx->engines_mutex);
+-	mutex_destroy(&ctx->lut_mutex);
++	if (ctx->client)
++		i915_drm_client_put(ctx->client);
  
-+	ret = i915_drm_client_update(ext_data.fpriv->client, current);
-+	if (ret)
-+		return ret;
-+
- 	ext_data.ctx = i915_gem_create_context(i915, args->flags);
- 	if (IS_ERR(ext_data.ctx))
- 		return PTR_ERR(ext_data.ctx);
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index 7c2d36860ac1..ad3d36c9dee2 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -7,7 +7,10 @@
- #include <linux/slab.h>
- #include <linux/types.h>
+ 	if (ctx->timeline)
+ 		intel_timeline_put(ctx->timeline);
  
-+#include <drm/drm_print.h>
-+
- #include "i915_drm_client.h"
-+#include "i915_drv.h"
- #include "i915_gem.h"
- #include "i915_utils.h"
+-	put_pid(ctx->pid);
++	mutex_destroy(&ctx->engines_mutex);
++	mutex_destroy(&ctx->lut_mutex);
+ 	mutex_destroy(&ctx->mutex);
  
-@@ -25,10 +28,15 @@ show_client_name(struct device *kdev, struct device_attribute *attr, char *buf)
+ 	kfree_rcu(ctx, rcu);
+@@ -895,6 +896,7 @@ static int gem_context_register(struct i915_gem_context *ctx,
+ 				u32 *id)
  {
- 	struct i915_drm_client *client =
- 		container_of(attr, typeof(*client), attr.name);
-+	int ret;
- 
--	return sysfs_emit(buf,
--			  READ_ONCE(client->closed) ? "<%s>\n" : "%s\n",
--			  client->name);
-+	rcu_read_lock();
-+	ret = sysfs_emit(buf,
-+			 READ_ONCE(client->closed) ? "<%s>\n" : "%s\n",
-+			 i915_drm_client_name(client));
-+	rcu_read_unlock();
-+
-+	return ret;
- }
- 
- static ssize_t
-@@ -36,10 +44,15 @@ show_client_pid(struct device *kdev, struct device_attribute *attr, char *buf)
- {
- 	struct i915_drm_client *client =
- 		container_of(attr, typeof(*client), attr.pid);
-+	int ret;
-+
-+	rcu_read_lock();
-+	ret = sysfs_emit(buf,
-+			 READ_ONCE(client->closed) ? "<%u>\n" : "%u\n",
-+			 pid_nr(i915_drm_client_pid(client)));
-+	rcu_read_unlock();
- 
--	return sysfs_emit(buf,
--			  READ_ONCE(client->closed) ? "<%u>\n" : "%u\n",
--			  pid_nr(client->pid));
-+	return ret;
- }
- 
- static int __client_register_sysfs(struct i915_drm_client *client)
-@@ -91,20 +104,46 @@ static void __client_unregister_sysfs(struct i915_drm_client *client)
- 	kobject_put(fetch_and_zero(&client->root));
- }
- 
-+static struct i915_drm_client_name *get_name(struct i915_drm_client *client,
-+					     struct task_struct *task)
-+{
-+	struct i915_drm_client_name *name;
-+	int len = strlen(task->comm);
-+
-+	name = kmalloc(struct_size(name, name, len + 1), GFP_KERNEL);
-+	if (!name)
-+		return NULL;
-+
-+	init_rcu_head(&name->rcu);
-+	name->client = client;
-+	name->pid = get_task_pid(task, PIDTYPE_PID);
-+	memcpy(name->name, task->comm, len + 1);
-+
-+	return name;
-+}
-+
-+static void free_name(struct rcu_head *rcu)
-+{
-+	struct i915_drm_client_name *name =
-+		container_of(rcu, typeof(*name), rcu);
-+
-+	put_pid(name->pid);
-+	kfree(name);
-+}
-+
- static int
- __i915_drm_client_register(struct i915_drm_client *client,
- 			   struct task_struct *task)
- {
- 	struct i915_drm_clients *clients = client->clients;
--	char *name;
-+	struct i915_drm_client_name *name;
+ 	struct drm_i915_private *i915 = ctx->i915;
++	struct i915_drm_client *client;
+ 	struct i915_address_space *vm;
  	int ret;
  
--	name = kstrdup(task->comm, GFP_KERNEL);
-+	name = get_name(client, task);
- 	if (!name)
- 		return -ENOMEM;
+@@ -906,15 +908,21 @@ static int gem_context_register(struct i915_gem_context *ctx,
+ 		WRITE_ONCE(vm->file, fpriv); /* XXX */
+ 	mutex_unlock(&ctx->mutex);
  
--	client->pid = get_task_pid(task, PIDTYPE_PID);
--	client->name = name;
-+	RCU_INIT_POINTER(client->name, name);
+-	ctx->pid = get_task_pid(current, PIDTYPE_PID);
++	client = i915_drm_client_get(fpriv->client);
++
++	rcu_read_lock();
+ 	snprintf(ctx->name, sizeof(ctx->name), "%s[%d]",
+-		 current->comm, pid_nr(ctx->pid));
++		 i915_drm_client_name(client),
++		 pid_nr(i915_drm_client_pid(client)));
++	rcu_read_unlock();
  
- 	if (!clients->root)
- 		return 0; /* intel_fbdev_init registers a client before sysfs */
-@@ -116,18 +155,22 @@ __i915_drm_client_register(struct i915_drm_client *client,
+ 	/* And finally expose ourselves to userspace via the idr */
+ 	ret = xa_alloc(&fpriv->context_xa, id, ctx, xa_limit_32b, GFP_KERNEL);
+ 	if (ret)
+ 		goto err_pid;
+ 
++	ctx->client = client;
++
+ 	spin_lock(&i915->gem.contexts.lock);
+ 	list_add_tail(&ctx->link, &i915->gem.contexts.list);
+ 	spin_unlock(&i915->gem.contexts.lock);
+@@ -922,7 +930,7 @@ static int gem_context_register(struct i915_gem_context *ctx,
  	return 0;
  
- err_sysfs:
--	put_pid(client->pid);
--	kfree(client->name);
--
-+	RCU_INIT_POINTER(client->name, NULL);
-+	call_rcu(&name->rcu, free_name);
+ err_pid:
+-	put_pid(fetch_and_zero(&ctx->pid));
++	i915_drm_client_put(client);
  	return ret;
  }
  
- static void __i915_drm_client_unregister(struct i915_drm_client *client)
- {
-+	struct i915_drm_client_name *name;
-+
- 	__client_unregister_sysfs(client);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+index 340473aa70de..eb098f2896c5 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+@@ -96,19 +96,12 @@ struct i915_gem_context {
+ 	 */
+ 	struct i915_address_space __rcu *vm;
  
--	put_pid(fetch_and_zero(&client->pid));
--	kfree(fetch_and_zero(&client->name));
-+	mutex_lock(&client->update_lock);
-+	name = rcu_replace_pointer(client->name, NULL, true);
-+	mutex_unlock(&client->update_lock);
-+
-+	call_rcu(&name->rcu, free_name);
- }
- 
- static void __rcu_i915_drm_client_free(struct work_struct *wrk)
-@@ -152,6 +195,7 @@ i915_drm_client_add(struct i915_drm_clients *clients, struct task_struct *task)
- 		return ERR_PTR(-ENOMEM);
- 
- 	kref_init(&client->kref);
-+	mutex_init(&client->update_lock);
- 	client->clients = clients;
- 	INIT_RCU_WORK(&client->rcu, __rcu_i915_drm_client_free);
- 
-@@ -189,6 +233,25 @@ void i915_drm_client_close(struct i915_drm_client *client)
- 	i915_drm_client_put(client);
- }
- 
-+int
-+i915_drm_client_update(struct i915_drm_client *client,
-+		       struct task_struct *task)
-+{
-+	struct i915_drm_client_name *name;
-+
-+	name = get_name(client, task);
-+	if (!name)
-+		return -ENOMEM;
-+
-+	mutex_lock(&client->update_lock);
-+	if (name->pid != rcu_dereference_protected(client->name, true)->pid)
-+		name = rcu_replace_pointer(client->name, name, true);
-+	mutex_unlock(&client->update_lock);
-+
-+	call_rcu(&name->rcu, free_name);
-+	return 0;
-+}
-+
- void i915_drm_clients_fini(struct i915_drm_clients *clients)
- {
- 	while (!xa_empty(&clients->xarray)) {
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
-index 150f8e8d34e6..556a59d6b834 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.h
-+++ b/drivers/gpu/drm/i915/i915_drm_client.h
-@@ -9,6 +9,7 @@
- #include <linux/device.h>
- #include <linux/kobject.h>
- #include <linux/kref.h>
-+#include <linux/mutex.h>
- #include <linux/pid.h>
- #include <linux/rcupdate.h>
- #include <linux/sched.h>
-@@ -25,14 +26,22 @@ struct i915_drm_clients {
- 	struct kobject *root;
- };
- 
-+struct i915_drm_client_name {
-+	struct rcu_head rcu;
-+	struct i915_drm_client *client;
-+	struct pid *pid;
-+	char name[];
-+};
-+
- struct i915_drm_client {
- 	struct kref kref;
- 
- 	struct rcu_work rcu;
- 
-+	struct mutex update_lock; /* Serializes name and pid updates. */
-+
- 	unsigned int id;
+-	/**
+-	 * @pid: process id of creator
+-	 *
+-	 * Note that who created the context may not be the principle user,
+-	 * as the context may be shared across a local socket. However,
+-	 * that should only affect the default context, all contexts created
+-	 * explicitly by the client are expected to be isolated.
+-	 */
 -	struct pid *pid;
--	char *name;
-+	struct i915_drm_client_name __rcu *name;
- 	bool closed;
+-
+ 	/** link: place with &drm_i915_private.context_list */
+ 	struct list_head link;
  
- 	struct i915_drm_clients *clients;
-@@ -66,6 +75,27 @@ void i915_drm_client_close(struct i915_drm_client *client);
- struct i915_drm_client *i915_drm_client_add(struct i915_drm_clients *clients,
- 					    struct task_struct *task);
++	/** client: struct i915_drm_client */
++	struct i915_drm_client *client;
++
+ 	/**
+ 	 * @ref: reference count
+ 	 *
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index 99ca242ec13b..dc9eb6823270 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -1235,7 +1235,9 @@ static void record_request(const struct i915_request *request,
  
-+int i915_drm_client_update(struct i915_drm_client *client,
-+			   struct task_struct *task);
-+
-+static inline const struct i915_drm_client_name *
-+__i915_drm_client_name(const struct i915_drm_client *client)
-+{
-+	return rcu_dereference(client->name);
-+}
-+
-+static inline const char *
-+i915_drm_client_name(const struct i915_drm_client *client)
-+{
-+	return __i915_drm_client_name(client)->name;
-+}
-+
-+static inline struct pid *
-+i915_drm_client_pid(const struct i915_drm_client *client)
-+{
-+	return __i915_drm_client_name(client)->pid;
-+}
-+
- void i915_drm_clients_fini(struct i915_drm_clients *clients);
+ 		ctx = rcu_dereference(request->context->gem_context);
+ 		if (ctx)
+-			erq->pid = pid_nr(ctx->pid);
++			erq->pid = I915_SELFTEST_ONLY(!ctx->client) ?
++				   0 :
++				   pid_nr(i915_drm_client_pid(ctx->client));
+ 	}
+ 	rcu_read_unlock();
+ }
+@@ -1256,23 +1258,25 @@ static bool record_context(struct i915_gem_context_coredump *e,
+ 			   const struct i915_request *rq)
+ {
+ 	struct i915_gem_context *ctx;
+-	struct task_struct *task;
+ 	bool simulated;
  
- #endif /* !__I915_DRM_CLIENT_H__ */
+ 	rcu_read_lock();
++
+ 	ctx = rcu_dereference(rq->context->gem_context);
+ 	if (ctx && !kref_get_unless_zero(&ctx->ref))
+ 		ctx = NULL;
+-	rcu_read_unlock();
+-	if (!ctx)
++	if (!ctx) {
++		rcu_read_unlock();
+ 		return true;
++	}
+ 
+-	rcu_read_lock();
+-	task = pid_task(ctx->pid, PIDTYPE_PID);
+-	if (task) {
+-		strcpy(e->comm, task->comm);
+-		e->pid = task->pid;
++	if (I915_SELFTEST_ONLY(!ctx->client)) {
++		strcpy(e->comm, "[kernel]");
++	} else {
++		strcpy(e->comm, i915_drm_client_name(ctx->client));
++		e->pid = pid_nr(i915_drm_client_pid(ctx->client));
+ 	}
++
+ 	rcu_read_unlock();
+ 
+ 	e->sched_attr = ctx->sched;
 -- 
 2.30.2
 
