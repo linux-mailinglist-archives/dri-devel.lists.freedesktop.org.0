@@ -1,27 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC4B37F7F1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 14:29:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B146F37F85B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 15:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC7506E877;
-	Thu, 13 May 2021 12:29:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E5D66E092;
+	Thu, 13 May 2021 13:03:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD6096E877
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 12:29:44 +0000 (UTC)
-Date: Thu, 13 May 2021 13:29:30 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] drm/ingenic: Fix pixclock rate for 24-bit serial panels
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Message-Id: <6DP1TQ.W6B9JRRW1OY5@crapouillou.net>
-In-Reply-To: <20210323144008.166248-1-paul@crapouillou.net>
-References: <20210323144008.166248-1-paul@crapouillou.net>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D23466E092
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 13:03:42 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 2ABF9B1AB;
+ Thu, 13 May 2021 13:03:41 +0000 (UTC)
+Subject: Re: [PATCH -next] drm: simpledrm: print resource info using '%pr'
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+References: <20210512233459.19534-1-rdunlap@infradead.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <7bc970ed-007f-6374-b7f8-71707606a6b9@suse.de>
+Date: Thu, 13 May 2021 15:03:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210512233459.19534-1-rdunlap@infradead.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="dak79HA3qMhgihHuHU08I4mi89otf7oWG"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -34,58 +41,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mips@vger.kernel.org, stable@vger.kernel.org,
- linux-kernel@vger.kernel.org, od@zcrc.me, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dak79HA3qMhgihHuHU08I4mi89otf7oWG
+Content-Type: multipart/mixed; boundary="KhcWyEjhF4h3QqCazWrFGqRbaZorvBSf5";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <7bc970ed-007f-6374-b7f8-71707606a6b9@suse.de>
+Subject: Re: [PATCH -next] drm: simpledrm: print resource info using '%pr'
+References: <20210512233459.19534-1-rdunlap@infradead.org>
+In-Reply-To: <20210512233459.19534-1-rdunlap@infradead.org>
 
-Almost two months later,
+--KhcWyEjhF4h3QqCazWrFGqRbaZorvBSf5
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
+Hi
 
-Le mar., mars 23 2021 at 14:40:08 +0000, Paul Cercueil=20
-<paul@crapouillou.net> a =E9crit :
-> When using a 24-bit panel on a 8-bit serial bus, the pixel clock
-> requested by the panel has to be multiplied by 3, since the subpixels
-> are shifted sequentially.
+Am 13.05.21 um 01:34 schrieb Randy Dunlap:
+> struct resource start and end fields are not always long long,
+> so using %llx to print them can cause build warnings (below).
+> Fix these by using the special "%pr" for printing struct resource info.=
+
 >=20
-> The code (in ingenic_drm_encoder_atomic_check) already computed
-> crtc_state->adjusted_mode->crtc_clock accordingly, but clk_set_rate()
-> used crtc_state->adjusted_mode->clock instead.
+> ../drivers/gpu/drm/tiny/simpledrm.c: In function =E2=80=98simpledrm_dev=
+ice_init_mm=E2=80=99:
+> ../include/drm/drm_print.h:412:32: warning: format =E2=80=98%llx=E2=80=99=20
+expects argument of type =E2=80=98long long unsigned int=E2=80=99, but ar=
+gument 3 has type =E2=80=98resource_size_t {aka unsigned int}=E2=80=99 [-=
+Wformat=3D]
+> ../drivers/gpu/drm/tiny/simpledrm.c:533:54: note: format string is defi=
+ned here
+>     drm_err(dev, "could not acquire memory range [0x%llx:0x%llx]: error=20
+%d\n",
+>                                                     ~~~^
+>                                                     %x
+> ../include/drm/drm_print.h:412:32: warning: format =E2=80=98%llx=E2=80=99=20
+expects argument of type =E2=80=98long long unsigned int=E2=80=99, but ar=
+gument 4 has type =E2=80=98resource_size_t {aka unsigned int}=E2=80=99 [-=
+Wformat=3D]
+> ../drivers/gpu/drm/tiny/simpledrm.c:533:61: note: format string is defi=
+ned here
+>     drm_err(dev, "could not acquire memory range [0x%llx:0x%llx]: error=20
+%d\n",
+>                                                            ~~~^
+>                                                            %x
 >=20
-> Fixes: 28ab7d35b6e0 ("drm/ingenic: Properly compute timings when=20
-> using a 3x8-bit panel")
-> Cc: stable@vger.kernel.org # v5.10
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Fixes: 4aae79f77e3a ("drm/simpledrm: Acquire memory aperture for frameb=
+uffer")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
 
-Can I get an ACK for my patch?
+Queued up for drm-misc-next. Thanks a lot.
 
-Thanks!
--Paul
+Best regards
+Thomas
 
 > ---
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/tiny/simpledrm.c |    4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
-> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index d60e1eefc9d1..cba68bf52ec5 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -342,7 +342,7 @@ static void ingenic_drm_crtc_atomic_flush(struct=20
-> drm_crtc *crtc,
->  	if (priv->update_clk_rate) {
->  		mutex_lock(&priv->clk_mutex);
->  		clk_set_rate(priv->pix_clk,
-> -			     crtc_state->adjusted_mode.clock * 1000);
-> +			     crtc_state->adjusted_mode.crtc_clock * 1000);
->  		priv->update_clk_rate =3D false;
->  		mutex_unlock(&priv->clk_mutex);
->  	}
-> --
-> 2.30.2
+> --- linux-next-20210512.orig/drivers/gpu/drm/tiny/simpledrm.c
+> +++ linux-next-20210512/drivers/gpu/drm/tiny/simpledrm.c
+> @@ -530,8 +530,8 @@ static int simpledrm_device_init_mm(stru
+>  =20
+>   	ret =3D devm_aperture_acquire_from_firmware(dev, mem->start, resourc=
+e_size(mem));
+>   	if (ret) {
+> -		drm_err(dev, "could not acquire memory range [0x%llx:0x%llx]: error =
+%d\n",
+> -			mem->start, mem->end, ret);
+> +		drm_err(dev, "could not acquire memory range %pr: error %d\n",
+> +			mem, ret);
+>   		return ret;
+>   	}
+>  =20
 >=20
 
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
+
+--KhcWyEjhF4h3QqCazWrFGqRbaZorvBSf5--
+
+--dak79HA3qMhgihHuHU08I4mi89otf7oWG
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCdI6wFAwAAAAAACgkQlh/E3EQov+D2
+oRAAlm3YwzQg7SISFqmaJ+lXLJUv0eRBctw3inqSWTrwYCw+VoLwAkyOhXp8iVHDX9vkjGYO/5pO
+WXyAmOZUFQVlRkTAl+woOZsvulqRdRnDc+xf/1Zir7gMnrvhefUXJCdQpQiG+DYaYy6Fw9NzlFfU
+jYTDohglR/ha4CBS6eOQGj/+/sjrdWdgmTEvZhftTuxwYUZ1hIL/26Qt0RceNH4PBOAhgi6JwqrO
+ICa1k+gfi2Of3H+aaROR2BhK7xGplD7rO+EgRgZOxRTytIjkcl4vUqtxQFeUHOQuyfqy3dJhalVH
+Drqy0fYoqC2EvDy/wysOPoPL0M25bqQYZvxWzfZNGv5fZYAWnvBFmB1cdinnxpHR9k53QGSn1i6j
+hjG1+F7KZ6cau6n3NzlEKcq9i0U5rgncMA3aYMnobddaGCQ3p53O/ZQWDnLDfptFZZoRFIWlyqfz
+3Ls9DU/vTU65mtwQBXwv32e9Z8+EIzSpPz+PNVzbKQzd88WQEI+43G5872y6HBSaehKoz39cDS4d
+D+SU+QWBCIDwH7XDe93JrN3jlTt3P3wQ3CHRCeFKDSFiUayQeD0yXTeVAbh3f90C1CSIPQDh6HmZ
+j0zmqJyE6DJ+i6BLLwJYZxujMJMFvwTp5g8x7JtSZ2GmD3nvuuxaT5Lz0zl8C2IYouJyt8F9cN2x
+eY0=
+=ygU8
+-----END PGP SIGNATURE-----
+
+--dak79HA3qMhgihHuHU08I4mi89otf7oWG--
