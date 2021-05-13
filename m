@@ -1,42 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9C037F120
-	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 04:07:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B102037F13F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 May 2021 04:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 354D36E595;
-	Thu, 13 May 2021 02:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B656E5D4;
+	Thu, 13 May 2021 02:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 471816E595
- for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 02:07:16 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FgZjn4J0tzmV9g;
- Thu, 13 May 2021 10:05:01 +0800 (CST)
-Received: from [10.174.178.208] (10.174.178.208) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 13 May 2021 10:07:09 +0800
-Subject: Re: [PATCH -next] drm/panfrost: Fix PM reference leak in
- panfrost_job_hw_submit()
-To: Steven Price <steven.price@arm.com>, <robh@kernel.org>,
- <tomeu.vizoso@collabora.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <alyssa.rosenzweig@collabora.com>
-References: <1620714551-106976-1-git-send-email-zou_wei@huawei.com>
- <7ebf35ef-58c3-7bc7-f0e9-ad487bae6686@arm.com>
-From: Samuel Zou <zou_wei@huawei.com>
-Message-ID: <be1d7a48-be86-3713-e623-61bbd08125f7@huawei.com>
-Date: Thu, 13 May 2021 10:07:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B51076E5D4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 02:20:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 3B3B861420
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 02:20:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620872458;
+ bh=ku24oIO2AkN+Q2G6xHsbPuJ+/w5aZzIyH9ABd2Y3WWc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=twEuTHnS3rDHH/vgdvPT4VZiEENqMUpceOizt9KOEmTPrgXieQAEmZd6PDEA5C8kU
+ Q1n0Ll6mkaS1Z8Z2gJzQAFPyZWMNblPStpqbMFP2HrCxM9WV+J1u57JIDFrlTDz00b
+ Sn95vz/mCNcICRnY7nMKE8/FdSiK4dbImrvZqFbnpog899OGNpVZPLmVHSa1mERLlz
+ +vMIMhDkCnTw4flF+pUgAYMxgxmpSafbuEetxsbP6oOhp5Yu2w6/Lm16ZvJoMNs3RN
+ s+ncXdVxb/5kxlSMbd5rGydukVZ2sCFo4v1GTkoXvHEVaSFNkou0TvCkkT4PmRLAxR
+ wgQfK39tHxQrg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 321A461286; Thu, 13 May 2021 02:20:58 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Thu, 13 May 2021 02:20:57 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211277-2300-7MpGkDv41e@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <7ebf35ef-58c3-7bc7-f0e9-ad487bae6686@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.208]
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,58 +66,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steven,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
-Thanks for your review and also answer my doubts. Looking forward to 
-your patch.
+--- Comment #17 from Alex Deucher (alexdeucher@gmail.com) ---
+I don't think we've been able to reproduce it.  That said, we did double ch=
+eck
+the programmign sequences and I believe it may be fixed with these patches:
+https://gitlab.freedesktop.org/agd5f/linux/-/commit/71efc8701a47aa9e3de74ba=
+b06020da81757893f
+https://gitlab.freedesktop.org/agd5f/linux/-/commit/a8f768874aaf751738a2e03=
+50bf2e70085f93ace
 
-On 2021/5/12 23:23, Steven Price wrote:
-> On 11/05/2021 07:29, Zou Wei wrote:
->> pm_runtime_get_sync will increment pm usage counter even it failed.
->> Forgetting to putting operation will result in reference leak here.
->> Fix it by replacing it with pm_runtime_resume_and_get to keep usage
->> counter balanced.
->>
->> Reported-by: Hulk Robot <hulkci@huawei.com>
->> Signed-off-by: Zou Wei <zou_wei@huawei.com>
-> 
-> Thanks for the patch, but this is actually incorrect. 
-> panfrost_job_hw_submit() is expected to unconditionally increment the pm 
-> usage counter. This is because panfrost_job_hw_submit() can (currently) 
-> never fail, so in this case the job is considered "submitted" (even 
-> though it never reaches the hardware) and it's handled by the job timeout.
-> 
-> However this is at least the second time[1] this phantom "reference 
-> leak" has been raised, so perhaps it's time to handle this better. I'll 
-> post a patch reworking panfrost_job_hw_submit() so it can fail.
-> 
-> Thanks,
-> 
-> Steve
-> 
-> [1] 
-> https://lore.kernel.org/r/20200520110504.24388-1-dinghao.liu%40zju.edu.cn
-> 
->> ---
->>   drivers/gpu/drm/panfrost/panfrost_job.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c 
->> b/drivers/gpu/drm/panfrost/panfrost_job.c
->> index 6003cfe..42d8dbc 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->> @@ -157,7 +157,7 @@ static void panfrost_job_hw_submit(struct 
->> panfrost_job *job, int js)
->>       panfrost_devfreq_record_busy(&pfdev->pfdevfreq);
->> -    ret = pm_runtime_get_sync(pfdev->dev);
->> +    ret = pm_runtime_resume_and_get(pfdev->dev);
->>       if (ret < 0)
->>           return;
->>
-> 
-> .
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
