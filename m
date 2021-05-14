@@ -1,45 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24538380192
-	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 03:53:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCE5380209
+	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 04:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B546EDFA;
-	Fri, 14 May 2021 01:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F34016E039;
+	Fri, 14 May 2021 02:34:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 897476EDFA;
- Fri, 14 May 2021 01:53:15 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4FhBPf6TFDz9sWY;
- Fri, 14 May 2021 11:53:10 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1620957193;
- bh=OVB81s1AxgX/uB6VuQoYBHD9V+ti3hCW+342aDl0Wv0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=k5Brhjj44Wfazae3J6C2Ofxph0Qdgdm0YFDi56DqOWJTasUGrjYSvecx3okmJXrd6
- f4BsPr30vmlA8tkdDio6rwjqNL2RMmwbw48F+xxY+Y95Oh9NOGE5XIYhy7zzqtsH0s
- DRuHCj6mIY1Q0u+RJN+xom6ERTt2TtZGZIOVu1XeHKZ8QzsNa8yxlkPGdFWxywNSrU
- Y76DpF8uTkPu1HkeceizuFrKQ6y3TABrGyITLfPEAJGbF5+eXQVUG+bABjM1lc06mQ
- yjisUl61E9Ug43I5M055ltip0AFk+emeAt431Zzc401erNAaTzAZNO8hzj6aMedGuQ
- jbFJGRdV1JxDQ==
-Date: Fri, 14 May 2021 11:53:07 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: DRI <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>
-Subject: Re: linux-next: manual merge of the drm-intel tree with the drm tree
-Message-ID: <20210514115307.4364aff9@canb.auug.org.au>
-In-Reply-To: <20210430082321.3bd9c4a5@canb.auug.org.au>
-References: <20210317140824.0a28ffec@canb.auug.org.au>
- <20210318125241.5fdfeffd@canb.auug.org.au>
- <20210430082321.3bd9c4a5@canb.auug.org.au>
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF7226E039
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 02:34:50 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id b17so33112765ede.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 May 2021 19:34:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=qLkpZ5mHZqNRCJyPF42saSN+H4CFvyq10lBWfFLuvPE=;
+ b=qfApGizmMCBFfNj3S/x3lA2EtPQ+rEMMvnuAdcGibe3UkP7oTdy+NbQNHpPdxlK64b
+ P8kCeHYcfuP9ameQeQl5GQniCmny2Y/pBI1s4NPNzcZ1gQVwo8o9IKNhYbnUfu4z5NBL
+ 5DMONjHhUW5kEUyxKCK/bnyGnJkR9D2yGbRhgrJQHV8tVVCgg/VA9CXqwq9hzC+HdJwK
+ d+t6OJywE4YqotjbPN16k/QN5E4FtmrZC7wbqW8ZIZGDRqVj6O41CszpIeHW5+LJ9nMC
+ muB7Xy0xcERPjjpLhX653Fm+fs4s9kHtVMvWdEMWagRNrhkhrns6sLhV+2lGQhcOA0g3
+ TrJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=qLkpZ5mHZqNRCJyPF42saSN+H4CFvyq10lBWfFLuvPE=;
+ b=PO+PZYODXHGgb+91KDx4/z1a8T4EfRh5iomhy9tUQGyLUvl7UkGhS8+5EDztYz64ct
+ xi0srZy92+Mui54te5gz0I1eK3ZeWVgvblwrEdfklHdjasFAIt9bTllQvlm+6zC8mz8S
+ 9SrwYHnkK2WQPkHrNFzjaNcRdwmR9FA6bmw8RWn/Pd7ju7l7vv+N+8GT0lQMh0EJckCJ
+ TBncYETZVO/LBrpXrP8ItvdVJGgfDzGhSjTaglaaD2qc53lzFLblkAISI8GrTHFJxn/I
+ /bPy5PswKEg3Dgss4Hh/Q8S+fYQCzoKLNJ4n1WByz2g98xwMsF4c0ev1daaPj0nmJDtz
+ 5nVQ==
+X-Gm-Message-State: AOAM531EstdjZkdgYpsdEt3Mod8zuBrghZ5ghu3KRWfkVRASOaTDxY13
+ 5qEUe80Is8HS+tyZCGi0v6PXqmRPGn5draFXzhM=
+X-Google-Smtp-Source: ABdhPJxHNSbSqdxxl04VURLOlxdorRW3HueXOAdt+EbpmiGJeb3lbzhgwYmWlozr+DZTRmbCBotoHoTMB32iXxROzmM=
+X-Received: by 2002:a05:6402:1115:: with SMTP id
+ u21mr53290701edv.383.1620959689370; 
+ Thu, 13 May 2021 19:34:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/xXOZ1H1+5Gl.tnx8dTNuvTz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 14 May 2021 12:34:38 +1000
+Message-ID: <CAPM=9tyXjogjugi55XdAQd-ucMCk=ohDXS+vqdiaMk_aCL6aHQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.13-rc2
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,120 +60,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/xXOZ1H1+5Gl.tnx8dTNuvTz
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Linus,
 
-Hi all,
+Just realised I got the tag header wrong, these are the rc2 fixes. Not
+much here, mostly amdgpu fixes, with a couple of radeon, and a
+cosmetic vc4. Two MAINTAINER file updates also.
 
-On Fri, 30 Apr 2021 08:23:21 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> On Thu, 18 Mar 2021 12:52:41 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
-> wrote:
-> >=20
-> > On Wed, 17 Mar 2021 14:08:24 +1100 Stephen Rothwell <sfr@canb.auug.org.=
-au> wrote: =20
-> > >
-> > > Today's linux-next merge of the drm-intel tree got a conflict in:
-> > >=20
-> > >   drivers/gpu/drm/i915/display/intel_sprite.c
-> > >=20
-> > > between commit:
-> > >=20
-> > >   92f1d09ca4ed ("drm: Switch to %p4cc format modifier")
-> > >=20
-> > > from the drm tree and commit:
-> > >=20
-> > >   46d12f911821 ("drm/i915: migrate skl planes code new file (v5)")
-> > >=20
-> > > from the drm-intel tree.
-> > >=20
-> > > I fixed it up (I used the latter version of the file and applied the
-> > > following patch) and can carry the fix as necessary. This is now fixed
-> > > as far as linux-next is concerned, but any non trivial conflicts shou=
-ld
-> > > be mentioned to your upstream maintainer when your tree is submitted =
-for
-> > > merging.  You may also want to consider cooperating with the maintain=
-er
-> > > of the conflicting tree to minimise any particularly complex conflict=
-s.
-> > >=20
-> > > From: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > Date: Wed, 17 Mar 2021 14:05:42 +1100
-> > > Subject: [PATCH] merge fix for "drm: Switch to %p4cc format modifier"
-> > >=20
-> > > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > ---
-> > >  drivers/gpu/drm/i915/display/skl_universal_plane.c | 6 ++----
-> > >  1 file changed, 2 insertions(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/dri=
-vers/gpu/drm/i915/display/skl_universal_plane.c
-> > > index 1f335cb09149..45ceff436bf7 100644
-> > > --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> > > +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> > > @@ -1120,7 +1120,6 @@ static int skl_plane_check_fb(const struct inte=
-l_crtc_state *crtc_state,
-> > >  	struct drm_i915_private *dev_priv =3D to_i915(plane->base.dev);
-> > >  	const struct drm_framebuffer *fb =3D plane_state->hw.fb;
-> > >  	unsigned int rotation =3D plane_state->hw.rotation;
-> > > -	struct drm_format_name_buf format_name;
-> > > =20
-> > >  	if (!fb)
-> > >  		return 0;
-> > > @@ -1168,9 +1167,8 @@ static int skl_plane_check_fb(const struct inte=
-l_crtc_state *crtc_state,
-> > >  		case DRM_FORMAT_XVYU12_16161616:
-> > >  		case DRM_FORMAT_XVYU16161616:
-> > >  			drm_dbg_kms(&dev_priv->drm,
-> > > -				    "Unsupported pixel format %s for 90/270!\n",
-> > > -				    drm_get_format_name(fb->format->format,
-> > > -							&format_name));
-> > > +				    "Unsupported pixel format %p4cc for 90/270!\n",
-> > > +				    &fb->format->format);
-> > >  			return -EINVAL;
-> > >  		default:
-> > >  			break;
-> > > --=20
-> > > 2.30.0   =20
-> >=20
-> > The above fix up patch now needs to be applied to the drm tree. =20
->=20
-> I am still applying the above patch, but it applies to Linus' tree now.
+Dave.
 
-I am going to stop applying this.  You guys can apply it if you want to
-some time.
+drm-fixes-2021-05-14:
+drm fixes for 5.13-rc1
 
---=20
-Cheers,
-Stephen Rothwell
+two MAINTAINERS updates.
 
---Sig_/xXOZ1H1+5Gl.tnx8dTNuvTz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+amdgpu:
+- Fixes for flexible array conversions
+- Fix sysfs attribute init
+- Harvesting fixes
+- VCN CG/PG fixes for Picasso
 
------BEGIN PGP SIGNATURE-----
+radeon:
+- Fixes for flexible array conversions
+- Fix for flickering on Oland with multiple 4K displays
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCd2AMACgkQAVBC80lX
-0GzhVAf/fbuHprJ9IVbUr42Nxw3yUKRfFqGfOwipymb1KFWPs8UXWZK5+ZzL5uYw
-FCQCCdeIxh7Nl40GObZYZDuyB1hQEBYLhwLDvjFLeSmyMevWt4kTH3ypQQU7AlfI
-eS9ZR+GD2y7ruSJIiScuxv/lakP1wLa/qhuSUF19j1rODD56A03lJW1uvzP7ozV/
-UNlMojdAwDOzG+47QDd/JBV/Y06UN8yYtneyXByPImXob/MgefoVqMDzpdVcqJTW
-VI9PSjPmOpoNYqhJ+LSa64GQaKW4r5Hfm0JAuhW35tfRdRg5Dk8/lJe3pJuGxKGJ
-1ZTlyk7DoJu1eGOGsCcTrOYh9cgJcQ==
-=4RRO
------END PGP SIGNATURE-----
+vc4:
+- drop unused function
+The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
 
---Sig_/xXOZ1H1+5Gl.tnx8dTNuvTz--
+  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-05-14
+
+for you to fetch changes up to 08f0cfbf739a5086995f0779bbcb607163128a9a:
+
+  Merge tag 'amd-drm-fixes-5.13-2021-05-13' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2021-05-14
+09:20:04 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.13-rc1
+
+two MAINTAINERS updates.
+
+amdgpu:
+- Fixes for flexible array conversions
+- Fix sysfs attribute init
+- Harvesting fixes
+- VCN CG/PG fixes for Picasso
+
+radeon:
+- Fixes for flexible array conversions
+- Fix for flickering on Oland with multiple 4K displays
+
+vc4:
+- drop an used function
+
+----------------------------------------------------------------
+Daniel Vetter (1):
+      MAINTAINERS: Update address for Emma Anholt
+
+Dave Airlie (2):
+      Merge tag 'drm-misc-fixes-2021-05-13' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'amd-drm-fixes-5.13-2021-05-13' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+David Ward (1):
+      drm/amd/display: Initialize attribute for hdcp_srm sysfs file
+
+Gustavo A. R. Silva (3):
+      drm/radeon/ni_dpm: Fix booting bug
+      drm/radeon/si_dpm: Fix SMU power state load
+      drm/amd/pm: Fix out-of-bounds bug
+
+Jernej Skrabec (1):
+      MAINTAINERS: Update my e-mail
+
+Jiapeng Chong (1):
+      drm/vc4: remove unused function
+
+Kai-Heng Feng (1):
+      drm/radeon/dpm: Disable sclk switching on Oland when two 4K 60Hz
+monitors are connected
+
+Likun GAO (1):
+      drm/amdgpu: add judgement when add ip blocks (v2)
+
+Likun Gao (1):
+      drm/amdgpu: update the method for harvest IP for specific SKU
+
+Maxime Ripard (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Sathishkumar S (2):
+      drm/amdgpu: set vcn mgcg flag for picasso
+      drm/amdgpu: update vcn1.0 Non-DPG suspend sequence
+
+xinhui pan (1):
+      drm/ttm: Do not add non-system domain BO into swap list
+
+ .mailmap                                           |   1 +
+ MAINTAINERS                                        |  18 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  15 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  28 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.h      |   1 +
+ drivers/gpu/drm/amd/amdgpu/nv.c                    |  38 +++--
+ drivers/gpu/drm/amd/amdgpu/soc15.c                 |   3 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c              |  13 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c |   1 +
+ drivers/gpu/drm/amd/include/amd_shared.h           |   6 +
+ drivers/gpu/drm/amd/pm/powerplay/si_dpm.c          | 174 ++++++++++----------
+ drivers/gpu/drm/amd/pm/powerplay/sislands_smc.h    |  34 ++--
+ drivers/gpu/drm/radeon/ni_dpm.c                    | 144 ++++++++---------
+ drivers/gpu/drm/radeon/nislands_smc.h              |  34 ++--
+ drivers/gpu/drm/radeon/radeon.h                    |   1 +
+ drivers/gpu/drm/radeon/radeon_pm.c                 |   8 +
+ drivers/gpu/drm/radeon/si_dpm.c                    | 177 +++++++++++----------
+ drivers/gpu/drm/radeon/sislands_smc.h              |  34 ++--
+ drivers/gpu/drm/vc4/vc4_vec.c                      |   6 -
+ 20 files changed, 419 insertions(+), 318 deletions(-)
