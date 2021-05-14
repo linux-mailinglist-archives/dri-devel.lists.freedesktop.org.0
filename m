@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F736380FA7
-	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 20:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A432380FAC
+	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 20:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4781F6F3E8;
-	Fri, 14 May 2021 18:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C036E0B7;
+	Fri, 14 May 2021 18:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77AD46F3E8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 18:19:27 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id t15so8004293edr.11
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 11:19:27 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A131A6E0B7
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 18:21:29 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id l4so45900876ejc.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 11:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xQAcmm0gNblP9FomD04PgmLgubYaVV0e48xZxC9anTE=;
- b=py6NkYBM//RW43ozdVdCsjiQrtS40/CwqL8VHHWxbU+vlGgTo1Auo9bi+TwVYeArLc
- jDOVWdK3c/3fOAETyDWYy5p51FoMIi9/UNw5NjwWQpZ+bSJQ2NGT4lu2gGIvhonXSNs0
- Jx3zNF8SUKvwkAih/RlUTVJZKMR471YgGu9x8xGx01r3BOhjNCg7Cak9SjOhjUWo8mAO
- 6QKBtvZQtCG93HD1OjJM6XRSOL+Jw4N6oVyXfmlmMZrk2EPwHxyNCUA6gu7vQuW5js0R
- UFIsa+/tFwuCfuRoqB4GHAN+wyVXjR+GxE8XRWAK45tlSg5pXGBRs7dD0XAOs6fuHovd
- u6Xw==
+ :cc; bh=/I/1iQ26tcWKKsn5Sm9OUt5TBAdB5aF2BT/lSC2VYW4=;
+ b=g9nwg+k5M4sdK2bij+3fu9rTInT56W50iw51s4HpkiRfhHnnaxWIFj4Up4NVfDI7a+
+ lZqMrgpxFw3ihjqrddqITBPrT52osZzgbhfgu+gq9WJW+1hPUU2Bxmhpzwn7bBJ/7BqF
+ WCKM+WMJhrA9kiqCHprsaYcQbjpEzto6X4r3mJsRo4xUZS5eF/ghPalv7pZZ6mtWCJek
+ LwC3t3bDiz/9lPi2/T/RGH7TLYVFr0lolunKDkQhOkB1GtLgulq/dFcJbHNqr1V6JVdM
+ 5pK5ed9RW6/PjQdi0RTAcUODz6nUz4ig+0OGzGD3kgVfb5Sh/RHqquewjkkXR8koAQP2
+ QRkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xQAcmm0gNblP9FomD04PgmLgubYaVV0e48xZxC9anTE=;
- b=AVcxnC3Vd5cTr6rzmLY9+skBV6Uyy2OEZA05KWu5ugk/+hqeCIUgR7IXUfX7JznAcd
- WnTjt2mD1opt5r3EVxXX8p5tjKi0ZEGUGOfrBvEOdM0xJwhcqGMwQCztwbL5MfEruB0E
- UJ/acUKAL9DcyUGylRQwgQ/TcN/jqn1yQjLU+KSpwzu7MMD6nDcQtRHvmikUJkscj5WY
- pmoaH2NcGoY/km3YjREwbv5ryiRgabFSH1o7tjM4mJteQh13c2olACt+0MVEHCuuiXOg
- +JZRA8iwJb+Cvn9rwvJPKyFoZgWSNUnFoJHmzCFpDQ26it9OqIxL6grDL50wNHglCTYB
- o9vw==
-X-Gm-Message-State: AOAM532ElHY4Vz4wvj4srB8M9mvTakHiMPDfotDvPx6/IdwmZeiMqEuw
- JAEE/iyRh0cOb098E2Vno7gcPqf9xGoJ2ssevTcqyiuCnl0=
-X-Google-Smtp-Source: ABdhPJysFoewttlsttQUVAIXIa2kZoWiDXboq7E2ciSwj5bTZy5lLtzMjlA4VYTImkZo2k8fDdGYwMPzLePaWnEUeIc=
-X-Received: by 2002:aa7:db93:: with SMTP id u19mr15884855edt.227.1621016366070; 
- Fri, 14 May 2021 11:19:26 -0700 (PDT)
+ bh=/I/1iQ26tcWKKsn5Sm9OUt5TBAdB5aF2BT/lSC2VYW4=;
+ b=ng9n7T0ZyPMK3f4OSTLNp96x5Rr1uwBoeOV9TDgFFiiDIwtSkZmEDWsiFiP1ryLRyk
+ gVg6hlkxeuM2/bMOI3+AP3dPzTHf6/kkTkUeIp4/07tOoKK3/vZyGtLJ7zedK488V4EP
+ dG+fKinbZOd6crDCXDLJ88BauyPGd2i6oHSiG/ix3Iaz/BnVftxcI6FvWIPqp7Ct8g2D
+ CC0aF7vRiyzkLp40JbOasYMl8lqVGMXXltegdbZ09xCzdxhZL8OVg6yHT9d9HOsUQ4m9
+ vSOGcytvhSDrnH8kBce+kBzvAoUTxQ/YBhyCd7zx1/WQKB5NNrNsZ2WVHlUuQD9Dcdao
+ aKcw==
+X-Gm-Message-State: AOAM532xjvy90a1VHhwUDLHGwmMuDxVWEPzfRra4B2a1AzCNy2Qv7Sir
+ p2ktsM4mTfsby7o+Ll+PPTY7JkE7NgXVjN3zZI25Ug==
+X-Google-Smtp-Source: ABdhPJyXDI45RTI7mv3dP4cp6GFpGkHMtsz4f7j5NnxGyghjgF6KmHxoXAdyz59n3bHYns+bszl63FQJRyjknJmJUwQ=
+X-Received: by 2002:a17:907:781a:: with SMTP id
+ la26mr17697085ejc.435.1621016488080; 
+ Fri, 14 May 2021 11:21:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210503155748.1961781-1-jason@jlekstrand.net>
- <20210503155748.1961781-11-jason@jlekstrand.net>
- <YJEMJ0TF6vLmPo5d@phenom.ffwll.local>
-In-Reply-To: <YJEMJ0TF6vLmPo5d@phenom.ffwll.local>
+ <20210503155748.1961781-18-jason@jlekstrand.net>
+ <YJFzilYYEb+SMz1i@phenom.ffwll.local>
+In-Reply-To: <YJFzilYYEb+SMz1i@phenom.ffwll.local>
 From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 14 May 2021 13:19:14 -0500
-Message-ID: <CAOFGe97rHt90pqDnR+QdGsNTeeRJfKDftQKdpAf=hdTtQLj8kw@mail.gmail.com>
-Subject: Re: [PATCH 10/27] drm/i915/gem: Remove engine auto-magic with
- FENCE_SUBMIT
+Date: Fri, 14 May 2021 13:21:16 -0500
+Message-ID: <CAOFGe94s0hbP40SwnkZ6JtkVFLCa2A2OKEeQY3oEY5jhy=e4xg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 17/27] drm/i915/gem: Rework error handling in
+ default_engines
 To: Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,111 +71,73 @@ Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 4, 2021 at 3:56 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Tue, May 4, 2021 at 11:17 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 >
-> On Mon, May 03, 2021 at 10:57:31AM -0500, Jason Ekstrand wrote:
-> > Even though FENCE_SUBMIT is only documented to wait until the request in
-> > the in-fence starts instead of waiting until it completes, it has a bit
-> > more magic than that.  If FENCE_SUBMIT is used to submit something to a
-> > balanced engine, we would wait to assign engines until the primary
-> > request was ready to start and then attempt to assign it to a different
-> > engine than the primary.  There is an IGT test which exercises this by
-> > submitting a primary batch to a specific VCS and then using FENCE_SUBMIT
-> > to submit a secondary which can run on any VCS and have i915 figure out
-> > which VCS to run it on such that they can run in parallel.
-> >
-> > However, this functionality has never been used in the real world.  The
-> > media driver (the only user of FENCE_SUBMIT) always picks exactly two
-> > physical engines to bond and never asks us to pick which to use.
->
-> Maybe reference the specific igt you're break (and removing in the igt
-> series to match this) here. Just for the record and all that.
-
-Done.
-
-> -Daniel
->
+> On Mon, May 03, 2021 at 10:57:38AM -0500, Jason Ekstrand wrote:
+> > Since free_engines works for partially constructed engine sets, we can
+> > use the usual goto pattern.
 > >
 > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+>
+> I guess subsequent patches apply the same for the set_engines command and
+> __free_engines disappears? Otherwise feels a bit silly.
+
+Working towards that.
+
+> Anyway looks correct.
+>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
 > > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c  |  2 +-
-> >  drivers/gpu/drm/i915/gt/intel_engine_types.h    |  7 -------
-> >  .../drm/i915/gt/intel_execlists_submission.c    | 17 -----------------
-> >  3 files changed, 1 insertion(+), 25 deletions(-)
+> >  drivers/gpu/drm/i915/gem/i915_gem_context.c | 13 ++++++++-----
+> >  1 file changed, 8 insertions(+), 5 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > index d640bba6ad9ab..efb2fa3522a42 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > @@ -3474,7 +3474,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >               if (args->flags & I915_EXEC_FENCE_SUBMIT)
-> >                       err = i915_request_await_execution(eb.request,
-> >                                                          in_fence,
-> > -                                                        eb.engine->bond_execute);
-> > +                                                        NULL);
-> >               else
-> >                       err = i915_request_await_dma_fence(eb.request,
-> >                                                          in_fence);
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > index 883bafc449024..68cfe5080325c 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> > @@ -446,13 +446,6 @@ struct intel_engine_cs {
-> >        */
-> >       void            (*submit_request)(struct i915_request *rq);
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > index 10bd1b6dd1774..ce729e640bbf7 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -420,7 +420,7 @@ static struct i915_gem_engines *default_engines(struct i915_gem_context *ctx)
+> >  {
+> >       const struct intel_gt *gt = &ctx->i915->gt;
+> >       struct intel_engine_cs *engine;
+> > -     struct i915_gem_engines *e;
+> > +     struct i915_gem_engines *e, *err;
+> >       enum intel_engine_id id;
 > >
-> > -     /*
-> > -      * Called on signaling of a SUBMIT_FENCE, passing along the signaling
-> > -      * request down to the bonded pairs.
-> > -      */
-> > -     void            (*bond_execute)(struct i915_request *rq,
-> > -                                     struct dma_fence *signal);
-> > -
-> >       /*
-> >        * Call when the priority on a request has changed and it and its
-> >        * dependencies may need rescheduling. Note the request itself may
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > index 14378b28169b7..635d6d2494d26 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > @@ -3547,22 +3547,6 @@ static void virtual_submit_request(struct i915_request *rq)
-> >       spin_unlock_irqrestore(&ve->base.active.lock, flags);
+> >       e = alloc_engines(I915_NUM_ENGINES);
+> > @@ -438,18 +438,21 @@ static struct i915_gem_engines *default_engines(struct i915_gem_context *ctx)
+> >
+> >               ce = intel_context_create(engine);
+> >               if (IS_ERR(ce)) {
+> > -                     __free_engines(e, e->num_engines + 1);
+> > -                     return ERR_CAST(ce);
+> > +                     err = ERR_CAST(ce);
+> > +                     goto free_engines;
+> >               }
+> >
+> >               intel_context_set_gem(ce, ctx);
+> >
+> >               e->engines[engine->legacy_idx] = ce;
+> > -             e->num_engines = max(e->num_engines, engine->legacy_idx);
+> > +             e->num_engines = max(e->num_engines, engine->legacy_idx + 1);
+> >       }
+> > -     e->num_engines++;
+> >
+> >       return e;
+> > +
+> > +free_engines:
+> > +     free_engines(e);
+> > +     return err;
 > >  }
 > >
-> > -static void
-> > -virtual_bond_execute(struct i915_request *rq, struct dma_fence *signal)
-> > -{
-> > -     intel_engine_mask_t allowed, exec;
-> > -
-> > -     allowed = ~to_request(signal)->engine->mask;
-> > -
-> > -     /* Restrict the bonded request to run on only the available engines */
-> > -     exec = READ_ONCE(rq->execution_mask);
-> > -     while (!try_cmpxchg(&rq->execution_mask, &exec, exec & allowed))
-> > -             ;
-> > -
-> > -     /* Prevent the master from being re-run on the bonded engines */
-> > -     to_request(signal)->execution_mask &= ~allowed;
-> > -}
-> > -
-> >  struct intel_context *
-> >  intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-> >                              unsigned int count)
-> > @@ -3616,7 +3600,6 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-> >
-> >       ve->base.schedule = i915_schedule;
-> >       ve->base.submit_request = virtual_submit_request;
-> > -     ve->base.bond_execute = virtual_bond_execute;
-> >
-> >       INIT_LIST_HEAD(virtual_queue(ve));
-> >       ve->base.execlists.queue_priority_hint = INT_MIN;
+> >  void i915_gem_context_release(struct kref *ref)
 > > --
 > > 2.31.1
 > >
 > > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 >
 > --
 > Daniel Vetter
