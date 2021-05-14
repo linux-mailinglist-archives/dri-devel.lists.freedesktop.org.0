@@ -2,51 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA94381167
-	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 22:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B941E3811CA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 22:26:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 381846F451;
-	Fri, 14 May 2021 20:09:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C29E6E239;
+	Fri, 14 May 2021 20:25:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99A576F451;
- Fri, 14 May 2021 20:09:01 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- p14-20020a05600c358eb029015c01f207d7so305806wmq.5; 
- Fri, 14 May 2021 13:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=9vee9zbKeJ08k4xe/XZutEWn1yTcRHSY9UUPRdL/HXQ=;
- b=gVYhbAwKpL+ipOCZsofpwGVTpgzbCcblvU3WaxpvrC2CMYY6UdIWABp8eoZaO5iN67
- l0DjlqBBn6qBKolaKOvBLfdlxqGqv5fw5Mm8LCjUZ0yQCcMCMcnIfWheVkcKqcM43rOU
- qOIyS1MOttsktudza5OEYdEmqF7ACmhT7C0bpUVpDd+TnKLVyPyYuxoEz16MdaYlYmxL
- tkP+9hYPxfrJynYZqwFbAke1nv5zoKgTvQY5cI3uNTmnvRAfOxmOzz003HaPMT5H1vUe
- ID1mjtkj7gD74zzbyCbf8PsH/V2Lk56d+jYMZUztQMJnM8UryNFcBdz8umAF4i+fhr39
- HNqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=9vee9zbKeJ08k4xe/XZutEWn1yTcRHSY9UUPRdL/HXQ=;
- b=V7VXo8xRASYVNYkapxvFfEfQyZo+jSXMrn1EDfTJPS4TqIeEWxsfmWuMmUHeHzm71c
- sCNtcndXBX+aYnTyKtQ3iKMVg+a9ch9LhEILfmt3DwkadptWlnQcckHWSJan+VuddPHC
- R9DaxzOQEb1nQ/Mg96iVYT5ayAllXPEFqbPQaqHNxfzTOqioCEWWKETPZHhNp/pyzEZk
- OMDnMXYbGXB1rKasJyKvEzUaRL+fcw3NvSN3xc7kp+csuBJ9SZQ1sY5tkGqoedgNZvZJ
- mXl4m4lVmYj6VrmsZ0JSI8XYOZqjVZE4rbZYwFqhJisCItbB7NIC0ZO9QO/3B9TXh5Q2
- m2Yg==
-X-Gm-Message-State: AOAM532BIR8DlII16mc+fvup4d3InaVpfAe+1hzlTQd1mCHsA/j2lUBO
- CzEc1HLn++WqzRlT32O0Q+LFOUQUmGdwadRIKS0=
-X-Google-Smtp-Source: ABdhPJx1lkTJm9rKHYxi7GjduJl398gAg9pDy7QhR05IuHloVqkBr+xdhtf226DwAeMSoQsJqqj/3zgJ733l7f3xrLI=
-X-Received: by 2002:a7b:cd8e:: with SMTP id y14mr6087258wmj.164.1621022940229; 
- Fri, 14 May 2021 13:09:00 -0700 (PDT)
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9FBDB6E239
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 20:25:55 +0000 (UTC)
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+ id F21B192009C; Fri, 14 May 2021 22:25:53 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by angie.orcam.me.uk (Postfix) with ESMTP id EAA2B92009B;
+ Fri, 14 May 2021 22:25:53 +0200 (CEST)
+Date: Fri, 14 May 2021 22:25:53 +0200 (CEST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] video: fbdev: vga16fb: fix OOB write in
+ vga16fb_imageblit()
+In-Reply-To: <CAHk-=wguwhFpjhyMtDaH2hhjoV62gDgByC=aPyTrW9CkM5hqvA@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2105142150460.3032@angie.orcam.me.uk>
+References: <0000000000006bbd0c05c14f1b09@google.com>
+ <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
+ <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
+ <05acdda8-dc1c-5119-4326-96eed24bea0c@i-love.sakura.ne.jp>
+ <CAHk-=wguwhFpjhyMtDaH2hhjoV62gDgByC=aPyTrW9CkM5hqvA@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 14 May 2021 13:12:42 -0700
-Message-ID: <CAF6AEGuqLZDAEJwUFKb6m+h3kyxgjDEKa3DPA1fHA69vxbXH=g@mail.gmail.com>
-Subject: [resend][pull] drm/msm: drm-msm-fixes-2021-05-09 for v5.13-rc2
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,56 +44,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+ Jani Nikula <jani.nikula@intel.com>, Colin King <colin.king@canonical.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+On Fri, 14 May 2021, Linus Torvalds wrote:
 
-First round of fixes for v5.13
+> > Currently it is impossible to control upper limit of rows/columns values
+> > based on amount of memory reserved for the graphical screen, for
+> > resize_screen() calls vc->vc_sw->con_resize() only if vc->vc_mode is not
+> > already KD_GRAPHICS
+> 
+> Honestly, the saner approach would seem to be to simply error out if
+> vc_mode is KD_GRAPHICS.
+> 
+> Doing VT_RESIZE while in KD_GRAPHICS mode seems _very_ questionable,
+> and is clearly currently very buggy.
 
-The following changes since commit a29c8c0241654d5f3165d52e9307e4feff955621:
+ I haven't looked into it any further beyond tracking down (again, using 
+the LMO tree) the originating change as the other fix took precedence.  It 
+came with:
 
-  drm/msm/disp/dpu1: fix display underruns during modeset. (2021-04-09
-12:02:35 -0700)
+commit 094e0a9cdbdf1e11a28dd756a6cbd750b6303d10
+Author: Ralf Baechle <ralf@linux-mips.org>
+Date:   Sun Jun 1 12:07:37 2003 +0000
 
-are available in the Git repository at:
+    Merge with Linux 2.5.51
 
-  https://gitlab.freedesktop.org/drm/msm.git drm-msm-fixes-2021-05-09
+along with framebuffer console support:
 
-for you to fetch changes up to f2f46b878777e0d3f885c7ddad48f477b4dea247:
++inline int resize_screen(int currcons, int width, int height)
++{
++	/* Resizes the resolution of the display adapater */
++	int err = 0;
++
++	if (vcmode != KD_GRAPHICS && sw->con_resize)
++		err = sw->con_resize(vc_cons[currcons].d, width, height);
++	return err;
++}
++
 
-  drm/msm/dp: initialize audio_comp when audio starts (2021-05-06
-16:26:57 -0700)
+A handler for fbcon was added shortly afterwards with:
 
-----------------------------------------------------------------
-Dmitry Baryshkov (2):
-      drm/msm/dsi: dsi_phy_28nm_8960: fix uninitialized variable access
-      drm/msm/dsi: fix msm_dsi_phy_get_clk_provider return code
+commit bab384bdbe279efd7acc2146ef13b0b0395b2a42
+Author: Ralf Baechle <ralf@linux-mips.org>
+Date:   Tue Jun 3 17:04:10 2003 +0000
 
-Jonathan Marek (2):
-      drm/msm: fix LLC not being enabled for mmu500 targets
-      drm/msm: fix minor version to indicate MSM_PARAM_SUSPENDS support
+    Merge with Linux 2.5.59.
 
-Kuogee Hsieh (2):
-      drm/msm/dp: check sink_count before update is_connected status
-      drm/msm/dp: initialize audio_comp when audio starts
+however vgacon didn't have a handler for it until commit 28254d439b8c 
+("[PATCH] vga text console and stty cols/rows") two years later only.
 
-Rob Clark (1):
-      drm/msm: Do not unpin/evict exported dma-buf's
+ Overall I think it does make sense to resize the text console at any 
+time, even if the visible console (VT) chosen is in the graphics mode, as 
+my understanding (and experience at least with vgacon) is that resizing 
+the console applies globally across all the VTs.  So the intent of the 
+original change appears valid to me, and the choice not to reprogram the 
+visible console and only store the settings for a future use if it's in 
+the graphics mode correct.
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c           |  9 +++++----
- drivers/gpu/drm/msm/dp/dp_audio.c               |  1 +
- drivers/gpu/drm/msm/dp/dp_display.c             | 26 ++++++++++++++++---------
- drivers/gpu/drm/msm/dp/dp_display.h             |  1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c           |  2 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  4 ++++
- drivers/gpu/drm/msm/msm_drv.c                   |  2 +-
- drivers/gpu/drm/msm/msm_gem.c                   | 16 ++++++++++++++-
- drivers/gpu/drm/msm/msm_gem.h                   |  4 ++--
- 9 files changed, 47 insertions(+), 18 deletions(-)
+ Which means any bug triggered here needs to be fixed elsewhere rather 
+than by making the request fail.
+
+ NB for fbcon the usual ioctl to resize the console is FBIOPUT_VSCREENINFO 
+rather than VT_RESIZEX; fbset(8) uses it, and I actually experimented with 
+it and a TGA-like (SFB+) framebuffer when at my lab last time, as Linux is 
+kind enough to know how to fiddle with its clockchip.  It works just fine.
+
+  Maciej
