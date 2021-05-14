@@ -1,39 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457A8380CDF
-	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 17:27:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D339380E12
+	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 18:20:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5636EEBA;
-	Fri, 14 May 2021 15:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A23186E20B;
+	Fri, 14 May 2021 16:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 12BCF6EEBA
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 15:27:12 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6FEA1713;
- Fri, 14 May 2021 08:27:11 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D6293F718;
- Fri, 14 May 2021 08:27:09 -0700 (PDT)
-Subject: Re: [PATCH v13 0/4] drm/panfrost: Add support for mt8183 GPU
-To: Neil Armstrong <narmstrong@baylibre.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-References: <20210421052855.1279713-1-drinkcat@chromium.org>
- <c91746ce-88b6-5612-74a5-74600c7761e8@baylibre.com>
- <CAAEAJfD3i+L4w1NuE5pUkMuH=R3CfBztDn-ZLcYR=onkcZ4Gxg@mail.gmail.com>
- <373d0803-8658-9413-2f51-1e9804c39126@baylibre.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <ce401ca2-e285-4fcf-0583-c1dae94dba6a@arm.com>
-Date: Fri, 14 May 2021 16:27:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E67E6E20B
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 16:20:11 +0000 (UTC)
+Received: from fsav107.sakura.ne.jp (fsav107.sakura.ne.jp [27.133.134.234])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 14EGJn6k024946;
+ Sat, 15 May 2021 01:19:49 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav107.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp);
+ Sat, 15 May 2021 01:19:49 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 14EGJmMu024941
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Sat, 15 May 2021 01:19:48 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: [PATCH] video: fbdev: vga16fb: fix OOB write in vga16fb_imageblit()
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Maciej W. Rozycki" <macro@orcam.me.uk>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <0000000000006bbd0c05c14f1b09@google.com>
+ <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
+ <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
+Message-ID: <05acdda8-dc1c-5119-4326-96eed24bea0c@i-love.sakura.ne.jp>
+Date: Sat, 15 May 2021 01:19:48 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <373d0803-8658-9413-2f51-1e9804c39126@baylibre.com>
+In-Reply-To: <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,145 +55,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, fshao@chromium.org,
- David Airlie <airlied@linux.ie>, hsinyi@chromium.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- devicetree <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, hoegsberg@chromium.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: jirislaby@kernel.org, b.zolnierkie@samsung.com, jani.nikula@intel.com,
+ gregkh@linuxfoundation.org, syzkaller-bugs@googlegroups.com,
+ colin.king@canonical.com, Linus Torvalds <torvalds@linux-foundation.org>,
+ syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/05/2021 15:48, Neil Armstrong wrote:
-> On 13/05/2021 16:55, Ezequiel Garcia wrote:
->> Hi Neil,
->>
->> On Mon, 26 Apr 2021 at 06:59, Neil Armstrong <narmstrong@baylibre.com> wrote:
->>>
->>> Hi,
->>>
->>> On 21/04/2021 07:28, Nicolas Boichat wrote:
->>>> Hi!
->>>>
->>>> This is just a rebase of the v11, untested (but it seems like
->>>> Neil Armstrong recently tested it), with small changes in
->>>> binding and dts. v11 cover follows:
->>>>
->>>> Follow-up on the v5 [1], things have gotten significantly
->>>> better in the last year, thanks to the efforts on Bifrost
->>>> support by the Collabora team (and probably others I'm not
->>>> aware of).
->>>>
->>>> I've been testing this series on a MT8183/kukui device, with a
->>>> chromeos-5.10 kernel [2], and got basic Chromium OS UI up with
->>>> mesa 20.3.2 (lots of artifacts though).
->>>>
->>>> devfreq is currently not supported, as we'll need:
->>>>  - Clock core support for switching the GPU core clock (see 2/4).
->>>>  - Platform-specific handling of the 2-regulator (see 3/4).
->>>>
->>>> Since the latter is easy to detect, patch 3/4 just disables
->>>> devfreq if the more than one regulator is specified in the
->>>> compatible matching table.
->>>>
->>>> [1] https://patchwork.kernel.org/project/linux-mediatek/cover/20200306041345.259332-1-drinkcat@chromium.org/
->>>> [2] https://crrev.com/c/2608070
->>>>
->>>> Changes in v13:
->>>>  - devfreq: Fix conflict resolution mistake when rebasing, didn't
->>>>    even compile. Oops.
->>>>
->>>> Changes in v12:
->>>>  - binding: Fix min/maxItems logic (Rob Herring)
->>>>  - Add gpu node to mt8183-pumpkin.dts as well (Neil Armstrong).
->>>>
->>>> Changes in v11:
->>>>  - binding: power-domain-names not power-domainS-names
->>>>  - mt8183*.dts: remove incorrect supply-names
->>>>
->>>> Changes in v10:
->>>>  - Fix the binding to make sure sram-supply property can be provided.
->>>>
->>>> Changes in v9:
->>>>  - Explain why devfreq needs to be disabled for GPUs with >1
->>>>    regulators.
->>>>
->>>> Changes in v8:
->>>>  - Use DRM_DEV_INFO instead of ERROR
->>>>
->>>> Changes in v7:
->>>>  - Fix GPU ID in commit message
->>>>  - Fix GPU ID in commit message
->>>>
->>>> Changes in v6:
->>>>  - Rebased, actually tested with recent mesa driver.
->>>>  - Add gpu regulators to kukui dtsi as well.
->>>>  - Power domains are now attached to spm, not scpsys
->>>>  - Drop R-B.
->>>>  - devfreq: New change
->>>>  - Context conflicts, reflow the code.
->>>>  - Use ARRAY_SIZE for power domains too.
->>>>
->>>> Changes in v5:
->>>>  - Rename "2d" power domain to "core2"
->>>>  - Rename "2d" power domain to "core2" (keep R-B again).
->>>>  - Change power domain name from 2d to core2.
->>>>
->>>> Changes in v4:
->>>>  - Add power-domain-names description
->>>>    (kept Alyssa's reviewed-by as the change is minor)
->>>>  - Add power-domain-names to describe the 3 domains.
->>>>    (kept Alyssa's reviewed-by as the change is minor)
->>>>  - Add power domain names.
->>>>
->>>> Changes in v3:
->>>>  - Match mt8183-mali instead of bifrost, as we require special
->>>>    handling for the 2 regulators and 3 power domains.
->>>>
->>>> Changes in v2:
->>>>  - Use sram instead of mali_sram as SRAM supply name.
->>>>  - Rename mali@ to gpu@.
->>>>
->>>> Nicolas Boichat (4):
->>>>   dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
->>>>   arm64: dts: mt8183: Add node for the Mali GPU
->>>>   drm/panfrost: devfreq: Disable devfreq when num_supplies > 1
->>>>   drm/panfrost: Add mt8183-mali compatible string
->>>>
->>>>  .../bindings/gpu/arm,mali-bifrost.yaml        |  30 ++++-
->>>>  arch/arm64/boot/dts/mediatek/mt8183-evb.dts   |   5 +
->>>>  .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |   5 +
->>>>  .../boot/dts/mediatek/mt8183-pumpkin.dts      |   5 +
->>>>  arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 105 ++++++++++++++++++
->>>>  drivers/gpu/drm/panfrost/panfrost_devfreq.c   |   9 ++
->>>>  drivers/gpu/drm/panfrost/panfrost_drv.c       |  10 ++
->>>>  7 files changed, 168 insertions(+), 1 deletion(-)
->>>>
->>>
->>> Seems this version is ready to be applied if we get a review on the DT ?
->>>
->>> Mathias ? could you have a look ?
->>>
->>
->> Given Rob has Acked the DT bindings, I think it's OK to apply patches
->> 1, 3 and 4 via drm-misc, letting Mediatek people sort out the DT changes.
->>
->> My two unsolicited cents :-)
+syzbot is reporting that a local user with the framebuffer console can
+crash the kernel [1], for ioctl(VT_RESIZE) allows a TTY to set arbitrary
+rows/columns values regardless of amount of memory reserved for
+the graphical screen.
 
-You make a convincing point - and if everyone is happy for the DT
-changes to be handled separately I don't see a reason for the other
-patches to be held up.
+----------
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/kd.h>
+#include <linux/vt.h>
 
-> Yeah sure, is there a panfrost maintainer in the room ? I can apply them if you ack me.
+int main(int argc, char *argv[])
+{
+        const int fd = open("/dev/char/4:1", O_RDWR);
+        struct vt_sizes vt = { 0x4100, 2 };
 
-I seem to be applying most Panfrost changes these days, so I'll save you
-the effort and push 1,3,4 to drm-misc-next.
+        ioctl(fd, KDSETMODE, KD_GRAPHICS);
+        ioctl(fd, VT_RESIZE, &vt);
+        ioctl(fd, KDSETMODE, KD_TEXT);
+        return 0;
+}
+----------
 
-Thanks,
+Currently it is impossible to control upper limit of rows/columns values
+based on amount of memory reserved for the graphical screen, for
+resize_screen() calls vc->vc_sw->con_resize() only if vc->vc_mode is not
+already KD_GRAPHICS. I don't know the reason, and this condition predates
+the git history. Even if it turns out to be safe to always call this
+callback, we will need to involve another callback via "struct fb_ops" for
+checking the upper limits from fbcon_resize(). As a result, we will need
+to modify
 
-Steve
+ drivers/tty/vt/vt.c
+ drivers/video/fbdev/core/fbcon.c
+ drivers/video/fbdev/vga16fb.c
+ include/linux/fb.h
+
+files only for checking rows/columns values passed to ioctl(VT_RESIZE)
+request.
+
+Therefore, instead of introducing such a complicated callback chain, avoid
+this problem by simply checking whether the address to read or write is in
+[VGA_FB_PHYS, VGA_FB_PHYS + VGA_FB_PHYS_LEN) range.
+
+[1] https://syzkaller.appspot.com/bug?extid=1f29e126cf461c4de3b3
+
+Reported-by: syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Tested-by: syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
+---
+ drivers/video/fbdev/vga16fb.c | 54 +++++++++++++++++++++++------------
+ 1 file changed, 36 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
+index e2757ff1c23d..13732a3b1d69 100644
+--- a/drivers/video/fbdev/vga16fb.c
++++ b/drivers/video/fbdev/vga16fb.c
+@@ -98,6 +98,18 @@ static const struct fb_fix_screeninfo vga16fb_fix = {
+ 	.accel		= FB_ACCEL_NONE
+ };
+ 
++/*
++ * Verify that the address to read or write is in [VGA_FB_PHYS, VGA_FB_PHYS + VGA_FB_PHYS_LEN)
++ * range, for ioctl(VT_RESIZE) allows a TTY to set arbitrary rows/columns values which will crash
++ * the kernel due to out of bounds access when trying to redraw the screen.
++ */
++static inline bool is_valid_iomem(const struct fb_info *info, const char __iomem *where)
++{
++	return info->screen_base <= where && where < info->screen_base + VGA_FB_PHYS_LEN;
++}
++
++#define IS_SAFE(where) is_valid_iomem(info, (where))
++
+ /* The VGA's weird architecture often requires that we read a byte and
+    write a byte to the same location.  It doesn't matter *what* byte
+    we write, however.  This is because all the action goes on behind
+@@ -851,7 +863,7 @@ static void vga_8planes_fillrect(struct fb_info *info, const struct fb_fillrect
+                         int x;
+ 
+                         /* we can do memset... */
+-                        for (x = width; x > 0; --x) {
++			for (x = width; x > 0 && IS_SAFE(where); --x) {
+                                 writeb(rect->color, where);
+                                 where++;
+                         }
+@@ -864,7 +876,7 @@ static void vga_8planes_fillrect(struct fb_info *info, const struct fb_fillrect
+                 oldop = setop(0x18);
+                 oldsr = setsr(0xf);
+                 setmask(0x0F);
+-                for (y = 0; y < rect->height; y++) {
++		for (y = 0; y < rect->height && IS_SAFE(where) && IS_SAFE(where + 1); y++) {
+                         rmw(where);
+                         rmw(where+1);
+                         where += info->fix.line_length;
+@@ -919,7 +931,7 @@ static void vga16fb_fillrect(struct fb_info *info, const struct fb_fillrect *rec
+ 				setmask(0xff);
+ 
+ 				while (height--) {
+-					for (x = 0; x < width; x++) {
++					for (x = 0; x < width && IS_SAFE(dst); x++) {
+ 						writeb(0, dst);
+ 						dst++;
+ 					}
+@@ -935,7 +947,7 @@ static void vga16fb_fillrect(struct fb_info *info, const struct fb_fillrect *rec
+ 
+ 				setmask(0xff);
+ 				while (height--) {
+-					for (x = 0; x < width; x++) {
++					for (x = 0; x < width && IS_SAFE(dst); x++) {
+ 						rmw(dst);
+ 						dst++;
+ 					}
+@@ -975,7 +987,7 @@ static void vga_8planes_copyarea(struct fb_info *info, const struct fb_copyarea
+                 dest = info->screen_base + dx + area->dy * info->fix.line_length;
+                 src = info->screen_base + sx + area->sy * info->fix.line_length;
+                 while (height--) {
+-                        for (x = 0; x < width; x++) {
++			for (x = 0; x < width && IS_SAFE(src) && IS_SAFE(dest); x++) {
+                                 readb(src);
+                                 writeb(0, dest);
+                                 src++;
+@@ -991,7 +1003,7 @@ static void vga_8planes_copyarea(struct fb_info *info, const struct fb_copyarea
+                 src = info->screen_base + sx + width +
+ 			(area->sy + height - 1) * info->fix.line_length;
+                 while (height--) {
+-                        for (x = 0; x < width; x++) {
++			for (x = 0; x < width && IS_SAFE(src - 1) && IS_SAFE(dest - 1); x++) {
+                                 --src;
+                                 --dest;
+                                 readb(src);
+@@ -1065,7 +1077,7 @@ static void vga16fb_copyarea(struct fb_info *info, const struct fb_copyarea *are
+ 				dst = info->screen_base + (dx/8) + dy * info->fix.line_length;
+ 				src = info->screen_base + (sx/8) + sy * info->fix.line_length;
+ 				while (height--) {
+-					for (x = 0; x < width; x++) {
++					for (x = 0; x < width && IS_SAFE(src) && IS_SAFE(dst); x++) {
+ 						readb(src);
+ 						writeb(0, dst);
+ 						dst++;
+@@ -1080,7 +1092,7 @@ static void vga16fb_copyarea(struct fb_info *info, const struct fb_copyarea *are
+ 				src = info->screen_base + (sx/8) + width + 
+ 					(sy + height  - 1) * info->fix.line_length;
+ 				while (height--) {
+-					for (x = 0; x < width; x++) {
++					for (x = 0; x < width && IS_SAFE(src - 1) && IS_SAFE(dst - 1); x++) {
+ 						dst--;
+ 						src--;
+ 						readb(src);
+@@ -1130,13 +1142,15 @@ static void vga_8planes_imageblit(struct fb_info *info, const struct fb_image *i
+         where = info->screen_base + dx + image->dy * info->fix.line_length;
+ 
+         setmask(0xff);
+-        writeb(image->bg_color, where);
+-        readb(where);
++	if (IS_SAFE(where)) {
++		writeb(image->bg_color, where);
++		readb(where);
++	}
+         selectmask();
+         setmask(image->fg_color ^ image->bg_color);
+         setmode(0x42);
+         setop(0x18);
+-        for (y = 0; y < image->height; y++, where += info->fix.line_length)
++	for (y = 0; y < image->height && IS_SAFE(where); y++, where += info->fix.line_length)
+                 writew(transl_h[cdat[y]&0xF] | transl_l[cdat[y] >> 4], where);
+         setmask(oldmask);
+         setsr(oldsr);
+@@ -1165,14 +1179,16 @@ static void vga_imageblit_expand(struct fb_info *info, const struct fb_image *im
+ 				selectmask();
+ 				
+ 				setmask(0xff);
+-				writeb(image->bg_color, where);
+-				rmb();
+-				readb(where); /* fill latches */
++				if (IS_SAFE(where)) {
++					writeb(image->bg_color, where);
++					rmb();
++					readb(where); /* fill latches */
++				}
+ 				setmode(3);
+ 				wmb();
+ 				for (y = 0; y < image->height; y++) {
+ 					dst = where;
+-					for (x = image->width/8; x--;) 
++					for (x = image->width/8; x-- && IS_SAFE(dst);)
+ 						writeb(*cdat++, dst++);
+ 					where += info->fix.line_length;
+ 				}
+@@ -1187,7 +1203,7 @@ static void vga_imageblit_expand(struct fb_info *info, const struct fb_image *im
+ 				setmask(0xff);
+ 				for (y = 0; y < image->height; y++) {
+ 					dst = where;
+-					for (x=image->width/8; x--;){
++					for (x = image->width/8 && IS_SAFE(dst); x--;) {
+ 						rmw(dst);
+ 						setcolor(image->fg_color);
+ 						selectmask();
+@@ -1237,8 +1253,10 @@ static void vga_imageblit_color(struct fb_info *info, const struct fb_image *ima
+ 					setcolor(*cdat);
+ 					selectmask();
+ 					setmask(1 << (7 - (x % 8)));
+-					fb_readb(dst);
+-					fb_writeb(0, dst);
++					if (IS_SAFE(dst)) {
++						fb_readb(dst);
++						fb_writeb(0, dst);
++					}
+ 
+ 					cdat++;
+ 				}
+-- 
+2.18.4
+
+
