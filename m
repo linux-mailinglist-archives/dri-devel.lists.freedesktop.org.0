@@ -2,70 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6623C3812A8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 23:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232063812BA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 23:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 992B76E3F2;
-	Fri, 14 May 2021 21:11:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22C36E4AD;
+	Fri, 14 May 2021 21:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC5B6E3F2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 21:11:03 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id o8so121085ljp.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 14:11:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 567E86E4AD;
+ Fri, 14 May 2021 21:16:37 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id b25so800871oic.0;
+ Fri, 14 May 2021 14:16:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qmD8bOtABF5XD+YzylZZ0F+UXv+l/cf1tAlHtz2MQKI=;
- b=E7NGDr8baMYrNmyWjoI5iqN4uwMNaqda9XZ6KgibagBhs7q01o3AiUnWU21oLy+K+p
- 05yfVvaCeBxwJ+GRX7lNtGVBy1um0kIwp/pOYG3jAYfNG7rU+EMqRTrceEygaNGT81+E
- I6Kf4BqE1SyN58yvSQudkP2u9VbbGuJjaYF7U=
+ :cc:content-transfer-encoding;
+ bh=lN4vxBb7HsrPSthr80bYcbW3xAFTNXZpcixwXqHVjEQ=;
+ b=fqQhqaGmX8IZEF+lPDonIGW7PsGpbN3vWiO/z8ZH8X4Oq7VLVfkIIWYpwFlXGLuE2U
+ 9NerDawBSs7z6VCbqh3IEBxZQEzPkyNlj7uo/Msj4C4wXSDgb3t+JDj573PBM7aKU+ZL
+ srPjq0wRCRfQ+qMtPhu3+sZCd6aazv5l7/WmB4rrPiS0hvTPjZC1gJrIcmLtedbnem8n
+ Knc7gn+6kRaQxZFz86c2ISEvk2eVm9orH8jIm0LQ/GDpgm6PBxwrutzOWpvocH+4x73v
+ Gj4voH1GwHaB9TNMuD3FkP7v8Kpz/5n0NB9pa77ZUqgH+DHrf2X14CZhBrF0X/hAOd4v
+ uV3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qmD8bOtABF5XD+YzylZZ0F+UXv+l/cf1tAlHtz2MQKI=;
- b=XucNVx7padp2OihCN7u7RrG+zZDC/exQb7xHoVYjwoVwwozQNi8kMtv50b1XZwHpIL
- MNO/fTDjgUULiJppyBEc6sc2hBgqQirOKX4ryGKz6q2TLQgsOX8WiXmL4XMUAFKtmWhT
- jg7l/O+v/8IuB1QAjcEE3RTWnAVFSRKgGBvUouBYffUV7acDaKjNvWWfsKND2xNK6t1M
- AvaoRzpKbUzjLZDbwok5ULmfQ2FCiouCZYuiRn0sQDgDHILU3gnGkq6cj9u6tKbitlna
- D28A7tQzdWOAPh2nEF/jL7Y4+E+diuGs/XmSaqHTE4r3G3C7ZCwqpdIHeZCgNIY+aO7I
- 2A3w==
-X-Gm-Message-State: AOAM5314Dc7oxRiHtgtAN0Lln1oepVV685wiothfm1UC/gq853U++bzC
- 1vbb5VmZ58a9QhjbiofrA/djgsHxv1Zdtlhi8GM=
-X-Google-Smtp-Source: ABdhPJyMMkbjBmmjHGdT8QxIuhKgrttUHIFpWAkZotTkKkfi6+w1oVrHNDwUJGnjwYrR5W2DoWEUgw==
-X-Received: by 2002:a2e:8797:: with SMTP id n23mr19468219lji.248.1621026661692; 
- Fri, 14 May 2021 14:11:01 -0700 (PDT)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com.
- [209.85.208.175])
- by smtp.gmail.com with ESMTPSA id f10sm972951lfv.40.2021.05.14.14.11.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 May 2021 14:11:01 -0700 (PDT)
-Received: by mail-lj1-f175.google.com with SMTP id w15so43504ljo.10
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 14:11:00 -0700 (PDT)
-X-Received: by 2002:a2e:22c4:: with SMTP id
- i187mr38530598lji.465.1621026660520; 
- Fri, 14 May 2021 14:11:00 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lN4vxBb7HsrPSthr80bYcbW3xAFTNXZpcixwXqHVjEQ=;
+ b=DRQ8Mc/ewuLLGsBE2T/I4J9hdpI4v3T+J3g2wan6NdM1vuaazbcs0xixgIKiiYZh1d
+ p2PHC9Fimd0XXJPN8BKeiYgJ/L/sStotOqAMjjOIWHwEm7IWprl2Im8VBw/x34O8rXFo
+ 5afkufOa/YvOjdHjScn6u6VW9K241FYWKaoC0oqvk8vSBn10V9zI6pwnaYl/x1fI7aHs
+ 2SA9z4AMTgTMbWuEHVfg58ywkJ430p/iVfPOL8MBnCX1K7Z5Ql+6+BYHhwBop9th3rEo
+ YN5VNYqwiDA8JmCbxX/revO1DrdVtP0DGeWkh1w8Yu1jp5DirXCP8VFM9y6W2X9F5QIo
+ 0YVA==
+X-Gm-Message-State: AOAM533GRS3lwsMaCAB6fruR1veOWTJNAasZmpIlLBeOpcSOpSlj3w+Y
+ mpq2v3kAIfjDuWQ53CvYTJ0x4KQFWexf/52vMspKb8Jw
+X-Google-Smtp-Source: ABdhPJxjk9UmFZHxPYf2hfRYYCQLHaSQdkhdv2C0EsFNcsBZ3KhSg5ek6jTnTbPwv44r0/5VUY2jEFuM55BTOdA6JWU=
+X-Received: by 2002:aca:fc50:: with SMTP id a77mr35559127oii.123.1621026996584; 
+ Fri, 14 May 2021 14:16:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <0000000000006bbd0c05c14f1b09@google.com>
- <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
- <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
- <05acdda8-dc1c-5119-4326-96eed24bea0c@i-love.sakura.ne.jp>
- <CAHk-=wguwhFpjhyMtDaH2hhjoV62gDgByC=aPyTrW9CkM5hqvA@mail.gmail.com>
- <alpine.DEB.2.21.2105142150460.3032@angie.orcam.me.uk>
- <CAHk-=wioOHwKNj8AmvXWV-oL60ae0jKswAHy9e6wCYYeA5EQXg@mail.gmail.com>
-In-Reply-To: <CAHk-=wioOHwKNj8AmvXWV-oL60ae0jKswAHy9e6wCYYeA5EQXg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 14 May 2021 14:10:44 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjkVAjfWrmmJnJe1_MriK9gezWCew_MU=MbQNzHbGopsQ@mail.gmail.com>
-Message-ID: <CAHk-=wjkVAjfWrmmJnJe1_MriK9gezWCew_MU=MbQNzHbGopsQ@mail.gmail.com>
-Subject: Re: [PATCH] video: fbdev: vga16fb: fix OOB write in
- vga16fb_imageblit()
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+References: <20210514064039.1300558-1-chenhuacai@loongson.cn>
+ <b555643f-8369-2eb5-fbea-89e6e9f01435@amd.com>
+In-Reply-To: <b555643f-8369-2eb5-fbea-89e6e9f01435@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 14 May 2021 17:16:25 -0400
+Message-ID: <CADnq5_NEKYc7QGNbXONhgzVDrXO-cHc+qPd+n2cPxY3nCC6ecA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fix GPU TLB update error when PAGE_SIZE >
+ AMDGPU_PAGE_SIZE
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,58 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@intel.com>, Colin King <colin.king@canonical.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
+Cc: David Airlie <airlied@linux.ie>, Yi Li <liyi@loongson.cn>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 14, 2021 at 1:32 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+Applied.  Thanks!
+
+Alex
+
+
+On Fri, May 14, 2021 at 3:18 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> Another alternative would be to just delay the resize to when vcmode
-> is put back to text mode again. That sounds somewhat reasonable to me,
-> but it's a pretty big thing.
-
-Actually thinking more about that option, it sounds horrible. It would
-mean that we'd continue to use the old geometry for the actual VC
-buffers for a random time, and then change it to the new geometry at
-some arbitrary point.
-
-So I think the only reasonable approach (apart from just my "don't do
-that then") might be to just always call ->con_resize().
-
-There are only actually three cases of "->con_resize()", so it might
-not be too bad.
-
-Looking at it, both sisusbcon_resize() and vgacon_resize() seem to be
-trivially fine in KD_GRAPHICS mode.
-
-vgacon already seems to have that "!vga_is_gfx" test, and does
-vgacon_doresize() at vgacon_switch(). It might need to add a
-vgacon_doresize() to the vgacon_blank() case 0 code so that it
-actually does the right thing when going back to KD_TEXT mode.
-
-And fbcon_resize() looks like it might be mostly ok with it too.
-Again, there is a con_is_visible() test, and I suspect that might need
-to be changed to
-
-        if (con_is_visible(vc) && vc->vc_mode == KD_TEXT)
-
-instead,  but it doesn't look _too_ bad.
-
-So I think just removing the "vc->vc_mode != KD_GRAPHICS" test from
-resize_screen() might be the way to go. That way, the low-level data
-structures actually are in sync with the resize, and the "out of
-bounds" bug should never happen.
-
-Would you mind testing that?
-
-               Linus
+> Am 14.05.21 um 08:40 schrieb Huacai Chen:
+> > From: Yi Li <liyi@loongson.cn>
+> >
+> > When PAGE_SIZE is larger than AMDGPU_PAGE_SIZE, the number of GPU TLB
+> > entries which need to update in amdgpu_map_buffer() should be multiplie=
+d
+> > by AMDGPU_GPU_PAGES_IN_CPU_PAGE (PAGE_SIZE / AMDGPU_PAGE_SIZE).
+> >
+> > Signed-off-by: Yi Li <liyi@loongson.cn>
+> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_ttm.c
+> > index 3bef0432cac2..a376a993e474 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > @@ -225,7 +225,7 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_=
+object *bo,
+> >       *addr +=3D mm_cur->start & ~PAGE_MASK;
+> >
+> >       num_dw =3D ALIGN(adev->mman.buffer_funcs->copy_num_dw, 8);
+> > -     num_bytes =3D num_pages * 8;
+> > +     num_bytes =3D num_pages * 8 * AMDGPU_GPU_PAGES_IN_CPU_PAGE;
+> >
+> >       r =3D amdgpu_job_alloc_with_ib(adev, num_dw * 4 + num_bytes,
+> >                                    AMDGPU_IB_POOL_DELAYED, &job);
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
