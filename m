@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F73338077B
-	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 12:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2613807E3
+	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 13:02:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2356EE47;
-	Fri, 14 May 2021 10:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 783C36EE48;
+	Fri, 14 May 2021 11:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5D56E0A1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 10:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620988719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WX0D+xswpC19A5dUSRvorG3RPFapQlr1rrgyu6fP5is=;
- b=ADMNpMsChcvHjpq3Cp1ZfifIDm0RZuUghup/jMxDIlxi5Om2pIcb86T5awkmbjLph5IdwG
- hdI0iU7UnhiTfzR2f+TGXkUOYRWKvWaoHAnbvw33zbLmgqdPpxFZrOh9Tf0KsMJEqQG1Z/
- jxEAlIe10IVkMRW65R2ruaHT2ZAZL3k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-nX7pKzPpMBW34lsDOFkToQ-1; Fri, 14 May 2021 06:38:37 -0400
-X-MC-Unique: nX7pKzPpMBW34lsDOFkToQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 843511854E24;
- Fri, 14 May 2021 10:38:36 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-0.ams2.redhat.com
- [10.36.114.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48E0D19C59;
- Fri, 14 May 2021 10:38:36 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 861731800396; Fri, 14 May 2021 12:38:34 +0200 (CEST)
-Date: Fri, 14 May 2021 12:38:34 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH 1/3] virtio-gpu uapi: Add VIRTIO_GPU_F_EXPLICIT_FLUSH
- feature
-Message-ID: <20210514103834.vvfgjvfnc2hphr4f@sirius.home.kraxel.org>
-References: <20210511083610.367541-1-vivek.kasireddy@intel.com>
- <20210511102958.46ybk2q33vg4iayi@sirius.home.kraxel.org>
- <8dc2bbd037964224bcc6609fd47b5698@intel.com>
- <20210512064410.infyhtac2bc35xr4@sirius.home.kraxel.org>
- <2ce75952e24349e5a787919a55169779@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <2ce75952e24349e5a787919a55169779@intel.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB266EE48
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 11:02:38 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id z4so6555410pgb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 04:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=g7DkEbR2JcQCbOxkMhdC26BeBE1YwkunloMTb/SDIZc=;
+ b=TPBiLWV/NQn/o4Os0P4M/SsGh0ZuidyhHWzGQieQPX0qaKdDvntKEKGuI2k+UWP9UV
+ 0JFkGypQMuPK9kdymjMT64VZofeIz/FLcvpZCvW+PhnPxq1r4pWFKWwjKZ45IqUlKIqI
+ xnRQgvBUQOvQCunnoMxY32zrpKwgT9WQ0PAbnwPaFGvjoGBlsTaTnBi8sp2dFyd+FcWM
+ a7cOOgn+mMaTwe2xrA11UcqPbOPVi8xMo/BtDOIt73434TAsPV5ngVnQFTWLVl9ixZfV
+ Efmz2Rji/0z1brCmNAums5zhFOO+uLGKXDgUTMsDJwBi/KnhY+lqIew0SINYzuNVSfzS
+ zw0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=g7DkEbR2JcQCbOxkMhdC26BeBE1YwkunloMTb/SDIZc=;
+ b=UXzcm54slfnReqYI+u2puaJfYwyteGPdOjqu8+E1CEwjch5gSqwr2ty/4XjcP3c+ev
+ bJm6dZXfJBD/Nz2qMNWzMplf7AkqIZVzMg4RVvarcAURQyYq8PD3VCGiIdsx5ausscUy
+ eOGJxtM8nqODrkW+IGwFvl2Xg/In98ni+ZTxaZLjN/ugX6YIxU4vZtboV/6MCOdd+Sxj
+ YMkUo8UXbs5aoV48+jVEvLIBAsMj56ToeImVONbZozO+iBXkWjNiSHQgy5oLZjrcL8Qn
+ oVWjXrRQTj5L2Eb/zWJBdo5uesHLzyI/6kDlMkdGdLO/zFs/1r7k24VQNYRY76uhLlj5
+ VYrQ==
+X-Gm-Message-State: AOAM531CuesZC4iag0PkzjYS8Hcg0VgDRSJKu4eCXSlCcvdvCfE+kMdU
+ FjdfvWan0J15ic3HZRZVtiA=
+X-Google-Smtp-Source: ABdhPJzI0fGVTZCZdc30Z3TaVpb0GVm4cmbsGmevnEN/twwgl1TCynmfAE+pe70r417S9GkSp3vXSA==
+X-Received: by 2002:a63:465f:: with SMTP id v31mr13437876pgk.6.1620990157678; 
+ Fri, 14 May 2021 04:02:37 -0700 (PDT)
+Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
+ by smtp.gmail.com with ESMTPSA id 202sm4193402pgg.59.2021.05.14.04.02.33
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 14 May 2021 04:02:37 -0700 (PDT)
+From: dillon.minfei@gmail.com
+To: patrice.chotard@foss.st.com, pierre-yves.mordret@foss.st.com,
+ alain.volmat@foss.st.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, mturquette@baylibre.com
+Subject: [PATCH 0/4] Fix the i2c/clk bug of stm32 mcu platform
+Date: Fri, 14 May 2021 19:02:28 +0800
+Message-Id: <1620990152-19255-1-git-send-email-dillon.minfei@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,73 +64,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: sboyd@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+ Dillon Min <dillon.minfei@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 12, 2021 at 09:18:37PM +0000, Kasireddy, Vivek wrote:
-> Hi Gerd,
-> 
-> > > However, as part of this feature (explicit flush), I'd like to make the Guest wait until
-> > > the current resource (as specified by resource_flush or set_scanout) is flushed or
-> > > synchronized. But for a different feature I am thinking of (explicit sync), I'd like to
-> > > make the Guest wait for the previous buffer/resource submitted (available via
-> > > old_state->fb).
-> > 
-> > For page-flipping I guess?  i.e. you want submit a new framebuffer, then
-> > wait until the host doesn't need the previous one?  That is likewise
-> > linked to a command, although it is set_scanout this time.
-> [Kasireddy, Vivek] Mainly for page-flipping but I'd also like to have fbcon, Xorg that
-> do frontbuffer rendering/updates to work seamlessly as well.
-> 
-> > 
-> > So, right now qemu simply queues the request and completes the command
-> > when a guest sends a resource_flush our set_scanout command.  You want
-> > be notified when the host is actually done processing the request.
-> [Kasireddy, Vivek] Correct, that is exactly what I want -- make the Guest wait
-> until it gets notified that the Host is completely done processing/using the fb.
-> However, there can be two resources the guest can be made to wait on: wait for
-> the new/current fb that is being submitted to be processed (explicit flush)
+From: Dillon Min <dillon.minfei@gmail.com>
 
-That would be wait on resource_flush case, right?
+This seriese fix three i2c/clk bug for stm32 f4/f7
+- kernel runing in sdram, i2c driver get data timeout
+- ltdc clk turn off after kernel console active
+- kernel hang in set ltdc clock rate
 
-> or wait for the previous fb that was submitted earlier (in the
-> previous repaint cycle) to be processed (explicit sync).
+clk bug found on stm32f429/f469-disco board
 
-That would be the wait on set_scanout case, right?
+Hi Patrice:
+below is the guide to verify the patch:
 
-And it would effectively wait on the previous fb not being needed by the
-host any more (because the page-flip to the new fb completed) so the
-guest can re-use the previous fb to render the next frame, right?
+setup test env with following files(link at below 'files link'):
+[1] u-boot-dtb.bin
+[2] rootfs zip file (used in kernel initramfs)
+[3] u-boot's mkimage to create itb file
+[4] kernel config file
+[5] my itb with-or-without i2c patch
 
-(also when doing front-buffer rendering with xorg/fbcon and then doing a
-virtual console switch the guest could wait for the console switch being
-completed).
+This patch based on kernel commit:
+88b06399c9c766c283e070b022b5ceafa4f63f19
 
-> IIUC, Explicit sync only makes sense if 1) the Host windowing system also supports
-> that feature/protocol (currently only upstream Weston does but I'd like to add it to
-> Mutter if no one else does) or if there is a way to figure out (dma-buf sync file?) if
-> the Host has completely processed the fb and 2) if Qemu UI is not doing a blit and
-> instead submitting the guest fb/dmabuf directly to the Host windowing system.
-> As you are aware, 2) can possibly be done with dbus/pipewire Qemu UI backends
-> (I'll explore this soon) but not with GTK or SDL. 
+Note:
+panel-ilitek-ili9341.c is the driver which was submitted last year, but not
+get accepted. it's used to setup touch screen calibration, then test i2c.
 
-Well, I think we need to clearly define the wait flag semantics.  Should
-resource_flush with wait flag wait until the host is done reading the
-resource (blit done)?  Or should it wait until the host screen has been
-updated (gtk draw callback completed)?
+create itb file(please correct path of 'data'):
+./mkimage -f stm32.its stm32.itb
 
-Everything else will be a host/guest implementation detail then, and
-of course this needs some integration with the UI on the host side and
-different UIs might have to do different things.
+HW setup:
+console:
+       PA9, PA10
+       usart0
+       serial@40011000
+       115200 8n1
 
-On the guest side integrating this with fences will give us enough
-flexibility on how we want handle the waits.  Simplest would be to just
-block.  We could implement virtual vblanks, which would probably make
-most userspace work fine without explicit virtio-gpu support.  If needed
-we could even give userspace access to the fence so it can choose how to
-wait.
+-- flash u-boot.bin to stm32f429-disco on PC
+$ sudo openocd -f board/stm32f429discovery.cfg -c \
+  '{PATH-TO-YOUR-UBOOT}/u-boot-dtb.bin 0x08000000 exit reset'
 
-take care,
-  Gerd
+-- setup kernel load bootargs at u-boot
+U-Boot > setenv bootargs 'console=tty0 console=ttySTM0,115200
+                    root=/dev/ram rdinit=/linuxrc loglevel=8 fbcon=rotate:2'
+U-Boot > loady;bootm
+(download stm32.dtb or your kernel with itb format, or download zImage, dtb)
+
+-- setup ts_calibrate running env on stm32f429-disco
+/ # export TSLIB_CONFFILE=/etc/ts.conf
+/ # export TSLIB_TSDEVICE=/dev/input/event0
+/ # export TSLIB_CONSOLEDEVICE=none
+/ # export TSLIB_FBDEVICE=/dev/fb0
+
+-- clear screen
+/ # ./fb
+
+-- run ts_calibrate 
+/ # ts_calibrate
+(you can calibrate touchscreen now, and get below errors)
+
+[  113.942087] stmpe-i2c0-0041: failed to read regs 0x52: -110
+[  114.063598] stmpe-i2c 0-0041: failed to read reg 0x4b: -16
+[  114.185629] stmpe-i2c 0-0041: failed to read reg 0x40: -16
+[  114.307257] stmpe-i2c 0-0041: failed to write reg 0xb: -16
+
+...
+with i2c patch applied, you will find below logs:
+
+RAW---------------------> 3164 908 183 118.110884
+TS_READ_RAW----> x = 3164, y =908, pressure = 183
+RAW---------------------> 3166 922 126 118.138946
+TS_READ_RAW----> x = 3166, y = 922, pressure = 126
+....
+
+files link:
+https://drive.google.com/drive/folders/1qNbjChcB6UGtKzne2F5x9_WG_sZFyo3o?usp=sharing
+
+
+
+
+Dillon Min (4):
+  drm/panel: Add ilitek ili9341 panel driver
+  i2c: stm32f4: Fix stmpe811 get xyz data timeout issue
+  clk: stm32: Fix stm32f429's ltdc driver hang in set clock rate
+  clk: stm32: Fix ltdc's clock turn off by clk_disable_unused() after
+    kernel startup
+
+ drivers/clk/clk-stm32f4.c                    |   10 +-
+ drivers/gpu/drm/panel/Kconfig                |   12 +
+ drivers/gpu/drm/panel/Makefile               |    1 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 1285 ++++++++++++++++++++++++++
+ drivers/i2c/busses/i2c-stm32f4.c             |   12 +-
+ 5 files changed, 1310 insertions(+), 10 deletions(-)
+ create mode 100755 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+
+-- 
+2.7.4
 
