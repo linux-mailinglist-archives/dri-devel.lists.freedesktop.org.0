@@ -1,71 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D2F3811DA
-	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 22:33:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0332A3811FE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 22:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C05916E24D;
-	Fri, 14 May 2021 20:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF596E24E;
+	Fri, 14 May 2021 20:49:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE7506E24D
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 20:33:01 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id a2so132345lfc.9
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 13:33:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z9fFCzzakKEZE6yIPzCdXzgESj8HznLN13JEu2IrUhs=;
- b=AZD5F3fmpvTeEhIt43za7+8EIrk2t9t9HMEYztpTlYaJJuCP+wvA3afhdJCb5YQVUE
- gku0fZAVygSRcHZvtbgGNSvieB4UtA0Btv4ADLqSbXfXPrX0uVMGUN+SV7Sw6GZaO0Cl
- LSH64wCZBlZv1NlK5Pmcnn3tyCs7yG5F18jNU=
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A676E24E
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 20:49:14 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id d16so560577pfn.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 13:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SDysTlpzs+D22rykgOWjRnciGLgVayF2amTTq4U60PA=;
+ b=b4msMTbszsV65KLkXVR2Ip8FPunIOUmVmzdYU4dOybg6ChAG3rSc4nCr/TBXX8asCE
+ hWrb+fYltTLlhXwRYb9yJN6v4kXr6vyhbAKJ8sDHyutC3oRTYi9KZXz3fUrv8GyyFd/8
+ ZCfFYl8SJnNvcOoZY9Z9amCmlqxwMS4GQZM4gdgdBU4Q4gLDwReXrbJE1myg8GdRY8Hs
+ pgA/mKL6/3PMtMcdKkASeAWTkWYqiLvxloNRKudAQO/XpM4rWRrF5u2nZyVF6UFu/qDj
+ w7KaJjCw2qvSfVU6k+RiS6elnjSyAkTWme9vSYyYaJdxp7NkKfQwBc4kvI+bJl5vxiXh
+ zNTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z9fFCzzakKEZE6yIPzCdXzgESj8HznLN13JEu2IrUhs=;
- b=KO94y85OZjVetcnbdhMy8xO0+QqWi4KJdpFk7QZVcvyI/17SbzGwNyNtMlJQXS21L2
- kwNeulNRKZkZiBE3n5kxCWCWpA4ZeICv9XGRLWsuNiZV+/HuG9eqnaQysD3M+54KAVzR
- R5lJRvoIyUxjFzacxTDhyGg0/UtBFZIqiK4D2EDlP/e2p45W2gRZR9CD7r/VnP1m8gB8
- vx/+PvNwh4FdFi+rBE0Vp9zJvVTjFlP8XsX5qkKZbevuz7NCGkCxMro0XQXL48DSQrzK
- Oo0epLT6vLGRTbxktVCA6pwN8JzE3cZq3ZbsQnYV3RwIGo89b2myEmE5xIPIIv8YpSXv
- 02yQ==
-X-Gm-Message-State: AOAM531n3hGTRRdJ7lUaBcic79vTboXzobRZgHgaOKGvkrKOnEdpcHn3
- 4b8tIzQhET3xzAVY7mABVBPA84x+AsW3BelchgE=
-X-Google-Smtp-Source: ABdhPJwkOF2gcy089POw6f7iyLvWxHZ4uWgayrOiI8ar19+K99xdd2G3pUbGOxPxCJNrQCpbeHaTQg==
-X-Received: by 2002:a05:6512:2304:: with SMTP id
- o4mr33018633lfu.135.1621024379795; 
- Fri, 14 May 2021 13:32:59 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
- [209.85.167.44])
- by smtp.gmail.com with ESMTPSA id w5sm939630lfk.2.2021.05.14.13.32.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 May 2021 13:32:59 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id x19so178528lfa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 13:32:58 -0700 (PDT)
-X-Received: by 2002:a05:6512:36c5:: with SMTP id
- e5mr655215lfs.41.1621024378774; 
- Fri, 14 May 2021 13:32:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SDysTlpzs+D22rykgOWjRnciGLgVayF2amTTq4U60PA=;
+ b=CRRCAljqUKMEjfTjWeGqkEOwAiDP5+rw/wwoO8GRT99OIDbrTANz7y0PpEpi35KSZi
+ kszEBqGVhX2tyuWThWczEqDL+gHc8KL8UcAbreeNzgFpVcOKMvq5kpZV5cLp6hUESbCD
+ o190Dx4dcYy0Q3uRMdjw+Pm21ShIfOz/tEfZ6C86anfrE/xKF4RA3iYZt+ZUH4n7TfXd
+ HR1tEADtCqXD+xvo1yV98G5YTRLUNdaXq1l5/DdgW9+EuWu+G8NJNJ6RAmw1LpL/xo7l
+ crbnDWzg2mP3BUQbQJbyhm19m3w2Tk/Ccoz7PYeXqW7rv9bW5DA7Lr/TkkcgjJK5ulC3
+ 1pmw==
+X-Gm-Message-State: AOAM532nQDh0/2GWEcoQkj7oAKxvMzp/Pu+kU8w00VaXZ56HFmOO5A7w
+ IC03LKFrBNfRbwHpbJ5Jkeg=
+X-Google-Smtp-Source: ABdhPJxfyQARvv4CDhE80rrI0z2ohmaMgktH5uGUvlwbvmIlzDHp2gtRz1bpW3u8YOElcZDZgvykgA==
+X-Received: by 2002:a63:215a:: with SMTP id s26mr29612600pgm.134.1621025353792; 
+ Fri, 14 May 2021 13:49:13 -0700 (PDT)
+Received: from localhost.localdomain (097-094-025-122.res.spectrum.com.
+ [97.94.25.122])
+ by smtp.gmail.com with ESMTPSA id t21sm4641416pfe.82.2021.05.14.13.49.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 May 2021 13:49:13 -0700 (PDT)
+From: Joseph Kogut <joseph.kogut@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/1] drm: drm_legacy_addbufs_pci(): fix return without cleanup
+Date: Fri, 14 May 2021 13:48:36 -0700
+Message-Id: <20210514204836.793539-1-joseph.kogut@gmail.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <YJ6BJBgS0HnPgzsJ@mwanda>
+References: <YJ6BJBgS0HnPgzsJ@mwanda>
 MIME-Version: 1.0
-References: <0000000000006bbd0c05c14f1b09@google.com>
- <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
- <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
- <05acdda8-dc1c-5119-4326-96eed24bea0c@i-love.sakura.ne.jp>
- <CAHk-=wguwhFpjhyMtDaH2hhjoV62gDgByC=aPyTrW9CkM5hqvA@mail.gmail.com>
- <alpine.DEB.2.21.2105142150460.3032@angie.orcam.me.uk>
-In-Reply-To: <alpine.DEB.2.21.2105142150460.3032@angie.orcam.me.uk>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 14 May 2021 13:32:42 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wioOHwKNj8AmvXWV-oL60ae0jKswAHy9e6wCYYeA5EQXg@mail.gmail.com>
-Message-ID: <CAHk-=wioOHwKNj8AmvXWV-oL60ae0jKswAHy9e6wCYYeA5EQXg@mail.gmail.com>
-Subject: Re: [PATCH] video: fbdev: vga16fb: fix OOB write in
- vga16fb_imageblit()
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,48 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@intel.com>, Colin King <colin.king@canonical.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
+Cc: Joseph Kogut <joseph.kogut@gmail.com>, dri-devel@lists.freedesktop.org,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 14, 2021 at 1:25 PM Maciej W. Rozycki <macro@orcam.me.uk> wrote:
->
->  Overall I think it does make sense to resize the text console at any
-> time, even if the visible console (VT) chosen is in the graphics mode,
+The patch 70556e24e18e: "drm: remove usage of drm_pci_alloc/free" leads
+to the following static checker warning:
 
-It might make sense, but only if we call the function to update the
-low-level data.
+    drivers/gpu/drm/drm_bufs.c:1090 drm_legacy_addbufs_pci()
+    warn: inconsistent returns '&dev->struct_mutex'.
+      Locked on  : 988
+      Unlocked on: 938,944,951,959,973,1005,1042,1060,1090
 
-Not calling it, and then starting to randomly use the (wrong)
-geometry, and just limiting it so that it's all within the buffer -
-THAT does not make sense.
+Fix the return without cleanup by removing the early return and taking
+the original return path on allocation failure, including the intended
+unlocks.
 
-So I think your patch is fundamentally wrong. It basically says "let's
-use random stale incorrect data, but just make sure that the end
-result is still within the allocated buffer".
+Signed-off-by: Joseph Kogut <joseph.kogut@gmail.com>
+---
+ drivers/gpu/drm/drm_bufs.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-My patch is at least conceptually sane.
+diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+index 94bc1f6049c9..ea3ca81be9dd 100644
+--- a/drivers/gpu/drm/drm_bufs.c
++++ b/drivers/gpu/drm/drm_bufs.c
+@@ -984,17 +984,18 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
+ 
+ 	while (entry->buf_count < count) {
+ 		dmah = kmalloc(sizeof(drm_dma_handle_t), GFP_KERNEL);
+-		if (!dmah)
+-			return -ENOMEM;
+-
+-		dmah->size = total;
+-		dmah->vaddr = dma_alloc_coherent(dev->dev,
+-						 dmah->size,
+-						 &dmah->busaddr,
+-						 GFP_KERNEL);
+-		if (!dmah->vaddr) {
+-			kfree(dmah);
+-
++		if (dmah) {
++			dmah->size = total;
++			dmah->vaddr = dma_alloc_coherent(dev->dev,
++							 dmah->size,
++							 &dmah->busaddr,
++							 GFP_KERNEL);
++			if (!dmah->vaddr) {
++				kfree(dmah);
++				dmah = NULL;
++			}
++		}
++		if (!dmah) {
+ 			/* Set count correctly so we free the proper amount. */
+ 			entry->buf_count = count;
+ 			entry->seg_count = count;
+-- 
+2.31.1
 
-An alternative would be to just remove the "vcmode != KD_GRAPHICS"
-check entirely, and always call con_resize() to update the low-level
-data, but honestly, that seems very likelty to break something very
-fundamentally, since it's not how any of fbcon has ever been tested,
-
-Another alternative would be to just delay the resize to when vcmode
-is put back to text mode again. That sounds somewhat reasonable to me,
-but it's a pretty big thing.
-
-But no, your patch to just "knowingly use entirely wrong values, then
-add a limit check because we know the values are possibly garbage and
-not consistent with reality" is simply not acceptable.
-
-              Linus
