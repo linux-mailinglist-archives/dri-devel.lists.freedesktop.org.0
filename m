@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4932038137F
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 00:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5C93813A1
+	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 00:13:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D8BE6F4AC;
-	Fri, 14 May 2021 22:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22ECD6E30C;
+	Fri, 14 May 2021 22:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 003C06F49C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 22:07:32 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id v4so733363qtp.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 15:07:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IbrQjxkb0K3z7ZkPDbwumBPr7QnDKgJDV9MYg72KtXI=;
- b=dx1Df5/yzY+AeZz/rdkuLnqLf65GYwH3dHIFCdSBqpHR3fWG5VtvM11+v8Pz0I424K
- /CTN93UfyjlVQMv7eSajh07I4QztMYX0OMg0CHIOA2eA2JA68b/3utBkLzotkWwEGMYo
- pnph5wO/Gl8XUyBVgaIP6DIgLVnP/tHjlk/sY1uNq1c5iAz2ltn/TpK+gz9uARdDWfNz
- KE0Nouw9d71fwOyDTx1rde2xAF4byNR1HtLY4UzwVp7KueySru6gKGgLUrpUX49QoMAW
- qLKZzxO74ljfE8ocXZcXcgy7UgDj2/GzwxBgMcm3+7UlIM8aqyxYD+tC5H2LRLvBx7cp
- eZKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IbrQjxkb0K3z7ZkPDbwumBPr7QnDKgJDV9MYg72KtXI=;
- b=PT69ih6n+llWPwV6QjzBLNOe//PFu6M1n+QOpQWJecnWZV7YN/nV7kVh/fjqdhv/Cc
- mo669Q4foziD1Oa+KnT1UB8lmV/J0Sa0f0sZMcceBmGh0KbEgWoW6r5lFOzXKTHLukJl
- /kJqihjzx2knHzysrE/eaZmPwYBwF4Lm/IJKNkB0UwVUrNfg2hOdw3oKh0+v9d9WNtaB
- gJ2qC95BsDVVAhGGWlFXoD//19UDnY1ttanSxUCrEk4fNF7l/heFmvkhSv9NGEQ6jREb
- n7gBxjMMfBmourQPSHZc6yuLNO3aCEDGkTMWJ86HFE5nq6eXx5iBaiNuD3wewA2iCOxX
- JYfA==
-X-Gm-Message-State: AOAM530iIjhDo19fwpF14HkviAyx78cLr2GXPVK5hPIfRJRt44dyoKry
- PTjBXMdq13cLxroXx9IErelpoqzmXduTpUdC/odkW0O4438=
-X-Google-Smtp-Source: ABdhPJxaEbRftY4lIHCyF5Rw8nvdMm5/lCdHTk5LXSje8/I/5yu/Xzt4icnH9N8EPP/ne043QHlIxNTO/PeJv6d+lKQ=
-X-Received: by 2002:ac8:5810:: with SMTP id g16mr44371397qtg.135.1621030052188; 
- Fri, 14 May 2021 15:07:32 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24E0E6E30C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 22:13:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621030398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2mg2n4gV17bGOVE68OZPsALQKP2f9toztfRI91bC8mM=;
+ b=SJSmS+USCzJOYlC9+mAE5L8T1qzPlZEan88d/Y5+D+ZWh3KpLMcjCKksR33/T+yOCBvZQa
+ KQfW0dLFIRRuOeTIvVf7pF8oOD+c/ubowsg8GRmf6+21DSxszND2u4T6N7oIgRiy+zLb/6
+ gJ9Tm5e/O+2w3JuK6Q69SGfNrdGca84=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-Ml9oYVQjOmqIWf6tu5Dykg-1; Fri, 14 May 2021 18:13:14 -0400
+X-MC-Unique: Ml9oYVQjOmqIWf6tu5Dykg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53E53FC9C;
+ Fri, 14 May 2021 22:13:13 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-118-140.rdu2.redhat.com
+ [10.10.118.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 652D019D7D;
+ Fri, 14 May 2021 22:13:12 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v2] drm/tegra: Get ref for DP AUX channel, not its ddc adapter
+Date: Fri, 14 May 2021 18:13:05 -0400
+Message-Id: <20210514221305.1783892-1-lyude@redhat.com>
+In-Reply-To: <20210423182146.185633-2-lyude@redhat.com>
+References: <20210423182146.185633-2-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20210514213032.575161-1-arnd@kernel.org>
-In-Reply-To: <20210514213032.575161-1-arnd@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 15 May 2021 01:07:21 +0300
-Message-ID: <CAA8EJpoo=VS1Nk-3CpyraDFzF+0xe3SWxkVt7M=8aBNhbdh_hQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dsi: fix 32-bit clang warning
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,67 +59,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Jonathan Marek <jonathan@marek.ca>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
+Cc: linux-tegra@vger.kernel.org, David Airlie <airlied@linux.ie>,
  open list <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, Nathan Chancellor <nathan@kernel.org>,
- clang-built-linux@googlegroups.com,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>
+ Jonathan Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 15 May 2021 at 00:31, Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> clang is a little overzealous with warning about a constant conversion
-> in an untaken branch of a ternary expression:
->
-> drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c:975:48: error: implicit conversion from 'unsigned long long' to 'unsigned long' changes value from 5000000000 to 705032704 [-Werror,-Wconstant-conversion]
->         .max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000UL : ULONG_MAX,
->                                                       ^~~~~~~~~~~~
->
-> Rewrite this to use a preprocessor conditional instead to avoid the
-> warning.
->
-> Fixes: 076437c9e360 ("drm/msm/dsi: move min/max PLL rate to phy config")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+While we're taking a reference of the DDC adapter for a DP AUX channel in
+tegra_sor_probe() because we're going to be using that adapter with the
+SOR, now that we've moved where AUX registration happens the actual device
+structure for the DDC adapter isn't initialized yet. Which means that we
+can't really take a reference from it to try to keep it around anymore.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This should be fine though, because we can just take a reference of its
+parent instead.
 
-> ---
-> As found with another patch, using __builtin_choose_expr() would
-> likely also work here, but doesn't seem any more readable.
-> ---
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> index e76ce40a12ab..accd6b4eb7c2 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> @@ -972,7 +972,11 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
->                 .restore_pll_state = dsi_7nm_pll_restore_state,
->         },
->         .min_pll_rate = 600000000UL,
-> -       .max_pll_rate = (5000000000ULL < ULONG_MAX) ? 5000000000ULL : ULONG_MAX,
-> +#ifdef CONFIG_64BIT
-> +       .max_pll_rate = 5000000000UL,
-> +#else
-> +       .max_pll_rate = ULONG_MAX,
-> +#endif
->         .io_start = { 0xae94400, 0xae96400 },
->         .num_dsi_phy = 2,
->         .quirks = DSI_PHY_7NM_QUIRK_V4_1,
-> --
-> 2.29.2
->
+v2:
+* Avoid calling i2c_put_adapter() in tegra_output_remove() for eDP/DP cases
 
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 39c17ae60ea9 ("drm/tegra: Don't register DP AUX channels before connectors")
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org
+---
+ drivers/gpu/drm/tegra/output.c | 5 ++++-
+ drivers/gpu/drm/tegra/sor.c    | 6 +++---
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+index 47d26b5d9945..2dacce1ab6ee 100644
+--- a/drivers/gpu/drm/tegra/output.c
++++ b/drivers/gpu/drm/tegra/output.c
+@@ -180,10 +180,13 @@ int tegra_output_probe(struct tegra_output *output)
+ 
+ void tegra_output_remove(struct tegra_output *output)
+ {
++	int connector_type = output->connector.connector_type;
++
+ 	if (output->hpd_gpio)
+ 		free_irq(output->hpd_irq, output);
+ 
+-	if (output->ddc)
++	if (connector_type != DRM_MODE_CONNECTOR_eDP &&
++	    connector_type != DRM_MODE_CONNECTOR_DisplayPort && output->ddc)
+ 		i2c_put_adapter(output->ddc);
+ }
+ 
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 7b88261f57bb..4e0e3a63e586 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -3739,11 +3739,11 @@ static int tegra_sor_probe(struct platform_device *pdev)
+ 		if (!sor->aux)
+ 			return -EPROBE_DEFER;
+ 
+-		if (get_device(&sor->aux->ddc.dev)) {
+-			if (try_module_get(sor->aux->ddc.owner))
++		if (get_device(sor->aux->dev)) {
++			if (try_module_get(sor->aux->dev->driver->owner))
+ 				sor->output.ddc = &sor->aux->ddc;
+ 			else
+-				put_device(&sor->aux->ddc.dev);
++				put_device(sor->aux->dev);
+ 		}
+ 	}
+ 
 -- 
-With best wishes
-Dmitry
+2.31.1
+
