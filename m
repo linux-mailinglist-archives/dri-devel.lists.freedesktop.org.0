@@ -1,44 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99D4380E74
-	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 18:53:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 808AF380EE8
+	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 19:26:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A62E06E20F;
-	Fri, 14 May 2021 16:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D40F86F3B5;
+	Fri, 14 May 2021 17:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C876E20F;
- Fri, 14 May 2021 16:53:40 +0000 (UTC)
-IronPort-SDR: Rsaa3nqpJlMwUDRL2Lif8yXU8ZL7V4+7sRHlns421C1obZ/pxe8RI6zf3yGUO5hQ5BbRWn+pQW
- tkV2g9FT8fkg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9984"; a="199894845"
-X-IronPort-AV: E=Sophos;i="5.82,300,1613462400"; d="scan'208";a="199894845"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2021 09:53:38 -0700
-IronPort-SDR: gJ2ap+lkq2mr3hPUz3bxRc2B2JtHlcBOyyf4Ty7kRoHoKQJadwu4LctQKjmHmGbJU98RYnsYkU
- kxu2Eo1mKEfA==
-X-IronPort-AV: E=Sophos;i="5.82,300,1613462400"; d="scan'208";a="457874101"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2021 09:53:38 -0700
-Date: Fri, 14 May 2021 09:46:21 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [Intel-gfx] [RFC PATCH 00/97] Basic GuC submission support in
- the i915
-Message-ID: <20210514164621.GB826@sdutt-i7>
-References: <20210506191451.77768-1-matthew.brost@intel.com>
- <d5695c6d-2dc9-2ea3-9491-2a12468e68a2@linux.intel.com>
- <CAOFGe94nFvepNaV56SQ-OWV5vicYWXuAOZb2ufrs4G+-1QZZXA@mail.gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30B1E6F3B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 17:26:31 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id ADD97B05D;
+ Fri, 14 May 2021 17:26:29 +0000 (UTC)
+Subject: Re: [PATCH] drm/ingenic: Fix pixclock rate for 24-bit serial panels
+To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20210323144008.166248-1-paul@crapouillou.net>
+ <6DP1TQ.W6B9JRRW1OY5@crapouillou.net>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <a42b2e5d-49e7-a15b-5f5f-9eb858e8fdf6@suse.de>
+Date: Fri, 14 May 2021 19:26:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOFGe94nFvepNaV56SQ-OWV5vicYWXuAOZb2ufrs4G+-1QZZXA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <6DP1TQ.W6B9JRRW1OY5@crapouillou.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="G7VCp2Z0I1tFZjwjRdIoitLmgxDDw7plp"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,94 +43,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason.ekstrand@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, od@zcrc.me, stable@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 14, 2021 at 11:36:37AM -0500, Jason Ekstrand wrote:
-> On Fri, May 14, 2021 at 6:12 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
-> >
-> > On 06/05/2021 20:13, Matthew Brost wrote:
-> > > Basic GuC submission support. This is the first bullet point in the
-> > > upstreaming plan covered in the following RFC [1].
-> > >
-> > > At a very high level the GuC is a piece of firmware which sits between
-> > > the i915 and the GPU. It offloads some of the scheduling of contexts
-> > > from the i915 and programs the GPU to submit contexts. The i915
-> > > communicates with the GuC and the GuC communicates with the GPU.
-> > >
-> > > GuC submission will be disabled by default on all current upstream
-> > > platforms behind a module parameter - enable_guc. A value of 3 will
-> > > enable submission and HuC loading via the GuC. GuC submission should
-> > > work on all gen11+ platforms assuming the GuC firmware is present.
-> >
-> > Some thoughts mostly relating to future platforms where GuC will be the
-> > only option, and to some extent platforms where it will be possible to
-> > turn it on for one reason or another.
-> >
-> > Debuggability - in the context of having an upstream way/tool for
-> > capturing and viewing GuC logs usable for attaching to bug reports.
-> >
-> > Currently i915 logs, can provide traces via tracepoints and trace
-> > printk, and GPU error capture state, which provides often sufficient
-> > trail of evidence to debug issues.
-> >
-> > We need to make sure GuC does is not a black box in this respect. By
-> > this I mean it does not hide a large portion of the execution flows from
-> > upstream observability.
-> 
-> I agree here.  If GuC suddenly makes submission issues massively
-> harder to debug then that's a regression vs. execlists.  I don't know
-> what the solution there is but I think the concern is valid.
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--G7VCp2Z0I1tFZjwjRdIoitLmgxDDw7plp
+Content-Type: multipart/mixed; boundary="OhnXwSyToQ4awsPKWuJhB0YdMEH22aaoz";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-mips@vger.kernel.org, stable@vger.kernel.org,
+ linux-kernel@vger.kernel.org, od@zcrc.me, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <a42b2e5d-49e7-a15b-5f5f-9eb858e8fdf6@suse.de>
+Subject: Re: [PATCH] drm/ingenic: Fix pixclock rate for 24-bit serial panels
+References: <20210323144008.166248-1-paul@crapouillou.net>
+ <6DP1TQ.W6B9JRRW1OY5@crapouillou.net>
+In-Reply-To: <6DP1TQ.W6B9JRRW1OY5@crapouillou.net>
 
-Replied to Tvrtko with detailed answers. The TL;DR is agree with basically
-everything he said and we have plans address it all and everything must be
-addressed before the GuC can be turned on by default.
+--OhnXwSyToQ4awsPKWuJhB0YdMEH22aaoz
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Matt
 
-> > This could mean a tool in IGT to access/capture GuC logs and update bug
-> > filing instructions.
-> >
-> > Leading from here is probably the need for the GuC firmware team to
-> > cross the internal-upstream boundary and deal with such bug reports on
-> > upstream trackers. Upstream GuC is unlikely to work if we don't have
-> > such plan and commitment.
-> 
-> I mostly agree here as well.  I'm not sure it'll actually happen but
-> I'd like anyone who writes code which impacts Linux to be active in
-> upstream bug trackers.
-> 
-> > Also leading from here is the need for GPU error capture to be on par
-> > from day one which is I believe still not there in the firmware.
-> 
-> This one has me genuinely concerned.  I've heard rumors that we don't
-> have competent error captures with GuC yet.  From the Mesa PoV, this
-> is a non-starter.  We can't be asked to develop graphics drivers with
-> no error capture.
-> 
-> The good news is that, based on my understanding, it shouldn't be
-> terrible to support.  We just need the GuC to grab all the registers
-> for us and shove them in a buffer somewhere before it resets the GPU
-> and all that data is lost.  I would hope the Windows people have
-> already done that and we just need to hook it up.  If not, there may
-> be some GuC engineering required here.
-> 
-> > Another, although unrelated, missing feature on my wish list is firmware
-> > support for wiring up accurate engine busyness stats to i915 PMU. I
-> > believe this is also being worked on but I don't know when is the
-> > expected delivery.
-> >
-> > If we are tracking a TODO list of items somewhere I think these ones
-> > should be definitely considered.
-> 
-> Yup, let's get it all in the ToDo and not flip GuC on by default in
-> the wild until it's all checked off.
-> 
-> --Jason
+
+Am 13.05.21 um 14:29 schrieb Paul Cercueil:
+> Hi,
+>=20
+> Almost two months later,
+>=20
+>=20
+> Le mar., mars 23 2021 at 14:40:08 +0000, Paul Cercueil=20
+> <paul@crapouillou.net> a =C3=A9crit :
+>> When using a 24-bit panel on a 8-bit serial bus, the pixel clock
+>> requested by the panel has to be multiplied by 3, since the subpixels
+>> are shifted sequentially.
+>>
+>> The code (in ingenic_drm_encoder_atomic_check) already computed
+>> crtc_state->adjusted_mode->crtc_clock accordingly, but clk_set_rate()
+>> used crtc_state->adjusted_mode->clock instead.
+>>
+>> Fixes: 28ab7d35b6e0 ("drm/ingenic: Properly compute timings when using=20
+
+>> a 3x8-bit panel")
+>> Cc: stable@vger.kernel.org # v5.10
+>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>=20
+> Can I get an ACK for my patch?
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+>=20
+> Thanks!
+> -Paul
+>=20
+>> ---
+>> =C2=A0drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
+>> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
+>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>> index d60e1eefc9d1..cba68bf52ec5 100644
+>> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>> @@ -342,7 +342,7 @@ static void ingenic_drm_crtc_atomic_flush(struct=20
+>> drm_crtc *crtc,
+>> =C2=A0=C2=A0=C2=A0=C2=A0 if (priv->update_clk_rate) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_lock(&priv->clk=
+_mutex);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clk_set_rate(priv->pi=
+x_clk,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 crtc_state->adjusted_mode.clock * 1000);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 crtc_state->adjusted_mode.crtc_clock * 1000);=
+
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 priv->update_clk_rate=20
+=3D false;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&priv->c=
+lk_mutex);
+>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>> --=20
+>> 2.30.2
+>>
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--OhnXwSyToQ4awsPKWuJhB0YdMEH22aaoz--
+
+--G7VCp2Z0I1tFZjwjRdIoitLmgxDDw7plp
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCessQFAwAAAAAACgkQlh/E3EQov+Di
+Gw/+PpBVTvAcF4ltDId9QyywkeJ/xdvRf41hqgazerZAWctCXWwOVIIAYn5lHcazl/dL4olLKNsO
+F3eD7Si7RWmXe4+b2NqaweIesaDafGK4vdcS4mHS4JVHMkd1DhCxdwpy3uBbW5ZNXOv5TJldB3Jt
+Ikm2sm6psm3h5D2li+j6ew6qcVxK+3Cp8uVvHp6RH4cEcOIwbWZp/B4H1P5tMDzq7lpvjGYUQH3H
+MEwy8RYfX+igmRI9rdVXV/hEfBNOq1gLBmZQgGQR1EnRgL/rRTJ2AFci1NddETnMwuiOdpY6A0DS
+XK+Iy+XtUozzkJ8TO2rjwo/NyQYB3tvpnJJ6kkxHpWaowztqqIjrOL5snrw+jhqu7+EwJikbrPm3
+AXBEgwFz2/+Dk28We1onnRn6MIEC+0iy08yE+E67iCb0JXw+CiLadtqSVtzw9qNebMFn8vEjz2if
+6vv6bCWk2ae4LKh5LENpWI07WvzOWnzuDn0jUFa6P1yyx2AMgKd9tot0/p6MxX3oD/LY/b9aIXSG
+LzGFncU3gh/e2h+vUwzkb1coE2cgF+j5HIj0ot0qNJIAyoqUCN3GYBvcKr3nSUZwAv9J3aRmCtmY
+uPetTQRJH4psx/+oI09jkt4/Wn/kxlLUoB7a/JJvyMWEC+9FkKhQntLEdJasGd6tVP1OySrrCQGv
++zo=
+=JL3k
+-----END PGP SIGNATURE-----
+
+--G7VCp2Z0I1tFZjwjRdIoitLmgxDDw7plp--
