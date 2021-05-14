@@ -2,42 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBD53806C0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 12:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F73338077B
+	for <lists+dri-devel@lfdr.de>; Fri, 14 May 2021 12:38:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F315A6E2C0;
-	Fri, 14 May 2021 10:04:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2356EE47;
+	Fri, 14 May 2021 10:38:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D22B36E2C0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 10:04:41 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1lhUdv-0006Dg-MD; Fri, 14 May 2021 12:02:03 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1lhUdi-0001XB-CF; Fri, 14 May 2021 12:01:50 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm: Only select I2C_ALGOBIT for drivers that actually need it
-Date: Fri, 14 May 2021 12:01:42 +0200
-Message-Id: <20210514100142.1182997-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5D56E0A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 May 2021 10:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620988719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WX0D+xswpC19A5dUSRvorG3RPFapQlr1rrgyu6fP5is=;
+ b=ADMNpMsChcvHjpq3Cp1ZfifIDm0RZuUghup/jMxDIlxi5Om2pIcb86T5awkmbjLph5IdwG
+ hdI0iU7UnhiTfzR2f+TGXkUOYRWKvWaoHAnbvw33zbLmgqdPpxFZrOh9Tf0KsMJEqQG1Z/
+ jxEAlIe10IVkMRW65R2ruaHT2ZAZL3k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-nX7pKzPpMBW34lsDOFkToQ-1; Fri, 14 May 2021 06:38:37 -0400
+X-MC-Unique: nX7pKzPpMBW34lsDOFkToQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 843511854E24;
+ Fri, 14 May 2021 10:38:36 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-0.ams2.redhat.com
+ [10.36.114.0])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48E0D19C59;
+ Fri, 14 May 2021 10:38:36 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 861731800396; Fri, 14 May 2021 12:38:34 +0200 (CEST)
+Date: Fri, 14 May 2021 12:38:34 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH 1/3] virtio-gpu uapi: Add VIRTIO_GPU_F_EXPLICIT_FLUSH
+ feature
+Message-ID: <20210514103834.vvfgjvfnc2hphr4f@sirius.home.kraxel.org>
+References: <20210511083610.367541-1-vivek.kasireddy@intel.com>
+ <20210511102958.46ybk2q33vg4iayi@sirius.home.kraxel.org>
+ <8dc2bbd037964224bcc6609fd47b5698@intel.com>
+ <20210512064410.infyhtac2bc35xr4@sirius.home.kraxel.org>
+ <2ce75952e24349e5a787919a55169779@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <2ce75952e24349e5a787919a55169779@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,141 +70,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
- dri-devel@lists.freedesktop.org, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- kernel@pengutronix.de, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- nouveau@lists.freedesktop.org, Tian Tao <tiantao6@hisilicon.com>,
- intel-gfx@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While working on a drm driver that doesn't need the i2c algobit stuff I
-noticed that DRM selects this code even tough only 8 drivers actually use
-it. While also only some drivers use i2c, keep the select for I2C for the
-next cleanup patch. Still prepare this already by also selecting I2C for
-the individual drivers.
+On Wed, May 12, 2021 at 09:18:37PM +0000, Kasireddy, Vivek wrote:
+> Hi Gerd,
+> 
+> > > However, as part of this feature (explicit flush), I'd like to make the Guest wait until
+> > > the current resource (as specified by resource_flush or set_scanout) is flushed or
+> > > synchronized. But for a different feature I am thinking of (explicit sync), I'd like to
+> > > make the Guest wait for the previous buffer/resource submitted (available via
+> > > old_state->fb).
+> > 
+> > For page-flipping I guess?  i.e. you want submit a new framebuffer, then
+> > wait until the host doesn't need the previous one?  That is likewise
+> > linked to a command, although it is set_scanout this time.
+> [Kasireddy, Vivek] Mainly for page-flipping but I'd also like to have fbcon, Xorg that
+> do frontbuffer rendering/updates to work seamlessly as well.
+> 
+> > 
+> > So, right now qemu simply queues the request and completes the command
+> > when a guest sends a resource_flush our set_scanout command.  You want
+> > be notified when the host is actually done processing the request.
+> [Kasireddy, Vivek] Correct, that is exactly what I want -- make the Guest wait
+> until it gets notified that the Host is completely done processing/using the fb.
+> However, there can be two resources the guest can be made to wait on: wait for
+> the new/current fb that is being submitted to be processed (explicit flush)
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/Kconfig                 | 5 ++++-
- drivers/gpu/drm/ast/Kconfig             | 2 ++
- drivers/gpu/drm/gma500/Kconfig          | 2 ++
- drivers/gpu/drm/hisilicon/hibmc/Kconfig | 2 ++
- drivers/gpu/drm/i915/Kconfig            | 2 ++
- drivers/gpu/drm/mgag200/Kconfig         | 2 ++
- drivers/gpu/drm/nouveau/Kconfig         | 2 ++
- 7 files changed, 16 insertions(+), 1 deletion(-)
+That would be wait on resource_flush case, right?
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 3c16bd1afd87..351ea617c498 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -12,7 +12,6 @@ menuconfig DRM
- 	select HDMI
- 	select FB_CMDLINE
- 	select I2C
--	select I2C_ALGOBIT
- 	select DMA_SHARED_BUFFER
- 	select SYNC_FILE
- # gallium uses SYS_kcmp for os_same_file_description() to de-duplicate
-@@ -233,6 +232,8 @@ config DRM_RADEON
-         select DRM_KMS_HELPER
-         select DRM_TTM
- 	select DRM_TTM_HELPER
-+	select I2C
-+	select I2C_ALGOBIT
- 	select POWER_SUPPLY
- 	select HWMON
- 	select BACKLIGHT_CLASS_DEVICE
-@@ -254,6 +255,8 @@ config DRM_AMDGPU
- 	select DRM_SCHED
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
-+	select I2C
-+	select I2C_ALGOBIT
- 	select POWER_SUPPLY
- 	select HWMON
- 	select BACKLIGHT_CLASS_DEVICE
-diff --git a/drivers/gpu/drm/ast/Kconfig b/drivers/gpu/drm/ast/Kconfig
-index fbcf2f45cef5..bcc25decd485 100644
---- a/drivers/gpu/drm/ast/Kconfig
-+++ b/drivers/gpu/drm/ast/Kconfig
-@@ -6,6 +6,8 @@ config DRM_AST
- 	select DRM_VRAM_HELPER
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
-+	select I2C
-+	select I2C_ALGOBIT
- 	help
- 	 Say yes for experimental AST GPU driver. Do not enable
- 	 this driver without having a working -modesetting,
-diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
-index 0cff20265f97..e26c3a24955d 100644
---- a/drivers/gpu/drm/gma500/Kconfig
-+++ b/drivers/gpu/drm/gma500/Kconfig
-@@ -3,6 +3,8 @@ config DRM_GMA500
- 	tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
- 	depends on DRM && PCI && X86 && MMU
- 	select DRM_KMS_HELPER
-+	select I2C
-+	select I2C_ALGOBIT
- 	# GMA500 depends on ACPI_VIDEO when ACPI is enabled, just like i915
- 	select ACPI_VIDEO if ACPI
- 	select BACKLIGHT_CLASS_DEVICE if ACPI
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/Kconfig b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
-index 43943e980203..ac8c42dc79f6 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/Kconfig
-+++ b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
-@@ -6,6 +6,8 @@ config DRM_HISI_HIBMC
- 	select DRM_VRAM_HELPER
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
-+	select I2C
-+	select I2C_ALGOBIT
- 	help
- 	  Choose this option if you have a Hisilicon Hibmc soc chipset.
- 	  If M is selected the module will be called hibmc-drm.
-diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-index 69f57ca9c68d..b3bb6f7cfbbc 100644
---- a/drivers/gpu/drm/i915/Kconfig
-+++ b/drivers/gpu/drm/i915/Kconfig
-@@ -13,6 +13,8 @@ config DRM_I915
- 	select DRM_PANEL
- 	select DRM_MIPI_DSI
- 	select RELAY
-+	select I2C
-+	select I2C_ALGOBIT
- 	select IRQ_WORK
- 	# i915 depends on ACPI_VIDEO when ACPI is enabled
- 	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
-diff --git a/drivers/gpu/drm/mgag200/Kconfig b/drivers/gpu/drm/mgag200/Kconfig
-index eec59658a938..b28c5e4828f4 100644
---- a/drivers/gpu/drm/mgag200/Kconfig
-+++ b/drivers/gpu/drm/mgag200/Kconfig
-@@ -4,6 +4,8 @@ config DRM_MGAG200
- 	depends on DRM && PCI && MMU
- 	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KMS_HELPER
-+	select I2C
-+	select I2C_ALGOBIT
- 	help
- 	 This is a KMS driver for Matrox G200 chips. It supports the original
- 	 MGA G200 desktop chips and the server variants. It requires 0.3.0
-diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
-index 9436310d0854..8823f0b24c73 100644
---- a/drivers/gpu/drm/nouveau/Kconfig
-+++ b/drivers/gpu/drm/nouveau/Kconfig
-@@ -7,6 +7,8 @@ config DRM_NOUVEAU
- 	select DRM_KMS_HELPER
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
-+	select I2C
-+	select I2C_ALGOBIT
- 	select BACKLIGHT_CLASS_DEVICE if DRM_NOUVEAU_BACKLIGHT
- 	select ACPI_VIDEO if ACPI && X86 && BACKLIGHT_CLASS_DEVICE && INPUT
- 	select X86_PLATFORM_DEVICES if ACPI && X86
+> or wait for the previous fb that was submitted earlier (in the
+> previous repaint cycle) to be processed (explicit sync).
 
-base-commit: 315d99318179b9cd5077ccc9f7f26a164c9fa998
--- 
-2.30.2
+That would be the wait on set_scanout case, right?
+
+And it would effectively wait on the previous fb not being needed by the
+host any more (because the page-flip to the new fb completed) so the
+guest can re-use the previous fb to render the next frame, right?
+
+(also when doing front-buffer rendering with xorg/fbcon and then doing a
+virtual console switch the guest could wait for the console switch being
+completed).
+
+> IIUC, Explicit sync only makes sense if 1) the Host windowing system also supports
+> that feature/protocol (currently only upstream Weston does but I'd like to add it to
+> Mutter if no one else does) or if there is a way to figure out (dma-buf sync file?) if
+> the Host has completely processed the fb and 2) if Qemu UI is not doing a blit and
+> instead submitting the guest fb/dmabuf directly to the Host windowing system.
+> As you are aware, 2) can possibly be done with dbus/pipewire Qemu UI backends
+> (I'll explore this soon) but not with GTK or SDL. 
+
+Well, I think we need to clearly define the wait flag semantics.  Should
+resource_flush with wait flag wait until the host is done reading the
+resource (blit done)?  Or should it wait until the host screen has been
+updated (gtk draw callback completed)?
+
+Everything else will be a host/guest implementation detail then, and
+of course this needs some integration with the UI on the host side and
+different UIs might have to do different things.
+
+On the guest side integrating this with fences will give us enough
+flexibility on how we want handle the waits.  Simplest would be to just
+block.  We could implement virtual vblanks, which would probably make
+most userspace work fine without explicit virtio-gpu support.  If needed
+we could even give userspace access to the fence so it can choose how to
+wait.
+
+take care,
+  Gerd
 
