@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59999381B15
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 22:47:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D982381B40
+	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 23:48:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A0F6E448;
-	Sat, 15 May 2021 20:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7A488071;
+	Sat, 15 May 2021 21:48:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 057496E448
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 20:47:16 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 1A55082B36;
- Sat, 15 May 2021 22:47:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1621111635;
- bh=Msdi4EgOgI6YRke3ZH8keGty80PBxiOM+J79VeOtK+8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=xiHAHygBqKvq+9VQYExqDLLBRgtldScskrSvRwBXZLiH1r42r5lru49bqVWXF8NnC
- D1Ji2N7ba7MfGF5u5LqU3aVPIwmdvXYk1d6MkV5wowNeNPF8XzCA1FXAnxU7AYPDLE
- otK+ndk8dOwlZvkvEABB56SuBcHmo9MJbgNLHb8FQJk6c0BHPtpThtiOONr/91Jr3L
- 2/fTCvWX3amWRHaXCRgZhCe9isak2vvYBhL9xnhCVJC+7Gdvj5f7KgUbkSiMqknONG
- 9sG3bvtpIwJlqenvs/VGMn/fTpF0QHcd3nNNtu/JBw94p/bM3OGaIxl7Yh4b8AlIjY
- tvi+yHXT5nJ8A==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/bridge: lvds-codec: Add support for LVDS data mapping
- select
-Date: Sat, 15 May 2021 22:46:56 +0200
-Message-Id: <20210515204656.367442-2-marex@denx.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210515204656.367442-1-marex@denx.de>
-References: <20210515204656.367442-1-marex@denx.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E69EB89623
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 21:48:17 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E53CD436;
+ Sat, 15 May 2021 23:48:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1621115295;
+ bh=3HDfMZnFR3gpMA8k29TFZe4vdG02tiejMNDF+HfebMc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=O0Tcm91ua7Gr4QLSDXPAVeEqzKH/KAAP0oxM3mnYgAEj9jnwAbW9DcknsHaRDEM50
+ NXximMjWZX4VhDRAD1FyMClFGHAz6UfFVk90seQs4f40F7gBcoM5luosQtsPNaWVrm
+ QTG9/24e/iSxDx0HKV7OVCiTTckSMRLUAQlizfzk=
+Date: Sun, 16 May 2021 00:48:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] dt-bindings: display: bridge: lvds-codec: Fix spacing
+Message-ID: <YKBBlWXXK8LUc8ac@pendragon.ideasonboard.com>
+References: <20210515203932.366799-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210515203932.366799-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,110 +46,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>, ch@denx.de,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, ch@denx.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Decoder input LVDS format is a property of the decoder chip or even
-its strapping. Handle data-mapping the same way lvds-panel does. In
-case data-mapping is not present, do nothing, since there are still
-legacy bindings which do not specify this property.
+Hi Marek,
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/bridge/lvds-codec.c | 50 +++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-index 8a7cb267ab14..33f992d52902 100644
---- a/drivers/gpu/drm/bridge/lvds-codec.c
-+++ b/drivers/gpu/drm/bridge/lvds-codec.c
-@@ -23,6 +23,7 @@ struct lvds_codec {
- 	struct regulator *vcc;
- 	struct gpio_desc *powerdown_gpio;
- 	u32 connector_type;
-+	unsigned int bus_format;
- };
- 
- static inline struct lvds_codec *to_lvds_codec(struct drm_bridge *bridge)
-@@ -69,10 +70,33 @@ static void lvds_codec_disable(struct drm_bridge *bridge)
- 			"Failed to disable regulator \"vcc\": %d\n", ret);
- }
- 
-+static bool lvds_codec_mode_fixup(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				struct drm_display_mode *adj)
-+{
-+	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct drm_device *ddev = encoder->dev;
-+	struct drm_connector *connector;
-+
-+	/* If 'data-mapping' was not specified, do nothing. */
-+	if (!lvds_codec->bus_format)
-+		return true;
-+
-+	/* Patch in the LVDS format */
-+	list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
-+		drm_display_info_set_bus_formats(&connector->display_info,
-+						 &lvds_codec->bus_format, 1);
-+	}
-+
-+	return true;
-+}
-+
- static const struct drm_bridge_funcs funcs = {
- 	.attach = lvds_codec_attach,
- 	.enable = lvds_codec_enable,
- 	.disable = lvds_codec_disable,
-+	.mode_fixup = lvds_codec_mode_fixup,
- };
- 
- static int lvds_codec_probe(struct platform_device *pdev)
-@@ -81,6 +105,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 	struct device_node *panel_node;
- 	struct drm_panel *panel;
- 	struct lvds_codec *lvds_codec;
-+	const char *mapping;
- 	u32 val;
- 
- 	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
-@@ -133,6 +158,31 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 			DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE;
- 	}
- 
-+	/*
-+	 * Decoder input LVDS format is a property of the decoder chip or even
-+	 * its strapping. Handle data-mapping the same way lvds-panel does. In
-+	 * case data-mapping is not present, do nothing, since there are still
-+	 * legacy bindings which do not specify this property.
-+	 */
-+	if (lvds_codec->connector_type != DRM_MODE_CONNECTOR_LVDS) {
-+		ret = of_property_read_string(dev->of_node, "data-mapping",
-+					      &mapping);
-+		if (ret < 0) {
-+			dev_err(dev, "missing 'data-mapping' DT property\n");
-+		} else {
-+			if (!strcmp(mapping, "jeida-18")) {
-+				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG;
-+			} else if (!strcmp(mapping, "jeida-24")) {
-+				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-+			} else if (!strcmp(mapping, "vesa-24")) {
-+				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
-+			} else {
-+				dev_err(dev, "invalid 'data-mapping' DT property\n");
-+				return -EINVAL;
-+			}
-+		}
-+	}
-+
- 	/*
- 	 * The panel_bridge bridge is attached to the panel's of_node,
- 	 * but we need a bridge attached to our of_node for our user
+On Sat, May 15, 2021 at 10:39:32PM +0200, Marek Vasut wrote:
+> Add missing spaces to make the diagrams readable, no functional change.
+
+Looks better indeed. The patch view looks bad though, because of the
+tabs. Maybe you could replace them with spaces, while at it ?
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+>  .../devicetree/bindings/display/panel/lvds.yaml      | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> index 31164608ba1d..06d7ca692d0d 100644
+> --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> @@ -52,9 +52,9 @@ properties:
+>          [VESA] specifications. Data are transferred as follows on 3 LVDS lanes.
+>  
+>        Slot	    0       1       2       3       4       5       6
+> -            ________________                         _________________
+> +                ________________                         _________________
+>        Clock	                \_______________________/
+> -              ______  ______  ______  ______  ______  ______  ______
+> +                  ______  ______  ______  ______  ______  ______  ______
+>        DATA0	><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
+>        DATA1	><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
+>        DATA2	><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+> @@ -63,9 +63,9 @@ properties:
+>          specifications. Data are transferred as follows on 4 LVDS lanes.
+>  
+>        Slot	    0       1       2       3       4       5       6
+> -            ________________                         _________________
+> +                ________________                         _________________
+>        Clock	                \_______________________/
+> -              ______  ______  ______  ______  ______  ______  ______
+> +                  ______  ______  ______  ______  ______  ______  ______
+>        DATA0	><__G2__><__R7__><__R6__><__R5__><__R4__><__R3__><__R2__><
+>        DATA1	><__B3__><__B2__><__G7__><__G6__><__G5__><__G4__><__G3__><
+>        DATA2	><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
+> @@ -75,9 +75,9 @@ properties:
+>          Data are transferred as follows on 4 LVDS lanes.
+>  
+>        Slot	    0       1       2       3       4       5       6
+> -            ________________                         _________________
+> +                ________________                         _________________
+>        Clock	                \_______________________/
+> -              ______  ______  ______  ______  ______  ______  ______
+> +                  ______  ______  ______  ______  ______  ______  ______
+>        DATA0	><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
+>        DATA1	><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
+>        DATA2	><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+
 -- 
-2.30.2
+Regards,
 
+Laurent Pinchart
