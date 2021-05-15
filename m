@@ -2,38 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D982381B40
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 23:48:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A90381B62
+	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 00:15:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7A488071;
-	Sat, 15 May 2021 21:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03A7189F03;
+	Sat, 15 May 2021 22:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E69EB89623
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 21:48:17 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E53CD436;
- Sat, 15 May 2021 23:48:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1621115295;
- bh=3HDfMZnFR3gpMA8k29TFZe4vdG02tiejMNDF+HfebMc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=O0Tcm91ua7Gr4QLSDXPAVeEqzKH/KAAP0oxM3mnYgAEj9jnwAbW9DcknsHaRDEM50
- NXximMjWZX4VhDRAD1FyMClFGHAz6UfFVk90seQs4f40F7gBcoM5luosQtsPNaWVrm
- QTG9/24e/iSxDx0HKV7OVCiTTckSMRLUAQlizfzk=
-Date: Sun, 16 May 2021 00:48:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] dt-bindings: display: bridge: lvds-codec: Fix spacing
-Message-ID: <YKBBlWXXK8LUc8ac@pendragon.ideasonboard.com>
-References: <20210515203932.366799-1-marex@denx.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B882589F03
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 22:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621116907;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uj0FnsDmx2/pl2qaIJyZPTU7rem4vQ2vcjf8oF9Zpos=;
+ b=bOV5sYGBbrWV6FPbZEHnivfPNO3plxxRBJxPimgY+4ZdPARNyFH2q0ffGocoN2cNvVrj42
+ X5s5w1rBzC2wZ8bB5k7JfG3gAuCSwbhKl8bi8eZfKqELGC9noFlnQ5H/TJCDmagua+dpZe
+ +zN0pXAj2Wl+se8HrgGO5VgX2HKhXOo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-VqLTjtGPMEyWXq5cGuhH4w-1; Sat, 15 May 2021 18:15:03 -0400
+X-MC-Unique: VqLTjtGPMEyWXq5cGuhH4w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ u20-20020a0560001614b02901115c8f2d89so1514160wrb.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 15:15:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uj0FnsDmx2/pl2qaIJyZPTU7rem4vQ2vcjf8oF9Zpos=;
+ b=sXdbjcdxQExZx6z4dCpD8ePmMUGmVLaMpLOySjeFEcofPRqtrkTPcwJT1zxmnHjRaE
+ 1zmQDpqrFpjdA1F6DzMmbfUWQsH3dmAT+HYLtAmLSE55JDfLEoGht8AzRvrN8ECf6Ato
+ Mek0HPOKoGxJAdAJXi0eI7n6HC3j73827Kw7HHGuSPM57RhKamqN1ByQwnfUOejg6X6Q
+ RMxN//o/bSzhFt95ogaz+cQO44Sx01CuPUhnEoAReIbJ+ztYZBX6oJVSyPUD7zyQXpQb
+ /OP3LnXxkqOiZle7EKhlU+LyLl2Vbm/Zu1u1JEXFRGhge5/rTtGJUs1Cd+I14DfXUIW6
+ zeMg==
+X-Gm-Message-State: AOAM531nnesolv4Sx5y484/TNc6/dLAuCjkaTSQ+O0AFkyVcllsHZEzm
+ 6q3CudLMHmBJI9/Q/yJMkvpXMdpAZwLpbaP7j9v3XSmV0TmWTJ0ah8GR8Z43tBMfxa/CzDPE7nz
+ +ZcwDM344uPojDfIQ8kRO7H9XERgb
+X-Received: by 2002:a1c:9a4a:: with SMTP id c71mr14231676wme.136.1621116902165; 
+ Sat, 15 May 2021 15:15:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy3DRAaEOsMocZIjWgXpJWHgD+0UBOgPkcyX7580Aop0DadT4fIcQ2zAgGZMo+oom1e3PWTXA==
+X-Received: by 2002:a1c:9a4a:: with SMTP id c71mr14231663wme.136.1621116902006; 
+ Sat, 15 May 2021 15:15:02 -0700 (PDT)
+Received: from minerva.home ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id b15sm10632945wru.64.2021.05.15.15.15.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 May 2021 15:15:01 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/rockchip: remove early framebuffers before registering
+ the fbdev
+Date: Sun, 16 May 2021 00:14:47 +0200
+Message-Id: <20210515221447.429779-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210515203932.366799-1-marex@denx.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,75 +78,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, ch@denx.de, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-rockchip@lists.infradead.org, Peter Robinson <pbrobinson@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+There are drivers that register framebuffer devices very early in the boot
+process and make use of the existing framebuffer as setup by the firmware.
 
-Thank you for the patch.
+If one of those drivers has registered a fbdev, then the fbdev registered
+by a DRM driver won't be bound to the framebuffer console. To avoid that,
+remove any early framebuffer before registering a DRM framebuffer device.
 
-On Sat, May 15, 2021 at 10:39:32PM +0200, Marek Vasut wrote:
-> Add missing spaces to make the diagrams readable, no functional change.
+By doing that, the fb mapped to the console is switched correctly from the
+early fbdev to the one registered by the rockchip DRM driver:
 
-Looks better indeed. The patch view looks bad though, because of the
-tabs. Maybe you could replace them with spaces, while at it ?
+    [   40.752420] fb0: switching to rockchip-drm-fb from EFI VGA
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: devicetree@vger.kernel.org
-> To: dri-devel@lists.freedesktop.org
-> ---
->  .../devicetree/bindings/display/panel/lvds.yaml      | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> index 31164608ba1d..06d7ca692d0d 100644
-> --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> @@ -52,9 +52,9 @@ properties:
->          [VESA] specifications. Data are transferred as follows on 3 LVDS lanes.
->  
->        Slot	    0       1       2       3       4       5       6
-> -            ________________                         _________________
-> +                ________________                         _________________
->        Clock	                \_______________________/
-> -              ______  ______  ______  ______  ______  ______  ______
-> +                  ______  ______  ______  ______  ______  ______  ______
->        DATA0	><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
->        DATA1	><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
->        DATA2	><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
-> @@ -63,9 +63,9 @@ properties:
->          specifications. Data are transferred as follows on 4 LVDS lanes.
->  
->        Slot	    0       1       2       3       4       5       6
-> -            ________________                         _________________
-> +                ________________                         _________________
->        Clock	                \_______________________/
-> -              ______  ______  ______  ______  ______  ______  ______
-> +                  ______  ______  ______  ______  ______  ______  ______
->        DATA0	><__G2__><__R7__><__R6__><__R5__><__R4__><__R3__><__R2__><
->        DATA1	><__B3__><__B2__><__G7__><__G6__><__G5__><__G4__><__G3__><
->        DATA2	><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
-> @@ -75,9 +75,9 @@ properties:
->          Data are transferred as follows on 4 LVDS lanes.
->  
->        Slot	    0       1       2       3       4       5       6
-> -            ________________                         _________________
-> +                ________________                         _________________
->        Clock	                \_______________________/
-> -              ______  ______  ______  ______  ______  ______  ______
-> +                  ______  ______  ______  ______  ______  ______  ______
->        DATA0	><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
->        DATA1	><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
->        DATA2	><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+ drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c b/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
+index 2fdc455c4ad..e3e5b63fdcc 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
+@@ -4,6 +4,7 @@
+  * Author:Mark Yao <mark.yao@rock-chips.com>
+  */
+ 
++#include <drm/drm_aperture.h>
+ #include <drm/drm.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+@@ -124,6 +125,15 @@ int rockchip_drm_fbdev_init(struct drm_device *dev)
+ 
+ 	drm_fb_helper_prepare(dev, helper, &rockchip_drm_fb_helper_funcs);
+ 
++	/* Remove early framebuffers (e.g: simplefb or efifb) */
++	ret = drm_aperture_remove_framebuffers(false, "rockchip-drm-fb");
++	if (ret) {
++		DRM_DEV_ERROR(dev->dev,
++			      "Failed to remove early framebuffers - %d.\n",
++			      ret);
++		return ret;
++	}
++
+ 	ret = drm_fb_helper_init(dev, helper);
+ 	if (ret < 0) {
+ 		DRM_DEV_ERROR(dev->dev,
 -- 
-Regards,
+2.31.1
 
-Laurent Pinchart
