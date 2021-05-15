@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315F5381A97
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 20:49:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BEC381AA9
+	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 21:07:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6406E431;
-	Sat, 15 May 2021 18:49:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 202E96E433;
+	Sat, 15 May 2021 19:07:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 042836E431
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 18:49:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEAFD6E433
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 19:06:59 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 688AAAF5B;
- Sat, 15 May 2021 18:49:11 +0000 (UTC)
-Subject: Re: [PATCH v4 1/3] drm: Add support for GEM buffers backed by
- non-coherent memory
+ by mx2.suse.de (Postfix) with ESMTP id 6334DAFD5;
+ Sat, 15 May 2021 19:06:58 +0000 (UTC)
 To: Paul Cercueil <paul@crapouillou.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
 References: <20210515145359.64802-1-paul@crapouillou.net>
- <20210515145359.64802-2-paul@crapouillou.net>
+ <20210515145359.64802-3-paul@crapouillou.net>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <fce9aae9-a9f8-1b90-33fc-16cf64888ff7@suse.de>
-Date: Sat, 15 May 2021 20:49:08 +0200
+Subject: Re: [PATCH v4 2/3] drm: Add and export function drm_gem_cma_sync_data
+Message-ID: <93fce1ea-f18d-7941-e973-9748243882b6@suse.de>
+Date: Sat, 15 May 2021 21:06:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210515145359.64802-2-paul@crapouillou.net>
+In-Reply-To: <20210515145359.64802-3-paul@crapouillou.net>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="sJrRFkDAoEyRy39xoYSrAUozzf6xYe2ID"
+ boundary="x2vTxhbmwOfkAFOdrM8fvhtRRGsi5zKVn"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,8 +52,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sJrRFkDAoEyRy39xoYSrAUozzf6xYe2ID
-Content-Type: multipart/mixed; boundary="qhw4perhhhklxwtWZJOyFEtlE03cfno0Q";
+--x2vTxhbmwOfkAFOdrM8fvhtRRGsi5zKVn
+Content-Type: multipart/mixed; boundary="dPf7PCMtJc55MN21CIHNv1YF93Ixa5987";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Paul Cercueil <paul@crapouillou.net>,
@@ -64,178 +63,183 @@ To: Paul Cercueil <paul@crapouillou.net>,
 Cc: Christoph Hellwig <hch@infradead.org>, list@opendingux.net,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-mips@vger.kernel.org
-Message-ID: <fce9aae9-a9f8-1b90-33fc-16cf64888ff7@suse.de>
-Subject: Re: [PATCH v4 1/3] drm: Add support for GEM buffers backed by
- non-coherent memory
+Message-ID: <93fce1ea-f18d-7941-e973-9748243882b6@suse.de>
+Subject: Re: [PATCH v4 2/3] drm: Add and export function drm_gem_cma_sync_data
 References: <20210515145359.64802-1-paul@crapouillou.net>
- <20210515145359.64802-2-paul@crapouillou.net>
-In-Reply-To: <20210515145359.64802-2-paul@crapouillou.net>
+ <20210515145359.64802-3-paul@crapouillou.net>
+In-Reply-To: <20210515145359.64802-3-paul@crapouillou.net>
 
---qhw4perhhhklxwtWZJOyFEtlE03cfno0Q
+--dPf7PCMtJc55MN21CIHNv1YF93Ixa5987
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-
+Hi
 
 Am 15.05.21 um 16:53 schrieb Paul Cercueil:
-> Having GEM buffers backed by non-coherent memory is interesting in the
-> particular case where it is faster to render to a non-coherent buffer
-> then sync the data cache, than to render to a write-combine buffer, and=
-
-> (by extension) much faster than using a shadow buffer. This is true for=
-
-> instance on some Ingenic SoCs, where even simple blits (e.g. memcpy)
-> are about three times faster using this method.
+> This function can be used by drivers that use damage clips and have
+> CMA GEM objects backed by non-coherent memory. Calling this function
+> in a plane's .atomic_update ensures that all the data in the backing
+> memory have been written to RAM.
 >=20
-> Add a 'map_noncoherent' flag to the drm_gem_cma_object structure, which=
-
-> can be set by the drivers when they create the dumb buffer.
->=20
-> Since this really only applies to software rendering, disable this flag=
-
-> as soon as the CMA objects are exported via PRIME.
->=20
-> v3: New patch. Now uses a simple 'map_noncoherent' flag to control how
->      the objects are mapped, and use the new dma_mmap_pages function.
->=20
-> v4: Make sure map_noncoherent is always disabled when creating GEM
->      objects meant to be used with dma-buf.
+> v3: - Only sync data if using GEM objects backed by non-coherent memory=
+=2E
+>      - Use a drm_device pointer instead of device pointer in prototype
 >=20
 > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
 > ---
->   drivers/gpu/drm/drm_gem_cma_helper.c | 38 +++++++++++++++++++++------=
--
->   include/drm/drm_gem_cma_helper.h     |  3 +++
->   2 files changed, 32 insertions(+), 9 deletions(-)
+>   drivers/gpu/drm/drm_gem_cma_helper.c | 55 +++++++++++++++++++++++++++=
++
+>   include/drm/drm_gem_cma_helper.h     |  5 +++
+>   2 files changed, 60 insertions(+)
 >=20
 > diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm=
 _gem_cma_helper.c
-> index 7942cf05cd93..235c7a63da2b 100644
+> index 235c7a63da2b..41f309e0e049 100644
 > --- a/drivers/gpu/drm/drm_gem_cma_helper.c
 > +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> @@ -46,6 +46,7 @@ static const struct drm_gem_object_funcs drm_gem_cma_=
-default_funcs =3D {
->    * __drm_gem_cma_create - Create a GEM CMA object without allocating =
-memory
->    * @drm: DRM device
->    * @size: size of the object to allocate
-> + * @private: true if used for internal purposes
->    *
->    * This function creates and initializes a GEM CMA object of the give=
-n size,
->    * but doesn't allocate any memory to back the object.
-> @@ -55,11 +56,11 @@ static const struct drm_gem_object_funcs drm_gem_cm=
-a_default_funcs =3D {
->    * error code on failure.
->    */
->   static struct drm_gem_cma_object *
-> -__drm_gem_cma_create(struct drm_device *drm, size_t size)
-> +__drm_gem_cma_create(struct drm_device *drm, size_t size, bool private=
-)
->   {
->   	struct drm_gem_cma_object *cma_obj;
->   	struct drm_gem_object *gem_obj;
-> -	int ret;
-> +	int ret =3D 0;
+> @@ -17,9 +17,14 @@
+>   #include <linux/slab.h>
 >  =20
->   	if (drm->driver->gem_create_object)
->   		gem_obj =3D drm->driver->gem_create_object(drm, size);
-> @@ -73,7 +74,14 @@ __drm_gem_cma_create(struct drm_device *drm, size_t =
-size)
+>   #include <drm/drm.h>
+> +#include <drm/drm_damage_helper.h>
+>   #include <drm/drm_device.h>
+>   #include <drm/drm_drv.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_fb_cma_helper.h>
+
+Alphabetical order:
+
+fb < fourcc
+
+> +#include <drm/drm_framebuffer.h>
+>   #include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_plane.h>
+>   #include <drm/drm_vma_manager.h>
 >  =20
->   	cma_obj =3D container_of(gem_obj, struct drm_gem_cma_object, base);
->  =20
-> -	ret =3D drm_gem_object_init(drm, gem_obj, size);
-> +	if (private) {
-> +		drm_gem_private_object_init(drm, gem_obj, size);
+>   /**
+> @@ -576,3 +581,53 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_=
+device *dev,
+>   	return obj;
+>   }
+>   EXPORT_SYMBOL(drm_gem_cma_prime_import_sg_table_vmap);
 > +
-> +		/* Always use writecombine for dma-buf mappings */
-> +		cma_obj->map_noncoherent =3D false;
-> +	} else {
-> +		ret =3D drm_gem_object_init(drm, gem_obj, size);
-> +	}
->   	if (ret)
->   		goto error;
->  =20
-> @@ -111,12 +119,19 @@ struct drm_gem_cma_object *drm_gem_cma_create(str=
-uct drm_device *drm,
->  =20
->   	size =3D round_up(size, PAGE_SIZE);
->  =20
-> -	cma_obj =3D __drm_gem_cma_create(drm, size);
-> +	cma_obj =3D __drm_gem_cma_create(drm, size, false);
->   	if (IS_ERR(cma_obj))
->   		return cma_obj;
->  =20
-> -	cma_obj->vaddr =3D dma_alloc_wc(drm->dev, size, &cma_obj->paddr,
-> -				      GFP_KERNEL | __GFP_NOWARN);
-> +	if (cma_obj->map_noncoherent) {
-> +		cma_obj->vaddr =3D dma_alloc_noncoherent(drm->dev, size,
-> +						       &cma_obj->paddr,
-> +						       DMA_TO_DEVICE,
-> +						       GFP_KERNEL | __GFP_NOWARN);
-> +	} else {
-> +		cma_obj->vaddr =3D dma_alloc_wc(drm->dev, size, &cma_obj->paddr,
-> +					      GFP_KERNEL | __GFP_NOWARN);
-> +	}
->   	if (!cma_obj->vaddr) {
->   		drm_dbg(drm, "failed to allocate buffer with size %zu\n",
->   			 size);
-> @@ -432,7 +447,7 @@ drm_gem_cma_prime_import_sg_table(struct drm_device=20
-*dev,
->   		return ERR_PTR(-EINVAL);
->  =20
->   	/* Create a CMA GEM buffer. */
-> -	cma_obj =3D __drm_gem_cma_create(dev, attach->dmabuf->size);
-> +	cma_obj =3D __drm_gem_cma_create(dev, attach->dmabuf->size, true);
->   	if (IS_ERR(cma_obj))
->   		return ERR_CAST(cma_obj);
->  =20
-> @@ -499,8 +514,13 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, s=
-truct vm_area_struct *vma)
->  =20
->   	cma_obj =3D to_drm_gem_cma_obj(obj);
->  =20
-> -	ret =3D dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
-> -			  cma_obj->paddr, vma->vm_end - vma->vm_start);
-> +	vma->vm_page_prot =3D vm_get_page_prot(vma->vm_flags);
-> +	if (!cma_obj->map_noncoherent)
-> +		vma->vm_page_prot =3D pgprot_writecombine(vma->vm_page_prot);
+> +/**
+> + * drm_gem_cma_sync_data - Sync GEM object to non-coherent backing mem=
+ory
+> + * @drm: DRM device
+> + * @old_state: Old plane state
+> + * @state: New plane state
+> + *
+> + * This function can be used by drivers that use damage clips and have=
+
+> + * CMA GEM objects backed by non-coherent memory. Calling this functio=
+n
+> + * in a plane's .atomic_update ensures that all the data in the backin=
+g
+> + * memory have been written to RAM.
+> + */
+> +void drm_gem_cma_sync_data(struct drm_device *drm,
+> +			   struct drm_plane_state *old_state,
+> +			   struct drm_plane_state *state)
+> +{
+> +	const struct drm_format_info *finfo =3D state->fb->format;
+> +	struct drm_atomic_helper_damage_iter iter;
+> +	const struct drm_gem_cma_object *cma_obj;
+> +	unsigned int offset, i;
+> +	struct drm_rect clip;
+> +	dma_addr_t daddr;
 > +
-> +	ret =3D dma_mmap_pages(cma_obj->base.dev->dev,
-> +			     vma, vma->vm_end - vma->vm_start,
-> +			     virt_to_page(cma_obj->vaddr));
->   	if (ret)
->   		drm_gem_vm_close(vma);
->  =20
+> +	for (i =3D 0; i < finfo->num_planes; i++) {
+> +		cma_obj =3D drm_fb_cma_get_gem_obj(state->fb, i);
+> +
+> +		if (cma_obj->map_noncoherent)
+> +			break;
+> +	}
+> +
+> +	/* No non-coherent buffers - no need to sync anything. */
+> +	if (i =3D=3D finfo->num_planes)
+> +		return;
+> +
+> +	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
+> +
+> +	drm_atomic_for_each_plane_damage(&iter, &clip) {
+> +		for (i =3D 0; i < finfo->num_planes; i++) {
+> +			daddr =3D drm_fb_cma_get_gem_addr(state->fb, state, i);
+> +
+> +			/* Ignore x1/x2 values, invalidate complete lines */
+> +			offset =3D clip.y1 * state->fb->pitches[i];
+> +
+> +			dma_sync_single_for_device(drm->dev, daddr + offset,
+> +				       (clip.y2 - clip.y1) * state->fb->pitches[i],
+> +				       DMA_TO_DEVICE);
+
+A framebuffer can have multiple BOs with different coherency. The=20
+current loop syncs every BO, but you only have to sync non-coherent memor=
+y.
+
+I suggest to merge the above test loop into this sync loop, such that=20
+only non-coherent BOs get synced
+
+damage_iter_init(iter)
+
+for_each_damage_plane(iter) {
+   for (i < finfo->num_planes) {
+     cma_obj =3D drm_fb_cma_get_gem_obj(i)
+     if (!cma_obj->non_coherent)
+       continue;
+     dma_sync_single_for_device()
+   }
+}
+
+For cache locality, it might be better to exchange the loops:
+
+for (i < finfo->num_planes) {
+
+   damage_iter_init(iter)
+   for_each_damage_plane(iter) {
+
+
+   }
+}
+
+This way, you operate on the BOs one by one.
+
+> +		}
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_cma_sync_data);
 > diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma=
 _helper.h
-> index 0a9711caa3e8..cd13508acbc1 100644
+> index cd13508acbc1..76af066ae3a7 100644
 > --- a/include/drm/drm_gem_cma_helper.h
 > +++ b/include/drm/drm_gem_cma_helper.h
-> @@ -16,6 +16,7 @@ struct drm_mode_create_dumb;
->    *       more than one entry but they are guaranteed to have contiguo=
-us
->    *       DMA addresses.
->    * @vaddr: kernel virtual address of the backing memory
-> + * @map_noncoherent: if true, the GEM object is backed by non-coherent=20
-memory
->    */
->   struct drm_gem_cma_object {
->   	struct drm_gem_object base;
-> @@ -24,6 +25,8 @@ struct drm_gem_cma_object {
+> @@ -7,6 +7,7 @@
+>   #include <drm/drm_gem.h>
 >  =20
->   	/* For objects with DMA memory allocated by GEM CMA */
->   	void *vaddr;
+>   struct drm_mode_create_dumb;
+> +struct drm_plane_state;
+>  =20
+>   /**
+>    * struct drm_gem_cma_object - GEM object backed by CMA memory alloca=
+tions
+> @@ -185,4 +186,8 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_d=
+evice *drm,
+>   				       struct dma_buf_attachment *attach,
+>   				       struct sg_table *sgt);
+>  =20
+> +void drm_gem_cma_sync_data(struct drm_device *drm,
+> +			   struct drm_plane_state *old_state,
+> +			   struct drm_plane_state *state);
 > +
-> +	bool map_noncoherent;
->   };
->  =20
->   #define to_drm_gem_cma_obj(gem_obj) \
+
+Maybe call this function drm_gem_cma_sync_non_coherent() so that it's=20
+clear what the sync is about.
+
+Best regards
+Thomas
+
+>   #endif /* __DRM_GEM_CMA_HELPER_H__ */
 >=20
 
 --=20
@@ -247,27 +251,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---qhw4perhhhklxwtWZJOyFEtlE03cfno0Q--
+--dPf7PCMtJc55MN21CIHNv1YF93Ixa5987--
 
---sJrRFkDAoEyRy39xoYSrAUozzf6xYe2ID
+--x2vTxhbmwOfkAFOdrM8fvhtRRGsi5zKVn
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCgF6QFAwAAAAAACgkQlh/E3EQov+A+
-EBAAtZY98FyozHDlGm2x7d3eNgL9WTOzVRGUEu9zoZ7uqTT7++ejjpRBsfOB/a+xe8xAkOsIrSkm
-0IHmR1uoMAxCfNCT9IYGjGSky/ZAxMWedHxmSZzNfYE4gW5iudZAO5HIBPVFCsmr9EASxSa2Gorz
-u6t8fBiat9JxNUmGVULgeJogtTfIUX9AYRyMISf2Zs/E1QWVKwsnF5yAI41ePqtdxvj4UNauElnF
-BRv9JJxg8Sl2jVcvVRaaT9v3KOj/y5nKwxPNaDkfy5unryvUOkW2myws8inkhwPnCJVwt7hz/o69
-ub7fJFhX+T9B/3J89+B7lcuERAWcOuYTI7Yz4B05XU9FQTzCvkaKgLBJX3c6eDsYZ5yBEbjSXM1s
-ozmb7wPrCj2x4SNj+EAPGc65BMWNr60/RBB5E8YQknenHjY1MmcrC0hHUsp258I2Z9SMqGU0ZWy7
-XxH+mTIpfFGQ5sQTP4WRq+CSVwH54voG/mQkDLX56oqxfnMKB7Us4ZXKf7Yn/ecyXutvZmzB9q6G
-r6bnFJPvAaP1LYJuDrD+yBoVCgfT0aKqEwoJxNUAAxFYeBuiTJfsPEd2HS89RxEdup8WTgABlES3
-UUhKJ/BwP5XDeL6iUYaajTumKuRi3ncfCp2tvmKTQL3MCKhcG++EHFe6+zu39aZ00Ndp90nqRRPx
-Ouk=
-=Mttz
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCgG9AFAwAAAAAACgkQlh/E3EQov+DQ
+tA/+JvvM1uDc8G9rNsR2O7LjyGk5y3GZqbmvgG7vabjuqeTO/dNVVs1NclHBG9nUMiHaaaHIemNR
+0/CgCdcOMfwpvbKZmyRK0An8yo1Ajg1BakVSf29HpIUwpwYpnH7sKDb00yW3le97OKpTfK/jBbOd
+JOxOYk37VXz8OMA4zYERgfjU5lgGXywBumDteE03OIXi8jBZkdPaVLPuX7+4r862EybBv0kBJjZG
+ZEdaXpkqdF+ZJKGGcPB2b9MGfhCrnKtK/q9vSw5SMYwnv9eQdmSSJJRYaYhDw6bzXAJRwRUjDf7e
+xS5b+G8vAVgC1ycBttaflx68lcyEk6XbM45ePVcTeOuAAho523+LnRdrpzxBxpWXz6L7skJqRK/z
+OYw2hekgpL06Z+CU6O7Eb0ni57y42fw4jVzbHAixvbsVQhJeo1DQD9Sesy0ETYRaAbicQsuwKTBr
+ljfBbodl1Zdt3q+i378ugdjhialHfnxdAPXEIKWOOyMN4Bhz3ToOAW1c5j+BHWaCz1pDhAw868Q7
+3BMAVJXzpkKuoeZRNJmuyWdVL90wHUZvdKEKBVmAH+mXrg8m6oCHY22WqiZgssUN99R7ZxL9eiSC
+hwgyHBu7+OiZmiJLKxRToBVNsKfKGmtkKgipTdR9J3m3zzJvN0jHs7YcfMm0ZxV0Qh5yOBp1e9sg
+2Rk=
+=I/0w
 -----END PGP SIGNATURE-----
 
---sJrRFkDAoEyRy39xoYSrAUozzf6xYe2ID--
+--x2vTxhbmwOfkAFOdrM8fvhtRRGsi5zKVn--
