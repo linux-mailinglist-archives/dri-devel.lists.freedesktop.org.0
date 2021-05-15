@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB425381BA4
-	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 00:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231C3381BA6
+	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 00:58:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 999616E462;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2B6E6E45E;
 	Sat, 15 May 2021 22:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04FB56E45D
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9BD06E45E
  for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 22:58:04 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id h4so3520130lfv.0
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 15:58:03 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id v5so2735562ljg.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 15:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wTzH2vCaEnkJupEgOODl/vS26BCkq6ay395pDolBYfI=;
- b=zyL9znUfOLEBULudJXjAcKF31JB+ApzSImyZKyarwBGXai4B40y2GBAPUK1TUco7KZ
- /bJOHoqmIY8Xd2eKEJ6jE1/AdXZqq1rFXDeIrN6qz4388eBHDjzFzwhHOgGVXPx2POJ3
- qVl+6qVheLj0BOezZSrq2xBdLUsxSkaPefjb6j7zHNUKB1mqL1kWuDrECDm8LIKcbRgC
- ixkUsd1UeXOeQt5R+zMm/jKvEIc0CLzd1VHkbu81YOgqHSh8lSkJ4+nOACYtq2+ruFa6
- 0/yppCzFZELknFKDSfAIjJyp8VWi+KKJpUnlv02ij45nyI1GR9wW1NzZzt6gQxkQ7AkX
- V35w==
+ bh=E5qe9ZMM3P04rkX7k1lm5GVbCa/n902FJD9qz2YgUU8=;
+ b=F9oY67eB5OfIf1EHpVLm01gK+I6Kawvh9AGiGrEU0qVXMnIb0gGpusvk8N3gw+5aot
+ DAVls/3BydP4pL0PcdO2hDYbsck+qzjoE42q4dBDaqOnQw01yR5LEzTtBpzpFiZaLMCx
+ r6tLmjwT/32GBWwen7AUis9OebhPrXJJ48WAX9udmh9VCRDfq6a/EI5TZ4K8bE6EPp9m
+ meHB7kMUNka3g/R9Ji20FZy8kpXNN3pecx5BHiGXQ2sGcK9SI818T7wMdnYMdYpesru+
+ OnxsADAImCN/m3WOwJje53iUnmK9IiWgpoCYjqAZrQXeDo7TKUoVnLt0557j6taaCjdV
+ Ckaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wTzH2vCaEnkJupEgOODl/vS26BCkq6ay395pDolBYfI=;
- b=FWJFr8ZbxqG3q7Zus0wom88L5dXyhrGXFhjwZpQKwPLuDxMm3+KyjngTTt9M7xBV+P
- 7wH3aPoa0sAUlfGQIo9Lg825jRVLKMoh3xxZfDQ27CRgCJfX4a/rLOCWN9r7kGmVid8Q
- uAfGa33RFwcGFMT3wPgH7Tp29AUMJwXU+5ro3fu7+NsUPXfSmUZ7KhrWQU4LJOXxPSYs
- TX9IbyQnfvVkltj+YnlTZ6+9XGiw9BDcluZdLZcmvpgUjMaTmP/xzVyIpHMVMSuMG/Yh
- NLnAw/evRuKGnhz9Od/rtxLJdvOg0bfMUJ9COGmwhqIcB74SqJ+Vy/KYet0Q+nDaHApt
- 1Btg==
-X-Gm-Message-State: AOAM531OkYYrmzu2pr2P8uDTGW203D7Nbg7FbDmkJ40GU1+oWQ+xxtK3
- hRsb1h5gVeRvk/jiVl7qqiZmDA==
-X-Google-Smtp-Source: ABdhPJyEyEzVjxY9yHAecnXc4+egCHuDTfoN3lpowmgOOQGWpiWoL9YTxTzO9KcJNxgHbCO6QdZcOQ==
-X-Received: by 2002:ac2:5977:: with SMTP id h23mr4017125lfp.596.1621119482245; 
- Sat, 15 May 2021 15:58:02 -0700 (PDT)
+ bh=E5qe9ZMM3P04rkX7k1lm5GVbCa/n902FJD9qz2YgUU8=;
+ b=DqciOnUuO62/zmJd+j4Tq/xOp76huOtdByapLB7vEOQ4FGOS+PZfuhm5xS2jUVqCmc
+ Z2QU/vyGt+HTV9Mb5rhqYRmeo7PbgmBEPoqPSKoBclTa6l+8/99M31UqxPFugV2mCoJK
+ XoG+EVirT/ccu75Ku1idEvRhbRN8jBxiD+nmWcipGrUT1Uf8nMa/mdqRvkpbnGCRKpdj
+ /KGESeNbRbM1STCBLmbZJXkRkmS1+KuChaU23/hXO8hJ+9VCkTFyvFuR+v9GIPpNGegB
+ VECemrYqKieozJiOaqKVQD21X0ovmk2F0xh8Orqa+kTbwHJbIRJXojWfzIQx+QrlK81D
+ Pafw==
+X-Gm-Message-State: AOAM531WAP9Y1IY9QHyr4KZzS9PHK6v6bE6JoMVE+PzU2WEF/zNhjpOi
+ 4HLH6KNm34PFo8M/qzgfHyuPJA==
+X-Google-Smtp-Source: ABdhPJwKWIVCvPvS9kbJihYuaVtH4VrYdKg46zhpI5bhVqGZTwr9oBL7gfyFJyqTd7MTcby0yI0u5g==
+X-Received: by 2002:a2e:90d6:: with SMTP id o22mr18584895ljg.473.1621119483251; 
+ Sat, 15 May 2021 15:58:03 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id j3sm1499729lfe.5.2021.05.15.15.58.01
+ by smtp.gmail.com with ESMTPSA id j3sm1499729lfe.5.2021.05.15.15.58.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 May 2021 15:58:01 -0700 (PDT)
+ Sat, 15 May 2021 15:58:02 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 3/6] drm/msm/dpu: get PINGPONG blocks directly rather than
+Subject: [PATCH v2 4/6] drm/msm/dpu: get INTF blocks directly rather than
  through RM
-Date: Sun, 16 May 2021 01:57:54 +0300
-Message-Id: <20210515225757.1989955-4-dmitry.baryshkov@linaro.org>
+Date: Sun, 16 May 2021 01:57:55 +0300
+Message-Id: <20210515225757.1989955-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210515225757.1989955-1-dmitry.baryshkov@linaro.org>
 References: <20210515225757.1989955-1-dmitry.baryshkov@linaro.org>
@@ -76,381 +76,412 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Each PINGPONG block is tied to a single LM. No LMs can share single PINGPONG
-block. So there is no need to handle PINGPONG blocks through all resource
-allocation/deallocation/assignment, just receive PINGPONG block as a part of
-LM hardware instance.
+INTF blocks are not really handled by resource manager, they are
+assigned at dpu_encoder_setup_display using dpu_encoder_get_intf().
+Then this allocation is passed to RM and then returned to then
+dpu_encoder.
+So allocate them outside of RM and use them directly.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 12 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c   | 10 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h   |  6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 99 ++-------------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |  2 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h   |  9 +-
- 7 files changed, 25 insertions(+), 114 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 36 +-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |  8 --
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  5 -
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  8 --
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |  8 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 24 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 91 -------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |  2 -
+ 9 files changed, 28 insertions(+), 156 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 2b750da8b30c..3f4d2ba53604 100644
+index 3f4d2ba53604..8a8a98f9d132 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1004,10 +1004,9 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
- 	struct drm_crtc *drm_crtc;
- 	struct dpu_crtc_state *cstate;
- 	struct dpu_global_state *global_state;
--	struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
--	int num_lm, num_ctl, num_pp;
-+	int num_lm, num_ctl;
- 	int i, j;
- 
- 	if (!drm_enc) {
-@@ -1050,18 +1049,11 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
- 			break;
- 
- 	/* Query resource that have been reserved in atomic check step. */
--	num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
--		drm_enc->base.id, DPU_HW_BLK_PINGPONG, hw_pp,
--		ARRAY_SIZE(hw_pp));
- 	num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
- 		drm_enc->base.id, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
- 	num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
- 		drm_enc->base.id, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
- 
--	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
--		dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
--						: NULL;
--
- 	cstate = to_dpu_crtc_state(drm_crtc->state);
- 
- 	for (i = 0; i < num_lm; i++) {
-@@ -1070,6 +1062,8 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
- 		cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
- 		cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
- 		cstate->mixers[i].hw_dspp = cstate->mixers[i].hw_lm->dspp;
-+
-+		dpu_enc->hw_pp[i] = cstate->mixers[i].hw_lm->pingpong;
- 	}
- 
- 	cstate->num_mixers = num_lm;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-index 7f02078db7e7..04a835b9c2a3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-@@ -8,6 +8,7 @@
- #include "dpu_hw_dspp.h"
- #include "dpu_hw_lm.h"
- #include "dpu_hw_mdss.h"
-+#include "dpu_hw_pingpong.h"
- 
- #define LM_OP_MODE                        0x00
- #define LM_OUT_SIZE                       0x04
-@@ -163,7 +164,8 @@ static void _setup_mixer_ops(const struct dpu_mdss_cfg *m,
- 
- struct dpu_hw_mixer *dpu_hw_lm_init(enum dpu_lm idx,
- 		void __iomem *addr,
--		const struct dpu_mdss_cfg *m)
-+		const struct dpu_mdss_cfg *m,
-+		struct dpu_hw_merge_3d **merge_3d_blks)
- {
- 	struct dpu_hw_mixer *c;
- 	const struct dpu_lm_cfg *cfg;
-@@ -185,13 +187,17 @@ struct dpu_hw_mixer *dpu_hw_lm_init(enum dpu_lm idx,
- 
- 	if (cfg->dspp && cfg->dspp < DSPP_MAX)
- 		c->dspp = dpu_hw_dspp_init(cfg->dspp, addr, m);
-+	if (cfg->pingpong && cfg->pingpong < PINGPONG_MAX)
-+		c->pingpong = dpu_hw_pingpong_init(cfg->pingpong, addr, m, merge_3d_blks);
- 
- 	return c;
+@@ -456,26 +456,6 @@ int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
+ 	return linecount;
  }
  
- void dpu_hw_lm_destroy(struct dpu_hw_mixer *lm)
- {
--	if (lm)
-+	if (lm) {
- 		dpu_hw_dspp_destroy(lm->dspp);
-+		dpu_hw_pingpong_destroy(lm->pingpong);
-+	}
- 	kfree(lm);
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
-index effb78311a43..182740f2914b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
-@@ -64,6 +64,7 @@ struct dpu_hw_mixer {
- 	const struct dpu_lm_cfg   *cap;
- 	const struct dpu_mdp_cfg  *mdp;
- 	const struct dpu_ctl_cfg  *ctl;
-+	struct dpu_hw_pingpong *pingpong;
- 	struct dpu_hw_dspp *dspp;
- 
- 	/* ops */
-@@ -83,16 +84,19 @@ static inline struct dpu_hw_mixer *to_dpu_hw_mixer(struct dpu_hw_blk *hw)
- 	return container_of(hw, struct dpu_hw_mixer, base);
- }
- 
-+struct dpu_hw_merge_3d;
- /**
-  * dpu_hw_lm_init(): Initializes the mixer hw driver object.
-  * should be called once before accessing every mixer.
-  * @idx:  mixer index for which driver object is required
-  * @addr: mapped register io address of MDP
-  * @m :   pointer to mdss catalog data
-+ * @merge_3d_blks: Pointer to merge 3d blocks
-  */
- struct dpu_hw_mixer *dpu_hw_lm_init(enum dpu_lm idx,
- 		void __iomem *addr,
--		const struct dpu_mdss_cfg *m);
-+		const struct dpu_mdss_cfg *m,
-+		struct dpu_hw_merge_3d **merge_3d_blks);
- 
- /**
-  * dpu_hw_lm_destroy(): Destroys layer mixer driver context
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index 057fdf0ca9f4..0b936258bde0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -161,7 +161,6 @@ struct vsync_info {
- struct dpu_global_state {
- 	struct drm_private_state base;
- 
--	uint32_t pingpong_to_enc_id[PINGPONG_MAX - PINGPONG_0];
- 	uint32_t mixer_to_enc_id[LM_MAX - LM_0];
- 	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
- 	uint32_t intf_to_enc_id[INTF_MAX - INTF_0];
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 138efa7e51e5..acadb7240d09 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -7,7 +7,6 @@
- #include "dpu_kms.h"
- #include "dpu_hw_lm.h"
- #include "dpu_hw_ctl.h"
--#include "dpu_hw_pingpong.h"
- #include "dpu_hw_intf.h"
- #include "dpu_encoder.h"
- #include "dpu_trace.h"
-@@ -33,14 +32,6 @@ int dpu_rm_destroy(struct dpu_rm *rm)
- {
- 	int i;
- 
--	for (i = 0; i < ARRAY_SIZE(rm->pingpong_blks); i++) {
--		struct dpu_hw_pingpong *hw;
--
--		if (rm->pingpong_blks[i]) {
--			hw = to_dpu_hw_pingpong(rm->pingpong_blks[i]);
--			dpu_hw_pingpong_destroy(hw);
--		}
--	}
- 	for (i = 0; i < ARRAY_SIZE(rm->mixer_blks); i++) {
- 		struct dpu_hw_mixer *hw;
- 
-@@ -98,7 +89,7 @@ int dpu_rm_init(struct dpu_rm *rm,
- 			DPU_ERROR("skip mixer %d with invalid id\n", lm->id);
- 			continue;
- 		}
--		hw = dpu_hw_lm_init(lm->id, mmio, cat);
-+		hw = dpu_hw_lm_init(lm->id, mmio, cat, dpu_kms->hw_merge_3d);
- 		if (IS_ERR_OR_NULL(hw)) {
- 			rc = PTR_ERR(hw);
- 			DPU_ERROR("failed lm object creation: err %d\n", rc);
-@@ -119,24 +110,6 @@ int dpu_rm_init(struct dpu_rm *rm,
- 		}
- 	}
- 
--	for (i = 0; i < cat->pingpong_count; i++) {
--		struct dpu_hw_pingpong *hw;
--		const struct dpu_pingpong_cfg *pp = &cat->pingpong[i];
--
--		if (pp->id < PINGPONG_0 || pp->id >= PINGPONG_MAX) {
--			DPU_ERROR("skip pingpong %d with invalid id\n", pp->id);
--			continue;
--		}
--		hw = dpu_hw_pingpong_init(pp->id, mmio, cat, dpu_kms->hw_merge_3d);
--		if (IS_ERR_OR_NULL(hw)) {
--			rc = PTR_ERR(hw);
--			DPU_ERROR("failed pingpong object creation: err %d\n",
--				rc);
--			goto fail;
--		}
--		rm->pingpong_blks[pp->id - PINGPONG_0] = &hw->base;
--	}
--
- 	for (i = 0; i < cat->intf_count; i++) {
- 		struct dpu_hw_intf *hw;
- 		const struct dpu_intf_cfg *intf = &cat->intf[i];
-@@ -213,53 +186,6 @@ static bool _dpu_rm_check_lm_peer(struct dpu_rm *rm, int primary_idx,
- 	return true;
- }
- 
--/**
-- * _dpu_rm_check_lm_and_get_connected_blks - check if proposed layer mixer meets
-- *	proposed use case requirements, incl. hardwired dependent blocks like
-- *	pingpong
-- * @rm: dpu resource manager handle
-- * @global_state: resources shared across multiple kms objects
-- * @enc_id: encoder id requesting for allocation
-- * @lm_idx: index of proposed layer mixer in rm->mixer_blks[], function checks
-- *      if lm, and all other hardwired blocks connected to the lm (pp) is
-- *      available and appropriate
-- * @pp_idx: output parameter, index of pingpong block attached to the layer
-- *      mixer in rm->pingpong_blks[].
-- * @reqs: input parameter, rm requirements for HW blocks needed in the
-- *      datapath.
-- * Return: true if lm matches all requirements, false otherwise
-- */
--static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
--		struct dpu_global_state *global_state,
--		uint32_t enc_id, int lm_idx, int *pp_idx,
--		struct dpu_rm_requirements *reqs)
+-void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
+-				  struct dpu_encoder_hw_resources *hw_res)
 -{
--	const struct dpu_lm_cfg *lm_cfg;
--	int idx;
+-	struct dpu_encoder_virt *dpu_enc = NULL;
+-	int i = 0;
 -
--	/* Already reserved? */
--	if (reserved_by_other(global_state->mixer_to_enc_id, lm_idx, enc_id)) {
--		DPU_DEBUG("lm %d already reserved\n", lm_idx + LM_0);
--		return false;
+-	dpu_enc = to_dpu_encoder_virt(drm_enc);
+-	DPU_DEBUG_ENC(dpu_enc, "\n");
+-
+-	/* Query resources used by phys encs, expected to be without overlap */
+-	memset(hw_res, 0, sizeof(*hw_res));
+-
+-	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+-		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+-
+-		if (phys->ops.get_hw_resources)
+-			phys->ops.get_hw_resources(phys, hw_res);
 -	}
--
--	lm_cfg = to_dpu_hw_mixer(rm->mixer_blks[lm_idx])->cap;
--	idx = lm_cfg->pingpong - PINGPONG_0;
--	if (idx < 0 || idx >= ARRAY_SIZE(rm->pingpong_blks)) {
--		DPU_ERROR("failed to get pp on lm %d\n", lm_cfg->pingpong);
--		return false;
--	}
--
--	if (reserved_by_other(global_state->pingpong_to_enc_id, idx, enc_id)) {
--		DPU_DEBUG("lm %d pp %d already reserved\n", lm_cfg->id,
--				lm_cfg->pingpong);
--		return false;
--	}
--	*pp_idx = idx;
--
--	return true;
 -}
 -
- static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
- 			       struct dpu_global_state *global_state,
- 			       uint32_t enc_id,
-@@ -267,7 +193,6 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
- 
+ static void dpu_encoder_destroy(struct drm_encoder *drm_enc)
  {
- 	int lm_idx[MAX_BLOCKS];
--	int pp_idx[MAX_BLOCKS];
- 	int i, j, lm_count = 0;
+ 	struct dpu_encoder_virt *dpu_enc = NULL;
+@@ -1007,7 +987,7 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+ 	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
+ 	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+ 	int num_lm, num_ctl;
+-	int i, j;
++	int i;
  
- 	if (!reqs->topology.num_lm) {
-@@ -284,9 +209,8 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
- 		lm_count = 0;
- 		lm_idx[lm_count] = i;
+ 	if (!drm_enc) {
+ 		DPU_ERROR("invalid encoder\n");
+@@ -1069,8 +1049,6 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+ 	cstate->num_mixers = num_lm;
  
--		if (!_dpu_rm_check_lm_and_get_connected_blks(rm, global_state,
--				enc_id, i, &pp_idx[lm_count],
--				reqs)) {
-+		if (reserved_by_other(global_state->mixer_to_enc_id, i, enc_id)) {
-+			DPU_DEBUG("lm %d already reserved\n", i + LM_0);
- 			continue;
+ 	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+-		int num_blk;
+-		struct dpu_hw_blk *hw_blk[MAX_CHANNELS_PER_ENC];
+ 		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+ 
+ 		if (!dpu_enc->hw_pp[i]) {
+@@ -1088,16 +1066,8 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+ 		phys->hw_pp = dpu_enc->hw_pp[i];
+ 		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
+ 
+-		num_blk = dpu_rm_get_assigned_resources(&dpu_kms->rm,
+-			global_state, drm_enc->base.id, DPU_HW_BLK_INTF,
+-			hw_blk, ARRAY_SIZE(hw_blk));
+-		for (j = 0; j < num_blk; j++) {
+-			struct dpu_hw_intf *hw_intf;
+-
+-			hw_intf = to_dpu_hw_intf(hw_blk[i]);
+-			if (hw_intf->idx == phys->intf_idx)
+-				phys->hw_intf = hw_intf;
+-		}
++		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
++			phys->hw_intf = dpu_kms->hw_intf[phys->intf_idx];
+ 
+ 		if (!phys->hw_intf) {
+ 			DPU_ERROR_ENC(dpu_enc,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+index 99a5d73c9b88..09db83f8339f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+@@ -26,14 +26,6 @@ struct dpu_encoder_hw_resources {
+ 	enum dpu_intf_mode intfs[INTF_MAX];
+ };
+ 
+-/**
+- * dpu_encoder_get_hw_resources - Populate table of required hardware resources
+- * @encoder:	encoder pointer
+- * @hw_res:	resource table to populate with encoder required resources
+- */
+-void dpu_encoder_get_hw_resources(struct drm_encoder *encoder,
+-				  struct dpu_encoder_hw_resources *hw_res);
+-
+ /**
+  * dpu_encoder_assign_crtc - Link the encoder to the crtc it's assigned to
+  * @encoder:	encoder pointer
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+index ecbc4be98980..fc8f070981c2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+@@ -91,9 +91,6 @@ struct dpu_encoder_virt_ops {
+  * @disable:			DRM Call. Disable mode.
+  * @atomic_check:		DRM Call. Atomic check new DRM state.
+  * @destroy:			DRM Call. Destroy and release resources.
+- * @get_hw_resources:		Populate the structure with the hardware
+- *				resources that this phys_enc is using.
+- *				Expect no overlap between phys_encs.
+  * @control_vblank_irq		Register/Deregister for VBLANK IRQ
+  * @wait_for_commit_done:	Wait for hardware to have flushed the
+  *				current pending frames to hardware
+@@ -129,8 +126,6 @@ struct dpu_encoder_phys_ops {
+ 			    struct drm_crtc_state *crtc_state,
+ 			    struct drm_connector_state *conn_state);
+ 	void (*destroy)(struct dpu_encoder_phys *encoder);
+-	void (*get_hw_resources)(struct dpu_encoder_phys *encoder,
+-				 struct dpu_encoder_hw_resources *hw_res);
+ 	int (*control_vblank_irq)(struct dpu_encoder_phys *enc, bool enable);
+ 	int (*wait_for_commit_done)(struct dpu_encoder_phys *phys_enc);
+ 	int (*wait_for_tx_complete)(struct dpu_encoder_phys *phys_enc);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index b2be39b9144e..adbd59326b99 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -541,13 +541,6 @@ static void dpu_encoder_phys_cmd_destroy(struct dpu_encoder_phys *phys_enc)
+ 	kfree(cmd_enc);
+ }
+ 
+-static void dpu_encoder_phys_cmd_get_hw_resources(
+-		struct dpu_encoder_phys *phys_enc,
+-		struct dpu_encoder_hw_resources *hw_res)
+-{
+-	hw_res->intfs[phys_enc->intf_idx - INTF_0] = INTF_MODE_CMD;
+-}
+-
+ static void dpu_encoder_phys_cmd_prepare_for_kickoff(
+ 		struct dpu_encoder_phys *phys_enc)
+ {
+@@ -747,7 +740,6 @@ static void dpu_encoder_phys_cmd_init_ops(
+ 	ops->enable = dpu_encoder_phys_cmd_enable;
+ 	ops->disable = dpu_encoder_phys_cmd_disable;
+ 	ops->destroy = dpu_encoder_phys_cmd_destroy;
+-	ops->get_hw_resources = dpu_encoder_phys_cmd_get_hw_resources;
+ 	ops->control_vblank_irq = dpu_encoder_phys_cmd_control_vblank_irq;
+ 	ops->wait_for_commit_done = dpu_encoder_phys_cmd_wait_for_commit_done;
+ 	ops->prepare_for_kickoff = dpu_encoder_phys_cmd_prepare_for_kickoff;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index 4feec24162bc..4333b94cb04f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -477,13 +477,6 @@ static void dpu_encoder_phys_vid_destroy(struct dpu_encoder_phys *phys_enc)
+ 	kfree(phys_enc);
+ }
+ 
+-static void dpu_encoder_phys_vid_get_hw_resources(
+-		struct dpu_encoder_phys *phys_enc,
+-		struct dpu_encoder_hw_resources *hw_res)
+-{
+-	hw_res->intfs[phys_enc->intf_idx - INTF_0] = INTF_MODE_VIDEO;
+-}
+-
+ static int dpu_encoder_phys_vid_wait_for_vblank(
+ 		struct dpu_encoder_phys *phys_enc)
+ {
+@@ -688,7 +681,6 @@ static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
+ 	ops->enable = dpu_encoder_phys_vid_enable;
+ 	ops->disable = dpu_encoder_phys_vid_disable;
+ 	ops->destroy = dpu_encoder_phys_vid_destroy;
+-	ops->get_hw_resources = dpu_encoder_phys_vid_get_hw_resources;
+ 	ops->control_vblank_irq = dpu_encoder_phys_vid_control_vblank_irq;
+ 	ops->wait_for_commit_done = dpu_encoder_phys_vid_wait_for_commit_done;
+ 	ops->wait_for_vblank = dpu_encoder_phys_vid_wait_for_vblank;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index ca89229d9f42..364ab1987510 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -683,6 +683,12 @@ static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
+ 			if ((vbif_idx < VBIF_MAX) && dpu_kms->hw_vbif[vbif_idx])
+ 				dpu_hw_vbif_destroy(dpu_kms->hw_vbif[vbif_idx]);
  		}
- 
-@@ -304,10 +228,8 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
- 				continue;
- 			}
- 
--			if (!_dpu_rm_check_lm_and_get_connected_blks(rm,
--					global_state, enc_id, j,
--					&pp_idx[lm_count],
--					reqs)) {
-+			if (reserved_by_other(global_state->mixer_to_enc_id, j, enc_id)) {
-+				DPU_DEBUG("lm %d already reserved\n", j + LM_0);
- 				continue;
- 			}
- 
-@@ -323,10 +245,8 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
- 
- 	for (i = 0; i < lm_count; i++) {
- 		global_state->mixer_to_enc_id[lm_idx[i]] = enc_id;
--		global_state->pingpong_to_enc_id[pp_idx[i]] = enc_id;
- 
--		trace_dpu_rm_reserve_lms(lm_idx[i] + LM_0, enc_id,
--					 pp_idx[i] + PINGPONG_0);
-+		trace_dpu_rm_reserve_lms(lm_idx[i] + LM_0, enc_id);
++		for (i = 0; i < dpu_kms->catalog->intf_count; i++) {
++			u32 intf_idx = dpu_kms->catalog->intf[i].id;
++
++			if ((intf_idx < INTF_MAX) && dpu_kms->hw_intf[intf_idx])
++				dpu_hw_intf_destroy(dpu_kms->hw_intf[intf_idx]);
++		}
  	}
  
+ 	if (dpu_kms->rm_init)
+@@ -1021,6 +1027,24 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 		}
+ 	}
+ 
++	for (i = 0; i < dpu_kms->catalog->intf_count; i++) {
++		u32 intf_idx = dpu_kms->catalog->intf[i].id;
++
++		if (dpu_kms->catalog->intf[i].type == INTF_NONE)
++			continue;
++
++		dpu_kms->hw_intf[intf_idx] = dpu_hw_intf_init(intf_idx,
++				dpu_kms->mmio, dpu_kms->catalog);
++		if (IS_ERR_OR_NULL(dpu_kms->hw_intf[intf_idx])) {
++			rc = PTR_ERR(dpu_kms->hw_intf[intf_idx]);
++			if (!dpu_kms->hw_intf[intf_idx])
++				rc = -EINVAL;
++			DPU_ERROR("failed to init intf %d: %d\n", intf_idx, rc);
++			dpu_kms->hw_intf[intf_idx] = NULL;
++			goto power_error;
++		}
++	}
++
+ 	rc = dpu_core_perf_init(&dpu_kms->perf, dev, dpu_kms->catalog,
+ 			_dpu_kms_get_clk(dpu_kms, "core"));
+ 	if (rc) {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index 0b936258bde0..6e2ec3171a79 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -124,6 +124,7 @@ struct dpu_kms {
+ 
+ 	struct dpu_hw_vbif *hw_vbif[VBIF_MAX];
+ 	struct dpu_hw_merge_3d *hw_merge_3d[MERGE_3D_MAX];
++	struct dpu_hw_intf *hw_intf[INTF_MAX];
+ 	struct dpu_hw_mdp *hw_mdp;
+ 
+ 	bool has_danger_ctrl;
+@@ -163,7 +164,6 @@ struct dpu_global_state {
+ 
+ 	uint32_t mixer_to_enc_id[LM_MAX - LM_0];
+ 	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
+-	uint32_t intf_to_enc_id[INTF_MAX - INTF_0];
+ };
+ 
+ struct dpu_global_state
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+index acadb7240d09..c36700a06ff2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+@@ -48,14 +48,6 @@ int dpu_rm_destroy(struct dpu_rm *rm)
+ 			dpu_hw_ctl_destroy(hw);
+ 		}
+ 	}
+-	for (i = 0; i < ARRAY_SIZE(rm->intf_blks); i++) {
+-		struct dpu_hw_intf *hw;
+-
+-		if (rm->intf_blks[i]) {
+-			hw = to_dpu_hw_intf(rm->intf_blks[i]);
+-			dpu_hw_intf_destroy(hw);
+-		}
+-	}
+ 
  	return 0;
-@@ -492,8 +412,6 @@ static void _dpu_rm_clear_mapping(uint32_t *res_mapping, int cnt,
- void dpu_rm_release(struct dpu_global_state *global_state,
- 		    struct drm_encoder *enc)
+ }
+@@ -110,27 +102,6 @@ int dpu_rm_init(struct dpu_rm *rm,
+ 		}
+ 	}
+ 
+-	for (i = 0; i < cat->intf_count; i++) {
+-		struct dpu_hw_intf *hw;
+-		const struct dpu_intf_cfg *intf = &cat->intf[i];
+-
+-		if (intf->type == INTF_NONE) {
+-			DPU_DEBUG("skip intf %d with type none\n", i);
+-			continue;
+-		}
+-		if (intf->id < INTF_0 || intf->id >= INTF_MAX) {
+-			DPU_ERROR("skip intf %d with invalid id\n", intf->id);
+-			continue;
+-		}
+-		hw = dpu_hw_intf_init(intf->id, mmio, cat);
+-		if (IS_ERR_OR_NULL(hw)) {
+-			rc = PTR_ERR(hw);
+-			DPU_ERROR("failed intf object creation: err %d\n", rc);
+-			goto fail;
+-		}
+-		rm->intf_blks[intf->id - INTF_0] = &hw->base;
+-	}
+-
+ 	for (i = 0; i < cat->ctl_count; i++) {
+ 		struct dpu_hw_ctl *hw;
+ 		const struct dpu_ctl_cfg *ctl = &cat->ctl[i];
+@@ -305,54 +276,6 @@ static int _dpu_rm_reserve_ctls(
+ 	return 0;
+ }
+ 
+-static int _dpu_rm_reserve_intf(
+-		struct dpu_rm *rm,
+-		struct dpu_global_state *global_state,
+-		uint32_t enc_id,
+-		uint32_t id)
+-{
+-	int idx = id - INTF_0;
+-
+-	if (idx < 0 || idx >= ARRAY_SIZE(rm->intf_blks)) {
+-		DPU_ERROR("invalid intf id: %d", id);
+-		return -EINVAL;
+-	}
+-
+-	if (!rm->intf_blks[idx]) {
+-		DPU_ERROR("couldn't find intf id %d\n", id);
+-		return -EINVAL;
+-	}
+-
+-	if (reserved_by_other(global_state->intf_to_enc_id, idx, enc_id)) {
+-		DPU_ERROR("intf id %d already reserved\n", id);
+-		return -ENAVAIL;
+-	}
+-
+-	global_state->intf_to_enc_id[idx] = enc_id;
+-	return 0;
+-}
+-
+-static int _dpu_rm_reserve_intf_related_hw(
+-		struct dpu_rm *rm,
+-		struct dpu_global_state *global_state,
+-		uint32_t enc_id,
+-		struct dpu_encoder_hw_resources *hw_res)
+-{
+-	int i, ret = 0;
+-	u32 id;
+-
+-	for (i = 0; i < ARRAY_SIZE(hw_res->intfs); i++) {
+-		if (hw_res->intfs[i] == INTF_MODE_NONE)
+-			continue;
+-		id = i + INTF_0;
+-		ret = _dpu_rm_reserve_intf(rm, global_state, enc_id, id);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	return ret;
+-}
+-
+ static int _dpu_rm_make_reservation(
+ 		struct dpu_rm *rm,
+ 		struct dpu_global_state *global_state,
+@@ -374,11 +297,6 @@ static int _dpu_rm_make_reservation(
+ 		return ret;
+ 	}
+ 
+-	ret = _dpu_rm_reserve_intf_related_hw(rm, global_state, enc->base.id,
+-				&reqs->hw_res);
+-	if (ret)
+-		return ret;
+-
+ 	return ret;
+ }
+ 
+@@ -387,8 +305,6 @@ static int _dpu_rm_populate_requirements(
+ 		struct dpu_rm_requirements *reqs,
+ 		struct msm_display_topology req_topology)
  {
--	_dpu_rm_clear_mapping(global_state->pingpong_to_enc_id,
--		ARRAY_SIZE(global_state->pingpong_to_enc_id), enc->base.id);
- 	_dpu_rm_clear_mapping(global_state->mixer_to_enc_id,
+-	dpu_encoder_get_hw_resources(enc, &reqs->hw_res);
+-
+ 	reqs->topology = req_topology;
+ 
+ 	DRM_DEBUG_KMS("num_lm: %d num_enc: %d num_intf: %d\n",
+@@ -416,8 +332,6 @@ void dpu_rm_release(struct dpu_global_state *global_state,
  		ARRAY_SIZE(global_state->mixer_to_enc_id), enc->base.id);
  	_dpu_rm_clear_mapping(global_state->ctl_to_enc_id,
-@@ -548,11 +466,6 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
- 	int i, num_blks, max_blks;
+ 		ARRAY_SIZE(global_state->ctl_to_enc_id), enc->base.id);
+-	_dpu_rm_clear_mapping(global_state->intf_to_enc_id,
+-		ARRAY_SIZE(global_state->intf_to_enc_id), enc->base.id);
+ }
  
- 	switch (type) {
--	case DPU_HW_BLK_PINGPONG:
--		hw_blks = rm->pingpong_blks;
--		hw_to_enc_id = global_state->pingpong_to_enc_id;
--		max_blks = ARRAY_SIZE(rm->pingpong_blks);
+ int dpu_rm_reserve(
+@@ -476,11 +390,6 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+ 		hw_to_enc_id = global_state->ctl_to_enc_id;
+ 		max_blks = ARRAY_SIZE(rm->ctl_blks);
+ 		break;
+-	case DPU_HW_BLK_INTF:
+-		hw_blks = rm->intf_blks;
+-		hw_to_enc_id = global_state->intf_to_enc_id;
+-		max_blks = ARRAY_SIZE(rm->intf_blks);
 -		break;
- 	case DPU_HW_BLK_LM:
- 		hw_blks = rm->mixer_blks;
- 		hw_to_enc_id = global_state->mixer_to_enc_id;
+ 	default:
+ 		DPU_ERROR("blk type %d not managed by rm\n", type);
+ 		return 0;
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-index 4c0c15453c98..a618c0ef43db 100644
+index a618c0ef43db..ee90b1233430 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-@@ -15,7 +15,6 @@ struct dpu_global_state;
- 
- /**
+@@ -17,14 +17,12 @@ struct dpu_global_state;
   * struct dpu_rm - DPU dynamic hardware resource manager
-- * @pingpong_blks: array of pingpong hardware resources
   * @mixer_blks: array of layer mixer hardware resources
   * @ctl_blks: array of ctl hardware resources
-  * @intf_blks: array of intf hardware resources
-@@ -23,7 +22,6 @@ struct dpu_global_state;
+- * @intf_blks: array of intf hardware resources
+  * @lm_max_width: cached layer mixer maximum width
   * @rm_lock: resource manager mutex
   */
  struct dpu_rm {
--	struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
  	struct dpu_hw_blk *mixer_blks[LM_MAX - LM_0];
  	struct dpu_hw_blk *ctl_blks[CTL_MAX - CTL_0];
- 	struct dpu_hw_blk *intf_blks[INTF_MAX - INTF_0];
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-index 6714b088970f..23b587b10d77 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-@@ -835,20 +835,17 @@ DEFINE_EVENT(dpu_rm_iter_template, dpu_rm_reserve_ctls,
- );
+-	struct dpu_hw_blk *intf_blks[INTF_MAX - INTF_0];
  
- TRACE_EVENT(dpu_rm_reserve_lms,
--	TP_PROTO(uint32_t id, uint32_t enc_id, uint32_t pp_id),
--	TP_ARGS(id, enc_id, pp_id),
-+	TP_PROTO(uint32_t id, uint32_t enc_id),
-+	TP_ARGS(id, enc_id),
- 	TP_STRUCT__entry(
- 		__field(	uint32_t,		id	)
- 		__field(	uint32_t,		enc_id	)
--		__field(	uint32_t,		pp_id	)
- 	),
- 	TP_fast_assign(
- 		__entry->id = id;
- 		__entry->enc_id = enc_id;
--		__entry->pp_id = pp_id;
- 	),
--	TP_printk("id:%d enc_id:%u pp_id:%u", __entry->id,
--		  __entry->enc_id, __entry->pp_id)
-+	TP_printk("id:%d enc_id:%u", __entry->id, __entry->enc_id)
- );
- 
- TRACE_EVENT(dpu_vbif_wait_xin_halt_fail,
+ 	uint32_t lm_max_width;
+ };
 -- 
 2.30.2
 
