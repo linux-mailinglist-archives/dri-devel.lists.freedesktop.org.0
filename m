@@ -1,71 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A90381B62
-	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 00:15:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCD6381B9D
+	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 00:58:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A7189F03;
-	Sat, 15 May 2021 22:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1C2B6E455;
+	Sat, 15 May 2021 22:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B882589F03
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 22:15:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621116907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uj0FnsDmx2/pl2qaIJyZPTU7rem4vQ2vcjf8oF9Zpos=;
- b=bOV5sYGBbrWV6FPbZEHnivfPNO3plxxRBJxPimgY+4ZdPARNyFH2q0ffGocoN2cNvVrj42
- X5s5w1rBzC2wZ8bB5k7JfG3gAuCSwbhKl8bi8eZfKqELGC9noFlnQ5H/TJCDmagua+dpZe
- +zN0pXAj2Wl+se8HrgGO5VgX2HKhXOo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-VqLTjtGPMEyWXq5cGuhH4w-1; Sat, 15 May 2021 18:15:03 -0400
-X-MC-Unique: VqLTjtGPMEyWXq5cGuhH4w-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u20-20020a0560001614b02901115c8f2d89so1514160wrb.3
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 15:15:03 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB2A6E457
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 22:58:01 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id a2so3423804lfc.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 15:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eBTQmpM/Ml6k7hvWgriWTmEFhLechL8G1HA7n71TelE=;
+ b=tPV/dGjVkXN5nq1h7uNLOhDPoF7XIcwERQ76MsEgF+PmQ+QNYbhhxO/i3T0iTCSlpk
+ Id217cfqi0fgG/CyxbuCgmf6iN9tKMto3qPIUyecAs6aXtKd0C0vQM0oKdYgKzmzSdAc
+ n1RlD/yevvkHZ1I1zlgXPVMy1D216pn9TCpDuwWM+K8WRnhjRSEpsl3HaBWgJnOH1udo
+ Y4TabnrlRylsZzU4MUzuJTVWgMVbVMRkt/fjRLBUx6nc+0fFsIEpzN3jKHJcFw+LamsZ
+ w2giAV0YkEuL+/jrweoT1nntGdN1hTwSxTo5u37CljFcQQmyM6d1VjHr9VccR+AZsYYv
+ ODUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=uj0FnsDmx2/pl2qaIJyZPTU7rem4vQ2vcjf8oF9Zpos=;
- b=sXdbjcdxQExZx6z4dCpD8ePmMUGmVLaMpLOySjeFEcofPRqtrkTPcwJT1zxmnHjRaE
- 1zmQDpqrFpjdA1F6DzMmbfUWQsH3dmAT+HYLtAmLSE55JDfLEoGht8AzRvrN8ECf6Ato
- Mek0HPOKoGxJAdAJXi0eI7n6HC3j73827Kw7HHGuSPM57RhKamqN1ByQwnfUOejg6X6Q
- RMxN//o/bSzhFt95ogaz+cQO44Sx01CuPUhnEoAReIbJ+ztYZBX6oJVSyPUD7zyQXpQb
- /OP3LnXxkqOiZle7EKhlU+LyLl2Vbm/Zu1u1JEXFRGhge5/rTtGJUs1Cd+I14DfXUIW6
- zeMg==
-X-Gm-Message-State: AOAM531nnesolv4Sx5y484/TNc6/dLAuCjkaTSQ+O0AFkyVcllsHZEzm
- 6q3CudLMHmBJI9/Q/yJMkvpXMdpAZwLpbaP7j9v3XSmV0TmWTJ0ah8GR8Z43tBMfxa/CzDPE7nz
- +ZcwDM344uPojDfIQ8kRO7H9XERgb
-X-Received: by 2002:a1c:9a4a:: with SMTP id c71mr14231676wme.136.1621116902165; 
- Sat, 15 May 2021 15:15:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3DRAaEOsMocZIjWgXpJWHgD+0UBOgPkcyX7580Aop0DadT4fIcQ2zAgGZMo+oom1e3PWTXA==
-X-Received: by 2002:a1c:9a4a:: with SMTP id c71mr14231663wme.136.1621116902006; 
- Sat, 15 May 2021 15:15:02 -0700 (PDT)
-Received: from minerva.home ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id b15sm10632945wru.64.2021.05.15.15.15.00
+ bh=eBTQmpM/Ml6k7hvWgriWTmEFhLechL8G1HA7n71TelE=;
+ b=M6uzQfeexkJVlD/0vMJ58jRXxeHNS8l4r+hVaeUrV6sDrI131qPSGhzRjuvIgJBz0M
+ BJjFO2KkDjUXUa4i9+6yqBftw5Sn43d5a936i1oGP/Ll78P7VHNG8VK8dMWg4L1ijHRe
+ Cb2c9ry8RD82gCpIvHN8kyQnP1ukVVyIh58+RrYudy+Mia9u2OmgSdbtmithkkwTpXpH
+ D8No2BKdXwnN6hgXU8y/zPHnI3TvYfBIx13q04RF78gfWYGFB1U7uQx/wdkzUDwUU6PT
+ hJZ5XRzZoNkzE0fJtlIaUmo1SkktbQS7TDOYiPX23VoNt7VGcNHO8ZNr3X1YEWtfybpU
+ 8OUQ==
+X-Gm-Message-State: AOAM533sgftTdaFQT3NkbHeJTo1u5pZ2/oO/2bbLpcFmoNDCnCAGNcw0
+ Te8kaPd++GJ463yUGOJKk45jkQ==
+X-Google-Smtp-Source: ABdhPJyq+Rs0oTEyhmaCf7LKxlQ+Eibtf/uz0XmOMbZgMJIVeNGzdm5yvJ8vMU0kQV39Xg1tenk4hA==
+X-Received: by 2002:a05:6512:22c2:: with SMTP id
+ g2mr39209032lfu.305.1621119479940; 
+ Sat, 15 May 2021 15:57:59 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id j3sm1499729lfe.5.2021.05.15.15.57.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 May 2021 15:15:01 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/rockchip: remove early framebuffers before registering
- the fbdev
-Date: Sun, 16 May 2021 00:14:47 +0200
-Message-Id: <20210515221447.429779-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ Sat, 15 May 2021 15:57:59 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Subject: 
+Date: Sun, 16 May 2021 01:57:51 +0300
+Message-Id: <20210515225757.1989955-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,59 +68,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- linux-rockchip@lists.infradead.org, Peter Robinson <pbrobinson@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are drivers that register framebuffer devices very early in the boot
-process and make use of the existing framebuffer as setup by the firmware.
+From Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # This line is ignored.
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reply-To: 
+Subject: [PATCH v2 0/6] drm/msm/dpu: simplify RM code
+In-Reply-To: 
 
-If one of those drivers has registered a fbdev, then the fbdev registered
-by a DRM driver won't be bound to the framebuffer console. To avoid that,
-remove any early framebuffer before registering a DRM framebuffer device.
+There is no need to request most of hardware blocks through the resource
+manager (RM), since typically there is 1:1 or N:1 relationship between
+corresponding blocks. Each LM is tied to the single PP. Each MERGE_3D
+can be used by the specified pair of PPs.  Each DSPP is also tied to
+single LM. So instead of allocating them through the RM, get them via
+static configuration.
 
-By doing that, the fb mapped to the console is switched correctly from the
-early fbdev to the one registered by the rockchip DRM driver:
+Depends on: https://lore.kernel.org/linux-arm-msm/20210515190909.1809050-1-dmitry.baryshkov@linaro.org
 
-    [   40.752420] fb0: switching to rockchip-drm-fb from EFI VGA
+Changes since v1:
+ - Split into separate patch series to ease review.
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+----------------------------------------------------------------
+Dmitry Baryshkov (6):
+      drm/msm/dpu: get DSPP blocks directly rather than through RM
+      drm/msm/dpu: get MERGE_3D blocks directly rather than through RM
+      drm/msm/dpu: get PINGPONG blocks directly rather than through RM
+      drm/msm/dpu: get INTF blocks directly rather than through RM
+      drm/msm/dpu: drop unused lm_max_width from RM
+      drm/msm/dpu: simplify peer LM handling
 
- drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  54 +---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |   8 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |   5 -
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |   8 -
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   8 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c          |  14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  53 +++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             | 310 ++-------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |  18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h          |   9 +-
+ 16 files changed, 115 insertions(+), 401 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c b/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
-index 2fdc455c4ad..e3e5b63fdcc 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
-@@ -4,6 +4,7 @@
-  * Author:Mark Yao <mark.yao@rock-chips.com>
-  */
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
-@@ -124,6 +125,15 @@ int rockchip_drm_fbdev_init(struct drm_device *dev)
- 
- 	drm_fb_helper_prepare(dev, helper, &rockchip_drm_fb_helper_funcs);
- 
-+	/* Remove early framebuffers (e.g: simplefb or efifb) */
-+	ret = drm_aperture_remove_framebuffers(false, "rockchip-drm-fb");
-+	if (ret) {
-+		DRM_DEV_ERROR(dev->dev,
-+			      "Failed to remove early framebuffers - %d.\n",
-+			      ret);
-+		return ret;
-+	}
-+
- 	ret = drm_fb_helper_init(dev, helper);
- 	if (ret < 0) {
- 		DRM_DEV_ERROR(dev->dev,
--- 
-2.31.1
 
