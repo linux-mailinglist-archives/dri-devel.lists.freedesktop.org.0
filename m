@@ -2,72 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4BF381A40
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 19:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192DE381A45
+	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 19:48:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6F466E0AC;
-	Sat, 15 May 2021 17:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC2A6E427;
+	Sat, 15 May 2021 17:48:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBDC26E0AC
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 17:45:18 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id 131so2256900ljj.3
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 10:45:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=Uew60+G+SsxW8j8MijONIawIC+5YuiNS9/uDWrf3cP4=;
- b=q7uMGfIu5kGZ+6hGNujZ64ZmMGy4RAikXSf8gFyIKdRbA71krFjYMlArGdyx2gq9Vq
- d9WOncS48vT9ws4TVxrvOPftv0vDMA0vs1BNZuOx0H1ORjEG171ueeUTtuYABCXCtDV8
- VU02/2EfHzaGqprgipQVXAGhRyhW15jGjR19GiwNRD813aX3pyJgYqC6LekkD/on9E3k
- VTNYeguiwopR8UazK/toaPKYuSp0akJesQd0poBUiPBsST6mjHa7hywxSBqTb7DyWN1n
- J7fS/NOQsKnZ4+tBOHtHEefonMt015EkuoJrRFfV35eFvsEiMVk5/759MpZUEX/dRu79
- JrNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Uew60+G+SsxW8j8MijONIawIC+5YuiNS9/uDWrf3cP4=;
- b=h05S5UjXDhB26dhWovlUZ0UQkdSd47RimZSzZWxxhAdExVbLuw6YaK1pm/XcrO03zC
- L114tDvzbu4vZydzeh1+0WfvWw0Q0l8Xs/eb2itf+iJlMedXeA6JuCgMkcECdNBZVpFh
- Or+9spLSXwsO8LqQND3Wgbdk8GyOUbPszvwrxcWvWJKPkxSmB60rK1yKV/DjYOY5EVeD
- qQH0Q0fqRcqDuZ5buRJ+R8mMwJNh6NAqLP8D6kz85ReiQ+tGusjJA6aCoeYY8QVE6mAh
- swzu4d9SLJ2OL9kdBy0x7vAG0acPsYjp8Yi5cV4yFNBLwAhb85bPc5OywvrKJ1iS222w
- 4a6g==
-X-Gm-Message-State: AOAM533eAIvvgAqMoijd2utjPzEywMIzwTGv4kl3dFEDyUldIGcK2KJl
- xCn7do83tc0REldmGon9giGtuQ==
-X-Google-Smtp-Source: ABdhPJzZpYVpC+2X095uKXRc/Oo5tcpmRjH0WCm9hYwhP9EBhCF2KrssdyelK4eKiW3/vctO7ffvdA==
-X-Received: by 2002:a2e:b807:: with SMTP id u7mr42869439ljo.67.1621100717420; 
- Sat, 15 May 2021 10:45:17 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id h4sm1430170lfv.264.2021.05.15.10.45.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 May 2021 10:45:16 -0700 (PDT)
-Subject: Re: [PATCH v2 1/1] drm/msm/dpu: Fix error return code in
- dpu_mdss_init()
-To: Zhen Lei <thunder.leizhen@huawei.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-References: <20210510031606.3112-1-thunder.leizhen@huawei.com>
- <20210510031606.3112-2-thunder.leizhen@huawei.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <c19cb5e0-2ca3-0453-3c8f-e01f30748031@linaro.org>
-Date: Sat, 15 May 2021 20:45:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0D478936B
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 17:48:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6D267613D1
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 17:48:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621100895;
+ bh=Ad3i1XYJiAJGbIHIEQDbxKCrugbN5tBadvAPcYr/iXU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=m0HKljDEv6xjpaasY+e5lYyWiSZOcAnFrIj3gOhNgdIMbgW2JYueTX8DTvMDXxdwt
+ K6yk2PiMhG0mRHjyMH2iCY1/OjQ76p/KZCApOBvVafk06BF+hK9QfC7pK3Z52M8YZc
+ 4Ymfi/ZM3qMKRPF0UTA0boDPzwNGMDqzhdkledRUhOmsYxgTzPMtq0n84NykgPZzvC
+ Y7xVD/UiMk/H2nsOY34WJR+DXXCKdV53yNgPyjm1j2Yf8Lzyy204KYXiN+EFBCXmEh
+ PLrs9YP7Nvg6jRcmbzAePKSX9xFPkaAhBOwhiqNKYg2IplC169VXMsTpS8JRDzO2nT
+ 2KJgLmp8psD7g==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 61C13610A4; Sat, 15 May 2021 17:48:15 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
+Date: Sat, 15 May 2021 17:48:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: marius.andreiana@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-209457-2300-MIHamsNRNT@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
+References: <bug-209457-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210510031606.3112-2-thunder.leizhen@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,65 +68,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/05/2021 06:16, Zhen Lei wrote:
-> The error code returned by platform_get_irq() is stored in 'irq', it's
-> forgotten to be copied to 'ret' before being returned. As a result, the
-> value 0 of 'ret' is returned incorrectly.
-> 
-> After the above fix is completed, initializing the local variable 'ret'
-> to 0 is no longer needed, remove it.
-> 
-> In addition, when dpu_mdss_init() is successfully returned, the value of
-> 'ret' is always 0. Therefore, replace "return ret" with "return 0" to make
-> the code clearer.
-> 
-> Fixes: 070e64dc1bbc ("drm/msm/dpu: Convert to a chained irq chip")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D209457
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Marius (marius.andreiana@gmail.com) changed:
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> index 06b56fec04e047a..6b0a7bc87eb75b8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> @@ -225,7 +225,7 @@ int dpu_mdss_init(struct drm_device *dev)
->   	struct msm_drm_private *priv = dev->dev_private;
->   	struct dpu_mdss *dpu_mdss;
->   	struct dss_module_power *mp;
-> -	int ret = 0;
-> +	int ret;
->   	int irq;
->   
->   	dpu_mdss = devm_kzalloc(dev->dev, sizeof(*dpu_mdss), GFP_KERNEL);
-> @@ -253,8 +253,10 @@ int dpu_mdss_init(struct drm_device *dev)
->   		goto irq_domain_error;
->   
->   	irq = platform_get_irq(pdev, 0);
-> -	if (irq < 0)
-> +	if (irq < 0) {
-> +		ret = irq;
->   		goto irq_error;
-> +	}
->   
->   	irq_set_chained_handler_and_data(irq, dpu_mdss_irq,
->   					 dpu_mdss);
-> @@ -263,7 +265,7 @@ int dpu_mdss_init(struct drm_device *dev)
->   
->   	pm_runtime_enable(dev->dev);
->   
-> -	return ret;
-> +	return 0;
->   
->   irq_error:
->   	_dpu_mdss_irq_domain_fini(dpu_mdss);
-> 
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |marius.andreiana@gmail.com
 
+--- Comment #22 from Marius (marius.andreiana@gmail.com) ---
+With 5.12.3, monitor remains blank after resume.
+Relevant log:
 
--- 
-With best wishes
-Dmitry
+```
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0: amdgpu: failed to write=
+ reg
+28b4 wait reg 28c6
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0: amdgpu: failed to write=
+ reg
+1a6f4 wait reg 1a706
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0: amdgpu: SMU is resuming=
+...
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0: amdgpu: dpm has been
+disabled
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0: amdgpu: SMU is resumed
+successfully!
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0:
+[drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring sdma0 test failed (-110)
+May 15 20:21:37 fedora kernel: [drm:amdgpu_device_ip_resume_phase2 [amdgpu]]
+*ERROR* resume of IP block <sdma_v4_0> failed -110
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0: amdgpu:
+amdgpu_device_ip_resume failed (-110).
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0: PM: failed to resume as=
+ync:
+error -110
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0: amdgpu: couldn't schedu=
+le
+ib on ring <sdma0>
+May 15 20:21:37 fedora kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+May 15 20:21:37 fedora kernel: amdgpu 0000:04:00.0: amdgpu: couldn't schedu=
+le
+ib on ring <sdma0>
+May 15 20:21:37 fedora kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+May 15 20:21:47 fedora kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* r=
+ing
+gfx timeout, signaled seq=3D139973, emitted seq=3D139977
+May 15 20:21:47 fedora kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
+Process information: process gnome-shell pid 1895 thread gnome-shel:cs0 pid
+1926
+May 15 20:21:47 fedora kernel: amdgpu 0000:04:00.0: amdgpu: GPU reset begin!
+May 15 20:21:47 fedora kernel: amdgpu 0000:04:00.0:
+[drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring kiq_2.1.0 test failed
+(-110)
+May 15 20:21:47 fedora kernel: amdgpu 0000:04:00.0: amdgpu: MODE2 reset
+May 15 20:21:47 fedora kernel: amdgpu 0000:04:00.0: amdgpu: GPU reset
+succeeded, trying to resume
+May 15 20:21:48 fedora kernel: amdgpu 0000:04:00.0: amdgpu: RAS: optional r=
+as
+ta ucode is not available
+May 15 20:21:48 fedora kernel: amdgpu 0000:04:00.0: amdgpu: RAP: optional r=
+ap
+ta ucode is not available
+May 15 20:21:48 fedora kernel: amdgpu 0000:04:00.0: amdgpu: SECUREDISPLAY:
+securedisplay ta ucode is not available
+May 15 20:21:48 fedora kernel: amdgpu 0000:04:00.0: amdgpu: SMU is resuming=
+...
+May 15 20:21:48 fedora kernel: amdgpu 0000:04:00.0: amdgpu: dpm has been
+disabled
+May 15 20:21:48 fedora kernel: amdgpu 0000:04:00.0: amdgpu: SMU is resumed
+successfully!
+May 15 20:21:48 fedora kernel: amdgpu 0000:04:00.0:
+[drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring sdma0 test failed (-110)
+May 15 20:21:48 fedora kernel: [drm:amdgpu_device_ip_resume_phase2 [amdgpu]]
+*ERROR* resume of IP block <sdma_v4_0> failed -110
+May 15 20:21:48 fedora kernel: amdgpu 0000:04:00.0: amdgpu: GPU reset(2) fa=
+iled
+May 15 20:21:48 fedora kernel: amdgpu 0000:04:00.0: amdgpu: GPU reset end w=
+ith
+ret =3D -110
+May 15 20:21:58 fedora kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* r=
+ing
+gfx timeout, but soft recovered
+May 15 20:22:08 fedora kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* r=
+ing
+gfx timeout, but soft recovered
+May 15 20:22:12 fedora kernel: amdgpu 0000:04:00.0: amdgpu: couldn't schedu=
+le
+ib on ring <sdma0>
+May 15 20:22:12 fedora kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
+scheduling IBs (-22)
+May 15 20:22:12 fedora kernel: amdgpu 0000:04:00.0: amdgpu: couldn't schedu=
+le
+ib on ring <sdma0>
+```
+
+AMD Ryzen 7 4700U with Radeon Graphics, Lenovo Ideapad 5.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
