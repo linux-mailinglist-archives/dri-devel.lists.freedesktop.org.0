@@ -2,27 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BB53819E1
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 18:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4DE3819F5
+	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 18:48:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D9326E418;
-	Sat, 15 May 2021 16:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225E76E41B;
+	Sat, 15 May 2021 16:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::4])
- by gabe.freedesktop.org (Postfix) with ESMTP id E5F5A6E418
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 16:32:59 +0000 (UTC)
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
- id 93FDE92009C; Sat, 15 May 2021 18:32:58 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by angie.orcam.me.uk (Postfix) with ESMTP id 8C64692009B;
- Sat, 15 May 2021 18:32:58 +0200 (CEST)
-Date: Sat, 15 May 2021 18:32:58 +0200 (CEST)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Subject: Re: [PATCH v2] tty: vt: always invoke vc->vc_sw->con_resize callback
-In-Reply-To: <alpine.DEB.2.21.2105151815040.3032@angie.orcam.me.uk>
-Message-ID: <alpine.DEB.2.21.2105151828380.3032@angie.orcam.me.uk>
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04ECF6E41B
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 16:48:50 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id w3so2996362ejc.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 09:48:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iKkVD1Qtnhdv59KfIngIIRAgpMVGtUMoAaJE9aWcwDg=;
+ b=ZTy8QEEoSvjvmpGGdABqj29z7ZcuL0IRQ9UBKh89fhMz+j8cPVNUeZBKE8yaOCqkMJ
+ kXzjCIiBF/NlemQsWsYyOaATN469b44wJYerSUSZFnkQiC4aQLy7om0FmX9cUarP4FxA
+ D1eo9OLAbDq5eCqiokMYbyAbQahObMHCCCKQo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iKkVD1Qtnhdv59KfIngIIRAgpMVGtUMoAaJE9aWcwDg=;
+ b=DS5Qjet2aDiIjFmffVTDDt7EWIewy3Oo0VpjRhquyC4rbeYiRAfbBb4wW9P9U2Fjd3
+ 77C7+AHMy5Jvtr8R6aGlXl1fNJcCrMyvMsIb+VJlxdxf/+JLh5xlX3Z5XxmEsN69PrVb
+ YL0J46EP+Xw1NyOiCAqrTKx5Rc2yCCDEGbmcT4KETTOR6b6lewhMD3z/5Yi2NeypeOyg
+ DYrOrqucDIjJzYjLLu7UR1JBSsx29BszLdvzb61r1qpoRP+pT/2NqrmJo0a20UQwl2/a
+ vHe+Tb561HyYHyzXZvgPxLfP97+CenoxpS9tBtavpYTIRBFO720fn6WJIE2x3691ztqq
+ NWDA==
+X-Gm-Message-State: AOAM533YLZh+2u7ZF5d1AtS60VZ6c5QkalnEzavIhjYFDjTv1NuNP9Jv
+ ESboiiNJD92kpwV6NOecje7xEDv7gbxs9ctURfc=
+X-Google-Smtp-Source: ABdhPJz3cHXxbHCQjbZYrrfCBo4La2lvWKnyutNALnBw8j7jEyQCRkw1FTN0hoQKiJ9urkwu73T4EQ==
+X-Received: by 2002:a17:906:b315:: with SMTP id
+ n21mr53457822ejz.219.1621097329463; 
+ Sat, 15 May 2021 09:48:49 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com.
+ [209.85.218.53])
+ by smtp.gmail.com with ESMTPSA id t20sm5636478ejc.61.2021.05.15.09.48.49
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 May 2021 09:48:49 -0700 (PDT)
+Received: by mail-ej1-f53.google.com with SMTP id u21so2928299ejo.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 09:48:49 -0700 (PDT)
+X-Received: by 2002:a05:6512:374b:: with SMTP id
+ a11mr35147289lfs.377.1621096929091; 
+ Sat, 15 May 2021 09:42:09 -0700 (PDT)
+MIME-Version: 1.0
 References: <0000000000006bbd0c05c14f1b09@google.com>
  <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
  <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
@@ -33,9 +61,15 @@ References: <0000000000006bbd0c05c14f1b09@google.com>
  <CAHk-=wjkVAjfWrmmJnJe1_MriK9gezWCew_MU=MbQNzHbGopsQ@mail.gmail.com>
  <97f1d292-c3a8-f4d6-0651-b4f5571ecb72@i-love.sakura.ne.jp>
  <alpine.DEB.2.21.2105151815040.3032@angie.orcam.me.uk>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+ <alpine.DEB.2.21.2105151828380.3032@angie.orcam.me.uk>
+In-Reply-To: <alpine.DEB.2.21.2105151828380.3032@angie.orcam.me.uk>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sat, 15 May 2021 09:41:53 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgz-iC97f0cnawKZc_S4-0ZEOdOx43J7pVX6b=AqYUhfg@mail.gmail.com>
+Message-ID: <CAHk-=wgz-iC97f0cnawKZc_S4-0ZEOdOx43J7pVX6b=AqYUhfg@mail.gmail.com>
+Subject: Re: [PATCH v2] tty: vt: always invoke vc->vc_sw->con_resize callback
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,45 +83,27 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Jiri Slaby <jirislaby@kernel.org>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Colin King <colin.king@canonical.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
+ Jani Nikula <jani.nikula@intel.com>, Colin King <colin.king@canonical.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
  syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 15 May 2021, Maciej W. Rozycki wrote:
+On Sat, May 15, 2021 at 9:33 AM Maciej W. Rozycki <macro@orcam.me.uk> wrote:
+>
+>  NB I suggest that you request your change to be backported, i.e. post v3
+> with:
+>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org # v2.6.12+
 
-> On Sat, 15 May 2021, Tetsuo Handa wrote:
-> 
-> > diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> > index 3406067985b1..22bb3892f6bd 100644
-> > --- a/drivers/video/fbdev/core/fbcon.c
-> > +++ b/drivers/video/fbdev/core/fbcon.c
-> > @@ -2019,7 +2019,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
-> >  			return -EINVAL;
-> >  
-> >  		pr_debug("resize now %ix%i\n", var.xres, var.yres);
-> > -		if (con_is_visible(vc)) {
-> > +		if (con_is_visible(vc) && vc->vc_mode == KD_TEXT) {
-> >  			var.activate = FB_ACTIVATE_NOW |
-> >  				FB_ACTIVATE_FORCE;
-> >  			fb_set_var(info, &var);
-> 
->  LGTM, although I'll yet try to verify it with hardware.  But it'll have 
-> to wait another week or so as I'm currently away from my lab and this 
-> requires physical presence.
+I've applied it to my tree, but let's wait to see that it doesn't
+cause any issues before notifying the stable people.
 
- NB I suggest that you request your change to be backported, i.e. post v3 
-with:
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org # v2.6.12+
-
-  Maciej
+               Linus
