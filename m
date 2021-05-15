@@ -1,34 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697A53818A8
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 14:08:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F9F3818AB
+	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 14:09:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00D846E108;
-	Sat, 15 May 2021 12:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E81C96E11E;
+	Sat, 15 May 2021 12:09:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9DD06E11E
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 12:08:24 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0A54DAF59;
- Sat, 15 May 2021 12:08:23 +0000 (UTC)
-Subject: Re: [PATCH] drm: simpledrm: fix a potential NULL dereference
-To: Dan Carpenter <dan.carpenter@oracle.com>, David Airlie <airlied@linux.ie>
-References: <YJ+aC47XX58ICXax@mwanda>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <1bdf5216-7503-71ca-f8c2-4bd55d110d87@suse.de>
-Date: Sat, 15 May 2021 14:08:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C0E6E11E
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 12:09:13 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id c13so1635047pfv.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 05:09:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XITU93CUfLuScWI1J4CVyiEqYuy3HJ2zRJqQJpcp+0Q=;
+ b=rKfa/I9HZMht9ama673flisK0Sd1gicgX+2fEGQUKabSVeYCZkp8rd3tEJ1JRX5IBQ
+ JVe/PIKlkcobhuDtveeSc59EIIcm1V0pyupxaos2BMSUqF02Wjwf5mtbP5oXbVjPTK+4
+ m1wp+Jj5TMF9oKlPYfB4W8swL5shliw/xeXBEpPwczoYp6V5l6DjmGBTQ6DSD1CMdOmm
+ JpRXGnJp3llL5AfLPX5zZTgdcfbZwwroro3NSCfbh+JkD5rIApq76cekxek9PvqgjtbU
+ rVtDYObEK/r6mgaOhWaoaJvT7xbrI0NUCGTr3KTH04v99zoLfNhSN9dVnOPcXMo682wJ
+ 26FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XITU93CUfLuScWI1J4CVyiEqYuy3HJ2zRJqQJpcp+0Q=;
+ b=lMHKag4/YsuZOqYiwZLRgCFm8wRxbBLDBjVKAOflu0HOCuYv+8+7oU+NpGAzgEovVV
+ HhYK9U7EB+O44tT1TMnejTeRlR8VFVPefEefELgqIQjkZm6Hglhtd0rZnzLgQgSEXc9A
+ lREOamhWlUbjm9tB3xPYnd/TtdN7UhA5Vh+k6HCMyzbLob/JGt/83dSrgSTS228kdXwz
+ JyRlJ0koqvQ+5s83LcH17VWHtodRgfdiP/Z07MRs4to6L9hUhqBobH5ka4x7LEJPaBA9
+ EeZST88mH2rKrn6cGBR80Epwd9mSIB5avcWMA4z70c23I6BBWN6byF6HHedidA5V2CsS
+ f+NQ==
+X-Gm-Message-State: AOAM530/nfIg0959Lcu2AiJm9gkHOk7ASRBzo8sytx0bEH0QfeNHWYh6
+ dx4o6K7C+hnzqbQQsyAhhJo5wcC4QHSlBBwEaNFOtg==
+X-Google-Smtp-Source: ABdhPJxujAOhUS3DW+tsTK6wGoUmluZyCTIncjYhi0+CWwfEoIA9MNcHFepen4W9lrQ1iv6ryQdtPywt/l7Y9KlJoXA=
+X-Received: by 2002:a63:ea0b:: with SMTP id c11mr51424837pgi.120.1621080552868; 
+ Sat, 15 May 2021 05:09:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YJ+aC47XX58ICXax@mwanda>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="a2edGrlxnKaXkBgRndnK8RuD8ns712nVp"
+References: <20210419090124.153560-1-robert.foss@linaro.org>
+ <1627725d-1c7e-109f-f995-e761bb022ccc@infradead.org>
+ <d295f001-575d-f14c-b0c1-1444dd29a03e@infradead.org>
+ <75b35f2f-72bb-522a-afd8-6c26cd553588@infradead.org>
+In-Reply-To: <75b35f2f-72bb-522a-afd8-6c26cd553588@infradead.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Sat, 15 May 2021 14:09:01 +0200
+Message-ID: <CAG3jFyv5gBSG-xkQFDkQMhpqWa4-_e7GTb4pr4dJjZcNLW4ZQw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/bridge/sii8620: fix dependency on extcon
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,112 +64,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, cw00.choi@samsung.com,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, m.purski@samsung.com,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---a2edGrlxnKaXkBgRndnK8RuD8ns712nVp
-Content-Type: multipart/mixed; boundary="cZnVOTFPw6EFZYAsyug9zYdv4zPapUC7s";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dan Carpenter <dan.carpenter@oracle.com>, David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
-Message-ID: <1bdf5216-7503-71ca-f8c2-4bd55d110d87@suse.de>
-Subject: Re: [PATCH] drm: simpledrm: fix a potential NULL dereference
-References: <YJ+aC47XX58ICXax@mwanda>
-In-Reply-To: <YJ+aC47XX58ICXax@mwanda>
+Hey Randy,
 
---cZnVOTFPw6EFZYAsyug9zYdv4zPapUC7s
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I missed sending out a notification, but this patch was merged into
+drm-misc-next.
 
+https://cgit.freedesktop.org/drm/drm-misc/commit/?id=08319adbdde15ef7cee1970336f63461254baa2a
 
-
-Am 15.05.21 um 11:53 schrieb Dan Carpenter:
-> The drm_format_info() function returns NULL if the format is
-> unsupported, but the simplefb_get_validated_format() is expected to
-> return error pointers.  If we propagate teh NULL return then it will
-> lead to a NULL dereference in the callers.  Swap the NULL and trade it
-> in for an ERR_PTR(-EINVAL).
-
-Thank you. I've added the patch to drm-misc-next.
-
-Best regards
-Thomas
-
->=20
-> Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->   drivers/gpu/drm/tiny/simpledrm.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/si=
-mpledrm.c
-> index f72ca3a1c2d4..4f605c5fe856 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -72,6 +72,7 @@ simplefb_get_validated_format(struct drm_device *dev,=20
-const char *format_name)
->   	static const struct simplefb_format formats[] =3D SIMPLEFB_FORMATS;
->   	const struct simplefb_format *fmt =3D formats;
->   	const struct simplefb_format *end =3D fmt + ARRAY_SIZE(formats);
-> +	const struct drm_format_info *info;
->  =20
->   	if (!format_name) {
->   		drm_err(dev, "simplefb: missing framebuffer format\n");
-> @@ -79,8 +80,12 @@ simplefb_get_validated_format(struct drm_device *dev=
-, const char *format_name)
->   	}
->  =20
->   	while (fmt < end) {
-> -		if (!strcmp(format_name, fmt->name))
-> -			return drm_format_info(fmt->fourcc);
-> +		if (!strcmp(format_name, fmt->name)) {
-> +			info =3D drm_format_info(fmt->fourcc);
-> +			if (!info)
-> +				return ERR_PTR(-EINVAL);
-> +			return info;
-> +		}
->   		++fmt;
->   	}
->  =20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---cZnVOTFPw6EFZYAsyug9zYdv4zPapUC7s--
-
---a2edGrlxnKaXkBgRndnK8RuD8ns712nVp
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCfubYFAwAAAAAACgkQlh/E3EQov+DO
-bQ//Z/v3WC/Mu+3IHlG3XzTn7MpfzR0Xgyh0Qiaz3/vlOMGWwfNzG3ZWwKfS8sPa7wglcYvoXYg4
-ycWZlFcMgIYI5iwhwtqnH+hhDjAhSQ6hV2+TdPAh5EzJJF7zlMBbmdKRQBLz2JB3kBF6Ci0cWfW/
-g5t9Q7v8VIv+Vgl48Vi+OijYpJMz8MzrmrZ0CrMvjRG1NzVAshh/om1F4iHA2SSmMrVTIpYK2KBA
-iesvvyPcaVUv/85ViR6kX+Y5RCJh7z4Y3DYsXhEC79JAQmawthtFQaAfgKCC2KzW/paAIq8r9oqM
-B8Tv9aVepzswIJlImZ/iT22PAqgbwnL4DEW6srcwpbaQWXO8FpcUicXhxQl1z3B8+cwPilCO0cUC
-PO2punVOrYun7kh41M8ihRn2mif/X5DO4+hbqa3QLEbMLRgSlGyoDj+Mi6GhWfuWeMKDKKWcIbu8
-eCO8V8j5o90qOblJI4qn1D0/5ZE7aQVZLCrEpTPRLRe7JDRokNZk72wwMVLYR7NaKv+v2Q4U87Y3
-qhgMtpk0rp/m3DxhDUrBNyoFpz3JqkK9o+mE/wR8KRnzdD/KTCXzHyIqf7gHyJ+ziPh0YpCTnqyw
-0HEliv+mczy2X5/XmUx4aY97dVOhuGbrKPJxP31bzG0kv25B2R4oMAIvayfb3LqozUfVnV9vTmZL
-+qQ=
-=bSHB
------END PGP SIGNATURE-----
-
---a2edGrlxnKaXkBgRndnK8RuD8ns712nVp--
+On Sat, 15 May 2021 at 07:35, Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 4/19/21 10:54 AM, Randy Dunlap wrote:
+> > On 4/19/21 10:10 AM, Randy Dunlap wrote:
+> >> On 4/19/21 2:01 AM, Robert Foss wrote:
+> >>> The DRM_SIL_SII8620 kconfig has a weak `imply` dependency
+> >>> on EXTCON, which causes issues when sii8620 is built
+> >>> as a builtin and EXTCON is built as a module.
+> >>>
+> >>> The symptoms are 'undefined reference' errors caused
+> >>> by the symbols in EXTCON not being available
+> >>> to the sii8620 driver.
+> >>>
+> >>> Fixes: 688838442147 ("drm/bridge/sii8620: use micro-USB cable detection logic to detect MHL")
+> >>> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> >>> Reported-by: kernel test robot <lkp@intel.com>
+> >>> ---
+> >>>
+> >>> LKP reported issue:
+> >>> https://lore.kernel.org/lkml/202104040604.SSTe2Cxf-lkp@intel.com/
+> >>>
+> >>>
+> >>> Changes since v1:
+> >>>  - Fix typo on comment
+> >>>
+> >>> Changes since v2:
+> >>>  - Randy: Changed from `depends` to `select`
+> >>
+> >> I don't know why my name is on that. I didn't
+> >> suggest any change -- I just reported that v2
+> >> had a problem.
+> >>
+> >>
+> >>>
+> >>>
+> >>>  drivers/gpu/drm/bridge/Kconfig | 2 +-
+> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> >>> index 22a467abd3e9..70402da5cc70 100644
+> >>> --- a/drivers/gpu/drm/bridge/Kconfig
+> >>> +++ b/drivers/gpu/drm/bridge/Kconfig
+> >>> @@ -169,7 +169,7 @@ config DRM_SIL_SII8620
+> >>>     tristate "Silicon Image SII8620 HDMI/MHL bridge"
+> >>>     depends on OF
+> >>>     select DRM_KMS_HELPER
+> >>> -   imply EXTCON
+> >>> +   select EXTCON
+> >>>     depends on RC_CORE || !RC_CORE
+> >>>     help
+> >>>       Silicon Image SII8620 HDMI/MHL bridge chip driver.
+> >>
+> >>
+> >> Thanks. Works For Me.
+> >>
+> >> Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+> >
+> > Actually I can upgrade that to:
+> >
+> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+>
+> Hi,
+> Is anyone merging this patch?
+>
+> thanks.
+> --
+> ~Randy
+>
