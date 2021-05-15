@@ -1,26 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 405F7381972
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 16:54:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 684B4381974
+	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 16:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC8F6E165;
-	Sat, 15 May 2021 14:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 753116E222;
+	Sat, 15 May 2021 14:54:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABDE06E165
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 14:54:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A52846E222
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 14:54:24 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v4 1/3] drm: Add support for GEM buffers backed by
- non-coherent memory
-Date: Sat, 15 May 2021 15:53:57 +0100
-Message-Id: <20210515145359.64802-2-paul@crapouillou.net>
+Subject: [PATCH v4 2/3] drm: Add and export function drm_gem_cma_sync_data
+Date: Sat, 15 May 2021 15:53:58 +0100
+Message-Id: <20210515145359.64802-3-paul@crapouillou.net>
 In-Reply-To: <20210515145359.64802-1-paul@crapouillou.net>
 References: <20210515145359.64802-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -43,142 +42,114 @@ Cc: Paul Cercueil <paul@crapouillou.net>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Having GEM buffers backed by non-coherent memory is interesting in the
-particular case where it is faster to render to a non-coherent buffer
-then sync the data cache, than to render to a write-combine buffer, and
-(by extension) much faster than using a shadow buffer. This is true for
-instance on some Ingenic SoCs, where even simple blits (e.g. memcpy)
-are about three times faster using this method.
+This function can be used by drivers that use damage clips and have
+CMA GEM objects backed by non-coherent memory. Calling this function
+in a plane's .atomic_update ensures that all the data in the backing
+memory have been written to RAM.
 
-Add a 'map_noncoherent' flag to the drm_gem_cma_object structure, which
-can be set by the drivers when they create the dumb buffer.
-
-Since this really only applies to software rendering, disable this flag
-as soon as the CMA objects are exported via PRIME.
-
-v3: New patch. Now uses a simple 'map_noncoherent' flag to control how
-    the objects are mapped, and use the new dma_mmap_pages function.
-
-v4: Make sure map_noncoherent is always disabled when creating GEM
-    objects meant to be used with dma-buf.
+v3: - Only sync data if using GEM objects backed by non-coherent memory.
+    - Use a drm_device pointer instead of device pointer in prototype
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/drm_gem_cma_helper.c | 38 +++++++++++++++++++++-------
- include/drm/drm_gem_cma_helper.h     |  3 +++
- 2 files changed, 32 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_gem_cma_helper.c | 55 ++++++++++++++++++++++++++++
+ include/drm/drm_gem_cma_helper.h     |  5 +++
+ 2 files changed, 60 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 7942cf05cd93..235c7a63da2b 100644
+index 235c7a63da2b..41f309e0e049 100644
 --- a/drivers/gpu/drm/drm_gem_cma_helper.c
 +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -46,6 +46,7 @@ static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
-  * __drm_gem_cma_create - Create a GEM CMA object without allocating memory
-  * @drm: DRM device
-  * @size: size of the object to allocate
-+ * @private: true if used for internal purposes
-  *
-  * This function creates and initializes a GEM CMA object of the given size,
-  * but doesn't allocate any memory to back the object.
-@@ -55,11 +56,11 @@ static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
-  * error code on failure.
-  */
- static struct drm_gem_cma_object *
--__drm_gem_cma_create(struct drm_device *drm, size_t size)
-+__drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
- {
- 	struct drm_gem_cma_object *cma_obj;
- 	struct drm_gem_object *gem_obj;
--	int ret;
-+	int ret = 0;
+@@ -17,9 +17,14 @@
+ #include <linux/slab.h>
  
- 	if (drm->driver->gem_create_object)
- 		gem_obj = drm->driver->gem_create_object(drm, size);
-@@ -73,7 +74,14 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size)
+ #include <drm/drm.h>
++#include <drm/drm_damage_helper.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_fb_cma_helper.h>
++#include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_cma_helper.h>
++#include <drm/drm_plane.h>
+ #include <drm/drm_vma_manager.h>
  
- 	cma_obj = container_of(gem_obj, struct drm_gem_cma_object, base);
- 
--	ret = drm_gem_object_init(drm, gem_obj, size);
-+	if (private) {
-+		drm_gem_private_object_init(drm, gem_obj, size);
+ /**
+@@ -576,3 +581,53 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *dev,
+ 	return obj;
+ }
+ EXPORT_SYMBOL(drm_gem_cma_prime_import_sg_table_vmap);
 +
-+		/* Always use writecombine for dma-buf mappings */
-+		cma_obj->map_noncoherent = false;
-+	} else {
-+		ret = drm_gem_object_init(drm, gem_obj, size);
-+	}
- 	if (ret)
- 		goto error;
- 
-@@ -111,12 +119,19 @@ struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
- 
- 	size = round_up(size, PAGE_SIZE);
- 
--	cma_obj = __drm_gem_cma_create(drm, size);
-+	cma_obj = __drm_gem_cma_create(drm, size, false);
- 	if (IS_ERR(cma_obj))
- 		return cma_obj;
- 
--	cma_obj->vaddr = dma_alloc_wc(drm->dev, size, &cma_obj->paddr,
--				      GFP_KERNEL | __GFP_NOWARN);
-+	if (cma_obj->map_noncoherent) {
-+		cma_obj->vaddr = dma_alloc_noncoherent(drm->dev, size,
-+						       &cma_obj->paddr,
-+						       DMA_TO_DEVICE,
-+						       GFP_KERNEL | __GFP_NOWARN);
-+	} else {
-+		cma_obj->vaddr = dma_alloc_wc(drm->dev, size, &cma_obj->paddr,
-+					      GFP_KERNEL | __GFP_NOWARN);
-+	}
- 	if (!cma_obj->vaddr) {
- 		drm_dbg(drm, "failed to allocate buffer with size %zu\n",
- 			 size);
-@@ -432,7 +447,7 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
- 		return ERR_PTR(-EINVAL);
- 
- 	/* Create a CMA GEM buffer. */
--	cma_obj = __drm_gem_cma_create(dev, attach->dmabuf->size);
-+	cma_obj = __drm_gem_cma_create(dev, attach->dmabuf->size, true);
- 	if (IS_ERR(cma_obj))
- 		return ERR_CAST(cma_obj);
- 
-@@ -499,8 +514,13 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 
- 	cma_obj = to_drm_gem_cma_obj(obj);
- 
--	ret = dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
--			  cma_obj->paddr, vma->vm_end - vma->vm_start);
-+	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-+	if (!cma_obj->map_noncoherent)
-+		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
++/**
++ * drm_gem_cma_sync_data - Sync GEM object to non-coherent backing memory
++ * @drm: DRM device
++ * @old_state: Old plane state
++ * @state: New plane state
++ *
++ * This function can be used by drivers that use damage clips and have
++ * CMA GEM objects backed by non-coherent memory. Calling this function
++ * in a plane's .atomic_update ensures that all the data in the backing
++ * memory have been written to RAM.
++ */
++void drm_gem_cma_sync_data(struct drm_device *drm,
++			   struct drm_plane_state *old_state,
++			   struct drm_plane_state *state)
++{
++	const struct drm_format_info *finfo = state->fb->format;
++	struct drm_atomic_helper_damage_iter iter;
++	const struct drm_gem_cma_object *cma_obj;
++	unsigned int offset, i;
++	struct drm_rect clip;
++	dma_addr_t daddr;
 +
-+	ret = dma_mmap_pages(cma_obj->base.dev->dev,
-+			     vma, vma->vm_end - vma->vm_start,
-+			     virt_to_page(cma_obj->vaddr));
- 	if (ret)
- 		drm_gem_vm_close(vma);
- 
++	for (i = 0; i < finfo->num_planes; i++) {
++		cma_obj = drm_fb_cma_get_gem_obj(state->fb, i);
++
++		if (cma_obj->map_noncoherent)
++			break;
++	}
++
++	/* No non-coherent buffers - no need to sync anything. */
++	if (i == finfo->num_planes)
++		return;
++
++	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
++
++	drm_atomic_for_each_plane_damage(&iter, &clip) {
++		for (i = 0; i < finfo->num_planes; i++) {
++			daddr = drm_fb_cma_get_gem_addr(state->fb, state, i);
++
++			/* Ignore x1/x2 values, invalidate complete lines */
++			offset = clip.y1 * state->fb->pitches[i];
++
++			dma_sync_single_for_device(drm->dev, daddr + offset,
++				       (clip.y2 - clip.y1) * state->fb->pitches[i],
++				       DMA_TO_DEVICE);
++		}
++	}
++}
++EXPORT_SYMBOL_GPL(drm_gem_cma_sync_data);
 diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-index 0a9711caa3e8..cd13508acbc1 100644
+index cd13508acbc1..76af066ae3a7 100644
 --- a/include/drm/drm_gem_cma_helper.h
 +++ b/include/drm/drm_gem_cma_helper.h
-@@ -16,6 +16,7 @@ struct drm_mode_create_dumb;
-  *       more than one entry but they are guaranteed to have contiguous
-  *       DMA addresses.
-  * @vaddr: kernel virtual address of the backing memory
-+ * @map_noncoherent: if true, the GEM object is backed by non-coherent memory
-  */
- struct drm_gem_cma_object {
- 	struct drm_gem_object base;
-@@ -24,6 +25,8 @@ struct drm_gem_cma_object {
+@@ -7,6 +7,7 @@
+ #include <drm/drm_gem.h>
  
- 	/* For objects with DMA memory allocated by GEM CMA */
- 	void *vaddr;
+ struct drm_mode_create_dumb;
++struct drm_plane_state;
+ 
+ /**
+  * struct drm_gem_cma_object - GEM object backed by CMA memory allocations
+@@ -185,4 +186,8 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *drm,
+ 				       struct dma_buf_attachment *attach,
+ 				       struct sg_table *sgt);
+ 
++void drm_gem_cma_sync_data(struct drm_device *drm,
++			   struct drm_plane_state *old_state,
++			   struct drm_plane_state *state);
 +
-+	bool map_noncoherent;
- };
- 
- #define to_drm_gem_cma_obj(gem_obj) \
+ #endif /* __DRM_GEM_CMA_HELPER_H__ */
 -- 
 2.30.2
 
