@@ -2,28 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1A53819C3
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 18:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169A63819CC
+	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 18:21:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E106E40F;
-	Sat, 15 May 2021 16:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB986E416;
+	Sat, 15 May 2021 16:21:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 62D6A6E40F
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 16:11:48 +0000 (UTC)
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7F5106E416
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 16:21:39 +0000 (UTC)
 Received: by angie.orcam.me.uk (Postfix, from userid 500)
- id 7E0E592009C; Sat, 15 May 2021 18:11:46 +0200 (CEST)
+ id AA83692009C; Sat, 15 May 2021 18:21:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by angie.orcam.me.uk (Postfix) with ESMTP id 6F6E792009B;
- Sat, 15 May 2021 18:11:46 +0200 (CEST)
-Date: Sat, 15 May 2021 18:11:46 +0200 (CEST)
+ by angie.orcam.me.uk (Postfix) with ESMTP id 9B60392009B;
+ Sat, 15 May 2021 18:21:37 +0200 (CEST)
+Date: Sat, 15 May 2021 18:21:37 +0200 (CEST)
 From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] video: fbdev: vga16fb: fix OOB write in
- vga16fb_imageblit()
-In-Reply-To: <CAHk-=wioOHwKNj8AmvXWV-oL60ae0jKswAHy9e6wCYYeA5EQXg@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2105151733090.3032@angie.orcam.me.uk>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Subject: Re: [PATCH v2] tty: vt: always invoke vc->vc_sw->con_resize callback
+In-Reply-To: <97f1d292-c3a8-f4d6-0651-b4f5571ecb72@i-love.sakura.ne.jp>
+Message-ID: <alpine.DEB.2.21.2105151815040.3032@angie.orcam.me.uk>
 References: <0000000000006bbd0c05c14f1b09@google.com>
  <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
  <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
@@ -31,6 +30,8 @@ References: <0000000000006bbd0c05c14f1b09@google.com>
  <CAHk-=wguwhFpjhyMtDaH2hhjoV62gDgByC=aPyTrW9CkM5hqvA@mail.gmail.com>
  <alpine.DEB.2.21.2105142150460.3032@angie.orcam.me.uk>
  <CAHk-=wioOHwKNj8AmvXWV-oL60ae0jKswAHy9e6wCYYeA5EQXg@mail.gmail.com>
+ <CAHk-=wjkVAjfWrmmJnJe1_MriK9gezWCew_MU=MbQNzHbGopsQ@mail.gmail.com>
+ <97f1d292-c3a8-f4d6-0651-b4f5571ecb72@i-love.sakura.ne.jp>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,76 +48,39 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Jiri Slaby <jirislaby@kernel.org>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Jani Nikula <jani.nikula@intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@intel.com>, Colin King <colin.king@canonical.com>,
- Jiri Slaby <jirislaby@kernel.org>,
+ Colin King <colin.king@canonical.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
  syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 May 2021, Linus Torvalds wrote:
+On Sat, 15 May 2021, Tetsuo Handa wrote:
 
-> >  Overall I think it does make sense to resize the text console at any
-> > time, even if the visible console (VT) chosen is in the graphics mode,
-> 
-> It might make sense, but only if we call the function to update the
-> low-level data.
-> 
-> Not calling it, and then starting to randomly use the (wrong)
-> geometry, and just limiting it so that it's all within the buffer -
-> THAT does not make sense.
-> 
-> So I think your patch is fundamentally wrong. It basically says "let's
-> use random stale incorrect data, but just make sure that the end
-> result is still within the allocated buffer".
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 3406067985b1..22bb3892f6bd 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -2019,7 +2019,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
+>  			return -EINVAL;
+>  
+>  		pr_debug("resize now %ix%i\n", var.xres, var.yres);
+> -		if (con_is_visible(vc)) {
+> +		if (con_is_visible(vc) && vc->vc_mode == KD_TEXT) {
+>  			var.activate = FB_ACTIVATE_NOW |
+>  				FB_ACTIVATE_FORCE;
+>  			fb_set_var(info, &var);
 
- I guess you mean Tetsuo-san's patch, right?  I haven't sent any in this 
-discussion.
+ LGTM, although I'll yet try to verify it with hardware.  But it'll have 
+to wait another week or so as I'm currently away from my lab and this 
+requires physical presence.
 
-> My patch is at least conceptually sane.
-> 
-> An alternative would be to just remove the "vcmode != KD_GRAPHICS"
-> check entirely, and always call con_resize() to update the low-level
-> data, but honestly, that seems very likelty to break something very
-> fundamentally, since it's not how any of fbcon has ever been tested,
-
- Umm, there isn't much to change as far as console data structures are 
-concerned with a resize: obviously the width and the height, which affect 
-the size of the character/attribute buffer, and maybe some cursor data 
-such as the size and screen coordinates.
-
- For vgacon we have:
-
-	if (con_is_visible(c) && !vga_is_gfx) /* who knows */
-		vgacon_doresize(c, width, height);
-
-in `vgacon_resize' already, following all the sanity checks, so the CRTC 
-isn't poked at if `vga_is_gfx', exactly as we want.
-
- I can see fbcon does not have equivalent code and instead has relied on 
-the KD_GRAPHICS check made by the caller.  Which I think has been a bug 
-since fbcon's inception.  Instead I think `fbcon_resize' ought to make all 
-the sanity checks I can see it does and only then check for KD_GRAPHICS 
-and if so, then exit without poking at hardware.  Then upon exit from the 
-gfx mode the `fb_set_var' call made from `fbcon_blank' will DTRT.
-
- I can try verifying the latter hypothesis, though my framebuffer setups 
-(with DECstation hardware) have always been somewhat incomplete.  I do 
-believe I have a MIPS fbdev X server binary somewhere to fiddle with, 
-which should work with that TGA/SFB+ video adapter I mentioned before.
-
-> Another alternative would be to just delay the resize to when vcmode
-> is put back to text mode again. That sounds somewhat reasonable to me,
-> but it's a pretty big thing.
-
- Methinks it works exactly like that already.  On exit from the graphics 
-mode (a VT switch or gfx program termination) hardware is reprogrammed 
-according to the console geometry previously set.  We just must not break 
-it.
+Reviewed-by: Maciej W. Rozycki <macro@orcam.me.uk>
 
   Maciej
