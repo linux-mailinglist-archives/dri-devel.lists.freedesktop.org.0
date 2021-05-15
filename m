@@ -2,63 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F1E381ABA
-	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 21:09:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBF26381ACF
+	for <lists+dri-devel@lfdr.de>; Sat, 15 May 2021 21:42:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C390B6E43D;
-	Sat, 15 May 2021 19:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C58B6E435;
+	Sat, 15 May 2021 19:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 347D86E437
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 19:09:16 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id v9so1677276lfa.4
- for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 12:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NT3C87h3e5Xq0S8LgOZ6jDOdwjCJFaK/CbK5x+u4CQs=;
- b=aWCRmY7R3/oG3vn0M0TBH6TRY2cP/W8bvxK5oX7z9h7xZ3ylQwkbq2/qoZ7prv3yGz
- S7YyxfUGETrSL1b+BNNir/xdYIIDudrgoqEwBB1o3SvfNjk/SgQ5stNVx7yoKY8vw6sJ
- rhsNIpHex4jWOHxvI8ykFmkmLGop3TXA7Nm13bqQD1MzReCCBV3pZfVB+d1DlH5fJY/1
- 9dxsG/EZfocA27gCpwA2TjOEIdgZxIfFJXIi5Mf+5TcElFyfOnLtq4Ybf21FQb4iR45i
- XaklIKzqYcbBGqpGBPGsimc2Lu5iH0ifGJELsoo39lDf4Pxb4RgIhSkW3hkG3vM9/HLw
- L34g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NT3C87h3e5Xq0S8LgOZ6jDOdwjCJFaK/CbK5x+u4CQs=;
- b=rN7ojQzYL//hpvfIF75TmRJdV2jyDZXdehoQAFwQaSoZ7nQ7IWl4jt/DV1patNW6k2
- NUngKFFlWU1ZHXCTRyLW8BkfZxuHiUjao2rBKdu8UMqdpx+8PFyfpZa6UHjdnA1PB9Kz
- XegvONi6Mq9QjJTo+UU5vdU9gpBy1htHNClM4sYbFcIKIlvrOTVDSRGrjq+kKeyCV75X
- mPpMln1t2a9XMAXHghRU4RiWuAGWdVKYBubN6TISk2pMP5PDzRQMb24M6qeJDtL0+eeC
- WXkmNemgrF7EH29MmuoTkI30DZTzZ71IbCUCdgQeUFm6iHbQLAixDOlmN/FJ4s3jzZdr
- 64dw==
-X-Gm-Message-State: AOAM532eHUsEvnFN4G81ocWH0x3rQ5QEUJA5k3J/p7c6n5RcefVNlk6N
- ZvJIxbJ/JGkWVHIg3aB++1P7qw==
-X-Google-Smtp-Source: ABdhPJxIXtdxAxnKuZjxNALJqfpQ3016DAVvgpurK6EM2TDHaD7a1QNXxdV1pU+zHrk/siIXMsFxlw==
-X-Received: by 2002:a05:6512:2283:: with SMTP id
- f3mr6096479lfu.148.1621105754614; 
- Sat, 15 May 2021 12:09:14 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id t15sm2184107ljk.99.2021.05.15.12.09.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 May 2021 12:09:14 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v3 4/4] drm/msm/dpu: hw_blk: make dpu_hw_blk empty opaque
- structure
-Date: Sat, 15 May 2021 22:09:09 +0300
-Message-Id: <20210515190909.1809050-5-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210515190909.1809050-1-dmitry.baryshkov@linaro.org>
-References: <20210515190909.1809050-1-dmitry.baryshkov@linaro.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E87E6E435
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 May 2021 19:42:43 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D9C36B03B;
+ Sat, 15 May 2021 19:42:41 +0000 (UTC)
+To: Paul Cercueil <paul@crapouillou.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20210515145359.64802-1-paul@crapouillou.net>
+ <20210515145359.64802-4-paul@crapouillou.net>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 3/3] drm/ingenic: Add option to alloc cached GEM buffers
+Message-ID: <4aae6b75-4f7e-2b6e-d8e7-b2599fdfd49d@suse.de>
+Date: Sat, 15 May 2021 21:42:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210515145359.64802-4-paul@crapouillou.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="YZCcuMKFdIINPia8KMqWziuKz0T7y2Bnw"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,206 +45,371 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: Christoph Hellwig <hch@infradead.org>, list@opendingux.net,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code does not really use dpu_hw_blk fields, so drop them, making
-dpu_hw_blk empty structure.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--YZCcuMKFdIINPia8KMqWziuKz0T7y2Bnw
+Content-Type: multipart/mixed; boundary="AkwaZtTB2iysm9rks9oywaRH9lt7Qx6fu";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Paul Cercueil <paul@crapouillou.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Christoph Hellwig <hch@infradead.org>, list@opendingux.net,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org
+Message-ID: <4aae6b75-4f7e-2b6e-d8e7-b2599fdfd49d@suse.de>
+Subject: Re: [PATCH v4 3/3] drm/ingenic: Add option to alloc cached GEM
+ buffers
+References: <20210515145359.64802-1-paul@crapouillou.net>
+ <20210515145359.64802-4-paul@crapouillou.net>
+In-Reply-To: <20210515145359.64802-4-paul@crapouillou.net>
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/Makefile                  |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c    | 24 -------------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h    |  4 +---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     |  2 --
- .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    |  2 --
- .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  2 +-
- 12 files changed, 2 insertions(+), 45 deletions(-)
- delete mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
+--AkwaZtTB2iysm9rks9oywaRH9lt7Qx6fu
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index 610d630326bb..55dbde30c2a2 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -58,7 +58,6 @@ msm-y := \
- 	disp/dpu1/dpu_encoder_phys_cmd.o \
- 	disp/dpu1/dpu_encoder_phys_vid.o \
- 	disp/dpu1/dpu_formats.o \
--	disp/dpu1/dpu_hw_blk.o \
- 	disp/dpu1/dpu_hw_catalog.o \
- 	disp/dpu1/dpu_hw_ctl.o \
- 	disp/dpu1/dpu_hw_interrupts.o \
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
-deleted file mode 100644
-index 1f2b74b9eb65..000000000000
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
-+++ /dev/null
-@@ -1,24 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
-- */
--
--#define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
--
--#include <linux/mutex.h>
--#include <linux/errno.h>
--#include <linux/slab.h>
--
--#include "dpu_hw_mdss.h"
--#include "dpu_hw_blk.h"
--
--/**
-- * dpu_hw_blk_init - initialize hw block object
-- * @hw_blk: pointer to hw block object
-- * @type: hw block type - enum dpu_hw_blk_type
-- * @id: instance id of the hw block
-- */
--void dpu_hw_blk_init(struct dpu_hw_blk *hw_blk, u32 type, int id)
--{
--	hw_blk->type = type;
--	hw_blk->id = id;
--}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
-index 7768694b558a..52e92f37eda4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
-@@ -19,9 +19,7 @@ struct dpu_hw_blk;
-  * @refcount: reference/usage count
-  */
- struct dpu_hw_blk {
--	u32 type;
--	int id;
-+	/* opaque */
- };
- 
--void dpu_hw_blk_init(struct dpu_hw_blk *hw_blk, u32 type, int id);
- #endif /*_DPU_HW_BLK_H */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index 441f66a4fb37..f8a74f6cdc4c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -613,8 +613,6 @@ struct dpu_hw_ctl *dpu_hw_ctl_init(enum dpu_ctl idx,
- 	c->mixer_count = m->mixer_count;
- 	c->mixer_hw_caps = m->mixer;
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_CTL, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-index 977b25968f34..a98e964c3b6f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-@@ -110,8 +110,6 @@ struct dpu_hw_dspp *dpu_hw_dspp_init(enum dpu_dspp idx,
- 	c->cap = cfg;
- 	_setup_dspp_ops(c, c->cap->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_DSPP, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-index 17224556d5a8..116e2b5b1a90 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-@@ -325,8 +325,6 @@ struct dpu_hw_intf *dpu_hw_intf_init(enum dpu_intf idx,
- 	c->mdss = m;
- 	_setup_intf_ops(&c->ops, c->cap->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_INTF, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-index 76f8b8f75b82..cb6bb7a22c15 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-@@ -182,8 +182,6 @@ struct dpu_hw_mixer *dpu_hw_lm_init(enum dpu_lm idx,
- 	c->cap = cfg;
- 	_setup_mixer_ops(m, &c->ops, c->cap->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_LM, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
-index 406ba950a066..c06d595d5df0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
-@@ -79,8 +79,6 @@ struct dpu_hw_merge_3d *dpu_hw_merge_3d_init(enum dpu_merge_3d idx,
- 	c->caps = cfg;
- 	_setup_merge_3d_ops(c, c->caps->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_MERGE_3D, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-index 92cd724263ce..55766c97c4c8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-@@ -282,8 +282,6 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(enum dpu_pingpong idx,
- 	c->caps = cfg;
- 	_setup_pingpong_ops(c, c->caps->features);
- 
--	dpu_hw_blk_init(&c->base, DPU_HW_BLK_PINGPONG, idx);
--
- 	return c;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 8734a47040aa..69eed7932486 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -733,8 +733,6 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
- 	hw_pipe->cap = cfg;
- 	_setup_layer_ops(hw_pipe, hw_pipe->cap->features);
- 
--	dpu_hw_blk_init(&hw_pipe->base, DPU_HW_BLK_SSPP, idx);
--
- 	return hw_pipe;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-index dae77d9c2c74..282e3c6c6d48 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-@@ -322,8 +322,6 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(enum dpu_mdp idx,
- 	mdp->caps = cfg;
- 	_setup_mdp_ops(&mdp->ops, mdp->caps->features);
- 
--	dpu_hw_blk_init(&mdp->base, DPU_HW_BLK_TOP, idx);
--
- 	return mdp;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index c0eec12498e7..f9c83d6e427a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -428,7 +428,7 @@ static int _dpu_rm_reserve_ctls(
- 		features = ctl->caps->features;
- 		has_split_display = BIT(DPU_CTL_SPLIT_DISPLAY) & features;
- 
--		DPU_DEBUG("ctl %d caps 0x%lX\n", rm->ctl_blks[j]->id, features);
-+		DPU_DEBUG("ctl %d caps 0x%lX\n", j + CTL_0, features);
- 
- 		if (needs_split_display != has_split_display)
- 			continue;
--- 
-2.30.2
+Hi
 
+Am 15.05.21 um 16:53 schrieb Paul Cercueil:
+> Alloc GEM buffers backed by noncoherent memory on SoCs where it is
+> actually faster than write-combine.
+>=20
+> This dramatically speeds up software rendering on these SoCs, even for
+> tasks where write-combine memory should in theory be faster (e.g. simpl=
+e
+> blits).
+>=20
+> v3: The option is now selected per-SoC instead of being a module
+>      parameter.
+>=20
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 56 ++++++++++++++++++++++=
+-
+>   drivers/gpu/drm/ingenic/ingenic-ipu.c     | 18 ++++++--
+>   2 files changed, 68 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/dr=
+m/ingenic/ingenic-drm-drv.c
+> index 09225b770bb8..5f64e8583eec 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -9,6 +9,7 @@
+>   #include <linux/component.h>
+>   #include <linux/clk.h>
+>   #include <linux/dma-mapping.h>
+> +#include <linux/io.h>
+>   #include <linux/module.h>
+>   #include <linux/mutex.h>
+>   #include <linux/of_device.h>
+> @@ -23,6 +24,7 @@
+>   #include <drm/drm_color_mgmt.h>
+>   #include <drm/drm_crtc.h>
+>   #include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_damage_helper.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_encoder.h>
+>   #include <drm/drm_gem_cma_helper.h>
+> @@ -57,6 +59,7 @@ struct ingenic_dma_hwdescs {
+>   struct jz_soc_info {
+>   	bool needs_dev_clk;
+>   	bool has_osd;
+> +	bool map_noncoherent;
+>   	unsigned int max_width, max_height;
+>   	const u32 *formats_f0, *formats_f1;
+>   	unsigned int num_formats_f0, num_formats_f1;
+> @@ -410,6 +413,8 @@ static int ingenic_drm_plane_atomic_check(struct dr=
+m_plane *plane,
+>   	     old_plane_state->fb->format->format !=3D new_plane_state->fb->f=
+ormat->format))
+>   		crtc_state->mode_changed =3D true;
+>  =20
+> +	drm_atomic_helper_check_plane_damage(state, new_plane_state);
+> +
+>   	return 0;
+>   }
+>  =20
+> @@ -544,8 +549,8 @@ static void ingenic_drm_plane_atomic_update(struct =
+drm_plane *plane,
+>   					    struct drm_atomic_state *state)
+>   {
+>   	struct ingenic_drm *priv =3D drm_device_get_priv(plane->dev);
+> -	struct drm_plane_state *newstate =3D drm_atomic_get_new_plane_state(s=
+tate,
+> -									  plane);
+> +	struct drm_plane_state *newstate =3D drm_atomic_get_new_plane_state(s=
+tate, plane);
+> +	struct drm_plane_state *oldstate =3D drm_atomic_get_old_plane_state(s=
+tate, plane);
+>   	struct drm_crtc_state *crtc_state;
+>   	struct ingenic_dma_hwdesc *hwdesc;
+>   	unsigned int width, height, cpp, offset;
+> @@ -553,6 +558,8 @@ static void ingenic_drm_plane_atomic_update(struct =
+drm_plane *plane,
+>   	u32 fourcc;
+>  =20
+>   	if (newstate && newstate->fb) {
+> +		drm_gem_cma_sync_data(&priv->drm, oldstate, newstate);
+> +
+>   		crtc_state =3D newstate->crtc->state;
+>  =20
+>   		addr =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
+> @@ -742,6 +749,43 @@ static void ingenic_drm_disable_vblank(struct drm_=
+crtc *crtc)
+>   	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL, JZ_LCD_CTRL_EOF_IRQ, =
+0);
+>   }
+>  =20
+> +static int ingenic_drm_atomic_helper_dirtyfb(struct drm_framebuffer *f=
+b,
+> +					     struct drm_file *file_priv,
+> +					     unsigned int flags,
+> +					     unsigned int color,
+> +					     struct drm_clip_rect *clips,
+> +					     unsigned int num_clips)
+> +{
+> +	struct ingenic_drm *priv =3D drm_device_get_priv(fb->dev);
+> +
+> +	if (!priv->soc_info->map_noncoherent)
+> +		return 0;
+
+I'm not sure you can get away without calling=20
+drm_atomic_helper_dirtyfb(). The function does some things with the=20
+plane's damage-clips property. If you don't call it here, the plane=20
+might pile up unhandled clipping areas. It's better to call it and rely=20
+on the test in drm_gem_cma_sync_data(). See below on how to optimize this=
+=2E
+
+> +
+> +	return drm_atomic_helper_dirtyfb(fb, file_priv, flags,
+> +					 color, clips, num_clips);
+> +}
+> +
+> +static const struct drm_framebuffer_funcs ingenic_drm_gem_fb_funcs =3D=20
+{
+> +	.destroy	=3D drm_gem_fb_destroy,
+> +	.create_handle	=3D drm_gem_fb_create_handle,
+> +	.dirty          =3D ingenic_drm_atomic_helper_dirtyfb,
+> +};
+
+You don't seem to be using this anywhere. You have to implement a custom =
+
+fb_create for drm_mode_config_funcs. [1]
+
+BUT: I think the overall approach should be to only use this on SoCs=20
+with non-coherency setting. Use drm_gem_fb_create() on systems without=20
+non-coherency and use drm_gem_fb_create_with_dirty() on systems with=20
+non-coherency (i.e., have two instances of drm_mode_config_funcs). Only=20
+call drm_plane_enable_fb_damage_clips() on systems with non-coherency.
+
+> +
+> +static struct drm_gem_object *
+> +ingenic_drm_gem_create_object(struct drm_device *drm, size_t size)
+> +{
+> +	struct ingenic_drm *priv =3D drm_device_get_priv(drm);
+> +	struct drm_gem_cma_object *obj;
+> +
+> +	obj =3D kzalloc(sizeof(*obj), GFP_KERNEL);
+> +	if (!obj)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	obj->map_noncoherent =3D priv->soc_info->map_noncoherent;
+> +
+> +	return &obj->base;
+> +}
+> +
+>   DEFINE_DRM_GEM_CMA_FOPS(ingenic_drm_fops);
+>  =20
+>   static const struct drm_driver ingenic_drm_driver_data =3D {
+> @@ -754,6 +798,7 @@ static const struct drm_driver ingenic_drm_driver_d=
+ata =3D {
+>   	.patchlevel		=3D 0,
+>  =20
+>   	.fops			=3D &ingenic_drm_fops,
+> +	.gem_create_object	=3D ingenic_drm_gem_create_object,
+>   	DRM_GEM_CMA_DRIVER_OPS,
+>  =20
+>   	.irq_handler		=3D ingenic_drm_irq_handler,
+> @@ -961,6 +1006,8 @@ static int ingenic_drm_bind(struct device *dev, bo=
+ol has_components)
+>   		return ret;
+>   	}
+>  =20
+> +	drm_plane_enable_fb_damage_clips(&priv->f1);
+> +
+>   	drm_crtc_helper_add(&priv->crtc, &ingenic_drm_crtc_helper_funcs);
+>  =20
+>   	ret =3D drm_crtc_init_with_planes(drm, &priv->crtc, primary,
+> @@ -989,6 +1036,8 @@ static int ingenic_drm_bind(struct device *dev, bo=
+ol has_components)
+>   			return ret;
+>   		}
+>  =20
+> +		drm_plane_enable_fb_damage_clips(&priv->f0);
+> +
+>   		if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU) && has_components) {
+>   			ret =3D component_bind_all(dev, drm);
+>   			if (ret) {
+> @@ -1245,6 +1294,7 @@ static const u32 jz4770_formats_f0[] =3D {
+>   static const struct jz_soc_info jz4740_soc_info =3D {
+>   	.needs_dev_clk =3D true,
+>   	.has_osd =3D false,
+> +	.map_noncoherent =3D false,
+>   	.max_width =3D 800,
+>   	.max_height =3D 600,
+>   	.formats_f1 =3D jz4740_formats,
+> @@ -1255,6 +1305,7 @@ static const struct jz_soc_info jz4740_soc_info =3D=20
+{
+>   static const struct jz_soc_info jz4725b_soc_info =3D {
+>   	.needs_dev_clk =3D false,
+>   	.has_osd =3D true,
+> +	.map_noncoherent =3D false,
+>   	.max_width =3D 800,
+>   	.max_height =3D 600,
+>   	.formats_f1 =3D jz4725b_formats_f1,
+> @@ -1266,6 +1317,7 @@ static const struct jz_soc_info jz4725b_soc_info =
+=3D {
+>   static const struct jz_soc_info jz4770_soc_info =3D {
+>   	.needs_dev_clk =3D false,
+>   	.has_osd =3D true,
+> +	.map_noncoherent =3D true,
+>   	.max_width =3D 1280,
+>   	.max_height =3D 720,
+>   	.formats_f1 =3D jz4770_formats_f1,
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/in=
+genic/ingenic-ipu.c
+> index 3b1091e7c0cd..a4d1b500c3ad 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> @@ -20,10 +20,13 @@
+>  =20
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_damage_helper.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_fb_cma_helper.h>
+>   #include <drm/drm_fourcc.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+>   #include <drm/drm_plane.h>
+>   #include <drm/drm_plane_helper.h>
+>   #include <drm/drm_property.h>
+> @@ -285,8 +288,8 @@ static void ingenic_ipu_plane_atomic_update(struct =
+drm_plane *plane,
+>   					    struct drm_atomic_state *state)
+>   {
+>   	struct ingenic_ipu *ipu =3D plane_to_ingenic_ipu(plane);
+> -	struct drm_plane_state *newstate =3D drm_atomic_get_new_plane_state(s=
+tate,
+> -									  plane);
+> +	struct drm_plane_state *newstate =3D drm_atomic_get_new_plane_state(s=
+tate, plane);
+> +	struct drm_plane_state *oldstate =3D drm_atomic_get_new_plane_state(s=
+tate, plane);
+
+get_old_state ?
+
+>   	const struct drm_format_info *finfo;
+>   	u32 ctrl, stride =3D 0, coef_index =3D 0, format =3D 0;
+>   	bool needs_modeset, upscaling_w, upscaling_h;
+> @@ -317,6 +320,8 @@ static void ingenic_ipu_plane_atomic_update(struct =
+drm_plane *plane,
+>   				JZ_IPU_CTRL_CHIP_EN | JZ_IPU_CTRL_LCDC_SEL);
+>   	}
+>  =20
+> +	drm_gem_cma_sync_data(ipu->drm, oldstate, newstate);
+> +
+
+If you want to optimize, maybe put this line behind
+
+   if (priv->soc_info->map_noncoherent)
+
+>   	/* New addresses will be committed in vblank handler... */
+>   	ipu->addr_y =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
+>   	if (finfo->num_planes > 1)
+> @@ -541,7 +546,7 @@ static int ingenic_ipu_plane_atomic_check(struct dr=
+m_plane *plane,
+>  =20
+>   	if (!new_plane_state->crtc ||
+>   	    !crtc_state->mode.hdisplay || !crtc_state->mode.vdisplay)
+> -		return 0;
+> +		goto out_check_damage;
+>  =20
+>   	/* Plane must be fully visible */
+>   	if (new_plane_state->crtc_x < 0 || new_plane_state->crtc_y < 0 ||
+> @@ -558,7 +563,7 @@ static int ingenic_ipu_plane_atomic_check(struct dr=
+m_plane *plane,
+>   		return -EINVAL;
+>  =20
+>   	if (!osd_changed(new_plane_state, old_plane_state))
+> -		return 0;
+> +		goto out_check_damage;
+>  =20
+>   	crtc_state->mode_changed =3D true;
+>  =20
+> @@ -592,6 +597,9 @@ static int ingenic_ipu_plane_atomic_check(struct dr=
+m_plane *plane,
+>   	ipu->denom_w =3D denom_w;
+>   	ipu->denom_h =3D denom_h;
+>  =20
+> +out_check_damage:
+> +	drm_atomic_helper_check_plane_damage(state, new_plane_state);
+> +
+
+If you implement my suggestion above, this line could also be behind
+
+   if (priv->soc_info->map_noncoherent)
+
+Best regards
+
+Thomas
+
+
+
+[1]=20
+https://elixir.bootlin.com/linux/v5.13-rc1/source/drivers/gpu/drm/ingenic=
+/ingenic-drm-drv.c#L808
+
+
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--AkwaZtTB2iysm9rks9oywaRH9lt7Qx6fu--
+
+--YZCcuMKFdIINPia8KMqWziuKz0T7y2Bnw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCgJDAFAwAAAAAACgkQlh/E3EQov+Aa
+6g//Uk6/4Dl0BU/200Z59y9djSnAiGh5pJVett02FZbdnCPwOE4tuOs49eY5dWzR4b8vfqkfoPIE
+cOKJJ+xy5tD96o+hwoOyPYRqv/qRR0lkTiwhH0IzOw+wiOESYBoyUU9Jeb5YwBlNgGR/MxEHELC2
+/lrMRYoyiWm9XLWluLyfBlldT+guds8JlJxzYiw0LR5O6xqW2A4m6MwJ1IEh3Qu79Du4ncEDECtP
+S7W+phCzMIqhs7KgwwKU9fKKYMCRv6ZFQ3iWVCpNWk7EUoSjh8AaypeJUPJyPQkUKnRLfr6aljvq
+GQeEJc7R889xhon972FZbvFkPkInyFGJYQ7DtjEPeMHO3rfja4lywjKTuS71N+10ItnA6aJoLZWE
+YEWpEqkVh6GmiNo+D3QNKUaVUF+LHY3oKqH7vNQ/NhB96FllCXtkukMcorPkv27ruo5Xkke8/4/j
+k33qf59i4wLI8Wk3WO0zgWgpL0t5uyaoA0bEVfohSg6i4243mfAhTOddzmOw6uIhD6yZbPSxEM52
+xlaqI/3qKztLOnTEsCmnGzXp7XSyHu7NG7MCs23lrdtntLhk3HWV9JZb4FjXQ/goDwlUoPvyIpy5
+rsdxoEx4kHm1a99gNALTUYUbZxsKzHOtXqTgpTcpxl38/+QQAondOwt0lW4D4PD3kLonrS/pIPoW
+z5Q=
+=xsWZ
+-----END PGP SIGNATURE-----
+
+--YZCcuMKFdIINPia8KMqWziuKz0T7y2Bnw--
