@@ -1,30 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572943820AD
-	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 21:51:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 465FB3820CE
+	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 22:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 852136E862;
-	Sun, 16 May 2021 19:51:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70ECE6E1F5;
+	Sun, 16 May 2021 20:09:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D02B36E862
- for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 19:51:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6366E1F5
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 20:09:46 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5BBBAAFE8;
- Sun, 16 May 2021 19:51:38 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id F21B5B23D;
+ Sun, 16 May 2021 20:09:44 +0000 (UTC)
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20210513071918.1728535-1-yangyingliang@huawei.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-Subject: [PATCH] drm: Mark IRQ_BUSID ioctl as legacy
-Date: Sun, 16 May 2021 21:51:35 +0200
-Message-Id: <20210516195135.3755-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
+Subject: Re: [PATCH -next] drm: correct function name
+ drm_legacy_ctxbitmap_flush()
+Message-ID: <b0ddf30e-d830-5827-e94b-bc0988f644d3@suse.de>
+Date: Sun, 16 May 2021 22:09:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210513071918.1728535-1-yangyingliang@huawei.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="givjFbxjUnbMn3XKm0wxNJnd1mKLYaJSI"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,109 +43,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The functionality is only implemented for legacy drivers. Mark the ioctl
-as legacy and move the code behind CONFIG_DRM_LEGACY. If legacy drivers
-are disabled, the ioctl call now returns -EINVAL instead of -EOPNOTSUPP.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--givjFbxjUnbMn3XKm0wxNJnd1mKLYaJSI
+Content-Type: multipart/mixed; boundary="3IfvASNhiwx88RBVq1fNSK77mA0JaFV5G";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie
+Message-ID: <b0ddf30e-d830-5827-e94b-bc0988f644d3@suse.de>
+Subject: Re: [PATCH -next] drm: correct function name
+ drm_legacy_ctxbitmap_flush()
+References: <20210513071918.1728535-1-yangyingliang@huawei.com>
+In-Reply-To: <20210513071918.1728535-1-yangyingliang@huawei.com>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_internal.h | 8 --------
- drivers/gpu/drm/drm_ioctl.c    | 3 ++-
- drivers/gpu/drm/drm_legacy.h   | 8 ++++++++
- drivers/gpu/drm/drm_pci.c      | 8 ++++----
- 4 files changed, 14 insertions(+), 13 deletions(-)
+--3IfvASNhiwx88RBVq1fNSK77mA0JaFV5G
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 1dcb5797a3bb..17f3548c8ed2 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -54,18 +54,10 @@ void drm_lastclose(struct drm_device *dev);
- #ifdef CONFIG_PCI
- 
- /* drm_pci.c */
--int drm_legacy_irq_by_busid(struct drm_device *dev, void *data,
--			    struct drm_file *file_priv);
- int drm_pci_set_busid(struct drm_device *dev, struct drm_master *master);
- 
- #else
- 
--static inline int drm_legacy_irq_by_busid(struct drm_device *dev, void *data,
--					  struct drm_file *file_priv)
--{
--	return -EINVAL;
--}
--
- static inline int drm_pci_set_busid(struct drm_device *dev,
- 				    struct drm_master *master)
- {
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index b0856c139693..53d314103a37 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -577,7 +577,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 	DRM_IOCTL_DEF(DRM_IOCTL_VERSION, drm_version, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF(DRM_IOCTL_GET_UNIQUE, drm_getunique, 0),
- 	DRM_IOCTL_DEF(DRM_IOCTL_GET_MAGIC, drm_getmagic, 0),
--	DRM_IOCTL_DEF(DRM_IOCTL_IRQ_BUSID, drm_legacy_irq_by_busid, DRM_MASTER|DRM_ROOT_ONLY),
-+	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_IRQ_BUSID, drm_legacy_irq_by_busid,
-+			     DRM_MASTER|DRM_ROOT_ONLY),
- 
- 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_GET_MAP, drm_legacy_getmap_ioctl, 0),
- 
-diff --git a/drivers/gpu/drm/drm_legacy.h b/drivers/gpu/drm/drm_legacy.h
-index 7080d2538421..c9206840c87f 100644
---- a/drivers/gpu/drm/drm_legacy.h
-+++ b/drivers/gpu/drm/drm_legacy.h
-@@ -235,9 +235,17 @@ void drm_master_legacy_init(struct drm_master *master);
- static inline void drm_master_legacy_init(struct drm_master *master) {}
- #endif
- 
-+/* drm_pci.c */
- #if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_PCI)
-+int drm_legacy_irq_by_busid(struct drm_device *dev, void *data, struct drm_file *file_priv);
- void drm_legacy_pci_agp_destroy(struct drm_device *dev);
- #else
-+static inline int drm_legacy_irq_by_busid(struct drm_device *dev, void *data,
-+					  struct drm_file *file_priv)
-+{
-+	return -EINVAL;
-+}
-+
- static inline void drm_legacy_pci_agp_destroy(struct drm_device *dev) {}
- #endif
- 
-diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-index f508f70e7a3f..39d35fc3a43b 100644
---- a/drivers/gpu/drm/drm_pci.c
-+++ b/drivers/gpu/drm/drm_pci.c
-@@ -72,7 +72,9 @@ int drm_pci_set_busid(struct drm_device *dev, struct drm_master *master)
- 	return 0;
- }
- 
--static int drm_pci_irq_by_busid(struct drm_device *dev, struct drm_irq_busid *p)
-+#ifdef CONFIG_DRM_LEGACY
-+
-+static int drm_legacy_pci_irq_by_busid(struct drm_device *dev, struct drm_irq_busid *p)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
-@@ -115,11 +117,9 @@ int drm_legacy_irq_by_busid(struct drm_device *dev, void *data,
- 	if (!drm_core_check_feature(dev, DRIVER_HAVE_IRQ))
- 		return -EOPNOTSUPP;
- 
--	return drm_pci_irq_by_busid(dev, p);
-+	return drm_legacy_pci_irq_by_busid(dev, p);
- }
- 
--#ifdef CONFIG_DRM_LEGACY
--
- void drm_legacy_pci_agp_destroy(struct drm_device *dev)
- {
- 	if (dev->agp) {
--- 
-2.31.1
+Hi
 
+Am 13.05.21 um 09:19 schrieb Yang Yingliang:
+> Fix the following make W=3D1 kernel build warning:
+>=20
+>    drivers/gpu/drm/drm_context.c:136: warning: expecting prototype for =
+drm_ctxbitmap_flush(). Prototype was for drm_legacy_ctxbitmap_flush() ins=
+tead
+>=20
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+
+Added to drm-misc-next. Thanks!
+
+Best regards
+Thomas
+
+> ---
+>   drivers/gpu/drm/drm_context.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_contex=
+t.c
+> index c99be950bf17..acbec1ddd583 100644
+> --- a/drivers/gpu/drm/drm_context.c
+> +++ b/drivers/gpu/drm/drm_context.c
+> @@ -124,7 +124,7 @@ void drm_legacy_ctxbitmap_cleanup(struct drm_device=20
+* dev)
+>   }
+>  =20
+>   /**
+> - * drm_ctxbitmap_flush() - Flush all contexts owned by a file
+> + * drm_legacy_ctxbitmap_flush() - Flush all contexts owned by a file
+>    * @dev: DRM device to operate on
+>    * @file: Open file to flush contexts for
+>    *
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--3IfvASNhiwx88RBVq1fNSK77mA0JaFV5G--
+
+--givjFbxjUnbMn3XKm0wxNJnd1mKLYaJSI
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmChfAcFAwAAAAAACgkQlh/E3EQov+DN
+jA/9Hb6H5MGsHFTbRFJxNkfFQUYDtqiZcxkbGUfZlKwCBP4nvoDuYdk4jtm4La+YNbaivWDCPm7Q
+dbJ2ffpzquMblmWDM6k8j37xRTxWepUlcee+gDgcihI/8STjYUT9TGSZ30XkwOcSbhwYDqShsdXS
+TaBs2Cbvkr48NTRsNibVOutYwGt3Y/RIz9uVvJJPUsHugDk6g/+Zj/xmrw4phnljRU2FJ8y60Uy5
+Y5qK6e2ZuCaH4sY6H7ptVcn1igaHuwqD8ASd2bETM0eNXGXy4gr0kX2T+oYsdN/o15Lt+tRcIPrw
+T/mqTGUGTH9uIgROaDA8upaLKUvE1Eb6+ZiFh5sVXtJZT4iL6TjaO4lP8U9YAWmiSrqZpqy92AlH
+CZD8uXoLA8EdSaSO6VY5n+OMLo19n0uw1Q69LhW35En//7Dnyp2lQmARGZbYbEs4YoGkAtgoSVjd
+GVSEcuxvvqCsURqoghlFbuCN1BPkiWKIR1lTdhB/Rk3wz42wWJI9b3F/R9l964t3zqdV3gBXksG3
+J7OCa6nAn6uD7c6ZusRfZY5bSUAxhEfPCJDC4mVxVex+LBjxp6S08Ow9sqKM8RPM7MuqpXd0uzNb
+yOsAMLrPOut61chGgIvMMOLpgLXf3CtNQ9JMC9fAyrlM2jddgZLv0QRYjfuv1ALZ80Sld9dtsJuI
+0eY=
+=4PFJ
+-----END PGP SIGNATURE-----
+
+--givjFbxjUnbMn3XKm0wxNJnd1mKLYaJSI--
