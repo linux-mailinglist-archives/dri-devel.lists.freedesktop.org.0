@@ -2,35 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465FB3820CE
-	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 22:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198CF3820E6
+	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 22:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70ECE6E1F5;
-	Sun, 16 May 2021 20:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 188376E878;
+	Sun, 16 May 2021 20:27:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6366E1F5
- for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 20:09:46 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F21B5B23D;
- Sun, 16 May 2021 20:09:44 +0000 (UTC)
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20210513071918.1728535-1-yangyingliang@huawei.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH -next] drm: correct function name
- drm_legacy_ctxbitmap_flush()
-Message-ID: <b0ddf30e-d830-5827-e94b-bc0988f644d3@suse.de>
-Date: Sun, 16 May 2021 22:09:43 +0200
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E93626E878
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 20:27:41 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id v6so4751147ljj.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 13:27:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=AbJBlzsKGOoI2CAg95RwFNI4w8cM41FRv1nk7z5fJHc=;
+ b=KjhDBnFoEOcTlmvMSHz1T4BRhw5VGpuJ76pDSk5fhdwFHFyjWGkvDyX6rDK9U5fBzc
+ 7zK5gkzx0s3B1GncEvr9XcFlD4qqpwlDfWrBK/JAVhd8oZzRdBkB3R78azsBNGV1dtpe
+ H8uCQ127UdHxMHpdC6vq/xGwpXT4Hg98fxx2POAkF5mIlvr3hCbAjLCRHMSeeL8KgS8t
+ 3BJh/wiJ1sgALTzt+VL55XWt7VeZn8pmSdFd3v3+FtqJbq90IySjYWzgq2emoiMn7Qil
+ aEpCqrOkQzNgIV2+kJOJhPEIFpfYpL/pkP+LZTaynonvvNRgDIbrHZ+1wodpbJCCWr/v
+ OUbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AbJBlzsKGOoI2CAg95RwFNI4w8cM41FRv1nk7z5fJHc=;
+ b=i5TVGo3hFc8jE/PlRUIot8tRPVwYuCydspXFe4tSxy3n1QR1pDUyVbsy1NT3WqJBct
+ XCi5tP8RDCMej8jxeppHW1YAOdZOFuR3driwzXSAMZLU4D2maPHdpz2bjyA1hm95zdii
+ L+OlPGlEqkAquwKBZ1YdKQ8ldLjo8jJD00/bIRQnd4+IA61SB9myvfwcnQjNJoRx2NHN
+ /WeVXhn6Y/W+nQkovDJYeRTKyPuguA+9mRLoiUhy7wcuzLXkHV3kTHaHNYDNj/u8hc45
+ 04+AEEaHNObnyW48rlGya7OKVSKJqFuYESjMkl2r0t1hiZhfotfXrKZ4+hJB+2T6dwjk
+ wZRQ==
+X-Gm-Message-State: AOAM531NdfRXyH6IkCdbMmIMW/TWUuXQPU1f7WDkZSm0F1g0R1nfcLch
+ I+Bxy4CCHfSoYA5fOX07MyFk8g==
+X-Google-Smtp-Source: ABdhPJz5IfrOEFXSEYBo1KstqRsesBwgiCVHo7r+QPWbbKUQKGXlcYTL1B+zfZUVuIcMw0GyxfyCKg==
+X-Received: by 2002:a2e:b5a2:: with SMTP id f2mr46521053ljn.101.1621196860252; 
+ Sun, 16 May 2021 13:27:40 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id b35sm1739267lfv.82.2021.05.16.13.27.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 16 May 2021 13:27:39 -0700 (PDT)
+Subject: Re: [PATCH] drm/msm/dpu: simplify dpu_core_irq_en/disable helpers
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+References: <20210511141554.629380-1-dmitry.baryshkov@linaro.org>
+Message-ID: <6b6cfb61-0858-ce7f-1bf5-966fc552ea53@linaro.org>
+Date: Sun, 16 May 2021 23:27:38 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210513071918.1728535-1-yangyingliang@huawei.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="givjFbxjUnbMn3XKm0wxNJnd1mKLYaJSI"
+In-Reply-To: <20210511141554.629380-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,96 +73,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---givjFbxjUnbMn3XKm0wxNJnd1mKLYaJSI
-Content-Type: multipart/mixed; boundary="3IfvASNhiwx88RBVq1fNSK77mA0JaFV5G";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: airlied@linux.ie
-Message-ID: <b0ddf30e-d830-5827-e94b-bc0988f644d3@suse.de>
-Subject: Re: [PATCH -next] drm: correct function name
- drm_legacy_ctxbitmap_flush()
-References: <20210513071918.1728535-1-yangyingliang@huawei.com>
-In-Reply-To: <20210513071918.1728535-1-yangyingliang@huawei.com>
+On 11/05/2021 17:15, Dmitry Baryshkov wrote:
+> dpu_core_irq_en/disable helpers are always called with the irq_count
+> equal to 1. Merge them with _dpu_core_en/disable functions and make them
+> handle just one interrupt index at a time.
+Replacing this patch with the squashing enable/disable into 
+register/unregister (part of DPU IRQ rework patchset v2).
 
---3IfvASNhiwx88RBVq1fNSK77mA0JaFV5G
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 13.05.21 um 09:19 schrieb Yang Yingliang:
-> Fix the following make W=3D1 kernel build warning:
->=20
->    drivers/gpu/drm/drm_context.c:136: warning: expecting prototype for =
-drm_ctxbitmap_flush(). Prototype was for drm_legacy_ctxbitmap_flush() ins=
-tead
->=20
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-
-Added to drm-misc-next. Thanks!
-
-Best regards
-Thomas
-
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/drm_context.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_contex=
-t.c
-> index c99be950bf17..acbec1ddd583 100644
-> --- a/drivers/gpu/drm/drm_context.c
-> +++ b/drivers/gpu/drm/drm_context.c
-> @@ -124,7 +124,7 @@ void drm_legacy_ctxbitmap_cleanup(struct drm_device=20
-* dev)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c | 50 ++++----------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h | 20 ++++----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c  |  4 +-
+>   3 files changed, 18 insertions(+), 56 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
+> index c10761ea191c..0ee9ac21e24a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
+> @@ -63,11 +63,11 @@ int dpu_core_irq_idx_lookup(struct dpu_kms *dpu_kms,
 >   }
->  =20
+>   
 >   /**
-> - * drm_ctxbitmap_flush() - Flush all contexts owned by a file
-> + * drm_legacy_ctxbitmap_flush() - Flush all contexts owned by a file
->    * @dev: DRM device to operate on
->    * @file: Open file to flush contexts for
+> - * _dpu_core_irq_enable - enable core interrupt given by the index
+> + * dpu_core_irq_enable - enable core interrupt given by the index
+>    * @dpu_kms:		Pointer to dpu kms context
+>    * @irq_idx:		interrupt index
+>    */
+> -static int _dpu_core_irq_enable(struct dpu_kms *dpu_kms, int irq_idx)
+> +int dpu_core_irq_enable(struct dpu_kms *dpu_kms, int irq_idx)
+>   {
+>   	unsigned long irq_flags;
+>   	int ret = 0, enable_count;
+> @@ -85,6 +85,8 @@ static int _dpu_core_irq_enable(struct dpu_kms *dpu_kms, int irq_idx)
+>   	}
+>   
+>   	enable_count = atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idx]);
+> +	if (enable_count)
+> +		DRM_ERROR("irq_idx=%d enable_count=%d\n", irq_idx, enable_count);
+>   	DRM_DEBUG_KMS("irq_idx=%d enable_count=%d\n", irq_idx, enable_count);
+>   	trace_dpu_core_irq_enable_idx(irq_idx, enable_count);
+>   
+> @@ -109,31 +111,12 @@ static int _dpu_core_irq_enable(struct dpu_kms *dpu_kms, int irq_idx)
+>   	return ret;
+>   }
+>   
+> -int dpu_core_irq_enable(struct dpu_kms *dpu_kms, int *irq_idxs, u32 irq_count)
+> -{
+> -	int i, ret = 0, counts;
+> -
+> -	if (!irq_idxs || !irq_count) {
+> -		DPU_ERROR("invalid params\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	counts = atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idxs[0]]);
+> -	if (counts)
+> -		DRM_ERROR("irq_idx=%d enable_count=%d\n", irq_idxs[0], counts);
+> -
+> -	for (i = 0; (i < irq_count) && !ret; i++)
+> -		ret = _dpu_core_irq_enable(dpu_kms, irq_idxs[i]);
+> -
+> -	return ret;
+> -}
+> -
+>   /**
+> - * _dpu_core_irq_disable - disable core interrupt given by the index
+> + * dpu_core_irq_disable - disable core interrupt given by the index
+>    * @dpu_kms:		Pointer to dpu kms context
+>    * @irq_idx:		interrupt index
+>    */
+> -static int _dpu_core_irq_disable(struct dpu_kms *dpu_kms, int irq_idx)
+> +int dpu_core_irq_disable(struct dpu_kms *dpu_kms, int irq_idx)
+>   {
+>   	int ret = 0, enable_count;
+>   
+> @@ -148,6 +131,8 @@ static int _dpu_core_irq_disable(struct dpu_kms *dpu_kms, int irq_idx)
+>   	}
+>   
+>   	enable_count = atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idx]);
+> +	if (enable_count > 1)
+> +		DRM_ERROR("irq_idx=%d enable_count=%d\n", irq_idx, enable_count);
+>   	DRM_DEBUG_KMS("irq_idx=%d enable_count=%d\n", irq_idx, enable_count);
+>   	trace_dpu_core_irq_disable_idx(irq_idx, enable_count);
+>   
+> @@ -164,25 +149,6 @@ static int _dpu_core_irq_disable(struct dpu_kms *dpu_kms, int irq_idx)
+>   	return ret;
+>   }
+>   
+> -int dpu_core_irq_disable(struct dpu_kms *dpu_kms, int *irq_idxs, u32 irq_count)
+> -{
+> -	int i, ret = 0, counts;
+> -
+> -	if (!irq_idxs || !irq_count) {
+> -		DPU_ERROR("invalid params\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	counts = atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idxs[0]]);
+> -	if (counts == 2)
+> -		DRM_ERROR("irq_idx=%d enable_count=%d\n", irq_idxs[0], counts);
+> -
+> -	for (i = 0; (i < irq_count) && !ret; i++)
+> -		ret = _dpu_core_irq_disable(dpu_kms, irq_idxs[i]);
+> -
+> -	return ret;
+> -}
+> -
+>   u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx, bool clear)
+>   {
+>   	if (!dpu_kms->hw_intr)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
+> index e30775e6585b..2ac781738e83 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
+> @@ -43,34 +43,30 @@ int dpu_core_irq_idx_lookup(
+>   		uint32_t instance_idx);
+>   
+>   /**
+> - * dpu_core_irq_enable - IRQ helper function for enabling one or more IRQs
+> + * dpu_core_irq_enable - IRQ helper function for enabling IRQ
+>    * @dpu_kms:		DPU handle
+> - * @irq_idxs:		Array of irq index
+> - * @irq_count:		Number of irq_idx provided in the array
+> + * @irq_idx:		irq index
+>    * @return:		0 for success enabling IRQ, otherwise failure
 >    *
->=20
+>    * This function increments count on each enable and decrements on each
+> - * disable.  Interrupts is enabled if count is 0 before increment.
+> + * disable.  Interrupt is enabled if count is 0 before increment.
+>    */
+>   int dpu_core_irq_enable(
+>   		struct dpu_kms *dpu_kms,
+> -		int *irq_idxs,
+> -		uint32_t irq_count);
+> +		int irq_idxs);
+>   
+>   /**
+> - * dpu_core_irq_disable - IRQ helper function for disabling one of more IRQs
+> + * dpu_core_irq_disable - IRQ helper function for disabling IRQ
+>    * @dpu_kms:		DPU handle
+> - * @irq_idxs:		Array of irq index
+> - * @irq_count:		Number of irq_idx provided in the array
+> + * @irq_idx:		irq index
+>    * @return:		0 for success disabling IRQ, otherwise failure
+>    *
+>    * This function increments count on each enable and decrements on each
+> - * disable.  Interrupts is disabled if count is 0 after decrement.
+> + * disable.  Interrupt is disabled if count is 0 after decrement.
+>    */
+>   int dpu_core_irq_disable(
+>   		struct dpu_kms *dpu_kms,
+> -		int *irq_idxs,
+> -		uint32_t irq_count);
+> +		int irq_idxs);
+>   
+>   /**
+>    * dpu_core_irq_read - IRQ helper function for reading IRQ status
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 72eb245341bf..e365815e6e28 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -367,7 +367,7 @@ int dpu_encoder_helper_register_irq(struct dpu_encoder_phys *phys_enc,
+>   		return ret;
+>   	}
+>   
+> -	ret = dpu_core_irq_enable(phys_enc->dpu_kms, &irq->irq_idx, 1);
+> +	ret = dpu_core_irq_enable(phys_enc->dpu_kms, irq->irq_idx);
+>   	if (ret) {
+>   		DRM_ERROR("enable failed id=%u, intr=%d, hw=%d, irq=%d",
+>   			  DRMID(phys_enc->parent), intr_idx, irq->hw_idx,
+> @@ -400,7 +400,7 @@ int dpu_encoder_helper_unregister_irq(struct dpu_encoder_phys *phys_enc,
+>   		return 0;
+>   	}
+>   
+> -	ret = dpu_core_irq_disable(phys_enc->dpu_kms, &irq->irq_idx, 1);
+> +	ret = dpu_core_irq_disable(phys_enc->dpu_kms, irq->irq_idx);
+>   	if (ret) {
+>   		DRM_ERROR("disable failed id=%u, intr=%d, hw=%d, irq=%d ret=%d",
+>   			  DRMID(phys_enc->parent), intr_idx, irq->hw_idx,
+> 
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-
---3IfvASNhiwx88RBVq1fNSK77mA0JaFV5G--
-
---givjFbxjUnbMn3XKm0wxNJnd1mKLYaJSI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmChfAcFAwAAAAAACgkQlh/E3EQov+DN
-jA/9Hb6H5MGsHFTbRFJxNkfFQUYDtqiZcxkbGUfZlKwCBP4nvoDuYdk4jtm4La+YNbaivWDCPm7Q
-dbJ2ffpzquMblmWDM6k8j37xRTxWepUlcee+gDgcihI/8STjYUT9TGSZ30XkwOcSbhwYDqShsdXS
-TaBs2Cbvkr48NTRsNibVOutYwGt3Y/RIz9uVvJJPUsHugDk6g/+Zj/xmrw4phnljRU2FJ8y60Uy5
-Y5qK6e2ZuCaH4sY6H7ptVcn1igaHuwqD8ASd2bETM0eNXGXy4gr0kX2T+oYsdN/o15Lt+tRcIPrw
-T/mqTGUGTH9uIgROaDA8upaLKUvE1Eb6+ZiFh5sVXtJZT4iL6TjaO4lP8U9YAWmiSrqZpqy92AlH
-CZD8uXoLA8EdSaSO6VY5n+OMLo19n0uw1Q69LhW35En//7Dnyp2lQmARGZbYbEs4YoGkAtgoSVjd
-GVSEcuxvvqCsURqoghlFbuCN1BPkiWKIR1lTdhB/Rk3wz42wWJI9b3F/R9l964t3zqdV3gBXksG3
-J7OCa6nAn6uD7c6ZusRfZY5bSUAxhEfPCJDC4mVxVex+LBjxp6S08Ow9sqKM8RPM7MuqpXd0uzNb
-yOsAMLrPOut61chGgIvMMOLpgLXf3CtNQ9JMC9fAyrlM2jddgZLv0QRYjfuv1ALZ80Sld9dtsJuI
-0eY=
-=4PFJ
------END PGP SIGNATURE-----
-
---givjFbxjUnbMn3XKm0wxNJnd1mKLYaJSI--
+-- 
+With best wishes
+Dmitry
