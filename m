@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4267E3820F9
-	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 22:29:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C013820FB
+	for <lists+dri-devel@lfdr.de>; Sun, 16 May 2021 22:29:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 002856E8A4;
-	Sun, 16 May 2021 20:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327FE6E8A9;
+	Sun, 16 May 2021 20:29:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A34F66E8A2
- for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 20:29:26 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id v9so4402031lfa.4
- for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 13:29:26 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 906C46E8A5
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 20:29:27 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id q7so4413063lfr.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 13:29:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pf/yv27D6QdKreJjAag+I5cfzpfmSbddEEHrmEBfkg8=;
- b=qd1IOq2nO4ki1f4cZkhF5/5lndeLGuW8E0RofwuAEo/FaM/zeGemaDH82DhGGxZI4W
- l2BoFFKgJY5N3e8tFDVnxru5SYlMUMgE2r4dyA+VSi2V6XEZl6+7rdIvQE9GNmyqh4ai
- ZsFvbkGNmiThVx2A4lwH4dwLIKFBqxAIdekiXIo+qrUqSVfN4CankQrCzZuWy3Oxe11R
- 3za/+3Hb7Pph3SlVWDrKZH/ohmTPXZumB1Lm/gPuJaTl+IjoR4QuOu8oRQNBpYJl3iTF
- gFcJi4DuJ4WYe1oAWyQk9v5VDOP3hyFW5DydjwhkFog2jWQ7jqhfqO0ak8GF7E5om2fq
- qWCw==
+ bh=nQ0RNViDE9wid39iCFtNijq/IOWNIIlnl1E012JpwiI=;
+ b=yRzcNM6mJk0GAwzQ0zeSCaYwz6McCoVYVYna7Gugi/gqFYgMyxCpbg9LHyRAw+DtZL
+ W+nxtFew5T+pNwH9Fg0UnKnt+Oc4O8LtwfjYAoOiDw7KnCZSRPVYwL4CXI6bE/KXuVWE
+ B666f4YwD7Wut39N2Pg4IU2ks90NPuI2EvVsc6lusLmyQfpr9KW+GWmf9biTKXuQKHfa
+ sfxIBuNUg6etOVDBuNOD7l8KN2zZsZ15w5vPY2G3EJvLopG6k6XqmGnmwaO5QC93lEdk
+ QlZM77rw6UKOSGSkwTCyo5o+W/ipQ1wchyEHO/t0uYTHdgxvh0eua8vJ7mwSovGKISHP
+ uqzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pf/yv27D6QdKreJjAag+I5cfzpfmSbddEEHrmEBfkg8=;
- b=dlqJ9ZuUuj8lRq6s4K+nZVG+2geZaakbxi7Acviu9aekoyupd88JRC3KCYtNNz/xdB
- J//jeX7OJE7NN8L6g+8InGiFllkmZixiDdQkUouYeTJeN7IsYnCCe3rqPwyM+FZ0b4OS
- dAdnyDV1Ov6se0l9t6YkU3h1KDHbE8y+MAuByKV6KSiYbB7nKlVxShur2obmKedP0Lj6
- peig+HDpzD0+oxTeSHG/s21JLSd+4dY35yuP1v+7a+AFbRwtsfROAgXeIdd8yKmuZ3Q7
- w6GCJU/bINlos7shn5twQk61lBCXquJXsgV0Rz16P3uTeyTXaivL6zoexLGzcl7f+aZs
- Q/1w==
-X-Gm-Message-State: AOAM531LPlEc6gas3hS1WKKrM7gmj6RqBPWbRMCkh2rTxF3IcG/+mM+X
- JknbAXpoEKGRGQwdTlrJ/YQX6w==
-X-Google-Smtp-Source: ABdhPJzw4xXkAq0YKU8b9tPRe/H8MkdYTfDjNIp+6EyZS97xshRksA/VdY/t6YKeYr1q7LUaTH/U1A==
-X-Received: by 2002:a05:6512:312b:: with SMTP id
- p11mr40426153lfd.74.1621196964810; 
- Sun, 16 May 2021 13:29:24 -0700 (PDT)
+ bh=nQ0RNViDE9wid39iCFtNijq/IOWNIIlnl1E012JpwiI=;
+ b=iKbfP8j5xVUtIf0nysWKm1qEMEwdLrmzKOQHHpz/5N6Ei6keyUgOl7X0sNmPY3c7uX
+ IcP56BiHzQKVNx45tYP2VfVk2FQsfezPpqs+EZXIN/skPf3HufFclUj3QLRW1iQCb6wI
+ Hv6HusmsY9ffrOxPyXcHp71DsZtGw0Siy95tVdwS87El/SbsEn/np8LKVARNp4aox8B8
+ 3LpPBbm9+OErP4THh+KM49DRL8CzJJmkjqiqRmTGd9WW2nrZGjULnKBaygh0i6yZu0Bx
+ YQE5oz9IZRHOXJZ41jLkIci1BAi2oC+OnG3XEv56qYMaKVWYwC1wte2TtbyOnIS0SSHg
+ L7BA==
+X-Gm-Message-State: AOAM532hq7hUbJ7Lyrn9ei3TqKr56xUp0qWWpW/P5BpwPbRpzAdkgBE8
+ KEkW9/RL5LITKXa4OKa5PLOs+A==
+X-Google-Smtp-Source: ABdhPJycao9AYmhzodDzcpTCvqWjVVhmusMNL3rpMJyRzs4RrOCwHPj6Z3iD+ztVKc2q7ET1RnmL5g==
+X-Received: by 2002:a19:ed17:: with SMTP id y23mr2795718lfy.373.1621196965545; 
+ Sun, 16 May 2021 13:29:25 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id l10sm2629795ljc.132.2021.05.16.13.29.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 13:29:24 -0700 (PDT)
+ Sun, 16 May 2021 13:29:25 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 5/6] drm/msm/dpu: drop remains of old irq lookup subsystem
-Date: Sun, 16 May 2021 23:29:10 +0300
-Message-Id: <20210516202910.2141079-6-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 6/6] drm/msm/dpu: simplify IRQ enabling/disabling
+Date: Sun, 16 May 2021 23:29:11 +0300
+Message-Id: <20210516202910.2141079-7-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210516202910.2141079-1-dmitry.baryshkov@linaro.org>
 References: <20210516202910.2141079-1-dmitry.baryshkov@linaro.org>
@@ -76,1497 +75,381 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no more need for the dpu_intr_type types, dpu_irq_map table,
-individual intr defines and obsolete_irq field. Drop all of them now.
+Merge dpu_core_irq_enable() into dpu_core_irq_register_callback() and
+dpu_core_irq_disable() into dpu_core_irq_unregister_callback(), because
+they are called in pairs. There is no need to have separate
+enable/disable pair, we can enable hardware IRQ when first callback is
+registered and when the last callback is unregistered.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |    2 -
- .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |    4 -
- .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |    2 -
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |    9 -
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |    2 -
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 1234 -----------------
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |   64 -
- 7 files changed, 1317 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c | 168 +++----------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h |  30 ----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c  |  18 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h      |   2 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h    |   8 -
+ 5 files changed, 27 insertions(+), 199 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 3bd12ce45a80..e7270eb6b84b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -165,7 +165,6 @@ enum dpu_intr_idx {
- /**
-  * dpu_encoder_irq - tracking structure for interrupts
-  * @name:		string name of interrupt
-- * @intr_type:		Encoder interrupt type
-  * @intr_idx:		Encoder interrupt enumeration
-  * @irq_idx:		IRQ interface lookup index from DPU IRQ framework
-  *			will be -EINVAL if IRQ is not registered
-@@ -173,7 +172,6 @@ enum dpu_intr_idx {
-  */
- struct dpu_encoder_irq {
- 	const char *name;
--	enum dpu_intr_type intr_type;
- 	enum dpu_intr_idx intr_idx;
- 	int irq_idx;
- 	struct dpu_irq_callback cb;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index 6f06e379b97f..36064004d6ff 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -789,25 +789,21 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
+index 11c0abed21ee..4f110c428b60 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
+@@ -26,10 +26,8 @@ static void dpu_core_irq_callback_handler(void *arg, int irq_idx)
  
- 	irq = &phys_enc->irq[INTR_IDX_CTL_START];
- 	irq->name = "ctl_start";
--	irq->intr_type = DPU_IRQ_TYPE_CTL_START;
- 	irq->intr_idx = INTR_IDX_CTL_START;
- 	irq->cb.func = dpu_encoder_phys_cmd_ctl_start_irq;
+ 	pr_debug("irq_idx=%d\n", irq_idx);
  
- 	irq = &phys_enc->irq[INTR_IDX_PINGPONG];
- 	irq->name = "pp_done";
--	irq->intr_type = DPU_IRQ_TYPE_PING_PONG_COMP;
- 	irq->intr_idx = INTR_IDX_PINGPONG;
- 	irq->cb.func = dpu_encoder_phys_cmd_pp_tx_done_irq;
+-	if (list_empty(&irq_obj->irq_cb_tbl[irq_idx])) {
+-		DRM_ERROR("no registered cb, idx:%d enable_count:%d\n", irq_idx,
+-			atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idx]));
+-	}
++	if (list_empty(&irq_obj->irq_cb_tbl[irq_idx]))
++		DRM_ERROR("no registered cb, idx:%d\n", irq_idx);
  
- 	irq = &phys_enc->irq[INTR_IDX_RDPTR];
- 	irq->name = "pp_rd_ptr";
--	irq->intr_type = DPU_IRQ_TYPE_PING_PONG_RD_PTR;
- 	irq->intr_idx = INTR_IDX_RDPTR;
- 	irq->cb.func = dpu_encoder_phys_cmd_pp_rd_ptr_irq;
+ 	atomic_inc(&irq_obj->irq_counts[irq_idx]);
  
- 	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
- 	irq->name = "underrun";
--	irq->intr_type = DPU_IRQ_TYPE_INTF_UNDER_RUN;
- 	irq->intr_idx = INTR_IDX_UNDERRUN;
- 	irq->cb.func = dpu_encoder_phys_cmd_underrun_irq;
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 6cdb4ecbc173..4ef3d7357c2d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -729,13 +729,11 @@ struct dpu_encoder_phys *dpu_encoder_phys_vid_init(
- 
- 	irq = &phys_enc->irq[INTR_IDX_VSYNC];
- 	irq->name = "vsync_irq";
--	irq->intr_type = DPU_IRQ_TYPE_INTF_VSYNC;
- 	irq->intr_idx = INTR_IDX_VSYNC;
- 	irq->cb.func = dpu_encoder_phys_vid_vblank_irq;
- 
- 	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
- 	irq->name = "underrun";
--	irq->intr_type = DPU_IRQ_TYPE_INTF_UNDER_RUN;
- 	irq->intr_idx = INTR_IDX_UNDERRUN;
- 	irq->cb.func = dpu_encoder_phys_vid_underrun_irq;
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index f929131ed260..d01c4c919504 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -74,13 +74,6 @@
- 			 BIT(MDP_INTF0_INTR) | \
- 			 BIT(MDP_INTF1_INTR))
- 
--#define INTR_SC7180_MASK \
--	(BIT(DPU_IRQ_TYPE_PING_PONG_RD_PTR) |\
--	BIT(DPU_IRQ_TYPE_PING_PONG_WR_PTR) |\
--	BIT(DPU_IRQ_TYPE_PING_PONG_AUTO_REF) |\
--	BIT(DPU_IRQ_TYPE_PING_PONG_TEAR_CHECK) |\
--	BIT(DPU_IRQ_TYPE_PING_PONG_TE_CHECK))
--
- #define IRQ_SC7280_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
- 			 BIT(MDP_SSPP_TOP0_INTR2) | \
- 			 BIT(MDP_SSPP_TOP0_HIST_INTR) | \
-@@ -1171,7 +1164,6 @@ static void sc7180_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 		.dma_cfg = sdm845_regdma,
- 		.perf = sc7180_perf_data,
- 		.mdss_irqs = IRQ_SC7180_MASK,
--		.obsolete_irq = INTR_SC7180_MASK,
- 	};
+@@ -43,127 +41,6 @@ static void dpu_core_irq_callback_handler(void *arg, int irq_idx)
+ 	spin_unlock_irqrestore(&dpu_kms->irq_obj.cb_lock, irq_flags);
  }
  
-@@ -1261,7 +1253,6 @@ static void sc7280_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 		.vbif = sdm845_vbif,
- 		.perf = sc7280_perf_data,
- 		.mdss_irqs = IRQ_SC7280_MASK,
--		.obsolete_irq = INTR_SC7180_MASK,
- 	};
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 316da2971320..7c86fdd14493 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -733,7 +733,6 @@ struct dpu_perf_cfg {
-  * @cursor_formats     Supported formats for cursor pipe
-  * @vig_formats        Supported formats for vig pipe
-  * @mdss_irqs:         Bitmap with the irqs supported by the target
-- * @obsolete_irq:       Irq types that are obsolete for a particular target
-  */
- struct dpu_mdss_cfg {
- 	u32 hwversion;
-@@ -780,7 +779,6 @@ struct dpu_mdss_cfg {
- 	const struct dpu_format_extended *vig_formats;
- 
- 	unsigned long mdss_irqs;
--	unsigned long obsolete_irq;
- };
- 
- struct dpu_mdss_hw_cfg_handler {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-index adc1f04ac257..ef16ba57aac1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-@@ -29,145 +29,6 @@
- #define MDP_INTF_1_OFF_REV_7xxx             0x35000
- #define MDP_INTF_5_OFF_REV_7xxx             0x39000
- 
 -/**
-- * WB interrupt status bit definitions
+- * _dpu_core_irq_enable - enable core interrupt given by the index
+- * @dpu_kms:		Pointer to dpu kms context
+- * @irq_idx:		interrupt index
 - */
--#define DPU_INTR_WB_0_DONE BIT(0)
--#define DPU_INTR_WB_1_DONE BIT(1)
--#define DPU_INTR_WB_2_DONE BIT(4)
+-static int _dpu_core_irq_enable(struct dpu_kms *dpu_kms, int irq_idx)
+-{
+-	unsigned long irq_flags;
+-	int ret = 0, enable_count;
+-
+-	if (!dpu_kms->hw_intr ||
+-			!dpu_kms->irq_obj.enable_counts ||
+-			!dpu_kms->irq_obj.irq_counts) {
+-		DPU_ERROR("invalid params\n");
+-		return -EINVAL;
+-	}
+-
+-	if (irq_idx < 0 || irq_idx >= dpu_kms->hw_intr->total_irqs) {
+-		DPU_ERROR("invalid IRQ index: [%d]\n", irq_idx);
+-		return -EINVAL;
+-	}
+-
+-	enable_count = atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idx]);
+-	DRM_DEBUG_KMS("irq_idx=%d enable_count=%d\n", irq_idx, enable_count);
+-	trace_dpu_core_irq_enable_idx(irq_idx, enable_count);
+-
+-	if (atomic_inc_return(&dpu_kms->irq_obj.enable_counts[irq_idx]) == 1) {
+-		ret = dpu_kms->hw_intr->ops.enable_irq(
+-				dpu_kms->hw_intr,
+-				irq_idx);
+-		if (ret)
+-			DPU_ERROR("Fail to enable IRQ for irq_idx:%d\n",
+-					irq_idx);
+-
+-		DPU_DEBUG("irq_idx=%d ret=%d\n", irq_idx, ret);
+-
+-		spin_lock_irqsave(&dpu_kms->irq_obj.cb_lock, irq_flags);
+-		/* empty callback list but interrupt is enabled */
+-		if (list_empty(&dpu_kms->irq_obj.irq_cb_tbl[irq_idx]))
+-			DPU_ERROR("irq_idx=%d enabled with no callback\n",
+-					irq_idx);
+-		spin_unlock_irqrestore(&dpu_kms->irq_obj.cb_lock, irq_flags);
+-	}
+-
+-	return ret;
+-}
+-
+-int dpu_core_irq_enable(struct dpu_kms *dpu_kms, int *irq_idxs, u32 irq_count)
+-{
+-	int i, ret = 0, counts;
+-
+-	if (!irq_idxs || !irq_count) {
+-		DPU_ERROR("invalid params\n");
+-		return -EINVAL;
+-	}
+-
+-	counts = atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idxs[0]]);
+-	if (counts)
+-		DRM_ERROR("irq_idx=%d enable_count=%d\n", irq_idxs[0], counts);
+-
+-	for (i = 0; (i < irq_count) && !ret; i++)
+-		ret = _dpu_core_irq_enable(dpu_kms, irq_idxs[i]);
+-
+-	return ret;
+-}
 -
 -/**
-- * WDOG timer interrupt status bit definitions
+- * _dpu_core_irq_disable - disable core interrupt given by the index
+- * @dpu_kms:		Pointer to dpu kms context
+- * @irq_idx:		interrupt index
 - */
--#define DPU_INTR_WD_TIMER_0_DONE BIT(2)
--#define DPU_INTR_WD_TIMER_1_DONE BIT(3)
--#define DPU_INTR_WD_TIMER_2_DONE BIT(5)
--#define DPU_INTR_WD_TIMER_3_DONE BIT(6)
--#define DPU_INTR_WD_TIMER_4_DONE BIT(7)
+-static int _dpu_core_irq_disable(struct dpu_kms *dpu_kms, int irq_idx)
+-{
+-	int ret = 0, enable_count;
 -
--/**
-- * Pingpong interrupt status bit definitions
-- */
--#define DPU_INTR_PING_PONG_0_DONE BIT(8)
--#define DPU_INTR_PING_PONG_1_DONE BIT(9)
--#define DPU_INTR_PING_PONG_2_DONE BIT(10)
--#define DPU_INTR_PING_PONG_3_DONE BIT(11)
--#define DPU_INTR_PING_PONG_0_RD_PTR BIT(12)
--#define DPU_INTR_PING_PONG_1_RD_PTR BIT(13)
--#define DPU_INTR_PING_PONG_2_RD_PTR BIT(14)
--#define DPU_INTR_PING_PONG_3_RD_PTR BIT(15)
--#define DPU_INTR_PING_PONG_0_WR_PTR BIT(16)
--#define DPU_INTR_PING_PONG_1_WR_PTR BIT(17)
--#define DPU_INTR_PING_PONG_2_WR_PTR BIT(18)
--#define DPU_INTR_PING_PONG_3_WR_PTR BIT(19)
--#define DPU_INTR_PING_PONG_0_AUTOREFRESH_DONE BIT(20)
--#define DPU_INTR_PING_PONG_1_AUTOREFRESH_DONE BIT(21)
--#define DPU_INTR_PING_PONG_2_AUTOREFRESH_DONE BIT(22)
--#define DPU_INTR_PING_PONG_3_AUTOREFRESH_DONE BIT(23)
+-	if (!dpu_kms->hw_intr || !dpu_kms->irq_obj.enable_counts) {
+-		DPU_ERROR("invalid params\n");
+-		return -EINVAL;
+-	}
 -
--/**
-- * Interface interrupt status bit definitions
-- */
--#define DPU_INTR_INTF_0_UNDERRUN BIT(24)
--#define DPU_INTR_INTF_1_UNDERRUN BIT(26)
--#define DPU_INTR_INTF_2_UNDERRUN BIT(28)
--#define DPU_INTR_INTF_3_UNDERRUN BIT(30)
--#define DPU_INTR_INTF_5_UNDERRUN BIT(22)
--#define DPU_INTR_INTF_0_VSYNC BIT(25)
--#define DPU_INTR_INTF_1_VSYNC BIT(27)
--#define DPU_INTR_INTF_2_VSYNC BIT(29)
--#define DPU_INTR_INTF_3_VSYNC BIT(31)
--#define DPU_INTR_INTF_5_VSYNC BIT(23)
+-	if (irq_idx < 0 || irq_idx >= dpu_kms->hw_intr->total_irqs) {
+-		DPU_ERROR("invalid IRQ index: [%d]\n", irq_idx);
+-		return -EINVAL;
+-	}
 -
--/**
-- * Pingpong Secondary interrupt status bit definitions
-- */
--#define DPU_INTR_PING_PONG_S0_AUTOREFRESH_DONE BIT(0)
--#define DPU_INTR_PING_PONG_S0_WR_PTR BIT(4)
--#define DPU_INTR_PING_PONG_S0_RD_PTR BIT(8)
--#define DPU_INTR_PING_PONG_S0_TEAR_DETECTED BIT(22)
--#define DPU_INTR_PING_PONG_S0_TE_DETECTED BIT(28)
+-	enable_count = atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idx]);
+-	DRM_DEBUG_KMS("irq_idx=%d enable_count=%d\n", irq_idx, enable_count);
+-	trace_dpu_core_irq_disable_idx(irq_idx, enable_count);
 -
--/**
-- * Pingpong TEAR detection interrupt status bit definitions
-- */
--#define DPU_INTR_PING_PONG_0_TEAR_DETECTED BIT(16)
--#define DPU_INTR_PING_PONG_1_TEAR_DETECTED BIT(17)
--#define DPU_INTR_PING_PONG_2_TEAR_DETECTED BIT(18)
--#define DPU_INTR_PING_PONG_3_TEAR_DETECTED BIT(19)
+-	if (atomic_dec_return(&dpu_kms->irq_obj.enable_counts[irq_idx]) == 0) {
+-		ret = dpu_kms->hw_intr->ops.disable_irq(
+-				dpu_kms->hw_intr,
+-				irq_idx);
+-		if (ret)
+-			DPU_ERROR("Fail to disable IRQ for irq_idx:%d\n",
+-					irq_idx);
+-		DPU_DEBUG("irq_idx=%d ret=%d\n", irq_idx, ret);
+-	}
 -
--/**
-- * Pingpong TE detection interrupt status bit definitions
-- */
--#define DPU_INTR_PING_PONG_0_TE_DETECTED BIT(24)
--#define DPU_INTR_PING_PONG_1_TE_DETECTED BIT(25)
--#define DPU_INTR_PING_PONG_2_TE_DETECTED BIT(26)
--#define DPU_INTR_PING_PONG_3_TE_DETECTED BIT(27)
+-	return ret;
+-}
 -
--/**
-- * Ctl start interrupt status bit definitions
-- */
--#define DPU_INTR_CTL_0_START BIT(9)
--#define DPU_INTR_CTL_1_START BIT(10)
--#define DPU_INTR_CTL_2_START BIT(11)
--#define DPU_INTR_CTL_3_START BIT(12)
--#define DPU_INTR_CTL_4_START BIT(13)
+-int dpu_core_irq_disable(struct dpu_kms *dpu_kms, int *irq_idxs, u32 irq_count)
+-{
+-	int i, ret = 0, counts;
 -
--/**
-- * Concurrent WB overflow interrupt status bit definitions
-- */
--#define DPU_INTR_CWB_2_OVERFLOW BIT(14)
--#define DPU_INTR_CWB_3_OVERFLOW BIT(15)
+-	if (!irq_idxs || !irq_count) {
+-		DPU_ERROR("invalid params\n");
+-		return -EINVAL;
+-	}
 -
--/**
-- * Histogram VIG done interrupt status bit definitions
-- */
--#define DPU_INTR_HIST_VIG_0_DONE BIT(0)
--#define DPU_INTR_HIST_VIG_1_DONE BIT(4)
--#define DPU_INTR_HIST_VIG_2_DONE BIT(8)
--#define DPU_INTR_HIST_VIG_3_DONE BIT(10)
+-	counts = atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idxs[0]]);
+-	if (counts == 2)
+-		DRM_ERROR("irq_idx=%d enable_count=%d\n", irq_idxs[0], counts);
 -
--/**
-- * Histogram VIG reset Sequence done interrupt status bit definitions
-- */
--#define DPU_INTR_HIST_VIG_0_RSTSEQ_DONE BIT(1)
--#define DPU_INTR_HIST_VIG_1_RSTSEQ_DONE BIT(5)
--#define DPU_INTR_HIST_VIG_2_RSTSEQ_DONE BIT(9)
--#define DPU_INTR_HIST_VIG_3_RSTSEQ_DONE BIT(11)
+-	for (i = 0; (i < irq_count) && !ret; i++)
+-		ret = _dpu_core_irq_disable(dpu_kms, irq_idxs[i]);
 -
--/**
-- * Histogram DSPP done interrupt status bit definitions
-- */
--#define DPU_INTR_HIST_DSPP_0_DONE BIT(12)
--#define DPU_INTR_HIST_DSPP_1_DONE BIT(16)
--#define DPU_INTR_HIST_DSPP_2_DONE BIT(20)
--#define DPU_INTR_HIST_DSPP_3_DONE BIT(22)
+-	return ret;
+-}
 -
--/**
-- * Histogram DSPP reset Sequence done interrupt status bit definitions
-- */
--#define DPU_INTR_HIST_DSPP_0_RSTSEQ_DONE BIT(13)
--#define DPU_INTR_HIST_DSPP_1_RSTSEQ_DONE BIT(17)
--#define DPU_INTR_HIST_DSPP_2_RSTSEQ_DONE BIT(21)
--#define DPU_INTR_HIST_DSPP_3_RSTSEQ_DONE BIT(23)
--
--/**
-- * INTF interrupt status bit definitions
-- */
--#define DPU_INTR_VIDEO_INTO_STATIC BIT(0)
--#define DPU_INTR_VIDEO_OUTOF_STATIC BIT(1)
--#define DPU_INTR_DSICMD_0_INTO_STATIC BIT(2)
--#define DPU_INTR_DSICMD_0_OUTOF_STATIC BIT(3)
--#define DPU_INTR_DSICMD_1_INTO_STATIC BIT(4)
--#define DPU_INTR_DSICMD_1_OUTOF_STATIC BIT(5)
--#define DPU_INTR_DSICMD_2_INTO_STATIC BIT(6)
--#define DPU_INTR_DSICMD_2_OUTOF_STATIC BIT(7)
--#define DPU_INTR_PROG_LINE BIT(8)
--
--/**
-- * AD4 interrupt status bit definitions
-- */
--#define DPU_INTR_BACKLIGHT_UPDATED BIT(0)
- /**
-  * struct dpu_intr_reg - array of DPU register sets
-  * @clr_off:	offset to CLEAR reg
-@@ -180,20 +41,6 @@ struct dpu_intr_reg {
- 	u32 status_off;
- };
- 
--/**
-- * struct dpu_irq_type - maps each irq with i/f
-- * @intr_type:		type of interrupt listed in dpu_intr_type
-- * @instance_idx:	instance index of the associated HW block in DPU
-- * @irq_mask:		corresponding bit in the interrupt status reg
-- * @reg_idx:		which reg set to use
-- */
--struct dpu_irq_type {
--	u32 intr_type;
--	u32 instance_idx;
--	u32 irq_mask;
--	u32 reg_idx;
--};
--
- /*
-  * struct dpu_intr_reg -  List of DPU interrupt registers
-  *
-@@ -270,1086 +117,6 @@ static const struct dpu_intr_reg dpu_intr_set[] = {
- #define DPU_IRQ_REG(irq_idx)	(irq_idx / 32)
- #define DPU_IRQ_MASK(irq_idx)	(BIT(irq_idx % 32))
- 
--/*
-- * struct dpu_irq_type - IRQ mapping table use for lookup an irq_idx in this
-- *			 table that have a matching interface type and
-- *			 instance index.
-- */
--static const struct dpu_irq_type dpu_irq_map[] = {
--	/* BEGIN MAP_RANGE: 0-31, INTR */
--	/* irq_idx: 0-3 */
--	{ DPU_IRQ_TYPE_WB_ROT_COMP, WB_0, DPU_INTR_WB_0_DONE, 0},
--	{ DPU_IRQ_TYPE_WB_ROT_COMP, WB_1, DPU_INTR_WB_1_DONE, 0},
--	{ DPU_IRQ_TYPE_WD_TIMER, WD_TIMER_0, DPU_INTR_WD_TIMER_0_DONE, 0},
--	{ DPU_IRQ_TYPE_WD_TIMER, WD_TIMER_1, DPU_INTR_WD_TIMER_1_DONE, 0},
--	/* irq_idx: 4-7 */
--	{ DPU_IRQ_TYPE_WB_WFD_COMP, WB_2, DPU_INTR_WB_2_DONE, 0},
--	{ DPU_IRQ_TYPE_WD_TIMER, WD_TIMER_2, DPU_INTR_WD_TIMER_2_DONE, 0},
--	{ DPU_IRQ_TYPE_WD_TIMER, WD_TIMER_3, DPU_INTR_WD_TIMER_3_DONE, 0},
--	{ DPU_IRQ_TYPE_WD_TIMER, WD_TIMER_4, DPU_INTR_WD_TIMER_4_DONE, 0},
--	/* irq_idx: 8-11 */
--	{ DPU_IRQ_TYPE_PING_PONG_COMP, PINGPONG_0,
--		DPU_INTR_PING_PONG_0_DONE, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_COMP, PINGPONG_1,
--		DPU_INTR_PING_PONG_1_DONE, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_COMP, PINGPONG_2,
--		DPU_INTR_PING_PONG_2_DONE, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_COMP, PINGPONG_3,
--		DPU_INTR_PING_PONG_3_DONE, 0},
--	/* irq_idx: 12-15 */
--	{ DPU_IRQ_TYPE_PING_PONG_RD_PTR, PINGPONG_0,
--		DPU_INTR_PING_PONG_0_RD_PTR, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_RD_PTR, PINGPONG_1,
--		DPU_INTR_PING_PONG_1_RD_PTR, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_RD_PTR, PINGPONG_2,
--		DPU_INTR_PING_PONG_2_RD_PTR, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_RD_PTR, PINGPONG_3,
--		DPU_INTR_PING_PONG_3_RD_PTR, 0},
--	/* irq_idx: 16-19 */
--	{ DPU_IRQ_TYPE_PING_PONG_WR_PTR, PINGPONG_0,
--		DPU_INTR_PING_PONG_0_WR_PTR, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_WR_PTR, PINGPONG_1,
--		DPU_INTR_PING_PONG_1_WR_PTR, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_WR_PTR, PINGPONG_2,
--		DPU_INTR_PING_PONG_2_WR_PTR, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_WR_PTR, PINGPONG_3,
--		DPU_INTR_PING_PONG_3_WR_PTR, 0},
--	/* irq_idx: 20-23 */
--	{ DPU_IRQ_TYPE_PING_PONG_AUTO_REF, PINGPONG_0,
--		DPU_INTR_PING_PONG_0_AUTOREFRESH_DONE, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_AUTO_REF, PINGPONG_1,
--		DPU_INTR_PING_PONG_1_AUTOREFRESH_DONE, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_AUTO_REF, PINGPONG_2,
--		DPU_INTR_PING_PONG_2_AUTOREFRESH_DONE, 0},
--	{ DPU_IRQ_TYPE_PING_PONG_AUTO_REF, PINGPONG_3,
--		DPU_INTR_PING_PONG_3_AUTOREFRESH_DONE, 0},
--	/* irq_idx: 24-27 */
--	{ DPU_IRQ_TYPE_INTF_UNDER_RUN, INTF_0, DPU_INTR_INTF_0_UNDERRUN, 0},
--	{ DPU_IRQ_TYPE_INTF_VSYNC, INTF_0, DPU_INTR_INTF_0_VSYNC, 0},
--	{ DPU_IRQ_TYPE_INTF_UNDER_RUN, INTF_1, DPU_INTR_INTF_1_UNDERRUN, 0},
--	{ DPU_IRQ_TYPE_INTF_VSYNC, INTF_1, DPU_INTR_INTF_1_VSYNC, 0},
--	/* irq_idx: 28-31 */
--	{ DPU_IRQ_TYPE_INTF_UNDER_RUN, INTF_2, DPU_INTR_INTF_2_UNDERRUN, 0},
--	{ DPU_IRQ_TYPE_INTF_VSYNC, INTF_2, DPU_INTR_INTF_2_VSYNC, 0},
--	{ DPU_IRQ_TYPE_INTF_UNDER_RUN, INTF_3, DPU_INTR_INTF_3_UNDERRUN, 0},
--	{ DPU_IRQ_TYPE_INTF_VSYNC, INTF_3, DPU_INTR_INTF_3_VSYNC, 0},
--	/* irq_idx:32-33 */
--	{ DPU_IRQ_TYPE_INTF_UNDER_RUN, INTF_5, DPU_INTR_INTF_5_UNDERRUN, 0},
--	{ DPU_IRQ_TYPE_INTF_VSYNC, INTF_5, DPU_INTR_INTF_5_VSYNC, 0},
--	/* irq_idx:34-63 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 0},
--	/* BEGIN MAP_RANGE: 64-95, INTR2 */
--	/* irq_idx: 64-67 */
--	{ DPU_IRQ_TYPE_PING_PONG_AUTO_REF, PINGPONG_S0,
--		DPU_INTR_PING_PONG_S0_AUTOREFRESH_DONE, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	/* irq_idx: 68-71 */
--	{ DPU_IRQ_TYPE_PING_PONG_WR_PTR, PINGPONG_S0,
--		DPU_INTR_PING_PONG_S0_WR_PTR, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	/* irq_idx: 72 */
--	{ DPU_IRQ_TYPE_PING_PONG_RD_PTR, PINGPONG_S0,
--		DPU_INTR_PING_PONG_S0_RD_PTR, 1},
--	/* irq_idx: 73-77 */
--	{ DPU_IRQ_TYPE_CTL_START, CTL_0,
--		DPU_INTR_CTL_0_START, 1},
--	{ DPU_IRQ_TYPE_CTL_START, CTL_1,
--		DPU_INTR_CTL_1_START, 1},
--	{ DPU_IRQ_TYPE_CTL_START, CTL_2,
--		DPU_INTR_CTL_2_START, 1},
--	{ DPU_IRQ_TYPE_CTL_START, CTL_3,
--		DPU_INTR_CTL_3_START, 1},
--	{ DPU_IRQ_TYPE_CTL_START, CTL_4,
--		DPU_INTR_CTL_4_START, 1},
--	/* irq_idx: 78-79 */
--	{ DPU_IRQ_TYPE_CWB_OVERFLOW, CWB_2, DPU_INTR_CWB_2_OVERFLOW, 1},
--	{ DPU_IRQ_TYPE_CWB_OVERFLOW, CWB_3, DPU_INTR_CWB_3_OVERFLOW, 1},
--	/* irq_idx: 80-83 */
--	{ DPU_IRQ_TYPE_PING_PONG_TEAR_CHECK, PINGPONG_0,
--		DPU_INTR_PING_PONG_0_TEAR_DETECTED, 1},
--	{ DPU_IRQ_TYPE_PING_PONG_TEAR_CHECK, PINGPONG_1,
--		DPU_INTR_PING_PONG_1_TEAR_DETECTED, 1},
--	{ DPU_IRQ_TYPE_PING_PONG_TEAR_CHECK, PINGPONG_2,
--		DPU_INTR_PING_PONG_2_TEAR_DETECTED, 1},
--	{ DPU_IRQ_TYPE_PING_PONG_TEAR_CHECK, PINGPONG_3,
--		DPU_INTR_PING_PONG_3_TEAR_DETECTED, 1},
--	/* irq_idx: 84-87 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_PING_PONG_TEAR_CHECK, PINGPONG_S0,
--		DPU_INTR_PING_PONG_S0_TEAR_DETECTED, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	/* irq_idx: 88-91 */
--	{ DPU_IRQ_TYPE_PING_PONG_TE_CHECK, PINGPONG_0,
--		DPU_INTR_PING_PONG_0_TE_DETECTED, 1},
--	{ DPU_IRQ_TYPE_PING_PONG_TE_CHECK, PINGPONG_1,
--		DPU_INTR_PING_PONG_1_TE_DETECTED, 1},
--	{ DPU_IRQ_TYPE_PING_PONG_TE_CHECK, PINGPONG_2,
--		DPU_INTR_PING_PONG_2_TE_DETECTED, 1},
--	{ DPU_IRQ_TYPE_PING_PONG_TE_CHECK, PINGPONG_3,
--		DPU_INTR_PING_PONG_3_TE_DETECTED, 1},
--	/* irq_idx: 92-95 */
--	{ DPU_IRQ_TYPE_PING_PONG_TE_CHECK, PINGPONG_S0,
--		DPU_INTR_PING_PONG_S0_TE_DETECTED, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	/* irq_idx: 96-127 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 1},
--	/* BEGIN MAP_RANGE: 128-159 HIST */
--	/* irq_idx: 128-131 */
--	{ DPU_IRQ_TYPE_HIST_VIG_DONE, SSPP_VIG0, DPU_INTR_HIST_VIG_0_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_VIG_RSTSEQ, SSPP_VIG0,
--		DPU_INTR_HIST_VIG_0_RSTSEQ_DONE, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	/* irq_idx: 132-135 */
--	{ DPU_IRQ_TYPE_HIST_VIG_DONE, SSPP_VIG1, DPU_INTR_HIST_VIG_1_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_VIG_RSTSEQ, SSPP_VIG1,
--		DPU_INTR_HIST_VIG_1_RSTSEQ_DONE, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	/* irq_idx: 136-139 */
--	{ DPU_IRQ_TYPE_HIST_VIG_DONE, SSPP_VIG2, DPU_INTR_HIST_VIG_2_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_VIG_RSTSEQ, SSPP_VIG2,
--		DPU_INTR_HIST_VIG_2_RSTSEQ_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_VIG_DONE, SSPP_VIG3, DPU_INTR_HIST_VIG_3_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_VIG_RSTSEQ, SSPP_VIG3,
--		DPU_INTR_HIST_VIG_3_RSTSEQ_DONE, 2},
--	/* irq_idx: 140-143 */
--	{ DPU_IRQ_TYPE_HIST_DSPP_DONE, DSPP_0, DPU_INTR_HIST_DSPP_0_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_DSPP_RSTSEQ, DSPP_0,
--		DPU_INTR_HIST_DSPP_0_RSTSEQ_DONE, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	/* irq_idx: 144-147 */
--	{ DPU_IRQ_TYPE_HIST_DSPP_DONE, DSPP_1, DPU_INTR_HIST_DSPP_1_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_DSPP_RSTSEQ, DSPP_1,
--		DPU_INTR_HIST_DSPP_1_RSTSEQ_DONE, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	/* irq_idx: 148-151 */
--	{ DPU_IRQ_TYPE_HIST_DSPP_DONE, DSPP_2, DPU_INTR_HIST_DSPP_2_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_DSPP_RSTSEQ, DSPP_2,
--		DPU_INTR_HIST_DSPP_2_RSTSEQ_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_DSPP_DONE, DSPP_3, DPU_INTR_HIST_DSPP_3_DONE, 2},
--	{ DPU_IRQ_TYPE_HIST_DSPP_RSTSEQ, DSPP_3,
--		DPU_INTR_HIST_DSPP_3_RSTSEQ_DONE, 2},
--	/* irq_idx: 152-155 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	/* irq_idx: 156-159 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	/* irq_idx: 160-191 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 2},
--	/* BEGIN MAP_RANGE: 192-255 INTF_0_INTR */
--	/* irq_idx: 192-195 */
--	{ DPU_IRQ_TYPE_SFI_VIDEO_IN, INTF_0,
--		DPU_INTR_VIDEO_INTO_STATIC, 3},
--	{ DPU_IRQ_TYPE_SFI_VIDEO_OUT, INTF_0,
--		DPU_INTR_VIDEO_OUTOF_STATIC, 3},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_IN, INTF_0,
--		DPU_INTR_DSICMD_0_INTO_STATIC, 3},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_OUT, INTF_0,
--		DPU_INTR_DSICMD_0_OUTOF_STATIC, 3},
--	/* irq_idx: 196-199 */
--	{ DPU_IRQ_TYPE_SFI_CMD_1_IN, INTF_0,
--		DPU_INTR_DSICMD_1_INTO_STATIC, 3},
--	{ DPU_IRQ_TYPE_SFI_CMD_1_OUT, INTF_0,
--		DPU_INTR_DSICMD_1_OUTOF_STATIC, 3},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_IN, INTF_0,
--		DPU_INTR_DSICMD_2_INTO_STATIC, 3},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_OUT, INTF_0,
--		DPU_INTR_DSICMD_2_OUTOF_STATIC, 3},
--	/* irq_idx: 200-203 */
--	{ DPU_IRQ_TYPE_PROG_LINE, INTF_0, DPU_INTR_PROG_LINE, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	/* irq_idx: 204-207 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	/* irq_idx: 208-211 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	/* irq_idx: 212-215 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	/* irq_idx: 216-219 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	/* irq_idx: 220-223 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	/* irq_idx: 224-255 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 3},
--	/* BEGIN MAP_RANGE: 256-319 INTF_1_INTR */
--	/* irq_idx: 256-259 */
--	{ DPU_IRQ_TYPE_SFI_VIDEO_IN, INTF_1,
--		DPU_INTR_VIDEO_INTO_STATIC, 4},
--	{ DPU_IRQ_TYPE_SFI_VIDEO_OUT, INTF_1,
--		DPU_INTR_VIDEO_OUTOF_STATIC, 4},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_IN, INTF_1,
--		DPU_INTR_DSICMD_0_INTO_STATIC, 4},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_OUT, INTF_1,
--		DPU_INTR_DSICMD_0_OUTOF_STATIC, 4},
--	/* irq_idx: 260-263 */
--	{ DPU_IRQ_TYPE_SFI_CMD_1_IN, INTF_1,
--		DPU_INTR_DSICMD_1_INTO_STATIC, 4},
--	{ DPU_IRQ_TYPE_SFI_CMD_1_OUT, INTF_1,
--		DPU_INTR_DSICMD_1_OUTOF_STATIC, 4},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_IN, INTF_1,
--		DPU_INTR_DSICMD_2_INTO_STATIC, 4},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_OUT, INTF_1,
--		DPU_INTR_DSICMD_2_OUTOF_STATIC, 4},
--	/* irq_idx: 264-267 */
--	{ DPU_IRQ_TYPE_PROG_LINE, INTF_1, DPU_INTR_PROG_LINE, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	/* irq_idx: 268-271 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	/* irq_idx: 272-275 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	/* irq_idx: 276-279 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	/* irq_idx: 280-283 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	/* irq_idx: 284-287 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	/* irq_idx: 288-319 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 4},
--	/* BEGIN MAP_RANGE: 320-383 INTF_2_INTR */
--	/* irq_idx: 320-323 */
--	{ DPU_IRQ_TYPE_SFI_VIDEO_IN, INTF_2,
--		DPU_INTR_VIDEO_INTO_STATIC, 5},
--	{ DPU_IRQ_TYPE_SFI_VIDEO_OUT, INTF_2,
--		DPU_INTR_VIDEO_OUTOF_STATIC, 5},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_IN, INTF_2,
--		DPU_INTR_DSICMD_0_INTO_STATIC, 5},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_OUT, INTF_2,
--		DPU_INTR_DSICMD_0_OUTOF_STATIC, 5},
--	/* irq_idx: 324-327 */
--	{ DPU_IRQ_TYPE_SFI_CMD_1_IN, INTF_2,
--		DPU_INTR_DSICMD_1_INTO_STATIC, 5},
--	{ DPU_IRQ_TYPE_SFI_CMD_1_OUT, INTF_2,
--		DPU_INTR_DSICMD_1_OUTOF_STATIC, 5},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_IN, INTF_2,
--		DPU_INTR_DSICMD_2_INTO_STATIC, 5},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_OUT, INTF_2,
--		DPU_INTR_DSICMD_2_OUTOF_STATIC, 5},
--	/* irq_idx: 328-331 */
--	{ DPU_IRQ_TYPE_PROG_LINE, INTF_2, DPU_INTR_PROG_LINE, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	/* irq_idx: 332-335 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	/* irq_idx: 336-339 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	/* irq_idx: 340-343 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	/* irq_idx: 344-347 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	/* irq_idx: 348-351 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	/* irq_idx: 352-383 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 5},
--	/* BEGIN MAP_RANGE: 384-447 INTF_3_INTR */
--	/* irq_idx: 384-387 */
--	{ DPU_IRQ_TYPE_SFI_VIDEO_IN, INTF_3,
--		DPU_INTR_VIDEO_INTO_STATIC, 6},
--	{ DPU_IRQ_TYPE_SFI_VIDEO_OUT, INTF_3,
--		DPU_INTR_VIDEO_OUTOF_STATIC, 6},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_IN, INTF_3,
--		DPU_INTR_DSICMD_0_INTO_STATIC, 6},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_OUT, INTF_3,
--		DPU_INTR_DSICMD_0_OUTOF_STATIC, 6},
--	/* irq_idx: 388-391 */
--	{ DPU_IRQ_TYPE_SFI_CMD_1_IN, INTF_3,
--		DPU_INTR_DSICMD_1_INTO_STATIC, 6},
--	{ DPU_IRQ_TYPE_SFI_CMD_1_OUT, INTF_3,
--		DPU_INTR_DSICMD_1_OUTOF_STATIC, 6},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_IN, INTF_3,
--		DPU_INTR_DSICMD_2_INTO_STATIC, 6},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_OUT, INTF_3,
--		DPU_INTR_DSICMD_2_OUTOF_STATIC, 6},
--	/* irq_idx: 392-395 */
--	{ DPU_IRQ_TYPE_PROG_LINE, INTF_3, DPU_INTR_PROG_LINE, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	/* irq_idx: 396-399 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	/* irq_idx: 400-403 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	/* irq_idx: 404-407 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	/* irq_idx: 408-411 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	/* irq_idx: 412-415 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	/* irq_idx: 416-447*/
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 6},
--	/* BEGIN MAP_RANGE: 448-511 INTF_4_INTR */
--	/* irq_idx: 448-451 */
--	{ DPU_IRQ_TYPE_SFI_VIDEO_IN, INTF_4,
--		DPU_INTR_VIDEO_INTO_STATIC, 7},
--	{ DPU_IRQ_TYPE_SFI_VIDEO_OUT, INTF_4,
--		DPU_INTR_VIDEO_OUTOF_STATIC, 7},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_IN, INTF_4,
--		DPU_INTR_DSICMD_0_INTO_STATIC, 7},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_OUT, INTF_4,
--		DPU_INTR_DSICMD_0_OUTOF_STATIC, 7},
--	/* irq_idx: 452-455 */
--	{ DPU_IRQ_TYPE_SFI_CMD_1_IN, INTF_4,
--		DPU_INTR_DSICMD_1_INTO_STATIC, 7},
--	{ DPU_IRQ_TYPE_SFI_CMD_1_OUT, INTF_4,
--		DPU_INTR_DSICMD_1_OUTOF_STATIC, 7},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_IN, INTF_4,
--		DPU_INTR_DSICMD_2_INTO_STATIC, 7},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_OUT, INTF_4,
--		DPU_INTR_DSICMD_2_OUTOF_STATIC, 7},
--	/* irq_idx: 456-459 */
--	{ DPU_IRQ_TYPE_PROG_LINE, INTF_4, DPU_INTR_PROG_LINE, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	/* irq_idx: 460-463 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	/* irq_idx: 464-467 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	/* irq_idx: 468-471 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	/* irq_idx: 472-475 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	/* irq_idx: 476-479 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	/* irq_idx: 480-511 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 7},
--	/* BEGIN MAP_RANGE: 512-575 AD4_0_INTR */
--	/* irq_idx: 512-515 */
--	{ DPU_IRQ_TYPE_AD4_BL_DONE, DSPP_0, DPU_INTR_BACKLIGHT_UPDATED, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	/* irq_idx: 516-519 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	/* irq_idx: 520-523 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	/* irq_idx: 524-527 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	/* irq_idx: 528-531 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	/* irq_idx: 532-535 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	/* irq_idx: 536-539 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	/* irq_idx: 540-543 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	/* irq_idx: 544-575*/
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 8},
--	/* BEGIN MAP_RANGE: 576-639 AD4_1_INTR */
--	/* irq_idx: 576-579 */
--	{ DPU_IRQ_TYPE_AD4_BL_DONE, DSPP_1, DPU_INTR_BACKLIGHT_UPDATED, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	/* irq_idx: 580-583 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	/* irq_idx: 584-587 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	/* irq_idx: 588-591 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	/* irq_idx: 592-595 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	/* irq_idx: 596-599 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	/* irq_idx: 600-603 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	/* irq_idx: 604-607 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	/* irq_idx: 608-639 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 9},
--	/* BEGIN MAP_RANGE: 640-703 INTF_0_SC7280_INTR */
--	/* irq_idx: 640-643 */
--	{ DPU_IRQ_TYPE_SFI_VIDEO_IN, INTF_0,
--		DPU_INTR_VIDEO_INTO_STATIC, 10},
--	{ DPU_IRQ_TYPE_SFI_VIDEO_OUT, INTF_0,
--		DPU_INTR_VIDEO_OUTOF_STATIC, 10},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_IN, INTF_0,
--		DPU_INTR_DSICMD_0_INTO_STATIC, 10},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_OUT, INTF_0,
--		DPU_INTR_DSICMD_0_OUTOF_STATIC, 10},
--	/* irq_idx: 644-647 */
--	{ DPU_IRQ_TYPE_SFI_CMD_1_IN, INTF_0,
--		DPU_INTR_DSICMD_1_INTO_STATIC, 10},
--	{ DPU_IRQ_TYPE_SFI_CMD_1_OUT, INTF_0,
--		DPU_INTR_DSICMD_1_OUTOF_STATIC, 10},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_IN, INTF_0,
--		DPU_INTR_DSICMD_2_INTO_STATIC, 10},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_OUT, INTF_0,
--		DPU_INTR_DSICMD_2_OUTOF_STATIC, 10},
--	/* irq_idx: 648-651 */
--	{ DPU_IRQ_TYPE_PROG_LINE, INTF_0, DPU_INTR_PROG_LINE, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	/* irq_idx: 652-655 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	/* irq_idx: 656-659 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	/* irq_idx: 660-663 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	/* irq_idx: 664-667 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	/* irq_idx: 668-671 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	/* irq_idx: 672-703 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 10},
--	/* BEGIN MAP_RANGE: 704-767 INTF_1_SC7280_INTR */
--	/* irq_idx: 704-707 */
--	{ DPU_IRQ_TYPE_SFI_VIDEO_IN, INTF_1,
--		DPU_INTR_VIDEO_INTO_STATIC, 11},
--	{ DPU_IRQ_TYPE_SFI_VIDEO_OUT, INTF_1,
--		DPU_INTR_VIDEO_OUTOF_STATIC, 11},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_IN, INTF_1,
--		DPU_INTR_DSICMD_0_INTO_STATIC, 11},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_OUT, INTF_1,
--		DPU_INTR_DSICMD_0_OUTOF_STATIC, 11},
--	/* irq_idx: 708-711 */
--	{ DPU_IRQ_TYPE_SFI_CMD_1_IN, INTF_1,
--		DPU_INTR_DSICMD_1_INTO_STATIC, 11},
--	{ DPU_IRQ_TYPE_SFI_CMD_1_OUT, INTF_1,
--		DPU_INTR_DSICMD_1_OUTOF_STATIC, 11},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_IN, INTF_1,
--		DPU_INTR_DSICMD_2_INTO_STATIC, 11},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_OUT, INTF_1,
--		DPU_INTR_DSICMD_2_OUTOF_STATIC, 11},
--	/* irq_idx: 712-715 */
--	{ DPU_IRQ_TYPE_PROG_LINE, INTF_1, DPU_INTR_PROG_LINE, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	/* irq_idx: 716-719 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	/* irq_idx: 720-723 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	/* irq_idx: 724-727 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	/* irq_idx: 728-731 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	/* irq_idx: 732-735 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	/* irq_idx: 736-767 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 11},
--	/* BEGIN MAP_RANGE: 768-831 INTF_5_SC7280_INTR */
--	/* irq_idx: 768-771 */
--	{ DPU_IRQ_TYPE_SFI_VIDEO_IN, INTF_5,
--		DPU_INTR_VIDEO_INTO_STATIC, 12},
--	{ DPU_IRQ_TYPE_SFI_VIDEO_OUT, INTF_5,
--		DPU_INTR_VIDEO_OUTOF_STATIC, 12},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_IN, INTF_5,
--		DPU_INTR_DSICMD_0_INTO_STATIC, 12},
--	{ DPU_IRQ_TYPE_SFI_CMD_0_OUT, INTF_5,
--		DPU_INTR_DSICMD_0_OUTOF_STATIC, 12},
--	/* irq_idx: 772-775 */
--	{ DPU_IRQ_TYPE_SFI_CMD_1_IN, INTF_5,
--		DPU_INTR_DSICMD_1_INTO_STATIC, 12},
--	{ DPU_IRQ_TYPE_SFI_CMD_1_OUT, INTF_5,
--		DPU_INTR_DSICMD_1_OUTOF_STATIC, 12},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_IN, INTF_5,
--		DPU_INTR_DSICMD_2_INTO_STATIC, 12},
--	{ DPU_IRQ_TYPE_SFI_CMD_2_OUT, INTF_5,
--		DPU_INTR_DSICMD_2_OUTOF_STATIC, 12},
--	/* irq_idx: 776-779 */
--	{ DPU_IRQ_TYPE_PROG_LINE, INTF_5, DPU_INTR_PROG_LINE, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	/* irq_idx: 780-783 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	/* irq_idx: 784-787 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	/* irq_idx: 788-791 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	/* irq_idx: 792-795 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	/* irq_idx: 796-799 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	/* irq_idx: 800-831 */
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--	{ DPU_IRQ_TYPE_RESERVED, 0, 0, 12},
--};
--
- static void dpu_hw_intr_clear_intr_status_nolock(struct dpu_hw_intr *intr,
- 		int irq_idx)
+ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx, bool clear)
  {
-@@ -1658,7 +425,6 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
+ 	if (!dpu_kms->hw_intr ||
+@@ -210,6 +87,16 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
+ 	list_del_init(&register_irq_cb->list);
+ 	list_add_tail(&register_irq_cb->list,
+ 			&dpu_kms->irq_obj.irq_cb_tbl[irq_idx]);
++	if (list_is_first(&register_irq_cb->list,
++			&dpu_kms->irq_obj.irq_cb_tbl[irq_idx])) {
++		int ret = dpu_kms->hw_intr->ops.enable_irq(
++				dpu_kms->hw_intr,
++				irq_idx);
++		if (ret)
++			DPU_ERROR("Fail to enable IRQ for irq_idx:%d\n",
++					irq_idx);
++	}
++
+ 	spin_unlock_irqrestore(&dpu_kms->irq_obj.cb_lock, irq_flags);
+ 
+ 	return 0;
+@@ -244,9 +131,15 @@ int dpu_core_irq_unregister_callback(struct dpu_kms *dpu_kms, int irq_idx,
+ 	trace_dpu_core_irq_unregister_callback(irq_idx, register_irq_cb);
+ 	list_del_init(&register_irq_cb->list);
+ 	/* empty callback list but interrupt is still enabled */
+-	if (list_empty(&dpu_kms->irq_obj.irq_cb_tbl[irq_idx]) &&
+-			atomic_read(&dpu_kms->irq_obj.enable_counts[irq_idx]))
+-		DPU_ERROR("irq_idx=%d enabled with no callback\n", irq_idx);
++	if (list_empty(&dpu_kms->irq_obj.irq_cb_tbl[irq_idx])) {
++		int ret = dpu_kms->hw_intr->ops.disable_irq(
++				dpu_kms->hw_intr,
++				irq_idx);
++		if (ret)
++			DPU_ERROR("Fail to disable IRQ for irq_idx:%d\n",
++					irq_idx);
++		DPU_DEBUG("irq_idx=%d ret=%d\n", irq_idx, ret);
++	}
+ 	spin_unlock_irqrestore(&dpu_kms->irq_obj.cb_lock, irq_flags);
+ 
+ 	return 0;
+@@ -274,23 +167,22 @@ static int dpu_debugfs_core_irq_show(struct seq_file *s, void *v)
+ 	struct dpu_irq *irq_obj = s->private;
+ 	struct dpu_irq_callback *cb;
+ 	unsigned long irq_flags;
+-	int i, irq_count, enable_count, cb_count;
++	int i, irq_count, cb_count;
+ 
+-	if (WARN_ON(!irq_obj->enable_counts || !irq_obj->irq_cb_tbl))
++	if (WARN_ON(!irq_obj->irq_cb_tbl))
+ 		return 0;
+ 
+ 	for (i = 0; i < irq_obj->total_irqs; i++) {
+ 		spin_lock_irqsave(&irq_obj->cb_lock, irq_flags);
+ 		cb_count = 0;
+ 		irq_count = atomic_read(&irq_obj->irq_counts[i]);
+-		enable_count = atomic_read(&irq_obj->enable_counts[i]);
+ 		list_for_each_entry(cb, &irq_obj->irq_cb_tbl[i], list)
+ 			cb_count++;
+ 		spin_unlock_irqrestore(&irq_obj->cb_lock, irq_flags);
+ 
+-		if (irq_count || enable_count || cb_count)
+-			seq_printf(s, "idx:%d irq:%d enable:%d cb:%d\n",
+-					i, irq_count, enable_count, cb_count);
++		if (irq_count || cb_count)
++			seq_printf(s, "idx:%d irq:%d cb:%d\n",
++					i, irq_count, cb_count);
  	}
  
- 	intr->irq_mask = m->mdss_irqs;
--	intr->obsolete_irq = m->obsolete_irq;
+ 	return 0;
+@@ -321,13 +213,10 @@ void dpu_core_irq_preinstall(struct dpu_kms *dpu_kms)
+ 	dpu_kms->irq_obj.total_irqs = dpu_kms->hw_intr->total_irqs;
+ 	dpu_kms->irq_obj.irq_cb_tbl = kcalloc(dpu_kms->irq_obj.total_irqs,
+ 			sizeof(struct list_head), GFP_KERNEL);
+-	dpu_kms->irq_obj.enable_counts = kcalloc(dpu_kms->irq_obj.total_irqs,
+-			sizeof(atomic_t), GFP_KERNEL);
+ 	dpu_kms->irq_obj.irq_counts = kcalloc(dpu_kms->irq_obj.total_irqs,
+ 			sizeof(atomic_t), GFP_KERNEL);
+ 	for (i = 0; i < dpu_kms->irq_obj.total_irqs; i++) {
+ 		INIT_LIST_HEAD(&dpu_kms->irq_obj.irq_cb_tbl[i]);
+-		atomic_set(&dpu_kms->irq_obj.enable_counts[i], 0);
+ 		atomic_set(&dpu_kms->irq_obj.irq_counts[i], 0);
+ 	}
+ }
+@@ -338,8 +227,7 @@ void dpu_core_irq_uninstall(struct dpu_kms *dpu_kms)
  
- 	spin_lock_init(&intr->irq_lock);
+ 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
+ 	for (i = 0; i < dpu_kms->irq_obj.total_irqs; i++)
+-		if (atomic_read(&dpu_kms->irq_obj.enable_counts[i]) ||
+-				!list_empty(&dpu_kms->irq_obj.irq_cb_tbl[i]))
++		if (!list_empty(&dpu_kms->irq_obj.irq_cb_tbl[i]))
+ 			DPU_ERROR("irq_idx=%d still enabled/registered\n", i);
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-index c6b3d373ce75..3c8b788d78e6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-@@ -12,68 +12,6 @@
- #include "dpu_hw_util.h"
- #include "dpu_hw_mdss.h"
+ 	dpu_clear_all_irqs(dpu_kms);
+@@ -347,10 +235,8 @@ void dpu_core_irq_uninstall(struct dpu_kms *dpu_kms)
+ 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+ 
+ 	kfree(dpu_kms->irq_obj.irq_cb_tbl);
+-	kfree(dpu_kms->irq_obj.enable_counts);
+ 	kfree(dpu_kms->irq_obj.irq_counts);
+ 	dpu_kms->irq_obj.irq_cb_tbl = NULL;
+-	dpu_kms->irq_obj.enable_counts = NULL;
+ 	dpu_kms->irq_obj.irq_counts = NULL;
+ 	dpu_kms->irq_obj.total_irqs = 0;
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
+index d147784d5531..90ae6c9ccc95 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
+@@ -29,36 +29,6 @@ void dpu_core_irq_uninstall(struct dpu_kms *dpu_kms);
+  */
+ irqreturn_t dpu_core_irq(struct dpu_kms *dpu_kms);
  
 -/**
-- * dpu_intr_type - HW Interrupt Type
-- * @DPU_IRQ_TYPE_WB_ROT_COMP:		WB rotator done
-- * @DPU_IRQ_TYPE_WB_WFD_COMP:		WB WFD done
-- * @DPU_IRQ_TYPE_PING_PONG_COMP:	PingPong done
-- * @DPU_IRQ_TYPE_PING_PONG_RD_PTR:	PingPong read pointer
-- * @DPU_IRQ_TYPE_PING_PONG_WR_PTR:	PingPong write pointer
-- * @DPU_IRQ_TYPE_PING_PONG_AUTO_REF:	PingPong auto refresh
-- * @DPU_IRQ_TYPE_PING_PONG_TEAR_CHECK:	PingPong Tear check
-- * @DPU_IRQ_TYPE_PING_PONG_TE_CHECK:	PingPong TE detection
-- * @DPU_IRQ_TYPE_INTF_UNDER_RUN:	INTF underrun
-- * @DPU_IRQ_TYPE_INTF_VSYNC:		INTF VSYNC
-- * @DPU_IRQ_TYPE_CWB_OVERFLOW:		Concurrent WB overflow
-- * @DPU_IRQ_TYPE_HIST_VIG_DONE:		VIG Histogram done
-- * @DPU_IRQ_TYPE_HIST_VIG_RSTSEQ:	VIG Histogram reset
-- * @DPU_IRQ_TYPE_HIST_DSPP_DONE:	DSPP Histogram done
-- * @DPU_IRQ_TYPE_HIST_DSPP_RSTSEQ:	DSPP Histogram reset
-- * @DPU_IRQ_TYPE_WD_TIMER:		Watchdog timer
-- * @DPU_IRQ_TYPE_SFI_VIDEO_IN:		Video static frame INTR into static
-- * @DPU_IRQ_TYPE_SFI_VIDEO_OUT:		Video static frame INTR out-of static
-- * @DPU_IRQ_TYPE_SFI_CMD_0_IN:		DSI CMD0 static frame INTR into static
-- * @DPU_IRQ_TYPE_SFI_CMD_0_OUT:		DSI CMD0 static frame INTR out-of static
-- * @DPU_IRQ_TYPE_SFI_CMD_1_IN:		DSI CMD1 static frame INTR into static
-- * @DPU_IRQ_TYPE_SFI_CMD_1_OUT:		DSI CMD1 static frame INTR out-of static
-- * @DPU_IRQ_TYPE_SFI_CMD_2_IN:		DSI CMD2 static frame INTR into static
-- * @DPU_IRQ_TYPE_SFI_CMD_2_OUT:		DSI CMD2 static frame INTR out-of static
-- * @DPU_IRQ_TYPE_PROG_LINE:		Programmable Line interrupt
-- * @DPU_IRQ_TYPE_AD4_BL_DONE:		AD4 backlight
-- * @DPU_IRQ_TYPE_CTL_START:		Control start
-- * @DPU_IRQ_TYPE_RESERVED:		Reserved for expansion
+- * dpu_core_irq_enable - IRQ helper function for enabling one or more IRQs
+- * @dpu_kms:		DPU handle
+- * @irq_idxs:		Array of irq index
+- * @irq_count:		Number of irq_idx provided in the array
+- * @return:		0 for success enabling IRQ, otherwise failure
+- *
+- * This function increments count on each enable and decrements on each
+- * disable.  Interrupts is enabled if count is 0 before increment.
 - */
--enum dpu_intr_type {
--	DPU_IRQ_TYPE_WB_ROT_COMP,
--	DPU_IRQ_TYPE_WB_WFD_COMP,
--	DPU_IRQ_TYPE_PING_PONG_COMP,
--	DPU_IRQ_TYPE_PING_PONG_RD_PTR,
--	DPU_IRQ_TYPE_PING_PONG_WR_PTR,
--	DPU_IRQ_TYPE_PING_PONG_AUTO_REF,
--	DPU_IRQ_TYPE_PING_PONG_TEAR_CHECK,
--	DPU_IRQ_TYPE_PING_PONG_TE_CHECK,
--	DPU_IRQ_TYPE_INTF_UNDER_RUN,
--	DPU_IRQ_TYPE_INTF_VSYNC,
--	DPU_IRQ_TYPE_CWB_OVERFLOW,
--	DPU_IRQ_TYPE_HIST_VIG_DONE,
--	DPU_IRQ_TYPE_HIST_VIG_RSTSEQ,
--	DPU_IRQ_TYPE_HIST_DSPP_DONE,
--	DPU_IRQ_TYPE_HIST_DSPP_RSTSEQ,
--	DPU_IRQ_TYPE_WD_TIMER,
--	DPU_IRQ_TYPE_SFI_VIDEO_IN,
--	DPU_IRQ_TYPE_SFI_VIDEO_OUT,
--	DPU_IRQ_TYPE_SFI_CMD_0_IN,
--	DPU_IRQ_TYPE_SFI_CMD_0_OUT,
--	DPU_IRQ_TYPE_SFI_CMD_1_IN,
--	DPU_IRQ_TYPE_SFI_CMD_1_OUT,
--	DPU_IRQ_TYPE_SFI_CMD_2_IN,
--	DPU_IRQ_TYPE_SFI_CMD_2_OUT,
--	DPU_IRQ_TYPE_PROG_LINE,
--	DPU_IRQ_TYPE_AD4_BL_DONE,
--	DPU_IRQ_TYPE_CTL_START,
--	DPU_IRQ_TYPE_RESERVED,
--};
+-int dpu_core_irq_enable(
+-		struct dpu_kms *dpu_kms,
+-		int *irq_idxs,
+-		uint32_t irq_count);
 -
- /* When making changes be sure to sync with dpu_intr_set */
- enum dpu_hw_intr_reg {
- 	MDP_SSPP_TOP0_INTR,
-@@ -172,7 +110,6 @@ struct dpu_hw_intr_ops {
-  * @save_irq_status:  array of IRQ status reg storage created during init
-  * @total_irqs: total number of irq_idx mapped in the hw_interrupts
-  * @irq_lock:         spinlock for accessing IRQ resources
-- * @obsolete_irq:      irq types that are obsolete for a particular target
-  */
- struct dpu_hw_intr {
- 	struct dpu_hw_blk_reg_map hw;
-@@ -182,7 +119,6 @@ struct dpu_hw_intr {
- 	u32 total_irqs;
- 	spinlock_t irq_lock;
- 	unsigned long irq_mask;
--	unsigned long obsolete_irq;
- };
- 
+-/**
+- * dpu_core_irq_disable - IRQ helper function for disabling one of more IRQs
+- * @dpu_kms:		DPU handle
+- * @irq_idxs:		Array of irq index
+- * @irq_count:		Number of irq_idx provided in the array
+- * @return:		0 for success disabling IRQ, otherwise failure
+- *
+- * This function increments count on each enable and decrements on each
+- * disable.  Interrupts is disabled if count is 0 after decrement.
+- */
+-int dpu_core_irq_disable(
+-		struct dpu_kms *dpu_kms,
+-		int *irq_idxs,
+-		uint32_t irq_count);
+-
  /**
+  * dpu_core_irq_read - IRQ helper function for reading IRQ status
+  * @dpu_kms:		DPU handle
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 8a9d01e3b664..18c410433bb4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -360,17 +360,6 @@ int dpu_encoder_helper_register_irq(struct dpu_encoder_phys *phys_enc,
+ 		return ret;
+ 	}
+ 
+-	ret = dpu_core_irq_enable(phys_enc->dpu_kms, &irq->irq_idx, 1);
+-	if (ret) {
+-		DRM_ERROR("enable failed id=%u, intr=%d, irq=%d",
+-			  DRMID(phys_enc->parent), intr_idx,
+-			  irq->irq_idx);
+-		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
+-				irq->irq_idx, &irq->cb);
+-		irq->irq_idx = -EINVAL;
+-		return ret;
+-	}
+-
+ 	trace_dpu_enc_irq_register_success(DRMID(phys_enc->parent), intr_idx,
+ 				irq->irq_idx);
+ 
+@@ -393,13 +382,6 @@ int dpu_encoder_helper_unregister_irq(struct dpu_encoder_phys *phys_enc,
+ 		return 0;
+ 	}
+ 
+-	ret = dpu_core_irq_disable(phys_enc->dpu_kms, &irq->irq_idx, 1);
+-	if (ret) {
+-		DRM_ERROR("disable failed id=%u, intr=%d, irq=%d ret=%d",
+-			  DRMID(phys_enc->parent), intr_idx,
+-			  irq->irq_idx, ret);
+-	}
+-
+ 	ret = dpu_core_irq_unregister_callback(phys_enc->dpu_kms, irq->irq_idx,
+ 			&irq->cb);
+ 	if (ret) {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index d6717d6672f7..f6840b1af6e4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -82,14 +82,12 @@ struct dpu_irq_callback {
+  * struct dpu_irq: IRQ structure contains callback registration info
+  * @total_irq:    total number of irq_idx obtained from HW interrupts mapping
+  * @irq_cb_tbl:   array of IRQ callbacks setting
+- * @enable_counts array of IRQ enable counts
+  * @cb_lock:      callback lock
+  * @debugfs_file: debugfs file for irq statistics
+  */
+ struct dpu_irq {
+ 	u32 total_irqs;
+ 	struct list_head *irq_cb_tbl;
+-	atomic_t *enable_counts;
+ 	atomic_t *irq_counts;
+ 	spinlock_t cb_lock;
+ };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+index e349ea78a49d..00b43959f631 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+@@ -891,14 +891,6 @@ DECLARE_EVENT_CLASS(dpu_core_irq_idx_cnt_template,
+ 	TP_printk("irq_idx:%d enable_count:%u", __entry->irq_idx,
+ 		  __entry->enable_count)
+ );
+-DEFINE_EVENT(dpu_core_irq_idx_cnt_template, dpu_core_irq_enable_idx,
+-	TP_PROTO(int irq_idx, int enable_count),
+-	TP_ARGS(irq_idx, enable_count)
+-);
+-DEFINE_EVENT(dpu_core_irq_idx_cnt_template, dpu_core_irq_disable_idx,
+-	TP_PROTO(int irq_idx, int enable_count),
+-	TP_ARGS(irq_idx, enable_count)
+-);
+ 
+ DECLARE_EVENT_CLASS(dpu_core_irq_callback_template,
+ 	TP_PROTO(int irq_idx, struct dpu_irq_callback *callback),
 -- 
 2.30.2
 
