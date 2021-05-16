@@ -2,33 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F009382564
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 09:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B52382562
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 09:32:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7E456E8DE;
-	Mon, 17 May 2021 07:32:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 519A76E8DA;
+	Mon, 17 May 2021 07:32:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 377 seconds by postgrey-1.36 at gabe;
- Sun, 16 May 2021 16:12:45 UTC
-Received: from depni-mx.sinp.msu.ru (depni-mx.sinp.msu.ru [213.131.7.21])
- by gabe.freedesktop.org (Postfix) with ESMTP id B46886E0AF;
- Sun, 16 May 2021 16:12:45 +0000 (UTC)
-Received: from spider (ip-95-220-118-46.bb.netbynet.ru [95.220.118.46])
- by depni-mx.sinp.msu.ru (Postfix) with ESMTPSA id 9250C1BF457;
- Sun, 16 May 2021 19:07:24 +0300 (MSK)
-From: Serge Belyshev <belyshev@depni.sinp.msu.ru>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 4/4] i915: fix remap_io_sg to verify the pgprot
-References: <20210326055505.1424432-1-hch@lst.de>
- <20210326055505.1424432-5-hch@lst.de>
-Date: Sun, 16 May 2021 19:06:25 +0300
-In-Reply-To: <20210326055505.1424432-5-hch@lst.de> (Christoph Hellwig's
- message of "Fri, 26 Mar 2021 06:55:05 +0100")
-Message-ID: <87pmxqiry6.fsf@depni.sinp.msu.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
+ Sun, 16 May 2021 19:42:40 UTC
+Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
+ [136.143.188.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 398C06E862
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 19:42:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1621193252; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=GpTODC/DLEfsPiaz5f0uHe14TK/B7PCR6E2MSep8ov0URKYeSoEyibrf+uLFV4b9tqtfLmX7iA7r1M7Vy0aSvH6+2CMmi++xAk4rUr9HLKv3FKsa5X8O1ggjlF2f9P7H9nfB2JWtIhvRv6pvxuV9x9Oa8maV2T9axI6xCi6kkHw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1621193252;
+ h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+ bh=kcMsIBb4mr1nm3LmQ5wyFHGYyNEsGyNz7p4rtiGeyZw=; 
+ b=ebmZ0BvljHKpi8/DOujECR5AqX0ciAlFM9R6cmX/xRDHAj6xXR2NzNoQ2pu35XolsRZ5n9UPJhUXv7H3DTZfqoAumH5MmtYzaa0S8eVYfrN82HFYWV6j13EigW/HOWjU7LtCFooji08pSwiMhO8hPlURpCQIwiOo/7XYGwxw8SY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=anirudhrb.com;
+ spf=pass  smtp.mailfrom=mail@anirudhrb.com;
+ dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1621193252; 
+ s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+ bh=kcMsIBb4mr1nm3LmQ5wyFHGYyNEsGyNz7p4rtiGeyZw=;
+ b=yKN+eYUKedxDvM/J8PgnoWdA/PYpQ/ssg6uNKVFtcUdxu+VXHAUmoJdfB3NBMyqz
+ mHDG/qCeHPOlI2IKSwASWbtWhWj7QOrSwjxUfhx/r80gP3eQWaxm8WJtqIlNis6xvqo
+ /birjyRZtdje8eIcI1A0jppl2fvCvnj1ZNEm0p8g=
+Received: from localhost.localdomain (106.51.110.61 [106.51.110.61]) by
+ mx.zohomail.com with SMTPS id 1621193251338853.0225315553987;
+ Sun, 16 May 2021 12:27:31 -0700 (PDT)
+From: Anirudh Rayabharam <mail@anirudhrb.com>
+To: Ferenc Bakonyi <fero@drama.obuda.kando.hu>,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] video: hgafb: correctly handle card detect failure during
+ probe
+Date: Mon, 17 May 2021 00:57:14 +0530
+Message-Id: <20210516192714.25823-1-mail@anirudhrb.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-Mailman-Approved-At: Mon, 17 May 2021 07:32:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,17 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, linux-mm@kvack.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Anirudh Rayabharam <mail@anirudhrb.com>,
+ kernel test robot <oliver.sang@intel.com>, stable <stable@vger.kernel.org>,
+ linux-nvidia@lists.surfsouth.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I have another problem with this patch since it landed in mainline. On
-my m3-6Y30 skylake HD Graphics 515 (rev 07), it causes visual artifacts
-that look like bunch of one pixel high horizontal streaks, seen most
-often in firefox while scrolling or in menu controls.
+The return value of hga_card_detect() is not properly handled causing
+the probe to succeed even though hga_card_detect() failed. Since probe
+succeeds, hgafb_open() can be called which will end up operating on an
+unmapped hga_vram. This results in an out-of-bounds access as reported
+by kernel test robot [1].
 
-Reverting this patch on top of current mainline fixes the problem.
+To fix this, correctly detect failure of hga_card_detect() by checking
+for a non-zero error code.
+
+[1]: https://lore.kernel.org/lkml/20210516150019.GB25903@xsang-OptiPlex-9020/
+
+Reported-by: kernel test robot <oliver.sang@intel.com>
+Fixes: dc13cac4862c ("video: hgafb: fix potential NULL pointer dereference")
+Cc: stable <stable@vger.kernel.org>
+Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+---
+ drivers/video/fbdev/hgafb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
+index cc8e62ae93f6..bd3d07aa4f0e 100644
+--- a/drivers/video/fbdev/hgafb.c
++++ b/drivers/video/fbdev/hgafb.c
+@@ -558,7 +558,7 @@ static int hgafb_probe(struct platform_device *pdev)
+ 	int ret;
+ 
+ 	ret = hga_card_detect();
+-	if (!ret)
++	if (ret)
+ 		return ret;
+ 
+ 	printk(KERN_INFO "hgafb: %s with %ldK of memory detected.\n",
+-- 
+2.26.2
+
