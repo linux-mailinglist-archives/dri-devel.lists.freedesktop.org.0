@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FFB6382FE3
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 16:20:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D823383073
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 16:29:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB286E988;
-	Mon, 17 May 2021 14:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 007FF6E986;
+	Mon, 17 May 2021 14:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4E886E98F
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 14:20:38 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- h3-20020a05600c3503b0290176f13c7715so2108643wmq.5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 07:20:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=qatGReyEGvb3id3L6Fo5pFkW8h6Idre0J15T6NNKCNg=;
- b=WdVJlqxNsy4yFridaoe9XHyI//s6JmNUS4dy2oQVDnN0dBvylaZvjMD4Z+3V+AG4jA
- iEJTlAjifYpRj102tk2KE9Vi7B8Gs3I299TNUQEJL84ndji9q/wtj+uZX7f1472GAJVZ
- ugOAfH1FVlIqVKFarsbGzmCmdFNvEUPnr/XKg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=qatGReyEGvb3id3L6Fo5pFkW8h6Idre0J15T6NNKCNg=;
- b=lTSaE1xBsk3JKt0ltQaUy6I2jxNas21d+ua6yBLqH2b5ig/qzgKeXkmGRCiVE+u1RC
- +qAeWIXVlEQZUBCHuaReaL0FMUj//XQ9PfjX5LPdOMijdd5vkbea6PToBKNHEruMW5CT
- XeZQMsolAi5rZ4ky3VJMNEfj745zYaovRfgraTEM/jAwD8ifNP5JOcg/vA6LYpfy49qB
- IqDAyG0EBR8wj6pDXzuIuKoUWUfAgoHB9DJaPmyMKXU/xqyISzIPyunUzpTg8nq3vc1H
- 969G19TM2FRBQxP+JNIZlih+1qcbPmcyFJJg3ZVaDCPhbrlmgIZxZ4WUA9fUa6slF8T5
- +HVQ==
-X-Gm-Message-State: AOAM530cQs8GP1D+AREAuF+Ch3/VmmUcggqYp5CX/Ueis5ceGiPT3iQp
- 8dpCC8/T7ogO2VCmDTy6ofbaTQ==
-X-Google-Smtp-Source: ABdhPJx0ORpazumalVHws4W655cliAYLvGV+NgXnzj5XCHaLy+foLRsNijtegEYI5VN/pyr48JyOSA==
-X-Received: by 2002:a1c:f705:: with SMTP id v5mr181944wmh.69.1621261237370;
- Mon, 17 May 2021 07:20:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f4sm18076863wrz.33.2021.05.17.07.20.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 07:20:36 -0700 (PDT)
-Date: Mon, 17 May 2021 16:20:34 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH 0/7] Per client engine busyness
-Message-ID: <YKJ7spuNLzsv5SG3@phenom.ffwll.local>
-References: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
- <CADnq5_NEg4s2AWBTkjW7NXoBe+WB=qQUHCMPP6DcpGSLbBF-rg@mail.gmail.com>
+Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C7BA6E0F8;
+ Mon, 17 May 2021 14:28:57 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by srv6.fidu.org (Postfix) with ESMTP id 30BFEC800D5;
+ Mon, 17 May 2021 16:28:56 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
+Received: from srv6.fidu.org ([127.0.0.1])
+ by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id igc_7ctTk_pN; Mon, 17 May 2021 16:28:55 +0200 (CEST)
+Received: from [IPv6:2003:e3:7f46:6a00:49cc:a8cc:f41d:5272]
+ (p200300e37f466a0049cca8ccF41D5272.dip0.t-ipconnect.de
+ [IPv6:2003:e3:7f46:6a00:49cc:a8cc:f41d:5272])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by srv6.fidu.org (Postfix) with ESMTPSA id A6182C800D4;
+ Mon, 17 May 2021 16:28:55 +0200 (CEST)
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+References: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
+Subject: Re: New uAPI for color management proposal and feedback request
+Message-ID: <ec482a3d-a6cd-870d-96a3-52a7ed9089fb@tuxedocomputers.com>
+Date: Mon, 17 May 2021 16:28:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <8c0d7ad8-7ade-bf8a-0414-cc795fbb6aa2@tuxedocomputers.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_NEg4s2AWBTkjW7NXoBe+WB=qQUHCMPP6DcpGSLbBF-rg@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,146 +52,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 13, 2021 at 11:48:08AM -0400, Alex Deucher wrote:
-> On Thu, May 13, 2021 at 7:00 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
-> >
-> > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >
-> > Resurrect of the previosuly merged per client engine busyness patches. In a
-> > nutshell it enables intel_gpu_top to be more top(1) like useful and show not
-> > only physical GPU engine usage but per process view as well.
-> >
-> > Example screen capture:
-> > ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > intel-gpu-top -  906/ 955 MHz;    0% RC6;  5.30 Watts;      933 irqs/s
-> >
-> >       IMC reads:     4414 MiB/s
-> >      IMC writes:     3805 MiB/s
-> >
-> >           ENGINE      BUSY                                      MI_SEMA MI_WAIT
-> >      Render/3D/0   93.46% |████████████████████████████████▋  |      0%      0%
-> >        Blitter/0    0.00% |                                   |      0%      0%
-> >          Video/0    0.00% |                                   |      0%      0%
-> >   VideoEnhance/0    0.00% |                                   |      0%      0%
-> >
-> >   PID            NAME  Render/3D      Blitter        Video      VideoEnhance
-> >  2733       neverball |██████▌     ||            ||            ||            |
-> >  2047            Xorg |███▊        ||            ||            ||            |
-> >  2737        glxgears |█▍          ||            ||            ||            |
-> >  2128           xfwm4 |            ||            ||            ||            |
-> >  2047            Xorg |            ||            ||            ||            |
-> > ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > Internally we track time spent on engines for each struct intel_context, both
-> > for current and past contexts belonging to each open DRM file.
-> >
-> > This can serve as a building block for several features from the wanted list:
-> > smarter scheduler decisions, getrusage(2)-like per-GEM-context functionality
-> > wanted by some customers, setrlimit(2) like controls, cgroups controller,
-> > dynamic SSEU tuning, ...
-> >
-> > To enable userspace access to the tracked data, we expose time spent on GPU per
-> > client and per engine class in sysfs with a hierarchy like the below:
-> >
-> >         # cd /sys/class/drm/card0/clients/
-> >         # tree
-> >         .
-> >         ├── 7
-> >         │   ├── busy
-> >         │   │   ├── 0
-> >         │   │   ├── 1
-> >         │   │   ├── 2
-> >         │   │   └── 3
-> >         │   ├── name
-> >         │   └── pid
-> >         ├── 8
-> >         │   ├── busy
-> >         │   │   ├── 0
-> >         │   │   ├── 1
-> >         │   │   ├── 2
-> >         │   │   └── 3
-> >         │   ├── name
-> >         │   └── pid
-> >         └── 9
-> >             ├── busy
-> >             │   ├── 0
-> >             │   ├── 1
-> >             │   ├── 2
-> >             │   └── 3
-> >             ├── name
-> >             └── pid
-> >
-> > Files in 'busy' directories are numbered using the engine class ABI values and
-> > they contain accumulated nanoseconds each client spent on engines of a
-> > respective class.
-> 
-> We did something similar in amdgpu using the gpu scheduler.  We then
-> expose the data via fdinfo.  See
-> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1774baa64f9395fa884ea9ed494bcb043f3b83f5
-> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=874442541133f78c78b6880b8cc495bab5c61704
+Am 12.05.21 um 14:06 schrieb Werner Sembach:
+> Hello,
+>
+> In addition to the existing "max bpc", and "Broadcast RGB/output_csc" d=
+rm properties I propose 4 new properties:
+> "preferred pixel encoding", "active color depth", "active color range",=
+ and "active pixel encoding"
 
-Yeah the reason I've dropped these patches was because they looked like
-prime material for at least a bit of standardization across drivers.
+As an alternative/additional to the feedback channels: Maybe the kernel s=
+hould not only communicate resolutions and
+refresh rates of available modes, but also color capabilities.
 
-Also fdinfo sounds like very good interface for these, I didn't even know
-that's doable. Might also be interesting to even standardize the fdinfo
-stuff across drivers.
+I tested with a monitor, for example, that had several 4k@60Hz modes/timi=
+ngs offered by the edid, but only some of them
+supported YCbCr 420.
 
-Also since drm/i915 will adopt drm/scheduler, we could build that on top
-of that code too. So no restrictions there from i915 side.
+>
+> Motivation:
+>
+> Current monitors have a variety pixel encodings available: RGB, YCbCr 4=
+:4:4, YCbCr 4:2:2, YCbCr 4:2:0.
+>
+> In addition they might be full or limited RGB range and the monitors ac=
+cept different bit depths.
+>
+> Currently the kernel driver for AMD and Intel GPUs automatically config=
+ure the color settings automatically with little
+> to no influence of the user. However there are several real world scena=
+rios where the user might disagree with the
+> default chosen by the drivers and wants to set his or her own preferenc=
+e.
+>
+> Some examples:
+>
+> 1. While RGB and YCbCr 4:4:4 in theory carry the same amount of color i=
+nformation, some screens might look better on one
+> than the other because of bad internal conversion. The driver currently=
+ however has a fixed default that is chosen if
+> available (RGB for Intel and YCbCr 4:4:4 for AMD). The only way to chan=
+ge this currently is by editing and overloading
+> the edid reported by the monitor to the kernel.
+>
+> 2. RGB and YCbCr 4:4:4 need a higher port clock then YCbCr 4:2:0. Some =
+hardware might report that it supports the higher
+> port clock, but because of bad shielding on the PC, the cable, or the m=
+onitor the screen cuts out every few seconds when
+> RGB or YCbCr 4:4:4 encoding is used, while YCbCr 4:2:0 might just work =
+fine without changing hardware. The drivers
+> currently however always default to the "best available" option even if=
+ it might be broken.
+>
+> 3. Some screens natively only supporting 8-bit color, simulate 10-Bit c=
+olor by rapidly switching between 2 adjacent
+> colors. They advertise themselves to the kernel as 10-bit monitors but =
+the user might not like the "fake" 10-bit effect
+> and prefer running at the native 8-bit per color.
+>
+> 4. Some screens are falsely classified as full RGB range wile they actu=
+ally use limited RGB range. This results in
+> washed out colors in dark and bright scenes. A user override can be hel=
+pful to manually fix this issue when it occurs.
+>
+> There already exist several requests, discussion, and patches regarding=
+ the thematic:
+>
+> - https://gitlab.freedesktop.org/drm/amd/-/issues/476
+>
+> - https://gitlab.freedesktop.org/drm/amd/-/issues/1548
+>
+> - https://lkml.org/lkml/2021/5/7/695
+>
+> - https://lkml.org/lkml/2021/5/11/416
+>
+>
+> Current State:
+>
+> I only know bits about the Intel i915 and AMD amdgpu driver. I don't kn=
+ow how other driver handle color management
+>
+> - "max bpc", global setting applied by both i915 (only on dp i think?) =
+and amdgpu. Default value is "8". For every
+> resolution + frequency combination the highest possible even number bet=
+ween 6 and max_bpc is chosen. If the range
+> doesn't contain a valid mode the resolution + frequency combination is =
+discarded (but I guess that would be a very
+> special edge case, if existent at all, when 6 doesn't work but 10 would=
+ work). Intel HDMI code always checks 8, 12, and
+> 10 and does not check the max_bpc setting.
+>
+> - "Broadcast RGB" for i915 and "output_csc" for the old radeon driver (=
+not amdgpu), overwrites the kernel chosen color
+> range setting (full or limited). If I recall correctly Intel HDMI code =
+defaults to full unless this property is set,
+> Intel dp code tries to probe the monitor to find out what to use. amdgp=
+u has no corresponding setting (I don't know how
+> it's decided there).
+>
+> - RGB pixel encoding can be forced by overloading a Monitors edid with =
+one that tells the kernel that only RGB is
+> possible. That doesn't work for YCbCr 4:4:4 however because of the edid=
+ specification. Forcing YCbCr 4:2:0 would
+> theoretically also be possible this way. amdgpu has a debugfs switch "f=
+orce_ycbcr_420" which makes the driver default to
+> YCbCr 4:2:0 on all monitors if possible.
+>
+>
+> Proposed Solution:
+>
+> 1. Add a new uAPI property "preferred pixel encoding", as a per port se=
+tting.
+>
+> =C2=A0=C2=A0=C2=A0 - An amdgpu specific implementation was already shar=
+ed here: https://gitlab.freedesktop.org/drm/amd/-/issues/476
+>
+> =C2=A0=C2=A0=C2=A0 - It also writes back the actually used encoding if =
+the one requested was not possible, overwriting the requested
+> value in the process. I think it would be better to have this feedback =
+channel as a different, read-only property.
+>
+> =C2=A0=C2=A0=C2=A0 - Make this solution vendor agnostic by putting it i=
+n the drm_connector_state struct next do max_bpc
+> https://elixir.bootlin.com/linux/v5.13-rc1/source/include/drm/drm_conne=
+ctor.h#L654 and add patches to amdgpu and i915 to
+> respect this setting
+>
+> 2. Convert "Broadcast RGB" to a vendor agnostic setting/replace with a =
+vendor agnostic setting.
+>
+> =C2=A0=C2=A0=C2=A0 - Imho the name is not very fitting, but it pops up =
+in many tutorials throughout the web (some other opinions? how
+> could a rename be handled?".
+>
+> =C2=A0=C2=A0=C2=A0 - Also move it from Intel specific structs to the dr=
+m_connector_state struct (please let me know if there is a
+> better place)
+>
+> 3. Strive for full implementation of "max bpc"
+>
+> =C2=A0=C2=A0=C2=A0 - I need to double check the Intel HDMI code.
+>
+> 4. Add 3 feedback channels "active color depth", "active color range", =
+and "active pixel encoding" as vendor agnostic
+> settings in the drm_connector_state struct
+>
+> =C2=A0=C2=A0=C2=A0 - Possible values are:
+>
+> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - unknown, undefined, 6-bit, 8-bi=
+t, 9-bit, 10-bit, 11-bit, 12-bit, 14-bit, 16-bit (alternatively: an integ=
+er
+> from -1 (unknown), 0 (undefined) to 16, let me know what would be more =
+suitable)
+>
+> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - unknown, undefined, full, limit=
+ed
+>
+> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - unknown, undefined, rgb, ycbcr4=
+44, ycbcr422, ycbcr420
+>
+> =C2=A0=C2=A0=C2=A0 - it's the responsibility of the driver to update th=
+e values once the port configuration changes
+>
+> =C2=A0=C2=A0=C2=A0 - if the driver does not support the feedback channe=
+ls they are set to unknown
+>
+> =C2=A0=C2=A0=C2=A0 - if the driver uses a non listed setting it should =
+set the property to undefined
+>
+> =C2=A0=C2=A0=C2=A0 - A more detailed description why I think these feed=
+back channel are important and should be their own read-only
+> property can be found here: https://lkml.org/lkml/2021/5/11/339
+>
+>
+> Adoption:
+>
+> A KDE dev wants to implement the settings in the KDE settings GUI:
+> https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_912370
+>
+> Tuxedo Computers (my employer) wants to implement the settings desktop =
+environment agnostic in Tuxedo Control Center. I
+> will start work on this in parallel to implementing the new kernel code=
+=2E
+>
+>
+> Questions:
+>
+> I'm very curious about feedback from the dri-devel community. Would the=
+ concept outlaid above be accepted as new uAPI
+> once it's fully implemented?
+>
+> Where would be the best way to store the new vendor agnostic settings? =
+Following the implementation of max_bpc i would
+> put it in the drm_connector_state struct.
+>
+> My way forward would be to implement the feedback channels first, becau=
+se they can be very useful for debugging the
+> setting properties afterwards. I will split each of it up it in 3 or 5 =
+patch sets: 1 for the vendor agnostic part, 1 for
+> Intel (or 2 split up between HDMI and DP), and 1 for AMD (or 2 split up=
+ between HDMI and DP)
+>
+> Kind regards,
+>
+> Werner Sembach
+>
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 
-Anyway discussion kicked off, I'll let yout figure out what we'll do here.
--Daniel
-
-> 
-> Alex
-> 
-> 
-> >
-> > Tvrtko Ursulin (7):
-> >   drm/i915: Expose list of clients in sysfs
-> >   drm/i915: Update client name on context create
-> >   drm/i915: Make GEM contexts track DRM clients
-> >   drm/i915: Track runtime spent in closed and unreachable GEM contexts
-> >   drm/i915: Track all user contexts per client
-> >   drm/i915: Track context current active time
-> >   drm/i915: Expose per-engine client busyness
-> >
-> >  drivers/gpu/drm/i915/Makefile                 |   5 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_context.c   |  61 ++-
-> >  .../gpu/drm/i915/gem/i915_gem_context_types.h |  16 +-
-> >  drivers/gpu/drm/i915/gt/intel_context.c       |  27 +-
-> >  drivers/gpu/drm/i915/gt/intel_context.h       |  15 +-
-> >  drivers/gpu/drm/i915/gt/intel_context_types.h |  24 +-
-> >  .../drm/i915/gt/intel_execlists_submission.c  |  23 +-
-> >  .../gpu/drm/i915/gt/intel_gt_clock_utils.c    |   4 +
-> >  drivers/gpu/drm/i915/gt/intel_lrc.c           |  27 +-
-> >  drivers/gpu/drm/i915/gt/intel_lrc.h           |  24 ++
-> >  drivers/gpu/drm/i915/gt/selftest_lrc.c        |  10 +-
-> >  drivers/gpu/drm/i915/i915_drm_client.c        | 365 ++++++++++++++++++
-> >  drivers/gpu/drm/i915/i915_drm_client.h        | 123 ++++++
-> >  drivers/gpu/drm/i915/i915_drv.c               |   6 +
-> >  drivers/gpu/drm/i915/i915_drv.h               |   5 +
-> >  drivers/gpu/drm/i915/i915_gem.c               |  21 +-
-> >  drivers/gpu/drm/i915/i915_gpu_error.c         |  31 +-
-> >  drivers/gpu/drm/i915/i915_gpu_error.h         |   2 +-
-> >  drivers/gpu/drm/i915/i915_sysfs.c             |   8 +
-> >  19 files changed, 716 insertions(+), 81 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
-> >  create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
-> >
-> > --
-> > 2.30.2
-> >
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
