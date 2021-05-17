@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F793827AC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 11:01:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F27D93827BE
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 11:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3AE6E906;
-	Mon, 17 May 2021 09:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33F4C6E913;
+	Mon, 17 May 2021 09:04:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 809CF6E8FD
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 09:01:24 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id 10so4504584pfl.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 02:01:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9OkKHJwSRtsD1XoVSI9D7062oV0S6RC6cgh0CBzJGxQ=;
- b=wurd6Th2hC0CtygbnWfpzXlmQIro6bMhdR7DCsDpr4cXF8QvJWfU2H7SuFcfuyl/on
- xtOSzL9mRf6Qpm+/yH9LQawbpjRtEIfDuKPownnp0Bixi4DHYm0Cv4Ovg/7BeVIjwGte
- Vgvdu50DNIgJdrMFWpziD3ZSowR3zWxzQazg7uoQJt6bE8+uPeOEhd7o2h/HBsYbh8lU
- hlikFoTOsIDijq4sx06mXFj7NwWE6z4lsmpAtBJraB2mLA7f3Dcuke8KR7G53Vp1OhUK
- kMKP77uZj4QYkMbZjh+ysYt/FSCyNPtmGQ0qYnuNvshMWQykCTz+CBHahzQff7YY7bCB
- 17QA==
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 169576E8E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 08:07:56 +0000 (UTC)
+Received: from mail-lf1-f70.google.com ([209.85.167.70])
+ by youngberry.canonical.com with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <juerg.haefliger@canonical.com>) id 1liYI7-0002iJ-Cb
+ for dri-devel@lists.freedesktop.org; Mon, 17 May 2021 08:07:55 +0000
+Received: by mail-lf1-f70.google.com with SMTP id
+ q14-20020a19f20e0000b02901daf8ea9b7aso744432lfh.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 01:07:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9OkKHJwSRtsD1XoVSI9D7062oV0S6RC6cgh0CBzJGxQ=;
- b=N432oDW5hcdz+yZ0bxPKjWxiGBUT4znTC06bzS3Td+WfFWqZ+qATd0ZEwNu7IMFp1n
- frQOvzQaTWEE0VnbeFf0eMGzODV82/FrPCiMao+hHxQb1P25Ya7Uljg6QJX8eOSdX/RD
- 1cqevbJMP3N8DCzgE2NMsmGsEPQ0CO2ABX6O4+GZTYQgAlvlndLAZZBJe80DRRdEkAxp
- HaSZGlcUTvIBYpDJkeyCBnrHbxyd3uT78ZvU6uTDfqI3eSzKebfsNcw1G6i3bvPjoTJa
- SJcIsH4ZMR1SwWx3REvG8Pi4md97gQ7NlBVQzoqcRL7zUUIEBC4d+y2E6Qb4MiIFbLuC
- qAdQ==
-X-Gm-Message-State: AOAM531d3zI+7NOav+Prwy1AtuevGlGO27jpzy9zoQFMf2dB5xRSADmA
- TPd2KNDONhAfqEtKBkTExowcBoSSvDKc+3Idpafl6w==
-X-Google-Smtp-Source: ABdhPJyp+18LHyzRAiO7+sc3FHiRgXNmFI/UTNc7tUNrDDRlUREycMbppyLtZcKvXSr6KiyqKSsBhvaEt7CAlg7Cf0M=
-X-Received: by 2002:a63:4e01:: with SMTP id c1mr46758645pgb.265.1621242084104; 
- Mon, 17 May 2021 02:01:24 -0700 (PDT)
+ bh=2nfOfJbiW4LP47Os6SKNJii3XzVzNGlTqIy0yN4oc5s=;
+ b=pQg8kUhraxDVB4LhrDRIxf74O1nBKswNf1IzmRcFDY+dzWNQViwJqxuQORHz7WjWk6
+ lAF/ssv5/vOy5HvP1z/DuaQUhjYqeYYONTHnjqUmM6E0sAYrtpMUA4Dn6D/UK4df0uEy
+ RMqkG4hIiYffHmyQLqjQA7eMJMDtGwGFPTpucFNx0T5fujEdfsP93dB0JHuCdwU0z5UG
+ sP43ncnMxX7wxdGg8WCMDYk1dmbqtU3U3JU2Kcnf3f/SWx114GVlQAo+hZUN7FFoKNgl
+ 502kn//hkOQDRy8daoojHVXa+PRFJlsmwAw0d4Ok5KM3oZhpkd6EAf01P2jJkyOEPloQ
+ lEbQ==
+X-Gm-Message-State: AOAM533Qena9jqU3YLtlkfVsQwtFWR6jK4eXJexIYynkuib5h4taKBMx
+ 0Y1h4IGKjjDWODuR0b3hfjSQrZR3FPCEsUdgqM8lxVS9l5jdOseukYq7RmozgRTL0pHXkaofYf4
+ DpWKUHMOyyLGMx4Uuti6NLfXHNTiO7BXEysivtzUVU61w7pkI04NxRsp1WpyJ6Q==
+X-Received: by 2002:a05:6512:22c5:: with SMTP id
+ g5mr7249778lfu.540.1621238874887; 
+ Mon, 17 May 2021 01:07:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLtpww2uPvpXvqqFSrHjVtl5+PaUMtX5la3CRUKSXX9w5roG0JSHKvA7LN99mpG0HgsEAdcu8ZL6lhlLJqIdM=
+X-Received: by 2002:a05:6512:22c5:: with SMTP id
+ g5mr7249760lfu.540.1621238874702; 
+ Mon, 17 May 2021 01:07:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210514070306.606-1-linqiheng@huawei.com>
-In-Reply-To: <20210514070306.606-1-linqiheng@huawei.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 17 May 2021 11:01:13 +0200
-Message-ID: <CAG3jFytWqa9CwPto4Q1b5wZvHkviLgtY_pqYWyVCa5Trx0otwg@mail.gmail.com>
-Subject: Re: [PATCH -next] drm: bridge: fix wrong pointer passed to PTR_ERR()
-To: Qiheng Lin <linqiheng@huawei.com>
+References: <20210516132209.59229-1-juergh@canonical.com>
+ <YKIDJIfuufBrTQ4f@kroah.com>
+In-Reply-To: <YKIDJIfuufBrTQ4f@kroah.com>
+From: Juerg Haefliger <juerg.haefliger@canonical.com>
+Date: Mon, 17 May 2021 10:07:43 +0200
+Message-ID: <CAB2i3ZgszsUVDuK2fkUXtD72tPSgrycnDawM4VAuGGPJiA9+cA@mail.gmail.com>
+Subject: Re: [PATCH] treewide: Remove leading spaces in Kconfig files
+To: Greg KH <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Mon, 17 May 2021 09:04:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,47 +65,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Hulk Robot <hulkci@huawei.com>, kernel-janitors@vger.kernel.org,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Phong LE <ple@baylibre.com>,
- Andrzej Hajda <a.hajda@samsung.com>
+Cc: linux-fbdev@vger.kernel.org, mst@redhat.com, tony@atomide.com,
+ jasowang@redhat.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, zbr@ioremap.net,
+ Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-scsi@vger.kernel.org, aaro.koskinen@iki.fi,
+ Juerg Haefliger <juergh@canonical.com>, kadlec@netfilter.org,
+ lvs-devel@vger.kernel.org, ja@ssi.bg, coreteam@netfilter.org, kuba@kernel.org,
+ pablo@netfilter.org, jejb@linux.ibm.com, horms@verge.net.au,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ martin.petersen@oracle.com, jingoohan1@gmail.com, linux-usb@vger.kernel.org,
+ fw@strlen.de, LKML <linux-kernel@vger.kernel.org>, linux@prisktech.co.nz,
+ netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ netdev <netdev@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+ David Miller <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Qiheng,
-
-Thanks for submitting this bugfix.
-
-The title of this patch should probably be:
-drm: bridge: it66121: fix wrong pointer passed to PTR_ERR()
-
-With this fixed, feel free to add my r-b.
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-
-
-On Fri, 14 May 2021 at 09:03, Qiheng Lin <linqiheng@huawei.com> wrote:
+On Mon, May 17, 2021 at 7:46 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> PTR_ERR should access the value just tested by IS_ERR, otherwise
-> the wrong error code will be returned.
+> On Sun, May 16, 2021 at 03:22:09PM +0200, Juerg Haefliger wrote:
+> > There are a few occurences of leading spaces before tabs in a couple of
+> > Kconfig files. Remove them by running the following command:
+> >
+> >   $ find . -name 'Kconfig*' | xargs sed -r -i 's/^[ ]+\t/\t/'
+> >
+> > Signed-off-by: Juerg Haefliger <juergh@canonical.com>
+> > ---
+> >  arch/arm/mach-omap1/Kconfig     | 12 ++++++------
+> >  arch/arm/mach-vt8500/Kconfig    |  6 +++---
+> >  arch/arm/mm/Kconfig             | 10 +++++-----
+> >  drivers/char/hw_random/Kconfig  |  8 ++++----
+> >  drivers/net/usb/Kconfig         | 10 +++++-----
+> >  drivers/net/wan/Kconfig         |  4 ++--
+> >  drivers/scsi/Kconfig            |  2 +-
+> >  drivers/uio/Kconfig             |  2 +-
+> >  drivers/video/backlight/Kconfig | 10 +++++-----
+> >  drivers/virtio/Kconfig          |  2 +-
+> >  drivers/w1/masters/Kconfig      |  6 +++---
+> >  fs/proc/Kconfig                 |  4 ++--
+> >  init/Kconfig                    |  2 +-
+> >  net/netfilter/Kconfig           |  2 +-
+> >  net/netfilter/ipvs/Kconfig      |  2 +-
+> >  15 files changed, 41 insertions(+), 41 deletions(-)
 >
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Qiheng Lin <linqiheng@huawei.com>
-> ---
->  drivers/gpu/drm/bridge/ite-it66121.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Please break this up into one patch per subsystem and resend to the
+> proper maintainers that way.
+
+Hmm... How is my patch different from other treewide Kconfig cleanup
+patches like:
+a7f7f6248d97 ("treewide: replace '---help---' in Kconfig files with 'help'")
+8636a1f9677d ("treewide: surround Kconfig file paths with double quotes")
+83fc61a563cb ("treewide: Fix typos in Kconfig")
+769a12a9c760 ("treewide: Kconfig: fix wording / spelling")
+f54619f28fb6 ("treewide: Fix typos in Kconfig")
+
+...Juerg
+
+
+> thanks,
 >
-> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> index d8a60691fd32..6980c9801d0d 100644
-> --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> @@ -943,7 +943,7 @@ static int it66121_probe(struct i2c_client *client,
->         ctx->regmap = devm_regmap_init_i2c(client, &it66121_regmap_config);
->         if (IS_ERR(ctx->regmap)) {
->                 ite66121_power_off(ctx);
-> -               return PTR_ERR(ctx);
-> +               return PTR_ERR(ctx->regmap);
->         }
->
->         regmap_read(ctx->regmap, IT66121_VENDOR_ID0_REG, &vendor_ids[0]);
->
+> greg k-h
