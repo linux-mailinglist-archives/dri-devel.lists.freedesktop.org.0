@@ -1,43 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBD1382A95
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 13:09:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6527382B94
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 13:57:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30B8E6E03B;
-	Mon, 17 May 2021 11:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C33C6E04B;
+	Mon, 17 May 2021 11:57:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E66896E03B;
- Mon, 17 May 2021 11:08:59 +0000 (UTC)
-IronPort-SDR: FWzk8ctLKNGkv51/KalBf3wj6T5hf5TIzn1+LRugNpsOtOK6vkIFMHRCO5AY0oXxGwm28RmDiv
- vJv2YyCouEiA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9986"; a="180716843"
-X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; d="scan'208";a="180716843"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2021 04:08:58 -0700
-IronPort-SDR: GGEOLPLOmLJeLa1cAW3kGTxlUUNAQiB9Y8BmFXg07FAYZodrtWGUlHmB3GWBWgUvoG5lmMETjT
- +goB1MxW2RJg==
-X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; d="scan'208";a="438868164"
-Received: from sudhirk1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.50.192])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2021 04:08:54 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, bskeggs@redhat.com
-Subject: Re: [PATCH 0/3] drm: Remove some includes of drm_legacy.h
-In-Reply-To: <20210516185937.5644-1-tzimmermann@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210516185937.5644-1-tzimmermann@suse.de>
-Date: Mon, 17 May 2021 14:08:51 +0300
-Message-ID: <87lf8dhb24.fsf@intel.com>
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0C526E936
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 11:57:07 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id h16so6529698edr.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 04:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RnGXj2NW9FvwL1U6bZyIirlr8kq9qLriuQ97eWvq66o=;
+ b=gpxhADq5q/S26guUVsHY5qzJYr8kp42YH/g3hHGBDF8CV5K1Ro0dh2xP5MrN7Wjvh7
+ OrcsLwNkja6dNscDxUCg4DxEF+VHTBsmmJ1ua/JAkyaQ+ynMwQahFKxOxqfR/yFJtpoM
+ lYKfWMNGV85KhESfuDQwDRHQG1x2G4dlvGYaf7UGSN6yGEcUQoF17iv3XPXFPKvcVG30
+ IumKxN6h37XIEzhTpR5Alh0W8rN1u2YfilwXotIvgtOjQJmGWYLIP0Uiy5Z4kv1iT0Js
+ 6CPvkGpHXzRqRvvLRSz/fl0Jrcn/P1Q9VU9s2wT8Hn2eY0neAZHbn2uwTqsKoqK3TX0d
+ b0HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RnGXj2NW9FvwL1U6bZyIirlr8kq9qLriuQ97eWvq66o=;
+ b=c5W2UydZL4d1T1p5ZmknNIGZ4+mpP3HyF4/MNSMK1KPTvOftVluw2i3/df2UdFeIlK
+ 3ev/kufmvUm1upM6/ZY+NCOyBzgd6Zp5CtcPk3EmT1/LbuHQKYSsDOGendcm+9p8Dqot
+ /j4aDRyoXs7C444/GBsqEqR0dp2As5J4bqzlCviYBeOviVHc2L6uZOL7kxINOJqlaFh9
+ FFAv8y966XsSDtXYG4rECTDyKjZ9H4STzSWU+AnjOWhgiVeWQui8KkIcU/4JGnMtyDfD
+ lOnZiLRlBLXFI59a32KBOpt8VyMN9rZQobMNHj28MD0dOBhwUto3Vsd3obKwCPnEvFn+
+ ZSxA==
+X-Gm-Message-State: AOAM531mlQWuU4KuZD2oDyUy5n1vNpT+xZPSr0rvozTzzk1qGGDgocCW
+ IShfyrTY8g4IibV9B3YBmaYM1ZdEr+8=
+X-Google-Smtp-Source: ABdhPJzVzNZUwyk8nefrMnx/oOjxopZ0uw6ylAuQMN6/WZQetnGFdNsMPqZ/OzVA0mPwGebzvwe9AA==
+X-Received: by 2002:a05:6402:35c5:: with SMTP id
+ z5mr3758380edc.210.1621252626574; 
+ Mon, 17 May 2021 04:57:06 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:5134:9462:d117:4be4])
+ by smtp.gmail.com with ESMTPSA id k26sm8579083eje.67.2021.05.17.04.57.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 04:57:06 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch
+Subject: [PATCH] dma-buf: fix unintended pin/unpin warnings
+Date: Mon, 17 May 2021 13:57:05 +0200
+Message-Id: <20210517115705.2141-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +70,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 16 May 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Remove include statements for DRM legacy headers. None of these
-> dependencies is required. Built-tested w/o CONFIG_DRM_LEGACY set.
->
-> These patches should probably go through drm-misc, like the rest
-> of the legacy cleanups.
+DMA-buf internal users call the pin/unpin functions without having a
+dynamic attachment. Avoid the warning and backtrace in the logs.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Bugs: https://gitlab.freedesktop.org/drm/intel/-/issues/3481
+Fixes: c545781e1c55 ("dma-buf: doc polish for pin/unpin")
+CC: stable@kernel.org
+---
+ drivers/dma-buf/dma-buf.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-
->
-> Thomas Zimmermann (3):
->   drm/i915: Don't include drm_legacy.h
->   drm/nouveau: Don't include drm_legacy.h
->   drm: Don't include drm_legacy.h in drm_lease.c
->
->  drivers/gpu/drm/drm_lease.c              | 1 -
->  drivers/gpu/drm/i915/gem/i915_gem_phys.c | 1 -
->  drivers/gpu/drm/i915/i915_drv.h          | 1 -
->  drivers/gpu/drm/nouveau/nouveau_ttm.c    | 2 --
->  4 files changed, 5 deletions(-)
->
->
-> base-commit: 77fc6f68ed347b0a4c6969f6adac70026d5b1449
-> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
-> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-> prerequisite-patch-id: c59ca2ddb182af06006fa360ad3e90fe16b93d3a
-> prerequisite-patch-id: 8c45deec68d6ab65d66f551b51b12acf2e9ae0b4
-> prerequisite-patch-id: 742f08083f0d5776068a761b1e2432e8edc2bdf8
-> prerequisite-patch-id: 39cfaf5f337ec53d3237bf2a700e77c84f789039
-> --
-> 2.31.1
->
-
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index f264b70c383e..eadd1eaa2fb5 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -760,7 +760,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 
+ 		if (dma_buf_is_dynamic(attach->dmabuf)) {
+ 			dma_resv_lock(attach->dmabuf->resv, NULL);
+-			ret = dma_buf_pin(attach);
++			ret = dmabuf->ops->pin(attach);
+ 			if (ret)
+ 				goto err_unlock;
+ 		}
+@@ -786,7 +786,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 
+ err_unpin:
+ 	if (dma_buf_is_dynamic(attach->dmabuf))
+-		dma_buf_unpin(attach);
++		dmabuf->ops->unpin(attach);
+ 
+ err_unlock:
+ 	if (dma_buf_is_dynamic(attach->dmabuf))
+@@ -843,7 +843,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 		__unmap_dma_buf(attach, attach->sgt, attach->dir);
+ 
+ 		if (dma_buf_is_dynamic(attach->dmabuf)) {
+-			dma_buf_unpin(attach);
++			dmabuf->ops->unpin(attach);
+ 			dma_resv_unlock(attach->dmabuf->resv);
+ 		}
+ 	}
+@@ -956,7 +956,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+ 	if (dma_buf_is_dynamic(attach->dmabuf)) {
+ 		dma_resv_assert_held(attach->dmabuf->resv);
+ 		if (!IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY)) {
+-			r = dma_buf_pin(attach);
++			r = attach->dmabuf->ops->pin(attach);
+ 			if (r)
+ 				return ERR_PTR(r);
+ 		}
+@@ -968,7 +968,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+ 
+ 	if (IS_ERR(sg_table) && dma_buf_is_dynamic(attach->dmabuf) &&
+ 	     !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+-		dma_buf_unpin(attach);
++		attach->dmabuf->ops->unpin(attach);
+ 
+ 	if (!IS_ERR(sg_table) && attach->dmabuf->ops->cache_sgt_mapping) {
+ 		attach->sgt = sg_table;
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.25.1
+
