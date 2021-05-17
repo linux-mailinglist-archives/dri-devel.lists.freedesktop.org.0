@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D3B382EE7
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 16:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFB6382FE3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 16:20:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0E96E979;
-	Mon, 17 May 2021 14:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB286E988;
+	Mon, 17 May 2021 14:20:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B91F86E975
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 14:11:41 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id a25so7056789edr.12
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 07:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Xt3NABxpywAvvR6VPkv8lAm7fXhnKgnyzb3m+fNVeUo=;
- b=HBMsiDCnkg8q6WJeZba0+meqo7/6wak/E589gphpPEG1HVCQDkwYOXqZqFHWsWyy8m
- LLCzXhox4X3a7ABpEZriAAB1+oLe4yPKvX4ib3GelAwxlR5v6XbvNBIFkmAhoKhs/iYc
- F2srM1ZIOBxT1ZmY6O+VPauqL/kZf0LeDasDTROI87urWxBC/K/pRo/+rwW/JelsQPjj
- w9VdOd9uFx5xrI3f2aXYYzbpGraRU6LhSgS7hpYiQzcHef0qbKjAf30BXd6Wjyl8IIQ4
- cUX5SHmXPBJ7NoQBcJup8nZn7AOcKW3h+ZPRjVbaBQyZ2d/tQvfJ3KdYa/MV7dUkTXPT
- eriw==
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4E886E98F
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 14:20:38 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ h3-20020a05600c3503b0290176f13c7715so2108643wmq.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 07:20:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=qatGReyEGvb3id3L6Fo5pFkW8h6Idre0J15T6NNKCNg=;
+ b=WdVJlqxNsy4yFridaoe9XHyI//s6JmNUS4dy2oQVDnN0dBvylaZvjMD4Z+3V+AG4jA
+ iEJTlAjifYpRj102tk2KE9Vi7B8Gs3I299TNUQEJL84ndji9q/wtj+uZX7f1472GAJVZ
+ ugOAfH1FVlIqVKFarsbGzmCmdFNvEUPnr/XKg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Xt3NABxpywAvvR6VPkv8lAm7fXhnKgnyzb3m+fNVeUo=;
- b=UqE97i4e3H/r14oQ8Z+53/5tqoZY9BwSMpWqw9BAt4dzTAB9zC8GA/ZBaTMh9iLgMc
- 4/fNzIPBGmMAv9fjH3GAYbuxyRaR+OCguI9AnlEAZHMhkik/gMXzccQiQ6RtNp0T2bzQ
- sRQqsFC6JqhDFgmmzmMx9DhUYrhZbHq96j+Zau5SFqHDQdVE8PdYP51AG/FPptmkQJ+x
- s+TqJsWgM2tHGjkQEsC1Js7B9LNbD9C3DUv2xbTSiypOHgrft7k8DMjcKf/67Von59Gp
- 1JdO0VdjjVLhteniL+HB6/EsP4NNgpsCrECcXvY94lVkRkSjNjqEDUm8raJj/tqldvvF
- vuug==
-X-Gm-Message-State: AOAM531sImKtZwHAB5Pya+tD0o/4YNOjPWGU04H+m/YzANZxE4gAO4KG
- GlKdYW99TUEDhVc5n7eWQIUDYyQfr3M=
-X-Google-Smtp-Source: ABdhPJxobpB36uMi5VYCY/9yNi3dWFU7MQChGpDZL7IOrslL73L4i8sHXWhiyHs/b2HSghEVt5Bl6w==
-X-Received: by 2002:aa7:db93:: with SMTP id u19mr221239edt.227.1621260700438; 
- Mon, 17 May 2021 07:11:40 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:1df4:c5b6:b8fd:3c4b])
- by smtp.gmail.com with ESMTPSA id b9sm2419624edt.71.2021.05.17.07.11.39
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=qatGReyEGvb3id3L6Fo5pFkW8h6Idre0J15T6NNKCNg=;
+ b=lTSaE1xBsk3JKt0ltQaUy6I2jxNas21d+ua6yBLqH2b5ig/qzgKeXkmGRCiVE+u1RC
+ +qAeWIXVlEQZUBCHuaReaL0FMUj//XQ9PfjX5LPdOMijdd5vkbea6PToBKNHEruMW5CT
+ XeZQMsolAi5rZ4ky3VJMNEfj745zYaovRfgraTEM/jAwD8ifNP5JOcg/vA6LYpfy49qB
+ IqDAyG0EBR8wj6pDXzuIuKoUWUfAgoHB9DJaPmyMKXU/xqyISzIPyunUzpTg8nq3vc1H
+ 969G19TM2FRBQxP+JNIZlih+1qcbPmcyFJJg3ZVaDCPhbrlmgIZxZ4WUA9fUa6slF8T5
+ +HVQ==
+X-Gm-Message-State: AOAM530cQs8GP1D+AREAuF+Ch3/VmmUcggqYp5CX/Ueis5ceGiPT3iQp
+ 8dpCC8/T7ogO2VCmDTy6ofbaTQ==
+X-Google-Smtp-Source: ABdhPJx0ORpazumalVHws4W655cliAYLvGV+NgXnzj5XCHaLy+foLRsNijtegEYI5VN/pyr48JyOSA==
+X-Received: by 2002:a1c:f705:: with SMTP id v5mr181944wmh.69.1621261237370;
+ Mon, 17 May 2021 07:20:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f4sm18076863wrz.33.2021.05.17.07.20.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 07:11:40 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 11/11] drm/amdgpu: fix shared access to exported DMA-bufs
-Date: Mon, 17 May 2021 16:11:29 +0200
-Message-Id: <20210517141129.2225-12-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210517141129.2225-1-christian.koenig@amd.com>
-References: <20210517141129.2225-1-christian.koenig@amd.com>
+ Mon, 17 May 2021 07:20:36 -0700 (PDT)
+Date: Mon, 17 May 2021 16:20:34 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH 0/7] Per client engine busyness
+Message-ID: <YKJ7spuNLzsv5SG3@phenom.ffwll.local>
+References: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
+ <CADnq5_NEg4s2AWBTkjW7NXoBe+WB=qQUHCMPP6DcpGSLbBF-rg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADnq5_NEg4s2AWBTkjW7NXoBe+WB=qQUHCMPP6DcpGSLbBF-rg@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,117 +69,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We are running into more and more problems with that approach since every
-command submission to the buffer in question is now serializing.
+On Thu, May 13, 2021 at 11:48:08AM -0400, Alex Deucher wrote:
+> On Thu, May 13, 2021 at 7:00 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+> >
+> > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> >
+> > Resurrect of the previosuly merged per client engine busyness patches. In a
+> > nutshell it enables intel_gpu_top to be more top(1) like useful and show not
+> > only physical GPU engine usage but per process view as well.
+> >
+> > Example screen capture:
+> > ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > intel-gpu-top -  906/ 955 MHz;    0% RC6;  5.30 Watts;      933 irqs/s
+> >
+> >       IMC reads:     4414 MiB/s
+> >      IMC writes:     3805 MiB/s
+> >
+> >           ENGINE      BUSY                                      MI_SEMA MI_WAIT
+> >      Render/3D/0   93.46% |████████████████████████████████▋  |      0%      0%
+> >        Blitter/0    0.00% |                                   |      0%      0%
+> >          Video/0    0.00% |                                   |      0%      0%
+> >   VideoEnhance/0    0.00% |                                   |      0%      0%
+> >
+> >   PID            NAME  Render/3D      Blitter        Video      VideoEnhance
+> >  2733       neverball |██████▌     ||            ||            ||            |
+> >  2047            Xorg |███▊        ||            ||            ||            |
+> >  2737        glxgears |█▍          ||            ||            ||            |
+> >  2128           xfwm4 |            ||            ||            ||            |
+> >  2047            Xorg |            ||            ||            ||            |
+> > ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> > Internally we track time spent on engines for each struct intel_context, both
+> > for current and past contexts belonging to each open DRM file.
+> >
+> > This can serve as a building block for several features from the wanted list:
+> > smarter scheduler decisions, getrusage(2)-like per-GEM-context functionality
+> > wanted by some customers, setrlimit(2) like controls, cgroups controller,
+> > dynamic SSEU tuning, ...
+> >
+> > To enable userspace access to the tracked data, we expose time spent on GPU per
+> > client and per engine class in sysfs with a hierarchy like the below:
+> >
+> >         # cd /sys/class/drm/card0/clients/
+> >         # tree
+> >         .
+> >         ├── 7
+> >         │   ├── busy
+> >         │   │   ├── 0
+> >         │   │   ├── 1
+> >         │   │   ├── 2
+> >         │   │   └── 3
+> >         │   ├── name
+> >         │   └── pid
+> >         ├── 8
+> >         │   ├── busy
+> >         │   │   ├── 0
+> >         │   │   ├── 1
+> >         │   │   ├── 2
+> >         │   │   └── 3
+> >         │   ├── name
+> >         │   └── pid
+> >         └── 9
+> >             ├── busy
+> >             │   ├── 0
+> >             │   ├── 1
+> >             │   ├── 2
+> >             │   └── 3
+> >             ├── name
+> >             └── pid
+> >
+> > Files in 'busy' directories are numbered using the engine class ABI values and
+> > they contain accumulated nanoseconds each client spent on engines of a
+> > respective class.
+> 
+> We did something similar in amdgpu using the gpu scheduler.  We then
+> expose the data via fdinfo.  See
+> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1774baa64f9395fa884ea9ed494bcb043f3b83f5
+> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=874442541133f78c78b6880b8cc495bab5c61704
 
-Since the i915 where we originally added that for is now fixed we should
-be able to remove this.
+Yeah the reason I've dropped these patches was because they looked like
+prime material for at least a bit of standardization across drivers.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      | 10 ++--------
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  6 ------
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     |  5 -----
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |  1 -
- 5 files changed, 3 insertions(+), 21 deletions(-)
+Also fdinfo sounds like very good interface for these, I didn't even know
+that's doable. Might also be interesting to even standardize the fdinfo
+stuff across drivers.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index b5c766998045..6b610a2df52f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -614,14 +614,8 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
- 	gws = p->bo_list->gws_obj;
- 	oa = p->bo_list->oa_obj;
- 
--	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
--		struct amdgpu_bo *bo = ttm_to_amdgpu_bo(e->tv.bo);
--
--		/* Make sure we use the exclusive slot for shared BOs */
--		if (bo->prime_shared_count)
--			e->tv.num_shared = 0;
--		e->bo_va = amdgpu_vm_bo_find(vm, bo);
--	}
-+	amdgpu_bo_list_for_each_entry(e, p->bo_list)
-+		e->bo_va = amdgpu_vm_bo_find(vm, ttm_to_amdgpu_bo(e->tv.bo));
- 
- 	if (gds) {
- 		p->job->gds_base = amdgpu_bo_gpu_offset(gds) >> PAGE_SHIFT;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index 67cef80e25c8..76a2ac547698 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -167,7 +167,6 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
- 	if (r)
- 		goto out;
- 
--	bo->prime_shared_count++;
- 	amdgpu_bo_unreserve(bo);
- 	return 0;
- 
-@@ -191,9 +190,6 @@ static void amdgpu_dma_buf_detach(struct dma_buf *dmabuf,
- 	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
- 
--	if (attach->dev->driver != adev->dev->driver && bo->prime_shared_count)
--		bo->prime_shared_count--;
--
- 	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
- 	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
- }
-@@ -446,8 +442,6 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, struct dma_buf *dma_buf)
- 	bo = gem_to_amdgpu_bo(gobj);
- 	bo->allowed_domains = AMDGPU_GEM_DOMAIN_GTT;
- 	bo->preferred_domains = AMDGPU_GEM_DOMAIN_GTT;
--	if (dma_buf->ops != &amdgpu_dmabuf_ops)
--		bo->prime_shared_count = 1;
- 
- 	dma_resv_unlock(resv);
- 	return gobj;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index 94da44d97e7f..33eddea5d83d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -775,11 +775,6 @@ int amdgpu_gem_op_ioctl(struct drm_device *dev, void *data,
- 		break;
- 	}
- 	case AMDGPU_GEM_OP_SET_PLACEMENT:
--		if (robj->prime_shared_count && (args->value & AMDGPU_GEM_DOMAIN_VRAM)) {
--			r = -EINVAL;
--			amdgpu_bo_unreserve(robj);
--			break;
--		}
- 		if (amdgpu_ttm_tt_get_usermm(robj->tbo.ttm)) {
- 			r = -EPERM;
- 			amdgpu_bo_unreserve(robj);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 1190781cefcb..158c9e94d42f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -906,7 +906,7 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u32 domain,
- 		return -EINVAL;
- 
- 	/* A shared bo cannot be migrated to VRAM */
--	if (bo->prime_shared_count || bo->tbo.base.import_attach) {
-+	if (bo->tbo.base.import_attach) {
- 		if (domain & AMDGPU_GEM_DOMAIN_GTT)
- 			domain = AMDGPU_GEM_DOMAIN_GTT;
- 		else
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-index b37d36ac6b5a..d7355396995d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-@@ -92,7 +92,6 @@ struct amdgpu_bo {
- 	struct ttm_buffer_object	tbo;
- 	struct ttm_bo_kmap_obj		kmap;
- 	u64				flags;
--	unsigned			prime_shared_count;
- 	/* per VM structure for page tables and with virtual addresses */
- 	struct amdgpu_vm_bo_base	*vm_bo;
- 	/* Constant after initialization */
+Also since drm/i915 will adopt drm/scheduler, we could build that on top
+of that code too. So no restrictions there from i915 side.
+
+Anyway discussion kicked off, I'll let yout figure out what we'll do here.
+-Daniel
+
+> 
+> Alex
+> 
+> 
+> >
+> > Tvrtko Ursulin (7):
+> >   drm/i915: Expose list of clients in sysfs
+> >   drm/i915: Update client name on context create
+> >   drm/i915: Make GEM contexts track DRM clients
+> >   drm/i915: Track runtime spent in closed and unreachable GEM contexts
+> >   drm/i915: Track all user contexts per client
+> >   drm/i915: Track context current active time
+> >   drm/i915: Expose per-engine client busyness
+> >
+> >  drivers/gpu/drm/i915/Makefile                 |   5 +-
+> >  drivers/gpu/drm/i915/gem/i915_gem_context.c   |  61 ++-
+> >  .../gpu/drm/i915/gem/i915_gem_context_types.h |  16 +-
+> >  drivers/gpu/drm/i915/gt/intel_context.c       |  27 +-
+> >  drivers/gpu/drm/i915/gt/intel_context.h       |  15 +-
+> >  drivers/gpu/drm/i915/gt/intel_context_types.h |  24 +-
+> >  .../drm/i915/gt/intel_execlists_submission.c  |  23 +-
+> >  .../gpu/drm/i915/gt/intel_gt_clock_utils.c    |   4 +
+> >  drivers/gpu/drm/i915/gt/intel_lrc.c           |  27 +-
+> >  drivers/gpu/drm/i915/gt/intel_lrc.h           |  24 ++
+> >  drivers/gpu/drm/i915/gt/selftest_lrc.c        |  10 +-
+> >  drivers/gpu/drm/i915/i915_drm_client.c        | 365 ++++++++++++++++++
+> >  drivers/gpu/drm/i915/i915_drm_client.h        | 123 ++++++
+> >  drivers/gpu/drm/i915/i915_drv.c               |   6 +
+> >  drivers/gpu/drm/i915/i915_drv.h               |   5 +
+> >  drivers/gpu/drm/i915/i915_gem.c               |  21 +-
+> >  drivers/gpu/drm/i915/i915_gpu_error.c         |  31 +-
+> >  drivers/gpu/drm/i915/i915_gpu_error.h         |   2 +-
+> >  drivers/gpu/drm/i915/i915_sysfs.c             |   8 +
+> >  19 files changed, 716 insertions(+), 81 deletions(-)
+> >  create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
+> >  create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
+> >
+> > --
+> > 2.30.2
+> >
+
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
