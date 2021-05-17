@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE5F386C89
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 23:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D655386CBF
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 00:05:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC6F96E4C1;
-	Mon, 17 May 2021 21:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 283706E093;
+	Mon, 17 May 2021 22:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 564576E48E;
- Mon, 17 May 2021 21:46:41 +0000 (UTC)
-IronPort-SDR: jedau+5vNUxmyr3/Y75oc0/ZG6Dw3/FnGMdhhyBRwTYHvhl0I9M4473HbbE9XgnmwKPLxisbaD
- ZzOWi/OlCAbA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="198624735"
-X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; d="scan'208";a="198624735"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2021 14:46:40 -0700
-IronPort-SDR: s5l9ImYLcSiB/VyGPVX9aB8wj3/TqQL2Gvtn9SvHg+KEAQri3lwvx4FhqH3+3zM3KjxvlykP5/
- YFPogSmBzmJA==
-X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; d="scan'208";a="393695671"
-Received: from mkosciow-mobl.igk.intel.com (HELO [10.249.254.186])
- ([10.249.254.186])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2021 14:46:37 -0700
-Subject: Re: [Intel-gfx] [PATCH 4/4] i915: fix remap_io_sg to verify the pgprot
-To: Christoph Hellwig <hch@lst.de>, Serge Belyshev <belyshev@depni.sinp.msu.ru>
-References: <20210326055505.1424432-1-hch@lst.de>
- <20210326055505.1424432-5-hch@lst.de> <87pmxqiry6.fsf@depni.sinp.msu.ru>
- <20210517123716.GD15150@lst.de> <87lf8dik15.fsf@depni.sinp.msu.ru>
- <20210517131137.GA19451@lst.de>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <976fb38a-7780-6ca6-d602-a5f02c0938c9@linux.intel.com>
-Date: Mon, 17 May 2021 23:46:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from gimli.rothwell.id.au (gimli.rothwell.id.au [103.230.158.156])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 003966E093
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 22:05:04 +0000 (UTC)
+Received: from authenticated.rothwell.id.au (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.rothwell.id.au (Postfix) with ESMTPSA id 4FkY8L0S1vzyQJ;
+ Tue, 18 May 2021 08:04:49 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rothwell.id.au;
+ s=201702; t=1621289095;
+ bh=3zQXipN+5rOCvuSWYiWEGaHiIwQkUt3DbG1nZj86/GA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=HR05GDKDWir9rgKkNqrsP3gB9XDLsEcqyIvUHVkqm/81SVLRh95UaKWlAzs1Sv6FS
+ EdvTZ8ePSqaUgMoCtJCdWuOxNjbJmVGI/qoV1ZtToTpr7LyBtOkCSmwQWJNLB1FxbS
+ xNnTzmmQMrtA4DtMnGhNGAiHbbBLeNAGOEU/cyfS97qKdCVfXGRHy5wqGsG6rUZXQw
+ YK79e1iKJTXf5ReYrjvWE3sClmplCce00k8aYXkPKYKAgDp44J2EI76SN2V7aApLp+
+ J7h8ZC+kEmV6Ye048s2mUco9cIxyfmgfOdrsuXWrSuhKR1oSXX9qdoN0b7AYBFGXb8
+ giw94aHB87aDg==
+Date: Tue, 18 May 2021 08:04:42 +1000
+From: Stephen Rothwell <sfr@rothwell.id.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PULL] topic/iomem-mmap-vs-gup
+Message-ID: <20210518080442.28080686@elm.ozlabs.ibm.com>
+In-Reply-To: <CAKMK7uFsRPod-tAJ8ZrzXM6B_+5VgvRs-U0_TiG75da62cnVnw@mail.gmail.com>
+References: <YJBHiRiCGzojk25U@phenom.ffwll.local>
+ <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
+ <YJVijmznt1xnsCxc@phenom.ffwll.local>
+ <CAHk-=wgjO8-f1bUwQB=5HGzkvSS+aGACR9+H5CkkDhRgud+3MA@mail.gmail.com>
+ <CAKMK7uELBbkhFBQoSfvMx+AKnbk-fgbamBm3sC20-dJwMq3Xmg@mail.gmail.com>
+ <YJjg3DRnG1RG6VDK@infradead.org>
+ <CAKMK7uFsRPod-tAJ8ZrzXM6B_+5VgvRs-U0_TiG75da62cnVnw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210517131137.GA19451@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: multipart/signed; boundary="Sig_/aggeSpPGRwf/ibiafiFMPrw";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,36 +57,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@infradead.org>,
+ Linux-MM <linux-mm@kvack.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/aggeSpPGRwf/ibiafiFMPrw
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 5/17/21 3:11 PM, Christoph Hellwig wrote:
-> On Mon, May 17, 2021 at 04:09:42PM +0300, Serge Belyshev wrote:
->> Christoph Hellwig <hch@lst.de> writes:
->>
->>> As an ad-hoc experiment:  can you replace the call to remap_pfn_range
->>> with remap_pfn_range_notrack (and export it if you build i915 modular)
->>> in remap_io_sg and see if that makes any difference?
->> That worked, thanks -- no artifacts seen.
-> Looks like it is caused by the validation failure then.  Which means the
-> existing code is doing something wrong in its choice of the page
-> protection bit.  I really need help from the i915 maintainers here..
+Hi Daniel,
 
-Hmm,
+On Mon, 17 May 2021 17:29:35 +0200 Daniel Vetter <daniel.vetter@ffwll.ch> w=
+rote:
+>
+> On Mon, May 10, 2021 at 9:30 AM Christoph Hellwig <hch@infradead.org> wro=
+te:
+> >
+> > On Mon, May 10, 2021 at 09:16:58AM +0200, Daniel Vetter wrote: =20
+> > > > End result: not pulling it, unless somebody can explain to me in sm=
+all
+> > > > words why I'm wrong and have the mental capacity of a damaged roden=
+t. =20
+> > >
+> > > No rodents I think, just more backstory of how this all fits. tldr;
+> > > pin_user_pages is the only safe use of this vb2 userptr thing. =20
+> >
+> > Yes, which is why I advocate for just ripping the follow_pfn path
+> > out entirely.  It could have been used for crazy ad dangerous peer to
+> > peer transfers outside of any infrastructure making it safe, or for
+> > pre-CMA kernel memory carveouts for lage contiguous memory allocations
+> > (which are pretty broken by design as well).  So IMHO the only sensible
+> > thing is to remove this cruft entirely, and if it breaks a currently
+> > working setup (which I think is unlikely) we'll have to make sure it
+> > can work the proper way. =20
+>=20
+> Since I'm not getting any cozy consenus vibes here on any option I
+> think I'll just drop this.
+>=20
+> Stephen, can you pls drop
+>=20
+> git://anongit.freedesktop.org/drm/drm topic/iomem-mmap-vs-gup
+>=20
+> from linux-next? It's not going anywhere. I'll also go ahead and
+> delete the branch, to make sure you catch this update :-)
 
-Apart from the caching aliasing Mattew brought up, doesn't the 
-remap_pfn_range_xxx() family require the mmap_sem held in write mode 
-since it modifies the vma structure? remap_io_sg() is called from the 
-fault handler with the mmap_sem held in read mode only.
+I have dropped this now.  Thanks for letting me know.
 
-/Thomas
+--=20
+Cheers,
+Stephen Rothwell
 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+--Sig_/aggeSpPGRwf/ibiafiFMPrw
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCi6HoACgkQAVBC80lX
+0GyNzAf+PsJKuLMSyGdrI9Eb1SKOtnkBb4Phs9Z2XAd9Ch2v94oPoiB9Q+2fMR3X
+YDjZPndyD/LzF1qIRGWDZLhcf8FBU80ZXRNxTfw+yjoH9wcj+cQl5Nlw/qTdINnZ
+FI/aXekpdIFmzXYWl3+6h2RCq/C/+/fl3hIDqRyNgSRWIx+oqk97eSB4WEnynGLB
+ng3poVuFFymwD/y9fDhCyEKfwjEDZqu+fiaYS0Jvl+e9nx19iScrMtm9jVmS7F4Y
+yHItNAj7wnhP+UqJ4Xs2LoQv+AfX0amYwjVqen/f4mEY5cVwBgMmTiVi/7I9nQVe
+5nXKiM/GXzrpZDuYnZelmd+uAsn+Gw==
+=3/Jz
+-----END PGP SIGNATURE-----
+
+--Sig_/aggeSpPGRwf/ibiafiFMPrw--
