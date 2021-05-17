@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57AF8386B7E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 22:37:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 285DD386C3B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 23:24:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3A776E175;
-	Mon, 17 May 2021 20:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 254926E39B;
+	Mon, 17 May 2021 21:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126E36E175
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 20:36:57 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id r12so7802840wrp.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 13:36:57 -0700 (PDT)
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47BF36E39B
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 21:24:34 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ d25-20020a0568300459b02902f886f7dd43so6820097otc.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 14:24:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=oT1kfOKsvB3eKB/ISFtj3GgwhSj6SpZpAhs3W98vSHQ=;
- b=cigLzIjZCzsk3str9RA+LvaYg5qDuYK4bV4zG751sXnbfbLXPo7JG0jGrX5B+oeHSD
- VUTJ1FhtRYnSQkfdvekyXpHAPp5K9WTP1WnKoQwqYEOLX/1h81y3vYsymZ8sIK5+FpmJ
- t4ZHqG1/rvPEFLfhsgz8Dlz8Zzzj/WG+MtGJs=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=oH3TC5arSRaF8BIUZrshZTlog0VnB0gntUMJVypigfs=;
+ b=QlV40N7TUAOs+IaxiBtG2dynhiNN5tjMcrB4KWStLHrfT6rF8D6urPDb/mCdYExe0a
+ ILKInm+TsP6pUhtSZQuHzJeW+Mn2/u3WVlG5HEo/kcXAa9ba6sVSA0Ssa6dHooMiKsVU
+ pmY+uNvFXWeVbdKI3p5q+KkBdWiTvvw+383cs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=oT1kfOKsvB3eKB/ISFtj3GgwhSj6SpZpAhs3W98vSHQ=;
- b=ngJVsqo17wy+23gjCwBLkSfzBxIQhpZXS4kIRMc1KptRFUXoI9GYVBSsXQ+FX8b/m8
- VnKrUpMRYUNok6DfKyrghuxEKVuIJXBgAwAe0DT8/d/Kcw89EGq+/54OvIOxtEDoJ4Qk
- CyC+wV2g4Q9ji3igzmCY1I8GxmuNSRrzKclLxpp6+01GYCKoIvKI8Nh2htlUvVRSU1lg
- D8zo0nA3v8/mucn8IxQTfCpstNjEPD718jiC3y2jOI2SLxPxtnoRLt4Eig6vVh+1/TL6
- Lhl/0KZe6yDn3l+P6SehLf9O2Y9uFQlYyudfKWOGHcOfy/YDXkoNzOHFYB/QIyl93a3G
- deNg==
-X-Gm-Message-State: AOAM532a20wFp+zQWjIpxb8NColPccWZEbc7f1Pm/18IcDbspQivciBX
- IZ/+JB5p3rsUopc+IVkcQB8MhMu/qUQvLw==
-X-Google-Smtp-Source: ABdhPJwfJaR6KRK5ct+Ys2UmzHOgpFgn5mw/saiMD8v2rH8oK3eVm9SpzLl799wQWfRSdgjXyON5SQ==
-X-Received: by 2002:a5d:570c:: with SMTP id a12mr1797059wrv.354.1621283816448; 
- Mon, 17 May 2021 13:36:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 6sm17840361wry.60.2021.05.17.13.36.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 13:36:55 -0700 (PDT)
-Date: Mon, 17 May 2021 22:36:53 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 09/11] dma-buf: add shared fence usage flags
-Message-ID: <YKLT5WO+7dKUVhyP@phenom.ffwll.local>
-References: <20210517141129.2225-1-christian.koenig@amd.com>
- <20210517141129.2225-10-christian.koenig@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=oH3TC5arSRaF8BIUZrshZTlog0VnB0gntUMJVypigfs=;
+ b=RYD/LlPCVkpYanrM70SnQF0gMBNM6Y96CIWMWVilYlNou44Im7GMAtZOpiQKYswLWf
+ M27bTM6eaUIX1WlSPlY/NSVAEUnhXIaA4ukR/ydBbhJe7ZLmuYk0wBdKc22ia04SqPbQ
+ a0c21KM2eo3er3DFf0TrEUVQQjsR/inbjA2Rb919oqBQU1fH1UBIegN83zjAin4OHJiI
+ tLFmzFnMLQWkFMJMiwL9glYDFUPdByBgzLhfe52+pKlvKqTHo2KuZJeJ7tPv8YE8rhLX
+ 0LxUacj3mS1EOEqzptfV9n9tMqibqBRk5yFRpG9u05XUxGBjzDyexdhhE7zEO5gLnRFc
+ f90Q==
+X-Gm-Message-State: AOAM531sqnChOAP5Hoeu+k1+Ps8JUgUJxDMuGClvz8e+RcWWyZ+0Ftav
+ cpdUEx7NryymauC4vOf7n2S+l6mAQBz2lqB0PQt9dg==
+X-Google-Smtp-Source: ABdhPJzrwoWiHD2mtk/siqfX//KYKHvA4aU+bJpxgwj9Oy8SYByX/Hk+oEtYAvMYN5Rhize33/aEXzNiNEpmwmVrUeI=
+X-Received: by 2002:a05:6830:1155:: with SMTP id
+ x21mr1248964otq.303.1621286673578; 
+ Mon, 17 May 2021 14:24:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210517141129.2225-10-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
+ <YJ42MEgwDZrAEQLl@kroah.com>
+ <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
+ <YKIeBdwFb9Ng275X@phenom.ffwll.local>
+ <503d101d-7273-757a-2809-e272db93c45d@suse.de>
+ <CAPj87rMqYNdHMT5v9fiMuDzcB8462nJuthB9To70JOsORgxk=w@mail.gmail.com>
+ <6e26562f-5ccf-9014-c0c4-00241659a95b@suse.de>
+In-Reply-To: <6e26562f-5ccf-9014-c0c4-00241659a95b@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 17 May 2021 23:24:22 +0200
+Message-ID: <CAKMK7uH2-4jRNwb9BhU-oxdF6Y4PnmrPq2TFD1dMFmdioX8iOQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,44 +68,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>, Jonathan Corbet <corbet@lwn.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Derek Kiernan <derek.kiernan@xilinx.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 17, 2021 at 04:11:27PM +0200, Christian König wrote:
-> Add usage flags for shared fences and improve the documentation.
-> 
-> This allows driver to better specify what shared fences
-> are doing with the resource.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+On Mon, May 17, 2021 at 10:10 PM Thomas Zimmermann <tzimmermann@suse.de> wr=
+ote:
+>
+> Hi
+>
+> Am 17.05.21 um 21:32 schrieb Daniel Stone:
+> > Hi,
+> >
+> > On Mon, 17 May 2021 at 20:12, Thomas Zimmermann <tzimmermann@suse.de> w=
+rote:
+> >> Am 17.05.21 um 09:40 schrieb Daniel Vetter:
+> >>> We have, it's called drivers/gpu. Feel free to rename to drivers/xpu =
+or
+> >>> think G as in General, not Graphisc.
+> >>
+> >> I hope this was a joke.
+> >>
+> >> Just some thoughts:
+> >>
+> >> AFAICT AI first came as an application of GPUs, but has now
+> >> evolved/specialized into something of its own. I can imagine sharing
+> >> some code among the various subsystems, say GEM/TTM internals for memo=
+ry
+> >> management. Besides that there's probably little that can be shared in
+> >> the userspace interfaces. A GPU is device that puts an image onto the
+> >> screen and an AI accelerator isn't.
+> >
+> > But it isn't. A GPU is a device that has a kernel-arbitrated MMU
+> > hosting kernel-managed buffers, executes user-supplied compiled
+> > programs with reference to those buffers and other jobs, and informs
+> > the kernel about progress.
+> >
+> > KMS lies under the same third-level directory, but even when GPU and
+> > display are on the same die, they're totally different IP blocks
+> > developed on different schedules which are just periodically glued
+> > together.
+>
+> I mentioned this elsewhere: it's not about the chip architecture, it's
+> about the UAPI. In the end, the GPU is about displaying things on a
+> screen. Even if the rendering and the scanout engines are on different
+> IP blocks. (Or different devices.)
 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 16b869d9b1d6..c9bbc4630afc 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -700,7 +700,7 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
->  		return ret;
->  	}
->  
-> -	dma_resv_add_shared_fence(bo->base.resv, fence);
-> +	dma_resv_add_shared(bo->base.resv, fence, DMA_RESV_USAGE_RW);
+Sure, but that's ignoring the reality there there's enormous amounts
+of code needed to make this rendering possible. All of which keeps
+existing if you take away the display, use your gpu to do compute,
+throw out the the raster and texture fetch blocks and rebalance your
+compute units to be much faster at the bfloat16 and u8 math (or
+whatever it is the NN people love today) than fp32, where traditional
+render gpus are kind. At that point you have a NN/AI chip, and like
+Daniel Stone says, the difference here is often much smaller than the
+difference between drm/lima and drm/amdgpu. Which at least on the 3d
+side happen to share large chunks of our stack (more sharing in
+userspace than the kernel, but still quite some sharing overall in
+concepts and code).
 
-Entirely aside, but I ended up scratching my head a lot for why exactly
-this here is a shared fence, and why that's ok. Since just looking at this
-it seems like waiting for the memory allocation to actually be owned by
-this driver is optional.
+There's overall substantially more code to make this work than the
+modeset drivers you think are the corner stone of a gpu driver.
 
-Is this ok because the next thing we'll do is a move, which will then set
-the exclusive fence here. Which will then wait on the shared one here, so
-it doesn't matter? Or well, allows us to pipeline the eviction of ttm_man
-against whatever might be currently keeping the bo busy in it's current
-place?
+Also if you want to do broad strokes refactoring like pulling the
+memory management/command submission stuff out of drm, then the right
+thing would be to pull the modeset stuff out and merge it with maybe
+v4l. modesetting was a 10 years later addition to drm, this entire
+thing started with memory/command submission management.
 
-Might be good candidate to explain this in a comment or something like
-that.
--Daniel
--- 
+And a lot of people got rather mad that the drm folks reinvented their
+own modeset api and didn't use one of the existing ones. We eclipsed
+them by now with atomic support, so somewhat moot point now, but not
+when it landed 10 years ago.
+
+> The fact that one can do general purpose computing on a GPU is a
+> byproduct of the evolution of graphics hardware. It never was the goal.
+
+I think we've crossed now the point where 50% of gpu sales are
+displayless. It stopped being a byproduct long ago and became the main
+goal in many areas and markets.
+
+But also the core of drivers/gpu _is_ the memory management stuff.
+That's what this subsystem has been doing for 20 years or so by now.
+The modeset stuff is a comparitively recent addition (but has grown a
+lot thanks to tons of new drivers that landed and fbdev essentially
+dying).
+
+> >> Treating both as the same, even if
+> >> they share similar chip architectures, seems like a stretch. They migh=
+t
+> >> evolve in different directions and fit less and less under the same
+> >> umbrella.
+> >
+> > Why not? All we have in common in GPU land right now is MMU + buffer
+> > references + job scheduling + synchronisation. None of this has common
+> > top-level API, or even a common top-level model. It's not just ISA
+> > differences, but we have very old-school devices where the kernel
+> > needs to register fill on every job, living next to middle-age devices
+> > where the kernel and userspace co-operate to fill a ring buffer,
+> > living next to modern devices where userspace does some stuff and then
+> > the hardware makes it happen with the bare minimum of kernel
+> > awareness.
+>
+> I see all this as an example why AI should not live under gpu/. There
+> are already many generations of GPUs with different feature sets
+> supported. Why lump more behind the same abstractions if AI can take a
+> fresh start? Why should we care about AI and why should AI care about
+> all our legacy.
+
+Fresh start here means "ignore all the lessons learned from 20 years
+of accelerator driver hacking" I think.
+
+> We can still share all the internal code if AI needs any of it.
+> Meanwhile AI drivers can provide their own UAPIs until a common
+> framework emerges.
+
+Again the no 1 lesson of writing accel drivers is that you need the
+fully open userspace stack, or it's game over long term. No amount of
+"we'll share code later on" will save you from that, because that's
+just not going to be an option. There's a few other lessons like you
+don't actually want to have a standardized uapi for the accelerator
+command submission and memory management, but there are some
+standardized approaches that make sense (we've probably tried them
+all).
+
+This has nothing to do with how you organize the kernel subsystem, but
+all about how you set up the overall driver stack. Of which the
+userspace side is the important part.
+
+And back to your point that display is the main reason why drivers/gpu
+exists: None of this has anything to do with display, but is exactly
+what the render _accelerator_ part of dri-devel has been doing for a
+rather long time by now. Which is why other accelarators should
+probably do the same thing instead of going "nah we're different,
+there's no DP output connected to our accelator".
+
+Cheers, Daniel
+
+PS: Also there are NN chips with DP/HDMI ports thrown in for the lolz.
+Turns out that these NN things are pretty useful when building video
+processing pipelines.
+
+> Again, just my 2 cents.
+>
+> Best regards
+> Thomas
+>
+> >
+> > Honestly I think there's more difference between lima and amdgpu then
+> > there is between amdgpu and current NN/ML devices.
+> >
+> > Cheers,
+> > Daniel
+> >
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>
+
+
+--=20
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
