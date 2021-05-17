@@ -1,60 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34BF382565
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 09:32:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D8D382582
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 09:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 247446E8DF;
-	Mon, 17 May 2021 07:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 190B46E0DE;
+	Mon, 17 May 2021 07:40:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 054736E8CB
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 06:36:11 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id t4so2561911plc.6
- for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 23:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0Tg/RgH3lp5a6IJvwx2oVZOXwmXN1gNn/tsf5GPtb30=;
- b=MVc5tdGuSSUGmOzbRzu21NtT/fVffglYdp2tHOwdLEDQEOl37jDtoulN8H0ED38KMq
- LTXzbhVAf4v4A70E7+h6V+hP6ckzhj23OQ+7/wUX0FM009eDjwgF6VqmZywn/uJeM0LL
- zauYn3zpV5igIJ9RmdyJOYHF0+MfLMsB5kQaU=
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 699E06E0DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 07:40:57 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id p24so6451966ejb.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 00:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=B8FVvdrYV7pRJNP/rUxfxaSr7LQz2pvmtedFAKqPA5s=;
+ b=CSFvg+tjQEVYhc705mOMRwpzk8Gqt8xv+H0Ikr17UUGkrdXsoTWL0M/0aboeQW7SL0
+ WGnU4bdI0p5NbtPBxoIeo/1cgqFGkNieW6G7xHDeOo+2I+gaAhQxABCrVRSNg5NWzPMn
+ 3o9RmP2fWWxIhM54sngD7vFBAb3B0wP539qc0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0Tg/RgH3lp5a6IJvwx2oVZOXwmXN1gNn/tsf5GPtb30=;
- b=KAgjcY+GgdrvmsarYhcnknZ7aSJkijmd2B20OAyw4RfIzwqHF/2y5Tg3tDFNz8A3ox
- QTIsYhQjcYJZvPWy50csVAN2fLKMXAeilim/XUz7zzDG1dqxgfNhA4W6WdrqVdxeLeDo
- PorzAWrHAIr0vJ9RMqioNmaTxArRVxCr5aw6pRmLyNzhWH4f7jZlY+MfiVzw9KW/38KV
- URH4kNVCGKoNZN/9hF7bpT+7zBKrBfbT7o5E0+jwXZ6nuD/qTDwdBw6Pk5Hr6c8oPTvS
- CsL11zglecOUXOS24Fu3X90HskheVsBUqHn/wRh9vKmaPPvk870l9DecOALzSkC3M1Sx
- i6pQ==
-X-Gm-Message-State: AOAM530LeUuWHEdCNhx9EVsHGBF4xyw+8TiXp3k52NmlpS9VSsH79skl
- ewC2H76fz0kNlTSnN0EYLC7uYA==
-X-Google-Smtp-Source: ABdhPJy9094BrnHnEUXn71wH1HENbeF/VCLgouqXsZoavo6R53U59pCdxn2vVifSvk0jvhwwVUNn9g==
-X-Received: by 2002:a17:90a:f18e:: with SMTP id
- bv14mr18728495pjb.234.1621233370562; 
- Sun, 16 May 2021 23:36:10 -0700 (PDT)
-Received: from kafuu-chino.c.googlers.com.com
- (105.219.229.35.bc.googleusercontent.com. [35.229.219.105])
- by smtp.googlemail.com with ESMTPSA id js6sm13287612pjb.0.2021.05.16.23.36.07
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=B8FVvdrYV7pRJNP/rUxfxaSr7LQz2pvmtedFAKqPA5s=;
+ b=tl3USUVEa6wilpShVyOf0k/Q0THQnq9XskerIzeQyh0Ysuqp7cbn1j9C9a4cyQscby
+ LXKJ5aujzVqOQHl54+Ok5h5qLm76bFDhxChKM28F/zAXmV2KUTVBgDEe+KFD4alAVJVZ
+ 959wyr8zt80abNID2sTzJfx7eYnFAgUuWs0iMpMjurg6iop+btwsieacn64G44C9hZAq
+ ut+QgR3NlbJpKPR1Ul2Dw33GADY1VybtIx3F2DsQlkvO+Zi2+nR6ZitsL+KctEUYt3Lk
+ 4s7+l7cXdzpbcPn397hrn4URZ8rHOww6u0OrqrzSaWg+SkWX9zaOkCLLH8j/4YCTW5Iq
+ sgDg==
+X-Gm-Message-State: AOAM533H61lufwnK0Zcerla4U+JPrWHpPqiGF/A8y2zxovotiyPTbQ62
+ +TT1Jy4q+FqiWMjBsTSHIy0vxA==
+X-Google-Smtp-Source: ABdhPJxsNKvac4CwIYd6QJnPC6F9qO8I0E39FRtgpcmyeUqnVrz/aM5qdvLz6CPniRZqwmrChq++FA==
+X-Received: by 2002:a17:906:cb1:: with SMTP id
+ k17mr60265688ejh.307.1621237256090; 
+ Mon, 17 May 2021 00:40:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p14sm6814861ejz.51.2021.05.17.00.40.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 23:36:10 -0700 (PDT)
-From: Pi-Hsun Shih <pihsun@chromium.org>
-To: 
-Subject: [PATCH v5 2/2] drm/bridge: anx7625: add suspend / resume hooks
-Date: Mon, 17 May 2021 14:35:29 +0800
-Message-Id: <20210517063553.554955-2-pihsun@chromium.org>
-X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
-In-Reply-To: <20210517063553.554955-1-pihsun@chromium.org>
-References: <20210517063553.554955-1-pihsun@chromium.org>
+ Mon, 17 May 2021 00:40:55 -0700 (PDT)
+Date: Mon, 17 May 2021 09:40:53 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+Message-ID: <YKIeBdwFb9Ng275X@phenom.ffwll.local>
+Mail-Followup-To: Arnd Bergmann <arnd@arndb.de>,
+ Dave Airlie <airlied@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Derek Kiernan <derek.kiernan@xilinx.com>,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
+ <YJ42MEgwDZrAEQLl@kroah.com>
+ <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 17 May 2021 07:32:15 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +80,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Pi-Hsun Shih <pihsun@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Derek Kiernan <derek.kiernan@xilinx.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add suspend / resume hooks for anx7625 driver, that power off the device
-on suspend and power on the device on resume if it was previously
-powered.
+On Fri, May 14, 2021 at 11:00:38AM +0200, Arnd Bergmann wrote:
+> On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
+> > > Dear kernel maintainers,
+> > >
+> > > This submission is a kernel driver to support Intel(R) Gaussian & Neural
+> > > Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
+> > > available on multiple Intel platforms. AI developers and users can offload
+> > > continuous inference workloads to an Intel(R) GNA device in order to free
+> > > processor resources and save power. Noise reduction and speech recognition
+> > > are the examples of the workloads Intel(R) GNA deals with while its usage
+> > > is not limited to the two.
+> >
+> > How does this compare with the "nnpi" driver being proposed here:
+> >         https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicario@intel.com
+> >
+> > Please work with those developers to share code and userspace api and
+> > tools.  Having the community review two totally different apis and
+> > drivers for the same type of functionality from the same company is
+> > totally wasteful of our time and energy.
+> 
+> Agreed, but I think we should go further than this and work towards a
+> subsystem across companies for machine learning and neural networks
+> accelerators for both inferencing and training.
 
-Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
----
+We have, it's called drivers/gpu. Feel free to rename to drivers/xpu or
+think G as in General, not Graphisc.
 
-Changes in v5:
-* Disable irq and flush workqueue in suspend hook, so the irq handler
-  won't be run during suspend.
+> We have support for Intel habanalabs hardware in drivers/misc, and there are
+> countless hardware solutions out of tree that would hopefully go the same
+> way with an upstream submission and open source user space, including
+> 
+> - Intel/Mobileye EyeQ
+> - Intel/Movidius Keembay
+> - Nvidia NVDLA
+> - Gyrfalcon Lightspeeur
+> - Apple Neural Engine
+> - Google TPU
+> - Arm Ethos
+> 
+> plus many more that are somewhat less likely to gain fully open source
+> driver stacks.
 
-Changes in v3, v4:
-* No change.
+We also had this entire discussion 2 years ago with habanalabs. The
+hang-up is that drivers/gpu folks require fully open source userspace,
+including compiler and anything else you need to actually use the chip.
+Greg doesn't, he's happy if all he has is the runtime library with some
+tests.
 
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 32 +++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+These two drivers here look a lot more like classic gpus than habanalabs
+did, at least from a quick look they operate with explicit buffer
+allocations/registration model. So even more reasons to just reuse all the
+stuff we have already. But also I don't expect these drivers here to come
+with open compilers, they never do, not initially at least before you
+started talking with the vendor. Hence I expect there'll be more
+drivers/totally-not-drm acceleration subsystem nonsense.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index e1bf31eafe22..8fb76ca66e5b 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1705,7 +1705,39 @@ static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
- 	return 0;
- }
- 
-+static int __maybe_unused anx7625_resume(struct device *dev)
-+{
-+	struct anx7625_data *ctx = dev_get_drvdata(dev);
-+
-+	if (!ctx->pdata.intp_irq)
-+		return 0;
-+
-+	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
-+		enable_irq(ctx->pdata.intp_irq);
-+		anx7625_runtime_pm_resume(dev);
-+	}
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused anx7625_suspend(struct device *dev)
-+{
-+	struct anx7625_data *ctx = dev_get_drvdata(dev);
-+
-+	if (!ctx->pdata.intp_irq)
-+		return 0;
-+
-+	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
-+		anx7625_runtime_pm_suspend(dev);
-+		disable_irq(ctx->pdata.intp_irq);
-+		flush_workqueue(ctx->workqueue);
-+	}
-+
-+	return 0;
-+}
-+
- static const struct dev_pm_ops anx7625_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(anx7625_suspend, anx7625_resume)
- 	SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
- 			   anx7625_runtime_pm_resume, NULL)
- };
+Anyway this horse has been throughroughly beaten to death and more, the
+agreement is that accel drivers in drivers/misc must not use any gpu
+stuff, so that drivers/gpu people dont end up in a prickly situation they
+never signed up for. E.g. I removed some code sharing from habanalabs.
+This means interop between gpu and nn/ai drivers will be no-go until this
+is resolved, but *shrug*.
+
+Cheers, Daniel
 -- 
-2.31.1.751.gd2f1c929bd-goog
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
