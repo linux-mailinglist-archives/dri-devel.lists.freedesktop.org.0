@@ -1,114 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548CF38317A
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 16:40:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCCD38316C
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 16:39:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AD686E9A9;
-	Mon, 17 May 2021 14:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCC216E99A;
+	Mon, 17 May 2021 14:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2086.outbound.protection.outlook.com [40.107.220.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3848F6E9A9;
- Mon, 17 May 2021 14:40:18 +0000 (UTC)
+ (mail-co1nam11on2066.outbound.protection.outlook.com [40.107.220.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 616406E99A;
+ Mon, 17 May 2021 14:39:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bZiiicoryJRYv/P7WjRuBkMt9u/z6JJAhD0BF9gMvk0i4ELebH7PZl/VHpRox6rg3zWIp9ie7+MoEqV520p1tXlyDOM2N3g1rT7eBeMKh2Wnsblf082H89g9FHqy/OdvXNir0BYjzmdvUp8ZIAsUzb2/j5NG/M052xpINSccfrEwHDZCepLz0iif1Im/7kE20fFrJuk8sPCEzCPOxYOFp8K/7CkvaRk1g7PhuZYo8iP5HJWSvkPxV+WlZO9TclR/pxomZCu6mRL2nvGypClFiWa+Znz2/6IKjQE0FvIvpUUAk1LigJayp+cXPelKqnijXj0J8Ino6HJIamOFk1/Bbw==
+ b=HqmOSC6syvav9cfY7LsLS4cK3AwmX8c1e/nqyiA5oj/s57zuxciIt8/P5cR1oAzq/30ryCW1f3wY4WHVUK+pdrnyTeWSXdjmuWBeRKy+mqskemuKZRftncax4tscdNVUH+ZVp5P6mTreKlWNnvasv6vMIQpwZf5MIKTTmd5YtZWhPilZWTx3f6kSCowvtZwmaz0JC15m1rFuOPXrumFgYaRZeNJSmWFJJnJj6jfkTU5vQaVqFIXAf/m82dC6xUkqKxHJCG8DTxPIoEMsUgWbzhy44FxHHU7LHmxe8USoYpIWO7pz1ri6Xdi8qn670R5N57oVgdpmCayGOR2zBc+2bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R2+ciSyqGaKQsw6atyxM6OXfwpWjw87YBch7BoXb6K0=;
- b=CJHSvYf4/9Y89yyhGkGPXT+dO7KCeLR9v5bK3rffALV1hlVxgUmBy/xwDbyGQOok3DGGQZZ8z1doUMVGb2YfMdghaETexd+hDobskBq3DGXwMPxffgF/HI93Wd/op4re/n5T3uVItDma24uWPYUSHNaS7Sccydm1ArD5qXisLtbIa6lzJjJE0rBzrF8xBRg1cMAETMKxEgTiWrX3W6udHV1XV6wxJmM68Us18yVWYb5fAZiP+YTgKGgoehr0miiwjGrLPw9DoStFa1UEyZJJ5OPQWvmcdAofme0iZNVgazpufIU2IIDECTC1mEx3xuNjdbem5JNO5hlZGFf0NOMGtw==
+ bh=Yi0okijuYx8iyI6E/wInJJ7kkzsJOHhj6PKgvn+6o7w=;
+ b=Veh9F+pmNJvjo5+z43RT5A/ZpCzi3jHCrDsa6lMzoD8qaLBzRz3LhxpZPvQ4TNVY7BLF6tmOJf0/BsYXKcUAgXiWtO/LsBdp4k5Z3XocjKj2OXKybDVXOyuwj982EoqLdwd0Jfek/oPNiEacwv7vJUT3KoIYej07LKLENm7AzmIHlGYIJAabh/WzX/6AFT/lNJXPOFHCJlYejZc43leED936/+hGrImx+8v+OUWZC21nGzPB38PGjInvhZ8GZ3FJZVymx3w2iNvJT85UWX7VXOBt4das1inyACSjpBH89SjoWGGAkOARxKmzJR+0AfHvU3WhuuM3PoFRfbwGyT47aA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R2+ciSyqGaKQsw6atyxM6OXfwpWjw87YBch7BoXb6K0=;
- b=znpGbNOduGBbv6lZSmFcTN/WUgxbl3afxziLMAm0HCfzd5hUegRTXcwmqyDV4u7uUSAO/8PnzoyoEGUcDKIWZyChC9sthmb2nZWSdooYI+Z7Omo+sEzC1ZhJJxKLq1vi7KV/490arExyAmdVKi0bR6bty8VH1l5wJpA0qMvXwpk=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SN6PR12MB2800.namprd12.prod.outlook.com (2603:10b6:805:6c::10)
+ bh=Yi0okijuYx8iyI6E/wInJJ7kkzsJOHhj6PKgvn+6o7w=;
+ b=O8KM1ctVtSnTgVIgFYwjM5effuxXqNTrdsCEooQd8oSYrQGq/7dvHBmuypyvAXNFd9u0ToTnDo+dm6xBL2lGGRlDPvVpqGz4ijRUiKS21jCzB2NxTaM5b9yLbNlr7UwB/1ufFpdRUeetoVRbdg36LpObADtRbPeTNsSoekV79OY=
+Received: from BYAPR12MB2840.namprd12.prod.outlook.com (2603:10b6:a03:62::32)
+ by BY5PR12MB4049.namprd12.prod.outlook.com (2603:10b6:a03:201::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Mon, 17 May
- 2021 14:40:12 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::ad51:8c49:b171:856c]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::ad51:8c49:b171:856c%7]) with mapi id 15.20.4129.031; Mon, 17 May 2021
- 14:40:12 +0000
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-pci@vger.kernel.org, ckoenig.leichtzumerken@gmail.com,
- daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
-Subject: [PATCH] drm/amdgpu: Handle IOMMU enabled case.
-Date: Mon, 17 May 2021 10:38:51 -0400
-Message-Id: <20210517143851.475058-1-andrey.grodzovsky@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <32b61077-f760-8fe0-c00f-256a97d2977e@amd.com>
-References: <32b61077-f760-8fe0-c00f-256a97d2977e@amd.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [2607:fea8:3edf:49b0:e3b1:83be:2b02:85cb]
-X-ClientProxiedBy: YT2PR01CA0015.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:38::20) To SN6PR12MB4623.namprd12.prod.outlook.com
- (2603:10b6:805:e9::17)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from agrodzovsky-All-Series.hitronhub.home
- (2607:fea8:3edf:49b0:e3b1:83be:2b02:85cb) by
- YT2PR01CA0015.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:38::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4087.54 via Frontend Transport; Mon, 17 May 2021 14:40:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6fa32c85-f2af-4a63-f4d6-08d91941ac3f
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2800:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB2800244256D3D3A224E4F2ECEA2D9@SN6PR12MB2800.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rTiYyOzu1Xl9l23mUknil75JegIoafk1Tg5o96QFCnhKqLILBqY0Pl95N+HaRk45KrOIqBaRY4ILjNhnggC0dnZMu2OCmnLGr7DXfPjQRQdukE3COMy5DKcn787reejCRKhOliHJZsk2QieBksT2zSNTwGlFu4S1EUDMs0GkbS4Sl5pxjP9VF/eHsM/QYmH5ib8+9/E3Lt9JjZOyXQM4Spo+Wt+LT9+JkQgrGizhEAtgOo9xtfI4KralG2Ggz5OkTjeWiZSNAGse1TFkxZD3d2KNph1RTY8M2KJZ/Sbb4dbnRshzbfhyFEWR+IiMuaCHkDs1Ickr1jqzCX7hp+TOzfifLdNIKOuzBydLajCAFgwWQmvqsd6hOyWu/FqPpV0EuJUFHg8wEvDvQeOuaRdrRRzua5RNM8hX4CYPq7i15rhRu6hjX4qH3ej1sE+iwgyLnqD7PxE/9U3944Ox1H1t59Nchz4wm5ba0JTYoCMZNApMmqPpH2HOxyjkfDLqmsQzC0lYVEp+E8RyIFUKzAEaGZ26+ne5/gACILGCh0/5JGp2ne5qxBSE8h09qjB3qpGQePnr84iY97XeMqmrgFyqqCG+WTbQFKFtr6NvPw5uvGY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(376002)(136003)(39850400004)(346002)(6636002)(36756003)(6486002)(2616005)(44832011)(38100700002)(478600001)(30864003)(8936002)(66476007)(6666004)(1076003)(6512007)(83380400001)(16526019)(66556008)(186003)(316002)(86362001)(52116002)(5660300002)(2906002)(8676002)(6506007)(66946007)(4326008);
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Mon, 17 May
+ 2021 14:39:04 +0000
+Received: from BYAPR12MB2840.namprd12.prod.outlook.com
+ ([fe80::7c65:7181:6d1d:8616]) by BYAPR12MB2840.namprd12.prod.outlook.com
+ ([fe80::7c65:7181:6d1d:8616%7]) with mapi id 15.20.4129.031; Mon, 17 May 2021
+ 14:39:04 +0000
+From: "Nieto, David M" <David.Nieto@amd.com>
+To: Daniel Vetter <daniel@ffwll.ch>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>
+Subject: Re: [PATCH 0/7] Per client engine busyness
+Thread-Topic: [PATCH 0/7] Per client engine busyness
+Thread-Index: AQHXSIY0lKCbwi4zp0q1CiNO36lst6rikGdbgAAOK4CAAF5BAIAAA0mAgAAPFoCAAAKJgIAAAbMAgAACEoCABKvngIAAAHIq
+Date: Mon, 17 May 2021 14:39:04 +0000
+Message-ID: <BYAPR12MB2840C633CF05C1F29263F5BCF42D9@BYAPR12MB2840.namprd12.prod.outlook.com>
+References: <c6c61179-5b4b-4e0b-6e57-ec4839ca3268@linux.intel.com>
+ <CADnq5_N03pz6GmptzhRnCRQH=qkd4eWuAbuUysHp-A9NZHQMHg@mail.gmail.com>
+ <BYAPR12MB2840AA68BCAEBD9279C6184FF4509@BYAPR12MB2840.namprd12.prod.outlook.com>
+ <39ccc2ef-05d1-d9f0-0639-ea86bef58b80@amd.com>
+ <7d6d09fe-ec85-6aaf-9834-37a49ec7d6c5@linux.intel.com>
+ <9144f63b-953d-2019-742d-6553e09f5b40@amd.com>
+ <22e7d6ea-f2dd-26da-f264-b17aad25af95@linux.intel.com>
+ <b2203d34-2de3-7c58-de2f-bf6fafc3f67c@amd.com>
+ <6cf2f14a-6a16-5ea3-d307-004faad4cc79@linux.intel.com>
+ <a2b03603-eb3e-7bef-a799-c15cfb1a8e0b@amd.com>,
+ <YKJ+F4KqEiQQYkRz@phenom.ffwll.local>
+In-Reply-To: <YKJ+F4KqEiQQYkRz@phenom.ffwll.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=True;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-05-17T14:32:22.3843139Z;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard
+authentication-results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [71.143.192.69]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d426906a-59af-40a6-413c-08d91941851e
+x-ms-traffictypediagnostic: BY5PR12MB4049:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR12MB40495671677FD5FBFB1213F0F42D9@BY5PR12MB4049.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6fN0x/nbq32Bs0GgcY/mCRPdwPw7VGopNSZ/jEzqR+hZy2B3p4PlObI/xzmb19aFD42aEleScrB1/zHYY8yOJG6eh3urOV43aHJunelf+Q2HsCjkquxavqUG7U4dGGcQciCLV3/P8Xzooa9oSdBtrR70KArqGxHz5KlQp6DQXNKvq7f1IosILyQRGKVE819qQYhDrMlIRtDewJErx/k96q9s07cLR+7vVk5vLAgWdu2bo2gXqa8hGT9N3O/ehcFl2TiFKjytNpJc1RZn1jAUAqSIU6sYG1dQ0a9xez0/nGCR3gLNkYelcszhCgszPRy7IjF1n/BCo8ubxECyeCY+BT8LJLnRde9Ns/zQEWtookVs8Dim8JCtKdack3eP1OGVWCL8SIUWXlzRpWUcYsQ5F0mDIUHfGtp1MYp9s2mN1uamr4i034OvD10ITEIoB8h8gqcxWmiiP6mqDqR+v6vQoFrqr5ZBrGPp38IeHR4OYP5AoVje+n/pUcZ9QRJLPpnq/Vr0mXYlf8QE3qK0I+ja2AygXXkR+4VidZJNEMiV0UWK/VKDNi8js1WkXrSfd0iftG+eAxHc6lmsWKai0PpaTdnk2MLd+nP7EzQ1Y5iyyHVQvGH/KT9LBbrNtjDoSTl5ISLZjqiGn5Eq8n+VV1Rg7PRUq6rhjrM4kDr7HzZW04bpN4390CWpHa9bdlCXxo04Y25GX+pzsgqsuO+5Nrtv0RvS+oQ0axJzLUoVJCyz62g=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB2840.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(366004)(346002)(136003)(39850400004)(83380400001)(8936002)(66574015)(52536014)(8676002)(166002)(316002)(66556008)(66476007)(966005)(6506007)(86362001)(6636002)(71200400001)(5660300002)(7696005)(186003)(478600001)(9686003)(64756008)(54906003)(26005)(110136005)(4326008)(2906002)(45080400002)(53546011)(66446008)(76116006)(122000001)(66946007)(33656002)(38100700002)(55016002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?GnB4sk/kVVR9agdW1miKEXfDSOwBJY3l6jO6uJk6xKGOJ8WLet1+ujn8wFel?=
- =?us-ascii?Q?uHLysuCZeLJWG9DQev+vnRfvxk6U/Z9EWBmDHVgxulPOekBV5VEouftPsuEr?=
- =?us-ascii?Q?lStRZSwydp/JRkXXua/had0WYbzCjED+6JHzcwwZBydpasqLexH0wU5hA7IS?=
- =?us-ascii?Q?ymFcXao6qeqiXjc/wibTFk3iztV23UqXuZGWS6Xz1lJxqguF4i08Qs4OofSc?=
- =?us-ascii?Q?0hBOhnMh1tJ2IAFFwDfooonRNf9pRy/oLbfKRF25rNUDH4+7q9t+q+vELHJk?=
- =?us-ascii?Q?6nV4KawlSzSNOuimLBmRvPT2aziV2Sb08CplsjcnpAAQm2Dzvgju9SI+dsw4?=
- =?us-ascii?Q?vxv8FFqRz78oFQHbr9YSh+1MoZqlW+5032GeAxneLBk+Y2swU5WcTk/tapqT?=
- =?us-ascii?Q?30npqycttQ+wXpHOTGtJXkbmhDaaaWinhKRibBP2wwIfpOzA45HQxTuv8k1S?=
- =?us-ascii?Q?mU8n3tcVFT5PopfM6Ea/KYzlsIvdsT0ZPSseDKwnlczg0Wt7Z01tJ9ClYzZY?=
- =?us-ascii?Q?hw1ymLW5ijo3wNvH054rO26m4WIuxoSXkdevbHoEWt9hb4FEhbzfp2lbTHNj?=
- =?us-ascii?Q?DSCCcF+UXK5mAW8KWMvuxPL34rP0LsU4vO3PVBd5YrsWRq04SgpO4DdGQzLE?=
- =?us-ascii?Q?9rhDb2CTb0yVsfe7WUSB3zBjASqvg0wKqGlOvf7ohqR7IsOnFeFnsmeV+Bw0?=
- =?us-ascii?Q?6sbgNKN3GeZgZ/OQlDzwGZQrW+SUWW0M/XgeWpZZQZWGaXkappEO+WQmpf1j?=
- =?us-ascii?Q?qvR3E+D3zOzHC7QsCowHzt6twQh/6AWgwEvHJb4T1BN4ZO5xevja+gbUPrPn?=
- =?us-ascii?Q?qZdKj0FCY4XndOKA233jVxeV3DQWY4WVxBC2OeKnp5Vb+IzzFNG0TCFczyZ2?=
- =?us-ascii?Q?giYqbmGMADiE73fwG25mBVVjJ1jnNNdH1tPXd0ttP6geyxYijLSYAMdbD9fU?=
- =?us-ascii?Q?fz/SWpG0ebgwRHfy+r0GxWtdQC7XBh8UZeeYUaBzhnGC15Vj53Nwtj3fy1FT?=
- =?us-ascii?Q?YN6v8IxTrPRXaJgicB+l0AlC2Rulk4vnSeQnoQYH8LYpv7KgwBYrurcg8vBk?=
- =?us-ascii?Q?7rWsC56zuqDtrzY3cuEQv83bsTTfOWKMykHKVDbsWK9jy3M2Ym59DZr9+v9x?=
- =?us-ascii?Q?firpeE6K6uWstLa7i/t46pWfc7WINvVz6IvTQXnIbMetPD6HM9ey74roKfUy?=
- =?us-ascii?Q?lPhpdO+fZe60CtXe3/5v6o/XNCNkmInFYXMn3lehTAUUqNZYjHnQvEkC0Dj1?=
- =?us-ascii?Q?Wus8rk8soSfy7IfdqGT9nsHvs03x25n56ztxlRiF8CtpydSh3CdPfQnOFltM?=
- =?us-ascii?Q?rXCP5cwNftNgSF69EwWDX8jCIwS8affAFW2gz2Atm6Pz1nWfZpwsXDBKI9Q9?=
- =?us-ascii?Q?GSBZtKsXl7MtkJeOdm2gB47JkBCu?=
+x-ms-exchange-antispam-messagedata: =?Windows-1252?Q?wAUHIWm10Vsy4kPdtqUKZDPxkkj1NH+b+EsBkTVJZnrPNplS4UoKTkkL?=
+ =?Windows-1252?Q?61fj1+NdwJi+6JQtQe8MOMdRyE1csmPAaP8UFsR4EAC+AGkzmwBfdDY7?=
+ =?Windows-1252?Q?l9SJ3Vlf7y9+JvGhr31cYJHfmfEJHmQZolsdjEMiJsfm2nbBhlznTk8i?=
+ =?Windows-1252?Q?Zp9Rs+vmIY4TDO1MvTDLYA263ycJ0NCwDSEh1y6rCGWf0Rck3QCSrSW9?=
+ =?Windows-1252?Q?uYGNft8zF0vI8XN5v9CGu0PE1TEMtAcmtVysTwa2Dql6AQ+YG5tXi3YS?=
+ =?Windows-1252?Q?tOHuZstznpZZaicJCGQ5+J2HPfRs6BWoTs/yDkEd6p6yjWsCkl0FvhRi?=
+ =?Windows-1252?Q?/Gc4TbZ5uqbJA/yrJ/Sy7b7RBUidW1A5j1LIwgXcg0qj5NO1F+TF3Tsw?=
+ =?Windows-1252?Q?OK6ymeHSpaMOYajFSao4ITk7SHzyfEeiJ3b02HrOBZqxSnggsP/LTHLA?=
+ =?Windows-1252?Q?MjBWaQ3nSR17kAjJzcd7k/0CZlFhEbV5dz2OaXSR5k9O65DwTUZZP5T2?=
+ =?Windows-1252?Q?MkSp6fulw3jkryTIbZP7Ugz83y0vDDDxEc1I5No37rwPPVOHusqa0vVc?=
+ =?Windows-1252?Q?y/8wDc8nyOS9ZeNbGhWIJsODHDPwBc1RkhbbD1hZlcJFFSlFUyxN84Jr?=
+ =?Windows-1252?Q?0dF9D8Hmy6mYiimZLVlygdAXtEqLfv7Gc17bcydZz2Cgqgi9zsboS9mN?=
+ =?Windows-1252?Q?6HGFge+rK/ldA77rIXyU9Gtj5M3iYMZ3WvDwlyVK8mdCUi6eYQ7RWHJv?=
+ =?Windows-1252?Q?SRsFiUGEXP2V/VsS0X+t0eDKnCRu/wpBrEgZH9RY7CUczJMH1dPAVAwR?=
+ =?Windows-1252?Q?M+s3fgKovQEkkoQolR/qd2q03Jw+PYgaIrYrSWQq2My/bOLmWVFpxN5G?=
+ =?Windows-1252?Q?mIux+ysmehqt8jK4Zd85VLRaa/JryWXBH5xU3I8x6gEIPerOfeARUKyW?=
+ =?Windows-1252?Q?F2pm1x6PgoXPunMd1AhxRDMRu/nkOKYPS6dzS4wwv92A6bh/T4asLfZB?=
+ =?Windows-1252?Q?vy2tlFZmTyWnPAK342OOKYWuLCPDBfSi0ElYABDoJhL/4tvvvp460DYi?=
+ =?Windows-1252?Q?ViKKgBsUmLZ4Ekhc3+sBbxecmdh5356QZC88mmq2SNNiIjMCzkPKh3Q0?=
+ =?Windows-1252?Q?fp/5iXitHkJ01V1QZ9366nLttbGrYWZ4XrWD5J9T08wd9u/gXXSuGiI7?=
+ =?Windows-1252?Q?sxmwmc/85FakbrupdKq73RAZmKNg7r7+9qfcSdjtxnkd7oa/WmkIkETn?=
+ =?Windows-1252?Q?VkEZbzcRpYtX6oCztGJQhotvGQZ+UWD6ClX1QJYH39drozpPy0J/Ql53?=
+ =?Windows-1252?Q?H6ySOqUHMjFTXPH+OLm+P3MQxYSxeFTW+TiZhRnpPrLCyfqOPNT1GdoF?=
+ =?Windows-1252?Q?NtwAoNasFlUxVojYhbmEou0DXY7b2DUZMc51px3pBn6gTrtwmgzK00Sb?=
+ =?Windows-1252?Q?TF86l20e6H6GLkjMsOpsAw=3D=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_BYAPR12MB2840C633CF05C1F29263F5BCF42D9BYAPR12MB2840namp_"
+MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6fa32c85-f2af-4a63-f4d6-08d91941ac3f
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2021 14:40:11.9927 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cTpPJtgsb3bUSwRG1vujJ7HxKPzPsPtKbezcoRrZeyB6gTlKvrQNim2Q5FWJ2V20sxOsvh5E6NUyjpJAPWW1Hg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2800
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2840.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d426906a-59af-40a6-413c-08d91941851e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2021 14:39:04.4897 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kJR1lENIXfIXEwFS4gQoZAJWOjaTfVF6If6K/xYUu4tal8U5U1niHxeZsXdLyqNO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,320 +131,332 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, Felix.Kuehling@amd.com, helgaas@kernel.org,
- Alexander.Deucher@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Problem:
-Handle all DMA IOMMU group related dependencies before the
-group is removed. Those manifest themself in that when IOMMU
-enabled DMA map/unmap is dependent on the presence of IOMMU
-group the device belongs to but, this group is released once
-the device is removed from PCI topology.
+--_000_BYAPR12MB2840C633CF05C1F29263F5BCF42D9BYAPR12MB2840namp_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-Fix:
-Expedite all such unmap operations to pci remove driver callback.
+[AMD Official Use Only]
 
-v5: Drop IOMMU notifier and switch to lockless call to ttm_tt_unpopulate
-v6: Drop the BO unamp list
-v7:
-Drop amdgpu_gart_fini
-In amdgpu_ih_ring_fini do uncinditional  check (!ih->ring)
-to avoid freeing uniniitalized rings.
-Call amdgpu_ih_ring_fini unconditionally.
-v8: Add deatiled explanation
+Maybe we could try to standardize how the different submission ring  usage =
+gets exposed in the fdinfo? We went the simple way of just adding name and =
+index, but if someone has a suggestion on how else we could format them so =
+there is commonality across vendors we could just amend those.
 
-Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c   | 14 +-------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h   |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c     |  6 ++++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c    |  5 +++++
- drivers/gpu/drm/amd/amdgpu/cik_ih.c        |  1 -
- drivers/gpu/drm/amd/amdgpu/cz_ih.c         |  1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c     |  1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c      |  1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c      |  1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c      |  1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c      |  1 -
- drivers/gpu/drm/amd/amdgpu/iceland_ih.c    |  1 -
- drivers/gpu/drm/amd/amdgpu/navi10_ih.c     |  4 ----
- drivers/gpu/drm/amd/amdgpu/si_ih.c         |  1 -
- drivers/gpu/drm/amd/amdgpu/tonga_ih.c      |  1 -
- drivers/gpu/drm/amd/amdgpu/vega10_ih.c     |  4 ----
- drivers/gpu/drm/amd/amdgpu/vega20_ih.c     |  4 ----
- 18 files changed, 13 insertions(+), 40 deletions(-)
+I=92d really like to have the process managers tools display GPU usage rega=
+rdless of what vendor is installed.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 18598eda18f6..a0bff4713672 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3256,7 +3256,6 @@ static const struct attribute *amdgpu_dev_attributes[] = {
- 	NULL
- };
- 
--
- /**
-  * amdgpu_device_init - initialize the driver
-  *
-@@ -3698,12 +3697,13 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
- 		amdgpu_ucode_sysfs_fini(adev);
- 	sysfs_remove_files(&adev->dev->kobj, amdgpu_dev_attributes);
- 
--
- 	amdgpu_fbdev_fini(adev);
- 
- 	amdgpu_irq_fini_hw(adev);
- 
- 	amdgpu_device_ip_fini_early(adev);
-+
-+	amdgpu_gart_dummy_page_fini(adev);
- }
- 
- void amdgpu_device_fini_sw(struct amdgpu_device *adev)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c
-index c5a9a4fb10d2..6460cf723f0a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c
-@@ -92,7 +92,7 @@ static int amdgpu_gart_dummy_page_init(struct amdgpu_device *adev)
-  *
-  * Frees the dummy page used by the driver (all asics).
-  */
--static void amdgpu_gart_dummy_page_fini(struct amdgpu_device *adev)
-+void amdgpu_gart_dummy_page_fini(struct amdgpu_device *adev)
- {
- 	if (!adev->dummy_page_addr)
- 		return;
-@@ -365,15 +365,3 @@ int amdgpu_gart_init(struct amdgpu_device *adev)
- 
- 	return 0;
- }
--
--/**
-- * amdgpu_gart_fini - tear down the driver info for managing the gart
-- *
-- * @adev: amdgpu_device pointer
-- *
-- * Tear down the gart driver info and free the dummy page (all asics).
-- */
--void amdgpu_gart_fini(struct amdgpu_device *adev)
--{
--	amdgpu_gart_dummy_page_fini(adev);
--}
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h
-index a25fe97b0196..030b9d4c736a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h
-@@ -57,7 +57,7 @@ void amdgpu_gart_table_vram_free(struct amdgpu_device *adev);
- int amdgpu_gart_table_vram_pin(struct amdgpu_device *adev);
- void amdgpu_gart_table_vram_unpin(struct amdgpu_device *adev);
- int amdgpu_gart_init(struct amdgpu_device *adev);
--void amdgpu_gart_fini(struct amdgpu_device *adev);
-+void amdgpu_gart_dummy_page_fini(struct amdgpu_device *adev);
- int amdgpu_gart_unbind(struct amdgpu_device *adev, uint64_t offset,
- 		       int pages);
- int amdgpu_gart_map(struct amdgpu_device *adev, uint64_t offset,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c
-index faaa6aa2faaf..433469ace6f4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c
-@@ -115,9 +115,11 @@ int amdgpu_ih_ring_init(struct amdgpu_device *adev, struct amdgpu_ih_ring *ih,
-  */
- void amdgpu_ih_ring_fini(struct amdgpu_device *adev, struct amdgpu_ih_ring *ih)
- {
-+
-+	if (!ih->ring)
-+		return;
-+
- 	if (ih->use_bus_addr) {
--		if (!ih->ring)
--			return;
- 
- 		/* add 8 bytes for the rptr/wptr shadows and
- 		 * add them to the end of the ring allocation.
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-index 233b64dab94b..32ce0e679dc7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-@@ -361,6 +361,11 @@ void amdgpu_irq_fini_hw(struct amdgpu_device *adev)
- 		if (!amdgpu_device_has_dc_support(adev))
- 			flush_work(&adev->hotplug_work);
- 	}
-+
-+	amdgpu_ih_ring_fini(adev, &adev->irq.ih_soft);
-+	amdgpu_ih_ring_fini(adev, &adev->irq.ih);
-+	amdgpu_ih_ring_fini(adev, &adev->irq.ih1);
-+	amdgpu_ih_ring_fini(adev, &adev->irq.ih2);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/amd/amdgpu/cik_ih.c b/drivers/gpu/drm/amd/amdgpu/cik_ih.c
-index 183d44a6583c..df385ffc9768 100644
---- a/drivers/gpu/drm/amd/amdgpu/cik_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/cik_ih.c
-@@ -310,7 +310,6 @@ static int cik_ih_sw_fini(void *handle)
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 
- 	amdgpu_irq_fini_sw(adev);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih);
- 	amdgpu_irq_remove_domain(adev);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/amd/amdgpu/cz_ih.c b/drivers/gpu/drm/amd/amdgpu/cz_ih.c
-index d32743949003..b8c47e0cf37a 100644
---- a/drivers/gpu/drm/amd/amdgpu/cz_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/cz_ih.c
-@@ -302,7 +302,6 @@ static int cz_ih_sw_fini(void *handle)
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 
- 	amdgpu_irq_fini_sw(adev);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih);
- 	amdgpu_irq_remove_domain(adev);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-index 2bfd620576f2..5e8bfcdd422e 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-@@ -954,7 +954,6 @@ static int gmc_v10_0_sw_init(void *handle)
- static void gmc_v10_0_gart_fini(struct amdgpu_device *adev)
- {
- 	amdgpu_gart_table_vram_free(adev);
--	amdgpu_gart_fini(adev);
- }
- 
- static int gmc_v10_0_sw_fini(void *handle)
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-index 405d6ad09022..0e81e03e9b49 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-@@ -898,7 +898,6 @@ static int gmc_v6_0_sw_fini(void *handle)
- 	amdgpu_vm_manager_fini(adev);
- 	amdgpu_gart_table_vram_free(adev);
- 	amdgpu_bo_fini(adev);
--	amdgpu_gart_fini(adev);
- 	release_firmware(adev->gmc.fw);
- 	adev->gmc.fw = NULL;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-index 210ada2289ec..0795ea736573 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-@@ -1085,7 +1085,6 @@ static int gmc_v7_0_sw_fini(void *handle)
- 	kfree(adev->gmc.vm_fault_info);
- 	amdgpu_gart_table_vram_free(adev);
- 	amdgpu_bo_fini(adev);
--	amdgpu_gart_fini(adev);
- 	release_firmware(adev->gmc.fw);
- 	adev->gmc.fw = NULL;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-index c1bd190841f8..dbf2e5472069 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-@@ -1194,7 +1194,6 @@ static int gmc_v8_0_sw_fini(void *handle)
- 	kfree(adev->gmc.vm_fault_info);
- 	amdgpu_gart_table_vram_free(adev);
- 	amdgpu_bo_fini(adev);
--	amdgpu_gart_fini(adev);
- 	release_firmware(adev->gmc.fw);
- 	adev->gmc.fw = NULL;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-index c82d82da2c73..5ed0adae05cf 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-@@ -1601,7 +1601,6 @@ static int gmc_v9_0_sw_fini(void *handle)
- 	amdgpu_gart_table_vram_free(adev);
- 	amdgpu_bo_unref(&adev->gmc.pdb0_bo);
- 	amdgpu_bo_fini(adev);
--	amdgpu_gart_fini(adev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
-index da96c6013477..ddfe4eaeea05 100644
---- a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
-@@ -301,7 +301,6 @@ static int iceland_ih_sw_fini(void *handle)
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 
- 	amdgpu_irq_fini_sw(adev);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih);
- 	amdgpu_irq_remove_domain(adev);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/amd/amdgpu/navi10_ih.c b/drivers/gpu/drm/amd/amdgpu/navi10_ih.c
-index 5eea4550b856..941d464a2b47 100644
---- a/drivers/gpu/drm/amd/amdgpu/navi10_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/navi10_ih.c
-@@ -570,10 +570,6 @@ static int navi10_ih_sw_fini(void *handle)
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 
- 	amdgpu_irq_fini_sw(adev);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih_soft);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih2);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih1);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/si_ih.c b/drivers/gpu/drm/amd/amdgpu/si_ih.c
-index 751307f3252c..9a24f17a5750 100644
---- a/drivers/gpu/drm/amd/amdgpu/si_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/si_ih.c
-@@ -176,7 +176,6 @@ static int si_ih_sw_fini(void *handle)
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 
- 	amdgpu_irq_fini_sw(adev);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/tonga_ih.c b/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
-index 973d80ec7f6c..b08905d1c00f 100644
---- a/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
-@@ -313,7 +313,6 @@ static int tonga_ih_sw_fini(void *handle)
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 
- 	amdgpu_irq_fini_sw(adev);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih);
- 	amdgpu_irq_remove_domain(adev);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/amd/amdgpu/vega10_ih.c b/drivers/gpu/drm/amd/amdgpu/vega10_ih.c
-index dead9c2fbd4c..32ec4b8e806a 100644
---- a/drivers/gpu/drm/amd/amdgpu/vega10_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vega10_ih.c
-@@ -514,10 +514,6 @@ static int vega10_ih_sw_fini(void *handle)
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 
- 	amdgpu_irq_fini_sw(adev);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih_soft);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih2);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih1);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
-index 58993ae1fe11..f51dfc38ac65 100644
---- a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
-@@ -566,10 +566,6 @@ static int vega20_ih_sw_fini(void *handle)
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 
- 	amdgpu_irq_fini_sw(adev);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih_soft);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih2);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih1);
--	amdgpu_ih_ring_fini(adev, &adev->irq.ih);
- 
- 	return 0;
- }
--- 
-2.25.1
+________________________________
+From: Daniel Vetter <daniel@ffwll.ch>
+Sent: Monday, May 17, 2021 7:30:47 AM
+To: Koenig, Christian <Christian.Koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>; Nieto, David M <David.=
+Nieto@amd.com>; Alex Deucher <alexdeucher@gmail.com>; Intel Graphics Develo=
+pment <Intel-gfx@lists.freedesktop.org>; Maling list - DRI developers <dri-=
+devel@lists.freedesktop.org>; Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 0/7] Per client engine busyness
 
+On Fri, May 14, 2021 at 05:10:29PM +0200, Christian K=F6nig wrote:
+> Am 14.05.21 um 17:03 schrieb Tvrtko Ursulin:
+> >
+> > On 14/05/2021 15:56, Christian K=F6nig wrote:
+> > > Am 14.05.21 um 16:47 schrieb Tvrtko Ursulin:
+> > > >
+> > > > On 14/05/2021 14:53, Christian K=F6nig wrote:
+> > > > > >
+> > > > > > David also said that you considered sysfs but were wary
+> > > > > > of exposing process info in there. To clarify, my patch
+> > > > > > is not exposing sysfs entry per process, but one per
+> > > > > > open drm fd.
+> > > > > >
+> > > > >
+> > > > > Yes, we discussed this as well, but then rejected the approach.
+> > > > >
+> > > > > To have useful information related to the open drm fd you
+> > > > > need to related that to process(es) which have that file
+> > > > > descriptor open. Just tracking who opened it first like DRM
+> > > > > does is pretty useless on modern systems.
+> > > >
+> > > > We do update the pid/name for fds passed over unix sockets.
+> > >
+> > > Well I just double checked and that is not correct.
+> > >
+> > > Could be that i915 has some special code for that, but on my laptop
+> > > I only see the X server under the "clients" debugfs file.
+> >
+> > Yes we have special code in i915 for this. Part of this series we are
+> > discussing here.
+>
+> Ah, yeah you should mention that. Could we please separate that into comm=
+on
+> code instead? Cause I really see that as a bug in the current handling
+> independent of the discussion here.
+>
+> As far as I know all IOCTLs go though some common place in DRM anyway.
+
+Yeah, might be good to fix that confusion in debugfs. But since that's
+non-uapi, I guess no one ever cared (enough).
+
+> > > > > But an "lsof /dev/dri/renderD128" for example does exactly
+> > > > > what top does as well, it iterates over /proc and sees which
+> > > > > process has that file open.
+> > > >
+> > > > Lsof is quite inefficient for this use case. It has to open
+> > > > _all_ open files for _all_ processes on the system to find a
+> > > > handful of ones which may have the DRM device open.
+> > >
+> > > Completely agree.
+> > >
+> > > The key point is you either need to have all references to an open
+> > > fd, or at least track whoever last used that fd.
+> > >
+> > > At least the last time I looked even the fs layer didn't know which
+> > > fd is open by which process. So there wasn't really any alternative
+> > > to the lsof approach.
+> >
+> > I asked you about the use case you have in mind which you did not
+> > answer. Otherwise I don't understand when do you need to walk all files=
+.
+> > What information you want to get?
+>
+> Per fd debugging information, e.g. instead of the top use case you know
+> which process you want to look at.
+>
+> >
+> > For the use case of knowing which DRM file is using how much GPU time o=
+n
+> > engine X we do not need to walk all open files either with my sysfs
+> > approach or the proc approach from Chris. (In the former case we
+> > optionally aggregate by PID at presentation time, and in the latter cas=
+e
+> > aggregation is implicit.)
+>
+> I'm unsure if we should go with the sysfs, proc or some completely differ=
+ent
+> approach.
+>
+> In general it would be nice to have a way to find all the fd references f=
+or
+> an open inode.
+
+Yeah, but that maybe needs to be an ioctl or syscall or something on the
+inode, that givey you a list of (procfd, fd_nr) pairs pointing back at all
+open files? If this really is a real world problem, but given that
+top/lsof and everyone else hasn't asked for it yet maybe it's not.
+
+Also I replied in some other thread, I really like the fdinfo stuff, and I
+think trying to somewhat standardized this across drivers would be neat.
+Especially since i915 is going to adopt drm/scheduler for front-end
+scheduling too, so at least some of this should be fairly easy to share.
+
+Cheers, Daniel
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fblog.ffw=
+ll.ch%2F&amp;data=3D04%7C01%7CDavid.Nieto%40amd.com%7C3711fdd207484d6bb5fd0=
+8d919405eb0%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637568586536251118=
+%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
+wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3Dso13elRn0Ffl7w51QEk%2F%2FXmxOav9n5p6fNX=
+rnDBVY%2B0%3D&amp;reserved=3D0
+
+--_000_BYAPR12MB2840C633CF05C1F29263F5BCF42D9BYAPR12MB2840namp_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+</head>
+<body>
+<p style=3D"font-family:Arial;font-size:10pt;color:#0000FF;margin:15pt;" al=
+ign=3D"Left">
+[AMD Official Use Only]<br>
+</p>
+<br>
+<div>
+<div dir=3D"ltr">
+<div></div>
+<div>
+<div>Maybe we could try to standardize how the different submission ring &n=
+bsp;usage gets exposed in the fdinfo? We went the simple way of just adding=
+ name and index, but if someone has a suggestion on how else we could forma=
+t them so there is commonality across
+ vendors we could just amend those.</div>
+<div dir=3D"ltr"><br>
+</div>
+<div dir=3D"ltr">I=92d really like to have the process managers tools displ=
+ay GPU usage regardless of what vendor is installed.</div>
+<div><br>
+</div>
+<div class=3D"ms-outlook-ios-signature"></div>
+</div>
+</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Daniel Vetter &lt;dan=
+iel@ffwll.ch&gt;<br>
+<b>Sent:</b> Monday, May 17, 2021 7:30:47 AM<br>
+<b>To:</b> Koenig, Christian &lt;Christian.Koenig@amd.com&gt;<br>
+<b>Cc:</b> Tvrtko Ursulin &lt;tvrtko.ursulin@linux.intel.com&gt;; Nieto, Da=
+vid M &lt;David.Nieto@amd.com&gt;; Alex Deucher &lt;alexdeucher@gmail.com&g=
+t;; Intel Graphics Development &lt;Intel-gfx@lists.freedesktop.org&gt;; Mal=
+ing list - DRI developers &lt;dri-devel@lists.freedesktop.org&gt;;
+ Daniel Vetter &lt;daniel@ffwll.ch&gt;<br>
+<b>Subject:</b> Re: [PATCH 0/7] Per client engine busyness</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Fri, May 14, 2021 at 05:10:29PM +0200, Christia=
+n K=F6nig wrote:<br>
+&gt; Am 14.05.21 um 17:03 schrieb Tvrtko Ursulin:<br>
+&gt; &gt; <br>
+&gt; &gt; On 14/05/2021 15:56, Christian K=F6nig wrote:<br>
+&gt; &gt; &gt; Am 14.05.21 um 16:47 schrieb Tvrtko Ursulin:<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; On 14/05/2021 14:53, Christian K=F6nig wrote:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; David also said that you considered sysfs but=
+ were wary<br>
+&gt; &gt; &gt; &gt; &gt; &gt; of exposing process info in there. To clarify=
+, my patch<br>
+&gt; &gt; &gt; &gt; &gt; &gt; is not exposing sysfs entry per process, but =
+one per<br>
+&gt; &gt; &gt; &gt; &gt; &gt; open drm fd.<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; Yes, we discussed this as well, but then rejected =
+the approach.<br>
+&gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; To have useful information related to the open drm=
+ fd you<br>
+&gt; &gt; &gt; &gt; &gt; need to related that to process(es) which have tha=
+t file<br>
+&gt; &gt; &gt; &gt; &gt; descriptor open. Just tracking who opened it first=
+ like DRM<br>
+&gt; &gt; &gt; &gt; &gt; does is pretty useless on modern systems.<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; We do update the pid/name for fds passed over unix sock=
+ets.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Well I just double checked and that is not correct.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Could be that i915 has some special code for that, but on my=
+ laptop<br>
+&gt; &gt; &gt; I only see the X server under the &quot;clients&quot; debugf=
+s file.<br>
+&gt; &gt; <br>
+&gt; &gt; Yes we have special code in i915 for this. Part of this series we=
+ are<br>
+&gt; &gt; discussing here.<br>
+&gt; <br>
+&gt; Ah, yeah you should mention that. Could we please separate that into c=
+ommon<br>
+&gt; code instead? Cause I really see that as a bug in the current handling=
+<br>
+&gt; independent of the discussion here.<br>
+&gt; <br>
+&gt; As far as I know all IOCTLs go though some common place in DRM anyway.=
+<br>
+<br>
+Yeah, might be good to fix that confusion in debugfs. But since that's<br>
+non-uapi, I guess no one ever cared (enough).<br>
+<br>
+&gt; &gt; &gt; &gt; &gt; But an &quot;lsof /dev/dri/renderD128&quot; for ex=
+ample does exactly<br>
+&gt; &gt; &gt; &gt; &gt; what top does as well, it iterates over /proc and =
+sees which<br>
+&gt; &gt; &gt; &gt; &gt; process has that file open.<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; Lsof is quite inefficient for this use case. It has to =
+open<br>
+&gt; &gt; &gt; &gt; _all_ open files for _all_ processes on the system to f=
+ind a<br>
+&gt; &gt; &gt; &gt; handful of ones which may have the DRM device open.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Completely agree.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; The key point is you either need to have all references to a=
+n open<br>
+&gt; &gt; &gt; fd, or at least track whoever last used that fd.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; At least the last time I looked even the fs layer didn't kno=
+w which<br>
+&gt; &gt; &gt; fd is open by which process. So there wasn't really any alte=
+rnative<br>
+&gt; &gt; &gt; to the lsof approach.<br>
+&gt; &gt; <br>
+&gt; &gt; I asked you about the use case you have in mind which you did not=
+<br>
+&gt; &gt; answer. Otherwise I don't understand when do you need to walk all=
+ files.<br>
+&gt; &gt; What information you want to get?<br>
+&gt; <br>
+&gt; Per fd debugging information, e.g. instead of the top use case you kno=
+w<br>
+&gt; which process you want to look at.<br>
+&gt; <br>
+&gt; &gt; <br>
+&gt; &gt; For the use case of knowing which DRM file is using how much GPU =
+time on<br>
+&gt; &gt; engine X we do not need to walk all open files either with my sys=
+fs<br>
+&gt; &gt; approach or the proc approach from Chris. (In the former case we<=
+br>
+&gt; &gt; optionally aggregate by PID at presentation time, and in the latt=
+er case<br>
+&gt; &gt; aggregation is implicit.)<br>
+&gt; <br>
+&gt; I'm unsure if we should go with the sysfs, proc or some completely dif=
+ferent<br>
+&gt; approach.<br>
+&gt; <br>
+&gt; In general it would be nice to have a way to find all the fd reference=
+s for<br>
+&gt; an open inode.<br>
+<br>
+Yeah, but that maybe needs to be an ioctl or syscall or something on the<br=
+>
+inode, that givey you a list of (procfd, fd_nr) pairs pointing back at all<=
+br>
+open files? If this really is a real world problem, but given that<br>
+top/lsof and everyone else hasn't asked for it yet maybe it's not.<br>
+<br>
+Also I replied in some other thread, I really like the fdinfo stuff, and I<=
+br>
+think trying to somewhat standardized this across drivers would be neat.<br=
+>
+Especially since i915 is going to adopt drm/scheduler for front-end<br>
+scheduling too, so at least some of this should be fairly easy to share.<br=
+>
+<br>
+Cheers, Daniel<br>
+-- <br>
+Daniel Vetter<br>
+Software Engineer, Intel Corporation<br>
+<a href=3D"https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F=
+%2Fblog.ffwll.ch%2F&amp;amp;data=3D04%7C01%7CDavid.Nieto%40amd.com%7C3711fd=
+d207484d6bb5fd08d919405eb0%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637=
+568586536251118%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzI=
+iLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3Dso13elRn0Ffl7w51QEk%=
+2F%2FXmxOav9n5p6fNXrnDBVY%2B0%3D&amp;amp;reserved=3D0">https://nam11.safeli=
+nks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fblog.ffwll.ch%2F&amp;amp;dat=
+a=3D04%7C01%7CDavid.Nieto%40amd.com%7C3711fdd207484d6bb5fd08d919405eb0%7C3d=
+d8961fe4884e608e11a82d994e183d%7C0%7C0%7C637568586536251118%7CUnknown%7CTWF=
+pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
+%7C1000&amp;amp;sdata=3Dso13elRn0Ffl7w51QEk%2F%2FXmxOav9n5p6fNXrnDBVY%2B0%3=
+D&amp;amp;reserved=3D0</a><br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_BYAPR12MB2840C633CF05C1F29263F5BCF42D9BYAPR12MB2840namp_--
