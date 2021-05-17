@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD31386D3E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 00:52:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44463386D77
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 01:02:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8D46E544;
-	Mon, 17 May 2021 22:52:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 449E26E54C;
+	Mon, 17 May 2021 23:02:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 272AF6E544
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 22:52:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2EED6E54C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 23:02:25 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 94B183EE;
- Tue, 18 May 2021 00:52:17 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68C2B3EE;
+ Tue, 18 May 2021 01:02:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1621291937;
- bh=GXeWFRZp8wP2V6yFrUBBhlqhlDxTD0g68OGHT2Z8FyA=;
+ s=mail; t=1621292544;
+ bh=gZd70/DMl64tRQIkgUsxhP7a8rA16Ar5WLUWeUxCsBc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TxDo75slydjoovBcwO2C5oy85snZJGrx7h9EmmSAKK0v/1nx37e3IkIyoduwxRRaZ
- +7W3wN0Qjmmg6RZpyK+L6nwxnFCxklPGJM5m5/UbcdRvztCqlEMCFCikT99TLTUC2Q
- VgGiTUgOPIZAi6HprjmLnWrOOp8My7XG/Mp1pRic=
-Date: Tue, 18 May 2021 01:52:16 +0300
+ b=MCp/Cg7nReZ6WsicUql2QY/KiK210I4gFe0WXc7TaBERzQLXC3elAdsFn2wTcNreV
+ auk/Lx2TwxRN2hGyH6CsANYugKMfpHHi0TbWEOOCv8P55uPL+fLRxzcKASnzpRBNC/
+ CrZqBw3GyBtHj7NrouPMqxTRicm4A46mb5lqT5Tw=
+Date: Tue, 18 May 2021 02:02:23 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH V2] dt-bindings: display: Fix spacing in lvds.yaml
-Message-ID: <YKLzoJB5iagCvU21@pendragon.ideasonboard.com>
-References: <20210517224336.409301-1-marex@denx.de>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: lvds-codec: Document
+ LVDS data mapping select
+Message-ID: <YKL1//4p/voXAR1q@pendragon.ideasonboard.com>
+References: <20210515204656.367442-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210517224336.409301-1-marex@denx.de>
+In-Reply-To: <20210515204656.367442-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,9 +56,18 @@ Hi Marek,
 
 Thank you for the patch.
 
-On Tue, May 18, 2021 at 12:43:36AM +0200, Marek Vasut wrote:
-> Add missing spaces to make the diagrams readable, no functional change.
-> 
+On Sat, May 15, 2021 at 10:46:55PM +0200, Marek Vasut wrote:
+> Decoder input LVDS format is a property of the decoder chip or even
+> its strapping. Add DT property data-mapping the same way lvds-panel
+> does, to define the LVDS data mapping.
+
+The information could also be derived by the driver from the compatible
+string in the case when this is an intrinsic property of the device (or
+when it's configurable by software), but the fact that it can also be
+controlled by strapping makes a DT property needed. We may want to limit
+the usage of the DT property to the strapping case though, but I don't
+have a real preference here, so I'm fine with this approach.
+
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Cc: Rob Herring <robh+dt@kernel.org>
@@ -65,81 +75,50 @@ On Tue, May 18, 2021 at 12:43:36AM +0200, Marek Vasut wrote:
 > Cc: devicetree@vger.kernel.org
 > To: dri-devel@lists.freedesktop.org
 > ---
-> V2: Replace all the other tabs too
-
-Thanks for taking my comment into account.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  .../bindings/display/panel/lvds.yaml          | 46 +++++++++----------
->  1 file changed, 23 insertions(+), 23 deletions(-)
+>  .../bindings/display/bridge/lvds-codec.yaml   | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> index 31164608ba1d..49460c9dceea 100644
-> --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> @@ -51,37 +51,37 @@ properties:
->        - "jeida-18" - 18-bit data mapping compatible with the [JEIDA], [LDI] and
->          [VESA] specifications. Data are transferred as follows on 3 LVDS lanes.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> index f4dd16bd69d2..f0abb94f8f2e 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> @@ -64,6 +64,15 @@ properties:
+>        - port@0
+>        - port@1
 >  
-> -      Slot	    0       1       2       3       4       5       6
-> -            ________________                         _________________
-> -      Clock	                \_______________________/
-> -              ______  ______  ______  ______  ______  ______  ______
-> -      DATA0	><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
-> -      DATA1	><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
-> -      DATA2	><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
-> +      Slot          0       1       2       3       4       5       6
-> +                ________________                         _________________
-> +      Clock                     \_______________________/
-> +                  ______  ______  ______  ______  ______  ______  ______
-> +      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
-> +      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
-> +      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+> +  data-mapping:
+> +    enum:
+> +      - jeida-18
+> +      - jeida-24
+> +      - vesa-24
+> +    description: |
+> +      The color signals mapping order. See details in
+> +      Documentation/devicetree/bindings/display/panel/lvds.yaml
+> +
+>    pclk-sample:
+>      description:
+>        Data sampling on rising or falling edge.
+> @@ -79,6 +88,16 @@ properties:
 >  
->        - "jeida-24" - 24-bit data mapping compatible with the [DSIM] and [LDI]
->          specifications. Data are transferred as follows on 4 LVDS lanes.
+>    power-supply: true
 >  
-> -      Slot	    0       1       2       3       4       5       6
-> -            ________________                         _________________
-> -      Clock	                \_______________________/
-> -              ______  ______  ______  ______  ______  ______  ______
-> -      DATA0	><__G2__><__R7__><__R6__><__R5__><__R4__><__R3__><__R2__><
-> -      DATA1	><__B3__><__B2__><__G7__><__G6__><__G5__><__G4__><__G3__><
-> -      DATA2	><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
-> -      DATA3	><_CTL3_><__B1__><__B0__><__G1__><__G0__><__R1__><__R0__><
-> +      Slot          0       1       2       3       4       5       6
-> +                ________________                         _________________
-> +      Clock                     \_______________________/
-> +                  ______  ______  ______  ______  ______  ______  ______
-> +      DATA0     ><__G2__><__R7__><__R6__><__R5__><__R4__><__R3__><__R2__><
-> +      DATA1     ><__B3__><__B2__><__G7__><__G6__><__G5__><__G4__><__G3__><
-> +      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
-> +      DATA3     ><_CTL3_><__B1__><__B0__><__G1__><__G0__><__R1__><__R0__><
->  
->        - "vesa-24" - 24-bit data mapping compatible with the [VESA] specification.
->          Data are transferred as follows on 4 LVDS lanes.
->  
-> -      Slot	    0       1       2       3       4       5       6
-> -            ________________                         _________________
-> -      Clock	                \_______________________/
-> -              ______  ______  ______  ______  ______  ______  ______
-> -      DATA0	><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
-> -      DATA1	><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
-> -      DATA2	><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
-> -      DATA3	><_CTL3_><__B7__><__B6__><__G7__><__G6__><__R7__><__R6__><
-> +      Slot          0       1       2       3       4       5       6
-> +                ________________                         _________________
-> +      Clock                     \_______________________/
-> +                  ______  ______  ______  ______  ______  ______  ______
-> +      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
-> +      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
-> +      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
-> +      DATA3     ><_CTL3_><__B7__><__B6__><__G7__><__G6__><__R7__><__R6__><
->  
->        Control signals are mapped as follows.
->  
+> +if:
+> +  not:
+> +    properties:
+> +      compatible:
+> +        contains:
+> +          const: lvds-decoder
+> +then:
+> +  properties:
+> +    data-mapping: false
+> +
+>  if:
+>    not:
+>      properties:
+
+Unless I'm mistaken, you can't have identically named properties at the
+same level (multiple 'if' at the root level). You can group them in a
+'allOf' property.
 
 -- 
 Regards,
