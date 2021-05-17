@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716E93827E6
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 11:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFC6382845
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 11:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D72A6E135;
-	Mon, 17 May 2021 09:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A4CF6E91E;
+	Mon, 17 May 2021 09:27:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61FE16E135
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 09:12:56 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id w127so2039256oig.12
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 02:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 693876E91E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 09:27:50 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ g6-20020a17090adac6b029015d1a9a6f1aso4214731pjx.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 02:27:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gfSGgq8Bw634jos2BhPIYD1MCiKr2MgkE0Xb4Qf8U2M=;
- b=VZAIk70QX6PShxHjY+RskDqCQ+sq+dfLgQxruSlP9A4jtbpZmS6QMo0MCd5599CT+x
- MA75Mk5rqZMKVmQjye41lzWVs5vf4YiPYQYJlWxmclZKKURgXnJccs+rODdJdwYDffC3
- l2uDzVge0MacxdZNpKFYQOwD8Sqa6YmtGY1XI=
+ :cc; bh=ZwRMoqcaR++/qsLAMyEgC+MY+iTWFtr0y91F+kn7q8k=;
+ b=Z8swXdkk+dKfh+aLLxhLi8lWlp4mkbfMy/81Cjd4MDnE64ZghW9ZueJEk6L84nQFA6
+ krBrRuJPLVECGL2IL+Pf+70BMzd2l9DshYECpaD+MbqUho81FRck40Nf9k9R2ifYg4Zc
+ k4evgSLsNrwHG6f5yfnZu+YwptE5N7AGmXlBTk1135zokyikVgbHGlT6XbVOJK/5oyTZ
+ FoCiPmAEIMuS9CMOZJg5CaNe8QYbxV8zkeAcbJLI+H+jXju78FuAwBGLhNYbRvmo2cnN
+ Q3uNMB4x8bi45RqbF55ZR1ZcG9eETFmNpYRbrY41TsFGjDtY/NzK+GZhbi2MwfSABUwi
+ CkMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gfSGgq8Bw634jos2BhPIYD1MCiKr2MgkE0Xb4Qf8U2M=;
- b=tcxF7Cx5j7X3jXZ4SiRouy2K6wBmPtukWholKngXg46IktAmNIz9DiAoAZSLddHVkU
- tntJjZ7nffRzZDvMIuest9vj1Il9iwyHs6SgqP71gRwAOMZ/o4ZUyKI6pZzX0evZIBLa
- 9SRCkLI5CwS6/H8TEJKFFjAdPLjv0g5yF1jYprHEv2yTWANc1kfLlmcJ6Q07Nv9zDJHH
- KhjTx6ZDrzGk31NqrR/lMU9KMvdVjKZ71fWWNFqFsoixblOiuQOC64vE1Ms2IPQo/46W
- MXA50o3ELxenVgMOynUu1zpUYGQ2wZ2tdpUrtzzGCGd7A4L2vLOaxOOYk2XhZaakqS/T
- UsAQ==
-X-Gm-Message-State: AOAM531CF7U3BAAa7nUcbwnm376heDd2+jUixHmVp+i1b1stK7YRjUSZ
- 2kvUGqIHcPqqO+ESqMXT71f190ym7J5xBv6tmtBO8Q==
-X-Google-Smtp-Source: ABdhPJzA/Mbq6QuZJW7ON5tHEzjjR1Uqmvq7FwE+r5JmMAtM5hk52qJgoxuO8UGzC9OZmRdQUUpvXVwpqPi06KEa86o=
-X-Received: by 2002:a54:4809:: with SMTP id j9mr14630807oij.14.1621242775675; 
- Mon, 17 May 2021 02:12:55 -0700 (PDT)
+ bh=ZwRMoqcaR++/qsLAMyEgC+MY+iTWFtr0y91F+kn7q8k=;
+ b=HxMHh8lFzdbQNOiq2U4xofOy1K3RqvhI9AJ6Q2Edc6v8xmQ/DNOV/6QDzttLGwZRkC
+ EmO1yML2kIVkC1MoHvxC/XkJZc46g54vvWhjE7GHL37YgekQBlk+sQQpELeJr4yToGoM
+ SjBfNtF4viEn2W9EtPUFEGq2MQfxSDYh6Xc3A41W6WAfKui6HWxKVn4FzD0Gvn+lLSCm
+ kN/mvic/5fIGVKpZyfKUPh0JlpaSwjbZWUcyJvR7Ax+DpNVCYup4kkDunGvyrvXCoAyf
+ 5SbvFmbPKPx5sfN+BrNLnu0c/VJQK2p4bNWBm4V3YrgCdLHQ4+GpQv+l+pccfVbA9vzE
+ V1tQ==
+X-Gm-Message-State: AOAM5316EgYTH3gxiMATgtm+4uGmMy3+9yrx6BaU/5YE/FNUKAJ+LH61
+ VvbYcsEduKdJ5VzhxqA7mMUWuqTXW+eRspZCLwWmEQ==
+X-Google-Smtp-Source: ABdhPJydTvFkg9dPdtjhuUxgGffLzT1pa4jhJl8umCT+4dwADgxZnkhU5/LAv8lw46BvzqEzkVDm+zHeE9Ii18tTSYg=
+X-Received: by 2002:a17:902:4:b029:ee:8f40:ecbf with SMTP id
+ 4-20020a1709020004b02900ee8f40ecbfmr58725953pla.28.1621243669932; Mon, 17 May
+ 2021 02:27:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210513110040.2268-1-maciej.kwapulinski@linux.intel.com>
- <YJ42MEgwDZrAEQLl@kroah.com>
- <CAK8P3a0pcBHfrwu9fHHRWim5WgQuCqpROpMM83yCCpjjwu1FJQ@mail.gmail.com>
- <YKIeBdwFb9Ng275X@phenom.ffwll.local> <YKIigHrwqp8zd036@kroah.com>
- <CAKMK7uEg2khb7wDzHTGEPwfbYe+T_5Av=_BTnt91CBW5U4yWvg@mail.gmail.com>
- <YKIvh9wbrOnd1yvj@kroah.com>
-In-Reply-To: <YKIvh9wbrOnd1yvj@kroah.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 17 May 2021 11:12:44 +0200
-Message-ID: <CAKMK7uFsQTjPfpgEFqyxnD1k-zoQHYbGH72Gmu7MML1qcFj0Kg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20210517081601.1563193-1-yukuai3@huawei.com>
+In-Reply-To: <20210517081601.1563193-1-yukuai3@huawei.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 17 May 2021 11:27:38 +0200
+Message-ID: <CAG3jFyvjD+Gf5C+sWA8Qi9Hp-tJHeCjqbWX5Fds3m41nCLreyA@mail.gmail.com>
+Subject: Re: [PATCH] drm: bridge: cdns-mhdp8546: Fix PM reference leak in
+ cdns_mhdp_probe()
+To: Yu Kuai <yukuai3@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,127 +64,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
- Dragan Cvetic <dragan.cvetic@xilinx.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ yi.zhang@huawei.com, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 17, 2021 at 10:55 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+Hey Yu,
+
+On Mon, 17 May 2021 at 10:08, Yu Kuai <yukuai3@huawei.com> wrote:
 >
-> On Mon, May 17, 2021 at 10:49:09AM +0200, Daniel Vetter wrote:
-> > On Mon, May 17, 2021 at 10:00 AM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Mon, May 17, 2021 at 09:40:53AM +0200, Daniel Vetter wrote:
-> > > > On Fri, May 14, 2021 at 11:00:38AM +0200, Arnd Bergmann wrote:
-> > > > > On Fri, May 14, 2021 at 10:34 AM Greg Kroah-Hartman
-> > > > > <gregkh@linuxfoundation.org> wrote:
-> > > > > > On Thu, May 13, 2021 at 01:00:26PM +0200, Maciej Kwapulinski wrote:
-> > > > > > > Dear kernel maintainers,
-> > > > > > >
-> > > > > > > This submission is a kernel driver to support Intel(R) Gaussian & Neural
-> > > > > > > Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
-> > > > > > > available on multiple Intel platforms. AI developers and users can offload
-> > > > > > > continuous inference workloads to an Intel(R) GNA device in order to free
-> > > > > > > processor resources and save power. Noise reduction and speech recognition
-> > > > > > > are the examples of the workloads Intel(R) GNA deals with while its usage
-> > > > > > > is not limited to the two.
-> > > > > >
-> > > > > > How does this compare with the "nnpi" driver being proposed here:
-> > > > > >         https://lore.kernel.org/r/20210513085725.45528-1-guy.zadicario@intel.com
-> > > > > >
-> > > > > > Please work with those developers to share code and userspace api and
-> > > > > > tools.  Having the community review two totally different apis and
-> > > > > > drivers for the same type of functionality from the same company is
-> > > > > > totally wasteful of our time and energy.
-> > > > >
-> > > > > Agreed, but I think we should go further than this and work towards a
-> > > > > subsystem across companies for machine learning and neural networks
-> > > > > accelerators for both inferencing and training.
-> > > >
-> > > > We have, it's called drivers/gpu. Feel free to rename to drivers/xpu or
-> > > > think G as in General, not Graphisc.
-> > > >
-> > > > > We have support for Intel habanalabs hardware in drivers/misc, and there are
-> > > > > countless hardware solutions out of tree that would hopefully go the same
-> > > > > way with an upstream submission and open source user space, including
-> > > > >
-> > > > > - Intel/Mobileye EyeQ
-> > > > > - Intel/Movidius Keembay
-> > > > > - Nvidia NVDLA
-> > > > > - Gyrfalcon Lightspeeur
-> > > > > - Apple Neural Engine
-> > > > > - Google TPU
-> > > > > - Arm Ethos
-> > > > >
-> > > > > plus many more that are somewhat less likely to gain fully open source
-> > > > > driver stacks.
-> > > >
-> > > > We also had this entire discussion 2 years ago with habanalabs. The
-> > > > hang-up is that drivers/gpu folks require fully open source userspace,
-> > > > including compiler and anything else you need to actually use the chip.
-> > > > Greg doesn't, he's happy if all he has is the runtime library with some
-> > > > tests.
-> >
-> > I guess we're really going to beat this horse into pulp ... oh well.
-> >
-> > > All you need is a library, what you write on top of that is always
-> > > application-specific, so how can I ask for "more"?
-> >
-> > This is like accepting a new cpu port, where all you require is that
-> > the libc port is open source, but the cpu compiler is totally fine as
-> > a blob (doable with llvm now being supported). It makes no sense at
-> > all, at least to people who have worked with accelerators like this
-> > before.
-> >
-> > We are not requiring that applications are open. We're only requiring
-> > that at least one of the compilers you need (no need to open the fully
-> > optimized one with all the magic sauce) to create any kind of
-> > applications is open, because without that you can't use the device,
-> > you can't analyze the stack, and you have no idea at all about what
-> > exactly it is you're merging. With these devices, the uapi visible in
-> > include/uapi is the smallest part of the interface exposed to
-> > userspace.
+> pm_runtime_get_sync will increment pm usage counter even it failed.
+> Forgetting to putting operation will result in reference leak here.
+> Fix it by replacing it with pm_runtime_resume_and_get to keep usage
+> counter balanced.
 >
-> Ok, sorry, I was not aware that the habanalabs compiler was not
-> available to all under an open source license.  All I was trying to
-> enforce was that the library to use the kernel api was open so that
-> anyone could use it.  Trying to enforce compiler requirements like this
-> might feel to be a bit of a reach as the CPU on the hardware really
-> doesn't fall under the license of the operating system running on this
-> CPU over here :)
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+> ---
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index 0cd8f40fb690..305489d48c16 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -2478,7 +2478,7 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
+>         clk_prepare_enable(clk);
+>
+>         pm_runtime_enable(dev);
+> -       ret = pm_runtime_get_sync(dev);
+> +       ret = pm_runtime_resume_and_get(dev);
+>         if (ret < 0) {
+>                 dev_err(dev, "pm_runtime_get_sync failed\n");
+>                 pm_runtime_disable(dev);
 
-Experience says if you don't, forget about supporting your
-drivers/subsystem long-term. At best you're stuck with a per-device
-fragmented mess that vendors might or might not support. This has
-nothing to do with GPL licensing or not, but about making sure you can
-do proper engineering/support/review of the driver stack. At least in
-the GPU world we're already making it rather clear that running blobby
-userspace is fine with us (as long as it's using the exact same uapi
-as the truly open stack, no exceptions/hacks/abuse are supported).
+The code is correct as it is. If pm_runtime_get_sync() fails and
+increments[1] the pm.usage_count variable, that isn't a problem since
+pm_runtime_disable() disables pm, and resets pm.usage_count variable
+to zero[2].
 
-Also yes vendors don't like it. But they also don't like that they
-have to open source their kernel drivers, or runtime library. Lots of
-background chats over years, and a very clear line in the sand helps
-to get there, and also makes sure that the vendors who got here don't
-return to the old closed source ways they love so much.
-
-Anyway we've had all this discussions 2 years ago, nothing has changed
-(well on the gpu side we managed to get ARM officially on board with
-fully open stack paid by them meanwhile, other discussions still
-ongoing). I just wanted to re-iterate that if we'd really care about
-having a proper accel subsystem, there's people who've been doing this
-for decades.
-
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+[1] https://elixir.bootlin.com/linux/latest/source/include/linux/pm_runtime.h#L384
+[2] https://elixir.bootlin.com/linux/latest/source/drivers/base/power/runtime.c#L1383
