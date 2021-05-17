@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B52382562
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 09:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF38382567
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 09:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 519A76E8DA;
-	Mon, 17 May 2021 07:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 050E66E8E3;
+	Mon, 17 May 2021 07:32:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
- Sun, 16 May 2021 19:42:40 UTC
-Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
- [136.143.188.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 398C06E862
- for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 19:42:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1621193252; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=GpTODC/DLEfsPiaz5f0uHe14TK/B7PCR6E2MSep8ov0URKYeSoEyibrf+uLFV4b9tqtfLmX7iA7r1M7Vy0aSvH6+2CMmi++xAk4rUr9HLKv3FKsa5X8O1ggjlF2f9P7H9nfB2JWtIhvRv6pvxuV9x9Oa8maV2T9axI6xCi6kkHw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1621193252;
- h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
- bh=kcMsIBb4mr1nm3LmQ5wyFHGYyNEsGyNz7p4rtiGeyZw=; 
- b=ebmZ0BvljHKpi8/DOujECR5AqX0ciAlFM9R6cmX/xRDHAj6xXR2NzNoQ2pu35XolsRZ5n9UPJhUXv7H3DTZfqoAumH5MmtYzaa0S8eVYfrN82HFYWV6j13EigW/HOWjU7LtCFooji08pSwiMhO8hPlURpCQIwiOo/7XYGwxw8SY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=anirudhrb.com;
- spf=pass  smtp.mailfrom=mail@anirudhrb.com;
- dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1621193252; 
- s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
- bh=kcMsIBb4mr1nm3LmQ5wyFHGYyNEsGyNz7p4rtiGeyZw=;
- b=yKN+eYUKedxDvM/J8PgnoWdA/PYpQ/ssg6uNKVFtcUdxu+VXHAUmoJdfB3NBMyqz
- mHDG/qCeHPOlI2IKSwASWbtWhWj7QOrSwjxUfhx/r80gP3eQWaxm8WJtqIlNis6xvqo
- /birjyRZtdje8eIcI1A0jppl2fvCvnj1ZNEm0p8g=
-Received: from localhost.localdomain (106.51.110.61 [106.51.110.61]) by
- mx.zohomail.com with SMTPS id 1621193251338853.0225315553987;
- Sun, 16 May 2021 12:27:31 -0700 (PDT)
-From: Anirudh Rayabharam <mail@anirudhrb.com>
-To: Ferenc Bakonyi <fero@drama.obuda.kando.hu>,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] video: hgafb: correctly handle card detect failure during
- probe
-Date: Mon, 17 May 2021 00:57:14 +0530
-Message-Id: <20210516192714.25823-1-mail@anirudhrb.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A26A56E8CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 06:36:00 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id p6so2550694plr.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 May 2021 23:36:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xk0ntXUor2j99C3NO8/vo2p+c0gfsVi1yMkjAZ3Fvxo=;
+ b=RCF08xjDj32HNzU+b+i45uFVfnBYxa1OU9pSqA9fZVtv7NrTCAt+/hyahDAKhszYkK
+ p2nEoWPMGmlZl3AEs0Xog0sYx95BT1A4EYKOWH8+FbV4AMmJY8DvH8YjEHVMdqYWCKyY
+ Icb554NrEjvkSVE8sYqniBGWvs4cc2g/WBFSw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xk0ntXUor2j99C3NO8/vo2p+c0gfsVi1yMkjAZ3Fvxo=;
+ b=KB9a2Pv+ia/iuwpkvsl7JI0M3MmrV3w+dpYutg526p3/jkmLVSkZ2xO20kRidcp9LV
+ nXs212zhyMnAC/XXK93prSBKub8Mh8TCHj8C84ck1Wcl7omWvDlFiavQYeffgGh6U9HY
+ unt7fhy+5oYDnde6N7F9HJBW1AjTywOgVHzWyugR3oVOkSnXS69DEo6sjoED6l6GClvK
+ tdd9wJlKGyEf7TjDDP5Ro2WQ8ZPvPD2y9CpEULeose7LMFVEVm37s2+El28MUwgQG18u
+ gxGzgo8GAUmT+b/vETJBa0as+q0AxXxq+fjwAoXdak13E/va+JQig4rqyvckq/yJwUP6
+ DC+w==
+X-Gm-Message-State: AOAM533CeFX7i8qjjaHRcUH4ZOzA7Q4mZ1ZPiEBD9R5ZgM2YVzc3U0R0
+ dJsts0YJb4OszaxkM6TdMpLFjQ==
+X-Google-Smtp-Source: ABdhPJzCxwFjTg8K8TDG3atxsHG1clpfMK5dGppkmJiYh3C01TIqrBk0gWWk7lMdOVRpg6H6ZeQg2Q==
+X-Received: by 2002:a17:90a:7e09:: with SMTP id
+ i9mr25687960pjl.166.1621233360134; 
+ Sun, 16 May 2021 23:36:00 -0700 (PDT)
+Received: from kafuu-chino.c.googlers.com.com
+ (105.219.229.35.bc.googleusercontent.com. [35.229.219.105])
+ by smtp.googlemail.com with ESMTPSA id js6sm13287612pjb.0.2021.05.16.23.35.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 May 2021 23:35:59 -0700 (PDT)
+From: Pi-Hsun Shih <pihsun@chromium.org>
+To: 
+Subject: [PATCH v5 1/2] drm/bridge: anx7625: refactor power control to use
+ runtime PM framework
+Date: Mon, 17 May 2021 14:35:28 +0800
+Message-Id: <20210517063553.554955-1-pihsun@chromium.org>
+X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 X-Mailman-Approved-At: Mon, 17 May 2021 07:32:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,46 +66,338 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Anirudh Rayabharam <mail@anirudhrb.com>,
- kernel test robot <oliver.sang@intel.com>, stable <stable@vger.kernel.org>,
- linux-nvidia@lists.surfsouth.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Tzung-Bi Shih <tzungbi@google.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Pi-Hsun Shih <pihsun@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The return value of hga_card_detect() is not properly handled causing
-the probe to succeed even though hga_card_detect() failed. Since probe
-succeeds, hgafb_open() can be called which will end up operating on an
-unmapped hga_vram. This results in an out-of-bounds access as reported
-by kernel test robot [1].
+The driver originally use an atomic_t for keep track of the power
+status, which makes the driver more complicated than needed, and has
+some race condition as it's possible to have the power on and power off
+sequence going at the same time.
 
-To fix this, correctly detect failure of hga_card_detect() by checking
-for a non-zero error code.
+This patch remove the usage of the atomic_t power_status, and use the
+kernel runtime power management framework instead.
 
-[1]: https://lore.kernel.org/lkml/20210516150019.GB25903@xsang-OptiPlex-9020/
-
-Reported-by: kernel test robot <oliver.sang@intel.com>
-Fixes: dc13cac4862c ("video: hgafb: fix potential NULL pointer dereference")
-Cc: stable <stable@vger.kernel.org>
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
 ---
- drivers/video/fbdev/hgafb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
-index cc8e62ae93f6..bd3d07aa4f0e 100644
---- a/drivers/video/fbdev/hgafb.c
-+++ b/drivers/video/fbdev/hgafb.c
-@@ -558,7 +558,7 @@ static int hgafb_probe(struct platform_device *pdev)
- 	int ret;
+Changes in v5:
+* Revert changes from v4, and move fix to the suspend / resume hook
+  (2/2 in series).
+
+Changes in v4:
+* Maintain separate powered state, since the power state is not sync
+  with runtime PM suspended state on suspend / resume, and the irq
+  callback shouldn't be run while suspending.
+
+Changes in v3:
+* Add missing .pm field to anx7625_driver.
+
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 149 ++++++++++------------
+ drivers/gpu/drm/bridge/analogix/anx7625.h |   1 -
+ 2 files changed, 64 insertions(+), 86 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 23283ba0c4f9..e1bf31eafe22 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -11,6 +11,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
++#include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+@@ -1005,33 +1006,6 @@ static void anx7625_power_on_init(struct anx7625_data *ctx)
+ 	}
+ }
  
- 	ret = hga_card_detect();
--	if (!ret)
-+	if (ret)
- 		return ret;
+-static void anx7625_chip_control(struct anx7625_data *ctx, int state)
+-{
+-	struct device *dev = &ctx->client->dev;
+-
+-	DRM_DEV_DEBUG_DRIVER(dev, "before set, power_state(%d).\n",
+-			     atomic_read(&ctx->power_status));
+-
+-	if (!ctx->pdata.low_power_mode)
+-		return;
+-
+-	if (state) {
+-		atomic_inc(&ctx->power_status);
+-		if (atomic_read(&ctx->power_status) == 1)
+-			anx7625_power_on_init(ctx);
+-	} else {
+-		if (atomic_read(&ctx->power_status)) {
+-			atomic_dec(&ctx->power_status);
+-
+-			if (atomic_read(&ctx->power_status) == 0)
+-				anx7625_power_standby(ctx);
+-		}
+-	}
+-
+-	DRM_DEV_DEBUG_DRIVER(dev, "after set, power_state(%d).\n",
+-			     atomic_read(&ctx->power_status));
+-}
+-
+ static void anx7625_init_gpio(struct anx7625_data *platform)
+ {
+ 	struct device *dev = &platform->client->dev;
+@@ -1061,9 +1035,6 @@ static void anx7625_stop_dp_work(struct anx7625_data *ctx)
+ 	ctx->hpd_status = 0;
+ 	ctx->hpd_high_cnt = 0;
+ 	ctx->display_timing_valid = 0;
+-
+-	if (ctx->pdata.low_power_mode == 0)
+-		anx7625_disable_pd_protocol(ctx);
+ }
  
- 	printk(KERN_INFO "hgafb: %s with %ldK of memory detected.\n",
+ static void anx7625_start_dp_work(struct anx7625_data *ctx)
+@@ -1105,49 +1076,26 @@ static void anx7625_hpd_polling(struct anx7625_data *ctx)
+ 	int ret, val;
+ 	struct device *dev = &ctx->client->dev;
+ 
+-	if (atomic_read(&ctx->power_status) != 1) {
+-		DRM_DEV_DEBUG_DRIVER(dev, "No need to poling HPD status.\n");
+-		return;
+-	}
+-
+ 	ret = readx_poll_timeout(anx7625_read_hpd_status_p0,
+ 				 ctx, val,
+ 				 ((val & HPD_STATUS) || (val < 0)),
+ 				 5000,
+ 				 5000 * 100);
+ 	if (ret) {
+-		DRM_DEV_ERROR(dev, "HPD polling timeout!\n");
+-	} else {
+-		DRM_DEV_DEBUG_DRIVER(dev, "HPD raise up.\n");
+-		anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
+-				  INTR_ALERT_1, 0xFF);
+-		anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+-				  INTERFACE_CHANGE_INT, 0);
++		DRM_DEV_ERROR(dev, "no hpd.\n");
++		return;
+ 	}
+ 
+-	anx7625_start_dp_work(ctx);
+-}
+-
+-static void anx7625_disconnect_check(struct anx7625_data *ctx)
+-{
+-	if (atomic_read(&ctx->power_status) == 0)
+-		anx7625_stop_dp_work(ctx);
+-}
+-
+-static void anx7625_low_power_mode_check(struct anx7625_data *ctx,
+-					 int state)
+-{
+-	struct device *dev = &ctx->client->dev;
++	DRM_DEV_DEBUG_DRIVER(dev, "system status: 0x%x. HPD raise up.\n", val);
++	anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
++			  INTR_ALERT_1, 0xFF);
++	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
++			  INTERFACE_CHANGE_INT, 0);
+ 
+-	DRM_DEV_DEBUG_DRIVER(dev, "low power mode check, state(%d).\n", state);
++	anx7625_start_dp_work(ctx);
+ 
+-	if (ctx->pdata.low_power_mode) {
+-		anx7625_chip_control(ctx, state);
+-		if (state)
+-			anx7625_hpd_polling(ctx);
+-		else
+-			anx7625_disconnect_check(ctx);
+-	}
++	if (!ctx->pdata.panel_bridge && ctx->bridge_attached)
++		drm_helper_hpd_irq_event(ctx->bridge.dev);
+ }
+ 
+ static void anx7625_remove_edid(struct anx7625_data *ctx)
+@@ -1180,9 +1128,6 @@ static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
+ 	int intr_vector, status;
+ 	struct device *dev = &ctx->client->dev;
+ 
+-	DRM_DEV_DEBUG_DRIVER(dev, "power_status=%d\n",
+-			     (u32)atomic_read(&ctx->power_status));
+-
+ 	status = anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
+ 				   INTR_ALERT_1, 0xFF);
+ 	if (status < 0) {
+@@ -1228,22 +1173,25 @@ static void anx7625_work_func(struct work_struct *work)
+ 						struct anx7625_data, work);
+ 
+ 	mutex_lock(&ctx->lock);
++
++	if (pm_runtime_suspended(&ctx->client->dev))
++		goto unlock;
++
+ 	event = anx7625_hpd_change_detect(ctx);
+-	mutex_unlock(&ctx->lock);
+ 	if (event < 0)
+-		return;
++		goto unlock;
+ 
+ 	if (ctx->bridge_attached)
+ 		drm_helper_hpd_irq_event(ctx->bridge.dev);
++
++unlock:
++	mutex_unlock(&ctx->lock);
+ }
+ 
+ static irqreturn_t anx7625_intr_hpd_isr(int irq, void *data)
+ {
+ 	struct anx7625_data *ctx = (struct anx7625_data *)data;
+ 
+-	if (atomic_read(&ctx->power_status) != 1)
+-		return IRQ_NONE;
+-
+ 	queue_work(ctx->workqueue, &ctx->work);
+ 
+ 	return IRQ_HANDLED;
+@@ -1305,9 +1253,9 @@ static struct edid *anx7625_get_edid(struct anx7625_data *ctx)
+ 		return (struct edid *)edid;
+ 	}
+ 
+-	anx7625_low_power_mode_check(ctx, 1);
++	pm_runtime_get_sync(dev);
+ 	edid_num = sp_tx_edid_read(ctx, p_edid->edid_raw_data);
+-	anx7625_low_power_mode_check(ctx, 0);
++	pm_runtime_put(dev);
+ 
+ 	if (edid_num < 1) {
+ 		DRM_DEV_ERROR(dev, "Fail to read EDID: %d\n", edid_num);
+@@ -1611,10 +1559,7 @@ static void anx7625_bridge_enable(struct drm_bridge *bridge)
+ 
+ 	DRM_DEV_DEBUG_DRIVER(dev, "drm enable\n");
+ 
+-	anx7625_low_power_mode_check(ctx, 1);
+-
+-	if (WARN_ON(!atomic_read(&ctx->power_status)))
+-		return;
++	pm_runtime_get_sync(dev);
+ 
+ 	anx7625_dp_start(ctx);
+ }
+@@ -1624,14 +1569,11 @@ static void anx7625_bridge_disable(struct drm_bridge *bridge)
+ 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+ 	struct device *dev = &ctx->client->dev;
+ 
+-	if (WARN_ON(!atomic_read(&ctx->power_status)))
+-		return;
+-
+ 	DRM_DEV_DEBUG_DRIVER(dev, "drm disable\n");
+ 
+ 	anx7625_dp_stop(ctx);
+ 
+-	anx7625_low_power_mode_check(ctx, 0);
++	pm_runtime_put(dev);
+ }
+ 
+ static enum drm_connector_status
+@@ -1735,6 +1677,39 @@ static void anx7625_unregister_i2c_dummy_clients(struct anx7625_data *ctx)
+ 	i2c_unregister_device(ctx->i2c.tcpc_client);
+ }
+ 
++static int __maybe_unused anx7625_runtime_pm_suspend(struct device *dev)
++{
++	struct anx7625_data *ctx = dev_get_drvdata(dev);
++
++	mutex_lock(&ctx->lock);
++
++	anx7625_stop_dp_work(ctx);
++	anx7625_power_standby(ctx);
++
++	mutex_unlock(&ctx->lock);
++
++	return 0;
++}
++
++static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
++{
++	struct anx7625_data *ctx = dev_get_drvdata(dev);
++
++	mutex_lock(&ctx->lock);
++
++	anx7625_power_on_init(ctx);
++	anx7625_hpd_polling(ctx);
++
++	mutex_unlock(&ctx->lock);
++
++	return 0;
++}
++
++static const struct dev_pm_ops anx7625_pm_ops = {
++	SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
++			   anx7625_runtime_pm_resume, NULL)
++};
++
+ static int anx7625_i2c_probe(struct i2c_client *client,
+ 			     const struct i2c_device_id *id)
+ {
+@@ -1778,8 +1753,6 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	}
+ 	anx7625_init_gpio(platform);
+ 
+-	atomic_set(&platform->power_status, 0);
+-
+ 	mutex_init(&platform->lock);
+ 
+ 	platform->pdata.intp_irq = client->irq;
+@@ -1809,9 +1782,11 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 		goto free_wq;
+ 	}
+ 
+-	if (platform->pdata.low_power_mode == 0) {
++	pm_runtime_enable(dev);
++
++	if (!platform->pdata.low_power_mode) {
+ 		anx7625_disable_pd_protocol(platform);
+-		atomic_set(&platform->power_status, 1);
++		pm_runtime_get_sync(dev);
+ 	}
+ 
+ 	/* Add work function */
+@@ -1847,6 +1822,9 @@ static int anx7625_i2c_remove(struct i2c_client *client)
+ 	if (platform->pdata.intp_irq)
+ 		destroy_workqueue(platform->workqueue);
+ 
++	if (!platform->pdata.low_power_mode)
++		pm_runtime_put_sync_suspend(&client->dev);
++
+ 	anx7625_unregister_i2c_dummy_clients(platform);
+ 
+ 	kfree(platform);
+@@ -1869,6 +1847,7 @@ static struct i2c_driver anx7625_driver = {
+ 	.driver = {
+ 		.name = "anx7625",
+ 		.of_match_table = anx_match_table,
++		.pm = &anx7625_pm_ops,
+ 	},
+ 	.probe = anx7625_i2c_probe,
+ 	.remove = anx7625_i2c_remove,
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+index e4a086b3a3d7..034c3840028f 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.h
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+@@ -369,7 +369,6 @@ struct anx7625_i2c_client {
+ 
+ struct anx7625_data {
+ 	struct anx7625_platform_data pdata;
+-	atomic_t power_status;
+ 	int hpd_status;
+ 	int hpd_high_cnt;
+ 	/* Lock for work queue */
+
+base-commit: e48661230cc35b3d0f4367eddfc19f86463ab917
 -- 
-2.26.2
+2.31.1.751.gd2f1c929bd-goog
 
