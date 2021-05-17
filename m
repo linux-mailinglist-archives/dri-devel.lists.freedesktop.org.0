@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76D838360D
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 17:28:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FBB38360F
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 17:29:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D95689244;
-	Mon, 17 May 2021 15:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F36386E1D5;
+	Mon, 17 May 2021 15:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B548982E
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 15:28:02 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id v12so6856984wrq.6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 08:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=0JwxGBKfDoUxq2NZLsErnRvzPdT2eYfu4gWuQeo9vCM=;
- b=j1J70RTbH+qyRmD8QqmKri5WuNEcnX+J4adv/ycgORjHO5/WAJsOeJ65SrOYzUnVTP
- VG3uUlqBj/EQMg9qfGG/nXtfTlY6ZLKRp2SQEaQiSmH7R+0WfsT2Otk71jl9cXMr2uWs
- lv6P0aLshi5yaJ3YHGy4YH6gXZ6eGOOlkuT0VEtB5JwR0vRjFyyOx2BIq3tTJwrSyva3
- zXyVDwm4utj0rSUQQR5h6hnEpgIu/WmZEkVoXxNdOE0mLuayt8biCpIw1qRCJ023YzUF
- RF+nlucQSrsui7y4n+FDQuWg4Km5I/qb/leF70mGmkreZNJuKjKpFUJY2lxeMlL4uxYJ
- aNMQ==
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB2116E1D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 15:29:47 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ g15-20020a9d128f0000b02902a7d7a7bb6eso5863149otg.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 08:29:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LHuA8eHjuppTIJ75R7cv3VweFNbwB4dqcEtg7HA60qg=;
+ b=RMks6CV9lAVCFBcqyvaL15OwQDYYydA46ie8ERZRUW9bdz6Ss2d63nvntdd2ppylbj
+ TT1hoAtcrCR7P1QUgAoKu41mbQqWIXoRN7jJxyGntT0uCWz/IiczJZV24UwIWC7mZW89
+ iDl7tmzK3OcYBBXrYUDYJ/OJrz6o9/5h4ij88=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0JwxGBKfDoUxq2NZLsErnRvzPdT2eYfu4gWuQeo9vCM=;
- b=D3YF9n8Fn4cdyzmdZeLKki6W4M/rngtfGR5IYZXJi4nBzQExpr3ty/0kTLqHcJJ65u
- fWp2hykUSnCpEAtBGjoTIGfbb0auS+OT+oH+eKCOcIL726aNlfcUrRCGBldiZnbkSLAS
- KNncrZ27ikkkARkDy1p8clj8ufixPwOFgkXBNycx4cMRUW4vbdAScxwfZfIVFRk0MKde
- shwzvRvTQUPmhyUq/RHrFAUnhiRp1uxXg7fAVElMTlFQo2CVh9yJHktolB+Q6ToQ/rWX
- kd9N3gyN50w0QNUmGAU4AfO+2BmMo3ZQq074TCLliqTpsBl7tLggLEufB7ffZO3yU6LX
- LhHg==
-X-Gm-Message-State: AOAM531SO9dAwDQq3bfROC1JmU177UyHC4cr7Kzfgtdl6PfDG2Q0iEGB
- 8hzvI6zoOnzLBotwkbnP08upPA==
-X-Google-Smtp-Source: ABdhPJwuwOUHqhdgm9HQRD81VC7JS4eqLC5JQc4toY1qtK7WE6GphAF3qIqwNcqwalRX4HpnUsEzSA==
-X-Received: by 2002:a5d:4e91:: with SMTP id e17mr296464wru.396.1621265280618; 
- Mon, 17 May 2021 08:28:00 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id f13sm14745840wrt.86.2021.05.17.08.27.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 08:27:59 -0700 (PDT)
-Date: Mon, 17 May 2021 16:27:58 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Juerg Haefliger <juerg.haefliger@canonical.com>
-Subject: Re: [PATCH] backlight: Remove leading spaces in Kconfig
-Message-ID: <20210517152758.lqwmborindqvavwo@maple.lan>
-References: <20210517095839.81833-1-juergh@canonical.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LHuA8eHjuppTIJ75R7cv3VweFNbwB4dqcEtg7HA60qg=;
+ b=K4nzc7tu/Sooc58M7oRI/uBT5S/Rsft8tzYgM613pzAOV419zZ2ppriopljU84p6Ia
+ 98QFFguiUJ0ewYaF3JcnPk+C71lAMtl217WW8YQ/+HETrc4Iyyw5QbSvaVasDvRQ9qDU
+ YA4AhYWIOtDpDu1ZL4AucOc5BQyK8TSEsewQ/2OurpqvCxWMbBitbQX1jH391pkduCC9
+ NdHwsBPD7Ux4sYfRZlz7ep3kg9qN1xsOEC48LoQv3/RwlkuAVNo2Jo2vg17ka+1gFySP
+ EF/gEcgmZ9EQoJ56ZGyp3zeeM7wLx0/qMFW8nBnhiT0c8uUW8srRRIOjXmZIqRPEtqPY
+ x+2w==
+X-Gm-Message-State: AOAM530U7mfAKMvuNmXAeGxdM3etI2T4MgUZN3ESVhUnxOgSX1H8pcSJ
+ XJvhVIIb7pnM5MTygmNnCRLf70iSX0AZWRPffoVnpA==
+X-Google-Smtp-Source: ABdhPJyx4VgXyr7sHxhLzHJfU08wfDCFYrZOk1+l9hfQuvBlJV+AtL3GicGrv7/C44z5A3YFPk7MxSeP6Ot3b+xUVts=
+X-Received: by 2002:a05:6830:1155:: with SMTP id
+ x21mr88425otq.303.1621265387064; 
+ Mon, 17 May 2021 08:29:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210517095839.81833-1-juergh@canonical.com>
+References: <YJBHiRiCGzojk25U@phenom.ffwll.local>
+ <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
+ <YJVijmznt1xnsCxc@phenom.ffwll.local>
+ <CAHk-=wgjO8-f1bUwQB=5HGzkvSS+aGACR9+H5CkkDhRgud+3MA@mail.gmail.com>
+ <CAKMK7uELBbkhFBQoSfvMx+AKnbk-fgbamBm3sC20-dJwMq3Xmg@mail.gmail.com>
+ <YJjg3DRnG1RG6VDK@infradead.org>
+In-Reply-To: <YJjg3DRnG1RG6VDK@infradead.org>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 17 May 2021 17:29:35 +0200
+Message-ID: <CAKMK7uFsRPod-tAJ8ZrzXM6B_+5VgvRs-U0_TiG75da62cnVnw@mail.gmail.com>
+Subject: Re: [PULL] topic/iomem-mmap-vs-gup
+To: Christoph Hellwig <hch@infradead.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,53 +66,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, jingoohan1@gmail.com, juergh@canonical.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- lee.jones@linaro.org
+Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomasz Figa <tfiga@chromium.org>, Linux-MM <linux-mm@kvack.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 17, 2021 at 11:58:39AM +0200, Juerg Haefliger wrote:
-> Remove leading spaces before tabs in Kconfig file(s) by running the
-> following command:
-> 
->   $ find drivers/video/backlight -name 'Kconfig*' | \
->     xargs sed -r -i 's/^[ ]+\t/\t/'
-> 
-> Signed-off-by: Juerg Haefliger <juergh@canonical.com>
-> ---
->  drivers/video/backlight/Kconfig | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-> index d83c87b902c1..a967974f6cd6 100644
-> --- a/drivers/video/backlight/Kconfig
-> +++ b/drivers/video/backlight/Kconfig
-> @@ -129,11 +129,11 @@ config LCD_HX8357
->  	  driver.
->  
->    config LCD_OTM3225A
+On Mon, May 10, 2021 at 9:30 AM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Mon, May 10, 2021 at 09:16:58AM +0200, Daniel Vetter wrote:
+> > > End result: not pulling it, unless somebody can explain to me in small
+> > > words why I'm wrong and have the mental capacity of a damaged rodent.
+> >
+> > No rodents I think, just more backstory of how this all fits. tldr;
+> > pin_user_pages is the only safe use of this vb2 userptr thing.
+>
+> Yes, which is why I advocate for just ripping the follow_pfn path
+> out entirely.  It could have been used for crazy ad dangerous peer to
+> peer transfers outside of any infrastructure making it safe, or for
+> pre-CMA kernel memory carveouts for lage contiguous memory allocations
+> (which are pretty broken by design as well).  So IMHO the only sensible
+> thing is to remove this cruft entirely, and if it breaks a currently
+> working setup (which I think is unlikely) we'll have to make sure it
+> can work the proper way.
 
-Whilst removing the unwanted spaces (two of them on each line) could we
-also remove the two unwanted spaces from the config line as well.
+Since I'm not getting any cozy consenus vibes here on any option I
+think I'll just drop this.
 
+Stephen, can you pls drop
 
-Daniel.
+git://anongit.freedesktop.org/drm/drm topic/iomem-mmap-vs-gup
 
+from linux-next? It's not going anywhere. I'll also go ahead and
+delete the branch, to make sure you catch this update :-)
 
-> -  	tristate "ORISE Technology OTM3225A support"
-> -  	depends on SPI
-> -  	help
-> -  	  If you have a panel based on the OTM3225A controller
-> -  	  chip then say y to include a driver for it.
-> +	tristate "ORISE Technology OTM3225A support"
-> +	depends on SPI
-> +	help
-> +	  If you have a panel based on the OTM3225A controller
-> +	  chip then say y to include a driver for it.
->  
->  endif # LCD_CLASS_DEVICE
->  
-> -- 
-> 2.27.0
-> 
+Thanks, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
