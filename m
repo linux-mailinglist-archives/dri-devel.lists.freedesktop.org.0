@@ -1,36 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC43382CAC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 14:57:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A113D382CD4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 15:07:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B1D76E951;
-	Mon, 17 May 2021 12:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9AC6E957;
+	Mon, 17 May 2021 13:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F234F6E951
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 12:57:34 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 72E53B1C8;
- Mon, 17 May 2021 12:57:33 +0000 (UTC)
-Subject: Re: [PATCH] MAINTAINERS: repair reference in DRM DRIVER FOR SIMPLE
- FRAMEBUFFERS
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-References: <20210517101648.29906-1-lukas.bulwahn@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <d86962b1-da7e-232e-6501-9fa2e406781f@suse.de>
-Date: Mon, 17 May 2021 14:57:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307BB6E95A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 13:07:47 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id b25so6465957oic.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 06:07:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dZeinS6LE1NP88+BR+f1LcsUBMPUh7N3G4KpQRQogBk=;
+ b=aGBMVprGuoTf9++f+DatDpeTnGL5ZmpmA0esmGNR7sOjh15bPnJ5xl4LQ5QM8p55SZ
+ k0Gr9tasB7CXqw4F9//xhZFkDKTW8P+jDQg2ksKWGRr8PQl3uomjjBlkpx26Llf80vsO
+ aqPf6OCmWnkSEJ6/iAg/YkwZbF/CzGgpR2sG0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dZeinS6LE1NP88+BR+f1LcsUBMPUh7N3G4KpQRQogBk=;
+ b=CUhb0Jn1M2Q4yn6y0UWcyAMeo5mosm9wP9xJ06xhrP0AQBZzPilhsbXShN5D7rEbql
+ CJowAgfF5G+IVn/WHW5RAbFSDvl2qSw3OiXG8w7S08nwRLrzfWy3Th3WnT9te0JHmt7/
+ kE1lKEDRKu1yCsUzdCg8MG13djmr6puYrPk0SQaxABV1PS3sHSFP43cioUdPh5D7Xur7
+ im9q0CH0AYFWk097kD8xGc6OaQkj41UFubSmMDH1JFXxEBb8yXlHEWtQLBYnHeEJGqOn
+ ZQ5A75vkwxxCTjjJX6lXsx6x53z5cBu2M/vTxyj447TJkAFHsjrXM8w+4084WGiDoUy4
+ kmDQ==
+X-Gm-Message-State: AOAM531tEgGF4Ugah95HZV87a7HSy1KTfZgY30KG/huNiZsVDM6RuaLQ
+ 2nR2rmgJ5I8S75JH7A4U+DQCHw+cYRA8WxLb4RGlMg==
+X-Google-Smtp-Source: ABdhPJy7GTk1BfTS88fw/8gIr6/ZDBTUprv35YFaMITbfmvjl7jiiSuHvPGnKkFzht+U6iHn/HLP2JVzKLU+U28GVkY=
+X-Received: by 2002:a54:4809:: with SMTP id j9mr15251365oij.14.1621256866371; 
+ Mon, 17 May 2021 06:07:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210517101648.29906-1-lukas.bulwahn@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="8T38aIg0zaK56NSCyYPDE0KMDZccUjuyX"
+References: <0000000000006bbd0c05c14f1b09@google.com>
+ <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
+ <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
+ <05acdda8-dc1c-5119-4326-96eed24bea0c@i-love.sakura.ne.jp>
+ <CAHk-=wguwhFpjhyMtDaH2hhjoV62gDgByC=aPyTrW9CkM5hqvA@mail.gmail.com>
+ <alpine.DEB.2.21.2105142150460.3032@angie.orcam.me.uk>
+ <CAHk-=wioOHwKNj8AmvXWV-oL60ae0jKswAHy9e6wCYYeA5EQXg@mail.gmail.com>
+In-Reply-To: <CAHk-=wioOHwKNj8AmvXWV-oL60ae0jKswAHy9e6wCYYeA5EQXg@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 17 May 2021 15:07:35 +0200
+Message-ID: <CAKMK7uGLP2zn7LX4ATExA4DLo16shVivSd_W58X-rBZNPSb3_w@mail.gmail.com>
+Subject: Re: [PATCH] video: fbdev: vga16fb: fix OOB write in
+ vga16fb_imageblit()
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,106 +65,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>, linux-kernel@vger.kernel.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@intel.com>, Colin King <colin.king@canonical.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---8T38aIg0zaK56NSCyYPDE0KMDZccUjuyX
-Content-Type: multipart/mixed; boundary="nzNGNBF0QtYWhtU9g06smdT7uiap7YwMT";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <d86962b1-da7e-232e-6501-9fa2e406781f@suse.de>
-Subject: Re: [PATCH] MAINTAINERS: repair reference in DRM DRIVER FOR SIMPLE
- FRAMEBUFFERS
-References: <20210517101648.29906-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20210517101648.29906-1-lukas.bulwahn@gmail.com>
+On Fri, May 14, 2021 at 10:33 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Fri, May 14, 2021 at 1:25 PM Maciej W. Rozycki <macro@orcam.me.uk> wrote:
+> >
+> >  Overall I think it does make sense to resize the text console at any
+> > time, even if the visible console (VT) chosen is in the graphics mode,
+>
+> It might make sense, but only if we call the function to update the
+> low-level data.
+>
+> Not calling it, and then starting to randomly use the (wrong)
+> geometry, and just limiting it so that it's all within the buffer -
+> THAT does not make sense.
+>
+> So I think your patch is fundamentally wrong. It basically says "let's
+> use random stale incorrect data, but just make sure that the end
+> result is still within the allocated buffer".
+>
+> My patch is at least conceptually sane.
+>
+> An alternative would be to just remove the "vcmode != KD_GRAPHICS"
+> check entirely, and always call con_resize() to update the low-level
+> data, but honestly, that seems very likelty to break something very
+> fundamentally, since it's not how any of fbcon has ever been tested,
 
---nzNGNBF0QtYWhtU9g06smdT7uiap7YwMT
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Just an aside: I think with fbdev drivers this would go boom, because
+you'd have fbcon interferring with a direct /dev/fb/* user.
 
-Hi
+But if your fbdev driver is actually a drm modeset driver, then we
+have additional limitations: If the userspace accesses the display
+through /dev/dri/card0, then the kernel blocks all access through
+/dev/fb/* (including fbcon) to the actual display (it only goes into
+the buffer used for fbdev emulation). And everything would be fine.
 
-Am 17.05.21 um 12:16 schrieb Lukas Bulwahn:
-> Commit 11e8f5fd223b ("drm: Add simpledrm driver") adds the file
-> ./drivers/gpu/drm/tiny/simpledrm.c, but refers to the file
-> ./drivers/gpu/drm/tiny/simplekms.c with the new MAINTAINERS section
-> DRM DRIVER FOR SIMPLE FRAMEBUFFERS.
->=20
-> Hence, ./scripts/get_maintainer.pl --self-test=3Dpatterns complains:
->=20
->    warning: no file matches    F:    drivers/gpu/drm/tiny/simplekms.c
->=20
-> Repair the file entry by referring to the right location.
->=20
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> applies cleanly on next-20210514
->=20
-> Thomas, Daniel, please pick this minor clean-up patch for your -next tr=
-ee.
+Also generally you'd get away with this even in problematic cases,
+since usually you resize your console when looking at it, not when X
+or something else is using your fbdev direct access.
 
-Thank you so much. Added to drm-misc-next
+The one thing that's left out here a bit in the cold is userspace
+modeset drivers in X. Those would get hosed. But also, we stopped
+supporting those in at least i915/amd/radeon/nouveau drivers,
+automatically falling back to the fbdev stuff in most cases (with or
+without the drm drivers underneath that), and no one screamed. So
+probably not many users left.
 
-Best regards
-Thomas
+So I /think/ we could wager this, if it's the least intrusive fix from
+the kernel pov. But it has some risks that we need to revert again if
+we break some of the really old use-cases here.
 
->=20
->   MAINTAINERS | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6582d19cdf7a..88277ff25d43 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5885,7 +5885,7 @@ M:	Thomas Zimmermann <tzimmermann@suse.de>
->   L:	dri-devel@lists.freedesktop.org
->   S:	Maintained
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
-> -F:	drivers/gpu/drm/tiny/simplekms.c
-> +F:	drivers/gpu/drm/tiny/simpledrm.c
->  =20
->   DRM DRIVER FOR SIS VIDEO CARDS
->   S:	Orphan / Obsolete
->=20
+Cheers, Daniel
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> Another alternative would be to just delay the resize to when vcmode
+> is put back to text mode again. That sounds somewhat reasonable to me,
+> but it's a pretty big thing.
+>
+> But no, your patch to just "knowingly use entirely wrong values, then
+> add a limit check because we know the values are possibly garbage and
+> not consistent with reality" is simply not acceptable.
+>
+>               Linus
 
 
---nzNGNBF0QtYWhtU9g06smdT7uiap7YwMT--
 
---8T38aIg0zaK56NSCyYPDE0KMDZccUjuyX
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCiaDwFAwAAAAAACgkQlh/E3EQov+DD
-tBAAotWv6n0Bi9OwXQHdZ+36Mh8S4VR1BH5wElL3t3VPjFChCmY0xMSNx44AaW9rD9akvfdE8EWI
-M+Q1wPPCoNplbgeQFuwlJZIXTh41NaDQcSJequwUEHEzU4YmPXBP3uq7GvnvjHi0hWfamar87bJ7
-kYMp9yax3WjdRzlA03H6fblysVjTZrZnnwCPBShYp81pSTiWgIVPQbhlLotPi/94w6LbYGqN5Kh8
-RrTQvEJrpKtqk7GzQ7FxKzAic8jwxv4B4bGhuPVzNEd0ya7fCf9dH1Tn34/DYAjMM2DU9eZyraqB
-wYeWJhLOmUoN3xNbOyn6VI3dEJDznnJNZKbfKcXHzSbagu1Ay39KZyYfnONiaW7DXzz7PMpGfyv4
-kcMpH+3OTacIwdw111J24LyyGqg0j+AtxebSWEdgbxOs9vtlaIIsuto1/+M72G8GSqaYbwEAQLJ6
-QqqlZy3o4CL+/8hsZiPE8+H4EXh2mIB1e5szv0Bxja5cbdwOla5f9PZXVdZbyJACVQOub6W36Otg
-/GOrrAjwbJEq21xeX2ouCYOb4HL7mVNj+WnTf8vtUedldlm0aqNYJ66KAH9CkIn27bAYryWcgw8i
-NqXijb1CBY7K1iI7gNl9aPl9waFuaL+/e+R2IcbfFGGScAurG1j5gX5RTdizYhLtgQWIiTNfm+1M
-ZHk=
-=JYFL
------END PGP SIGNATURE-----
-
---8T38aIg0zaK56NSCyYPDE0KMDZccUjuyX--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
