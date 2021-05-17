@@ -2,62 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B94382DA3
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 15:40:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92853382DE7
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 15:50:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB27C6E06E;
-	Mon, 17 May 2021 13:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7C896E046;
+	Mon, 17 May 2021 13:50:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA93C6E0B8
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 13:40:38 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- h3-20020a05600c3503b0290176f13c7715so2018650wmq.5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 06:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=rvwQT/khrZv1IvKPnsB79kZICFeNx7qTA/AMbUd2qqI=;
- b=dC4yc90nLEwWusvZcX54VZdQ/epWSd8PTBtGG6FNSJOWfhF3E9pMwFCvrqsbxkVV6G
- FoDp6zHF0CeM7xOW0m3cdjrY/p3afV4ulzuh8QfiwdUylOir0PLzECX2BzxpbCP+iN/E
- 2S3aCpu0GtVA7+lEPT6p38bcDtG4/eVSbaNZ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rvwQT/khrZv1IvKPnsB79kZICFeNx7qTA/AMbUd2qqI=;
- b=ZIIrtBlOozWkytklPX89NB0dvTWoZXYbR6IieAhGWJHtpSzRSHmDG8OYO3a747q0JK
- XVvayOvqwvBQqt8vsIW8Np+B5PDoWV4LUZ+1WFhSbnvMEVbzyn3qBFnHNQAehF6XAkUg
- 2BXmkE85/VCUQzaZSIMsRkVsFLMYsPlshjhFq18H5GcIvQZxJSozwB5svi2XVt3GZNVr
- 4l9tqqY6MW9zMcUVfrHUn6qj9H1kNV10v94o3Q48dLk7r3vCwJI4pY0f0k3rTPd8sttp
- G/40eLCle+d5wemNErgVi95PRsOGVNusutWjIQqQVMLaTeMYiuhW8/Pp3uyTSfSKTifn
- GN9A==
-X-Gm-Message-State: AOAM532d2bD31k0EUwTW8i+xsonZresgXVwQ5MEDL2hKGEYPfKnrxKxI
- JtnAbvtYUvIBqckrrX0EjzX8pA==
-X-Google-Smtp-Source: ABdhPJzPt/lz34h6ZjH7O11Ux4K2Wa9QVCBZVIple2973qoL76cIVuOaWQdyp/as33uEl9EyzIcWWQ==
-X-Received: by 2002:a7b:c34a:: with SMTP id l10mr64535047wmj.46.1621258837142; 
- Mon, 17 May 2021 06:40:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f8sm14022666wmg.43.2021.05.17.06.40.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 06:40:36 -0700 (PDT)
-Date: Mon, 17 May 2021 15:40:34 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [PATCH 19/27] drm/i915/gem: Use the proto-context to handle
- create parameters
-Message-ID: <YKJyUhkvtq9k9DU0@phenom.ffwll.local>
-References: <20210503155748.1961781-1-jason@jlekstrand.net>
- <20210503155748.1961781-20-jason@jlekstrand.net>
- <YJGvhfiKTILPsAG/@phenom.ffwll.local>
- <CAOFGe96JZqVxN4btQdqHvrMUm+bgRmSTiNBvQ9fXX36JUnDM=A@mail.gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A15676E046
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 13:50:38 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 36AECAC8F;
+ Mon, 17 May 2021 13:50:37 +0000 (UTC)
+To: Deepak Rawat <drawat.floss@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-hyperv@vger.kernel.org
+References: <20210517115922.8033-1-drawat.floss@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 1/3] drm/hyperv: Add DRM driver for hyperv synthetic
+ video device
+Message-ID: <3c7966c8-8985-e5f1-464c-90bc6544dc74@suse.de>
+Date: Mon, 17 May 2021 15:50:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOFGe96JZqVxN4btQdqHvrMUm+bgRmSTiNBvQ9fXX36JUnDM=A@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <20210517115922.8033-1-drawat.floss@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="aIcC0y7qSlP6sAr9e3Ian4h2cQr0vYwvN"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,957 +43,760 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: Dexuan Cui <decui@microsoft.com>, Michael Kelley <mikelley@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 14, 2021 at 02:13:57PM -0500, Jason Ekstrand wrote:
-> On Tue, May 4, 2021 at 3:33 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Mon, May 03, 2021 at 10:57:40AM -0500, Jason Ekstrand wrote:
-> > > This means that the proto-context needs to grow support for engine
-> > > configuration information as well as setparam logic.  Fortunately, we'll
-> > > be deleting a lot of setparam logic on the primary context shortly so it
-> > > will hopefully balance out.
-> > >
-> > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > > ---
-> > >  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 546 +++++++++++++++++-
-> > >  .../gpu/drm/i915/gem/i915_gem_context_types.h |  58 ++
-> > >  2 files changed, 587 insertions(+), 17 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > > index 6dd50d669c5b9..aa4edfbf7ed48 100644
-> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > > @@ -193,8 +193,15 @@ static int validate_priority(struct drm_i915_private *i915,
-> > >
-> > >  static void proto_context_close(struct i915_gem_proto_context *pc)
-> > >  {
-> > > +     int i;
-> > > +
-> > >       if (pc->vm)
-> > >               i915_vm_put(pc->vm);
-> > > +     if (pc->user_engines) {
-> > > +             for (i = 0; i < pc->num_user_engines; i++)
-> > > +                     kfree(pc->user_engines[i].siblings);
-> > > +             kfree(pc->user_engines);
-> >
-> >                 free_engines(&pc->user_engines);
-> >
-> > Maybe even stuff that if check into free_engines. Except I realized this
-> > is proto engines here now :-(
-> >
-> > > +     }
-> > >       kfree(pc);
-> > >  }
-> > >
-> > > @@ -248,6 +255,9 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
-> > >       if (!pc)
-> > >               return ERR_PTR(-ENOMEM);
-> > >
-> > > +     pc->num_user_engines = -1;
-> > > +     pc->user_engines = NULL;
-> > > +
-> > >       if (HAS_FULL_PPGTT(i915)) {
-> > >               struct i915_ppgtt *ppgtt;
-> > >
-> > > @@ -282,6 +292,439 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
-> > >       return err;
-> > >  }
-> > >
-> > > +static int set_proto_ctx_vm(struct drm_i915_file_private *fpriv,
-> > > +                         struct i915_gem_proto_context *pc,
-> > > +                         const struct drm_i915_gem_context_param *args)
-> > > +{
-> > > +     struct i915_address_space *vm;
-> > > +
-> > > +     if (args->size)
-> > > +             return -EINVAL;
-> > > +
-> > > +     if (!pc->vm)
-> > > +             return -ENODEV;
-> > > +
-> > > +     if (upper_32_bits(args->value))
-> > > +             return -ENOENT;
-> > > +
-> > > +     rcu_read_lock();
-> > > +     vm = xa_load(&fpriv->vm_xa, args->value);
-> > > +     if (vm && !kref_get_unless_zero(&vm->ref))
-> > > +             vm = NULL;
-> > > +     rcu_read_unlock();
-> >
-> > vm lookup helpers would be nice I guess, but perhaps something that
-> > vm_bind patches should do.
-> 
-> I can add those.  I just don't know where to put it.  We don't have an
-> i915_gem_vm.h.  Suggestions?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--aIcC0y7qSlP6sAr9e3Ian4h2cQr0vYwvN
+Content-Type: multipart/mixed; boundary="Neam4BtIO27y9qcLDhKUuuLNiMUJUdbzc";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Deepak Rawat <drawat.floss@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-hyperv@vger.kernel.org
+Cc: Dexuan Cui <decui@microsoft.com>, Michael Kelley <mikelley@microsoft.com>
+Message-ID: <3c7966c8-8985-e5f1-464c-90bc6544dc74@suse.de>
+Subject: Re: [PATCH v4 1/3] drm/hyperv: Add DRM driver for hyperv synthetic
+ video device
+References: <20210517115922.8033-1-drawat.floss@gmail.com>
+In-Reply-To: <20210517115922.8033-1-drawat.floss@gmail.com>
 
-gt/intel_gtt.h seems to be the header for i915_address_space stuff. Also
-contains the i915_vma_ops but not i915_vma.
+--Neam4BtIO27y9qcLDhKUuuLNiMUJUdbzc
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-It's a pretty good mess, but probably the best place for now for these :-/
+Hi
 
-> 
-> >
-> > > +     if (!vm)
-> > > +             return -ENOENT;
-> > > +
-> > > +     i915_vm_put(pc->vm);
-> >
-> > Ah I guess I've found why you went with "pc->vm is always set". *shrug*
-> >
-> > > +     pc->vm = vm;
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +struct set_proto_ctx_engines {
-> > > +     struct drm_i915_private *i915;
-> > > +     unsigned num_engines;
-> > > +     struct i915_gem_proto_engine *engines;
-> > > +};
-> > > +
-> > > +static int
-> > > +set_proto_ctx_engines_balance(struct i915_user_extension __user *base,
-> > > +                           void *data)
-> > > +{
-> > > +     struct i915_context_engines_load_balance __user *ext =
-> > > +             container_of_user(base, typeof(*ext), base);
-> > > +     const struct set_proto_ctx_engines *set = data;
-> > > +     struct drm_i915_private *i915 = set->i915;
-> > > +     struct intel_engine_cs **siblings;
-> > > +     u16 num_siblings, idx;
-> > > +     unsigned int n;
-> > > +     int err;
-> > > +
-> > > +     if (!HAS_EXECLISTS(i915))
-> > > +             return -ENODEV;
-> > > +
-> > > +     if (intel_uc_uses_guc_submission(&i915->gt.uc))
-> > > +             return -ENODEV; /* not implement yet */
-> > > +
-> > > +     if (get_user(idx, &ext->engine_index))
-> > > +             return -EFAULT;
-> > > +
-> > > +     if (idx >= set->num_engines) {
-> > > +             drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
-> > > +                     idx, set->num_engines);
-> > > +             return -EINVAL;
-> > > +     }
-> > > +
-> > > +     idx = array_index_nospec(idx, set->num_engines);
-> > > +     if (set->engines[idx].type != I915_GEM_ENGINE_TYPE_INVALID) {
-> > > +             drm_dbg(&i915->drm,
-> > > +                     "Invalid placement[%d], already occupied\n", idx);
-> > > +             return -EEXIST;
-> > > +     }
-> > > +
-> > > +     if (get_user(num_siblings, &ext->num_siblings))
-> > > +             return -EFAULT;
-> > > +
-> > > +     err = check_user_mbz(&ext->flags);
-> > > +     if (err)
-> > > +             return err;
-> > > +
-> > > +     err = check_user_mbz(&ext->mbz64);
-> > > +     if (err)
-> > > +             return err;
-> > > +
-> > > +     if (num_siblings == 0)
+I only have a number of trivial changes listed below. With these fixed:
 
-> >
-> > You deleted the on-stack siblings micro-optimization.
-> >
-> > I'm shocked.
-> 
-> Yup.  If balanced engine create overhead when balancing across a
-> single engine ever becomes a bottleneck in some UMD, I'm happy to deal
-> with it then.  And I intend to deal with it by banning whatever
-> developer decided balancing across single engine was a good idea.
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-I should have annotated this with /s
+Am 17.05.21 um 13:59 schrieb Deepak Rawat:
+> DRM driver for hyperv synthetic video device, based on hyperv_fb
+> framebuffer driver. Also added config option "DRM_HYPERV" to enabled
+> this driver.
+>=20
+> v2:
+> - Add support for gen2 VM
+> - Fixed review comments
+>=20
+> v3:
+> - Split into multiple files as suggested by Thomas Zimmermann
+> - Fixed hibernation issue as suggested by Dexuan Cui
+> - Use ioremap_cache as suggested by Dexuan Cui
+> - Incorporated other review comments
+>=20
+> v4:
+> - Fix bitrotted code
+> - Review comments
+> - Updated the copyright and license to match hyperv_fb
+>=20
+> Signed-off-by: Deepak Rawat <drawat.floss@gmail.com>
+> ---
+>   drivers/gpu/drm/Kconfig                     |  12 +
+>   drivers/gpu/drm/Makefile                    |   1 +
+>   drivers/gpu/drm/hyperv/Makefile             |   8 +
+>   drivers/gpu/drm/hyperv/hyperv_drm.h         |  51 +++
+>   drivers/gpu/drm/hyperv/hyperv_drm_drv.c     | 310 +++++++++++++
+>   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 238 ++++++++++
+>   drivers/gpu/drm/hyperv/hyperv_drm_proto.c   | 478 +++++++++++++++++++=
++
+>   7 files changed, 1098 insertions(+)
+>   create mode 100644 drivers/gpu/drm/hyperv/Makefile
+>   create mode 100644 drivers/gpu/drm/hyperv/hyperv_drm.h
+>   create mode 100644 drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+>   create mode 100644 drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+>   create mode 100644 drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+>=20
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 3c16bd1afd87..15bb0165ebf9 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -386,6 +386,18 @@ source "drivers/gpu/drm/xlnx/Kconfig"
+>  =20
+>   source "drivers/gpu/drm/gud/Kconfig"
+>  =20
+> +config DRM_HYPERV
+> +	tristate "DRM Support for hyperv synthetic video device"
+> +	depends on DRM && PCI && MMU && HYPERV
+> +	select DRM_KMS_HELPER
+> +	select DRM_GEM_SHMEM_HELPER
+> +	help
+> +	 This is a KMS driver for hyperv synthetic video device. Choose this
+> +	 option if you would like to enable drm driver for Hyper-V virtual
+> +	 machine.
+> +
+> +	 If M is selected the module will be called hyperv_drm.
+> +
+>   # Keep legacy drivers last
+>  =20
+>   menuconfig DRM_LEGACY
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 5279db4392df..d0ae4feaae33 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -126,3 +126,4 @@ obj-$(CONFIG_DRM_MCDE) +=3D mcde/
+>   obj-$(CONFIG_DRM_TIDSS) +=3D tidss/
+>   obj-y			+=3D xlnx/
+>   obj-y			+=3D gud/
+> +obj-$(CONFIG_DRM_HYPERV) +=3D hyperv/
+> diff --git a/drivers/gpu/drm/hyperv/Makefile b/drivers/gpu/drm/hyperv/M=
+akefile
+> new file mode 100644
+> index 000000000000..0039b03db0be
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hyperv/Makefile
+> @@ -0,0 +1,8 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +hyperv_drm-y :=3D \
+> +	hyperv_drm_proto.o \
+> +	hyperv_drm_modeset.o \
+> +	hyperv_drm_drv.o
 
-> > > +
-> > > +     siblings = kmalloc_array(num_siblings, sizeof(*siblings), GFP_KERNEL);
-> >
-> > If you want to pay back your micro-opt budget: GFP_TEMPORARY.
-> >
-> > But then I realized much wiser heads than me removed this in 2017 from the
-> > kernel! That commit is a rather interesting story btw, if you're bored:
-> >
-> > commit 0ee931c4e31a5efb134c76440405e9219f896e33
-> > Author: Michal Hocko <mhocko@suse.com>
-> > Date:   Wed Sep 13 16:28:29 2017 -0700
-> >
-> >     mm: treewide: remove GFP_TEMPORARY allocation flag
-> >
-> > > +     if (!siblings)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     for (n = 0; n < num_siblings; n++) {
-> > > +             struct i915_engine_class_instance ci;
-> > > +
-> > > +             if (copy_from_user(&ci, &ext->engines[n], sizeof(ci))) {
-> > > +                     err = -EFAULT;
-> > > +                     goto err_siblings;
-> > > +             }
-> > > +
-> > > +             siblings[n] = intel_engine_lookup_user(i915,
-> > > +                                                    ci.engine_class,
-> > > +                                                    ci.engine_instance);
-> >
-> > intel_engine_user.c
-> >
-> > ...
-> >
-> > Maybe I should just stop looking.
-> 
-> Don't think too hard.  It hurts.
-> 
-> > > +             if (!siblings[n]) {
-> > > +                     drm_dbg(&i915->drm,
-> > > +                             "Invalid sibling[%d]: { class:%d, inst:%d }\n",
-> > > +                             n, ci.engine_class, ci.engine_instance);
-> > > +                     err = -EINVAL;
-> > > +                     goto err_siblings;
-> > > +             }
-> > > +     }
-> > > +
-> > > +     if (num_siblings == 1) {
-> > > +             set->engines[idx].type = I915_GEM_ENGINE_TYPE_PHYSICAL;
-> > > +             set->engines[idx].engine = siblings[0];
-> > > +             kfree(siblings);
-> > > +     } else {
-> > > +             set->engines[idx].type = I915_GEM_ENGINE_TYPE_BALANCED;
-> > > +             set->engines[idx].num_siblings = num_siblings;
-> > > +             set->engines[idx].siblings = siblings;
-> > > +     }
-> > > +
-> > > +     return 0;
-> > > +
-> > > +err_siblings:
-> > > +     kfree(siblings);
-> > > +
-> > > +     return err;
-> > > +}
-> > > +
-> > > +static int
-> > > +set_proto_ctx_engines_bond(struct i915_user_extension __user *base, void *data)
-> > > +{
-> > > +     struct i915_context_engines_bond __user *ext =
-> > > +             container_of_user(base, typeof(*ext), base);
-> > > +     const struct set_proto_ctx_engines *set = data;
-> > > +     struct drm_i915_private *i915 = set->i915;
-> > > +     struct i915_engine_class_instance ci;
-> > > +     struct intel_engine_cs *master;
-> > > +     u16 idx, num_bonds;
-> > > +     int err, n;
-> > > +
-> > > +     if (get_user(idx, &ext->virtual_index))
-> > > +             return -EFAULT;
-> > > +
-> > > +     if (idx >= set->num_engines) {
-> > > +             drm_dbg(&i915->drm,
-> > > +                     "Invalid index for virtual engine: %d >= %d\n",
-> > > +                     idx, set->num_engines);
-> > > +             return -EINVAL;
-> > > +     }
-> > > +
-> > > +     idx = array_index_nospec(idx, set->num_engines);
-> > > +     if (set->engines[idx].type == I915_GEM_ENGINE_TYPE_INVALID) {
-> > > +             drm_dbg(&i915->drm, "Invalid engine at %d\n", idx);
-> > > +             return -EINVAL;
-> > > +     }
-> > > +
-> > > +     if (set->engines[idx].type != I915_GEM_ENGINE_TYPE_PHYSICAL) {
-> > > +             drm_dbg(&i915->drm,
-> > > +                     "Bonding with virtual engines not allowed\n");
-> > > +             return -EINVAL;
-> > > +     }
-> > > +
-> > > +     err = check_user_mbz(&ext->flags);
-> > > +     if (err)
-> > > +             return err;
-> > > +
-> > > +     for (n = 0; n < ARRAY_SIZE(ext->mbz64); n++) {
-> > > +             err = check_user_mbz(&ext->mbz64[n]);
-> > > +             if (err)
-> > > +                     return err;
-> > > +     }
-> > > +
-> > > +     if (copy_from_user(&ci, &ext->master, sizeof(ci)))
-> > > +             return -EFAULT;
-> > > +
-> > > +     master = intel_engine_lookup_user(i915,
-> > > +                                       ci.engine_class,
-> > > +                                       ci.engine_instance);
-> > > +     if (!master) {
-> >
-> > It's 100% orthogonal annoyance, but maybe we can start the "what's a good
-> > name here" discussion.
-> >
-> > I'm thinking s/master/first/ and s/slave/subsequent/ that reflect how this
-> > is actually used on the execbuf side. But then this entire bonded
-> > extension is so disconnected from the actual use-case, maybe we should
-> > just sun-set it before we bother.
-> 
-> primary/secondary come to mind.  But, also, I'd rather do that as a
-> separate patch since I was trying to make this mostly match.  Happy to
-> up my i915 patch count with a rename follow-on, if you want.
+Alphabetical sorting prefered.
 
-Yeah I think we can repaint that shed as part of merging the new parallel
-submit support.
+> +
+> +obj-$(CONFIG_DRM_HYPERV) +=3D hyperv_drm.o
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm.h b/drivers/gpu/drm/hype=
+rv/hyperv_drm.h
+> new file mode 100644
+> index 000000000000..e1d1fdea96f2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm.h
+> @@ -0,0 +1,51 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright 2021 Microsoft
+> + */
+> +
+> +#ifndef _HYPERV_DRM_H_
+> +#define _HYPERV_DRM_H_
+> +
+> +#define VMBUS_MAX_PACKET_SIZE 0x4000
+> +
+> +struct hyperv_drm_device {
+> +	/* drm */
+> +	struct drm_device dev;
+> +	struct drm_simple_display_pipe pipe;
+> +	struct drm_connector connector;
+> +
+> +	/* mode */
+> +	u32 screen_width_max;
+> +	u32 screen_height_max;
+> +	u32 preferred_width;
+> +	u32 preferred_height;
+> +	u32 screen_depth;
+> +
+> +	/* hw */
+> +	struct resource *mem;
+> +	void __iomem *vram;
+> +	unsigned long fb_base;
+> +	unsigned long fb_size;
+> +	struct completion wait;
+> +	u32 synthvid_version;
+> +	u32 mmio_megabytes;
+> +
+> +	u8 init_buf[VMBUS_MAX_PACKET_SIZE];
+> +	u8 recv_buf[VMBUS_MAX_PACKET_SIZE];
+> +
+> +	struct hv_device *hdev;
+> +};
+> +
+> +#define to_hv(_dev) container_of(_dev, struct hyperv_drm_device, dev)
+> +
+> +/* hyperv_drm_modeset */
+> +int hyperv_mode_config_init(struct hyperv_drm_device *hv);
+> +
+> +/* hyperv_drm_proto */
+> +int hyperv_update_vram_location(struct hv_device *hdev, phys_addr_t vr=
+am_pp);
+> +int hyperv_update_situation(struct hv_device *hdev, u8 active, u32 bpp=
+,
+> +			    u32 w, u32 h, u32 pitch);
+> +int hyperv_update_dirt(struct hv_device *hdev, struct drm_rect *rect);=
 
-> > Since we might need to keep the execlist backend implementation the
-> > renaming might still be needed.
-> >
-> > > +             drm_dbg(&i915->drm,
-> > > +                     "Unrecognised master engine: { class:%u, instance:%u }\n",
-> > > +                     ci.engine_class, ci.engine_instance);
-> > > +             return -EINVAL;
-> > > +     }
-> > > +
-> > > +     if (get_user(num_bonds, &ext->num_bonds))
-> > > +             return -EFAULT;
-> > > +
-> > > +     for (n = 0; n < num_bonds; n++) {
-> > > +             struct intel_engine_cs *bond;
-> > > +
-> > > +             if (copy_from_user(&ci, &ext->engines[n], sizeof(ci)))
-> > > +                     return -EFAULT;
-> > > +
-> > > +             bond = intel_engine_lookup_user(i915,
-> > > +                                             ci.engine_class,
-> > > +                                             ci.engine_instance);
-> > > +             if (!bond) {
-> > > +                     drm_dbg(&i915->drm,
-> > > +                             "Unrecognised engine[%d] for bonding: { class:%d, instance: %d }\n",
-> > > +                             n, ci.engine_class, ci.engine_instance);
-> > > +                     return -EINVAL;
-> > > +             }
-> > > +     }
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static const i915_user_extension_fn set_proto_ctx_engines_extensions[] = {
-> > > +     [I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE] = set_proto_ctx_engines_balance,
-> > > +     [I915_CONTEXT_ENGINES_EXT_BOND] = set_proto_ctx_engines_bond,
-> > > +};
-> > > +
-> > > +static int set_proto_ctx_engines(struct drm_i915_file_private *fpriv,
-> > > +                              struct i915_gem_proto_context *pc,
-> > > +                              const struct drm_i915_gem_context_param *args)
-> > > +{
-> > > +     struct drm_i915_private *i915 = fpriv->dev_priv;
-> > > +     struct set_proto_ctx_engines set = { .i915 = i915 };
-> > > +     struct i915_context_param_engines __user *user =
-> > > +             u64_to_user_ptr(args->value);
-> > > +     unsigned int n;
-> > > +     u64 extensions;
-> > > +     int err;
-> > > +
-> > > +     if (!args->size) {
-> > > +             kfree(pc->user_engines);
-> > > +             pc->num_user_engines = -1;
-> >
-> > Is this case actually used by actual userspace, or just more stuff igt
-> > loved to do?
-> >
-> > If so more uapi to ditch, and check in an igt that it's rejected.
-> >
-> > Plus standard !args->size handling here with appropriate drm_debug line
-> > and all that.
-> >
-> > > +             pc->user_engines = NULL;
-> > > +             memset(&pc->legacy_rcs_sseu, 0, sizeof(pc->legacy_rcs_sseu));
-> > > +             return 0;
-> > > +     }
-> > > +
-> > > +     BUILD_BUG_ON(!IS_ALIGNED(sizeof(*user), sizeof(*user->engines)));
-> >
-> > I frankly don't know what this is checking, but it also looks harmless.
-> 
-> Yeah..... All I can see is that it lets us avoid doing a subtraction
-> in the alignment check below.  Kind-of silly, IMO.
+> +int hyperv_connect_vsp(struct hv_device *hdev);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/=
+hyperv/hyperv_drm_drv.c
+> new file mode 100644
+> index 000000000000..68a6ba91a486
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> @@ -0,0 +1,310 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright 2021 Microsoft
+> + */
+> +
+> +#include <linux/efi.h>
+> +#include <linux/hyperv.h>
+> +#include <linux/module.h>
+> +#include <linux/pci.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +
+> +#include "hyperv_drm.h"
+> +
+> +#define DRIVER_NAME "hyperv_drm"
+> +#define DRIVER_DESC "DRM driver for hyperv synthetic video device"
+> +#define DRIVER_DATE "2020"
+> +#define DRIVER_MAJOR 1
+> +#define DRIVER_MINOR 0
+> +
+> +#define PCI_VENDOR_ID_MICROSOFT 0x1414
+> +#define PCI_DEVICE_ID_HYPERV_VIDEO 0x5353
+> +
+> +DEFINE_DRM_GEM_FOPS(hv_fops);
+> +
+> +static struct drm_driver hyperv_driver =3D {
+> +	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+> +
+> +	.name		 =3D DRIVER_NAME,
+> +	.desc		 =3D DRIVER_DESC,
+> +	.date		 =3D DRIVER_DATE,
+> +	.major		 =3D DRIVER_MAJOR,
+> +	.minor		 =3D DRIVER_MINOR,
+> +
+> +	.fops		 =3D &hv_fops,
+> +	DRM_GEM_SHMEM_DRIVER_OPS,
+> +};
+> +
+> +static int hyperv_pci_probe(struct pci_dev *pdev,
+> +			    const struct pci_device_id *ent)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void hyperv_pci_remove(struct pci_dev *pdev)
+> +{
+> +}
+> +
+> +static const struct pci_device_id hyperv_pci_tbl[] =3D {
+> +	{
+> +		.vendor =3D PCI_VENDOR_ID_MICROSOFT,
+> +		.device =3D PCI_DEVICE_ID_HYPERV_VIDEO,
+> +	},
+> +	{ /* end of list */ }
+> +};
+> +
+> +static struct pci_driver hyperv_pci_driver =3D {
+> +	.name =3D		KBUILD_MODNAME,
+> +	.id_table =3D	hyperv_pci_tbl,
+> +	.probe =3D	hyperv_pci_probe,
+> +	.remove =3D	hyperv_pci_remove,
+> +};
 
-I'm not seeing even that? Care to help the blind?
+The PCI code doesn't do anything. Do you need this for gen1 to work=20
+corretly. If so, there should at least be a short comment. Why don't you =
 
-> > > +     if (args->size < sizeof(*user) ||
-> > > +         !IS_ALIGNED(args->size, sizeof(*user->engines))) {
-> > > +             drm_dbg(&i915->drm, "Invalid size for engine array: %d\n",
-> > > +                     args->size);
-> > > +             return -EINVAL;
-> > > +     }
-> > > +
-> > > +     set.num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
-> > > +     /* RING_MASK has no shift so we can use it directly here */
-> > > +     if (set.num_engines > I915_EXEC_RING_MASK + 1)
-> > > +             return -EINVAL;
-> > > +
-> > > +     set.engines = kmalloc_array(set.num_engines, sizeof(*set.engines), GFP_KERNEL);
-> > > +     if (!set.engines)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     for (n = 0; n < set.num_engines; n++) {
-> > > +             struct i915_engine_class_instance ci;
-> > > +             struct intel_engine_cs *engine;
-> > > +
-> > > +             if (copy_from_user(&ci, &user->engines[n], sizeof(ci))) {
-> > > +                     kfree(set.engines);
-> > > +                     return -EFAULT;
-> > > +             }
-> > > +
-> > > +             memset(&set.engines[n], 0, sizeof(set.engines[n]));
-> > > +
-> > > +             if (ci.engine_class == (u16)I915_ENGINE_CLASS_INVALID &&
-> > > +                 ci.engine_instance == (u16)I915_ENGINE_CLASS_INVALID_NONE)
-> > > +                     continue;
-> > > +
-> > > +             engine = intel_engine_lookup_user(i915,
-> > > +                                               ci.engine_class,
-> > > +                                               ci.engine_instance);
-> > > +             if (!engine) {
-> > > +                     drm_dbg(&i915->drm,
-> > > +                             "Invalid engine[%d]: { class:%d, instance:%d }\n",
-> > > +                             n, ci.engine_class, ci.engine_instance);
-> > > +                     kfree(set.engines);
-> > > +                     return -ENOENT;
-> > > +             }
-> > > +
-> > > +             set.engines[n].type = I915_GEM_ENGINE_TYPE_PHYSICAL;
-> > > +             set.engines[n].engine = engine;
-> > > +     }
-> > > +
-> > > +     err = -EFAULT;
-> > > +     if (!get_user(extensions, &user->extensions))
-> > > +             err = i915_user_extensions(u64_to_user_ptr(extensions),
-> > > +                                        set_proto_ctx_engines_extensions,
-> > > +                                        ARRAY_SIZE(set_proto_ctx_engines_extensions),
-> > > +                                        &set);
-> > > +     if (err) {
-> > > +             kfree(set.engines);
-> > > +             return err;
-> > > +     }
-> > > +
-> > > +     kfree(pc->user_engines);
-> >
-> > Both of these kfree potentially leak engines[].siblings. I think you need
-> > to extract a proto_context_free_engines helper and use that 2x here and
-> > once at the very top in proto_context_close().
-> 
-> Good catch. Done.
-> 
-> > > +     pc->num_user_engines = set.num_engines;
-> > > +     pc->user_engines = set.engines;
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int set_proto_ctx_sseu(struct drm_i915_file_private *fpriv,
-> > > +                           struct i915_gem_proto_context *pc,
-> > > +                           struct drm_i915_gem_context_param *args)
-> > > +{
-> > > +     struct drm_i915_private *i915 = fpriv->dev_priv;
-> > > +     struct drm_i915_gem_context_param_sseu user_sseu;
-> > > +     struct intel_sseu *sseu;
-> > > +     int ret;
-> > > +
-> > > +     if (args->size < sizeof(user_sseu))
-> > > +             return -EINVAL;
-> > > +
-> > > +     if (!IS_GEN(i915, 11))
-> > > +             return -ENODEV;
-> > > +
-> > > +     if (copy_from_user(&user_sseu, u64_to_user_ptr(args->value),
-> > > +                        sizeof(user_sseu)))
-> > > +             return -EFAULT;
-> > > +
-> > > +     if (user_sseu.rsvd)
-> > > +             return -EINVAL;
-> > > +
-> > > +     if (user_sseu.flags & ~(I915_CONTEXT_SSEU_FLAG_ENGINE_INDEX))
-> > > +             return -EINVAL;
-> > > +
-> > > +     if (!!(user_sseu.flags & I915_CONTEXT_SSEU_FLAG_ENGINE_INDEX) != (pc->num_user_engines >= 0))
-> > > +             return -EINVAL;
-> > > +
-> > > +     if (pc->num_user_engines >= 0) {
-> > > +             int idx = user_sseu.engine.engine_instance;
-> > > +             struct i915_gem_proto_engine *pe;
-> > > +
-> > > +             if (idx >= pc->num_user_engines)
-> > > +                     return -EINVAL;
-> > > +
-> > > +             pe = &pc->user_engines[idx];
-> > > +
-> > > +             /* Only render engine supports RPCS configuration. */
-> > > +             if (pe->engine->class != RENDER_CLASS)
-> > > +                     return -EINVAL;
-> > > +
-> > > +             sseu = &pe->sseu;
-> > > +     } else {
-> > > +             /* Only render engine supports RPCS configuration. */
-> > > +             if (user_sseu.engine.engine_class != I915_ENGINE_CLASS_RENDER)
-> > > +                     return -EINVAL;
-> > > +
-> > > +             /* There is only one render engine */
-> > > +             if (user_sseu.engine.engine_instance != 0)
-> > > +                     return -EINVAL;
-> > > +
-> > > +             sseu = &pc->legacy_rcs_sseu;
-> > > +     }
-> >
-> > I think this faithfully rebuilds the convoluted and I think largely
-> > accidental semantics of SSEU for all combinations of ordering against
-> > set_engines.
-> >
-> > Maybe add a commit message note about this particular kind of fun here. I
-> > don't think a code comment is warranted since I don't think I've seen a
-> > userspace rely on how sseu interacts with set_engines
-> 
-> Done.
-> 
-> > > +
-> > > +     ret = i915_gem_user_to_context_sseu(&i915->gt, &user_sseu, sseu);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +
-> > > +     args->size = sizeof(user_sseu);
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
-> > > +                            struct i915_gem_proto_context *pc,
-> > > +                            struct drm_i915_gem_context_param *args)
-> > > +{
-> > > +     int ret = 0;
-> > > +
-> > > +     switch (args->param) {
-> > > +     case I915_CONTEXT_PARAM_NO_ERROR_CAPTURE:
-> > > +             if (args->size)
-> > > +                     ret = -EINVAL;
-> > > +             else if (args->value)
-> > > +                     __set_bit(UCONTEXT_NO_ERROR_CAPTURE, &pc->user_flags);
-> > > +             else
-> > > +                     __clear_bit(UCONTEXT_NO_ERROR_CAPTURE, &pc->user_flags);
-> >
-> > Open code please and double check I caught them all ...
-> 
-> As I commented the first time around, __set/clear_bit are static
-> inlines that unroll to "*field |= (1 << bit)" or "*field &= ~(1 <<
-> bit)" as appropriate.  The non-__ versions do atomics.  I could
-> hand-roll them but that seems error-prone and it gains us nothing.
+call hyperv_setup_gen1() in the PCI probe function?
 
-They do more, they treat this as a potential array of unsigned long as a
-bitfield of unlimted size. This comes from the cpuset support afaiu our
-history here, and years ago (decades by now?) linux started supporting
-more than 64 cpus cores. Our flags are definitely not unlimted and fit in
-an unsigned, so we're dropping some compiler checking here.
+> +
+> +static int hyperv_setup_gen1(struct hyperv_drm_device *hv)
+> +{
+> +	struct drm_device *dev =3D &hv->dev;
+> +	struct pci_dev *pdev;
+> +	int ret;
+> +
+> +	pdev =3D pci_get_device(PCI_VENDOR_ID_MICROSOFT,
+> +			      PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
+> +	if (!pdev) {
+> +		drm_err(dev, "Unable to find PCI Hyper-V video\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret =3D drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "hype=
+rvdrmfb");
 
-Also it's not that bad really:
+This function is no more. There's now=20
+drm_aperture_remove_conflicting_pci_framebuffers() from=20
+drm/drm_aperture.h Works the same way.
 
-	if (args->value)
-		pc->user_flags |= BIT(UCONTEXT_NO_ERROR_CAPTURE);
-	else
-		pc->user_flags &= ~BIT(UCONTEXT_NO_ERROR_CAPTURE);
+You probably need to rebase onto the latest drm-misc-next or drm-tip tree=
+=2E
 
-Fairly idiomatic construct. Final argument here is that __func() generally
-means "beware, check carefuly what's going on here", and nothing funny is
-going on here at all, so it's a bit a negative trap :-)
+> +	if (ret) {
+> +		drm_err(dev, "Not able to remove boot fb\n");
+> +		return ret;
+> +	}
+> +
+> +	if (pci_request_region(pdev, 0, DRIVER_NAME) !=3D 0)
+> +		drm_warn(dev, "Cannot request framebuffer, boot fb still active?\n")=
+;
+> +
+> +	if ((pdev->resource[0].flags & IORESOURCE_MEM) =3D=3D 0) {
+> +		drm_err(dev, "Resource at bar 0 is not IORESOURCE_MEM\n");
+> +		ret =3D -ENODEV;
+> +		goto error;
+> +	}
+> +
+> +	hv->fb_base =3D pci_resource_start(pdev, 0);
+> +	hv->fb_size =3D pci_resource_len(pdev, 0);
+> +	if (!hv->fb_base) {
+> +		drm_err(dev, "Resource not available\n");
+> +		ret =3D -ENODEV;
+> +		goto error;
+> +	}
+> +
+> +	hv->fb_size =3D min(hv->fb_size,
+> +			  (unsigned long)(hv->mmio_megabytes * 1024 * 1024));
+> +	hv->vram =3D devm_ioremap(&pdev->dev, hv->fb_base, hv->fb_size);
+> +	if (!hv->vram) {
+> +		drm_err(dev, "Failed to map vram\n");
+> +		ret =3D -ENOMEM;
+> +	}
+> +
+> +error:
+> +	pci_dev_put(pdev);
+> +	return ret;
+> +}
+> +
+> +static int hyperv_setup_gen2(struct hyperv_drm_device *hv,
+> +			     struct hv_device *hdev)
+> +{
+> +	struct drm_device *dev =3D &hv->dev;
+> +	struct apertures_struct *ap;
+> +	int ret;
+> +
+> +	ap =3D alloc_apertures(1);
+> +	if (!ap) {
+> +		drm_err(dev, "Failed to get apertures\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ap->ranges[0].base =3D screen_info.lfb_base;
+> +	ap->ranges[0].size =3D screen_info.lfb_size;
+> +	drm_fb_helper_remove_conflicting_framebuffers(ap, KBUILD_MODNAME, fal=
+se);
 
-Anyway git grep shows you're not the first (even outside of drm/i915).
-Some spot checking with grep shows that bitflag use of __set_bit is about
-a third of overall use:
+For this function, there's now=20
+drm_aperture_remove_conflicting_framebuffers().
 
-$ git grep '__set_bit.*)' | wc -l
-1761
+> +	kfree(ap);
+> +
+> +	hv->fb_size =3D (unsigned long)hv->mmio_megabytes * 1024 * 1024;
+> +
+> +	ret =3D vmbus_allocate_mmio(&hv->mem, hdev, 0, -1, hv->fb_size, 0x100=
+000,
+> +				  true);
+> +	if (ret) {
+> +		drm_err(dev, "Failed to allocate mmio\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	/*
+> +	 * Map the VRAM cacheable for performance. This is also required for =
+VM
+> +	 * connect to display properly for ARM64 Linux VM, as the host also m=
+aps
+> +	 * the VRAM cacheable.
+> +	 */
+> +	hv->vram =3D ioremap_cache(hv->mem->start, hv->fb_size);
+> +	if (!hv->vram) {
+> +		drm_err(dev, "Failed to map vram\n");
+> +		ret =3D -ENOMEM;
+> +		goto error;
+> +	}
+> +
+> +	hv->fb_base =3D hv->mem->start;
+> +	return 0;
+> +
+> +error:
+> +	vmbus_free_mmio(hv->mem->start, hv->fb_size);
+> +	return ret;
+> +}
+> +
+> +static int hyperv_vmbus_probe(struct hv_device *hdev,
+> +			      const struct hv_vmbus_device_id *dev_id)
+> +{
+> +	struct hyperv_drm_device *hv;
+> +	struct drm_device *dev;
+> +	int ret;
+> +
+> +	hv =3D devm_drm_dev_alloc(&hdev->device, &hyperv_driver,
+> +				struct hyperv_drm_device, dev);
+> +	if (IS_ERR(hv))
+> +		return PTR_ERR(hv);
+> +
+> +	dev =3D &hv->dev;
+> +	init_completion(&hv->wait);
+> +	hv_set_drvdata(hdev, hv);
+> +	hv->hdev =3D hdev;
+> +
+> +	ret =3D hyperv_connect_vsp(hdev);
+> +	if (ret) {
+> +		drm_err(dev, "Failed to connect to vmbus.\n");
+> +		goto err_hv_set_drv_data;
+> +	}
+> +
+> +	if (efi_enabled(EFI_BOOT))
+> +		ret =3D hyperv_setup_gen2(hv, hdev);
+> +	else
+> +		ret =3D hyperv_setup_gen1(hv);
+> +
+> +	if (ret)
+> +		goto err_vmbus_close;
+> +
+> +	/*
+> +	 * Should be done only once during init and resume. Failing to update=
 
-$ git grep '__set_bit.*,\s*&.*)' | wc -l
-479
+> +	 * vram location is not fatal. Device will update dirty area till
+> +	 * preferred resolution only.
+> +	 */
+> +	ret =3D hyperv_update_vram_location(hdev, hv->fb_base);
+> +	if (ret)
+> +		drm_warn(dev, "Failed to update vram location.\n");
+> +
+> +	ret =3D hyperv_mode_config_init(hv);
+> +	if (ret)
+> +		goto err_vmbus_close;
+> +
+> +	ret =3D drm_dev_register(dev, 0);
+> +	if (ret) {
+> +		drm_err(dev, "Failed to register drm driver.\n");
+> +		goto err_vmbus_close;
+> +	}
+> +
+> +	drm_fbdev_generic_setup(dev, 0);
+> +
+> +	return 0;
+> +
+> +err_vmbus_close:
+> +	vmbus_close(hdev->channel);
+> +err_hv_set_drv_data:
+> +	hv_set_drvdata(hdev, NULL);
+> +	return ret;
+> +}
+> +
+> +static int hyperv_vmbus_remove(struct hv_device *hdev)
+> +{
+> +	struct drm_device *dev =3D hv_get_drvdata(hdev);
+> +	struct hyperv_drm_device *hv =3D to_hv(dev);
+> +
+> +	drm_dev_unplug(dev);
+> +	drm_atomic_helper_shutdown(dev);
+> +	vmbus_close(hdev->channel);
+> +	hv_set_drvdata(hdev, NULL);
+> +	vmbus_free_mmio(hv->mem->start, hv->fb_size);
+> +
+> +	return 0;
+> +}
+> +
+> +static int hyperv_vmbus_suspend(struct hv_device *hdev)
+> +{
+> +	struct drm_device *dev =3D hv_get_drvdata(hdev);
+> +	int ret;
+> +
+> +	ret =3D drm_mode_config_helper_suspend(dev);
+> +
+> +	vmbus_close(hdev->channel);
+> +
+> +	return ret;
+> +}
+> +
+> +static int hyperv_vmbus_resume(struct hv_device *hdev)
+> +{
+> +	struct drm_device *dev =3D hv_get_drvdata(hdev);
+> +	struct hyperv_drm_device *hv =3D to_hv(dev);
+> +	int ret;
+> +
+> +	ret =3D hyperv_connect_vsp(hdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret =3D hyperv_update_vram_location(hdev, hv->fb_base);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return drm_mode_config_helper_resume(dev);
+> +}
+> +
+> +static const struct hv_vmbus_device_id hyperv_vmbus_tbl[] =3D {
+> +	/* Synthetic Video Device GUID */
+> +	{HV_SYNTHVID_GUID},
+> +	{}
+> +};
+> +
+> +static struct hv_driver hyperv_hv_driver =3D {
+> +	.name =3D KBUILD_MODNAME,
+> +	.id_table =3D hyperv_vmbus_tbl,
+> +	.probe =3D hyperv_vmbus_probe,
+> +	.remove =3D hyperv_vmbus_remove,
+> +	.suspend =3D hyperv_vmbus_suspend,
+> +	.resume =3D hyperv_vmbus_resume,
+> +	.driver =3D {
+> +		.probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
+> +	},
+> +};
+> +
+> +static int __init hyperv_init(void)
+> +{
+> +	int ret;
+> +
+> +	ret =3D pci_register_driver(&hyperv_pci_driver);
+> +	if (ret !=3D 0)
+> +		return ret;
+> +
+> +	return vmbus_driver_register(&hyperv_hv_driver);
+> +}
+> +
+> +static void __exit hyperv_exit(void)
+> +{
+> +	vmbus_driver_unregister(&hyperv_hv_driver);
+> +	pci_unregister_driver(&hyperv_pci_driver);
+> +}
+> +
+> +module_init(hyperv_init);
+> +module_exit(hyperv_exit);
+> +
+> +MODULE_DEVICE_TABLE(pci, hyperv_pci_tbl);
+> +MODULE_DEVICE_TABLE(vmbus, hyperv_vmbus_tbl);
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Deepak Rawat <drawat.floss@gmail.com>");
+> +MODULE_DESCRIPTION("DRM driver for hyperv synthetic video device");
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/=
+drm/hyperv/hyperv_drm_modeset.c
+> new file mode 100644
+> index 000000000000..5d608472d294
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> @@ -0,0 +1,238 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright 2021 Microsoft
+> + */
+> +
+> +#include <linux/hyperv.h>
+> +
+> +#include <drm/drm_damage_helper.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_format_helper.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +
+> +#include "hyperv_drm.h"
+> +
+> +static int hyperv_blit_to_vram_rect(struct drm_framebuffer *fb,
+> +				    const struct dma_buf_map *map,
+> +				    struct drm_rect *rect)
+> +{
+> +	struct hyperv_drm_device *hv =3D to_hv(fb->dev);
+> +	void *vmap =3D map->vaddr; /* TODO: Use mapping abstraction properly =
+*/
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(&hv->dev, &idx))
+> +		return -ENODEV;
+> +
+> +	drm_fb_memcpy_dstclip(hv->vram, vmap, fb, rect);
+> +	drm_dev_exit(idx);
+> +
+> +	return 0;
+> +}
+> +
+> +static int hyperv_blit_to_vram_fullscreen(struct drm_framebuffer *fb, =
+const struct dma_buf_map *map)
+> +{
+> +	struct drm_rect fullscreen =3D {
+> +		.x1 =3D 0,
+> +		.x2 =3D fb->width,
+> +		.y1 =3D 0,
+> +		.y2 =3D fb->height,
+> +	};
+> +	return hyperv_blit_to_vram_rect(fb, map, &fullscreen);
+> +}
+> +
+> +static int hyperv_connector_get_modes(struct drm_connector *connector)=
 
-So whatever you feel like.
+> +{
+> +	struct hyperv_drm_device *hv =3D to_hv(connector->dev);
+> +	int count;
+> +
+> +	count =3D drm_add_modes_noedid(connector,
+> +				     connector->dev->mode_config.max_width,
+> +				     connector->dev->mode_config.max_height);
+> +	drm_set_preferred_mode(connector, hv->preferred_width,
+> +			       hv->preferred_height);
+> +
+> +	return count;
+> +}
+> +
+> +static const struct drm_connector_helper_funcs hyperv_connector_helper=
+_funcs =3D {
+> +	.get_modes =3D hyperv_connector_get_modes,
+> +};
+> +
+> +static const struct drm_connector_funcs hyperv_connector_funcs =3D {
+> +	.fill_modes =3D drm_helper_probe_single_connector_modes,
+> +	.destroy =3D drm_connector_cleanup,
+> +	.reset =3D drm_atomic_helper_connector_reset,
+> +	.atomic_duplicate_state =3D drm_atomic_helper_connector_duplicate_sta=
+te,
+> +	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,
+> +};
+> +
+> +static inline int hyperv_conn_init(struct hyperv_drm_device *hv)
+> +{
+> +	drm_connector_helper_add(&hv->connector, &hyperv_connector_helper_fun=
+cs);
+> +	return drm_connector_init(&hv->dev, &hv->connector,
+> +				  &hyperv_connector_funcs,
+> +				  DRM_MODE_CONNECTOR_VIRTUAL);
+> +}
+> +
+> +static int hyperv_check_size(struct hyperv_drm_device *hv, int w, int =
+h,
+> +			     struct drm_framebuffer *fb)
+> +{
+> +	u32 pitch =3D w * (hv->screen_depth / 8);
+> +
+> +	if (fb)
+> +		pitch =3D fb->pitches[0];
+> +
+> +	if (pitch * h > hv->fb_size)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
+> +			       struct drm_crtc_state *crtc_state,
+> +			       struct drm_plane_state *plane_state)
+> +{
+> +	struct hyperv_drm_device *hv =3D to_hv(pipe->crtc.dev);
+> +	struct drm_shadow_plane_state *shadow_plane_state =3D to_drm_shadow_p=
+lane_state(plane_state);
+> +
+> +	hyperv_update_situation(hv->hdev, 1,  hv->screen_depth,
+> +				crtc_state->mode.hdisplay,
+> +				crtc_state->mode.vdisplay,
+> +				plane_state->fb->pitches[0]);
+> +	hyperv_blit_to_vram_fullscreen(plane_state->fb, &shadow_plane_state->=
+map[0]);
+> +}
+> +
+> +static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
+> +			     struct drm_plane_state *plane_state,
+> +			     struct drm_crtc_state *crtc_state)
+> +{
+> +	struct hyperv_drm_device *hv =3D to_hv(pipe->crtc.dev);
+> +	struct drm_framebuffer *fb =3D plane_state->fb;
+> +
+> +	if (fb->format->format !=3D DRM_FORMAT_XRGB8888)
+> +		return -EINVAL;
+> +
+> +	if (fb->pitches[0] * fb->height > hv->fb_size)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static void hyperv_pipe_update(struct drm_simple_display_pipe *pipe,
+> +			       struct drm_plane_state *old_state)
+> +{
+> +	struct hyperv_drm_device *hv =3D to_hv(pipe->crtc.dev);
+> +	struct drm_plane_state *state =3D pipe->plane.state;
+> +	struct drm_shadow_plane_state *shadow_plane_state =3D to_drm_shadow_p=
+lane_state(state);
+> +	struct drm_rect rect;
+> +
+> +	if (drm_atomic_helper_damage_merged(old_state, state, &rect)) {
+> +		hyperv_blit_to_vram_rect(state->fb, &shadow_plane_state->map[0], &re=
+ct);
+> +		hyperv_update_dirt(hv->hdev, &rect);
+> +	}
+> +}
+> +
+> +static const struct drm_simple_display_pipe_funcs hyperv_pipe_funcs =3D=20
+{
+> +	.enable	=3D hyperv_pipe_enable,
+> +	.check =3D hyperv_pipe_check,
+> +	.update	=3D hyperv_pipe_update,
+> +	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
+> +};
+> +
+> +static const uint32_t hyperv_formats[] =3D {
+> +	DRM_FORMAT_XRGB8888,
+> +};
+> +
+> +static const uint64_t hyperv_modifiers[] =3D {
+> +	DRM_FORMAT_MOD_LINEAR,
+> +	DRM_FORMAT_MOD_INVALID
+> +};
+> +
+> +static inline int hyperv_pipe_init(struct hyperv_drm_device *hv)
+> +{
+> +	int ret;
+> +
+> +	ret =3D drm_simple_display_pipe_init(&hv->dev,
+> +					   &hv->pipe,
+> +					   &hyperv_pipe_funcs,
+> +					   hyperv_formats,
+> +					   ARRAY_SIZE(hyperv_formats),
+> +					   NULL,
+> +					   &hv->connector);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_plane_enable_fb_damage_clips(&hv->pipe.plane);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct drm_framebuffer*
+> +hyperv_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+> +		 const struct drm_mode_fb_cmd2 *mode_cmd)
+> +{
+> +	return drm_gem_fb_create_with_dirty(dev, file_priv, mode_cmd);
 
-> > > +             break;
-> > > +
-> > > +     case I915_CONTEXT_PARAM_BANNABLE:
-> > > +             if (args->size)
-> > > +                     ret = -EINVAL;
-> > > +             else if (!capable(CAP_SYS_ADMIN) && !args->value)
-> > > +                     ret = -EPERM;
-> > > +             else if (args->value)
-> > > +                     __set_bit(UCONTEXT_BANNABLE, &pc->user_flags);
-> > > +             else
-> > > +                     __clear_bit(UCONTEXT_BANNABLE, &pc->user_flags);
-> > > +             break;
-> > > +
-> > > +     case I915_CONTEXT_PARAM_RECOVERABLE:
-> > > +             if (args->size)
-> > > +                     ret = -EINVAL;
-> > > +             else if (args->value)
-> > > +                     __set_bit(UCONTEXT_RECOVERABLE, &pc->user_flags);
-> > > +             else
-> > > +                     __clear_bit(UCONTEXT_RECOVERABLE, &pc->user_flags);
-> > > +             break;
-> > > +
-> > > +     case I915_CONTEXT_PARAM_PRIORITY:
-> > > +             ret = validate_priority(fpriv->dev_priv, args);
-> > > +             if (!ret)
-> > > +                     pc->sched.priority = args->value;
-> > > +             break;
-> > > +
-> > > +     case I915_CONTEXT_PARAM_SSEU:
-> > > +             ret = set_proto_ctx_sseu(fpriv, pc, args);
-> > > +             break;
-> > > +
-> > > +     case I915_CONTEXT_PARAM_VM:
-> > > +             ret = set_proto_ctx_vm(fpriv, pc, args);
-> > > +             break;
-> > > +
-> > > +     case I915_CONTEXT_PARAM_ENGINES:
-> > > +             ret = set_proto_ctx_engines(fpriv, pc, args);
-> > > +             break;
-> > > +
-> > > +     case I915_CONTEXT_PARAM_PERSISTENCE:
-> > > +             if (args->size)
-> > > +                     ret = -EINVAL;
-> > > +             else if (args->value)
-> > > +                     __set_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
-> > > +             else
-> > > +                     __clear_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
-> >
-> > I think we have a nice mess here. You created this
-> > proto_context_set_persistence helper, but don't use it here. Oversight?
-> 
-> Yeah, I should use it.  Done.
-> 
-> > Aside from the validation fun around persistence, but that's better
-> > discussed in another patch I think.
-> >
-> > > +             break;
-> > > +
-> > > +     case I915_CONTEXT_PARAM_NO_ZEROMAP:
-> > > +     case I915_CONTEXT_PARAM_BAN_PERIOD:
-> > > +     case I915_CONTEXT_PARAM_RINGSIZE:
-> > > +     default:
-> > > +             ret = -EINVAL;
-> > > +             break;
-> > > +     }
-> > > +
-> > > +     return ret;
-> > > +}
-> > > +
-> > >  static struct i915_address_space *
-> > >  context_get_vm_rcu(struct i915_gem_context *ctx)
-> > >  {
-> > > @@ -475,6 +918,56 @@ static struct i915_gem_engines *default_engines(struct i915_gem_context *ctx,
-> > >       return err;
-> > >  }
-> > >
-> > > +static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
-> > > +                                          unsigned int num_engines,
-> > > +                                          struct i915_gem_proto_engine *pe)
-> > > +{
-> > > +     struct i915_gem_engines *e, *err;
-> > > +     unsigned int n;
-> > > +
-> > > +     e = alloc_engines(num_engines);
-> > > +     for (n = 0; n < num_engines; n++) {
-> > > +             struct intel_context *ce;
-> > > +             int ret;
-> > > +
-> > > +             switch (pe[n].type) {
-> > > +             case I915_GEM_ENGINE_TYPE_PHYSICAL:
-> > > +                     ce = intel_context_create(pe[n].engine);
-> > > +                     break;
-> > > +
-> > > +             case I915_GEM_ENGINE_TYPE_BALANCED:
-> > > +                     ce = intel_execlists_create_virtual(pe[n].siblings,
-> > > +                                                         pe[n].num_siblings);
-> > > +                     break;
-> > > +
-> > > +             case I915_GEM_ENGINE_TYPE_INVALID:
-> > > +             default:
-> > > +                     GEM_WARN_ON(pe[n].type != I915_GEM_ENGINE_TYPE_INVALID);
-> > > +                     continue;
-> > > +             }
-> > > +
-> > > +             if (IS_ERR(ce)) {
-> > > +                     err = ERR_CAST(ce);
-> > > +                     goto free_engines;
-> > > +             }
-> > > +
-> > > +             e->engines[n] = ce;
-> > > +
-> > > +             ret = intel_context_set_gem(ce, ctx, pe->sseu);
-> > > +             if (ret) {
-> > > +                     err = ERR_PTR(ret);
-> > > +                     goto free_engines;
-> > > +             }
-> > > +     }
-> > > +     e->num_engines = num_engines;
-> > > +
-> > > +     return e;
-> > > +
-> > > +free_engines:
-> > > +     free_engines(e);
-> > > +     return err;
-> > > +}
-> > > +
-> > >  void i915_gem_context_release(struct kref *ref)
-> > >  {
-> > >       struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
-> > > @@ -779,7 +1272,6 @@ __create_context(struct drm_i915_private *i915,
-> > >  {
-> > >       struct i915_gem_context *ctx;
-> > >       struct i915_gem_engines *e;
-> > > -     struct intel_sseu null_sseu = {};
-> > >       int err;
-> > >       int i;
-> > >
-> > > @@ -797,7 +1289,7 @@ __create_context(struct drm_i915_private *i915,
-> > >       INIT_LIST_HEAD(&ctx->stale.engines);
-> > >
-> > >       mutex_init(&ctx->engines_mutex);
-> > > -     e = default_engines(ctx, null_sseu);
-> > > +     e = default_engines(ctx, pc->legacy_rcs_sseu);
-> > >       if (IS_ERR(e)) {
-> > >               err = PTR_ERR(e);
-> > >               goto err_free;
-> > > @@ -916,6 +1408,24 @@ i915_gem_create_context(struct drm_i915_private *i915,
-> > >               mutex_unlock(&ctx->mutex);
-> > >       }
-> > >
-> > > +     if (pc->num_user_engines >= 0) {
-> > > +             struct i915_gem_engines *engines;
-> > > +
-> > > +             engines = user_engines(ctx, pc->num_user_engines,
-> > > +                                    pc->user_engines);
-> > > +             if (IS_ERR(engines)) {
-> > > +                     context_close(ctx);
-> > > +                     return ERR_CAST(engines);
-> > > +             }
-> > > +
-> > > +             mutex_lock(&ctx->engines_mutex);
-> > > +             i915_gem_context_set_user_engines(ctx);
-> > > +             engines = rcu_replace_pointer(ctx->engines, engines, 1);
-> > > +             mutex_unlock(&ctx->engines_mutex);
-> >
-> > More locking code to ditch I guess.
-> 
-> Sure.  Is it safe to just drop it?  I guess it is?  I'm really shaky
-> around all the RCU requirements and things.
+No pointless wrappers, please. Use this function directly.
 
-Well the 1 in here should be replace with
-lockdep_is_held(&ctx->engines_mutex), but the engines_mutex also should
-go, so really can ditch the entire thing. Also no one can access our
-context, so we can't fail.
+Best regards
+Thomas
 
-Now if you do this naively without dropping the __rcu classifier for
-ctx->engines then static checkers will complain. So until that's done an
-rcu_assign_pointer should do.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-> 
-> > > +
-> > > +             free_engines(engines);
-> >
-> > Also I guess we shouldn't first create the legacy engines for this case?
-> 
-> That's fixed in the last patch.
 
-Yeah I noticed later on.
+--Neam4BtIO27y9qcLDhKUuuLNiMUJUdbzc--
 
-> 
-> > > +     }
-> > > +
-> > >       if (pc->single_timeline) {
-> > >               ret = drm_syncobj_create(&ctx->syncobj,
-> > >                                        DRM_SYNCOBJ_CREATE_SIGNALED,
-> > > @@ -1956,7 +2466,7 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
-> > >  }
-> > >
-> > >  struct create_ext {
-> > > -     struct i915_gem_context *ctx;
-> > > +     struct i915_gem_proto_context *pc;
-> > >       struct drm_i915_file_private *fpriv;
-> > >  };
-> > >
-> > > @@ -1971,7 +2481,7 @@ static int create_setparam(struct i915_user_extension __user *ext, void *data)
-> > >       if (local.param.ctx_id)
-> > >               return -EINVAL;
-> > >
-> > > -     return ctx_setparam(arg->fpriv, arg->ctx, &local.param);
-> > > +     return set_proto_ctx_param(arg->fpriv, arg->pc, &local.param);
-> > >  }
-> > >
-> > >  static int invalid_ext(struct i915_user_extension __user *ext, void *data)
-> > > @@ -1994,7 +2504,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
-> > >  {
-> > >       struct drm_i915_private *i915 = to_i915(dev);
-> > >       struct drm_i915_gem_context_create_ext *args = data;
-> > > -     struct i915_gem_proto_context *pc;
-> > > +     struct i915_gem_context *ctx;
-> > >       struct create_ext ext_data;
-> > >       int ret;
-> > >       u32 id;
-> > > @@ -2017,25 +2527,27 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
-> > >               return -EIO;
-> > >       }
-> > >
-> > > -     pc = proto_context_create(i915, args->flags);
-> > > -     if (IS_ERR(pc))
-> > > -             return PTR_ERR(pc);
-> > > -
-> > > -     ext_data.ctx = i915_gem_create_context(i915, pc);
-> > > -     proto_context_close(pc);
-> > > -     if (IS_ERR(ext_data.ctx))
-> > > -             return PTR_ERR(ext_data.ctx);
-> > > +     ext_data.pc = proto_context_create(i915, args->flags);
-> > > +     if (IS_ERR(ext_data.pc))
-> > > +             return PTR_ERR(ext_data.pc);
-> > >
-> > >       if (args->flags & I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS) {
-> > >               ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
-> > >                                          create_extensions,
-> > >                                          ARRAY_SIZE(create_extensions),
-> > >                                          &ext_data);
-> > > -             if (ret)
-> > > -                     goto err_ctx;
-> > > +             if (ret) {
-> > > +                     proto_context_close(ext_data.pc);
-> > > +                     return ret;
-> > > +             }
-> > >       }
-> > >
-> > > -     ret = gem_context_register(ext_data.ctx, ext_data.fpriv, &id);
-> > > +     ctx = i915_gem_create_context(i915, ext_data.pc);
-> > > +     proto_context_close(ext_data.pc);
-> > > +     if (IS_ERR(ctx))
-> > > +             return PTR_ERR(ctx);
-> > > +
-> > > +     ret = gem_context_register(ctx, ext_data.fpriv, &id);
-> > >       if (ret < 0)
-> > >               goto err_ctx;
-> > >
-> > > @@ -2045,7 +2557,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
-> > >       return 0;
-> > >
-> > >  err_ctx:
-> > > -     context_close(ext_data.ctx);
-> > > +     context_close(ctx);
-> > >       return ret;
-> > >  }
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > > index 0bf337b6d89ac..2ac341f805c8f 100644
-> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > > @@ -66,6 +66,55 @@ struct i915_gem_engines_iter {
-> > >       const struct i915_gem_engines *engines;
-> > >  };
-> > >
-> > > +/**
-> > > + * enum i915_gem_engine_type - Describes the type of an i915_gem_proto_engine
-> > > + */
-> > > +enum i915_gem_engine_type {
-> > > +     /** @I915_GEM_ENGINE_TYPE_INVALID: An invalid engine */
-> > > +     I915_GEM_ENGINE_TYPE_INVALID = 0,
-> > > +
-> > > +     /** @I915_GEM_ENGINE_TYPE_PHYSICAL: A single physical engine */
-> > > +     I915_GEM_ENGINE_TYPE_PHYSICAL,
-> > > +
-> > > +     /** @I915_GEM_ENGINE_TYPE_BALANCED: A load-balanced engine set */
-> > > +     I915_GEM_ENGINE_TYPE_BALANCED,
-> > > +};
-> > > +
-> > > +/**
-> > > + * struct i915_gem_proto_engine - prototype engine
-> > > + *
-> > > + * This struct describes an engine that a context may contain.  Engines
-> > > + * have three types:
-> > > + *
-> > > + *  - I915_GEM_ENGINE_TYPE_INVALID: Invalid engines can be created but they
-> > > + *    show up as a NULL in i915_gem_engines::engines[i] and any attempt to
-> > > + *    use them by the user results in -EINVAL.  They are also useful during
-> > > + *    proto-context construction because the client may create invalid
-> > > + *    engines and then set them up later as bonded engines.
-> > > + *
-> > > + *  - I915_GEM_ENGINE_TYPE_PHYSICAL: A single physical engine, described by
-> > > + *    i915_gem_proto_engine::engine.
-> > > + *
-> > > + *  - I915_GEM_ENGINE_TYPE_BALANCED: A load-balanced engine set, described
-> > > + *    i915_gem_proto_engine::num_siblings and i915_gem_proto_engine::siblings.
-> > > + */
-> > > +struct i915_gem_proto_engine {
-> > > +     /** @type: Type of this engine */
-> > > +     enum i915_gem_engine_type type;
-> > > +
-> > > +     /** @engine: Engine, for physical */
-> > > +     struct intel_engine_cs *engine;
-> > > +
-> > > +     /** @num_siblings: Number of balanced siblings */
-> > > +     unsigned int num_siblings;
-> > > +
-> > > +     /** @siblings: Balanced siblings */
-> > > +     struct intel_engine_cs **siblings;
-> > > +
-> > > +     /** @sseu: Client-set SSEU parameters */
-> > > +     struct intel_sseu sseu;
-> > > +};
-> > > +
-> > >  /**
-> > >   * struct i915_gem_proto_context - prototype context
-> > >   *
-> > > @@ -84,6 +133,15 @@ struct i915_gem_proto_context {
-> > >       /** @sched: See i915_gem_context::sched */
-> > >       struct i915_sched_attr sched;
-> > >
-> > > +     /** @num_user_engines: Number of user-specified engines or -1 */
-> > > +     int num_user_engines;
-> > > +
-> > > +     /** @user_engines: User-specified engines */
-> > > +     struct i915_gem_proto_engine *user_engines;
-> > > +
-> > > +     /** @sseu: Client-set SSEU parameters for the legacy RCS */
-> > > +     struct intel_sseu legacy_rcs_sseu;
-> > > +
-> > >       /** @single_timeline: See See i915_gem_context::syncobj */
-> > >       bool single_timeline;
-> > >  };
-> > > --
-> > > 2.31.1
-> >
-> > Man is this all nasty. Since I don't want to re-review the entire pile,
-> > assuming we figure out solutions to all the real issues I've raised (and
-> > not the snarky bikesheds) this is
-> >
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> Ok.  I'm leaving it off for now to remind myself to ensure that we
-> close on everything.  I'll add it once I've heard back from you on my
-> questions above.
+--aIcC0y7qSlP6sAr9e3Ian4h2cQr0vYwvN
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I think we're all good. Mostly :-/
--Daniel
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> --Jason
-> 
-> > >
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCidKwFAwAAAAAACgkQlh/E3EQov+BF
+CxAAsecNCXT+5iECbxM08uOnThSRWwECruKKTIQ/TauHc0NIfRMhMaAJAgNAuyumdh0o5B0eoW/l
+/AZdZXPddE0rYXFIB/bZnMrE+ycERoDOPF+LqCH3DXoGQjP1PdtN5Fc7Vp2LASRc7soHAsvmYAHs
+/xfn1Ed1rQ7J86TvWJ24eu3BLRYpSj/G6jyiKde+sT1ZxuBCbufu4bm3z5XpYfZ2A3B02DD4M+VS
+oz1+Vq7zaNFhGTtiHKAHOD66utnZgpUrmh6uftS7GFQ9u+zecpMO4yh0NCGuiTB9Nen6T6o4UxEK
+WoLFsLTrdpb/eEyfwttYcOHcYFPBeLYQC4JxQJLflw+y7Wa4O6QXPRXlWBubtvjzrybhlQq1/qa5
+olFLqUxOOoB5lzd+tdHdQr0GjAzYpHVbxaSdc5UuWO29va7SDdXJz1UGK25Dw2Bq6Axp7HhHmV6y
+Qcx8mILY5bwtb0UXWQsoag0dVMSQxjqK5MLBp2gGo5k/TrZvE0zFGysA3G0DWae/bJLkpoLkxTPT
+EmxkEw4gAuWpPOAJSfgg2MEv+pS8EjuFr90qc2pxwqy+l9HiNle/8z9mOQaxGkBLmX6u7nZzsRoc
++mnC+9wSZ71qyi+2Fz+4JLEF8BD0M18b5PdiaXVWWCQvbJ2dayMGQV/jOu1sANhJYYuBU3Smzpmf
+ulY=
+=3cXZ
+-----END PGP SIGNATURE-----
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--aIcC0y7qSlP6sAr9e3Ian4h2cQr0vYwvN--
