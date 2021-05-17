@@ -2,63 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2FA382D0A
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 15:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EE0382D1B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 15:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5554489E59;
-	Mon, 17 May 2021 13:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21BAE6E95C;
+	Mon, 17 May 2021 13:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E14E89D58
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 13:13:17 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- 36-20020a9d0ba70000b02902e0a0a8fe36so5461753oth.8
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 06:13:17 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED0856E95C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 13:16:03 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id t206so3587795wmf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 06:16:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1niWPbp6OXctfAAznJewfN6Eqjsqw0nM8ckzYrVktvk=;
- b=d7CG4UV4uV/QvT/PB3LlqCepedtDGPXwmcB5sYhOAr5UFDYI6t2UWqoAu6SQ50Dl+1
- ybQlPRgq6zOcYfRTI8AcmZaVF9UmkTtuSsOILLQKg3mDgdY/GtdJWOLYJba019tbu+U3
- 5bHr8t+Jhpl7HsLNJUbqd4PynYK9iGwTXGaoA=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=rcRjj0kSXaoUG+69UiGMoMFuPjntXCgBD6uppcpvNks=;
+ b=lSTYoAxprm0avW4QjQOozjs5yBsqLn2q/rOyq4ZIh0s/uD1IWHh+lkKBgfXnZL920Z
+ YIZ7pDGa2hn2nT9Z3fm2UPo+EwPk33GO8ecURuxVaf8v9D3vDpstRNXosUzz8WnVTGbo
+ TDIAwRJqXufB+99sKOAcPEx2KUgNQ/HdYNUQ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1niWPbp6OXctfAAznJewfN6Eqjsqw0nM8ckzYrVktvk=;
- b=FSr22mbOKbky1H3XyGxtPgk89K/upublkTdHDFsV3cOogkTONsb9/ye+WPzXIJrVyy
- 19JgPlPyqZb/yokHOTjX3KdNC2T2ceHZ49p0HOHchfZ63w4T3QX/eoaLwuj0frNzyZ03
- YzCDDqveYdFX+XTWxgsMlwEyUN+9kguoA04tp2KAJtC/SM6wMQuwzQn2eVdYLqJ3vmzs
- tHiJLP7XPqaYrxcY0qXkRgaF+7deZoJ9bxLXHtUfnlMWewbQAhlarP37ksIG20iwxVW5
- F/sj/2fWRAHMCv98u5MJuc8M1dvRzyYmTzfYz7F/hwk4+zT8LIEJXFOWd4r8PWzQfOSj
- lWmA==
-X-Gm-Message-State: AOAM532DebsvKVL6jjtpiVnhpm1HYKaF2hU0MlrfDZCB8j4HYwD4nsIu
- Ggl7l1AUziU89D6j8ZpA7ji8AeY8bHAoWrKpIpP9zg==
-X-Google-Smtp-Source: ABdhPJyDuQIvXw+luxml8GEexK3jECtW+UAWqe0kXDIKCICTTAfz7N7CV/zjN9R469BgZWNcW6e4zYMo96HA10ZPQKg=
-X-Received: by 2002:a05:6830:1155:: with SMTP id
- x21mr31941099otq.303.1621257196488; 
- Mon, 17 May 2021 06:13:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <0000000000006bbd0c05c14f1b09@google.com>
- <6e21483c-06f6-404b-4018-e00ee85c456c@i-love.sakura.ne.jp>
- <87d928e4-b2b9-ad30-f3f0-1dfb8e4e03ed@i-love.sakura.ne.jp>
- <05acdda8-dc1c-5119-4326-96eed24bea0c@i-love.sakura.ne.jp>
- <CAHk-=wguwhFpjhyMtDaH2hhjoV62gDgByC=aPyTrW9CkM5hqvA@mail.gmail.com>
- <alpine.DEB.2.21.2105142150460.3032@angie.orcam.me.uk>
- <CAHk-=wioOHwKNj8AmvXWV-oL60ae0jKswAHy9e6wCYYeA5EQXg@mail.gmail.com>
- <CAHk-=wjkVAjfWrmmJnJe1_MriK9gezWCew_MU=MbQNzHbGopsQ@mail.gmail.com>
- <97f1d292-c3a8-f4d6-0651-b4f5571ecb72@i-love.sakura.ne.jp>
- <alpine.DEB.2.21.2105151815040.3032@angie.orcam.me.uk>
- <alpine.DEB.2.21.2105151828380.3032@angie.orcam.me.uk>
- <CAHk-=wgz-iC97f0cnawKZc_S4-0ZEOdOx43J7pVX6b=AqYUhfg@mail.gmail.com>
-In-Reply-To: <CAHk-=wgz-iC97f0cnawKZc_S4-0ZEOdOx43J7pVX6b=AqYUhfg@mail.gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=rcRjj0kSXaoUG+69UiGMoMFuPjntXCgBD6uppcpvNks=;
+ b=fDmPOGeGHn82SyO+tUfucN6waMcRENxFk7R+BtbTnUTGvepSoXJ7VvqeeaC3U00hL4
+ jC/u2AvE0QZ1vI4pTBIOUniUzmkcke/ozNxyWPQe2nkf7vZ9UXL4o4MI74FF7A71uVIC
+ 4lGN4dkalE9bTBkFuoh8WF14ckI45oBFpLmV0qjkCSbfMNfYUgTzSsdxqYyu4F0Ea598
+ UnicFfeS/4IR1+K4S8sF6NBNLf0cNZ3/Vr5Ks9hkqBNn9BOAgKvgHgYPeO8YfHVK7uhV
+ S7bqoNDd0jfEMCl93eRKppwWwEkE+0GSlL6hn5aqAzJifDNt+nZ1RJMcQe+N8caI0+k0
+ qWtQ==
+X-Gm-Message-State: AOAM533G3RzHPZALzXBHpfMjgEIJE62hoKibA4F6LG/yLJlZOst2vUu3
+ f7yhzkk10K4RsSPRRNGwA9Ud+usL/3nTwg==
+X-Google-Smtp-Source: ABdhPJyCiK0AWV7OegSOvUzl9QU2kA5OTz7BASeaDdFo3fnYrQzNotPW2rnw1TP3Oq5TswGW8xQItA==
+X-Received: by 2002:a7b:cf23:: with SMTP id m3mr8515150wmg.24.1621257362543;
+ Mon, 17 May 2021 06:16:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v3sm9925105wrr.19.2021.05.17.06.16.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 06:16:01 -0700 (PDT)
+Date: Mon, 17 May 2021 15:15:59 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 17 May 2021 15:13:05 +0200
-Message-ID: <CAKMK7uGO3_EtQem=zuTa2w8jO4zwwT27Ly6uJEYF4wVLYXGZ_Q@mail.gmail.com>
-Subject: Re: [PATCH v2] tty: vt: always invoke vc->vc_sw->con_resize callback
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH] drm/ingenic: Fix pixclock rate for 24-bit serial panels
+Message-ID: <YKJsj+dDUshm/ZiT@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+ David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
+ od@zcrc.me, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20210323144008.166248-1-paul@crapouillou.net>
+ <6DP1TQ.W6B9JRRW1OY5@crapouillou.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6DP1TQ.W6B9JRRW1OY5@crapouillou.net>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +73,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@intel.com>, Colin King <colin.king@canonical.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>,
- "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: David Airlie <airlied@linux.ie>, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, od@zcrc.me,
+ stable@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 15, 2021 at 6:42 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Sat, May 15, 2021 at 9:33 AM Maciej W. Rozycki <macro@orcam.me.uk> wrote:
-> >
-> >  NB I suggest that you request your change to be backported, i.e. post v3
-> > with:
-> >
-> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> > Cc: stable@vger.kernel.org # v2.6.12+
->
-> I've applied it to my tree, but let's wait to see that it doesn't
-> cause any issues before notifying the stable people.
+On Thu, May 13, 2021 at 01:29:30PM +0100, Paul Cercueil wrote:
+> Hi,
+> 
+> Almost two months later,
 
-Ah I missed all the fun with the long w/e. fwiw I think this looks
-very reasonable, see my other reply why I think this shouldn't cause
-issues. Especially when fbcon_resize only touches hw when in KD_TEXT
-mode.
+Since you're committer it's expected that you go actively out to look for
+review or trade with someone else who has some patches that need a quick
+look. It will not happen automatically, this is on you.
+
+Also generally after 2 weeks the patch is lost and you need to ping it.
 -Daniel
+
+> 
+> 
+> Le mar., mars 23 2021 at 14:40:08 +0000, Paul Cercueil
+> <paul@crapouillou.net> a écrit :
+> > When using a 24-bit panel on a 8-bit serial bus, the pixel clock
+> > requested by the panel has to be multiplied by 3, since the subpixels
+> > are shifted sequentially.
+> > 
+> > The code (in ingenic_drm_encoder_atomic_check) already computed
+> > crtc_state->adjusted_mode->crtc_clock accordingly, but clk_set_rate()
+> > used crtc_state->adjusted_mode->clock instead.
+> > 
+> > Fixes: 28ab7d35b6e0 ("drm/ingenic: Properly compute timings when using a
+> > 3x8-bit panel")
+> > Cc: stable@vger.kernel.org # v5.10
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> 
+> Can I get an ACK for my patch?
+> 
+> Thanks!
+> -Paul
+> 
+> > ---
+> >  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> > b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> > index d60e1eefc9d1..cba68bf52ec5 100644
+> > --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> > +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> > @@ -342,7 +342,7 @@ static void ingenic_drm_crtc_atomic_flush(struct
+> > drm_crtc *crtc,
+> >  	if (priv->update_clk_rate) {
+> >  		mutex_lock(&priv->clk_mutex);
+> >  		clk_set_rate(priv->pix_clk,
+> > -			     crtc_state->adjusted_mode.clock * 1000);
+> > +			     crtc_state->adjusted_mode.crtc_clock * 1000);
+> >  		priv->update_clk_rate = false;
+> >  		mutex_unlock(&priv->clk_mutex);
+> >  	}
+> > --
+> > 2.30.2
+> > 
+> 
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
