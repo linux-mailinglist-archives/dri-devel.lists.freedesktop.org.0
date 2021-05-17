@@ -1,34 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A24D382D64
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 15:25:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B94382DA3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 15:40:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2388F6E96E;
-	Mon, 17 May 2021 13:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB27C6E06E;
+	Mon, 17 May 2021 13:40:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE9C6E974;
- Mon, 17 May 2021 13:25:02 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3760FB1AE;
- Mon, 17 May 2021 13:25:01 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <YKJs2IfwSYvuGPU7@linux-uq9g.fritz.box>
-Subject: Re: [PULL] drm-misc-next
-Message-ID: <d464825c-3b37-9840-f67e-a6c71e13471b@suse.de>
-Date: Mon, 17 May 2021 15:25:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA93C6E0B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 13:40:38 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ h3-20020a05600c3503b0290176f13c7715so2018650wmq.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 06:40:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=rvwQT/khrZv1IvKPnsB79kZICFeNx7qTA/AMbUd2qqI=;
+ b=dC4yc90nLEwWusvZcX54VZdQ/epWSd8PTBtGG6FNSJOWfhF3E9pMwFCvrqsbxkVV6G
+ FoDp6zHF0CeM7xOW0m3cdjrY/p3afV4ulzuh8QfiwdUylOir0PLzECX2BzxpbCP+iN/E
+ 2S3aCpu0GtVA7+lEPT6p38bcDtG4/eVSbaNZ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rvwQT/khrZv1IvKPnsB79kZICFeNx7qTA/AMbUd2qqI=;
+ b=ZIIrtBlOozWkytklPX89NB0dvTWoZXYbR6IieAhGWJHtpSzRSHmDG8OYO3a747q0JK
+ XVvayOvqwvBQqt8vsIW8Np+B5PDoWV4LUZ+1WFhSbnvMEVbzyn3qBFnHNQAehF6XAkUg
+ 2BXmkE85/VCUQzaZSIMsRkVsFLMYsPlshjhFq18H5GcIvQZxJSozwB5svi2XVt3GZNVr
+ 4l9tqqY6MW9zMcUVfrHUn6qj9H1kNV10v94o3Q48dLk7r3vCwJI4pY0f0k3rTPd8sttp
+ G/40eLCle+d5wemNErgVi95PRsOGVNusutWjIQqQVMLaTeMYiuhW8/Pp3uyTSfSKTifn
+ GN9A==
+X-Gm-Message-State: AOAM532d2bD31k0EUwTW8i+xsonZresgXVwQ5MEDL2hKGEYPfKnrxKxI
+ JtnAbvtYUvIBqckrrX0EjzX8pA==
+X-Google-Smtp-Source: ABdhPJzPt/lz34h6ZjH7O11Ux4K2Wa9QVCBZVIple2973qoL76cIVuOaWQdyp/as33uEl9EyzIcWWQ==
+X-Received: by 2002:a7b:c34a:: with SMTP id l10mr64535047wmj.46.1621258837142; 
+ Mon, 17 May 2021 06:40:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f8sm14022666wmg.43.2021.05.17.06.40.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 06:40:36 -0700 (PDT)
+Date: Mon, 17 May 2021 15:40:34 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [PATCH 19/27] drm/i915/gem: Use the proto-context to handle
+ create parameters
+Message-ID: <YKJyUhkvtq9k9DU0@phenom.ffwll.local>
+References: <20210503155748.1961781-1-jason@jlekstrand.net>
+ <20210503155748.1961781-20-jason@jlekstrand.net>
+ <YJGvhfiKTILPsAG/@phenom.ffwll.local>
+ <CAOFGe96JZqVxN4btQdqHvrMUm+bgRmSTiNBvQ9fXX36JUnDM=A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YKJs2IfwSYvuGPU7@linux-uq9g.fritz.box>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="7z5OsqB9CELSL0iyGXM9Wa7uxqAsRFpvf"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOFGe96JZqVxN4btQdqHvrMUm+bgRmSTiNBvQ9fXX36JUnDM=A@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,864 +70,957 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---7z5OsqB9CELSL0iyGXM9Wa7uxqAsRFpvf
-Content-Type: multipart/mixed; boundary="oeNDQ6kYmNjzivpZ1CrF3sf4MWFlIZl3b";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Message-ID: <d464825c-3b37-9840-f67e-a6c71e13471b@suse.de>
-Subject: Re: [PULL] drm-misc-next
-References: <YKJs2IfwSYvuGPU7@linux-uq9g.fritz.box>
-In-Reply-To: <YKJs2IfwSYvuGPU7@linux-uq9g.fritz.box>
+On Fri, May 14, 2021 at 02:13:57PM -0500, Jason Ekstrand wrote:
+> On Tue, May 4, 2021 at 3:33 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, May 03, 2021 at 10:57:40AM -0500, Jason Ekstrand wrote:
+> > > This means that the proto-context needs to grow support for engine
+> > > configuration information as well as setparam logic.  Fortunately, we'll
+> > > be deleting a lot of setparam logic on the primary context shortly so it
+> > > will hopefully balance out.
+> > >
+> > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > > ---
+> > >  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 546 +++++++++++++++++-
+> > >  .../gpu/drm/i915/gem/i915_gem_context_types.h |  58 ++
+> > >  2 files changed, 587 insertions(+), 17 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > index 6dd50d669c5b9..aa4edfbf7ed48 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > @@ -193,8 +193,15 @@ static int validate_priority(struct drm_i915_private *i915,
+> > >
+> > >  static void proto_context_close(struct i915_gem_proto_context *pc)
+> > >  {
+> > > +     int i;
+> > > +
+> > >       if (pc->vm)
+> > >               i915_vm_put(pc->vm);
+> > > +     if (pc->user_engines) {
+> > > +             for (i = 0; i < pc->num_user_engines; i++)
+> > > +                     kfree(pc->user_engines[i].siblings);
+> > > +             kfree(pc->user_engines);
+> >
+> >                 free_engines(&pc->user_engines);
+> >
+> > Maybe even stuff that if check into free_engines. Except I realized this
+> > is proto engines here now :-(
+> >
+> > > +     }
+> > >       kfree(pc);
+> > >  }
+> > >
+> > > @@ -248,6 +255,9 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
+> > >       if (!pc)
+> > >               return ERR_PTR(-ENOMEM);
+> > >
+> > > +     pc->num_user_engines = -1;
+> > > +     pc->user_engines = NULL;
+> > > +
+> > >       if (HAS_FULL_PPGTT(i915)) {
+> > >               struct i915_ppgtt *ppgtt;
+> > >
+> > > @@ -282,6 +292,439 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
+> > >       return err;
+> > >  }
+> > >
+> > > +static int set_proto_ctx_vm(struct drm_i915_file_private *fpriv,
+> > > +                         struct i915_gem_proto_context *pc,
+> > > +                         const struct drm_i915_gem_context_param *args)
+> > > +{
+> > > +     struct i915_address_space *vm;
+> > > +
+> > > +     if (args->size)
+> > > +             return -EINVAL;
+> > > +
+> > > +     if (!pc->vm)
+> > > +             return -ENODEV;
+> > > +
+> > > +     if (upper_32_bits(args->value))
+> > > +             return -ENOENT;
+> > > +
+> > > +     rcu_read_lock();
+> > > +     vm = xa_load(&fpriv->vm_xa, args->value);
+> > > +     if (vm && !kref_get_unless_zero(&vm->ref))
+> > > +             vm = NULL;
+> > > +     rcu_read_unlock();
+> >
+> > vm lookup helpers would be nice I guess, but perhaps something that
+> > vm_bind patches should do.
+> 
+> I can add those.  I just don't know where to put it.  We don't have an
+> i915_gem_vm.h.  Suggestions?
 
---oeNDQ6kYmNjzivpZ1CrF3sf4MWFlIZl3b
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+gt/intel_gtt.h seems to be the header for i915_address_space stuff. Also
+contains the i915_vma_ops but not i915_vma.
 
-Hi
+It's a pretty good mess, but probably the best place for now for these :-/
 
-Am 17.05.21 um 15:17 schrieb Thomas Zimmermann:
-> Hi Dave and Daniel,
->=20
-> here's this week's PR for drm-misc-next for what wil become v5.14.
-> Panfrost gets support for Mediatek MT8381 chips. There are a number of
-> fixes for resource leaks in various drivers. Unlocking on errors in
-> aperture helpers gets fixes as well.
+> 
+> >
+> > > +     if (!vm)
+> > > +             return -ENOENT;
+> > > +
+> > > +     i915_vm_put(pc->vm);
+> >
+> > Ah I guess I've found why you went with "pc->vm is always set". *shrug*
+> >
+> > > +     pc->vm = vm;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +struct set_proto_ctx_engines {
+> > > +     struct drm_i915_private *i915;
+> > > +     unsigned num_engines;
+> > > +     struct i915_gem_proto_engine *engines;
+> > > +};
+> > > +
+> > > +static int
+> > > +set_proto_ctx_engines_balance(struct i915_user_extension __user *base,
+> > > +                           void *data)
+> > > +{
+> > > +     struct i915_context_engines_load_balance __user *ext =
+> > > +             container_of_user(base, typeof(*ext), base);
+> > > +     const struct set_proto_ctx_engines *set = data;
+> > > +     struct drm_i915_private *i915 = set->i915;
+> > > +     struct intel_engine_cs **siblings;
+> > > +     u16 num_siblings, idx;
+> > > +     unsigned int n;
+> > > +     int err;
+> > > +
+> > > +     if (!HAS_EXECLISTS(i915))
+> > > +             return -ENODEV;
+> > > +
+> > > +     if (intel_uc_uses_guc_submission(&i915->gt.uc))
+> > > +             return -ENODEV; /* not implement yet */
+> > > +
+> > > +     if (get_user(idx, &ext->engine_index))
+> > > +             return -EFAULT;
+> > > +
+> > > +     if (idx >= set->num_engines) {
+> > > +             drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
+> > > +                     idx, set->num_engines);
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     idx = array_index_nospec(idx, set->num_engines);
+> > > +     if (set->engines[idx].type != I915_GEM_ENGINE_TYPE_INVALID) {
+> > > +             drm_dbg(&i915->drm,
+> > > +                     "Invalid placement[%d], already occupied\n", idx);
+> > > +             return -EEXIST;
+> > > +     }
+> > > +
+> > > +     if (get_user(num_siblings, &ext->num_siblings))
+> > > +             return -EFAULT;
+> > > +
+> > > +     err = check_user_mbz(&ext->flags);
+> > > +     if (err)
+> > > +             return err;
+> > > +
+> > > +     err = check_user_mbz(&ext->mbz64);
+> > > +     if (err)
+> > > +             return err;
+> > > +
+> > > +     if (num_siblings == 0)
 
-Oh, there are last week's patches as well! Apparently last week's PR=20
-wasn't merged yet. (?) Sorry, I didn't notice. But I received bug=20
-reports from linux-next. That's confusing.
+> >
+> > You deleted the on-stack siblings micro-optimization.
+> >
+> > I'm shocked.
+> 
+> Yup.  If balanced engine create overhead when balancing across a
+> single engine ever becomes a bottleneck in some UMD, I'm happy to deal
+> with it then.  And I intend to deal with it by banning whatever
+> developer decided balancing across single engine was a good idea.
 
-Dave, Daniel, can you simply merge both tags, drm-misc-next-2021-05-12=20
-and drm-misc-next-2021-05-17?
+I should have annotated this with /s
 
-Best regards
-Thomas
+> > > +
+> > > +     siblings = kmalloc_array(num_siblings, sizeof(*siblings), GFP_KERNEL);
+> >
+> > If you want to pay back your micro-opt budget: GFP_TEMPORARY.
+> >
+> > But then I realized much wiser heads than me removed this in 2017 from the
+> > kernel! That commit is a rather interesting story btw, if you're bored:
+> >
+> > commit 0ee931c4e31a5efb134c76440405e9219f896e33
+> > Author: Michal Hocko <mhocko@suse.com>
+> > Date:   Wed Sep 13 16:28:29 2017 -0700
+> >
+> >     mm: treewide: remove GFP_TEMPORARY allocation flag
+> >
+> > > +     if (!siblings)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     for (n = 0; n < num_siblings; n++) {
+> > > +             struct i915_engine_class_instance ci;
+> > > +
+> > > +             if (copy_from_user(&ci, &ext->engines[n], sizeof(ci))) {
+> > > +                     err = -EFAULT;
+> > > +                     goto err_siblings;
+> > > +             }
+> > > +
+> > > +             siblings[n] = intel_engine_lookup_user(i915,
+> > > +                                                    ci.engine_class,
+> > > +                                                    ci.engine_instance);
+> >
+> > intel_engine_user.c
+> >
+> > ...
+> >
+> > Maybe I should just stop looking.
+> 
+> Don't think too hard.  It hurts.
+> 
+> > > +             if (!siblings[n]) {
+> > > +                     drm_dbg(&i915->drm,
+> > > +                             "Invalid sibling[%d]: { class:%d, inst:%d }\n",
+> > > +                             n, ci.engine_class, ci.engine_instance);
+> > > +                     err = -EINVAL;
+> > > +                     goto err_siblings;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     if (num_siblings == 1) {
+> > > +             set->engines[idx].type = I915_GEM_ENGINE_TYPE_PHYSICAL;
+> > > +             set->engines[idx].engine = siblings[0];
+> > > +             kfree(siblings);
+> > > +     } else {
+> > > +             set->engines[idx].type = I915_GEM_ENGINE_TYPE_BALANCED;
+> > > +             set->engines[idx].num_siblings = num_siblings;
+> > > +             set->engines[idx].siblings = siblings;
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +
+> > > +err_siblings:
+> > > +     kfree(siblings);
+> > > +
+> > > +     return err;
+> > > +}
+> > > +
+> > > +static int
+> > > +set_proto_ctx_engines_bond(struct i915_user_extension __user *base, void *data)
+> > > +{
+> > > +     struct i915_context_engines_bond __user *ext =
+> > > +             container_of_user(base, typeof(*ext), base);
+> > > +     const struct set_proto_ctx_engines *set = data;
+> > > +     struct drm_i915_private *i915 = set->i915;
+> > > +     struct i915_engine_class_instance ci;
+> > > +     struct intel_engine_cs *master;
+> > > +     u16 idx, num_bonds;
+> > > +     int err, n;
+> > > +
+> > > +     if (get_user(idx, &ext->virtual_index))
+> > > +             return -EFAULT;
+> > > +
+> > > +     if (idx >= set->num_engines) {
+> > > +             drm_dbg(&i915->drm,
+> > > +                     "Invalid index for virtual engine: %d >= %d\n",
+> > > +                     idx, set->num_engines);
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     idx = array_index_nospec(idx, set->num_engines);
+> > > +     if (set->engines[idx].type == I915_GEM_ENGINE_TYPE_INVALID) {
+> > > +             drm_dbg(&i915->drm, "Invalid engine at %d\n", idx);
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     if (set->engines[idx].type != I915_GEM_ENGINE_TYPE_PHYSICAL) {
+> > > +             drm_dbg(&i915->drm,
+> > > +                     "Bonding with virtual engines not allowed\n");
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     err = check_user_mbz(&ext->flags);
+> > > +     if (err)
+> > > +             return err;
+> > > +
+> > > +     for (n = 0; n < ARRAY_SIZE(ext->mbz64); n++) {
+> > > +             err = check_user_mbz(&ext->mbz64[n]);
+> > > +             if (err)
+> > > +                     return err;
+> > > +     }
+> > > +
+> > > +     if (copy_from_user(&ci, &ext->master, sizeof(ci)))
+> > > +             return -EFAULT;
+> > > +
+> > > +     master = intel_engine_lookup_user(i915,
+> > > +                                       ci.engine_class,
+> > > +                                       ci.engine_instance);
+> > > +     if (!master) {
+> >
+> > It's 100% orthogonal annoyance, but maybe we can start the "what's a good
+> > name here" discussion.
+> >
+> > I'm thinking s/master/first/ and s/slave/subsequent/ that reflect how this
+> > is actually used on the execbuf side. But then this entire bonded
+> > extension is so disconnected from the actual use-case, maybe we should
+> > just sun-set it before we bother.
+> 
+> primary/secondary come to mind.  But, also, I'd rather do that as a
+> separate patch since I was trying to make this mostly match.  Happy to
+> up my i915 patch count with a rename follow-on, if you want.
 
->=20
-> Best regards
-> Thomas
->=20
-> drm-misc-next-2021-05-17:
-> drm-misc-next for 5.14:
->=20
-> UAPI Changes:
->=20
-> Cross-subsystem Changes:
->=20
-> Core Changes:
->=20
->   * aperture: Fix unlocking on errors
->=20
->   * legacy: Fix some doc comments
->=20
-> Driver Changes:
->=20
->   * drm/amdgpu: Free resource on fence usage query; Fix fence calculati=
-on;
->=20
->   * drm/bridge: Lt9611: Add missing MODULE_DEVICE_TABLE
->=20
->   * drm/i915: Print formats with %p4cc
->=20
->   * drm/ingenic: IPU planes are now always of type OVERLAY
->=20
->   * drm/nouveau: Remove left-over reference to struct drm_device.pdev
->=20
->   * drm/panfrost: Disable devfreq if num_supplies > 1; Add Mediatek MT8=
-183 +
->     DT bindings; Cleanups
->=20
->   * drm/simpledrm: Print resources with %pr; Fix use-after-free errors;=
+Yeah I think we can repaint that shed as part of merging the new parallel
+submit support.
 
->     Fix NULL deref; Fix MAINTAINERS entry
->=20
->   * drm/vmwgfx: Fix memory allocation and leak in FIFO allocation; Fix
->     return value in PCI resource setup
->=20
-> The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad6=
-27b5:
->=20
->    Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
->=20
-> are available in the Git repository at:
->=20
->    git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-0=
-5-17
->=20
-> for you to fetch changes up to 30039405ac25665119ff7bc944d33b136ef1c8a9=
-:
->=20
->    MAINTAINERS: repair reference in DRM DRIVER FOR SIMPLE FRAMEBUFFERS =
-(2021-05-17 14:53:17 +0200)
->=20
-> ----------------------------------------------------------------
-> drm-misc-next for 5.14:
->=20
-> UAPI Changes:
->=20
-> Cross-subsystem Changes:
->=20
-> Core Changes:
->=20
->   * aperture: Fix unlocking on errors
->=20
->   * legacy: Fix some doc comments
->=20
-> Driver Changes:
->=20
->   * drm/amdgpu: Free resource on fence usage query; Fix fence calculati=
-on;
->=20
->   * drm/bridge: Lt9611: Add missing MODULE_DEVICE_TABLE
->=20
->   * drm/i915: Print formats with %p4cc
->=20
->   * drm/ingenic: IPU planes are now always of type OVERLAY
->=20
->   * drm/nouveau: Remove left-over reference to struct drm_device.pdev
->=20
->   * drm/panfrost: Disable devfreq if num_supplies > 1; Add Mediatek MT8=
-183 +
->     DT bindings; Cleanups
->=20
->   * drm/simpledrm: Print resources with %pr; Fix use-after-free errors;=
+> > Since we might need to keep the execlist backend implementation the
+> > renaming might still be needed.
+> >
+> > > +             drm_dbg(&i915->drm,
+> > > +                     "Unrecognised master engine: { class:%u, instance:%u }\n",
+> > > +                     ci.engine_class, ci.engine_instance);
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     if (get_user(num_bonds, &ext->num_bonds))
+> > > +             return -EFAULT;
+> > > +
+> > > +     for (n = 0; n < num_bonds; n++) {
+> > > +             struct intel_engine_cs *bond;
+> > > +
+> > > +             if (copy_from_user(&ci, &ext->engines[n], sizeof(ci)))
+> > > +                     return -EFAULT;
+> > > +
+> > > +             bond = intel_engine_lookup_user(i915,
+> > > +                                             ci.engine_class,
+> > > +                                             ci.engine_instance);
+> > > +             if (!bond) {
+> > > +                     drm_dbg(&i915->drm,
+> > > +                             "Unrecognised engine[%d] for bonding: { class:%d, instance: %d }\n",
+> > > +                             n, ci.engine_class, ci.engine_instance);
+> > > +                     return -EINVAL;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static const i915_user_extension_fn set_proto_ctx_engines_extensions[] = {
+> > > +     [I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE] = set_proto_ctx_engines_balance,
+> > > +     [I915_CONTEXT_ENGINES_EXT_BOND] = set_proto_ctx_engines_bond,
+> > > +};
+> > > +
+> > > +static int set_proto_ctx_engines(struct drm_i915_file_private *fpriv,
+> > > +                              struct i915_gem_proto_context *pc,
+> > > +                              const struct drm_i915_gem_context_param *args)
+> > > +{
+> > > +     struct drm_i915_private *i915 = fpriv->dev_priv;
+> > > +     struct set_proto_ctx_engines set = { .i915 = i915 };
+> > > +     struct i915_context_param_engines __user *user =
+> > > +             u64_to_user_ptr(args->value);
+> > > +     unsigned int n;
+> > > +     u64 extensions;
+> > > +     int err;
+> > > +
+> > > +     if (!args->size) {
+> > > +             kfree(pc->user_engines);
+> > > +             pc->num_user_engines = -1;
+> >
+> > Is this case actually used by actual userspace, or just more stuff igt
+> > loved to do?
+> >
+> > If so more uapi to ditch, and check in an igt that it's rejected.
+> >
+> > Plus standard !args->size handling here with appropriate drm_debug line
+> > and all that.
+> >
+> > > +             pc->user_engines = NULL;
+> > > +             memset(&pc->legacy_rcs_sseu, 0, sizeof(pc->legacy_rcs_sseu));
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     BUILD_BUG_ON(!IS_ALIGNED(sizeof(*user), sizeof(*user->engines)));
+> >
+> > I frankly don't know what this is checking, but it also looks harmless.
+> 
+> Yeah..... All I can see is that it lets us avoid doing a subtraction
+> in the alignment check below.  Kind-of silly, IMO.
 
->     Fix NULL deref; Fix MAINTAINERS entry
->=20
->   * drm/vmwgfx: Fix memory allocation and leak in FIFO allocation; Fix
->     return value in PCI resource setup
->=20
-> ----------------------------------------------------------------
-> Adrien Grassein (1):
->        drm/bridge: fix LONTIUM_LT8912B dependencies
->=20
-> Alex Deucher (1):
->        MAINTAINERS: Fix TTM tree
->=20
-> Andy Shevchenko (7):
->        drm/st7735r: Avoid spamming logs if probe is deferred
->        drm/st7586: Avoid spamming logs if probe is deferred
->        drm/mi0283qt: Avoid spamming logs if probe is deferred
->        drm/ili9486: Avoid spamming logs if probe is deferred
->        drm/ili9341: Avoid spamming logs if probe is deferred
->        drm/ili9225: Avoid spamming logs if probe is deferred
->        drm/hx8357d: Avoid spamming logs if probe is deferred
->=20
-> Beatriz Martins de Carvalho (8):
->        drm: drm_atomic.c: Adjust end of block comment
->        drm: drm_auth.c: Adjust end of block comment
->        drm: drm_bufs.c: Adjust end of block comment
->        drm: drm_connector.c: Adjust end of block comment
->        drm: drm_context.c: Adjust end of block comment
->        drm: drm_atomic_uapi.c: Use tabs for code indents
->        drm: drm_blend.c: Use tabs for code indents
->        drm: drm_connector.c: Use tabs for code indents
->=20
-> Bernard Zhao (2):
->        drm/gud: cleanup coding style a bit
->        drm/vmwgfx: use min_t to replace min
->=20
-> Bhaskar Chowdhury (1):
->        drm/vmwgfx: Fix a typo
->=20
-> Christian K=C3=B6nig (17):
->        drm/ttm: make global mutex and use count static
->        drm/ttm: fix return value check
->        drm/ttm: re-add debugfs tt_shrink file
->        drm/amdgpu: make sure we unpin the UVD BO
->        drm/amdgpu: freeing pinned objects is illegal now
->        drm/ttm: warn stricter about freeing pinned BOs
->        drm/nouveau: use bo->base.size instead of mem->num_pages
->        drm/amdgpu: check base size instead of mem.num_pages
->        drm/ttm: remove special handling for non GEM drivers
->        drm/ttm: minor range manager coding style clean ups
->        drm/ttm: move the page_alignment into the BO v2
->        drm/ttm: cleanup ttm_agp_backend
->        drm/ttm: add ttm_sys_manager v3
->        drm/ttm: always initialize the full ttm_resource v2
->        drm/ttm: properly allocate sys resource during swapout
->        drm/ttm: fix warning in new sys man
->        MAINTAINERS: Add Xinhui Pan as another AMDGPU contact
->=20
-> Christophe JAILLET (1):
->        video: fbdev: imxfb: Fix an error message
->=20
-> Colin Ian King (2):
->        drm: simpledrm: Fix use after free issues
->        drm/vmwgfx: Fix memory allocation check and a leak of object fif=
-o
->=20
-> Dan Carpenter (2):
->        drm/vc4: fix argument ordering in vc4_crtc_get_margins()
->        drm: simpledrm: fix a potential NULL dereference
->=20
-> Daniel Vetter (13):
->        drm/tegra: Don't set allow_fb_modifiers explicitly
->        drm/vc4: Don't set allow_fb_modifiers explicitly
->        drm/imx: Don't set allow_fb_modifiers explicitly
->        drm/exynos: Don't set allow_fb_modifiers explicitly
->        drm/todo: Add link to old debugfs RFC
->        drm/arm: Don't set allow_fb_modifiers explicitly
->        drm/arm/malidp: Always list modifiers
->        drm/stm: Don't set allow_fb_modifiers explicitly
->        drm/i915: Don't set allow_fb_modifiers explicitly
->        drm/msm/dpu1: Don't set allow_fb_modifiers explicitly
->        drm/msm/mdp4: Fix modifier support enabling
->        drm/nouveau: Don't set allow_fb_modifiers explicitly
->        drm/modifiers: Enforce consistency between the cap an IN_FORMATS=
+I'm not seeing even that? Care to help the blind?
 
->=20
-> Dave Stevenson (1):
->        drm/vc4: Add HDR metadata property to the VC5 HDMI connectors
->=20
-> David M Nieto (2):
->        drm/amdgpu: free resources on fence usage query
->        drm/amdgpu: fix fence calculation (v2)
->=20
-> Deepak R Varma (1):
->        drm/vmwgfx: replace idr_init() by idr_init_base()
->=20
-> Douglas Anderson (24):
->        drm/bridge: Fix the stop condition of drm_bridge_chain_pre_enabl=
-e()
->        drm/bridge: ti-sn65dsi86: Simplify refclk handling
->        drm/bridge: ti-sn65dsi86: Remove incorrectly tagged kerneldoc co=
-mment
->        drm/bridge: ti-sn65dsi86: Reorder remove()
->        drm/bridge: ti-sn65dsi86: Move drm_panel_unprepare() to post_dis=
-able()
->        drm/bridge: ti-sn65dsi86: Get rid of the useless detect() functi=
-on
->        drm/panel: panel-simple: Use runtime pm to avoid excessive unpre=
-pare / prepare
->        drm/panel: panel-simple: Add missing pm_runtime_disable() calls
->        drm/bridge: ti-sn65dsi86: Rename the main driver data structure
->        drm/bridge: ti-sn65dsi86: More renames in prep for sub-devices
->        drm/bridge: ti-sn65dsi86: Use devm to do our runtime_disable
->        drm/bridge: ti-sn65dsi86: Clean debugfs code
->        drm/bridge: ti-sn65dsi86: Add local var for "dev" to simplify pr=
-obe
->        drm/bridge: ti-sn65dsi86: Cleanup managing of drvdata
->        drm/bridge: ti-sn65dsi86: Move all the chip-related init to the =
-start
->        drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into=20
-sub-drivers
->        drm/panel: panel-simple: Get rid of hacky HPD chicken-and-egg co=
-de
->        drm/bridge: ti-sn65dsi86: Use pm_runtime autosuspend
->        drm/bridge: ti-sn65dsi86: Code motion of refclk management funct=
-ions
->        drm/bridge: ti-sn65dsi86: If refclk, DP AUX can happen w/out pre=
--enable
->        drm/panel: panel-simple: Remove extra call: drm_connector_update=
-_edid_property()
->        drm/panel: panel-simple: Power the panel when reading the EDID
->        drm/panel: panel-simple: Cache the EDID as long as we retain pow=
-er
->        drm/bridge: ti-sn65dsi86: Remove __exit from GPIO sub-driver rem=
-ove helper
->=20
-> Fabio M. De Francesco (5):
->        gpu: drm: Replace bare "unsigned" with "unsigned int"
->        drm: drm_atomic_helper.c: Replace "unsigned" with "unsigned int"=
+> > > +     if (args->size < sizeof(*user) ||
+> > > +         !IS_ALIGNED(args->size, sizeof(*user->engines))) {
+> > > +             drm_dbg(&i915->drm, "Invalid size for engine array: %d\n",
+> > > +                     args->size);
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     set.num_engines = (args->size - sizeof(*user)) / sizeof(*user->engines);
+> > > +     /* RING_MASK has no shift so we can use it directly here */
+> > > +     if (set.num_engines > I915_EXEC_RING_MASK + 1)
+> > > +             return -EINVAL;
+> > > +
+> > > +     set.engines = kmalloc_array(set.num_engines, sizeof(*set.engines), GFP_KERNEL);
+> > > +     if (!set.engines)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     for (n = 0; n < set.num_engines; n++) {
+> > > +             struct i915_engine_class_instance ci;
+> > > +             struct intel_engine_cs *engine;
+> > > +
+> > > +             if (copy_from_user(&ci, &user->engines[n], sizeof(ci))) {
+> > > +                     kfree(set.engines);
+> > > +                     return -EFAULT;
+> > > +             }
+> > > +
+> > > +             memset(&set.engines[n], 0, sizeof(set.engines[n]));
+> > > +
+> > > +             if (ci.engine_class == (u16)I915_ENGINE_CLASS_INVALID &&
+> > > +                 ci.engine_instance == (u16)I915_ENGINE_CLASS_INVALID_NONE)
+> > > +                     continue;
+> > > +
+> > > +             engine = intel_engine_lookup_user(i915,
+> > > +                                               ci.engine_class,
+> > > +                                               ci.engine_instance);
+> > > +             if (!engine) {
+> > > +                     drm_dbg(&i915->drm,
+> > > +                             "Invalid engine[%d]: { class:%d, instance:%d }\n",
+> > > +                             n, ci.engine_class, ci.engine_instance);
+> > > +                     kfree(set.engines);
+> > > +                     return -ENOENT;
+> > > +             }
+> > > +
+> > > +             set.engines[n].type = I915_GEM_ENGINE_TYPE_PHYSICAL;
+> > > +             set.engines[n].engine = engine;
+> > > +     }
+> > > +
+> > > +     err = -EFAULT;
+> > > +     if (!get_user(extensions, &user->extensions))
+> > > +             err = i915_user_extensions(u64_to_user_ptr(extensions),
+> > > +                                        set_proto_ctx_engines_extensions,
+> > > +                                        ARRAY_SIZE(set_proto_ctx_engines_extensions),
+> > > +                                        &set);
+> > > +     if (err) {
+> > > +             kfree(set.engines);
+> > > +             return err;
+> > > +     }
+> > > +
+> > > +     kfree(pc->user_engines);
+> >
+> > Both of these kfree potentially leak engines[].siblings. I think you need
+> > to extract a proto_context_free_engines helper and use that 2x here and
+> > once at the very top in proto_context_close().
+> 
+> Good catch. Done.
+> 
+> > > +     pc->num_user_engines = set.num_engines;
+> > > +     pc->user_engines = set.engines;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int set_proto_ctx_sseu(struct drm_i915_file_private *fpriv,
+> > > +                           struct i915_gem_proto_context *pc,
+> > > +                           struct drm_i915_gem_context_param *args)
+> > > +{
+> > > +     struct drm_i915_private *i915 = fpriv->dev_priv;
+> > > +     struct drm_i915_gem_context_param_sseu user_sseu;
+> > > +     struct intel_sseu *sseu;
+> > > +     int ret;
+> > > +
+> > > +     if (args->size < sizeof(user_sseu))
+> > > +             return -EINVAL;
+> > > +
+> > > +     if (!IS_GEN(i915, 11))
+> > > +             return -ENODEV;
+> > > +
+> > > +     if (copy_from_user(&user_sseu, u64_to_user_ptr(args->value),
+> > > +                        sizeof(user_sseu)))
+> > > +             return -EFAULT;
+> > > +
+> > > +     if (user_sseu.rsvd)
+> > > +             return -EINVAL;
+> > > +
+> > > +     if (user_sseu.flags & ~(I915_CONTEXT_SSEU_FLAG_ENGINE_INDEX))
+> > > +             return -EINVAL;
+> > > +
+> > > +     if (!!(user_sseu.flags & I915_CONTEXT_SSEU_FLAG_ENGINE_INDEX) != (pc->num_user_engines >= 0))
+> > > +             return -EINVAL;
+> > > +
+> > > +     if (pc->num_user_engines >= 0) {
+> > > +             int idx = user_sseu.engine.engine_instance;
+> > > +             struct i915_gem_proto_engine *pe;
+> > > +
+> > > +             if (idx >= pc->num_user_engines)
+> > > +                     return -EINVAL;
+> > > +
+> > > +             pe = &pc->user_engines[idx];
+> > > +
+> > > +             /* Only render engine supports RPCS configuration. */
+> > > +             if (pe->engine->class != RENDER_CLASS)
+> > > +                     return -EINVAL;
+> > > +
+> > > +             sseu = &pe->sseu;
+> > > +     } else {
+> > > +             /* Only render engine supports RPCS configuration. */
+> > > +             if (user_sseu.engine.engine_class != I915_ENGINE_CLASS_RENDER)
+> > > +                     return -EINVAL;
+> > > +
+> > > +             /* There is only one render engine */
+> > > +             if (user_sseu.engine.engine_instance != 0)
+> > > +                     return -EINVAL;
+> > > +
+> > > +             sseu = &pc->legacy_rcs_sseu;
+> > > +     }
+> >
+> > I think this faithfully rebuilds the convoluted and I think largely
+> > accidental semantics of SSEU for all combinations of ordering against
+> > set_engines.
+> >
+> > Maybe add a commit message note about this particular kind of fun here. I
+> > don't think a code comment is warranted since I don't think I've seen a
+> > userspace rely on how sseu interacts with set_engines
+> 
+> Done.
+> 
+> > > +
+> > > +     ret = i915_gem_user_to_context_sseu(&i915->gt, &user_sseu, sseu);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     args->size = sizeof(user_sseu);
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
+> > > +                            struct i915_gem_proto_context *pc,
+> > > +                            struct drm_i915_gem_context_param *args)
+> > > +{
+> > > +     int ret = 0;
+> > > +
+> > > +     switch (args->param) {
+> > > +     case I915_CONTEXT_PARAM_NO_ERROR_CAPTURE:
+> > > +             if (args->size)
+> > > +                     ret = -EINVAL;
+> > > +             else if (args->value)
+> > > +                     __set_bit(UCONTEXT_NO_ERROR_CAPTURE, &pc->user_flags);
+> > > +             else
+> > > +                     __clear_bit(UCONTEXT_NO_ERROR_CAPTURE, &pc->user_flags);
+> >
+> > Open code please and double check I caught them all ...
+> 
+> As I commented the first time around, __set/clear_bit are static
+> inlines that unroll to "*field |= (1 << bit)" or "*field &= ~(1 <<
+> bit)" as appropriate.  The non-__ versions do atomics.  I could
+> hand-roll them but that seems error-prone and it gains us nothing.
 
->        drm: drm_atomic_helper.c: Correct comments format
->        drm/drm_bufs.c: In switch, add break in default case
->        drm/drm_file.c: Define drm_send_event_helper() as 'static'
->=20
-> Felix Kuehling (1):
->        drm/ttm: Don't count pages in SG BOs against pages_limit
->=20
-> Gerd Hoffmann (2):
->        drm/qxl: drop redundant code
->        drm/qxl: balance dumb_shadow_bo pin
->=20
-> Hsin-Yi Wang (1):
->        drm/bridge: anx7625: Fix power on delay
->=20
-> Jernej Skrabec (1):
->        drm/bridge/synopsys: dw-hdmi: Add an option to suppress loading =
-CEC driver
->=20
-> Joseph Kogut (2):
->        drm: remove usage of drm_pci_alloc/free
->        drm: remove legacy drm_pci_alloc/free abstraction
->=20
-> Kai-Heng Feng (1):
->        efifb: Check efifb_pci_dev before using it
->=20
-> Krzysztof Kozlowski (2):
->        drm/gma500: correct kerneldoc
->        drm/gma500: remove trailing whitespaces
->=20
-> KuoHsiang Chou (1):
->        drm/ast: Fixed CVE for DP501
->=20
-> Lee Jones (3):
->        drm/ttm/ttm_bo: Fix incorrectly documented function 'ttm_bo_clea=
-nup_refs'
->        drm/scheduler/sched_entity: Fix some function name disparity
->        drm/ttm/ttm_device: Demote kernel-doc abuses
->=20
-> Linus Walleij (1):
->        drm/panel: Add DT bindings for Samsung LMS397KF04
->=20
-> Liu Ying (3):
->        drm/bridge: nwl-dsi: Force a full modeset when crtc_state->activ=
-e is changed to be true
->        drm/bridge: nwl-dsi: Remove a check on unchanged HS clock rate f=
-rom ->mode_set()
->        drm/bridge: nwl-dsi: Get MIPI DSI controller and PHY ready in ->=
-mode_set()
->=20
-> Lukas Bulwahn (1):
->        MAINTAINERS: repair reference in DRM DRIVER FOR SIMPLE FRAMEBUFF=
-ERS
->=20
-> Lyude Paul (20):
->        drm/bridge/cdns-mhdp8546: Register DP aux channel with userspace=
+They do more, they treat this as a potential array of unsigned long as a
+bitfield of unlimted size. This comes from the cpuset support afaiu our
+history here, and years ago (decades by now?) linux started supporting
+more than 64 cpus cores. Our flags are definitely not unlimted and fit in
+an unsigned, so we're dropping some compiler checking here.
 
->        drm/nouveau/kms/nv50-: Move AUX adapter reg to connector late re=
-gister/early unregister
->        drm/dp: Add backpointer to drm_device in drm_dp_aux
->        drm/dp: Clarify DP AUX registration time
->        drm/dp: Pass drm_dp_aux to drm_dp_link_train_clock_recovery_dela=
-y()
->        drm/dp: Pass drm_dp_aux to drm_dp*_link_train_channel_eq_delay()=
+Also it's not that bad really:
 
->        drm/dp: Always print aux channel name in logs
->        drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_detect()
->        drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_set_tmds_o=
-utput()
->        drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_max_tmds_c=
-lock()
->        drm/dp_dual_mode: Pass drm_device to drm_dp_dual_mode_get_tmds_o=
-utput()
->        drm/dp_dual_mode: Pass drm_device to drm_lspcon_(get|set)_mode()=
+	if (args->value)
+		pc->user_flags |= BIT(UCONTEXT_NO_ERROR_CAPTURE);
+	else
+		pc->user_flags &= ~BIT(UCONTEXT_NO_ERROR_CAPTURE);
 
->        drm/dp_mst: Pass drm_dp_mst_topology_mgr to drm_dp_get_vc_payloa=
-d_bw()
->        drm/print: Handle potentially NULL drm_devices in drm_dbg_*
->        drm/dp: Convert drm_dp_helper.c to using drm_err/drm_dbg_*()
->        drm/dp_dual_mode: Convert drm_dp_dual_mode_helper.c to using drm=
-_err/drm_dbg_kms()
->        drm/dp_mst: Convert drm_dp_mst_topology.c to drm_err()/drm_dbg*(=
-)
->        drm/dp: Handle zeroed port counts in drm_dp_read_downstream_info=
-()
->        drm/dp: Drop open-coded drm_dp_is_branch() in drm_dp_read_downst=
-ream_info()
->        drm/dp: Fix bogus DPCD version check in drm_dp_read_downstream_i=
-nfo()
->=20
-> Maxime Ripard (5):
->        Merge drm/drm-next into drm-misc-next
->        drm/connector: Create a helper to attach the hdr_output_metadata=20
-property
->        drm/connector: Add helper to compare HDR metadata
->        drm/connector: Add a helper to attach the colorspace property
->        drm/vc4: hdmi: Signal the proper colorimetry info in the infofra=
-me
->=20
-> Melissa Wen (4):
->        drm/vkms: init plane using drmm_universal_plane_alloc
->        drm/vkms: rename cursor to plane on ops of planes composition
->        drm/vkms: add XRGB planes composition
->        drm/vkms: add overlay support
->=20
-> Neil Armstrong (1):
->        drm/meson: dw-hdmi: disable DW-HDMI CEC sub-driver
->=20
-> Nicolas Boichat (3):
->        dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
->        drm/panfrost: devfreq: Disable devfreq when num_supplies > 1
->        drm/panfrost: Add mt8183-mali compatible string
->=20
-> Nikola Cornij (2):
->        drm/dp_mst: Use Extended Base Receiver Capability DPCD space
->        drm/i915: Use the correct max source link rate for MST
->=20
-> Parshuram Thombare (2):
->        dt-bindings: drm/bridge: MHDP8546 bridge binding changes for HDC=
-P
->        drm: bridge: cdns-mhdp8546: Enable HDCP
->=20
-> Paul Cercueil (1):
->        drm/ingenic: Switch IPU plane to type OVERLAY
->=20
-> Phong LE (3):
->        dt-bindings: display: bridge: add it66121 bindings
->        drm: bridge: add it66121 driver
->        MAINTAINERS: add it66121 HDMI bridge driver entry
->=20
-> Qiheng Lin (1):
->        drm/vmwgfx: Fix return value check in vmw_setup_pci_resources()
->=20
-> Randy Dunlap (2):
->        drm: bridge: add missing word in Analogix help text
->        drm: simpledrm: print resource info using '%pr'
->=20
-> Robert Foss (1):
->        drm/bridge/sii8620: fix dependency on extcon
->=20
-> Roy Sun (2):
->        drm/scheduler: Change scheduled fence track v2
->        drm/amdgpu: Add show_fdinfo() interface
->=20
-> Shiwu Zhang (1):
->        drm/ttm: fix error handling if no BO can be swapped out v4
->=20
-> Sia Jee Heng (1):
->        drm: bridge: adv7511: Support I2S IEC958 encoded PCM format
->=20
-> Simon Ser (1):
->        drm/connector: demote connector force-probes for non-master clie=
-nts
->=20
-> Stephen Rothwell (1):
->        drm/i915: Merge fix for "drm: Switch to %p4cc format modifier"
->=20
-> Takashi Iwai (2):
->        drm/ast: Fix missing conversions to managed API
->        drm/bochs: Add screen blanking support
->=20
-> Thomas Hellstrom (2):
->        drm/vmwgfx: Mark a surface gpu-dirty after the SVGA3dCmdDXGenMip=
-s command
->        drm/vmwgfx: Fix cpu updates of coherent multisample surfaces
->=20
-> Thomas Zimmermann (35):
->        drm/gem-ttm-helper: Provide helper for struct drm_driver.dumb_ma=
-p_offset
->        drm/vram-helper: Use drm_gem_ttm_dumb_map_offset()
->        drm/nouveau: Use drm_gem_ttm_dumb_map_offset()
->        drm/qxl: Use drm_gem_ttm_dumb_map_offset()
->        drm/aperture: Add infrastructure for aperture ownership
->        drm/aperture: Convert drivers to aperture interfaces
->        drm/aperture: Inline fbdev conflict helpers into aperture helper=
-s
->        drm/vmwgfx: Make console emulation depend on DRM_FBDEV_EMULATION=
+Fairly idiomatic construct. Final argument here is that __func() generally
+means "beware, check carefuly what's going on here", and nothing funny is
+going on here at all, so it's a bit a negative trap :-)
 
->        drm/mxsfb: Don't select DRM_KMS_FB_HELPER
->        drm/zte: Don't select DRM_KMS_FB_HELPER
->        drm: Remove DRM_KMS_FB_HELPER Kconfig option
->        drm/ast: Remove reference to struct drm_device.pdev
->        drm/i915/gt: Remove reference to struct drm_device.pdev
->        drm/i915: Remove reference to struct drm_device.pdev
->        drm/i915: Don't assign to struct drm_device.pdev
->        drm: Move struct drm_device.pdev to legacy section
->        drm/format-helper: Pass destination pitch to drm_fb_memcpy_dstcl=
-ip()
->        drm/format-helper: Add blitter functions
->        drm/aperture: Add infrastructure for aperture ownership
->        drm: Add simpledrm driver
->        drm/simpledrm: Acquire memory aperture for framebuffer
->        drm/i810: Remove references to struct drm_device.pdev
->        drm/mga: Remove references to struct drm_device.pdev
->        drm/r128: Remove references to struct drm_device.pdev
->        drm/savage: Remove references to struct drm_device.pdev
->        drm/sis: Remove references to struct drm_device.pdev
->        drm/via: Remove references to drm_device.pdev
->        drm: Remove pdev field from struct drm_device
->        drm/radeon: Move AGP helpers into radeon driver
->        drm/radeon: Move AGP data structures into radeon
->        drm: Mark PCI AGP helpers as legacy
->        drm: Mark AGP implementation and ioctls as legacy
->        drm: Include <asm/agp.h> iff CONFIG_AGP is set
->        Merge drm/drm-next into drm-misc-next
->        drm/nouveau: Remove invalid reference to struct drm_device.pdev
->=20
-> Ville Syrj=C3=A4l=C3=A4 (1):
->        drm: Use drm_mode_is_420_only() instead of open coding it
->=20
-> Vivek Kasireddy (1):
->        drm/virtio: Create Dumb BOs as guest Blobs (v3)
->=20
-> Wan Jiabing (1):
->        drm/gma500: update comment of psb_spank()
->=20
-> Yang Yingliang (1):
->        drm: correct function name drm_legacy_ctxbitmap_flush()
->=20
-> Zack Rusin (4):
->        drm/vmwgfx: Fix incorrect enum usage
->        drm/vmwgfx: Remove the reservation semaphore
->        drm/vmwgfx: Add basic support for SVGA3
->        drm/vmwgfx: Port vmwgfx to arm64
->=20
-> Zhen Lei (2):
->        drm/vc4: Remove redundant error printing in vc4_ioremap_regs()
->        drm/panfrost: Remove redundant error printing in panfrost_device=
-_init()
->=20
-> Zheng Yongjun (1):
->        gpu: drm: vmwgfx: convert comma to semicolon
->=20
-> Zou Wei (3):
->        drm/vmwgfx/vmwgfx_validation: Use flexible-array member instead =
-of zero-length array
->        drm/aperture: Fix missing unlock on error in devm_aperture_acqui=
-re()
->        drm/bridge: lt9611: Add missing MODULE_DEVICE_TABLE
->=20
-> kernel test robot (1):
->        drm: fix semicolon.cocci warnings
->=20
->   .../bindings/display/bridge/cdns,mhdp8546.yaml     |   15 +-
->   .../bindings/display/bridge/ite,it66121.yaml       |  124 +++
->   .../bindings/display/panel/samsung,lms397kf04.yaml |   74 ++
->   .../devicetree/bindings/gpu/arm,mali-bifrost.yaml  |   30 +-
->   Documentation/gpu/drm-internals.rst                |   12 +
->   Documentation/gpu/todo.rst                         |    2 +
->   MAINTAINERS                                        |   18 +-
->   drivers/gpu/drm/Kconfig                            |   28 +-
->   drivers/gpu/drm/Makefile                           |    8 +-
->   drivers/gpu/drm/amd/amdgpu/Makefile                |    2 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu.h                |    1 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            |   78 ++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h            |    4 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |    8 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c         |  104 ++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h         |   43 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |    2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c        |    2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   63 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         |    4 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |    2 -
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   45 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |    2 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |    5 +-
->   drivers/gpu/drm/amd/amdgpu/atombios_dp.c           |    6 +-
->   drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c              |    1 +
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   27 +-
->   .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |    6 +
->   drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   18 +
->   drivers/gpu/drm/amd/display/dc/dc_link.h           |    2 +
->   drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |    1 -
->   drivers/gpu/drm/arm/malidp_drv.c                   |    1 -
->   drivers/gpu/drm/arm/malidp_planes.c                |    9 +-
->   drivers/gpu/drm/armada/armada_drv.c                |    5 +-
->   drivers/gpu/drm/ast/ast_dp501.c                    |  139 ++-
->   drivers/gpu/drm/ast/ast_drv.c                      |   23 +-
->   drivers/gpu/drm/ast/ast_drv.h                      |   12 +
->   drivers/gpu/drm/ast/ast_main.c                     |   14 +-
->   drivers/gpu/drm/bochs/bochs.h                      |    1 +
->   drivers/gpu/drm/bochs/bochs_drv.c                  |    3 +-
->   drivers/gpu/drm/bochs/bochs_hw.c                   |   25 +-
->   drivers/gpu/drm/bochs/bochs_kms.c                  |    8 +
->   drivers/gpu/drm/bridge/Kconfig                     |   12 +-
->   drivers/gpu/drm/bridge/Makefile                    |    1 +
->   drivers/gpu/drm/bridge/adv7511/adv7511.h           |    1 +
->   drivers/gpu/drm/bridge/adv7511/adv7511_audio.c     |    6 +
->   drivers/gpu/drm/bridge/analogix/Kconfig            |    2 +-
->   drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |    1 +
->   drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |    1 +
->   drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |    1 +
->   drivers/gpu/drm/bridge/analogix/anx7625.c          |    2 +-
->   drivers/gpu/drm/bridge/cadence/Makefile            |    2 +-
->   .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |  140 ++-
->   .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h    |   22 +
->   .../gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c    |  570 +++++++++++=
+Anyway git grep shows you're not the first (even outside of drm/i915).
+Some spot checking with grep shows that bitflag use of __set_bit is about
+a third of overall use:
 
->   .../gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.h    |   92 ++
->   drivers/gpu/drm/bridge/ite-it66121.c               | 1021 +++++++++++=
-+++++++++
->   drivers/gpu/drm/bridge/lontium-lt9611.c            |    1 +
->   drivers/gpu/drm/bridge/nwl-dsi.c                   |   86 +-
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |   22 +-
->   drivers/gpu/drm/bridge/tc358767.c                  |    1 +
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  719 +++++++++--=
----
->   drivers/gpu/drm/drm_agpsupport.c                   |  101 +-
->   drivers/gpu/drm/drm_aperture.c                     |  348 +++++++
->   drivers/gpu/drm/drm_atomic.c                       |    7 +-
->   drivers/gpu/drm/drm_atomic_helper.c                |   40 +-
->   drivers/gpu/drm/drm_atomic_uapi.c                  |    6 +-
->   drivers/gpu/drm/drm_auth.c                         |    3 +-
->   drivers/gpu/drm/drm_blend.c                        |    4 +-
->   drivers/gpu/drm/drm_bridge.c                       |    3 +
->   drivers/gpu/drm/drm_bufs.c                         |   25 +-
->   drivers/gpu/drm/drm_connector.c                    |  127 ++-
->   drivers/gpu/drm/drm_context.c                      |    5 +-
->   drivers/gpu/drm/drm_dma.c                          |    8 +-
->   drivers/gpu/drm/drm_dp_aux_dev.c                   |    6 +
->   drivers/gpu/drm/drm_dp_dual_mode_helper.c          |   68 +-
->   drivers/gpu/drm/drm_dp_helper.c                    |  195 ++--
->   drivers/gpu/drm/drm_dp_mst_topology.c              |  405 ++++----
->   drivers/gpu/drm/drm_drv.c                          |    4 +-
->   drivers/gpu/drm/drm_file.c                         |   14 +-
->   drivers/gpu/drm/drm_format_helper.c                |   96 +-
->   drivers/gpu/drm/drm_gem_ttm_helper.c               |   33 +
->   drivers/gpu/drm/drm_gem_vram_helper.c              |   48 -
->   drivers/gpu/drm/drm_internal.h                     |    5 -
->   drivers/gpu/drm/drm_ioc32.c                        |   19 +-
->   drivers/gpu/drm/drm_ioctl.c                        |   24 +-
->   drivers/gpu/drm/drm_legacy.h                       |   30 +
->   drivers/gpu/drm/drm_legacy_misc.c                  |    1 -
->   drivers/gpu/drm/drm_memory.c                       |    1 -
->   drivers/gpu/drm/drm_modes.c                        |   13 +-
->   drivers/gpu/drm/drm_pci.c                          |   82 +-
->   drivers/gpu/drm/drm_plane.c                        |   18 +-
->   drivers/gpu/drm/drm_vm.c                           |    2 -
->   drivers/gpu/drm/exynos/exynos_drm_fb.c             |    2 -
->   drivers/gpu/drm/gma500/backlight.c                 |    4 +-
->   drivers/gpu/drm/gma500/cdv_intel_dp.c              |   50 +-
->   drivers/gpu/drm/gma500/cdv_intel_lvds.c            |    2 +-
->   drivers/gpu/drm/gma500/intel_gmbus.c               |    2 +-
->   drivers/gpu/drm/gma500/psb_drv.h                   |    2 +-
->   drivers/gpu/drm/gud/gud_internal.h                 |    4 +-
->   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |    6 +-
->   drivers/gpu/drm/i810/i810_dma.c                    |   11 +-
->   drivers/gpu/drm/i915/display/intel_atomic.c        |   13 +-
->   drivers/gpu/drm/i915/display/intel_connector.c     |    6 +-
->   drivers/gpu/drm/i915/display/intel_display.c       |    2 -
->   drivers/gpu/drm/i915/display/intel_dp_aux.c        |    1 +
->   .../gpu/drm/i915/display/intel_dp_link_training.c  |    6 +-
->   drivers/gpu/drm/i915/display/intel_dp_mst.c        |   10 +-
->   drivers/gpu/drm/i915/display/intel_hdmi.c          |   10 +-
->   drivers/gpu/drm/i915/display/intel_lspcon.c        |   17 +-
->   drivers/gpu/drm/i915/display/skl_universal_plane.c |    6 +-
->   drivers/gpu/drm/i915/gt/intel_region_lmem.c        |    2 +-
->   drivers/gpu/drm/i915/i915_drv.c                    |    4 +-
->   drivers/gpu/drm/i915/intel_runtime_pm.h            |    2 +-
->   drivers/gpu/drm/i915/selftests/mock_gem_device.c   |    1 -
->   drivers/gpu/drm/imx/dcss/dcss-kms.c                |    1 -
->   drivers/gpu/drm/imx/imx-drm-core.c                 |    1 -
->   drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |   11 +-
->   drivers/gpu/drm/ingenic/ingenic-ipu.c              |    2 +-
->   drivers/gpu/drm/kmb/kmb_dsi.c                      |   10 +-
->   drivers/gpu/drm/meson/meson_drv.c                  |   27 +-
->   drivers/gpu/drm/meson/meson_dw_hdmi.c              |    1 +
->   drivers/gpu/drm/mga/mga_dma.c                      |   29 +-
->   drivers/gpu/drm/mga/mga_drv.h                      |    1 -
->   drivers/gpu/drm/mga/mga_state.c                    |    3 +-
->   drivers/gpu/drm/mgag200/mgag200_drv.c              |    5 +-
->   drivers/gpu/drm/mgag200/mgag200_mode.c             |    2 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |    5 -
->   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |    2 -
->   drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c         |    8 +-
->   drivers/gpu/drm/msm/dp/dp_ctrl.c                   |    6 +-
->   drivers/gpu/drm/msm/edp/edp.h                      |    3 +-
->   drivers/gpu/drm/msm/edp/edp_aux.c                  |    5 +-
->   drivers/gpu/drm/msm/edp/edp_ctrl.c                 |    8 +-
->   drivers/gpu/drm/msm/msm_fbdev.c                    |    5 +-
->   drivers/gpu/drm/mxsfb/Kconfig                      |    1 -
->   drivers/gpu/drm/nouveau/dispnv50/disp.c            |    3 +-
->   drivers/gpu/drm/nouveau/nouveau_bo.c               |    9 +-
->   drivers/gpu/drm/nouveau/nouveau_connector.c        |   29 +-
->   drivers/gpu/drm/nouveau/nouveau_display.c          |   19 -
->   drivers/gpu/drm/nouveau/nouveau_display.h          |    2 -
->   drivers/gpu/drm/nouveau/nouveau_drm.c              |    6 +-
->   drivers/gpu/drm/nouveau/nouveau_fbcon.c            |    4 +-
->   drivers/gpu/drm/nouveau/nouveau_gem.c              |    4 +-
->   drivers/gpu/drm/panel/Kconfig                      |    1 +
->   drivers/gpu/drm/panel/panel-simple.c               |  140 ++-
->   drivers/gpu/drm/panfrost/panfrost_devfreq.c        |    9 +
->   drivers/gpu/drm/panfrost/panfrost_device.c         |    1 -
->   drivers/gpu/drm/panfrost/panfrost_drv.c            |   10 +
->   drivers/gpu/drm/qxl/qxl_display.c                  |    5 +-
->   drivers/gpu/drm/qxl/qxl_drv.c                      |    8 +-
->   drivers/gpu/drm/qxl/qxl_drv.h                      |    3 -
->   drivers/gpu/drm/qxl/qxl_dumb.c                     |   17 -
->   drivers/gpu/drm/qxl/qxl_ioctl.c                    |    4 +-
->   drivers/gpu/drm/qxl/qxl_object.h                   |    5 -
->   drivers/gpu/drm/r128/ati_pcigart.c                 |   33 +-
->   drivers/gpu/drm/r128/r128_cce.c                    |    2 +-
->   drivers/gpu/drm/r128/r128_drv.c                    |    4 +-
->   drivers/gpu/drm/r128/r128_state.c                  |    3 +-
->   drivers/gpu/drm/radeon/atombios_dp.c               |    5 +-
->   drivers/gpu/drm/radeon/radeon.h                    |   42 +
->   drivers/gpu/drm/radeon/radeon_agp.c                |  118 ++-
->   drivers/gpu/drm/radeon/radeon_dp_mst.c             |    7 +
->   drivers/gpu/drm/radeon/radeon_drv.c                |   16 +-
->   drivers/gpu/drm/radeon/radeon_kms.c                |   18 +-
->   drivers/gpu/drm/radeon/radeon_object.h             |    2 +-
->   drivers/gpu/drm/radeon/radeon_ttm.c                |    6 +-
->   drivers/gpu/drm/savage/savage_bci.c                |   26 +-
->   drivers/gpu/drm/scheduler/sched_entity.c           |    6 +-
->   drivers/gpu/drm/scheduler/sched_main.c             |    9 +-
->   drivers/gpu/drm/sis/sis_drv.c                      |    3 +-
->   drivers/gpu/drm/stm/ltdc.c                         |    2 -
->   drivers/gpu/drm/sun4i/sun4i_drv.c                  |    5 +-
->   drivers/gpu/drm/tegra/dc.c                         |   10 +-
->   drivers/gpu/drm/tegra/dpaux.c                      |    1 +
->   drivers/gpu/drm/tegra/drm.c                        |    6 +-
->   drivers/gpu/drm/tiny/Kconfig                       |   16 +
->   drivers/gpu/drm/tiny/Makefile                      |    1 +
->   drivers/gpu/drm/tiny/cirrus.c                      |    5 +-
->   drivers/gpu/drm/tiny/hx8357d.c                     |    6 +-
->   drivers/gpu/drm/tiny/ili9225.c                     |   12 +-
->   drivers/gpu/drm/tiny/ili9341.c                     |   12 +-
->   drivers/gpu/drm/tiny/ili9486.c                     |   12 +-
->   drivers/gpu/drm/tiny/mi0283qt.c                    |   12 +-
->   drivers/gpu/drm/tiny/simpledrm.c                   |  903 +++++++++++=
-++++++
->   drivers/gpu/drm/tiny/st7586.c                      |   12 +-
->   drivers/gpu/drm/tiny/st7735r.c                     |   12 +-
->   drivers/gpu/drm/ttm/Makefile                       |    2 +-
->   drivers/gpu/drm/ttm/ttm_agp_backend.c              |    8 +-
->   drivers/gpu/drm/ttm/ttm_bo.c                       |   58 +-
->   drivers/gpu/drm/ttm/ttm_bo_util.c                  |    4 +-
->   drivers/gpu/drm/ttm/ttm_device.c                   |   25 +-
->   drivers/gpu/drm/ttm/ttm_module.h                   |    3 +
->   drivers/gpu/drm/ttm/ttm_range_manager.c            |   40 +-
->   drivers/gpu/drm/ttm/ttm_resource.c                 |   20 +-
->   drivers/gpu/drm/ttm/ttm_sys_manager.c              |   41 +
->   drivers/gpu/drm/ttm/ttm_tt.c                       |   20 +
->   drivers/gpu/drm/vboxvideo/vbox_drv.c               |    3 +-
->   drivers/gpu/drm/vc4/vc4_drv.c                      |    9 +-
->   drivers/gpu/drm/vc4/vc4_drv.h                      |    2 +-
->   drivers/gpu/drm/vc4/vc4_hdmi.c                     |   61 +-
->   drivers/gpu/drm/vc4/vc4_hdmi.h                     |    3 +
->   drivers/gpu/drm/vc4/vc4_kms.c                      |    1 -
->   drivers/gpu/drm/via/via_dma.c                      |    1 -
->   drivers/gpu/drm/via/via_dmablit.c                  |   15 +-
->   drivers/gpu/drm/via/via_map.c                      |    3 +-
->   drivers/gpu/drm/virtio/virtgpu_drv.c               |   10 +-
->   drivers/gpu/drm/virtio/virtgpu_gem.c               |    8 +
->   drivers/gpu/drm/virtio/virtgpu_object.c            |    3 +
->   drivers/gpu/drm/vkms/vkms_composer.c               |  104 +-
->   drivers/gpu/drm/vkms/vkms_drv.c                    |    5 +
->   drivers/gpu/drm/vkms/vkms_drv.h                    |    9 +-
->   drivers/gpu/drm/vkms/vkms_output.c                 |   28 +-
->   drivers/gpu/drm/vkms/vkms_plane.c                  |   51 +-
->   drivers/gpu/drm/vmwgfx/Kconfig                     |   10 +-
->   drivers/gpu/drm/vmwgfx/Makefile                    |    6 +-
->   .../drm/vmwgfx/device_include/svga3d_surfacedefs.h |    8 +-
->   drivers/gpu/drm/vmwgfx/device_include/svga_reg.h   |   55 +-
->   drivers/gpu/drm/vmwgfx/ttm_lock.c                  |  194 ----
->   drivers/gpu/drm/vmwgfx/ttm_lock.h                  |  218 -----
->   drivers/gpu/drm/vmwgfx/ttm_object.c                |    2 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_binding.c            |    8 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_blit.c               |    2 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |   43 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c                |  124 ++-
->   drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c             |    4 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_context.c            |   13 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c            |    2 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |  169 +++-
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  147 ++-
->   drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c            |   41 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c                 |    8 -
->   drivers/gpu/drm/vmwgfx/vmwgfx_fence.c              |   18 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_fence.h              |    2 -
->   drivers/gpu/drm/vmwgfx/vmwgfx_gmr.c                |    2 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c              |   60 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_irq.c                |   77 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |   36 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |   36 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_msg.c                |   31 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_msg.h                |  214 ----
->   drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h          |  130 +++
->   drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h            |  219 +++++
->   drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c            |    2 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_reg.h                |    4 -
->   drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |    8 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c               |    2 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_shader.c             |    6 -
->   drivers/gpu/drm/vmwgfx/vmwgfx_simple_resource.c    |    5 -
->   drivers/gpu/drm/vmwgfx/vmwgfx_so.c                 |    4 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |    6 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_surface.c            |   40 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_thp.c                |   15 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         |    9 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_validation.c         |    4 +-
->   drivers/gpu/drm/xlnx/zynqmp_dp.c                   |    5 +-
->   drivers/gpu/drm/zte/Kconfig                        |    1 -
->   drivers/video/fbdev/Kconfig                        |    2 +-
->   drivers/video/fbdev/imxfb.c                        |    2 +-
->   include/drm/bridge/dw_hdmi.h                       |    2 +
->   include/drm/drm_agpsupport.h                       |  117 ---
->   include/drm/drm_aperture.h                         |   35 +
->   include/drm/drm_connector.h                        |    4 +
->   include/drm/drm_device.h                           |    9 +-
->   include/drm/drm_dp_dual_mode_helper.h              |   14 +-
->   include/drm/drm_dp_helper.h                        |   19 +-
->   include/drm/drm_dp_mst_helper.h                    |   15 +-
->   include/drm/drm_fb_helper.h                        |   51 -
->   include/drm/drm_format_helper.h                    |   10 +-
->   include/drm/drm_gem_ttm_helper.h                   |    5 +-
->   include/drm/drm_gem_vram_helper.h                  |    7 +-
->   include/drm/drm_legacy.h                           |   86 +-
->   include/drm/drm_mode_config.h                      |    2 +
->   include/drm/drm_print.h                            |   20 +-
->   include/drm/ttm/ttm_bo_api.h                       |   21 +-
->   include/drm/ttm/ttm_resource.h                     |    2 -
->   include/uapi/drm/drm_mode.h                        |    7 +-
->   277 files changed, 7261 insertions(+), 3022 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/display/bridge/i=
-te,it66121.yaml
->   create mode 100644 Documentation/devicetree/bindings/display/panel/sa=
-msung,lms397kf04.yaml
->   create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
->   create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h
->   create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.=
-c
->   create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.=
-h
->   create mode 100644 drivers/gpu/drm/bridge/ite-it66121.c
->   create mode 100644 drivers/gpu/drm/drm_aperture.c
->   create mode 100644 drivers/gpu/drm/tiny/simpledrm.c
->   create mode 100644 drivers/gpu/drm/ttm/ttm_sys_manager.c
->   delete mode 100644 drivers/gpu/drm/vmwgfx/ttm_lock.c
->   delete mode 100644 drivers/gpu/drm/vmwgfx/ttm_lock.h
->   delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_msg.h
->   create mode 100755 drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h
->   create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h
->   delete mode 100644 include/drm/drm_agpsupport.h
->   create mode 100644 include/drm/drm_aperture.h
->=20
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->=20
+$ git grep '__set_bit.*)' | wc -l
+1761
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+$ git grep '__set_bit.*,\s*&.*)' | wc -l
+479
 
+So whatever you feel like.
 
---oeNDQ6kYmNjzivpZ1CrF3sf4MWFlIZl3b--
+> > > +             break;
+> > > +
+> > > +     case I915_CONTEXT_PARAM_BANNABLE:
+> > > +             if (args->size)
+> > > +                     ret = -EINVAL;
+> > > +             else if (!capable(CAP_SYS_ADMIN) && !args->value)
+> > > +                     ret = -EPERM;
+> > > +             else if (args->value)
+> > > +                     __set_bit(UCONTEXT_BANNABLE, &pc->user_flags);
+> > > +             else
+> > > +                     __clear_bit(UCONTEXT_BANNABLE, &pc->user_flags);
+> > > +             break;
+> > > +
+> > > +     case I915_CONTEXT_PARAM_RECOVERABLE:
+> > > +             if (args->size)
+> > > +                     ret = -EINVAL;
+> > > +             else if (args->value)
+> > > +                     __set_bit(UCONTEXT_RECOVERABLE, &pc->user_flags);
+> > > +             else
+> > > +                     __clear_bit(UCONTEXT_RECOVERABLE, &pc->user_flags);
+> > > +             break;
+> > > +
+> > > +     case I915_CONTEXT_PARAM_PRIORITY:
+> > > +             ret = validate_priority(fpriv->dev_priv, args);
+> > > +             if (!ret)
+> > > +                     pc->sched.priority = args->value;
+> > > +             break;
+> > > +
+> > > +     case I915_CONTEXT_PARAM_SSEU:
+> > > +             ret = set_proto_ctx_sseu(fpriv, pc, args);
+> > > +             break;
+> > > +
+> > > +     case I915_CONTEXT_PARAM_VM:
+> > > +             ret = set_proto_ctx_vm(fpriv, pc, args);
+> > > +             break;
+> > > +
+> > > +     case I915_CONTEXT_PARAM_ENGINES:
+> > > +             ret = set_proto_ctx_engines(fpriv, pc, args);
+> > > +             break;
+> > > +
+> > > +     case I915_CONTEXT_PARAM_PERSISTENCE:
+> > > +             if (args->size)
+> > > +                     ret = -EINVAL;
+> > > +             else if (args->value)
+> > > +                     __set_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
+> > > +             else
+> > > +                     __clear_bit(UCONTEXT_PERSISTENCE, &pc->user_flags);
+> >
+> > I think we have a nice mess here. You created this
+> > proto_context_set_persistence helper, but don't use it here. Oversight?
+> 
+> Yeah, I should use it.  Done.
+> 
+> > Aside from the validation fun around persistence, but that's better
+> > discussed in another patch I think.
+> >
+> > > +             break;
+> > > +
+> > > +     case I915_CONTEXT_PARAM_NO_ZEROMAP:
+> > > +     case I915_CONTEXT_PARAM_BAN_PERIOD:
+> > > +     case I915_CONTEXT_PARAM_RINGSIZE:
+> > > +     default:
+> > > +             ret = -EINVAL;
+> > > +             break;
+> > > +     }
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > >  static struct i915_address_space *
+> > >  context_get_vm_rcu(struct i915_gem_context *ctx)
+> > >  {
+> > > @@ -475,6 +918,56 @@ static struct i915_gem_engines *default_engines(struct i915_gem_context *ctx,
+> > >       return err;
+> > >  }
+> > >
+> > > +static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
+> > > +                                          unsigned int num_engines,
+> > > +                                          struct i915_gem_proto_engine *pe)
+> > > +{
+> > > +     struct i915_gem_engines *e, *err;
+> > > +     unsigned int n;
+> > > +
+> > > +     e = alloc_engines(num_engines);
+> > > +     for (n = 0; n < num_engines; n++) {
+> > > +             struct intel_context *ce;
+> > > +             int ret;
+> > > +
+> > > +             switch (pe[n].type) {
+> > > +             case I915_GEM_ENGINE_TYPE_PHYSICAL:
+> > > +                     ce = intel_context_create(pe[n].engine);
+> > > +                     break;
+> > > +
+> > > +             case I915_GEM_ENGINE_TYPE_BALANCED:
+> > > +                     ce = intel_execlists_create_virtual(pe[n].siblings,
+> > > +                                                         pe[n].num_siblings);
+> > > +                     break;
+> > > +
+> > > +             case I915_GEM_ENGINE_TYPE_INVALID:
+> > > +             default:
+> > > +                     GEM_WARN_ON(pe[n].type != I915_GEM_ENGINE_TYPE_INVALID);
+> > > +                     continue;
+> > > +             }
+> > > +
+> > > +             if (IS_ERR(ce)) {
+> > > +                     err = ERR_CAST(ce);
+> > > +                     goto free_engines;
+> > > +             }
+> > > +
+> > > +             e->engines[n] = ce;
+> > > +
+> > > +             ret = intel_context_set_gem(ce, ctx, pe->sseu);
+> > > +             if (ret) {
+> > > +                     err = ERR_PTR(ret);
+> > > +                     goto free_engines;
+> > > +             }
+> > > +     }
+> > > +     e->num_engines = num_engines;
+> > > +
+> > > +     return e;
+> > > +
+> > > +free_engines:
+> > > +     free_engines(e);
+> > > +     return err;
+> > > +}
+> > > +
+> > >  void i915_gem_context_release(struct kref *ref)
+> > >  {
+> > >       struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
+> > > @@ -779,7 +1272,6 @@ __create_context(struct drm_i915_private *i915,
+> > >  {
+> > >       struct i915_gem_context *ctx;
+> > >       struct i915_gem_engines *e;
+> > > -     struct intel_sseu null_sseu = {};
+> > >       int err;
+> > >       int i;
+> > >
+> > > @@ -797,7 +1289,7 @@ __create_context(struct drm_i915_private *i915,
+> > >       INIT_LIST_HEAD(&ctx->stale.engines);
+> > >
+> > >       mutex_init(&ctx->engines_mutex);
+> > > -     e = default_engines(ctx, null_sseu);
+> > > +     e = default_engines(ctx, pc->legacy_rcs_sseu);
+> > >       if (IS_ERR(e)) {
+> > >               err = PTR_ERR(e);
+> > >               goto err_free;
+> > > @@ -916,6 +1408,24 @@ i915_gem_create_context(struct drm_i915_private *i915,
+> > >               mutex_unlock(&ctx->mutex);
+> > >       }
+> > >
+> > > +     if (pc->num_user_engines >= 0) {
+> > > +             struct i915_gem_engines *engines;
+> > > +
+> > > +             engines = user_engines(ctx, pc->num_user_engines,
+> > > +                                    pc->user_engines);
+> > > +             if (IS_ERR(engines)) {
+> > > +                     context_close(ctx);
+> > > +                     return ERR_CAST(engines);
+> > > +             }
+> > > +
+> > > +             mutex_lock(&ctx->engines_mutex);
+> > > +             i915_gem_context_set_user_engines(ctx);
+> > > +             engines = rcu_replace_pointer(ctx->engines, engines, 1);
+> > > +             mutex_unlock(&ctx->engines_mutex);
+> >
+> > More locking code to ditch I guess.
+> 
+> Sure.  Is it safe to just drop it?  I guess it is?  I'm really shaky
+> around all the RCU requirements and things.
 
---7z5OsqB9CELSL0iyGXM9Wa7uxqAsRFpvf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Well the 1 in here should be replace with
+lockdep_is_held(&ctx->engines_mutex), but the engines_mutex also should
+go, so really can ditch the entire thing. Also no one can access our
+context, so we can't fail.
 
------BEGIN PGP SIGNATURE-----
+Now if you do this naively without dropping the __rcu classifier for
+ctx->engines then static checkers will complain. So until that's done an
+rcu_assign_pointer should do.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCibqwFAwAAAAAACgkQlh/E3EQov+Ah
-Og/9F1XXAx6SLqNgyLvWtjCttCN0KsGUeVSn2zMehLJsktOoWJQe+DODX5F22sAu5OBqvMIupYvp
-UsdE5uCSWrQMuCLWPoW3cGM9GgvpfBaosIxvy1dXbaxYtG2pKkNwWzbOx4ypkk2xMabXuWPPSOjS
-C6O2MV20w/vtAwjL+rHP+2Qs7UNjp2ziN6DYYgtM0VvER9dQlat6QSMDrmeAshxzONXzaMGLA9IC
-xjBM9izsrdRQZfeQQehsEPb3NSyjpuCt0hnBlT7dvzQr4LR0Igbz27GyEl958ewPZb+i8TBXAaqi
-DU+AtXyOR2fRsOWsB8QYE635Ca32eb/QRpUDWFP6z2gMXFNGsteq4N4NXkyZEuBwm6zJsFKqumbi
-cDqK/mlwcUu07iEmE2irF4BqegmyITUSoWWWBO2C++1FfYMW0VQf64lCULEtGKNfdOnT+GBeFSu4
-ra0UlnPswpyzlABENB2MrXjVzj9K3dqjtw92rcQPH0bQfy3eaKAVOb7M1dBpr2GDrytDziFZg7QJ
-IrT4kRWDMqFgMQJAWMNzBck4k/m62A3q27CYhTeb+z5jtqSoE/XJw4ZwlKdVlq3hbZFxkeItN7YO
-nwBQYI7WPxiJBzEDBSOZy3cordiD/0wsLl7rljTPvwSXiFKCFMrbUCcYNQA1l+X8T1XP/hBxbtjL
-qpM=
-=in52
------END PGP SIGNATURE-----
+> 
+> > > +
+> > > +             free_engines(engines);
+> >
+> > Also I guess we shouldn't first create the legacy engines for this case?
+> 
+> That's fixed in the last patch.
 
---7z5OsqB9CELSL0iyGXM9Wa7uxqAsRFpvf--
+Yeah I noticed later on.
+
+> 
+> > > +     }
+> > > +
+> > >       if (pc->single_timeline) {
+> > >               ret = drm_syncobj_create(&ctx->syncobj,
+> > >                                        DRM_SYNCOBJ_CREATE_SIGNALED,
+> > > @@ -1956,7 +2466,7 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
+> > >  }
+> > >
+> > >  struct create_ext {
+> > > -     struct i915_gem_context *ctx;
+> > > +     struct i915_gem_proto_context *pc;
+> > >       struct drm_i915_file_private *fpriv;
+> > >  };
+> > >
+> > > @@ -1971,7 +2481,7 @@ static int create_setparam(struct i915_user_extension __user *ext, void *data)
+> > >       if (local.param.ctx_id)
+> > >               return -EINVAL;
+> > >
+> > > -     return ctx_setparam(arg->fpriv, arg->ctx, &local.param);
+> > > +     return set_proto_ctx_param(arg->fpriv, arg->pc, &local.param);
+> > >  }
+> > >
+> > >  static int invalid_ext(struct i915_user_extension __user *ext, void *data)
+> > > @@ -1994,7 +2504,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> > >  {
+> > >       struct drm_i915_private *i915 = to_i915(dev);
+> > >       struct drm_i915_gem_context_create_ext *args = data;
+> > > -     struct i915_gem_proto_context *pc;
+> > > +     struct i915_gem_context *ctx;
+> > >       struct create_ext ext_data;
+> > >       int ret;
+> > >       u32 id;
+> > > @@ -2017,25 +2527,27 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> > >               return -EIO;
+> > >       }
+> > >
+> > > -     pc = proto_context_create(i915, args->flags);
+> > > -     if (IS_ERR(pc))
+> > > -             return PTR_ERR(pc);
+> > > -
+> > > -     ext_data.ctx = i915_gem_create_context(i915, pc);
+> > > -     proto_context_close(pc);
+> > > -     if (IS_ERR(ext_data.ctx))
+> > > -             return PTR_ERR(ext_data.ctx);
+> > > +     ext_data.pc = proto_context_create(i915, args->flags);
+> > > +     if (IS_ERR(ext_data.pc))
+> > > +             return PTR_ERR(ext_data.pc);
+> > >
+> > >       if (args->flags & I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS) {
+> > >               ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
+> > >                                          create_extensions,
+> > >                                          ARRAY_SIZE(create_extensions),
+> > >                                          &ext_data);
+> > > -             if (ret)
+> > > -                     goto err_ctx;
+> > > +             if (ret) {
+> > > +                     proto_context_close(ext_data.pc);
+> > > +                     return ret;
+> > > +             }
+> > >       }
+> > >
+> > > -     ret = gem_context_register(ext_data.ctx, ext_data.fpriv, &id);
+> > > +     ctx = i915_gem_create_context(i915, ext_data.pc);
+> > > +     proto_context_close(ext_data.pc);
+> > > +     if (IS_ERR(ctx))
+> > > +             return PTR_ERR(ctx);
+> > > +
+> > > +     ret = gem_context_register(ctx, ext_data.fpriv, &id);
+> > >       if (ret < 0)
+> > >               goto err_ctx;
+> > >
+> > > @@ -2045,7 +2557,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
+> > >       return 0;
+> > >
+> > >  err_ctx:
+> > > -     context_close(ext_data.ctx);
+> > > +     context_close(ctx);
+> > >       return ret;
+> > >  }
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > > index 0bf337b6d89ac..2ac341f805c8f 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > > @@ -66,6 +66,55 @@ struct i915_gem_engines_iter {
+> > >       const struct i915_gem_engines *engines;
+> > >  };
+> > >
+> > > +/**
+> > > + * enum i915_gem_engine_type - Describes the type of an i915_gem_proto_engine
+> > > + */
+> > > +enum i915_gem_engine_type {
+> > > +     /** @I915_GEM_ENGINE_TYPE_INVALID: An invalid engine */
+> > > +     I915_GEM_ENGINE_TYPE_INVALID = 0,
+> > > +
+> > > +     /** @I915_GEM_ENGINE_TYPE_PHYSICAL: A single physical engine */
+> > > +     I915_GEM_ENGINE_TYPE_PHYSICAL,
+> > > +
+> > > +     /** @I915_GEM_ENGINE_TYPE_BALANCED: A load-balanced engine set */
+> > > +     I915_GEM_ENGINE_TYPE_BALANCED,
+> > > +};
+> > > +
+> > > +/**
+> > > + * struct i915_gem_proto_engine - prototype engine
+> > > + *
+> > > + * This struct describes an engine that a context may contain.  Engines
+> > > + * have three types:
+> > > + *
+> > > + *  - I915_GEM_ENGINE_TYPE_INVALID: Invalid engines can be created but they
+> > > + *    show up as a NULL in i915_gem_engines::engines[i] and any attempt to
+> > > + *    use them by the user results in -EINVAL.  They are also useful during
+> > > + *    proto-context construction because the client may create invalid
+> > > + *    engines and then set them up later as bonded engines.
+> > > + *
+> > > + *  - I915_GEM_ENGINE_TYPE_PHYSICAL: A single physical engine, described by
+> > > + *    i915_gem_proto_engine::engine.
+> > > + *
+> > > + *  - I915_GEM_ENGINE_TYPE_BALANCED: A load-balanced engine set, described
+> > > + *    i915_gem_proto_engine::num_siblings and i915_gem_proto_engine::siblings.
+> > > + */
+> > > +struct i915_gem_proto_engine {
+> > > +     /** @type: Type of this engine */
+> > > +     enum i915_gem_engine_type type;
+> > > +
+> > > +     /** @engine: Engine, for physical */
+> > > +     struct intel_engine_cs *engine;
+> > > +
+> > > +     /** @num_siblings: Number of balanced siblings */
+> > > +     unsigned int num_siblings;
+> > > +
+> > > +     /** @siblings: Balanced siblings */
+> > > +     struct intel_engine_cs **siblings;
+> > > +
+> > > +     /** @sseu: Client-set SSEU parameters */
+> > > +     struct intel_sseu sseu;
+> > > +};
+> > > +
+> > >  /**
+> > >   * struct i915_gem_proto_context - prototype context
+> > >   *
+> > > @@ -84,6 +133,15 @@ struct i915_gem_proto_context {
+> > >       /** @sched: See i915_gem_context::sched */
+> > >       struct i915_sched_attr sched;
+> > >
+> > > +     /** @num_user_engines: Number of user-specified engines or -1 */
+> > > +     int num_user_engines;
+> > > +
+> > > +     /** @user_engines: User-specified engines */
+> > > +     struct i915_gem_proto_engine *user_engines;
+> > > +
+> > > +     /** @sseu: Client-set SSEU parameters for the legacy RCS */
+> > > +     struct intel_sseu legacy_rcs_sseu;
+> > > +
+> > >       /** @single_timeline: See See i915_gem_context::syncobj */
+> > >       bool single_timeline;
+> > >  };
+> > > --
+> > > 2.31.1
+> >
+> > Man is this all nasty. Since I don't want to re-review the entire pile,
+> > assuming we figure out solutions to all the real issues I've raised (and
+> > not the snarky bikesheds) this is
+> >
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> 
+> Ok.  I'm leaving it off for now to remind myself to ensure that we
+> close on everything.  I'll add it once I've heard back from you on my
+> questions above.
+
+I think we're all good. Mostly :-/
+-Daniel
+
+> 
+> --Jason
+> 
+> > >
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
