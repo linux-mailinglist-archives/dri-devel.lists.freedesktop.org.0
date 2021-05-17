@@ -2,58 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FBB38360F
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 17:29:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076463836BC
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 17:34:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F36386E1D5;
-	Mon, 17 May 2021 15:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587026E1F8;
+	Mon, 17 May 2021 15:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB2116E1D5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 15:29:47 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- g15-20020a9d128f0000b02902a7d7a7bb6eso5863149otg.9
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 08:29:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LHuA8eHjuppTIJ75R7cv3VweFNbwB4dqcEtg7HA60qg=;
- b=RMks6CV9lAVCFBcqyvaL15OwQDYYydA46ie8ERZRUW9bdz6Ss2d63nvntdd2ppylbj
- TT1hoAtcrCR7P1QUgAoKu41mbQqWIXoRN7jJxyGntT0uCWz/IiczJZV24UwIWC7mZW89
- iDl7tmzK3OcYBBXrYUDYJ/OJrz6o9/5h4ij88=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LHuA8eHjuppTIJ75R7cv3VweFNbwB4dqcEtg7HA60qg=;
- b=K4nzc7tu/Sooc58M7oRI/uBT5S/Rsft8tzYgM613pzAOV419zZ2ppriopljU84p6Ia
- 98QFFguiUJ0ewYaF3JcnPk+C71lAMtl217WW8YQ/+HETrc4Iyyw5QbSvaVasDvRQ9qDU
- YA4AhYWIOtDpDu1ZL4AucOc5BQyK8TSEsewQ/2OurpqvCxWMbBitbQX1jH391pkduCC9
- NdHwsBPD7Ux4sYfRZlz7ep3kg9qN1xsOEC48LoQv3/RwlkuAVNo2Jo2vg17ka+1gFySP
- EF/gEcgmZ9EQoJ56ZGyp3zeeM7wLx0/qMFW8nBnhiT0c8uUW8srRRIOjXmZIqRPEtqPY
- x+2w==
-X-Gm-Message-State: AOAM530U7mfAKMvuNmXAeGxdM3etI2T4MgUZN3ESVhUnxOgSX1H8pcSJ
- XJvhVIIb7pnM5MTygmNnCRLf70iSX0AZWRPffoVnpA==
-X-Google-Smtp-Source: ABdhPJyx4VgXyr7sHxhLzHJfU08wfDCFYrZOk1+l9hfQuvBlJV+AtL3GicGrv7/C44z5A3YFPk7MxSeP6Ot3b+xUVts=
-X-Received: by 2002:a05:6830:1155:: with SMTP id
- x21mr88425otq.303.1621265387064; 
- Mon, 17 May 2021 08:29:47 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 645106E079;
+ Mon, 17 May 2021 15:34:30 +0000 (UTC)
+IronPort-SDR: Cv1QUhwkFMP4bXmZQY08/sZG2d7x4gnnQ5NNm22pFeBwqQWCfLrslxq3gyXEVRiOJMD8cKmfOf
+ ISmEkVkmGSiQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="221533473"
+X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; d="scan'208";a="221533473"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2021 08:33:49 -0700
+IronPort-SDR: 8/3+86j8yzQ/cM2YEacpWTY7NaK2xJ0fvfw/oED7yXcImQpdiTPDAwEkdQR+hbWqbJaBVNtzg9
+ 88+WEdmsElhw==
+X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; d="scan'208";a="438025289"
+Received: from lobrie3x-mobl4.ger.corp.intel.com (HELO [10.213.193.103])
+ ([10.213.193.103])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2021 08:33:47 -0700
+Subject: Re: [PATCH] drm/i915: Stop propagating fence errors by default
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210507083521.2406201-1-tvrtko.ursulin@linux.intel.com>
+ <YJlXeMkMG7Xt0zlA@phenom.ffwll.local>
+ <9fbcff85-f36c-fc90-eeb6-aa58c85a920f@linux.intel.com>
+ <YKKH1rRy2HN4Gnr8@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <596bdfdd-df65-2166-4839-86e6c3308772@linux.intel.com>
+Date: Mon, 17 May 2021 16:33:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <YJBHiRiCGzojk25U@phenom.ffwll.local>
- <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
- <YJVijmznt1xnsCxc@phenom.ffwll.local>
- <CAHk-=wgjO8-f1bUwQB=5HGzkvSS+aGACR9+H5CkkDhRgud+3MA@mail.gmail.com>
- <CAKMK7uELBbkhFBQoSfvMx+AKnbk-fgbamBm3sC20-dJwMq3Xmg@mail.gmail.com>
- <YJjg3DRnG1RG6VDK@infradead.org>
-In-Reply-To: <YJjg3DRnG1RG6VDK@infradead.org>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 17 May 2021 17:29:35 +0200
-Message-ID: <CAKMK7uFsRPod-tAJ8ZrzXM6B_+5VgvRs-U0_TiG75da62cnVnw@mail.gmail.com>
-Subject: Re: [PULL] topic/iomem-mmap-vs-gup
-To: Christoph Hellwig <hch@infradead.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YKKH1rRy2HN4Gnr8@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,48 +55,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Tomasz Figa <tfiga@chromium.org>, Linux-MM <linux-mm@kvack.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Jason Ekstrand <jason.ekstrand@intel.com>,
+ Marcin Slusarz <marcin.slusarz@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 10, 2021 at 9:30 AM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Mon, May 10, 2021 at 09:16:58AM +0200, Daniel Vetter wrote:
-> > > End result: not pulling it, unless somebody can explain to me in small
-> > > words why I'm wrong and have the mental capacity of a damaged rodent.
-> >
-> > No rodents I think, just more backstory of how this all fits. tldr;
-> > pin_user_pages is the only safe use of this vb2 userptr thing.
->
-> Yes, which is why I advocate for just ripping the follow_pfn path
-> out entirely.  It could have been used for crazy ad dangerous peer to
-> peer transfers outside of any infrastructure making it safe, or for
-> pre-CMA kernel memory carveouts for lage contiguous memory allocations
-> (which are pretty broken by design as well).  So IMHO the only sensible
-> thing is to remove this cruft entirely, and if it breaks a currently
-> working setup (which I think is unlikely) we'll have to make sure it
-> can work the proper way.
 
-Since I'm not getting any cozy consenus vibes here on any option I
-think I'll just drop this.
+On 17/05/2021 16:12, Daniel Vetter wrote:
+> On Tue, May 11, 2021 at 10:05:27AM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 10/05/2021 16:55, Daniel Vetter wrote:
+>>> On Fri, May 07, 2021 at 09:35:21AM +0100, Tvrtko Ursulin wrote:
+>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>
+>>>> This is an alternative proposed fix for the below references bug report
+>>>> where dma fence error propagation is causing undesirable change in
+>>>> behaviour post GPU hang/reset.
+>>>>
+>>>> Approach in this patch is to simply stop propagating all dma fence errors
+>>>> by default since that seems to be the upstream ask.
+>>>>
+>>>> To handle the case where i915 needs error propagation for security, I add
+>>>> a new dma fence flag DMA_FENCE_FLAG_PROPAGATE_ERROR and make use of it in
+>>>> the command parsing chain only.
+>>>>
+>>>> It sounds a plausible argument that fence propagation could be useful in
+>>>> which case a core flag to enable opt-in should be universally useful.
+>>>>
+>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>> Reported-by: Marcin Slusarz <marcin.slusarz@intel.com>
+>>>> Reported-by: Miroslav Bendik
+>>>> References: 9e31c1fe45d5 ("drm/i915: Propagate errors on awaiting already signaled fences")
+>>>> References: https://gitlab.freedesktop.org/drm/intel/-/issues/3080
+>>>> Cc: Jason Ekstrand <jason.ekstrand@intel.com>
+>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>> ---
+>>>>    drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 ++
+>>>>    drivers/gpu/drm/i915/i915_sw_fence.c           | 8 ++++----
+>>>>    drivers/gpu/drm/i915/i915_sw_fence.h           | 8 ++++++++
+>>>>    include/linux/dma-fence.h                      | 1 +
+>>>
+>>> I still don't like this, least because we still introduce the concept of
+>>> error propagation to dma-fence (but hey only in i915 code, which is
+>>> exactly the kind of not-really-upstream approach we got a major chiding
+>>> for).
+>>>
+>>> The only thing this does is make it explicitly opt-in instead opt-out,
+>>> like the first fix. The right approach is imo still to just throw it out,
+>>> and instead make the one error propagation we really need very, very
+>>> explicit. Instead of hiding it behind lots of magic.
+>>>
+>>> The one error propagation we need is when the cmd parser work fails, it
+>>> must cancel it's corresponding request to make sure the batchbuffer
+>>> doesn't run. This should require about 2 lines in total:
+>>>
+>>> - one line to store the request so that the cmd parser work can access it.
+>>>     No refcounting needed, because the the request cannot even start (much
+>>>     less get freed) before the cmd parser has singalled its fence
+>>>
+>>> - one line to kill the request if the parsing fails. Maybe 2 if you
+>>>     include the if condition. I have no idea how that's done since I'm
+>>>     honestly lost how the i915 scheduler decides whether to run a batch or
+>>>     not. I'm guessing we have a version of this for the ringbuffer and the
+>>>     execlist backend (if not maybe gen7 cmdparser is broken?)
+>>>
+>>> I don't see any need for magic behind-the-scenes propagation of such a
+>>> security critical error. Especially when that error propagation thing
+>>> caused security bugs of its own, is an i915-only feature, and not
+>>> motivated by any userspace/uapi requirements at all.
+>>
+>> I took this approach because to me propagating errors sounds more logical
+>> than ignoring them and I was arguing in the commit message that the
+>> infrastructure to enable that could be put in place as opt-in.
+>>
+>> I also do not see a lot of magic in this patch. Only thing, potentially the
+>> logic should be inverted so that the waiter marks itself as interested in
+>> receiving errors. That would probably make even more sense as a core
+>> concept.
+>>
+>> Has there been a wider discussion on this topic in the past? I am curious to
+>> know, even if propagation currently is i915 only, could other drivers be
+>> interested.
+> 
+> There hasn't been. i915-gem team decided "this is a cool concept", which
+> resulted in a security bug. Now we're a few months in arguing whether a
+> cool-looking concept that leads to a security bug is maybe a good idea,
+> and whether we should sneak it in as a core concept to dma-buf.h without
+> any wider discussion on the concept.
+> 
+>> Note that it adds almost nothing to the dma-buf common code about a single
+>> flag, and at some point (currently missing) documentation on the very flag.
+> 
+> This is really not how upstream collaboration works, and it needs to stop.
+> 
+> If you want this, start another thread arguing why this is a good idea,
+> fully decoupled from the security fix here.
 
-Stephen, can you pls drop
+When I asked you whether you know there were past discussions on this 
+topic, clearly the point of that was to figure out whether a new 
+discussion needs to be started, or I need to go and read an existing one 
+to get up to speed.
 
-git://anongit.freedesktop.org/drm/drm topic/iomem-mmap-vs-gup
+I don't know how you interpreted that as an attempt to sneak anything 
+in. And I don't know how I could have reliably figured out the answer to 
+that question without asking. So colour me confused.
 
-from linux-next? It's not going anywhere. I'll also go ahead and
-delete the branch, to make sure you catch this update :-)
+To clarify on the security issue part - are you talking about 
+https://gitlab.freedesktop.org/drm/intel/-/issues/3080, or the other 
+security issue, the one which would be caused by simply reverting the 
+error propagation in i915?
 
-Thanks, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+
+Tvrtko
