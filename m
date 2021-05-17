@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7471A383B78
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 19:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50AEB383B8B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 19:43:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ACA16EA1C;
-	Mon, 17 May 2021 17:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3116EA22;
+	Mon, 17 May 2021 17:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D2DB6EA1C;
- Mon, 17 May 2021 17:39:56 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- l25-20020a4a35190000b029020a54735152so1649477ooa.4; 
- Mon, 17 May 2021 10:39:55 -0700 (PDT)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 829C86EA20;
+ Mon, 17 May 2021 17:43:44 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ q7-20020a9d57870000b02902a5c2bd8c17so6268881oth.5; 
+ Mon, 17 May 2021 10:43:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ec4sBOvG5BiTPHnGCY0JZake08DLljj+YNJ97mOQNxI=;
- b=cJFsKuMG1megg7WR0JtVZ77rgO/ffhegbh5X5R82OA420QsPebmOqiZLvyIV/RxAEp
- Y8JE/4l4aBgCIpg900VImiB4ZWJMyhV7RZ0Nzinj7pBdv85wH/3dUZ6XqbeSfT+ag7wg
- 4YXZM+vRv+vNjSAHnZ4SUReL0e3adUXoRmY58TCglsCdcTDiE7/ekn9klligXN/3wZ8w
- Tr7gruhEwMSI9bf2mceYJyDrthdoZE5Mp92HrAWJoMxJ26kKt7vQjf+BAeh8Mgm4FkRV
- hHpVAe9+lqTJi44a8QFVa1uNx1f62hPpDlKlkzIC6Bn2Q+KpI7hGGkvMAS+Bv/UovQa0
- c8HA==
+ :cc; bh=XLJb2IgEQ7K/5rtBcAtSxUKX2z5zxyllknUa3sXOl3g=;
+ b=ZYxJcblAPpZU8V2LI3hVlKVW5Wz5qhTURVLlQyyLuk4/QBK+m4JgtOGlbbXMas51n5
+ ECnv62KZTMKgiQjY1ch1scZyPlyWZ9iO2d/LcBWJniGK/T3MavCALQHKT/GTVwoFEL6Y
+ A/sb76Y6cYeXGtPFI+V2StSIqI+AVhdQWIgqiifoIry4RStlNUMwgBMFYxpGQWdGfpOX
+ 3m+aVtT5wm+jNH0zyKk9VuKGQKgwPpUOA2TLPV5ZUcvDGX2XIgNv59B+3kie4iduZ41Y
+ LgpPaWQ8lcGTrcwtLqjLfW1bIX6SRNNNAY8Ut2FNMLn3BehEwQrik0AGPCa+359ooti6
+ YyIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ec4sBOvG5BiTPHnGCY0JZake08DLljj+YNJ97mOQNxI=;
- b=mcvKh5eIgs/tuMzWp43jOUbG19zNF+Mp1HlYIT2wDxgZXnlrpBvA/fvaOJam0O0/x3
- XNN+Qxm5ysC20LH41DoKuZywxmkbg2q2QSTOZm/lwYbFr/hZ2OPMr/rXjotGsIBvgByg
- 8A+/BCQ8/N2DJeH6zLQIVqrqfbxVe5FNRwZlcZ7qwKwja3VGjRRNDCUeFIHXfieedlct
- Vy5C10IPOZ3Z2gTYMXDefIRoj0J7ol7NVhgvBqP4PRTIY//ec1a4Zw0iuTCiNIXYxg90
- I2FdiTcuo9dvP4kwMQtLkQ0MDjdXY2QYey1laHIIzWkMVr+pcnKPg7IPMu41w3PfgBWi
- cptg==
-X-Gm-Message-State: AOAM533PbbLg8uQ45ukir67hhD2N7chCnR5kmYZMiH6UzB4k94Z4rwl+
- vPSOjcTfbiLsGnUbtY9WE6hSY/zQX2YUeFqFIIY=
-X-Google-Smtp-Source: ABdhPJybtZDTQ8GQ1qN/+nRmMebD4QN5H/NEF/bDyDqCdi0/ToXU0UgVsyKzKpl515Wbzu2rwaw+uJvK+swGh58kP2I=
-X-Received: by 2002:a4a:d004:: with SMTP id h4mr822081oor.90.1621273195376;
- Mon, 17 May 2021 10:39:55 -0700 (PDT)
+ bh=XLJb2IgEQ7K/5rtBcAtSxUKX2z5zxyllknUa3sXOl3g=;
+ b=tNp1jlDaoaXE+zvHGgQb5Ol9fLHtgjU8O7QPn2n830hDFKNiUniKz7kiVxEyW/TUQ1
+ EfPcoLsIV/wlBD0yX9h0YgTHtUQyaAykSsFfaaVrolhDLRWZQYaATL5JKG0510cl7TRU
+ Nxq/yifzHRXnyI3HPMSrfUfuEAHPAeBAv6Za+0FwGMoQ1ftjmCbpPkZ43W5FKbUKkGDE
+ /o8ExGKCTHdSeaGkbnfGShXg+x/QNi6FOYsRaCyc9nEUW0GNObKj+lt1zI3LUkbB/JZg
+ t3+luOjbnall+Mm5Pf15R5ieKwa+hTJKamlbBm3s905o9CMHZiJE7mvdIC+YeY0xw5Mb
+ k55A==
+X-Gm-Message-State: AOAM530on7+6kgBgANd8DUV4CtJMIqwkVQJWhEN8HVM8HtGLbb1n8p2v
+ hYA/3CMWPzOFMZccukHK7Z7fusQLjMsMkwK9cOUVbHNSVfo=
+X-Google-Smtp-Source: ABdhPJwGh1Cb43ILuKcyyuub39Gsc7SKqokFQCOnj1kkmOqfs4JHoh7R00inYAupP1KvSvDsT3Mwl0jz7zL7dcRgOCE=
+X-Received: by 2002:a9d:74c6:: with SMTP id a6mr636450otl.132.1621273424021;
+ Mon, 17 May 2021 10:43:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210512142648.666476-1-andrey.grodzovsky@amd.com>
- <20210512142648.666476-13-andrey.grodzovsky@amd.com>
- <0e13e0fb-5cf8-30fa-6ed8-a0648f8fe50b@amd.com>
- <a589044b-8dac-e573-e864-4093e24574a3@amd.com>
-In-Reply-To: <a589044b-8dac-e573-e864-4093e24574a3@amd.com>
+ <20210512142648.666476-17-andrey.grodzovsky@amd.com>
+In-Reply-To: <20210512142648.666476-17-andrey.grodzovsky@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 17 May 2021 13:39:44 -0400
-Message-ID: <CADnq5_NGL0eBabd8s3yvt6pMYb8w81gE=C7xSGay5Lh9sW08Dw@mail.gmail.com>
-Subject: Re: [PATCH v7 12/16] drm/amdgpu: Fix hang on device removal.
+Date: Mon, 17 May 2021 13:43:33 -0400
+Message-ID: <CADnq5_M-Sy3cF762044Ub9J=N_U6uQ2h2j40Y=fof04dXL5h7w@mail.gmail.com>
+Subject: Re: [PATCH v7 16/16] drm/amdgpu: Unmap all MMIO mappings
 To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,73 +74,103 @@ Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-
-On Mon, May 17, 2021 at 10:40 AM Andrey Grodzovsky
+On Wed, May 12, 2021 at 10:27 AM Andrey Grodzovsky
 <andrey.grodzovsky@amd.com> wrote:
 >
-> Ping
+> Access to those must be prevented post pci_remove
 >
-> Andrey
+> v6: Drop BOs list, unampping VRAM BAR is enough.
 >
-> On 2021-05-14 10:42 a.m., Andrey Grodzovsky wrote:
-> > Ping
-> >
-> > Andrey
-> >
-> > On 2021-05-12 10:26 a.m., Andrey Grodzovsky wrote:
-> >> If removing while commands in flight you cannot wait to flush the
-> >> HW fences on a ring since the device is gone.
-> >>
-> >> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> >> ---
-> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 16 ++++++++++------
-> >>   1 file changed, 10 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> >> b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> >> index 1ffb36bd0b19..fa03702ecbfb 100644
-> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> >> @@ -36,6 +36,7 @@
-> >>   #include <linux/firmware.h>
-> >>   #include <linux/pm_runtime.h>
-> >> +#include <drm/drm_drv.h>
-> >>   #include "amdgpu.h"
-> >>   #include "amdgpu_trace.h"
-> >> @@ -525,8 +526,7 @@ int amdgpu_fence_driver_init(struct amdgpu_device
-> >> *adev)
-> >>    */
-> >>   void amdgpu_fence_driver_fini_hw(struct amdgpu_device *adev)
-> >>   {
-> >> -    unsigned i, j;
-> >> -    int r;
-> >> +    int i, r;
-> >>       for (i = 0; i < AMDGPU_MAX_RINGS; i++) {
-> >>           struct amdgpu_ring *ring = adev->rings[i];
-> >> @@ -535,11 +535,15 @@ void amdgpu_fence_driver_fini_hw(struct
-> >> amdgpu_device *adev)
-> >>               continue;
-> >>           if (!ring->no_scheduler)
-> >>               drm_sched_fini(&ring->sched);
-> >> -        r = amdgpu_fence_wait_empty(ring);
-> >> -        if (r) {
-> >> -            /* no need to trigger GPU reset as we are unloading */
-> >> +        /* You can't wait for HW to signal if it's gone */
-> >> +        if (!drm_dev_is_unplugged(&adev->ddev))
-> >> +            r = amdgpu_fence_wait_empty(ring);
-> >> +        else
-> >> +            r = -ENODEV;
-> >> +        /* no need to trigger GPU reset as we are unloading */
-> >> +        if (r)
-> >>               amdgpu_fence_driver_force_completion(ring);
-> >> -        }
-> >> +
-> >>           if (ring->fence_drv.irq_src)
-> >>               amdgpu_irq_put(adev, ring->fence_drv.irq_src,
-> >>                          ring->fence_drv.irq_type);
-> >>
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 24 +++++++++++++++++++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  4 ----
+>  3 files changed, 22 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index f7cca25c0fa0..73cbc3c7453f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -3666,6 +3666,25 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>         return r;
+>  }
+>
+> +static void amdgpu_device_unmap_mmio(struct amdgpu_device *adev)
+> +{
+> +       /* Clear all CPU mappings pointing to this device */
+> +       unmap_mapping_range(adev->ddev.anon_inode->i_mapping, 0, 0, 1);
+> +
+> +       /* Unmap all mapped bars - Doorbell, registers and VRAM */
+> +       amdgpu_device_doorbell_fini(adev);
+> +
+> +       iounmap(adev->rmmio);
+> +       adev->rmmio = NULL;
+> +       if (adev->mman.aper_base_kaddr)
+> +               iounmap(adev->mman.aper_base_kaddr);
+> +       adev->mman.aper_base_kaddr = NULL;
+> +
+> +       /* Memory manager related */
+
+I think we need:
+if (!adev->gmc.xgmi.connected_to_cpu) {
+around these two to mirror amdgpu_bo_fini().
+
+Alex
+
+> +       arch_phys_wc_del(adev->gmc.vram_mtrr);
+> +       arch_io_free_memtype_wc(adev->gmc.aper_base, adev->gmc.aper_size);
+> +}
+> +
+>  /**
+>   * amdgpu_device_fini - tear down the driver
+>   *
+> @@ -3712,6 +3731,8 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+>         amdgpu_device_ip_fini_early(adev);
+>
+>         amdgpu_gart_dummy_page_fini(adev);
+> +
+> +       amdgpu_device_unmap_mmio(adev);
+>  }
+>
+>  void amdgpu_device_fini_sw(struct amdgpu_device *adev)
+> @@ -3739,9 +3760,6 @@ void amdgpu_device_fini_sw(struct amdgpu_device *adev)
+>         }
+>         if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
+>                 vga_client_register(adev->pdev, NULL, NULL, NULL);
+> -       iounmap(adev->rmmio);
+> -       adev->rmmio = NULL;
+> -       amdgpu_device_doorbell_fini(adev);
+>
+>         if (IS_ENABLED(CONFIG_PERF_EVENTS))
+>                 amdgpu_pmu_fini(adev);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 0adffcace326..882fb49f3c41 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -533,6 +533,7 @@ static int amdgpu_bo_do_create(struct amdgpu_device *adev,
+>                 return -ENOMEM;
+>         drm_gem_private_object_init(adev_to_drm(adev), &bo->tbo.base, size);
+>         INIT_LIST_HEAD(&bo->shadow_list);
+> +
+>         bo->vm_bo = NULL;
+>         bo->preferred_domains = bp->preferred_domain ? bp->preferred_domain :
+>                 bp->domain;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 0d54e70278ca..58ad2fecc9e3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -1841,10 +1841,6 @@ void amdgpu_ttm_fini(struct amdgpu_device *adev)
+>         amdgpu_bo_free_kernel(&adev->mman.discovery_memory, NULL, NULL);
+>         amdgpu_ttm_fw_reserve_vram_fini(adev);
+>
+> -       if (adev->mman.aper_base_kaddr)
+> -               iounmap(adev->mman.aper_base_kaddr);
+> -       adev->mman.aper_base_kaddr = NULL;
+> -
+>         amdgpu_vram_mgr_fini(adev);
+>         amdgpu_gtt_mgr_fini(adev);
+>         ttm_range_man_fini(&adev->mman.bdev, AMDGPU_PL_GDS);
+> --
+> 2.25.1
+>
