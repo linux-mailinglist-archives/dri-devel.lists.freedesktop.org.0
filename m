@@ -1,46 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57ABF382C3C
-	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 14:34:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC43382CAC
+	for <lists+dri-devel@lfdr.de>; Mon, 17 May 2021 14:57:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C454B6E94B;
-	Mon, 17 May 2021 12:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B1D76E951;
+	Mon, 17 May 2021 12:57:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A760C6E94B
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 12:34:31 +0000 (UTC)
-Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FkJQz44xFzmVW4;
- Mon, 17 May 2021 20:31:39 +0800 (CST)
-Received: from dggema762-chm.china.huawei.com (10.1.198.204) by
- dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 17 May 2021 20:34:21 +0800
-Received: from [10.174.179.129] (10.174.179.129) by
- dggema762-chm.china.huawei.com (10.1.198.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 17 May 2021 20:34:20 +0800
-Subject: Re: [PATCH] drm: bridge: cdns-mhdp8546: Fix PM reference leak in
- cdns_mhdp_probe()
-To: Robert Foss <robert.foss@linaro.org>
-References: <20210517081601.1563193-1-yukuai3@huawei.com>
- <CAG3jFyvjD+Gf5C+sWA8Qi9Hp-tJHeCjqbWX5Fds3m41nCLreyA@mail.gmail.com>
-From: "yukuai (C)" <yukuai3@huawei.com>
-Message-ID: <e96fc474-b4d3-31b2-897e-f2eddc5433dc@huawei.com>
-Date: Mon, 17 May 2021 20:34:20 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F234F6E951
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 12:57:34 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 72E53B1C8;
+ Mon, 17 May 2021 12:57:33 +0000 (UTC)
+Subject: Re: [PATCH] MAINTAINERS: repair reference in DRM DRIVER FOR SIMPLE
+ FRAMEBUFFERS
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+References: <20210517101648.29906-1-lukas.bulwahn@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <d86962b1-da7e-232e-6501-9fa2e406781f@suse.de>
+Date: Mon, 17 May 2021 14:57:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAG3jFyvjD+Gf5C+sWA8Qi9Hp-tJHeCjqbWX5Fds3m41nCLreyA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.179.129]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggema762-chm.china.huawei.com (10.1.198.204)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20210517101648.29906-1-lukas.bulwahn@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="8T38aIg0zaK56NSCyYPDE0KMDZccUjuyX"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,54 +43,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- yi.zhang@huawei.com, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>
+Cc: kernel-janitors@vger.kernel.org,
+ Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021/05/17 17:27, Robert Foss wrote:
-> Hey Yu,
-> 
-> On Mon, 17 May 2021 at 10:08, Yu Kuai <yukuai3@huawei.com> wrote:
->>
->> pm_runtime_get_sync will increment pm usage counter even it failed.
->> Forgetting to putting operation will result in reference leak here.
->> Fix it by replacing it with pm_runtime_resume_and_get to keep usage
->> counter balanced.
->>
->> Reported-by: Hulk Robot <hulkci@huawei.com>
->> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
->> ---
->>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> index 0cd8f40fb690..305489d48c16 100644
->> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> @@ -2478,7 +2478,7 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
->>          clk_prepare_enable(clk);
->>
->>          pm_runtime_enable(dev);
->> -       ret = pm_runtime_get_sync(dev);
->> +       ret = pm_runtime_resume_and_get(dev);
->>          if (ret < 0) {
->>                  dev_err(dev, "pm_runtime_get_sync failed\n");
->>                  pm_runtime_disable(dev);
-> 
-> The code is correct as it is. If pm_runtime_get_sync() fails and
-> increments[1] the pm.usage_count variable, that isn't a problem since
-> pm_runtime_disable() disables pm, and resets pm.usage_count variable
-> to zero[2].
-> 
-> [1] https://elixir.bootlin.com/linux/latest/source/include/linux/pm_runtime.h#L384
-> [2] https://elixir.bootlin.com/linux/latest/source/drivers/base/power/runtime.c#L1383
-> .
-> 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--8T38aIg0zaK56NSCyYPDE0KMDZccUjuyX
+Content-Type: multipart/mixed; boundary="nzNGNBF0QtYWhtU9g06smdT7uiap7YwMT";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <d86962b1-da7e-232e-6501-9fa2e406781f@suse.de>
+Subject: Re: [PATCH] MAINTAINERS: repair reference in DRM DRIVER FOR SIMPLE
+ FRAMEBUFFERS
+References: <20210517101648.29906-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20210517101648.29906-1-lukas.bulwahn@gmail.com>
 
-Thank you very much for your explanation
+--nzNGNBF0QtYWhtU9g06smdT7uiap7YwMT
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Yu Kuai
+Hi
+
+Am 17.05.21 um 12:16 schrieb Lukas Bulwahn:
+> Commit 11e8f5fd223b ("drm: Add simpledrm driver") adds the file
+> ./drivers/gpu/drm/tiny/simpledrm.c, but refers to the file
+> ./drivers/gpu/drm/tiny/simplekms.c with the new MAINTAINERS section
+> DRM DRIVER FOR SIMPLE FRAMEBUFFERS.
+>=20
+> Hence, ./scripts/get_maintainer.pl --self-test=3Dpatterns complains:
+>=20
+>    warning: no file matches    F:    drivers/gpu/drm/tiny/simplekms.c
+>=20
+> Repair the file entry by referring to the right location.
+>=20
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> applies cleanly on next-20210514
+>=20
+> Thomas, Daniel, please pick this minor clean-up patch for your -next tr=
+ee.
+
+Thank you so much. Added to drm-misc-next
+
+Best regards
+Thomas
+
+>=20
+>   MAINTAINERS | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6582d19cdf7a..88277ff25d43 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5885,7 +5885,7 @@ M:	Thomas Zimmermann <tzimmermann@suse.de>
+>   L:	dri-devel@lists.freedesktop.org
+>   S:	Maintained
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+> -F:	drivers/gpu/drm/tiny/simplekms.c
+> +F:	drivers/gpu/drm/tiny/simpledrm.c
+>  =20
+>   DRM DRIVER FOR SIS VIDEO CARDS
+>   S:	Orphan / Obsolete
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--nzNGNBF0QtYWhtU9g06smdT7uiap7YwMT--
+
+--8T38aIg0zaK56NSCyYPDE0KMDZccUjuyX
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmCiaDwFAwAAAAAACgkQlh/E3EQov+DD
+tBAAotWv6n0Bi9OwXQHdZ+36Mh8S4VR1BH5wElL3t3VPjFChCmY0xMSNx44AaW9rD9akvfdE8EWI
+M+Q1wPPCoNplbgeQFuwlJZIXTh41NaDQcSJequwUEHEzU4YmPXBP3uq7GvnvjHi0hWfamar87bJ7
+kYMp9yax3WjdRzlA03H6fblysVjTZrZnnwCPBShYp81pSTiWgIVPQbhlLotPi/94w6LbYGqN5Kh8
+RrTQvEJrpKtqk7GzQ7FxKzAic8jwxv4B4bGhuPVzNEd0ya7fCf9dH1Tn34/DYAjMM2DU9eZyraqB
+wYeWJhLOmUoN3xNbOyn6VI3dEJDznnJNZKbfKcXHzSbagu1Ay39KZyYfnONiaW7DXzz7PMpGfyv4
+kcMpH+3OTacIwdw111J24LyyGqg0j+AtxebSWEdgbxOs9vtlaIIsuto1/+M72G8GSqaYbwEAQLJ6
+QqqlZy3o4CL+/8hsZiPE8+H4EXh2mIB1e5szv0Bxja5cbdwOla5f9PZXVdZbyJACVQOub6W36Otg
+/GOrrAjwbJEq21xeX2ouCYOb4HL7mVNj+WnTf8vtUedldlm0aqNYJ66KAH9CkIn27bAYryWcgw8i
+NqXijb1CBY7K1iI7gNl9aPl9waFuaL+/e+R2IcbfFGGScAurG1j5gX5RTdizYhLtgQWIiTNfm+1M
+ZHk=
+=JYFL
+-----END PGP SIGNATURE-----
+
+--8T38aIg0zaK56NSCyYPDE0KMDZccUjuyX--
