@@ -1,53 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E276387D14
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 18:09:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FBA387D25
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 18:13:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D01F6EC1C;
-	Tue, 18 May 2021 16:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9228F6EC14;
+	Tue, 18 May 2021 16:13:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50ACE6EC2C;
- Tue, 18 May 2021 16:09:09 +0000 (UTC)
-IronPort-SDR: ZgjL7T0OfixtTL1IPGHKl4PGOrfIErJcrUlibSLCu+rdt2dYkrwV7bkilIth1HjZ3L/EqiFqku
- w7vamOejuvEA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200804788"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200804788"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 09:07:29 -0700
-IronPort-SDR: iDotVLPyfjU7FBk7NwaJk3sZv4BntYDY9mnTI5dVeVC14EdCSg+u9NYwbTBJBBfHkz+Pw+Wpv7
- 3/SlzzoQRRCA==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="439100599"
-Received: from cmutgix-mobl.gar.corp.intel.com (HELO [10.249.254.195])
- ([10.249.254.195])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 09:07:27 -0700
-Subject: Re: [PATCH v2 09/15] drm/ttm, drm/amdgpu: Allow the driver some
- control over swapping
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
- <20210518082701.997251-10-thomas.hellstrom@linux.intel.com>
- <c4cd4843-c3aa-1f01-fc73-bc9144fa478f@linux.intel.com>
- <60276369-dbfd-e0dc-548b-a9419ff4c7eb@amd.com>
- <471d8fd5-379f-e95a-4973-c50fadace7cb@linux.intel.com>
- <b909db91-5c61-4af5-135d-aa62d5e4b481@amd.com>
- <f5c008cb-5047-7cbf-0361-e4e58e38d6e0@linux.intel.com>
- <fb9a4898-5844-c1e5-7a24-cb50a9ad6df7@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <334dc2d2-2053-9e42-62be-58784e4256aa@linux.intel.com>
-Date: Tue, 18 May 2021 18:07:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA84E6EC14
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 16:13:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 903026124C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 16:13:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621354416;
+ bh=Y9t7erUyVWYgszlHiCXZRWg3W2xR3SMliImxspixckg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=g9aifnxrNDd4y2PeznolIjeS9H3yf5DNR5qP16YQ9HBM66lv6xPY0x7oz7+68LRkY
+ P6t/G/O/Z6L/hiunKk/92P+HO21jiFo9prAAtNcI0rKSYZ5GwQKhcsh/TzRv7LRzuW
+ NJ17KqgL2c/1SoXJqSYJd5RQqL/H0tSwe3NxS9Bc97x1yJ/fa4icMqYE/cYZKw/vuK
+ fchnkx6k6IC5o9+ZtNUJ9LNvTw7IULdQnqNC8dxwfvHodjMLSHM/K5GcTCPIiKJL7r
+ 60PEAdfDzHjsfJyQDoSKKJLZGF1VhDHhYQugDLNNi5bTdq0JBd+q62+hdwh8FUWb+k
+ WUsnrtf0FcEJw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 854626124C; Tue, 18 May 2021 16:13:36 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Tue, 18 May 2021 16:13:36 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: me@jeromec.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211277-2300-ifimNdZTzN@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <fb9a4898-5844-c1e5-7a24-cb50a9ad6df7@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,109 +69,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
-On 5/18/21 5:42 PM, Christian König wrote:
-> Am 18.05.21 um 17:38 schrieb Thomas Hellström:
->>
->> On 5/18/21 5:28 PM, Christian König wrote:
->>> Am 18.05.21 um 17:20 schrieb Thomas Hellström:
->>>>
->>>> On 5/18/21 5:18 PM, Christian König wrote:
->>>>>
->>>>>
->>>>> Am 18.05.21 um 17:15 schrieb Thomas Hellström:
->>>>>>
->>>>>> On 5/18/21 10:26 AM, Thomas Hellström wrote:
->>>>>>> We are calling the eviction_valuable driver callback at eviction 
->>>>>>> time to
->>>>>>> determine whether we actually can evict a buffer object.
->>>>>>> The upcoming i915 TTM backend needs the same functionality for 
->>>>>>> swapout,
->>>>>>> and that might actually be beneficial to other drivers as well.
->>>>>>>
->>>>>>> Add an eviction_valuable call also in the swapout path. Try to 
->>>>>>> keep the
->>>>>>> current behaviour for all drivers by returning true if the 
->>>>>>> buffer object
->>>>>>> is already in the TTM_PL_SYSTEM placement. We change behaviour 
->>>>>>> for the
->>>>>>> case where a buffer object is in a TT backed placement when 
->>>>>>> swapped out,
->>>>>>> in which case the drivers normal eviction_valuable path is run.
->>>>>>>
->>>>>>> Finally export ttm_tt_unpopulate() and don't swap out bos
->>>>>>> that are not populated. This allows a driver to purge a bo at
->>>>>>> swapout time if its content is no longer valuable rather than to
->>>>>>> have TTM swap the contents out.
->>>>>>>
->>>>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>>>>
->>>>>> Christian,
->>>>>>
->>>>>> Here we have a ttm_tt_unpopulate() export as well at the end. I 
->>>>>> figure you will push back on that one. What we really need is a 
->>>>>> functionality to just drop the bo contents and end up in system 
->>>>>> memory unpopulated. Should I perhaps add a utility function to do 
->>>>>> that instead? like ttm_bo_purge()?
->>>>>
->>>>> We already have that. Just call ttm_bo_validate() without any 
->>>>> place to put the buffer.
->>>>>
->>>>> See how ttm_bo_pipeline_gutting() is used.
->>>>>
->>>>> Christian.
->>>>
->>>> OK, so is that reentrant from the move() or swap_notify() callback.
->>>
->>> That sounds like a design bug to me since you should never need to 
->>> do this.
->>>
->>> When you want to destroy the backing store of a buffer during 
->>> eviction you should just do this by returning an empty placement 
->>> from the evict_flags callback.
->>
->> So this is for the functionality where the user has indicated that 
->> the contents is no longer of value, but the buffer itself
->> is cached until evicted or swapped out for performance reasons. So 
->> the above would work for eviction, but what about swapout. Could we 
->> add some similar functionality there?
->
-> Amdgpu has the same functionality and you don't need to handle swap at 
-> all.
->
-> Just return from the evict_flags that you want to drop the backing 
-> store as soon as the BO leaves the GTT domain.
+--- Comment #20 from Jerome C (me@jeromec.com) ---
+(In reply to James Zhu from comment #19)
+> Created attachment 296841 [details]
+> to fix suspend/resume hung issue
+>=20
+> Hi @kolAflash and @jeromec, Can you help check if this patch can fix the
+> issue? Since we can't reproduce at our side. Thanks! James
 
-Hmm, the pipeline_gutting function seems ok, but overly complex if the 
-bo is already idle, Am I allowed to optimize it slightly for the latter 
-case?
+no, this doesn't work for me.
 
-/Thomas
+I'm curious to how your exactly to reproducing this
 
+I start Xorg using the command "startx"
 
->
-> Christian.
->
->>
->> /Thomas
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> /Thomas
->>>>
->>>>
->>>>
->>>>>
->>>>>>
->>>>>> Thanks,
->>>>>>
->>>>>> Thomas
->>>>>>
->>>>>>
->>>>>
->>>
->
+Xorg is running with LXQT
+
+I start "Konsole" a gui terminal and execute the following
+
+"for i in $(seq 1 150); do echo $i; sudo rtcwake -s 7 -m mem; done"
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
