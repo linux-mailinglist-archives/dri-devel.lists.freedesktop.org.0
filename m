@@ -2,129 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660C4387F4D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 20:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0930D387F56
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 20:13:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FAA06EC62;
-	Tue, 18 May 2021 18:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 823986EC65;
+	Tue, 18 May 2021 18:13:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam07on2065.outbound.protection.outlook.com [40.107.212.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BFB86EC62
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 18:11:45 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2061.outbound.protection.outlook.com [40.107.102.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B255C6EC65;
+ Tue, 18 May 2021 18:13:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i8QDGXNe0xrl7SCzUo0lUc6KKJlwpYQO7GokKpSH5y7Z/2rVL8zg6DHjPIsX364aWJU93Z7Rxn0IN0/kXvYpGKjCO6qgaBIq7XMkzd2Mkezo0S5Ups0OJI2X68G0Bw8XV0uT1hVhqRVSmUafHoRrzh4elnm3uvzseYShZHcYTqx6YUOcg9pnc4dgH60OoAaMN1RodntH8D3qt1r6wBmQ5CR3GgeujZ3T9/6POoZhb6cxcRSc0Yykyw3ysWiGbpjWVJb08LtTnhv/j+4kCsh/y7Mg0FyjNo4tb8eOhdz8C/XhFRLa743swjhIOpeOmNChxQq0myKBIhD8Q3RDlfe7cA==
+ b=H9RvvZj5kXnEis37JAsyYhnXO3f6DeWRu2mAsHPtojFlrl52xubKyO2w6YmYjz1PmqAxBBdvFKlDK1oqZ6mLPskfZQJ2nWyziOdECFBTpw12JWLU0jjKDo6vXsIk36WI6AR9upLaE327H7RrieOuc63VVrsRn8hGXZxXvpvFQdQThb1fcV28oY7OBVlTSo0sj0/2vWeR5Bj3SFw8+bbTzFg44roIZ/cZu/kHlZRW0BOT3dt03BGDj3j4eQqAc0U+4X9aVMidsr32+3MAucVgtsWK8ZOUXGobDyNi8nHy/lLnw2QUUHEMdWnRhLp3mLtWPpqLgZuyMnjHZ4eCPmZb0g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JVuWqPV0tKTXH+dIfYsah6t/t9vzQ+C7kT6zl8m7+vk=;
- b=L4jPKIx/eIk37KQv//zIKGkTBRaeystg0jU/jDoHMX+B2b9vNvR6sH/OiAfwDI0lAzYciw1SWjwRw+baJnrz/AFaQvI8VErNG5ZKCwvPwPWWb+fRRN612Fq33k1xyVRlyIVvMPjwwqTFxh+66MWH1ti5FBmDsJccZvKf1EvOsNMuQDhEa9csdGQ6bzubdBPA0QGF1u8WdKcC1x1CVyPQ0XnXIQPwu6CZbhYhvbndDTURtpf1rVHAkYJetGLbEBGjn07kty/xi9tJrk+qrVPt9LAxFzOwrQbKmGjtNtAvd+H1Xp7Gtp0zM+ao9r5wQMzQNQVgQFvnmTwrU1KFxYa0WA==
+ bh=JFlrJ7AZKW+/px8ID9mqaFFw7cIfXeN4e7GWwWCjGTo=;
+ b=YBBII7hhW81H2EAxkwLV/G42k4zkvsYmuVqUHeawaHDAjogpJrY1KcQxQEH1X8RDHaTwlOsTBR2gNHoxToCtxy269PmtStYtKl0pvxsYviAwo3tZVARKwresfYjlNKFlLk3Gx5su4q4p8CQ0XgibDxAhnBlNj3Jtb8xzUHyfQUcF41EdivJGkBXebZ13ewgcKBfqAULb6qtih0ivqBriw+QJ+Zz67UyyZBT7jVHfcZH72Q6uhv8CNo4V9IFrLfUcocwYeH8DshAzAh3w7uzKuEXG++1Fkn+rIhkS9tYUQkN3owyEaaenVFSn/H8r1es27KEHwWPaX5imgrVOtY1zBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JVuWqPV0tKTXH+dIfYsah6t/t9vzQ+C7kT6zl8m7+vk=;
- b=RUiDkegX+7pwhRB8KqQDX1w5XFqziRcUbsnEnLzkRs6uOx4IY9cOolYSiQQ/lYuoM3LbLFW+lYuWbmZQajrzLbB9BRKF1DVcdZyFhdFb6ccfK/VBFtJNUQWIRJUQHXvqA4Vw7F66SLu30T+BCqM40MKIxa/skIFy7u0pObjsZB4=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
+ bh=JFlrJ7AZKW+/px8ID9mqaFFw7cIfXeN4e7GWwWCjGTo=;
+ b=lrr/CTOSEhXpK4sS2DyMDL1cHjyFuwmnKB/OIr+ebWGzEUQu4vEsRFmngofWghswj1Abo6E5QDGlzoxj3isbLePLWsxAZsfDuBK1lWZ4fGLgadPwIP+G6kwUkTzK6H9WA8yG7eDlzg1nv3DlNCoQq/wOLNRWiy5aIGgoS4tGvD4=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4095.namprd12.prod.outlook.com (2603:10b6:208:1d1::11)
+ by BL0PR12MB2450.namprd12.prod.outlook.com (2603:10b6:207:4d::32)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Tue, 18 May
- 2021 18:11:43 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Tue, 18 May
+ 2021 18:13:48 +0000
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4129.032; Tue, 18 May 2021
- 18:11:43 +0000
-Subject: Re: [PATCH v2 13/15] drm/ttm: Add BO and offset arguments for
- vm_access and vm_fault ttm handlers.
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-References: <20210518145543.1042429-1-thomas.hellstrom@linux.intel.com>
- <9e465ab2-4272-4a41-2ebf-4b34d4724f77@amd.com>
- <0beb46d3-96c8-dcfd-6540-e23ff7207888@linux.intel.com>
- <151faa7d-c4c0-4f8b-f127-9e82a5432774@amd.com>
- <07c9239c-1d72-26d8-4fe3-378bf826bae2@linux.intel.com>
- <01128dfc-fb5f-6247-9feb-9cd05586d790@amd.com>
- <a924457e-321e-9f16-82c8-2462c2ae7043@linux.intel.com>
- <51be0ce4-9698-2a1b-fcd7-0a42e4acc83a@amd.com>
- <c0e9957b-1da7-e195-e65c-ee4ad22ca10a@linux.intel.com>
+ 18:13:48 +0000
+Subject: Re: [PATCH v7 13/16] drm/scheduler: Fix hang when sched_entity
+ released
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, ckoenig.leichtzumerken@gmail.com,
+ daniel.vetter@ffwll.ch, Harry.Wentland@amd.com
+References: <20210512142648.666476-1-andrey.grodzovsky@amd.com>
+ <20210512142648.666476-14-andrey.grodzovsky@amd.com>
+ <9e1270bf-ab62-5d76-b1de-e6cd49dc4841@amd.com>
+ <f0c5dea7-af35-9ea5-028e-6286e57a469a@amd.com>
+ <34d4e4a8-c577-dfe6-3190-28a5c63a2d23@amd.com>
+ <da1f9706-d918-cff8-2807-25da0c01fcde@amd.com>
+ <8228ea6b-4faf-bb7e-aaf4-8949932e869a@amd.com>
+ <ec157a35-85fb-11e5-226a-c25d699102c6@amd.com>
+ <53f281cc-e4c0-ea5d-9415-4413c85a6a16@amd.com>
+ <0b49fc7b-ca0b-58c4-3f76-c4a5fab97bdc@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <bfa959dc-7a75-ff96-98f6-d6d27dfed846@amd.com>
-Date: Tue, 18 May 2021 20:11:38 +0200
+Message-ID: <31febf08-e9c9-77fa-932d-a50505866ec4@amd.com>
+Date: Tue, 18 May 2021 20:13:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
-In-Reply-To: <c0e9957b-1da7-e195-e65c-ee4ad22ca10a@linux.intel.com>
+In-Reply-To: <0b49fc7b-ca0b-58c4-3f76-c4a5fab97bdc@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [2a02:908:1252:fb60:88c7:d7d9:22ef:f850]
-X-ClientProxiedBy: PR2PR09CA0013.eurprd09.prod.outlook.com
- (2603:10a6:101:16::25) To MN2PR12MB3775.namprd12.prod.outlook.com
+X-ClientProxiedBy: PR0P264CA0232.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1e::28) To MN2PR12MB3775.namprd12.prod.outlook.com
  (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [IPv6:2a02:908:1252:fb60:88c7:d7d9:22ef:f850]
  (2a02:908:1252:fb60:88c7:d7d9:22ef:f850) by
- PR2PR09CA0013.eurprd09.prod.outlook.com (2603:10a6:101:16::25) with Microsoft
+ PR0P264CA0232.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1e::28) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Tue, 18 May 2021 18:11:42 +0000
+ 15.20.4108.25 via Frontend Transport; Tue, 18 May 2021 18:13:46 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9869ece3-f9f5-443b-e3b4-08d91a286400
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4095:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4095273022606BC12C1FAC94832C9@MN2PR12MB4095.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Office365-Filtering-Correlation-Id: 324f9861-13db-4bc6-fcef-08d91a28ae93
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2450:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB2450210727C0FA2AF3DEC94E832C9@BL0PR12MB2450.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wl7kQwFH+wLX70zomAT3MWWC3qGt8yvR5EKJG4SDmbCl4qLhtPZdghiVBC4T4KUIvI+UwGJNbB9nXBc99woJF8RaTyoyiXkZdQUe1dLmhxW0QefX9ca2WWNpiy/QYHBe2QaV/NR15WqDJfBWxQyRZnQ8KWHRstG7SmUc+hVZt/b4OzVOgw+F/wJE+tP4ouAVg8JJiOPFbkZrlAucCsmlYWy1GTyBQMqCulp78IIgHZHixScpDfLzjUxu+XcBmOFjAU/KmfN8D/9w+I74ICQLvjUd/x08I6FlvuJN+B6lCnjwIY1ByqJL62PkvbT27nPWYVrXGGeLh7LNzhc1OiAKKGIKwolvIJO4ekNC0EWwTQgp7VkLUHl0iZWLI7wJEOMN6X/aGVFfnopo7gp3gxV8xqtd+DIdJ9HuSvCpN1xnDmd668ahOm+JuSVbN5o5tdyf5g97OR9oHRgvq2mM4AKCxJTmNPD6kjOHlNZnhjImDlJq421RNF7SZXMXWKQvRfe4somJXRF32IR22M7wz+pYwk7dpD5iPsgcTR8AS6KjYIbxoPB74VH+xOX5y0tmcpNiRNomTJGp+b9b99M6W7877LXVWCdQ38Jk2zv6tW7CX9BdKM04lUnBuGC3q4610ztgXMJi8R+2ZxzeB0gubmJ/cBJDQ97q3TxmSv8C9ohCIUO++2TzJC3+oCSsrWbLkNgn
+X-Microsoft-Antispam-Message-Info: PBg7p48ZCcyz3k5jpgN2aaeXoZOj9UA5oDBw/Q4uaNrijEaON4xYd9MqXSlY7g8z8vfUZLlpBw7xy0jXwGDZ6nx+T2fDHGXSBMHwTSWBJFur3PaFeNYAKZ0HQ1DHd9BzvLU4Cprd+SJnb7RhtEpiEDMKP3X1TgM+/EP9iDa+ffNHNSATE68XfEfPo+05pLrn4OXKytd8bI3AZuNOeWNuZbG5xOBrueS6plMPRZBqc2gfvIcAIwNMiQU5kAdeAEIHHdlkPTlVrhYSbH2XckpZwCnWy315dgSDQ3kZPKxo6IR1x3VE9mMvJNfj3RsAGMbLUs2TlFkcsbeGkzK0JPojfQpw9gD3lrkbu5zZakcYX4ViM5Ya1/kZyJQQc3n7gt0rXbocjUAGKmCr4KdQrsN4QsOPG/W4bkPrZlZH9UQcS03maEK+jkPCTgrbetaMzxPCCzhopjL0y4SAPkTt/7wH0rCe0fOeqtM3d8T4BsL2ZwA8JGqydYZyvmhOylOE2qfmfEEgN34663jWg+YReDjaU638oedILyW7v/PUeCoie29r864/lL6/qUMKqlhc5tgY3YoK5s/YlaFThu9VOFIA5obj8qOUdiwak786iMlM332Grb79zD7P505K4qB3r2zIvAWiIKi1ahMUB3KzQYlIWHiHz9q58F30QMNnhSKRY9ggu2LNlny4ZvZiNNVvl0qH
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(346002)(39860400002)(136003)(396003)(4326008)(54906003)(52116002)(38100700002)(31696002)(31686004)(86362001)(66556008)(36756003)(83380400001)(8936002)(8676002)(478600001)(6486002)(5660300002)(16526019)(66574015)(186003)(6666004)(6916009)(66476007)(66946007)(2616005)(316002)(2906002)(43740500002)(45980500001);
+ SFS:(4636009)(39860400002)(366004)(376002)(346002)(136003)(396003)(38100700002)(66574015)(31696002)(6636002)(83380400001)(53546011)(186003)(4326008)(8676002)(6666004)(86362001)(66946007)(31686004)(316002)(52116002)(2616005)(6486002)(8936002)(16526019)(5660300002)(66556008)(36756003)(66476007)(478600001)(2906002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VUxtVjk2V0FIZ3lxT2NXRVhpUnBvVkx1UkpveVpscGFoUzhwb2RETTZ2RHln?=
- =?utf-8?B?NGM4aXQ0MzhqaEUySzBEM3NMalp4NGhvbnpJSUxYRjZKREZwcUZvTDRLZFZL?=
- =?utf-8?B?WDFXa0s4a203bjZrRnU5VitEVGduNHZSaHMzbEl6cE5OWGNRZmM3NUhMcG1p?=
- =?utf-8?B?ZDJOeXhwQTJ0S3lndVJKVzlwc0J3dm5ZazQxNkIwd0RxMXFEQk5RM2d0ZUVE?=
- =?utf-8?B?Z0lTY2JYclp0QWd3NmFPOHpWNHB1Y1BobjdUWi8yMHh2NHplWFNFeVB6eW1p?=
- =?utf-8?B?Q2Y0Mng3ZDdzZ1FZa0NVK29BVitOUmlJMlJhSlN3cFdZWFI3azUyVlpNMEdx?=
- =?utf-8?B?b0NyNTJiT2UwQ2RJKzhNc1JIam0xdDBmUGRGM3RkSjNmbUgwQ0xBcWdpSytE?=
- =?utf-8?B?N0hXWTVWYjdXcjF2aHJ3cXB6eWFqYUFwaW9tWW1jK0xGWnhKdHJQdHI0cEJi?=
- =?utf-8?B?RUlZTXB6ZlhaVGpqMVJIQzVaQ3RWRk9QUDcvOE1tdno1T2tiU0Nsc2lvZ2FG?=
- =?utf-8?B?cllHbmkvcUVlbDZpM3c4T0w2MWdiN211QzNZY0FKSWJIMjFYUGZ4djB1b3Rn?=
- =?utf-8?B?dW9zN3MreVYxaXo0dHAySEpjN3dBcDJBZkRYbitRUTc2b2dsMkR3S0ZDbUJh?=
- =?utf-8?B?c2F2TXpiT3plTkRIQmpVcmliamhJN2V0NnY5WHM0a0taRk9ER2FqUzFXK1lX?=
- =?utf-8?B?MmJkdGJwM1d3OXErRlJ6UWcxK3puMTRYUXhtNlZNOW1JUTFjYlZraC93dHpa?=
- =?utf-8?B?NDF6SkhKeDJ4MUY4eWQ0ZmRxTVdnODIyYmRUQmNuSFY1VG55clprb2IwRWtJ?=
- =?utf-8?B?OU4reERoVDdIU0xrczlha3VZTEIyRVA2VnRDSmNkaURHanIxaHZXY2t4Y21t?=
- =?utf-8?B?MWVjeXQwQmo1K3lqeElzS2tyNmRXSVJmdnVGbGlBSjZ2NjlqQllmSGJlT2tz?=
- =?utf-8?B?Umx5ejVINUd2b1hnS245YU8ya3NyeDR3OGczRGhSSWRYNmN5YzdNa3M2TDdP?=
- =?utf-8?B?L1NyNG41NnBNbWhkSVBhLzk3YURIUEhWYkFQTXBYWDhoTDY5TzJMbEgvMWtT?=
- =?utf-8?B?YWc0L3lDVU5TR0dkeGxISUhTU3NyVG9GMDBhRGV3ZWt1eUM0M2JmenJxQzgx?=
- =?utf-8?B?dGJXcnVrd2FZSGdIc3BJMWtCRHh5WGs1WVlRTWJjTFhwQitGYXJxUmZhTEZx?=
- =?utf-8?B?dWluVUE0UFdFcXA4MUw3RUN6Y0ZteC9zTHpNWElXemp6VkVKME4rZTZmcXFM?=
- =?utf-8?B?bE5UNmFlNDY0cW9ScmFZc3NVT005N0hZQ21sSWJLajRWS2FuUzVMYS80Z1N3?=
- =?utf-8?B?NEVmOUIyRyt4aG9mN2w5dHpMMk9BTzVEZmdCeXgzenlvc3JnZEhOb21rbXhL?=
- =?utf-8?B?SlRja1pCYXA3RStmenBKMmdxTjg2bGtoRTI1RXcwOUd2RXhGZjIxdFQzZkdC?=
- =?utf-8?B?NlozZTAzdVVaSUdhcFM1VjcrTW1Jb0dyV3lyNkh6WXkveWZManpjcEUzWWN5?=
- =?utf-8?B?S0JKdjNNY0JyNnR5dm56MWJOZjRKYUkzdXJoTDE4Ry9rZ0o0NGR5TENtUEY3?=
- =?utf-8?B?RU96RjllZTNaYWIyWVpMcDVkTFdLbE43WU5IZFJqZ1ZjS0trcjhEZ3RiUGs0?=
- =?utf-8?B?c28rcy94UlpqNjFEZGdnamFLSFEzRHJVclR1SlY3UnJIWDFCOVQrSm1ySmZi?=
- =?utf-8?B?WEF2UXBOTk1jY01JTTcrWExQRzlzZGQyUTZDUFdwZ0Z1V0hGRGtTRzdoTXhi?=
- =?utf-8?B?bnl2Y2pjdWQrNXozY1I0NktnbnJQWlBVQVhKT1VDQlpocm0vWHRnTEZRUFpo?=
- =?utf-8?B?QlBrQmt2RFFKRklRQTA1RFVJdHZCekY3VXNGN3JGQ3JScktlbmZaS3Z0THJW?=
- =?utf-8?Q?r/Ustj8CtWY0q?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UkR2T3FDYzZMVkV0SWpyU21oOEZOYVQ2cDZMd2xKbHB1RVpNY3d6aERlYnEz?=
+ =?utf-8?B?Y2VnaXFxTjJZY1Y3NzZlcGlmS2p0ak9pK2MxTk9IK0lXNzRUcTVxc2l5d2FE?=
+ =?utf-8?B?c3NtaVd6empkYXMxWnFvNWJuQTVwTEtPak9DR1dZT2hUMTZ3dHowZjlNejNr?=
+ =?utf-8?B?czlVdVZpcERzT3V6bUxObE1DTUQwdEN0UGlnbk90ZUQvT1BGOUxEQ1Y4Q2xG?=
+ =?utf-8?B?MDV6V052UDllQVpmZi8wZWlHTG5pMUw4eTQyRGFCNkFIcEZuNUNzczN6cEs0?=
+ =?utf-8?B?VVdBeGphOG5NSjdlRis0dVFsUE92OFVycUFGNU9tY0ZsY2Q3VmhWUXhkNmx1?=
+ =?utf-8?B?cjFSb2ViN0w4RWo5M0xpbWR6SmduVGJZbmdGNjlUN0NDb2k5TmNQNXRFM1FV?=
+ =?utf-8?B?Q3R5SVpsMWV2NEd1bVM5REdVUDJjQi9XbkZCS0JFam04WmQrRjJGLzc5RUNU?=
+ =?utf-8?B?VnhCVVoybldsMDJ4aktXeTczc1VTeFdUTXN3Tm52RlFRenZ1cWxSN3NiS2RG?=
+ =?utf-8?B?MzV2bWNjR1Q3UlI5VlhGRW9tK1hzNUkxZEJBNUF1bUJHT2U5T0pMZCtURGQv?=
+ =?utf-8?B?QWVWUHZWb2YxSGRlT3dOeUR6MmxyVks0ZXZZMUc4anMzNHkzdlVKZDJOUnkv?=
+ =?utf-8?B?YytFTDBWNTZWRk5jZ1NDM3B3RDFrWjYrYnFhbWwxell2MGV1bmZ6ckF1blhu?=
+ =?utf-8?B?SUwrVy9FOThzQUlKWFJ5QkFOMVdBbVhIY3BVMnJzL21HVUUvQ2hNdWRMQ2to?=
+ =?utf-8?B?aS8zTU5yczRJZFpoaUY1ZlduZlVGSFB2Y2xucWpJYVNvUDNMeFlvc1ZYZnB1?=
+ =?utf-8?B?TDFCUHJ5RWh4M29Od1VqVFdsZUVnOGEzalVaK01oRis5WTY3NkU3aWFKbCtp?=
+ =?utf-8?B?UUxzYmM3OVBHM3hydTNER1JBSmoyc080TEdJNlU1SkhDTGRPVWdCekdHazFV?=
+ =?utf-8?B?enZHTkZra293dEJrVDlwdXZkLzVvM25neGlEWW1nUlJDTmNrdWo2VU9QaE13?=
+ =?utf-8?B?bnVZbllqS1pqK204UlJSL0xHMnRSbW4vNHNkNVBWdDFkTDdiS2Q3a1Z5RS9y?=
+ =?utf-8?B?Tnk4NndsMFBHYlFDek9HZkF3UFJTQzFkN0FBTitNU1IzY1VreHltc2RaanJt?=
+ =?utf-8?B?R0IyNWx2QndPUFh3UitlaTlpZDVnRXdQMU1Oc2tTeHc3YVBrQTNaQ0krU1ly?=
+ =?utf-8?B?THZXaXpMUHdDMnFhS1M3T2k5N3dCM0E4SGhYQ1cybUJXcytWa2NVMVlHZzd2?=
+ =?utf-8?B?M1k4UGZQV1pHdzBjYTMvVDdiSXNOSVUwaVJ4Zi9vS21nWlBlSHFSelJ1Qzhu?=
+ =?utf-8?B?NkxqNUlIcVRTclhhcmhsUjg4QTJBVWtEVXFkY2lhb3dFbE10akMrQjhRS3hV?=
+ =?utf-8?B?NEZFenlZZ3dIZGZQb0tiazdZbUZvMUxBTThpV3lieUhTamZvaURKSHNFakZM?=
+ =?utf-8?B?TkZ3aGZKeEFCTEZWSVRaMERydDhqNm5YZm5TQy9EMVUyZVA0ekJCMFl1amdu?=
+ =?utf-8?B?Rko4UUxvK0hMM205RG5CUUNqWHdRK05aRjJGYzBhYmVMNzQ5TjFrbEtaaWZY?=
+ =?utf-8?B?U3JRVTFpNmlmeXVqY0FNaE95YVNHUElBNVExYVlDbnNUWFIzdDV6dmJMVWht?=
+ =?utf-8?B?S1lYMzRjVVpTcUF3MHZ1OXpUY2huUkZ6SExnZGJlTmxhMmtNekh3MytTYXpk?=
+ =?utf-8?B?U2FhN1R6RlFTRklsNW8ySnBSQW9YM0J6YmJER0NpRUQvaURBcjEwZkt2SEpt?=
+ =?utf-8?B?TjNDd3BwL1VNamxQQWx5ZXZaczN0dzBmL1JvcC8zUzdETEF3YitqVVVpc2Na?=
+ =?utf-8?B?OHV1UXg4WVFJbHlMRFBnYU8zNWxHK0w3cXcxU05ycmRoVE9SbVFvVkk1Q2pi?=
+ =?utf-8?Q?PT95X84u2dezz?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9869ece3-f9f5-443b-e3b4-08d91a286400
+X-MS-Exchange-CrossTenant-Network-Message-Id: 324f9861-13db-4bc6-fcef-08d91a28ae93
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 18:11:43.1208 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 18:13:48.1352 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6unDNN7wy5qzFQIHTEqb5Qs2mg8FIHQ5M0GeTN0UboFDmQiHL/Zhg9xShihQTqRl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4095
+X-MS-Exchange-CrossTenant-UserPrincipalName: WAdEpfKFksvnvkaszIG4Qkqq+DyN0wug3wpAVUAI/eaydf/mDFIpH7Gvlp0+WgpP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2450
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,102 +141,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org, helgaas@kernel.org,
+ Felix.Kuehling@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 18.05.21 um 19:32 schrieb Thomas Hellström:
-> [SNIP]
->>>> PTE handling is the domain of TTM, drivers should never mess with 
->>>> that directly.
->>>
->>> Hmm. May I humbly suggest a different view on this:
->>>
->>> I agree fully for ttm_bo_type_device bos but for ttm_bo_type_kernel, 
->>> TTM has no business whatsoever with user-space PTEs. That's really 
->>> why that bo type exists in the first place. But otoh one can of 
->>> course argue that then i915 has no business calling the TTM fault 
->>> helper for these bos.
->>
->> Well the real question is why does i915 wants to expose kernel BOs to 
->> userspace? As the name says only the kernel should be able to access 
->> them.
->
-> I'd say "kernel" of course refers to how TTM handles them.
 
-Fair enough.
-
->>
+Am 18.05.21 um 20:09 schrieb Andrey Grodzovsky:
+> On 2021-05-18 2:02 p.m., Christian König wrote:
+>> Am 18.05.21 um 19:43 schrieb Andrey Grodzovsky:
+>>> On 2021-05-18 12:33 p.m., Christian König wrote:
+>>>> Am 18.05.21 um 18:17 schrieb Andrey Grodzovsky:
+>>>>>
+>>>>>
+>>>>> On 2021-05-18 11:15 a.m., Christian König wrote:
+>>>>>> Am 18.05.21 um 17:03 schrieb Andrey Grodzovsky:
+>>>>>>>
+>>>>>>> On 2021-05-18 10:07 a.m., Christian König wrote:
+>>>>>>>> In a separate discussion with Daniel we once more iterated over 
+>>>>>>>> the dma_resv requirements and I came to the conclusion that 
+>>>>>>>> this approach here won't work reliable.
+>>>>>>>>
+>>>>>>>> The problem is as following:
+>>>>>>>> 1. device A schedules some rendering with into a buffer and 
+>>>>>>>> exports it as DMA-buf.
+>>>>>>>> 2. device B imports the DMA-buf and wants to consume the 
+>>>>>>>> rendering, for the the fence of device A is replaced with a new 
+>>>>>>>> operation.
+>>>>>>>> 3. device B is hot plugged and the new operation canceled/newer 
+>>>>>>>> scheduled.
+>>>>>>>>
+>>>>>>>> The problem is now that we can't do this since the operation of 
+>>>>>>>> device A is still running and by signaling our fences we run 
+>>>>>>>> into the problem of potential memory corruption.
+>>>>>
+>>>>> By signaling s_fence->finished of the canceled operation from the
+>>>>> removed device B we in fact cause memory corruption for the 
+>>>>> uncompleted
+>>>>> job still running on device A ? Because there is someone waiting to
+>>>>> read write from the imported buffer on device B and he only waits for
+>>>>> the s_fence->finished of device B we signaled
+>>>>> in drm_sched_entity_kill_jobs ?
+>>>>
+>>>> Exactly that, yes.
+>>>>
+>>>> In other words when you have a dependency chain like A->B->C then 
+>>>> memory management only waits for C before freeing up the memory for 
+>>>> example.
+>>>>
+>>>> When C now signaled because the device is hot-plugged before A or B 
+>>>> are finished they are essentially accessing freed up memory.
 >>>
->>> So for discrete we can probably do the right thing with 
->>> ttm_bo_type_device. What worries me a bit is when we get to older 
->>> hardware support because whatever we do is by definition going to be 
->>> ugly. At best we might be able to split the address space between 
->>> i915's mmos, and hand the rest to TTM, modifying offsets as you 
->>> suggest. That way a TTM call to unmap_mapping_range() would do the 
->>> right thing, I think.
+>>> But didn't C imported the BO form B or A in this case ? Why would he be
+>>> the one releasing that memory ? He would be just dropping his reference
+>>> to the BO, no ?
 >>
->> Well we do all kind of nasty stuff with the offset in DMA-buf, KFD, 
->> overlayfs etc. So adjusting the offset inside the kernel is already 
->> well supported and used.
+>> Well freeing the memory was just an example. The BO could also move 
+>> back to VRAM because of the dropped reference.
 >>
->> What I don't fully understand is your use case here? Can you briefly 
->> describe that?
+>>> Also in the general case,
+>>> drm_sched_entity_fini->drm_sched_entity_kill_jobs which is
+>>> the one who signals the 'C' fence with error code are as far
+>>> as I looked called from when the user of that BO is stopping
+>>> the usage anyway (e.g. drm_driver.postclose callback for when use
+>>> process closes his device file) who would then access and corrupt
+>>> the exported memory on device A where the job hasn't completed yet ?
 >>
->> Do you use different bits of the offset to signal what caching 
->> behavior you have? And then based on this adjust the pgprot_t in the 
->> vma?
+>> Key point is that memory management only waits for the last added 
+>> fence, that is the design of the dma_resv object. How that happens is 
+>> irrelevant.
 >>
->> Thanks,
+>> Because of this we at least need to wait for all dependencies of the 
+>> job before signaling the fence, even if we cancel the job for some 
+>> reason.
+>>
 >> Christian.
 >
-> TBH I'm not completely sure about the history of this. I think the 
-> basic idea is that you want to support different vmas with different 
-> caching modes, so you never change the vma pgprot after mmap time, 
-> like TTM does. Needless to say this only works with Intel processors 
-> on integrated and the more I write about this the more I'm convinced 
-> that we should perhaps not concern TTM with that at all.
+> Would this be the right way to do it ?
 
-Yeah, that might be a possibility.
+Yes, it is at least a start. Question is if we can wait blocking here or 
+not.
 
-But KFD does something very similar IIRC. They stuff the routing 
-information into the upper bits of the offset and adjust it then to 
-match what TTM wants in the mmap() callback.
+We install a callback a bit lower to avoid blocking, so I'm pretty sure 
+that won't work as expected.
 
-Adjusting the caching behavior on the fly is really tricky and I'm 
-pretty sure you should not do that outside of the integrated Intel 
-processor anyway :)
-
-Cheers,
 Christian.
 
 >
-> /Thomas
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
+> b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 2e93e881b65f..10f784874b63 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -223,10 +223,14 @@ static void drm_sched_entity_kill_jobs(struct 
+> drm_sched_entity *entity)
+>  {
+>         struct drm_sched_job *job;
+>         int r;
+> +       struct dma_fence *f;
+>
+>         while ((job = 
+> to_drm_sched_job(spsc_queue_pop(&entity->job_queue)))) {
+>                 struct drm_sched_fence *s_fence = job->s_fence;
+>
+> +               while (f = sched->ops->dependency(sched_job, entity))
+> +                       dma_fence_wait(f);
+> +
+>                 drm_sched_fence_scheduled(s_fence);
+>                 dma_fence_set_error(&s_fence->finished, -ESRCH);
+>
+> Andrey
+>
 >
 >
 >>
 >>>
->>> /Thomas
+>>> Andrey
 >>>
 >>>>
 >>>> Christian.
 >>>>
 >>>>>
->>>>> While we're in the process of killing that offset flexibility for 
->>>>> discrete, we can't do so for older hardware unfortunately.
+>>>>> Andrey
 >>>>>
->>>>> /Thomas
->>>>>
->>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> I am not sure this problem you describe above is related to this 
+>>>>>>> patch.
+>>>>>>
+>>>>>> Well it is kind of related.
+>>>>>>
+>>>>>>> Here we purely expand the criteria for when sched_entity is
+>>>>>>> considered idle in order to prevent a hang on device remove.
+>>>>>>
+>>>>>> And exactly that is problematic. See the jobs on the entity need 
+>>>>>> to cleanly wait for their dependencies before they can be completed.
+>>>>>>
+>>>>>> drm_sched_entity_kill_jobs() is also not handling that correctly 
+>>>>>> at the moment, we only wait for the last scheduled fence but not 
+>>>>>> for the dependencies of the job.
+>>>>>>
+>>>>>>> Were you addressing the patch from yesterday in which you commented
+>>>>>>> that you found a problem with how we finish fences ? It was
+>>>>>>> '[PATCH v7 12/16] drm/amdgpu: Fix hang on device removal.'
+>>>>>>>
+>>>>>>> Also, in the patch series as it is now we only signal HW fences 
+>>>>>>> for the
+>>>>>>> extracted device B, we are not touching any other fences. In 
+>>>>>>> fact as you
+>>>>>>> may remember, I dropped all new logic to forcing fence 
+>>>>>>> completion in
+>>>>>>> this patch series and only call 
+>>>>>>> amdgpu_fence_driver_force_completion
+>>>>>>> for the HW fences of the extracted device as it's done today 
+>>>>>>> anyway.
+>>>>>>
+>>>>>> Signaling hardware fences is unproblematic since they are emitted 
+>>>>>> when the software scheduling is already completed.
 >>>>>>
 >>>>>> Christian.
->>>>>
->>>>>
->>>>>
 >>>>>>
 >>>>>>>
->>>>>>> /Thomas
+>>>>>>> Andrey
 >>>>>>>
+>>>>>>>>
+>>>>>>>> Not sure how to handle that case. One possibility would be to 
+>>>>>>>> wait for all dependencies of unscheduled jobs before signaling 
+>>>>>>>> their fences as canceled.
+>>>>>>>>
+>>>>>>>> Christian.
+>>>>>>>>
+>>>>>>>> Am 12.05.21 um 16:26 schrieb Andrey Grodzovsky:
+>>>>>>>>> Problem: If scheduler is already stopped by the time sched_entity
+>>>>>>>>> is released and entity's job_queue not empty I encountred
+>>>>>>>>> a hang in drm_sched_entity_flush. This is because 
+>>>>>>>>> drm_sched_entity_is_idle
+>>>>>>>>> never becomes false.
+>>>>>>>>>
+>>>>>>>>> Fix: In drm_sched_fini detach all sched_entities from the
+>>>>>>>>> scheduler's run queues. This will satisfy 
+>>>>>>>>> drm_sched_entity_is_idle.
+>>>>>>>>> Also wakeup all those processes stuck in sched_entity flushing
+>>>>>>>>> as the scheduler main thread which wakes them up is stopped by 
+>>>>>>>>> now.
+>>>>>>>>>
+>>>>>>>>> v2:
+>>>>>>>>> Reverse order of drm_sched_rq_remove_entity and marking
+>>>>>>>>> s_entity as stopped to prevent reinserion back to rq due
+>>>>>>>>> to race.
+>>>>>>>>>
+>>>>>>>>> v3:
+>>>>>>>>> Drop drm_sched_rq_remove_entity, only modify entity->stopped
+>>>>>>>>> and check for it in drm_sched_entity_is_idle
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>>>>>>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>>>>>>>> ---
+>>>>>>>>>   drivers/gpu/drm/scheduler/sched_entity.c |  3 ++-
+>>>>>>>>>   drivers/gpu/drm/scheduler/sched_main.c   | 24 
+>>>>>>>>> ++++++++++++++++++++++++
+>>>>>>>>>   2 files changed, 26 insertions(+), 1 deletion(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
+>>>>>>>>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>>>>> index 0249c7450188..2e93e881b65f 100644
+>>>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>>>>> @@ -116,7 +116,8 @@ static bool 
+>>>>>>>>> drm_sched_entity_is_idle(struct drm_sched_entity *entity)
+>>>>>>>>>       rmb(); /* for list_empty to work without lock */
+>>>>>>>>>       if (list_empty(&entity->list) ||
+>>>>>>>>> - spsc_queue_count(&entity->job_queue) == 0)
+>>>>>>>>> + spsc_queue_count(&entity->job_queue) == 0 ||
+>>>>>>>>> +        entity->stopped)
+>>>>>>>>>           return true;
+>>>>>>>>>       return false;
+>>>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
+>>>>>>>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>>>>> index 8d1211e87101..a2a953693b45 100644
+>>>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>>>>> @@ -898,9 +898,33 @@ EXPORT_SYMBOL(drm_sched_init);
+>>>>>>>>>    */
+>>>>>>>>>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>>>>>>>>>   {
+>>>>>>>>> +    struct drm_sched_entity *s_entity;
+>>>>>>>>> +    int i;
+>>>>>>>>> +
+>>>>>>>>>       if (sched->thread)
+>>>>>>>>>           kthread_stop(sched->thread);
+>>>>>>>>> +    for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= 
+>>>>>>>>> DRM_SCHED_PRIORITY_MIN; i--) {
+>>>>>>>>> +        struct drm_sched_rq *rq = &sched->sched_rq[i];
+>>>>>>>>> +
+>>>>>>>>> +        if (!rq)
+>>>>>>>>> +            continue;
+>>>>>>>>> +
+>>>>>>>>> +        spin_lock(&rq->lock);
+>>>>>>>>> +        list_for_each_entry(s_entity, &rq->entities, list)
+>>>>>>>>> +            /*
+>>>>>>>>> +             * Prevents reinsertion and marks job_queue as idle,
+>>>>>>>>> +             * it will removed from rq in drm_sched_entity_fini
+>>>>>>>>> +             * eventually
+>>>>>>>>> +             */
+>>>>>>>>> +            s_entity->stopped = true;
+>>>>>>>>> +        spin_unlock(&rq->lock);
+>>>>>>>>> +
+>>>>>>>>> +    }
+>>>>>>>>> +
+>>>>>>>>> +    /* Wakeup everyone stuck in drm_sched_entity_flush for 
+>>>>>>>>> this scheduler */
+>>>>>>>>> +    wake_up_all(&sched->job_scheduled);
+>>>>>>>>> +
+>>>>>>>>>       /* Confirm no work left behind accessing device 
+>>>>>>>>> structures */
+>>>>>>>>> cancel_delayed_work_sync(&sched->work_tdr);
+>>>>>>>>
 >>>>>>
 >>>>
 >>
