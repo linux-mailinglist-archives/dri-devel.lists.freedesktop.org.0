@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182DB38721A
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 08:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCBE387221
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 08:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95A976E955;
-	Tue, 18 May 2021 06:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EEBD6EA87;
+	Tue, 18 May 2021 06:42:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FDA56E955
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 06:42:48 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- gc22-20020a17090b3116b02901558435aec1so989170pjb.4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 23:42:48 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F096EA85
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 06:42:57 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id s4so2971846plg.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 23:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sGrhy/lObEmrAUPjh232akVjdJCQ2N3TEXL4wbqFbws=;
- b=duRWURIb9Sx8GJHi1ThwAr2NHVUzVDJmZ2JmfALmXmR1jxNy4cEQqo3Uwkbwr8EGA5
- R6coZdV6ao6m5xA8Ypmv+2VDPONe4O7NNvHSgWcMocDtkrKiWZWiU74wMPfrgeqiPT2O
- Tm9+7vaYlGeGJ0ngcQbAsFwROnGV4x58UiTXo=
+ bh=dhey+gEpzKL8h8pP3jKcbtrIWfO9mRaRLZrTGjSACw0=;
+ b=OzRbULE97gDu+nJm+2W1/NzhhkCj0QCTZrsqxU76qn+vtZGLqcb+w1igoYylLgqZMK
+ FNrnT45xuk38fTuKCy3r98pZ9JUuUor+pLXJzBOrMy0zAumHGMSv3m5XekoY/RuTIkUO
+ rl+4b1wiByTGqcgiDzKrnenCWuMAxjCqA3MzM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sGrhy/lObEmrAUPjh232akVjdJCQ2N3TEXL4wbqFbws=;
- b=rJOmpUBbMNEEqZIN1gvKKBMDAW8RYIZTevizu8puItzote3gZbRCCxoaYIEU5OTVFF
- 4+/KL6s67/CxVXmYcplnCofkDILXpIS3cuuo2EWIQrA9rvLnqBifLCaMcGhgbqEeS7B2
- jVF4nXO0i0eenKOL1HnOg24HuQPY0IcN08DlYv9zSUz+hwdgADok2AHlKRb1rM8yWZ+y
- lL32wPez1ac/sKaJW7ryT4IHCUUOacyCf6VSqW02wq+vp94pU5TxDzizv6JIQtt8VtsN
- GLhOneY4O2EoEsHXVDbfQGO8QQZsYFIwuBo3eTTuO14WKgXuO4bxmDn28+qzvLUHaU3C
- CIdA==
-X-Gm-Message-State: AOAM533wPJZd+l4XsexGGYGLheuedtIkh9+8+kNLPaWrWZi6qN1nGe9y
- g+ONZDtmgk8sOXDsSgDR6uk7Gw==
-X-Google-Smtp-Source: ABdhPJxBFjGdNYNy2/hyDmz/8TNNMnZjFTEu3cEDsr/NePqF5IBoqi2/51M3flUXtNzSuuF0EAFgfQ==
-X-Received: by 2002:a17:90b:128d:: with SMTP id
- fw13mr1083856pjb.211.1621320167688; 
- Mon, 17 May 2021 23:42:47 -0700 (PDT)
+ bh=dhey+gEpzKL8h8pP3jKcbtrIWfO9mRaRLZrTGjSACw0=;
+ b=HwiH+xXsrlyxEhBAW8OLqg0FrVuM4Bfyu4AsyYVfHN7+cJICvd0ZEbCOTS1MDfBqDQ
+ /K/D5xIqgoTh+HDBZGzXyXVYaKqi2pQiEECDCeMNdRFByvpGzSMFY9PXbRMdG+90R7Fi
+ a4oJ+HktFug9O+etFYK68lqRPisF19mFfQXyVA2FiSflWaCkngFhoaANABJtmS44CrKM
+ prwzZBT6SUZpvNN3WJC216tbeRy3731znQ+TfHAmtv11q3PTjcQQVIXvn11qbwKCqSIF
+ x7SwHyNYB9SuRp5g0HQs/rhOYFaUumfoqBN3aSHULCHpYBVrvXnkvfZafBXD17Q7nPGo
+ zQyg==
+X-Gm-Message-State: AOAM531HgC0ybGA19KDNUEwbilkohAa42H6xCbCx7tDpGmkPuu8ljRvC
+ 5FEYSYCbQTKXkfHCc8qdtNy/vg==
+X-Google-Smtp-Source: ABdhPJzAlI3Jj1VfPflg9N5+BlUFXyQH4Z87PXO5YBjAsPmi6ozdOqhZFzyDTIlkjmaywaEzQdXtCA==
+X-Received: by 2002:a17:90b:1d8f:: with SMTP id
+ pf15mr3521801pjb.164.1621320176785; 
+ Mon, 17 May 2021 23:42:56 -0700 (PDT)
 Received: from localhost ([2401:fa00:95:205:f284:b819:54ca:c198])
- by smtp.gmail.com with UTF8SMTPSA id w2sm6038009pjq.5.2021.05.17.23.42.40
+ by smtp.gmail.com with UTF8SMTPSA id o7sm7726182pgs.45.2021.05.17.23.42.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 23:42:47 -0700 (PDT)
+ Mon, 17 May 2021 23:42:56 -0700 (PDT)
 From: Claire Chang <tientzu@chromium.org>
 To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
  Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -51,9 +50,9 @@ To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
  jgross@suse.com, Christoph Hellwig <hch@lst.de>,
  Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH v7 02/15] swiotlb: Refactor swiotlb_create_debugfs
-Date: Tue, 18 May 2021 14:42:02 +0800
-Message-Id: <20210518064215.2856977-3-tientzu@chromium.org>
+Subject: [PATCH v7 03/15] swiotlb: Add DMA_RESTRICTED_POOL
+Date: Tue, 18 May 2021 14:42:03 +0800
+Message-Id: <20210518064215.2856977-4-tientzu@chromium.org>
 X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
 In-Reply-To: <20210518064215.2856977-1-tientzu@chromium.org>
 References: <20210518064215.2856977-1-tientzu@chromium.org>
@@ -94,63 +93,38 @@ Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split the debugfs creation to make the code reusable for supporting
-different bounce buffer pools, e.g. restricted DMA pool.
+Add a new kconfig symbol, DMA_RESTRICTED_POOL, for restricted DMA pool.
 
 Signed-off-by: Claire Chang <tientzu@chromium.org>
 ---
- kernel/dma/swiotlb.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ kernel/dma/Kconfig | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index d3232fc19385..b849b01a446f 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -64,6 +64,7 @@
- enum swiotlb_force swiotlb_force;
+diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
+index 77b405508743..3e961dc39634 100644
+--- a/kernel/dma/Kconfig
++++ b/kernel/dma/Kconfig
+@@ -80,6 +80,20 @@ config SWIOTLB
+ 	bool
+ 	select NEED_DMA_MAP_STATE
  
- struct io_tlb_mem *io_tlb_default_mem;
-+static struct dentry *debugfs_dir;
- 
- /*
-  * Max segment that we can provide which (if pages are contingous) will
-@@ -662,18 +663,30 @@ EXPORT_SYMBOL_GPL(is_swiotlb_active);
- 
- #ifdef CONFIG_DEBUG_FS
- 
--static int __init swiotlb_create_debugfs(void)
-+static void swiotlb_create_debugfs(struct io_tlb_mem *mem, const char *name)
- {
--	struct io_tlb_mem *mem = io_tlb_default_mem;
--
- 	if (!mem)
--		return 0;
--	mem->debugfs = debugfs_create_dir("swiotlb", NULL);
-+		return;
++config DMA_RESTRICTED_POOL
++	bool "DMA Restricted Pool"
++	depends on OF && OF_RESERVED_MEM
++	select SWIOTLB
++	help
++	  This enables support for restricted DMA pools which provide a level of
++	  DMA memory protection on systems with limited hardware protection
++	  capabilities, such as those lacking an IOMMU.
 +
-+	mem->debugfs = debugfs_create_dir(name, debugfs_dir);
- 	debugfs_create_ulong("io_tlb_nslabs", 0400, mem->debugfs, &mem->nslabs);
- 	debugfs_create_ulong("io_tlb_used", 0400, mem->debugfs, &mem->used);
-+}
++	  For more information see
++	  <Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt>
++	  and <kernel/dma/swiotlb.c>.
++	  If unsure, say "n".
 +
-+static int __init swiotlb_create_default_debugfs(void)
-+{
-+	struct io_tlb_mem *mem = io_tlb_default_mem;
-+
-+	if (mem) {
-+		swiotlb_create_debugfs(mem, "swiotlb");
-+		debugfs_dir = mem->debugfs;
-+	} else {
-+		debugfs_dir = debugfs_create_dir("swiotlb", NULL);
-+	}
-+
- 	return 0;
- }
- 
--late_initcall(swiotlb_create_debugfs);
-+late_initcall(swiotlb_create_default_debugfs);
- 
- #endif
+ #
+ # Should be selected if we can mmap non-coherent mappings to userspace.
+ # The only thing that is really required is a way to set an uncached bit
 -- 
 2.31.1.751.gd2f1c929bd-goog
 
