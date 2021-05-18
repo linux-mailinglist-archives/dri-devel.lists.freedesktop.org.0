@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00B0388226
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 23:31:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 003E6388279
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 23:55:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A3CB6ECB2;
-	Tue, 18 May 2021 21:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69FE66E04E;
+	Tue, 18 May 2021 21:55:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B8E16ECB2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 21:31:48 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id u21so16758698ejo.13
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 14:31:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B316E04E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 21:55:18 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id x19so16069484lfa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 14:55:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=veMfG6kwKtjGfJk6CkECwMk0LnoYrS9PYsgFuQgGNNo=;
- b=mARpTPBbZ9aaAj6af4Ph+av/wITZP1I2JAN/uh/ZFB0Kak/rKyNrSlAT1XDsqjZO6x
- w2Ofvqkfhrqc94Mz2G5PF4OLteFtdHHMgAAmBXtaIBCGiq+w9A/06Uw9jSbGm1Xc0tp0
- 1jOUFPVCzrza7vmmhpW47L8RgtUbqqjf/iEopo19C3g0nrc3LYPVQBhJyznKQx/LuM9T
- 5rM7flKSlOIqd7505V9n6iUUiF7MQJf+6sxl02fb2XPw3XYDQBth1w4nU4TlrZXOWgFt
- SaPjb2K57xfQGWJjdgO5mZcC2QiUca7LuEEi1qeWSLEBqsGGT89ApaH6KZHZj23WrfiY
- iMxQ==
+ :cc; bh=pkrHwFXuonxLm5iDdJ3GtAunCIVS4uNey/s/gmA9qII=;
+ b=AU1FYN+YPLrrcpqdk93hUps142FI9u50Upipl/5vJqomzUF0z2WNfqfHR37Zp7iebh
+ feqtivkL/u2Wafb4kQ/YzUqSKgGNdrKaIZJBN3en5R+jCNfro1DuQby8XvHgMbMXhQF6
+ OhqnhYqxohXqln7+PRuUMZY4V+QHiSL30NCZojyMjkT/eJCfGmqImDQg8SgpShUmKMsf
+ bTXsHFuZFsGhWo8QGdRryEVMuuGTMhrAIQYobnp6UQyx9CgrebwdEp02k2qoHre477KG
+ 0rmJrsggg4sirK3RhtOdRNPnbhSW6I2Rpua/JBUnFz5gIwraJHX3N4m/HSnojveMLYea
+ uPlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=veMfG6kwKtjGfJk6CkECwMk0LnoYrS9PYsgFuQgGNNo=;
- b=l08WGnWC4HVt5VXZpadk6SytV523wxtLYa3bxJBLu3Pke64n7W+onrL5/5+9s7EQnS
- ulthlEZ8POYXaQH8ZoFJZ2+Uqx2/GMD0qYz+pj+dFA6p9zEOuBiqa2bGWQ/Zm5KFy4lU
- AK3AGe1ekvd6jva/OX32BTdImT9oHCPszzfi9CK7Yt+RHDuw4aP4UaMLxI7A4/izcJNl
- yFluXHjlfQQkpAWBul9E2mdVaeecolsyvTe+yTBrXqzlBg6x4g52nCFbak8MDQxivzeX
- GbUI/bnCGPvTx44yw77tOv/7tFh0yAt4iQQN/GIWXb7aA6ei7+OnQTQvNDEG079ljBXn
- DdXw==
-X-Gm-Message-State: AOAM531ecAsncsjntFTZAbHLouFytU1psXzqkSCJ4H2+Y/0zIDBE7Lc0
- w94WX1JxlMQF5UNOWqRSl8Nm6o1Ocld9yOe+WHb+OnjS
-X-Google-Smtp-Source: ABdhPJxglJopJPVJeBdJAibx2pLncwgknWUSIbigd+ipMvPXFO+JmZfx1w+dU/BvPykLB89d5NTB0UodnOwsVCtUBGY=
-X-Received: by 2002:a17:906:6b96:: with SMTP id
- l22mr8027647ejr.456.1621373506979; 
- Tue, 18 May 2021 14:31:46 -0700 (PDT)
+ bh=pkrHwFXuonxLm5iDdJ3GtAunCIVS4uNey/s/gmA9qII=;
+ b=YidoUUylx6QP5pkXCf/UdPlWQpIWSwQtA8vs7N4ATEE+3TKALQ5yWy/Wedh7pqVUH9
+ qvqLzGn+2fkv3/VQuj3jd9JriFeePm7yIqdpZE78YryTD9w3EBm03I2roRK+Gdf9JXA2
+ 5Ar9wXria23xoycN2otkNC12T93V3BvyY74NZrc6m3TpCjRYf0zhxWbFMD/SQsICDIEd
+ sgToXxPs6nGVOibCqPfUpY6GpGOJVsbep9BE/BzPA81FWhKQEQ2JIATFkbD0k1HHldZ/
+ dX3lyqSrdHRhPpzxfv8JJimsfHG99Sjox3wCR/g2jpscKt8cRe8PYh3ALifYLAih74r+
+ Sa1w==
+X-Gm-Message-State: AOAM530lMrQqP2IllIdnC4/ESwei+Xv2C+MY7bxQfBby2tYJrJQTqHxQ
+ G+jkp0l0dwcMVRkmZ4Zo882y3E2nmtTMQYuHYe9+9w==
+X-Google-Smtp-Source: ABdhPJz9MA53JA954IbUUfEyxfpo4uPR8Ul7Uig4rJHfmQ7MaPqfNQ6SM8JW041MR4qdzpgyVUbRq0S/NwMESjwAGs0=
+X-Received: by 2002:a05:6512:1050:: with SMTP id
+ c16mr5611408lfb.586.1621374916871; 
+ Tue, 18 May 2021 14:55:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210517141129.2225-1-christian.koenig@amd.com>
- <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
- <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
- <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
- <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
- <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
- <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
- <CAKMK7uHLipx_oH-s5PB6pUUZ_JXCyciaY7sDLfK__-2fvSPCKA@mail.gmail.com>
- <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
-In-Reply-To: <f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 19 May 2021 07:31:35 +1000
-Message-ID: <CAPM=9txtjS1UNRVjcWvW4JhwggOaZ4rwgbvCvWv43-eYEBt5gA@mail.gmail.com>
-Subject: Re: [RFC] Add DMA_RESV_USAGE flags
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20210511165448.422987-1-clabbe@baylibre.com>
+ <20210518002624.GA3346846@robh.at.kernel.org>
+ <YKQJjrlTB0RZYNOK@Red>
+In-Reply-To: <YKQJjrlTB0RZYNOK@Red>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 18 May 2021 23:55:05 +0200
+Message-ID: <CACRpkdYncNhe=iuqk7tAu=XeBSOcbbG=ArvxYYRmOGbHY7gyJg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: convert faraday,tve200 to YAML
+To: LABBE Corentin <clabbe@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,20 +64,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, Jason Ekstrand <jason@jlekstrand.net>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Dave Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->
-> We basically don't know during CS if a BO is shared or not.
+On Tue, May 18, 2021 at 8:38 PM LABBE Corentin <clabbe@baylibre.com> wrote:
 
-Who doesn't know? We should be able to track this quite easily,
-userspace either imports or exports buffers,
-it can surely keep track of these and flag them.
+> The only solution is to remove "reg = <0>;" and calling the node "port".
+> Does it is acceptable ?
 
-Is this a userspace might lie to use worry or do you have some really
-broken userspace we don't know about?
+It's what I've done in the past at least so looks like the right thing to me.
+It is only used in this device tree:
+arch/arm/boot/dts/gemini-dlink-dir-685.dts
+if you send me a patch to change port@0
+to just port then I'll merge it pronto. (I can apply this patch to the DRM
+misc tree as well when Rob thing it's fine.)
 
-Dave.
+Yours,
+Linus Walleij
