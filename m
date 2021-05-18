@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B5C3879C1
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 15:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3176E3879C4
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 15:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3BB6EB6E;
-	Tue, 18 May 2021 13:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 387026EB6F;
+	Tue, 18 May 2021 13:21:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19A566EB6E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 13:21:09 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id 69so5068505plc.5
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 06:21:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Eij78DTYm6LdNyJPrTT7rIc4tl9S27pR1VqAL0ye5eg=;
- b=i3pMD4EzmEx0IQ02hRhTPfWzHAZxoHQCiYfbjxNP823FZ/30gTRWPWGpibKir53wDG
- 5Y8bC28z0VPmH9l0Btv2arydjw0pIGMo6+1IJ1Jiu9VG0xn4MHgOefKpmwc1OnJxP/A7
- nC950+rJqjW66it6AZo2SWrI8rlHWNQF9ujtGqENUM3Kg9WUrBr1eYHb1b2JU3tuXgd0
- PtcEWdMj6op4rGBFmIBnCwwmk6WqEPdCaXz+UVjy+mZvqlMTClxYQO2stfqHIVMNlCgl
- qvBYy6QqFo3qj0+0xb/NcyU6YM8XUgzAucXH2GP4hbq56Cm+Zj2/HeHnk/V4WWYJTFjc
- w2Ew==
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
+ [209.85.167.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C995B6EB6F
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 13:21:23 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id w127so5902943oig.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 06:21:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Eij78DTYm6LdNyJPrTT7rIc4tl9S27pR1VqAL0ye5eg=;
- b=BcSqFPt8Lq7Ujszqp71JOickEoCcLA7szd74lj1LSm6VYoybIryan3J3kcmbOpqfQc
- 2337N9UfREa7oPuG48LR1Nd1rcqulElBuQryVttFeOgCgWal28DvnztVe81VD+zWPxGO
- /g0jMNMpbNV8TGrOzPuYbE16zzZlEBCuF9GS/UHMXHgDdZCIu6thgM2k3C65jBUbL6k3
- iMAt1suST4dereSkDaHiM4OCS/+xPXJXGZc0pQbMJrRaYGg7ceq4MGyHjh6zFEIObiw4
- hgFNLzO8e4QFyUXuohUrSTXBt5SPkM5lSYYQuKzpiHlP24EBx9kT0Lx96fSQqliTryyj
- r03Q==
-X-Gm-Message-State: AOAM532QeKSWrrhDnwIOFkJlMf7j6H7nG8EOUowTPrbD7h28Fy8zWgPL
- ieEL3D8DQ/0vjaN8d5b4x1m+yYWVGCOGzuFF0xm6zg==
-X-Google-Smtp-Source: ABdhPJyEB0vA70S0lI3WHu3HCNasA37Y5tjILdnUF6+2WrHYIGLEwPF3u5iNV46DS4+EpEvgiHCl+6xIZzDLKE+vwLQ=
-X-Received: by 2002:a17:90a:7e8f:: with SMTP id
- j15mr5529715pjl.19.1621344068626; 
- Tue, 18 May 2021 06:21:08 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=u+wN1H4CiOq/deGj0uJD8MCy7BhsRO561PN/y6kBixo=;
+ b=BnPR+HukcrSuBYN5lKRrlUluLa9qo9OJNRDRr0ISYE+NRVVpqYcM1uR+RyJuFAA1SZ
+ aDWaeKrNh79P1gYjR9ejTuebmTKM56Jc8+NRTp1upLZSaL9i53W8U52YaCB7G8/poLo8
+ ge2D+DXwBXXq6mcCIbhVG7Ru6c+TVch+7sX9d28keuyG6185+3+05UmhERwl2AGztX56
+ GmZgdOGHRiBRmOdCwIiR2JFT2Q+U8BMSsYLH/tfd9LRJk7qaxom+GMphO7bKmzMMOfab
+ VP0tU+x/SDL1H9dACXpEq2I1W0qfNKC5smzDLdxbgIV9zNdHy+og9bYh4w9zzkRogfIW
+ 76fw==
+X-Gm-Message-State: AOAM532vBk5v0BOH3jHwMrhsFPpaGAWS/oUUKAJr5D0HBVCDUIgn6NFG
+ EHwcIEVXJwznBaYe/q5S4Q==
+X-Google-Smtp-Source: ABdhPJzfBHQ7VoQgiEFOmE1+YMwi0t+QqNadLu2n4/RcHyI1SltKiBCKlWZ2rzE8A8SXpn01ZUuu2w==
+X-Received: by 2002:a05:6808:8cd:: with SMTP id
+ k13mr3997317oij.156.1621344081680; 
+ Tue, 18 May 2021 06:21:21 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id d185sm3413682oib.25.2021.05.18.06.21.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 May 2021 06:21:21 -0700 (PDT)
+Received: (nullmailer pid 526193 invoked by uid 1000);
+ Tue, 18 May 2021 13:21:19 -0000
+Date: Tue, 18 May 2021 08:21:19 -0500
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH V4 1/2] dt-bindings: display: bridge: lvds-codec:
+ Document pixel data sampling edge select
+Message-ID: <20210518132119.GA492897@robh.at.kernel.org>
+References: <20210515204317.366967-1-marex@denx.de>
 MIME-Version: 1.0
-References: <YKOGogHasIyvF8nj@mwanda>
-In-Reply-To: <YKOGogHasIyvF8nj@mwanda>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 18 May 2021 15:20:57 +0200
-Message-ID: <CAG3jFytpOb8KeNCjCJ7gq20LQK3UGA9PgGne+cR2kZdADS-Oxg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: fix a ternary type promotion bug
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210515204317.366967-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +62,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, kernel-janitors@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, Benjamin Gaignard <benjamin.gaignard@st.com>,
+ Antonio Borneo <antonio.borneo@st.com>, Vincent Abriou <vincent.abriou@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
+ Yannick Fertre <yannick.fertre@st.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ ch@denx.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Dan,
-
-Thanks for submitting this.
-
-On Tue, 18 May 2021 at 11:20, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> The ti_sn_aux_transfer() function returns ssize_t (signed long).  It's
-> supposed to return negative error codes or the number of bytes
-> transferred.  The "ret" variable is int and the "len" variable is
-> unsigned int.
->
-> The problem is that with a ternary like this, the negative int is first
-> type promoted to unsigned int to match "len" at this point it is a high
-> positive value.  Then when it is type promoted to ssize_t (s64) it
-> remains a high positive value instead of sign extending and becoming a
-> negative again.
->
-> Fix this by removing the ternary.
->
-> Fixes: b137406d9679 ("drm/bridge: ti-sn65dsi86: If refclk, DP AUX can happen w/out pre-enable")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+On Sat, May 15, 2021 at 10:43:15PM +0200, Marek Vasut wrote:
+> The OnSemi FIN3385 Parallel-to-LVDS encoder has a dedicated input line to
+> select input pixel data sampling edge. Add DT property "pclk-sample", not
+> the same as the one used by display timings but rather the same as used by
+> media, to define the pixel data sampling edge.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Alexandre Torgue <alexandre.torgue@st.com>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Antonio Borneo <antonio.borneo@st.com>
+> Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
+> Cc: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: Philippe Cornu <philippe.cornu@st.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Vincent Abriou <vincent.abriou@st.com>
+> Cc: Yannick Fertre <yannick.fertre@st.com>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> To: dri-devel@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index bb0a0e1c6341..45a2969afb2b 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -1042,7 +1042,9 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
->         pm_runtime_mark_last_busy(pdata->dev);
->         pm_runtime_put_autosuspend(pdata->dev);
->
-> -       return ret ? ret : len;
-> +       if (ret)
-> +               return ret;
-> +       return len;
->  }
->
+> V4: New patch split from combined V3
+> ---
+>  .../bindings/display/bridge/lvds-codec.yaml    | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> index 304a1367faaa..f4dd16bd69d2 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> @@ -64,6 +64,14 @@ properties:
+>        - port@0
+>        - port@1
+>  
+> +  pclk-sample:
+> +    description:
+> +      Data sampling on rising or falling edge.
+> +    enum:
+> +      - 0  # Falling edge
+> +      - 1  # Rising edge
+> +    default: 0
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+This is already defined in video-interfaces.yaml, why are you redefining 
+it here?
 
-Applying to drm-misc-fixes.
+It's also defined to be an endpoint property, so move it there and 
+reference video-interfaces.yaml.
+
+> +
+>    powerdown-gpios:
+>      description:
+>        The GPIO used to control the power down line of this device.
+> @@ -71,6 +79,16 @@ properties:
+>  
+>    power-supply: true
+>  
+> +if:
+> +  not:
+> +    properties:
+> +      compatible:
+> +        contains:
+> +          const: lvds-encoder
+> +then:
+> +  properties:
+> +    pclk-sample: false
+
+This constraint would be difficult to express with the property in an 
+endpoint. I'd just drop it.
+
+Rob
