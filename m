@@ -1,34 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315AD3872EF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 09:16:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1593872FA
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 09:16:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61CD16E822;
-	Tue, 18 May 2021 07:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92DF96EAAB;
+	Tue, 18 May 2021 07:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 010C76E822
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 07:16:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D6BB6EAAB
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 07:16:27 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1litxP-0005NG-9I; Tue, 18 May 2021 09:15:59 +0200
+ id 1litxP-0005NH-9H; Tue, 18 May 2021 09:15:59 +0200
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1litxN-0002Za-3U; Tue, 18 May 2021 09:15:57 +0200
+ id 1litxN-0002Zj-4U; Tue, 18 May 2021 09:15:57 +0200
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
  Rob Herring <robh+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Shawn Guo <shawnguo@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v1 2/3] drm: panel-simple: Add support for the Innolux
- G070Y2-T02 panel
-Date: Tue, 18 May 2021 09:15:54 +0200
-Message-Id: <20210518071555.9785-3-o.rempel@pengutronix.de>
+Subject: [PATCH v1 3/3] ARM: dts: imx6dl-prtvt7: Add display and panel nodes
+Date: Tue, 18 May 2021 09:15:55 +0200
+Message-Id: <20210518071555.9785-4-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210518071555.9785-1-o.rempel@pengutronix.de>
 References: <20210518071555.9785-1-o.rempel@pengutronix.de>
@@ -60,50 +59,93 @@ Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible and timings for the Innolux G070Y2-T02 panel. It is 7"
-WVGA (800x480) TFT LCD panel with TTL interface and a backlight unit.
+Add Innolux G070Y2-T02 panel to the Protonic VT7 board.
 
-Co-Developed-by: Robin van der Gracht <robin@protonic.nl>
 Signed-off-by: Robin van der Gracht <robin@protonic.nl>
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ arch/arm/boot/dts/imx6dl-prtvt7.dts | 47 +++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index be312b5c04dd..f79d97115f8f 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2323,6 +2323,19 @@ static const struct panel_desc innolux_g070y2_l01 = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+diff --git a/arch/arm/boot/dts/imx6dl-prtvt7.dts b/arch/arm/boot/dts/imx6dl-prtvt7.dts
+index ae6da241f13e..156a5c5c0dc1 100644
+--- a/arch/arm/boot/dts/imx6dl-prtvt7.dts
++++ b/arch/arm/boot/dts/imx6dl-prtvt7.dts
+@@ -31,6 +31,30 @@ backlight_lcd: backlight-lcd {
+ 		enable-gpios = <&gpio4 28 GPIO_ACTIVE_HIGH>;
+ 	};
+ 
++	display {
++		compatible = "fsl,imx-parallel-display";
++		pinctrl-0 = <&pinctrl_ipu1_disp>;
++		pinctrl-names = "default";
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++
++			display_in: endpoint {
++				remote-endpoint = <&ipu1_di0_disp0>;
++			};
++		};
++
++		port@1 {
++			reg = <1>;
++
++			display_out: endpoint {
++				remote-endpoint = <&panel_in>;
++			};
++		};
++	};
++
+ 	keys {
+ 		compatible = "gpio-keys";
+ 		autorepeat;
+@@ -138,6 +162,18 @@ led-debug0 {
+ 		};
+ 	};
+ 
++	panel {
++		compatible = "innolux,g070y2-t02";
++		backlight = <&backlight_lcd>;
++		power-supply = <&reg_3v3>;
++
++		port {
++			panel_in: endpoint {
++				remote-endpoint = <&display_out>;
++			};
++		};
++	};
++
+ 	reg_bl_12v0: regulator-bl-12v0 {
+ 		compatible = "regulator-fixed";
+ 		pinctrl-names = "default";
+@@ -156,6 +192,13 @@ reg_1v8: regulator-1v8 {
+ 		regulator-max-microvolt = <1800000>;
+ 	};
+ 
++	reg_3v3: regulator-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++	};
++
+ 	sound {
+ 		compatible = "simple-audio-card";
+ 		simple-audio-card,name = "prti6q-sgtl5000";
+@@ -260,6 +303,10 @@ &ipu1 {
+ 	status = "okay";
  };
  
-+static const struct panel_desc innolux_g070y2_t02 = {
-+	.modes = &innolux_at070tn92_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 152,
-+		.height = 92,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
++&ipu1_di0_disp0 {
++	remote-endpoint = <&display_in>;
 +};
 +
- static const struct display_timing innolux_g101ice_l01_timing = {
- 	.pixelclock = { 60400000, 71100000, 74700000 },
- 	.hactive = { 1280, 1280, 1280 },
-@@ -4344,6 +4357,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "innolux,g070y2-l01",
- 		.data = &innolux_g070y2_l01,
-+	}, {
-+		.compatible = "innolux,g070y2-t02",
-+		.data = &innolux_g070y2_t02,
- 	}, {
- 		.compatible = "innolux,g101ice-l01",
- 		.data = &innolux_g101ice_l01
+ &pwm1 {
+ 	#pwm-cells = <2>;
+ 	pinctrl-names = "default";
 -- 
 2.29.2
 
