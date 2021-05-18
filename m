@@ -2,45 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599DB38747C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 10:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0429C3874A1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 11:06:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60FED6EAD1;
-	Tue, 18 May 2021 08:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6556EAE2;
+	Tue, 18 May 2021 09:05:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F33DD6EAD1;
- Tue, 18 May 2021 08:59:43 +0000 (UTC)
-IronPort-SDR: DmLnXFckeuWPuDYEaRBuwA6/Lm8ZG6lDeG3sVLwsZIx5JUw663awOsEYdBYxdMXkVYWv6h0WuG
- kSNMqWtIElvg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="264577174"
-X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="264577174"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 01:59:43 -0700
-IronPort-SDR: 6ePXdr3bJxWPmvJW8eEIMS5tsen+WkLYPg5GTMiWT10jOtKj85TTgTn+Y6sZu19l1uCzxriA/h
- FFJeOYNG+TUg==
-X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="466331559"
-Received: from cmutgix-mobl.gar.corp.intel.com (HELO [10.249.254.195])
- ([10.249.254.195])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 01:59:41 -0700
-Subject: Re: [Intel-gfx] [PATCH v2 13/15] drm/ttm: Add BO and offset arguments
- for vm_access and vm_fault ttm handlers.
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
- <20210518082701.997251-14-thomas.hellstrom@linux.intel.com>
-Message-ID: <7ce49dd3-d4f9-61c1-dcc6-a5d303dc36fc@linux.intel.com>
-Date: Tue, 18 May 2021 10:59:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4896EADF
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 09:05:55 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:c161:a89e:52bd:1787])
+ by xavier.telenet-ops.be with bizsmtp
+ id 695s2500d446CkP0195sBj; Tue, 18 May 2021 11:05:53 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1livfk-006q2F-FE; Tue, 18 May 2021 11:05:52 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1liuVt-0068d1-7n; Tue, 18 May 2021 09:51:37 +0200
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] dt-bindings: display: ssd1307fb: Convert to json-schema
+Date: Tue, 18 May 2021 09:51:31 +0200
+Message-Id: <20210518075131.1463091-1-geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210518082701.997251-14-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,311 +45,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Christian König
+Convert the Solomon SSD1307 Framebuffer Device Tree binding
+documentation to json-schema.
 
-On 5/18/21 10:26 AM, Thomas Hellström wrote:
-> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->
-> This allows other drivers that may not setup the vma in the same way
-> to use the ttm bo helpers.
->
-> Also clarify the documentation a bit, especially related to VM_FAULT_RETRY.
->
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Fix the spelling of the "pwms" property.
+Document default values.
+Make properties with default values not required.
 
-Lgtm. Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+I have listed Maxime as the maintainer, as he wrote the original driver
+and bindings.  Maxime: Please scream if this is inappropriate ;-)
+---
+ .../bindings/display/solomon,ssd1307fb.yaml   | 166 ++++++++++++++++++
+ .../devicetree/bindings/display/ssd1307fb.txt |  60 -------
+ 2 files changed, 166 insertions(+), 60 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/ssd1307fb.txt
 
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  4 +-
->   drivers/gpu/drm/nouveau/nouveau_ttm.c      |  4 +-
->   drivers/gpu/drm/radeon/radeon_ttm.c        |  4 +-
->   drivers/gpu/drm/ttm/ttm_bo_vm.c            | 84 +++++++++++++---------
->   drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c |  8 ++-
->   include/drm/ttm/ttm_bo_api.h               |  9 ++-
->   6 files changed, 75 insertions(+), 38 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index d5a9d7a88315..89dafe14f828 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -1919,7 +1919,9 @@ static vm_fault_t amdgpu_ttm_fault(struct vm_fault *vmf)
->   	if (ret)
->   		goto unlock;
->   
-> -	ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
-> +	ret = ttm_bo_vm_fault_reserved(bo, vmf,
-> +				       drm_vma_node_start(&bo->base.vma_node),
-> +				       vmf->vma->vm_page_prot,
->   				       TTM_BO_VM_NUM_PREFAULT, 1);
->   	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
->   		return ret;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> index b81ae90b8449..555fb6d8be8b 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> @@ -144,7 +144,9 @@ static vm_fault_t nouveau_ttm_fault(struct vm_fault *vmf)
->   
->   	nouveau_bo_del_io_reserve_lru(bo);
->   	prot = vm_get_page_prot(vma->vm_flags);
-> -	ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
-> +	ret = ttm_bo_vm_fault_reserved(bo, vmf,
-> +				       drm_vma_node_start(&bo->base.vma_node),
-> +				       prot, TTM_BO_VM_NUM_PREFAULT, 1);
->   	nouveau_bo_add_io_reserve_lru(bo);
->   	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
->   		return ret;
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-> index 3361d11769a2..ba48a2acdef0 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -816,7 +816,9 @@ static vm_fault_t radeon_ttm_fault(struct vm_fault *vmf)
->   	if (ret)
->   		goto unlock_resv;
->   
-> -	ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
-> +	ret = ttm_bo_vm_fault_reserved(bo, vmf,
-> +				       drm_vma_node_start(&bo->base.vma_node),
-> +				       vmf->vma->vm_page_prot,
->   				       TTM_BO_VM_NUM_PREFAULT, 1);
->   	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
->   		goto unlock_mclk;
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> index b31b18058965..ed00ccf1376e 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> @@ -42,7 +42,7 @@
->   #include <linux/mem_encrypt.h>
->   
->   static vm_fault_t ttm_bo_vm_fault_idle(struct ttm_buffer_object *bo,
-> -				struct vm_fault *vmf)
-> +				       struct vm_fault *vmf)
->   {
->   	vm_fault_t ret = 0;
->   	int err = 0;
-> @@ -122,7 +122,8 @@ static unsigned long ttm_bo_io_mem_pfn(struct ttm_buffer_object *bo,
->    * Return:
->    *    0 on success and the bo was reserved.
->    *    VM_FAULT_RETRY if blocking wait.
-> - *    VM_FAULT_NOPAGE if blocking wait and retrying was not allowed.
-> + *    VM_FAULT_NOPAGE if blocking wait and retrying was not allowed, or wait interrupted.
-> + *    VM_FAULT_SIGBUS if wait on bo->moving failed for reason other than a signal.
->    */
->   vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
->   			     struct vm_fault *vmf)
-> @@ -254,7 +255,9 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fault *vmf,
->   
->   /**
->    * ttm_bo_vm_fault_reserved - TTM fault helper
-> + * @bo: The buffer object
->    * @vmf: The struct vm_fault given as argument to the fault callback
-> + * @mmap_base: The base of the mmap, to which the @vmf fault is relative to.
->    * @prot: The page protection to be used for this memory area.
->    * @num_prefault: Maximum number of prefault pages. The caller may want to
->    * specify this based on madvice settings and the size of the GPU object
-> @@ -265,19 +268,28 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fault *vmf,
->    * memory backing the buffer object, and then returns a return code
->    * instructing the caller to retry the page access.
->    *
-> + * This function ensures any pipelined wait is finished.
-> + *
-> + * WARNING:
-> + * On VM_FAULT_RETRY, the bo will be unlocked by this function when
-> + * #FAULT_FLAG_RETRY_NOWAIT is not set inside @vmf->flags. In this
-> + * case, the caller should not unlock the @bo.
-> + *
->    * Return:
-> - *   VM_FAULT_NOPAGE on success or pending signal
-> + *   0 on success.
-> + *   VM_FAULT_NOPAGE on pending signal
->    *   VM_FAULT_SIGBUS on unspecified error
->    *   VM_FAULT_OOM on out-of-memory
-> - *   VM_FAULT_RETRY if retryable wait
-> + *   VM_FAULT_RETRY if retryable wait, see WARNING above.
->    */
-> -vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
-> +vm_fault_t ttm_bo_vm_fault_reserved(struct ttm_buffer_object *bo,
-> +				    struct vm_fault *vmf,
-> +				    unsigned long mmap_base,
->   				    pgprot_t prot,
->   				    pgoff_t num_prefault,
->   				    pgoff_t fault_page_size)
->   {
->   	struct vm_area_struct *vma = vmf->vma;
-> -	struct ttm_buffer_object *bo = vma->vm_private_data;
->   	struct ttm_device *bdev = bo->bdev;
->   	unsigned long page_offset;
->   	unsigned long page_last;
-> @@ -286,15 +298,11 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->   	struct page *page;
->   	int err;
->   	pgoff_t i;
-> -	vm_fault_t ret = VM_FAULT_NOPAGE;
-> +	vm_fault_t ret;
->   	unsigned long address = vmf->address;
->   
-> -	/*
-> -	 * Wait for buffer data in transit, due to a pipelined
-> -	 * move.
-> -	 */
->   	ret = ttm_bo_vm_fault_idle(bo, vmf);
-> -	if (unlikely(ret != 0))
-> +	if (ret)
->   		return ret;
->   
->   	err = ttm_mem_io_reserve(bdev, &bo->mem);
-> @@ -302,9 +310,8 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->   		return VM_FAULT_SIGBUS;
->   
->   	page_offset = ((address - vma->vm_start) >> PAGE_SHIFT) +
-> -		vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node);
-> -	page_last = vma_pages(vma) + vma->vm_pgoff -
-> -		drm_vma_node_start(&bo->base.vma_node);
-> +		vma->vm_pgoff - mmap_base;
-> +	page_last = vma_pages(vma) + vma->vm_pgoff - mmap_base;
->   
->   	if (unlikely(page_offset >= bo->mem.num_pages))
->   		return VM_FAULT_SIGBUS;
-> @@ -344,8 +351,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->   			} else if (unlikely(!page)) {
->   				break;
->   			}
-> -			page->index = drm_vma_node_start(&bo->base.vma_node) +
-> -				page_offset;
-> +			page->index = mmap_base + page_offset;
->   			pfn = page_to_pfn(page);
->   		}
->   
-> @@ -392,7 +398,10 @@ vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
->   		return ret;
->   
->   	prot = vma->vm_page_prot;
-> -	ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
-> +	ret = ttm_bo_vm_fault_reserved(bo, vmf,
-> +				       drm_vma_node_start(&bo->base.vma_node),
-> +				       prot, TTM_BO_VM_NUM_PREFAULT, 1);
-> +
->   	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
->   		return ret;
->   
-> @@ -460,22 +469,16 @@ static int ttm_bo_vm_access_kmap(struct ttm_buffer_object *bo,
->   	return len;
->   }
->   
-> -int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
-> -		     void *buf, int len, int write)
-> +int ttm_bo_vm_access_reserved(struct ttm_buffer_object *bo,
-> +			      struct vm_area_struct *vma,
-> +			      unsigned long offset,
-> +			      void *buf, int len, int write)
->   {
-> -	struct ttm_buffer_object *bo = vma->vm_private_data;
-> -	unsigned long offset = (addr) - vma->vm_start +
-> -		((vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node))
-> -		 << PAGE_SHIFT);
->   	int ret;
->   
->   	if (len < 1 || (offset + len) >> PAGE_SHIFT > bo->mem.num_pages)
->   		return -EIO;
->   
-> -	ret = ttm_bo_reserve(bo, true, false, NULL);
-> -	if (ret)
-> -		return ret;
-> -
->   	switch (bo->mem.mem_type) {
->   	case TTM_PL_SYSTEM:
->   		if (unlikely(bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
-> @@ -485,16 +488,33 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
->   		}
->   		fallthrough;
->   	case TTM_PL_TT:
-> -		ret = ttm_bo_vm_access_kmap(bo, offset, buf, len, write);
-> -		break;
-> +		return ttm_bo_vm_access_kmap(bo, offset, buf, len, write);
->   	default:
->   		if (bo->bdev->funcs->access_memory)
-> -			ret = bo->bdev->funcs->access_memory(
-> +			return bo->bdev->funcs->access_memory(
->   				bo, offset, buf, len, write);
->   		else
-> -			ret = -EIO;
-> +			return -EIO;
->   	}
->   
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(ttm_bo_vm_access_reserved);
-> +
-> +int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
-> +		     void *buf, int len, int write)
-> +{
-> +	struct ttm_buffer_object *bo = vma->vm_private_data;
-> +	unsigned long offset = (addr) - vma->vm_start +
-> +		((vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node))
-> +		 << PAGE_SHIFT);
-> +	int ret;
-> +
-> +	ret = ttm_bo_reserve(bo, true, false, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ttm_bo_vm_access_reserved(bo, vma, offset, buf, len, write);
->   	ttm_bo_unreserve(bo);
->   
->   	return ret;
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
-> index 45c9c6a7f1d6..56ecace0cf5c 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
-> @@ -477,7 +477,9 @@ vm_fault_t vmw_bo_vm_fault(struct vm_fault *vmf)
->   	else
->   		prot = vm_get_page_prot(vma->vm_flags);
->   
-> -	ret = ttm_bo_vm_fault_reserved(vmf, prot, num_prefault, 1);
-> +	ret = ttm_bo_vm_fault_reserved(bo, vmf,
-> +				       drm_vma_node_start(&bo->base.vma_node),
-> +				       prot, num_prefault, 1);
->   	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
->   		return ret;
->   
-> @@ -546,7 +548,9 @@ vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
->   		prot = vm_get_page_prot(vma->vm_flags);
->   	}
->   
-> -	ret = ttm_bo_vm_fault_reserved(vmf, prot, 1, fault_page_size);
-> +	ret = ttm_bo_vm_fault_reserved(bo, vmf,
-> +				       drm_vma_node_start(&bo->base.vma_node),
-> +				       prot, 1, fault_page_size);
->   	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
->   		return ret;
->   
-> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-> index 639521880c29..434f91f1fdbf 100644
-> --- a/include/drm/ttm/ttm_bo_api.h
-> +++ b/include/drm/ttm/ttm_bo_api.h
-> @@ -605,7 +605,9 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
->   vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
->   			     struct vm_fault *vmf);
->   
-> -vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
-> +vm_fault_t ttm_bo_vm_fault_reserved(struct ttm_buffer_object *bo,
-> +				    struct vm_fault *vmf,
-> +				    unsigned long mmap_base,
->   				    pgprot_t prot,
->   				    pgoff_t num_prefault,
->   				    pgoff_t fault_page_size);
-> @@ -616,6 +618,11 @@ void ttm_bo_vm_open(struct vm_area_struct *vma);
->   
->   void ttm_bo_vm_close(struct vm_area_struct *vma);
->   
-> +int ttm_bo_vm_access_reserved(struct ttm_buffer_object *bo,
-> +			      struct vm_area_struct *vma,
-> +			      unsigned long offset,
-> +			      void *buf, int len, int write);
-> +
->   int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
->   		     void *buf, int len, int write);
->   bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
+diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+new file mode 100644
+index 0000000000000000..bd632d86a4f814a0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+@@ -0,0 +1,166 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/solomon,ssd1307fb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Solomon SSD1307 OLED Controller Framebuffer
++
++maintainers:
++  - Maxime Ripard <mripard@kernel.org>
++
++properties:
++  compatible:
++    enum:
++      - solomon,ssd1305fb-i2c
++      - solomon,ssd1306fb-i2c
++      - solomon,ssd1307fb-i2c
++      - solomon,ssd1309fb-i2c
++
++  reg:
++    maxItems: 1
++
++  pwms:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  vbat-supply:
++    description: The supply for VBAT
++
++  solomon,height:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 16
++    description:
++      Height in pixel of the screen driven by the controller
++
++  solomon,width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 96
++    description:
++      Width in pixel of the screen driven by the controller
++
++  solomon,page-offset:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 1
++    description:
++      Offset of pages (band of 8 pixels) that the screen is mapped to
++
++  solomon,segment-no-remap:
++    type: boolean
++    description:
++      Display needs normal (non-inverted) data column to segment mapping
++
++  solomon,col-offset:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 0
++    description:
++      Offset of columns (COL/SEG) that the screen is mapped to
++
++  solomon,com-seq:
++    type: boolean
++    description:
++      Display uses sequential COM pin configuration
++
++  solomon,com-lrremap:
++    type: boolean
++    description:
++      Display uses left-right COM pin remap
++
++  solomon,com-invdir:
++    type: boolean
++    description:
++      Display uses inverted COM pin scan direction
++
++  solomon,com-offset:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 0
++    description:
++      Number of the COM pin wired to the first display line
++
++  solomon,prechargep1:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 2
++    description:
++      Length of deselect period (phase 1) in clock cycles
++
++  solomon,prechargep2:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 2
++    description:
++      Length of precharge period (phase 2) in clock cycles.  This needs to be
++      the higher, the higher the capacitance of the OLED's pixels is.
++
++  solomon,dclk-div:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 1
++    maximum: 16
++    description:
++      Clock divisor. The default value is controller-dependent.
++
++  solomon,dclk-frq:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 15
++    description:
++      Clock frequency, higher value means higher frequency.
++      The default value is controller-dependent.
++
++  solomon,lookup-table:
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    maxItems: 4
++    description:
++      8 bit value array of current drive pulse widths for BANK0, and colors A,
++      B, and C. Each value in range of 31 to 63 for pulse widths of 32 to 64.
++      Color D is always width 64.
++
++  solomon,area-color-enable:
++    type: boolean
++    description:
++      Display uses color mode
++
++  solomon,low-power:
++    type: boolean
++    description:
++      Display runs in low power mode
++
++required:
++  - compatible
++  - reg
++
++if:
++  properties:
++    compatible:
++      contains:
++        const: solomon,ssd1307fb-i2c
++then:
++  required:
++    - pwms
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c1 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            ssd1307: oled@3c {
++                    compatible = "solomon,ssd1307fb-i2c";
++                    reg = <0x3c>;
++                    pwms = <&pwm 4 3000>;
++                    reset-gpios = <&gpio2 7>;
++            };
++
++            ssd1306: oled@3d {
++                    compatible = "solomon,ssd1306fb-i2c";
++                    reg = <0x3c>;
++                    pwms = <&pwm 4 3000>;
++                    reset-gpios = <&gpio2 7>;
++                    solomon,com-lrremap;
++                    solomon,com-invdir;
++                    solomon,com-offset = <32>;
++                    solomon,lookup-table = /bits/ 8 <0x3f 0x3f 0x3f 0x3f>;
++            };
++    };
+diff --git a/Documentation/devicetree/bindings/display/ssd1307fb.txt b/Documentation/devicetree/bindings/display/ssd1307fb.txt
+deleted file mode 100644
+index 2dcb6d12d1371536..0000000000000000
+--- a/Documentation/devicetree/bindings/display/ssd1307fb.txt
++++ /dev/null
+@@ -1,60 +0,0 @@
+-* Solomon SSD1307 Framebuffer Driver
+-
+-Required properties:
+-  - compatible: Should be "solomon,<chip>fb-<bus>". The only supported bus for
+-    now is i2c, and the supported chips are ssd1305, ssd1306, ssd1307 and
+-    ssd1309.
+-  - reg: Should contain address of the controller on the I2C bus. Most likely
+-         0x3c or 0x3d
+-  - pwm: Should contain the pwm to use according to the OF device tree PWM
+-         specification [0]. Only required for the ssd1307.
+-  - solomon,height: Height in pixel of the screen driven by the controller
+-  - solomon,width: Width in pixel of the screen driven by the controller
+-  - solomon,page-offset: Offset of pages (band of 8 pixels) that the screen is
+-    mapped to.
+-
+-Optional properties:
+-  - reset-gpios: The GPIO used to reset the OLED display, if available. See
+-                 Documentation/devicetree/bindings/gpio/gpio.txt for details.
+-  - vbat-supply: The supply for VBAT
+-  - solomon,segment-no-remap: Display needs normal (non-inverted) data column
+-                              to segment mapping
+-  - solomon,col-offset: Offset of columns (COL/SEG) that the screen is mapped to.
+-  - solomon,com-seq: Display uses sequential COM pin configuration
+-  - solomon,com-lrremap: Display uses left-right COM pin remap
+-  - solomon,com-invdir: Display uses inverted COM pin scan direction
+-  - solomon,com-offset: Number of the COM pin wired to the first display line
+-  - solomon,prechargep1: Length of deselect period (phase 1) in clock cycles.
+-  - solomon,prechargep2: Length of precharge period (phase 2) in clock cycles.
+-                         This needs to be the higher, the higher the capacitance
+-                         of the OLED's pixels is
+-  - solomon,dclk-div: Clock divisor 1 to 16
+-  - solomon,dclk-frq: Clock frequency 0 to 15, higher value means higher
+-                      frequency
+-  - solomon,lookup-table: 8 bit value array of current drive pulse widths for
+-                          BANK0, and colors A, B, and C. Each value in range
+-                          of 31 to 63 for pulse widths of 32 to 64. Color D
+-                          is always width 64.
+-  - solomon,area-color-enable: Display uses color mode
+-  - solomon,low-power. Display runs in low power mode
+-
+-[0]: Documentation/devicetree/bindings/pwm/pwm.txt
+-
+-Examples:
+-ssd1307: oled@3c {
+-        compatible = "solomon,ssd1307fb-i2c";
+-        reg = <0x3c>;
+-        pwms = <&pwm 4 3000>;
+-        reset-gpios = <&gpio2 7>;
+-};
+-
+-ssd1306: oled@3c {
+-        compatible = "solomon,ssd1306fb-i2c";
+-        reg = <0x3c>;
+-        pwms = <&pwm 4 3000>;
+-        reset-gpios = <&gpio2 7>;
+-        solomon,com-lrremap;
+-        solomon,com-invdir;
+-        solomon,com-offset = <32>;
+-        solomon,lookup-table = /bits/ 8 <0x3f 0x3f 0x3f 0x3f>;
+-};
+-- 
+2.25.1
+
