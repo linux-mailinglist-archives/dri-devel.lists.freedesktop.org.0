@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD10387892
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 14:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF309387890
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 14:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2AF76EB4D;
-	Tue, 18 May 2021 12:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5C26EB4C;
+	Tue, 18 May 2021 12:18:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05C846EB4D;
- Tue, 18 May 2021 12:19:19 +0000 (UTC)
-IronPort-SDR: P/6cLS2peHVEQ0V5wPeQOaWaXeRzYPayVtTY0W3ML+DwukLZ87/czxlb6ay5+qyWHAJQ0e4B5Q
- EdTKTk2TDWbw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="180299376"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="180299376"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 05:19:19 -0700
-IronPort-SDR: pjmLHJdUMqL4pC8ti0FgJCXQA++pUzqLq/nAL1QwGQI4ejbUyo6XaRZfuo5KkO6Ixk9O4hUwxA
- 75uHS2B7SsUg==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="439413261"
-Received: from cbackhau-mobl.ger.corp.intel.com (HELO [10.252.37.121])
- ([10.252.37.121])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 05:19:17 -0700
-Subject: Re: [Intel-gfx] [PATCH v2 09/15] drm/ttm, drm/amdgpu: Allow the
- driver some control over swapping
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
- <20210518082701.997251-10-thomas.hellstrom@linux.intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <29912ee5-e22d-9995-26b8-552a0e26f9a0@linux.intel.com>
-Date: Tue, 18 May 2021 14:19:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE1826EB4B
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 12:18:08 +0000 (UTC)
+Received: from dggems705-chm.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Fkw0r5thXzqV9r;
+ Tue, 18 May 2021 20:14:36 +0800 (CST)
+Received: from dggemi762-chm.china.huawei.com (10.1.198.148) by
+ dggems705-chm.china.huawei.com (10.3.19.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Tue, 18 May 2021 20:18:05 +0800
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ dggemi762-chm.china.huawei.com (10.1.198.148) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 18 May 2021 20:18:04 +0800
+From: Zou Wei <zou_wei@huawei.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH -next] drm: Fix missing unlock and free on error in
+ drm_legacy_addbufs_pci()
+Date: Tue, 18 May 2021 20:35:02 +0800
+Message-ID: <1621341302-112089-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-In-Reply-To: <20210518082701.997251-10-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.112]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggemi762-chm.china.huawei.com (10.1.198.148)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,174 +49,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: joseph.kogut@gmail.com, Zou Wei <zou_wei@huawei.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Op 18-05-2021 om 10:26 schreef Thomas Hellström:
-> We are calling the eviction_valuable driver callback at eviction time to
-> determine whether we actually can evict a buffer object.
-> The upcoming i915 TTM backend needs the same functionality for swapout,
-> and that might actually be beneficial to other drivers as well.
->
-> Add an eviction_valuable call also in the swapout path. Try to keep the
-> current behaviour for all drivers by returning true if the buffer object
-> is already in the TTM_PL_SYSTEM placement. We change behaviour for the
-> case where a buffer object is in a TT backed placement when swapped out,
-> in which case the drivers normal eviction_valuable path is run.
->
-> Finally export ttm_tt_unpopulate() and don't swap out bos
-> that are not populated. This allows a driver to purge a bo at
-> swapout time if its content is no longer valuable rather than to
-> have TTM swap the contents out.
->
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  4 +++
->  drivers/gpu/drm/ttm/ttm_bo.c            | 41 +++++++++++++++----------
->  drivers/gpu/drm/ttm/ttm_tt.c            |  4 +++
->  3 files changed, 33 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 8c7ec09eb1a4..d5a9d7a88315 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -1399,6 +1399,10 @@ static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
->  	struct dma_fence *f;
->  	int i;
->  
-> +	/* Swapout? */
-> +	if (bo->mem.mem_type == TTM_PL_SYSTEM)
-> +		return true;
-> +
->  	if (bo->type == ttm_bo_type_kernel &&
->  	    !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
->  		return false;
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 4479c55aaa1d..6a3f3112f62a 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -531,6 +531,10 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
->  bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
->  			      const struct ttm_place *place)
->  {
-> +	dma_resv_assert_held(bo->base.resv);
-> +	if (bo->mem.mem_type == TTM_PL_SYSTEM)
-> +		return true;
-> +
->  	/* Don't evict this BO if it's outside of the
->  	 * requested placement range
->  	 */
-> @@ -553,7 +557,9 @@ EXPORT_SYMBOL(ttm_bo_eviction_valuable);
->   * b. Otherwise, trylock it.
->   */
->  static bool ttm_bo_evict_swapout_allowable(struct ttm_buffer_object *bo,
-> -			struct ttm_operation_ctx *ctx, bool *locked, bool *busy)
-> +					   struct ttm_operation_ctx *ctx,
-> +					   const struct ttm_place *place,
-> +					   bool *locked, bool *busy)
->  {
->  	bool ret = false;
->  
-> @@ -571,6 +577,12 @@ static bool ttm_bo_evict_swapout_allowable(struct ttm_buffer_object *bo,
->  			*busy = !ret;
->  	}
->  
-> +	if (ret && place && !bo->bdev->funcs->eviction_valuable(bo, place)) {
-> +		ret = false;
-> +		if (locked)
-> +			dma_resv_unlock(bo->base.resv);
-> +	}
+Add the missing unlock and free before return from function
+drm_legacy_addbufs_pci() in the error handling case.
 
-Probably meant to check and clear *locked here?
+Fixes: 70556e24e18e ("drm: remove usage of drm_pci_alloc/free")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
+---
+ drivers/gpu/drm/drm_bufs.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-With that fixed:
-
-Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-
-> +
->  	return ret;
->  }
->  
-> @@ -625,20 +637,14 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
->  		list_for_each_entry(bo, &man->lru[i], lru) {
->  			bool busy;
->  
-> -			if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked,
-> -							    &busy)) {
-> +			if (!ttm_bo_evict_swapout_allowable(bo, ctx, place,
-> +							    &locked, &busy)) {
->  				if (busy && !busy_bo && ticket !=
->  				    dma_resv_locking_ctx(bo->base.resv))
->  					busy_bo = bo;
->  				continue;
->  			}
->  
-> -			if (place && !bdev->funcs->eviction_valuable(bo,
-> -								      place)) {
-> -				if (locked)
-> -					dma_resv_unlock(bo->base.resv);
-> -				continue;
-> -			}
->  			if (!ttm_bo_get_unless_zero(bo)) {
->  				if (locked)
->  					dma_resv_unlock(bo->base.resv);
-> @@ -1138,10 +1144,18 @@ EXPORT_SYMBOL(ttm_bo_wait);
->  int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
->  		   gfp_t gfp_flags)
->  {
-> +	struct ttm_place place = {};
->  	bool locked;
->  	int ret;
->  
-> -	if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked, NULL))
-> +	/*
-> +	 * While the bo may already reside in SYSTEM placement, set
-> +	 * SYSTEM as new placement to cover also the move further below.
-> +	 * The driver may use the fact that we're moving from SYSTEM
-> +	 * as an indication that we're about to swap out.
-> +	 */
-> +	place.mem_type = TTM_PL_SYSTEM;
-> +	if (!ttm_bo_evict_swapout_allowable(bo, ctx, &place, &locked, NULL))
->  		return -EBUSY;
->  
->  	if (!ttm_bo_get_unless_zero(bo)) {
-> @@ -1166,12 +1180,7 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
->  	if (bo->mem.mem_type != TTM_PL_SYSTEM) {
->  		struct ttm_operation_ctx ctx = { false, false };
->  		struct ttm_resource evict_mem;
-> -		struct ttm_place place, hop;
-> -
-> -		memset(&place, 0, sizeof(place));
-> -		memset(&hop, 0, sizeof(hop));
-> -
-> -		place.mem_type = TTM_PL_SYSTEM;
-> +		struct ttm_place hop = {};
->  
->  		ret = ttm_resource_alloc(bo, &place, &evict_mem);
->  		if (unlikely(ret))
-> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> index 539e0232cb3b..7878ca4876c5 100644
-> --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -258,6 +258,9 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
->  	struct page *to_page;
->  	int i, ret;
->  
-> +	if (!ttm_tt_is_populated(ttm))
-> +		return 0;
-> +
->  	swap_storage = shmem_file_setup("ttm swap", size, 0);
->  	if (IS_ERR(swap_storage)) {
->  		pr_err("Failed allocating swap storage\n");
-> @@ -399,6 +402,7 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
->  
->  	ttm->page_flags &= ~TTM_PAGE_FLAG_PRIV_POPULATED;
->  }
-> +EXPORT_SYMBOL(ttm_tt_unpopulate);
->  
->  #ifdef CONFIG_DEBUG_FS
->  
-
+diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+index 4805726..c23d7f7 100644
+--- a/drivers/gpu/drm/drm_bufs.c
++++ b/drivers/gpu/drm/drm_bufs.c
+@@ -984,8 +984,16 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
+ 
+ 	while (entry->buf_count < count) {
+ 		dmah = kmalloc(sizeof(drm_dma_handle_t), GFP_KERNEL);
+-		if (!dmah)
++		if (!dmah) {
++			/* Set count correctly so we free the proper amount. */
++			entry->buf_count = count;
++			entry->seg_count = count;
++			drm_cleanup_buf_error(dev, entry);
++			kfree(temp_pagelist);
++			mutex_unlock(&dev->struct_mutex);
++			atomic_dec(&dev->buf_alloc);
+ 			return -ENOMEM;
++		}
+ 
+ 		dmah->size = total;
+ 		dmah->vaddr = dma_alloc_coherent(dev->dev,
+-- 
+2.6.2
 
