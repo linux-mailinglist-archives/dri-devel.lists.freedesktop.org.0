@@ -1,54 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4E23874C5
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 11:09:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA583874D3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 11:10:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96CDD6EAE1;
-	Tue, 18 May 2021 09:09:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBB7B6EB0A;
+	Tue, 18 May 2021 09:10:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA2BE6EAE1;
- Tue, 18 May 2021 09:09:03 +0000 (UTC)
-IronPort-SDR: AuvuuDsiaBhUO23Dq7xt0BF33hWxiO+K4pmnX24PZSVuZjd/AXAzSCXoramJA3RWyt09HLHyZl
- PwO7YW94WcOg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="261894363"
-X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="261894363"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 02:09:02 -0700
-IronPort-SDR: yPJN47b28MnhQmYDYnkruaXNg+D3o1fuSGmv/OhvwUhWQRWO4Ku/3NAzTDjmSBTyAX6yt7MWf5
- t85NZBHNN50Q==
-X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="438576762"
-Received: from alirazas-mobl.ger.corp.intel.com (HELO [10.213.211.104])
- ([10.213.211.104])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 02:09:00 -0700
-Subject: Re: [PATCH 0/7] Per client engine busyness
-To: Simon Ser <contact@emersion.fr>, "Nieto, David M" <David.Nieto@amd.com>
-References: <c6c61179-5b4b-4e0b-6e57-ec4839ca3268@linux.intel.com>
- <b2203d34-2de3-7c58-de2f-bf6fafc3f67c@amd.com>
- <6cf2f14a-6a16-5ea3-d307-004faad4cc79@linux.intel.com>
- <a2b03603-eb3e-7bef-a799-c15cfb1a8e0b@amd.com>
- <YKJ+F4KqEiQQYkRz@phenom.ffwll.local>
- <BYAPR12MB2840C633CF05C1F29263F5BCF42D9@BYAPR12MB2840.namprd12.prod.outlook.com>
- <c85fc53f-d25b-464c-d411-eed4a509a009@linux.intel.com>
- <BYAPR12MB28409E25DEFD3DD620E596ABF42D9@BYAPR12MB2840.namprd12.prod.outlook.com>
- <BYAPR12MB284090FAC1C6E149F0A1A0ECF42D9@BYAPR12MB2840.namprd12.prod.outlook.com>
- <mysJHURIfWxBRBabIlnunj7LZNkkRQ-Knu_o6v7GZI4xCwGMZXn0rvjscl-aTT_d-ttlAQgJOG3gP95DBd_dxCPQNfguTSdrltxPrKt2FGs=@emersion.fr>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <7f8fc38a-cd25-aa1f-fa2d-5d3334edb3d2@linux.intel.com>
-Date: Tue, 18 May 2021 10:08:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
+ [IPv6:2607:f8b0:4864:20::f2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0496EB0A;
+ Tue, 18 May 2021 09:10:17 +0000 (UTC)
+Received: by mail-qv1-xf2e.google.com with SMTP id eb9so4571039qvb.6;
+ Tue, 18 May 2021 02:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=IP6wYnRxy963JyWLUpDbRMEX/sDWiBqDJTYFxJF/O5Y=;
+ b=Fh8Q7PVhYELAqEAa64A3pKOCcw83yGm+fowdKfw17PptRWlXiEkhQmcFCyQkbCDnGH
+ AdUhBb8N/cHkxU9xFSI+RdZECy78tBofxmNUvYEQJ4By5uDs0JS5yCzbxhT729Xoqd58
+ iqtCp0vOnsAv1UrS44rVf8vnA/GPpQ9CgPHSj8yUsp3av7wUM59Hm2++FDA3UUQVtmUP
+ TkZH6BQez9LPLeM2/pUb0RZVm76em5yGPpxzy7fflVrQuw0MFeAE6Nax+Q9UdLZx3OI4
+ V5VKln43EWjsdJMnqEuOc7lvOYxnBfAlRVFzQLqOPdXn/z/62c+hit7NY4PQRWwxwxpE
+ vK2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IP6wYnRxy963JyWLUpDbRMEX/sDWiBqDJTYFxJF/O5Y=;
+ b=PoTtpAzNgHvn2NMbC9EZZ4MV2IocO19UQ9tzsL4xqsqtUAeU8zIEHd2/uFfULepmlv
+ dwym+Hg70TkfMKZWysf3OXmOX/0xVVmHHnz+pRDdaAdZcbuYdlUxbjNyO+XPSVBBzI9A
+ mo6nNdyli2lLTy8lXikqswdfMn7MGFqWBQIFrSgT/KXxO53RKHjQ32u+H1a1MutGlQ+2
+ 6whjWtcBdEkBkf38PqDEuPkgIqoswuoYh6m0o5nC2EWWXXyqFn86CwBBqT8XXX7sm5P7
+ S8DdUML2ot6Etoi3VCA8vmZjuo66MbwcpNcs02DvMyVXyFuAeEgRpinbRXOWAgpQ11DL
+ sjeA==
+X-Gm-Message-State: AOAM5302rzbgEu1hkG+X733Db97oLa25P5Fm4Y67FOOeUkWJMvUJEvMj
+ kzW5FCEomiDEx+CUfSdqCh/76aACXtz7fkiEqwCQ8B4PwtGGHw==
+X-Google-Smtp-Source: ABdhPJyCz0nwBmAUiA1twdhbImd6v0bDTCBSCJRVXW5N/2f0g5Q90VEA39XGM0lN4Il0uxDo0HyU64UJ+Ao51bpnToU=
+X-Received: by 2002:a05:6214:18d:: with SMTP id
+ q13mr4856751qvr.60.1621329017095; 
+ Tue, 18 May 2021 02:10:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <mysJHURIfWxBRBabIlnunj7LZNkkRQ-Knu_o6v7GZI4xCwGMZXn0rvjscl-aTT_d-ttlAQgJOG3gP95DBd_dxCPQNfguTSdrltxPrKt2FGs=@emersion.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
+ <20210518082701.997251-6-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20210518082701.997251-6-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 18 May 2021 10:09:50 +0100
+Message-ID: <CAM0jSHNOLTqrp-kv0rAkXZGb02swQ+8-Q7dxMZOHwDEh=QCgpw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v2 05/15] drm/i915/ttm Initialize the ttm
+ device and memory managers
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,33 +66,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "jhubbard@nvidia.com" <jhubbard@nvidia.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>,
- "aritger@nvidia.com" <aritger@nvidia.com>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 18 May 2021 at 09:27, Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
+>
+> Temporarily remove the buddy allocator and related selftests
+> and hook up the TTM range manager for i915 regions.
+>
+> Also modify the mock region selftests somewhat to account for a
+> fragmenting manager.
+>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> ---
+> v2:
+> - Fix an error unwind in lmem_get_pages() (Reported by Matthew Auld)
+> - Break out and modify usage of i915_sg_dma_sizes() (Reported by Mattew A=
+uld)
+> - Break out TTM changes to a separate patch (Reported by Christian K=C3=
+=B6nig)
+> ---
 
-On 17/05/2021 20:03, Simon Ser wrote:
-> On Monday, May 17th, 2021 at 8:16 PM, Nieto, David M <David.Nieto@amd.com> wrote:
-> 
->> Btw is DRM_MAJOR 226 consider uapi? I don't see it in uapi headers.
-> 
-> It's not in the headers, but it's de facto uAPI, as seen in libdrm:
-> 
->      > git grep 226
->      xf86drm.c
->      99:#define DRM_MAJOR 226 /* Linux */
+<snip>
 
-I suspected it would be yes, thanks.
+> +
+> +static int mock_region_get_pages(struct drm_i915_gem_object *obj)
+> +{
+> +       unsigned int flags;
+> +       struct sg_table *pages;
+> +
+> +       flags =3D I915_ALLOC_MIN_PAGE_SIZE;
+> +       if (obj->flags & I915_BO_ALLOC_CONTIGUOUS)
+> +               flags |=3D I915_ALLOC_CONTIGUOUS;
+> +
+> +       obj->mm.st_mm_node =3D intel_region_ttm_node_alloc(obj->mm.region=
+,
+> +                                                        obj->base.size,
+> +                                                        flags);
+> +       if (IS_ERR(obj->mm.st_mm_node))
+> +               return PTR_ERR(obj->mm.st_mm_node);
+> +
+> +       pages =3D intel_region_ttm_node_to_st(obj->mm.region, obj->mm.st_=
+mm_node);
+> +       if (IS_ERR(pages))
+> +               return PTR_ERR(pages);
 
-I was just wondering if stat(2) and a chrdev major check would be a 
-solid criteria to more efficiently (compared to parsing the text 
-content) detect drm files while walking procfs.
-
-Regards,
-
-Tvrtko
+Needs some onion?
