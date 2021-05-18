@@ -2,40 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E31F386D7E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 01:03:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C75386E50
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 02:28:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCEDB6E15A;
-	Mon, 17 May 2021 23:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB73A6E563;
+	Tue, 18 May 2021 00:28:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C37706E15A
- for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 23:03:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEADC3EE;
- Tue, 18 May 2021 01:03:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1621292618;
- bh=mGm46fh5DjIqkWfA1ZeGnO+GioI0QR0SXTVO6nekEco=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QZX2xhsI/wFimJ8YZ0/31lO3bOf/+W4c5IIkYJOnzdtW0XCelGpDiKvH66HEV1P5k
- M56MWKQJik4wccH3Los5ZY7eB8YcVcvwDtuEl+3EgitPINXLQ3r461/rza7Aq1Alsk
- fDnmdqLaRIJ6yajXQoF3gV+VuxqXd5xJXZad85gY=
-Date: Tue, 18 May 2021 02:03:37 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 2/2] drm/bridge: lvds-codec: Add support for LVDS data
- mapping select
-Message-ID: <YKL2SAfonHJcoTw/@pendragon.ideasonboard.com>
-References: <20210515204656.367442-1-marex@denx.de>
- <20210515204656.367442-2-marex@denx.de>
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D61A96E563
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 00:28:04 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id
+ n32-20020a9d1ea30000b02902a53d6ad4bdso7177946otn.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 May 2021 17:28:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=R3L7pxt4zbk8yKl/avJfRLABaqdm3QQDGowpbldv5VQ=;
+ b=tXZb4Rhg+oAiCNFhk5v40o2WjbSux8oJEIYNncmIHZIEapi0rvCwC62qDV/fdvPIxl
+ eUyk+rBZeoUawsnee8UKsk81v63gP+SZz8/vkkgXtp6GLdlUdyvUHA44Rf+R9nnSWOFd
+ 90AwJGLvaeC1CosguwM2b6cfzihGRWRn/weiT+o38jkTxCli88R3o/fTJsonihDG9RQX
+ Iy8BPGvB4NFBt6bvek0blOkjOjf2sSYfZSXl5efoF/SdAelI1rWq7Lw56vKGpWGbKEa8
+ 1XPVY8WTKA7MlkU884FiObGny4tzhuJudv161dDhO2abkhY0oNvJn6opHeniGGWgfsvZ
+ q/QQ==
+X-Gm-Message-State: AOAM532ShmUZ9Y/W/lUeATk1ERAJ41mEGV24gsSNEKxgyASsfJwbubqI
+ R7E/egLibLbGiFw04W38lA==
+X-Google-Smtp-Source: ABdhPJwo+JpfM6jwHe1xxWMB9CadaPmye2HzBZL+6b/BqkSpJkZUqJ2uC/RTySA+qewzrquRUK9mQw==
+X-Received: by 2002:a05:6830:1556:: with SMTP id
+ l22mr1918550otp.34.1621297684104; 
+ Mon, 17 May 2021 17:28:04 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id y44sm3421102ooi.0.2021.05.17.17.26.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 17:26:43 -0700 (PDT)
+Received: (nullmailer pid 3503561 invoked by uid 1000);
+ Tue, 18 May 2021 00:26:24 -0000
+Date: Mon, 17 May 2021 19:26:24 -0500
+From: Rob Herring <robh@kernel.org>
+To: Corentin Labbe <clabbe@baylibre.com>
+Subject: Re: [PATCH] dt-bindings: display: convert faraday,tve200 to YAML
+Message-ID: <20210518002624.GA3346846@robh.at.kernel.org>
+References: <20210511165448.422987-1-clabbe@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210515204656.367442-2-marex@denx.de>
+In-Reply-To: <20210511165448.422987-1-clabbe@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,126 +62,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, ch@denx.de,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-Thank you for the patch.
-
-On Sat, May 15, 2021 at 10:46:56PM +0200, Marek Vasut wrote:
-> Decoder input LVDS format is a property of the decoder chip or even
-> its strapping. Handle data-mapping the same way lvds-panel does. In
-> case data-mapping is not present, do nothing, since there are still
-> legacy bindings which do not specify this property.
+On Tue, May 11, 2021 at 04:54:48PM +0000, Corentin Labbe wrote:
+> Converts display/faraday,tve200.txt to yaml.
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> To: dri-devel@lists.freedesktop.org
+> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 > ---
->  drivers/gpu/drm/bridge/lvds-codec.c | 50 +++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
+>  .../bindings/display/faraday,tve200.txt       | 54 -----------
+>  .../bindings/display/faraday,tve200.yaml      | 92 +++++++++++++++++++
+>  2 files changed, 92 insertions(+), 54 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/faraday,tve200.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/faraday,tve200.yaml
 > 
-> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-> index 8a7cb267ab14..33f992d52902 100644
-> --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> @@ -23,6 +23,7 @@ struct lvds_codec {
->  	struct regulator *vcc;
->  	struct gpio_desc *powerdown_gpio;
->  	u32 connector_type;
-> +	unsigned int bus_format;
->  };
->  
->  static inline struct lvds_codec *to_lvds_codec(struct drm_bridge *bridge)
-> @@ -69,10 +70,33 @@ static void lvds_codec_disable(struct drm_bridge *bridge)
->  			"Failed to disable regulator \"vcc\": %d\n", ret);
->  }
->  
-> +static bool lvds_codec_mode_fixup(struct drm_bridge *bridge,
-> +				const struct drm_display_mode *mode,
-> +				struct drm_display_mode *adj)
-> +{
-> +	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
-> +	struct drm_encoder *encoder = bridge->encoder;
-> +	struct drm_device *ddev = encoder->dev;
-> +	struct drm_connector *connector;
+> diff --git a/Documentation/devicetree/bindings/display/faraday,tve200.txt b/Documentation/devicetree/bindings/display/faraday,tve200.txt
+> deleted file mode 100644
+> index 82e3bc0b7485..000000000000
+> --- a/Documentation/devicetree/bindings/display/faraday,tve200.txt
+> +++ /dev/null
+> @@ -1,54 +0,0 @@
+> -* Faraday TV Encoder TVE200
+> -
+> -Required properties:
+> -
+> -- compatible: must be one of:
+> -	"faraday,tve200"
+> -	"cortina,gemini-tvc", "faraday,tve200"
+> -
+> -- reg: base address and size of the control registers block
+> -
+> -- interrupts: contains an interrupt specifier for the interrupt
+> -	line from the TVE200
+> -
+> -- clock-names: should contain "PCLK" for the clock line clocking the
+> -	silicon and "TVE" for the 27MHz clock to the video driver
+> -
+> -- clocks: contains phandle and clock specifier pairs for the entries
+> -	in the clock-names property. See
+> -	Documentation/devicetree/bindings/clock/clock-bindings.txt
+> -
+> -Optional properties:
+> -
+> -- resets: contains the reset line phandle for the block
+> -
+> -Required sub-nodes:
+> -
+> -- port: describes LCD panel signals, following the common binding
+> -	for video transmitter interfaces; see
+> -	Documentation/devicetree/bindings/media/video-interfaces.txt
+> -	This port should have the properties:
+> -	reg = <0>;
+> -	It should have one endpoint connected to a remote endpoint where
+> -	the display is connected.
+> -
+> -Example:
+> -
+> -display-controller@6a000000 {
+> -	#address-cells = <1>;
+> -	#size-cells = <0>;
+> -	compatible = "faraday,tve200";
+> -	reg = <0x6a000000 0x1000>;
+> -	interrupts = <13 IRQ_TYPE_EDGE_RISING>;
+> -	resets = <&syscon GEMINI_RESET_TVC>;
+> -	clocks = <&syscon GEMINI_CLK_GATE_TVC>,
+> -		 <&syscon GEMINI_CLK_TVC>;
+> -	clock-names = "PCLK", "TVE";
+> -
+> -	port@0 {
+> -		reg = <0>;
+> -		display_out: endpoint {
+> -			remote-endpoint = <&panel_in>;
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/faraday,tve200.yaml b/Documentation/devicetree/bindings/display/faraday,tve200.yaml
+> new file mode 100644
+> index 000000000000..3ab51e7e72af
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/faraday,tve200.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/faraday,tve200.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	/* If 'data-mapping' was not specified, do nothing. */
-> +	if (!lvds_codec->bus_format)
-> +		return true;
+> +title: Faraday TV Encoder TVE200
 > +
-> +	/* Patch in the LVDS format */
-> +	list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
-> +		drm_display_info_set_bus_formats(&connector->display_info,
-> +						 &lvds_codec->bus_format, 1);
-> +	}
+> +maintainers:
+> +  - Linus Walleij <linus.walleij@linaro.org>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - const: faraday,tve200
+> +      - items:
+> +          - const: cortina,gemini-tvc
+> +          - const: faraday,tve200
+> +
+> +  reg:
+> +    minItems: 1
 
-This part bothers me, as the format at the input of the LVDS decoder
-doesn't match the format on the connector. Shouldn't you implement
-.atomic_get_output_bus_fmts() instead ?
+maxItems: 1
+
+They evaluate the same, but maxItems seems a bit more logical. 
 
 > +
-> +	return true;
-> +}
+> +  interrupts:
+> +    minItems: 1
 > +
->  static const struct drm_bridge_funcs funcs = {
->  	.attach = lvds_codec_attach,
->  	.enable = lvds_codec_enable,
->  	.disable = lvds_codec_disable,
-> +	.mode_fixup = lvds_codec_mode_fixup,
->  };
->  
->  static int lvds_codec_probe(struct platform_device *pdev)
-> @@ -81,6 +105,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
->  	struct device_node *panel_node;
->  	struct drm_panel *panel;
->  	struct lvds_codec *lvds_codec;
-> +	const char *mapping;
-
-I would have moved this variable to the if () { ... } below, but maybe
-that's just me.
-
->  	u32 val;
->  
->  	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
-> @@ -133,6 +158,31 @@ static int lvds_codec_probe(struct platform_device *pdev)
->  			DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE;
->  	}
->  
-> +	/*
-> +	 * Decoder input LVDS format is a property of the decoder chip or even
-> +	 * its strapping. Handle data-mapping the same way lvds-panel does. In
-> +	 * case data-mapping is not present, do nothing, since there are still
-> +	 * legacy bindings which do not specify this property.
-> +	 */
-> +	if (lvds_codec->connector_type != DRM_MODE_CONNECTOR_LVDS) {
-> +		ret = of_property_read_string(dev->of_node, "data-mapping",
-> +					      &mapping);
-> +		if (ret < 0) {
-> +			dev_err(dev, "missing 'data-mapping' DT property\n");
-> +		} else {
-> +			if (!strcmp(mapping, "jeida-18")) {
-> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG;
-> +			} else if (!strcmp(mapping, "jeida-24")) {
-> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-> +			} else if (!strcmp(mapping, "vesa-24")) {
-> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
-> +			} else {
-> +				dev_err(dev, "invalid 'data-mapping' DT property\n");
-> +				return -EINVAL;
-> +			}
-> +		}
-> +	}
+> +  clock-names:
+> +    items:
+> +      - const: PCLK
+> +      - const: TVE
 > +
->  	/*
->  	 * The panel_bridge bridge is attached to the panel's of_node,
->  	 * but we need a bridge attached to our of_node for our user
+> +  clocks:
+> +    minItems: 2
+> +
+> +  resets:
+> +    minItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^port@[0-9]+$":
 
--- 
-Regards,
+Should be just 'port' or 'port@0', but really the former is preferred 
+when only 1. 
 
-Laurent Pinchart
+Use the graph binding:
+
+$ref: /schemas/graph.yaml#/properties/port
+
+> +    type: object
+> +    description: describes LCD panel signals, following the common binding
+
+But this is not an LCD panel...
+
+> +      for video transmitter interfaces; see
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+
+Drop this reference. It's now a schema, but this isn't using anything 
+from it.
+
+> +      It should have one endpoint connected to a remote endpoint where
+> +      the display is connected.
+> +
+> +    properties:
+> +      reg:
+> +        const: 0
+> +
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clock-names
+> +  - clocks
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/cortina,gemini-clock.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/reset/cortina,gemini-reset.h>
+> +    display-controller@6a000000 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      compatible = "faraday,tve200";
+> +      reg = <0x6a000000 0x1000>;
+> +      interrupts = <13 IRQ_TYPE_EDGE_RISING>;
+> +      resets = <&syscon GEMINI_RESET_TVC>;
+> +      clocks = <&syscon GEMINI_CLK_GATE_TVC>,
+> +               <&syscon GEMINI_CLK_TVC>;
+> +      clock-names = "PCLK", "TVE";
+> +
+> +      port@0 {
+> +        reg = <0>;
+> +        display_out: endpoint {
+> +          remote-endpoint = <&panel_in>;
+> +        };
+> +      };
+> +    };
+> -- 
+> 2.26.3
+> 
