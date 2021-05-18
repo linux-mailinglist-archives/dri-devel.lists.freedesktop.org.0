@@ -2,63 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C585F3874EF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 11:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A47638752E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 11:33:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41B266E854;
-	Tue, 18 May 2021 09:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA78C6EB12;
+	Tue, 18 May 2021 09:33:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B19CA6E854
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 09:20:01 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14I9Ct0k023204; Tue, 18 May 2021 09:19:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=n8e6VGBvsEJjz8jZNXiVgvyKjF6tuVQmtskn3RF1rFc=;
- b=F1Z3+HjIpu2VLqZj+6IImaud6ddlLKvI5yuSt3L+3KAn9/P+sStIEQY4VzubmJzuqV8G
- ioigVJBjDbFVJwW74ZrvqJYGVZFCA04MPDux/khlD/io/PTD5AdXQNTEDqQGpfuHNkjc
- n9E/Dbih/rshzYp/mNDeA+GOtjArDO/iz9bLc32PWd58Yx9gMziogIFOLYkUc9uZ97dO
- D8yC7ePbxMN/nmISSz01szddAbPkkN8Q2MmhASW+NXTWYaaEfNUu98W6t1JApjM8zU8k
- kFGhc668mKlBvRYyKK56xXWn57y7ZB/jPj5G0/oR9XNE0eQ6wmuDGgM5X5WcU79fJ3v3 sw== 
-Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 38m9bgg1aa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 May 2021 09:19:53 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
- by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14I9AtTB090680;
- Tue, 18 May 2021 09:19:52 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by userp3030.oracle.com with ESMTP id 38j3du6x53-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 May 2021 09:19:52 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14I9JpEC109238;
- Tue, 18 May 2021 09:19:51 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 38j3du6x4f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 May 2021 09:19:51 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14I9Jdlx012420;
- Tue, 18 May 2021 09:19:39 GMT
-Received: from mwanda (/62.8.83.26) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 18 May 2021 02:19:39 -0700
-Date: Tue, 18 May 2021 12:19:30 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: [PATCH] drm/bridge: ti-sn65dsi86: fix a ternary type promotion bug
-Message-ID: <YKOGogHasIyvF8nj@mwanda>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECAA6EB13;
+ Tue, 18 May 2021 09:33:06 +0000 (UTC)
+IronPort-SDR: uMoFKoO7eTBxb8XJRl0OasFhE36Xm6wrKesXYncNq7JzdmHTIC6Hl+r5stFz19UUqDIPLZh8fr
+ Ua723ogAyT6g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="198716446"
+X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="198716446"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 02:33:05 -0700
+IronPort-SDR: zCwejfSk02iJVMpiYMdmn5cGPwg0dOV9Zsglr+2aPG8AAMk9HSlFgmGDvFQpeLLLMkziT4lUQ9
+ C6R8Cpmc2Lrg==
+X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="466344448"
+Received: from cmutgix-mobl.gar.corp.intel.com (HELO [10.249.254.195])
+ ([10.249.254.195])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 02:33:05 -0700
+Subject: Re: [Intel-gfx] [PATCH v2 15/15] drm/i915/ttm: Add io sgt caching to
+ i915_ttm_io_mem_pfn
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
+ <20210518082701.997251-16-thomas.hellstrom@linux.intel.com>
+Message-ID: <64fb853d-571a-2c8f-a0fe-36d2bca96261@linux.intel.com>
+Date: Tue, 18 May 2021 11:33:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-ORIG-GUID: b9ooFrFJESALkdzw1ESlb6Ymmjg1FYhe
-X-Proofpoint-GUID: b9ooFrFJESALkdzw1ESlb6Ymmjg1FYhe
+In-Reply-To: <20210518082701.997251-16-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,51 +53,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, kernel-janitors@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ti_sn_aux_transfer() function returns ssize_t (signed long).  It's
-supposed to return negative error codes or the number of bytes
-transferred.  The "ret" variable is int and the "len" variable is
-unsigned int.
 
-The problem is that with a ternary like this, the negative int is first
-type promoted to unsigned int to match "len" at this point it is a high
-positive value.  Then when it is type promoted to ssize_t (s64) it
-remains a high positive value instead of sign extending and becoming a
-negative again.
+On 5/18/21 10:27 AM, Thomas Hellström wrote:
+> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>
+> Instead of walking the sg table manually, use our caching helpers
+> to do the sgt caching. To prevent lifetime issues of ttm_bo vs
+> i915_gem_object, we will use a separate member, instead of re-using
+> the dma page member.
+>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_object.h    |  6 +--
+>   .../gpu/drm/i915/gem/i915_gem_object_types.h  |  1 +
+>   drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  3 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 46 ++++++++++---------
+>   4 files changed, 30 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> index a3ad8cf4eefd..ff59e6c640e6 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> @@ -342,14 +342,14 @@ struct scatterlist *
+>   __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+>   			 struct i915_gem_object_page_iter *iter,
+>   			 unsigned int n,
+> -			 unsigned int *offset, bool allow_alloc);
+> +			 unsigned int *offset, bool allow_alloc, bool dma);
+>   
+>   static inline struct scatterlist *
+>   i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+>   		       unsigned int n,
+>   		       unsigned int *offset, bool allow_alloc)
+>   {
+> -	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, allow_alloc);
+> +	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, allow_alloc, false);
+>   }
+>   
+>   static inline struct scatterlist *
+> @@ -357,7 +357,7 @@ i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj,
+>   			   unsigned int n,
+>   			   unsigned int *offset, bool allow_alloc)
+>   {
+> -	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, allow_alloc);
+> +	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, allow_alloc, true);
+>   }
+>   
+>   struct page *
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> index 31d828e91cf4..828310802b9f 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> @@ -324,6 +324,7 @@ struct drm_i915_gem_object {
+>   
+>   	struct {
+>   		struct sg_table *cached_io_st;
+> +		struct i915_gem_object_page_iter get_io_page;
+>   	} ttm;
+>   
+>   	/** Record of address bit 17 of each page at last unbind. */
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> index 62ee2185a41b..577352b4f2f6 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> @@ -465,9 +465,8 @@ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+>   			 struct i915_gem_object_page_iter *iter,
+>   			 unsigned int n,
+>   			 unsigned int *offset,
+> -			 bool allow_alloc)
+> +			 bool allow_alloc, bool dma)
+>   {
+> -	const bool dma = iter == &obj->mm.get_dma_page;
+>   	struct scatterlist *sg;
+>   	unsigned int idx, count;
+>   
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index fe9ac50b2470..1eaefb89e859 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -167,11 +167,20 @@ static int i915_ttm_move_notify(struct ttm_buffer_object *bo)
+>   
+>   static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
+>   {
+> -	if (obj->ttm.cached_io_st) {
+> -		sg_free_table(obj->ttm.cached_io_st);
+> -		kfree(obj->ttm.cached_io_st);
+> -		obj->ttm.cached_io_st = NULL;
+> -	}
+> +	struct radix_tree_iter iter;
+> +	void __rcu **slot;
+> +
+> +	if (!obj->ttm.cached_io_st)
+> +		return;
+> +
+> +	rcu_read_lock();
+> +	radix_tree_for_each_slot(slot, &obj->ttm.get_io_page.radix, &iter, 0)
+> +		radix_tree_delete(&obj->ttm.get_io_page.radix, iter.index);
+> +	rcu_read_unlock();
+> +
+> +	sg_free_table(obj->ttm.cached_io_st);
+> +	kfree(obj->ttm.cached_io_st);
+> +	obj->ttm.cached_io_st = NULL;
+>   }
+>   
+>   static void i915_ttm_purge(struct drm_i915_gem_object *obj)
+> @@ -340,8 +349,11 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+>   	i915_ttm_move_memcpy(bo, new_mem, new_iter, old_iter);
+>   	i915_ttm_free_cached_io_st(obj);
+>   
+> -	if (!new_man->use_tt)
+> +	if (!new_man->use_tt) {
+>   		obj->ttm.cached_io_st = new_st;
+> +		obj->ttm.get_io_page.sg_pos = new_st->sgl;
+> +		obj->ttm.get_io_page.sg_idx = 0;
+> +	}
+>   
+>   	return 0;
+>   }
+> @@ -362,26 +374,15 @@ static unsigned long i915_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
+>   					 unsigned long page_offset)
+>   {
+>   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> -	struct sg_table *sgt = obj->ttm.cached_io_st;
+> +	unsigned long base = obj->mm.region->iomap.base - obj->mm.region->region.start;
+>   	struct scatterlist *sg;
+> -	unsigned int i;
+> +	unsigned int ofs;
+>   
+>   	GEM_WARN_ON(bo->ttm);
+>   
+> -	for_each_sgtable_dma_sg(sgt, sg, i) {
+> -		unsigned long sg_max = sg->length >> PAGE_SHIFT;
+> +	sg = __i915_gem_object_get_sg(obj, &obj->ttm.get_io_page, page_offset, &ofs, true, true);
+>   
+> -		if (page_offset < sg_max) {
+> -			unsigned long base =
+> -				obj->mm.region->iomap.base - obj->mm.region->region.start;
+> -
+> -			return ((base + sg_dma_address(sg)) >> PAGE_SHIFT) + page_offset;
+> -		}
+> -
+> -		page_offset -= sg_max;
+> -	}
+> -	GEM_BUG_ON(1);
+> -	return 0;
+> +	return ((base + sg_dma_address(sg)) >> PAGE_SHIFT) + ofs;
+>   }
+>   
+>   struct ttm_device_funcs i915_ttm_bo_driver = {
+> @@ -613,6 +614,9 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+>   	obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
+>   	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
+>   
+> +	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
+> +	mutex_init(&obj->ttm.get_io_page.lock);
+> +
 
-Fix this by removing the ternary.
+Perhaps a mutex_destroy() in error path and destructor for full 
+debugging purposes?
 
-Fixes: b137406d9679 ("drm/bridge: ti-sn65dsi86: If refclk, DP AUX can happen w/out pre-enable")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Otherwise LGTM,
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index bb0a0e1c6341..45a2969afb2b 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1042,7 +1042,9 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 	pm_runtime_mark_last_busy(pdata->dev);
- 	pm_runtime_put_autosuspend(pdata->dev);
- 
--	return ret ? ret : len;
-+	if (ret)
-+		return ret;
-+	return len;
- }
- 
- static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
--- 
-2.30.2
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
+
+>   	ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
+>   			  ttm_bo_type_kernel, &i915_sys_placement, alignment,
+>   			  true, NULL, NULL, i915_ttm_bo_destroy);
