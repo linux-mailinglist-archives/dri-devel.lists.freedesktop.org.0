@@ -2,49 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B99387A0B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 15:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A514387A2F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 15:41:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A44DE89DD2;
-	Tue, 18 May 2021 13:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B590A6E0A6;
+	Tue, 18 May 2021 13:41:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F303289BCD;
- Tue, 18 May 2021 13:33:18 +0000 (UTC)
-IronPort-SDR: REJFHNw8bJZMcXmu5OdBqejeleYUWjZhc6lI8KJA3SWV8ViZx3vBmZ3nYujBxrEGXlHEW2up3S
- uPxfTjGCOufA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="221764010"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="221764010"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 06:33:18 -0700
-IronPort-SDR: JD1KVpOLoXzO9+IeWZmr5Vy+CCysqoXN/qIswodanwS1ndGx6ikR3RlmKh+B7FFgVag35gnd6F
- JHMYFcFN+NuQ==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="438664467"
-Received: from cmutgix-mobl.gar.corp.intel.com (HELO [10.249.254.195])
- ([10.249.254.195])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 06:33:16 -0700
-Subject: Re: [Intel-gfx] [PATCH 4/4] i915: fix remap_io_sg to verify the pgprot
-To: Christoph Hellwig <hch@lst.de>
-References: <20210326055505.1424432-1-hch@lst.de>
- <20210326055505.1424432-5-hch@lst.de> <87pmxqiry6.fsf@depni.sinp.msu.ru>
- <20210517123716.GD15150@lst.de> <87lf8dik15.fsf@depni.sinp.msu.ru>
- <20210517131137.GA19451@lst.de>
- <976fb38a-7780-6ca6-d602-a5f02c0938c9@linux.intel.com>
- <6adf9658-25b7-16ef-4b88-fa3911d06b74@linux.intel.com>
- <20210518132428.GD2617@lst.de>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <114520ed-6d61-a2a1-b753-fb169ef6ecea@linux.intel.com>
-Date: Tue, 18 May 2021 15:33:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+X-Greylist: delayed 419 seconds by postgrey-1.36 at gabe;
+ Tue, 18 May 2021 13:41:18 UTC
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB406E0A6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 13:41:18 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 6481813A3;
+ Tue, 18 May 2021 09:34:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 18 May 2021 09:34:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=wgrrsLoj4Unfv9rO+Z97PvhymNn
+ Aksc3e14zYpEaaIo=; b=gLMk2gy3pEdHNYtopPSu/wie58FMREv3VXf4GnJfkeV
+ ibg7K0kVYY1AfgT8cyQ8q+1Jae/Mu/KlDFWiqnt/MNntRdr24qPrhBGoHiFWfLIi
+ vNTJnFpT+Jk6siP9eGD8b0IC3PA5DLhp0n2SBFZX6b7DwkjTnyTCwlIeh5aaEmJu
+ IBkT5QTP7OEz5pECePv/ka44k9JVDrYRuZ0vN/KUljSJX2o2tGBjlgiVbxsX9IKy
+ 4FqYM6YpaCrCAgqxx+J2ZDNg7TmQtPbAmI1wLQx4VGMgvRIOZIKatrIFJIDQqb1/
+ cPFTKb1abMyCI7acLR9msPT5vE4Ic3mPIUC709JYdSQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=wgrrsL
+ oj4Unfv9rO+Z97PvhymNnAksc3e14zYpEaaIo=; b=LsgcTb8A20y58XE3hYh6AD
+ z2ce8sD59CEW0KbvKF64wc92oM+g2BE92ema/xck6Paf8N24ybB31rH6gpVIjuU6
+ HDmetafe0KHM7JiFKfKwBzhdfPQKRj2ATcgCw9lxpBAuwjUUbqrnEQYAwnZfNkIn
+ dTeid5bI9+51sBMgWyQamn0jvVnUhOzWFrdIBwAov9WSEHoX1ftdZR+xmdrNSpme
+ +Jm0RUTwPKhEXBtGLfCOYga/LsLEieA92rZWi7Kk9rXPvUGwGzWWxDb++KkRjELA
+ SY3x3iUKz+SRMed34L6SXDamAINB2SJTlpHCNR75Ck0H+xOQJYmi/7SvEuHUQ19g
+ ==
+X-ME-Sender: <xms:VcKjYLQoDyWuqk1NVkAeryNyMTfGkOmuOTHtfG_yBAMqr0FrQG5cvQ>
+ <xme:VcKjYMwo7EsGm6hXwKOPYV9gh6IvT8PQvhYKm8Q5Z4GA5MH2xs28t20Sa2SE80bS3
+ vJ3AkvQz1BZIg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeijedgieehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+ mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
+ fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucfkphepkeef
+ rdekiedrjeegrdeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+ hlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:VcKjYA3_pPuHYxX6Q4-1_5OpcAVQrkMgFiSPK-OMcVgV7SZXeBYCyA>
+ <xmx:VcKjYLCyRQ0U6EW60F4-5pRSTWEPrKH1KWnHkDNo6s6lat_3Ly3nPQ>
+ <xmx:VcKjYEj5utsT_IFFi77c_MRpAZIBDVYDeC9zZ1Tx3VFCbovZr1puaA>
+ <xmx:V8KjYDQ5QJCgwLIDvtM5dRjj4qwLH55bd2Q-l5uDq_q2bpnuka668WfKtaU>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ by mail.messagingengine.com (Postfix) with ESMTPA;
+ Tue, 18 May 2021 09:34:13 -0400 (EDT)
+Date: Tue, 18 May 2021 15:34:11 +0200
+From: Greg KH <greg@kroah.com>
+To: Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH AUTOSEL 5.12 5/5] tty: vt: always invoke
+ vc->vc_sw->con_resize callback
+Message-ID: <YKPCU8NkdoterrXA@kroah.com>
+References: <20210518010940.1485417-1-sashal@kernel.org>
+ <20210518010940.1485417-5-sashal@kernel.org>
+ <CAHk-=whw9_rp0NYTsCqcGnUkcV5Qgv7FTxADtPrdq4KFmsj+Lg@mail.gmail.com>
+ <YKNUl/f/c8HfF6dS@kroah.com> <YKO/qKRwPYJF7ols@sashalap>
 MIME-Version: 1.0
-In-Reply-To: <20210518132428.GD2617@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YKO/qKRwPYJF7ols@sashalap>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,26 +84,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Serge Belyshev <belyshev@depni.sinp.msu.ru>,
- Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, stable <stable@vger.kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, May 18, 2021 at 09:22:48AM -0400, Sasha Levin wrote:
+> On Tue, May 18, 2021 at 07:45:59AM +0200, Greg KH wrote:
+> > On Mon, May 17, 2021 at 06:35:24PM -0700, Linus Torvalds wrote:
+> > > On Mon, May 17, 2021 at 6:09 PM Sasha Levin <sashal@kernel.org> wrote:
+> > > >
+> > > > From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > > >
+> > > > [ Upstream commit ffb324e6f874121f7dce5bdae5e05d02baae7269 ]
+> > > 
+> > > So I think the commit is fine, and yes, it should be applied to
+> > > stable, but it's one of those "there were three different patches in
+> > > as many days to fix the problem, and this is the right one, but maybe
+> > > stable should hold off for a while to see that there aren't any
+> > > problem reports".
+> > > 
+> > > I don't think there will be any problems from this, but while the
+> > > patch is tiny, it's conceptually quite a big change to something that
+> > > people haven't really touched for a long time.
+> > > 
+> > > So use your own judgement, but it might be a good idea to wait a week
+> > > before backporting this to see if anything screams.
+> > 
+> > I was going to wait a few weeks for this, and the other vt patches that
+> > were marked with cc: stable@ before queueing them up.
+> 
+> I'll drop it from my queue then.
 
-On 5/18/21 3:24 PM, Christoph Hellwig wrote:
-> On Tue, May 18, 2021 at 08:46:44AM +0200, Thomas Hellström wrote:
->> And worse, if we prefault a user-space buffer object map using
->> remap_io_sg() and then zap some ptes using madvise(), the next time those
->> ptes are accessed, we'd trigger a new call to remap_io_sg() which would now
->> find already populated ptes. While the old code looks to just silently
->> overwrite those, it looks like the new code would BUG in remap_pte_range()?
-> How can you zap the PTEs using madvise?
-
-Hmm, that's not possible with VM_PFNMAP. My bad. Should be OK then.
-
-/Thomas
-
-
+Thanks!
