@@ -2,37 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E35387D4F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 18:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E276387D14
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 18:09:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCA66EC2E;
-	Tue, 18 May 2021 16:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D01F6EC1C;
+	Tue, 18 May 2021 16:09:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 455 seconds by postgrey-1.36 at gabe;
- Tue, 18 May 2021 10:35:05 UTC
-Received: from vps5.brixit.nl (vps5.brixit.nl [192.81.221.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5CDC6E869
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 10:35:05 +0000 (UTC)
-Received: from localhost.localdomain (unknown [77.239.252.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by vps5.brixit.nl (Postfix) with ESMTPSA id 1A3F56075F;
- Tue, 18 May 2021 10:27:28 +0000 (UTC)
-From: Alexey Minnekhanov <alexeymin@postmarketos.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
- freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/msm: Init mm_list before accessing it for use_vram path
-Date: Tue, 18 May 2021 13:26:24 +0300
-Message-Id: <20210518102624.1193955-1-alexeymin@postmarketos.org>
-X-Mailer: git-send-email 2.26.3
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50ACE6EC2C;
+ Tue, 18 May 2021 16:09:09 +0000 (UTC)
+IronPort-SDR: ZgjL7T0OfixtTL1IPGHKl4PGOrfIErJcrUlibSLCu+rdt2dYkrwV7bkilIth1HjZ3L/EqiFqku
+ w7vamOejuvEA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="200804788"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="200804788"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 09:07:29 -0700
+IronPort-SDR: iDotVLPyfjU7FBk7NwaJk3sZv4BntYDY9mnTI5dVeVC14EdCSg+u9NYwbTBJBBfHkz+Pw+Wpv7
+ 3/SlzzoQRRCA==
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="439100599"
+Received: from cmutgix-mobl.gar.corp.intel.com (HELO [10.249.254.195])
+ ([10.249.254.195])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 09:07:27 -0700
+Subject: Re: [PATCH v2 09/15] drm/ttm, drm/amdgpu: Allow the driver some
+ control over swapping
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
+ <20210518082701.997251-10-thomas.hellstrom@linux.intel.com>
+ <c4cd4843-c3aa-1f01-fc73-bc9144fa478f@linux.intel.com>
+ <60276369-dbfd-e0dc-548b-a9419ff4c7eb@amd.com>
+ <471d8fd5-379f-e95a-4973-c50fadace7cb@linux.intel.com>
+ <b909db91-5c61-4af5-135d-aa62d5e4b481@amd.com>
+ <f5c008cb-5047-7cbf-0361-e4e58e38d6e0@linux.intel.com>
+ <fb9a4898-5844-c1e5-7a24-cb50a9ad6df7@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <334dc2d2-2053-9e42-62be-58784e4256aa@linux.intel.com>
+Date: Tue, 18 May 2021 18:07:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <fb9a4898-5844-c1e5-7a24-cb50a9ad6df7@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 18 May 2021 16:24:25 +0000
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,38 +60,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexey Minnekhanov <alexeymin@postmarketos.org>,
- ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix NULL pointer dereference caused by update_inactive()
-trying to list_del() an uninitialized mm_list who's
-prev/next pointers are NULL.
 
-Signed-off-by: Alexey Minnekhanov <alexeymin@postmarketos.org>
----
- drivers/gpu/drm/msm/msm_gem.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 5/18/21 5:42 PM, Christian König wrote:
+> Am 18.05.21 um 17:38 schrieb Thomas Hellström:
+>>
+>> On 5/18/21 5:28 PM, Christian König wrote:
+>>> Am 18.05.21 um 17:20 schrieb Thomas Hellström:
+>>>>
+>>>> On 5/18/21 5:18 PM, Christian König wrote:
+>>>>>
+>>>>>
+>>>>> Am 18.05.21 um 17:15 schrieb Thomas Hellström:
+>>>>>>
+>>>>>> On 5/18/21 10:26 AM, Thomas Hellström wrote:
+>>>>>>> We are calling the eviction_valuable driver callback at eviction 
+>>>>>>> time to
+>>>>>>> determine whether we actually can evict a buffer object.
+>>>>>>> The upcoming i915 TTM backend needs the same functionality for 
+>>>>>>> swapout,
+>>>>>>> and that might actually be beneficial to other drivers as well.
+>>>>>>>
+>>>>>>> Add an eviction_valuable call also in the swapout path. Try to 
+>>>>>>> keep the
+>>>>>>> current behaviour for all drivers by returning true if the 
+>>>>>>> buffer object
+>>>>>>> is already in the TTM_PL_SYSTEM placement. We change behaviour 
+>>>>>>> for the
+>>>>>>> case where a buffer object is in a TT backed placement when 
+>>>>>>> swapped out,
+>>>>>>> in which case the drivers normal eviction_valuable path is run.
+>>>>>>>
+>>>>>>> Finally export ttm_tt_unpopulate() and don't swap out bos
+>>>>>>> that are not populated. This allows a driver to purge a bo at
+>>>>>>> swapout time if its content is no longer valuable rather than to
+>>>>>>> have TTM swap the contents out.
+>>>>>>>
+>>>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>>>>
+>>>>>> Christian,
+>>>>>>
+>>>>>> Here we have a ttm_tt_unpopulate() export as well at the end. I 
+>>>>>> figure you will push back on that one. What we really need is a 
+>>>>>> functionality to just drop the bo contents and end up in system 
+>>>>>> memory unpopulated. Should I perhaps add a utility function to do 
+>>>>>> that instead? like ttm_bo_purge()?
+>>>>>
+>>>>> We already have that. Just call ttm_bo_validate() without any 
+>>>>> place to put the buffer.
+>>>>>
+>>>>> See how ttm_bo_pipeline_gutting() is used.
+>>>>>
+>>>>> Christian.
+>>>>
+>>>> OK, so is that reentrant from the move() or swap_notify() callback.
+>>>
+>>> That sounds like a design bug to me since you should never need to 
+>>> do this.
+>>>
+>>> When you want to destroy the backing store of a buffer during 
+>>> eviction you should just do this by returning an empty placement 
+>>> from the evict_flags callback.
+>>
+>> So this is for the functionality where the user has indicated that 
+>> the contents is no longer of value, but the buffer itself
+>> is cached until evicted or swapped out for performance reasons. So 
+>> the above would work for eviction, but what about swapout. Could we 
+>> add some similar functionality there?
+>
+> Amdgpu has the same functionality and you don't need to handle swap at 
+> all.
+>
+> Just return from the evict_flags that you want to drop the backing 
+> store as soon as the BO leaves the GTT domain.
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index b199942266a26..b8c873fc63a78 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -1227,6 +1227,13 @@ static struct drm_gem_object *_msm_gem_new(struct drm_device *dev,
- 
- 		to_msm_bo(obj)->vram_node = &vma->node;
- 
-+		/* Call chain get_pages() -> update_inactive() tries to
-+		 * access msm_obj->mm_list, but it is not initialized yet.
-+		 * To avoid NULL pointer dereference error, initialize
-+		 * mm_list to be empty.
-+		 */
-+		INIT_LIST_HEAD(&msm_obj->mm_list);
-+
- 		msm_gem_lock(obj);
- 		pages = get_pages(obj);
- 		msm_gem_unlock(obj);
--- 
-2.26.3
+Hmm, the pipeline_gutting function seems ok, but overly complex if the 
+bo is already idle, Am I allowed to optimize it slightly for the latter 
+case?
 
+/Thomas
+
+
+>
+> Christian.
+>
+>>
+>> /Thomas
+>>
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>>
+>>>> /Thomas
+>>>>
+>>>>
+>>>>
+>>>>>
+>>>>>>
+>>>>>> Thanks,
+>>>>>>
+>>>>>> Thomas
+>>>>>>
+>>>>>>
+>>>>>
+>>>
+>
