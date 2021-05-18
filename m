@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8977F387C58
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 17:21:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E4F387C65
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 17:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30F346EBA8;
-	Tue, 18 May 2021 15:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CDF36EBB7;
+	Tue, 18 May 2021 15:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 813DF6EBA7;
- Tue, 18 May 2021 15:21:04 +0000 (UTC)
-IronPort-SDR: g9jxznvzZFzp4eszGpJ+Hzd/2iexujVquefPTV8MYeIsaHv3Nh61wPmzEZydNLmyeF5/Nw9OWb
- BQ4LRbfr9C9g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="198787268"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="198787268"
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C70EF6EBB7
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 15:25:20 +0000 (UTC)
+IronPort-SDR: cxLOgP0rQ/W9hQIVbZrbPObMkAWflGuyr7ajqG1S2+J+4z7hPnEh7+Yuo6tR3pNXdT9oB/pbsJ
+ NFNymoniQ/vg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="187864586"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="187864586"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 08:21:03 -0700
-IronPort-SDR: VMYsIPugjzcTr2Kd5Ff23dYiSu6h9yAWhpC8LEaNcX5B9hKm9YtAhxa2lT3TiDoRvweaKSTKBf
- sE4otHxCFfbQ==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="439083808"
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 08:25:17 -0700
+IronPort-SDR: glDsZki0zdhzZasVW36AueZpSt1Cd8470v8H9a5ce/0tgEUprKZi6WnZdyItec3U/emonwEByE
+ FBrAo8210NEg==
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="439085183"
 Received: from cmutgix-mobl.gar.corp.intel.com (HELO [10.249.254.195])
  ([10.249.254.195])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 08:21:01 -0700
-Subject: Re: [PATCH v2 09/15] drm/ttm, drm/amdgpu: Allow the driver some
- control over swapping
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
- <20210518082701.997251-10-thomas.hellstrom@linux.intel.com>
- <c4cd4843-c3aa-1f01-fc73-bc9144fa478f@linux.intel.com>
- <60276369-dbfd-e0dc-548b-a9419ff4c7eb@amd.com>
+ 18 May 2021 08:25:16 -0700
+Subject: Re: [PATCH v2 13/15] drm/ttm: Add BO and offset arguments for
+ vm_access and vm_fault ttm handlers.
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20210518145543.1042429-1-thomas.hellstrom@linux.intel.com>
+ <9e465ab2-4272-4a41-2ebf-4b34d4724f77@amd.com>
+ <0beb46d3-96c8-dcfd-6540-e23ff7207888@linux.intel.com>
+ <151faa7d-c4c0-4f8b-f127-9e82a5432774@amd.com>
 From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <471d8fd5-379f-e95a-4973-c50fadace7cb@linux.intel.com>
-Date: Tue, 18 May 2021 17:20:58 +0200
+Message-ID: <07c9239c-1d72-26d8-4fe3-378bf826bae2@linux.intel.com>
+Date: Tue, 18 May 2021 17:25:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <60276369-dbfd-e0dc-548b-a9419ff4c7eb@amd.com>
+In-Reply-To: <151faa7d-c4c0-4f8b-f127-9e82a5432774@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -56,64 +55,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 5/18/21 5:18 PM, Christian König wrote:
+On 5/18/21 5:17 PM, Christian König wrote:
 >
 >
-> Am 18.05.21 um 17:15 schrieb Thomas Hellström:
+> Am 18.05.21 um 17:11 schrieb Thomas Hellström:
 >>
->> On 5/18/21 10:26 AM, Thomas Hellström wrote:
->>> We are calling the eviction_valuable driver callback at eviction 
->>> time to
->>> determine whether we actually can evict a buffer object.
->>> The upcoming i915 TTM backend needs the same functionality for swapout,
->>> and that might actually be beneficial to other drivers as well.
+>> On 5/18/21 5:07 PM, Christian König wrote:
+>>> Am 18.05.21 um 16:55 schrieb Thomas Hellström:
+>>>> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>>>
+>>>> This allows other drivers that may not setup the vma in the same way
+>>>> to use the ttm bo helpers.
 >>>
->>> Add an eviction_valuable call also in the swapout path. Try to keep the
->>> current behaviour for all drivers by returning true if the buffer 
->>> object
->>> is already in the TTM_PL_SYSTEM placement. We change behaviour for the
->>> case where a buffer object is in a TT backed placement when swapped 
->>> out,
->>> in which case the drivers normal eviction_valuable path is run.
+>>> Uff can you please explain why exactly you need that?
 >>>
->>> Finally export ttm_tt_unpopulate() and don't swap out bos
->>> that are not populated. This allows a driver to purge a bo at
->>> swapout time if its content is no longer valuable rather than to
->>> have TTM swap the contents out.
+>>> Providing the BO is not much of a problem, but having the BO at 
+>>> different VMA offsets is really a no-go with TTM.
 >>>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> Christian.
 >>
->> Christian,
->>
->> Here we have a ttm_tt_unpopulate() export as well at the end. I 
->> figure you will push back on that one. What we really need is a 
->> functionality to just drop the bo contents and end up in system 
->> memory unpopulated. Should I perhaps add a utility function to do 
->> that instead? like ttm_bo_purge()?
+>> The current i915 uapi is using different offsets for different 
+>> caching :/. We're currently working around that by using 
+>> ttm_bo_type_kernel (no TTM vma offset at all) and i915's offset.
 >
-> We already have that. Just call ttm_bo_validate() without any place to 
-> put the buffer.
+> Can you instead adjust the offset in the mmap callback like we do for 
+> dma-buf?
+Will have to take a look.
 >
-> See how ttm_bo_pipeline_gutting() is used.
->
-> Christian.
+> That's really a no-go what you describe here because it will mess up 
+> reverse mapping lockup for buffer movement.
 
-OK, so is that reentrant from the move() or swap_notify() callback.
+You mean the unmap_mapping_range() stuff? That's not a problem since 
+it's a NOP for kernel ttm buffers, and the i915 move() / swap_notify() 
+takes care of killing the ptes.
+
+While we're in the process of killing that offset flexibility for 
+discrete, we can't do so for older hardware unfortunately.
 
 /Thomas
 
 
+>
+> Christian.
+
+
 
 >
 >>
->> Thanks,
->>
->> Thomas
->>
+>> /Thomas
 >>
 >
