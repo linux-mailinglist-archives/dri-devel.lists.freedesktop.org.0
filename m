@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EFE3878E7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 14:35:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC813878E8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 14:36:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B086A6EB53;
-	Tue, 18 May 2021 12:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5437A6EB55;
+	Tue, 18 May 2021 12:36:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11B336EB4E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 12:35:51 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id a11so5006149plh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 05:35:51 -0700 (PDT)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39156EB55
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 12:36:00 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id 22so6898026pfv.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 05:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wb6aLHCElj0uWvXf5enN1Vm3tKS94jAteW7BFO88j/M=;
- b=DGKbMopdPF53QbzMqZVj9hOINjaQ/ZBoJK6f+fORH1VCPsoDmM19kA749Xb/KD+Ynz
- FG4cfvqkqzqCy4YhnwUZXPV7j5xql4WV2QOkUsWEH1i8rjcf503z4rCyHqgbArpSnfst
- J9YRNRJ4eKRyxiROr9QeoXvKFNrP7piziVg8M=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=qpU5qP98b9v91H9ZdN9F8lHTpC0IiyKJ829V83s2fV8=;
+ b=ixa4pl16t4BtDmwwdv+WUIxjwtcmcyN2miN7qTc6SWNRl7Yzo6oet71Bwhzcyd5PVt
+ Y78ou856oCVYwfiHfDoJsAsqeT6HaDlDRZpYzqHIXAc1eklhFB62OJyK4glg8oYUgOEq
+ iyx3MwUWKcch+weXKROuLSa4Vtk6A/auo7R8Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wb6aLHCElj0uWvXf5enN1Vm3tKS94jAteW7BFO88j/M=;
- b=Tj+xUcEhU3+yB4ZV5ja7STUNHL9NSt+NJdFrIRbkiwGc4MKDEQPOaZrpbxnnfXi7gQ
- FkZpmRCaAOmhKEM8WHB00ThDx5U5aBfU/nd5wkDFn+pZ/F90gsZ7OOvPwoE9563LmlhW
- zrNdXXRhKQWnOYj8faVJdyEfL6rJVuqld+NLXshcOy0NRJmTUkjDPAgXHdMv6RIn75ku
- 8v0C6GlRycfs3zuq46NgPRcjQfwrqssJPzxOaBGw6yu5UmMx/n5XnFJHqCbl0MoPhnlH
- FJynPpUnc32SdZ4Q6TOWP8gNYbvM5Ig4oqfX3zZ0GD7K4y9qTJJG8nc/Pi1Ckl4EjCAp
- z+pA==
-X-Gm-Message-State: AOAM532NE4IyrwArzLHzg8cf93l7w4MTx8SVIK5UYs8XPx7S2pQraZD1
- 6S6C7IJTsBZUmVpBVFgRm/iQxA==
-X-Google-Smtp-Source: ABdhPJyFwhbUMQJ7QIhegsqsbeYMYTILnwtqJg9Ll5YA6N9WhE+bNz4Qj+uex+otximwOcgGVPJYTA==
-X-Received: by 2002:a17:902:c651:b029:ee:9ce7:2d74 with SMTP id
- s17-20020a170902c651b02900ee9ce72d74mr4362993pls.84.1621341350580; 
- Tue, 18 May 2021 05:35:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qpU5qP98b9v91H9ZdN9F8lHTpC0IiyKJ829V83s2fV8=;
+ b=tPfgWBJ/g/PTdE9KazeKuMDabxkR7U0+RHt0qbz1lNx0sPv2HQ/8oMGkLCpNjOhqrp
+ 6n2MBIM19IQW+wpw113i52PRK44OBwPA51mLq+4R4YZwAGC05Ip2n/mdYCzzD7r8cTei
+ voqhCdK7K22noysGTleBYHcnJzMKBFjXwDCK4B08dSXLO41kXIqr3yJHO6cSn5fulOlz
+ VJ1ZMsXR111Xx01+99BSOHVUCf7X7+f1fslAB38v0v8nTIg7YlOyp74czlll9SuWY7mH
+ EIuEz9aZFcRIC00JMzwm4+rgP8d13KYtUmAhbZFVcV4n7ZxnIr6nSgYhjg6EOrCnEl6k
+ YH7w==
+X-Gm-Message-State: AOAM5328umi7cVXO8G64pM5UZamiSWykccLCRki6K/Tlx6ibkluJ5fR0
+ voWfQSwmqRw8Inegg9TG2RWT0Q==
+X-Google-Smtp-Source: ABdhPJyn5jxI9LtAnxhhI2unNORlfnfZYRnMpHFxCCuHQbd6xvAnaHwB5zQYYAdOQM9lsGHyX6oJ4g==
+X-Received: by 2002:a63:4b19:: with SMTP id y25mr4776454pga.313.1621341360600; 
+ Tue, 18 May 2021 05:36:00 -0700 (PDT)
 Received: from localhost ([2401:fa00:9:14:d4a6:9a84:c26c:6e50])
- by smtp.gmail.com with UTF8SMTPSA id w206sm2470296pfc.61.2021.05.18.05.35.46
+ by smtp.gmail.com with UTF8SMTPSA id o3sm12826667pgh.22.2021.05.18.05.35.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 May 2021 05:35:50 -0700 (PDT)
+ Tue, 18 May 2021 05:36:00 -0700 (PDT)
 From: Sam McNally <sammc@chromium.org>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 1/3] drm/dp_mst: Add self-tests for up requests
-Date: Tue, 18 May 2021 22:35:28 +1000
-Message-Id: <20210518223508.v4.1.I6f50a7996687318ba298c24a3663c8be7dd432c7@changeid>
+Subject: [PATCH v4 2/3] drm/dp_mst: Add support for sink event notify messages
+Date: Tue, 18 May 2021 22:35:29 +1000
+Message-Id: <20210518223508.v4.2.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
 X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
+In-Reply-To: <20210518223508.v4.1.I6f50a7996687318ba298c24a3663c8be7dd432c7@changeid>
+References: <20210518223508.v4.1.I6f50a7996687318ba298c24a3663c8be7dd432c7@changeid>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,333 +65,200 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Hans Verkuil <hverkuil@xs4all.nl>, Sam McNally <sammc@chromium.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- Lee Jones <lee.jones@linaro.org>
+ Anshuman Gupta <anshuman.gupta@intel.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sam McNally <sammc@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Up requests are decoded by drm_dp_sideband_parse_req(), which operates
-on a drm_dp_sideband_msg_rx, unlike down requests. Expand the existing
-self-test helper sideband_msg_req_encode_decode() to copy the message
-contents and length from a drm_dp_sideband_msg_tx to
-drm_dp_sideband_msg_rx and use the parse function under test in place of
-decode.
-
-Add support for currently-supported up requests to
-drm_dp_dump_sideband_msg_req_body(); add support to
-drm_dp_encode_sideband_req() to allow encoding for the self-tests.
-
-Add self-tests for CONNECTION_STATUS_NOTIFY and RESOURCE_STATUS_NOTIFY.
+Sink event notify messages are used for MST CEC IRQs. Add parsing
+support for sink event notify messages in preparation for handling MST
+CEC IRQs.
 
 Signed-off-by: Sam McNally <sammc@chromium.org>
 ---
 
 Changes in v4:
-- New in v4
+- Changed logging to use drm_dbg_kms()
+- Added self-test
 
- drivers/gpu/drm/drm_dp_mst_topology.c         |  54 ++++++-
- .../gpu/drm/drm_dp_mst_topology_internal.h    |   4 +
- .../drm/selftests/test-drm_dp_mst_helper.c    | 147 ++++++++++++++++--
- 3 files changed, 190 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c         | 57 ++++++++++++++++++-
+ .../drm/selftests/test-drm_dp_mst_helper.c    |  8 +++
+ include/drm/drm_dp_mst_helper.h               | 14 +++++
+ 3 files changed, 78 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 54604633e65c..573f39a3dc16 100644
+index 573f39a3dc16..29aad3b6b31a 100644
 --- a/drivers/gpu/drm/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -442,6 +442,37 @@ drm_dp_encode_sideband_req(const struct drm_dp_sideband_msg_req_body *req,
+@@ -473,6 +473,20 @@ drm_dp_encode_sideband_req(const struct drm_dp_sideband_msg_req_body *req,
  		idx++;
- 		}
  		break;
-+	case DP_CONNECTION_STATUS_NOTIFY: {
-+		const struct drm_dp_connection_status_notify *msg;
+ 	}
++	case DP_SINK_EVENT_NOTIFY: {
++		const struct drm_dp_sink_event_notify *msg;
 +
-+		msg = &req->u.conn_stat;
++		msg = &req->u.sink_event;
 +		buf[idx] = (msg->port_number & 0xf) << 4;
 +		idx++;
 +		memcpy(&raw->msg[idx], msg->guid, 16);
 +		idx += 16;
-+		raw->msg[idx] = 0;
-+		raw->msg[idx] |= msg->legacy_device_plug_status ? BIT(6) : 0;
-+		raw->msg[idx] |= msg->displayport_device_plug_status ? BIT(5) : 0;
-+		raw->msg[idx] |= msg->message_capability_status ? BIT(4) : 0;
-+		raw->msg[idx] |= msg->input_port ? BIT(3) : 0;
-+		raw->msg[idx] |= FIELD_PREP(GENMASK(2, 0), msg->peer_device_type);
++		buf[idx] = (msg->event_id & 0xff00) >> 8;
 +		idx++;
-+		break;
-+	}
-+	case DP_RESOURCE_STATUS_NOTIFY: {
-+		const struct drm_dp_resource_status_notify *msg;
-+
-+		msg = &req->u.resource_stat;
-+		buf[idx] = (msg->port_number & 0xf) << 4;
-+		idx++;
-+		memcpy(&raw->msg[idx], msg->guid, 16);
-+		idx += 16;
-+		buf[idx] = (msg->available_pbn & 0xff00) >> 8;
-+		idx++;
-+		buf[idx] = (msg->available_pbn & 0xff);
++		buf[idx] = (msg->event_id & 0xff);
 +		idx++;
 +		break;
 +	}
  	}
  	raw->cur_len = idx;
  }
-@@ -672,6 +703,22 @@ drm_dp_dump_sideband_msg_req_body(const struct drm_dp_sideband_msg_req_body *req
- 		  req->u.enc_status.stream_behavior,
- 		  req->u.enc_status.valid_stream_behavior);
+@@ -719,6 +733,12 @@ drm_dp_dump_sideband_msg_req_body(const struct drm_dp_sideband_msg_req_body *req
+ 		  (int)ARRAY_SIZE(req->u.resource_stat.guid), req->u.resource_stat.guid,
+ 		  req->u.resource_stat.available_pbn);
  		break;
-+	case DP_CONNECTION_STATUS_NOTIFY:
-+		P("port=%d guid=%*ph legacy=%d displayport=%d messaging=%d input=%d peer_type=%d",
-+		  req->u.conn_stat.port_number,
-+		  (int)ARRAY_SIZE(req->u.conn_stat.guid), req->u.conn_stat.guid,
-+		  req->u.conn_stat.legacy_device_plug_status,
-+		  req->u.conn_stat.displayport_device_plug_status,
-+		  req->u.conn_stat.message_capability_status,
-+		  req->u.conn_stat.input_port,
-+		  req->u.conn_stat.peer_device_type);
-+		break;
-+	case DP_RESOURCE_STATUS_NOTIFY:
-+		P("port=%d guid=%*ph pbn=%d",
-+		  req->u.resource_stat.port_number,
-+		  (int)ARRAY_SIZE(req->u.resource_stat.guid), req->u.resource_stat.guid,
-+		  req->u.resource_stat.available_pbn);
++	case DP_SINK_EVENT_NOTIFY:
++		P("port=%d guid=%*ph event=%d",
++		  req->u.sink_event.port_number,
++		  (int)ARRAY_SIZE(req->u.sink_event.guid), req->u.sink_event.guid,
++		  req->u.sink_event.event_id);
 +		break;
  	default:
  		P("???\n");
  		break;
-@@ -1116,9 +1163,9 @@ static bool drm_dp_sideband_parse_resource_status_notify(const struct drm_dp_mst
+@@ -1163,6 +1183,30 @@ static bool drm_dp_sideband_parse_resource_status_notify(const struct drm_dp_mst
  	return false;
  }
  
--static bool drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
--				      struct drm_dp_sideband_msg_rx *raw,
--				      struct drm_dp_sideband_msg_req_body *msg)
-+bool drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
-+			       struct drm_dp_sideband_msg_rx *raw,
-+			       struct drm_dp_sideband_msg_req_body *msg)
- {
- 	memset(msg, 0, sizeof(*msg));
- 	msg->req_type = (raw->msg[0] & 0x7f);
-@@ -1134,6 +1181,7 @@ static bool drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
- 		return false;
++static bool drm_dp_sideband_parse_sink_event_notify(const struct drm_dp_mst_topology_mgr *mgr,
++	struct drm_dp_sideband_msg_rx *raw,
++	struct drm_dp_sideband_msg_req_body *msg)
++{
++	int idx = 1;
++
++	msg->u.sink_event.port_number = (raw->msg[idx] & 0xf0) >> 4;
++	idx++;
++	if (idx > raw->curlen)
++		goto fail_len;
++
++	memcpy(msg->u.sink_event.guid, &raw->msg[idx], 16);
++	idx += 16;
++	if (idx > raw->curlen)
++		goto fail_len;
++
++	msg->u.sink_event.event_id = (raw->msg[idx] << 8) | (raw->msg[idx + 1]);
++	idx++;
++	return true;
++fail_len:
++	drm_dbg_kms(mgr->dev, "sink event notify parse length fail %d %d\n", idx, raw->curlen);
++	return false;
++}
++
+ bool drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
+ 			       struct drm_dp_sideband_msg_rx *raw,
+ 			       struct drm_dp_sideband_msg_req_body *msg)
+@@ -1175,6 +1219,8 @@ bool drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
+ 		return drm_dp_sideband_parse_connection_status_notify(mgr, raw, msg);
+ 	case DP_RESOURCE_STATUS_NOTIFY:
+ 		return drm_dp_sideband_parse_resource_status_notify(mgr, raw, msg);
++	case DP_SINK_EVENT_NOTIFY:
++		return drm_dp_sideband_parse_sink_event_notify(mgr, raw, msg);
+ 	default:
+ 		drm_err(mgr->dev, "Got unknown request 0x%02x (%s)\n",
+ 			msg->req_type, drm_dp_mst_req_type_str(msg->req_type));
+@@ -4106,6 +4152,8 @@ drm_dp_mst_process_up_req(struct drm_dp_mst_topology_mgr *mgr,
+ 			guid = msg->u.conn_stat.guid;
+ 		else if (msg->req_type == DP_RESOURCE_STATUS_NOTIFY)
+ 			guid = msg->u.resource_stat.guid;
++		else if (msg->req_type == DP_SINK_EVENT_NOTIFY)
++			guid = msg->u.sink_event.guid;
+ 
+ 		if (guid)
+ 			mstb = drm_dp_get_mst_branch_device_by_guid(mgr, guid);
+@@ -4177,7 +4225,8 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 	drm_dp_sideband_parse_req(mgr, &mgr->up_req_recv, &up_req->msg);
+ 
+ 	if (up_req->msg.req_type != DP_CONNECTION_STATUS_NOTIFY &&
+-	    up_req->msg.req_type != DP_RESOURCE_STATUS_NOTIFY) {
++	    up_req->msg.req_type != DP_RESOURCE_STATUS_NOTIFY &&
++	    up_req->msg.req_type != DP_SINK_EVENT_NOTIFY) {
+ 		drm_dbg_kms(mgr->dev, "Received unknown up req type, ignoring: %x\n",
+ 			    up_req->msg.req_type);
+ 		kfree(up_req);
+@@ -4205,6 +4254,12 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 		drm_dbg_kms(mgr->dev, "Got RSN: pn: %d avail_pbn %d\n",
+ 			    res_stat->port_number,
+ 			    res_stat->available_pbn);
++	} else if (up_req->msg.req_type == DP_SINK_EVENT_NOTIFY) {
++		const struct drm_dp_sink_event_notify *sink_event =
++			&up_req->msg.u.sink_event;
++
++		drm_dbg_kms(mgr->dev, "Got SEN: pn: %d event_id %d\n",
++			    sink_event->port_number, sink_event->event_id);
  	}
- }
-+EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_dp_sideband_parse_req);
  
- static void build_dpcd_write(struct drm_dp_sideband_msg_tx *msg,
- 			     u8 port_num, u32 offset, u8 num_bytes, u8 *bytes)
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology_internal.h b/drivers/gpu/drm/drm_dp_mst_topology_internal.h
-index eeda9a61c657..0356a2e0dba1 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology_internal.h
-+++ b/drivers/gpu/drm/drm_dp_mst_topology_internal.h
-@@ -21,4 +21,8 @@ void
- drm_dp_dump_sideband_msg_req_body(const struct drm_dp_sideband_msg_req_body *req,
- 				  int indent, struct drm_printer *printer);
- 
-+bool
-+drm_dp_sideband_parse_req(const struct drm_dp_mst_topology_mgr *mgr,
-+			  struct drm_dp_sideband_msg_rx *raw,
-+			  struct drm_dp_sideband_msg_req_body *msg);
- #endif /* !_DRM_DP_MST_HELPER_INTERNAL_H_ */
+ 	up_req->hdr = mgr->up_req_recv.initial_hdr;
 diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-index 6b4759ed6bfd..22aaedc63aec 100644
+index 22aaedc63aec..84b1411460d7 100644
 --- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
 +++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-@@ -13,6 +13,10 @@
- #include "../drm_dp_mst_topology_internal.h"
- #include "test-drm_modeset_common.h"
- 
-+static void mock_release(struct device *dev)
-+{
-+}
-+
- int igt_dp_mst_calc_pbn_mode(void *ignored)
- {
- 	int pbn, i;
-@@ -120,27 +124,59 @@ sideband_msg_req_equal(const struct drm_dp_sideband_msg_req_body *in,
- static bool
- sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
- {
--	struct drm_dp_sideband_msg_req_body *out;
-+	struct drm_dp_sideband_msg_req_body *out = NULL;
- 	struct drm_printer p = drm_err_printer(PREFIX_STR);
--	struct drm_dp_sideband_msg_tx *txmsg;
-+	struct drm_dp_sideband_msg_tx *txmsg = NULL;
-+	struct drm_dp_sideband_msg_rx *rxmsg = NULL;
-+	struct drm_dp_mst_topology_mgr *mgr = NULL;
- 	int i, ret;
--	bool result = true;
-+	bool result = false;
- 
- 	out = kzalloc(sizeof(*out), GFP_KERNEL);
- 	if (!out)
--		return false;
-+		goto out;
- 
- 	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
- 	if (!txmsg)
--		return false;
-+		goto out;
- 
--	drm_dp_encode_sideband_req(in, txmsg);
--	ret = drm_dp_decode_sideband_req(txmsg, out);
--	if (ret < 0) {
--		drm_printf(&p, "Failed to decode sideband request: %d\n",
--			   ret);
--		result = false;
-+	rxmsg = kzalloc(sizeof(*rxmsg), GFP_KERNEL);
-+	if (!rxmsg)
- 		goto out;
-+
-+	mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
-+	if (!mgr)
-+		goto out;
-+
-+	mgr->dev = kzalloc(sizeof(*mgr->dev), GFP_KERNEL);
-+	if (!mgr->dev)
-+		goto out;
-+
-+	mgr->dev->dev = kzalloc(sizeof(*mgr->dev->dev), GFP_KERNEL);
-+	if (!mgr->dev->dev)
-+		goto out;
-+
-+	mgr->dev->dev->release = mock_release;
-+	device_initialize(mgr->dev->dev);
-+
-+	drm_dp_encode_sideband_req(in, txmsg);
-+	switch (in->req_type) {
-+	case DP_CONNECTION_STATUS_NOTIFY:
-+	case DP_RESOURCE_STATUS_NOTIFY:
-+		memcpy(&rxmsg->msg, txmsg->msg, ARRAY_SIZE(rxmsg->msg));
-+		rxmsg->curlen = txmsg->cur_len;
-+		if (!drm_dp_sideband_parse_req(mgr, rxmsg, out)) {
-+			drm_printf(&p, "Failed to decode sideband request\n");
-+			goto out;
-+		}
-+		break;
-+	default:
-+		ret = drm_dp_decode_sideband_req(txmsg, out);
-+		if (ret < 0) {
-+			drm_printf(&p, "Failed to decode sideband request: %d\n", ret);
-+			goto out;
-+		}
-+		break;
- 	}
- 
- 	if (!sideband_msg_req_equal(in, out)) {
-@@ -148,9 +184,9 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
- 		drm_dp_dump_sideband_msg_req_body(in, 1, &p);
- 		drm_printf(&p, "Got:\n");
- 		drm_dp_dump_sideband_msg_req_body(out, 1, &p);
--		result = false;
- 		goto out;
- 	}
-+	result = true;
- 
+@@ -163,6 +163,7 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
  	switch (in->req_type) {
- 	case DP_REMOTE_DPCD_WRITE:
-@@ -171,6 +207,65 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
- out:
- 	kfree(out);
- 	kfree(txmsg);
-+	kfree(rxmsg);
-+	if (mgr) {
-+		if (mgr->dev) {
-+			put_device(mgr->dev->dev);
-+			kfree(mgr->dev);
-+		}
-+		kfree(mgr);
-+	}
-+	return result;
-+}
-+
-+static bool
-+sideband_msg_req_parse(int req_type)
-+{
-+	struct drm_dp_sideband_msg_req_body *out = NULL;
-+	struct drm_printer p = drm_err_printer(PREFIX_STR);
-+	struct drm_dp_sideband_msg_rx *rxmsg = NULL;
-+	struct drm_dp_mst_topology_mgr *mgr = NULL;
-+	bool result = false;
-+
-+	out = kzalloc(sizeof(*out), GFP_KERNEL);
-+	if (!out)
-+		goto out;
-+
-+	rxmsg = kzalloc(sizeof(*rxmsg), GFP_KERNEL);
-+	if (!rxmsg)
-+		goto out;
-+
-+	mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
-+	if (!mgr)
-+		goto out;
-+
-+	mgr->dev = kzalloc(sizeof(*mgr->dev), GFP_KERNEL);
-+	if (!mgr->dev)
-+		goto out;
-+
-+	mgr->dev->dev = kzalloc(sizeof(*mgr->dev->dev), GFP_KERNEL);
-+	if (!mgr->dev->dev)
-+		goto out;
-+
-+	mgr->dev->dev->release = mock_release;
-+	device_initialize(mgr->dev->dev);
-+
-+	rxmsg->curlen = 1;
-+	rxmsg->msg[0] = req_type & 0x7f;
-+	if (drm_dp_sideband_parse_req(mgr, rxmsg, out))
-+		drm_printf(&p, "Unexpectedly decoded invalid sideband request\n");
-+	else
-+		result = true;
-+out:
-+	kfree(out);
-+	kfree(rxmsg);
-+	if (mgr) {
-+		if (mgr->dev) {
-+			put_device(mgr->dev->dev);
-+			kfree(mgr->dev);
-+		}
-+		kfree(mgr);
-+	}
- 	return result;
- }
- 
-@@ -268,6 +363,34 @@ int igt_dp_mst_sideband_msg_req_decode(void *unused)
- 	in.u.enc_status.valid_stream_behavior = 1;
+ 	case DP_CONNECTION_STATUS_NOTIFY:
+ 	case DP_RESOURCE_STATUS_NOTIFY:
++	case DP_SINK_EVENT_NOTIFY:
+ 		memcpy(&rxmsg->msg, txmsg->msg, ARRAY_SIZE(rxmsg->msg));
+ 		rxmsg->curlen = txmsg->cur_len;
+ 		if (!drm_dp_sideband_parse_req(mgr, rxmsg, out)) {
+@@ -385,10 +386,17 @@ int igt_dp_mst_sideband_msg_req_decode(void *unused)
+ 	in.u.resource_stat.available_pbn = 0xcdef;
  	DO_TEST();
  
-+	in.req_type = DP_CONNECTION_STATUS_NOTIFY;
-+	in.u.conn_stat.port_number = 0xf;
-+	get_random_bytes(in.u.conn_stat.guid, sizeof(in.u.conn_stat.guid));
-+	in.u.conn_stat.legacy_device_plug_status = 1;
-+	in.u.conn_stat.displayport_device_plug_status = 0;
-+	in.u.conn_stat.message_capability_status = 0;
-+	in.u.conn_stat.input_port = 0;
-+	in.u.conn_stat.peer_device_type = 7;
-+	DO_TEST();
-+	in.u.conn_stat.displayport_device_plug_status = 1;
-+	DO_TEST();
-+	in.u.conn_stat.message_capability_status = 1;
-+	DO_TEST();
-+	in.u.conn_stat.input_port = 1;
++	in.req_type = DP_SINK_EVENT_NOTIFY;
++	in.u.sink_event.port_number = 0xf;
++	get_random_bytes(in.u.sink_event.guid, sizeof(in.u.sink_event.guid));
++	in.u.sink_event.event_id = 0xcdef;
 +	DO_TEST();
 +
-+	in.req_type = DP_RESOURCE_STATUS_NOTIFY;
-+	in.u.resource_stat.port_number = 0xf;
-+	get_random_bytes(in.u.resource_stat.guid, sizeof(in.u.resource_stat.guid));
-+	in.u.resource_stat.available_pbn = 0xcdef;
-+	DO_TEST();
-+
-+#undef DO_TEST
-+#define DO_TEST(req_type) FAIL_ON(!sideband_msg_req_parse(req_type))
-+	DO_TEST(DP_CONNECTION_STATUS_NOTIFY);
-+	DO_TEST(DP_RESOURCE_STATUS_NOTIFY);
-+
-+	DO_TEST(DP_REMOTE_I2C_WRITE);
  #undef DO_TEST
- 	return 0;
- }
+ #define DO_TEST(req_type) FAIL_ON(!sideband_msg_req_parse(req_type))
+ 	DO_TEST(DP_CONNECTION_STATUS_NOTIFY);
+ 	DO_TEST(DP_RESOURCE_STATUS_NOTIFY);
++	DO_TEST(DP_SINK_EVENT_NOTIFY);
+ 
+ 	DO_TEST(DP_REMOTE_I2C_WRITE);
+ #undef DO_TEST
+diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+index c87a829b6498..96c87f761129 100644
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -439,6 +439,19 @@ struct drm_dp_resource_status_notify {
+ 	u16 available_pbn;
+ };
+ 
++#define DP_SINK_EVENT_PANEL_REPLAY_ACTIVE_FRAME_CRC_ERROR	BIT(0)
++#define DP_SINK_EVENT_PANEL_REPLAY_RFB_STORAGE_ERROR		BIT(1)
++#define DP_SINK_EVENT_DSC_RC_BUFFER_UNDER_RUN			BIT(2)
++#define DP_SINK_EVENT_DSC_RC_BUFFER_OVERFLOW			BIT(3)
++#define DP_SINK_EVENT_DSC_CHUNK_LENGTH_ERROR			BIT(4)
++#define DP_SINK_EVENT_CEC_IRQ_EVENT				BIT(5)
++
++struct drm_dp_sink_event_notify {
++	u8 port_number;
++	u8 guid[16];
++	u16 event_id;
++};
++
+ struct drm_dp_query_payload_ack_reply {
+ 	u8 port_number;
+ 	u16 allocated_pbn;
+@@ -450,6 +463,7 @@ struct drm_dp_sideband_msg_req_body {
+ 		struct drm_dp_connection_status_notify conn_stat;
+ 		struct drm_dp_port_number_req port_num;
+ 		struct drm_dp_resource_status_notify resource_stat;
++		struct drm_dp_sink_event_notify sink_event;
+ 
+ 		struct drm_dp_query_payload query_payload;
+ 		struct drm_dp_allocate_payload allocate_payload;
 -- 
 2.31.1.751.gd2f1c929bd-goog
 
