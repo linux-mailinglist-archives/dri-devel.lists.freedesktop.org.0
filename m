@@ -1,60 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF4E3873A6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 09:58:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBF83873E0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 10:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D97F6E858;
-	Tue, 18 May 2021 07:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15AF36E850;
+	Tue, 18 May 2021 08:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E8A6E858;
- Tue, 18 May 2021 07:58:38 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id v9so11394464lfa.4;
- Tue, 18 May 2021 00:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=T5xFjLMMQC8iz2GBnpTthfrdDlNldeeWnGdVKeCjtoY=;
- b=GOJaykz+puG6m2aLXsjomJvt/TkbnLZ1UNq+SQk49kfzhWRUUZu7dgqxjxBIiLIcqo
- YMXGTc9Enqrndo5RfHNa98nQnNtBGbEY/P8Q33pbIE3zyUsCX725P9BJtHVlPXMBQBZa
- m1SAZIcIt9HDdt2AKW4a7DYAcTvk5fr430Gb6Wct8BKwSIDH7AEeP6vOv/gCDhahEnnk
- 7pr0R/c+5PXOxSuO9B8ugRp6lwU/2aUu45qZK2utnfFnlITU1osxINqRxOl84BfKLI9w
- FBd0uYE65Ui9/K7b86fusxTellYkMTjukUU2b+J2e1Latif/pBj3zG9XWPlpgkUKIUC5
- 7rfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=T5xFjLMMQC8iz2GBnpTthfrdDlNldeeWnGdVKeCjtoY=;
- b=tthvJTmC8AdNA4O51DqsEIG8EnqHDE8nOU0SAdcNKm5I5fnS8GcNeDNS7DiNmCp/Go
- 26Qn4uocaya2ijOzzFQ+4BI+pEdbIYslV0anOdmdNiII4/5WwFA52XL81t0U76Q05caB
- j6QfMybo2SSwf1XsxvoSwvZBcTv/rAPR50DdN3P91djBkB+WJuTh3THbpweuWo4GnWDB
- 8ojSIn3FixcPjN1A0xFoxnsHAKdhPb4SjJ48b4IZgrwkkVO96v8yN7eM2lWfde2XI2oi
- 3thp3COXoXJZxrFJuMgOU//ZEQU/6pjDDDQYYlrwqmZfl3s8Byv4zeUpAJEVzrfwJ9g4
- ks4A==
-X-Gm-Message-State: AOAM532Fw8dx3xrMrI4H3wxqbhD+rmrYYb414Q7wCKWH7T86EAeGDXSG
- YHuDrvRbDNCxzQD90ClfGd0=
-X-Google-Smtp-Source: ABdhPJxucoueBjGtrAHoLZYBgcx8jfJPHtOlXFlAyEbaEMMNrMcWADcY384ln5FyRKVnUpX9OlIxRA==
-X-Received: by 2002:a19:6d12:: with SMTP id i18mr3136261lfc.249.1621324716595; 
- Tue, 18 May 2021 00:58:36 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id u13sm3229509ljk.133.2021.05.18.00.58.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 May 2021 00:58:36 -0700 (PDT)
-Date: Tue, 18 May 2021 10:58:33 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH v2 0/6] A drm_plane API to support HDR planes
-Message-ID: <20210518105833.3b3b0b89@eldfell>
-In-Reply-To: <20210514210720.157892-1-harry.wentland@amd.com>
-References: <20210514210720.157892-1-harry.wentland@amd.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B63E6E842;
+ Tue, 18 May 2021 08:27:25 +0000 (UTC)
+IronPort-SDR: ORN3XC/AG4TnOb87rexsaIL0WfPRE93ygg3jaj/bLg64PSF0smDILLTsZdbbODCySf3BOEwLMu
+ WUk/Dhy0LkTw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="200707430"
+X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="200707430"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 01:27:24 -0700
+IronPort-SDR: xu7Uf8tGohbOV56SMJvUmyGje0v78V8xMQ21klQ96ghpvblmO+Yxmc5w8q0tKl0NgHMYsDmrDL
+ qLPJaZmN98cw==
+X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="611892261"
+Received: from cmutgix-mobl.gar.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.195])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 01:27:19 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 00/15] drm/i915: Move LMEM (VRAM) management over to TTM
+Date: Tue, 18 May 2021 10:26:46 +0200
+Message-Id: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/YVT3Sud5RAAyMGLjIohkEur"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,54 +48,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak.Sharma@amd.com, Krunoslav.Kovac@amd.com, mcasas@google.com,
- Shashank.Sharma@amd.com, dri-devel@lists.freedesktop.org, Shirish.S@amd.com,
- sebastian@sebastianwick.net, hersenxs.wu@amd.com,
- amd-gfx@lists.freedesktop.org, laurentiu.palcu@oss.nxp.com,
- Bhawanpreet.Lakha@amd.com, Nicholas.Kazlauskas@amd.com, Vitaly.Prosyak@amd.com
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/YVT3Sud5RAAyMGLjIohkEur
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This is an initial patch series to move discrete memory management over to
+TTM. It will be followed up shortly with adding more functionality.
 
-On Fri, 14 May 2021 17:07:14 -0400
-Harry Wentland <harry.wentland@amd.com> wrote:
+The buddy allocator is temporarily removed along with its selftests and
+It is replaced with the TTM range manager and some selftests are adjusted
+to account for introduced fragmentation. Work is ongoing to reintroduce the
+buddy allocator as a TTM resource manager.
 
-> We are looking to enable HDR support for a couple of single-plane and
-> multi-plane scenarios. To do this effectively we recommend new interfaces
-> to drm_plane. The first patch gives a bit of background on HDR and why we
-> propose these interfaces.
->=20
-> v2:
+A new memcpy ttm move is introduced that uses kmap_local() functionality
+rather than vmap(). Among other things stated in the patch commit message
+it helps us deal with page-pased LMEM memory. It is generic enough to replace
+the ttm memcpy move with some additional work if so desired. On x86 it also
+enables prefetching reads from write-combined memory.
 
-For everyone's information, the discussion is still on-going in the
-first email thread.
+Finally the old i915 gem object LMEM backend is replaced with a
+i915 gem object TTM backend and some additional i915 gem object ops are
+introduced to support the added functionality.
+Currently it is used only to support management and eviction of the LMEM
+region, but work is underway to extend the support to system memory. In this
+way we use TTM the way it was originally intended, having the GPU binding
+taken care of by driver code.
 
+Intention is to follow up with
+- System memory support
+- Pipelined accelerated moves / migration
+- Re-added buddy allocator in the TTM framework
 
-Thanks,
-pq
+v2:
+- Add patches to move pagefaulting over to TTM
+- Break out TTM changes to separate patches
+- Address various review comments as detailed in the affected patches
 
---Sig_/YVT3Sud5RAAyMGLjIohkEur
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Cc: Christian König <christian.koenig@amd.com>
 
------BEGIN PGP SIGNATURE-----
+Maarten Lankhorst (4):
+  drm/i915: Disable mmap ioctl for gen12+
+  drm/ttm: Add BO and offset arguments for vm_access and vm_fault ttm
+    handlers.
+  drm/i915: Use ttm mmap handling for ttm bo's.
+  drm/i915/ttm: Add io sgt caching to i915_ttm_io_mem_pfn
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCjc6kACgkQI1/ltBGq
-qqdghg//elfk40cPilOKXwdskNeHI/KHdr3Hnt0BB3NcBXKNzC3dgMGdPDCS7+3w
-j1loofkF045pQ9b0qSb6uYF5kF2pxggMKWxvl7aTTdh7irJxdzO+q3BrJv9x3Ct6
-OPPYWi41ilqJwXEQJNXv6t+XUxSbn3Hfqit3tiark7HSxJawqnhV84zpgg9N8LMR
-1ANylKI1qNAITnll1kY/TsAkvTDH2WPU7u74DmelJbTNKU5QKaWG+pwglX/OB6NU
-O38iBCwyHLnJkoJuTLxCAWBwvcWiv+YSQu7Sv0BPfaIRi0aXThPfqAdfMNl5cpgF
-Ln0Fh/V8bip7+Soi2fOiN+k0UQ2stnRbf4NOwI3KGZhHUeeyt3kLB2WtN6HGP6B8
-XFjvK2TD5I1OPJxKoWOln7fRZOik6FI6FUhSWe5Un1ddxTxfz1ZIlYyu5to055ov
-1q+EuwSd89KRXNTjVbMS0UYMPzsY1Pg0IAlDUvqk+c2I8PGsEPqqHtV3Uk7FErMt
-/ufPP6Iay7hDvsuZZ0Ae0h6M4hTisB5DXY0ElSQKX+h+PvTA9jMOLob6z4AqDbHA
-TTPGb/g3LiglZFlE0lV3x5ZRDC3opz7/UE8CmEoQttksCr370lD9Wq/xGQZWI/Wb
-8nIWXL5Nc4rTCFBz+G1pvgkERkYrg0TJZzpFd79JLdkr2JIwmDc=
-=dHbo
------END PGP SIGNATURE-----
+Thomas Hellström (11):
+  drm/i915: Untangle the vma pages_mutex
+  drm/i915: Don't free shared locks while shared
+  drm/i915: Fix i915_sg_page_sizes to record dma segments rather than
+    physical pages
+  drm/ttm: Export functions to initialize and finalize the ttm range
+    manager standalone
+  drm/i915/ttm Initialize the ttm device and memory managers
+  drm/i915/ttm: Embed a ttm buffer object in the i915 gem object
+  drm/ttm: Export ttm_bo_tt_destroy()
+  drm/i915/ttm Add a generic TTM memcpy move for page-based iomem
+  drm/ttm, drm/amdgpu: Allow the driver some control over swapping
+  drm/i915/ttm: Introduce a TTM i915 gem object backend
+  drm/i915/lmem: Verify checks for lmem residency
 
---Sig_/YVT3Sud5RAAyMGLjIohkEur--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   8 +-
+ drivers/gpu/drm/i915/Kconfig                  |   1 +
+ drivers/gpu/drm/i915/Makefile                 |   4 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |  71 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   5 -
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  24 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.h      |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 149 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  19 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  39 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    | 126 +--
+ drivers/gpu/drm/i915/gem/i915_gem_region.h    |   4 -
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.h    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 626 ++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  48 ++
+ .../gpu/drm/i915/gem/i915_gem_ttm_bo_util.c   | 194 +++++
+ .../gpu/drm/i915/gem/i915_gem_ttm_bo_util.h   | 107 +++
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  19 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 -
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  45 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  30 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   2 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |  30 +-
+ drivers/gpu/drm/i915/i915_buddy.c             | 435 ----------
+ drivers/gpu/drm/i915/i915_buddy.h             | 131 ---
+ drivers/gpu/drm/i915/i915_drv.c               |  13 +
+ drivers/gpu/drm/i915/i915_drv.h               |   7 +-
+ drivers/gpu/drm/i915/i915_gem.c               |   6 +-
+ drivers/gpu/drm/i915/i915_globals.c           |   1 -
+ drivers/gpu/drm/i915/i915_globals.h           |   1 -
+ drivers/gpu/drm/i915/i915_scatterlist.c       |  70 ++
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  20 +-
+ drivers/gpu/drm/i915/i915_vma.c               |  33 +-
+ drivers/gpu/drm/i915/intel_memory_region.c    | 181 ++--
+ drivers/gpu/drm/i915/intel_memory_region.h    |  45 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c       | 246 ++++++
+ drivers/gpu/drm/i915/intel_region_ttm.h       |  32 +
+ drivers/gpu/drm/i915/selftests/i915_buddy.c   | 789 ------------------
+ .../drm/i915/selftests/i915_mock_selftests.h  |   1 -
+ .../drm/i915/selftests/intel_memory_region.c  | 133 +--
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  50 +-
+ drivers/gpu/drm/nouveau/nouveau_ttm.c         |   4 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c           |   4 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  42 +-
+ drivers/gpu/drm/ttm/ttm_bo_vm.c               |  84 +-
+ drivers/gpu/drm/ttm/ttm_range_manager.c       |  55 +-
+ drivers/gpu/drm/ttm/ttm_tt.c                  |   4 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c    |   8 +-
+ include/drm/ttm/ttm_bo_api.h                  |   9 +-
+ include/drm/ttm/ttm_bo_driver.h               |  23 +
+ 57 files changed, 2068 insertions(+), 1951 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_bo_util.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_bo_util.h
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.c
+ delete mode 100644 drivers/gpu/drm/i915/i915_buddy.h
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_region_ttm.h
+ delete mode 100644 drivers/gpu/drm/i915/selftests/i915_buddy.c
+
+-- 
+2.31.1
+
