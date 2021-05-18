@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32ED5387B04
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 16:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460E8387B0A
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 16:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0665D6EB8A;
-	Tue, 18 May 2021 14:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A916EBA0;
+	Tue, 18 May 2021 14:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 152766EB8A
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 14:21:04 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id E39BD5808BA;
- Tue, 18 May 2021 10:21:03 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 18 May 2021 10:21:03 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46AE16EB8E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 14:23:05 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 882705807BB;
+ Tue, 18 May 2021 10:23:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 18 May 2021 10:23:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=lWIf1SAehz/MyS6HAHHwUIo8Dvl
- Qutv5w9WI0Lg2kmc=; b=QyeF9DW43KQ36ukC1peXzYdFHKFadkwOb71yOYJ5vQ3
- XzEI/11psIyt7lFlcUS9WqqsScu9y3NBOBtIWYc8dK6X+200V9gyoVCGi3izOSlV
- v5u+2oZIHRBbiiun/WSYVTGrnNFmHU7zovAlfMXN3oPuTJhh/Det7j72KUQJCf6a
- qbZv3YEXR4q9LMPSpJULtcu2wHZ0roQo63vfUJDhxpiQAoO68ouvwF9WB1m8byFB
- CwqpI1O9pyzsNAx7PABdRP1+tJISqN18Xb8WaANhCdHeA8SGQfzN1iHkJHlY7Fna
- JxlJ44bcoJYbZ8y3ZfCDrDqF94aMr3lWeTnJJLyzTqQ==
+ :content-type:in-reply-to; s=fm2; bh=wlDho/GsBmqZTJ4tGbQWTMKtpBy
+ pP3Eg/xmSUmHVVyE=; b=TUj68VVRCs7GR+qJ9pJQRyxezgA04pdNAZZfxvXZwhv
+ a6xr0BoCnoongayhKGTyMxwTvlwV72dI+kRsIEhCl8LSuALhyupYd34gW9VQZzux
+ OLIp9xXTMwuKICYwPOKozjQEHagHgVEQZ0lf6O8Q9RRoytwFAiCQ166S/NOGP6Xn
+ hB7abiuJfTGclxkcILIhEf/fO0uhSK582yfKj/soCfkTx0fkYiv/osPmpActTp7j
+ CYHNF9rOyxeohQz/1mHBqXwUJB8k8DVDj4HodjpK/OYZBeQdAUswnC2ZNiMnKrUL
+ 1NRqn0wsdyuP5mXMYW6GM+qA9OVbCqJWHsRaJHR0daw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=lWIf1S
- Aehz/MyS6HAHHwUIo8DvlQutv5w9WI0Lg2kmc=; b=pdPTvbnCm9SvLC0OtOXzuX
- 2qPtSnDcqScMIbae9z9LQq3wgIy2dSsh4l0nPZjw0XSzg27K4d4iRngCex5n547J
- YxH1s8HfTqpL/phEqd+1Zanevc4EF2DXt6XULfh4eCv9UYYB2OCGRVuvmARCzsbz
- Yl5Fo8aBTCRYGpheqT0h4c8RM+LfZ1TVnF7VAYJ9JxKUJG3gaBbw8yEKBeBHww69
- NinBnXeGnn9A/b+jHPT0woriamANA+n9VU6AfnKFI7DPiSdWmllVZ1g4LNB/Bfci
- bpUhZHeOd23nc8IlALdZmwrnnoEKq68mmGE/Fr4OBrsBMu+vRRxwZ1icAs8qwTYg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=wlDho/
+ GsBmqZTJ4tGbQWTMKtpBypP3Eg/xmSUmHVVyE=; b=rGu0CffdFaBZEpzEXvA8NA
+ cRRSg2ZAfptZ+8kFxV0j8q3bU22U5/kH0Mx1Oq6S0GGpu4kdgf87pQSw20I7hOxY
+ 38CwzCiZQEygswYoUCCyT1i4aSVtH1jOIJ8W351vGnWgc3MrOc0jkONQMz8Z71ZC
+ cmbEMVaJKjTI6hrIjnRPstJGa3UmdYuz7wtlvuEBLeMb4njm0c0iPhhDP5DvAExr
+ WBnukYBqEetjfKpguYKahhu8Fic/9MP+le7OFlNRfIMcO1yeC9oYQFR/avHsxSdl
+ rF8Utt8ZqtE6HYDEkWBgy2abkuJ7p4PuTIeexzyhj2GkgCF8ZAfK1EdSkQdZ61jw
  ==
-X-ME-Sender: <xms:Ts2jYLsv7CSWG70YjH8bYmeci22PqTCxxRdxA7CIDgM7DsXKduQd2A>
- <xme:Ts2jYMdwzF3e7_yLfDrebLZelczb8JzF76gHQSNrU7EaYLKdTb_HoqDzBiTDSYXCa
- Nkhbc7ps_-39i5brvA>
+X-ME-Sender: <xms:x82jYHzuYKpMXZceDVik0GZlzSu0g0X8xkPTADr35Lyxh-bO3uhPkg>
+ <xme:x82jYPQOz0sK2ykyNrhkTi2Fg4CXJbQTTklHS6dFzbf4pQ3Hy92-UozLEwfIg7WAL
+ xnj-HBQVCBVpK09UvQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeijedgjeehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,27 +49,28 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeijedgjeehucetufdoteggod
  htvghrnhepuedtgfejueduheevgfevvdettdduleffgfffkeeltdffkeegudekjeeuveei
  gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Ts2jYOwmMx5USEZYrBeGONH2aMZ2S_LNpVKQzBFqY7CyVYtGWvYvNw>
- <xmx:Ts2jYKMGM59xNC0-KDz-mbohe05CG0tDBiL_ee-ePudDUb7AyUOP7Q>
- <xmx:Ts2jYL8JOFUUFEh81g8CQiqzRQy0OsZ8MW3EJqdA1p_FEloi_L3MVw>
- <xmx:T82jYCYW8xCCucm2a-cId6fQx11gf_93IGJKqy-ZSVJNP24HwBNUGw>
+X-ME-Proxy: <xmx:x82jYBXu6KbfVg8G8nrCXdDoUd6edIuXI6UM3rKCYV0BuX8S6pua7Q>
+ <xmx:x82jYBipU03Mzq9DPKYTtH_3EQ3GDEwOM7KNnGndO6gHYXy_6Qd3dw>
+ <xmx:x82jYJBT7gSzw2XCB2aPm1aI-TnYDDLLGOjHty-5tpUBQHvY7azqPw>
+ <xmx:yM2jYNs_hQV7V11nv1qY8jiJb6jq4r0LW9yys7gokB3avQkXgA9FBA>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Tue, 18 May 2021 10:21:02 -0400 (EDT)
-Date: Tue, 18 May 2021 16:20:59 +0200
+ Tue, 18 May 2021 10:23:02 -0400 (EDT)
+Date: Tue, 18 May 2021 16:23:00 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Kevin Tang <kevin3.tang@gmail.com>
-Subject: Re: [PATCH v5 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-Message-ID: <20210518142059.o7ql6de4src53y4l@gilmour>
+Subject: Re: [PATCH v5 4/6] drm/sprd: add Unisoc's drm display controller
+ driver
+Message-ID: <20210518142300.stvrnyfxnojdidug@gilmour>
 References: <20210425123607.26537-1-kevin3.tang@gmail.com>
- <20210425123607.26537-7-kevin3.tang@gmail.com>
- <20210430093503.aupvt2qkrzkzy2ed@gilmour>
- <CAFPSGXZR9cSneohFk-5RQbqgkvQHFU0=Te=J1m+k=xqcWWrp4A@mail.gmail.com>
+ <20210425123607.26537-5-kevin3.tang@gmail.com>
+ <20210430092249.n75to2das5m6p4zb@gilmour>
+ <CAFPSGXYim34tVydpB3ukD8XOc9Y2xSzm3RHyWuUx-mRGPLXwiQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cu37uqlsbtggd2ix"
+ protocol="application/pgp-signature"; boundary="mhzvc4qd3u5jbqqo"
 Content-Disposition: inline
-In-Reply-To: <CAFPSGXZR9cSneohFk-5RQbqgkvQHFU0=Te=J1m+k=xqcWWrp4A@mail.gmail.com>
+In-Reply-To: <CAFPSGXYim34tVydpB3ukD8XOc9Y2xSzm3RHyWuUx-mRGPLXwiQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,155 +93,112 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---cu37uqlsbtggd2ix
+--mhzvc4qd3u5jbqqo
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 12, 2021 at 09:53:06PM +0800, Kevin Tang wrote:
-> > > +struct dsi_reg {
-> > > +     union _0x00 {
-> > > +             u32 val;
-> > > +             struct _DSI_VERSION {
-> > > +             u32 dsi_version: 16;
-> > > +             u32 reserved: 16;
-> > > +             } bits;
-> > > +     } DSI_VERSION;
+On Fri, May 14, 2021 at 09:18:00PM +0800, Kevin Tang wrote:
+> Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B44=E6=9C=8830=E6=
+=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=885:22=E5=86=99=E9=81=93=EF=BC=9A
+> > > +     info =3D drm_format_info(fb->format->format);
 > >
-> > Using unions and structures to define the register is really frowned
-> > upon in favor of defines, like you rightfully did in the crtc driver.
+> > Here fb->format is the result of drm_format_info(fb->format->format)
 >
-> This workload is too big, this design has been used for many years,
-> so I actually want to keep it the same, but if it really doesn=E2=80=99t =
-meet
-> the current design.
->
-> I can change the design, but it may take a lot of time......
+> info->num_planes =3D=3D 3? I will fix it on next version
 
-There's no rush :)
+It's not really what I meant. You don't need the call to drm_format_info
+in the first place, the result is going to be fb->format.
 
-> > > +static int sprd_dsi_find_panel(struct sprd_dsi *dsi)
+So either you do info =3D fb->format and
+
+> > > +     if (fb->format->num_planes =3D=3D 3) {
+
+You use info here
+
+> > > +             /* UV pitch is 1/2 of Y pitch */
+> > > +             pitch =3D (fb->pitches[0] / info->cpp[0]) |
+> > > +                             (fb->pitches[0] / info->cpp[0] << 15);
+
+Or you can use fb->format->cpp here
+
+Either way you should be consistent.
+
+> > > +static struct sprd_plane *sprd_planes_init(struct drm_device *drm)
 > > > +{
-> > > +     struct device *dev =3D dsi->host.dev;
-> > > +     struct device_node *child, *lcds_node;
-> > > +     struct drm_panel *panel;
+> > > +     struct sprd_plane *plane, *primary;
+> > > +     enum drm_plane_type plane_type;
+> > > +     int i;
 > > > +
-> > > +     /* search /lcds child node first */
-> > > +     lcds_node =3D of_find_node_by_path("/lcds");
-> > > +     for_each_child_of_node(lcds_node, child) {
-> > > +             panel =3D of_drm_find_panel(child);
-> > > +             if (!IS_ERR(panel)) {
-> > > +                     dsi->panel =3D panel;
-> > > +                     return 0;
-> > > +             }
-> > > +     }
-> >
-> > That's not part of your binding
-> Ok, i will remove it.
-> >
+> > > +     for (i =3D 0; i < 6; i++) {
+> > > +             plane_type =3D (i =3D=3D 0) ? DRM_PLANE_TYPE_PRIMARY :
+> > > +                                     DRM_PLANE_TYPE_OVERLAY;
 > > > +
-> > > +     /*
-> > > +      * If /lcds child node search failed, we search
-> > > +      * the child of dsi host node.
-> > > +      */
-> > > +     for_each_child_of_node(dev->of_node, child) {
-> > > +             panel =3D of_drm_find_panel(child);
-> > > +             if (!IS_ERR(panel)) {
-> > > +                     dsi->panel =3D panel;
-> > > +                     return 0;
+> > > +             plane =3D drmm_universal_plane_alloc(drm, struct sprd_p=
+lane, base,
+> > > +                                            1, &sprd_plane_funcs,
+> > > +                                            layer_fmts, ARRAY_SIZE(l=
+ayer_fmts),
+> > > +                                            NULL, plane_type, NULL);
+> > > +             if (IS_ERR(plane)) {
+> > > +                     drm_err(drm, "failed to init drm plane: %d\n", =
+i);
+> > > +                     return plane;
 > > > +             }
+> > > +
+> > > +             drm_plane_helper_add(&plane->base, &sprd_plane_helper_f=
+uncs);
+> > > +
+> > > +             sprd_plane_create_properties(plane, i);
+> > > +
+> > > +             if (i =3D=3D 0)
+> > > +                     primary =3D plane;
 > > > +     }
-> >
-> > And you don't need this either. You'll register a mipi_dsi_host,
-> > that will in turn probe all the devices under that bus, and will
-> > then call the .attach callback.
->
-> This should be move to the .attach callback?
-
-The panel pointer assignment can. The rest is useless.
-
-> > > +     drm_err(dsi->drm, "of_drm_find_panel() failed\n");
-> > > +     return -ENODEV;
+> > > +
+> > > +     return primary;
 > > > +}
 > > > +
-> > > +static int sprd_dsi_host_attach(struct mipi_dsi_host *host,
-> > > +                        struct mipi_dsi_device *slave)
+> > > +static void sprd_crtc_mode_set_nofb(struct drm_crtc *crtc)
 > > > +{
-> > > +     struct sprd_dsi *dsi =3D host_to_dsi(host);
-> > > +     struct dsi_context *ctx =3D &dsi->ctx;
-> > > +     int ret;
+> > > +     struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
+> > > +     struct drm_display_mode *mode =3D &crtc->state->adjusted_mode;
 > > > +
-> > > +     dsi->slave =3D slave;
-> > > +     ctx->lanes =3D slave->lanes;
-> > > +     ctx->format =3D slave->format;
-> > > +     ctx->byte_clk =3D slave->hs_rate / 8;
-> > > +     ctx->esc_clk =3D slave->lp_rate;
-> > > +
-> > > +     if (slave->mode_flags & MIPI_DSI_MODE_VIDEO)
-> > > +             ctx->work_mode =3D DSI_MODE_VIDEO;
-> > > +     else
-> > > +             ctx->work_mode =3D DSI_MODE_CMD;
-> > > +
-> > > +     if (slave->mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
-> > > +             ctx->burst_mode =3D VIDEO_BURST_WITH_SYNC_PULSES;
-> > > +     else if (slave->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
-> > > +             ctx->burst_mode =3D VIDEO_NON_BURST_WITH_SYNC_PULSES;
-> > > +     else
-> > > +             ctx->burst_mode =3D VIDEO_NON_BURST_WITH_SYNC_EVENTS;
-> > > +
-> > > +     if (slave->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
-> > > +             ctx->nc_clk_en =3D true;
+> > > +     if (mode->type & DRM_MODE_TYPE_PREFERRED)
+> > > +             drm_display_mode_to_videomode(mode, &dpu->ctx.vm);
 > >
-> > I'm not sure why you need to duplicate all this, can't you just
-> > dereference the dsi->slave pointer when you need it?
+> > What happens if the mode isn't a preferred mode?
 >
-> Sorry, can you help me with a demo?
-
-In your sprd_dsi_encoder_enable function, you call sprd_dphy_init which
-takes a pointer to struct dsi_context, and will call, say,
-dsi_phy_datalane_en, using ctx->lanes.
-
-Since you have access to the struct sprd_dsi in sprd_dsi_encoder_enable,
-why not pass it and the mipi_dsi_device pointer to sprd_dphy_init, and
-dereference slave->lanes in dsi_phy_datalane_en?
-
-This will greatly reduce the size of the dsi_context structure.
-
-> > > +static enum drm_mode_status
-> > > +sprd_dsi_connector_mode_valid(struct drm_connector *connector,
-> > > +                      struct drm_display_mode *mode)
+> Have already replied on the dsi driver side
+>
+> > > +}
+> > > +
+> > > +static void sprd_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > +                                struct drm_atomic_state *state)
 > > > +{
-> > > +     struct sprd_dsi *dsi =3D connector_to_dsi(connector);
+> > > +     struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
 > > > +
-> > > +     drm_dbg(dsi->drm, "%s() mode: "DRM_MODE_FMT"\n", __func__, DRM_=
-MODE_ARG(mode));
-> > > +
-> > > +     if (mode->type & DRM_MODE_TYPE_PREFERRED) {
-> > > +             dsi->mode =3D mode;
-> > > +             drm_display_mode_to_videomode(dsi->mode, &dsi->ctx.vm);
-> > > +     }
+> > > +     sprd_dpu_init(dpu);
 > >
-> > Again, what happens if the mode isn't the preferred one?
+> > I guess that call would fail here or program a bogus value. We already
+> > discussed this in the previous version, but I'm really not sure why you
+> > need this in the first place. Just use the crtc_state->adjusted_mode and
+> > program that.
 >
-> We hope to restore the low-resolution image to the original resolution
-> through the scaling algorithm while keeping the resolution unchanged.
-> So whether it's dpu or dsi, must be keeping on preferred mode.
+> Is also the enable_irq issue about this comment?
 
-Is there any particular reason to do so? Why do you need to take the
-preferred mode into account in the first place? Can't you just use
-whatever drm_display_mode is being passed?
+Not really? This is about the preferred mode stuff.
 
 Maxime
 
---cu37uqlsbtggd2ix
+--mhzvc4qd3u5jbqqo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKPNSwAKCRDj7w1vZxhR
-xTkyAQDlju0M602qpVt5QqMkP/mXG96XFA7wwVjdRUi6ftdYuQEAwB33bO0dbA4k
-Q8V37uwQo+IwBHQ+nx9rFtITgynxIQI=
-=VvI9
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKPNxAAKCRDj7w1vZxhR
+xZXwAP9/NXLI0TRCAPdbdHm+3gthxN/JG367Yk9DJ3bk9KrivgD7B/xCB69BZS1h
+qxO3bwJYKuYPQ9gqup6eqpZIyb1Xnwk=
+=4WSJ
 -----END PGP SIGNATURE-----
 
---cu37uqlsbtggd2ix--
+--mhzvc4qd3u5jbqqo--
