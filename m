@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB715387F79
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 20:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA92387F7D
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 20:21:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 271466EC6C;
-	Tue, 18 May 2021 18:21:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A80816EC6B;
+	Tue, 18 May 2021 18:21:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C708E6EC6E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 18:21:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 984D4611EE
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 18:21:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C34956EC6B
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 18:21:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9970C611B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 18:21:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621362066;
- bh=eWHJp8WsOwtWaC0kVCbmpk/qT+cyEXJdrKsItOR6cMY=;
+ s=k20201202; t=1621362096;
+ bh=I5BRWxKhySNGLRbsZX4x1lPqPHIEVFaaHoCgZbq2sFM=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=aS7POtMWKP0O07LlP7wGhrxHBw/wQuVqPhWMks8eHf7tkqvO8ySoHTGjLk+Cy23Np
- 0eSipMlWPl8kZ/h3XUlhwmvHQ39ySWJiUaWiYj4gXRrNuz95cZZKczuLTpRQ3fHkUS
- OOjnO24zJNSjqitEbJSYEKHXwq7mtwKkg8TB/l/S7aWIFSgQwel0VDKUM34UJ789gQ
- QOTfGUMfzLOm2dHD+HurL8tXBkQAmg4thfexU69YilbZPEB47bvHeAVEao00YkZV5o
- qGzJ9lV49HtqNZwjcxl3f4XIlKHnZICChugCxXeJg3p1aorG1WVtlilCth4nnU9zaj
- hH1yaZdgsYS+w==
+ b=jqEKUTrLuRiw32kPMvwAboq2sPq5wns++OFfDkv5QJx/eETQ72zAVHKF1ZTpe9Rte
+ SxfuirbjrxB1Mwr3o+2GsRe0pPxytCuR5HUQLlZU8jckUTyZ+6JX2wI1TLojm2nkiH
+ lANOlsjqIbyXNXlX4SuqEjEEKd6UTOZNFfjh072wD4lVVzOd2DQrLHKmJlY3nfFBXv
+ /W1QI0Ui01VTgrp/E645htgrwAyjCrnaQQKUBYW5+3LpNRJKlp1Jr8vsRjWix6inuu
+ p5B/UXCGE61d5A2Ne0F7anQNeSC9r9/I3TfR5X909OmfDrJglXIo8bKhUcoAut0RaR
+ cJNFpHzu5vjnA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 89A5D6124C; Tue, 18 May 2021 18:21:06 +0000 (UTC)
+ id 96084611F2; Tue, 18 May 2021 18:21:36 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
  drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Tue, 18 May 2021 18:21:06 +0000
+Date: Tue, 18 May 2021 18:21:36 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,7 +46,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211277-2300-RaOHVI00dd@https.bugzilla.kernel.org/>
+Message-ID: <bug-211277-2300-x5kyd0CNaK@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
 References: <bug-211277-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,26 +71,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
---- Comment #24 from Jerome C (me@jeromec.com) ---
-(In reply to James Zhu from comment #21)
-> Hi Jeromec, to isolate the cause, can you help run two experiments
-> separately?
-> 1. To run suspend/resume without launching Xorg, just on text mode.
-> 2. To disable video acceleration (VCN IP). I  need you share me the whole
-> dmesg log after loading amdgpu driver. I think basically running modprobe
-> with ip_block_mask=3D0x0ff should disable vcn ip for VCN1.(you can find w=
-ords
-> in dmesg to tell you if vcn ip is disabled or not).
->=20
-> Thanks!
-> James
-
-1) In text mode, VCN enabled, suspensions issues are still there
-2) I see the message confirming that VCN is disabled, In text mode, VCN
-disabled, suspensions issues are gone, After starting Xorg, VCN disabled,
-suspensions issues are gone
-
-I'll gather the logs those soon ( tomorrow sometime )
+--- Comment #25 from Jerome C (me@jeromec.com) ---
+I forgot to mention... I'm on kernel 5.13.4
 
 --=20
 You may reply to this email to add a comment.
