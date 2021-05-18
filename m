@@ -1,46 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB883874EA
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 11:17:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C585F3874EF
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 11:20:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73A4D6EB1C;
-	Tue, 18 May 2021 09:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41B266E854;
+	Tue, 18 May 2021 09:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5277E6E854;
- Tue, 18 May 2021 09:17:45 +0000 (UTC)
-IronPort-SDR: rNpfNHp6f2SaRWIzRjB2fOQiNo7MQjndDMFm1J+ELi8R96m677kTDPq0qjvJE0Aa/q+TV4ImjV
- 2zOkJNBtMG1A==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="200360128"
-X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="200360128"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 02:17:44 -0700
-IronPort-SDR: pHzP8UCS03ixGT7dbJIANZNjcgTmHIy7fO91Z1Uwz1T3ZXTOhf0ohugCemRKUKuV6j/fPMYNyi
- I1wBSgypMDVw==
-X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="466338542"
-Received: from cmutgix-mobl.gar.corp.intel.com (HELO [10.249.254.195])
- ([10.249.254.195])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 02:17:44 -0700
-Subject: Re: [Intel-gfx] [PATCH v2 14/15] drm/i915: Use ttm mmap handling for
- ttm bo's.
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
- <20210518082701.997251-15-thomas.hellstrom@linux.intel.com>
-Message-ID: <05b07b62-0f74-66db-4932-a16542fb011d@linux.intel.com>
-Date: Tue, 18 May 2021 11:17:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B19CA6E854
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 09:20:01 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14I9Ct0k023204; Tue, 18 May 2021 09:19:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=n8e6VGBvsEJjz8jZNXiVgvyKjF6tuVQmtskn3RF1rFc=;
+ b=F1Z3+HjIpu2VLqZj+6IImaud6ddlLKvI5yuSt3L+3KAn9/P+sStIEQY4VzubmJzuqV8G
+ ioigVJBjDbFVJwW74ZrvqJYGVZFCA04MPDux/khlD/io/PTD5AdXQNTEDqQGpfuHNkjc
+ n9E/Dbih/rshzYp/mNDeA+GOtjArDO/iz9bLc32PWd58Yx9gMziogIFOLYkUc9uZ97dO
+ D8yC7ePbxMN/nmISSz01szddAbPkkN8Q2MmhASW+NXTWYaaEfNUu98W6t1JApjM8zU8k
+ kFGhc668mKlBvRYyKK56xXWn57y7ZB/jPj5G0/oR9XNE0eQ6wmuDGgM5X5WcU79fJ3v3 sw== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 38m9bgg1aa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 May 2021 09:19:53 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+ by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14I9AtTB090680;
+ Tue, 18 May 2021 09:19:52 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by userp3030.oracle.com with ESMTP id 38j3du6x53-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 May 2021 09:19:52 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14I9JpEC109238;
+ Tue, 18 May 2021 09:19:51 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 38j3du6x4f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 May 2021 09:19:51 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14I9Jdlx012420;
+ Tue, 18 May 2021 09:19:39 GMT
+Received: from mwanda (/62.8.83.26) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 18 May 2021 02:19:39 -0700
+Date: Tue, 18 May 2021 12:19:30 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH] drm/bridge: ti-sn65dsi86: fix a ternary type promotion bug
+Message-ID: <YKOGogHasIyvF8nj@mwanda>
 MIME-Version: 1.0
-In-Reply-To: <20210518082701.997251-15-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-ORIG-GUID: b9ooFrFJESALkdzw1ESlb6Ymmjg1FYhe
+X-Proofpoint-GUID: b9ooFrFJESALkdzw1ESlb6Ymmjg1FYhe
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,256 +71,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, kernel-janitors@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The ti_sn_aux_transfer() function returns ssize_t (signed long).  It's
+supposed to return negative error codes or the number of bytes
+transferred.  The "ret" variable is int and the "len" variable is
+unsigned int.
 
-On 5/18/21 10:27 AM, Thomas Hellström wrote:
-> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->
-> Use the ttm handlers for servicing page faults, and vm_access.
->
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+The problem is that with a ternary like this, the negative int is first
+type promoted to unsigned int to match "len" at this point it is a high
+positive value.  Then when it is type promoted to ssize_t (s64) it
+remains a high positive value instead of sign extending and becoming a
+negative again.
 
-LGTM. Just need to make sure we don't forget about the caching.
+Fix this by removing the ternary.
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Fixes: b137406d9679 ("drm/bridge: ti-sn65dsi86: If refclk, DP AUX can happen w/out pre-enable")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index bb0a0e1c6341..45a2969afb2b 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -1042,7 +1042,9 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+ 	pm_runtime_mark_last_busy(pdata->dev);
+ 	pm_runtime_put_autosuspend(pdata->dev);
+ 
+-	return ret ? ret : len;
++	if (ret)
++		return ret;
++	return len;
+ }
+ 
+ static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
+-- 
+2.30.2
 
-
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  17 ++-
->   drivers/gpu/drm/i915/gem/i915_gem_mman.h      |   2 +
->   .../gpu/drm/i915/gem/i915_gem_object_types.h  |   1 +
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 105 +++++++++++++++++-
->   4 files changed, 118 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> index 65db290efd16..2bf89349dde9 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> @@ -19,6 +19,7 @@
->   #include "i915_gem_mman.h"
->   #include "i915_trace.h"
->   #include "i915_user_extensions.h"
-> +#include "i915_gem_ttm.h"
->   #include "i915_vma.h"
->   
->   static inline bool
-> @@ -789,7 +790,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
->   	return __assign_mmap_offset(file, args->handle, type, &args->offset);
->   }
->   
-> -static void vm_open(struct vm_area_struct *vma)
-> +void i915_gem_mmap_vm_open(struct vm_area_struct *vma)
->   {
->   	struct i915_mmap_offset *mmo = vma->vm_private_data;
->   	struct drm_i915_gem_object *obj = mmo->obj;
-> @@ -798,7 +799,7 @@ static void vm_open(struct vm_area_struct *vma)
->   	i915_gem_object_get(obj);
->   }
->   
-> -static void vm_close(struct vm_area_struct *vma)
-> +void i915_gem_mmap_vm_close(struct vm_area_struct *vma)
->   {
->   	struct i915_mmap_offset *mmo = vma->vm_private_data;
->   	struct drm_i915_gem_object *obj = mmo->obj;
-> @@ -810,15 +811,15 @@ static void vm_close(struct vm_area_struct *vma)
->   static const struct vm_operations_struct vm_ops_gtt = {
->   	.fault = vm_fault_gtt,
->   	.access = vm_access,
-> -	.open = vm_open,
-> -	.close = vm_close,
-> +	.open = i915_gem_mmap_vm_open,
-> +	.close = i915_gem_mmap_vm_close,
->   };
->   
->   static const struct vm_operations_struct vm_ops_cpu = {
->   	.fault = vm_fault_cpu,
->   	.access = vm_access,
-> -	.open = vm_open,
-> -	.close = vm_close,
-> +	.open = i915_gem_mmap_vm_open,
-> +	.close = i915_gem_mmap_vm_close,
->   };
->   
->   static int singleton_release(struct inode *inode, struct file *file)
-> @@ -953,6 +954,10 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
->   	}
->   	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
->   
-> +	/* override ops per-object if desired */
-> +	if (obj->ops->mmap_ops)
-> +		vma->vm_ops = obj->ops->mmap_ops;
-> +
->   	return 0;
->   }
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.h b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-> index efee9e0d2508..e5bd02a6db12 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-> @@ -28,5 +28,7 @@ void __i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
->   void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
->   
->   void i915_gem_object_release_mmap_offset(struct drm_i915_gem_object *obj);
-> +void i915_gem_mmap_vm_open(struct vm_area_struct *vma);
-> +void i915_gem_mmap_vm_close(struct vm_area_struct *vma);
->   
->   #endif
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> index b350765e1935..31d828e91cf4 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -79,6 +79,7 @@ struct drm_i915_gem_object_ops {
->   	void (*delayed_free)(struct drm_i915_gem_object *obj);
->   	void (*release)(struct drm_i915_gem_object *obj);
->   
-> +	const struct vm_operations_struct *mmap_ops;
->   	const char *name; /* friendly name for debug, e.g. lockdep classes */
->   };
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 790f5ec45c4d..fe9ac50b2470 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -14,6 +14,7 @@
->   #include "gem/i915_gem_region.h"
->   #include "gem/i915_gem_ttm.h"
->   #include "gem/i915_gem_ttm_bo_util.h"
-> +#include "gem/i915_gem_mman.h"
->   
->   #define I915_PL_LMEM0 TTM_PL_PRIV
->   #define I915_PL_SYSTEM TTM_PL_SYSTEM
-> @@ -345,6 +346,44 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
->   	return 0;
->   }
->   
-> +static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
-> +{
-> +	if (mem->mem_type < I915_PL_LMEM0)
-> +		return 0;
-> +
-> +	/* We may need to revisit this later, but this allows all caching to be used in mmap */
-> +	mem->bus.caching = ttm_cached;
-> +	mem->bus.is_iomem = true;
-> +
-> +	return 0;
-> +}
-> +
-> +static unsigned long i915_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
-> +					 unsigned long page_offset)
-> +{
-> +	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-> +	struct sg_table *sgt = obj->ttm.cached_io_st;
-> +	struct scatterlist *sg;
-> +	unsigned int i;
-> +
-> +	GEM_WARN_ON(bo->ttm);
-> +
-> +	for_each_sgtable_dma_sg(sgt, sg, i) {
-> +		unsigned long sg_max = sg->length >> PAGE_SHIFT;
-> +
-> +		if (page_offset < sg_max) {
-> +			unsigned long base =
-> +				obj->mm.region->iomap.base - obj->mm.region->region.start;
-> +
-> +			return ((base + sg_dma_address(sg)) >> PAGE_SHIFT) + page_offset;
-> +		}
-> +
-> +		page_offset -= sg_max;
-> +	}
-> +	GEM_BUG_ON(1);
-> +	return 0;
-> +}
-> +
->   struct ttm_device_funcs i915_ttm_bo_driver = {
->   	.ttm_tt_create = i915_ttm_tt_create,
->   	.ttm_tt_unpopulate = i915_ttm_tt_unpopulate,
-> @@ -355,6 +394,8 @@ struct ttm_device_funcs i915_ttm_bo_driver = {
->   	.verify_access = NULL,
->   	.swap_notify = i915_ttm_swap_notify,
->   	.delete_mem_notify = i915_ttm_delete_mem_notify,
-> +	.io_mem_reserve = i915_ttm_io_mem_reserve,
-> +	.io_mem_pfn = i915_ttm_io_mem_pfn,
->   };
->   
->   static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
-> @@ -454,7 +495,68 @@ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
->   	ttm_bo_put(i915_gem_to_ttm(obj));
->   }
->   
-> -static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
-> +static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
-> +{
-> +	struct vm_area_struct *area = vmf->vma;
-> +	struct i915_mmap_offset *mmo = area->vm_private_data;
-> +	struct drm_i915_gem_object *obj = mmo->obj;
-> +	vm_fault_t ret;
-> +
-> +	/* Sanity check that we allow writing into this object */
-> +	if (unlikely(i915_gem_object_is_readonly(obj) &&
-> +		     area->vm_flags & VM_WRITE))
-> +		return VM_FAULT_SIGBUS;
-> +
-> +	ret = ttm_bo_vm_reserve(i915_gem_to_ttm(obj), vmf);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ttm_bo_vm_fault_reserved(i915_gem_to_ttm(obj), vmf,
-> +				       drm_vma_node_start(&mmo->vma_node),
-> +				       vmf->vma->vm_page_prot,
-> +				       TTM_BO_VM_NUM_PREFAULT, 1);
-> +	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
-> +		return ret;
-> +
-> +	dma_resv_unlock(obj->base.resv);
-> +
-> +	return ret;
-> +}
-> +
-> +static int
-> +vm_access_ttm(struct vm_area_struct *area, unsigned long addr,
-> +	  void *buf, int len, int write)
-> +{
-> +	struct i915_mmap_offset *mmo = area->vm_private_data;
-> +	struct drm_i915_gem_object *obj = mmo->obj;
-> +	int err = 0;
-> +
-> +	if (i915_gem_object_is_readonly(obj) && write)
-> +		return -EACCES;
-> +
-> +	addr -= area->vm_start;
-> +	if (addr >= obj->base.size)
-> +		return -EINVAL;
-> +
-> +	err = i915_gem_object_lock_interruptible(obj, NULL);
-> +	if (err)
-> +		return err;
-> +
-> +	len = ttm_bo_vm_access_reserved(i915_gem_to_ttm(obj), area,
-> +					addr, buf, len, write);
-> +	i915_gem_object_unlock(obj);
-> +
-> +	return len;
-> +}
-> +
-> +static const struct vm_operations_struct vm_ops_ttm = {
-> +	.fault = vm_fault_ttm,
-> +	.access = vm_access_ttm,
-> +	.open = i915_gem_mmap_vm_open,
-> +	.close = i915_gem_mmap_vm_close,
-> +};
-> +
-> +const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
->   	.name = "i915_gem_object_ttm",
->   	.flags = I915_GEM_OBJECT_HAS_IOMEM,
->   
-> @@ -463,6 +565,7 @@ static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
->   	.truncate = i915_ttm_purge,
->   	.adjust_lru = i915_ttm_adjust_lru,
->   	.delayed_free = i915_ttm_delayed_free,
-> +	.mmap_ops = &vm_ops_ttm,
->   };
->   
->   void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
