@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B5B3873EC
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 10:27:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E979E3873ED
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 10:27:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2AE6EABD;
-	Tue, 18 May 2021 08:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E59A6EAB8;
+	Tue, 18 May 2021 08:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 849726E874;
- Tue, 18 May 2021 08:27:39 +0000 (UTC)
-IronPort-SDR: c3TyQS2YS95O33lPIM9Sqm0TcfYgYNSjTcROS3dk8NWCHlEw1PGDtti3SJt8Ss5j4/5JK01eM4
- yC6HkG3xXPDA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="180261584"
-X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="180261584"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1256EAB8;
+ Tue, 18 May 2021 08:27:53 +0000 (UTC)
+IronPort-SDR: OgFqPJmkTbEwuNG42FqT51dYEwoIsXsvR+wFZLslsH17stqQ1ea0ZsgFZ8SjTpqhhLPTbF0O53
+ qnCrddcsPapA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="180937232"
+X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="180937232"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 01:27:38 -0700
-IronPort-SDR: ZtM3w1j2YFNkxY5HLXtjRTZx+K+3Q6WUNJa/9U0QWcJFFOAb/Ooamr0jGCNrCoitcy72tZrF+Y
- rivhVvdS5y7w==
-X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="611892334"
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 01:27:52 -0700
+IronPort-SDR: tGvW710FPrVzdz5tzQ774NII7AWlRrXf8mPHHv2T9CgEQibA8yuekk4nDPHszqy+Y/I2HqYKgI
+ JR0iBjpG0C+Q==
+X-IronPort-AV: E=Sophos;i="5.82,309,1613462400"; d="scan'208";a="611892341"
 Received: from cmutgix-mobl.gar.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.195])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 01:27:35 -0700
+ 18 May 2021 01:27:37 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 06/15] drm/i915/ttm: Embed a ttm buffer object in the i915
- gem object
-Date: Tue, 18 May 2021 10:26:52 +0200
-Message-Id: <20210518082701.997251-7-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 07/15] drm/ttm: Export ttm_bo_tt_destroy()
+Date: Tue, 18 May 2021 10:26:53 +0200
+Message-Id: <20210518082701.997251-8-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
 References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
@@ -51,73 +50,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Embed a struct ttm_buffer_object into the i915 gem object, making sure
-we alias the gem object part. It's a bit unfortunate that the
-struct ttm_buffer_ojbect embeds a gem object since we otherwise could
-make the TTM part private to the TTM backend, and use the usual
-i915 gem object for the other backends.
-To make this a bit more storage efficient for the other backends,
-we'd have to use a pointer for the gem object which would require
-a lot of changes in the driver. We postpone that for later.
+For the upcoming kmapping i915 memcpy_move, export ttm_bo_tt_destroy().
+A future change might be to move the new memcpy_move into ttm, replacing
+the old ioremapping one.
 
+Cc: Christian König <christian.koenig@amd.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_object.c       |  7 +++++++
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h | 12 +++++++++++-
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_bo.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index abadf0994ad0..c8953e3f5c70 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -62,6 +62,13 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
- 			  const struct drm_i915_gem_object_ops *ops,
- 			  struct lock_class_key *key, unsigned flags)
- {
-+	/*
-+	 * A gem object is embedded both in a struct ttm_buffer_object :/ and
-+	 * in a drm_i915_gem_object. Make sure they are aliased.
-+	 */
-+	BUILD_BUG_ON(offsetof(typeof(*obj), base) !=
-+		     offsetof(typeof(*obj), __do_not_access.base));
-+
- 	spin_lock_init(&obj->vma.lock);
- 	INIT_LIST_HEAD(&obj->vma.list);
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index dbd7fffe956e..98f69d8fd37d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -10,6 +10,7 @@
- #include <linux/mmu_notifier.h>
- 
- #include <drm/drm_gem.h>
-+#include <drm/ttm/ttm_bo_api.h>
- #include <uapi/drm/i915_drm.h>
- 
- #include "i915_active.h"
-@@ -99,7 +100,16 @@ struct i915_gem_object_page_iter {
- };
- 
- struct drm_i915_gem_object {
--	struct drm_gem_object base;
-+	/*
-+	 * We might have reason to revisit the below since it wastes
-+	 * a lot of space for non-ttm gem objects.
-+	 * In any case, always use the accessors for the ttm_buffer_object
-+	 * when accessing it.
-+	 */
-+	union {
-+		struct drm_gem_object base;
-+		struct ttm_buffer_object __do_not_access;
-+	};
- 
- 	const struct drm_i915_gem_object_ops *ops;
- 
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index ca1b098b6a56..4479c55aaa1d 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -1221,3 +1221,4 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+ 	ttm_tt_destroy(bo->bdev, bo->ttm);
+ 	bo->ttm = NULL;
+ }
++EXPORT_SYMBOL(ttm_bo_tt_destroy);
 -- 
 2.31.1
 
