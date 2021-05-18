@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211D43872F2
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 09:16:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 315AD3872EF
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 09:16:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F339D6EAAA;
-	Tue, 18 May 2021 07:16:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61CD16E822;
+	Tue, 18 May 2021 07:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 102CD6EAAA
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 07:16:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 010C76E822
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 07:16:04 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1litxP-0005NE-9I; Tue, 18 May 2021 09:15:59 +0200
+ id 1litxP-0005NG-9I; Tue, 18 May 2021 09:15:59 +0200
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1litxN-0002ZQ-2Q; Tue, 18 May 2021 09:15:57 +0200
+ id 1litxN-0002Za-3U; Tue, 18 May 2021 09:15:57 +0200
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
  Rob Herring <robh+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Shawn Guo <shawnguo@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v1 1/3] dt-bindings: display: simple: add Innolux G070Y2-T02
- panel
-Date: Tue, 18 May 2021 09:15:53 +0200
-Message-Id: <20210518071555.9785-2-o.rempel@pengutronix.de>
+Subject: [PATCH v1 2/3] drm: panel-simple: Add support for the Innolux
+ G070Y2-T02 panel
+Date: Tue, 18 May 2021 09:15:54 +0200
+Message-Id: <20210518071555.9785-3-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210518071555.9785-1-o.rempel@pengutronix.de>
 References: <20210518071555.9785-1-o.rempel@pengutronix.de>
@@ -51,8 +51,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Robin van der Gracht <robin@protonic.nl>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Robin van der Gracht <robin@protonic.nl>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Oleksij Rempel <o.rempel@pengutronix.de>,
  NXP Linux Team <linux-imx@nxp.com>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
@@ -60,27 +60,50 @@ Cc: devicetree@vger.kernel.org, Robin van der Gracht <robin@protonic.nl>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add binding for the Innolux G070Y2-T02 panel. It is 7" WVGA (800x480)
-TFT LCD panel with TTL interface and a backlight unit.
+Add compatible and timings for the Innolux G070Y2-T02 panel. It is 7"
+WVGA (800x480) TFT LCD panel with TTL interface and a backlight unit.
 
+Co-Developed-by: Robin van der Gracht <robin@protonic.nl>
+Signed-off-by: Robin van der Gracht <robin@protonic.nl>
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index b3797ba2698b..c06633264e5c 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -154,6 +154,8 @@ properties:
-       - innolux,at070tn92
-         # Innolux G070Y2-L01 7" WVGA (800x480) TFT LCD panel
-       - innolux,g070y2-l01
-+        # Innolux G070Y2-T02 7" WVGA (800x480) TFT LCD TTL panel
-+      - innolux,g070y2-t02
-         # Innolux Corporation 10.1" G101ICE-L01 WXGA (1280x800) LVDS panel
-       - innolux,g101ice-l01
-         # Innolux Corporation 12.1" WXGA (1280x800) TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index be312b5c04dd..f79d97115f8f 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2323,6 +2323,19 @@ static const struct panel_desc innolux_g070y2_l01 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
++static const struct panel_desc innolux_g070y2_t02 = {
++	.modes = &innolux_at070tn92_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 152,
++		.height = 92,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
++	.connector_type = DRM_MODE_CONNECTOR_DPI,
++};
++
+ static const struct display_timing innolux_g101ice_l01_timing = {
+ 	.pixelclock = { 60400000, 71100000, 74700000 },
+ 	.hactive = { 1280, 1280, 1280 },
+@@ -4344,6 +4357,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "innolux,g070y2-l01",
+ 		.data = &innolux_g070y2_l01,
++	}, {
++		.compatible = "innolux,g070y2-t02",
++		.data = &innolux_g070y2_t02,
+ 	}, {
+ 		.compatible = "innolux,g101ice-l01",
+ 		.data = &innolux_g101ice_l01
 -- 
 2.29.2
 
