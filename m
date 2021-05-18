@@ -1,52 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63F13879D6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 15:24:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE573879E5
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 15:26:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9773D6EB78;
-	Tue, 18 May 2021 13:24:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9373F6EB76;
+	Tue, 18 May 2021 13:26:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 207B76EB74;
- Tue, 18 May 2021 13:24:44 +0000 (UTC)
-IronPort-SDR: l9L8HyYcfXqcKFiM+WC0PPdG4uTRKuk1DjrL1aqM5f08CJxVgUsg1om9HdpAsE11m88nR3VcTh
- 14UMHGeU7COw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="221762465"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="221762465"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 06:24:43 -0700
-IronPort-SDR: I4ShFmhOtID88i2QJjYDQtsk8NyXzU3dxjxKCBX2W6i3Um2GLDRYi0d/Qb5lFnpK8lmxE32Ahg
- tMLhjrctxF4A==
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="438662178"
-Received: from cmutgix-mobl.gar.corp.intel.com (HELO [10.249.254.195])
- ([10.249.254.195])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2021 06:24:42 -0700
-Subject: Re: [PATCH v2 08/15] drm/i915/ttm Add a generic TTM memcpy move for
- page-based iomem
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
- <20210518082701.997251-9-thomas.hellstrom@linux.intel.com>
- <6149ee00-fa4a-3757-117a-8d622eb42070@amd.com>
- <45054121-954d-f20c-52b5-f375db7096e0@linux.intel.com>
- <d547a037-2aa8-76a8-375c-5da580fab631@amd.com>
- <400de9b7-f385-0581-ebb5-e07247d4c996@linux.intel.com>
- <b8e062c5-6b63-09c5-e98a-be9bf4813c61@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <0eb87fe5-439d-5077-cf19-015966bc3f5f@linux.intel.com>
-Date: Tue, 18 May 2021 15:24:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66A136EB76
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 13:26:29 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id v12so10232685wrq.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 06:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RZR12pmWkFF7y/GidJZX8Aqwjr4ypoDTXEhoFqtAeZw=;
+ b=i29oK3D096bW5jdcbTkpaP4VjCZwHJMNjAcFLwBSrDoUeC9W9M3KcVOQ0GpzQxBIM5
+ 5jw8CTfFDoH+fV6sS+YuzVWpWc1U7QnZGy75u1htqZCH1UoaQBFlAA+9aElnAFOvyw8c
+ 7bl+151wYX7upklWNYfqiAVAEU/Y6CQ5CoVqnEHiIYNKZRCW68AU5dp1w63y4G5cogy3
+ TUC0KF+2LlgZquC/60sfzQ1A7TAZ0ASMro5Z5Mp/aTHuX4NZa8NKHioepOKcQ15LS3tR
+ iYiYXqB+bRs/ajvPh3kjPQqNRMaG2iGvgmf1jF2Ak6sYoQkfPQkgU75vrtBIt4gOHR2k
+ yZ5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RZR12pmWkFF7y/GidJZX8Aqwjr4ypoDTXEhoFqtAeZw=;
+ b=h4Ua7qEBM0NI9EMpph03PcFQNjzpV3qAzST2Tx4U271/FncztoL3n/t4+Sc3jJCv2c
+ IixtHgkmCEaZZlgmQwHuVYwWlxdxjJVYoWHZKQG/TG44A4EeP60THDvm87jiZsc4uUJs
+ +2Tl0IeKZcR4BIf5L6Xu7qmGPKXDMs5oJTY8ZiIJb16TfRH9yrDCgTQY6vOYIyhTx60X
+ KGPa+v8QZ0dbie9Vq6WfZBIavdOFv9aGF2b3yjNSBIuooIQhI2o3O26+7YByRcP7UXCN
+ uW1kmD/EEdLOIMyuyKzZ6YOVwM7umdb+P4ZTFUOyYOuzs+X+4610Zkk2dWS5RW+/WHoK
+ yEFg==
+X-Gm-Message-State: AOAM533EsCiZjWRyRa57znR/mf6xgLzzsSUr0ZglwnyGeLBnTsGBExTe
+ eQqmDvtMcLxyaRKyrwtygUX6tQmpOEc4NxvNmMzNmg==
+X-Google-Smtp-Source: ABdhPJyyDliqj+Oau3C6HT8ksGUHtReIqT/JnxifuK+PO/Jlqb8MuszItOMy97raaW1Ovbgz4/XvrgkKn/Y2kgJWPsU=
+X-Received: by 2002:a05:6000:184a:: with SMTP id
+ c10mr7398351wri.244.1621344388039; 
+ Tue, 18 May 2021 06:26:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b8e062c5-6b63-09c5-e98a-be9bf4813c61@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210517141129.2225-1-christian.koenig@amd.com>
+ <YKKF4jOvM4gJT6a4@phenom.ffwll.local>
+ <5a3e9500-9d6b-a865-5385-fde43da2bf66@gmail.com>
+ <CAKMK7uF=y44e9-0-4MBj3jRBdCqMaLgKutTMeBWCbySRnPR4KQ@mail.gmail.com>
+ <CAOFGe960UMe4=Xxcoha9R2Y74ma3Pp4Z0DF6PM+SJ2sjq2DBXg@mail.gmail.com>
+ <CAKMK7uGtTT+59hRi3PB1WHPES3YJAPYBvbT74vo9PApNE0i7MQ@mail.gmail.com>
+ <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
+In-Reply-To: <fee06c2d-27fb-1af4-6222-8f277b36c951@gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 18 May 2021 14:26:15 +0100
+Message-ID: <CAPj87rN-1ST_wvnobEaeNNiOYdM9yAOvfZ+8_tcxbrFof3L-yA@mail.gmail.com>
+Subject: Re: [RFC] Add DMA_RESV_USAGE flags
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,114 +71,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 5/18/21 3:08 PM, Christian König wrote:
-> Am 18.05.21 um 14:52 schrieb Thomas Hellström:
->>
->> On 5/18/21 2:09 PM, Christian König wrote:
->>> Am 18.05.21 um 14:04 schrieb Thomas Hellström:
->>>>
->>>> On 5/18/21 1:55 PM, Christian König wrote:
->>>>>
->>>>>
->>>>> Am 18.05.21 um 10:26 schrieb Thomas Hellström:
->>>>>> The internal ttm_bo_util memcpy uses vmap functionality, and 
->>>>>> while it
->>>>>> probably might be possible to use it for copying in- and out of
->>>>>> sglist represented io memory, using io_mem_reserve() / io_mem_free()
->>>>>> callbacks, that would cause problems with fault().
->>>>>> Instead, implement a method mapping page-by-page using kmap_local()
->>>>>> semantics. As an additional benefit we then avoid the occasional 
->>>>>> global
->>>>>> TLB flushes of vmap() and consuming vmap space, elimination of a 
->>>>>> critical
->>>>>> point of failure and with a slight change of semantics we could 
->>>>>> also push
->>>>>> the memcpy out async for testing and async driver develpment 
->>>>>> purposes.
->>>>>> Pushing out async can be done since there is no memory allocation 
->>>>>> going on
->>>>>> that could violate the dma_fence lockdep rules.
->>>>>>
->>>>>> For copies from iomem, use the WC prefetching memcpy variant for
->>>>>> additional speed.
->>>>>>
->>>>>> Note that drivers that don't want to use struct io_mapping but 
->>>>>> relies on
->>>>>> memremap functionality, and that don't want to use scatterlists for
->>>>>> VRAM may well define specialized (hopefully reusable) iterators 
->>>>>> for their
->>>>>> particular environment.
->>>>>
->>>>> In general yes please since I have that as TODO for TTM for a very 
->>>>> long time.
->>>>>
->>>>> But I would prefer to fix the implementation in TTM instead and 
->>>>> give it proper cursor handling.
->>>>>
->>>>> Amdgpu is also using page based iomem and we are having similar 
->>>>> workarounds in place there as well.
->>>>>
->>>>> I think it makes sense to unify this inside TTM and remove the old 
->>>>> memcpy util function when done.
->>>>>
->>>>> Regards,
->>>>> Christian.
->>>>
->>>> Christian,
->>>>
->>>> I was thinking when we replace the bo.mem with a pointer (and 
->>>> perhaps have a driver callback to allocate the bo->mem,
->>>> we could perhaps embed a struct ttm_kmap_iter and use it for all 
->>>> mapping in one way or another). That would mean perhaps land this 
->>>> is i915 now and sort out the unification once the struct 
->>>> ttm_resource, struct ttm_buffer_object separation has landed?
->>>
->>> That stuff is ready, reviewed and I'm just waiting for some amdgpu 
->>> changes to land in drm-misc-next to push it.
->>>
->>> But yes in general an iterator for the resource object sounds like 
->>> the right plan to me as well.
->>>
->>> Christian.
->>
->> OK, so then are you OK with landing this in i915 for now? That would 
->> also ofc mean the export you NAK'd but strictly for this memcpy use 
->> until we merge it with TTM?
+On Tue, 18 May 2021 at 13:49, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+> Am 18.05.21 um 07:59 schrieb Daniel Vetter:
+> > First step in fixing that is (and frankly was since years) to fix the
+> > amdgpu CS so winsys can pass along a bunch of flags about which CS
+> > should actually set the exclusive fence, so that you stop oversyncing
+> > so badly. Ofc old userspace needs to keep oversyncing forever, no way
+> > to fix that.
 >
-> Well you can of course prototype that in i915, but I really don't want 
-> to export the TT functions upstream.
+> Exactly that is what we don't want to do because the winsys has no idea
+> when to sync and when not to sync.
 
-I understand, I once had the same thoughts trying to avoid that as far 
-as possible, so this function was actually then added to the ttm_bo 
-interface, (hence the awkward naming) as a helper for drivers 
-implementing move(), essentially a very special case of 
-ttm_bo_move_accel_cleanup(), but anyway, see below:
-
->
-> Can we cleanly move that functionality into TTM instead?
-
-I'll take a look at that, but I think we'd initially be having iterators 
-mimicing the current move_memcpy() for the
-linear iomem !WC cases, hope that's OK.
-
-/Thomas
-
-
->
-> Christian.
->
->>
->>
->> /Thomas
->>
->>>
->>>>
->>>> /Thomas
->>>>
->>>>
->>>
->
+Hey, we're typing that out as fast as we can ... it's just that you
+keep reinventing sync primitives faster than we can ship support for
+them :P
