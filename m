@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB80387FE4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 20:48:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9BC38808D
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 21:33:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D6E66E0E4;
-	Tue, 18 May 2021 18:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF1756E057;
+	Tue, 18 May 2021 19:33:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF91B6E0E4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 18:48:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 713CB61285
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 18:48:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2ABB89D2E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 19:33:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 5932961353
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 19:33:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621363734;
- bh=/zbUDBna4q/LrawYJE548XYuxZ9alLsVq5UpUbShbZI=;
+ s=k20201202; t=1621366396;
+ bh=n1zus7X99hbKMgBY00gvIaGsrCqkkYyw9mgLpbp7qF8=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=rDhBXINwTIex77kliFt0Q0jJGtiF+/vqxWfn0j7MTucgS3T6LyoYXWRe0NimYLmKa
- Xtlqeszyu9ozEn/IGR5zl1yq/Ibg/ZaizsYduqVPMJcz176l9hzfsGx+1alaKNlC1U
- SRZHDICDnYfb8oKsHryOuFKUByG2wonDwlJS8bF1LUtt3YRMyivgxPTYMpH/DldTzF
- ifkWciteTb+V0qn6ycxUZrrzb3qhddbivlJpBg2cEt8GIQkF7m5qF/ISHNiFdmvjou
- rpwbt97bGJdeKicAOirwD1XX4tfbQuSKFxaVR8p5oadJjnvTx9yWJyvYMyVGGbqNAq
- HwryaT/e21Jmg==
+ b=rF7nXDbgYVIZSmBizhuEEejGeV7rg06ytg2A/pudXDJzjqKXMd7gHlpjxu+x/OIFT
+ ZhNVNRwsAooHyIR+iNDdRxiaIXEkEhrUL+sCwO4EiEjzLmkXykj6Wwv8ohOJXaoi/r
+ 6363vnX9kUlDEnZx8LDb17iBFVccb0SiwNcxVumyHbRrY+XDYwMQFyr9SjEe3h6UYe
+ wKoY8NEZkEyd6cGcSZxtCIzolOEirK1Nd+etlTdJq4gXoxXY9Xh+zml1Oefwk+SMmi
+ KUDv3oylrAs4DvBoWcZvKZvR7TJvVOWkKtkAztBgv7SXtIUtC67o0d7grs7P8crt7h
+ HdIKXzE9gf30w==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 6DC0561249; Tue, 18 May 2021 18:48:54 +0000 (UTC)
+ id 488486124C; Tue, 18 May 2021 19:33:16 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
  drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Tue, 18 May 2021 18:48:54 +0000
+Date: Tue, 18 May 2021 19:33:15 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -39,14 +39,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: me@jeromec.com
+X-Bugzilla-Who: jamesz@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211277-2300-N6Aa2mLFWh@https.bugzilla.kernel.org/>
+Message-ID: <bug-211277-2300-UXJWRoU2bJ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
 References: <bug-211277-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,11 +71,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
---- Comment #26 from Jerome C (me@jeromec.com) ---
-(In reply to Jerome C from comment #25)
-> I forgot to mention... I'm on kernel 5.13.4
-
-5.12.4 I mean
+--- Comment #27 from James Zhu (jamesz@amd.com) ---
+Hi Jeromec, thanks for your feedback, can you also add drm.debug=3D0x1ff
+modprobe? I need log: case 1 dmesg and
+/sys/kernel/debug/dri/0/amdgpu_fence_info (if you can). James.
 
 --=20
 You may reply to this email to add a comment.
