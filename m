@@ -1,73 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C534387B2C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 16:33:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6168387B7A
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 16:42:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 251796E892;
-	Tue, 18 May 2021 14:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09D1F6EB93;
+	Tue, 18 May 2021 14:42:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51CA46EB93
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 14:33:21 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 3F3595C010D;
- Tue, 18 May 2021 10:33:20 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Tue, 18 May 2021 10:33:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=FrUlgAZl7XLF/3clrgjCszNAYAE
- 2HNQnZkoVBplSGys=; b=RkFFFVyfCIPjwlkOtCpqAs51p6nq80tP17M0UeQUFwB
- grcoeKLK4Vwj+CaKRnFeizXv0cRdkb16lcu9405CJQgV7d70irbMBOJIwsFK+8Sh
- St5XhdSQSQpPtsxTS3jmrkyJk6WLx6KpkFEcWr8ZpLjZwqjARtaL8DqSBqJI8eVg
- ctsB2pzJZ8pjGW8mVwAzGihab7WKYPj3S6wfKt0rZaC0sAuuyzXOefx69NGSj62/
- wxVq4sTU5jE3buERtY9klKVeHfaSUznL0t0OJSYv9WG4J1taF8EhB0jVCpebMEZK
- WdPcdwIfkA/X7VqTGxrJzA5xrJHuT4/hqA2bn7QULDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=FrUlgA
- Zl7XLF/3clrgjCszNAYAE2HNQnZkoVBplSGys=; b=vjx/fru3+ejYVBBLlS5Ict
- M5bjK1Vnr1peBf+W13+s/dloQABSZ5i2l13qY5Fcei4eJc+DBsDjZ+kdJhRqZEA0
- huR6avdIJjWcBWNUXv47nzh3MmTcjIFt9N2EbHQ1nl0HBCFa+EJHwOermOMkBYZL
- mN1q5TLmnuQFtqP/4kQj/cGU3n9xa6YY0XIkUNpdEWqGLEyevfepFBgyaW/m2kBQ
- kwopJPh1Qd24RWLvccmSkL25azpfuBOft/XgSI5azFW3i7V5vo5ktA86qZ0PSZqF
- U9CbNHQddwseO+RjsDPdSMBgaCbWmWbt5aL9gFxeSToojEDEVu9VpCbgq+EmPhZA
- ==
-X-ME-Sender: <xms:L9CjYATTInJz7SQIWSj7qKp1VibfS-rZFU4hiQO3MxlpiUdbgtXBxw>
- <xme:L9CjYNyMDyqK7padAbYdtmLZBLscFULQx_9IhaoA89Psg9gOFOO6ilBxA6FErO3cu
- WqLKJ_gspCTViVLKzQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeijedgjeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepffetteevieejteeuhfffgeektefghfeileehhedtuddutefhhfejtddvtddu
- ledvnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekle
- drieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
- ohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:L9CjYN35XHtoasd8zhtD8d26Qy61Moq1RYn4LMma7wnSrTnuOmkipQ>
- <xmx:L9CjYEBdslF4wPP7R6KVaxzdtcUITD5sYrkcI85K8zvWAHxr9AeKhQ>
- <xmx:L9CjYJj4_LuMW593oa1lPb1FyVHJkmSDsTsgubAzPlc-2LK5azsSfg>
- <xmx:MNCjYJfSKQDIdTXfmnonDZdmFCKx2g4JZBk7Ju9q64shVIMWe535DA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Tue, 18 May 2021 10:33:18 -0400 (EDT)
-Date: Tue, 18 May 2021 16:33:17 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] dt-bindings: display: ssd1307fb: Convert to json-schema
-Message-ID: <20210518143317.yy2sxxnd7yt6cyrx@gilmour>
-References: <20210518075131.1463091-1-geert@linux-m68k.org>
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 806436EB93
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 14:42:50 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ b9-20020a17090a9909b029015cf9effaeaso1652362pjp.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 07:42:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=b3DMt2F3yR1S8LhJiSdAhlPcYPUp2f9kxGSREUS+xFY=;
+ b=hrKuPisLxc8CgXd9G6ghQ6FBg4IJtnIX7kOnnpJojVxnuLnLTdp7lfi3kHnxK9dz0+
+ v+gfHV/vAujTUbSAZUMzTXMkFkS06vjZKGpIpbupOJ0CQzyDiB9qEwDG9gBbYwNjwB4d
+ 4/Sf3gbt9uYnMkgDd4vJ4RAplDIoz0rt8sNrsoWPDkLadtBj8lQDAplYoqANqXtRTxxB
+ 9Uu38T6Ax0+/znT5ex5MKtIhfm+jjo6r6sCDk+5rEXrNF0dGBmJcQq2cfYm3W6e2PAML
+ +bdCUUIS3x+IPNlwCBnwGWge0nKbJeB1ZSjS4dDyFnma0emXEP+2ooA+vRqNc1qdezZ/
+ xQ/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=b3DMt2F3yR1S8LhJiSdAhlPcYPUp2f9kxGSREUS+xFY=;
+ b=lLrIPKil3zzo785GYEfhTraeXJ/uM1ntg7G3Ve/fIkUr5gcP7koQhKvmEuT2DJC98T
+ sOmUbr9Nb7lyqtQTnGywNYQGUcUvRlJBoaevM9J4iEdOb3fYnJ7D7pK6X95r3qo2Pakj
+ dsq2ghhr5nBAqqG+qCgR087YxXuNQaJM89wwYie536eseXIpPvDGrZNNgyInw13CxWWy
+ 9d+aOtJSWuTvPtA91d0dY3kMuiEpwnImpdJrBL8Gnk+2ESiwYvy92oI2DbOdjJrpXQqC
+ 75YT1Zn9CCbU+cqxlXdPPG2lTByESdvs6QVxd6/dxd1f/d77QzLiLBZy1lEyHpDR8q5y
+ 3o1g==
+X-Gm-Message-State: AOAM533ajss+cv8hDiLkcegWotqIpc3UrHAkqVWYFzpa/3cXHJskf0pV
+ q/JkGtNhnXg/nq1706/J9zC0Mm4MMUtoDHWDsjaBjg==
+X-Google-Smtp-Source: ABdhPJz6HxDCbuqQzC6kuOWJ/Z4wKk+gxz+hYXy740zOMxhRX6CV1XDh880v/3VEjfhmUyaukGJCeYabreKqbOSypV0=
+X-Received: by 2002:a17:90a:e391:: with SMTP id
+ b17mr1086553pjz.75.1621348970117; 
+ Tue, 18 May 2021 07:42:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="p7d7m3hcldjdfnrs"
-Content-Disposition: inline
-In-Reply-To: <20210518075131.1463091-1-geert@linux-m68k.org>
+References: <20210518141927.24795-1-dafna.hirschfeld@collabora.com>
+ <20210518141927.24795-2-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20210518141927.24795-2-dafna.hirschfeld@collabora.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 18 May 2021 16:42:38 +0200
+Message-ID: <CAG3jFyuu7Vvd3QtKpfVg+uSFB9JJmKOAovxpX_gs=BoBUYuamw@mail.gmail.com>
+Subject: Re: [PATCH v6 RESEND 1/2] dt-bindings: display: add google,
+ cros-ec-anx7688.yaml
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,167 +65,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>
+Cc: megous@megous.com,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ enric.balletbo@collabora.com, linux-usb@vger.kernel.org,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ kernel@collabora.com, dafna3@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Series applied to drm-misc-next.
 
---p7d7m3hcldjdfnrs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+https://cgit.freedesktop.org/drm/drm-misc/commit/?id=b67f7599c90ae36a5174826132f7690fa13d462c
 
-Hi
-
-On Tue, May 18, 2021 at 09:51:31AM +0200, Geert Uytterhoeven wrote:
-> Convert the Solomon SSD1307 Framebuffer Device Tree binding
-> documentation to json-schema.
->=20
-> Fix the spelling of the "pwms" property.
-> Document default values.
-> Make properties with default values not required.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+On Tue, 18 May 2021 at 16:19, Dafna Hirschfeld
+<dafna.hirschfeld@collabora.com> wrote:
+>
+> ChromeOS EC ANX7688 is a display bridge that converts HDMI 2.0 to
+> DisplayPort 1.3 Ultra-HDi (4096x2160p60). It is an Analogix ANX7688 chip
+> which is connected to and operated by the ChromeOS Embedded Controller
+> (See google,cros-ec.yaml). It is accessed using I2C tunneling through
+> the EC and therefore its node should be a child of an EC I2C tunnel node
+> (See google,cros-ec-i2c-tunnel.yaml).
+>
+> ChromOS EC ANX7688 is found on Acer Chromebook R13 (elm)
+>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
-> I have listed Maxime as the maintainer, as he wrote the original driver
-> and bindings.  Maxime: Please scream if this is inappropriate ;-)
-
-Fine by me :)
-
-> ---
->  .../bindings/display/solomon,ssd1307fb.yaml   | 166 ++++++++++++++++++
->  .../devicetree/bindings/display/ssd1307fb.txt |  60 -------
->  2 files changed, 166 insertions(+), 60 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd=
-1307fb.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/ssd1307fb.t=
-xt
->=20
-> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.=
-yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+>  .../bridge/google,cros-ec-anx7688.yaml        | 82 +++++++++++++++++++
+>  1 file changed, 82 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml b/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
 > new file mode 100644
-> index 0000000000000000..bd632d86a4f814a0
+> index 000000000000..9f7cc6b757cb
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> @@ -0,0 +1,166 @@
+> +++ b/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+> @@ -0,0 +1,82 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/solomon,ssd1307fb.yaml#
+> +$id: http://devicetree.org/schemas/display/bridge/google,cros-ec-anx7688.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Solomon SSD1307 OLED Controller Framebuffer
+> +title: ChromeOS EC ANX7688 HDMI to DP Converter through Type-C Port
 > +
 > +maintainers:
-> +  - Maxime Ripard <mripard@kernel.org>
+> +  - Nicolas Boichat <drinkcat@chromium.org>
+> +  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> +
+> +description: |
+> +  ChromeOS EC ANX7688 is a display bridge that converts HDMI 2.0 to
+> +  DisplayPort 1.3 Ultra-HDi (4096x2160p60). It is an Analogix ANX7688 chip
+> +  which is connected to and operated by the ChromeOS Embedded Controller
+> +  (See google,cros-ec.yaml). It is accessed using I2C tunneling through
+> +  the EC and therefore its node should be a child of an EC I2C tunnel node
+> +  (See google,cros-ec-i2c-tunnel.yaml).
 > +
 > +properties:
 > +  compatible:
-> +    enum:
-> +      - solomon,ssd1305fb-i2c
-> +      - solomon,ssd1306fb-i2c
-> +      - solomon,ssd1307fb-i2c
-> +      - solomon,ssd1309fb-i2c
+> +    const: google,cros-ec-anx7688
 > +
 > +  reg:
 > +    maxItems: 1
+> +    description: I2C address of the device.
 > +
-> +  pwms:
-> +    maxItems: 1
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
 > +
-> +  reset-gpios:
-> +    maxItems: 1
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for HDMI input.
 > +
-> +  vbat-supply:
-> +    description: The supply for VBAT
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: USB Type-c connector.
 > +
-> +  solomon,height:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 16
-> +    description:
-> +      Height in pixel of the screen driven by the controller
+> +    required:
+> +      - port@0
+> +      - port@1
 > +
-> +  solomon,width:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 96
-> +    description:
-> +      Width in pixel of the screen driven by the controller
+> +required:
+> +  - compatible
+> +  - reg
+> +  - ports
 > +
-> +  solomon,page-offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 1
-> +    description:
-> +      Offset of pages (band of 8 pixels) that the screen is mapped to
+> +additionalProperties: false
 > +
-> +  solomon,segment-no-remap:
-> +    type: boolean
-> +    description:
-> +      Display needs normal (non-inverted) data column to segment mapping
+> +examples:
+> +  - |
+> +    i2c_tunnel_b: i2c-tunnel1 {
+> +        compatible = "google,cros-ec-i2c-tunnel";
+> +        google,remote-bus = <1>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
 > +
-> +  solomon,col-offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 0
-> +    description:
-> +      Offset of columns (COL/SEG) that the screen is mapped to
+> +        anx7688: anx7688@2c {
+> +            compatible = "google,cros-ec-anx7688";
+> +            reg = <0x2c>;
 > +
-> +  solomon,com-seq:
-> +    type: boolean
-> +    description:
-> +      Display uses sequential COM pin configuration
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                port@0 {
+> +                    reg = <0>;
+> +                    anx7688_in: endpoint {
+> +                        remote-endpoint = <&hdmi0_out>;
+> +                    };
+> +                };
+> +                port@1 {
+> +                    reg = <1>;
+> +                    anx7688_out: endpoint {
+> +                        remote-endpoint = <&typec_connector>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
 > +
-> +  solomon,com-lrremap:
-> +    type: boolean
-> +    description:
-> +      Display uses left-right COM pin remap
-> +
-> +  solomon,com-invdir:
-> +    type: boolean
-> +    description:
-> +      Display uses inverted COM pin scan direction
-> +
-> +  solomon,com-offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 0
-> +    description:
-> +      Number of the COM pin wired to the first display line
-> +
-> +  solomon,prechargep1:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 2
-> +    description:
-> +      Length of deselect period (phase 1) in clock cycles
-> +
-> +  solomon,prechargep2:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 2
-> +    description:
-> +      Length of precharge period (phase 2) in clock cycles.  This needs =
-to be
-> +      the higher, the higher the capacitance of the OLED's pixels is.
-> +
-> +  solomon,dclk-div:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 1
-> +    maximum: 16
-> +    description:
-> +      Clock divisor. The default value is controller-dependent.
-
-I guess we could document the default using an if / else statement?
-Looks good otherwise :)
-
-Maxime
-
---p7d7m3hcldjdfnrs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKPQLAAKCRDj7w1vZxhR
-xeKaAQDmjvKNJwaVYfTQjl3b/T04NM9NVNFImz1x2uj7ftswHQD8DfD+L8sbH09v
-yeZEUShSYKCHK9VStSHw0JPqy0oSeQ8=
-=jitB
------END PGP SIGNATURE-----
-
---p7d7m3hcldjdfnrs--
+> --
+> 2.17.1
+>
