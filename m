@@ -2,47 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69443882E8
-	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 01:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405273882EC
+	for <lists+dri-devel@lfdr.de>; Wed, 19 May 2021 01:03:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22B896E055;
-	Tue, 18 May 2021 23:00:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A356E6E08E;
+	Tue, 18 May 2021 23:03:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from h1954565.stratoserver.net (sebastianwick.net
- [IPv6:2a01:238:4226:4f00:79f5:2d39:beca:3cf1])
- by gabe.freedesktop.org (Postfix) with ESMTP id 872BF6E055;
- Tue, 18 May 2021 23:00:23 +0000 (UTC)
-Received: by h1954565.stratoserver.net (Postfix, from userid 117)
- id 73227163F46; Wed, 19 May 2021 01:00:22 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
- h1954565.stratoserver.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED
- autolearn=unavailable autolearn_force=no version=3.4.2
-Received: from mail.sebastianwick.net (localhost [IPv6:::1])
- by h1954565.stratoserver.net (Postfix) with ESMTP id CFAFF163F42;
- Wed, 19 May 2021 01:00:17 +0200 (CEST)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2058.outbound.protection.outlook.com [40.107.100.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D24D76E08E;
+ Tue, 18 May 2021 23:03:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LyWcuoSmIrOHazYuE/+rOin7h8QzgD8tb//XDrUNh7tdDECdG4eesWoUcU+BSdaLzVm/qP9clbbRYJRL3yTNyq7JaEM2wZ7PbMCi8BQHoeuVB6ALHGXZZtOoQDQfuDlHy8wbYXARw1XYf0iF17twDjOVrguPGdTcKCT+5w0OmvGgUfkcs6OHyhl9TTo9EipL59xz028q9sBXRjE4vux3KkHiLBz3DhT1dLEwwfFaRRaHq6hXgw8igPt376SYOWyoeVmAWjXHBsa7kVwNGvr9eP6wbOWEBXlPcdDk97cCRvuOG4Sjq3VX+sIhBzFTsz+XqE0+FZe4Dr4mykMSUieZ9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k3IdNSFiUnrRT1x/bsOS120s+m2wuDnGHTEFgMv8S+E=;
+ b=OIuGjkOdd/Iiynfb04LCLXDirFyu9IvMlpqDElOSWe8+GVA7wNNoHlazJs2XWutsqjPpFC3Eq9Ru7FC23qAHbnpbQepJ14xdSWBVeaScKELkf9/Ppfwwg7MemfOzi3ugGG9xoX0OZtDUPxEG51ZJ/DXsOiK0Y88K3isLrkjEIQXqY93qjL/CKUO8o5yv7D5iK5V0gMYA53+rr+2tEeSH6pNumjZWC2N7Bukq7lWWmZ8yM0ppBXTSfOc6+LQj/O3SXz9Kqk8B7kC2oSxD2bz6N0GfS1UVNaMIFoKhnmIfoD2MJ9Vm78a4Yfc0tRhqUJSqKbk6TIBBG0IDFzpBIclLiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k3IdNSFiUnrRT1x/bsOS120s+m2wuDnGHTEFgMv8S+E=;
+ b=o06ber1whiLSdl+NjxFVil2rC6xYYmRgj6+YI/gxLad8zbtEAUgS+lAPDWHiShdU+3uArF3CZqQFDARyil+mGwp+0tz17upDnF2QHvAsouo2TwhSbA3E6FZjY+6qn/Ou2DXx4ym/6q8E83D9bfcUBeqRQoIh/9mpPaRvlD9M3e3u84eL41uBRk5w/DuCxkoleIsr0V5lsFjNaN5Kf0akJALpu1y6cuZ9Oq4xSkK70+4BDX+M9SQrHnlt66OomVK1U0IssQIGIMTuXTco8BqS8owda3GLj1X8iOd4lskeVobS4hFGc4Flkuo+I/uvUX/W4DDI9Ee67IncxiRb37EIRA==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB2858.namprd12.prod.outlook.com (2603:10b6:5:182::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Tue, 18 May
+ 2021 23:03:30 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::ddb4:2cbb:4589:f039]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::ddb4:2cbb:4589:f039%4]) with mapi id 15.20.4129.033; Tue, 18 May 2021
+ 23:03:29 +0000
+Date: Tue, 18 May 2021 20:03:27 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v8 5/8] mm: Device exclusive memory access
+Message-ID: <20210518230327.GG1002214@nvidia.com>
+References: <20210407084238.20443-1-apopple@nvidia.com>
+ <20210407084238.20443-6-apopple@nvidia.com>
+ <YKMhorngO2DVrxac@t490s> <47694715.suB6H4Uo8R@nvdebian>
+ <YKP5Dj4Q/riGGc43@t490s> <20210518173334.GE1002214@nvidia.com>
+ <YKQBACJCjsxeM3ro@t490s> <20210518194509.GF1002214@nvidia.com>
+ <YKQjmtMo+YQGx/wZ@t490s>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YKQjmtMo+YQGx/wZ@t490s>
+X-Originating-IP: [47.55.113.94]
+X-ClientProxiedBy: BL1PR13CA0024.namprd13.prod.outlook.com
+ (2603:10b6:208:256::29) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date: Wed, 19 May 2021 01:00:17 +0200
-From: Sebastian Wick <sebastian@sebastianwick.net>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH 0/3] A drm_plane API to support HDR planes
-In-Reply-To: <9d4ec9c3-6716-7c80-97d5-dd3c5c50ab51@amd.com>
-References: <20210426173852.484368-1-harry.wentland@amd.com>
- <20210427175005.5b92badc@eldfell>
- <e51a3067-a0b3-16e4-5996-bd8527b7536b@amd.com>
- <20210517115726.4fc1c710@eldfell>
- <5f6abaaa45bb7f77110d9f87c9824e3f@sebastianwick.net>
- <b0834be8-9023-0fde-f15d-8c44f72e7702@amd.com>
- <20210518105615.212b84e4@eldfell>
- <9d4ec9c3-6716-7c80-97d5-dd3c5c50ab51@amd.com>
-Message-ID: <d254788ea658ee4af6f09c8d10a497f6@sebastianwick.net>
-X-Sender: sebastian@sebastianwick.net
-User-Agent: Roundcube Webmail/1.3.4
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (47.55.113.94) by
+ BL1PR13CA0024.namprd13.prod.outlook.com (2603:10b6:208:256::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.11 via Frontend
+ Transport; Tue, 18 May 2021 23:03:29 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1lj8kJ-00AUDU-VE; Tue, 18 May 2021 20:03:27 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: edce9c3d-2ee7-47d2-1ee6-08d91a5126ab
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2858:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB2858E661E3DB8252ECDAF608C22C9@DM6PR12MB2858.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yVAEG2RA8ZiBycRMAF8K+XAnmDyfsZKqJJMURckFRgzFV+9ihfOL1Il1y0xumgadfy+/ysZbUV3KtPS9xuhR6MVQUtj2iafr3SciywXdjaGf1NetwHd7XRV7DauHxJKmcHwZdUZFTKq5WiyoXx0UVu6CXVGRuY7nCRyNXt6S1DDSc7IszCxmuUHWT45O2QynMV/1wHfwV2Ks/iZt65ivqpb2FM6ajIu1QP7sECYEhVN1XUNlXUMlBtKjScXl7aKxV1etKtVmU6vHVCn5FDBxmESNDBa9XfL4n73KDNCrznIsX5DXrT6XiFuXAmEVBVah2nExUII8/E7C+vqCKGpgO6MLh9dsNaDCtp2xH50Vxmf9UeEfvsFmKdccQyGy/D6QTIo8WknYQPRk1nRVTEuS/u1f8zNhGGoo2myobge2dUNaStICyjigCPlLUe23U0ET7OMXKXYG+0+jEu8df0z/jLZSxR98vyMt1f96A7lnW+WcDR67owfq0X52iyR+mhaRppW5vGOS0AAr7i3k/DvbpxwFYqORcOnCYm9tuFcgR048fvBomJlkeAtgJCihmyLCCIYRkhumH4smVCMWLpDvG70LAWXxqioDkGazbIQYJz0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(366004)(136003)(39860400002)(376002)(66946007)(86362001)(66556008)(66476007)(478600001)(33656002)(2906002)(36756003)(83380400001)(5660300002)(9786002)(38100700002)(426003)(26005)(2616005)(9746002)(186003)(54906003)(6916009)(7416002)(8936002)(1076003)(4326008)(8676002)(316002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?M9+lTZt6fQD1XpvJ/adZSiTHZeNJDq7QswWvPVkYfKveuFMXrd8h4NMwilme?=
+ =?us-ascii?Q?c5ak0Y7KZ87tCVBZqHA4jhVcKwumCfgFjNm5HBBwCkK5JpKmXazvgnxazdUT?=
+ =?us-ascii?Q?4rYVxDaHU654S8q1Eu3P4mtQ9q8ajUwgaRaOoPurAQkZzGFJJQRmbEuxxIbS?=
+ =?us-ascii?Q?bHIjOZpltYMRQtVKm7g8r24hlQS1NJ/qiB4T8KhgHw4Ah3H26e7WBt2xjzig?=
+ =?us-ascii?Q?ADheUOXro5s6xRpI9/J/BzHMnHLc7DcyiP1Ld04BFkVwInVc9B8ujUivXJ+T?=
+ =?us-ascii?Q?wJWblNNVrrd1Sv+36Km8f6gqNuMnQsDTARwmWgMTGj6JB5ysPdYw75UUqflv?=
+ =?us-ascii?Q?apLK56RVaTVkgbAz1xol1MrmT2toCCBabehfHFXP09lU2+kMZhz4t81xAB0W?=
+ =?us-ascii?Q?9sm1RSlABqeuBq7hzadAcZVk5GkB91nB9CfmdPjf458Fu5MabRPaM126DJVm?=
+ =?us-ascii?Q?b+DFWlsdGVQyrqyxseeU1Fro/kU1Y6qGhnICOYeiRGDq7L1v1gpAAaxNirsH?=
+ =?us-ascii?Q?9lWxMr6cPFGa3LzkqjxXIkiUhJQjhK9k6xxa433+l/iGh4lae9L//Ubh4lU4?=
+ =?us-ascii?Q?byHd2vsFYU0YAlKwN0I+McqtkmMOiwEq0fIp9OCcghtM9TGYuLEhKwMTLdvO?=
+ =?us-ascii?Q?kgKB4SDcn//lMbMDBWq28NL8/CV+Qi0IYBflfHDyeecbovl4PWIZ6NSSr1SN?=
+ =?us-ascii?Q?495F/+0k17H5TW4VNsUXcRazrWY4Z2/LnVmdklFG1oVKsB8/Z3PxTVE8qC5u?=
+ =?us-ascii?Q?DWDo89S8SEYOVmBEbn6zq9jeZk8qhwIFxiK8+J5QF39f6kJKWuaXMR09nBDv?=
+ =?us-ascii?Q?BR9EYjUXCY+SBRqfJfDoVtpeEBVagVHqWDaJ/V4rtmnR44OC9TA539KJelBk?=
+ =?us-ascii?Q?PnVsOgw2cOIT6F1dm+IUFQYPssr3R6I/8Fou4brXdyMqMfUx0jtiWN6rKjJL?=
+ =?us-ascii?Q?y/O3QYFEmXMmsksEK4TEyVrIixvsfUU5meNuFyv21xfCYogz7yFySfBnENlK?=
+ =?us-ascii?Q?3DOefKpxXFY/DmARiyD7QWCQIuB44g9/c5iK0BEeHrFrwMI54hr6VmcWoyfP?=
+ =?us-ascii?Q?676jp+KPXGJtElM/fQOmrEjHiKty6YjU7qEmzMhbZpPDYkw5xHP/lXlz0yI5?=
+ =?us-ascii?Q?mBPJ3IyP4ot6t3TwMf0lWe8TuwUm/7NjRHB2UpuMdwX+OwFvi2/i8hyI52sX?=
+ =?us-ascii?Q?+HdNx1ejmBsYnL2quyLVWFpsQNEvwQ3rrT4Bp6q2hzUVUpC5U2EvSKDoL+yt?=
+ =?us-ascii?Q?vqw+/525RcgGakKNHUD9LLuro8SVJ/RxbFrOLnnG7G37iQ0fLBdhls+MOLKs?=
+ =?us-ascii?Q?sfjb3WYMyg1uHsS1UOMgeXHv?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: edce9c3d-2ee7-47d2-1ee6-08d91a5126ab
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 23:03:29.7365 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ieXBGgViPdUfRu3rI073PIUqb4LkLiKgrQJiVSnfnZfXJvyQWKdmwoGId39ldvLD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2858
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,214 +124,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak.Sharma@amd.com, amd-gfx@lists.freedesktop.org, mcasas@google.com,
- Shashank.Sharma@amd.com, dri-devel@lists.freedesktop.org, Shirish.S@amd.com,
- Krunoslav.Kovac@amd.com, hersenxs.wu@amd.com,
- Vitaly Prosyak <vitaly.prosyak@amd.com>, laurentiu.palcu@oss.nxp.com,
- Bhawanpreet.Lakha@amd.com, Nicholas.Kazlauskas@amd.com
+Cc: rcampbell@nvidia.com, willy@infradead.org, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, bsingharora@gmail.com,
+ Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hch@infradead.org, linux-mm@kvack.org,
+ jglisse@redhat.com, bskeggs@redhat.com, jhubbard@nvidia.com,
+ akpm@linux-foundation.org, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-05-18 16:19, Harry Wentland wrote:
-> On 2021-05-18 3:56 a.m., Pekka Paalanen wrote:
->> On Mon, 17 May 2021 15:39:03 -0400
->> Vitaly Prosyak <vitaly.prosyak@amd.com> wrote:
->> 
->>> On 2021-05-17 12:48 p.m., Sebastian Wick wrote:
->>>> On 2021-05-17 10:57, Pekka Paalanen wrote:
->>>>> On Fri, 14 May 2021 17:05:11 -0400
->>>>> Harry Wentland <harry.wentland@amd.com> wrote:
->>>>> 
->>>>>> On 2021-04-27 10:50 a.m., Pekka Paalanen wrote:
->>>>>>> On Mon, 26 Apr 2021 13:38:49 -0400
->>>>>>> Harry Wentland <harry.wentland@amd.com> wrote:
->>>>> 
->>>>> ...
->>>>> 
->>>>>>>> ## Mastering Luminances
->>>>>>>> 
->>>>>>>> Now we are able to use the PQ 2084 EOTF to define the luminance 
->>>>>>>> of
->>>>>>>> pixels in absolute terms. Unfortunately we're again presented 
->>>>>>>> with
->>>>>>>> physical limitations of the display technologies on the market
->>>>>> today.
->>>>>>>> Here are a few examples of luminance ranges of displays.
->>>>>>>> 
->>>>>>>> | Display                  | Luminance range in nits |
->>>>>>>> | ------------------------ | ----------------------- |
->>>>>>>> | Typical PC display       | 0.3 - 200 |
->>>>>>>> | Excellent LCD HDTV       | 0.3 - 400 |
->>>>>>>> | HDR LCD w/ local dimming | 0.05 - 1,500 |
->>>>>>>> 
->>>>>>>> Since no display can currently show the full 0.0005 to 10,000 
->>>>>>>> nits
->>>>>>>> luminance range the display will need to tonemap the HDR 
->>>>>>>> content,
->>>>>> i.e
->>>>>>>> to fit the content within a display's capabilities. To assist 
->>>>>>>> with
->>>>>>>> tonemapping HDR content is usually accompanied with a metadata 
->>>>>>>> that
->>>>>>>> describes (among other things) the minimum and maximum mastering
->>>>>>>> luminance, i.e. the maximum and minimum luminance of the display
->>>>>> that
->>>>>>>> was used to master the HDR content.
->>>>>>>> 
->>>>>>>> The HDR metadata is currently defined on the drm_connector via 
->>>>>>>> the
->>>>>>>> hdr_output_metadata blob property.
->>>>>>>> 
->>>>>>>> It might be useful to define per-plane hdr metadata, as 
->>>>>>>> different
->>>>>>>> planes might have been mastered differently.
->>>>>>> 
->>>>>>> I don't think this would directly help with the dynamic range
->>>>>> blending
->>>>>>> problem. You still need to establish the mapping between the 
->>>>>>> optical
->>>>>>> values from two different EOTFs and dynamic ranges. Or can you 
->>>>>>> know
->>>>>>> which optical values match the mastering display maximum and 
->>>>>>> minimum
->>>>>>> luminances for not-PQ?
->>>>>>> 
->>>>>> 
->>>>>> My understanding of this is probably best illustrated by this 
->>>>>> example:
->>>>>> 
->>>>>> Assume HDR was mastered on a display with a maximum white level of 
->>>>>> 500
->>>>>> nits and played back on a display that supports a max white level 
->>>>>> of
->>>>>> 400
->>>>>> nits. If you know the mastering white level of 500 you know that
->>>>>> this is
->>>>>> the maximum value you need to compress down to 400 nits, allowing
->>>>>> you to
->>>>>> use the full extent of the 400 nits panel.
->>>>> 
->>>>> Right, but in the kernel, where do you get these nits values from?
->>>>> 
->>>>> hdr_output_metadata blob is infoframe data to the monitor. I think 
->>>>> this
->>>>> should be independent of the metadata used for color 
->>>>> transformations in
->>>>> the display pipeline before the monitor.
->>>>> 
->>>>> EDID may tell us the monitor HDR metadata, but again what is used 
->>>>> in
->>>>> the color transformations should be independent, because EDIDs lie,
->>>>> lighting environments change, and users have different preferences.
->>>>> 
->>>>> What about black levels?
->>>>> 
->>>>> Do you want to do black level adjustment?
->>>>> 
->>>>> How exactly should the compression work?
->>>>> 
->>>>> Where do you map the mid-tones?
->>>>> 
->>>>> What if the end user wants something different?
->>>> 
->>>> I suspect that this is not about tone mapping at all. The use cases
->>>> listed always have the display in PQ mode and just assume that no
->>>> content exceeds the PQ limitations. Then you can simply bring all
->>>> content to the color space with a matrix multiplication and then map 
->>>> the
->>>> linear light content somewhere into the PQ range. Tone mapping is
->>>> performed in the display only.
->> 
->> The use cases do use the word "desktop" though. Harry, could you 
->> expand
->> on this, are you seeking a design that is good for generic desktop
->> compositors too, or one that is more tailored to "embedded" video
->> player systems taking the most advantage of (potentially
->> fixed-function) hardware?
->> 
+On Tue, May 18, 2021 at 04:29:14PM -0400, Peter Xu wrote:
+> On Tue, May 18, 2021 at 04:45:09PM -0300, Jason Gunthorpe wrote:
+> > On Tue, May 18, 2021 at 02:01:36PM -0400, Peter Xu wrote:
+> > > > > Indeed it'll be odd for a COW page since for COW page then it means after
+> > > > > parent/child writting to the page it'll clone into two, then it's a mistery on
+> > > > > which one will be the one that "exclusived owned" by the device..
+> > > > 
+> > > > For COW pages it is like every other fork case.. We can't reliably
+> > > > write-protect the device_exclusive page during fork so we must copy it
+> > > > at fork time.
+> > > > 
+> > > > Thus three reasonable choices:
+> > > >  - Copy to a new CPU page
+> > > >  - Migrate back to a CPU page and write protect it
+> > > >  - Copy to a new device exclusive page
+> > > 
+> > > IMHO the ownership question would really help us to answer this one..
+> > 
+> > I'm confused about what device ownership you are talking about
 > 
-> The goal is to enable this on a generic desktop, such as generic 
-> Wayland
-> implementations or ChromeOS. We're not looking for a custom solution 
-> for
-> some embedded systems, though the solution we end up with should 
-> obviously
-> not prevent an implementation on embedded video players.
+> My question was more about the user scenario rather than anything related to
+> the kernel code, nor does it related to page struct at all.
 > 
->> What matrix would one choose? Which render intent would it
->> correspond to?
->> 
->> If you need to adapt different dynamic ranges into the blending 
->> dynamic
->> range, would a simple linear transformation really be enough?
->> 
->>>> From a generic wayland compositor point of view this is 
->>>> uninteresting.
->>>> 
->>> It a compositor's decision to provide or not the metadata property to
->>> the kernel. The metadata can be available from one or multiple 
->>> clients
->>> or most likely not available at all.
->>> 
->>> Compositors may put a display in HDR10 ( when PQ 2084 INV EOTF and TM
->>> occurs in display ) or NATIVE mode and do not attach any metadata to 
->>> the
->>> connector and do TM in compositor.
->>> 
->>> It is all about user preference or compositor design, or a 
->>> combination
->>> of both options.
->> 
->> Indeed. The thing here is that you cannot just add KMS UAPI, you also
->> need to have the FOSS userspace to go with it. So you need to have 
->> your
->> audience defined, userspace patches written and reviewed and agreed
->> to be a good idea. I'm afraid this particular UAPI design would be
->> difficult to justify with Weston. Maybe Kodi is a better audience?
->> 
+> Let me try to be a little bit more verbose...
 > 
-> I'm not sure designing a UAPI for Kodi that's not going to work for
-> Wayland-compositors is the right thing. From a KMS driver maintainer
-> standpoint I don't want an API for each userspace.
-> 
-> The idea here is to do design and discussion in public so we can 
-> eventually
-> arrive at a UAPI for HDR and CM that works for Wayland and by extension
-> for every other userspace.
+> Firstly, I think one simple solution to handle fork() of device exclusive ptes
+> is to do just like device private ptes: if COW we convert writable ptes into
+> readable ptes.  Then when CPU access happens (in either parent/child) page
+> restore triggers which will convert those readable ptes into read-only present
+> ptes (with the original page backing it).  Then do_wp_page() will take care of
+> page copy.
 
-Eventually we want to be able to drive displays in PQ mode in weston (I
-think?) where the TF property could be used in some cases. So that
-property seems good to me. The SDR boost property then might also be
-useful but it depends on the details of the formula/mechanism that you
-can come up with.
+I suspect it doesn't work. This is much more like pinning than
+anything, the data in the page is still under active use by a device
+and if we cannot globally write write protect it, both from CPU and
+device access, then we cannot do COW. IIRC the mm can't trigger a full
+global write protect through the pgmap?
+ 
+> Then here comes the ownership question: If we still want to have the parent
+> process behave like before it fork()ed, IMHO we must make sure that original
+> page (that exclusively owned by the device once) still belongs to the parent
+> process not the child.  That's why I think if that's the case we'd do early cow
+> in fork(), because it guarantees that.
 
-But I want to stress again that we're going to drive all display in
-their native color space and dynamic range if possible where none of
-those properties discussed are useful and without some kind of 3D LUT in
-the plane's pixel pipeline we won't be able to make use of them at all.
+Logically during fork all these device exclusive pages should be
+reverted back to their CPU pages, write protected and the CPU page PTE
+copied to the fork.
 
-The Kodi folks can probably give you better feedback and an actual
-implementation in reasonable time because they want to drive the display
-in PQ mode.
+We should not copy the device exclusive page PTE to the fork. I think
+I pointed to this on an earlier rev..
 
->> But then again, one also needs to consider whether it is enough for a
->> new UAPI to satisfy only part of the possible audience and then need
->> yet another new UAPI to satisfy the rest. Adding new UAPI requires
->> defining the interactions with all existing UAPI as well.
->> 
->> Maybe we do need several different UAPIs for the "same" things if the
->> hardware designs are too different to cater with just one.
->> 
-> 
-> I feel we should have a section in the RFC that sketches how different 
-> HW
-> deals with this currently. It would be good if we can arrive at a UAPI 
-> that
-> captures at least the common functionality of various HW.
-> 
-> Harry
-> 
->> 
->> Thanks,
->> pq
->> 
+We can optimize this into the various variants above, but logically
+device exclusive stop existing during fork.
+
+Jason
