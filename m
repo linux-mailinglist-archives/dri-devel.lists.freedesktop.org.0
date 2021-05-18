@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12DA3875B7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 11:52:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 608493875B8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 11:52:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF9206E867;
-	Tue, 18 May 2021 09:52:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F1DC6EB18;
+	Tue, 18 May 2021 09:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2054.outbound.protection.outlook.com [40.107.223.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4616E867
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 09:52:11 +0000 (UTC)
+ (mail-dm6nam11on2069.outbound.protection.outlook.com [40.107.223.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED026EB18
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 09:52:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KjTo/ZV84yjfSfeUPkOsFI7/JO5ZUt5sjkzn8DBJ8SpmRnT0Z+3a6uY/ZPrWgOQfpZYTDIJ66BNNFTZtYCfogxFY8gCj6plEG8z+fBv+bE6OZLO319IYGnjpSCTRgG3Tr4z+5ydW0ojOvrrE4KbAZo7sQogKRmcam7ig6wrpNN3me6dDPaPR/++M453d0+EMjrKbK+J+d/gBD/S8MrZzu/BkaPSF6iCzFULV0Bnbn5r0YDmsEVmRi5nLODjJ5PQ63ooOeBRacCrjCjWdYop/s0AIh1N5nYzdCz1kx314Ja+sz4Zp1/PhCFSmvdoaM7rXvls2irHHRgDHwrBUVHDUVg==
+ b=JHwww/bP2YBPaLLShsGdZ5W9lDtjH6z/Sw2kIe1FhG9zOO1wDlRrnSJcuwIDlG10thwBSTME2ltfAVunNfGZN6QTWKl3dXEMuNqpJ5i9ImGbFeu+Ut6HHoydNNTRAa942bz/RwqQwjN7456oCmF5lQWWTtwmbsMcjWYY1Q1x4uqhOd49+evFavQG1CehelnqXc8wZ6teLkpSF3zYoxOpoLnpUTxFo2Xr0QYqmaiq3F7C+S4RXhRmW0/9d4SPkVo9r0naWXa2OQEjBTSkLMAzHDlUurjXWwGqd2eLiwwtBn1m2YjF83lSVGiMp2SBc7eMjXXI/qKi5fk1FeGuRThRsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jpNdpYEuzkEvzwoRt0y6OblPM4gIQfLEnd0HB/+bB88=;
- b=GU3NADtLVdF3P8EaIcpzczh01LOgw6OcEXNB10MxBw1FHMacaG1BEwQ+z8i+5RHj1UO1T28OW4UI5KYxJE730hMvOAUfAZL/5jwGAkvvDCM6YAw67bQgtOguohZxqaBgPLLNrvdbUBDtdGCaL6kB8UtQ0T73KCmxlFQMuwfODbFnA5tcq5/USD7vrWoettGHETeQlZIo9WJnmGBeXU57ZHdO5Owr6GaV95/Izrc6pk5NA6ZJqxKXSAUr2puOaSHFHOkP8nG8kqqbRdfb+zvZl1DV9LvW7RX1QKnVuy8aWfyCiEMhXtbnz2Mv3VirK46ltiD3baDlQMl0oGHZ3SYmuA==
+ bh=XpLMGnRiM4QTatSPLhHZrQ6zkkFDM3we1bXF5Wg4DJA=;
+ b=D3R0xEA6PtIPh9dsoZ/voP257+3HyXvpMxVpz0vo0dnTRemvwRQ0FsX3WLQZV/kKr14v4vZ0Xp4nycQLcdkwmWrFivb3X4NSF243Jv41TzEjk4bVXlJbIWwe4KGP4IAyUwUoIaFS8zxdLYWapJ9b4jWDI8TL2R/PzHt8yS7spfrdsjgxRzIGQ/cqy6lIWdE6hZE0tfBSHBhLjMzYVYAB+nsqG41NqBjYXNZ0OraPZ0Q0dkkZOJ+1iUrWPEnYTiOflYvcJVBTnEljkeayI+NfrqJpn59/Lf1qV4nwMqJwxdgSsy8zM6Rjr1/ycuhi6U3udLXBeZXYlzwCK76THr7xnA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -27,8 +27,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jpNdpYEuzkEvzwoRt0y6OblPM4gIQfLEnd0HB/+bB88=;
- b=FNC07IBUtzpV546kEZkqymiovHpy5kn7aCdXfjv36O7n3xyS4uPRilZ+VVOQiboxu6Mjcpx5EDyKanBbA6DP3GDX5Ok5vILoMsRe0wbRl5jhG1etYX4HjFI93fE/3mYdnchZ4+JvUmq946c93f6+i89pd1LRJPbMraAnat/Jo0Q=
+ bh=XpLMGnRiM4QTatSPLhHZrQ6zkkFDM3we1bXF5Wg4DJA=;
+ b=Exee+QLOf3Fq8wu0ktC7dLtyxkhf4r/QHRfX4FlCEYC4cjgzus5430Jo1af5s+hG9rp+YMInmXtcllUBtCizq1n9Kz8VcF0eCic2AIh8d0lPkR7h4qAAeNIQwmu8OdBskLL4PMCmaqILs6Dw+OA1a4aqyzDGsu2ChPURL6hWoAA=
 Authentication-Results: crapouillou.net; dkim=none (message not signed)
  header.d=none;crapouillou.net; dmarc=none action=none
  header.from=windriver.com;
@@ -36,20 +36,22 @@ Received: from DM5PR11MB0075.namprd11.prod.outlook.com (2603:10b6:4:6c::16) by
  DM6PR11MB3082.namprd11.prod.outlook.com (2603:10b6:5:6b::19) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4129.26; Tue, 18 May 2021 09:52:10 +0000
+ 15.20.4129.26; Tue, 18 May 2021 09:52:13 +0000
 Received: from DM5PR11MB0075.namprd11.prod.outlook.com
  ([fe80::7cf5:4b57:4804:20bf]) by DM5PR11MB0075.namprd11.prod.outlook.com
  ([fe80::7cf5:4b57:4804:20bf%5]) with mapi id 15.20.4129.031; Tue, 18 May 2021
- 09:52:10 +0000
+ 09:52:13 +0000
 From: quanyang.wang@windriver.com
 To: Paul Cercueil <paul@crapouillou.net>, Hyun Kwon <hyun.kwon@xilinx.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Michal Simek <michal.simek@xilinx.com>
-Subject: [V2][PATCH 0/2] drm: xlnx: add some functions
-Date: Tue, 18 May 2021 17:50:17 +0800
-Message-Id: <20210518095019.3855369-1-quanyang.wang@windriver.com>
+Subject: [V2][PATCH 1/2] drm: xlnx: add is_layer_vid() to simplify the code
+Date: Tue, 18 May 2021 17:50:18 +0800
+Message-Id: <20210518095019.3855369-2-quanyang.wang@windriver.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210518095019.3855369-1-quanyang.wang@windriver.com>
+References: <20210518095019.3855369-1-quanyang.wang@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [60.247.85.82]
@@ -61,52 +63,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from pek-qwang2-d1.wrs.com (60.247.85.82) by
  HK2PR04CA0090.apcprd04.prod.outlook.com (2603:1096:202:15::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.35 via Frontend Transport; Tue, 18 May 2021 09:52:06 +0000
+ 15.20.4108.35 via Frontend Transport; Tue, 18 May 2021 09:52:10 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9fb500af-3935-4996-a33d-08d919e29a9d
+X-MS-Office365-Filtering-Correlation-Id: 2111573d-4606-49fe-8147-08d919e29cc9
 X-MS-TrafficTypeDiagnostic: DM6PR11MB3082:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR11MB308256E38D9CD215CE957B30F02C9@DM6PR11MB3082.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <DM6PR11MB30823550A7B5A2F1C9EB5DAFF02C9@DM6PR11MB3082.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BUQZEyeZIkE3lGdy0mRV0K0sC1rwiLVbDw4rZJCdxmPdX9ZcmCj/Jqx1Xwj6cndv00JPVOLyxbKI3qrWVk7ARUiwdJCpnR95FoWJyhV2vE/FWW8hgvBrFYu1rf43mWEulohTxbl1vXU4yiIVM4XtXzoO/rui2+JWOX5P35jSYvXNf4wJ5VpLD9ewhg8PGT2N9v6ap0hGn5DvPWij32RSSIjVy+jjx72VkoYpTml9YQBsMUKSUZGyTcoSYuVqhuFxEFe0N81wt/tzw+k7oc2oaQJLIar4sx7QofL8t3wEByI6DevUh2RBTjwoo8L7Xu/W2er4ztQnXq+c7ws1x8qraI1Tcj8ElaAVC031FPjgSPgLfRyUqIoubhVptbc6+OZt56JVFRuocZzDH3v9POfHN0Sn2s/Dz5nx4UjIg5FGse9HDBQxTbW+7+jqOKX4Oi3O9bR7O4Cmdnw0v8mkAsyaic3aynaTGtK5ijP99xy/BKnGY8c40noJCHSoDeNZypb++UFY+5VJnHm7NLPqs2uSasIzOQBIrypOgbq+n4vZxL1u4GJSVy0JXD1VDUZFrqYlSs+iHZcEuwWl0bn1mt5PuLFAzfa7ueNan2Xk4mLVbATfQHnO5cA+PGDYd5tfz8hclFUJiMuK225kvl6lSIgVcLzCidbzQ1iQWEm3H+2eoA0=
+X-Microsoft-Antispam-Message-Info: m2uvKgKvvlVWK8Inok69DG/wGrA7I9sXv9BdmczEjH0mlDu53CL96x96xeLy+bk5xdgmWBIjbFBqkKGasVbVFQ7ferr9JFRHCASxCxKKgRuEQ+y33jk/cQzUt580nu+MKlROgt8wbO/HD32F3G6tG64nLh8xxWW6066+6+O5wYXfKnwE8KV95irU+VeJpSq4y8ooloSz/zWMRQnu+BLYRrDaMpGged5uYKYkdx4ArcVWlB6dNgYlDvIholL7M954rNlWSlO2NYRR1zF7s+NVUDY7q0Yy7jhoZus4z4nroxQvjqZMy0kHYhsHAx2ZAIc+ns6pai3kWv0WIAoEDo/7wY7f8dKAfnxkYBBkX9B/NVtyrOoo2DGtD3sHkfYrCqU+mEj0+8yPHigyUDYk7mtBPm4VPzSujmhEsqpirwu6y5iFDMKanzbLd+IwW6hy0B/w0iAokqM8pZ9g3hhmJQehUD2glP9kjx4Rg45hSh7YTZ7ZA5sEzwtr+9oz3F+cU+hxhRfiCkdW2cR8MdQ9jRBy+QGMXxQzyYZIuhQBO9nhDO5+zEmaitAn+ewe+WprfjYqXc09xx7ppRuNc/l3BrlArN0AQLGaLwwYRUr9NVze9ZGIFDLD9G8mCcYLUoSgNSkzuxBKs0VLeOsLNxeRUUYi6gPT3oCRIHH9H1NJ86WkiKQ=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM5PR11MB0075.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(136003)(396003)(366004)(39850400004)(66556008)(52116002)(83380400001)(66946007)(66476007)(110136005)(38350700002)(478600001)(8936002)(6666004)(5660300002)(38100700002)(6486002)(316002)(2906002)(2616005)(6512007)(9686003)(186003)(956004)(4326008)(1076003)(16526019)(36756003)(107886003)(8676002)(26005)(86362001)(6506007);
+ SFS:(4636009)(376002)(346002)(136003)(396003)(366004)(39850400004)(66556008)(52116002)(83380400001)(66946007)(66476007)(110136005)(38350700002)(478600001)(8936002)(5660300002)(38100700002)(6486002)(316002)(2906002)(2616005)(6512007)(9686003)(186003)(956004)(4326008)(1076003)(16526019)(36756003)(107886003)(8676002)(26005)(86362001)(6506007);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?gZmnEtFH2lA+heNZHOFhOmUtjO3rv7o1NIDc35xTpDW+PVOTQXMkDwPROTWH?=
- =?us-ascii?Q?25jEh46L2VHS8qsvNq/BudOxqfYFCMJcRaZ9XiQLlWe7+7lIJ+ajcW57G1NY?=
- =?us-ascii?Q?1+P0VqYDHsITxiCHJadQ+o3KiSNq2vJi6DM3+cTwwCWmVGlWQwCS0ubis7lO?=
- =?us-ascii?Q?tOWUcyq5OdFnMAftuDJ6di7S0EQ12pYo07JLWsK+Y1ONHTzwqs/NntrSZrOM?=
- =?us-ascii?Q?UZN3aRuamhUfd/g4Aj9ZJnlWxb/MlBXieoZXYcl5xIUcStb68No++bJR+WQf?=
- =?us-ascii?Q?pNdyxiXdzrWTz0pr043BWCKUCbpmYzyhGuOLd2I7pDJNnomQ/NctcI++IbRY?=
- =?us-ascii?Q?BJbtmIJtGgGlZN6Urv0R6prdw2AmJxOYuUs2h0ei4PVj0X691E9uthSVk6w7?=
- =?us-ascii?Q?Ex0jaffnxYlNOpKXmdicXaf0bs25UECwscKvdsl4U7kvovHOVIWAXqMTTzBd?=
- =?us-ascii?Q?KAizYfCc1kVkSH/MRbYQOP4X2hOPcl3peANVWLHEnP4plO91+SQAMQsoeaxc?=
- =?us-ascii?Q?jD/sBx0KLt8uLcIzuQ29nKnkvTmyLj120mKiADEy/DLKCL3O7qPqegFEnCL5?=
- =?us-ascii?Q?fbpuTLw/xeSvDZ1C8hIy8W1iiWzai5hCdjAQcy85mws/VnS3loROwzlEwdU+?=
- =?us-ascii?Q?6sGixJc0Wjsdi9AwwYO4+umN8HNHZM82U7n1EKeEbHuK56PKqO05HQN688VV?=
- =?us-ascii?Q?MY/gqJ3T+pt+UTSlESksh5ox7+jrB61/PDv2UqGw7fr1O4fqTxU8T5Q+Nytg?=
- =?us-ascii?Q?VvNiw83uBIRn5cDY+h7pLgZW0Zfaatz+aTjxO237bX7d5Y/tkPdGdCQ8cIlL?=
- =?us-ascii?Q?kVFlHXalgcAdGjVeXMXacKntMUgIEhn0rBar51kfjf/Pv3V+b8nvbCO9nyjm?=
- =?us-ascii?Q?XUqQOpjcwb1Xroq2Mne+8E8Ol0wxym0tHd7REbaHchvVdjyPdAZVon6R3gHg?=
- =?us-ascii?Q?1r1KxQOuMJJyDL5anLo+aJHwLpD8TajrFHetB1DYcgWXrt3lzXKxQIY09Pqg?=
- =?us-ascii?Q?t50uieGYXHCn3l0qppPdsboMxAIN7J3OW3yPxNfKRawvRPTGm9GEW/0MmOam?=
- =?us-ascii?Q?J7BCO6uxVASQlk1TPyiw+vrEKN2upqTIVYx0FUzrF58yAOeN87L9YNZczLJT?=
- =?us-ascii?Q?5l/B4yvQ+mER0/GSr+3hRx7jyph+mJfKHP+Rnnix3Am/p3dRQyhkdWQMdG/p?=
- =?us-ascii?Q?8gNtB8cVwM3k//mVGtSmyIjTdTPb+qV3z98KlmiIujB8GOggVUSwR//0B6e+?=
- =?us-ascii?Q?YyxlCBv4rKnls/7ndYbg7ljsXt4NKZ612S1OF5uzlZPq21NsKMqOW6WDcMPu?=
- =?us-ascii?Q?VzmAmoZ8sILsYzYJmZpori/k?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?sYv56vXyakjx9dSvlpjJb5YiFp5jX7S0QCdBLKo6baEXWfFClI0Y2Wdr5EI/?=
+ =?us-ascii?Q?qDpFwi57uB69t6ZdQ+gmz4Ab4bxY7pFawLORctqqd/tSlOAGPeCcZZALMxGr?=
+ =?us-ascii?Q?feNwPG6Muf0wIOuMCsrNbzx+EzgcandsiTIwmDdsz7ASB4iKU1q6rLLLPm9M?=
+ =?us-ascii?Q?F0B6fhxdrmDPy4XR48w0DKo2c7B5cLw7GkONBLohmy4Q31N/a6r9pL4VRYSo?=
+ =?us-ascii?Q?XrDIqc4o5EuINBaWlEEK33UzYb/4kuUheOd/oMr+03KVw10FVE0LIgbNBBZc?=
+ =?us-ascii?Q?NS0toI7Od6W2ksVlkbSM+gDkSLn27/NooPvynrnzeF3uWy3usDggW5bS1OHt?=
+ =?us-ascii?Q?8ZYjjv15nKZECLvrPCqj17O7w6SuaaPG8aOqPET0xRXGdqlVwG9iHXDyVwT2?=
+ =?us-ascii?Q?mt3iNdmhz5HHokKH6lscDAFohafDbhqgrFE7Jr9aOKuzuPaEqFvm8995YVRl?=
+ =?us-ascii?Q?Uc0CAtuoj6EdtzMEIueuByyHLpvAg85pZCZbEeeLYuUirP8rvXJNZfGDl7DD?=
+ =?us-ascii?Q?Hie68XMvCvYlpPEvssOMiXcQ4V6umvuarfh/w9YJk17zem82JFIjVA4qU+FU?=
+ =?us-ascii?Q?tARvShe5daoQGn3UW3ptdkgRGn/gZuncezZKy3C6CZtvMm233kAfSvudRU2H?=
+ =?us-ascii?Q?48DdemvVlUPdoj4b/H0xsMx1nhpfOhkyXBwReBht4xd/MVdrIv1zeKB0iYc8?=
+ =?us-ascii?Q?9+UkNGggHHDmYwzff+zymMS5FE8TuqcRTg9irXXqMLmbROAsfKe/b8dqjuzZ?=
+ =?us-ascii?Q?cWwnk8dKmGNh3BLL1qWjnvv54FqPl/PpwWRF61uAszhUl5Ywdq6Tfw28JSSH?=
+ =?us-ascii?Q?RQ+w0bJAVLQFrcccbh2qnEN6blU/qBvbDk9J6CJezuqA/j+HWnVruWqoC5s+?=
+ =?us-ascii?Q?cxi6N66+casXAApAIgiKLkHd9fYY3Gmb7l9R+ojVJyS71UpSNQpVJqPc9TJ/?=
+ =?us-ascii?Q?xz5rvVGKb/8J83y+ZuOVkE02XJwinrcT0quJNyzGz6bEufBWNgzKRIky/ES9?=
+ =?us-ascii?Q?VHm9u2DLfeomzNboDAqkr6zDlB3we22lEAmHBjaK7u3mxuwCgqJOeJ6JOVJF?=
+ =?us-ascii?Q?5awXL/ppjOP6Bpaq0924wEBfEt2v84alsgCArL+/Vwoic5pjmweMFQpdupb2?=
+ =?us-ascii?Q?/tAnbDmCR7PQMu0qXAy75GMqYyAGkT4qMfaf3bbjGAzp939x8F8JNaSmP0Tw?=
+ =?us-ascii?Q?QcK5u3DHAHyJNXNWIOmlXPFpc1kP+OXgDadMzrPCwzfPmM1RL5ItmQtbtM2a?=
+ =?us-ascii?Q?2JafUk+UFf4ssAR763NsyK7IvnzW+2Enjcfiij3S0jlx8+d94g0RhRZzS5ur?=
+ =?us-ascii?Q?SDpcE4ZNvS2Y9YrQ5MxdlRyq?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fb500af-3935-4996-a33d-08d919e29a9d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2111573d-4606-49fe-8147-08d919e29cc9
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB0075.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 09:52:10.1328 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 09:52:13.4909 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PBMbvPJsGsTJAWA8WvfEv6oKsnAkLr94yTvbHvtapXd8ZQ08sxfYwBZ75QH16mQGScysdIC8h/ZII+EZEiK0vFsaLMj1t+f4K0A8sZRDrM8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: e79GLX7bY0RNV15mPjfqoGTu4mk6kSuwk8qV8JEXxO5DV4J1WRxtUv0HB/iQ59vLrWIOTqqihnftPifSgSDasELlBpnsQ6+vOGmj+azGxXY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3082
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -128,37 +130,159 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Quanyang Wang <quanyang.wang@windriver.com>
 
-Hi all,
+Add a new function is_layer_vid() to simplify the code that
+judges if a layer is the video layer.
 
-The patch "drm: xlnx: add is_layer_vid() to simplify the code" is to
-simplify the code which judge the layer type.
+Acked-by: Paul Cercueil <paul@crapouillou.net>
+Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
+---
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 39 +++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
 
-The patch "drm: xlnx: consolidate the functions which programming AUDIO_VIDEO_SELECT register"
-is to consolidate the code that can configure vid/gfx/audio to output
-different mode (live/mem/disable/tpg) in one function "zynqmp_disp_avbuf_output_select".
-
-Changelogs:
-
- V1 ---> V2:
- - As per Paul's comments, add "const" to the argument "layer" of the
- function is_layer_vid, and just return the result of "==" operator, and
- add Acked-by from Paul. 
- - As per Paul's comments, fix some pattern errors and use FIELD_PREP()
- macro instead of *_SHIFT and use GENMASK/BIT to create *_MASK macros.
-
-Thanks,
-Quanyang
-
-
-Quanyang Wang (2):
-  drm: xlnx: add is_layer_vid() to simplify the code
-  drm: xlnx: consolidate the functions which programming
-    AUDIO_VIDEO_SELECT register
-
- drivers/gpu/drm/xlnx/zynqmp_disp.c      | 193 ++++++++++++++----------
- drivers/gpu/drm/xlnx/zynqmp_disp_regs.h |  23 +--
- 2 files changed, 121 insertions(+), 95 deletions(-)
-
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+index 109d627968ac..eefb278e24c6 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+@@ -434,30 +434,35 @@ static void zynqmp_disp_avbuf_write(struct zynqmp_disp_avbuf *avbuf,
+ 	writel(val, avbuf->base + reg);
+ }
+ 
++static bool is_layer_vid(const struct zynqmp_disp_layer *layer)
++{
++	return layer->id == ZYNQMP_DISP_LAYER_VID;
++}
++
+ /**
+  * zynqmp_disp_avbuf_set_format - Set the input format for a layer
+  * @avbuf: Audio/video buffer manager
+- * @layer: The layer ID
++ * @layer: The layer
+  * @fmt: The format information
+  *
+  * Set the video buffer manager format for @layer to @fmt.
+  */
+ static void zynqmp_disp_avbuf_set_format(struct zynqmp_disp_avbuf *avbuf,
+-					 enum zynqmp_disp_layer_id layer,
++					 struct zynqmp_disp_layer *layer,
+ 					 const struct zynqmp_disp_format *fmt)
+ {
+ 	unsigned int i;
+ 	u32 val;
+ 
+ 	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_FMT);
+-	val &= layer == ZYNQMP_DISP_LAYER_VID
++	val &= is_layer_vid(layer)
+ 	    ? ~ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MASK
+ 	    : ~ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_MASK;
+ 	val |= fmt->buf_fmt;
+ 	zynqmp_disp_avbuf_write(avbuf, ZYNQMP_DISP_AV_BUF_FMT, val);
+ 
+ 	for (i = 0; i < ZYNQMP_DISP_AV_BUF_NUM_SF; i++) {
+-		unsigned int reg = layer == ZYNQMP_DISP_LAYER_VID
++		unsigned int reg = is_layer_vid(layer)
+ 				 ? ZYNQMP_DISP_AV_BUF_VID_COMP_SF(i)
+ 				 : ZYNQMP_DISP_AV_BUF_GFX_COMP_SF(i);
+ 
+@@ -573,19 +578,19 @@ static void zynqmp_disp_avbuf_disable_audio(struct zynqmp_disp_avbuf *avbuf)
+ /**
+  * zynqmp_disp_avbuf_enable_video - Enable a video layer
+  * @avbuf: Audio/video buffer manager
+- * @layer: The layer ID
++ * @layer: The layer
+  * @mode: Operating mode of layer
+  *
+  * Enable the video/graphics buffer for @layer.
+  */
+ static void zynqmp_disp_avbuf_enable_video(struct zynqmp_disp_avbuf *avbuf,
+-					   enum zynqmp_disp_layer_id layer,
++					   struct zynqmp_disp_layer *layer,
+ 					   enum zynqmp_disp_layer_mode mode)
+ {
+ 	u32 val;
+ 
+ 	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
+-	if (layer == ZYNQMP_DISP_LAYER_VID) {
++	if (is_layer_vid(layer)) {
+ 		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
+ 		if (mode == ZYNQMP_DISP_LAYER_NONLIVE)
+ 			val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MEM;
+@@ -605,17 +610,17 @@ static void zynqmp_disp_avbuf_enable_video(struct zynqmp_disp_avbuf *avbuf,
+ /**
+  * zynqmp_disp_avbuf_disable_video - Disable a video layer
+  * @avbuf: Audio/video buffer manager
+- * @layer: The layer ID
++ * @layer: The layer
+  *
+  * Disable the video/graphics buffer for @layer.
+  */
+ static void zynqmp_disp_avbuf_disable_video(struct zynqmp_disp_avbuf *avbuf,
+-					    enum zynqmp_disp_layer_id layer)
++					    struct zynqmp_disp_layer *layer)
+ {
+ 	u32 val;
+ 
+ 	val = zynqmp_disp_avbuf_read(avbuf, ZYNQMP_DISP_AV_BUF_OUTPUT);
+-	if (layer == ZYNQMP_DISP_LAYER_VID) {
++	if (is_layer_vid(layer)) {
+ 		val &= ~ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_MASK;
+ 		val |= ZYNQMP_DISP_AV_BUF_OUTPUT_VID1_NONE;
+ 	} else {
+@@ -807,7 +812,7 @@ static void zynqmp_disp_blend_layer_set_csc(struct zynqmp_disp_blend *blend,
+ 		}
+ 	}
+ 
+-	if (layer->id == ZYNQMP_DISP_LAYER_VID)
++	if (is_layer_vid(layer))
+ 		reg = ZYNQMP_DISP_V_BLEND_IN1CSC_COEFF(0);
+ 	else
+ 		reg = ZYNQMP_DISP_V_BLEND_IN2CSC_COEFF(0);
+@@ -818,7 +823,7 @@ static void zynqmp_disp_blend_layer_set_csc(struct zynqmp_disp_blend *blend,
+ 		zynqmp_disp_blend_write(blend, reg + 8, coeffs[i + swap[2]]);
+ 	}
+ 
+-	if (layer->id == ZYNQMP_DISP_LAYER_VID)
++	if (is_layer_vid(layer))
+ 		reg = ZYNQMP_DISP_V_BLEND_IN1CSC_OFFSET(0);
+ 	else
+ 		reg = ZYNQMP_DISP_V_BLEND_IN2CSC_OFFSET(0);
+@@ -1025,7 +1030,7 @@ zynqmp_disp_layer_find_format(struct zynqmp_disp_layer *layer,
+  */
+ static void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer)
+ {
+-	zynqmp_disp_avbuf_enable_video(&layer->disp->avbuf, layer->id,
++	zynqmp_disp_avbuf_enable_video(&layer->disp->avbuf, layer,
+ 				       ZYNQMP_DISP_LAYER_NONLIVE);
+ 	zynqmp_disp_blend_layer_enable(&layer->disp->blend, layer);
+ 
+@@ -1046,7 +1051,7 @@ static void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
+ 	for (i = 0; i < layer->drm_fmt->num_planes; i++)
+ 		dmaengine_terminate_sync(layer->dmas[i].chan);
+ 
+-	zynqmp_disp_avbuf_disable_video(&layer->disp->avbuf, layer->id);
++	zynqmp_disp_avbuf_disable_video(&layer->disp->avbuf, layer);
+ 	zynqmp_disp_blend_layer_disable(&layer->disp->blend, layer);
+ }
+ 
+@@ -1067,7 +1072,7 @@ static void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
+ 	layer->disp_fmt = zynqmp_disp_layer_find_format(layer, info->format);
+ 	layer->drm_fmt = info;
+ 
+-	zynqmp_disp_avbuf_set_format(&layer->disp->avbuf, layer->id,
++	zynqmp_disp_avbuf_set_format(&layer->disp->avbuf, layer,
+ 				     layer->disp_fmt);
+ 
+ 	/*
+@@ -1244,8 +1249,8 @@ static int zynqmp_disp_create_planes(struct zynqmp_disp *disp)
+ 			drm_formats[j] = layer->info->formats[j].drm_fmt;
+ 
+ 		/* Graphics layer is primary, and video layer is overlay. */
+-		type = i == ZYNQMP_DISP_LAYER_GFX
+-		     ? DRM_PLANE_TYPE_PRIMARY : DRM_PLANE_TYPE_OVERLAY;
++		type = is_layer_vid(layer)
++		     ? DRM_PLANE_TYPE_OVERLAY : DRM_PLANE_TYPE_PRIMARY;
+ 		ret = drm_universal_plane_init(disp->drm, &layer->plane, 0,
+ 					       &zynqmp_disp_plane_funcs,
+ 					       drm_formats,
 -- 
 2.25.1
 
