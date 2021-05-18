@@ -2,42 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B063879CD
-	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 15:22:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63F13879D6
+	for <lists+dri-devel@lfdr.de>; Tue, 18 May 2021 15:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36A536EB70;
-	Tue, 18 May 2021 13:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9773D6EB78;
+	Tue, 18 May 2021 13:24:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20C9C6EB70
- for <dri-devel@lists.freedesktop.org>; Tue, 18 May 2021 13:22:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C0E946008E;
- Tue, 18 May 2021 13:22:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621344169;
- bh=WQdgNlO00HhjMFdrkbm64uxHBJSPAptuMCxpaqsX5Ak=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eobGBP/zR+zFAlh4OHSckEZCrGAD8rw8f5LybnkJhkGJEYW9y2Mhl3iq9P4fP4//1
- J/f20J4SV4ufuJlIrcUcUEkHL4lWvmrP9qd1yYdbrTdhdISsRHe5NX/Q6S6ah3fwUW
- EJRB4LkdoLZB2FnhoW4u6iSKc9ZIPgYf3FHUkDJjv2NA1aYLL3/sWwgci3jp8jq3ZM
- 78/udASoxg//AJfKwNx4XRFrP2dNLcp41DHdaBlSHGUpo0u1WY5KMiAJK7EEnYXnVo
- XkzNemx1O7/i6UPIqakAu6Mxf0PqC5gV4FqVMCstAkon1oeqFLcMokjiXTMwT0+fYM
- BoY5YZu5Sl9EQ==
-Date: Tue, 18 May 2021 09:22:48 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Greg KH <greg@kroah.com>
-Subject: Re: [PATCH AUTOSEL 5.12 5/5] tty: vt: always invoke
- vc->vc_sw->con_resize callback
-Message-ID: <YKO/qKRwPYJF7ols@sashalap>
-References: <20210518010940.1485417-1-sashal@kernel.org>
- <20210518010940.1485417-5-sashal@kernel.org>
- <CAHk-=whw9_rp0NYTsCqcGnUkcV5Qgv7FTxADtPrdq4KFmsj+Lg@mail.gmail.com>
- <YKNUl/f/c8HfF6dS@kroah.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 207B76EB74;
+ Tue, 18 May 2021 13:24:44 +0000 (UTC)
+IronPort-SDR: l9L8HyYcfXqcKFiM+WC0PPdG4uTRKuk1DjrL1aqM5f08CJxVgUsg1om9HdpAsE11m88nR3VcTh
+ 14UMHGeU7COw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="221762465"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="221762465"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 06:24:43 -0700
+IronPort-SDR: I4ShFmhOtID88i2QJjYDQtsk8NyXzU3dxjxKCBX2W6i3Um2GLDRYi0d/Qb5lFnpK8lmxE32Ahg
+ tMLhjrctxF4A==
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; d="scan'208";a="438662178"
+Received: from cmutgix-mobl.gar.corp.intel.com (HELO [10.249.254.195])
+ ([10.249.254.195])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2021 06:24:42 -0700
+Subject: Re: [PATCH v2 08/15] drm/i915/ttm Add a generic TTM memcpy move for
+ page-based iomem
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210518082701.997251-1-thomas.hellstrom@linux.intel.com>
+ <20210518082701.997251-9-thomas.hellstrom@linux.intel.com>
+ <6149ee00-fa4a-3757-117a-8d622eb42070@amd.com>
+ <45054121-954d-f20c-52b5-f375db7096e0@linux.intel.com>
+ <d547a037-2aa8-76a8-375c-5da580fab631@amd.com>
+ <400de9b7-f385-0581-ebb5-e07247d4c996@linux.intel.com>
+ <b8e062c5-6b63-09c5-e98a-be9bf4813c61@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <0eb87fe5-439d-5077-cf19-015966bc3f5f@linux.intel.com>
+Date: Tue, 18 May 2021 15:24:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <YKNUl/f/c8HfF6dS@kroah.com>
+In-Reply-To: <b8e062c5-6b63-09c5-e98a-be9bf4813c61@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,41 +59,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, stable <stable@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- syzbot <syzbot+1f29e126cf461c4de3b3@syzkaller.appspotmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 18, 2021 at 07:45:59AM +0200, Greg KH wrote:
->On Mon, May 17, 2021 at 06:35:24PM -0700, Linus Torvalds wrote:
->> On Mon, May 17, 2021 at 6:09 PM Sasha Levin <sashal@kernel.org> wrote:
->> >
->> > From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
->> >
->> > [ Upstream commit ffb324e6f874121f7dce5bdae5e05d02baae7269 ]
+
+On 5/18/21 3:08 PM, Christian König wrote:
+> Am 18.05.21 um 14:52 schrieb Thomas Hellström:
 >>
->> So I think the commit is fine, and yes, it should be applied to
->> stable, but it's one of those "there were three different patches in
->> as many days to fix the problem, and this is the right one, but maybe
->> stable should hold off for a while to see that there aren't any
->> problem reports".
+>> On 5/18/21 2:09 PM, Christian König wrote:
+>>> Am 18.05.21 um 14:04 schrieb Thomas Hellström:
+>>>>
+>>>> On 5/18/21 1:55 PM, Christian König wrote:
+>>>>>
+>>>>>
+>>>>> Am 18.05.21 um 10:26 schrieb Thomas Hellström:
+>>>>>> The internal ttm_bo_util memcpy uses vmap functionality, and 
+>>>>>> while it
+>>>>>> probably might be possible to use it for copying in- and out of
+>>>>>> sglist represented io memory, using io_mem_reserve() / io_mem_free()
+>>>>>> callbacks, that would cause problems with fault().
+>>>>>> Instead, implement a method mapping page-by-page using kmap_local()
+>>>>>> semantics. As an additional benefit we then avoid the occasional 
+>>>>>> global
+>>>>>> TLB flushes of vmap() and consuming vmap space, elimination of a 
+>>>>>> critical
+>>>>>> point of failure and with a slight change of semantics we could 
+>>>>>> also push
+>>>>>> the memcpy out async for testing and async driver develpment 
+>>>>>> purposes.
+>>>>>> Pushing out async can be done since there is no memory allocation 
+>>>>>> going on
+>>>>>> that could violate the dma_fence lockdep rules.
+>>>>>>
+>>>>>> For copies from iomem, use the WC prefetching memcpy variant for
+>>>>>> additional speed.
+>>>>>>
+>>>>>> Note that drivers that don't want to use struct io_mapping but 
+>>>>>> relies on
+>>>>>> memremap functionality, and that don't want to use scatterlists for
+>>>>>> VRAM may well define specialized (hopefully reusable) iterators 
+>>>>>> for their
+>>>>>> particular environment.
+>>>>>
+>>>>> In general yes please since I have that as TODO for TTM for a very 
+>>>>> long time.
+>>>>>
+>>>>> But I would prefer to fix the implementation in TTM instead and 
+>>>>> give it proper cursor handling.
+>>>>>
+>>>>> Amdgpu is also using page based iomem and we are having similar 
+>>>>> workarounds in place there as well.
+>>>>>
+>>>>> I think it makes sense to unify this inside TTM and remove the old 
+>>>>> memcpy util function when done.
+>>>>>
+>>>>> Regards,
+>>>>> Christian.
+>>>>
+>>>> Christian,
+>>>>
+>>>> I was thinking when we replace the bo.mem with a pointer (and 
+>>>> perhaps have a driver callback to allocate the bo->mem,
+>>>> we could perhaps embed a struct ttm_kmap_iter and use it for all 
+>>>> mapping in one way or another). That would mean perhaps land this 
+>>>> is i915 now and sort out the unification once the struct 
+>>>> ttm_resource, struct ttm_buffer_object separation has landed?
+>>>
+>>> That stuff is ready, reviewed and I'm just waiting for some amdgpu 
+>>> changes to land in drm-misc-next to push it.
+>>>
+>>> But yes in general an iterator for the resource object sounds like 
+>>> the right plan to me as well.
+>>>
+>>> Christian.
 >>
->> I don't think there will be any problems from this, but while the
->> patch is tiny, it's conceptually quite a big change to something that
->> people haven't really touched for a long time.
->>
->> So use your own judgement, but it might be a good idea to wait a week
->> before backporting this to see if anything screams.
+>> OK, so then are you OK with landing this in i915 for now? That would 
+>> also ofc mean the export you NAK'd but strictly for this memcpy use 
+>> until we merge it with TTM?
 >
->I was going to wait a few weeks for this, and the other vt patches that
->were marked with cc: stable@ before queueing them up.
+> Well you can of course prototype that in i915, but I really don't want 
+> to export the TT functions upstream.
 
-I'll drop it from my queue then.
+I understand, I once had the same thoughts trying to avoid that as far 
+as possible, so this function was actually then added to the ttm_bo 
+interface, (hence the awkward naming) as a helper for drivers 
+implementing move(), essentially a very special case of 
+ttm_bo_move_accel_cleanup(), but anyway, see below:
 
--- 
-Thanks,
-Sasha
+>
+> Can we cleanly move that functionality into TTM instead?
+
+I'll take a look at that, but I think we'd initially be having iterators 
+mimicing the current move_memcpy() for the
+linear iomem !WC cases, hope that's OK.
+
+/Thomas
+
+
+>
+> Christian.
+>
+>>
+>>
+>> /Thomas
+>>
+>>>
+>>>>
+>>>> /Thomas
+>>>>
+>>>>
+>>>
+>
